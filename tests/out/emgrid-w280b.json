@@ -4,54 +4,54 @@
   "wave": "第280便b",
   "target": "beta/index.html",
   "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T17:03:31.394Z",
+  "generatedAt": "2026-09-25T04:30:10.625Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4758438,
     "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "mtime": "2026-09-25T03:35:30.689Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w280b-emgrid.mjs",
-    "bytes": 11205,
-    "sha256": "7d93d5b28a4e05bccdf36450522a6d28763f39fd6ea18f2b62dc8b160f8a1869",
-    "mtime": "2026-09-24T08:51:12.596Z"
+    "bytes": 12985,
+    "sha256": "71c43b63911275bf2d6b893e517a864643f4fe0f3566fb571edbea132d91325f",
+    "mtime": "2026-09-25T03:55:57.661Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-24T08:51:12.597Z"
+    "mtime": "2026-09-25T03:35:40.217Z"
    },
    {
     "file": "tests/lib-w280b-sphereKernel.mjs",
     "bytes": 14578,
     "sha256": "a166210aebc8b8d1fbbced6059c8eea3e9a01b84641fa0f89f357537c9678614",
-    "mtime": "2026-09-24T08:51:12.597Z"
+    "mtime": "2026-09-25T03:35:40.221Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-09-23T20:24:22.939Z"
+    "mtime": "2026-09-25T03:35:40.217Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-23T22:41:00.738Z"
+    "mtime": "2026-09-25T03:35:40.217Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T03:45:28.121Z"
    }
   ],
-  "codeSha256": "d6732b9ddb1a80c112fd11f4d206e936cf13a39821d83f28e238199ba46cb803",
+  "codeSha256": "f1b953d39a0b6d8faac9ae8ddb970138331b0acdd6287d2c15d58c91ad405496",
   "harnessVersion": "w280b-emgrid-1",
   "libVersion": "w280b-emgrid-1",
   "ruling": "第70報: earthMoonRealKF1・emAuditDFM はまとめても良い。近点移動が目立つ。引きずり減衰 q の算出を見直す",
@@ -89,6 +89,91 @@
    "validateSphereBody",
    "sphereDeclOf",
    "qLockCalc"
+  ],
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "earthMoonDiagOne",
+    "earthMoonRealKF1",
+    "emAuditDFM",
+    "emAuditSolar",
+    "gas"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.presetSigHash",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "ctx",
+    "cw",
+    "dfmAddMoments",
+    "dfmBlendComplexMoments",
+    "dfmComplexMomentsOf",
+    "dfmField",
+    "dfmGaussLegendre01",
+    "dfmGeoToyStep",
+    "dfmLaneEmden",
+    "dfmLocalMeshField",
+    "dfmMeshVelocityFieldAt",
+    "dfmMeshVelocityRHS",
+    "dfmMeshVelocityStep",
+    "dfmSphereKernelMomentsOf",
+    "dfmSphereKernelQEff",
+    "dfmSphereKernelRadial",
+    "dfmSphereOmega",
+    "dfmSphereProfile",
+    "dfmSphereRho",
+    "isNum",
+    "meshVelocityMomentsOf",
+    "meshVelocityPrepare",
+    "meshVelocitySources",
+    "qLockCalc",
+    "sphereDeclOf",
+    "validatePreset",
+    "validateQLockKernel",
+    "validateSphereBody"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 954,
+   "segments": 874,
+   "closureShare": 0.3782
+  },
+  "scopeSha256": "2b927f21cdd38be0e8ff0d4b6218ea16d3f187149afbd815cd791acd072d66db",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
   ]
  },
  "qFb": {
@@ -103,7 +188,7 @@
    "axis": "baseline",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 144.903,
+   "wallS": 128.235,
    "run": {
     "ok": true,
     "warnings": [],
@@ -199,7 +284,7 @@
    "axis": "baseline",
    "dt": 0.008,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 263.456,
+   "wallS": 252.973,
    "run": {
     "ok": true,
     "warnings": [],
@@ -295,7 +380,7 @@
    "axis": "weight",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 108.428,
+   "wallS": 106.613,
    "run": {
     "ok": true,
     "warnings": [],
@@ -391,7 +476,7 @@
    "axis": "initialVelocity",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 134.674,
+   "wallS": 126.455,
    "run": {
     "ok": true,
     "warnings": [],
@@ -487,7 +572,7 @@
    "axis": "weight+initialVelocity",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 106.086,
+   "wallS": 103.184,
    "run": {
     "ok": true,
     "warnings": [],
@@ -583,7 +668,7 @@
    "axis": "q",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 131.275,
+   "wallS": 126.573,
    "run": {
     "ok": true,
     "warnings": [],
@@ -679,7 +764,7 @@
    "axis": "law",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 90.08,
+   "wallS": 84.028,
    "run": {
     "ok": true,
     "warnings": [],
@@ -775,7 +860,7 @@
    "axis": "law",
    "dt": 0.008,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 179.179,
+   "wallS": 169.384,
    "run": {
     "ok": true,
     "warnings": [],
@@ -871,7 +956,7 @@
    "axis": "law",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 174.621,
+   "wallS": 163.894,
    "run": {
     "ok": true,
     "warnings": [],
@@ -982,7 +1067,7 @@
    "axis": "kernel",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 260.286,
+   "wallS": 257.055,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1093,7 +1178,7 @@
    "axis": "kernel",
    "dt": 0.008,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 541.829,
+   "wallS": 516.134,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1204,7 +1289,7 @@
    "axis": "initialVelocityMeaning",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 253.457,
+   "wallS": 249.718,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1315,7 +1400,7 @@
    "axis": "reference",
    "dt": 0.016,
    "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-   "wallS": 1.052,
+   "wallS": 1.049,
    "run": {
     "ok": true,
     "warnings": [],

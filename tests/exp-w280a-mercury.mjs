@@ -36,9 +36,17 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { MERCURY_W280A_VERSION, extractCalauditHelpers, richardson3, epsExtrap, pn1AnalyticDeg,
   softeningAnalyticDeg, softeningCoefDeg, arcsecPerCenturyToDegPerOrbit, degPerOrbitToArcsecPerCentury,
   decompose, JULIAN_CENTURY_DAYS } from './lib-w280a-mercury.mjs';
+// 第281便a(原仮定者の裁定(第71報)・AN16・統括の検証項目 R71): **この器が読む html の領域**の宣言。
+//   `tests/lib-w281a-scope.mjs` がこの領域だけの hash(`scopeSha256`)を正本の meta に刻む。
+//   `lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が今の html で
+//   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
+//   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
+import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercuryReal","mercuryRealKF1","neptuneReal","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","isNum","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
+const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const OUT = path.join(ROOT, 'tests', 'out', 'mercury-w280a.json');
 const CALAUDIT = 'tests/exp-w249b-calaudit.mjs';
 const CANON_CAL = 'tests/out/calaudit-w249.json';
@@ -381,6 +389,7 @@ const out = {
     dragArcsecPerCentury: degPerOrbitToArcsecPerCentury(T('kF1', 0.016).slopeDegA - T('kF0', 0.016).slopeDegA, P_OBS_DAY) },
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
 log('書いた', path.relative(ROOT, OUT), (Date.now() - t0) / 1000, 's');
 if (browser) await browser.close();

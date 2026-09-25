@@ -45,7 +45,7 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-09-24T21:36:59.470Z",
+  "generatedAt": "2026-09-25T06:10:09.562Z",
   "pilot": false,
   "stage": "h",
   "dt": 0.016,
@@ -192,65 +192,135 @@
     "file": "beta/index.html",
     "bytes": 4758438,
     "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "mtime": "2026-09-25T05:49:12.099Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2812542,
     "sha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
-    "mtime": "2026-09-24T18:13:25.058Z"
+    "mtime": "2026-09-25T03:35:40.441Z"
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "bytes": 140090,
-    "sha256": "83ae620742b8e23925cc56503bbd06969011fc153b25feeff63b5c230a29b413",
-    "mtime": "2026-09-24T21:31:49.682Z"
+    "bytes": 146828,
+    "sha256": "b9eefb760466817e5947d0c65d186b0c67ed741e96c6a600ea7fe7e8943ca958",
+    "mtime": "2026-09-25T06:04:59.157Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w276b-charonfactors.mjs",
-    "bytes": 37728,
-    "sha256": "424eb6ff0d2472e95930a7341a28ac1b76b060aed786876c13a38d1c1ecbd31d",
-    "mtime": "2026-09-21T14:49:00.094Z"
+    "bytes": 39036,
+    "sha256": "0775289c6fcad3fc5fb703ebb8c0445d2ae2562830cbc7fb382bfe96cdaa5139",
+    "mtime": "2026-09-25T03:55:57.664Z"
    },
    {
     "file": "tests/lib-w276b-charonfactors.mjs",
     "bytes": 9240,
     "sha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
-    "mtime": "2026-09-21T14:49:00.094Z"
+    "mtime": "2026-09-25T03:35:39.569Z"
    },
    {
     "file": "tests/lib-w276b-units.mjs",
     "bytes": 6467,
     "sha256": "ada33ba49f7ce73ed6ebff008852f3c11ab334c4a4b5bde9701c8470c7a344e2",
-    "mtime": "2026-09-21T14:49:00.094Z"
+    "mtime": "2026-09-25T03:35:39.569Z"
    },
    {
     "file": "tests/lib-w273b-charonpage.mjs",
     "bytes": 13221,
     "sha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
-    "mtime": "2026-09-19T11:49:00.959Z"
+    "mtime": "2026-09-25T03:35:39.565Z"
    },
    {
     "file": "tests/lib-w273b-mergekey.mjs",
     "bytes": 6901,
     "sha256": "117bab590575bc3c52453d45088971ff9f287fd2297557236eac4bcc76e38019",
-    "mtime": "2026-09-19T11:49:00.959Z"
+    "mtime": "2026-09-25T03:35:39.565Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T03:45:28.121Z"
    }
   ],
-  "codeSha256": "ad23879d0d931e6e9abdce2e4d5452bffa962540ef592838cda7fbf858f7ec55"
+  "codeSha256": "43069d43a15ff6d5bfc0335d1788f9a1ffea3775daa0ab5f48eb0cf713be1ce5",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "plutoCharonReal"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.allPresets",
+    "HP.dfmBinaryChi",
+    "HP.dfmBinaryMassFactor",
+    "HP.dfmBinaryMassFactorLinear",
+    "HP.sim",
+    "HP.validatePreset",
+    "SCALE_DIMS",
+    "T",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "isNum",
+    "scaleExpT",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 959,
+   "segments": 879,
+   "closureShare": 0.379
+  },
+  "scopeSha256": "5148e50526eac70c098bcc7a1a0bc477a229de11a6a01a1b52e1a528d7562cb0",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "f3d08ba3d1a4814631215d52c2d17bb29e853fff7c4416eda7d60e7d17bbf393"
+   },
+   {
+    "file": "tests/out/charoneps-w276b.json",
+    "stableSha256": "5c3029cd2c37f45fe8c178574a388ee9ff2698446192dbbb1e1c2fddd804c551"
+   }
+  ],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ]
  },
  "epsilonSeries": {
   "from": "tests/out/charoneps-w276b.json",
-  "sha256": "83ae620742b8e23925cc56503bbd06969011fc153b25feeff63b5c230a29b413",
-  "generatedAt": "2026-09-24T21:31:49.636Z",
+  "sha256": "b9eefb760466817e5947d0c65d186b0c67ed741e96c6a600ea7fe7e8943ca958",
+  "generatedAt": "2026-09-25T06:04:58.995Z",
   "rows": [
    {
     "id": "E_diag_e0.01",
@@ -991,7 +1061,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 17.733,
+   "wallSec": 18.229,
    "rev2Sec": 551864.0607197867,
    "revN": 60,
    "residSec": 7.621999786701053,
@@ -1040,7 +1110,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694906,
-   "wallSec": 51.926,
+   "wallSec": 50.971,
    "rev2Sec": 551864.3107686872,
    "revN": 60,
    "residSec": 7.872048687189817,
@@ -1089,7 +1159,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694899,
-   "wallSec": 24.198,
+   "wallSec": 24.426,
    "rev2Sec": 551864.0244730314,
    "revN": 60,
    "residSec": 7.585753031424247,
@@ -1138,7 +1208,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694909,
-   "wallSec": 23.913,
+   "wallSec": 24.363,
    "rev2Sec": 551864.3919203099,
    "revN": 60,
    "residSec": 7.953200309886597,
@@ -1187,7 +1257,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 24.35,
+   "wallSec": 23.862,
    "rev2Sec": 551864.0696643571,
    "revN": 60,
    "residSec": 7.630944357137196,
@@ -1236,7 +1306,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694901,
-   "wallSec": 23.926,
+   "wallSec": 23.949,
    "rev2Sec": 551864.0068660924,
    "revN": 60,
    "residSec": 7.568146092467941,
@@ -1285,7 +1355,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20695300,
-   "wallSec": 51.707,
+   "wallSec": 51.032,
    "rev2Sec": 551889.1192711734,
    "revN": 60,
    "residSec": 32.68055117339827,
@@ -1334,7 +1404,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 18.28,
+   "wallSec": 18.195,
    "rev2Sec": 551864.0607197867,
    "revN": 60,
    "residSec": 7.621999786701053,
@@ -1383,7 +1453,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20692453,
-   "wallSec": 24.236,
+   "wallSec": 24.84,
    "rev2Sec": 551805.6249443649,
    "revN": 60,
    "residSec": -50.81377563509159,
@@ -1432,7 +1502,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694659,
-   "wallSec": 24.755,
+   "wallSec": 24.497,
    "rev2Sec": 551858.223692625,
    "revN": 60,
    "residSec": 1.7849726249696687,
@@ -1481,7 +1551,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694878,
-   "wallSec": 23.787,
+   "wallSec": 24.041,
    "rev2Sec": 551863.477051512,
    "revN": 60,
    "residSec": 7.038331512012519,

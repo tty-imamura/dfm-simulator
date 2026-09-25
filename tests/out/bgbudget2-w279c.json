@@ -4,72 +4,72 @@
   "wave": "第279便c",
   "target": "beta/index.html",
   "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T17:15:31.942Z",
+  "generatedAt": "2026-09-25T03:59:33.885Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4758438,
     "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "mtime": "2026-09-25T03:35:30.689Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 97740,
     "sha256": "699c7b22e26eef8736a838c1ba71a4df4249d479af7679b8942866b899a7fe17",
-    "mtime": "2026-09-24T16:42:56.282Z"
+    "mtime": "2026-09-25T03:35:40.409Z"
    },
    {
     "file": "tests/out/bgequiv-w278d.json",
-    "bytes": 115235,
-    "sha256": "07561275145ab14514c4bb519b16a089f3460e3e13eee4b228a139a3bbaa2a30",
-    "mtime": "2026-09-24T17:13:39.790Z"
+    "bytes": 116345,
+    "sha256": "c30839f849413184c3e351998dc0760a18c6f1b5922e8f8611788591291e3906",
+    "mtime": "2026-09-25T03:57:47.873Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w279c-bgbudget2.mjs",
-    "bytes": 24456,
-    "sha256": "a2ee9d03ec46aa62a7918cf39191e76a9d10faffa827ca28d3729739798fbd12",
-    "mtime": "2026-09-23T20:24:22.937Z"
+    "bytes": 25857,
+    "sha256": "24eeec06e86152bb9e036737661aeb41b96ca9bb5a39d59ccc94b9b4901476c5",
+    "mtime": "2026-09-25T03:55:57.668Z"
    },
    {
     "file": "tests/lib-w279c-bgbudget2.mjs",
     "bytes": 14214,
     "sha256": "e08bafb86e07ea250878404acb0ada9be58992b23ae77d0f0fab39ea077020fb",
-    "mtime": "2026-09-23T20:24:22.938Z"
+    "mtime": "2026-09-25T03:35:40.217Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-09-23T20:24:22.939Z"
+    "mtime": "2026-09-25T03:35:40.217Z"
    },
    {
     "file": "tests/lib-w278d-bgequiv.mjs",
     "bytes": 34150,
     "sha256": "99005d9c84a9d978cea6af75866e2226c359282f5caca10ef2b97c1c4fbb7a71",
-    "mtime": "2026-09-23T11:00:54.407Z"
+    "mtime": "2026-09-25T03:35:40.065Z"
    },
    {
     "file": "tests/lib-w278d-readaudit.mjs",
     "bytes": 4816,
     "sha256": "41f86f7bcd16c23be9d0952957b4b59a28add8a930bb1ba92386b0cc8d1c885b",
-    "mtime": "2026-09-23T11:00:54.407Z"
+    "mtime": "2026-09-25T03:35:40.069Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-09-22T06:21:31.427Z"
+    "mtime": "2026-09-25T03:35:39.565Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T03:45:28.121Z"
    }
   ],
-  "codeSha256": "1508ca3f641cc1224b78757d109cfbeb9bd05de778b4a304a83ed5ac30f87ea9",
+  "codeSha256": "73371f8d903730166fbf96cb1a43558d78b4b711c72398c605f7fd9e5978f4ae",
   "harnessVersion": "w279c-bgbudget2-1",
   "libVersion": "w279c-bgbudget2-1",
   "steps": [
@@ -98,6 +98,65 @@
    "新発見",
    "観測と合った",
    "v1.45.0 RC を切った"
+  ],
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "earthMoonRealKF1",
+    "galaxy",
+    "plutoCharonReal",
+    "psrDoubleAB"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "ctx",
+    "dfmBlendComplexMoments",
+    "dfmComplexMomentsOf",
+    "dfmField",
+    "dfmGeoToyStep",
+    "dfmLocalMeshField",
+    "dfmMeshVelocityRHS",
+    "dfmMeshVelocityStep",
+    "isNum",
+    "validateBackgroundTidal",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 953,
+   "segments": 873,
+   "closureShare": 0.3779
+  },
+  "scopeSha256": "95648530c0ff8821723d45dfcea118df3b58aa2a178582e182ca6985c760f16e",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/bgpredict-w276a.json",
+    "stableSha256": "ae70afc83040a47202e2f2eac17edcc35c458e84f2cff1c89f357e62e827477f"
+   },
+   {
+    "file": "tests/out/bgequiv-w278d.json",
+    "stableSha256": "f65c2366225a12cc1c1a63ca3777a6653e1bc176e6b76c0a2112745d87b5be7f"
+   }
+  ],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec"
   ]
  },
  "onModels": [
@@ -5656,7 +5715,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376537194852,
-     "ms": 61.30000000074506,
+     "ms": 59.39999999990687,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -5684,7 +5743,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.2833765307995755,
-     "ms": 128.10000000149012,
+     "ms": 151.70000000018626,
      "meshVelN": 20001,
      "meshVelUMax": 0.474015973877633,
      "meshVelKickMax": 9.430435082123227e-24,
@@ -5712,7 +5771,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 3.249316354913792,
-     "ms": 165.30000000074506,
+     "ms": 161,
      "meshVelN": 32000,
      "meshVelUMax": 2.773038977689545,
      "meshVelKickMax": 0.0009324681847986358,
@@ -5740,7 +5799,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376537213986,
-     "ms": 22.199999999254942,
+     "ms": 20.799999999813735,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -5768,7 +5827,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.2833765372135115,
-     "ms": 115.39999999850988,
+     "ms": 55.59999999962747,
      "meshVelN": 20001,
      "meshVelUMax": 0.474015973877633,
      "meshVelKickMax": 9.430435188001654e-24,
@@ -5796,7 +5855,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219786982184,
-     "ms": 46.599999997764826,
+     "ms": 35.89999999990687,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -5824,7 +5883,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219780590367,
-     "ms": 114.60000000149012,
+     "ms": 104.29999999981374,
      "meshVelN": 40001,
      "meshVelUMax": 0.474015973877633,
      "meshVelKickMax": 4.715217640714527e-24,
@@ -5852,7 +5911,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 3.2762585825700157,
-     "ms": 277.79999999701977,
+     "ms": 198.60000000009313,
      "meshVelN": 64000,
      "meshVelUMax": 2.895267268818353,
      "meshVelKickMax": 0.0004657993829299199,
@@ -5880,7 +5939,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219787001554,
-     "ms": 40.900000002235174,
+     "ms": 35.10000000009313,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -5908,7 +5967,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219787004645,
-     "ms": 106.19999999925494,
+     "ms": 107.60000000009313,
      "meshVelN": 40001,
      "meshVelUMax": 0.474015973877633,
      "meshVelKickMax": 4.7152174954438356e-24,
@@ -6032,7 +6091,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283320157910627,
-     "ms": 49.19999999925494,
+     "ms": 50.700000000186265,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -6060,7 +6119,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283299252500161,
-     "ms": 113.39999999850988,
+     "ms": 136.3000000002794,
      "meshVelN": 20001,
      "meshVelUMax": 2.2932799449427557,
      "meshVelKickMax": 9.235039727780367e-31,
@@ -6088,7 +6147,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 3.4061642395499803e-13,
-     "ms": 180.30000000074506,
+     "ms": 233.8000000002794,
      "meshVelN": 32000,
      "meshVelUMax": 99.99999999989477,
      "meshVelKickMax": 1.0521662129030207e-12,
@@ -6116,7 +6175,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283449646202045,
-     "ms": 15.300000000745058,
+     "ms": 15.799999999813735,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -6144,7 +6203,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283449646202073,
-     "ms": 56.5,
+     "ms": 53.89999999990687,
      "meshVelN": 20001,
      "meshVelUMax": 2.2932799449427557,
      "meshVelKickMax": 9.23506243227049e-31,
@@ -6172,7 +6231,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283188191023437,
-     "ms": 36,
+     "ms": 36.39999999990687,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -6200,7 +6259,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283299524537741,
-     "ms": 117.80000000074506,
+     "ms": 111.1999999997206,
      "meshVelN": 40002,
      "meshVelUMax": 2.2932799449427557,
      "meshVelKickMax": 4.617519926135311e-31,
@@ -6228,7 +6287,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 9.467981954003335e-13,
-     "ms": 244.89999999850988,
+     "ms": 205.10000000009313,
      "meshVelN": 64000,
      "meshVelUMax": 99.99999999989379,
      "meshVelKickMax": 5.285384686828012e-13,
@@ -6256,7 +6315,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283185404001975,
-     "ms": 30.699999999254942,
+     "ms": 31.899999999906868,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -6284,7 +6343,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283185404002147,
-     "ms": 113.69999999925494,
+     "ms": 103.5,
      "meshVelN": 40000,
      "meshVelUMax": 2.2932799449427557,
      "meshVelKickMax": 4.617532044939379e-31,
@@ -6351,5 +6410,5 @@
   }
  ],
  "pageErrors": [],
- "elapsedS": 78.834
+ "elapsedS": 75.872
 }

@@ -8,7 +8,7 @@
   "csvSha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-09-24T16:26:31.042Z",
+  "at": "2026-09-25T06:10:11.638Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -26,7 +26,95 @@
   "spinAxisCorrection": "運動学の宣言 ω_i = Ω_AB + σ_i·n の **n は相手へ向かう単位ベクトル**(天体間方向・面内)である。第272便c の「n は面直の単位ベクトル」は**撤回する**。(σ_i n)×n = 0 は「軸上の相対すべりをこの項が拾わない」という意味に限られ、「面内軸の自転が力学に効かない」ではない。",
   "signConvention": "面直(z)は画面手前向きが正・反時計回り(x→y)が正・視線は +z 側から見下ろす。Ω_AB=(r×v)_z/r² と spin を**同じ符号規約**で比べる。同期比は符号つきの ω_spin/Ω_orb で読み、**+1 が同期・−1 は逆行の同期**である(**絶対値では同期と逆行を区別できない**ので絶対値で判定しない)。",
   "spinZeroNote": "**NS 4 系の内蔵 spin=0 は「観測同期の代用」ではない**(自転が転写できないので 0 を宣言してある = エンジンに自転源を置かない)。",
-  "spentSec": 707.8,
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "alphaCenAB",
+    "alphaCenABDFM",
+    "galaxy",
+    "psrB1534DFM",
+    "psrDoubleABDFM",
+    "psrJ1757DFM",
+    "psrJ1946DFM",
+    "siriusAB",
+    "siriusABDFM"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validatePreset",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "isNum",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 953,
+   "segments": 873,
+   "closureShare": 0.3779
+  },
+  "scopeSha256": "29600dd2e260ab2292e321d41bec57088ab1f9d87d1dd6ecfae7832ed77dc910",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/kjoint2-w265a.json",
+    "stableSha256": "a1382c83c89633525358d4190124e7e44978b83635d66dd791e165ac92599f41"
+   }
+  ],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w272c-nslock.mjs",
+    "bytes": 28600,
+    "sha256": "0443a5568e2e7fe6ce599efc92aa6fb9cc47a4f37e94eb53b27d6a07ab07ffce",
+    "mtime": "2026-09-25T05:49:56.156Z"
+   },
+   {
+    "file": "tests/lib-w265a-analogy.mjs",
+    "bytes": 21069,
+    "sha256": "7a01c2081dd68c90139820c7aeefaf452b35a770e944c6e8c6e5ea1443c4a384",
+    "mtime": "2026-09-25T03:35:39.137Z"
+   },
+   {
+    "file": "tests/lib-w272c-binlock.mjs",
+    "bytes": 23335,
+    "sha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
+    "mtime": "2026-09-25T03:35:39.561Z"
+   }
+  ],
+  "codeSha256": "d9faf10f0abd529667e68b1b27965b8cbf92614d30a577756b6535a735b61ec7",
+  "spentSec": 694.9,
   "stages": 102
  },
  "builtinDeclared": [

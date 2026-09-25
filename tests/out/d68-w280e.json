@@ -4,54 +4,109 @@
   "wave": "第280便e",
   "target": "beta/index.html",
   "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T16:26:20.843Z",
+  "generatedAt": "2026-09-25T04:24:52.256Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4758438,
     "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "mtime": "2026-09-25T03:35:30.689Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
     "bytes": 563636,
     "sha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
-    "mtime": "2026-09-23T20:24:15.944Z"
+    "mtime": "2026-09-25T03:35:33.097Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w280e-d68.mjs",
-    "bytes": 26127,
-    "sha256": "7bb21f36732d82cb9119381a4f02987f3c191d8c14e6c6241397e92427d4411b",
-    "mtime": "2026-09-24T08:50:10.785Z"
+    "bytes": 27340,
+    "sha256": "5404c38720369475cbbd95878d6189a61d1e0cfcd4b43df470876c7da3cd1422",
+    "mtime": "2026-09-25T03:55:57.666Z"
    },
    {
     "file": "tests/lib-w280e-d68.mjs",
     "bytes": 9382,
     "sha256": "2c75a061ee37098c416224f4d1984c5f94b3781d928c24351ea93e390bf67d49",
-    "mtime": "2026-09-24T08:50:10.786Z"
+    "mtime": "2026-09-25T03:35:40.221Z"
    },
    {
     "file": "tests/lib-w269a-periwindow.mjs",
     "bytes": 6830,
     "sha256": "12fbfe9dd30e2b5459af8581fef6f1e5f1651c2e757d18f09525acbf9e93c201",
-    "mtime": "2026-09-17T16:58:24.653Z"
+    "mtime": "2026-09-25T03:35:39.269Z"
    },
    {
     "file": "tests/lib-w268a-judgement.mjs",
     "bytes": 15169,
     "sha256": "4b22112d05f75509594d8d2428ec4363615e9cda98f26ee6a6aeccdc6100330a",
-    "mtime": "2026-09-18T18:40:26.812Z"
+    "mtime": "2026-09-25T03:35:39.137Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T03:45:28.121Z"
    }
   ],
-  "codeSha256": "fe9b53a2c6e038997e9a51f47e0f7fae5f9ee5147b6078ac4f1cf4db6b7ad4f5"
+  "codeSha256": "dc894f3d087b367b7f371d16f6c305a37b5439dde537f447574757df2298b244",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": "all",
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ZONAL_P0",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "isNum",
+    "scaleExpT",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 953,
+   "segments": 873,
+   "closureShare": 0.3779
+  },
+  "scopeSha256": "4beb4687559b8953ee37682451392ee8d4438823cbb7448e640d7a0255822df6",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ]
  },
  "declaration": {
   "window": {
@@ -501,7 +556,7 @@
      "nSigma": -14.623148302875334,
      "rMinKm": 64244.29089787581,
      "rMaxKm": 71356.18240104585,
-     "wallSec": 4.532,
+     "wallSec": 3.805,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -540,7 +595,7 @@
      "nSigma": -14.6074034802781,
      "rMinKm": 64244.333117883034,
      "rMaxKm": 71356.1173454406,
-     "wallSec": 7.8,
+     "wallSec": 7.548,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -579,7 +634,7 @@
      "nSigma": -14.603411410167835,
      "rMinKm": 64244.34295503485,
      "rMaxKm": 71356.1011032169,
-     "wallSec": 15.54,
+     "wallSec": 14.779,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -636,7 +691,7 @@
      "nSigma": -14.660315263933764,
      "rMinKm": 64245.58982969157,
      "rMaxKm": 71355.88097294293,
-     "wallSec": 0.757,
+     "wallSec": 0.709,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -675,7 +730,7 @@
      "nSigma": -14.644758872206825,
      "rMinKm": 64245.63495728215,
      "rMaxKm": 71355.815676948,
-     "wallSec": 1.433,
+     "wallSec": 1.28,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -714,7 +769,7 @@
      "nSigma": -14.640863438512605,
      "rMinKm": 64245.64623931174,
      "rMaxKm": 71355.79929437024,
-     "wallSec": 2.747,
+     "wallSec": 2.61,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -771,7 +826,7 @@
      "nSigma": -14.642098012795689,
      "rMinKm": 64245.41088610225,
      "rMaxKm": 71355.8398761393,
-     "wallSec": 10.681,
+     "wallSec": 9.274,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -810,7 +865,7 @@
      "nSigma": -14.626487249953428,
      "rMinKm": 64245.455155065574,
      "rMaxKm": 71355.77433837498,
-     "wallSec": 20.378,
+     "wallSec": 18.56,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -849,7 +904,7 @@
      "nSigma": -14.622564383727669,
      "rMinKm": 64245.46603643921,
      "rMaxKm": 71355.75783629665,
-     "wallSec": 39.989,
+     "wallSec": 36.82,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -907,7 +962,7 @@
      "nSigma": -14.441790381720919,
      "rMinKm": 64244.29090866494,
      "rMaxKm": 71356.05744827466,
-     "wallSec": 3.689,
+     "wallSec": 3.313,
      "state0": {
       "n": 11,
       "eps": 0.01,
@@ -946,7 +1001,7 @@
      "nSigma": -14.426069853660701,
      "rMinKm": 64244.333317528246,
      "rMaxKm": 71355.99261863824,
-     "wallSec": 7.4,
+     "wallSec": 6.69,
      "state0": {
       "n": 11,
       "eps": 0.01,
@@ -985,7 +1040,7 @@
      "nSigma": -14.42208997403395,
      "rMinKm": 64244.34323484534,
      "rMaxKm": 71355.97648194434,
-     "wallSec": 14.791,
+     "wallSec": 13.205,
      "state0": {
       "n": 11,
       "eps": 0.01,
@@ -1043,7 +1098,7 @@
      "nSigma": -14.664128410754326,
      "rMinKm": 64245.58982966673,
      "rMaxKm": 71355.8772692336,
-     "wallSec": 0.811,
+     "wallSec": 0.682,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -1082,7 +1137,7 @@
      "nSigma": -14.648597322361486,
      "rMinKm": 64245.63495727186,
      "rMaxKm": 71355.81218723244,
-     "wallSec": 1.386,
+     "wallSec": 1.251,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -1121,7 +1176,7 @@
      "nSigma": -14.644714549423036,
      "rMinKm": 64245.64623931019,
      "rMaxKm": 71355.79591658739,
-     "wallSec": 2.862,
+     "wallSec": 2.485,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -1179,7 +1234,7 @@
      "nSigma": -14.475058674805558,
      "rMinKm": 64245.589828562996,
      "rMaxKm": 71355.75955149012,
-     "wallSec": 0.732,
+     "wallSec": 0.755,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1218,7 +1273,7 @@
      "nSigma": -14.459502120493836,
      "rMinKm": 64245.634957000024,
      "rMaxKm": 71355.69423736286,
-     "wallSec": 1.466,
+     "wallSec": 1.33,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1257,7 +1312,7 @@
      "nSigma": -14.455606645397374,
      "rMinKm": 64245.6462392412,
      "rMaxKm": 71355.67786543914,
-     "wallSec": 2.87,
+     "wallSec": 2.713,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1316,7 +1371,7 @@
      "nSigma": -14.478871822354463,
      "rMinKm": 64245.58982853814,
      "rMaxKm": 71355.75584117052,
-     "wallSec": 0.676,
+     "wallSec": 0.63,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1355,7 +1410,7 @@
      "nSigma": -14.46334056978569,
      "rMinKm": 64245.63495699378,
      "rMaxKm": 71355.69075826331,
-     "wallSec": 1.444,
+     "wallSec": 1.37,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1394,7 +1449,7 @@
      "nSigma": -14.459457751812623,
      "rMinKm": 64245.64623923652,
      "rMaxKm": 71355.6744873952,
-     "wallSec": 2.747,
+     "wallSec": 2.528,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1473,7 +1528,7 @@
      "nSigma": -0.02352431082870781,
      "rMinKm": 67556.59349866354,
      "rMaxKm": 67697.43298490808,
-     "wallSec": 0.748,
+     "wallSec": 0.667,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1512,7 +1567,7 @@
      "nSigma": -0.008079126079862674,
      "rMinKm": 67558.66743839103,
      "rMaxKm": 67695.34189833686,
-     "wallSec": 1.358,
+     "wallSec": 1.315,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1551,7 +1606,7 @@
      "nSigma": -0.004211505404693636,
      "rMinKm": 67559.19591585292,
      "rMaxKm": 67694.80908759542,
-     "wallSec": 2.879,
+     "wallSec": 2.626,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1630,7 +1685,7 @@
      "nSigma": -0.033519728650719186,
      "rMinKm": 67595.25016702262,
      "rMaxKm": 67658.7762627526,
-     "wallSec": 0.679,
+     "wallSec": 0.664,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1669,7 +1724,7 @@
      "nSigma": -0.018081188322801728,
      "rMinKm": 67600.15246577741,
      "rMaxKm": 67653.85685120858,
-     "wallSec": 1.368,
+     "wallSec": 1.317,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1708,7 +1763,7 @@
      "nSigma": -0.01421482931474388,
      "rMinKm": 67601.52551438886,
      "rMaxKm": 67652.47947739632,
-     "wallSec": 2.75,
+     "wallSec": 2.652,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1771,7 +1826,7 @@
      "nSigma": -1.469276096814037,
      "rMinKm": 67556.59355189845,
      "rMaxKm": 67697.43293104971,
-     "wallSec": 0.65,
+     "wallSec": 0.686,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1810,7 +1865,7 @@
      "nSigma": -1.453831243297435,
      "rMinKm": 67558.66745209298,
      "rMaxKm": 67695.34188440914,
-     "wallSec": 1.341,
+     "wallSec": 1.295,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1849,7 +1904,7 @@
      "nSigma": -1.449963858381221,
      "rMinKm": 67559.19591930785,
      "rMaxKm": 67694.80908414228,
-     "wallSec": 3.03,
+     "wallSec": 2.647,
      "state0": {
       "n": 2,
       "eps": 0.01,

@@ -4,42 +4,103 @@
   "wave": "第276便d(第66報 (4)・Core 力学)",
   "target": "beta/index.html",
   "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T16:46:21.737Z",
+  "generatedAt": "2026-09-25T04:22:19.771Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4758438,
     "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "mtime": "2026-09-25T03:35:30.689Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w276d-corefield.mjs",
-    "bytes": 37969,
-    "sha256": "42b4435b9b996b9518c9a68d1764e7b9bf470e4f5d8ef8945c05cd87bf81edb7",
-    "mtime": "2026-09-21T13:10:53.815Z"
+    "bytes": 39291,
+    "sha256": "2ebf4923611ea3b46452555eb1d40a7652e153b12b6791a29fbec8efdb57511f",
+    "mtime": "2026-09-25T03:55:57.666Z"
    },
    {
     "file": "tests/lib-w276d-corefield.mjs",
     "bytes": 12269,
     "sha256": "79ec758916ce287eeede09ea92e6dac2b72d6fac93de8a6b781377a1fe931344",
-    "mtime": "2026-09-21T13:10:53.816Z"
+    "mtime": "2026-09-25T03:35:39.797Z"
    },
    {
     "file": "tests/lib-w275d-shapecrit.mjs",
     "bytes": 6370,
     "sha256": "22ce5e97fd6c839e4853f2e837846fd076454d6ff266d5a51474cdba2565acdd",
-    "mtime": "2026-09-20T17:55:26.533Z"
+    "mtime": "2026-09-25T03:35:39.569Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T03:45:28.121Z"
    }
   ],
-  "codeSha256": "ecc5826641cf0e6899b2c740d883069120900181f848c74c41744a853241af27"
+  "codeSha256": "eb0df968b46cc5651ad8351ba077b088401327dccf48e758e9b49be2c23beacf",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "saturn",
+    "shapeToyArmCore",
+    "shapeToyCluster",
+    "shapeToyClusterCore",
+    "shapeToyDiskCore"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.currentPreset",
+    "HP.dfmCoreFieldStep",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "coreFieldBasis",
+    "ctx",
+    "isNum",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 953,
+   "segments": 873,
+   "closureShare": 0.3779
+  },
+  "scopeSha256": "dbcc7be3051464ecb01313f585611d4c8060cc85e48be50a857e96b718a831cd",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ]
  },
  "section": "Core 力学(中心スピンに依存する法則)の検算(第66報 (4) 前半)",
  "hypothesisNote": "**追加ポテンシャル Φ=½κ₀r²+½ω_m²{αr⊥²+βr∥²} は新しい構成仮説である**。現行 DFM から一意に導出された法則ではない(統括の検証項目 R44 の字義)。ここで測るのは**宣言した仮説の帰結**だけであり、観測との一致は 1 件も測っていない。",

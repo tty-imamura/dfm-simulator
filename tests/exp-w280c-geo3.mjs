@@ -31,9 +31,17 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { provenanceMeta, sha256Text } from './lib-w272e-provenance.mjs';
 import { GEO3_HARNESS_VERSION, uniformBackground, makeGeo3Copy, extractCalauditPageHelpers, summarizeRun } from './lib-w280c-geo3.mjs';
+// 第281便a(原仮定者の裁定(第71報)・AN16・統括の検証項目 R71): **この器が読む html の領域**の宣言。
+//   `tests/lib-w281a-scope.mjs` がこの領域だけの hash(`scopeSha256`)を正本の meta に刻む。
+//   `lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が今の html で
+//   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
+//   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
+import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","charonGeoToy3","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercury","mercuryGeoToy3","mercuryReal","neptuneReal","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.dfmComplexMomentsOf","HP.geo3HudText","HP.geo3InitVelocity","HP.loadPreset","HP.meshChipLabel","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","cv","dfmComplexMomentsOf","isNum","loadSave","presetSig","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
+const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const BASE = process.env.W280_BASE || null;          // 基点 html(g・h の対照 —— 無ければその 2 項は基点側が null)
 const argv = process.argv.slice(2);
 const QUICK = argv.includes('--quick');
@@ -378,5 +386,6 @@ const doc = {
   cases: out.cases, tables: out.tables, checks: out.checks, pageErrors, elapsedS: (Date.now() - t0) / 1000,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+Object.assign(doc.meta, W281A_SCOPE, w281aStableInputs(ROOT, doc.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
 fs.writeFileSync(OUT, JSON.stringify(doc, null, 1));
 log(`→ ${OUT}(${doc.elapsedS.toFixed(1)} s)`);

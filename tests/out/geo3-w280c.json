@@ -4,54 +4,54 @@
   "wave": "第280便c",
   "target": "beta/index.html",
   "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T23:22:01.069Z",
+  "generatedAt": "2026-09-25T05:37:51.779Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4758438,
     "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T22:07:56.329Z"
+    "mtime": "2026-09-25T03:35:30.689Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2812542,
     "sha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
-    "mtime": "2026-09-24T18:13:25.058Z"
+    "mtime": "2026-09-25T03:35:40.441Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "bytes": 140690,
-    "sha256": "0686498aa78be00926d1b802c0b912cf4b7fc59370af8848cef825367aa30841",
-    "mtime": "2026-09-24T17:15:31.942Z"
+    "bytes": 141925,
+    "sha256": "cc6d27f0a520a8fd7d2758390bed36ff881e0b6f09249d2c9cdfbf653af2c902",
+    "mtime": "2026-09-25T03:59:33.897Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w280c-geo3.mjs",
-    "bytes": 30948,
-    "sha256": "3943b68cdc4be0e1deabf0bf1b4d5751b07f2d7a4a1e856ecea188e60bbec566",
-    "mtime": "2026-09-24T09:35:25.390Z"
+    "bytes": 32820,
+    "sha256": "f6886e45043b0c0fa7c71894a5bc92402f2bb0650dcb81799c7359d52510467b",
+    "mtime": "2026-09-25T03:55:57.662Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
     "bytes": 5394,
     "sha256": "720a78b1243add6a208a29df1896e052cc32f10315ef0957d87471685dbe5ec3",
-    "mtime": "2026-09-24T09:35:25.390Z"
+    "mtime": "2026-09-25T03:35:40.221Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
     "bytes": 302651,
     "sha256": "fffb7d97b35cfe58745945fa306ce3f12eb614c5146a98c6260d966cd7312234",
-    "mtime": "2026-09-20T02:07:48.862Z"
+    "mtime": "2026-09-25T03:35:33.789Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T03:45:28.121Z"
    }
   ],
-  "codeSha256": "1a40dde05af23277957677226aedd91f0bd4c39e976b9f5e13eee27f2bfe8aee",
+  "codeSha256": "184dd58f1b5877a7e431eae55107b82dcb7d7d1723bcae8cdcd7440d98706f3e",
   "harnessVersion": "w280c-geo3-1",
   "quick": false,
   "part": null,
@@ -67,6 +67,114 @@
    "1PN を DFM から導出した",
    "新発見",
    "v1.45.0 RC を切った"
+  ],
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "alphaCenAB",
+    "alphaCenABDFM",
+    "charonGeoToy3",
+    "earthMoonRealKF1",
+    "emAuditDFM",
+    "emAuditNewton",
+    "gw150914DFM",
+    "jupiterGalilean",
+    "marsMoonsReal",
+    "mercury",
+    "mercuryGeoToy3",
+    "mercuryReal",
+    "neptuneReal",
+    "plutoCharonReal",
+    "psrB1534",
+    "psrB1534CF",
+    "psrB1534DFM",
+    "psrDoubleAB",
+    "psrDoubleABCF",
+    "psrDoubleABDFM",
+    "psrDoubleABPN",
+    "psrDoubleABSpinCal",
+    "psrJ1757CF",
+    "psrJ1757DFM",
+    "psrJ1757PN",
+    "psrJ1946CF",
+    "psrJ1946DFM",
+    "psrJ1946PN",
+    "qLockRadialAudit",
+    "qLockRadialAuditQ3",
+    "saturnZonalD68",
+    "siriusAB",
+    "siriusABDFM",
+    "venusReal"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coreState",
+    "HP.dfmComplexMomentsOf",
+    "HP.geo3HudText",
+    "HP.geo3InitVelocity",
+    "HP.loadPreset",
+    "HP.meshChipLabel",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "cv",
+    "dfmComplexMomentsOf",
+    "isNum",
+    "loadSave",
+    "presetSig",
+    "scaleExpT",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 953,
+   "segments": 873,
+   "closureShare": 0.3779
+  },
+  "scopeSha256": "e9b245424639e9ddf1c44cd4ecc1c5c774364e9c2b7908a72913860aa0d8edbe",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "f3d08ba3d1a4814631215d52c2d17bb29e853fff7c4416eda7d60e7d17bbf393"
+   },
+   {
+    "file": "tests/out/bgbudget2-w279c.json",
+    "stableSha256": "e8c02757d0e310610c6b0675c201473f1652ca65f954af9de9e8cd1b5cc4bed6"
+   }
+  ],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
   ]
  },
  "cases": {
@@ -137,7 +245,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.447
+       "wallSec": 2.273
       },
       "dt/2": {
        "steps": 5700398,
@@ -170,7 +278,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.102
+       "wallSec": 4.659
       }
      }
     },
@@ -209,7 +317,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.325
+       "wallSec": 2.178
       },
       "dt/2": {
        "steps": 5700398,
@@ -242,7 +350,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.63
+       "wallSec": 4.281
       }
      }
     },
@@ -281,7 +389,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.355
+       "wallSec": 2.174
       },
       "dt/2": {
        "steps": 5700398,
@@ -314,7 +422,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.553
+       "wallSec": 4.468
       }
      }
     },
@@ -357,7 +465,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.284
+       "wallSec": 9.573
       },
       "dt/2": {
        "steps": 5700398,
@@ -394,7 +502,7 @@
          "stop": null
         }
        },
-       "wallSec": 18.991
+       "wallSec": 18.865
       }
      }
     },
@@ -437,7 +545,7 @@
          "stop": null
         }
        },
-       "wallSec": 14.617
+       "wallSec": 14.593
       },
       "dt/2": {
        "steps": 5700398,
@@ -474,7 +582,7 @@
          "stop": null
         }
        },
-       "wallSec": 30.244
+       "wallSec": 28.95
       }
      }
     },
@@ -517,7 +625,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.909
+       "wallSec": 8.769
       },
       "dt/2": {
        "steps": 5700398,
@@ -554,7 +662,7 @@
          "stop": null
         }
        },
-       "wallSec": 17.636
+       "wallSec": 16.881
       }
      }
     },
@@ -597,7 +705,7 @@
          "stop": null
         }
        },
-       "wallSec": 12.908
+       "wallSec": 12.626
       },
       "dt/2": {
        "steps": 5700398,
@@ -634,7 +742,7 @@
          "stop": null
         }
        },
-       "wallSec": 26.29
+       "wallSec": 24.548
       }
      }
     },
@@ -677,7 +785,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.123
+       "wallSec": 8.115
       },
       "dt/2": {
        "steps": 5700398,
@@ -714,7 +822,7 @@
          "stop": null
         }
        },
-       "wallSec": 16.31
+       "wallSec": 15.991
       }
      }
     },
@@ -753,7 +861,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.162
+       "wallSec": 3.248
       },
       "dt/2": {
        "steps": 5700398,
@@ -786,7 +894,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.353
+       "wallSec": 6.066
       }
      }
     },
@@ -825,7 +933,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.955
+       "wallSec": 2.888
       },
       "dt/2": {
        "steps": 5700398,
@@ -858,7 +966,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.085
+       "wallSec": 5.989
       }
      }
     },
@@ -901,7 +1009,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.567
+       "wallSec": 10.096
       },
       "dt/2": {
        "steps": 5700398,
@@ -938,7 +1046,7 @@
          "stop": null
         }
        },
-       "wallSec": 20.779
+       "wallSec": 19.609
       }
      }
     }
@@ -1035,7 +1143,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 17.426
+       "wallSec": 17.667
       },
       "dt/2": {
        "steps": 41388996,
@@ -1068,7 +1176,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 35.231
+       "wallSec": 35.631
       }
      }
     },
@@ -1107,7 +1215,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 16.841
+       "wallSec": 16.879
       },
       "dt/2": {
        "steps": 41388996,
@@ -1140,7 +1248,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 33.399
+       "wallSec": 33.413
       }
      }
     },
@@ -1179,7 +1287,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 17.335
+       "wallSec": 16.911
       },
       "dt/2": {
        "steps": 41388996,
@@ -1212,7 +1320,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 34.275
+       "wallSec": 34.543
       }
      }
     },
@@ -1257,7 +1365,7 @@
          "stop": null
         }
        },
-       "wallSec": 91.254
+       "wallSec": 91.462
       },
       "dt/2": {
        "steps": 41388996,
@@ -1296,7 +1404,7 @@
          "stop": null
         }
        },
-       "wallSec": 185.655
+       "wallSec": 184.502
       }
      }
     },
@@ -1341,7 +1449,7 @@
          "stop": null
         }
        },
-       "wallSec": 64.488
+       "wallSec": 61.893
       },
       "dt/2": {
        "steps": 41388996,
@@ -1380,7 +1488,7 @@
          "stop": null
         }
        },
-       "wallSec": 128.541
+       "wallSec": 123.988
       }
      }
     },
@@ -1425,7 +1533,7 @@
          "stop": null
         }
        },
-       "wallSec": 56.59
+       "wallSec": 56.729
       },
       "dt/2": {
        "steps": 41388996,
@@ -1464,7 +1572,7 @@
          "stop": null
         }
        },
-       "wallSec": 112.904
+       "wallSec": 113.095
       }
      }
     }
@@ -1825,5 +1933,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 1030.18
+ "elapsedS": 1015.155
 }
