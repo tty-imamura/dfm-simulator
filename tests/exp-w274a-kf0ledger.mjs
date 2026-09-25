@@ -81,6 +81,7 @@ const INPUTS = [
   'tests/out/nslockledger-w273c.json',
   'tests/out/galaxydiag-w271d.json',
   'tests/out/kf0-w259d.json',
+  'tests/out/calcontract-w282a.json',   // 第282便a(R78): f は基準質量との数値比較
 ];
 const CODE = ['tests/exp-w274a-kf0ledger.mjs', 'tests/lib-w272e-provenance.mjs'];
 
@@ -89,6 +90,9 @@ const charon = rd('tests/out/charon-w272b.json');
 const nslock = rd('tests/out/nslockledger-w273c.json');
 const gdiag = rd('tests/out/galaxydiag-w271d.json');
 const w259d = rd('tests/out/kf0-w259d.json');
+// 第282便a(R78): f は `correlates.massFactor`(台帳が無ければ 1)ではなく**基準質量との数値比較**(calcontract の fEffective)。
+//   基準質量が無い本は null(文書では「出典不明」)。旧値は massFactorDeclared に残す。
+const fEff = new Map((rd('tests/out/calcontract-w282a.json').rows || []).map((z) => [z.id, z]));
 
 // ================================================================ 較正 37 本
 const kf0Health = new Map(((cal.kf0Runs || {}).health || []).map((h) => [h.id, h]));
@@ -152,12 +156,15 @@ function sideAssess(rec, k, health) {
 const calRows = [];
 for (const rec of (cal.presets || [])) {
   const pk = num((rec.correlates || {}).kFrame);
-  const f = num((rec.correlates || {}).massFactor);
+  const fDecl = num((rec.correlates || {}).massFactor);
+  const fz = fEff.get(rec.id);
+  const f = fz ? (Number.isFinite(fz.fEffective) ? fz.fEffective : null) : fDecl;
   const kf1 = sideAssess(rec, 1, null);
   const kf0 = sideAssess(rec, 0, kf0Health.get(rec.id) || null);
   const appliedHere = kf0Applied.filter((z) => z.id === rec.id);
   calRows.push({ scope: 'calibration', id: rec.id, emoji: rec.emoji, name: rec.name,
-    declaredKFrame: pk, massFactor: f, version: rec.version,
+    declaredKFrame: pk, massFactor: f, massFactorSource: fz ? fz.fSource : 'calcontract に行が無い(旧値のまま)',
+    massFactorDeclared: fDecl, version: rec.version,
     kf0Source: appliedHere.length ? 'kf0-diagnostic-copy(第274便a・--kf0-runs)'
       : (pk === 0 ? 'preset(宣言そのものが kFrame=0)' : null),
     kf0AppliedRows: appliedHere.map((z) => ({ target: z.target, kind: z.kind, name: z.name,
@@ -468,7 +475,7 @@ calRows.forEach((r, i) => {
       : 'あり(同一プリセットの診断コピー)')
     : (r.pair ? 'なし(対 `' + r.pair.with + '` は f も動く)' : 'なし');
   lines.push('| ' + (i + 1) + ' | ' + (r.emoji || '') + ' `' + r.id + '` | ' + r.declaredKFrame
-    + ' | ' + fx(r.massFactor, 8) + ' | ' + colCell(r.kf1) + ' | ' + colCell(r.kf0)
+    + ' | ' + (r.massFactor === null ? '出典不明' : fx(r.massFactor, 8)) + ' | ' + colCell(r.kf1) + ' | ' + colCell(r.kf0)
     + ' | ' + kc + ' | ' + (r.label ? '**' + r.label + '**' : '—') + ' |');
 });
 lines.push('');
