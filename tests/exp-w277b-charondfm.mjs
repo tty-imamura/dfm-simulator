@@ -45,9 +45,17 @@ import { CHARON_DFM_VERSION, GM_2024, GM_2015, ELEM_2024, BUIE_2012, HORIZONS_PR
   G_MODEL, PRECISE_UNITS, projectToOrbitPlane, massFromGM, charonPairState, osculating,
   pairSlipStep, totalsOf, syncCircularPair } from './lib-w277b-charondfm.mjs';
 import { pairSlipMidpointStep } from './lib-w278b-midpoint.mjs';
+// 第281便a(原仮定者の裁定(第71報)・AN16・統括の検証項目 R71): **この器が読む html の領域**の宣言。
+//   `tests/lib-w281a-scope.mjs` がこの領域だけの hash(`scopeSha256`)を正本の meta に刻む。
+//   `lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が今の html で
+//   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
+//   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
+import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["plutoCharonDFM","plutoCharonKF0Control"],"roots":["$","HP.allPresets","HP.orbitPlaneProject","HP.presetSig","HP.relativeDragProbe","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","dfmRelativeDragMidpointStep","dfmRelativeDragStep","isNum","relativeDragMidpointGuard","relativeDragMidpointSolve","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
+const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT = path.join(ROOT, 'tests', 'out', 'charondfm-w277b.json');
 const HARNESS_VERSION = 'w278b-1';   // 第278便b: 2 欄・中点法の宣言・Buie 二体再現・帳簿の読み口(旧 w277b-charondfm-1)
@@ -696,6 +704,7 @@ const out = { meta, inputs, history, twoColumns, law: { rows: lawRows, zero, nsC
   factors2, engine: results, pageErrors };
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 console.log('wrote', path.relative(ROOT, OUT), 'sha256', sha(fs.readFileSync(OUT)).slice(0, 16));
 for (const id of Object.keys(results.columns || {})) {

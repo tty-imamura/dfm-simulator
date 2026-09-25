@@ -26,9 +26,17 @@ import { createRequire } from 'node:module';
 import { rmsRadius, retrograde, axisWidth, rotationCurve, curveShape, meanSd, relDrift, relaxTime }
   from './lib-w275d-shapecrit.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+// 第281便a(原仮定者の裁定(第71報)・AN16・統括の検証項目 R71): **この器が読む html の領域**の宣言。
+//   `tests/lib-w281a-scope.mjs` がこの領域だけの hash(`scopeSha256`)を正本の meta に刻む。
+//   `lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が今の html で
+//   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
+//   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
+import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":"all","roots":["$","HP.allPresets","HP.currentPreset","HP.sim","HP.validatePreset","T","applyQLock","ch","ctx","isNum","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.W275D_TARGET || 'beta/index.html';
+const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const OUT = process.env.W275D_OUT || path.join(ROOT, 'tests', 'out', 'shapecrit-w275d.json');
 const PW_DIR = process.env.PLAYWRIGHT_CORE_DIR || '/home/user/dfm-simulator';
 const req = createRequire(path.join(PW_DIR, 'noop.js'));
@@ -489,6 +497,7 @@ const out = {
   summary, retries, pageErrors,
 };
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 await browser.close();
 console.log('wrote', OUT);

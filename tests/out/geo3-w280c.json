@@ -3,34 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便c",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T23:22:01.069Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T10:24:20.030Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T22:07:56.329Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2812542,
-    "sha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
-    "mtime": "2026-09-24T18:13:25.058Z"
+    "bytes": 2812516,
+    "sha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
+    "mtime": "2026-09-25T08:20:06.072Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "bytes": 140690,
-    "sha256": "0686498aa78be00926d1b802c0b912cf4b7fc59370af8848cef825367aa30841",
-    "mtime": "2026-09-24T17:15:31.942Z"
+    "bytes": 142172,
+    "sha256": "aae3fe0c2be2c7144cc1d219efd02549ad69c765ff9ab616c9db155b0542d0ff",
+    "mtime": "2026-09-25T07:23:14.465Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w280c-geo3.mjs",
-    "bytes": 30948,
-    "sha256": "3943b68cdc4be0e1deabf0bf1b4d5751b07f2d7a4a1e856ecea188e60bbec566",
-    "mtime": "2026-09-24T09:35:25.390Z"
+    "bytes": 32820,
+    "sha256": "f6886e45043b0c0fa7c71894a5bc92402f2bb0650dcb81799c7359d52510467b",
+    "mtime": "2026-09-25T06:28:51.043Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
@@ -51,7 +51,7 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "1a40dde05af23277957677226aedd91f0bd4c39e976b9f5e13eee27f2bfe8aee",
+  "codeSha256": "184dd58f1b5877a7e431eae55107b82dcb7d7d1723bcae8cdcd7440d98706f3e",
   "harnessVersion": "w280c-geo3-1",
   "quick": false,
   "part": null,
@@ -67,6 +67,114 @@
    "1PN を DFM から導出した",
    "新発見",
    "v1.45.0 RC を切った"
+  ],
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "alphaCenAB",
+    "alphaCenABDFM",
+    "charonGeoToy3",
+    "earthMoonRealKF1",
+    "emAuditDFM",
+    "emAuditNewton",
+    "gw150914DFM",
+    "jupiterGalilean",
+    "marsMoonsReal",
+    "mercury",
+    "mercuryGeoToy3",
+    "mercuryReal",
+    "neptuneReal",
+    "plutoCharonReal",
+    "psrB1534",
+    "psrB1534CF",
+    "psrB1534DFM",
+    "psrDoubleAB",
+    "psrDoubleABCF",
+    "psrDoubleABDFM",
+    "psrDoubleABPN",
+    "psrDoubleABSpinCal",
+    "psrJ1757CF",
+    "psrJ1757DFM",
+    "psrJ1757PN",
+    "psrJ1946CF",
+    "psrJ1946DFM",
+    "psrJ1946PN",
+    "qLockRadialAudit",
+    "qLockRadialAuditQ3",
+    "saturnZonalD68",
+    "siriusAB",
+    "siriusABDFM",
+    "venusReal"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coreState",
+    "HP.dfmComplexMomentsOf",
+    "HP.geo3HudText",
+    "HP.geo3InitVelocity",
+    "HP.loadPreset",
+    "HP.meshChipLabel",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "cv",
+    "dfmComplexMomentsOf",
+    "isNum",
+    "loadSave",
+    "presetSig",
+    "scaleExpT",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 966,
+   "segments": 886,
+   "closureShare": 0.3786
+  },
+  "scopeSha256": "198b978f1d38a1960e23375ed25f11d23cbe319a4b8a2ad399d42bf72303c7a1",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "ed8c5aea43c0cf640821852eada00ccf5083b9e4de25a5bef500a795e470ec26"
+   },
+   {
+    "file": "tests/out/bgbudget2-w279c.json",
+    "stableSha256": "571382d38c0b09f7b3047c9e10fa48847b68f9d19e93ec5107307428e06470aa"
+   }
+  ],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
   ]
  },
  "cases": {
@@ -137,7 +245,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.447
+       "wallSec": 2.301
       },
       "dt/2": {
        "steps": 5700398,
@@ -170,7 +278,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.102
+       "wallSec": 4.661
       }
      }
     },
@@ -209,7 +317,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.325
+       "wallSec": 2.285
       },
       "dt/2": {
        "steps": 5700398,
@@ -242,7 +350,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.63
+       "wallSec": 4.335
       }
      }
     },
@@ -281,7 +389,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.355
+       "wallSec": 2.155
       },
       "dt/2": {
        "steps": 5700398,
@@ -314,7 +422,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.553
+       "wallSec": 4.465
       }
      }
     },
@@ -357,7 +465,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.284
+       "wallSec": 9.245
       },
       "dt/2": {
        "steps": 5700398,
@@ -394,7 +502,7 @@
          "stop": null
         }
        },
-       "wallSec": 18.991
+       "wallSec": 18.411
       }
      }
     },
@@ -437,7 +545,7 @@
          "stop": null
         }
        },
-       "wallSec": 14.617
+       "wallSec": 14.782
       },
       "dt/2": {
        "steps": 5700398,
@@ -474,7 +582,7 @@
          "stop": null
         }
        },
-       "wallSec": 30.244
+       "wallSec": 29.584
       }
      }
     },
@@ -517,7 +625,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.909
+       "wallSec": 9.192
       },
       "dt/2": {
        "steps": 5700398,
@@ -554,7 +662,7 @@
          "stop": null
         }
        },
-       "wallSec": 17.636
+       "wallSec": 17.157
       }
      }
     },
@@ -597,7 +705,7 @@
          "stop": null
         }
        },
-       "wallSec": 12.908
+       "wallSec": 13.074
       },
       "dt/2": {
        "steps": 5700398,
@@ -634,7 +742,7 @@
          "stop": null
         }
        },
-       "wallSec": 26.29
+       "wallSec": 25.367
       }
      }
     },
@@ -677,7 +785,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.123
+       "wallSec": 7.939
       },
       "dt/2": {
        "steps": 5700398,
@@ -714,7 +822,7 @@
          "stop": null
         }
        },
-       "wallSec": 16.31
+       "wallSec": 16.059
       }
      }
     },
@@ -753,7 +861,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.162
+       "wallSec": 3.324
       },
       "dt/2": {
        "steps": 5700398,
@@ -786,7 +894,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.353
+       "wallSec": 6.209
       }
      }
     },
@@ -825,7 +933,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.955
+       "wallSec": 2.873
       },
       "dt/2": {
        "steps": 5700398,
@@ -858,7 +966,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.085
+       "wallSec": 5.758
       }
      }
     },
@@ -901,7 +1009,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.567
+       "wallSec": 9.968
       },
       "dt/2": {
        "steps": 5700398,
@@ -938,7 +1046,7 @@
          "stop": null
         }
        },
-       "wallSec": 20.779
+       "wallSec": 19.967
       }
      }
     }
@@ -1035,7 +1143,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 17.426
+       "wallSec": 18.207
       },
       "dt/2": {
        "steps": 41388996,
@@ -1068,7 +1176,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 35.231
+       "wallSec": 37.186
       }
      }
     },
@@ -1107,7 +1215,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 16.841
+       "wallSec": 17.324
       },
       "dt/2": {
        "steps": 41388996,
@@ -1140,7 +1248,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 33.399
+       "wallSec": 35.073
       }
      }
     },
@@ -1179,7 +1287,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 17.335
+       "wallSec": 17.105
       },
       "dt/2": {
        "steps": 41388996,
@@ -1212,7 +1320,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 34.275
+       "wallSec": 35.037
       }
      }
     },
@@ -1257,7 +1365,7 @@
          "stop": null
         }
        },
-       "wallSec": 91.254
+       "wallSec": 94.887
       },
       "dt/2": {
        "steps": 41388996,
@@ -1296,7 +1404,7 @@
          "stop": null
         }
        },
-       "wallSec": 185.655
+       "wallSec": 187.944
       }
      }
     },
@@ -1341,7 +1449,7 @@
          "stop": null
         }
        },
-       "wallSec": 64.488
+       "wallSec": 63.398
       },
       "dt/2": {
        "steps": 41388996,
@@ -1380,7 +1488,7 @@
          "stop": null
         }
        },
-       "wallSec": 128.541
+       "wallSec": 125.991
       }
      }
     },
@@ -1425,7 +1533,7 @@
          "stop": null
         }
        },
-       "wallSec": 56.59
+       "wallSec": 58.223
       },
       "dt/2": {
        "steps": 41388996,
@@ -1464,7 +1572,7 @@
          "stop": null
         }
        },
-       "wallSec": 112.904
+       "wallSec": 115.653
       }
      }
     }
@@ -1825,5 +1933,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 1030.18
+ "elapsedS": 1036.741
 }

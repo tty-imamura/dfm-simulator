@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第269便c(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T16:23:35.855Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T06:31:44.779Z",
   "code": [
    {
     "file": "tests/exp-w269c-sparc.mjs",
-    "bytes": 53388,
-    "sha256": "2bb5fbbdf6c8b263081acc429e6213535ec0fb2adb2ce57e95fe21480473f208",
-    "mtime": "2026-09-18T17:14:55.946Z"
+    "bytes": 54614,
+    "sha256": "04c3fe9214f640cd7f9fb1a6d3ed09043497fcf2810c1037353d3c34e30949fa",
+    "mtime": "2026-09-25T06:28:51.037Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
@@ -31,16 +31,16 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "8bea1b9291d1e98b7f65460a7498618cbe2f9a69c8b1680de4a81562443043b7",
-  "measuredAt": "2026-09-24T16:23:35.855Z",
+  "codeSha256": "c5f557504b2a7c4d480865f6d7649a7bd928dcd4d03411b294d9bcc967431134",
+  "measuredAt": "2026-09-25T06:31:44.779Z",
   "codeVersion": "tests/exp-w269c-sparc.mjs 第269便c",
   "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
@@ -71,7 +71,65 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 199.4
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "galaxy",
+    "ngc3198",
+    "ngc3198DFM"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "isNum",
+    "sim",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 966,
+   "segments": 886,
+   "closureShare": 0.3786
+  },
+  "scopeSha256": "168d008fe6fc472c6608687a1c4a465b815ec5812f3530e28e07cfd659bf9673",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ],
+  "spentSec": 197.4
  },
  "contract": {
   "①傾斜": "観測(SPARC Vobs)は**傾斜補正済み**である → 抽出した接線速度に **sin i を再びかけない**。CSV の inclination 行にも「SPARC Vobs is ALREADY DEPROJECTED - do not divide by sin(i) again」とある。",

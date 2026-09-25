@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第271便d(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T16:28:21.926Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T06:36:29.004Z",
   "code": [
    {
     "file": "tests/exp-w271d-galaxydiag.mjs",
-    "bytes": 48146,
-    "sha256": "d767b84ee19f0d1d671c16b2443969feefd7f151c1cd2ab4a505fd7ca074cc24",
-    "mtime": "2026-09-18T17:14:55.947Z"
+    "bytes": 49363,
+    "sha256": "e24a8b1b04e9348951748054e7deab99a37ee0b806da3c1049829372c6366b45",
+    "mtime": "2026-09-25T06:28:51.038Z"
    },
    {
     "file": "tests/lib-w269c-compare.mjs",
@@ -31,16 +31,16 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "d8852f13296406b7f8beb9d5fef2ca47846cd1a3a3a681fc75a49fa848d27807",
-  "measuredAt": "2026-09-24T16:28:21.927Z",
+  "codeSha256": "80fc495d523aba5379cd830e455c579c6da1a31ee86d2109f50fc31858b133e5",
+  "measuredAt": "2026-09-25T06:36:29.004Z",
   "codeVersion": "tests/exp-w271d-galaxydiag.mjs 第271便d",
   "declarationVersion": "compare-v1 / 第61報「提示された指摘を参考に改善/決断事項は概ね同意」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
@@ -71,7 +71,64 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 362.4
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "ngc3198",
+    "ngc3198DFM"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "isNum",
+    "sim",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 966,
+   "segments": 886,
+   "closureShare": 0.3786
+  },
+  "scopeSha256": "100da6029a1a6da2b0850d7eb3023e9b52ee9ac9849686135cb4f67fa6d97667",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ],
+  "spentSec": 356.2
  },
  "declaration": {
   "what": "**銀河の器の診断 3 本**(AF5 準定常窓 variant・AF7 clampSN の切り分け・AF19 N/seed 系列)。**主判定窓 T=40 は動かさない**(準定常窓は別 variant)。**clamp の上限 ±40 は変えない**(本器は**数えるだけ**である)。**観測残差を見て窓・帯・seed を選ばない。**",

@@ -674,3 +674,26 @@ tests/.qa-preflight-*.mjs
 !tests/out/charoninput-w280d.json
 tests/out/charoninput-w280d.json.partial
 tests/out/charoninput-w280d-pilot.json
+# 第281便b(原仮定者の裁定(第71報)「銀河の引きずり(座標変換)の分布を確認する」・統括の読み R72/R73): **銀河連鎖便**の正本 2 本
+#   (tests/exp-w281b-galaxychain.mjs —— 場の契約の 3 列の半径表・🎋 の連鎖の実測・R_edge・中心応答 / 純関数 tests/lib-w281b-chain.mjs の
+#   有限予算の交換模型の帳簿)。QA docs.galaxyFieldContract・behavior.chainLedger・docs.galaxyChain が読み、lint.provenanceMeta が
+#   来歴を固定するのでコミットする。**境界の発見でも較正でもない**(R_edge は診断量)。
+!tests/out/galaxychain-w281b.json
+!tests/out/chainledger-w281b.json
+# 第281便d(原仮定者の裁定(第71報)「ナビエ・ストークス方程式の渦伸長が渦巻銀河の腕に似ているので参考にする」・統括の読み R75):
+#   **渦伸長便**の正本(tests/exp-w281d-strain.mjs —— 2D で渦伸長項が 0 の数値・ひずみ率の純関数の単体試験・🎠 の初期場の
+#   2 読み手の S/ω/伸び・galaxyproto/corefield の既存正本の読み)。QA behavior.strainPure・docs.vortexStretch が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする。**エンジン未接続・門ではない**。
+!tests/out/strain-w281d.json
+# 第281便c(原仮定者の裁定(第71報)「浮遊惑星の質量算出根拠を調べ、ダークローターを恒星質量程度に調整して当てはめる」・統括の検証項目 R74):
+#   **条件付き質量台帳・η 対照・減光と偏向の分離**の正本(tests/exp-w281c-rotorledger.mjs —— Node だけで html を読む)。
+#   QA docs.rotorLedger・preset.massLedger が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**。
+!tests/out/rotorledger-w281c.json
+# 第281便a(原仮定者の裁定(第71報)・AN16 採用・統括の検証項目 R71): **❄️ 対照系列の履歴列**(C2/C4/C7 の全段と、
+#   h4 段を C0/C1/C6 に絞ったことで現行から外れた C3/C5/S の h4 段)の正本。tests/exp-w281a-charonsplit.mjs が
+#   基点コミット 53aaa64 の charon-w272b.json から**値を 1 つも変えずに 1 度だけ**写した(`role:"history"`・`frozen:true`・
+#   targetSha256 は写し元の走行が読んだ html の hash のまま)。**再生成しない・現行の結論に昇格させない**。
+#   QA docs.charonSeries(履歴列の本数)と lint.regenScope(履歴の正本がどの現行正本の入力にもなっていない)が読むのでコミットする
+!tests/out/charon-history-w272b.json
+# 第281便a: 再生成の計画(tools/regen-plan.mjs --out)は手元の作業物(コミットしない —— 統括の chain が読む)
+tests/out/regen-plan-w281a.json

@@ -39,9 +39,18 @@ import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { richardson3 } from './lib-w265a-analogy.mjs';
 import { lockDeclaration, sigmaTimes, signedSynchrony, SIGN_CONVENTION_JA } from './lib-w272c-binlock.mjs';
+// 第281便a(原仮定者の裁定(第71報)・AN16・統括の検証項目 R71): **この器が読む html の領域**の宣言。
+//   `tests/lib-w281a-scope.mjs` がこの領域だけの hash(`scopeSha256`)を正本の meta に刻む。
+//   `lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が今の html で
+//   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
+//   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
+import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+import { provenanceMeta as w281aProv } from './lib-w272e-provenance.mjs';
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","galaxy","psrB1534DFM","psrDoubleABDFM","psrJ1757DFM","psrJ1946DFM","siriusAB","siriusABDFM"],"roots":["$","HP.allPresets","HP.sim","HP.validatePreset","applyQLock","ch","clamp","ctx","isNum","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
+const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT = path.join(ROOT, 'tests', 'out', 'nslock-w272c.json');
 const SRC265 = path.join(ROOT, 'tests', 'out', 'kjoint2-w265a.json');
@@ -418,6 +427,7 @@ for (const sys of SYSTEMS) {
       + `  e=${ge.map((z) => z === null ? '—' : z.toFixed(6)).join('/')}`
       + `  [${((Date.now() - tAll) / 1000).toFixed(0)} s]`);
     fs.mkdirSync(path.dirname(OUT), { recursive: true });
+    Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, ['tests/out/kjoint2-w265a.json']), (({ code, codeSha256 }) => ({ code, codeSha256 }))(w281aProv({ root: ROOT, target: TARGET, code: ['tests/exp-w272c-nslock.mjs', 'tests/lib-w265a-analogy.mjs', 'tests/lib-w272c-binlock.mjs'] })));   // 第281便a: 領域 hash の 3 欄 + 入力の安定 hash + 器と lib の刻印
     fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
   }
 }
@@ -429,5 +439,6 @@ out.meta.stages = nStage;
 out.pageErrors = pageErrors;
 await browser.close();
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, ['tests/out/kjoint2-w265a.json']), (({ code, codeSha256 }) => ({ code, codeSha256 }))(w281aProv({ root: ROOT, target: TARGET, code: ['tests/exp-w272c-nslock.mjs', 'tests/lib-w265a-analogy.mjs', 'tests/lib-w272c-binlock.mjs'] })));   // 第281便a: 領域 hash の 3 欄 + 入力の安定 hash + 器と lib の刻印
 fs.writeFileSync(OUT, JSON.stringify(out, null, 1));
 console.error('[w272c-nslock] wrote ' + OUT + '  (' + out.meta.spentSec + ' s / ' + nStage + ' 段)');

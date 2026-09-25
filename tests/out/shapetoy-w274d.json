@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便d(第64報・安定サンプル)",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T16:39:37.017Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T06:47:32.313Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w274d-shapetoy.mjs",
-    "bytes": 30350,
-    "sha256": "19e45eec72f696bb60c63df03f3c8bcf76d9f7de3ba50960959e73815a9b9acc",
-    "mtime": "2026-09-19T23:05:46.554Z"
+    "bytes": 31627,
+    "sha256": "05f972bf074027b1c808e68ce6a3609ecf09b1584c68ea5e5f9d83a46ad41641",
+    "mtime": "2026-09-25T06:28:51.040Z"
    },
    {
     "file": "tests/lib-w274d-shapetoy.mjs",
@@ -33,7 +33,66 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "3be1e4aa612c1a70754d67b72bd6375d9eebb97f4cf52147f4ca3f54679757f9"
+  "codeSha256": "811de84bdd21ba3630f447e47e5b91ddec0c833d1292fe0fb2133b970cc5f16f",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "shapeToyArm",
+    "shapeToyCluster",
+    "shapeToyDisk"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.currentPreset",
+    "HP.shapeToyDisc",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "ctx",
+    "isNum",
+    "shapeToyDisc",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 966,
+   "segments": 886,
+   "closureShare": 0.3786
+  },
+  "scopeSha256": "50cc684ee0d757f986b249966df621ca22b53a9bf3e9bffc5f906ea13ab3bc4a",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ]
  },
  "section": "形状トイ(指定した 3D 正規分布を定常分布に持つ参照モデル)の完成判定",
  "notCalibration": "**較正ではない**。観測された星団・銀河・渦状腕の量を 1 つも入力していない。「銀河が安定した」「腕が創発した」「DFM から正規分布が創発した」とは書かない —— **指定した形状を定常分布に持つように作った参照モデル**の数である。",

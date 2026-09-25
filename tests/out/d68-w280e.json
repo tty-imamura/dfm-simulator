@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便e",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T16:26:20.843Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T06:34:22.128Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -22,9 +22,9 @@
   "code": [
    {
     "file": "tests/exp-w280e-d68.mjs",
-    "bytes": 26127,
-    "sha256": "7bb21f36732d82cb9119381a4f02987f3c191d8c14e6c6241397e92427d4411b",
-    "mtime": "2026-09-24T08:50:10.785Z"
+    "bytes": 27340,
+    "sha256": "5404c38720369475cbbd95878d6189a61d1e0cfcd4b43df470876c7da3cd1422",
+    "mtime": "2026-09-25T06:28:51.044Z"
    },
    {
     "file": "tests/lib-w280e-d68.mjs",
@@ -51,7 +51,62 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "fe9b53a2c6e038997e9a51f47e0f7fae5f9ee5147b6078ac4f1cf4db6b7ad4f5"
+  "codeSha256": "dc894f3d087b367b7f371d16f6c305a37b5439dde537f447574757df2298b244",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": "all",
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ZONAL_P0",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "isNum",
+    "scaleExpT",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 966,
+   "segments": 886,
+   "closureShare": 0.3786
+  },
+  "scopeSha256": "272f75f44aef2d7f31fd22be85732f21790b731e8ad8640e36720a56d33a481e",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ]
  },
  "declaration": {
   "window": {
@@ -501,7 +556,7 @@
      "nSigma": -14.623148302875334,
      "rMinKm": 64244.29089787581,
      "rMaxKm": 71356.18240104585,
-     "wallSec": 4.532,
+     "wallSec": 4.386,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -540,7 +595,7 @@
      "nSigma": -14.6074034802781,
      "rMinKm": 64244.333117883034,
      "rMaxKm": 71356.1173454406,
-     "wallSec": 7.8,
+     "wallSec": 7.816,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -579,7 +634,7 @@
      "nSigma": -14.603411410167835,
      "rMinKm": 64244.34295503485,
      "rMaxKm": 71356.1011032169,
-     "wallSec": 15.54,
+     "wallSec": 15.042,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -636,7 +691,7 @@
      "nSigma": -14.660315263933764,
      "rMinKm": 64245.58982969157,
      "rMaxKm": 71355.88097294293,
-     "wallSec": 0.757,
+     "wallSec": 0.78,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -675,7 +730,7 @@
      "nSigma": -14.644758872206825,
      "rMinKm": 64245.63495728215,
      "rMaxKm": 71355.815676948,
-     "wallSec": 1.433,
+     "wallSec": 1.411,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -714,7 +769,7 @@
      "nSigma": -14.640863438512605,
      "rMinKm": 64245.64623931174,
      "rMaxKm": 71355.79929437024,
-     "wallSec": 2.747,
+     "wallSec": 2.845,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -771,7 +826,7 @@
      "nSigma": -14.642098012795689,
      "rMinKm": 64245.41088610225,
      "rMaxKm": 71355.8398761393,
-     "wallSec": 10.681,
+     "wallSec": 9.793,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -810,7 +865,7 @@
      "nSigma": -14.626487249953428,
      "rMinKm": 64245.455155065574,
      "rMaxKm": 71355.77433837498,
-     "wallSec": 20.378,
+     "wallSec": 20.016,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -849,7 +904,7 @@
      "nSigma": -14.622564383727669,
      "rMinKm": 64245.46603643921,
      "rMaxKm": 71355.75783629665,
-     "wallSec": 39.989,
+     "wallSec": 38.678,
      "state0": {
       "n": 11,
       "eps": 0.05,
@@ -907,7 +962,7 @@
      "nSigma": -14.441790381720919,
      "rMinKm": 64244.29090866494,
      "rMaxKm": 71356.05744827466,
-     "wallSec": 3.689,
+     "wallSec": 3.328,
      "state0": {
       "n": 11,
       "eps": 0.01,
@@ -946,7 +1001,7 @@
      "nSigma": -14.426069853660701,
      "rMinKm": 64244.333317528246,
      "rMaxKm": 71355.99261863824,
-     "wallSec": 7.4,
+     "wallSec": 6.7,
      "state0": {
       "n": 11,
       "eps": 0.01,
@@ -985,7 +1040,7 @@
      "nSigma": -14.42208997403395,
      "rMinKm": 64244.34323484534,
      "rMaxKm": 71355.97648194434,
-     "wallSec": 14.791,
+     "wallSec": 13.844,
      "state0": {
       "n": 11,
       "eps": 0.01,
@@ -1043,7 +1098,7 @@
      "nSigma": -14.664128410754326,
      "rMinKm": 64245.58982966673,
      "rMaxKm": 71355.8772692336,
-     "wallSec": 0.811,
+     "wallSec": 0.738,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -1082,7 +1137,7 @@
      "nSigma": -14.648597322361486,
      "rMinKm": 64245.63495727186,
      "rMaxKm": 71355.81218723244,
-     "wallSec": 1.386,
+     "wallSec": 1.314,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -1121,7 +1176,7 @@
      "nSigma": -14.644714549423036,
      "rMinKm": 64245.64623931019,
      "rMaxKm": 71355.79591658739,
-     "wallSec": 2.862,
+     "wallSec": 2.473,
      "state0": {
       "n": 2,
       "eps": 0.05,
@@ -1179,7 +1234,7 @@
      "nSigma": -14.475058674805558,
      "rMinKm": 64245.589828562996,
      "rMaxKm": 71355.75955149012,
-     "wallSec": 0.732,
+     "wallSec": 0.665,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1218,7 +1273,7 @@
      "nSigma": -14.459502120493836,
      "rMinKm": 64245.634957000024,
      "rMaxKm": 71355.69423736286,
-     "wallSec": 1.466,
+     "wallSec": 1.328,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1257,7 +1312,7 @@
      "nSigma": -14.455606645397374,
      "rMinKm": 64245.6462392412,
      "rMaxKm": 71355.67786543914,
-     "wallSec": 2.87,
+     "wallSec": 2.827,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1316,7 +1371,7 @@
      "nSigma": -14.478871822354463,
      "rMinKm": 64245.58982853814,
      "rMaxKm": 71355.75584117052,
-     "wallSec": 0.676,
+     "wallSec": 0.64,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1355,7 +1410,7 @@
      "nSigma": -14.46334056978569,
      "rMinKm": 64245.63495699378,
      "rMaxKm": 71355.69075826331,
-     "wallSec": 1.444,
+     "wallSec": 1.259,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1394,7 +1449,7 @@
      "nSigma": -14.459457751812623,
      "rMinKm": 64245.64623923652,
      "rMaxKm": 71355.6744873952,
-     "wallSec": 2.747,
+     "wallSec": 2.495,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1473,7 +1528,7 @@
      "nSigma": -0.02352431082870781,
      "rMinKm": 67556.59349866354,
      "rMaxKm": 67697.43298490808,
-     "wallSec": 0.748,
+     "wallSec": 0.686,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1512,7 +1567,7 @@
      "nSigma": -0.008079126079862674,
      "rMinKm": 67558.66743839103,
      "rMaxKm": 67695.34189833686,
-     "wallSec": 1.358,
+     "wallSec": 1.292,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1551,7 +1606,7 @@
      "nSigma": -0.004211505404693636,
      "rMinKm": 67559.19591585292,
      "rMaxKm": 67694.80908759542,
-     "wallSec": 2.879,
+     "wallSec": 2.683,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1630,7 +1685,7 @@
      "nSigma": -0.033519728650719186,
      "rMinKm": 67595.25016702262,
      "rMaxKm": 67658.7762627526,
-     "wallSec": 0.679,
+     "wallSec": 0.674,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1669,7 +1724,7 @@
      "nSigma": -0.018081188322801728,
      "rMinKm": 67600.15246577741,
      "rMaxKm": 67653.85685120858,
-     "wallSec": 1.368,
+     "wallSec": 1.336,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1708,7 +1763,7 @@
      "nSigma": -0.01421482931474388,
      "rMinKm": 67601.52551438886,
      "rMaxKm": 67652.47947739632,
-     "wallSec": 2.75,
+     "wallSec": 2.627,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1771,7 +1826,7 @@
      "nSigma": -1.469276096814037,
      "rMinKm": 67556.59355189845,
      "rMaxKm": 67697.43293104971,
-     "wallSec": 0.65,
+     "wallSec": 0.66,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1810,7 +1865,7 @@
      "nSigma": -1.453831243297435,
      "rMinKm": 67558.66745209298,
      "rMaxKm": 67695.34188440914,
-     "wallSec": 1.341,
+     "wallSec": 1.318,
      "state0": {
       "n": 2,
       "eps": 0.01,
@@ -1849,7 +1904,7 @@
      "nSigma": -1.449963858381221,
      "rMinKm": 67559.19591930785,
      "rMaxKm": 67694.80908414228,
-     "wallSec": 3.03,
+     "wallSec": 2.712,
      "state0": {
       "n": 2,
       "eps": 0.01,

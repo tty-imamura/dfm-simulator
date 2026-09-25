@@ -10,13 +10,13 @@
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "6bb5ba8ff75f4ce379a688feea31dbbb581758120e7c66c1c7ba65265adb1264",
+  "mergeKey": "76e72cad5e58d8437ea5455942c1b8d889160873943a35baafc8e7459a795169",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+   "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
-   "obsSha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
+   "obsSha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -45,7 +45,7 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-09-24T21:36:59.470Z",
+  "generatedAt": "2026-09-25T09:53:30.472Z",
   "pilot": false,
   "stage": "h",
   "dt": 0.016,
@@ -158,7 +158,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f"
+   "calauditSha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49"
   },
   "builtinUnchanged": {
    "m": [
@@ -186,33 +186,33 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2812542,
-    "sha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
-    "mtime": "2026-09-24T18:13:25.058Z"
+    "bytes": 2812516,
+    "sha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
+    "mtime": "2026-09-25T08:20:06.072Z"
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "bytes": 140090,
-    "sha256": "83ae620742b8e23925cc56503bbd06969011fc153b25feeff63b5c230a29b413",
-    "mtime": "2026-09-24T21:31:49.682Z"
+    "bytes": 148320,
+    "sha256": "de3a6b2e9fc7c13d93ed9f7f4abe121afc55408e0a4b5b9795c3cbf2e3e0cf74",
+    "mtime": "2026-09-25T09:48:19.640Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w276b-charonfactors.mjs",
-    "bytes": 37728,
-    "sha256": "424eb6ff0d2472e95930a7341a28ac1b76b060aed786876c13a38d1c1ecbd31d",
-    "mtime": "2026-09-21T14:49:00.094Z"
+    "bytes": 39036,
+    "sha256": "0775289c6fcad3fc5fb703ebb8c0445d2ae2562830cbc7fb382bfe96cdaa5139",
+    "mtime": "2026-09-25T06:28:51.040Z"
    },
    {
     "file": "tests/lib-w276b-charonfactors.mjs",
@@ -245,12 +245,82 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "ad23879d0d931e6e9abdce2e4d5452bffa962540ef592838cda7fbf858f7ec55"
+  "codeSha256": "43069d43a15ff6d5bfc0335d1788f9a1ffea3775daa0ab5f48eb0cf713be1ce5",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "plutoCharonReal"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.allPresets",
+    "HP.dfmBinaryChi",
+    "HP.dfmBinaryMassFactor",
+    "HP.dfmBinaryMassFactorLinear",
+    "HP.sim",
+    "HP.validatePreset",
+    "SCALE_DIMS",
+    "T",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "isNum",
+    "scaleExpT",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 972,
+   "segments": 892,
+   "closureShare": 0.3797
+  },
+  "scopeSha256": "fdebaf272e694efd2bc45d7e63f3f127d996932c0e23e7465777c448190a44e6",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "ed8c5aea43c0cf640821852eada00ccf5083b9e4de25a5bef500a795e470ec26"
+   },
+   {
+    "file": "tests/out/charoneps-w276b.json",
+    "stableSha256": "2135bb2b5f0ea7748aa633830bc8f3048e59361987818ff56d1e43701992ac33"
+   }
+  ],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ]
  },
  "epsilonSeries": {
   "from": "tests/out/charoneps-w276b.json",
-  "sha256": "83ae620742b8e23925cc56503bbd06969011fc153b25feeff63b5c230a29b413",
-  "generatedAt": "2026-09-24T21:31:49.636Z",
+  "sha256": "de3a6b2e9fc7c13d93ed9f7f4abe121afc55408e0a4b5b9795c3cbf2e3e0cf74",
+  "generatedAt": "2026-09-25T09:48:19.462Z",
   "rows": [
    {
     "id": "E_diag_e0.01",
@@ -991,7 +1061,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 17.733,
+   "wallSec": 18.03,
    "rev2Sec": 551864.0607197867,
    "revN": 60,
    "residSec": 7.621999786701053,
@@ -1040,7 +1110,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694906,
-   "wallSec": 51.926,
+   "wallSec": 52.136,
    "rev2Sec": 551864.3107686872,
    "revN": 60,
    "residSec": 7.872048687189817,
@@ -1089,7 +1159,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694899,
-   "wallSec": 24.198,
+   "wallSec": 24.275,
    "rev2Sec": 551864.0244730314,
    "revN": 60,
    "residSec": 7.585753031424247,
@@ -1138,7 +1208,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694909,
-   "wallSec": 23.913,
+   "wallSec": 23.602,
    "rev2Sec": 551864.3919203099,
    "revN": 60,
    "residSec": 7.953200309886597,
@@ -1187,7 +1257,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 24.35,
+   "wallSec": 24.448,
    "rev2Sec": 551864.0696643571,
    "revN": 60,
    "residSec": 7.630944357137196,
@@ -1236,7 +1306,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694901,
-   "wallSec": 23.926,
+   "wallSec": 24.463,
    "rev2Sec": 551864.0068660924,
    "revN": 60,
    "residSec": 7.568146092467941,
@@ -1285,7 +1355,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20695300,
-   "wallSec": 51.707,
+   "wallSec": 51.131,
    "rev2Sec": 551889.1192711734,
    "revN": 60,
    "residSec": 32.68055117339827,
@@ -1334,7 +1404,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 18.28,
+   "wallSec": 18.373,
    "rev2Sec": 551864.0607197867,
    "revN": 60,
    "residSec": 7.621999786701053,
@@ -1383,7 +1453,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20692453,
-   "wallSec": 24.236,
+   "wallSec": 24.287,
    "rev2Sec": 551805.6249443649,
    "revN": 60,
    "residSec": -50.81377563509159,
@@ -1432,7 +1502,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694659,
-   "wallSec": 24.755,
+   "wallSec": 24.066,
    "rev2Sec": 551858.223692625,
    "revN": 60,
    "residSec": 1.7849726249696687,
@@ -1481,7 +1551,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694878,
-   "wallSec": 23.787,
+   "wallSec": 23.964,
    "rev2Sec": 551863.477051512,
    "revN": 60,
    "residSec": 7.038331512012519,

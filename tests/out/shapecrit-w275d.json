@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便d(第65報・安定サンプル 2)",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T16:42:42.234Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T06:50:35.984Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w275d-shapecrit.mjs",
-    "bytes": 30070,
-    "sha256": "ae282e459d483742dce6d9146b30d9f900c74ca79e318a04462c4e57b59e0ad2",
-    "mtime": "2026-09-21T13:10:53.815Z"
+    "bytes": 31271,
+    "sha256": "bea712a4abbb6f2a1965f374e59230774dca5a5ef579eb970a5fa36aa86b320a",
+    "mtime": "2026-09-25T06:28:51.040Z"
    },
    {
     "file": "tests/lib-w275d-shapecrit.mjs",
@@ -33,7 +33,60 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "55bfe4a2fd2cae2a897dc2c59d92a21efdca5b85acf8f5df1856521bf16ef3c7"
+  "codeSha256": "338e8805a763320d1cea381b5c73610f375775566239bbd1ed7c6c5da9084bed",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": "all",
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.currentPreset",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "ctx",
+    "isNum",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 966,
+   "segments": 886,
+   "closureShare": 0.3786
+  },
+  "scopeSha256": "8a0a309768bb62099789232b929c57a420efc7e513df988a13fc23f21797bd59",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ]
  },
  "section": "形状トイの安定・低分散・銀河らしさの判定(第65報 (4)(5)(6))",
  "notCalibration": "**較正ではない**。観測された星団・銀河・渦状腕の量を 1 つも入力していない。「銀河が安定した」「腕が創発した」とは書かない —— **指定した形状を定常分布に持つ参照モデル**の数である。",

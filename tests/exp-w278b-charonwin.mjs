@@ -30,9 +30,17 @@ import { withProvenance } from './lib-w272e-provenance.mjs';
 import { BUIE_2012, ELEM_2024, HORIZONS_PR, PRECISE_UNITS, pairSlipStep, totalsOf,
   syncCircularPair } from './lib-w277b-charondfm.mjs';
 import { MIDPOINT_LIB_VERSION, pairSlipMidpointStep, minimalPair, midpointGuard } from './lib-w278b-midpoint.mjs';
+// 第281便a(原仮定者の裁定(第71報)・AN16・統括の検証項目 R71): **この器が読む html の領域**の宣言。
+//   `tests/lib-w281a-scope.mjs` がこの領域だけの hash(`scopeSha256`)を正本の meta に刻む。
+//   `lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が今の html で
+//   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
+//   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
+import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["plutoCharonDFM","plutoCharonKF0Control"],"roots":["$","HP.allPresets","HP.dfmRelativeDragStep","HP.relativeDragProbe","HP.sim","HP.validatePreset","T","applyQLock","ch","ctx","dfmRelativeDragMidpointStep","dfmRelativeDragStep","isNum","relativeDragMidpointGuard","relativeDragMidpointSolve","relativeDragProbe","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
+const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const INDEX = 'file://' + path.join(ROOT, TARGET);
 const OUT = path.join(ROOT, 'tests', 'out', 'charonwin-w278b.json');
 const HARNESS_VERSION = 'w278b-charonwin-2';   // -2: 周の数え方を位相の直接判定へ(足し込みの丸め段差を除く)
@@ -388,6 +396,7 @@ const meta = withProvenance({
 
 const out = { meta, pure, engine, tables, pageErrors };
 fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
 fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 1));
 try { fs.unlinkSync(OUT_PATH + '.partial'); } catch { /* 無ければよい */ }
 console.log('wrote', path.relative(ROOT, OUT_PATH), 'sha256', sha(fs.readFileSync(OUT_PATH)).slice(0, 16));

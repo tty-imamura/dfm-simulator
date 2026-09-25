@@ -1,0 +1,277 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第281便c",
+  "target": "beta/index.html",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T10:25:33.520Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w281c-rotorledger.mjs",
+    "bytes": 9114,
+    "sha256": "6d5be9ca2e02c92553ce3f8752b5bf203293f5e76698dbbb80c4ca69b287c486",
+    "mtime": "2026-09-25T04:06:25.635Z"
+   },
+   {
+    "file": "tests/lib-w281c-rotorledger.mjs",
+    "bytes": 11452,
+    "sha256": "0127aa123cbd2226cb29782f2626c108e4bf987f2e815908b65bb24a736572c1",
+    "mtime": "2026-09-25T04:06:25.635Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-23T22:41:00.738Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "58f1750bda8fac6d5cd0d8ef04c78a4d1697e6b3aedc1f0155144c6dc2033632"
+ },
+ "note": "条件付き台帳(仮定の 3 シナリオ)と η 対照(仮説)。観測との一致や検出を主張しない。較正母集団に入れない。🛞 の既定は追加 0(現状)。",
+ "sources": {
+  "nasa": "https://www.nasa.gov/missions/roman-space-telescope/new-study-reveals-nasas-roman-could-find-400-earth-mass-rogue-planets/",
+  "arxiv": [
+   "2303.08279",
+   "2303.08280",
+   "2507.13794"
+  ],
+  "retrieved": "未取得(番号のみ)—— 値は統括の検証項目 R74 の転記"
+ },
+ "constants": {
+  "GM_SUN": 132712440000000000000,
+  "GM_EARTH": 398600400000000,
+  "C": 299792458,
+  "AU": 149597870700,
+  "M_SUN_KG": 1.9885e+30,
+  "MAS_PER_RAD": 206264806.24709636,
+  "AU_PER_KPC": 206264806.24709636,
+  "earthPerSun": 0.0000030034893488507934,
+  "kappaMasPerSun": 8.14385327673037
+ },
+ "groups": {
+  "starN": 200,
+  "starMEach": 3.7994909513377677,
+  "fStar": 1.9997320796514568,
+  "starEff": 759.8981902675536,
+  "starBase": 380,
+  "starBaseEach": 1.9,
+  "gasN": 100,
+  "gasMEach": 2.875,
+  "gas": 287.5,
+  "core": 100,
+  "unitKg": 1e+38,
+  "totalUnit": 1147.3981902675537
+ },
+ "built": {
+  "n": 301,
+  "star": 759.8981857299805,
+  "gas": 287.5,
+  "core": 100,
+  "total": 1147.3981857299805,
+  "note": "質量配列は Float32 —— 宣言値との差は丸めの分(台帳は宣言値で計算する)"
+ },
+ "ledger": {
+  "mStarSun": 0.5,
+  "nRatio": 20,
+  "mSunKg": 1.9885e+30,
+  "rotorInFStar": false,
+  "starBaseSun": 19109881820.46769,
+  "nStars": 38219763640.93538,
+  "nRotor": 764395272818.7075,
+  "current": {
+   "totalUnit": 1147.3981902675537,
+   "totalSun": 57701694255.345924,
+   "mRotorUnit": 0
+  },
+  "rows": [
+   {
+    "mRotorSun": 0.1,
+    "nRotor": 764395272818.7075,
+    "mRotorUnit": 1520,
+    "mRotorSunTot": 76439527281.87076,
+    "totalUnit": 2667.3981902675537,
+    "totalSun": 134141221537.21667,
+    "ratioToCurrent": 2.324736271063459,
+    "rotorOverStarBase": 4
+   },
+   {
+    "mRotorSun": 1,
+    "nRotor": 764395272818.7075,
+    "mRotorUnit": 15199.999999999998,
+    "mRotorSunTot": 764395272818.7075,
+    "totalUnit": 16347.398190267551,
+    "totalSun": 822096967074.0533,
+    "ratioToCurrent": 14.247362710634585,
+    "rotorOverStarBase": 39.99999999999999
+   },
+   {
+    "mRotorSun": 10,
+    "nRotor": 764395272818.7075,
+    "mRotorUnit": 152000,
+    "mRotorSunTot": 7643952728187.075,
+    "totalUnit": 153147.39819026756,
+    "totalSun": 7701654422442.422,
+    "ratioToCurrent": 133.47362710634587,
+    "rotorOverStarBase": 400
+   }
+  ]
+ },
+ "ffpObs": {
+  "totalEarthPerStar": 80,
+  "plus": 73,
+  "minus": 47,
+  "nPerStar": 21,
+  "nPlus": 23,
+  "nMinus": 13,
+  "massRangeEarth": [
+   0.33,
+   6660
+  ],
+  "fracOfStarMass": 0.0004805582958161269,
+  "addUnit": 0.1826121524101282,
+  "addUnitLo": 0.0753275128691779,
+  "addUnitHi": 0.34924574148437026,
+  "totalUnit": 1147.580802419964
+ },
+ "eta": {
+  "mLens075": {
+   "tEDays": 0.057,
+   "thetaEMuas": 0.9,
+   "mLensEarth": 0.75,
+   "mLensSun": 0.000002252617011638095,
+   "kappaMasPerSun": 8.14385327673037,
+   "dsKpc": 8,
+   "piRelObsMas": 0.044153762644736895,
+   "dLObsKpc": 5.911780999517212,
+   "muRelMasYr": 5.7671052631578945,
+   "rows": [
+    {
+     "mRotorSun": 0.1,
+     "eta": 0.00002252617011638095,
+     "tEDaysEta1": 12.009672815348464,
+     "thetaEMuasEta1": 189.6264128739231,
+     "piRelMasForSameThetaE": 9.946151686136497e-7,
+     "losGapAU": 13129.758250395394
+    },
+    {
+     "mRotorSun": 1,
+     "eta": 0.000002252617011638095,
+     "tEDaysEta1": 37.97792004990794,
+     "thetaEMuasEta1": 599.6513692090726,
+     "piRelMasForSameThetaE": 9.946151686136498e-8,
+     "losGapAU": 1312.9852275528938
+    },
+    {
+     "mRotorSun": 10,
+     "eta": 2.2526170116380952e-7,
+     "tEDaysEta1": 120.09672815348463,
+     "thetaEMuasEta1": 1896.2641287392312,
+     "piRelMasForSameThetaE": 9.946151686136498e-9,
+     "losGapAU": 131.29861678116356
+    }
+   ]
+  },
+  "mLens037": {
+   "tEDays": 0.057,
+   "thetaEMuas": 0.9,
+   "mLensEarth": 0.37,
+   "mLensSun": 0.0000011112910590747936,
+   "kappaMasPerSun": 8.14385327673037,
+   "dsKpc": 8,
+   "piRelObsMas": 0.08950087022581803,
+   "dLObsKpc": 4.6619857483433025,
+   "muRelMasYr": 5.7671052631578945,
+   "rows": [
+    {
+     "mRotorSun": 0.1,
+     "eta": 0.000011112910590747936,
+     "tEDaysEta1": 17.09861546858913,
+     "thetaEMuasEta1": 269.97813897772306,
+     "piRelMasForSameThetaE": 9.946151686136497e-7,
+     "losGapAU": 13129.758250395394
+    },
+    {
+     "mRotorSun": 1,
+     "eta": 0.0000011112910590747936,
+     "tEDaysEta1": 54.07056971612889,
+     "thetaEMuasEta1": 853.7458376230877,
+     "piRelMasForSameThetaE": 9.946151686136498e-8,
+     "losGapAU": 1312.9852275528938
+    },
+    {
+     "mRotorSun": 10,
+     "eta": 1.1112910590747936e-7,
+     "tEDaysEta1": 170.98615468589128,
+     "thetaEMuasEta1": 2699.7813897772307,
+     "piRelMasForSameThetaE": 9.946151686136498e-9,
+     "losGapAU": 131.29861678116356
+    }
+   ]
+  }
+ },
+ "declaration": {
+  "present": true,
+  "warnings": [],
+  "maxRel": 1.1967035549643792e-16,
+  "rows": 3,
+  "defaultScenario": "none",
+  "rotorInFStar": false,
+  "identityRel": 1.112708812971103e-16
+ },
+ "declaredPresets": [
+  "ngc3198DFM"
+ ],
+ "lightSweepVsDeflection": {
+  "preset": "darkrotor",
+  "rays": 31,
+  "lswDeclaredFirst3": [
+   1,
+   1,
+   1
+  ],
+  "heavyBodies": 3,
+  "maxDeflectionRad": 3.1043965825780213,
+  "sameDeclVsZero": true,
+  "sameDeclVsOne": true
+ },
+ "lensMassCoupling": {
+  "rows": [
+   {
+    "m": 10,
+    "impactB": 150,
+    "deflectionRad": -0.0044436387959585774,
+    "lswInvariant": true
+   },
+   {
+    "m": 20,
+    "impactB": 150,
+    "deflectionRad": -0.008917123184328458,
+    "lswInvariant": true
+   },
+   {
+    "m": 40,
+    "impactB": 150,
+    "deflectionRad": -0.01795512845179926,
+    "lswInvariant": true
+   }
+  ],
+  "ratio2x": 2.0067164757942177,
+  "ratio4x": 4.040636351480498
+ },
+ "headlessMs": 165,
+ "headlessErrors": 0
+}

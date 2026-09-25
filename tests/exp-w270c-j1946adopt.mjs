@@ -32,9 +32,17 @@ import crypto from 'node:crypto';
 import { shiftedRichardson } from './lib-w262c-refint.mjs';
 // 第272便e(AG11): 来歴(inputs・code・codeSha256)は共通の 1 本で作る。
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
+// 第281便a(原仮定者の裁定(第71報)・AN16・統括の検証項目 R71): **この器が読む html の領域**の宣言。
+//   `tests/lib-w281a-scope.mjs` がこの領域だけの hash(`scopeSha256`)を正本の meta に刻む。
+//   `lint.provenanceMeta` ② は「targetSha256 一致 **または**(scopeComplete かつ scopeSha256 が今の html で
+//   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
+//   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
+import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
+const REGEN_SCOPE = {"presets":["psrJ1946CF","psrJ1946DFM","psrJ1946PN"],"roots":["$","HP.allPresets","HP.dfmBinaryMassFactor","HP.dfmBinaryMassFactorLinear","HP.sim","HP.validatePreset","T","applyQLock","ch","ctx","fmt","isNum","presetSig","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
+const W281A_SCOPE = w281aScopeStamp(path.join(ROOT, TARGET), REGEN_SCOPE);   // 第281便a: 走行開始時の html の領域
 const OUT = path.join(ROOT, 'tests', 'out', process.env.W270C_OUT || 'j1946adopt-w270c.json');
 const argv = process.argv.slice(2);
 const arg = (k, d) => { const i = argv.indexOf(k); return (i >= 0 && argv[i + 1]) ? argv[i + 1] : d; };
@@ -415,5 +423,6 @@ fs.mkdirSync(path.dirname(OUT), { recursive: true });
 // 既存の節を消さない(--build と --run3 を別走行で足せるように merge する)
 let prevOut = {};
 try { prevOut = JSON.parse(fs.readFileSync(OUT, 'utf8')); } catch { prevOut = {}; }
+Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));   // 第281便a: 領域 hash の 3 欄 + JSON 入力の安定 hash
 fs.writeFileSync(OUT, JSON.stringify(Object.assign(prevOut, out), null, 1));
 console.error('[w270c] wrote ' + OUT);

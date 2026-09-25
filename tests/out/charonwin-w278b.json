@@ -31,22 +31,22 @@
   },
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T21:39:43.995Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T09:56:15.627Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w278b-charonwin.mjs",
-    "bytes": 25862,
-    "sha256": "40f0e09c886e198a84d3b3bd6a2eb6844bfd0caaf4df5deca4df8441f8cc1497",
-    "mtime": "2026-09-23T11:03:31.996Z"
+    "bytes": 27257,
+    "sha256": "23b60a4bc09b9988da83199fabb00e584568d6dfc47bd9808df490598ea94051",
+    "mtime": "2026-09-25T06:28:51.041Z"
    },
    {
     "file": "tests/lib-w278b-midpoint.mjs",
@@ -61,7 +61,69 @@
     "mtime": "2026-09-22T06:21:54.659Z"
    }
   ],
-  "codeSha256": "31b0d4d441fe4872b6bfa7276bc87fa56f1749af80b7ea09d77a58af3398a0c8"
+  "codeSha256": "0ace69f0798046c26a9b533c66c434a9ab813e0b7bda1e8ed768285fbd037735",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "plutoCharonDFM",
+    "plutoCharonKF0Control"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.dfmRelativeDragStep",
+    "HP.relativeDragProbe",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "ctx",
+    "dfmRelativeDragMidpointStep",
+    "dfmRelativeDragStep",
+    "isNum",
+    "relativeDragMidpointGuard",
+    "relativeDragMidpointSolve",
+    "relativeDragProbe",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 968,
+   "segments": 888,
+   "closureShare": 0.3798
+  },
+  "scopeSha256": "fbc05a12d949838b6f99573ab5f395a339f49f0bd43465f66529189b3eeeeb4e",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ]
  },
  "pure": {
   "minimal": {
@@ -524,7 +586,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 1825.3999999985099,
+     "ms": 1649.199999999255,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": false,
@@ -690,7 +752,7 @@
       "n": 0
      },
      "stage": "h",
-     "wallMs": 1832
+     "wallMs": 1655
     },
     "h2": {
      "cfg": {
@@ -704,7 +766,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 3577,
+     "ms": 3493.800000000745,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": false,
@@ -870,7 +932,7 @@
       "n": 0
      },
      "stage": "h2",
-     "wallMs": 3583
+     "wallMs": 3501
     },
     "h4": {
      "cfg": {
@@ -884,7 +946,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 7061.10000000149,
+     "ms": 6956.199999999255,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": false,
@@ -1050,7 +1112,7 @@
       "n": 0
      },
      "stage": "h4",
-     "wallMs": 7070
+     "wallMs": 6962
     }
    },
    "dfmSemi": {
@@ -1066,7 +1128,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 2371.2000000029802,
+     "ms": 2280.099999997765,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": true,
@@ -1232,7 +1294,7 @@
       "n": 2069502
      },
      "stage": "h",
-     "wallMs": 2378
+     "wallMs": 2287
     },
     "h2": {
      "cfg": {
@@ -1246,7 +1308,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 4354.10000000149,
+     "ms": 4541.099999997765,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": true,
@@ -1412,7 +1474,7 @@
       "n": 4139079
      },
      "stage": "h2",
-     "wallMs": 4360
+     "wallMs": 4547
     },
     "h4": {
      "cfg": {
@@ -1426,7 +1488,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 8953.39999999851,
+     "ms": 8861.29999999702,
      "applied": {
       "integrator": "semi",
       "hasRelativeDrag": true,
@@ -1592,7 +1654,7 @@
       "n": 8278233
      },
      "stage": "h4",
-     "wallMs": 8959
+     "wallMs": 8869
     }
    },
    "kf0Leap": {
@@ -1608,7 +1670,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 3183,
+     "ms": 3279.699999999255,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": false,
@@ -1774,7 +1836,7 @@
       "n": 0
      },
      "stage": "h",
-     "wallMs": 3189
+     "wallMs": 3286
     },
     "h2": {
      "cfg": {
@@ -1788,7 +1850,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 6590.30000000447,
+     "ms": 6258,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": false,
@@ -1954,7 +2016,7 @@
       "n": 0
      },
      "stage": "h2",
-     "wallMs": 6598
+     "wallMs": 6265
     },
     "h4": {
      "cfg": {
@@ -1968,7 +2030,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 12490.60000000149,
+     "ms": 12584.5,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": false,
@@ -2134,7 +2196,7 @@
       "n": 0
      },
      "stage": "h4",
-     "wallMs": 12496
+     "wallMs": 12590
     }
    },
    "dfmMid": {
@@ -2150,7 +2212,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 4904,
+     "ms": 5109.39999999851,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": true,
@@ -2316,7 +2378,7 @@
       "n": 4139156
      },
      "stage": "h",
-     "wallMs": 4910
+     "wallMs": 5115
     },
     "h2": {
      "cfg": {
@@ -2330,7 +2392,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 9946.10000000149,
+     "ms": 9851.300000000745,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": true,
@@ -2496,7 +2558,7 @@
       "n": 8278310
      },
      "stage": "h2",
-     "wallMs": 9952
+     "wallMs": 9858
     },
     "h4": {
      "cfg": {
@@ -2510,7 +2572,7 @@
      "stop": "orbMax",
      "nan": false,
      "err": null,
-     "ms": 19747.89999999851,
+     "ms": 19800.20000000298,
      "applied": {
       "integrator": "leapfrog",
       "hasRelativeDrag": true,
@@ -2676,7 +2738,7 @@
       "n": 16556618
      },
      "stage": "h4",
-     "wallMs": 19755
+     "wallMs": 19806
     }
    }
   },

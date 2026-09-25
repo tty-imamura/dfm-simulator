@@ -24,22 +24,22 @@
   },
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-  "generatedAt": "2026-09-24T21:38:17.904Z",
+  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "generatedAt": "2026-09-25T09:54:48.884Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4758438,
-    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
-    "mtime": "2026-09-24T16:22:58.318Z"
+    "bytes": 4780811,
+    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+    "mtime": "2026-09-25T04:06:38.157Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w277b-charondfm.mjs",
-    "bytes": 47588,
-    "sha256": "4e5c49bca4e60a863f4c086af3fc436ee039391c86d7a1f23c10bcc5c417730e",
-    "mtime": "2026-09-23T11:03:31.996Z"
+    "bytes": 48984,
+    "sha256": "43badace7feff3fd7c454e830436c4aaa52edd5218c7fb1d17f6f4b2a2820984",
+    "mtime": "2026-09-25T06:28:51.041Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
@@ -54,7 +54,70 @@
     "mtime": "2026-09-23T11:03:31.996Z"
    }
   ],
-  "codeSha256": "08705d4f709601198406a7d51832d6a6b648be263eb2c57637e0ee9b47063036"
+  "codeSha256": "8d4c32e331d0657507190ecf6b26a46098210c82e8e5227a7c3237d999a2dc4b",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "plutoCharonDFM",
+    "plutoCharonKF0Control"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.orbitPlaneProject",
+    "HP.presetSig",
+    "HP.relativeDragProbe",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "dfmRelativeDragMidpointStep",
+    "dfmRelativeDragStep",
+    "isNum",
+    "relativeDragMidpointGuard",
+    "relativeDragMidpointSolve",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 969,
+   "segments": 889,
+   "closureShare": 0.3799
+  },
+  "scopeSha256": "2283a075b268f6d68145f55e64d0a45ee0615cb32670ebcbde59ee1323b826dc",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "volatileKeys": [
+   "generatedAt",
+   "when",
+   "wallSec",
+   "wallClock",
+   "wallS",
+   "spentSec",
+   "rateStepsPerSec",
+   "mtime",
+   "measuredAt",
+   "elapsedSec",
+   "elapsedS",
+   "elapsedMs",
+   "wallMs",
+   "wallDurationMs",
+   "durationMs",
+   "runMs",
+   "spentSecTotal",
+   "measurementElapsedSecTotal",
+   "startedAt",
+   "htmlLoadMs",
+   "baseWallSec",
+   "nowWallSec",
+   "baseRate",
+   "nowRate",
+   "maxWallSec"
+  ]
  },
  "inputs": {
   "note": "**数値をここで作らない** —— 一次資料の表・列の転記と、決定論的な換算だけである",
