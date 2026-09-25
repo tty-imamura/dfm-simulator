@@ -635,14 +635,42 @@ _scratch-*.log
 #   突き合わせ、`lint.provenanceMeta` が来歴を固定するのでコミットする。**「背景を無視してよいことを証明した」とは書かない。**
 !tests/out/bgcompose-w279c.json
 !tests/out/bgbudget2-w279c.json
+# 第280便b(原仮定者の裁定〔第70報〕・統括の読み R69/R70): **表裏核の検算**の正本(tests/exp-w280b-sphereKernel.mjs —— html の純関数を
+#   ソースから取り出して node で評価し、ページの HP.* とビット一致を数える。(a) 遠方 (b) 求積の収束と独立な 2 次元求積 (c) 表面近く
+#   (d) q_eff (e) 現行核との振幅比 (f) 中心 (g) 微分)と、**地球–月の 1 表**の正本(tests/exp-w280b-emgrid.mjs —— 🌘 の初期状態から
+#   重み・初速・q・法則・核を一つずつ変えた 10 行 × 窓 2 つ)。QA `docs.sphereKernel`・`docs.emgrid-sync` が docs/PHYSICS.md〔第280便b〕と
+#   突き合わせ、`lint.provenanceMeta` が来歴を固定するのでコミットする。**弱場振幅(c² の抑制)は導出できていない。**
+!tests/out/spherekernel-w280b.json
+!tests/out/emgrid-w280b.json
 # 第279便a(原仮定者の裁定(第69報)「各サンプルの状況確認」・統括の読み R59/R60): **内蔵 133 本の status(目的・状況・
 #   較正・合わない量・見込み・根拠)と概要の正本**(tests/exp-w279a-samplestatus.mjs)。較正の語・合わない量・見込みは
 #   calaudit-w249.json / charonwin-w278b.json から機械で作る。QA docs.sampleStatus-sync が docs/SAMPLE_STATUS_v1.45.md と
 #   html の生成領域 sample-status と突き合わせ、lint.provenanceMeta が来歴を固定するのでコミットする。**判定はしない**(台帳の転記)。
 !tests/out/samplestatus-w279a.json
+# 第280便a(原仮定者の裁定(第70報)「mercuryReal: 観測値版で問題が出ている理由を調査する」・統括の検証項目 R66):
+#   **水星の近点移動の不足の分解**の正本(tests/exp-w280a-mercury.mjs —— 判定器の抽出器をソースのまま評価し、
+#   dt 4 段 × ε 3 段 × λ_PN 2 値の格子・kF0/kF1/geoPN=3/vMinusU の 1 表・🪨−☄️ の差)。QA docs.mercuryDecomp が
+#   CALIBRATION_VERDICT §5.32 と PHYSICS〔第280便a〕に突き合わせ、lint.provenanceMeta が来歴を固定するのでコミットする。
+!tests/out/mercury-w280a.json
 # 第279便b: QA の確認順・並列化(W5b)・失敗注入・preflight の実測の正本(tests/exp-w279b-qaorder.mjs --record)。
 #   QA `lint.provenanceMeta` の CANON に入っている
 !tests/out/qaorder-w279b.json
+# 第280便c(原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」・統括の読み R65): **geoPN=3 の契約の検算**の正本
+#   (tests/exp-w280c-geo3.mjs —— 正式の判定器 calaudit のページ側ヘルパをソースから取り出した同じ抽出器・同じ窓で、☄️ の一様な u=V の零試験・
+#   ❄️ の太陽の背景・velocityMeaning の往復・二重計上の拒否・保存の往復・診断コピー 2 本の再現性・NaN 受理の修正を測る)。
+#   QA `docs.geo3-sync` が docs/PHYSICS.md〔第280便c〕と突き合わせ、`lint.provenanceMeta` が来歴を固定するのでコミットする。**較正ではない。**
+!tests/out/geo3-w280c.json
 # 第279便b: 前回 FAIL の先行再実行・preflight が一時的に書く切り出し版(終われば消す — 途中終了の残りを拾わない)
 tests/.qa-replay-*.mjs
 tests/.qa-preflight-*.mjs
+# 第280便e(原仮定者の裁定(第70報)「saturnZonalD(68): 観測値版で問題が出ている理由を調査する」・統括の検証項目 R67):
+#   **📡 D68 の問題の分解**の正本(tests/exp-w280e-d68.mjs —— 同じ帯状ポテンシャルの独立計算・正式の抽出器と窓での
+#   実エンジンの条件×刻み 3 段・診断コピー 🧷📎)。QA docs.d68Decomp・behavior.d68Consistent が読み、lint.provenanceMeta が
+#   来歴を固定するのでコミットする。**診断の器であって門の判定ではない**。
+!tests/out/d68-w280e.json
+# 第280便d(第70報・R68): ❄️ の否の要因の鎖・入力を整えた二体・同一定義の表・零条件の 3 検査の正本
+#   (tests/exp-w280d-charonInput.mjs)。QA docs.charonInput・docs.charonSameColumn が読み、
+#   lint.provenanceMeta の CANON に入っているのでコミットする。途中経過(.partial)と --pilot の出力は無視する
+!tests/out/charoninput-w280d.json
+tests/out/charoninput-w280d.json.partial
+tests/out/charoninput-w280d-pilot.json

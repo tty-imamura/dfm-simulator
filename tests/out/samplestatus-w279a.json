@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-  "generatedAt": "2026-09-23T23:56:19.138Z",
+  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "generatedAt": "2026-09-24T22:07:57.324Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 48147,
-    "sha256": "bc17fe423c4d2b529797f6e220775727c9252a863b24d70248d1061cb5f14cf7",
-    "mtime": "2026-09-23T20:24:37.441Z"
+    "bytes": 51756,
+    "sha256": "4aa61f074ec423a755e8a54b9e80be8107cbd3e870db1f09dae81f1a63573533",
+    "mtime": "2026-09-24T09:36:39.941Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2812256,
-    "sha256": "1ace8de3591a9e993b5e59d23991424c8e402dea99a216a41a1bb3e65c7652a2",
-    "mtime": "2026-09-23T21:44:24.611Z"
+    "bytes": 2812542,
+    "sha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
+    "mtime": "2026-09-24T18:13:25.058Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 89924,
-    "sha256": "1d34097e8fa7954228a386afee79faac7fd90426f1da77ea41cfb0b7bf43eb59",
-    "mtime": "2026-09-23T23:55:46.392Z"
+    "bytes": 89889,
+    "sha256": "1b0ce610d65c9f94cf2168e9eb8aec5e59883804be0ac935c268c0f8b6f7c8a9",
+    "mtime": "2026-09-24T21:39:43.993Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 44287,
-    "sha256": "b7fdd2edf5bf3bfaf149d56b35d75b5c2705b69d92b3f871c6ccf47eebe6ae15",
-    "mtime": "2026-09-23T23:56:19.124Z"
+    "bytes": 47232,
+    "sha256": "f2c8bbd9dc3803ac45a962b8a4d7920ff395d7b65bb2acbfa1290326dcbba66b",
+    "mtime": "2026-09-24T22:07:57.297Z"
    }
   ],
   "code": [
@@ -63,15 +63,15 @@
   "codeSha256": "dd9d3d7276f5a2a355b7718a70baf4cde99977af80ef7aa66b65c60e4dea6181",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "c42d16ae83d2a79c4b659eb28ff09e936b36f3c2",
-   "date": "2026-09-23T15:49:42.856Z",
-   "pass": 845
+   "commit": "61707854674c4cbc6f8852cf3df60c34dff96109",
+   "date": "2026-09-24T00:16:33.950Z",
+   "pass": 857
   }
  },
  "tally": {
   "objective": {
-   "met": 77,
-   "partial": 51,
+   "met": 81,
+   "partial": 54,
    "unmet": 5,
    "n/a": 0
   },
@@ -81,7 +81,7 @@
    "fail": 2,
    "hold": 33,
    "hold-definition": 2,
-   "out-of-scope": 94
+   "out-of-scope": 101
   },
   "four": {
    "合": 0,
@@ -133,7 +133,7 @@
    {
     "group": "現実との照合・太陽系",
     "icon": "☀️",
-    "n": 21
+    "n": 28
    },
    {
     "group": "現実との照合・連星",
@@ -161,7 +161,7 @@
     "n": 0
    }
   ],
-  "n": 133,
+  "n": 140,
   "predictionEligible": 0
  },
  "rows": [
@@ -1871,22 +1871,23 @@
    "status": {
     "purpose": "月の周期と近点回転を kF1 で照合する",
     "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
+    "state": "照合の走行は台帳に記帳・🧲 との差は重みと初速の両方",
     "calibration": "hold",
     "mismatch": "近点移動 +12.7%(σ なし)",
     "outlook": "σ 未接続",
     "evidence": [
      "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync"
+     "docs.calibration-verdict-sync",
+     "tests/out/emgrid-w280b.json"
     ],
     "en": {
      "purpose": "Compare the Moon's period and apsidal rotation with kF1",
-     "state": "the comparison runs are in the ledger",
+     "state": "the comparison runs are in the ledger; 🧲 gap: weight + speed",
      "mismatch": "apsidal advance +12.7% (no σ)",
      "outlook": "no σ connected",
-     "brief": "Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +12.7% (no σ); no σ connected."
+     "brief": "Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger; 🧲 gap: weight + speed. Calibration: hold — apsidal advance +12.7% (no σ); no σ connected."
     },
-    "brief": "月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +12.7%(σ なし)・σ 未接続。"
+    "brief": "月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳・🧲 との差は重みと初速の両方。較正は保留・近点移動 +12.7%(σ なし)・σ 未接続。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[1]",
@@ -1933,22 +1934,23 @@
    "status": {
     "purpose": "月の較正窓の一致が長期に続くかを調べる",
     "objective": "met",
-    "state": "長い窓で 20.77 年へずれることを検出",
+    "state": "長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速",
     "calibration": "hold",
     "mismatch": "近点移動 +23.1%(σ なし)",
     "outlook": "σ 未接続",
     "evidence": [
      "behavior.emAudit",
-     "tests/out/calaudit-w249.json"
+     "tests/out/calaudit-w249.json",
+     "tests/out/emgrid-w280b.json"
     ],
     "en": {
      "purpose": "Check whether the lunar calibration-window agreement lasts",
-     "state": "detects the drift to 20.77 yr over a long window",
+     "state": "detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed",
      "mismatch": "apsidal advance +23.1% (no σ)",
      "outlook": "no σ connected",
-     "brief": "Check whether the lunar calibration-window agreement lasts. Met: detects the drift to 20.77 yr over a long window. Calibration: hold — apsidal advance +23.1% (no σ); no σ connected."
+     "brief": "Check whether the lunar calibration-window agreement lasts. Met: detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed. Calibration: hold — apsidal advance +23.1% (no σ); no σ connected."
     },
-    "brief": "月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出。較正は保留・近点移動 +23.1%(σ なし)・σ 未接続。"
+    "brief": "月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速。較正は保留・近点移動 +23.1%(σ なし)・σ 未接続。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[2]",
@@ -1993,6 +1995,34 @@
      "σ 未接続"
     ]
    }
+  },
+  {
+   "id": "earthMoonDiagOne",
+   "emoji": "🌓",
+   "name": "地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断",
+    "objective": "met",
+    "state": "近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/emgrid-w280b.json",
+     "tests/out/spherekernel-w280b.json"
+    ],
+    "en": {
+     "purpose": "Diagnostic that swaps 🌘's dragging for the front-back kernel transport",
+     "state": "apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Diagnostic that swaps 🌘's dragging for the front-back kernel transport. Met: apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded. Out of calibration scope."
+    },
+    "brief": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断。達・近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳。較正対象外。"
+   },
+   "ledgerSource": null
   },
   {
    "id": "qLockRadialAudit",
@@ -2078,28 +2108,29 @@
   {
    "id": "mercuryReal",
    "emoji": "☄️",
-   "name": "水星(実単位)— 43″/世紀",
+   "name": "水星(実単位)— 近日点前進(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "group": "現実との照合・太陽系",
    "sampleClass": "calibration",
    "status": {
     "purpose": "水星の近日点前進を kF0 で照合する",
     "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
+    "state": "不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解",
     "calibration": "hold",
     "mismatch": "近点移動 −21.7%(6.2×10³σ)",
     "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
+     "tests/out/mercury-w280a.json",
      "docs.calibration-verdict-sync"
     ],
     "en": {
      "purpose": "Compare Mercury's perihelion advance with kF0",
-     "state": "the comparison runs are in the ledger",
+     "state": "the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%",
      "mismatch": "apsidal advance −21.7% (6.2×10³σ)",
      "outlook": "numerics unresolved",
-     "brief": "Compare Mercury's perihelion advance with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."
+     "brief": "Compare Mercury's perihelion advance with kF0. Partial: the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."
     },
-    "brief": "水星の近日点前進を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"
+    "brief": "水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[4]",
@@ -2111,30 +2142,58 @@
    }
   },
   {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "name": "水星 — geoPN=3 契約の零試験(一様な座標変換・較正ではない)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる",
+    "objective": "met",
+    "state": "u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo3-w280c.json"
+    ],
+    "en": {
+     "purpose": "Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged",
+     "state": "with u=V the advance matches ☄️ to below 1e-4 of the step width",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged. Met: with u=V the advance matches ☄️ to below 1e-4 of the step width. Out of calibration scope."
+    },
+    "brief": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる。達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
    "id": "mercuryRealKF1",
    "emoji": "🪨",
-   "name": "水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立",
+   "name": "水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "group": "現実との照合・太陽系",
    "sampleClass": "calibration",
    "status": {
     "purpose": "水星の近日点前進を kF1 で照合する",
     "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
+    "state": "☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり",
     "calibration": "hold",
     "mismatch": "近点移動 −21.8%(6.3×10³σ)",
     "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
+     "tests/out/mercury-w280a.json",
      "docs.calibration-verdict-sync"
     ],
     "en": {
      "purpose": "Compare Mercury's perihelion advance with kF1",
-     "state": "the comparison runs are in the ledger",
+     "state": "the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag",
      "mismatch": "apsidal advance −21.8% (6.3×10³σ)",
      "outlook": "numerics unresolved",
-     "brief": "Compare Mercury's perihelion advance with kF1. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance −21.8% (6.3×10³σ); numerics unresolved."
+     "brief": "Compare Mercury's perihelion advance with kF1. Partial: the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag. Calibration: hold — apsidal advance −21.8% (6.3×10³σ); numerics unresolved."
     },
-    "brief": "水星の近日点前進を kF1 で照合する。部分・照合の走行は台帳に記帳。較正は保留・近点移動 −21.8%(6.3×10³σ)・数値未解決。"
+    "brief": "水星の近日点前進を kF1 で照合する。部分・☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり。較正は保留・近点移動 −21.8%(6.3×10³σ)・数値未解決。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[5]",
@@ -2294,22 +2353,23 @@
    "status": {
     "purpose": "旧入力の冥王星–カロンを照合する",
     "objective": "unmet",
-    "state": "代表量が門の外",
+    "state": "代表量が門の外・残差を要因の鎖で分解",
     "calibration": "fail",
     "mismatch": "周期 +0.00138%(294σ)",
     "outlook": "刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
-     "behavior.plutoCharonReal"
+     "behavior.plutoCharonReal",
+     "tests/out/charoninput-w280d.json"
     ],
     "en": {
      "purpose": "Pluto–Charon from older inputs",
-     "state": "key quantity outside the gate",
+     "state": "outside the gate; residual traced",
      "mismatch": "period +0.00138% (294σ)",
      "outlook": "step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved",
-     "brief": "Pluto–Charon from older inputs. Unmet: key quantity outside the gate. Calibration: fail — period +0.00138% (294σ); step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved."
+     "brief": "Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Calibration: fail — period +0.00138% (294σ); step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved."
     },
-    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外。較正は否・周期 +0.00138%(294σ)・刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定。"
+    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正は否・周期 +0.00138%(294σ)・刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[10]",
@@ -2330,23 +2390,24 @@
    "status": {
     "purpose": "同一観測解の二体に零条件つき引きずり則を載せる",
     "objective": "partial",
-    "state": "中点法の刻み収束と 2 欄は確認・第 2 周は過渡",
+    "state": "中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来",
     "calibration": "hold-definition",
     "mismatch": "比較値 +31.6 s(Buie 2012 比・門ではない)",
     "outlook": "量の定義が揃うまで門に入れない",
     "evidence": [
      "docs.charonTwoColumns",
      "behavior.plutoCharonDFM",
-     "tests/out/charonwin-w278b.json"
+     "tests/out/charonwin-w278b.json",
+     "tests/out/charoninput-w280d.json"
     ],
     "en": {
      "purpose": "One observed solution, zero-slip drag law",
-     "state": "midpoint converges; orbit 2 transient",
+     "state": "midpoint converges; law term via sync",
      "mismatch": "comparison +31.6 s vs Buie 2012",
      "outlook": "not gated until definitions match",
-     "brief": "One observed solution, zero-slip drag law. Partial: midpoint converges; orbit 2 transient. Calibration: hold (definitions differ) — comparison +31.6 s vs Buie 2012; not gated until definitions match."
+     "brief": "One observed solution, zero-slip drag law. Partial: midpoint converges; law term via sync. Calibration: hold (definitions differ) — comparison +31.6 s vs Buie 2012; not gated until definitions match."
     },
-    "brief": "同一観測解の二体に零条件つき引きずり則を載せる。部分・中点法の刻み収束と 2 欄は確認・第 2 周は過渡。較正は判定保留(量定義不一致)・比較値 +31.6 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"
+    "brief": "同一観測解の二体に零条件つき引きずり則を載せる。部分・中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来。較正は判定保留(量定義不一致)・比較値 +31.6 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"
    },
    "ledgerSource": {
     "row": "tables.grid.dfmMid",
@@ -2384,6 +2445,87 @@
     "row": "tables.grid.kf0Leap",
     "vsBuieSec": 30.225398794165812
    }
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "冥王星とカロン(入力を整えた二体)— 観測入力 kF0 対照",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "❄️ の入力の丸めと軟化を外した kF0 診断コピー",
+    "objective": "met",
+    "state": "要因の鎖と同一定義の表を記帳",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/charoninput-w280d.json"
+    ],
+    "en": {
+     "purpose": "kF0 copy of ❄️ with rounding and softening removed",
+     "state": "factor chain and same-definition table recorded",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "kF0 copy of ❄️ with rounding and softening removed. Met: factor chain and same-definition table recorded. Out of calibration scope."
+    },
+    "brief": "❄️ の入力の丸めと軟化を外した kF0 診断コピー。達・要因の鎖と同一定義の表を記帳。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "plutoCharonSyncZero",
+   "emoji": "☃️",
+   "name": "冥王星とカロン(厳密同期円)— 相対すべり則の零試験",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "厳密同期円で相対すべり則の零条件を走行中も試す",
+    "objective": "partial",
+    "state": "初期 1 歩は厳密に 0・走行中は丸め級の熱が残る",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/charoninput-w280d.json"
+    ],
+    "en": {
+     "purpose": "Test the zero-slip condition on an exact synchronous circle",
+     "state": "first step exactly zero; rounding-level heat while running",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Test the zero-slip condition on an exact synchronous circle. Partial: first step exactly zero; rounding-level heat while running. Out of calibration scope."
+    },
+    "brief": "厳密同期円で相対すべり則の零条件を走行中も試す。部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "charonGeoToy3",
+   "emoji": "🌒",
+   "name": "冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる",
+    "objective": "partial",
+    "state": "1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/geo3-w280c.json"
+    ],
+    "en": {
+     "purpose": "Compare the geoPN=3 period with a solar background against kF0",
+     "state": "it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare the geoPN=3 period with a solar background against kF0. Partial: it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s). Out of calibration scope."
+    },
+    "brief": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる。部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)。較正対象外。"
+   },
+   "ledgerSource": null
   },
   {
    "id": "uranusReal",
@@ -3584,7 +3726,7 @@
   {
    "id": "saturnZonalD68",
    "emoji": "📡",
-   "name": "土星の近点移動(実単位・D68精密較正)",
+   "name": "土星の近点移動(実単位・D68 — 帯状重力の照合)",
    "group": "現実との照合・太陽系",
    "sampleClass": "calibration",
    "status": {
@@ -3615,6 +3757,60 @@
      "(門に入った量 1: 合 0・否 1 — 残り 4 量は σ が無い)"
     ]
    }
+  },
+  {
+   "id": "saturnD68Consistent",
+   "emoji": "🧷",
+   "name": "土星 D68 の近点移動 — 整合した初速の診断コピー(e*=0.001)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "📡 の差を同じ窓で初速の幾何と他の要因に分ける",
+    "objective": "met",
+    "state": "同じ抽出器・同じ窓で差 +42.66 deg/yr のうち初速が +42.23",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/d68-w280e.json"
+    ],
+    "en": {
+     "purpose": "Split 📡's gap into initial geometry and the rest in the same window",
+     "state": "same extractor and window: of the +42.66 deg/yr gap the initial speed gives +42.23",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Split 📡's gap into initial geometry and the rest in the same window. Met: same extractor and window: of the +42.66 deg/yr gap the initial speed gives +42.23. Out of calibration scope."
+    },
+    "brief": "📡 の差を同じ窓で初速の幾何と他の要因に分ける。達・同じ抽出器・同じ窓で差 +42.66 deg/yr のうち初速が +42.23。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "saturnD68ObsOrbit",
+   "emoji": "📎",
+   "name": "土星 D68 の近点移動 — 観測定義の軌道の診断コピー(ae=25 km)",
+   "group": "現実との照合・太陽系",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "観測の a と ae の定義で置いた D68 の近点移動を測る",
+    "objective": "partial",
+    "state": "同じ窓で測定済み・a と ae と ϖ̇ の同一元期の組は未確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/d68-w280e.json"
+    ],
+    "en": {
+     "purpose": "Measure D68's apsidal motion on the observed a and ae definition",
+     "state": "measured in the same window; whether a, ae and the rate share one epoch is unconfirmed",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Measure D68's apsidal motion on the observed a and ae definition. Partial: measured in the same window; whether a, ae and the rate share one epoch is unconfirmed. Out of calibration scope."
+    },
+    "brief": "観測の a と ae の定義で置いた D68 の近点移動を測る。部分・同じ窓で測定済み・a と ae と ϖ̇ の同一元期の組は未確認。較正対象外。"
+   },
+   "ledgerSource": null
   },
   {
    "id": "saturnRingReal",

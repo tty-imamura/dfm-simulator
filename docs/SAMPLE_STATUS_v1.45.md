@@ -13,9 +13,9 @@
 
 ## 集計
 
-- 内蔵 **133 本**(群 14・うち 0 本の群 3)。
-- 状況: **達 77・部分 51・未達 5・対象外 0**。
-- 較正: 4 値(合/量限定合/否/保留)**0/2/2/33**(台帳の転記)・判定保留(量定義不一致)**2**・較正対象外 **94**。
+- 内蔵 **140 本**(群 14・うち 0 本の群 3)。
+- 状況: **達 81・部分 54・未達 5・対象外 0**。
+- 較正: 4 値(合/量限定合/否/保留)**0/2/2/33**(台帳の転記)・判定保留(量定義不一致)**2**・較正対象外 **101**。
 
 | 群 | 本数 | 達 | 部分 | 未達 | 4 値の本 | 判定保留(量定義不一致) | 較正対象外 |
 |---|---|---|---|---|---|---|---|
@@ -27,7 +27,7 @@
 | 🌡️ スピンと熱 | 12 | 7 | 5 | 0 | 0 | 0 | 12 |
 | 📦 箱宇宙の実験 | 10 | 10 | 0 | 0 | 0 | 0 | 10 |
 | 🌗 自転と減光 | 10 | 10 | 0 | 0 | 0 | 0 | 10 |
-| ☀️ 現実との照合・太陽系 | 21 | 5 | 14 | 2 | 16 | 2 | 3 |
+| ☀️ 現実との照合・太陽系 | 28 | 9 | 17 | 2 | 16 | 2 | 10 |
 | ⭐ 現実との照合・連星 | 19 | 0 | 18 | 1 | 18 | 0 | 1 |
 | 🔭 実在天体のアナロジー | 11 | 4 | 6 | 1 | 3 | 0 | 8 |
 | ⚗️ 法則の実験室 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -156,29 +156,36 @@
 | 🥚 | `selfRotor` | 自己形成ダークローター — 種から育つ暗い中心 | 一様な雲から暗く回る中心が育つかを見る | 達・4 seed で質量比の最小 18.3%・対照の 33 倍(根拠: `behavior.selfrotor-multiseed`) | 較正対象外 | — | — |
 | 🌱 | `starSeed` | 星の種ローター — 圧縮とパワーボール | コアの圧縮・軸仕事と減光の経路を測る | 達・Ω 比 107.9・減光 0.9988 が窓内(根拠: `claim.starseed-powerball`) | 較正対象外 | — | — |
 
-## ☀️ 現実との照合・太陽系(21 本)
+## ☀️ 現実との照合・太陽系(28 本)
 
 | 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み |
 |---|---|---|---|---|---|---|---|
 | 🌙 | `earthMoonReal` | 地球と月(実単位)— 恒星月 27.32日 | 実単位の地球と月を kF0 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | — | σ 未接続 |
-| 🌘 | `earthMoonRealKF1` | 地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現 | 月の周期と近点回転を kF1 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 近点移動 +12.7%(σ なし) | σ 未接続 |
+| 🌘 | `earthMoonRealKF1` | 地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現 | 月の周期と近点回転を kF1 で照合する | 部分・照合の走行は台帳に記帳・🧲 との差は重みと初速の両方(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`, `tests/out/emgrid-w280b.json`) | 保留 | 近点移動 +12.7%(σ なし) | σ 未接続 |
 | ⭕ | `emAuditNewton` | 地球と月・機構判別A(二体ニュートン)— 閉じた楕円 | 純二体では月の近点回転が出ないことを示す | 達・陰性対照として Δϖ が窓内(根拠: `behavior.emAudit`) | 較正対象外 | — | — |
-| 🧲 | `emAuditDFM` | 地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で | 月の較正窓の一致が長期に続くかを調べる | 達・長い窓で 20.77 年へずれることを検出(根拠: `behavior.emAudit`, `tests/out/calaudit-w249.json`) | 保留 | 近点移動 +23.1%(σ なし) | σ 未接続 |
+| 🧲 | `emAuditDFM` | 地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で | 月の較正窓の一致が長期に続くかを調べる | 達・長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速(根拠: `behavior.emAudit`, `tests/out/calaudit-w249.json`, `tests/out/emgrid-w280b.json`) | 保留 | 近点移動 +23.1%(σ なし) | σ 未接続 |
 | 🔆 | `emAuditSolar` | 地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動 | 太陽摂動だけで月の近点回転を出す | 部分・向きは前進・年数は記録のみ(根拠: `behavior.emAudit`, `tests/out/calaudit-w249.json`) | 保留 | — | σ 未接続 |
+| 🌓 | `earthMoonDiagOne` | 地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換 | 🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断 | 達・近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳(根拠: `tests/out/emgrid-w280b.json`, `tests/out/spherekernel-w280b.json`) | 較正対象外 | — | — |
 | 📶 | `qLockRadialAudit` | qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる | qLock が参照軌道の外で崩れるかを監査する | 達・内側 2 点で逆行・落ち方 5.49 倍を検出(根拠: `behavior.qlockRadial`) | 較正対象外 | — | — |
 | 📐 | `qLockRadialAuditQ3` | qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し | q=3 の対照で r⁻³ 則の物差しを示す | 達・q=3 対照は qLock の 8.5 倍(門 >5)(根拠: `behavior.qlockRadial`) | 較正対象外 | — | — |
-| ☄️ | `mercuryReal` | 水星(実単位)— 43″/世紀 | 水星の近日点前進を kF0 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 近点移動 −21.7%(6.2×10³σ) | 数値未解決 |
-| 🪨 | `mercuryRealKF1` | 水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立 | 水星の近日点前進を kF1 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 近点移動 −21.8%(6.3×10³σ) | 数値未解決 |
+| ☄️ | `mercuryReal` | 水星(実単位)— 近日点前進(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き) | 水星の近日点前進を kF0 で照合する | 部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解(根拠: `tests/out/calaudit-w249.json`, `tests/out/mercury-w280a.json`, `docs.calibration-verdict-sync`) | 保留 | 近点移動 −21.7%(6.2×10³σ) | 数値未解決 |
+| 🔁 | `mercuryGeoToy3` | 水星 — geoPN=3 契約の零試験(一様な座標変換・較正ではない) | 一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる | 達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致(根拠: `tests/out/geo3-w280c.json`) | 較正対象外 | — | — |
+| 🪨 | `mercuryRealKF1` | 水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き) | 水星の近日点前進を kF1 で照合する | 部分・☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり(根拠: `tests/out/calaudit-w249.json`, `tests/out/mercury-w280a.json`, `docs.calibration-verdict-sync`) | 保留 | 近点移動 −21.8%(6.3×10³σ) | 数値未解決 |
 | 🌞 | `solarInner` | 太陽系 — 内惑星(実単位) | 内惑星 4 つの周期を実単位で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.solarInner`) | 保留 | — | σ 未接続 |
 | 🟠 | `jupiterGalilean` | 木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out | 木星 4 衛星へ規則を再 fit せず当てる | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | — | σ 未接続 |
 | 🌇 | `venusReal` | 太陽と金星(実単位)— 自由中心の二体転写 | 自由中心の太陽–金星を実単位で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.venusReal`) | 保留 | — | σ 未接続 |
 | 🥔 | `marsMoonsReal` | 火星とフォボス・ダイモス(実単位)— テスト粒子転写 | 火星の 2 衛星を実単位で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.marsMoonsReal`) | 保留 | — | σ 未接続 |
-| ❄️ | `plutoCharonReal` | 冥王星とカロン(実単位)— 重心が外にある二体 | 旧入力の冥王星–カロンを照合する | 未達・代表量が門の外(根拠: `tests/out/calaudit-w249.json`, `behavior.plutoCharonReal`) | 否 | 周期 +0.00138%(294σ) | 刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定 |
-| ⛄ | `plutoCharonDFM` | 冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版 | 同一観測解の二体に零条件つき引きずり則を載せる | 部分・中点法の刻み収束と 2 欄は確認・第 2 周は過渡(根拠: `docs.charonTwoColumns`, `behavior.plutoCharonDFM`, `tests/out/charonwin-w278b.json`) | 判定保留(量定義不一致) | 比較値 +31.6 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
+| ❄️ | `plutoCharonReal` | 冥王星とカロン(実単位)— 重心が外にある二体 | 旧入力の冥王星–カロンを照合する | 未達・代表量が門の外・残差を要因の鎖で分解(根拠: `tests/out/calaudit-w249.json`, `behavior.plutoCharonReal`, `tests/out/charoninput-w280d.json`) | 否 | 周期 +0.00138%(294σ) | 刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定 |
+| ⛄ | `plutoCharonDFM` | 冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版 | 同一観測解の二体に零条件つき引きずり則を載せる | 部分・中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来(根拠: `docs.charonTwoColumns`, `behavior.plutoCharonDFM`, `tests/out/charonwin-w278b.json`, `tests/out/charoninput-w280d.json`) | 判定保留(量定義不一致) | 比較値 +31.6 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
 | 🌨️ | `plutoCharonKF0Control` | 冥王星とカロン(同一観測解)— kF0 対照(引きずり則なし) | ⛄ と同じ入力で則だけを外した kF0 対照 | 達・則なしで定常・⛄ との差 1.37 s を記帳(根拠: `docs.charonTwoColumns`, `behavior.plutoCharonDFM`, `tests/out/charonwin-w278b.json`) | 判定保留(量定義不一致) | 比較値 +30.2 s(Buie 2012 比・門ではない) | 量の定義が揃うまで門に入れない |
+| 🥶 | `plutoCharonDiagInput` | 冥王星とカロン(入力を整えた二体)— 観測入力 kF0 対照 | ❄️ の入力の丸めと軟化を外した kF0 診断コピー | 達・要因の鎖と同一定義の表を記帳(根拠: `tests/out/charoninput-w280d.json`) | 較正対象外 | — | — |
+| ☃️ | `plutoCharonSyncZero` | 冥王星とカロン(厳密同期円)— 相対すべり則の零試験 | 厳密同期円で相対すべり則の零条件を走行中も試す | 部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る(根拠: `tests/out/charoninput-w280d.json`) | 較正対象外 | — | — |
+| 🌒 | `charonGeoToy3` | 冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない) | 太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる | 部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)(根拠: `tests/out/geo3-w280c.json`) | 較正対象外 | — | — |
 | 💠 | `uranusReal` | 天王星の環と主要5衛星(実単位) | 天王星の環と 5 衛星を実単位で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.uranusReal`) | 保留 | — | σ 未接続 |
 | 🌊 | `neptuneReal` | 海王星とトリトン(実単位)— 逆行衛星の二体 | 逆行衛星トリトンを実単位で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.neptuneReal`) | 保留 | — | σ 未接続 |
-| 📡 | `saturnZonalD68` | 土星の近点移動(実単位・D68精密較正) | 帯状重力係数で D68 の近点移動を照合する | 未達・代表量が門の外(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 否 | 近点移動 −0.306%(14.6σ) | 刻み間差 4×10⁻³σ・刻みでは縮まない |
+| 📡 | `saturnZonalD68` | 土星の近点移動(実単位・D68 — 帯状重力の照合) | 帯状重力係数で D68 の近点移動を照合する | 未達・代表量が門の外(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 否 | 近点移動 −0.306%(14.6σ) | 刻み間差 4×10⁻³σ・刻みでは縮まない |
+| 🧷 | `saturnD68Consistent` | 土星 D68 の近点移動 — 整合した初速の診断コピー(e*=0.001) | 📡 の差を同じ窓で初速の幾何と他の要因に分ける | 達・同じ抽出器・同じ窓で差 +42.66 deg/yr のうち初速が +42.23(根拠: `tests/out/d68-w280e.json`) | 較正対象外 | — | — |
+| 📎 | `saturnD68ObsOrbit` | 土星 D68 の近点移動 — 観測定義の軌道の診断コピー(ae=25 km) | 観測の a と ae の定義で置いた D68 の近点移動を測る | 部分・同じ窓で測定済み・a と ae と ϖ̇ の同一元期の組は未確認(根拠: `tests/out/d68-w280e.json`) | 較正対象外 | — | — |
 | 💍 | `saturnRingReal` | 土星の環(実単位)— 見えないのが正しい | 実単位の土星の環を kF0 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | — | σ 未接続 |
 | 💿 | `saturnRingRealKF1` | 土星の環(実単位・kFrame=1)— 表面随伴と自動算出q | 土星の環を kF1 と自動算出 q で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | — | σ 未接続 |
 

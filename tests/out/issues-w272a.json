@@ -1,14 +1,14 @@
 {
- "when": "2026-09-23T21:44:25.073Z",
+ "when": "2026-09-24T18:13:25.451Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "1ace8de3591a9e993b5e59d23991424c8e402dea99a216a41a1bb3e65c7652a2",
-  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
+  "calauditSha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
+  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "7fd132504103c4182c7560590b29cbfbf530c3f437c4ec9a281b36e63fa2ab78",
+  "charonSha256": "e2c915c522cbf4f3ac31a9e3b27d7d24be46abde6f4e070f943dd52b5e7004e7",
   "nslock": "tests/out/nslock-w272c.json",
-  "nslockSha256": "22ef2efb095311e3da80cb1c15c62e610e2120ea083ee9fb4736bbe300ac66f9"
+  "nslockSha256": "e0ec4eea8c42f1e7f980fd4f6822965fe4098a63e86442954d24faa8ce33ef47"
  },
  "nPresets": 37,
  "nTheoryControl": 0,
@@ -211,7 +211,7 @@
   {
    "id": "mercuryReal",
    "emoji": "☄️",
-   "name": "水星(実単位)— 43″/世紀",
+   "name": "水星(実単位)— 近日点前進(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "version": "obs",
    "theoryControl": false,
    "nQ": 4,
@@ -258,7 +258,7 @@
   {
    "id": "mercuryRealKF1",
    "emoji": "🪨",
-   "name": "水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立",
+   "name": "水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "version": "dfm",
    "theoryControl": false,
    "nQ": 5,
@@ -1561,7 +1561,7 @@
   {
    "id": "saturnZonalD68",
    "emoji": "📡",
-   "name": "土星の近点移動(実単位・D68精密較正)",
+   "name": "土星の近点移動(実単位・D68 — 帯状重力の照合)",
    "version": "obs",
    "theoryControl": false,
    "nQ": 5,

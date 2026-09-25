@@ -2516,7 +2516,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   - `field:"backgroundComplex"` … 外部の場は `physics.backgroundComplex`(**`sources` と `frame` の宣言が必須**・`meshVelocity.frame` と同一であること)。
     `field:"explicit"` … 外部の場は `external` に挙げた明示天体(背景鍵は読まない・全天体を挙げることはできない)。
   - `mutual` … **相対作用の引きずりの強さの端点 0/1 だけ**(1: 自分以外のすべての明示天体 + 外部の場の合成 / 0: 外部の場だけ)。**分数は拒否**。
-- **拒否**: `kFrame>0`(**既定 kFrame=1 のまま宣言しても拒否** —— `physics.kFrame:0` を明示する)・`geoPN=3`・`spaceMesh` の宣言・
+- **拒否**: `kFrame>0`(**既定 kFrame=1 のまま宣言しても拒否** —— `physics.kFrame:0` を明示する)・`geoPN=3`(**第280便c: `spaceMesh.lawVersion:"vMinusU"` の輸送経路としてだけ受ける —— §14**)・`spaceMesh` の宣言(同じく vMinusU の契約だけ例外)・
   `sampleClass:"calibration"`・`type:"single"` 以外の天体・範囲外の `body:<n>`・`backgroundComplex`/`sources`/`frame` の欠落・frame の不一致。
 - **エンジン**: `S._core` の外の外部ステップ `dfmMeshVelocityStep`(`if(S.hasMeshVelocity)` の真偽値 1 つ・未宣言は素通り)が、
   步の頭の状態で全天体の場を評価してから x_i+=u_iΔt・v_i+=(−J_iᵀv_i)Δt を当てる。背景の値は凍結参照系の原点のまわりで**一次で移す**
@@ -2528,5 +2528,67 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
   `uQuantity:"velocity"` と `timeDerivativeComplete:true` の無い場は拒否)・`dfmMeshVelocityFieldAt(S,i)`(診断)。
 - **既知の性質(実測・docs/PHYSICS.md〔第279便c〕)**: mutual:0 で外部の点源 1 つは相対軌道に何も与えない(u が一様)。
   **mutual:1 は 2 体の相対運動を壊す**(2 体だけなら ẋ_P−ẋ_C=0 が恒等的)。サンプルの 1PN は慣性速度 v を読む(速度に依る「空間に対する加速」)。
-- **内蔵の宣言**: **0 本**。
+- **内蔵の宣言**: **0 本**(第279便c)→ 第280便b で**診断コピー 🌓 `earthMoonDiagOne`(`sampleClass:"principle"`)の 1 本**(§13)・第280便c で **geoPN=3・vMinusU の principle の診断コピー 🔁🌒 の 2 本が輸送経路として**宣言する(§14)—— 合わせて **3 本**。
 - QA: **`preset.meshVelocity`**・**`docs.bgCompose`**・**`docs.bgbudget2-sync`**・**`docs.d0sites-sync`** ⑤(背景鍵の読み口は宣言した外部ステップの準備だけ)。
+
+## 13. 第280便b の宣言鍵(原仮定者の裁定〔第70報〕・統括の読み R69/R70・**SYSTEM_PROMPT には載せない**)
+
+本便が開けたのは **`physics.qLock`(引きずり核の宣言)** と **天体の密度宣言 `bodies[].densityClass`(+ `densityProfile`・`rotationProfile`)** である。
+**どれも `SYSTEM_PROMPT` の逐語ブロックには載せていない**(AI 生成には開放していない —— §5 の逐語ブロックは 1 バイトも変わっていない)。
+**未宣言は正準形に出ない**ので、宣言していない本の `presetSig`・エクスポート JSON・600 步の状態は 1 bit も変わらない。
+**トップレベルの `qLock:true`(q の自動算出 —— 第123便・第172便の q_exact)とは別の鍵**で、そちらは 1 文字も変えていない。
+
+### 13.1 `physics.qLock` —— 引きずり核(表裏核)
+
+- **正準形**: `{kernel:"frontBack", epsC:<0 以上の有限数>, nodes:8|16|32|64}`(`nodes` は省略時 16・知らない鍵は拒否)。
+  - `kernel:"frontBack"` … **球体の表裏を積分した複素モーメント** W_b(x)=∫ρ(ξ)/(|x−X−ξ|²+ε_c²)d³ξ・A_spin(x)=∫ρ(ξ)(Ω×ξ)/(…)d³ξ
+    (並進 V_bW_b は別に足す)を、`physics.meshVelocity` の外部の場(`field:"explicit"` の `external`)と局所の場(`mutual:1`)の源に使う
+    (密度を宣言した源だけ —— 残りは従来の点源)。**構成則の候補(統括が設定した検証仮説)であって、現行 DFM から導出した法則ではない**。
+    **q は使わない**(核に指数は無い)・**c² の抑制は入っていない**(弱場振幅は導出できていない —— docs/PHYSICS.md〔第280便b〕)。
+  - `epsC` … 複素場の正則化 ε_c(**重力の ε とは別に宣言する**)。`epsC:0` のとき、球の内部・表面の点は拒否(場が作れない点は `S.meshVelBad` に数える)。
+  - `nodes` … 半径の求積の区間あたりの点数。
+- **拒否**: `meshVelocity` の未宣言・`meshVelocity.field:"backgroundComplex"`(背景の値には核を掛けない)・`external` に `densityClass` の無い天体
+  (と、`meshVelocity` 側の拒否 —— kFrame>0・geoPN=3・spaceMesh・calibration・single 以外)。
+- **純関数(HP 公開)**: `dfmSphereProfile(decl,nodes)`・`dfmSphereKernelRadial(profile,r/R,ε_c/R)`(無次元の W・dW/dr・A_φ・dA_φ/dr)・
+  `dfmSphereKernelMomentsOf(list,px,py)`(`dfmComplexMomentsOf` と同じ形 —— 並進を含む)・`dfmSphereKernelQEff(profile,r,ε,W_bg)`(局所の角速度の傾き)・
+  `dfmLaneEmden(n)`・`dfmGaussLegendre01(n)`・`dfmAddMoments(a,b)`・`meshVelocityMomentsOf(S,list,px,py,e2)`・`validateQLockKernel`・`validateSphereBody`・
+  `qLockKernelCrossCheck`・`sphereDeclOf`・`SPHERE_KERNEL_VERSION`(`"w280b-frontBack-1"`)。
+- QA: **`preset.qlockKernel`**・**`docs.sphereKernel`**・**`docs.emgrid-sync`**。
+
+### 13.2 `bodies[].densityClass` —— 密度の物理入力(single 専用)
+
+- **正準形**: `densityClass:"solid"|"gas"|"star"|"compact"`・`densityProfile:{…クラスの入力…}`・`rotationProfile:{law:"rigid"}|{law:"shellular", centerRatio:(0,10]}`。
+  - **同じ積分則に ρ(r) と Ω(r) の物理入力を与える**だけで、**クラスごとの経験 q は配らない**。
+  - `solid` … 2 層 `{coreFrac:0.01〜0.99, coreRatio:0.01〜100}`(核の半径比・核/マントルの密度比)/ `gas` … ρ∝(1−s²)^β `{beta:0〜20}` /
+    `star` … Lane–Emden のポリトロープ `{polyN:0〜4.5}` / `compact` … 一様(入力なし)。
+  - 省略した入力は既定(solid 0.546・2.44 / gas β=1 / star n=3)で埋まる —— **形の例示であって出典を確定した値ではない**(出典は決断事項)。
+  - `shellular` … Ω(s)=Ω_表(c+(1−c)s²)(c=`centerRatio` —— 中心/表面の比)。
+- 読むのは `physics.qLock.kernel` を宣言した宇宙の `meshVelocityPrepare` だけ(未宣言の宇宙では build が `S.sphereDecl=null` にして 1 度も読まない)。
+- **内蔵の宣言**: **1 本**(🌓 `earthMoonDiagOne` —— 🌘 と同じ初期状態の診断コピー・`sampleClass:"principle"`・較正母集団に入れない)。
+- QA: **`preset.qlockKernel`**。
+
+## 14. 第280便c の宣言鍵 —— **geoPN=3 の契約**(原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」・統括の読み R65・**SYSTEM_PROMPT には載せない**)
+
+本便は、複素決定力(座標変換)の研究系列を **geoPN=3 の契約**にまとめた。**番号の切替を同条件比較にしない**ため、次の 5 つを**独立に宣言**する。
+**どれも `SYSTEM_PROMPT` の逐語ブロックには載せていない**(AI 生成には開放していない —— §5 の逐語ブロックは 1 バイトも変わっていない)。
+**未宣言は正準形に出ない**ので、宣言していない本の `presetSig`・エクスポート JSON・600 步の状態は 1 bit も変わらない(既存の内蔵 133 本の宣言 0)。
+
+| 宣言 | 鍵 | 値 | 既定 |
+| --- | --- | --- | --- |
+| 法則名 | `physics.spaceMesh.lawVersion` | `"vMinusU"`(速度分解 ẋ=v+u・v̇=a_space−Jᵀv —— トイの場の法則 scalar/local/complex とは別の値) | —(宣言が要る) |
+| 1PN の有無 | `physics.spaceMesh.pn` | `"off"` / `"reference-1PN"` | `"off"`(**正準形には off も明示**) |
+| 1PN が読む速度 | `physics.spaceMesh.pnVelocity` | `"xdot"`(座標速度 ẋ=v+u)/ `"v"`(慣性速度) | **既定なし**(reference-1PN のとき必須・off では拒否) |
+| 輸送経路 | `physics.meshVelocity` | §12.3 と同じ形 `{law:"vMinusU", field, mutual, frame, external?}` | —(宣言が要る) |
+| 初期速度の意味 | `physics.spaceMesh.velocityMeaning` | `"xdot"`(bodies の vx,vy を観測の座標速度 ẋ と読み、build で v=ẋ−u(0) へ変換)/ `"v"`(そのまま v) | **既定なし**(必須) |
+
+- **形**: `physics.geoPN:3`・`physics.kFrame:0`・`physics.spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"vMinusU", pn, pnVelocity?, velocityMeaning}`・`physics.meshVelocity:{…}`(field が `"backgroundComplex"` なら `physics.backgroundComplex` に sources と frame も)。
+- **reference-1PN** は E12 の試験粒子形(`_core` の geoPN≥1 と同じ係数・同じ源の条件)を**重力側の専用ステップ `dfmGeo3PNKick`** で `_core` の前に 1 回だけ当てる**比較用の外部理論項**である(**DFM から導出した項ではない**)。自由源へは運動量の対反作用を返し、スピンへの残余トルクの移譲はしない(対が閉じない角運動量を `S.geo3PnDL` に記帳)。
+- **拒否**(二重適用の禁止): `kFrame>0`(既定 1 を含む —— E6′ の追従キック・geoPN=2 の v−u 輸送)・`toyAllowDrag`・`toyGain`・`toyClosure`・`law:"mesh-v2"`・`diskSupport`・`meshEnergyCapacity`・`spaceMesh.D0`・gravity/inertia/weave/reservoir のチャネル・`meshVelocity` の欠落・geoPN≤2 での `lawVersion:"vMinusU"`・トイの lawVersion(scalar/local/complex)と `meshVelocity` の併用・`sampleClass:"calibration"`・vMinusU 以外での pn/pnVelocity/velocityMeaning。velocityMeaning:"xdot" で u が天体の速度に依る輸送(explicit・mutual:1)は天体 64 個まで(連立を直接解く —— 解けない〔最小枢軸 ≤10⁻¹²〕ときは build で経路ごと未作動にする)。
+- **エンジン**: `geoCoreDispatch` が `_core` に geoPN **0** を渡し(トイと同じ —— E6′・E12・geo2 の輸送は立たない)、`_core` の後の外部ステップ `dfmMeshVelocityStep`(第279便c)が移送と正準項を当てる。**pinned は慣性速度 v を規定したまま、位置は ẋ=u で移送される**(geoPN≤2 の互換経路は従来どおり pinned を受け取らない)。`S._core` には 1 命令も足していない。
+- **読み口**: `S.hasGeo3`・`S.hasGeo3PN`・`S.geo3`(pn・pnVelocity・velocityMeaning)・`S.geo3Init`(velocityMeaning の変換 —— 最小枢軸・往復の相対差)・`S.geo3PnN`・`S.geo3PnKickMax`・`S.geo3PnDL`・`S.geo3PnUndef`・`S.geo3PinCarry` と、§12.3 の `S.meshVel*`。
+- **純関数・API(HP 公開)**: `GEO3_LAW`・`GEO3_PN`・`GEO3_PN_VELOCITY`・`GEO3_VELOCITY_MEANING`・`GEO3_STEP_VERSION`・`GEO3_INIT_MAX_N`・`geoCoreDispatch`・`dfmGeo3PNKick`・`geo3TransportAt`・`geo3InitVelocity`・`geo3HudText`。
+- **表示**: 空間メッシュ/複素決定力場チップが「geoPN=3 / vMinusU / pn:…」(未作動なら「メッシュ未作動: 理由」)・ステップ診断の HUD 1 行に同じ語と作動の步数。
+- **§12.3 の互換経路**(geoPN≤2・kFrame=0 の `physics.meshVelocity` 単独)は**そのまま残す**(第279便c の QA が通る)。
+- **`dfmComplexMomentsOf` の受理の修正**: 源の vx・vy・ax・ay は**未宣言(undefined)だけを 0** と読み、NaN・false・空文字・null・非有限は拒否する(旧形 `b.vx||0` は 0 と読んで受理していた)。
+- **内蔵の宣言**: **principle の診断コピー 2 本だけ**(🔁 `mercuryGeoToy3` —— ☄️ の複製に一様な u=V の背景・pnVelocity:"v"・velocityMeaning:"v" / 🌒 `charonGeoToy3` —— ❄️ の複製〔kFrame=0〕に第279便c の太陽の背景・pnVelocity:"v"・velocityMeaning:"xdot")。較正母集団には入れない。
+- QA: **`preset.geo3Contract`**・**`docs.geo3-sync`**・**`ui.geo3Hud`**・**`preset.meshVelocity`** ③⑨(顔ぶれと NaN の受理)。器 `tests/exp-w280c-geo3.mjs`・正本 `tests/out/geo3-w280c.json`・docs/PHYSICS.md〔第280便c〕。

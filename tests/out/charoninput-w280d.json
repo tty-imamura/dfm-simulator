@@ -1,0 +1,7633 @@
+{
+ "meta": {
+  "wave": "第280便d",
+  "harness": "w280d-charoninput-1",
+  "libVersion": "w280d-charoninput-1",
+  "pilot": false,
+  "ruling": "原仮定者の裁定(第70報): plutoCharonReal: 観測値版で問題が出ている理由を調査する / plutoCharonDFM・plutoCharonKF0Control: まとめても良い。plutoCharonReal の精度を目標にする。互いに潮汐ロックで引きずりが消えると、観測値版と変わらない想定",
+  "contract": {
+   "extractor": "同方向 1 周・足し込み (A)(tests/lib-w273b-charonpage.mjs の run と同じ式)・第 2 周が正式判定の値",
+   "oldStages": {
+    "h": 0.016,
+    "h2": 0.008,
+    "h4": 0.004
+   },
+   "precStages": {
+    "h": 0.16,
+    "h2": 0.08,
+    "h4": 0.04
+   },
+   "stages": [
+    "h",
+    "h2",
+    "h4"
+   ],
+   "note": "窓(第 2 周)と抽出器は正式判定と同じ。第 5 周は第278便b の「過渡を含む」への対応で並べる(正式の置換ではない)"
+  },
+  "observation": {
+   "value": 551856.43872,
+   "sigma": 0.02592,
+   "source": "Buie M.W. et al. 2012 AJ 144 15 Table 5"
+  },
+  "formal": {
+   "from": "tests/out/calaudit-w249.json",
+   "sha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
+   "row": "公転周期(kFrame=0 対照・同方向1周)",
+   "h": 551864.0613632939,
+   "h2": 551864.0612661137,
+   "h4": 551864.0612407731,
+   "gate": "否(3σ)",
+   "nSigma": 294.07873352968716,
+   "residual": 7.622520773089491
+  },
+  "hasPreset": {
+   "diag": true,
+   "sync": true
+  },
+  "doNotWrite": [
+   "観測一致",
+   "較正した",
+   "較正を完了",
+   "kF0 版が成立した",
+   "精度を上げれば成立",
+   "引きずり消失を確認した"
+  ],
+  "wallSec": 616.823,
+  "provenanceVersion": "w272e-1",
+  "target": "beta/index.html",
+  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "generatedAt": "2026-09-24T21:50:57.683Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4758438,
+    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+    "mtime": "2026-09-24T16:22:58.318Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2812542,
+    "sha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
+    "mtime": "2026-09-24T18:13:25.058Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w280d-charonInput.mjs",
+    "bytes": 33433,
+    "sha256": "9877a6885156e129133fac395ffe0ef096577d20fb902849cf4eec16f668c7e8",
+    "mtime": "2026-09-24T08:50:41.864Z"
+   },
+   {
+    "file": "tests/lib-w280d-charoninput.mjs",
+    "bytes": 21759,
+    "sha256": "9609d19915a695516361d7d149f2590130b50d600338582631771190b8484fa5",
+    "mtime": "2026-09-24T08:50:41.864Z"
+   },
+   {
+    "file": "tests/lib-w277b-charondfm.mjs",
+    "bytes": 12728,
+    "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
+    "mtime": "2026-09-22T06:21:54.659Z"
+   },
+   {
+    "file": "tests/lib-w276b-units.mjs",
+    "bytes": 6467,
+    "sha256": "ada33ba49f7ce73ed6ebff008852f3c11ab334c4a4b5bde9701c8470c7a344e2",
+    "mtime": "2026-09-21T14:49:00.094Z"
+   },
+   {
+    "file": "tests/lib-w276b-charonfactors.mjs",
+    "bytes": 9240,
+    "sha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
+    "mtime": "2026-09-21T14:49:00.094Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   }
+  ],
+  "codeSha256": "a71d027e8bd43d6ae0fe299123c0a24b7ed97017d36e8f0f5406cca1dcf8cd67"
+ },
+ "audit": {
+  "gmPlu060": 975.4,
+  "gmPlu060Sigma": 0.5,
+  "gmBuieImplied": 972.0300630283296,
+  "gmBuieImpliedSigmaFromA": 0.29797069320850034,
+  "gmGapKm3s2": 3.369936971670427,
+  "gmGapInPluSigma": 6.739873943340854,
+  "gmOld": 975.4718399999999,
+  "gmOldMinusPlu": 0.07183999999995194,
+  "aBuieKm": 19573,
+  "aPlu060MeanKm": 19595.764,
+  "aOldKm": 19596,
+  "aBuieFromPluGMKm": 19595.59316176799,
+  "aGapKm": 22.763999999999214,
+  "periods": {
+   "buieAWithPluGM": {
+    "sec": 550902.3017004572,
+    "minusBuie": -954.1370195427444,
+    "sigma": -36810.84180334662,
+    "note": "**混ぜた入力**(Buie の a × PLU060 の GM)—— 候補ではない。定義の混在の大きさの物差し"
+   },
+   "pluAWithPluGM": {
+    "sec": 551863.6555250504,
+    "minusBuie": 7.216805050382391,
+    "sigma": 278.4261207709256,
+    "minusPlu060Mean": 7.761125050368719,
+    "note": "同じ解(Brozović & Jacobson 2024 の Table 8 GM と Table 10 の 400 年平均 a)の閉じた式"
+   },
+   "oldInput": {
+    "sec": 551853.302913006,
+    "minusBuie": -3.1358069939306006,
+    "sigma": -120.9802080991744,
+    "note": "❄️ の旧入力(a=19596 km・質量×G=6.674)の閉じた式(ε=0)"
+   }
+  }
+ },
+ "factors": {
+  "rows": [
+   {
+    "key": "base",
+    "label": "❄️ kF0(正式判定の構成 —— 内蔵の kFrame=1 を 0 にした診断コピー)",
+    "kind": "baseline",
+    "ref": "base",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551864.0613632939,
+      "p3": 551864.0613632784,
+      "p2B": 551864.0613633711,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551864.0612661137,
+      "p3": 551864.0612661535,
+      "p2B": 551864.0612660161,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551864.0612407731,
+      "p3": 551864.0612407577,
+      "p2B": 551864.0612416851,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": 0,
+     "h2": 0,
+     "h4": 0
+    },
+    "deltaSigma": {
+     "h": 0,
+     "h2": 0,
+     "h4": 0
+    },
+    "residual": {
+     "h": 7.622643293929286,
+     "h2": 7.622546113678254,
+     "h4": 7.622520773089491
+    }
+   },
+   {
+    "key": "baseDiagClass",
+    "label": "同上を principle へ落としただけ(物理は同じはず — 照合)",
+    "kind": "control",
+    "ref": "base",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551864.0613632939,
+      "p3": 551864.0613632784,
+      "p2B": 551864.0613633711,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551864.0612661137,
+      "p3": 551864.0612661535,
+      "p2B": 551864.0612660161,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551864.0612407731,
+      "p3": 551864.0612407577,
+      "p2B": 551864.0612416851,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": 0,
+     "h2": 0,
+     "h4": 0
+    },
+    "deltaSigma": {
+     "h": 0,
+     "h2": 0,
+     "h4": 0
+    },
+    "residual": {
+     "h": 7.622643293929286,
+     "h2": 7.622546113678254,
+     "h4": 7.622520773089491
+    }
+   },
+   {
+    "key": "rebuilt",
+    "label": "同じ入力を器の組み立て関数で組み直した(組み立ての丸めの照合)",
+    "kind": "control",
+    "ref": "base",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551864.0613633523,
+      "p3": 551864.0613632752,
+      "p2B": 551864.0613633792,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551864.061266152,
+      "p3": 551864.0612661564,
+      "p2B": 551864.0612660163,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551864.061240833,
+      "p3": 551864.0612407943,
+      "p2B": 551864.061241685,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": 5.844049155712128e-8,
+     "h2": 3.8300640881061554e-8,
+     "h4": 5.995389074087143e-8
+    },
+    "deltaSigma": {
+     "h": 0.000002254648594024741,
+     "h2": 0.0000014776481821397205,
+     "h4": 0.0000023130359082126323
+    },
+    "residual": {
+     "h": 7.622643352369778,
+     "h2": 7.622546151978895,
+     "h4": 7.622520833043382
+    }
+   },
+   {
+    "key": "eps10",
+    "label": "softening ε 50 → 10 km(宣言単位の受理下限)",
+    "kind": "numerical",
+    "ref": "base",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551853.714367087,
+      "p3": 551853.7143671481,
+      "p2B": 551853.7143670437,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551853.714268699,
+      "p3": 551853.7142686989,
+      "p2B": 551853.7142698024,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551853.7142448771,
+      "p3": 551853.7142449304,
+      "p2B": 551853.7142454669,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -10.346996206906624,
+     "h2": -10.346997414599173,
+     "h4": -10.3469958959613
+    },
+    "deltaSigma": {
+     "h": -399.18966847633584,
+     "h2": -399.18971506941256,
+     "h4": -399.18965647998846
+    },
+    "residual": {
+     "h": -2.724352912977338,
+     "h2": -2.7244513009209186,
+     "h4": -2.7244751228718087
+    }
+   },
+   {
+    "key": "eps1",
+    "label": "softening ε 50 → 1 km(softeningFloor 0.001 の診断宣言)",
+    "kind": "numerical",
+    "ref": "base",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551853.2875468925,
+      "p3": 551853.2875470011,
+      "p2B": 551853.2875468882,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.001,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551853.2874483812,
+      "p3": 551853.2874482247,
+      "p2B": 551853.2874495377,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.001,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551853.2874245882,
+      "p3": 551853.2874241187,
+      "p2B": 551853.287425184,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.001,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -10.773816401371732,
+     "h2": -10.773817732464522,
+     "h4": -10.773816184839234
+    },
+    "deltaSigma": {
+     "h": -415.65649696650206,
+     "h2": -415.6565483203905,
+     "h4": -415.6564886126248
+    },
+    "residual": {
+     "h": -3.151173107442446,
+     "h2": -3.151271618786268,
+     "h4": -3.151295411749743
+    }
+   },
+   {
+    "key": "aPlus",
+    "label": "a の丸め +0.5 km(19596.5 km・ケプラー初速を組み直す)",
+    "kind": "input",
+    "ref": "rebuilt",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551885.1825057516,
+      "p3": 551885.182505717,
+      "p2B": 551885.1825058486,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551885.1824087172,
+      "p3": 551885.182408941,
+      "p2B": 551885.1824085843,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551885.1823833281,
+      "p3": 551885.1823831243,
+      "p2B": 551885.1823842155,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": 21.1211423992645,
+     "h2": 21.12114256527275,
+     "h4": 21.12114249507431
+    },
+    "deltaSigma": {
+     "h": 814.8588888605132,
+     "h2": 814.8588952651523,
+     "h4": 814.8588925568793
+    },
+    "residual": {
+     "h": 28.743785751634277,
+     "h2": 28.743688717251644,
+     "h4": 28.74366332811769
+    }
+   },
+   {
+    "key": "aMinus",
+    "label": "a の丸め −0.5 km(19595.5 km)",
+    "kind": "input",
+    "ref": "rebuilt",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551842.9404903424,
+      "p3": 551842.9404903107,
+      "p2B": 551842.940490375,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551842.9403932974,
+      "p3": 551842.9403933124,
+      "p2B": 551842.9403930187,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551842.9403677251,
+      "p3": 551842.9403677359,
+      "p2B": 551842.9403686569,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -21.120873009902425,
+     "h2": -21.120872854604386,
+     "h4": -21.120873107924126
+    },
+    "deltaSigma": {
+     "h": -814.8484957524084,
+     "h2": -814.8484897609717,
+     "h4": -814.8484995341098
+    },
+    "residual": {
+     "h": -13.498229657532647,
+     "h2": -13.49832670262549,
+     "h4": -13.498352274880745
+    }
+   },
+   {
+    "key": "aPlu060",
+    "label": "a を PLU060 400 年平均 19595.764 km へ(質量は旧入力のまま)",
+    "kind": "input",
+    "ref": "rebuilt",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551854.0922775771,
+      "p3": 551854.0922775994,
+      "p2B": 551854.0922776214,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551854.0921807754,
+      "p3": 551854.0921807187,
+      "p2B": 551854.0921804995,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551854.092155157,
+      "p3": 551854.0921552038,
+      "p2B": 551854.0921560469,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -9.969085775199346,
+     "h2": -9.969085376593284,
+     "h4": -9.969085676013492
+    },
+    "deltaSigma": {
+     "h": -384.6097907098513,
+     "h2": -384.60977533153107,
+     "h4": -384.6097868832366
+    },
+    "residual": {
+     "h": -2.3464424228295684,
+     "h2": -2.3465392246143892,
+     "h4": -2.3465648429701105
+    }
+   },
+   {
+    "key": "gCodata",
+    "label": "G の丸め 6.674 → 6.67430(質量は転写のまま・初速を組み直す)",
+    "kind": "input",
+    "ref": "rebuilt",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551851.658483657,
+      "p3": 551851.6584836043,
+      "p2B": 551851.6584836957,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.6743,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551851.6583866732,
+      "p3": 551851.6583867377,
+      "p2B": 551851.6583864824,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.6743,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551851.6583611094,
+      "p3": 551851.6583611163,
+      "p2B": 551851.6583620278,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.6743,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -12.402879695291631,
+     "h2": -12.402879478759132,
+     "h4": -12.402879723580554
+    },
+    "deltaSigma": {
+     "h": -478.5061610837821,
+     "h2": -478.50615272990484,
+     "h4": -478.50616217517575
+    },
+    "residual": {
+     "h": -4.780236342921853,
+     "h2": -4.780333326780237,
+     "h4": -4.780358890537173
+    }
+   },
+   {
+    "key": "gmDirect",
+    "label": "GM を観測解から直接作る(2024 Table 8: 869.3+106.1 km³/s² → m=GM/G・初速を組み直す)",
+    "kind": "input",
+    "ref": "rebuilt",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551884.3830743484,
+      "p3": 551884.3830743753,
+      "p2B": 551884.3830744445,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.0013025172520428896,
+        0.0001589751336723566
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551884.3829774833,
+      "p3": 551884.3829777502,
+      "p2B": 551884.3829773387,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.0013025172520428896,
+        0.0001589751336723566
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551884.3829520517,
+      "p3": 551884.3829520107,
+      "p2B": 551884.3829528951,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.0013025172520428896,
+        0.0001589751336723566
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": 20.321710996096954,
+     "h2": 20.32171133137308,
+     "h4": 20.32171121868305
+    },
+    "deltaSigma": {
+     "h": 784.0166279358393,
+     "h2": 784.0166408708751,
+     "h4": 784.0166365232658
+    },
+    "residual": {
+     "h": 27.94435434846673,
+     "h2": 27.944257483351976,
+     "h4": 27.94423205172643
+    }
+   },
+   {
+    "key": "massDouble",
+    "label": "質量配列 Float32 → double(massPrecision:\"double\")",
+    "kind": "numerical",
+    "ref": "base",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551864.0811721637,
+      "p3": 551864.081172104,
+      "p2B": 551864.081172189,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303,
+        0.0001586
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551864.0810752385,
+      "p3": 551864.081075307,
+      "p2B": 551864.0810750296,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303,
+        0.0001586
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551864.081049829,
+      "p3": 551864.0810497003,
+      "p2B": 551864.0810505941,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303,
+        0.0001586
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": 0.019808869808912277,
+     "h2": 0.0198091248748824,
+     "h4": 0.01980905595701188
+    },
+    "deltaSigma": {
+     "h": 0.7642310883068009,
+     "h2": 0.7642409288149075,
+     "h4": 0.764238269946446
+    },
+    "residual": {
+     "h": 7.642452163738199,
+     "h2": 7.642355238553137,
+     "h4": 7.642329829046503
+    }
+   },
+   {
+    "key": "noPN",
+    "label": "1PN を切る(geoPN 2 → 0)",
+    "kind": "physical",
+    "ref": "base",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551864.0613615632,
+      "p3": 551864.0613615622,
+      "p2B": 551864.0613616386,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 0,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551864.0612644644,
+      "p3": 551864.0612645759,
+      "p2B": 551864.0612643926,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 0,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551864.0612390139,
+      "p3": 551864.0612389387,
+      "p2B": 551864.0612399832,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 0,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -0.0000017307465896010399,
+     "h2": -0.0000016492558643221855,
+     "h4": -0.000001759151928126812
+    },
+    "deltaSigma": {
+     "h": -0.00006677263077164506,
+     "h2": -0.00006362869846922012,
+     "h4": -0.00006786851574563318
+    },
+    "residual": {
+     "h": 7.622641563182697,
+     "h2": 7.62254446442239,
+     "h4": 7.622519013937563
+    }
+   },
+   {
+    "key": "leapfrog",
+    "label": "積分器 semi → leapfrog",
+    "kind": "numerical",
+    "ref": "base",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551864.0612945812,
+      "p3": 551864.0612945781,
+      "p2B": 551864.0612946509,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551864.061249141,
+      "p3": 551864.0612487543,
+      "p2B": 551864.0612488647,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551864.061237236,
+      "p3": 551864.0612371246,
+      "p2B": 551864.0612374556,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 6.674,
+       "eps": 0.05,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.001303000026382506,
+        0.00015859999984968454
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -0.00006871274672448635,
+     "h2": -0.000016972655430436134,
+     "h4": -0.0000035370467230677605
+    },
+    "deltaSigma": {
+     "h": -0.002650954734740986,
+     "h2": -0.0006548092372853447,
+     "h4": -0.0001364601359208241
+    },
+    "residual": {
+     "h": 7.622574581182562,
+     "h2": 7.622529141022824,
+     "h4": 7.622517236042768
+    }
+   },
+   {
+    "key": "satNone",
+    "label": "診断単位(L5・T2・M20)・小衛星なし(基準列)",
+    "kind": "control",
+    "ref": "base",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551864.0607197867,
+      "p3": 551864.0607198128,
+      "p2B": 551864.0607198399,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        130.3000030517578,
+        15.859999656677246
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551864.0606226932,
+      "p3": 551864.0606227618,
+      "p2B": 551864.0606225674,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        130.3000030517578,
+        15.859999656677246
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551864.0605974033,
+      "p3": 551864.0605972786,
+      "p2B": 551864.0605982986,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        130.3000030517578,
+        15.859999656677246
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -0.0006435072282329202,
+     "h2": -0.0006434204988181591,
+     "h4": -0.0006433697417378426
+    },
+    "deltaSigma": {
+     "h": -0.0248266677558997,
+     "h2": -0.024823321713663547,
+     "h4": -0.024821363492972322
+    },
+    "residual": {
+     "h": 7.621999786701053,
+     "h2": 7.621902693179436,
+     "h4": 7.621877403347753
+    }
+   },
+   {
+    "key": "satAll",
+    "label": "小衛星 4 体(円・同一平面・位相 i×1.1 rad —— 第276便b と同じ置き方)",
+    "kind": "physical",
+    "ref": "satNone",
+    "X": null,
+    "stages": {
+     "h": {
+      "p2": 551864.3107686269,
+      "p3": 551864.0600773903,
+      "p2B": 551864.3107686067,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 6,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        0.000044950553274247795,
+        0.0002247527736471966,
+        0.000029967035516165197,
+        0.00029967035516165197
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551864.3106625847,
+      "p3": 551864.0599849395,
+      "p2B": 551864.3106623418,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 6,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        0.000044950553274247795,
+        0.0002247527736471966,
+        0.000029967035516165197,
+        0.00029967035516165197
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551864.3106325382,
+      "p3": 551864.0599628121,
+      "p2B": 551864.3106336744,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 6,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        0.000044950553274247795,
+        0.0002247527736471966,
+        0.000029967035516165197,
+        0.00029967035516165197
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": 0.25004884018562734,
+     "h2": 0.25003989157266915,
+     "h4": 0.2500351348426193
+    },
+    "deltaSigma": {
+     "h": 9.64694599481587,
+     "h2": 9.64660075511841,
+     "h4": 9.646417239298584
+    },
+    "residual": {
+     "h": 7.872048626886681,
+     "h2": 7.871942584752105,
+     "h4": 7.871912538190372
+    }
+   },
+   {
+    "key": "sunX0.0001",
+    "label": "太陽の代理配置 X=0.0001",
+    "kind": "sunLadder",
+    "ref": "satNone",
+    "X": 0.0001,
+    "stages": {
+     "h": {
+      "p2": 551805.6249441707,
+      "p3": 551805.4158980511,
+      "p2B": 551805.6249442429,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 3,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        124.31004333496094
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551805.6242771642,
+      "p3": 551805.4148722966,
+      "p2B": 551805.6242770251,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 3,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        124.31004333496094
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551805.6239649276,
+      "p3": 551805.4143795922,
+      "p2B": 551805.6239649251,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 3,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        124.31004333496094
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -58.4357756159734,
+     "h2": -58.43634552892763,
+     "h4": -58.4366324756993
+    },
+    "deltaSigma": {
+     "h": -2254.4666518508257,
+     "h2": -2254.488639233319,
+     "h4": -2254.499709710621
+    },
+    "residual": {
+     "h": -50.813775829272345,
+     "h2": -50.814442835748196,
+     "h4": -50.814755072351545
+    }
+   },
+   {
+    "key": "sunX0.00001",
+    "label": "太陽の代理配置 X=0.00001",
+    "kind": "sunLadder",
+    "ref": "satNone",
+    "X": 0.00001,
+    "stages": {
+     "h": {
+      "p2": 551858.2236926259,
+      "p3": 551858.2129725931,
+      "p2B": 551858.2236926381,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 3,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        12.431004524230957
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551858.2235527538,
+      "p3": 551858.2128054295,
+      "p2B": 551858.2235524897,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 3,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        12.431004524230957
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551858.2235070532,
+      "p3": 551858.2127449012,
+      "p2B": 551858.2235066476,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 3,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        12.431004524230957
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -5.837027160800062,
+     "h2": -5.837069939356297,
+     "h4": -5.837090350105427
+    },
+    "deltaSigma": {
+     "h": -225.19394910494069,
+     "h2": -225.19559951220285,
+     "h4": -225.19638696394395
+    },
+    "residual": {
+     "h": 1.7849726259009913,
+     "h2": 1.7848327538231388,
+     "h4": 1.7847870532423258
+    }
+   },
+   {
+    "key": "sunX0.000001",
+    "label": "太陽の代理配置 X=0.000001",
+    "kind": "sunLadder",
+    "ref": "satNone",
+    "X": 0.000001,
+    "stages": {
+     "h": {
+      "p2": 551863.4770515322,
+      "p3": 551863.4760719937,
+      "p2B": 551863.477050968,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 3,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        1.2431004047393799
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h2": {
+      "p2": 551863.4769487679,
+      "p3": 551863.4759668038,
+      "p2B": 551863.4769496053,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 3,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        1.2431004047393799
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     },
+     "h4": {
+      "p2": 551863.4769223186,
+      "p3": 551863.4759391905,
+      "p2B": 551863.4769230888,
+      "stop": "orbMax",
+      "err": null,
+      "applied": {
+       "G": 0.06674000000000001,
+       "eps": 0.5,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "semi",
+       "mF64": false,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 3,
+       "m": [
+        130.3000030517578,
+        15.859999656677246,
+        1.2431004047393799
+       ]
+      },
+      "clamp": [
+       0,
+       0,
+       0,
+       0,
+       0,
+       0
+      ],
+      "warnings": []
+     }
+    },
+    "delta": {
+     "h": -0.5836682544322684,
+     "h2": -0.5836739252554253,
+     "h4": -0.5836750847520307
+    },
+    "deltaSigma": {
+     "h": -22.518065371615297,
+     "h2": -22.51828415337289,
+     "h4": -22.518328887038223
+    },
+    "residual": {
+     "h": 7.038331532268785,
+     "h2": 7.038228767924011,
+     "h4": 7.038202318595722
+    }
+   }
+  ],
+  "chain": [
+   {
+    "key": "c0",
+    "step": "出発点 ❄️ kF0(旧入力: a=19596 km・質量×G=6.674・ε=50 km・Float32 質量・semi)",
+    "stages": {
+     "h": {
+      "p2": 551864.0613632939,
+      "resid": 7.622643293929286,
+      "sigma": 294.08346041393855,
+      "step": null
+     },
+     "h2": {
+      "p2": 551864.0612661137,
+      "resid": 7.622546113678254,
+      "sigma": 294.07971117585856,
+      "step": null
+     },
+     "h4": {
+      "p2": 551864.0612407731,
+      "resid": 7.622520773089491,
+      "sigma": 294.07873352968716,
+      "step": null
+     }
+    }
+   },
+   {
+    "key": "c1",
+    "step": "① 入力の丸めを外す: a=19595.764 km(PLU060 400 年平均)・GM を 2024 Table 8 から直接(m=GM/G)",
+    "stages": {
+     "h": {
+      "p2": 551874.4136218725,
+      "resid": 17.974901872570626,
+      "sigma": 693.4761524911507,
+      "step": 10.35225857864134
+     },
+     "h2": {
+      "p2": 551874.4135247146,
+      "resid": 17.974804714671336,
+      "sigma": 693.4724041154066,
+      "step": 10.352258600993082
+     },
+     "h4": {
+      "p2": 551874.4134991806,
+      "resid": 17.974779180600308,
+      "sigma": 693.4714190046416,
+      "step": 10.352258407510817
+     }
+    }
+   },
+   {
+    "key": "c2",
+    "step": "② 軟化を外す: ε 50 → 1 km",
+    "stages": {
+     "h": {
+      "p2": 551863.6393436895,
+      "resid": 7.2006236895686015,
+      "sigma": 277.80183987533184,
+      "step": -10.774278183002025
+     },
+     "h2": {
+      "p2": 551863.6392452124,
+      "resid": 7.200525212450884,
+      "sigma": 277.79804060381497,
+      "step": -10.774279502220452
+     },
+     "h4": {
+      "p2": 551863.6392213145,
+      "resid": 7.200501314480789,
+      "sigma": 277.797118614228,
+      "step": -10.774277866119519
+     }
+    }
+   },
+   {
+    "key": "c3",
+    "step": "③ 質量配列を double へ",
+    "stages": {
+     "h": {
+      "p2": 551863.659967927,
+      "resid": 7.2212479270529,
+      "sigma": 278.5975280498804,
+      "step": 0.020624237484298646
+     },
+     "h2": {
+      "p2": 551863.6598695718,
+      "resid": 7.221149571822025,
+      "sigma": 278.593733480788,
+      "step": 0.0206243593711406
+     },
+     "h4": {
+      "p2": 551863.6598458661,
+      "resid": 7.221125866170041,
+      "sigma": 278.59281891088125,
+      "step": 0.020624551689252257
+     }
+    }
+   },
+   {
+    "key": "c4",
+    "step": "④ 積分器を leapfrog へ(⛄🌨️ と同じ)",
+    "stages": {
+     "h": {
+      "p2": 551863.6598991104,
+      "resid": 7.221179110463709,
+      "sigma": 278.59487308887765,
+      "step": -0.00006881658919155598
+     },
+     "h2": {
+      "p2": 551863.6598527959,
+      "resid": 7.221132795908488,
+      "sigma": 278.5930862619016,
+      "step": -0.000016775913536548615
+     },
+     "h4": {
+      "p2": 551863.6598411739,
+      "resid": 7.22112117393408,
+      "sigma": 278.5926378832593,
+      "step": -0.000004692235961556435
+     }
+    }
+   }
+  ],
+  "note": null,
+  "sun": {
+   "trueX": 4.968458336889293e-9,
+   "obstruction": {
+    "rSunMeters": 5906440633928.272,
+    "rSunInUnits": 59064406.33928272,
+    "coordLimit": 5000,
+    "fitsCoordLimit": false,
+    "epsFloorMeters": 1000,
+    "requiredDynamicRange": 5906440633.928272,
+    "acceptedDynamicRange": 500000,
+    "shortfallFactor": 11812.881267856545,
+    "why": "|x| の受理上限 5000 単位と ε の受理下限 0.01 単位は**どちらも単位に比例する**ので、受理できる動的レンジは単位系を変えても 5×10⁵ のまま。冥王星–太陽を ε=10 km で置くには 5.9×10⁸ が要る —— **どの単位系でも真の配置は入らない**(実装上の制約であって物理ではない)"
+   },
+   "byStage": {
+    "h": {
+     "fit": {
+      "a": 585635.4843372146,
+      "p": 1.000256370001668,
+      "r2": 0.9999999822638638,
+      "n": 3,
+      "note": "対数最小二乗。**べきは実測から出した値**で、理論式から置いたものではない"
+     },
+     "extrapolatedSec": -0.0028954775098714346,
+     "sigma": -0.11170823726355844,
+     "note": "**外挿である**(真の配置は受理値域に入らない —— 第276便b)"
+    },
+    "h2": {
+     "fit": {
+      "a": 585640.7696558189,
+      "p": 1.0002563780308593,
+      "r2": 0.9999999821028904,
+      "n": 3,
+      "note": "対数最小二乗。**べきは実測から出した値**で、理論式から置いたものではない"
+     },
+     "extrapolatedSec": -0.0028955031968341516,
+     "sigma": -0.11170922827292253,
+     "note": "**外挿である**(真の配置は受理値域に入らない —— 第276便b)"
+    },
+    "h4": {
+     "fit": {
+      "a": 585647.0795046887,
+      "p": 1.0002570129384347,
+      "r2": 0.9999999821061502,
+      "n": 3,
+      "note": "対数最小二乗。**べきは実測から出した値**で、理論式から置いたものではない"
+     },
+     "extrapolatedSec": -0.0028954992435338265,
+     "sigma": -0.11170907575361985,
+     "note": "**外挿である**(真の配置は受理値域に入らない —— 第276便b)"
+    }
+   }
+  },
+  "formalCheck": {
+   "h": {
+    "formal": 551864.0613632939,
+    "measured": 551864.0613632939,
+    "bitSame": true
+   },
+   "h2": {
+    "formal": 551864.0612661137,
+    "measured": 551864.0612661137,
+    "bitSame": true
+   },
+   "h4": {
+    "formal": 551864.0612407731,
+    "measured": 551864.0612407731,
+    "bitSame": true
+   }
+  },
+  "chainTail": {
+   "remaining": "鎖の終点(c4)の Buie 比の残差は、PLU060 の同じ解から作った二体(a=400 年平均・GM=Table 8)の周期と、Buie 2012 の二体当てはめ P との**定義の差**である —— 閉じた式(ε=0)で 7.2168 s。Buie の a と P が含意する GM は 972.0301 km³/s²(PLU060 の 975.4±0.5 と 3.370 km³/s²・6.74σ_GM 違う)"
+  }
+ },
+ "cleaned": {
+  "variants": {
+   "plu060Mean": {
+    "kind": "plu060Mean",
+    "aKm": 19595.764,
+    "mP": 0.013025172310458496,
+    "mC": 0.0015897512735990414,
+    "stages": {
+     "h": {
+      "periodsA": [
+       551862.0598992903,
+       551863.6598990252,
+       551863.6598991181,
+       551863.6599000522,
+       551863.6599000735,
+       551863.6599005928
+      ],
+      "periodsB": [
+       551863.6598992996,
+       551863.6598992823,
+       551863.6598992746,
+       551863.6598992439,
+       551863.6598992284,
+       551863.6598992161
+      ],
+      "p2": 551863.6598990252,
+      "p5": 551863.6599000735,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.013025172310458496,
+        0.0015897512735990414
+       ]
+      },
+      "osc0": {
+       "r": 195.95764,
+       "a": 195.95764,
+       "e": 0,
+       "vr": 0,
+       "vt": 0.022310549936581173
+      }
+     },
+     "h2": {
+      "periodsA": [
+       551862.8598533733,
+       551863.6598527584,
+       551863.6598517015,
+       551863.6598503441,
+       551863.6598503479,
+       551863.6598511634
+      ],
+      "periodsB": [
+       551863.6598534978,
+       551863.6598534356,
+       551863.659853407,
+       551863.6598534123,
+       551863.6598534085,
+       551863.6598534684
+      ],
+      "p2": 551863.6598527584,
+      "p5": 551863.6598503479,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.013025172310458496,
+        0.0015897512735990414
+       ]
+      },
+      "osc0": {
+       "r": 195.95764,
+       "a": 195.95764,
+       "e": 0,
+       "vr": 0,
+       "vt": 0.022310549936581173
+      }
+     },
+     "h4": {
+      "periodsA": [
+       551863.2598417012,
+       551863.6598410313,
+       551863.6598399396,
+       551863.6598404262,
+       551863.6598403723,
+       551863.6598429689
+      ],
+      "periodsB": [
+       551863.6598420112,
+       551863.6598420264,
+       551863.6598420118,
+       551863.6598419908,
+       551863.6598419826,
+       551863.6598419747
+      ],
+      "p2": 551863.6598410313,
+      "p5": 551863.6598403723,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.013025172310458496,
+        0.0015897512735990414
+       ]
+      },
+      "osc0": {
+       "r": 195.95764,
+       "a": 195.95764,
+       "e": 0,
+       "vr": 0,
+       "vt": 0.022310549936581173
+      }
+     }
+    },
+    "closedForm": 551863.6555250505
+   },
+   "buie": {
+    "kind": "buie",
+    "aKm": 19573,
+    "mP": 0.012980171275261253,
+    "mC": 0.0015842587970841123,
+    "stages": {
+     "h": {
+      "periodsA": [
+       551854.8431042028,
+       551856.4431040287,
+       551856.4431047777,
+       551856.4431059246,
+       551856.4431059328,
+       551856.4431073586
+      ],
+      "periodsB": [
+       551856.4431042406,
+       551856.4431042458,
+       551856.4431042108,
+       551856.4431041353,
+       551856.4431041467,
+       551856.4431041433
+      ],
+      "p2": 551856.4431040287,
+      "p5": 551856.4431059328,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.012980171275261253,
+        0.0015842587970841123
+       ]
+      },
+      "osc0": {
+       "r": 195.73000000000002,
+       "a": 195.73000000000008,
+       "e": 0,
+       "vr": 0,
+       "vt": 0.022284923648380923
+      }
+     },
+     "h2": {
+      "periodsA": [
+       551855.6430586636,
+       551856.4430575641,
+       551856.4430569999,
+       551856.4430567578,
+       551856.4430568055,
+       551856.4430600149
+      ],
+      "periodsB": [
+       551856.4430584768,
+       551856.4430585911,
+       551856.443058516,
+       551856.4430585323,
+       551856.4430585483,
+       551856.4430585661
+      ],
+      "p2": 551856.4430575641,
+      "p5": 551856.4430568055,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.012980171275261253,
+        0.0015842587970841123
+       ]
+      },
+      "osc0": {
+       "r": 195.73000000000002,
+       "a": 195.73000000000008,
+       "e": 0,
+       "vr": 0,
+       "vt": 0.022284923648380923
+      }
+     },
+     "h4": {
+      "periodsA": [
+       551856.0430470824,
+       551856.4430463177,
+       551856.4430478985,
+       551856.4430438189,
+       551856.4430438576,
+       551856.4430295507
+      ],
+      "periodsB": [
+       551856.4430469997,
+       551856.4430469946,
+       551856.4430469633,
+       551856.4430470476,
+       551856.4430470581,
+       551856.4430472103
+      ],
+      "p2": 551856.4430463177,
+      "p5": 551856.4430438576,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.012980171275261253,
+        0.0015842587970841123
+       ]
+      },
+      "osc0": {
+       "r": 195.73000000000002,
+       "a": 195.73000000000008,
+       "e": 0,
+       "vr": 0,
+       "vt": 0.022284923648380923
+      }
+     }
+    },
+    "closedForm": 551856.4387199999
+   },
+   "mixed": {
+    "kind": "mixed",
+    "aKm": 19573,
+    "mP": 0.013025172310458496,
+    "mC": 0.0015897512735990414,
+    "stages": {
+     "h": {
+      "periodsA": [
+       550900.7060773739,
+       550902.3060775367,
+       550902.3060778661,
+       550902.3060786768,
+       550902.3060787027,
+       550902.3060739104
+      ],
+      "periodsB": [
+       550902.3060772785,
+       550902.3060772578,
+       550902.3060772417,
+       550902.3060772824,
+       550902.3060773074,
+       550902.3060773168
+      ],
+      "p2": 550902.3060775367,
+      "p5": 550902.3060787027,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.013025172310458496,
+        0.0015897512735990414
+       ]
+      },
+      "osc0": {
+       "r": 195.73,
+       "a": 195.73,
+       "e": 0,
+       "vr": 0,
+       "vt": 0.022323520093821384
+      }
+     },
+     "h2": {
+      "periodsA": [
+       550901.506031504,
+       550902.3060324808,
+       550902.3060323548,
+       550902.306033572,
+       550902.3060335469,
+       550902.3060382169
+      ],
+      "periodsB": [
+       550902.3060314105,
+       550902.3060313876,
+       550902.3060314436,
+       550902.3060315166,
+       550902.3060315221,
+       550902.3060314823
+      ],
+      "p2": 550902.3060324808,
+      "p5": 550902.3060335469,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.013025172310458496,
+        0.0015897512735990414
+       ]
+      },
+      "osc0": {
+       "r": 195.73,
+       "a": 195.73,
+       "e": 0,
+       "vr": 0,
+       "vt": 0.022323520093821384
+      }
+     },
+     "h4": {
+      "periodsA": [
+       550901.9060198879,
+       550902.3060231493,
+       550902.3060242364,
+       550902.3060281053,
+       550902.3060280944,
+       550902.305988592
+      ],
+      "periodsB": [
+       550902.3060199678,
+       550902.3060200548,
+       550902.3060199653,
+       550902.306019922,
+       550902.3060199756,
+       550902.3060200672
+      ],
+      "p2": 550902.3060231493,
+      "p5": 550902.3060280944,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.013025172310458496,
+        0.0015897512735990414
+       ]
+      },
+      "osc0": {
+       "r": 195.73,
+       "a": 195.73,
+       "e": 0,
+       "vr": 0,
+       "vt": 0.022323520093821384
+      }
+     }
+    },
+    "closedForm": 550902.3017004572
+   },
+   "oldA": {
+    "kind": "oldA",
+    "aKm": 19596,
+    "mP": 0.013025172310458496,
+    "mC": 0.0015897512735990414,
+    "stages": {
+     "h": {
+      "periodsA": [
+       551872.0294172871,
+       551873.6294170824,
+       551873.6294170625,
+       551873.6294179864,
+       551873.6294180254,
+       551873.6294185522
+      ],
+      "periodsB": [
+       551873.6294172652,
+       551873.6294172454,
+       551873.6294172332,
+       551873.6294172062,
+       551873.6294172718,
+       551873.6294172681
+      ],
+      "p2": 551873.6294170824,
+      "p5": 551873.6294180254,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.013025172310458496,
+        0.0015897512735990414
+       ]
+      },
+      "osc0": {
+       "r": 195.95999999999998,
+       "a": 195.95999999999998,
+       "e": 2.220446049250313e-16,
+       "vr": 0,
+       "vt": 0.022310415590142157
+      }
+     },
+     "h2": {
+      "periodsA": [
+       551872.8293713478,
+       551873.6293708354,
+       551873.6293698093,
+       551873.6293683785,
+       551873.6293682526,
+       551873.6293681758
+      ],
+      "periodsB": [
+       551873.6293714761,
+       551873.6293715081,
+       551873.6293715411,
+       551873.62937155,
+       551873.6293714817,
+       551873.6293714645
+      ],
+      "p2": 551873.6293708354,
+      "p5": 551873.6293682526,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.013025172310458496,
+        0.0015897512735990414
+       ]
+      },
+      "osc0": {
+       "r": 195.95999999999998,
+       "a": 195.95999999999998,
+       "e": 2.220446049250313e-16,
+       "vr": 0,
+       "vt": 0.022310415590142157
+      }
+     },
+     "h4": {
+      "periodsA": [
+       551873.2293597555,
+       551873.6293590097,
+       551873.6293569484,
+       551873.6293565575,
+       551873.6293566303,
+       551873.6293620715
+      ],
+      "periodsB": [
+       551873.6293600937,
+       551873.6293601274,
+       551873.6293600103,
+       551873.629359919,
+       551873.629359979,
+       551873.6293600779
+      ],
+      "p2": 551873.6293590097,
+      "p5": 551873.6293566303,
+      "stop": "orbMax",
+      "applied": {
+       "G": 6.674,
+       "eps": 0.01,
+       "kFrame": 0,
+       "geoPN": 2,
+       "integ": "leapfrog",
+       "mF64": true,
+       "spF64": false,
+       "hasRD": false,
+       "integration": null,
+       "hasMV": false,
+       "mvDeny": null,
+       "n": 2,
+       "m": [
+        0.013025172310458496,
+        0.0015897512735990414
+       ]
+      },
+      "osc0": {
+       "r": 195.95999999999998,
+       "a": 195.95999999999998,
+       "e": 2.220446049250313e-16,
+       "vr": 0,
+       "vt": 0.022310415590142157
+      }
+     }
+    },
+    "closedForm": 551873.6250430674
+   }
+  },
+  "presetCheck": {
+   "presetP2": 551863.6598990252,
+   "constructedP2": 551863.6598990252,
+   "finalBitSame": null,
+   "p2BitSame": true,
+   "note": "内蔵 plutoCharonDiagInput と、器が 🌨️ の複製に同じ bodies を書いた構成の照合"
+  }
+ },
+ "sameDef": {
+  "rows": [
+   {
+    "id": "buieTwoBody",
+    "label": "Buie 2012 二体解(a=19573 km・GM=4π²a³/P²)",
+    "input": "Buie 二体解",
+    "law": "kF0",
+    "stage": "h4",
+    "p2": 551856.4430463177,
+    "p5": 551856.4430470581,
+    "p2B": 551856.4430469946,
+    "p5A": 551856.4430438576,
+    "p2Stages": {
+     "h": 551856.4431040287,
+     "h2": 551856.4430575641,
+     "h4": 551856.4430463177
+    },
+    "p5Stages": {
+     "h": 551856.4431041467,
+     "h2": 551856.4430585483,
+     "h4": 551856.4430470581
+    },
+    "buieSec2": 0.0043263176921755075,
+    "buieSigma2": 0.16691040479072175,
+    "buieSec5": 0.004327058093622327,
+    "buieSigma5": 0.1669389696613552,
+    "plu060MeanSec2": 0.5486463176785037,
+    "plu060MeanSec5": 0.5486470580799505
+   },
+   {
+    "id": "plutoCharonDiagInput",
+    "label": "入力を整えた ❄️ の診断コピー(PLU060 の同じ解: a=19595.764 km・GM 2024)",
+    "input": "PLU060 400 年平均",
+    "law": "kF0",
+    "stage": "h4",
+    "p2": 551863.6598410313,
+    "p5": 551863.6598419826,
+    "p2B": 551863.6598420264,
+    "p5A": 551863.6598403723,
+    "p2Stages": {
+     "h": 551863.6598990252,
+     "h2": 551863.6598527584,
+     "h4": 551863.6598410313
+    },
+    "p5Stages": {
+     "h": 551863.6598992284,
+     "h2": 551863.6598534085,
+     "h4": 551863.6598419826
+    },
+    "buieSec2": 7.2211210313253105,
+    "buieSigma2": 278.5926323813777,
+    "buieSec5": 7.22112198267132,
+    "buieSigma5": 278.5926690845417,
+    "plu060MeanSec2": 7.765441031311639,
+    "plu060MeanSec5": 7.765441982657649
+   },
+   {
+    "id": "plutoCharonKF0Control",
+    "label": "🌨️ kF0 対照(PLU060 元期 A の状態)",
+    "input": "PLU060 元期 A の状態",
+    "law": "kF0",
+    "stage": "h4",
+    "p2": 551886.6641195304,
+    "p5": 551886.6641188031,
+    "p2B": 551886.6641187941,
+    "p5A": 551886.6641197775,
+    "p2Stages": {
+     "h": 551886.6641760168,
+     "h2": 551886.6641304869,
+     "h4": 551886.6641195304
+    },
+    "p5Stages": {
+     "h": 551886.6641759459,
+     "h2": 551886.66413027,
+     "h4": 551886.6641188031
+    },
+    "buieSec2": 30.225399530376308,
+    "buieSigma2": 1166.1033769435305,
+    "buieSec5": 30.225398803129792,
+    "buieSigma5": 1166.1033488861804,
+    "plu060MeanSec2": 30.769719530362636,
+    "plu060MeanSec5": 30.76971880311612
+   },
+   {
+    "id": "plutoCharonDFM",
+    "label": "⛄ 相対すべりモデル(同じ状態 + pairSlip κ=1・中点法)",
+    "input": "PLU060 元期 A の状態",
+    "law": "pairSlip",
+    "stage": "h4",
+    "p2": 551888.0370457004,
+    "p5": 551888.3424628105,
+    "p2B": 551888.0370458559,
+    "p5A": 551888.3425286554,
+    "p2Stages": {
+     "h": 551888.0371070126,
+     "h2": 551888.0370578191,
+     "h4": 551888.0370457004
+    },
+    "p5Stages": {
+     "h": 551888.342556897,
+     "h2": 551888.3424962694,
+     "h4": 551888.3424628105
+    },
+    "buieSec2": 31.598325700382702,
+    "buieSigma2": 1219.0712075764932,
+    "buieSec5": 31.903742810478434,
+    "buieSigma5": 1230.8542750956187,
+    "plu060MeanSec2": 32.14264570036903,
+    "plu060MeanSec5": 32.44806281046476
+   },
+   {
+    "id": "plutoCharonReal",
+    "label": "❄️ 観測値版の kF0 診断コピー(旧入力・ε 50 km・semi)",
+    "input": "旧入力(NSSDC)",
+    "law": "kF0",
+    "stage": "h4",
+    "p2": 551864.0612407731,
+    "p5": 551864.0612417097,
+    "p2B": 551864.0612416851,
+    "p5A": 551864.0612410596,
+    "p2Stages": {
+     "h": 551864.0613632939,
+     "h2": 551864.0612661137,
+     "h4": 551864.0612407731
+    },
+    "p5Stages": {
+     "h": 551864.0613632735,
+     "h2": 551864.0612659846,
+     "h4": 551864.0612417097
+    },
+    "buieSec2": 7.622520773089491,
+    "buieSigma2": 294.07873352968716,
+    "buieSec5": 7.62252170976717,
+    "buieSigma5": 294.0787696669433,
+    "plu060MeanSec2": 8.166840773075819,
+    "plu060MeanSec5": 8.166841709753498
+   },
+   {
+    "id": "mixedDefinition",
+    "label": "(物差し)Buie の a × 2024 の GM —— **候補ではない**",
+    "input": "混在",
+    "law": "kF0",
+    "stage": "h4",
+    "p2": 550902.3060231493,
+    "p5": 550902.3060199756,
+    "p2B": 550902.3060200548,
+    "p5A": 550902.3060280944,
+    "p2Stages": {
+     "h": 550902.3060775367,
+     "h2": 550902.3060324808,
+     "h4": 550902.3060231493
+    },
+    "p5Stages": {
+     "h": 550902.3060773074,
+     "h2": 550902.3060315221,
+     "h4": 550902.3060199756
+    },
+    "buieSec2": -954.132696850691,
+    "buieSigma2": -36810.67503281987,
+    "buieSec5": -954.1327000244055,
+    "buieSigma5": -36810.67515526256,
+    "plu060MeanSec2": -953.5883768507047,
+    "plu060MeanSec5": -953.5883800244192
+   }
+  ],
+  "note": "列はすべて同方向 1 周(第 2 周は抽出器 (A)・正式判定と同じ/第 5 周は (B) 位相の直接判定)。σ は Buie 2012 の 26 ms で割った**比較値**であって門ではない。❄️ の行だけ単位が 10² s・積分器 semi(正式判定の構成)で、他は精密単位・leapfrog",
+  "gaps": {
+   "diagMinusCtl2": -23.004278499050997,
+   "diagMinusCtl5": -23.00427682045847,
+   "diagMinusDfm2": -24.37720466905739,
+   "diagMinusDfm5": -24.682620827807114,
+   "dfmMinusCtl2": 1.3729261700063944,
+   "dfmMinusCtl5": 1.6783440073486418,
+   "snowMinusDiag2": 0.40139974176418036,
+   "note": "「plutoCharonReal の精度を目標にする」を**同じ入力の定義・同じ抽出器(第 2 周・第 5 周)・同じ物理刻み 0.4 s**で比べた差(門ではない)"
+  }
+ },
+ "zero": {
+  "a": {
+   "g0.kdk.dt0.16": {
+    "geoPN": 0,
+    "speed": "kdk",
+    "dt": 0.16,
+    "velocityBuiltForDt": 0.16,
+    "Omega": 0.00011383995344422988,
+    "firstStep": {
+     "probe": {
+      "slipI": 0,
+      "slipJ": 0,
+      "kickMag": 0,
+      "torqueI": 0,
+      "torqueJ": 0,
+      "dE": 0
+     },
+     "step": {
+      "dE": 0,
+      "kickMax": 0,
+      "torqueMax": 0,
+      "slipMax": 0
+     },
+     "heat": 0,
+     "stateBitSame": true
+    },
+    "heat": 4.129604161748871e-32,
+    "heatNonZeroSteps": 1034872,
+    "steps": 1034872,
+    "pos": 58,
+    "kickMax": 3.421008395000347e-23,
+    "torqueMax": 6.244817180562483e-21,
+    "slipMax": 2.4934043220339215e-15,
+    "p2On": 551931.4719143555,
+    "p2Off": 551931.4719143542,
+    "dP2": 1.280568540096283e-9,
+    "p3On": 551931.4719362966,
+    "p3Off": 551931.4719362947,
+    "finalBitSame": false,
+    "spinEnd": [
+     0.00011383995344423112,
+     0.00011383995344423001
+    ],
+    "spin0": [
+     0.00011383995344422988,
+     0.00011383995344422988
+    ],
+    "eOsc2": 3.988627317688766e-9
+   },
+   "g0.kdk.dt0.04": {
+    "geoPN": 0,
+    "speed": "kdk",
+    "dt": 0.04,
+    "velocityBuiltForDt": 0.16,
+    "Omega": 0.00011383995344422988,
+    "firstStep": {
+     "probe": {
+      "slipI": 0,
+      "slipJ": 0,
+      "kickMag": 0,
+      "torqueI": 0,
+      "torqueJ": 0,
+      "dE": 0
+     },
+     "step": {
+      "dE": 0,
+      "kickMax": 0,
+      "torqueMax": 0,
+      "slipMax": 0
+     },
+     "heat": 0,
+     "stateBitSame": true
+    },
+    "heat": 2.602118952443947e-27,
+    "heatNonZeroSteps": 4139487,
+    "steps": 4139487,
+    "pos": 0,
+    "kickMax": 5.338534358197077e-21,
+    "torqueMax": 2.177143627883703e-20,
+    "slipMax": 8.278571777879816e-13,
+    "p2On": 551931.4718598132,
+    "p2Off": 551931.4718758394,
+    "dP2": -0.000016026198863983154,
+    "p3On": 551931.4718598132,
+    "p3Off": 551931.4718598137,
+    "finalBitSame": false,
+    "spinEnd": [
+     0.00011383995346145854,
+     0.00011383995346144264
+    ],
+    "spin0": [
+     0.00011383995344422988,
+     0.00011383995344422988
+    ],
+    "eOsc2": 3.9099497061120355e-9
+   },
+   "g0.softened.dt0.16": {
+    "geoPN": 0,
+    "speed": "softened",
+    "dt": 0.16,
+    "velocityBuiltForDt": 0.16,
+    "Omega": 0.00011383995344895089,
+    "firstStep": {
+     "probe": {
+      "slipI": 0,
+      "slipJ": 0,
+      "kickMag": 0,
+      "torqueI": 0,
+      "torqueJ": 0,
+      "dE": 0
+     },
+     "step": {
+      "dE": 0,
+      "kickMax": 0,
+      "torqueMax": 0,
+      "slipMax": 0
+     },
+     "heat": 0,
+     "stateBitSame": true
+    },
+    "heat": 2.6652983018897514e-27,
+    "heatNonZeroSteps": 1034872,
+    "steps": 1034872,
+    "pos": 0,
+    "kickMax": 1.7855751571606857e-20,
+    "torqueMax": 6.762295004907322e-20,
+    "slipMax": 6.921734840436078e-13,
+    "p2On": 551931.4719953325,
+    "p2Off": 551931.4719951301,
+    "dP2": 2.0244624465703964e-7,
+    "p3On": 551931.4719857742,
+    "p3Off": 551931.4719942346,
+    "finalBitSame": false,
+    "spinEnd": [
+     0.00011383995342932288,
+     0.0001138399534293107
+    ],
+    "spin0": [
+     0.00011383995344895089,
+     0.00011383995344895089
+    ],
+    "eOsc2": 3.988980596311424e-9
+   },
+   "g0.softened.dt0.04": {
+    "geoPN": 0,
+    "speed": "softened",
+    "dt": 0.04,
+    "velocityBuiltForDt": 0.16,
+    "Omega": 0.00011383995344895089,
+    "firstStep": {
+     "probe": {
+      "slipI": 0,
+      "slipJ": 0,
+      "kickMag": 0,
+      "torqueI": 0,
+      "torqueJ": 0,
+      "dE": 0
+     },
+     "step": {
+      "dE": 0,
+      "kickMax": 0,
+      "torqueMax": 0,
+      "slipMax": 0
+     },
+     "heat": 0,
+     "stateBitSame": true
+    },
+    "heat": 5.35723669660073e-29,
+    "heatNonZeroSteps": 4139487,
+    "steps": 4139487,
+    "pos": 0,
+    "kickMax": 7.223756914980166e-22,
+    "torqueMax": 6.237329065098894e-21,
+    "slipMax": 1.1228552122362518e-13,
+    "p2On": 551931.4718877668,
+    "p2Off": 551931.4718873085,
+    "dP2": 4.5832712203264236e-7,
+    "p3On": 551931.471859813,
+    "p3Off": 551931.4718598133,
+    "finalBitSame": false,
+    "spinEnd": [
+     0.00011383995344791619,
+     0.00011383995344796421
+    ],
+    "spin0": [
+     0.00011383995344895089,
+     0.00011383995344895089
+    ],
+    "eOsc2": 3.909967242841737e-9
+   },
+   "g2.kdk.dt0.16": {
+    "geoPN": 2,
+    "speed": "kdk",
+    "dt": 0.16,
+    "velocityBuiltForDt": 0.16,
+    "Omega": 0.00011383995344422988,
+    "firstStep": {
+     "probe": {
+      "slipI": 0,
+      "slipJ": 0,
+      "kickMag": 0,
+      "torqueI": 0,
+      "torqueJ": 0,
+      "dE": 0
+     },
+     "step": {
+      "dE": 0,
+      "kickMax": 0,
+      "torqueMax": 0,
+      "slipMax": 0
+     },
+     "heat": 0,
+     "stateBitSame": true
+    },
+    "heat": 3.7107846494968484e-30,
+    "heatNonZeroSteps": 1034872,
+    "steps": 1034872,
+    "pos": 2,
+    "kickMax": 8.090640467377138e-22,
+    "torqueMax": 6.271129497529573e-21,
+    "slipMax": 3.1422338980252674e-14,
+    "p2On": 551931.4719148526,
+    "p2Off": 551931.4719148835,
+    "dP2": -3.0850060284137726e-8,
+    "p3On": 551931.4719375316,
+    "p3Off": 551931.4719382221,
+    "finalBitSame": false,
+    "spinEnd": [
+     0.0001138399534439382,
+     0.00011383995344394358
+    ],
+    "spin0": [
+     0.00011383995344422988,
+     0.00011383995344422988
+    ],
+    "eOsc2": 3.989944265492248e-9
+   },
+   "g2.kdk.dt0.04": {
+    "geoPN": 2,
+    "speed": "kdk",
+    "dt": 0.04,
+    "velocityBuiltForDt": 0.16,
+    "Omega": 0.00011383995344422988,
+    "firstStep": {
+     "probe": {
+      "slipI": 0,
+      "slipJ": 0,
+      "kickMag": 0,
+      "torqueI": 0,
+      "torqueJ": 0,
+      "dE": 0
+     },
+     "step": {
+      "dE": 0,
+      "kickMax": 0,
+      "torqueMax": 0,
+      "slipMax": 0
+     },
+     "heat": 0,
+     "stateBitSame": true
+    },
+    "heat": 2.574860825621666e-27,
+    "heatNonZeroSteps": 4139487,
+    "steps": 4139487,
+    "pos": 0,
+    "kickMax": 5.262947573227941e-21,
+    "torqueMax": 2.1854776124316984e-20,
+    "slipMax": 8.161469479641298e-13,
+    "p2On": 551931.471859813,
+    "p2Off": 551931.4718759973,
+    "dP2": -0.000016184290871024132,
+    "p3On": 551931.4718598133,
+    "p3Off": 551931.4718598132,
+    "finalBitSame": false,
+    "spinEnd": [
+     0.00011383995346133524,
+     0.00011383995346132157
+    ],
+    "spin0": [
+     0.00011383995344422988,
+     0.00011383995344422988
+    ],
+    "eOsc2": 3.9114412927874775e-9
+   },
+   "g2.softened.dt0.16": {
+    "geoPN": 2,
+    "speed": "softened",
+    "dt": 0.16,
+    "velocityBuiltForDt": 0.16,
+    "Omega": 0.00011383995344895089,
+    "firstStep": {
+     "probe": {
+      "slipI": 0,
+      "slipJ": 0,
+      "kickMag": 0,
+      "torqueI": 0,
+      "torqueJ": 0,
+      "dE": 0
+     },
+     "step": {
+      "dE": 0,
+      "kickMax": 0,
+      "torqueMax": 0,
+      "slipMax": 0
+     },
+     "heat": 0,
+     "stateBitSame": true
+    },
+    "heat": 2.7939551610602062e-27,
+    "heatNonZeroSteps": 1034872,
+    "steps": 1034872,
+    "pos": 0,
+    "kickMax": 1.820690090381613e-20,
+    "torqueMax": 6.854388514289104e-20,
+    "slipMax": 7.057755377486732e-13,
+    "p2On": 551931.4720036954,
+    "p2Off": 551931.4719961823,
+    "dP2": 0.000007513095624744892,
+    "p3On": 551931.4719911008,
+    "p3Off": 551931.4719952393,
+    "finalBitSame": false,
+    "spinEnd": [
+     0.00011383995342885361,
+     0.00011383995342884144
+    ],
+    "spin0": [
+     0.00011383995344895089,
+     0.00011383995344895089
+    ],
+    "eOsc2": 3.990532021127426e-9
+   },
+   "g2.softened.dt0.04": {
+    "geoPN": 2,
+    "speed": "softened",
+    "dt": 0.04,
+    "velocityBuiltForDt": 0.16,
+    "Omega": 0.00011383995344895089,
+    "firstStep": {
+     "probe": {
+      "slipI": 0,
+      "slipJ": 0,
+      "kickMag": 0,
+      "torqueI": 0,
+      "torqueJ": 0,
+      "dE": 0
+     },
+     "step": {
+      "dE": 0,
+      "kickMax": 0,
+      "torqueMax": 0,
+      "slipMax": 0
+     },
+     "heat": 0,
+     "stateBitSame": true
+    },
+    "heat": 6.660082652449353e-29,
+    "heatNonZeroSteps": 4139487,
+    "steps": 4139487,
+    "pos": 0,
+    "kickMax": 8.875686747545253e-22,
+    "torqueMax": 6.2373290651014105e-21,
+    "slipMax": 1.3783146148034794e-13,
+    "p2On": 551931.4718879606,
+    "p2Off": 551931.4718876157,
+    "dP2": 3.448221832513809e-7,
+    "p3On": 551931.4718598132,
+    "p3Off": 551931.4718598153,
+    "finalBitSame": false,
+    "spinEnd": [
+     0.00011383995344774509,
+     0.00011383995344776412
+    ],
+    "spin0": [
+     0.00011383995344895089,
+     0.00011383995344895089
+    ],
+    "eOsc2": 3.9115548847828845e-9
+   },
+   "preset": {
+    "firstStep": {
+     "probe": {
+      "slipI": 0,
+      "slipJ": 0,
+      "kickMag": 0,
+      "torqueI": 0,
+      "torqueJ": 0,
+      "dE": 0
+     },
+     "step": {
+      "dE": 0,
+      "kickMax": 0,
+      "torqueMax": 0,
+      "slipMax": 0
+     },
+     "heat": 0,
+     "stateBitSame": true
+    },
+    "heat": 4.129604161748871e-32,
+    "heatNonZeroSteps": 1034872,
+    "steps": 1034872,
+    "pos": 58,
+    "kickMax": 3.421008395000347e-23,
+    "torqueMax": 6.244817180562483e-21,
+    "slipMax": 2.4934043220339215e-15,
+    "p2On": 551931.4719143555,
+    "p2Off": 551931.4719143542,
+    "dP2": 1.280568540096283e-9,
+    "finalBitSame": false,
+    "applied": {
+     "G": 6.674,
+     "eps": 0.01,
+     "kFrame": 0,
+     "geoPN": 0,
+     "integ": "leapfrog",
+     "mF64": true,
+     "spF64": true,
+     "hasRD": true,
+     "integration": "midpoint",
+     "hasMV": false,
+     "mvDeny": null,
+     "n": 2,
+     "m": [
+      0.013025172310458496,
+      0.0015897512735990414
+     ]
+    }
+   }
+  },
+  "b": {
+   "declared.dt0.16": {
+    "label": "宣言のまま(PLU060 400 年平均の同期 ω=2π/551855.8944 s)",
+    "dt": 0.16,
+    "slip0": [
+     0.0000047974298640990265,
+     0.0000047974298640990265
+    ],
+    "osc0": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "spin0": [
+     0.00011385554400956285,
+     0.00011385554400956285
+    ],
+    "delta": [
+     -4.479781597736292,
+     1.37293099577073,
+     1.6753114628372714,
+     1.6783407233888283,
+     1.6783526734216139,
+     1.6783528088126332
+    ],
+    "pOn": [
+     551880.5843943822,
+     551888.0371070126,
+     551888.339487447,
+     551888.3425166262,
+     551888.3425286558,
+     551888.3425286552
+    ],
+    "pOff": [
+     551885.0641759799,
+     551886.6641760168,
+     551886.6641759842,
+     551886.6641759028,
+     551886.6641759824,
+     551886.6641758464
+    ],
+    "heat": 7.872100015725165e-15,
+    "pos": 0,
+    "spinEnd": [
+     0.00011384884989094458,
+     0.0001138488498909324
+    ],
+    "eEnd": 3.990777714350039e-9,
+    "slipEnd": [
+     4.423409390855642e-15,
+     3.677066008421909e-15
+    ],
+    "estimateFromSpinTransfer": {
+     "dLspin": -6.3483048124200155e-9,
+     "dLorb": 6.3483048124200155e-9,
+     "rel": 0.0000030745701447982247,
+     "dPsec": 1.6968142609878651
+    }
+   },
+   "declared.dt0.04": {
+    "label": "宣言のまま(PLU060 400 年平均の同期 ω=2π/551855.8944 s)",
+    "dt": 0.04,
+    "slip0": [
+     0.0000047974298640990265,
+     0.0000047974298640990265
+    ],
+    "osc0": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "spin0": [
+     0.00011385554400956285,
+     0.00011385554400956285
+    ],
+    "delta": [
+     -4.4797565079061314,
+     1.3729261700063944,
+     1.675299083115533,
+     1.678408861043863,
+     1.6784088779240847,
+     1.6780191828729585
+    ],
+    "pOn": [
+     551881.7843623356,
+     551888.0370457004,
+     551888.3394186178,
+     551888.3425286558,
+     551888.3425286554,
+     551888.3421381295
+    ],
+    "pOff": [
+     551886.2641188435,
+     551886.6641195304,
+     551886.6641195347,
+     551886.6641197947,
+     551886.6641197775,
+     551886.6641189466
+    ],
+    "heat": 7.872102869988824e-15,
+    "pos": 0,
+    "spinEnd": [
+     0.00011384884991630801,
+     0.00011384884991635669
+    ],
+    "eEnd": 3.912095908127093e-9,
+    "slipEnd": [
+     1.5734223027359744e-14,
+     1.228446717321304e-14
+    ],
+    "estimateFromSpinTransfer": {
+     "dLspin": -6.348280757469144e-9,
+     "dLorb": 6.348280757469144e-9,
+     "rel": 0.0000030745584946591765,
+     "dPsec": 1.6968078312578179
+    }
+   },
+   "instantaneous.dt0.16": {
+    "label": "瞬間同期 ω=v_t/r(元期 A の接線速度 / 離角)",
+    "dt": 0.16,
+    "slip0": [
+     0.0000031023593842577354,
+     0.0000031023593842577354
+    ],
+    "osc0": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "spin0": [
+     0.00011383687144988769,
+     0.00011383687144988769
+    ],
+    "delta": [
+     -7.256715425406583,
+     -3.5885631995042786,
+     -3.318600415950641,
+     -3.315880785230547,
+     -3.3158652496058494,
+     -3.315788561012596
+    ],
+    "pOn": [
+     551877.8074605545,
+     551883.0756128173,
+     551883.3455755683,
+     551883.3482951176,
+     551883.3483107327,
+     551883.3483872854
+    ],
+    "pOff": [
+     551885.0641759799,
+     551886.6641760168,
+     551886.6641759842,
+     551886.6641759028,
+     551886.6641759824,
+     551886.6641758464
+    ],
+    "heat": 7.928009215157075e-15,
+    "pos": 0,
+    "spinEnd": [
+     0.000113849880159721,
+     0.00011384988015970882
+    ],
+    "eEnd": 3.990799471709446e-9,
+    "slipEnd": [
+     4.15482199783192e-15,
+     3.349183287627296e-15
+    ],
+    "estimateFromSpinTransfer": {
+     "dLspin": 1.2336688358914101e-8,
+     "dLorb": -1.2336688358914101e-8,
+     "rel": -0.0000059748255376442665,
+     "dPsec": -3.2974265350041705
+    }
+   },
+   "instantaneous.dt0.04": {
+    "label": "瞬間同期 ω=v_t/r(元期 A の接線速度 / 離角)",
+    "dt": 0.04,
+    "slip0": [
+     0.0000031023593842577354,
+     0.0000031023593842577354
+    ],
+    "osc0": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "spin0": [
+     0.00011383687144988769,
+     0.00011383687144988769
+    ],
+    "delta": [
+     -7.25669036724139,
+     -3.5885678353952244,
+     -3.3185962981078774,
+     -3.315916697611101,
+     -3.3159166803816333,
+     -3.3156067418167368
+    ],
+    "pOn": [
+     551879.0074284762,
+     551883.075551695,
+     551883.3455232366,
+     551883.3482030971,
+     551883.3482030971,
+     551883.3485122048
+    ],
+    "pOff": [
+     551886.2641188435,
+     551886.6641195304,
+     551886.6641195347,
+     551886.6641197947,
+     551886.6641197775,
+     551886.6641189466
+    ],
+    "heat": 7.928012402385074e-15,
+    "pos": 0,
+    "spinEnd": [
+     0.0001138498801833711,
+     0.00011384988018341976
+    ],
+    "eEnd": 3.912220356384499e-9,
+    "slipEnd": [
+     1.483616034741796e-14,
+     1.110212854142304e-14
+    ],
+    "estimateFromSpinTransfer": {
+     "dLspin": 1.2336710789036891e-8,
+     "dLorb": -1.2336710789036891e-8,
+     "rel": -0.00000597483640085703,
+     "dPsec": -3.2974325299289275
+    }
+   },
+   "osculatingMean.dt0.16": {
+    "label": "接触要素の平均運動 ω=n=√(GM/a³)(元期 A)",
+    "dt": 0.16,
+    "slip0": [
+     0.000003931822237399374,
+     0.000003931822237399374
+    ],
+    "osc0": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "spin0": [
+     0.00011384919703322762,
+     0.00011384919703322762
+    ],
+    "delta": [
+     -5.423688728827983,
+     -0.31352984777186066,
+     -0.022169744479469955,
+     -0.01922391587868333,
+     -0.01918997534085065,
+     -0.019287469913251698
+    ],
+    "pOn": [
+     551879.6404872511,
+     551886.350646169,
+     551886.6420062397,
+     551886.644951987,
+     551886.644986007,
+     551886.6448883765
+    ],
+    "pOff": [
+     551885.0641759799,
+     551886.6641760168,
+     551886.6641759842,
+     551886.6641759028,
+     551886.6641759824,
+     551886.6641758464
+    ],
+    "heat": 7.851962935177546e-15,
+    "pos": 0,
+    "spinEnd": [
+     0.00011384920008685531,
+     0.00011384920008684313
+    ],
+    "eEnd": 3.990781598346843e-9,
+    "slipEnd": [
+     3.933959467852715e-15,
+     3.0735864332730633e-15
+    ],
+    "estimateFromSpinTransfer": {
+     "dLspin": 2.8958789178206266e-12,
+     "dLorb": -2.8958789178206266e-12,
+     "rel": -1.4025134467807295e-9,
+     "dPsec": -0.0007740284676058242
+    }
+   },
+   "osculatingMean.dt0.04": {
+    "label": "接触要素の平均運動 ω=n=√(GM/a³)(元期 A)",
+    "dt": 0.04,
+    "slip0": [
+     0.000003931822237399374,
+     0.000003931822237399374
+    ],
+    "osc0": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "spin0": [
+     0.00011384919703322762,
+     0.00011384919703322762
+    ],
+    "delta": [
+     -5.423663681955077,
+     -0.3135347847128287,
+     -0.02216699905693531,
+     -0.0192414247430861,
+     -0.01924140751361847,
+     -0.01924057607538998
+    ],
+    "pOn": [
+     551880.8404551615,
+     551886.3505847456,
+     551886.6419525356,
+     551886.64487837,
+     551886.64487837,
+     551886.6448783706
+    ],
+    "pOff": [
+     551886.2641188435,
+     551886.6641195304,
+     551886.6641195347,
+     551886.6641197947,
+     551886.6641197775,
+     551886.6641189466
+    ],
+    "heat": 7.851965904427514e-15,
+    "pos": 0,
+    "spinEnd": [
+     0.00011384920011249449,
+     0.00011384920011254317
+    ],
+    "eEnd": 3.9121600692069836e-9,
+    "slipEnd": [
+     1.46364559748023e-14,
+     1.0833799278521774e-14
+    ],
+    "estimateFromSpinTransfer": {
+     "dLspin": 2.9201953638755947e-12,
+     "dLorb": -2.9201953638755947e-12,
+     "rel": -1.4142902314937026e-9,
+     "dPsec": -0.0007805279179558979
+    }
+   },
+   "circularized.dt0.16": {
+    "label": "円化(v_r=0・v_t=離散相対平衡)+ 瞬間同期(= 零条件)",
+    "dt": 0.16,
+    "slip0": [
+     0,
+     0
+    ],
+    "osc0": {
+     "r": 195.97369307113357,
+     "a": 195.9736922894704,
+     "e": 3.988612773397904e-9,
+     "vr": 0,
+     "vt": 0.022309636095511638
+    },
+    "spin0": [
+     0.00011383995344422988,
+     0.00011383995344422988
+    ],
+    "delta": [
+     -1.6635749489068985e-7,
+     -3.0850060284137726e-8,
+     -6.904592737555504e-7,
+     -0.0000010544899851083755,
+     -0.000001085922122001648,
+     -5.820766091346741e-10
+    ],
+    "pOn": [
+     551929.8719226157,
+     551931.4719148526,
+     551931.4719375316,
+     551931.471965581,
+     551931.4719655565,
+     551931.4718698204
+    ],
+    "pOff": [
+     551929.871922782,
+     551931.4719148835,
+     551931.4719382221,
+     551931.4719666354,
+     551931.4719666424,
+     551931.471869821
+    ],
+    "heat": 4.004021511187365e-30,
+    "pos": 2,
+    "spinEnd": [
+     0.00011383995344393703,
+     0.00011383995344394378
+    ],
+    "eEnd": 3.990082488872867e-9,
+    "slipEnd": [
+     1.8756862846102698e-15,
+     1.39158131676445e-15
+    ],
+    "estimateFromSpinTransfer": {
+     "dLspin": -2.775179152384402e-16,
+     "dLorb": 2.775179152384402e-16,
+     "rel": 1.3440569129091466e-13,
+     "dPsec": 7.418273102793197e-8
+    }
+   },
+   "circularized.dt0.04": {
+    "label": "円化(v_r=0・v_t=離散相対平衡)+ 瞬間同期(= 零条件)",
+    "dt": 0.04,
+    "slip0": [
+     0,
+     0
+    ],
+    "osc0": {
+     "r": 195.97369307113357,
+     "a": 195.9736922894704,
+     "e": 3.988612773397904e-9,
+     "vr": 0,
+     "vt": 0.022309636095511638
+    },
+    "spin0": [
+     0.00011383995344422988,
+     0.00011383995344422988
+    ],
+    "delta": [
+     0.00001718127168715,
+     -0.000016184290871024132,
+     1.1641532182693481e-10,
+     2.3283064365386963e-10,
+     -3.4924596548080444e-10,
+     5.820766091346741e-10
+    ],
+    "pOn": [
+     551931.0718886727,
+     551931.471859813,
+     551931.4718598133,
+     551931.471859813,
+     551931.471859813,
+     551931.4718598133
+    ],
+    "pOff": [
+     551931.0718714914,
+     551931.4718759973,
+     551931.4718598132,
+     551931.4718598127,
+     551931.4718598133,
+     551931.4718598127
+    ],
+    "heat": 2.5828550955699233e-27,
+    "pos": 0,
+    "spinEnd": [
+     0.00011383995346124173,
+     0.00011383995346125651
+    ],
+    "eEnd": 3.912049589012768e-9,
+    "slipEnd": [
+     7.923174331276365e-15,
+     7.493550534496584e-15
+    ],
+    "estimateFromSpinTransfer": {
+     "dLspin": 1.6133460872318172e-14,
+     "dLorb": -1.6133460872318172e-14,
+     "rel": -7.813653974720003e-12,
+     "dPsec": -0.000004312601538996947
+    }
+   },
+   "inputs": {
+    "aSepUnits": 195.97369307113357,
+    "vt": 0.022309032105698377,
+    "vr": -0.0000031023593842577354,
+    "oscA": 195.9630855871938,
+    "nOsc": 0.00011384919703322762,
+    "omegaDeclared": 0.00011385554400956285,
+    "IP": 0.9191499571750655,
+    "IC": 0.029190694384315114,
+    "mu": 0.001416824668996972,
+    "spinMismatchRel": 0.00016402910091727277,
+    "spinMismatchVsNRel": 0.000055748977600348054
+   }
+  },
+  "c": {
+   "m0Third": {
+    "label": "mutual:0・外部 = 遠い第 3 体(40 万 km・0.01 単位=100 m/s で動く・質量 1e-9 単位=10¹⁵ kg)",
+    "dt": 0.16,
+    "applied": {
+     "G": 6.674,
+     "eps": 0.01,
+     "kFrame": 0,
+     "geoPN": 2,
+     "integ": "leapfrog",
+     "mF64": true,
+     "spF64": false,
+     "hasRD": false,
+     "integration": null,
+     "hasMV": true,
+     "mvDeny": null,
+     "n": 3,
+     "m": [
+      0.013025172310458496,
+      0.0015897512735990414,
+      1e-9
+     ]
+    },
+    "stop": "orbMax",
+    "err": null,
+    "p2On": 551886.6641712498,
+    "p3On": 551886.6641710037,
+    "revsOn": 3,
+    "meshVel": {
+     "n": 1034788,
+     "undef": 1034788,
+     "bad": 0,
+     "uMax": 0.010050826016466233,
+     "kickMax": 3.0097608537272047e-25,
+     "work": -1.557718607843372e-28,
+     "chiMin": 0,
+     "chiMax": 0
+    },
+    "osc0On": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "trace": [
+     {
+      "step": 0,
+      "r": 195.97369257475432,
+      "e": 0.0001492265267823178,
+      "vr": -0.0000031023813860536606
+     },
+     {
+      "step": 100000,
+      "r": 195.93405492569198,
+      "e": 0.0001492211017517305,
+      "vr": -3.994320679445611e-7
+     },
+     {
+      "step": 200000,
+      "r": 195.9668977421102,
+      "e": 0.0001492256192354488,
+      "vr": 0.000003300784543590827
+     },
+     {
+      "step": 300000,
+      "r": 195.99022886858236,
+      "e": 0.00014922880002580716,
+      "vr": -0.0000012387193581580161
+     },
+     {
+      "step": 400000,
+      "r": 195.94581050786618,
+      "e": 0.00014922271038681406,
+      "vr": -0.000002686389537458623
+     },
+     {
+      "step": 500000,
+      "r": 195.94452318933475,
+      "e": 0.00014922255425291268,
+      "vr": 0.000002572677647166668
+     },
+     {
+      "step": 600000,
+      "r": 195.98958079677266,
+      "e": 0.00014922872524186074,
+      "vr": 0.0000014088536629830705
+     },
+     {
+      "step": 700000,
+      "r": 195.96850649998012,
+      "e": 0.00014922582013744728,
+      "vr": -0.000003271469252320379
+     },
+     {
+      "step": 800000,
+      "r": 195.93390460181848,
+      "e": 0.00014922108752474743,
+      "vr": 2.146807326532793e-7
+     },
+     {
+      "step": 900000,
+      "r": 195.97215848520418,
+      "e": 0.0001492263430350108,
+      "vr": 0.000003164834599716733
+     },
+     {
+      "step": 1000000,
+      "r": 195.98776850755348,
+      "e": 0.00014922846384408866,
+      "vr": -0.000001785147706571686
+     }
+    ],
+    "rRange": [
+     195.93390460181848,
+     195.99232473618753
+    ],
+    "offs": {
+     "plain": {
+      "p2": 551886.66417105,
+      "p3": 551886.6641707735,
+      "dP2": 1.9988510757684708e-7,
+      "dP3": 2.3026950657367706e-7
+     },
+     "boosted": {
+      "p2": 551886.6641742958,
+      "p3": 551886.6641743998,
+      "dP2": -0.0000030460068956017494,
+      "dP3": -0.0000033960677683353424
+     }
+    }
+   },
+   "m0ThirdNoPN": {
+    "label": "同上・1PN を切る(geoPN 0 —— 1PN が慣性速度 v を読む分を除く)",
+    "dt": 0.16,
+    "applied": {
+     "G": 6.674,
+     "eps": 0.01,
+     "kFrame": 0,
+     "geoPN": 0,
+     "integ": "leapfrog",
+     "mF64": true,
+     "spF64": false,
+     "hasRD": false,
+     "integration": null,
+     "hasMV": true,
+     "mvDeny": null,
+     "n": 3,
+     "m": [
+      0.013025172310458496,
+      0.0015897512735990414,
+      1e-9
+     ]
+    },
+    "stop": "orbMax",
+    "err": null,
+    "p2On": 551886.6641697286,
+    "p3On": 551886.664169735,
+    "revsOn": 3,
+    "meshVel": {
+     "n": 1034788,
+     "undef": 1034788,
+     "bad": 0,
+     "uMax": 0.010050826016466249,
+     "kickMax": 3.009760853525151e-25,
+     "work": 5.751735051249831e-28,
+     "chiMin": 0,
+     "chiMax": 0
+    },
+    "osc0On": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "trace": [
+     {
+      "step": 0,
+      "r": 195.97369257475432,
+      "e": 0.00014922652678234382,
+      "vr": -0.000003102381386054283
+     },
+     {
+      "step": 100000,
+      "r": 195.9340549253226,
+      "e": 0.00014922110384197302,
+      "vr": -3.9943210092550273e-7
+     },
+     {
+      "step": 200000,
+      "r": 195.96689774156923,
+      "e": 0.00014922561962981922,
+      "vr": 0.0000033007845610469816
+     },
+     {
+      "step": 300000,
+      "r": 195.99022886853535,
+      "e": 0.00014922879919369606,
+      "vr": -0.0000012387193325584661
+     },
+     {
+      "step": 400000,
+      "r": 195.94581050776515,
+      "e": 0.00014922271189506274,
+      "vr": -0.0000026863895677468825
+     },
+     {
+      "step": 500000,
+      "r": 195.94452318878402,
+      "e": 0.00014922255587127882,
+      "vr": 0.0000025726776376958025
+     },
+     {
+      "step": 600000,
+      "r": 195.98958079648645,
+      "e": 0.00014922872453317757,
+      "vr": 0.0000014088536965346226
+     },
+     {
+      "step": 700000,
+      "r": 195.96850649995798,
+      "e": 0.00014922582060039334,
+      "vr": -0.0000032714692634060675
+     },
+     {
+      "step": 800000,
+      "r": 195.9339046013787,
+      "e": 0.00014922108999939826,
+      "vr": 2.1468070785457134e-7
+     },
+     {
+      "step": 900000,
+      "r": 195.97215848483376,
+      "e": 0.0001492263435398582,
+      "vr": 0.000003164834631837646
+     },
+     {
+      "step": 1000000,
+      "r": 195.9877685077528,
+      "e": 0.0001492284634995356,
+      "vr": -0.0000017851476890091246
+     }
+    ],
+    "rRange": [
+     195.9339046013787,
+     195.99232473604218
+    ],
+    "offs": {
+     "plain": {
+      "p2": 551886.6641693774,
+      "p3": 551886.6641690398,
+      "dP2": 3.5122502595186234e-7,
+      "dP3": 6.952323019504547e-7
+     },
+     "boosted": {
+      "p2": 551886.6641698171,
+      "p3": 551886.664170179,
+      "dP2": -8.847564458847046e-8,
+      "dP3": -4.440080374479294e-7
+     }
+    }
+   },
+   "m0Charon": {
+    "label": "mutual:0・外部 = カロン(冥王星だけが v_カロン で移される)",
+    "dt": 0.16,
+    "applied": {
+     "G": 6.674,
+     "eps": 0.01,
+     "kFrame": 0,
+     "geoPN": 2,
+     "integ": "leapfrog",
+     "mF64": true,
+     "spF64": false,
+     "hasRD": false,
+     "integration": null,
+     "hasMV": true,
+     "mvDeny": null,
+     "n": 2,
+     "m": [
+      0.013025172310458496,
+      0.0015897512735990414
+     ]
+    },
+    "stop": "steps",
+    "err": null,
+    "p2On": null,
+    "p3On": null,
+    "revsOn": 1,
+    "meshVel": {
+     "n": 1138267,
+     "undef": 1138267,
+     "bad": 0,
+     "uMax": 0.27584322308939235,
+     "kickMax": 3.256245319791117e-20,
+     "work": -5.795824884764034e-23,
+     "chiMin": 0,
+     "chiMax": 0
+    },
+    "osc0On": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "trace": [
+     {
+      "step": 0,
+      "r": 195.97369304296052,
+      "e": 0.00016445836360788873,
+      "vr": -0.000003464516462722472
+     },
+     {
+      "step": 100000,
+      "r": 162.6639169197846,
+      "e": 1.8318763159852254,
+      "vr": -0.04061360967961786
+     },
+     {
+      "step": 200000,
+      "r": 24.8936617422643,
+      "e": 10.846404917130075,
+      "vr": 0.18722003121391548
+     },
+     {
+      "step": 300000,
+      "r": 185.65818177400334,
+      "e": 2.454288952995117,
+      "vr": 0.05474177167334097
+     },
+     {
+      "step": 400000,
+      "r": 253.40032113799126,
+      "e": 1.1832450209900272,
+      "vr": 0.025909588993557643
+     },
+     {
+      "step": 500000,
+      "r": 280.72435690786983,
+      "e": 0.4083109250444798,
+      "vr": 0.006132330516762438
+     },
+     {
+      "step": 600000,
+      "r": 275.5733561134027,
+      "e": 0.6169208376009924,
+      "vr": -0.012161314230225142
+     },
+     {
+      "step": 700000,
+      "r": 236.66046090953722,
+      "e": 1.515478895188159,
+      "vr": -0.03359231927426365
+     },
+     {
+      "step": 800000,
+      "r": 150.63971655038034,
+      "e": 3.169454669088839,
+      "vr": -0.07039196712980662
+     },
+     {
+      "step": 900000,
+      "r": 95.17782685146162,
+      "e": 5.149531407767131,
+      "vr": 0.11243203911386326
+     },
+     {
+      "step": 1000000,
+      "r": 230.72361436737393,
+      "e": 2.5884330951603216,
+      "vr": 0.05765066143946336
+     },
+     {
+      "step": 1100000,
+      "r": 312.44044939195965,
+      "e": 1.7493098430225023,
+      "vr": 0.038130975237391895
+     }
+    ],
+    "rRange": [
+     24.8936617422643,
+     325.2083735318831
+    ],
+    "offs": {
+     "plain": {
+      "p2": 551886.6641760168,
+      "p3": 551886.6641759842,
+      "dP2": null,
+      "dP3": null
+     }
+    }
+   },
+   "m1Third": {
+    "label": "mutual:1・外部 = 遠い第 3 体(相手を含む合成 —— 相対作用の引きずりの全強度)",
+    "dt": 0.16,
+    "applied": {
+     "G": 6.674,
+     "eps": 0.01,
+     "kFrame": 0,
+     "geoPN": 2,
+     "integ": "leapfrog",
+     "mF64": true,
+     "spF64": false,
+     "hasRD": false,
+     "integration": null,
+     "hasMV": true,
+     "mvDeny": null,
+     "n": 3,
+     "m": [
+      0.013025172310458496,
+      0.0015897512735990414,
+      1e-9
+     ]
+    },
+    "stop": "steps",
+    "err": null,
+    "p2On": null,
+    "p3On": null,
+    "revsOn": 0,
+    "meshVel": {
+     "n": 1138267,
+     "undef": 0,
+     "bad": 0,
+     "uMax": 0.41271099256720173,
+     "kickMax": 9.503972650550686e-10,
+     "work": 8.141332121455238e-12,
+     "chiMin": 0.9999998947570853,
+     "chiMax": 1
+    },
+    "osc0On": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "trace": [
+     {
+      "step": 0,
+      "r": 195.9736931036421,
+      "e": 0.0001663304017893287,
+      "vr": -0.0000035087158545428703
+     },
+     {
+      "step": 100000,
+      "r": 195.9769435290544,
+      "e": 1.8215472118428921,
+      "vr": -0.04063915582844912
+     },
+     {
+      "step": 200000,
+      "r": 195.9801926022118,
+      "e": 3.6429371643496697,
+      "vr": -0.0812748035611331
+     },
+     {
+      "step": 300000,
+      "r": 195.98343655745384,
+      "e": 5.464327141769658,
+      "vr": -0.12191045372876114
+     },
+     {
+      "step": 400000,
+      "r": 195.98658931594832,
+      "e": 7.2857153387033655,
+      "vr": -0.16254613478519359
+     },
+     {
+      "step": 500000,
+      "r": 195.98978387064057,
+      "e": 9.107105742620778,
+      "vr": -0.2031818547612102
+     },
+     {
+      "step": 600000,
+      "r": 195.99302929487064,
+      "e": 10.92849746481767,
+      "vr": -0.24381757357522388
+     },
+     {
+      "step": 700000,
+      "r": 195.99627877780082,
+      "e": 12.749889303334973,
+      "vr": -0.28445329308964473
+     },
+     {
+      "step": 800000,
+      "r": 195.99952942731622,
+      "e": 14.571281186305072,
+      "vr": -0.32508901308430654
+     },
+     {
+      "step": 900000,
+      "r": 196.00278061175092,
+      "e": 16.392673095415653,
+      "vr": -0.3657247334512956
+     },
+     {
+      "step": 1000000,
+      "r": 196.00603211564564,
+      "e": 18.2140650238164,
+      "vr": -0.4063604541435831
+     },
+     {
+      "step": 1100000,
+      "r": 196.00928384617916,
+      "e": 20.03545696862095,
+      "vr": -0.446996175144397
+     }
+    ],
+    "rRange": [
+     195.9736931036421,
+     196.00993421502105
+    ],
+    "offs": {
+     "plain": {
+      "p2": 551886.66417105,
+      "p3": 551886.6641707735,
+      "dP2": null,
+      "dP3": null
+     }
+    }
+   },
+   "m1Charon": {
+    "label": "mutual:1・外部 = カロン(2 体だけ)",
+    "dt": 0.16,
+    "applied": {
+     "G": 6.674,
+     "eps": 0.01,
+     "kFrame": 0,
+     "geoPN": 2,
+     "integ": "leapfrog",
+     "mF64": true,
+     "spF64": false,
+     "hasRD": false,
+     "integration": null,
+     "hasMV": true,
+     "mvDeny": null,
+     "n": 2,
+     "m": [
+      0.013025172310458496,
+      0.0015897512735990414
+     ]
+    },
+    "stop": "steps",
+    "err": null,
+    "p2On": null,
+    "p3On": null,
+    "revsOn": 0,
+    "meshVel": {
+     "n": 1138267,
+     "undef": 0,
+     "bad": 0,
+     "uMax": 0.4127105102247917,
+     "kickMax": 5.025259161822112e-21,
+     "work": 1.6505266531723455e-21,
+     "chiMin": 0,
+     "chiMax": 1
+    },
+    "osc0On": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "trace": [
+     {
+      "step": 0,
+      "r": 195.9736931036421,
+      "e": 0.00016633040179744174,
+      "vr": -0.000003508715854734287
+     },
+     {
+      "step": 100000,
+      "r": 195.97694400934117,
+      "e": 1.8215472110743345,
+      "vr": -0.04063915576717866
+     },
+     {
+      "step": 200000,
+      "r": 195.9801950228939,
+      "e": 3.6429371521031526,
+      "vr": -0.08127480284051215
+     },
+     {
+      "step": 300000,
+      "r": 195.98344614430926,
+      "e": 5.4643270953098,
+      "vr": -0.12191044995786207
+     },
+     {
+      "step": 400000,
+      "r": 195.98669737356977,
+      "e": 7.285717041447233,
+      "vr": -0.1625460971412378
+     },
+     {
+      "step": 500000,
+      "r": 195.9899487107159,
+      "e": 9.107106991430829,
+      "vr": -0.20318174441263895
+     },
+     {
+      "step": 600000,
+      "r": 195.99320015572448,
+      "e": 10.928496946200797,
+      "vr": -0.24381739179407497
+     },
+     {
+      "step": 700000,
+      "r": 195.99645170858275,
+      "e": 12.749886906704472,
+      "vr": -0.28445303930755156
+     },
+     {
+      "step": 800000,
+      "r": 195.9997033692889,
+      "e": 14.571276873897338,
+      "vr": -0.3250886869750919
+     },
+     {
+      "step": 900000,
+      "r": 196.0029551378575,
+      "e": 16.392666848726382,
+      "vr": -0.36572433481869465
+     },
+     {
+      "step": 1000000,
+      "r": 196.00620701420848,
+      "e": 18.214056832146603,
+      "vr": -0.40635998286039604
+     },
+     {
+      "step": 1100000,
+      "r": 196.00945899850194,
+      "e": 20.035446825109126,
+      "vr": -0.4469956311222008
+     }
+    ],
+    "rRange": [
+     195.9736931036421,
+     196.01010940828928
+    ],
+    "offs": {
+     "plain": {
+      "p2": 551886.6641760168,
+      "p3": 551886.6641759842,
+      "dP2": null,
+      "dP3": null
+     }
+    }
+   },
+   "m0ThirdDfm": {
+    "label": "mutual:0・外部 = 遠い第 3 体 + ⛄ の pairSlip(座標移送と散逸の併用 —— 別口座)",
+    "dt": 0.16,
+    "applied": {
+     "G": 6.674,
+     "eps": 0.01,
+     "kFrame": 0,
+     "geoPN": 2,
+     "integ": "leapfrog",
+     "mF64": true,
+     "spF64": true,
+     "hasRD": true,
+     "integration": "midpoint",
+     "hasMV": true,
+     "mvDeny": null,
+     "n": 3,
+     "m": [
+      0.013025172310458496,
+      0.0015897512735990414,
+      1e-9
+     ]
+    },
+    "stop": "orbMax",
+    "err": null,
+    "p2On": 551888.0371017656,
+    "p3On": 551888.3394818251,
+    "revsOn": 3,
+    "meshVel": {
+     "n": 1034787,
+     "undef": 1034787,
+     "bad": 0,
+     "uMax": 0.010050825919538965,
+     "kickMax": 3.0101731400087335e-25,
+     "work": -2.2278657194380345e-27,
+     "chiMin": 0,
+     "chiMax": 0
+    },
+    "osc0On": {
+     "r": 195.97369307113357,
+     "a": 195.9630855871938,
+     "e": 0.00014922652685021802,
+     "vr": -0.0000031023593842577354,
+     "vt": 0.022309032105698377
+    },
+    "trace": [
+     {
+      "step": 0,
+      "r": 195.9736925747634,
+      "e": 0.00014921750899213692,
+      "vr": -0.0000031022683701104685
+     },
+     {
+      "step": 100000,
+      "r": 195.96011226839406,
+      "e": 0.00001622926288630581,
+      "vr": 5.811091653736512e-8
+     },
+     {
+      "step": 200000,
+      "r": 195.96199910566,
+      "e": 0.000008402164406263473,
+      "vr": 1.0206318420275765e-7
+     },
+     {
+      "step": 300000,
+      "r": 195.96303538381903,
+      "e": 0.0000026508822347645227,
+      "vr": 3.535419714882504e-8
+     },
+     {
+      "step": 400000,
+      "r": 195.9633604875606,
+      "e": 7.367724643484927e-7,
+      "vr": 1.010726069279214e-8
+     },
+     {
+      "step": 500000,
+      "r": 195.96345087447384,
+      "e": 1.949114779009238e-7,
+      "vr": 2.728269357945254e-9
+     },
+     {
+      "step": 600000,
+      "r": 195.96347504123815,
+      "e": 4.9129174200424895e-8,
+      "vr": 7.215282151923376e-10
+     },
+     {
+      "step": 700000,
+      "r": 195.96348141004242,
+      "e": 1.0861149835750356e-8,
+      "vr": 1.8967062183812498e-10
+     },
+     {
+      "step": 800000,
+      "r": 195.96348308027635,
+      "e": 2.514265157800795e-9,
+      "vr": 4.940182107411773e-11
+     },
+     {
+      "step": 900000,
+      "r": 195.9634835182251,
+      "e": 3.3134968452651603e-9,
+      "vr": 1.3140757270648167e-11
+     },
+     {
+      "step": 1000000,
+      "r": 195.96348363096794,
+      "e": 3.798382598550082e-9,
+      "vr": 3.3157323702082318e-12
+     }
+    ],
+    "rRange": [
+     195.96011104685743,
+     195.9736925747634
+    ],
+    "offs": {
+     "boosted": {
+      "p2": 551888.0371018716,
+      "p3": 551888.3394815157,
+      "dP2": -1.0593794286251068e-7,
+      "dP3": 3.0943192541599274e-7
+     }
+    }
+   }
+  }
+ },
+ "pageErrors": [],
+ "runsSummary": {
+  "B.base.h": {
+   "dt": 0.016,
+   "steps": 1034746,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.4613633327,
+    551864.0613632939,
+    551864.0613632784
+   ],
+   "periodsB": [
+    551864.0613633688,
+    551864.0613633711,
+    551864.0613633256
+   ],
+   "err": null,
+   "wallMs": 968
+  },
+  "B.base.h2": {
+   "dt": 0.008,
+   "steps": 2069491,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2612657931,
+    551864.0612661137,
+    551864.0612661535
+   ],
+   "periodsB": [
+    551864.0612660411,
+    551864.0612660161,
+    551864.0612659458
+   ],
+   "err": null,
+   "wallMs": 1822
+  },
+  "B.base.h4": {
+   "dt": 0.004,
+   "steps": 4138981,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.66124295,
+    551864.0612407731,
+    551864.0612407577
+   ],
+   "periodsB": [
+    551864.0612417443,
+    551864.0612416851,
+    551864.061241735
+   ],
+   "err": null,
+   "wallMs": 3606
+  },
+  "B.baseDiagClass.h": {
+   "dt": 0.016,
+   "steps": 1034746,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.4613633327,
+    551864.0613632939,
+    551864.0613632784
+   ],
+   "periodsB": [
+    551864.0613633688,
+    551864.0613633711,
+    551864.0613633256
+   ],
+   "err": null,
+   "wallMs": 926
+  },
+  "B.baseDiagClass.h2": {
+   "dt": 0.008,
+   "steps": 2069491,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2612657931,
+    551864.0612661137,
+    551864.0612661535
+   ],
+   "periodsB": [
+    551864.0612660411,
+    551864.0612660161,
+    551864.0612659458
+   ],
+   "err": null,
+   "wallMs": 1844
+  },
+  "B.baseDiagClass.h4": {
+   "dt": 0.004,
+   "steps": 4138981,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.66124295,
+    551864.0612407731,
+    551864.0612407577
+   ],
+   "periodsB": [
+    551864.0612417443,
+    551864.0612416851,
+    551864.061241735
+   ],
+   "err": null,
+   "wallMs": 3561
+  },
+  "B.rebuilt.h": {
+   "dt": 0.016,
+   "steps": 1034746,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.4613633255,
+    551864.0613633523,
+    551864.0613632752
+   ],
+   "periodsB": [
+    551864.061363369,
+    551864.0613633792,
+    551864.061363339
+   ],
+   "err": null,
+   "wallMs": 920
+  },
+  "B.rebuilt.h2": {
+   "dt": 0.008,
+   "steps": 2069491,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2612657938,
+    551864.061266152,
+    551864.0612661564
+   ],
+   "periodsB": [
+    551864.061266041,
+    551864.0612660163,
+    551864.0612659452
+   ],
+   "err": null,
+   "wallMs": 1755
+  },
+  "B.rebuilt.h4": {
+   "dt": 0.004,
+   "steps": 4138981,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.661242949,
+    551864.061240833,
+    551864.0612407943
+   ],
+   "periodsB": [
+    551864.0612417444,
+    551864.061241685,
+    551864.0612417383
+   ],
+   "err": null,
+   "wallMs": 3550
+  },
+  "B.eps10.h": {
+   "dt": 0.016,
+   "steps": 1034726,
+   "stop": "orbMax",
+   "periodsA": [
+    551852.1143670718,
+    551853.714367087,
+    551853.7143671481
+   ],
+   "periodsB": [
+    551853.7143670685,
+    551853.7143670437,
+    551853.7143670343
+   ],
+   "err": null,
+   "wallMs": 855
+  },
+  "B.eps10.h2": {
+   "dt": 0.008,
+   "steps": 2069452,
+   "stop": "orbMax",
+   "periodsA": [
+    551852.9142697566,
+    551853.714268699,
+    551853.7142686989
+   ],
+   "periodsB": [
+    551853.7142697354,
+    551853.7142698024,
+    551853.7142698893
+   ],
+   "err": null,
+   "wallMs": 1783
+  },
+  "B.eps10.h4": {
+   "dt": 0.004,
+   "steps": 4138903,
+   "stop": "orbMax",
+   "periodsA": [
+    551853.3142455426,
+    551853.7142448771,
+    551853.7142449304
+   ],
+   "periodsB": [
+    551853.7142453968,
+    551853.7142454669,
+    551853.714245542
+   ],
+   "err": null,
+   "wallMs": 3640
+  },
+  "B.eps1.h": {
+   "dt": 0.016,
+   "steps": 1034725,
+   "stop": "orbMax",
+   "periodsA": [
+    551851.6875468884,
+    551853.2875468925,
+    551853.2875470011
+   ],
+   "periodsB": [
+    551853.2875468804,
+    551853.2875468882,
+    551853.2875468907
+   ],
+   "err": null,
+   "wallMs": 990
+  },
+  "B.eps1.h2": {
+   "dt": 0.008,
+   "steps": 2069450,
+   "stop": "orbMax",
+   "periodsA": [
+    551852.4874495154,
+    551853.2874483812,
+    551853.2874482247
+   ],
+   "periodsB": [
+    551853.2874495492,
+    551853.2874495377,
+    551853.2874494349
+   ],
+   "err": null,
+   "wallMs": 1961
+  },
+  "B.eps1.h4": {
+   "dt": 0.004,
+   "steps": 4138900,
+   "stop": "orbMax",
+   "periodsA": [
+    551852.887425346,
+    551853.2874245882,
+    551853.2874241187
+   ],
+   "periodsB": [
+    551853.2874252459,
+    551853.287425184,
+    551853.2874251289
+   ],
+   "err": null,
+   "wallMs": 3643
+  },
+  "B.aPlus.h": {
+   "dt": 0.016,
+   "steps": 1034785,
+   "stop": "orbMax",
+   "periodsA": [
+    551883.5825057803,
+    551885.1825057516,
+    551885.182505717
+   ],
+   "periodsB": [
+    551885.1825058253,
+    551885.1825058486,
+    551885.1825058191
+   ],
+   "err": null,
+   "wallMs": 955
+  },
+  "B.aPlus.h2": {
+   "dt": 0.008,
+   "steps": 2069570,
+   "stop": "orbMax",
+   "periodsA": [
+    551884.3824083372,
+    551885.1824087172,
+    551885.182408941
+   ],
+   "periodsB": [
+    551885.1824085568,
+    551885.1824085843,
+    551885.1824085522
+   ],
+   "err": null,
+   "wallMs": 1894
+  },
+  "B.aPlus.h4": {
+   "dt": 0.004,
+   "steps": 4139139,
+   "stop": "orbMax",
+   "periodsA": [
+    551884.7823854954,
+    551885.1823833281,
+    551885.1823831243
+   ],
+   "periodsB": [
+    551885.1823842895,
+    551885.1823842155,
+    551885.1823841431
+   ],
+   "err": null,
+   "wallMs": 3599
+  },
+  "B.aMinus.h": {
+   "dt": 0.016,
+   "steps": 1034706,
+   "stop": "orbMax",
+   "periodsA": [
+    551841.340490337,
+    551842.9404903424,
+    551842.9404903107
+   ],
+   "periodsB": [
+    551842.9404903774,
+    551842.940490375,
+    551842.9404903239
+   ],
+   "err": null,
+   "wallMs": 913
+  },
+  "B.aMinus.h2": {
+   "dt": 0.008,
+   "steps": 2069412,
+   "stop": "orbMax",
+   "periodsA": [
+    551842.1403927864,
+    551842.9403932974,
+    551842.9403933124
+   ],
+   "periodsB": [
+    551842.9403930303,
+    551842.9403930187,
+    551842.940393001
+   ],
+   "err": null,
+   "wallMs": 1856
+  },
+  "B.aMinus.h4": {
+   "dt": 0.004,
+   "steps": 4138823,
+   "stop": "orbMax",
+   "periodsA": [
+    551842.5403699322,
+    551842.9403677251,
+    551842.9403677359
+   ],
+   "periodsB": [
+    551842.9403687152,
+    551842.9403686569,
+    551842.9403686159
+   ],
+   "err": null,
+   "wallMs": 3589
+  },
+  "B.aPlu060.h": {
+   "dt": 0.016,
+   "steps": 1034727,
+   "stop": "orbMax",
+   "periodsA": [
+    551852.4922776337,
+    551854.0922775771,
+    551854.0922775994
+   ],
+   "periodsB": [
+    551854.0922776834,
+    551854.0922776214,
+    551854.092277659
+   ],
+   "err": null,
+   "wallMs": 895
+  },
+  "B.aPlu060.h2": {
+   "dt": 0.008,
+   "steps": 2069453,
+   "stop": "orbMax",
+   "periodsA": [
+    551853.2921802413,
+    551854.0921807754,
+    551854.0921807187
+   ],
+   "periodsB": [
+    551854.092180451,
+    551854.0921804995,
+    551854.0921804628
+   ],
+   "err": null,
+   "wallMs": 1763
+  },
+  "B.aPlu060.h4": {
+   "dt": 0.004,
+   "steps": 4138906,
+   "stop": "orbMax",
+   "periodsA": [
+    551853.692157271,
+    551854.092155157,
+    551854.0921552038
+   ],
+   "periodsB": [
+    551854.092156031,
+    551854.0921560469,
+    551854.0921561666
+   ],
+   "err": null,
+   "wallMs": 3625
+  },
+  "B.gCodata.h": {
+   "dt": 0.016,
+   "steps": 1034722,
+   "stop": "orbMax",
+   "periodsA": [
+    551850.0584836977,
+    551851.658483657,
+    551851.6584836043
+   ],
+   "periodsB": [
+    551851.6584837455,
+    551851.6584836957,
+    551851.6584836942
+   ],
+   "err": null,
+   "wallMs": 996
+  },
+  "B.gCodata.h2": {
+   "dt": 0.008,
+   "steps": 2069444,
+   "stop": "orbMax",
+   "periodsA": [
+    551850.8583862346,
+    551851.6583866732,
+    551851.6583867377
+   ],
+   "periodsB": [
+    551851.6583864958,
+    551851.6583864824,
+    551851.6583864284
+   ],
+   "err": null,
+   "wallMs": 2029
+  },
+  "B.gCodata.h4": {
+   "dt": 0.004,
+   "steps": 4138888,
+   "stop": "orbMax",
+   "periodsA": [
+    551851.2583633185,
+    551851.6583611094,
+    551851.6583611163
+   ],
+   "periodsB": [
+    551851.6583620901,
+    551851.6583620278,
+    551851.658362115
+   ],
+   "err": null,
+   "wallMs": 3741
+  },
+  "B.gmDirect.h": {
+   "dt": 0.016,
+   "steps": 1034784,
+   "stop": "orbMax",
+   "periodsA": [
+    551882.783074471,
+    551884.3830743484,
+    551884.3830743753
+   ],
+   "periodsB": [
+    551884.3830745075,
+    551884.3830744445,
+    551884.3830743979
+   ],
+   "err": null,
+   "wallMs": 875
+  },
+  "B.gmDirect.h2": {
+   "dt": 0.008,
+   "steps": 2069567,
+   "stop": "orbMax",
+   "periodsA": [
+    551883.5829770365,
+    551884.3829774833,
+    551884.3829777502
+   ],
+   "periodsB": [
+    551884.3829772647,
+    551884.3829773387,
+    551884.3829773625
+   ],
+   "err": null,
+   "wallMs": 1778
+  },
+  "B.gmDirect.h4": {
+   "dt": 0.004,
+   "steps": 4139133,
+   "stop": "orbMax",
+   "periodsA": [
+    551883.9829541045,
+    551884.3829520517,
+    551884.3829520107
+   ],
+   "periodsB": [
+    551884.3829528922,
+    551884.3829528951,
+    551884.3829529457
+   ],
+   "err": null,
+   "wallMs": 3559
+  },
+  "B.massDouble.h": {
+   "dt": 0.016,
+   "steps": 1034746,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.481172231,
+    551864.0811721637,
+    551864.081172104
+   ],
+   "periodsB": [
+    551864.0811722652,
+    551864.081172189,
+    551864.0811721907
+   ],
+   "err": null,
+   "wallMs": 880
+  },
+  "B.massDouble.h2": {
+   "dt": 0.008,
+   "steps": 2069491,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2810747703,
+    551864.0810752385,
+    551864.081075307
+   ],
+   "periodsB": [
+    551864.0810750176,
+    551864.0810750296,
+    551864.0810750308
+   ],
+   "err": null,
+   "wallMs": 1780
+  },
+  "B.massDouble.h4": {
+   "dt": 0.004,
+   "steps": 4138981,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.6810518933,
+    551864.081049829,
+    551864.0810497003
+   ],
+   "periodsB": [
+    551864.0810506443,
+    551864.0810505941,
+    551864.0810506683
+   ],
+   "err": null,
+   "wallMs": 3470
+  },
+  "B.noPN.h": {
+   "dt": 0.016,
+   "steps": 1034746,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.4613616312,
+    551864.0613615632,
+    551864.0613615622
+   ],
+   "periodsB": [
+    551864.0613616732,
+    551864.0613616386,
+    551864.0613615982
+   ],
+   "err": null,
+   "wallMs": 833
+  },
+  "B.noPN.h2": {
+   "dt": 0.008,
+   "steps": 2069491,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2612641874,
+    551864.0612644644,
+    551864.0612645759
+   ],
+   "periodsB": [
+    551864.0612644342,
+    551864.0612643926,
+    551864.0612643685
+   ],
+   "err": null,
+   "wallMs": 1748
+  },
+  "B.noPN.h4": {
+   "dt": 0.004,
+   "steps": 4138981,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.6612412025,
+    551864.0612390139,
+    551864.0612389387
+   ],
+   "periodsB": [
+    551864.0612400019,
+    551864.0612399832,
+    551864.0612399166
+   ],
+   "err": null,
+   "wallMs": 3312
+  },
+  "B.leapfrog.h": {
+   "dt": 0.016,
+   "steps": 1034746,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.4612947364,
+    551864.0612945812,
+    551864.0612945781
+   ],
+   "periodsB": [
+    551864.06129468,
+    551864.0612946509,
+    551864.0612946064
+   ],
+   "err": null,
+   "wallMs": 1665
+  },
+  "B.leapfrog.h2": {
+   "dt": 0.008,
+   "steps": 2069491,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2612485394,
+    551864.061249141,
+    551864.0612487543
+   ],
+   "periodsB": [
+    551864.0612489048,
+    551864.0612488647,
+    551864.0612488819
+   ],
+   "err": null,
+   "wallMs": 3091
+  },
+  "B.leapfrog.h4": {
+   "dt": 0.004,
+   "steps": 4138981,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.6612386885,
+    551864.061237236,
+    551864.0612371246
+   ],
+   "periodsB": [
+    551864.0612374457,
+    551864.0612374556,
+    551864.0612373749
+   ],
+   "err": null,
+   "wallMs": 6270
+  },
+  "B.satNone.h": {
+   "dt": 0.016,
+   "steps": 1034746,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.4607197864,
+    551864.0607197867,
+    551864.0607198128
+   ],
+   "periodsB": [
+    551864.0607198399,
+    551864.0607198399,
+    551864.0607198329
+   ],
+   "err": null,
+   "wallMs": 977
+  },
+  "B.satNone.h2": {
+   "dt": 0.008,
+   "steps": 2069491,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2606223021,
+    551864.0606226932,
+    551864.0606227618
+   ],
+   "periodsB": [
+    551864.0606225507,
+    551864.0606225674,
+    551864.0606225807
+   ],
+   "err": null,
+   "wallMs": 1834
+  },
+  "B.satNone.h4": {
+   "dt": 0.004,
+   "steps": 4138981,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.6605995073,
+    551864.0605974033,
+    551864.0605972786
+   ],
+   "periodsB": [
+    551864.060598276,
+    551864.0605982986,
+    551864.0605983079
+   ],
+   "err": null,
+   "wallMs": 3577
+  },
+  "B.satAll.h": {
+   "dt": 0.016,
+   "steps": 1034746,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.5094873372,
+    551864.3107686269,
+    551864.0600773903
+   ],
+   "periodsB": [
+    551864.1094873898,
+    551864.3107686067,
+    551864.0600774032
+   ],
+   "err": null,
+   "wallMs": 2647
+  },
+  "B.satAll.h2": {
+   "dt": 0.008,
+   "steps": 2069491,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.3093881067,
+    551864.3106625847,
+    551864.0599849395
+   ],
+   "periodsB": [
+    551864.1093882958,
+    551864.3106623418,
+    551864.0599848648
+   ],
+   "err": null,
+   "wallMs": 5226
+  },
+  "B.satAll.h4": {
+   "dt": 0.004,
+   "steps": 4138982,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.7093645468,
+    551864.3106325382,
+    551864.0599628121
+   ],
+   "periodsB": [
+    551864.1093631788,
+    551864.3106336744,
+    551864.059963088
+   ],
+   "err": null,
+   "wallMs": 10274
+  },
+  "B.sunX0.0001.h": {
+   "dt": 0.016,
+   "steps": 1034636,
+   "stop": "orbMax",
+   "periodsA": [
+    551804.1303577301,
+    551805.6249441707,
+    551805.4158980511
+   ],
+   "periodsB": [
+    551805.7303577219,
+    551805.6249442429,
+    551805.4158980609
+   ],
+   "err": null,
+   "wallMs": 1216
+  },
+  "B.sunX0.0001.h2": {
+   "dt": 0.008,
+   "steps": 2069271,
+   "stop": "orbMax",
+   "periodsA": [
+    551804.9300684145,
+    551805.6242771642,
+    551805.4148722966
+   ],
+   "periodsB": [
+    551805.7300684047,
+    551805.6242770251,
+    551805.4148723646
+   ],
+   "err": null,
+   "wallMs": 2488
+  },
+  "B.sunX0.0001.h4": {
+   "dt": 0.004,
+   "steps": 4138542,
+   "stop": "orbMax",
+   "periodsA": [
+    551805.329947037,
+    551805.6239649276,
+    551805.4143795922
+   ],
+   "periodsB": [
+    551805.7299470053,
+    551805.6239649251,
+    551805.414379405
+   ],
+   "err": null,
+   "wallMs": 4793
+  },
+  "B.sunX0.00001.h": {
+   "dt": 0.016,
+   "steps": 1034735,
+   "stop": "orbMax",
+   "periodsA": [
+    551856.6290606942,
+    551858.2236926259,
+    551858.2129725931
+   ],
+   "periodsB": [
+    551858.2290606998,
+    551858.2236926381,
+    551858.2129726313
+   ],
+   "err": null,
+   "wallMs": 1238
+  },
+  "B.sunX0.00001.h2": {
+   "dt": 0.008,
+   "steps": 2069469,
+   "stop": "orbMax",
+   "periodsA": [
+    551857.4289488762,
+    551858.2235527538,
+    551858.2128054295
+   ],
+   "periodsB": [
+    551858.2289488193,
+    551858.2235524897,
+    551858.2128047441
+   ],
+   "err": null,
+   "wallMs": 2442
+  },
+  "B.sunX0.00001.h4": {
+   "dt": 0.004,
+   "steps": 4138937,
+   "stop": "orbMax",
+   "periodsA": [
+    551857.8289176675,
+    551858.2235070532,
+    551858.2127449012
+   ],
+   "periodsB": [
+    551858.2289174319,
+    551858.2235066476,
+    551858.2127449141
+   ],
+   "err": null,
+   "wallMs": 4687
+  },
+  "B.sunX0.000001.h": {
+   "dt": 0.016,
+   "steps": 1034745,
+   "stop": "orbMax",
+   "periodsA": [
+    551861.8775410363,
+    551863.4770515322,
+    551863.4760719937
+   ],
+   "periodsB": [
+    551863.4775410286,
+    551863.477050968,
+    551863.4760715705
+   ],
+   "err": null,
+   "wallMs": 1164
+  },
+  "B.sunX0.000001.h2": {
+   "dt": 0.008,
+   "steps": 2069489,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.677442386,
+    551863.4769487679,
+    551863.4759668038
+   ],
+   "periodsB": [
+    551863.4774423538,
+    551863.4769496053,
+    551863.4759676005
+   ],
+   "err": null,
+   "wallMs": 2450
+  },
+  "B.sunX0.000001.h4": {
+   "dt": 0.004,
+   "steps": 4138977,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.0774181981,
+    551863.4769223186,
+    551863.4759391905
+   ],
+   "periodsB": [
+    551863.4774172914,
+    551863.4769230888,
+    551863.4759397524
+   ],
+   "err": null,
+   "wallMs": 4885
+  },
+  "B.chain.c1.h": {
+   "dt": 0.016,
+   "steps": 1034765,
+   "stop": "orbMax",
+   "periodsA": [
+    551872.8136217684,
+    551874.4136218725,
+    551874.4136218667
+   ],
+   "periodsB": [
+    551874.4136218148,
+    551874.413621882,
+    551874.4136218767
+   ],
+   "err": null,
+   "wallMs": 976
+  },
+  "B.chain.c1.h2": {
+   "dt": 0.008,
+   "steps": 2069530,
+   "stop": "orbMax",
+   "periodsA": [
+    551873.6135242836,
+    551874.4135247146,
+    551874.4135247301
+   ],
+   "periodsB": [
+    551874.4135245086,
+    551874.413524571,
+    551874.4135245603
+   ],
+   "err": null,
+   "wallMs": 1782
+  },
+  "B.chain.c1.h4": {
+   "dt": 0.004,
+   "steps": 4139059,
+   "stop": "orbMax",
+   "periodsA": [
+    551874.0135013182,
+    551874.4134991806,
+    551874.4134991834
+   ],
+   "periodsB": [
+    551874.4135000899,
+    551874.413500035,
+    551874.4135001018
+   ],
+   "err": null,
+   "wallMs": 3498
+  },
+  "B.chain.c2.h": {
+   "dt": 0.016,
+   "steps": 1034745,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.0393436663,
+    551863.6393436895,
+    551863.6393438769
+   ],
+   "periodsB": [
+    551863.639343673,
+    551863.6393436873,
+    551863.639343742
+   ],
+   "err": null,
+   "wallMs": 906
+  },
+  "B.chain.c2.h2": {
+   "dt": 0.008,
+   "steps": 2069489,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.8392463775,
+    551863.6392452124,
+    551863.6392451971
+   ],
+   "periodsB": [
+    551863.6392464077,
+    551863.6392463758,
+    551863.639246338
+   ],
+   "err": null,
+   "wallMs": 1717
+  },
+  "B.chain.c2.h4": {
+   "dt": 0.004,
+   "steps": 4138978,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2392220657,
+    551863.6392213145,
+    551863.6392213737
+   ],
+   "periodsB": [
+    551863.6392220112,
+    551863.6392219261,
+    551863.6392219956
+   ],
+   "err": null,
+   "wallMs": 3667
+  },
+  "B.chain.c3.h": {
+   "dt": 0.016,
+   "steps": 1034745,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.0599679376,
+    551863.659967927,
+    551863.6599680489
+   ],
+   "periodsB": [
+    551863.6599679532,
+    551863.6599679384,
+    551863.6599679705
+   ],
+   "err": null,
+   "wallMs": 923
+  },
+  "B.chain.c3.h2": {
+   "dt": 0.008,
+   "steps": 2069489,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.8598706773,
+    551863.6598695718,
+    551863.6598695866
+   ],
+   "periodsB": [
+    551863.6598707048,
+    551863.6598707167,
+    551863.659870754
+   ],
+   "err": null,
+   "wallMs": 1801
+  },
+  "B.chain.c3.h4": {
+   "dt": 0.004,
+   "steps": 4138978,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2598464055,
+    551863.6598458661,
+    551863.6598459685
+   ],
+   "periodsB": [
+    551863.6598462916,
+    551863.6598462856,
+    551863.6598463723
+   ],
+   "err": null,
+   "wallMs": 3520
+  },
+  "B.chain.c4.h": {
+   "dt": 0.016,
+   "steps": 1034745,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.0598993275,
+    551863.6598991104,
+    551863.6598991822
+   ],
+   "periodsB": [
+    551863.6598993337,
+    551863.659899355,
+    551863.6598993744
+   ],
+   "err": null,
+   "wallMs": 1584
+  },
+  "B.chain.c4.h2": {
+   "dt": 0.008,
+   "steps": 2069489,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.859853318,
+    551863.6598527959,
+    551863.6598518008
+   ],
+   "periodsB": [
+    551863.6598534415,
+    551863.6598534563,
+    551863.6598534813
+   ],
+   "err": null,
+   "wallMs": 3151
+  },
+  "B.chain.c4.h4": {
+   "dt": 0.004,
+   "steps": 4138978,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2598417745,
+    551863.6598411739,
+    551863.6598400897
+   ],
+   "periodsB": [
+    551863.6598420807,
+    551863.6598421582,
+    551863.6598422441
+   ],
+   "err": null,
+   "wallMs": 6284
+  },
+  "C.plu060Mean.h": {
+   "dt": 0.16,
+   "steps": 2069489,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.0598992903,
+    551863.6598990252,
+    551863.6598991181,
+    551863.6599000522,
+    551863.6599000735,
+    551863.6599005928
+   ],
+   "periodsB": [
+    551863.6598992996,
+    551863.6598992823,
+    551863.6598992746,
+    551863.6598992439,
+    551863.6598992284,
+    551863.6598992161
+   ],
+   "err": null,
+   "wallMs": 3107
+  },
+  "C.plu060Mean.h2": {
+   "dt": 0.08,
+   "steps": 4138978,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.8598533733,
+    551863.6598527584,
+    551863.6598517015,
+    551863.6598503441,
+    551863.6598503479,
+    551863.6598511634
+   ],
+   "periodsB": [
+    551863.6598534978,
+    551863.6598534356,
+    551863.659853407,
+    551863.6598534123,
+    551863.6598534085,
+    551863.6598534684
+   ],
+   "err": null,
+   "wallMs": 6491
+  },
+  "C.plu060Mean.h4": {
+   "dt": 0.04,
+   "steps": 8277955,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2598417012,
+    551863.6598410313,
+    551863.6598399396,
+    551863.6598404262,
+    551863.6598403723,
+    551863.6598429689
+   ],
+   "periodsB": [
+    551863.6598420112,
+    551863.6598420264,
+    551863.6598420118,
+    551863.6598419908,
+    551863.6598419826,
+    551863.6598419747
+   ],
+   "err": null,
+   "wallMs": 12786
+  },
+  "C.buie.h": {
+   "dt": 0.16,
+   "steps": 2069462,
+   "stop": "orbMax",
+   "periodsA": [
+    551854.8431042028,
+    551856.4431040287,
+    551856.4431047777,
+    551856.4431059246,
+    551856.4431059328,
+    551856.4431073586
+   ],
+   "periodsB": [
+    551856.4431042406,
+    551856.4431042458,
+    551856.4431042108,
+    551856.4431041353,
+    551856.4431041467,
+    551856.4431041433
+   ],
+   "err": null,
+   "wallMs": 3179
+  },
+  "C.buie.h2": {
+   "dt": 0.08,
+   "steps": 4138924,
+   "stop": "orbMax",
+   "periodsA": [
+    551855.6430586636,
+    551856.4430575641,
+    551856.4430569999,
+    551856.4430567578,
+    551856.4430568055,
+    551856.4430600149
+   ],
+   "periodsB": [
+    551856.4430584768,
+    551856.4430585911,
+    551856.443058516,
+    551856.4430585323,
+    551856.4430585483,
+    551856.4430585661
+   ],
+   "err": null,
+   "wallMs": 6248
+  },
+  "C.buie.h4": {
+   "dt": 0.04,
+   "steps": 8277847,
+   "stop": "orbMax",
+   "periodsA": [
+    551856.0430470824,
+    551856.4430463177,
+    551856.4430478985,
+    551856.4430438189,
+    551856.4430438576,
+    551856.4430295507
+   ],
+   "periodsB": [
+    551856.4430469997,
+    551856.4430469946,
+    551856.4430469633,
+    551856.4430470476,
+    551856.4430470581,
+    551856.4430472103
+   ],
+   "err": null,
+   "wallMs": 12647
+  },
+  "C.mixed.h": {
+   "dt": 0.16,
+   "steps": 2065884,
+   "stop": "orbMax",
+   "periodsA": [
+    550900.7060773739,
+    550902.3060775367,
+    550902.3060778661,
+    550902.3060786768,
+    550902.3060787027,
+    550902.3060739104
+   ],
+   "periodsB": [
+    550902.3060772785,
+    550902.3060772578,
+    550902.3060772417,
+    550902.3060772824,
+    550902.3060773074,
+    550902.3060773168
+   ],
+   "err": null,
+   "wallMs": 3223
+  },
+  "C.mixed.h2": {
+   "dt": 0.08,
+   "steps": 4131768,
+   "stop": "orbMax",
+   "periodsA": [
+    550901.506031504,
+    550902.3060324808,
+    550902.3060323548,
+    550902.306033572,
+    550902.3060335469,
+    550902.3060382169
+   ],
+   "periodsB": [
+    550902.3060314105,
+    550902.3060313876,
+    550902.3060314436,
+    550902.3060315166,
+    550902.3060315221,
+    550902.3060314823
+   ],
+   "err": null,
+   "wallMs": 6253
+  },
+  "C.mixed.h4": {
+   "dt": 0.04,
+   "steps": 8263535,
+   "stop": "orbMax",
+   "periodsA": [
+    550901.9060198879,
+    550902.3060231493,
+    550902.3060242364,
+    550902.3060281053,
+    550902.3060280944,
+    550902.305988592
+   ],
+   "periodsB": [
+    550902.3060199678,
+    550902.3060200548,
+    550902.3060199653,
+    550902.306019922,
+    550902.3060199756,
+    550902.3060200672
+   ],
+   "err": null,
+   "wallMs": 12411
+  },
+  "C.oldA.h": {
+   "dt": 0.16,
+   "steps": 2069527,
+   "stop": "orbMax",
+   "periodsA": [
+    551872.0294172871,
+    551873.6294170824,
+    551873.6294170625,
+    551873.6294179864,
+    551873.6294180254,
+    551873.6294185522
+   ],
+   "periodsB": [
+    551873.6294172652,
+    551873.6294172454,
+    551873.6294172332,
+    551873.6294172062,
+    551873.6294172718,
+    551873.6294172681
+   ],
+   "err": null,
+   "wallMs": 3159
+  },
+  "C.oldA.h2": {
+   "dt": 0.08,
+   "steps": 4139053,
+   "stop": "orbMax",
+   "periodsA": [
+    551872.8293713478,
+    551873.6293708354,
+    551873.6293698093,
+    551873.6293683785,
+    551873.6293682526,
+    551873.6293681758
+   ],
+   "periodsB": [
+    551873.6293714761,
+    551873.6293715081,
+    551873.6293715411,
+    551873.62937155,
+    551873.6293714817,
+    551873.6293714645
+   ],
+   "err": null,
+   "wallMs": 6283
+  },
+  "C.oldA.h4": {
+   "dt": 0.04,
+   "steps": 8278105,
+   "stop": "orbMax",
+   "periodsA": [
+    551873.2293597555,
+    551873.6293590097,
+    551873.6293569484,
+    551873.6293565575,
+    551873.6293566303,
+    551873.6293620715
+   ],
+   "periodsB": [
+    551873.6293600937,
+    551873.6293601274,
+    551873.6293600103,
+    551873.629359919,
+    551873.629359979,
+    551873.6293600779
+   ],
+   "err": null,
+   "wallMs": 12835
+  },
+  "C.preset.h": {
+   "dt": 0.16,
+   "steps": 689830,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.0598992903,
+    551863.6598990252
+   ],
+   "periodsB": [
+    551863.6598992996,
+    551863.6598992823
+   ],
+   "err": null,
+   "wallMs": 1102
+  },
+  "D.ctl.h": {
+   "dt": 0.16,
+   "steps": 2069575,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641759799,
+    551886.6641760168,
+    551886.6641759842,
+    551886.6641759028,
+    551886.6641759824,
+    551886.6641758464
+   ],
+   "periodsB": [
+    551886.6641759685,
+    551886.6641759259,
+    551886.6641759246,
+    551886.6641759395,
+    551886.6641759459,
+    551886.6641759145
+   ],
+   "err": null,
+   "wallMs": 3163
+  },
+  "D.dfm.h": {
+   "dt": 0.16,
+   "steps": 2069578,
+   "stop": "orbMax",
+   "periodsA": [
+    551880.5843943822,
+    551888.0371070126,
+    551888.339487447,
+    551888.3425166262,
+    551888.3425286558,
+    551888.3425286552
+   ],
+   "periodsB": [
+    551882.184394372,
+    551888.0371073951,
+    551888.3394867386,
+    551888.3425281234,
+    551888.342556897,
+    551888.3425567357
+   ],
+   "err": null,
+   "wallMs": 4951
+  },
+  "D.snow.h": {
+   "dt": 0.016,
+   "steps": 2069491,
+   "stop": "orbMax",
+   "periodsA": [
+    551862.4613633327,
+    551864.0613632939,
+    551864.0613632784,
+    551864.0613630436,
+    551864.0613630799,
+    551864.0613632607
+   ],
+   "periodsB": [
+    551864.0613633688,
+    551864.0613633711,
+    551864.0613633256,
+    551864.0613632936,
+    551864.0613632735,
+    551864.0613632794
+   ],
+   "err": null,
+   "wallMs": 1835
+  },
+  "D.ctl.h2": {
+   "dt": 0.08,
+   "steps": 4139150,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.8641302718,
+    551886.6641304869,
+    551886.6641305487,
+    551886.6641301822,
+    551886.6641302549,
+    551886.6641306301
+   ],
+   "periodsB": [
+    551886.6641302673,
+    551886.664130273,
+    551886.6641302687,
+    551886.6641302663,
+    551886.66413027,
+    551886.6641302756
+   ],
+   "err": null,
+   "wallMs": 6652
+  },
+  "D.dfm.h2": {
+   "dt": 0.08,
+   "steps": 4139155,
+   "stop": "orbMax",
+   "periodsA": [
+    551881.3843686063,
+    551888.0370578191,
+    551888.3394369236,
+    551888.3425069833,
+    551888.3425286558,
+    551888.3425286558
+   ],
+   "periodsB": [
+    551882.1843692075,
+    551888.0370581071,
+    551888.3394368393,
+    551888.3424748806,
+    551888.3424962694,
+    551888.3424964
+   ],
+   "err": null,
+   "wallMs": 9762
+  },
+  "D.snow.h2": {
+   "dt": 0.008,
+   "steps": 4138981,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.2612657931,
+    551864.0612661137,
+    551864.0612661535,
+    551864.0612654443,
+    551864.0612654443,
+    551864.0612655465
+   ],
+   "periodsB": [
+    551864.0612660411,
+    551864.0612660161,
+    551864.0612659458,
+    551864.0612659375,
+    551864.0612659846,
+    551864.0612660248
+   ],
+   "err": null,
+   "wallMs": 3511
+  },
+  "D.ctl.h4": {
+   "dt": 0.04,
+   "steps": 8278300,
+   "stop": "orbMax",
+   "periodsA": [
+    551886.2641188435,
+    551886.6641195304,
+    551886.6641195347,
+    551886.6641197947,
+    551886.6641197775,
+    551886.6641189466
+   ],
+   "periodsB": [
+    551886.6641187773,
+    551886.6641187941,
+    551886.6641188518,
+    551886.6641188061,
+    551886.6641188031,
+    551886.6641188355
+   ],
+   "err": null,
+   "wallMs": 12841
+  },
+  "D.dfm.h4": {
+   "dt": 0.04,
+   "steps": 8278309,
+   "stop": "orbMax",
+   "periodsA": [
+    551881.7843623356,
+    551888.0370457004,
+    551888.3394186178,
+    551888.3425286558,
+    551888.3425286554,
+    551888.3421381295
+   ],
+   "periodsB": [
+    551882.1843629539,
+    551888.0370458559,
+    551888.3394238657,
+    551888.3424505868,
+    551888.3424628105,
+    551888.3424630319
+   ],
+   "err": null,
+   "wallMs": 19526
+  },
+  "D.snow.h4": {
+   "dt": 0.004,
+   "steps": 8277961,
+   "stop": "orbMax",
+   "periodsA": [
+    551863.66124295,
+    551864.0612407731,
+    551864.0612407577,
+    551864.0612411542,
+    551864.0612410596,
+    551864.0612414805
+   ],
+   "periodsB": [
+    551864.0612417443,
+    551864.0612416851,
+    551864.061241735,
+    551864.0612417508,
+    551864.0612417097,
+    551864.0612418305
+   ],
+   "err": null,
+   "wallMs": 6993
+  },
+  "E.a.on.g0.kdk.dt0.16": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719211351,
+    551931.4719143555,
+    551931.4719362966
+   ],
+   "periodsB": [
+    551931.4719247562,
+    551931.4719247335,
+    551931.4719247795
+   ],
+   "err": null,
+   "wallMs": 2308
+  },
+  "E.a.off.g0.kdk.dt0.16": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719211344,
+    551931.4719143542,
+    551931.4719362947
+   ],
+   "periodsB": [
+    551931.4719247562,
+    551931.4719247336,
+    551931.4719247794
+   ],
+   "err": null,
+   "wallMs": 1421
+  },
+  "E.a.on.g0.kdk.dt0.04": {
+   "dt": 0.04,
+   "steps": 4139487,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.0718882808,
+    551931.4718598132,
+    551931.4718598132
+   ],
+   "periodsB": [
+    551931.4718909961,
+    551931.4718706314,
+    551931.471870644
+   ],
+   "err": null,
+   "wallMs": 9152
+  },
+  "E.a.off.g0.kdk.dt0.04": {
+   "dt": 0.04,
+   "steps": 4139487,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.0718698951,
+    551931.4718758394,
+    551931.4718598137
+   ],
+   "periodsB": [
+    551931.4718674838,
+    551931.4718674002,
+    551931.4718673276
+   ],
+   "err": null,
+   "wallMs": 5816
+  },
+  "E.a.on.g0.softened.dt0.16": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719662661,
+    551931.4719953325,
+    551931.4719857742
+   ],
+   "periodsB": [
+    551931.4719667594,
+    551931.4719969975,
+    551931.4719968726
+   ],
+   "err": null,
+   "wallMs": 2214
+  },
+  "E.a.off.g0.softened.dt0.16": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719939162,
+    551931.4719951301,
+    551931.4719942346
+   ],
+   "periodsB": [
+    551931.4719934517,
+    551931.4719934571,
+    551931.4719935127
+   ],
+   "err": null,
+   "wallMs": 1537
+  },
+  "E.a.on.g0.softened.dt0.04": {
+   "dt": 0.04,
+   "steps": 4139487,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.0719435791,
+    551931.4718877668,
+    551931.471859813
+   ],
+   "periodsB": [
+    551931.471935661,
+    551931.4719358571,
+    551931.4719359435
+   ],
+   "err": null,
+   "wallMs": 9409
+  },
+  "E.a.off.g0.softened.dt0.04": {
+   "dt": 0.04,
+   "steps": 4139487,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.0719443524,
+    551931.4718873085,
+    551931.4718598133
+   ],
+   "periodsB": [
+    551931.4719362098,
+    551931.4719362302,
+    551931.4719361966
+   ],
+   "err": null,
+   "wallMs": 5987
+  },
+  "E.a.on.g2.kdk.dt0.16": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719226157,
+    551931.4719148526,
+    551931.4719375316
+   ],
+   "periodsB": [
+    551931.4719262051,
+    551931.4719262369,
+    551931.4719262475
+   ],
+   "err": null,
+   "wallMs": 2503
+  },
+  "E.a.off.g2.kdk.dt0.16": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.871922782,
+    551931.4719148835,
+    551931.4719382221
+   ],
+   "periodsB": [
+    551931.471926494,
+    551931.4719265122,
+    551931.4719264588
+   ],
+   "err": null,
+   "wallMs": 1554
+  },
+  "E.a.on.g2.kdk.dt0.04": {
+   "dt": 0.04,
+   "steps": 4139487,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.0718886727,
+    551931.471859813,
+    551931.4718598133
+   ],
+   "periodsB": [
+    551931.4718916629,
+    551931.4718712814,
+    551931.4718712877
+   ],
+   "err": null,
+   "wallMs": 10017
+  },
+  "E.a.off.g2.kdk.dt0.04": {
+   "dt": 0.04,
+   "steps": 4139487,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.0718714914,
+    551931.4718759973,
+    551931.4718598132
+   ],
+   "periodsB": [
+    551931.4718692511,
+    551931.4718693617,
+    551931.4718693881
+   ],
+   "err": null,
+   "wallMs": 6225
+  },
+  "E.a.on.g2.softened.dt0.16": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719669905,
+    551931.4720036954,
+    551931.4719911008
+   ],
+   "periodsB": [
+    551931.4719681997,
+    551931.4719993372,
+    551931.4719991403
+   ],
+   "err": null,
+   "wallMs": 2565
+  },
+  "E.a.off.g2.softened.dt0.16": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719955694,
+    551931.4719961823,
+    551931.4719952393
+   ],
+   "periodsB": [
+    551931.4719951351,
+    551931.4719951854,
+    551931.471995176
+   ],
+   "err": null,
+   "wallMs": 1644
+  },
+  "E.a.on.g2.softened.dt0.04": {
+   "dt": 0.04,
+   "steps": 4139487,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.071944323,
+    551931.4718879606,
+    551931.4718598132
+   ],
+   "periodsB": [
+    551931.4719364138,
+    551931.4719368336,
+    551931.4719368233
+   ],
+   "err": null,
+   "wallMs": 9705
+  },
+  "E.a.off.g2.softened.dt0.04": {
+   "dt": 0.04,
+   "steps": 4139487,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.0719462937,
+    551931.4718876157,
+    551931.4718598153
+   ],
+   "periodsB": [
+    551931.4719379258,
+    551931.471937913,
+    551931.4719378006
+   ],
+   "err": null,
+   "wallMs": 6326
+  },
+  "E.a.preset.on": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719211351,
+    551931.4719143555,
+    551931.4719362966
+   ],
+   "periodsB": [
+    551931.4719247562,
+    551931.4719247335,
+    551931.4719247795
+   ],
+   "err": null,
+   "wallMs": 2260
+  },
+  "E.a.preset.off": {
+   "dt": 0.16,
+   "steps": 1034872,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719211344,
+    551931.4719143542,
+    551931.4719362947
+   ],
+   "periodsB": [
+    551931.4719247562,
+    551931.4719247336,
+    551931.4719247794
+   ],
+   "err": null,
+   "wallMs": 1469
+  },
+  "E.b.on.declared.dt0.16": {
+   "dt": 0.16,
+   "steps": 2069578,
+   "stop": "orbMax",
+   "periodsA": [
+    551880.5843943822,
+    551888.0371070126,
+    551888.339487447,
+    551888.3425166262,
+    551888.3425286558,
+    551888.3425286552
+   ],
+   "periodsB": [
+    551882.184394372,
+    551888.0371073951,
+    551888.3394867386,
+    551888.3425281234,
+    551888.342556897,
+    551888.3425567357
+   ],
+   "err": null,
+   "wallMs": 5086
+  },
+  "E.b.off.declared.dt0.16": {
+   "dt": 0.16,
+   "steps": 2069575,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641759799,
+    551886.6641760168,
+    551886.6641759842,
+    551886.6641759028,
+    551886.6641759824,
+    551886.6641758464
+   ],
+   "periodsB": [
+    551886.6641759685,
+    551886.6641759259,
+    551886.6641759246,
+    551886.6641759395,
+    551886.6641759459,
+    551886.6641759145
+   ],
+   "err": null,
+   "wallMs": 3205
+  },
+  "E.b.on.declared.dt0.04": {
+   "dt": 0.04,
+   "steps": 8278309,
+   "stop": "orbMax",
+   "periodsA": [
+    551881.7843623356,
+    551888.0370457004,
+    551888.3394186178,
+    551888.3425286558,
+    551888.3425286554,
+    551888.3421381295
+   ],
+   "periodsB": [
+    551882.1843629539,
+    551888.0370458559,
+    551888.3394238657,
+    551888.3424505868,
+    551888.3424628105,
+    551888.3424630319
+   ],
+   "err": null,
+   "wallMs": 19730
+  },
+  "E.b.off.declared.dt0.04": {
+   "dt": 0.04,
+   "steps": 8278300,
+   "stop": "orbMax",
+   "periodsA": [
+    551886.2641188435,
+    551886.6641195304,
+    551886.6641195347,
+    551886.6641197947,
+    551886.6641197775,
+    551886.6641189466
+   ],
+   "periodsB": [
+    551886.6641187773,
+    551886.6641187941,
+    551886.6641188518,
+    551886.6641188061,
+    551886.6641188031,
+    551886.6641188355
+   ],
+   "err": null,
+   "wallMs": 12925
+  },
+  "E.b.on.instantaneous.dt0.16": {
+   "dt": 0.16,
+   "steps": 2069560,
+   "stop": "orbMax",
+   "periodsA": [
+    551877.8074605545,
+    551883.0756128173,
+    551883.3455755683,
+    551883.3482951176,
+    551883.3483107327,
+    551883.3483872854
+   ],
+   "periodsB": [
+    551879.4074605033,
+    551883.0756131506,
+    551883.3455747475,
+    551883.3482946747,
+    551883.3483194271,
+    551883.3483193745
+   ],
+   "err": null,
+   "wallMs": 4944
+  },
+  "E.b.off.instantaneous.dt0.16": {
+   "dt": 0.16,
+   "steps": 2069575,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641759799,
+    551886.6641760168,
+    551886.6641759842,
+    551886.6641759028,
+    551886.6641759824,
+    551886.6641758464
+   ],
+   "periodsB": [
+    551886.6641759685,
+    551886.6641759259,
+    551886.6641759246,
+    551886.6641759395,
+    551886.6641759459,
+    551886.6641759145
+   ],
+   "err": null,
+   "wallMs": 3073
+  },
+  "E.b.on.instantaneous.dt0.04": {
+   "dt": 0.04,
+   "steps": 8278240,
+   "stop": "orbMax",
+   "periodsA": [
+    551879.0074284762,
+    551883.075551695,
+    551883.3455232366,
+    551883.3482030971,
+    551883.3482030971,
+    551883.3485122048
+   ],
+   "periodsB": [
+    551879.4074290462,
+    551883.0755518314,
+    551883.3455135376,
+    551883.3482232408,
+    551883.3482337493,
+    551883.3482338634
+   ],
+   "err": null,
+   "wallMs": 19891
+  },
+  "E.b.off.instantaneous.dt0.04": {
+   "dt": 0.04,
+   "steps": 8278300,
+   "stop": "orbMax",
+   "periodsA": [
+    551886.2641188435,
+    551886.6641195304,
+    551886.6641195347,
+    551886.6641197947,
+    551886.6641197775,
+    551886.6641189466
+   ],
+   "periodsB": [
+    551886.6641187773,
+    551886.6641187941,
+    551886.6641188518,
+    551886.6641188061,
+    551886.6641188031,
+    551886.6641188355
+   ],
+   "err": null,
+   "wallMs": 12732
+  },
+  "E.b.on.osculatingMean.dt0.16": {
+   "dt": 0.16,
+   "steps": 2069572,
+   "stop": "orbMax",
+   "periodsA": [
+    551879.6404872511,
+    551886.350646169,
+    551886.6420062397,
+    551886.644951987,
+    551886.644986007,
+    551886.6448883765
+   ],
+   "periodsB": [
+    551881.2404872219,
+    551886.3506465586,
+    551886.642006929,
+    551886.6449403472,
+    551886.644968797,
+    551886.644968703
+   ],
+   "err": null,
+   "wallMs": 4871
+  },
+  "E.b.off.osculatingMean.dt0.16": {
+   "dt": 0.16,
+   "steps": 2069575,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641759799,
+    551886.6641760168,
+    551886.6641759842,
+    551886.6641759028,
+    551886.6641759824,
+    551886.6641758464
+   ],
+   "periodsB": [
+    551886.6641759685,
+    551886.6641759259,
+    551886.6641759246,
+    551886.6641759395,
+    551886.6641759459,
+    551886.6641759145
+   ],
+   "err": null,
+   "wallMs": 3152
+  },
+  "E.b.on.osculatingMean.dt0.04": {
+   "dt": 0.04,
+   "steps": 8278286,
+   "stop": "orbMax",
+   "periodsA": [
+    551880.8404551615,
+    551886.3505847456,
+    551886.6419525356,
+    551886.64487837,
+    551886.64487837,
+    551886.6448783706
+   ],
+   "periodsB": [
+    551881.2404557384,
+    551886.3505849191,
+    551886.641944857,
+    551886.6448624962,
+    551886.6448734337,
+    551886.6448736232
+   ],
+   "err": null,
+   "wallMs": 19964
+  },
+  "E.b.off.osculatingMean.dt0.04": {
+   "dt": 0.04,
+   "steps": 8278300,
+   "stop": "orbMax",
+   "periodsA": [
+    551886.2641188435,
+    551886.6641195304,
+    551886.6641195347,
+    551886.6641197947,
+    551886.6641197775,
+    551886.6641189466
+   ],
+   "periodsB": [
+    551886.6641187773,
+    551886.6641187941,
+    551886.6641188518,
+    551886.6641188061,
+    551886.6641188031,
+    551886.6641188355
+   ],
+   "err": null,
+   "wallMs": 12772
+  },
+  "E.b.on.circularized.dt0.16": {
+   "dt": 0.16,
+   "steps": 2069744,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.8719226157,
+    551931.4719148526,
+    551931.4719375316,
+    551931.471965581,
+    551931.4719655565,
+    551931.4718698204
+   ],
+   "periodsB": [
+    551931.4719262051,
+    551931.4719262369,
+    551931.4719262475,
+    551931.471926288,
+    551931.4719262868,
+    551931.4719262614
+   ],
+   "err": null,
+   "wallMs": 5022
+  },
+  "E.b.off.circularized.dt0.16": {
+   "dt": 0.16,
+   "steps": 2069744,
+   "stop": "orbMax",
+   "periodsA": [
+    551929.871922782,
+    551931.4719148835,
+    551931.4719382221,
+    551931.4719666354,
+    551931.4719666424,
+    551931.471869821
+   ],
+   "periodsB": [
+    551931.471926494,
+    551931.4719265122,
+    551931.4719264588,
+    551931.4719264689,
+    551931.4719264774,
+    551931.4719264646
+   ],
+   "err": null,
+   "wallMs": 3237
+  },
+  "E.b.on.circularized.dt0.04": {
+   "dt": 0.04,
+   "steps": 8278973,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.0718886727,
+    551931.471859813,
+    551931.4718598133,
+    551931.471859813,
+    551931.471859813,
+    551931.4718598133
+   ],
+   "periodsB": [
+    551931.4718916629,
+    551931.4718712814,
+    551931.4718712877,
+    551931.4718712003,
+    551931.4718712624,
+    551931.471871211
+   ],
+   "err": null,
+   "wallMs": 20051
+  },
+  "E.b.off.circularized.dt0.04": {
+   "dt": 0.04,
+   "steps": 8278973,
+   "stop": "orbMax",
+   "periodsA": [
+    551931.0718714914,
+    551931.4718759973,
+    551931.4718598132,
+    551931.4718598127,
+    551931.4718598133,
+    551931.4718598127
+   ],
+   "periodsB": [
+    551931.4718692511,
+    551931.4718693617,
+    551931.4718693881,
+    551931.4718693838,
+    551931.471869451,
+    551931.4718694397
+   ],
+   "err": null,
+   "wallMs": 12952
+  },
+  "E.c.on.m0Third": {
+   "dt": 0.16,
+   "steps": 1034788,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641711948,
+    551886.6641712498,
+    551886.6641710037
+   ],
+   "periodsB": [
+    551886.6641711883,
+    551886.6641712146,
+    551886.6641709034
+   ],
+   "err": null,
+   "wallMs": 4590
+  },
+  "E.c.off.m0Third.plain": {
+   "dt": 0.16,
+   "steps": 1034788,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641711641,
+    551886.66417105,
+    551886.6641707735
+   ],
+   "periodsB": [
+    551886.664171155,
+    551886.6641710098,
+    551886.6641707357
+   ],
+   "err": null,
+   "wallMs": 2117
+  },
+  "E.c.off.m0Third.boosted": {
+   "dt": 0.16,
+   "steps": 1034788,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641741686,
+    551886.6641742958,
+    551886.6641743998
+   ],
+   "periodsB": [
+    551886.6641741861,
+    551886.664174261,
+    551886.6641743528
+   ],
+   "err": null,
+   "wallMs": 2188
+  },
+  "E.c.on.m0ThirdNoPN": {
+   "dt": 0.16,
+   "steps": 1034788,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641695895,
+    551886.6641697286,
+    551886.664169735
+   ],
+   "periodsB": [
+    551886.6641695881,
+    551886.6641696782,
+    551886.664169672
+   ],
+   "err": null,
+   "wallMs": 4213
+  },
+  "E.c.off.m0ThirdNoPN.plain": {
+   "dt": 0.16,
+   "steps": 1034788,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641694802,
+    551886.6641693774,
+    551886.6641690398
+   ],
+   "periodsB": [
+    551886.664169478,
+    551886.6641693427,
+    551886.6641690196
+   ],
+   "err": null,
+   "wallMs": 1796
+  },
+  "E.c.off.m0ThirdNoPN.boosted": {
+   "dt": 0.16,
+   "steps": 1034788,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641695865,
+    551886.6641698171,
+    551886.664170179
+   ],
+   "periodsB": [
+    551886.6641695868,
+    551886.6641697786,
+    551886.6641701431
+   ],
+   "err": null,
+   "wallMs": 1873
+  },
+  "E.c.on.m0Charon": {
+   "dt": 0.16,
+   "steps": 1138267,
+   "stop": "steps",
+   "periodsA": [
+    1414402.7294072541
+   ],
+   "periodsB": [
+    1414404.3294072575
+   ],
+   "err": null,
+   "wallMs": 3388
+  },
+  "E.c.off.m0Charon.plain": {
+   "dt": 0.16,
+   "steps": 1034788,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641759799,
+    551886.6641760168,
+    551886.6641759842
+   ],
+   "periodsB": [
+    551886.6641759685,
+    551886.6641759259,
+    551886.6641759246
+   ],
+   "err": null,
+   "wallMs": 1576
+  },
+  "E.c.on.m1Third": {
+   "dt": 0.16,
+   "steps": 1138267,
+   "stop": "steps",
+   "periodsA": [],
+   "periodsB": [],
+   "err": null,
+   "wallMs": 7114
+  },
+  "E.c.off.m1Third.plain": {
+   "dt": 0.16,
+   "steps": 1034788,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641711641,
+    551886.66417105,
+    551886.6641707735
+   ],
+   "periodsB": [
+    551886.664171155,
+    551886.6641710098,
+    551886.6641707357
+   ],
+   "err": null,
+   "wallMs": 2165
+  },
+  "E.c.on.m1Charon": {
+   "dt": 0.16,
+   "steps": 1138267,
+   "stop": "steps",
+   "periodsA": [],
+   "periodsB": [],
+   "err": null,
+   "wallMs": 4329
+  },
+  "E.c.off.m1Charon.plain": {
+   "dt": 0.16,
+   "steps": 1034788,
+   "stop": "orbMax",
+   "periodsA": [
+    551885.0641759799,
+    551886.6641760168,
+    551886.6641759842
+   ],
+   "periodsB": [
+    551886.6641759685,
+    551886.6641759259,
+    551886.6641759246
+   ],
+   "err": null,
+   "wallMs": 1645
+  },
+  "E.c.on.m0ThirdDfm": {
+   "dt": 0.16,
+   "steps": 1034787,
+   "stop": "orbMax",
+   "periodsA": [
+    551880.5843916599,
+    551888.0371017656,
+    551888.3394818251
+   ],
+   "periodsB": [
+    551882.1843916393,
+    551888.0371021163,
+    551888.3394814562
+   ],
+   "err": null,
+   "wallMs": 5310
+  },
+  "E.c.off.m0ThirdDfm.boosted": {
+   "dt": 0.16,
+   "steps": 1034787,
+   "stop": "orbMax",
+   "periodsA": [
+    551880.5843918392,
+    551888.0371018716,
+    551888.3394815157
+   ],
+   "periodsB": [
+    551882.1843918158,
+    551888.03710225,
+    551888.3394811498
+   ],
+   "err": null,
+   "wallMs": 3080
+  }
+ }
+}

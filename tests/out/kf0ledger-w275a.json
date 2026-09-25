@@ -3,38 +3,38 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-  "generatedAt": "2026-09-23T23:56:18.129Z",
+  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "generatedAt": "2026-09-24T21:40:39.932Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
-    "bytes": 75630,
-    "sha256": "7206a84ddc9890c27ae2217e46957fa8aa31630ee3f421982069d05a2e872713",
-    "mtime": "2026-09-23T20:44:39.123Z"
+    "bytes": 80034,
+    "sha256": "3bf558cd3202d430cc842180a179e18b8250ae8417242ddf4d546dbca00ed946",
+    "mtime": "2026-09-24T16:42:52.382Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2812256,
-    "sha256": "1ace8de3591a9e993b5e59d23991424c8e402dea99a216a41a1bb3e65c7652a2",
-    "mtime": "2026-09-23T21:44:24.611Z"
+    "bytes": 2812542,
+    "sha256": "6460733cb8ee1cdb0b04cb1dd07528f282563bbe24027002804a854b2351387f",
+    "mtime": "2026-09-24T18:13:25.058Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 293359,
-    "sha256": "677f434b53a59828019ad805e4371506cd18518d8197871fee131c4f8bdc3a7b",
-    "mtime": "2026-09-23T23:08:37.880Z"
+    "bytes": 293385,
+    "sha256": "7d7f201a6a5ab30bcf11a2823ff7d8724411b1bc5c833a727c37d152aa1b0d3e",
+    "mtime": "2026-09-24T20:26:57.822Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
-    "bytes": 13500,
-    "sha256": "35bf95ec88165b3eb53e0eabdc3f9eb03eb403f06763be52b85adb19e46ca72e",
-    "mtime": "2026-09-23T20:38:28.815Z"
+    "bytes": 13134,
+    "sha256": "9fd62927ce88201c23efdf9521dd2f0a132049b3a39667889689fb3b86716b26",
+    "mtime": "2026-09-24T16:34:35.594Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223281,
-    "sha256": "874c3bf509f711a6c6f47b13a7a684a549521f9bd395e544bf8a031781edf910",
-    "mtime": "2026-09-23T20:38:19.871Z"
+    "sha256": "0a18d8eaa618e369177b212b64932814375fb36db7780ffd88d32dd48faa84f7",
+    "mtime": "2026-09-24T16:34:24.374Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -134,6 +134,17 @@
     "ids": [
      "galaxyMeshSpiral",
      "galaxyMeshSpiralGeoToy"
+    ],
+    "kFrames": [
+     1,
+     0
+    ]
+   },
+   {
+    "axis": "1|0.006|11.9386|share|851739808ff8e7c966b5bab535436bb01d1b343c4643045fea834e41e6a836b7",
+    "ids": [
+     "plutoCharonReal",
+     "charonGeoToy3"
     ],
     "kFrames": [
      1,
@@ -263,7 +274,8 @@
    "bodiesSha256"
   ],
   "axisOnlyKGroupsInBuiltins": [
-   "galaxyMeshSpiral↔galaxyMeshSpiralGeoToy"
+   "galaxyMeshSpiral↔galaxyMeshSpiralGeoToy",
+   "plutoCharonReal↔charonGeoToy3"
   ],
   "observationDecided": {
    "kf1Ok": [],
@@ -942,7 +954,7 @@
    "scope": "calibration",
    "id": "mercuryReal",
    "emoji": "☄️",
-   "name": "水星(実単位)— 43″/世紀",
+   "name": "水星(実単位)— 近日点前進(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "declaredKFrame": 0,
    "massFactor": 1,
    "version": "obs",
@@ -1019,7 +1031,7 @@
    "scope": "calibration",
    "id": "mercuryRealKF1",
    "emoji": "🪨",
-   "name": "水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立",
+   "name": "水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "declaredKFrame": 1,
    "massFactor": 1,
    "version": "dfm",
@@ -3501,7 +3513,7 @@
    "scope": "calibration",
    "id": "saturnZonalD68",
    "emoji": "📡",
-   "name": "土星の近点移動(実単位・D68精密較正)",
+   "name": "土星の近点移動(実単位・D68 — 帯状重力の照合)",
    "declaredKFrame": 0,
    "massFactor": 1,
    "version": "obs",
@@ -4778,7 +4790,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "7fd132504103c4182c7560590b29cbfbf530c3f437c4ec9a281b36e63fa2ab78",
+   "fileSha256": "e2c915c522cbf4f3ac31a9e3b27d7d24be46abde6f4e070f943dd52b5e7004e7",
    "citedValue": 551864.0613632939,
    "citedCfg": {
     "kFrame": 0,
@@ -4786,7 +4798,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "d334ed09709f20d0f97328227681b11305f2bf3319b4bc36ca95e0a12f7c0744",
+   "citedTargetSha256": "74089924c59e42e8b8331f7d59a2a00ba4a362ec6c07581f2b622db7732609a7",
    "thisRunValue": 551864.0613632939,
    "relDiff": 0,
    "identical": true,

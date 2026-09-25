@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-  "generatedAt": "2026-09-23T20:44:39.123Z",
+  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "generatedAt": "2026-09-24T16:42:52.384Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4617352,
-    "sha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-    "mtime": "2026-09-23T20:29:53.263Z"
+    "bytes": 4758438,
+    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+    "mtime": "2026-09-24T16:22:58.318Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 133,
+ "nPresets": 140,
  "kFrameValues": [
   0,
   1
@@ -54,6 +54,17 @@
    "ids": [
     "galaxyMeshSpiral",
     "galaxyMeshSpiralGeoToy"
+   ],
+   "kFrames": [
+    1,
+    0
+   ]
+  },
+  {
+   "axis": "1|0.006|11.9386|share|851739808ff8e7c966b5bab535436bb01d1b343c4643045fea834e41e6a836b7",
+   "ids": [
+    "plutoCharonReal",
+    "charonGeoToy3"
    ],
    "kFrames": [
     1,
@@ -1449,6 +1460,27 @@
    "bodiesSha256": "ae147a9befc090205af13e00239638e66c86ba0bbfe8ce1f5a7da7a77721e85a"
   },
   {
+   "id": "earthMoonDiagOne",
+   "emoji": "🌓",
+   "name": "地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 8.2358,
+   "frameWeight": "pull",
+   "frameWeightDeclared": false,
+   "softening": 0.1,
+   "geoPN": 2,
+   "nBodyDecl": 2,
+   "presetSigHash": "95de94fd",
+   "bodiesSha256": "5984d6337494dc1ab9c9618527adfcb48876b7c351baaaa6db802e755e02de27"
+  },
+  {
    "id": "qLockRadialAudit",
    "emoji": "📶",
    "name": "qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる",
@@ -1514,7 +1546,7 @@
   {
    "id": "mercuryReal",
    "emoji": "☄️",
-   "name": "水星(実単位)— 43″/世紀",
+   "name": "水星(実単位)— 近日点前進(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "sampleClass": "calibration",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1533,9 +1565,30 @@
    "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
   },
   {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "name": "水星 — geoPN=3 契約の零試験(一様な座標変換・較正ではない)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "11615998",
+   "bodiesSha256": "c57f1b5194a7929ed8c195f1ea653d66022cc792eff65162e91b2cb64eb1d689"
+  },
+  {
    "id": "mercuryRealKF1",
    "emoji": "🪨",
-   "name": "水星(実単位・kFrame=1)— 共通補正で 43″/世紀成立",
+   "name": "水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
    "sampleClass": "calibration",
    "kFrame": 1,
    "kFrameApprox": null,
@@ -1699,6 +1752,69 @@
    "nBodyDecl": 2,
    "presetSigHash": "b2a30528",
    "bodiesSha256": "a89b0f22552195958e574d3271fba090d0ecfc33d4471b61397a5293098b4b53"
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "冥王星とカロン(入力を整えた二体)— 観測入力 kF0 対照",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 11.9386,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.01,
+   "geoPN": 2,
+   "nBodyDecl": 2,
+   "presetSigHash": "b6ca88e6",
+   "bodiesSha256": "6aaf16b994405eeedae1ba0a40669315e601ca835af32c704ef06716bfe306d7"
+  },
+  {
+   "id": "plutoCharonSyncZero",
+   "emoji": "☃️",
+   "name": "冥王星とカロン(厳密同期円)— 相対すべり則の零試験",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 11.9386,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.01,
+   "geoPN": 0,
+   "nBodyDecl": 2,
+   "presetSigHash": "733c8a7a",
+   "bodiesSha256": "4f49308dc672826b8dcf0f715a9f230dcc73fb4f0fddaa09f59378fd8b79368a"
+  },
+  {
+   "id": "charonGeoToy3",
+   "emoji": "🌒",
+   "name": "冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "D0eff": 0.006,
+   "q": 11.9386,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 3,
+   "nBodyDecl": 2,
+   "presetSigHash": "6157bd42",
+   "bodiesSha256": "851739808ff8e7c966b5bab535436bb01d1b343c4643045fea834e41e6a836b7"
   },
   {
    "id": "uranusReal",
@@ -2480,7 +2596,7 @@
   {
    "id": "saturnZonalD68",
    "emoji": "📡",
-   "name": "土星の近点移動(実単位・D68精密較正)",
+   "name": "土星の近点移動(実単位・D68 — 帯状重力の照合)",
    "sampleClass": "calibration",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -2497,6 +2613,48 @@
    "nBodyDecl": 11,
    "presetSigHash": "5be8b841",
    "bodiesSha256": "36ec5a85b50dfa3b8a4e6d4d55057c00b34bfa413dada4286e038182816000dc"
+  },
+  {
+   "id": "saturnD68Consistent",
+   "emoji": "🧷",
+   "name": "土星 D68 の近点移動 — 整合した初速の診断コピー(e*=0.001)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.01,
+   "geoPN": 2,
+   "nBodyDecl": 2,
+   "presetSigHash": "426e79ff",
+   "bodiesSha256": "83e95e17c0aaa4782c63d445ad3067eb1c4361b58a3a0d8c42e976714f55dfe8"
+  },
+  {
+   "id": "saturnD68ObsOrbit",
+   "emoji": "📎",
+   "name": "土星 D68 の近点移動 — 観測定義の軌道の診断コピー(ae=25 km)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.01,
+   "geoPN": 2,
+   "nBodyDecl": 2,
+   "presetSigHash": "1f23dfac",
+   "bodiesSha256": "cb55ea4a6fcad443931d198f1aee8beac3253ed4c92773c61c6039c195399198"
   },
   {
    "id": "saturnRingReal",

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報 (1)・kFrame 二値の既定契約)",
   "target": "beta/index.html",
-  "targetSha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-  "generatedAt": "2026-09-23T20:44:38.164Z",
+  "targetSha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+  "generatedAt": "2026-09-24T16:42:51.278Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4617352,
-    "sha256": "f853eef9a8ea1d81e339329074e5ca220b9ba9ed22da83c4cc5925a8e13a35c8",
-    "mtime": "2026-09-23T20:29:53.263Z"
+    "bytes": 4758438,
+    "sha256": "b7635fca3897edffe170500cb604fc4c47d0b8e8055360844f4ac30662d3b739",
+    "mtime": "2026-09-24T16:22:58.318Z"
    }
   ],
   "code": [
@@ -38,7 +38,7 @@
   ]
  },
  "builtins": {
-  "n": 133,
+  "n": 140,
   "kFrameValues": [
    0,
    1
@@ -358,7 +358,7 @@
    }
   ],
   "_builtinRevalidate": {
-   "checked": 133,
+   "checked": 140,
    "problems": []
   }
  },
@@ -596,7 +596,7 @@
    }
   ],
   "_builtinRevalidate": {
-   "checked": 133,
+   "checked": 140,
    "problems": []
   }
  },
@@ -754,10 +754,12 @@
   "emAuditNewton": "3bac3cf4",
   "emAuditDFM": "b136ac88",
   "emAuditSolar": "82a0802a",
+  "earthMoonDiagOne": "95de94fd",
   "qLockRadialAudit": "da401769",
   "qLockRadialAuditQ3": "e681c83f",
   "mercury": "9eb88051",
   "mercuryReal": "3bffc014",
+  "mercuryGeoToy3": "11615998",
   "mercuryRealKF1": "f530078c",
   "solarInner": "2e7724d2",
   "jupiterGalilean": "738ca9c",
@@ -766,6 +768,9 @@
   "plutoCharonReal": "c482cab0",
   "plutoCharonDFM": "16ef1122",
   "plutoCharonKF0Control": "b2a30528",
+  "plutoCharonDiagInput": "b6ca88e6",
+  "plutoCharonSyncZero": "733c8a7a",
+  "charonGeoToy3": "6157bd42",
   "uranusReal": "c7ccebb",
   "neptuneReal": "479f8f06",
   "alphaCenAB": "8b8c57d3",
@@ -804,6 +809,8 @@
   "saturn": "da6f5cab",
   "saturnLayered": "923ffdc6",
   "saturnZonalD68": "5be8b841",
+  "saturnD68Consistent": "426e79ff",
+  "saturnD68ObsOrbit": "1f23dfac",
   "saturnRingReal": "28e3d97e",
   "saturnRingRealKF1": "ccd6e7ac",
   "binary": "21edaa76",
