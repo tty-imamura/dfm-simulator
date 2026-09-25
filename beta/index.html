@@ -891,13 +891,14 @@
     <button id="btnPanelExpand" aria-label="expand panel" aria-pressed="false">⤢ 広げる</button>
     <div class="tabPage" id="page-help"><div id="helpBody"></div></div>
     <div class="tabPage" id="page-params">
-      <!-- 第62便(原仮定者指示): ワンタップA/B(相変化 abQuick / 粒子patch abBody)は
-           「A/B比較」グループより上の共通行へ統一(形状は相変化系=btn。JSが動的に生成) -->
-      <div class="rowBtns" id="abQuickRow" style="display:none"></div>
       <!-- 第83便B: 相図ランナーを開く行(phaseMap 宣言のあるプリセットでのみ表示) -->
       <div class="rowBtns" id="pmRow" style="display:none"></div>
       <div class="group" id="abGroup">
         <h3 id="abHead">A/B比較</h3>
+        <!-- 第62便(原仮定者指示): ワンタップA/B(相変化 abQuick / 粒子patch abBody)を共通行へ統一
+             (形状は相変化系=btn。JSが動的に生成)。第282便e(原仮定者の裁定(第72報)⑦): 行を
+             「A/B比較」見出しの直下(A/B比較を開始の行より上)へ移した。表示条件は不変 -->
+        <div class="rowBtns" id="abQuickRow" style="display:none"></div>
         <div class="rowBtns"><button class="btn primary" id="btnAB">A/B比較を開始</button></div>
         <!-- v1.23: A/B中の編集対象トグル(原仮定者指示 — パラメータ編集をA/Bどちらに効かせるか) -->
         <div class="rowBtns" id="abTargetRow" style="display:none">
@@ -905,7 +906,7 @@
           <button class="btn" id="btnAbTargetA">A</button>
           <button class="btn" id="btnAbTargetB">B</button>
         </div>
-        <!-- 第40便 40B の abBodyRow は第62便で #abQuickRow(グループ上部)へ統合 -->
+        <!-- 第40便 40B の abBodyRow は第62便で #abQuickRow へ統合(第282便e で見出し直下へ) -->
         <!-- 第27便(原仮定者指示): A/B比較の説明は畳んでおく -->
         <details id="abNoteWrap"><summary id="abNoteSum" class="note" style="cursor:pointer">A/B比較とは</summary>
         <p class="note" id="abNote">今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。実行中のパラメータ編集はA側にのみ効き、最後に調整したパラメータの値が両画面に表示されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。</p></details>
@@ -30254,7 +30255,7 @@ function buildPhaseParamRows(host){
       (cv)=>{ editSim().phase[def.key]=cv; },   // 第60便: 全ノブが単純な連続量(副作用なし)
       def.lo, def.hi, def.sLo, def.sHi, def.sStep);
   }
-  // 第61便 61B の abQuick ボタンは第62便で #abQuickRow(A/B比較グループの上)へ移設
+  // 第61便 61B の abQuick ボタンは第62便で #abQuickRow へ移設(第282便e: A/B比較の見出しの直下)
   // 第57便 57C: 伝熱壁の壁温・レート行は「実験箱」カテゴリへ移設(buildLabBoxRows)
   det.appendChild(g);
 }
@@ -30325,7 +30326,7 @@ function buildLabBoxRows(g){
   }
 }
 // 第40便 40B(台帳4-77)→ 第62便(原仮定者指示)で統一: ワンタップA/B行 #abQuickRow
-// (「A/B比較」グループの上)。①相変化 abQuick:{key,v}(第61便 61B — B側の相変化ノブだけ
+// (第282便e・原仮定者の裁定(第72報)⑦: 「A/B比較」見出しの直下・開始ボタンの行より上)。①相変化 abQuick:{key,v}(第61便 61B — B側の相変化ノブだけ
 // 対照値へ)②粒子patch abBody(40B — 例: 対向ローターのスピンを0に)を、同じ形状
 // (相変化系 = class "btn")で並べる。プリセットはどちらか一方のみ宣言する運用。
 // buildParamRows() から呼ぶ(プリセット読込・A/B開始/終了・編集対象切替・言語切替のたびに再同期)

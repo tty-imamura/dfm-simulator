@@ -26266,6 +26266,59 @@ q が効くのは **kFrame=1 かつ geoPN=2**(または 0)のときだけで、*
 
 **言わないこと。** 「kF0 版が成立した」「引きずりで kF0 を合わせた」「観測一致を達成した」「較正を完了した」「f=1 で合った」「引きずり消失を確認した」「新発見」—— ① は「kFrame=0 では q を変えても力学が 1 bit も動かない」ことの実測であり、R_drag は宣言した近似、相対自転チャネルは候補式(現象論・未実証)である。
 
+〔第282便e — UI便7+運用便(ワンタップ対照の配置・停止集合 AN22 の実測・安定 hash の除外契約・研究用 RC の条件文 AA16)(**表示と器だけ**・物理は 1 bit も動かさない)〕
+
+原仮定者の裁定(第72報)⑦「ワンタップ対照のボタンを A/B比較のラベルの下に配置」・AN22(停止集合を宣言し、受理後の実効プリセット JSON+力学関数+_core で縛る・1 便分測ってから採否)・AA16(RC は切らない・条件文は docs/dev)と統括の検証項目 R82。**表示と器だけ**(bitsame **140/140**〔600 步・`identical:true`〕・sigsame **140/140**・jitprobe の出力チェックサム 4 本とも基点と一致・`S._core` 35197 字で不変)。プリセットは足していない。**RC は切らない。**
+
+**① ワンタップ対照の配置。** `#abQuickRow`(第62便で「A/B比較」グループより上の共通行に置いた・JS が動的生成)を `#abGroup` の中の `h3#abHead` の**直下**(「A/B比較を開始」の行より上)へ移した。表示条件(相変化 `abQuick` / 粒子 patch `abBody` があるプリセットだけ —— `updateAbQuickRow`)・`#pmRow`(相図ランナーの行 —— `#abGroup` の直前のまま)・タブ幅・横画面 2 カラム・文言(ja/en)は変えていない(JS はコメントだけ)。実測(QA `ui.abQuickPlacement`・パラメータタブ・`#abGroup` を先頭へスクロールした状態の bounding box px —— 見出しの下端 ≤ 行 ≤ 開始の行の上端):
+
+| 画面 | 見出しの下端 | ⛓️ chain2(相変化) | 🕶️ darkrotor(abBody) | 💿 saturnRingRealKF1(physicsPatch) | 開始の行の上端(⛓️🕶️ / 💿) | 行の左右 ⊂ グループの左右 |
+|---|---|---|---|---|---|---|
+| 390×844 | 601 | 609〜646(37) | 609〜646(37) | 609〜665(56・2 行に折り返し) | 652 / 671 | 12/378 ⊂ 12/378 |
+| 768×1024 | 691 | 699〜736(37) | 699〜736(37) | 699〜736(37) | 742 / 742 | 12/756 ⊂ 12/756 |
+| 1024×768(2 カラム) | 187 | 195〜232(37) | 195〜232(37) | 195〜251(56) | 238 / 257 | 621.3/1012 ⊂ 621.3/1012 |
+
+基点 8b05232 の html では同じ検査が FAIL する(390×844 で ⛓️ の行は 540〜577・親は `#page-params` —— 見出し 601 より上)。ワンタップ対照の無い 🪐 saturn では行は `display:none`・高さ 0 のまま。en の文言も不変(`⚖️ One-tap control A/B (side B: …`)。🎠 galaxyMeshSpiral 系の 3 本は `abQuick:{key:"D0",v:500}` を宣言しているが相変化の `phase` を持たないので、第62便の表示条件どおり**行は出ない**(基点でも同じ —— 本便は表示条件を変えていない。下の ⑦)。
+
+**② 停止集合(AN22 —— `tests/lib-w281a-scope.mjs`・領域 hash の版 w281a-scope-1 → w282e-scope-2)。** 第281便a の閉包は roots(器の局所変数と同名の `$`・`ctx`・`ch`・`sim` 等)から、閉包の let へ代入する関数(`loadPreset` → `camFollowPreset`・`resizeCanvas`/`showFirstVisit` → `ch`・`render` → `tempP90EMA` …)を経て UI の関数(`buildParamRows`・`renderSaves`・`applySkin`・`syncPanelWideReserve` …)まで入っていた。**純粋な表示関数 19 個**を `SCOPE_STOP` に宣言し、閉包から除く —— 保存・カスタム一覧とパネルの再計測(`renderSaves`・`renderCustomList`・`panelContentChanged`)・スキン(`applySkin`・`setSkin`・`setCanvasSkin`)・パラメータ行とワンタップ対照の行・控除・キャンバスの寸法(`buildParamRows`・`updateAbQuickRow`・`syncPanelWideReserve`・`resizeCanvas`・`applyUiScale`)・言語と説明(`applyLang`・`renderHelp`・`showFirstVisit`)・描画(`render`・`drawSpaceLinesOn`・`drawEmergence`・`drawOrbitObs`・`pmRender`)。止めた関数は (a) 名前で辿らない (b) 書き換える文・代入する関数としても入れない (c) 器の roots に**素の名前**で書かれていても辿らない(素の名前は器の局所変数との同名から機械で引いた下限)。**`$`・`ctx`・`sim` は止めない**。物理側(`validatePreset`・`applyQLock`・`qLockCalc`・`makeSim`・`loadPreset`・`geo3InitVelocity`・メッシュ速度・`dfmCoreFieldStep`・`coreFieldInitState`・`bgSourcesBodyCheck` —— `PHYSICS_KEEP`)は依存に残る(QA が宣言 20 器の閉包で照合)。止めてよい根拠は**静的な照合**だけである: 停止した関数が本体で(操作ハンドラ = 入れ子の関数の外で)直接書く閉包の名前は 27 件で、すべて**表示の境界** 12 名(`cv`・`ctx`・`dpr`・`cw`・`ch`・`tempP90EMA`・`emTick`・`emHist`・`_ooLast`・`pmCells`・`paramRowSync`・`_monCls`)の中。宣言した 20 器(import する lib と正本の `code[]` を含む)は停止関数・境界の名前を `HP.<名前>` の式や文字列で読まない。操作ハンドラの中の書き込み 20 件は辿らない(器は UI を操作しない —— 第281便a ⑨② と同じ限界)。
+
+**刻印の版で照合する。** 旧版の刻印(21 本)は旧版の閉包(停止集合なし)で引き直して照合する —— 旧版は新版より広いので、旧版で一致すれば新版でも同じ領域を読んでいる。新しい刻印は新版だけで作る。**宣言 21 本の旧刻印は付け替えていない**(統合時に統括が行う)。下限の照合(`lint.regenScope` ②)は新版の閉包で行い、刻印の道具(本 lib と再生成表)は下限を引く対象から外した(停止集合の文字列を「器が名前で読む」と数えないため)。
+
+実測(`tools/scope-probe.mjs --base beta/_w282_base.html` —— 一時 html は書いて消す・正本は書かない):
+
+| 項目 | 結果 |
+|---|---|
+| 閉包の名前(sparc の宣言) | 旧版 966 → 新版 **763**(inline script に占める割合 0.3786 → 0.3134) |
+| (a) 基点 8b05232 の html | 旧版で引き直すと刻印と一致 **21/21**・新版で引くと変わる **21/21**(版が本文に入る —— 旧刻印は target 一致で通る)/ 本便の html でも旧版で一致 21/21(マークアップとコメントだけの差) |
+| (b) CSS の `--bg` + 第281便e で変えた表示関数 9 個の本体に 1 文 + 行の位置を戻したマークアップ | 変わった本数 旧版 **21/21**・新版 **0/21** |
+| (c) `validatePreset` の本体に 1 文 | 新版で **21/21** 変わる |
+| (d) ❄️ の冥王星の質量 0.001303 → 0.001304 | 新版で **11/21** 変わる(❄️ か all を宣言した本 —— charon・charoneps・charonk・charonfactors・bgequiv・bgbudget2・mercury・charonInput・geo3・shapecrit〔all〕・d68〔all〕。CANON の中では第281便a と同じ 10 本 + CANON の外の charon-w272b)・予想と 1 本ずつ一致 |
+
+**③ 再生成計画の「どの入力・式・受理規則で無効化されたか」の列(`tests/lib-w281a-regentable.mjs`・版 w282e-regentable-2 / `tools/regen-plan.mjs`)。** 各段に `causeText` を出す: 入力(`入力: tests/out/…`・安定 hash も違う)/ 式(器・lib の刻印・html の関数名・`S._core`)/ プリセット(生の定義)/ 受理規則(生の定義は同じで受理後だけ変わった本)/ 定数 / 依存先 / 常時群 / 履歴。領域の不一致の内訳は、刻印時の html(`meta.targetSha256` と sha が同じ html を `--base` に渡したとき)だけ引ける。実測(基点 html を `--base`): `validatePreset` に 1 文 → 宣言した本は「式: validatePreset」/ ❄️ の質量 → 「プリセット: plutoCharonReal」/ (b) の一時 html → 旧版の刻印のままなので「式: applySkin, setSkin, resizeCanvas, syncPanelWideReserve 他 4」(付け替えた後は新版で領域一致になる —— ② の (b))。本便の html での計画の件数は旧 lib と新 lib で同じ(常時 11・再生成 31・**再利用 28**・再計画 10・履歴 2 —— 再利用は減っていない)。
+
+**④ 安定 hash の除外契約(`stableJsonSha` —— 版 w282e-stable-1)。** 第281便a の安定 hash は欄名(`when`・`durationMs`・`wallClock` …25 個)を**階層を問わず**除いていた —— 観測の元期や継続時間の欄まで落としうる(calaudit の `/meta/stopRule/wallClock` は壁時計の扱いの**説明文**だが、欄名で落ちていた)。本便から**正本ごとに宣言した JSON Pointer だけ**を除く(再生成表の段の `volatilePaths`・表の外の入力は `EXTERNAL_VOLATILE`・既定は除外なし・`*` は 1 段の任意の鍵/添字)。方式の版と Pointer の並びを hash の本文に入れる。Pointer の最後の鍵は実行時刻・壁時計の所要(`generatedAt`・`when`・`carriedOverFrom`・`mtime` = ISO 日時 / `wallSec`・`rateStepsPerSec`・`spentSec`・`elapsedS` = 有限の数)に限る。宣言したのは 9 ファイル・Pointer 33 本(今の正本で 581 か所に合う・そのうち 16 本は meta の外 —— calaudit の各本の `run.wallSec`・`timeBudget[].wallSec` 等、charoneps の各列の `wallSec`、bgequiv・bgbudget2 の `elapsedS`)。実パス(8b05232 の正本で確認):
+
+| 正本 | 除く Pointer |
+|---|---|
+| calaudit-w249 | `/meta/when`・`/fourValues/current/when`・`/diagnosticsSplit/carriedOverFrom`・`/presets/*/run/wallSec`・`/presets/*/run/timeBudget/*/{wallSec,rateStepsPerSec}`・`/presets/*/run/stopRule/{wallSec,rateStepsPerSec}`・`/presets/*/run/stopRuleStages/*/{wallSec,rateStepsPerSec}`・`/presets/*/run/dtEighth/wallSec` |
+| calaudit-w249-diag | (なし —— 空の宣言) |
+| bgpredict-w276a | `/meta/generatedAt`・`/meta/inputs/*/mtime`・`/meta/code/*/mtime` |
+| bgequiv-w278d・bgbudget2-w279c | 同上 + `/elapsedS` |
+| charoneps-w276b | 同上 + `/columns/*/{h,h2,h4}/wallSec` |
+| analogy-w265a(表の外) | `/meta/when`・`/meta/inputs/*/mtime`・`/meta/spentSec` |
+| kjoint2-w265a(表の外) | `/meta/spentSec` |
+| obscal-results(表の外) | `/manifest/generatedAt` |
+
+検証: (i) 合成の値で、観測の `durationMs`・`when` を変えると hash が変わる/宣言した生成時刻だけを変えても同じ/宣言なしなら生成時刻も効く —— 旧方式は同じ観測の 2 欄の変化を**見落とす**。(ii) 安定 hash を刻まれた実物 8 ファイルで、旧方式の欄名に当たる実行時刻・所要の値(数値か ISO 日時)を 1 つずつ変えても新方式の hash は同じ(calaudit 502 か所・charoneps 45・bgbudget2 12・bgequiv 8・analogy 6・bgpredict 5・obscal 1・kjoint2 1 —— 宣言漏れ 0)。宣言の外を 1 つ変えると変わる。(iii) 実際の再走(calaudit の 53aaa64 → 8b05232)で変わった欄は、宣言した実行時刻・所要のほかに `targetSha256`(html が変わった —— 正しく効く)と `/diagnosticsSplit/{sha256,bytesBeforeSplit,bytesAfterSplit}`(分離した診断ファイルに壁時計由来の速度が入るため)である —— 後者は**宣言していない**(実行時刻ではなく診断ファイルの内容の hash なので、除くかは裁定に回す —— ⑦)。**刻印**: 既存の 15 行(版なし)は旧方式で照合する(照合専用 `legacyStableJsonSha` —— 新しい刻印には使わない・統合時に付け替えたら使わなくなる)。
+
+**⑤ 研究用 RC の条件文(AA16)。** `docs/dev/RC_RESEARCH.md` に ①法則/速度/参照系/単位の契約 ②NaN・縮退・閉包失敗の可視化 ③閉じた系の E/P/L と開いた系の交換帳簿 ④主要診断の刻み・軟化・窓の収束 ⑤概要/カード/保存の一致 ⑥beta と root の必要 QA を置き、「kF0 の観測合・DFM の概略整合・アナロジーの形状達成は別々に開示する」「観測 3σ 合は条件にしない」と書いた。**本便は RC を切らない**(条件文を置いただけ)。
+
+**⑥ QA。** 新設 `ui.abQuickPlacement`(配置 —— beta 線は常に・root は見出し直下の行があるときだけ)・`lint.scopeStop`(停止集合の宣言・直接の書き込み ⊆ 境界・器が読まない・物理側が閉包に残る・(b)(c)(d) の感度・旧刻印の数 —— root は SKIP)・`lint.stableHashPaths`(宣言の存在・Pointer の実在と値の型・回帰・実物・刻印の版 —— root は SKIP)・`docs.rcResearch`(条件文の 6 項目・開示の分離・3σ を条件にしない・PHYSICS からの参照)。変更 `lint.provenanceMeta` ③(安定 hash を刻印の版で照合)。**固定値を変えた QA は無い。** 部分実行(1 本の Chromium): 新設 4・`lint.provenanceMeta`(基点 html で PASS)・`lint.regenScope`・`ui.contrast`・`ui.skin`・`ui.panelReserve`・`ui.61b-tools`・`ui.63-ab-tools`・`ui.54d-params`・`i18n.toggle`・`lint.coreBudget`・`syntax` が PASS。同じ切り出しに入る `divergence.undo` は部分実行器での既存の FAIL(基点でも同じ —— 第281便e と同じ)。本便の html では `lint.provenanceMeta` が**宣言の無い 25 本**(bh90・qsplit・bhcore・galaxyprof・needmesh・galaxylite・kf0ledger 旧/新・presetaxes・kfgate・galaxyprof2・d0audit・meshnod0・bgfield・d0sites・bgpredict・selfinertia・bgbudget・slipaudit・samplestatus・bgcompose・spherekernel・strain・galaxychain・rotorledger)の ② で落ちる —— html を 1 バイトでも変えた枝の統合後に統括が再走する種類の FAIL(AG10)で、宣言した 21 本は旧版の領域一致で通る。preflight(`tests/qa-preflight.mjs`・ブラウザなし)は基点 html で **154/154**、本便の html で 144/154 —— 落ちる 10 件(`lint.provenanceMeta`・`lint.calauditMergeKeyHash`・`docs.d0audit-sync`・`docs.d0sites-sync`・`docs.bgpredict-sync`・`docs.selfInertia-sync`・`docs.bgbudget-sync`・`docs.bgCompose`・`docs.sphereKernel`・`docs.kf0Ledger`)はどれも正本を html 全体の sha256 で縛る照合で、同じ種類である。root(`QA_TARGET=index.html`)では `ui.abQuickPlacement`・`lint.scopeStop`・`lint.stableHashPaths` が SKIP。
+
+**⑦ 未解決・決断事項候補。** ① 停止集合の最終案(本便の 19 関数で止めるか —— 閉包には `callLLM`・`importCandidates`・`applyCamFollow`・`pmStart`・`beLayApply` 等が、局所変数 `ch` の同名代入や操作系の let を経てまだ入っている。広げるなら同じ静的照合〔直接の書き込み ⊆ 境界〕を通す)② 表示の境界 12 名に `ctx`・`ch`・`cw`・`dpr` を置いたこと(停止関数がキャンバスの寸法と描画状態だけを書くことの宣言 —— 物理側がこれらを読まないことは静的には示せていない。`makeSim` の `ch:` は粒子の配列の欄名、`validatePreset` の `cv` は局所変数)③ volatilePaths の実パス一覧(上の表)と、meta の外の 16 本を認めるか ④ calaudit の `/diagnosticsSplit/{sha256,bytes…}` を除くか(除かないと calaudit を同じ html で走らせ直しても後段は「再計画」から戻らない)⑤ 旧刻印(領域 21 本・安定 hash 15 行)の付け替え(統合時)と、付け替えた後に旧方式の照合を撤去するか ⑥ RC 条件文の置き場(docs/dev か PHYSICS)⑦ ワンタップ対照の行を「A/B比較を開始」の上に置くか下に置くか(本便は上 —— 見出しの直下)⑧ 🎠 系の `abQuick:{D0}` は `phase` が無いので行が出ない(表示条件を相変化以外へ広げるか)。
+
+**言わないこと。** 「停止した関数は結果を変えない」(静的な照合と感度の自己試験だけ —— 操作ハンドラの中は辿らない)・「再生成が不要になった」・「安定 hash が一致したから結果が同じ」・「研究用 RC の条件を満たした」(条件文を置いただけで、RC は本便の範囲外)。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
