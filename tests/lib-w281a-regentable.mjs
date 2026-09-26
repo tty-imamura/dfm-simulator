@@ -121,6 +121,10 @@ export const REGEN_STEPS = [
     note: '第281便b: 場の契約の一覧・🎋 の連鎖・交換模型の帳簿(chainledger は lib 自身が target —— 同じ器が書く)' }),
   S('rotorledger', 'node tests/exp-w281c-rotorledger.mjs', ['tests/out/rotorledger-w281c.json'], 1, { secSource: 'w281-chain3', node: true,
     note: '第281便c: 条件付き質量台帳・η 対照(html だけを読む・他の正本を読まない)' }),
+  // ---- 第282便d(原仮定者の裁定(第72報)⑥・R81): アナロジー便の正本(**galaxychain-w281b.json を読む** —— after に置く。
+  //   所要は第282便d の枝の実測 148 秒〔Node 1 本・同じ容器で他の枝と並走〕)
+  S('analogy', 'node tests/exp-w282d-analogy.mjs', ['tests/out/analogy-w282d.json'], 148, { secSource: 'w282d-branch', node: true, after: ['galaxychain'],
+    note: '第282便d: 場の契約の読み手の再現・中心 spin の応答・🌚 の台帳と回転曲線・🛞 の f=1 台帳(inputs に galaxychain-w281b.json)' }),
   S('strain', 'node tests/exp-w281d-strain.mjs', ['tests/out/strain-w281d.json'], 26, { secSource: 'w281-chain3', node: true, after: ['galaxyproto', 'corefield'],
     note: '第281便d: 2D の渦伸長 0・ひずみ率の診断(inputs に galaxyproto-w276e・corefield-w276d)' }),
   S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin'] }),

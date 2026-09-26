@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-  "generatedAt": "2026-09-25T10:26:00.505Z",
+  "targetSha256": "5590e86e8ff7d06e97279516ea59af8116b37270db7099828df3b1f8fdb22b05",
+  "generatedAt": "2026-09-25T23:24:07.369Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 51756,
-    "sha256": "4aa61f074ec423a755e8a54b9e80be8107cbd3e870db1f09dae81f1a63573533",
-    "mtime": "2026-09-24T09:36:39.941Z"
+    "bytes": 52268,
+    "sha256": "577cb6b3ac366f352c693d1baa1fa9bc958008d9561808e6fb49f8255ed43b4a",
+    "mtime": "2026-09-25T23:24:00.788Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2812516,
     "sha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
-    "mtime": "2026-09-25T08:20:06.072Z"
+    "mtime": "2026-09-25T22:50:11.260Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 91098,
     "sha256": "ab5413da7f0a0435b824150b3d3a5cbed788a289a950576179d2cee866b795cc",
-    "mtime": "2026-09-25T09:56:15.628Z"
+    "mtime": "2026-09-25T22:50:11.268Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 47232,
-    "sha256": "f2c8bbd9dc3803ac45a962b8a4d7920ff395d7b65bb2acbfa1290326dcbba66b",
-    "mtime": "2026-09-25T10:26:00.476Z"
+    "bytes": 47606,
+    "sha256": "fd458a0f7dfcf2481570af1024c4a02606e109ceba0b1298a9675e0c1bc98af6",
+    "mtime": "2026-09-25T23:24:07.336Z"
    }
   ],
   "code": [
@@ -45,33 +45,33 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 15287,
     "sha256": "4748dd7356dc847f31a76a845169cd91ebd1199c7fcf3961d47d9a874ccdbb43",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-25T22:50:11.204Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 19451,
     "sha256": "09e47055bdeceb639a2b4770f085a9315ada2a6e81398c2c9343a3e3e388244f",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "mtime": "2026-09-25T22:50:11.220Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-25T22:50:11.212Z"
    }
   ],
   "codeSha256": "dd9d3d7276f5a2a355b7718a70baf4cde99977af80ef7aa66b65c60e4dea6181",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "8a5b2782b8f60623211a243e0e93c38f4a0df8c7",
-   "date": "2026-09-24T23:44:01.445Z",
-   "pass": 881
+   "commit": "954aab9190e92ee018bc387ed8e5ad68585c3b68",
+   "date": "2026-09-25T11:48:58.650Z",
+   "pass": 891
   }
  },
  "tally": {
   "objective": {
    "met": 81,
-   "partial": 54,
+   "partial": 55,
    "unmet": 5,
    "n/a": 0
   },
@@ -81,7 +81,7 @@
    "fail": 2,
    "hold": 33,
    "hold-definition": 2,
-   "out-of-scope": 101
+   "out-of-scope": 102
   },
   "four": {
    "合": 0,
@@ -98,7 +98,7 @@
    {
     "group": "銀河の力学",
     "icon": "🌌",
-    "n": 17
+    "n": 18
    },
    {
     "group": "天体の機構",
@@ -161,7 +161,7 @@
     "n": 0
    }
   ],
-  "n": 140,
+  "n": 141,
   "predictionEligible": 0
  },
  "rows": [
@@ -1168,6 +1168,33 @@
      "brief": "A lighter copy of 🪁 with an 80-particle disc for comparison. Partial: the prepared path is bit-identical; there is no shape gate. Out of calibration scope."
     },
     "brief": "🪁 を円盤 80 粒に軽くした比較用の写し。部分・準備経路のビット同一は確認・形の門は無い。較正対象外。"
+   },
+   "ledgerSource": null
+  },
+  {
+   "id": "galaxyAnalogyBH",
+   "emoji": "🌚",
+   "name": "銀河アナロジー(中心 DFM 版 BH+恒星質量 DR)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー",
+    "objective": "partial",
+    "state": "中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/analogy-w282d.json"
+    ],
+    "en": {
+     "purpose": "A galaxy analogy with a central DFM black hole and stellar-mass dark rotors as mass",
+     "state": "the centre-spin response is nonzero; the rotation curve is numbers only",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A galaxy analogy with a central DFM black hole and stellar-mass dark rotors as mass. Partial: the centre-spin response is nonzero; the rotation curve is numbers only. Out of calibration scope."
+    },
+    "brief": "中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー。部分・中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い。較正対象外。"
    },
    "ledgerSource": null
   },

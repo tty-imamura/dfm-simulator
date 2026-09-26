@@ -3888,6 +3888,15 @@ function validateSpaceMesh(a){
       return {ok:false, err:"physics.spaceMesh.toyClosureIters は 1〜64 の整数(固定点反復の最大回数)"};
     tClosureN=Math.round(Number(a.toyClosureIters));
   }
+  // 第282便d(第72報⑥・R81): **中心の自転を読む opt-in** `centerSpin`("off" 既定 = 現状 /"read")。
+  //   **既定は 1 文字も正準形に出さない**(内蔵 140 本は署名も力学もビット不変)。"read" は lawVersion:"scalar" 専用で、
+  //   帯平均・mesh-v2・閉包の反復・vMinusU とは排他(トイの場の作り方を 2 つ重ねない)。calibration では拒否。
+  let cSpin=SPACE_MESH_CENTER_SPIN[0];
+  if(a.centerSpin!==undefined && a.centerSpin!==null){
+    if(SPACE_MESH_CENTER_SPIN.indexOf(a.centerSpin)<0)
+      return {ok:false, err:'physics.spaceMesh.centerSpin は "off"/"read"(geoPN=3 のトイが中心の自転を読むか —— 既定 off)'};
+    cSpin=a.centerSpin;
+  }
   // 第265便b(Z2・第57報 W2): **法則版 `law`**("toy" 既定 = 既存の geoPN=3 トイ /"mesh-v2" = 最小代数実装)。
   //   **既存トイと排他**である(同じ步で両方は走らない —— `dfmGeoToyStep` の入口で分岐する)。
   //   `meshGauge` は共通並進の扱い("inertia"=重心の慣性を独立に残す /"constraint"=拘束で解く)。
@@ -3946,6 +3955,9 @@ function validateSpaceMesh(a){
       return {ok:false, err:"physics.spaceMesh.pressure0 は 0 以上の数値(有効圧の下駄 Θ₀)"};
     dTh0=clamp(Number(a.pressure0),0,1e12);
   }
+  if(cSpin!==SPACE_MESH_CENTER_SPIN[0] && (a.lawVersion!=="scalar" || mLaw!==MESH_V2_LAWS[0]
+    || dSup!==SPACE_MESH_DISK_SUPPORT[0] || tClosure!==SPACE_MESH_TOY_CLOSURE[0]))
+    return {ok:false, err:'physics.spaceMesh.centerSpin:"read" は lawVersion:"scalar" 専用で、law:"mesh-v2"・diskSupport・toyClosure:"iterate" と排他(第282便d)'};
   if(mLaw===MESH_V2_LAWS[1] && dSup!==SPACE_MESH_DISK_SUPPORT[0])
     return {ok:false, err:'physics.spaceMesh.law:"mesh-v2" は diskSupport と排他です(mesh-v2 は帯平均を持ちません)'};
   if(mLaw===MESH_V2_LAWS[1] && tClosure!==SPACE_MESH_TOY_CLOSURE[0])
@@ -4023,6 +4035,7 @@ function validateSpaceMesh(a){
   if(lawV!==null){ out.lawVersion=lawV; if(toyG!==1) out.toyGain=toyG; }   // 第259便a(未宣言は 1 文字も出さない)
   // 第280便c: vMinusU は **pn を既定 off でも明示**する(署名から「1PN なしで走った」が読めないと再現できない)
   if(lawV===GEO3_LAW){ out.pn=g3pn; if(g3pv!==null) out.pnVelocity=g3pv; out.velocityMeaning=g3vm; }
+  if(cSpin!==SPACE_MESH_CENTER_SPIN[0]) out.centerSpin=cSpin;   // 第282便d(既定 "off" は 1 文字も出さない)
   if(tAllowDrag) out.toyAllowDrag=true;   // 第263便a(既定 false は 1 文字も出さない = 内蔵 122 本は署名不変)
   // 第264便b(既定 "gravity" は 1 文字も出さない = 内蔵 122 本は署名不変。反復数は "iterate" のときだけ)
   if(tClosure!==SPACE_MESH_TOY_CLOSURE[0]){
@@ -7780,6 +7793,85 @@ const BUILTIN_PRESETS = [
     {type:"disk", rMul:1.2, n:80, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
      mMin:0.16,mMax:0.5, spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05,
      direction:1, bulkVx:0, bulkVy:0}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
+    spaceMesh:{mode:"mesh"},
+    galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
+// ===== 第282便d(原仮定者の裁定(第72報)⑥「アナロジーは geoPN=3。中心にスケール調整した DFM 版ブラックホール。
+// 質量合わせに恒星質量ダークローター」・統括の読み R81・AN19): **銀河アナロジーの 1 本目**(principle・較正ではない)。
+// 🎋 の幾何(核 pinned m=2500・spin 1.2・R=15 + Plummer バルジ 90 + 指数円盤 80)と physics をそのまま使い、
+// ① 恒星の質量を固定値 0.3125(=5/16 —— Float32 で厳密)にして M★=53.125 を宣言値にする
+// ② **恒星質量ダークローター(DR)を力学の質量要素として置く**: 代表粒子 N_rep=40 × 53.125 = M_DR=2125
+//    (⟨m_DR⟩=1 M☉ を代表 —— AN19。M_DR/M★ = n_ratio·⟨m_DR⟩/⟨m★⟩ = 20·1/0.5 = 40 は単位に依らない)
+// ③ `physics.spaceMesh.centerSpin:"read"` で**中心の自転をトイの場に読ませる**(opt-in —— 既定は off のまま)。
+// f=1(massCalibration を持たない —— 旧 f≈2 の質量補正を使わない)。**観測回転曲線は 1 つも入力していない。**
+{ id:"galaxyAnalogyBH", name:"銀河アナロジー(中心 DFM 版 BH+恒星質量 DR)", emoji:"🌚",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["galaxy","dm"],
+  obsCard:[
+    {q:"何を置いたか", model:"🎋 の幾何(pinned 中心 m=2500・spin 1.2・R=15/バルジ 90/円盤 80)+恒星質量 DR の代表粒子 40 体(1 体 53.125・計 2125)", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"DR は力学の質量要素", model:"M_DR=N_DR⟨m_DR⟩・N_DR=20 N★(宣言値)・⟨m_DR⟩=1 M☉ が代表(0.1/10 M☉ は比較の列)。代表粒子 1 体は個々の天体ではない", obs:"—(個数 20 倍は宣言値 —— 浮遊惑星の観測は地球質量級)"},
+    {q:"中心の自転を読む(opt-in)", model:"spaceMesh.centerSpin:\"read\" —— 場の契約の読み手の自転項 ω(d)=s(R/(R+d))^q(E6′ と同じ減衰形・q=2)を中心だけに入れる", obs:"—(既定は off —— 既存本の力学は不変)"},
+    {q:"中心 BH の無次元量(宣言)", model:"GM/(Rc²)=0.148・ΩR/c=0.600・M_center/M★=47.06・M_center/(M★+M_DR)=1.148(GW150914 の巨大化ではない)", obs:"—"},
+    {q:"光線には使わない", model:"massLedger.darkRotor.lens:\"excluded\" —— 代表粒子の質量を個別のレンズ計算に使わない宣言(光線の表示も宣言しない)", obs:"—"},
+    {q:"言わないこと", model:"平坦回転を再現した/銀河を較正した/ダークローター=浮遊惑星の検出/消失星=DFM 減光の実例、とは書かない", obs:"—"}],
+  descStruct:{
+    summary:"**銀河アナロジーの 1 本目 —— 中心にスケールを宣言した DFM 版ブラックホール、恒星円盤、恒星質量ダークローター(DR)の代表粒子を置いた geoPN=3 の原理サンプル**(第282便d・原仮定者の裁定〔第72報〕⑥)。幾何と physics は 🎋 と同じ(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・η=1・D₀=1.5・ε=3・frameWeight:\"share\")で、違いは 3 つ: ① 恒星(バルジ 90+円盤 80)の質量を 0.3125 の固定値にして **M★=53.125 単位**を宣言値にした ② **DR を力学の質量要素として置いた** —— 代表粒子 N_rep=40 体 × 53.125 = **M_DR=2125 単位**(⟨m_DR⟩=1 M☉ を代表・N_DR=20 N★ は宣言値・M_DR/M★=40 は単位に依らない)。空間分布は恒星円盤と同じ指数円盤(宣言 —— 決断事項)で、初速は配置の実ポテンシャルの円運動解(vMode enclosed) ③ **spaceMesh.centerSpin:\"read\"** で中心の自転をトイの場に読ませる(E6′ と同じ減衰形 ω(d)=s(R/(R+d))^q・q=2)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性)。**f=1**(質量補正を持たない)。**観測回転曲線は 1 つも入力していない**(較正ではない・claim 窓も regression window も無い)。**言わないこと**: 平坦回転を再現した/銀河を較正した/ダークローター=浮遊惑星の検出。",
+    observe:"実測(器 tests/exp-w282d-analogy.mjs・正本 tests/out/analogy-w282d.json・dt=0.016): 宣言した配置の実際の重力加速度で測った回転曲線 v_c(r) を r=20/40/80/120/240/480 の 6 半径で、DR なし/0.1/1/10 M☉ の 4 列に並べた(数は PHYSICS〔第282便d〕の表 —— **観測とは突き合わせていない**)。中心の自転の応答: 同じ配置で中心 spin 1.2 と 0 の 2 走行の差が 0 でない(粒子位置の差・半径ビンの ∂u_φ/∂Ω_core)。健全性(T=48=3000 步): NaN 0・トイの帳簿 E_toy+E_mesh=0(厳密)・円盤 80 粒の保持率と DR 40 体の保持率は正本に記録。**言わないこと**: 平坦回転を再現した/銀河を較正した。",
+    control:"ワンタップ対照A/B: B 側は**中心の spin=0**(同じ配置・同じ opt-in —— 中心の自転の寄与だけを外す)。比較の相手は 🎋(中心の自転を読まない既定のトイ・DR なし)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
+  en:{name:"Galaxy analogy (central DFM black hole + stellar-mass dark rotors)",
+    obsCard:[
+      {q:"What is placed", model:"🎋's geometry (pinned centre m=2500, spin 1.2, R=15; bulge 90; disc 80) + 40 stellar-mass dark-rotor particles", obs:"- (a principle sample; nothing transcribed)"},
+      {q:"Dark rotors as dynamical mass", model:"M_DR=N_DR<m_DR>, N_DR=20 N_star (declared), <m_DR>=1 Msun representative; one particle is not one object", obs:"- (the 20x count is declared; observed free floaters are Earth-mass)"},
+      {q:"Centre spin read (opt-in)", model:"centerSpin read: the field-contract spin term omega(d)=s(R/(R+d))^q (E6-prime form, q=2) on the centre only", obs:"- (default off; existing samples unchanged)"},
+      {q:"Declared centre numbers", model:"GM/(Rc^2)=0.148, Omega R/c=0.600, M_c/M_star=47.06, M_c/(M_star+M_DR)=1.148 (not a scaled GW150914)", obs:"-"},
+      {q:"Not used for rays", model:"darkRotor lens excluded: the representative masses are not used in individual lensing; no ray overlay", obs:"-"},
+      {q:"Not claimed", model:"no flat curve reproduced, no calibration, rotors are not detected free floaters, vanishing stars are not DFM dimming", obs:"-"}],
+    descStruct:{
+      summary:"THE FIRST GALAXY ANALOGY - a geoPN=3 principle sample with a DFM black hole of declared scale at the centre, a stellar disc, and representative particles of stellar-mass dark rotors (DR) (wave 282d, the originator's ruling in report 72, item 6). Geometry and physics follow 🎋 (geoPN=3, kFrame=0, spaceMesh lawVersion scalar, eta=1, D0=1.5, eps=3, frameWeight share) with three differences: (1) the stellar masses (bulge 90 + disc 80) are fixed at 0.3125 so that M_star = 53.125 units is a declared value; (2) THE DARK ROTORS ARE A DYNAMICAL MASS COMPONENT - N_rep = 40 representative particles x 53.125 = M_DR = 2125 units (<m_DR> = 1 Msun as the representative, N_DR = 20 N_star declared, M_DR/M_star = 40 independent of units), on the stellar disc's exponential distribution (declared - a decision item), started on the circular-orbit solution of the placed potential (vMode enclosed); (3) spaceMesh centerSpin read lets the toy field read the centre's spin (the E6-prime decay form omega(d)=s(R/(R+d))^q, q=2). Gravity (E4) and the geoPN=3 toy (coordinate inertia) act. f=1 (no mass correction). NO OBSERVED ROTATION CURVE IS FED IN (not a calibration; no claim or regression window). WHAT THIS DOES NOT CLAIM: a reproduced flat rotation curve, a calibrated galaxy, dark rotors detected as free-floating planets.",
+      observe:"Measured (harness tests/exp-w282d-analogy.mjs, canonical tests/out/analogy-w282d.json, dt=0.016): the rotation curve v_c(r) from the actual gravitational acceleration of the declared configuration at r=20/40/80/120/240/480, in four columns - no DR / 0.1 / 1 / 10 Msun (numbers in the table of PHYSICS, wave 282d - NOT compared with any observation). The response to the centre's spin: two runs of the same configuration with centre spin 1.2 and 0 differ (particle positions; d u_phi / d Omega_core per radial bin). Health over T=48 (3000 steps): zero NaN, the toy ledger closes E_toy + E_mesh = 0 exactly, and the retention of the 80 disc particles and of the 40 DR particles is in the canonical file. WHAT THIS DOES NOT CLAIM: a reproduced flat rotation curve, a calibrated galaxy.",
+      control:"One-tap A/B: side B sets THE CENTRE'S SPIN TO 0 (same configuration, same opt-in - only the centre's spin contribution is removed). The comparison partner is 🎋 (the default toy, which does not read the centre's spin, and has no DR). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測回転曲線も観測質量も 1 つも入力していない(原理サンプル)"],
+    fixedConventions:["🎋 の physics 宣言(geoPN=3・kFrame=0・lawVersion:\"scalar\"・inertia:false・η=1・D₀=1.5・ε=3・frameWeight:\"share\")+ spaceMesh.centerSpin:\"read\"(opt-in)",
+      "中心 DFM 版 BH: pinned m=2500・spin 1.2・R=15(🎋 と同じ値 —— 無次元量で宣言: GM/(Rc²)=0.148・ΩR/c=0.600)",
+      "恒星: バルジ 90+円盤 80 の質量を 0.3125 に固定(M★=53.125)",
+      "DR: N_DR=20 N★・⟨m_DR⟩=1 M☉(代表)・⟨m★⟩=0.5 M☉・質量単位 10³⁴ kg(galactic 帯の表示換算の代表指数)・空間分布は恒星円盤と同じ指数円盤(宣言)",
+      "cLight=30(組込みプリセットの規約)・乱数種 20260925"],
+    fitted:["**無い。**"],
+    derived:["M_DR=40·M★=2125 単位(M_DR/M★=n_ratio·⟨m_DR⟩/⟨m★⟩)・代表粒子 1 体 53.125 単位",
+      "初速: 円盤と DR は配置の実ポテンシャルの円運動解(vMode enclosed)・バルジは等方乱数 vScale 6(🎋 と同じ)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","代表粒子 N_rep=40","測定: dt=0.016 で 3000 步(T=48)"]},
+  activeParams:["D0","G"],
+  validT:48,
+  abBody:{ label:{ja:"中心の spin=0(自転の寄与だけを外す)", en:"centre spin = 0 (only the spin contribution removed)"},
+    targets:[0], patch:{spin:0} },
+  massLedger:{version:"w282d-1", starBase:53.125, fStar:1, gas:0, core:2500, unitKg:1e34, mSunKg:1.9885e30,
+    mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:1,
+    currentTotalUnit:2553.125, currentTotalSun:12839451.84812673,
+    rotorScenarios:[
+      {mRotorSun:0.1, nRotor:10686447.070656272, mRotorUnit:212.49999999999997, totalUnit:2765.625, totalSun:13908096.555192357},
+      {mRotorSun:1, nRotor:10686447.070656272, mRotorUnit:2124.9999999999995, totalUnit:4678.125, totalSun:23525898.918782998},
+      {mRotorSun:10, nRotor:10686447.070656272, mRotorUnit:21249.999999999996, totalUnit:23803.124999999996, totalSun:119703922.55468944}],
+    darkRotor:{mRotorSun:1, nRep:40, mPerRepUnit:53.125, totalUnit:2125, inDynamics:true, lens:"excluded",
+      distribution:"恒星円盤と同じ指数円盤(半径 260・sersicRe 90)・初速は配置の実ポテンシャルの円運動解(宣言 —— 決断事項)"},
+    note:"条件付き台帳(第282便d・原仮定者の裁定〔第72報〕⑥)。⟨m_DR⟩=1 M☉ の行を**力学の質量要素として bodies に入れた**(代表粒子 40 体 × 53.125 = 2125 単位)。0.1/10 M☉ は比較の列で、bodies には入れていない。個数比 20 は宣言値で、浮遊惑星の観測(地球質量級)は恒星質量の暗い天体が恒星の 20 倍あることを示していない。f★=1。較正母集団に入れない。",
+    noteEn:"A conditional ledger (wave 282d, the originator's ruling in report 72, item 6). The <m_DR> = 1 Msun row IS PUT INTO THE BODIES AS A DYNAMICAL MASS COMPONENT (40 representative particles x 53.125 = 2125 units); 0.1 and 10 Msun are comparison columns not in the bodies. The count ratio 20 is a declared value; the observed free-floating planets (Earth-mass class) do not show 20 stellar-mass dark bodies per star. f_star = 1. Not in the calibration population."},
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260925,
+  physics:{G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read"}},
+  bodies:[
+    // 中心 DFM 版 BH(🎋 と同じ値)
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    // 恒星: バルジ(Plummer)と指数円盤 —— 質量を 0.3125 に固定(M★=170×0.3125=53.125)
+    {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:90, profile:"plummer", plummerScale:26,
+     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0},
+    {type:"disk", rMul:1.2, n:80, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"enclosed", vScale:1, direction:1, bulkVx:0, bulkVy:0},
+    // 恒星質量ダークローターの代表粒子(N_rep=40・1 体 53.125・計 2125 —— 力学の質量要素。lightSweep 1 = 表示で暗い)
+    {type:"disk", rMul:1.2, n:40, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:53.125,mMax:53.125, spinMin:0,spinMax:0, vMode:"enclosed", vScale:1, direction:1, bulkVx:0, bulkVy:0, lightSweep:1}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
     spaceMesh:{mode:"mesh"},
     galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
@@ -14789,15 +14881,18 @@ const BUILTIN_PRESETS = [
   // 値は純関数 tests/lib-w281c-rotorledger.mjs の出力(器 tests/exp-w281c-rotorledger.mjs・正本 tests/out/rotorledger-w281c.json)。
   // N_DR=nRatio·M★/⟨m★⟩(M★=starBase=恒星の基準質量 380 単位 = 200 粒 × 1.9)・M_DR=N_DR·⟨m_DR⟩・
   // M_gal=f★M★+M_gas+M_core+M_DR。**f★ はダークローターに掛けない**(rotorInFStar:false)。**既定は追加 0**(defaultScenario:"none")
-  massLedger:{version:"w281c-1", starBase:380, fStar:1.9997320796514568, gas:287.5, core:100, unitKg:1e38, mSunKg:1.9885e30,
+  // 第282便d(原仮定者の裁定(第72報)③「f≈2・f≈1+kFrame は廃止・f≈1 も f=1 に」): **台帳を f★=1 で再宣言**(値だけ ——
+  // bodies・physics・presetSig は不変)。**旧 1147.4 単位(f★≈2)は持ち越さない**: 恒星 380+気体 287.5+核 100=767.5 単位。
+  // bodies には旧契約の f(massCalibration.factorUniform)が焼き込まれたまま —— `fDynamics` として並べる(移行は後便・名前「恒星質量×2」は署名対象なので変えない)。
+  massLedger:{version:"w282d-1", starBase:380, fStar:1, fDynamics:1.9997320796514568, gas:287.5, core:100, unitKg:1e38, mSunKg:1.9885e30,
     mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:"none",
-    currentTotalUnit:1147.3981902675537, currentTotalSun:57701694255.345924,
+    currentTotalUnit:767.5, currentTotalSun:38596932361.07619,
     rotorScenarios:[
-      {mRotorSun:0.1, nRotor:764395272818.7075, mRotorUnit:1520, totalUnit:2667.3981902675537, totalSun:134141221537.21667},
-      {mRotorSun:1, nRotor:764395272818.7075, mRotorUnit:15200, totalUnit:16347.398190267551, totalSun:822096967074.0533},
-      {mRotorSun:10, nRotor:764395272818.7075, mRotorUnit:152000, totalUnit:153147.39819026756, totalSun:7701654422442.422}],
-    note:"条件付き台帳(第281便c・原仮定者の裁定〔第71報〕)。浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度のダークローターへ当てはめた仮定の 3 シナリオ。観測で推定されている浮遊惑星の質量は地球質量級で、恒星質量の暗い天体が恒星の 20 倍あることを観測は示していない。f★ は恒星だけに掛け、ダークローターは別集団として 1 回だけ足す。🛞 の力学(bodies・physics)には入れていない(既定は追加 0)。較正母集団に入れない。",
-    noteEn:"A conditional ledger (wave 281c, the adjudicator's ruling in the 71st report). Three hypothetical scenarios that apply the free-floating-planet NUMBER ratio (about 20 per star - a count estimate) to dark rotors of roughly stellar mass. The masses inferred for free-floating planets are Earth-mass class; observations do not show 20 stellar-mass dark bodies per star. f★ multiplies the stars only; the rotors are a separate population added once. Not put into the dynamics of this sample (bodies and physics unchanged; the default adds 0). Not in the calibration population."},
+      {mRotorSun:0.1, nRotor:764395272818.7075, mRotorUnit:1520, totalUnit:2287.5, totalSun:115036459642.94695},
+      {mRotorSun:1, nRotor:764395272818.7075, mRotorUnit:15199.999999999998, totalUnit:15967.499999999998, totalSun:802992205179.7837},
+      {mRotorSun:10, nRotor:764395272818.7075, mRotorUnit:152000, totalUnit:152767.5, totalSun:7682549660548.151}],
+    note:"条件付き台帳(第281便c・原仮定者の裁定〔第71報〕/第282便d で f★=1 に再宣言 —— 第72報③)。浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度のダークローターへ当てはめた仮定の 3 シナリオ。観測で推定されている浮遊惑星の質量は地球質量級で、恒星質量の暗い天体が恒星の 20 倍あることを観測は示していない。台帳は f★=1(恒星 380+気体 287.5+核 100=767.5 単位)で、bodies には旧契約の f≈2 が焼き込まれたまま(fDynamics —— 移行は後便)。ダークローターは別集団として 1 回だけ足す。🛞 の力学(bodies・physics)には入れていない(既定は追加 0)。較正母集団に入れない。",
+    noteEn:"A conditional ledger (wave 281c, the adjudicator's ruling in the 71st report; re-declared with f_star = 1 in wave 282d after report 72, item 3). Three hypothetical scenarios that apply the free-floating-planet NUMBER ratio (about 20 per star - a count estimate) to dark rotors of roughly stellar mass. The masses inferred for free-floating planets are Earth-mass class; observations do not show 20 stellar-mass dark bodies per star. The ledger uses f_star = 1 (stars 380 + gas 287.5 + core 100 = 767.5 units); the bodies still carry the old-contract f of about 2 (fDynamics - migration is a later wave). The rotors are a separate population added once. Not put into the dynamics of this sample (bodies and physics unchanged; the default adds 0). Not in the calibration population."},
   activeParams:["kFrame","G","softening"],
   seed:1573711561,   // 第230便: 🌃 と実効 seed 共有(配置の完全同一は中心核の排他帯で不成立 — 宣言)
   balanceFrame:"barycentric",   // 第230便: 自由中心核の重心系(⚫ の型)
@@ -16223,6 +16318,7 @@ const SAMPLE_STATUS={
 "galaxyMeshSpiral":{"purpose":"銀河の空間メッシュを局所場と物質線で表す","objective":"met","state":"場の加算・単調性・物質線を純関数で確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.galaxyMesh"],"en":{"purpose":"Represent a galaxy's space mesh by a local field plus material lines","state":"field additivity, monotonicity and the material lines are checked in pure functions","mismatch":null,"outlook":null,"brief":"Represent a galaxy's space mesh by a local field plus material lines. Met: field additivity, monotonicity and the material lines are checked in pure functions. Out of calibration scope."},"brief":"銀河の空間メッシュを局所場と物質線で表す。達・場の加算・単調性・物質線を純関数で確認。較正対象外。"},
 "galaxyMeshSpiralGeoToy":{"purpose":"🎠 の配置で法則だけ geoPN=3 に替えて比べる","objective":"partial","state":"600 歩の走行と帳簿は確認・形の門は無い","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.geoToyNeedMesh","preset.galaxyGeoToyCopy"],"en":{"purpose":"Compare 🎠's layout with only the law swapped to geoPN=3","state":"the 600-step run and its ledger are checked; there is no shape gate","mismatch":null,"outlook":null,"brief":"Compare 🎠's layout with only the law swapped to geoPN=3. Partial: the 600-step run and its ledger are checked; there is no shape gate. Out of calibration scope."},"brief":"🎠 の配置で法則だけ geoPN=3 に替えて比べる。部分・600 歩の走行と帳簿は確認・形の門は無い。較正対象外。"},
 "galaxyMeshSpiralGeoToyLite":{"purpose":"🪁 を円盤 80 粒に軽くした比較用の写し","objective":"partial","state":"準備経路のビット同一は確認・形の門は無い","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["perf.geoToyPrepared"],"en":{"purpose":"A lighter copy of 🪁 with an 80-particle disc for comparison","state":"the prepared path is bit-identical; there is no shape gate","mismatch":null,"outlook":null,"brief":"A lighter copy of 🪁 with an 80-particle disc for comparison. Partial: the prepared path is bit-identical; there is no shape gate. Out of calibration scope."},"brief":"🪁 を円盤 80 粒に軽くした比較用の写し。部分・準備経路のビット同一は確認・形の門は無い。較正対象外。"},
+"galaxyAnalogyBH":{"purpose":"中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー","objective":"partial","state":"中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/analogy-w282d.json"],"en":{"purpose":"A galaxy analogy with a central DFM black hole and stellar-mass dark rotors as mass","state":"the centre-spin response is nonzero; the rotation curve is numbers only","mismatch":null,"outlook":null,"brief":"A galaxy analogy with a central DFM black hole and stellar-mass dark rotors as mass. Partial: the centre-spin response is nonzero; the rotation curve is numbers only. Out of calibration scope."},"brief":"中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー。部分・中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い。較正対象外。"},
 "shapeToyCluster":{"purpose":"指定した 3D 正規分布を保つ参照模型","objective":"met","state":"形状トイの門を通過(規定分布の模型)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["docs.shapeToyCriteria","tests/out/shapetoy-w274d.json"],"en":{"purpose":"Reference toy that keeps a specified 3D normal distribution","state":"passes the shape-toy gate (a prescribed-distribution model)","mismatch":null,"outlook":null,"brief":"Reference toy that keeps a specified 3D normal distribution. Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."},"brief":"指定した 3D 正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"},
 "shapeToyDisk":{"purpose":"指定した薄い回転円盤を保つ参照模型","objective":"unmet","state":"形状トイの門で KS 比 1.330 が不合格","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["docs.shapeToyCriteria","tests/out/shapetoy-w274d.json"],"en":{"purpose":"Reference toy that keeps a specified thin rotating disc","state":"fails the shape-toy gate with a KS ratio of 1.330","mismatch":null,"outlook":null,"brief":"Reference toy that keeps a specified thin rotating disc. Unmet: fails the shape-toy gate with a KS ratio of 1.330. Out of calibration scope."},"brief":"指定した薄い回転円盤を保つ参照模型。未達・形状トイの門で KS 比 1.330 が不合格。較正対象外。"},
 "shapeToyArm":{"purpose":"腕の軸に対する正規分布を保つ参照模型","objective":"met","state":"形状トイの門を通過(規定分布の模型)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["docs.shapeToyCriteria","tests/out/shapetoy-w274d.json"],"en":{"purpose":"Reference toy that keeps a normal profile about the arm axis","state":"passes the shape-toy gate (a prescribed-distribution model)","mismatch":null,"outlook":null,"brief":"Reference toy that keeps a normal profile about the arm axis. Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."},"brief":"腕の軸に対する正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"},
@@ -16722,14 +16818,23 @@ function validateCompactForce(a){
 // (`presetSig` は preset の決まった鍵しか見ない)。**既定は追加 0(現状)** —— `defaultScenario:"none"`。
 // **二重加算しない**: f★(massCalibration.factorUniform)は恒星の見掛け質量の補正で、ダークローターには掛けない ——
 // ダークローターは f★ に含めない別集団として 1 回だけ足す(`rotorInFStar:false` だけを受理。true の形は未実装 = 決断事項)。
-// 受理の条件: 各数値が有限・正(gas・core は 0 以上)・1<fStar≤3・シナリオ 1〜6 行・各行の
+// 受理の条件: 各数値が有限・正(gas・core は 0 以上)・1≤fStar≤3(第282便d で f★=1 を受理)・シナリオ 1〜6 行・各行の
 // totalUnit = fStar·starBase + gas + core + mRotorUnit(相対 1e-9)・currentTotalUnit = fStar·starBase + gas + core(同)。
 // 知らない鍵は警告つきで落とす。崩れていれば台帳ごと落とす(物理へは何も効かない)。
 // 値は純関数 tests/lib-w281c-rotorledger.mjs が作り、QA `preset.massLedger`・`docs.rotorLedger` が照合する。
-const MASS_LEDGER_VERSION="w281c-1";
+// ---- 第282便d(原仮定者の裁定(第72報)③⑥・統括の読み R81・AN19): **f=1 の台帳**と**力学の質量要素**
+//   ・fStar は **1≤f≤3**(第72報③「f≈2・f≈1+kFrame は廃止・f≈1 も f=1 に」—— f★=1 を受理する)。
+//   ・`fDynamics`(任意・1≤f≤3): bodies に**焼き込まれたままの f**(旧契約)。台帳の f★ と違ってよい(移行は後便 —— 宣言して並べる)。
+//   ・`darkRotor`(任意): **ダークローターを力学の質量要素として置いた**ときの代表粒子の宣言
+//     {mRotorSun(=⟨m_DR⟩・既定シナリオと同じ値), nRep(代表粒子の数・整数), mPerRepUnit(1 粒の質量), totalUnit(=nRep·mPerRepUnit),
+//      inDynamics:true, lens:"excluded"(個別レンズ計算に代表粒子の質量を使わない宣言), distribution(空間分布の宣言文)}。
+//     受理の条件: nRep·mPerRepUnit=totalUnit=シナリオ ⟨m_DR⟩ の mRotorUnit(相対 1e-9)・defaultScenario=mRotorSun。
+//     **値は bodies の実際の質量と QA `docs.analogyLedger` が照合する**(この検証器は宣言の内部整合だけを見る)。
+const MASS_LEDGER_VERSION="w282d-1";
 const MASS_LEDGER_KEYS=["version","starBase","fStar","gas","core","unitKg","mSunKg","mStarSun","nRatio","rotorInFStar",
-  "defaultScenario","currentTotalUnit","currentTotalSun","rotorScenarios","note","noteEn"];
+  "defaultScenario","currentTotalUnit","currentTotalSun","rotorScenarios","note","noteEn","fDynamics","darkRotor"];
 const MASS_LEDGER_ROW_KEYS=["mRotorSun","nRotor","mRotorUnit","totalUnit","totalSun"];
+const MASS_LEDGER_DR_KEYS=["mRotorSun","nRep","mPerRepUnit","totalUnit","inDynamics","lens","distribution"];
 function validateMassLedger(ml){
   const warnings=[];
   if(!ml || typeof ml!=="object" || Array.isArray(ml)) return {ok:false, warnings:["massLedger はオブジェクトが必要"]};
@@ -16740,8 +16845,12 @@ function validateMassLedger(ml){
     if(!pos(ml[k])) return {ok:false, warnings:warnings.concat(["massLedger."+k+" は正の有限数が必要"])};
     o[k]=ml[k];
   }
-  if(!(isNum(ml.fStar) && ml.fStar>1 && ml.fStar<=3)) return {ok:false, warnings:warnings.concat(["massLedger.fStar は 1<f≤3"])};
+  if(!(isNum(ml.fStar) && ml.fStar>=1 && ml.fStar<=3)) return {ok:false, warnings:warnings.concat(["massLedger.fStar は 1≤f≤3"])};
   o.fStar=ml.fStar;
+  if(ml.fDynamics!==undefined){   // 第282便d: bodies に焼き込まれたままの f(旧契約 —— 台帳の f★ と並べる)
+    if(!(isNum(ml.fDynamics) && ml.fDynamics>=1 && ml.fDynamics<=3)) return {ok:false, warnings:warnings.concat(["massLedger.fDynamics は 1≤f≤3"])};
+    o.fDynamics=ml.fDynamics;
+  }
   for(const k of ["gas","core"]){
     if(!nn(ml[k])) return {ok:false, warnings:warnings.concat(["massLedger."+k+" は 0 以上の有限数が必要"])};
     o[k]=ml[k];
@@ -16770,6 +16879,22 @@ function validateMassLedger(ml){
   const ds=(ml.defaultScenario===undefined)? "none" : ml.defaultScenario;
   if(ds==="none" || (isNum(ds) && o.rotorScenarios.some((r)=>r.mRotorSun===ds))) o.defaultScenario=ds;
   else { warnings.push('massLedger.defaultScenario は "none" かシナリオの mRotorSun —— "none"(追加 0)に修正'); o.defaultScenario="none"; }
+  // 第282便d: 力学の質量要素(代表粒子)の宣言。崩れていれば台帳ごと落とす(物理へは何も効かない —— bodies が物理である)
+  if(ml.darkRotor!==undefined){
+    const d=ml.darkRotor;
+    if(!d || typeof d!=="object" || Array.isArray(d)) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor はオブジェクト"])};
+    for(const k of Object.keys(d)) if(MASS_LEDGER_DR_KEYS.indexOf(k)<0) warnings.push("massLedger.darkRotor の未知キー("+String(k).slice(0,20)+")— 無視");
+    if(!(isNum(d.nRep) && d.nRep>=1 && Math.floor(d.nRep)===d.nRep)) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor.nRep は 1 以上の整数(代表粒子の数)"])};
+    for(const k of ["mRotorSun","mPerRepUnit","totalUnit"]) if(!pos(d[k])) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor."+k+" は正の有限数"])};
+    if(d.inDynamics!==true) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor.inDynamics は true(力学の質量要素として置いた宣言)だけを受理"])};
+    if(d.lens!=="excluded") return {ok:false, warnings:warnings.concat(['massLedger.darkRotor.lens は "excluded"(個別レンズ計算に代表粒子の質量を使わない)だけを受理'])};
+    if(rel(d.nRep*d.mPerRepUnit,d.totalUnit)>1e-9) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor の nRep·mPerRepUnit が totalUnit と一致しない"])};
+    const row=o.rotorScenarios.find((r)=>r.mRotorSun===d.mRotorSun);
+    if(!row || rel(row.mRotorUnit,d.totalUnit)>1e-9) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor.totalUnit がシナリオ ⟨m_DR⟩ の mRotorUnit と一致しない"])};
+    if(o.defaultScenario!==d.mRotorSun) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor を置くなら defaultScenario はその ⟨m_DR⟩(力学に入れた値)"])};
+    o.darkRotor={mRotorSun:d.mRotorSun, nRep:d.nRep, mPerRepUnit:d.mPerRepUnit, totalUnit:d.totalUnit, inDynamics:true, lens:"excluded"};
+    if(typeof d.distribution==="string" && d.distribution.trim()) o.darkRotor.distribution=d.distribution.trim().slice(0,200);
+  }
   for(const k of ["note","noteEn"]) if(typeof ml[k]==="string" && ml[k].trim()) o[k]=ml[k].trim().slice(0,600);
   return {ok:true, value:o, warnings};
 }
@@ -17221,6 +17346,8 @@ function validatePreset(obj){
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyAllowDrag===true)
     bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:"calibration" では使えません');
   // 第264便b: 源の閉包 "iterate" も同じ扱い(**診断であって採用則ではない**)
+  if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].centerSpin==="read")
+    bad('physics.spaceMesh.centerSpin:"read"(geoPN=3 のトイが中心の自転を読む opt-in —— 第282便d)は sampleClass:"calibration" では使えません');
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyClosure==="iterate")
     bad('physics.spaceMesh.toyClosure:"iterate"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:"calibration" では使えません');
   // 第274便c(第64報): **帯平均 variant も同じ扱い**(近似であって採用則ではない)。
@@ -39901,6 +40028,10 @@ const GEO_TOY_LAW_DEFAULT = "scalar";
 // 二体・単一源支配では t_0 = η·χ₀·a_1・t_1 = η·χ₁·a_0 なので、行列式 **1 − η²χ₀χ₁** が
 // 0 に近づく(η=χ=1)ほど反復が止まらない —— その特異性を数で出すのがこのモードの目的である。
 const SPACE_MESH_TOY_CLOSURE = ["gravity","iterate"];
+// 第282便d(原仮定者の裁定(第72報)⑥・統括の読み R81): **中心の自転を geoPN=3 のトイへ読ませる opt-in**
+// (`physics.spaceMesh.centerSpin`)。"off"(既定 = 現状 —— **1 文字も正準形に出さない**)/"read"(場の契約の読み手
+// `dfmFieldContract` の自転項 spin:"e6"・spinSources:"center" で**中心の自転を u に入れる**)。lawVersion:"scalar" 専用。
+const SPACE_MESH_CENTER_SPIN = ["off","read"];
 const GEO_TOY_CLOSURE_ITERS_DEFAULT = 8;      // 既定の最大反復数(宣言で 1〜64)
 const GEO_TOY_CLOSURE_TOL = 1e-12;            // 相対残差の停止条件(**宣言値**であって精度の主張ではない)
 const DFM_FIELD_BG = ["static","frame"];
@@ -40225,6 +40356,219 @@ function dfmFieldSnapshot(S){
     fieldRole:"diagnostic-all-static",
     timeDerivativeComplete:false,      // **ax/ay が無い**(捏造しない)ので時間微分は不完全である
     note:"diagnostic snapshot: all sources / static background / not disk-affine" };
+}
+// ===== 第282便d(原仮定者の裁定(第72報)⑥・統括の読み R81・AN17): **場の契約の読み手** `HP.dfmFieldContract` =====
+// 「表示・診断・力学が**同じ場**を読む入口」(G0)。第281便b の実測で読み手は 5 通りに割れていた
+// (GF-disp=`dfmGalaxyMeshField`・GF-api1/api2=`dfmField`・GF-e6=`S._core` の E6′・GF-toy=`dfmGeoToyStep`)。
+// 本関数は**読み手の契約を宣言として受け取り**、その宣言どおりに u と χ を返す 1 本の読み手である。
+// **既存の 2 本(`dfmGalaxyMeshField`・`dfmField`)は互換として残す**(1 文字も変えていない)。
+//
+//   dfmFieldContract(bodies, x, y, contract)
+//     bodies … `[{id?,m,x,y,vx,vy,xdx?,xdy?,spin?,R?,ax?,ay?,omegaDot?,pinned?}, …]`(**S は読まない純関数**)
+//     contract … 読み手の宣言(**欠けた鍵を既定で埋めない** —— 必須鍵が無ければ null):
+//       p        … 重みの冪(w=m(d²+ε²)^(−p/2))。**必須**
+//       eps      … ソフトニング ε(≥0)。**必須**
+//       Wbg      … 背景の重み(χ=W/(W+W_bg))。**必須**。Infinity は χ=0 の極
+//       WbgFrom  … W_bg の出どころの**ラベル**("D0"|"D0pull"|"declared"|"external")。値は読まない(記録だけ)
+//       ※ **D₀ と W_bg は別鍵**(AN17): `D0` だけを渡して `Wbg` を渡さない呼びは **null**(D₀ を黙って流用しない)
+//       sources  … "all"(全源で W と u の標本)/"disk"(**静止中心**〔pinned と最大質量の 1 体〕を u の標本から外す。W には残す)
+//       velocity … "v"(慣性速度 vx,vy)/"xdot"(座標速度 xdx,xdy —— 無ければ null。0 で埋めない)
+//       spin     … "none"/"e6"(源 j の回転項 ω_j(d)=s_j(R_j/(R_j+d))^q・u_j=v_j+ω_j(d) ẑ×(x−x_j) ——
+//                  **E6′ と同じ減衰形**(d は中心距離)。q と R_j が要る)
+//       spinSources … "all"/"center"(自転を読む源 —— center は pinned の源、pinned が無ければ最大質量の 1 体)
+//       q        … spin:"e6" の減衰冪(必須)
+//       fit      … "mean"(正規化平均)/"affine"(局所アフィン —— 表示の読み手 `dfmGalaxyMeshField` の純配列経路へ
+//                  **委譲**する。spin:"none"・velocity:"v"・sources は "all"/"disk" のみ)
+//       background … "static"(u_bg=0)/"given"(呼び出し側が点ごとの `bgU:[ux,uy]` を渡す —— 表示の "frame" の値を渡す口)
+//       need     … "u"/"uB"/"uBt"(∇u・∂ₜu は **sources:"all"・fit:"mean"・background:"static"** のときだけ作る。
+//                  それ以外で要求されたら gradU/dUdt は **null**(未実装を 0 で埋めない))
+//       excludeBodyId … 自己除外(`dfmField` と同じ規約: 宣言された id、無ければ添字)
+//   返り値 … {u, chi, W, Wbg, gradU, dUdt, uSpin, nIn, spinIds, contract(正規化した宣言), version}
+//
+// **式**(sources:"all"・mean・static —— 力学の読み手と同じ形):
+//   N=Σ wᵢuᵢ・D=W_bg+Σwᵢ・**u=N/D**・∇u=(∇N−u⊗∇D)/D・∂ₜu=(∂ₜN−u∂ₜD)/D
+//   自転項(e6): ∇uᵢ=ω[[0,−1],[1,0]]+(ẑ×r)⊗∇ω(∇ω=ω′(d) r/d・ω′=−qω/(R+d))・
+//   ∂ₜuᵢ|ₓ=aᵢ+(ṡg−∇ω·vᵢ) ẑ×r − ω ẑ×vᵢ。**自転を読まない源の演算は `dfmLocalMeshField`(支持なし)と 1 文字も違わない順序**で書く
+//   (自転 0 なら既定のトイと**ビット一致** —— 器 tests/exp-w282d-analogy.mjs と QA `behavior.centerSpinResponse` が機械確認する)。
+//   sources:"disk" は表示の形 u=χ·u_n+(1−χ)·u_bg(u_n は標本の正規化平均)。
+// **書かないこと**: これは「表示と力が同じ場になった」ことではない —— **同じ関数で読めるようになった**だけで、
+// どの宣言を境界判定の正典にするかは決断事項(AN17)である。**エンジンの既定経路へは 1 バイトも接続しない**
+// (力学へ繋ぐのは `physics.spaceMesh.centerSpin:"read"` を宣言した geoPN=3 の宇宙だけ —— 既定 off)。
+const FIELD_CONTRACT_VERSION="w282d-1";
+const FIELD_CONTRACT_SOURCES=["all","disk"];
+const FIELD_CONTRACT_VELOCITY=["v","xdot"];
+const FIELD_CONTRACT_SPIN=["none","e6"];
+const FIELD_CONTRACT_SPIN_SOURCES=["all","center"];
+const FIELD_CONTRACT_FIT=["mean","affine"];
+const FIELD_CONTRACT_BG=["static","given"];
+const FIELD_CONTRACT_NEED=["u","uB","uBt"];
+const FIELD_CONTRACT_WBG_FROM=["D0","D0pull","declared","external"];
+function dfmFieldContract(bodies,px,py,contract){
+  if(!Array.isArray(bodies) || !contract || typeof contract!=="object") return null;
+  const c=contract;
+  // ---- 宣言の門(必須鍵が無い・知らない値は null —— 既定で埋めない)
+  if(c.Wbg===undefined || c.Wbg===null) return null;                 // AN17: D₀ を黙って W_bg に流用しない
+  if(c.p===undefined || c.eps===undefined) return null;
+  const pw=Number(c.p), eps=Number(c.eps), Wbg=Number(c.Wbg);
+  if(!(Number.isFinite(pw) && pw>0) || !(Number.isFinite(eps) && eps>=0)) return null;
+  if(!(Wbg>=0)) return null;                                          // NaN・負は門(Infinity は χ=0 の極)
+  const pick=(v,list)=>{ const z=(v===undefined || v===null)? list[0] : v; return (list.indexOf(z)<0)? null : z; };
+  const srcM=pick(c.sources,FIELD_CONTRACT_SOURCES), velM=pick(c.velocity,FIELD_CONTRACT_VELOCITY),
+    spinM=pick(c.spin,FIELD_CONTRACT_SPIN), spinS=pick(c.spinSources,FIELD_CONTRACT_SPIN_SOURCES),
+    fitM=pick(c.fit,FIELD_CONTRACT_FIT), bgM=pick(c.background,FIELD_CONTRACT_BG), need=pick(c.need,FIELD_CONTRACT_NEED);
+  if(srcM===null || velM===null || spinM===null || spinS===null || fitM===null || bgM===null || need===null) return null;
+  const wf=(c.WbgFrom===undefined || c.WbgFrom===null)? null : c.WbgFrom;
+  if(wf!==null && FIELD_CONTRACT_WBG_FROM.indexOf(wf)<0) return null;
+  let q=null;
+  if(spinM==="e6"){ q=Number(c.q); if(!(Number.isFinite(q) && q>=0)) return null; }
+  px=Number(px); py=Number(py);
+  if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
+  let bgx=0, bgy=0;
+  if(bgM==="given"){
+    const b=c.bgU; if(!Array.isArray(b) || b.length<2) return null;
+    bgx=Number(b[0]); bgy=Number(b[1]); if(!Number.isFinite(bgx) || !Number.isFinite(bgy)) return null;
+  }
+  const exId=(c.excludeBodyId===undefined || c.excludeBodyId===null)? null : c.excludeBodyId;
+  const norm={ version:FIELD_CONTRACT_VERSION, p:pw, eps, Wbg, WbgFrom:wf, sources:srcM, velocity:velM, spin:spinM,
+    spinSources:(spinM==="e6")? spinS : null, q, fit:fitM, background:bgM, need };
+  // ---- 源の選別(自己除外)と「静止中心」(pinned と最大質量の 1 体)
+  const src=[];
+  let maxK=-1, bm=-Infinity, anyPin=false;
+  for(let i=0;i<bodies.length;i++){
+    const b=bodies[i]; if(!b) return null;
+    const hasId=(b.id!==undefined && b.id!==null), id=hasId? b.id : i;
+    if(exId!==null && (hasId? (id===exId) : (i===exId))) continue;
+    const mi=Number(b.m);
+    if(!(mi>0) || !Number.isFinite(mi)) return null;                 // 負・0 質量の源は拒否
+    if(mi>bm){ bm=mi; maxK=src.length; }
+    if(b.pinned===true) anyPin=true;
+    src.push({b, id});
+  }
+  if(!src.length) return null;
+  const isCenter=(k)=> (src[k].b.pinned===true) || (!anyPin && k===maxK);
+  const isStatic=(k)=> (src[k].b.pinned===true) || k===maxK;          // 表示の unSource:"disk" と同じ集合
+  // ---- 委譲: affine は表示の読み手の純配列経路(自転・ẋ・given 背景は未実装 —— null)
+  if(fitM==="affine"){
+    if(spinM!=="none" || velM!=="v") return null;
+    const list=src.map((z)=>({m:Number(z.b.m), x:Number(z.b.x), y:Number(z.b.y), vx:Number(z.b.vx), vy:Number(z.b.vy),
+      pinned:(z.b.pinned===true)}));
+    const g=dfmGalaxyMeshField(list,px,py,{p:pw, eps, D0:Wbg, unSource:srcM, unFit:"affine", bg:"static",
+      need:(need==="u")? "u" : "uB"});
+    if(!g) return null;
+    let ux=g.u[0], uy=g.u[1];
+    if(bgM==="given"){ const ch=g.chi; ux=ux+(1-ch)*bgx; uy=uy+(1-ch)*bgy; }
+    return { u:[ux,uy], chi:g.chi, W:g.W, Wbg, gradU:(need!=="u" && bgM==="static")? g.gradU : null, dUdt:null,
+      uSpin:[0,0], nIn:src.length, spinIds:[], unValid:g.unValid, fitCond:g.fitCond, contract:norm, version:FIELD_CONTRACT_VERSION };
+  }
+  const full=(srcM==="all" && bgM==="static");
+  const wantB=(need!=="u") && full, wantT=(need==="uBt") && full;
+  const eps2=eps*eps, pwHalfNeg=-pw/2;
+  let W=0, gWx=0, gWy=0, Wd=0, Wu=0;
+  let Nx=0, Ny=0, g0=0, g1=0, g2=0, g3=0, Tx=0, Ty=0, Sx=0, Sy=0;
+  const spinIds=[];
+  for(let k=0;k<src.length;k++){
+    const b=src[k].b;
+    const mi=Number(b.m), bx=Number(b.x), by=Number(b.y);
+    let vix, viy;
+    if(velM==="v"){ vix=(b.vx===undefined)? 0 : Number(b.vx); viy=(b.vy===undefined)? 0 : Number(b.vy); }
+    else { if(b.xdx===undefined || b.xdy===undefined) return null; vix=Number(b.xdx); viy=Number(b.xdy); }
+    const aix=(b.ax===undefined)? 0 : Number(b.ax), aiy=(b.ay===undefined)? 0 : Number(b.ay);
+    if(!(Number.isFinite(bx)&&Number.isFinite(by)&&Number.isFinite(vix)&&Number.isFinite(viy)
+      &&Number.isFinite(aix)&&Number.isFinite(aiy))) return null;
+    const dx=px-bx, dy=py-by, r2=dx*dx+dy*dy, sq=r2+eps2;
+    if(!(sq>0) || !Number.isFinite(sq)) return null;
+    const A=Math.pow(sq,pwHalfNeg);
+    const w=mi*A;
+    if(!Number.isFinite(w)) return null;
+    // 自転項(E6′ と同じ減衰形)。**読まない源は om=0・dOm=0**(下の式が `dfmLocalMeshField` と同じ演算になる)
+    let om=0, omd=0, dOx=0, dOy=0, spinOn=false;
+    if(spinM==="e6" && (spinS==="all" || isCenter(k))){
+      const s=(b.spin===undefined)? 0 : Number(b.spin), sd=(b.omegaDot===undefined)? 0 : Number(b.omegaDot);
+      const Ri=Number(b.R);
+      if(!Number.isFinite(s) || !Number.isFinite(sd)) return null;
+      if(s!==0 || sd!==0){
+        if(!(Ri>0) || !Number.isFinite(Ri)) return null;               // R_j が無い回転源は読めない(0 で埋めない)
+        const d=Math.sqrt(r2), tt=Ri/(Ri+d), gq=(q===2)? tt*tt : Math.pow(tt,q);
+        om=s*gq; omd=sd*gq;
+        if(d>0){ const k1=-q*om/((Ri+d)*d); dOx=k1*dx; dOy=k1*dy; }   // ∇ω = ω′(d)·r/d
+        spinOn=true; spinIds.push(src[k].id);
+      }
+    }
+    const inU=!(srcM==="disk" && isStatic(k));
+    W+=w;
+    if(!inU) continue;
+    const uix=vix-om*dy, uiy=viy+om*dx;                                 // u_i = v_i + ω ẑ×(x−xᵢ)
+    Wu+=w; Nx+=w*uix; Ny+=w*uiy;
+    if(spinOn){ Sx+=w*(-om*dy); Sy+=w*(om*dx); }
+    if(wantB){
+      const kk=mi*(-pw*A/sq);                                           // ∇w = −p w (x−xᵢ)/s(`dfmLocalMeshField` と同じ式の順)
+      const wgx=kk*dx, wgy=kk*dy;
+      gWx+=wgx; gWy+=wgy;
+      g0+=uix*wgx;            g1+=uix*wgy-w*om;                         // ∇u_i の剛体部 [[0,−ω],[ω,0]]
+      g2+=uiy*wgx+w*om;       g3+=uiy*wgy;
+      if(spinOn){ g0+=w*(-dy*dOx); g1+=w*(-dy*dOy); g2+=w*(dx*dOx); g3+=w*(dx*dOy); }   // (ẑ×r)⊗∇ω
+      if(wantT){
+        const wdi=-(wgx*vix+wgy*viy);                                   // ∂ₜw|_x = −∇w·v_i
+        let tix=aix-omd*dy+om*viy, tiy=aiy+omd*dx-om*vix;               // ∂ₜu_i|_x(剛体部)
+        if(spinOn){ const gv=dOx*vix+dOy*viy; tix+=gv*dy; tiy-=gv*dx; }   // −(∇ω·v_i) ẑ×r
+        Wd+=wdi; Tx+=wdi*uix+w*tix; Ty+=wdi*uiy+w*tiy;
+      }
+    }
+  }
+  if(!(W>0) || !Number.isFinite(W)) return null;
+  const chi=(Wbg===Infinity)? 0 : W/(W+Wbg);
+  let ux, uy, gradU=null, dUdt=null, usx=0, usy=0;
+  if(srcM==="all"){
+    if(Wbg===Infinity){ ux=bgx; uy=bgy; }
+    else {
+      const den=Wbg+W;
+      if(bgM==="static"){ ux=Nx/den; uy=Ny/den; }                        // `dfmLocalMeshField` と同じ 1 回の割り算
+      else { ux=(Nx+Wbg*bgx)/den; uy=(Ny+Wbg*bgy)/den; }
+      usx=Sx/den; usy=Sy/den;
+      if(wantB) gradU=[(g0-ux*gWx)/den, (g1-ux*gWy)/den, (g2-uy*gWx)/den, (g3-uy*gWy)/den];
+      if(wantT) dUdt=[(Tx-ux*Wd)/den, (Ty-uy*Wd)/den];
+    }
+  } else {
+    if(!(Wu>0)) return null;                                            // disk で標本が 1 つも残らない
+    const unx=Nx/Wu, uny=Ny/Wu;
+    ux=chi*unx+(1-chi)*bgx; uy=chi*uny+(1-chi)*bgy;
+    usx=chi*Sx/Wu; usy=chi*Sy/Wu;
+  }
+  if(!Number.isFinite(ux) || !Number.isFinite(uy)) return null;
+  if(gradU && !gradU.every(Number.isFinite)) return null;
+  if(dUdt && !dUdt.every(Number.isFinite)) return null;
+  return { u:[ux,uy], chi, W, Wbg, gradU, dUdt, uSpin:[usx,usy], nIn:src.length, spinIds, contract:norm,
+    version:FIELD_CONTRACT_VERSION };
+}
+// 第282便d: **既存の読み手を契約の宣言で書く**(表示・診断・力学の 3 つの宣言の既定を S から作る —— 値は読み手と同じ規則)。
+//   kind "disp"  … GF-disp(`dfmGalaxyMeshField` の既定): p=2(pull 系は frameWeightPow)・W_bg=D₀(pull 系は D0pull)・
+//                  sources/fit はプリセットの overlays.galaxyField(無ければ all/mean)・背景は宣言 bg(frame は "given" の口)
+//   kind "api"   … GF-api1(`dfmFieldSnapshot`→`dfmField`): p=frameWeightPow・W_bg=D₀(pull 系は D0pull)・全源・mean・static
+//   kind "toy"   … GF-toy(`dfmGeoToyStep`): api と同じ + 自己除外(呼ぶ側が excludeBodyId を足す)・
+//                  spaceMesh.centerSpin:"read" を宣言した宇宙だけ spin:"e6"・spinSources:"center"・q=physics.q
+// 返り値 {contract, bgMode("static"|"frame"), note}。**S を書き換えない**。
+function dfmFieldContractOf(S,kind){
+  if(!S || !S.params) return null;
+  const p=S.params, pull=frameWeightIsPull(p);
+  const D0u=pull? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const from=pull? ((p.D0pull!==undefined)? "D0pull" : "D0") : "D0";
+  if(kind==="disp"){
+    const g=(S.overlays && S.overlays.galaxyField)? S.overlays.galaxyField : null;
+    const bg=(g && g.bg)? String(g.bg) : "frame";
+    return { contract:{ p:pull? frameWeightPow(p) : GALMESH_P_DEFAULT, eps:p.softening, Wbg:D0u, WbgFrom:from,
+      sources:(g && g.unSource)? String(g.unSource) : "all", velocity:"v", spin:"none",
+      fit:(g && g.unFit)? String(g.unFit) : "mean", background:(bg==="frame")? "given" : "static", need:"u" },
+      bgMode:bg, note:"GF-disp: 背景 frame は dfmFrameAt の値を bgU で渡す(呼び出し側)" };
+  }
+  if(kind==="api" || kind==="toy"){
+    const cf=p[SPACE_MESH_KEY]||{};
+    const rd=(kind==="toy" && cf.centerSpin===SPACE_MESH_CENTER_SPIN[1]);
+    return { contract:{ p:frameWeightPow(p), eps:p.softening, Wbg:D0u, WbgFrom:from, sources:"all", velocity:"v",
+      spin:rd? "e6" : "none", spinSources:rd? "center" : undefined, q:rd? p.q : undefined,
+      fit:"mean", background:"static", need:(kind==="toy")? "uBt" : "u" }, bgMode:"static",
+      note:(kind==="toy")? "GF-toy: 自己除外は呼ぶ側(excludeBodyId)" : "GF-api1" };
+  }
+  return null;
 }
 // ===== 第263便a(第55報・統括が設定した検証仮説 (4)): **支配度の器** `HP.dfmDominance(bodies, opts)` =====
 // 原仮定者(第55報)「**geoPN=2 と kFrame=1 の組み合わせが安定していたのは、支配天体が 1 つだったからである**」。
@@ -40679,6 +41023,9 @@ function dfmGeoToyStep(S,dt){
   if(cf.law===MESH_V2_LAWS[1]) return dfmMeshV2Step(S,dt,cf);
   if(DFM_FIELD_LAWS.indexOf(law)<0){ S.geoToyStop="lawVersion"; return null; }
   if(law==="complex"){ S.geoToyStop="complexNotVelocity"; return null; }
+  // 第282便d(第72報⑥・R81): **中心の自転を読む opt-in**(`spaceMesh.centerSpin:"read"`)。宣言が無ければ
+  //   **この 1 行の比較だけ**で素通りする(内蔵 140 本は 1 本も宣言しない = 既定経路は 1 bit 不変)。
+  if(cf.centerSpin===SPACE_MESH_CENTER_SPIN[1]) return dfmGeoToySpinStep(S,dt,cf,law);
   // 第275便c(第65報 (3)「なぜ重いか分析して改善」): **準備済み経路**(スカラー・静的源・零スピン・
   //   閉包 "gravity" の条件を**判定して**だけ入る)。条件を 1 つでも外れたら `false` が返り、
   //   以下の旧経路がそのまま走る(**ビット同一** —— QA `perf.geoToyPrepared` が機械確認する)。
@@ -40843,6 +41190,76 @@ function dfmGeoToyStep(S,dt){
   //   **式も順序も第265便b と 1 文字も変えていない**(600 步 bitsame・presetSig で機械確認する)。
   return dfmGeoToyFinish(S,dt,ACC,{ closure, iters, resid, residRel, conv,
     nOn, dvM, chiMax, law, R:supR, Rdot:supRd, prepared:false });
+}
+// ===== 第282便d(原仮定者の裁定(第72報)⑥・統括の読み R81): **中心の自転を読む geoPN=3 のトイ** `dfmGeoToySpinStep` =====
+// 第281便b の実測: 🎋 の経路(`dfmGeoToyStep`)は源の omega を 0 で渡すので**中心の自転を読まない**
+// (中心 spin 1.2/0 の 2 走行が t=40 までビット一致)。本関数は `physics.spaceMesh.centerSpin:"read"` を
+// 宣言した宇宙だけが通る別経路で、onePass の場を**場の契約の読み手** `dfmFieldContract`
+// (p=frameWeightPow・W_bg=D₀(pull 系は D0pull)・全源・mean・static・**spin:"e6"・spinSources:"center"・q=physics.q**)に替える。
+//   中心 = pinned の源(pinned が無ければ最大質量の 1 体)。自転 s=S.spin・R=S.R(表示・衝突の半径をそのまま —— **R_drag の宣言は未実装**)。
+//   **それ以外の式・順序・帳簿は既定のトイと同じ**(源の加速度は同じ `dfmField` need:"gravity"・適用と記帳は `dfmGeoToyFinish`)。
+//   **中心の自転 0 では既定経路とビット一致**(自転を読まない源の演算は `dfmLocalMeshField` と同じ順 ——
+//   器 tests/exp-w282d-analogy.mjs と QA `behavior.centerSpinResponse` が機械確認する)。
+// 範囲: lawVersion:"scalar"・箱なし・toyClosure:"gravity"。外れたら `S.geoToyStop="centerSpinScope"` で止める(黙って既定へ戻さない)。
+// **書かないこと**: 中心の自転が銀河の回転を「作った」とは言わない —— 読み手が中心の自転を**読むようになった**だけで、
+// 応答 ∂u_φ/∂Ω_core は数で置く(PHYSICS〔第282便d〕)。**`S._core` には 1 命令も足していない**。
+function dfmGeoToySpinStep(S,dt,cf,law){
+  const p=S.params, n=S.n;
+  if(law!=="scalar"){ S.geoToyStop="centerSpinScope"; return null; }
+  if(cf.toyClosure!==undefined && cf.toyClosure!==SPACE_MESH_TOY_CLOSURE[0]){ S.geoToyStop="centerSpinScope"; return null; }
+  if(S.box && S.boxA && S.boxA.W>0){ S.geoToyStop="centerSpinScope"; return null; }
+  const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, pin=S.pinned;
+  const pw=frameWeightPow(p);
+  const eps=p.softening, G=p.G;
+  const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const BD=[];
+  for(let i=0;i<n;i++) BD.push({id:i, m:m[i], x:x[i], y:y[i], vx:vx[i], vy:vy[i], ax:0, ay:0,
+    spin:S.spin[i], R:S.R[i], omegaDot:0, pinned:(pin[i]===1)});
+  // 源の加速度(既定のトイと同じ: pinned は規定運動〔静止・等速 0 / レールは 2 階微分〕・自由粒子は g=G∇D)
+  for(let i=0;i<n;i++){
+    if(pin[i]){
+      const om=S.railOmega? S.railOmega[i] : 0, hh=S.railH? S.railH[i] : 0;
+      if(om===0 && hh===0){ BD[i].ax=0; BD[i].ay=0; continue; }
+      let he=hh;
+      if(hh!==0){ const r0=S.railR[i]*Math.exp(hh*S.t); if(!(r0>1 && r0<4800)) he=0; }
+      const ex=x[i]-(S.railCx? S.railCx[i] : 0), ey=y[i]-(S.railCy? S.railCy[i] : 0);
+      BD[i].ax=(he*he-om*om)*ex-2*he*om*ey;
+      BD[i].ay=(he*he-om*om)*ey+2*he*om*ex;
+      continue;
+    }
+    const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:"gravity", G, eps, p:pw, D0:D0p,
+      background:"static", energyContract:"toy"});
+    if(!f){ S.geoToyStop="field"; return null; }
+    BD[i].ax=f.gravity[0]; BD[i].ay=f.gravity[1];
+  }
+  const C={ p:pw, eps, Wbg:D0p, WbgFrom:frameWeightIsPull(p)? ((p.D0pull!==undefined)? "D0pull" : "D0") : "D0",
+    sources:"all", velocity:"v", spin:"e6", spinSources:"center", q:p.q, fit:"mean", background:"static", need:"uBt",
+    excludeBodyId:0 };
+  const ACC=new Float64Array(2*n);
+  let nOn=0, dvM=0, chiMax=0, spinSeen=0;
+  for(let i=0;i<n;i++){
+    if(pin[i]) continue;
+    C.excludeBodyId=i;
+    const f=dfmFieldContract(BD,x[i],y[i],C);
+    if(!f) continue;                                       // 旧経路と同じ(null は 0 で埋めない = 当てない)
+    if(f.spinIds.length>spinSeen) spinSeen=f.spinIds.length;
+    const chi=f.chi;
+    if(chi>chiMax) chiMax=chi;
+    const ubx=eta*f.u[0], uby=eta*f.u[1];
+    const gxx=eta*f.gradU[0], gxy=eta*f.gradU[1], gyx=eta*f.gradU[2], gyy=eta*f.gradU[3];
+    const tux=eta*f.dUdt[0], tuy=eta*f.dUdt[1];
+    const vxi=vx[i], vyi=vy[i], rlx=vxi-ubx, rly=vyi-uby;
+    const aix=tux+gxx*vxi+gxy*vyi-(gxx*rlx+gyx*rly);
+    const aiy=tuy+gyx*vxi+gyy*vyi-(gxy*rlx+gyy*rly);
+    if(!Number.isFinite(aix) || !Number.isFinite(aiy)){ S.geoToyStop="nonfinite"; return null; }
+    ACC[2*i]=aix; ACC[2*i+1]=aiy;
+    const dm=Math.hypot(aix*dt,aiy*dt); if(dm>dvM) dvM=dm;
+    nOn++;
+  }
+  S.geoToySpinSources=spinSeen;   // 診断の読み口(自転を読んだ源の数 —— 表示にも署名にも入らない)
+  return dfmGeoToyFinish(S,dt,ACC,{ closure:SPACE_MESH_TOY_CLOSURE[0], iters:1, resid:null, residRel:null, conv:null,
+    nOn, dvM, chiMax, law, R:null, Rdot:0, prepared:false });
 }
 // ===== 第274便c(第64報): **帯平均の軽量 variant** `dfmGeoToyBandStep(S,dt,cf)` =====
 // 原仮定者(第64報)の優先課題「galaxyMeshSpiralGeoToy が**重い理由を調査し改善する**。近似として
@@ -43930,7 +44347,7 @@ function dfmMeshTransportObserve(S){
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
   // 第281便c: 条件付き質量台帳 massLedger の検証器(表示専用の宣言 —— QA preset.massLedger が読む)
-  validateMassLedger, MASS_LEDGER_VERSION, MASS_LEDGER_KEYS,
+  validateMassLedger, MASS_LEDGER_VERSION, MASS_LEDGER_KEYS, MASS_LEDGER_DR_KEYS,
   // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。
   // どちらも読み取り専用で力学へは接続しない。QA behavior.mmPhase が階段(1)〜(5)を機械固定する
   dfmMMPhase, dfmFrameAt,
@@ -44058,6 +44475,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 両分岐とトイの g が**同じ `dfmField`** を読むための 1 段。**ax/ay は捏造しない**ので
   // `timeDerivativeComplete` は false である。QA behavior.fieldApiIdentity が恒等を機械固定する
   dfmFieldSnapshot,
+  // 第282便d(第72報⑥・R81・AN17): 場の契約の読み手(表示・診断・力学が同じ場を読む入口)と、既存の読み手の宣言
+  dfmFieldContract, dfmFieldContractOf, FIELD_CONTRACT_VERSION, SPACE_MESH_CENTER_SPIN,
   // 第259便a: geoPN=3(トイの測地線モード)の積分器と、追従キックの**除去の段階**の値域。
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)
