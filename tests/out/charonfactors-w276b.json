@@ -45,7 +45,7 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-09-26T22:14:36.475Z",
+  "generatedAt": "2026-09-26T23:37:21.582Z",
   "pilot": false,
   "stage": "h",
   "dt": 0.016,
@@ -202,9 +202,9 @@
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "bytes": 73196,
-    "sha256": "9ea4b77ff096216addcb6c00796498d23430d163b0e57fcd53a47c8e101f509b",
-    "mtime": "2026-09-26T22:08:06.996Z"
+    "bytes": 162830,
+    "sha256": "2fd41e579a53d396c27c20328d30e9373eb96f18644a7344c27dd47d4267d1d2",
+    "mtime": "2026-09-26T23:16:59.712Z"
    }
   ],
   "code": [
@@ -282,7 +282,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "2d72f39122cc7fec5398ba634c45e3ed01e5d584ff4ff7fbb35674c38460fe52",
+    "stableSha256": "1aa9a77193d26454f3ec745fee7dd012abb0eba4f0540640ecbbb652d6df2dfb",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -298,7 +298,6 @@
      "/meta/target",
      "/meta/targetSha256",
      "/meta/when",
-     "/presets/*/run/dtEighth/wallSec",
      "/presets/*/run/stopRule/rateStepsPerSec",
      "/presets/*/run/stopRule/wallSec",
      "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
@@ -320,7 +319,7 @@
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "stableSha256": "0f50544373fca0480c5b1e6a41517242ea8b3ea7b856291137d7f78a78c2be0b",
+    "stableSha256": "334efa4bdc50ef31a17ebd3527c56e772725b394eb6a2bdcb4fa335ec038f960",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/columns/*/h/wallSec",
@@ -336,8 +335,8 @@
  },
  "epsilonSeries": {
   "from": "tests/out/charoneps-w276b.json",
-  "sha256": "9ea4b77ff096216addcb6c00796498d23430d163b0e57fcd53a47c8e101f509b",
-  "generatedAt": "2026-09-26T22:08:06.771Z",
+  "sha256": "2fd41e579a53d396c27c20328d30e9373eb96f18644a7344c27dd47d4267d1d2",
+  "generatedAt": "2026-09-26T23:16:59.344Z",
   "rows": [
    {
     "id": "E_diag_e0.01",
@@ -345,10 +344,10 @@
     "epsRequested": 0.01,
     "epsApplied": 0.01,
     "epsMeters": 1000,
-    "stage": "h",
-    "periodSec": 551853.2869034362,
-    "residSec": -3.1518165637971833,
-    "sigma": -121.59786125760739,
+    "stage": "h4",
+    "periodSec": 551853.2867812433,
+    "residSec": -3.151938756695017,
+    "sigma": -121.60257548977691,
     "clamped": false
    },
    {
@@ -357,10 +356,10 @@
     "epsRequested": 0.02,
     "epsApplied": 0.02,
     "epsMeters": 2000,
-    "stage": "h",
-    "periodSec": 551853.299837311,
-    "residSec": -3.1388826889451593,
-    "sigma": -121.09886917226696,
+    "stage": "h4",
+    "periodSec": 551853.2997149873,
+    "residSec": -3.139005012693815,
+    "sigma": -121.10358845269349,
     "clamped": false
    },
    {
@@ -369,10 +368,10 @@
     "epsRequested": 0.05,
     "epsApplied": 0.05,
     "epsMeters": 5000,
-    "stage": "h",
-    "periodSec": 551853.3903749292,
-    "residSec": -3.04834507079795,
-    "sigma": -117.60590550918018,
+    "stage": "h4",
+    "periodSec": 551853.3902530037,
+    "residSec": -3.0484669962897897,
+    "sigma": -117.61060942476041,
     "clamped": false
    },
    {
@@ -381,10 +380,10 @@
     "epsRequested": 0.01,
     "epsApplied": 0.01,
     "epsMeters": 10000,
-    "stage": "h",
-    "periodSec": 551853.714367087,
-    "residSec": -2.724352912977338,
-    "sigma": -105.1062080623973,
+    "stage": "h4",
+    "periodSec": 551853.7142448771,
+    "residSec": -2.7244751228718087,
+    "sigma": -105.11092295030127,
     "clamped": false
    },
    {
@@ -393,10 +392,10 @@
     "epsRequested": 0.005,
     "epsApplied": 0.01,
     "epsMeters": 10000,
-    "stage": "h",
-    "periodSec": 551853.714367087,
-    "residSec": -2.724352912977338,
-    "sigma": -105.1062080623973,
+    "stage": "h4",
+    "periodSec": 551853.7142448771,
+    "residSec": -2.7244751228718087,
+    "sigma": -105.11092295030127,
     "clamped": true
    },
    {
@@ -405,10 +404,10 @@
     "epsRequested": 0.1,
     "epsApplied": 0.1,
     "epsMeters": 10000,
-    "stage": "h",
-    "periodSec": 551853.713723639,
-    "residSec": -2.724996360950172,
-    "sigma": -105.13103244406528,
+    "stage": "h4",
+    "periodSec": 551853.7136015409,
+    "residSec": -2.725118459085934,
+    "sigma": -105.13574302029066,
     "clamped": false
    },
    {
@@ -417,10 +416,10 @@
     "epsRequested": 0.0125,
     "epsApplied": 0.0125,
     "epsMeters": 12500,
-    "stage": "h",
-    "periodSec": 551853.9568783055,
-    "residSec": -2.481841694447212,
-    "sigma": -95.75006537219183,
+    "stage": "h4",
+    "periodSec": 551853.9567560926,
+    "residSec": -2.481963907368481,
+    "sigma": -95.75478037687041,
     "clamped": false
    },
    {
@@ -429,10 +428,10 @@
     "epsRequested": 0.125,
     "epsApplied": 0.125,
     "epsMeters": 12500,
-    "stage": "h",
-    "periodSec": 551853.9562347803,
-    "residSec": -2.4824852197198197,
-    "sigma": -95.77489273610416,
+    "stage": "h4",
+    "periodSec": 551853.9561123898,
+    "residSec": -2.4826076101744547,
+    "sigma": -95.77961459006384,
     "clamped": false
    },
    {
@@ -441,10 +440,10 @@
     "epsRequested": 0.025,
     "epsApplied": 0.025,
     "epsMeters": 25000,
-    "stage": "h",
-    "periodSec": 551855.9777990397,
-    "residSec": -0.46092096029315144,
-    "sigma": -17.7824444557543,
+    "stage": "h4",
+    "periodSec": 551855.977676368,
+    "residSec": -0.461043632007204,
+    "sigma": -17.78717716077176,
     "clamped": false
    },
    {
@@ -453,10 +452,10 @@
     "epsRequested": 0.25,
     "epsApplied": 0.25,
     "epsMeters": 25000,
-    "stage": "h",
-    "periodSec": 551855.9771556277,
-    "residSec": -0.4615643722936511,
-    "sigma": -17.807267449600737,
+    "stage": "h4",
+    "periodSec": 551855.9770328897,
+    "residSec": -0.4616871102480218,
+    "sigma": -17.812002710186025,
     "clamped": false
    },
    {
@@ -465,10 +464,10 @@
     "epsRequested": 0.05,
     "epsApplied": 0.05,
     "epsMeters": 50000,
-    "stage": "h",
-    "periodSec": 551864.0613632939,
-    "residSec": 7.622643293929286,
-    "sigma": 294.08346041393855,
+    "stage": "h4",
+    "periodSec": 551864.0612407731,
+    "residSec": 7.622520773089491,
+    "sigma": 294.07873352968716,
     "clamped": false
    },
    {
@@ -477,10 +476,10 @@
     "epsRequested": 0.5,
     "epsApplied": 0.5,
     "epsMeters": 50000,
-    "stage": "h",
-    "periodSec": 551864.0607197867,
-    "residSec": 7.621999786701053,
-    "sigma": 294.05863374618264,
+    "stage": "h4",
+    "periodSec": 551864.0605974033,
+    "residSec": 7.621877403347753,
+    "sigma": 294.0539121661942,
     "clamped": false
    }
   ]
@@ -500,10 +499,10 @@
    },
    "measuredKF0": {
     "id": "E_base_e0.05",
-    "stage": "h",
-    "periodSec": 551864.0613632939,
-    "residSec": 7.622643293929286,
-    "sigma": 294.08346041393855
+    "stage": "h4",
+    "periodSec": 551864.0612407731,
+    "residSec": 7.622520773089491,
+    "sigma": 294.07873352968716
    }
   },
   "semiMajorAxis": {
@@ -600,9 +599,9 @@
   },
   "requiredCorrection": {
    "fromEpsilon": "E_diag_e0.01",
-   "residSec": -3.1518165637971833,
-   "aShiftMeters": 74.61239681274766,
-   "massFactor": 0.9999885774040397,
+   "residSec": -3.151938756695017,
+   "aShiftMeters": 74.61528946363528,
+   "massFactor": 0.9999885769611966,
    "note": "**採用済み補正ではない。** 「残差を消すには a をこれだけ動かす / 質量をこの倍率にする」という感度の例で、どちらも一点 fit である(採らない)"
   }
  },
@@ -994,10 +993,10 @@
   {
    "factor": "softening ε(50 km → 1 km)",
    "kind": "numerical",
-   "dPeriodSec": -10.77445985772647,
-   "residAtSmallestSec": -3.1518165637971833,
-   "sigmaOfObs": -415.6813216715459,
-   "residSigmaAtSmallest": -121.59786125760739,
+   "dPeriodSec": -10.774459529784508,
+   "residAtSmallestSec": -3.151938756695017,
+   "sigmaOfObs": -415.6813090194641,
+   "residSigmaAtSmallest": -121.60257548977691,
    "adopt": "採らない(既定の ε は変えない)",
    "why": "**ε→小 で残差はゼロへ行かない** —— 1 km でも残差が残る。ε は数値設定であって物理法則ではないので、「残差が消える ε」を選ぶのは fit である。**受理下限 0.01 単位は基準単位で 10 km** なので、1 km まで下げるには**単位を変える**しかない(実装上の問題であって物理ではない)"
   },
@@ -1081,7 +1080,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 21.987,
+   "wallSec": 22.05,
    "rev2Sec": 551864.0607197867,
    "revN": 60,
    "residSec": 7.621999786701053,
@@ -1132,7 +1131,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694906,
-   "wallSec": 64.246,
+   "wallSec": 66.771,
    "rev2Sec": 551864.3107686872,
    "revN": 60,
    "residSec": 7.872048687189817,
@@ -1183,7 +1182,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694899,
-   "wallSec": 29.794,
+   "wallSec": 29.561,
    "rev2Sec": 551864.0244730314,
    "revN": 60,
    "residSec": 7.585753031424247,
@@ -1234,7 +1233,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694909,
-   "wallSec": 29.545,
+   "wallSec": 30.373,
    "rev2Sec": 551864.3919203099,
    "revN": 60,
    "residSec": 7.953200309886597,
@@ -1285,7 +1284,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 28.965,
+   "wallSec": 29.349,
    "rev2Sec": 551864.0696643571,
    "revN": 60,
    "residSec": 7.630944357137196,
@@ -1336,7 +1335,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694901,
-   "wallSec": 29.176,
+   "wallSec": 29.65,
    "rev2Sec": 551864.0068660924,
    "revN": 60,
    "residSec": 7.568146092467941,
@@ -1387,7 +1386,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20695300,
-   "wallSec": 63.125,
+   "wallSec": 65.802,
    "rev2Sec": 551889.1192711734,
    "revN": 60,
    "residSec": 32.68055117339827,
@@ -1438,7 +1437,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 22.363,
+   "wallSec": 22.276,
    "rev2Sec": 551864.0607197867,
    "revN": 60,
    "residSec": 7.621999786701053,
@@ -1489,7 +1488,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20692453,
-   "wallSec": 29.027,
+   "wallSec": 29.491,
    "rev2Sec": 551805.6249443649,
    "revN": 60,
    "residSec": -50.81377563509159,
@@ -1540,7 +1539,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694659,
-   "wallSec": 29.273,
+   "wallSec": 30.981,
    "rev2Sec": 551858.223692625,
    "revN": 60,
    "residSec": 1.7849726249696687,
@@ -1591,7 +1590,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694878,
-   "wallSec": 29.221,
+   "wallSec": 30.701,
    "rev2Sec": 551863.477051512,
    "revN": 60,
    "residSec": 7.038331512012519,

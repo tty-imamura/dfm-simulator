@@ -4,7 +4,7 @@
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
   "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
-  "generatedAt": "2026-09-26T22:08:17.597Z",
+  "generatedAt": "2026-09-26T23:37:22.297Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
@@ -14,9 +14,9 @@
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 72776,
-    "sha256": "15ecf6948d783a8ce2e7af0339677f8c0fef21256ba1004820585efd9c82b14d",
-    "mtime": "2026-09-26T21:57:41.776Z"
+    "bytes": 159764,
+    "sha256": "88ff6528d0417aad40366ad291e6d677bb10fba4e860837ceb76569ad4323318",
+    "mtime": "2026-09-26T23:30:51.416Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
@@ -116,12 +116,12 @@
    },
    "numeric": {
     "✓": 0,
-    "✗": 11,
-    "未測定": 32
+    "✗": 12,
+    "未測定": 31
    },
    "observation": {
-    "✓": 1,
-    "✗": 4,
+    "✓": 0,
+    "✗": 5,
     "未測定": 38
    }
   },
@@ -137,13 +137,13 @@
     "未測定": 42
    },
    "numeric": {
-    "✓": 5,
+    "✓": 6,
     "✗": 1,
-    "未測定": 37
+    "未測定": 36
    },
    "observation": {
-    "✓": 3,
-    "✗": 6,
+    "✓": 2,
+    "✗": 7,
     "未測定": 34
    }
   },
@@ -179,10 +179,9 @@
    "gw150914↔gw150914DFM"
   ],
   "observationDecided": {
-   "kf1Ok": [
-    "plutoCharonReal@charon-w272b"
-   ],
+   "kf1Ok": [],
    "kf1Ng": [
+    "plutoCharonReal@charon-w272b",
     "psrDoubleABDFM@nslock-lock",
     "psrJ1757DFM@nslock-lock",
     "psrJ1946DFM@nslock-lock",
@@ -190,12 +189,12 @@
    ],
    "kf0Ok": [
     "alphaCenAB",
-    "siriusAB",
-    "plutoCharonReal@charon-w272b"
+    "siriusAB"
    ],
    "kf0Ng": [
     "plutoCharonReal",
     "saturnZonalD68",
+    "plutoCharonReal@charon-w272b",
     "psrDoubleABDFM@nslock-lock",
     "psrJ1757DFM@nslock-lock",
     "psrJ1946DFM@nslock-lock",
@@ -3267,8 +3266,8 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "未測定",
-    "observation": "✓",
+    "numeric": "✗",
+    "observation": "✗",
     "runEvidence": {
      "source": "charon-w272b.json#columns.C0.h",
      "nan": false,
@@ -3277,10 +3276,21 @@
      "steps": 20700000
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
-    "numericEvidence": null,
+    "numericEvidence": {
+     "stages": [
+      553210.6340099995,
+      553210.8870908859,
+      553211.0508944329
+     ],
+     "pObs": 0.6276319563895256,
+     "epsHat": 0.3005421331164922,
+     "epsHatSigma": 11.594989703568372,
+     "assessedStage": "h4",
+     "orderEstimable": true
+    },
     "observationEvidence": {
-     "nSigma": 0,
-     "residPct": 0.24538905320022347,
+     "nSigma": 52261.27216176534,
+     "residPct": 0.24546459538913862,
      "cfg": {
       "kFrame": 1,
       "f": 1,
@@ -3297,8 +3307,8 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "未測定",
-    "observation": "✓",
+    "numeric": "✓",
+    "observation": "✗",
     "runEvidence": {
      "source": "charon-w272b.json#columns.C1.h",
      "nan": false,
@@ -3307,10 +3317,21 @@
      "steps": 20694902
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
-    "numericEvidence": null,
+    "numericEvidence": {
+     "stages": [
+      551864.0613632939,
+      551864.0612661137,
+      551864.0612407731
+     ],
+     "pObs": 1.939213114720429,
+     "epsHat": 0.000008938592117418627,
+     "epsHatSigma": 0.00034485309094979273,
+     "assessedStage": "h4",
+     "orderEstimable": true
+    },
     "observationEvidence": {
-     "nSigma": 0,
-     "residPct": 0.001381272874447126,
+     "nSigma": 294.07873352968716,
+     "residPct": 0.0013812506728687445,
      "cfg": {
       "kFrame": 0,
       "f": 1,
