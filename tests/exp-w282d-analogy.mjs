@@ -32,7 +32,7 @@ import * as GC from './exp-w281b-galaxychain.mjs';
 import * as LR from './lib-w281c-rotorledger.mjs';
 // 第281便a(AN16・R71): **この器が読む html の領域**の宣言(1 行の JSON —— lint.regenScope が読む)
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":["bhCore","galaxyAnalogyBH","galaxyMeshSpiral","galaxyMeshSpiralGeoToy","galaxyMeshSpiralGeoToyLite","gas","gw150914DFM","ngc3198DFM"],"roots":["$","DT","HP.FIELD_CONTRACT_VERSION","HP.allPresets","HP.dfmBlendComplexMoments","HP.dfmComplexMomentsOf","HP.dfmField","HP.dfmFieldContract","HP.dfmFieldContractOf","HP.dfmFieldSnapshot","HP.dfmFrameAt","HP.dfmGalaxyMeshField","HP.dfmMeshVelocityFieldAt","HP.presetSigHash","HP.sim","HP.validatePreset","SPACE_MESH_CENTER_SPIN","T","applyQLock","ch","ctx","cw","dfmBlendComplexMoments","dfmComplexMomentsOf","dfmField","dfmFieldContract","dfmFieldSnapshot","dfmGalaxyMeshField","dfmGeoToySpinStep","dfmGeoToyStep","isNum","presetSigHash","rayHeavy","traceRay","validateMassLedger","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["galaxyAnalogyBH","galaxyMeshSpiral","galaxyMeshSpiralGeoToy","galaxyMeshSpiralGeoToyLite","gas","gw150914DFM","ngc3198DFM"],"roots":["$","DT","HP.FIELD_CONTRACT_VERSION","HP.allPresets","HP.dfmBlendComplexMoments","HP.dfmComplexMomentsOf","HP.dfmField","HP.dfmFieldContract","HP.dfmFieldContractOf","HP.dfmFieldSnapshot","HP.dfmFrameAt","HP.dfmGalaxyMeshField","HP.dfmMeshVelocityFieldAt","HP.presetSigHash","HP.sim","HP.validatePreset","SPACE_MESH_CENTER_SPIN","T","applyQLock","ch","ctx","cw","dfmBlendComplexMoments","dfmComplexMomentsOf","dfmField","dfmFieldContract","dfmFieldSnapshot","dfmGalaxyMeshField","dfmGeoToySpinStep","dfmGeoToyStep","isNum","presetSigHash","rayHeavy","traceRay","validateMassLedger","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w282d-analogy-1';
@@ -205,12 +205,20 @@ export function scaleOf(HP, id) {
   });
   return Object.assign({ id, emoji: p.emoji, Mcenter: S.m[0], Mother: mOther, McenterOverMother: S.m[0] / mOther, Wbg: C.Wbg, WbgFrom: C.WbgFrom, p: C.p, wRatio }, c0);
 }
+// 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R84): ⚫ は**退役**(BUILTIN_PRESETS には残る)。尺度比較の参照の行は
+// 内蔵の定義を読まず、**凍結した固定値**(tests/fixtures/retired-w283b.json の analogyRef —— 基点 de9e39b の定義の転記)から作る。
+// 値は同じ式(centerDims)で同じ数になる(内蔵を読んでいた第282便d の正本と 1 bit 同じ)。
+export const RETIRED_FX = 'tests/fixtures/retired-w283b.json';
 export function referenceRows(HP) {
-  const g = byId(HP, 'gw150914DFM'), b = byId(HP, 'bhCore');
+  const g = byId(HP, 'gw150914DFM');
   const rows = [];
   g.bodies.filter((z) => z.type === 'single').forEach((z, k) => rows.push(Object.assign({ id: 'gw150914DFM', emoji: g.emoji, body: k }, centerDims(g, z))));
-  const bc = b.bodies.find((z) => z.type === 'single');
-  if (bc) rows.push(Object.assign({ id: 'bhCore', emoji: b.emoji, body: 0 }, centerDims(b, bc)));
+  const FX = JSON.parse(fs.readFileSync(path.join(ROOT, RETIRED_FX), 'utf8'));
+  for (const ref of Object.values(FX.analogyRef || {})) {
+    const pseudo = { physics: { G: ref.G, cLight: ref.c } };
+    rows.push(Object.assign({ id: ref.id, emoji: ref.emoji, body: ref.body, fixture: RETIRED_FX },
+      centerDims(pseudo, { m: ref.m, radius: ref.R, spin: ref.spin })));
+  }
   return rows;
 }
 
@@ -458,7 +466,7 @@ if (IS_MAIN) {
   console.log('(D) 🛞 f=1 台帳 ' + ngc.currentTotalUnit + '(旧 ' + ngc.historyW281c.currentTotalUnit + ')・sig ' + ngc.presetSigHash + '/' + ngc.presetSigHashNoLedger);
   const CODE = ['tests/exp-w282d-analogy.mjs', 'tests/exp-w281b-galaxychain.mjs', 'tests/lib-w281c-rotorledger.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第282便d', target: TARGET, code: CODE, inputs: [TARGET, CANON_IN] }), {
+  const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第282便d', target: TARGET, code: CODE, inputs: [TARGET, CANON_IN, RETIRED_FX] }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length, headlessErrors: H.errors.length,
     ruling: '原仮定者の裁定(第72報)⑥: アナロジーは geoPN=3・中心にスケール調整した DFM 版ブラックホール・質量合わせは恒星質量ダークローター',
     reading: '統括の読み R81(共通場 API G0・中心 BH のスピン応答・DR は力学の質量要素・f=1 台帳 767.5)・AN17/AN18/AN19',

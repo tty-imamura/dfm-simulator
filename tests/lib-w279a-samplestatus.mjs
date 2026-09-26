@@ -241,7 +241,12 @@ export function buildTable(src, calaudit, charonwin, opt) {
     if (!st.evidence.length) errors.push(`${id}: evidence が空`);
     for (const e of st.evidence) {
       if (/^tests\/out\//.test(e)) { if (o.outFiles && !o.outFiles.has(e)) errors.push(`${id}: 根拠の正本が無い ${e}`); }
-      else if (o.qaIds && !o.qaIds.has(e)) errors.push(`${id}: 根拠の QA が保存 QA で PASS でない/無い ${e}`);
+      // 第283便b(第73報④・R84): **退役の本**だけは、ゲートから外した試験を凍結の写しの履歴(最後の保存 QA で PASS)で裏づけてよい
+      //   (html の status は変えない —— 根拠の語は退役の前のまま・裏づけの出所が「履歴」になるだけ)
+      else if (o.qaIds && !o.qaIds.has(e)) {
+        if (o.retiredIds && o.retiredIds.has(id) && o.historyIds && o.historyIds.has(e)) { (o.historyUsed || []).push(id + ':' + e); continue; }
+        errors.push(`${id}: 根拠の QA が保存 QA で PASS でない/無い ${e}`);
+      }
     }
     st.brief = composeBrief(st, 'ja');
     st.en.brief = composeBrief(st, 'en');

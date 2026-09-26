@@ -1,6 +1,7 @@
 {
  "version": "w279a-1",
  "note": "第279便a: 内蔵 133 本の「目的・状況・根拠」の原稿(手書き)。較正の語・合わない量・見込みはここに書かない(器 tests/exp-w279a-samplestatus.mjs が正本 calaudit-w249.json / charonwin-w278b.json から作る)。状況の語(met/partial/unmet)は根拠に挙げた保存 QA・完成門の結果で裏づくものだけを書く。ja の目的・状況に「。」を書かない(概要の 3 節の区切り)。",
+ "retired": {"ids": ["darkrotor", "bhCore", "nebulaRotor", "nebulaShell", "nebulaBipolar", "starSeed", "bhCoreTilt"], "since": "第283便b", "ruling": "原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」", "rule": "html の familyRole:\"retired\" と同じ集合(器が照合する)。一覧の群の集計から外し「退役」の別群として並べる。status(目的・状況・根拠)は退役の前のまま —— ゲートから外した試験の裏づけは凍結の写し tests/fixtures/retired-w283b.json の履歴で行う"},
  "rows": {
   "projectile": {"purpose": "一様重力だけで自由落下と放物運動を見せる", "objective": "partial", "state": "場の式と配置の検査のみで軌道の定量門は無い", "evidence": ["field.uniform-gravity", "projectile.layout"], "en": {"purpose": "Show free fall and projectile motion under uniform gravity alone", "state": "only the field formula and the layout are checked; there is no quantitative orbit gate"}},
   "echo": {"purpose": "保存系は巻き戻り摩擦系は戻らないことを比べる", "objective": "met", "state": "反転後の復帰と摩擦での不復帰が門を通過", "evidence": ["echo.leapfrog-return", "echo.friction-noreturn"], "en": {"purpose": "Compare a conservative universe that rewinds with a frictional one that does not", "state": "the return after reversal and the non-return with friction pass their gates"}},

@@ -634,6 +634,7 @@
   /* 第82便: サンプルのファミリー表示 — 説明パネルの「この仲間」導線(同ファミリーの他メンバーへの
      ワンタップ切替。#classChips のチップ見た目を流用しつつ独立クラス化・タップ領域を確保) */
   #familyRow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0;}
+  .retiredNotice{border-left:3px solid var(--dim);padding-left:6px;}   /* 第283便b: 退役(履歴)の 1 行 */
   .familyRowLabel{font-size:calc(11px*var(--uz,1));color:var(--dim);white-space:nowrap;}
   .familyLink{display:inline-block;max-width:100%;padding:4px 10px;border-radius:999px;
     font-size:calc(11.5px*var(--uz,1));line-height:1.5;white-space:nowrap;overflow:hidden;
@@ -1159,6 +1160,9 @@ ja: {
   // 第82便: サンプルのファミリー表示 — 「すべて表示」トグル(ヘッダー)・説明パネルの「この仲間」導線
   showAllSamplesLabel:"すべて表示", showAllSamplesTip:"すべてのサンプルを表示(OFF=よく似たサンプルをまとめて代表だけ表示)",
   familyRowLabel:"この仲間:",
+  // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**の 1 行と一覧の印(表示専用)
+  retiredTag:"退役(履歴)",
+  retiredNotice:(why,see)=>"🗄️ 退役(履歴)— このサンプルは原仮定者の裁定(第73報)で退役した。ID・物理・保存 JSON は変えていないので、保存やこれまでの記録からはこのまま開ける(サンプル一覧には出ない・自動で別の本へ置き換えない)。"+(why? "理由: "+why+"。" : "")+(see? "代わりに見る本: "+see : ""),
   // 第81便C(原仮定者指示): サンプルに依らないアプリ全体設定を集約する「共通設定」カテゴリ(表示の直後)
   grpCommon:"共通設定",
   tgFlipY:"上下反転",
@@ -1989,6 +1993,9 @@ en: {
   // 82nd delivery: sample family display — the "show all" header toggle, and the "Family:" links in the description panel
   showAllSamplesLabel:"Show all", showAllSamplesTip:"Show all samples (OFF groups closely related samples and shows only one representative each)",
   familyRowLabel:"Family:",
+  // 283rd delivery, branch b: the "retired (history)" line and the list mark (display only)
+  retiredTag:"retired (history)",
+  retiredNotice:(why,see)=>"🗄️ Retired (history) — this sample was retired by the originator's ruling (report 73). Its ID, physics and saved JSON are unchanged, so it still opens from saves and past records (it is not listed in the sample picker and is never swapped for another sample automatically). "+(why? "Reason: "+why+". " : "")+(see? "See instead: "+see : ""),
   // 81st delivery, track C: "General" category (right after Display) for app-wide, sample-independent settings
   grpCommon:"General",
   tgFlipY:"Flip vertically",
@@ -6764,7 +6771,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"galactic",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"composite",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm","galaxy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"darkcenter", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
+  familyId:"darkcenter", familyRole:"retired",   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   // 第84便B: E水準(創発の標準試験を展開した実測に基づく宣言 — docs/PHYSICS.md「創発水準と標準試験」)。
   // 383粒子すべて自由(pinned 0・境界なし・一様重力なし)= **閉鎖系**なので E2 の資格があり、
   // ③多seed8(増強比の最小2.15倍)・④粒子数190/380/597(帯平均ほぼ不変)は通った。
@@ -6886,7 +6893,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",   // 第67便 67B(P3 サンプル分類 — 一次案・原仮定者裁定で更新可)
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  familyId:"darkcenter", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)/ 第283便b(第73報④・R84): 🕶️ の退役で darkcenter の入口を 🕳️(減光の原器)へ(表示専用)
   descStruct:{
     summary:"ダークローターとは、高速スピンによって光学的に暗くなった回転天体を指すこのモデル内の造語である(自光の減光と外来光線の掃き出しの2機構で暗い)。🕶️から「暗い天体」1個だけを取り出した最小構成 — 中心の高スピンコア(m=2000・半径45・スピン2.0・減光=auto)と、r=200を周回する24個のテスト粒子、左から入る20本の光線。全粒子が自由(ピン・レール無し)の閉鎖系。この宇宙の「暗さ」は別々の機構の混合で(DERIVATIONS §17)、この画面はそのうち2つを同時に、しかも分離して見せる。",
     observe:"②自光の減光(掻き出し): 減光を固定値ではなく auto にしてあるので、実効値 lS_eff=min(1,|s|R/c_surf) が粒子のスピンと半径から毎ステップ算出される(中心天体をタップすると減光欄は「自動」チェック済みで、実効値 lS_eff が数値欄に表示される)— 実測1.00。③外来光線の掃き出し: 回るコアが決定フレームごと光を運び(A11/E8R)、スピン0の対照では起きる有限時間の光子捕捉(実測 非脱出率0.62)が消える(実測0.00)。順行側の光線ほど外へ払われ、逆行側は深く潜る(平均最小接近半径 順行158 対 逆行72 — T8と同じ非対称)。②と③は別機構である: lS_effはスピン0.145で既に1に飽和しているのに、そのスピンでは掃き出しがまだ全く起きていない(非脱出率0.70 = 対照以上)。掃き出しが立ち上がるのはスピン0.3→0.35の間で、飽和点とは2倍以上離れている(スピン値は第96便の c₀=30 相似単位 — 旧単位の1/2)。テスト粒子は空間の引きずり(A8/E6′)で順行方向に角運動量を汲み上げられる(12000步平均 L_z=484 対 対照316 — 第96便: c₀=30 相似変換後の再実測)。運動量・角運動量は帳簿込みで保存する(モニタ表示・相対ずれ1e-4台)。※③は物理対応ロック(κ=G/c²=1/3600。旧表記 Kt=3600)では起きない — 実測 非脱出率は高スピンでも0.00(反証条件7)。実在のブラックホールやダークマターについての主張ではない(Negative Claims 1/2)。",
@@ -6943,7 +6950,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"rotorform", familyRole:"primary",   // 第82便: ファミリー表示(表示専用)
+  familyId:"rotorform", familyRole:"retired",   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   descStruct:{
     summary:"暗黒星雲を「光学的な性質の強い天体(ダークローター)の集まり」と仮定したらどんな構造になるか、の思考実験。高スピンの小ローター54個が階層的なクランプ(中心の高密度コア+左右の副クランプ)を作り、そのまわりを低スピンの放射粒子44個のエンベロープが取り巻く。ローターは高スピンなので自光を掻き出して暗く(A9/A11/E8R系の lightSweep auto)、エンベロープはスピンが低いので放射(E11)がそのまま漏れて明るい — ひとつの雲の中に「暗黒星雲(コア)」と「散光星雲(縁)」が同居する。実在の星雲(ガスと塵の吸収・散乱)についての主張ではない(Negative Claims)。",
     observe:"実測(seed固定・3000步)でコアの平均減光0.86に対しエンベロープは0.08 — コントラストは実測約11.5倍。コアの平均|spin|は13.1まで育ち(E6′残余トルク+収縮スピンアップ)、力学温度 I·s² は数千相当なのに観測温度は0.62 — 「力学的に熱いのに光学的に暗い」がここでも成立する(🍳のバルジと同じ整理)。さらに掻き出しの飽和は放射冷却も止める(E11 は (1−lS) 倍)ので、暗さが熱を閉じ込めて自己維持される — 光速 c₀ を 60 に上げるとコアが未飽和になり、放射でスピンが冷えて散光化する(相転移の縁は c₀=40〜60 の間)。粒子保持は3000步でコア85%・エンベロープ93%。",
@@ -6998,7 +7005,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変) → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"principle",
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  familyId:"rotorform", familyRole:"retired",   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   descStruct:{
     summary:"重い殻の中に、速く回る小さなコアを隠した粒子の集まり。外は静かなのに中は真っ暗、という星雲を作る思考実験(🌑ローター星雲の改良版で、塵粒の設計だけを変えてある)。各粒は「重い外殻(質量のほとんど)+高速スピンの小さなコア(コアv2: Mc/m=0.4・R_c=1.15・Ω_c=16)」の2層構造を持つ。重い殻の重力が雲をまとめ、暗さは殻ではなくコアだけが担う(各層が自分の光を自分の表面速度で掻き出し、光度比で混ぜる2層減光 — A9/A11系、第75便拡張)。回転の遅い殻にはスピン斥力(E5′)がほとんど効かないので、熱の圧力(kRep=0.3)がかかっても雲は壊れない — 「暗さの原因になるスピンを小さなコアへ隠す」ことで、まとまりと暗さを両立させている。この「重い外殻+高速スピンの中心コア」が本モデルの正式なダークローターの定義であり(第76便)、暗黒星雲や星の種(prestellar core 類似)はその候補としてここで実験される。実在の星雲についての主張ではない(Negative Claims)。",
     observe:"実測(seed固定・3000步・熱圧 kRep=0.3 の下)でコアの平均減光0.96(c₀=30 で飽和側 — v1.38〔c₀=40〕実測は0.90。力学量は全て v1.38 と一致)・クランプの保持率は1.00(エンベロープは1.00)。対照として同一幾何・同一質量の**単層**塵(暗さを出すには spin≈6 が必要)では、同じ熱圧で保持率0.48まで自壊し、エンベロープの平均|spin|も3.77まで攪乱される(2層では1.25 — 約3.0倍の差)。コアの高速スピンはA8のコア差動形 ω=(Mc/m)·(Ω_c−s)·f(Rc,d) で外へ届くが、Rc が小さいので影響範囲が狭く、周辺をほとんど乱さない。粒子タップで「コア内訳(v2)」と減光欄の実効値(2層減光)を確認できる。",
@@ -7063,7 +7070,7 @@ const BUILTIN_PRESETS = [
   // 第272便d(第62報「ダークローターは減光の検証用という位置付けにとどめる」): **暗さ=隠れた質量**の
   // 循環を避けるため "dm" を足した(宣言専用・**presetSig は notClaim を見ない**ので署名・力学は不変)
   notClaim:["nebula","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  familyId:"rotorform", familyRole:"retired",   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   // 第84便B: E水準(創発の標準試験を展開した実測に基づく宣言 — docs/PHYSICS.md「創発水準と標準試験」)。
   // 24 body 定義のうち **22体(赤道ダークアーク)が pinned** で、ローブを立てている「赤道を塞ぐ幾何」
   // そのものが外部から固定されている ⇒ **閉鎖系ではない**。E水準の定義により E2/E3 には該当せず、
@@ -7156,7 +7163,7 @@ const BUILTIN_PRESETS = [
   sampleClass:"composite",
   // 第272便d(第62報): **暗さ=隠れた質量**の循環を避けるため "dm" を足した(宣言専用・署名は不変)
   notClaim:["bh","dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"darkcenter", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  familyId:"darkcenter", familyRole:"retired",   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   descStruct:{
     summary:"銀河の中心にひそむ、暗くて重い天体の正体を探るサンプル。「銀河中心の暗い天体は、コアの高速スピンが外殻へ伝わって銀河を回している」という仮説を、5つの層に分けて1画面で検証する。層0=中心コア(コアv2 の独立 J_core・初期Ω=20)/層1=重い内殻(m=2500 が引力を担う)/層2=外殻と擬似地平面(2層減光で真っ暗)/層3=決定フレーム(kFrame の空間引きずり)/層4=降着円盤(赤道面の高温ガス120体)。外側には測定用の恒星ディスク200体を置く。コアと外殻は τ_cs(K_cs=0.02)で結ばれており、コアに貯めた角運動量が外殻へ流れ出す。中心天体は**固定していない**(支配天体も他の粒子と同じ法則で動く自由な系)— 固定中心は座標を止めるだけでなく E6′ 引きずりの反作用を受け取る外部リザーバでもあるため、それを外すには反作用を換算質量 μ=m_im_j/(m_i+m_j) による対称インパルス J_ij=μ(φ_ij d_i−φ_ji d_j) へ置き換えた E6′-R(physics.frameReaction:\"pairReduced\")が要る。初期配置は重心系(balanceFrame)へ移してあり、観測はすべて中心天体基準の相対座標で行う。実在のブラックホール物理(事象の地平面・降着円盤の磁気流体・相対論的ジェット)の再現主張ではない — この宇宙の法則で「暗くて重い回転体」を組むとどうなるかのトイモデルである(Negative Claims)。",
     observe:"実測(seed固定・6000步): ①**自走** — 中心の外殻スピンは0.15から実測1.33へ育ち、コアの角速度は20から4.2へ落ちる(τ_cs でコアの貯金が外殻へ移る)。②**暗いまま回す** — 中心の減光は1.00(真っ暗)なのに、中心基準で測った恒星ディスク外縁の回転増強(kFrame=1/kFrame=0 比)は実測1.52で、可視の🎡標準(1.2646)を大きく超える。③**壊れない** — 反作用上限・速度上限・スピン上限の発動はいずれも0回で、恒星の保持率は1.000(中心基準 r<450)。層4の降着円盤は圧力(E5′)で膨らむが重力井戸に束縛され、6000步で系外(中心基準 r>200)へ出るのは120体中1体だけ(=この構成ではジェットは立たない。双極流は⏳の担当)。④**中心は有限に反跳する** — 支配天体の重心相対変位は最大0.39・重心相対速度は最大0.009に留まる(固定ではなく、質量比ぶんの小さな揺れ)。⑤帳簿込みの総角運動量は保存する(相対ずれ1.3e-6 — A13/T7。コアの J も総和に含む)。⑥**因果の分離**(同一初期配置の対照): コアを外した単層中心では増強が1.05まで落ちる(=コアが主因)。⑦**E6′-R の効き目**: 同じ自由構成を従来の反作用則(legacy)のままにすると、1200步で反作用上限が12297回発動し、外縁増強は0.99(=増強消失)・外殻スピンも0.61で頭打ちになる。",
@@ -7209,6 +7216,7 @@ const BUILTIN_PRESETS = [
 { id:"bhCoreTilt", name:"DFM版ブラックホール(横倒し)— エッジオンの暗い中心", emoji:"🪩", group:"自転と減光",
   // 第272便d(第62報): ⚫ と同じく **暗さ=隠れた質量**の循環を避けるため "dm" を足した(宣言専用・署名は不変)
   scaleTier:"galactic", sampleClass:"principle", notClaim:["toy","dm"],
+  familyRole:"retired",   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**。familyId は持たない(単独の本の退役)。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変
   descStruct:{
     summary:"⚫ bhCore の**軸を横倒し(tilt=90°)にした変種**(第229便 — 3天体雛形③)。構成は ⚫ と同一(自由な中心 m=2500+降着円盤+恒星ディスク)で、コアだけ Kcs=0・tilt=90 に替える(第210便の併用不可則に従い自走〔Kcs〕は捨て、z 射影だけを見る)。tilt=90 では **J_z=0 — 「回っているのに引きずらない」**: コアの角運動量 |J| は面内(J_x)にあり、2D の空間引きずり(A8/E6′)は z 射影しか使わないため、外縁の回転曲線は重力(E4)のケプラー則側に落ちる。それでも**減光は消えない** — 第227便のベクトル差ノルム化 |Ω_c−Ω_s ẑ| の帰結で、横倒しでも中心は真っ暗のまま(旧 cosθ 実装なら 90° で見えてしまった)。スポーク描画はエッジオンの横棒。実在のブラックホール(地平面・ジェット)の再現ではない。",
     observe:"実測(1500步): 外縁帯(150〜280)の平均接線速度 vt=3.2659 — ⚫ 基準(同窓 3.2441)と同水準で、コアの z 引きずりを失っても外縁はケプラー則+殻スピンで保たれる。**J_z=2.6×10⁻¹¹(機械ゼロ)**・|J| ドリフト 9.7×10⁻¹⁶(1500步 — 歳差は仕事0)・**減光 1.000 のまま**(tilt 90° でも効く — 第227便の機械固定と同じ帰結)・NaN 0。⚫ 対照では Kcs 自走で J_z が 4.2×10⁵→2.7×10⁵ へ移る(JmRel −0.352)— 「自走する ⚫/射影だけの 🪩」の対。QA behavior.templates229 が機械固定。",
@@ -7530,7 +7538,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",   // → 第99便: 星雲/ローター系は恒星スケールの現象なので stellar へ再分類(表示換算のみ・物理不変)
   sampleClass:"composite",
   notClaim:["dm"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"rotorform", familyRole:"variant",   // 第82便統合: ローター形成ファミリー(成長系の変種)
+  familyId:"rotorform", familyRole:"primary",   // 第82便統合: ローター形成ファミリー(成長系の変種)/ 第283便b(第73報④・R84): 🌑 の退役で rotorform の入口を 🥚 へ(表示専用)
   emergence:"E3",   // 第83便A: E2(閉鎖系の創発)→ E3(多seed16・粒子数90/180/360・摂動回復で頑健性を確認)
   // 第91便 EXT-07: 標準試験チェックリスト(宣言専用 — 実測は ref のハーネス。①②=exp-4-84・
   // ③⑤⑥=exp-4-85・数値頑健性=exp-4-89・④は 90/180/360(exp-4-85)+720(exp-4-92)の4段階)
@@ -16249,7 +16257,7 @@ const BUILTIN_PRESETS = [
   scaleTier:"stellar",   // 第74便: 5段階スケール(UI分類・表示換算専用 — 物理不変)
   sampleClass:"principle",
   notClaim:["toy"],   // 第88便 EXT-04: しない主張(宣言専用 — 表示のみ)
-  familyId:"rotorform", familyRole:"variant",   // 第82便: ファミリー表示(表示専用)
+  familyId:"rotorform", familyRole:"retired",   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**。表示専用 —— presetSig は familyRole を見ない。ID・物理・claims・保存 JSON は不変(BUILTIN_PRESETS から消さない)
   descStruct:{
     summary:"回る速さがどんどん増し、だんだん暗くなっていく「星の種」の成長を、原理から確かめるサンプル。星の種(prestellar core 類似)がダークローターへ育つ過程の原理実験 — コアv2(第77便拡張: 中心コアを J_core を主変数とする独立サブシステムにした)の最初の実演。親天体(固定)のまわりの鏡像楕円軌道に2つの種を置く: 種A=差動コア(軸が自由)・種B=剛体コア(軸を固定)。スピン加速の主要因は自己重力圧縮 — コア半径が縮むと角運動量保存(A13)で角速度が増す(Ω=J/I・核融合は密度が増す過程の副産物でありエネルギー源の主役ではない)。副機構はパワーボール原理: 楕円軌道の重力による揺すり(加速度の変動)が、軸の自由な差動コアの回転を加速する — ジャイロ効果のトレーニング器具と同じで、軸を固定した種Bは同じ揺すりで逆に減速する。",
     observe:"実測(seed固定・6000步): 種Aのコア角速度は1.5から約162へ(圧縮でコア半径3→0.44・J保存の上昇×パワーボールの汲み上げ)、減光は0.14から実測0.99へ — 明るい種が周回しながら暗黒天体へ育つ(2層減光・A9)。種B(軸固定)は同じ揺すりで殻スピンが3から2.61へ減速する。ポンプと圧縮を切った対照では角速度1.5のまま・減光0.14のまま — 何も育たない。帳簿: パワーボールの角運動量はリザーバと等量交換・仕事はHUDの「コア仕事W」に明示され、総角運動量は帳簿込みで保存する(相対ずれ3e-6・A13/T7)。※実在の原始星のスピン進化・磁気制動の再現主張ではない(Negative Claims)。",
@@ -28945,6 +28953,32 @@ function familyVariantLabel(p){
   const e=p? FAMILY_VARIANT_LABEL[p.id] : null;
   return e? (LANG==="en"? e.en : e.ja) : "";
 }
+// 第283便b(原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」・統括の検証項目 R84): **退役**。
+// familyRole の語彙に "retired" を足す(primary / variant / retired)。退役の本は **BUILTIN_PRESETS から消さない**
+// (旧セーブ・履歴の正本・過去の記録が ID で参照する)。変えるのは表示だけ —— サンプル一覧(選択ウィンドウ)に出さない・
+// 開いたときに「退役(履歴)」の 1 行を出す・「この仲間」の導線から外す。**presetSig・物理・保存 JSON・claims は 1 bit も変えない**
+// (familyRole は presetSig の外・領域 hash の説明文の欄 PROSE_KEYS)。理由と代わりに見る本はプリセットの外の side table に置く。
+// この 2 つの関数は表示の関数(ppRender・renderHelp)だけが呼ぶ(読み込み・受理・力学の経路には入れない)。
+const FAMILY_ROLES=["primary","variant","retired"];
+const RETIRED_PRESETS={
+  darkrotor:{ja:"腕と減光の長時間の門は重い走行で、減光の原器は 🕳️ rotorSolo・銀河の質量要素は 🌚/🛞 が持つ", en:"its long-run arm and dimming gate is a heavy run; the dimming prototype is 🕳️ rotorSolo and the galaxy mass elements live in 🌚/🛞", see:["rotorSolo","galaxyAnalogyBH","ngc3198DFM"]},
+  bhCore:{ja:"自由な多層の中心は 🌚 の中心 DFM BH(アナロジー)へ引き継ぎ、尺度比較の参照値は試験の固定値に移した", en:"the free multilayer centre is carried by the centre DFM BH of 🌚 (analogy); the scale-comparison reference values moved to a test fixture", see:["galaxyAnalogyBH","rotorSolo"]},
+  bhCoreTilt:{ja:"⚫ の横倒しの変種で、⚫ と一緒に退役した(傾斜の機構の最小試験は QA に残す)", en:"the tipped-over variant of ⚫, retired together with it (the minimal tilt-mechanism test stays in QA)", see:["rotorSolo"]},
+  nebulaRotor:{ja:"ローター群の星雲は減光の原器 🕳️ と自己形成 🥚 で見られる", en:"the rotor-swarm nebula is covered by the dimming prototype 🕳️ and the self-forming 🥚", see:["rotorSolo","selfRotor"]},
+  nebulaShell:{ja:"🌑 の重殻の変種で、🌑 と一緒に退役した", en:"the heavy-shell variant of 🌑, retired together with it", see:["rotorSolo","selfRotor"]},
+  nebulaBipolar:{ja:"🌑 の双極の変種で、🌑 と一緒に退役した", en:"the bipolar variant of 🌑, retired together with it", see:["rotorSolo","selfRotor"]},
+  starSeed:{ja:"圧縮とパワーボールの経路は 🥚 の自己形成で見られる(パワーボールの機構の最小試験は QA に残す)", en:"the compression and power-ball path is seen in the self-forming 🥚 (the minimal power-ball test stays in QA)", see:["selfRotor","rotorSolo"]}
+};
+function retiredOf(p){ return !!(p && p.familyRole==="retired"); }
+// 一覧から外す(読み込み中の本だけは選択の保持のため出す —— variant と同じ流儀)
+function retiredHidden(p){ return retiredOf(p) && !(currentPreset && p.id===currentPreset.id); }
+function retiredNoticeText(p){
+  if(!retiredOf(p)) return "";
+  const e=RETIRED_PRESETS[p.id]||null;
+  const why=e? (LANG==="en"? e.en : e.ja) : "";
+  const see=e? e.see.map(id=>{ const q=BUILTIN_PRESETS.find(z=>z.id===id); return q? (q.emoji||"")+" "+pName(q) : id; }).join(" / ") : "";
+  return T("retiredNotice")(why,see);
+}
 // 第117便(外部レビュー採択・原仮定者裁定「サンプルの整理を進める」): catalog 可視性 —
 // 「すべて表示」OFF のとき catalog:"extended"/"diagnostic" は**検索・グループ/属性絞り込みでも
 // 表示しない**(strict — family variant の「検索で再表示」より強い)。読込中の自身だけ選択保持。
@@ -29256,6 +29290,7 @@ function ppRender(){
   familyGroupedBuiltins().forEach(p=>{
     const g=gCanon(p.group);
     if(catalogHidden(p)) return;   // 第117便: catalog は検索・属性絞り込みより先に隠す(strict)
+    if(retiredHidden(p)) return;   // 第283便b(第73報④・R84): 退役の本は一覧に出さない(検索・「すべて表示」でも —— 読み込み中の本だけ残す)
     if(!ppMatch(p)) return;
     if(!showAllSamples && p.familyId && p.familyRole==="variant"
       && !(currentPreset&&p.id===currentPreset.id) && !ppSearch && !attrFiltered) return;
@@ -29264,6 +29299,7 @@ function ppRender(){
     let label=(p.emoji||"")+" "+pName(p);
     if(p.familyId&&p.familyRole==="variant") label="└ "+label;
     { const vl=familyVariantLabel(p); if(vl) label+="〔"+vl+"〕"; }   // 第280便d: 役割名(表示専用)
+    if(retiredOf(p)) label+="〔"+T("retiredTag")+"〕";   // 第283便b: 読み込み中の退役の本(一覧に残るのはこの 1 本だけ)
     const tags=[(p.scaleTier||p.scaleExp? SCALE_EMOJI[presetTierOf(p)]:""),(p.emergence||""),
       sampleClassLabel(p)].filter(Boolean).join(" ");   // 第258便c: 較正は DFM / kF0 を出す
     mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id));
@@ -34375,6 +34411,11 @@ function renderHelp(){
   // 0にすると引きずりなしの対照になることをツールチップで案内)
   if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
   el.appendChild(chipRow);
+  // 第283便b(原仮定者の裁定(第73報)④・R84): 退役の本を開いたら「退役(履歴)」の 1 行(表示専用 —— 自動で別の本へ置き換えない)
+  if(retiredOf(currentPreset)){
+    const rn=document.createElement("p"); rn.id="retiredNotice"; rn.className="note retiredNotice";
+    rn.textContent=retiredNoticeText(currentPreset); el.appendChild(rn);
+  }
   el=SEC.ledger;
   // 第132便 EXT-06: 較正台帳 — バッジ列の直下に1行チップ(折り畳み時は1行のみ = 常時表示)。
   // 中身は calibrationBudget() の自動算出(宣言は持たない)。タップで内訳を開く。表示専用。
@@ -34617,7 +34658,8 @@ function renderHelp(){
   // 表示専用: ここからの読込は既存の loadPreset(id,false) を通るだけで、内部のプリセット解決・
   // claims・保存 JSON には一切影響しない
   if(currentPreset.familyId){
-    const fam=familyMembersOf(currentPreset.familyId);
+    // 第283便b: 退役の本は「この仲間」の導線に出さない(退役の本を開いているときは、その本自身と退役でない仲間だけ)
+    const fam=familyMembersOf(currentPreset.familyId).filter(fp=>fp.id===currentPreset.id || !retiredOf(fp));
     if(fam.length>1){
       const wrap=document.createElement("div"); wrap.id="familyRow";
       const lab=document.createElement("span"); lab.className="familyRowLabel"; lab.textContent=T("familyRowLabel");

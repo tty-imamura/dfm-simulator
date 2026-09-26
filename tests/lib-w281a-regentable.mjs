@@ -41,6 +41,9 @@ const V_CALAUDIT = ['/meta/when', '/fourValues/current/when', '/diagnosticsSplit
 
 const S = (key, cmd, outs, sec, o) => Object.assign({ key, cmd, outs, sec, secSource: 'w280-chain',
   alwaysRun: false, role: 'current', after: [], env: {}, volatilePaths: {} }, o || {});
+// 第283便b: 表の外にあった履歴の器(退役 7 本を名指しする —— 再生成しない・実測の所要なし)
+const RH = (key, cmd, outs) => S('h283b-' + key, cmd, outs, 0, { role: 'history', secSource: '履歴(第283便b で登録 —— 走らせない)',
+  note: '第283便b(第73報④・R84): 退役の本を名指しする過去の器。**再生成しない**(計画は常に「履歴」)' });
 
 /** 段の表(並びは第280便の chain の順 —— 計画は依存で並べ直す)。 */
 export const REGEN_STEPS = [
@@ -165,6 +168,37 @@ export const REGEN_STEPS = [
   S('geo1', 'node tests/exp-w282b-geo1.mjs', ['tests/out/geo1-w282b.json'], 1033, { secSource: 'w282b-run', after: ['calaudit', 'kf0'],
     env: { PLAYWRIGHT_CORE_DIR: 'Chromium の Playwright(水星の表と比較表 —— W282B_ENGINE=node なら不要・約 6 倍遅い)' },
     note: '第282便b: 1 歩の表・束縛二体・ブースト・固定源・質量比の走査は Node の vm(本体 + 反作用返しの器の中のコピー)' }),
+  // ---- 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R85): 同一天体の家族の差分表と統廃合の候補(html・calaudit の較正母集団・
+  //   凍結の写し tests/fixtures/retired-w283b.json を読む —— 1 步も走らせない。所要は第283便b の枝の実測〔Node 1 本・壁時計〕)
+  S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit'],
+    volatilePaths: { 'tests/out/families-w283b.json': META_RUN.concat(['/elapsedS']) },
+    note: '第283便b: 家族 21・鍵ごとの差・推定の列・候補(畳まない)・退役 7 本の棚卸し。一覧 docs/FAMILIES_v1.45.md も同じ器が書く(QA docs.families が照合)' }),
+  // ---- 第283便b(第73報④・R84): 退役 7 本を名指しする**表の外の器**のうち tests/out に出力が残るもの —— **履歴**として登録する
+  //   (再生成しない。退役の本を走らせ直す段を現行の計画に入れない)。退役後も走る器(rotorledger・analogy)は凍結の写しを読む。
+  //   凍結の写しそのもの(tests/fixtures/retired-w283b.json —— 器 tests/exp-w283b-retiredfx.mjs が基点 de9e39b から 1 度だけ作る)は
+  //   正本ではないので表に載せない(現行の正本の入力なので履歴にもしない)。
+  RH('exp-4-67', 'node tests/exp-4-67.mjs', ['tests/out/exp-4-67.json']),
+  RH('exp-4-72', 'node tests/exp-4-72.mjs', ['tests/out/exp-4-72.json']),
+  RH('exp-4-73', 'node tests/exp-4-73.mjs', ['tests/out/exp-4-73.json']),
+  RH('exp-4-75', 'node tests/exp-4-75.mjs', ['tests/out/exp-4-75.json']),
+  RH('exp-4-88', 'node tests/exp-4-88.mjs', ['tests/out/exp-4-88.json']),
+  RH('exp-coreshell', 'node tests/exp-coreshell.mjs', ['tests/out/coreshell-results.json']),
+  RH('exp-coreshell2', 'node tests/exp-coreshell2.mjs', ['tests/out/coreshell2-results.json']),
+  RH('exp-coreshell3', 'node tests/exp-coreshell3.mjs', ['tests/out/coreshell3-results.json']),
+  RH('exp-coreshell4', 'node tests/exp-coreshell4.mjs', ['tests/out/coreshell4-results.json']),
+  RH('exp-coreshell5', 'node tests/exp-coreshell5.mjs', ['tests/out/coreshell5-results.json']),
+  RH('exp-coreshell6', 'node tests/exp-coreshell6.mjs', ['tests/out/coreshell6-results.json']),
+  RH('exp-coreshell7', 'node tests/exp-coreshell7.mjs', ['tests/out/coreshell7-results.json']),
+  RH('exp-coreshell8', 'node tests/exp-coreshell8.mjs', ['tests/out/coreshell8-results.json']),
+  RH('exp-coreshell9', 'node tests/exp-coreshell9.mjs', ['tests/out/coreshell9-results.json']),
+  RH('exp-coreshell-theory', 'node tests/exp-coreshell-theory.mjs', ['tests/out/coreshell-theory-results.json']),
+  RH('exp-darkness', 'node tests/exp-darkness.mjs', ['tests/out/darkness-results.json']),
+  RH('exp-darkrotor', 'node tests/exp-darkrotor.mjs', ['tests/out/darkrotor-results.json']),
+  RH('exp-factors', 'node tests/exp-factors.mjs', ['tests/out/factors-results.json']),
+  RH('exp-ureq', 'node tests/exp-ureq.mjs', ['tests/out/ureq-results.json']),
+  RH('seeds', 'node tests/seeds.mjs', ['tests/out/seeds-results.json']),
+  RH('exp-w262b-migrate', 'node tests/exp-w262b-migrate.mjs', ['tests/out/w262b-migrate.json']),
+  RH('exp-w265d-lfbot', 'node tests/exp-w265d-lfbot.mjs', ['tests/out/lfbot-w265d.json']),
 ];
 
 /**
@@ -175,6 +209,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/out/analogy-w265a.json': ['/meta/when', '/meta/inputs/*/mtime', '/meta/spentSec'],
   'tests/out/kjoint2-w265a.json': ['/meta/spentSec'],
   'tests/out/obscal-results.json': ['/manifest/generatedAt'],
+  // 第283便b: 退役 7 本の凍結の写し(書き換えない fixture —— 除く欄は無い。現行の正本 rotorledger・analogy・families・samplestatus の入力)
+  'tests/fixtures/retired-w283b.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

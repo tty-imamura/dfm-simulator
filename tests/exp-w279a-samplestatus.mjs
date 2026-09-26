@@ -38,6 +38,8 @@ const SRC = 'tests/data-w279a-samplestatus-src.json';
 const CAL = 'tests/out/calaudit-w249.json';
 const WIN = 'tests/out/charonwin-w278b.json';
 const QAF = 'tests/out/qa-results-full-beta.json';
+// 第283便b(原仮定者の裁定(第73報)④・R84): 退役の本の凍結の写し(ゲートから外した試験の最後の保存 QA の値を持つ)
+const RETIRED_FX = 'tests/fixtures/retired-w283b.json';
 const OUT = 'tests/out/samplestatus-w279a.json';
 const MD = 'docs/SAMPLE_STATUS_v1.45.md';
 const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs'];
@@ -47,7 +49,12 @@ const rd = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
 const src = rd(SRC), calaudit = rd(CAL), charonwin = rd(WIN), qa = rd(QAF);
 const qaIds = new Set((qa.results || []).filter((r) => r.pass).map((r) => r.id));
 const outFiles = new Set(fs.readdirSync(path.join(ROOT, 'tests', 'out')).map((f) => 'tests/out/' + f));
-const built = L.buildTable(src, calaudit, charonwin, { qaIds, outFiles });
+// 第283便b: 退役の本(原稿の retired.ids)と、凍結の写しの履歴で PASS の試験
+const fx = rd(RETIRED_FX);
+const retiredIds = new Set(((src.retired || {}).ids) || []);
+const historyIds = new Set(((fx.history || {}).tests || []).filter((t) => t.pass).map((t) => t.id));
+const historyUsed = [];
+const built = L.buildTable(src, calaudit, charonwin, { qaIds, outFiles, retiredIds, historyIds, historyUsed });
 if (built.errors.length) {
   console.error('原稿/正本の検査で止めた(何も書いていない):\n  ' + built.errors.join('\n  '));
   process.exit(1);
@@ -92,7 +99,7 @@ const got = await page.evaluate(() => {
   for (const p of HP.allPresets()) {
     if (String(p.id).startsWith('custom_')) continue;
     rows.push({ id: p.id, emoji: p.emoji || '', name: p.name, enName: (p.en || {}).name || null,
-      group: p.group, sampleClass: p.sampleClass || null,
+      group: p.group, sampleClass: p.sampleClass || null, familyRole: p.familyRole || null,
       status: p.status || null, enStatus: (p.en || {}).status || null, brief: briefs[p.id],
       claimTests: Array.isArray(p.claims) ? [...new Set(p.claims.map((c) => c.testId).filter(Boolean))] : [] });
   }
@@ -118,13 +125,18 @@ for (const r of got.rows) {
 }
 if (got.rows.length !== Object.keys(table).length) bad.push(`内蔵 ${got.rows.length} 本 ≠ 表 ${Object.keys(table).length} 行`);
 if (got.version !== L.STATUS_VERSION) bad.push(`html の版 ${got.version} ≠ ${L.STATUS_VERSION}`);
+// 第283便b: 原稿の退役の宣言と html の familyRole:"retired" が同じ集合であること
+{ const htmlRetired = got.rows.filter((r) => r.familyRole === 'retired').map((r) => r.id).sort();
+  if (JSON.stringify(htmlRetired) !== JSON.stringify([...retiredIds].sort())) bad.push(`退役の集合が原稿(${[...retiredIds].join(',')})と html(${htmlRetired.join(',')})で違う`); }
 if (bad.length) { console.error('ページの照合で止めた:\n  ' + bad.slice(0, 20).join('\n  ')); process.exit(1); }
 
 // ---- ③ 一覧 md と正本
 const tl = L.tally(table, got.rows);
 const predEligible = ((calaudit.verdictLedger || {}).rows || []).reduce((s, r) => s + (r.predictionEligible || 0), 0);
+// 第283便b(第73報④・R84): 退役の本は**群の集計から外し**、「退役」の別群として数える(html の status・4 値の集計は変えない)
 const groups = (got.groupOrder || []).map((g) => ({ group: g, icon: (got.groupIcons || {})[g] || '',
-  ids: got.rows.filter((r) => r.group === g).map((r) => r.id) }));
+  ids: got.rows.filter((r) => r.group === g && !retiredIds.has(r.id)).map((r) => r.id) }));
+const retiredRows = got.rows.filter((r) => retiredIds.has(r.id)).map((r) => r.id);
 const orphan = got.rows.filter((r) => !(got.groupOrder || []).includes(r.group)).map((r) => r.id);
 if (orphan.length) { console.error('群の無い本: ' + orphan.join(' ')); process.exit(1); }
 
@@ -145,6 +157,7 @@ md.push('');
 md.push('## 集計');
 md.push('');
 md.push(`- 内蔵 **${tl.n} 本**(群 ${groups.length}・うち 0 本の群 ${groups.filter((g) => !g.ids.length).length})。`);
+if (retiredRows.length) md.push(`- うち **退役 ${retiredRows.length} 本**(原仮定者の裁定(第73報)④ —— 内蔵には残る・サンプル一覧に出ない)は**群の集計から外し**、下の「退役」節に別群として並べる(状況と較正の集計は内蔵の全本で数える)。`);
 md.push(`- 状況: **達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet}・対象外 ${tl.objective['n/a']}**。`);
 md.push(`- 較正: 4 値(合/量限定合/否/保留)**${tl.four['合']}/${tl.four['量限定合']}/${tl.four['否']}/${tl.four['保留']}**(台帳の転記)・判定保留(量定義不一致)**${tl.calibration['hold-definition']}**・較正対象外 **${tl.calibration['out-of-scope']}**。`);
 md.push('');
@@ -164,6 +177,16 @@ for (const g of groups) {
   md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み |');
   md.push('|---|---|---|---|---|---|---|---|');
   for (const id of g.ids) md.push(L.mdRow(byId[id], table[id]));
+  md.push('');
+}
+if (retiredRows.length) {
+  md.push(`## 🗄️ 退役(${retiredRows.length} 本)`);
+  md.push('');
+  md.push('> 原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」による**退役**(`familyRole:"retired"`)。**BUILTIN_PRESETS からは消していない**(旧セーブ・履歴の正本・過去の記録が ID で参照する)。物理・署名・保存 JSON・status は変えていない。ゲートから外した試験の最後の保存 QA の値は凍結の写し `' + RETIRED_FX + '` に転記してあり、根拠の裏づけはその履歴で行う' + (historyUsed.length ? `(${historyUsed.map((z) => '`' + z.split(':')[1] + '`').join('・')})` : '') + '。');
+  md.push('');
+  md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み |');
+  md.push('|---|---|---|---|---|---|---|---|');
+  for (const id of retiredRows) md.push(L.mdRow(byId[id], table[id]));
   md.push('');
 }
 // ---- ④ 所要時間(第282便・原仮定者の指示 2026-09-26): 測った値の転記だけ(判定ではない)
@@ -219,7 +242,7 @@ md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体
 md.push('');
 md.push('| 本 | 較正走行(s) | 段別(s) | 関与する再生成の段(段 秒/本数) | 保存 QA(s・本数) | QA の内訳(上位 3) |');
 md.push('|---|---|---|---|---|---|');
-for (const g of groups) for (const id of g.ids) {
+for (const id of groups.flatMap((g) => g.ids).concat(retiredRows)) {
   const r = byId[id], t = timing[id];
   const cal = t.calaudit.stages.length ? fmtS(t.calaudit.wallSec) : '—';
   const st = t.calaudit.stages.length ? t.calaudit.stages.map((z) => `${z.tag} ${fmtS(z.wallSec)}`).join('・') : '—';
@@ -238,12 +261,13 @@ const canon = {
     rule: '較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。',
     doNotWrite: ['較正した', '較正を完了', '観測と一致した', '精度を上げれば合格', '判定が増えた'] },
   provenanceMeta({ root: ROOT, wave: '第279便a', target: 'beta/index.html', code: CODE,
-    inputs: [SRC, CAL, WIN, MD] }),
+    inputs: [SRC, CAL, WIN, MD, RETIRED_FX] }),
     // 保存 QA は**全走行のたびに書き換わる**ので来歴の inputs には入れない(入れると lint.provenanceMeta が
     // フル QA のたびに落ちる)。根拠 ID の照合に使った保存 QA の commit と件数だけを記録する
     { evidenceQa: { file: QAF, commit: qa.commit || null, date: qa.date || null, pass: qaIds.size } }),
   tally: Object.assign({}, tl, { predictionEligible: predEligible,
-    byGroup: groups.map((g) => ({ group: g.group, icon: g.icon, n: g.ids.length })) }),
+    byGroup: groups.map((g) => ({ group: g.group, icon: g.icon, n: g.ids.length })),
+    retired: { n: retiredRows.length, ids: retiredRows, historyEvidence: historyUsed } }),
   rows: got.rows.map((r) => Object.assign({ id: r.id, emoji: r.emoji, name: r.name, group: r.group,
     sampleClass: r.sampleClass }, { status: table[r.id], ledgerSource: built.provenance[r.id] || null, timing: timing[r.id] })),
   timingNote: { since: '第282便(原仮定者の指示 2026-09-26)', what: '各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(id を含む試験+claims の testId・重なりあり)。判定ではない',
@@ -258,7 +282,7 @@ if (CHECK) {
   fs.writeFileSync(path.join(ROOT, MD), mdText);
   // md を書いた後に来歴を取り直す(inputs に md 自身の sha を刻む)
   canon.meta = Object.assign({}, canon.meta, provenanceMeta({ root: ROOT, wave: '第279便a', target: 'beta/index.html',
-    code: CODE, inputs: [SRC, CAL, WIN, MD] }));
+    code: CODE, inputs: [SRC, CAL, WIN, MD, RETIRED_FX] }));
   fs.writeFileSync(path.join(ROOT, OUT), JSON.stringify(canon, null, 1));
 }
 const maxJa = Math.max(...Object.values(table).map((t) => t.brief.length));

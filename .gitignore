@@ -717,3 +717,7 @@ tests/out/regen-plan-w281a.json
 #   (tests/exp-w282b-geo1.mjs —— 自由二体の 1 歩・重心系・ブースト・固定源・質量比の近点移動・水星の表・kF0 の比較表・内蔵 geoPN:1 の 3 本)。
 #   QA behavior.geo1Momentum・docs.geo1Contract が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**。
 !tests/out/geo1-w282b.json
+# 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R84/R85): **同一天体の家族の差分表と統廃合の候補・退役 7 本の棚卸し**の正本
+#   (tests/exp-w283b-families.mjs —— Node だけで html を読む・1 步も走らせない。一覧 docs/FAMILIES_v1.45.md も同じ器が書く)。
+#   QA docs.families・docs.retired が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**候補であって実行ではない**。
+!tests/out/families-w283b.json
