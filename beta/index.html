@@ -1218,6 +1218,27 @@ ja: {
      プリセット署名には入らない・力学には 1 bit も効かない) */
   geoToySaveNote:"※ 保存の非対称: いま走っている geoPN=3 は、保存 JSON に physics.spaceMesh.lawVersion "
     +"(scalar/local/complex)の宣言が無ければ、読み込み時に 2 へ丸められます(実行中の力学は変わりません)。",
+  /* 第283便d(原仮定者の裁定(第73報)⑥・R87): 「背景決定力 D₀」の直下の背景複素決定力 physics.backgroundComplex の宣言欄 */
+  bgcLabel:"背景複素決定力 W₀・A₀(宣言)",
+  bgcUndeclared:"未確定(未宣言)",
+  bgcDeclared:(b)=>"宣言済み: "+b,
+  bgcInvalid:"受理されない宣言",
+  bgcDesc:"physics.backgroundComplex — 空間メッシュ(複素決定力場)の背景。D₀(スカラー・[M/L] — 距離に反比例する決定力の総和)とは別の鍵で、"
+    +"重み W₀ は [M/L²](w=m/(r²+ε²) の総和)・分子 A₀=Σw·u は [M/(L·T)] の向きつき量なので、W₀ に D₀ の値を流用しない。"
+    +"値域: W₀≥0(W₀=0 なら他の成分もすべて 0)・A0/gradW/dAdt は 2 成分・gradA は 4 成分 [∂ₓAx,∂_yAx,∂ₓAy,∂_yAy]・dWdt は 1 つ(いずれも有限数)。"
+    +"background が \"zero\" のときだけ成分の省略を許し(=ゼロと宣言)、それ以外は全成分を明示する。\"declared\" は note に出所が要る。"
+    +"未宣言は「未確定」(ゼロとは違う)。宣言は受理器(validateBackgroundComplex)を通したときだけ編集対象の params に入り、拒否は受理器の文をそのまま出す。"
+    +"欄を出す・開くだけでは params も presetSig も変わらない(宣言すればセーブの physics に入り、JSON に書いたのと同じ扱いになる)。"
+    +"力学が読むのは physics.meshVelocity(field:\"backgroundComplex\")を宣言した本だけで、⏮ 初めから の再構築で効く。",
+  bgcShort:"D₀ とは別の鍵(W₀ [M/L²]・A₀ [M/(L·T)] — W₀ に D₀ を流用しない)。未宣言=未確定。受理器を通った値だけが宣言になる。",
+  bgcBgNone:"—(未宣言)",
+  bgcPhScalar:"数値",
+  bgcPhVec:(n)=>n+" 成分(カンマ区切り)",
+  bgcPhNote:"出所・根拠(200 字以内)",
+  bgcKeep:(k)=>"※ "+k+" は既存の宣言のまま引き継ぎます(この欄では編集しません)",
+  bgcApply:"宣言する",
+  bgcClear:"未宣言に戻す",
+  bgcApplied:"背景複素決定力を宣言しました(受理器を通過)",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
   
@@ -2050,6 +2071,27 @@ en: {
   /* Wave 263b (report 55, hypothesis 7): saving geoPN is asymmetric - one display-only line under the row */
   geoToySaveNote:"Note - saving is asymmetric: a geoPN of 3 running now is rounded down to 2 on load "
     +"unless the saved JSON declares physics.spaceMesh.lawVersion (scalar/local/complex). The dynamics running now do not change.",
+  /* Wave 283d (originator's ruling, report 73 (6), R87): declaration panel for physics.backgroundComplex right under the D0 row */
+  bgcLabel:"Background complex determinacy W0 / A0 (declaration)",
+  bgcUndeclared:"Undetermined (not declared)",
+  bgcDeclared:(b)=>"Declared: "+b,
+  bgcInvalid:"Declaration not accepted",
+  bgcDesc:"physics.backgroundComplex - the background of the space mesh (complex determinacy field). It is a SEPARATE KEY from D0 (a scalar in [M/L], the sum of determinacy falling off as 1/distance): "
+    +"the weight W0 is in [M/L^2] (a sum of w=m/(r^2+eps^2)) and the numerator A0=sum w*u is a directed quantity in [M/(L*T)], so DO NOT REUSE THE D0 VALUE FOR W0. "
+    +"Ranges: W0>=0 (if W0=0 every other component must be 0); A0/gradW/dAdt have 2 components, gradA has 4 [dAx/dx, dAx/dy, dAy/dx, dAy/dy], dWdt is one number (all finite). "
+    +"Components may be omitted only with background \"zero\" (a declaration of zero); otherwise every component must be written, and \"declared\" needs its source in note. "
+    +"Not declared means undetermined (not zero). A value enters the edited side's params only after the validator (validateBackgroundComplex) accepts it; a rejection shows the validator's own message. "
+    +"Showing or opening this panel changes neither params nor presetSig (a declaration goes into the save's physics exactly as if written in the JSON). "
+    +"The dynamics read it only in samples that declare physics.meshVelocity (field:\"backgroundComplex\"), from the next rebuild (restart).",
+  bgcShort:"A separate key from D0 (W0 in [M/L^2], A0 in [M/(L*T)] - do not reuse D0 for W0). Not declared = undetermined. Only values the validator accepts become a declaration.",
+  bgcBgNone:"- (not declared)",
+  bgcPhScalar:"number",
+  bgcPhVec:(n)=>n+" components (comma-separated)",
+  bgcPhNote:"source / basis (200 chars max)",
+  bgcKeep:(k)=>"Note: "+k+" are carried over from the existing declaration (not edited here)",
+  bgcApply:"Declare",
+  bgcClear:"Back to undeclared",
+  bgcApplied:"Background complex determinacy declared (accepted by the validator)",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
   
@@ -26898,12 +26940,13 @@ function drawGalaxyTracerInto(S,sx,sy,z){
   const inR=tr.rMin*z, sep=(L>1)? 2*Math.PI*inR/L : 1e9;
   const stepL=(sep<6)? Math.max(1,Math.ceil(6/Math.max(sep,1e-6))) : 1;
   const lw=ctx.lineWidth;
+  const alTr=_smLineStyle("tracer").a;             // 第283便d: 明るさは固定(χ=1 の 0.80)— 色相だけが χ を符号化する
   for(let a=0;a<L;a+=stepL){
     ctx.lineWidth=1.2;
     for(let b=0;b+1<M;b++){
       const i=a*M+b, j=i+1;
       const c=0.5*(tr.chi[i]+tr.chi[j]);          // χ の強度色(1=メッシュが基準・0=背景が基準)
-      const al=0.18+0.62*Math.max(0,Math.min(1,c));
+      const al=alTr;
       ctx.strokeStyle="rgba("+Math.round(120+120*c)+","+Math.round(200-40*c)+",255,"+al.toFixed(3)+")";
       ctx.beginPath(); ctx.moveTo(sx(tr.x[i]),sy(tr.y[i])); ctx.lineTo(sx(tr.x[j]),sy(tr.y[j])); ctx.stroke();
     }
@@ -27303,16 +27346,41 @@ function _slEnsure(S){
 }
 // 第256便c(第48報「表示色も軌跡と混ざらない様に見易くする」): 空間線は**琥珀**。
 // 線の軌跡(氷青 rgba(150,200,255))・guide/transport の格子(氷青)・tracer の χ 色(青族)と
-// 色相で分ける。**χ は不透明度にだけ**入る(座標も色相も混ぜない)
+// 色相で分ける。**χ は不透明度にだけ**入る(座標も色相も混ぜない)—— 第283便d: 不透明度も固定値になった(下の表)
 const SPACE_LINE_RGB="232,168,72";
+// ===== 第283便d(原仮定者の裁定(第73報)⑥「空間メッシュの線の表示が暗い(D₀ の変更で明るさが変動)→ D₀=0 のときの
+// 明るさにする」・統括の検証項目 R87): **線の明るさ(不透明度)は D₀ にも χ にも依らない固定値**である。
+// 第283便c まで各バックエンドは α=clamp(a₀+a₁·χ) で χ=W/(W+D₀) を**不透明度に**掛けていたので、D₀ を上げる
+// (χ→0)ほど線が暗くなり、D0pull で χ≈0.04 の 🫂 は既定のまま α=0.158 まで沈んでいた。固定値は
+// **D₀=0 のときの値**(源が 1 つでもあれば χ=1)= 各式の χ=1 の値をそのまま採った(新しい明るさを作らない):
+//   grid(蓄積格子 mesh)・lines(空間線)… 0.14+0.48·1 = 0.62(上限 0.62 と同じ)
+//   guide(参照ガイド)… 0.06+0.39·1 = 0.45 / transport(輸送された物質線)… 0.10+0.45·1 = 0.55
+//   tracer(銀河の物質線)… 0.18+0.62·1 = 0.80(**色相は χ の符号化として残す** — 明るさだけを固定)
+//   fold(折返しセルの赤い縁)… max(0.45, 0.62+0.2) = 0.82
+// **色はスキンの表に従う**。キャンバスは既定「固定」(第281便e — ライトでも暗い背景のまま)なので dark/light の
+// 行は同じ値である(比較用の「追随」は描画済みの画素を CSS で反転するだけで、この表は読まない)。
+// **表示だけ**: 場の値(u・χ)・凡例の診断値・格子の形・presetSig・S.params には 1 bit も入らない。
+const SPACE_MESH_LINE_STYLE_DARK={
+  grid:{rgb:SPACE_LINE_RGB, a:0.62}, lines:{rgb:SPACE_LINE_RGB, a:0.62},
+  guide:{rgb:"150,220,255", a:0.45}, transport:{rgb:"150,220,255", a:0.55},
+  tracer:{a:0.80}, fold:{rgb:"255,110,110", a:0.82} };
+const SPACE_MESH_LINE_STYLE={ dark:SPACE_MESH_LINE_STYLE_DARK, light:SPACE_MESH_LINE_STYLE_DARK };
+// スキンは <html data-skin> の属性から読む(属性なし = dark)。**閉包の let `uiSkin` は読まない** —— 描画関数が
+// uiSkin を読むと、スキンの切替(setSkin —— 停止集合の純粋な表示関数)が再生成範囲の閉包の名前を書くことになる
+function _smLineStyle(kind){
+  const de=(typeof document!=="undefined")? document.documentElement : null;
+  const sk=(de && de.getAttribute("data-skin"))||"dark";
+  const t=SPACE_MESH_LINE_STYLE[sk]||SPACE_MESH_LINE_STYLE.dark;
+  return t[kind];
+}
+function _smLineRgba(kind){ const e=_smLineStyle(kind); return "rgba("+e.rgb+","+e.a.toFixed(3)+")"; }
 function drawSpaceLinesOn(S,SXf,SYf){
   const c=_slEnsure(S);
   if(!c || !c.lines.length) return;
   const lw=ctx.lineWidth; ctx.lineWidth=1;
+  // 第283便d: 明るさは固定(χ=1 の値 0.62)。χ は線の記録(ln.chi)に残るが描画の不透明度には入れない
+  ctx.strokeStyle=_smLineRgba("lines");
   for(const ln of c.lines){
-    const ch=(ln.chi===null)? 1 : ln.chi;                 // χ は**不透明度にだけ**入る(座標は混ぜない)
-    const al=Math.max(0.10,Math.min(0.62,0.14+0.48*ch));
-    ctx.strokeStyle="rgba("+SPACE_LINE_RGB+","+al.toFixed(3)+")";
     const P=ln.pts;
     ctx.beginPath(); ctx.moveTo(SXf(P[0]),SYf(P[1]));
     for(let i=1;i<ln.n;i++) ctx.lineTo(SXf(P[2*i]),SYf(P[2*i+1]));
@@ -27839,10 +27907,9 @@ function drawSpaceGridOn(S,SXf,SYf){
   const G=c && c.grid;
   if(!G || !(G.nOk>1)) return;
   const K=G.K, X=G.X, Y=G.Y, OK=G.ok;
-  const chv=(G.chi===null)? 1 : G.chi;
-  const al=Math.max(0.10,Math.min(0.62,0.14+0.48*chv));
+  // 第283便d: 明るさは固定(D₀=0 のときの値 = χ=1 の 0.62)。G.chi は診断として格子に残る
   const lw=ctx.lineWidth; ctx.lineWidth=1;
-  ctx.strokeStyle="rgba("+SPACE_LINE_RGB+","+al.toFixed(3)+")";
+  ctx.strokeStyle=_smLineRgba("grid");
   if(G.folded) ctx.setLineDash([4,3]);
   const run=(idxOf)=>{
     for(let a=0;a<K;a++){
@@ -27863,7 +27930,7 @@ function drawSpaceGridOn(S,SXf,SYf){
   // 色が読めない環境でも「破線+凡例」で折返しが分かる
   if(G.folded && G.cellArea){
     const CA=G.cellArea, KC=K-1;
-    ctx.strokeStyle="rgba(255,110,110,"+Math.max(0.45,al+0.2).toFixed(3)+")";
+    ctx.strokeStyle=_smLineRgba("fold");   // 第283便d: 固定 0.82(= max(0.45, 0.62+0.2))
     ctx.lineWidth=1.5;
     for(let j=0;j<KC;j++) for(let i=0;i<KC;i++){
       const ar=CA[j*KC+i];
@@ -27956,8 +28023,8 @@ function drawSpaceMeshOn(S,SXf,SYf,zv){
       if(!tr) return;
       S._smTrKey=key; S._smTrStopped=null;
     }
-    const lw=ctx.lineWidth, al=Math.max(0.10,Math.min(0.55,0.10+0.45*(tr.chi||0)));
-    ctx.lineWidth=1; ctx.strokeStyle="rgba(150,220,255,"+al.toFixed(3)+")";
+    const lw=ctx.lineWidth;
+    ctx.lineWidth=1; ctx.strokeStyle=_smLineRgba("transport");   // 第283便d: 固定 0.55(χ=1 の値)
     const X=tr.x, E=tr.edges;
     if(E) for(const e of E){
       ctx.beginPath();
@@ -27974,13 +28041,13 @@ function drawSpaceMeshOn(S,SXf,SYf,zv){
     if(!M) return;                                // 退化・構成変化は**黙って固定枠へ戻さず描かない**
     MST=M;
     const C=M.origin, C0=M.refOrigin, F=M.F, chi=M.chi, h=(M.refRLen>0? M.refRLen : 1)/4, K=12;
-    // **座標は混ぜない**: 写像は純粋に x=C+F(q−C₀)。χ は不透明度にだけ入る
+    // **座標は混ぜない**: 写像は純粋に x=C+F(q−C₀)。χ は不透明度にだけ入っていた(第283便d で不透明度も固定)
     const map=(qx,qy)=>{ const dx=qx-C0[0], dy=qy-C0[1];
       return [C[0]+F[0]*dx+F[1]*dy, C[1]+F[2]*dx+F[3]*dy]; };
     const seg=(p0,p1)=>{ ctx.beginPath();
       ctx.moveTo(SXf(p0[0]),SYf(p0[1])); ctx.lineTo(SXf(p1[0]),SYf(p1[1])); ctx.stroke(); };
-    const lw=ctx.lineWidth, al=Math.max(0.06,Math.min(0.45,0.06+0.39*chi));
-    ctx.lineWidth=1; ctx.strokeStyle="rgba(150,220,255,"+al.toFixed(3)+")";
+    const lw=ctx.lineWidth;
+    ctx.lineWidth=1; ctx.strokeStyle=_smLineRgba("guide");   // 第283便d: 固定 0.45(χ=1 の値)
     for(let a=-K;a<=K;a++){
       seg(map(C0[0]+a*h, C0[1]-K*h), map(C0[0]+a*h, C0[1]+K*h));
       seg(map(C0[0]-K*h, C0[1]+a*h), map(C0[0]+K*h, C0[1]+a*h));
@@ -30870,6 +30937,144 @@ addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#avPanel").style.dis
 // 第278便e: 背景(箱の外)のクリックで閉じる —— #ppModal と同じ作法(e.target が外枠自身のときだけ)
 $("#avPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) avOpen(false); });
 
+// ===== 第283便d(原仮定者の裁定(第73報)⑥「背景複素決定力のパラメータを『背景決定力 D₀』の下に追加」・統括の検証項目 R87) =====
+// physics.backgroundComplex(第276便a の宣言専用鍵 —— {W0,A0,gradW,gradA,dWdt,dAdt,background,note})の**編集欄**。
+// **欄は宣言を書き換える UI であって既定値を変えない**: 未宣言は「未確定」と表示するだけで何も書かない。
+// 値を入れて「宣言する」を押したときだけ、受理器 validateBackgroundComplex を通した**正規化後の宣言**を
+// 編集対象(editSim() —— A/B 比較中は選択側)の params へ**新しいオブジェクトとして**置く(A/B の両側で参照を共有しない)。
+// 拒否は受理器のエラー文を**そのまま**出し、params は 1 bit も変えない。「未宣言に戻す」は鍵を undefined へ
+// (未宣言 = 未確定 —— ゼロとは違う。ゼロなら background:"zero")。
+// **presetSig への影響は宣言どおり**: 欄を出すだけ・開くだけでは params も presetSig も変わらない。宣言すると
+// params(= セーブの physics・⏮ の再構築)に鍵が入り、プリセットとして書き出せばその署名に入る(JSON に手で書いたのと同じ)。
+// 力学が読むのは従来どおり `physics.meshVelocity`(field:"backgroundComplex")を宣言した本の build 時の準備
+// `meshVelocityPrepare` だけ(= 走行中の宣言は ⏮ 初めから の再構築で効く)。**D₀ とは別鍵**で、W₀ を D₀ に流用しない。
+// sources/frame/refPos(任意鍵)はこの欄では編集せず、既存の宣言にあればそのまま引き継ぐ。
+const BGC_FIELDS=[   // [鍵, 成分数(0=スカラー), 単位の鍵]
+  ["W0",0,"W0"],["A0",2,"A0"],["gradW",2,"gradW"],["gradA",4,"gradA"],["dWdt",0,"dWdt"],["dAdt",2,"dAdt"]];
+const BGC_KEEP=["sources","frame","refPos"];
+let _bgcOpen=false;   // 欄の開閉(buildParamRows の組み直しをまたいで保つ・永続しない)
+let _bgcLastErr=null; // 直近の拒否 {sim,pid,err}(組み直し後も同じ文を出す。宣言/未宣言に戻す/編集対象・サンプルの切替で消える)
+function bgcState(S){
+  const cur=(S && S.params)? S.params[BG_COMPLEX_KEY] : undefined;
+  if(cur===undefined || cur===null) return {state:"undeclared", decl:null, err:null};
+  const v=validateBackgroundComplex(cur);
+  return v.ok? {state:"declared", decl:v.backgroundComplex, err:null} : {state:"invalid", decl:cur, err:v.err};
+}
+function _bgcParseNum(t){
+  const z=String(t).trim().replace(/[−ー–—－]/g,"-");
+  return (z==="")? undefined : Number(z);
+}
+function _bgcParseVec(t){
+  const z=String(t).trim();
+  if(z==="") return undefined;
+  return z.replace(/[−ー–—－]/g,"-").split(/[\s,、;]+/).filter((u)=>u!=="").map(Number);
+}
+function _bgcFmtV(v){ return Array.isArray(v)? v.map((u)=>String(u)).join(", ") : ((v===undefined||v===null)? "" : String(v)); }
+function buildBgComplexPanel(parent){
+  const S0=editSim();
+  const st=bgcState(S0);
+  const det=document.createElement("details"); det.id="bgcPanel"; det.className="bgcPanel";
+  det.dataset.state=st.state; det.open=_bgcOpen;
+  det.style.cssText="margin:0 0 6px;padding:2px 4px 4px;border-left:2px solid var(--line);";
+  det.addEventListener("toggle",()=>{ _bgcOpen=det.open; });
+  const sum=document.createElement("summary");
+  sum.style.cssText="cursor:pointer;font-size:calc(12px*var(--uz,1));padding:4px 0;";
+  sum.appendChild(document.createTextNode(T("bgcLabel")));
+  const chip=document.createElement("span"); chip.id="bgcStatus"; chip.className="statusChip";
+  chip.dataset.v=(st.state==="declared")? "pass" : ((st.state==="invalid")? "fail" : "n/a");
+  chip.style.cssText="margin-left:6px;";
+  chip.textContent=(st.state==="declared")? T("bgcDeclared")(st.decl.background)
+    : ((st.state==="invalid")? T("bgcInvalid") : T("bgcUndeclared"));
+  sum.appendChild(chip);
+  det.appendChild(sum);
+  // 短い 1 行(常に見える)+ ⓘ で全文(単位・値域・宣言の意味・presetSig への影響)を開閉する
+  const desc=document.createElement("div"); desc.id="bgcShort"; desc.className="note";
+  desc.style.cssText="font-size:calc(10.5px*var(--uz,1));line-height:1.45;padding:0 0 4px;";
+  desc.textContent=T("bgcShort");
+  const info=document.createElement("span"); info.className="catInfo"; info.id="bgcInfo"; info.textContent="ⓘ";
+  info.style.cssText="cursor:pointer;margin-left:4px;";
+  info.addEventListener("click",()=>{
+    const nx=desc.nextElementSibling;
+    if(nx && nx.id==="bgcDesc"){ nx.remove(); return; }
+    const d2=document.createElement("div"); d2.id="bgcDesc"; d2.className="pdesc open"; d2.textContent=T("bgcDesc");
+    desc.after(d2);
+  });
+  desc.appendChild(info);
+  det.appendChild(desc);
+  const grid=document.createElement("div"); grid.id="bgcFields";
+  grid.style.cssText="display:grid;grid-template-columns:auto 1fr;gap:3px 6px;align-items:center;";
+  const cellLab=(txt,forId)=>{ const l=document.createElement("label"); l.htmlFor=forId; l.textContent=txt;
+    l.style.cssText="font-size:calc(11px*var(--uz,1));white-space:nowrap;"; grid.appendChild(l); };
+  const d=st.decl||{};
+  // background(背景の出所)
+  cellLab("background","bgcBackground");
+  const sel=document.createElement("select"); sel.id="bgcBackground";
+  sel.style.cssText="min-height:32px;padding:2px 6px;";
+  { const o=document.createElement("option"); o.value=""; o.textContent=T("bgcBgNone"); sel.appendChild(o); }
+  for(const b of BG_COMPLEX_BACKGROUNDS){ const o=document.createElement("option"); o.value=b; o.textContent=b; sel.appendChild(o); }
+  sel.value=(typeof d.background==="string" && BG_COMPLEX_BACKGROUNDS.indexOf(d.background)>=0)? d.background : "";
+  grid.appendChild(sel);
+  const ins={};
+  for(const [k,nc,uk] of BGC_FIELDS){
+    const id="bgc_"+k;
+    cellLab(k+" ["+BG_COMPLEX_UNITS[uk]+"]",id);
+    const inp=document.createElement("input"); inp.type="text"; inp.id=id; inp.autocomplete="off";
+    inp.inputMode="text"; inp.dataset.key=k; inp.dataset.n=String(nc);
+    inp.placeholder=(nc===0)? T("bgcPhScalar") : T("bgcPhVec")(nc);
+    inp.style.cssText="width:100%;box-sizing:border-box;";
+    inp.value=_bgcFmtV(d[k]);
+    ins[k]=inp; grid.appendChild(inp);
+  }
+  cellLab("note","bgc_note");
+  const nt=document.createElement("input"); nt.type="text"; nt.id="bgc_note"; nt.autocomplete="off";
+  nt.maxLength=BG_COMPLEX_NOTE_MAX; nt.placeholder=T("bgcPhNote"); nt.style.cssText="width:100%;box-sizing:border-box;";
+  nt.value=(typeof d.note==="string")? d.note : "";
+  grid.appendChild(nt);
+  det.appendChild(grid);
+  const keep=BGC_KEEP.filter((k)=>d[k]!==undefined && d[k]!==null);
+  if(keep.length){ const kp=document.createElement("div"); kp.id="bgcKeep"; kp.className="note";
+    kp.style.cssText="font-size:calc(10.5px*var(--uz,1));padding:2px 0 0;";
+    kp.textContent=T("bgcKeep")(keep.join("/")); det.appendChild(kp); }
+  const btns=document.createElement("div"); btns.className="rowBtns"; btns.style.cssText="margin-top:4px;";
+  const bA=document.createElement("button"); bA.id="bgcApply"; bA.className="btn"; bA.textContent=T("bgcApply");
+  const bC=document.createElement("button"); bC.id="bgcClear"; bC.className="btn"; bC.textContent=T("bgcClear");
+  btns.appendChild(bA); btns.appendChild(bC); det.appendChild(btns);
+  const er=document.createElement("div"); er.id="bgcErr"; er.setAttribute("role","alert");
+  er.style.cssText="font-size:calc(11px*var(--uz,1));line-height:1.45;color:var(--errText);white-space:pre-wrap;";
+  const le=(_bgcLastErr && _bgcLastErr.sim===S0 && _bgcLastErr.pid===(currentPreset && currentPreset.id))? _bgcLastErr.err : "";
+  er.textContent=(st.state==="invalid")? st.err : le;
+  det.appendChild(er);
+  bA.addEventListener("click",()=>{
+    const cand={};
+    const S=editSim(), prev=bgcState(S);
+    if(prev.decl) for(const k of BGC_KEEP) if(prev.decl[k]!==undefined && prev.decl[k]!==null) cand[k]=JSON.parse(JSON.stringify(prev.decl[k]));
+    if(sel.value!=="") cand.background=sel.value;
+    for(const [k,nc] of BGC_FIELDS){ const v=(nc===0)? _bgcParseNum(ins[k].value) : _bgcParseVec(ins[k].value);
+      if(v!==undefined) cand[k]=v; }
+    if(nt.value!=="") cand.note=nt.value;
+    const r=bgcApply(S,cand);
+    if(!r.ok){ _bgcLastErr={sim:S, pid:currentPreset && currentPreset.id, err:r.err}; er.textContent=r.err; return; }
+    _bgcLastErr=null;
+    notify(T("bgcApplied"),3500);
+    buildParamRows();
+  });
+  bC.addEventListener("click",()=>{ bgcApply(editSim(),null); _bgcLastErr=null; buildParamRows(); });
+  parent.appendChild(det);
+  return det;
+}
+// 宣言の書き込み口(UI と QA が共用)。cand=null は「未宣言に戻す」。拒否なら params を 1 bit も変えない
+function bgcApply(S,cand){
+  if(!S || !S.params) return {ok:false, err:"no sim"};
+  if(cand===null || cand===undefined){
+    if(S.params[BG_COMPLEX_KEY]!==undefined){ S.params[BG_COMPLEX_KEY]=undefined; setParamsDirty(true); requestRender(); }
+    return {ok:true, backgroundComplex:null};
+  }
+  const v=validateBackgroundComplex(cand);
+  if(!v.ok) return v;
+  S.params[BG_COMPLEX_KEY]=JSON.parse(JSON.stringify(v.backgroundComplex));   // 新しいオブジェクト(A/B で共有しない)
+  setParamsDirty(true); requestRender();
+  return v;
+}
 function buildParamRows(){
   updateAbQuickRow();
   updatePhaseMapRow();   // 第83便B: 相図ランナー(phaseMap 宣言のあるプリセットのみ)
@@ -31084,6 +31289,8 @@ function buildParamRows(){
     // **表示専用の 1 行**を常設する(実行中の 3 は、lawVersion の宣言が無い保存 JSON では
     // 読み込み時に 2 へ丸められる)。プリセット署名にも力学にも 1 bit も効かない
     for(const def of catDefs("dg")){ if(def.key==="q") g.appendChild(qlRow); mkParamRow(def,g);
+      // 第283便d(原仮定者の裁定(第73報)⑥・R87): 「背景決定力 D₀」の**直下**に背景複素決定力の宣言欄
+      if(def.key==="D0") buildBgComplexPanel(g);
       if(def.key==="geoPN"){ const nt=document.createElement("div"); nt.id="geoToySaveNote";
         nt.className="note"; nt.style.cssText="font-size:calc(10.5px*var(--uz,1));line-height:1.45;padding:0 4px 4px;";
         nt.textContent=T("geoToySaveNote"); g.appendChild(nt); } } }
@@ -44857,6 +45064,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // W₀([M/L²])・A₀([M/(L·T)])とその空間/時間微分を D₀([M/L])とは**別の鍵**で持つ。
   // QA preset.backgroundComplex-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
   validateBackgroundComplex, BG_COMPLEX_KEY, BG_COMPLEX_BACKGROUNDS, BG_COMPLEX_NOTE_MAX, BG_COMPLEX_UNITS,
+  // 第283便d(R87): 背景複素決定力の宣言欄の読み口/書き口(UI と同じ関数)と、空間メッシュの線の固定スタイル表
+  bgcState:(S)=>bgcState(S||editSim()), bgcApply:(S,c)=>bgcApply(S||editSim(),c),
+  spaceMeshLineStyle:()=>JSON.parse(JSON.stringify(SPACE_MESH_LINE_STYLE)),
   BG_COMPLEX_REQUIRED, BG_COMPLEX_STRICT,
   // 第278便d(統括の読み R56): **潮汐テンソル T** の宣言鍵(**宣言専用** —— エンジンは 1 箇所も読まない・
   // backgroundComplex とは別鍵)。QA preset.backgroundTidal が受理契約・内蔵 0 本・読み口 0 を機械固定する
