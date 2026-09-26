@@ -16707,12 +16707,15 @@ if (!FAST) {
       // 第283便a(原仮定者の裁定(第73報)AN23): geoPN=1 も 1PN の反作用を自由源へ返す —— 旧来の対照「geoPN=1(開放 1PN)は
       //   ΔL 比が約 26 倍大きい」(基点 de9e39b の実測 1.71e-4)はもう立たない。**固定値を変えた**: geoPN=1(kFrame=0)も
       //   |ΔΣP|/Σm|v|<1e-4・|ΔΣL|/|L₀|<1e-4 で閉じる(第283便a の実測 relL=2.54e-5 —— geoPN=2・kFrame=0 とビット同一)
+      // 統合(第283便): root(v1.44.0 RC)は旧則(geoPN=1 は反作用を返さない)のまま —— 2 フラグ表 GEO_CORE_PN の有無で固定値を分ける
+      const geoNewRule = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('const GEO_CORE_PN=') >= 0;
       add('geo2.conservation', !r.c2.nan && !r.c1.nan && r.c2.resP === 0
-        && relP2 < 1e-4 && relL2 < 1e-4 && relP1 < 1e-4 && relL1 < 1e-4,
+        && relP2 < 1e-4 && relL2 < 1e-4 && (geoNewRule ? (relP1 < 1e-4 && relL1 < 1e-4) : (relL2 < relL1 * 0.2)),
         `自由連星+惑星2(D0=0・3000步)の帳簿: geoPN=2 で |ΔΣP|/Σm|v|=${relP2.toExponential(2)}` +
         `(<1e-4)・|ΔΣL|/|L₀|=${relL2.toExponential(2)}(<1e-4・リザーバ=0のまま) / ` +
-        `geoPN=1(kFrame=0)も反作用を返すので |ΔΣP|/Σm|v|=${relP1.toExponential(2)}・ΔL 比=${relL1.toExponential(2)}(<1e-4 —— 第283便a・AN23。` +
-        `第282便b までの開放 1PN は 1.71e-4)`);
+        (geoNewRule
+          ? `geoPN=1(kFrame=0)も反作用を返すので |ΔΣP|/Σm|v|=${relP1.toExponential(2)}・ΔL 比=${relL1.toExponential(2)}(<1e-4 —— 第283便a・AN23。第282便b までの開放 1PN は 1.71e-4)`
+          : `geoPN=1(開放 1PN・旧則)は ΔL 比=${relL1.toExponential(2)} — 対反作用で ${(relL1 / relL2).toFixed(1)}倍閉じる(較正実測26倍。§18.4 反作用返し)`));
     } else {
       console.log('SKIP geo2.*(対象に geoPN=2 未実装 — root 等。第69便 P4b/E12v2)');
     }
