@@ -12,8 +12,8 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
-  "generatedAt": "2026-09-26T07:32:49.183Z",
+  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+  "generatedAt": "2026-09-26T10:37:55.319Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -23,9 +23,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2815702,
-    "sha256": "0fe97dd36ce5f79a62732e28e5947c285d5a08ae749adf6db3d83ef083b3b200",
-    "mtime": "2026-09-26T05:56:23.392Z"
+    "bytes": 2815722,
+    "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
+    "mtime": "2026-09-26T09:46:19.584Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -35,17 +35,17 @@
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 47604,
-    "sha256": "cedbef562cf658147af1e5cad7bbf96a2f0c77ae4b3db84620c16c1c86f56f6e",
-    "mtime": "2026-09-26T07:32:49.156Z"
+    "bytes": 76851,
+    "sha256": "194caa23f94acd6d0917cebf915551005d839565b9f94b1a454f2baf345a5fe5",
+    "mtime": "2026-09-26T10:37:55.287Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w279a-samplestatus.mjs",
-    "bytes": 15287,
-    "sha256": "4748dd7356dc847f31a76a845169cd91ebd1199c7fcf3961d47d9a874ccdbb43",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "bytes": 22300,
+    "sha256": "28adc0a95b1214641a8346bac5ad755874bdd65444ed9da116996143cbca98c2",
+    "mtime": "2026-09-26T09:35:50.340Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
@@ -60,12 +60,12 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "dd9d3d7276f5a2a355b7718a70baf4cde99977af80ef7aa66b65c60e4dea6181",
+  "codeSha256": "08e3bd0bbd2b13d716365cb2115f2e9346ba1b929f202e5701271729eff14bd4",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "954aab9190e92ee018bc387ed8e5ad68585c3b68",
-   "date": "2026-09-25T11:48:58.650Z",
-   "pass": 891
+   "commit": "ceafecf0016562027a8c7436a495e177e89d5f62",
+   "date": "2026-09-26T07:59:50.443Z",
+   "pass": 897
   }
  },
  "tally": {
@@ -190,7 +190,54 @@
     },
     "brief": "重力の強さだけを変えて時計の遅れを比べる。達・τ/t と解析値の差 1.1×10⁻⁵。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 13694,
+     "tests": [
+      {
+       "id": "new.gclock",
+       "ms": 13481,
+       "pass": true
+      },
+      {
+       "id": "shot.regress-gclock",
+       "ms": 188,
+       "pass": true
+      },
+      {
+       "id": "preset.gclock",
+       "ms": 25,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "grcal",
@@ -218,7 +265,64 @@
     },
     "brief": "時計・光の偏向・遅延を 1 本の弱場則で出す。達・式の値 5 つが事前登録窓 ±1% 内(縮尺模型)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 8,
+     "ms": 229,
+     "tests": [
+      {
+       "id": "behavior.grcal3",
+       "ms": 93,
+       "pass": true
+      },
+      {
+       "id": "preset.grcalGps",
+       "ms": 46,
+       "pass": true
+      },
+      {
+       "id": "preset.grcal",
+       "ms": 32,
+       "pass": true
+      },
+      {
+       "id": "preset.grcalLight",
+       "ms": 31,
+       "pass": true
+      },
+      {
+       "id": "preset.grcalShapiro",
+       "ms": 19,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "grcalGps",
@@ -245,7 +349,49 @@
     },
     "brief": "GPS の時計差を重力項と速度項に分ける。達・式の値 正味 38.50 μs/日が窓 ±1% 内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 139,
+     "tests": [
+      {
+       "id": "behavior.grcal3",
+       "ms": 93,
+       "pass": true
+      },
+      {
+       "id": "preset.grcalGps",
+       "ms": 46,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "grcalLight",
@@ -272,7 +418,49 @@
     },
     "brief": "太陽縁の光の偏向を同じ場から出す。達・式の値 1.7509″ が窓 ±1% 内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 124,
+     "tests": [
+      {
+       "id": "behavior.grcal3",
+       "ms": 93,
+       "pass": true
+      },
+      {
+       "id": "preset.grcalLight",
+       "ms": 31,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "grcalShapiro",
@@ -299,7 +487,49 @@
     },
     "brief": "太陽の近くを往復する信号の遅れを見せる。達・式の値 281.0 μs が窓 ±1% 内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 112,
+     "tests": [
+      {
+       "id": "behavior.grcal3",
+       "ms": 93,
+       "pass": true
+      },
+      {
+       "id": "preset.grcalShapiro",
+       "ms": 19,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "projectile",
@@ -327,7 +557,49 @@
     },
     "brief": "一様重力だけで自由落下と放物運動を見せる。部分・場の式と配置の検査のみで軌道の定量門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 15,
+     "tests": [
+      {
+       "id": "preset.projectile",
+       "ms": 15,
+       "pass": true
+      },
+      {
+       "id": "projectile.layout",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "echo",
@@ -355,7 +627,64 @@
     },
     "brief": "保存系は巻き戻り摩擦系は戻らないことを比べる。達・反転後の復帰と摩擦での不復帰が門を通過。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 8,
+     "ms": 1004,
+     "tests": [
+      {
+       "id": "echo.leapfrog-return",
+       "ms": 442,
+       "pass": true
+      },
+      {
+       "id": "echo.hud",
+       "ms": 361,
+       "pass": true
+      },
+      {
+       "id": "shot.regress-echo",
+       "ms": 138,
+       "pass": true
+      },
+      {
+       "id": "preset.echo",
+       "ms": 55,
+       "pass": true
+      },
+      {
+       "id": "echo.schema-clamp",
+       "ms": 8,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "boxtrans",
@@ -382,7 +711,44 @@
     },
     "brief": "並進する箱の中で共動と時計を比べる。達・共動 τ/t 0.9994・固有運動 0.9881 が門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 158,
+     "tests": [
+      {
+       "id": "preset.boxtrans",
+       "ms": 158,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "boxrot",
@@ -409,7 +775,44 @@
     },
     "brief": "回る壁が軌道を支えるかを kF で比べる。達・半径比 kF1 0.988・kF0 3.71(外部駆動)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 216,
+     "tests": [
+      {
+       "id": "preset.boxrot",
+       "ms": 216,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "boxexpand",
@@ -436,7 +839,44 @@
     },
     "brief": "膨張させた壁に内側がどこまで追随するかを測る。達・追随は a でなく √a(比 0.9996)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 304,
+     "tests": [
+      {
+       "id": "preset.boxexpand",
+       "ms": 304,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "boxcomoving",
@@ -463,7 +903,49 @@
     },
     "brief": "連続背景で完全共動と膨張の時計を見せる。達・赤方偏移が規定 a(t) と相対 1e-6 未満。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 399,
+     "tests": [
+      {
+       "id": "shot.regress-boxcomoving",
+       "ms": 285,
+       "pass": true
+      },
+      {
+       "id": "preset.boxcomoving",
+       "ms": 114,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "boxbound",
@@ -490,7 +972,49 @@
     },
     "brief": "膨張の中で連星の束縛が残るかを測る。達・宣言した膨張率と時間窓の門を通過。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 359,
+     "tests": [
+      {
+       "id": "behavior.boxbound",
+       "ms": 316,
+       "pass": true
+      },
+      {
+       "id": "preset.boxbound",
+       "ms": 43,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "boxbreath",
@@ -517,7 +1041,44 @@
     },
     "brief": "膨張と収縮を 1 周期戻して変位を測る。達・1 周期後 RMS 0.049 が門 <1 を通過。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 114,
+     "tests": [
+      {
+       "id": "preset.boxbreath",
+       "ms": 114,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "boxredshift",
@@ -544,7 +1105,54 @@
     },
     "brief": "共動する 3 点の間で光の赤方偏移を比べる。達・z_A 2.93・z_B 0.958 が窓内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 203,
+     "tests": [
+      {
+       "id": "shot.regress-boxredshift",
+       "ms": 130,
+       "pass": true
+      },
+      {
+       "id": "box.photon-abc",
+       "ms": 60,
+       "pass": true
+      },
+      {
+       "id": "preset.boxredshift",
+       "ms": 13,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "probeH",
@@ -571,7 +1179,49 @@
     },
     "brief": "幾何と速度の 2 つの H 推定器の差を見せる。達・2 つの読みが解析値と 1% 内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 206,
+     "tests": [
+      {
+       "id": "behavior.probeH",
+       "ms": 121,
+       "pass": true
+      },
+      {
+       "id": "preset.probeH",
+       "ms": 85,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "freebox",
@@ -598,7 +1248,64 @@
     },
     "brief": "自由な壁の重力と圧力で膨張を作る。達・4 象限対照で加速の源は圧力。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 11,
+     "ms": 2208,
+     "tests": [
+      {
+       "id": "freebox.pressure-expand",
+       "ms": 1232,
+       "pass": true
+      },
+      {
+       "id": "preset.freebox",
+       "ms": 461,
+       "pass": true
+      },
+      {
+       "id": "shot.regress-freebox",
+       "ms": 268,
+       "pass": true
+      },
+      {
+       "id": "freebox.graph-measured",
+       "ms": 227,
+       "pass": true
+      },
+      {
+       "id": "freebox.no-rail-badge",
+       "ms": 15,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "cosmicweb",
@@ -625,7 +1332,49 @@
     },
     "brief": "膨張と自己重力の綱引きで疎密を作る。達・δ² 5.4 倍・膨張なし対照で成長が大。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 4248,
+     "tests": [
+      {
+       "id": "preset.cosmicweb",
+       "ms": 4248,
+       "pass": true
+      },
+      {
+       "id": "behavior.cosmicweb",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "galaxy",
@@ -652,7 +1401,88 @@
     },
     "brief": "中心天体の引きずりで外縁の回転が速まるかを測る。達・外縁速度比 1.526 が門 >1.04 を通過。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "sparc",
+      "sec": 192,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "cluster",
+      "sec": 84,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgbudget2",
+      "sec": 77,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 22,
+     "ms": 334743,
+     "tests": [
+      {
+       "id": "claim.galaxygeo2-outerboost",
+       "ms": 164471,
+       "pass": true
+      },
+      {
+       "id": "claim.galaxystd-outerboost",
+       "ms": 64575,
+       "pass": true
+      },
+      {
+       "id": "claim.galaxydb-contrast",
+       "ms": 50561,
+       "pass": true
+      },
+      {
+       "id": "preset.galaxyGeoToyCopy",
+       "ms": 9335,
+       "pass": true
+      },
+      {
+       "id": "preset.galaxyMeshSpiralGeoToy",
+       "ms": 7191,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "galaxyStd",
@@ -679,7 +1509,49 @@
     },
     "brief": "重力と引きずりだけで外縁の増速を測る基準。達・外縁速度比 1.267 が窓 1.15〜1.4 内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 69060,
+     "tests": [
+      {
+       "id": "claim.galaxystd-outerboost",
+       "ms": 64575,
+       "pass": true
+      },
+      {
+       "id": "preset.galaxyStd",
+       "ms": 4485,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "galaxyGeo2",
@@ -706,7 +1578,49 @@
     },
     "brief": "v−u 測地線則で外縁の増速を比べる。達・外縁速度比 1.195 が窓内・クランプ 0。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 170641,
+     "tests": [
+      {
+       "id": "claim.galaxygeo2-outerboost",
+       "ms": 164471,
+       "pass": true
+      },
+      {
+       "id": "preset.galaxyGeo2",
+       "ms": 6170,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "galaxyDB",
@@ -733,7 +1647,49 @@
     },
     "brief": "円盤の回転支持とバルジの分散支持を比べる。達・速度分散の比 2.37 が窓 2.2〜3.0 内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 53998,
+     "tests": [
+      {
+       "id": "claim.galaxydb-contrast",
+       "ms": 50561,
+       "pass": true
+      },
+      {
+       "id": "preset.galaxyDB",
+       "ms": 3437,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "darkrotor",
@@ -760,7 +1716,64 @@
     },
     "brief": "暗いローターが作る腕の強さと減光を測る。達・腕の強さ・保持・減光が長時間の門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 8,
+     "ms": 7553,
+     "tests": [
+      {
+       "id": "shot.regress-darkrotor",
+       "ms": 4160,
+       "pass": true
+      },
+      {
+       "id": "preset.darkrotor",
+       "ms": 3341,
+       "pass": true
+      },
+      {
+       "id": "darkrotor.uphi",
+       "ms": 21,
+       "pass": true
+      },
+      {
+       "id": "darkrotor.allfree",
+       "ms": 18,
+       "pass": true
+      },
+      {
+       "id": "behavior.darkrotor-multiseed",
+       "ms": 12,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "rotorSolo",
@@ -787,7 +1800,49 @@
     },
     "brief": "単体ローターの掻き出しと減光を測る。達・掻き出し・非脱出・帳簿が門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 1048,
+     "tests": [
+      {
+       "id": "behavior.rotorSolo",
+       "ms": 927,
+       "pass": true
+      },
+      {
+       "id": "preset.rotorSolo",
+       "ms": 121,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "nebulaRotor",
@@ -814,7 +1869,49 @@
     },
     "brief": "ローター群で暗いコアと明るい外層を作る。達・明暗のコントラスト 11.5 倍が門 >10。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 4497,
+     "tests": [
+      {
+       "id": "claim.nebularotor-contrast",
+       "ms": 4151,
+       "pass": true
+      },
+      {
+       "id": "preset.nebulaRotor",
+       "ms": 346,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "nebulaShell",
@@ -841,7 +1938,49 @@
     },
     "brief": "重い殻で束縛と暗さを両立させる。達・暗さ 0.962・保持 1.000 が窓内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 3660,
+     "tests": [
+      {
+       "id": "claim.nebulashell-stress",
+       "ms": 3305,
+       "pass": true
+      },
+      {
+       "id": "preset.nebulaShell",
+       "ms": 355,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "nebulaBipolar",
@@ -868,7 +2007,54 @@
     },
     "brief": "暗い赤道帯と明るい極方向の形を作る。達・3 seed で極方向比の最小 0.614 が窓内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 21097,
+     "tests": [
+      {
+       "id": "claim.nebulabipolar-multiseed",
+       "ms": 15491,
+       "pass": true
+      },
+      {
+       "id": "claim.nebulabipolar-polar",
+       "ms": 5434,
+       "pass": true
+      },
+      {
+       "id": "preset.nebulaBipolar",
+       "ms": 172,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "bhCore",
@@ -895,7 +2081,65 @@
     },
     "brief": "自由な多層の中心のスピン移送と減光を測る。達・外縁増強 1.506・自走・減光が門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "analogy",
+      "sec": 148,
+      "share": 8,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 4,
+     "ms": 59277,
+     "tests": [
+      {
+       "id": "claim.bhcore-selfdrive",
+       "ms": 52899,
+       "pass": true
+      },
+      {
+       "id": "preset.bhCore",
+       "ms": 3291,
+       "pass": true
+      },
+      {
+       "id": "preset.bhCoreTilt",
+       "ms": 3087,
+       "pass": true
+      },
+      {
+       "id": "claim.bhcore-free",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "bhCoreTilt",
@@ -922,7 +2166,44 @@
     },
     "brief": "中心コアの軸を横倒しにした暗い中心を見せる。達・横倒しでも減光 1.000・Jz は機械ゼロ。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 3087,
+     "tests": [
+      {
+       "id": "preset.bhCoreTilt",
+       "ms": 3087,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "massLadder",
@@ -949,7 +2230,49 @@
     },
     "brief": "暗い中心の力学質量を 3 段で比べる。達・質量比 1.96・3.84 が窓内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 6190,
+     "tests": [
+      {
+       "id": "claim.massladder",
+       "ms": 5669,
+       "pass": true
+      },
+      {
+       "id": "preset.massLadder",
+       "ms": 521,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "collapse",
@@ -976,7 +2299,64 @@
     },
     "brief": "自己重力の崩壊と放射冷却の役割を分ける。達・冷却は温度を下げるが崩壊の速さは変えない。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 6,
+     "ms": 24766,
+     "tests": [
+      {
+       "id": "collapse.rotation",
+       "ms": 22936,
+       "pass": true
+      },
+      {
+       "id": "preset.collapse",
+       "ms": 1618,
+       "pass": true
+      },
+      {
+       "id": "behavior.collapseRControl",
+       "ms": 163,
+       "pass": true
+      },
+      {
+       "id": "ai.help-collapsed",
+       "ms": 49,
+       "pass": true
+      },
+      {
+       "id": "behavior.collapse-cooling",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "axisBarStill",
@@ -1004,7 +2384,44 @@
     },
     "brief": "回転のない円盤で軸への力が棒を作るかを見る。部分・力の純関数は検査済み・棒の形の門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 6465,
+     "tests": [
+      {
+       "id": "preset.axisBarStill",
+       "ms": 6465,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "axisBarArms",
@@ -1032,7 +2449,44 @@
     },
     "brief": "回転する同じ円盤で内側の棒と外側の腕を見る。部分・力の純関数は検査済み・腕の形の門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 6209,
+     "tests": [
+      {
+       "id": "preset.axisBarArms",
+       "ms": 6209,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "axisBarReach",
@@ -1060,7 +2514,44 @@
     },
     "brief": "到達長だけを変えて棒の長さを比べる。部分・力の純関数は検査済み・長さの門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 6032,
+     "tests": [
+      {
+       "id": "preset.axisBarReach",
+       "ms": 6032,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "selfRotor",
@@ -1087,7 +2578,54 @@
     },
     "brief": "一様な雲から暗く回る中心が育つかを見る。達・4 seed で質量比の最小 18.3%・対照の 33 倍。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 1275,
+     "tests": [
+      {
+       "id": "preset.selfRotor",
+       "ms": 1275,
+       "pass": true
+      },
+      {
+       "id": "behavior.selfrotor",
+       "ms": 0,
+       "pass": true
+      },
+      {
+       "id": "behavior.selfrotor-multiseed",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "galaxyMeshSpiral",
@@ -1114,7 +2652,60 @@
     },
     "brief": "銀河の空間メッシュを局所場と物質線で表す。達・場の加算・単調性・物質線を純関数で確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "analogy",
+      "sec": 148,
+      "share": 8,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 12555,
+     "tests": [
+      {
+       "id": "preset.galaxyMeshSpiralGeoToy",
+       "ms": 7191,
+       "pass": true
+      },
+      {
+       "id": "preset.galaxyMeshSpiral",
+       "ms": 3624,
+       "pass": true
+      },
+      {
+       "id": "preset.galaxyMeshSpiralGeoToyLite",
+       "ms": 1740,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "galaxyMeshSpiralGeoToy",
@@ -1142,7 +2733,55 @@
     },
     "brief": "🎠 の配置で法則だけ geoPN=3 に替えて比べる。部分・600 歩の走行と帳簿は確認・形の門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "analogy",
+      "sec": 148,
+      "share": 8,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 8931,
+     "tests": [
+      {
+       "id": "preset.galaxyMeshSpiralGeoToy",
+       "ms": 7191,
+       "pass": true
+      },
+      {
+       "id": "preset.galaxyMeshSpiralGeoToyLite",
+       "ms": 1740,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "galaxyMeshSpiralGeoToyLite",
@@ -1169,7 +2808,50 @@
     },
     "brief": "🪁 を円盤 80 粒に軽くした比較用の写し。部分・準備経路のビット同一は確認・形の門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "analogy",
+      "sec": 148,
+      "share": 8,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 1740,
+     "tests": [
+      {
+       "id": "preset.galaxyMeshSpiralGeoToyLite",
+       "ms": 1740,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "galaxyAnalogyBH",
@@ -1196,7 +2878,50 @@
     },
     "brief": "中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー。部分・中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "analogy",
+      "sec": 148,
+      "share": 8,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 3261,
+     "tests": [
+      {
+       "id": "preset.galaxyAnalogyBH",
+       "ms": 3261,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "shapeToyCluster",
@@ -1224,7 +2949,61 @@
     },
     "brief": "指定した 3D 正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapetoy",
+      "sec": 265,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corefield",
+      "sec": 187,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 2082,
+     "tests": [
+      {
+       "id": "preset.shapeToyClusterCore",
+       "ms": 1122,
+       "pass": true
+      },
+      {
+       "id": "preset.shapeToyCluster",
+       "ms": 960,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "shapeToyDisk",
@@ -1252,7 +3031,55 @@
     },
     "brief": "指定した薄い回転円盤を保つ参照模型。未達・形状トイの門で KS 比 1.330 が不合格。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapetoy",
+      "sec": 265,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 2719,
+     "tests": [
+      {
+       "id": "preset.shapeToyDiskCore",
+       "ms": 1383,
+       "pass": true
+      },
+      {
+       "id": "preset.shapeToyDisk",
+       "ms": 1336,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "shapeToyArm",
@@ -1280,7 +3107,55 @@
     },
     "brief": "腕の軸に対する正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapetoy",
+      "sec": 265,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 1110,
+     "tests": [
+      {
+       "id": "preset.shapeToyArm",
+       "ms": 603,
+       "pass": true
+      },
+      {
+       "id": "preset.shapeToyArmCore",
+       "ms": 507,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "shapeToyClusterCore",
@@ -1308,7 +3183,50 @@
     },
     "brief": "中心スピンに依存する力学で星団を束ねる。達・Core 力学の門を通過(RMS 偏り 0.0101)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corefield",
+      "sec": 187,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 1122,
+     "tests": [
+      {
+       "id": "preset.shapeToyClusterCore",
+       "ms": 1122,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "shapeToyDiskCore",
@@ -1336,7 +3254,50 @@
     },
     "brief": "中心スピンから薄さと円盤の回転を作る。達・Core 力学の門を通過(逆行率 0.0352)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corefield",
+      "sec": 187,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 1383,
+     "tests": [
+      {
+       "id": "preset.shapeToyDiskCore",
+       "ms": 1383,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "shapeToyArmCore",
@@ -1364,7 +3325,50 @@
     },
     "brief": "面内の自転軸に沿った棒を作る。達・Core 力学の門を通過(RMS 偏り 0.0060)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corefield",
+      "sec": 187,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 507,
+     "tests": [
+      {
+       "id": "preset.shapeToyArmCore",
+       "ms": 507,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "lensing",
@@ -1392,7 +3396,49 @@
     },
     "brief": "重力場で光線が曲がり捕まることを見せる。部分・画像回帰と光速宣言の検査のみ。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 179,
+     "tests": [
+      {
+       "id": "shot.regress-lensing",
+       "ms": 148,
+       "pass": true
+      },
+      {
+       "id": "preset.lensing",
+       "ms": 31,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "spinlens",
@@ -1419,7 +3465,49 @@
     },
     "brief": "回る星の場で光の曲がりが非対称になるかを見る。達・非対称度 0.678・kF0 対照で 0。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 24,
+     "tests": [
+      {
+       "id": "preset.spinlens",
+       "ms": 24,
+       "pass": true
+      },
+      {
+       "id": "spinlens.kframe-control",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "blens",
@@ -1446,7 +3534,49 @@
     },
     "brief": "上下の連星で光線束が曲がる向きを見る。達・上下で偏向の符号が反転し門を通過。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 48,
+     "tests": [
+      {
+       "id": "preset.blens",
+       "ms": 29,
+       "pass": true
+      },
+      {
+       "id": "behavior.blens",
+       "ms": 19,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "reddening",
@@ -1473,7 +3603,49 @@
     },
     "brief": "波長ごとの吸収で雲越しの光が赤へ寄るかを見る。達・青/赤の比 0.0154 が窓内・用量反応は一定。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 327,
+     "tests": [
+      {
+       "id": "preset.reddening",
+       "ms": 298,
+       "pass": true
+      },
+      {
+       "id": "claim.reddening",
+       "ms": 29,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "gas",
@@ -1500,7 +3672,82 @@
     },
     "brief": "温度差のある気体が熱平衡へ向かうかを見る。達・温度分散の比 0.647 が門 <0.75 を通過。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "emgrid",
+      "sec": 2295,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "analogy",
+      "sec": 148,
+      "share": 8,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 6,
+     "ms": 30214,
+     "tests": [
+      {
+       "id": "behavior.gas",
+       "ms": 25672,
+       "pass": true
+      },
+      {
+       "id": "shot.regress-gas",
+       "ms": 2242,
+       "pass": true
+      },
+      {
+       "id": "preset.gas",
+       "ms": 2095,
+       "pass": true
+      },
+      {
+       "id": "behavior.gasCohSurface",
+       "ms": 179,
+       "pass": true
+      },
+      {
+       "id": "preset.gasCohSurface",
+       "ms": 26,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "pressure",
@@ -1527,7 +3774,59 @@
     },
     "brief": "熱の斥力が周りの気体を押し広げるかを測る。達・半径比 1.18・熱斥力 0 の対照 1.02。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 4,
+     "ms": 20490,
+     "tests": [
+      {
+       "id": "behavior.pressure",
+       "ms": 12005,
+       "pass": true
+      },
+      {
+       "id": "behavior.geoToyBandPressure",
+       "ms": 5143,
+       "pass": true
+      },
+      {
+       "id": "preset.pressure",
+       "ms": 2110,
+       "pass": true
+      },
+      {
+       "id": "freebox.pressure-expand",
+       "ms": 1232,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "conduction",
@@ -1554,7 +3853,59 @@
     },
     "brief": "接触なしの粒の列で熱が伝わるかを見る。達・距離に応じた温度の順と減衰比が門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 4,
+     "ms": 723,
+     "tests": [
+      {
+       "id": "behavior.conduction",
+       "ms": 596,
+       "pass": true
+      },
+      {
+       "id": "preset.conduction",
+       "ms": 95,
+       "pass": true
+      },
+      {
+       "id": "conduction.pinned-zero-cost",
+       "ms": 21,
+       "pass": true
+      },
+      {
+       "id": "conduction.pinned-bath",
+       "ms": 11,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "frictionHeat",
@@ -1581,7 +3932,44 @@
     },
     "brief": "摩擦で運動が熱へ移ることを見せる。部分・受理と構築の検査のみで熱移送の門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 848,
+     "tests": [
+      {
+       "id": "preset.frictionHeat",
+       "ms": 848,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "coolrace",
@@ -1608,7 +3996,49 @@
     },
     "brief": "高温ほど速く冷えることを比べる。達・冷却速度比 15.8/15.1(理論 16)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 17,
+     "tests": [
+      {
+       "id": "preset.coolrace",
+       "ms": 16,
+       "pass": true
+      },
+      {
+       "id": "new.coolrace",
+       "ms": 1,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "convection",
@@ -1635,7 +4065,59 @@
     },
     "brief": "壁からの加熱で対流を保つ。達・循環 17.9・熱流の収支差 0.5% が門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 4,
+     "ms": 3874,
+     "tests": [
+      {
+       "id": "shot.regress-convection",
+       "ms": 2097,
+       "pass": true
+      },
+      {
+       "id": "preset.convection",
+       "ms": 1766,
+       "pass": true
+      },
+      {
+       "id": "perf.convection-timescale",
+       "ms": 11,
+       "pass": true
+      },
+      {
+       "id": "behavior.convection",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "buoyancy",
@@ -1662,7 +4144,49 @@
     },
     "brief": "重力場で重い粒と軽い粒が分かれるかを見る。達・平均高さの差 163.8 が門 >20 を通過。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 2552,
+     "tests": [
+      {
+       "id": "preset.buoyancy",
+       "ms": 2552,
+       "pass": true
+      },
+      {
+       "id": "behavior.buoyancy",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "cooling",
@@ -1689,7 +4213,49 @@
     },
     "brief": "冷たい壁へ熱が逃げていく様子を見せる。部分・受理と構築の検査のみで冷却の門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 1650,
+     "tests": [
+      {
+       "id": "preset.cooling",
+       "ms": 1650,
+       "pass": true
+      },
+      {
+       "id": "behavior.collapse-cooling",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "emergent",
@@ -1716,7 +4282,64 @@
     },
     "brief": "結合の予算だけで三態を作る。部分・多 seed の門は通過・摂動回復は通らず E1。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 5,
+     "ms": 2656,
+     "tests": [
+      {
+       "id": "preset.emergent2",
+       "ms": 1776,
+       "pass": true
+      },
+      {
+       "id": "preset.emergent",
+       "ms": 880,
+       "pass": true
+      },
+      {
+       "id": "phasechange.emergent",
+       "ms": 0,
+       "pass": true
+      },
+      {
+       "id": "phasechange.emergent2",
+       "ms": 0,
+       "pass": true
+      },
+      {
+       "id": "behavior.phase-multiseed",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "emergent2",
@@ -1743,7 +4366,54 @@
     },
     "brief": "結合の予算と角度で蜂の巣の格子を作る。部分・多 seed の門は通過・摂動回復は通らず E1。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 1776,
+     "tests": [
+      {
+       "id": "preset.emergent2",
+       "ms": 1776,
+       "pass": true
+      },
+      {
+       "id": "phasechange.emergent2",
+       "ms": 0,
+       "pass": true
+      },
+      {
+       "id": "behavior.phase-multiseed",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "chain2",
@@ -1770,7 +4440,54 @@
     },
     "brief": "予算 2 と理想角 180° で鎖を作る。部分・多 seed の門は通過・摂動回復は通らず E1。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 902,
+     "tests": [
+      {
+       "id": "preset.chain2",
+       "ms": 902,
+       "pass": true
+      },
+      {
+       "id": "phasechange.chain2",
+       "ms": 0,
+       "pass": true
+      },
+      {
+       "id": "behavior.phase-multiseed",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "chaincycle",
@@ -1798,7 +4515,54 @@
     },
     "brief": "壁温だけで鎖の凍結と解離を往復させる。達・凍結末と解離末の窓を通過(E1)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 1193,
+     "tests": [
+      {
+       "id": "preset.chaincycle",
+       "ms": 1193,
+       "pass": true
+      },
+      {
+       "id": "claim.chaincycle",
+       "ms": 0,
+       "pass": true
+      },
+      {
+       "id": "behavior.phase-multiseed",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "earthMoon",
@@ -1825,7 +4589,64 @@
     },
     "brief": "同期自転する月の公転を見せる誇張模型。達・距離 ±2%・同期誤差 0.10°/周が門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 8,
+     "ms": 2258,
+     "tests": [
+      {
+       "id": "behavior.earthMoonFree",
+       "ms": 1213,
+       "pass": true
+      },
+      {
+       "id": "behavior.earthMoon",
+       "ms": 317,
+       "pass": true
+      },
+      {
+       "id": "preset.earthMoon",
+       "ms": 294,
+       "pass": true
+      },
+      {
+       "id": "shot.regress-earthMoon",
+       "ms": 130,
+       "pass": true
+      },
+      {
+       "id": "preset.earthMoonFree",
+       "ms": 127,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "earthMoonFree",
@@ -1852,7 +4673,49 @@
     },
     "brief": "どちらも固定しない地球–月の二体を保つ。達・10 周で距離 ±1%・重心移動が門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 1340,
+     "tests": [
+      {
+       "id": "behavior.earthMoonFree",
+       "ms": 1213,
+       "pass": true
+      },
+      {
+       "id": "preset.earthMoonFree",
+       "ms": 127,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "earthMoonReal",
@@ -1887,6 +4750,63 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 69.075,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 34.27
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 34.805
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 84,
+     "tests": [
+      {
+       "id": "preset.earthMoonRealKF1",
+       "ms": 66,
+       "pass": true
+      },
+      {
+       "id": "preset.earthMoonReal",
+       "ms": 18,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -1923,6 +4843,94 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 129.958,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 64.905
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 65.053
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgequiv",
+      "sec": 96,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "bgbudget2",
+      "sec": 77,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "emgrid",
+      "sec": 2295,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 66,
+     "tests": [
+      {
+       "id": "preset.earthMoonRealKF1",
+       "ms": 66,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -1950,7 +4958,67 @@
     },
     "brief": "純二体では月の近点回転が出ないことを示す。達・陰性対照として Δϖ が窓内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 67,
+     "tests": [
+      {
+       "id": "preset.emAuditNewton",
+       "ms": 67,
+       "pass": true
+      },
+      {
+       "id": "behavior.emAudit",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "emAuditDFM",
@@ -1986,6 +5054,81 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 114.88900000000001,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 57.965
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 56.924
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "emgrid",
+      "sec": 2295,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 73,
+     "tests": [
+      {
+       "id": "preset.emAuditDFM",
+       "ms": 73,
+       "pass": true
+      },
+      {
+       "id": "behavior.emAudit",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2021,6 +5164,63 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 3.0229999999999997,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 1.061
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 1.962
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "emgrid",
+      "sec": 2295,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 20,
+     "tests": [
+      {
+       "id": "preset.emAuditSolar",
+       "ms": 20,
+       "pass": true
+      },
+      {
+       "id": "behavior.emAudit",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2049,7 +5249,56 @@
     },
     "brief": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断。達・近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "emgrid",
+      "sec": 2295,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 93,
+     "tests": [
+      {
+       "id": "preset.earthMoonDiagOne",
+       "ms": 93,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "qLockRadialAudit",
@@ -2076,7 +5325,72 @@
     },
     "brief": "qLock が参照軌道の外で崩れるかを監査する。達・内側 2 点で逆行・落ち方 5.49 倍を検出。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 877,
+     "tests": [
+      {
+       "id": "behavior.qlockRadial",
+       "ms": 724,
+       "pass": true
+      },
+      {
+       "id": "preset.qLockRadialAudit",
+       "ms": 94,
+       "pass": true
+      },
+      {
+       "id": "preset.qLockRadialAuditQ3",
+       "ms": 59,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "qLockRadialAuditQ3",
@@ -2103,7 +5417,67 @@
     },
     "brief": "q=3 の対照で r⁻³ 則の物差しを示す。達・q=3 対照は qLock の 8.5 倍(門 >5)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 783,
+     "tests": [
+      {
+       "id": "behavior.qlockRadial",
+       "ms": 724,
+       "pass": true
+      },
+      {
+       "id": "preset.qLockRadialAuditQ3",
+       "ms": 59,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "mercury",
@@ -2130,7 +5504,76 @@
     },
     "brief": "測地線 1PN の有無で近日点前進を比べる。達・基線差引の比 2.98 が理論 3±0.6 内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 7,
+     "ms": 749,
+     "tests": [
+      {
+       "id": "behavior.mercury-builtin",
+       "ms": 425,
+       "pass": true
+      },
+      {
+       "id": "ui.mercuryNaming",
+       "ms": 95,
+       "pass": true
+      },
+      {
+       "id": "preset.mercuryGeoToy3",
+       "ms": 73,
+       "pass": true
+      },
+      {
+       "id": "preset.mercuryRealKF1",
+       "ms": 50,
+       "pass": true
+      },
+      {
+       "id": "docs.mercuryDecomp",
+       "ms": 45,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "mercuryReal",
@@ -2166,6 +5609,81 @@
     "missing": [
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 7.254,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.432
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 4.822
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 85,
+     "tests": [
+      {
+       "id": "preset.mercuryRealKF1",
+       "ms": 50,
+       "pass": true
+      },
+      {
+       "id": "preset.mercuryReal",
+       "ms": 35,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2193,7 +5711,56 @@
     },
     "brief": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる。達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 73,
+     "tests": [
+      {
+       "id": "preset.mercuryGeoToy3",
+       "ms": 73,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "mercuryRealKF1",
@@ -2229,6 +5796,58 @@
     "missing": [
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 13.051,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 4.302
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 8.749
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 50,
+     "tests": [
+      {
+       "id": "preset.mercuryRealKF1",
+       "ms": 50,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2264,6 +5883,59 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 650.108,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 650.108
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 4141,
+     "tests": [
+      {
+       "id": "preset.solarInner",
+       "ms": 2630,
+       "pass": true
+      },
+      {
+       "id": "behavior.solarInner",
+       "ms": 1511,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2299,6 +5971,81 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 55.927,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 18.689
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 37.238
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 450,
+     "tests": [
+      {
+       "id": "behavior.jupiter",
+       "ms": 427,
+       "pass": true
+      },
+      {
+       "id": "preset.jupiterGalilean",
+       "ms": 23,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2334,6 +6081,117 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 33.051,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 10.879
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 22.172
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 4155,
+     "tests": [
+      {
+       "id": "behavior.venusReal",
+       "ms": 4109,
+       "pass": true
+      },
+      {
+       "id": "preset.venusReal",
+       "ms": 46,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2369,6 +6227,81 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 22.751,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 7.431
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 15.32
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 34,
+     "tests": [
+      {
+       "id": "preset.marsMoonsReal",
+       "ms": 34,
+       "pass": true
+      },
+      {
+       "id": "behavior.marsMoonsReal",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2406,6 +6339,159 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 716.157,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 31.309
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 61.781
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 124.575
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 249.246
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 249.246
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charonk",
+      "sec": 979,
+      "share": 1,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charonfactors",
+      "sec": 308,
+      "share": 1,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgequiv",
+      "sec": 96,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "bgbudget2",
+      "sec": 77,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "charonInput",
+      "sec": 603,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 32,
+     "tests": [
+      {
+       "id": "preset.plutoCharonReal",
+       "ms": 32,
+       "pass": true
+      },
+      {
+       "id": "behavior.plutoCharonReal",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2439,6 +6525,66 @@
    "ledgerSource": {
     "row": "tables.grid.dfmMid",
     "vsBuieSec": 31.598325855913572
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "charondfm",
+      "sec": 76,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "charonwin",
+      "sec": 87,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "charonInput",
+      "sec": 603,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 9238,
+     "tests": [
+      {
+       "id": "behavior.plutoCharonDFM",
+       "ms": 9169,
+       "pass": true
+      },
+      {
+       "id": "preset.plutoCharonDFM",
+       "ms": 69,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2471,6 +6617,61 @@
    "ledgerSource": {
     "row": "tables.grid.kf0Leap",
     "vsBuieSec": 30.225398794165812
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "charondfm",
+      "sec": 76,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "charonwin",
+      "sec": 87,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "charonInput",
+      "sec": 603,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 59,
+     "tests": [
+      {
+       "id": "preset.plutoCharonKF0Control",
+       "ms": 59,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2498,7 +6699,56 @@
     },
     "brief": "❄️ の入力の丸めと軟化を外した kF0 診断コピー。達・要因の鎖と同一定義の表を記帳。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "charonInput",
+      "sec": 603,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 24,
+     "tests": [
+      {
+       "id": "preset.plutoCharonDiagInput",
+       "ms": 24,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "plutoCharonSyncZero",
@@ -2525,7 +6775,50 @@
     },
     "brief": "厳密同期円で相対すべり則の零条件を走行中も試す。部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "charonInput",
+      "sec": 603,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 24,
+     "tests": [
+      {
+       "id": "preset.plutoCharonSyncZero",
+       "ms": 24,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "charonGeoToy3",
@@ -2552,7 +6845,50 @@
     },
     "brief": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる。部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 40,
+     "tests": [
+      {
+       "id": "preset.charonGeoToy3",
+       "ms": 40,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "uranusReal",
@@ -2587,6 +6923,59 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 648.115,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 648.115
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 1938,
+     "tests": [
+      {
+       "id": "preset.uranusReal",
+       "ms": 1938,
+       "pass": true
+      },
+      {
+       "id": "behavior.uranusReal",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2622,6 +7011,117 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 8.892,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.964
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 5.928
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 21,
+     "tests": [
+      {
+       "id": "preset.neptuneReal",
+       "ms": 21,
+       "pass": true
+      },
+      {
+       "id": "behavior.neptuneReal",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2657,6 +7157,126 @@
     "missing": [
      "写像未確定"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 64.914,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 9.52
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 18.652
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 36.742
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 3472,
+     "tests": [
+      {
+       "id": "behavior.alphaCenAB",
+       "ms": 3371,
+       "pass": true
+      },
+      {
+       "id": "preset.alphaCenABDFM",
+       "ms": 54,
+       "pass": true
+      },
+      {
+       "id": "preset.alphaCenAB",
+       "ms": 47,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2693,6 +7313,91 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 120.787,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 17.653
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 34.178
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 68.956
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 3425,
+     "tests": [
+      {
+       "id": "behavior.alphaCenAB",
+       "ms": 3371,
+       "pass": true
+      },
+      {
+       "id": "preset.alphaCenABDFM",
+       "ms": 54,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2728,6 +7433,126 @@
     "missing": [
      "写像未確定"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 40.946,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 5.909
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 11.724
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 23.313
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 2569,
+     "tests": [
+      {
+       "id": "behavior.siriusAB",
+       "ms": 2484,
+       "pass": true
+      },
+      {
+       "id": "preset.siriusAB",
+       "ms": 43,
+       "pass": true
+      },
+      {
+       "id": "preset.siriusABDFM",
+       "ms": 42,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2764,6 +7589,91 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 73.179,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 10.398
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 20.922
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 41.859
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 2526,
+     "tests": [
+      {
+       "id": "behavior.siriusAB",
+       "ms": 2484,
+       "pass": true
+      },
+      {
+       "id": "preset.siriusABDFM",
+       "ms": 42,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2800,6 +7710,114 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 76.31400000000001,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 3.4
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 6.741
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 13.427
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 26.373
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 26.373
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgequiv",
+      "sec": 96,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "bgbudget2",
+      "sec": 77,
+      "share": 4,
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 7,
+     "ms": 445,
+     "tests": [
+      {
+       "id": "preset.psrDoubleABGeoToy",
+       "ms": 110,
+       "pass": true
+      },
+      {
+       "id": "preset.psrDoubleABCF",
+       "ms": 106,
+       "pass": true
+      },
+      {
+       "id": "preset.psrDoubleABDFM",
+       "ms": 80,
+       "pass": true
+      },
+      {
+       "id": "preset.psrDoubleABSpinCal",
+       "ms": 77,
+       "pass": true
+      },
+      {
+       "id": "preset.psrDoubleAB",
+       "ms": 46,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2836,6 +7854,135 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 66.672,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.922
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 5.844
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 11.498
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 23.204
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 23.204
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 81,
+     "tests": [
+      {
+       "id": "preset.psrDoubleABDFM",
+       "ms": 80,
+       "pass": true
+      },
+      {
+       "id": "behavior.psrDoubleAB",
+       "ms": 1,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2864,7 +8011,44 @@
     },
     "brief": "観測質量のまま geoPN=3 則を当てる診断。未達・周期 +0.0897%・掃引で観測をまたがない。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 110,
+     "tests": [
+      {
+       "id": "preset.psrDoubleABGeoToy",
+       "ms": 110,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "psrDoubleABSpinCal",
@@ -2899,6 +8083,70 @@
     "missing": [
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 9.149999999999999,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.989
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 6.161
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 77,
+     "tests": [
+      {
+       "id": "preset.psrDoubleABSpinCal",
+       "ms": 77,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2935,6 +8183,130 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 171.157,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 7.586
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 14.848
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 29.555
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 59.584
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 59.584
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 55,
+     "tests": [
+      {
+       "id": "preset.psrJ1757DFM",
+       "ms": 55,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -2971,6 +8343,136 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 50.116,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.277
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 4.385
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 8.854
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 17.3
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 17.3
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "j1946adopt",
+      "sec": 149,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 47,
+     "tests": [
+      {
+       "id": "preset.psrJ1946DFM",
+       "ms": 47,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3007,6 +8509,70 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 8.923,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.935
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 5.988
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 25,
+     "tests": [
+      {
+       "id": "preset.psrDoubleABPN",
+       "ms": 25,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3043,6 +8609,70 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 22.615000000000002,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 7.727
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 14.888
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 26,
+     "tests": [
+      {
+       "id": "preset.psrJ1757PN",
+       "ms": 26,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3079,6 +8709,76 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 6.497999999999999,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.169
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 4.329
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "j1946adopt",
+      "sec": 149,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 41,
+     "tests": [
+      {
+       "id": "preset.psrJ1946PN",
+       "ms": 41,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3114,6 +8814,82 @@
     "missing": [
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 92.788,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 4.112
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 8.073
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 16.101
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 32.251
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 32.251
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 106,
+     "tests": [
+      {
+       "id": "preset.psrDoubleABCF",
+       "ms": 106,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3149,6 +8925,82 @@
     "missing": [
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 234.315,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 10.399
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 20.231
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 40.461
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 81.612
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 81.612
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 54,
+     "tests": [
+      {
+       "id": "preset.psrJ1757CF",
+       "ms": 54,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3185,6 +9037,88 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 68.56700000000001,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.998
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 5.957
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 11.788
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 23.912
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 23.912
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "j1946adopt",
+      "sec": 149,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 49,
+     "tests": [
+      {
+       "id": "preset.psrJ1946CF",
+       "ms": 49,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3221,6 +9155,84 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 102.142,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 17.314
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 34.451
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 50.377
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 140,
+     "tests": [
+      {
+       "id": "preset.psrB1534DFM",
+       "ms": 55,
+       "pass": true
+      },
+      {
+       "id": "preset.psrB1534CF",
+       "ms": 54,
+       "pass": true
+      },
+      {
+       "id": "preset.psrB1534",
+       "ms": 31,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3257,6 +9269,122 @@
      "写像未確定",
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 97.59,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 14.018
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 27.69
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 55.882
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 55,
+     "tests": [
+      {
+       "id": "preset.psrB1534DFM",
+       "ms": 55,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3292,6 +9420,74 @@
     "missing": [
      "数値精度"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 132.619,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 19.355
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 37.8
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 75.464
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 54,
+     "tests": [
+      {
+       "id": "preset.psrB1534CF",
+       "ms": 54,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3319,7 +9515,44 @@
     },
     "brief": "3 候補の追加力が近点を回す向きを比べる。達・力の符号と整合を純関数とエンジンで確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 38,
+     "tests": [
+      {
+       "id": "preset.compactForceToy",
+       "ms": 38,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "boxBinaryToy",
@@ -3346,7 +9579,44 @@
     },
     "brief": "等質量で共通移動が相対軌道から消えるかを測る。達・等質量で消え質量差の対照では残る。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 83,
+     "tests": [
+      {
+       "id": "preset.boxBinaryToy",
+       "ms": 83,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "spaceMeshBinaryToy",
@@ -3373,7 +9643,44 @@
     },
     "brief": "メッシュの重力が既存の重力と同じ核かを確かめる。達・重力は二重計上なし・慣性候補は頂点で退化。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 72,
+     "tests": [
+      {
+       "id": "preset.spaceMeshBinaryToy",
+       "ms": 72,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "gw150914",
@@ -3408,6 +9715,72 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 1.9929999999999999,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 0.676
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 1.317
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 5,
+     "ms": 4090,
+     "tests": [
+      {
+       "id": "behavior.gw150914",
+       "ms": 3901,
+       "pass": true
+      },
+      {
+       "id": "preset.gw150914Merge4s",
+       "ms": 71,
+       "pass": true
+      },
+      {
+       "id": "preset.gw150914DFM",
+       "ms": 58,
+       "pass": true
+      },
+      {
+       "id": "preset.gw150914",
+       "ms": 35,
+       "pass": true
+      },
+      {
+       "id": "preset.gw150914SpinDipole",
+       "ms": 25,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3443,6 +9816,87 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 1.471,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 0.539
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 0.932
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "analogy",
+      "sec": 148,
+      "share": 8,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 3959,
+     "tests": [
+      {
+       "id": "behavior.gw150914",
+       "ms": 3901,
+       "pass": true
+      },
+      {
+       "id": "preset.gw150914DFM",
+       "ms": 58,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3478,6 +9932,52 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 0.101,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 0.041
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 0.06
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 71,
+     "tests": [
+      {
+       "id": "preset.gw150914Merge4s",
+       "ms": 71,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3505,7 +10005,44 @@
     },
     "brief": "合体直前で λ=1 のスピン双極子の強さを測る。達・強さ η が純関数とエンジンで一致。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 25,
+     "tests": [
+      {
+       "id": "preset.gw150914SpinDipole",
+       "ms": 25,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "tuc47",
@@ -3532,7 +10069,60 @@
     },
     "brief": "47 Tuc の配置と速度を観測から転写する。部分・束縛 93.3%・視線分散との量の対応は未確定。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "cluster",
+      "sec": 84,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 9507,
+     "tests": [
+      {
+       "id": "preset.tuc47DFM",
+       "ms": 6027,
+       "pass": true
+      },
+      {
+       "id": "preset.tuc47",
+       "ms": 3480,
+       "pass": true
+      },
+      {
+       "id": "behavior.tuc47",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "tuc47DFM",
@@ -3559,7 +10149,50 @@
     },
     "brief": "連星の質量補正を星団へ当てる hold-out。部分・面内の分散は観測の中心 1D と別の量。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "cluster",
+      "sec": 84,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 6027,
+     "tests": [
+      {
+       "id": "preset.tuc47DFM",
+       "ms": 6027,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "ngc3198",
@@ -3586,7 +10219,66 @@
     },
     "brief": "指数円盤と NFW ハローで回転を比べる。部分・外縁 128 km/s・ハローは自前 fit。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "sparc",
+      "sec": 192,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "galaxydiag",
+      "sec": 352,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 15936,
+     "tests": [
+      {
+       "id": "preset.ngc3198DFM",
+       "ms": 10567,
+       "pass": true
+      },
+      {
+       "id": "preset.ngc3198",
+       "ms": 5369,
+       "pass": true
+      },
+      {
+       "id": "behavior.ngc3198",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "ngc3198DFM",
@@ -3613,7 +10305,62 @@
     },
     "brief": "ハローなしの DFM で外縁速度を支える。未達・外縁 55 km/s で届かない。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "sparc",
+      "sec": 192,
+      "share": 3,
+      "always": false
+     },
+     {
+      "key": "galaxydiag",
+      "sec": 352,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "analogy",
+      "sec": 148,
+      "share": 8,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 10567,
+     "tests": [
+      {
+       "id": "preset.ngc3198DFM",
+       "ms": 10567,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "supernovaProg",
@@ -3640,7 +10387,49 @@
     },
     "brief": "ベテルギウスの前駆星状態を転写する。達・静止の保持と転写を検査で確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 38,
+     "tests": [
+      {
+       "id": "preset.supernovaProg",
+       "ms": 19,
+       "pass": true
+      },
+      {
+       "id": "preset.supernovaProgDFM",
+       "ms": 19,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "supernovaProgDFM",
@@ -3667,7 +10456,44 @@
     },
     "brief": "質量台帳 f=2 の前駆星を比べる。達・台帳 f=2 と光球半径の逆算を確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 19,
+     "tests": [
+      {
+       "id": "preset.supernovaProgDFM",
+       "ms": 19,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "crabRemnant",
@@ -3694,7 +10520,44 @@
     },
     "brief": "かに星雲とパルサーの残骸状態を転写する。達・膨張速度の転写と自由膨張を確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 400,
+     "tests": [
+      {
+       "id": "preset.crabRemnant",
+       "ms": 400,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "saturn",
@@ -3721,7 +10584,70 @@
     },
     "brief": "氷粒の環が長時間残るかを測る。達・帯内 97.1%・落下 0.4% が門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corefield",
+      "sec": 187,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 14,
+     "ms": 17215,
+     "tests": [
+      {
+       "id": "preset.saturnRingRealKF1",
+       "ms": 6355,
+       "pass": true
+      },
+      {
+       "id": "shot.regress-saturnLayered",
+       "ms": 2609,
+       "pass": true
+      },
+      {
+       "id": "shot.regress-saturn",
+       "ms": 2573,
+       "pass": true
+      },
+      {
+       "id": "preset.saturn",
+       "ms": 2428,
+       "pass": true
+      },
+      {
+       "id": "preset.saturnLayered",
+       "ms": 2158,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "saturnLayered",
@@ -3748,7 +10674,59 @@
     },
     "brief": "主星のコアと殻の差動が環に効くかを見る。達・等価性と差動コアの効果を検査で確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 4,
+     "ms": 4781,
+     "tests": [
+      {
+       "id": "shot.regress-saturnLayered",
+       "ms": 2609,
+       "pass": true
+      },
+      {
+       "id": "preset.saturnLayered",
+       "ms": 2158,
+       "pass": true
+      },
+      {
+       "id": "core.twolayer",
+       "ms": 14,
+       "pass": true
+      },
+      {
+       "id": "behavior.saturnLayered",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "saturnZonalD68",
@@ -3783,6 +10761,103 @@
     "missing": [
      "(門に入った量 1: 合 0・否 1 — 残り 4 量は σ が無い)"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 89.14699999999999,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 3.942
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 7.809
+      },
+      {
+       "tag": "dt/4",
+       "wallSec": 15.486
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 30.955
+      },
+      {
+       "tag": "dt/8",
+       "wallSec": 30.955
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 4,
+     "ms": 6531,
+     "tests": [
+      {
+       "id": "zonal.d68-realunit",
+       "ms": 6467,
+       "pass": true
+      },
+      {
+       "id": "preset.saturnZonalD68",
+       "ms": 46,
+       "pass": true
+      },
+      {
+       "id": "zonal.analytic-d68",
+       "ms": 15,
+       "pass": true
+      },
+      {
+       "id": "zonal.d68-preset",
+       "ms": 3,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3810,7 +10885,44 @@
     },
     "brief": "📡 の差を同じ窓で初速の幾何と他の要因に分ける。達・同じ抽出器・同じ窓で差 +42.66 deg/yr のうち初速が +42.23。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 20,
+     "tests": [
+      {
+       "id": "preset.saturnD68Consistent",
+       "ms": 20,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "saturnD68ObsOrbit",
@@ -3837,7 +10949,44 @@
     },
     "brief": "観測の a と ae の定義で置いた D68 の近点移動を測る。部分・同じ窓で測定済み・a と ae と ϖ̇ の同一元期の組は未確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 21,
+     "tests": [
+      {
+       "id": "preset.saturnD68ObsOrbit",
+       "ms": 21,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "saturnRingReal",
@@ -3872,6 +11021,64 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 641.256,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 641.256
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 7398,
+     "tests": [
+      {
+       "id": "preset.saturnRingRealKF1",
+       "ms": 6355,
+       "pass": true
+      },
+      {
+       "id": "preset.saturnRingReal",
+       "ms": 1004,
+       "pass": true
+      },
+      {
+       "id": "wave121.ui",
+       "ms": 39,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3907,6 +11114,54 @@
     "missing": [
      "σ 未接続"
     ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 611.506,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 611.506
+      }
+     ]
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 6355,
+     "tests": [
+      {
+       "id": "preset.saturnRingRealKF1",
+       "ms": 6355,
+       "pass": true
+      }
+     ]
+    }
    }
   },
   {
@@ -3934,7 +11189,70 @@
     },
     "brief": "連星の間隔と周連星円盤を保つ。達・間隔 122.9・円盤 240/240 残存が門内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo1",
+      "sec": 1033,
+      "share": 36,
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 8,
+     "ms": 3684,
+     "tests": [
+      {
+       "id": "preset.binary",
+       "ms": 2041,
+       "pass": true
+      },
+      {
+       "id": "behavior.boxBinary",
+       "ms": 1391,
+       "pass": true
+      },
+      {
+       "id": "preset.boxBinaryToy",
+       "ms": 83,
+       "pass": true
+      },
+      {
+       "id": "ai.obs-binary",
+       "ms": 77,
+       "pass": true
+      },
+      {
+       "id": "preset.spaceMeshBinaryToy",
+       "ms": 72,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "fig8",
@@ -3962,7 +11280,49 @@
     },
     "brief": "等質量三体の 8 の字周期軌道を見せる。部分・画像回帰のみで軌道の定量門は無い。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 136,
+     "tests": [
+      {
+       "id": "shot.regress-fig8",
+       "ms": 112,
+       "pass": true
+      },
+      {
+       "id": "preset.fig8",
+       "ms": 24,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "counterring",
@@ -3989,7 +11349,49 @@
     },
     "brief": "逆向きに回る環どうしの摩擦を比べる。達・摩擦あり 0.74・なし 0 の対照。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 666,
+     "tests": [
+      {
+       "id": "preset.counterring",
+       "ms": 666,
+       "pass": true
+      },
+      {
+       "id": "new.counterring",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "spinup",
@@ -4016,7 +11418,54 @@
     },
     "brief": "閉じた系で収縮とともにスピンが上がるかを見る。達・収縮 3.02 倍で ω 8.46 倍・帳簿は閉じる。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 3,
+     "ms": 1754,
+     "tests": [
+      {
+       "id": "shot.regress-spinup",
+       "ms": 953,
+       "pass": true
+      },
+      {
+       "id": "preset.spinup",
+       "ms": 801,
+       "pass": true
+      },
+      {
+       "id": "behavior.spinup",
+       "ms": 0,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "pulsarSolo",
@@ -4043,7 +11492,44 @@
     },
     "brief": "傾いた軸の灯台と運動学の時計を見せる。達・位相の恒等と軸の傾きを検査で確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 275,
+     "tests": [
+      {
+       "id": "preset.pulsarSolo",
+       "ms": 275,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "supernovaCore",
@@ -4070,7 +11556,44 @@
     },
     "brief": "1 つの星の殻放出と時計つきの核の残存を見せる。達・分割放出と帳簿の閉じを検査で確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 121,
+     "tests": [
+      {
+       "id": "preset.supernovaCore",
+       "ms": 121,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "whiteDwarfDFM",
@@ -4097,7 +11620,44 @@
     },
     "brief": "殻が繰り返し剥がれて育ったコアが残る。達・4 回の放出と帳簿の閉じを検査で確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 13,
+     "tests": [
+      {
+       "id": "preset.whiteDwarfDFM",
+       "ms": 13,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "whiteDwarfBareDFM",
@@ -4124,7 +11684,44 @@
     },
     "brief": "最後の殻が剥がれ Mc=M の終端を作る。達・終端と結合エネルギーの台帳を検査で確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 119,
+     "tests": [
+      {
+       "id": "preset.whiteDwarfBareDFM",
+       "ms": 119,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "envelopeShedDFM",
@@ -4151,7 +11748,44 @@
     },
     "brief": "限界回転のコアが殻を粒へ割って出す。達・1 回の放出と帳簿の閉じを検査で確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 36,
+     "tests": [
+      {
+       "id": "preset.envelopeShedDFM",
+       "ms": 36,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "lfbotTrap",
@@ -4178,7 +11812,49 @@
     },
     "brief": "減光で溜めた光をコアの崩壊で放つトイ。達・光の口座の保存と対照 4 本を検査で確認。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 171,
+     "tests": [
+      {
+       "id": "preset.lfbotTrap",
+       "ms": 98,
+       "pass": true
+      },
+      {
+       "id": "preset.lfbotTrap",
+       "ms": 73,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "layeredCoreDFM",
@@ -4205,7 +11881,44 @@
     },
     "brief": "観測半径は殻・質量はコアに分ける二層天体。達・検証器と球殻定理の検査を通過。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 26,
+     "tests": [
+      {
+       "id": "preset.layeredCoreDFM",
+       "ms": 26,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "spinDipoleBinary",
@@ -4232,7 +11945,44 @@
     },
     "brief": "スピン双極子の力で近点が逆行するかを見る。達・近点移動 −0.980°/周が解析値の 0.994 倍。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 20,
+     "tests": [
+      {
+       "id": "preset.spinDipoleBinary",
+       "ms": 20,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "gasCohSurface",
@@ -4259,7 +12009,49 @@
     },
     "brief": "気体の殻で表面の引きずりが弱まるかを見る。達・表面随伴の比が gasCoh に一致。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 205,
+     "tests": [
+      {
+       "id": "behavior.gasCohSurface",
+       "ms": 179,
+       "pass": true
+      },
+      {
+       "id": "preset.gasCohSurface",
+       "ms": 26,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "mmPhaseToy",
@@ -4286,7 +12078,44 @@
     },
     "brief": "2 本の腕を往復した光の位相差を正対照から測る。達・正対照の位相差が解析式どおり。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 1,
+     "ms": 13,
+     "tests": [
+      {
+       "id": "preset.mmPhaseToy",
+       "ms": 13,
+       "pass": true
+      }
+     ]
+    }
+   }
   },
   {
    "id": "starSeed",
@@ -4313,7 +12142,60 @@
     },
     "brief": "コアの圧縮・軸仕事と減光の経路を測る。達・Ω 比 107.9・減光 0.9988 が窓内。較正対象外。"
    },
-   "ledgerSource": null
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": []
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "n": 2,
+     "ms": 64,
+     "tests": [
+      {
+       "id": "claim.starseed-powerball",
+       "ms": 37,
+       "pass": true
+      },
+      {
+       "id": "preset.starSeed",
+       "ms": 27,
+       "pass": true
+      }
+     ]
+    }
+   }
   }
- ]
+ ],
+ "timingNote": {
+  "since": "第282便(原仮定者の指示 2026-09-26)",
+  "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(id を含む試験+claims の testId・重なりあり)。判定ではない",
+  "regenSteps": 84,
+  "regenSecSum": 21047,
+  "alwaysSec": 5993,
+  "undeclaredSteps": 45,
+  "undeclaredSec": 1883,
+  "qaTotal": 905,
+  "qaDurationMs": 1356415
+ }
 }
