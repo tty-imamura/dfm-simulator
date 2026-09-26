@@ -19,12 +19,18 @@
 //
 // 実行: PLAYWRIGHT_CORE_DIR=/opt/node22/lib/node_modules/playwright node tests/exp-w279a-samplestatus.mjs
 //       (--check を付けると何も書かずに照合だけする)
+//   ④ 第282便(原仮定者の指示 2026-09-26「SAMPLE_STATUS には各サンプルの正本の再生成と QA に掛かった時間と内訳も記述する」):
+//      一覧の末尾に **所要時間の節**を付ける —— 較正走行(calaudit の各本の壁時計・段別)・関与する再生成の段
+//      (再生成表の実測秒と宣言本数)・保存 QA(id にその本の id を含む試験+claims の testId の所要と本数)。
+//      **時間は測った値の転記であって判定ではない**(html の生成領域には入れない —— 時間で html を変えない)。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import * as L from './lib-w279a-samplestatus.mjs';
+import { REGEN_STEPS } from './lib-w281a-regentable.mjs';
+import { readDeclaredScope } from './lib-w281a-scope.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const HTML = path.join(ROOT, 'beta', 'index.html');
@@ -87,7 +93,8 @@ const got = await page.evaluate(() => {
     if (String(p.id).startsWith('custom_')) continue;
     rows.push({ id: p.id, emoji: p.emoji || '', name: p.name, enName: (p.en || {}).name || null,
       group: p.group, sampleClass: p.sampleClass || null,
-      status: p.status || null, enStatus: (p.en || {}).status || null, brief: briefs[p.id] });
+      status: p.status || null, enStatus: (p.en || {}).status || null, brief: briefs[p.id],
+      claimTests: Array.isArray(p.claims) ? [...new Set(p.claims.map((c) => c.testId).filter(Boolean))] : [] });
   }
   return { rows, groupOrder: (typeof GROUP_ORDER !== 'undefined') ? GROUP_ORDER.slice() : null,
     groupIcons: (typeof GROUP_ICONS !== 'undefined') ? Object.assign({}, GROUP_ICONS) : null,
@@ -159,6 +166,69 @@ for (const g of groups) {
   for (const id of g.ids) md.push(L.mdRow(byId[id], table[id]));
   md.push('');
 }
+// ---- ④ 所要時間(第282便・原仮定者の指示 2026-09-26): 測った値の転記だけ(判定ではない)
+const fmtS = (x) => (x >= 100 ? String(Math.round(x)) : x >= 10 ? x.toFixed(1) : x.toFixed(2));
+const stepScope = new Map();   // step.key → {presets:'all'|[...], harness}
+for (const st of REGEN_STEPS) {
+  if (st.role === 'history') continue;
+  const m = st.cmd.match(/tests\/exp-[\w-]+\.mjs/);
+  const decl = m && fs.existsSync(path.join(ROOT, m[0])) ? readDeclaredScope(fs.readFileSync(path.join(ROOT, m[0]), 'utf8')) : null;
+  stepScope.set(st.key, { presets: decl ? decl.presets : null, harness: m ? m[0] : null });
+}
+const stepsCurrent = REGEN_STEPS.filter((z) => z.role !== 'history');
+const secAll = stepsCurrent.reduce((a, z) => a + (z.sec || 0), 0);
+const secAlways = stepsCurrent.filter((z) => z.alwaysRun).reduce((a, z) => a + (z.sec || 0), 0);
+const undeclaredSteps = stepsCurrent.filter((z) => !z.alwaysRun && !stepScope.get(z.key).presets);
+const secUndeclared = undeclaredSteps.reduce((a, z) => a + (z.sec || 0), 0);
+const calById = Object.fromEntries((calaudit.presets || []).map((p) => [p.id, p]));
+const qaAll = (qa.results || []);
+const timing = {};
+for (const r of got.rows) {
+  const id = r.id;
+  // (a) 較正走行: calaudit の段別の壁時計(timeBudget[] の tag/wallSec + dtEighth)
+  const cp = calById[id];
+  const stages = [];
+  if (cp && cp.run) {
+    for (const tb of (cp.run.timeBudget || [])) if (Number.isFinite(tb.wallSec)) stages.push({ tag: tb.tag, wallSec: tb.wallSec });
+    if (cp.run.dtEighth && Number.isFinite(cp.run.dtEighth.wallSec)) stages.push({ tag: 'dt/8', wallSec: cp.run.dtEighth.wallSec });
+  }
+  const calSec = stages.reduce((a, z) => a + z.wallSec, 0);
+  // (b) 関与する再生成の段(領域を宣言した段のうち、この本を宣言に含むもの —— 段の所要は宣言した本で共有)
+  const steps = [];
+  for (const st of stepsCurrent) {
+    const sc = stepScope.get(st.key);
+    if (!sc.presets) continue;
+    if (sc.presets === 'all' || sc.presets.includes(id)) steps.push({ key: st.key, sec: st.sec || 0, share: sc.presets === 'all' ? 'all' : sc.presets.length, always: !!st.alwaysRun });
+  }
+  // (c) 保存 QA: id にこの本の id を含む試験 + claims の testId(所要は試験ごと・複数の本で重なりうる)
+  const lid = id.toLowerCase();
+  const claimSet = new Set(r.claimTests || []);
+  const tests = qaAll.filter((t) => String(t.id).toLowerCase().includes(lid) || claimSet.has(t.id))
+    .map((t) => ({ id: t.id, ms: t.ms || 0, pass: !!t.pass })).sort((x, y) => y.ms - x.ms);
+  const qaMs = tests.reduce((a, t) => a + t.ms, 0);
+  timing[id] = { calaudit: { wallSec: calSec, stages }, regenSteps: steps, qa: { n: tests.length, ms: qaMs, tests: tests.slice(0, 5) } };
+}
+md.push('## 所要時間(正本の再生成と QA)');
+md.push('');
+md.push('> **測った値の転記であって判定ではない**(第282便・原仮定者の指示 2026-09-26)。時間は html の生成領域に入れない(時間で html を変えない)。数は `tests/lib-w281a-regentable.mjs`(段の実測秒)・`' + CAL + '`(各本の壁時計)・`' + QAF + '`(試験ごとの所要 ms)の転記で、走行のたびに変わる。');
+md.push('');
+md.push('- **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 / dt/8 の和・`presets[].run.timeBudget[].wallSec`)。母集団の外の本は「—」。');
+md.push('- **関与する再生成の段**: 領域(REGEN_SCOPE)を宣言した段のうち、この本を宣言に含むもの。表記「段 秒/本数」は**段 1 回の実測秒とその段が宣言した本数**(所要は宣言した本で共有する —— 本ごとに足し上げない)。all は全プリセットを走査する段。');
+md.push(`- **宣言の無い段**(対象 html の全体に縛られ、どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は本ごとの行に配らない。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
+md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体 ${fmtS((qa.durationMs || 0) / 1000)} s${qa.commit ? '・commit ' + String(qa.commit).slice(0, 7) : ''})のうち、**試験の id にこの本の id を含むもの+その本の claims が挙げる testId** の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。内訳は所要の上位 3。`);
+md.push('');
+md.push('| 本 | 較正走行(s) | 段別(s) | 関与する再生成の段(段 秒/本数) | 保存 QA(s・本数) | QA の内訳(上位 3) |');
+md.push('|---|---|---|---|---|---|');
+for (const g of groups) for (const id of g.ids) {
+  const r = byId[id], t = timing[id];
+  const cal = t.calaudit.stages.length ? fmtS(t.calaudit.wallSec) : '—';
+  const st = t.calaudit.stages.length ? t.calaudit.stages.map((z) => `${z.tag} ${fmtS(z.wallSec)}`).join('・') : '—';
+  const steps = t.regenSteps.length ? t.regenSteps.map((z) => `${z.key} ${fmtS(z.sec)}/${z.share}`).join('・') : '—';
+  const qs = `${fmtS(t.qa.ms / 1000)}・${t.qa.n}`;
+  const top = t.qa.tests.slice(0, 3).map((z) => `\`${z.id}\` ${fmtS(z.ms / 1000)}`).join('・') || '—';
+  md.push(`| ${r.emoji || ''} \`${id}\` | ${cal} | ${st} | ${steps} | ${qs} | ${top} |`);
+}
+md.push('');
 const mdText = md.join('\n');
 const mdBad = mdText.split('\n').filter((l) => L.FORBIDDEN.test(l.replace(/[「『][^」』]*[」』]/g, '')));
 if (mdBad.length) { console.error('一覧に禁止語: ' + mdBad.slice(0, 3).join(' / ')); process.exit(1); }
@@ -175,7 +245,10 @@ const canon = {
   tally: Object.assign({}, tl, { predictionEligible: predEligible,
     byGroup: groups.map((g) => ({ group: g.group, icon: g.icon, n: g.ids.length })) }),
   rows: got.rows.map((r) => Object.assign({ id: r.id, emoji: r.emoji, name: r.name, group: r.group,
-    sampleClass: r.sampleClass }, { status: table[r.id], ledgerSource: built.provenance[r.id] || null })),
+    sampleClass: r.sampleClass }, { status: table[r.id], ledgerSource: built.provenance[r.id] || null, timing: timing[r.id] })),
+  timingNote: { since: '第282便(原仮定者の指示 2026-09-26)', what: '各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(id を含む試験+claims の testId・重なりあり)。判定ではない',
+    regenSteps: stepsCurrent.length, regenSecSum: secAll, alwaysSec: secAlways, undeclaredSteps: undeclaredSteps.length, undeclaredSec: secUndeclared,
+    qaTotal: qa.total || qaAll.length, qaDurationMs: qa.durationMs || null },
 };
 if (CHECK) {
   const prev = fs.existsSync(path.join(ROOT, MD)) ? fs.readFileSync(path.join(ROOT, MD), 'utf8') : null;
