@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第281便c",
   "target": "beta/index.html",
-  "targetSha256": "5590e86e8ff7d06e97279516ea59af8116b37270db7099828df3b1f8fdb22b05",
-  "generatedAt": "2026-09-25T23:25:42.252Z",
+  "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
+  "generatedAt": "2026-09-26T06:00:40.069Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4822962,
-    "sha256": "5590e86e8ff7d06e97279516ea59af8116b37270db7099828df3b1f8fdb22b05",
-    "mtime": "2026-09-25T23:24:06.132Z"
+    "bytes": 4836646,
+    "sha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
+    "mtime": "2026-09-26T04:23:04.176Z"
    }
   ],
   "code": [
@@ -18,28 +18,28 @@
     "file": "tests/exp-w281c-rotorledger.mjs",
     "bytes": 9114,
     "sha256": "6d5be9ca2e02c92553ce3f8752b5bf203293f5e76698dbbb80c4ca69b287c486",
-    "mtime": "2026-09-25T22:50:11.208Z"
+    "mtime": "2026-09-25T04:06:25.635Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
-    "bytes": 12553,
-    "sha256": "c507b069da739853c96eaab9605bc7e503d6724086646492ff314c97fb782be9",
-    "mtime": "2026-09-25T23:05:08.616Z"
+    "bytes": 12812,
+    "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
+    "mtime": "2026-09-26T00:07:02.816Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-25T22:50:11.220Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-25T22:50:11.212Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "9d25a5f82391720ae3d6ac113fc87959d7425b54a5100b16cb5c26a5a9bcbfd6"
+  "codeSha256": "d7cf5b7d71748879fab8325052eedea7bf9a0792488f3db621a170279c1037b7"
  },
  "note": "条件付き台帳(仮定の 3 シナリオ)と η 対照(仮説)。観測との一致や検出を主張しない。較正母集団に入れない。🛞 の既定は追加 0(現状)。",
  "sources": {
@@ -275,6 +275,6 @@
   "ratio2x": 2.0067164757942177,
   "ratio4x": 4.040636351480498
  },
- "headlessMs": 144,
+ "headlessMs": 139,
  "headlessErrors": 0
 }

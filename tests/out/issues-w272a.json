@@ -1,14 +1,14 @@
 {
- "when": "2026-09-25T09:56:44.035Z",
+ "when": "2026-09-26T05:59:27.564Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
-  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "calauditSha256": "0fe97dd36ce5f79a62732e28e5947c285d5a08ae749adf6db3d83ef083b3b200",
+  "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "525cb5181add3b7ec3db399f20fc3a6d252b74d940c6f84c089d6f574678d0bb",
+  "charonSha256": "7c60e13aaae02e20ee9524e68f48cd8561245c1b0551da75773e4a93061f0667",
   "nslock": "tests/out/nslock-w272c.json",
-  "nslockSha256": "0f639533069c823869a31b23dc987ab61dd62ad624351d1ff3857e642f8071f7"
+  "nslockSha256": "24be09846ebba269f976afc73fa509afa8cc2ea070c68295feb43cb04ce5582b"
  },
  "nPresets": 37,
  "nTheoryControl": 0,
@@ -683,7 +683,7 @@
    },
    "reasons": {
     "num": {
-     "次数ガード(AE3)で保留: 観測次数 p=0.8506 が 2 から 1.1494 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1
+     "次数ガード(AE3)で保留: 観測次数 p=0.9069 が 2 から 1.0931 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1
     },
     "map": {
      "軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない": 1
@@ -696,8 +696,8 @@
    },
    "stop": {
     "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
-    "stepsRun": 9393477,
-    "maxSteps": 9437344,
+    "stepsRun": 9395479,
+    "maxSteps": 9439328,
     "maxStepsSource": "class(n<=3)",
     "needPeriastra": 20,
     "minPeriastra": 60,
@@ -772,7 +772,7 @@
    },
    "reasons": {
     "num": {
-     "次数ガード(AE3)で保留: 観測次数 p=1.0291 が 2 から 0.9709 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1
+     "次数ガード(AE3)で保留: 観測次数 p=1.0323 が 2 から 0.9677 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1
     },
     "map": {
      "軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない": 1
@@ -785,8 +785,8 @@
    },
    "stop": {
     "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
-    "stepsRun": 5888550,
-    "maxSteps": 5930404,
+    "stepsRun": 5890532,
+    "maxSteps": 5932383,
     "maxStepsSource": "class(n<=3)",
     "needPeriastra": 20,
     "minPeriastra": 60,
@@ -2739,13 +2739,13 @@
      "id": "alphaCenABDFM",
      "emoji": "✴️",
      "kind": "other",
-     "name": "解析慣性則(第245便 — 一次則が台帳)"
+     "name": "解析慣性則(第245便の一次則 — 第282便a で履歴)"
     },
     {
      "id": "alphaCenABDFM",
      "emoji": "✴️",
      "kind": "other",
-     "name": "DFM 質量(条件つき較正 — 実在値の主張ではない)"
+     "name": "DFM 質量(第282便a — f=1: 観測質量そのもの)"
     },
     {
      "id": "alphaCenABDFM",
@@ -2811,13 +2811,13 @@
      "id": "siriusABDFM",
      "emoji": "💫",
      "kind": "other",
-     "name": "DFM 質量(条件つき較正 — 実在値の主張ではない)"
+     "name": "DFM 質量(第282便a — f=1: 観測質量そのもの)"
     },
     {
      "id": "siriusABDFM",
      "emoji": "💫",
      "kind": "other",
-     "name": "解析慣性則(第245便 — 一次則が台帳)"
+     "name": "解析慣性則(第245便の一次則 — 第282便a で履歴)"
     },
     {
      "id": "siriusABDFM",
@@ -2946,8 +2946,8 @@
   "num": {
    "dt 3 段が走っていない(2 段は感度診断)": 10,
    "収束次数が未測定または非正(漸近収束未確認 —— この次数から Richardson 補正/外挿は作らない。第273便c・AH30)": 1,
-   "次数ガード(AE3)で保留: 観測次数 p=0.8506 が 2 から 1.1494 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1,
-   "次数ガード(AE3)で保留: 観測次数 p=1.0291 が 2 から 0.9709 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=0.9069 が 2 から 1.0931 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1,
+   "次数ガード(AE3)で保留: 観測次数 p=1.0323 が 2 から 0.9677 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1,
    "次数ガード(AE3)で保留: 観測次数 p=1.0209 が 2 から 0.9791 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1,
    "数値誤差幅が 0.3σ の予算を超える": 3,
    "次数ガード(AE3)で保留: 観測次数 p=1.0000 が 2 から 1.0000 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない": 1,

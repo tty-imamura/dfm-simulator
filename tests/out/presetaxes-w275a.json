@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "13622832e411f9caf4d3b4b0c219074500fc666ae2d4dbc1786ee8c27d98526a",
-  "generatedAt": "2026-09-25T23:39:01.784Z",
+  "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
+  "generatedAt": "2026-09-26T05:58:08.468Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4794265,
-    "sha256": "13622832e411f9caf4d3b4b0c219074500fc666ae2d4dbc1786ee8c27d98526a",
-    "mtime": "2026-09-25T23:38:50.612Z"
+    "bytes": 4836646,
+    "sha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
+    "mtime": "2026-09-26T04:23:04.176Z"
    }
   ],
   "code": [
@@ -18,13 +18,13 @@
     "file": "tests/exp-w275a-presetaxes.mjs",
     "bytes": 6278,
     "sha256": "663d7b481c38f3e3b78c67d273e5a35c8da6484ed0c40b20732c096ddedac71d",
-    "mtime": "2026-09-25T22:50:04.796Z"
+    "mtime": "2026-09-20T17:32:23.348Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-25T22:50:06.808Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "codeSha256": "05ee87040a77aa72146ec46d8c220cad3ed01d59813e78054346064ff81efb92",
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 140,
+ "nPresets": 141,
  "kFrameValues": [
   0,
   1
@@ -849,6 +849,27 @@
    "nBodyDecl": 3,
    "presetSigHash": "9f910293",
    "bodiesSha256": "9456943e3ae5a05d97491b627531dae201cda1bf5451e1f06cf8eaf4d038fc35"
+  },
+  {
+   "id": "galaxyAnalogyBH",
+   "emoji": "🌚",
+   "name": "銀河アナロジー(中心 DFM 版 BH+恒星質量 DR)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 1.5,
+   "D0pull": null,
+   "D0eff": 1.5,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 3,
+   "geoPN": 3,
+   "nBodyDecl": 4,
+   "presetSigHash": "2e21c512",
+   "bodiesSha256": "0fd23ceec55ae048f94907917f690556d083a1da30e191824216cf15f22ab2ad"
   },
   {
    "id": "shapeToyCluster",

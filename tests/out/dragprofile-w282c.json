@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便c",
   "target": "beta/index.html",
-  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-  "generatedAt": "2026-09-25T23:15:39.735Z",
+  "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
+  "generatedAt": "2026-09-26T06:03:29.809Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4780811,
-    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-    "mtime": "2026-09-25T22:50:10.312Z"
+    "bytes": 4836646,
+    "sha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
+    "mtime": "2026-09-26T04:23:04.176Z"
    }
   ],
   "code": [
@@ -18,60 +18,60 @@
     "file": "tests/exp-w282c-dragprofile.mjs",
     "bytes": 8417,
     "sha256": "0b63aa7dc7f6f53a0f0d1bcf7ac39365296c48ea907f485c1527ba8dbcf37b9c",
-    "mtime": "2026-09-25T23:07:59.529Z"
+    "mtime": "2026-09-25T23:51:52.681Z"
    },
    {
     "file": "tests/lib-w282c-dragprofile.mjs",
     "bytes": 39117,
     "sha256": "9e7c4230218bcfeb32f2232ef823862b934ad60a9bc5deb5e08f7ad2e072dcde",
-    "mtime": "2026-09-25T23:08:31.189Z"
+    "mtime": "2026-09-25T23:51:52.681Z"
    },
    {
     "file": "tests/lib-w280b-sphereKernel.mjs",
     "bytes": 14578,
     "sha256": "a166210aebc8b8d1fbbced6059c8eea3e9a01b84641fa0f89f357537c9678614",
-    "mtime": "2026-09-25T22:50:10.532Z"
+    "mtime": "2026-09-24T08:51:12.597Z"
    },
    {
     "file": "tests/lib-w279c-bgcompose.mjs",
     "bytes": 21462,
     "sha256": "86bbcc73e9f00a5b156019d5905fc227cae2d1986fc2435f68af7f438f7c97a8",
-    "mtime": "2026-09-25T22:50:10.532Z"
+    "mtime": "2026-09-23T20:24:22.939Z"
    },
    {
     "file": "tests/lib-w278d-readaudit.mjs",
     "bytes": 4816,
     "sha256": "41f86f7bcd16c23be9d0952957b4b59a28add8a930bb1ba92386b0cc8d1c885b",
-    "mtime": "2026-09-25T22:50:10.532Z"
+    "mtime": "2026-09-23T11:00:54.407Z"
    },
    {
     "file": "tests/lib-w275b-meshfield.mjs",
     "bytes": 22488,
     "sha256": "1fc47d3dfd8ed8eaac7656a8c95a7ecd48486a8e1ac9ef8466cc9fd3bb9e6534",
-    "mtime": "2026-09-25T22:50:10.528Z"
+    "mtime": "2026-09-22T06:21:31.427Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-25T22:50:10.532Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-25T22:50:10.525Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 34111,
-    "sha256": "29807a6de6d4ae8598498420bc14a6198e3ca519d8fe2d71d13275ad432cbc39",
-    "mtime": "2026-09-25T22:50:10.532Z"
+    "bytes": 59751,
+    "sha256": "647a904c748509cb4d0fd9ffd2619c225293a9899f9a9be64c0fe97fdd56d0ee",
+    "mtime": "2026-09-25T23:51:53.390Z"
    }
   ],
-  "codeSha256": "72685f6745ecb9410d0aa10f533591b9fd33569a9e460296c5ab9a3f92c32152",
+  "codeSha256": "c6280fe25e033c726b48b6a0cd1f9b532f39a23f32fd94726b5be348a2527ca5",
   "scope": {
-   "version": "w281a-scope-1",
+   "version": "w282e-scope-2",
    "presets": [
     "alphaCenABDFM",
     "earthMoonDiagOne",
@@ -117,40 +117,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 967,
-   "segments": 887,
-   "closureShare": 0.3789
+   "names": 777,
+   "segments": 705,
+   "closureShare": 0.3155
   },
-  "scopeSha256": "6360a7a6e1cfb60cf828cc13e009c4579d7a5924e29a91f58f35a5013790ed1e",
+  "scopeSha256": "f4c263ef88aa662bd56a0878e2ee8948849de7a0f69dbb22902db4094e467b6a",
   "scopeComplete": true,
   "inputsStable": [],
-  "volatileKeys": [
-   "generatedAt",
-   "when",
-   "wallSec",
-   "wallClock",
-   "wallS",
-   "spentSec",
-   "rateStepsPerSec",
-   "mtime",
-   "measuredAt",
-   "elapsedSec",
-   "elapsedS",
-   "elapsedMs",
-   "wallMs",
-   "wallDurationMs",
-   "durationMs",
-   "runMs",
-   "spentSecTotal",
-   "measurementElapsedSecTotal",
-   "startedAt",
-   "htmlLoadMs",
-   "baseWallSec",
-   "nowWallSec",
-   "baseRate",
-   "nowRate",
-   "maxWallSec"
-  ]
+  "stableHashVersion": "w282e-stable-1"
  },
  "harnessVersion": "w282c-dragprofile-1",
  "libVersion": "w282c-1",
@@ -184,8 +158,8 @@
       "spin": 0
      },
      "sha": [
-      "83bba7df8c57df2c",
-      "83bba7df8c57df2c"
+      "f10e649601d856ac",
+      "f10e649601d856ac"
      ]
     },
     "physicsQ": {
@@ -196,8 +170,8 @@
       "spin": 0
      },
      "sha": [
-      "83bba7df8c57df2c",
-      "83bba7df8c57df2c"
+      "f10e649601d856ac",
+      "f10e649601d856ac"
      ]
     },
     "warnings": 0
@@ -218,8 +192,8 @@
       "spin": 0
      },
      "sha": [
-      "75b0faa2baa2ad52",
-      "75b0faa2baa2ad52"
+      "9dd3a6a286b6b8bb",
+      "9dd3a6a286b6b8bb"
      ]
     },
     "physicsQ": {
@@ -230,8 +204,8 @@
       "spin": 0
      },
      "sha": [
-      "75b0faa2baa2ad52",
-      "75b0faa2baa2ad52"
+      "9dd3a6a286b6b8bb",
+      "9dd3a6a286b6b8bb"
      ]
     },
     "warnings": 0
@@ -322,8 +296,8 @@
       "spin": 0
      },
      "sha": [
-      "83bba7df8c57df2c",
-      "83bba7df8c57df2c"
+      "f10e649601d856ac",
+      "f10e649601d856ac"
      ]
     },
     "kFrame0vs1": {
@@ -334,8 +308,8 @@
       "spin": 0
      },
      "sha": [
-      "83bba7df8c57df2c",
-      "83bba7df8c57df2c"
+      "f10e649601d856ac",
+      "f10e649601d856ac"
      ]
     }
    },
@@ -346,25 +320,25 @@
     "kF1DragQ2vs8": {
      "bitSame": false,
      "maxAbs": {
-      "pos": 1.0926237692387986e-10,
-      "vel": 8.33657587406833e-11,
+      "pos": 1.0534040306708903e-10,
+      "vel": 8.014100494335707e-11,
       "spin": 0
      },
      "sha": [
-      "924624043eea4d3a",
-      "e02895d37504703e"
+      "d0a661920ff8af2d",
+      "246a15df359c3a60"
      ]
     },
     "kFrame0vs1": {
      "bitSame": false,
      "maxAbs": {
-      "pos": 1.1907764019269962e-7,
-      "vel": 1.1628689062614765e-7,
+      "pos": 1.1900232266270905e-7,
+      "vel": 1.1621350836277418e-7,
       "spin": 0
      },
      "sha": [
-      "75b0faa2baa2ad52",
-      "e02895d37504703e"
+      "9dd3a6a286b6b8bb",
+      "246a15df359c3a60"
      ]
     }
    },
@@ -2661,7 +2635,7 @@
       "emoji": "✴️",
       "group": "stellar",
       "index": 0,
-      "m": 21.45656689553357,
+      "m": 21.451938,
       "q": 4.611121739045699,
       "qSource": "body.dragQ",
       "kFrame": 1,
@@ -2680,9 +2654,9 @@
       "sense": "faster",
       "senseInst": "faster",
       "senseBasis": "meanMotion",
-      "omegaMean": 0.0024966711392274345,
-      "dOmegaMean": 4.571217298860772,
-      "dOmegaMeanRatio": 1830.9248771447255,
+      "omegaMean": 0.0024961463622774085,
+      "dOmegaMean": 4.571217823637722,
+      "dOmegaMeanRatio": 1831.3100115920613,
       "observedSpin": null,
       "partner": 1
      },
@@ -2691,7 +2665,7 @@
       "emoji": "✴️",
       "group": "stellar",
       "index": 1,
-      "m": 18.08334317892021,
+      "m": 18.079442,
       "q": 4.525887570719487,
       "qSource": "body.dragQ",
       "kFrame": 1,
@@ -2710,9 +2684,9 @@
       "sense": "faster",
       "senseInst": "faster",
       "senseBasis": "meanMotion",
-      "omegaMean": 0.0024966711392274345,
-      "dOmegaMean": 2.0047363488607726,
-      "dOmegaMeanRatio": 802.9637213177842,
+      "omegaMean": 0.0024961463622774085,
+      "dOmegaMean": 2.004736873637723,
+      "dOmegaMeanRatio": 803.1327425082004,
       "observedSpin": null,
       "partner": 0
      }
@@ -2735,7 +2709,7 @@
       "emoji": "💫",
       "group": "stellar",
       "index": 0,
-      "m": 41.038218223641486,
+      "m": 41.022755,
       "q": 4.676140238926186,
       "qSource": "body.dragQ",
       "kFrame": 1,
@@ -2754,9 +2728,9 @@
       "sense": "faster",
       "senseInst": "faster",
       "senseBasis": "meanMotion",
-      "omegaMean": 0.003973075722094798,
-      "dOmegaMean": 13.656514692526304,
-      "dOmegaMeanRatio": 3437.2651436217598,
+      "omegaMean": 0.003971750771283162,
+      "dOmegaMean": 13.656516017477117,
+      "dOmegaMeanRatio": 3438.4121270190067,
       "observedSpin": null,
       "partner": 1
      },
@@ -2765,7 +2739,7 @@
       "emoji": "💫",
       "group": "stellar",
       "index": 1,
-      "m": 20.25056042252401,
+      "m": 20.24293,
       "q": 4.100469287433549,
       "qSource": "body.dragQ",
       "kFrame": 1,
@@ -2784,8 +2758,8 @@
       "sense": "nonRotating",
       "senseInst": "nonRotating",
       "senseBasis": "meanMotion",
-      "omegaMean": 0.003973075722094798,
-      "dOmegaMean": -0.003973075722094798,
+      "omegaMean": 0.003971750771283162,
+      "dOmegaMean": -0.003971750771283162,
       "dOmegaMeanRatio": -1,
       "observedSpin": null,
       "partner": 0
@@ -3347,7 +3321,7 @@
   "引きずり消失を確認した",
   "新発見"
  ],
- "headlessMs": 61,
+ "headlessMs": 59,
  "headlessErrors": 0,
- "elapsedS": 0.907
+ "elapsedS": 0.908
 }

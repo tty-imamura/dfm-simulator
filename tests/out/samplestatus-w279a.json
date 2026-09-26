@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "5590e86e8ff7d06e97279516ea59af8116b37270db7099828df3b1f8fdb22b05",
-  "generatedAt": "2026-09-25T23:24:07.369Z",
+  "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
+  "generatedAt": "2026-09-26T06:03:33.486Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
     "bytes": 52268,
     "sha256": "577cb6b3ac366f352c693d1baa1fa9bc958008d9561808e6fb49f8255ed43b4a",
-    "mtime": "2026-09-25T23:24:00.788Z"
+    "mtime": "2026-09-26T00:06:36.716Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2812516,
-    "sha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
-    "mtime": "2026-09-25T22:50:11.260Z"
+    "bytes": 2815702,
+    "sha256": "0fe97dd36ce5f79a62732e28e5947c285d5a08ae749adf6db3d83ef083b3b200",
+    "mtime": "2026-09-26T05:56:23.392Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 91098,
-    "sha256": "ab5413da7f0a0435b824150b3d3a5cbed788a289a950576179d2cee866b795cc",
-    "mtime": "2026-09-25T22:50:11.268Z"
+    "bytes": 90699,
+    "sha256": "fc3f3459e616439700c5e1b5fc2a22d20cad2f080fc46323125cd24b83abcf15",
+    "mtime": "2026-09-26T03:29:24.720Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 47606,
-    "sha256": "fd458a0f7dfcf2481570af1024c4a02606e109ceba0b1298a9675e0c1bc98af6",
-    "mtime": "2026-09-25T23:24:07.336Z"
+    "bytes": 47604,
+    "sha256": "cedbef562cf658147af1e5cad7bbf96a2f0c77ae4b3db84620c16c1c86f56f6e",
+    "mtime": "2026-09-26T06:03:33.456Z"
    }
   ],
   "code": [
@@ -45,19 +45,19 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 15287,
     "sha256": "4748dd7356dc847f31a76a845169cd91ebd1199c7fcf3961d47d9a874ccdbb43",
-    "mtime": "2026-09-25T22:50:11.204Z"
+    "mtime": "2026-09-23T20:24:37.442Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 19451,
     "sha256": "09e47055bdeceb639a2b4770f085a9315ada2a6e81398c2c9343a3e3e388244f",
-    "mtime": "2026-09-25T22:50:11.220Z"
+    "mtime": "2026-09-23T20:24:37.442Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-25T22:50:11.212Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
   "codeSha256": "dd9d3d7276f5a2a355b7718a70baf4cde99977af80ef7aa66b65c60e4dea6181",
@@ -2670,7 +2670,7 @@
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "周期 −0.618%(25.9σ)",
+    "mismatch": "周期 −0.597%(25σ)",
     "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -2679,16 +2679,16 @@
     "en": {
      "purpose": "Apply kF1 to α Cen with the observed masses",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period −0.618% (25.9σ)",
+     "mismatch": "period −0.597% (25σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Apply kF1 to α Cen with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −0.618% (25.9σ); numerics unresolved; mapping unresolved."
+     "brief": "Apply kF1 to α Cen with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −0.597% (25σ); numerics unresolved; mapping unresolved."
     },
-    "brief": "観測質量のまま kF1 を α Cen へ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −0.618%(25.9σ)・数値未解決・写像未確定。"
+    "brief": "観測質量のまま kF1 を α Cen へ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −0.597%(25σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[14]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.005228809363532559,
+    "lastDiffInSigma": 0.005098661699594102,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -2741,7 +2741,7 @@
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "周期 −1.80%(210σ)",
+    "mismatch": "周期 −1.77%(206σ)",
     "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -2750,16 +2750,16 @@
     "en": {
      "purpose": "Apply kF1 to Sirius with the observed masses",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period −1.80% (210σ)",
+     "mismatch": "period −1.77% (206σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Apply kF1 to Sirius with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.80% (210σ); numerics unresolved; mapping unresolved."
+     "brief": "Apply kF1 to Sirius with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.77% (206σ); numerics unresolved; mapping unresolved."
     },
-    "brief": "観測質量のまま kF1 をシリウスへ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.80%(210σ)・数値未解決・写像未確定。"
+    "brief": "観測質量のまま kF1 をシリウスへ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.77%(206σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[16]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.07903489692756094,
+    "lastDiffInSigma": 0.07678915795950994,
     "missing": [
      "写像未確定",
      "数値精度"

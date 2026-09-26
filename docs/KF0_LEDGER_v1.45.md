@@ -132,7 +132,7 @@
 | 📿 `psrB1534` ↔ 🧶 `psrB1534DFM` (📿 / 🧶 B1534+12) | 0 → 1 | 1.0000000 → 1.9994855 | いいえ | `massFactor` 1 → 1.9994854557873434 / `bodiesSha256` 6d0ce4ac9cf50a88519018 → 75e498092c87175162d6b4 |
 | 🎐 `gw150914` ↔ 🎻 `gw150914DFM` (🎐 / 🎻 GW150914) | 0 → 1 | 1.0000000 → 2.0000000 | いいえ | `massFactor` 1 → 1.9999999999889444 / `bodiesSha256` b71cf7f8ac0d80a75adec0 → 4accd6ac299be4ab9c3758 |
 
-**内蔵 140 本の中で「k を除く 5 成分がすべて同一で kFrame だけが違う」束は 2 組**である(`galaxyMeshSpiral` ↔ `galaxyMeshSpiralGeoToy` , `plutoCharonReal` ↔ `charonGeoToy3`)。**宣言した対 8 組のうち、この定義を満たすのは 0 組である。**
+**内蔵 141 本の中で「k を除く 5 成分がすべて同一で kFrame だけが違う」束は 2 組**である(`galaxyMeshSpiral` ↔ `galaxyMeshSpiralGeoToy` , `plutoCharonReal` ↔ `charonGeoToy3`)。**宣言した対 8 組のうち、この定義を満たすのは 0 組である。**
 
 ## 5. 未測定の一覧(理由つき — 推定で埋めない)
 
@@ -365,4 +365,4 @@
 
 ---
 
-生成: 2026-09-25T23:39:04.541Z / 対象 `beta/index.html` sha256 `13622832e411f9ca…` / 表の版 `w275a-1`
+生成: 2026-09-26T06:03:32.389Z / 対象 `beta/index.html` sha256 `c980ce960b6bf171…` / 表の版 `w275a-1`

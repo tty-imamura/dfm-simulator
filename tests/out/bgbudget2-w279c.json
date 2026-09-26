@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第279便c",
   "target": "beta/index.html",
-  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-  "generatedAt": "2026-09-25T07:23:14.455Z",
+  "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
+  "generatedAt": "2026-09-26T01:00:02.777Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4780811,
-    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-    "mtime": "2026-09-25T04:06:38.157Z"
+    "bytes": 4836654,
+    "sha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
+    "mtime": "2026-09-26T00:07:02.808Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 97740,
-    "sha256": "844fa4c13348e148edcf7cbeb1e0ef65a27276ea6f018282141ef5102a3bc5e3",
-    "mtime": "2026-09-25T06:50:49.917Z"
+    "sha256": "4ab24d225d2da9464193f8b13436098f9fcd186bc60cf139f1618204ef1223d3",
+    "mtime": "2026-09-26T00:28:38.276Z"
    },
    {
     "file": "tests/out/bgequiv-w278d.json",
-    "bytes": 116606,
-    "sha256": "3c9f8a9953c8899c92e8c68ac80c9a2a661da4b9648a005d957cfaf32ecfe423",
-    "mtime": "2026-09-25T07:21:26.173Z"
+    "bytes": 116358,
+    "sha256": "7559580002f767f02b0b4a9843453d014fb745cd4744117104fcc38b6f914c82",
+    "mtime": "2026-09-26T00:58:13.292Z"
    }
   ],
   "code": [
@@ -100,7 +100,7 @@
    "v1.45.0 RC を切った"
   ],
   "scope": {
-   "version": "w281a-scope-1",
+   "version": "w282e-scope-2",
    "presets": [
     "earthMoonRealKF1",
     "galaxy",
@@ -130,49 +130,36 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 966,
-   "segments": 886,
-   "closureShare": 0.3786
+   "names": 776,
+   "segments": 704,
+   "closureShare": 0.3151
   },
-  "scopeSha256": "f906cab07a8a61ac487519bfe02785883d0365790605f5569661b99bf784c7c6",
+  "scopeSha256": "39bffdca318884e1af8a86423221d99a0aa2e68b8cad61cd4cef5bd474a36a74",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "stableSha256": "f8ba0d64e34ad56337e23a74b33fe2c2a8e2f71a6c6a7e700b3da3489f607e0e"
+    "stableSha256": "57a241adaf9d233b106beda0471c1aa96edbaef6b0381ff0c051feb17a234592",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime"
+    ]
    },
    {
     "file": "tests/out/bgequiv-w278d.json",
-    "stableSha256": "478faabe5eaf71782b273e98eef17a8b3130aeeff357f0e91dbdbf188592ff0f"
+    "stableSha256": "145dea6818daf00f81b32eeea57b078fb746f40356322233550bebdd9be3cde7",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime"
+    ]
    }
   ],
-  "volatileKeys": [
-   "generatedAt",
-   "when",
-   "wallSec",
-   "wallClock",
-   "wallS",
-   "spentSec",
-   "rateStepsPerSec",
-   "mtime",
-   "measuredAt",
-   "elapsedSec",
-   "elapsedS",
-   "elapsedMs",
-   "wallMs",
-   "wallDurationMs",
-   "durationMs",
-   "runMs",
-   "spentSecTotal",
-   "measurementElapsedSecTotal",
-   "startedAt",
-   "htmlLoadMs",
-   "baseWallSec",
-   "nowWallSec",
-   "baseRate",
-   "nowRate",
-   "maxWallSec"
-  ]
+  "stableHashVersion": "w282e-stable-1"
  },
  "onModels": [
   {
@@ -5730,7 +5717,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376537194852,
-     "ms": 46.70000000111759,
+     "ms": 42.70000000111759,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -5758,7 +5745,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.2833765307995755,
-     "ms": 178.59999999962747,
+     "ms": 124.5,
      "meshVelN": 20001,
      "meshVelUMax": 0.474015973877633,
      "meshVelKickMax": 9.430435082123227e-24,
@@ -5786,7 +5773,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 3.249316354913792,
-     "ms": 170.2999999988824,
+     "ms": 137.69999999925494,
      "meshVelN": 32000,
      "meshVelUMax": 2.773038977689545,
      "meshVelKickMax": 0.0009324681847986358,
@@ -5814,7 +5801,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.283376537213986,
-     "ms": 22.799999998882413,
+     "ms": 21.199999999254942,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -5842,7 +5829,7 @@
      "dt": 0.2759266514565031,
      "N": 20000,
      "unw": 6.2833765372135115,
-     "ms": 66.59999999962747,
+     "ms": 55.29999999888241,
      "meshVelN": 20001,
      "meshVelUMax": 0.474015973877633,
      "meshVelKickMax": 9.430435188001654e-24,
@@ -5870,7 +5857,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219786982184,
-     "ms": 38.69999999925494,
+     "ms": 46.40000000037253,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -5898,7 +5885,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219780590367,
-     "ms": 115.19999999925494,
+     "ms": 110.69999999925494,
      "meshVelN": 40001,
      "meshVelUMax": 0.474015973877633,
      "meshVelKickMax": 4.715217640714527e-24,
@@ -5926,7 +5913,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 3.2762585825700157,
-     "ms": 219.19999999925494,
+     "ms": 205.09999999962747,
      "meshVelN": 64000,
      "meshVelUMax": 2.895267268818353,
      "meshVelKickMax": 0.0004657993829299199,
@@ -5954,7 +5941,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219787001554,
-     "ms": 34.59999999962747,
+     "ms": 34.29999999888241,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -5982,7 +5969,7 @@
      "dt": 0.13796332572825154,
      "N": 40000,
      "unw": 6.283219787004645,
-     "ms": 107.20000000111759,
+     "ms": 102,
      "meshVelN": 40001,
      "meshVelUMax": 0.474015973877633,
      "meshVelKickMax": 4.7152174954438356e-24,
@@ -6106,7 +6093,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283320157910627,
-     "ms": 50.79999999888241,
+     "ms": 47.09999999962747,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -6134,7 +6121,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283299252500161,
-     "ms": 139.40000000037253,
+     "ms": 109.80000000074506,
      "meshVelN": 20001,
      "meshVelUMax": 2.2932799449427557,
      "meshVelKickMax": 9.235039727780367e-31,
@@ -6162,7 +6149,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 3.4061642395499803e-13,
-     "ms": 188.7999999988824,
+     "ms": 161.40000000037253,
      "meshVelN": 32000,
      "meshVelUMax": 99.99999999989477,
      "meshVelKickMax": 1.0521662129030207e-12,
@@ -6190,7 +6177,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283449646202045,
-     "ms": 15.900000000372529,
+     "ms": 16,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -6218,7 +6205,7 @@
      "dt": 0.04417266459247326,
      "N": 20000,
      "unw": 6.283449646202073,
-     "ms": 56.20000000111759,
+     "ms": 51.899999998509884,
      "meshVelN": 20001,
      "meshVelUMax": 2.2932799449427557,
      "meshVelKickMax": 9.23506243227049e-31,
@@ -6246,7 +6233,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283188191023437,
-     "ms": 37.19999999925494,
+     "ms": 35.59999999962747,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -6274,7 +6261,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283299524537741,
-     "ms": 120.5,
+     "ms": 104.30000000074506,
      "meshVelN": 40002,
      "meshVelUMax": 2.2932799449427557,
      "meshVelKickMax": 4.617519926135311e-31,
@@ -6302,7 +6289,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 9.467981954003335e-13,
-     "ms": 225.5,
+     "ms": 201.5,
      "meshVelN": 64000,
      "meshVelUMax": 99.99999999989379,
      "meshVelKickMax": 5.285384686828012e-13,
@@ -6330,7 +6317,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283185404001975,
-     "ms": 34,
+     "ms": 30.59999999962747,
      "meshVelN": 0,
      "meshVelUMax": 0,
      "meshVelKickMax": 0,
@@ -6358,7 +6345,7 @@
      "dt": 0.02208633229623663,
      "N": 40000,
      "unw": 6.283185404002147,
-     "ms": 108.69999999925494,
+     "ms": 101.70000000111759,
      "meshVelN": 40000,
      "meshVelUMax": 2.2932799449427557,
      "meshVelKickMax": 4.617532044939379e-31,
@@ -6425,5 +6412,5 @@
   }
  ],
  "pageErrors": [],
- "elapsedS": 75.534
+ "elapsedS": 77.017
 }

@@ -195,9 +195,9 @@
 | 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み |
 |---|---|---|---|---|---|---|---|
 | ✨ | `alphaCenAB` | αケンタウリAB(実単位)— 恒星連星の二体 | α Cen AB を kF0 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.alphaCenAB`) | 量限定合 | — | 写像未確定 |
-| ✴️ | `alphaCenABDFM` | αケンタウリAB(DFM版)— pull 重み・観測質量のまま kF1 | 観測質量のまま kF1 を α Cen へ当てる | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 −0.618%(25.9σ) | 数値未解決・写像未確定 |
+| ✴️ | `alphaCenABDFM` | αケンタウリAB(DFM版)— pull 重み・観測質量のまま kF1 | 観測質量のまま kF1 を α Cen へ当てる | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 −0.597%(25σ) | 数値未解決・写像未確定 |
 | 🌟 | `siriusAB` | シリウスAB(実単位)— 白色矮星との連星 | シリウス AB を kF0 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.siriusAB`) | 量限定合 | — | 写像未確定 |
-| 💫 | `siriusABDFM` | シリウスAB(DFM版)— pull 重み・観測質量のまま kF1 | 観測質量のまま kF1 をシリウスへ当てる | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 −1.80%(210σ) | 数値未解決・写像未確定 |
+| 💫 | `siriusABDFM` | シリウスAB(DFM版)— pull 重み・観測質量のまま kF1 | 観測質量のまま kF1 をシリウスへ当てる | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 −1.77%(206σ) | 数値未解決・写像未確定 |
 | 📻 | `psrDoubleAB` | 二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星 | 二重パルサーを kF0 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 +0.00269%(9.5×10⁵σ) | 数値未解決・写像未確定 |
 | ⚡ | `psrDoubleABDFM` | 二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2) | 二重パルサーを質量補正と kF1 で照合 | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 −1.10%(4.9×10⁷σ) | 数値未解決・写像未確定 |
 | 🩻 | `psrDoubleABGeoToy` | 二重パルサー J0737−3039A/B — geoPN=3 診断(f=1・較正候補ではない) | 観測質量のまま geoPN=3 則を当てる診断 | 未達・周期 +0.0897%・掃引で観測をまたがない(根拠: `tests/out/geotoy-w262a.json`, `behavior.geoToyOverlay`) | 較正対象外 | — | — |
