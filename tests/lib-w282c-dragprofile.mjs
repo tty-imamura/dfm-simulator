@@ -539,8 +539,8 @@ export function fmtSci(x, d) {
 export function docTokens(J) {
   const t = [];
   for (const c of J.classes) t.push(c.ratio.toFixed(4), c.kI.toFixed(4), c.rhoCenterOverMean.toFixed(4), c.i3dOverImom2d.toFixed(4));
-  for (const r of J.control.rows) if (!r.kF1DragQ2vs8.bitSame) t.push(fmtSci(r.kF1DragQ2vs8.maxAbs.pos), fmtSci(r.kF1DragQ2vs8.maxAbs.vel));
-  for (const r of J.control.rows) if (!r.kFrame0vs1.bitSame) t.push(fmtSci(r.kFrame0vs1.maxAbs.pos));
+  for (const r of J.control.rows) if (r.kF1DragQ2vs8 && !r.kF1DragQ2vs8.bitSame) t.push(fmtSci(r.kF1DragQ2vs8.maxAbs.pos), fmtSci(r.kF1DragQ2vs8.maxAbs.vel));
+  for (const r of J.control.rows) if (r.kFrame0vs1 && !r.kFrame0vs1.bitSame) t.push(fmtSci(r.kFrame0vs1.maxAbs.pos));
   t.push(J.diagOne.earth.R_drag.toFixed(4));
   const u = (id) => J.units.rows.find((z) => z.id === id);
   const dg = u('degeneracyARdrag').relDiffAt;

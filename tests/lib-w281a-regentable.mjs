@@ -54,7 +54,8 @@ const V_CALAUDIT = ['/meta/when', '/fourValues/current/when', '/diagnosticsSplit
   '/presets/*/run/wallSec', '/presets/*/run/timeBudget/*/wallSec', '/presets/*/run/timeBudget/*/rateStepsPerSec',
   '/presets/*/run/stopRule/wallSec', '/presets/*/run/stopRule/rateStepsPerSec',
   '/presets/*/run/stopRuleStages/*/wallSec', '/presets/*/run/stopRuleStages/*/rateStepsPerSec',
-  '/presets/*/run/dtEighth/wallSec'];
+  // 第283便c で dt/8 を常時から外した(明示診断だけ)ので、常時の正本に dtEighth は無い —— Pointer は宣言から外す(統合時)
+  ];
 /**
  * 第283便e(AN29): calaudit の**非物理の同一性 meta**(`STABLE_META_KEYS` の鍵だけ —— 値の型は QA が照合)。
  * html を 1 字変えて calaudit を走らせ直すと、物理が 1 bit も動かなくても次が変わる(53aaa64 → 8b05232 の実測):
@@ -668,6 +669,17 @@ export function buildChain(plan, o) {
     const st = by.get(d);
     if (!st || st.role === 'history' || st.outside || mode.has(d)) continue;
     mode.set(d, st.manual ? 'manual' : (opt.noGate ? 'run' : 'gate'));
+  }
+  // 第283便 統合: **同じファイルへ段階的に書く段**(charon の h → h2 → h4 —— 上流が同じ outs を書き直す)は、上流が鎖に入ったら
+  //   再判定(gate)で再利用してはいけない(上流が書き直したファイルに自分の列が無くなる)。上流が run/gate なら自分も run。
+  for (let changed = true; changed;) {
+    changed = false;
+    for (const [k, m] of mode) {
+      if (m !== 'gate') continue;
+      const st = by.get(k); const mine = writesOf(st);
+      const up = [...(deps.get(k) || [])].filter((d) => mode.has(d) && mode.get(d) !== 'manual' && writesOf(by.get(d)).some((f) => mine.includes(f)));
+      if (up.length) { mode.set(k, 'run'); changed = true; }
+    }
   }
   // 波(依存の最長路)
   const level = new Map();

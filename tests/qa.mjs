@@ -2623,7 +2623,9 @@ if (QA_REPLAY_FAIL) {
         }
         if (SC.stableValueSha(K, vp) !== h) bad.push('④ ' + f + ' の宣言した位置だけを書き換えたのに安定 hash が変わった');
         const K2 = clone(J);
-        const firstKey = Object.keys(K2).find((k) => k !== 'meta') || 'meta';
+        // 第283便 統合: 「宣言の外」は、宣言した Pointer の先頭の鍵でもない鍵(diag は /when を宣言している)
+        const declaredHeads = new Set(vp.map((ptr) => SC.parsePointer(ptr)[0]));
+        const firstKey = Object.keys(K2).find((k) => k !== 'meta' && !declaredHeads.has(k)) || 'meta';
         K2[firstKey] = [K2[firstKey], 'w282e-probe'];
         if (SC.stableValueSha(K2, vp) === h) bad.push('④ ' + f + ' の宣言の外(/' + firstKey + ')を変えても安定 hash が変わらない');
         nFile++;
@@ -5474,8 +5476,8 @@ if (QA_REPLAY_FAIL) {
     if (!P) bad.push('①走行 JSON に ❄️ が無い');
     else {
       const stages = ((P.run || {}).stopRuleStages || []);
-      // 第272便a(AG1): 条件つき h/8 を足したので **4 段**である(步数は刻みに反比例)。
-      if (stages.length !== 4) bad.push(`②4 段の停止条件の記録が無い(${stages.length} 段)`);
+      // 第272便a(AG1): 条件つき h/8 を足したので **4 段**だった。第283便c(原仮定者の裁定(第73報)⑤)で dt/8 を常時から外したので **3 段**(明示診断で h/8 を足せば 4 段)。
+      if (stages.length !== 3 && stages.length !== 4) bad.push(`②3 段(明示診断なら 4 段)の停止条件の記録が無い(${stages.length} 段)`);
       const want = { 'dt': 20694498, 'dt/2': 41388996, 'dt/4': 82777992, 'dt/8': 165555984 };
       for (const s of stages) {
         if (s.maxStepsSource !== 'preset')
@@ -17658,9 +17660,9 @@ if (!FAST) {
         // (ii) dt/8
         const dt3 = RT283.REGEN_STEPS.find((z) => z.key === 'dt3');
         if (!dt3 || !/--dt3-registry --merge\b/.test(dt3.cmd) || /--dt8/.test(dt3.cmd)) bad.push('(ii) 再生成表の dt3 段: ' + (dt3 ? dt3.cmd : '無い'));
-        const calSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
-        if (calSrc.indexOf("argv.includes('--dt8-registry')") < 0 || calSrc.indexOf("argv.indexOf('--dt8')") < 0) bad.push('(ii) 明示診断の入口(--dt8-registry / --dt8)が器に無い');
-        if (calSrc.indexOf('chainPolicy:') < 0 || calSrc.indexOf('pObsShifted: -1.7119216449960706') < 0) bad.push('(ii) 鎖の方針・❄️ のずらし 3 段の履歴が器に無い');
+        const calSrc283 = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
+        if (calSrc283.indexOf("argv.includes('--dt8-registry')") < 0 || calSrc283.indexOf("argv.indexOf('--dt8')") < 0) bad.push('(ii) 明示診断の入口(--dt8-registry / --dt8)が器に無い');
+        if (calSrc283.indexOf('chainPolicy:') < 0 || calSrc283.indexOf('pObsShifted: -1.7119216449960706') < 0) bad.push('(ii) 鎖の方針・❄️ のずらし 3 段の履歴が器に無い');
         if (CA && CA.h8 && CA.h8.chainPolicy) {
           const e8 = (CA.presets || []).filter((p) => p.run && p.run.dtEighth);
           const q8 = (CA.presets || []).flatMap((p) => (p.quantities || []).filter((q) => q.assessedStage === 'h8' || (q.gate && q.gate.assessedStage === 'h8')));
@@ -17692,8 +17694,8 @@ if (!FAST) {
         const dd = CS.dtDt2Skip({ targets: [{ label: 'B', A: { perMean: 100, slopeDeg: 1 }, B: {}, oscP: 100 }] }, { targets: [{ label: 'B', A: { perMean: 100.00001, slopeDeg: 1.0000001 }, B: {}, oscP: 100 }] });
         const dn = CS.dtDt2Skip({ targets: [{ label: 'B', A: { perMean: 100 }, B: {} }] }, { targets: [{ label: 'B', A: { perMean: 100.1 }, B: {} }] });
         if (!dd.skip || dn.skip) bad.push('(iii) 閾値規則の純関数');
-        if (calSrc.indexOf("const H4_SKIP_DT2 = argv.includes('--h4-skip-dt2');") < 0 || calSrc.indexOf("const H4_REUSE = !argv.includes('--no-h4-reuse');") < 0
-          || calSrc.indexOf('DFM_SYSTEM_IDS.has(id)') < 0) bad.push('(iii) 閾値規則が既定 off・DFM の本だけでない / 再利用の既定が違う');
+        if (calSrc283.indexOf("const H4_SKIP_DT2 = argv.includes('--h4-skip-dt2');") < 0 || calSrc283.indexOf("const H4_REUSE = !argv.includes('--no-h4-reuse');") < 0
+          || calSrc283.indexOf('DFM_SYSTEM_IDS.has(id)') < 0) bad.push('(iii) 閾値規則が既定 off・DFM の本だけでない / 再利用の既定が違う');
         cases.push('再利用の判定 7 通り・刻印・転記を数えない・反例 e(h₀)=e(h₀/2)=0・e(h₀/4)=' + ce.eH4.toExponential(3) + '・閾値規則は既定 off');
         if (CA && CA.h4Reuse) {
           let nR = 0;
@@ -37854,7 +37856,8 @@ if (!FAST) {
       const A = await import('file://' + path.join(ROOT, 'tests', 'lib-w278d-readaudit.mjs'));
       const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
       const au = A.auditTokenSites(html, /\b(BG_COMPLEX_[A-Z_]+|validateBackgroundComplex|backgroundComplex)\b/g,
-        ['(top-level)', 'validateBackgroundComplex', 'validatePreset', 'meshVelocityPrepare']);
+        // 第283便d: 背景複素決定力の欄(#bgcPanel)は宣言の**表示と編集**だけ(力学の読み口ではない)—— 統合時に許可へ
+        ['(top-level)', 'validateBackgroundComplex', 'validatePreset', 'meshVelocityPrepare', 'bgcState', 'bgcApply', 'buildBgComplexPanel']);
       if (!au.selfCheck.ok) bad.push('⑦ 潰しの自己検査が通らない');
       if (au.outsideAllowed.length) bad.push('⑦ 検証器と宣言した外部ステップの外から背景鍵が読まれている: ' + au.outsideAllowed.join(','));
       const st = A.stripJs(html);
@@ -54891,7 +54894,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (!(g1.length === 3 && (g1.every((r) => r.rejected === true && r.kFrame0Ok === true)
           || g1.every((r) => r.rejected !== true && r.kF1DragQ2vs8.bitSame === true && r.kFrame0vs1.bitSame === true)))) bad.push('③geoPN=1 で kFrame/q が効いた、または kFrame=1 の写しが拒否されない(構造が変わった —— 正本と PHYSICS を直す)');
       }
-      if (!(M.gates.length === 3 && M.gates.every((g) => g.count === 1))) bad.push('③門の文字列が html に 1 回ずつ無い: ' + M.gates.map((g) => g.key + '×' + g.count).join(','));
+      // 第283便c の試験粒子の 1 步(dfmTestParticleStep)は本体の門 2 行(e6Gate・g2Gate)の写しを持つ —— 統合時: 写しの分だけ 2 回を許す(pnVel は 1 回)。一本化は AN42
+      const tpCopy = html.indexOf('function dfmTestParticleStep') >= 0;
+      const gateCountOk = (g) => g.count === 1 || (tpCopy && g.count === 2 && (g.key === 'e6Gate' || g.key === 'g2Gate'));
+      if (!(M.gates.length === 3 && M.gates.every(gateCountOk))) bad.push('③門の文字列が html に 1 回ずつ無い: ' + M.gates.map((g) => g.key + '×' + g.count).join(','));
       cases.push(`対照: kFrame=1・geoPN=2 で q の差 位置 ${J.control.rows.filter((r) => r.geoPN === 2).map((r) => Ld.fmtSci(r.kF1DragQ2vs8.maxAbs.pos)).join('/')}・`
         + `geoPN=1 は ${M.control.filter((r) => r.geoPN === 1).every((r) => r.rejected) ? '**kFrame=1 の写しを受理器が拒否**(第283便a —— geoPN=1 は kFrame=0 専用)' : 'kFrame=1 でも q・kFrame 1/0 ともビット一致'}(門 ${M.gates.map((g) => g.key).join('・')})`);
       // ④ 引き直し(相対 1e-12)
