@@ -717,3 +717,7 @@ tests/out/regen-plan-w281a.json
 #   (tests/exp-w282b-geo1.mjs —— 自由二体の 1 歩・重心系・ブースト・固定源・質量比の近点移動・水星の表・kF0 の比較表・内蔵 geoPN:1 の 3 本)。
 #   QA behavior.geo1Momentum・docs.geo1Contract が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**。
 !tests/out/geo1-w282b.json
+# 第283便f(原仮定者の裁定(第72報)⑥・第73報 AN27・統括の検証項目 R81): **球状星団アナロジー便**の正本
+#   (tests/exp-w283f-cluster.mjs —— 形状の門〔測る前に宣言〕と対照の走行・rayHeavy の lens 除外の光線の比較)。
+#   QA behavior.clusterAnalogy・behavior.rayLensExcluded が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**
+!tests/out/cluster-w283f.json
