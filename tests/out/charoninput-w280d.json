@@ -31,7 +31,7 @@
   },
   "formal": {
    "from": "tests/out/calaudit-w249.json",
-   "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
+   "sha256": "0a5eae532c8febc296e495a70bdee61eb7ea06ae072caaed861615651d85c813",
    "row": "公転周期(kFrame=0 対照・同方向1周)",
    "h": 551864.0613632939,
    "h2": 551864.0612661137,
@@ -52,23 +52,23 @@
    "精度を上げれば成立",
    "引きずり消失を確認した"
   ],
-  "wallSec": 618.849,
+  "wallSec": 774.193,
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-  "generatedAt": "2026-09-26T10:16:47.693Z",
+  "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+  "generatedAt": "2026-09-26T19:58:44.293Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836622,
-    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-    "mtime": "2026-09-26T09:36:38.024Z"
+    "bytes": 4902365,
+    "sha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+    "mtime": "2026-09-26T17:47:12.744Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2815722,
-    "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
-    "mtime": "2026-09-26T09:46:19.584Z"
+    "bytes": 2688244,
+    "sha256": "0a5eae532c8febc296e495a70bdee61eb7ea06ae072caaed861615651d85c813",
+    "mtime": "2026-09-26T19:42:36.264Z"
    }
   ],
   "code": [
@@ -111,7 +111,7 @@
   ],
   "codeSha256": "5bf4093b38659c306e48ca51e95a5dfa78b34040545fc5ab186df12eb7aece8b",
   "scope": {
-   "version": "w282e-scope-2",
+   "version": "w283e-scope-3",
    "presets": [
     "plutoCharonDFM",
     "plutoCharonDiagInput",
@@ -140,20 +140,30 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 779,
-   "segments": 707,
-   "closureShare": 0.3164
+   "names": 791,
+   "segments": 719,
+   "closureShare": 0.3176
   },
-  "scopeSha256": "23db7a637dcb936a688f5983c66e368ceab1985645c9c36b9524cc9238865b65",
+  "scopeSha256": "1cc858ff7e549976ebc91df9b4afd6dad996b6df8ca28b221643c8de1770506a",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "d80d3db914d4e66efd951209fdc5a98913d59dd99afdecc0888d3b8a6ca64d8e",
+    "stableSha256": "fdf1bb5cfa34f0bf0a1b3d6a27528f15958902ebbcadcbec39e7d68588ed5145",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
      "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
      "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
      "/meta/when",
      "/presets/*/run/dtEighth/wallSec",
      "/presets/*/run/stopRule/rateStepsPerSec",
@@ -164,6 +174,16 @@
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
     ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "2389d8afac6426030827bec48993c13c32e5cd114f160518d31585cd5545cfde",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
    }
   ],
   "stableHashVersion": "w282e-stable-1"
@@ -245,7 +265,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551864.0612661137,
@@ -279,7 +301,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551864.0612407731,
@@ -313,7 +337,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -371,7 +397,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551864.0612661137,
@@ -405,7 +433,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551864.0612407731,
@@ -439,7 +469,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -497,7 +529,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551864.061266152,
@@ -531,7 +565,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551864.061240833,
@@ -565,7 +601,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -623,7 +661,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551853.714268699,
@@ -657,7 +697,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551853.7142448771,
@@ -691,7 +733,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -749,7 +793,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551853.2874483812,
@@ -783,7 +829,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551853.2874245882,
@@ -817,7 +865,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -875,7 +925,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551885.1824087172,
@@ -909,7 +961,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551885.1823833281,
@@ -943,7 +997,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -1001,7 +1057,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551842.9403932974,
@@ -1035,7 +1093,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551842.9403677251,
@@ -1069,7 +1129,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -1127,7 +1189,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551854.0921807754,
@@ -1161,7 +1225,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551854.092155157,
@@ -1195,7 +1261,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -1253,7 +1321,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551851.6583866732,
@@ -1287,7 +1357,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551851.6583611094,
@@ -1321,7 +1393,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -1379,7 +1453,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551884.3829774833,
@@ -1413,7 +1489,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551884.3829520517,
@@ -1447,7 +1525,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -1505,7 +1585,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551864.0810752385,
@@ -1539,7 +1621,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551864.081049829,
@@ -1573,7 +1657,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -1757,7 +1843,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551864.061249141,
@@ -1791,7 +1879,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551864.061237236,
@@ -1825,7 +1915,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -1883,7 +1975,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551864.0606226932,
@@ -1917,7 +2011,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551864.0605974033,
@@ -1951,7 +2047,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -2013,7 +2111,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551864.3106625847,
@@ -2051,7 +2151,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551864.3106325382,
@@ -2089,7 +2191,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -2148,7 +2252,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551805.6242771642,
@@ -2183,7 +2289,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551805.6239649276,
@@ -2218,7 +2326,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -2277,7 +2387,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551858.2235527538,
@@ -2312,7 +2424,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551858.2235070532,
@@ -2347,7 +2461,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -2406,7 +2522,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h2": {
       "p2": 551863.4769487679,
@@ -2441,7 +2559,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      },
      "h4": {
       "p2": 551863.4769223186,
@@ -2476,7 +2596,9 @@
        0,
        0
       ],
-      "warnings": []
+      "warnings": [
+       "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+      ]
      }
     },
     "delta": {
@@ -5189,7 +5311,7 @@
     551864.0613633256
    ],
    "err": null,
-   "wallMs": 951
+   "wallMs": 1567
   },
   "B.base.h2": {
    "dt": 0.008,
@@ -5206,7 +5328,7 @@
     551864.0612659458
    ],
    "err": null,
-   "wallMs": 1752
+   "wallMs": 2581
   },
   "B.base.h4": {
    "dt": 0.004,
@@ -5223,7 +5345,7 @@
     551864.061241735
    ],
    "err": null,
-   "wallMs": 3667
+   "wallMs": 4656
   },
   "B.baseDiagClass.h": {
    "dt": 0.016,
@@ -5240,7 +5362,7 @@
     551864.0613633256
    ],
    "err": null,
-   "wallMs": 930
+   "wallMs": 1239
   },
   "B.baseDiagClass.h2": {
    "dt": 0.008,
@@ -5257,7 +5379,7 @@
     551864.0612659458
    ],
    "err": null,
-   "wallMs": 1805
+   "wallMs": 2258
   },
   "B.baseDiagClass.h4": {
    "dt": 0.004,
@@ -5274,7 +5396,7 @@
     551864.061241735
    ],
    "err": null,
-   "wallMs": 3525
+   "wallMs": 4719
   },
   "B.rebuilt.h": {
    "dt": 0.016,
@@ -5291,7 +5413,7 @@
     551864.061363339
    ],
    "err": null,
-   "wallMs": 841
+   "wallMs": 1096
   },
   "B.rebuilt.h2": {
    "dt": 0.008,
@@ -5308,7 +5430,7 @@
     551864.0612659452
    ],
    "err": null,
-   "wallMs": 1772
+   "wallMs": 2224
   },
   "B.rebuilt.h4": {
    "dt": 0.004,
@@ -5325,7 +5447,7 @@
     551864.0612417383
    ],
    "err": null,
-   "wallMs": 3508
+   "wallMs": 4822
   },
   "B.eps10.h": {
    "dt": 0.016,
@@ -5342,7 +5464,7 @@
     551853.7143670343
    ],
    "err": null,
-   "wallMs": 853
+   "wallMs": 1100
   },
   "B.eps10.h2": {
    "dt": 0.008,
@@ -5359,7 +5481,7 @@
     551853.7142698893
    ],
    "err": null,
-   "wallMs": 1656
+   "wallMs": 2190
   },
   "B.eps10.h4": {
    "dt": 0.004,
@@ -5376,7 +5498,7 @@
     551853.714245542
    ],
    "err": null,
-   "wallMs": 3456
+   "wallMs": 4652
   },
   "B.eps1.h": {
    "dt": 0.016,
@@ -5393,7 +5515,7 @@
     551853.2875468907
    ],
    "err": null,
-   "wallMs": 926
+   "wallMs": 1246
   },
   "B.eps1.h2": {
    "dt": 0.008,
@@ -5410,7 +5532,7 @@
     551853.2874494349
    ],
    "err": null,
-   "wallMs": 1795
+   "wallMs": 2302
   },
   "B.eps1.h4": {
    "dt": 0.004,
@@ -5427,7 +5549,7 @@
     551853.2874251289
    ],
    "err": null,
-   "wallMs": 3623
+   "wallMs": 4693
   },
   "B.aPlus.h": {
    "dt": 0.016,
@@ -5444,7 +5566,7 @@
     551885.1825058191
    ],
    "err": null,
-   "wallMs": 958
+   "wallMs": 1247
   },
   "B.aPlus.h2": {
    "dt": 0.008,
@@ -5461,7 +5583,7 @@
     551885.1824085522
    ],
    "err": null,
-   "wallMs": 2061
+   "wallMs": 2554
   },
   "B.aPlus.h4": {
    "dt": 0.004,
@@ -5478,7 +5600,7 @@
     551885.1823841431
    ],
    "err": null,
-   "wallMs": 3377
+   "wallMs": 4827
   },
   "B.aMinus.h": {
    "dt": 0.016,
@@ -5495,7 +5617,7 @@
     551842.9404903239
    ],
    "err": null,
-   "wallMs": 989
+   "wallMs": 1098
   },
   "B.aMinus.h2": {
    "dt": 0.008,
@@ -5512,7 +5634,7 @@
     551842.940393001
    ],
    "err": null,
-   "wallMs": 1793
+   "wallMs": 2394
   },
   "B.aMinus.h4": {
    "dt": 0.004,
@@ -5529,7 +5651,7 @@
     551842.9403686159
    ],
    "err": null,
-   "wallMs": 3348
+   "wallMs": 4490
   },
   "B.aPlu060.h": {
    "dt": 0.016,
@@ -5546,7 +5668,7 @@
     551854.092277659
    ],
    "err": null,
-   "wallMs": 854
+   "wallMs": 1041
   },
   "B.aPlu060.h2": {
    "dt": 0.008,
@@ -5563,7 +5685,7 @@
     551854.0921804628
    ],
    "err": null,
-   "wallMs": 1698
+   "wallMs": 2141
   },
   "B.aPlu060.h4": {
    "dt": 0.004,
@@ -5580,7 +5702,7 @@
     551854.0921561666
    ],
    "err": null,
-   "wallMs": 3387
+   "wallMs": 4550
   },
   "B.gCodata.h": {
    "dt": 0.016,
@@ -5597,7 +5719,7 @@
     551851.6584836942
    ],
    "err": null,
-   "wallMs": 891
+   "wallMs": 1077
   },
   "B.gCodata.h2": {
    "dt": 0.008,
@@ -5614,7 +5736,7 @@
     551851.6583864284
    ],
    "err": null,
-   "wallMs": 1782
+   "wallMs": 2246
   },
   "B.gCodata.h4": {
    "dt": 0.004,
@@ -5631,7 +5753,7 @@
     551851.658362115
    ],
    "err": null,
-   "wallMs": 3360
+   "wallMs": 4573
   },
   "B.gmDirect.h": {
    "dt": 0.016,
@@ -5648,7 +5770,7 @@
     551884.3830743979
    ],
    "err": null,
-   "wallMs": 916
+   "wallMs": 1266
   },
   "B.gmDirect.h2": {
    "dt": 0.008,
@@ -5665,7 +5787,7 @@
     551884.3829773625
    ],
    "err": null,
-   "wallMs": 1731
+   "wallMs": 2273
   },
   "B.gmDirect.h4": {
    "dt": 0.004,
@@ -5682,7 +5804,7 @@
     551884.3829529457
    ],
    "err": null,
-   "wallMs": 3506
+   "wallMs": 4416
   },
   "B.massDouble.h": {
    "dt": 0.016,
@@ -5699,7 +5821,7 @@
     551864.0811721907
    ],
    "err": null,
-   "wallMs": 901
+   "wallMs": 1243
   },
   "B.massDouble.h2": {
    "dt": 0.008,
@@ -5716,7 +5838,7 @@
     551864.0810750308
    ],
    "err": null,
-   "wallMs": 1752
+   "wallMs": 2257
   },
   "B.massDouble.h4": {
    "dt": 0.004,
@@ -5733,7 +5855,7 @@
     551864.0810506683
    ],
    "err": null,
-   "wallMs": 3571
+   "wallMs": 4431
   },
   "B.noPN.h": {
    "dt": 0.016,
@@ -5750,7 +5872,7 @@
     551864.0613615982
    ],
    "err": null,
-   "wallMs": 909
+   "wallMs": 1193
   },
   "B.noPN.h2": {
    "dt": 0.008,
@@ -5767,7 +5889,7 @@
     551864.0612643685
    ],
    "err": null,
-   "wallMs": 1814
+   "wallMs": 2203
   },
   "B.noPN.h4": {
    "dt": 0.004,
@@ -5784,7 +5906,7 @@
     551864.0612399166
    ],
    "err": null,
-   "wallMs": 3420
+   "wallMs": 4390
   },
   "B.leapfrog.h": {
    "dt": 0.016,
@@ -5801,7 +5923,7 @@
     551864.0612946064
    ],
    "err": null,
-   "wallMs": 1833
+   "wallMs": 2159
   },
   "B.leapfrog.h2": {
    "dt": 0.008,
@@ -5818,7 +5940,7 @@
     551864.0612488819
    ],
    "err": null,
-   "wallMs": 3351
+   "wallMs": 4050
   },
   "B.leapfrog.h4": {
    "dt": 0.004,
@@ -5835,7 +5957,7 @@
     551864.0612373749
    ],
    "err": null,
-   "wallMs": 6231
+   "wallMs": 8064
   },
   "B.satNone.h": {
    "dt": 0.016,
@@ -5852,7 +5974,7 @@
     551864.0607198329
    ],
    "err": null,
-   "wallMs": 907
+   "wallMs": 1232
   },
   "B.satNone.h2": {
    "dt": 0.008,
@@ -5869,7 +5991,7 @@
     551864.0606225807
    ],
    "err": null,
-   "wallMs": 1807
+   "wallMs": 2432
   },
   "B.satNone.h4": {
    "dt": 0.004,
@@ -5886,7 +6008,7 @@
     551864.0605983079
    ],
    "err": null,
-   "wallMs": 3581
+   "wallMs": 4536
   },
   "B.satAll.h": {
    "dt": 0.016,
@@ -5903,7 +6025,7 @@
     551864.0600774032
    ],
    "err": null,
-   "wallMs": 2536
+   "wallMs": 3831
   },
   "B.satAll.h2": {
    "dt": 0.008,
@@ -5920,7 +6042,7 @@
     551864.0599848648
    ],
    "err": null,
-   "wallMs": 5477
+   "wallMs": 6902
   },
   "B.satAll.h4": {
    "dt": 0.004,
@@ -5937,7 +6059,7 @@
     551864.059963088
    ],
    "err": null,
-   "wallMs": 10696
+   "wallMs": 13516
   },
   "B.sunX0.0001.h": {
    "dt": 0.016,
@@ -5954,7 +6076,7 @@
     551805.4158980609
    ],
    "err": null,
-   "wallMs": 1251
+   "wallMs": 1541
   },
   "B.sunX0.0001.h2": {
    "dt": 0.008,
@@ -5971,7 +6093,7 @@
     551805.4148723646
    ],
    "err": null,
-   "wallMs": 2377
+   "wallMs": 2967
   },
   "B.sunX0.0001.h4": {
    "dt": 0.004,
@@ -5988,7 +6110,7 @@
     551805.414379405
    ],
    "err": null,
-   "wallMs": 4918
+   "wallMs": 6283
   },
   "B.sunX0.00001.h": {
    "dt": 0.016,
@@ -6005,7 +6127,7 @@
     551858.2129726313
    ],
    "err": null,
-   "wallMs": 1216
+   "wallMs": 1455
   },
   "B.sunX0.00001.h2": {
    "dt": 0.008,
@@ -6022,7 +6144,7 @@
     551858.2128047441
    ],
    "err": null,
-   "wallMs": 2377
+   "wallMs": 2859
   },
   "B.sunX0.00001.h4": {
    "dt": 0.004,
@@ -6039,7 +6161,7 @@
     551858.2127449141
    ],
    "err": null,
-   "wallMs": 4682
+   "wallMs": 5757
   },
   "B.sunX0.000001.h": {
    "dt": 0.016,
@@ -6056,7 +6178,7 @@
     551863.4760715705
    ],
    "err": null,
-   "wallMs": 1318
+   "wallMs": 1468
   },
   "B.sunX0.000001.h2": {
    "dt": 0.008,
@@ -6073,7 +6195,7 @@
     551863.4759676005
    ],
    "err": null,
-   "wallMs": 2477
+   "wallMs": 3173
   },
   "B.sunX0.000001.h4": {
    "dt": 0.004,
@@ -6090,7 +6212,7 @@
     551863.4759397524
    ],
    "err": null,
-   "wallMs": 4709
+   "wallMs": 6404
   },
   "B.chain.c1.h": {
    "dt": 0.016,
@@ -6107,7 +6229,7 @@
     551874.4136218767
    ],
    "err": null,
-   "wallMs": 857
+   "wallMs": 1095
   },
   "B.chain.c1.h2": {
    "dt": 0.008,
@@ -6124,7 +6246,7 @@
     551874.4135245603
    ],
    "err": null,
-   "wallMs": 1868
+   "wallMs": 2182
   },
   "B.chain.c1.h4": {
    "dt": 0.004,
@@ -6141,7 +6263,7 @@
     551874.4135001018
    ],
    "err": null,
-   "wallMs": 3624
+   "wallMs": 4440
   },
   "B.chain.c2.h": {
    "dt": 0.016,
@@ -6158,7 +6280,7 @@
     551863.639343742
    ],
    "err": null,
-   "wallMs": 891
+   "wallMs": 1202
   },
   "B.chain.c2.h2": {
    "dt": 0.008,
@@ -6175,7 +6297,7 @@
     551863.639246338
    ],
    "err": null,
-   "wallMs": 1774
+   "wallMs": 2356
   },
   "B.chain.c2.h4": {
    "dt": 0.004,
@@ -6192,7 +6314,7 @@
     551863.6392219956
    ],
    "err": null,
-   "wallMs": 3534
+   "wallMs": 4422
   },
   "B.chain.c3.h": {
    "dt": 0.016,
@@ -6209,7 +6331,7 @@
     551863.6599679705
    ],
    "err": null,
-   "wallMs": 968
+   "wallMs": 1092
   },
   "B.chain.c3.h2": {
    "dt": 0.008,
@@ -6226,7 +6348,7 @@
     551863.659870754
    ],
    "err": null,
-   "wallMs": 1713
+   "wallMs": 2311
   },
   "B.chain.c3.h4": {
    "dt": 0.004,
@@ -6243,7 +6365,7 @@
     551863.6598463723
    ],
    "err": null,
-   "wallMs": 3460
+   "wallMs": 4486
   },
   "B.chain.c4.h": {
    "dt": 0.016,
@@ -6260,7 +6382,7 @@
     551863.6598993744
    ],
    "err": null,
-   "wallMs": 1562
+   "wallMs": 2046
   },
   "B.chain.c4.h2": {
    "dt": 0.008,
@@ -6277,7 +6399,7 @@
     551863.6598534813
    ],
    "err": null,
-   "wallMs": 3159
+   "wallMs": 3912
   },
   "B.chain.c4.h4": {
    "dt": 0.004,
@@ -6294,7 +6416,7 @@
     551863.6598422441
    ],
    "err": null,
-   "wallMs": 6369
+   "wallMs": 8125
   },
   "C.plu060Mean.h": {
    "dt": 0.16,
@@ -6317,7 +6439,7 @@
     551863.6598992161
    ],
    "err": null,
-   "wallMs": 3132
+   "wallMs": 4090
   },
   "C.plu060Mean.h2": {
    "dt": 0.08,
@@ -6340,7 +6462,7 @@
     551863.6598534684
    ],
    "err": null,
-   "wallMs": 6218
+   "wallMs": 7971
   },
   "C.plu060Mean.h4": {
    "dt": 0.04,
@@ -6363,7 +6485,7 @@
     551863.6598419747
    ],
    "err": null,
-   "wallMs": 12921
+   "wallMs": 15988
   },
   "C.buie.h": {
    "dt": 0.16,
@@ -6386,7 +6508,7 @@
     551856.4431041433
    ],
    "err": null,
-   "wallMs": 3223
+   "wallMs": 4084
   },
   "C.buie.h2": {
    "dt": 0.08,
@@ -6409,7 +6531,7 @@
     551856.4430585661
    ],
    "err": null,
-   "wallMs": 6552
+   "wallMs": 8599
   },
   "C.buie.h4": {
    "dt": 0.04,
@@ -6432,7 +6554,7 @@
     551856.4430472103
    ],
    "err": null,
-   "wallMs": 12877
+   "wallMs": 16417
   },
   "C.mixed.h": {
    "dt": 0.16,
@@ -6455,7 +6577,7 @@
     550902.3060773168
    ],
    "err": null,
-   "wallMs": 3232
+   "wallMs": 3932
   },
   "C.mixed.h2": {
    "dt": 0.08,
@@ -6478,7 +6600,7 @@
     550902.3060314823
    ],
    "err": null,
-   "wallMs": 6473
+   "wallMs": 8058
   },
   "C.mixed.h4": {
    "dt": 0.04,
@@ -6501,7 +6623,7 @@
     550902.3060200672
    ],
    "err": null,
-   "wallMs": 12817
+   "wallMs": 16181
   },
   "C.oldA.h": {
    "dt": 0.16,
@@ -6524,7 +6646,7 @@
     551873.6294172681
    ],
    "err": null,
-   "wallMs": 3050
+   "wallMs": 4154
   },
   "C.oldA.h2": {
    "dt": 0.08,
@@ -6547,7 +6669,7 @@
     551873.6293714645
    ],
    "err": null,
-   "wallMs": 6414
+   "wallMs": 8296
   },
   "C.oldA.h4": {
    "dt": 0.04,
@@ -6570,7 +6692,7 @@
     551873.6293600779
    ],
    "err": null,
-   "wallMs": 12706
+   "wallMs": 15705
   },
   "C.preset.h": {
    "dt": 0.16,
@@ -6585,7 +6707,7 @@
     551863.6598992823
    ],
    "err": null,
-   "wallMs": 1108
+   "wallMs": 1380
   },
   "D.ctl.h": {
    "dt": 0.16,
@@ -6608,7 +6730,7 @@
     551886.6641759145
    ],
    "err": null,
-   "wallMs": 3141
+   "wallMs": 4085
   },
   "D.dfm.h": {
    "dt": 0.16,
@@ -6631,7 +6753,7 @@
     551888.3425567357
    ],
    "err": null,
-   "wallMs": 4988
+   "wallMs": 6291
   },
   "D.snow.h": {
    "dt": 0.016,
@@ -6654,7 +6776,7 @@
     551864.0613632794
    ],
    "err": null,
-   "wallMs": 1693
+   "wallMs": 2230
   },
   "D.ctl.h2": {
    "dt": 0.08,
@@ -6677,7 +6799,7 @@
     551886.6641302756
    ],
    "err": null,
-   "wallMs": 6542
+   "wallMs": 7827
   },
   "D.dfm.h2": {
    "dt": 0.08,
@@ -6700,7 +6822,7 @@
     551888.3424964
    ],
    "err": null,
-   "wallMs": 10023
+   "wallMs": 11632
   },
   "D.snow.h2": {
    "dt": 0.008,
@@ -6723,7 +6845,7 @@
     551864.0612660248
    ],
    "err": null,
-   "wallMs": 3489
+   "wallMs": 4419
   },
   "D.ctl.h4": {
    "dt": 0.04,
@@ -6746,7 +6868,7 @@
     551886.6641188355
    ],
    "err": null,
-   "wallMs": 12458
+   "wallMs": 16114
   },
   "D.dfm.h4": {
    "dt": 0.04,
@@ -6769,7 +6891,7 @@
     551888.3424630319
    ],
    "err": null,
-   "wallMs": 19270
+   "wallMs": 23754
   },
   "D.snow.h4": {
    "dt": 0.004,
@@ -6792,7 +6914,7 @@
     551864.0612418305
    ],
    "err": null,
-   "wallMs": 7046
+   "wallMs": 8818
   },
   "E.a.on.g0.kdk.dt0.16": {
    "dt": 0.16,
@@ -6809,7 +6931,7 @@
     551931.4719247795
    ],
    "err": null,
-   "wallMs": 2324
+   "wallMs": 2901
   },
   "E.a.off.g0.kdk.dt0.16": {
    "dt": 0.16,
@@ -6826,7 +6948,7 @@
     551931.4719247794
    ],
    "err": null,
-   "wallMs": 1464
+   "wallMs": 1791
   },
   "E.a.on.g0.kdk.dt0.04": {
    "dt": 0.04,
@@ -6843,7 +6965,7 @@
     551931.471870644
    ],
    "err": null,
-   "wallMs": 9249
+   "wallMs": 10792
   },
   "E.a.off.g0.kdk.dt0.04": {
    "dt": 0.04,
@@ -6860,7 +6982,7 @@
     551931.4718673276
    ],
    "err": null,
-   "wallMs": 5837
+   "wallMs": 7408
   },
   "E.a.on.g0.softened.dt0.16": {
    "dt": 0.16,
@@ -6877,7 +6999,7 @@
     551931.4719968726
    ],
    "err": null,
-   "wallMs": 2481
+   "wallMs": 2937
   },
   "E.a.off.g0.softened.dt0.16": {
    "dt": 0.16,
@@ -6894,7 +7016,7 @@
     551931.4719935127
    ],
    "err": null,
-   "wallMs": 1430
+   "wallMs": 1899
   },
   "E.a.on.g0.softened.dt0.04": {
    "dt": 0.04,
@@ -6911,7 +7033,7 @@
     551931.4719359435
    ],
    "err": null,
-   "wallMs": 9404
+   "wallMs": 11421
   },
   "E.a.off.g0.softened.dt0.04": {
    "dt": 0.04,
@@ -6928,7 +7050,7 @@
     551931.4719361966
    ],
    "err": null,
-   "wallMs": 5939
+   "wallMs": 7625
   },
   "E.a.on.g2.kdk.dt0.16": {
    "dt": 0.16,
@@ -6945,7 +7067,7 @@
     551931.4719262475
    ],
    "err": null,
-   "wallMs": 2495
+   "wallMs": 2992
   },
   "E.a.off.g2.kdk.dt0.16": {
    "dt": 0.16,
@@ -6962,7 +7084,7 @@
     551931.4719264588
    ],
    "err": null,
-   "wallMs": 1527
+   "wallMs": 2089
   },
   "E.a.on.g2.kdk.dt0.04": {
    "dt": 0.04,
@@ -6979,7 +7101,7 @@
     551931.4718712877
    ],
    "err": null,
-   "wallMs": 10274
+   "wallMs": 11387
   },
   "E.a.off.g2.kdk.dt0.04": {
    "dt": 0.04,
@@ -6996,7 +7118,7 @@
     551931.4718693881
    ],
    "err": null,
-   "wallMs": 6243
+   "wallMs": 8200
   },
   "E.a.on.g2.softened.dt0.16": {
    "dt": 0.16,
@@ -7013,7 +7135,7 @@
     551931.4719991403
    ],
    "err": null,
-   "wallMs": 2538
+   "wallMs": 3067
   },
   "E.a.off.g2.softened.dt0.16": {
    "dt": 0.16,
@@ -7030,7 +7152,7 @@
     551931.471995176
    ],
    "err": null,
-   "wallMs": 1561
+   "wallMs": 2153
   },
   "E.a.on.g2.softened.dt0.04": {
    "dt": 0.04,
@@ -7047,7 +7169,7 @@
     551931.4719368233
    ],
    "err": null,
-   "wallMs": 10069
+   "wallMs": 11849
   },
   "E.a.off.g2.softened.dt0.04": {
    "dt": 0.04,
@@ -7064,7 +7186,7 @@
     551931.4719378006
    ],
    "err": null,
-   "wallMs": 6644
+   "wallMs": 8402
   },
   "E.a.preset.on": {
    "dt": 0.16,
@@ -7081,7 +7203,7 @@
     551931.4719247795
    ],
    "err": null,
-   "wallMs": 2394
+   "wallMs": 2935
   },
   "E.a.preset.off": {
    "dt": 0.16,
@@ -7098,7 +7220,7 @@
     551931.4719247794
    ],
    "err": null,
-   "wallMs": 1416
+   "wallMs": 1898
   },
   "E.b.on.declared.dt0.16": {
    "dt": 0.16,
@@ -7121,7 +7243,7 @@
     551888.3425567357
    ],
    "err": null,
-   "wallMs": 5205
+   "wallMs": 6171
   },
   "E.b.off.declared.dt0.16": {
    "dt": 0.16,
@@ -7144,7 +7266,7 @@
     551886.6641759145
    ],
    "err": null,
-   "wallMs": 3180
+   "wallMs": 4169
   },
   "E.b.on.declared.dt0.04": {
    "dt": 0.04,
@@ -7167,7 +7289,7 @@
     551888.3424630319
    ],
    "err": null,
-   "wallMs": 20120
+   "wallMs": 23579
   },
   "E.b.off.declared.dt0.04": {
    "dt": 0.04,
@@ -7190,7 +7312,7 @@
     551886.6641188355
    ],
    "err": null,
-   "wallMs": 12894
+   "wallMs": 16236
   },
   "E.b.on.instantaneous.dt0.16": {
    "dt": 0.16,
@@ -7213,7 +7335,7 @@
     551883.3483193745
    ],
    "err": null,
-   "wallMs": 4854
+   "wallMs": 6002
   },
   "E.b.off.instantaneous.dt0.16": {
    "dt": 0.16,
@@ -7236,7 +7358,7 @@
     551886.6641759145
    ],
    "err": null,
-   "wallMs": 3326
+   "wallMs": 4104
   },
   "E.b.on.instantaneous.dt0.04": {
    "dt": 0.04,
@@ -7259,7 +7381,7 @@
     551883.3482338634
    ],
    "err": null,
-   "wallMs": 20083
+   "wallMs": 23543
   },
   "E.b.off.instantaneous.dt0.04": {
    "dt": 0.04,
@@ -7282,7 +7404,7 @@
     551886.6641188355
    ],
    "err": null,
-   "wallMs": 12732
+   "wallMs": 16908
   },
   "E.b.on.osculatingMean.dt0.16": {
    "dt": 0.16,
@@ -7305,7 +7427,7 @@
     551886.644968703
    ],
    "err": null,
-   "wallMs": 5017
+   "wallMs": 6121
   },
   "E.b.off.osculatingMean.dt0.16": {
    "dt": 0.16,
@@ -7328,7 +7450,7 @@
     551886.6641759145
    ],
    "err": null,
-   "wallMs": 3123
+   "wallMs": 4277
   },
   "E.b.on.osculatingMean.dt0.04": {
    "dt": 0.04,
@@ -7351,7 +7473,7 @@
     551886.6448736232
    ],
    "err": null,
-   "wallMs": 19938
+   "wallMs": 23426
   },
   "E.b.off.osculatingMean.dt0.04": {
    "dt": 0.04,
@@ -7374,7 +7496,7 @@
     551886.6641188355
    ],
    "err": null,
-   "wallMs": 12795
+   "wallMs": 16522
   },
   "E.b.on.circularized.dt0.16": {
    "dt": 0.16,
@@ -7397,7 +7519,7 @@
     551931.4719262614
    ],
    "err": null,
-   "wallMs": 4842
+   "wallMs": 5902
   },
   "E.b.off.circularized.dt0.16": {
    "dt": 0.16,
@@ -7420,7 +7542,7 @@
     551931.4719264646
    ],
    "err": null,
-   "wallMs": 3189
+   "wallMs": 4182
   },
   "E.b.on.circularized.dt0.04": {
    "dt": 0.04,
@@ -7443,7 +7565,7 @@
     551931.471871211
    ],
    "err": null,
-   "wallMs": 19965
+   "wallMs": 23007
   },
   "E.b.off.circularized.dt0.04": {
    "dt": 0.04,
@@ -7466,7 +7588,7 @@
     551931.4718694397
    ],
    "err": null,
-   "wallMs": 12750
+   "wallMs": 16813
   },
   "E.c.on.m0Third": {
    "dt": 0.16,
@@ -7483,7 +7605,7 @@
     551886.6641709034
    ],
    "err": null,
-   "wallMs": 4670
+   "wallMs": 6195
   },
   "E.c.off.m0Third.plain": {
    "dt": 0.16,
@@ -7500,7 +7622,7 @@
     551886.6641707357
    ],
    "err": null,
-   "wallMs": 2255
+   "wallMs": 3048
   },
   "E.c.off.m0Third.boosted": {
    "dt": 0.16,
@@ -7517,7 +7639,7 @@
     551886.6641743528
    ],
    "err": null,
-   "wallMs": 2290
+   "wallMs": 2878
   },
   "E.c.on.m0ThirdNoPN": {
    "dt": 0.16,
@@ -7534,7 +7656,7 @@
     551886.664169672
    ],
    "err": null,
-   "wallMs": 4131
+   "wallMs": 5152
   },
   "E.c.off.m0ThirdNoPN.plain": {
    "dt": 0.16,
@@ -7551,7 +7673,7 @@
     551886.6641690196
    ],
    "err": null,
-   "wallMs": 1894
+   "wallMs": 2585
   },
   "E.c.off.m0ThirdNoPN.boosted": {
    "dt": 0.16,
@@ -7568,7 +7690,7 @@
     551886.6641701431
    ],
    "err": null,
-   "wallMs": 1939
+   "wallMs": 2544
   },
   "E.c.on.m0Charon": {
    "dt": 0.16,
@@ -7581,7 +7703,7 @@
     1414404.3294072575
    ],
    "err": null,
-   "wallMs": 3503
+   "wallMs": 3842
   },
   "E.c.off.m0Charon.plain": {
    "dt": 0.16,
@@ -7598,7 +7720,7 @@
     551886.6641759246
    ],
    "err": null,
-   "wallMs": 1626
+   "wallMs": 2113
   },
   "E.c.on.m1Third": {
    "dt": 0.16,
@@ -7607,7 +7729,7 @@
    "periodsA": [],
    "periodsB": [],
    "err": null,
-   "wallMs": 7157
+   "wallMs": 8665
   },
   "E.c.off.m1Third.plain": {
    "dt": 0.16,
@@ -7624,7 +7746,7 @@
     551886.6641707357
    ],
    "err": null,
-   "wallMs": 2258
+   "wallMs": 2969
   },
   "E.c.on.m1Charon": {
    "dt": 0.16,
@@ -7633,7 +7755,7 @@
    "periodsA": [],
    "periodsB": [],
    "err": null,
-   "wallMs": 4367
+   "wallMs": 5242
   },
   "E.c.off.m1Charon.plain": {
    "dt": 0.16,
@@ -7650,7 +7772,7 @@
     551886.6641759246
    ],
    "err": null,
-   "wallMs": 1725
+   "wallMs": 1953
   },
   "E.c.on.m0ThirdDfm": {
    "dt": 0.16,
@@ -7667,7 +7789,7 @@
     551888.3394814562
    ],
    "err": null,
-   "wallMs": 5430
+   "wallMs": 6988
   },
   "E.c.off.m0ThirdDfm.boosted": {
    "dt": 0.16,
@@ -7684,7 +7806,7 @@
     551888.3394811498
    ],
    "err": null,
-   "wallMs": 3176
+   "wallMs": 3502
   }
  }
 }

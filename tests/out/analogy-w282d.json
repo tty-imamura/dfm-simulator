@@ -3,67 +3,73 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "f51578fc1f71b2bdb5345e1be804f075f22c91729fa145e42891d7f7cc2d5ae8",
-  "generatedAt": "2026-09-26T16:04:03.506Z",
+  "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+  "generatedAt": "2026-09-26T19:17:30.743Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4853729,
-    "sha256": "f51578fc1f71b2bdb5345e1be804f075f22c91729fa145e42891d7f7cc2d5ae8",
-    "mtime": "2026-09-26T15:59:40.552Z"
+    "bytes": 4902365,
+    "sha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+    "mtime": "2026-09-26T17:47:12.744Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 254806,
-    "sha256": "d8a5bb656684b6e4b3ed4ed9dca2e41ef8acb10161442df1b81079b8d4620b9c",
-    "mtime": "2026-09-26T15:27:42.152Z"
+    "sha256": "e535fb87213d73136b8f92555c5bc059d7bb91eddec1461d7afa4449c1ec76a9",
+    "mtime": "2026-09-26T18:28:09.108Z"
+   },
+   {
+    "file": "tests/fixtures/retired-w283b.json",
+    "bytes": 140346,
+    "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
+    "mtime": "2026-09-26T17:44:56.026Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w282d-analogy.mjs",
-    "bytes": 34574,
-    "sha256": "a38e755119d952f8d460b3ad742f825d4b45bfb3cdd036ff94b02e613efba6e3",
-    "mtime": "2026-09-26T15:47:35.142Z"
+    "bytes": 35278,
+    "sha256": "f1aca22c2115f1c0ff16c46c9c5b64bc14a75408ad3eb3bd471afe7d7a528aa2",
+    "mtime": "2026-09-26T17:47:12.776Z"
    },
    {
     "file": "tests/exp-w281b-galaxychain.mjs",
     "bytes": 24247,
     "sha256": "4956c5b243c9af7b6dca582885e8cf403a7600b8048dbc067099c8848df64e9f",
-    "mtime": "2026-09-26T15:27:41.960Z"
+    "mtime": "2026-09-25T04:06:04.306Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
     "bytes": 12812,
     "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
-    "mtime": "2026-09-26T15:27:41.980Z"
+    "mtime": "2026-09-26T00:07:02.816Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-26T15:27:41.976Z"
+    "mtime": "2026-09-24T08:51:12.597Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-26T15:27:41.976Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-26T15:27:41.968Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 60075,
-    "sha256": "42e586660d12b9554e77d0ecf507747b411e2356812c40d18df599090b62826f",
-    "mtime": "2026-09-26T15:27:41.980Z"
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-26T17:46:31.436Z"
    }
   ],
-  "codeSha256": "aa9d93938f119e397797b3711b56ef329e6f4883624d213eebb5c8df8767c9b7",
+  "codeSha256": "09872c8bcfcf02f104cdbae2cf1e4001ce0f98b91fc3f3e45e15dbe201681f7b",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -102,9 +108,8 @@
    "新発見"
   ],
   "scope": {
-   "version": "w282e-scope-2",
+   "version": "w283e-scope-3",
    "presets": [
-    "bhCore",
     "galaxyAnalogyBH",
     "galaxyMeshSpiral",
     "galaxyMeshSpiralGeoToy",
@@ -154,22 +159,28 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 780,
-   "segments": 708,
-   "closureShare": 0.3157
+   "names": 791,
+   "segments": 719,
+   "closureShare": 0.3175
   },
-  "scopeSha256": "0368bcb718c08f9a71e213acdbd7b4afc79fa1ed8ae04e46beea09f55f3dc106",
+  "scopeSha256": "3921c219498bc8a278d93837681bcadf2721193cb8034a96977097d706f4ab0c",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "9fd7940f3d0b53f8edf13e01d182aed410c05399d4c77346f8060ec986b867b1",
+    "stableSha256": "049cf235b7c703699d9fa38aa76b9cbfd2177e1372e63664a08f5f7a14857849",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
      "/meta/generatedAt",
      "/meta/inputs/*/mtime"
     ]
+   },
+   {
+    "file": "tests/fixtures/retired-w283b.json",
+    "stableSha256": "a1774dbfb6cdee50d7a8d7040db4a219a0f1bcb48c89e31c3521eec4230f141e",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
    }
   ],
   "stableHashVersion": "w282e-stable-1"
@@ -923,7 +934,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 7.35,
+    "msPerStep": 5.1808,
     "recs": [
      {
       "t": 0,
@@ -1168,7 +1179,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 8.4596,
+    "msPerStep": 5.14,
     "recs": [
      {
       "t": 0,
@@ -1415,7 +1426,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 18.6488,
+    "msPerStep": 11.1984,
     "recs": [
      {
       "t": 0,
@@ -1662,7 +1673,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 14.3148,
+    "msPerStep": 10.8224,
     "recs": [
      {
       "t": 0,
@@ -2516,6 +2527,7 @@
     "id": "bhCore",
     "emoji": "⚫",
     "body": 0,
+    "fixture": "tests/fixtures/retired-w283b.json",
     "m": 2500,
     "R": 15,
     "spin": 0.15,
@@ -2856,7 +2868,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 27.083333333333332,
+    "msPerStep": 16.354333333333333,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2921,7 +2933,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 31.356666666666666,
+    "msPerStep": 16.017,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3095,5 +3107,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 300.23
+ "elapsedSec": 179.942
 }

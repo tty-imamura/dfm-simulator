@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便b",
   "target": "beta/index.html",
-  "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-  "generatedAt": "2026-09-26T00:48:20.158Z",
+  "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+  "generatedAt": "2026-09-26T18:46:44.904Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836654,
-    "sha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-    "mtime": "2026-09-26T00:07:02.808Z"
+    "bytes": 4902365,
+    "sha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+    "mtime": "2026-09-26T17:47:12.744Z"
    }
   ],
   "code": [
@@ -91,7 +91,7 @@
    "qLockCalc"
   ],
   "scope": {
-   "version": "w282e-scope-2",
+   "version": "w283e-scope-3",
    "presets": [
     "earthMoonDiagOne",
     "earthMoonRealKF1",
@@ -141,11 +141,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 779,
-   "segments": 707,
-   "closureShare": 0.316
+   "names": 791,
+   "segments": 719,
+   "closureShare": 0.3172
   },
-  "scopeSha256": "9dda8fe91961c304d25f0dd72d7d2b80f45f8d77844dea25264f33218d0f795c",
+  "scopeSha256": "cf00caec0e7ebfe91bfc7e0303be334000ca3a20f03cc50e775969af5fdf6864",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -161,8 +161,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 133.293,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 222.947,
    "run": {
     "ok": true,
     "warnings": [],
@@ -257,8 +257,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.008,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 262.115,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 316.148,
    "run": {
     "ok": true,
     "warnings": [],
@@ -353,8 +353,8 @@
    "label": "重み pull → share",
    "axis": "weight",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 105.424,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 137.389,
    "run": {
     "ok": true,
     "warnings": [],
@@ -449,8 +449,8 @@
    "label": "初速 🌘 → 🧲(0.201%)",
    "axis": "initialVelocity",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 126.587,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 159.547,
    "run": {
     "ok": true,
     "warnings": [],
@@ -545,8 +545,8 @@
    "label": "🧲 そのまま(share + 🧲 の初速)",
    "axis": "weight+initialVelocity",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 103.561,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 127.952,
    "run": {
     "ok": true,
     "warnings": [],
@@ -641,8 +641,8 @@
    "label": "q 8.2358 → q_fb(表裏核の振幅と参照距離で同じ単一べき)",
    "axis": "q",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 129.5,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 167.059,
    "run": {
     "ok": true,
     "warnings": [],
@@ -737,11 +737,13 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 85.987,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 116.341,
    "run": {
     "ok": true,
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "hasMeshVelocity": false,
     "meshVelDeny": null,
     "kernel": false,
@@ -833,11 +835,13 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.008,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 179.272,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 210.082,
    "run": {
     "ok": true,
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "hasMeshVelocity": false,
     "meshVelDeny": null,
     "kernel": false,
@@ -929,11 +933,13 @@
    "label": "法則 kF0 + meshVelocity explicit(点源)・v=ẋ−u(0)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 167.306,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 219.104,
    "run": {
     "ok": true,
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "hasMeshVelocity": true,
     "meshVelDeny": null,
     "kernel": false,
@@ -1040,8 +1046,8 @@
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 259.835,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 337.635,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1138,21 +1144,21 @@
     "D0": 0.006,
     "D0pull": null,
     "frameWeight": "pull(既定)",
-    "geoPN": 2,
+    "geoPN": 1,
     "vyEarth": -0.0013130341660799998,
     "vyMoon": 0.10778098964585296,
     "meshVelocity": true,
     "kernel": true
    },
-   "presetSigHash": "95de94fd"
+   "presetSigHash": "a9df4f96"
   },
   {
    "id": "E7",
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.008,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 512.336,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 654.873,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1249,21 +1255,21 @@
     "D0": 0.006,
     "D0pull": null,
     "frameWeight": "pull(既定)",
-    "geoPN": 2,
+    "geoPN": 1,
     "vyEarth": -0.0013130341660799998,
     "vyMoon": 0.10778098964585296,
     "meshVelocity": true,
     "kernel": true
    },
-   "presetSigHash": "95de94fd"
+   "presetSigHash": "a9df4f96"
   },
   {
    "id": "E8",
    "label": "初速の意味 v=ẋ(変換なし)・表裏核",
    "axis": "initialVelocityMeaning",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 249.016,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 326.08,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1360,21 +1366,21 @@
     "D0": 0.006,
     "D0pull": null,
     "frameWeight": "pull(既定)",
-    "geoPN": 2,
+    "geoPN": 1,
     "vyEarth": -0.0013130341660799998,
     "vyMoon": 0.10675096027535999,
     "meshVelocity": true,
     "kernel": true
    },
-   "presetSigHash": "99aaad4"
+   "presetSigHash": "82a8f40f"
   },
   {
    "id": "S0",
    "label": "🔆 太陽+地球+月(kF0・geoPN=0)",
    "axis": "reference",
    "dt": 0.016,
-   "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-   "wallS": 1.098,
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "wallS": 1.384,
    "run": {
     "ok": true,
     "warnings": [],

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-  "generatedAt": "2026-09-26T08:16:53.298Z",
+  "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+  "generatedAt": "2026-09-26T18:29:26.678Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836622,
-    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-    "mtime": "2026-09-26T08:09:25.652Z"
+    "bytes": 4902365,
+    "sha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+    "mtime": "2026-09-26T17:47:12.744Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 141,
+ "nPresets": 142,
  "kFrameValues": [
   0,
   1
@@ -872,6 +872,27 @@
    "bodiesSha256": "0fd23ceec55ae048f94907917f690556d083a1da30e191824216cf15f22ab2ad"
   },
   {
+   "id": "clusterAnalogyBH",
+   "emoji": "💮",
+   "name": "球状星団アナロジー(中心 DFM 版 BH+恒星質量 DR)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 1.5,
+   "D0pull": null,
+   "D0eff": 1.5,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 3,
+   "geoPN": 3,
+   "nBodyDecl": 3,
+   "presetSigHash": "805bb475",
+   "bodiesSha256": "d00cefc28698e5a3294b59ee4622605309cf2ef98d3a8f9ba29ab9c2aa0d8649"
+  },
+  {
    "id": "shapeToyCluster",
    "emoji": "🔮",
    "name": "球状星団トイ — 3D 正規分布の参照モデル(較正ではない)",
@@ -1496,9 +1517,9 @@
    "frameWeight": "pull",
    "frameWeightDeclared": false,
    "softening": 0.1,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 2,
-   "presetSigHash": "95de94fd",
+   "presetSigHash": "a9df4f96",
    "bodiesSha256": "5984d6337494dc1ab9c9618527adfcb48876b7c351baaaa6db802e755e02de27"
   },
   {
@@ -1790,9 +1811,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.01,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 2,
-   "presetSigHash": "b6ca88e6",
+   "presetSigHash": "d8c2182b",
    "bodiesSha256": "6aaf16b994405eeedae1ba0a40669315e601ca835af32c704ef06716bfe306d7"
   },
   {
@@ -2651,9 +2672,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.01,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 2,
-   "presetSigHash": "426e79ff",
+   "presetSigHash": "6af5b802",
    "bodiesSha256": "83e95e17c0aaa4782c63d445ad3067eb1c4361b58a3a0d8c42e976714f55dfe8"
   },
   {
@@ -2672,9 +2693,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.01,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 2,
-   "presetSigHash": "1f23dfac",
+   "presetSigHash": "85e1e3fd",
    "bodiesSha256": "cb55ea4a6fcad443931d198f1aee8beac3253ed4c92773c61c6039c195399198"
   },
   {
@@ -2724,7 +2745,7 @@
    "emoji": "⭐",
    "name": "連星系と周連星円盤",
    "sampleClass": "composite",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -2737,7 +2758,7 @@
    "softening": 2,
    "geoPN": 1,
    "nBodyDecl": 3,
-   "presetSigHash": "21edaa76",
+   "presetSigHash": "8b48cd57",
    "bodiesSha256": "212ed8f07c9bee7d2139418ea5959e7af26a5f951754aad91485605a11223d36"
   },
   {

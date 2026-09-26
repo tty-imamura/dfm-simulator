@@ -6,18 +6,18 @@
   "pairlockVersion": "w272b-1",
   "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+  "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
   "measureLib": "tests/lib-w273b-charonpage.mjs",
   "measureVersion": "w273b-charonpage-1",
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
+  "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-   "obsSha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
+   "obsSha256": "0a5eae532c8febc296e495a70bdee61eb7ea06ae072caaed861615651d85c813",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -45,16 +45,20 @@
    }
   },
   "mergeDecision": {
-   "accept": "same",
-   "reasons": []
+   "accept": false,
+   "reasons": [
+    "mergeKey が違う(992379def218… → 1b0ff5a36953…)",
+    "成分 targetSha256 が違う",
+    "成分 obsSha256 が違う"
+   ]
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-09-26T10:32:35.163Z",
+  "generatedAt": "2026-09-26T20:00:03.937Z",
   "pilot": false,
-  "stage": "h4",
-  "dt": 0.004,
-  "stepsRequested": 82800000,
+  "stage": "h",
+  "dt": 0.016,
+  "stepsRequested": 20700000,
   "contract": {
    "stepH": 20700000,
    "orbMax": 60,
@@ -109,9 +113,7 @@
    "note": "ε は**数値設定であって物理法則ではない**。S 系列は ε を振った対照で、刻み収束(h/h2/h4)とは**同時に動かしていない**"
   },
   "stagesPresent": [
-   "h",
-   "h2",
-   "h4"
+   "h"
   ],
   "observation": {
    "value": 551856.43872,
@@ -121,7 +123,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b"
+   "calauditSha256": "0a5eae532c8febc296e495a70bdee61eb7ea06ae072caaed861615651d85c813"
   },
   "secondsPerUnit": 100,
   "notClaim": [
@@ -132,7 +134,7 @@
    "引きずり式の確定"
   ],
   "scope": {
-   "version": "w282e-scope-2",
+   "version": "w283e-scope-3",
    "presets": [
     "alphaCenAB",
     "neptuneReal",
@@ -166,20 +168,30 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 783,
-   "segments": 711,
-   "closureShare": 0.3164
+   "names": 795,
+   "segments": 723,
+   "closureShare": 0.3176
   },
-  "scopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d",
+  "scopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "d80d3db914d4e66efd951209fdc5a98913d59dd99afdecc0888d3b8a6ca64d8e",
+    "stableSha256": "fdf1bb5cfa34f0bf0a1b3d6a27528f15958902ebbcadcbec39e7d68588ed5145",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
      "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
      "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
      "/meta/when",
      "/presets/*/run/dtEighth/wallSec",
      "/presets/*/run/stopRule/rateStepsPerSec",
@@ -190,6 +202,16 @@
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
     ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "2389d8afac6426030827bec48993c13c32e5cd114f160518d31585cd5545cfde",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
    }
   ],
   "stableHashVersion": "w282e-stable-1",
@@ -237,11 +259,7 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "6d459c71da2ebf26350fd1769d3ba6b9ed56bf07f64d4295b192bf04167f1b45",
-  "carriedStages": [
-   "h",
-   "h2"
-  ]
+  "codeSha256": "6d459c71da2ebf26350fd1769d3ba6b9ed56bf07f64d4295b192bf04167f1b45"
  },
  "declaredSystems": [
   {
@@ -841,285 +859,8 @@
    ]
   }
  ],
- "stageOrders": {
-  "C0": {
-   "stages": [
-    553210.6340099995,
-    553210.8870908859,
-    553211.0508944329
-   ],
-   "d1": 0.2530808864394203,
-   "d2": 0.1638035470386967,
-   "sameSign": true,
-   "pObs": 0.6276319563895256,
-   "epsHat": 0.3005421331164922,
-   "epsHatSigma": 11.594989703568372,
-   "assessedValue": 553211.0508944329,
-   "assessedStage": "h4",
-   "residPct": 0.24546459538913862,
-   "sigma": 52261.27216176534,
-   "orderEstimable": true,
-   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
-  },
-  "C1": {
-   "stages": [
-    551864.0613632939,
-    551864.0612661137,
-    551864.0612407731
-   ],
-   "d1": -0.00009718025103211403,
-   "d2": -0.00002534058876335621,
-   "sameSign": true,
-   "pObs": 1.939213114720429,
-   "epsHat": 0.000008938592117418627,
-   "epsHatSigma": 0.00034485309094979273,
-   "assessedValue": 551864.0612407731,
-   "assessedStage": "h4",
-   "residPct": 0.0013812506728687445,
-   "sigma": 294.07873352968716,
-   "orderEstimable": true,
-   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
-  },
-  "C6_scalar": {
-   "stages": [
-    553224.9272364771,
-    553224.7588905616,
-    553224.6747429437
-   ],
-   "d1": -0.1683459155028686,
-   "d2": -0.08414761791937053,
-   "sameSign": true,
-   "pObs": 1.000434381241697,
-   "epsHat": 0.0840969687597595,
-   "epsHatSigma": 3.244481819435166,
-   "assessedValue": 553224.6747429437,
-   "assessedStage": "h4",
-   "residPct": 0.24793332594203193,
-   "sigma": 52786.88360122482,
-   "orderEstimable": true,
-   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
-  },
-  "C6_local": {
-   "stages": [
-    551617.2024403799,
-    551617.1240119033,
-    551617.0848226522
-   ],
-   "d1": -0.07842847658321261,
-   "d2": -0.03918925113976002,
-   "sameSign": true,
-   "pObs": 1.0009195723694575,
-   "epsHat": 0.03913934048235508,
-   "epsHatSigma": 1.510005419843946,
-   "assessedValue": 551617.0848226522,
-   "assessedStage": "h4",
-   "residPct": -0.043372493379434225,
-   "sigma": -9234.332459406385,
-   "orderEstimable": true,
-   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
-  },
-  "C6_complex": {
-   "stages": [
-    551864.0613615632,
-    551864.0612644644,
-    551864.0612390139
-   ],
-   "d1": -0.00009709876030683517,
-   "d2": -0.000025450484827160835,
-   "sameSign": true,
-   "pObs": 1.93175973673588,
-   "epsHat": 0.00000904037359728631,
-   "epsHatSigma": 0.0003487798455743175,
-   "assessedValue": 551864.0612390139,
-   "assessedStage": "h4",
-   "residPct": 0.001381250354098897,
-   "sigma": 294.07866566117144,
-   "orderEstimable": true,
-   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
-  }
- },
- "stageDiffs": {
-  "C3_k0": {
-   "stages": [
-    551864.0613632939,
-    551864.0612661137
-   ],
-   "d1": -0.00009718025103211403,
-   "upTo": "h2",
-   "d1Sigma": -0.003749238079942671,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C3_k0.1": {
-   "stages": [
-    551733.8680872674,
-    551733.892583623
-   ],
-   "d1": 0.024496355559676886,
-   "upTo": "h2",
-   "d1Sigma": 0.9450754459751886,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C3_k0.3": {
-   "stages": [
-    551473.3020894056,
-    551473.4283033673
-   ],
-   "d1": 0.12621396174654365,
-   "upTo": "h2",
-   "d1Sigma": 4.869365808122826,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C3_k0.5": {
-   "stages": [
-    551212.6948852338,
-    551212.8428421393
-   ],
-   "d1": 0.1479569055372849,
-   "upTo": "h2",
-   "d1Sigma": 5.708213948197721,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C3_k0.7": {
-   "stages": [
-    550951.8684797975,
-    550951.9863821173
-   ],
-   "d1": 0.11790231976192445,
-   "upTo": "h2",
-   "d1Sigma": 4.548700608098938,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C3_k1": {
-   "stages": [
-    550560.1605895405,
-    550560.4099179535
-   ],
-   "d1": 0.24932841304689646,
-   "upTo": "h2",
-   "d1Sigma": 9.619151737920388,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C5_i_f1": {
-   "stages": [
-    551864.0613633126,
-    551864.0612661075
-   ],
-   "d1": -0.00009720516391098499,
-   "upTo": "h2",
-   "d1Sigma": -0.003750199224960841,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C5_i_flin": {
-   "stages": [
-    551864.0613633126,
-    551864.0612661075
-   ],
-   "d1": -0.00009720516391098499,
-   "upTo": "h2",
-   "d1Sigma": -0.003750199224960841,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C5_ii_f1": {
-   "stages": [
-    553207.3981243718,
-    553207.7103920574
-   ],
-   "d1": 0.31226768565829843,
-   "upTo": "h2",
-   "d1Sigma": 12.047364415829415,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C5_ii_flin": {
-   "stages": [
-    550563.200249943,
-    550563.6047829372
-   ],
-   "d1": 0.40453299426008016,
-   "upTo": "h2",
-   "d1Sigma": 15.606982803243834,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C5_iii_f1": {
-   "stages": [
-    551864.0632335386,
-    551864.0631370463
-   ],
-   "d1": -0.00009649235289543867,
-   "upTo": "h2",
-   "d1Sigma": -0.003722698799978344,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "C5_iii_flin": {
-   "stages": [
-    551864.0632335386,
-    551864.0631370463
-   ],
-   "d1": -0.00009649235289543867,
-   "upTo": "h2",
-   "d1Sigma": -0.003722698799978344,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "S_e0.05_k0": {
-   "stages": [
-    551864.0613632939,
-    551864.0612661137
-   ],
-   "d1": -0.00009718025103211403,
-   "upTo": "h2",
-   "d1Sigma": -0.003749238079942671,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "S_e0.05_k1": {
-   "stages": [
-    553210.6340099995,
-    553210.8870908859
-   ],
-   "d1": 0.2530808864394203,
-   "upTo": "h2",
-   "d1Sigma": 9.763923087940597,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "S_e0.025_k0": {
-   "stages": [
-    551855.9777990397,
-    551855.977699629
-   ],
-   "d1": -0.00009941065218299627,
-   "upTo": "h2",
-   "d1Sigma": -0.0038352875070600417,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "S_e0.025_k1": {
-   "stages": [
-    553202.4413371511,
-    553202.8678904031
-   ],
-   "d1": 0.42655325203668326,
-   "upTo": "h2",
-   "d1Sigma": 16.456529785365866,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "S_e0.0125_k0": {
-   "stages": [
-    551853.9568783055,
-    551853.9567799019
-   ],
-   "d1": -0.00009840365964919329,
-   "upTo": "h2",
-   "d1Sigma": -0.0037964374864657906,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  },
-  "S_e0.0125_k1": {
-   "stages": [
-    553200.3863079243,
-    553200.7782677386
-   ],
-   "d1": 0.39195981435477734,
-   "upTo": "h2",
-   "d1Sigma": 15.121906418008386,
-   "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
-  }
- },
+ "stageOrders": {},
+ "stageDiffs": {},
  "split": {
   "version": "w281a-split-1",
   "currentSeries": [
@@ -1176,7 +917,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 30.82,
+    "wallSec": 40.475,
     "revSec": [
      553209.4743340951,
      553210.6340099995,
@@ -1241,181 +982,7 @@
     "warnings": [],
     "oscA": 19.595851587697478,
     "oscE": 0.0019280224628431188,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C0",
-    "series": "C0",
-    "cfg": {
-     "kFrame": 1,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "現行入力(公開測定の再現)",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.023,
-    "revSec": [
-     553210.3587952818,
-     553210.8870908859,
-     553210.6512830412,
-     553210.441620167,
-     553210.2167278852,
-     553209.9412889268,
-     553209.7760919336,
-     553209.5223629193
-    ],
-    "revN": 59,
-    "rev2Sec": 553210.8870908859,
-    "periASec": 556269.5292752684,
-    "periBSec": 556303.5537606145,
-    "oscSec": 551853.858305559,
-    "residPctRev": 0.2454349131139044,
-    "sigmaRev": 52254.95258047527,
-    "residPctPeriA": 0.7996809035162065,
-    "sigmaPeriA": 170258.123274246,
-    "precessDegPerRevA": 1.4510155849354522,
-    "precessResidDegA": 3.4249341486672593,
-    "precessDegPerRevB": 1.4625135797919877,
-    "precessResidDegB": 3.5486800344146787,
-    "eProxy": 0.0024115599784623274,
-    "eProxy1": 0.0012226374373638885,
-    "rMin": 19.57250252377474,
-    "rMax": 19.667131254163134,
-    "ledger": {
-     "Lrel": 0.002467019744948953,
-     "Pabs": 2.4400045959752245e-8,
-     "Prel": 0.0038673896197639343,
-     "Erel": 0.000010687635737422295,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.519078232483233e-8,
-     "cmMax": 6.941854698878371,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "steps",
-    "steps": 41400000,
-    "cfgApplied": {
-     "kFrame": 1,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.596013264547402,
-    "oscE": 0.00192630197037084,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h4": {
-    "id": "C0",
-    "series": "C0",
-    "cfg": {
-     "kFrame": 1,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "現行入力(公開測定の再現)",
-    "stage": "h4",
-    "dt": 0.004,
-    "stepsRequested": 82800000,
-    "wallSec": 127.911,
-    "revSec": [
-     553210.8208372663,
-     553211.0508944329,
-     553211.0573315048,
-     553210.9253128085,
-     553210.8066587669,
-     553210.8186313326,
-     553210.8223815623,
-     553210.7375132793
-    ],
-    "revN": 59,
-    "rev2Sec": 553211.0508944329,
-    "periASec": 556272.3727738423,
-    "periBSec": 556307.2261898128,
-    "oscSec": 551857.5244092162,
-    "residPctRev": 0.24546459538913862,
-    "sigmaRev": 52261.27216176534,
-    "residPctPeriA": 0.800196164075722,
-    "sigmaPeriA": 170367.82615132438,
-    "precessDegPerRevA": 1.4511190578212023,
-    "precessResidDegA": 3.426629011730998,
-    "precessDegPerRevB": 1.4636388946488834,
-    "precessResidDegB": 3.5506360851176266,
-    "eProxy": 0.0024109543437307807,
-    "eProxy1": 0.0012226563860184363,
-    "rMin": 19.572672378215916,
-    "rMax": 19.66727810728672,
-    "ledger": {
-     "Lrel": 0.002477254864035449,
-     "Pabs": 2.4470235464917276e-8,
-     "Prel": 0.0038785146055176235,
-     "Erel": 0.000018763400627875722,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.5190498129310584e-8,
-     "cmMax": 6.943130518802478,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "steps",
-    "steps": 82800000,
-    "cfgApplied": {
-     "kFrame": 1,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.596100052014208,
-    "oscE": 0.0019257977319826348,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
     "canonicalRun": true
    }
   },
@@ -1433,7 +1000,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.416,
+    "wallSec": 24.498,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -1495,184 +1062,12 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C1",
-    "series": "C1",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "同期仮説の最小対照",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 35.747,
-    "revSec": [
-     551863.2612657931,
-     551864.0612661137,
-     551864.0612661535,
-     551864.0612654443,
-     551864.0612654443,
-     551864.0612655465,
-     551864.0612656389,
-     551864.0612654657
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0612661137,
-    "periASec": 551858.672336422,
-    "periBSec": 726129.8245614035,
-    "oscSec": 551853.2832959071,
-    "residPctRev": 0.001381255264749347,
-    "sigmaRev": 294.07971117585856,
-    "residPctPeriA": 0.0004047459203751713,
-    "sigmaPeriA": 86.17347307279735,
-    "precessDegPerRevA": -0.003515446999855308,
-    "precessResidDegA": 5.463410719199599e-7,
-    "precessDegPerRevB": -0.004666164042913723,
-    "precessResidDegB": 0.00273716400238636,
-    "eProxy": 0.000010758874767439755,
-    "eProxy1": 0.000010758874241678998,
-    "rMin": 19.595980180197067,
-    "rMax": 19.596401846127126,
-    "ledger": {
-     "Lrel": 1.163540686636693e-13,
-     "Pabs": 4.287889566310196e-22,
-     "Prel": 6.796273919645728e-17,
-     "Erel": 5.643165223670839e-13,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.5191158435095e-8,
-     "cmMax": 0.000015143504117637199,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389804,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.59599965283887,
-    "oscE": 0.000013705498380582199,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h4": {
-    "id": "C1",
-    "series": "C1",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "同期仮説の最小対照",
-    "stage": "h4",
-    "dt": 0.004,
-    "stepsRequested": 82800000,
-    "wallSec": 73.997,
-    "revSec": [
-     551863.66124295,
-     551864.0612407731,
-     551864.0612407577,
-     551864.0612411542,
-     551864.0612410596,
-     551864.0612414805,
-     551864.0612416158,
-     551864.0612418246
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0612407731,
-    "periASec": 551858.6724082447,
-    "periBSec": 1045626.9649122807,
-    "oscSec": 551853.2832703043,
-    "residPctRev": 0.0013812506728687445,
-    "sigmaRev": 294.07873352968716,
-    "residPctPeriA": 0.00040475893511244577,
-    "sigmaPeriA": 86.17624400897142,
-    "precessDegPerRevA": -0.0035154554361454607,
-    "precessResidDegA": 3.5370858380071343e-7,
-    "precessDegPerRevB": -0.006535989699394904,
-    "precessResidDegB": 0.0049563480207636,
-    "eProxy": 0.00001000987191203904,
-    "eProxy1": 0.000010009871510288497,
-    "rMin": 19.595994857197645,
-    "rMax": 19.596387167921645,
-    "ledger": {
-     "Lrel": 2.5102312961699024e-13,
-     "Pabs": 5.092653763456355e-23,
-     "Prel": 8.071819345885702e-18,
-     "Erel": 3.471270577439643e-13,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.5191158435127077e-8,
-     "cmMax": 0.000015143504345960559,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 82779609,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.595999652232763,
-    "oscE": 0.00001275287125529755,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
     "canonicalRun": true
    }
   },
@@ -1690,7 +1085,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.253,
+    "wallSec": 23.553,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -1752,104 +1147,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C3_k0",
-    "series": "C3",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "f=一次則の自己無撞着解 1",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 36.746,
-    "revSec": [
-     551863.2612657931,
-     551864.0612661137,
-     551864.0612661535,
-     551864.0612654443,
-     551864.0612654443,
-     551864.0612655465,
-     551864.0612656389,
-     551864.0612654657
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0612661137,
-    "periASec": 551858.672336422,
-    "periBSec": 726129.8245614035,
-    "oscSec": 551853.2832959071,
-    "residPctRev": 0.001381255264749347,
-    "sigmaRev": 294.07971117585856,
-    "residPctPeriA": 0.0004047459203751713,
-    "sigmaPeriA": 86.17347307279735,
-    "precessDegPerRevA": -0.003515446999855308,
-    "precessResidDegA": 5.463410719199599e-7,
-    "precessDegPerRevB": -0.004666164042913723,
-    "precessResidDegB": 0.00273716400238636,
-    "eProxy": 0.000010758874767439755,
-    "eProxy1": 0.000010758874241678998,
-    "rMin": 19.595980180197067,
-    "rMax": 19.596401846127126,
-    "ledger": {
-     "Lrel": 1.163540686636693e-13,
-     "Pabs": 4.287889566310196e-22,
-     "Prel": 6.796273919645728e-17,
-     "Erel": 5.643165223670839e-13,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.5191158435095e-8,
-     "cmMax": 0.000015143504117637199,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389804,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.59599965283887,
-    "oscE": 0.000013705498380582199,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C3_k0.1": {
@@ -1866,7 +1170,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 30.914,
+    "wallSec": 39.304,
     "revSec": [
      551732.3110241252,
      551733.8680872674,
@@ -1931,101 +1235,8 @@
     "warnings": [],
     "oscA": 19.591282789188,
     "oscE": 0.00015536613633076007,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C3_k0.1",
-    "series": "C3",
-    "cfg": {
-     "kFrame": 0.1,
-     "f": 1.0002390844283853,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "f=一次則の自己無撞着解 1.0002390844283853",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.959,
-    "revSec": [
-     551733.1171578799,
-     551733.892583623,
-     551733.8708103512,
-     551733.847561594,
-     551733.8266736591,
-     551733.8041117713,
-     551733.7783952702,
-     551733.7598741157
-    ],
-    "revN": 60,
-    "rev2Sec": 551733.892583623,
-    "periASec": 551631.2170560053,
-    "periBSec": 551630.7414860681,
-    "oscSec": 551588.8034217551,
-    "residPctRev": -0.02220616228765382,
-    "sigmaRev": -4727.860199731098,
-    "residPctPeriA": -0.0408116401644427,
-    "sigmaPeriA": -8689.107407203497,
-    "precessDegPerRevA": -0.06598812526243646,
-    "precessResidDegA": 0.005726478383110562,
-    "precessDegPerRevB": -0.06646115563859885,
-    "precessResidDegB": 0.004856111949028555,
-    "eProxy": 0.0001097262559595378,
-    "eProxy1": 0.00010829426076128094,
-    "rMin": 19.591701397075738,
-    "rMax": 19.596001316974206,
-    "ledger": {
-     "Lrel": 8.077400918251473e-7,
-     "Pabs": 1.2331228165406609e-12,
-     "Prel": 1.9540235383453985e-7,
-     "Erel": 0.0000016664632161817053,
-     "E0": -3.521640436784087e-8,
-     "E1": -3.5216463054683356e-8,
-     "cmMax": 0.6932887643218693,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41379994,
-    "cfgApplied": {
-     "kFrame": 0.1,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.0013033115537837148,
-     "mB": 0.00015863792214076966,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.591299224990667,
-    "oscE": 0.00015487173212739953,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C3_k0.3": {
@@ -2042,7 +1253,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.294,
+    "wallSec": 38.643,
     "revSec": [
      551471.8550030612,
      551473.3020894056,
@@ -2107,101 +1318,8 @@
     "warnings": [],
     "oscA": 19.581846582286012,
     "oscE": 0.0004624012590680837,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C3_k0.3",
-    "series": "C3",
-    "cfg": {
-     "kFrame": 0.3,
-     "f": 1.000717594310799,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "f=一次則の自己無撞着解 1.000717594310799",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.82,
-    "revSec": [
-     551472.6951213406,
-     551473.4283033673,
-     551473.373240024,
-     551473.3037374619,
-     551473.2281154614,
-     551473.1519088233,
-     551473.0700289067,
-     551472.9843393521
-    ],
-    "revN": 60,
-    "rev2Sec": 551473.4283033673,
-    "periASec": 551212.7668694777,
-    "periBSec": 551212.3960741477,
-    "oscSec": 551059.7961977168,
-    "residPctRev": -0.06940399527112627,
-    "sigmaRev": -14776.636444160285,
-    "residPctPeriA": -0.11663755378395915,
-    "sigmaPeriA": -24833.018924470744,
-    "precessDegPerRevA": -0.16189422583533167,
-    "precessResidDegA": 0.05844196307538517,
-    "precessDegPerRevB": -0.16243063488808573,
-    "precessResidDegB": 0.0565377970486264,
-    "eProxy": 0.00035964518809389676,
-    "eProxy1": 0.0003445686435819244,
-    "rMin": 19.582108981806027,
-    "rMax": 19.596199271847112,
-    "ledger": {
-     "Lrel": 0.0000023194785244648907,
-     "Pabs": 5.538846452441202e-12,
-     "Prel": 8.77273618447721e-7,
-     "Erel": 0.000005066924551417536,
-     "E0": -3.526695493254475e-8,
-     "E1": -3.526713362754455e-8,
-     "cmMax": 2.0802997032868986,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41360355,
-    "cfgApplied": {
-     "kFrame": 0.3,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.0013039350742474198,
-     "mB": 0.0001587138103786856,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.581892774054907,
-    "oscE": 0.0004617624453751336,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C3_k0.5": {
@@ -2218,7 +1336,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.059,
+    "wallSec": 39.433,
     "revSec": [
      551211.3277880623,
      551212.6948852338,
@@ -2283,101 +1401,8 @@
     "warnings": [],
     "oscA": 19.5724067165682,
     "oscE": 0.0007775879601175937,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C3_k0.5",
-    "series": "C3",
-    "cfg": {
-     "kFrame": 0.5,
-     "f": 1.0011965594314776,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "f=一次則の自己無撞着解 1.0011965594314776",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 64.557,
-    "revSec": [
-     551212.1949723669,
-     551212.8428421393,
-     551212.7012672012,
-     551212.5996100564,
-     551212.4883875971,
-     551212.3848569423,
-     551212.2488868685,
-     551212.097154872
-    ],
-    "revN": 60,
-    "rev2Sec": 551212.8428421393,
-    "periASec": 550795.643834083,
-    "periBSec": 579785.1665394092,
-    "oscSec": 550530.9287478024,
-    "residPctRev": -0.11662378704024134,
-    "sigmaRev": -24830.087880427192,
-    "residPctPeriA": -0.19222297892862117,
-    "sigmaPeriA": -40925.72862334046,
-    "precessDegPerRevA": -0.24499746175024525,
-    "precessResidDegA": 0.21381937745189686,
-    "precessDegPerRevB": -0.24929618575883244,
-    "precessResidDegB": 0.2680598835887397,
-    "eProxy": 0.0006414122236667956,
-    "eProxy1": 0.0005813677579014357,
-    "rMin": 19.57189703717365,
-    "rMax": 19.597020459643904,
-    "ledger": {
-     "Lrel": 0.0000034032805746413447,
-     "Pabs": 1.3917782744174616e-11,
-     "Prel": 0.000002203322172595793,
-     "Erel": 0.000008352792481695066,
-     "E0": -3.531757948143085e-8,
-     "E1": -3.5317874481843214e-8,
-     "cmMax": 3.4684576527229836,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41340706,
-    "cfgApplied": {
-     "kFrame": 0.5,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.0013045590603724122,
-     "mB": 0.00015878977137617767,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.572483036112946,
-    "oscE": 0.0007765991720715259,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C3_k0.7": {
@@ -2394,7 +1419,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.193,
+    "wallSec": 38.645,
     "revSec": [
      550950.5535610846,
      550951.8684797975,
@@ -2459,101 +1484,8 @@
     "warnings": [],
     "oscA": 19.56296150671337,
     "oscE": 0.001105488176683871,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C3_k0.7",
-    "series": "C3",
-    "cfg": {
-     "kFrame": 0.7,
-     "f": 1.00167598043637,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "f=一次則の自己無撞着解 1.00167598043637",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 62.983,
-    "revSec": [
-     550951.3910852084,
-     550951.9863821173,
-     550951.8721253093,
-     550951.7187008274,
-     550951.6115553018,
-     550951.4453502125,
-     550951.3287894625,
-     550951.1802807072
-    ],
-    "revN": 60,
-    "rev2Sec": 550951.9863821173,
-    "periASec": 550383.5917322976,
-    "periBSec": 550383.0221311975,
-    "oscSec": 550002.525740656,
-    "residPctRev": -0.1638926855652062,
-    "sigmaRev": -34893.99451708003,
-    "residPctPeriA": -0.266889517701126,
-    "sigmaPeriA": -56822.80045148218,
-    "precessDegPerRevA": -0.30934907600493616,
-    "precessResidDegA": 0.47671294941669917,
-    "precessDegPerRevB": -0.31021592029347744,
-    "precessResidDegB": 0.47402580173703174,
-    "eProxy": 0.0009693891782409002,
-    "eProxy1": 0.0008188353478445292,
-    "rMin": 19.560793395542337,
-    "rMax": 19.598754237242368,
-    "ledger": {
-     "Lrel": 0.0000040993590282078756,
-     "Pabs": 1.8035565906096272e-11,
-     "Prel": 0.0000028538412955949446,
-     "Erel": 0.000010665085260741813,
-     "E0": -3.5368290012281795e-8,
-     "E1": -3.53686672181103e-8,
-     "cmMax": 4.857248672137537,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41321071,
-    "cfgApplied": {
-     "kFrame": 0.7,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.0013051837449893355,
-     "mB": 0.00015886580513324589,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.563078740489257,
-    "oscE": 0.0011039448818298036,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C3_k1": {
@@ -2570,7 +1502,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.079,
+    "wallSec": 38.868,
     "revSec": [
      550558.9804692541,
      550560.1605895405,
@@ -2635,101 +1567,8 @@
     "warnings": [],
     "oscA": 19.548792312736172,
     "oscE": 0.0016293853126825891,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C3_k1",
-    "series": "C3",
-    "cfg": {
-     "kFrame": 1,
-     "f": 1.0023959681426156,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "f=一次則の自己無撞着解 1.0023959681426156",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.623,
-    "revSec": [
-     550559.8671969477,
-     550560.4099179535,
-     550560.2039263577,
-     550559.9932619967,
-     550559.7758778189,
-     550559.5606652499,
-     550559.2998182103,
-     550559.0250448113
-    ],
-    "revN": 60,
-    "rev2Sec": 550560.4099179535,
-    "periASec": 549772.2011909559,
-    "periBSec": 549771.4527128262,
-    "oscSec": 549209.5489797489,
-    "residPctRev": -0.23484890473553266,
-    "sigmaRev": -50001.111190063115,
-    "residPctPeriA": -0.37767748689827946,
-    "sigmaPeriA": -80410.39849706943,
-    "precessDegPerRevA": -0.36757673318836154,
-    "precessResidDegA": 1.0878256603559533,
-    "precessDegPerRevB": -0.3685739539879273,
-    "precessResidDegB": 1.085585852361787,
-    "eProxy": 0.0015679249930682377,
-    "eProxy1": 0.0011760650726183027,
-    "rMin": 19.542030823629673,
-    "rMax": 19.603407935424617,
-    "ledger": {
-     "Lrel": 0.000007401244309588718,
-     "Pabs": 1.0407108536749343e-11,
-     "Prel": 0.0000016455764762490202,
-     "Erel": 0.000014270018037671377,
-     "E0": -3.54445102417049e-8,
-     "E1": -3.544501603550539e-8,
-     "cmMax": 6.941979694112357,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41291545,
-    "cfgApplied": {
-     "kFrame": 1,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.0013061219360679388,
-     "mB": 0.00015897999401204288,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.548952367657883,
-    "oscE": 0.0016277526863046976,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C5_i_f1": {
@@ -2746,7 +1585,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.644,
+    "wallSec": 39.667,
     "revSec": [
      551862.4613633318,
      551864.0613633126,
@@ -2811,101 +1650,8 @@
     "warnings": [],
     "oscA": 19.59599965528281,
     "oscE": 0.000016990022722629176,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C5_i_f1",
-    "series": "C5",
-    "cfg": {
-     "kFrame": 1.95848351441145e-12,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "候補(i)の t=0 定数 k=1.95848351441145e-12",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.765,
-    "revSec": [
-     551863.2612657888,
-     551864.0612661075,
-     551864.0612661745,
-     551864.0612654304,
-     551864.0612655093,
-     551864.0612654643,
-     551864.0612655508,
-     551864.0612655538
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0612661075,
-    "periASec": 551858.6723582608,
-    "periBSec": 726129.8287719298,
-    "oscSec": 551853.2832956534,
-    "residPctRev": 0.0013812552636313007,
-    "sigmaRev": 294.079710937818,
-    "residPctPeriA": 0.00040474987771159984,
-    "sigmaPeriA": 86.1743156197064,
-    "precessDegPerRevA": -0.003515424301553768,
-    "precessResidDegA": 2.584499082815328e-7,
-    "precessDegPerRevB": -0.004702416618063941,
-    "precessResidDegB": 0.0028124501114641376,
-    "eProxy": 0.00001075887474659336,
-    "eProxy1": 0.000010758874241678998,
-    "rMin": 19.59598018019263,
-    "rMax": 19.59640184612187,
-    "ledger": {
-     "Lrel": 3.359185056419638e-13,
-     "Pabs": 4.842883992556554e-23,
-     "Prel": 7.675936067263174e-18,
-     "Erel": 3.5577702776358637e-13,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.519115843512738e-8,
-     "cmMax": 0.000015143504538529581,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389804,
-    "cfgApplied": {
-     "kFrame": 1.95848351441145e-12,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.595999652832873,
-    "oscE": 0.000013705498406223136,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C5_i_flin": {
@@ -2922,7 +1668,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.427,
+    "wallSec": 37.96,
     "revSec": [
      551862.4613633318,
      551864.0613633126,
@@ -2987,101 +1733,8 @@
     "warnings": [],
     "oscA": 19.59599965528281,
     "oscE": 0.000016990022722629176,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C5_i_flin",
-    "series": "C5",
-    "cfg": {
-     "kFrame": 1.95848351441145e-12,
-     "f": 1.0000000000000047,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "候補(i)+一次則 f=1.0000000000000047",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.646,
-    "revSec": [
-     551863.2612657888,
-     551864.0612661075,
-     551864.0612661745,
-     551864.0612654304,
-     551864.0612655093,
-     551864.0612654643,
-     551864.0612655508,
-     551864.0612655538
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0612661075,
-    "periASec": 551858.6723582608,
-    "periBSec": 726129.8287719298,
-    "oscSec": 551853.2832956534,
-    "residPctRev": 0.0013812552636313007,
-    "sigmaRev": 294.079710937818,
-    "residPctPeriA": 0.00040474987771159984,
-    "sigmaPeriA": 86.1743156197064,
-    "precessDegPerRevA": -0.003515424301553768,
-    "precessResidDegA": 2.584499082815328e-7,
-    "precessDegPerRevB": -0.004702416618063941,
-    "precessResidDegB": 0.0028124501114641376,
-    "eProxy": 0.00001075887474659336,
-    "eProxy1": 0.000010758874241678998,
-    "rMin": 19.59598018019263,
-    "rMax": 19.59640184612187,
-    "ledger": {
-     "Lrel": 3.359185056419638e-13,
-     "Pabs": 4.842883992556554e-23,
-     "Prel": 7.675936067263174e-18,
-     "Erel": 3.5577702776358637e-13,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.519115843512738e-8,
-     "cmMax": 0.000015143504538529581,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389804,
-    "cfgApplied": {
-     "kFrame": 1.95848351441145e-12,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.595999652832873,
-    "oscE": 0.000013705498406223136,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C5_ii_f1": {
@@ -3098,7 +1751,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.153,
+    "wallSec": 37.962,
     "revSec": [
      553206.2071350162,
      553207.3981243718,
@@ -3163,101 +1816,8 @@
     "warnings": [],
     "oscA": 19.595853971185498,
     "oscE": 0.0019216878476978696,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C5_ii_f1",
-    "series": "C5",
-    "cfg": {
-     "kFrame": 0.9976097304227148,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "候補(ii)の t=0 定数 k=0.9976097304227148",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.155,
-    "revSec": [
-     553207.1445918093,
-     553207.7103920574,
-     553207.5149276019,
-     553207.315282114,
-     553207.085700499,
-     553206.8766181845,
-     553206.5294087632,
-     553206.2584361498
-    ],
-    "revN": 59,
-    "rev2Sec": 553207.7103920574,
-    "periASec": 556260.122553808,
-    "periBSec": 556294.1799127538,
-    "oscSec": 551853.8503667734,
-    "residPctRev": 0.24485927448661327,
-    "sigmaRev": 52132.394755302994,
-    "residPctPeriA": 0.7979763439966657,
-    "sigmaPeriA": 169895.2096376565,
-    "precessDegPerRevA": 1.4495791218590188,
-    "precessResidDegA": 3.4120868483087357,
-    "precessDegPerRevB": 1.4610085166292637,
-    "precessResidDegB": 3.535034433816245,
-    "eProxy": 0.0024019150032069457,
-    "eProxy1": 0.0012197434399803355,
-    "rMin": 19.572630290916454,
-    "rMax": 19.666880260027263,
-    "ledger": {
-     "Lrel": 0.0024507909487993472,
-     "Pabs": 2.4286539553883013e-8,
-     "Prel": 0.003849398936608687,
-     "Erel": 0.00001020412710917787,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.519079934006107e-8,
-     "cmMax": 6.925517674029428,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "steps",
-    "steps": 41400000,
-    "cfgApplied": {
-     "kFrame": 0.9976097304227148,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.59601307661321,
-    "oscE": 0.0019202552639717258,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C5_ii_flin": {
@@ -3274,7 +1834,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.439,
+    "wallSec": 39.096,
     "revSec": [
      550562.0354357901,
      550563.200249943,
@@ -3339,101 +1899,8 @@
     "warnings": [],
     "oscA": 19.548896196900575,
     "oscE": 0.001625189272397607,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C5_ii_flin",
-    "series": "C5",
-    "cfg": {
-     "kFrame": 0.9976097304227148,
-     "f": 1.0023902275283194,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "候補(ii)+一次則 f=1.0023902275283194",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 62.807,
-    "revSec": [
-     550562.984626901,
-     550563.6047829372,
-     550563.382795751,
-     550563.2480385313,
-     550563.021314454,
-     550562.7421883775,
-     550562.5173267588,
-     550562.280585101
-    ],
-    "revN": 60,
-    "rev2Sec": 550563.6047829372,
-    "periASec": 549778.4744615089,
-    "periBSec": 549777.7321996923,
-    "oscSec": 549215.9637206797,
-    "residPctRev": -0.23426997428197474,
-    "sigmaRev": -49877.852510137556,
-    "residPctPeriA": -0.3765407291995692,
-    "sigmaPeriA": -80168.37417017986,
-    "precessDegPerRevA": -0.3674839527464916,
-    "precessResidDegA": 1.0747100571557966,
-    "precessDegPerRevB": -0.36847824648989763,
-    "precessResidDegB": 1.0724572036270172,
-    "eProxy": 0.0015618673038169213,
-    "eProxy1": 0.0011732961222414963,
-    "rMin": 19.54221458880002,
-    "rMax": 19.60335477367657,
-    "ledger": {
-     "Lrel": 0.000007633920941962104,
-     "Pabs": 7.526783186893819e-12,
-     "Prel": 0.0000011901449651337552,
-     "Erel": 0.000013733619882334533,
-     "E0": -3.544390579390097e-8,
-     "E1": -3.544439256703029e-8,
-     "cmMax": 6.925308995601961,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41291788,
-    "cfgApplied": {
-     "kFrame": 0.9976097304227148,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.0013061144854873419,
-     "mB": 0.00015897909179329872,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.5490674369007,
-    "oscE": 0.0016230665845300002,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C5_iii_f1": {
@@ -3450,7 +1917,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.444,
+    "wallSec": 38.705,
     "revSec": [
      551862.4632342617,
      551864.0632335386,
@@ -3515,101 +1982,8 @@
     "warnings": [],
     "oscA": 19.595999654822073,
     "oscE": 0.000016991600291773945,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C5_iii_f1",
-    "series": "C5",
-    "cfg": {
-     "kFrame": 0.0000013994573264675125,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "候補(iii)の t=0 定数 k=0.0000013994573264675125",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 62.917,
-    "revSec": [
-     551863.2631368728,
-     551864.0631370463,
-     551864.0631370521,
-     551864.0631357579,
-     551864.0631357427,
-     551864.0631355979,
-     551864.0631352573,
-     551864.0631352668
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0631370463,
-    "periASec": 551858.6758083836,
-    "periBSec": 668039.4582456141,
-    "oscSec": 551853.2832867559,
-    "residPctRev": 0.001381594289993651,
-    "sigmaRev": 294.1518922190521,
-    "residPctPeriA": 0.00040537506254885686,
-    "sigmaPeriA": 86.30742220837554,
-    "precessDegPerRevA": -0.0035143401003918553,
-    "precessResidDegA": 6.787003938314713e-7,
-    "precessDegPerRevB": -0.004458665783712226,
-    "precessResidDegB": 0.002211797750248332,
-    "eProxy": 0.00001076042134303674,
-    "eProxy1": 0.000010760410153046994,
-    "rMin": 19.595980182895065,
-    "rMax": 19.596401909439816,
-    "ledger": {
-     "Lrel": 1.114758165996962e-11,
-     "Pabs": 1.7378144756029508e-17,
-     "Prel": 2.7544233626068955e-12,
-     "Erel": 2.2356975772672344e-11,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.519115843590163e-8,
-     "cmMax": 0.0000248434625639804,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389804,
-    "cfgApplied": {
-     "kFrame": 0.0000013994573264675125,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.595999652622247,
-    "oscE": 0.000013707453995967056,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C5_iii_flin": {
@@ -3626,7 +2000,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.535,
+    "wallSec": 39.244,
     "revSec": [
      551862.4632342617,
      551864.0632335386,
@@ -3691,101 +2065,8 @@
     "warnings": [],
     "oscA": 19.595999654822073,
     "oscE": 0.000016991600291773945,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C5_iii_flin",
-    "series": "C5",
-    "cfg": {
-     "kFrame": 0.0000013994573264675125,
-     "f": 1.0000000033450898,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "候補(iii)+一次則 f=1.0000000033450898",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 62.874,
-    "revSec": [
-     551863.2631368728,
-     551864.0631370463,
-     551864.0631370521,
-     551864.0631357579,
-     551864.0631357427,
-     551864.0631355979,
-     551864.0631352573,
-     551864.0631352668
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0631370463,
-    "periASec": 551858.6758083836,
-    "periBSec": 668039.4582456141,
-    "oscSec": 551853.2832867559,
-    "residPctRev": 0.001381594289993651,
-    "sigmaRev": 294.1518922190521,
-    "residPctPeriA": 0.00040537506254885686,
-    "sigmaPeriA": 86.30742220837554,
-    "precessDegPerRevA": -0.0035143401003918553,
-    "precessResidDegA": 6.787003938314713e-7,
-    "precessDegPerRevB": -0.004458665783712226,
-    "precessResidDegB": 0.002211797750248332,
-    "eProxy": 0.00001076042134303674,
-    "eProxy1": 0.000010760410153046994,
-    "rMin": 19.595980182895065,
-    "rMax": 19.596401909439816,
-    "ledger": {
-     "Lrel": 1.114758165996962e-11,
-     "Pabs": 1.7378144756029508e-17,
-     "Prel": 2.7544233626068955e-12,
-     "Erel": 2.2356975772672344e-11,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.519115843590163e-8,
-     "cmMax": 0.0000248434625639804,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389804,
-    "cfgApplied": {
-     "kFrame": 0.0000013994573264675125,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.595999652622247,
-    "oscE": 0.000013707453995967056,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "C6_scalar": {
@@ -3803,7 +2084,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 42.872,
+    "wallSec": 55.517,
     "revSec": [
      553223.1046360554,
      553224.9272364771,
@@ -3868,183 +2149,7 @@
     "warnings": [],
     "oscA": 19.596333077410254,
     "oscE": 0.001943004085628778,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C6_scalar",
-    "series": "C6",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 3,
-     "lawVersion": "scalar",
-     "softening": 0.05
-    },
-    "note": "geoPN=3・kF0・lawVersion=scalar",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 88.299,
-    "revSec": [
-     553223.8484537594,
-     553224.7588905616,
-     553224.867600742,
-     553224.9745849946,
-     553225.0798449233,
-     553225.18338134,
-     553225.285196551,
-     553225.3852929273
-    ],
-    "revN": 59,
-    "rev2Sec": 553224.7588905616,
-    "periASec": 556278.1338910653,
-    "periBSec": 556311.1472350421,
-    "oscSec": 551864.0098562011,
-    "residPctRev": 0.24794857404135906,
-    "sigmaRev": 52790.130037101335,
-    "residPctPeriA": 0.8012401162376854,
-    "sigmaPeriA": 170590.09147628394,
-    "precessDegPerRevA": 1.450635270295499,
-    "precessResidDegA": 3.3976608364582304,
-    "precessDegPerRevB": 1.462021930407277,
-    "precessResidDegB": 3.5198839430914743,
-    "eProxy": 0.0024251188959224226,
-    "eProxy1": 0.0012347427982805582,
-    "rMin": 19.572938614161277,
-    "rMax": 19.668102805203052,
-    "ledger": {
-     "Lrel": 0.0025151569390029914,
-     "Pabs": 2.4841770231859e-8,
-     "Prel": 0.0039374025970985395,
-     "Erel": 0.00003539320474009057,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.5189912907239326e-8,
-     "cmMax": 6.942475788083074,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "steps",
-    "steps": 41400000,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 3,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": true,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.5962535810197,
-    "oscE": 0.0019412840918647323,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h4": {
-    "id": "C6_scalar",
-    "series": "C6",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 3,
-     "lawVersion": "scalar",
-     "softening": 0.05
-    },
-    "note": "geoPN=3・kF0・lawVersion=scalar",
-    "stage": "h4",
-    "dt": 0.004,
-    "stepsRequested": 82800000,
-    "wallSec": 176.191,
-    "revSec": [
-     553224.2203877618,
-     553224.6747429437,
-     553224.7273709836,
-     553224.7782735627,
-     553224.8274516569,
-     553224.8749061186,
-     553224.9206393149,
-     553224.9646526536
-    ],
-    "revN": 59,
-    "rev2Sec": 553224.6747429437,
-    "periASec": 556278.1460718982,
-    "periBSec": 556312.3078951944,
-    "oscSec": 551862.3307973678,
-    "residPctRev": 0.24793332594203193,
-    "sigmaRev": 52786.88360122482,
-    "residPctPeriA": 0.8012423234843639,
-    "sigmaPeriA": 170590.56141582533,
-    "precessDegPerRevA": 1.450868018055398,
-    "precessResidDegA": 3.3994299691346734,
-    "precessDegPerRevB": 1.4632579800554366,
-    "precessResidDegB": 3.5217307136988474,
-    "eProxy": 0.002423684058249065,
-    "eProxy1": 0.0012347059350804389,
-    "rMin": 19.572887912411513,
-    "rMax": 19.667995415765628,
-    "ledger": {
-     "Lrel": 0.0025106169679045653,
-     "Pabs": 2.4810301585832956e-8,
-     "Prel": 0.00393241483948571,
-     "Erel": 0.000031297337103780656,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.5190057045566244e-8,
-     "cmMax": 6.942480633012379,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "steps",
-    "steps": 82800000,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 3,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": true,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.596213832988674,
-    "oscE": 0.0019404302534954587,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
     "canonicalRun": true
    }
   },
@@ -4063,7 +2168,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 59.965,
+    "wallSec": 71.707,
     "revSec": [
      551615.4981211532,
      551617.2024403799,
@@ -4128,183 +2233,7 @@
     "warnings": [],
     "oscA": 19.596068955433346,
     "oscE": 0.0005074481603814414,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C6_local",
-    "series": "C6",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 3,
-     "lawVersion": "local",
-     "softening": 0.05
-    },
-    "note": "geoPN=3・kF0・lawVersion=local",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 122.245,
-    "revSec": [
-     551616.2719124913,
-     551617.1240119033,
-     551617.1759917061,
-     551617.2278506343,
-     551617.2795894407,
-     551617.3312085357,
-     551617.3827079277,
-     551617.4340871024
-    ],
-    "revN": 60,
-    "rev2Sec": 551617.1240119033,
-    "periASec": 548319.9688877409,
-    "periBSec": 548285.8055342643,
-    "oscSec": 551854.6410906613,
-    "residPctRev": -0.04336539203053438,
-    "sigmaRev": -9232.820528421054,
-    "residPctPeriA": -0.6408314887947593,
-    "sigmaPeriA": -136437.87933098435,
-    "precessDegPerRevA": -0.7208572290288718,
-    "precessResidDegA": 7.21892510714774,
-    "precessDegPerRevB": -0.7362389622699307,
-    "precessResidDegB": 7.279391630937605,
-    "eProxy": 0.0008149365155511607,
-    "eProxy1": 0.0002167199367569913,
-    "rMin": 19.575938772963976,
-    "rMax": 19.607871090440078,
-    "ledger": {
-     "Lrel": 0.0000023713818203424173,
-     "Pabs": 1.0790380826086172e-11,
-     "Prel": 0.0000017102675490423206,
-     "Erel": 0.000004586847295184018,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.519099701864498e-8,
-     "cmMax": 3.190336075801691,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41371390,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 3,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": true,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.596031795835195,
-    "oscE": 0.0005039039562013387,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h4": {
-    "id": "C6_local",
-    "series": "C6",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 3,
-     "lawVersion": "local",
-     "softening": 0.05
-    },
-    "note": "geoPN=3・kF0・lawVersion=local",
-    "stage": "h4",
-    "dt": 0.004,
-    "stepsRequested": 82800000,
-    "wallSec": 232.753,
-    "revSec": [
-     551616.6588330005,
-     551617.0848226522,
-     551617.1106921285,
-     551617.1364413247,
-     551617.1620703316,
-     551617.1875804004,
-     551617.2129697538,
-     551617.2382391436
-    ],
-    "revN": 60,
-    "rev2Sec": 551617.0848226522,
-    "periASec": 548271.4328389356,
-    "periBSec": 548254.4994191163,
-    "oscSec": 551853.8562586227,
-    "residPctRev": -0.043372493379434225,
-    "sigmaRev": -9234.332459406385,
-    "residPctPeriA": -0.6496265386301479,
-    "sigmaPeriA": -138310.4120780995,
-    "precessDegPerRevA": -0.7387533703412464,
-    "precessResidDegA": 7.318328319476286,
-    "precessDegPerRevB": -0.7464744394299148,
-    "precessResidDegB": 7.348288788384089,
-    "eProxy": 0.0008126539556165831,
-    "eProxy1": 0.00021656240880690668,
-    "rMin": 19.57594661662919,
-    "rMax": 19.60778943472716,
-    "ledger": {
-     "Lrel": 0.0000014419154567668006,
-     "Pabs": 1.0798719502784534e-11,
-     "Prel": 0.0000017115892232620744,
-     "Erel": 0.0000026907096745151282,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.51910637459244e-8,
-     "cmMax": 3.1903433206494194,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 82742663,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 3,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": true,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.596013216554855,
-    "oscE": 0.0005021502445758458,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
     "canonicalRun": true
    }
   },
@@ -4323,7 +2252,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.565,
+    "wallSec": 24.635,
     "revSec": [
      551862.4613616312,
      551864.0613615632,
@@ -4388,183 +2317,7 @@
     "warnings": [],
     "oscA": 19.595999655277684,
     "oscE": 0.00001699002132576785,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "C6_complex",
-    "series": "C6",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 3,
-     "lawVersion": "complex",
-     "softening": 0.05
-    },
-    "note": "geoPN=3・kF0・lawVersion=complex",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 38.517,
-    "revSec": [
-     551863.2612641874,
-     551864.0612644644,
-     551864.0612645759,
-     551864.0612640149,
-     551864.0612639723,
-     551864.0612640466,
-     551864.0612640928,
-     551864.0612639225
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0612644644,
-    "periASec": 551858.6723007341,
-    "periBSec": 726129.8418045113,
-    "oscSec": 551853.2832957383,
-    "residPctRev": 0.001381254965893386,
-    "sigmaRev": 294.0796475471601,
-    "residPctPeriA": 0.0004047394534882585,
-    "sigmaPeriA": 86.17209622357616,
-    "precessDegPerRevA": -0.0035154618133433676,
-    "precessResidDegA": 2.141988731013073e-7,
-    "precessDegPerRevB": -0.004670573819168042,
-    "precessResidDegB": 0.0019197706687620161,
-    "eProxy": 0.000010758873587672944,
-    "eProxy1": 0.000010758872921224368,
-    "rMin": 19.595980180187798,
-    "rMax": 19.59640184607162,
-    "ledger": {
-     "Lrel": 4.798527979888731e-13,
-     "Pabs": 4.235281908228453e-22,
-     "Prel": 6.712891162448868e-17,
-     "Erel": 6.485597086451424e-13,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.5191158435137684e-8,
-     "cmMax": 0.00001514350413629326,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389804,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 3,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": true,
-     "geoToyDeny": null,
-     "geoToyStop": "complexNotVelocity",
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.59599965283485,
-    "oscE": 0.00001370549659440613,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h4": {
-    "id": "C6_complex",
-    "series": "C6",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 3,
-     "lawVersion": "complex",
-     "softening": 0.05
-    },
-    "note": "geoPN=3・kF0・lawVersion=complex",
-    "stage": "h4",
-    "dt": 0.004,
-    "stepsRequested": 82800000,
-    "wallSec": 78.187,
-    "revSec": [
-     551863.6612412025,
-     551864.0612390139,
-     551864.0612389387,
-     551864.0612393694,
-     551864.0612392192,
-     551864.0612393843,
-     551864.0612398405,
-     551864.0612397299
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0612390139,
-    "periASec": 551858.6723416836,
-    "periBSec": 1045626.9684210527,
-    "oscSec": 551853.2832700869,
-    "residPctRev": 0.001381250354098897,
-    "sigmaRev": 294.07866566117144,
-    "residPctPeriA": 0.0004047468738157641,
-    "sigmaPeriA": 86.17367606752346,
-    "precessDegPerRevA": -0.003515471638546263,
-    "precessResidDegA": 3.795441428718762e-7,
-    "precessDegPerRevB": -0.005376350604016325,
-    "precessResidDegB": 0.007501712619099627,
-    "eProxy": 0.000010009870483172267,
-    "eProxy1": 0.000010009869977445385,
-    "rMin": 19.595994857189012,
-    "rMax": 19.59638716785701,
-    "ledger": {
-     "Lrel": 2.430507212085536e-13,
-     "Pabs": 6.733767174064491e-24,
-     "Prel": 1.0672972220560753e-18,
-     "Erel": 3.3076733183728777e-13,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.51911584351265e-8,
-     "cmMax": 0.00001514350366173227,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 82779609,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 3,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": true,
-     "geoToyDeny": null,
-     "geoToyStop": "complexNotVelocity",
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.595999652227572,
-    "oscE": 0.00001275286945873011,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
     "canonicalRun": true
    }
   },
@@ -4582,7 +2335,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.004,
+    "wallSec": 23.18,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -4644,104 +2397,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "S_e0.05_k0",
-    "series": "S",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "softening 依存",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 38,
-    "revSec": [
-     551863.2612657931,
-     551864.0612661137,
-     551864.0612661535,
-     551864.0612654443,
-     551864.0612654443,
-     551864.0612655465,
-     551864.0612656389,
-     551864.0612654657
-    ],
-    "revN": 60,
-    "rev2Sec": 551864.0612661137,
-    "periASec": 551858.672336422,
-    "periBSec": 726129.8245614035,
-    "oscSec": 551853.2832959071,
-    "residPctRev": 0.001381255264749347,
-    "sigmaRev": 294.07971117585856,
-    "residPctPeriA": 0.0004047459203751713,
-    "sigmaPeriA": 86.17347307279735,
-    "precessDegPerRevA": -0.003515446999855308,
-    "precessResidDegA": 5.463410719199599e-7,
-    "precessDegPerRevB": -0.004666164042913723,
-    "precessResidDegB": 0.00273716400238636,
-    "eProxy": 0.000010758874767439755,
-    "eProxy1": 0.000010758874241678998,
-    "rMin": 19.595980180197067,
-    "rMax": 19.596401846127126,
-    "ledger": {
-     "Lrel": 1.163540686636693e-13,
-     "Pabs": 4.287889566310196e-22,
-     "Prel": 6.796273919645728e-17,
-     "Erel": 5.643165223670839e-13,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.5191158435095e-8,
-     "cmMax": 0.000015143504117637199,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389804,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.59599965283887,
-    "oscE": 0.000013705498380582199,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "S_e0.05_k1": {
@@ -4758,7 +2420,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.547,
+    "wallSec": 39.156,
     "revSec": [
      553209.4743340951,
      553210.6340099995,
@@ -4823,101 +2485,8 @@
     "warnings": [],
     "oscA": 19.595851587697478,
     "oscE": 0.0019280224628431188,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "S_e0.05_k1",
-    "series": "S",
-    "cfg": {
-     "kFrame": 1,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.05
-    },
-    "note": "softening 依存",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.31,
-    "revSec": [
-     553210.3587952818,
-     553210.8870908859,
-     553210.6512830412,
-     553210.441620167,
-     553210.2167278852,
-     553209.9412889268,
-     553209.7760919336,
-     553209.5223629193
-    ],
-    "revN": 59,
-    "rev2Sec": 553210.8870908859,
-    "periASec": 556269.5292752684,
-    "periBSec": 556303.5537606145,
-    "oscSec": 551853.858305559,
-    "residPctRev": 0.2454349131139044,
-    "sigmaRev": 52254.95258047527,
-    "residPctPeriA": 0.7996809035162065,
-    "sigmaPeriA": 170258.123274246,
-    "precessDegPerRevA": 1.4510155849354522,
-    "precessResidDegA": 3.4249341486672593,
-    "precessDegPerRevB": 1.4625135797919877,
-    "precessResidDegB": 3.5486800344146787,
-    "eProxy": 0.0024115599784623274,
-    "eProxy1": 0.0012226374373638885,
-    "rMin": 19.57250252377474,
-    "rMax": 19.667131254163134,
-    "ledger": {
-     "Lrel": 0.002467019744948953,
-     "Pabs": 2.4400045959752245e-8,
-     "Prel": 0.0038673896197639343,
-     "Erel": 0.000010687635737422295,
-     "E0": -3.519115843511486e-8,
-     "E1": -3.519078232483233e-8,
-     "cmMax": 6.941854698878371,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "steps",
-    "steps": 41400000,
-    "cfgApplied": {
-     "kFrame": 1,
-     "geoPN": 2,
-     "softening": 0.05,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.596013264547402,
-    "oscE": 0.00192630197037084,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "S_e0.025_k0": {
@@ -4934,7 +2503,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.525,
+    "wallSec": 23.354,
     "revSec": [
      551854.3777987654,
      551855.9777990397,
@@ -4996,104 +2565,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999651779508,
     "oscE": 0.00001200053989319149,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "S_e0.025_k0",
-    "series": "S",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.025
-    },
-    "note": "softening 依存",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 37.998,
-    "revSec": [
-     551855.1777015859,
-     551855.977699629,
-     551855.9776995855,
-     551855.9777001068,
-     551855.977700097,
-     551855.9777004317,
-     551855.977700639,
-     551855.9777005299
-    ],
-    "revN": 60,
-    "rev2Sec": 551855.977699629,
-    "periASec": 551854.6305786457,
-    "periBSec": 1045619.2912280702,
-    "oscSec": 551853.2831480621,
-    "residPctRev": -0.00008353990976614232,
-    "sigmaRev": -17.78627974326136,
-    "residPctPeriA": -0.0003276470522718729,
-    "sigmaPeriA": -69.75853990118112,
-    "precessDegPerRevA": -0.0008789733145289633,
-    "precessResidDegA": 0.000001444118096299798,
-    "precessDegPerRevB": -0.0014494269419481872,
-    "precessResidDegB": 0.001379511273709908,
-    "eProxy": 0.000005158889431988897,
-    "eProxy1": 0.000005158889167384334,
-    "rMin": 19.595946396594115,
-    "rMax": 19.59614858427873,
-    "ledger": {
-     "Lrel": 2.5727177404522434e-13,
-     "Pabs": 1.9687544813615616e-23,
-     "Prel": 3.1204615998021435e-18,
-     "Erel": 5.030121048294966e-13,
-     "E0": -3.519133026557091e-8,
-     "E1": -3.519133026558861e-8,
-     "cmMax": 0.000015143502181116871,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389198,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 2,
-     "softening": 0.025,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.59599964933889,
-    "oscE": 0.000006572167781705575,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "S_e0.025_k1": {
@@ -5110,7 +2588,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 32.129,
+    "wallSec": 39.059,
     "revSec": [
      553201.3046566721,
      553202.4413371511,
@@ -5175,101 +2653,8 @@
     "warnings": [],
     "oscA": 19.595854969796985,
     "oscE": 0.0019202501307705564,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "S_e0.025_k1",
-    "series": "S",
-    "cfg": {
-     "kFrame": 1,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.025
-    },
-    "note": "softening 依存",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.58,
-    "revSec": [
-     553202.2970844025,
-     553202.8678904031,
-     553202.6746035845,
-     553202.4562952607,
-     553202.1866318573,
-     553201.9212969356,
-     553201.6582471784,
-     553201.3953935682
-    ],
-    "revN": 59,
-    "rev2Sec": 553202.8678904031,
-    "periASec": 556275.1275105835,
-    "periBSec": 556309.5362013016,
-    "oscSec": 551853.6565530861,
-    "residPctRev": 0.24398178148036667,
-    "sigmaRev": 51945.56984580108,
-    "residPctPeriA": 0.8006953404099838,
-    "sigmaPeriA": 170474.10457498138,
-    "precessDegPerRevA": 1.454117505675795,
-    "precessResidDegA": 3.454252403025145,
-    "precessDegPerRevB": 1.4657361028384912,
-    "precessResidDegB": 3.5795785212553093,
-    "eProxy": 0.0024065958393804042,
-    "eProxy1": 0.001215336762255271,
-    "rMin": 19.572444618843917,
-    "rMax": 19.666877808938725,
-    "ledger": {
-     "Lrel": 0.0024540012035920663,
-     "Pabs": 2.424409371801481e-8,
-     "Prel": 0.003842671302353011,
-     "Erel": 0.000009915079167226486,
-     "E0": -3.519133026557091e-8,
-     "E1": -3.5190981340745325e-8,
-     "cmMax": 6.941716901502265,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "steps",
-    "steps": 41400000,
-    "cfgApplied": {
-     "kFrame": 1,
-     "geoPN": 2,
-     "softening": 0.025,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.596008488461248,
-    "oscE": 0.0019183051467476567,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "S_e0.0125_k0": {
@@ -5286,7 +2671,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.093,
+    "wallSec": 23.494,
     "revSec": [
      551852.3568783228,
      551853.9568783055,
@@ -5348,104 +2733,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999651568352,
     "oscE": 0.000011619467652871863,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "S_e0.0125_k0",
-    "series": "S",
-    "cfg": {
-     "kFrame": 0,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.0125
-    },
-    "note": "softening 依存",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 37.795,
-    "revSec": [
-     551853.1567810276,
-     551853.9567799019,
-     551853.9567797041,
-     551853.9567803844,
-     551853.9567803385,
-     551853.9567803793,
-     551853.9567804022,
-     551853.956780288
-    ],
-    "revN": 60,
-    "rev2Sec": 551853.9567799019,
-    "periASec": 551853.6198435556,
-    "periBSec": 900392.7298245615,
-    "oscSec": 551853.2831388982,
-    "residPctRev": -0.00044974379638725996,
-    "sigmaRev": -95.75386180967828,
-    "residPctPeriA": -0.0005107988684340314,
-    "sigmaPeriA": -108.75294924236513,
-    "precessDegPerRevA": -0.00022015523347966617,
-    "precessResidDegA": 0.0000066043718382379345,
-    "precessDegPerRevB": -0.00035899575113215385,
-    "precessResidDegB": 0.0003212222488831439,
-    "eProxy": 0.000004592610356310519,
-    "eProxy1": 0.000004592610067049143,
-    "rMin": 19.595921612635507,
-    "rMax": 19.596101606327228,
-    "ledger": {
-     "Lrel": 2.1482408603273757e-13,
-     "Pabs": 4.237386601302662e-22,
-     "Prel": 6.716227085734182e-17,
-     "Erel": 4.3588061147303503e-13,
-     "E0": -3.519137322338156e-8,
-     "E1": -3.51913732233969e-8,
-     "cmMax": 0.000015143503685840527,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "orbMax",
-    "steps": 41389046,
-    "cfgApplied": {
-     "kFrame": 0,
-     "geoPN": 2,
-     "softening": 0.0125,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.595999649121968,
-    "oscE": 0.0000058474362821873055,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   },
   "S_e0.0125_k1": {
@@ -5462,7 +2756,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.82,
+    "wallSec": 37.571,
     "revSec": [
      553199.2768115981,
      553200.3863079243,
@@ -5527,101 +2821,8 @@
     "warnings": [],
     "oscA": 19.59584768294502,
     "oscE": 0.0019182665692638586,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T09:57:54.970Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
-   },
-   "h2": {
-    "id": "S_e0.0125_k1",
-    "series": "S",
-    "cfg": {
-     "kFrame": 1,
-     "f": 1,
-     "geoPN": 2,
-     "softening": 0.0125
-    },
-    "note": "softening 依存",
-    "stage": "h2",
-    "dt": 0.008,
-    "stepsRequested": 41400000,
-    "wallSec": 63.054,
-    "revSec": [
-     553200.1812614606,
-     553200.7782677386,
-     553200.5593662399,
-     553200.3439318084,
-     553200.0825523537,
-     553199.9143300956,
-     553199.7483938677,
-     553199.5998849117
-    ],
-    "revN": 59,
-    "rev2Sec": 553200.7782677386,
-    "periASec": 556276.6638762263,
-    "periBSec": 556310.5857236367,
-    "oscSec": 551853.8690551298,
-    "residPctRev": 0.24360312817166468,
-    "sigmaRev": 51864.95168744853,
-    "residPctPeriA": 0.8009737399238788,
-    "sigmaPeriA": 170533.37794082993,
-    "precessDegPerRevA": 1.4551151907205082,
-    "precessResidDegA": 3.459390790522553,
-    "precessDegPerRevB": 1.466738615307345,
-    "precessResidDegB": 3.584666584513734,
-    "eProxy": 0.002405225048281998,
-    "eProxy1": 0.0012134297725170053,
-    "rMin": 19.572441561917078,
-    "rMax": 19.666820818670978,
-    "ledger": {
-     "Lrel": 0.0024511680345162606,
-     "Pabs": 2.4207560144072525e-8,
-     "Prel": 0.003836880757332304,
-     "Erel": 0.000010215048678498452,
-     "E0": -3.519137322338156e-8,
-     "E1": -3.519101374179102e-8,
-     "cmMax": 6.941971576660585,
-     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
-    },
-    "clamp": {
-     "V": 0,
-     "S": 0,
-     "H": 0,
-     "A": 0,
-     "R": 0,
-     "T": 0
-    },
-    "nan": false,
-    "stop": "steps",
-    "steps": 41400000,
-    "cfgApplied": {
-     "kFrame": 1,
-     "geoPN": 2,
-     "softening": 0.0125,
-     "mA": 0.001303000026382506,
-     "mB": 0.00015859999984968454,
-     "D0": 0.006,
-     "frameWeight": "share",
-     "hasGeoToy": false,
-     "geoToyDeny": null,
-     "geoToyStop": null,
-     "geoToyOverlay": null
-    },
-    "warnings": [],
-    "oscA": 19.596013519015752,
-    "oscE": 0.0019162382565838982,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T10:21:03.839Z",
-     "fromTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "1b0ff5a369535d6c49352e9fcbba3ea8e1860d2029267b66318345b4fc64e031",
+    "canonicalRun": true
    }
   }
  },
