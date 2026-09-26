@@ -1,9 +1,9 @@
 {
- "when": "2026-09-26T19:42:36.078Z",
+ "when": "2026-09-26T21:43:29.197Z",
  "wave": "第271便a(第61報・AF16)",
  "of": "tests/out/calaudit-w249.json",
  "what": "**正本から移した重い診断**である(削ったのではない)。正本の `diagnosticsSplit` にこのファイルの相対パスと SHA-256 がある。単独で配ると参照先が欠ける —— 2 つで 1 組である。",
- "carriedOverFrom": "2026-09-26T19:36:30.282Z",
+ "carriedOverFrom": "2026-09-26T21:40:49.125Z",
  "fields": [
   {
    "path": "presets[].run.stopRule.machineIndependence",
@@ -4032,8 +4032,8 @@
    ]
   },
   "n": 21,
-  "freshThisRun": 5,
-  "carriedFrom": "2026-09-26T19:36:30.282Z",
+  "freshThisRun": 0,
+  "carriedFrom": "2026-09-26T21:40:49.125Z",
   "entries": {
    "plutoCharonReal": {
     "contract": {
@@ -5835,7 +5835,7 @@
     "contract": {
      "version": "w283c-h4reuse-1",
      "key": "psrDoubleABDFM",
-     "presetHash": "e66b7edc:50497",
+     "presetHash": "c196437c:50497",
      "engineSha": "9f6db9e04dc9e530e490508baba8ed6560b44ad6323b4ba45eaa22b01054ca70",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.004,
@@ -6014,19 +6014,19 @@
      "tp": null,
      "dt": 0.004,
      "tag": "dt/4",
-     "rateStepsPerSec": 454545,
-     "wallSec": 13.744,
+     "rateStepsPerSec": 434783,
+     "wallSec": 13.388,
      "stepsPerOrbit0": [
       92365
      ],
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 13.744,
+      "wallSec": 13.388,
       "budgetHit": false,
       "maxSteps": 5541886,
       "stepsRun": 5541886,
-      "rateStepsPerSec": 454545,
+      "rateStepsPerSec": 434783,
       "dt": 0.004,
       "periFoundA": [
        25
@@ -6059,7 +6059,7 @@
       "stepsHit": true,
       "minPeriastra": 25,
       "periastraOk": true,
-      "wallSec": 13.744,
+      "wallSec": 13.388,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -6079,7 +6079,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 454545,
+      "rateStepsPerSec": 434783,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "psrDoubleABDFM",
@@ -6104,8 +6104,8 @@
       }
      }
     },
-    "generatedAt": "2026-09-26T19:14:30.376Z",
-    "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+    "generatedAt": "2026-09-26T21:31:00.544Z",
+    "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
     "verdict4": "保留",
     "mappingSig": "fe66e05258d68cb5cf0d49bd0e03fd545bbb863b08ce5fc3d778c4c84c215d69"
    },

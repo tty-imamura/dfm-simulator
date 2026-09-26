@@ -3,67 +3,67 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便c",
   "target": "beta/index.html",
-  "targetSha256": "b3b3db4f2a91f62614254ab15c5128b1744f270b714d46a573f5e2d7c2778ddf",
-  "generatedAt": "2026-09-26T16:41:33.052Z",
+  "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+  "generatedAt": "2026-09-26T22:01:22.848Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4851253,
-    "sha256": "b3b3db4f2a91f62614254ab15c5128b1744f270b714d46a573f5e2d7c2778ddf",
-    "mtime": "2026-09-26T16:19:38.000Z"
+    "bytes": 4903364,
+    "sha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+    "mtime": "2026-09-26T20:10:39.928Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2815722,
-    "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
-    "mtime": "2026-09-26T15:27:39.700Z"
+    "bytes": 2698393,
+    "sha256": "e3cff1886351ee6127e7a9abd56b47711f708c2028f222c5f09cd0046cdb669d",
+    "mtime": "2026-09-26T21:43:29.368Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w283c-heavy.mjs",
-    "bytes": 22737,
-    "sha256": "eb0bac1120e2969a4a56a832f254495adc76b25569a4b9a1e58d62ea5b37438f",
-    "mtime": "2026-09-26T16:26:39.270Z"
+    "bytes": 22890,
+    "sha256": "28fc2ce4ddbde3455ec95aa4535dc1b99269133b205f9b176e4ce2c5becb6557",
+    "mtime": "2026-09-26T19:59:59.574Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 11350,
     "sha256": "81f73698d3cbe8f23519fe793e7fa701d50fc696b63c6b73fe5c2e026e428dfa",
-    "mtime": "2026-09-26T16:22:45.445Z"
+    "mtime": "2026-09-26T17:45:30.897Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 318475,
-    "sha256": "9789909ab5532784aab6d87f62b35d80c43223b9701de0d8ec3aea95082f08c8",
-    "mtime": "2026-09-26T16:22:57.003Z"
+    "bytes": 319170,
+    "sha256": "66a937755d8b17f007d8471268b5810eabdb8aa3cb24637a8261877e80020ef0",
+    "mtime": "2026-09-26T17:46:14.388Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-26T15:27:39.656Z"
+    "mtime": "2026-09-24T08:51:12.597Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-26T15:27:39.656Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-26T15:27:39.648Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 60075,
-    "sha256": "42e586660d12b9554e77d0ecf507747b411e2356812c40d18df599090b62826f",
-    "mtime": "2026-09-26T15:27:39.660Z"
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-26T17:46:31.436Z"
    }
   ],
-  "codeSha256": "560fb50c9163ae5bcd315a0aa31e94d4385b5efa896a0b1a76f1385459a16803",
+  "codeSha256": "10097863e7c360f8184e0b6af8f45a46084fd9a676e82afd4462ddc293074054",
   "harnessVersion": "w283c-heavy-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第73報)⑤: 正本再生成と QA が非常に長い → 改善・dt/8 は無くす方向・dt/4 は前回の結果を利用・dt だけで重いサンプルを調査して改善",
@@ -91,7 +91,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w282e-scope-2",
+   "version": "w283e-scope-3",
    "presets": "all",
    "roots": [
     "$",
@@ -126,20 +126,30 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 782,
-   "segments": 710,
-   "closureShare": 0.3186
+   "names": 791,
+   "segments": 719,
+   "closureShare": 0.3176
   },
-  "scopeSha256": "4668eb7a1a91b503426b1440faff907df1bf615dd09fd0a7b6605699954a5bc9",
+  "scopeSha256": "aad4a1619b67399f0d5350ed23e95a24dcfa1dcd187d4145e7ede0be842d53f0",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "d80d3db914d4e66efd951209fdc5a98913d59dd99afdecc0888d3b8a6ca64d8e",
+    "stableSha256": "2d72f39122cc7fec5398ba634c45e3ed01e5d584ff4ff7fbb35674c38460fe52",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
      "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
      "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
      "/meta/when",
      "/presets/*/run/dtEighth/wallSec",
      "/presets/*/run/stopRule/rateStepsPerSec",
@@ -150,17 +160,27 @@
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
     ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "e14f569ae69db45b0620e33b36490fd07244d6bff3dc74fc1b7a9fbf44863229",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
    }
   ],
   "stableHashVersion": "w282e-stable-1"
  },
  "calaudit": {
-  "totalWallSec": 4712.579999999999,
-  "heavyWallSec": 2550.9849999999997,
-  "heavyShare": 0.541313887509602,
+  "totalWallSec": 4531.138999999999,
+  "heavyWallSec": 3322.875,
+  "heavyShare": 0.7333421022837747,
   "nPresets": 37,
-  "canonWhen": "2026-09-26T09:41:28.984Z",
-  "canonTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+  "canonWhen": "2026-09-26T21:40:51.136Z",
+  "canonTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
   "rows": [
    {
     "id": "solarInner",
@@ -170,9 +190,9 @@
     "tags": [
      "dt"
     ],
-    "wallSec": 650.108,
+    "wallSec": 830.64,
     "steps": 866426,
-    "msPerStepChromium": 0.7503329770805585,
+    "msPerStepChromium": 0.9586969920108585,
     "needPeriastra": 20,
     "periFound": [
      9,
@@ -198,9 +218,9 @@
     "tags": [
      "dt"
     ],
-    "wallSec": 648.115,
+    "wallSec": 837.946,
     "steps": 1075028,
-    "msPerStepChromium": 0.6028819714463252,
+    "msPerStepChromium": 0.7794643488355653,
     "needPeriastra": 20,
     "periFound": [
      14,
@@ -228,9 +248,9 @@
     "tags": [
      "dt"
     ],
-    "wallSec": 641.256,
+    "wallSec": 824.085,
     "steps": 2042988,
-    "msPerStepChromium": 0.3138814324900586,
+    "msPerStepChromium": 0.4033724133475087,
     "needPeriastra": 20,
     "periFound": [
      63,
@@ -254,9 +274,9 @@
     "tags": [
      "dt"
     ],
-    "wallSec": 611.506,
+    "wallSec": 830.204,
     "steps": 254730,
-    "msPerStepChromium": 2.4006045616927727,
+    "msPerStepChromium": 3.259152828485062,
     "needPeriastra": 20,
     "periFound": [
      13,
@@ -301,26 +321,26 @@
    "identitySteps": 2000,
    "tpNaN": false,
    "msPerStepNode": {
-    "full": 1.9853969875000002,
-    "major": 0.009583108699999999,
-    "tp": 0.12549572325,
-    "fullOverMajor": 207.17671578743548,
-    "fullOverTp": 15.820435438623605,
+    "full": 1.6790204925,
+    "major": 0.0068296932,
+    "tp": 0.10736356075,
+    "fullOverMajor": 245.84127622306667,
+    "fullOverTp": 15.638643882254064,
     "trials": {
      "full": [
-      1.9853969875000002,
-      2.2399737625,
-      2.6401730700000003
+      1.975890555,
+      1.835475435,
+      1.6790204925
      ],
      "major": [
-      0.01122320455,
-      0.009583108699999999,
-      0.012541855
+      0.0075489282,
+      0.007402896250000001,
+      0.0068296932
      ],
      "tp": [
-      0.12549572325,
-      0.1257657665,
-      0.1935084315
+      0.111358218,
+      0.1116593685,
+      0.10736356075
      ]
     }
    },
@@ -358,26 +378,26 @@
    "identitySteps": 2000,
    "tpNaN": false,
    "msPerStepNode": {
-    "full": 1.7307276325,
-    "major": 0.01311680785,
-    "tp": 0.14394255050000002,
-    "fullOverMajor": 131.9473192176098,
-    "fullOverTp": 12.023738821412643,
+    "full": 1.3527200875,
+    "major": 0.0088377972,
+    "tp": 0.11001490875,
+    "fullOverMajor": 153.06077486141004,
+    "fullOverTp": 12.295788842346333,
     "trials": {
      "full": [
-      2.3417933725,
-      1.7307276325,
-      2.0972310375000003
+      1.3527200875,
+      1.358565,
+      1.3623385925
      ],
      "major": [
-      0.01739154585,
-      0.0160702192,
-      0.01311680785
+      0.00939745275,
+      0.00897941295,
+      0.0088377972
      ],
      "tp": [
-      0.14394255050000002,
-      0.26212229075,
-      0.22836753024999998
+      0.11106880675,
+      0.11001490875,
+      0.1189627975
      ]
     }
    },
@@ -415,26 +435,26 @@
    "identitySteps": 2000,
    "tpNaN": false,
    "msPerStepNode": {
-    "full": 0.5211966375,
-    "major": 0.0071609087,
-    "tp": 0.1181375365,
-    "fullOverMajor": 72.78358925313486,
-    "fullOverTp": 4.411778448588184,
+    "full": 0.3709986725,
+    "major": 0.0052917368,
+    "tp": 0.08650123600000001,
+    "fullOverMajor": 70.10905616091866,
+    "fullOverTp": 4.288940709471481,
     "trials": {
      "full": [
-      0.68847081,
-      0.5211966375,
-      0.96149214
+      0.3709986725,
+      0.44868199500000006,
+      0.409951255
      ],
      "major": [
-      0.0071609087,
-      0.00744801485,
-      0.03207576345
+      0.00593113715,
+      0.00597660725,
+      0.0052917368
      ],
      "tp": [
-      0.1181375365,
-      0.1332048805,
-      0.1434814015
+      0.08650123600000001,
+      0.09023513625,
+      0.087110681
      ]
     }
    },
@@ -472,26 +492,26 @@
    "identitySteps": 2000,
    "tpNaN": false,
    "msPerStepNode": {
-    "full": 9.7221588525,
-    "major": 0.031768743349999996,
-    "tp": 0.25446214375,
-    "fullOverMajor": 306.02906590889756,
-    "fullOverTp": 38.206700254996186,
+    "full": 7.3476619475,
+    "major": 0.026773256099999997,
+    "tp": 0.208256843,
+    "fullOverMajor": 274.4403564533191,
+    "fullOverTp": 35.28173116261058,
     "trials": {
      "full": [
-      9.9797884375,
-      9.7221588525,
-      10.293179285
+      7.3654862875000005,
+      7.3476619475,
+      7.5339863175
      ],
      "major": [
-      0.03356474205,
-      0.031768743349999996,
-      0.03843150805
+      0.027998540350000004,
+      0.02733742115,
+      0.026773256099999997
      ],
      "tp": [
-      0.25446214375,
-      0.2557845,
-      0.26355081124999996
+      0.208256843,
+      0.20840813275,
+      0.21535091425
      ]
     }
    },
@@ -512,14 +532,6 @@
    "steps": 3000,
    "x": -48.51881567085085,
    "y": 8.052138506285676
-  },
-  {
-   "key": "share-geo1-kF1",
-   "tpOn": true,
-   "bitSame": true,
-   "steps": 3000,
-   "x": -48.47649408564922,
-   "y": 7.768685963875671
   },
   {
    "key": "share-geo0-kF1",
@@ -587,7 +599,7 @@
   }
  ],
  "deny": {
-  "nPresets": 141,
+  "nPresets": 142,
   "declared": 0,
   "flaggedBuilt": 0,
   "rows": [
@@ -823,7 +835,7 @@
    "gateMoved": 0,
    "before": {
     "steps": 866426,
-    "wallSec": 650.108,
+    "wallSec": 830.64,
     "periFound": [
      9,
      5,
@@ -834,7 +846,7 @@
    },
    "after": {
     "steps": 866426,
-    "wallSec": 63.21,
+    "wallSec": 46.807,
     "periFound": [
      9,
      5,
@@ -848,7 +860,7 @@
      "n0": 5
     }
    },
-   "wallRatio": 10.284891631071032
+   "wallRatio": 17.746063622962378
   },
   {
    "id": "uranusReal",
@@ -1095,7 +1107,7 @@
    "gateMoved": 0,
    "before": {
     "steps": 1075028,
-    "wallSec": 648.115,
+    "wallSec": 837.946,
     "periFound": [
      14,
      7,
@@ -1107,7 +1119,7 @@
    },
    "after": {
     "steps": 1075028,
-    "wallSec": 76.076,
+    "wallSec": 58.576,
     "periFound": [
      14,
      7,
@@ -1122,7 +1134,7 @@
      "n0": 6
     }
    },
-   "wallRatio": 8.519309637730691
+   "wallRatio": 14.305278612400985
   },
   {
    "id": "saturnRingReal",
@@ -1265,7 +1277,7 @@
    "gateMoved": 0,
    "before": {
     "steps": 2042988,
-    "wallSec": 641.256,
+    "wallSec": 824.085,
     "periFound": [
      63,
      36,
@@ -1275,7 +1287,7 @@
    },
    "after": {
     "steps": 2042988,
-    "wallSec": 130.904,
+    "wallSec": 108.119,
     "periFound": [
      63,
      35,
@@ -1288,7 +1300,7 @@
      "n0": 7
     }
    },
-   "wallRatio": 4.898673837315895
+   "wallRatio": 7.622018331653086
   },
   {
    "id": "saturnRingRealKF1",
@@ -1457,7 +1469,7 @@
    "gateMoved": 0,
    "before": {
     "steps": 254730,
-    "wallSec": 611.506,
+    "wallSec": 830.204,
     "periFound": [
      13,
      2,
@@ -1467,7 +1479,7 @@
    },
    "after": {
     "steps": 254730,
-    "wallSec": 31.755,
+    "wallSec": 24.271,
     "periFound": [
      13,
      2,
@@ -1480,12 +1492,12 @@
      "n0": 7
     }
    },
-   "wallRatio": 19.256998897811368
+   "wallRatio": 34.20559515471138
   }
  ],
  "tpCopyRun": {
-  "wallSec": 315.338,
-  "canonWhen": "2026-09-26T16:36:20.049Z"
+  "wallSec": 246.837,
+  "canonWhen": "2026-09-26T21:57:17.749Z"
  },
- "elapsedSec": 367.574
+ "elapsedSec": 283.137
 }
