@@ -3,67 +3,73 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-  "generatedAt": "2026-09-26T08:26:44.849Z",
+  "targetSha256": "9647c09eee9da182b7c4b42f68a17c6839877adbc3d916ae55fab086d9c1c47c",
+  "generatedAt": "2026-09-26T15:46:51.890Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836622,
-    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-    "mtime": "2026-09-26T08:09:25.652Z"
+    "bytes": 4843701,
+    "sha256": "9647c09eee9da182b7c4b42f68a17c6839877adbc3d916ae55fab086d9c1c47c",
+    "mtime": "2026-09-26T15:39:45.484Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 254806,
     "sha256": "d8a5bb656684b6e4b3ed4ed9dca2e41ef8acb10161442df1b81079b8d4620b9c",
-    "mtime": "2026-09-26T08:24:22.508Z"
+    "mtime": "2026-09-26T15:27:38.992Z"
+   },
+   {
+    "file": "tests/fixtures/retired-w283b.json",
+    "bytes": 140346,
+    "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
+    "mtime": "2026-09-26T15:42:31.720Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w282d-analogy.mjs",
-    "bytes": 34161,
-    "sha256": "46fa997b2654c5a5188e970292751f755e7ee64a61cafbb65f6315e7e9e06c9a",
-    "mtime": "2026-09-26T00:06:36.716Z"
+    "bytes": 34865,
+    "sha256": "ad84b612703b5f62180fb1b90cd3ac13fffb032aceb786585b7099947c35bac3",
+    "mtime": "2026-09-26T15:42:57.115Z"
    },
    {
     "file": "tests/exp-w281b-galaxychain.mjs",
     "bytes": 24247,
     "sha256": "4956c5b243c9af7b6dca582885e8cf403a7600b8048dbc067099c8848df64e9f",
-    "mtime": "2026-09-25T04:06:04.306Z"
+    "mtime": "2026-09-26T15:27:38.764Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
     "bytes": 12812,
     "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
-    "mtime": "2026-09-26T00:07:02.816Z"
+    "mtime": "2026-09-26T15:27:38.784Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-24T08:51:12.597Z"
+    "mtime": "2026-09-26T15:27:38.780Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-23T22:41:00.738Z"
+    "mtime": "2026-09-26T15:27:38.780Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-26T15:27:38.774Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 60075,
     "sha256": "42e586660d12b9554e77d0ecf507747b411e2356812c40d18df599090b62826f",
-    "mtime": "2026-09-26T08:09:25.504Z"
+    "mtime": "2026-09-26T15:27:38.784Z"
    }
   ],
-  "codeSha256": "c0943c6d101c8a7dcd2ecd4eba6414fbff63d734d1f666c6edcac9281c82f39b",
+  "codeSha256": "d2c900f8f566f25a542ed356084420721ec6113724f57d1492078254a8628f0c",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -104,7 +110,6 @@
   "scope": {
    "version": "w282e-scope-2",
    "presets": [
-    "bhCore",
     "galaxyAnalogyBH",
     "galaxyMeshSpiral",
     "galaxyMeshSpiralGeoToy",
@@ -156,9 +161,9 @@
    "complete": true,
    "names": 779,
    "segments": 707,
-   "closureShare": 0.3163
+   "closureShare": 0.3159
   },
-  "scopeSha256": "a16d0aedc177745674524d25cbd2037164f026cd50b0e327b5619ae94340e659",
+  "scopeSha256": "fb795b6619a8ab1270311f6d7b8e69fccaed646583c4d5dc020bec200d5fb05d",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -170,6 +175,12 @@
      "/meta/generatedAt",
      "/meta/inputs/*/mtime"
     ]
+   },
+   {
+    "file": "tests/fixtures/retired-w283b.json",
+    "stableSha256": "a1774dbfb6cdee50d7a8d7040db4a219a0f1bcb48c89e31c3521eec4230f141e",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
    }
   ],
   "stableHashVersion": "w282e-stable-1"
@@ -923,7 +934,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.9972,
+    "msPerStep": 5.1864,
     "recs": [
      {
       "t": 0,
@@ -1168,7 +1179,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 4.1084,
+    "msPerStep": 5.1212,
     "recs": [
      {
       "t": 0,
@@ -1415,7 +1426,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 8.5944,
+    "msPerStep": 11.5332,
     "recs": [
      {
       "t": 0,
@@ -1662,7 +1673,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 8.5524,
+    "msPerStep": 12.8348,
     "recs": [
      {
       "t": 0,
@@ -2516,6 +2527,7 @@
     "id": "bhCore",
     "emoji": "⚫",
     "body": 0,
+    "fixture": "tests/fixtures/retired-w283b.json",
     "m": 2500,
     "R": 15,
     "spin": 0.15,
@@ -2856,7 +2868,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 12.825333333333333,
+    "msPerStep": 17.194666666666667,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2921,7 +2933,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 12.572666666666667,
+    "msPerStep": 21.61466666666667,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3095,5 +3107,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 140.68
+ "elapsedSec": 205.256
 }

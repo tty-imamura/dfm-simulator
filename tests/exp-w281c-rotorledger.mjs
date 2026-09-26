@@ -94,7 +94,18 @@ function fanEnds(S, lswMode) {
   for (let i = 0; i < S.n; i++) S.lSw[i] = keep[i];
   return ends;
 }
-const dr = byId('darkrotor');
+// 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R84): 🕶️ は**退役**(BUILTIN_PRESETS には残る)。機構の実測(減光は偏向に
+// 入らない)は内蔵を読まず、**凍結した写し**(tests/fixtures/retired-w283b.json —— 基点 de9e39b の内蔵定義そのもの)から組み立てる。
+// 写しと内蔵の presetSigHash が同じことを記録する(同じ本であることの確認 —— 違えば止める)。
+const RETIRED_FX = 'tests/fixtures/retired-w283b.json';
+const FX = JSON.parse(fs.readFileSync(path.join(ROOT, RETIRED_FX), 'utf8'));
+const dr = FX.presets.darkrotor.raw;
+const presetSigHashFn = H.evalExpr('presetSigHash');
+const drBuiltin = byId('darkrotor');
+const drSig = { fixture: FX.presets.darkrotor.presetSigHash, fixtureNow: presetSigHashFn(dr), builtin: drBuiltin ? presetSigHashFn(drBuiltin) : null };
+if (drSig.fixture !== drSig.fixtureNow || (drSig.builtin !== null && drSig.builtin !== drSig.fixture)) {
+  console.error('退役の写しと内蔵の署名が違う: ' + JSON.stringify(drSig)); process.exit(1);
+}
 HP.sim.build(HP.validatePreset(clone(dr)).preset);
 const SD = HP.sim;
 const lswDecl = [SD.lSw[0], SD.lSw[1], SD.lSw[2]];
@@ -104,7 +115,7 @@ let maxDefl = 0;
 for (const e of eDecl) maxDefl = Math.max(maxDefl, Math.abs(Math.atan2(e[3], e[2])));
 let heavy = 0; const rayHeavy = H.evalExpr('rayHeavy');
 for (let i = 0; i < SD.n; i++) if (rayHeavy(SD, i)) heavy++;
-const lswRay = { preset: 'darkrotor', rays: eDecl.length, lswDeclaredFirst3: lswDecl, heavyBodies: heavy,
+const lswRay = { preset: 'darkrotor', source: RETIRED_FX, presetSig: drSig, rays: eDecl.length, lswDeclaredFirst3: lswDecl, heavyBodies: heavy,
   maxDeflectionRad: maxDefl, sameDeclVsZero: same(eDecl, eZero), sameDeclVsOne: same(eDecl, eOne) };
 
 // ---- (v) 偏向は重力と同じ m を読む(器の中の 1 体の宇宙 —— 内蔵ではない)
@@ -131,7 +142,7 @@ const lensMass = { rows: lensRows,
 
 const J = {
   meta: provenanceMeta({ root: ROOT, wave: '第281便c', target: TARGET,
-    inputs: [TARGET],
+    inputs: [TARGET, RETIRED_FX],
     code: ['tests/exp-w281c-rotorledger.mjs', 'tests/lib-w281c-rotorledger.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs'] }),
   note: '条件付き台帳(仮定の 3 シナリオ)と η 対照(仮説)。観測との一致や検出を主張しない。較正母集団に入れない。🛞 の既定は追加 0(現状)。',
   sources: {

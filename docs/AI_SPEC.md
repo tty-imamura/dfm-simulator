@@ -1508,7 +1508,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     返り値: `{ok, layers, mode, Mc, Ms, Rc, R, sumM, inertiaScale, Ic, omega, tiltDeg, Jz, Jx, Jmag,
     Jshell, Erot, ErotZ, observedRadius?, source, canReplaceV2:false, warnings[]}`。
     **層に載るのは J_z だけ**なので θ≠0 では E_z<E_rot になり、警告 `tiltNotCarried` が付く
-    (🪩 bhCoreTilt は θ=90° で E_z/E_rot=3.75×10⁻³³)。`Kcs`/`pump`/`contract`/`mode:"active"` は
+    (🪩 bhCoreTilt〔**退役(履歴)** —— §16〕は θ=90° で E_z/E_rot=3.75×10⁻³³)。`Kcs`/`pump`/`contract`/`mode:"active"` は
     `KcsNotCarried`/`coreDynamicsNotCarried` を立てるだけで**層は再現しない**。
     **`source` に元の core JSON をそのまま持ち、`canReplaceV2:false`**(コア V2 は消さない)。
     拒否の理由に **`bodyMassNegative`**(第262便b で塞いだ穴 —— 旧実装は |m| を使っていたので
@@ -2609,3 +2609,18 @@ build・力学・光線・`presetSig`・保存 JSON の物理は**この鍵を�
 - **純関数(HP 公開)**: `validateMassLedger(ml)`(`{ok, value, warnings}`)・`MASS_LEDGER_VERSION`(`"w281c-1"`)・`MASS_LEDGER_KEYS`。値は `tests/lib-w281c-rotorledger.mjs` が作る。
 - **内蔵の宣言**: **1 本**(🛞 `ngc3198DFM` —— 観測結果カードに「条件付き質量台帳」の 1 行)。較正母集団には入れない。
 - QA: **`preset.massLedger`**・**`docs.rotorLedger`**。器 `tests/exp-w281c-rotorledger.mjs`・正本 `tests/out/rotorledger-w281c.json`・docs/PHYSICS.md〔第281便c〕。
+
+## 16. familyRole の `"retired"`(退役 —— 第283便b・原仮定者の裁定〔第73報〕④・統括の検証項目 R84・**表示専用**・**SYSTEM_PROMPT には載せない**)
+
+内蔵サンプルの**退役**を `familyRole:"retired"` で宣言する(語彙は `FAMILY_ROLES` = `primary` / `variant` / `retired` —— プリセットの外の定数)。
+**AI 生成には開放していない**(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON の物理・力学・光線は `familyRole` を読まない
+(領域 hash では説明文の欄 `PROSE_KEYS`)。
+
+- **退役した 7 本**(**内蔵から消していない** —— 旧セーブ・履歴の正本・過去の記録が ID で参照する): 🕶️ `darkrotor`・⚫ `bhCore`・🌑 `nebulaRotor`・🐚 `nebulaShell`・⏳ `nebulaBipolar`・🌱 `starSeed`・🪩 `bhCoreTilt`。
+  理由と代わりに見る本はプリセットの外の表 `RETIRED_PRESETS`(減光の原器は 🕳️ `rotorSolo`・銀河の質量要素は 🌚/🛞)。
+- **表示**: サンプル一覧(選択ウィンドウ)に出さない(「すべて表示」・検索でも —— 読み込み中の本だけ〔退役(履歴)〕付きで残る)・開いたときに説明タブへ「退役(履歴)」の 1 行・
+  「この仲間」の導線から外す。**自動で別の本へ置き換えない**(ID で開けば開ける)。
+- **AI 生成のベースサンプル選択**(`#aiBasePreset`)には退役の本がまだ並ぶ(その関数は正本の領域の閉包の中にあるので本便では触らない —— 決断事項候補)。
+  AI には退役の本をベースに選ばせない運用とする。
+- 凍結の写し: `tests/fixtures/retired-w283b.json`(基点 de9e39b の内蔵定義・presetSigHash・ゲートから外した試験の最後の保存 QA の値・⚫ の尺度比較の参照値)。
+- QA: **`docs.retired`**・**`docs.families`**。器 `tests/exp-w283b-families.mjs`・正本 `tests/out/families-w283b.json`・一覧 `docs/FAMILIES_v1.45.md`・docs/PHYSICS.md〔第283便b〕。

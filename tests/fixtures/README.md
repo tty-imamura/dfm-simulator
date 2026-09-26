@@ -47,3 +47,16 @@ QA `migration.fixtures` が機械固定する。
   QA 側(`tests/qa.mjs` の `migration.fixtures`)で実測して更新し、fixture は据え置く。
 - 新しい分岐を覆いたいときは**新しいファイルを足す**(命名: `legacy-core-<主題>-v<封筒>.json`)。
 - 将来スキーマが 5 以降へ進んでも、ここは「その当時の形」を保つ資産なので更新しない。
+
+## retired-w283b.json(第283便b — 退役 7 本の凍結資産)
+
+原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」で**退役**(`familyRole:"retired"`)にした 7 本
+(🕶️ `darkrotor`・⚫ `bhCore`・🌑 `nebulaRotor`・🐚 `nebulaShell`・⏳ `nebulaBipolar`・🌱 `starSeed`・🪩 `bhCoreTilt`)の凍結資産。
+**書き換えない**(器 `tests/exp-w283b-retiredfx.mjs --rev de9e39b` が 1 度だけ作る —— 既存があれば `--force` なしでは止まる)。
+
+- `presets.<id>.raw` … 基点 de9e39b の `BUILTIN_PRESETS` の要素そのもの(JSON 写し)と `presetSigHash`。内蔵から消す日が来ても、
+  履歴の正本・試験がこの写しから同じ本を組み立てられる(QA `docs.retired` ④ が内蔵と 200 步の状態のビット一致を照合する)。
+- `history` … ゲートから外した 🕶️ の長走行 4 ユニット(`darkrotorMidNew`・`darkrotorMidOld`・`darkrotorLong`・`darkrotorMultiseed`)と、
+  その結果を読む 4 試験の**最後の保存 QA の値**(pass・detail・所要 —— 転記であって測り直していない)。
+- `mechanism` … ゲートに残す機構の最小試験(コアの交換・傾斜・減光・パワーボールの 1 点ずつ)の試験 ID と本。
+- `analogyRef` … ⚫ の尺度比較の参照値(`tests/exp-w282d-analogy.mjs` の参照の行が読む)。

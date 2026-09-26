@@ -3,43 +3,49 @@
   "provenanceVersion": "w272e-1",
   "wave": "第281便c",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-  "generatedAt": "2026-09-26T08:24:23.032Z",
+  "targetSha256": "9647c09eee9da182b7c4b42f68a17c6839877adbc3d916ae55fab086d9c1c47c",
+  "generatedAt": "2026-09-26T16:05:27.254Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836622,
-    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-    "mtime": "2026-09-26T08:09:25.652Z"
+    "bytes": 4843701,
+    "sha256": "9647c09eee9da182b7c4b42f68a17c6839877adbc3d916ae55fab086d9c1c47c",
+    "mtime": "2026-09-26T16:05:24.336Z"
+   },
+   {
+    "file": "tests/fixtures/retired-w283b.json",
+    "bytes": 140346,
+    "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
+    "mtime": "2026-09-26T15:42:31.720Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w281c-rotorledger.mjs",
-    "bytes": 9114,
-    "sha256": "6d5be9ca2e02c92553ce3f8752b5bf203293f5e76698dbbb80c4ca69b287c486",
-    "mtime": "2026-09-25T04:06:25.635Z"
+    "bytes": 10230,
+    "sha256": "2b8da4792aef7bc38a65454c21a20d8d1021c91e10d36d1ada59445911f019f3",
+    "mtime": "2026-09-26T15:43:14.452Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
     "bytes": 12812,
     "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
-    "mtime": "2026-09-26T00:07:02.816Z"
+    "mtime": "2026-09-26T15:27:38.784Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-23T22:41:00.738Z"
+    "mtime": "2026-09-26T15:27:38.780Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-26T15:27:38.774Z"
    }
   ],
-  "codeSha256": "d7cf5b7d71748879fab8325052eedea7bf9a0792488f3db621a170279c1037b7"
+  "codeSha256": "1fac8dc8d27b4bd36426084b8d6c023365a0b9b7cee9e8f87cbcfad189df91b3"
  },
  "note": "条件付き台帳(仮定の 3 シナリオ)と η 対照(仮説)。観測との一致や検出を主張しない。較正母集団に入れない。🛞 の既定は追加 0(現状)。",
  "sources": {
@@ -240,6 +246,12 @@
  ],
  "lightSweepVsDeflection": {
   "preset": "darkrotor",
+  "source": "tests/fixtures/retired-w283b.json",
+  "presetSig": {
+   "fixture": "b7698e31",
+   "fixtureNow": "b7698e31",
+   "builtin": "b7698e31"
+  },
   "rays": 31,
   "lswDeclaredFirst3": [
    1,
@@ -275,6 +287,6 @@
   "ratio2x": 2.0067164757942177,
   "ratio4x": 4.040636351480498
  },
- "headlessMs": 142,
+ "headlessMs": 314,
  "headlessErrors": 0
 }

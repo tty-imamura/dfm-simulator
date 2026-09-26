@@ -2160,7 +2160,10 @@ if (QA_REPLAY_FAIL) {
       // 第283便a(原仮定者の裁定(2026-09-26 追加)・AN23・R83): geoPN の 2 フラグの導出表・共通化の前後(基点 html と 141 本)・
       //   kF0 走行 37 本の geoPN=1 対 geoPN=2∧kFrame=0・⭐ の前後(target=beta/index.html —— Node だけ・inputs に calaudit の器)。
       //   geo1-w282b.json は第283便a から**履歴**(旧則〔反作用を返さない geoPN=1〕の記録)
-      'tests/out/geomode-w283a.json'];
+      'tests/out/geomode-w283a.json',
+      // 第283便b(第73報④・R85): 同一天体の家族の差分表と統廃合の候補・退役 7 本の棚卸し(target=beta/index.html —— 器は Node だけで
+      //   html を読む・1 步も走らせない。inputs に calaudit-w249.json・凍結の写し tests/fixtures/retired-w283b.json・一覧 md)
+      'tests/out/families-w283b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -5113,6 +5116,70 @@ if (QA_REPLAY_FAIL) {
       (tl ? ` / 状況 達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet} / 4 値 ${Object.values(tl.four).join('/')}` +
         `・判定保留(量定義不一致)${tl.calibration['hold-definition']}・較正対象外 ${tl.calibration['out-of-scope']}` : '') +
       (bad.length ? ` / **食い違い ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ' / 3 者一致・禁止語 0'));
+  }
+}
+
+// ---- 第283便b(原仮定者の裁定(第73報)④「同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)」・統括の検証項目 R85): docs.families ----
+// ----   家族の差分表(器 tests/exp-w283b-families.mjs・正本 tests/out/families-w283b.json・一覧 docs/FAMILIES_v1.45.md)を fs だけで固定する:
+// ----     ① 正本の家族は器の宣言(FAMILIES)と同じ並び・同じ本数(pluto 6・earthmoon 6・mercury 3・saturn 5・psr 6/3/3/3・gw 4 …)。
+// ----     ② 一覧 md は正本から器の renderMd で作り直したものと 1 字も違わない(手で直すと食い違う)。
+// ----     ③ md に禁止語が無い(「統合した」「観測一致を達成した」等 —— 候補であって実行ではない)。
+// ----     ④ 候補(規則 A/B)の「残す」と「畳む」が較正の派生値 kF0 版 / DFM 版をまたがない(観測版と DFM 版を 1 ID にしない)・
+// ----        規則 C は「残す」を持たない(要裁定の印だけ)。
+// ----     ⑤ **畳んでいない**: 候補の「畳む」本はすべて対象 html の BUILTIN_PRESETS に残っている。
+// ----     ⑥ 退役 7 本の棚卸し: 7 本とも内蔵に残り退役の印があり、内蔵と凍結の写しの presetSigHash が同じ。
+// ----   **対象 html に第283便b の退役の語彙(FAMILY_ROLES)が無ければ SKIP**(root 等)。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (html.indexOf('const FAMILY_ROLES=') < 0) {
+    console.log('SKIP docs.families(対象 html に第283便b の FAMILY_ROLES なし — root 等)');
+  } else {
+    const bad = [];
+    let J = null, E = null;
+    try {
+      E = await import('file://' + path.join(ROOT, 'tests', 'exp-w283b-families.mjs'));
+      J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'families-w283b.json'), 'utf8'));
+      const md = fs.readFileSync(path.join(ROOT, 'docs', 'FAMILIES_v1.45.md'), 'utf8');
+      // ①
+      const want = E.FAMILIES.map((F) => F.key + ':' + F.ids.length).join(',');
+      const got = (J.families || []).map((F) => F.key + ':' + F.rows.length).join(',');
+      if (want !== got) bad.push(`①家族の並び・本数 ${got} ≠ 宣言 ${want}`);
+      for (const F of J.families || []) for (const r of F.rows) if (r.missing) bad.push('①内蔵に無い本 ' + r.id);
+      if (!J.meta || J.meta.wave !== '第283便b' || J.meta.provenanceVersion !== 'w272e-1') bad.push('①正本の来歴が第283便b / w272e-1 でない');
+      // ②
+      if (E.renderMd(J) !== md) bad.push('②md が正本から作り直したものと違う');
+      // ③
+      const badLines = md.split('\n').filter((l) => E.MD_FORBIDDEN.test(l.replace(/[「『][^」』]*[」』]/g, '')));
+      if (badLines.length) bad.push('③禁止語: ' + badLines[0].slice(0, 40));
+      // ④
+      for (const F of J.families || []) {
+        const cv = Object.fromEntries(F.rows.map((r) => [r.id, r.calVariant]));
+        for (const z of F.candidates) {
+          if (z.rule === 'C') { if (z.keep !== null) bad.push(`④${F.key}: 規則 C に残す本がある`); continue; }
+          for (const f of z.fold) if (cv[z.keep] && cv[f] && cv[z.keep] !== cv[f]) bad.push(`④${F.key}: ${z.keep}(${cv[z.keep]})と ${f}(${cv[f]})を畳む候補`);
+        }
+      }
+      // ⑤
+      const block = html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/);
+      const ids = new Set(block ? [...block[1].matchAll(/\{ id:"(\w+)"/g)].map((x) => x[1]) : []);
+      const folds = (J.families || []).flatMap((F) => F.candidates.flatMap((z) => z.fold));
+      for (const f of folds) if (!ids.has(f)) bad.push('⑤候補の本が内蔵から消えている ' + f);
+      // ⑥
+      const R = J.retired || {};
+      if (!(Array.isArray(R.presets) && R.presets.length === 7)) bad.push('⑥退役の棚卸しが 7 本でない');
+      for (const p of R.presets || []) {
+        if (!p.inBuiltin || !p.retired) bad.push(`⑥${p.id}: 内蔵に無い/退役の印が無い`);
+        if (!(p.sigBuiltin && p.sigBuiltin === p.sigFixture && p.sigFixtureNow === p.sigFixture)) bad.push(`⑥${p.id}: 署名 内蔵 ${p.sigBuiltin} / 写し ${p.sigFixture}`);
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 100)); }
+    const c = (J && J.counts) || {};
+    add('docs.families', bad.length === 0,
+      `**同一天体の家族の差分表**(第283便b・原仮定者の裁定(第73報)④・R85): 家族 ${c.families}・本 ${c.members}(退役 ${c.retiredMembers})` +
+      ` / 推定の列 主系列 ${(c.role || {})['主系列']}・比較 ${(c.role || {})['比較']}・診断 ${(c.role || {})['診断']}・履歴 ${(c.role || {})['履歴']}` +
+      ` / 候補 A ${(c.cand || {}).A || 0}・B ${(c.cand || {}).B || 0}・C(要裁定)${(c.cand || {}).C || 0}・畳まない組 ${c.keepApart}` +
+      ` / md は正本の生成物と 1 字一致・禁止語 0・観測版と DFM 版をまたぐ候補 0・候補の本はすべて内蔵に残る(畳んでいない)` +
+      (J && J.retired ? ` / 退役 ${J.retired.presets.length} 本は内蔵に残り署名が凍結の写しと同じ・名指しする器 ${J.retired.harnesses.length} 本(${Object.entries(J.retired.kindCounts).map(([k, v]) => k + ' ' + v).join('・')})` : '') +
+      (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
 
@@ -10200,6 +10267,13 @@ const w5cHasV26 = await page.evaluate(() => !!document.querySelector('#aiBasePre
 // 第84便B 時点から観測層に依存せず動いていた)。
 const w5cDrFree = await page.evaluate(() =>
   HP.allPresets().find(q => q.id === 'darkrotor').bodies.every(b => !b.pinned && !b.railOmega && !b.railH));
+// 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R84): 🕶️ を含む 7 本の**退役**(familyRole:"retired")の世代判定子。
+// 退役の世代では 🕶️ の長走行 4 ユニット(darkrotorMidNew/MidOld/Long/Multiseed —— 保存 QA の worker 所要の和 5.7 分)を
+// **ゲートから外す**(走らせない)。その結果を読む 4 試験(behavior.darkrotor / behavior.darkrotorLong / behavior.darkrotor-pitch /
+// behavior.darkrotor-multiseed)は「RETIRED」の 1 行を出して add しない。最後の保存 QA の値は凍結の写し
+// tests/fixtures/retired-w283b.json の history に転記してあり、docs.retired がその転記と claims の testId の対応を照合する。
+// 機構の最小試験(コアの交換・傾斜・減光・パワーボール)は従来どおり走る。
+const w283bRetired = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'darkrotor' && p.familyRole === 'retired'));
 // 第84便B(創発の標準試験の展開): 🕶️darkrotor に多seed claim が入っているか
 // (未適用の root 等では重い多seedユニットを起動しない)
 const w5cDrMulti = await page.evaluate(() => {
@@ -10777,7 +10851,7 @@ const W5C_UNITS = {
     HP.loadPreset('saturn', false);
     return { steps: STEPS * 2, on, off };
   }) },
-  darkrotorMidNew: { enabled: w5cHasObsLayer && !FAST && w5cDrFree, weight: 26, run: (pg) => pg.evaluate(() => {
+  darkrotorMidNew: { enabled: w5cHasObsLayer && !FAST && w5cDrFree && !w283bRetired, weight: 26, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v4/v5(全自由系)経路(元7m節 2785-2822行から抽出)
     const NH = HP.allPresets().find(q => q.id === 'darkrotor')
       .bodies.filter(b => b.type === 'single').length - 1;
@@ -10813,7 +10887,7 @@ const W5C_UNITS = {
       keepPct: 100 * keep / tot, keep, tot, comMove: Math.hypot(cx / M - cx0, cy / M - cy0),
       pTot0, pTotEnd: Math.hypot(px, py), nan: s.hasNaN() };
   }) },
-  darkrotorMidOld: { enabled: w5cHasObsLayer && !FAST && !w5cDrFree, weight: 18, run: (pg) => pg.evaluate(() => {
+  darkrotorMidOld: { enabled: w5cHasObsLayer && !FAST && !w5cDrFree && !w283bRetired, weight: 18, run: (pg) => pg.evaluate(() => {
     // 🕶️ の中期安定・v3(レール駆動)経路(元7m節 2841-2854行から抽出)
     HP.loadPreset('darkrotor', false);
     const s = HP.sim;
@@ -10829,7 +10903,7 @@ const W5C_UNITS = {
     return { outer: c ? sum / c : 0, r90: rs[Math.floor(rs.length * 0.9)], inside, nHalo: s.n - 381,
       haloSpin: hs / (s.n - 381), cSpinKeep: Math.abs(s.spin[0] - s0) < 1e-9, nan: s.hasNaN() };
   }) },
-  darkrotorLong: { enabled: w5cHasObsLayer && !FAST && w5cDrFree, weight: 104, run: (pg) => pg.evaluate((BANDS) => {
+  darkrotorLong: { enabled: w5cHasObsLayer && !FAST && w5cDrFree && !w283bRetired, weight: 104, run: (pg) => pg.evaluate((BANDS) => {
     // 🕶️ v5 の有効窓検査+渦状腕の機械実証(元7m節 2876-2922行から抽出)
     const P = HP.allPresets().find(q => q.id === 'darkrotor');
     const NH = P.bodies.filter(b => b.type === 'single').length - 1;
@@ -10934,7 +11008,7 @@ const W5C_UNITS = {
   // darkrotorLong が既に見ているので重複させない)。8seed の分布は tests/exp-4-88.mjs が持つ。
   // 対照は darkrotorLong と同じ「中心BH も含む全 single の spin=0」。
   // 重い(6000步 × 4構成 ≈ 155s)ので QA_FAST=1 では実行しない(FAST への時間増はゼロ)。
-  darkrotorMultiseed: { enabled: !FAST && w5cDrFree && w5cDrMulti, weight: 170,
+  darkrotorMultiseed: { enabled: !FAST && w5cDrFree && w5cDrMulti && !w283bRetired, weight: 170,
     run: (pg) => pg.evaluate((o) => {
       const BANDS = o.bands;
       const P0 = HP.allPresets().find(q => q.id === 'darkrotor');
@@ -34112,7 +34186,7 @@ if (!FAST) {
       const o = { rows: [], accept: {} };
       for (const p of HP.allPresets()) {
         if (String(p.id).startsWith('custom_')) continue;
-        o.rows.push({ id: p.id, status: p.status || null, enStatus: (p.en || {}).status || null,
+        o.rows.push({ id: p.id, status: p.status || null, enStatus: (p.en || {}).status || null, retired: p.familyRole === 'retired',
           sigHas: presetSig(p).indexOf('"status"') >= 0 || (p.status && presetSig(p).indexOf(p.status.purpose) >= 0) });
       }
       // 受理契約(合成プリセットで叩く)
@@ -34145,6 +34219,14 @@ if (!FAST) {
     const bad = [];
     let nDecl = 0;
     const obj = { met: 0, partial: 0, unmet: 0, 'n/a': 0 };
+    // 第283便b(第73報④・R84): 退役の本の根拠は、ゲートから外した試験に限り凍結の写しの history(最後の保存 QA で PASS)で裏づけてよい
+    let fxHist = new Set(), fxRetired = new Set();
+    try {
+      const FX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w283b.json'), 'utf8'));
+      fxHist = new Set(((FX.history || {}).tests || []).filter((t) => t.pass).map((t) => t.id));
+      fxRetired = new Set(r.rows.filter((z) => z.retired).map((z) => z.id));
+    } catch (e) { fxHist = new Set(); }
+    let nHistEvidence = 0;
     for (const row of r.rows) {
       const st = row.status;
       if (!st) { bad.push(row.id + ':未宣言'); continue; }
@@ -34156,7 +34238,10 @@ if (!FAST) {
       if (!Array.isArray(st.evidence) || !st.evidence.length || st.evidence.some((e) => typeof e !== 'string')) bad.push(row.id + ':evidence');
       else for (const e of st.evidence) {
         if (/^tests\/out\//.test(e)) { if (!fs.existsSync(path.join(ROOT, e))) bad.push(row.id + ':正本なし ' + e); }
-        else if (qaIds && !qaIds.has(e)) bad.push(row.id + ':保存 QA で PASS でない ' + e);
+        else if (qaIds && !qaIds.has(e)) {
+          if (fxRetired.has(row.id) && fxHist.has(e)) { nHistEvidence++; continue; }
+          bad.push(row.id + ':保存 QA で PASS でない ' + e);
+        }
       }
       if (!row.enStatus || typeof row.enStatus.purpose !== 'string' || typeof row.enStatus.state !== 'string') bad.push(row.id + ':en.status');
       if (row.sigHas) bad.push(row.id + ':presetSig に status が入った');
@@ -34166,7 +34251,8 @@ if (!FAST) {
     add('preset.status', bad.length === 0 && accOk && nDecl === r.rows.length && r.rows.length >= 133,
       `**サンプルの状況 status**(第279便a・R60): 内蔵 ${r.rows.length} 本のうち宣言 ${nDecl} 本 / ` +
       `objective 達 ${obj.met}・部分 ${obj.partial}・未達 ${obj.unmet}・対象外 ${obj['n/a']} / ` +
-      `根拠 ID の照合=${qaIds ? '保存 QA ' + qaIds.size + ' 件(PASS)' : '保存 QA 無し — 正本の存在だけ'} / ` +
+      `根拠 ID の照合=${qaIds ? '保存 QA ' + qaIds.size + ' 件(PASS)' : '保存 QA 無し — 正本の存在だけ'}` +
+      `(第283便b: 退役の本の根拠を凍結の写しの履歴で裏づけた ${nHistEvidence} 件)/ ` +
       `受理契約: 保持=${acc.keep}・objective 外=${acc.badObjective}・calibration 外=${acc.badCalibration}・` +
       `evidence 非配列=${acc.badEvidence}・mismatch 非文字列=${acc.badText}・未宣言は素通り=${acc.undeclared} / ` +
       `presetSig に入らない=${!r.rows.some((z) => z.sigHas)}` +
@@ -34213,6 +34299,132 @@ if (!FAST) {
         `(台帳 fourValues.current と一致=${fourOk})/ 判定保留(量定義不一致)${nHold} 本(charonwin の比較値)/ 較正対象外 ${nOut} 本(mismatch・outlook null)` +
         (bad2.length ? ` / **食い違い ${bad2.length} 件**: ${bad2.slice(0, 5).join(' , ')}` : ''));
     }
+  }
+}
+
+// ---- 第283便b(原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」・統括の検証項目 R84): docs.retired ----
+// ----   **退役**(familyRole:"retired")の契約を固定する。退役は**フラグ**であって削除ではない:
+// ----     ① 7 本(🕶️⚫🌑🐚⏳🌱🪩)が内蔵に残り familyRole が "retired"・全内蔵の familyRole が語彙 FAMILY_ROLES の中。
+// ----     ② サンプル一覧(選択ウィンドウ)に出ない —— 既定・「すべて表示」・ID の検索のどれでも 0 行。
+// ----     ③ 開ける: loadPreset で読み込むと**別の本へ置き換えない**(currentPreset がその本)・説明タブに「退役(履歴)」の 1 行・
+// ----        一覧にはその 1 本だけが〔退役(履歴)〕付きで残る・「この仲間」の導線に退役の本が出ない(🕳️ を開いたとき)。
+// ----     ④ 凍結の写し(tests/fixtures/retired-w283b.json)から組み立てた本は内蔵と presetSigHash が同じで、200 步の状態(x/y/vx/vy/spin/R/m)が
+// ----        ビットで同じ(内蔵から消す日が来ても、写しで同じ本が組み立てられる)。
+// ----     ⑤ ゲートから外した 4 試験は写しの history で PASS(最後の保存 QA の転記)・このランでは走っていない(!FAST のとき)。
+// ----     ⑥ 正本の付け替え: rotorledger(🕶️ の減光と偏向)と analogy(⚫ の尺度比較の参照値)は写しを入力に持ち、値は写しから作った。
+// ----     ⑦ SAMPLE_STATUS の一覧は退役を群の集計から外して「退役」節に並べる(正本 tally.retired が 7)。
+// ----   **root 等(退役の語彙が無い世代)は SKIP**。
+{
+  const has283b = await page.evaluate(() => typeof retiredOf === 'function' && typeof FAMILY_ROLES !== 'undefined');
+  if (!has283b) {
+    console.log('SKIP docs.retired(対象に第283便b の退役の語彙なし — root 等)');
+  } else {
+    const bad = [];
+    let FX = null;
+    try { FX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w283b.json'), 'utf8')); }
+    catch (e) { bad.push('凍結の写しが読めない'); }
+    const IDS = ['darkrotor', 'bhCore', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed', 'bhCoreTilt'];
+    const r = await page.evaluate(async (a) => {
+      const { IDS, FX } = a;
+      const o = {};
+      const ps = HP.allPresets();
+      o.present = IDS.filter((id) => ps.some((p) => p.id === id));
+      o.retired = ps.filter((p) => p.familyRole === 'retired').map((p) => p.id).sort();
+      o.vocab = Array.from(FAMILY_ROLES);
+      o.badRole = ps.filter((p) => p.familyRole !== undefined && !FAMILY_ROLES.includes(p.familyRole)).map((p) => p.id);
+      // ② 一覧
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const rows = () => [...document.querySelectorAll('#ppList .ppRow')].map((b) => b.textContent);
+      const names = IDS.map((id) => { const p = ps.find((q) => q.id === id); return (p.emoji || '') + ' ' + pName(p); });
+      const hits = (list) => list.filter((t) => names.some((n) => t.indexOf(n) >= 0)).length;
+      HP.loadPreset('saturn', false);
+      const sa0 = showAllSamples;
+      setShowAllSamples(false); showPresetPicker(); await wait(30);
+      o.hitDefault = hits(rows());
+      setShowAllSamples(true); ppRender(); await wait(30);
+      o.hitShowAll = hits(rows());
+      const si = document.querySelector('#ppSearch');
+      o.hitSearch = 0;
+      for (const id of IDS) { si.value = id; si.dispatchEvent(new Event('input')); await wait(5); o.hitSearch += hits(rows()); }
+      si.value = ''; si.dispatchEvent(new Event('input'));
+      hidePresetPicker(); setShowAllSamples(sa0);
+      // ③ 開ける
+      o.open = [];
+      const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
+      for (const id of IDS) {
+        HP.loadPreset(id, false); await wait(5);
+        const n = document.querySelector('#retiredNotice');
+        o.open.push({ id, cur: HP.currentPreset().id, notice: !!n && n.textContent.indexOf('退役(履歴)') >= 0 });
+      }
+      HP.loadPreset('darkrotor', false); showPresetPicker(); await wait(30);
+      const lst = rows();
+      o.curListed = lst.filter((t) => t.indexOf('〔' + HP.T('retiredTag') + '〕') >= 0).length;
+      o.otherRetiredListed = hits(lst.filter((t) => t.indexOf('〔' + HP.T('retiredTag') + '〕') < 0));
+      hidePresetPicker();
+      HP.loadPreset('rotorSolo', false); await wait(5);
+      o.famLinks = [...document.querySelectorAll('#familyRow .familyLink')].map((b) => b.textContent);
+      o.famRetiredLinks = o.famLinks.filter((t) => names.some((n) => t.indexOf(n) >= 0)).length;
+      o.enNotice = (() => { HP.setLang('en'); HP.loadPreset('bhCore', false); const n = document.querySelector('#retiredNotice');
+        const t = n ? n.textContent : ''; HP.setLang('ja'); return /Retired \(history\)/.test(t); })();
+      // ④ 写し ↔ 内蔵
+      const hash = (T) => { let h = 0x811c9dc5; const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+        const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { h ^= u[b]; h = Math.imul(h, 0x01000193) >>> 0; } };
+        for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'R', 'm']) { const Ar = T[k]; if (!Ar) continue; for (let i = 0; i < T.n; i++) push(Ar[i]); }
+        push(T.t); return h.toString(16) + '|' + T.n; };
+      o.fx = [];
+      for (const id of IDS) {
+        const raw = FX.presets[id].raw, bp = ps.find((q) => q.id === id);
+        const S1 = makeSim(); S1.build(JSON.parse(JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(bp))).preset)));
+        const S2 = makeSim(); S2.build(JSON.parse(JSON.stringify(HP.validatePreset(JSON.parse(JSON.stringify(raw))).preset)));
+        for (let k = 0; k < 200; k++) { S1.step(0.016); S2.step(0.016); }
+        o.fx.push({ id, sigB: presetSigHash(bp), sigF: presetSigHash(raw), sigDecl: FX.presets[id].presetSigHash, h1: hash(S1), h2: hash(S2) });
+      }
+      HP.loadPreset('saturn', false);
+      return o;
+    }, { IDS, FX: FX || { presets: {} } }).catch((e) => ({ err: String(e).slice(0, 200) }));
+    if (r.err) bad.push('ページ: ' + r.err);
+    else {
+      if (r.present.length !== 7) bad.push('①内蔵に無い ' + IDS.filter((id) => !r.present.includes(id)).join(','));
+      if (JSON.stringify(r.retired) !== JSON.stringify(IDS.slice().sort())) bad.push('①退役の集合 ' + r.retired.join(','));
+      if (!(r.vocab.includes('retired') && r.vocab.includes('primary') && r.vocab.includes('variant'))) bad.push('①語彙 ' + r.vocab.join(','));
+      if (r.badRole.length) bad.push('①語彙の外 ' + r.badRole.join(','));
+      if (r.hitDefault || r.hitShowAll || r.hitSearch) bad.push(`②一覧に出た(既定 ${r.hitDefault}・すべて ${r.hitShowAll}・検索 ${r.hitSearch})`);
+      for (const z of r.open) if (z.cur !== z.id || !z.notice) bad.push(`③${z.id}: 読込 ${z.cur}・1 行 ${z.notice}`);
+      if (r.curListed !== 1 || r.otherRetiredListed !== 0) bad.push(`③読み込み中の退役の本の行 ${r.curListed}・他の退役 ${r.otherRetiredListed}`);
+      if (r.famRetiredLinks !== 0 || !r.famLinks.length) bad.push(`③「この仲間」に退役 ${r.famRetiredLinks}(導線 ${r.famLinks.length})`);
+      if (!r.enNotice) bad.push('③en の 1 行');
+      for (const z of r.fx) if (!(z.sigB === z.sigF && z.sigF === z.sigDecl && z.h1 === z.h2)) bad.push(`④${z.id}: 署名 ${z.sigB}/${z.sigF}/${z.sigDecl}・200 步 ${z.h1} / ${z.h2}`);
+    }
+    // ⑤ ゲートから外した試験
+    const GATE = ['behavior.darkrotor', 'behavior.darkrotorLong', 'behavior.darkrotor-pitch', 'behavior.darkrotor-multiseed'];
+    const hist = FX ? (FX.history.tests || []) : [];
+    if (JSON.stringify(hist.map((t) => t.id)) !== JSON.stringify(GATE) || !hist.every((t) => t.pass)) bad.push('⑤写しの history が 4 試験の PASS でない');
+    const ranNow = GATE.filter((id) => results.some((z) => z.id === id));
+    if (!FAST && ranNow.length) bad.push('⑤ゲートから外した試験が走った ' + ranNow.join(','));
+    // ⑥ 正本の付け替え
+    try {
+      const RL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'rotorledger-w281c.json'), 'utf8'));
+      const AN = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'analogy-w282d.json'), 'utf8'));
+      const inp = (J) => ((J.meta || {}).inputs || []).map((z) => z.file);
+      if (!inp(RL).includes('tests/fixtures/retired-w283b.json') || (RL.lightSweepVsDeflection || {}).source !== 'tests/fixtures/retired-w283b.json') bad.push('⑥rotorledger が写しを読んでいない');
+      if (!inp(AN).includes('tests/fixtures/retired-w283b.json')) bad.push('⑥analogy が写しを入力に持たない');
+      const ref = ((AN.scale || {}).references || []).find((z) => z.fixture);
+      const fr = FX ? FX.analogyRef.bhCore : null;
+      if (!ref || !fr || ref.m !== fr.m || ref.R !== fr.R || ref.spin !== fr.spin || ref.G !== fr.G || ref.c !== fr.c) bad.push('⑥analogy の参照の行が写しの定数と違う');
+      if (/"bhCore"/.test((fs.readFileSync(path.join(ROOT, 'tests', 'exp-w282d-analogy.mjs'), 'utf8').match(/^const REGEN_SCOPE = .*$/m) || [''])[0])) bad.push('⑥analogy の領域に ⚫ が残る');
+      const SSJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'samplestatus-w279a.json'), 'utf8'));
+      if (!(SSJ.tally && SSJ.tally.retired && SSJ.tally.retired.n === 7)) bad.push('⑦samplestatus の tally.retired が 7 でない');
+      const ssmd = fs.readFileSync(path.join(ROOT, 'docs', 'SAMPLE_STATUS_v1.45.md'), 'utf8');
+      if (ssmd.indexOf('## 🗄️ 退役(7 本)') < 0) bad.push('⑦SAMPLE_STATUS に「退役」節が無い');
+    } catch (e) { bad.push('⑥⑦読めない: ' + String(e).slice(0, 80)); }
+    add('docs.retired', bad.length === 0,
+      `**退役**(第283便b・原仮定者の裁定(第73報)④・R84): 🕶️⚫🌑🐚⏳🌱🪩 の 7 本は内蔵に残り familyRole "retired"(語彙 ${r.vocab ? r.vocab.join('/') : '—'})` +
+      ` / 一覧に出ない(既定 ${r.hitDefault}・すべて表示 ${r.hitShowAll}・ID 検索 ${r.hitSearch} 行)` +
+      ` / 開ける: 読込で置き換えない=${(r.open || []).every((z) => z.cur === z.id)}・「退役(履歴)」の 1 行=${(r.open || []).every((z) => z.notice)}(en ${r.enNotice})・読み込み中の 1 本だけ一覧に残る=${r.curListed === 1}・「この仲間」に退役 ${r.famRetiredLinks} 本` +
+      ` / 凍結の写し: 署名一致・200 步の状態がビット一致 ${(r.fx || []).filter((z) => z.h1 === z.h2).length}/7` +
+      ` / ゲートから外した ${GATE.length} 試験(写しの history で PASS・このランで未実行=${!FAST ? ranNow.length === 0 : 'FAST'})` +
+      ` / 正本の付け替え: rotorledger・analogy は写しを入力に持つ・SAMPLE_STATUS は退役を別群に` +
+      (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
 
@@ -35604,7 +35816,10 @@ if (!FAST) {
     // 0.341 の約2倍。役割(有界性の検出)は不変なので、従来と同等マージン(実測×1.45)で
     // **<0.5 → <1.0** へ再較正(旧レイアウトの root は 0.341 のままなので世代分岐は不要)。
     // 他ゲートは全て新配置でも旧閾値内(v_φ 3.124・r90 239.3・偏差3.34%・平均1.772・max 3.762)
-    if (!FAST) {
+    // 第283便b(第73報④・R84): 🕶️ の退役の世代では中期・長期の 2 区画(3 試験)をゲートから外す(履歴は凍結の写し)
+    if (!FAST && w283bRetired) {
+      console.log('RETIRED behavior.darkrotor / behavior.darkrotorLong / behavior.darkrotor-pitch(🕶️ は退役 —— 最後の保存 QA の値は tests/fixtures/retired-w283b.json の history・docs.retired が照合)');
+    } else if (!FAST) {
       if (drFree) {
         // 第35便 W5c: 計算部分は W5C_UNITS.darkrotorMidNew へ移し、ワーカーで実行する
         const st = await w5cGetUnit('darkrotorMidNew');
@@ -35853,6 +36068,7 @@ if (!FAST) {
       res.fam151 = {};
       for (const id of ['darkrotor', 'rotorSolo', 'bhCore', 'massLadder', 'nebulaRotor', 'nebulaShell',
         'nebulaBipolar', 'selfRotor', 'starSeed', 'counterring', 'merger']) res.fam151[id] = famOf(id);
+      res.w283b = HP.allPresets().some((p) => p.id === 'darkrotor' && p.familyRole === 'retired');   // 第283便b: 退役の世代
       // 第151便: 全ファミリーのグループ集合(単一であること = family-invariant)
       res.famGroups = fids.map((f) => [f, [...new Set(HP.allPresets()
         .filter((p) => p.familyId === f).map((p) => p.group || '内蔵'))].sort()]).sort();
@@ -36183,10 +36399,15 @@ if (!FAST) {
       const ROTOR = r.gn ? r.gn.rotor : 'ローターの物語';   // 第273便a: 世代ごとの群名
       const CEL2 = r.gn ? r.gn.cel : '天体の物語';
       const GAL2 = r.gn ? r.gn.gal : '銀河の物語';
+      // 第283便b(原仮定者の裁定(第73報)④・R84): 退役の世代では 🕶️⚫🌑🐚⏳🌱 が "retired"・入口は 🕳️ rotorSolo / 🥚 selfRotor
+      //   (familyId・group は不変 —— 退役は表示の役割名だけ)
+      const RET283 = ['darkrotor', 'bhCore', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed'];
+      const role151 = (id, prim) => (r.w283b && RET283.includes(id)) ? 'retired'
+        : (r.w283b ? (id === 'rotorSolo' || id === 'selfRotor') : id === prim) ? 'primary' : 'variant';
       const moved = ['darkrotor', 'rotorSolo', 'bhCore', 'massLadder'].every(
-        (id) => eq((r.fam151 || {})[id], ['darkcenter', id === 'darkrotor' ? 'primary' : 'variant', ROTOR]))
+        (id) => eq((r.fam151 || {})[id], ['darkcenter', role151(id, 'darkrotor'), ROTOR]))
         && ['nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'selfRotor', 'starSeed'].every(
-          (id) => eq((r.fam151 || {})[id], ['rotorform', id === 'nebulaRotor' ? 'primary' : 'variant', ROTOR]))
+          (id) => eq((r.fam151 || {})[id], ['rotorform', role151(id, 'nebulaRotor'), ROTOR]))
         && eq((r.fam151 || {}).counterring, [null, null, CEL2])
         && (!hasMerger || eq((r.fam151 || {}).merger, [null, null, GAL2]));   // 第251便b: 🌠 は beta で廃止
       const ok = r.nFam > 0 && multi.length === 0 && moved;
@@ -44168,7 +44389,10 @@ await w5bRun('phaseMultiseed', !FAST); async function W5B_phaseMultiseed(page, a
 // ----     第84便B の時点ではその区画(`if (hasObs)`)が廃止済み `HP.sim.obsT` を門にしていて
 // ----     休眠しており、実際には走っていなかった。**第85便で門を現行 API(HP.obsTemp + lSw)へ
 // ----     置換して復旧済み**なので、いまは分担どおり両方が走る ----
-if (!FAST && w5cDrFree && w5cDrMulti) {
+if (!FAST && w283bRetired) {
+  // 第283便b(第73報④・R84): 🕶️ の退役の世代では多 seed の長走行をゲートから外す(履歴は凍結の写し)
+  console.log('RETIRED behavior.darkrotor-multiseed(🕶️ は退役 —— 最後の保存 QA の値は tests/fixtures/retired-w283b.json の history・docs.retired が照合)');
+} else if (!FAST && w5cDrFree && w5cDrMulti) {
   const mm = await w5cGetUnit('darkrotorMultiseed');
   const P = await page.evaluate(() => {
     const p = HP.allPresets().find((q) => q.id === 'darkrotor');
@@ -46407,8 +46631,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         e0Rows = document.querySelectorAll('#ppList .ppRow').length;
         const builtins = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
         // 第117便: catalog 可視性(extended/diagnostic はすべて表示 OFF で厳格非表示)を件数期待に反映
-        const visible = (typeof catalogHidden === 'function')
-          ? builtins.filter((p) => !catalogHidden(p)) : builtins;
+        const visible = ((typeof catalogHidden === 'function')
+          ? builtins.filter((p) => !catalogHidden(p)) : builtins)
+          .filter((p) => !(typeof retiredHidden === 'function' && retiredHidden(p)));   // 第283便b: 退役の本は一覧に出ない
         e0Expected = visible.filter((p) => (p.emergence || 'E0') === 'E0').length;
         e0HasUndeclared = builtins.some((p) => !p.emergence);   // 宣言なしが存在する前提の確認
         const e0chip2 = [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent === 'E0');
@@ -47991,7 +48216,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     const o = [];
     for (const p of HP.allPresets())
       if (Array.isArray(p.claims)) for (const c of p.claims)
-        o.push({ preset: p.id, id: c.id, testId: c.testId || null });
+        o.push({ preset: p.id, id: c.id, testId: c.testId || null, retired: p.familyRole === 'retired' });
     return o;
   });
   if (claimList.length) {
@@ -48002,7 +48227,16 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     // 定義の判定は `add('<id>'` の文字列一致(qa.mjs の add() 呼び出しは全て単一引用符のリテラル)。
     // 末尾の引用符まで含めるので behavior.darkrotor と behavior.darkrotor-pitch を取り違えない
     const undef = ids.filter(id => !qaSrc.includes(`add('${id}'`));
-    const dormant = ids.filter(id => !undef.includes(id) && !ranIds.has(id));
+    // 第283便b(第73報④・R84): **退役の本だけ**が指す testId で、凍結の写しの history(最後の保存 QA で PASS)に
+    //   転記済みのものは「ゲートから外した履歴」として未実行に数えない(定義 ① は従来どおり判定する)
+    let retiredHist = new Set();
+    try {
+      const FX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w283b.json'), 'utf8'));
+      retiredHist = new Set(((FX.history || {}).tests || []).filter((t) => t.pass).map((t) => t.id));
+    } catch (e) { retiredHist = new Set(); }
+    const onlyRetired = (id) => claimList.filter(c => c.testId === id).every(c => c.retired);
+    const retiredOff = ids.filter(id => !undef.includes(id) && !ranIds.has(id) && onlyRetired(id) && retiredHist.has(id));
+    const dormant = ids.filter(id => !undef.includes(id) && !ranIds.has(id) && !retiredOff.includes(id));
     const noTid = claimList.filter(c => !c.testId);
     add('qa.testid-live', undef.length === 0 && (FAST || dormant.length === 0),
       `claims=${claimList.length}件(${new Set(claimList.map(c => c.preset)).size}プリセット)・` +
@@ -48011,6 +48245,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       `このランで実行済み=${ids.length - undef.length - dormant.length}/${ids.length - undef.length}` +
       `(未実行=${dormant.length}件[${dormant.slice(0, 8).join(' ')}${dormant.length > 8 ? ' …他' + (dormant.length - 8) + '件' : ''}]` +
       `${FAST ? ' — QA_FAST では !FAST ガードのぶんが正当に未実行なので判定対象外' : ' — !FAST なので 0件であること'}) / ` +
+      `第283便b: 退役の本だけが指しゲートから外した履歴=${retiredOff.length}件[${retiredOff.join(' ')}](凍結の写しの history で PASS) / ` +
       `testId 無しの claim=${noTid.length}件(${noTid.map(c => c.preset + ':' + c.id).join(',') || 'なし'}` +
       `— 説明文の数値だけを固定する claim は testId を持たなくてよいので判定しない) / ` +
       `第85便: 🕶️ の behavior.darkrotorLong・behavior.darkrotor-pitch が「定義あり・未実行」で ` +
