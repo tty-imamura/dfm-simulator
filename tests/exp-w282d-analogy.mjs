@@ -353,7 +353,10 @@ export function analogyRays(HP, H) {
   return { heavy: { center: hC, stars: hS, darkRotor: hD, nDR: dr.length }, rays: eWith.length,
     maxDeflectionDiffRad: maxAng, maxEndPosDiff: maxPos, raysDiffering: nDiff,
     lensRowsFromMeanMass: e.rows.map((r) => ({ mRotorSun: r.mRotorSun, tEDaysEta1: r.tEDaysEta1, thetaEMuasEta1: r.thetaEMuasEta1 })),
-    note: '代表粒子 1 体(53.125 単位 ≈ 2.7×10⁵ M☉)は E8R の「重い天体」判定に入る —— 個別レンズ(光線・減光)にこの質量を使わない宣言(massLedger.darkRotor.lens:"excluded")。個別の行は ⟨m_DR⟩ で作る' };
+    // 第283便f(原仮定者の裁定(第73報)AN27・AN37): rayHeavy が lens:"excluded" を読む世代では DR は重い天体に入らない(hD=0)
+    note: (hD === 0)
+      ? '代表粒子 1 体(53.125 単位 ≈ 2.7×10⁵ M☉)は massLedger.darkRotor.lens:"excluded" を rayHeavy が読むので光線の源から外れる(第283便f —— 重力の源は不変)。個別の行は ⟨m_DR⟩ で作る'
+      : '代表粒子 1 体(53.125 単位 ≈ 2.7×10⁵ M☉)は E8R の「重い天体」判定に入る —— 個別レンズ(光線・減光)にこの質量を使わない宣言(massLedger.darkRotor.lens:"excluded")。個別の行は ⟨m_DR⟩ で作る' };
 }
 
 /** (D) 🛞 の f=1 台帳と旧 f★≈2 の台帳(履歴 —— 持ち越さない)・署名。 */

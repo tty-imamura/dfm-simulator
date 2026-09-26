@@ -3,73 +3,67 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "9647c09eee9da182b7c4b42f68a17c6839877adbc3d916ae55fab086d9c1c47c",
-  "generatedAt": "2026-09-26T15:46:51.890Z",
+  "targetSha256": "f51578fc1f71b2bdb5345e1be804f075f22c91729fa145e42891d7f7cc2d5ae8",
+  "generatedAt": "2026-09-26T16:04:03.506Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4843701,
-    "sha256": "9647c09eee9da182b7c4b42f68a17c6839877adbc3d916ae55fab086d9c1c47c",
-    "mtime": "2026-09-26T15:39:45.484Z"
+    "bytes": 4853729,
+    "sha256": "f51578fc1f71b2bdb5345e1be804f075f22c91729fa145e42891d7f7cc2d5ae8",
+    "mtime": "2026-09-26T15:59:40.552Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 254806,
     "sha256": "d8a5bb656684b6e4b3ed4ed9dca2e41ef8acb10161442df1b81079b8d4620b9c",
-    "mtime": "2026-09-26T15:27:38.992Z"
-   },
-   {
-    "file": "tests/fixtures/retired-w283b.json",
-    "bytes": 140346,
-    "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-09-26T15:42:31.720Z"
+    "mtime": "2026-09-26T15:27:42.152Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w282d-analogy.mjs",
-    "bytes": 34865,
-    "sha256": "ad84b612703b5f62180fb1b90cd3ac13fffb032aceb786585b7099947c35bac3",
-    "mtime": "2026-09-26T15:42:57.115Z"
+    "bytes": 34574,
+    "sha256": "a38e755119d952f8d460b3ad742f825d4b45bfb3cdd036ff94b02e613efba6e3",
+    "mtime": "2026-09-26T15:47:35.142Z"
    },
    {
     "file": "tests/exp-w281b-galaxychain.mjs",
     "bytes": 24247,
     "sha256": "4956c5b243c9af7b6dca582885e8cf403a7600b8048dbc067099c8848df64e9f",
-    "mtime": "2026-09-26T15:27:38.764Z"
+    "mtime": "2026-09-26T15:27:41.960Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
     "bytes": 12812,
     "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
-    "mtime": "2026-09-26T15:27:38.784Z"
+    "mtime": "2026-09-26T15:27:41.980Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-26T15:27:38.780Z"
+    "mtime": "2026-09-26T15:27:41.976Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-26T15:27:38.780Z"
+    "mtime": "2026-09-26T15:27:41.976Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-26T15:27:38.774Z"
+    "mtime": "2026-09-26T15:27:41.968Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 60075,
     "sha256": "42e586660d12b9554e77d0ecf507747b411e2356812c40d18df599090b62826f",
-    "mtime": "2026-09-26T15:27:38.784Z"
+    "mtime": "2026-09-26T15:27:41.980Z"
    }
   ],
-  "codeSha256": "d2c900f8f566f25a542ed356084420721ec6113724f57d1492078254a8628f0c",
+  "codeSha256": "aa9d93938f119e397797b3711b56ef329e6f4883624d213eebb5c8df8767c9b7",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -110,6 +104,7 @@
   "scope": {
    "version": "w282e-scope-2",
    "presets": [
+    "bhCore",
     "galaxyAnalogyBH",
     "galaxyMeshSpiral",
     "galaxyMeshSpiralGeoToy",
@@ -159,11 +154,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 779,
-   "segments": 707,
-   "closureShare": 0.3159
+   "names": 780,
+   "segments": 708,
+   "closureShare": 0.3157
   },
-  "scopeSha256": "fb795b6619a8ab1270311f6d7b8e69fccaed646583c4d5dc020bec200d5fb05d",
+  "scopeSha256": "0368bcb718c08f9a71e213acdbd7b4afc79fa1ed8ae04e46beea09f55f3dc106",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -175,12 +170,6 @@
      "/meta/generatedAt",
      "/meta/inputs/*/mtime"
     ]
-   },
-   {
-    "file": "tests/fixtures/retired-w283b.json",
-    "stableSha256": "a1774dbfb6cdee50d7a8d7040db4a219a0f1bcb48c89e31c3521eec4230f141e",
-    "stableVersion": "w282e-stable-1",
-    "volatilePaths": []
    }
   ],
   "stableHashVersion": "w282e-stable-1"
@@ -934,7 +923,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 5.1864,
+    "msPerStep": 7.35,
     "recs": [
      {
       "t": 0,
@@ -1179,7 +1168,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 5.1212,
+    "msPerStep": 8.4596,
     "recs": [
      {
       "t": 0,
@@ -1426,7 +1415,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 11.5332,
+    "msPerStep": 18.6488,
     "recs": [
      {
       "t": 0,
@@ -1673,7 +1662,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 12.8348,
+    "msPerStep": 14.3148,
     "recs": [
      {
       "t": 0,
@@ -2527,7 +2516,6 @@
     "id": "bhCore",
     "emoji": "⚫",
     "body": 0,
-    "fixture": "tests/fixtures/retired-w283b.json",
     "m": 2500,
     "R": 15,
     "spin": 0.15,
@@ -2837,13 +2825,13 @@
    "heavy": {
     "center": 1,
     "stars": 0,
-    "darkRotor": 40,
+    "darkRotor": 0,
     "nDR": 40
    },
    "rays": 31,
-   "maxDeflectionDiffRad": 5.208238178358818,
-   "maxEndPosDiff": 799.6247807683267,
-   "raysDiffering": 31,
+   "maxDeflectionDiffRad": 0,
+   "maxEndPosDiff": 0,
+   "raysDiffering": 0,
    "lensRowsFromMeanMass": [
     {
      "mRotorSun": 0.1,
@@ -2861,14 +2849,14 @@
      "thetaEMuasEta1": 1896.2641287392312
     }
    ],
-   "note": "代表粒子 1 体(53.125 単位 ≈ 2.7×10⁵ M☉)は E8R の「重い天体」判定に入る —— 個別レンズ(光線・減光)にこの質量を使わない宣言(massLedger.darkRotor.lens:\"excluded\")。個別の行は ⟨m_DR⟩ で作る"
+   "note": "代表粒子 1 体(53.125 単位 ≈ 2.7×10⁵ M☉)は massLedger.darkRotor.lens:\"excluded\" を rayHeavy が読むので光線の源から外れる(第283便f —— 重力の源は不変)。個別の行は ⟨m_DR⟩ で作る"
   },
   "health": {
    "declared": {
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 17.194666666666667,
+    "msPerStep": 27.083333333333332,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2933,7 +2921,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 21.61466666666667,
+    "msPerStep": 31.356666666666666,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3107,5 +3095,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 205.256
+ "elapsedSec": 300.23
 }

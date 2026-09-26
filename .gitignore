@@ -725,3 +725,7 @@ tests/out/regen-plan-w281a.json
 #   (tests/exp-w283c-heavy.mjs —— 粒子数・対・質量の内訳・ms/步・試験粒子契約の機械検査・判定量の前後)。
 #   QA docs.heavyCal が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**(4 本の宣言は書き換えていない)。
 !tests/out/heavy-w283c.json
+# 第283便f(原仮定者の裁定(第72報)⑥・第73報 AN27・統括の検証項目 R81): **球状星団アナロジー便**の正本
+#   (tests/exp-w283f-cluster.mjs —— 形状の門〔測る前に宣言〕と対照の走行・rayHeavy の lens 除外の光線の比較)。
+#   QA behavior.clusterAnalogy・behavior.rayLensExcluded が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**
+!tests/out/cluster-w283f.json

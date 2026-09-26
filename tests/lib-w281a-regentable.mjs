@@ -210,6 +210,13 @@ export const REGEN_STEPS = [
   S('dragprofile', 'node tests/exp-w282c-dragprofile.mjs', ['tests/out/dragprofile-w282c.json'], 2, { secSource: 'w282c-run', node: true,
     note: '第282便c: kF0 不感の実測(128 歩 × 2 本)・引きずりプロファイルの純関数の単体試験・診断表(html だけを読む・環境変数なし)' }),
   // ---- 第282便b(第72報 ⑤・R79): geoPN=1 の契約の穴と比較表(水星の正式値を calaudit-w249.json から読む —— calaudit の後)
+  // ---- 第283便f(原仮定者の裁定(第72報)⑥・第73報 AN27/AN37・R81): 球状星団アナロジー(💮)の形状の門と対照 5 走行・rayHeavy の lens 除外の
+  //   光線の比較(基点 html と今の html —— 内蔵の全本)。他の正本を読まない(galaxychain → analogy の後段に置く)。所要は枝の実測
+  S('clusterAnalogy', 'W283F_BASE=beta/_w283_base.html node tests/exp-w283f-cluster.mjs', ['tests/out/cluster-w283f.json'], 658, { secSource: 'w283f-branch', node: true,
+    after: ['galaxychain', 'analogy'],
+    env: { W283F_BASE: '基点 html(第283便の基点 de9e39b の beta/index.html —— git show で一時ファイルを作り終了後に削除。光線の基点比較 (D)。無ければ (D) を SKIP)' },
+    volatilePaths: { 'tests/out/cluster-w283f.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec', '/runs/*/rateStepsPerSec']) },
+    note: '第283便f: 💮 の走行(基準・中心 spin 0・DR なし・N_rep 80/160)と門の判定・台帳・軸比の標本の床・光線(🌚 だけが変わる)・47 Tuc の参照行' }),
   // 第283便a(原仮定者の裁定(第73報)AN23): geoPN=1 が 1PN の反作用を返すようになり、本器の「本体 = 反作用を返さない旧則」の
   //   前提が消えた —— 正本は旧則の記録として**履歴**へ(再生成しない・計画は常に「履歴」)。新しい契約の実測は geomode(下)
   S('geo1', 'node tests/exp-w282b-geo1.mjs', ['tests/out/geo1-w282b.json'], 1033, { role: 'history', secSource: 'w282b-run', after: ['calaudit', 'kf0'],

@@ -5313,7 +5313,21 @@ function rayMassMin(p, Ri){ return (p.kappaT>0)? (RAY_ALPHA_MIN/4)*Math.max(Ri, 
 function pnKappaGR(p){ return (p.G>0)? p.G/(p.cLight*p.cLight) : 0; }   // G=0 は 1PN 自体が消える
 function pnMassMin(p, Ri){ const k=pnKappaGR(p); return (k>0)? (RAY_ALPHA_MIN/4)*Math.max(Ri, p.softening)/k : Infinity; }
 // 天体 i は光線を曲げるか(E8R 光線積分・光子伝播・光線キャッシュキーの「重い天体」判定)
-function rayHeavy(S, i){ return S.m[i] >= rayMassMin(S.params, S.R[i]); }
+// 第283便f(原仮定者の裁定(第73報)・AN27/AN37): `massLedger.darkRotor.lens:"excluded"` を**ここで読む**。
+//   宣言した本の DR 代表粒子(`lensExcludedRows` が引く行の粒子 —— build が `S.lensEx` に 1 を立てる)は
+//   **光線の源から外す**(重力の源・力学・質量は 1 bit も変えない —— 光線だけの宣言)。宣言の無い本は
+//   `S.lensEx===null` で、判定は従来の式そのもの(内蔵 140 本の光線はビット不変 —— 器 tests/exp-w283f-cluster.mjs)。
+function rayHeavy(S, i){ return S.m[i] >= rayMassMin(S.params, S.R[i]) && !(S.lensEx && S.lensEx[i]===1); }
+// 第283便f(AN37): **DR 代表粒子の行**を引く純関数(build と器が同じ 1 本を読む)。条件: 台帳が
+//   darkRotor{inDynamics:true, lens:"excluded"} を宣言し、bodies の disk 行のうち mMin=mMax=mPerRepUnit の行の
+//   粒子数の和が nRep にちょうど一致する(一致しなければ null —— 行を推測で選ばない)。
+function lensExcludedRows(preset){
+  const ml=preset && preset.massLedger, d=ml && ml.darkRotor;
+  if(!d || d.lens!=="excluded" || d.inDynamics!==true || !Array.isArray(preset.bodies)) return null;
+  const rows=[]; let n=0;
+  preset.bodies.forEach((b,k)=>{ if(b && b.type==="disk" && b.mMin===d.mPerRepUnit && b.mMax===d.mPerRepUnit){ rows.push(k); n+=b.n; } });
+  return (rows.length && n===d.nRep)? rows : null;
+}
 // 天体 i は E12 1PN 補正の源か(v1.20)。step() の全対ループでは同式を
 // pnK=(α_min/4)·c²/G を使って展開してある(O(N²) の関数呼出削減)。
 // 質量は下限保護付きの mEff — 対ループ側と同じ配列を見る(判定の正本はこの関数側)
@@ -7971,6 +7985,88 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
     spaceMesh:{mode:"mesh"},
     galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
+// ===== 第283便f(原仮定者の裁定(第72報)⑥「アナロジーは geoPN=3・中心にスケール調整した DFM 版ブラックホール・対象は
+// 球状星団 → 楕円 → 渦巻 → 棒渦巻・質量合わせは恒星質量ダークローター」の**第 1 段(球状星団)**・原仮定者の裁定(第73報)AN27・
+// 統括の検証項目 R81): **球状星団アナロジー**(principle・較正ではない)。🌚 の physics(geoPN=3・kFrame=0・scalar・η=1・
+// ε=3・share・centerSpin:"read")と台帳の比(M_DR/M★=40・⟨m_DR⟩=1 M☉ が代表)をそのまま使い、違いは 3 つ:
+// ① 恒星と DR を**同じ Plummer 分布**(投影尺度 10・切断 R_out=40)に置き、初速は行ごとのビリアル平衡(等方・vMode virial)
+// ② 中心 DFM 版 BH を**スケール調整**(m=250・R=1.5・spin=12 —— GM/(Rc²)=0.148・ΩR/c=0.600 は 🌚 と同じ・M_c/M_星団 は 🌚 の 1/10)
+// ③ **W_bg を `physics.spaceMesh.D0` に明示**(1.5 —— WbgFrom:"declared"・D₀ を流用しない)。
+// 形状の門は**測る前に**器 tests/exp-w283f-cluster.mjs の GATES と PHYSICS〔第283便f〕に書いた。
+{ id:"clusterAnalogyBH", name:"球状星団アナロジー(中心 DFM 版 BH+恒星質量 DR)", emoji:"💮",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["cluster","dm"],
+  obsCard:[
+    {q:"何を置いたか", model:"中心 DFM 版 BH(pinned m=250・spin 12・R=1.5)+恒星 170 体(M★=53.125)+DR 代表粒子 40 体(M_DR=2125)を同じ Plummer 分布(尺度 10・R_out=40)に置いた", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"中心 BH のスケール調整", model:"GM/(Rc²)=0.148・ΩR/c=0.600(🌚 と同じ無次元量)・M_center/(M★+M_DR)=0.115(🌚 の 1/10)", obs:"—(47 Tuc の中心 IMBH は 3σ 上限 578 M☉ —— 検出ではない)"},
+    {q:"初速(等方)", model:"行ごとのビリアル平衡 ⟨v²⟩=−W/M(方向は等方乱数・vMode virial)—— 回転は置いていない", obs:"—(47 Tuc は v_rot/σ₀=0.47 —— 参照の行であって合わせる量ではない)"},
+    {q:"形状の門(測る前に宣言)", model:"窓 [1, 3]×T_out で NaN 0・保持率 ≥0.90・半質量半径の変化 ≤10%・軸比 ≥0.9・|v_rot|/σ ≤0.5・E_toy+E_mesh=0", obs:"—"},
+    {q:"光線には使わない", model:"massLedger.darkRotor.lens:\"excluded\" を rayHeavy が読む —— DR 代表粒子は光線の源から外れる(重力の源は不変)", obs:"—"},
+    {q:"言わないこと", model:"47 Tuc を再現した/観測一致を達成した/較正を完了した/形状が安定した(門の語は形状達成・未達だけ)", obs:"—"}],
+  descStruct:{
+    summary:"**球状星団アナロジー —— アナロジーの第 1 段**(第283便f・原仮定者の裁定〔第72報〕⑥「geoPN=3・中心にスケール調整した DFM 版 BH・球状星団 → 楕円 → 渦巻 → 棒渦巻・質量合わせは恒星質量ダークローター」)。physics は 🌚 と同じ(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")で、違いは 3 つ: ① 恒星 170 体(M★=53.125)と恒星質量ダークローター(DR)の代表粒子 40 体(M_DR=2125 —— ⟨m_DR⟩=1 M☉ が代表・M_DR/M★=40 は 🌚 と同じ台帳の比)を**同じ Plummer 分布**(投影尺度 10・切断半径 R_out=40)に置き、初速は行ごとのビリアル平衡(等方・回転なし) ② 中心 DFM 版 BH を**スケール調整**した(m=250・R=1.5・spin=12 —— GM/(Rc²)=0.148・ΩR/c=0.600 は 🌚 と同じ・M_center/(M★+M_DR)=0.115 は 🌚 の 1/10) ③ **背景の重み W_bg を physics.spaceMesh.D0=1.5 に明示**した(出どころ \"declared\" —— D₀ を流用しない)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性・中心の自転を読む)。**f=1**。DR の代表粒子は `massLedger.darkRotor.lens:\"excluded\"` により**光線の源から外れる**(重力の源は不変)。**形状の門は測る前に宣言した**(PHYSICS〔第283便f〕)。**言わないこと**: 47 Tuc を再現した/観測一致を達成した/形状が安定した。",
+    observe:"実測(器 tests/exp-w283f-cluster.mjs・正本 tests/out/cluster-w283f.json・dt=0.016): 窓 [T_relax, T_end]=[1, 3]×T_out(外縁 R_out=40 の公転時間)で、NaN・保持率(r ≤ 2R_out・恒星と DR 別)・恒星の半質量半径の変化・軸比(1/r² 重みの慣性テンソル)・|v_rot|/σ・トイの帳簿を 0.25 T_out ごとに測り、門の語(形状達成/未達)で書く。対照: 中心 spin 0・DR なし・N_rep 80/160(DR の総質量一定)。**言わないこと**: 47 Tuc を再現した/形状が安定した。",
+    brief:"中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー。未達・測る前に宣言した形状の門で未達(保持率・半質量半径・軸比)。較正対象外。",
+    control:"ワンタップ対照A/B: B 側は**中心の spin=0**(同じ配置・同じ opt-in —— 中心の自転の寄与だけを外す)。比較の相手は 🌚(同じ physics・同じ台帳の比の銀河アナロジー)と 🍇🫐(47 Tuc の観測転写・DFM 版 —— 単位も初期化も違う)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
+  en:{name:"Globular-cluster analogy (central DFM black hole + stellar-mass dark rotors)",
+    status:{purpose:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors", state:"the shape gates declared before measuring are not met", mismatch:null, outlook:null},
+    obsCard:[
+      {q:"What is placed", model:"pinned DFM black hole (m=250, spin 12, R=1.5) + 170 stars (M_star=53.125) + 40 DR particles (M_DR=2125) on one Plummer profile", obs:"- (a principle sample; nothing transcribed)"},
+      {q:"Scaled centre", model:"GM/(Rc^2)=0.148, Omega R/c=0.600 (the same as 🌚), M_c/(M_star+M_DR)=0.115 (1/10 of 🌚)", obs:"- (47 Tuc: a 3-sigma IMBH upper limit of 578 Msun, not a detection)"},
+      {q:"Initial velocities (isotropic)", model:"per-row virial equilibrium <v^2>=-W/M with isotropic random directions (vMode virial); no rotation is placed", obs:"- (47 Tuc has v_rot/sigma0=0.47 - a reference row, not a target)"},
+      {q:"Shape gates (declared before measuring)", model:"window [1,3] x T_out: NaN 0, retention >= 0.90, r_h change <= 10%, axis ratio >= 0.9, |v_rot|/sigma <= 0.5, E_toy+E_mesh = 0", obs:"-"},
+      {q:"Not used for rays", model:"rayHeavy reads massLedger.darkRotor lens excluded: the DR particles are not ray sources (still gravity sources)", obs:"-"},
+      {q:"Not claimed", model:"no reproduction of 47 Tuc, no observational match, no calibration, no stable-shape claim (gate words: met / not met)", obs:"-"}],
+    descStruct:{
+      summary:"GLOBULAR-CLUSTER ANALOGY - THE FIRST STAGE of the analogy series (wave 283f, the originator's ruling in report 72, item 6: geoPN=3, a scaled DFM black hole at the centre, globular cluster -> elliptical -> spiral -> barred spiral, mass matched by stellar-mass dark rotors). The physics is 🌚's (geoPN=3, kFrame=0, spaceMesh lawVersion scalar, eta=1, eps=3, frameWeight share, centerSpin read) with three differences: (1) 170 stars (M_star=53.125) and 40 representative particles of stellar-mass dark rotors (M_DR=2125 - <m_DR>=1 Msun representative, M_DR/M_star=40 as in 🌚's ledger) sit ON ONE PLUMMER PROFILE (projected scale 10, cut at R_out=40) with per-row virial velocities (isotropic, no rotation); (2) THE CENTRAL DFM BLACK HOLE IS SCALED (m=250, R=1.5, spin=12 - GM/(Rc^2)=0.148 and Omega R/c=0.600 as in 🌚, M_c/(M_star+M_DR)=0.115, 1/10 of 🌚); (3) THE BACKGROUND WEIGHT W_bg IS DECLARED as physics.spaceMesh.D0=1.5 (source label 'declared' - D0 is not reused). Gravity (E4) and the geoPN=3 toy (coordinate inertia, reading the centre's spin) act. f=1. The DR particles are NOT RAY SOURCES through massLedger.darkRotor lens excluded (still gravity sources). THE SHAPE GATES WERE DECLARED BEFORE MEASURING (PHYSICS, wave 283f). NOT CLAIMED: reproducing 47 Tuc, an observational match, a stable shape.",
+      observe:"Measured (harness tests/exp-w283f-cluster.mjs, canonical tests/out/cluster-w283f.json, dt=0.016): in the window [T_relax, T_end]=[1, 3] x T_out (the orbital time at R_out=40), NaN, retention (r <= 2 R_out, stars and DR separately), the stars' half-mass-radius change, the axis ratio (reduced inertia tensor), |v_rot|/sigma and the toy ledger every 0.25 T_out, reported only as 'shape gates met' / 'not met'. Controls: centre spin 0, no DR, N_rep 80/160 (constant DR mass). NOT CLAIMED: reproducing 47 Tuc, a stable shape.",
+      brief:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors. Unmet: the shape gates declared before measuring are not met. Out of calibration scope.",
+      control:"One-tap A/B: side B sets THE CENTRE'S SPIN TO 0 (same configuration, same opt-in). Compare with 🌚 (same physics, same ledger ratio, a galaxy analogy) and 🍇🫐 (47 Tuc transcription and DFM build - different units and initialisation). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 47 Tuc の CSV の行(距離・3D 半質量半径・σ₀・v_rot/σ₀)は参照として並べるだけで入力していない"],
+    fixedConventions:["🌚 の physics 宣言(geoPN=3・kFrame=0・lawVersion:\"scalar\"・inertia:false・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")",
+      "W_bg=physics.spaceMesh.D0=1.5(明示 —— 出どころ \"declared\")",
+      "中心 DFM 版 BH: pinned m=250・spin 12・R=1.5(GM/(Rc²)=0.148・ΩR/c=0.600 —— 🌚 と同じ無次元量)",
+      "恒星 170 体 × 0.3125 と DR 40 体 × 53.125 を同じ Plummer 分布(投影尺度 10・切断 40)・初速は行ごとのビリアル平衡(等方)",
+      "DR: N_DR=20 N★・⟨m_DR⟩=1 M☉(代表)・⟨m★⟩=0.5 M☉・質量単位 10³⁴ kg(🌚 と同じ)",
+      "cLight=30(組込みプリセットの規約)・乱数種 20260926"],
+    fitted:["**無い。**"],
+    derived:["M_DR=40·M★=2125 単位・M_center/(M★+M_DR)=0.115","T_out=2πR_out/v_c(R_out)(t=0 の配置の実際の重力加速度 —— 器が測る)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","代表粒子 N_rep=40","測定: dt=0.016・窓 [1, 3]×T_out"]},
+  activeParams:["G"],
+  // 第283便f: サンプルの状況(原稿 tests/data-w279a-samplestatus-src.json と同じ文 —— 生成領域 sample-status の行は再生成の鎖で入る)
+  status:{purpose:"中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー", objective:"unmet",
+    state:"測る前に宣言した形状の門で未達(保持率・半質量半径・軸比)", calibration:"out-of-scope", mismatch:null, outlook:null,
+    evidence:["tests/out/cluster-w283f.json"]},
+  abBody:{ label:{ja:"中心の spin=0(自転の寄与だけを外す)", en:"centre spin = 0 (only the spin contribution removed)"},
+    targets:[0], patch:{spin:0} },
+  massLedger:{version:"w283f-1", starBase:53.125, fStar:1, gas:0, core:250, unitKg:1e34, mSunKg:1.9885e30,
+    mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:1,
+    currentTotalUnit:303.125, currentTotalSun:1524390.243902439,
+    rotorScenarios:[
+      {mRotorSun:0.1, nRotor:10686447.070656272, mRotorUnit:212.49999999999997, totalUnit:515.625, totalSun:2593034.950968066},
+      {mRotorSun:1, nRotor:10686447.070656272, mRotorUnit:2124.9999999999995, totalUnit:2428.1249999999995, totalSun:12210837.31455871},
+      {mRotorSun:10, nRotor:10686447.070656272, mRotorUnit:21249.999999999996, totalUnit:21553.124999999996, totalSun:108388860.95046516}],
+    darkRotor:{mRotorSun:1, nRep:40, mPerRepUnit:53.125, totalUnit:2125, inDynamics:true, lens:"excluded",
+      distribution:"恒星と同じ Plummer 分布(投影尺度 10・切断 40)・初速は行ごとのビリアル平衡(等方 —— 宣言)"},
+    note:"条件付き台帳(第283便f・原仮定者の裁定〔第72報〕⑥)。⟨m_DR⟩=1 M☉ の行を力学の質量要素として bodies に入れた(代表粒子 40 体 × 53.125 = 2125 単位)。0.1/10 M☉ は比較の列。個数比 20 は宣言値。f★=1。代表粒子は光線の源から外す(lens:\"excluded\" —— rayHeavy が読む)。較正母集団に入れない。",
+    noteEn:"A conditional ledger (wave 283f, the originator's ruling in report 72, item 6). The <m_DR> = 1 Msun row is put into the bodies as a dynamical mass component (40 particles x 53.125 = 2125 units); 0.1 and 10 Msun are comparison columns. The count ratio 20 is declared. f_star = 1. The representative particles are not ray sources (lens excluded - read by rayHeavy). Not in the calibration population."},
+  camera:{scale:60}, world:{boundary:"none",size:0}, seed:20260926,
+  physics:{G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read", D0:1.5}},
+  bodies:[
+    // 中心 DFM 版 BH(スケール調整 —— GM/(Rc²)=0.8·250/(1.5·900)=0.148・ΩR/c=12·1.5/30=0.600)
+    {type:"single", m:250, x:0,y:0, vx:0,vy:0, spin:12, pinned:true, radius:1.5},
+    // 恒星(Plummer・M★=170×0.3125=53.125)—— 初速は行のビリアル平衡(等方)
+    {type:"disk", rMul:1.2, n:170, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
+     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"virial", vScale:1, direction:1, bulkVx:0, bulkVy:0},
+    // 恒星質量ダークローターの代表粒子(N_rep=40・1 体 53.125・計 2125 —— 同じ Plummer 分布・lightSweep 1 = 表示で暗い)
+    {type:"disk", rMul:1.2, n:40, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
+     mMin:53.125,mMax:53.125, spinMin:0,spinMax:0, vMode:"virial", vScale:1, direction:1, bulkVx:0, bulkVy:0, lightSweep:1}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false,
+    spaceMesh:{mode:"mesh"}} },
 // ===== 第274便d(第64報「銀河のアナロジーのゴール: **実在天体に先立ち安定サンプルを用意する**」)=====
 // 原仮定者(第64報):「時間経過で形状が安定成長する計算式を、現状の実装や既存の物理法則に捉われずに
 // 考案する」/「球状星団=構成天体の集団を安定化・中心に対して正規分布・3D で横から見ても正規分布なので
@@ -20062,6 +20158,8 @@ function makeSim(){
     }
     const G = phys.G;
     const push=(o)=>P.push(o);
+    // 第283便f(AN37): DR 代表粒子の行(光線の源から外す宣言)。宣言の無い本は null(以下の 1 行も走らない)
+    const lensRowSet=(()=>{ const r=lensExcludedRows(preset); return r? new Set(r.map((k)=>preset.bodies[k])) : null; })();
     // 第218便(原仮定者指示 2026-08-27 第17報): 群生成の除外対象を恒久原理へ再設計。
     // 問題の本質は「粒子が意図せず重なって生成される」ことなので、
     //   ①対象 = **座標を指定して配置された粒子(single)全数**(旧: m≥40 のしきい値 —
@@ -20199,6 +20297,7 @@ function makeSim(){
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           // 第235便: 平衡初期化の後段タグ(全群の配置が終わってから実ポテンシャルで速度を決める)
           if(b.vMode==="enclosed"||b.vMode==="virial") o.eq={mode:b.vMode, cx:b.cx, cy:b.cy, dir:b.direction, scale:(b.vScale===undefined?1:b.vScale), row:b};
+          if(lensRowSet && lensRowSet.has(b)) o.lensEx=1;   // 第283便f: 光線の源から外す DR 代表粒子
           push(o);
         }
       } else if(b.type==="box"){
@@ -20299,6 +20398,8 @@ function makeSim(){
       }
     }
     S.alloc(P.length);
+    // 第283便f(AN37): 光線の源から外す粒子の印(宣言の無い本は null —— rayHeavy は従来の式のまま)
+    S.lensEx=lensRowSet? Uint8Array.from(P, (o)=>(o.lensEx===1? 1 : 0)) : null;
     // 第114便: stateCarry:"double" — 状態更新の倍精度化(opt-in。既定は alloc の Float32 の
     // まま = 1 bit も不変)。①加速度累積 ax/ay ②軌道状態 x/y/vx/vy を Float64 に置換し、
     // ③速度キックは補償和(状態が Float64 ならキャリーは自動的に 0 — 一般性のため残す)。
@@ -22874,7 +22975,7 @@ function makeSim(){
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
-      "linId","linN","pulseOm","pulsePh","shellGas","ssQov","ssDec","layN"]) mv(S[key]);   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計 / 第246便: 観測 Q / 第247便a: 宣言フラグ
+      "linId","linN","pulseOm","pulsePh","shellGas","ssQov","ssDec","layN","lensEx"]) mv(S[key]);   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計 / 第246便: 観測 Q / 第247便a: 宣言フラグ
     // 第259便b: 親子コアの同心層はストライド BODY_LAYER_MAX の平らな配列なので別に詰める
     if(S.layN && S.hasBodyLayers){ const LM=BODY_LAYER_MAX;
       for(let t=0;t<k;t++){ const s0=keep[t]; if(s0===t) continue;
@@ -22921,7 +23022,7 @@ function makeSim(){
       "ax","ay","sumW","uAx","uAy","ds","dpx","dpy","accVx","accVy","accS",
       "railR","railAng","railOmega","railCx","railCy","railH","pinned","hasU",
       "Tint","dQi","arep","arepD","duT","echoX0","echoY0",
-      "linId","linN","pulseOm","pulsePh","shellGas","ssQov","ssDec","layN"]){   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計 / 第246便: 観測 Q / 第247便a: 宣言フラグ
+      "linId","linN","pulseOm","pulsePh","shellGas","ssQov","ssDec","layN","lensEx"]){   // 第100便 EXT-10: 形成系譜 / 第226便: パルス時計 / 第246便: 観測 Q / 第247便a: 宣言フラグ
       const a=S[key]; if(!a) continue;
       const b=new a.constructor(nc); b.set(a); S[key]=b;
     }
@@ -40918,7 +41019,9 @@ function dfmFieldContractOf(S,kind){
   if(kind==="api" || kind==="toy"){
     const cf=p[SPACE_MESH_KEY]||{};
     const rd=(kind==="toy" && cf.centerSpin===SPACE_MESH_CENTER_SPIN[1]);
-    return { contract:{ p:frameWeightPow(p), eps:p.softening, Wbg:D0u, WbgFrom:from, sources:"all", velocity:"v",
+    // 第283便f: 中心の自転を読むトイは `spaceMesh.D0` の宣言を W_bg に置く(dfmGeoToySpinStep と同じ規則 —— ラベル "declared")
+    const wd=(rd && cf.D0!==undefined && cf.D0!==null);
+    return { contract:{ p:frameWeightPow(p), eps:p.softening, Wbg:wd? cf.D0 : D0u, WbgFrom:wd? "declared" : from, sources:"all", velocity:"v",
       spin:rd? "e6" : "none", spinSources:rd? "center" : undefined, q:rd? p.q : undefined,
       fit:"mean", background:"static", need:(kind==="toy")? "uBt" : "u" }, bgMode:"static",
       note:(kind==="toy")? "GF-toy: 自己除外は呼ぶ側(excludeBodyId)" : "GF-api1" };
@@ -41588,7 +41691,10 @@ function dfmGeoToySpinStep(S,dt,cf,law){
     if(!f){ S.geoToyStop="field"; return null; }
     BD[i].ax=f.gravity[0]; BD[i].ay=f.gravity[1];
   }
-  const C={ p:pw, eps, Wbg:D0p, WbgFrom:frameWeightIsPull(p)? ((p.D0pull!==undefined)? "D0pull" : "D0") : "D0",
+  // 第283便f(原仮定者の裁定(第72報)⑥・AN17): **W_bg の明示入力** —— `physics.spaceMesh.D0` を宣言した宇宙は
+  //   その値を W_bg に置き、出どころのラベルを "declared" にする(D₀ を流用しない)。宣言の無い本(🌚)は従来どおり
+  const wDecl=(cf.D0!==undefined && cf.D0!==null);
+  const C={ p:pw, eps, Wbg:wDecl? cf.D0 : D0p, WbgFrom:wDecl? "declared" : (frameWeightIsPull(p)? ((p.D0pull!==undefined)? "D0pull" : "D0") : "D0"),
     sources:"all", velocity:"v", spin:"e6", spinSources:"center", q:p.q, fit:"mean", background:"static", need:"uBt",
     excludeBodyId:0 };
   const ACC=new Float64Array(2*n);
