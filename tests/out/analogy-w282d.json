@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
-  "generatedAt": "2026-09-26T06:03:02.230Z",
+  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+  "generatedAt": "2026-09-26T08:26:44.849Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836646,
-    "sha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
-    "mtime": "2026-09-26T04:23:04.176Z"
+    "bytes": 4836622,
+    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+    "mtime": "2026-09-26T08:09:25.652Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 254806,
-    "sha256": "0e9eb0e9ba8e78e6b22958ce3daacf8039478020b9b2eacf9ea57939ec5aad3d",
-    "mtime": "2026-09-26T06:00:39.556Z"
+    "sha256": "d8a5bb656684b6e4b3ed4ed9dca2e41ef8acb10161442df1b81079b8d4620b9c",
+    "mtime": "2026-09-26T08:24:22.508Z"
    }
   ],
   "code": [
@@ -58,12 +58,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 59751,
-    "sha256": "647a904c748509cb4d0fd9ffd2619c225293a9899f9a9be64c0fe97fdd56d0ee",
-    "mtime": "2026-09-25T23:51:53.390Z"
+    "bytes": 60075,
+    "sha256": "42e586660d12b9554e77d0ecf507747b411e2356812c40d18df599090b62826f",
+    "mtime": "2026-09-26T08:09:25.504Z"
    }
   ],
-  "codeSha256": "49c1a674d85c37c0bcc8f5a2a19e15d9eb4e48faaac9ac3868e3d7113836917f",
+  "codeSha256": "c0943c6d101c8a7dcd2ecd4eba6414fbff63d734d1f666c6edcac9281c82f39b",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -163,9 +163,13 @@
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "87b72437ae98650ee2218dad77dabfdb319a6606e3c2ba08a593551f725a33b1",
+    "stableSha256": "9fd7940f3d0b53f8edf13e01d182aed410c05399d4c77346f8060ec986b867b1",
     "stableVersion": "w282e-stable-1",
-    "volatilePaths": []
+    "volatilePaths": [
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime"
+    ]
    }
   ],
   "stableHashVersion": "w282e-stable-1"
@@ -919,7 +923,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 4.036,
+    "msPerStep": 3.9972,
     "recs": [
      {
       "t": 0,
@@ -1164,7 +1168,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 4.0972,
+    "msPerStep": 4.1084,
     "recs": [
      {
       "t": 0,
@@ -1411,7 +1415,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 8.6784,
+    "msPerStep": 8.5944,
     "recs": [
      {
       "t": 0,
@@ -1658,7 +1662,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 8.4604,
+    "msPerStep": 8.5524,
     "recs": [
      {
       "t": 0,
@@ -2852,7 +2856,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 12.763,
+    "msPerStep": 12.825333333333333,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2917,7 +2921,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 12.734666666666667,
+    "msPerStep": 12.572666666666667,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3091,5 +3095,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 141.033
+ "elapsedSec": 140.68
 }
