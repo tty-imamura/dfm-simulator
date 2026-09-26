@@ -13,15 +13,15 @@
 
 ## 集計
 
-- 内蔵 **141 本**(群 14・うち 0 本の群 3)。
+- 内蔵 **142 本**(群 14・うち 0 本の群 3)。
 - うち **退役 7 本**(原仮定者の裁定(第73報)④ —— 内蔵には残る・サンプル一覧に出ない)は**群の集計から外し**、下の「退役」節に別群として並べる(状況と較正の集計は内蔵の全本で数える)。
-- 状況: **達 81・部分 55・未達 5・対象外 0**。
-- 較正: 4 値(合/量限定合/否/保留)**0/2/2/33**(台帳の転記)・判定保留(量定義不一致)**2**・較正対象外 **102**。
+- 状況: **達 81・部分 55・未達 6・対象外 0**。
+- 較正: 4 値(合/量限定合/否/保留)**0/2/2/33**(台帳の転記)・判定保留(量定義不一致)**2**・較正対象外 **103**。
 
 | 群 | 本数 | 達 | 部分 | 未達 | 4 値の本 | 判定保留(量定義不一致) | 較正対象外 |
 |---|---|---|---|---|---|---|---|
 | 🧭 運動と時空 | 5 | 4 | 1 | 0 | 0 | 0 | 5 |
-| 🌌 銀河の力学 | 18 | 11 | 6 | 1 | 0 | 0 | 18 |
+| 🌌 銀河の力学 | 19 | 11 | 6 | 2 | 0 | 0 | 19 |
 | 🪐 天体の機構 | 18 | 17 | 1 | 0 | 0 | 0 | 18 |
 | ⏱️ 時計と重力 | 5 | 5 | 0 | 0 | 0 | 0 | 5 |
 | 💡 光の伝播 | 5 | 4 | 1 | 0 | 0 | 0 | 5 |
@@ -45,7 +45,7 @@
 | 🫂 | `boxBinaryToy` | 箱宇宙と連星 — 等質量だと背景に対する移動が消える | 等質量で共通移動が相対軌道から消えるかを測る | 達・等質量で消え質量差の対照では残る(根拠: `behavior.boxBinary`) | 較正対象外 | — | — |
 | 🪟 | `spaceMeshBinaryToy` | 空間メッシュの窓 — メッシュの重力は既にある重力 | メッシュの重力が既存の重力と同じ核かを確かめる | 達・重力は二重計上なし・慣性候補は頂点で退化(根拠: `behavior.spaceMeshForce`) | 較正対象外 | — | — |
 
-## 🌌 銀河の力学(18 本)
+## 🌌 銀河の力学(19 本)
 
 | 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み |
 |---|---|---|---|---|---|---|---|
@@ -61,6 +61,7 @@
 | 🪁 | `galaxyMeshSpiralGeoToy` | 銀河の空間メッシュ — geoPN=3 原理コピー(較正ではない) | 🎠 の配置で法則だけ geoPN=3 に替えて比べる | 部分・600 歩の走行と帳簿は確認・形の門は無い(根拠: `behavior.geoToyNeedMesh`, `preset.galaxyGeoToyCopy`) | 較正対象外 | — | — |
 | 🎋 | `galaxyMeshSpiralGeoToyLite` | 銀河の空間メッシュ・軽量コピー(円盤 80 粒 — 較正ではない) | 🪁 を円盤 80 粒に軽くした比較用の写し | 部分・準備経路のビット同一は確認・形の門は無い(根拠: `perf.geoToyPrepared`) | 較正対象外 | — | — |
 | 🌚 | `galaxyAnalogyBH` | 銀河アナロジー(中心 DFM 版 BH+恒星質量 DR) | 中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー | 部分・中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い(根拠: `tests/out/analogy-w282d.json`) | 較正対象外 | — | — |
+| 💮 | `clusterAnalogyBH` | 球状星団アナロジー(中心 DFM 版 BH+恒星質量 DR) | 中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー | 未達・測る前に宣言した形状の門で未達(保持率・半質量半径・軸比)(根拠: `tests/out/cluster-w283f.json`) | 較正対象外 | — | — |
 | 🔮 | `shapeToyCluster` | 球状星団トイ — 3D 正規分布の参照モデル(較正ではない) | 指定した 3D 正規分布を保つ参照模型 | 達・形状トイの門を通過(規定分布の模型)(根拠: `docs.shapeToyCriteria`, `tests/out/shapetoy-w274d.json`) | 較正対象外 | — | — |
 | 🥏 | `shapeToyDisk` | 腕なし回転円盤トイ — 扁平は σ_z の宣言(較正ではない) | 指定した薄い回転円盤を保つ参照模型 | 未達・形状トイの門で KS 比 1.330 が不合格(根拠: `docs.shapeToyCriteria`, `tests/out/shapetoy-w274d.json`) | 較正対象外 | — | — |
 | 🧵 | `shapeToyArm` | 腕単体トイ — 腕の軸に対して正規分布(較正ではない) | 腕の軸に対する正規分布を保つ参照模型 | 達・形状トイの門を通過(規定分布の模型)(根拠: `docs.shapeToyCriteria`, `tests/out/shapetoy-w274d.json`) | 較正対象外 | — | — |
@@ -193,7 +194,7 @@
 | 🌟 | `siriusAB` | シリウスAB(実単位)— 白色矮星との連星 | シリウス AB を kF0 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `behavior.siriusAB`) | 量限定合 | — | 写像未確定 |
 | 💫 | `siriusABDFM` | シリウスAB(DFM版)— pull 重み・観測質量のまま kF1 | 観測質量のまま kF1 をシリウスへ当てる | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 −1.77%(206σ) | 数値未解決・写像未確定 |
 | 📻 | `psrDoubleAB` | 二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星 | 二重パルサーを kF0 で照合する | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 +0.00269%(9.5×10⁵σ) | 数値未解決・写像未確定 |
-| ⚡ | `psrDoubleABDFM` | 二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2) | 二重パルサーを質量補正と kF1 で照合 | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 −1.10%(4.9×10⁷σ) | 数値未解決・写像未確定 |
+| ⚡ | `psrDoubleABDFM` | 二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2) | 二重パルサーを質量補正と kF1 で照合 | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 周期 −1.10%(9.8×10⁷σ) | 数値未解決・写像未確定 |
 | 🩻 | `psrDoubleABGeoToy` | 二重パルサー J0737−3039A/B — geoPN=3 診断(f=1・較正候補ではない) | 観測質量のまま geoPN=3 則を当てる診断 | 未達・周期 +0.0897%・掃引で観測をまたがない(根拠: `tests/out/geotoy-w262a.json`, `behavior.geoToyOverlay`) | 較正対象外 | — | — |
 | 🧿 | `psrDoubleABSpinCal` | 二重パルサー J0737−3039A/B(スピン–スピン較正候補)— f と λ を回した比較 variant | f と λ を回した較正候補を比べる | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 近点移動 +2.42%(3.2×10⁴σ) | 数値未解決 |
 | 🧮 | `psrJ1757DFM` | PSR J1757−1854(DFM版・hold-out)— ⚡ の処方をそのまま当てた中性子星連星2例目 | ⚡ の処方を J1757 へ当てる | 部分・照合の走行は台帳に記帳(根拠: `tests/out/calaudit-w249.json`, `docs.calibration-verdict-sync`) | 保留 | 近点移動 5.3×10⁴σ(差の%は正本に無い) | 数値未解決・写像未確定 |
@@ -254,151 +255,152 @@
 
 > **測った値の転記であって判定ではない**(第282便・原仮定者の指示 2026-09-26)。時間は html の生成領域に入れない(時間で html を変えない)。数は `tests/lib-w281a-regentable.mjs`(段の実測秒)・`tests/out/calaudit-w249.json`(各本の壁時計)・`tests/out/qa-results-full-beta.json`(試験ごとの所要 ms)の転記で、走行のたびに変わる。
 
-- **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 / dt/8 の和・`presets[].run.timeBudget[].wallSec`)。母集団の外の本は「—」。
+- **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 の和・`presets[].run.timeBudget[].wallSec`。第283便c: dt/8 は常時の鎖から外した —— 旧形式の記録だけ dt/8 を 1 回数える・転記した段〔再利用〕は和に入れず「元 N s」を添える)。母集団の外の本は「—」。
 - **関与する再生成の段**: 領域(REGEN_SCOPE)を宣言した段のうち、この本を宣言に含むもの。表記「段 秒/本数」は**段 1 回の実測秒とその段が宣言した本数**(所要は宣言した本で共有する —— 本ごとに足し上げない)。all は全プリセットを走査する段。
-- **宣言の無い段**(対象 html の全体に縛られ、どの本に関与するかを宣言していない 45 段・実測 1883 s)と**常時群**(11 段・実測 5993 s・毎回走る)は本ごとの行に配らない。現行の段 85 段の実測秒の和 21055 s(5.85 h・逐次の上限。履歴の段は除く)。
-- **保存 QA**: `tests/out/qa-results-full-beta.json`(905 試験・全体 1012 s・commit ee78947)のうち、**試験の id にこの本の id を含むもの+その本の claims が挙げる testId** の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。内訳は所要の上位 3。
+- **宣言の無い段**(対象 html の全体に縛られ、どの本に関与するかを宣言していない 45 段・実測 1883 s)と**常時群**(11 段・実測 5993 s・毎回走る)は本ごとの行に配らない。現行の段 87 段の実測秒の和 22656 s(6.29 h・逐次の上限。履歴の段は除く)。
+- **保存 QA**: `tests/out/qa-results-full-beta.json`(905 試験・全体 1012 s・commit ee78947)のうち、**その本の claims が挙げる testId と、原稿 `tests/data-w279a-samplestatus-src.json` の `qaTargets` がその本を挙げた試験**(帰属 w283e-1 —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(1 本)。内訳は所要の上位 3。
 
 | 本 | 較正走行(s) | 段別(s) | 関与する再生成の段(段 秒/本数) | 保存 QA(s・本数) | QA の内訳(上位 3) |
 |---|---|---|---|---|---|
-| ⚾ `projectile` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.02・2 | `preset.projectile` 0.02・`projectile.layout` 0.00 |
-| ⏪ `echo` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.17・8 | `echo.leapfrog-return` 0.55・`echo.hud` 0.40・`shot.regress-echo` 0.15 |
-| 🪗 `compactForceToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.05・1 | `preset.compactForceToy` 0.05 |
-| 🫂 `boxBinaryToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.04・1 | `preset.boxBinaryToy` 0.04 |
-| 🪟 `spaceMeshBinaryToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.10・1 | `preset.spaceMeshBinaryToy` 0.10 |
-| 🌌 `galaxy` | — | — | nslock 688/9・sparc 192/3・cluster 84.0/3・shapecrit 106/all・bgbudget2 77.0/4・d68 153/all・calcontract 2.00/all・families 8.00/all | 75.1・22 | `claim.galaxy-outerboost` 19.0・`preset.galaxyGeoToyCopy` 9.24・`preset.galaxyMeshSpiralGeoToy` 7.34 |
-| 🎡 `galaxyStd` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 4.40・2 | `preset.galaxyStd` 4.39・`claim.galaxystd-outerboost` 0.01 |
-| 💫 `galaxyGeo2` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 6.90・2 | `preset.galaxyGeo2` 6.90・`claim.galaxygeo2-outerboost` 0.00 |
-| 🍳 `galaxyDB` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 3.59・2 | `preset.galaxyDB` 3.59・`claim.galaxydb-contrast` 0.01 |
-| 🌫️ `collapse` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 24.1・6 | `collapse.rotation` 22.3・`preset.collapse` 1.56・`behavior.collapseRControl` 0.16 |
-| 🥢 `axisBarStill` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 6.75・1 | `preset.axisBarStill` 6.75 |
-| 🎏 `axisBarArms` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 6.25・1 | `preset.axisBarArms` 6.25 |
-| 🎚️ `axisBarReach` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 6.08・1 | `preset.axisBarReach` 6.08 |
-| 🎠 `galaxyMeshSpiral` | — | — | shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・families 8.00/all | 12.6・3 | `preset.galaxyMeshSpiralGeoToy` 7.34・`preset.galaxyMeshSpiral` 3.48・`preset.galaxyMeshSpiralGeoToyLite` 1.82 |
-| 🪁 `galaxyMeshSpiralGeoToy` | — | — | shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・families 8.00/all | 9.16・2 | `preset.galaxyMeshSpiralGeoToy` 7.34・`preset.galaxyMeshSpiralGeoToyLite` 1.82 |
-| 🎋 `galaxyMeshSpiralGeoToyLite` | — | — | shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・families 8.00/all | 1.82・1 | `preset.galaxyMeshSpiralGeoToyLite` 1.82 |
-| 🌚 `galaxyAnalogyBH` | — | — | shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・families 8.00/all | 3.36・1 | `preset.galaxyAnalogyBH` 3.36 |
-| 🔮 `shapeToyCluster` | — | — | shapetoy 265/3・shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・families 8.00/all | 2.23・2 | `preset.shapeToyClusterCore` 1.19・`preset.shapeToyCluster` 1.04 |
-| 🥏 `shapeToyDisk` | — | — | shapetoy 265/3・shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 2.92・2 | `preset.shapeToyDisk` 1.50・`preset.shapeToyDiskCore` 1.42 |
-| 🧵 `shapeToyArm` | — | — | shapetoy 265/3・shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.09・2 | `preset.shapeToyArm` 0.57・`preset.shapeToyArmCore` 0.52 |
-| 🎱 `shapeToyClusterCore` | — | — | shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.19・1 | `preset.shapeToyClusterCore` 1.19 |
-| 📀 `shapeToyDiskCore` | — | — | shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.42・1 | `preset.shapeToyDiskCore` 1.42 |
-| 🧹 `shapeToyArmCore` | — | — | shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.52・1 | `preset.shapeToyArmCore` 0.52 |
-| 🌍 `earthMoon` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.95・8 | `behavior.earthMoonFree` 1.18・`behavior.earthMoon` 0.31・`preset.earthMoon` 0.15 |
-| 🌕 `earthMoonFree` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.20・2 | `behavior.earthMoonFree` 1.18・`preset.earthMoonFree` 0.02 |
-| ☿ `mercury` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・geo1 1033/36・families 8.00/all | 0.83・7 | `behavior.mercury-builtin` 0.54・`ui.mercuryNaming` 0.09・`preset.mercuryGeoToy3` 0.06 |
-| 🪐 `saturn` | — | — | shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・families 8.00/all | 18.0・14 | `preset.saturnRingRealKF1` 6.82・`shot.regress-saturnLayered` 2.75・`shot.regress-saturn` 2.65 |
-| 🎯 `saturnLayered` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 4.84・4 | `shot.regress-saturnLayered` 2.75・`preset.saturnLayered` 2.08・`core.twolayer` 0.01 |
-| ⭐ `binary` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・geo1 1033/36・families 8.00/all | 3.68・8 | `preset.binary` 2.08・`behavior.boxBinary` 1.40・`preset.spaceMeshBinaryToy` 0.10 |
-| ♾️ `fig8` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.13・2 | `shot.regress-fig8` 0.11・`preset.fig8` 0.02 |
-| 💥 `counterring` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.87・2 | `preset.counterring` 0.87・`new.counterring` 0.00 |
-| 🌪️ `spinup` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.99・3 | `shot.regress-spinup` 1.09・`preset.spinup` 0.90・`behavior.spinup` 0.00 |
-| 🏮 `pulsarSolo` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.21・1 | `preset.pulsarSolo` 0.21 |
-| 🎇 `supernovaCore` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.12・1 | `preset.supernovaCore` 0.12 |
-| ⚪ `whiteDwarfDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.03・1 | `preset.whiteDwarfDFM` 0.03 |
-| 🔘 `whiteDwarfBareDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.11・1 | `preset.whiteDwarfBareDFM` 0.11 |
-| 🎆 `envelopeShedDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.02・1 | `preset.envelopeShedDFM` 0.02 |
-| 🐮 `lfbotTrap` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.20・2 | `preset.lfbotTrap` 0.13・`preset.lfbotTrap` 0.08 |
-| 🧅 `layeredCoreDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.03・1 | `preset.layeredCoreDFM` 0.03 |
-| ⚙️ `spinDipoleBinary` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.01・1 | `preset.spinDipoleBinary` 0.01 |
-| 🌬️ `gasCohSurface` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.23・2 | `behavior.gasCohSurface` 0.16・`preset.gasCohSurface` 0.06 |
-| ⏱️ `gclock` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 14.3・3 | `new.gclock` 14.1・`shot.regress-gclock` 0.20・`preset.gclock` 0.03 |
-| 🛰️ `grcal` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.27・8 | `behavior.grcal3` 0.12・`preset.grcal` 0.04・`preset.grcalShapiro` 0.04 |
-| 🕰️ `grcalGps` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.15・2 | `behavior.grcal3` 0.12・`preset.grcalGps` 0.03 |
-| 🌟 `grcalLight` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.15・2 | `behavior.grcal3` 0.12・`preset.grcalLight` 0.03 |
-| ⏲️ `grcalShapiro` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.16・2 | `behavior.grcal3` 0.12・`preset.grcalShapiro` 0.04 |
-| 💡 `lensing` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.17・2 | `shot.regress-lensing` 0.14・`preset.lensing` 0.03 |
-| 🌗 `spinlens` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.02・2 | `preset.spinlens` 0.02・`spinlens.kframe-control` 0.00 |
-| 🔭 `blens` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.04・2 | `preset.blens` 0.03・`behavior.blens` 0.02 |
-| 🌆 `reddening` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.33・2 | `preset.reddening` 0.30・`claim.reddening` 0.03 |
-| 🪞 `mmPhaseToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.03・1 | `preset.mmPhaseToy` 0.03 |
-| 🔥 `gas` | — | — | shapecrit 106/all・d68 153/all・emgrid 2295/5・analogy 148/7・calcontract 2.00/all・dragprofile 2.00/21・families 8.00/all | 31.6・6 | `behavior.gas` 27.0・`shot.regress-gas` 2.37・`preset.gas` 2.09 |
-| 🎈 `pressure` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 20.8・4 | `behavior.pressure` 12.3・`behavior.geoToyBandPressure` 5.14・`preset.pressure` 2.13 |
-| 📏 `conduction` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.01・4 | `behavior.conduction` 0.84・`preset.conduction` 0.12・`conduction.pinned-zero-cost` 0.05 |
-| 🛷 `frictionHeat` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.08・1 | `preset.frictionHeat` 1.08 |
-| 🌈 `coolrace` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.02・2 | `preset.coolrace` 0.02・`new.coolrace` 0.00 |
-| ♨️ `convection` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 3.98・4 | `shot.regress-convection` 2.16・`preset.convection` 1.82・`perf.convection-timescale` 0.01 |
-| 🧪 `buoyancy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 63.4・2 | `behavior.buoyancy` 60.8・`preset.buoyancy` 2.56 |
-| ☕ `cooling` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.73・2 | `preset.cooling` 1.73・`behavior.collapse-cooling` 0.00 |
-| 🧬 `emergent` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 2.55・5 | `preset.emergent2` 1.62・`preset.emergent` 0.93・`phasechange.emergent` 0.00 |
-| 🧊 `emergent2` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.62・3 | `preset.emergent2` 1.62・`phasechange.emergent2` 0.00・`behavior.phase-multiseed` 0.00 |
-| ⛓️ `chain2` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.90・3 | `preset.chain2` 0.90・`phasechange.chain2` 0.00・`behavior.phase-multiseed` 0.00 |
-| ♻️ `chaincycle` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.23・3 | `preset.chaincycle` 1.23・`claim.chaincycle` 0.00・`behavior.phase-multiseed` 0.00 |
-| 📦 `boxtrans` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.16・1 | `preset.boxtrans` 0.16 |
-| 🌀 `boxrot` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.22・1 | `preset.boxrot` 0.22 |
-| 📈 `boxexpand` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.31・1 | `preset.boxexpand` 0.31 |
-| 🫧 `boxcomoving` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.39・2 | `shot.regress-boxcomoving` 0.26・`preset.boxcomoving` 0.13 |
-| 🪢 `boxbound` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.35・2 | `behavior.boxbound` 0.31・`preset.boxbound` 0.04 |
-| 🫁 `boxbreath` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.11・1 | `preset.boxbreath` 0.11 |
-| 🔦 `boxredshift` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.19・3 | `shot.regress-boxredshift` 0.13・`box.photon-abc` 0.05・`preset.boxredshift` 0.02 |
-| 🧭 `probeH` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.17・2 | `preset.probeH` 0.09・`behavior.probeH` 0.08 |
-| 🕊️ `freebox` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 2.22・11 | `freebox.pressure-expand` 1.24・`preset.freebox` 0.37・`shot.regress-freebox` 0.30 |
-| 🕸️ `cosmicweb` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 4.17・2 | `preset.cosmicweb` 4.17・`behavior.cosmicweb` 0.00 |
-| 🕳️ `rotorSolo` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.07・2 | `behavior.rotorSolo` 0.97・`preset.rotorSolo` 0.10 |
-| 🪜 `massLadder` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 5.68・2 | `claim.massladder` 5.15・`preset.massLadder` 0.53 |
-| 🥚 `selfRotor` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 1.45・3 | `preset.selfRotor` 1.45・`behavior.selfrotor` 0.00・`behavior.selfrotor-multiseed` 0.00 |
-| 🌙 `earthMoonReal` | 69.1 | dt 34.3・dt/2 34.8 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・geo1 1033/36・families 8.00/all | 0.07・2 | `preset.earthMoonRealKF1` 0.05・`preset.earthMoonReal` 0.02 |
-| 🌘 `earthMoonRealKF1` | 130 | dt 64.9・dt/2 65.1 | shapecrit 106/all・bgequiv 96.0/3・bgbudget2 77.0/4・d68 153/all・emgrid 2295/5・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.05・1 | `preset.earthMoonRealKF1` 0.05 |
-| ⭕ `emAuditNewton` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.04・2 | `preset.emAuditNewton` 0.04・`behavior.emAudit` 0.00 |
-| 🧲 `emAuditDFM` | 115 | dt 58.0・dt/2 56.9 | shapecrit 106/all・d68 153/all・emgrid 2295/5・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.04・2 | `preset.emAuditDFM` 0.04・`behavior.emAudit` 0.00 |
-| 🔆 `emAuditSolar` | 3.02 | dt 1.06・dt/2 1.96 | shapecrit 106/all・d68 153/all・emgrid 2295/5・calcontract 2.00/all・families 8.00/all | 0.02・2 | `preset.emAuditSolar` 0.02・`behavior.emAudit` 0.00 |
-| 🌓 `earthMoonDiagOne` | — | — | shapecrit 106/all・d68 153/all・emgrid 2295/5・calcontract 2.00/all・dragprofile 2.00/21・families 8.00/all | 0.08・1 | `preset.earthMoonDiagOne` 0.08 |
-| 📶 `qLockRadialAudit` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 1.12・3 | `behavior.qlockRadial` 0.98・`preset.qLockRadialAudit` 0.07・`preset.qLockRadialAuditQ3` 0.07 |
-| 📐 `qLockRadialAuditQ3` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 1.05・2 | `behavior.qlockRadial` 0.98・`preset.qLockRadialAuditQ3` 0.07 |
-| ☄️ `mercuryReal` | 7.25 | dt 2.43・dt/2 4.82 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.08・2 | `preset.mercuryRealKF1` 0.05・`preset.mercuryReal` 0.03 |
-| 🔁 `mercuryGeoToy3` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・geo1 1033/36・families 8.00/all | 0.06・1 | `preset.mercuryGeoToy3` 0.06 |
-| 🪨 `mercuryRealKF1` | 13.1 | dt 4.30・dt/2 8.75 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・mercury 284/32・families 8.00/all | 0.05・1 | `preset.mercuryRealKF1` 0.05 |
-| 🌞 `solarInner` | 650 | dt 650 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・dragprofile 2.00/21・families 8.00/all | 4.16・2 | `preset.solarInner` 2.71・`behavior.solarInner` 1.45 |
-| 🟠 `jupiterGalilean` | 55.9 | dt 18.7・dt/2 37.2 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.38・2 | `behavior.jupiter` 0.35・`preset.jupiterGalilean` 0.02 |
-| 🌇 `venusReal` | 33.1 | dt 10.9・dt/2 22.2 | charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 3.98・2 | `behavior.venusReal` 3.94・`preset.venusReal` 0.04 |
-| 🥔 `marsMoonsReal` | 22.8 | dt 7.43・dt/2 15.3 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.04・2 | `preset.marsMoonsReal` 0.04・`behavior.marsMoonsReal` 0.00 |
-| ❄️ `plutoCharonReal` | 716 | dt 31.3・dt/2 61.8・dt/4 125・dt/8 249・dt/8 249 | charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charonk 979/1・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・charonfactors 308/1・shapecrit 106/all・bgequiv 96.0/3・bgbudget2 77.0/4・d68 153/all・charonInput 603/5・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.05・2 | `preset.plutoCharonReal` 0.05・`behavior.plutoCharonReal` 0.00 |
-| ⛄ `plutoCharonDFM` | — | — | charondfm 76.0/2・charonwin 87.0/2・shapecrit 106/all・d68 153/all・charonInput 603/5・calcontract 2.00/all・families 8.00/all | 9.30・2 | `behavior.plutoCharonDFM` 9.25・`preset.plutoCharonDFM` 0.06 |
-| 🌨️ `plutoCharonKF0Control` | — | — | charondfm 76.0/2・charonwin 87.0/2・shapecrit 106/all・d68 153/all・charonInput 603/5・calcontract 2.00/all・families 8.00/all | 0.04・1 | `preset.plutoCharonKF0Control` 0.04 |
-| 🥶 `plutoCharonDiagInput` | — | — | shapecrit 106/all・d68 153/all・charonInput 603/5・calcontract 2.00/all・geo1 1033/36・families 8.00/all | 0.03・1 | `preset.plutoCharonDiagInput` 0.03 |
-| ☃️ `plutoCharonSyncZero` | — | — | shapecrit 106/all・d68 153/all・charonInput 603/5・calcontract 2.00/all・families 8.00/all | 0.03・1 | `preset.plutoCharonSyncZero` 0.03 |
-| 🌒 `charonGeoToy3` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・families 8.00/all | 0.04・1 | `preset.charonGeoToy3` 0.04 |
-| 💠 `uranusReal` | 648 | dt 648 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・dragprofile 2.00/21・families 8.00/all | 1.97・2 | `preset.uranusReal` 1.97・`behavior.uranusReal` 0.00 |
-| 🌊 `neptuneReal` | 8.89 | dt 2.96・dt/2 5.93 | charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.02・2 | `preset.neptuneReal` 0.02・`behavior.neptuneReal` 0.00 |
-| 📡 `saturnZonalD68` | 89.1 | dt 3.94・dt/2 7.81・dt/4 15.5・dt/8 31.0・dt/8 31.0 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 6.51・4 | `zonal.d68-realunit` 6.45・`preset.saturnZonalD68` 0.04・`zonal.analytic-d68` 0.02 |
-| 🧷 `saturnD68Consistent` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.02・1 | `preset.saturnD68Consistent` 0.02 |
-| 📎 `saturnD68ObsOrbit` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.02・1 | `preset.saturnD68ObsOrbit` 0.02 |
-| 💍 `saturnRingReal` | 641 | dt 641 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・dragprofile 2.00/21・families 8.00/all | 8.13・3 | `preset.saturnRingRealKF1` 6.82・`preset.saturnRingReal` 1.26・`wave121.ui` 0.05 |
-| 💿 `saturnRingRealKF1` | 612 | dt 612 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・dragprofile 2.00/21・families 8.00/all | 6.82・1 | `preset.saturnRingRealKF1` 6.82 |
-| ✨ `alphaCenAB` | 64.9 | dt 9.52・dt/2 18.7・dt/4 36.7 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 3.37・3 | `behavior.alphaCenAB` 3.29・`preset.alphaCenABDFM` 0.05・`preset.alphaCenAB` 0.03 |
-| ✴️ `alphaCenABDFM` | 121 | dt 17.7・dt/2 34.2・dt/4 69.0 | nslock 688/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 3.33・2 | `behavior.alphaCenAB` 3.29・`preset.alphaCenABDFM` 0.05 |
-| 🌟 `siriusAB` | 40.9 | dt 5.91・dt/2 11.7・dt/4 23.3 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 2.38・3 | `behavior.siriusAB` 2.29・`preset.siriusAB` 0.04・`preset.siriusABDFM` 0.04 |
-| 💫 `siriusABDFM` | 73.2 | dt 10.4・dt/2 20.9・dt/4 41.9 | nslock 688/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 2.33・2 | `behavior.siriusAB` 2.29・`preset.siriusABDFM` 0.04 |
-| 📻 `psrDoubleAB` | 76.3 | dt 3.40・dt/2 6.74・dt/4 13.4・dt/8 26.4・dt/8 26.4 | shapecrit 106/all・bgequiv 96.0/3・bgbudget2 77.0/4・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.38・7 | `preset.psrDoubleABCF` 0.10・`preset.psrDoubleABGeoToy` 0.09・`preset.psrDoubleABSpinCal` 0.07 |
-| ⚡ `psrDoubleABDFM` | 66.7 | dt 2.92・dt/2 5.84・dt/4 11.5・dt/8 23.2・dt/8 23.2 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.05・2 | `preset.psrDoubleABDFM` 0.05・`behavior.psrDoubleAB` 0.00 |
-| 🩻 `psrDoubleABGeoToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.09・1 | `preset.psrDoubleABGeoToy` 0.09 |
-| 🧿 `psrDoubleABSpinCal` | 9.15 | dt 2.99・dt/2 6.16 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.07・1 | `preset.psrDoubleABSpinCal` 0.07 |
-| 🧮 `psrJ1757DFM` | 171 | dt 7.59・dt/2 14.8・dt/4 29.6・dt/8 59.6・dt/8 59.6 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.05・1 | `preset.psrJ1757DFM` 0.05 |
-| 🩺 `psrJ1946DFM` | 50.1 | dt 2.28・dt/2 4.38・dt/4 8.85・dt/8 17.3・dt/8 17.3 | j1946adopt 149/3・nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.02・1 | `preset.psrJ1946DFM` 0.02 |
-| 🪶 `psrDoubleABPN` | 8.92 | dt 2.94・dt/2 5.99 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.02・1 | `preset.psrDoubleABPN` 0.02 |
-| 🪃 `psrJ1757PN` | 22.6 | dt 7.73・dt/2 14.9 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.03・1 | `preset.psrJ1757PN` 0.03 |
-| 🪀 `psrJ1946PN` | 6.50 | dt 2.17・dt/2 4.33 | j1946adopt 149/3・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.03・1 | `preset.psrJ1946PN` 0.03 |
-| 🪝 `psrDoubleABCF` | 92.8 | dt 4.11・dt/2 8.07・dt/4 16.1・dt/8 32.3・dt/8 32.3 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.10・1 | `preset.psrDoubleABCF` 0.10 |
-| 🪄 `psrJ1757CF` | 234 | dt 10.4・dt/2 20.2・dt/4 40.5・dt/8 81.6・dt/8 81.6 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.06・1 | `preset.psrJ1757CF` 0.06 |
-| 🩹 `psrJ1946CF` | 68.6 | dt 3.00・dt/2 5.96・dt/4 11.8・dt/8 23.9・dt/8 23.9 | j1946adopt 149/3・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.05・1 | `preset.psrJ1946CF` 0.05 |
-| 📿 `psrB1534` | 102 | dt 17.3・dt/2 34.5・dt/4 50.4 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.14・3 | `preset.psrB1534CF` 0.06・`preset.psrB1534DFM` 0.04・`preset.psrB1534` 0.03 |
-| 🧶 `psrB1534DFM` | 97.6 | dt 14.0・dt/2 27.7・dt/4 55.9 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 0.04・1 | `preset.psrB1534DFM` 0.04 |
-| 🪤 `psrB1534CF` | 133 | dt 19.4・dt/2 37.8・dt/4 75.5 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・geo1 1033/36・families 8.00/all | 0.06・1 | `preset.psrB1534CF` 0.06 |
-| 🎐 `gw150914` | 1.99 | dt 0.68・dt/2 1.32 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 4.00・5 | `behavior.gw150914` 3.84・`preset.gw150914DFM` 0.07・`preset.gw150914Merge4s` 0.05 |
-| 🎻 `gw150914DFM` | 1.47 | dt 0.54・dt/2 0.93 | shapecrit 106/all・d68 153/all・geo3 1016/34・analogy 148/7・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・geo1 1033/36・families 8.00/all | 3.91・2 | `behavior.gw150914` 3.84・`preset.gw150914DFM` 0.07 |
-| ⏰ `gw150914Merge4s` | 0.10 | dt 0.04・dt/2 0.06 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.05・1 | `preset.gw150914Merge4s` 0.05 |
-| ⚛️ `gw150914SpinDipole` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.02・1 | `preset.gw150914SpinDipole` 0.02 |
-| 🍇 `tuc47` | — | — | cluster 84.0/3・shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 9.73・3 | `preset.tuc47DFM` 6.32・`preset.tuc47` 3.41・`behavior.tuc47` 0.00 |
-| 🫐 `tuc47DFM` | — | — | cluster 84.0/3・shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 6.32・1 | `preset.tuc47DFM` 6.32 |
-| 🌃 `ngc3198` | — | — | sparc 192/3・galaxydiag 352/2・shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 16.4・3 | `preset.ngc3198DFM` 11.2・`preset.ngc3198` 5.20・`behavior.ngc3198` 0.00 |
-| 🛞 `ngc3198DFM` | — | — | sparc 192/3・galaxydiag 352/2・shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・families 8.00/all | 11.2・1 | `preset.ngc3198DFM` 11.2 |
-| 🥀 `supernovaProg` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.03・2 | `preset.supernovaProg` 0.01・`preset.supernovaProgDFM` 0.01 |
-| 🌹 `supernovaProgDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.01・1 | `preset.supernovaProgDFM` 0.01 |
-| 🦀 `crabRemnant` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.50・1 | `preset.crabRemnant` 0.50 |
-| 🕶️ `darkrotor` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 7.41・8 | `shot.regress-darkrotor` 4.03・`preset.darkrotor` 3.34・`darkrotor.uphi` 0.02 |
-| 🌑 `nebulaRotor` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 4.47・2 | `claim.nebularotor-contrast` 4.10・`preset.nebulaRotor` 0.37 |
-| 🐚 `nebulaShell` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 3.57・2 | `claim.nebulashell-stress` 3.18・`preset.nebulaShell` 0.39 |
-| ⏳ `nebulaBipolar` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 17.2・3 | `claim.nebulabipolar-multiseed` 12.3・`claim.nebulabipolar-polar` 4.75・`preset.nebulaBipolar` 0.16 |
-| ⚫ `bhCore` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 6.22・4 | `preset.bhCoreTilt` 3.13・`preset.bhCore` 3.07・`claim.bhcore-selfdrive` 0.02 |
-| 🪩 `bhCoreTilt` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 3.13・1 | `preset.bhCoreTilt` 3.13 |
-| 🌱 `starSeed` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・families 8.00/all | 0.11・2 | `claim.starseed-powerball` 0.09・`preset.starSeed` 0.03 |
+| ⚾ `projectile` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・2 | `preset.projectile` 0.02・`projectile.layout` 0.00 |
+| ⏪ `echo` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.17・8 | `echo.leapfrog-return` 0.55・`echo.hud` 0.40・`shot.regress-echo` 0.15 |
+| 🪗 `compactForceToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.05・1 | `preset.compactForceToy` 0.05 |
+| 🫂 `boxBinaryToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.04・1 | `preset.boxBinaryToy` 0.04 |
+| 🪟 `spaceMeshBinaryToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.10・1 | `preset.spaceMeshBinaryToy` 0.10 |
+| 🌌 `galaxy` | — | — | nslock 688/9・sparc 192/3・cluster 84.0/3・shapecrit 106/all・bgbudget2 77.0/4・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 29.3・3 | `claim.galaxy-outerboost` 19.0・`shot.regress-galaxy` 6.17・`preset.galaxy` 4.05 |
+| 🎡 `galaxyStd` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 4.40・2 | `preset.galaxyStd` 4.39・`claim.galaxystd-outerboost` 0.01 |
+| 💫 `galaxyGeo2` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 6.90・2 | `preset.galaxyGeo2` 6.90・`claim.galaxygeo2-outerboost` 0.00 |
+| 🍳 `galaxyDB` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.59・2 | `preset.galaxyDB` 3.59・`claim.galaxydb-contrast` 0.01 |
+| 🌫️ `collapse` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 23.9・3 | `collapse.rotation` 22.3・`preset.collapse` 1.56・`behavior.collapse-cooling` 0.00 |
+| 🥢 `axisBarStill` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 6.75・1 | `preset.axisBarStill` 6.75 |
+| 🎏 `axisBarArms` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 6.25・1 | `preset.axisBarArms` 6.25 |
+| 🎚️ `axisBarReach` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 6.08・1 | `preset.axisBarReach` 6.08 |
+| 🎠 `galaxyMeshSpiral` | — | — | shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.48・2 | `preset.galaxyMeshSpiral` 3.48・`behavior.galaxyMesh` 0.00 |
+| 🪁 `galaxyMeshSpiralGeoToy` | — | — | shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 7.34・1 | `preset.galaxyMeshSpiralGeoToy` 7.34 |
+| 🎋 `galaxyMeshSpiralGeoToyLite` | — | — | shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.82・1 | `preset.galaxyMeshSpiralGeoToyLite` 1.82 |
+| 🌚 `galaxyAnalogyBH` | — | — | shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.36・1 | `preset.galaxyAnalogyBH` 3.36 |
+| 💮 `clusterAnalogyBH` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 帰属なし | — |
+| 🔮 `shapeToyCluster` | — | — | shapetoy 265/3・shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.04・1 | `preset.shapeToyCluster` 1.04 |
+| 🥏 `shapeToyDisk` | — | — | shapetoy 265/3・shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.50・1 | `preset.shapeToyDisk` 1.50 |
+| 🧵 `shapeToyArm` | — | — | shapetoy 265/3・shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.57・1 | `preset.shapeToyArm` 0.57 |
+| 🎱 `shapeToyClusterCore` | — | — | shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.19・1 | `preset.shapeToyClusterCore` 1.19 |
+| 📀 `shapeToyDiskCore` | — | — | shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.42・1 | `preset.shapeToyDiskCore` 1.42 |
+| 🧹 `shapeToyArmCore` | — | — | shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.52・1 | `preset.shapeToyArmCore` 0.52 |
+| 🌍 `earthMoon` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.59・3 | `behavior.earthMoon` 0.31・`preset.earthMoon` 0.15・`shot.regress-earthMoon` 0.13 |
+| 🌕 `earthMoonFree` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.20・2 | `behavior.earthMoonFree` 1.18・`preset.earthMoonFree` 0.02 |
+| ☿ `mercury` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.56・2 | `behavior.mercury-builtin` 0.54・`preset.mercury` 0.01 |
+| 🪐 `saturn` | — | — | shapecrit 106/all・corefield 187/5・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 5.03・6 | `shot.regress-saturn` 2.65・`preset.saturn` 2.38・`behavior.saturn` 0.00 |
+| 🎯 `saturnLayered` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 4.84・4 | `shot.regress-saturnLayered` 2.75・`preset.saturnLayered` 2.08・`core.twolayer` 0.01 |
+| ⭐ `binary` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 2.14・4 | `preset.binary` 2.08・`ai.obs-binary` 0.06・`preset.kframe-binary-default` 0.00 |
+| ♾️ `fig8` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.13・2 | `shot.regress-fig8` 0.11・`preset.fig8` 0.02 |
+| 💥 `counterring` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.87・2 | `preset.counterring` 0.87・`new.counterring` 0.00 |
+| 🌪️ `spinup` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.99・3 | `shot.regress-spinup` 1.09・`preset.spinup` 0.90・`behavior.spinup` 0.00 |
+| 🏮 `pulsarSolo` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.21・1 | `preset.pulsarSolo` 0.21 |
+| 🎇 `supernovaCore` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.12・1 | `preset.supernovaCore` 0.12 |
+| ⚪ `whiteDwarfDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.03・1 | `preset.whiteDwarfDFM` 0.03 |
+| 🔘 `whiteDwarfBareDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.11・1 | `preset.whiteDwarfBareDFM` 0.11 |
+| 🎆 `envelopeShedDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・1 | `preset.envelopeShedDFM` 0.02 |
+| 🐮 `lfbotTrap` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.20・2 | `preset.lfbotTrap` 0.13・`preset.lfbotTrap` 0.08 |
+| 🧅 `layeredCoreDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.03・1 | `preset.layeredCoreDFM` 0.03 |
+| ⚙️ `spinDipoleBinary` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.01・1 | `preset.spinDipoleBinary` 0.01 |
+| 🌬️ `gasCohSurface` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.23・2 | `behavior.gasCohSurface` 0.16・`preset.gasCohSurface` 0.06 |
+| ⏱️ `gclock` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 14.3・3 | `new.gclock` 14.1・`shot.regress-gclock` 0.20・`preset.gclock` 0.03 |
+| 🛰️ `grcal` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.05・4 | `preset.grcal` 0.04・`grcal.clocks` 0.01・`grcal.calib-text` 0.00 |
+| 🕰️ `grcalGps` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.15・2 | `behavior.grcal3` 0.12・`preset.grcalGps` 0.03 |
+| 🌟 `grcalLight` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.15・2 | `behavior.grcal3` 0.12・`preset.grcalLight` 0.03 |
+| ⏲️ `grcalShapiro` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.16・2 | `behavior.grcal3` 0.12・`preset.grcalShapiro` 0.04 |
+| 💡 `lensing` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.17・2 | `shot.regress-lensing` 0.14・`preset.lensing` 0.03 |
+| 🌗 `spinlens` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・2 | `preset.spinlens` 0.02・`spinlens.kframe-control` 0.00 |
+| 🔭 `blens` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.04・2 | `preset.blens` 0.03・`behavior.blens` 0.02 |
+| 🌆 `reddening` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.33・2 | `preset.reddening` 0.30・`claim.reddening` 0.03 |
+| 🪞 `mmPhaseToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.03・1 | `preset.mmPhaseToy` 0.03 |
+| 🔥 `gas` | — | — | shapecrit 106/all・d68 153/all・emgrid 2295/5・analogy 148/7・calcontract 2.00/all・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 31.4・3 | `behavior.gas` 27.0・`shot.regress-gas` 2.37・`preset.gas` 2.09 |
+| 🎈 `pressure` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 15.7・3 | `behavior.pressure` 12.3・`preset.pressure` 2.13・`freebox.pressure-expand` 1.24 |
+| 📏 `conduction` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.01・4 | `behavior.conduction` 0.84・`preset.conduction` 0.12・`conduction.pinned-zero-cost` 0.05 |
+| 🛷 `frictionHeat` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.08・1 | `preset.frictionHeat` 1.08 |
+| 🌈 `coolrace` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・2 | `preset.coolrace` 0.02・`new.coolrace` 0.00 |
+| ♨️ `convection` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.98・4 | `shot.regress-convection` 2.16・`preset.convection` 1.82・`perf.convection-timescale` 0.01 |
+| 🧪 `buoyancy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 63.4・2 | `behavior.buoyancy` 60.8・`preset.buoyancy` 2.56 |
+| ☕ `cooling` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.73・2 | `preset.cooling` 1.73・`behavior.collapse-cooling` 0.00 |
+| 🧬 `emergent` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.93・3 | `preset.emergent` 0.93・`phasechange.emergent` 0.00・`behavior.phase-multiseed` 0.00 |
+| 🧊 `emergent2` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.62・3 | `preset.emergent2` 1.62・`phasechange.emergent2` 0.00・`behavior.phase-multiseed` 0.00 |
+| ⛓️ `chain2` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.90・3 | `preset.chain2` 0.90・`phasechange.chain2` 0.00・`behavior.phase-multiseed` 0.00 |
+| ♻️ `chaincycle` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.23・3 | `preset.chaincycle` 1.23・`claim.chaincycle` 0.00・`behavior.phase-multiseed` 0.00 |
+| 📦 `boxtrans` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.16・1 | `preset.boxtrans` 0.16 |
+| 🌀 `boxrot` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.22・1 | `preset.boxrot` 0.22 |
+| 📈 `boxexpand` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.31・1 | `preset.boxexpand` 0.31 |
+| 🫧 `boxcomoving` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.39・2 | `shot.regress-boxcomoving` 0.26・`preset.boxcomoving` 0.13 |
+| 🪢 `boxbound` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.35・2 | `behavior.boxbound` 0.31・`preset.boxbound` 0.04 |
+| 🫁 `boxbreath` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.11・1 | `preset.boxbreath` 0.11 |
+| 🔦 `boxredshift` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.19・3 | `shot.regress-boxredshift` 0.13・`box.photon-abc` 0.05・`preset.boxredshift` 0.02 |
+| 🧭 `probeH` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.17・2 | `preset.probeH` 0.09・`behavior.probeH` 0.08 |
+| 🕊️ `freebox` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 2.22・11 | `freebox.pressure-expand` 1.24・`preset.freebox` 0.37・`shot.regress-freebox` 0.30 |
+| 🕸️ `cosmicweb` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 4.17・2 | `preset.cosmicweb` 4.17・`behavior.cosmicweb` 0.00 |
+| 🕳️ `rotorSolo` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.07・2 | `behavior.rotorSolo` 0.97・`preset.rotorSolo` 0.10 |
+| 🪜 `massLadder` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 5.68・2 | `claim.massladder` 5.15・`preset.massLadder` 0.53 |
+| 🥚 `selfRotor` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.45・3 | `preset.selfRotor` 1.45・`behavior.selfrotor` 0.00・`behavior.selfrotor-multiseed` 0.00 |
+| 🌙 `earthMoonReal` | 90.3 | dt 44.8・dt/2 45.4 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・1 | `preset.earthMoonReal` 0.02 |
+| 🌘 `earthMoonRealKF1` | 166 | dt 83.6・dt/2 82.1 | shapecrit 106/all・bgequiv 96.0/3・bgbudget2 77.0/4・d68 153/all・emgrid 2295/5・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.05・1 | `preset.earthMoonRealKF1` 0.05 |
+| ⭕ `emAuditNewton` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.04・2 | `preset.emAuditNewton` 0.04・`behavior.emAudit` 0.00 |
+| 🧲 `emAuditDFM` | 142 | dt 70.4・dt/2 71.7 | shapecrit 106/all・d68 153/all・emgrid 2295/5・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.04・2 | `preset.emAuditDFM` 0.04・`behavior.emAudit` 0.00 |
+| 🔆 `emAuditSolar` | 3.58 | dt 1.26・dt/2 2.32 | shapecrit 106/all・d68 153/all・emgrid 2295/5・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・2 | `preset.emAuditSolar` 0.02・`behavior.emAudit` 0.00 |
+| 🌓 `earthMoonDiagOne` | — | — | shapecrit 106/all・d68 153/all・emgrid 2295/5・calcontract 2.00/all・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.08・1 | `preset.earthMoonDiagOne` 0.08 |
+| 📶 `qLockRadialAudit` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.05・2 | `behavior.qlockRadial` 0.98・`preset.qLockRadialAudit` 0.07 |
+| 📐 `qLockRadialAuditQ3` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.05・2 | `behavior.qlockRadial` 0.98・`preset.qLockRadialAuditQ3` 0.07 |
+| ☄️ `mercuryReal` | 9.25 | dt 2.95・dt/2 6.30 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.03・1 | `preset.mercuryReal` 0.03 |
+| 🔁 `mercuryGeoToy3` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.06・1 | `preset.mercuryGeoToy3` 0.06 |
+| 🪨 `mercuryRealKF1` | 16.2 | dt 5.32・dt/2 10.8 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.05・1 | `preset.mercuryRealKF1` 0.05 |
+| 🌞 `solarInner` | 838 | dt 838 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 4.16・2 | `preset.solarInner` 2.71・`behavior.solarInner` 1.45 |
+| 🟠 `jupiterGalilean` | 67.3 | dt 22.5・dt/2 44.7 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.38・2 | `behavior.jupiter` 0.35・`preset.jupiterGalilean` 0.02 |
+| 🌇 `venusReal` | 40.7 | dt 14.3・dt/2 26.4 | charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.98・2 | `behavior.venusReal` 3.94・`preset.venusReal` 0.04 |
+| 🥔 `marsMoonsReal` | 27.3 | dt 9.03・dt/2 18.3 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.04・2 | `preset.marsMoonsReal` 0.04・`behavior.marsMoonsReal` 0.00 |
+| ❄️ `plutoCharonReal` | 262 | dt 37.6・dt/2 74.5・dt/4 150 | charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charonk 979/1・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・charonfactors 308/1・shapecrit 106/all・bgequiv 96.0/3・bgbudget2 77.0/4・d68 153/all・charonInput 603/5・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.05・2 | `preset.plutoCharonReal` 0.05・`behavior.plutoCharonReal` 0.00 |
+| ⛄ `plutoCharonDFM` | — | — | charondfm 76.0/2・charonwin 87.0/2・shapecrit 106/all・d68 153/all・charonInput 603/5・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 9.30・2 | `behavior.plutoCharonDFM` 9.25・`preset.plutoCharonDFM` 0.06 |
+| 🌨️ `plutoCharonKF0Control` | — | — | charondfm 76.0/2・charonwin 87.0/2・shapecrit 106/all・d68 153/all・charonInput 603/5・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.04・1 | `preset.plutoCharonKF0Control` 0.04 |
+| 🥶 `plutoCharonDiagInput` | — | — | shapecrit 106/all・d68 153/all・charonInput 603/5・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.03・1 | `preset.plutoCharonDiagInput` 0.03 |
+| ☃️ `plutoCharonSyncZero` | — | — | shapecrit 106/all・d68 153/all・charonInput 603/5・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.03・1 | `preset.plutoCharonSyncZero` 0.03 |
+| 🌒 `charonGeoToy3` | — | — | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.04・1 | `preset.charonGeoToy3` 0.04 |
+| 💠 `uranusReal` | 833 | dt 833 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.97・2 | `preset.uranusReal` 1.97・`behavior.uranusReal` 0.00 |
+| 🌊 `neptuneReal` | 10.6 | dt 3.58・dt/2 7.04 | charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・2 | `preset.neptuneReal` 0.02・`behavior.neptuneReal` 0.00 |
+| 📡 `saturnZonalD68` | 34.9 | dt 5.22・dt/2 9.89・dt/4 19.8 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 6.51・4 | `zonal.d68-realunit` 6.45・`preset.saturnZonalD68` 0.04・`zonal.analytic-d68` 0.02 |
+| 🧷 `saturnD68Consistent` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・1 | `preset.saturnD68Consistent` 0.02 |
+| 📎 `saturnD68ObsOrbit` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・1 | `preset.saturnD68ObsOrbit` 0.02 |
+| 💍 `saturnRingReal` | 829 | dt 829 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 1.30・2 | `preset.saturnRingReal` 1.26・`wave121.ui` 0.05 |
+| 💿 `saturnRingRealKF1` | 821 | dt 821 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 6.82・1 | `preset.saturnRingRealKF1` 6.82 |
+| ✨ `alphaCenAB` | 80.8 | dt 11.7・dt/2 23.0・dt/4 46.0 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.32・2 | `behavior.alphaCenAB` 3.29・`preset.alphaCenAB` 0.03 |
+| ✴️ `alphaCenABDFM` | 146 | dt 20.8・dt/2 42.2・dt/4 82.6 | nslock 688/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.33・2 | `behavior.alphaCenAB` 3.29・`preset.alphaCenABDFM` 0.05 |
+| 🌟 `siriusAB` | 48.9 | dt 6.94・dt/2 14.0・dt/4 27.9 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 2.33・2 | `behavior.siriusAB` 2.29・`preset.siriusAB` 0.04 |
+| 💫 `siriusABDFM` | 90.0 | dt 12.7・dt/2 25.8・dt/4 51.6 | nslock 688/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 2.33・2 | `behavior.siriusAB` 2.29・`preset.siriusABDFM` 0.04 |
+| 📻 `psrDoubleAB` | 28.0 | dt 4.09・dt/2 8.20・dt/4 15.7 | shapecrit 106/all・bgequiv 96.0/3・bgbudget2 77.0/4・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.04・2 | `preset.psrDoubleAB` 0.04・`behavior.psrDoubleAB` 0.00 |
+| ⚡ `psrDoubleABDFM` | 23.9 | dt 3.44・dt/2 6.74・dt/4 13.7 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.05・2 | `preset.psrDoubleABDFM` 0.05・`behavior.psrDoubleAB` 0.00 |
+| 🩻 `psrDoubleABGeoToy` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.09・1 | `preset.psrDoubleABGeoToy` 0.09 |
+| 🧿 `psrDoubleABSpinCal` | 11.1 | dt 3.62・dt/2 7.47 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.07・1 | `preset.psrDoubleABSpinCal` 0.07 |
+| 🧮 `psrJ1757DFM` | 62.8 | dt 8.94・dt/2 17.1・dt/4 36.8 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.05・1 | `preset.psrJ1757DFM` 0.05 |
+| 🩺 `psrJ1946DFM` | 18.6 | dt 2.68・dt/2 5.58・dt/4 10.3 | j1946adopt 149/3・nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・1 | `preset.psrJ1946DFM` 0.02 |
+| 🪶 `psrDoubleABPN` | 10.7 | dt 3.49・dt/2 7.22 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・1 | `preset.psrDoubleABPN` 0.02 |
+| 🪃 `psrJ1757PN` | 27.3 | dt 9.02・dt/2 18.3 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.03・1 | `preset.psrJ1757PN` 0.03 |
+| 🪀 `psrJ1946PN` | 7.79 | dt 2.57・dt/2 5.23 | j1946adopt 149/3・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.03・1 | `preset.psrJ1946PN` 0.03 |
+| 🪝 `psrDoubleABCF` | 30.9 | dt 4.36・dt/2 9.03・dt/4 17.6 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.10・1 | `preset.psrDoubleABCF` 0.10 |
+| 🪄 `psrJ1757CF` | 81.0 | dt 11.3・dt/2 23.7・dt/4 46.0 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.06・1 | `preset.psrJ1757CF` 0.06 |
+| 🩹 `psrJ1946CF` | 22.7 | dt 3.29・dt/2 6.45・dt/4 13.0 | j1946adopt 149/3・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.05・1 | `preset.psrJ1946CF` 0.05 |
+| 📿 `psrB1534` | 122 | dt 20.3・dt/2 40.5・dt/4 61.4 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.03・1 | `preset.psrB1534` 0.03 |
+| 🧶 `psrB1534DFM` | 116 | dt 16.7・dt/2 33.6・dt/4 66.0 | nslock 688/9・charon-h 677/9・charon-h2 1407/9・charon-h4 700/9・charoneps-h 212/9・charoneps-h2 430/9・charoneps-h4 847/9・shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.04・1 | `preset.psrB1534DFM` 0.04 |
+| 🪤 `psrB1534CF` | 147 | dt 21.0・dt/2 42.0・dt/4 83.9 | shapecrit 106/all・d68 153/all・geo3 1016/34・calcontract 2.00/all・mercury 284/32・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.06・1 | `preset.psrB1534CF` 0.06 |
+| 🎐 `gw150914` | 2.33 | dt 0.78・dt/2 1.54 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.87・2 | `behavior.gw150914` 3.84・`preset.gw150914` 0.03 |
+| 🎻 `gw150914DFM` | 1.65 | dt 0.62・dt/2 1.03 | shapecrit 106/all・d68 153/all・geo3 1016/34・analogy 148/7・calcontract 2.00/all・mercury 284/32・dragprofile 2.00/21・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.91・2 | `behavior.gw150914` 3.84・`preset.gw150914DFM` 0.07 |
+| ⏰ `gw150914Merge4s` | 0.14 | dt 0.06・dt/2 0.09 | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.05・1 | `preset.gw150914Merge4s` 0.05 |
+| ⚛️ `gw150914SpinDipole` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.02・1 | `preset.gw150914SpinDipole` 0.02 |
+| 🍇 `tuc47` | — | — | cluster 84.0/3・shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.41・2 | `preset.tuc47` 3.41・`behavior.tuc47` 0.00 |
+| 🫐 `tuc47DFM` | — | — | cluster 84.0/3・shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 6.32・1 | `preset.tuc47DFM` 6.32 |
+| 🌃 `ngc3198` | — | — | sparc 192/3・galaxydiag 352/2・shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 5.21・2 | `preset.ngc3198` 5.20・`behavior.ngc3198` 0.00 |
+| 🛞 `ngc3198DFM` | — | — | sparc 192/3・galaxydiag 352/2・shapecrit 106/all・d68 153/all・analogy 148/7・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 11.2・1 | `preset.ngc3198DFM` 11.2 |
+| 🥀 `supernovaProg` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.01・1 | `preset.supernovaProg` 0.01 |
+| 🌹 `supernovaProgDFM` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.01・1 | `preset.supernovaProgDFM` 0.01 |
+| 🦀 `crabRemnant` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.50・1 | `preset.crabRemnant` 0.50 |
+| 🕶️ `darkrotor` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 7.41・8 | `shot.regress-darkrotor` 4.03・`preset.darkrotor` 3.34・`darkrotor.uphi` 0.02 |
+| 🌑 `nebulaRotor` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 4.47・2 | `claim.nebularotor-contrast` 4.10・`preset.nebulaRotor` 0.37 |
+| 🐚 `nebulaShell` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.57・2 | `claim.nebulashell-stress` 3.18・`preset.nebulaShell` 0.39 |
+| ⏳ `nebulaBipolar` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 17.2・3 | `claim.nebulabipolar-multiseed` 12.3・`claim.nebulabipolar-polar` 4.75・`preset.nebulaBipolar` 0.16 |
+| ⚫ `bhCore` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.10・3 | `preset.bhCore` 3.07・`claim.bhcore-selfdrive` 0.02・`claim.bhcore-free` 0.01 |
+| 🪩 `bhCoreTilt` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 3.13・1 | `preset.bhCoreTilt` 3.13 |
+| 🌱 `starSeed` | — | — | shapecrit 106/all・d68 153/all・calcontract 2.00/all・clusterAnalogy 658/all・geomode 1608/all・families 8.00/all・heavy 368/all | 0.11・2 | `claim.starseed-powerball` 0.09・`preset.starSeed` 0.03 |

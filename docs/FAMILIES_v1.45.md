@@ -54,14 +54,14 @@
 | ❄️ | `plutoCharonReal` | primary | 主系列(較正母集団) | 基準 | calibration・dfm | ○ | 2 | 1 | 0.006 | — | 11.9386 | — | — | — | 旧入力の冥王星–カロンを照合する | `behavior.plutoCharonReal` |
 | ⛄ | `plutoCharonDFM` | variant | 診断(principle・「零」) | 違う入力(質量・位置・速度) | principle | — | 2 | 0 | 0.006 | — | 11.9386 | — | pairSlip | — | 同一観測解の二体に零条件つき引きずり則を載せる | `behavior.plutoCharonDFM` |
 | 🌨️ | `plutoCharonKF0Control` | variant | 診断(principle・「対照」) | 違う入力(質量・位置・速度) | principle | — | 2 | 0 | 0.006 | — | 11.9386 | — | — | — | ⛄ と同じ入力で則だけを外した kF0 対照 | — |
-| 🥶 | `plutoCharonDiagInput` | variant | 診断(principle・「対照」) | 違う入力(質量・位置・速度) | principle | — | 2 | 0 | 0.006 | — | 11.9386 | — | — | — | ❄️ の入力の丸めと軟化を外した kF0 診断コピー | — |
+| 🥶 | `plutoCharonDiagInput` | variant | 診断(principle・「対照」) | 違う入力(質量・位置・速度) | principle | — | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | ❄️ の入力の丸めと軟化を外した kF0 診断コピー | — |
 | ☃️ | `plutoCharonSyncZero` | variant | 診断(principle・「零」) | 違う入力(質量・位置・速度) | principle | — | 0 | 0 | 0.006 | — | 11.9386 | — | pairSlip | — | 厳密同期円で相対すべり則の零条件を走行中も試す | — |
 | 🌒 | `charonGeoToy3` | variant | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 0.006 | — | 11.9386 | — | — | vertex | 太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる | — |
 
 **鍵ごとの差**(physics の同じ鍵 24):
 
 - `physics.backgroundComplex`: plutoCharonReal=— / plutoCharonDFM=— / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero=— / charonGeoToy3={"background":"declared","W0":5.699987574282822e-9,"A0":[0,2.7018851611140787e-9],"gradW":[-1.930092225608931e-15,0],"gradA":[0,0,-9.148945459956653e-16,0],"dWdt":0,"dAdt":[2.1683731460773505e-16,0],"note":"第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)","sources":[{"id":"sun","kind":"body","excludedExplicit":true}],"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}}
-- `physics.geoPN`: plutoCharonReal=2 / plutoCharonDFM=2 / plutoCharonKF0Control=2 / plutoCharonDiagInput=2 / plutoCharonSyncZero=0 / charonGeoToy3=3
+- `physics.geoPN`: plutoCharonReal=2 / plutoCharonDFM=2 / plutoCharonKF0Control=2 / plutoCharonDiagInput=1 / plutoCharonSyncZero=0 / charonGeoToy3=3
 - `physics.kFrame`: plutoCharonReal=1 / plutoCharonDFM=0 / plutoCharonKF0Control=0 / plutoCharonDiagInput=0 / plutoCharonSyncZero=0 / charonGeoToy3=0
 - `physics.massPrecision`: plutoCharonReal=— / plutoCharonDFM=double / plutoCharonKF0Control=double / plutoCharonDiagInput=double / plutoCharonSyncZero=double / charonGeoToy3=—
 - `physics.meshVelocity`: plutoCharonReal=— / plutoCharonDFM=— / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero=— / charonGeoToy3={"law":"vMinusU","field":"backgroundComplex","mutual":0,"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}}
@@ -91,14 +91,14 @@
 | ⭕ | `emAuditNewton` | variant | 比較(上のどれでもない) | 違う入力(速度) | principle | — | 2 | 0 | 0.1 | — | 3 | — | — | — | 純二体では月の近点回転が出ないことを示す | `behavior.emAudit` |
 | 🧲 | `emAuditDFM` | variant | 主系列(較正母集団) | 違う入力(速度) | calibration・dfm | ○ | 2 | 1 | 0.006 | — | 8.2358 | — | — | — | 月の較正窓の一致が長期に続くかを調べる | `behavior.emAudit` |
 | 🔆 | `emAuditSolar` | variant | 主系列(較正母集団) | 違う入力(本数・質量・位置・速度) | calibration・kf0 | ○ | 0 | 0 | 0.1 | — | 3 | — | — | — | 太陽摂動だけで月の近点回転を出す | `behavior.emAudit` |
-| 🌓 | `earthMoonDiagOne` | variant | 診断(principle・「診断」) | 違う入力(速度) | principle | — | 2 | 0 | 0.006 | — | 8.2358 | — | — | — | 🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断 | — |
+| 🌓 | `earthMoonDiagOne` | variant | 診断(principle・「診断」) | 違う入力(速度) | principle | — | 1 | 0 | 0.006 | — | 8.2358 | — | — | — | 🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断 | — |
 
 **鍵ごとの差**(physics の同じ鍵 19):
 
 - `physics.D0`: earthMoonRealKF1=0.006 / earthMoonReal=0.1 / emAuditNewton=0.1 / emAuditDFM=0.006 / emAuditSolar=0.1 / earthMoonDiagOne=0.006
 - `physics.D0pull`: earthMoonRealKF1=0.0000324204 / earthMoonReal=— / emAuditNewton=— / emAuditDFM=— / emAuditSolar=— / earthMoonDiagOne=—
 - `physics.frameWeight`: earthMoonRealKF1=— / earthMoonReal=share / emAuditNewton=share / emAuditDFM=share / emAuditSolar=share / earthMoonDiagOne=—
-- `physics.geoPN`: earthMoonRealKF1=2 / earthMoonReal=2 / emAuditNewton=2 / emAuditDFM=2 / emAuditSolar=0 / earthMoonDiagOne=2
+- `physics.geoPN`: earthMoonRealKF1=2 / earthMoonReal=2 / emAuditNewton=2 / emAuditDFM=2 / emAuditSolar=0 / earthMoonDiagOne=1
 - `physics.kFrame`: earthMoonRealKF1=1 / earthMoonReal=0 / emAuditNewton=0 / emAuditDFM=1 / emAuditSolar=0 / earthMoonDiagOne=0
 - `physics.meshVelocity`: earthMoonRealKF1=— / earthMoonReal=— / emAuditNewton=— / emAuditDFM=— / emAuditSolar=— / earthMoonDiagOne={"law":"vMinusU","field":"explicit","mutual":0,"frame":{"origin":"barycenter","epoch":"🌘 t=0","rotation":"none","translation":"comoving"},"external":["body:0"]}
 - `physics.q`: earthMoonRealKF1=8.2358 / earthMoonReal=3 / emAuditNewton=3 / emAuditDFM=8.2358 / emAuditSolar=3 / earthMoonDiagOne=8.2358
@@ -161,14 +161,15 @@
 | 💿 | `saturnRingRealKF1` | primary | 主系列(較正母集団) | 基準 | calibration・dfm | ○ | 2 | 1 | 0.006 | 0.0000324204 | 20.4932 | — | — | — | 土星の環を kF1 と自動算出 q で照合する | — |
 | 💍 | `saturnRingReal` | variant | 主系列(較正母集団) | 同じ入力 | calibration・kf0 | ○ | 2 | 0 | 0.1 | — | 3 | — | — | — | 実単位の土星の環を kF0 で照合する | `wave121.ui` |
 | 📡 | `saturnZonalD68` | variant | 主系列(較正母集団) | 違う入力(本数・質量・位置・速度) | calibration・kf0 | ○ | 2 | 0 | 0.1 | — | 3 | — | — | — | 帯状重力係数で D68 の近点移動を照合する | `zonal.analytic-d68` `zonal.d68-preset` `zonal.d68-realunit` |
-| 🧷 | `saturnD68Consistent` | variant | 診断(principle・「診断」) | 違う入力(本数・質量・位置・速度) | principle | — | 2 | 0 | 0.1 | — | 3 | — | — | — | 📡 の差を同じ窓で初速の幾何と他の要因に分ける | — |
-| 📎 | `saturnD68ObsOrbit` | variant | 診断(principle・「診断」) | 違う入力(本数・質量・位置・速度) | principle | — | 2 | 0 | 0.1 | — | 3 | — | — | — | 観測の a と ae の定義で置いた D68 の近点移動を測る | — |
+| 🧷 | `saturnD68Consistent` | variant | 診断(principle・「診断」) | 違う入力(本数・質量・位置・速度) | principle | — | 1 | 0 | 0.1 | — | 3 | — | — | — | 📡 の差を同じ窓で初速の幾何と他の要因に分ける | — |
+| 📎 | `saturnD68ObsOrbit` | variant | 診断(principle・「診断」) | 違う入力(本数・質量・位置・速度) | principle | — | 1 | 0 | 0.1 | — | 3 | — | — | — | 観測の a と ae の定義で置いた D68 の近点移動を測る | — |
 
-**鍵ごとの差**(physics の同じ鍵 19):
+**鍵ごとの差**(physics の同じ鍵 18):
 
 - `physics.D0`: saturnRingRealKF1=0.006 / saturnRingReal=0.1 / saturnZonalD68=0.1 / saturnD68Consistent=0.1 / saturnD68ObsOrbit=0.1
 - `physics.D0pull`: saturnRingRealKF1=0.0000324204 / saturnRingReal=— / saturnZonalD68=— / saturnD68Consistent=— / saturnD68ObsOrbit=—
 - `physics.frameWeight`: saturnRingRealKF1=— / saturnRingReal=share / saturnZonalD68=share / saturnD68Consistent=share / saturnD68ObsOrbit=share
+- `physics.geoPN`: saturnRingRealKF1=2 / saturnRingReal=2 / saturnZonalD68=2 / saturnD68Consistent=1 / saturnD68ObsOrbit=1
 - `physics.kFrame`: saturnRingRealKF1=1 / saturnRingReal=0 / saturnZonalD68=0 / saturnD68Consistent=0 / saturnD68ObsOrbit=0
 - `physics.massFloor`: saturnRingRealKF1=1e-8 / saturnRingReal=0.000001 / saturnZonalD68=0.000001 / saturnD68Consistent=0.000001 / saturnD68ObsOrbit=0.000001
 - `physics.q`: saturnRingRealKF1=20.4932 / saturnRingReal=3 / saturnZonalD68=3 / saturnD68Consistent=3 / saturnD68ObsOrbit=3
@@ -615,7 +616,7 @@
 
 - **ゲートから外した長走行**: `darkrotorMidNew`・`darkrotorMidOld`・`darkrotorLong`・`darkrotorMultiseed`(保存 QA の worker の所要の和 341.6 s)と、その結果を読む試験 `behavior.darkrotor`・`behavior.darkrotorLong`・`behavior.darkrotor-pitch`・`behavior.darkrotor-multiseed`。最後の保存 QA の値は凍結の写しの history に転記した(測り直していない)。
 - **機構の最小試験**(ゲートに残す 1 点ずつ): コアの交換(殻のスピン移送) = `claim.bhcore-selfdrive`(bhCore) / 傾斜(コア軸の横倒しで Jz が機械ゼロ・減光は保つ) = `behavior.templates229`(bhCoreTilt) / 減光(暗いコアと明るい外層のコントラスト) = `claim.nebularotor-contrast`(nebulaRotor) / パワーボール(圧縮と軸仕事の経路) = `claim.starseed-powerball`(starSeed)。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 36 本): 凍結の写しを読む 2・再生成表の履歴 22・再生成表の現行 0・道具 4・表の外 8。QA 本体の出現数: darkrotor 130・bhCore 42・nebulaRotor 15・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 12。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 37 本): 凍結の写しを読む 2・再生成表の履歴 22・再生成表の現行 0・道具 4・表の外 9。QA 本体の出現数: darkrotor 130・bhCore 44・nebulaRotor 15・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 13。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|
@@ -652,6 +653,7 @@
 | `tests/exp-w281c-rotorledger.mjs` | darkrotor | rotorledger(current) | 凍結の写しを読む |
 | `tests/exp-w281e-canvasskin.mjs` | bhCore | — | 道具(正本を書かない) |
 | `tests/exp-w282d-analogy.mjs` | bhCore | analogy(current) | 凍結の写しを読む |
+| `tests/lib-w279a-samplestatus.mjs` | bhCore bhCoreTilt | — | 表の外(正本ではない) |
 | `tests/perf.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed | — | 道具(正本を書かない) |
 | `tests/probe-perf-floor.mjs` | starSeed | — | 道具(正本を書かない) |
 | `tests/seeds.mjs` | darkrotor | h283b-seeds(history) | 履歴(再生成しない) |

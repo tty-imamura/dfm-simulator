@@ -3,32 +3,32 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "9647c09eee9da182b7c4b42f68a17c6839877adbc3d916ae55fab086d9c1c47c",
-  "generatedAt": "2026-09-26T16:05:21.605Z",
+  "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+  "generatedAt": "2026-09-26T20:06:04.941Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4843701,
-    "sha256": "9647c09eee9da182b7c4b42f68a17c6839877adbc3d916ae55fab086d9c1c47c",
-    "mtime": "2026-09-26T15:53:40.888Z"
+    "bytes": 4902365,
+    "sha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+    "mtime": "2026-09-26T17:47:12.744Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2815722,
-    "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
-    "mtime": "2026-09-26T15:27:38.824Z"
+    "bytes": 2688244,
+    "sha256": "0a5eae532c8febc296e495a70bdee61eb7ea06ae072caaed861615651d85c813",
+    "mtime": "2026-09-26T19:42:36.264Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-09-26T15:42:31.720Z"
+    "mtime": "2026-09-26T17:44:56.026Z"
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 75647,
-    "sha256": "0ee7c79e816b2e12e3240e74f9f4d65f33e8d033144a03194d67f77c6f6ead49",
-    "mtime": "2026-09-26T16:05:21.556Z"
+    "bytes": 75867,
+    "sha256": "7ecf35e819a16f8f176774f8541a23f8009137bbf085a50018287fc9883e3f2c",
+    "mtime": "2026-09-26T20:06:04.896Z"
    }
   ],
   "code": [
@@ -36,43 +36,43 @@
     "file": "tests/exp-w283b-families.mjs",
     "bytes": 33886,
     "sha256": "550a308a4ca90682634e83db9e8a21ccb562ca2fa73b869ee55b477034b040b9",
-    "mtime": "2026-09-26T16:05:13.056Z"
+    "mtime": "2026-09-26T17:44:56.026Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-26T15:27:38.780Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-26T15:27:38.774Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
-    "bytes": 19930,
-    "sha256": "4f54f50b1197b378d6d66b8bc849dc50cb28c89c6e86290b2be40d441b3e2dcc",
-    "mtime": "2026-09-26T15:53:29.122Z"
+    "bytes": 23807,
+    "sha256": "90091abbf1b678d6763d5f0a520c43a5eef18c6320506d3a09b1ec90e04dc1b6",
+    "mtime": "2026-09-26T17:46:31.436Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 60075,
-    "sha256": "42e586660d12b9554e77d0ecf507747b411e2356812c40d18df599090b62826f",
-    "mtime": "2026-09-26T15:27:38.784Z"
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-26T17:46:31.436Z"
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 35957,
-    "sha256": "092a3e10813a80b3fa9613c5c3f6c3e8223d3492fa2a060a79ac1c8072a5aa39",
-    "mtime": "2026-09-26T16:05:13.057Z"
+    "bytes": 74914,
+    "sha256": "0412e242fed221f6c19294be5f11816c7002cddfc41cf42b743e99d92e4bfa05",
+    "mtime": "2026-09-26T17:52:27.807Z"
    }
   ],
-  "codeSha256": "a7617b56575a13a956c64313d73b7a953fb7baca58618fd7b938766113d38a8e",
+  "codeSha256": "b797d33ec487b394c6a62215d6c4767b86ee8699422ca69d085e17fdbb96398f",
   "harnessVersion": "w283b-families-1",
   "scope": {
-   "version": "w282e-scope-2",
+   "version": "w283e-scope-3",
    "presets": "all",
    "roots": [
     "$",
@@ -92,20 +92,30 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 783,
-   "segments": 711,
-   "closureShare": 0.3408
+   "names": 795,
+   "segments": 723,
+   "closureShare": 0.3422
   },
-  "scopeSha256": "eeac16a7cec91652b1391c034edaa4d92fdf58d74ec550a59e57e8a24635b2f4",
+  "scopeSha256": "99c0bb32da84adec12a3b85fa960c76dffe02c21dee2d1165b25c79b89c39e2b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "d80d3db914d4e66efd951209fdc5a98913d59dd99afdecc0888d3b8a6ca64d8e",
+    "stableSha256": "fdf1bb5cfa34f0bf0a1b3d6a27528f15958902ebbcadcbec39e7d68588ed5145",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
      "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
      "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
      "/meta/when",
      "/presets/*/run/dtEighth/wallSec",
      "/presets/*/run/stopRule/rateStepsPerSec",
@@ -116,6 +126,16 @@
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
     ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "2389d8afac6426030827bec48993c13c32e5cd114f160518d31585cd5545cfde",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -331,7 +351,7 @@
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": "観測入力 kF0 対照(入力を整えた二体)",
-     "geoPN": 2,
+     "geoPN": 1,
      "kFrame": 0,
      "D0": 0.006,
      "D0pull": null,
@@ -342,7 +362,7 @@
      "spaceMesh": null,
      "purpose": "❄️ の入力の丸めと軟化を外した kF0 診断コピー",
      "gates": [],
-     "presetSigHash": "b6ca88e6",
+     "presetSigHash": "d8c2182b",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「対照」",
@@ -355,6 +375,7 @@
        "other": false
       },
       "physicsDiff": [
+       "geoPN",
        "kFrame",
        "massPrecision",
        "softening"
@@ -518,7 +539,7 @@
       "plutoCharonReal": 2,
       "plutoCharonDFM": 2,
       "plutoCharonKF0Control": 2,
-      "plutoCharonDiagInput": 2,
+      "plutoCharonDiagInput": 1,
       "plutoCharonSyncZero": 0,
       "charonGeoToy3": 3
      }
@@ -972,7 +993,7 @@
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
-     "geoPN": 2,
+     "geoPN": 1,
      "kFrame": 0,
      "D0": 0.006,
      "D0pull": null,
@@ -983,7 +1004,7 @@
      "spaceMesh": null,
      "purpose": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断",
      "gates": [],
-     "presetSigHash": "95de94fd",
+     "presetSigHash": "a9df4f96",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「診断」",
@@ -997,6 +1018,7 @@
       },
       "physicsDiff": [
        "D0pull",
+       "geoPN",
        "kFrame",
        "meshVelocity",
        "qLock"
@@ -1050,7 +1072,7 @@
       "emAuditNewton": 2,
       "emAuditDFM": 2,
       "emAuditSolar": 0,
-      "earthMoonDiagOne": 2
+      "earthMoonDiagOne": 1
      }
     },
     {
@@ -1756,7 +1778,7 @@
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
-     "geoPN": 2,
+     "geoPN": 1,
      "kFrame": 0,
      "D0": 0.1,
      "D0pull": null,
@@ -1767,7 +1789,7 @@
      "spaceMesh": null,
      "purpose": "📡 の差を同じ窓で初速の幾何と他の要因に分ける",
      "gates": [],
-     "presetSigHash": "426e79ff",
+     "presetSigHash": "6af5b802",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「診断」",
@@ -1783,6 +1805,7 @@
        "D0",
        "D0pull",
        "frameWeight",
+       "geoPN",
        "kFrame",
        "massFloor",
        "q",
@@ -1808,7 +1831,7 @@
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
-     "geoPN": 2,
+     "geoPN": 1,
      "kFrame": 0,
      "D0": 0.1,
      "D0pull": null,
@@ -1819,7 +1842,7 @@
      "spaceMesh": null,
      "purpose": "観測の a と ae の定義で置いた D68 の近点移動を測る",
      "gates": [],
-     "presetSigHash": "1f23dfac",
+     "presetSigHash": "85e1e3fd",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「診断」",
@@ -1835,6 +1858,7 @@
        "D0",
        "D0pull",
        "frameWeight",
+       "geoPN",
        "kFrame",
        "massFloor",
        "q",
@@ -1877,6 +1901,16 @@
       "saturnZonalD68": "share",
       "saturnD68Consistent": "share",
       "saturnD68ObsOrbit": "share"
+     }
+    },
+    {
+     "key": "physics.geoPN",
+     "values": {
+      "saturnRingRealKF1": 2,
+      "saturnRingReal": 2,
+      "saturnZonalD68": 2,
+      "saturnD68Consistent": 1,
+      "saturnD68ObsOrbit": 1
      }
     },
     {
@@ -1990,7 +2024,7 @@
      }
     }
    ],
-   "physicsSameKeys": 19,
+   "physicsSameKeys": 18,
    "candidates": [],
    "keepApart": [
     {
@@ -7395,6 +7429,15 @@
     "kind": "fixture"
    },
    {
+    "file": "tests/lib-w279a-samplestatus.mjs",
+    "ids": [
+     "bhCore",
+     "bhCoreTilt"
+    ],
+    "steps": [],
+    "kind": "not-in-table"
+   },
+   {
     "file": "tests/perf.mjs",
     "ids": [
      "darkrotor",
@@ -7431,15 +7474,15 @@
   ],
   "qaRefs": {
    "darkrotor": 130,
-   "bhCore": 42,
+   "bhCore": 44,
    "nebulaRotor": 15,
    "nebulaShell": 14,
    "nebulaBipolar": 21,
    "starSeed": 15,
-   "bhCoreTilt": 12
+   "bhCoreTilt": 13
   },
   "kindCounts": {
-   "not-in-table": 8,
+   "not-in-table": 9,
    "history": 22,
    "tool": 4,
    "fixture": 2
@@ -7455,5 +7498,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.771
+ "elapsedS": 0.731
 }
