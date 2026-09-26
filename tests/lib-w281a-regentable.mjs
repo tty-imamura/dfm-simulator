@@ -677,7 +677,7 @@ export function buildChain(plan, o) {
     for (const [k, m] of mode) {
       if (m !== 'gate') continue;
       const st = by.get(k); const mine = writesOf(st);
-      const up = [...(deps.get(k) || [])].filter((d) => mode.has(d) && mode.get(d) !== 'manual' && writesOf(by.get(d)).some((f) => mine.includes(f)));
+      const up = [...(deps.get(k) || [])].filter((d) => mode.get(d) === 'run' && writesOf(by.get(d)).some((f) => mine.includes(f)));
       if (up.length) { mode.set(k, 'run'); changed = true; }
     }
   }
@@ -701,8 +701,11 @@ export function buildChain(plan, o) {
   const rows = {};
   for (const [k, m] of mode) {
     const st = by.get(k);
+    const mine = writesOf(st);
     rows[k] = { key: k, mode: m, wave: level.get(k), cmd: st.cmd, env: st.env || {}, sec: st.sec || 0,
-      deps: [...(deps.get(k) || [])].filter((d) => mode.has(d)), plan: status.get(k) || null };
+      deps: [...(deps.get(k) || [])].filter((d) => mode.has(d)), plan: status.get(k) || null,
+      // 第283便 統合: 同じファイルを書く上流(鎖の中)—— gate_step は、これが実際に走った(済み印が run)なら再利用せず走る
+      sameFileUps: [...(deps.get(k) || [])].filter((d) => mode.has(d) && writesOf(by.get(d)).some((f) => mine.includes(f))) };
   }
   const skipped = steps.filter((z) => !mode.has(z.key)).map((z) => ({ key: z.key,
     why: z.role === 'history' ? '履歴' : z.outside ? 'chain の外' : (status.get(z.key) || '計画に無い') }));
@@ -766,8 +769,9 @@ export function chainShell(chain, o) {
   L.push('  if [ $rc -ne 0 ]; then echo "$rc" >"$REGEN_LOG/$2.rc"; echo "[止] $1 rc=$rc(ログ $REGEN_LOG/$2.log)"; return $rc; fi');
   L.push('  echo "run $(( $(date +%s) - t0 ))s $(date -u +%FT%TZ)" >"$DONE/$1.done"');
   L.push('}');
-  L.push('gate_step() {  # 上流の後で自分の判定を引き直す(終了コード 10 = 再利用)');
+  L.push('gate_step() {  # 上流の後で自分の判定を引き直す(終了コード 10 = 再利用)。$4=同じファイルを書く上流(実際に走っていれば再利用しない)');
   L.push('  if [ -f "$DONE/$1.done" ]; then echo "[済] $1"; return 0; fi');
+  L.push('  local u; for u in ${4:-}; do if [ -f "$DONE/$u.done" ] && grep -q "^run" "$DONE/$u.done"; then echo "[走・上流 $u が同じファイルを書き直した] $1"; run_step "$1" "$2" "$3"; return $?; fi; done');
   L.push('  node tools/regen-chain.mjs --gate "$1" --html "$REGEN_HTML" >"$REGEN_LOG/$2.gate" 2>&1; local g=$?');
   L.push('  if [ $g -eq 10 ]; then echo "reuse $(date -u +%FT%TZ)" >"$DONE/$1.done"; echo "[再利用] $1"; return 0; fi');
   L.push('  if [ $g -ne 0 ]; then echo "[止] $1 の再判定が rc=$g"; return $g; fi');
@@ -789,7 +793,7 @@ export function chainShell(chain, o) {
       const calls = lane.keys.map((k) => {
         const r = chain.steps[k];
         const fn = r.mode === 'gate' ? 'gate_step' : r.mode === 'manual' ? 'manual_step' : 'run_step';
-        return `${fn} ${k} ${W2}-${k} ${shq(r.cmd)}`;
+        return `${fn} ${k} ${W2}-${k} ${shq(r.cmd)}` + (fn === 'gate_step' && (r.sameFileUps || []).length ? ' ' + shq(r.sameFileUps.join(' ')) : '');
       });
       L.push('( ' + calls.join(' && \\\n  ') + ' ) & P+=($!)');
     }
