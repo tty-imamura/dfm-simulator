@@ -26171,155 +26171,6 @@ mutual:1 の 2 体は χ≈1 で行列式が 0 に近く(第279便c の「mutual
 **⑥ 未解決・決断事項候補。** ① ライトの配色値の最終案(上の 17 値)② キャンバスの追随の可否(本便は固定を採用 —— 追随は比較用に残した)③ 最小キャンバス高を「ヘッダー高」以外にするか(いまは全タブで 61px —— HUD は 1〜2 行しか見えない)④ スキンをもう 1 種(高コントラスト)足すか ⑤ 装飾線 `--line` は両スキンとも非文字 3:1 に届かない(1.26〜1.62 —— 操作部の輪郭だけ AN10′ で 3:1 以上にした)⑥ 採寸・画面はヘッドレス Chromium だけ(実機・他ブラウザ・スクリーンリーダでは測っていない)・静的表は文脈表を手で書いたもので、JS が実行時に付ける色やキャンバスの中の文字は測っていない。
 
 **言わないこと。** 「全画面で見やすくなった」「アクセシビリティを満たした」(測ったのは静的表の WCAG 下限と非文字比だけ)・「隙間を解消した」(測ったのは 4 画面 × 5 タブ × 3 状態の門)。
-〔第282便c — 引きずりプロファイル便(kF0 不感の実証・天体種別 × 相対自転 × R_drag の純関数・既存本の診断表・NS/BH のコア半径の宣言)—— **エンジン未接続**〕
-
-原仮定者の裁定(第72報)④「**較正は引きずりパラメータで行い、天体種別と相対自転で分けて観測値に合わせる。中心密度が高い場合、計算で使う半径は外殻の半径をそのままでは使えない**」と統括の読み R80 に応える便である。**html は 1 バイトも変えていない**(`S._core` 35197 字のまま・プリセットは足していない・既存 140 本の物理は不変 —— bitsame/sigsame 140/140)。**fit はしていない**(A_type・q_type の値は置かない —— 観測に合わせるのは第283便以降 1 本ずつ)。純関数 `tests/lib-w282c-dragprofile.mjs`(版 w282c-1)・器 `tests/exp-w282c-dragprofile.mjs`(Node だけ —— 環境変数なし・他の正本を読まない・数秒)・正本 `tests/out/dragprofile-w282c.json`(来歴 w272e-1・領域 hash つき)。
-
-**① kF0 は引きずりでは直らない(実測)。** ✴️ alphaCenABDFM と ⚡ psrDoubleABDFM を **kFrame=0 に置き換えたコピー**(器の中だけ)で、引きずり減衰 q を 2 と 8 にして 128 歩(`sim.step(0.016)`)走らせ、位置・速度・自転(殻の spin と独立コアの J)をビットで比べた。q は 2 通りに変えた —— 両星の `body.dragQ`(粒子別の q —— いまの 2 本の宣言)と、`body.dragQ` を外した `physics.q`。
-
-| 本 | geoPN | body.dragQ 2 → 8 | physics.q 2 → 8 | 状態の hash(先頭 16 桁) |
-|---|---|---|---|---|
-| ✴️ alphaCenABDFM | 1 | **ビット一致** | **ビット一致** | 83bba7df8c57df2c |
-| ✴️ alphaCenABDFM | 2 | **ビット一致** | **ビット一致** | 75b0faa2baa2ad52 |
-| ⚡ psrDoubleABDFM | 1 | **ビット一致** | **ビット一致** | b042429501ffc201 |
-| ⚡ psrDoubleABDFM | 2 | **ビット一致** | **ビット一致** | 81807f80788d5ff6 |
-
-**kFrame=0 では q を変えても力学は 1 bit も動かない**(4 条件 × 2 種)。したがって「引きずりパラメータで較正」は **DFM 版の概略整合のノブ**であり、**kF0 版の合は入力・数値精度・測定写像で目指す**(引きずりのノブでは届かない)。
-
-**対照(kFrame=1)と、geoPN=1 の構造。** 同じ 128 歩で:
-
-| 本 | geoPN | kFrame=1 の q 2 → 8(最大差 位置 / 速度) | kFrame 0 → 1(最大差 位置) |
-|---|---|---|---|
-| ✴️ alphaCenABDFM | 1 | **ビット一致** | **ビット一致** |
-| ✴️ alphaCenABDFM | 2 | 1.09×10⁻¹⁰ / 8.34×10⁻¹¹ | 1.19×10⁻⁷ |
-| ⚡ psrDoubleABDFM | 1 | **ビット一致** | **ビット一致** |
-| ⚡ psrDoubleABDFM | 2 | 5.12×10⁻¹³ / 1.18×10⁻¹⁰(コアの J 2.89×10⁻⁴) | 4.07×10⁻²(コアの J 9.31) |
-| 🌘 earthMoonRealKF1 | 1 | **ビット一致** | **ビット一致** |
-| 🌘 earthMoonRealKF1 | 2 | 1.01×10⁻⁷ / 9.85×10⁻⁸ | 1.04×10⁻⁷ |
-
-q が効くのは **kFrame=1 かつ geoPN=2**(または 0)のときだけで、**geoPN=1 では kFrame=1 でも q は効かず、kFrame 1 と 0 もビット一致**した(3 本・128 歩)。構造の理由は html の門で、E6′ の追従キックは `if(denom>0 && kFrame>0 && !geo){`(geoPN≥1 の物質には当てない)、geoPN=2 の v−u 輸送 3 項は `g2on=geo2&&kFrame>0`、1PN が読む速度から u を引くのも `geo2` のときだけである(器が門の文字列を html から数えて正本に残す)。**帰結(決断事項候補)**: 較正契約の「現実参照 DFM(f=1・kFrame=1・geoPN=1)」には**物質に効く引きずりの経路が無い**(少なくともこの 3 本の 128 歩で kFrame 1/0 が同じ力学)。引きずりプロファイルを DFM 版のノブにするなら、その経路は geoPN=2(輸送 3 項)か geoPN=0(E6′)にある —— geoPN=1 の主系列で使うには経路の定義が先に要る。
-
-**② プロファイルの最小集合(`profileVersion:"w282c-1"`)。**
-
-| 欄 | 意味 | 本便の扱い |
-|---|---|---|
-| bodyType | 固体 / 気体 / 恒星 / コンパクト(第280便b の densityClass と同じ 4 語 solid/gas/star/compact) | `bodies[].densityClass` から読む(宣言が無ければ null と理由) |
-| relativeSpin | ΔΩ = Ω_j cosθ_j − Ω_orb(自転 − 軌道回転・符号と軸射影)・Ω_orb=(r×v_rel)_z/r² | 状態から読む(全行) |
-| R_drag | 引きずり専用の有効半径(衝突・表示・光学半径と独立) | 密度クラスを宣言した天体だけ計算(③) |
-| A_type | 相対自転チャネルの振幅 | **未宣言**(値を置かない) |
-| q_type | 相対自転チャネルの減衰指数 | **未宣言**(いまの E6′ の q とは別物 —— 混同しない) |
-| profileVersion | 版 | w282c-1 |
-
-**preset の鍵は足していない**(profileOf が読むのは既存の densityClass・radius・spin・core・dragQ だけ —— 鍵にするかは署名が変わるので決断事項)。
-
-**③ R_drag の定義(宣言した近似 —— 表裏核の厳密解ではない)。** 球対称の剛体回転 ρ(r) で **M=4π∫ρr²dr・I=(8π/3)∫ρr⁴dr・R_drag=√(5I/(2M))**。一様球で R_drag=R、中心集中で R より小さい。ρ(s) は html の `dfmSphereRho`(第280便b の宣言された物理入力)をソースから取り出して読み、求積は `dfmGaussLegendre01` の 32 点 × 各区間 64 等分(密度の不連続で区切る)。これは慣性モーメントを保つ一様球の半径であって、第280便b の表裏核(球の表裏を積分した複素モーメント)の振幅や遠方の指数を再現する量ではない。**2D の I=mR²/2(エンジンの `Imom=0.5*m*R*R`)を 3D の I に代入しない** —— 3D の I は密度の積分から出し、比 I₃D/(½mR²)=2·I/(MR²) を表に並べる。
-
-| クラス(宣言) | R_drag/R | I/(MR²) | ρ_c/ρ̄ | I₃D/(½mR²) |
-|---|---|---|---|---|
-| compact(一様) | 1.0000 | 0.4000 | 1.0000 | 0.8000 |
-| gas β=0(一様) | 1.0000 | 0.4000 | 1.0000 | 0.8000 |
-| solid(2 層 coreFrac 0.546・coreRatio 2.44 —— 形の例示) | 0.9310 | 0.3467 | 1.9767 | 0.6934 |
-| gas β=1 | 0.8452 | 0.2857 | 2.5000 | 0.5714 |
-| gas β=3 | 0.6742 | 0.1818 | 6.5625 | 0.3636 |
-| star n=1 | 0.8084 | 0.2614 | 3.2899 | 0.5228 |
-| star n=1.5 | 0.7152 | 0.2046 | 5.9907 | 0.4092 |
-| star n=3 | 0.4340 | 0.0754 | 54.1825 | 0.1507 |
-
-検算: 一様球で |R_drag/R−1| 1.3×10⁻¹⁵・gas と solid は閉じた式(I/(MR²)=2/(2β+5)・0.4(1+(c−1)f⁵)/(1+(c−1)f³)・ρ_c/ρ̄)と 3.7×10⁻¹⁵・Lane–Emden n=1 の閉じた解(ρ_c/ρ̄=π²/3・I/(MR²)=2/3−4/π²)と 9.4×10⁻¹²・n=3 の ρ_c/ρ̄ は文献値 54.1825 と 3.5×10⁻⁷(文献の桁まで)・細かい求積(64 点 × 128 等分)との差は n=1.5 の 9.0×10⁻¹³ が最大。**中心集中ほど R_drag は小さい**(compact > solid > gas β=1 > gas β=3 > star n=3 の順で単調 —— ρ_c/ρ̄ はその逆順)。内蔵で densityClass を宣言しているのは 🌓 earthMoonDiagOne の地球だけで、R_drag=**5.9397**(R=6.38・solid の例示の形)。
-
-**NS/BH のコア半径。** compact(NS/BH)は**外殻の密度積分を強制せず、R_drag 用のコア半径を宣言**する(`dragRadius` は `coreRadius` を compact だけ受け付け、値をそのまま R_drag にする —— fit して外殻へ戻さない)。**現状はどの本も未宣言**である。⚡🧮🩺🧶 の `core.radius`=0.01(外殻 0.01175)と 🎻 の 5.109277 / 4.43000905(外殻 10.218554 / 8.8600181 の半分)は **f の殻/コア分割(隠れコア)の半径**であって R_drag の宣言ではない(診断表に別の欄で並べる)。
-
-**④ 相対自転チャネルの候補式(現象論・未実証)。** **u^spin_{j→i} = A ΔΩ (R_drag/(R_drag+r))^q e_z×r**(`spinChannel`)。いまの E6′ の自転項 ω_j(d)=s_j(R_j/(R_j+d))^q は**絶対の自転 s_j** を運び、この候補は**相対自転 ΔΩ** を運ぶ点が違う。**同期(ΔΩ=0)で消えるのはこのチャネルだけ**で、背景・並進(v_j の移送)・他の天体の寄与は消えない。単体試験(17/17 PASS): 同期で u が厳密に 0・逆回転で符号がビットで反転・A=0 で 0・u は e_z×r の向き(接線)・遠方で (|u|/r)(r/R_drag)^q → AΔΩ(相対誤差 3.19×10⁻³(10³R_drag)→ 3.20×10⁻⁶(10⁶R_drag)・10 倍ごとに 1/10 —— **∝ R_drag^q/r^q**)。
-
-**縮退(実測)。** (A, R_drag) と (A·(R_drag/R′)^q, R′)(R′=R_drag/2・q=3.2)の u の相対差は 10R_drag で 0.1605・100R_drag で 0.0160・10³ で 1.60×10⁻³・10⁴ で 1.60×10⁻⁴ —— **遠方では A·R_drag^q の積しか決まらない**。1 連星で A・R_drag・q を全部自由にすると縮退するので、**密度 → R_drag → 振幅 → q の順**に決める(密度は観測・内部構造の出典から宣言し、R_drag は ③ で計算し、振幅と q は第283便以降に 1 本ずつ)。
-
-**相対自転の読み方。** ΔΩ は定義どおり**瞬時の** Ω_orb に対する値で、表示の分類(同期 / 速い / 遅い / 逆 / 自転 0)は、接触軌道の平均運動 n(vis-viva・preset の G と質量)があれば n で行う(離心軌道では瞬時の Ω_orb が n と違う —— ☄️ の水星は瞬時の比 −0.033 だが n に対しては +0.500 = 3:2)。同期の許容は表示分類の宣言 |ΔΩ| ≤ 1%(物理に入らない・生の比を併記)。**v_rel を慣性速度差にするか座標速度差にするかは法則版に明記する(未決)** —— 同じ初期状態の月で、🌘(座標速度)は n=2.672×10⁻⁴・自転との差 −0.40%(同期)、🌓(慣性速度 v=ẋ−u(0))は n=2.588×10⁻⁴・+2.87%(速い)と分類が変わる。
-
-**⑤ 診断表(較正対象 19 本・68 行 —— 太陽系 12・恒星連星 2・NS 連星 4・BH 1)。** 太陽系は較正 16 本から同じ系の対(🪨=☄️ の kF1 雛形・🌙=🌘 の kF0 対照)と監査コピー(🧲🔆)を除いた 12 本。行は single の天体ごと(環の粒子群は対象外)。自転の分類は「主星以外 = 自分の自転 − 主星まわりの公転」「主星 = 自分の自転 − 最も重い相手の公転」。
-
-| 本 | 系統 | kFrame/geoPN | 現状の q(出所) | 行 | 自転の代理値 spin | 外殻半径 R | 密度クラス | R_drag | NS/BH の R_drag 用コア半径 | ΔΩ の分類(行順) | 連星 |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| ☄️ mercuryReal | 太陽系 | 0/2 | 3(physics.q) | 2 | 0.02903/0.0124 | 6.95/0.0244 | 未宣言 | — | — | 速い・速い | 自由 |
-| 🌞 solarInner | 太陽系 | 1/2 | 5.1(physics.q) | 5 | 0.02903/0.0124/−0.002992/0.7292/0.7088 | 6.96/0.0244/0.0605/0.0637/0.0339 | 未宣言 | — | — | 速い・速い・逆・速い・速い | — |
-| 🌇 venusReal | 太陽系 | 1/2 | 5.626(physics.q) | 2 | 0.02903/−0.002992 | 6.96/0.0605 | 未宣言 | — | — | 速い・逆 | 自由 |
-| 🌘 earthMoonRealKF1 | 太陽系 | 1/2 | 8.2358(physics.q) | 2 | 0.007292/0.0002662 | 6.38/1.74 | 未宣言 | — | — | 速い・同期 | 片側ロック |
-| 🥔 marsMoonsReal | 太陽系 | 1/2 | 19.5783(physics.q) | 3 | 0.007088/0/0 | 3.3895/0.01108/0.01 | 未宣言 | — | — | 遅い・自転 0・自転 0 | — |
-| 🟠 jupiterGalilean | 太陽系 | 1/2 | 12.0586(physics.q) | 5 | 0.1759/0.04111/0.02048/0.01016/0.004357 | 7.1492/0.18216/0.15608/0.26341/0.24103 | 未宣言 | — | — | 速い・同期・同期・同期・同期 | — |
-| 📡 saturnZonalD68 | 太陽系 | 0/2 | 3(physics.q) | 11 | 0.01653/0 ×10 | 60.3/0.1 ×10 | 未宣言 | — | — | 遅い・自転 0 ×10 | — |
-| 💍 saturnRingReal | 太陽系 | 0/2 | 3(physics.q) | 7 | 0.01653/0 ×5/0.000456 | 60.3/0.198/0.252/0.531/0.5615/0.7635/2.5747 | 未宣言 | — | — | 速い・自転 0 ×5・同期 | — |
-| 💿 saturnRingRealKF1 | 太陽系 | 1/2 | 20.4932(physics.q) | 7 | 0.01653/0 ×5/0.000456 | 60.3/0.198/0.252/0.531/0.5615/0.7635/2.5747 | 未宣言 | — | — | 速い・自転 0 ×5・同期 | — |
-| 💠 uranusReal | 太陽系 | 1/2 | 13.792(physics.q) | 6 | 0.01012/0.005145/0.002885/0.001755/0.0008353/0.0005402 | 25.559/0.2357/0.5789/0.5847/0.7889/0.7614 | 未宣言 | — | — | 速い・同期 ×5 | — |
-| 🌊 neptuneReal | 太陽系 | 1/2 | 10.1893(physics.q) | 2 | 0.1083/−0.01237 | 2.4764/0.13534 | 未宣言 | — | — | 逆・同期 | 片側ロック |
-| ❄️ plutoCharonReal | 太陽系 | 1/2 | 11.9386(physics.q) | 2 | 0.001139/0.001139 | 1.188/0.606 | 未宣言 | — | — | 同期・同期 | 同期 |
-| ✴️ alphaCenABDFM | 恒星連星 | 1/2 | 4.61112/4.52589(dragQ) | 2 | 4.574/2.007 | 0.084738/0.05979336 | 未宣言 | — | — | 速い・速い | 自由 |
-| 💫 siriusABDFM | 恒星連星 | 1/2 | 4.67614/4.10047(dragQ) | 2 | 13.66/0 | 0.11932224/0.01 | 未宣言 | — | — | 速い・自転 0 | 自由 |
-| ⚡ psrDoubleABDFM | NS 連星 | 1/2 | 3.17886/3.18502(dragQ) | 2 | 0/0(コア Ω 0/22.654675) | 0.01175/0.01175 | 未宣言 | — | 未宣言(core.radius 0.01/0.01) | 自転 0・自転 0(観測の自転では 速い・速い) | 自由 |
-| 🧮 psrJ1757DFM | NS 連星 | 1/2 | 3.17257/3.16903(dragQ) | 2 | 0/0 | 0.01175/0.01175 | 未宣言 | — | 未宣言(core.radius 0.01/0.01) | 自転 0・自転 0(観測の自転では A 速い) | 自由 |
-| 🩺 psrJ1946DFM | NS 連星 | 1/2 | 3.18559/3.18815(dragQ) | 2 | 0/0 | 0.01175/0.01175 | 未宣言 | — | 未宣言(core.radius 0.01/0.01) | 自転 0・自転 0(観測の自転では A 速い) | 自由 |
-| 🧶 psrB1534DFM | NS 連星 | 1/2 | 3.16516/3.16439(dragQ) | 2 | 0/0 | 0.01175/0.01175 | 未宣言 | — | 未宣言(core.radius 0.01/0.01) | 自転 0・自転 0(観測の自転では A 速い) | 自由 |
-| 🎻 gw150914DFM | BH 連星 | 1/0 | 3.25519/3.25053(dragQ) | 2 | 0/0 | 10.218554/8.8600181 | 未宣言 | — | 未宣言(core.radius 5.109277/4.43000905) | 自転 0・自転 0 | 自由 |
-
-**較正対象の 68 行で densityClass の宣言は 0**(R_drag は 1 行も計算しない —— クラスを器が仮に当てはめることもしない)。NS の力学上の自転は値域(±20)のために spin=0 の宣言で、観測の自転は `spinDipole.omega`(表示・診断専用)にある —— 観測の自転で読むと A 星は公転より速い。
-
-**⑥ 検証。** html は変えていない(基点 8b05232 と同じ bytes)ので既存 140 本の物理・署名・4 値 0/2/2/33 は動かない —— bitsame 140/140(600 步・`identical:true`)・sigsame 140/140・jitprobe の出力チェックサム 4 本とも基点と一致(galaxyGeo2 `3cfc4377` / bhCore `9f6bc4f3` / galaxyMeshSpiral `d3586b30` / gw150914DFM `4483ba64`)。QA: `behavior.dragProfilePure`(単体試験をその場で回す・正本の行と pass の並びが一致)・`docs.dragProfile`(正本といまの html から引き直した参照表・診断表・🌓 を相対 1e-12 で照合・kF0 不感の 4 条件 × 2 種を headless でもう一度走らせてビット一致・対照が動く・表の本数 19・行数 68・PHYSICS に同じ書式の数・「言わないこと。」より前に禁止の言い回しが無い)。root では 2 つとも SKIP。再生成表(`tests/lib-w281a-regentable.mjs`)に段 `dragprofile` を追加(実測 約 2 秒・環境変数なし・`after` なし —— 他の正本を読まない)、`lint.provenanceMeta` の CANON にも追加した。
-
-**⑦ 未解決・決断事項候補。** ① **AN26**: R_drag の定義(√(5I/(2M)) を採るか —— 宣言した近似であって表裏核の厳密解ではない)と、NS/BH の R_drag 用コア半径の値(どの出典の半径を宣言するか —— いまの core.radius は隠れコア)② **v_rel の定義**(慣性速度差か座標速度差か —— 🌓 と 🌘 の月で分類が変わる)③ **A_type/q_type の初期値の置き方**(値を置かないまま始め、観測に合わせるのは第283便以降 1 本ずつ・密度 → R_drag → 振幅 → q の順)④ **profile を preset の鍵にするか**(するとプリセットの署名が変わる —— 本便は既存の鍵だけを読む)⑤ **geoPN=1 の DFM 版に引きずりの経路が無い**(① の対照 —— 現実参照 DFM を geoPN=1 で走らせるなら、プロファイルのノブを効かせる経路の定義が先に要る)⑥ 同期の表示分類の許容 1% は宣言値(物理に入らない)。
-
-**言わないこと。** 「kF0 版が成立した」「引きずりで kF0 を合わせた」「観測一致を達成した」「較正を完了した」「f=1 で合った」「引きずり消失を確認した」「新発見」—— ① は「kFrame=0 では q を変えても力学が 1 bit も動かない」ことの実測であり、R_drag は宣言した近似、相対自転チャネルは候補式(現象論・未実証)である。
-
-〔第282便e — UI便7+運用便(ワンタップ対照の配置・停止集合 AN22 の実測・安定 hash の除外契約・研究用 RC の条件文 AA16)(**表示と器だけ**・物理は 1 bit も動かさない)〕
-
-原仮定者の裁定(第72報)⑦「ワンタップ対照のボタンを A/B比較のラベルの下に配置」・AN22(停止集合を宣言し、受理後の実効プリセット JSON+力学関数+_core で縛る・1 便分測ってから採否)・AA16(RC は切らない・条件文は docs/dev)と統括の検証項目 R82。**表示と器だけ**(bitsame **140/140**〔600 步・`identical:true`〕・sigsame **140/140**・jitprobe の出力チェックサム 4 本とも基点と一致・`S._core` 35197 字で不変)。プリセットは足していない。**RC は切らない。**
-
-**① ワンタップ対照の配置。** `#abQuickRow`(第62便で「A/B比較」グループより上の共通行に置いた・JS が動的生成)を `#abGroup` の中の `h3#abHead` の**直下**(「A/B比較を開始」の行より上)へ移した。表示条件(相変化 `abQuick` / 粒子 patch `abBody` があるプリセットだけ —— `updateAbQuickRow`)・`#pmRow`(相図ランナーの行 —— `#abGroup` の直前のまま)・タブ幅・横画面 2 カラム・文言(ja/en)は変えていない(JS はコメントだけ)。実測(QA `ui.abQuickPlacement`・パラメータタブ・`#abGroup` を先頭へスクロールした状態の bounding box px —— 見出しの下端 ≤ 行 ≤ 開始の行の上端):
-
-| 画面 | 見出しの下端 | ⛓️ chain2(相変化) | 🕶️ darkrotor(abBody) | 💿 saturnRingRealKF1(physicsPatch) | 開始の行の上端(⛓️🕶️ / 💿) | 行の左右 ⊂ グループの左右 |
-|---|---|---|---|---|---|---|
-| 390×844 | 601 | 609〜646(37) | 609〜646(37) | 609〜665(56・2 行に折り返し) | 652 / 671 | 12/378 ⊂ 12/378 |
-| 768×1024 | 691 | 699〜736(37) | 699〜736(37) | 699〜736(37) | 742 / 742 | 12/756 ⊂ 12/756 |
-| 1024×768(2 カラム) | 187 | 195〜232(37) | 195〜232(37) | 195〜251(56) | 238 / 257 | 621.3/1012 ⊂ 621.3/1012 |
-
-基点 8b05232 の html では同じ検査が FAIL する(390×844 で ⛓️ の行は 540〜577・親は `#page-params` —— 見出し 601 より上)。ワンタップ対照の無い 🪐 saturn では行は `display:none`・高さ 0 のまま。en の文言も不変(`⚖️ One-tap control A/B (side B: …`)。🎠 galaxyMeshSpiral 系の 3 本は `abQuick:{key:"D0",v:500}` を宣言しているが相変化の `phase` を持たないので、第62便の表示条件どおり**行は出ない**(基点でも同じ —— 本便は表示条件を変えていない。下の ⑦)。
-
-**② 停止集合(AN22 —— `tests/lib-w281a-scope.mjs`・領域 hash の版 w281a-scope-1 → w282e-scope-2)。** 第281便a の閉包は roots(器の局所変数と同名の `$`・`ctx`・`ch`・`sim` 等)から、閉包の let へ代入する関数(`loadPreset` → `camFollowPreset`・`resizeCanvas`/`showFirstVisit` → `ch`・`render` → `tempP90EMA` …)を経て UI の関数(`buildParamRows`・`renderSaves`・`applySkin`・`syncPanelWideReserve` …)まで入っていた。**純粋な表示関数 19 個**を `SCOPE_STOP` に宣言し、閉包から除く —— 保存・カスタム一覧とパネルの再計測(`renderSaves`・`renderCustomList`・`panelContentChanged`)・スキン(`applySkin`・`setSkin`・`setCanvasSkin`)・パラメータ行とワンタップ対照の行・控除・キャンバスの寸法(`buildParamRows`・`updateAbQuickRow`・`syncPanelWideReserve`・`resizeCanvas`・`applyUiScale`)・言語と説明(`applyLang`・`renderHelp`・`showFirstVisit`)・描画(`render`・`drawSpaceLinesOn`・`drawEmergence`・`drawOrbitObs`・`pmRender`)。止めた関数は (a) 名前で辿らない (b) 書き換える文・代入する関数としても入れない (c) 器の roots に**素の名前**で書かれていても辿らない(素の名前は器の局所変数との同名から機械で引いた下限)。**`$`・`ctx`・`sim` は止めない**。物理側(`validatePreset`・`applyQLock`・`qLockCalc`・`makeSim`・`loadPreset`・`geo3InitVelocity`・メッシュ速度・`dfmCoreFieldStep`・`coreFieldInitState`・`bgSourcesBodyCheck` —— `PHYSICS_KEEP`)は依存に残る(QA が宣言 20 器の閉包で照合)。止めてよい根拠は**静的な照合**だけである: 停止した関数が本体で(操作ハンドラ = 入れ子の関数の外で)直接書く閉包の名前は 27 件で、すべて**表示の境界** 12 名(`cv`・`ctx`・`dpr`・`cw`・`ch`・`tempP90EMA`・`emTick`・`emHist`・`_ooLast`・`pmCells`・`paramRowSync`・`_monCls`)の中。宣言した 20 器(import する lib と正本の `code[]` を含む)は停止関数・境界の名前を `HP.<名前>` の式や文字列で読まない。操作ハンドラの中の書き込み 20 件は辿らない(器は UI を操作しない —— 第281便a ⑨② と同じ限界)。
-
-**刻印の版で照合する。** 旧版の刻印(21 本)は旧版の閉包(停止集合なし)で引き直して照合する —— 旧版は新版より広いので、旧版で一致すれば新版でも同じ領域を読んでいる。新しい刻印は新版だけで作る。**宣言 21 本の旧刻印は付け替えていない**(統合時に統括が行う)。下限の照合(`lint.regenScope` ②)は新版の閉包で行い、刻印の道具(本 lib と再生成表)は下限を引く対象から外した(停止集合の文字列を「器が名前で読む」と数えないため)。
-
-実測(`tools/scope-probe.mjs --base beta/_w282_base.html` —— 一時 html は書いて消す・正本は書かない):
-
-| 項目 | 結果 |
-|---|---|
-| 閉包の名前(sparc の宣言) | 旧版 966 → 新版 **763**(inline script に占める割合 0.3786 → 0.3134) |
-| (a) 基点 8b05232 の html | 旧版で引き直すと刻印と一致 **21/21**・新版で引くと変わる **21/21**(版が本文に入る —— 旧刻印は target 一致で通る)/ 本便の html でも旧版で一致 21/21(マークアップとコメントだけの差) |
-| (b) CSS の `--bg` + 第281便e で変えた表示関数 9 個の本体に 1 文 + 行の位置を戻したマークアップ | 変わった本数 旧版 **21/21**・新版 **0/21** |
-| (c) `validatePreset` の本体に 1 文 | 新版で **21/21** 変わる |
-| (d) ❄️ の冥王星の質量 0.001303 → 0.001304 | 新版で **11/21** 変わる(❄️ か all を宣言した本 —— charon・charoneps・charonk・charonfactors・bgequiv・bgbudget2・mercury・charonInput・geo3・shapecrit〔all〕・d68〔all〕。CANON の中では第281便a と同じ 10 本 + CANON の外の charon-w272b)・予想と 1 本ずつ一致 |
-
-**③ 再生成計画の「どの入力・式・受理規則で無効化されたか」の列(`tests/lib-w281a-regentable.mjs`・版 w282e-regentable-2 / `tools/regen-plan.mjs`)。** 各段に `causeText` を出す: 入力(`入力: tests/out/…`・安定 hash も違う)/ 式(器・lib の刻印・html の関数名・`S._core`)/ プリセット(生の定義)/ 受理規則(生の定義は同じで受理後だけ変わった本)/ 定数 / 依存先 / 常時群 / 履歴。領域の不一致の内訳は、刻印時の html(`meta.targetSha256` と sha が同じ html を `--base` に渡したとき)だけ引ける。実測(基点 html を `--base`): `validatePreset` に 1 文 → 宣言した本は「式: validatePreset」/ ❄️ の質量 → 「プリセット: plutoCharonReal」/ (b) の一時 html → 旧版の刻印のままなので「式: applySkin, setSkin, resizeCanvas, syncPanelWideReserve 他 4」(付け替えた後は新版で領域一致になる —— ② の (b))。本便の html での計画の件数は旧 lib と新 lib で同じ(常時 11・再生成 31・**再利用 28**・再計画 10・履歴 2 —— 再利用は減っていない)。
-
-**④ 安定 hash の除外契約(`stableJsonSha` —— 版 w282e-stable-1)。** 第281便a の安定 hash は欄名(`when`・`durationMs`・`wallClock` …25 個)を**階層を問わず**除いていた —— 観測の元期や継続時間の欄まで落としうる(calaudit の `/meta/stopRule/wallClock` は壁時計の扱いの**説明文**だが、欄名で落ちていた)。本便から**正本ごとに宣言した JSON Pointer だけ**を除く(再生成表の段の `volatilePaths`・表の外の入力は `EXTERNAL_VOLATILE`・既定は除外なし・`*` は 1 段の任意の鍵/添字)。方式の版と Pointer の並びを hash の本文に入れる。Pointer の最後の鍵は実行時刻・壁時計の所要(`generatedAt`・`when`・`carriedOverFrom`・`mtime` = ISO 日時 / `wallSec`・`rateStepsPerSec`・`spentSec`・`elapsedS` = 有限の数)に限る。宣言したのは 9 ファイル・Pointer 33 本(今の正本で 581 か所に合う・そのうち 16 本は meta の外 —— calaudit の各本の `run.wallSec`・`timeBudget[].wallSec` 等、charoneps の各列の `wallSec`、bgequiv・bgbudget2 の `elapsedS`)。実パス(8b05232 の正本で確認):
-
-| 正本 | 除く Pointer |
-|---|---|
-| calaudit-w249 | `/meta/when`・`/fourValues/current/when`・`/diagnosticsSplit/carriedOverFrom`・`/presets/*/run/wallSec`・`/presets/*/run/timeBudget/*/{wallSec,rateStepsPerSec}`・`/presets/*/run/stopRule/{wallSec,rateStepsPerSec}`・`/presets/*/run/stopRuleStages/*/{wallSec,rateStepsPerSec}`・`/presets/*/run/dtEighth/wallSec` |
-| calaudit-w249-diag | (なし —— 空の宣言) |
-| bgpredict-w276a | `/meta/generatedAt`・`/meta/inputs/*/mtime`・`/meta/code/*/mtime` |
-| bgequiv-w278d・bgbudget2-w279c | 同上 + `/elapsedS` |
-| charoneps-w276b | 同上 + `/columns/*/{h,h2,h4}/wallSec` |
-| analogy-w265a(表の外) | `/meta/when`・`/meta/inputs/*/mtime`・`/meta/spentSec` |
-| kjoint2-w265a(表の外) | `/meta/spentSec` |
-| obscal-results(表の外) | `/manifest/generatedAt` |
-
-検証: (i) 合成の値で、観測の `durationMs`・`when` を変えると hash が変わる/宣言した生成時刻だけを変えても同じ/宣言なしなら生成時刻も効く —— 旧方式は同じ観測の 2 欄の変化を**見落とす**。(ii) 安定 hash を刻まれた実物 8 ファイルで、旧方式の欄名に当たる実行時刻・所要の値(数値か ISO 日時)を 1 つずつ変えても新方式の hash は同じ(calaudit 502 か所・charoneps 45・bgbudget2 12・bgequiv 8・analogy 6・bgpredict 5・obscal 1・kjoint2 1 —— 宣言漏れ 0)。宣言の外を 1 つ変えると変わる。(iii) 実際の再走(calaudit の 53aaa64 → 8b05232)で変わった欄は、宣言した実行時刻・所要のほかに `targetSha256`(html が変わった —— 正しく効く)と `/diagnosticsSplit/{sha256,bytesBeforeSplit,bytesAfterSplit}`(分離した診断ファイルに壁時計由来の速度が入るため)である —— 後者は**宣言していない**(実行時刻ではなく診断ファイルの内容の hash なので、除くかは裁定に回す —— ⑦)。**刻印**: 既存の 15 行(版なし)は旧方式で照合する(照合専用 `legacyStableJsonSha` —— 新しい刻印には使わない・統合時に付け替えたら使わなくなる)。
-
-**⑤ 研究用 RC の条件文(AA16)。** `docs/dev/RC_RESEARCH.md` に ①法則/速度/参照系/単位の契約 ②NaN・縮退・閉包失敗の可視化 ③閉じた系の E/P/L と開いた系の交換帳簿 ④主要診断の刻み・軟化・窓の収束 ⑤概要/カード/保存の一致 ⑥beta と root の必要 QA を置き、「kF0 の観測合・DFM の概略整合・アナロジーの形状達成は別々に開示する」「観測 3σ 合は条件にしない」と書いた。**本便は RC を切らない**(条件文を置いただけ)。
-
-**⑥ QA。** 新設 `ui.abQuickPlacement`(配置 —— beta 線は常に・root は見出し直下の行があるときだけ)・`lint.scopeStop`(停止集合の宣言・直接の書き込み ⊆ 境界・器が読まない・物理側が閉包に残る・(b)(c)(d) の感度・旧刻印の数 —— root は SKIP)・`lint.stableHashPaths`(宣言の存在・Pointer の実在と値の型・回帰・実物・刻印の版 —— root は SKIP)・`docs.rcResearch`(条件文の 6 項目・開示の分離・3σ を条件にしない・PHYSICS からの参照)。変更 `lint.provenanceMeta` ③(安定 hash を刻印の版で照合)。**固定値を変えた QA は無い。** 部分実行(1 本の Chromium): 新設 4・`lint.provenanceMeta`(基点 html で PASS)・`lint.regenScope`・`ui.contrast`・`ui.skin`・`ui.panelReserve`・`ui.61b-tools`・`ui.63-ab-tools`・`ui.54d-params`・`i18n.toggle`・`lint.coreBudget`・`syntax` が PASS。同じ切り出しに入る `divergence.undo` は部分実行器での既存の FAIL(基点でも同じ —— 第281便e と同じ)。本便の html では `lint.provenanceMeta` が**宣言の無い 25 本**(bh90・qsplit・bhcore・galaxyprof・needmesh・galaxylite・kf0ledger 旧/新・presetaxes・kfgate・galaxyprof2・d0audit・meshnod0・bgfield・d0sites・bgpredict・selfinertia・bgbudget・slipaudit・samplestatus・bgcompose・spherekernel・strain・galaxychain・rotorledger)の ② で落ちる —— html を 1 バイトでも変えた枝の統合後に統括が再走する種類の FAIL(AG10)で、宣言した 21 本は旧版の領域一致で通る。preflight(`tests/qa-preflight.mjs`・ブラウザなし)は基点 html で **154/154**、本便の html で 144/154 —— 落ちる 10 件(`lint.provenanceMeta`・`lint.calauditMergeKeyHash`・`docs.d0audit-sync`・`docs.d0sites-sync`・`docs.bgpredict-sync`・`docs.selfInertia-sync`・`docs.bgbudget-sync`・`docs.bgCompose`・`docs.sphereKernel`・`docs.kf0Ledger`)はどれも正本を html 全体の sha256 で縛る照合で、同じ種類である。root(`QA_TARGET=index.html`)では `ui.abQuickPlacement`・`lint.scopeStop`・`lint.stableHashPaths` が SKIP。
-
-**⑦ 未解決・決断事項候補。** ① 停止集合の最終案(本便の 19 関数で止めるか —— 閉包には `callLLM`・`importCandidates`・`applyCamFollow`・`pmStart`・`beLayApply` 等が、局所変数 `ch` の同名代入や操作系の let を経てまだ入っている。広げるなら同じ静的照合〔直接の書き込み ⊆ 境界〕を通す)② 表示の境界 12 名に `ctx`・`ch`・`cw`・`dpr` を置いたこと(停止関数がキャンバスの寸法と描画状態だけを書くことの宣言 —— 物理側がこれらを読まないことは静的には示せていない。`makeSim` の `ch:` は粒子の配列の欄名、`validatePreset` の `cv` は局所変数)③ volatilePaths の実パス一覧(上の表)と、meta の外の 16 本を認めるか ④ calaudit の `/diagnosticsSplit/{sha256,bytes…}` を除くか(除かないと calaudit を同じ html で走らせ直しても後段は「再計画」から戻らない)⑤ 旧刻印(領域 21 本・安定 hash 15 行)の付け替え(統合時)と、付け替えた後に旧方式の照合を撤去するか ⑥ RC 条件文の置き場(docs/dev か PHYSICS)⑦ ワンタップ対照の行を「A/B比較を開始」の上に置くか下に置くか(本便は上 —— 見出しの直下)⑧ 🎠 系の `abQuick:{D0}` は `phase` が無いので行が出ない(表示条件を相変化以外へ広げるか)。
-
-**言わないこと。** 「停止した関数は結果を変えない」(静的な照合と感度の自己試験だけ —— 操作ハンドラの中は辿らない)・「再生成が不要になった」・「安定 hash が一致したから結果が同じ」・「研究用 RC の条件を満たした」(条件文を置いただけで、RC は本便の範囲外)。
-
 〔第282便a — 較正契約便(3 系統の契約・旧 4 値の履歴化・f=1 の棚卸しと恒星連星 2 本の移行・kF0 棚卸し表の f)〕
 
 原仮定者の裁定(第72報)②③⑤⑥ —— 現実較正の合を目指すのは kF0 版だけ・DFM 版は観測値との大きな差異を無くす範囲・f≈2 と f≈1+kFrame は廃止し f≈1 も f=1 に・geoPN=1 で進めて geoPN=2/3 は比較・星団以降はアナロジー —— を、**判定を 1 つも動かさずに**契約と台帳へ落とした。**本便で物理を変えたのは ✴️ `alphaCenABDFM` と 💫 `siriusABDFM` の 2 本だけ**(f→1・m を基準質量へ)で、他の 138 本は bitsame・sigsame とも同一。`S._core` は不変。
@@ -26554,6 +26405,102 @@ geoPN=1 の Σm·v は近点側(+x)へ**永年的に増える**(公転ごとに�
 
 **言わないこと。** 「一般相対論の保存則に反する」(Σm·v は相対論的な全運動量ではない)・「geoPN=2 は 2PN」・「観測一致を達成した」・「較正を完了した」・「kF0 版が成立した」・「精度を上げれば成立する」・「反作用を返せば二体の 1PN になる」。
 
+〔第282便c — 引きずりプロファイル便(kF0 不感の実証・天体種別 × 相対自転 × R_drag の純関数・既存本の診断表・NS/BH のコア半径の宣言)—— **エンジン未接続**〕
+
+原仮定者の裁定(第72報)④「**較正は引きずりパラメータで行い、天体種別と相対自転で分けて観測値に合わせる。中心密度が高い場合、計算で使う半径は外殻の半径をそのままでは使えない**」と統括の読み R80 に応える便である。**html は 1 バイトも変えていない**(`S._core` 35197 字のまま・プリセットは足していない・既存 140 本の物理は不変 —— bitsame/sigsame 140/140)。**fit はしていない**(A_type・q_type の値は置かない —— 観測に合わせるのは第283便以降 1 本ずつ)。純関数 `tests/lib-w282c-dragprofile.mjs`(版 w282c-1)・器 `tests/exp-w282c-dragprofile.mjs`(Node だけ —— 環境変数なし・他の正本を読まない・数秒)・正本 `tests/out/dragprofile-w282c.json`(来歴 w272e-1・領域 hash つき)。
+
+**① kF0 は引きずりでは直らない(実測)。** ✴️ alphaCenABDFM と ⚡ psrDoubleABDFM を **kFrame=0 に置き換えたコピー**(器の中だけ)で、引きずり減衰 q を 2 と 8 にして 128 歩(`sim.step(0.016)`)走らせ、位置・速度・自転(殻の spin と独立コアの J)をビットで比べた。q は 2 通りに変えた —— 両星の `body.dragQ`(粒子別の q —— いまの 2 本の宣言)と、`body.dragQ` を外した `physics.q`。
+
+| 本 | geoPN | body.dragQ 2 → 8 | physics.q 2 → 8 | 状態の hash(先頭 16 桁) |
+|---|---|---|---|---|
+| ✴️ alphaCenABDFM | 1 | **ビット一致** | **ビット一致** | 83bba7df8c57df2c |
+| ✴️ alphaCenABDFM | 2 | **ビット一致** | **ビット一致** | 75b0faa2baa2ad52 |
+| ⚡ psrDoubleABDFM | 1 | **ビット一致** | **ビット一致** | b042429501ffc201 |
+| ⚡ psrDoubleABDFM | 2 | **ビット一致** | **ビット一致** | 81807f80788d5ff6 |
+
+**kFrame=0 では q を変えても力学は 1 bit も動かない**(4 条件 × 2 種)。したがって「引きずりパラメータで較正」は **DFM 版の概略整合のノブ**であり、**kF0 版の合は入力・数値精度・測定写像で目指す**(引きずりのノブでは届かない)。
+
+**対照(kFrame=1)と、geoPN=1 の構造。** 同じ 128 歩で:
+
+| 本 | geoPN | kFrame=1 の q 2 → 8(最大差 位置 / 速度) | kFrame 0 → 1(最大差 位置) |
+|---|---|---|---|
+| ✴️ alphaCenABDFM | 1 | **ビット一致** | **ビット一致** |
+| ✴️ alphaCenABDFM | 2 | 1.09×10⁻¹⁰ / 8.34×10⁻¹¹ | 1.19×10⁻⁷ |
+| ⚡ psrDoubleABDFM | 1 | **ビット一致** | **ビット一致** |
+| ⚡ psrDoubleABDFM | 2 | 5.12×10⁻¹³ / 1.18×10⁻¹⁰(コアの J 2.89×10⁻⁴) | 4.07×10⁻²(コアの J 9.31) |
+| 🌘 earthMoonRealKF1 | 1 | **ビット一致** | **ビット一致** |
+| 🌘 earthMoonRealKF1 | 2 | 1.01×10⁻⁷ / 9.85×10⁻⁸ | 1.04×10⁻⁷ |
+
+q が効くのは **kFrame=1 かつ geoPN=2**(または 0)のときだけで、**geoPN=1 では kFrame=1 でも q は効かず、kFrame 1 と 0 もビット一致**した(3 本・128 歩)。構造の理由は html の門で、E6′ の追従キックは `if(denom>0 && kFrame>0 && !geo){`(geoPN≥1 の物質には当てない)、geoPN=2 の v−u 輸送 3 項は `g2on=geo2&&kFrame>0`、1PN が読む速度から u を引くのも `geo2` のときだけである(器が門の文字列を html から数えて正本に残す)。**帰結(決断事項候補)**: 較正契約の「現実参照 DFM(f=1・kFrame=1・geoPN=1)」には**物質に効く引きずりの経路が無い**(少なくともこの 3 本の 128 歩で kFrame 1/0 が同じ力学)。引きずりプロファイルを DFM 版のノブにするなら、その経路は geoPN=2(輸送 3 項)か geoPN=0(E6′)にある —— geoPN=1 の主系列で使うには経路の定義が先に要る。
+
+**② プロファイルの最小集合(`profileVersion:"w282c-1"`)。**
+
+| 欄 | 意味 | 本便の扱い |
+|---|---|---|
+| bodyType | 固体 / 気体 / 恒星 / コンパクト(第280便b の densityClass と同じ 4 語 solid/gas/star/compact) | `bodies[].densityClass` から読む(宣言が無ければ null と理由) |
+| relativeSpin | ΔΩ = Ω_j cosθ_j − Ω_orb(自転 − 軌道回転・符号と軸射影)・Ω_orb=(r×v_rel)_z/r² | 状態から読む(全行) |
+| R_drag | 引きずり専用の有効半径(衝突・表示・光学半径と独立) | 密度クラスを宣言した天体だけ計算(③) |
+| A_type | 相対自転チャネルの振幅 | **未宣言**(値を置かない) |
+| q_type | 相対自転チャネルの減衰指数 | **未宣言**(いまの E6′ の q とは別物 —— 混同しない) |
+| profileVersion | 版 | w282c-1 |
+
+**preset の鍵は足していない**(profileOf が読むのは既存の densityClass・radius・spin・core・dragQ だけ —— 鍵にするかは署名が変わるので決断事項)。
+
+**③ R_drag の定義(宣言した近似 —— 表裏核の厳密解ではない)。** 球対称の剛体回転 ρ(r) で **M=4π∫ρr²dr・I=(8π/3)∫ρr⁴dr・R_drag=√(5I/(2M))**。一様球で R_drag=R、中心集中で R より小さい。ρ(s) は html の `dfmSphereRho`(第280便b の宣言された物理入力)をソースから取り出して読み、求積は `dfmGaussLegendre01` の 32 点 × 各区間 64 等分(密度の不連続で区切る)。これは慣性モーメントを保つ一様球の半径であって、第280便b の表裏核(球の表裏を積分した複素モーメント)の振幅や遠方の指数を再現する量ではない。**2D の I=mR²/2(エンジンの `Imom=0.5*m*R*R`)を 3D の I に代入しない** —— 3D の I は密度の積分から出し、比 I₃D/(½mR²)=2·I/(MR²) を表に並べる。
+
+| クラス(宣言) | R_drag/R | I/(MR²) | ρ_c/ρ̄ | I₃D/(½mR²) |
+|---|---|---|---|---|
+| compact(一様) | 1.0000 | 0.4000 | 1.0000 | 0.8000 |
+| gas β=0(一様) | 1.0000 | 0.4000 | 1.0000 | 0.8000 |
+| solid(2 層 coreFrac 0.546・coreRatio 2.44 —— 形の例示) | 0.9310 | 0.3467 | 1.9767 | 0.6934 |
+| gas β=1 | 0.8452 | 0.2857 | 2.5000 | 0.5714 |
+| gas β=3 | 0.6742 | 0.1818 | 6.5625 | 0.3636 |
+| star n=1 | 0.8084 | 0.2614 | 3.2899 | 0.5228 |
+| star n=1.5 | 0.7152 | 0.2046 | 5.9907 | 0.4092 |
+| star n=3 | 0.4340 | 0.0754 | 54.1825 | 0.1507 |
+
+検算: 一様球で |R_drag/R−1| 1.3×10⁻¹⁵・gas と solid は閉じた式(I/(MR²)=2/(2β+5)・0.4(1+(c−1)f⁵)/(1+(c−1)f³)・ρ_c/ρ̄)と 3.7×10⁻¹⁵・Lane–Emden n=1 の閉じた解(ρ_c/ρ̄=π²/3・I/(MR²)=2/3−4/π²)と 9.4×10⁻¹²・n=3 の ρ_c/ρ̄ は文献値 54.1825 と 3.5×10⁻⁷(文献の桁まで)・細かい求積(64 点 × 128 等分)との差は n=1.5 の 9.0×10⁻¹³ が最大。**中心集中ほど R_drag は小さい**(compact > solid > gas β=1 > gas β=3 > star n=3 の順で単調 —— ρ_c/ρ̄ はその逆順)。内蔵で densityClass を宣言しているのは 🌓 earthMoonDiagOne の地球だけで、R_drag=**5.9397**(R=6.38・solid の例示の形)。
+
+**NS/BH のコア半径。** compact(NS/BH)は**外殻の密度積分を強制せず、R_drag 用のコア半径を宣言**する(`dragRadius` は `coreRadius` を compact だけ受け付け、値をそのまま R_drag にする —— fit して外殻へ戻さない)。**現状はどの本も未宣言**である。⚡🧮🩺🧶 の `core.radius`=0.01(外殻 0.01175)と 🎻 の 5.109277 / 4.43000905(外殻 10.218554 / 8.8600181 の半分)は **f の殻/コア分割(隠れコア)の半径**であって R_drag の宣言ではない(診断表に別の欄で並べる)。
+
+**④ 相対自転チャネルの候補式(現象論・未実証)。** **u^spin_{j→i} = A ΔΩ (R_drag/(R_drag+r))^q e_z×r**(`spinChannel`)。いまの E6′ の自転項 ω_j(d)=s_j(R_j/(R_j+d))^q は**絶対の自転 s_j** を運び、この候補は**相対自転 ΔΩ** を運ぶ点が違う。**同期(ΔΩ=0)で消えるのはこのチャネルだけ**で、背景・並進(v_j の移送)・他の天体の寄与は消えない。単体試験(17/17 PASS): 同期で u が厳密に 0・逆回転で符号がビットで反転・A=0 で 0・u は e_z×r の向き(接線)・遠方で (|u|/r)(r/R_drag)^q → AΔΩ(相対誤差 3.19×10⁻³(10³R_drag)→ 3.20×10⁻⁶(10⁶R_drag)・10 倍ごとに 1/10 —— **∝ R_drag^q/r^q**)。
+
+**縮退(実測)。** (A, R_drag) と (A·(R_drag/R′)^q, R′)(R′=R_drag/2・q=3.2)の u の相対差は 10R_drag で 0.1605・100R_drag で 0.0160・10³ で 1.60×10⁻³・10⁴ で 1.60×10⁻⁴ —— **遠方では A·R_drag^q の積しか決まらない**。1 連星で A・R_drag・q を全部自由にすると縮退するので、**密度 → R_drag → 振幅 → q の順**に決める(密度は観測・内部構造の出典から宣言し、R_drag は ③ で計算し、振幅と q は第283便以降に 1 本ずつ)。
+
+**相対自転の読み方。** ΔΩ は定義どおり**瞬時の** Ω_orb に対する値で、表示の分類(同期 / 速い / 遅い / 逆 / 自転 0)は、接触軌道の平均運動 n(vis-viva・preset の G と質量)があれば n で行う(離心軌道では瞬時の Ω_orb が n と違う —— ☄️ の水星は瞬時の比 −0.033 だが n に対しては +0.500 = 3:2)。同期の許容は表示分類の宣言 |ΔΩ| ≤ 1%(物理に入らない・生の比を併記)。**v_rel を慣性速度差にするか座標速度差にするかは法則版に明記する(未決)** —— 同じ初期状態の月で、🌘(座標速度)は n=2.672×10⁻⁴・自転との差 −0.40%(同期)、🌓(慣性速度 v=ẋ−u(0))は n=2.588×10⁻⁴・+2.87%(速い)と分類が変わる。
+
+**⑤ 診断表(較正対象 19 本・68 行 —— 太陽系 12・恒星連星 2・NS 連星 4・BH 1)。** 太陽系は較正 16 本から同じ系の対(🪨=☄️ の kF1 雛形・🌙=🌘 の kF0 対照)と監査コピー(🧲🔆)を除いた 12 本。行は single の天体ごと(環の粒子群は対象外)。自転の分類は「主星以外 = 自分の自転 − 主星まわりの公転」「主星 = 自分の自転 − 最も重い相手の公転」。
+
+| 本 | 系統 | kFrame/geoPN | 現状の q(出所) | 行 | 自転の代理値 spin | 外殻半径 R | 密度クラス | R_drag | NS/BH の R_drag 用コア半径 | ΔΩ の分類(行順) | 連星 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| ☄️ mercuryReal | 太陽系 | 0/2 | 3(physics.q) | 2 | 0.02903/0.0124 | 6.95/0.0244 | 未宣言 | — | — | 速い・速い | 自由 |
+| 🌞 solarInner | 太陽系 | 1/2 | 5.1(physics.q) | 5 | 0.02903/0.0124/−0.002992/0.7292/0.7088 | 6.96/0.0244/0.0605/0.0637/0.0339 | 未宣言 | — | — | 速い・速い・逆・速い・速い | — |
+| 🌇 venusReal | 太陽系 | 1/2 | 5.626(physics.q) | 2 | 0.02903/−0.002992 | 6.96/0.0605 | 未宣言 | — | — | 速い・逆 | 自由 |
+| 🌘 earthMoonRealKF1 | 太陽系 | 1/2 | 8.2358(physics.q) | 2 | 0.007292/0.0002662 | 6.38/1.74 | 未宣言 | — | — | 速い・同期 | 片側ロック |
+| 🥔 marsMoonsReal | 太陽系 | 1/2 | 19.5783(physics.q) | 3 | 0.007088/0/0 | 3.3895/0.01108/0.01 | 未宣言 | — | — | 遅い・自転 0・自転 0 | — |
+| 🟠 jupiterGalilean | 太陽系 | 1/2 | 12.0586(physics.q) | 5 | 0.1759/0.04111/0.02048/0.01016/0.004357 | 7.1492/0.18216/0.15608/0.26341/0.24103 | 未宣言 | — | — | 速い・同期・同期・同期・同期 | — |
+| 📡 saturnZonalD68 | 太陽系 | 0/2 | 3(physics.q) | 11 | 0.01653/0 ×10 | 60.3/0.1 ×10 | 未宣言 | — | — | 遅い・自転 0 ×10 | — |
+| 💍 saturnRingReal | 太陽系 | 0/2 | 3(physics.q) | 7 | 0.01653/0 ×5/0.000456 | 60.3/0.198/0.252/0.531/0.5615/0.7635/2.5747 | 未宣言 | — | — | 速い・自転 0 ×5・同期 | — |
+| 💿 saturnRingRealKF1 | 太陽系 | 1/2 | 20.4932(physics.q) | 7 | 0.01653/0 ×5/0.000456 | 60.3/0.198/0.252/0.531/0.5615/0.7635/2.5747 | 未宣言 | — | — | 速い・自転 0 ×5・同期 | — |
+| 💠 uranusReal | 太陽系 | 1/2 | 13.792(physics.q) | 6 | 0.01012/0.005145/0.002885/0.001755/0.0008353/0.0005402 | 25.559/0.2357/0.5789/0.5847/0.7889/0.7614 | 未宣言 | — | — | 速い・同期 ×5 | — |
+| 🌊 neptuneReal | 太陽系 | 1/2 | 10.1893(physics.q) | 2 | 0.1083/−0.01237 | 2.4764/0.13534 | 未宣言 | — | — | 逆・同期 | 片側ロック |
+| ❄️ plutoCharonReal | 太陽系 | 1/2 | 11.9386(physics.q) | 2 | 0.001139/0.001139 | 1.188/0.606 | 未宣言 | — | — | 同期・同期 | 同期 |
+| ✴️ alphaCenABDFM | 恒星連星 | 1/2 | 4.61112/4.52589(dragQ) | 2 | 4.574/2.007 | 0.084738/0.05979336 | 未宣言 | — | — | 速い・速い | 自由 |
+| 💫 siriusABDFM | 恒星連星 | 1/2 | 4.67614/4.10047(dragQ) | 2 | 13.66/0 | 0.11932224/0.01 | 未宣言 | — | — | 速い・自転 0 | 自由 |
+| ⚡ psrDoubleABDFM | NS 連星 | 1/2 | 3.17886/3.18502(dragQ) | 2 | 0/0(コア Ω 0/22.654675) | 0.01175/0.01175 | 未宣言 | — | 未宣言(core.radius 0.01/0.01) | 自転 0・自転 0(観測の自転では 速い・速い) | 自由 |
+| 🧮 psrJ1757DFM | NS 連星 | 1/2 | 3.17257/3.16903(dragQ) | 2 | 0/0 | 0.01175/0.01175 | 未宣言 | — | 未宣言(core.radius 0.01/0.01) | 自転 0・自転 0(観測の自転では A 速い) | 自由 |
+| 🩺 psrJ1946DFM | NS 連星 | 1/2 | 3.18559/3.18815(dragQ) | 2 | 0/0 | 0.01175/0.01175 | 未宣言 | — | 未宣言(core.radius 0.01/0.01) | 自転 0・自転 0(観測の自転では A 速い) | 自由 |
+| 🧶 psrB1534DFM | NS 連星 | 1/2 | 3.16516/3.16439(dragQ) | 2 | 0/0 | 0.01175/0.01175 | 未宣言 | — | 未宣言(core.radius 0.01/0.01) | 自転 0・自転 0(観測の自転では A 速い) | 自由 |
+| 🎻 gw150914DFM | BH 連星 | 1/0 | 3.25519/3.25053(dragQ) | 2 | 0/0 | 10.218554/8.8600181 | 未宣言 | — | 未宣言(core.radius 5.109277/4.43000905) | 自転 0・自転 0 | 自由 |
+
+**較正対象の 68 行で densityClass の宣言は 0**(R_drag は 1 行も計算しない —— クラスを器が仮に当てはめることもしない)。NS の力学上の自転は値域(±20)のために spin=0 の宣言で、観測の自転は `spinDipole.omega`(表示・診断専用)にある —— 観測の自転で読むと A 星は公転より速い。
+
+**⑥ 検証。** html は変えていない(基点 8b05232 と同じ bytes)ので既存 140 本の物理・署名・4 値 0/2/2/33 は動かない —— bitsame 140/140(600 步・`identical:true`)・sigsame 140/140・jitprobe の出力チェックサム 4 本とも基点と一致(galaxyGeo2 `3cfc4377` / bhCore `9f6bc4f3` / galaxyMeshSpiral `d3586b30` / gw150914DFM `4483ba64`)。QA: `behavior.dragProfilePure`(単体試験をその場で回す・正本の行と pass の並びが一致)・`docs.dragProfile`(正本といまの html から引き直した参照表・診断表・🌓 を相対 1e-12 で照合・kF0 不感の 4 条件 × 2 種を headless でもう一度走らせてビット一致・対照が動く・表の本数 19・行数 68・PHYSICS に同じ書式の数・「言わないこと。」より前に禁止の言い回しが無い)。root では 2 つとも SKIP。再生成表(`tests/lib-w281a-regentable.mjs`)に段 `dragprofile` を追加(実測 約 2 秒・環境変数なし・`after` なし —— 他の正本を読まない)、`lint.provenanceMeta` の CANON にも追加した。
+
+**⑦ 未解決・決断事項候補。** ① **AN26**: R_drag の定義(√(5I/(2M)) を採るか —— 宣言した近似であって表裏核の厳密解ではない)と、NS/BH の R_drag 用コア半径の値(どの出典の半径を宣言するか —— いまの core.radius は隠れコア)② **v_rel の定義**(慣性速度差か座標速度差か —— 🌓 と 🌘 の月で分類が変わる)③ **A_type/q_type の初期値の置き方**(値を置かないまま始め、観測に合わせるのは第283便以降 1 本ずつ・密度 → R_drag → 振幅 → q の順)④ **profile を preset の鍵にするか**(するとプリセットの署名が変わる —— 本便は既存の鍵だけを読む)⑤ **geoPN=1 の DFM 版に引きずりの経路が無い**(① の対照 —— 現実参照 DFM を geoPN=1 で走らせるなら、プロファイルのノブを効かせる経路の定義が先に要る)⑥ 同期の表示分類の許容 1% は宣言値(物理に入らない)。
+
+**言わないこと。** 「kF0 版が成立した」「引きずりで kF0 を合わせた」「観測一致を達成した」「較正を完了した」「f=1 で合った」「引きずり消失を確認した」「新発見」—— ① は「kFrame=0 では q を変えても力学が 1 bit も動かない」ことの実測であり、R_drag は宣言した近似、相対自転チャネルは候補式(現象論・未実証)である。
+
 〔第282便d — アナロジー便(場の契約の読み手・中心 DFM BH のスピン応答・恒星質量ダークローターの質量要素・f=1 台帳・参考 3 件の行分け)〕
 
 **起点**: 原仮定者の裁定(第72報)⑥「アナロジーマイルストーンは geoPN=3・中心にスケール調整した DFM 版ブラックホール。対象は球状星団・楕円銀河・渦巻銀河・棒渦巻銀河。質量合わせは恒星質量ダークローター」と、統括の読み R81(**統括が 8b05232 の実コードで確認済み**: 🎋 の経路は中心の自転を読まない —— 第281便b の中心 spin 1.2/0 の 2 走行がビット一致)・AN17(場の正典は力学と同じ読み手・D₀ と W_bg は別鍵)・AN18(R_edge は診断・場は切らない)・AN19(アナロジーは 1 M☉ を代表・0.1/10 M☉ は比較・η=1 が基準)。器は `tests/exp-w282d-analogy.mjs`(Node だけ・約 2.5 分・環境変数なし)、正本は `tests/out/analogy-w282d.json`(領域 hash `REGEN_SCOPE`・**正本 `galaxychain-w281b.json` を読むので再生成表の after は galaxychain**)。**既存 140 本の物理は 1 bit も動かしていない**(基点 8b05232 の beta と全内蔵 600 步の指紋 bitsame 140/140・presetSig の文字列 sigsame 140/140(追加は 🌚 の 1 本)・JIT の A/B ベンチ 5 本で基点比 ×0.84〜×0.98・`S._core` の本文は不変)。
@@ -26653,6 +26600,59 @@ geoPN=1 の Σm·v は近点側(+x)へ**永年的に増える**(公転ごとに�
 
 **言わないこと。** 平坦回転を再現した/銀河を較正した/観測一致を達成した/ダークローター=浮遊惑星の検出/消失星=DFM 減光の実例/中心の自転が回転を作った/表示と力が同じ場になった/新発見。
 
+
+〔第282便e — UI便7+運用便(ワンタップ対照の配置・停止集合 AN22 の実測・安定 hash の除外契約・研究用 RC の条件文 AA16)(**表示と器だけ**・物理は 1 bit も動かさない)〕
+
+原仮定者の裁定(第72報)⑦「ワンタップ対照のボタンを A/B比較のラベルの下に配置」・AN22(停止集合を宣言し、受理後の実効プリセット JSON+力学関数+_core で縛る・1 便分測ってから採否)・AA16(RC は切らない・条件文は docs/dev)と統括の検証項目 R82。**表示と器だけ**(bitsame **140/140**〔600 步・`identical:true`〕・sigsame **140/140**・jitprobe の出力チェックサム 4 本とも基点と一致・`S._core` 35197 字で不変)。プリセットは足していない。**RC は切らない。**
+
+**① ワンタップ対照の配置。** `#abQuickRow`(第62便で「A/B比較」グループより上の共通行に置いた・JS が動的生成)を `#abGroup` の中の `h3#abHead` の**直下**(「A/B比較を開始」の行より上)へ移した。表示条件(相変化 `abQuick` / 粒子 patch `abBody` があるプリセットだけ —— `updateAbQuickRow`)・`#pmRow`(相図ランナーの行 —— `#abGroup` の直前のまま)・タブ幅・横画面 2 カラム・文言(ja/en)は変えていない(JS はコメントだけ)。実測(QA `ui.abQuickPlacement`・パラメータタブ・`#abGroup` を先頭へスクロールした状態の bounding box px —— 見出しの下端 ≤ 行 ≤ 開始の行の上端):
+
+| 画面 | 見出しの下端 | ⛓️ chain2(相変化) | 🕶️ darkrotor(abBody) | 💿 saturnRingRealKF1(physicsPatch) | 開始の行の上端(⛓️🕶️ / 💿) | 行の左右 ⊂ グループの左右 |
+|---|---|---|---|---|---|---|
+| 390×844 | 601 | 609〜646(37) | 609〜646(37) | 609〜665(56・2 行に折り返し) | 652 / 671 | 12/378 ⊂ 12/378 |
+| 768×1024 | 691 | 699〜736(37) | 699〜736(37) | 699〜736(37) | 742 / 742 | 12/756 ⊂ 12/756 |
+| 1024×768(2 カラム) | 187 | 195〜232(37) | 195〜232(37) | 195〜251(56) | 238 / 257 | 621.3/1012 ⊂ 621.3/1012 |
+
+基点 8b05232 の html では同じ検査が FAIL する(390×844 で ⛓️ の行は 540〜577・親は `#page-params` —— 見出し 601 より上)。ワンタップ対照の無い 🪐 saturn では行は `display:none`・高さ 0 のまま。en の文言も不変(`⚖️ One-tap control A/B (side B: …`)。🎠 galaxyMeshSpiral 系の 3 本は `abQuick:{key:"D0",v:500}` を宣言しているが相変化の `phase` を持たないので、第62便の表示条件どおり**行は出ない**(基点でも同じ —— 本便は表示条件を変えていない。下の ⑦)。
+
+**② 停止集合(AN22 —— `tests/lib-w281a-scope.mjs`・領域 hash の版 w281a-scope-1 → w282e-scope-2)。** 第281便a の閉包は roots(器の局所変数と同名の `$`・`ctx`・`ch`・`sim` 等)から、閉包の let へ代入する関数(`loadPreset` → `camFollowPreset`・`resizeCanvas`/`showFirstVisit` → `ch`・`render` → `tempP90EMA` …)を経て UI の関数(`buildParamRows`・`renderSaves`・`applySkin`・`syncPanelWideReserve` …)まで入っていた。**純粋な表示関数 19 個**を `SCOPE_STOP` に宣言し、閉包から除く —— 保存・カスタム一覧とパネルの再計測(`renderSaves`・`renderCustomList`・`panelContentChanged`)・スキン(`applySkin`・`setSkin`・`setCanvasSkin`)・パラメータ行とワンタップ対照の行・控除・キャンバスの寸法(`buildParamRows`・`updateAbQuickRow`・`syncPanelWideReserve`・`resizeCanvas`・`applyUiScale`)・言語と説明(`applyLang`・`renderHelp`・`showFirstVisit`)・描画(`render`・`drawSpaceLinesOn`・`drawEmergence`・`drawOrbitObs`・`pmRender`)。止めた関数は (a) 名前で辿らない (b) 書き換える文・代入する関数としても入れない (c) 器の roots に**素の名前**で書かれていても辿らない(素の名前は器の局所変数との同名から機械で引いた下限)。**`$`・`ctx`・`sim` は止めない**。物理側(`validatePreset`・`applyQLock`・`qLockCalc`・`makeSim`・`loadPreset`・`geo3InitVelocity`・メッシュ速度・`dfmCoreFieldStep`・`coreFieldInitState`・`bgSourcesBodyCheck` —— `PHYSICS_KEEP`)は依存に残る(QA が宣言 20 器の閉包で照合)。止めてよい根拠は**静的な照合**だけである: 停止した関数が本体で(操作ハンドラ = 入れ子の関数の外で)直接書く閉包の名前は 27 件で、すべて**表示の境界** 12 名(`cv`・`ctx`・`dpr`・`cw`・`ch`・`tempP90EMA`・`emTick`・`emHist`・`_ooLast`・`pmCells`・`paramRowSync`・`_monCls`)の中。宣言した 20 器(import する lib と正本の `code[]` を含む)は停止関数・境界の名前を `HP.<名前>` の式や文字列で読まない。操作ハンドラの中の書き込み 20 件は辿らない(器は UI を操作しない —— 第281便a ⑨② と同じ限界)。
+
+**刻印の版で照合する。** 旧版の刻印(21 本)は旧版の閉包(停止集合なし)で引き直して照合する —— 旧版は新版より広いので、旧版で一致すれば新版でも同じ領域を読んでいる。新しい刻印は新版だけで作る。**宣言 21 本の旧刻印は付け替えていない**(統合時に統括が行う)。下限の照合(`lint.regenScope` ②)は新版の閉包で行い、刻印の道具(本 lib と再生成表)は下限を引く対象から外した(停止集合の文字列を「器が名前で読む」と数えないため)。
+
+実測(`tools/scope-probe.mjs --base beta/_w282_base.html` —— 一時 html は書いて消す・正本は書かない):
+
+| 項目 | 結果 |
+|---|---|
+| 閉包の名前(sparc の宣言) | 旧版 966 → 新版 **763**(inline script に占める割合 0.3786 → 0.3134) |
+| (a) 基点 8b05232 の html | 旧版で引き直すと刻印と一致 **21/21**・新版で引くと変わる **21/21**(版が本文に入る —— 旧刻印は target 一致で通る)/ 本便の html でも旧版で一致 21/21(マークアップとコメントだけの差) |
+| (b) CSS の `--bg` + 第281便e で変えた表示関数 9 個の本体に 1 文 + 行の位置を戻したマークアップ | 変わった本数 旧版 **21/21**・新版 **0/21** |
+| (c) `validatePreset` の本体に 1 文 | 新版で **21/21** 変わる |
+| (d) ❄️ の冥王星の質量 0.001303 → 0.001304 | 新版で **11/21** 変わる(❄️ か all を宣言した本 —— charon・charoneps・charonk・charonfactors・bgequiv・bgbudget2・mercury・charonInput・geo3・shapecrit〔all〕・d68〔all〕。CANON の中では第281便a と同じ 10 本 + CANON の外の charon-w272b)・予想と 1 本ずつ一致 |
+
+**③ 再生成計画の「どの入力・式・受理規則で無効化されたか」の列(`tests/lib-w281a-regentable.mjs`・版 w282e-regentable-2 / `tools/regen-plan.mjs`)。** 各段に `causeText` を出す: 入力(`入力: tests/out/…`・安定 hash も違う)/ 式(器・lib の刻印・html の関数名・`S._core`)/ プリセット(生の定義)/ 受理規則(生の定義は同じで受理後だけ変わった本)/ 定数 / 依存先 / 常時群 / 履歴。領域の不一致の内訳は、刻印時の html(`meta.targetSha256` と sha が同じ html を `--base` に渡したとき)だけ引ける。実測(基点 html を `--base`): `validatePreset` に 1 文 → 宣言した本は「式: validatePreset」/ ❄️ の質量 → 「プリセット: plutoCharonReal」/ (b) の一時 html → 旧版の刻印のままなので「式: applySkin, setSkin, resizeCanvas, syncPanelWideReserve 他 4」(付け替えた後は新版で領域一致になる —— ② の (b))。本便の html での計画の件数は旧 lib と新 lib で同じ(常時 11・再生成 31・**再利用 28**・再計画 10・履歴 2 —— 再利用は減っていない)。
+
+**④ 安定 hash の除外契約(`stableJsonSha` —— 版 w282e-stable-1)。** 第281便a の安定 hash は欄名(`when`・`durationMs`・`wallClock` …25 個)を**階層を問わず**除いていた —— 観測の元期や継続時間の欄まで落としうる(calaudit の `/meta/stopRule/wallClock` は壁時計の扱いの**説明文**だが、欄名で落ちていた)。本便から**正本ごとに宣言した JSON Pointer だけ**を除く(再生成表の段の `volatilePaths`・表の外の入力は `EXTERNAL_VOLATILE`・既定は除外なし・`*` は 1 段の任意の鍵/添字)。方式の版と Pointer の並びを hash の本文に入れる。Pointer の最後の鍵は実行時刻・壁時計の所要(`generatedAt`・`when`・`carriedOverFrom`・`mtime` = ISO 日時 / `wallSec`・`rateStepsPerSec`・`spentSec`・`elapsedS` = 有限の数)に限る。宣言したのは 9 ファイル・Pointer 33 本(今の正本で 581 か所に合う・そのうち 16 本は meta の外 —— calaudit の各本の `run.wallSec`・`timeBudget[].wallSec` 等、charoneps の各列の `wallSec`、bgequiv・bgbudget2 の `elapsedS`)。実パス(8b05232 の正本で確認):
+
+| 正本 | 除く Pointer |
+|---|---|
+| calaudit-w249 | `/meta/when`・`/fourValues/current/when`・`/diagnosticsSplit/carriedOverFrom`・`/presets/*/run/wallSec`・`/presets/*/run/timeBudget/*/{wallSec,rateStepsPerSec}`・`/presets/*/run/stopRule/{wallSec,rateStepsPerSec}`・`/presets/*/run/stopRuleStages/*/{wallSec,rateStepsPerSec}`・`/presets/*/run/dtEighth/wallSec` |
+| calaudit-w249-diag | (なし —— 空の宣言) |
+| bgpredict-w276a | `/meta/generatedAt`・`/meta/inputs/*/mtime`・`/meta/code/*/mtime` |
+| bgequiv-w278d・bgbudget2-w279c | 同上 + `/elapsedS` |
+| charoneps-w276b | 同上 + `/columns/*/{h,h2,h4}/wallSec` |
+| analogy-w265a(表の外) | `/meta/when`・`/meta/inputs/*/mtime`・`/meta/spentSec` |
+| kjoint2-w265a(表の外) | `/meta/spentSec` |
+| obscal-results(表の外) | `/manifest/generatedAt` |
+
+検証: (i) 合成の値で、観測の `durationMs`・`when` を変えると hash が変わる/宣言した生成時刻だけを変えても同じ/宣言なしなら生成時刻も効く —— 旧方式は同じ観測の 2 欄の変化を**見落とす**。(ii) 安定 hash を刻まれた実物 8 ファイルで、旧方式の欄名に当たる実行時刻・所要の値(数値か ISO 日時)を 1 つずつ変えても新方式の hash は同じ(calaudit 502 か所・charoneps 45・bgbudget2 12・bgequiv 8・analogy 6・bgpredict 5・obscal 1・kjoint2 1 —— 宣言漏れ 0)。宣言の外を 1 つ変えると変わる。(iii) 実際の再走(calaudit の 53aaa64 → 8b05232)で変わった欄は、宣言した実行時刻・所要のほかに `targetSha256`(html が変わった —— 正しく効く)と `/diagnosticsSplit/{sha256,bytesBeforeSplit,bytesAfterSplit}`(分離した診断ファイルに壁時計由来の速度が入るため)である —— 後者は**宣言していない**(実行時刻ではなく診断ファイルの内容の hash なので、除くかは裁定に回す —— ⑦)。**刻印**: 既存の 15 行(版なし)は旧方式で照合する(照合専用 `legacyStableJsonSha` —— 新しい刻印には使わない・統合時に付け替えたら使わなくなる)。
+
+**⑤ 研究用 RC の条件文(AA16)。** `docs/dev/RC_RESEARCH.md` に ①法則/速度/参照系/単位の契約 ②NaN・縮退・閉包失敗の可視化 ③閉じた系の E/P/L と開いた系の交換帳簿 ④主要診断の刻み・軟化・窓の収束 ⑤概要/カード/保存の一致 ⑥beta と root の必要 QA を置き、「kF0 の観測合・DFM の概略整合・アナロジーの形状達成は別々に開示する」「観測 3σ 合は条件にしない」と書いた。**本便は RC を切らない**(条件文を置いただけ)。
+
+**⑥ QA。** 新設 `ui.abQuickPlacement`(配置 —— beta 線は常に・root は見出し直下の行があるときだけ)・`lint.scopeStop`(停止集合の宣言・直接の書き込み ⊆ 境界・器が読まない・物理側が閉包に残る・(b)(c)(d) の感度・旧刻印の数 —— root は SKIP)・`lint.stableHashPaths`(宣言の存在・Pointer の実在と値の型・回帰・実物・刻印の版 —— root は SKIP)・`docs.rcResearch`(条件文の 6 項目・開示の分離・3σ を条件にしない・PHYSICS からの参照)。変更 `lint.provenanceMeta` ③(安定 hash を刻印の版で照合)。**固定値を変えた QA は無い。** 部分実行(1 本の Chromium): 新設 4・`lint.provenanceMeta`(基点 html で PASS)・`lint.regenScope`・`ui.contrast`・`ui.skin`・`ui.panelReserve`・`ui.61b-tools`・`ui.63-ab-tools`・`ui.54d-params`・`i18n.toggle`・`lint.coreBudget`・`syntax` が PASS。同じ切り出しに入る `divergence.undo` は部分実行器での既存の FAIL(基点でも同じ —— 第281便e と同じ)。本便の html では `lint.provenanceMeta` が**宣言の無い 25 本**(bh90・qsplit・bhcore・galaxyprof・needmesh・galaxylite・kf0ledger 旧/新・presetaxes・kfgate・galaxyprof2・d0audit・meshnod0・bgfield・d0sites・bgpredict・selfinertia・bgbudget・slipaudit・samplestatus・bgcompose・spherekernel・strain・galaxychain・rotorledger)の ② で落ちる —— html を 1 バイトでも変えた枝の統合後に統括が再走する種類の FAIL(AG10)で、宣言した 21 本は旧版の領域一致で通る。preflight(`tests/qa-preflight.mjs`・ブラウザなし)は基点 html で **154/154**、本便の html で 144/154 —— 落ちる 10 件(`lint.provenanceMeta`・`lint.calauditMergeKeyHash`・`docs.d0audit-sync`・`docs.d0sites-sync`・`docs.bgpredict-sync`・`docs.selfInertia-sync`・`docs.bgbudget-sync`・`docs.bgCompose`・`docs.sphereKernel`・`docs.kf0Ledger`)はどれも正本を html 全体の sha256 で縛る照合で、同じ種類である。root(`QA_TARGET=index.html`)では `ui.abQuickPlacement`・`lint.scopeStop`・`lint.stableHashPaths` が SKIP。
+
+**⑦ 未解決・決断事項候補。** ① 停止集合の最終案(本便の 19 関数で止めるか —— 閉包には `callLLM`・`importCandidates`・`applyCamFollow`・`pmStart`・`beLayApply` 等が、局所変数 `ch` の同名代入や操作系の let を経てまだ入っている。広げるなら同じ静的照合〔直接の書き込み ⊆ 境界〕を通す)② 表示の境界 12 名に `ctx`・`ch`・`cw`・`dpr` を置いたこと(停止関数がキャンバスの寸法と描画状態だけを書くことの宣言 —— 物理側がこれらを読まないことは静的には示せていない。`makeSim` の `ch:` は粒子の配列の欄名、`validatePreset` の `cv` は局所変数)③ volatilePaths の実パス一覧(上の表)と、meta の外の 16 本を認めるか ④ calaudit の `/diagnosticsSplit/{sha256,bytes…}` を除くか(除かないと calaudit を同じ html で走らせ直しても後段は「再計画」から戻らない)⑤ 旧刻印(領域 21 本・安定 hash 15 行)の付け替え(統合時)と、付け替えた後に旧方式の照合を撤去するか ⑥ RC 条件文の置き場(docs/dev か PHYSICS)⑦ ワンタップ対照の行を「A/B比較を開始」の上に置くか下に置くか(本便は上 —— 見出しの直下)⑧ 🎠 系の `abQuick:{D0}` は `phase` が無いので行が出ない(表示条件を相変化以外へ広げるか)。
+
+**言わないこと。** 「停止した関数は結果を変えない」(静的な照合と感度の自己試験だけ —— 操作ハンドラの中は辿らない)・「再生成が不要になった」・「安定 hash が一致したから結果が同じ」・「研究用 RC の条件を満たした」(条件文を置いただけで、RC は本便の範囲外)。
 
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
