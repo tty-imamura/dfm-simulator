@@ -58,7 +58,7 @@ const out = {
     conclusion: allKf0Same ? 'kFrame=0 では q(body.dragQ・physics.q)を 2→8 にしても 128 歩の位置・速度・自転が 1 bit も変わらない(4 条件 × 2 種)'
       : 'kFrame=0 で q が効く条件がある(行を見ること)' },
   control: { rows: control, gates,
-    note: '対照: kFrame=1 でも geoPN=1 では E6′ の門(!geo)と輸送の門(geo2)が閉じるので q も kFrame も物質の力学に入らない。q が効くのは geoPN=2(または 0)で kFrame=1 のときだけ' },
+    note: '対照: q が効くのは geoPN=2(または 0)で kFrame=1 のときだけ。第283便a から geoPN=1 は kFrame=0 専用で、kFrame=1 の写しは受理器が拒否する(旧 html では E6′ の門〔!geo〕と輸送の門〔geo2〕が閉じて q も kFrame も物質の力学に入らなかった)' },
   units, classes,
   table: { presets: TABLE_PRESETS.map(([id, g]) => ({ id, group: g })), excluded: TABLE_EXCLUDED, nPresets: table.length, nRows, nDensityDeclared,
     syncRelTol: L.SYNC_REL_TOL, rows: table },
@@ -75,7 +75,7 @@ fs.writeFileSync(OUT, JSON.stringify(out, null, 1) + '\n');
 
 const e = (x) => (x === null || x === undefined ? '—' : Number(x).toExponential(2));
 console.log('[w282c] ① kF0 不感: ' + kf0.map((r) => `${r.emoji}geo${r.geoPN} dragQ ${r.dragQ.bitSame} / physics.q ${r.physicsQ.bitSame}`).join(' ・ '));
-console.log('[w282c]    対照 kF1: ' + control.map((r) => `${r.emoji}geo${r.geoPN} q2/8 ${r.kF1DragQ2vs8.bitSame ? '同一' : '差 pos ' + e(r.kF1DragQ2vs8.maxAbs.pos)} ・ kF0/1 ${r.kFrame0vs1.bitSame ? '同一' : '差 pos ' + e(r.kFrame0vs1.maxAbs.pos)}`).join(' / '));
+console.log('[w282c]    対照 kF1: ' + control.map((r) => r.rejected ? `${r.emoji}geo${r.geoPN} 受理器が拒否(geoPN=1 は kFrame=0 専用)` : `${r.emoji}geo${r.geoPN} q2/8 ${r.kF1DragQ2vs8.bitSame ? '同一' : '差 pos ' + e(r.kF1DragQ2vs8.maxAbs.pos)} ・ kF0/1 ${r.kFrame0vs1.bitSame ? '同一' : '差 pos ' + e(r.kFrame0vs1.maxAbs.pos)}`).join(' / '));
 console.log('[w282c]    門: ' + gates.map((g) => g.key + '×' + g.count).join(' '));
 console.log('[w282c] ② 単体試験 ' + units.rows.filter((r) => r.pass).length + '/' + units.rows.length + ' ・ R_drag/R ' + classes.map((c) => c.key + ' ' + c.ratio.toFixed(4)).join(' / '));
 console.log(`[w282c] ③ 診断表 ${table.length} 本・${nRows} 行(densityClass 宣言 ${nDensityDeclared})・ 連星: ` + table.filter((t) => t.lock).map((t) => t.emoji + L.LOCK_JA[t.lock]).join(' '));

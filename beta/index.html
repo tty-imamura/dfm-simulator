@@ -1184,7 +1184,7 @@ ja: {
   // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
   grpSpacetimeDesc:"時空の骨格を決める法則群 — 光速 c₀・重力 G・時空係数 κ(時計と光)・一様重力 g_x/g_y・物理対応ロック(κ=G/c₀²)。この宇宙の「舞台」を作るパラメータ。",
   grpSpinHeatDesc:"スピン=熱のセクター(A9〜A12系)— 圧力の正体であるスピン斥力 kRep・摩擦 muF・衝突減衰 γn・熱伝導 κs・放射冷却 η_rad・ウィーン定数 b_m・熱容量 C。熱・温度・光のスペクトルに関わる法則。",
-  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。",
+  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(モード番号)**: 0=測地線不用 / 1=kF0 版(1PN の測地線・kFrame=0 専用・1PN の反作用を自由源へ返す)/ 2=引きずり有り(DFM 版は kFrame=1)/ 3=空間メッシュ(排他)。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ(第283便a)。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。",
   grpLabBoxDesc:"箱境界のサンプル専用の実験条件 — 伝熱壁の壁温/壁レート(tint 箱のみ)と壁別の反発係数。箱を「ビーカーの壁」として外部環境を与える。箱境界のサンプルでのみ表示される。",
   grpSimDesc:"物理法則ではなく数値・離散化の設定 — ソフトニング ε・時間経過倍率(速回し)・摂動注入・ステップ診断・物理ベンチ。結果の頑健性を確かめる実験ノブでもある。",   /* 第254便c: ステップ診断・物理ベンチを追記(粒子表示倍率は表示カテゴリへ移動) */
   grpGraphDesc:"グラフウィンドウ(回転曲線・温度ヒストグラム・スペクトル・膨張・相変化・機構スペクトル・創発モニタ)の表示切替。表示のみ — OFF なら計測コストもゼロ。「初めから」ではリセットされない(第95便)。",
@@ -1537,6 +1537,7 @@ ja: {
   ioNote:"インポートは「単独プリセット / プリセット配列 / {customPresets:[…]} / バックアップ全体」のどの形式でも自動判別します。パラメータが全く同じデータは取り込まず、名前が同じでパラメータが異なるデータは名前にサフィックスを付けて追加します。インポートしたプリセットは保存一覧にも登録されます。",
   ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
   presetMissing:"元プリセットが見つからないため読込を中止しました(β専用サンプルのセーブを旧版で開いた可能性 — 対応する版で読み込んでください)",
+  geoPN1SaveKF0:"このセーブは geoPN=1・kFrame≠0 — geoPN=1 は kFrame=0 専用(第283便a)なので kFrame=0 として読みました(旧 geoPN=1 では kFrame は物質の力学に入っていません)。引きずりを入れるなら geoPN=2・kFrame=1",
   fwUndeclared:"このセーブは frameWeight 未宣言 — 第242便以降の既定 pull(重力の引き m/d²)で走ります。旧来の挙動に戻すには physics.frameWeight:\"share\" を宣言してください",
   fwNoD0pull:"注意: D0pull 未宣言の現実較正(DFM 版/KF1)は pull では周期が数十% ずれます — 第242便の再較正版サンプルから読み直してください",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
@@ -2013,7 +2014,7 @@ en: {
   // wave 95: category descriptions (ⓘ) for every category
   grpSpacetimeDesc:"The laws that set the stage of this universe — light speed c₀, gravity G, the spacetime coefficient κ (clocks & light), uniform gravity g_x/g_y, and the correspondence lock (κ=G/c₀²).",
   grpSpinHeatDesc:"The spin=heat sector (A9–A12) — spin repulsion kRep (the origin of pressure), friction muF, collision damping γn, conduction κs, radiative cooling η_rad, Wien constant b_m and heat capacity C. Everything about heat, temperature and spectra.",
-  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets).",
+  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A MODE NUMBER): 0 = no geodesic / 1 = kF0 build (1PN geodesic, kFrame=0 only, the 1PN reaction is returned to free sources) / 2 = with dragging (the DFM build has kFrame=1) / 3 = space mesh (exclusive). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame (wave 283a). THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets).",
   grpLabBoxDesc:"Experimental conditions specific to box-bounded samples — thermal-wall temperature/rate (tint boxes only) and per-wall restitution. The box acts as a beaker wall providing an external environment. Shown only for box-bounded samples.",
   grpSimDesc:"Numerical / discretization settings, not physical laws — softening ε, time multiplier (fast-forward), perturbation injection, step diagnostics and the physics bench. Also robustness-testing knobs.",   /* wave 254c */
   grpGraphDesc:"Toggles for graph windows (rotation curve, temperature histogram, spectrum, expansion, phase change, mechanism spectrum, emergence monitor). Display only — zero cost when OFF. Not reset by ⏮ Restart (wave 95).",
@@ -2356,6 +2357,7 @@ en: {
   ioNote:"Import auto-detects any of: a single preset / an array of presets / {customPresets:[…]} / a full backup. Data with identical parameters is skipped; data whose name collides but whose parameters differ is added with a name suffix. Imported presets are also registered in the saved list.",
   ioNoteSum:"Import",   // 第36便 B4
   presetMissing:"Original preset not found — load aborted (this save may come from a newer/beta build; open it there instead)",
+  geoPN1SaveKF0:"This save has geoPN=1 with kFrame≠0 — geoPN=1 takes kFrame=0 only (wave 283a), so it was read with kFrame=0 (under the old geoPN=1 kFrame never entered the dynamics of matter). For dragging use geoPN=2 with kFrame=1",
   fwUndeclared:"This save declares no frameWeight — it runs under the wave-242 default pull (gravitational pull m/d²). Declare physics.frameWeight:\"share\" to restore the old behaviour",
   fwNoD0pull:"Caution: a real-calibration (DFM/KF1) save without D0pull drifts by tens of percent in period under pull — reload it from the wave-242 recalibrated sample",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
@@ -3262,7 +3264,44 @@ function massBasisOf(p){
 // 判定の語彙と既定設定だけを宣言する。**プリセットの外**に置くので presetSig・保存 JSON・力学は 1 bit も変わらない。
 // **ここで何も判定しない** —— 集計は器 tests/exp-w282a-calcontract.mjs が正本 tests/out/calcontract-w282a.json に数え、
 // QA docs.calContract がこの行(1 行の JSON)と正本の表を照合する。旧 4 値 0/2/2/33 は旧契約の履歴として持つ。
-const CAL_CONTRACT={"version":"w282a-1","ruling":"原仮定者の裁定(第72報)②③⑤⑥","systems":[{"key":"kf0","name":"現実較正 kF0","nameEn":"real calibration (kF0)","defaults":{"f":1,"kFrame":0,"geoPN":1},"verdicts":["合","否","数値未解決","写像未解決"],"rule":"宣言した観測量の合/否/数値未解決/写像未解決。現実較正の合を目指すのはこの系統だけ。geoPN=1 の自由連星の反作用の扱いは契約化の途中(決断事項 AN23)"},{"key":"dfm","name":"現実参照 DFM","nameEn":"real reference (DFM)","defaults":{"f":1,"kFrame":1,"geoPN":1},"verdicts":["概略整合","調整中","適用外"],"rule":"観測値との大きな差異を無くす範囲。許容幅は系統ごとに事前宣言し(周期は相対残差・近点移動は絶対残差を別欄)、残差を併記する。許容幅は未裁定なので本版は語彙を当てない(数えるだけ)"},{"key":"compare","name":"比較系列","nameEn":"comparison series","defaults":{"f":1,"geoPN":[2,3]},"verdicts":["比較のみ"],"rule":"主系列と同じ入力で geoPN=2 または 3。主系列の合を代用しない"},{"key":"analogy","name":"アナロジー","nameEn":"analogy","defaults":{"f":1,"geoPN":3,"center":"スケール調整した DFM 版ブラックホール"},"verdicts":["形状達成","未達","収支","適用窓"],"rule":"星団・楕円銀河・渦巻銀河・棒渦巻銀河。現実較正の対象外(ダークマターハロー前提の領域)"}],"targets":[{"key":"solar-system","name":"太陽系の各天体"},{"key":"stellar-binary","name":"恒星連星"},{"key":"ns-binary","name":"中性子星連星"},{"key":"bh-binary","name":"ブラックホール連星"}],"outOfScope":["星団以降(アナロジーの系統で扱う)"],"sigmaRule":"σ は観測の定義に従う(非対称区間・90% 信用区間を一律 1σ にしない)","legacy":{"label":"旧契約(第281便まで)の 4 値","counts":"0/2/2/33","population":37,"note":"履歴として保存 —— 新集計は母集団・法則版・観測量を明記した別欄"}};
+// 第283便a(原仮定者の裁定(2026-09-26 追加)): 系統の既定を「kF0 版=geoPN=1(kFrame=0)・DFM 版=geoPN=2 かつ kFrame=1・比較系列=geoPN 2/3 の対照・
+// アナロジー=geoPN 0/3」へ(版 w283a-1)。geoPN から 2 フラグを導くのは下の `geoModeOf`(1 か所)。
+const CAL_CONTRACT={"version":"w283a-1","ruling":"原仮定者の裁定(第72報)②③⑤⑥・原仮定者の裁定(第73報)AN23・原仮定者の裁定(2026-09-26 追加)geoPN の整理","systems":[{"key":"kf0","name":"現実較正 kF0","nameEn":"real calibration (kF0)","defaults":{"f":1,"kFrame":0,"geoPN":1},"verdicts":["合","否","数値未解決","写像未解決"],"rule":"宣言した観測量の合/否/数値未解決/写像未解決。現実較正の合を目指すのはこの系統だけ。kF0 版=geoPN=1(λ_PN=1・kFrame=0)。geoPN=1 は 1PN の反作用を自由源へ返す(AN23 閉)。geoPN=2・kFrame=0 の旧宣言は互換入力として kF0 版と同じ処理で読む"},{"key":"dfm","name":"現実参照 DFM","nameEn":"real reference (DFM)","defaults":{"f":1,"kFrame":1,"geoPN":2},"verdicts":["概略整合","調整中","適用外"],"rule":"DFM 版=geoPN=2 かつ kFrame=1(geoPN=1 の DFM 版は無い)。観測値との大きな差異を無くす範囲。許容幅は系統ごとに事前宣言し(周期は相対残差・近点移動は絶対残差を別欄)、残差を併記する。許容幅は未裁定なので本版は語彙を当てない(数えるだけ)"},{"key":"compare","name":"比較系列","nameEn":"comparison series","defaults":{"f":1,"geoPN":[2,3]},"verdicts":["比較のみ"],"rule":"主系列と同じ入力で geoPN=2 または 3 の対照。主系列の合を代用しない"},{"key":"analogy","name":"アナロジー","nameEn":"analogy","defaults":{"f":1,"geoPN":[0,3],"center":"スケール調整した DFM 版ブラックホール"},"verdicts":["形状達成","未達","収支","適用窓"],"rule":"星団・楕円銀河・渦巻銀河・棒渦巻銀河。geoPN=0・3 はアナロジー専用で現実較正に該当しない(ダークマターハロー前提の領域)"}],"targets":[{"key":"solar-system","name":"太陽系の各天体"},{"key":"stellar-binary","name":"恒星連星"},{"key":"ns-binary","name":"中性子星連星"},{"key":"bh-binary","name":"ブラックホール連星"}],"outOfScope":["星団以降(アナロジーの系統で扱う)"],"sigmaRule":"σ は観測の定義に従う(非対称区間・90% 信用区間を一律 1σ にしない)","legacy":{"label":"旧契約(第281便まで)の 4 値","counts":"0/2/2/33","population":37,"note":"履歴として保存 —— 新集計は母集団・法則版・観測量を明記した別欄"}};
+// ===== 第283便a(原仮定者の裁定(2026-09-26 追加)・原仮定者の裁定(第73報)AN23・統括の検証項目 R83): **geoPN の 2 フラグ** =====
+// 裁定の文: 「0=測地線不用 / 1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0。このモードの現実較正が
+//   物理エンジンの精度の裏付け)/ 2=引きずり有り(kFrame=1・簡易版。支配天体が 1 つなら 1 相当の較正も可)/ 3=空間メッシュ
+//   (複素決定力場・連星や多体・アナロジー)。0/1/2 の違いは λ_PN と kFrame の 0/1 だけなので処理を共通化。3 は排他だが
+//   spaceMesh フラグを設けて geoPN をプリセットのモード選択にする」。
+// geoPN(モード番号 —— 標準理論の 2PN・3PN ではない)から {lambdaPN(1PN の有無 0/1)・kFrame(宣言のまま)・spaceMesh(3 の排他
+// フラグ)・core(`S._core` へ渡す番号)} を**ここ 1 か所**で導く。`S._core` は 1 命令も変えない —— `geoCoreDispatch` が _core を
+// 呼ぶ間だけ `p.geoPN` を core に置き換える(第259便a の geoPN=3 と同じ仕組み)。core は λ_PN=1 なら 2・λ_PN=0 なら 0 なので、
+// _core の中の 2 つの読み `geo=(p.geoPN||0)>0` と `geo2=(p.geoPN||0)>=2` は**どちらも λ_PN** に等しくなり、散っていた分岐は
+//   E6′ の門 `kFrame>0 && !geo`      = kFrame>0 ∧ λ_PN=0(geoPN=0 の追従キック)
+//   輸送の門 `geo2&&kFrame>0`        = λ_PN=1 ∧ kFrame>0(geoPN=2 の v−u 輸送 3 項)
+//   1PN の u 減算 `geo2&&hasU`       = λ_PN=1(hasU は kFrame>0 のときだけ立つ —— kFrame=0 では w=v が厳密)
+//   1PN の反作用 `geo2 && !pinned`   = λ_PN=1(**geoPN=1 も自由源へ返す** —— AN23。第282便b の器内コピー g1R と同じ分岐)
+// の 2 フラグ(λ_PN・kFrame)の式になる。受理器(validatePreset)は geoPN=1 に kFrame=0 を要求する(ラベルの整合)。
+// 受理器を通らない経路(UI のつまみ・build 直呼び)で geoPN=1 のまま kFrame>0 にした状態は、同じ 2 フラグ(λ_PN=1・kFrame>0)
+// として geoPN=2 と同じ処理で走る(`consistent:false` —— ラベルだけが食い違う)。physics.lambdaPN は 1PN 項の**係数**
+// (0〜1)で、ここで言う λ_PN(有無)とは別の欄である(`lambdaPNCoef`)。
+const GEO_MODE_VERSION="w283a-geomode-1";
+const GEO_CORE_PN=[0,2,2];   // geoPN 0/1/2 → `S._core` へ渡す番号(λ_PN=0→0・λ_PN=1→2)。3 は geoCoreDispatch が入場で決める
+const GEO_MODE_ROLE=["noGeodesic","kF0","dfm","spaceMesh"];   // 0=測地線不用 / 1=kF0 版 / 2=DFM 版(kFrame=0 は互換入力) / 3=空間メッシュ
+function geoModeOf(ph){
+  const g=(ph && typeof ph.geoPN==="number" && isFinite(ph.geoPN))? ph.geoPN : 0;
+  const mode=(g>=3)?3:((g>=2)?2:((g>0)?1:0));   // _core の閾値(>0・>=2)と geoCoreDispatch の >=3 と同じ
+  const kF=(ph && typeof ph.kFrame==="number" && isFinite(ph.kFrame))? ph.kFrame : null;
+  const coef=(ph && typeof ph.lambdaPN==="number")? ph.lambdaPN : 1;
+  const out={version:GEO_MODE_VERSION, geoPN:g, mode, lambdaPN:(mode===1||mode===2)?1:0, lambdaPNCoef:coef,
+    kFrame:kF, spaceMesh:(mode===3), core:(mode===3)? null : GEO_CORE_PN[mode],
+    role:GEO_MODE_ROLE[mode], consistent:true, compat:null};
+  if(mode===3){ const sm=ph && ph.spaceMesh;
+    out.lambdaPN=(sm && sm.pn==="reference-1PN")? 1 : 0;   // 3 の 1PN は宣言 pn:"reference-1PN"(第280便c)のときだけ(_core の外)
+    out.spaceMeshDeclared=!!sm; }
+  if(mode===1 && kF!==0) out.consistent=false;                       // 受理器は拒否する組(kFrame>0 の geoPN=1 は無い)
+  if(mode===2 && kF===0){ out.role="kF0"; out.compat="geoPN2-kF0"; }  // 旧宣言(互換入力): kF0 版と同じ処理(ビット同一)
+  return out;
+}
 // ===== 第273便c(第63報・統括の検証項目 AG24): **正式判定値の side table** =====
 // 判定器の正本(`tests/out/calaudit-w249.json`)が出した **判定段の値**(`gate.assessedValue`)・
 // **判定段**(`gate.assessedStage`)・**σ 倍**(`gate.nSigma`)・**門の状態**を、プリセットの外の
@@ -9549,7 +9588,7 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"🌘 earthMoonRealKF1 と**同じ初期状態**(実質量・実半径・自転・座標速度)の地球と月で、引きずりを **kFrame=1 の E6′(q_exact)から、球体の表裏を積分した複素モーメント(表裏核)による座標変換** ẋ=v+u へ置き換えた診断コピー(第280便b)。地球は densityClass:\"solid\"(2 層 — 形の例示)。",
     observe:"月の近点移動は 27 公転窓で 1.072×10⁻³ °/周(近点回転の周期 2.57×10⁴ 年)で、🌘(2.7322 °/周)の約 1/2500 —— 地球の自転が作る表裏核の移送 u_φ=2.830 m/s(公転速度の 0.26%)があっても近点はほとんど回らない。恒星月は 27.950 日(🌘 より 2.3% 長い)—— 外部の場を地球だけにした mutual:0 では月が地球の並進ごと運ばれ、相対加速度から月自身の質量の寄与が抜ける。判定は門の外(principle の診断コピー)。",
-    control:"ワンタップの対照は同じファミリーの 🌘(kFrame=1・q_exact)と ⭕(kFrame=0・引きずりなし)である。**vx,vy は慣性速度 v=ẋ−u(0)**(月の座標速度を 🌘 に揃えた)。**q は使わない**・**c² の抑制は入っていない**。1PN(geoPN=2)は慣性速度 v を読む(第279便c と同じ —— どちらの速度を読むべきかは導出できていない)。"},
+    control:"ワンタップの対照は同じファミリーの 🌘(kFrame=1・q_exact)と ⭕(kFrame=0・引きずりなし)である。**vx,vy は慣性速度 v=ẋ−u(0)**(月の座標速度を 🌘 に揃えた)。**q は使わない**・**c² の抑制は入っていない**。1PN(geoPN=1)は慣性速度 v を読む(第279便c と同じ —— どちらの速度を読むべきかは導出できていない)。"},
   en:{name:"Earth & Moon (front–back kernel diagnostic) — same initial state, only the route replaced",
     obsCard:[
       {q:"Apsidal advance (27-orbit window, dt 0.016, detector B)", model:"1.072e-3 deg/orbit (apsidal period 2.57e4 yr; same over 8 orbits); +1.11e-3 above the point source (-3.598e-5) — 🌘 gives 2.7322", obs:"listed next to 🌘 with the same extractor (PHYSICS [wave 280b] table)"},
@@ -9561,12 +9600,12 @@ const BUILTIN_PRESETS = [
     descStruct:{
       summary:"The Earth and Moon in THE SAME INITIAL STATE as 🌘 earthMoonRealKF1 (real masses, radii, spins, coordinate velocities), with the dragging replaced FROM kFrame=1 E6′ (q_exact) TO A COORDINATE TRANSFORMATION ẋ=v+u BUILT FROM THE COMPLEX MOMENTS INTEGRATED OVER THE FRONT AND BACK OF THE SPHERE (the front–back kernel) — a diagnostic copy (wave 280b). The Earth is densityClass:\"solid\" (two layers — an illustrative shape).",
       observe:"The Moon's apsidal advance over the 27-orbit window is 1.072e-3 deg/orbit (apsidal period 2.57e4 yr), about 1/2500 of 🌘 (2.7322 deg/orbit): even with the front–back transport u_φ = 2.830 m/s from the Earth's spin (0.26% of the orbital speed) the apse barely turns. The sidereal month is 27.950 d (2.3% longer than 🌘): with mutual:0 and the Earth as the only external field, the Moon is carried along with the Earth's translation and its own mass drops out of the relative pull. Outside the gates (a principle diagnostic copy).",
-      control:"The one-tap controls are 🌘 (kFrame=1, q_exact) and ⭕ (kFrame=0, no dragging) in the same family. vx,vy ARE THE INERTIAL VELOCITY v=ẋ−u(0) (the Moon's coordinate velocity matches 🌘). NO q IS USED and THERE IS NO c² SUPPRESSION. The 1PN term (geoPN=2) reads the inertial velocity v (as in wave 279c — which velocity it should read is not derived)."},
+      control:"The one-tap controls are 🌘 (kFrame=1, q_exact) and ⭕ (kFrame=0, no dragging) in the same family. vx,vy ARE THE INERTIAL VELOCITY v=ẋ−u(0) (the Moon's coordinate velocity matches 🌘). NO q IS USED and THERE IS NO c² SUPPRESSION. The 1PN term (geoPN=1) reads the inertial velocity v (as in wave 279c — which velocity it should read is not derived)."},
     parameterAudit:{
       observedInputs:["the same real values as 🌘 (Earth 5.9724e24 kg / 6.38e6 m / 23.93 h; Moon 7.346e22 kg / 1.74e6 m)","real G=6.674 and c₀=3e4"],
       fixedConventions:["per-sample scale exponents (1 unit = 1e6 m / 1e2 s / 1e25 kg)","kFrame=0 + physics.meshVelocity {law:\"vMinusU\", field:\"explicit\", mutual:0, external:[Earth]}",
         "physics.qLock {kernel:\"frontBack\", epsC:0, nodes:16}","the Earth densityClass:\"solid\" {coreFrac:0.546, coreRatio:2.44} (illustrative — the source is a decision item), rigid rotation",
-        "geoPN=2, λ_PN=1, pnα=1.5 (reads the inertial velocity v)","stateCarry:\"double\", massFloor=1e-6"],
+        "geoPN=1, λ_PN=1, pnα=1.5 (reads the inertial velocity v)","stateCarry:\"double\", massFloor=1e-6"],
       fitted:[],
       derived:["the Moon's inertial velocity v=ẋ−u(0) (ẋ = 🌘's declared value)","κ=G/c₀²=7.4156e-9"],
       numerical:["softening ε=0.1 (gravity) — ε_c=0 for the complex field (a separate declaration)","timeScale=100","dispMag=10 (display only)"]}},
@@ -9574,7 +9613,7 @@ const BUILTIN_PRESETS = [
     observedInputs:["🌘 と同じ実値(地球 5.9724×10²⁴kg・6.38×10⁶m・23.93時間/月 7.346×10²²kg・1.74×10⁶m)","実 G=6.674・c₀=3×10⁴"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=0 + physics.meshVelocity {law:\"vMinusU\", field:\"explicit\", mutual:0, external:[地球]}",
       "physics.qLock {kernel:\"frontBack\", epsC:0, nodes:16}","地球 densityClass:\"solid\" {coreFrac:0.546, coreRatio:2.44}(形の例示 — 出典は決断事項)・剛体回転",
-      "geoPN=2・λ_PN=1・pnα=1.5(慣性速度 v を読む)","stateCarry:\"double\"・massFloor=1e-6"],
+      "geoPN=1・λ_PN=1・pnα=1.5(慣性速度 v を読む)","stateCarry:\"double\"・massFloor=1e-6"],
     fitted:[],
     derived:["月の慣性速度 v=ẋ−u(0)(ẋ は 🌘 の宣言値)","κ=G/c₀²=7.4156×10⁻⁹"],
     numerical:["ソフトニング ε=0.1(重力)— 複素場は ε_c=0(別の宣言)","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
@@ -9582,7 +9621,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:450}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:0, q:8.2358, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double",
+    geoPN:1/* 第283便a: 2→1(kF0 版の宣言 —— geoPN=2・kFrame=0 と力学はビット同一)*/, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double",
     meshVelocity:{law:"vMinusU", field:"explicit", mutual:0, external:["body:0"],
       frame:{origin:"barycenter", epoch:"🌘 t=0", rotation:"none", translation:"comoving"}},
     qLock:{kernel:"frontBack", epsC:0, nodes:16}},
@@ -11153,7 +11192,7 @@ const BUILTIN_PRESETS = [
         "the observed period 551856.43872 +/- 0.02592 s (Buie 2012 — COMPARED AGAINST, NOT FITTED TO)"],
       fixedConventions:["per-sample scale exponents (1 unit = 1e5 m / 10 s / 1e24 kg)",
         "kFrame=0 and no relativeDrag","two-body barycentric, circular, epsilon-0 Kepler speed (the snowflake sample's rule)",
-        "kRep=muF=gammaN=kappaS=0 / geoPN=2, lambdaPN=1, pnAlpha=1.5 / stateCarry:\"double\", massPrecision:\"double\"",
+        "kRep=muF=gammaN=kappaS=0 / geoPN=1, lambdaPN=1, pnAlpha=1.5 / stateCarry:\"double\", massPrecision:\"double\"",
         "2D (the ecliptic-frame retrograde sign is not transcribed)"],
       fitted:["none (D0=0.006 is carried over and unused at kFrame=0)"],
       derived:["the masses 1.3025172e22 kg and 1.5897513e21 kg (GM/G)","q=11.9386 (carried over)","kappa_T=G/c0^2=7.4156e-9",
@@ -11167,7 +11206,7 @@ const BUILTIN_PRESETS = [
       "相互同期の宣言 ω=2π/551855.8944s(⛄ と同じ)","観測周期 551856.43872±0.02592 s(Buie 2012 — 照合先)"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁵m/10s/10²⁴kg)",
       "kFrame=0 かつ relativeDrag なし","二体重心系・円軌道・ε=0 のケプラー初速(❄️ の規約)",
-      "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"・massPrecision:\"double\"",
+      "kRep=muF=γN=κ_S=0 / geoPN=1・λ_PN=1・pnα=1.5 / stateCarry:\"double\"・massPrecision:\"double\"",
       "2D(黄道基準の逆行符号は転写しない)"],
     fitted:["なし(D₀=0.006 は引き継いだ値 —— kFrame=0 では使われない)"],
     derived:["質量 1.3025172×10²²kg・1.5897513×10²¹kg(GM/G)","q=11.9386(引き継ぎ)","κ=G/c₀²=7.4156×10⁻⁹",
@@ -11178,7 +11217,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:210}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:0, q:11.9386, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1000, dispMag:1,
+    geoPN:1/* 第283便a: 2→1(kF0 版の宣言 —— geoPN=2・kFrame=0 と力学はビット同一)*/, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:1000, dispMag:1,
     stateCarry:"double", massPrecision:"double", frameReaction:"pairReduced", frameWeight:"share"},
   bodies:[ // 器の純関数 diagInputPair("plu060Mean")(tests/lib-w280d-charoninput.mjs)の出力そのもの:
            // 質量は ⛄🌨️ と 1 bit 同じ・a=195.95764 単位・重心系配分・ε=0 のケプラー初速
@@ -15331,7 +15370,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:160}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:3, dispMag:1,
+    geoPN:1/* 第283便a: 2→1(kF0 版の宣言 —— geoPN=2・kFrame=0 と力学はビット同一)*/, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:3, dispMag:1,
     stateCarry:"double", frameWeight:"share"},
   bodies:[ // 土星は 📡 の body 0 と同じ宣言。D68 は r_p=67.627×(1−0.001) の近点に置き、同じ U の転回点速度を与える
     {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true,
@@ -15380,7 +15419,7 @@ const BUILTIN_PRESETS = [
   camera:{scale:160}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
-    geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:3, dispMag:1,
+    geoPN:1/* 第283便a: 2→1(kF0 版の宣言 —— geoPN=2・kFrame=0 と力学はビット同一)*/, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.01, timeScale:3, dispMag:1,
     stateCarry:"double", frameWeight:"share"},
   bodies:[ // 土星は 📡 の body 0 と同じ宣言。D68 は r_p=a−ae=67.602(=67602 km)の近点に置き、同じ U の転回点速度を与える
     {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true,
@@ -15628,14 +15667,17 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"等質量の2恒星が共通重心を回り、その外側を軽い天体群が公転する。測地線モード(E12・geoPN=1)が既定 — 時計を遅らせるのと同じψ=W·κから軌道が決まる保存的な力学で、連星の間隔が長時間安定する。",
     observe:"単独星とは異なる時間変動する重力場(E4+E12)が外側の軌道を乱す。測地線モードでは物質への空間引きずり(E6′)は無効(二重計上禁止)なので、恒星間距離は12000步で約121に保たれる(従来の引きずり輸送では散逸で137→240へ緩む)。処理も約4割軽い。",
-    control:"geoPN=0にすると従来の空間引きずり輸送(E6′・kFrame=1)へ戻り、軌道が徐々に緩むのを比較できる(おすすめA/B)。D0=10→100の比較も面白い。"},
+    control:"geoPN=0 かつ kFrame=1 にすると従来の空間引きずり輸送(E6′)へ戻り、軌道が徐々に緩むのを比較できる(geoPN=1 は kFrame=0 専用 — 第283便a)。D0=10→100の比較も面白い。"},
   en:{name:"Binary Stars & Circumbinary Disk", descStruct:{
     summary:"Two equal-mass stars orbit their common barycenter while a ring of light bodies circles outside. Geodesic mode (E12, geoPN=1) is the default — a conservative dynamics where orbits follow the same ψ=W·κ that slows clocks, keeping the binary separation stable over long runs. ",
     observe:"The time-varying field of the pair (E4+E12) — unlike a single star — perturbs the outer orbits. In geodesic mode the E6′ space-dragging on matter is disabled (no double counting), and the stellar separation holds near 121 over 12,000 steps (the legacy dragging transport relaxes it from 137 to 240 through dissipation). It also runs about 40% lighter. ",
-    control:"Set geoPN to 0 to fall back to the legacy dragging transport (E6′, kFrame=1) and watch the orbit slowly relax (suggested A/B). Comparing D0 10 vs 100 is fun too."}},
+    control:"Set geoPN to 0 with kFrame=1 to fall back to the legacy dragging transport (E6′) and watch the orbit slowly relax (geoPN=1 takes kFrame=0 only — wave 283a). Comparing D0 10 vs 100 is fun too."}},
   activeParams:["geoPN","D0","G"],   // 第66便 66D: おすすめA/B の軸を kFrame → geoPN(測地線⇄引きずり)へ
   camera:{scale:320}, world:{boundary:"none",size:0},
-  physics:{G:1, D0:10, kFrame:1, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, kappaT:0.0001,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)
+  // 第283便a(原仮定者の裁定(2026-09-26 追加)・AN23): kFrame 1→0。geoPN=1 は kFrame=0 専用(受理器が拒否する組)。
+    //   旧 geoPN=1 では E6′ の門(!geo)と輸送の門(geo2)が閉じていたので **kFrame=1 は物質の力学に 1 bit も入っていなかった**
+    //   (第282便c の器が kFrame 1/0 のビット一致を実測)。変わるのは 1PN の反作用が自由な恒星どうしに返ることだけ(AN23 —— ⭐ の変化を受理)。
+    physics:{G:1, D0:10, kFrame:0, q:2, kRep:0, muF:0.05, gammaN:0.1, kappaS:0, kappaT:0.0001,   // 第26便: kFrame 0.5→1(中間値解消。12000步で束縛・円盤240/240残存を実測)→ 第283便a: 1→0(上)
     cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:2, timeScale:4, frameWeight:"share"},
   bodies:[ // v1.13(付録M): 第6次提案 P1-1 を内蔵化(12000步スモーク・重心ドリフト0.1)
     {type:"single", rMul:1.2, m:500, x:-60,y:0, vx:0,vy:-1.44, spin:0.03, pinned:false},
@@ -16916,6 +16958,8 @@ function validatePreset(obj){
   // 第275便a: 宣言の無い分数 kFrame を {0,1} へ丸めたときの機械可読な記録(案B)。
   // 丸めが起きなければ null。**preset には入らない**(署名は丸めた後の kFrame で決まる)。
   let kFrameSnapped=null;
+  // 第283便a: geoPN=2・kFrame=0 の互換入力の機械可読な記録(無ければ null。**preset には入らない**)
+  let geoCompat=null;
   const bad=(m)=>{errors.push(m);};
   if(!obj || typeof obj!=="object" || Array.isArray(obj)) return {ok:false, errors:["ルートがオブジェクトではありません"], warnings};
   const p = JSON.parse(JSON.stringify(obj)); // 破壊防止コピー
@@ -17274,6 +17318,13 @@ function validatePreset(obj){
       ph[k]=v;
     }
   }
+  // ===== 第283便a(原仮定者の裁定(2026-09-26 追加)・統括の検証項目 R83): **geoPN=1 は kFrame=0 専用** =====
+  //   裁定「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」「DFM 版=geoPN=2 かつ
+  //   kFrame=1(geoPN=1 の DFM 版は無い)」。geoPN=1 に kFrame≠0 を書いた入力は**拒否**する(下の分数の丸めより前 ——
+  //   丸めた値〔kFrameSnapped〕を返して通すことはしない)。geoPN=0 の kFrame は**書き換えない**(kFrame=1 のトイがある)。
+  if(geoModeOf(ph).mode===1 && ph.kFrame!==0)
+    bad('physics.geoPN=1 は kFrame=0 専用です(kFrame='+ph.kFrame+')—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本'
+      +'(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)');
   // ===== 第273便b(第63報 AH1): kFrame の受理契約(二層) =====
   //   ① 全クラス共通: 有限な [0,1](非数は上の CLAMPS 経路が致命拒否・域外は警告つきクランプ)。
   //   ② 現実較正クラスだけ: **0<kFrame<1 の分数には宣言鍵が要る**。
@@ -17289,7 +17340,8 @@ function validatePreset(obj){
   //     案A "reject":      検証エラーで拒否。**較正クラスは常にこちら**(第273便b の門を弱めない)。
   //   **内蔵の kFrame の値は 1 本も変えていない**(内蔵の集合は {0,1} なのでこの門に 1 本も当たらない)。
   //   **力学には 1 バイトも接続しない** —— `S._core` には 1 命令も足していない。
-  if(ph.kFrame>0 && ph.kFrame<1){
+  // 第283便a: geoPN=1 の分数は上で拒否済み —— 丸め(kFrameSnapped)へは進めない
+  if(ph.kFrame>0 && ph.kFrame<1 && geoModeOf(ph).mode!==1){
     const dec = ph[KFRAME_APPROX_KEY];
     const calib = (p.sampleClass==="calibration");
     const allowed = calib ? KFRAME_APPROXES_CALIBRATION : KFRAME_APPROXES;
@@ -17348,6 +17400,17 @@ function validatePreset(obj){
     else if(sm3.weave!==undefined)
       bad('physics.geoPN=3(トイ)は physics.spaceMesh.weave と排他です(重複適用禁止)');
   }
+  // ===== 第283便a: **geoPN=2・kFrame=0 は互換入力**(kF0 版として解釈 —— geoPN=1 と力学はビット同一)=====
+  //   値は書き換えない(presetSig・保存 JSON は 1 bit も変わらない)。機械可読の記録 `geoCompat` を返し、**内蔵の同じ宣言**
+  //   (geoPN=2・kFrame=0 のまま署名便での移行を待つ内蔵)でない入力には警告を 1 行出す。
+  { const gmC=geoModeOf(ph);
+    if(gmC.compat){
+      const bi=(typeof p.id==="string")? BUILTIN_PRESETS.find((q)=>q.id===p.id) : null;
+      const same=!!(bi && bi.physics && bi.physics.geoPN===2 && bi.physics.kFrame===0);
+      geoCompat={from:"geoPN=2・kFrame=0", as:"kF0", geoPN:1, builtinPending:same, version:GEO_MODE_VERSION};
+      if(!same) warnings.push('physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。'
+        +'原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」');
+    } }
   // 第280便c: **vMinusU は geoPN=3 の法則**(geoPN≤2 の宇宙に宣言だけが残って効かない状態を作らない)
   if(ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].lawVersion===GEO3_LAW && !(ph.geoPN>=3))
     bad('physics.spaceMesh.lawVersion:"vMinusU" は physics.geoPN=3 専用です(geoPN≤2 の座標変換は physics.meshVelocity 単独の互換経路 —— 第279便c)');
@@ -18924,8 +18987,8 @@ function validatePreset(obj){
   }
   p.overlays=ov;
   // 第86便: legacyCore = 旧コアキーから コアv2 へ移行した構成かどうか(エクスポートの migration 記録用)
-  return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped}
-                      : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped};
+  return errors.length? {ok:false, errors, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat}
+                      : {ok:true, preset:p, warnings, legacyCore:legacyCoreMigrated, kFrameSnapped, geoCompat, geoMode:geoModeOf(p.physics)};
 }
 
 // ===== シミュレーションエンジン =====
@@ -29486,6 +29549,9 @@ function loadSave(s, selValue){
     delete s.physics.Kt;
   }
   sim.params=fastParams(Object.assign({},DEFAULT_PHYSICS,s.physics)); sim.updateRadii();   // 第250便e
+  // 第283便a(原仮定者の裁定(2026-09-26 追加)): 旧セーブの geoPN=1・kFrame≠0(旧 ⭐ など)は kFrame=0 として読む(通知 1 行)。
+  // 旧 geoPN=1 では E6′ と輸送の門が閉じていたので、この読み替えで変わるのは 1PN の反作用の返し(AN23)だけである
+  { const gmS=geoModeOf(sim.params); if(gmS.mode===1 && !gmS.consistent){ sim.params.kFrame=0; notify(T("geoPN1SaveKF0"),6000); } }
   // 第243便(裁定 B5・第35報 Grok E): frameWeight 未宣言のセーブは既定 pull で走る(第242便)— 読込時に周知。
   // D0pull 未宣言の現実較正 DFM 連星は周期が数十% ずれる(第242便 −42〜−53%)ので強い警告
   if(s.physics && s.physics[FRAME_WEIGHT_KEY]===undefined && sim.params.kFrame>0){
@@ -31993,7 +32059,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数・geoPN=1 は kFrame=0 専用), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -42557,11 +42623,16 @@ function dfmMeshV2Step(S,dt,cf){
 // 重力側の専用ステップ `dfmGeo3PNKick` で 1 回当てる(semi は dt・leapfrog は各パスの前に dt/2 —— `_core` が
 // 自分の加速度に足すのと同じ相)。座標変換(移送 ẋ=v+u と正準項 −Jᵀv)は `_core` の**後**の外部ステップ
 // `dfmMeshVelocityStep`(第279便c)が当てる。**トイの 3 本(🪁🎋🩻)は hasGeo3=false なので従来と 1 命令も違わない**。
+// 第283便a(原仮定者の裁定(2026-09-26 追加)・AN23・R83): **geoPN=1 は `_core` へ 2 を渡す**(`GEO_CORE_PN` —— 導出は
+// `geoModeOf` の 1 か所)。_core の中の geo・geo2 がどちらも λ_PN=1 になり、1PN の反作用が自由源へ返る(第282便b の器内
+// コピー g1R と同じ分岐)。kFrame=0 では E6′・輸送 3 項・u 減算が立たないので geoPN=1 ≡ geoPN=2∧kFrame=0(ビット同一)。
+// 固定源(pinned)の本(☿・V18)は反作用の分岐に入らないので 1 bit も変わらない。geoPN=0/2 の経路は従来のまま。
 function geoCoreDispatch(S,dt,mode){
-  const p=S.params;
-  if(p.geoPN>=3){ const g=p.geoPN;
+  const p=S.params, g=p.geoPN;
+  if(g>=3){
     if(S.hasGeo3PN) dfmGeo3PNKick(S,(mode===0)? dt : dt*0.5);
     p.geoPN=(S.hasGeoToy || S.hasGeo3)?0:2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
+  else if(g>0 && g<2){ p.geoPN=GEO_CORE_PN[1]; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
   else S._core(dt,mode);
 }
 // ===== 第280便c: geoPN=3・vMinusU の**天体ごとのメッシュ速度 u**(步の頭の状態で評価・未定義の点は null) =====

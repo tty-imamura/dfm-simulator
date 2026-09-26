@@ -775,11 +775,15 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
   window.__w249build = (id, kFrame0) => {
     const p = HP.allPresets().find((q) => q.id === id);
     const copy = JSON.parse(JSON.stringify(p));
-    if (kFrame0 === true) { copy.physics = copy.physics || {}; copy.physics.kFrame = 0; }
+    // 第283便a(原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」・R83):
+    // kF0 の診断コピーは **geoPN=2 を geoPN=1 へ**宣言し直す(geoPN=1 ≡ geoPN=2∧kFrame=0 はビット同一 —— 器
+    // tests/exp-w283a-geomode.mjs の (c) が 37 本 × 128 歩で実測)。geoPN=0・3 の本は書き換えない。
+    if (kFrame0 === true) { copy.physics = copy.physics || {}; copy.physics.kFrame = 0;
+      if (copy.physics.geoPN === 2) copy.physics.geoPN = 1; }
     const v = HP.validatePreset(copy);
     HP.sim.build(v.preset);
     return { warnings: v.warnings, n: HP.sim.n, map: window.__w249map(v.preset),
-      kFrameApplied: (v.preset.physics || {}).kFrame };
+      kFrameApplied: (v.preset.physics || {}).kFrame, geoPNApplied: (v.preset.physics || {}).geoPN };
   };
   // 步/秒の実測(判定には使わない — 走行長の予算にだけ使う)
   window.__w249rate = (id, dt, kFrame0) => {
@@ -969,7 +973,8 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
     return { steps: k, tEnd: k * dt, targets: out, spinDrift, coreDrift,
       nan: S.hasNaN(), clamp: (S.clampVN || 0) + (S.clampSN || 0) + (S.clampHN || 0) + (S.clampRN || 0) + (S.clampTN || 0),
       warnings: b.warnings, n: b.n, framePrec: S.framePrec || null,
-      kFrameApplied: (b.kFrameApplied === undefined) ? null : b.kFrameApplied };
+      kFrameApplied: (b.kFrameApplied === undefined) ? null : b.kFrameApplied,
+      geoPNApplied: (b.geoPNApplied === undefined) ? null : b.geoPNApplied };   // 第283便a: kF0 の診断コピーの geoPN(2→1)
   };
 }, PERI_WINDOW);
 

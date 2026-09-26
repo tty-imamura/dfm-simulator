@@ -16,6 +16,7 @@
 //   'w272b-wallSec' … 正本 charon-w272b.json の列ごとの `wallSec`(実測)を、新しい既定列の集合で足した値。
 //   'w282a-branch' … 第282便a の枝で器を 1 回走らせた実測(fmigration は正本の meta.wallSec の前後の和)。
 //   'w282c-run' … 第282便c の器の単独走行(正本の elapsedS —— Node だけ・Chromium なし)。
+//   'w283a-branch' … 第283便a の枝で器を 1 回走らせた実測(正本の elapsedS —— Node だけ・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -162,9 +163,19 @@ export const REGEN_STEPS = [
   S('dragprofile', 'node tests/exp-w282c-dragprofile.mjs', ['tests/out/dragprofile-w282c.json'], 2, { secSource: 'w282c-run', node: true,
     note: '第282便c: kF0 不感の実測(128 歩 × 2 本)・引きずりプロファイルの純関数の単体試験・診断表(html だけを読む・環境変数なし)' }),
   // ---- 第282便b(第72報 ⑤・R79): geoPN=1 の契約の穴と比較表(水星の正式値を calaudit-w249.json から読む —— calaudit の後)
-  S('geo1', 'node tests/exp-w282b-geo1.mjs', ['tests/out/geo1-w282b.json'], 1033, { secSource: 'w282b-run', after: ['calaudit', 'kf0'],
+  // 第283便a(原仮定者の裁定(第73報)AN23): geoPN=1 が 1PN の反作用を返すようになり、本器の「本体 = 反作用を返さない旧則」の
+  //   前提が消えた —— 正本は旧則の記録として**履歴**へ(再生成しない・計画は常に「履歴」)。新しい契約の実測は geomode(下)
+  S('geo1', 'node tests/exp-w282b-geo1.mjs', ['tests/out/geo1-w282b.json'], 1033, { role: 'history', secSource: 'w282b-run', after: ['calaudit', 'kf0'],
     env: { PLAYWRIGHT_CORE_DIR: 'Chromium の Playwright(水星の表と比較表 —— W282B_ENGINE=node なら不要・約 6 倍遅い)' },
-    note: '第282便b: 1 歩の表・束縛二体・ブースト・固定源・質量比の走査は Node の vm(本体 + 反作用返しの器の中のコピー)' }),
+    note: '第282便b: 1 歩の表・束縛二体・ブースト・固定源・質量比の走査は Node の vm(本体 + 反作用返しの器の中のコピー)。'
+      + '第283便a で**履歴**(geoPN=1 の旧則〔反作用を返さない〕の記録 —— 再生成しない)' }),
+  // ---- 第283便a(原仮定者の裁定(2026-09-26 追加)・AN23・R83): geoPN の 2 フラグの導出表・共通化の前後(基点 html と 141 本 × 1/128 歩)・
+  //   kF0 走行 37 本の geoPN=1 対 geoPN=2∧kFrame=0・⭐ の前後(html と calaudit のページ側ヘルパだけを読む —— Node だけ・他の正本は読まない)
+  S('geomode', 'node tests/exp-w283a-geomode.mjs', ['tests/out/geomode-w283a.json'], 1608, { secSource: 'w283a-branch', node: true,
+    env: { W283A_BASE_REV: '基点(既定 de9e39b —— git show で一時ファイルを作り終了後に削除)' },
+    volatilePaths: { 'tests/out/geomode-w283a.json': META_RUN.concat(['/elapsedS', '/headless/*/wallSec']) },
+    note: '第283便a: 導出表(141 本)・受理器の契約・基点との 1/128 歩のビット比較と署名・kF0 走行 37 本 + 診断コピー 7 本・⭐ の前後'
+      + '(1 歩の Σm·vx・束縛二体の近点移動比・本体 6000 步)・☿ と V18' }),
 ];
 
 /**
