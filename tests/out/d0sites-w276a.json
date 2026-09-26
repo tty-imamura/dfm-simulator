@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便a",
   "target": "beta/index.html",
-  "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
-  "generatedAt": "2026-09-26T05:58:10.950Z",
+  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+  "generatedAt": "2026-09-26T08:16:55.948Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836646,
-    "sha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
-    "mtime": "2026-09-26T04:23:04.176Z"
+    "bytes": 4836622,
+    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+    "mtime": "2026-09-26T08:09:25.652Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w276a-d0audit2.mjs",
-    "bytes": 25306,
-    "sha256": "1c70ef4380ab3467d2b59da5f147a3de3ac66db620bf5ae1f626c161ff6e1259",
-    "mtime": "2026-09-23T20:24:22.937Z"
+    "bytes": 26027,
+    "sha256": "dd999f39b99af6e81805986d2d918117636125b5b19f8cc3e403b856ccf949fe",
+    "mtime": "2026-09-26T08:09:25.508Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -27,7 +27,7 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "982a43d26d9d69a858c16d8b15a51a8cb385dc01917fe26030fc8df49cb3e936",
+  "codeSha256": "a99344cfe9257e5086b8d0a4cdc3c866fde8c2c33d9624d740193b4ea5789892",
   "harness": "tests/exp-w276a-d0audit2.mjs",
   "harnessVersion": "w276a-d0sites-2",
   "tokens": [
@@ -62,15 +62,10 @@
   "groups": 67,
   "byReplaceable": {
    "n/a": 11,
-   "candidate": 47,
-   "unclassified": 3,
+   "candidate": 50,
    "forbidden": 6
   },
-  "unclassified": [
-   "dfmGeoToySpinStep :: dfmGeoToySpinStep",
-   "dfmFieldContractOf :: dfmFieldContractOf",
-   "dfmFieldContract :: isStatic"
-  ],
+  "unclassified": [],
   "forbidden": [
    "traceRay :: traceRay",
    "dfmFrameAt :: dfmFrameAt",
@@ -553,10 +548,10 @@
     "hasPullFallback": true,
     "readsD0Member": true,
     "objectKeyOnly": false,
-    "use": null,
-    "replaceable": null,
-    "why": null,
-    "classified": false
+    "use": "geoPN=3 トイの中心自転の 1 步(centerSpin:\"read\")",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
    },
    {
     "key": "dfmMeshV2Step :: dfmMeshV2Step",
@@ -838,10 +833,10 @@
     "hasPullFallback": true,
     "readsD0Member": true,
     "objectKeyOnly": false,
-    "use": null,
-    "replaceable": null,
-    "why": null,
-    "classified": false
+    "use": "場の契約の読み出し(診断が力学と同じ契約 p・W_bg を読む)",
+    "replaceable": "candidate",
+    "why": "χ の分母(契約に写すだけ)",
+    "classified": true
    },
    {
     "key": "dfmGeoToyBandStep :: dfmGeoToyBandStep",
@@ -1975,10 +1970,10 @@
     "hasPullFallback": false,
     "readsD0Member": false,
     "objectKeyOnly": true,
-    "use": null,
-    "replaceable": null,
-    "why": null,
-    "classified": false
+    "use": "場の契約(静的な源の判定 —— D0 は契約の鍵名で渡すだけ)",
+    "replaceable": "candidate",
+    "why": "同じ分母(鍵名の受け渡し)",
+    "classified": true
    }
   ]
  },
