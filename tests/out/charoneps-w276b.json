@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便b",
   "target": "beta/index.html",
-  "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
-  "generatedAt": "2026-09-26T07:16:54.123Z",
+  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+  "generatedAt": "2026-09-26T10:06:26.418Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836646,
-    "sha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
-    "mtime": "2026-09-26T06:03:32.548Z"
+    "bytes": 4836622,
+    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+    "mtime": "2026-09-26T09:36:38.024Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2815702,
-    "sha256": "0fe97dd36ce5f79a62732e28e5947c285d5a08ae749adf6db3d83ef083b3b200",
-    "mtime": "2026-09-26T05:56:23.392Z"
+    "bytes": 2815722,
+    "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
+    "mtime": "2026-09-26T09:46:19.584Z"
    }
   ],
   "code": [
@@ -66,13 +66,13 @@
   "measureVersion": "w273b-charonpage-1",
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+  "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
+   "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-   "obsSha256": "0fe97dd36ce5f79a62732e28e5947c285d5a08ae749adf6db3d83ef083b3b200",
+   "obsSha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -177,7 +177,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "0fe97dd36ce5f79a62732e28e5947c285d5a08ae749adf6db3d83ef083b3b200"
+   "calauditSha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b"
   },
   "secondsPerUnit": 100,
   "notClaim": [
@@ -805,7 +805,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "ad100ea0ba12bd2cbe2006b0fdcae4ca907691c8159b47995a7f22c47ac9fb12",
+    "stableSha256": "d80d3db914d4e66efd951209fdc5a98913d59dd99afdecc0888d3b8a6ca64d8e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/carriedOverFrom",
@@ -1690,7 +1690,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.364,
+    "wallSec": 18.102,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -1755,7 +1755,7 @@
     "warnings": [],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -1950,7 +1950,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.675,
+    "wallSec": 17.829,
     "revSec": [
      551854.3777987654,
      551855.9777990397,
@@ -2015,7 +2015,7 @@
     "warnings": [],
     "oscA": 19.595999651779508,
     "oscE": 0.00001200053989319149,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -2210,7 +2210,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.409,
+    "wallSec": 17.701,
     "revSec": [
      551852.3568783228,
      551853.9568783055,
@@ -2275,7 +2275,7 @@
     "warnings": [],
     "oscA": 19.595999651568352,
     "oscE": 0.000011619467652871863,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -2470,7 +2470,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.95,
+    "wallSec": 18.207,
     "revSec": [
      551852.1143670718,
      551853.714367087,
@@ -2535,7 +2535,7 @@
     "warnings": [],
     "oscA": 19.595999651548667,
     "oscE": 0.000011604396739165303,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -2730,7 +2730,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.112,
+    "wallSec": 18.214,
     "revSec": [
      551852.1143670718,
      551853.714367087,
@@ -2797,7 +2797,7 @@
     ],
     "oscA": 19.595999651548667,
     "oscE": 0.000011604396739165303,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -3043,7 +3043,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.529,
+    "wallSec": 17.553,
     "revSec": [
      551862.4607197864,
      551864.0607197867,
@@ -3108,7 +3108,7 @@
     "warnings": [],
     "oscA": 195.9599964385142,
     "oscE": 0.000016989752484607868,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -3444,7 +3444,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.737,
+    "wallSec": 17.487,
     "revSec": [
      551854.3771552626,
      551855.9771556277,
@@ -3509,7 +3509,7 @@
     "warnings": [],
     "oscA": 195.95999640363215,
     "oscE": 0.000012000444158925451,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -3845,7 +3845,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.025,
+    "wallSec": 17.221,
     "revSec": [
      551852.3562347974,
      551853.9562347803,
@@ -3910,7 +3910,7 @@
     "warnings": [],
     "oscA": 195.95999640139735,
     "oscE": 0.00001161944324532217,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -4246,7 +4246,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.924,
+    "wallSec": 17.442,
     "revSec": [
      551852.113723571,
      551853.713723639,
@@ -4311,7 +4311,7 @@
     "warnings": [],
     "oscA": 195.95999640135528,
     "oscE": 0.00001160438131264572,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -4647,7 +4647,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.679,
+    "wallSec": 17.949,
     "revSec": [
      551851.7903749438,
      551853.3903749292,
@@ -4712,7 +4712,7 @@
     "warnings": [],
     "oscA": 195.9599964012035,
     "oscE": 0.000011594767529890992,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -5048,7 +5048,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.745,
+    "wallSec": 18.03,
     "revSec": [
      551851.6998373505,
      551853.299837311,
@@ -5113,7 +5113,7 @@
     "warnings": [],
     "oscA": 195.95999640128315,
     "oscE": 0.000011594223993627782,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
@@ -5449,7 +5449,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.061,
+    "wallSec": 17.246,
     "revSec": [
      551851.6869034051,
      551853.2869034362,
@@ -5514,7 +5514,7 @@
     "warnings": [],
     "oscA": 195.95999640126493,
     "oscE": 0.000011594223043860107,
-    "mergeKey": "669d523af821829bec26620715635c7adfb1a6e2a82e466c167fc353e3cb9683",
+    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
     "canonicalRun": true
    },
    "h2": {
