@@ -729,7 +729,9 @@ export function codeFilesOf(root, harness, metaCode) {
     const s = fs.readFileSync(abs(harness), 'utf8');
     for (const m of s.matchAll(/['/](exp-[\w-]+\.mjs)'/g)) set.add('tests/' + m[1]);
   } catch { /* 無ければ下で落ちる */ }
-  for (const f of (metaCode || [])) set.add(f);
+  // 第282便 統合: 正本の meta.code[] に載った刻印の道具(本 lib)も同じ理由で外す —— 停止集合・感度試験の
+  //   文字列('applySkin'・'plutoCharonReal' 等)を「器が名前で読む」と数えると、新しい器だけ下限が UI まで広がる
+  for (const f of (metaCode || [])) if (!SCOPE_TOOLING.includes(f)) set.add(f);
   return [...set].filter((f) => fs.existsSync(abs(f))).map((f) => ({ file: f,
     text: fs.readFileSync(abs(f), 'utf8'),
     primary: !(/^tests\/exp-/.test(f) && f !== harness) }));

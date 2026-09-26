@@ -140,6 +140,7 @@ export const REGEN_STEPS = [
     env: { W280_BASE: 'beta/_w280_base.html(第280便の基点 d0286cf の beta/index.html —— 項目 g・h の対照)' } }),
   // ---- 第281便 b/c/d の新しい正本(統括が統合時に追記 —— 所要は第281便の統合 chain3 の実測)
   S('galaxychain', 'node tests/exp-w281b-galaxychain.mjs', ['tests/out/galaxychain-w281b.json', 'tests/out/chainledger-w281b.json'], 73, { secSource: 'w281-chain3', node: true,
+    volatilePaths: { 'tests/out/galaxychain-w281b.json': META_RUN },   // 第282便 統合: analogy(枝 d)が安定 hash で読む —— 実行時刻だけを除く
     note: '第281便b: 場の契約の一覧・🎋 の連鎖・交換模型の帳簿(chainledger は lib 自身が target —— 同じ器が書く)' }),
   S('rotorledger', 'node tests/exp-w281c-rotorledger.mjs', ['tests/out/rotorledger-w281c.json'], 1, { secSource: 'w281-chain3', node: true,
     note: '第281便c: 条件付き質量台帳・η 対照(html だけを読む・他の正本を読まない)' }),
