@@ -2624,7 +2624,7 @@ build・力学・光線・`presetSig`・保存 JSON の物理は**この鍵を�
   AI には退役の本をベースに選ばせない運用とする。
 - 凍結の写し: `tests/fixtures/retired-w283b.json`(基点 de9e39b の内蔵定義・presetSigHash・ゲートから外した試験の最後の保存 QA の値・⚫ の尺度比較の参照値)。
 - QA: **`docs.retired`**・**`docs.families`**。器 `tests/exp-w283b-families.mjs`・正本 `tests/out/families-w283b.json`・一覧 `docs/FAMILIES_v1.45.md`・docs/PHYSICS.md〔第283便b〕。
-## 16. 第283便d の UI —— 背景複素決定力の宣言欄と空間メッシュの線の明るさ(原仮定者の裁定〔第73報〕⑥・統括の検証項目 R87・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
+## 17. 第283便d の UI —— 背景複素決定力の宣言欄と空間メッシュの線の明るさ(原仮定者の裁定〔第73報〕⑥・統括の検証項目 R87・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
 
 AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。プリセットの `physics.backgroundComplex`(§12・第276便a/第277便d の受理契約)を**アプリの画面から宣言する欄**と、空間メッシュの線の**表示の契約**を足しただけである。
 

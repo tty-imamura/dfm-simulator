@@ -39,18 +39,34 @@
 //   ・安定 hash(`stableJsonSha`)は**正本ごとに宣言した JSON Pointer**(再生成表の `volatilePaths`)だけを
 //     除く(既定は除外なし・方式の版を hash に含める)。欄名で階層を問わず除く旧方式(版なしの刻印)は
 //     **旧刻印の照合専用**に `legacyStableJsonSha` として残した(新しい刻印には使わない)。
+//
+// ■ 第283便e(原仮定者の裁定(第73報)AN29・AN32・統括の検証項目 R88)—— **説明文字列だけの除外(版 3)と非物理 meta**
+//   ・版 w283e-scope-3: claims の `note/noteEn/roleNote/roleNoteEn`・`chain.note/noteEn`・`massCalibration.note/noteEn`
+//     (値が文字列のときだけ)を領域から外す(`stripPresetProse(p, version)`)。expected・testId・descPattern・chain.ax/eq は残す。
+//     旧 2 版の刻印は旧規則(最上位の PROSE_KEYS だけ)で照合する —— 旧版の本文は元の実装と 1 字も違わない。
+//   ・安定 hash の Pointer に**非物理の同一性 meta**(`STABLE_META_KEYS` —— 対象 html の名前と sha・分割先ファイルの sha と
+//     バイト数・引用したファイルの sha)を宣言してよくした(値の型は QA が照合)。除くと中身の変化を見落とす分割先
+//     (calaudit-w249-diag.json)は**随伴ファイル**として別の行で安定 hash を刻む(`stableInputs` —— 再生成表の
+//     `STABLE_COMPANIONS`)。方式の版 `STABLE_VERSION` は変えない(Pointer の並びは hash の本文に入っている)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { loadHtmlHeadless } from './lib-w279b-headless.mjs';
 // 第282便e: 安定 hash の除外 Pointer は再生成表の段が宣言する(循環 import —— どちらも最上位では相手を呼ばない)
-import { volatilePathsOf } from './lib-w281a-regentable.mjs';
+import { volatilePathsOf, companionsOf } from './lib-w281a-regentable.mjs';
 
-/** 領域 hash の版(形を変えたら上げる。`lint.regenScope` が見る)。第282便e で停止集合を入れて 2 へ。 */
-export const SCOPE_VERSION = 'w282e-scope-2';
+/**
+ * 領域 hash の版(形を変えたら上げる。`lint.regenScope` が見る)。第282便e で停止集合を入れて 2 へ。
+ * 第283便e(原仮定者の裁定(第73報)AN32・統括の検証項目 R88)で 3 へ: claims と massCalibration の**説明文字列だけ**
+ * (`CLAIM_PROSE_KEYS`・`CHAIN_PROSE_KEYS`・`MASSCAL_PROSE_KEYS`)を領域から外す(expected・testId・descPattern・
+ * chain.ax/eq・control・noteRatio は残す)。新しい刻印は版 3 だけで作る。
+ */
+export const SCOPE_VERSION = 'w283e-scope-3';
 /** 旧版(第281便a —— 停止集合なし)。この版の刻印は旧版の閉包で照合する(`scopeHash(…, {version})`)。 */
 export const SCOPE_VERSION_LEGACY = 'w281a-scope-1';
+/** 版 2(第282便e —— 停止集合あり・説明文の除外は最上位の PROSE_KEYS だけ)。この版の刻印は版 2 の規則で照合する。 */
+export const SCOPE_VERSION_2 = 'w282e-scope-2';
 /** 照合できる版の一覧(これ以外の版の刻印は照合できない = 不一致)。 */
-export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION];
+export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION];
 
 /**
  * **停止集合**(第282便e・AN22 —— 原仮定者の裁定(第72報)・統括の検証項目 R82)。
@@ -435,11 +451,45 @@ export function canonJson(v) {
   return JSON.stringify(walk(v));
 }
 
-const stripProse = (p) => {
+/**
+ * 第283便e(AN32): 版 3 で外す**説明文字列だけ**の欄(claims の要素・その `chain`・`massCalibration`)。
+ * 外すのは値が**文字列**のときだけ(文字列でない値が入っていれば残す —— 型で読まれる欄を黙って落とさない)。
+ * `expected`・`testId`・`descPattern`・`chain.ax/eq`・`control`・`noteRatio`(`refNote` を含む)・`descScale` は残す。
+ */
+export const CLAIM_PROSE_KEYS = ['note', 'noteEn', 'roleNote', 'roleNoteEn'];
+export const CHAIN_PROSE_KEYS = ['note', 'noteEn'];
+export const MASSCAL_PROSE_KEYS = ['note', 'noteEn'];
+
+const dropStrings = (o, keys) => {
+  if (!o || typeof o !== 'object' || Array.isArray(o)) return o;
+  const r = {};
+  for (const k of Object.keys(o)) if (!(keys.indexOf(k) >= 0 && typeof o[k] === 'string')) r[k] = o[k];
+  return r;
+};
+
+/**
+ * プリセットの説明文を外した写し(**版つき** —— 第283便e)。
+ *   版 1・2 … 最上位の `PROSE_KEYS` だけを外す(第281便a・第282便e の実装と 1 字も違わない本文)
+ *   版 3   … 版 2 に加えて claims[*] の `CLAIM_PROSE_KEYS`・claims[*].chain の `CHAIN_PROSE_KEYS`・
+ *            massCalibration の `MASSCAL_PROSE_KEYS`(どれも値が文字列のときだけ)
+ * @param {object} p プリセット(生の定義か受理後の定義)
+ * @param {string} [version] 版(既定は現行版)
+ */
+export function stripPresetProse(p, version) {
+  const v = version || SCOPE_VERSION;
   const o = {};
   for (const k of Object.keys(p || {}).sort()) if (PROSE_KEYS.indexOf(k) < 0) o[k] = p[k];
+  if (v === SCOPE_VERSION_LEGACY || v === SCOPE_VERSION_2) return o;
+  if (Array.isArray(o.claims)) {
+    o.claims = o.claims.map((c) => {
+      const c2 = dropStrings(c, CLAIM_PROSE_KEYS);
+      if (c2 && typeof c2 === 'object' && c2.chain && typeof c2.chain === 'object' && !Array.isArray(c2.chain)) c2.chain = dropStrings(c2.chain, CHAIN_PROSE_KEYS);
+      return c2;
+    });
+  }
+  if (o.massCalibration && typeof o.massCalibration === 'object') o.massCalibration = dropStrings(o.massCalibration, MASSCAL_PROSE_KEYS);
   return o;
-};
+}
 
 /**
  * 第282便e: **感度の自己試験用の一時 html**(`lint.scopeStop` と `tools/scope-probe.mjs` が使う —— html は書き換えない)。
@@ -550,9 +600,9 @@ export function scopeHash(htmlPath, decl, opts) {
         const v = X.L.HP.validatePreset(JSON.parse(JSON.stringify(raw)));
         acc = { ok: !!v.ok, legacyCore: v.legacyCore === undefined ? null : v.legacyCore,
           kFrameSnapped: v.kFrameSnapped === undefined ? null : v.kFrameSnapped,
-          preset: v.preset ? stripProse(v.preset) : null };
+          preset: v.preset ? stripPresetProse(v.preset, version) : null };
       } catch (e) { why.push('validatePreset が投げた: ' + id); }
-      presets.push({ id, raw: stripProse(raw), accepted: acc });
+      presets.push({ id, raw: stripPresetProse(raw, version), accepted: acc });
     }
   }
   // ② ③ 依存閉包
@@ -582,8 +632,13 @@ export function scopeHash(htmlPath, decl, opts) {
   const body = legacy
     ? canonJson({ v: SCOPE_VERSION_LEGACY, presets, closure: fnTexts, hp: hpTexts, core, consts,
       proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES })
-    : canonJson({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
-      proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES, scopeStop: SCOPE_STOP });
+    : version === SCOPE_VERSION_2
+      ? canonJson({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
+        proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES, scopeStop: SCOPE_STOP })
+      // 第283便e: 版 3 は外した説明文の欄名も本文に入れる(欄の集合を変えたら hash も変わる)
+      : canonJson({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
+        proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES, scopeStop: SCOPE_STOP,
+        claimProse: { claim: CLAIM_PROSE_KEYS, chain: CHAIN_PROSE_KEYS, massCalibration: MASSCAL_PROSE_KEYS } });
   const complete = why.length === 0;
   const scopeSha256 = sha256(body);
   const closureBytes = segs.reduce((a, s) => a + (s.end - s.start), 0);
@@ -619,7 +674,8 @@ export function scopeStamp(htmlPath, decl) {
   scopeSha256: r.scopeSha256, scopeComplete: r.scopeComplete };
 }
 
-export default { SCOPE_VERSION, SCOPE_VERSION_LEGACY, SCOPE_VERSIONS, SCOPE_STOP, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
+export default { SCOPE_VERSION, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSIONS, SCOPE_STOP, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
+  CLAIM_PROSE_KEYS, CHAIN_PROSE_KEYS, MASSCAL_PROSE_KEYS, stripPresetProse,
   scanJs, normText, parseTopLevel, hpProps, closureOf, countDynamicRefs, canonJson, normalizeScope, scopeHash, scopeStamp };
 
 /**
@@ -766,6 +822,20 @@ export const STABLE_RUNTIME_KEYS = ['generatedAt', 'when', 'carriedOverFrom', 'm
   'wallSec', 'rateStepsPerSec', 'spentSec', 'elapsedS'];                                         // 壁時計の所要・速度(有限の数)
 /** 時刻の欄(値は ISO 日時)。残りの STABLE_RUNTIME_KEYS は有限の数。 */
 export const STABLE_TIME_KEYS = ['generatedAt', 'when', 'carriedOverFrom', 'mtime'];
+/**
+ * 第283便e(AN29): 宣言してよい Pointer の最後の鍵のうち**非物理の同一性 meta**(対象の名前・sha・バイト数)。
+ * 値の型: `target` は相対パスの文字列・`*Sha256`/`sha256` は 64 桁の 16 進・`bytes*` は非負の整数(`lint.stableHashPaths` ②)。
+ * 物理の欄(`/presets/…`)の下には置かない(QA が照合)。
+ */
+export const STABLE_META_KEYS = ['target', 'targetSha256', 'citedTargetSha256', 'fileSha256', 'sha256',
+  'bytes', 'bytesBeforeSplit', 'bytesAfterSplit'];
+/** 非物理 meta の値の型(true = 宣言してよい値)。 */
+export function stableMetaValueOk(key, v) {
+  if (key === 'target') return typeof v === 'string' && !!v && !v.startsWith('/');
+  if (/sha256$/i.test(key)) return typeof v === 'string' && /^[0-9a-f]{64}$/.test(v);
+  if (/^bytes/.test(key)) return Number.isInteger(v) && v >= 0;
+  return false;
+}
 
 /** 旧方式の欄名(第281便a の VOLATILE_KEYS —— **旧刻印の照合専用**)。 */
 export const LEGACY_VOLATILE_KEYS = ['generatedAt', 'when', 'wallSec', 'wallClock', 'wallS', 'spentSec',
@@ -869,6 +939,25 @@ export function stableMatches(root, row) {
 }
 
 /**
+ * 第283便e(AN29): 入力 `file` が**安定 hash で一致**するか —— 刻印の行が一致し、かつその行が非物理 meta
+ * (`STABLE_META_KEYS` —— 分割先の sha 等)を除いているときは、**随伴ファイルの行**(`companionsOf(file)`)も
+ * すべて刻まれていて一致すること(除いた sha の先の中身の変化を見落とさない)。
+ * `lint.provenanceMeta` ③ と `planRegen` が使う。
+ * @param {string} root
+ * @param {Array} inputsStable 正本の meta.inputsStable
+ * @param {string} file 入力の相対パス
+ */
+export function stableInputOk(root, inputsStable, file) {
+  const rows = inputsStable || [];
+  const st = rows.find((z) => z.file === file && z.companionOf === undefined) || rows.find((z) => z.file === file);
+  if (!st || !stableMatches(root, st)) return false;
+  const excludesMeta = (st.volatilePaths || []).some((p) => { const t = parsePointer(p); return !!t && STABLE_META_KEYS.includes(t[t.length - 1]); });
+  if (!excludesMeta) return true;
+  for (const c of companionsOf(file)) { const r = rows.find((z) => z.file === c); if (!r || !stableMatches(root, r)) return false; }
+  return true;
+}
+
+/**
  * meta.inputs[] のうち JSON の入力に**安定 hash** を添える(`inputsStable`)。
  * `lint.provenanceMeta` ③ は「sha256 一致 **または** 安定 hash 一致(刻印の版で照合)」で通す。
  * 第282便e: 各行に版と除いた Pointer を刻む(旧刻印の `volatileKeys` 欄は出さない)。
@@ -880,9 +969,13 @@ export function stableInputs(root, inputs) {
   for (const s of (inputs || [])) {
     const file = typeof s === 'string' ? s : (s && s.file);
     if (!file || !/\.json$/.test(file)) continue;
-    const vp = volatilePathsOf(file);
-    const h = stableJsonSha(root.replace(/\/$/, '') + '/' + file, vp);
-    if (h) rows.push({ file, stableSha256: h, stableVersion: STABLE_VERSION, volatilePaths: vp });
+    // 第283便e: 随伴ファイル(除いた sha の先 —— calaudit-w249-diag.json)も別の行で刻む(中身の変化を見落とさない)
+    for (const f of [file].concat(companionsOf(file))) {
+      if (rows.some((z) => z.file === f)) continue;
+      const vp = volatilePathsOf(f);
+      const h = stableJsonSha(root.replace(/\/$/, '') + '/' + f, vp);
+      if (h) rows.push(Object.assign({ file: f, stableSha256: h, stableVersion: STABLE_VERSION, volatilePaths: vp }, f === file ? {} : { companionOf: file }));
+    }
   }
   return { inputsStable: rows, stableHashVersion: STABLE_VERSION };
 }
@@ -1070,4 +1163,96 @@ export function stopReadsOf(htmlPath, codeFiles) {
     for (const m of text.matchAll(/(['"`])([A-Za-z_$][\w$]*)\1/g)) if (watch.has(m[2])) out.push(cf.file + ":'" + m[2] + "'");
   }
   return [...new Set(out)];
+}
+
+/**
+ * 第283便e(原仮定者の裁定(第73報)AN32・統括の検証項目 R88): **説明文字列だけの除外の自己試験**(一時 html は書いて消す)。
+ *   (u) 単体(内蔵の全プリセット・メモリ上): claims/chain/massCalibration の説明文字列に 1 字足した写しは版 3 で同じ・
+ *       版 2 では変わる(説明文を持つ本の数)/ expected・testId・descPattern・chain.eq・massCalibration.f を変えた写しは版 3 で変わる
+ *   (h) html(宣言 `decl` —— 既定は ⛄ plutoCharonDFM の器の宣言): ⛄ の claims の roleNote・chain.note・chain.noteEn に 1 字 →
+ *       版 3 で領域一致・版 2 では変わる / physics.q・expected・testId・descPattern → 版 3 で変わる
+ * @param {{html:string, decl:object, tmpDir:string, htmlCases?:string[]}} o(htmlCases の既定は 5 種すべて —— QA は note と expected だけ)
+ */
+export function an32Probe(o) {
+  const X = loadCtx(o.html);
+  const B = X.L.evalExpr('BUILTIN_PRESETS');
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const H = (p, v) => sha256(canonJson(stripPresetProse(p, v)));
+  const touchProse = (p) => {
+    const q = clone(p);
+    let n = 0;
+    for (const c of (Array.isArray(q.claims) ? q.claims : [])) {
+      for (const k of CLAIM_PROSE_KEYS) if (typeof c[k] === 'string') { c[k] += '※'; n++; }
+      if (c.chain && typeof c.chain === 'object') for (const k of CHAIN_PROSE_KEYS) if (typeof c.chain[k] === 'string') { c.chain[k] += '※'; n++; }
+    }
+    if (q.massCalibration && typeof q.massCalibration === 'object') for (const k of MASSCAL_PROSE_KEYS) if (typeof q.massCalibration[k] === 'string') { q.massCalibration[k] += '※'; n++; }
+    return { q, n };
+  };
+  const u = { presets: B.length, withProse: 0, v3Same: 0, v2Changed: 0, fields: 0,
+    physical: { expected: [0, 0], testId: [0, 0], descPattern: [0, 0], chainEq: [0, 0], massCalF: [0, 0] } };
+  for (const p of B) {
+    const { q, n } = touchProse(p);
+    if (!n) continue;
+    u.withProse++; u.fields += n;
+    if (H(q, SCOPE_VERSION) === H(p, SCOPE_VERSION)) u.v3Same++;
+    if (H(q, SCOPE_VERSION_2) !== H(p, SCOPE_VERSION_2)) u.v2Changed++;
+  }
+  const physTry = (name, f) => {
+    for (const p of B) {
+      const q = clone(p);
+      if (!f(q)) continue;
+      u.physical[name][0]++;
+      if (H(q, SCOPE_VERSION) !== H(p, SCOPE_VERSION)) u.physical[name][1]++;
+    }
+  };
+  physTry('expected', (q) => { const c = (q.claims || []).find((z) => z.expected && typeof z.expected.max === 'number'); if (!c) return false; c.expected.max += 1e-9; return true; });
+  physTry('testId', (q) => { const c = (q.claims || []).find((z) => typeof z.testId === 'string'); if (!c) return false; c.testId += 'x'; return true; });
+  physTry('descPattern', (q) => { const c = (q.claims || []).find((z) => typeof z.descPattern === 'string'); if (!c) return false; c.descPattern += ' '; return true; });
+  physTry('chainEq', (q) => { const c = (q.claims || []).find((z) => z.chain && Array.isArray(z.chain.eq)); if (!c) return false; c.chain.eq = c.chain.eq.concat(['E1']); return true; });
+  physTry('massCalF', (q) => { if (!q.massCalibration || typeof q.massCalibration.f !== 'number') return false; q.massCalibration.f += 1; return true; });
+  u.ok = u.withProse > 0 && u.v3Same === u.withProse && u.v2Changed === u.withProse
+    && Object.values(u.physical).every(([a, b]) => a > 0 && a === b);
+  // (h) html
+  const t = X.html;
+  const i0 = t.indexOf('id:"plutoCharonDFM"');
+  const edit = (label, needle, fn) => {
+    const j = i0 < 0 ? -1 : t.indexOf(needle, i0);
+    if (j < 0) return { label, ok: false, html: t };
+    return { label, ok: true, html: fn(j) };
+  };
+  const ins = (needle, add) => edit(needle, needle, (j) => t.slice(0, j + needle.length) + add + t.slice(j + needle.length));
+  const want = (o.htmlCases || ['note', 'q', 'expected', 'testId', 'descPattern']);
+  const cases = {
+    note: (() => {   // roleNote・chain.note・chain.noteEn に 1 字(同じ html に 3 か所)
+      let h = t;
+      for (const nd of ['roleNote:"', 'note:"', 'noteEn:"']) {
+        const j = h.indexOf(nd, h.indexOf('claims:[', i0));
+        if (j < 0 || i0 < 0) return { ok: false, html: t };
+        h = h.slice(0, j + nd.length) + '※' + h.slice(j + nd.length);
+      }
+      return { ok: h !== t, html: h };
+    })(),
+    q: edit('q', 'q:11.9386', (j) => t.slice(0, j) + 'q:11.9387' + t.slice(j + 'q:11.9386'.length)),
+    expected: edit('expected', 'expected:{min:0.5, max:2.5}', (j) => t.slice(0, j) + 'expected:{min:0.5, max:2.6}' + t.slice(j + 'expected:{min:0.5, max:2.5}'.length)),
+    testId: ins('testId:"behavior.plutoCharonDFM', 'X'),
+    descPattern: ins('descPattern:"', ' '),
+  };
+  const base3 = scopeHash(o.html, o.decl, { version: SCOPE_VERSION }).scopeSha256;
+  const base2 = scopeHash(o.html, o.decl, { version: SCOPE_VERSION_2 }).scopeSha256;
+  const h = {};
+  fs.mkdirSync(o.tmpDir, { recursive: true });
+  try {
+    for (const [k, c] of Object.entries(cases)) {
+      if (want.indexOf(k) < 0) continue;
+      if (!c.ok) { h[k] = { ok: false }; continue; }
+      const f = o.tmpDir.replace(/\/$/, '') + '/an32-' + k + '.html';
+      fs.writeFileSync(f, c.html);
+      const v3 = scopeHash(f, o.decl, { version: SCOPE_VERSION }), v2 = scopeHash(f, o.decl, { version: SCOPE_VERSION_2 });
+      h[k] = { v3Same: v3.scopeSha256 === base3, v2Same: v2.scopeSha256 === base2, complete: v3.scopeComplete };
+      fs.rmSync(f, { force: true });
+    }
+  } finally { loadCtx(o.html); }
+  const hOk = h.note && h.note.v3Same === true && h.note.v2Same === false
+    && ['q', 'expected', 'testId', 'descPattern'].filter((k) => want.indexOf(k) >= 0).every((k) => h[k] && h[k].v3Same === false);
+  return { u, h, ok: u.ok && !!hOk, base3, base2 };
 }

@@ -23,6 +23,8 @@
 //      一覧の末尾に **所要時間の節**を付ける —— 較正走行(calaudit の各本の壁時計・段別)・関与する再生成の段
 //      (再生成表の実測秒と宣言本数)・保存 QA(id にその本の id を含む試験+claims の testId の所要と本数)。
 //      **時間は測った値の転記であって判定ではない**(html の生成領域には入れない —— 時間で html を変えない)。
+//   ⑤ 第283便e(原仮定者の裁定(第73報)・統括の検証項目 R88): 保存 QA の帰属を「試験の id が本の id を部分文字列として含む」から
+//      **claims の testId + 原稿の明示 `qaTargets`** へ(`L.qaAttribution` —— どちらにも無い本は「帰属なし」)。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -206,6 +208,8 @@ const undeclaredSteps = stepsCurrent.filter((z) => !z.alwaysRun && !stepScope.ge
 const secUndeclared = undeclaredSteps.reduce((a, z) => a + (z.sec || 0), 0);
 const calById = Object.fromEntries((calaudit.presets || []).map((p) => [p.id, p]));
 const qaAll = (qa.results || []);
+// 第283便e(統括の検証項目 R88): QA の帰属は claims の testId + 原稿の明示 qaTargets だけ(部分文字列の一致をやめた)
+const qaAttr = L.qaAttribution(got.rows, src, qaAll);
 const timing = {};
 for (const r of got.rows) {
   const id = r.id;
@@ -223,13 +227,10 @@ for (const r of got.rows) {
     if (!sc.presets) continue;
     if (sc.presets === 'all' || sc.presets.includes(id)) steps.push({ key: st.key, sec: st.sec || 0, share: sc.presets === 'all' ? 'all' : sc.presets.length, always: !!st.alwaysRun });
   }
-  // (c) 保存 QA: id にこの本の id を含む試験 + claims の testId(所要は試験ごと・複数の本で重なりうる)
-  const lid = id.toLowerCase();
-  const claimSet = new Set(r.claimTests || []);
-  const tests = qaAll.filter((t) => String(t.id).toLowerCase().includes(lid) || claimSet.has(t.id))
-    .map((t) => ({ id: t.id, ms: t.ms || 0, pass: !!t.pass })).sort((x, y) => y.ms - x.ms);
-  const qaMs = tests.reduce((a, t) => a + t.ms, 0);
-  timing[id] = { calaudit: { wallSec: calSec, stages, reusedSec: cs.reusedSec }, regenSteps: steps, qa: { n: tests.length, ms: qaMs, tests: tests.slice(0, 5) } };
+  // (c) 保存 QA(第283便e): claims の testId + 原稿の明示 qaTargets の試験(所要は試験ごと・複数の本で重なりうる)。どちらにも無い本は帰属なし
+  const qa1 = qaAttr.byId[id];
+  timing[id] = { calaudit: { wallSec: calSec, stages, reusedSec: cs.reusedSec }, regenSteps: steps,
+    qa: { attributed: qa1.attributed, n: qa1.n, ms: qa1.ms, tests: qa1.tests.slice(0, 5) } };
 }
 md.push('## 所要時間(正本の再生成と QA)');
 md.push('');
@@ -238,7 +239,7 @@ md.push('');
 md.push('- **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 の和・`presets[].run.timeBudget[].wallSec`。第283便c: dt/8 は常時の鎖から外した —— 旧形式の記録だけ dt/8 を 1 回数える・転記した段〔再利用〕は和に入れず「元 N s」を添える)。母集団の外の本は「—」。');
 md.push('- **関与する再生成の段**: 領域(REGEN_SCOPE)を宣言した段のうち、この本を宣言に含むもの。表記「段 秒/本数」は**段 1 回の実測秒とその段が宣言した本数**(所要は宣言した本で共有する —— 本ごとに足し上げない)。all は全プリセットを走査する段。');
 md.push(`- **宣言の無い段**(対象 html の全体に縛られ、どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は本ごとの行に配らない。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
-md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体 ${fmtS((qa.durationMs || 0) / 1000)} s${qa.commit ? '・commit ' + String(qa.commit).slice(0, 7) : ''})のうち、**試験の id にこの本の id を含むもの+その本の claims が挙げる testId** の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。内訳は所要の上位 3。`);
+md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体 ${fmtS((qa.durationMs || 0) / 1000)} s${qa.commit ? '・commit ' + String(qa.commit).slice(0, 7) : ''})のうち、**その本の claims が挙げる testId と、原稿 \`${SRC}\` の \`qaTargets\` がその本を挙げた試験**(帰属 ${qaAttr.version} —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(${qaAttr.unattributed.length} 本)。内訳は所要の上位 3。`);
 md.push('');
 md.push('| 本 | 較正走行(s) | 段別(s) | 関与する再生成の段(段 秒/本数) | 保存 QA(s・本数) | QA の内訳(上位 3) |');
 md.push('|---|---|---|---|---|---|');
@@ -247,7 +248,7 @@ for (const id of groups.flatMap((g) => g.ids).concat(retiredRows)) {
   const cal = t.calaudit.stages.length ? fmtS(t.calaudit.wallSec) : '—';
   const st = t.calaudit.stages.length ? t.calaudit.stages.map((z) => z.reused ? `${z.tag} 再利用(元 ${fmtS(z.wallSec)})` : `${z.tag} ${fmtS(z.wallSec)}`).join('・') : '—';
   const steps = t.regenSteps.length ? t.regenSteps.map((z) => `${z.key} ${fmtS(z.sec)}/${z.share}`).join('・') : '—';
-  const qs = `${fmtS(t.qa.ms / 1000)}・${t.qa.n}`;
+  const qs = t.qa.attributed ? `${fmtS(t.qa.ms / 1000)}・${t.qa.n}` : '帰属なし';
   const top = t.qa.tests.slice(0, 3).map((z) => `\`${z.id}\` ${fmtS(z.ms / 1000)}`).join('・') || '—';
   md.push(`| ${r.emoji || ''} \`${id}\` | ${cal} | ${st} | ${steps} | ${qs} | ${top} |`);
 }
@@ -270,9 +271,10 @@ const canon = {
     retired: { n: retiredRows.length, ids: retiredRows, historyEvidence: historyUsed } }),
   rows: got.rows.map((r) => Object.assign({ id: r.id, emoji: r.emoji, name: r.name, group: r.group,
     sampleClass: r.sampleClass }, { status: table[r.id], ledgerSource: built.provenance[r.id] || null, timing: timing[r.id] })),
-  timingNote: { since: '第282便(原仮定者の指示 2026-09-26)', what: '各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(id を含む試験+claims の testId・重なりあり)。判定ではない',
+  timingNote: { since: '第282便(原仮定者の指示 2026-09-26)', what: '各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない',
     regenSteps: stepsCurrent.length, regenSecSum: secAll, alwaysSec: secAlways, undeclaredSteps: undeclaredSteps.length, undeclaredSec: secUndeclared,
-    qaTotal: qa.total || qaAll.length, qaDurationMs: qa.durationMs || null },
+    qaTotal: qa.total || qaAll.length, qaDurationMs: qa.durationMs || null,
+    qaAttribution: { version: qaAttr.version, rule: 'claims の testId + 原稿の qaTargets(明示)', unattributed: qaAttr.unattributed.length } },
 };
 if (CHECK) {
   const prev = fs.existsSync(path.join(ROOT, MD)) ? fs.readFileSync(path.join(ROOT, MD), 'utf8') : null;

@@ -26,12 +26,27 @@
 //     刻印時の html(`meta.targetSha256` と sha が同じ基点 html —— `--base`)があるときだけ引ける。
 //   ・領域 hash と安定 hash は**刻印の版で**照合する(旧版の刻印は旧版で引き直す)。
 //
+// ■ 第283便e(原仮定者の裁定(第73報)AN29・統括の検証項目 R88)—— **非物理 meta の除外・随伴ファイル・鎖の機械生成**
+//   ・calaudit の除外 Pointer に**非物理の同一性 meta**(`V_CALAUDIT_META` —— 対象 html の名前と sha の写し 4 か所・
+//     引用した ❄️ 正本の sha・分割先 diag の sha とバイト数・分割前後のバイト数)を足した。実パスは 53aaa64 → 8b05232 の
+//     calaudit の実際の再走(既存 140 本 1 bit 不変の便)で**変わった欄の全部**から、実行時刻・所要と同一性 meta だけを取った
+//     (物理欄は 1 つも除いていない —— `lint.stableHashPaths` ②)。
+//   ・分割先 `calaudit-w249-diag.json` は sha を除いた代わりに**随伴ファイル**(`STABLE_COMPANIONS`)として別の行で
+//     安定 hash を刻む(除く Pointer は `/when`・`/carriedOverFrom` だけ —— 中身〔移した診断〕は残る)。
+//   ・段が**書く**ファイルを `merges`(`--merge` で正本へ書き戻す段: dt3・kf0 → calaudit の 2 ファイル)まで含めて持つ
+//     (`writesOf`)。読む段は**書く段のすべて**の後に置く(`tableDeps`)。第282便の統合で起きた順序の型(d0audit・bgbudget を
+//     入力より先・kf0ledger を nslockledger の再走の後に走らせない)は `tableDepsAudit`(表の after の推移閉包が正本の入力の
+//     書き手を覆うか)と `checkOrder`(実際に走った列の照合)で検出する。
+//   ・`buildChain` / `chainShell`: 計画(regen/always/recheck)と依存の閉包から、依存順の波と並列レーンのシェルを出す
+//     (済み印で再開・rc≠0 で止まる・ログ名 `<波>-<段>.log`)。閉包で入った後段は**上流が走った後に自分の判定を引き直す**
+//     (`--gate` —— 自分の対象・コード・入力〔安定 hash〕が一致すれば再利用)。`tools/regen-chain.mjs` が CLI。
+//
 // ■ しないこと: 走らせない・判定しない(表と、表を読む計画の純関数だけ)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import { scopeHash, stableMatches } from './lib-w281a-scope.mjs';
+import { scopeHash, stableMatches, stableInputOk } from './lib-w281a-scope.mjs';
 
-export const REGEN_TABLE_VERSION = 'w282e-regentable-2';
+export const REGEN_TABLE_VERSION = 'w283e-regentable-3';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
@@ -40,6 +55,25 @@ const V_CALAUDIT = ['/meta/when', '/fourValues/current/when', '/diagnosticsSplit
   '/presets/*/run/stopRule/wallSec', '/presets/*/run/stopRule/rateStepsPerSec',
   '/presets/*/run/stopRuleStages/*/wallSec', '/presets/*/run/stopRuleStages/*/rateStepsPerSec',
   '/presets/*/run/dtEighth/wallSec'];
+/**
+ * 第283便e(AN29): calaudit の**非物理の同一性 meta**(`STABLE_META_KEYS` の鍵だけ —— 値の型は QA が照合)。
+ * html を 1 字変えて calaudit を走らせ直すと、物理が 1 bit も動かなくても次が変わる(53aaa64 → 8b05232 の実測):
+ * 対象 html の sha の写し 4 か所・引用した ❄️ 正本〔charon-w272b〕のファイル sha・分割先 diag の sha(diag の `when` が
+ * 変わるため)・分割前後のバイト数(壁時計の桁数で変わる)。`/meta/target` は値が変わらないが、対象の名前は同一性の
+ * meta なので同じ群に置く。分割先の中身は随伴ファイルの行で見る(`STABLE_COMPANIONS`)。
+ */
+export const V_CALAUDIT_META = ['/meta/target', '/meta/targetSha256', '/mergeKey/targetSha256', '/fourValues/current/targetSha256',
+  '/kf0Runs/charonCitation/citedTargetSha256', '/kf0Runs/charonCitation/fileSha256',
+  '/diagnosticsSplit/sha256', '/diagnosticsSplit/bytes', '/diagnosticsSplit/bytesBeforeSplit', '/diagnosticsSplit/bytesAfterSplit'];
+/** 第283便e: 分割先 diag の意味 hash(除くのは生成時刻と持ち越し時刻だけ —— 53aaa64 → 8b05232 の再走で変わった欄の全部)。 */
+const V_CALAUDIT_DIAG = ['/when', '/carriedOverFrom'];
+
+/**
+ * 第283便e: **随伴ファイル**(ある正本の安定 hash がその sha を除いているとき、中身の変化を別の行で見るファイル)。
+ * `stableInputs` が入力の行の次に随伴ファイルの行を足す。
+ */
+export const STABLE_COMPANIONS = { 'tests/out/calaudit-w249.json': ['tests/out/calaudit-w249-diag.json'] };
+export function companionsOf(file) { return (STABLE_COMPANIONS[file] || []).slice(); }
 
 const S = (key, cmd, outs, sec, o) => Object.assign({ key, cmd, outs, sec, secSource: 'w280-chain',
   alwaysRun: false, role: 'current', after: [], env: {}, volatilePaths: {} }, o || {});
@@ -58,18 +92,22 @@ export const REGEN_STEPS = [
   S('plutostates', 'node tests/exp-w277a-plutostates.mjs', ['tests/out/plutostates-w277a.json'], 1),
   // ---- 常時群(calaudit 系と署名の後段): 領域が一致しても**毎回走らせる**
   S('calaudit', 'node tests/exp-w249b-calaudit.mjs', ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'], 3724, { alwaysRun: true,
-    volatilePaths: { 'tests/out/calaudit-w249.json': V_CALAUDIT, 'tests/out/calaudit-w249-diag.json': [] } }),
+    volatilePaths: { 'tests/out/calaudit-w249.json': V_CALAUDIT.concat(V_CALAUDIT_META), 'tests/out/calaudit-w249-diag.json': V_CALAUDIT_DIAG } }),
   // 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (ii)(iii)): 常時の dt3 段から `--dt8-registry` を外した(h/8 は明示診断の
   //   入口だけ —— `--dt8-registry` 単独)。dt/4 は前回の正本の同じ契約の h4 を転記する(`--no-h4-reuse` で切る)。
   //   **sec は旧値(第280便の chain の実測 —— dt/8 込み)のまま**:再測定するまで書き換えない(dt/8 の段の和は第282便の正本で 544 s)
+  // 第283便e: dt3・kf0 は --merge で calaudit の 2 ファイルを書き戻す(merges —— 読む段はこの 2 段の後に置く)
   S('dt3', 'node tests/exp-w249b-calaudit.mjs --dt3-registry --merge', [], 1683, { alwaysRun: true, after: ['calaudit'],
+    merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'],
     note: '第283便c: --dt8-registry を外した・dt/4 は転記(tests/lib-w283c-calstages.mjs の H4_REUSE_RULE)。sec は旧値(dt/8 込みの第280便の実測)—— 再測定まで据え置き' }),
-  S('kf0', 'node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-dt3 --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge', ['tests/out/kf0-w259d.json'], 299, { alwaysRun: true, after: ['dt3'] }),
+  S('kf0', 'node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-dt3 --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge', ['tests/out/kf0-w259d.json'], 299, { alwaysRun: true, after: ['dt3'],
+    merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'] }),
   S('solarsigma', 'node tests/exp-w262d-solarsigma.mjs', ['tests/out/solarsigma-w262d.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   S('stoprule', 'node tests/exp-w270a-stoprule.mjs', ['tests/out/stoprule-w270a.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   S('issues', 'node tests/exp-w272a-issues.mjs', ['tests/out/issues-w272a.json'], 0, { alwaysRun: true, after: ['kf0', 'solarsigma', 'charon-h', 'charon-h2', 'charon-h4', 'nslock'] }),
   S('assessed', 'node tests/exp-w273c-assessedtable.mjs --check', ['tests/out/assessed-w273c.json'], 1, { alwaysRun: true, after: ['kf0'] }),
-  S('d0audit', 'node tests/exp-w275b-d0audit.mjs', ['tests/out/d0audit-w275b.json'], 21),
+  // 第283便e: calaudit-w249.json を読む(meta.inputs)—— 書く段(calaudit・dt3・kf0)の最後の kf0 の後
+  S('d0audit', 'node tests/exp-w275b-d0audit.mjs', ['tests/out/d0audit-w275b.json'], 21, { after: ['kf0'] }),
   // ---- ❄️ 対照系列(第281便a: 現行列 C0/C1/C3/C5/C6/S・h4 は C0/C1/C6 だけ・履歴列 C2/C4/C7 は再生成しない)
   S('charon-h', 'node tests/exp-w272b-charon.mjs --stage h', ['tests/out/charon-w272b.json'], 677, { secSource: 'w281a-chain', after: ['kf0'], group: 'charon' }),
   S('charon-h2', 'node tests/exp-w272b-charon.mjs --stage h2', ['tests/out/charon-w272b.json'], 1407, { secSource: 'w272b-wallSec', after: ['charon-h'], group: 'charon' }),
@@ -127,20 +165,21 @@ export const REGEN_STEPS = [
   S('nsgrid', 'node tests/exp-w277c-nsgrid.mjs', ['tests/out/nsgrid-w277c.json'], 955),
   S('selfinertia', 'node tests/exp-w277d-selfinertia.mjs', ['tests/out/selfinertia-w277d.json'], 1),
   S('slipaudit', 'node tests/exp-w278c-slipaudit.mjs', ['tests/out/slipaudit-w278c.json'], 0),
-  S('nsmode', 'node tests/exp-w278c-nsmode.mjs', ['tests/out/nsmode-w278c.json'], 117),
-  S('bgequiv', 'node tests/exp-w278d-bgequiv.mjs', ['tests/out/bgequiv-w278d.json'], 96, { secSource: 'w281a-chain',
+  S('nsmode', 'node tests/exp-w278c-nsmode.mjs', ['tests/out/nsmode-w278c.json'], 117, { after: ['nsgrid'] }),   // 第283便e: nsgrid-w277c.json を読む
+  S('bgequiv', 'node tests/exp-w278d-bgequiv.mjs', ['tests/out/bgequiv-w278d.json'], 96, { secSource: 'w281a-chain', after: ['bgpredict'],   // 第283便e: bgpredict を読む
     volatilePaths: { 'tests/out/bgequiv-w278d.json': META_RUN.concat(['/elapsedS']) } }),
-  S('bgbudget', 'node tests/exp-w277d-bgbudget.mjs', ['tests/out/bgbudget-w277d.json'], 29, { secSource: 'w281a-chain' }),
+  S('bgbudget', 'node tests/exp-w277d-bgbudget.mjs', ['tests/out/bgbudget-w277d.json'], 29, { secSource: 'w281a-chain', after: ['bgpredict', 'bgequiv'] }),   // 第283便e
   S('bgcompose', 'node tests/exp-w279c-bgcompose.mjs', ['tests/out/bgcompose-w279c.json'], 2),
-  S('bgbudget2', 'node tests/exp-w279c-bgbudget2.mjs', ['tests/out/bgbudget2-w279c.json'], 77, { secSource: 'w281a-chain',
+  S('bgbudget2', 'node tests/exp-w279c-bgbudget2.mjs', ['tests/out/bgbudget2-w279c.json'], 77, { secSource: 'w281a-chain', after: ['bgpredict', 'bgequiv'],   // 第283便e
     volatilePaths: { 'tests/out/bgbudget2-w279c.json': META_RUN.concat(['/elapsedS']) } }),
   S('sphereKernel', 'node tests/exp-w280b-sphereKernel.mjs', ['tests/out/spherekernel-w280b.json'], 2),
   S('galaxyprof', 'node tests/exp-w274c-galaxyprof.mjs $BASE_HTML beta/index.html', ['tests/out/galaxyprof-w274c.json'], 25, { env: { BASE_HTML: '基点 html(引数)' } }),
   S('needmesh', 'node tests/exp-w274c-needmesh.mjs $BASE_HTML beta/index.html', ['tests/out/needmesh-w274c.json'], 2, { env: { BASE_HTML: '基点 html(引数)' } }),
   S('d68', 'node tests/exp-w280e-d68.mjs', ['tests/out/d68-w280e.json'], 153, { secSource: 'w281a-chain' }),
   // QA の確認順・並列化の実測(統括がフル QA の後に --record —— chain の外。所要は QA 本体に含まれる)
-  S('qaorder', 'node tests/exp-w279b-qaorder.mjs --record', ['tests/out/qaorder-w279b.json'], 0, { secSource: 'chain の外(フル QA の後)' }),
-  S('emgrid', 'node tests/exp-w280b-emgrid.mjs(4 部分 + --merge —— 第280便の chain2c と同じ分割)', ['tests/out/emgrid-w280b.json'], 2295, { secSource: 'w281a-chain', node: true }),
+  S('qaorder', 'node tests/exp-w279b-qaorder.mjs --record', ['tests/out/qaorder-w279b.json'], 0, { secSource: 'chain の外(フル QA の後)', outside: true }),
+  // 第283便e: cmd は 1 行のシェルでない(部分走行 4 本 + --merge)—— 鎖は「手動の段」として止まる(済み印を置けば進む)
+  S('emgrid', 'node tests/exp-w280b-emgrid.mjs(4 部分 + --merge —— 第280便の chain2c と同じ分割)', ['tests/out/emgrid-w280b.json'], 2295, { secSource: 'w281a-chain', node: true, manual: true }),
   // ---- 後段(calaudit と署名の後 —— 読む正本が揃ってから)
   S('kf0ledger-old', 'node tests/exp-w274a-kf0ledger.mjs', ['tests/out/kf0ledger-w274a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'calcontract'] }),
   S('kf0ledger', 'node tests/exp-w275a-kf0ledger.mjs', ['tests/out/kf0ledger-w275a.json'], 0, { alwaysRun: true, after: ['kf0', 'charon-h', 'charon-h2', 'charon-h4', 'nslockledger', 'galaxydiag', 'presetaxes', 'calcontract'] }),
@@ -319,8 +358,8 @@ export function planRegen(o) {
     if (a.scope.version !== b.scope.version) out.push('領域の版');
     return out.length ? out.join(' / ') : '領域(内訳の差なし —— 版・停止集合)';
   };
-  const producer = new Map();
-  for (const st of REGEN_STEPS) for (const f of st.outs) if (!producer.has(f)) producer.set(f, st.key);
+  // 第283便e: 入力の依存は**書く段のすべて**(outs + merges —— dt3・kf0 は calaudit を書き戻す)
+  const producer = writersMap();
   const rows = new Map();
   for (const st of REGEN_STEPS) {
     const row = { key: st.key, cmd: st.cmd, env: st.env, outs: st.outs, sec: st.sec, secSource: st.secSource,
@@ -333,7 +372,7 @@ export function planRegen(o) {
     for (const out of st.outs) {
       const m = readMeta(abs(out));
       if (!m) { why.push(out + ': 正本か meta が無い'); cause('正本が無い'); continue; }
-      for (const inp of (m.inputs || [])) { const p = producer.get(inp.file); if (p && p !== st.key) deps.add(p); }
+      for (const inp of (m.inputs || [])) for (const p of (producer.get(inp.file) || [])) if (p !== st.key) deps.add(p);
       // 対象
       const t = m.target || null;
       if (!t || !m.targetSha256) { why.push(out + ': 対象の刻印が無い'); cause('刻印が無い'); }
@@ -359,7 +398,7 @@ export function planRegen(o) {
         if (inp.missing || !inp.sha256 || inp.file === t) continue;
         if (shaFile(abs(inp.file)) === inp.sha256) continue;
         const st2 = (m.inputsStable || []).find((z) => z.file === inp.file);
-        if (st2 && stableMatches(root, st2)) continue;   // 第282便e: 刻印の版で照合
+        if (st2 && stableInputOk(root, m.inputsStable, inp.file)) continue;   // 第282便e: 刻印の版で照合(第283便e: 随伴の行も)
         why.push(out + ': 入力 ' + inp.file + ' が変わった');
         cause('入力: ' + inp.file + (st2 ? '(安定 hash も違う)' : ''));
       }
@@ -367,7 +406,7 @@ export function planRegen(o) {
       const listed = new Set((m.inputs || []).map((z) => z.file));
       for (const st2 of (m.inputsStable || [])) {
         if (listed.has(st2.file)) continue;
-        const p = producer.get(st2.file); if (p && p !== st.key) deps.add(p);
+        for (const p of (producer.get(st2.file) || [])) if (p !== st.key) deps.add(p);
         if (!stableMatches(root, st2)) { why.push(out + ': 入力 ' + st2.file + ' の中身(安定 hash)が変わった'); cause('入力: ' + st2.file + '(安定 hash)'); }
       }
     }
@@ -375,6 +414,8 @@ export function planRegen(o) {
     if (st.alwaysRun) { row.status = 'always'; row.reasons = ['常時群'].concat(why); }
     else if (why.length) { row.status = 'regen'; row.reasons = why; }
     else row.status = 'reuse';
+    // 第283便e: 依存の伝播の前の**自分の判定**(鎖の --gate が上流の走行後に引き直す値)
+    row.ownStatus = row.status;
     rows.set(st.key, row);
   }
   // 依存の伝播(regen/always に依存する reuse → recheck)
@@ -410,6 +451,7 @@ export function planRegen(o) {
   const list = order.map((k) => rows.get(k));
   // 第282便e: 「どの入力・式・受理規則で無効化されたか」の 1 列(文字列)
   for (const r of list) {
+    if (r.ownStatus === undefined) r.ownStatus = r.status;
     if (r.status === 'history') r.causeText = '履歴';
     else if (r.status === 'reuse') r.causeText = '';
     else r.causeText = (r.status === 'always' ? ['常時群'] : []).concat(r.cause).join(' / ') || (r.status === 'always' ? '常時群' : '');
@@ -431,5 +473,497 @@ export function planRegen(o) {
   };
 }
 
-export default { REGEN_TABLE_VERSION, REGEN_STEPS, EXTERNAL_VOLATILE, volatilePathsOf, volatileDeclared, stepsByOut,
-  alwaysRunOuts, historyOuts, planRegen };
+// ======================================================================================================
+// 第283便e(原仮定者の裁定(第73報)⑤・統括の検証項目 R88): **鎖の機械生成**と**順序の照合**(純関数 —— 走らせない)
+// ======================================================================================================
+
+/** 段が書くファイル(outs + merges)。 */
+export function writesOf(st) { return [...new Set((st.outs || []).concat(st.merges || []))]; }
+
+/** ファイル → 書く段の key の並び(表の順・履歴の段も含む)。 */
+export function writersMap(steps) {
+  const m = new Map();
+  for (const st of (steps || REGEN_STEPS)) for (const f of writesOf(st)) { if (!m.has(f)) m.set(f, []); m.get(f).push(st.key); }
+  return m;
+}
+
+/** 表の after の推移閉包(key → Set)。 */
+export function afterClosure(steps) {
+  const S0 = steps || REGEN_STEPS;
+  const by = new Map(S0.map((z) => [z.key, z]));
+  const memo = new Map();
+  const go = (k, stack) => {
+    if (memo.has(k)) return memo.get(k);
+    const out = new Set();
+    if (stack.has(k)) return out;
+    stack.add(k);
+    for (const d of ((by.get(k) || {}).after || [])) { out.add(d); for (const x of go(d, stack)) out.add(x); }
+    stack.delete(k);
+    memo.set(k, out);
+    return out;
+  };
+  const res = new Map();
+  for (const z of S0) res.set(z.key, go(z.key, new Set()));
+  return res;
+}
+
+const readMetaAt = (root, f) => { try { return (JSON.parse(fs.readFileSync(root.replace(/\/$/, '') + '/' + f, 'utf8')) || {}).meta || null; } catch { return null; } };
+
+/**
+ * 表の依存(key → Set(直接の依存))= after ∪(root を渡したとき)正本の meta.inputs[]・inputsStable[] のファイルを**書く段のすべて**。
+ * 履歴の段は依存に入れない(履歴は再生成しない)。
+ * @param {{root?:string, steps?:Array, metaOf?:(file)=>object|null}} [o]
+ */
+export function tableDeps(o) {
+  const opt = o || {};
+  const steps = opt.steps || REGEN_STEPS;
+  const cur = new Set(steps.filter((z) => z.role !== 'history').map((z) => z.key));
+  const W = writersMap(steps);
+  const metaOf = opt.metaOf || (opt.root ? (f) => readMetaAt(opt.root, f) : null);
+  const deps = new Map();
+  for (const st of steps) {
+    if (st.role === 'history') continue;
+    const d = new Set((st.after || []).filter((k) => cur.has(k)));
+    if (metaOf) for (const out of (st.outs || [])) {
+      const m = metaOf(out);
+      if (!m) continue;
+      for (const z of [...(m.inputs || []), ...(m.inputsStable || [])]) for (const w of (W.get(z.file) || [])) if (w !== st.key && cur.has(w)) d.add(w);
+    }
+    deps.set(st.key, d);
+  }
+  return deps;
+}
+
+/**
+ * **表の依存の完全性**(第282便の順序不整合を表から検出する):
+ *   ① 正本の入力(meta.inputs[]・inputsStable[])を書く現行の段が、読む段の **after の推移閉包**に入っている
+ *      (入っていないと、手で書いた鎖が入力より先に走らせても表からは分からない)
+ *   ② 同じファイルを書く現行の段どうしが after の推移閉包で**全順序**になっている(並列に書かない)
+ *   ③ after に循環が無い・after の名前が表にある
+ * @param {{root?:string, steps?:Array, metaOf?:Function}} o
+ * @returns {{ok:boolean, missing:Array<{key,file,writer}>, unordered:Array<{file,a,b}>, cycles:string[], unknown:string[]}}
+ */
+export function tableDepsAudit(o) {
+  const opt = o || {};
+  const steps = opt.steps || REGEN_STEPS;
+  const keys = new Set(steps.map((z) => z.key));
+  const cur = new Set(steps.filter((z) => z.role !== 'history').map((z) => z.key));
+  const C = afterClosure(steps);
+  const W = writersMap(steps);
+  const metaOf = opt.metaOf || (opt.root ? (f) => readMetaAt(opt.root, f) : null);
+  const missing = [], unordered = [], cycles = [], unknown = [];
+  for (const st of steps) {
+    for (const a of (st.after || [])) if (!keys.has(a)) unknown.push(st.key + '→' + a);
+    if (C.get(st.key).has(st.key)) cycles.push(st.key);
+    if (st.role === 'history' || !metaOf) continue;
+    const seen = new Set();
+    for (const out of (st.outs || [])) {
+      const m = metaOf(out);
+      if (!m) continue;
+      for (const z of [...(m.inputs || []), ...(m.inputsStable || [])]) for (const w of (W.get(z.file) || [])) {
+        if (w === st.key || !cur.has(w) || C.get(st.key).has(w) || seen.has(w + '|' + z.file)) continue;
+        // 自分も同じファイルを書く段(kf0 が calaudit を読み書きする)は「書く段の順序」②で見る
+        if (writesOf(st).includes(z.file)) continue;
+        seen.add(w + '|' + z.file);
+        missing.push({ key: st.key, file: z.file, writer: w });
+      }
+    }
+  }
+  for (const [f, ws] of W) {
+    const c = ws.filter((k) => cur.has(k));
+    for (let i = 0; i < c.length; i++) for (let j = i + 1; j < c.length; j++) {
+      const a = c[i], b = c[j];
+      if (!C.get(a).has(b) && !C.get(b).has(a)) unordered.push({ file: f, a, b });
+    }
+  }
+  return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length, missing, unordered, cycles, unknown };
+}
+
+/** 依存の推移閉包(key → Set(上流すべて))と逆向き(key → Set(下流すべて))。 */
+function closures(deps) {
+  const up = new Map();
+  const go = (k, stack) => {
+    if (up.has(k)) return up.get(k);
+    const s = new Set();
+    if (stack.has(k)) return s;
+    stack.add(k);
+    for (const d of (deps.get(k) || [])) { s.add(d); for (const x of go(d, stack)) s.add(x); }
+    stack.delete(k);
+    up.set(k, s);
+    return s;
+  };
+  for (const k of deps.keys()) go(k, new Set());
+  const down = new Map([...deps.keys()].map((k) => [k, new Set()]));
+  for (const [k, s] of up) for (const d of s) { if (!down.has(d)) down.set(d, new Set()); down.get(d).add(k); }
+  return { up, down };
+}
+
+/**
+ * **実際に走った列の照合**(第282便の統合で起きた型を検出する)。
+ *   order   … 段 s の依存 d(推移)が列にあり、d の最後の走行より後に s が 1 度も無い(s は古い入力で終わった)。
+ *             s が列に無いときは downstream に分ける。
+ *   downstream … 段 d が走ったのに、その下流 s(推移・現行の段)が列に 1 度も無い(依存の閉包で再判定していない)。
+ *   wasted  … s が依存 d より先に走り、d の後にもう 1 度走った(入力より先の走行は無駄になった)。
+ * 列の要素は段の key(同じ key が何度出てもよい —— 再判定〔gate〕で再利用と決めた段も「列にある」に数える)。
+ * @param {string[]} seq
+ * @param {{deps?:Map, root?:string, steps?:Array}} [o]
+ */
+export function checkOrder(seq, o) {
+  const opt = o || {};
+  const deps = opt.deps || tableDeps({ root: opt.root, steps: opt.steps });
+  const { up, down } = closures(deps);
+  const first = new Map(), last = new Map(), all = new Map();
+  seq.forEach((k, i) => { if (!first.has(k)) first.set(k, i); last.set(k, i); if (!all.has(k)) all.set(k, []); all.get(k).push(i); });
+  const order = [], wasted = [], downstream = [];
+  for (const [s, idx] of all) {
+    for (const d of (up.get(s) || [])) {
+      if (!last.has(d)) continue;
+      const ld = last.get(d);
+      const after = idx.some((i) => i > ld);
+      if (!after) order.push({ step: s, dep: d, stepAt: last.get(s), depAt: ld });
+      else if (idx.some((i) => i < ld)) wasted.push({ step: s, dep: d });
+    }
+  }
+  const ran = new Set(seq);
+  for (const d of ran) for (const s of (down.get(d) || [])) if (!ran.has(s)) downstream.push({ step: s, dep: d });
+  const uniq = (arr, f) => [...new Map(arr.map((z) => [f(z), z])).values()];
+  return { ok: !order.length && !downstream.length, order: uniq(order, (z) => z.step + '<' + z.dep),
+    wasted: uniq(wasted, (z) => z.step + '<' + z.dep), downstream: uniq(downstream, (z) => z.step), n: seq.length };
+}
+
+/**
+ * 計画 → **鎖**(依存順の波)。
+ *   run    … 計画で regen / always(onlyIfScopeChanged の段は計画の判定のまま)
+ *   gate   … 計画で recheck、または依存の閉包(run/gate の下流すべて)で入った段 —— 上流が走った後に**自分の判定**
+ *             (`ownStatus`: 対象・コード・入力〔安定 hash〕)を引き直し、reuse なら走らせない
+ *   manual … 表の cmd が 1 行のシェルでない段(emgrid)—— 済み印が無ければ鎖はそこで止まる
+ *   履歴・chain の外(qaorder)・reuse で閉包にも入らない段は鎖に入れない。
+ * 波 = 鎖に入った段どうしの依存の最長路の段数。波の中は互いに独立(並列にしてよい)。
+ * @param {object} plan planRegen の戻り(steps[].status・key)
+ * @param {{deps?:Map, root?:string, steps?:Array, noGate?:boolean}} [o]
+ */
+export function buildChain(plan, o) {
+  const opt = o || {};
+  const steps = opt.steps || REGEN_STEPS;
+  const by = new Map(steps.map((z) => [z.key, z]));
+  const deps = opt.deps || tableDeps({ root: opt.root, steps });
+  const { down } = closures(deps);
+  const status = new Map((plan.steps || []).map((r) => [r.key, r.status]));
+  const mode = new Map();
+  for (const st of steps) {
+    if (st.role === 'history' || st.outside) continue;
+    const s = status.get(st.key);
+    if (s === 'regen' || s === 'always') mode.set(st.key, st.manual ? 'manual' : 'run');
+    else if (s === 'recheck') mode.set(st.key, st.manual ? 'manual' : (opt.noGate ? 'run' : 'gate'));
+  }
+  // 依存の閉包: 鎖に入った段の下流はすべて鎖に入る(上流の後に置いて判定を引き直す)
+  for (const k of [...mode.keys()]) for (const d of (down.get(k) || [])) {
+    const st = by.get(d);
+    if (!st || st.role === 'history' || st.outside || mode.has(d)) continue;
+    mode.set(d, st.manual ? 'manual' : (opt.noGate ? 'run' : 'gate'));
+  }
+  // 波(依存の最長路)
+  const level = new Map();
+  const lv = (k, stack) => {
+    if (level.has(k)) return level.get(k);
+    if (stack.has(k)) throw new Error('依存の循環: ' + [...stack, k].join(' → '));
+    stack.add(k);
+    let L = 0;
+    for (const d of (deps.get(k) || [])) if (mode.has(d)) L = Math.max(L, lv(d, stack) + 1);
+    stack.delete(k);
+    level.set(k, L);
+    return L;
+  };
+  for (const k of mode.keys()) lv(k, new Set());
+  const nW = mode.size ? Math.max(...level.values()) + 1 : 0;
+  const tableIdx = new Map(steps.map((z, i) => [z.key, i]));
+  const waves = [];
+  for (let w = 0; w < nW; w++) waves.push([...mode.keys()].filter((k) => level.get(k) === w).sort((a, b) => tableIdx.get(a) - tableIdx.get(b)));
+  const rows = {};
+  for (const [k, m] of mode) {
+    const st = by.get(k);
+    rows[k] = { key: k, mode: m, wave: level.get(k), cmd: st.cmd, env: st.env || {}, sec: st.sec || 0,
+      deps: [...(deps.get(k) || [])].filter((d) => mode.has(d)), plan: status.get(k) || null };
+  }
+  const skipped = steps.filter((z) => !mode.has(z.key)).map((z) => ({ key: z.key,
+    why: z.role === 'history' ? '履歴' : z.outside ? 'chain の外' : (status.get(z.key) || '計画に無い') }));
+  return { version: REGEN_TABLE_VERSION, waves, steps: rows, skipped,
+    count: { run: [...mode.values()].filter((m) => m === 'run').length, gate: [...mode.values()].filter((m) => m === 'gate').length,
+      manual: [...mode.values()].filter((m) => m === 'manual').length },
+    secRun: [...mode].filter(([, m]) => m === 'run').reduce((a, [k]) => a + (rows[k].sec || 0), 0),
+    secGate: [...mode].filter(([, m]) => m === 'gate').reduce((a, [k]) => a + (rows[k].sec || 0), 0) };
+}
+
+/** 鎖を波の順に平らにした列(checkOrder の自己試験用 —— 波の中は表の順)。 */
+export function chainSequence(chain) { return chain.waves.flat(); }
+
+/** 波の中の段をレーンへ(所要秒の大きい順に、いちばん空いたレーンへ —— LPT)。 */
+export function laneSplit(keys, secOf, lanes) {
+  const n = Math.max(1, Math.min(lanes || 1, keys.length));
+  const L = Array.from({ length: n }, () => ({ sec: 0, keys: [] }));
+  for (const k of keys.slice().sort((a, b) => (secOf(b) - secOf(a)) || (a < b ? -1 : 1))) {
+    const t = L.reduce((m, x) => (x.sec < m.sec ? x : m), L[0]);
+    t.keys.push(k); t.sec += secOf(k);
+  }
+  return L.filter((x) => x.keys.length);
+}
+
+const shq = (t) => "'" + String(t).replace(/'/g, "'\\''") + "'";
+
+/**
+ * 鎖 → bash(**走らせない** —— 文字列を返す)。
+ *   済み印 `$REGEN_LOG/done/<段>.done` のある段は飛ばす(再開)。段の rc≠0 → そのレーンは止まり、波の終わりで鎖が止まる(rc 1)。
+ *   ログ名 `$REGEN_LOG/<波 2 桁>-<段>.log`(gate の判定は `.gate`・失敗の rc は `.rc`)。
+ *   cmd が `$NAME` で参照する環境変数は冒頭で必須にする(未設定なら走らせる前に止まる)。
+ * @param {object} chain buildChain の戻り
+ * @param {{lanes?:number, htmlSha?:string, planCount?:object}} [o]
+ */
+export function chainShell(chain, o) {
+  const opt = o || {};
+  const lanes = opt.lanes || 4;
+  const L = [];
+  L.push('#!/usr/bin/env bash');
+  L.push('# 生成物(手で直さない): node tools/regen-chain.mjs —— 再生成表 ' + chain.version
+    + (opt.htmlSha ? '・html ' + String(opt.htmlSha).slice(0, 12) : '')
+    + `・段 run ${chain.count.run} / gate ${chain.count.gate} / manual ${chain.count.manual}・波 ${chain.waves.length}・レーン ≤${lanes}`);
+  L.push('# 済み印 $REGEN_LOG/done/<段>.done で再開する。rc≠0 の段があれば、その波の終わりで止まる(rc 1)。');
+  L.push('# gate の段は上流が走った後に `node tools/regen-chain.mjs --gate <段>` で自分の判定を引き直し、再利用なら走らせない。');
+  L.push('set -u');
+  L.push('ROOT=${REGEN_ROOT:-$(pwd)}');
+  L.push('REGEN_HTML=${REGEN_HTML:-beta/index.html}');
+  L.push('REGEN_LOG=${REGEN_LOG:-${TMPDIR:-/tmp}/regen-chain' + (opt.htmlSha ? '-' + String(opt.htmlSha).slice(0, 12) : '') + '}');
+  L.push('DONE="$REGEN_LOG/done"; mkdir -p "$DONE" || exit 2');
+  L.push('cd "$ROOT" || exit 2');
+  const envNeed = new Map();
+  for (const r of Object.values(chain.steps)) for (const m of String(r.cmd).matchAll(/\$([A-Z_][A-Z0-9_]*)/g)) {
+    if (!envNeed.has(m[1])) envNeed.set(m[1], []);
+    envNeed.get(m[1]).push(r.key + (r.env && r.env[m[1]] ? '(' + r.env[m[1]] + ')' : ''));
+  }
+  for (const [v, who] of envNeed) L.push(`: "\${${v}:?${v} が要る —— ${who.join('・').replace(/["`$\\]/g, '')}}"`);
+  L.push('run_step() {   # $1=段 $2=ログ名 $3=cmd');
+  L.push('  if [ -f "$DONE/$1.done" ]; then echo "[済] $1"; return 0; fi');
+  L.push('  echo "[走] $1 → $REGEN_LOG/$2.log"; local t0; t0=$(date +%s)');
+  L.push('  ( eval "$3" ) >"$REGEN_LOG/$2.log" 2>&1; local rc=$?');
+  L.push('  if [ $rc -ne 0 ]; then echo "$rc" >"$REGEN_LOG/$2.rc"; echo "[止] $1 rc=$rc(ログ $REGEN_LOG/$2.log)"; return $rc; fi');
+  L.push('  echo "run $(( $(date +%s) - t0 ))s $(date -u +%FT%TZ)" >"$DONE/$1.done"');
+  L.push('}');
+  L.push('gate_step() {  # 上流の後で自分の判定を引き直す(終了コード 10 = 再利用)');
+  L.push('  if [ -f "$DONE/$1.done" ]; then echo "[済] $1"; return 0; fi');
+  L.push('  node tools/regen-chain.mjs --gate "$1" --html "$REGEN_HTML" >"$REGEN_LOG/$2.gate" 2>&1; local g=$?');
+  L.push('  if [ $g -eq 10 ]; then echo "reuse $(date -u +%FT%TZ)" >"$DONE/$1.done"; echo "[再利用] $1"; return 0; fi');
+  L.push('  if [ $g -ne 0 ]; then echo "[止] $1 の再判定が rc=$g"; return $g; fi');
+  L.push('  run_step "$@"');
+  L.push('}');
+  L.push('manual_step() {  # 1 行のシェルでない段: 済み印が無ければ止まる');
+  L.push('  if [ -f "$DONE/$1.done" ]; then echo "[済] $1"; return 0; fi');
+  L.push('  echo "[手動] $1: $3 —— 走らせた後に touch $DONE/$1.done で再開"; return 3');
+  L.push('}');
+  L.push('wave_end() { local f=0 p; for p in "$@"; do wait "$p" || f=1; done; if [ $f -ne 0 ]; then echo "[止] 波 $W"; exit 1; fi; }');
+  const secOf = (k) => (chain.steps[k] || {}).sec || 0;
+  chain.waves.forEach((keys, wi) => {
+    const W2 = String(wi + 1).padStart(2, '0');
+    const ls = laneSplit(keys, secOf, lanes);
+    L.push('');
+    L.push(`# ---- 波 ${wi + 1}(${keys.length} 段・レーン ${ls.length})`);
+    L.push(`W=${wi + 1}; P=()`);
+    for (const lane of ls) {
+      const calls = lane.keys.map((k) => {
+        const r = chain.steps[k];
+        const fn = r.mode === 'gate' ? 'gate_step' : r.mode === 'manual' ? 'manual_step' : 'run_step';
+        return `${fn} ${k} ${W2}-${k} ${shq(r.cmd)}`;
+      });
+      L.push('( ' + calls.join(' && \\\n  ') + ' ) & P+=($!)');
+    }
+    L.push('wave_end "${P[@]}"');
+  });
+  L.push('');
+  L.push('echo "[完] 鎖の全段($REGEN_LOG)"');
+  return L.join('\n') + '\n';
+}
+
+/**
+ * 第283便e(AN29)の**自己試験**(一時ディレクトリ —— 正本は書き換えない)。
+ * 「html だけ変わる再走」を calaudit の 2 ファイルで模す: 宣言した Pointer(実行時刻・所要・非物理 meta)の値を全部書き換え、
+ * diag は `/when`・`/carriedOverFrom` だけ書き換えた写しを一時 root に置く。calaudit を入力にする現行の正本ごとに
+ *   old … 今の刻印の行(`inputsStable` —— 刻印時の Pointer)で一時 root と照合
+ *   neu … 今の宣言の Pointer で刻み直した行(統合時の付け替えを模す —— 随伴 diag の行も足す)で照合
+ *   phys … 物理欄 1 つ(presets の最初の量の値)を変えた写しで neu が**不一致になる**か
+ *   diag … diag の中身(移した診断)を 1 つ変えた写しで随伴の行が**不一致になる**か
+ * @param {{root:string, tmpDir:string, stableJsonSha:Function, stableMatches:Function, STABLE_VERSION:string}} o
+ */
+export function an29Probe(o) {
+  const root = o.root.replace(/\/$/, '');
+  const CAL = 'tests/out/calaudit-w249.json', DIAG = 'tests/out/calaudit-w249-diag.json';
+  const J = JSON.parse(fs.readFileSync(root + '/' + CAL, 'utf8'));
+  const D = JSON.parse(fs.readFileSync(root + '/' + DIAG, 'utf8'));
+  const vpC = volatilePathsOf(CAL), vpD = volatilePathsOf(DIAG);
+  const bump = (v) => (typeof v === 'number' ? (Number.isInteger(v) ? v + 7 : v * 1.37 + 0.5)
+    : (typeof v === 'string' && /^[0-9a-f]{64}$/.test(v)) ? crypto.createHash('sha256').update(v + '|w283e').digest('hex')
+      : (typeof v === 'string' && /^\d{4}-\d\d-\d\dT/.test(v)) ? '2099-01-02T03:04:05.678Z' : v);
+  const setAt = (X, ptr, f) => {
+    const toks = ptr.slice(1).split('/').map((t) => t.replace(/~1/g, '/').replace(/~0/g, '~'));
+    let n = 0;
+    const walk = (x, i) => { if (!x || typeof x !== 'object') return;
+      const keys = toks[i] === '*' ? Object.keys(x) : (Object.prototype.hasOwnProperty.call(x, toks[i]) ? [toks[i]] : []);
+      for (const k of keys) { if (i === toks.length - 1) { x[k] = f(x[k]); n++; } else walk(x[k], i + 1); } };
+    walk(X, 0);
+    return n;
+  };
+  const clone = (x) => JSON.parse(JSON.stringify(x));
+  const Jh = clone(J), Dh = clone(D);
+  let nC = 0, nD = 0;
+  for (const p of vpC) nC += setAt(Jh, p, bump);
+  for (const p of vpD) nD += setAt(Dh, p, bump);
+  const tmp = o.tmpDir.replace(/\/$/, '');
+  fs.mkdirSync(tmp + '/tests/out', { recursive: true });
+  const put = (a, b) => { fs.writeFileSync(tmp + '/' + CAL, JSON.stringify(a, null, 1)); fs.writeFileSync(tmp + '/' + DIAG, JSON.stringify(b, null, 1)); };
+  put(Jh, Dh);
+  const newRow = (file) => ({ file, stableSha256: o.stableJsonSha(root + '/' + file, volatilePathsOf(file)), stableVersion: o.STABLE_VERSION, volatilePaths: volatilePathsOf(file) });
+  // 今の宣言で刻み直した行(統合時の付け替えを模す —— stableInputs と同じ形: calaudit の行 + 随伴 diag の行)
+  const newRows = () => [newRow(CAL), Object.assign(newRow(DIAG), { companionOf: CAL })];
+  const rows = [];
+  const W = writersMap();
+  const seenOut = new Set();
+  for (const st of REGEN_STEPS) {
+    if (st.role === 'history') continue;
+    for (const out of st.outs) {
+      if (seenOut.has(out)) continue;
+      seenOut.add(out);
+      const m = readMetaAt(root, out);
+      if (!m) continue;
+      const inInputs = (m.inputs || []).some((z) => z.file === CAL);
+      const oldRow = (m.inputsStable || []).find((z) => z.file === CAL) || null;
+      if (!inInputs && !oldRow) continue;
+      rows.push({ step: st.key, out, alwaysRun: !!st.alwaysRun, hasStable: !!oldRow,
+        old: oldRow ? o.stableMatches(tmp, oldRow) : false,
+        neu: stableInputOk(tmp, newRows(), CAL) });
+    }
+  }
+  // 物理欄 1 つ(presets の最初の本の最初の量の数値)を変える → 不一致
+  const Jp = clone(Jh);
+  let physPath = null;
+  const p0 = (Jp.presets || [])[0];
+  if (p0 && Array.isArray(p0.quantities) && p0.quantities.length) {
+    const q = p0.quantities[0];
+    const k = Object.keys(q).find((z) => typeof q[z] === 'number' && Number.isFinite(q[z]));
+    if (k) { q[k] = q[k] * (1 + 1e-12) + 1e-300; physPath = '/presets/0/quantities/0/' + k; }
+  }
+  put(Jp, Dh);
+  const physDetected = !stableInputOk(tmp, newRows(), CAL);
+  // diag の中身(移した診断)を 1 つ変える → 随伴の行が不一致
+  const Dp = clone(Dh);
+  const dk = Object.keys(Dp.presets || {})[0];
+  let diagPath = null;
+  if (dk) { Dp.presets[dk] = [Dp.presets[dk], 'w283e-probe']; diagPath = '/presets/' + dk; }
+  put(Jh, Dp);
+  const diagDetected = o.stableMatches(tmp, newRow(CAL)) && !stableInputOk(tmp, newRows(), CAL);
+  // 随伴の行が無い刻印(非物理 meta を除いた calaudit の行だけ)は一致としない
+  put(Jh, Dh);
+  const companionRequired = o.stableMatches(tmp, newRow(CAL)) && !stableInputOk(tmp, [newRow(CAL)], CAL);
+  // 物理欄が宣言に入っていない(最後の鍵が実行時刻・所要か非物理 meta)ことは lint.stableHashPaths ② が見る
+  return { calPointers: vpC.length, calHits: nC, diagPointers: vpD.length, diagHits: nD, rows,
+    downstream: rows.length, withStable: rows.filter((r) => r.hasStable).length,
+    reusableOld: rows.filter((r) => r.old).length, reusableNew: rows.filter((r) => r.hasStable && r.neu).length,
+    needStamp: rows.filter((r) => !r.hasStable).map((r) => r.step),
+    physPath, physDetected, diagPath, diagDetected, companionRequired, writersOfCal: W.get(CAL) || [] };
+}
+
+/** 第282便の統合で起きた順序の型を表で再現した**合成の列**(自己試験の固定入力)。 */
+export const W282_ORDER_FIXTURE = ['d0audit', 'nslockledger', 'bgbudget', 'calaudit', 'dt3', 'kf0', 'nslock', 'bgpredict', 'bgequiv',
+  'kf0ledger', 'nslockledger'];
+/** 第282便の基点の表で after が無かった段(第283便e で足した after —— 自己試験で外して検出を確かめる)。 */
+export const W283E_ADDED_AFTER = ['d0audit', 'nsmode', 'bgequiv', 'bgbudget', 'bgbudget2'];
+
+/**
+ * 第283便e: **鎖の自己試験**(dry-run —— 正本を書かない・走らせない。(f) だけ一時ディレクトリで stub の鎖を bash で走らせる)。
+ *   (a) 今の表: 依存の完全性(入力の書き手 ⊆ after の閉包・同じファイルの書き手が全順序・循環なし)
+ *   (b) 第282便の型の表(W283E_ADDED_AFTER の after と merges を外した写し)で、欠けた依存が**検出される**
+ *   (c) 第282便の型の列(W282_ORDER_FIXTURE)で、入力より先の走行と後段の再走の欠落が**検出される**
+ *   (d) 全段 regen の計画 → 鎖 → 平らにした列が checkOrder を通る(順序違反 0・後段の欠落 0)・表の現行段を全部覆う
+ *   (e) 渡された計画(planRegen の実物)→ 鎖 → checkOrder を通る
+ *   (f) stub の表(5 段・1 段が 1 回目だけ失敗)で生成したシェルを bash で 2 回走らせる: 1 回目は失敗した波で止まり後段を
+ *       走らせない(rc 1)・2 回目は済み印の段を飛ばして再開し完走する・ログ名が規約どおり
+ * @param {{root:string, tmpDir?:string, plan?:object}} o
+ */
+export async function regenChainSelfTest(o) {
+  const root = o.root.replace(/\/$/, '');
+  const res = { a: null, b: null, c: null, d: null, e: null, f: null };
+  const deps = tableDeps({ root });
+  // (a)
+  const A = tableDepsAudit({ root });
+  res.a = { ok: A.ok, missing: A.missing.length, unordered: A.unordered.length, cycles: A.cycles.length, unknown: A.unknown.length };
+  // (b)
+  const old = REGEN_STEPS.map((z) => Object.assign({}, z, W283E_ADDED_AFTER.includes(z.key) ? { after: [] } : {}, { merges: undefined }));
+  const B = tableDepsAudit({ root, steps: old });
+  const miss = [...new Set(B.missing.map((z) => z.key))].sort();
+  res.b = { detected: miss, n: B.missing.length, ok: JSON.stringify(miss) === JSON.stringify(W283E_ADDED_AFTER.slice().sort()) };
+  // (c)
+  const C = checkOrder(W282_ORDER_FIXTURE, { deps });
+  const ordSteps = [...new Set(C.order.map((z) => z.step))].sort();
+  const wasteSteps = [...new Set(C.wasted.map((z) => z.step))].sort();
+  res.c = { order: C.order.map((z) => z.step + '<' + z.dep), wasted: C.wasted.map((z) => z.step + '<' + z.dep), downstream: C.downstream.length,
+    ok: ['bgbudget', 'd0audit', 'kf0ledger'].every((k) => ordSteps.includes(k)) && wasteSteps.includes('nslockledger')
+      && C.order.some((z) => z.step === 'kf0ledger' && z.dep === 'nslockledger') };
+  // (d)
+  const all = { steps: REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
+  const D = buildChain(all, { deps });
+  const Dc = checkOrder(chainSequence(D), { deps });
+  const want = REGEN_STEPS.filter((z) => z.role !== 'history' && !z.outside).map((z) => z.key);
+  const have = new Set(Object.keys(D.steps));
+  res.d = { waves: D.waves.length, steps: have.size, want: want.length, order: Dc.order.length, downstream: Dc.downstream.length,
+    widest: Math.max(...D.waves.map((w) => w.length)), manual: D.count.manual,
+    ok: Dc.ok && want.every((k) => have.has(k)) };
+  // (e)
+  if (o.plan) {
+    const E = buildChain(o.plan, { deps });
+    const Ec = checkOrder(chainSequence(E), { deps });
+    // 計画で走る段の下流は全部鎖にある(依存の閉包)
+    const { down } = closures(deps);
+    const lost = [];
+    for (const k of Object.keys(E.steps)) for (const d of (down.get(k) || [])) {
+      const st = REGEN_STEPS.find((z) => z.key === d);
+      if (st && st.role !== 'history' && !st.outside && !E.steps[d]) lost.push(d);
+    }
+    res.e = { run: E.count.run, gate: E.count.gate, manual: E.count.manual, waves: E.waves.length, secRun: E.secRun, secGate: E.secGate,
+      order: Ec.order.length, downstream: Ec.downstream.length, lost: [...new Set(lost)], ok: Ec.ok && !lost.length };
+  }
+  // (f) stub の鎖を bash で
+  if (o.tmpDir) {
+    const cp = await import('node:child_process');
+    const tmp = o.tmpDir.replace(/\/$/, '');
+    fs.mkdirSync(tmp + '/marks', { recursive: true });
+    const mk = (k, cmd, after) => ({ key: k, cmd, outs: [], after: after || [], role: 'current', sec: 1 });
+    const stub = [mk('sa', 'echo a > marks/sa'), mk('sb', 'test -f marks/ok || exit 7; echo b > marks/sb', ['sa']),
+      mk('sc', 'echo c > marks/sc', ['sa']), mk('sd', 'echo d > marks/sd', ['sb', 'sc']), mk('se', 'echo "$W283E_STUB" > marks/se', ['sd'])];
+    const sdeps = tableDeps({ steps: stub });
+    const ch = buildChain({ steps: stub.map((z) => ({ key: z.key, status: 'regen' })) }, { steps: stub, deps: sdeps });
+    const sh = chainShell(ch, { lanes: 2 });
+    fs.writeFileSync(tmp + '/chain.sh', sh);
+    const syn = cp.spawnSync('bash', ['-n', tmp + '/chain.sh'], { encoding: 'utf8' });
+    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log' });
+    delete env.W283E_STUB;
+    const r0 = cp.spawnSync('bash', [tmp + '/chain.sh'], { encoding: 'utf8', env, cwd: tmp });   // 環境変数が無い → 走らせる前に止まる
+    const noEnv = r0.status !== 0 && !fs.existsSync(tmp + '/marks/sa');
+    env.W283E_STUB = 'ok';
+    const r1 = cp.spawnSync('bash', [tmp + '/chain.sh'], { encoding: 'utf8', env, cwd: tmp });
+    const after1 = ['sa', 'sb', 'sc', 'sd', 'se'].filter((k) => fs.existsSync(tmp + '/marks/' + k));
+    const logs1 = fs.existsSync(tmp + '/log') ? fs.readdirSync(tmp + '/log').filter((f) => /\.(log|rc)$/.test(f)).sort() : [];
+    fs.writeFileSync(tmp + '/marks/ok', '1');
+    fs.writeFileSync(tmp + '/marks/sa', 'stale');   // 済み印の段は走らせ直さない(stale のまま残る)
+    const r2 = cp.spawnSync('bash', [tmp + '/chain.sh'], { encoding: 'utf8', env, cwd: tmp });
+    const after2 = ['sa', 'sb', 'sc', 'sd', 'se'].filter((k) => fs.existsSync(tmp + '/marks/' + k));
+    const saStale = fs.readFileSync(tmp + '/marks/sa', 'utf8') === 'stale';
+    res.f = { waves: ch.waves.map((w) => w.join('+')).join(' → '), syntax: syn.status === 0,
+      noEnv,
+      run1: { rc: r1.status, ran: after1, logs: logs1 }, run2: { rc: r2.status, ran: after2, resumedSkip: saStale },
+      ok: syn.status === 0 && noEnv && r1.status === 1 && JSON.stringify(after1) === JSON.stringify(['sa', 'sc'])
+        && logs1.includes('01-sa.log') && logs1.includes('02-sb.rc') && r2.status === 0 && after2.length === 5 && saStale };
+  }
+  res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
+  return res;
+}
+
+export default { REGEN_TABLE_VERSION, REGEN_STEPS, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
+  volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
+  writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,
+  W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest };
