@@ -4,9 +4,9 @@
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4780811,
-    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-    "mtime": "2026-09-25T04:06:38.157Z"
+    "bytes": 4836654,
+    "sha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
+    "mtime": "2026-09-26T00:07:02.808Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -38,8 +38,8 @@
   "codeSha256": "ecb9d5b5dd9498566062c1998668e4e558bf58fa8499f7134aff865d794d70b6",
   "wave": "第270便c",
   "target": "beta/index.html",
-  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-  "generatedAt": "2026-09-25T06:32:04.514Z",
+  "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
+  "generatedAt": "2026-09-26T00:09:57.132Z",
   "dt0": 0.016,
   "periWindow": 20,
   "divs": [
@@ -62,7 +62,7 @@
    "判定が増えた"
   ],
   "scope": {
-   "version": "w281a-scope-1",
+   "version": "w282e-scope-2",
    "presets": [
     "psrJ1946CF",
     "psrJ1946DFM",
@@ -87,40 +87,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 972,
-   "segments": 892,
-   "closureShare": 0.3797
+   "names": 783,
+   "segments": 711,
+   "closureShare": 0.3166
   },
-  "scopeSha256": "70ae2dca52de97a8f7375e01196ccd695d2f582291f14309c2588d3bc5a99f36",
+  "scopeSha256": "12ab6c1fb6682ea4abeac0a4c5d709596eb4f029255ddcbb3860ed02ff5e60d7",
   "scopeComplete": true,
   "inputsStable": [],
-  "volatileKeys": [
-   "generatedAt",
-   "when",
-   "wallSec",
-   "wallClock",
-   "wallS",
-   "spentSec",
-   "rateStepsPerSec",
-   "mtime",
-   "measuredAt",
-   "elapsedSec",
-   "elapsedS",
-   "elapsedMs",
-   "wallMs",
-   "wallDurationMs",
-   "durationMs",
-   "runMs",
-   "spentSecTotal",
-   "measurementElapsedSecTotal",
-   "startedAt",
-   "htmlLoadMs",
-   "baseWallSec",
-   "nowWallSec",
-   "baseRate",
-   "nowRate",
-   "maxWallSec"
-  ]
+  "stableHashVersion": "w282e-stable-1"
  },
  "build": {
   "records": {
@@ -578,7 +552,7 @@
      "perMeanSec": 6757.542284471263,
      "degPerYear": 51.826564089038456,
      "degPerOrbit": 0.011097808397677175,
-     "wallSec": 6.8,
+     "wallSec": 7.2,
      "div": 4
     },
     {
@@ -597,7 +571,7 @@
      "perMeanSec": 6769.530421578729,
      "degPerYear": 51.66225429690325,
      "degPerOrbit": 0.011082249667599024,
-     "wallSec": 14.2,
+     "wallSec": 13.9,
      "div": 8
     }
    ],
@@ -755,7 +729,7 @@
      "perMeanSec": 6757.273326459284,
      "degPerYear": 25.99779593163629,
      "degPerOrbit": 0.005566779888064289,
-     "wallSec": 7.3,
+     "wallSec": 7,
      "div": 4
     },
     {
@@ -774,7 +748,7 @@
      "perMeanSec": 6769.2609924003955,
      "degPerYear": 25.868850475405814,
      "degPerOrbit": 0.005548996135365269,
-     "wallSec": 13.9,
+     "wallSec": 13.6,
      "div": 8
     }
    ],
@@ -913,7 +887,7 @@
      "perMeanSec": 6733.661260843044,
      "degPerYear": 26.641626433752194,
      "degPerOrbit": 0.005684706309821062,
-     "wallSec": 4.6,
+     "wallSec": 4.7,
      "div": 2
     },
     {
@@ -932,7 +906,7 @@
      "perMeanSec": 6757.630767019822,
      "degPerYear": 25.994677767121722,
      "degPerOrbit": 0.005566406642389405,
-     "wallSec": 9.8,
+     "wallSec": 9.6,
      "div": 4
     },
     {
@@ -951,7 +925,7 @@
      "perMeanSec": 6769.617812398712,
      "degPerYear": 25.83709267361936,
      "degPerOrbit": 0.005542476068646851,
-     "wallSec": 19.2,
+     "wallSec": 18.9,
      "div": 8
     }
    ],

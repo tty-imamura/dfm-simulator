@@ -1,18 +1,18 @@
 {
- "when": "2026-09-25T09:56:45.316Z",
+ "when": "2026-09-26T10:37:54.055Z",
  "wave": "第273便c(第63報・AG24)",
  "harness": "tests/exp-w273c-assessedtable.mjs",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
+  "calauditSha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
   "canonicalTarget": "beta/index.html",
-  "canonicalTargetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "canonicalTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
   "canonicalWave": "第249便b",
-  "canonicalWhen": "2026-09-25T08:15:15.471Z"
+  "canonicalWhen": "2026-09-26T09:41:28.984Z"
  },
  "stamp": {
-  "inHtml": "8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
-  "inCanonicalNow": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "inHtml": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
+  "inCanonicalNow": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
   "stampChanged": true,
   "valuesChanged": false,
   "rule": "**刻印は構造的に「現行 html の hash」にも「現行正本の刻印」にもできない** —— 刻印を html へ書けばその html の hash が動き、動いた html で判定器を回し直せば正本の刻印もまた動く(不動点が無い)。したがって刻印が言えるのは「**どの走行の正本から転記したか**」までである。鮮度の線は **① 表 ↔ 正本(1 行ずつ)** と **② 正本 ↔ 現行 html**(`lint.calauditMergeKeyHash` が見ている `meta.targetSha256` = 現行 html の SHA-256)の **2 段の鎖**で、この鎖は**エンジンだけが変わった場合も捕まえる**(html が動けば ② が落ちる)。**ページの実行時**は自分の hash を確かめられないので、渡された `targetSha256` の線だけが効く。"
@@ -25,9 +25,9 @@
   "mercuryRealKF1": "f530078c",
   "plutoCharonReal": "c482cab0",
   "alphaCenAB": "8b8c57d3",
-  "alphaCenABDFM": "8bf6c4cc",
+  "alphaCenABDFM": "3db39372",
   "siriusAB": "63359204",
-  "siriusABDFM": "b1111485",
+  "siriusABDFM": "dd6d9902",
   "psrDoubleAB": "bfceee9a",
   "psrDoubleABDFM": "7b3f6a36",
   "psrDoubleABSpinCal": "6fe76b76",
@@ -129,9 +129,9 @@
     "k": "period",
     "n": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",
     "st": "h4",
-    "v": 2501545431.83,
+    "v": 2502085672.64,
     "u": "s",
-    "ns": 25.9372992288,
+    "ns": 25.0362888055,
     "g": "数値未解決"
    },
    {
@@ -139,9 +139,9 @@
     "k": "ecc",
     "n": "実測離心率(1周目の半径比振れ幅)",
     "st": "h4",
-    "v": 0.520509070229,
+    "v": 0.520404787133,
     "u": "-",
-    "ns": 6.92713486102,
+    "ns": 6.23191422088,
     "g": "mapping-unresolved"
    }
   ],
@@ -173,9 +173,9 @@
     "k": "period",
     "n": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",
     "st": "h4",
-    "v": 1553427257.01,
+    "v": 1553988785.92,
     "u": "s",
-    "ns": 210.060620235,
+    "ns": 205.922532514,
     "g": "数値未解決"
    },
    {
@@ -183,9 +183,9 @@
     "k": "ecc",
     "n": "実測離心率(1周目の半径比振れ幅)",
     "st": "h4",
-    "v": 0.593765673224,
+    "v": 0.593609469316,
     "u": "-",
-    "ns": 6.33965736163,
+    "ns": 5.91748463697,
     "g": "mapping-unresolved"
    }
   ],

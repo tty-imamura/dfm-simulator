@@ -44,29 +44,42 @@ export function kappaMasPerSun() {
 }
 
 /**
+ * 第282便d(原仮定者の裁定(第72報)③「f≈2・f≈1+kFrame は廃止・f≈1 も f=1 に」): **台帳の f★ は 1**。
+ * bodies に焼き込まれた f(massCalibration.factorUniform —— 旧契約)は `fDynamics` として並べ、恒星の基準質量
+ * M★ = (bodies の恒星質量)/fDynamics を作るのにだけ使う。**旧 1147.4 単位(f★≈2)は持ち越さない**。
+ */
+export const F_LEDGER = 1;
+
+/**
  * 🛞 ngc3198DFM の宣言から質量群を読む(bodies の宣言値 —— エンジンの Float32 化の前の値)。
  * 形の前提(崩れていたら例外): bodies[0] = 恒星の円盤(mMin=mMax・shell なし)・bodies[1] = 気体の円盤(shell:"gas")・
- * bodies[2] = 中心核(single)・massCalibration.factorUniform = f★。
+ * bodies[2] = 中心核(single)・massCalibration.factorUniform(f 固定形 law:"f-fixed-1" なら `f`)= f_dyn(1≤f≤3 —— 第282便a/d で 1 を受理)。
+ * @param {object} [o]
+ * @param {number} [o.fLedger=F_LEDGER] 台帳の f★(第282便d: 既定 1。第281便c の台帳は f★=f_dyn だった —— 履歴は fLedger に f_dyn を渡す)
  */
-export function massGroupsFromPreset(p) {
+export function massGroupsFromPreset(p, o = {}) {
   const b = (p && p.bodies) || [];
   const st = b[0], gs = b[1], co = b[2];
   const mc = p.massCalibration || {};
   if (!st || st.type !== 'disk' || st.shell !== undefined || st.mMin !== st.mMax) throw new Error('bodies[0] が恒星の円盤(mMin=mMax)でない');
   if (!gs || gs.type !== 'disk' || gs.shell !== 'gas' || gs.mMin !== gs.mMax) throw new Error('bodies[1] が気体の円盤(shell:"gas")でない');
   if (!co || co.type !== 'single') throw new Error('bodies[2] が中心核(single)でない');
-  const f = mc.factorUniform;
-  if (!(typeof f === 'number' && f > 1 && f <= 3)) throw new Error('massCalibration.factorUniform が無い');
+  // 第282便a/d(第72報 ③ f=1): factorUniform(f 固定形なら f)を f_dyn として 1≤f≤3 で読む。二重加算の検査は f★=1 でも同じ式で効く
+  const fDyn = (typeof mc.factorUniform === 'number') ? mc.factorUniform : mc.f;
+  if (!(typeof fDyn === 'number' && fDyn >= 1 && fDyn <= 3)) throw new Error('massCalibration.factorUniform が無い');
+  const f = (o.fLedger === undefined) ? F_LEDGER : o.fLedger;
+  if (!(typeof f === 'number' && f >= 1 && f <= 3)) throw new Error('fLedger は 1≤f≤3');
   const se = p.scaleExp || {};
   if (typeof se.M !== 'number') throw new Error('scaleExp.M が無い');
-  const starEff = st.n * st.mMin;
-  const starBase = starEff / f;
+  const starEff = st.n * st.mMin;          // bodies の恒星質量(f_dyn が焼き込まれたまま —— 力学の値)
+  const starBase = starEff / fDyn;
   const gas = gs.n * gs.mMin;
   const core = co.m;
   return {
-    starN: st.n, starMEach: st.mMin, fStar: f, starEff, starBase, starBaseEach: st.mMin / f,
+    starN: st.n, starMEach: st.mMin, fStar: f, fDynamics: fDyn, starEff, starBase, starBaseEach: st.mMin / fDyn,
     gasN: gs.n, gasMEach: gs.mMin, gas, core, unitKg: Math.pow(10, se.M),
-    totalUnit: starEff + gas + core,
+    totalUnit: starEff + gas + core,        // 力学(bodies)の総質量(f_dyn 込み —— 台帳の合計ではない)
+    ledgerTotalUnit: f * starBase + gas + core,
   };
 }
 

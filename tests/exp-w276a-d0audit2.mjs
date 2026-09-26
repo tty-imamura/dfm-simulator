@@ -135,6 +135,10 @@ const SITE_CLASS = {
     why: '**A₀=D₀·u_bg** と置いた特別な場合 —— (N3) では A₀ を独立に宣言する' },
   'dfmField :: dfmField': { use: '場の純関数(D₀ を引数で受ける)', replaceable: 'candidate', why: '引数の受け口' },
   'dfmFieldSnapshot :: stop': { use: '場のスナップショット(診断)', replaceable: 'candidate', why: '同じ分母' },
+  // 第282便 b/d: 場の契約の読み出し(診断の読み手 = 力学と同じ E6′ q=2 の契約を返す)と geoPN=3 トイの中心自転の 1 步
+  'dfmFieldContractOf :: dfmFieldContractOf': { use: '場の契約の読み出し(診断が力学と同じ契約 p・W_bg を読む)', replaceable: 'candidate', why: 'χ の分母(契約に写すだけ)' },
+  'dfmFieldContract :: isStatic': { use: '場の契約(静的な源の判定 —— D0 は契約の鍵名で渡すだけ)', replaceable: 'candidate', why: '同じ分母(鍵名の受け渡し)' },
+  'dfmGeoToySpinStep :: dfmGeoToySpinStep': { use: 'geoPN=3 トイの中心自転の 1 步(centerSpin:"read")', replaceable: 'candidate', why: 'χ の分母' },
   'dfmMeshBlend :: dfmMeshBlend': { use: '複素場と背景の混合', replaceable: 'candidate', why: '背景の重み' },
   'dfmMeshBlend :: rd4': { use: '複素場と背景の混合(内部)', replaceable: 'candidate', why: '背景の重み' },
   'dfmGalaxyMeshField :: dfmGalaxyMeshField': { use: '複素場(銀河メッシュ)', replaceable: 'candidate', why: 'χ の分母' },

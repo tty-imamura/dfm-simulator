@@ -94,7 +94,10 @@ import crypto from 'node:crypto';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
-const OUT = path.join(ROOT, 'tests', 'out', 'calaudit-w249.json');
+// 第282便a: **W249_OUT** で出力先を差し替えられる(既定は正本 tests/out/calaudit-w249.json のまま)。
+//   f=1 移行の前後記録(tests/exp-w282a-fmigration.mjs)が正本を上書きせずに `--only` の部分走行を 2 回行うための口。
+//   測定の中身は 1 行も変えていない(出力のパスだけ)。
+const OUT = process.env.W249_OUT ? path.resolve(ROOT, process.env.W249_OUT) : path.join(ROOT, 'tests', 'out', 'calaudit-w249.json');
 // ---------------------------------------------------------------- 第272便a(第62報・統括の検証項目 R11)
 // **--merge の鍵に「何を測ったか」と「何で測ったか」の hash を足す**。
 //   第271便a までの `mergeKey.target` は **パス文字列**(`beta/index.html`)だけだった ——
@@ -3759,7 +3762,7 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
 //   ③ `quantities[].gate.deprecatedKeys` …… 旧鍵の読み替え表(`out.keyAliases` に正本がある)。
 //   ④ `quantities[].predictionEligibleReasons` …… ④ 予測資格の理由列(判定には入らない)。
 // 正本には **要約 + 相対パス + SHA-256** を残し、参照先が欠けたときに分かるようにする。
-const DIAG_OUT = path.join(ROOT, 'tests', 'out', 'calaudit-w249-diag.json');
+const DIAG_OUT = process.env.W249_DIAG_OUT ? path.resolve(ROOT, process.env.W249_DIAG_OUT) : path.join(ROOT, 'tests', 'out', 'calaudit-w249-diag.json');   // 第282便a: W249_OUT と対
 const DIAG_FIELDS = [
   { path: 'presets[].run.stopRule.machineIndependence', why: '旧停止規則の步/秒依存の再現(第270便a)' },
   { path: 'presets[].run.stopRuleStages[].machineIndependence', why: '同上(段ごと)' },

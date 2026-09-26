@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第281便c",
   "target": "beta/index.html",
-  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-  "generatedAt": "2026-09-25T10:25:33.520Z",
+  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+  "generatedAt": "2026-09-26T08:24:23.032Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4780811,
-    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-    "mtime": "2026-09-25T04:06:38.157Z"
+    "bytes": 4836622,
+    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+    "mtime": "2026-09-26T08:09:25.652Z"
    }
   ],
   "code": [
@@ -22,9 +22,9 @@
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
-    "bytes": 11452,
-    "sha256": "0127aa123cbd2226cb29782f2626c108e4bf987f2e815908b65bb24a736572c1",
-    "mtime": "2026-09-25T04:06:25.635Z"
+    "bytes": 12812,
+    "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
+    "mtime": "2026-09-26T00:07:02.816Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "58f1750bda8fac6d5cd0d8ef04c78a4d1697e6b3aedc1f0155144c6dc2033632"
+  "codeSha256": "d7cf5b7d71748879fab8325052eedea7bf9a0792488f3db621a170279c1037b7"
  },
  "note": "条件付き台帳(仮定の 3 シナリオ)と η 対照(仮説)。観測との一致や検出を主張しない。較正母集団に入れない。🛞 の既定は追加 0(現状)。",
  "sources": {
@@ -65,7 +65,8 @@
  "groups": {
   "starN": 200,
   "starMEach": 3.7994909513377677,
-  "fStar": 1.9997320796514568,
+  "fStar": 1,
+  "fDynamics": 1.9997320796514568,
   "starEff": 759.8981902675536,
   "starBase": 380,
   "starBaseEach": 1.9,
@@ -74,7 +75,8 @@
   "gas": 287.5,
   "core": 100,
   "unitKg": 1e+38,
-  "totalUnit": 1147.3981902675537
+  "totalUnit": 1147.3981902675537,
+  "ledgerTotalUnit": 767.5
  },
  "built": {
   "n": 301,
@@ -93,8 +95,8 @@
   "nStars": 38219763640.93538,
   "nRotor": 764395272818.7075,
   "current": {
-   "totalUnit": 1147.3981902675537,
-   "totalSun": 57701694255.345924,
+   "totalUnit": 767.5,
+   "totalSun": 38596932361.07619,
    "mRotorUnit": 0
   },
   "rows": [
@@ -103,9 +105,9 @@
     "nRotor": 764395272818.7075,
     "mRotorUnit": 1520,
     "mRotorSunTot": 76439527281.87076,
-    "totalUnit": 2667.3981902675537,
-    "totalSun": 134141221537.21667,
-    "ratioToCurrent": 2.324736271063459,
+    "totalUnit": 2287.5,
+    "totalSun": 115036459642.94695,
+    "ratioToCurrent": 2.980456026058632,
     "rotorOverStarBase": 4
    },
    {
@@ -113,9 +115,9 @@
     "nRotor": 764395272818.7075,
     "mRotorUnit": 15199.999999999998,
     "mRotorSunTot": 764395272818.7075,
-    "totalUnit": 16347.398190267551,
-    "totalSun": 822096967074.0533,
-    "ratioToCurrent": 14.247362710634585,
+    "totalUnit": 15967.499999999998,
+    "totalSun": 802992205179.7837,
+    "ratioToCurrent": 20.804560260586317,
     "rotorOverStarBase": 39.99999999999999
    },
    {
@@ -123,9 +125,9 @@
     "nRotor": 764395272818.7075,
     "mRotorUnit": 152000,
     "mRotorSunTot": 7643952728187.075,
-    "totalUnit": 153147.39819026756,
-    "totalSun": 7701654422442.422,
-    "ratioToCurrent": 133.47362710634587,
+    "totalUnit": 152767.5,
+    "totalSun": 7682549660548.151,
+    "ratioToCurrent": 199.0456026058632,
     "rotorOverStarBase": 400
    }
   ]
@@ -145,7 +147,7 @@
   "addUnit": 0.1826121524101282,
   "addUnitLo": 0.0753275128691779,
   "addUnitHi": 0.34924574148437026,
-  "totalUnit": 1147.580802419964
+  "totalUnit": 767.6826121524101
  },
  "eta": {
   "mLens075": {
@@ -226,13 +228,14 @@
  "declaration": {
   "present": true,
   "warnings": [],
-  "maxRel": 1.1967035549643792e-16,
+  "maxRel": 0,
   "rows": 3,
   "defaultScenario": "none",
   "rotorInFStar": false,
-  "identityRel": 1.112708812971103e-16
+  "identityRel": 0
  },
  "declaredPresets": [
+  "galaxyAnalogyBH",
   "ngc3198DFM"
  ],
  "lightSweepVsDeflection": {
@@ -272,6 +275,6 @@
   "ratio2x": 2.0067164757942177,
   "ratio4x": 4.040636351480498
  },
- "headlessMs": 165,
+ "headlessMs": 142,
  "headlessErrors": 0
 }

@@ -148,7 +148,14 @@ export const STOP_RULE_SPEC = {
 // docs/CALIBRATION_VERDICT_v1.44.md §5.17.4 と下の `history` に残る。
 // h/8 の段(第272便a・AG1)は基点に無い新しい段なので、照合では **newStages** として数える
 //(**差**ではない —— 基点に対応する段が無い)。
-export const BASE_REPLAY_EXCEPTIONS = [];
+// 第282便a(原仮定者の裁定(第72報)③): ✴️💫 の DFM 版で質量補正 f を廃して f=1 に固定した(m=baseMass)。
+// 質量が観測質量そのもの(+0.022% / +0.038% 分だけ軽く)になったので 1 公転の步数が僅かに伸び、
+// 步数上限(60 公転ぶん)と走った步数が基点 743ad9b と違う。**近点数は同じ 60**。判定量は f=1 の宣言どおり動いた
+//(較正ではない —— 質量を観測値へ戻した帰結)。基点は切り直さない(切り直しは次に基点が動く便で)。
+export const BASE_REPLAY_EXCEPTIONS = [
+  ...['alphaCenABDFM', 'siriusABDFM'].flatMap((id) => ['dt', 'dt/2', 'dt/4'].map((tag) => ({ id, tag, since: 'w282a',
+    why: '第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)' }))),
+];
 // 旧例外の履歴(**削除していない** —— 何を例外にしていたかは資産である)。
 export const BASE_REPLAY_EXCEPTIONS_HISTORY = [
   { version: 'w271a-1', base: 'f6c19b4', n: 9,

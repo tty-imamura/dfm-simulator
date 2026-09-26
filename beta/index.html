@@ -891,13 +891,14 @@
     <button id="btnPanelExpand" aria-label="expand panel" aria-pressed="false">⤢ 広げる</button>
     <div class="tabPage" id="page-help"><div id="helpBody"></div></div>
     <div class="tabPage" id="page-params">
-      <!-- 第62便(原仮定者指示): ワンタップA/B(相変化 abQuick / 粒子patch abBody)は
-           「A/B比較」グループより上の共通行へ統一(形状は相変化系=btn。JSが動的に生成) -->
-      <div class="rowBtns" id="abQuickRow" style="display:none"></div>
       <!-- 第83便B: 相図ランナーを開く行(phaseMap 宣言のあるプリセットでのみ表示) -->
       <div class="rowBtns" id="pmRow" style="display:none"></div>
       <div class="group" id="abGroup">
         <h3 id="abHead">A/B比較</h3>
+        <!-- 第62便(原仮定者指示): ワンタップA/B(相変化 abQuick / 粒子patch abBody)を共通行へ統一
+             (形状は相変化系=btn。JSが動的に生成)。第282便e(原仮定者の裁定(第72報)⑦): 行を
+             「A/B比較」見出しの直下(A/B比較を開始の行より上)へ移した。表示条件は不変 -->
+        <div class="rowBtns" id="abQuickRow" style="display:none"></div>
         <div class="rowBtns"><button class="btn primary" id="btnAB">A/B比較を開始</button></div>
         <!-- v1.23: A/B中の編集対象トグル(原仮定者指示 — パラメータ編集をA/Bどちらに効かせるか) -->
         <div class="rowBtns" id="abTargetRow" style="display:none">
@@ -905,7 +906,7 @@
           <button class="btn" id="btnAbTargetA">A</button>
           <button class="btn" id="btnAbTargetB">B</button>
         </div>
-        <!-- 第40便 40B の abBodyRow は第62便で #abQuickRow(グループ上部)へ統合 -->
+        <!-- 第40便 40B の abBodyRow は第62便で #abQuickRow へ統合(第282便e で見出し直下へ) -->
         <!-- 第27便(原仮定者指示): A/B比較の説明は畳んでおく -->
         <details id="abNoteWrap"><summary id="abNoteSum" class="note" style="cursor:pointer">A/B比較とは</summary>
         <p class="note" id="abNote">今の状態をAとして、そのコピーのBを作り、上下に並べて同時に走らせます(A=上、B=下)。実行中のパラメータ編集はA側にのみ効き、最後に調整したパラメータの値が両画面に表示されます。「終了」でAの状態を継続しBを破棄します。プリセットを切り替えると解除されます。</p></details>
@@ -3248,7 +3249,8 @@ function massBasisOf(p){
   let factor=null;
   if(e.kind==="dfm-calibrated"){
     const mc=(p.massCalibration&&typeof p.massCalibration==="object")?p.massCalibration:{};
-    factor=isNum(mc.factor)? mc.factor : (isNum(mc.factorUniform)? mc.factorUniform : null);
+    // 第282便a: f 固定形(law:"f-fixed-1")は f=1 を読む(台帳の値をそのまま — ここで数値を作らない)
+    factor=isNum(mc.factor)? mc.factor : (isNum(mc.factorUniform)? mc.factorUniform : (isNum(mc.f)? mc.f : null));
     if(factor===null) return null;   // 台帳に f が無い本は DFM 版として出さない(数値をここで作らない)
   }
   return {kind:e.kind, records:Array.isArray(e.records)?e.records.slice():[],
@@ -3256,6 +3258,11 @@ function massBasisOf(p){
     conversion:e.conversion||null, factor,
     note:((LANG==="en"&&e.noteEn)?e.noteEn:e.note)||null};
 }
+// ===== 第282便a(原仮定者の裁定(第72報)②③⑤⑥・統括の検証項目 R77): **較正契約の 3 系統+アナロジー**の宣言(side table) =====
+// 判定の語彙と既定設定だけを宣言する。**プリセットの外**に置くので presetSig・保存 JSON・力学は 1 bit も変わらない。
+// **ここで何も判定しない** —— 集計は器 tests/exp-w282a-calcontract.mjs が正本 tests/out/calcontract-w282a.json に数え、
+// QA docs.calContract がこの行(1 行の JSON)と正本の表を照合する。旧 4 値 0/2/2/33 は旧契約の履歴として持つ。
+const CAL_CONTRACT={"version":"w282a-1","ruling":"原仮定者の裁定(第72報)②③⑤⑥","systems":[{"key":"kf0","name":"現実較正 kF0","nameEn":"real calibration (kF0)","defaults":{"f":1,"kFrame":0,"geoPN":1},"verdicts":["合","否","数値未解決","写像未解決"],"rule":"宣言した観測量の合/否/数値未解決/写像未解決。現実較正の合を目指すのはこの系統だけ。geoPN=1 の自由連星の反作用の扱いは契約化の途中(決断事項 AN23)"},{"key":"dfm","name":"現実参照 DFM","nameEn":"real reference (DFM)","defaults":{"f":1,"kFrame":1,"geoPN":1},"verdicts":["概略整合","調整中","適用外"],"rule":"観測値との大きな差異を無くす範囲。許容幅は系統ごとに事前宣言し(周期は相対残差・近点移動は絶対残差を別欄)、残差を併記する。許容幅は未裁定なので本版は語彙を当てない(数えるだけ)"},{"key":"compare","name":"比較系列","nameEn":"comparison series","defaults":{"f":1,"geoPN":[2,3]},"verdicts":["比較のみ"],"rule":"主系列と同じ入力で geoPN=2 または 3。主系列の合を代用しない"},{"key":"analogy","name":"アナロジー","nameEn":"analogy","defaults":{"f":1,"geoPN":3,"center":"スケール調整した DFM 版ブラックホール"},"verdicts":["形状達成","未達","収支","適用窓"],"rule":"星団・楕円銀河・渦巻銀河・棒渦巻銀河。現実較正の対象外(ダークマターハロー前提の領域)"}],"targets":[{"key":"solar-system","name":"太陽系の各天体"},{"key":"stellar-binary","name":"恒星連星"},{"key":"ns-binary","name":"中性子星連星"},{"key":"bh-binary","name":"ブラックホール連星"}],"outOfScope":["星団以降(アナロジーの系統で扱う)"],"sigmaRule":"σ は観測の定義に従う(非対称区間・90% 信用区間を一律 1σ にしない)","legacy":{"label":"旧契約(第281便まで)の 4 値","counts":"0/2/2/33","population":37,"note":"履歴として保存 —— 新集計は母集団・法則版・観測量を明記した別欄"}};
 // ===== 第273便c(第63報・統括の検証項目 AG24): **正式判定値の side table** =====
 // 判定器の正本(`tests/out/calaudit-w249.json`)が出した **判定段の値**(`gate.assessedValue`)・
 // **判定段**(`gate.assessedStage`)・**σ 倍**(`gate.nSigma`)・**門の状態**を、プリセットの外の
@@ -3279,19 +3286,19 @@ function massBasisOf(p){
 //   転記が正本と 1 行ずつ一致することは QA `ui.assessedValuePanel` が突き合わせる。
 // **静的な obsCard の行(多くは h 段の文面)と混ぜない** —— 別の欄として下に出す。
 // >>> w275a-generated: assessed-table
-const ASSESSED_CANON={file:"tests/out/calaudit-w249.json", wave:"第249便b", generatedAt:"2026-09-20T07:04:14.875Z",
-  targetSha256:"8b65f1d6996837964d7e5cca418600fa10a7e674a6803d0a72346e4456440e75",
+const ASSESSED_CANON={file:"tests/out/calaudit-w249.json", wave:"第249便b", generatedAt:"2026-09-26T01:51:16.865Z",
+  targetSha256:"99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
   note:"判定段の値・σ 倍・門の状態は**この正本の転記**である(このページで測り直していない)"};
 // >>> w273c-assessed-table
-const ASSESSED_SIG={"mercuryReal":"3bffc014","mercuryRealKF1":"f530078c","plutoCharonReal":"c482cab0","alphaCenAB":"8b8c57d3","alphaCenABDFM":"8bf6c4cc","siriusAB":"63359204","siriusABDFM":"b1111485","psrDoubleAB":"bfceee9a","psrDoubleABDFM":"7b3f6a36","psrDoubleABSpinCal":"6fe76b76","psrJ1757DFM":"9dd447b2","psrJ1946DFM":"3bc590f2","psrDoubleABPN":"c794a498","psrJ1757PN":"7132210b","psrJ1946PN":"cc595e3c","psrDoubleABCF":"8767377","psrJ1757CF":"12797269","psrJ1946CF":"f8600f7c","psrB1534":"f14a9255","psrB1534DFM":"5888662e","psrB1534CF":"d1e506a2","saturnZonalD68":"5be8b841"};
+const ASSESSED_SIG={"mercuryReal":"3bffc014","mercuryRealKF1":"f530078c","plutoCharonReal":"c482cab0","alphaCenAB":"8b8c57d3","alphaCenABDFM":"3db39372","siriusAB":"63359204","siriusABDFM":"dd6d9902","psrDoubleAB":"bfceee9a","psrDoubleABDFM":"7b3f6a36","psrDoubleABSpinCal":"6fe76b76","psrJ1757DFM":"9dd447b2","psrJ1946DFM":"3bc590f2","psrDoubleABPN":"c794a498","psrJ1757PN":"7132210b","psrJ1946PN":"cc595e3c","psrDoubleABCF":"8767377","psrJ1757CF":"12797269","psrJ1946CF":"f8600f7c","psrB1534":"f14a9255","psrB1534DFM":"5888662e","psrB1534CF":"d1e506a2","saturnZonalD68":"5be8b841"};
 const ASSESSED_VALUES={
   "mercuryReal":[{t:"水星",k:"precession",n:"近日点前進(推定器つき宣言 — 第250便d)",st:"h",v:0.0000225146569977,u:"deg/orbit",ns:6217.30964976,g:"数値未解決"}],
   "mercuryRealKF1":[{t:"水星",k:"precession",n:"引きずり歳差(qLock q_exact=6.1471・推定器つき宣言)",st:"h",v:0.0000224860986679,u:"deg/orbit",ns:6259.09759721,g:"数値未解決"}],
   "plutoCharonReal":[{t:"カロン",k:"period",n:"公転周期(kFrame=0 対照・同方向1周)",st:"h4",v:551864.061241,u:"s",ns:294.07873353,g:"否(3σ)"},{t:"カロン",k:"period",n:"公転周期(kFrame=1・E6′-R)同方向1周",st:"h8",v:553211.255804,u:"s",ns:52269.1776099,g:"数値未解決"},{t:"カロン",k:"period",n:"公転周期(kFrame=1)近点間(第250便d)",st:"h8",v:556271.83415,u:"s",ns:170347.045893,g:"mapping-unresolved"}],
   "alphaCenAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:2517154638.63,u:"s",ns:0.0956437048016,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.519469965648,u:"-",ns:0.000229014177252,g:"mapping-unresolved"}],
-  "alphaCenABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",st:"h4",v:2501545431.83,u:"s",ns:25.9372992288,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1周目の半径比振れ幅)",st:"h4",v:0.520509070229,u:"-",ns:6.92713486102,g:"mapping-unresolved"}],
+  "alphaCenABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",st:"h4",v:2502085672.64,u:"s",ns:25.0362888055,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1周目の半径比振れ幅)",st:"h4",v:0.520404787133,u:"-",ns:6.23191422088,g:"mapping-unresolved"}],
   "siriusAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:1581969210.93,u:"s",ns:0.274249976343,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.591419947828,u:"-",ns:0.000141004863641,g:"mapping-unresolved"}],
-  "siriusABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",st:"h4",v:1553427257.01,u:"s",ns:210.060620235,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1周目の半径比振れ幅)",st:"h4",v:0.593765673224,u:"-",ns:6.33965736163,g:"mapping-unresolved"}],
+  "siriusABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",st:"h4",v:1553988785.92,u:"s",ns:205.922532514,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1周目の半径比振れ幅)",st:"h4",v:0.593609469316,u:"-",ns:5.91748463697,g:"mapping-unresolved"}],
   "psrDoubleAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h8",v:8834.77191908,u:"s",ns:946662.667847,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.087764508518,u:"-",ns:260.989208223,g:"mapping-unresolved"},{t:"B",k:"precession",n:"近点前進(1PN — 合わせない照合)",st:"h4",v:0.000790184452376,u:"deg/orbit",ns:1079785.27342,g:"数値未解決"}],
   "psrDoubleABDFM":[{t:"B",k:"period",n:"公転周期(kFrame=1・χ-law 粒子別質量 — 2 定義)",st:"h8",v:8822.19572808,u:"s",ns:49245670.4869,g:"数値未解決"},{t:"B",k:"ecc",n:"hold-out(離心率と近点 — 第246便で1行に統合)",st:"h8",v:0.0878282285951,u:"-",ns:1066.51239895,g:"mapping-unresolved"},{t:"B",k:"precession",n:"周期短縮と近点移動は**別判定**(第248便b → 第249便a)",st:"h4",v:0.00947301026753,u:"deg/orbit",ns:1317474.59844,g:"数値未解決"}],
   "psrDoubleABSpinCal":[{t:"B",k:"precession",n:"近点移動(**fit 対象** — 2 ノブを回した先)",st:"h",v:0.00484553427505,u:"deg/orbit",ns:31831.896686,g:"数値未解決"},{t:"B",k:"period",n:"公転周期(照合先 — fit していない)",st:"h",v:8737.68909531,u:"s",ns:386516714.45,g:"数値未解決"}],
@@ -3888,6 +3895,15 @@ function validateSpaceMesh(a){
       return {ok:false, err:"physics.spaceMesh.toyClosureIters は 1〜64 の整数(固定点反復の最大回数)"};
     tClosureN=Math.round(Number(a.toyClosureIters));
   }
+  // 第282便d(第72報⑥・R81): **中心の自転を読む opt-in** `centerSpin`("off" 既定 = 現状 /"read")。
+  //   **既定は 1 文字も正準形に出さない**(内蔵 140 本は署名も力学もビット不変)。"read" は lawVersion:"scalar" 専用で、
+  //   帯平均・mesh-v2・閉包の反復・vMinusU とは排他(トイの場の作り方を 2 つ重ねない)。calibration では拒否。
+  let cSpin=SPACE_MESH_CENTER_SPIN[0];
+  if(a.centerSpin!==undefined && a.centerSpin!==null){
+    if(SPACE_MESH_CENTER_SPIN.indexOf(a.centerSpin)<0)
+      return {ok:false, err:'physics.spaceMesh.centerSpin は "off"/"read"(geoPN=3 のトイが中心の自転を読むか —— 既定 off)'};
+    cSpin=a.centerSpin;
+  }
   // 第265便b(Z2・第57報 W2): **法則版 `law`**("toy" 既定 = 既存の geoPN=3 トイ /"mesh-v2" = 最小代数実装)。
   //   **既存トイと排他**である(同じ步で両方は走らない —— `dfmGeoToyStep` の入口で分岐する)。
   //   `meshGauge` は共通並進の扱い("inertia"=重心の慣性を独立に残す /"constraint"=拘束で解く)。
@@ -3946,6 +3962,9 @@ function validateSpaceMesh(a){
       return {ok:false, err:"physics.spaceMesh.pressure0 は 0 以上の数値(有効圧の下駄 Θ₀)"};
     dTh0=clamp(Number(a.pressure0),0,1e12);
   }
+  if(cSpin!==SPACE_MESH_CENTER_SPIN[0] && (a.lawVersion!=="scalar" || mLaw!==MESH_V2_LAWS[0]
+    || dSup!==SPACE_MESH_DISK_SUPPORT[0] || tClosure!==SPACE_MESH_TOY_CLOSURE[0]))
+    return {ok:false, err:'physics.spaceMesh.centerSpin:"read" は lawVersion:"scalar" 専用で、law:"mesh-v2"・diskSupport・toyClosure:"iterate" と排他(第282便d)'};
   if(mLaw===MESH_V2_LAWS[1] && dSup!==SPACE_MESH_DISK_SUPPORT[0])
     return {ok:false, err:'physics.spaceMesh.law:"mesh-v2" は diskSupport と排他です(mesh-v2 は帯平均を持ちません)'};
   if(mLaw===MESH_V2_LAWS[1] && tClosure!==SPACE_MESH_TOY_CLOSURE[0])
@@ -4023,6 +4042,7 @@ function validateSpaceMesh(a){
   if(lawV!==null){ out.lawVersion=lawV; if(toyG!==1) out.toyGain=toyG; }   // 第259便a(未宣言は 1 文字も出さない)
   // 第280便c: vMinusU は **pn を既定 off でも明示**する(署名から「1PN なしで走った」が読めないと再現できない)
   if(lawV===GEO3_LAW){ out.pn=g3pn; if(g3pv!==null) out.pnVelocity=g3pv; out.velocityMeaning=g3vm; }
+  if(cSpin!==SPACE_MESH_CENTER_SPIN[0]) out.centerSpin=cSpin;   // 第282便d(既定 "off" は 1 文字も出さない)
   if(tAllowDrag) out.toyAllowDrag=true;   // 第263便a(既定 false は 1 文字も出さない = 内蔵 122 本は署名不変)
   // 第264便b(既定 "gravity" は 1 文字も出さない = 内蔵 122 本は署名不変。反復数は "iterate" のときだけ)
   if(tClosure!==SPACE_MESH_TOY_CLOSURE[0]){
@@ -7780,6 +7800,85 @@ const BUILTIN_PRESETS = [
     {type:"disk", rMul:1.2, n:80, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
      mMin:0.16,mMax:0.5, spinMin:0,spinMax:0, vMode:"kepler", aroundMass:2500, vScale:1.05,
      direction:1, bulkVx:0, bulkVy:0}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
+    spaceMesh:{mode:"mesh"},
+    galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
+// ===== 第282便d(原仮定者の裁定(第72報)⑥「アナロジーは geoPN=3。中心にスケール調整した DFM 版ブラックホール。
+// 質量合わせに恒星質量ダークローター」・統括の読み R81・AN19): **銀河アナロジーの 1 本目**(principle・較正ではない)。
+// 🎋 の幾何(核 pinned m=2500・spin 1.2・R=15 + Plummer バルジ 90 + 指数円盤 80)と physics をそのまま使い、
+// ① 恒星の質量を固定値 0.3125(=5/16 —— Float32 で厳密)にして M★=53.125 を宣言値にする
+// ② **恒星質量ダークローター(DR)を力学の質量要素として置く**: 代表粒子 N_rep=40 × 53.125 = M_DR=2125
+//    (⟨m_DR⟩=1 M☉ を代表 —— AN19。M_DR/M★ = n_ratio·⟨m_DR⟩/⟨m★⟩ = 20·1/0.5 = 40 は単位に依らない)
+// ③ `physics.spaceMesh.centerSpin:"read"` で**中心の自転をトイの場に読ませる**(opt-in —— 既定は off のまま)。
+// f=1(massCalibration を持たない —— 旧 f≈2 の質量補正を使わない)。**観測回転曲線は 1 つも入力していない。**
+{ id:"galaxyAnalogyBH", name:"銀河アナロジー(中心 DFM 版 BH+恒星質量 DR)", emoji:"🌚",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["galaxy","dm"],
+  obsCard:[
+    {q:"何を置いたか", model:"🎋 の幾何(pinned 中心 m=2500・spin 1.2・R=15/バルジ 90/円盤 80)+恒星質量 DR の代表粒子 40 体(1 体 53.125・計 2125)", obs:"—(原理サンプル — 観測転写はしない)"},
+    {q:"DR は力学の質量要素", model:"M_DR=N_DR⟨m_DR⟩・N_DR=20 N★(宣言値)・⟨m_DR⟩=1 M☉ が代表(0.1/10 M☉ は比較の列)。代表粒子 1 体は個々の天体ではない", obs:"—(個数 20 倍は宣言値 —— 浮遊惑星の観測は地球質量級)"},
+    {q:"中心の自転を読む(opt-in)", model:"spaceMesh.centerSpin:\"read\" —— 場の契約の読み手の自転項 ω(d)=s(R/(R+d))^q(E6′ と同じ減衰形・q=2)を中心だけに入れる", obs:"—(既定は off —— 既存本の力学は不変)"},
+    {q:"中心 BH の無次元量(宣言)", model:"GM/(Rc²)=0.148・ΩR/c=0.600・M_center/M★=47.06・M_center/(M★+M_DR)=1.148(GW150914 の巨大化ではない)", obs:"—"},
+    {q:"光線には使わない", model:"massLedger.darkRotor.lens:\"excluded\" —— 代表粒子の質量を個別のレンズ計算に使わない宣言(光線の表示も宣言しない)", obs:"—"},
+    {q:"言わないこと", model:"平坦回転を再現した/銀河を較正した/ダークローター=浮遊惑星の検出/消失星=DFM 減光の実例、とは書かない", obs:"—"}],
+  descStruct:{
+    summary:"**銀河アナロジーの 1 本目 —— 中心にスケールを宣言した DFM 版ブラックホール、恒星円盤、恒星質量ダークローター(DR)の代表粒子を置いた geoPN=3 の原理サンプル**(第282便d・原仮定者の裁定〔第72報〕⑥)。幾何と physics は 🎋 と同じ(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・η=1・D₀=1.5・ε=3・frameWeight:\"share\")で、違いは 3 つ: ① 恒星(バルジ 90+円盤 80)の質量を 0.3125 の固定値にして **M★=53.125 単位**を宣言値にした ② **DR を力学の質量要素として置いた** —— 代表粒子 N_rep=40 体 × 53.125 = **M_DR=2125 単位**(⟨m_DR⟩=1 M☉ を代表・N_DR=20 N★ は宣言値・M_DR/M★=40 は単位に依らない)。空間分布は恒星円盤と同じ指数円盤(宣言 —— 決断事項)で、初速は配置の実ポテンシャルの円運動解(vMode enclosed) ③ **spaceMesh.centerSpin:\"read\"** で中心の自転をトイの場に読ませる(E6′ と同じ減衰形 ω(d)=s(R/(R+d))^q・q=2)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性)。**f=1**(質量補正を持たない)。**観測回転曲線は 1 つも入力していない**(較正ではない・claim 窓も regression window も無い)。**言わないこと**: 平坦回転を再現した/銀河を較正した/ダークローター=浮遊惑星の検出。",
+    observe:"実測(器 tests/exp-w282d-analogy.mjs・正本 tests/out/analogy-w282d.json・dt=0.016): 宣言した配置の実際の重力加速度で測った回転曲線 v_c(r) を r=20/40/80/120/240/480 の 6 半径で、DR なし/0.1/1/10 M☉ の 4 列に並べた(数は PHYSICS〔第282便d〕の表 —— **観測とは突き合わせていない**)。中心の自転の応答: 同じ配置で中心 spin 1.2 と 0 の 2 走行の差が 0 でない(粒子位置の差・半径ビンの ∂u_φ/∂Ω_core)。健全性(T=48=3000 步): NaN 0・トイの帳簿 E_toy+E_mesh=0(厳密)・円盤 80 粒の保持率と DR 40 体の保持率は正本に記録。**言わないこと**: 平坦回転を再現した/銀河を較正した。",
+    control:"ワンタップ対照A/B: B 側は**中心の spin=0**(同じ配置・同じ opt-in —— 中心の自転の寄与だけを外す)。比較の相手は 🎋(中心の自転を読まない既定のトイ・DR なし)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
+  en:{name:"Galaxy analogy (central DFM black hole + stellar-mass dark rotors)",
+    obsCard:[
+      {q:"What is placed", model:"🎋's geometry (pinned centre m=2500, spin 1.2, R=15; bulge 90; disc 80) + 40 stellar-mass dark-rotor particles", obs:"- (a principle sample; nothing transcribed)"},
+      {q:"Dark rotors as dynamical mass", model:"M_DR=N_DR<m_DR>, N_DR=20 N_star (declared), <m_DR>=1 Msun representative; one particle is not one object", obs:"- (the 20x count is declared; observed free floaters are Earth-mass)"},
+      {q:"Centre spin read (opt-in)", model:"centerSpin read: the field-contract spin term omega(d)=s(R/(R+d))^q (E6-prime form, q=2) on the centre only", obs:"- (default off; existing samples unchanged)"},
+      {q:"Declared centre numbers", model:"GM/(Rc^2)=0.148, Omega R/c=0.600, M_c/M_star=47.06, M_c/(M_star+M_DR)=1.148 (not a scaled GW150914)", obs:"-"},
+      {q:"Not used for rays", model:"darkRotor lens excluded: the representative masses are not used in individual lensing; no ray overlay", obs:"-"},
+      {q:"Not claimed", model:"no flat curve reproduced, no calibration, rotors are not detected free floaters, vanishing stars are not DFM dimming", obs:"-"}],
+    descStruct:{
+      summary:"THE FIRST GALAXY ANALOGY - a geoPN=3 principle sample with a DFM black hole of declared scale at the centre, a stellar disc, and representative particles of stellar-mass dark rotors (DR) (wave 282d, the originator's ruling in report 72, item 6). Geometry and physics follow 🎋 (geoPN=3, kFrame=0, spaceMesh lawVersion scalar, eta=1, D0=1.5, eps=3, frameWeight share) with three differences: (1) the stellar masses (bulge 90 + disc 80) are fixed at 0.3125 so that M_star = 53.125 units is a declared value; (2) THE DARK ROTORS ARE A DYNAMICAL MASS COMPONENT - N_rep = 40 representative particles x 53.125 = M_DR = 2125 units (<m_DR> = 1 Msun as the representative, N_DR = 20 N_star declared, M_DR/M_star = 40 independent of units), on the stellar disc's exponential distribution (declared - a decision item), started on the circular-orbit solution of the placed potential (vMode enclosed); (3) spaceMesh centerSpin read lets the toy field read the centre's spin (the E6-prime decay form omega(d)=s(R/(R+d))^q, q=2). Gravity (E4) and the geoPN=3 toy (coordinate inertia) act. f=1 (no mass correction). NO OBSERVED ROTATION CURVE IS FED IN (not a calibration; no claim or regression window). WHAT THIS DOES NOT CLAIM: a reproduced flat rotation curve, a calibrated galaxy, dark rotors detected as free-floating planets.",
+      observe:"Measured (harness tests/exp-w282d-analogy.mjs, canonical tests/out/analogy-w282d.json, dt=0.016): the rotation curve v_c(r) from the actual gravitational acceleration of the declared configuration at r=20/40/80/120/240/480, in four columns - no DR / 0.1 / 1 / 10 Msun (numbers in the table of PHYSICS, wave 282d - NOT compared with any observation). The response to the centre's spin: two runs of the same configuration with centre spin 1.2 and 0 differ (particle positions; d u_phi / d Omega_core per radial bin). Health over T=48 (3000 steps): zero NaN, the toy ledger closes E_toy + E_mesh = 0 exactly, and the retention of the 80 disc particles and of the 40 DR particles is in the canonical file. WHAT THIS DOES NOT CLAIM: a reproduced flat rotation curve, a calibrated galaxy.",
+      control:"One-tap A/B: side B sets THE CENTRE'S SPIN TO 0 (same configuration, same opt-in - only the centre's spin contribution is removed). The comparison partner is 🎋 (the default toy, which does not read the centre's spin, and has no DR). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測回転曲線も観測質量も 1 つも入力していない(原理サンプル)"],
+    fixedConventions:["🎋 の physics 宣言(geoPN=3・kFrame=0・lawVersion:\"scalar\"・inertia:false・η=1・D₀=1.5・ε=3・frameWeight:\"share\")+ spaceMesh.centerSpin:\"read\"(opt-in)",
+      "中心 DFM 版 BH: pinned m=2500・spin 1.2・R=15(🎋 と同じ値 —— 無次元量で宣言: GM/(Rc²)=0.148・ΩR/c=0.600)",
+      "恒星: バルジ 90+円盤 80 の質量を 0.3125 に固定(M★=53.125)",
+      "DR: N_DR=20 N★・⟨m_DR⟩=1 M☉(代表)・⟨m★⟩=0.5 M☉・質量単位 10³⁴ kg(galactic 帯の表示換算の代表指数)・空間分布は恒星円盤と同じ指数円盤(宣言)",
+      "cLight=30(組込みプリセットの規約)・乱数種 20260925"],
+    fitted:["**無い。**"],
+    derived:["M_DR=40·M★=2125 単位(M_DR/M★=n_ratio·⟨m_DR⟩/⟨m★⟩)・代表粒子 1 体 53.125 単位",
+      "初速: 円盤と DR は配置の実ポテンシャルの円運動解(vMode enclosed)・バルジは等方乱数 vScale 6(🎋 と同じ)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","代表粒子 N_rep=40","測定: dt=0.016 で 3000 步(T=48)"]},
+  activeParams:["D0","G"],
+  validT:48,
+  abBody:{ label:{ja:"中心の spin=0(自転の寄与だけを外す)", en:"centre spin = 0 (only the spin contribution removed)"},
+    targets:[0], patch:{spin:0} },
+  massLedger:{version:"w282d-1", starBase:53.125, fStar:1, gas:0, core:2500, unitKg:1e34, mSunKg:1.9885e30,
+    mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:1,
+    currentTotalUnit:2553.125, currentTotalSun:12839451.84812673,
+    rotorScenarios:[
+      {mRotorSun:0.1, nRotor:10686447.070656272, mRotorUnit:212.49999999999997, totalUnit:2765.625, totalSun:13908096.555192357},
+      {mRotorSun:1, nRotor:10686447.070656272, mRotorUnit:2124.9999999999995, totalUnit:4678.125, totalSun:23525898.918782998},
+      {mRotorSun:10, nRotor:10686447.070656272, mRotorUnit:21249.999999999996, totalUnit:23803.124999999996, totalSun:119703922.55468944}],
+    darkRotor:{mRotorSun:1, nRep:40, mPerRepUnit:53.125, totalUnit:2125, inDynamics:true, lens:"excluded",
+      distribution:"恒星円盤と同じ指数円盤(半径 260・sersicRe 90)・初速は配置の実ポテンシャルの円運動解(宣言 —— 決断事項)"},
+    note:"条件付き台帳(第282便d・原仮定者の裁定〔第72報〕⑥)。⟨m_DR⟩=1 M☉ の行を**力学の質量要素として bodies に入れた**(代表粒子 40 体 × 53.125 = 2125 単位)。0.1/10 M☉ は比較の列で、bodies には入れていない。個数比 20 は宣言値で、浮遊惑星の観測(地球質量級)は恒星質量の暗い天体が恒星の 20 倍あることを示していない。f★=1。較正母集団に入れない。",
+    noteEn:"A conditional ledger (wave 282d, the originator's ruling in report 72, item 6). The <m_DR> = 1 Msun row IS PUT INTO THE BODIES AS A DYNAMICAL MASS COMPONENT (40 representative particles x 53.125 = 2125 units); 0.1 and 10 Msun are comparison columns not in the bodies. The count ratio 20 is a declared value; the observed free-floating planets (Earth-mass class) do not show 20 stellar-mass dark bodies per star. f_star = 1. Not in the calibration population."},
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260925,
+  physics:{G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read"}},
+  bodies:[
+    // 中心 DFM 版 BH(🎋 と同じ値)
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    // 恒星: バルジ(Plummer)と指数円盤 —— 質量を 0.3125 に固定(M★=170×0.3125=53.125)
+    {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:90, profile:"plummer", plummerScale:26,
+     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0},
+    {type:"disk", rMul:1.2, n:80, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"enclosed", vScale:1, direction:1, bulkVx:0, bulkVy:0},
+    // 恒星質量ダークローターの代表粒子(N_rep=40・1 体 53.125・計 2125 —— 力学の質量要素。lightSweep 1 = 表示で暗い)
+    {type:"disk", rMul:1.2, n:40, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:53.125,mMax:53.125, spinMin:0,spinMax:0, vMode:"enclosed", vScale:1, direction:1, bulkVx:0, bulkVy:0, lightSweep:1}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
     spaceMesh:{mode:"mesh"},
     galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
@@ -11642,34 +11741,34 @@ const BUILTIN_PRESETS = [
     {q:"軌道の形(歳差の定量)", model:"歳差するロゼット — 近点移動 +0.89°/周(順行・実測。share 重み期は +4.26°/周 — f が 1.0002 へ落ちてもロゼットは残る)", obs:"—(準安定の宣言。1PN 解析値 2.3×10⁻⁶°/周は無関係)"},
     {q:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)", model:"近点間 79.796 年(+0.044% — 判定: 合。誤差では 1.9σ 外)/ 同方向1周 79.269 年(−0.62% — 履歴)", obs:"79.762 ± 0.019 年(Akeson et al. 2021 Table 8)"},
     {q:"実測離心率(1周目の半径比振れ幅)", model:"0.52051(+0.20%)", obs:"e=0.51947 ± 0.00015(転写)"},
-    {q:"解析慣性則(第245便 — 一次則が台帳)", model:"f=1+k_F(αχ_A+βχ_B) の自己無撞着解 f_A=1.0002158・f_B=1.0002158(χ_A=1.99×10⁻⁴・χ_B=2.36×10⁻⁴)。χ² 則は 1.0000000(併記)", obs:"—(w=m/(d²+ε²)・D₀ᵖ=0.324204 単位に条件づけられた値)"},
+    {q:"解析慣性則(第245便の一次則 — 第282便a で履歴)", model:"第282便a で f=1 に固定。旧台帳(第245〜281便)は一次則の自己無撞着解 f_A=f_B=1.0002158(χ_A=1.99×10⁻⁴・χ_B=2.36×10⁻⁴)・χ² 則 1.0000000", obs:"—(w=m/(d²+ε²)・D₀ᵖ=0.324204 単位に条件づけられた値)"},
     {q:"外殻の半径と自転(第208便 — 役割反転)", model:"半径 0.084738/0.05979336・自転 15.9日/36.23日 — ライブ状態が全窓ビットで保持(ドリフト A +0.0%・B +0.0%・clampSN=0)", obs:"A 1.2175 R☉・15.9日/B 0.8591 R☉・36.23日(転写)"},
-    {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"A 1.0790 M☉・B 0.9094 M☉ = 観測質量×f(+0.022%・f−1=2.158×10⁻⁴)。χ² 則なら観測質量そのもの", obs:"—(pull 重み下の kFrame=1 の計算式に条件づけられた較正値)"},
-    {q:"偶力の受け皿(第242便 — 隠れコアは持たない)", model:"coupleSink=reservoir。E6′-R/1PN 偶力はリザーバ帳簿へ直接記帳。(f−1)/f=2.157×10⁻⁴ は massFrac 値域 0.01 の下限割れのため二層は撤去", obs:"—(帳簿量 — 観測値を表さない)"},
+    {q:"DFM 質量(第282便a — f=1: 観測質量そのもの)", model:"A 1.0788 M☉・B 0.9092 M☉ = 観測質量そのもの(f=1 — 原仮定者の裁定(第72報)③)。旧一次則台帳では観測質量×f(+0.022%・f−1=2.158×10⁻⁴)", obs:"—(基準質量=観測解の転写値 — 質量の由来チップと同じ記録)"},
+    {q:"偶力の受け皿(第242便 — 隠れコアは持たない)", model:"coupleSink=reservoir。E6′-R/1PN 偶力はリザーバ帳簿へ直接記帳。f=1(第282便a)で (f−1)/f=0 — 二層は第242便で撤去済み(旧台帳 2.157×10⁻⁴)", obs:"—(帳簿量 — 観測値を表さない)"},
     {q:"重心(第209便 — cmGauge:barycentric)", model:"2.2公転の重心移動 1.7×10⁻⁵ 単位(機械ゼロ)・粒子+リザーバ P 残差 6.4×10⁻¹⁴", obs:"—(D₀ 開放系の共通成分は除く宣言 — 観測照合は相対座標)"}],
   failureFirst:{
     fail:"share 重み(w=m/√(d²+ε²))期の ✴️ は、kFrame=1 で観測周期を再現するために質量を 1.84 倍する較正を必要とし、その較正が E6′-R 偶力の飽和(±40 クランプ)を招いて第205〜208便の隠れコア受け皿を要した。**第242便の pull 重み(w=m/(d²+ε²)・D₀ᵖ=0.324204 単位)ではこの構造が丸ごと落ちる**: χ が 10⁻⁴ 級になり **較正質量という主題自体が消え**、二層(隠れコア)も宣言できない((f−1)/f が core.massFrac の値域下限 0.01 を割る)。**第245便(裁定 A6)で台帳は一次則 f=1+k_F(αχ_A+βχ_B) へ切り替えた** — χ² 則の f=1.0000000 に対し一次則は f=1.0002158 で、質量は観測値の +0.022% にとどまる(χ≪1 では χ² 則が χ の2乗ぶん過小に見積もる)。2周目 P は観測を −0.62% 外す(hold-out)。この残差と +0.89°/周 のロゼットは fit で消さずそのまま宣言する。",
     pass:"**「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者・2026-08-25 第8報)の pull 重み版**。解析慣性則(第245便の台帳は一次則 f=1+k_F(αχ_A+βχ_B)・α=m_A/M・β=m_B/M・χ_i=局所場分率の自己無撞着解)を pull 重みで解くと f=1.0002158 で、**DFM 質量は観測質量の +0.022%** にとどまる(第240便の χ² 則なら f=1.0000000 — 併記して A-B 対照を残す)。フィットしたノブは無い(D₀=0.006・q=4.6111 は ✨ からの流用・D₀ᵖ=0.324204 は 3.24204×10⁸ kg/m² の単位換算)。この状態で 2周目 P −0.62%・実測離心率 +0.20%・近点 −0.29% — **すべて hold-out** として宣言する。偶力は coupleSink=reservoir でリザーバ帳簿へ記帳し、殻スピン(=観測自転)は全窓ビット保持・clampSN=0・帳簿 L 残差 6.8×10⁻¹⁵(機械ゼロ)。"},
   descStruct:{
-    summary:"**まず見えるもの: 楕円軌道そのものがゆっくり回り続ける(ロゼット模様)— 近点移動 +0.89°/周(順行)。これは故障ではなく kFrame=1 の空間引きずり項自身の帰結である**(ニュートン重力だけなら楕円は回らない。一般相対論の 1PN 歳差 2.3×10⁻⁶ °/周は6桁小さい)。観測版 ✨(kFrame=0 — 観測安定則)の**対になる DFM 版**。転写幾何は ✨ と同一 — 遠点分離 529.61 単位(=a(1+e)・Akeson et al. 2021 の a=23.299 AU・e=0.51947)・遠点接線速度は転写質量での実ケプラー値・両星の自転と半径も転写値。**第242便(pull 重みへの移行)**: フレーム重みが w=m/(d²+ε²)(D₀ᵖ=3.24204×10⁸ kg/m²=0.324204 単位)になり、**第245便(裁定 A6 — 外部レビュー v3 三者合意)で質量台帳は一次則へ切り替えた**: f=1+k_F(αχ_A+βχ_B)(α=m_A/M・β=m_B/M・χ_A は B が A に作る局所場分率)の自己無撞着解は **f_A=1.0002158・f_B=1.0002158**(χ_A=1.99×10⁻⁴・χ_B=2.36×10⁻⁴ — 広い連星では局所場分率が 10⁻⁴ 級)。第240便の χ² 則 f=1+k_F·Σ(m_i/M)χ_i² は f=1.0000000 を返す — **χ≪1 では χ の一次か二次かで f−1 の桁が違う**(2.158×10⁻⁴ 対 4.7×10⁻⁸)ので、χ² 則の値は台帳に factorQuad として併記して A-B 対照を残す。**フィットしたノブは無い**。したがって**質量は観測値の +0.022%**(A 1.0790 M☉・B 0.9094 M☉・f−1=2.158×10⁻⁴)で、share 重み期の1.84倍較正(f=1.84419・第240便)は消えたままである。「質量は軌道から計算式で算出される量なので、計算式が変われば質量も変わる」(原仮定者第8報)の帰結が、ここでは**較正が要らない**という形で出た。**実在の質量の主張ではない**(計算式に条件づけられた較正値)。**隠れコアは持たない(第242便)**: (f−1)/f=2.157×10⁻⁴ は core.massFrac の値域下限 0.01 を割るため二層を撤去し、E6′-R と 1PN 反作用偶力は **coupleSink=reservoir** でリザーバ帳簿へ直接記帳する(📻 と同じ型 — 測地線1PN の反作用偶力〔第69便 §18.4〕も同じ受け先)。外殻(body.radius・body.spin)は**転写の光学半径・光学自転そのもの**で、実行時も全窓ビット保持。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6111・D₀=0.006 は ✨ の値をそのまま流用。**重心ゲージ cmGauge:barycentric** は D₀ 開放系の共通加速度だけを除き相対キックは残す(較正ノブではない)。share 期の「ロゼットと f≈2 は同じ飽和した並進チャネルの二つの顔」という記述は **pull で反証された** — f は 1.0002 へ落ちるのにロゼットは +0.89°/周 で残る(したがって qTrans 掃引も pull では意味を持たない)。",
-    observe:"実測(2.2公転窓・重心ゲージ込み・pull 重み・第245便の一次則台帳): **2周目 79.269 年 — 観測 79.762 年の −0.62%**(フィットしていない hold-out 残差。χ² 則台帳では −0.60%・share 重み期は −0.83%)。合わせていない側: 1周目の**実測離心率 0.52051**(転写 0.51947 の +0.20%)・近点 167.01 単位(観測版の 167.49 の −0.29%)— どちらも ±1% に入る。軌道は歳差するロゼットで、**近点移動 +0.89°/周**(順行 — 近点通過方向の実測。share 重み期は +4.26°/周)。**殻スピンのドリフトは A +0.0%・B +0.0%**(2.2公転の min=max が転写値のビット値 — 観測自転 15.9日/36.23日 を実行時も保持)・**clampSN=0**(偶力は coupleSink=reservoir でリザーバ帳簿へ)・角運動量帳簿(総L+リザーバ)の相対残差 6.8×10⁻¹⁵(機械ゼロ)。重心は 2.2公転で 1.7×10⁻⁵ 単位(機械ゼロ)・粒子+リザーバの線運動量残差 6.4×10⁻¹⁴。公転の向きは ✨ と同回り(第204便)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
+    summary:"**第282便a(原仮定者の裁定(第72報)③ — 「f≈1 も f=1 に」)で質量補正を廃した: f_A=1.0・f_B=1.0(massCalibration は law:\"f-fixed-1\")。質量は観測解の転写値そのもの(A 1.0788 M☉・B 0.9092 M☉)で、初速・位置は入力軌道のまま**(質量比は不変なので重心配分も不変)。以下の「+0.022%」「f_A=1.0002158」は**旧一次則台帳(第245便〜第281便)の記録**である(旧台帳の表は docs/PHYSICS.md〔第282便a〕)。移行後の実測は「観察」の先頭に書く。**まず見えるもの: 楕円軌道そのものがゆっくり回り続ける(ロゼット模様)— 近点移動 +0.89°/周(順行)。これは故障ではなく kFrame=1 の空間引きずり項自身の帰結である**(ニュートン重力だけなら楕円は回らない。一般相対論の 1PN 歳差 2.3×10⁻⁶ °/周は6桁小さい)。観測版 ✨(kFrame=0 — 観測安定則)の**対になる DFM 版**。転写幾何は ✨ と同一 — 遠点分離 529.61 単位(=a(1+e)・Akeson et al. 2021 の a=23.299 AU・e=0.51947)・遠点接線速度は転写質量での実ケプラー値・両星の自転と半径も転写値。**第242便(pull 重みへの移行)**: フレーム重みが w=m/(d²+ε²)(D₀ᵖ=3.24204×10⁸ kg/m²=0.324204 単位)になり、**第245便(裁定 A6 — 外部レビュー v3 三者合意)で質量台帳は一次則へ切り替えた**: f=1+k_F(αχ_A+βχ_B)(α=m_A/M・β=m_B/M・χ_A は B が A に作る局所場分率)の自己無撞着解は **f_A=1.0002158・f_B=1.0002158**(χ_A=1.99×10⁻⁴・χ_B=2.36×10⁻⁴ — 広い連星では局所場分率が 10⁻⁴ 級)。第240便の χ² 則 f=1+k_F·Σ(m_i/M)χ_i² は f=1.0000000 を返す — **χ≪1 では χ の一次か二次かで f−1 の桁が違う**(2.158×10⁻⁴ 対 4.7×10⁻⁸)ので、χ² 則の値は台帳に factorQuad として併記して A-B 対照を残す。**フィットしたノブは無い**。したがって**質量は観測値の +0.022%**(A 1.0790 M☉・B 0.9094 M☉・f−1=2.158×10⁻⁴)で、share 重み期の1.84倍較正(f=1.84419・第240便)は消えたままである。「質量は軌道から計算式で算出される量なので、計算式が変われば質量も変わる」(原仮定者第8報)の帰結が、ここでは**較正が要らない**という形で出た。**実在の質量の主張ではない**(計算式に条件づけられた較正値)。**隠れコアは持たない(第242便)**: (f−1)/f=2.157×10⁻⁴ は core.massFrac の値域下限 0.01 を割るため二層を撤去し、E6′-R と 1PN 反作用偶力は **coupleSink=reservoir** でリザーバ帳簿へ直接記帳する(📻 と同じ型 — 測地線1PN の反作用偶力〔第69便 §18.4〕も同じ受け先)。外殻(body.radius・body.spin)は**転写の光学半径・光学自転そのもの**で、実行時も全窓ビット保持。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6111・D₀=0.006 は ✨ の値をそのまま流用。**重心ゲージ cmGauge:barycentric** は D₀ 開放系の共通加速度だけを除き相対キックは残す(較正ノブではない)。share 期の「ロゼットと f≈2 は同じ飽和した並進チャネルの二つの顔」という記述は **pull で反証された** — f は 1.0002 へ落ちるのにロゼットは +0.89°/周 で残る(したがって qTrans 掃引も pull では意味を持たない)。",
+    observe:"**第282便a の f=1 移行後の実測**(同じ2.2公転窓・QA behavior.alphaCenAB): **2周目 79.286 年 — 観測 79.762 年の −0.60%**・1周目の**実測離心率 0.52040**・**近点移動 +0.893°/周**。判定器(calaudit の h/4 段)では同方向1周 −0.597%(25.0σ)・近点間 +0.068%・近点移動 +0.889°/周で、判定は保留(数値未解決・写像未確定)のまま動かない。以下は移行前(旧一次則台帳)の記録 —— 実測(2.2公転窓・重心ゲージ込み・pull 重み・第245便の一次則台帳): **2周目 79.269 年 — 観測 79.762 年の −0.62%**(フィットしていない hold-out 残差。χ² 則台帳では −0.60%・share 重み期は −0.83%)。合わせていない側: 1周目の**実測離心率 0.52051**(転写 0.51947 の +0.20%)・近点 167.01 単位(観測版の 167.49 の −0.29%)— どちらも ±1% に入る。軌道は歳差するロゼットで、**近点移動 +0.89°/周**(順行 — 近点通過方向の実測。share 重み期は +4.26°/周)。**殻スピンのドリフトは A +0.0%・B +0.0%**(2.2公転の min=max が転写値のビット値 — 観測自転 15.9日/36.23日 を実行時も保持)・**clampSN=0**(偶力は coupleSink=reservoir でリザーバ帳簿へ)・角運動量帳簿(総L+リザーバ)の相対残差 6.8×10⁻¹⁵(機械ゼロ)。重心は 2.2公転で 1.7×10⁻⁵ 単位(機械ゼロ)・粒子+リザーバの線運動量残差 6.4×10⁻¹⁴。公転の向きは ✨ と同回り(第204便)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.alphaCenAB)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— pull では質量が観測値そのものなので、B 側は観測版 ✨ とまったく同じ軌道になる(質量較正が要らないことの直接対照)。否定対照①(QA が機械固定): **coupleSink を外すと殻スピンのビット保持が壊れ**、A の自転が転写値 4.5737 から 8.43(+84%)まで歩く(0.3公転)— 保持の駆動因は受け先の宣言であることの直接証明。否定対照②(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 0.0040 単位 = ゲージありの約240倍)。観測版 ✨ と本サンプルの対で「同じ観測・違う計算式・pull では同じ質量」が見える。timeScale=1000 で画面1秒≈11.6 日・dispMag=300(表示専用 — ✨ と同じ規約)・トレイルで軌道を見る。(第237便: 粒子別 dragQ を宣言 — A 4.6111/B 4.5259。dragQ は観測殻質量から導く量なので f に依らない。)"},
   en:{name:"Alpha Centauri AB (DFM build) — pull weight, observed masses under kF1",
     obsCard:[
       {q:"Orbit shape (precession quantified)", model:"a precessing rosette — perihelion advance +0.89°/rev prograde (share era +4.26°/rev; the rosette survives while f collapses to 1)", obs:"— (declared quasi-stability; the analytic 1PN 2.3e-6°/rev is irrelevant)"},
       {q:"Orbital period (kFrame=1, pull weight, observed masses — two definitions)", model:"periapsis-to-periapsis 79.796 yr (+0.044% — the verdict: agrees; 1.9σ against the quoted error) / same-direction 79.269 yr (−0.62% — historical)", obs:"79.762 ± 0.019 yr (Akeson et al. 2021 Table 8)"},
       {q:"Measured eccentricity (radius-ratio wobble, 1st revolution)", model:"0.52051 (+0.20%)", obs:"e=0.51947 ± 0.00015 (transcribed)"},
-      {q:"Analytic inertia law (wave 245 — the LINEAR law is the ledger)", model:"f=1+k_F(αχ_A+βχ_B) solved self-consistently gives f_A=1.0002158, f_B=1.0002158 (χ_A=1.99e-4, χ_B=2.36e-4); the χ² law gives 1.0000000 (recorded beside it)", obs:"— (conditioned on w=m/(d²+ε²) and D₀ᵖ=0.324204 units)"},
+      {q:"Analytic inertia law (wave 245 linear law — history since wave 282a)", model:"wave 282a fixed f=1 (the adjudicator's ruling, 72nd report ③). The old ledger (waves 245–281): f=1+k_F(αχ_A+βχ_B) solved self-consistently gives f_A=1.0002158, f_B=1.0002158 (χ_A=1.99e-4, χ_B=2.36e-4); the χ² law gives 1.0000000 (recorded beside it)", obs:"— (conditioned on w=m/(d²+ε²) and D₀ᵖ=0.324204 units)"},
       {q:"Shell radius and rotation (wave 208 — role reversal)", model:"radii 0.084738/0.05979336, rotations 15.9 d/36.23 d — held bit-exactly by the live state (drift A +0.0% / B +0.0%, clampSN=0)", obs:"A 1.2175 R☉, 15.9 d / B 0.8591 R☉, 36.23 d (transcribed)"},
-      {q:"DFM masses (a conditional calibration — NOT a claim about the real masses)", model:"A 1.0790 M☉, B 0.9094 M☉ = the observed masses ×f (+0.022%, f−1=2.158e-4). Under the χ² law they would be the observed masses", obs:"— (a value conditioned on the kFrame=1 formula under the pull weight)"},
-      {q:"Couple sink (wave 242 — no hidden core)", model:"coupleSink=reservoir: the E6′-R and 1PN couples go straight into the reservoir ledger. (f−1)/f=2.157e-4 is below the massFrac floor 0.01, so the two-layer core is withdrawn", obs:"— (ledger quantities; not observables)"},
+      {q:"DFM masses (wave 282a — f=1: the observed masses themselves)", model:"A 1.0788 M☉, B 0.9092 M☉ = the observed masses (f=1 — the adjudicator's ruling, 72nd report ③). The old linear-law ledger had the observed masses ×f (+0.022%, f−1=2.158e-4)", obs:"— (base masses = the transcribed observed solution; the same records as the mass-basis chip)"},
+      {q:"Couple sink (wave 242 — no hidden core)", model:"coupleSink=reservoir: the E6′-R and 1PN couples go straight into the reservoir ledger. The two-layer core was withdrawn in wave 242 (the old ledger's (f−1)/f=2.157e-4 fell below the massFrac floor 0.01); with wave 282a's f=1, (f−1)/f=0 and the hidden core has no origin at all", obs:"— (ledger quantities; not observables)"},
       {q:"Barycentre (wave 209 — cmGauge:barycentric)", model:"CM shift 1.7e-5 units over 2.2 orbits (machine zero); particle+reservoir P residual 6.4e-14", obs:"— (the D₀ common mode is removed by declaration; comparison is in relative coordinates)"}],
     failureFirst:{
       fail:"In the share-weight era (w=m/√(d²+ε²)) this build needed a 1.84x mass calibration to reproduce the observed period under kFrame=1, and that calibration drove the E6′-R couple into the ±40 spin saturation, which in turn required the hidden-core receptacle of waves 205–208. THE WAVE-242 PULL WEIGHT (w=m/(d²+ε²), D₀ᵖ=0.324204 units) REMOVES THAT WHOLE STRUCTURE: χ falls to ~1e-4, so the subject of this sample — a mass calibration — disappears, and the two-layer declaration cannot be made either ((f−1)/f is below the core.massFrac floor of 0.01). WAVE 245 (ADJUDICATION A6) SWITCHED THE LEDGER TO THE LINEAR LAW f=1+k_F(αχ_A+βχ_B): where the χ² law gives f=1.0000000, the linear law gives f=1.0002158, so the masses sit +0.022% above the observed ones (for χ≪1 the χ² law underestimates by one power of χ). The 2nd revolution misses the observed period by −0.62% (a hold-out). That residual and the +0.89°/rev rosette are declared as they are, never fitted away.",
       pass:"THE PULL-WEIGHT VERSION of the adjudicator s principle (8th device report, 2026-08-25): masses are quantities COMPUTED FROM ORBITS BY A FORMULA — change the formula and the masses change. Solving the analytic inertia law under the pull weight — wave 245 takes the LINEAR law f=1+k_F(αχ_A+βχ_B), α=m_A/M, β=m_B/M, χ_i the self-consistent local field fraction — gives f=1.0002158, so THE DFM MASSES SIT +0.022% ABOVE THE OBSERVED ONES (the χ² law would give 1.0000000; it is recorded beside the ledger). There is no fitted knob (D₀=0.006 and q=4.6111 are reused from ✨; D₀ᵖ=0.324204 is the unit conversion of 3.24204e8 kg/m²). At that state the 2nd revolution is −0.62%, the measured eccentricity +0.20% and the perihelion −0.29% — ALL hold-outs. The couples are booked into the reservoir ledger by coupleSink:reservoir, so the shell spins (= the observed rotations) are bit-held over the whole window, clampSN=0, ledger L residual 6.8e-15."},
     descStruct:{
-      summary:"WHAT YOU SEE FIRST: the ellipse itself keeps slowly rotating (a rosette pattern) — a PERIHELION ADVANCE OF +0.89°/rev (prograde), the consequence of the kFrame=1 dragging term itself (the analytic 1PN advance is six orders smaller). The DFM COUNTERPART of the observation build ✨ (kFrame=0 under the observation-stability rule). The transcribed geometry is identical to ✨: apoapsis separation 529.61 units (=a(1+e), from Akeson et al. 2021 a=23.299 AU, e=0.51947), the real Kepler apoapsis speed at the transcribed masses, and both stars rotations and radii. WAVE 242 (THE PULL MIGRATION): the frame weight is now w=m/(d²+ε²) with D₀ᵖ=3.24204e8 kg/m² = 0.324204 units. WAVE 245 (ADJUDICATION A6, agreed by all three external reviews) MOVED THE MASS LEDGER TO THE LINEAR LAW f=1+k_F(αχ_A+βχ_B) (α=m_A/M, β=m_B/M, χ_A the local field fraction B raises at A), whose self-consistent solution is f_A=1.0002158, f_B=1.0002158 (χ_A=1.99e-4, χ_B=2.36e-4 — at this separation the local field fraction is of order 1e-4). The wave-240 χ² law f=1+k_F·Σ(m_i/M)χ_i² returns 1.0000000: FOR χ≪1 THE TWO LAWS DIFFER IN THE ORDER OF f−1 (2.158e-4 vs 4.7e-8), so the χ² value is kept beside the ledger as factorQuad for the A-B comparison. THERE IS NO FITTED KNOB, and the masses are the observed ones +0.022% (A 1.0790 M☉, B 0.9094 M☉, f−1=2.158e-4); the share-era 1.84x calibration (f=1.84419, wave 240) stays gone. Masses are quantities computed from orbits by a formula — here the consequence arrives as no calibration being needed. Still NOT a real-mass claim (a value conditioned on the formula). NO HIDDEN CORE (wave 242): (f−1)/f=2.157e-4 falls below the core.massFrac floor of 0.01, so the two-layer declaration is withdrawn and the E6′-R and 1PN reaction couples are booked straight into the reservoir ledger by coupleSink:reservoir (the 📻 pattern). The shell (body.radius, body.spin) IS the transcribed optical radius and rotation, bit-held at runtime. Gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act; q=4.6111 and D₀=0.006 are reused from ✨. cmGauge:barycentric removes only the common-mode acceleration of the D₀ open system (not a calibration knob). The share-era claim that the rosette and f≈2 were two faces of one saturated translation channel is FALSIFIED by the pull weight: f drops to 1.0002 while the rosette stays at +0.89°/rev, so under pull the qTrans sweep is moot as well.",
-      observe:"Measured over a 2.2-orbit window (barycentric gauge, pull weight, the wave-245 linear ledger): the 2nd revolution is 79.269 yr — 0.62% short of the observed 79.762 yr, a hold-out residual (nothing was fitted; the χ² ledger gave −0.60%, the share era −0.83%). The unfitted shape: 1st-revolution eccentricity 0.52051 (+0.20% of the transcribed 0.51947) and perihelion 167.01 units (−0.29% of the observation build s 167.49) — both inside ±1%. The orbit is a precessing rosette at +0.89°/rev prograde (share era: +4.26°/rev). SHELL-SPIN DRIFT A +0.0% / B +0.0% (min=max at the transcribed bit value — the observed rotations 15.9 d / 36.23 d held at runtime), clampSN=0, angular-momentum ledger (total L + reservoir) 6.8e-15, barycentre 1.7e-5 units over 2.2 orbits, particle+reservoir momentum residual 6.4e-14. The orbit runs the same way round as ✨. Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB). Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
+      summary:"WAVE 282a (the adjudicator's ruling, 72nd report ③ — \"f≈1 becomes f=1\"): THE MASS CORRECTION IS WITHDRAWN — f_A=1.0, f_B=1.0 (massCalibration law:\"f-fixed-1\"); the masses are the transcribed observed-solution values (A 1.0788 M☉, B 0.9092 M☉) and the initial positions and velocities are the input orbit unchanged (the mass ratio is unchanged, so is the barycentric split). The +0.022% and f_A=1.0002158 below are the RECORD OF THE OLD LINEAR-LAW LEDGER (waves 245–281; the old-ledger table is in docs/PHYSICS.md). The post-migration measurements open the Observe section. WHAT YOU SEE FIRST: the ellipse itself keeps slowly rotating (a rosette pattern) — a PERIHELION ADVANCE OF +0.89°/rev (prograde), the consequence of the kFrame=1 dragging term itself (the analytic 1PN advance is six orders smaller). The DFM COUNTERPART of the observation build ✨ (kFrame=0 under the observation-stability rule). The transcribed geometry is identical to ✨: apoapsis separation 529.61 units (=a(1+e), from Akeson et al. 2021 a=23.299 AU, e=0.51947), the real Kepler apoapsis speed at the transcribed masses, and both stars rotations and radii. WAVE 242 (THE PULL MIGRATION): the frame weight is now w=m/(d²+ε²) with D₀ᵖ=3.24204e8 kg/m² = 0.324204 units. WAVE 245 (ADJUDICATION A6, agreed by all three external reviews) MOVED THE MASS LEDGER TO THE LINEAR LAW f=1+k_F(αχ_A+βχ_B) (α=m_A/M, β=m_B/M, χ_A the local field fraction B raises at A), whose self-consistent solution is f_A=1.0002158, f_B=1.0002158 (χ_A=1.99e-4, χ_B=2.36e-4 — at this separation the local field fraction is of order 1e-4). The wave-240 χ² law f=1+k_F·Σ(m_i/M)χ_i² returns 1.0000000: FOR χ≪1 THE TWO LAWS DIFFER IN THE ORDER OF f−1 (2.158e-4 vs 4.7e-8), so the χ² value is kept beside the ledger as factorQuad for the A-B comparison. THERE IS NO FITTED KNOB, and the masses are the observed ones +0.022% (A 1.0790 M☉, B 0.9094 M☉, f−1=2.158e-4); the share-era 1.84x calibration (f=1.84419, wave 240) stays gone. Masses are quantities computed from orbits by a formula — here the consequence arrives as no calibration being needed. Still NOT a real-mass claim (a value conditioned on the formula). NO HIDDEN CORE (wave 242): (f−1)/f=2.157e-4 falls below the core.massFrac floor of 0.01, so the two-layer declaration is withdrawn and the E6′-R and 1PN reaction couples are booked straight into the reservoir ledger by coupleSink:reservoir (the 📻 pattern). The shell (body.radius, body.spin) IS the transcribed optical radius and rotation, bit-held at runtime. Gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act; q=4.6111 and D₀=0.006 are reused from ✨. cmGauge:barycentric removes only the common-mode acceleration of the D₀ open system (not a calibration knob). The share-era claim that the rosette and f≈2 were two faces of one saturated translation channel is FALSIFIED by the pull weight: f drops to 1.0002 while the rosette stays at +0.89°/rev, so under pull the qTrans sweep is moot as well.",
+      observe:"AFTER THE WAVE-282a MIGRATION TO f=1 (same 2.2-orbit window, QA behavior.alphaCenAB): the 2nd revolution is 79.286 yr (-0.60% of the observed 79.762 yr), the 1st-revolution eccentricity 0.52040, the perihelion advance +0.893°/rev. The calibration auditor (h/4 stage) gives same-direction -0.597% (25.0σ), periapsis-to-periapsis +0.068%, precession +0.889°/rev — the verdict stays on hold (numerics unresolved, mapping unresolved). What follows is the pre-migration record: Measured over a 2.2-orbit window (barycentric gauge, pull weight, the wave-245 linear ledger): the 2nd revolution is 79.269 yr — 0.62% short of the observed 79.762 yr, a hold-out residual (nothing was fitted; the χ² ledger gave −0.60%, the share era −0.83%). The unfitted shape: 1st-revolution eccentricity 0.52051 (+0.20% of the transcribed 0.51947) and perihelion 167.01 units (−0.29% of the observation build s 167.49) — both inside ±1%. The orbit is a precessing rosette at +0.89°/rev prograde (share era: +4.26°/rev). SHELL-SPIN DRIFT A +0.0% / B +0.0% (min=max at the transcribed bit value — the observed rotations 15.9 d / 36.23 d held at runtime), clampSN=0, angular-momentum ledger (total L + reservoir) 6.8e-15, barycentre 1.7e-5 units over 2.2 orbits, particle+reservoir momentum residual 6.4e-14. The orbit runs the same way round as ✨. Zero NaN; two runs are bit-identical (QA behavior.alphaCenAB). Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
       control:"One-tap A/B: side B is kFrame=0 — under pull the masses are the observed ones, so side B is exactly the observation build ✨ (the direct control for no calibration being needed). Negative control 1 (machine-fixed by QA): removing coupleSink breaks the bit-hold and A s shell spin walks from 4.5737 to 8.43 (+84%) within 0.3 orbit — the hold comes from the sink declaration. Negative control 2 (machine-fixed by QA): removing cmGauge sets the barycentre walking (0.0040 units in half an orbit, ~240x the gauged value). With timeScale=1000 one on-screen second ≈ 11.6 days; dispMag=300 (display only, same as ✨); use trails. Wave 237: per-body dragQ is declared (A 4.6111 / B 4.5259) and is derived from the observed shell mass, so it does not depend on f."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴",
@@ -11681,14 +11780,14 @@ const BUILTIN_PRESETS = [
         "kFrame=1 (the DFM formula — the point of this build; the observation build ✨ adopts kFrame=0 under the observation-stability rule)",
         "frameReaction:\"pairReduced\" (E6′-R), kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
         "initial state = the apoapsis of the observed orbit (two-body barycentric, both free)",
-        "the DFM masses are declared as a CONDITIONAL calibration, not real-mass claims",
+        "the masses are the transcribed observed solution (wave 282a — f=1; the old ledger declared a CONDITIONAL calibration, not a real-mass claim)",
         "the shell convention (wave 208 — role reversal): the shell IS the transcribed optical radius and rotation, held at runtime. Wave 242 withdrew the hidden core: (f−1)/f=2.157e-4 falls below the core.massFrac floor of 0.01, so no two-layer declaration is possible",
         "coupleSink:\"reservoir\" (wave 242 — the E6′-R and 1PN reaction couples are booked straight into the reservoir ledger, the 📻 pattern; the shell spins stay bit-held with clampSN=0)",
         "redistribution: positions/velocities are re-split into the new masses barycentric frame, keeping the observed relative state bit-exactly (f is common to both bodies, so the split equals the observation build s)",
         "cmGauge:\"barycentric\" (wave 209 — the isolated-system barycentric gauge: only the common-mode acceleration of the D₀ open system is removed; relative kicks and the ledger closure are untouched. Not a calibration knob)"],
-      fitted:["no fitted knob (wave 242 pull migration + the wave-245 A6 switch to the linear law): the mass factor f=1.0002158 is the self-consistent analytic inertia law f=1+k_F(αχ_A+βχ_B) under the pull weight w=m/(d²+ε²) with D₀ᵖ=0.324204 units and the observed mass ratio (the χ² value 1.0000000 is kept beside it as factorQuad) — the 2nd-revolution P then lands 0.62% short of the observed 79.762 yr and is recorded as a hold-out residual (the share-era normalisation C=0.9948256400872665 and the core inertia ζ=27853.10245466657 are both retired — there is no core); D₀=0.006 and q=4.6111 are reused from ✨ as is"],
-      derived:["dragQ (wave 237): A 4.611121739045699 / B 4.525887570719487 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=348.54808 (E2/E3 drag only; not a fit knob). Wave 239: editable in the body panel (drag q field)","under the pull weight χ≈2e-4, so the share-era qTrans sweep (a hold-out on the translation-channel falloff) is moot — sweeping it moves neither f nor the precession","per-body factors f_A=1.0002157798299423, f_B=1.0002157798299423 (= the self-consistent LINEAR inertia law under the pull weight — the massCalibration ledger; the χ² fixed point 1.0000000468819212 is recorded as factorQuad)",
-        "A 1.0790 M☉ = 2.1457×10³⁰ kg and B 0.9094 M☉ = 1.8083×10³⁰ kg (= transcribed masses × f_i — the observed masses +0.022%)",
+      fitted:["no fitted knob (wave 282a: f=1 fixed — the masses are the observed ones; [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] wave 242 pull migration + the wave-245 A6 switch to the linear law): the mass factor f=1.0002158 is the self-consistent analytic inertia law f=1+k_F(αχ_A+βχ_B) under the pull weight w=m/(d²+ε²) with D₀ᵖ=0.324204 units and the observed mass ratio (the χ² value 1.0000000 is kept beside it as factorQuad) — the 2nd-revolution P then lands 0.62% short of the observed 79.762 yr and is recorded as a hold-out residual (the share-era normalisation C=0.9948256400872665 and the core inertia ζ=27853.10245466657 are both retired — there is no core); D₀=0.006 and q=4.6111 are reused from ✨ as is"],
+      derived:["dragQ (wave 237): A 4.611121739045699 / B 4.525887570719487 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=348.54808 (E2/E3 drag only; not a fit knob). Wave 239: editable in the body panel (drag q field)","under the pull weight χ≈2e-4, so the share-era qTrans sweep (a hold-out on the translation-channel falloff) is moot — sweeping it moves neither f nor the precession","[the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] per-body factors f_A=1.0002157798299423, f_B=1.0002157798299423 (= the self-consistent LINEAR inertia law under the pull weight — the massCalibration ledger; the χ² fixed point 1.0000000468819212 is recorded as factorQuad)",
+        "wave 282a: A 1.0788 M☉ = 2.1452×10³⁰ kg and B 0.9092 M☉ = 1.8079×10³⁰ kg (= the transcribed masses, f=1); [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] A 1.0790 M☉ and B 0.9094 M☉ (× f_i, +0.022%)",
         "κ=G/c₀²=7.4156×10⁻⁹",
         "camera.scale=630, timeScale=1000, dispMag=300 (derived from the stated rules; display only)"],
       numerical:["softening ε=0.05","time multiplier timeScale=1000","display magnification dispMag=300 (display only)"]}},
@@ -11698,8 +11797,8 @@ const BUILTIN_PRESETS = [
     { id:"alphaCenABDFM.period-fit", kind:"fixed-seed", prov:"simulated", role:"fit_target",
       metric:"dfmPeriodYears",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"pull 重みの一次則(第245便 A6)が置く質量(f_A=1.0002158・f_B=1.0002158=観測質量の +0.022%)で kFrame=1 を回したときの2周目の周回時間。観測周期 79.762 年に対して 79.269 年(−0.62%)— フィットしたノブは無いので、これは fit 対象ではなく hold-out の残差である(share 重み期は f=1.84419 で −0.83%)。",
-        noteEn:"The 2nd revolution under kFrame=1 at the masses the pull-weight LINEAR inertia law puts there (f_A=f_B=1.0002158, i.e. the observed masses +0.022%): 79.269 yr against the observed 79.762 yr (−0.62%). There is no fitted knob, so this is a hold-out residual rather than a fit target (the share era had f=1.84419 and −0.83%)."},
+        note:"第282便a の f=1 移行後は 2周目 79.286 年(観測の −0.60%)。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕: pull 重みの一次則(第245便 A6)が置く質量(f_A=1.0002158・f_B=1.0002158=観測質量の +0.022%)で kFrame=1 を回したときの2周目の周回時間。観測周期 79.762 年に対して 79.269 年(−0.62%)— フィットしたノブは無いので、これは fit 対象ではなく hold-out の残差である(share 重み期は f=1.84419 で −0.83%)。",
+        noteEn:"After the wave-282a migration to f=1 the 2nd revolution is 79.286 yr (-0.60% of the observed). [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] The 2nd revolution under kFrame=1 at the masses the pull-weight LINEAR inertia law puts there (f_A=f_B=1.0002158, i.e. the observed masses +0.022%): 79.269 yr against the observed 79.762 yr (−0.62%). There is no fitted knob, so this is a hold-out residual rather than a fit target (the share era had f=1.84419 and −0.83%)."},
       roleNote:"hold-out 残差の宣言 — pull では較正ノブが無い(質量は解析慣性則が決める)。",
       roleNoteEn:"A declared hold-out residual — under pull there is no calibration knob (the analytic inertia law fixes the masses).",
       expected:{min:79.0, max:79.6},
@@ -11707,8 +11806,8 @@ const BUILTIN_PRESETS = [
     { id:"alphaCenABDFM.shape-unfitted", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"dfmEccMeasured",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"合わせていない側の検証: 離心率 0.52051(転写 0.51947 の +0.20%)・近点 167.01(観測版 167.49 の −0.29%)— どちらもフィットしていないのに ±1% に入る。pull では質量較正の用量が +0.022% しかないので、これは「ほぼ観測質量のままの kFrame=1 が軌道形をどれだけ保つか」の実測である。",
-        noteEn:"The unfitted side: eccentricity 0.52051 (+0.20% of the transcribed 0.51947) and perihelion 167.01 (−0.29% of the observation build s 167.49) — both within ±1% though neither was fitted. Under pull the calibration is only +0.022%, so this measures how well kFrame=1 at the observed masses preserves the orbit shape."},
+        note:"第282便a の f=1 移行後は離心率 0.52040。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕: 合わせていない側の検証: 離心率 0.52051(転写 0.51947 の +0.20%)・近点 167.01(観測版 167.49 の −0.29%)— どちらもフィットしていないのに ±1% に入る。pull では質量較正の用量が +0.022% しかないので、これは「ほぼ観測質量のままの kFrame=1 が軌道形をどれだけ保つか」の実測である。",
+        noteEn:"After the wave-282a migration to f=1 the eccentricity is 0.52040. [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] The unfitted side: eccentricity 0.52051 (+0.20% of the transcribed 0.51947) and perihelion 167.01 (−0.29% of the observation build s 167.49) — both within ±1% though neither was fitted. Under pull the calibration is only +0.022%, so this measures how well kFrame=1 at the observed masses preserves the orbit shape."},
       roleNote:"回顧的確認 — e は独立な hold-out(fit の対象ではない)。近点は遠点固定下で e から決まる整合表示。",
       roleNoteEn:"Retrospective check — e is the independent hold-out (never fitted); with the apoapsis fixed the perihelion is e s consistency image.",
       expected:{min:0.50, max:0.53},
@@ -11716,10 +11815,10 @@ const BUILTIN_PRESETS = [
     { id:"alphaCenABDFM.mass-factor", kind:"semantic", prov:"definition", role:"fit_target",
       metric:"dfmMassFactor",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の pull 重み版: 第245便(裁定 A6)の台帳は一次則 f=1+k_F(αχ_A+βχ_B) で、自己無撞着解は f_A=1.0002158・f_B=1.0002158(χ_A=1.99×10⁻⁴・χ_B=2.36×10⁻⁴)— **DFM 質量=観測質量の +0.022%**(χ² 則なら f=1.0000000 で観測質量そのもの・factorQuad に併記)。説明文と massCalibration 台帳と bodies の m の三者で一致して宣言されていること。share 重み期の f=1.84419(第240便)は重みの取り替えで消えた — 「計算式が変われば質量が変わる」の第2の実例である。",
-        noteEn:"The pull-weight version of the adjudicator s principle (8th report): the wave-245 ledger is the LINEAR law, whose self-consistent solution is f_A=f_B=1.0002158 (χ_A=1.99e-4, χ_B=2.36e-4), so THE DFM MASSES ARE THE OBSERVED MASSES +0.022% (the χ² law would give 1.0000000, recorded as factorQuad). Declared consistently across the text, the massCalibration ledger and the bodies m. The share-era f=1.84419 (wave 240) vanished with the change of weight — a second instance of the same principle."},
-      roleNote:"解析慣性則(第245便 A6 — 一次則)の値の宣言(fit なし) — QA が dfmBinaryMassFactorLinear(pull・D₀ᵖ)の再計算・台帳・bodies の質量と照合し、χ² 則 dfmBinaryMassFactor の値も並記する。",
-      roleNoteEn:"The declared analytic-inertia-law value (wave 245 A6 — the LINEAR law; no fitted knob) — QA checks it against the dfmBinaryMassFactorLinear recomputation (pull, D₀ᵖ), the ledger and the bodies masses, and reports the quadratic dfmBinaryMassFactor value beside it.",
+        note:"**第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 — f_A=f_B=1・DFM 質量=観測質量そのもの**(説明文と massCalibration 台帳〔law:\"f-fixed-1\"〕と bodies の m の三者で一致して宣言)。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕: 「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の pull 重み版: 第245便(裁定 A6)の台帳は一次則 f=1+k_F(αχ_A+βχ_B) で、自己無撞着解は f_A=f_B=1.0002158(χ_A=1.99×10⁻⁴・χ_B=2.36×10⁻⁴)— **DFM 質量=観測質量の +0.022%**(χ² 則なら f=1.0000000 で観測質量そのもの・factorQuad に併記)。説明文と massCalibration 台帳と bodies の m の三者で一致して宣言されていること。share 重み期の f=1.84419(第240便)は重みの取り替えで消えた — 「計算式が変われば質量が変わる」の第2の実例である。",
+        noteEn:"WAVE 282a (the adjudicator's ruling, 72nd report ③) FIXED f=1 — f_A=f_B=1 and the DFM masses ARE the observed masses (declared consistently across the text, the massCalibration ledger [law:\"f-fixed-1\"] and the bodies m). [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] The pull-weight version of the adjudicator s principle (8th report): the wave-245 ledger is the LINEAR law, whose self-consistent solution is f_A=f_B=1.0002158 (χ_A=1.99e-4, χ_B=2.36e-4), so THE DFM MASSES ARE THE OBSERVED MASSES +0.022% (the χ² law would give 1.0000000, recorded as factorQuad). Declared consistently across the text, the massCalibration ledger and the bodies m. The share-era f=1.84419 (wave 240) vanished with the change of weight — a second instance of the same principle."},
+      roleNote:"f=1 の宣言(第282便a — fit なし) — QA が台帳(f-fixed-1)・bodies の m・観測版の m のビット一致を照合し、旧一次則台帳の値は behavior.chi-law が dfmBinaryMassFactorLinear の再計算で履歴として検証する。",
+      roleNoteEn:"The f=1 declaration (wave 282a — no fitted knob) — QA checks the ledger (f-fixed-1), the bodies m and the observation build's m bit-for-bit; the old linear-law value is verified as history by behavior.chi-law against the dfmBinaryMassFactorLinear recomputation.",
       expected:{min:0.999, max:1.001},
       descPattern:"f_A=(\\d+\\.\\d+)", testId:"behavior.alphaCenAB" },
     { id:"alphaCenABDFM.optical-shell", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
@@ -11751,15 +11850,15 @@ const BUILTIN_PRESETS = [
       "kFrame=1(DFM の計算式 — 本サンプルの主題。観測版 ✨ は観測安定則で kFrame=0)",
       "frameReaction:\"pairReduced\"(E6′-R)・kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
       "初期状態=観測軌道の遠点(二体重心系・両星自由)",
-      "DFM 質量は**条件つき較正値**として宣言(実在質量の主張ではない)",
+      "質量は観測解の転写値(第282便a — f=1。旧台帳では**条件つき較正値**として宣言していた — 実在質量の主張ではない)",
       "外殻規約(第208便 — 役割反転): 外殻=**光学半径・光学自転そのもの**(転写値・実行時も保持)。第242便で隠れコアは撤去した((f−1)/f=2.157×10⁻⁴ が core.massFrac の値域下限 0.01 を割るため二層を宣言できない)",
       "coupleSink:\"reservoir\"(第242便 — E6′-R と 1PN の反作用偶力はリザーバ帳簿へ直接記帳。📻 と同じ型で、殻スピンは全窓ビット保持・clampSN=0)",
       "第224便の重心再配分: 位置・速度は観測の相対状態をビット保持したまま新質量の重心系へ再配分",
       "cmGauge:\"barycentric\"(第209便 — 孤立系の重心ゲージ。D₀ 開放系の共通加速度だけを除き相対は不変・帳簿は閉。較正ノブではない)"],
-    fitted:["フィットしたノブは無い(第242便 pull 移行+第245便 A6 の一次則切替): 質量係数 f=1.0002158 は pull 重み w=m/(d²+ε²)・D₀ᵖ=0.324204 単位での解析慣性則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解(質量比=観測)。χ² 則の 1.0000000 は台帳 factorQuad に併記。2周目 P の −0.62% は hold-out 残差として記録する(share 重み期の正規化ノブ C=0.9948256400872665 と、隠れコアの有効慣性 ζ=27853.10245466657 はいずれも廃止 — コアが無い)。D₀=0.006・q=4.6111 は ✨ の値の流用"],
+    fitted:["フィットしたノブは無い(第282便a: f=1 に固定 — 質量は観測値そのもの)。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕: (第242便 pull 移行+第245便 A6 の一次則切替): 質量係数 f=1.0002158 は pull 重み w=m/(d²+ε²)・D₀ᵖ=0.324204 単位での解析慣性則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解(質量比=観測)。χ² 則の 1.0000000 は台帳 factorQuad に併記。2周目 P の −0.62% は hold-out 残差として記録する(share 重み期の正規化ノブ C=0.9948256400872665 と、隠れコアの有効慣性 ζ=27853.10245466657 はいずれも廃止 — コアが無い)。D₀=0.006・q=4.6111 は ✨ の値の流用"],
     derived:["dragQ (wave 237): A 4.611121739045699 / B 4.525887570719487 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=348.54808 (E2/E3 drag only; not a fit knob). Wave 239: editable in the body panel (drag q field)","pull 重みでは χ≈2×10⁻⁴ なので、share 期の qTrans 掃引(並進チャネルの減衰指数の hold-out)は意味を持たない — 掃引しても f も歳差も動かない",
-      "粒子別 f_A=1.0002157798299423・f_B=1.0002157798299423(=pull 重みの一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解 — massCalibration 台帳。χ² 則の 1.0000000468819212 は factorQuad に併記)",
-      "A 1.0790 M☉=2.1457×10³⁰kg・B 0.9094 M☉=1.8083×10³⁰kg(=転写質量×f_i — 観測質量の +0.022%)",
+      "〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕 粒子別 f_A=1.0002157798299423・f_B=1.0002157798299423(=pull 重みの一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解 — massCalibration 台帳。χ² 則の 1.0000000468819212 は factorQuad に併記)",
+      "第282便a: A 1.0788 M☉=2.1452×10³⁰kg・B 0.9092 M☉=1.8079×10³⁰kg(=転写質量そのもの・f=1)。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕 A 1.0790 M☉・B 0.9094 M☉(×f_i・+0.022%)",
       "κ=G/c₀²=7.4156×10⁻⁹",
       "camera.scale=630・timeScale=1000・dispMag=300(規約から決定的に算出・表示専用)"],
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=1000","粒子表示倍率 dispMag=300(表示専用)"]},
@@ -11769,10 +11868,11 @@ const BUILTIN_PRESETS = [
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:1000, dispMag:300,
     stateCarry:"double", frameReaction:"pairReduced", coupleSink:"reservoir", cmGauge:"barycentric", frameWeight:"pull", D0pull:0.324204},
-  massCalibration:{law:"inertia-law-lin-v1", fitDt:0.016,   // 第245便(裁定 A6): pull 重み(w=m/(d²+ε²)・D₀ᵖ=3.24204×10⁸ kg/m²=0.324204 単位)での**一次則 f=1+k_F(αχ_A+βχ_B)**の自己無撞着解(fit ノブなし・質量比=観測)。χ² 則(第240便)の不動点は factorQuad/chiQuad に併記。share 重み期は f=1.844194580781074(第240便)— pull では χ が 10⁻⁴ 級で f−1 は 2.16×10⁻⁴。P 残差は hold-out として QA が記録
-    baseMass:[21.451938, 18.079442], factor:1.0002157798299423, factorByBody:[1.0002157798299423, 1.0002157798299423], chi:[0.00019882195798777018, 0.0002359009828947666],
-    factorQuad:1.0000000468819212, chiQuad:[0.0001987790833182524, 0.00023585011425950422]},
-  bodies:[ // 並び: 0=A・1=B。✨ の観測軌道の**遠点状態**(分離 529.6083511176・f=1 の実ケプラー
+  massCalibration:{law:"f-fixed-1", f:1,   // 第282便a(原仮定者の裁定(第72報)③): f=1 に固定 — m=baseMass(観測解の転写質量)。旧一次則台帳 f=1.0002157798299423(第245便)は docs の履歴表へ
+    baseMass:[21.451938, 18.079442],
+    note:"第282便a(原仮定者の裁定(第72報)③ — f≈1 も f=1 に): 質量補正 f を廃し bodies の m を基準質量(観測解の転写値 baseMass)へ戻した。旧台帳は一次則 inertia-law-lin-v1(f=1.0002157798299423・χ² 則 1.0000000468819212 を併記)で、docs/PHYSICS.md〔第282便a〕の旧台帳表に履歴として残す。初速・位置は入力軌道のまま(質量比は不変なので重心配分も不変)。隠れコアは第242便で撤去済み(移行で除くものは無い)"},
+  bodies:[ // 第282便a: f=1 に固定 — m は baseMass(✨ と同じ観測解の転写質量)そのもの。位置・速度は入力軌道のまま(✨ とビット同一)。
+           // 以下は移行前(第242〜281便)の記述 —— 並び: 0=A・1=B。✨ の観測軌道の**遠点状態**(分離 529.6083511176・f=1 の実ケプラー
            // 遠点速度 0.48926813239425804)に、**解析慣性則による質量較正(第242便 — pull 重み)**:
            // f_A=1.0002157798299423・f_B=1.0002157798299423(一次則・χ_A=1.99×10⁻⁴・χ_B=2.36×10⁻⁴ —
            // 広い連星では局所場分率が 10⁻⁴ 級)。**フィットしたノブは無い**。質量は観測値そのもので、
@@ -11785,8 +11885,8 @@ const BUILTIN_PRESETS = [
            // 二層を宣言できない)。E6′-R と 1PN の反作用偶力は coupleSink:"reservoir" でリザーバ帳簿へ
            // 直接記帳する(📻 と同じ型)— 殻スピンのドリフト 0.0%・clampSN=0 を実測。
            // lightSweep(第227便の測光相殺)も撤去: (f−1)/f≈0 なので相殺すべき余分が無い。
-    {type:"single", dragQ:4.611121739045699, m:21.45656689553357, radius:0.084738, x:-242.21323583305934, y:0, vx:0, vy:-0.22376387624389305, spin:4.57371397, pinned:false, pnSource:true},
-    {type:"single", dragQ:4.525887570719487, m:18.08334317892021, radius:0.05979336, x:287.3951152845407, y:0, vx:0, vy:0.26550425615036494, spin:2.00723302, pinned:false}
+    {type:"single", dragQ:4.611121739045699, m:21.451938, radius:0.084738, x:-242.21323583305934, y:0, vx:0, vy:-0.22376387624389305, spin:4.57371397, pinned:false, pnSource:true},
+    {type:"single", dragQ:4.525887570719487, m:18.079442, radius:0.05979336, x:287.3951152845407, y:0, vx:0, vy:0.26550425615036494, spin:2.00723302, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -11957,17 +12057,17 @@ const BUILTIN_PRESETS = [
     {q:"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)", model:"近点間 50.151 年(+0.045% — 判定: 合。ただし誤差では 5.2σ 外)/ 同方向1周 49.225 年(−1.80% — 履歴)", obs:"50.1284 ± 0.0043 年(Bond et al. 2017 — 🌟 と同じ転写)"},
     {q:"実測離心率(1周目の半径比振れ幅)", model:"0.59377(+0.40%)", obs:"e=0.59142 ± 0.00037(転写)"},
     {q:"近点(合わせていない側)", model:"120.05 単位(観測版 120.92 の −0.72%)", obs:"—(遠点固定下で e から決まる整合表示)"},
-    {q:"DFM 質量(条件つき較正 — 実在値の主張ではない)", model:"A 2.0638 M☉・B 1.0184 M☉ = 観測質量×f(+0.038%・f−1=3.769×10⁻⁴)。χ² 則なら観測質量そのもの", obs:"—(pull 重み下の kFrame=1 の計算式に条件づけられた較正値)"},
-    {q:"解析慣性則(第245便 — 一次則が台帳)", model:"f=1+k_F(αχ_A+βχ_B) の自己無撞着解 f_A=1.0003769・f_B=1.0003769(χ_A=2.81×10⁻⁴・χ_B=5.70×10⁻⁴)。χ² 則は 1.0000002(併記)", obs:"—(w=m/(d²+ε²)・D₀ᵖ=0.324204 単位に条件づけられた値)"},
+    {q:"DFM 質量(第282便a — f=1: 観測質量そのもの)", model:"A 2.0630 M☉・B 1.0180 M☉ = 観測質量そのもの(f=1 — 原仮定者の裁定(第72報)③)。旧一次則台帳では観測質量×f(+0.038%・f−1=3.769×10⁻⁴)", obs:"—(pull 重み下の kFrame=1 の計算式に条件づけられた較正値)"},
+    {q:"解析慣性則(第245便の一次則 — 第282便a で履歴)", model:"第282便a で f=1 に固定。旧台帳(第245〜281便)は一次則の自己無撞着解 f_A=f_B=1.0003769(χ_A=2.81×10⁻⁴・χ_B=5.70×10⁻⁴)・χ² 則 1.0000002", obs:"—(w=m/(d²+ε²)・D₀ᵖ=0.324204 単位に条件づけられた値)"},
     {q:"A の殻自転(第221便 — 宣言つき代理値)", model:"spin=13.6605・ドリフト +0.0%(3.2公転でビット不変)。B は spin=0 のままで残余 |s|max 0.0", obs:"vsini=16.3±0.1 km/s(Takeda 2020)/ B は現代的直接測定なし"},
-    {q:"偶力の受け皿と重心(第242便)", model:"coupleSink=reservoir(隠れコアなし: (f−1)/f=3.768×10⁻⁴ は massFrac 値域 0.01 の下限割れ)。3.2公転の重心移動 1.1×10⁻⁵ 単位・帳簿 L 2.9×10⁻¹⁴", obs:"—(帳簿量 — 観測値を表さない)"}
+    {q:"偶力の受け皿と重心(第242便)", model:"coupleSink=reservoir(隠れコアなし: f=1 で (f−1)/f=0・旧台帳 3.768×10⁻⁴)。3.2公転の重心移動 1.1×10⁻⁵ 単位・帳簿 L 2.9×10⁻¹⁴", obs:"—(帳簿量 — 観測値を表さない)"}
 ],
   failureFirst:{
     fail:"share 重み期の 💫 は、kFrame=1 で観測周期を再現するために質量を 1.888 倍する較正を必要とし、その較正が E6′-R 偶力の ±40 飽和を招いて第221便の隠れコア受け皿を要した。**第242便の pull 重み(w=m/(d²+ε²)・D₀ᵖ=0.324204 単位)ではこの構造が丸ごと落ちる**: χ が 10⁻⁴ 級(χ_A=2.81×10⁻⁴・χ_B=5.70×10⁻⁴)になり **較正質量という主題自体が消え**、二層(隠れコア)も宣言できない((f−1)/f が core.massFrac の値域下限 0.01 を割る)。**第245便(裁定 A6)で台帳は一次則 f=1+k_F(αχ_A+βχ_B) へ切り替えた** — χ² 則の f=1.0000002 に対し一次則は f=1.0003769 で、質量は観測値の +0.038% にとどまる。2周目 P は観測を −1.80% 外す(hold-out — 4連星で最大の残差)。この残差と +2.20°/周 のロゼットは fit で消さずそのまま宣言する。",
     pass:"**「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の pull 重み版**。解析慣性則(第245便の台帳は一次則 f=1+k_F(αχ_A+βχ_B))を pull 重みで解くと f=1.0003769 で、**DFM 質量は観測質量の +0.038%**(A 2.0638 M☉・B 1.0184 M☉。χ² 則なら f=1.0000002 — factorQuad に併記)。フィットしたノブは無い(D₀=0.006・q=4.6761 は 🌟 からの流用・D₀ᵖ=0.324204 は 3.24204×10⁸ kg/m² の単位換算)。この状態で 2周目 P −1.80%・実測離心率 +0.40%・近点 −0.72% — **すべて hold-out** として宣言する。偶力は coupleSink=reservoir でリザーバ帳簿へ記帳し、A の宣言つき代理自転 13.6605 と B の spin=0 は全窓ビット保持・clampSN=0・帳簿 L 残差 2.9×10⁻¹⁴。"},
   descStruct:{
-    summary:"**まず見えるもの: 楕円軌道そのものがゆっくり回り続ける(ロゼット模様)— 近点移動 +2.20°/周(順行)。kFrame=1 の空間引きずり項自身の帰結である**(ニュートン重力だけなら楕円は回らない)。観測版 🌟(kFrame=0 — 観測安定則)の**対になる DFM 版**。転写幾何は 🌟 と同一 — 遠点分離 470.98 単位(=a(1+e)・Bond et al. 2017 の a=19.7828 AU・e=0.59142)・遠点接線速度は転写質量での実ケプラー値・両星の半径も転写値(Sirius B は下限 0.01 へ宣言つき引き上げ)。**第242便(pull 重みへの移行)**: フレーム重みが w=m/(d²+ε²)(D₀ᵖ=3.24204×10⁸ kg/m²=0.324204 単位)になり、**第245便(裁定 A6)で質量台帳は一次則へ切り替えた**: f=1+k_F(αχ_A+βχ_B)(α=m_A/M・β=m_B/M)の自己無撞着解は **f_A=1.0003769・f_B=1.0003769**(χ_A=2.81×10⁻⁴・χ_B=5.70×10⁻⁴ — 広い連星では局所場分率が 10⁻⁴ 級)。第240便の χ² 則 f=1+k_F·Σ(m_i/M)χ_i² は 1.0000002 を返す(factorQuad に併記 — χ≪1 では f−1 の桁が違う)。**フィットしたノブは無い**。したがって**質量は観測値の +0.038%**(A 2.0638 M☉・B 1.0184 M☉)で、share 重み期の1.888倍較正(f=1.88813・第240便)は消えたままである。**実在の質量の主張ではない**(計算式に条件づけられた較正値)。**隠れコアは持たない(第242便)**: (f−1)/f=3.768×10⁻⁴ は core.massFrac の値域下限 0.01 を割るため二層を撤去し、E6′-R と 1PN 反作用偶力は **coupleSink=reservoir** でリザーバ帳簿へ直接記帳する(📻 と同じ型 — 測地線1PN の反作用偶力〔第69便 §18.4〕も同じ受け先)。A の殻自転は観測 vsini からの宣言つき代理値 13.6605(vsini=16.3±0.1 km/s〔Takeda 2020〕を転写半径で割った ω・sin i=1 のモデル依存代理値)、B は現代的直接測定が無いため **spin=0 のまま**。働いているのは重力(E4)+空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6761・D₀=0.006 は 🌟 の値をそのまま流用。**重心ゲージ cmGauge:barycentric** で D₀ 開放系の共通成分だけを除く(較正ノブではない)。share 期の「ロゼットと f≈2 は同じ飽和した並進チャネルの二つの顔」という記述は **pull で反証された** — f は 1 へ落ちるのにロゼットは +2.20°/周 で残る。",
-    observe:"実測(3.2公転窓・重心ゲージ込み・pull 重み・第245便の一次則台帳): **2周目 49.225 年 — 観測 50.1284 年の −1.80%**(フィットしていない hold-out 残差。χ² 則台帳では −1.77%)。合わせていない側: 1周目の**実測離心率 0.59377**(転写 0.59142 の +0.40%)・近点 120.05 単位(観測版の 120.92 の −0.72%)— どちらも ±1% に入る。軌道は歳差するロゼットで**近点移動 +2.20°/周**(順行・遠点発窓の近点通過方向の実測。share 重み期は +2.55°/周)。**A の殻自転のドリフトは +0.0%**(3.2公転で min=max のビット不変 — 代理自転 13.6605 を実行時も保持)・B の**残余 |s|max 0.0**(全窓ビット保持)・**clampSN=0**(偶力は coupleSink=reservoir でリザーバ帳簿へ)・角運動量帳簿(総L+リザーバ)の相対残差 2.9×10⁻¹⁴(機械ゼロ)。重心は 3.2公転で 1.1×10⁻⁵ 単位(機械ゼロ)・粒子+リザーバの線運動量残差 5.6×10⁻¹⁴。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.siriusAB)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
+    summary:"**第282便a(原仮定者の裁定(第72報)③ — 「f≈1 も f=1 に」)で質量補正を廃した: f_A=1.0・f_B=1.0(massCalibration は law:\"f-fixed-1\")。質量は観測解の転写値そのもの(A 2.0630 M☉・B 1.0180 M☉)で、初速・位置は入力軌道のまま**(質量比は不変なので重心配分も不変)。以下の「+0.038%」「f_A=1.0003769」は**旧一次則台帳(第245便〜第281便)の記録**である(旧台帳の表は docs/PHYSICS.md〔第282便a〕)。移行後の実測は「観察」の先頭に書く。**まず見えるもの: 楕円軌道そのものがゆっくり回り続ける(ロゼット模様)— 近点移動 +2.20°/周(順行)。kFrame=1 の空間引きずり項自身の帰結である**(ニュートン重力だけなら楕円は回らない)。観測版 🌟(kFrame=0 — 観測安定則)の**対になる DFM 版**。転写幾何は 🌟 と同一 — 遠点分離 470.98 単位(=a(1+e)・Bond et al. 2017 の a=19.7828 AU・e=0.59142)・遠点接線速度は転写質量での実ケプラー値・両星の半径も転写値(Sirius B は下限 0.01 へ宣言つき引き上げ)。**第242便(pull 重みへの移行)**: フレーム重みが w=m/(d²+ε²)(D₀ᵖ=3.24204×10⁸ kg/m²=0.324204 単位)になり、**第245便(裁定 A6)で質量台帳は一次則へ切り替えた**: f=1+k_F(αχ_A+βχ_B)(α=m_A/M・β=m_B/M)の自己無撞着解は **f_A=1.0003769・f_B=1.0003769**(χ_A=2.81×10⁻⁴・χ_B=5.70×10⁻⁴ — 広い連星では局所場分率が 10⁻⁴ 級)。第240便の χ² 則 f=1+k_F·Σ(m_i/M)χ_i² は 1.0000002 を返す(factorQuad に併記 — χ≪1 では f−1 の桁が違う)。**フィットしたノブは無い**。したがって**質量は観測値の +0.038%**(A 2.0638 M☉・B 1.0184 M☉)で、share 重み期の1.888倍較正(f=1.88813・第240便)は消えたままである。**実在の質量の主張ではない**(計算式に条件づけられた較正値)。**隠れコアは持たない(第242便)**: (f−1)/f=3.768×10⁻⁴ は core.massFrac の値域下限 0.01 を割るため二層を撤去し、E6′-R と 1PN 反作用偶力は **coupleSink=reservoir** でリザーバ帳簿へ直接記帳する(📻 と同じ型 — 測地線1PN の反作用偶力〔第69便 §18.4〕も同じ受け先)。A の殻自転は観測 vsini からの宣言つき代理値 13.6605(vsini=16.3±0.1 km/s〔Takeda 2020〕を転写半径で割った ω・sin i=1 のモデル依存代理値)、B は現代的直接測定が無いため **spin=0 のまま**。働いているのは重力(E4)+空間引きずり(A8/E6′)+測地線1PN(E12)。q=4.6761・D₀=0.006 は 🌟 の値をそのまま流用。**重心ゲージ cmGauge:barycentric** で D₀ 開放系の共通成分だけを除く(較正ノブではない)。share 期の「ロゼットと f≈2 は同じ飽和した並進チャネルの二つの顔」という記述は **pull で反証された** — f は 1 へ落ちるのにロゼットは +2.20°/周 で残る。",
+    observe:"**第282便a の f=1 移行後の実測**(同じ3.2公転窓・QA behavior.siriusAB): **2周目 49.242 年 — 観測 50.1284 年の −1.77%**・1周目の**実測離心率 0.59361**・**近点移動 +2.195°/周**。判定器(calaudit の h/4 段)では同方向1周 −1.768%(205.9σ)・近点間 +0.116%・近点移動 +2.190°/周で、判定は保留(数値未解決・写像未確定)のまま動かない。以下は移行前(旧一次則台帳)の記録 —— 実測(3.2公転窓・重心ゲージ込み・pull 重み・第245便の一次則台帳): **2周目 49.225 年 — 観測 50.1284 年の −1.80%**(フィットしていない hold-out 残差。χ² 則台帳では −1.77%)。合わせていない側: 1周目の**実測離心率 0.59377**(転写 0.59142 の +0.40%)・近点 120.05 単位(観測版の 120.92 の −0.72%)— どちらも ±1% に入る。軌道は歳差するロゼットで**近点移動 +2.20°/周**(順行・遠点発窓の近点通過方向の実測。share 重み期は +2.55°/周)。**A の殻自転のドリフトは +0.0%**(3.2公転で min=max のビット不変 — 代理自転 13.6605 を実行時も保持)・B の**残余 |s|max 0.0**(全窓ビット保持)・**clampSN=0**(偶力は coupleSink=reservoir でリザーバ帳簿へ)・角運動量帳簿(総L+リザーバ)の相対残差 2.9×10⁻¹⁴(機械ゼロ)。重心は 3.2公転で 1.1×10⁻⁵ 単位(機械ゼロ)・粒子+リザーバの線運動量残差 5.6×10⁻¹⁴。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.siriusAB)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
     control:"ワンタップ対照A/B: B側 kFrame=0(観測版の計算式側)— pull では質量が観測値そのものなので、B 側は観測版 🌟 とまったく同じ軌道になる(質量較正が要らないことの直接対照)。否定対照①(QA が機械固定): **coupleSink を外すと殻スピンのビット保持が壊れ**、A の自転が 13.6605 から 17.61(+29%)まで歩く(0.3公転)— 保持の駆動因は受け先の宣言であることの直接証明。否定対照②(QA が機械固定): **cmGauge を外すと重心が歩き出す**(0.5公転で 0.019 単位 = ゲージありの約1700倍)。timeScale=300 で画面1秒≈3.5 日・dispMag=300(表示専用)・トレイルで軌道を見る。"},
   en:{name:"Sirius AB (DFM build) — pull weight, observed masses under kF1",
     obsCard:[
@@ -11975,17 +12075,17 @@ const BUILTIN_PRESETS = [
       {q:"Orbital period (kFrame=1, pull weight, observed masses — two definitions)", model:"periapsis-to-periapsis 50.151 yr (+0.045% — the verdict: agrees, but 5.2σ against the quoted error) / same-direction 49.225 yr (−1.80% — historical)", obs:"50.1284 ± 0.0043 yr (Bond et al. 2017 — the same transcription as 🌟)"},
       {q:"Measured eccentricity (radius-ratio wobble, 1st revolution)", model:"0.59377 (+0.40%)", obs:"e=0.59142 ± 0.00037 (transcribed)"},
       {q:"Perihelion (the unfitted side)", model:"120.05 units (−0.72% of the observation build s 120.92)", obs:"— (e s consistency image under the fixed apoapsis)"},
-      {q:"DFM masses (a conditional calibration — NOT real-mass claims)", model:"A 2.0638 M☉, B 1.0184 M☉ = the observed masses ×f (+0.038%, f−1=3.769e-4). Under the χ² law they would be the observed masses", obs:"— (a value conditioned on the kFrame=1 formula under the pull weight)"},
-      {q:"Analytic inertia law (wave 245 — the LINEAR law is the ledger)", model:"f=1+k_F(αχ_A+βχ_B) solved self-consistently gives f_A=1.0003769, f_B=1.0003769 (χ_A=2.82e-4, χ_B=5.70e-4); the χ² law gives 1.0000002 (recorded beside it)", obs:"— (conditioned on w=m/(d²+ε²) and D₀ᵖ=0.324204 units)"},
+      {q:"DFM masses (wave 282a — f=1: the observed masses themselves)", model:"A 2.0630 M☉, B 1.0180 M☉ = the observed masses (f=1 — the adjudicator's ruling, 72nd report ③). The old linear-law ledger had the observed masses ×f (+0.038%, f−1=3.769e-4). Under the χ² law they would be the observed masses", obs:"— (a value conditioned on the kFrame=1 formula under the pull weight)"},
+      {q:"Analytic inertia law (wave 245 linear law — history since wave 282a)", model:"wave 282a fixed f=1 (the adjudicator's ruling, 72nd report ③). The old ledger (waves 245–281): f=1+k_F(αχ_A+βχ_B) solved self-consistently gives f_A=1.0003769, f_B=1.0003769 (χ_A=2.82e-4, χ_B=5.70e-4); the χ² law gives 1.0000002 (recorded beside it)", obs:"— (conditioned on w=m/(d²+ε²) and D₀ᵖ=0.324204 units)"},
       {q:"A s shell rotation (wave 221 — a declared proxy)", model:"spin=13.6605, drift +0.0% (bit-invariant over 3.2 orbits); B stays spin=0 with residual |s|max 0.0", obs:"vsini=16.3±0.1 km/s (Takeda 2020) / B: no modern measurement"},
-      {q:"Couple sink and barycentre (wave 242)", model:"coupleSink=reservoir (no hidden core: (f−1)/f=3.768e-4 is below the massFrac floor 0.01); CM shift 1.1e-5 units over 3.2 orbits; ledger L 2.9e-14", obs:"— (ledger quantities; not observables)"}
+      {q:"Couple sink and barycentre (wave 242)", model:"coupleSink=reservoir (no hidden core: the old ledger's (f−1)/f=3.768e-4 was below the massFrac floor 0.01; with wave 282a's f=1, (f−1)/f=0); CM shift 1.1e-5 units over 3.2 orbits; ledger L 2.9e-14", obs:"— (ledger quantities; not observables)"}
 ],
     failureFirst:{
       fail:"In the share-weight era this build needed a 1.888x mass calibration to reproduce the observed period under kFrame=1, and that calibration drove the E6′-R couple into the ±40 spin saturation, which required the hidden-core receptacle of wave 221. THE WAVE-242 PULL WEIGHT (w=m/(d²+ε²), D₀ᵖ=0.324204 units) REMOVES THAT STRUCTURE: χ falls to ~1e-4 (χ_A=2.82e-4, χ_B=5.70e-4), so the mass calibration disappears, and (f−1)/f falls below the core.massFrac floor of 0.01 so the two-layer declaration cannot be made either. WAVE 245 (ADJUDICATION A6) SWITCHED THE LEDGER TO THE LINEAR LAW f=1+k_F(αχ_A+βχ_B): the χ² law gives f=1.0000002, the linear law f=1.0003769, so the masses sit +0.038% above the observed ones. The 2nd revolution misses the observed period by −1.80% (a hold-out — the largest residual of the four binaries). That residual and the +2.20°/rev rosette are declared as they are, never fitted away.",
       pass:"THE PULL-WEIGHT VERSION of the adjudicator's principle (8th report): masses are quantities COMPUTED FROM ORBITS BY A FORMULA — change the formula and the masses change. Solving the analytic inertia law under the pull weight — wave 245 takes the LINEAR law f=1+k_F(αχ_A+βχ_B) — gives f=1.0003769, so THE DFM MASSES SIT +0.038% ABOVE THE OBSERVED ONES (A 2.0638 M☉, B 1.0184 M☉; the χ² law would give 1.0000002, recorded beside the ledger). There is no fitted knob (D₀=0.006 and q=4.6761 are reused from 🌟; D₀ᵖ=0.324204 is the unit conversion of 3.24204e8 kg/m²). At that state the 2nd revolution is −1.80%, the measured eccentricity +0.40% and the perihelion −0.72% — ALL hold-outs. The couples are booked into the reservoir ledger by coupleSink:reservoir, so A's declared vsini/R proxy spin 13.6605 and B's spin=0 are bit-held over the whole window, clampSN=0, ledger L residual 2.9e-14."},
     descStruct:{
-      summary:"WHAT YOU SEE FIRST: the ellipse itself keeps slowly rotating (a rosette pattern) — a PERIHELION ADVANCE OF +2.20°/rev (prograde), the consequence of the kFrame=1 dragging term itself. The DFM COUNTERPART of the observation build 🌟 (kFrame=0 under the observation-stability rule). The transcribed geometry is identical to 🌟: apoapsis separation 470.98 units (=a(1+e), Bond et al. 2017 a=19.7828 AU, e=0.59142), the real Kepler apoapsis speed and both radii (Sirius B raised to the 0.01 floor by declaration). WAVE 242 (THE PULL MIGRATION): the frame weight is now w=m/(d²+ε²) with D₀ᵖ=3.24204e8 kg/m² = 0.324204 units, and WAVE 245 (ADJUDICATION A6) MOVED THE MASS LEDGER TO THE LINEAR LAW f=1+k_F(αχ_A+βχ_B), whose self-consistent solution is f_A=1.0003769, f_B=1.0003769 (χ_A=2.82e-4, χ_B=5.70e-4 — at this separation the local field fraction is of order 1e-4). THERE IS NO FITTED KNOB, and the masses are the observed ones +0.038% (A 2.0638 M☉, B 1.0184 M☉); the share-era 1.888x calibration (f=1.88813, wave 240) stays gone. Masses are quantities computed from orbits by a formula — here the consequence is that no calibration is needed at all. Still NOT a real-mass claim (a value conditioned on the formula). NO HIDDEN CORE (wave 242): (f−1)/f=3.768e-4 falls below the core.massFrac floor of 0.01, so the two-layer declaration is withdrawn and the E6′-R and 1PN reaction couples are booked straight into the reservoir ledger by coupleSink:reservoir (the 📻 pattern). A shell rotation is the declared vsini/R proxy 13.6605 (sin i=1, Takeda 2020); B has no modern measurement and stays spin=0. Gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act; q=4.6761 and D₀=0.006 are reused from 🌟. cmGauge:barycentric removes only the common-mode acceleration of the D₀ open system. The share-era claim that the rosette and f≈2 were two faces of one saturated translation channel is FALSIFIED by the pull weight: f drops to 1 while the rosette stays at +2.20°/rev.",
-      observe:"Measured over a 3.2-orbit window (barycentric gauge, pull weight, the wave-245 linear ledger): the 2nd revolution is 49.225 yr — 1.80% short of the observed 50.1284 yr, a hold-out residual (nothing was fitted; the χ² ledger gave −1.77%). The unfitted shape: 1st-revolution eccentricity 0.59377 (+0.40% of the transcribed 0.59142) and perihelion 120.05 (−0.72% of the observation build s 120.92) — both inside ±1%. The orbit is a precessing rosette at +2.20°/rev prograde (share era: +2.55°/rev). A shell-spin drift +0.0% and B residual |s|max 0.0 (bit-held over the whole window), clampSN=0, angular-momentum ledger 2.9e-14, barycentre 1.1e-5 units over 3.2 orbits, particle+reservoir momentum residual 5.6e-14. Zero NaN; two runs bit-identical (QA behavior.siriusAB). Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
+      summary:"WAVE 282a (the adjudicator's ruling, 72nd report ③ — \"f≈1 becomes f=1\"): THE MASS CORRECTION IS WITHDRAWN — f_A=1.0, f_B=1.0 (massCalibration law:\"f-fixed-1\"); the masses are the transcribed observed-solution values (A 2.0630 M☉, B 1.0180 M☉) and the initial positions and velocities are the input orbit unchanged (the mass ratio is unchanged, so is the barycentric split). The +0.038% and f_A=1.0003769 below are the RECORD OF THE OLD LINEAR-LAW LEDGER (waves 245–281; the old-ledger table is in docs/PHYSICS.md). The post-migration measurements open the Observe section. WHAT YOU SEE FIRST: the ellipse itself keeps slowly rotating (a rosette pattern) — a PERIHELION ADVANCE OF +2.20°/rev (prograde), the consequence of the kFrame=1 dragging term itself. The DFM COUNTERPART of the observation build 🌟 (kFrame=0 under the observation-stability rule). The transcribed geometry is identical to 🌟: apoapsis separation 470.98 units (=a(1+e), Bond et al. 2017 a=19.7828 AU, e=0.59142), the real Kepler apoapsis speed and both radii (Sirius B raised to the 0.01 floor by declaration). WAVE 242 (THE PULL MIGRATION): the frame weight is now w=m/(d²+ε²) with D₀ᵖ=3.24204e8 kg/m² = 0.324204 units, and WAVE 245 (ADJUDICATION A6) MOVED THE MASS LEDGER TO THE LINEAR LAW f=1+k_F(αχ_A+βχ_B), whose self-consistent solution is f_A=1.0003769, f_B=1.0003769 (χ_A=2.82e-4, χ_B=5.70e-4 — at this separation the local field fraction is of order 1e-4). THERE IS NO FITTED KNOB, and the masses are the observed ones +0.038% (A 2.0638 M☉, B 1.0184 M☉); the share-era 1.888x calibration (f=1.88813, wave 240) stays gone. Masses are quantities computed from orbits by a formula — here the consequence is that no calibration is needed at all. Still NOT a real-mass claim (a value conditioned on the formula). NO HIDDEN CORE (wave 242): (f−1)/f=3.768e-4 falls below the core.massFrac floor of 0.01, so the two-layer declaration is withdrawn and the E6′-R and 1PN reaction couples are booked straight into the reservoir ledger by coupleSink:reservoir (the 📻 pattern). A shell rotation is the declared vsini/R proxy 13.6605 (sin i=1, Takeda 2020); B has no modern measurement and stays spin=0. Gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act; q=4.6761 and D₀=0.006 are reused from 🌟. cmGauge:barycentric removes only the common-mode acceleration of the D₀ open system. The share-era claim that the rosette and f≈2 were two faces of one saturated translation channel is FALSIFIED by the pull weight: f drops to 1 while the rosette stays at +2.20°/rev.",
+      observe:"AFTER THE WAVE-282a MIGRATION TO f=1 (same 3.2-orbit window, QA behavior.siriusAB): the 2nd revolution is 49.242 yr (-1.77% of the observed 50.1284 yr), the 1st-revolution eccentricity 0.59361, the perihelion advance +2.195°/rev. The calibration auditor (h/4 stage) gives same-direction -1.768% (205.9σ), periapsis-to-periapsis +0.116%, precession +2.190°/rev — the verdict stays on hold (numerics unresolved, mapping unresolved). What follows is the pre-migration record: Measured over a 3.2-orbit window (barycentric gauge, pull weight, the wave-245 linear ledger): the 2nd revolution is 49.225 yr — 1.80% short of the observed 50.1284 yr, a hold-out residual (nothing was fitted; the χ² ledger gave −1.77%). The unfitted shape: 1st-revolution eccentricity 0.59377 (+0.40% of the transcribed 0.59142) and perihelion 120.05 (−0.72% of the observation build s 120.92) — both inside ±1%. The orbit is a precessing rosette at +2.20°/rev prograde (share era: +2.55°/rev). A shell-spin drift +0.0% and B residual |s|max 0.0 (bit-held over the whole window), clampSN=0, angular-momentum ledger 2.9e-14, barycentre 1.1e-5 units over 3.2 orbits, particle+reservoir momentum residual 5.6e-14. Zero NaN; two runs bit-identical (QA behavior.siriusAB). Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
       control:"One-tap A/B: side B is kFrame=0 — under pull the masses are the observed ones, so side B is exactly the observation build 🌟 (the direct control for no calibration being needed). Negative control 1 (machine-fixed by QA): removing coupleSink breaks the bit-hold and A s shell spin walks from 13.6605 to 17.61 (+29%) within 0.3 orbit — the hold comes from the sink declaration. Negative control 2: removing cmGauge sets the barycentre walking (0.019 units in half an orbit, ~1700x the gauged value). With timeScale=300 one on-screen second ≈ 3.5 days; dispMag=300 (display only); use trails."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴",
@@ -11998,17 +12098,17 @@ const BUILTIN_PRESETS = [
         "kFrame=1 (the DFM formula — the point of this build; the observation build 🌟 adopts kFrame=0 under the observation-stability rule)",
         "frameReaction:\"pairReduced\" (E6′-R), kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
         "initial state = the apoapsis of the observed orbit (two-body barycentric, both free — wave-211 alignment)",
-        "the DFM masses are declared as a CONDITIONAL calibration, not real-mass claims",
+        "the masses are the transcribed observed solution (wave 282a — f=1; the old ledger declared a CONDITIONAL calibration, not a real-mass claim)",
         "A's shell spin = the declared proxy ω=vsini/R at sin i=1 (wave 221 — model-dependent, NOT a measured rotation); B spin=0 (no modern direct measurement)",
         "coupleSink:\"core\" (wave 221 — the E6′-R couple goes to the hidden core, ✴️'s pattern); core: mode=differential, radius = half the shell (B at the 0.01 floor), massFrac=(f_i−1)/f_i (wave 224 — shell mass = observed; measured orbit-bit-invariant), Kcs=0, Ω(t=0)=the shell spin",
         "wave-224 redistribution: positions/velocities are re-split into the new masses' barycentric frame, keeping the observed relative state bit-exactly",
         "coupleSink:\"reservoir\" (wave 242 — the E6′-R and 1PN reaction couples are booked straight into the reservoir ledger; no hidden core)",
         "cmGauge:\"barycentric\" (wave 209 — the isolated-system barycentric gauge; not a calibration knob)"],
-      fitted:["no fitted knob (wave 242 pull migration + the wave-245 A6 switch to the linear law): the mass factor f=1.0003769 is the self-consistent LINEAR law f=1+k_F(αχ_A+βχ_B) (the χ² value 1.0000002 is kept beside it as factorQuad) under the pull weight w=m/(d²+ε²) with D₀ᵖ=0.324204 units and the observed mass ratio — the 2nd-revolution P then lands 1.71% short of the observed 50.1284 yr and is recorded as a hold-out residual (the share-era normalisation C=0.9928781605025547 is retired); D₀=0.006 and q=4.6761 are reused from 🌟 as is"],
+      fitted:["no fitted knob (wave 282a: f=1 fixed — the masses are the observed ones; [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] wave 242 pull migration + the wave-245 A6 switch to the linear law): the mass factor f=1.0003769 is the self-consistent LINEAR law f=1+k_F(αχ_A+βχ_B) (the χ² value 1.0000002 is kept beside it as factorQuad) under the pull weight w=m/(d²+ε²) with D₀ᵖ=0.324204 units and the observed mass ratio — the 2nd-revolution P then lands 1.71% short of the observed 50.1284 yr and is recorded as a hold-out residual (the share-era normalisation C=0.9928781605025547 is retired); D₀=0.006 and q=4.6761 are reused from 🌟 as is"],
       derived:["dragQ (wave 237): A 4.676140238926186 / B 4.100469287433549 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=295.946476 (E2/E3 drag only; not a fit knob)","per-body factors f_A=1.8881281616124954, f_B=1.8881281616124954 (= the self-consistent analytic inertia law f=1+A, both bodies — wave 240; observed mass ratio)",
-        "A 2.0638 M☉ = 4.1038×10³⁰ kg and B 1.0184 M☉ = 2.0251×10³⁰ kg (= transcribed masses × f_i — the observed masses +0.038%)",
+        "wave 282a: A 2.0630 M☉ = 4.1023×10³⁰ kg and B 1.0180 M☉ = 2.0243×10³⁰ kg (= the transcribed masses, f=1); [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] A 2.0638 M☉ and B 1.0184 M☉ (× f_i, +0.038%)",
         "A's shell spin 13.6605 = vsini/R (the declared sin-i=1 proxy; P_rot≈5.32 d)",
-        "no hidden core (wave 242): (f−1)/f=3.768e-4 falls below the core.massFrac floor 0.01, so the couples are booked into the reservoir ledger instead",
+        "no hidden core (wave 242; with wave 282a's f=1 there is no mass surplus at all): the old ledger's (f−1)/f=3.768e-4 fell below the core.massFrac floor 0.01, so the couples are booked into the reservoir ledger instead",
         "κ=G/c₀²=7.4156×10⁻⁹",
         "camera.scale=560, timeScale=300, dispMag=300 (derived from the stated rules; display only)"],
       numerical:["softening ε=0.05","time multiplier timeScale=300","display magnification dispMag=300 (display only)"]}},
@@ -12018,8 +12118,8 @@ const BUILTIN_PRESETS = [
     { id:"siriusABDFM.period-fit", kind:"fixed-seed", prov:"simulated", role:"fit_target",
       metric:"dfmPeriodYears",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"pull 重みの一次則(第245便 A6)が置く質量(f_A=1.0003769・f_B=1.0003769=観測質量の +0.038%)で kFrame=1 を回したときの2周目の周回時間。観測周期 50.1284 年に対して 49.225 年(−1.80%)— フィットしたノブは無いので、これは fit 対象ではなく hold-out の残差である(share 重み期は f=1.88813 で −0.80%)。",
-        noteEn:"The 2nd revolution under kFrame=1 at the masses the pull-weight LINEAR inertia law puts there (f_A=f_B=1.0003769, i.e. the observed masses +0.038%): 49.225 yr against the observed 50.1284 yr (−1.80%). There is no fitted knob, so this is a hold-out residual rather than a fit target (the share era had f=1.88813 and −0.80%)."},
+        note:"第282便a の f=1 移行後は 2周目 49.242 年(観測の −1.77%)。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕: pull 重みの一次則(第245便 A6)が置く質量(f_A=1.0003769・f_B=1.0003769=観測質量の +0.038%)で kFrame=1 を回したときの2周目の周回時間。観測周期 50.1284 年に対して 49.225 年(−1.80%)— フィットしたノブは無いので、これは fit 対象ではなく hold-out の残差である(share 重み期は f=1.88813 で −0.80%)。",
+        noteEn:"After the wave-282a migration to f=1 the 2nd revolution is 49.242 yr (-1.77% of the observed). [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] The 2nd revolution under kFrame=1 at the masses the pull-weight LINEAR inertia law puts there (f_A=f_B=1.0003769, i.e. the observed masses +0.038%): 49.225 yr against the observed 50.1284 yr (−1.80%). There is no fitted knob, so this is a hold-out residual rather than a fit target (the share era had f=1.88813 and −0.80%)."},
       roleNote:"hold-out 残差の宣言 — pull では較正ノブが無い(質量は解析慣性則が決める)。",
       roleNoteEn:"A declared hold-out residual — under pull there is no calibration knob (the analytic inertia law fixes the masses).",
       expected:{min:49.0, max:49.6},
@@ -12036,8 +12136,8 @@ const BUILTIN_PRESETS = [
     { id:"siriusABDFM.shape-unfitted", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"dfmEccMeasured",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"合わせていない側の検証: 離心率 0.59377(転写 0.59142 の +0.40%)・近点 120.05(観測版 120.92 の −0.72%)— どちらもフィットしていないのに ±1% に入る。pull では質量較正の用量が +0.038% しかないので、これは「ほぼ観測質量のままの kFrame=1 が軌道形をどれだけ保つか」の実測である。",
-        noteEn:"The unfitted side: eccentricity 0.59377 (+0.40% of the transcribed 0.59142) and perihelion 120.05 (−0.72% of the observation build s 120.92) — both within ±1% though neither was fitted. Under pull the calibration is only +0.038%, so it is a mass calibration at all, so this measures how well kFrame=1 at the observed masses preserves the orbit shape."},
+        note:"第282便a の f=1 移行後は離心率 0.59361・近点 120.10。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕: 合わせていない側の検証: 離心率 0.59377(転写 0.59142 の +0.40%)・近点 120.05(観測版 120.92 の −0.72%)— どちらもフィットしていないのに ±1% に入る。pull では質量較正の用量が +0.038% しかないので、これは「ほぼ観測質量のままの kFrame=1 が軌道形をどれだけ保つか」の実測である。",
+        noteEn:"After the wave-282a migration to f=1 the eccentricity is 0.59361 and the perihelion 120.10. [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] The unfitted side: eccentricity 0.59377 (+0.40% of the transcribed 0.59142) and perihelion 120.05 (−0.72% of the observation build s 120.92) — both within ±1% though neither was fitted. Under pull the calibration is only +0.038%, so it is a mass calibration at all, so this measures how well kFrame=1 at the observed masses preserves the orbit shape."},
       roleNote:"回顧的確認 — e は独立な hold-out(fit の対象ではない)。近点は遠点固定下で e から決まる整合表示。",
       roleNoteEn:"Retrospective check — e is the independent hold-out (never fitted); with the apoapsis fixed the perihelion is e s consistency image.",
       expected:{min:0.57, max:0.61},
@@ -12045,10 +12145,10 @@ const BUILTIN_PRESETS = [
     { id:"siriusABDFM.mass-factor", kind:"semantic", prov:"definition", role:"fit_target",
       metric:"dfmMassFactor",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の pull 重み版: 第245便(裁定 A6)の台帳は一次則 f=1+k_F(αχ_A+βχ_B) で、自己無撞着解は f_A=1.0003769・f_B=1.0003769(χ_A=2.81×10⁻⁴・χ_B=5.70×10⁻⁴)— **DFM 質量=観測質量の +0.038%**(χ² 則なら 1.0000002・factorQuad に併記)。説明文と massCalibration 台帳と bodies の m の三者で一致して宣言されていること。share 重み期の f=1.88813(第240便)は重みの取り替えで消えた。",
-        noteEn:"The pull-weight version of the adjudicator s principle (8th report): the self-consistent analytic inertia law gives f_A=f_B=1.0000001 (χ_A=2.72e-4, χ_B=5.50e-4), so THE DFM MASSES ARE THE OBSERVED MASSES. Declared consistently across the text, the massCalibration ledger and the bodies m. The share-era f=1.88813 (wave 240) vanished with the change of weight."},
-      roleNote:"解析慣性則(第245便 A6 — 一次則)の値の宣言(fit なし) — QA が dfmBinaryMassFactorLinear(pull・D₀ᵖ)の再計算・台帳・bodies の質量と照合し、χ² 則 dfmBinaryMassFactor の値も並記する。",
-      roleNoteEn:"The declared analytic-inertia-law value (wave 245 A6 — the LINEAR law; no fitted knob) — QA checks it against the dfmBinaryMassFactorLinear recomputation (pull, D₀ᵖ), the ledger and the bodies masses, and reports the quadratic dfmBinaryMassFactor value beside it.",
+        note:"**第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 — f_A=f_B=1・DFM 質量=観測質量そのもの**(説明文と massCalibration 台帳〔law:\"f-fixed-1\"〕と bodies の m の三者で一致して宣言)。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕: 「質量は軌道から計算式で算出される量 — 計算式が変われば質量が変わる」(原仮定者第8報)の pull 重み版: 第245便(裁定 A6)の台帳は一次則 f=1+k_F(αχ_A+βχ_B) で、自己無撞着解は f_A=f_B=1.0003769(χ_A=2.81×10⁻⁴・χ_B=5.70×10⁻⁴)— **DFM 質量=観測質量の +0.038%**(χ² 則なら 1.0000002・factorQuad に併記)。説明文と massCalibration 台帳と bodies の m の三者で一致して宣言されていること。share 重み期の f=1.88813(第240便)は重みの取り替えで消えた。",
+        noteEn:"WAVE 282a (the adjudicator's ruling, 72nd report ③) FIXED f=1 — f_A=f_B=1 and the DFM masses ARE the observed masses (declared consistently across the text, the massCalibration ledger [law:\"f-fixed-1\"] and the bodies m). [the OLD linear-law ledger, waves 245–281 — wave 282a fixed f=1] The pull-weight version of the adjudicator s principle (8th report): the self-consistent analytic inertia law gives f_A=f_B=1.0000001 (χ_A=2.72e-4, χ_B=5.50e-4), so THE DFM MASSES ARE THE OBSERVED MASSES. Declared consistently across the text, the massCalibration ledger and the bodies m. The share-era f=1.88813 (wave 240) vanished with the change of weight."},
+      roleNote:"f=1 の宣言(第282便a — fit なし) — QA が台帳(f-fixed-1)・bodies の m・観測版の m のビット一致を照合し、旧一次則台帳の値は behavior.chi-law が dfmBinaryMassFactorLinear の再計算で履歴として検証する。",
+      roleNoteEn:"The f=1 declaration (wave 282a — no fitted knob) — QA checks the ledger (f-fixed-1), the bodies m and the observation build's m bit-for-bit; the old linear-law value is verified as history by behavior.chi-law against the dfmBinaryMassFactorLinear recomputation.",
       expected:{min:0.999, max:1.001},
       descPattern:"f_A=(\\d+\\.\\d+)", testId:"behavior.siriusAB" },
     { id:"siriusABDFM.spin-zero-held", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
@@ -12081,14 +12181,14 @@ const BUILTIN_PRESETS = [
       "kFrame=1(DFM の計算式 — 本サンプルの主題。観測版 🌟 は観測安定則で kFrame=0)",
       "frameReaction:\"pairReduced\"(E6′-R)・kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
       "初期状態=観測軌道の遠点(二体重心系・両星自由 — 第211便の整列規約)",
-      "DFM 質量は**条件つき較正値**として宣言(実在質量の主張ではない)",
+      "質量は観測解の転写値(第282便a — f=1。旧台帳では**条件つき較正値**として宣言していた — 実在質量の主張ではない)",
       "A の殻自転=ω=vsini/R(sin i=1)の宣言つき代理値(第221便 — モデル依存・実測自転の主張ではない)・B は spin=0(現代的直接測定なし)",
       "coupleSink:\"reservoir\"(第242便 — E6′-R と 1PN の反作用偶力はリザーバ帳簿へ直接記帳。隠れコアは持たない: (f−1)/f=3.768×10⁻⁴ が core.massFrac の値域下限 0.01 を割るため)",
       "第224便の重心再配分: 位置・速度は観測の相対状態をビット保持したまま新質量の重心系へ再配分",
       "cmGauge:\"barycentric\"(第209便 — 孤立系の重心ゲージ。較正ノブではない)"],
-    fitted:["フィットしたノブは無い(第242便 pull 移行+第245便 A6 の一次則切替): 質量係数 f=1.0003769 は pull 重み w=m/(d²+ε²)・D₀ᵖ=0.324204 単位での一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解(質量比=観測)。χ² 則の 1.0000002 は factorQuad に併記。2周目 P の −1.80% は hold-out 残差として記録する(share 重み期の正規化ノブ C=0.9928781605025547 は廃止)。D₀=0.006・q=4.6761 は 🌟 の値の流用"],
-    derived:["dragQ (wave 237): A 4.676140238926186 / B 4.100469287433549 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=295.946476 (E2/E3 drag only; not a fit knob)","粒子別 f_A=1.0003769425929947・f_B=1.0003769425929947(=pull 重みの一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解 — massCalibration 台帳。χ² 則の 1.000000160419523 は factorQuad に併記)",
-      "A 2.0638 M☉=4.1038×10³⁰kg・B 1.0184 M☉=2.0251×10³⁰kg(=転写質量×f_i — 観測質量の +0.038%)",
+    fitted:["フィットしたノブは無い(第282便a: f=1 に固定 — 質量は観測値そのもの)。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕: (第242便 pull 移行+第245便 A6 の一次則切替): 質量係数 f=1.0003769 は pull 重み w=m/(d²+ε²)・D₀ᵖ=0.324204 単位での一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解(質量比=観測)。χ² 則の 1.0000002 は factorQuad に併記。2周目 P の −1.80% は hold-out 残差として記録する(share 重み期の正規化ノブ C=0.9928781605025547 は廃止)。D₀=0.006・q=4.6761 は 🌟 の値の流用"],
+    derived:["dragQ (wave 237): A 4.676140238926186 / B 4.100469287433549 — per-body q_exact from the observed shell mass M_shell=m/f at the same reference a=295.946476 (E2/E3 drag only; not a fit knob)","〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕 粒子別 f_A=1.0003769425929947・f_B=1.0003769425929947(=pull 重みの一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解 — massCalibration 台帳。χ² 則の 1.000000160419523 は factorQuad に併記)",
+      "第282便a: A 2.0630 M☉=4.1023×10³⁰kg・B 1.0180 M☉=2.0243×10³⁰kg(=転写質量そのもの・f=1)。〔旧一次則台帳(第245便〜第281便)の記録 — 第282便a で f=1 に固定〕 A 2.0638 M☉・B 1.0184 M☉(×f_i・+0.038%)",
       "A の殻自転 13.6605=vsini/R(sin i=1 の宣言つき代理値・P_rot≈5.32日相当)",
       "κ=G/c₀²=7.4156×10⁻⁹",
       "camera.scale=560・timeScale=300・dispMag=300(規約から決定的に算出・表示専用)"],
@@ -12099,10 +12199,10 @@ const BUILTIN_PRESETS = [
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:300, dispMag:300,
     stateCarry:"double", frameReaction:"pairReduced", coupleSink:"reservoir", cmGauge:"barycentric", frameWeight:"pull", D0pull:0.324204},
-  massCalibration:{law:"inertia-law-lin-v1", fitDt:0.016,   // 第245便(裁定 A6): pull 重み(w=m/(d²+ε²)・D₀ᵖ=3.24204×10⁸ kg/m²=0.324204 単位)での**一次則 f=1+k_F(αχ_A+βχ_B)**の自己無撞着解(fit ノブなし・質量比=観測)。χ² 則(第240便)の不動点は factorQuad/chiQuad に併記。share 重み期は f=1.8881281616124954(第240便)— pull では χ が 10⁻⁴ 級で f−1 は 3.77×10⁻⁴。P 残差は hold-out として QA が記録
-    baseMass:[41.022755, 20.24293], factor:1.0003769425929947, factorByBody:[1.0003769425929947, 1.0003769425929947], chi:[0.00028151427778575297, 0.0005703302298080955],
-    factorQuad:1.000000160419523, chiQuad:[0.00028140827802898143, 0.0005701155429814001]},
-  bodies:[ // 並び: 0=A・1=B。🌟 の観測軌道の**遠点状態**(分離 470.97514083592・f=1 の実ケプラー
+  massCalibration:{law:"f-fixed-1", f:1,   // 第282便a(原仮定者の裁定(第72報)③): f=1 に固定 — m=baseMass(観測解の転写質量)。旧一次則台帳 f=1.0003769425929947(第245便)は docs の履歴表へ
+    baseMass:[41.022755, 20.24293],
+    note:"第282便a(原仮定者の裁定(第72報)③ — f≈1 も f=1 に): 質量補正 f を廃し bodies の m を基準質量(観測解の転写値 baseMass)へ戻した。旧台帳は一次則 inertia-law-lin-v1(f=1.0003769425929947・χ² 則 1.000000160419523 を併記)で、docs/PHYSICS.md〔第282便a〕の旧台帳表に履歴として残す。初速・位置は入力軌道のまま(質量比は不変なので重心配分も不変)。隠れコアは第242便で撤去済み(移行で除くものは無い)"},
+  bodies:[ // 第282便a: f=1 に固定 — m は baseMass(🌟 と同じ観測解の転写質量)そのもの。位置・速度は入力軌道のまま(🌟 とビット同一)。以下は移行前の記述 —— 並び: 0=A・1=B。🌟 の観測軌道の**遠点状態**(分離 470.97514083592・f=1 の実ケプラー
            // 遠点速度)に、**一次則による質量較正(第245便 A6 — pull 重み)**: f_A=1.0003769425929947・
            // f_B=1.0003769425929947(χ_A=2.81×10⁻⁴・χ_B=5.70×10⁻⁴ — 広い連星では局所場分率が 10⁻⁴ 級)。
            // **フィットしたノブは無い**。質量は観測値そのもの(share 重み期の f=1.88813 は消えた)。
@@ -12113,8 +12213,8 @@ const BUILTIN_PRESETS = [
            // 二層を宣言できない)。E6′-R と 1PN の反作用偶力は coupleSink:"reservoir" でリザーバ帳簿へ
            // 直接記帳する(📻 と同じ型)— 殻スピンは全窓ビット保持・clampSN=0 を実測。
            // Sirius B の半径は 🌟 と同じ宣言つき下限 0.01(白色矮星の実半径 5.6×10⁻⁴ 単位)
-    {type:"single", dragQ:4.676140238926186, m:41.038218223641486, radius:0.11932224, x:-155.61593423270583, y:0, vx:0, vy:-0.1967874451365539, spin:13.6604877682484, pinned:false, pnSource:true},
-    {type:"single", dragQ:4.100469287433549, m:20.25056042252401, radius:0.01, x:315.3592066032142, y:0, vx:0, vy:0.39879420365099283, spin:0, pinned:false}
+    {type:"single", dragQ:4.676140238926186, m:41.022755, radius:0.11932224, x:-155.61593423270583, y:0, vx:0, vy:-0.1967874451365539, spin:13.6604877682484, pinned:false, pnSource:true},
+    {type:"single", dragQ:4.100469287433549, m:20.24293, radius:0.01, x:315.3592066032142, y:0, vx:0, vy:0.39879420365099283, spin:0, pinned:false}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -14789,15 +14889,18 @@ const BUILTIN_PRESETS = [
   // 値は純関数 tests/lib-w281c-rotorledger.mjs の出力(器 tests/exp-w281c-rotorledger.mjs・正本 tests/out/rotorledger-w281c.json)。
   // N_DR=nRatio·M★/⟨m★⟩(M★=starBase=恒星の基準質量 380 単位 = 200 粒 × 1.9)・M_DR=N_DR·⟨m_DR⟩・
   // M_gal=f★M★+M_gas+M_core+M_DR。**f★ はダークローターに掛けない**(rotorInFStar:false)。**既定は追加 0**(defaultScenario:"none")
-  massLedger:{version:"w281c-1", starBase:380, fStar:1.9997320796514568, gas:287.5, core:100, unitKg:1e38, mSunKg:1.9885e30,
+  // 第282便d(原仮定者の裁定(第72報)③「f≈2・f≈1+kFrame は廃止・f≈1 も f=1 に」): **台帳を f★=1 で再宣言**(値だけ ——
+  // bodies・physics・presetSig は不変)。**旧 1147.4 単位(f★≈2)は持ち越さない**: 恒星 380+気体 287.5+核 100=767.5 単位。
+  // bodies には旧契約の f(massCalibration.factorUniform)が焼き込まれたまま —— `fDynamics` として並べる(移行は後便・名前「恒星質量×2」は署名対象なので変えない)。
+  massLedger:{version:"w282d-1", starBase:380, fStar:1, fDynamics:1.9997320796514568, gas:287.5, core:100, unitKg:1e38, mSunKg:1.9885e30,
     mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:"none",
-    currentTotalUnit:1147.3981902675537, currentTotalSun:57701694255.345924,
+    currentTotalUnit:767.5, currentTotalSun:38596932361.07619,
     rotorScenarios:[
-      {mRotorSun:0.1, nRotor:764395272818.7075, mRotorUnit:1520, totalUnit:2667.3981902675537, totalSun:134141221537.21667},
-      {mRotorSun:1, nRotor:764395272818.7075, mRotorUnit:15200, totalUnit:16347.398190267551, totalSun:822096967074.0533},
-      {mRotorSun:10, nRotor:764395272818.7075, mRotorUnit:152000, totalUnit:153147.39819026756, totalSun:7701654422442.422}],
-    note:"条件付き台帳(第281便c・原仮定者の裁定〔第71報〕)。浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度のダークローターへ当てはめた仮定の 3 シナリオ。観測で推定されている浮遊惑星の質量は地球質量級で、恒星質量の暗い天体が恒星の 20 倍あることを観測は示していない。f★ は恒星だけに掛け、ダークローターは別集団として 1 回だけ足す。🛞 の力学(bodies・physics)には入れていない(既定は追加 0)。較正母集団に入れない。",
-    noteEn:"A conditional ledger (wave 281c, the adjudicator's ruling in the 71st report). Three hypothetical scenarios that apply the free-floating-planet NUMBER ratio (about 20 per star - a count estimate) to dark rotors of roughly stellar mass. The masses inferred for free-floating planets are Earth-mass class; observations do not show 20 stellar-mass dark bodies per star. f★ multiplies the stars only; the rotors are a separate population added once. Not put into the dynamics of this sample (bodies and physics unchanged; the default adds 0). Not in the calibration population."},
+      {mRotorSun:0.1, nRotor:764395272818.7075, mRotorUnit:1520, totalUnit:2287.5, totalSun:115036459642.94695},
+      {mRotorSun:1, nRotor:764395272818.7075, mRotorUnit:15199.999999999998, totalUnit:15967.499999999998, totalSun:802992205179.7837},
+      {mRotorSun:10, nRotor:764395272818.7075, mRotorUnit:152000, totalUnit:152767.5, totalSun:7682549660548.151}],
+    note:"条件付き台帳(第281便c・原仮定者の裁定〔第71報〕/第282便d で f★=1 に再宣言 —— 第72報③)。浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度のダークローターへ当てはめた仮定の 3 シナリオ。観測で推定されている浮遊惑星の質量は地球質量級で、恒星質量の暗い天体が恒星の 20 倍あることを観測は示していない。台帳は f★=1(恒星 380+気体 287.5+核 100=767.5 単位)で、bodies には旧契約の f≈2 が焼き込まれたまま(fDynamics —— 移行は後便)。ダークローターは別集団として 1 回だけ足す。🛞 の力学(bodies・physics)には入れていない(既定は追加 0)。較正母集団に入れない。",
+    noteEn:"A conditional ledger (wave 281c, the adjudicator's ruling in the 71st report; re-declared with f_star = 1 in wave 282d after report 72, item 3). Three hypothetical scenarios that apply the free-floating-planet NUMBER ratio (about 20 per star - a count estimate) to dark rotors of roughly stellar mass. The masses inferred for free-floating planets are Earth-mass class; observations do not show 20 stellar-mass dark bodies per star. The ledger uses f_star = 1 (stars 380 + gas 287.5 + core 100 = 767.5 units); the bodies still carry the old-contract f of about 2 (fDynamics - migration is a later wave). The rotors are a separate population added once. Not put into the dynamics of this sample (bodies and physics unchanged; the default adds 0). Not in the calibration population."},
   activeParams:["kFrame","G","softening"],
   seed:1573711561,   // 第230便: 🌃 と実効 seed 共有(配置の完全同一は中心核の排他帯で不成立 — 宣言)
   balanceFrame:"barycentric",   // 第230便: 自由中心核の重心系(⚫ の型)
@@ -16223,6 +16326,7 @@ const SAMPLE_STATUS={
 "galaxyMeshSpiral":{"purpose":"銀河の空間メッシュを局所場と物質線で表す","objective":"met","state":"場の加算・単調性・物質線を純関数で確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.galaxyMesh"],"en":{"purpose":"Represent a galaxy's space mesh by a local field plus material lines","state":"field additivity, monotonicity and the material lines are checked in pure functions","mismatch":null,"outlook":null,"brief":"Represent a galaxy's space mesh by a local field plus material lines. Met: field additivity, monotonicity and the material lines are checked in pure functions. Out of calibration scope."},"brief":"銀河の空間メッシュを局所場と物質線で表す。達・場の加算・単調性・物質線を純関数で確認。較正対象外。"},
 "galaxyMeshSpiralGeoToy":{"purpose":"🎠 の配置で法則だけ geoPN=3 に替えて比べる","objective":"partial","state":"600 歩の走行と帳簿は確認・形の門は無い","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.geoToyNeedMesh","preset.galaxyGeoToyCopy"],"en":{"purpose":"Compare 🎠's layout with only the law swapped to geoPN=3","state":"the 600-step run and its ledger are checked; there is no shape gate","mismatch":null,"outlook":null,"brief":"Compare 🎠's layout with only the law swapped to geoPN=3. Partial: the 600-step run and its ledger are checked; there is no shape gate. Out of calibration scope."},"brief":"🎠 の配置で法則だけ geoPN=3 に替えて比べる。部分・600 歩の走行と帳簿は確認・形の門は無い。較正対象外。"},
 "galaxyMeshSpiralGeoToyLite":{"purpose":"🪁 を円盤 80 粒に軽くした比較用の写し","objective":"partial","state":"準備経路のビット同一は確認・形の門は無い","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["perf.geoToyPrepared"],"en":{"purpose":"A lighter copy of 🪁 with an 80-particle disc for comparison","state":"the prepared path is bit-identical; there is no shape gate","mismatch":null,"outlook":null,"brief":"A lighter copy of 🪁 with an 80-particle disc for comparison. Partial: the prepared path is bit-identical; there is no shape gate. Out of calibration scope."},"brief":"🪁 を円盤 80 粒に軽くした比較用の写し。部分・準備経路のビット同一は確認・形の門は無い。較正対象外。"},
+"galaxyAnalogyBH":{"purpose":"中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー","objective":"partial","state":"中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/analogy-w282d.json"],"en":{"purpose":"A galaxy analogy with a central DFM black hole and stellar-mass dark rotors as mass","state":"the centre-spin response is nonzero; the rotation curve is numbers only","mismatch":null,"outlook":null,"brief":"A galaxy analogy with a central DFM black hole and stellar-mass dark rotors as mass. Partial: the centre-spin response is nonzero; the rotation curve is numbers only. Out of calibration scope."},"brief":"中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー。部分・中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い。較正対象外。"},
 "shapeToyCluster":{"purpose":"指定した 3D 正規分布を保つ参照模型","objective":"met","state":"形状トイの門を通過(規定分布の模型)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["docs.shapeToyCriteria","tests/out/shapetoy-w274d.json"],"en":{"purpose":"Reference toy that keeps a specified 3D normal distribution","state":"passes the shape-toy gate (a prescribed-distribution model)","mismatch":null,"outlook":null,"brief":"Reference toy that keeps a specified 3D normal distribution. Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."},"brief":"指定した 3D 正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"},
 "shapeToyDisk":{"purpose":"指定した薄い回転円盤を保つ参照模型","objective":"unmet","state":"形状トイの門で KS 比 1.330 が不合格","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["docs.shapeToyCriteria","tests/out/shapetoy-w274d.json"],"en":{"purpose":"Reference toy that keeps a specified thin rotating disc","state":"fails the shape-toy gate with a KS ratio of 1.330","mismatch":null,"outlook":null,"brief":"Reference toy that keeps a specified thin rotating disc. Unmet: fails the shape-toy gate with a KS ratio of 1.330. Out of calibration scope."},"brief":"指定した薄い回転円盤を保つ参照模型。未達・形状トイの門で KS 比 1.330 が不合格。較正対象外。"},
 "shapeToyArm":{"purpose":"腕の軸に対する正規分布を保つ参照模型","objective":"met","state":"形状トイの門を通過(規定分布の模型)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["docs.shapeToyCriteria","tests/out/shapetoy-w274d.json"],"en":{"purpose":"Reference toy that keeps a normal profile about the arm axis","state":"passes the shape-toy gate (a prescribed-distribution model)","mismatch":null,"outlook":null,"brief":"Reference toy that keeps a normal profile about the arm axis. Met: passes the shape-toy gate (a prescribed-distribution model). Out of calibration scope."},"brief":"腕の軸に対する正規分布を保つ参照模型。達・形状トイの門を通過(規定分布の模型)。較正対象外。"},
@@ -16318,9 +16422,9 @@ const SAMPLE_STATUS={
 "saturnRingReal":{"purpose":"実単位の土星の環を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Saturn's rings in real units with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare Saturn's rings in real units with kF0. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"実単位の土星の環を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "saturnRingRealKF1":{"purpose":"土星の環を kF1 と自動算出 q で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Saturn's rings with kF1 and the automatic q","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","brief":"Compare Saturn's rings with kF1 and the automatic q. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"brief":"土星の環を kF1 と自動算出 q で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "alphaCenAB":{"purpose":"α Cen AB を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"pass-limited","mismatch":null,"outlook":"写像未確定","evidence":["tests/out/calaudit-w249.json","behavior.alphaCenAB"],"en":{"purpose":"Compare α Cen AB with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"mapping unresolved","brief":"Compare α Cen AB with kF0. Partial: the comparison runs are in the ledger. Calibration: limited pass; mapping unresolved."},"brief":"α Cen AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"},
-"alphaCenABDFM":{"purpose":"観測質量のまま kF1 を α Cen へ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 −0.618%(25.9σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply kF1 to α Cen with the observed masses","state":"the comparison runs are in the ledger","mismatch":"period −0.618% (25.9σ)","outlook":"numerics unresolved; mapping unresolved","brief":"Apply kF1 to α Cen with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −0.618% (25.9σ); numerics unresolved; mapping unresolved."},"brief":"観測質量のまま kF1 を α Cen へ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −0.618%(25.9σ)・数値未解決・写像未確定。"},
+"alphaCenABDFM":{"purpose":"観測質量のまま kF1 を α Cen へ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 −0.597%(25σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply kF1 to α Cen with the observed masses","state":"the comparison runs are in the ledger","mismatch":"period −0.597% (25σ)","outlook":"numerics unresolved; mapping unresolved","brief":"Apply kF1 to α Cen with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −0.597% (25σ); numerics unresolved; mapping unresolved."},"brief":"観測質量のまま kF1 を α Cen へ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −0.597%(25σ)・数値未解決・写像未確定。"},
 "siriusAB":{"purpose":"シリウス AB を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"pass-limited","mismatch":null,"outlook":"写像未確定","evidence":["tests/out/calaudit-w249.json","behavior.siriusAB"],"en":{"purpose":"Compare Sirius AB with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"mapping unresolved","brief":"Compare Sirius AB with kF0. Partial: the comparison runs are in the ledger. Calibration: limited pass; mapping unresolved."},"brief":"シリウス AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"},
-"siriusABDFM":{"purpose":"観測質量のまま kF1 をシリウスへ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 −1.80%(210σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply kF1 to Sirius with the observed masses","state":"the comparison runs are in the ledger","mismatch":"period −1.80% (210σ)","outlook":"numerics unresolved; mapping unresolved","brief":"Apply kF1 to Sirius with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.80% (210σ); numerics unresolved; mapping unresolved."},"brief":"観測質量のまま kF1 をシリウスへ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.80%(210σ)・数値未解決・写像未確定。"},
+"siriusABDFM":{"purpose":"観測質量のまま kF1 をシリウスへ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 −1.77%(206σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply kF1 to Sirius with the observed masses","state":"the comparison runs are in the ledger","mismatch":"period −1.77% (206σ)","outlook":"numerics unresolved; mapping unresolved","brief":"Apply kF1 to Sirius with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.77% (206σ); numerics unresolved; mapping unresolved."},"brief":"観測質量のまま kF1 をシリウスへ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.77%(206σ)・数値未解決・写像未確定。"},
 "psrDoubleAB":{"purpose":"二重パルサーを kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.00269%(9.5×10⁵σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the double pulsar with kF0","state":"the comparison runs are in the ledger","mismatch":"period +0.00269% (9.5×10⁵σ)","outlook":"numerics unresolved; mapping unresolved","brief":"Compare the double pulsar with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.00269% (9.5×10⁵σ); numerics unresolved; mapping unresolved."},"brief":"二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00269%(9.5×10⁵σ)・数値未解決・写像未確定。"},
 "psrDoubleABDFM":{"purpose":"二重パルサーを質量補正と kF1 で照合","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 −1.10%(4.9×10⁷σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the double pulsar with a mass factor and kF1","state":"the comparison runs are in the ledger","mismatch":"period −1.10% (4.9×10⁷σ)","outlook":"numerics unresolved; mapping unresolved","brief":"Compare the double pulsar with a mass factor and kF1. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.10% (4.9×10⁷σ); numerics unresolved; mapping unresolved."},"brief":"二重パルサーを質量補正と kF1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.10%(4.9×10⁷σ)・数値未解決・写像未確定。"},
 "psrDoubleABGeoToy":{"purpose":"観測質量のまま geoPN=3 則を当てる診断","objective":"unmet","state":"周期 +0.0897%・掃引で観測をまたがない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/geotoy-w262a.json","behavior.geoToyOverlay"],"en":{"purpose":"Diagnostic that applies the geoPN=3 law with the observed masses","state":"period +0.0897%; no swept setting straddles the observation","mismatch":null,"outlook":null,"brief":"Diagnostic that applies the geoPN=3 law with the observed masses. Unmet: period +0.0897%; no swept setting straddles the observation. Out of calibration scope."},"brief":"観測質量のまま geoPN=3 則を当てる診断。未達・周期 +0.0897%・掃引で観測をまたがない。較正対象外。"},
@@ -16722,14 +16826,23 @@ function validateCompactForce(a){
 // (`presetSig` は preset の決まった鍵しか見ない)。**既定は追加 0(現状)** —— `defaultScenario:"none"`。
 // **二重加算しない**: f★(massCalibration.factorUniform)は恒星の見掛け質量の補正で、ダークローターには掛けない ——
 // ダークローターは f★ に含めない別集団として 1 回だけ足す(`rotorInFStar:false` だけを受理。true の形は未実装 = 決断事項)。
-// 受理の条件: 各数値が有限・正(gas・core は 0 以上)・1<fStar≤3・シナリオ 1〜6 行・各行の
+// 受理の条件: 各数値が有限・正(gas・core は 0 以上)・1≤fStar≤3(第282便a/d — 旧 1<fStar≤3・f★=1 を受理)・シナリオ 1〜6 行・各行の
 // totalUnit = fStar·starBase + gas + core + mRotorUnit(相対 1e-9)・currentTotalUnit = fStar·starBase + gas + core(同)。
 // 知らない鍵は警告つきで落とす。崩れていれば台帳ごと落とす(物理へは何も効かない)。
 // 値は純関数 tests/lib-w281c-rotorledger.mjs が作り、QA `preset.massLedger`・`docs.rotorLedger` が照合する。
-const MASS_LEDGER_VERSION="w281c-1";
+// ---- 第282便d(原仮定者の裁定(第72報)③⑥・統括の読み R81・AN19): **f=1 の台帳**と**力学の質量要素**
+//   ・fStar は **1≤f≤3**(第72報③「f≈2・f≈1+kFrame は廃止・f≈1 も f=1 に」—— f★=1 を受理する)。
+//   ・`fDynamics`(任意・1≤f≤3): bodies に**焼き込まれたままの f**(旧契約)。台帳の f★ と違ってよい(移行は後便 —— 宣言して並べる)。
+//   ・`darkRotor`(任意): **ダークローターを力学の質量要素として置いた**ときの代表粒子の宣言
+//     {mRotorSun(=⟨m_DR⟩・既定シナリオと同じ値), nRep(代表粒子の数・整数), mPerRepUnit(1 粒の質量), totalUnit(=nRep·mPerRepUnit),
+//      inDynamics:true, lens:"excluded"(個別レンズ計算に代表粒子の質量を使わない宣言), distribution(空間分布の宣言文)}。
+//     受理の条件: nRep·mPerRepUnit=totalUnit=シナリオ ⟨m_DR⟩ の mRotorUnit(相対 1e-9)・defaultScenario=mRotorSun。
+//     **値は bodies の実際の質量と QA `docs.analogyLedger` が照合する**(この検証器は宣言の内部整合だけを見る)。
+const MASS_LEDGER_VERSION="w282d-1";
 const MASS_LEDGER_KEYS=["version","starBase","fStar","gas","core","unitKg","mSunKg","mStarSun","nRatio","rotorInFStar",
-  "defaultScenario","currentTotalUnit","currentTotalSun","rotorScenarios","note","noteEn"];
+  "defaultScenario","currentTotalUnit","currentTotalSun","rotorScenarios","note","noteEn","fDynamics","darkRotor"];
 const MASS_LEDGER_ROW_KEYS=["mRotorSun","nRotor","mRotorUnit","totalUnit","totalSun"];
+const MASS_LEDGER_DR_KEYS=["mRotorSun","nRep","mPerRepUnit","totalUnit","inDynamics","lens","distribution"];
 function validateMassLedger(ml){
   const warnings=[];
   if(!ml || typeof ml!=="object" || Array.isArray(ml)) return {ok:false, warnings:["massLedger はオブジェクトが必要"]};
@@ -16740,8 +16853,13 @@ function validateMassLedger(ml){
     if(!pos(ml[k])) return {ok:false, warnings:warnings.concat(["massLedger."+k+" は正の有限数が必要"])};
     o[k]=ml[k];
   }
-  if(!(isNum(ml.fStar) && ml.fStar>1 && ml.fStar<=3)) return {ok:false, warnings:warnings.concat(["massLedger.fStar は 1<f≤3"])};
+  // 第282便a(原仮定者の裁定(第72報)③ f=1): 1≤f★≤3 を受理(旧保存の f★>1 も読める)。二重加算の検査は f★=1 でも同じ式で効く
+  if(!(isNum(ml.fStar) && ml.fStar>=1 && ml.fStar<=3)) return {ok:false, warnings:warnings.concat(["massLedger.fStar は 1≤f≤3"])};
   o.fStar=ml.fStar;
+  if(ml.fDynamics!==undefined){   // 第282便d: bodies に焼き込まれたままの f(旧契約 —— 台帳の f★ と並べる)
+    if(!(isNum(ml.fDynamics) && ml.fDynamics>=1 && ml.fDynamics<=3)) return {ok:false, warnings:warnings.concat(["massLedger.fDynamics は 1≤f≤3"])};
+    o.fDynamics=ml.fDynamics;
+  }
   for(const k of ["gas","core"]){
     if(!nn(ml[k])) return {ok:false, warnings:warnings.concat(["massLedger."+k+" は 0 以上の有限数が必要"])};
     o[k]=ml[k];
@@ -16770,6 +16888,22 @@ function validateMassLedger(ml){
   const ds=(ml.defaultScenario===undefined)? "none" : ml.defaultScenario;
   if(ds==="none" || (isNum(ds) && o.rotorScenarios.some((r)=>r.mRotorSun===ds))) o.defaultScenario=ds;
   else { warnings.push('massLedger.defaultScenario は "none" かシナリオの mRotorSun —— "none"(追加 0)に修正'); o.defaultScenario="none"; }
+  // 第282便d: 力学の質量要素(代表粒子)の宣言。崩れていれば台帳ごと落とす(物理へは何も効かない —— bodies が物理である)
+  if(ml.darkRotor!==undefined){
+    const d=ml.darkRotor;
+    if(!d || typeof d!=="object" || Array.isArray(d)) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor はオブジェクト"])};
+    for(const k of Object.keys(d)) if(MASS_LEDGER_DR_KEYS.indexOf(k)<0) warnings.push("massLedger.darkRotor の未知キー("+String(k).slice(0,20)+")— 無視");
+    if(!(isNum(d.nRep) && d.nRep>=1 && Math.floor(d.nRep)===d.nRep)) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor.nRep は 1 以上の整数(代表粒子の数)"])};
+    for(const k of ["mRotorSun","mPerRepUnit","totalUnit"]) if(!pos(d[k])) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor."+k+" は正の有限数"])};
+    if(d.inDynamics!==true) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor.inDynamics は true(力学の質量要素として置いた宣言)だけを受理"])};
+    if(d.lens!=="excluded") return {ok:false, warnings:warnings.concat(['massLedger.darkRotor.lens は "excluded"(個別レンズ計算に代表粒子の質量を使わない)だけを受理'])};
+    if(rel(d.nRep*d.mPerRepUnit,d.totalUnit)>1e-9) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor の nRep·mPerRepUnit が totalUnit と一致しない"])};
+    const row=o.rotorScenarios.find((r)=>r.mRotorSun===d.mRotorSun);
+    if(!row || rel(row.mRotorUnit,d.totalUnit)>1e-9) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor.totalUnit がシナリオ ⟨m_DR⟩ の mRotorUnit と一致しない"])};
+    if(o.defaultScenario!==d.mRotorSun) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor を置くなら defaultScenario はその ⟨m_DR⟩(力学に入れた値)"])};
+    o.darkRotor={mRotorSun:d.mRotorSun, nRep:d.nRep, mPerRepUnit:d.mPerRepUnit, totalUnit:d.totalUnit, inDynamics:true, lens:"excluded"};
+    if(typeof d.distribution==="string" && d.distribution.trim()) o.darkRotor.distribution=d.distribution.trim().slice(0,200);
+  }
   for(const k of ["note","noteEn"]) if(typeof ml[k]==="string" && ml[k].trim()) o[k]=ml[k].trim().slice(0,600);
   return {ok:true, value:o, warnings};
 }
@@ -17221,6 +17355,8 @@ function validatePreset(obj){
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyAllowDrag===true)
     bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:"calibration" では使えません');
   // 第264便b: 源の閉包 "iterate" も同じ扱い(**診断であって採用則ではない**)
+  if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].centerSpin==="read")
+    bad('physics.spaceMesh.centerSpin:"read"(geoPN=3 のトイが中心の自転を読む opt-in —— 第282便d)は sampleClass:"calibration" では使えません');
   if(p.sampleClass==="calibration" && ph[SPACE_MESH_KEY] && ph[SPACE_MESH_KEY].toyClosure==="iterate")
     bad('physics.spaceMesh.toyClosure:"iterate"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:"calibration" では使えません');
   // 第274便c(第64報): **帯平均 variant も同じ扱い**(近似であって採用則ではない)。
@@ -18679,7 +18815,8 @@ function validatePreset(obj){
         o.factorByBody=[mc.factorByBody[0], mc.factorByBody[1]];
       // 第230便: 平均場形(集団系 — 一様 f=C·2χ̄。meanChi=全対 W の自己無撞着平均・factorUniform=f)
       if(isNum(mc.meanChi) && mc.meanChi>0 && mc.meanChi<=1) o.meanChi=mc.meanChi;
-      if(isNum(mc.factorUniform) && mc.factorUniform>1 && mc.factorUniform<=3) o.factorUniform=mc.factorUniform;
+      // 第282便a: 1≤f≤3 を受理(旧 1<f≤3 — f=1 の台帳〔原仮定者の裁定(第72報)③〕も読めるように。旧保存の f>1 はそのまま読める)
+      if(isNum(mc.factorUniform) && mc.factorUniform>=1 && mc.factorUniform<=3) o.factorUniform=mc.factorUniform;
       // 第240便: 解析慣性則形(inertia-law-v1)— factor=自己無撞着 f(両体共通)・chi=[χ_A,χ_B](記録)
       // 第245便(裁定 A6): 台帳は一次則(inertia-law-lin-v1 — f=1+k_F(αχ_A+βχ_B))へ切り替え、
       //   χ² 則(第240便)の不動点は factorQuad/chiQuad に**併記**して A-B 対照を残す(診断専用・物理へ不干渉)
@@ -18687,10 +18824,18 @@ function validatePreset(obj){
       if(Array.isArray(mc.chi) && mc.chi.length===2 && mc.chi.every((x)=>isNum(x) && x>0 && x<=1)) o.chi=[mc.chi[0], mc.chi[1]];
       if(isNum(mc.factorQuad) && mc.factorQuad>1 && mc.factorQuad<=3) o.factorQuad=mc.factorQuad;
       if(Array.isArray(mc.chiQuad) && mc.chiQuad.length===2 && mc.chiQuad.every((x)=>isNum(x) && x>0 && x<=1)) o.chiQuad=[mc.chiQuad[0], mc.chiQuad[1]];
+      // 第282便a(原仮定者の裁定(第72報)③): **f 固定形**(law:"f-fixed-1")— f=1・baseMass=基準質量(観測解の転写値)・note。
+      //   f は 1≤f≤3 を読む(旧保存の f>1 も読める)が、f-fixed-1 の形として受理するのは f===1 だけ(物理へは不干渉 — 宣言専用)
+      if(isNum(mc.f) && mc.f>=1 && mc.f<=3) o.f=mc.f;
+      if(typeof mc.note==="string" && mc.note.trim()) o.note=mc.note.trim().slice(0,600);
       for(const k of Object.keys(mc))
-        if(["law","fitDt","C","baseMass","factorByBody","meanChi","factorUniform","factor","chi","factorQuad","chiQuad"].indexOf(k)<0)
+        if(["law","fitDt","C","baseMass","factorByBody","meanChi","factorUniform","factor","chi","factorQuad","chiQuad","f","note"].indexOf(k)<0)
           warnings.push("massCalibration の未知キー("+String(k).slice(0,20)+")— 無視");
-      if(o.law && o.baseMass && o.factorByBody) p.massCalibration=o;
+      if(o.law==="f-fixed-1"){
+        if(o.baseMass && o.f===1) p.massCalibration=o;
+        else { warnings.push("massCalibration(f-fixed-1)は baseMass と f=1 が必須 — 無視します"); delete p.massCalibration; }
+      }
+      else if(o.law && o.baseMass && o.factorByBody) p.massCalibration=o;
       else if(o.law && /-meanfield$/.test(o.law) && o.meanChi!==undefined && o.factorUniform!==undefined)
         p.massCalibration=o;   // 第230便: 平均場形は meanChi+factorUniform が台帳の本体
       else if(o.law && /-transfer$/.test(o.law) && o.factorUniform!==undefined)
@@ -30254,7 +30399,7 @@ function buildPhaseParamRows(host){
       (cv)=>{ editSim().phase[def.key]=cv; },   // 第60便: 全ノブが単純な連続量(副作用なし)
       def.lo, def.hi, def.sLo, def.sHi, def.sStep);
   }
-  // 第61便 61B の abQuick ボタンは第62便で #abQuickRow(A/B比較グループの上)へ移設
+  // 第61便 61B の abQuick ボタンは第62便で #abQuickRow へ移設(第282便e: A/B比較の見出しの直下)
   // 第57便 57C: 伝熱壁の壁温・レート行は「実験箱」カテゴリへ移設(buildLabBoxRows)
   det.appendChild(g);
 }
@@ -30325,7 +30470,7 @@ function buildLabBoxRows(g){
   }
 }
 // 第40便 40B(台帳4-77)→ 第62便(原仮定者指示)で統一: ワンタップA/B行 #abQuickRow
-// (「A/B比較」グループの上)。①相変化 abQuick:{key,v}(第61便 61B — B側の相変化ノブだけ
+// (第282便e・原仮定者の裁定(第72報)⑦: 「A/B比較」見出しの直下・開始ボタンの行より上)。①相変化 abQuick:{key,v}(第61便 61B — B側の相変化ノブだけ
 // 対照値へ)②粒子patch abBody(40B — 例: 対向ローターのスピンを0に)を、同じ形状
 // (相変化系 = class "btn")で並べる。プリセットはどちらか一方のみ宣言する運用。
 // buildParamRows() から呼ぶ(プリセット読込・A/B開始/終了・編集対象切替・言語切替のたびに再同期)
@@ -39901,6 +40046,10 @@ const GEO_TOY_LAW_DEFAULT = "scalar";
 // 二体・単一源支配では t_0 = η·χ₀·a_1・t_1 = η·χ₁·a_0 なので、行列式 **1 − η²χ₀χ₁** が
 // 0 に近づく(η=χ=1)ほど反復が止まらない —— その特異性を数で出すのがこのモードの目的である。
 const SPACE_MESH_TOY_CLOSURE = ["gravity","iterate"];
+// 第282便d(原仮定者の裁定(第72報)⑥・統括の読み R81): **中心の自転を geoPN=3 のトイへ読ませる opt-in**
+// (`physics.spaceMesh.centerSpin`)。"off"(既定 = 現状 —— **1 文字も正準形に出さない**)/"read"(場の契約の読み手
+// `dfmFieldContract` の自転項 spin:"e6"・spinSources:"center" で**中心の自転を u に入れる**)。lawVersion:"scalar" 専用。
+const SPACE_MESH_CENTER_SPIN = ["off","read"];
 const GEO_TOY_CLOSURE_ITERS_DEFAULT = 8;      // 既定の最大反復数(宣言で 1〜64)
 const GEO_TOY_CLOSURE_TOL = 1e-12;            // 相対残差の停止条件(**宣言値**であって精度の主張ではない)
 const DFM_FIELD_BG = ["static","frame"];
@@ -40225,6 +40374,219 @@ function dfmFieldSnapshot(S){
     fieldRole:"diagnostic-all-static",
     timeDerivativeComplete:false,      // **ax/ay が無い**(捏造しない)ので時間微分は不完全である
     note:"diagnostic snapshot: all sources / static background / not disk-affine" };
+}
+// ===== 第282便d(原仮定者の裁定(第72報)⑥・統括の読み R81・AN17): **場の契約の読み手** `HP.dfmFieldContract` =====
+// 「表示・診断・力学が**同じ場**を読む入口」(G0)。第281便b の実測で読み手は 5 通りに割れていた
+// (GF-disp=`dfmGalaxyMeshField`・GF-api1/api2=`dfmField`・GF-e6=`S._core` の E6′・GF-toy=`dfmGeoToyStep`)。
+// 本関数は**読み手の契約を宣言として受け取り**、その宣言どおりに u と χ を返す 1 本の読み手である。
+// **既存の 2 本(`dfmGalaxyMeshField`・`dfmField`)は互換として残す**(1 文字も変えていない)。
+//
+//   dfmFieldContract(bodies, x, y, contract)
+//     bodies … `[{id?,m,x,y,vx,vy,xdx?,xdy?,spin?,R?,ax?,ay?,omegaDot?,pinned?}, …]`(**S は読まない純関数**)
+//     contract … 読み手の宣言(**欠けた鍵を既定で埋めない** —— 必須鍵が無ければ null):
+//       p        … 重みの冪(w=m(d²+ε²)^(−p/2))。**必須**
+//       eps      … ソフトニング ε(≥0)。**必須**
+//       Wbg      … 背景の重み(χ=W/(W+W_bg))。**必須**。Infinity は χ=0 の極
+//       WbgFrom  … W_bg の出どころの**ラベル**("D0"|"D0pull"|"declared"|"external")。値は読まない(記録だけ)
+//       ※ **D₀ と W_bg は別鍵**(AN17): `D0` だけを渡して `Wbg` を渡さない呼びは **null**(D₀ を黙って流用しない)
+//       sources  … "all"(全源で W と u の標本)/"disk"(**静止中心**〔pinned と最大質量の 1 体〕を u の標本から外す。W には残す)
+//       velocity … "v"(慣性速度 vx,vy)/"xdot"(座標速度 xdx,xdy —— 無ければ null。0 で埋めない)
+//       spin     … "none"/"e6"(源 j の回転項 ω_j(d)=s_j(R_j/(R_j+d))^q・u_j=v_j+ω_j(d) ẑ×(x−x_j) ——
+//                  **E6′ と同じ減衰形**(d は中心距離)。q と R_j が要る)
+//       spinSources … "all"/"center"(自転を読む源 —— center は pinned の源、pinned が無ければ最大質量の 1 体)
+//       q        … spin:"e6" の減衰冪(必須)
+//       fit      … "mean"(正規化平均)/"affine"(局所アフィン —— 表示の読み手 `dfmGalaxyMeshField` の純配列経路へ
+//                  **委譲**する。spin:"none"・velocity:"v"・sources は "all"/"disk" のみ)
+//       background … "static"(u_bg=0)/"given"(呼び出し側が点ごとの `bgU:[ux,uy]` を渡す —— 表示の "frame" の値を渡す口)
+//       need     … "u"/"uB"/"uBt"(∇u・∂ₜu は **sources:"all"・fit:"mean"・background:"static"** のときだけ作る。
+//                  それ以外で要求されたら gradU/dUdt は **null**(未実装を 0 で埋めない))
+//       excludeBodyId … 自己除外(`dfmField` と同じ規約: 宣言された id、無ければ添字)
+//   返り値 … {u, chi, W, Wbg, gradU, dUdt, uSpin, nIn, spinIds, contract(正規化した宣言), version}
+//
+// **式**(sources:"all"・mean・static —— 力学の読み手と同じ形):
+//   N=Σ wᵢuᵢ・D=W_bg+Σwᵢ・**u=N/D**・∇u=(∇N−u⊗∇D)/D・∂ₜu=(∂ₜN−u∂ₜD)/D
+//   自転項(e6): ∇uᵢ=ω[[0,−1],[1,0]]+(ẑ×r)⊗∇ω(∇ω=ω′(d) r/d・ω′=−qω/(R+d))・
+//   ∂ₜuᵢ|ₓ=aᵢ+(ṡg−∇ω·vᵢ) ẑ×r − ω ẑ×vᵢ。**自転を読まない源の演算は `dfmLocalMeshField`(支持なし)と 1 文字も違わない順序**で書く
+//   (自転 0 なら既定のトイと**ビット一致** —— 器 tests/exp-w282d-analogy.mjs と QA `behavior.centerSpinResponse` が機械確認する)。
+//   sources:"disk" は表示の形 u=χ·u_n+(1−χ)·u_bg(u_n は標本の正規化平均)。
+// **書かないこと**: これは「表示と力が同じ場になった」ことではない —— **同じ関数で読めるようになった**だけで、
+// どの宣言を境界判定の正典にするかは決断事項(AN17)である。**エンジンの既定経路へは 1 バイトも接続しない**
+// (力学へ繋ぐのは `physics.spaceMesh.centerSpin:"read"` を宣言した geoPN=3 の宇宙だけ —— 既定 off)。
+const FIELD_CONTRACT_VERSION="w282d-1";
+const FIELD_CONTRACT_SOURCES=["all","disk"];
+const FIELD_CONTRACT_VELOCITY=["v","xdot"];
+const FIELD_CONTRACT_SPIN=["none","e6"];
+const FIELD_CONTRACT_SPIN_SOURCES=["all","center"];
+const FIELD_CONTRACT_FIT=["mean","affine"];
+const FIELD_CONTRACT_BG=["static","given"];
+const FIELD_CONTRACT_NEED=["u","uB","uBt"];
+const FIELD_CONTRACT_WBG_FROM=["D0","D0pull","declared","external"];
+function dfmFieldContract(bodies,px,py,contract){
+  if(!Array.isArray(bodies) || !contract || typeof contract!=="object") return null;
+  const c=contract;
+  // ---- 宣言の門(必須鍵が無い・知らない値は null —— 既定で埋めない)
+  if(c.Wbg===undefined || c.Wbg===null) return null;                 // AN17: D₀ を黙って W_bg に流用しない
+  if(c.p===undefined || c.eps===undefined) return null;
+  const pw=Number(c.p), eps=Number(c.eps), Wbg=Number(c.Wbg);
+  if(!(Number.isFinite(pw) && pw>0) || !(Number.isFinite(eps) && eps>=0)) return null;
+  if(!(Wbg>=0)) return null;                                          // NaN・負は門(Infinity は χ=0 の極)
+  const pick=(v,list)=>{ const z=(v===undefined || v===null)? list[0] : v; return (list.indexOf(z)<0)? null : z; };
+  const srcM=pick(c.sources,FIELD_CONTRACT_SOURCES), velM=pick(c.velocity,FIELD_CONTRACT_VELOCITY),
+    spinM=pick(c.spin,FIELD_CONTRACT_SPIN), spinS=pick(c.spinSources,FIELD_CONTRACT_SPIN_SOURCES),
+    fitM=pick(c.fit,FIELD_CONTRACT_FIT), bgM=pick(c.background,FIELD_CONTRACT_BG), need=pick(c.need,FIELD_CONTRACT_NEED);
+  if(srcM===null || velM===null || spinM===null || spinS===null || fitM===null || bgM===null || need===null) return null;
+  const wf=(c.WbgFrom===undefined || c.WbgFrom===null)? null : c.WbgFrom;
+  if(wf!==null && FIELD_CONTRACT_WBG_FROM.indexOf(wf)<0) return null;
+  let q=null;
+  if(spinM==="e6"){ q=Number(c.q); if(!(Number.isFinite(q) && q>=0)) return null; }
+  px=Number(px); py=Number(py);
+  if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
+  let bgx=0, bgy=0;
+  if(bgM==="given"){
+    const b=c.bgU; if(!Array.isArray(b) || b.length<2) return null;
+    bgx=Number(b[0]); bgy=Number(b[1]); if(!Number.isFinite(bgx) || !Number.isFinite(bgy)) return null;
+  }
+  const exId=(c.excludeBodyId===undefined || c.excludeBodyId===null)? null : c.excludeBodyId;
+  const norm={ version:FIELD_CONTRACT_VERSION, p:pw, eps, Wbg, WbgFrom:wf, sources:srcM, velocity:velM, spin:spinM,
+    spinSources:(spinM==="e6")? spinS : null, q, fit:fitM, background:bgM, need };
+  // ---- 源の選別(自己除外)と「静止中心」(pinned と最大質量の 1 体)
+  const src=[];
+  let maxK=-1, bm=-Infinity, anyPin=false;
+  for(let i=0;i<bodies.length;i++){
+    const b=bodies[i]; if(!b) return null;
+    const hasId=(b.id!==undefined && b.id!==null), id=hasId? b.id : i;
+    if(exId!==null && (hasId? (id===exId) : (i===exId))) continue;
+    const mi=Number(b.m);
+    if(!(mi>0) || !Number.isFinite(mi)) return null;                 // 負・0 質量の源は拒否
+    if(mi>bm){ bm=mi; maxK=src.length; }
+    if(b.pinned===true) anyPin=true;
+    src.push({b, id});
+  }
+  if(!src.length) return null;
+  const isCenter=(k)=> (src[k].b.pinned===true) || (!anyPin && k===maxK);
+  const isStatic=(k)=> (src[k].b.pinned===true) || k===maxK;          // 表示の unSource:"disk" と同じ集合
+  // ---- 委譲: affine は表示の読み手の純配列経路(自転・ẋ・given 背景は未実装 —— null)
+  if(fitM==="affine"){
+    if(spinM!=="none" || velM!=="v") return null;
+    const list=src.map((z)=>({m:Number(z.b.m), x:Number(z.b.x), y:Number(z.b.y), vx:Number(z.b.vx), vy:Number(z.b.vy),
+      pinned:(z.b.pinned===true)}));
+    const g=dfmGalaxyMeshField(list,px,py,{p:pw, eps, D0:Wbg, unSource:srcM, unFit:"affine", bg:"static",
+      need:(need==="u")? "u" : "uB"});
+    if(!g) return null;
+    let ux=g.u[0], uy=g.u[1];
+    if(bgM==="given"){ const ch=g.chi; ux=ux+(1-ch)*bgx; uy=uy+(1-ch)*bgy; }
+    return { u:[ux,uy], chi:g.chi, W:g.W, Wbg, gradU:(need!=="u" && bgM==="static")? g.gradU : null, dUdt:null,
+      uSpin:[0,0], nIn:src.length, spinIds:[], unValid:g.unValid, fitCond:g.fitCond, contract:norm, version:FIELD_CONTRACT_VERSION };
+  }
+  const full=(srcM==="all" && bgM==="static");
+  const wantB=(need!=="u") && full, wantT=(need==="uBt") && full;
+  const eps2=eps*eps, pwHalfNeg=-pw/2;
+  let W=0, gWx=0, gWy=0, Wd=0, Wu=0;
+  let Nx=0, Ny=0, g0=0, g1=0, g2=0, g3=0, Tx=0, Ty=0, Sx=0, Sy=0;
+  const spinIds=[];
+  for(let k=0;k<src.length;k++){
+    const b=src[k].b;
+    const mi=Number(b.m), bx=Number(b.x), by=Number(b.y);
+    let vix, viy;
+    if(velM==="v"){ vix=(b.vx===undefined)? 0 : Number(b.vx); viy=(b.vy===undefined)? 0 : Number(b.vy); }
+    else { if(b.xdx===undefined || b.xdy===undefined) return null; vix=Number(b.xdx); viy=Number(b.xdy); }
+    const aix=(b.ax===undefined)? 0 : Number(b.ax), aiy=(b.ay===undefined)? 0 : Number(b.ay);
+    if(!(Number.isFinite(bx)&&Number.isFinite(by)&&Number.isFinite(vix)&&Number.isFinite(viy)
+      &&Number.isFinite(aix)&&Number.isFinite(aiy))) return null;
+    const dx=px-bx, dy=py-by, r2=dx*dx+dy*dy, sq=r2+eps2;
+    if(!(sq>0) || !Number.isFinite(sq)) return null;
+    const A=Math.pow(sq,pwHalfNeg);
+    const w=mi*A;
+    if(!Number.isFinite(w)) return null;
+    // 自転項(E6′ と同じ減衰形)。**読まない源は om=0・dOm=0**(下の式が `dfmLocalMeshField` と同じ演算になる)
+    let om=0, omd=0, dOx=0, dOy=0, spinOn=false;
+    if(spinM==="e6" && (spinS==="all" || isCenter(k))){
+      const s=(b.spin===undefined)? 0 : Number(b.spin), sd=(b.omegaDot===undefined)? 0 : Number(b.omegaDot);
+      const Ri=Number(b.R);
+      if(!Number.isFinite(s) || !Number.isFinite(sd)) return null;
+      if(s!==0 || sd!==0){
+        if(!(Ri>0) || !Number.isFinite(Ri)) return null;               // R_j が無い回転源は読めない(0 で埋めない)
+        const d=Math.sqrt(r2), tt=Ri/(Ri+d), gq=(q===2)? tt*tt : Math.pow(tt,q);
+        om=s*gq; omd=sd*gq;
+        if(d>0){ const k1=-q*om/((Ri+d)*d); dOx=k1*dx; dOy=k1*dy; }   // ∇ω = ω′(d)·r/d
+        spinOn=true; spinIds.push(src[k].id);
+      }
+    }
+    const inU=!(srcM==="disk" && isStatic(k));
+    W+=w;
+    if(!inU) continue;
+    const uix=vix-om*dy, uiy=viy+om*dx;                                 // u_i = v_i + ω ẑ×(x−xᵢ)
+    Wu+=w; Nx+=w*uix; Ny+=w*uiy;
+    if(spinOn){ Sx+=w*(-om*dy); Sy+=w*(om*dx); }
+    if(wantB){
+      const kk=mi*(-pw*A/sq);                                           // ∇w = −p w (x−xᵢ)/s(`dfmLocalMeshField` と同じ式の順)
+      const wgx=kk*dx, wgy=kk*dy;
+      gWx+=wgx; gWy+=wgy;
+      g0+=uix*wgx;            g1+=uix*wgy-w*om;                         // ∇u_i の剛体部 [[0,−ω],[ω,0]]
+      g2+=uiy*wgx+w*om;       g3+=uiy*wgy;
+      if(spinOn){ g0+=w*(-dy*dOx); g1+=w*(-dy*dOy); g2+=w*(dx*dOx); g3+=w*(dx*dOy); }   // (ẑ×r)⊗∇ω
+      if(wantT){
+        const wdi=-(wgx*vix+wgy*viy);                                   // ∂ₜw|_x = −∇w·v_i
+        let tix=aix-omd*dy+om*viy, tiy=aiy+omd*dx-om*vix;               // ∂ₜu_i|_x(剛体部)
+        if(spinOn){ const gv=dOx*vix+dOy*viy; tix+=gv*dy; tiy-=gv*dx; }   // −(∇ω·v_i) ẑ×r
+        Wd+=wdi; Tx+=wdi*uix+w*tix; Ty+=wdi*uiy+w*tiy;
+      }
+    }
+  }
+  if(!(W>0) || !Number.isFinite(W)) return null;
+  const chi=(Wbg===Infinity)? 0 : W/(W+Wbg);
+  let ux, uy, gradU=null, dUdt=null, usx=0, usy=0;
+  if(srcM==="all"){
+    if(Wbg===Infinity){ ux=bgx; uy=bgy; }
+    else {
+      const den=Wbg+W;
+      if(bgM==="static"){ ux=Nx/den; uy=Ny/den; }                        // `dfmLocalMeshField` と同じ 1 回の割り算
+      else { ux=(Nx+Wbg*bgx)/den; uy=(Ny+Wbg*bgy)/den; }
+      usx=Sx/den; usy=Sy/den;
+      if(wantB) gradU=[(g0-ux*gWx)/den, (g1-ux*gWy)/den, (g2-uy*gWx)/den, (g3-uy*gWy)/den];
+      if(wantT) dUdt=[(Tx-ux*Wd)/den, (Ty-uy*Wd)/den];
+    }
+  } else {
+    if(!(Wu>0)) return null;                                            // disk で標本が 1 つも残らない
+    const unx=Nx/Wu, uny=Ny/Wu;
+    ux=chi*unx+(1-chi)*bgx; uy=chi*uny+(1-chi)*bgy;
+    usx=chi*Sx/Wu; usy=chi*Sy/Wu;
+  }
+  if(!Number.isFinite(ux) || !Number.isFinite(uy)) return null;
+  if(gradU && !gradU.every(Number.isFinite)) return null;
+  if(dUdt && !dUdt.every(Number.isFinite)) return null;
+  return { u:[ux,uy], chi, W, Wbg, gradU, dUdt, uSpin:[usx,usy], nIn:src.length, spinIds, contract:norm,
+    version:FIELD_CONTRACT_VERSION };
+}
+// 第282便d: **既存の読み手を契約の宣言で書く**(表示・診断・力学の 3 つの宣言の既定を S から作る —— 値は読み手と同じ規則)。
+//   kind "disp"  … GF-disp(`dfmGalaxyMeshField` の既定): p=2(pull 系は frameWeightPow)・W_bg=D₀(pull 系は D0pull)・
+//                  sources/fit はプリセットの overlays.galaxyField(無ければ all/mean)・背景は宣言 bg(frame は "given" の口)
+//   kind "api"   … GF-api1(`dfmFieldSnapshot`→`dfmField`): p=frameWeightPow・W_bg=D₀(pull 系は D0pull)・全源・mean・static
+//   kind "toy"   … GF-toy(`dfmGeoToyStep`): api と同じ + 自己除外(呼ぶ側が excludeBodyId を足す)・
+//                  spaceMesh.centerSpin:"read" を宣言した宇宙だけ spin:"e6"・spinSources:"center"・q=physics.q
+// 返り値 {contract, bgMode("static"|"frame"), note}。**S を書き換えない**。
+function dfmFieldContractOf(S,kind){
+  if(!S || !S.params) return null;
+  const p=S.params, pull=frameWeightIsPull(p);
+  const D0u=pull? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const from=pull? ((p.D0pull!==undefined)? "D0pull" : "D0") : "D0";
+  if(kind==="disp"){
+    const g=(S.overlays && S.overlays.galaxyField)? S.overlays.galaxyField : null;
+    const bg=(g && g.bg)? String(g.bg) : "frame";
+    return { contract:{ p:pull? frameWeightPow(p) : GALMESH_P_DEFAULT, eps:p.softening, Wbg:D0u, WbgFrom:from,
+      sources:(g && g.unSource)? String(g.unSource) : "all", velocity:"v", spin:"none",
+      fit:(g && g.unFit)? String(g.unFit) : "mean", background:(bg==="frame")? "given" : "static", need:"u" },
+      bgMode:bg, note:"GF-disp: 背景 frame は dfmFrameAt の値を bgU で渡す(呼び出し側)" };
+  }
+  if(kind==="api" || kind==="toy"){
+    const cf=p[SPACE_MESH_KEY]||{};
+    const rd=(kind==="toy" && cf.centerSpin===SPACE_MESH_CENTER_SPIN[1]);
+    return { contract:{ p:frameWeightPow(p), eps:p.softening, Wbg:D0u, WbgFrom:from, sources:"all", velocity:"v",
+      spin:rd? "e6" : "none", spinSources:rd? "center" : undefined, q:rd? p.q : undefined,
+      fit:"mean", background:"static", need:(kind==="toy")? "uBt" : "u" }, bgMode:"static",
+      note:(kind==="toy")? "GF-toy: 自己除外は呼ぶ側(excludeBodyId)" : "GF-api1" };
+  }
+  return null;
 }
 // ===== 第263便a(第55報・統括が設定した検証仮説 (4)): **支配度の器** `HP.dfmDominance(bodies, opts)` =====
 // 原仮定者(第55報)「**geoPN=2 と kFrame=1 の組み合わせが安定していたのは、支配天体が 1 つだったからである**」。
@@ -40679,6 +41041,9 @@ function dfmGeoToyStep(S,dt){
   if(cf.law===MESH_V2_LAWS[1]) return dfmMeshV2Step(S,dt,cf);
   if(DFM_FIELD_LAWS.indexOf(law)<0){ S.geoToyStop="lawVersion"; return null; }
   if(law==="complex"){ S.geoToyStop="complexNotVelocity"; return null; }
+  // 第282便d(第72報⑥・R81): **中心の自転を読む opt-in**(`spaceMesh.centerSpin:"read"`)。宣言が無ければ
+  //   **この 1 行の比較だけ**で素通りする(内蔵 140 本は 1 本も宣言しない = 既定経路は 1 bit 不変)。
+  if(cf.centerSpin===SPACE_MESH_CENTER_SPIN[1]) return dfmGeoToySpinStep(S,dt,cf,law);
   // 第275便c(第65報 (3)「なぜ重いか分析して改善」): **準備済み経路**(スカラー・静的源・零スピン・
   //   閉包 "gravity" の条件を**判定して**だけ入る)。条件を 1 つでも外れたら `false` が返り、
   //   以下の旧経路がそのまま走る(**ビット同一** —— QA `perf.geoToyPrepared` が機械確認する)。
@@ -40843,6 +41208,76 @@ function dfmGeoToyStep(S,dt){
   //   **式も順序も第265便b と 1 文字も変えていない**(600 步 bitsame・presetSig で機械確認する)。
   return dfmGeoToyFinish(S,dt,ACC,{ closure, iters, resid, residRel, conv,
     nOn, dvM, chiMax, law, R:supR, Rdot:supRd, prepared:false });
+}
+// ===== 第282便d(原仮定者の裁定(第72報)⑥・統括の読み R81): **中心の自転を読む geoPN=3 のトイ** `dfmGeoToySpinStep` =====
+// 第281便b の実測: 🎋 の経路(`dfmGeoToyStep`)は源の omega を 0 で渡すので**中心の自転を読まない**
+// (中心 spin 1.2/0 の 2 走行が t=40 までビット一致)。本関数は `physics.spaceMesh.centerSpin:"read"` を
+// 宣言した宇宙だけが通る別経路で、onePass の場を**場の契約の読み手** `dfmFieldContract`
+// (p=frameWeightPow・W_bg=D₀(pull 系は D0pull)・全源・mean・static・**spin:"e6"・spinSources:"center"・q=physics.q**)に替える。
+//   中心 = pinned の源(pinned が無ければ最大質量の 1 体)。自転 s=S.spin・R=S.R(表示・衝突の半径をそのまま —— **R_drag の宣言は未実装**)。
+//   **それ以外の式・順序・帳簿は既定のトイと同じ**(源の加速度は同じ `dfmField` need:"gravity"・適用と記帳は `dfmGeoToyFinish`)。
+//   **中心の自転 0 では既定経路とビット一致**(自転を読まない源の演算は `dfmLocalMeshField` と同じ順 ——
+//   器 tests/exp-w282d-analogy.mjs と QA `behavior.centerSpinResponse` が機械確認する)。
+// 範囲: lawVersion:"scalar"・箱なし・toyClosure:"gravity"。外れたら `S.geoToyStop="centerSpinScope"` で止める(黙って既定へ戻さない)。
+// **書かないこと**: 中心の自転が銀河の回転を「作った」とは言わない —— 読み手が中心の自転を**読むようになった**だけで、
+// 応答 ∂u_φ/∂Ω_core は数で置く(PHYSICS〔第282便d〕)。**`S._core` には 1 命令も足していない**。
+function dfmGeoToySpinStep(S,dt,cf,law){
+  const p=S.params, n=S.n;
+  if(law!=="scalar"){ S.geoToyStop="centerSpinScope"; return null; }
+  if(cf.toyClosure!==undefined && cf.toyClosure!==SPACE_MESH_TOY_CLOSURE[0]){ S.geoToyStop="centerSpinScope"; return null; }
+  if(S.box && S.boxA && S.boxA.W>0){ S.geoToyStop="centerSpinScope"; return null; }
+  const eta=(cf.toyGain===undefined)? 1 : cf.toyGain;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.m, pin=S.pinned;
+  const pw=frameWeightPow(p);
+  const eps=p.softening, G=p.G;
+  const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
+  const BD=[];
+  for(let i=0;i<n;i++) BD.push({id:i, m:m[i], x:x[i], y:y[i], vx:vx[i], vy:vy[i], ax:0, ay:0,
+    spin:S.spin[i], R:S.R[i], omegaDot:0, pinned:(pin[i]===1)});
+  // 源の加速度(既定のトイと同じ: pinned は規定運動〔静止・等速 0 / レールは 2 階微分〕・自由粒子は g=G∇D)
+  for(let i=0;i<n;i++){
+    if(pin[i]){
+      const om=S.railOmega? S.railOmega[i] : 0, hh=S.railH? S.railH[i] : 0;
+      if(om===0 && hh===0){ BD[i].ax=0; BD[i].ay=0; continue; }
+      let he=hh;
+      if(hh!==0){ const r0=S.railR[i]*Math.exp(hh*S.t); if(!(r0>1 && r0<4800)) he=0; }
+      const ex=x[i]-(S.railCx? S.railCx[i] : 0), ey=y[i]-(S.railCy? S.railCy[i] : 0);
+      BD[i].ax=(he*he-om*om)*ex-2*he*om*ey;
+      BD[i].ay=(he*he-om*om)*ey+2*he*om*ex;
+      continue;
+    }
+    const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:"gravity", G, eps, p:pw, D0:D0p,
+      background:"static", energyContract:"toy"});
+    if(!f){ S.geoToyStop="field"; return null; }
+    BD[i].ax=f.gravity[0]; BD[i].ay=f.gravity[1];
+  }
+  const C={ p:pw, eps, Wbg:D0p, WbgFrom:frameWeightIsPull(p)? ((p.D0pull!==undefined)? "D0pull" : "D0") : "D0",
+    sources:"all", velocity:"v", spin:"e6", spinSources:"center", q:p.q, fit:"mean", background:"static", need:"uBt",
+    excludeBodyId:0 };
+  const ACC=new Float64Array(2*n);
+  let nOn=0, dvM=0, chiMax=0, spinSeen=0;
+  for(let i=0;i<n;i++){
+    if(pin[i]) continue;
+    C.excludeBodyId=i;
+    const f=dfmFieldContract(BD,x[i],y[i],C);
+    if(!f) continue;                                       // 旧経路と同じ(null は 0 で埋めない = 当てない)
+    if(f.spinIds.length>spinSeen) spinSeen=f.spinIds.length;
+    const chi=f.chi;
+    if(chi>chiMax) chiMax=chi;
+    const ubx=eta*f.u[0], uby=eta*f.u[1];
+    const gxx=eta*f.gradU[0], gxy=eta*f.gradU[1], gyx=eta*f.gradU[2], gyy=eta*f.gradU[3];
+    const tux=eta*f.dUdt[0], tuy=eta*f.dUdt[1];
+    const vxi=vx[i], vyi=vy[i], rlx=vxi-ubx, rly=vyi-uby;
+    const aix=tux+gxx*vxi+gxy*vyi-(gxx*rlx+gyx*rly);
+    const aiy=tuy+gyx*vxi+gyy*vyi-(gxy*rlx+gyy*rly);
+    if(!Number.isFinite(aix) || !Number.isFinite(aiy)){ S.geoToyStop="nonfinite"; return null; }
+    ACC[2*i]=aix; ACC[2*i+1]=aiy;
+    const dm=Math.hypot(aix*dt,aiy*dt); if(dm>dvM) dvM=dm;
+    nOn++;
+  }
+  S.geoToySpinSources=spinSeen;   // 診断の読み口(自転を読んだ源の数 —— 表示にも署名にも入らない)
+  return dfmGeoToyFinish(S,dt,ACC,{ closure:SPACE_MESH_TOY_CLOSURE[0], iters:1, resid:null, residRel:null, conv:null,
+    nOn, dvM, chiMax, law, R:null, Rdot:0, prepared:false });
 }
 // ===== 第274便c(第64報): **帯平均の軽量 variant** `dfmGeoToyBandStep(S,dt,cf)` =====
 // 原仮定者(第64報)の優先課題「galaxyMeshSpiralGeoToy が**重い理由を調査し改善する**。近似として
@@ -43930,7 +44365,7 @@ function dfmMeshTransportObserve(S){
 }
 window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extractJSON, frameWeightPow, frameWeightIsPull, frameWeightOf, FRAME_WEIGHT_DEFAULT,   // 第242便
   // 第281便c: 条件付き質量台帳 massLedger の検証器(表示専用の宣言 —— QA preset.massLedger が読む)
-  validateMassLedger, MASS_LEDGER_VERSION, MASS_LEDGER_KEYS,
+  validateMassLedger, MASS_LEDGER_VERSION, MASS_LEDGER_KEYS, MASS_LEDGER_DR_KEYS,
   // 第247便d(裁定 A5′(2)): MM 2 腕干渉計の位相玩具(純関数の解析器)と、光が感じる u の 1 点評価。
   // どちらも読み取り専用で力学へは接続しない。QA behavior.mmPhase が階段(1)〜(5)を機械固定する
   dfmMMPhase, dfmFrameAt,
@@ -44058,6 +44493,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 両分岐とトイの g が**同じ `dfmField`** を読むための 1 段。**ax/ay は捏造しない**ので
   // `timeDerivativeComplete` は false である。QA behavior.fieldApiIdentity が恒等を機械固定する
   dfmFieldSnapshot,
+  // 第282便d(第72報⑥・R81・AN17): 場の契約の読み手(表示・診断・力学が同じ場を読む入口)と、既存の読み手の宣言
+  dfmFieldContract, dfmFieldContractOf, FIELD_CONTRACT_VERSION, SPACE_MESH_CENTER_SPIN,
   // 第259便a: geoPN=3(トイの測地線モード)の積分器と、追従キックの**除去の段階**の値域。
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)

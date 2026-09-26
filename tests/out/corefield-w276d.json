@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便d(第66報 (4)・Core 力学)",
   "target": "beta/index.html",
-  "targetSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-  "generatedAt": "2026-09-25T06:54:11.108Z",
+  "targetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
+  "generatedAt": "2026-09-26T00:31:58.300Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4780811,
-    "sha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
-    "mtime": "2026-09-25T04:06:38.157Z"
+    "bytes": 4836654,
+    "sha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
+    "mtime": "2026-09-26T00:07:02.808Z"
    }
   ],
   "code": [
@@ -41,7 +41,7 @@
   ],
   "codeSha256": "eb0df968b46cc5651ad8351ba077b088401327dccf48e758e9b49be2c23beacf",
   "scope": {
-   "version": "w281a-scope-1",
+   "version": "w282e-scope-2",
    "presets": [
     "saturn",
     "shapeToyArmCore",
@@ -67,40 +67,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 966,
-   "segments": 886,
-   "closureShare": 0.3786
+   "names": 776,
+   "segments": 704,
+   "closureShare": 0.3151
   },
-  "scopeSha256": "5e2b27bef9acacffd86302f5bffdfa141f8e8f65228057d632fcf6c7fd596db4",
+  "scopeSha256": "ca6ef6cc5427cf3cb811549702d705296faf299af5edc62ee3ddd739aef94a4c",
   "scopeComplete": true,
   "inputsStable": [],
-  "volatileKeys": [
-   "generatedAt",
-   "when",
-   "wallSec",
-   "wallClock",
-   "wallS",
-   "spentSec",
-   "rateStepsPerSec",
-   "mtime",
-   "measuredAt",
-   "elapsedSec",
-   "elapsedS",
-   "elapsedMs",
-   "wallMs",
-   "wallDurationMs",
-   "durationMs",
-   "runMs",
-   "spentSecTotal",
-   "measurementElapsedSecTotal",
-   "startedAt",
-   "htmlLoadMs",
-   "baseWallSec",
-   "nowWallSec",
-   "baseRate",
-   "nowRate",
-   "maxWallSec"
-  ]
+  "stableHashVersion": "w282e-stable-1"
  },
  "section": "Core 力学(中心スピンに依存する法則)の検算(第66報 (4) 前半)",
  "hypothesisNote": "**追加ポテンシャル Φ=½κ₀r²+½ω_m²{αr⊥²+βr∥²} は新しい構成仮説である**。現行 DFM から一意に導出された法則ではない(統括の検証項目 R44 の字義)。ここで測るのは**宣言した仮説の帰結**だけであり、観測との一致は 1 件も測っていない。",

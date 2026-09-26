@@ -1,0 +1,540 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第282便a(原仮定者の裁定(第72報)③・R78 —— 恒星連星 2 本の f=1 移行の前後記録)",
+  "target": "beta/index.html",
+  "targetSha256": "c1bbe7398008177057dd93814ea68f1670afeec0daa53bedf764b870f239b389",
+  "generatedAt": "2026-09-25T23:24:34.415Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4794265,
+    "sha256": "c1bbe7398008177057dd93814ea68f1670afeec0daa53bedf764b870f239b389",
+    "mtime": "2026-09-25T23:13:55.080Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2812516,
+    "sha256": "84d94bc4c3fb91c3ceb63ba50357af1c73afb3b408a705fc3952e9baebdd6a49",
+    "mtime": "2026-09-25T22:50:08.812Z"
+   },
+   {
+    "file": "tests/out/solarsigma-w262d.json",
+    "bytes": 205464,
+    "sha256": "f6df06a3cb4494cd108030a9923f35fa382b2c24b0bfd03c0c3f45e26ed95c73",
+    "mtime": "2026-09-25T22:50:09.444Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w282a-fmigration.mjs",
+    "bytes": 12897,
+    "sha256": "9d54c4443d454fb0bb58cd2531f058eacedb1720263ad0fc3096c4c5aea655ee",
+    "mtime": "2026-09-25T23:12:28.928Z"
+   },
+   {
+    "file": "tests/exp-w249b-calaudit.mjs",
+    "bytes": 303175,
+    "sha256": "f29dcee126a647d41a59d5f9698dff3e34470b8d8f08cad1e0c1b283b8397667",
+    "mtime": "2026-09-25T23:11:01.768Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-25T22:50:06.808Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 34111,
+    "sha256": "29807a6de6d4ae8598498420bc14a6198e3ca519d8fe2d71d13275ad432cbc39",
+    "mtime": "2026-09-25T22:50:08.676Z"
+   },
+   {
+    "file": "tests/lib-w258d-evidence.mjs",
+    "bytes": 23308,
+    "sha256": "922b29ba232f01a0db700bb7affd80d0f45ae0c672df420df30082ea20f69304",
+    "mtime": "2026-09-25T22:50:06.405Z"
+   },
+   {
+    "file": "tests/lib-w264d-sigmamark.mjs",
+    "bytes": 8862,
+    "sha256": "a6b63351e348c728d5da295acfdb0071ccacd3a75974f80aa9152fb5be11cf09",
+    "mtime": "2026-09-25T22:50:06.405Z"
+   },
+   {
+    "file": "tests/lib-sigma-destinations.mjs",
+    "bytes": 8797,
+    "sha256": "8979046d74ea3b71b5773420c9fd7178dbf14b0d49b3ec36a7b0fdb661973a80",
+    "mtime": "2026-09-25T22:50:06.405Z"
+   },
+   {
+    "file": "tests/lib-w268a-judgement.mjs",
+    "bytes": 15169,
+    "sha256": "4b22112d05f75509594d8d2428ec4363615e9cda98f26ee6a6aeccdc6100330a",
+    "mtime": "2026-09-25T22:50:06.405Z"
+   },
+   {
+    "file": "tests/lib-w270b-obscsv.mjs",
+    "bytes": 14614,
+    "sha256": "a096a132d0eea0841d194dd174b1ebc96caea453e9c0bbebab0a5d9391058b77",
+    "mtime": "2026-09-25T22:50:06.652Z"
+   },
+   {
+    "file": "tests/lib-w270a-stoprule.mjs",
+    "bytes": 20880,
+    "sha256": "96fbd72473f42b46c381760ca4c34bb7e59c6b090aebd2482b78d4156937c7d2",
+    "mtime": "2026-09-25T22:50:06.648Z"
+   }
+  ],
+  "codeSha256": "3e0b211802b57e41a61e91e302e55d5b438749a982db32f27c204b0607774ac6",
+  "scope": {
+   "version": "w281a-scope-1",
+   "presets": [
+    "alphaCenAB",
+    "alphaCenABDFM",
+    "earthMoonRealKF1",
+    "emAuditDFM",
+    "emAuditNewton",
+    "gw150914DFM",
+    "jupiterGalilean",
+    "marsMoonsReal",
+    "neptuneReal",
+    "plutoCharonReal",
+    "psrB1534",
+    "psrB1534CF",
+    "psrB1534DFM",
+    "psrDoubleAB",
+    "psrDoubleABCF",
+    "psrDoubleABDFM",
+    "psrDoubleABPN",
+    "psrDoubleABSpinCal",
+    "psrJ1757CF",
+    "psrJ1757DFM",
+    "psrJ1757PN",
+    "psrJ1946CF",
+    "psrJ1946DFM",
+    "psrJ1946PN",
+    "qLockRadialAudit",
+    "qLockRadialAuditQ3",
+    "saturnZonalD68",
+    "siriusAB",
+    "siriusABDFM",
+    "venusReal"
+   ],
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.coreState",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "applyQLock",
+    "ch",
+    "clamp",
+    "ctx",
+    "isNum",
+    "scaleExpT",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 966,
+   "segments": 886,
+   "closureShare": 0.3776
+  },
+  "scopeSha256": "45449f75b5aa48c4b17a673309871fd9a2ae5f4cbba85ef816cfaaa9d84301be",
+  "scopeComplete": true,
+  "role": "history",
+  "frozen": true,
+  "note": "**移行は 1 度きりの出来事なので再生成しない**(履歴の正本)。現行の判定は統括の chain が正本 calaudit を走らせ直して出す。基点 html は `git show 8b05232:beta/index.html`(一時ファイル・終了後に削除)。",
+  "baseRev": "8b05232",
+  "baseHtmlSha256": "590fae67d128bccd643ead6575cc38c596c21862cf3c394d8f3c0f8b9b50a37c",
+  "nowHtmlSha256": "c1bbe7398008177057dd93814ea68f1670afeec0daa53bedf764b870f239b389",
+  "auditCmd": "W249_OUT=<tmp> W249_DIAG_OUT=<tmp> QA_TARGET=<html> node tests/exp-w249b-calaudit.mjs --only alphaCenABDFM,siriusABDFM --dt3",
+  "wallSec": {
+   "before": 196.75,
+   "after": 194.428
+  },
+  "doNotWrite": [
+   "f=1 で合った",
+   "kF0 版が成立した",
+   "較正を完了した",
+   "判定が増えた"
+  ]
+ },
+ "ids": [
+  "alphaCenABDFM",
+  "siriusABDFM"
+ ],
+ "migration": {
+  "alphaCenABDFM": {
+   "mBefore": [
+    21.45656689553357,
+    18.08334317892021
+   ],
+   "mAfter": [
+    21.451938,
+    18.079442
+   ],
+   "fBefore": 1.0002157798299423,
+   "lawBefore": "inertia-law-lin-v1",
+   "fAfter": 1,
+   "lawAfter": "f-fixed-1",
+   "baseMassFrom": "massCalibration.baseMass(= ✨ alphaCenAB の bodies の m・MASS_BASIS records SOL-f31c9224/SOL-0347b3c6)",
+   "hiddenCore": "無し(第242便で撤去済み —— 移行で除くものは無い)",
+   "initialState": "位置・速度は不変(✨ とビット同一)"
+  },
+  "siriusABDFM": {
+   "mBefore": [
+    41.038218223641486,
+    20.25056042252401
+   ],
+   "mAfter": [
+    41.022755,
+    20.24293
+   ],
+   "fBefore": 1.0003769425929947,
+   "lawBefore": "inertia-law-lin-v1",
+   "fAfter": 1,
+   "lawAfter": "f-fixed-1",
+   "baseMassFrom": "massCalibration.baseMass(= 🌟 siriusAB の bodies の m・MASS_BASIS records SOL-48a6939f/SOL-62054200)",
+   "hiddenCore": "無し(第242便で撤去済み —— 移行で除くものは無い)",
+   "initialState": "位置・速度は不変(🌟 とビット同一)"
+  }
+ },
+ "before": {
+  "alphaCenABDFM": {
+   "massCalibration": {
+    "law": "inertia-law-lin-v1",
+    "factor": 1.0002157798299423
+   },
+   "massFactorCorrelate": 1.0002157798299423,
+   "verdict4": "保留",
+   "representative": {
+    "kind": "period",
+    "nSigma": 25.937299228782674,
+    "residualPct": -0.6181981099234876
+   },
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "quantities": {
+    "precession": {
+     "name": "軌道の形(歳差の定量)",
+     "unit": "deg/orbit",
+     "obs": null,
+     "obsErr": null,
+     "measH": 0.8900436515537614,
+     "residualPct": null,
+     "residualPctRev": null,
+     "residualPctPeri": null,
+     "verdict5": "転",
+     "gateStatus": "未判定",
+     "assessedStage": "h4",
+     "assessedValue": 0.8900034559425584,
+     "nSigma": null
+    },
+    "period": {
+     "name": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",
+     "unit": "s",
+     "obs": 2517097291.2,
+     "obsErr": 599594.4,
+     "measH": 2501536643.320866,
+     "residualPct": -0.6181981099234876,
+     "residualPctRev": -0.6181981099234876,
+     "residualPctPeri": 0.04672653617180828,
+     "verdict5": "窓",
+     "gateStatus": "数値未解決",
+     "assessedStage": "h4",
+     "assessedValue": 2501545431.8312974,
+     "nSigma": 25.937299228782674
+    },
+    "ecc": {
+     "name": "実測離心率(1周目の半径比振れ幅)",
+     "unit": "-",
+     "obs": 0.51947,
+     "obsErr": 0.00015,
+     "measH": 0.5205091477660706,
+     "residualPct": 0.20003999577850767,
+     "residualPctRev": null,
+     "residualPctPeri": null,
+     "verdict5": "窓",
+     "gateStatus": "mapping-unresolved",
+     "assessedStage": "h4",
+     "assessedValue": 0.5205090702291534,
+     "nSigma": 6.927134861022625
+    }
+   }
+  },
+  "siriusABDFM": {
+   "massCalibration": {
+    "law": "inertia-law-lin-v1",
+    "factor": 1.0003769425929947
+   },
+   "massFactorCorrelate": 1.0003769425929947,
+   "verdict4": "保留",
+   "representative": {
+    "kind": "period",
+    "nSigma": 210.06062023476335,
+    "residualPct": -1.8039555582629758
+   },
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "quantities": {
+    "period": {
+     "name": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",
+     "unit": "s",
+     "obs": 1581931995.84,
+     "obsErr": 135697.68,
+     "measH": 1553394645.6731038,
+     "residualPct": -1.8039555582629758,
+     "residualPctRev": -1.8039555582629758,
+     "residualPctPeri": 0.08297809490964532,
+     "verdict5": "窓",
+     "gateStatus": "数値未解決",
+     "assessedStage": "h4",
+     "assessedValue": 1553427257.0147815,
+     "nSigma": 210.06062023476335
+    },
+    "ecc": {
+     "name": "実測離心率(1周目の半径比振れ幅)",
+     "unit": "-",
+     "obs": 0.59142,
+     "obsErr": 0.00037,
+     "measH": 0.593766023301138,
+     "residualPct": 0.3966763554053109,
+     "residualPctRev": null,
+     "residualPctPeri": null,
+     "verdict5": "窓",
+     "gateStatus": "mapping-unresolved",
+     "assessedStage": "h4",
+     "assessedValue": 0.593765673223803,
+     "nSigma": 6.339657361629945
+    },
+    "precession": {
+     "name": "実測(標準検出器): 近点移動(B)",
+     "unit": "deg/orbit",
+     "obs": null,
+     "obsErr": null,
+     "measH": 2.192906440713806,
+     "residualPct": null,
+     "residualPctRev": null,
+     "residualPctPeri": null,
+     "verdict5": "転",
+     "gateStatus": "未判定",
+     "assessedStage": "h4",
+     "assessedValue": 2.1924181883037686,
+     "nSigma": null
+    }
+   }
+  }
+ },
+ "after": {
+  "alphaCenABDFM": {
+   "massCalibration": {
+    "law": "f-fixed-1"
+   },
+   "massFactorCorrelate": 1,
+   "verdict4": "保留",
+   "representative": {
+    "kind": "period",
+    "nSigma": 25.03628880545534,
+    "residualPct": -0.5967352840253615
+   },
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "quantities": {
+    "precession": {
+     "name": "軌道の形(歳差の定量)",
+     "unit": "deg/orbit",
+     "obs": null,
+     "obsErr": null,
+     "measH": 0.8894468794163034,
+     "residualPct": null,
+     "residualPctRev": null,
+     "residualPctPeri": null,
+     "verdict5": "転",
+     "gateStatus": "未判定",
+     "assessedStage": "h4",
+     "assessedValue": 0.8894075863293471,
+     "nSigma": null
+    },
+    "period": {
+     "name": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",
+     "unit": "s",
+     "obs": 2517097291.2,
+     "obsErr": 599594.4,
+     "measH": 2502076883.530163,
+     "residualPct": -0.5967352840253615,
+     "residualPctRev": -0.5967352840253615,
+     "residualPctPeri": 0.06774564043427975,
+     "verdict5": "窓",
+     "gateStatus": "数値未解決",
+     "assessedStage": "h4",
+     "assessedValue": 2502085672.635466,
+     "nSigma": 25.03628880545534
+    },
+    "ecc": {
+     "name": "実測離心率(1周目の半径比振れ幅)",
+     "unit": "-",
+     "obs": 0.51947,
+     "obsErr": 0.00015,
+     "measH": 0.5204048722592327,
+     "residualPct": 0.17996655422502203,
+     "residualPctRev": null,
+     "residualPctPeri": null,
+     "verdict5": "窓",
+     "gateStatus": "mapping-unresolved",
+     "assessedStage": "h4",
+     "assessedValue": 0.520404787133132,
+     "nSigma": 6.231914220879987
+    }
+   }
+  },
+  "siriusABDFM": {
+   "massCalibration": {
+    "law": "f-fixed-1"
+   },
+   "massFactorCorrelate": 1,
+   "verdict4": "保留",
+   "representative": {
+    "kind": "period",
+    "nSigma": 205.922532514465,
+    "residualPct": -1.7684035939027984
+   },
+   "missing": [
+    "写像未確定",
+    "数値精度"
+   ],
+   "quantities": {
+    "period": {
+     "name": "公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)",
+     "unit": "s",
+     "obs": 1581931995.84,
+     "obsErr": 135697.68,
+     "measH": 1553957053.572467,
+     "residualPct": -1.7684035939027984,
+     "residualPctRev": -1.7684035939027984,
+     "residualPctPeri": 0.11635792964556292,
+     "verdict5": "窓",
+     "gateStatus": "数値未解決",
+     "assessedStage": "h4",
+     "assessedValue": 1553988785.9180624,
+     "nSigma": 205.922532514465
+    },
+    "ecc": {
+     "name": "実測離心率(1周目の半径比振れ幅)",
+     "unit": "-",
+     "obs": 0.59142,
+     "obsErr": 0.00037,
+     "measH": 0.5936098204626961,
+     "residualPct": 0.3702648646809565,
+     "residualPctRev": null,
+     "residualPctPeri": null,
+     "verdict5": "窓",
+     "gateStatus": "mapping-unresolved",
+     "assessedStage": "h4",
+     "assessedValue": 0.5936094693156785,
+     "nSigma": 5.917484636969022
+    },
+    "precession": {
+     "name": "実測(標準検出器): 近点移動(B)",
+     "unit": "deg/orbit",
+     "obs": null,
+     "obsErr": null,
+     "measH": 2.1903325316761,
+     "residualPct": null,
+     "residualPctRev": null,
+     "residualPctPeri": null,
+     "verdict5": "転",
+     "gateStatus": "未判定",
+     "assessedStage": "h4",
+     "assessedValue": 2.189844478357598,
+     "nSigma": null
+    }
+   }
+  }
+ },
+ "reproducedCanonical": true,
+ "canonicalMatchesBaseHtml": true,
+ "fourValues": {
+  "before": {
+   "合": 0,
+   "量限定合": 2,
+   "否": 2,
+   "保留": 33
+  },
+  "after": {
+   "合": 0,
+   "量限定合": 2,
+   "否": 2,
+   "保留": 33
+  }
+ },
+ "gate": {
+  "before": {
+   "合(3σ)": 2,
+   "否(3σ)": 2,
+   "数値未解決": 34,
+   "mapping-unresolved": 15,
+   "condition-mismatch": 0,
+   "未判定": 261
+  },
+  "after": {
+   "合(3σ)": 2,
+   "否(3σ)": 2,
+   "数値未解決": 34,
+   "mapping-unresolved": 15,
+   "condition-mismatch": 0,
+   "未判定": 261
+  }
+ },
+ "tally": {
+  "before": {
+   "合": 66,
+   "窓": 6,
+   "否": 26,
+   "従": 4,
+   "転": 212,
+   "条": 0
+  },
+  "after": {
+   "合": 66,
+   "窓": 6,
+   "否": 26,
+   "従": 4,
+   "転": 212,
+   "条": 0
+  }
+ },
+ "solarCut": {
+  "rule": "切断点(csv-sigma-empty / kind-not-gated / unit-not-converted / connected)は σ 接続器(tests/exp-w262d-solarsigma.mjs)が**太陽系の行だけ**を数える量である。移行した 2 本は恒星連星で、σ 接続器の行に現れない(untouched=true)ので、切断点は移行で動かない。",
+  "untouched": true,
+  "fourValuesHistoryHead": {
+   "csv-sigma-empty": 106,
+   "kind-not-gated": 26,
+   "unit-not-converted": 3,
+   "connected": 4
+  },
+  "solarsigmaCutTally": {
+   "csv-sigma-empty": 106,
+   "kind-not-gated": 26,
+   "unit-not-converted": 3,
+   "connected": 4
+  }
+ },
+ "summary": {
+  "fourBefore": "0/2/2/33",
+  "fourAfter": "0/2/2/33",
+  "gateBefore": "2/2/34/15/0",
+  "gateAfter": "2/2/34/15/0",
+  "verdict4": "alphaCenABDFM 保留→保留 / siriusABDFM 保留→保留"
+ }
+}

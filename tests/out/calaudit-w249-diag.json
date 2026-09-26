@@ -1,9 +1,9 @@
 {
- "when": "2026-09-25T08:20:05.935Z",
+ "when": "2026-09-26T09:46:19.453Z",
  "wave": "第271便a(第61報・AF16)",
  "of": "tests/out/calaudit-w249.json",
  "what": "**正本から移した重い診断**である(削ったのではない)。正本の `diagnosticsSplit` にこのファイルの相対パスと SHA-256 がある。単独で配ると参照先が欠ける —— 2 つで 1 組である。",
- "carriedOverFrom": "2026-09-25T08:15:14.296Z",
+ "carriedOverFrom": "2026-09-26T09:41:27.842Z",
  "fields": [
   {
    "path": "presets[].run.stopRule.machineIndependence",
@@ -1748,7 +1748,7 @@
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
      ]
     },
-    "null|other|解析慣性則(第245便 — 一次則が台帳)": {
+    "null|other|解析慣性則(第245便の一次則 — 第282便a で履歴)": {
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1770,7 +1770,7 @@
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
      ]
     },
-    "null|other|DFM 質量(条件つき較正 — 実在値の主張ではない)": {
+    "null|other|DFM 質量(第282便a — f=1: 観測質量そのもの)": {
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1957,7 +1957,7 @@
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
      ]
     },
-    "null|other|DFM 質量(条件つき較正 — 実在値の主張ではない)": {
+    "null|other|DFM 質量(第282便a — f=1: 観測質量そのもの)": {
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1968,7 +1968,7 @@
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
      ]
     },
-    "null|other|解析慣性則(第245便 — 一次則が台帳)": {
+    "null|other|解析慣性則(第245便の一次則 — 第282便a で履歴)": {
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
