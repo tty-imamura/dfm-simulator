@@ -4,13 +4,13 @@
   "wave": "第283便b",
   "target": "beta/index.html",
   "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
-  "generatedAt": "2026-09-26T22:03:54.045Z",
+  "generatedAt": "2026-09-26T23:37:48.776Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4903364,
     "sha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
-    "mtime": "2026-09-26T20:10:39.928Z"
+    "mtime": "2026-09-26T22:04:04.756Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
@@ -28,7 +28,7 @@
     "file": "docs/FAMILIES_v1.45.md",
     "bytes": 75867,
     "sha256": "7ecf35e819a16f8f176774f8541a23f8009137bbf085a50018287fc9883e3f2c",
-    "mtime": "2026-09-26T22:03:53.996Z"
+    "mtime": "2026-09-26T23:37:48.708Z"
    }
   ],
   "code": [
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 74914,
-    "sha256": "0412e242fed221f6c19294be5f11816c7002cddfc41cf42b743e99d92e4bfa05",
-    "mtime": "2026-09-26T17:52:27.807Z"
+    "bytes": 76504,
+    "sha256": "3210cc629c0be2f15341eece90b9a933b67f523b743a1e190a0d3bad6b4e3ca8",
+    "mtime": "2026-09-26T22:57:09.392Z"
    }
   ],
-  "codeSha256": "b797d33ec487b394c6a62215d6c4767b86ee8699422ca69d085e17fdbb96398f",
+  "codeSha256": "29a35acc4c4b9a98ade2a23e91514b37312276515ab118e3c661f5a353198d48",
   "harnessVersion": "w283b-families-1",
   "scope": {
    "version": "w283e-scope-3",
@@ -101,7 +101,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "2d72f39122cc7fec5398ba634c45e3ed01e5d584ff4ff7fbb35674c38460fe52",
+    "stableSha256": "1aa9a77193d26454f3ec745fee7dd012abb0eba4f0540640ecbbb652d6df2dfb",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -117,7 +117,6 @@
      "/meta/target",
      "/meta/targetSha256",
      "/meta/when",
-     "/presets/*/run/dtEighth/wallSec",
      "/presets/*/run/stopRule/rateStepsPerSec",
      "/presets/*/run/stopRule/wallSec",
      "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
@@ -7498,5 +7497,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.55
+ "elapsedS": 0.952
 }

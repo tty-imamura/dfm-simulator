@@ -4,21 +4,21 @@
   "wave": "第276便a",
   "target": "beta/index.html",
   "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
-  "generatedAt": "2026-09-26T20:15:04.537Z",
+  "generatedAt": "2026-09-26T23:37:27.593Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 4903364,
     "sha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
-    "mtime": "2026-09-26T20:10:39.928Z"
+    "mtime": "2026-09-26T22:04:04.756Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w276a-d0audit2.mjs",
-    "bytes": 26027,
-    "sha256": "dd999f39b99af6e81805986d2d918117636125b5b19f8cc3e403b856ccf949fe",
-    "mtime": "2026-09-26T08:09:25.508Z"
+    "bytes": 26631,
+    "sha256": "44f64c6218ea972fcddfbe1d19846fd6900464df91aebbb9a85b2ab8957eac2b",
+    "mtime": "2026-09-26T22:53:29.042Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -27,7 +27,7 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "a99344cfe9257e5086b8d0a4cdc3c866fde8c2c33d9624d740193b4ea5789892",
+  "codeSha256": "1471a22727e13072a0b3fb79beb89d723d440e4a8c8f598eae447b41a5b4a7bd",
   "harness": "tests/exp-w276a-d0audit2.mjs",
   "harnessVersion": "w276a-d0sites-2",
   "tokens": [
@@ -62,13 +62,10 @@
   "groups": 68,
   "byReplaceable": {
    "n/a": 11,
-   "candidate": 50,
-   "forbidden": 6,
-   "unclassified": 1
+   "candidate": 51,
+   "forbidden": 6
   },
-  "unclassified": [
-   "dfmTestParticleStep :: dfmTestParticleStep"
-  ],
+  "unclassified": [],
   "forbidden": [
    "traceRay :: traceRay",
    "dfmFrameAt :: dfmFrameAt",
@@ -1368,10 +1365,10 @@
     "hasPullFallback": false,
     "readsD0Member": true,
     "objectKeyOnly": false,
-    "use": null,
-    "replaceable": null,
-    "why": null,
-    "classified": false
+    "use": "E6′(試験粒子の引きずりの力・背景持ち分 bgW=D₀・本体の写し)",
+    "replaceable": "candidate",
+    "why": "χ の分母(makeSim :: F6 と同じ)",
+    "classified": true
    },
    {
     "key": "makeSim :: S.tauUpdate",
@@ -2024,13 +2021,12 @@
    "(top-level)",
    "validateBackgroundComplex",
    "validatePreset",
-   "meshVelocityPrepare"
-  ],
-  "outsideAllowed": [
-   "bgcApply",
+   "meshVelocityPrepare",
    "bgcState",
+   "bgcApply",
    "buildBgComplexPanel"
   ],
+  "outsideAllowed": [],
   "readers": {
    "declared": [
     "meshVelocityPrepare"
