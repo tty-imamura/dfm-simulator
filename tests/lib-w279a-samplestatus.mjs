@@ -324,7 +324,81 @@ export function tally(table, presets) {
 
 export function readJSON(abs) { return JSON.parse(fs.readFileSync(abs, 'utf8')); }
 
+// ---- 第283便e(原仮定者の裁定(第73報)・統括の検証項目 R88): **所要時間の節の QA 帰属** ----
+//   旧規則(第282便)は「試験の id に本の id を**部分文字列として**含む」で、galaxy に galaxyStd・galaxyGeo2 …の試験、
+//   earthMoonReal に earthMoonRealKF1 の試験、bhCore に bhCoreTilt の試験、gas に `coreQOmegaSeparate`(Ome**gas**eparate)が
+//   混ざっていた。新規則は **claims の testId + 原稿(tests/data-w279a-samplestatus-src.json)の明示 `qaTargets.tests`**
+//   ({試験の id: [本の id…]})だけで帰属させる。どちらにも無い本は「帰属なし」(推測で配らない)。
+export const QA_ATTRIBUTION_VERSION = 'w283e-1';
+
+/** 原稿の明示 targetIds → 本の id ごとの試験の集合。 */
+export function qaTargetsIndex(src) {
+  const t = (((src || {}).qaTargets || {}).tests) || {};
+  const m = new Map();
+  for (const [tid, ids] of Object.entries(t)) for (const id of (Array.isArray(ids) ? ids : [])) {
+    if (!m.has(id)) m.set(id, new Set());
+    m.get(id).add(tid);
+  }
+  return m;
+}
+
+/**
+ * 本ごとの QA 帰属(新規則)。
+ * @param {Array<{id:string, claimTests?:string[]}>} rows 内蔵の本(claims の testId を添えて)
+ * @param {object} src 原稿(qaTargets)
+ * @param {Array<{id:string, ms?:number, pass?:boolean}>} qaResults 保存 QA の results
+ * @returns {{version:string, byId:Object<string,{attributed:boolean,n:number,ms:number,tests:Array}>, unattributed:string[]}}
+ */
+export function qaAttribution(rows, src, qaResults) {
+  const idx = qaTargetsIndex(src);
+  const byId = {};
+  const unattributed = [];
+  for (const r of rows || []) {
+    const claimSet = new Set(r.claimTests || []);
+    const tgt = idx.get(r.id) || new Set();
+    const tests = (qaResults || []).filter((t) => claimSet.has(t.id) || tgt.has(t.id))
+      .map((t) => ({ id: t.id, ms: t.ms || 0, pass: !!t.pass, via: claimSet.has(t.id) ? (tgt.has(t.id) ? 'claims+targetIds' : 'claims') : 'targetIds' }))
+      .sort((x, y) => y.ms - x.ms);
+    const attributed = claimSet.size > 0 || tgt.size > 0;
+    if (!attributed) unattributed.push(r.id);
+    byId[r.id] = { attributed, n: tests.length, ms: tests.reduce((a, t) => a + t.ms, 0), tests };
+  }
+  return { version: QA_ATTRIBUTION_VERSION, byId, unattributed };
+}
+
+/** 旧規則(第282便 —— 比較の自己試験専用: 試験の id が本の id を部分文字列として含む + claims の testId)。 */
+export function qaAttributionLegacy(rows, qaResults) {
+  const byId = {};
+  for (const r of rows || []) {
+    const lid = String(r.id).toLowerCase();
+    const claimSet = new Set(r.claimTests || []);
+    byId[r.id] = (qaResults || []).filter((t) => String(t.id).toLowerCase().includes(lid) || claimSet.has(t.id)).map((t) => t.id);
+  }
+  return byId;
+}
+
+/**
+ * 旧規則の**混入**(本 A に帰属した試験のうち、その id に**別の本 B の id**〔A の id を部分文字列として含む・A より長い〕が
+ * 現れ、新規則では A に帰属しないもの)。混入の組 [A, B, 試験] を返す。
+ */
+export function qaLegacyMixing(rows, src, qaResults) {
+  const ids = (rows || []).map((r) => r.id);
+  const neu = qaAttribution(rows, src, qaResults).byId;
+  const old = qaAttributionLegacy(rows, qaResults);
+  const out = [];
+  for (const a of ids) {
+    const nset = new Set(neu[a].tests.map((t) => t.id));
+    for (const tid of old[a]) {
+      if (nset.has(tid)) continue;
+      const lt = String(tid).toLowerCase();
+      const b = ids.filter((x) => x !== a && x.length > a.length && x.toLowerCase().includes(a.toLowerCase()) && lt.includes(x.toLowerCase()));
+      out.push([a, b.length ? b.sort((x, y) => y.length - x.length)[0] : null, tid]);
+    }
+  }
+  return out;
+}
+
 export default { STATUS_VERSION, OBJECTIVES, CALIBRATIONS, OBJ_WORD, CAL_WORD, VERDICT_TO_CAL,
   HOLD_DEFINITION_ROWS, FORBIDDEN, fmtPct, fmtSigma, ledgerStatus, holdDefinitionStatus, calClause,
   composeBrief, splitBrief, calWordOfClause, BRIEF_CAP, buildTable, REGION, BEGIN, END, renderRegion,
-  parseRegion, mdRow, parseMdRows, tally, readJSON };
+  parseRegion, mdRow, parseMdRows, tally, readJSON, QA_ATTRIBUTION_VERSION, qaTargetsIndex, qaAttribution, qaAttributionLegacy, qaLegacyMixing };

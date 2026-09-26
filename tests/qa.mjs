@@ -2209,7 +2209,8 @@ if (QA_REPLAY_FAIL) {
           if (key === 'inputs') {
             const st = (m.inputsStable || []).find((z) => z.file === s.file);
             // 第282便e: 安定 hash は**刻印の版で**照合する(版なし = 第281便a の旧方式・版 w282e-stable-1 = 宣言した JSON Pointer だけを除く)
-            if (st && SC.stableMatches(ROOT, st)) { r.inputsOk++; r.stableOk++; continue; }
+            // 第283便e(AN29): 非物理 meta を除いた刻印は随伴ファイル(calaudit-w249-diag.json)の行も一致すること
+            if (st && SC.stableInputOk(ROOT, m.inputsStable, s.file)) { r.inputsOk++; r.stableOk++; continue; }
           }
           bad.push(`${key === 'inputs' ? '③' : '④'}${rel} の ${s.file} が刻印と違う`
             + ' —— **器を走らせ直すこと**');
@@ -2249,6 +2250,11 @@ if (QA_REPLAY_FAIL) {
 // ----        力学(makeSim / applyQLock / loadPreset)が `.欄名` で読まない・文言の表 I18N の葉が文字列/関数だけ。
 // ----     ⑥ **感度の自己試験**(一時ファイル): CSS の値だけ変えた html では領域 hash が同じ・宣言したプリセットの
 // ----        数値を 1 bit 変えた html では領域 hash が変わる(どちらも html 全体の sha256 は変わる)。
+// ----        第283便e(原仮定者の裁定(第73報)AN32・統括の検証項目 R88): ⛄ の claims の説明文字列(roleNote・chain.note・
+// ----        chain.noteEn)だけ変えた html で**現行版(w283e-scope-3)の領域が一致**(版 2 では変わる)・expected を変えた html で
+// ----        変わる / 内蔵の全プリセットの単体(説明文字列だけ → 版 3 同じ・expected/testId/descPattern/chain.eq/massCalibration.f → 変わる)。
+// ----     ⑦ 第283便e: **旧版の刻印は旧規則で照合**: 刻印の対象が今の html と同じ本は、刻印の版(1・2)で引き直すと刻印と一致する
+// ----        (旧規則の本文が元の実装と 1 字も違わない)。
 // ----   **beta 線の正本なので root は SKIP** する。
 {
   const bad = [];
@@ -2340,6 +2346,9 @@ if (QA_REPLAY_FAIL) {
         if (!seg) { bad.push(`⑤ ${fn} が最上位に無い`); continue; }
         const hits = SC.PROSE_KEYS.filter((k) => new RegExp('\\.' + k + '\\b').test(seg.codeText));
         if (hits.length) bad.push(`⑤ ${fn} が説明文の欄 ${hits.join(',')} を読む(PROSE_KEYS から外すこと)`);
+        // 第283便e(AN32): claims・chain・massCalibration の説明文字列の欄も力学が読まない
+        const hits3 = [...new Set(SC.CLAIM_PROSE_KEYS.concat(SC.CHAIN_PROSE_KEYS, SC.MASSCAL_PROSE_KEYS))].filter((k) => new RegExp('\\.' + k + '\\b').test(seg.codeText));
+        if (hits3.length) bad.push(`⑤ ${fn} が claims/massCalibration の説明文の欄 ${hits3.join(',')} を読む(版 3 の除外から外すこと)`);
       }
       const L = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(HTML);
       const I = L.evalExpr('I18N');
@@ -2375,7 +2384,33 @@ if (QA_REPLAY_FAIL) {
         if (hC !== base) bad.push('⑥ CSS だけ変えた html で領域 hash が変わった');
         if (hP === base) bad.push('⑥ 宣言したプリセットの数値を変えた html で領域 hash が変わらない');
         cases.push(`感度: CSS だけ → 領域 hash 同じ(${hC === base})・❄️ の質量の最下位桁 → 変わる(${hP !== base})`);
+        // 第283便e(AN32): 説明文字列だけ → 現行版で一致・版 2 で変わる / expected → 変わる / 内蔵の全プリセットの単体
+        const declDfm = SC.readDeclaredScope(fs.readFileSync(path.join(ROOT, 'tests', 'exp-w277b-charondfm.mjs'), 'utf8'));
+        const a32 = SC.an32Probe({ html: HTML, decl: declDfm, tmpDir: path.join(tmp, 'an32'), htmlCases: ['note', 'expected'] });
+        if (!a32.h.note || a32.h.note.v3Same !== true) bad.push('⑥ ⛄ の claims の説明文字列だけ変えた html で現行版の領域が変わった');
+        if (!a32.h.note || a32.h.note.v2Same !== false) bad.push('⑥ ⛄ の説明文字列の変更が版 2 で見えない(一時 html が作れていない)');
+        if (!a32.h.expected || a32.h.expected.v3Same !== false) bad.push('⑥ ⛄ の expected を変えた html で現行版の領域が変わらない');
+        if (!a32.u.ok) bad.push('⑥ 単体(説明文字列/物理の欄)の感度が契約と違う: ' + JSON.stringify(a32.u.physical));
+        cases.push(`版 3(AN32): ⛄ の claims の説明文字列だけ → 現行版で一致 ${a32.h.note && a32.h.note.v3Same}・版 2 で変わる ${a32.h.note && !a32.h.note.v2Same} / expected → 変わる ${a32.h.expected && !a32.h.expected.v3Same}`
+          + ` / 単体 ${a32.u.presets} 本(説明文字列を持つ ${a32.u.withProse} 本・${a32.u.fields} 欄): 説明だけ → 版 3 同じ ${a32.u.v3Same}・版 2 変わる ${a32.u.v2Changed}・`
+          + Object.entries(a32.u.physical).map(([k, [x, y]]) => `${k} ${y}/${x} 変わる`).join('・'));
       } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+      // ⑦ 第283便e: 旧版の刻印は旧規則で照合(刻印の対象が今の html と同じ本 —— 刻印は元の実装が作った)
+      {
+        const htmlSha = (await import('node:crypto')).createHash('sha256').update(fs.readFileSync(HTML)).digest('hex');
+        let nSame = 0, nOk = 0;
+        const byV = {};
+        for (const r of await SC.declaredOuts(ROOT)) {
+          const m = r.meta;
+          if (!m || !m.scope || m.targetSha256 !== htmlSha) continue;
+          const v = m.scope.version || SC.SCOPE_VERSION_LEGACY;
+          byV[v] = (byV[v] || 0) + 1;
+          nSame++;
+          if (SC.scopeHash(HTML, m.scope, { version: v }).scopeSha256 === m.scopeSha256) nOk++;
+          else bad.push(`⑦ ${r.out} の刻印(版 ${v})が同じ html で引き直した領域 hash と違う(旧規則が変わった)`);
+        }
+        cases.push(`旧版の刻印の照合: 対象が今の html と同じ ${nSame} 本(${Object.entries(byV).map(([k, v]) => k + ' ' + v).join('・') || 'なし'})のうち刻印の版で一致 ${nOk}`);
+      }
     } catch (e) { bad.push('再生成範囲の器が読めない: ' + String(e).slice(0, 160)); }
     add('lint.regenScope', bad.length === 0,
       `**正本の再生成範囲**(第281便a・原仮定者の裁定(第71報)AN16 採用・統括の検証項目 R71): ${cases.join(' / ')} —— `
@@ -2414,7 +2449,9 @@ if (QA_REPLAY_FAIL) {
       const src = htmlText.slice(htmlText.indexOf('<script>') + 8, htmlText.lastIndexOf('</script>'));
       const PT = SC.parseTopLevel(src);
       // ①
-      if (SC.SCOPE_VERSION !== 'w282e-scope-2' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1') bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
+      // 第283便e(AN32): 現行版は w283e-scope-3(停止集合は版 2 と同じ)。旧 2 版は照合だけ
+      if (SC.SCOPE_VERSION !== 'w283e-scope-3' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2'
+        || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
       for (const nm of SC.SCOPE_STOP) if (!PT.segments.some((z) => z.kind === 'function' && z.names.includes(nm))) bad.push('① 停止集合の ' + nm + ' が最上位の function 宣言でない');
       for (const nm of ['$', 'ctx', 'sim'].concat(SC.PHYSICS_KEEP)) if (SC.SCOPE_STOP.includes(nm)) bad.push('① 停止集合に ' + nm + ' がある(止めてはいけない)');
       cases.push(`停止集合 ${SC.SCOPE_STOP.length} 関数(最上位の function)・$/ctx/sim と物理側 ${SC.PHYSICS_KEEP.length} 名を含まない`);
@@ -2454,7 +2491,8 @@ if (QA_REPLAY_FAIL) {
       cases.push(`閉包の名前 旧版 ${pr.names.legacy} → 現行版 ${pr.names.now}(inline script の ${pr.share.legacy} → ${pr.share.now})`);
       cases.push(`感度(宣言 ${rows.length} 本): (b) CSS+表示関数 ${pr.b.touched.length} 個 → 現行版 ${pr.b.nowChanged} 本・旧版 ${pr.b.legacyChanged} 本が変わる / (c) validatePreset → ${pr.c.nowChanged} 本 / (d) ❄️ の質量 ${pr.d.from}→${pr.d.to} → ${pr.d.nowChanged} 本(予想 ${pr.d.expected})`);
       const nLegacy = rows.filter((r) => r.meta && r.meta.scope && (r.meta.scope.version || SC.SCOPE_VERSION_LEGACY) === SC.SCOPE_VERSION_LEGACY).length;
-      cases.push(`刻印の版: 旧版 ${nLegacy} 本(旧版の閉包で引き直して今の html と一致 ${pr.a.legacySameNow} 本 —— 付け替えは統合時)・現行版 ${rows.length - nLegacy} 本`);
+      const nV2 = rows.filter((r) => r.meta && r.meta.scope && r.meta.scope.version === SC.SCOPE_VERSION_2).length;   // 第283便e: 版 2 は旧版として数える
+      cases.push(`刻印の版: 版 1 ${nLegacy} 本(版 1 の閉包で引き直して今の html と一致 ${pr.a.legacySameNow} 本)・版 2 ${nV2} 本・現行版 ${SC.SCOPE_VERSION} ${rows.length - nLegacy - nV2} 本(旧版の付け替えは統合時)`);
     } catch (e) { bad.push('停止集合の器が読めない: ' + String(e).slice(0, 160)); }
     add('lint.scopeStop', bad.length === 0,
       `**停止集合**(第282便e・原仮定者の裁定(第72報)AN22・統括の検証項目 R82): ${cases.join(' / ')} —— `
@@ -2477,6 +2515,13 @@ if (QA_REPLAY_FAIL) {
 // ----        旧方式はこの 2 つの観測の欄の変化を**見落とす**(除外契約を変えた理由)。
 // ----     ④ 実物: 宣言した位置の値をすべて書き換えても安定 hash は同じ・宣言の外の値を 1 つ変えると変わる(ファイルごと)。
 // ----     ⑤ 刻印: 版 w282e-stable-1 の行は刻印の Pointer = 今の宣言。版なし(旧方式)の行の数を記録(統合時に付け替える)。
+// ----        第283便e: 刻印の Pointer ⊊ 今の宣言(**旧宣言** —— 刻印の Pointer で照合するので除きすぎにはならない)は数えて通す
+// ----        (付け替えは統合時)。今の宣言の外の Pointer を持つ刻印は落とす。随伴の行(companionOf)は宣言した随伴だけ。
+// ----     第283便e(原仮定者の裁定(第73報)AN29・統括の検証項目 R88): ② の最後の鍵に**非物理の同一性 meta**(`STABLE_META_KEYS` ——
+// ----        target・*Sha256・bytes*)を許す(値の型を照合・`/presets/…` の下には置かない)。
+// ----     ⑥ 第283便e(AN29)の自己試験(一時ディレクトリ `an29Probe`): 「html だけ変わる再走」を模した calaudit/diag で、calaudit を
+// ----        入力にする現行の正本のうち安定 hash を刻む本が、今の宣言で刻み直せば**全部**再利用でき(今の刻印のままでは 0)、
+// ----        物理欄 1 つ・diag の中身 1 つの変化は見落とさない。
 // ----   **beta 線の正本なので root は SKIP** する。
 {
   const bad = [];
@@ -2498,7 +2543,7 @@ if (QA_REPLAY_FAIL) {
       for (const f of stamped.keys()) if (!RT.volatileDeclared(f)) bad.push('① 安定 hash を刻まれた ' + f + ' に除外の宣言が無い');
       // ② 宣言した Pointer
       const declared = new Set(RT.REGEN_STEPS.flatMap((z) => Object.keys(z.volatilePaths || {})).concat(Object.keys(RT.EXTERNAL_VOLATILE)));
-      let nPtr = 0, nHit = 0, nOutsideMeta = 0;
+      let nPtr = 0, nHit = 0, nOutsideMeta = 0, nMeta = 0;
       const outsideMeta = [];
       const valuesAt = (J, ptr) => { const toks = SC.parsePointer(ptr); const out = [];
         const walk = (x, i) => { if (i === toks.length) { out.push(x); return; } if (!x || typeof x !== 'object') return;
@@ -2517,17 +2562,21 @@ if (QA_REPLAY_FAIL) {
           const toks = SC.parsePointer(ptr);
           if (!toks) { bad.push('② Pointer が不正: ' + f + ' ' + ptr); continue; }
           const last = toks[toks.length - 1];
-          if (!SC.STABLE_RUNTIME_KEYS.includes(last)) bad.push(`② ${f} ${ptr} の最後の鍵 ${last} は実行時刻・所要の欄でない`);
+          const isMeta = SC.STABLE_META_KEYS.includes(last);   // 第283便e(AN29): 非物理の同一性 meta
+          if (!SC.STABLE_RUNTIME_KEYS.includes(last) && !isMeta) bad.push(`② ${f} ${ptr} の最後の鍵 ${last} は実行時刻・所要・非物理 meta の欄でない`);
+          if (isMeta && toks[0] === 'presets') bad.push(`② ${f} ${ptr} は物理の欄(/presets)の下の非物理 meta —— 置かない`);
           const vals = valuesAt(J, ptr);
           if (!vals.length) bad.push(`② ${f} ${ptr} が今のファイルのどこにも合わない`);
           nHit += vals.length;
+          if (isMeta) nMeta++;
           const isTime = SC.STABLE_TIME_KEYS.includes(last);
-          const badV = vals.filter((v) => (isTime ? !(typeof v === 'string' && /^\d{4}-\d\d-\d\dT/.test(v) && !Number.isNaN(Date.parse(v))) : !(typeof v === 'number' && Number.isFinite(v))));
-          if (badV.length) bad.push(`② ${f} ${ptr} の値 ${badV.length} 件が${isTime ? ' ISO 日時' : '有限の数'}でない`);
+          const badV = vals.filter((v) => (isMeta ? !SC.stableMetaValueOk(last, v)
+            : isTime ? !(typeof v === 'string' && /^\d{4}-\d\d-\d\dT/.test(v) && !Number.isNaN(Date.parse(v))) : !(typeof v === 'number' && Number.isFinite(v))));
+          if (badV.length) bad.push(`② ${f} ${ptr} の値 ${badV.length} 件が${isMeta ? '非物理 meta の型' : isTime ? ' ISO 日時' : '有限の数'}でない`);
           if (toks[0] !== 'meta') { nOutsideMeta++; outsideMeta.push(f.replace('tests/out/', '') + ptr); }
         }
       }
-      cases.push(`宣言 ${declared.size} ファイル・Pointer ${nPtr} 本(合った位置 ${nHit})・meta の外の Pointer ${nOutsideMeta} 本`);
+      cases.push(`宣言 ${declared.size} ファイル・Pointer ${nPtr} 本(合った位置 ${nHit}・うち非物理 meta の Pointer ${nMeta} 本)・meta の外の Pointer ${nOutsideMeta} 本`);
       // ③ 回帰(合成)
       const base = { meta: { generatedAt: '2026-09-25T00:00:00.000Z' }, obs: [{ when: '2015-09-14T09:50:45Z', durationMs: 200, value: 1.25 }] };
       const vp0 = ['/meta/generatedAt'];
@@ -2568,20 +2617,86 @@ if (QA_REPLAY_FAIL) {
       }
       cases.push(`実物 ${nFile} ファイル: 宣言した位置だけ書き換え → 同じ・宣言の外 → 変わる`);
       // ⑤ 刻印
-      let nNew = 0, nLegacy = 0;
+      let nNew = 0, nLegacy = 0, nOldDecl = 0, nComp = 0;
       for (const [f, list] of stamped) for (const { out, st } of list) {
+        if (st.companionOf !== undefined) { nComp++; if (!RT.companionsOf(st.companionOf).includes(f)) bad.push(`⑤ ${out} の随伴の行 ${f} は ${st.companionOf} の宣言した随伴でない`); }
         if (st.stableVersion === SC.STABLE_VERSION) {
           nNew++;
-          if (JSON.stringify((st.volatilePaths || []).slice().sort()) !== JSON.stringify(RT.volatilePathsOf(f))) bad.push(`⑤ ${out} の ${f} の刻印の Pointer が今の宣言と違う(器を走らせ直すこと)`);
+          const cur = RT.volatilePathsOf(f), got = (st.volatilePaths || []).slice().sort();
+          if (JSON.stringify(got) === JSON.stringify(cur)) continue;
+          // 第283便e: 旧宣言(刻印の Pointer ⊊ 今の宣言)は刻印の Pointer で照合する —— 付け替えは統合時
+          if (got.every((z) => cur.includes(z))) nOldDecl++;
+          else bad.push(`⑤ ${out} の ${f} の刻印の Pointer が今の宣言の外にある(器を走らせ直すこと)`);
         } else if (st.stableVersion === undefined) nLegacy++;
         else bad.push(`⑤ ${out} の ${f} の安定 hash の版 ${st.stableVersion} を照合できない`);
       }
-      cases.push(`刻印: 版 ${SC.STABLE_VERSION} ${nNew} 行・版なし(旧方式 —— 照合だけ旧方式で行う・統合時に付け替え)${nLegacy} 行 / meta の外の Pointer: ${outsideMeta.slice(0, 6).join(' , ')}${outsideMeta.length > 6 ? ' …' : ''}`);
+      cases.push(`刻印: 版 ${SC.STABLE_VERSION} ${nNew} 行(うち旧宣言 ⊊ 今の宣言 ${nOldDecl} 行 —— 統合時に付け替え・随伴の行 ${nComp})・版なし(旧方式 —— 照合だけ旧方式で行う・統合時に付け替え)${nLegacy} 行 / meta の外の Pointer: ${outsideMeta.slice(0, 6).join(' , ')}${outsideMeta.length > 6 ? ' …' : ''}`);
+      // ⑥ 第283便e(AN29)の自己試験(一時ディレクトリ)
+      {
+        const os = await import('node:os');
+        const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w283e-an29-'));
+        try {
+          const a = RT.an29Probe({ root: ROOT, tmpDir: tmp, stableJsonSha: SC.stableJsonSha, stableMatches: SC.stableMatches, STABLE_VERSION: SC.STABLE_VERSION });
+          if (!a.withStable) bad.push('⑥ calaudit に安定 hash を刻む現行の正本が無い');
+          if (a.reusableNew !== a.withStable) bad.push(`⑥ 今の宣言で刻み直しても html だけの再走で再利用できない本がある(${a.reusableNew}/${a.withStable})`);
+          if (!a.physDetected) bad.push('⑥ 物理欄 ' + a.physPath + ' の変化を見落とした');
+          if (!a.diagDetected) bad.push('⑥ 分割先 diag の中身 ' + a.diagPath + ' の変化を見落とした(随伴の行)');
+          if (!a.companionRequired) bad.push('⑥ 随伴 diag の行が無い刻印を一致とした');
+          if (!RT.volatileDeclared('tests/out/calaudit-w249-diag.json') || !RT.companionsOf('tests/out/calaudit-w249.json').includes('tests/out/calaudit-w249-diag.json')) bad.push('⑥ diag の意味 hash(随伴)の宣言が無い');
+          cases.push(`AN29(一時 root で html だけの再走を模す —— calaudit の Pointer ${a.calPointers}・${a.calHits} か所・diag ${a.diagPointers}): calaudit を読む現行の正本 ${a.downstream} 本・安定 hash を刻む ${a.withStable} 本のうち`
+            + ` 今の刻印のまま再利用 ${a.reusableOld}・今の宣言で刻み直せば ${a.reusableNew} / 物理欄の変化を検出 ${a.physDetected}・diag の中身の変化を検出 ${a.diagDetected}・随伴の行の無い刻印は不一致 ${a.companionRequired}`
+            + ` / 器が安定 hash を刻まない ${a.needStamp.length} 本(${a.needStamp.join('・')})は sha のまま`);
+        } finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+      }
     } catch (e) { bad.push('安定 hash の器が読めない: ' + String(e).slice(0, 160)); }
     add('lint.stableHashPaths', bad.length === 0,
       `**安定 hash の除外契約**(第282便e・統括の検証項目 R82): ${cases.join(' / ')} —— 除くのは**正本ごとに宣言した JSON Pointer**`
       + `(再生成表の段の volatilePaths —— 既定は除外なし・\`*\` は 1 段の任意)だけ。方式の版と Pointer の並びを hash の本文に入れる。`
       + `**安定 hash の一致は「実行時刻と所要以外が同じ」ことだけを意味する**(結果が正しいことの保証ではない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第283便e(原仮定者の裁定(第73報)⑤・統括の検証項目 R88): lint.regenChain ----
+// ----   **再生成の鎖を表から機械で作る**(`tools/regen-chain.mjs` —— 表 `tests/lib-w281a-regentable.mjs` の after・merges・
+// ----   alwaysRun・role・env と計画 planRegen から、依存順の波と並列レーンの bash)。固定するのは 6 つ(`regenChainSelfTest`):
+// ----     (a) 今の表: 正本の入力(meta.inputs[]・inputsStable[])を書く段(outs + merges)が読む段の after の推移閉包に入り、
+// ----         同じファイルを書く段が全順序で、after に循環が無い。
+// ----     (b) 第282便の型の表(第283便e で足した after 5 段と merges を外した写し)で、欠けた依存が**表から検出される**。
+// ----     (c) 第282便の型の走行列(d0audit・nslockledger・bgbudget を入力より先・kf0ledger を nslockledger の再走の前だけ)で、
+// ----         入力より先の走行・上流の再走の後に走っていない後段・無駄な先走りが**検出される**。
+// ----     (d) 全段 regen の計画 → 鎖 → 平らにした列が順序違反 0・後段の欠落 0 で、表の現行段(履歴・chain の外を除く)を全部覆う。
+// ----     (e) 今の計画(planRegen の実物)→ 鎖 → 同じ照合 + 走る段の下流がすべて鎖にある(依存の閉包)。
+// ----     (f) stub の表(5 段)で生成したシェルを bash で走らせる: 必須の環境変数が無ければ走らせる前に止まる・失敗した波で止まり後段を
+// ----         走らせない(rc 1・ログ名 `<波>-<段>.log`・`.rc`)・済み印で再開して完走する。
+// ----   **beta 線の正本なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.regenChain(beta 対象でない: ' + TARGET + ' — 再生成の鎖は beta 線の正本)');
+  } else {
+    const os = await import('node:os');
+    const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w283e-chain-'));
+    try {
+      const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+      if (RT.REGEN_TABLE_VERSION !== 'w283e-regentable-3') bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION);
+      if (!fs.existsSync(path.join(ROOT, 'tools', 'regen-chain.mjs'))) bad.push('tools/regen-chain.mjs が無い');
+      const plan = RT.planRegen({ root: ROOT, html: path.join(ROOT, 'beta', 'index.html') });
+      const r = await RT.regenChainSelfTest({ root: ROOT, tmpDir: tmp, plan });
+      for (const k of ['a', 'b', 'c', 'd', 'e', 'f']) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
+      cases.push(`(a) 今の表: 入力の書き手の欠け ${r.a.missing}・書き手の並列 ${r.a.unordered}・循環 ${r.a.cycles}`);
+      cases.push(`(b) 第282便の型の表で検出した欠け ${r.b.n} 件(${r.b.detected.join('・')})`);
+      cases.push(`(c) 第282便の型の列で 順序違反 ${r.c.order.join(', ')} / 無駄な先走り ${r.c.wasted.join(', ')}`);
+      cases.push(`(d) 全段の鎖 ${r.d.steps}/${r.d.want} 段・波 ${r.d.waves}(最も広い波 ${r.d.widest} 段)・手動 ${r.d.manual}・順序違反 ${r.d.order}・後段の欠落 ${r.d.downstream}`);
+      cases.push(`(e) 今の計画 → 鎖 run ${r.e.run}・gate ${r.e.gate}・手動 ${r.e.manual}・波 ${r.e.waves}(実測秒の和 run ${r.e.secRun} s・gate ${r.e.secGate} s)・順序違反 ${r.e.order}・閉包の漏れ ${r.e.lost.length}`);
+      cases.push(`(f) stub の鎖 ${r.f.waves}: 構文 ${r.f.syntax}・環境変数なし → 走らせない ${r.f.noEnv}・1 回目 rc ${r.f.run1.rc}(走った ${r.f.run1.ran.join(',')}・ログ ${r.f.run1.logs.join(',')})・2 回目 rc ${r.f.run2.rc}(済み印の段を飛ばす ${r.f.run2.resumedSkip})`);
+    } catch (e) { bad.push('鎖の器が読めない: ' + String(e).slice(0, 160)); }
+    finally { fs.rmSync(tmp, { recursive: true, force: true }); }
+    add('lint.regenChain', bad.length === 0,
+      `**再生成の鎖の機械生成**(第283便e・原仮定者の裁定(第73報)⑤・統括の検証項目 R88): ${cases.join(' / ')} —— `
+      + `鎖に入った段の**下流はすべて**鎖に入り、上流の後に置かれて自分の判定(対象・コード・入力〔安定 hash〕)を引き直す(gate)。`
+      + `**鎖が表の依存を守ることは「結果が正しい」ことの保証ではない**(meta.inputs[] と after に無い読み込みは辿れない)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -5063,6 +5178,9 @@ if (QA_REPLAY_FAIL) {
 // ----     ③ md の集計行(状況 達/部分/未達・4 値・判定保留・較正対象外)= 正本の tally = html の表から数え直した値。
 // ----     ④ 正本の status が html の表と 1 字も違わない(表を手で直すと食い違う)。
 // ----     ⑤ md に禁止語が無い(否定文でも書かない)。
+// ----     ⑥ 第283便e(原仮定者の裁定(第73報)・統括の検証項目 R88): 所要時間の節の QA 帰属は **claims の testId + 原稿の明示
+// ----        qaTargets** だけ(部分文字列の一致をやめた)。qaTargets の本は内蔵にある・galaxy←galaxyStd・earthMoonReal←KF1・
+// ----        bhCore←Tilt の混入が新規則で 0(旧規則の本数を記録)・正本が新しい帰属で作られていれば本数が再計算と一致。
 // ----   **対象 html に生成領域 sample-status が無ければ SKIP**(root 等の旧世代)。
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
@@ -5070,7 +5188,7 @@ if (QA_REPLAY_FAIL) {
     console.log('SKIP docs.sampleStatus-sync(対象 html に第279便a の生成領域 sample-status なし — root 等)');
   } else {
     const bad = [];
-    let nMd = 0, nHtml = 0, nCanon = 0, tl = null;
+    let nMd = 0, nHtml = 0, nCanon = 0, tl = null, cases6 = '';
     try {
       const SS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
       const reg = SS.parseRegion(html);
@@ -5103,11 +5221,52 @@ if (QA_REPLAY_FAIL) {
         const bare = line.replace(/[「『][^」』]*[」』]/g, '');
         if (SS.FORBIDDEN.test(bare)) bad.push('⑤禁止語: ' + line.slice(0, 40));
       }
+      // ⑥ 第283便e(原仮定者の裁定(第73報)・統括の検証項目 R88): 所要時間の節の QA 帰属は claims の testId + 原稿の明示 qaTargets だけ
+      if (typeof SS.qaAttribution === 'function') {
+        const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
+        const qt = (src.qaTargets || {});
+        if (qt.version !== SS.QA_ATTRIBUTION_VERSION) bad.push('⑥原稿の qaTargets の版 ' + qt.version + ' ≠ ' + SS.QA_ATTRIBUTION_VERSION);
+        const tt = qt.tests || {};
+        for (const [tid, ids] of Object.entries(tt)) {
+          if (!Array.isArray(ids) || !ids.length) { bad.push('⑥qaTargets の ' + tid + ' に本が無い'); continue; }
+          for (const id of ids) if (!T[id]) bad.push('⑥qaTargets の ' + tid + ' が内蔵に無い本 ' + id + ' を挙げる');
+        }
+        const L = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET));
+        const rowsP = L.evalExpr('BUILTIN_PRESETS').map((p) => ({ id: p.id, claimTests: Array.isArray(p.claims) ? [...new Set(p.claims.map((c) => c.testId).filter(Boolean))] : [] }));
+        const QA = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'qa-results-full-beta.json'), 'utf8'));
+        const A = SS.qaAttribution(rowsP, src, QA.results || []);
+        const OLD = SS.qaAttributionLegacy(rowsP, QA.results || []);
+        const pairs = [['galaxy', 'galaxyStd'], ['earthMoonReal', 'earthMoonRealKF1'], ['bhCore', 'bhCoreTilt']];
+        const mixTxt = [];
+        for (const [a, b] of pairs) {
+          if (!A.byId[a]) { bad.push('⑥内蔵に無い ' + a); continue; }
+          const leak = A.byId[a].tests.filter((t) => t.id.toLowerCase().includes(b.toLowerCase()) && !(tt[t.id] || []).includes(a)
+            && !(rowsP.find((z) => z.id === a).claimTests.includes(t.id)));
+          if (leak.length) bad.push(`⑥${a} に ${b} の試験が混入: ${leak.map((t) => t.id).join(',')}`);
+          const oldN = (OLD[a] || []).filter((t) => t.toLowerCase().includes(b.toLowerCase())).length;
+          mixTxt.push(`${a}←${b} 旧 ${oldN}・新 ${leak.length}`);
+        }
+        const mix = SS.qaLegacyMixing(rowsP, src, QA.results || []);
+        // 正本が新しい帰属で作られていれば(版と保存 QA の commit が同じとき)、本ごとの本数が今の再計算と一致する
+        const tn = (J.timingNote || {}).qaAttribution || null;
+        const ev = (J.meta || {}).evidenceQa || {};
+        let cmp = '正本は旧帰属(統合時の samplestatus の段で入れ替わる)';
+        if (tn && tn.version === SS.QA_ATTRIBUTION_VERSION) {
+          if (ev.commit === (QA.commit || null) && ev.date === (QA.date || null)) {
+            const off = (J.rows || []).filter((z) => !z.timing || !z.timing.qa || !A.byId[z.id] || z.timing.qa.n !== A.byId[z.id].n || z.timing.qa.attributed !== A.byId[z.id].attributed);
+            if (off.length) bad.push('⑥正本の QA 帰属の本数が再計算と違う: ' + off.slice(0, 4).map((z) => z.id).join(','));
+            cmp = `正本の帰属 ${J.rows.length - off.length}/${J.rows.length} 本が再計算と一致`;
+            if (md.indexOf('qaTargets') < 0) bad.push('⑥md の保存 QA の説明に qaTargets が無い');
+          } else cmp = '保存 QA が正本の生成後に更新された(本数の照合は飛ばす)';
+        }
+        cases6 = `QA 帰属 ${A.version}: qaTargets ${Object.keys(tt).length} 試験・帰属なし ${A.unattributed.length} 本・${mixTxt.join(' / ')}・旧規則の混入 ${mix.length} 組(${new Set(mix.map((z) => z[0])).size} 本)は新規則で 0・${cmp}`;
+      }
     } catch (e) { bad.push('読めない: ' + String(e).slice(0, 90)); }
     add('docs.sampleStatus-sync', bad.length === 0,
       `**サンプル状況一覧 ↔ html ↔ 正本**(第279便a): 行数 md ${nMd}・html ${nHtml}・正本 ${nCanon}` +
       (tl ? ` / 状況 達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet} / 4 値 ${Object.values(tl.four).join('/')}` +
         `・判定保留(量定義不一致)${tl.calibration['hold-definition']}・較正対象外 ${tl.calibration['out-of-scope']}` : '') +
+      (cases6 ? ' / ' + cases6 : '') +
       (bad.length ? ` / **食い違い ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ' / 3 者一致・禁止語 0'));
   }
 }
