@@ -17911,6 +17911,13 @@ function validatePreset(obj){
           if(b.pnSource===true) o.pnSource=true;
           else warnings.push(at+".pnSource は true のみ受理 — 削除します");
         }
+        // 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv)): testParticle=true — **試験粒子契約**(既定 off)。
+        // 宣言した粒子は力を受けるが**源にならない**(重力・決定力 W・フレーム u・1PN の反作用・E6′ 反作用の相手から外す)。
+        // true 以外は削除+警告(未宣言はキーが無い = 署名も挙動も 1 bit 不変)。署名(presetSig)には bodies ごと入る
+        if(b.testParticle!==undefined){
+          if(b.testParticle===true) o.testParticle=true;
+          else warnings.push(at+".testParticle は true のみ受理 — 削除します");
+        }
         // 第226便(第25報 原仮定者裁定GO): pulse — 運動学パルス時計チャネル。パルスを「コアの
         // スピンに随伴する発光スペクトル」として宣言する(原子スピンの超微細発光〔水素 21cm 線〕の
         // 類推 — 発光振動数はスピン状態に随伴するスペクトル量で、力学角速度と同一である必要がない)。
@@ -18021,6 +18028,10 @@ function validatePreset(obj){
           if(b.frameSource===false) oR.frameSource=false;
           else if(b.frameSource!==true) warnings.push(at+".frameSource は true/false のみ — 無視します");
         }
+        if(b.testParticle!==undefined){   // 第283便c: 群共通の試験粒子契約(既定 off — true のみ受理)
+          if(b.testParticle===true) oR.testParticle=true;
+          else warnings.push(at+".testParticle は true のみ受理 — 削除します");
+        }
         // 第259便b: layers は single 専用(群はメンバーごとに m が違うので絶対質量の層を共通化できない)
         if(b.layers!==undefined) warnings.push(at+'.layers は single 専用です(群は層を持てません)— 無視します');
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
@@ -18089,6 +18100,10 @@ function validatePreset(obj){
         if(b.frameSource!==undefined){   // 第243便: 群共通の frameSource:false(粗視化の代表粒子をフレーム源から除く)
           if(b.frameSource===false) oD.frameSource=false;
           else if(b.frameSource!==true) warnings.push(at+".frameSource は true/false のみ — 無視します");
+        }
+        if(b.testParticle!==undefined){   // 第283便c: 群共通の試験粒子契約(既定 off — true のみ受理)
+          if(b.testParticle===true) oD.testParticle=true;
+          else warnings.push(at+".testParticle は true のみ受理 — 削除します");
         }
         // 第259便b: layers は single 専用(群は層を持てない)
         if(b.layers!==undefined) warnings.push(at+'.layers は single 専用です(群は層を持てません)— 無視します');
@@ -19943,6 +19958,7 @@ function makeSim(){
     S.dragQT=new Float64Array(n); S.coreDQ=new Float64Array(n); S.coreDQT=new Float64Array(n);
     S.hasDragQT=false; S.hasCoreDQ=false; S.hasShellGas=false;
     S.frameSrc=new Uint8Array(n).fill(1); S.hasFrameOff=false;   // 第243便: フレーム源フラグ(frameSource:false で 0)
+    S.tpFlag=new Uint8Array(n); S.hasTestParticle=false; S.tpN0=n; S.testParticleDeny=null;   // 第283便c: 試験粒子契約(既定 0 = 全粒子が源)
     // 第80便(コアv2 残段): coreEint=コア内部エネルギー(Float64 — 帳簿 coreSrcE と突き合わせる)・
     // coreSrc=sourceRate(active のみ)・coreOm0=cavity の規定 Ω(空洞は慣性0で J を持てないため、
     // Ω は状態変数ではなく規定値。differential 系は coreOmV=J/I を毎サブステップ再計算する)。
@@ -20046,6 +20062,7 @@ function makeSim(){
         if(b.layers) o.layers=b.layers;   // 第259便b: 親子コア(同心層 — validate 済み・根 1 粒子の質量は従来どおり body.m)
         if(b.shell) o.shell=b.shell;   // 第229便→第231便: 殻の相(検証器は通していたが flag 未伝播だった修正)
         if(b.frameSource===false) o.frameSource=false;   // 第243便: フレーム源フラグ(検証器→展開の伝播。第231便の shell と同じ型の取りこぼしを実測で発見して修正)
+        if(b.testParticle===true) o.testParticle=true;   // 第283便c: 試験粒子契約(検証器→展開の伝播)
         if(b.dragQ>0) o.dragQ=b.dragQ;   // 第237便: 粒子別引きずり減衰指数 q_i(未宣言=0 → physics.q)
         if(b.dragQTrans>0) o.dragQTrans=b.dragQTrans;   // 第239便: 並進チャネル(未宣言=0 → physics.qTrans)
         // 第27便: 単体粒子のレール駆動(pinned+railOmega — 円軌道。🕶️ハローの
@@ -20084,6 +20101,7 @@ function makeSim(){
             };
           if(b.shell) o.shell=b.shell;   // 第231便: 群共通の殻の相
           if(b.frameSource===false) o.frameSource=false;   // 第243便: 群共通の frameSource:false
+          if(b.testParticle===true) o.testParticle=true;   // 第283便c: 群共通の試験粒子契約
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           // 第31便: railH(膨張レール a(t)=e^{H·t})— pinned リングを相似膨張で規定駆動する。
           // 位置は初期半径から毎step解析再構成(前stepへの加算ではないのでドリフトしない)
@@ -20135,6 +20153,7 @@ function makeSim(){
             };
           if(b.shell) o.shell=b.shell;   // 第230便: 群共通の殻の相(shellGas フラグへ)
           if(b.frameSource===false) o.frameSource=false;   // 第243便: 群共通の frameSource:false
+          if(b.testParticle===true) o.testParticle=true;   // 第283便c: 群共通の試験粒子契約
           if(cCore) o.core=cCore;   // 第80便: 群コア(付けない構成ではキーごと存在しない = 形も従来どおり)
           // 第235便: 平衡初期化の後段タグ(全群の配置が終わってから実ポテンシャルで速度を決める)
           if(b.vMode==="enclosed"||b.vMode==="virial") o.eq={mode:b.vMode, cx:b.cx, cy:b.cy, dir:b.direction, scale:(b.vScale===undefined?1:b.vScale), row:b};
@@ -20327,6 +20346,7 @@ function makeSim(){
       S.dragQ[i]=(o.dragQ>0)? o.dragQ : 0; if(o.dragQ>0) S.hasDragQ=true;   // 第237便
       S.dragQT[i]=(o.dragQTrans>0)? o.dragQTrans : 0; if(o.dragQTrans>0) S.hasDragQT=true;   // 第239便
       S.frameSrc[i]=(o.frameSource===false)? 0 : 1; if(o.frameSource===false) S.hasFrameOff=true;   // 第243便
+      S.tpFlag[i]=(o.testParticle===true)? 1 : 0;   // 第283便c(既定 0)
       S.coreDQ[i]=0; S.coreDQT[i]=0;
       // 第77便(コアv2): 独立コア。J_core=½·Mc·Rc²·omega で初期化(以後 J が主変数)
       // 第80便: mode を4種へ拡張。cavity は質量0・慣性0なので J を持たず、Ω は規定値 coreOm0。
@@ -20676,6 +20696,7 @@ function makeSim(){
     // 第210便: clampTN = coupleSink:"tilt" の容量 ±|J| 到達回数(溢れはリザーバへ — 保存的)
     S.clampTN=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
+    testParticlePrepare(S);   // 第283便c: build の最後にも張り直す(build の途中の updateRadii は積分器・融合・相の宣言より前に走る)
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
     const rs=S.params.radiusScale;
@@ -20804,6 +20825,7 @@ function makeSim(){
     // 0="spin"(未宣言)/1="core"/2="reservoir"/3="tilt" —— 分岐の数え方は `_core` と同一である
     S._cplSinkI=(S.params[COUPLE_SINK_KEY]==="core")?1:((S.params[COUPLE_SINK_KEY]==="reservoir")?2
       :((S.params[COUPLE_SINK_KEY]==="tilt")?3:0));
+    testParticlePrepare(S);   // 第283便c: 試験粒子契約の入場条件(宣言が無ければ hasTestParticle=false のまま。半径更新のたびに張り直す)
     const __psq=S.params[PERI_SUB_KEY];
     S.hasPeriSub=!!__psq; S.periSub=__psq||null;
     S._periSetup();   // 未宣言でも呼ぶ(計数のリセットと状態の初期化だけ — 既定経路の値は 1 bit 不変)
@@ -42651,6 +42673,198 @@ function dfmMeshV2Step(S,dt,cf){
   S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
   return { n:nOn, dv:dvM, chi:chiMax, dP:[spx,spy], dL:sl, dE:dEt, law:"mesh-v2", gauge };
 }
+// ===== 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv)): **試験粒子契約**(body.testParticle:true・既定 off)=====
+// 宣言した粒子は**力を受けるが源にならない**。重い較正 4 本(🌞💠💍💿)の走行時間の 54% は、環粒子 88〜120 個が
+// **総当たりの相互作用粒子**であること(対 4371〜8001)から来ている —— その環を「源から外す」ための契約である。
+// ■ 意味(**`S._core` には 1 命令も足していない** —— 第239便 §4.5 の JIT 崖):
+//   ① 源(宣言の無い粒子)は、**試験粒子が 1 つも無い宇宙と 1 bit 同じ**に動く(`_core` を S.n=源の数で呼ぶ)。
+//      試験粒子は重力・決定力 W・フレーム u・1PN・E6′ 反作用・接触のどれでも**源に何も返さない**。
+//   ② 試験粒子は、源が步の頭に作る場を**全粒子の対ループの j 側と同じ式・同じ順**で受ける(重力 E4・1PN E12・
+//      フレーム u〔share/pull〕・geoPN=2 の輸送 3 項・E6′・接触)。試験粒子どうしは互いに何も及ぼさない。
+//      試験粒子は源のフレームに入らないので、**E6′ の対分配(③)の受け手にもならない**(源の Δp の分け前は 0)。
+//   ③ 光線(レンズの重い天体の判定)・表示・質量台帳(S.m)・保存 JSON は宣言どおりの質量のまま**不変**。
+//      運動量・角運動量の総和は試験粒子の分だけ閉じない(反作用を返さないので当然 —— 帳簿の主張はしない)。
+// ■ 入場条件(満たさないときは `S.testParticleDeny` に理由を置き、**全粒子を源として従来どおり走らせる**):
+//   試験粒子は**配列の末尾に連続**していること・semi 積分器・軌道系の特別化と同じ物質フラグ(kRep=muF=γN=κS=ηRad=0・
+//   tint/phase/コアv2/箱/ハロー/一様外場なし)・geoPN≤2・フレーム重みは share か pull(他のチャネル分離なし)・
+//   pairReduced/cmGauge/引きずりフック/融合/外部ステップ/光子放出/帯状重力/自動掻出/レールなし。
+// ■ しないこと: 内蔵プリセットの宣言を書き換えない(4 本の写しは器 tests/exp-w283c-heavy.mjs の中だけ)。
+function testParticlePrepare(S){
+  S.hasTestParticle=false; S.testParticleDeny=null;
+  const n=S.n, tp=S.tpFlag; if(!tp || tp.length!==n) return;
+  let n0=-1, cnt=0;
+  for(let i=0;i<n;i++) if(tp[i]){ if(n0<0) n0=i; cnt++; }
+  if(cnt===0){ S.tpN0=n; return; }
+  const deny=(why)=>{ S.testParticleDeny=why; S.tpN0=n; return false; };
+  if(n0+cnt!==n) return deny("notTail");
+  if(n0<1) return deny("noSource");
+  const p=S.params;
+  if(S.integrator!=="semi") return deny("integrator");
+  if((p.geoPN||0)>=3) return deny("geoPN3");
+  if(p.kRep!==0 || p.muF!==0 || p.gammaN!==0 || p.kappaS!==0 || p.etaRad!==0) return deny("material");
+  if(S.thermal==="tint" || S.phase || S.fusion) return deny("thermal");
+  if(S.hasCoreV2) return deny("coreV2");
+  if(S.box || S.boxHist || p.halo) return deny("box");
+  if((p.gravityX||0)!==0 || (p.gravityY||0)!==0) return deny("gravityXY");
+  if(S.hasDragQ) return deny("dragQ");
+  const dRef=p[DRAG_REF_KEY];
+  if(dRef==="surface"||dRef==="interior"||dRef===DRAG_CONTACT) return deny("dragRef");
+  const fw=p[FRAME_WEIGHT_KEY];
+  if(!(fw===undefined || fw==="share" || fw==="pull" || fw==="pull3" || fw==="pull4")) return deny("frameWeight");
+  // frameSource:false は**源の側に 1 つでもあれば**入場させない(試験粒子の側の宣言は、源にならない契約に含まれる —— 💿 の環)
+  let fsOffSrc=false; if(S.hasFrameOff) for(let i=0;i<n0;i++) if(!S.frameSrc[i]){ fsOffSrc=true; break; }
+  if(S.hasDragQT || S.hasCoreDQ || (p.qTrans>0) || (S.hasShellGas && p.gasCoh<1) || fsOffSrc || (p.gravMag>0)) return deny("channel");
+  if(p[FRAME_REACTION_KEY]==="pairReduced" || p[CM_GAUGE_KEY]==="barycentric") return deny("reaction");
+  if(S._hookOn===1) return deny("hook");
+  if(S.hasSpinSpin || S.hasAxisForce || S.hasCompactForce || S.hasBodyLayers || S.hasSpaceMesh || S.hasPairWeave
+     || S.hasCoordInertia || S.hasGeoToy || S.hasShapeToy || S.hasCoreField || S.hasCoreAxis || S.hasRelativeDrag
+     || S.hasMeshVelocity || S.hasMeshReservoir || S.hasShed || S.hasLightTrap || S.meshTransport
+     || S.params[PERI_SUB_KEY] || p.petersGW===true || S.echoFlipAt!==null) return deny("external");
+  if(S._phSched) return deny("photon");
+  if(S.zonal) return deny("zonal");
+  if(S.hasLSwAuto) return deny("lightSweepAuto");
+  for(let i=n0;i<n;i++) if(S.railOmega[i]!==0 || (S.railH && S.railH[i]!==0)) return deny("rail");
+  S.tpN0=n0; S.hasTestParticle=true;
+  return true;
+}
+// 1 サブステップ: 源の步の頭の状態を控え → `_core` を S.n=源の数で呼ぶ(源は試験粒子の無い宇宙と 1 bit 同じ)→
+// 試験粒子を控えた源の場で進める。**`_core` の外**(geoCoreDispatch の入口の真偽値 1 つ —— 未宣言は素通り)。
+function dfmTestParticleCore(S,dt,mode){
+  const n=S.n, n0=S.tpN0, p=S.params;
+  if(mode!==0 || !(n0>0 && n0<n) || !S.tpFlag || S.tpFlag.length!==n){   // 入場後に形が変わった(粒子の追加・積分器の切替)
+    S.hasTestParticle=false; S.testParticleDeny=(mode!==0)? "integrator" : "resized"; S.tpN0=n;
+    S._core(dt,mode); return;
+  }
+  if(S._rsUsed!==p.radiusScale) S.updateRadii();   // 半径の追従は全粒子で(_core の中の追従は S.n=源の数しか見ない)
+  let T=S._tpSnap;
+  if(!T || T.n0!==n0) T=S._tpSnap={n0, x:new Float64Array(n0), y:new Float64Array(n0), vx:new Float64Array(n0),
+    vy:new Float64Array(n0), spin:new Float64Array(n0)};
+  for(let j=0;j<n0;j++){ T.x[j]=S.x[j]; T.y[j]=S.y[j]; T.vx[j]=S.vx[j]; T.vy[j]=S.vy[j]; T.spin[j]=S.spin[j]; }
+  S.n=n0;
+  try{ S._core(dt,mode); } finally{ S.n=n; }
+  dfmTestParticleStep(S,dt,T,n0,n);
+}
+// 試験粒子 t(n0≤t<n)の 1 サブステップ(semi)。式・加算の順は全粒子の対ループの **j 側**(源 s<t)と ② の粒子ループ・
+// 後段(時計・クランプ・ドリフト・境界)の逐語の写しで、**源へは 1 つも書かない**。Float32 の配列は配列へ直接積む(丸めを揃える)
+function dfmTestParticleStep(S,dt,T,n0,n){
+  const p=S.params, m=S.mEff, R=S.R, pinned=S.pinned, x=S.x, y=S.y, vx=S.vx, vy=S.vy, spin=S.spin;
+  const ax=S.ax, ay=S.ay, sumW=S.sumW, sumWu=S.sumWu, uAx=S.uAx, uAy=S.uAy;
+  const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kFrame=p.kFrame, D0=p.D0;
+  const geo=(p.geoPN||0)>0, pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5),
+        invC2=geo? (p.lambdaPN!==undefined? p.lambdaPN : 1)/(p.cLight*p.cLight) : 0,
+        pnK=(p.G>0)? (RAY_ALPHA_MIN/4)*(p.cLight*p.cLight)/p.G : Infinity, pnOv=S.pnOv;
+  const geo2=(p.geoPN||0)>=2, g2on=geo2&&kFrame>0;
+  const CG=S._chG, pull=!!(CG && CG.pull), pw=pull? CG.pw : 2;
+  const bgWu=pull? CG.D0p : D0;   // 箱なし(W_B=0)
+  const carV=!!S.carVx, carVx=S.carVx, carVy=S.carVy;
+  const ckF=contactKOf(p), ccF=contactCapOf(p), cA=1+2*pnA, cB=pnA-0.5;
+  const sx=T.x, sy=T.y, svx=T.vx, svy=T.vy, ssp=T.spin, wb=S.world;
+  for(let t=n0;t<n;t++){
+    const mt=m[t], Rt=R[t], xt=x[t], yt=y[t], pinT=pinned[t];
+    ax[t]=0; ay[t]=0; sumW[t]=0; uAx[t]=0; uAy[t]=0; if(pull) sumWu[t]=0;
+    const hU=S.hasU[t];
+    const wxt=(geo2&&hU)? vx[t]-kFrame*S.uPx[t] : vx[t], wyt=(geo2&&hU)? vy[t]-kFrame*S.uPy[t] : vy[t];
+    let pxx=0, pxy=0, pyx=0, pyy=0, dWx=0, dWy=0;
+    for(let s=0;s<n0;s++){
+      const dx=sx[s]-xt, dy=sy[s]-yt;            // 対 (i=s, j=t) の dx=x_i−x_j
+      const d2=dx*dx+dy*dy, d=Math.sqrt(d2);
+      const ms=m[s], Rs=R[s], ss=ssp[s];
+      const invW=1/Math.sqrt(d2+eps2), invd3=invW*invW*invW, fg=G*invd3;
+      ax[t]+=fg*ms*dx; ay[t]+=fg*ms*dy;
+      const ws=ms*invW;
+      sumW[t]+=ws;
+      if(invC2>0 && (pnOv[s]||ms>=pnK*Math.max(Rs,eps)) && !pinT){   // E12(源 s の 1PN — 反作用は返さない)
+        const Ui=G*ms*invW, gux=fg*ms*dx, guy=fg*ms*dy;
+        const v2j=wxt*wxt+wyt*wyt, dU=gux*wxt+guy*wyt;
+        const pnx=invC2*((cB*v2j-cA*Ui)*gux - cA*dU*wxt), pny=invC2*((cB*v2j-cA*Ui)*guy - cA*dU*wyt);
+        ax[t]+=pnx; ay[t]+=pny;
+      }
+      let omi=0;
+      if(ss!==0){ const tt=Rs/(Rs+d); omi=(q===2)? ss*tt*tt : ss*Math.pow(tt,q); }
+      let wp=ws, gk=invd3;
+      if(pull){ const q2=d*d+eps2;
+        if(pw===2){ wp=ms/q2; gk=2/(q2*q2); }
+        else { const iw=(pw===3)? 1/(q2*Math.sqrt(q2)) : 1/(q2*q2); wp=ms*iw; gk=pw*iw/q2; }
+        sumWu[t]+=wp; }
+      uAx[t]+=wp*(svx[s]+omi*(dy)); uAy[t]+=wp*(svy[s]+omi*(-dx));
+      if(g2on){
+        const idd=(d>1e-9)? 1/d : 0;
+        let domi=0;
+        if(ss!==0) domi-=q*omi/(Rs+d);
+        const gwx=ms*dx*gk, gwy=ms*dy*gk;
+        const cxv=svx[s]+omi*(dy), cyv=svy[s]+omi*(-dx);
+        const nx=-dx*idd, ny=-dy*idd;
+        pxx+=gwx*cxv + wp*( dy*domi*nx);
+        pxy+=gwy*cxv + wp*(-omi + dy*domi*ny);
+        pyx+=gwx*cyv + wp*( omi - dx*domi*nx);
+        pyy+=gwy*cyv + wp*(-dx*domi*ny);
+        dWx+=gwx; dWy+=gwy;
+      }
+      const sumR=Rs+Rt;   // E9 法線ばね(試験粒子の側だけ)
+      if(d<sumR && d>1e-9){
+        const nxv=dx/d, nyv=dy/d;
+        const invMi=pinned[s]?0:1/ms, invMj=pinT?0:1/mt;
+        const msum=ms+mt, muM=(Math.abs(msum)>1e-9)? ms*mt/msum : 0;
+        let Fs=ckF*(sumR-d)*muM;
+        const maxInv=Math.max(invMi,invMj);
+        if(maxInv>0 && Fs*maxInv>ccF) Fs=ccF/maxInv;
+        ax[t]-=Fs*nxv*invMj; ay[t]-=Fs*nyv*invMj;
+      }
+    }
+    if(!pinT){
+      if(carV){
+        const addX=ax[t]*dt+carVx[t], v0x=vx[t]; vx[t]=v0x+addX; carVx[t]=addX-(vx[t]-v0x);
+        const addY=ay[t]*dt+carVy[t], v0y=vy[t]; vy[t]=v0y+addY; carVy[t]=addY-(vy[t]-v0y);
+      } else { vx[t]+=ax[t]*dt; vy[t]+=ay[t]*dt; }
+      const denom=bgWu+(pull? sumWu[t] : sumW[t]);
+      if(denom>0 && kFrame>0 && !geo){   // E6′(geoPN=0)
+        const ux=uAx[t]/denom, uy=uAy[t]/denom;
+        if(S.hasU[t]){
+          let dux=ux-S.uPx[t], duy=uy-S.uPy[t];
+          const dl2=dux*dux+duy*duy;
+          if(dl2>0.64){ const sc=0.8/Math.sqrt(dl2); dux*=sc; duy*=sc; }
+          vx[t]+=kFrame*dux; vy[t]+=kFrame*duy;
+        }
+        S.uPx[t]=ux; S.uPy[t]=uy; S.hasU[t]=1;
+      } else if(denom>0 && g2on){   // geoPN=2 の輸送 3 項
+        const ux=uAx[t]/denom, uy=uAy[t]/denom;
+        if(S.hasU[t]){
+          const Jxx=(pxx-ux*dWx)/denom, Jxy=(pxy-ux*dWy)/denom, Jyx=(pyx-uy*dWx)/denom, Jyy=(pyy-uy*dWy)/denom;
+          const rux=vx[t]-ux, ruy=vy[t]-uy, wx2=vx[t]-kFrame*ux, wy2=vy[t]-kFrame*uy, curl=Jyx-Jxy;
+          let dux=(ux-S.uPx[t]) + (-(rux*Jxx+ruy*Jxy) + curl*(-wy2))*dt,
+              duy=(uy-S.uPy[t]) + (-(rux*Jyx+ruy*Jyy) + curl*( wx2))*dt;
+          const dl2=dux*dux+duy*duy;
+          if(dl2>0.64){ const sc=0.8/Math.sqrt(dl2); dux*=sc; duy*=sc; }
+          vx[t]+=kFrame*dux; vy[t]+=kFrame*duy;
+        }
+        S.uPx[t]=ux; S.uPy[t]=uy; S.hasU[t]=1;
+      }
+    }
+    S.rotA[t]+=spin[t]*dt;
+    if(pinT){ S.tauUpdate(t,dt); continue; }
+    const vv2=vx[t]*vx[t]+vy[t]*vy[t];
+    if(vv2>10000){ const sc=100/Math.sqrt(vv2); vx[t]*=sc; vy[t]*=sc; S.clampVN++; }
+    if(spin[t]>40){ spin[t]=40; S.clampSN++; } else if(spin[t]<-40){ spin[t]=-40; S.clampSN++; }
+    x[t]+=vx[t]*dt; y[t]+=vy[t]*dt;
+    if(wb.boundary==="box"){
+      const s=wb.size, wr=S.wallRest;
+      if(x[t]>s){x[t]=s; const v0=vx[t]; vx[t]=-Math.abs(v0)*wr[3]; S.wallKE+=0.5*m[t]*(v0*v0-vx[t]*vx[t]);}
+      else if(x[t]<-s){x[t]=-s; const v0=vx[t]; vx[t]=Math.abs(v0)*wr[2]; S.wallKE+=0.5*m[t]*(v0*v0-vx[t]*vx[t]);}
+      if(y[t]>s){y[t]=s; const v0=vy[t]; vy[t]=-Math.abs(v0)*wr[0]; S.wallKE+=0.5*m[t]*(v0*v0-vy[t]*vy[t]);}
+      else if(y[t]<-s){y[t]=-s; const v0=vy[t]; vy[t]=Math.abs(v0)*wr[1]; S.wallKE+=0.5*m[t]*(v0*v0-vy[t]*vy[t]);}
+    } else if(wb.boundary==="circle"){
+      const s=wb.size, r2=x[t]*x[t]+y[t]*y[t];
+      if(r2>s*s){ const r=Math.sqrt(r2), nx2=x[t]/r, ny2=y[t]/r;
+        const vr=vx[t]*nx2+vy[t]*ny2;
+        if(vr>0){ const k0=vx[t]*vx[t]+vy[t]*vy[t];
+          vx[t]-=2*vr*nx2*0.975; vy[t]-=2*vr*ny2*0.975;
+          S.wallKE+=0.5*m[t]*(k0-vx[t]*vx[t]-vy[t]*vy[t]); }
+        x[t]=nx2*s; y[t]=ny2*s; }
+    }
+    S.tauUpdate(t,dt);
+    if(S.hasPulse && S.pulseOm[t]!==0) S.pulsePh[t]+=S.pulseOm[t]*dt;
+  }
+}
 // 第259便a: **geoPN=3 の dispatch 除外**(`S._core` には 1 命令も足さない)。
 // `S._core` は入口で `const n=S.n, p=S.params;` と読むだけなので、**`_core` を呼んでいる間だけ**
 // `S.params.geoPN` を 0 にして戻す。これで `geo=(p.geoPN||0)>0`・`geo2=(p.geoPN||0)>=2`・
@@ -42670,6 +42884,7 @@ function dfmMeshV2Step(S,dt,cf){
 // コピー g1R と同じ分岐)。kFrame=0 では E6′・輸送 3 項・u 減算が立たないので geoPN=1 ≡ geoPN=2∧kFrame=0(ビット同一)。
 // 固定源(pinned)の本(☿・V18)は反作用の分岐に入らないので 1 bit も変わらない。geoPN=0/2 の経路は従来のまま。
 function geoCoreDispatch(S,dt,mode){
+  if(S.hasTestParticle){ dfmTestParticleCore(S,dt,mode); return; }   // 第283便c: 試験粒子契約(未宣言は真偽値 1 つで素通り)
   const p=S.params, g=p.geoPN;
   if(g>=3){
     if(S.hasGeo3PN) dfmGeo3PNKick(S,(mode===0)? dt : dt*0.5);

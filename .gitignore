@@ -721,3 +721,7 @@ tests/out/regen-plan-w281a.json
 #   (tests/exp-w283b-families.mjs —— Node だけで html を読む・1 步も走らせない。一覧 docs/FAMILIES_v1.45.md も同じ器が書く)。
 #   QA docs.families・docs.retired が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**候補であって実行ではない**。
 !tests/out/families-w283b.json
+# 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv)): **重い較正 4 本と試験粒子契約**の正本
+#   (tests/exp-w283c-heavy.mjs —— 粒子数・対・質量の内訳・ms/步・試験粒子契約の機械検査・判定量の前後)。
+#   QA docs.heavyCal が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**(4 本の宣言は書き換えていない)。
+!tests/out/heavy-w283c.json
