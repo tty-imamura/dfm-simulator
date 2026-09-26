@@ -8,7 +8,7 @@
 //       loadHtmlMain)の ms/步: **全粒子**・**主要天体だけ**(群を除いた写し)・**試験粒子の写し**(群を末尾へ移して
 //       `testParticle:true`)。統括の検証仮説「全粒子 対 主要天体だけで 268〜460 倍」を測る。
 //   (C) 試験粒子契約の機械検査: ① 源(主要天体)は群を除いた宇宙と 1 bit 同じ ② 群の粒子の配置は並べ替えで変わらない
-//       ③ 固定中心 + 1 粒子の宇宙で、試験粒子の軌道は通常粒子とビット一致(share/pull/pull3・geoPN 0/1/2・kFrame 0/1・
+//       ③ 固定中心 + 1 粒子の宇宙で、試験粒子の軌道は通常粒子とビット一致(share/pull/pull3・geoPN 0/1/2・kFrame 0/1〔geoPN=1 は kFrame=0 だけ —— 受理器〕・
 //       stateCarry 有無・frameSource:false)④ 内蔵 141 本に宣言が 0 本(既定 off)⑤ 入場条件の拒否理由。
 //   (D) 判定量の前後: 判定器(tests/exp-w249b-calaudit.mjs --tp-copy)を**同じ停止条件・同じ抽出器**で写しに掛け、
 //       正本の同じ量(対象・種類・名前)と並べて相対差を出す(Chromium・一時ファイル —— 正本は上書きしない)。
@@ -45,7 +45,7 @@ export const IDENTITY_STEPS = 2000;
 export const TWO_BODY_STEPS = 3000;
 export const TWO_BODY_CASES = [
   { key: 'share-geo2-kF1', phys: {} },
-  { key: 'share-geo1-kF1', phys: { geoPN: 1, kFrame: 1 } },
+  // 第283便 統合: geoPN=1 ∧ kFrame=1 は枝 a の受理器が拒否する(geoPN=1 は kFrame=0 専用)ので 2 体の条件から外した(10 → 9 条件)
   { key: 'share-geo0-kF1', phys: { geoPN: 0 } },
   { key: 'share-geo1-kF0', phys: { geoPN: 1, kFrame: 0 } },
   { key: 'share-geo2-kF0', phys: { geoPN: 2, kFrame: 0 } },
