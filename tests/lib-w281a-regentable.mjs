@@ -16,6 +16,7 @@
 //   'w272b-wallSec' … 正本 charon-w272b.json の列ごとの `wallSec`(実測)を、新しい既定列の集合で足した値。
 //   'w282a-branch' … 第282便a の枝で器を 1 回走らせた実測(fmigration は正本の meta.wallSec の前後の和)。
 //   'w282c-run' … 第282便c の器の単独走行(正本の elapsedS —— Node だけ・Chromium なし)。
+//   'w283c-run' … 第283便c の器の単独走行(正本の elapsedSec —— Node の vm + 判定器の --tp-copy〔Chromium〕)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -54,7 +55,11 @@ export const REGEN_STEPS = [
   // ---- 常時群(calaudit 系と署名の後段): 領域が一致しても**毎回走らせる**
   S('calaudit', 'node tests/exp-w249b-calaudit.mjs', ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'], 3724, { alwaysRun: true,
     volatilePaths: { 'tests/out/calaudit-w249.json': V_CALAUDIT, 'tests/out/calaudit-w249-diag.json': [] } }),
-  S('dt3', 'node tests/exp-w249b-calaudit.mjs --dt3-registry --dt8-registry --merge', [], 1683, { alwaysRun: true, after: ['calaudit'] }),
+  // 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (ii)(iii)): 常時の dt3 段から `--dt8-registry` を外した(h/8 は明示診断の
+  //   入口だけ —— `--dt8-registry` 単独)。dt/4 は前回の正本の同じ契約の h4 を転記する(`--no-h4-reuse` で切る)。
+  //   **sec は旧値(第280便の chain の実測 —— dt/8 込み)のまま**:再測定するまで書き換えない(dt/8 の段の和は第282便の正本で 544 s)
+  S('dt3', 'node tests/exp-w249b-calaudit.mjs --dt3-registry --merge', [], 1683, { alwaysRun: true, after: ['calaudit'],
+    note: '第283便c: --dt8-registry を外した・dt/4 は転記(tests/lib-w283c-calstages.mjs の H4_REUSE_RULE)。sec は旧値(dt/8 込みの第280便の実測)—— 再測定まで据え置き' }),
   S('kf0', 'node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-dt3 --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge', ['tests/out/kf0-w259d.json'], 299, { alwaysRun: true, after: ['dt3'] }),
   S('solarsigma', 'node tests/exp-w262d-solarsigma.mjs', ['tests/out/solarsigma-w262d.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   S('stoprule', 'node tests/exp-w270a-stoprule.mjs', ['tests/out/stoprule-w270a.json'], 0, { alwaysRun: true, after: ['kf0'] }),
@@ -165,6 +170,12 @@ export const REGEN_STEPS = [
   S('geo1', 'node tests/exp-w282b-geo1.mjs', ['tests/out/geo1-w282b.json'], 1033, { secSource: 'w282b-run', after: ['calaudit', 'kf0'],
     env: { PLAYWRIGHT_CORE_DIR: 'Chromium の Playwright(水星の表と比較表 —— W282B_ENGINE=node なら不要・約 6 倍遅い)' },
     note: '第282便b: 1 歩の表・束縛二体・ブースト・固定源・質量比の走査は Node の vm(本体 + 反作用返しの器の中のコピー)' }),
+  // ---- 第283便c(第73報 ⑤・R86 (iv)): 重い較正 4 本の粒子数・ms/步・試験粒子契約の検査と判定量の前後(calaudit の後 —— 正本の段別の
+  //   壁時計と判定量を読み、判定器を --tp-copy で写しに掛ける —— 一時ファイル)
+  S('heavy', 'node tests/exp-w283c-heavy.mjs', ['tests/out/heavy-w283c.json'], 368, { secSource: 'w283c-run', after: ['calaudit'],
+    env: { PLAYWRIGHT_CORE_DIR: 'Chromium の Playwright(判定器を試験粒子の写しに掛ける (D) —— 残りは Node の vm)' },
+    volatilePaths: { 'tests/out/heavy-w283c.json': META_RUN },
+    note: '第283便c: 重い 4 本の粒子数・対・質量の内訳・ms/步(全粒子/主要天体だけ/試験粒子の写し)・試験粒子契約の機械検査・判定量の前後(4 本の宣言は書き換えない)' }),
 ];
 
 /**

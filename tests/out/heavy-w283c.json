@@ -1,0 +1,1491 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第283便c",
+  "target": "beta/index.html",
+  "targetSha256": "b3b3db4f2a91f62614254ab15c5128b1744f270b714d46a573f5e2d7c2778ddf",
+  "generatedAt": "2026-09-26T16:41:33.052Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4851253,
+    "sha256": "b3b3db4f2a91f62614254ab15c5128b1744f270b714d46a573f5e2d7c2778ddf",
+    "mtime": "2026-09-26T16:19:38.000Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2815722,
+    "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
+    "mtime": "2026-09-26T15:27:39.700Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w283c-heavy.mjs",
+    "bytes": 22737,
+    "sha256": "eb0bac1120e2969a4a56a832f254495adc76b25569a4b9a1e58d62ea5b37438f",
+    "mtime": "2026-09-26T16:26:39.270Z"
+   },
+   {
+    "file": "tests/lib-w283c-calstages.mjs",
+    "bytes": 11350,
+    "sha256": "81f73698d3cbe8f23519fe793e7fa701d50fc696b63c6b73fe5c2e026e428dfa",
+    "mtime": "2026-09-26T16:22:45.445Z"
+   },
+   {
+    "file": "tests/exp-w249b-calaudit.mjs",
+    "bytes": 318475,
+    "sha256": "9789909ab5532784aab6d87f62b35d80c43223b9701de0d8ec3aea95082f08c8",
+    "mtime": "2026-09-26T16:22:57.003Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-09-26T15:27:39.656Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-26T15:27:39.656Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-26T15:27:39.648Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 60075,
+    "sha256": "42e586660d12b9554e77d0ecf507747b411e2356812c40d18df599090b62826f",
+    "mtime": "2026-09-26T15:27:39.660Z"
+   }
+  ],
+  "codeSha256": "560fb50c9163ae5bcd315a0aa31e94d4385b5efa896a0b1a76f1385459a16803",
+  "harnessVersion": "w283c-heavy-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第73報)⑤: 正本再生成と QA が非常に長い → 改善・dt/8 は無くす方向・dt/4 は前回の結果を利用・dt だけで重いサンプルを調査して改善",
+  "reading": "統括の検証項目 R86 (iv): 重い 4 本の原因は環粒子 88〜120 個が総当たりの相互作用粒子であること(統括の検証仮説: 全粒子 対 主要天体だけで 268〜460 倍)。対策は試験粒子契約(既定 off)",
+  "hypothesisRatio": [
+   268,
+   460
+  ],
+  "dt": 0.016,
+  "timing": {
+   "warm": 300,
+   "full": 400,
+   "major": 20000,
+   "tp": 4000,
+   "reps": 3
+  },
+  "identitySteps": 2000,
+  "twoBodySteps": 3000,
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま vm で実行)。(D) だけ Chromium(判定器)",
+  "notClaim": [
+   "試験が短くなった=数値が収束した",
+   "試験粒子にすれば合",
+   "観測一致を達成した",
+   "較正を完了した",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w282e-scope-2",
+   "presets": "all",
+   "roots": [
+    "$",
+    "CAL_CONTRACT",
+    "DT",
+    "HP.allPresets",
+    "HP.coreState",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.presetSigHash",
+    "HP.sim",
+    "HP.validatePreset",
+    "LAWS",
+    "T",
+    "ch",
+    "chanSetup",
+    "clamp",
+    "ctx",
+    "cw",
+    "dfmTestParticleCore",
+    "dfmTestParticleStep",
+    "geoCoreDispatch",
+    "isNum",
+    "pairChannelGrad",
+    "pairChannelOm",
+    "pairCorePN",
+    "pairCorePlain",
+    "pnSource",
+    "presetSigHash",
+    "scaleExpT",
+    "testParticlePrepare"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 782,
+   "segments": 710,
+   "closureShare": 0.3186
+  },
+  "scopeSha256": "4668eb7a1a91b503426b1440faff907df1bf615dd09fd0a7b6605699954a5bc9",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "d80d3db914d4e66efd951209fdc5a98913d59dd99afdecc0888d3b8a6ca64d8e",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/diagnosticsSplit/carriedOverFrom",
+     "/fourValues/current/when",
+     "/meta/when",
+     "/presets/*/run/dtEighth/wallSec",
+     "/presets/*/run/stopRule/rateStepsPerSec",
+     "/presets/*/run/stopRule/wallSec",
+     "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
+     "/presets/*/run/stopRuleStages/*/wallSec",
+     "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/wallSec",
+     "/presets/*/run/wallSec"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "calaudit": {
+  "totalWallSec": 4712.579999999999,
+  "heavyWallSec": 2550.9849999999997,
+  "heavyShare": 0.541313887509602,
+  "nPresets": 37,
+  "canonWhen": "2026-09-26T09:41:28.984Z",
+  "canonTargetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+  "rows": [
+   {
+    "id": "solarInner",
+    "emoji": "🌞",
+    "n": 105,
+    "heavy": true,
+    "tags": [
+     "dt"
+    ],
+    "wallSec": 650.108,
+    "steps": 866426,
+    "msPerStepChromium": 0.7503329770805585,
+    "needPeriastra": 20,
+    "periFound": [
+     9,
+     5,
+     3,
+     2
+    ],
+    "periastraOk": false,
+    "stoppedBy": "declared-max-steps",
+    "maxStepsSource": "preset",
+    "stepsPerOrbit0": [
+     47503,
+     121336,
+     197238,
+     370964
+    ]
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "n": 94,
+    "heavy": true,
+    "tags": [
+     "dt"
+    ],
+    "wallSec": 648.115,
+    "steps": 1075028,
+    "msPerStepChromium": 0.6028819714463252,
+    "needPeriastra": 20,
+    "periFound": [
+     14,
+     7,
+     4,
+     2,
+     1
+    ],
+    "periastraOk": false,
+    "stoppedBy": "declared-max-steps",
+    "maxStepsSource": "preset",
+    "stepsPerOrbit0": [
+     76382,
+     136074,
+     223815,
+     470135,
+     727130
+    ]
+   },
+   {
+    "id": "saturnRingReal",
+    "emoji": "💍",
+    "n": 127,
+    "heavy": true,
+    "tags": [
+     "dt"
+    ],
+    "wallSec": 641.256,
+    "steps": 2042988,
+    "msPerStepChromium": 0.3138814324900586,
+    "needPeriastra": 20,
+    "periFound": [
+     63,
+     36,
+     3
+    ],
+    "periastraOk": false,
+    "stoppedBy": "declared-max-steps",
+    "maxStepsSource": "preset",
+    "stepsPerOrbit0": [
+     13015,
+     50946,
+     860867
+    ]
+   },
+   {
+    "id": "saturnRingRealKF1",
+    "emoji": "💿",
+    "n": 127,
+    "heavy": true,
+    "tags": [
+     "dt"
+    ],
+    "wallSec": 611.506,
+    "steps": 254730,
+    "msPerStepChromium": 2.4006045616927727,
+    "needPeriastra": 20,
+    "periFound": [
+     13,
+     2,
+     1
+    ],
+    "periastraOk": false,
+    "stoppedBy": "declared-max-steps",
+    "maxStepsSource": "preset",
+    "stepsPerOrbit0": [
+     13575,
+     50946,
+     860867
+    ]
+   }
+  ]
+ },
+ "structure": [
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "n": 105,
+   "nMajor": 5,
+   "nGroup": 100,
+   "pairsAll": 5460,
+   "pairsMajor": 10,
+   "pairsTp": 510,
+   "mass": {
+    "major": 1988.5118117200036,
+    "group": 0.00009999999974752427,
+    "central": 1988.5,
+    "groupOverMajor": 5.028886384186335e-8,
+    "groupOverCentral": 5.028916255847336e-8
+   },
+   "groupSameAfterReorder": true,
+   "tp": {
+    "on": true,
+    "deny": null,
+    "n0": 5
+   },
+   "sourcesBitSameVsMajorOnly": true,
+   "identitySteps": 2000,
+   "tpNaN": false,
+   "msPerStepNode": {
+    "full": 1.9853969875000002,
+    "major": 0.009583108699999999,
+    "tp": 0.12549572325,
+    "fullOverMajor": 207.17671578743548,
+    "fullOverTp": 15.820435438623605,
+    "trials": {
+     "full": [
+      1.9853969875000002,
+      2.2399737625,
+      2.6401730700000003
+     ],
+     "major": [
+      0.01122320455,
+      0.009583108699999999,
+      0.012541855
+     ],
+     "tp": [
+      0.12549572325,
+      0.1257657665,
+      0.1935084315
+     ]
+    }
+   },
+   "timing": {
+    "warm": 300,
+    "full": 400,
+    "major": 20000,
+    "tp": 4000,
+    "reps": 3
+   }
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "n": 94,
+   "nMajor": 6,
+   "nGroup": 88,
+   "pairsAll": 4371,
+   "pairsMajor": 15,
+   "pairsTp": 543,
+   "mass": {
+    "major": 8.681987491676864,
+    "group": 0.00008799999977782136,
+    "central": 8.681099891662598,
+    "groupOverMajor": 0.000010135927961447084,
+    "groupOverCentral": 0.000010136964310517531
+   },
+   "groupSameAfterReorder": true,
+   "tp": {
+    "on": true,
+    "deny": null,
+    "n0": 6
+   },
+   "sourcesBitSameVsMajorOnly": true,
+   "identitySteps": 2000,
+   "tpNaN": false,
+   "msPerStepNode": {
+    "full": 1.7307276325,
+    "major": 0.01311680785,
+    "tp": 0.14394255050000002,
+    "fullOverMajor": 131.9473192176098,
+    "fullOverTp": 12.023738821412643,
+    "trials": {
+     "full": [
+      2.3417933725,
+      1.7307276325,
+      2.0972310375000003
+     ],
+     "major": [
+      0.01739154585,
+      0.0160702192,
+      0.01311680785
+     ],
+     "tp": [
+      0.14394255050000002,
+      0.26212229075,
+      0.22836753024999998
+     ]
+    }
+   },
+   "timing": {
+    "warm": 300,
+    "full": 400,
+    "major": 20000,
+    "tp": 4000,
+    "reps": 3
+   }
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "n": 127,
+   "nMajor": 7,
+   "nGroup": 120,
+   "pairsAll": 8001,
+   "pairsMajor": 21,
+   "pairsTp": 861,
+   "mass": {
+    "major": 56.84786798376308,
+    "group": 0.0011999999696854502,
+    "central": 56.83399963378906,
+    "groupOverMajor": 0.00002110897052512497,
+    "groupOverCentral": 0.000021114121431144604
+   },
+   "groupSameAfterReorder": true,
+   "tp": {
+    "on": true,
+    "deny": null,
+    "n0": 7
+   },
+   "sourcesBitSameVsMajorOnly": true,
+   "identitySteps": 2000,
+   "tpNaN": false,
+   "msPerStepNode": {
+    "full": 0.5211966375,
+    "major": 0.0071609087,
+    "tp": 0.1181375365,
+    "fullOverMajor": 72.78358925313486,
+    "fullOverTp": 4.411778448588184,
+    "trials": {
+     "full": [
+      0.68847081,
+      0.5211966375,
+      0.96149214
+     ],
+     "major": [
+      0.0071609087,
+      0.00744801485,
+      0.03207576345
+     ],
+     "tp": [
+      0.1181375365,
+      0.1332048805,
+      0.1434814015
+     ]
+    }
+   },
+   "timing": {
+    "warm": 300,
+    "full": 400,
+    "major": 20000,
+    "tp": 4000,
+    "reps": 3
+   }
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "n": 127,
+   "nMajor": 7,
+   "nGroup": 120,
+   "pairsAll": 8001,
+   "pairsMajor": 21,
+   "pairsTp": 861,
+   "mass": {
+    "major": 56.84786798376308,
+    "group": 0.0000015396000208056648,
+    "central": 56.83399963378906,
+    "groupOverMajor": 2.7082810233893137e-8,
+    "groupOverCentral": 2.7089418846572584e-8
+   },
+   "groupSameAfterReorder": true,
+   "tp": {
+    "on": true,
+    "deny": null,
+    "n0": 7
+   },
+   "sourcesBitSameVsMajorOnly": true,
+   "identitySteps": 2000,
+   "tpNaN": false,
+   "msPerStepNode": {
+    "full": 9.7221588525,
+    "major": 0.031768743349999996,
+    "tp": 0.25446214375,
+    "fullOverMajor": 306.02906590889756,
+    "fullOverTp": 38.206700254996186,
+    "trials": {
+     "full": [
+      9.9797884375,
+      9.7221588525,
+      10.293179285
+     ],
+     "major": [
+      0.03356474205,
+      0.031768743349999996,
+      0.03843150805
+     ],
+     "tp": [
+      0.25446214375,
+      0.2557845,
+      0.26355081124999996
+     ]
+    }
+   },
+   "timing": {
+    "warm": 300,
+    "full": 400,
+    "major": 20000,
+    "tp": 4000,
+    "reps": 3
+   }
+  }
+ ],
+ "twoBody": [
+  {
+   "key": "share-geo2-kF1",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.51881567085085,
+   "y": 8.052138506285676
+  },
+  {
+   "key": "share-geo1-kF1",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.47649408564922,
+   "y": 7.768685963875671
+  },
+  {
+   "key": "share-geo0-kF1",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.34459414764097,
+   "y": 7.288353819950705
+  },
+  {
+   "key": "share-geo1-kF0",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.47649408564922,
+   "y": 7.768685963875671
+  },
+  {
+   "key": "share-geo2-kF0",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.47649408564922,
+   "y": 7.768685963875671
+  },
+  {
+   "key": "pull-geo2-kF1",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.51884084232952,
+   "y": 8.052236478933423
+  },
+  {
+   "key": "pull-geo0-kF1",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.344192131383934,
+   "y": 7.28680586774046
+  },
+  {
+   "key": "pull3-geo2-kF1",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.49163182186838,
+   "y": 7.895618883146578
+  },
+  {
+   "key": "pull-geo2-kF1-frameSourceFalse",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.51884084232952,
+   "y": 8.052236478933423
+  },
+  {
+   "key": "share-geo2-kF1-noCarry",
+   "tpOn": true,
+   "bitSame": true,
+   "steps": 3000,
+   "x": -48.518856048583984,
+   "y": 8.052226066589355
+  }
+ ],
+ "deny": {
+  "nPresets": 141,
+  "declared": 0,
+  "flaggedBuilt": 0,
+  "rows": [
+   {
+    "key": "notTail",
+    "want": "notTail",
+    "got": "notTail",
+    "on": false
+   },
+   {
+    "key": "leapfrog",
+    "want": "integrator",
+    "got": "integrator",
+    "on": false
+   },
+   {
+    "key": "kRep",
+    "want": "material",
+    "got": "material",
+    "on": false
+   },
+   {
+    "key": "geoPN3",
+    "want": "geoPN3",
+    "got": "geoPN3",
+    "on": false
+   },
+   {
+    "key": "dragRefSurface",
+    "want": "dragRef",
+    "got": "dragRef",
+    "on": false
+   },
+   {
+    "key": "sourceFrameSourceFalse",
+    "want": "channel",
+    "got": "channel",
+    "on": false
+   }
+  ]
+ },
+ "quantities": [
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "rows": [
+    {
+     "target": "水星",
+     "kind": "period",
+     "name": "公転周期(水/金/地/火)(水星)",
+     "unit": "s",
+     "before": 7600499.003331359,
+     "after": 7600499.012478322,
+     "relDiff": 1.2034687777943948e-9,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "金星",
+     "kind": "period",
+     "name": "公転周期(水/金/地/火)(金星)",
+     "unit": "s",
+     "before": 19413805.369073812,
+     "after": 19413805.480055686,
+     "relDiff": 5.716647100249252e-9,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "地球",
+     "kind": "period",
+     "name": "公転周期(水/金/地/火)(地球)",
+     "unit": "s",
+     "before": 31558311.799095467,
+     "after": 31558312.189492114,
+     "relDiff": 1.2370644210647369e-8,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "火星",
+     "kind": "period",
+     "name": "公転周期(水/金/地/火)(火星)",
+     "unit": "s",
+     "before": 59353327.93005379,
+     "after": 59353330.32061574,
+     "relDiff": 4.027679709137148e-8,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": null,
+     "kind": "other",
+     "name": "軌道速度(地球)",
+     "unit": null,
+     "before": null,
+     "after": null,
+     "relDiff": null,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": null,
+     "kind": "other",
+     "name": "円軌道の維持(2水星周窓)",
+     "unit": null,
+     "before": null,
+     "after": null,
+     "relDiff": null,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "水星",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(水星)",
+     "unit": "-",
+     "before": 0.00006526977879972767,
+     "after": 0.00006526975104741732,
+     "relDiff": -4.251938778007148e-7,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "水星",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(水星)",
+     "unit": "deg/orbit",
+     "before": -0.32575336783925,
+     "after": -0.326047038443347,
+     "relDiff": -0.000901512104218308,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "金星",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(金星)",
+     "unit": "-",
+     "before": 0.00002443857485710003,
+     "after": 0.000024438710334657894,
+     "relDiff": 0.000005543594855874855,
+     "verdictBefore": "否",
+     "verdictAfter": "否",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "金星",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(金星)",
+     "unit": "deg/orbit",
+     "before": 3.7921551009153394,
+     "after": 3.791920704407163,
+     "relDiff": -0.00006181089695402542,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "地球",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(地球)",
+     "unit": "-",
+     "before": 0.00002203039246495403,
+     "after": 0.000022029468256479515,
+     "relDiff": -0.00004195152110816307,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "地球",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(地球)",
+     "unit": "deg/orbit",
+     "before": 26.743730362912988,
+     "after": 26.733368450779288,
+     "relDiff": -0.00038745201185804595,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "火星",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(火星)",
+     "unit": "-",
+     "before": 0.000021692327981030167,
+     "after": 0.000021680617437715287,
+     "relDiff": -0.0005398472365493057,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "火星",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(火星)",
+     "unit": "deg/orbit",
+     "before": 7.803886264219639,
+     "after": 7.828518427097823,
+     "relDiff": 0.0031563969596943506,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    }
+   ],
+   "maxAbsRelDiff": 0.0031563969596943506,
+   "maxAbsRelDiffPeriod": 4.027679709137148e-8,
+   "verdictMoved": 0,
+   "gateMoved": 0,
+   "before": {
+    "steps": 866426,
+    "wallSec": 650.108,
+    "periFound": [
+     9,
+     5,
+     3,
+     2
+    ],
+    "periastraOk": false
+   },
+   "after": {
+    "steps": 866426,
+    "wallSec": 63.21,
+    "periFound": [
+     9,
+     5,
+     3,
+     2
+    ],
+    "periastraOk": false,
+    "tpCopy": {
+     "on": true,
+     "deny": null,
+     "n0": 5
+    }
+   },
+   "wallRatio": 10.284891631071032
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "rows": [
+    {
+     "target": "ミランダ",
+     "kind": "period",
+     "name": "公転周期(ミランダ/アリエル・kFrame=1・周回実測)(ミランダ)",
+     "unit": "s",
+     "before": 122209.47905699206,
+     "after": 122212.09987038164,
+     "relDiff": 0.000021445254572789954,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "アリエル",
+     "kind": "period",
+     "name": "公転周期(ミランダ/アリエル・kFrame=1・周回実測)(アリエル)",
+     "unit": "s",
+     "before": 217720.28333595072,
+     "after": 217724.7548038321,
+     "relDiff": 0.00002053767252579086,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ウンブリエル",
+     "kind": "period",
+     "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(ウンブリエル)",
+     "unit": "s",
+     "before": 358079.59246302873,
+     "after": 358086.8217463319,
+     "relDiff": 0.000020189040244970716,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "チタニア",
+     "kind": "period",
+     "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(チタニア)",
+     "unit": "s",
+     "before": 752215.2982110824,
+     "after": 752230.2127975434,
+     "relDiff": 0.000019827550033218673,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "オベロン",
+     "kind": "period",
+     "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(オベロン)",
+     "unit": "s",
+     "before": 1163316.6195162511,
+     "after": 1163339.6252156585,
+     "relDiff": 0.000019775956967653303,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミランダ",
+     "kind": "period",
+     "name": "環11帯(88粒)の半径保持(2ミランダ公転窓)",
+     "unit": "s",
+     "before": 122209.47905699206,
+     "after": 122212.09987038164,
+     "relDiff": 0.000021445254572789954,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミランダ",
+     "kind": "spin",
+     "name": "天王星の自転(第196便: 面内符号+)",
+     "unit": "s",
+     "before": 62064.000599994884,
+     "after": 62064.000599994884,
+     "relDiff": 0,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": null,
+     "kind": "other",
+     "name": "環の質量(第192便)",
+     "unit": null,
+     "before": null,
+     "after": null,
+     "relDiff": null,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミランダ",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(ミランダ)",
+     "unit": "-",
+     "before": 0.0013048154285290995,
+     "after": 0.0013155753964149259,
+     "relDiff": 0.00824635243465499,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミランダ",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(ミランダ)",
+     "unit": "deg/orbit",
+     "before": 0.0032046725808195153,
+     "after": 0.004318147222416623,
+     "relDiff": 0.34745348035285534,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "アリエル",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(アリエル)",
+     "unit": "-",
+     "before": 0.0012142038671073816,
+     "after": 0.0012244323759752727,
+     "relDiff": 0.008424045701862788,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "アリエル",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(アリエル)",
+     "unit": "deg/orbit",
+     "before": -0.09566272978840441,
+     "after": -0.10093331601623304,
+     "relDiff": -0.0550955031231765,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ウンブリエル",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(ウンブリエル)",
+     "unit": "-",
+     "before": 0.003975570923032677,
+     "after": 0.00398558354529419,
+     "relDiff": 0.002518536948619057,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ウンブリエル",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(ウンブリエル)",
+     "unit": "deg/orbit",
+     "before": -0.17427685196516668,
+     "after": -0.17409956041303412,
+     "relDiff": 0.0010172983395866817,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "チタニア",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(チタニア)",
+     "unit": "-",
+     "before": 0.0011514841142058945,
+     "after": 0.001161310662623717,
+     "relDiff": 0.008533811536426876,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "チタニア",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(チタニア)",
+     "unit": "deg/orbit",
+     "before": -1.1612469373896093,
+     "after": -1.1547370284741654,
+     "relDiff": 0.005605964335266755,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "オベロン",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(オベロン)",
+     "unit": "-",
+     "before": 0.0013300669726238655,
+     "after": 0.0013399394470035078,
+     "relDiff": 0.007422539302789059,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "オベロン",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(オベロン)",
+     "unit": "deg/orbit",
+     "before": null,
+     "after": null,
+     "relDiff": null,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    }
+   ],
+   "maxAbsRelDiff": 0.34745348035285534,
+   "maxAbsRelDiffPeriod": 0.000021445254572789954,
+   "verdictMoved": 0,
+   "gateMoved": 0,
+   "before": {
+    "steps": 1075028,
+    "wallSec": 648.115,
+    "periFound": [
+     14,
+     7,
+     4,
+     2,
+     1
+    ],
+    "periastraOk": false
+   },
+   "after": {
+    "steps": 1075028,
+    "wallSec": 76.076,
+    "periFound": [
+     14,
+     7,
+     4,
+     2,
+     1
+    ],
+    "periastraOk": false,
+    "tpCopy": {
+     "on": true,
+     "deny": null,
+     "n0": 6
+    }
+   },
+   "wallRatio": 8.519309637730691
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "rows": [
+    {
+     "target": "C環内縁",
+     "kind": "period",
+     "name": "C環内縁の公転",
+     "unit": "s",
+     "before": 20843.0779447587,
+     "after": 20823.780331545262,
+     "relDiff": -0.0009258523748068458,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "タイタン",
+     "kind": "period",
+     "name": "タイタンの公転",
+     "unit": "s",
+     "before": 1377957.166140806,
+     "after": 1378015.700291505,
+     "relDiff": 0.00004247893340769655,
+     "verdictBefore": "合",
+     "verdictAfter": "合",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": null,
+     "kind": "other",
+     "name": "軌道速度(C環内縁)",
+     "unit": null,
+     "before": null,
+     "after": null,
+     "relDiff": null,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "C環内縁",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(C環内縁)",
+     "unit": "-",
+     "before": 0.00026247253284796825,
+     "after": 0.00023818254483150725,
+     "relDiff": -0.09254297107930326,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "C環内縁",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(C環内縁)",
+     "unit": "deg/orbit",
+     "before": -0.23503598912113716,
+     "after": 0.22848126507759803,
+     "relDiff": 1.972111828201081,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミマス",
+     "kind": "period",
+     "name": "実測(標準検出器): 公転周期(ミマス)",
+     "unit": "s",
+     "before": 81506.89168027755,
+     "after": 81511.71770572502,
+     "relDiff": 0.00005921002933597674,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミマス",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(ミマス)",
+     "unit": "-",
+     "before": 0.00006866629789632902,
+     "after": 0.00007132830355015766,
+     "relDiff": 0.03876728082599822,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミマス",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(ミマス)",
+     "unit": "deg/orbit",
+     "before": 22.24648518144112,
+     "after": 21.91988308948662,
+     "relDiff": -0.01468106486443812,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "タイタン",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(タイタン)",
+     "unit": "-",
+     "before": 0.000022198582972927165,
+     "after": 0.000018452523648559504,
+     "relDiff": -0.1687521824675143,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "タイタン",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(タイタン)",
+     "unit": "deg/orbit",
+     "before": -1.4304408492694973,
+     "after": -0.1745155881834425,
+     "relDiff": 0.8779987384500626,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    }
+   ],
+   "maxAbsRelDiff": 1.972111828201081,
+   "maxAbsRelDiffPeriod": 0.0009258523748068458,
+   "verdictMoved": 0,
+   "gateMoved": 0,
+   "before": {
+    "steps": 2042988,
+    "wallSec": 641.256,
+    "periFound": [
+     63,
+     36,
+     3
+    ],
+    "periastraOk": false
+   },
+   "after": {
+    "steps": 2042988,
+    "wallSec": 130.904,
+    "periFound": [
+     63,
+     35,
+     3
+    ],
+    "periastraOk": false,
+    "tpCopy": {
+     "on": true,
+     "deny": null,
+     "n0": 7
+    }
+   },
+   "wallRatio": 4.898673837315895
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "rows": [
+    {
+     "target": "C環内縁",
+     "kind": "precession",
+     "name": "環の近点移動(偏心軌道・kF1)",
+     "unit": "deg/orbit",
+     "before": 2.0825643211498095,
+     "after": 2.031138114433031,
+     "relDiff": -0.024693694304906515,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": null,
+     "kind": "other",
+     "name": "随伴プロファイル(ω_drag/LT)",
+     "unit": null,
+     "before": null,
+     "after": null,
+     "relDiff": null,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": null,
+     "kind": "other",
+     "name": "補正の共通性",
+     "unit": null,
+     "before": null,
+     "after": null,
+     "relDiff": null,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": null,
+     "kind": "other",
+     "name": "環と衛星を分けるもの(第246便d)",
+     "unit": null,
+     "before": null,
+     "after": null,
+     "relDiff": null,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "C環内縁",
+     "kind": "period",
+     "name": "実測(標準検出器): 公転周期(C環内縁)",
+     "unit": "s",
+     "before": 21719.349112121337,
+     "after": 21719.348540431674,
+     "relDiff": -2.632167566791321e-8,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "C環内縁",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(C環内縁)",
+     "unit": "-",
+     "before": 0.00022901410799757636,
+     "after": 0.00022904233671719362,
+     "relDiff": 0.00012326192418483386,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミマス",
+     "kind": "period",
+     "name": "実測(標準検出器): 公転周期(ミマス)",
+     "unit": "s",
+     "before": 81512.02662179699,
+     "after": 81512.03262743763,
+     "relDiff": 7.36779698080172e-8,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミマス",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(ミマス)",
+     "unit": "-",
+     "before": 0.00005667079689243668,
+     "after": 0.00005669684470132555,
+     "relDiff": 0.00045963371466805676,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "ミマス",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(ミマス)",
+     "unit": "deg/orbit",
+     "before": 23.520550759425586,
+     "after": 23.48604551884022,
+     "relDiff": -0.0014670251958932865,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "タイタン",
+     "kind": "period",
+     "name": "実測(標準検出器): 公転周期(タイタン)",
+     "unit": "s",
+     "before": 1377401.1323484175,
+     "after": 1377401.1327012395,
+     "relDiff": 2.5615051639687263e-10,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "タイタン",
+     "kind": "ecc",
+     "name": "実測(標準検出器): 離心率(タイタン)",
+     "unit": "-",
+     "before": 0.00000643206368175186,
+     "after": 0.000006446121661225422,
+     "relDiff": 0.00218560949784213,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    },
+    {
+     "target": "タイタン",
+     "kind": "precession",
+     "name": "実測(標準検出器): 近点移動(タイタン)",
+     "unit": "deg/orbit",
+     "before": null,
+     "after": null,
+     "relDiff": null,
+     "verdictBefore": "転",
+     "verdictAfter": "転",
+     "gateBefore": "未判定",
+     "gateAfter": "未判定"
+    }
+   ],
+   "maxAbsRelDiff": 0.024693694304906515,
+   "maxAbsRelDiffPeriod": 7.36779698080172e-8,
+   "verdictMoved": 0,
+   "gateMoved": 0,
+   "before": {
+    "steps": 254730,
+    "wallSec": 611.506,
+    "periFound": [
+     13,
+     2,
+     1
+    ],
+    "periastraOk": false
+   },
+   "after": {
+    "steps": 254730,
+    "wallSec": 31.755,
+    "periFound": [
+     13,
+     2,
+     1
+    ],
+    "periastraOk": false,
+    "tpCopy": {
+     "on": true,
+     "deny": null,
+     "n0": 7
+    }
+   },
+   "wallRatio": 19.256998897811368
+  }
+ ],
+ "tpCopyRun": {
+  "wallSec": 315.338,
+  "canonWhen": "2026-09-26T16:36:20.049Z"
+ },
+ "elapsedSec": 367.574
+}

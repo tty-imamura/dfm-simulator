@@ -717,3 +717,7 @@ tests/out/regen-plan-w281a.json
 #   (tests/exp-w282b-geo1.mjs —— 自由二体の 1 歩・重心系・ブースト・固定源・質量比の近点移動・水星の表・kF0 の比較表・内蔵 geoPN:1 の 3 本)。
 #   QA behavior.geo1Momentum・docs.geo1Contract が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**。
 !tests/out/geo1-w282b.json
+# 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv)): **重い較正 4 本と試験粒子契約**の正本
+#   (tests/exp-w283c-heavy.mjs —— 粒子数・対・質量の内訳・ms/步・試験粒子契約の機械検査・判定量の前後)。
+#   QA docs.heavyCal が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**(4 本の宣言は書き換えていない)。
+!tests/out/heavy-w283c.json

@@ -31,6 +31,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import * as L from './lib-w279a-samplestatus.mjs';
 import { REGEN_STEPS } from './lib-w281a-regentable.mjs';
 import { readDeclaredScope } from './lib-w281a-scope.mjs';
+import { calStagesOf } from './lib-w283c-calstages.mjs';   // 第283便c: 段別の壁時計(二重加算の修正)
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const HTML = path.join(ROOT, 'beta', 'index.html');
@@ -40,7 +41,7 @@ const WIN = 'tests/out/charonwin-w278b.json';
 const QAF = 'tests/out/qa-results-full-beta.json';
 const OUT = 'tests/out/samplestatus-w279a.json';
 const MD = 'docs/SAMPLE_STATUS_v1.45.md';
-const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs'];
+const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w283c-calstages.mjs'];
 const CHECK = process.argv.includes('--check');
 
 const rd = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
@@ -185,14 +186,13 @@ const qaAll = (qa.results || []);
 const timing = {};
 for (const r of got.rows) {
   const id = r.id;
-  // (a) 較正走行: calaudit の段別の壁時計(timeBudget[] の tag/wallSec + dtEighth)
+  // (a) 較正走行: calaudit の段別の壁時計。第283便c(統括の検証項目 R86 (i)): **timeBudget[] に dt/8 がある走行では
+  //     dtEighth.wallSec を足さない**(第282便は両方を足していた —— ❄️ 716 s → 正しくは 467 s・37 本で 544 s の過大)。
+  //     旧形式(dtEighth だけの記録)は dtEighth を読む。転記した段(skippedBy:"reuse")はこの走行の時間に数えない。
   const cp = calById[id];
-  const stages = [];
-  if (cp && cp.run) {
-    for (const tb of (cp.run.timeBudget || [])) if (Number.isFinite(tb.wallSec)) stages.push({ tag: tb.tag, wallSec: tb.wallSec });
-    if (cp.run.dtEighth && Number.isFinite(cp.run.dtEighth.wallSec)) stages.push({ tag: 'dt/8', wallSec: cp.run.dtEighth.wallSec });
-  }
-  const calSec = stages.reduce((a, z) => a + z.wallSec, 0);
+  const cs = calStagesOf(cp && cp.run);
+  const stages = cs.stages;
+  const calSec = cs.wallSec;
   // (b) 関与する再生成の段(領域を宣言した段のうち、この本を宣言に含むもの —— 段の所要は宣言した本で共有)
   const steps = [];
   for (const st of stepsCurrent) {
@@ -206,13 +206,13 @@ for (const r of got.rows) {
   const tests = qaAll.filter((t) => String(t.id).toLowerCase().includes(lid) || claimSet.has(t.id))
     .map((t) => ({ id: t.id, ms: t.ms || 0, pass: !!t.pass })).sort((x, y) => y.ms - x.ms);
   const qaMs = tests.reduce((a, t) => a + t.ms, 0);
-  timing[id] = { calaudit: { wallSec: calSec, stages }, regenSteps: steps, qa: { n: tests.length, ms: qaMs, tests: tests.slice(0, 5) } };
+  timing[id] = { calaudit: { wallSec: calSec, stages, reusedSec: cs.reusedSec }, regenSteps: steps, qa: { n: tests.length, ms: qaMs, tests: tests.slice(0, 5) } };
 }
 md.push('## 所要時間(正本の再生成と QA)');
 md.push('');
 md.push('> **測った値の転記であって判定ではない**(第282便・原仮定者の指示 2026-09-26)。時間は html の生成領域に入れない(時間で html を変えない)。数は `tests/lib-w281a-regentable.mjs`(段の実測秒)・`' + CAL + '`(各本の壁時計)・`' + QAF + '`(試験ごとの所要 ms)の転記で、走行のたびに変わる。');
 md.push('');
-md.push('- **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 / dt/8 の和・`presets[].run.timeBudget[].wallSec`)。母集団の外の本は「—」。');
+md.push('- **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 の和・`presets[].run.timeBudget[].wallSec`。第283便c: dt/8 は常時の鎖から外した —— 旧形式の記録だけ dt/8 を 1 回数える・転記した段〔再利用〕は和に入れず「元 N s」を添える)。母集団の外の本は「—」。');
 md.push('- **関与する再生成の段**: 領域(REGEN_SCOPE)を宣言した段のうち、この本を宣言に含むもの。表記「段 秒/本数」は**段 1 回の実測秒とその段が宣言した本数**(所要は宣言した本で共有する —— 本ごとに足し上げない)。all は全プリセットを走査する段。');
 md.push(`- **宣言の無い段**(対象 html の全体に縛られ、どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は本ごとの行に配らない。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
 md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体 ${fmtS((qa.durationMs || 0) / 1000)} s${qa.commit ? '・commit ' + String(qa.commit).slice(0, 7) : ''})のうち、**試験の id にこの本の id を含むもの+その本の claims が挙げる testId** の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。内訳は所要の上位 3。`);
@@ -222,7 +222,7 @@ md.push('|---|---|---|---|---|---|');
 for (const g of groups) for (const id of g.ids) {
   const r = byId[id], t = timing[id];
   const cal = t.calaudit.stages.length ? fmtS(t.calaudit.wallSec) : '—';
-  const st = t.calaudit.stages.length ? t.calaudit.stages.map((z) => `${z.tag} ${fmtS(z.wallSec)}`).join('・') : '—';
+  const st = t.calaudit.stages.length ? t.calaudit.stages.map((z) => z.reused ? `${z.tag} 再利用(元 ${fmtS(z.wallSec)})` : `${z.tag} ${fmtS(z.wallSec)}`).join('・') : '—';
   const steps = t.regenSteps.length ? t.regenSteps.map((z) => `${z.key} ${fmtS(z.sec)}/${z.share}`).join('・') : '—';
   const qs = `${fmtS(t.qa.ms / 1000)}・${t.qa.n}`;
   const top = t.qa.tests.slice(0, 3).map((z) => `\`${z.id}\` ${fmtS(z.ms / 1000)}`).join('・') || '—';
