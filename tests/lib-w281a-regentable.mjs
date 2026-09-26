@@ -232,7 +232,7 @@ export const REGEN_STEPS = [
       + '(1 歩の Σm·vx・束縛二体の近点移動比・本体 6000 步)・☿ と V18' }),
   // ---- 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R85): 同一天体の家族の差分表と統廃合の候補(html・calaudit の較正母集団・
   //   凍結の写し tests/fixtures/retired-w283b.json を読む —— 1 步も走らせない。所要は第283便b の枝の実測〔Node 1 本・壁時計〕)
-  S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit'],
+  S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit', 'dt3', 'kf0'],
     volatilePaths: { 'tests/out/families-w283b.json': META_RUN.concat(['/elapsedS']) },
     note: '第283便b: 家族 21・鍵ごとの差・推定の列・候補(畳まない)・退役 7 本の棚卸し。一覧 docs/FAMILIES_v1.45.md も同じ器が書く(QA docs.families が照合)' }),
   // ---- 第283便b(第73報④・R84): 退役 7 本を名指しする**表の外の器**のうち tests/out に出力が残るもの —— **履歴**として登録する
@@ -263,7 +263,7 @@ export const REGEN_STEPS = [
   RH('exp-w265d-lfbot', 'node tests/exp-w265d-lfbot.mjs', ['tests/out/lfbot-w265d.json']),
   // ---- 第283便c(第73報 ⑤・R86 (iv)): 重い較正 4 本の粒子数・ms/步・試験粒子契約の検査と判定量の前後(calaudit の後 —— 正本の段別の
   //   壁時計と判定量を読み、判定器を --tp-copy で写しに掛ける —— 一時ファイル)
-  S('heavy', 'node tests/exp-w283c-heavy.mjs', ['tests/out/heavy-w283c.json'], 368, { secSource: 'w283c-run', after: ['calaudit'],
+  S('heavy', 'node tests/exp-w283c-heavy.mjs', ['tests/out/heavy-w283c.json'], 368, { secSource: 'w283c-run', after: ['calaudit', 'dt3', 'kf0'],
     env: { PLAYWRIGHT_CORE_DIR: 'Chromium の Playwright(判定器を試験粒子の写しに掛ける (D) —— 残りは Node の vm)' },
     volatilePaths: { 'tests/out/heavy-w283c.json': META_RUN },
     note: '第283便c: 重い 4 本の粒子数・対・質量の内訳・ms/步(全粒子/主要天体だけ/試験粒子の写し)・試験粒子契約の機械検査・判定量の前後(4 本の宣言は書き換えない)' }),
