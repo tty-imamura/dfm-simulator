@@ -2609,3 +2609,16 @@ build・力学・光線・`presetSig`・保存 JSON の物理は**この鍵を�
 - **純関数(HP 公開)**: `validateMassLedger(ml)`(`{ok, value, warnings}`)・`MASS_LEDGER_VERSION`(`"w281c-1"`)・`MASS_LEDGER_KEYS`。値は `tests/lib-w281c-rotorledger.mjs` が作る。
 - **内蔵の宣言**: **1 本**(🛞 `ngc3198DFM` —— 観測結果カードに「条件付き質量台帳」の 1 行)。較正母集団には入れない。
 - QA: **`preset.massLedger`**・**`docs.rotorLedger`**。器 `tests/exp-w281c-rotorledger.mjs`・正本 `tests/out/rotorledger-w281c.json`・docs/PHYSICS.md〔第281便c〕。
+
+## 16. 第283便d の UI —— 背景複素決定力の宣言欄と空間メッシュの線の明るさ(原仮定者の裁定〔第73報〕⑥・統括の検証項目 R87・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。プリセットの `physics.backgroundComplex`(§12・第276便a/第277便d の受理契約)を**アプリの画面から宣言する欄**と、空間メッシュの線の**表示の契約**を足しただけである。
+
+- **欄の位置**: パラメータタブ「引きずり・測地線」の「背景決定力 D₀」行の**直後**(`#bgcPanel`・`<details>`・既定は閉じる)。見出しに状態チップ(「未確定(未宣言)」/「宣言済み: <background>」/「受理されない宣言」)。
+- **欄の項目**: background(未宣言 / solar-excluded / heliocentric / galactic / declared / zero)・W0 [M/L²]・A0 [M/(L·T)](2 成分)・gradW [M/L³](2)・gradA [M/(L²·T)](4 —— ∂ₓAx,∂_yAx,∂ₓAy,∂_yAy)・dWdt [M/(L²·T)](1)・dAdt [M/(L·T²)](2)・note(200 字以内)。単位は `BG_COMPLEX_UNITS` から出す。
+- **書き込みの規則**: 「宣言する」を押したときだけ受理器 `validateBackgroundComplex` に通し、**正規化後の宣言**を編集対象(A/B 比較中は選択側)の params へ新しいオブジェクトとして置く。**拒否は受理器の文をそのまま**表示し、params は変えない。「未宣言に戻す」は鍵を消す(未宣言 = 未確定 —— ゼロではない)。既存の宣言の sources/frame/refPos は引き継ぐ(欄では編集しない)。
+- **D₀ とは別の鍵**: D₀ は [M/L] のスカラー、W₀ は [M/L²]・A₀ は [M/(L·T)] の向きつき量。**W₀ に D₀ の値を流用しない**。
+- **presetSig**: 欄を出す・開くだけでは変わらない。宣言すればセーブの physics に入り、JSON に同じ宣言を手で書いたプリセットと同じ署名になる(宣言どおり)。力学が読むのは `physics.meshVelocity`(field:"backgroundComplex")を宣言した本の build 時だけ。
+- **線の明るさ**: 空間メッシュの線(格子・空間線・参照ガイド・輸送・tracer・折返しの縁)の不透明度は **D₀ にも χ にも依らない固定値**(D₀=0 のときの値 0.62 / 0.62 / 0.45 / 0.55 / 0.80 / 0.82)。色はスキンの表 `SPACE_MESH_LINE_STYLE` に従う(キャンバスは既定「固定」なので dark と light は同じ値)。tracer の色相は χ の符号化として残る。
+- **読み口(HP 公開)**: `bgcState(S)`・`bgcApply(S, cand|null)`・`spaceMeshLineStyle()`。
+- QA: **`ui.meshLineBrightness`**・**`ui.bgComplexPanel`**(root は SKIP)。器 `tests/exp-w283d-ui.mjs`(MEASURE / PANEL —— 正本は出さない)・docs/PHYSICS.md〔第283便d〕。

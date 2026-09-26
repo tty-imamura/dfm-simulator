@@ -35291,6 +35291,93 @@ if (!FAST) {
   }
 }
 
+// ---- 第283便d(原仮定者の裁定(第73報)⑥「空間メッシュの線の表示が暗い(D₀ の変更で明るさが変動)→ D₀=0 のときの明るさにする」
+// ---- 「背景複素決定力のパラメータを『背景決定力 D₀』の下に追加」・統括の検証項目 R87): **表示と器だけ**(物理・presetSig の
+// ---- 既定値・保存 JSON の既定は 1 bit も変えない)。世代判定は html の `const SPACE_MESH_LINE_STYLE=`(ui.meshLineBrightness)と
+// ---- `function buildBgComplexPanel(`(ui.bgComplexPanel)—— root 等では自動 SKIP。器は tests/exp-w283d-ui.mjs(MEASURE/PANEL)。
+// ----   ui.meshLineBrightness … ① 表: HP.spaceMeshLineStyle() の dark と light が同じ(キャンバスは既定「固定」)・各線の α が
+// ----     旧式の χ=1(= D₀=0)の値(grid/lines 0.14+0.48=0.62・guide 0.06+0.39=0.45・transport 0.10+0.45=0.55・tracer 0.18+0.62=0.80・
+// ----     fold max(0.45,0.62+0.2)=0.82)・描画コードに χ を不透明度へ掛ける旧式が残っていない。② 実機 390×844 × スキン 2 種 ×
+// ----     🫂 boxBinaryToy・🎠 galaxyMeshSpiral × D₀ 0/100/1e4: 描画中の strokeStyle の α が 3 値で同じ [0.62]・線の画素から
+// ----     逆算した実効 α の p95 の差 ≤0.03・線の画素の相対輝度 p95 の差 ≤0.02・線の画素 >0・測定後に D₀ が元の値・JS エラー 0。
+// ----   ui.bgComplexPanel … 390×844 と横 1024×768 で 🎠: #bgcPanel が「引きずり・測地線」の D₀ 行の直後の兄弟(1 個・隙間 0〜12px・
+// ----     左端差 ≤16px・幅 ≥ 行の 80%)/未宣言は「未確定(未宣言)」/開閉と組み直しで params の鍵集合・D₀・状態和・presetSig が
+// ----     不変/部分宣言は受理器の文そのままで拒否(params 不変)/全成分の宣言は受理器の正規化結果と一致・欄の表示が「宣言済み」/
+// ----     手書き JSON と同じ署名(presetSig は宣言どおりに変わる)/セーブの保存→読込で往復/A/B: B にだけ書く(A は不変・参照を
+// ----     共有しない・ワンタップ対照の D₀=500 は別鍵のまま)/未宣言に戻す/英語表示。hp_saves は元へ戻す。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/const SPACE_MESH_LINE_STYLE=/.test(html)) {
+    console.log('SKIP ui.meshLineBrightness(対象に第283便d の線の固定スタイル表なし — root 等)');
+  } else {
+    const UX = await import('file://' + path.join(ROOT, 'tests/exp-w283d-ui.mjs'));
+    const want = { grid: 0.14 + 0.48, lines: 0.14 + 0.48, guide: 0.06 + 0.39, transport: 0.10 + 0.45, tracer: 0.18 + 0.62, fold: Math.max(0.45, 0.62 + 0.2) };
+    const oldForms = [/Math\.min\(0\.62,0\.14\+0\.48\*/, /Math\.min\(0\.55,0\.10\+0\.45\*/, /Math\.min\(0\.45,0\.06\+0\.39\*/, /0\.18\+0\.62\*Math\.max/, /Math\.max\(0\.45,al\+0\.2\)/];
+    const leftovers = oldForms.filter((re) => re.test(html)).map(String);
+    const rows = [];
+    let jsErr = 0, tbl = null, d0Back = true;
+    for (const skin of UX.SKINS) {
+      const ctxL = await browser.newContext({ viewport: { width: 390, height: 844 } });
+      const pl = await ctxL.newPage();
+      pl.on('pageerror', () => { jsErr++; });
+      await pl.goto(INDEX, { waitUntil: 'load' });
+      await pl.waitForFunction(() => !!window.HP && !!HP.loadPreset && !!HP.spaceMeshLineStyle);
+      await pl.evaluate((sk) => { HP.setLang('ja'); HP.setSkin(sk); }, skin);
+      if (!tbl) tbl = await pl.evaluate(() => HP.spaceMeshLineStyle());
+      for (const preset of UX.PRESETS) {
+        const r = await pl.evaluate(UX.MEASURE, { preset, d0s: UX.D0S });
+        r.gate = UX.gateOf(r);
+        const back = await pl.evaluate((id) => HP.sim.params.D0 === (HP.allPresets().find((q) => q.id === id).physics || {}).D0, preset);
+        if (!back) d0Back = false;
+        rows.push(r);
+      }
+      await pl.evaluate(() => { try { localStorage.removeItem('hp_skin'); } catch (_) {} });
+      await ctxL.close();
+    }
+    const tblOk = !!tbl && JSON.stringify(tbl.dark) === JSON.stringify(tbl.light)
+      && Object.entries(want).every(([k, a]) => tbl.dark[k] && Math.abs(tbl.dark[k].a - a) < 1e-12);
+    const ok = {
+      table: tblOk, noOldForm: leftovers.length === 0,
+      measured: rows.length === UX.SKINS.length * UX.PRESETS.length && rows.every((r) => r.gate.ok && r.rows.every((x) => JSON.stringify(x.alphas) === '[0.62]')),
+      d0Restored: d0Back, noErr: jsErr === 0,
+    };
+    add('ui.meshLineBrightness', Object.values(ok).every(Boolean),
+      `表 dark=light ${tbl ? JSON.stringify(tbl.dark) === JSON.stringify(tbl.light) : '無し'}・α ${tbl ? Object.keys(want).map((k) => k + '=' + tbl.dark[k].a).join('/') : '—'} / ` +
+      `旧式の残り ${leftovers.length}(0) / 実機 390×844: ` +
+      rows.map((r) => `${r.skin}・${r.preset}(${r.mode}): ` + r.rows.map((x) => `D₀=${x.d0} α${JSON.stringify(x.alphas)} 輝度p95 ${x.p95.toFixed(4)} 実効α p95 ${x.aP95.toFixed(3)}`).join(' | ')
+        + ` 門 ${r.gate.ok}${r.gate.bad.length ? '[' + r.gate.bad.join(';') + ']' : ''}`).join(' / ') +
+      ` / 測定後の D₀ 復帰 ${d0Back} / JSエラー ${jsErr}` + (Object.values(ok).every(Boolean) ? '' : ' / NG: ' + Object.keys(ok).filter((k) => !ok[k]).join(',')));
+  }
+}
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/function buildBgComplexPanel\(/.test(html)) {
+    console.log('SKIP ui.bgComplexPanel(対象に第283便d の背景複素決定力の欄なし — root 等)');
+  } else {
+    const UX = await import('file://' + path.join(ROOT, 'tests/exp-w283d-ui.mjs'));
+    const res = [];
+    for (const vp of [{ name: '390x844', width: 390, height: 844 }, { name: '1024x768', width: 1024, height: 768 }]) {
+      const ctxP = await browser.newContext({ viewport: { width: vp.width, height: vp.height } });
+      const pp = await ctxP.newPage();
+      let jsErr = 0;
+      pp.on('pageerror', () => { jsErr++; });
+      pp.on('dialog', (d) => d.accept());
+      await pp.goto(INDEX, { waitUntil: 'load' });
+      await pp.waitForFunction(() => !!window.HP && !!HP.loadPreset && !!HP.bgcState);
+      const r = await pp.evaluate(UX.PANEL, { preset: UX.PANEL_PRESET });
+      r.vp = vp.name; r.jsErr = jsErr; r.gate = UX.panelGate(r, UX.PANEL_TEXT);
+      res.push(r);
+      await ctxP.close();
+    }
+    const allOk = res.every((r) => r.gate.ok && r.jsErr === 0);
+    add('ui.bgComplexPanel', allOk, res.map((r) => `${r.vp}: 位置 直後=${r.pos && r.pos.next}・隙間 ${r.pos && r.pos.gap}px・左端差 ${r.pos && r.pos.dx}px・幅 ${r.pos && r.pos.w}/${r.pos && r.pos.rw}px(${r.pos && r.pos.catLabel})` +
+      `・未宣言「${r.undeclared && r.undeclared.chip}」・不変 ${r.inert && Object.values(r.inert).every(Boolean)}・拒否=受理器の文 ${r.reject && r.reject.same}・受理 ${r.accept && r.accept.eq}(「${r.accept && r.accept.chip}」)` +
+      `・署名 宣言で変化 ${r.sig && r.sig.changes}/手書きと同一 ${r.sig && r.sig.sameAsHand}・セーブ往復 ${r.save && r.save.eq && r.load && r.load.eq}` +
+      `・A/B B=${r.ab && r.ab.bgB}/A=${r.ab && r.ab.bgA} 共有 ${r.ab && r.ab.shared} D₀(B)=${r.ab && r.ab.d0B1}・未宣言に戻す ${r.clear && r.clear.key}・en「${r.en && r.en.chip}」` +
+      `・門 ${r.gate.ok}${r.gate.bad.length ? '[' + r.gate.bad.slice(0, 3).join(' ; ') + ']' : ''}・JSエラー ${r.jsErr}`).join(' / '));
+  }
+}
+
 // ---- 第282便e(原仮定者の裁定(第72報)⑦「ワンタップ対照のボタンを A/B比較のラベルの下に配置」・統括の検証項目 R82):
 // ---- ui.abQuickPlacement —— **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。世代判定: beta 線は常に走らせ、
 // ---- root 等は html の h3#abHead の直下に #abQuickRow があるときだけ走らせる(v1.44 の root は旧配置なので SKIP)。
