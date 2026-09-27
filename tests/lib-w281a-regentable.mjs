@@ -44,9 +44,16 @@
 // ■ しないこと: 走らせない・判定しない(表と、表を読む計画の純関数だけ)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import { scopeHash, stableMatches, stableInputOk } from './lib-w281a-scope.mjs';
+import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha } from './lib-w281a-scope.mjs';
 
-export const REGEN_TABLE_VERSION = 'w283e-regentable-3';
+// ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
+//   ・常時の dt3 段を `--h4-exceptions --merge`(h/4 は例外の登録簿の本だけ)・kf0 段を `--kf0-h4-exceptions`(h/4 は登録簿の kf0 の本だけ)へ。
+//     所要秒は第284便c の枝の実測(一時ファイルへ走らせた同じ段 —— secSource 'w284c-run')。
+//   ・**AN43**: 計画(`planRegen` —— 鎖の `--gate` も同じ関数)は、入力の**刻印の安定 hash の Pointer 宣言・方式の版が今の宣言と違えば**
+//     (入力のバイト sha が刻印と同じでも)その段を regen にする。随伴ファイルの行も同じ(`stampedDeclDrift`)。
+//     第283便e の `lint.stableHashPaths` ⑤ は「旧宣言 ⊊ 今の宣言」を**照合の上では**通す(刻印の Pointer で照合するので除きすぎにならない)が、
+//     再生成の計画では「今の宣言で刻み直す」ために走らせ直す(`an43Probe` —— QA `lint.regenChain` (g))。
+export const REGEN_TABLE_VERSION = 'w284c-regentable-4';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
@@ -98,11 +105,18 @@ export const REGEN_STEPS = [
   //   入口だけ —— `--dt8-registry` 単独)。dt/4 は前回の正本の同じ契約の h4 を転記する(`--no-h4-reuse` で切る)。
   //   **sec は旧値(第280便の chain の実測 —— dt/8 込み)のまま**:再測定するまで書き換えない(dt/8 の段の和は第282便の正本で 544 s)
   // 第283便e: dt3・kf0 は --merge で calaudit の 2 ファイルを書き戻す(merges —— 読む段はこの 2 段の後に置く)
-  S('dt3', 'node tests/exp-w249b-calaudit.mjs --dt3-registry --merge', [], 1683, { alwaysRun: true, after: ['calaudit'],
+  // 第284便c(原仮定者の裁定(第74報)⑥・AN33・R93): **dt/4 を常時から外した** —— 3 段は例外の登録簿(tests/lib-w283c-calstages.mjs の
+  //   H4_EXCEPTIONS)の main の本だけ(`--h4-exceptions`)。登録表の全本の 3 段は明示診断(`--dt4-registry --merge` 単独 —— 鎖に入れない)。
+  //   dt/2 は同一便の再走で転記(H2_REUSE_RULE —— ① 通常走行が直前に同じ html で h/2 を置くので、この段の h/2 は転記になる)。
+  //   sec は第284便c の枝の実測(一時ファイルへの同じ段 —— 4 コアを他の枝と共有した容器): dt3 112 s(例外 3 本・h/2 は直前の ① から転記・
+  //   h/4 は新規〔契約の版を上げたので初回は再取得〕)/ kf0 171 s(5 本の h・h/2 と ❄️ の h/4 をすべて新規 —— --no-h2-reuse --no-h4-reuse。
+  //   同一便の再走で h/2 を転記した走行は 139 s)
+  S('dt3', 'node tests/exp-w249b-calaudit.mjs --h4-exceptions --merge', [], 112, { alwaysRun: true, after: ['calaudit'], secSource: 'w284c-run',
     merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'],
-    note: '第283便c: --dt8-registry を外した・dt/4 は転記(tests/lib-w283c-calstages.mjs の H4_REUSE_RULE)。sec は旧値(dt/8 込みの第280便の実測)—— 再測定まで据え置き' }),
-  S('kf0', 'node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-dt3 --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge', ['tests/out/kf0-w259d.json'], 299, { alwaysRun: true, after: ['dt3'],
-    merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'] }),
+    note: '第284便c: h/4 は例外の登録簿の本だけ(--h4-exceptions)・同一契約の h4 は転記・h/2 は同一便の再走で転記。旧 --dt3-registry(登録表の全本)は明示診断 --dt4-registry' }),
+  S('kf0', 'node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-h4-exceptions --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge', ['tests/out/kf0-w259d.json'], 171, { alwaysRun: true, after: ['dt3'], secSource: 'w284c-run',
+    merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'],
+    note: '第284便c: kF0 の診断コピーの h/4 は例外の登録簿の kf0 の本(plutoCharonReal)だけ(--kf0-h4-exceptions)。5 本すべての h/4 は明示診断 --kf0-dt3' }),
   S('solarsigma', 'node tests/exp-w262d-solarsigma.mjs', ['tests/out/solarsigma-w262d.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   S('stoprule', 'node tests/exp-w270a-stoprule.mjs', ['tests/out/stoprule-w270a.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   S('issues', 'node tests/exp-w272a-issues.mjs', ['tests/out/issues-w272a.json'], 0, { alwaysRun: true, after: ['kf0', 'solarsigma', 'charon-h', 'charon-h2', 'charon-h4', 'nslock'] }),
@@ -314,6 +328,40 @@ export function historyOuts() {
 }
 
 const shaFile = (abs) => { try { return crypto.createHash('sha256').update(fs.readFileSync(abs)).digest('hex'); } catch { return null; } };
+
+/**
+ * 第284便c(原仮定者の裁定(第74報)AN43): **刻印の安定 hash の宣言が今の宣言と違うか**(入力 `file` の行と、その随伴ファイルの行)。
+ * 違いの理由の並びを返す(空 = 一致・刻印の行が無い入力は検査しない —— 安定 hash を刻まない器は sha で縛られている)。
+ *   ・方式の版(`stableVersion`)が今の `STABLE_VERSION` でない(版なしの旧方式を含む)
+ *   ・刻印の Pointer の並び ≠ 今の宣言(`volatileOf(file)` —— 再生成表の段の volatilePaths ∪ 表の外の宣言)
+ *   ・今の宣言が随伴ファイルを持つのに随伴の行が無い / 随伴の行の版・Pointer が今の宣言と違う
+ * @param {Array} inputsStable 正本の meta.inputsStable
+ * @param {string} file 入力の相対パス
+ * @param {(f:string)=>string[]} [volatileOf] 既定は `volatilePathsOf`
+ */
+export function stampedDeclDrift(inputsStable, file, volatileOf) {
+  const volOf = volatileOf || volatilePathsOf;
+  const rows = inputsStable || [];
+  const st = rows.find((z) => z.file === file && z.companionOf === undefined) || null;
+  if (!st) return [];
+  const out = [];
+  const chk = (row, f, label) => {
+    if (row.stableVersion !== STABLE_VERSION) out.push(label + 'の方式の版 ' + String(row.stableVersion) + ' ≠ ' + STABLE_VERSION);
+    const got = (row.volatilePaths || []).slice().sort(), cur = volOf(f).slice().sort();
+    if (JSON.stringify(got) !== JSON.stringify(cur)) {
+      const add = cur.filter((z) => !got.includes(z)), del = got.filter((z) => !cur.includes(z));
+      out.push(label + 'の Pointer ≠ 今の宣言(' + (add.length ? '今だけ ' + add.slice(0, 2).join(',') + (add.length > 2 ? ` 他 ${add.length - 2}` : '') : '')
+        + (add.length && del.length ? '・' : '') + (del.length ? '刻印だけ ' + del.slice(0, 2).join(',') + (del.length > 2 ? ` 他 ${del.length - 2}` : '') : '') + ')');
+    }
+  };
+  chk(st, file, '刻印');
+  for (const c of companionsOf(file)) {
+    const r = rows.find((z) => z.file === c) || null;
+    if (!r) { out.push('随伴 ' + c + ' の行が無い'); continue; }
+    chk(r, c, '随伴 ' + c.replace('tests/out/', '') + ' ');
+  }
+  return out;
+}
 const readMeta = (abs) => { try { return (JSON.parse(fs.readFileSync(abs, 'utf8')) || {}).meta || null; } catch { return null; } };
 
 /**
@@ -333,6 +381,9 @@ const readMeta = (abs) => { try { return (JSON.parse(fs.readFileSync(abs, 'utf8'
  */
 export function planRegen(o) {
   const root = o.root.replace(/\/$/, '');
+  // 第284便c: 表と宣言を差し替えられる(AN43 の自己試験 `an43Probe` —— 既定は本表)
+  const STEPS = o.steps || REGEN_STEPS;
+  const volOf = o.volatileOf || volatilePathsOf;
   const abs = (f) => root + '/' + f;
   const htmlAbs = o.html || abs('beta/index.html');
   const htmlSha = shaFile(htmlAbs);
@@ -367,9 +418,9 @@ export function planRegen(o) {
     return out.length ? out.join(' / ') : '領域(内訳の差なし —— 版・停止集合)';
   };
   // 第283便e: 入力の依存は**書く段のすべて**(outs + merges —— dt3・kf0 は calaudit を書き戻す)
-  const producer = writersMap();
+  const producer = writersMap(STEPS);
   const rows = new Map();
-  for (const st of REGEN_STEPS) {
+  for (const st of STEPS) {
     const row = { key: st.key, cmd: st.cmd, env: st.env, outs: st.outs, sec: st.sec, secSource: st.secSource,
       alwaysRun: st.alwaysRun, role: st.role, status: null, reasons: [], deps: [], scopeUsed: false, baseScopeSame: null,
       cause: [] };
@@ -404,6 +455,9 @@ export function planRegen(o) {
       // 入力
       for (const inp of (m.inputs || [])) {
         if (inp.missing || !inp.sha256 || inp.file === t) continue;
+        // 第284便c(AN43): 刻印の安定 hash の宣言(Pointer・方式の版 —— 随伴の行も)が今の宣言と違えば、**バイト sha が同じでも** regen
+        const drift = stampedDeclDrift(m.inputsStable, inp.file, volOf);
+        if (drift.length) { why.push(out + ': 入力 ' + inp.file + ' の安定 hash の刻印が今の宣言と違う(' + drift.join(' / ') + ')'); cause('安定 hash の宣言: ' + inp.file + '(' + drift[0] + ')'); continue; }
         if (shaFile(abs(inp.file)) === inp.sha256) continue;
         const st2 = (m.inputsStable || []).find((z) => z.file === inp.file);
         if (st2 && stableInputOk(root, m.inputsStable, inp.file)) continue;   // 第282便e: 刻印の版で照合(第283便e: 随伴の行も)
@@ -415,10 +469,15 @@ export function planRegen(o) {
       for (const st2 of (m.inputsStable || [])) {
         if (listed.has(st2.file)) continue;
         for (const p of (producer.get(st2.file) || [])) if (p !== st.key) deps.add(p);
+        // 第284便c(AN43): 刻印の宣言 ≠ 今の宣言 → regen(随伴の行は親の行の検査で見る)
+        if (st2.companionOf === undefined) {
+          const drift = stampedDeclDrift(m.inputsStable, st2.file, volOf);
+          if (drift.length) { why.push(out + ': 入力 ' + st2.file + ' の安定 hash の刻印が今の宣言と違う(' + drift.join(' / ') + ')'); cause('安定 hash の宣言: ' + st2.file + '(' + drift[0] + ')'); continue; }
+        }
         if (!stableMatches(root, st2)) { why.push(out + ': 入力 ' + st2.file + ' の中身(安定 hash)が変わった'); cause('入力: ' + st2.file + '(安定 hash)'); }
       }
     }
-    row.deps = [...deps].filter((d) => REGEN_STEPS.some((z) => z.key === d));
+    row.deps = [...deps].filter((d) => STEPS.some((z) => z.key === d));
     if (st.alwaysRun) { row.status = 'always'; row.reasons = ['常時群'].concat(why); }
     else if (why.length) { row.status = 'regen'; row.reasons = why; }
     else row.status = 'reuse';
@@ -437,7 +496,7 @@ export function planRegen(o) {
     }
   }
   // 領域が変わったときだけの段(ε 系列の h2/h4)
-  for (const st of REGEN_STEPS) {
+  for (const st of STEPS) {
     if (!st.onlyIfScopeChanged) continue;
     const row = rows.get(st.key);
     const htmlWhy = row.reasons.some((r) => r.indexOf('hash も領域 hash も一致しない') >= 0);
@@ -455,7 +514,7 @@ export function planRegen(o) {
     stack.delete(k);
     seen.add(k); order.push(k);
   };
-  for (const st of REGEN_STEPS) visit(st.key, new Set());
+  for (const st of STEPS) visit(st.key, new Set());
   const list = order.map((k) => rows.get(k));
   // 第282便e: 「どの入力・式・受理規則で無効化されたか」の 1 列(文字列)
   for (const r of list) {
@@ -891,6 +950,67 @@ export function an29Probe(o) {
     physPath, physDetected, diagPath, diagDetected, companionRequired, writersOfCal: W.get(CAL) || [] };
 }
 
+/**
+ * 第284便c(原仮定者の裁定(第74報)AN43)の**自己試験**(一時 root —— 正本は書き換えない・走らせない)。
+ * 2 段の表(書き手 `cal` が calaudit の 2 ファイル〔随伴つき〕を書き、読み手 `rd` が calaudit を入力にする)と、読み手の正本の刻印を
+ * 一時 root に作り、`planRegen`(鎖の `--gate` も同じ関数)の読み手の自分の判定(`ownStatus`)を見る:
+ *   same     … 刻印の Pointer = 今の宣言・バイト sha も同じ → reuse
+ *   stable   … バイト sha は違うが今の宣言の安定 hash が同じ(実行時刻だけの再走)→ reuse(第282便e の既存の挙動)
+ *   ptr      … **バイト sha は同じ**・刻印の Pointer ⊊ 今の宣言(宣言に Pointer を 1 本足した)→ regen(AN43)
+ *   version  … バイト sha は同じ・刻印の方式の版が無い(旧方式)→ regen(AN43)
+ *   companion… バイト sha は同じ・随伴 diag の行の Pointer が今の宣言と違う → regen(AN43)
+ *   noComp   … バイト sha は同じ・随伴 diag の行が無い → regen(AN43)
+ * @param {{tmpDir:string}} o
+ */
+export function an43Probe(o) {
+  const tmp = o.tmpDir.replace(/\/$/, '');
+  const CAL = 'tests/out/calaudit-w249.json', DIAG = 'tests/out/calaudit-w249-diag.json', RD = 'tests/out/rd-w284c.json';
+  fs.mkdirSync(tmp + '/tests/out', { recursive: true });
+  const w = (f, x) => fs.writeFileSync(tmp + '/' + f, typeof x === 'string' ? x : JSON.stringify(x, null, 1));
+  const sh = (f) => shaFile(tmp + '/' + f);
+  w('tests/rd-code.mjs', '// w284c an43 probe\n');
+  w('tests/rd-target.txt', 'target\n');
+  const cal = { meta: { when: '2026-09-27T00:00:00.000Z', targetSha256: 'a'.repeat(64) }, presets: [{ run: { wallSec: 1.5 }, quantities: [{ meas: 1.25 }] }] };
+  const diag = { when: '2026-09-27T00:00:00.000Z', presets: { x: [1, 2] } };
+  const P0 = { [CAL]: ['/meta/targetSha256', '/meta/when'], [DIAG]: ['/when'] };
+  const P1 = { [CAL]: ['/meta/targetSha256', '/meta/when', '/presets/*/run/wallSec'], [DIAG]: ['/when'] };
+  const volOf = (decl) => (f) => (decl[f] || []).slice().sort();
+  const steps = [
+    { key: 'cal', cmd: 'true', outs: [CAL, DIAG], sec: 0, secSource: 'probe', alwaysRun: false, role: 'current', after: [], env: {}, volatilePaths: {} },
+    { key: 'rd', cmd: 'true', outs: [RD], sec: 0, secSource: 'probe', alwaysRun: false, role: 'current', after: ['cal'], env: {}, volatilePaths: {} },
+  ];
+  const row = (f, decl, extra) => Object.assign({ file: f, stableSha256: stableJsonSha(tmp + '/' + f, (decl[f] || []).slice().sort()),
+    stableVersion: STABLE_VERSION, volatilePaths: (decl[f] || []).slice().sort() }, extra || {});
+  const stamp = (rows) => w(RD, { meta: { target: 'tests/rd-target.txt', targetSha256: sh('tests/rd-target.txt'),
+    code: [{ file: 'tests/rd-code.mjs', sha256: sh('tests/rd-code.mjs') }], inputs: [{ file: CAL, sha256: sh(CAL) }], inputsStable: rows } });
+  const own = (decl) => { const pl = planRegen({ root: tmp, steps, volatileOf: volOf(decl) }); const r = pl.steps.find((z) => z.key === 'rd');
+    return { status: r.ownStatus, cause: r.causeText }; };
+  const res = {};
+  // same: 刻印 P0・今 P0・バイト同じ
+  w(CAL, cal); w(DIAG, diag);
+  stamp([row(CAL, P0), row(DIAG, P0, { companionOf: CAL })]);
+  res.same = own(P0);
+  // stable: 実行時刻だけ変えた再走(バイト違い・安定 hash 同じ)
+  w(CAL, Object.assign({}, cal, { meta: { when: '2026-09-28T00:00:00.000Z', targetSha256: 'b'.repeat(64) } }));
+  res.stable = own(P0);
+  // ptr: バイト同じ・今の宣言に Pointer を 1 本足した(刻印 P0 ⊊ 今 P1)
+  w(CAL, cal); stamp([row(CAL, P0), row(DIAG, P0, { companionOf: CAL })]);
+  res.ptr = own(P1);
+  // version: バイト同じ・刻印の方式の版が無い(旧方式)
+  const legacy = row(CAL, P0); delete legacy.stableVersion;
+  stamp([legacy, row(DIAG, P0, { companionOf: CAL })]);
+  res.version = own(P0);
+  // companion: バイト同じ・随伴 diag の行の Pointer が今の宣言と違う
+  stamp([row(CAL, P0), row(DIAG, { [DIAG]: [] }, { companionOf: CAL })]);
+  res.companion = own(P0);
+  // noComp: バイト同じ・随伴 diag の行が無い
+  stamp([row(CAL, P0)]);
+  res.noComp = own(P0);
+  const ok = res.same.status === 'reuse' && res.stable.status === 'reuse' && res.ptr.status === 'regen' && res.version.status === 'regen'
+    && res.companion.status === 'regen' && res.noComp.status === 'regen' && /安定 hash の宣言/.test(res.ptr.cause || '');
+  return { ok, cases: res };
+}
+
 /** 第282便の統合で起きた順序の型を表で再現した**合成の列**(自己試験の固定入力)。 */
 export const W282_ORDER_FIXTURE = ['d0audit', 'nslockledger', 'bgbudget', 'calaudit', 'dt3', 'kf0', 'nslock', 'bgpredict', 'bgequiv',
   'kf0ledger', 'nslockledger'];
@@ -986,7 +1106,7 @@ export async function regenChainSelfTest(o) {
   return res;
 }
 
-export default { REGEN_TABLE_VERSION, REGEN_STEPS, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
+export default { REGEN_TABLE_VERSION, REGEN_STEPS, stampedDeclDrift, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
   volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
   writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,
   W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest };

@@ -13,71 +13,71 @@
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
   "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
-  "generatedAt": "2026-09-26T23:38:07.589Z",
+  "generatedAt": "2026-09-27T07:02:07.083Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
     "bytes": 64576,
     "sha256": "fcb1a15bea3c5c9a2ea1294733b5e2266be82f145bcbd690707be9ffe278526e",
-    "mtime": "2026-09-26T17:47:12.775Z"
+    "mtime": "2026-09-27T06:19:08.446Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2698393,
     "sha256": "e3cff1886351ee6127e7a9abd56b47711f708c2028f222c5f09cd0046cdb669d",
-    "mtime": "2026-09-26T21:43:29.368Z"
+    "mtime": "2026-09-27T06:19:08.574Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
     "bytes": 90697,
     "sha256": "da0df9450004c48c298f39775ba04695be5d1b5f231f697e3d16ce61675b3616",
-    "mtime": "2026-09-26T18:38:11.224Z"
+    "mtime": "2026-09-27T06:19:08.582Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 88860,
-    "sha256": "1a71a2c82f4497b84e116a38b73fc688b59947ed500d677a3d4f2da6e4443b43",
-    "mtime": "2026-09-26T23:38:07.528Z"
+    "bytes": 89423,
+    "sha256": "5c2f9ff8a9a162eecae228352e0cf28627fdd93087abdb04ddf56680d5ec4982",
+    "mtime": "2026-09-27T07:02:07.046Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-09-26T17:44:56.026Z"
+    "mtime": "2026-09-27T06:19:08.526Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w279a-samplestatus.mjs",
-    "bytes": 26222,
-    "sha256": "cfff2dd8f7854b601fcbb8a321bcdba745736225e4d5409402845060e5fb1179",
-    "mtime": "2026-09-26T17:47:11.653Z"
+    "bytes": 27895,
+    "sha256": "ddc71afc54465acf52d9387d1a5d48130d6f23d41d218911001ba1056bfbbfea",
+    "mtime": "2026-09-27T06:36:51.028Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 23807,
     "sha256": "90091abbf1b678d6763d5f0a520c43a5eef18c6320506d3a09b1ec90e04dc1b6",
-    "mtime": "2026-09-26T17:46:31.436Z"
+    "mtime": "2026-09-27T06:19:08.534Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-27T06:19:08.530Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
-    "bytes": 11350,
-    "sha256": "81f73698d3cbe8f23519fe793e7fa701d50fc696b63c6b73fe5c2e026e428dfa",
-    "mtime": "2026-09-26T17:45:30.897Z"
+    "bytes": 31498,
+    "sha256": "b20e72403295d1c772586cff9b39bbc9a46b14fcec2136578bb0e3673df9279f",
+    "mtime": "2026-09-27T06:56:29.104Z"
    }
   ],
-  "codeSha256": "d6fc8c31cbc66c8904f4f4eb782da4fb9e870d9e8f03dc00a74b6cbae16bb1ec",
+  "codeSha256": "9ddb3c849599ae833c7cf1036b7533a5d5932f8ae9799c6ed1840c088905e38c",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "65095277b280c6cbdbe5d2053b878e55740de4d8",
-   "date": "2026-09-26T22:47:24.550Z",
-   "pass": 902
+   "commit": "cb3ef9c3bec69b56a6e95ec5dec1971fbfe292f7",
+   "date": "2026-09-27T01:07:33.255Z",
+   "pass": 912
   }
  },
  "tally": {
@@ -222,7 +222,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -271,23 +273,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 17454,
+     "ms": 17849,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 17115,
+       "ms": 17604,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 302,
+       "ms": 209,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 37,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -326,7 +328,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -375,28 +379,28 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 54,
+     "ms": 89,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 36,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 18,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "grcal.calib-text",
-       "ms": 0,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.rays",
+       "ms": 1,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "grcal.calib-text",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
@@ -435,7 +439,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -484,17 +490,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 208,
+     "ms": 507,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 166,
+       "ms": 470,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 42,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -532,7 +538,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -581,17 +589,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 219,
+     "ms": 502,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 166,
+       "ms": 470,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 53,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -629,7 +637,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -678,17 +688,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 213,
+     "ms": 500,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 166,
+       "ms": 470,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 47,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -727,7 +737,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -776,11 +788,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 15,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 15,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       },
@@ -825,7 +837,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -874,35 +888,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 1268,
+     "ms": 1359,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 634,
+       "ms": 608,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 387,
+       "ms": 478,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 164,
+       "ms": 206,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 70,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 13,
+       "ms": 7,
        "pass": true,
        "via": "targetIds"
       }
@@ -940,7 +954,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -989,11 +1005,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 225,
+     "ms": 213,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 225,
+       "ms": 213,
        "pass": true,
        "via": "targetIds"
       }
@@ -1031,7 +1047,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1080,11 +1098,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 316,
+     "ms": 295,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 316,
+       "ms": 295,
        "pass": true,
        "via": "targetIds"
       }
@@ -1122,7 +1140,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1171,11 +1191,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 414,
+     "ms": 385,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 414,
+       "ms": 385,
        "pass": true,
        "via": "targetIds"
       }
@@ -1213,7 +1233,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1262,17 +1284,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 363,
+     "ms": 426,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 237,
+       "ms": 296,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 126,
+       "ms": 130,
        "pass": true,
        "via": "targetIds"
       }
@@ -1310,7 +1332,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1359,17 +1383,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 434,
+     "ms": 822,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 381,
+       "ms": 779,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 53,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -1407,7 +1431,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1456,11 +1482,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 192,
+     "ms": 146,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 192,
+       "ms": 146,
        "pass": true,
        "via": "targetIds"
       }
@@ -1498,7 +1524,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1547,23 +1575,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 209,
+     "ms": 216,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 148,
+       "ms": 143,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 49,
+       "ms": 47,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 12,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -1601,7 +1629,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1650,17 +1680,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 211,
+     "ms": 260,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 112,
+       "ms": 173,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 99,
+       "ms": 87,
        "pass": true,
        "via": "targetIds"
       }
@@ -1698,7 +1728,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1747,35 +1779,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2612,
+     "ms": 2792,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1469,
+       "ms": 1536,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 484,
+       "ms": 542,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 333,
+       "ms": 370,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 305,
+       "ms": 315,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 17,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -1813,7 +1845,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1862,17 +1896,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5238,
+     "ms": 5027,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 5238,
+       "ms": 5026,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.cosmicweb",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -1910,7 +1944,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -1983,25 +2019,25 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 13918,
+     "ms": 21291,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 8372,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "preset.galaxy",
-       "ms": 5545,
+       "ms": 8083,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 1,
+       "ms": 7602,
        "pass": true,
        "via": "claims+targetIds"
+      },
+      {
+       "id": "preset.galaxy",
+       "ms": 5606,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2037,7 +2073,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2086,17 +2124,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 90096,
+     "ms": 90851,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 84251,
+       "ms": 84418,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 5845,
+       "ms": 6433,
        "pass": true,
        "via": "targetIds"
       }
@@ -2134,7 +2172,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2183,17 +2223,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 242475,
+     "ms": 235940,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 233885,
+       "ms": 227358,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 8590,
+       "ms": 8582,
        "pass": true,
        "via": "targetIds"
       }
@@ -2231,7 +2271,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2280,19 +2322,19 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8871,
+     "ms": 71581,
      "tests": [
       {
-       "id": "preset.galaxyDB",
-       "ms": 5025,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "claim.galaxydb-contrast",
-       "ms": 3846,
+       "ms": 66790,
        "pass": true,
        "via": "claims+targetIds"
+      },
+      {
+       "id": "preset.galaxyDB",
+       "ms": 4791,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2328,7 +2370,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2377,29 +2421,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 9720,
+     "ms": 9903,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 5398,
+       "ms": 5648,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 4244,
+       "ms": 4186,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 45,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 33,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -2437,7 +2481,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2486,17 +2532,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1297,
+     "ms": 1348,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 1144,
+       "ms": 1185,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 153,
+       "ms": 163,
        "pass": true,
        "via": "targetIds"
       }
@@ -2534,7 +2580,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2583,17 +2631,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5556,
+     "ms": 5983,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 5119,
+       "ms": 5584,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 437,
+       "ms": 399,
        "pass": true,
        "via": "targetIds"
       }
@@ -2631,7 +2679,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2680,17 +2730,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4907,
+     "ms": 5157,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 4336,
+       "ms": 4580,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 571,
+       "ms": 577,
        "pass": true,
        "via": "targetIds"
       }
@@ -2728,7 +2778,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2777,23 +2829,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 28422,
+     "ms": 27746,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 20655,
+       "ms": 19535,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 7582,
+       "ms": 8023,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 185,
+       "ms": 188,
        "pass": true,
        "via": "targetIds"
       }
@@ -2831,7 +2883,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2880,25 +2934,25 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 20242,
+     "ms": 179616,
      "tests": [
       {
        "id": "claim.bhcore-selfdrive",
-       "ms": 16404,
+       "ms": 116985,
+       "pass": true,
+       "via": "claims+targetIds"
+      },
+      {
+       "id": "claim.bhcore-free",
+       "ms": 58514,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.bhCore",
-       "ms": 3838,
+       "ms": 4117,
        "pass": true,
        "via": "targetIds"
-      },
-      {
-       "id": "claim.bhcore-free",
-       "ms": 0,
-       "pass": true,
-       "via": "claims+targetIds"
       }
      ]
     }
@@ -2934,7 +2988,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -2983,11 +3039,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3721,
+     "ms": 3559,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 3721,
+       "ms": 3559,
        "pass": true,
        "via": "targetIds"
       }
@@ -3025,7 +3081,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3074,17 +3132,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8118,
+     "ms": 8000,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 7426,
+       "ms": 7272,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 692,
+       "ms": 728,
        "pass": true,
        "via": "targetIds"
       }
@@ -3122,7 +3180,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3171,17 +3231,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 29723,
+     "ms": 31037,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 27652,
+       "ms": 29003,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 2071,
+       "ms": 2034,
        "pass": true,
        "via": "targetIds"
       },
@@ -3226,7 +3286,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3275,11 +3337,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9145,
+     "ms": 9320,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 9145,
+       "ms": 9320,
        "pass": true,
        "via": "targetIds"
       }
@@ -3318,7 +3380,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3367,11 +3431,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 8582,
+     "ms": 8355,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 8582,
+       "ms": 8355,
        "pass": true,
        "via": "targetIds"
       }
@@ -3410,7 +3474,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3459,11 +3525,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 8053,
+     "ms": 8085,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 8053,
+       "ms": 8085,
        "pass": true,
        "via": "targetIds"
       }
@@ -3501,7 +3567,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3550,11 +3618,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1433,
+     "ms": 1538,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1433,
+       "ms": 1538,
        "pass": true,
        "via": "targetIds"
       },
@@ -3604,7 +3672,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3659,17 +3729,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4869,
+     "ms": 4558,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 4868,
+       "ms": 4558,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.galaxyMesh",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -3708,7 +3778,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3763,11 +3835,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9256,
+     "ms": 8849,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 9256,
+       "ms": 8849,
        "pass": true,
        "via": "targetIds"
       }
@@ -3805,7 +3877,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3860,11 +3934,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2272,
+     "ms": 2325,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 2272,
+       "ms": 2325,
        "pass": true,
        "via": "targetIds"
       }
@@ -3902,7 +3976,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -3957,11 +4033,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4150,
+     "ms": 4346,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 4150,
+       "ms": 4346,
        "pass": true,
        "via": "targetIds"
       }
@@ -3999,7 +4075,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4084,7 +4162,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4145,11 +4225,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1246,
+     "ms": 1343,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 1246,
+       "ms": 1343,
        "pass": true,
        "via": "targetIds"
       }
@@ -4188,7 +4268,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4243,11 +4325,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1793,
+     "ms": 1880,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1793,
+       "ms": 1880,
        "pass": true,
        "via": "targetIds"
       }
@@ -4286,7 +4368,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4341,11 +4425,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 784,
+     "ms": 781,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 784,
+       "ms": 781,
        "pass": true,
        "via": "targetIds"
       }
@@ -4384,7 +4468,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4439,11 +4525,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1278,
+     "ms": 1367,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 1278,
+       "ms": 1367,
        "pass": true,
        "via": "targetIds"
       }
@@ -4482,7 +4568,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4537,11 +4625,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1747,
+     "ms": 1876,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1747,
+       "ms": 1876,
        "pass": true,
        "via": "targetIds"
       }
@@ -4580,7 +4668,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4635,11 +4725,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 654,
+     "ms": 720,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 654,
+       "ms": 720,
        "pass": true,
        "via": "targetIds"
       }
@@ -4678,7 +4768,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4727,17 +4819,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 226,
+     "ms": 224,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 184,
+       "ms": 185,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 42,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -4775,7 +4867,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4824,11 +4918,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 26,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 26,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       },
@@ -4872,7 +4966,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -4921,17 +5017,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 62,
+     "ms": 84,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 39,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 23,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -4969,7 +5065,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5018,17 +5116,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 422,
+     "ms": 411,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 384,
+       "ms": 381,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 38,
+       "ms": 30,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -5066,7 +5164,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5133,23 +5233,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 36925,
+     "ms": 37375,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 31649,
+       "ms": 32235,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2771,
+       "ms": 2685,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2505,
+       "ms": 2455,
        "pass": true,
        "via": "targetIds"
       }
@@ -5187,7 +5287,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5236,23 +5338,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 19072,
+     "ms": 19096,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 14917,
+       "ms": 15130,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2686,
+       "ms": 2430,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1469,
+       "ms": 1536,
        "pass": true,
        "via": "targetIds"
       }
@@ -5290,7 +5392,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5339,29 +5443,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 936,
+     "ms": 1254,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 741,
+       "ms": 1064,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 132,
+       "ms": 143,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 42,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 21,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -5399,7 +5503,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5448,11 +5554,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1464,
+     "ms": 1346,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 1464,
+       "ms": 1346,
        "pass": true,
        "via": "targetIds"
       }
@@ -5490,7 +5596,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5539,11 +5647,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 14,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 14,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       },
@@ -5587,7 +5695,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5636,23 +5746,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4615,
+     "ms": 5326,
      "tests": [
       {
        "id": "shot.regress-convection",
-       "ms": 2508,
+       "ms": 2948,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.convection",
-       "ms": 2089,
+       "ms": 2361,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 18,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
@@ -5696,7 +5806,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5745,11 +5857,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3118,
+     "ms": 3361,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 3118,
+       "ms": 3361,
        "pass": true,
        "via": "targetIds"
       },
@@ -5793,7 +5905,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5842,11 +5956,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2171,
+     "ms": 1955,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 2171,
+       "ms": 1955,
        "pass": true,
        "via": "targetIds"
       },
@@ -5890,7 +6004,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -5939,11 +6055,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1143,
+     "ms": 1184,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 1143,
+       "ms": 1184,
        "pass": true,
        "via": "targetIds"
       },
@@ -5993,7 +6109,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -6042,11 +6160,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2049,
+     "ms": 2508,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 2049,
+       "ms": 2508,
        "pass": true,
        "via": "targetIds"
       },
@@ -6096,7 +6214,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -6145,11 +6265,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1056,
+     "ms": 1067,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 1056,
+       "ms": 1067,
        "pass": true,
        "via": "targetIds"
       },
@@ -6200,7 +6320,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -6249,11 +6371,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1533,
+     "ms": 1564,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1533,
+       "ms": 1564,
        "pass": true,
        "via": "targetIds"
       },
@@ -6303,7 +6425,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -6352,23 +6476,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 960,
+     "ms": 900,
      "tests": [
       {
        "id": "behavior.earthMoon",
-       "ms": 436,
+       "ms": 414,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 385,
+       "ms": 340,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 139,
+       "ms": 146,
        "pass": true,
        "via": "targetIds"
       }
@@ -6406,7 +6530,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -6455,17 +6581,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1850,
+     "ms": 1582,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1605,
+       "ms": 1487,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 245,
+       "ms": 95,
        "pass": true,
        "via": "targetIds"
       }
@@ -6514,15 +6640,19 @@
       {
        "tag": "dt",
        "wallSec": 43.364,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 44.687,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -6571,11 +6701,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 21,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -6625,15 +6755,19 @@
       {
        "tag": "dt",
        "wallSec": 80.354,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 80.233,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -6718,11 +6852,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 54,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 54,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -6760,7 +6894,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -6821,17 +6957,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 37,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 37,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims"
       }
@@ -6881,15 +7017,19 @@
       {
        "tag": "dt",
        "wallSec": 69.759,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 69.053,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -6956,17 +7096,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 73,
+     "ms": 66,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 73,
+       "ms": 65,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims"
       }
@@ -7015,15 +7155,19 @@
       {
        "tag": "dt",
        "wallSec": 1.202,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 2.286,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -7078,17 +7222,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 22,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 22,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims"
       }
@@ -7127,7 +7271,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -7188,11 +7334,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 98,
+     "ms": 75,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 98,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       }
@@ -7230,7 +7376,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -7291,17 +7439,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1135,
+     "ms": 1173,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 960,
+       "ms": 932,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 175,
+       "ms": 241,
        "pass": true,
        "via": "targetIds"
       }
@@ -7339,7 +7487,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -7400,17 +7550,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1015,
+     "ms": 1037,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 960,
+       "ms": 932,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 55,
+       "ms": 105,
        "pass": true,
        "via": "targetIds"
       }
@@ -7448,7 +7598,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -7503,17 +7655,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 488,
+     "ms": 510,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 469,
+       "ms": 486,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 19,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -7563,15 +7715,19 @@
       {
        "tag": "dt",
        "wallSec": 2.998,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 6.242,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -7638,11 +7794,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 34,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -7680,7 +7836,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -7735,11 +7893,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 70,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 57,
+       "ms": 70,
        "pass": true,
        "via": "targetIds"
       }
@@ -7789,15 +7947,19 @@
       {
        "tag": "dt",
        "wallSec": 5.864,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 11.017,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -7852,11 +8014,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 45,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 45,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -7905,10 +8067,13 @@
       {
        "tag": "dt",
        "wallSec": 830.64,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -7963,17 +8128,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5577,
+     "ms": 5050,
      "tests": [
       {
        "id": "preset.solarInner",
-       "ms": 3591,
+       "ms": 3163,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.solarInner",
-       "ms": 1986,
+       "ms": 1887,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -8022,15 +8187,19 @@
       {
        "tag": "dt",
        "wallSec": 23.017,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 45.514,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -8097,17 +8266,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 582,
+     "ms": 518,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 549,
+       "ms": 490,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 33,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -8156,15 +8325,19 @@
       {
        "tag": "dt",
        "wallSec": 13.49,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 27.288,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -8267,17 +8440,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5298,
+     "ms": 5198,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 5259,
+       "ms": 5160,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 39,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -8326,15 +8499,19 @@
       {
        "tag": "dt",
        "wallSec": 8.782,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 17.867,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -8401,11 +8578,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 50,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 50,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       },
@@ -8462,20 +8639,25 @@
       {
        "tag": "dt",
        "wallSec": 38.323,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 75.651,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 149.572,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 149.572
+     "reusedSec": 149.572,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 149.572
     },
     "regenSteps": [
      {
@@ -8608,11 +8790,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 30,
+     "ms": 44,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 30,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       },
@@ -8662,7 +8844,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -8729,17 +8913,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 11229,
+     "ms": 10811,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 11171,
+       "ms": 10746,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 58,
+       "ms": 65,
        "pass": true,
        "via": "targetIds"
       }
@@ -8782,7 +8966,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -8849,11 +9035,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 60,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -8891,7 +9077,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -8946,11 +9134,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 42,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 42,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -8988,7 +9176,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -9043,11 +9233,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 55,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 55,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -9085,7 +9275,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -9140,11 +9332,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 40,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 40,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -9193,10 +9385,13 @@
       {
        "tag": "dt",
        "wallSec": 837.946,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -9251,19 +9446,19 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2442,
+     "ms": 11064,
      "tests": [
       {
-       "id": "preset.uranusReal",
-       "ms": 2442,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "behavior.uranusReal",
-       "ms": 0,
+       "ms": 8602,
        "pass": true,
        "via": "claims+targetIds"
+      },
+      {
+       "id": "preset.uranusReal",
+       "ms": 2462,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9310,15 +9505,19 @@
       {
        "tag": "dt",
        "wallSec": 3.542,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 7.565,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -9421,11 +9620,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 27,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 27,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       },
@@ -9480,20 +9679,25 @@
       {
        "tag": "dt",
        "wallSec": 12.118,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 22.25,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 46.019,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 46.019
+     "reusedSec": 46.019,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 46.019
     },
     "regenSteps": [
      {
@@ -9596,17 +9800,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4000,
+     "ms": 4074,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3959,
+       "ms": 4009,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 41,
+       "ms": 65,
        "pass": true,
        "via": "targetIds"
       }
@@ -9656,20 +9860,25 @@
       {
        "tag": "dt",
        "wallSec": 20.902,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 40.766,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 82.591,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 82.591
+     "reusedSec": 82.591,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 82.591
     },
     "regenSteps": [
      {
@@ -9742,17 +9951,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4017,
+     "ms": 4080,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3959,
+       "ms": 4009,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 58,
+       "ms": 71,
        "pass": true,
        "via": "targetIds"
       }
@@ -9801,20 +10010,25 @@
       {
        "tag": "dt",
        "wallSec": 7.001,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 14.781,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 27.943,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 27.943
+     "reusedSec": 27.943,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 27.943
     },
     "regenSteps": [
      {
@@ -9917,17 +10131,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2957,
+     "ms": 2993,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2899,
+       "ms": 2937,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 58,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       }
@@ -9977,20 +10191,25 @@
       {
        "tag": "dt",
        "wallSec": 12.861,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 24.967,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 51.563,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 51.563
+     "reusedSec": 51.563,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 51.563
     },
     "regenSteps": [
      {
@@ -10063,17 +10282,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2949,
+     "ms": 2994,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2899,
+       "ms": 2937,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 50,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -10123,20 +10342,25 @@
       {
        "tag": "dt",
        "wallSec": 4.011,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 8.181,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 15.706,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 15.706
+     "reusedSec": 15.706,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 15.706
     },
     "regenSteps": [
      {
@@ -10209,11 +10433,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 52,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 51,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       },
@@ -10269,20 +10493,25 @@
       {
        "tag": "dt",
        "wallSec": 3.462,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 6.957,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 13.388,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -10391,11 +10620,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 65,
+     "ms": 112,
      "tests": [
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 64,
+       "ms": 111,
        "pass": true,
        "via": "targetIds"
       },
@@ -10440,7 +10669,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -10489,11 +10720,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 78,
+     "ms": 79,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 78,
+       "ms": 79,
        "pass": true,
        "via": "targetIds"
       }
@@ -10542,15 +10773,19 @@
       {
        "tag": "dt",
        "wallSec": 3.765,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 7.012,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -10611,11 +10846,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 83,
+     "ms": 108,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 83,
+       "ms": 108,
        "pass": true,
        "via": "targetIds"
       }
@@ -10665,20 +10900,25 @@
       {
        "tag": "dt",
        "wallSec": 8.825,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 17.274,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 36.794,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 36.794
+     "reusedSec": 36.794,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 36.794
     },
     "regenSteps": [
      {
@@ -10787,11 +11027,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 59,
+     "ms": 72,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 59,
+       "ms": 72,
        "pass": true,
        "via": "targetIds"
       }
@@ -10841,20 +11081,25 @@
       {
        "tag": "dt",
        "wallSec": 2.398,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 5.271,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 10.32,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 10.32
+     "reusedSec": 10.32,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 10.32
     },
     "regenSteps": [
      {
@@ -10969,11 +11214,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 59,
+     "ms": 83,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 59,
+       "ms": 83,
        "pass": true,
        "via": "targetIds"
       }
@@ -11023,15 +11268,19 @@
       {
        "tag": "dt",
        "wallSec": 3.491,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 6.905,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -11092,11 +11341,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 82,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 82,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -11146,17 +11395,154 @@
       {
        "tag": "dt",
        "wallSec": 8.566,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 17.298,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 34,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 32,
+      "always": true
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 53,
+     "tests": [
+      {
+       "id": "preset.psrJ1757PN",
+       "ms": 53,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "name": "PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "1/f の応答候補を J1946 へ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "近点移動 +7.53%(4.9×10³σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Apply the 1/f response candidate to J1946",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "apsidal advance +7.53% (4.9×10³σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Apply the 1/f response candidate to J1946. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +7.53% (4.9×10³σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "1/f の応答候補を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +7.53%(4.9×10³σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[24]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 3571.8193568954807,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 7.6530000000000005,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.432,
+       "reused": false,
+       "reusedBy": null
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 5.221,
+       "reused": false,
+       "reusedBy": null
+      }
+     ],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "j1946adopt",
+      "sec": 149,
+      "share": 3,
+      "always": false
+     },
      {
       "key": "shapecrit",
       "sec": 106,
@@ -11218,137 +11604,8 @@
      "ms": 51,
      "tests": [
       {
-       "id": "preset.psrJ1757PN",
-       "ms": 51,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "psrJ1946PN",
-   "emoji": "🪀",
-   "name": "PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目",
-   "group": "現実との照合・連星",
-   "sampleClass": "calibration",
-   "status": {
-    "purpose": "1/f の応答候補を J1946 へ当てる",
-    "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "近点移動 +7.53%(4.9×10³σ)",
-    "outlook": "数値未解決・写像未確定",
-    "evidence": [
-     "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync"
-    ],
-    "en": {
-     "purpose": "Apply the 1/f response candidate to J1946",
-     "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +7.53% (4.9×10³σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Apply the 1/f response candidate to J1946. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +7.53% (4.9×10³σ); numerics unresolved; mapping unresolved."
-    },
-    "brief": "1/f の応答候補を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +7.53%(4.9×10³σ)・数値未解決・写像未確定。"
-   },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[24]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 3571.8193568954807,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
-   "timing": {
-    "calaudit": {
-     "wallSec": 7.6530000000000005,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 2.432,
-       "reused": false
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 5.221,
-       "reused": false
-      }
-     ],
-     "reusedSec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "j1946adopt",
-      "sec": 149,
-      "share": 3,
-      "always": false
-     },
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo3",
-      "sec": 1016,
-      "share": 34,
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "mercury",
-      "sec": 284,
-      "share": 32,
-      "always": true
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geomode",
-      "sec": 1608,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "heavy",
-      "sec": 368,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 46,
-     "tests": [
-      {
        "id": "preset.psrJ1946PN",
-       "ms": 46,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       }
@@ -11397,20 +11654,25 @@
       {
        "tag": "dt",
        "wallSec": 4.731,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 8.951,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 17.555,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 17.555
+     "reusedSec": 17.555,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 17.555
     },
     "regenSteps": [
      {
@@ -11471,11 +11733,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 138,
+     "ms": 131,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 138,
+       "ms": 131,
        "pass": true,
        "via": "targetIds"
       }
@@ -11524,20 +11786,25 @@
       {
        "tag": "dt",
        "wallSec": 11.763,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 23.116,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 45.993,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 45.993
+     "reusedSec": 45.993,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 45.993
     },
     "regenSteps": [
      {
@@ -11598,11 +11865,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 66,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 34,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       }
@@ -11652,20 +11919,25 @@
       {
        "tag": "dt",
        "wallSec": 3.39,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 6.859,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 12.991,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 12.991
+     "reusedSec": 12.991,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 12.991
     },
     "regenSteps": [
      {
@@ -11732,11 +12004,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 32,
+     "ms": 76,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 32,
+       "ms": 76,
        "pass": true,
        "via": "targetIds"
       }
@@ -11786,20 +12058,25 @@
       {
        "tag": "dt",
        "wallSec": 19.736,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 39.487,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 61.445,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 61.445
+     "reusedSec": 61.445,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 61.445
     },
     "regenSteps": [
      {
@@ -11860,11 +12137,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 24,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -11914,20 +12191,25 @@
       {
        "tag": "dt",
        "wallSec": 16.433,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 32.801,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 65.989,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 65.989
+     "reusedSec": 65.989,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 65.989
     },
     "regenSteps": [
      {
@@ -12036,11 +12318,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 59,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 38,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -12089,20 +12371,25 @@
       {
        "tag": "dt",
        "wallSec": 20.972,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 42.743,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 83.906,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 83.906
+     "reusedSec": 83.906,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 83.906
     },
     "regenSteps": [
      {
@@ -12163,11 +12450,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 83,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 31,
+       "ms": 83,
        "pass": true,
        "via": "targetIds"
       }
@@ -12205,7 +12492,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -12254,11 +12543,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 27,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -12296,7 +12585,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -12345,11 +12636,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 61,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 61,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -12387,7 +12678,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -12436,11 +12729,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 127,
+     "ms": 145,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 127,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       }
@@ -12489,15 +12782,19 @@
       {
        "tag": "dt",
        "wallSec": 0.821,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 1.48,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -12546,17 +12843,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5122,
+     "ms": 5086,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 5087,
+       "ms": 5052,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 35,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -12605,15 +12902,19 @@
       {
        "tag": "dt",
        "wallSec": 0.679,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 1.229,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -12686,17 +12987,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5133,
+     "ms": 5099,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 5087,
+       "ms": 5052,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 46,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -12745,15 +13046,19 @@
       {
        "tag": "dt",
        "wallSec": 0.052,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 0.07,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -12802,11 +13107,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 83,
+     "ms": 66,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 83,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       }
@@ -12844,7 +13149,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -12893,11 +13200,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 43,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 43,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -12935,7 +13242,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -12990,17 +13299,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4462,
+     "ms": 4286,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 4461,
+       "ms": 4286,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -13038,7 +13347,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -13093,11 +13404,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7512,
+     "ms": 7849,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 7512,
+       "ms": 7849,
        "pass": true,
        "via": "targetIds"
       }
@@ -13135,7 +13446,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -13196,17 +13509,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 7116,
+     "ms": 6881,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 7116,
+       "ms": 6880,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.ngc3198",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -13244,7 +13557,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -13311,11 +13626,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14012,
+     "ms": 13922,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 14012,
+       "ms": 13922,
        "pass": true,
        "via": "targetIds"
       }
@@ -13353,7 +13668,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -13402,11 +13719,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 20,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -13444,7 +13761,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -13493,11 +13812,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 20,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -13535,7 +13854,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -13584,11 +13905,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 588,
+     "ms": 605,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 588,
+       "ms": 605,
        "pass": true,
        "via": "targetIds"
       }
@@ -13626,7 +13947,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -13681,17 +14004,17 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 6794,
+     "ms": 6755,
      "tests": [
       {
        "id": "preset.saturn",
-       "ms": 3509,
+       "ms": 3415,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-saturn",
-       "ms": 3284,
+       "ms": 3339,
        "pass": true,
        "via": "targetIds"
       },
@@ -13747,7 +14070,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -13796,29 +14121,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6572,
+     "ms": 6486,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 3781,
+       "ms": 3635,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2768,
+       "ms": 2821,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 22,
+       "ms": 30,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "behavior.saturnLayered",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -13867,20 +14192,25 @@
       {
        "tag": "dt",
        "wallSec": 5.129,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 9.621,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       },
       {
        "tag": "dt/4",
        "wallSec": 19.79,
-       "reused": true
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 19.79
+     "reusedSec": 19.79,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 19.79
     },
     "regenSteps": [
      {
@@ -13947,23 +14277,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7765,
+     "ms": 8086,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 7699,
+       "ms": 8019,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 45,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 18,
+       "ms": 20,
        "pass": true,
        "via": "claims"
       },
@@ -14007,7 +14337,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14056,11 +14388,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 27,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -14098,7 +14430,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14147,11 +14481,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 34,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -14200,10 +14534,13 @@
       {
        "tag": "dt",
        "wallSec": 824.085,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14258,11 +14595,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1332,
+     "ms": 1400,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 1299,
+       "ms": 1367,
        "pass": true,
        "via": "targetIds"
       },
@@ -14317,10 +14654,13 @@
       {
        "tag": "dt",
        "wallSec": 830.204,
-       "reused": false
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14375,11 +14715,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 8740,
+     "ms": 8263,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 8740,
+       "ms": 8263,
        "pass": true,
        "via": "targetIds"
       }
@@ -14417,7 +14757,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14466,11 +14808,11 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 2726,
+     "ms": 2609,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 2663,
+       "ms": 2545,
        "pass": true,
        "via": "targetIds"
       },
@@ -14481,13 +14823,13 @@
        "via": "targetIds"
       },
       {
-       "id": "preset.kframe-binary-default",
-       "ms": 0,
+       "id": "behavior.binary",
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "behavior.binary",
+       "id": "preset.kframe-binary-default",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
@@ -14527,7 +14869,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14576,7 +14920,7 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 156,
+     "ms": 158,
      "tests": [
       {
        "id": "shot.regress-fig8",
@@ -14586,7 +14930,7 @@
       },
       {
        "id": "preset.fig8",
-       "ms": 21,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -14624,7 +14968,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14673,11 +15019,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1103,
+     "ms": 1216,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 1103,
+       "ms": 1216,
        "pass": true,
        "via": "targetIds"
       },
@@ -14721,7 +15067,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14770,17 +15118,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2424,
+     "ms": 2331,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 1296,
+       "ms": 1295,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 1128,
+       "ms": 1036,
        "pass": true,
        "via": "targetIds"
       },
@@ -14824,7 +15172,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14873,11 +15223,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 262,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 25,
+       "ms": 262,
        "pass": true,
        "via": "targetIds"
       }
@@ -14915,7 +15265,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -14964,11 +15316,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 130,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 20,
+       "ms": 130,
        "pass": true,
        "via": "targetIds"
       }
@@ -15006,377 +15358,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geomode",
-      "sec": 1608,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "heavy",
-      "sec": 368,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 20,
-     "tests": [
-      {
-       "id": "preset.whiteDwarfDFM",
-       "ms": 20,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "whiteDwarfBareDFM",
-   "emoji": "🔘",
-   "name": "裸のコア — 最後の殻が剥がれて Mc=M の終端状態になる(DFM版・⚪ の variant)",
-   "group": "天体の機構",
-   "sampleClass": "principle",
-   "status": {
-    "purpose": "最後の殻が剥がれ Mc=M の終端を作る",
-    "objective": "met",
-    "state": "終端と結合エネルギーの台帳を検査で確認",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "behavior.coreTerminal"
-    ],
-    "en": {
-     "purpose": "Shed the last envelope to reach the Mc=M end state",
-     "state": "the end state and the binding-energy ledger are checked",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "Shed the last envelope to reach the Mc=M end state. Met: the end state and the binding-energy ledger are checked. Out of calibration scope."
-    },
-    "brief": "最後の殻が剥がれ Mc=M の終端を作る。達・終端と結合エネルギーの台帳を検査で確認。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geomode",
-      "sec": 1608,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "heavy",
-      "sec": 368,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 22,
-     "tests": [
-      {
-       "id": "preset.whiteDwarfBareDFM",
-       "ms": 22,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "envelopeShedDFM",
-   "emoji": "🎆",
-   "name": "エンベロープの分割放出 — 限界回転のコアが殻をガスへ割って出す(DFM版)",
-   "group": "天体の機構",
-   "sampleClass": "principle",
-   "status": {
-    "purpose": "限界回転のコアが殻を粒へ割って出す",
-    "objective": "met",
-    "state": "1 回の放出と帳簿の閉じを検査で確認",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "behavior.envelopeShed"
-    ],
-    "en": {
-     "purpose": "A core at its spin limit splits its envelope into particles",
-     "state": "one ejection and the closed ledger are checked",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "A core at its spin limit splits its envelope into particles. Met: one ejection and the closed ledger are checked. Out of calibration scope."
-    },
-    "brief": "限界回転のコアが殻を粒へ割って出す。達・1 回の放出と帳簿の閉じを検査で確認。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geomode",
-      "sec": 1608,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "heavy",
-      "sec": 368,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 17,
-     "tests": [
-      {
-       "id": "preset.envelopeShedDFM",
-       "ms": 17,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "lfbotTrap",
-   "emoji": "🐮",
-   "name": "閉じ込めた光の解放 — 減光で溜めた自光をコアの崩壊で放つ(トイ仮説)",
-   "group": "天体の機構",
-   "sampleClass": "principle",
-   "status": {
-    "purpose": "減光で溜めた光をコアの崩壊で放つトイ",
-    "objective": "met",
-    "state": "光の口座の保存と対照 4 本を検査で確認",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "behavior.lightTrapLedger"
-    ],
-    "en": {
-     "purpose": "A toy that releases light hoarded by dimming when the core collapses",
-     "state": "the light-account conservation and four controls are checked",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "A toy that releases light hoarded by dimming when the core collapses. Met: the light-account conservation and four controls are checked. Out of calibration scope."
-    },
-    "brief": "減光で溜めた光をコアの崩壊で放つトイ。達・光の口座の保存と対照 4 本を検査で確認。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geomode",
-      "sec": 1608,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "heavy",
-      "sec": 368,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 2,
-     "ms": 241,
-     "tests": [
-      {
-       "id": "preset.lfbotTrap",
-       "ms": 135,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "preset.lfbotTrap",
-       "ms": 106,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "layeredCoreDFM",
-   "emoji": "🧅",
-   "name": "親子コア — 観測半径は殻・質量はコア(二層天体の原理)",
-   "group": "天体の機構",
-   "sampleClass": "principle",
-   "status": {
-    "purpose": "観測半径は殻・質量はコアに分ける二層天体",
-    "objective": "met",
-    "state": "検証器と球殻定理の検査を通過",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "behavior.bodyLayers"
-    ],
-    "en": {
-     "purpose": "A two-layer body: the shell carries the radius, the core the mass",
-     "state": "passes the validator and shell-theorem checks",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "A two-layer body: the shell carries the radius, the core the mass. Met: passes the validator and shell-theorem checks. Out of calibration scope."
-    },
-    "brief": "観測半径は殻・質量はコアに分ける二層天体。達・検証器と球殻定理の検査を通過。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -15428,8 +15412,386 @@
      "ms": 23,
      "tests": [
       {
-       "id": "preset.layeredCoreDFM",
+       "id": "preset.whiteDwarfDFM",
        "ms": 23,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "whiteDwarfBareDFM",
+   "emoji": "🔘",
+   "name": "裸のコア — 最後の殻が剥がれて Mc=M の終端状態になる(DFM版・⚪ の variant)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "最後の殻が剥がれ Mc=M の終端を作る",
+    "objective": "met",
+    "state": "終端と結合エネルギーの台帳を検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.coreTerminal"
+    ],
+    "en": {
+     "purpose": "Shed the last envelope to reach the Mc=M end state",
+     "state": "the end state and the binding-energy ledger are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Shed the last envelope to reach the Mc=M end state. Met: the end state and the binding-energy ledger are checked. Out of calibration scope."
+    },
+    "brief": "最後の殻が剥がれ Mc=M の終端を作る。達・終端と結合エネルギーの台帳を検査で確認。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 147,
+     "tests": [
+      {
+       "id": "preset.whiteDwarfBareDFM",
+       "ms": 147,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "envelopeShedDFM",
+   "emoji": "🎆",
+   "name": "エンベロープの分割放出 — 限界回転のコアが殻をガスへ割って出す(DFM版)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "限界回転のコアが殻を粒へ割って出す",
+    "objective": "met",
+    "state": "1 回の放出と帳簿の閉じを検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.envelopeShed"
+    ],
+    "en": {
+     "purpose": "A core at its spin limit splits its envelope into particles",
+     "state": "one ejection and the closed ledger are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A core at its spin limit splits its envelope into particles. Met: one ejection and the closed ledger are checked. Out of calibration scope."
+    },
+    "brief": "限界回転のコアが殻を粒へ割って出す。達・1 回の放出と帳簿の閉じを検査で確認。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 93,
+     "tests": [
+      {
+       "id": "preset.envelopeShedDFM",
+       "ms": 93,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "lfbotTrap",
+   "emoji": "🐮",
+   "name": "閉じ込めた光の解放 — 減光で溜めた自光をコアの崩壊で放つ(トイ仮説)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "減光で溜めた光をコアの崩壊で放つトイ",
+    "objective": "met",
+    "state": "光の口座の保存と対照 4 本を検査で確認",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.lightTrapLedger"
+    ],
+    "en": {
+     "purpose": "A toy that releases light hoarded by dimming when the core collapses",
+     "state": "the light-account conservation and four controls are checked",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A toy that releases light hoarded by dimming when the core collapses. Met: the light-account conservation and four controls are checked. Out of calibration scope."
+    },
+    "brief": "減光で溜めた光をコアの崩壊で放つトイ。達・光の口座の保存と対照 4 本を検査で確認。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 2,
+     "ms": 223,
+     "tests": [
+      {
+       "id": "preset.lfbotTrap",
+       "ms": 123,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.lfbotTrap",
+       "ms": 100,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "layeredCoreDFM",
+   "emoji": "🧅",
+   "name": "親子コア — 観測半径は殻・質量はコア(二層天体の原理)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "観測半径は殻・質量はコアに分ける二層天体",
+    "objective": "met",
+    "state": "検証器と球殻定理の検査を通過",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "behavior.bodyLayers"
+    ],
+    "en": {
+     "purpose": "A two-layer body: the shell carries the radius, the core the mass",
+     "state": "passes the validator and shell-theorem checks",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A two-layer body: the shell carries the radius, the core the mass. Met: passes the validator and shell-theorem checks. Out of calibration scope."
+    },
+    "brief": "観測半径は殻・質量はコアに分ける二層天体。達・検証器と球殻定理の検査を通過。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 28,
+     "tests": [
+      {
+       "id": "preset.layeredCoreDFM",
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -15467,7 +15829,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -15516,11 +15880,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 17,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -15558,7 +15922,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -15607,17 +15973,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 244,
+     "ms": 292,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 208,
+       "ms": 233,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 36,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -15655,7 +16021,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -15704,11 +16072,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 19,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -15746,7 +16114,9 @@
     "calaudit": {
      "wallSec": 0,
      "stages": [],
-     "reusedSec": 0
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -15795,17 +16165,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 89,
+     "ms": 87,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 62,
+       "ms": 57,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 27,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -15818,12 +16188,24 @@
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
   "regenSteps": 87,
-  "regenSecSum": 22656,
-  "alwaysSec": 5993,
+  "regenSecSum": 20957,
+  "alwaysSec": 4294,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
   "qaTotal": 913,
-  "qaDurationMs": 1689200,
+  "qaDurationMs": 2122808,
+  "reuse": {
+   "since": "第284便c",
+   "h2": {
+    "n": 0,
+    "sec": 0
+   },
+   "h4": {
+    "n": 15,
+    "sec": 728.1769999999999
+   },
+   "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
+  },
   "qaAttribution": {
    "version": "w283e-1",
    "rule": "claims の testId + 原稿の qaTargets(明示)",

@@ -25,6 +25,8 @@
 //      **時間は測った値の転記であって判定ではない**(html の生成領域には入れない —— 時間で html を変えない)。
 //   ⑤ 第283便e(原仮定者の裁定(第73報)・統括の検証項目 R88): 保存 QA の帰属を「試験の id が本の id を部分文字列として含む」から
 //      **claims の testId + 原稿の明示 `qaTargets`** へ(`L.qaAttribution` —— どちらにも無い本は「帰属なし」)。
+//   ⑥ 第284便c(原仮定者の裁定(第74報)⑥・AN33・R93): 所要時間の節に**再利用 h2/h4 の内訳**(転記した段の種別 —— h2 = dt/2 の同一便の
+//      転記 `skippedBy:"reuse-dt2"`・h4 = 同一契約の dt/4 の転記 `skippedBy:"reuse"` —— と本数・元の走行の秒)。
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -229,14 +231,22 @@ for (const r of got.rows) {
   }
   // (c) 保存 QA(第283便e): claims の testId + 原稿の明示 qaTargets の試験(所要は試験ごと・複数の本で重なりうる)。どちらにも無い本は帰属なし
   const qa1 = qaAttr.byId[id];
-  timing[id] = { calaudit: { wallSec: calSec, stages, reusedSec: cs.reusedSec }, regenSteps: steps,
+  timing[id] = { calaudit: { wallSec: calSec, stages, reusedSec: cs.reusedSec, reusedH2Sec: cs.reusedH2Sec || 0, reusedH4Sec: cs.reusedH4Sec || 0 }, regenSteps: steps,
     qa: { attributed: qa1.attributed, n: qa1.n, ms: qa1.ms, tests: qa1.tests.slice(0, 5) } };
+}
+// 第284便c: 再利用 h2/h4 の内訳(較正母集団の全本 —— 転記した段の本数と元の走行の秒)
+const reuseTally = { h2: { n: 0, sec: 0 }, h4: { n: 0, sec: 0 } };
+for (const p of (calaudit.presets || [])) for (const z of calStagesOf(p.run).stages) {
+  if (!z.reused) continue;
+  const k = z.reusedBy === 'reuse-dt2' ? 'h2' : 'h4';
+  reuseTally[k].n++; reuseTally[k].sec += z.wallSec;
 }
 md.push('## 所要時間(正本の再生成と QA)');
 md.push('');
 md.push('> **測った値の転記であって判定ではない**(第282便・原仮定者の指示 2026-09-26)。時間は html の生成領域に入れない(時間で html を変えない)。数は `tests/lib-w281a-regentable.mjs`(段の実測秒)・`' + CAL + '`(各本の壁時計)・`' + QAF + '`(試験ごとの所要 ms)の転記で、走行のたびに変わる。');
 md.push('');
 md.push('- **較正走行(calaudit)**: 較正母集団の各本を calaudit が走らせた壁時計(段 dt / dt/2 / dt/4 の和・`presets[].run.timeBudget[].wallSec`。第283便c: dt/8 は常時の鎖から外した —— 旧形式の記録だけ dt/8 を 1 回数える・転記した段〔再利用〕は和に入れず「元 N s」を添える)。母集団の外の本は「—」。');
+md.push(`- **再利用 h2/h4 の内訳**(第284便c): 転記した段は **h2**(dt/2 の同一便の再走の転記 —— h の生の走行がビット一致・\`skippedBy:"reuse-dt2"\`)${reuseTally.h2.n} 段(元の走行 ${fmtS(reuseTally.h2.sec)} s)・**h4**(同一契約の dt/4 の転記 —— \`skippedBy:"reuse"\`)${reuseTally.h4.n} 段(元の走行 ${fmtS(reuseTally.h4.sec)} s)。第284便c から dt/4 は常時の鎖では例外の登録簿の本だけ(登録の外の本は dt/4 の段が無い)。**転記は収束の証明ではない**。`);
 md.push('- **関与する再生成の段**: 領域(REGEN_SCOPE)を宣言した段のうち、この本を宣言に含むもの。表記「段 秒/本数」は**段 1 回の実測秒とその段が宣言した本数**(所要は宣言した本で共有する —— 本ごとに足し上げない)。all は全プリセットを走査する段。');
 md.push(`- **宣言の無い段**(対象 html の全体に縛られ、どの本に関与するかを宣言していない ${undeclaredSteps.length} 段・実測 ${fmtS(secUndeclared)} s)と**常時群**(${stepsCurrent.filter((z) => z.alwaysRun).length} 段・実測 ${fmtS(secAlways)} s・毎回走る)は本ごとの行に配らない。現行の段 ${stepsCurrent.length} 段の実測秒の和 ${fmtS(secAll)} s(${(secAll / 3600).toFixed(2)} h・逐次の上限。履歴の段は除く)。`);
 md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体 ${fmtS((qa.durationMs || 0) / 1000)} s${qa.commit ? '・commit ' + String(qa.commit).slice(0, 7) : ''})のうち、**その本の claims が挙げる testId と、原稿 \`${SRC}\` の \`qaTargets\` がその本を挙げた試験**(帰属 ${qaAttr.version} —— 試験の id の部分文字列では帰属させない)の所要の和と本数(1 つの試験が複数の本に数えられうる —— 本ごとの列は重なりを含む)。どちらにも無い本は「帰属なし」(${qaAttr.unattributed.length} 本)。内訳は所要の上位 3。`);
@@ -246,7 +256,7 @@ md.push('|---|---|---|---|---|---|');
 for (const id of groups.flatMap((g) => g.ids).concat(retiredRows)) {
   const r = byId[id], t = timing[id];
   const cal = t.calaudit.stages.length ? fmtS(t.calaudit.wallSec) : '—';
-  const st = t.calaudit.stages.length ? t.calaudit.stages.map((z) => z.reused ? `${z.tag} 再利用(元 ${fmtS(z.wallSec)})` : `${z.tag} ${fmtS(z.wallSec)}`).join('・') : '—';
+  const st = t.calaudit.stages.length ? t.calaudit.stages.map((z) => z.reused ? `${z.tag} 再利用〔${z.reusedBy === 'reuse-dt2' ? 'h2' : 'h4'}〕(元 ${fmtS(z.wallSec)})` : `${z.tag} ${fmtS(z.wallSec)}`).join('・') : '—';
   const steps = t.regenSteps.length ? t.regenSteps.map((z) => `${z.key} ${fmtS(z.sec)}/${z.share}`).join('・') : '—';
   const qs = t.qa.attributed ? `${fmtS(t.qa.ms / 1000)}・${t.qa.n}` : '帰属なし';
   const top = t.qa.tests.slice(0, 3).map((z) => `\`${z.id}\` ${fmtS(z.ms / 1000)}`).join('・') || '—';
@@ -274,6 +284,7 @@ const canon = {
   timingNote: { since: '第282便(原仮定者の指示 2026-09-26)', what: '各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない',
     regenSteps: stepsCurrent.length, regenSecSum: secAll, alwaysSec: secAlways, undeclaredSteps: undeclaredSteps.length, undeclaredSec: secUndeclared,
     qaTotal: qa.total || qaAll.length, qaDurationMs: qa.durationMs || null,
+    reuse: { since: '第284便c', h2: reuseTally.h2, h4: reuseTally.h4, rule: 'h2 = skippedBy "reuse-dt2"(同一便の dt/2 の転記)・h4 = skippedBy "reuse"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)' },
     qaAttribution: { version: qaAttr.version, rule: 'claims の testId + 原稿の qaTargets(明示)', unattributed: qaAttr.unattributed.length } },
 };
 if (CHECK) {

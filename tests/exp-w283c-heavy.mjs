@@ -214,21 +214,24 @@ export function compareQuantities(CA, TP) {
 
 const f4 = (x) => (Number.isFinite(x) ? x.toPrecision(4) : '—');
 const pct = (x) => (Number.isFinite(x) ? (100 * x).toFixed(1) + '%' : '—');
-/** PHYSICS〔第283便c〕の表の行(QA docs.heavyCal が PHYSICS にあるかを照合する)。 */
+/**
+ * PHYSICS〔第283便c〕の表の行(QA docs.heavyCal が PHYSICS にあるかを照合する)。
+ * 第284便c(原仮定者の裁定(第74報)⑥・AN43「heavyCal の壁時計行は転記から外す」): **壁時計(秒)と ms/步・その比は行に書かない**
+ * (再生成のたびに変わり、転記が要る —— 第283便c の教訓)。行は**構造と判定量だけ**(粒子数・対・質量比・近点・相対差・区分/門の移動)。
+ * 所要は SAMPLE_STATUS の所要時間の節(calaudit の段別の壁時計)と本正本の JSON(`calaudit.*WallSec`・`structure[].msPerStepNode`)が持つ。
+ */
 export function docRows(Jc) {
   const out = { structure: [], quantities: [], share: null };
   const A = Jc.calaudit;
-  out.share = `重い 4 本の較正走行 ${A.heavyWallSec.toFixed(1)} s / 全 ${A.nPresets} 本 ${A.totalWallSec.toFixed(1)} s = ${pct(A.heavyShare)}`;
   for (const s of Jc.structure) {
     const c = A.rows.find((z) => z.id === s.id) || {};
     out.structure.push(`| ${s.emoji} \`${s.id}\` | ${s.n}(主要 ${s.nMajor}・群 ${s.nGroup}) | ${s.pairsAll} → 主要だけ ${s.pairsMajor}・試験粒子 ${s.pairsTp} | `
-      + `${f4(s.mass.groupOverMajor)} | ${f4(s.msPerStepNode.full)} / ${f4(s.msPerStepNode.major)} / ${f4(s.msPerStepNode.tp)} | `
-      + `${f4(s.msPerStepNode.fullOverMajor)} / ${f4(s.msPerStepNode.fullOverTp)} | ${c.needPeriastra} 対 [${(c.periFound || []).join(', ')}] |`);
+      + `${f4(s.mass.groupOverMajor)} | ${c.needPeriastra} 対 [${(c.periFound || []).join(', ')}] |`);
   }
   for (const q of Jc.quantities) {
     if (q.missing) continue;
     out.quantities.push(`| ${q.emoji} \`${q.id}\` | ${q.rows.length} | ${q.maxAbsRelDiffPeriod.toExponential(3)} | ${q.maxAbsRelDiff.toExponential(3)} | ${q.verdictMoved} / ${q.gateMoved} | `
-      + `${q.before.wallSec.toFixed(1)} → ${q.after.wallSec.toFixed(1)} | [${(q.before.periFound || []).join(', ')}] → [${(q.after.periFound || []).join(', ')}] |`);
+      + `[${(q.before.periFound || []).join(', ')}] → [${(q.after.periFound || []).join(', ')}] |`);
   }
   return out;
 }
@@ -244,7 +247,7 @@ if (IS_MAIN) {
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
   const calaudit = calauditShare(CA);
-  console.log(`(A) ${docRows({ calaudit, structure: [], quantities: [] }).share}`);
+  console.log(`(A) 重い 4 本の較正走行 ${calaudit.heavyWallSec.toFixed(1)} s / 全 ${calaudit.nPresets} 本 ${calaudit.totalWallSec.toFixed(1)} s = ${pct(calaudit.heavyShare)}(記録 —— 文書の行には写さない)`);
   const structure = HEAVY_IDS.map((id) => { const s = presetStructure(HP, id);
     console.log(`(B) ${s.emoji} ${id}: n=${s.n}(主要 ${s.nMajor}・群 ${s.nGroup})・対 ${s.pairsAll}→${s.pairsMajor}/${s.pairsTp}・ms/步 ${s.msPerStepNode.full.toFixed(4)}/${s.msPerStepNode.major.toFixed(5)}/${s.msPerStepNode.tp.toFixed(4)}`
       + `(比 ${s.msPerStepNode.fullOverMajor.toFixed(1)}・${s.msPerStepNode.fullOverTp.toFixed(1)})・源 1 bit ${s.sourcesBitSameVsMajorOnly}・並べ替え ${s.groupSameAfterReorder}・TP ${s.tp.on}${s.tp.deny ? '(' + s.tp.deny + ')' : ''}`);
