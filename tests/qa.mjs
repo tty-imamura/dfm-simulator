@@ -35524,7 +35524,7 @@ if (!FAST) {
 // ----     (900 幅で「パラメータ」が 2 行に折れた実測への回帰検査)。第278便e の宣言だけの html は従来の固定値で測る。
 // ----   ui.searchClear … ✕ は type=button・aria-label(ja「検索をクリア」/ en「Clear search」)・
 // ----     入力が空で非表示/入力で表示・押すと検索欄が空・一覧が絞り込み前の行数へ戻る・フォーカスが
-// ----     検索欄・412×915 で見出し行が 1 行(はみ出し 0)・✕ は検索欄の内側。
+// ----     検索欄(第284便d の html〔ppGeoBucketOf あり〕では**検索欄から外れる** —— 世代で期待を分ける)・412×915 で見出し行が 1 行(はみ出し 0)・✕ は検索欄の内側。
 // ----   ui.obscardIcon … obsCard を持つ内蔵の全本で「観測結果カード」summary の先頭が 📇(aria-hidden)・
 // ----     aria-hidden を除いた文字列は T('ocHead')+状態語のまま(読み上げ名は不変)・📇 は説明タブの
 // ----     他の見出しに無い・ja/en とも。
@@ -35769,7 +35769,10 @@ if (!FAST) {
       cl.click(); await wait(60);
       const n2 = nRows();
       o.cleared = si.value === '' && !shown();
-      o.focus = document.activeElement === si;
+      // 第284便d(原仮定者の裁定(第74報)⑦「検索でクリアしたら検索窓のフォーカスを外す」): 世代で期待を分ける —— ppGeoBucketOf のある html は
+      // ✕ のあと検索欄に**フォーカスが無い**こと(詳細は ui.searchClearBlur)・root 等の旧世代は従来どおり検索欄へ戻ること
+      o.w284d = typeof ppGeoBucketOf === 'function';
+      o.focus = o.w284d ? document.activeElement !== si : document.activeElement === si;
       o.n = [n0, n1, n2];
       o.refiltered = n1 < n0 && n2 === n0;
       document.getElementById('ppClose').click();
@@ -35786,7 +35789,7 @@ if (!FAST) {
     add('ui.searchClear', scOk,
       `412×915: type=button・aria-label ja=${sc.attrs}/en=${sc.en}・空で非表示=${sc.emptyHidden}・入力で表示=${sc.typedShown}` +
       `(検索欄の内側=${sc.inside})・見出し行 ${sc.headRows} 行・はみ出し ${sc.headX}/${sc.boxX}px・` +
-      `押すと空=${sc.cleared}・一覧 ${sc.n[0]}→${sc.n[1]}→${sc.n[2]} 行(絞り込み前へ戻る=${sc.refiltered})・フォーカスが検索欄=${sc.focus}`);
+      `押すと空=${sc.cleared}・一覧 ${sc.n[0]}→${sc.n[1]}→${sc.n[2]} 行(絞り込み前へ戻る=${sc.refiltered})・` + (sc.w284d ? `フォーカスが検索欄から外れる(第284便d)=${sc.focus}` : `フォーカスが検索欄=${sc.focus}`));
 
     // --- ④ 観測結果カードのアイコン(内蔵を掃引・ja/en)
     const oi = await page.evaluate(() => {
@@ -36128,6 +36131,254 @@ if (!FAST) {
       `・署名 宣言で変化 ${r.sig && r.sig.changes}/手書きと同一 ${r.sig && r.sig.sameAsHand}・セーブ往復 ${r.save && r.save.eq && r.load && r.load.eq}` +
       `・A/B B=${r.ab && r.ab.bgB}/A=${r.ab && r.ab.bgA} 共有 ${r.ab && r.ab.shared} D₀(B)=${r.ab && r.ab.d0B1}・未宣言に戻す ${r.clear && r.clear.key}・en「${r.en && r.en.chip}」` +
       `・門 ${r.gate.ok}${r.gate.bad.length ? '[' + r.gate.bad.slice(0, 3).join(' ; ') + ']' : ''}・JSエラー ${r.jsErr}`).join(' / '));
+  }
+}
+
+// ---- 第284便d(原仮定者の裁定(第74報)⑦ UI: 「『サンプルを選ぶ』に geoPN の絞り込みを追加・検索でクリアしたら検索窓のフォーカスを
+// ---- 外す・『パラメータ』タブの『測地線モード geoPN』を『引きずり・測地線』の先頭に移動」): **表示だけ**(物理・presetSig・保存 JSON に
+// ---- 1 bit も効かない)。世代判定は html の `function ppGeoBucketOf(` —— root 等では 3 件とも自動 SKIP。3 viewport = iPhone SE 375×667
+// ---- (isMobile・タッチ)/ Android 412×915(isMobile・タッチ)/ PC 1280×800。
+// ----   ui.pickerGeoFilter … geoPN の行(見出し「geoPN ⓘ」・チップ 5 個 = すべて/0/1/2/3・ja/en の文言)/ 桶は**この場で独立に引き直す**:
+// ----     全内蔵を validatePreset に通した geoMode の役割(noGeodesic→0・kF0→1・dfm→2・spaceMesh→3・geoPN=1 の consistent:false→2)と
+// ----     ページの ppGeoBucketOf が全本一致 / 各チップの行数 = 一覧に出る本(catalogHidden・退役を除く)のうち桶が一致する本の数 /
+// ----     4 桶の和 = 一覧に出る本の数(分割)/ AND: geoPN=1 ∧ 分類「現実較正(kF0)」・geoPN=2 ∧ 検索「psr」が独立の数え直しと一致 /
+// ----     同じチップの再タップで「すべて」へ戻り行数が元へ / ⓘ の説明に 4 桶の件数(全内蔵)/ 箱・チップが画面内・文書の横はみ出し 0 /
+// ----     全内蔵の presetSig と読込中の params が操作の前後で不変 / JS エラー 0。
+// ----   ui.searchClearBlur … 実キー入力で: ① ✕(タッチ端末は tap)→ 検索欄が空・フォーカスが検索欄に無い・行数が元へ ② 文字があるときの
+// ----     Esc → 窓は開いたまま・空・フォーカスなし、もう一度 Esc で窓が閉じる ③ 2 文字 → Backspace 1 回ではフォーカスは残る → 2 回目で空に
+// ----     なりフォーカスが外れる ④ IME(CDP の imeSetComposition): 変換中の文字を取り消して空になってもフォーカスは残る・確定しても残る・
+// ----     変換中の Esc では窓も検索語も変わらない ⑤ 空のときの Esc は従来どおり窓を閉じる。
+// ----   ui.paramOrderDrag … 「引きずり・測地線」の子の並びが geoPN 行 → #geoToySaveNote → D₀ 行 → #bgcPanel → qLock 行 → q 行 → kFrame →
+// ----     λ_PN → α(3 本 × ja/en)/ PARAM_DEFS の配列順は不変(D₀ が先頭・geoPN は g_y の後)/ タブを開いても params と presetSig は不変。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/function ppGeoBucketOf\(/.test(html)) {
+    console.log('SKIP ui.pickerGeoFilter / ui.searchClearBlur / ui.paramOrderDrag(対象に第284便d の geoPN 絞り込みなし — root 等)');
+  } else {
+    const VPS = [{ name: 'iPhoneSE-375x667', width: 375, height: 667, mobile: true },
+      { name: 'Android-412x915', width: 412, height: 915, mobile: true },
+      { name: 'PC-1280x800', width: 1280, height: 800, mobile: false }];
+    const openVp = async (vp) => {
+      const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.mobile, hasTouch: vp.mobile });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      pg.on('dialog', (d) => d.accept());
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      await pg.evaluate(() => HP.setLang('ja'));
+      return { ctx, pg, errs };
+    };
+    // ---- ui.pickerGeoFilter
+    const gf = [];
+    for (const vp of VPS) {
+      const { ctx, pg, errs } = await openVp(vp);
+      const r = await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+        const o = { bad: [] };
+        HP.loadPreset('saturn', false);
+        const builtins = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+        const sig0 = builtins.map((p) => presetSig(p)).join('\u0001');
+        const par0 = JSON.stringify(HP.sim.params);
+        // 桶の独立の引き直し(受理器の geoMode から —— ppGeoBucketOf を使わない)
+        const ROLE = { noGeodesic: 0, kF0: 1, dfm: 2, spaceMesh: 3 };
+        const qb = {};
+        for (const p of builtins) {
+          const v = validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok) { o.bad.push('reject:' + p.id); continue; }
+          const gm = v.geoMode;
+          qb[p.id] = (gm.mode === 1 && !gm.consistent) ? 2 : ROLE[gm.role];
+          if (ppGeoBucketOf(p) !== qb[p.id]) o.bad.push('bucket:' + p.id + ':' + ppGeoBucketOf(p) + '≠' + qb[p.id]);
+        }
+        o.nAll = [0, 1, 2, 3].map((k) => builtins.filter((p) => qb[p.id] === k).length);
+        const visible = builtins.filter((p) => !catalogHidden(p) && !retiredHidden(p));
+        const exp = [0, 1, 2, 3].map((k) => visible.filter((p) => qb[p.id] === k).length);
+        o.nVisible = visible.length;
+        ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all';
+        showPresetPicker();
+        await wait(40);
+        const rows = () => document.querySelectorAll('#ppList .ppRow').length;
+        const geoRow = () => { const b = document.getElementById('ppDimGeoBtn'); return b ? b.parentElement : null; };
+        const chips = () => [...geoRow().querySelectorAll('.ppChip')];
+        o.hasRow = !!geoRow();
+        if (!o.hasRow) return o;
+        o.dimLabel = document.getElementById('ppDimGeoBtn').textContent;
+        o.labelsJa = chips().map((c) => c.textContent);
+        o.labelsOk = o.labelsJa.length === 5 && o.labelsJa[0] === HP.T('grpAll')
+          && [0, 1, 2, 3].every((k) => o.labelsJa[k + 1] === HP.T('ppGeo' + k) && o.labelsJa[k + 1].indexOf(String(k)) === 0);
+        o.row0 = rows();
+        o.got = [];
+        for (let k = 0; k < 4; k++) {
+          chips()[k + 1].click(); await wait(20);
+          o.got.push(rows());
+          const on = chips().filter((c) => c.dataset.on === '1').map((c) => c.textContent);
+          if (on.length !== 1 || on[0] !== HP.T('ppGeo' + k)) o.bad.push('on:' + k);
+          chips()[k + 1].click(); await wait(20);   // 再タップで「すべて」へ
+        }
+        o.exp = exp;
+        o.countsOk = o.got.every((n, k) => n === exp[k]);
+        o.partition = o.got.reduce((a, b) => a + b, 0) === visible.length;
+        o.back = rows() === o.row0 && ppGeo === 'all';
+        // AND ①: geoPN=1 ∧ 分類「現実較正(kF0)」
+        chips()[2].click(); await wait(20);
+        [...document.querySelectorAll('#ppModal .ppChip')].find((c) => c.textContent === HP.T('bdgSC_calibration_kf0')).click(); await wait(20);
+        o.and1 = { got: rows(), exp: visible.filter((p) => qb[p.id] === 1 && ppClassMatch(p, 'calibration:kf0')).length, only1: visible.filter((p) => qb[p.id] === 1).length };
+        ppClass = 'all'; ppGeo = 'all'; showPresetPicker(true); await wait(20);
+        // AND ②: geoPN=2 ∧ 検索「psr」
+        chips()[3].click(); await wait(20);
+        const si = document.getElementById('ppSearch'); si.value = 'psr'; si.dispatchEvent(new Event('input', { bubbles: true })); await wait(20);
+        const hit = (p) => { const q = 'psr'; const en = (p.en && p.en.name) || '';
+          return (p.name || '').toLowerCase().includes(q) || en.toLowerCase().includes(q) || String(p.id).toLowerCase().includes(q) || (p.emoji || '').includes(q); };
+        o.and2 = { got: rows(), exp: visible.filter((p) => qb[p.id] === 2 && hit(p)).length, only2: visible.filter((p) => qb[p.id] === 2).length };
+        o.andOk = o.and1.got === o.and1.exp && o.and1.exp < o.and1.only1 && o.and2.got === o.and2.exp && o.and2.exp > 0 && o.and2.exp < o.and2.only2;
+        ppSearch = ''; ppGeo = 'all'; showPresetPicker(true); await wait(20);
+        // ⓘ の説明(全内蔵の件数)
+        document.getElementById('ppDimGeoBtn').click(); await wait(20);
+        const note = document.getElementById('ppGeoNote');
+        o.noteOpen = !!note && !note.hidden && document.getElementById('ppDimGeoBtn').getAttribute('aria-expanded') === 'true';
+        o.noteOk = o.noteOpen && [0, 1, 2, 3].every((k) => note.textContent.includes(HP.T('ppGeo' + k) + '(' + o.nAll[k] + ')'));
+        document.getElementById('ppDimGeoBtn').click(); await wait(20);
+        // 画面内
+        const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
+        o.inView = box.left >= -0.5 && box.right <= innerWidth + 0.5
+          && chips().every((c) => { const q = c.getBoundingClientRect(); return q.left >= box.left - 0.5 && q.right <= box.right + 0.5 && q.width > 0; });
+        o.docX = document.documentElement.scrollWidth - innerWidth;
+        // en
+        hidePresetPicker(); HP.setLang('en'); showPresetPicker(); await wait(30);
+        o.labelsEn = chips().map((c) => c.textContent);
+        o.enOk = o.labelsEn.length === 5 && [0, 1, 2, 3].every((k) => o.labelsEn[k + 1] === HP.T('ppGeo' + k)) && o.labelsEn[1] !== o.labelsJa[1];
+        chips()[2].click(); await wait(20); o.enCount = rows(); chips()[2].click(); await wait(20);
+        o.enOk = o.enOk && o.enCount === exp[1];
+        hidePresetPicker(); HP.setLang('ja');
+        o.sigSame = builtins.map((p) => presetSig(p)).join('\u0001') === sig0;
+        o.parSame = JSON.stringify(HP.sim.params) === par0;
+        ppGeo = 'all'; ppClass = 'all'; ppSearch = '';
+        return o;
+      });
+      r.vp = vp.name; r.errs = errs.slice(0, 2);
+      r.ok = r.hasRow && r.bad.length === 0 && r.labelsOk && r.countsOk && r.partition && r.back && r.andOk && r.noteOk
+        && r.inView && r.docX <= 0 && r.enOk && r.sigSame && r.parSame && errs.length === 0;
+      gf.push(r);
+      await ctx.close();
+    }
+    const g0 = gf[0];
+    add('ui.pickerGeoFilter', gf.every((r) => r.ok),
+      `桶(全内蔵 ${g0.nAll && g0.nAll.reduce((a, b) => a + b, 0)} 本・受理器の geoMode から独立に引き直し = ppGeoBucketOf 全本一致): 0/1/2/3 = ${g0.nAll && g0.nAll.join('/')}` +
+      `(geoPN=2・kFrame=0 の互換入力は 1)/ ` + gf.map((r) => `${r.vp}: 「${r.dimLabel}」チップ [${(r.labelsJa || []).join('|')}]・行数 ${r.got && r.got.join('/')} = 期待 ${r.exp && r.exp.join('/')}` +
+        `(一覧 ${r.nVisible} 本の分割=${r.partition})・再タップで戻る=${r.back}・AND kF0 較正 ${r.and1 && r.and1.got}=${r.and1 && r.and1.exp}(<${r.and1 && r.and1.only1})` +
+        `・AND 検索 psr ${r.and2 && r.and2.got}=${r.and2 && r.and2.exp}(<${r.and2 && r.and2.only2})・ⓘ 件数=${r.noteOk}・画面内=${r.inView}・横はみ出し ${r.docX}` +
+        `・en [${(r.labelsEn || []).slice(1).join('|')}]=${r.enOk}・presetSig/params 不変=${r.sigSame}/${r.parSame}` +
+        `${r.bad.length ? '・NG ' + r.bad.slice(0, 4).join(' ') : ''}${r.errs.length ? '・JS ' + r.errs.join(' | ') : ''}`).join(' / '));
+
+    // ---- ui.searchClearBlur
+    const sb = [];
+    for (const vp of VPS) {
+      const { ctx, pg, errs } = await openVp(vp);
+      const st = () => pg.evaluate(() => ({ focus: document.activeElement === document.getElementById('ppSearch'),
+        open: !!document.getElementById('ppModal'), val: document.getElementById('ppSearch') ? document.getElementById('ppSearch').value : null,
+        rows: document.querySelectorAll('#ppList .ppRow').length }));
+      const tapOrClick = (sel) => (vp.mobile ? pg.tap(sel) : pg.click(sel));
+      const o = {};
+      await pg.evaluate(() => { ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; HP.loadPreset('saturn', false); });
+      await tapOrClick('#btnPresetPick'); await pg.waitForTimeout(60);
+      const r0 = (await st()).rows;
+      // ① ✕
+      await tapOrClick('#ppSearch'); await pg.waitForTimeout(60); await pg.keyboard.insertText('mars'); await pg.waitForTimeout(30);
+      const s1 = await st();
+      await tapOrClick('#ppSearchClear'); await pg.waitForTimeout(40);
+      const s2 = await st();
+      o.x = s1.focus && s1.val === 'mars' && s1.rows < r0 && s2.val === '' && !s2.focus && s2.open && s2.rows === r0;
+      // ② 文字があるときの Esc → 空・フォーカスなし・窓は開いたまま → もう一度 Esc で閉じる
+      await tapOrClick('#ppSearch'); await pg.waitForTimeout(60); await pg.keyboard.insertText('psr'); await pg.waitForTimeout(30);
+      await pg.keyboard.press('Escape'); await pg.waitForTimeout(40);
+      const s3 = await st();
+      await pg.keyboard.press('Escape'); await pg.waitForTimeout(40);
+      const s4 = await pg.evaluate(() => !!document.getElementById('ppModal'));
+      o.esc = s3.open && s3.val === '' && !s3.focus && s3.rows === r0 && !s4;
+      // ③ Backspace で空にしたとき
+      await tapOrClick('#btnPresetPick'); await pg.waitForTimeout(60);
+      // フォーカス時の全選択(第21便: focusin の次 tick で select())が済んでから打つ —— 済む前に打つと 'ab' が全選択され
+      // Backspace 1 回で空になる(実機の打鍵間隔では起きない試験の段取りの問題)
+      await tapOrClick('#ppSearch'); await pg.waitForTimeout(60); await pg.keyboard.insertText('ab'); await pg.waitForTimeout(20);
+      await pg.keyboard.press('Backspace'); await pg.waitForTimeout(20);
+      const s5 = await st();
+      await pg.keyboard.press('Backspace'); await pg.waitForTimeout(30);
+      const s6 = await st();
+      o.bs = s5.val === 'a' && s5.focus && s6.val === '' && !s6.focus && s6.open;
+      // ④ IME: 変換の取り消しで空 → フォーカスは残る / 確定 → 残る / 変換中の Esc → 何も変えない
+      const cdp = await ctx.newCDPSession(pg);
+      await tapOrClick('#ppSearch'); await pg.waitForTimeout(60);
+      await cdp.send('Input.imeSetComposition', { text: 'か', selectionStart: 1, selectionEnd: 1 });
+      await cdp.send('Input.imeSetComposition', { text: '', selectionStart: 0, selectionEnd: 0 });
+      await pg.waitForTimeout(30);
+      const s7 = await st();
+      await cdp.send('Input.imeSetComposition', { text: 'かせい', selectionStart: 3, selectionEnd: 3 });
+      await pg.evaluate(() => document.getElementById('ppSearch').dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', keyCode: 229, isComposing: true, bubbles: true })));
+      await pg.waitForTimeout(20);
+      const s8 = await st();
+      await cdp.send('Input.insertText', { text: '火星' });
+      await pg.waitForTimeout(30);
+      const s9 = await st();
+      o.ime = s7.focus && s7.val === '' && s8.open && s8.focus && s9.focus && s9.val === '火星' && s9.rows > 0 && s9.rows < r0;
+      // ⑤ 空のときの Esc は窓を閉じる(✕ で空にしてから)
+      await tapOrClick('#ppSearchClear'); await pg.waitForTimeout(30);
+      await tapOrClick('#ppSearch'); await pg.waitForTimeout(20);
+      await pg.keyboard.press('Escape'); await pg.waitForTimeout(30);
+      o.emptyEsc = !(await pg.evaluate(() => !!document.getElementById('ppModal')));
+      o.vp = vp.name; o.errs = errs.slice(0, 2);
+      o.ok = o.x && o.esc && o.bs && o.ime && o.emptyEsc && errs.length === 0;
+      o.dbg = [s1, s2, s3, s5, s6, s7, s8, s9].map((z) => (z.focus ? 'F' : '-') + (z.open ? 'O' : '-') + ':' + z.val).join(',');
+      sb.push(o);
+      await ctx.close();
+    }
+    add('ui.searchClearBlur', sb.every((o) => o.ok),
+      sb.map((o) => `${o.vp}: ✕→空・フォーカス外れ・行数が元へ=${o.x}・文字ありの Esc→空・フォーカス外れ・窓は残り 2 回目で閉じる=${o.esc}` +
+        `・Backspace 1 回はフォーカス残り 2 回目で空→外れる=${o.bs}・IME(取り消しで空/変換中の Esc/確定)でフォーカス残る=${o.ime}` +
+        `・空の Esc は窓を閉じる=${o.emptyEsc}${o.ok ? '' : '・状態 ' + o.dbg}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
+
+    // ---- ui.paramOrderDrag
+    const po = [];
+    for (const vp of VPS) {
+      const { ctx, pg, errs } = await openVp(vp);
+      const r = await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+        const o = { rows: [], bad: [] };
+        const keys = PARAM_DEFS.map((d) => d.key);
+        o.defsOk = keys[0] === 'D0' && keys.indexOf('geoPN') > keys.indexOf('gravityY') && keys.indexOf('geoPN') < keys.indexOf('kFrame');
+        for (const lg of ['ja', 'en']) {
+          HP.setLang(lg);
+          for (const id of ['galaxyMeshSpiral', 'mercury', 'psrDoubleAB']) {
+            HP.loadPreset(id, false);
+            const sig0 = presetSig(HP.currentPreset()), par0 = JSON.stringify(HP.sim.params);
+            document.querySelector('nav#tabs button[data-tab="params"]').click(); await wait(60);
+            const dg = [...document.querySelectorAll('#paramRows details')].find((d) => d.querySelector('summary').textContent.indexOf(HP.T('grpDrag')) >= 0);
+            if (!dg) { o.bad.push(lg + ':' + id + ':nocat'); continue; }
+            const kids = [...dg.querySelector('.group').children];
+            const lab = (el) => { const l = el.querySelector && el.querySelector('label'); return l ? l.textContent : ''; };
+            const lk = (k) => paramLabel(PARAM_DEFS.find((z) => z.key === k));
+            const want = [(e) => lab(e).indexOf(lk('geoPN')) === 0, (e) => e.id === 'geoToySaveNote', (e) => lab(e).indexOf(lk('D0')) === 0,
+              (e) => e.id === 'bgcPanel', (e) => e.querySelector && !!e.querySelector('#qLockCb'), (e) => lab(e).indexOf(lk('q')) === 0,
+              (e) => lab(e).indexOf(lk('kFrame')) === 0, (e) => lab(e).indexOf(lk('lambdaPN')) === 0, (e) => lab(e).indexOf(lk('pnAlpha')) === 0];
+            const seq = kids.filter((e) => !(e.classList && e.classList.contains('pdesc')));
+            const okSeq = seq.length === want.length && want.every((f, i) => f(seq[i]));
+            if (!okSeq) o.bad.push(lg + ':' + id + ':' + seq.map((e) => e.id || lab(e).slice(0, 8)).join('>'));
+            o.rows.push(lg + ':' + id + '=' + okSeq);
+            if (presetSig(HP.currentPreset()) !== sig0 || JSON.stringify(HP.sim.params) !== par0) o.bad.push(lg + ':' + id + ':changed');
+            o.first = o.first || lab(seq[0]);
+          }
+        }
+        HP.setLang('ja');
+        return o;
+      });
+      r.vp = vp.name; r.errs = errs.slice(0, 2);
+      r.ok = r.defsOk && r.bad.length === 0 && r.rows.length === 6 && errs.length === 0;
+      po.push(r);
+      await ctx.close();
+    }
+    add('ui.paramOrderDrag', po.every((r) => r.ok),
+      `「引きずり・測地線」の並び geoPN → 保存非対称の注記 → D₀ → 背景複素決定力の欄 → qLock → q → kFrame → λ_PN → α(先頭「${po[0].first}」)/ ` +
+      po.map((r) => `${r.vp}: ${r.rows.filter((z) => /true$/.test(z)).length}/${r.rows.length}(🎠☿🩻 × ja/en)・PARAM_DEFS の配列順は不変=${r.defsOk}` +
+        `${r.bad.length ? '・NG ' + r.bad.slice(0, 3).join(' ; ') : ''}${r.errs.length ? '・JS ' + r.errs.join(' | ') : ''}`).join(' / ') + ' ・タブを開いても params/presetSig 不変');
   }
 }
 
@@ -47754,7 +48005,14 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         while (n && !n.classList.contains('prow')) n = n.nextElementSibling; return n; };
       const lab0 = (el) => { const l = el && el.querySelector('label'); return l ? l.textContent : ''; };
       const geoRow = rows[li('測地線モード')], clRow = rows[li('相似変換連動')];
-      out.kfAfterGeo = !!geoRow && lab0(nextProw(geoRow)).startsWith('空間引きずり');
+      // 第284便d(原仮定者の裁定(第74報)⑦「『測地線モード geoPN』を『引きずり・測地線』の先頭に移動」): 世代で期待を分ける ——
+      // ppGeoBucketOf のある html は geoPN 行がカテゴリ先頭(次の行は D₀)で、kFrame は「引きずり減衰 q」の次(詳細は ui.paramOrderDrag)。
+      // root 等の旧世代は従来どおり kFrame が geoPN の次
+      out.w284d = typeof ppGeoBucketOf === 'function';
+      const qRow = rows[li('引きずり減衰')];
+      out.kfAfterGeo = out.w284d
+        ? (!!geoRow && lab0(nextProw(geoRow)).startsWith('背景決定力') && !!qRow && lab0(nextProw(qRow)).startsWith('空間引きずり'))
+        : (!!geoRow && lab0(nextProw(geoRow)).startsWith('空間引きずり'));
       out.clinkBeforeC = !!clRow && lab0(nextProw(clRow)).startsWith('光速');
       // ④ κ 編集正準化: 時空係数行のラベルが κ・表示値=κ(第128便: 内部保持も κ 正準)
       const kapNow = () => (typeof HP.sim.params.kappaT === 'number')
@@ -47781,7 +48039,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     add('wave124.ui',
       r.qlRow && r.qlBeforeQ && r.qReapplied && r.kfAfterGeo && r.clinkBeforeC
       && r.kappaLabel && r.kappaShown && r.kappaKey && r.saveKeys,
-      `qLock行=${r.qlRow}(qの直前=${r.qlBeforeQ})再適用=${r.qReapplied} / 並び kFrame=${r.kfAfterGeo}・cLink=${r.clinkBeforeC} / ` +
+      `qLock行=${r.qlRow}(qの直前=${r.qlBeforeQ})再適用=${r.qReapplied} / 並び kFrame=${r.kfAfterGeo}${r.w284d ? '(第284便d: geoPN→D₀・q→kFrame)' : ''}・cLink=${r.clinkBeforeC} / ` +
       `κ編集=${r.kappaLabel}&${r.kappaShown}・kappaT受理=${r.kappaKey}・セーブ記録=${r.saveKeys}`);
   } else {
     console.log('SKIP wave124.ui(第124便 未適用 — root 等)');
