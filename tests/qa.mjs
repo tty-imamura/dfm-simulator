@@ -5955,7 +5955,8 @@ if (QA_CHANGED) {
       if (nUnit < 0 || nSame < 0) bad.push('③adoptedCensus.mismatch の 2 分類が無い');
       // 第284便b(原仮定者の裁定(第74報)⑤・AN24′): ⚡ psrDoubleABDFM の f=1 署名で近点移動の採用解の行(単位違い 1 件)が
       //   採用解の列から外れた(近点 3 個の停止規則で未測定・未判定)—— 単位違い 16→15・合計 23→22(root の旧則は 16/23 のまま)
-      const W284U = /\{ id:"psrDoubleABDFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+      //   (正本は beta の世代で 1 つなので、root の走行でも html ではなく**正本の ⚡ の行**で世代を判る —— 旧則の正本なら近点移動に adopted がある)
+      const W284U = !(((C.presets || []).find((z) => z.id === 'psrDoubleABDFM') || {}).quantities || []).some((q) => q.kind === 'precession' && q.adopted);
       const wantUnit = W284U ? 15 : 16, wantTotal = W284U ? 22 : 23;
       if (nUnit + nSame !== wantTotal)
         bad.push(`③単位違い ${nUnit} + 同単位差 ${nSame} が第271便a の 23 件${W284U ? '(第284便b で ⚡ の近点移動 1 件が外れて 22 件)' : ''}と合わない`);
