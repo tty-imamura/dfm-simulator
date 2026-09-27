@@ -81,8 +81,11 @@ const add = (id, pass, detail) => {
 // (qa-results-full*.json)は書かない**(件数の揃わない走行で上書きしない)。
 const W5_ORDER = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs'));
 let qaReplay = null;
+let qaChanged = null;   // 第284便f: ③ 変更に依存する短い試験(下)
+// 第284便f: 子プロセスの結果名は QA_CHILD_TAG(既定 replay —— ③ 変更に依存する短い試験は changed)
+const QA_CHILD_TAG = /^[a-z]+$/.test(process.env.QA_CHILD_TAG || '') ? process.env.QA_CHILD_TAG : 'replay';
 const qaOutNames = () => (QA_REPLAY_CHILD
-  ? [TARGET.startsWith('beta/') ? 'qa-replay-beta.json' : 'qa-replay.json']
+  ? [TARGET.startsWith('beta/') ? `qa-${QA_CHILD_TAG}-beta.json` : `qa-${QA_CHILD_TAG}.json`]
   : (TARGET.startsWith('beta/') ? ['qa-results.json', 'qa-results-beta.json'] : ['qa-results.json']));
 function qaWriteAborted(phase, reason) {
   let commit0 = 'unknown';
@@ -93,7 +96,7 @@ function qaWriteAborted(phase, reason) {
   const out = JSON.stringify({ commit: commit0, date: new Date().toISOString(), fast: FAST, tier: QA_TIER, target: TARGET,
     targetSha256: sha0, total: rs.length, failed: rs.filter((r) => !r.pass).length, pass: false,
     aborted: { phase, reason: String(reason).slice(0, 2000) }, wallDurationMs: Date.now() - QA_T0,
-    replay: qaReplay, results: rs }, null, 1);
+    replay: qaReplay, changed: qaChanged, results: rs }, null, 1);
   fs.mkdirSync(OUT_DIR, { recursive: true });
   for (const f of qaOutNames()) fs.writeFileSync(path.join(OUT_DIR, f), out);
   console.log(`\nABORTED (${phase}) → ${qaOutNames().map((f) => 'tests/out/' + f).join(' + ')}: ${String(reason).slice(0, 300)}`);
@@ -144,6 +147,54 @@ if (QA_REPLAY_FAIL) {
   if (QA_BAIL && (qaReplay.failed || (qaReplay.exit !== null && qaReplay.exit !== 0))) {
     for (const id of qaReplay.failedNow) results.push({ id, pass: false, detail: '先行再実行(QA_REPLAY_FAIL)で FAIL — tests/out/qa-replay*.json', ms: 0 });
     qaWriteAborted('replay-bail', `QA_BAIL=1: 前回 FAIL の先行再実行で ${qaReplay.failed} 件 FAIL(本走行へ進まない)`);
+    process.exit(1);
+  }
+}
+
+// ==== 第284便f(原仮定者の裁定(第74報)⑥・統括の検証項目 R94): ③ **変更に依存する短い試験を先に**(QA_CHANGED) ====
+// 基点(QA_CHANGED_BASE —— 既定は origin/main との merge-base)との差分で変わったファイルを**本文で名指しする**試験の文のうち、
+// 長走行でない(W5b/W5c のプールでない・マニフェストの想定所要 < 30 s)ものを、②と同じ仕組みで別プロセスで先に走らせる。
+// **本走行はその後に全件**(試験は 1 つも減らさない・窓も短くしない)。既定: ローカル ON・CI OFF。QA_BAIL=1 なら FAIL で止まる。
+// 結果は tests/out/qa-changed[-beta].json。順序の全体(① preflight → ② 前回 FAIL → ③ 本段 → ④ 本走行 → ⑤ 最終ゲート)は
+// tests/lib-w284f-qastage.mjs と薄いランナー tools/qa-staged.mjs。
+const QA_CHANGED = !QA_REPLAY_CHILD && (process.env.QA_CHANGED !== undefined ? process.env.QA_CHANGED === '1' : !process.env.CI);
+if (QA_CHANGED) {
+  const t0 = Date.now();
+  const QS = await import('file://' + path.join(ROOT, 'tests', 'lib-w284f-qastage.mjs'));
+  const src = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+  const units = W5_ORDER.splitTopLevel(src);
+  const ch = QS.changedFiles({ root: ROOT, base: process.env.QA_CHANGED_BASE || null });
+  const toks = QS.changeTokens(ch.files);
+  let man = [];
+  try { man = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'qa-manifest.json'), 'utf8')).units || []; } catch {}
+  const already = new Set(((qaReplay && qaReplay.units) || []).map((z) => Number(String(z).split('-')[0])));
+  const pick = QS.unitsForChanged(units.filter(W5_ORDER.isTestUnit), toks, { unitIds: W5_ORDER.unitIds, classifyUnit: W5_ORDER.classifyUnit,
+    manifestUnits: man, beta: TARGET.startsWith('beta/'), exclude: already });
+  qaChanged = { enabled: true, version: QS.QA_STAGE_VERSION, base: ch.base, files: ch.files.length, tokens: toks,
+    units: pick.selected.map((z) => `${z.u.l0}-${z.u.l1}`), long: pick.long.length, capped: pick.capped.length,
+    expectedMs: pick.expectedMs, exit: null, total: 0, failed: 0, failedNow: [], ms: 0 };
+  console.log(`[CHANGED] 基点 ${String(ch.base).slice(0, 12)} との差 ${ch.files.length} ファイル(鍵 ${toks.length})→ 短い試験 ${pick.selected.length} 文を先に`
+    + `(長走行 ${pick.long.length} 文と上限超え ${pick.capped.length} 文は本走行で)`);
+  if (pick.selected.length) {
+    const tmp = path.join(ROOT, 'tests', `.qa-changed-${process.pid}.mjs`);
+    fs.writeFileSync(tmp, W5_ORDER.buildReplaySource(src, units, pick.selected.map((z) => z.u)));
+    const { spawnSync } = await import('node:child_process');
+    const r = spawnSync(process.execPath, [tmp], { stdio: 'inherit',
+      env: { ...process.env, QA_REPLAY_CHILD: '1', QA_CHILD_TAG: 'changed', QA_SERIAL: '1', QA_CACHE: '0', QA_REPLAY_FAIL: '0', QA_CHANGED: '0' } });
+    try { fs.unlinkSync(tmp); } catch {}
+    qaChanged.exit = r.status;
+    let rj = null;
+    try { rj = JSON.parse(fs.readFileSync(path.join(OUT_DIR, TARGET.startsWith('beta/') ? 'qa-changed-beta.json' : 'qa-changed.json'), 'utf8')); } catch {}
+    if (rj) { qaChanged.total = rj.total; qaChanged.failed = rj.failed; qaChanged.failedNow = rj.results.filter((z) => !z.pass).map((z) => z.id); }
+    else { qaChanged.failed = 1; qaChanged.failedNow = ['(変更依存の先行実行の結果 JSON が無い)']; }
+  }
+  qaChanged.ms = Date.now() - t0;
+  if (qaChanged.units.length)
+    console.log(`[CHANGED] 先行実行: ${qaChanged.total - qaChanged.failed}/${qaChanged.total} PASS・${(qaChanged.ms / 1000).toFixed(1)}s`
+      + (qaChanged.failed ? ` — FAIL: ${qaChanged.failedNow.slice(0, 6).join(' ')}` : ''));
+  if (QA_BAIL && (qaChanged.failed || (qaChanged.exit !== null && qaChanged.exit !== 0))) {
+    for (const id of qaChanged.failedNow) results.push({ id, pass: false, detail: '変更依存の先行実行(QA_CHANGED)で FAIL — tests/out/qa-changed*.json', ms: 0 });
+    qaWriteAborted('changed-bail', `QA_BAIL=1: 変更に依存する短い試験で ${qaChanged.failed} 件 FAIL(本走行へ進まない)`);
     process.exit(1);
   }
 }
@@ -2696,9 +2747,19 @@ if (QA_REPLAY_FAIL) {
 // ----     (e) 今の計画(planRegen の実物)→ 鎖 → 同じ照合 + 走る段の下流がすべて鎖にある(依存の閉包)。
 // ----     (f) stub の表(5 段)で生成したシェルを bash で走らせる: 必須の環境変数が無ければ走らせる前に止まる・失敗した波で止まり後段を
 // ----         走らせない(rc 1・ログ名 `<波>-<段>.log`・`.rc`)・済み印で再開して完走する。
-// ----     (g) 第284便c(原仮定者の裁定(第74報)AN43): 一時 root の 2 段の表(`an43Probe`)で、読み手の自分の判定(鎖の `--gate` と同じ
+// ----     (m) 第284便c(原仮定者の裁定(第74報)AN43): 一時 root の 2 段の表(`an43Probe`)で、読み手の自分の判定(鎖の `--gate` と同じ
 // ----         `planRegen`)が「刻印の Pointer = 今の宣言 → reuse・実行時刻だけの再走 → reuse」「**バイト sha が同じでも**刻印の Pointer ⊊ 今の宣言・
 // ----         方式の版なし・随伴の行の Pointer 違い・随伴の行なし → regen(原因の列に「安定 hash の宣言」)」になる。表の版 w284c-regentable-4。
+// ----   第284便f(原仮定者の裁定(第74報)⑥・統括の検証項目 R94)で足した 5 つ:
+// ----     (g) 全段 regen の鎖の **ready queue の模擬**(表の実測秒・レーン 4): 順序違反・書込の重なり・worker 予算の超過 0・全段が済む・
+// ----         波の型の見積り以下・同じファイルを書く段(calaudit→dt3→kf0・charon h→h2→h4)が重ならない・exclusive の段(samplestatus
+// ----         —— html を書く)が単独で走る。照合器が合成の違反(入力より先・書込の重なり・予算超過)を**検出する**。
+// ----     (h) stub の鎖を bash で(レーン 3): 同じファイルを書く 2 段が重ならない・worker 2 の段を含めて予算を超えない・波の境を待たない・
+// ----         済み印の 2 行目が鎖の契約。(i) **済み印の契約**: 1 段の cmd を変えた鎖で、その段と下流だけが走り直す(旧印は .stale)・
+// ----         契約の無い済み印(第283便e の touch の形)は済みと見なさない。
+// ----     (j) 較正走行のプリセット分割の純関数(tests/lib-w284f-calshard.mjs —— 引数・構造化複製・合流の照合・LPT・差の分類)。
+// ----     (k) QA の確認順の段(tests/lib-w284f-qastage.mjs —— 変更に依存する短い試験の選び方)と、器 tools/calaudit-split.mjs・
+// ----         tools/qa-staged.mjs・tests/exp-w284f-splitcheck.mjs がある。
 // ----   **beta 線の正本なので root は SKIP** する。
 {
   const bad = [];
@@ -2710,11 +2771,34 @@ if (QA_REPLAY_FAIL) {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w283e-chain-'));
     try {
       const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
-      if (RT.REGEN_TABLE_VERSION !== 'w284c-regentable-4') bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION);
-      if (!fs.existsSync(path.join(ROOT, 'tools', 'regen-chain.mjs'))) bad.push('tools/regen-chain.mjs が無い');
+      if (RT.REGEN_TABLE_VERSION !== 'w284-regentable-5') bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION);
+      for (const f of ['tools/regen-chain.mjs', 'tools/calaudit-split.mjs', 'tools/qa-staged.mjs', 'tests/exp-w284f-splitcheck.mjs'])
+        if (!fs.existsSync(path.join(ROOT, f))) bad.push(f + ' が無い');
       const plan = RT.planRegen({ root: ROOT, html: path.join(ROOT, 'beta', 'index.html') });
       const r = await RT.regenChainSelfTest({ root: ROOT, tmpDir: tmp, plan });
-      for (const k of ['a', 'b', 'c', 'd', 'e', 'f']) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
+      for (const k of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
+      const CS = await import('file://' + path.join(ROOT, 'tests', 'lib-w284f-calshard.mjs'));
+      const j = CS.calShardSelfTest();
+      if (!j.ok) bad.push('(j) ' + JSON.stringify(j).slice(0, 160));
+      const QS = await import('file://' + path.join(ROOT, 'tests', 'lib-w284f-qastage.mjs'));
+      const QO = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-qaorder.mjs'));
+      const k = QS.qaStageSelfTest(QO);
+      if (!k.ok) bad.push('(k) ' + JSON.stringify(k).slice(0, 160));
+      // (l) 表で分割にした段(cmd が tools/calaudit-split.mjs)は、同じ引数の直列と分割の照合が ok の実測記録を持つ(同一でなければ採らない)
+      let ev = null;
+      try { ev = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w284f-calsplit.json'), 'utf8')); } catch { ev = null; }
+      const splitSteps = RT.REGEN_STEPS.filter((z) => z.role !== 'history' && z.cmd.indexOf('tools/calaudit-split.mjs') >= 0);
+      const lRows = splitSteps.map((z) => {
+        const am = z.cmd.match(/ --(?: (.*))?$/);
+        const args = am && am[1] ? am[1].trim().split(/\s+/) : [];
+        const hit = ev && (ev.runs || []).find((r) => JSON.stringify(r.calArgs) === JSON.stringify(args));
+        const kk = Number((z.cmd.match(/--k (\d+)/) || [])[1]);
+        if (!hit || hit.ok !== true) bad.push(`(l) ${z.key} は分割だが同じ引数の同一性の実測記録が無い(tests/data-w284f-calsplit.json)`);
+        if (z.cmd.indexOf('--harness tests/exp-w249b-calaudit.mjs') < 0) bad.push(`(l) ${z.key} の cmd に器の名前が無い`);
+        if ((z.workers || 1) !== kk) bad.push(`(l) ${z.key} の workers ${z.workers} ≠ 分割数 ${kk}`);
+        return `${z.key}(k ${kk}・workers ${z.workers}・記録 ${hit ? hit.name + ' ok ' + hit.ok : 'なし'})`;
+      });
+      cases.push(`(l) 分割の段 ${lRows.join('・') || 'なし'}`);
       cases.push(`(a) 今の表: 入力の書き手の欠け ${r.a.missing}・書き手の並列 ${r.a.unordered}・循環 ${r.a.cycles}`);
       cases.push(`(b) 第282便の型の表で検出した欠け ${r.b.n} 件(${r.b.detected.join('・')})`);
       cases.push(`(c) 第282便の型の列で 順序違反 ${r.c.order.join(', ')} / 無駄な先走り ${r.c.wasted.join(', ')}`);
@@ -2725,13 +2809,18 @@ if (QA_REPLAY_FAIL) {
       const tmp43 = fs.mkdtempSync(path.join(os.tmpdir(), 'w284c-an43-'));
       try {
         const g = RT.an43Probe({ tmpDir: tmp43 });
-        if (!g.ok) bad.push('(g) AN43: ' + JSON.stringify(Object.fromEntries(Object.entries(g.cases).map(([k, v]) => [k, v.status]))));
-        cases.push('(g) AN43: ' + Object.entries(g.cases).map(([k, v]) => k + ' → ' + v.status).join('・') + '(バイト sha が同じでも刻印の宣言が今の宣言と違えば regen)');
+        if (!g.ok) bad.push('(m) AN43: ' + JSON.stringify(Object.fromEntries(Object.entries(g.cases).map(([k, v]) => [k, v.status]))));
+        cases.push('(m) AN43: ' + Object.entries(g.cases).map(([k, v]) => k + ' → ' + v.status).join('・') + '(バイト sha が同じでも刻印の宣言が今の宣言と違えば regen)');
       } finally { fs.rmSync(tmp43, { recursive: true, force: true }); }
+      cases.push(`(g) ready queue の模擬 ${r.g.steps} 段(未了 ${r.g.pending})・見積り ${r.g.makespan} s(波の型 ${r.g.waveMakespan} s)・順序違反 ${r.g.order}・書込の重なり ${r.g.writes}・予算超過 ${r.g.budget}・同じファイルの書き手 ${r.g.sharedWriters.join(' / ')}・単独 ${r.g.exclusive.join(',')} ${r.g.exclusiveAlone}・合成の違反の検出 ${JSON.stringify(r.g.detect)}`);
+      cases.push(`(h) stub の鎖(レーン 3): rc ${r.h.rc}・時系列 ${r.h.events} 段・順序違反 ${r.h.order}・書込の重なり ${r.h.writes}(同じファイルの 2 段が直列 ${r.h.serialF})・予算超過 ${r.h.budget}・波の境を待たない ${r.h.noWaveBarrier}・済み印の契約 ${r.h.marksOk}`);
+      cases.push(`(i) 済み印の契約: 変えた段の契約 ${r.i.changed.join(',')} → 走り直した ${r.i.reran.join(',')}・旧印 ${r.i.stale.join(',')}・契約の無い印は走り直す ${r.i.bareMarkRerun}`);
+      cases.push(`(j) 分割の純関数 ${Object.keys(j).filter((z) => z !== 'ok').map((z) => z + ' ' + j[z].ok).join('・')}`);
+      cases.push(`(k) 確認順の段: 鍵 ${k.tokens.join(',')} → 先に走る文 ${k.selected.join(',')}・長走行は本走行へ ${k.long.join(',')}`);
     } catch (e) { bad.push('鎖の器が読めない: ' + String(e).slice(0, 160)); }
     finally { fs.rmSync(tmp, { recursive: true, force: true }); }
     add('lint.regenChain', bad.length === 0,
-      `**再生成の鎖の機械生成**(第283便e・原仮定者の裁定(第73報)⑤・統括の検証項目 R88): ${cases.join(' / ')} —— `
+      `**再生成の鎖の機械生成**(第283便e・原仮定者の裁定(第73報)⑤・統括の検証項目 R88)と **ready queue・書込排他・済み印の契約・分割**(第284便f・第74報⑥・R94): ${cases.join(' / ')} —— `
       + `鎖に入った段の**下流はすべて**鎖に入り、上流の後に置かれて自分の判定(対象・コード・入力〔安定 hash〕)を引き直す(gate)。`
       + `**鎖が表の依存を守ることは「結果が正しい」ことの保証ではない**(meta.inputs[] と after に無い読み込みは辿れない)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
@@ -56608,7 +56697,7 @@ const QA_OUT = JSON.stringify({
   durationMs: results.reduce((a, r) => a + (r.ms || 0), 0),  // 第17便: 項目別 ms の合計
   // 第279便b: `ms`(直前の add() からの経過)は互換のため従来どおり。実際の壁時計は wallDurationMs、
   // 並列ユニット/ブロックの実行時間は unitTimings(where=worker/main/main(stolen)・runMs・mainWaitMs)
-  wallDurationMs: Date.now() - QA_T0, tier: QA_TIER, replay: qaReplay, unitTimings: qaUnitTimings,
+  wallDurationMs: Date.now() - QA_T0, tier: QA_TIER, replay: qaReplay, changed: qaChanged, unitTimings: qaUnitTimings,
   w5: { workers: w5Pool ? W5C_NW : 0, nice: W5_NICE, renicedRenderers: w5Reniced.size },
   // 第251便b: 指紋キャッシュで再実行を省いた項目(cached=0 なら従来どおりの全実行)
   cache: { enabled: FP_ON, refresh: QA_REFRESH, cached: fpCachedIds.slice(),

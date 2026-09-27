@@ -43,6 +43,23 @@
 //     (済み印で再開・rc≠0 で止まる・ログ名 `<波>-<段>.log`)。閉包で入った後段は**上流が走った後に自分の判定を引き直す**
 //     (`--gate` —— 自分の対象・コード・入力〔安定 hash〕が一致すれば再利用)。`tools/regen-chain.mjs` が CLI。
 //
+// ■ 第284便f(原仮定者の裁定(第74報)⑥「まだ時間が長いので改善する・並列実行を検討する」・統括の検証項目 R94)—— **並列化の規約**
+//   ・**ready queue**: 鎖のランナー(`chainShell`)は波全体の完了を待たない。依存(鎖の中)が済んだ段から、優先度(自分から下流の端までの
+//     実測秒の最長路 —— `chainPriority`)の順に空きレーンへ入れる。波の番号はログ名 `<波>-<段>.log` と表示にだけ残す。
+//   ・**書込排他**: 書くファイル(`writesOf` = outs + merges)が重なる段は同時に走らせない(ランナーは排他の鍵・表は after の全順序 ——
+//     `tableDepsAudit` ②・模擬 `simulateReadyQueue`・実走の時系列 `checkTimeline`)。outs の外を書く段は `touches` に書き、
+//     ほぼ全段が読むファイル(beta/index.html —— samplestatus)を書く段は `exclusive:true`(レーンを全部取る = 単独で走る)。
+//   ・**共有 worker 予算**: 段の `workers`(既定 1)ぶんのレーンを取る。段の中で並列に走る器(較正走行の分割 tools/calaudit-split.mjs は
+//     分割数)は workers に分割数を書く —— 再生成のレーン × 段の中の並列 × QA を重ねない(QA は鎖の外・鎖の後に 1 本)。
+//   ・**済み印の契約**(`chainContracts`・版 CHAIN_CONTRACT_VERSION): policy(表の版・段・mode・cmd・env の名前・書くファイル・workers)・
+//     code(cmd の器と正本の meta.code[] の現行 sha)・input(計画の対象 html の sha と鎖の中の上流の契約)の sha256。**同じ契約の
+//     済み印だけ**を再開で済みと見なす(違う印は .stale へ退けて走らせ直す)。便をまたぐ済み印は契約が違うので自動で無効になる。
+//   ・**刻印の Pointer ≠ 今の宣言 → regen**(AN43 —— `planRegen` の入力の照合。`--gate` も同じ判定を引く)。
+//   ・**較正走行の分割**: `--shard-*`(tests/exp-w249b-calaudit.mjs)と tools/calaudit-split.mjs。分割した正本が直列と**ビット同一**
+//     (安定 hash 一致・除外 Pointer の外の差 0 —— tests/exp-w284f-splitcheck.mjs)であることを実測した段だけ cmd を分割にする
+//     (同一でなければ採らない)。cmd には器の名前(`--harness tests/exp-w249b-calaudit.mjs`)を残す(samplestatus・families が cmd の
+//     器の名前で段を引く)。
+//
 // ■ しないこと: 走らせない・判定しない(表と、表を読む計画の純関数だけ)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
@@ -55,7 +72,7 @@ import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha 
 //     (入力のバイト sha が刻印と同じでも)その段を regen にする。随伴ファイルの行も同じ(`stampedDeclDrift`)。
 //     第283便e の `lint.stableHashPaths` ⑤ は「旧宣言 ⊊ 今の宣言」を**照合の上では**通す(刻印の Pointer で照合するので除きすぎにならない)が、
 //     再生成の計画では「今の宣言で刻み直す」ために走らせ直す(`an43Probe` —— QA `lint.regenChain` (g))。
-export const REGEN_TABLE_VERSION = 'w284c-regentable-4';
+export const REGEN_TABLE_VERSION = 'w284-regentable-5';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
@@ -101,23 +118,28 @@ export const REGEN_STEPS = [
   S('nslock', 'node tests/exp-w272c-nslock.mjs', ['tests/out/nslock-w272c.json'], 688, { secSource: 'w281a-chain' }),
   S('plutostates', 'node tests/exp-w277a-plutostates.mjs', ['tests/out/plutostates-w277a.json'], 1),
   // ---- 常時群(calaudit 系と署名の後段): 領域が一致しても**毎回走らせる**
-  S('calaudit', 'node tests/exp-w249b-calaudit.mjs', ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'], 3724, { alwaysRun: true,
+  // 第284便f(R94): ① 通常走行は**プリセット分割**(2 分割 —— 重い 4 本は 2 本ずつ別の分割へ)。分割した ①・dt3・kf0 の鎖で作った正本が
+  //   直列の鎖の正本(2a4af53)と、物理欄を含めて一致することを第284便f で実測(除外 Pointer・測定コードの sha・壁時計から作る未宣言の欄
+  //   〔budgetHit・diag の h4Store の壁時計と時刻〕の外の差 0 —— tests/data-w284f-calsplit.json)。静かな容器で ① 1411 s(各本の壁時計の和 2629 s)。
+  //   重い本は 1 段 500〜830 s・壁時計の資源上限 900 s —— **容器が他の走行で混んでいるときは分割しても資源上限に当たりうる**(workers = 分割数)
+  S('calaudit', 'node tools/calaudit-split.mjs --k 2 --harness tests/exp-w249b-calaudit.mjs --', ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'], 3724, { alwaysRun: true, workers: 2,
     volatilePaths: { 'tests/out/calaudit-w249.json': V_CALAUDIT.concat(V_CALAUDIT_META), 'tests/out/calaudit-w249-diag.json': V_CALAUDIT_DIAG } }),
   // 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (ii)(iii)): 常時の dt3 段から `--dt8-registry` を外した(h/8 は明示診断の
   //   入口だけ —— `--dt8-registry` 単独)。dt/4 は前回の正本の同じ契約の h4 を転記する(`--no-h4-reuse` で切る)。
   //   **sec は旧値(第280便の chain の実測 —— dt/8 込み)のまま**:再測定するまで書き換えない(dt/8 の段の和は第282便の正本で 544 s)
   // 第283便e: dt3・kf0 は --merge で calaudit の 2 ファイルを書き戻す(merges —— 読む段はこの 2 段の後に置く)
+  // 第284便f(R94): dt3・kf0 は**プリセット分割**(2 分割・tools/calaudit-split.mjs)。直列と分割の正本の同一性は第284便f で実測(dt3 472→313 s・kf0 89→60 s・安定 hash 一致・除外 Pointer の外の差 0)。統合時に第284便c の旗(--h4-exceptions / --kf0-h4-exceptions)と合成した
   // 第284便c(原仮定者の裁定(第74報)⑥・AN33・R93): **dt/4 を常時から外した** —— 3 段は例外の登録簿(tests/lib-w283c-calstages.mjs の
   //   H4_EXCEPTIONS)の main の本だけ(`--h4-exceptions`)。登録表の全本の 3 段は明示診断(`--dt4-registry --merge` 単独 —— 鎖に入れない)。
   //   dt/2 は同一便の再走で転記(H2_REUSE_RULE —— ① 通常走行が直前に同じ html で h/2 を置くので、この段の h/2 は転記になる)。
   //   sec は第284便c の枝の実測(一時ファイルへの同じ段 —— 4 コアを他の枝と共有した容器): dt3 112 s(例外 3 本・h/2 は直前の ① から転記・
   //   h/4 は新規〔契約の版を上げたので初回は再取得〕)/ kf0 171 s(5 本の h・h/2 と ❄️ の h/4 をすべて新規 —— --no-h2-reuse --no-h4-reuse。
   //   同一便の再走で h/2 を転記した走行は 139 s)
-  S('dt3', 'node tests/exp-w249b-calaudit.mjs --h4-exceptions --merge', [], 112, { alwaysRun: true, after: ['calaudit'], secSource: 'w284c-run',
-    merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'],
+  S('dt3', 'node tools/calaudit-split.mjs --k 2 --harness tests/exp-w249b-calaudit.mjs -- --h4-exceptions --merge', [], 112, { alwaysRun: true, after: ['calaudit'], secSource: 'w284c-run',
+    merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'], workers: 2,   // 第284便f: プリセット 2 分割(統合時に c の旗と合成)
     note: '第284便c: h/4 は例外の登録簿の本だけ(--h4-exceptions)・同一契約の h4 は転記・h/2 は同一便の再走で転記。旧 --dt3-registry(登録表の全本)は明示診断 --dt4-registry' }),
-  S('kf0', 'node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-h4-exceptions --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge', ['tests/out/kf0-w259d.json'], 171, { alwaysRun: true, after: ['dt3'], secSource: 'w284c-run',
-    merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'],
+  S('kf0', 'node tools/calaudit-split.mjs --k 2 --harness tests/exp-w249b-calaudit.mjs -- --kf0-runs --kf0-only --kf0-h4-exceptions --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge', ['tests/out/kf0-w259d.json'], 171, { alwaysRun: true, after: ['dt3'], secSource: 'w284c-run',
+    merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'], workers: 2,   // 第284便f: プリセット 2 分割(統合時に c の旗と合成)
     note: '第284便c: kF0 の診断コピーの h/4 は例外の登録簿の kf0 の本(plutoCharonReal)だけ(--kf0-h4-exceptions)。5 本すべての h/4 は明示診断 --kf0-dt3' }),
   S('solarsigma', 'node tests/exp-w262d-solarsigma.mjs', ['tests/out/solarsigma-w262d.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   S('stoprule', 'node tests/exp-w270a-stoprule.mjs', ['tests/out/stoprule-w270a.json'], 0, { alwaysRun: true, after: ['kf0'] }),
@@ -221,7 +243,10 @@ export const REGEN_STEPS = [
     note: '第282便a: html の CAL_CONTRACT と内蔵 140 本の宣言・calaudit の旧 4 値の区分を読む(判定は変えない)。kf0ledger 旧/新がこの正本の fEffective を読む' }),
   S('fmigration', 'node tests/exp-w282a-fmigration.mjs', ['tests/out/fmigration-w282a.json'], 391, { role: 'history', secSource: 'w282a-branch', env: { W282A_BASE_REV: '基点(既定 8b05232 —— git show で一時ファイルを作り終了後に削除)' },
     note: '第282便a: ✴️💫 の f=1 移行の前後(基点 8b05232 と移行後の html に判定器を --only --dt3 で 2 回)。**再生成しない**(計画は常に「履歴」)' }),
-  S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin'] }),
+  // 第284便f: samplestatus は beta/index.html の生成領域と docs/SAMPLE_STATUS を**書く**(outs の外)。html はほぼ全段が読むので、
+  //   鎖の中では**単独**で走らせる(exclusive —— ready queue はレーンを全部取り、走行中の段が無いときだけ入れる)
+  S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin'],
+    exclusive: true, touches: ['beta/index.html', 'docs/SAMPLE_STATUS_v1.45.md'] }),
   S('mercury', 'node tests/exp-w280a-mercury.mjs', ['tests/out/mercury-w280a.json'], 284, { secSource: 'w281a-chain', alwaysRun: true, after: ['kf0'] }),
   // ---- 第282便c の新しい正本(html だけを読む・他の正本を読まない —— 所要は器の elapsedS の実測)
   S('dragprofile', 'node tests/exp-w282c-dragprofile.mjs', ['tests/out/dragprofile-w282c.json'], 2, { secSource: 'w282c-run', node: true,
@@ -482,6 +507,13 @@ export function planRegen(o) {
       // コード
       if (!Array.isArray(m.code) || !m.code.length) { why.push(out + ': 器・lib の刻印が無い'); cause('刻印が無い'); }
       else for (const c of m.code) if (c.sha256 && shaFile(abs(c.file)) !== c.sha256) { why.push(out + ': コード ' + c.file + ' が変わった'); cause('式(器・lib): ' + c.file); }
+      // 第284便f(原仮定者の裁定(第74報)AN43): **刻印の Pointer ≠ 今の宣言 → regen**(第283便は刻印の Pointer で照合して再利用し、
+      //   宣言を足した後も古い Pointer の刻印が残った —— 刻み直すまで「今の宣言で同じ」かは分からない)
+      for (const z of (m.inputsStable || [])) {
+        if (z.stableVersion !== STABLE_VERSION) continue;
+        const got = JSON.stringify((z.volatilePaths || []).slice().sort()), cur = JSON.stringify(volatilePathsOf(z.file));
+        if (got !== cur) { why.push(out + ': 入力 ' + z.file + ' の刻印の Pointer が今の宣言と違う'); cause('刻印の Pointer ≠ 今の宣言: ' + z.file); }
+      }
       // 入力
       for (const inp of (m.inputs || [])) {
         if (inp.missing || !inp.sha256 || inp.file === t) continue;
@@ -793,12 +825,18 @@ export function buildChain(plan, o) {
     const mine = writesOf(st);
     rows[k] = { key: k, mode: m, wave: level.get(k), cmd: st.cmd, env: st.env || {}, sec: st.sec || 0,
       deps: [...(deps.get(k) || [])].filter((d) => mode.has(d)), plan: status.get(k) || null,
+      // 第284便f: 書くファイル(排他の鍵)・worker 数(分割して走る段は分割数)
+      writes: mine, workers: st.exclusive ? 'all' : Math.max(1, st.workers || 1),
       // 第283便 統合: 同じファイルを書く上流(鎖の中)—— gate_step は、これが実際に走った(済み印が run)なら再利用せず走る
       sameFileUps: [...(deps.get(k) || [])].filter((d) => mode.has(d) && writesOf(by.get(d)).some((f) => mine.includes(f))) };
   }
   const skipped = steps.filter((z) => !mode.has(z.key)).map((z) => ({ key: z.key,
     why: z.role === 'history' ? '履歴' : z.outside ? 'chain の外' : (status.get(z.key) || '計画に無い') }));
-  return { version: REGEN_TABLE_VERSION, waves, steps: rows, skipped,
+  // 第284便f: 済み印の契約(code/input/policy —— 鎖の生成時に決まる値)と ready queue の優先度(臨界路)
+  const ct = chainContracts(rows, { by, root: opt.root || null, htmlSha: plan.htmlSha256 || null });
+  for (const k of Object.keys(rows)) rows[k].contract = ct.get(k);
+  const priority = chainPriority({ steps: rows }, tableIdx);
+  return { version: REGEN_TABLE_VERSION, contractVersion: CHAIN_CONTRACT_VERSION, waves, priority, steps: rows, skipped,
     count: { run: [...mode.values()].filter((m) => m === 'run').length, gate: [...mode.values()].filter((m) => m === 'gate').length,
       manual: [...mode.values()].filter((m) => m === 'manual').length },
     secRun: [...mode].filter(([, m]) => m === 'run').reduce((a, [k]) => a + (rows[k].sec || 0), 0),
@@ -821,29 +859,190 @@ export function laneSplit(keys, secOf, lanes) {
 
 const shq = (t) => "'" + String(t).replace(/'/g, "'\\''") + "'";
 
+// ======================================================================================================
+// 第284便f(原仮定者の裁定(第74報)⑥「まだ時間が長いので改善する・並列実行を検討する」・統括の検証項目 R94):
+//   **ready queue**(波全体の完了を待たず、依存が済んだ段から空きレーンへ)・**書込排他**(書くファイル〔outs + merges〕が
+//   重なる段を同時に走らせない)・**共有 worker 予算**(段の `workers` —— 分割して走る段は分割数ぶんのレーンを取る)・
+//   **済み印の契約**(`done/<段>.done` に code/input/policy の hash —— 同じ契約の済み印だけを済みと見なす)。
+// ======================================================================================================
+
+/** 段の cmd に出る器と、段の正本の meta.code[] のファイル(済み印の契約の code)。 */
+export function codeFilesOf(st, root) {
+  const set = new Set();
+  for (const m of String(st.cmd || '').matchAll(/\b(?:tests|tools)\/[\w.-]+\.mjs\b/g)) set.add(m[0]);
+  if (root) for (const out of (st.outs || [])) { const m = readMetaAt(root, out); for (const c of ((m && m.code) || [])) if (c && c.file) set.add(c.file); }
+  return [...set].sort();
+}
+const sha256Hex = (s) => crypto.createHash('sha256').update(s).digest('hex');
+
 /**
- * 鎖 → bash(**走らせない** —— 文字列を返す)。
- *   済み印 `$REGEN_LOG/done/<段>.done` のある段は飛ばす(再開)。段の rc≠0 → そのレーンは止まり、波の終わりで鎖が止まる(rc 1)。
- *   ログ名 `$REGEN_LOG/<波 2 桁>-<段>.log`(gate の判定は `.gate`・失敗の rc は `.rc`)。
- *   cmd が `$NAME` で参照する環境変数は冒頭で必須にする(未設定なら走らせる前に止まる)。
+ * 済み印の契約(鎖の生成時に決まる値だけ —— 走行中に変わる入力の中身は入れない):
+ *   policy … 表の版・段・mode(run/gate/manual)・cmd・env の名前・書くファイル・workers
+ *   code   … codeFilesOf の各ファイルの現行 sha256(root が無ければ名前だけ)
+ *   input  … 計画の対象 html の sha256 と、**鎖の中の直接の上流の契約**(上流の契約が変われば下流の済み印も無効 —— Merkle)
+ * @returns {Map<string,string>} 段 → 64 桁
+ */
+export function chainContracts(rows, o) {
+  const opt = o || {};
+  const memo = new Map();
+  const go = (k, stack) => {
+    if (memo.has(k)) return memo.get(k);
+    if (stack.has(k)) throw new Error('依存の循環: ' + k);
+    stack.add(k);
+    const r = rows[k];
+    const st = opt.by ? opt.by.get(k) : null;
+    const code = st ? codeFilesOf(st, opt.root).map((f) => [f, opt.root ? shaFile(opt.root.replace(/\/$/, '') + '/' + f) : null]) : [];
+    const ups = (r.deps || []).slice().sort().map((d) => [d, go(d, stack)]);
+    const c = sha256Hex(JSON.stringify({ v: REGEN_TABLE_VERSION, contract: CHAIN_CONTRACT_VERSION,
+      policy: { key: k, mode: r.mode, cmd: r.cmd, env: Object.keys(r.env || {}).sort(), writes: (r.writes || []).slice().sort(), workers: r.workers || 1 },
+      code, input: { html: opt.htmlSha || null, ups } }));
+    stack.delete(k);
+    memo.set(k, c);
+    return c;
+  };
+  for (const k of Object.keys(rows)) go(k, new Set());
+  return memo;
+}
+export const CHAIN_CONTRACT_VERSION = 'w284f-chaincontract-1';
+
+/** 優先度: 自分から下流の端までの実測秒の最長路(臨界路)の長い順 → 表の順。 */
+export function chainPriority(chain, tableIdx) {
+  const rows = chain.steps;
+  const down = new Map(Object.keys(rows).map((k) => [k, []]));
+  for (const [k, r] of Object.entries(rows)) for (const d of (r.deps || [])) if (down.has(d)) down.get(d).push(k);
+  const memo = new Map();
+  const cp = (k) => { if (memo.has(k)) return memo.get(k); const v = (rows[k].sec || 0) + Math.max(0, ...down.get(k).map(cp)); memo.set(k, v); return v; };
+  const idx = tableIdx || new Map(Object.keys(rows).map((k, i) => [k, i]));
+  return Object.keys(rows).sort((a, b) => (cp(b) - cp(a)) || ((idx.get(a) ?? 0) - (idx.get(b) ?? 0)));
+}
+
+/**
+ * ready queue の模擬(離散事象 —— 生成するシェルのランナーと同じ規則): 依存(鎖の中)がすべて済み・書くファイルが走行中の段と
+ * 重ならない・worker の空き(レーン)がある段を、優先度の順に入れる。所要は表の実測秒(**見積り**・0 秒の段は 0)。
  * @param {object} chain buildChain の戻り
- * @param {{lanes?:number, htmlSha?:string, planCount?:object}} [o]
+ * @param {{lanes?:number, secOf?:(k)=>number}} [o]
+ * @returns {{makespan:number, events:Array<{key,start,end,workers}>, check:object}}
+ */
+export function simulateReadyQueue(chain, o) {
+  const opt = o || {};
+  const lanes = opt.lanes || 4;
+  const rows = chain.steps;
+  const secOf = opt.secOf || ((k) => rows[k].sec || 0);
+  const pri = chain.priority || chainPriority(chain);
+  const state = new Map(pri.map((k) => [k, 'pending']));
+  const running = [];
+  const lock = new Map();
+  const events = [];
+  let t = 0, free = lanes;
+  for (let guard = 0; guard < 100000; guard++) {
+    for (const k of pri) {
+      if (state.get(k) !== 'pending') continue;
+      const r = rows[k];
+      if (!(r.deps || []).every((d) => state.get(d) === 'ok' || !state.has(d))) continue;
+      if ((r.writes || []).some((f) => lock.has(f))) continue;
+      const need = r.workers === 'all' ? lanes : Math.min(r.workers || 1, lanes);
+      if (need > free) continue;
+      free -= need; for (const f of (r.writes || [])) lock.set(f, k);
+      state.set(k, 'running');
+      const ev = { key: k, start: t, end: t + secOf(k), workers: need };
+      running.push(ev); events.push(ev);
+    }
+    if (!running.length) break;
+    running.sort((a, b) => a.end - b.end);
+    const ev = running.shift();
+    t = ev.end;
+    free += ev.workers; for (const f of (rows[ev.key].writes || [])) if (lock.get(f) === ev.key) lock.delete(f);
+    state.set(ev.key, 'ok');
+  }
+  const check = checkTimeline(events, { rows, lanes });
+  return { makespan: events.reduce((m, e) => Math.max(m, e.end), 0), events, pending: [...state].filter(([, s]) => s !== 'ok').map(([k]) => k), check };
+}
+
+/** 波の型(第283便e —— 波ごとに全段の完了を待つ・波の中は LPT)の見積り: 波ごとの最大レーンの秒の和。 */
+export function waveMakespan(chain, lanes, secOf) {
+  const so = secOf || ((k) => (chain.steps[k] || {}).sec || 0);
+  return chain.waves.reduce((a, keys) => a + Math.max(0, ...laneSplit(keys, so, lanes || 4).map((l) => l.sec)), 0);
+}
+
+/**
+ * 走行の時系列の照合(模擬と実際の走行の両方): events = [{key, start, end, workers?}](同じ段が複数回あってよい)。
+ *   order  … 依存 d(rows[k].deps —— 鎖の中の直接の上流。推移は直接の辺の連鎖で守られる)の**最後の end より前**に k が start した
+ *   writes … 書くファイルが重なる 2 段の走行区間が重なった
+ *   budget … 同時に走った worker の和がレーンを超えた
+ * @param {Array} events
+ * @param {{rows:object, lanes:number}} o
+ */
+export function checkTimeline(events, o) {
+  const rows = o.rows || {};
+  const order = [], writes = [], budget = [];
+  const byKey = new Map();
+  for (const e of events) { if (!byKey.has(e.key)) byKey.set(e.key, []); byKey.get(e.key).push(e); }
+  for (const e of events) for (const d of ((rows[e.key] || {}).deps || [])) {
+    const runs = byKey.get(d) || [];
+    if (!runs.length) continue;
+    const lastEnd = Math.max(...runs.map((z) => z.end));
+    if (e.start < lastEnd - 1e-9) order.push({ step: e.key, dep: d, start: e.start, depEnd: lastEnd });
+  }
+  for (let i = 0; i < events.length; i++) for (let j = i + 1; j < events.length; j++) {
+    const a = events[i], b = events[j];
+    if (a.key === b.key) continue;
+    const wa = (rows[a.key] || {}).writes || [], wb = (rows[b.key] || {}).writes || [];
+    const f = wa.find((x) => wb.includes(x));
+    if (f && a.start < b.end - 1e-9 && b.start < a.end - 1e-9) writes.push({ a: a.key, b: b.key, file: f });
+  }
+  const pts = [...new Set(events.flatMap((e) => [e.start]))];
+  for (const t of pts) {
+    const wOf = (e) => { const d = (rows[e.key] || {}).workers; return e.workers || (d === 'all' ? (o.lanes || 4) : Math.min(d || 1, o.lanes || 4)); };
+    const w = events.filter((e) => e.start <= t + 1e-9 && t < e.end - 1e-9).reduce((s, e) => s + wOf(e), 0);
+    if (w > (o.lanes || 4)) budget.push({ t, workers: w });
+  }
+  return { ok: !order.length && !writes.length && !budget.length, order, writes, budget };
+}
+
+/** `$REGEN_LOG/timeline.txt` → events(start/end の対)と lanes。 */
+export function parseTimeline(text) {
+  const open = new Map(), events = [];
+  let lanes = null;
+  for (const line of String(text).split(/\r?\n/)) {
+    const m = line.match(/^# ready-queue .* lanes=(\d+)/); if (m) { lanes = Number(m[1]); continue; }
+    const s = line.split(/\s+/);
+    if (s[0] === 'start') open.set(s[1], { key: s[1], start: Number(s[2]), workers: Number(s[3]) || undefined });
+    else if (s[0] === 'end' && open.has(s[1])) { const e = open.get(s[1]); open.delete(s[1]); e.rc = Number(s[2]); e.end = Number(s[3]); events.push(e); }
+  }
+  for (const e of open.values()) { e.end = Infinity; events.push(e); }
+  events.sort((a, b) => a.start - b.start);
+  return { events, lanes };
+}
+
+/**
+ * 鎖 → bash(**走らせない** —— 文字列を返す)。第284便f で **ready queue** に替えた(第283便e の波は `wave` の番号とログ名だけに残る)。
+ *   ・段は優先度(臨界路の長い順)に並べ、依存(鎖の中)の済んだ段から、書くファイルが走行中の段と重ならず worker の空きがあるものを
+ *     空きレーン(≤ REGEN_LANES)へ入れる。1 段でも rc≠0 → 新しい段を入れず、走行中の段の終わりを待って止まる(rc 1)。
+ *   ・済み印 `$REGEN_LOG/done/<段>.done` の 2 行目 `contract <64 桁>` が**この鎖の契約と同じとき**だけ済み(再開)。違う印は
+ *     `<段>.done.stale` へ退けて走らせ直す。印には走行後の書いたファイルの sha256 を `out <file> <sha>` で残す(監査用)。
+ *   ・時系列 `$REGEN_LOG/timeline.txt`(`start <段> <秒> <workers>` / `end <段> <rc> <秒>`)—— `--check-order <timeline>` が照合する。
+ *   ・ログ名 `$REGEN_LOG/<波 2 桁>-<段>.log`(gate の判定は `.gate`・失敗の rc は `.rc`)。
+ *   ・cmd が `$NAME` で参照する環境変数は冒頭で必須にする(未設定なら走らせる前に止まる)。
+ * @param {object} chain buildChain の戻り
+ * @param {{lanes?:number, htmlSha?:string}} [o]
  */
 export function chainShell(chain, o) {
   const opt = o || {};
   const lanes = opt.lanes || 4;
   const L = [];
+  const keys = chain.priority || chainPriority(chain);
   L.push('#!/usr/bin/env bash');
   L.push('# 生成物(手で直さない): node tools/regen-chain.mjs —— 再生成表 ' + chain.version
     + (opt.htmlSha ? '・html ' + String(opt.htmlSha).slice(0, 12) : '')
-    + `・段 run ${chain.count.run} / gate ${chain.count.gate} / manual ${chain.count.manual}・波 ${chain.waves.length}・レーン ≤${lanes}`);
-  L.push('# 済み印 $REGEN_LOG/done/<段>.done で再開する。rc≠0 の段があれば、その波の終わりで止まる(rc 1)。');
+    + `・段 run ${chain.count.run} / gate ${chain.count.gate} / manual ${chain.count.manual}・ready queue(レーン ≤${lanes}・書込排他・worker 予算)`);
+  L.push('# 済み印 $REGEN_LOG/done/<段>.done は契約(code/input/policy の hash)が同じときだけ再開に使う。rc≠0 の段があれば、走行中の段の終わりで止まる(rc 1)。');
   L.push('# gate の段は上流が走った後に `node tools/regen-chain.mjs --gate <段>` で自分の判定を引き直し、再利用なら走らせない。');
   L.push('set -u');
   L.push('ROOT=${REGEN_ROOT:-$(pwd)}');
   L.push('REGEN_HTML=${REGEN_HTML:-beta/index.html}');
   L.push('REGEN_LOG=${REGEN_LOG:-${TMPDIR:-/tmp}/regen-chain' + (opt.htmlSha ? '-' + String(opt.htmlSha).slice(0, 12) : '') + '}');
-  L.push('DONE="$REGEN_LOG/done"; mkdir -p "$DONE" || exit 2');
+  L.push(`REGEN_LANES=\${REGEN_LANES:-${lanes}}`);
+  L.push('DONE="$REGEN_LOG/done"; ST="$REGEN_LOG/.st"; mkdir -p "$DONE" "$ST" || exit 2; rm -f "$ST"/*.rc');
   L.push('cd "$ROOT" || exit 2');
   const envNeed = new Map();
   for (const r of Object.values(chain.steps)) for (const m of String(r.cmd).matchAll(/\$([A-Z_][A-Z0-9_]*)/g)) {
@@ -851,44 +1050,73 @@ export function chainShell(chain, o) {
     envNeed.get(m[1]).push(r.key + (r.env && r.env[m[1]] ? '(' + r.env[m[1]] + ')' : ''));
   }
   for (const [v, who] of envNeed) L.push(`: "\${${v}:?${v} が要る —— ${who.join('・').replace(/["`$\\]/g, '')}}"`);
-  L.push('run_step() {   # $1=段 $2=ログ名 $3=cmd');
-  L.push('  if [ -f "$DONE/$1.done" ]; then echo "[済] $1"; return 0; fi');
+  L.push('mark_ok() {   # $1=段 $2=契約: 同じ契約の済み印だけを済みと見なす');
+  L.push('  [ -f "$DONE/$1.done" ] || return 1');
+  L.push('  if grep -qx "contract $2" "$DONE/$1.done"; then return 0; fi');
+  L.push('  mv -f "$DONE/$1.done" "$DONE/$1.done.stale"; echo "[旧印] $1: 済み印の契約がこの鎖と違う → 走らせ直す($DONE/$1.done.stale)"; return 1');
+  L.push('}');
+  L.push('write_mark() {   # $1=段 $2=状態の行 $3=契約 $4=書くファイル');
+  L.push('  { echo "$2"; echo "contract $3"; local f; for f in $4; do if [ -f "$f" ]; then echo "out $f $(sha256sum "$f" | cut -c1-64)"; fi; done; } >"$DONE/$1.done"');
+  L.push('}');
+  L.push('run_step() {   # $1=段 $2=ログ名 $3=cmd $4=契約 $5=書くファイル');
+  L.push('  if mark_ok "$1" "$4"; then echo "[済] $1"; return 0; fi');
   L.push('  echo "[走] $1 → $REGEN_LOG/$2.log"; local t0; t0=$(date +%s)');
   L.push('  ( eval "$3" ) >"$REGEN_LOG/$2.log" 2>&1; local rc=$?');
   L.push('  if [ $rc -ne 0 ]; then echo "$rc" >"$REGEN_LOG/$2.rc"; echo "[止] $1 rc=$rc(ログ $REGEN_LOG/$2.log)"; return $rc; fi');
-  L.push('  echo "run $(( $(date +%s) - t0 ))s $(date -u +%FT%TZ)" >"$DONE/$1.done"');
+  L.push('  write_mark "$1" "run $(( $(date +%s) - t0 ))s $(date -u +%FT%TZ)" "$4" "$5"');
   L.push('}');
-  L.push('gate_step() {  # 上流の後で自分の判定を引き直す(終了コード 10 = 再利用)。$4=同じファイルを書く上流(実際に走っていれば再利用しない)');
-  L.push('  if [ -f "$DONE/$1.done" ]; then echo "[済] $1"; return 0; fi');
-  L.push('  local u; for u in ${4:-}; do if [ -f "$DONE/$u.done" ] && grep -q "^run" "$DONE/$u.done"; then echo "[走・上流 $u が同じファイルを書き直した] $1"; run_step "$1" "$2" "$3"; return $?; fi; done');
+  L.push('gate_step() {  # 上流の後で自分の判定を引き直す(終了コード 10 = 再利用)。$6=同じファイルを書く上流(実際に走っていれば再利用しない)');
+  L.push('  if mark_ok "$1" "$4"; then echo "[済] $1"; return 0; fi');
+  L.push('  local u; for u in ${6:-}; do if [ -f "$DONE/$u.done" ] && grep -q "^run" "$DONE/$u.done"; then echo "[走・上流 $u が同じファイルを書き直した] $1"; run_step "$1" "$2" "$3" "$4" "$5"; return $?; fi; done');
   L.push('  node tools/regen-chain.mjs --gate "$1" --html "$REGEN_HTML" >"$REGEN_LOG/$2.gate" 2>&1; local g=$?');
-  L.push('  if [ $g -eq 10 ]; then echo "reuse $(date -u +%FT%TZ)" >"$DONE/$1.done"; echo "[再利用] $1"; return 0; fi');
+  L.push('  if [ $g -eq 10 ]; then write_mark "$1" "reuse $(date -u +%FT%TZ)" "$4" "$5"; echo "[再利用] $1"; return 0; fi');
   L.push('  if [ $g -ne 0 ]; then echo "[止] $1 の再判定が rc=$g"; return $g; fi');
-  L.push('  run_step "$@"');
+  L.push('  run_step "$1" "$2" "$3" "$4" "$5"');
   L.push('}');
-  L.push('manual_step() {  # 1 行のシェルでない段: 済み印が無ければ止まる');
-  L.push('  if [ -f "$DONE/$1.done" ]; then echo "[済] $1"; return 0; fi');
-  L.push('  echo "[手動] $1: $3 —— 走らせた後に touch $DONE/$1.done で再開"; return 3');
+  L.push('manual_step() {  # 1 行のシェルでない段: 同じ契約の済み印が無ければ止まる');
+  L.push('  if mark_ok "$1" "$4"; then echo "[済] $1"; return 0; fi');
+  L.push('  echo "[手動] $1: $3 —— 走らせた後に printf \'manual\\ncontract %s\\n\' $4 >$DONE/$1.done で再開"; return 3');
   L.push('}');
-  L.push('wave_end() { local f=0 p; for p in "$@"; do wait "$p" || f=1; done; if [ $f -ne 0 ]; then echo "[止] 波 $W"; exit 1; fi; }');
-  const secOf = (k) => (chain.steps[k] || {}).sec || 0;
-  chain.waves.forEach((keys, wi) => {
-    const W2 = String(wi + 1).padStart(2, '0');
-    const ls = laneSplit(keys, secOf, lanes);
-    L.push('');
-    L.push(`# ---- 波 ${wi + 1}(${keys.length} 段・レーン ${ls.length})`);
-    L.push(`W=${wi + 1}; P=()`);
-    for (const lane of ls) {
-      const calls = lane.keys.map((k) => {
-        const r = chain.steps[k];
-        const fn = r.mode === 'gate' ? 'gate_step' : r.mode === 'manual' ? 'manual_step' : 'run_step';
-        return `${fn} ${k} ${W2}-${k} ${shq(r.cmd)}` + (fn === 'gate_step' && (r.sameFileUps || []).length ? ' ' + shq(r.sameFileUps.join(' ')) : '');
-      });
-      L.push('( ' + calls.join(' && \\\n  ') + ' ) & P+=($!)');
-    }
-    L.push('wave_end "${P[@]}"');
-  });
-  L.push('');
+  // 表(段の属性 —— 書くファイルは排他の鍵 w<番号> に写す)
+  const files = [...new Set(keys.flatMap((k) => chain.steps[k].writes || []))].sort();
+  const fid = new Map(files.map((f, i) => [f, 'w' + i]));
+  L.push('declare -a K=(' + keys.join(' ') + ')');
+  const assoc = (name, f) => L.push(`declare -A ${name}=(` + keys.map((k) => `[${k}]=${shq(f(chain.steps[k]))}`).join(' ') + ')');
+  assoc('DEP', (r) => (r.deps || []).join(' '));
+  assoc('WR', (r) => (r.writes || []).map((f) => fid.get(f)).join(' '));
+  assoc('WF', (r) => (r.writes || []).join(' '));
+  assoc('NW', (r) => (r.workers === 'all' ? 'all' : String(Math.max(1, r.workers || 1))));
+  assoc('FN', (r) => (r.mode === 'gate' ? 'gate_step' : r.mode === 'manual' ? 'manual_step' : 'run_step'));
+  assoc('CMD', (r) => r.cmd);
+  assoc('CT', (r) => r.contract || '-');
+  assoc('UPS', (r) => (r.mode === 'gate' ? (r.sameFileUps || []).join(' ') : ''));
+  assoc('LOGN', (r) => String((r.wave || 0) + 1).padStart(2, '0') + '-' + r.key);
+  L.push('declare -A STATE=() LOCK=()');
+  L.push('for k in "${K[@]}"; do STATE[$k]=pending; done');
+  L.push('free=$REGEN_LANES; nrun=0; stop=0');
+  L.push('echo "# ready-queue $(date -u +%FT%TZ) lanes=$REGEN_LANES" >>"$REGEN_LOG/timeline.txt"');
+  L.push('while :; do');
+  L.push('  for k in "${K[@]}"; do   # 終わった段を回収(rc はファイルで受ける)');
+  L.push('    [ "${STATE[$k]}" = running ] && [ -f "$ST/$k.rc" ] || continue');
+  L.push('    rc=$(cat "$ST/$k.rc"); echo "end $k $rc $(date +%s.%N)" >>"$REGEN_LOG/timeline.txt"');
+  L.push('    need=${NW[$k]}; [ "$need" != all ] && [ "$need" -le "$REGEN_LANES" ] || need=$REGEN_LANES; free=$((free + need)); nrun=$((nrun - 1))');
+  L.push('    for w in ${WR[$k]}; do unset "LOCK[$w]"; done');
+  L.push('    if [ "$rc" -eq 0 ]; then STATE[$k]=ok; else STATE[$k]=fail; stop=1; fi');
+  L.push('  done');
+  L.push('  if [ $stop -eq 0 ]; then for k in "${K[@]}"; do   # 依存が済み・書込が空き・worker が空いた段を入れる(優先度の順)');
+  L.push('    [ "${STATE[$k]}" = pending ] || continue');
+  L.push('    ok=1; for d in ${DEP[$k]}; do [ "${STATE[$d]}" = ok ] || { ok=0; break; }; done; [ $ok -eq 1 ] || continue');
+  L.push('    for w in ${WR[$k]}; do [ -z "${LOCK[$w]:-}" ] || { ok=0; break; }; done; [ $ok -eq 1 ] || continue');
+  L.push('    need=${NW[$k]}; [ "$need" != all ] && [ "$need" -le "$REGEN_LANES" ] || need=$REGEN_LANES; [ "$need" -le "$free" ] || continue');
+  L.push('    free=$((free - need)); nrun=$((nrun + 1)); for w in ${WR[$k]}; do LOCK[$w]=$k; done; STATE[$k]=running');
+  L.push('    echo "start $k $(date +%s.%N) $need" >>"$REGEN_LOG/timeline.txt"');
+  L.push('    ( "${FN[$k]}" "$k" "${LOGN[$k]}" "${CMD[$k]}" "${CT[$k]}" "${WF[$k]}" "${UPS[$k]}"; echo $? >"$ST/$k.rc" ) &');
+  L.push('  done; fi');
+  L.push('  [ $nrun -gt 0 ] || break');
+  L.push('  wait -n 2>/dev/null || true');
+  L.push('done');
+  L.push('left=""; for k in "${K[@]}"; do [ "${STATE[$k]}" = ok ] || left="$left $k"; done');
+  L.push('if [ -n "$left" ]; then echo "[止] 済んでいない段:$left($REGEN_LOG)"; exit 1; fi');
   L.push('echo "[完] 鎖の全段($REGEN_LOG)"');
   return L.join('\n') + '\n';
 }
@@ -1060,7 +1288,7 @@ export const W283E_ADDED_AFTER = ['d0audit', 'nsmode', 'bgequiv', 'bgbudget', 'b
  */
 export async function regenChainSelfTest(o) {
   const root = o.root.replace(/\/$/, '');
-  const res = { a: null, b: null, c: null, d: null, e: null, f: null };
+  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null };
   const deps = tableDeps({ root });
   // (a)
   const A = tableDepsAudit({ root });
@@ -1132,6 +1360,79 @@ export async function regenChainSelfTest(o) {
       ok: syn.status === 0 && noEnv && r1.status === 1 && JSON.stringify(after1) === JSON.stringify(['sa', 'sc'])
         && logs1.includes('01-sa.log') && logs1.includes('02-sb.rc') && r2.status === 0 && after2.length === 5 && saStale };
   }
+  // ---- 第284便f(R94): ready queue・書込排他・worker 予算・済み印の契約
+  // (g) 全段 regen の鎖を ready queue で模擬(表の実測秒・レーン 4): 順序違反・書込の重なり・予算超過 0・全段が済む・
+  //     波の型(第283便e)の見積り以下
+  {
+    const all = { steps: REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
+    const G = buildChain(all, { deps });
+    const sim = simulateReadyQueue(G, { lanes: 4 });
+    const wave = waveMakespan(G, 4);
+    // 排他の鍵が効くことを、同じファイルを書く段(charon h/h2/h4・calaudit/dt3/kf0)の区間で確かめる
+    const byFile = new Map();
+    for (const e of sim.events) for (const f of (G.steps[e.key].writes || [])) { if (!byFile.has(f)) byFile.set(f, []); byFile.get(f).push(e); }
+    const shared = [...byFile].filter(([, es]) => es.length > 1).map(([f, es]) => f.replace(/^tests\/out\//, '') + ':' + es.map((z) => z.key).join('→'));
+    const excl = Object.keys(G.steps).filter((k) => G.steps[k].workers === 'all');
+    const exclAlone = excl.every((k) => { const e = sim.events.find((z) => z.key === k); return e && sim.events.every((z) => z === e || z.end <= e.start + 1e-9 || z.start >= e.end - 1e-9 || z.end === z.start); });
+    res.g = { exclusive: excl, exclusiveAlone: exclAlone, steps: sim.events.length, pending: sim.pending.length, makespan: Math.round(sim.makespan), waveMakespan: Math.round(wave),
+      order: sim.check.order.length, writes: sim.check.writes.length, budget: sim.check.budget.length, sharedWriters: shared,
+      ok: sim.check.ok && !sim.pending.length && sim.events.length === Object.keys(G.steps).length && sim.makespan <= wave + 1e-9 && shared.length >= 2
+        && excl.includes('samplestatus') && exclAlone };
+    // 模擬の照合器が違反を**検出する**(書込の重なり・入力より先・予算超過を 1 つずつ作る)
+    const fx = { rows: { p: { deps: [], writes: ['F'], workers: 1 }, q: { deps: ['p'], writes: ['F'], workers: 1 }, r: { deps: [], writes: ['F'], workers: 2 } }, lanes: 2 };
+    const bad = checkTimeline([{ key: 'p', start: 0, end: 5 }, { key: 'q', start: 3, end: 6 }, { key: 'r', start: 1, end: 2, workers: 2 }], fx);
+    res.g.detect = { order: bad.order.length, writes: bad.writes.length, budget: bad.budget.length };
+    res.g.ok = res.g.ok && bad.order.length === 1 && bad.writes.length >= 2 && bad.budget.length >= 1;
+  }
+  // (h) stub の鎖を bash で(レーン 3): 同じファイルを書く 2 段は重ならない・worker 2 の段は他と合わせて 3 を超えない・
+  //     波の境を待たない(x4 は x3 の後すぐ —— x2 の終わりを待たない)。(i) 済み印の契約: 1 段の cmd を変えた鎖を同じ REGEN_LOG で
+  //     走らせると、その段と下流だけが走り直し(旧印は .stale)、他は済みのまま
+  if (o.tmpDir) {
+    const cp = await import('node:child_process');
+    const tmp = o.tmpDir.replace(/\/$/, '') + '/rq';
+    fs.mkdirSync(tmp + '/cnt', { recursive: true });
+    const mk = (k, cmd, after, extra) => Object.assign({ key: k, cmd, outs: [], after: after || [], role: 'current', sec: 1 }, extra || {});
+    const tick = (k) => `echo x >> cnt/${k}`;
+    const stubOf = (x2cmd) => [
+      mk('x1', tick('x1') + '; sleep 0.6', [], { merges: ['out/F.json'] }),
+      mk('x2', (x2cmd || tick('x2')) + '; sleep 0.6', [], { merges: ['out/F.json'] }),
+      mk('x3', tick('x3') + '; sleep 0.3', [], { outs: ['out/G.json'] }),
+      mk('x4', tick('x4') + '; sleep 0.3', ['x3']),
+      mk('x5', tick('x5') + '; sleep 0.3', [], { workers: 2 }),
+      mk('x6', tick('x6'), ['x2'])];
+    const gen = (stub, name) => {
+      const sd = tableDeps({ steps: stub });
+      const ch = buildChain({ steps: stub.map((z) => ({ key: z.key, status: 'regen' })) }, { steps: stub, deps: sd });
+      fs.writeFileSync(tmp + '/' + name, chainShell(ch, { lanes: 3 }));
+      return ch;
+    };
+    const ch1 = gen(stubOf(null), 'c1.sh');
+    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log' });
+    const r1 = cp.spawnSync('bash', [tmp + '/c1.sh'], { encoding: 'utf8', env, cwd: tmp });
+    const tl = parseTimeline(fs.readFileSync(tmp + '/log/timeline.txt', 'utf8'));
+    const ev = (k) => tl.events.find((e) => e.key === k);
+    const chk = checkTimeline(tl.events, { rows: ch1.steps, lanes: 3 });
+    const x12 = [ev('x1'), ev('x2')].sort((a, b) => a.start - b.start);
+    const noWave = ev('x4') && ev('x2') && ev('x4').start < Math.max(ev('x1').end, ev('x2').end);
+    const cnt = (k) => { try { return fs.readFileSync(tmp + '/cnt/' + k, 'utf8').split('\n').filter(Boolean).length; } catch { return 0; } };
+    const marksOk = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6'].every((k) => { try { return fs.readFileSync(tmp + '/log/done/' + k + '.done', 'utf8').split('\n')[1] === 'contract ' + ch1.steps[k].contract; } catch { return false; } });
+    res.h = { rc: r1.status, events: tl.events.length, lanes: tl.lanes, order: chk.order.length, writes: chk.writes.length, budget: chk.budget.length,
+      serialF: x12[0].end <= x12[1].start + 1e-6, noWaveBarrier: noWave, marksOk,
+      ok: r1.status === 0 && tl.events.length === 6 && tl.lanes === 3 && chk.ok && x12[0].end <= x12[1].start + 1e-6 && noWave && marksOk };
+    // (i)
+    const ch2 = gen(stubOf(tick('x2') + '; true'), 'c2.sh');
+    const changed = Object.keys(ch2.steps).filter((k) => ch2.steps[k].contract !== ch1.steps[k].contract).sort();
+    const before = Object.fromEntries(['x1', 'x2', 'x3', 'x4', 'x5', 'x6'].map((k) => [k, cnt(k)]));
+    const r2 = cp.spawnSync('bash', [tmp + '/c2.sh'], { encoding: 'utf8', env, cwd: tmp });
+    const reran = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6'].filter((k) => cnt(k) > before[k]);
+    const stale = fs.readdirSync(tmp + '/log/done').filter((f) => f.endsWith('.stale')).sort();
+    // 契約の無い済み印(第283便e の形 —— touch)は済みと見なさない
+    fs.writeFileSync(tmp + '/log/done/x3.done', 'run 1s\n');
+    const r3 = cp.spawnSync('bash', [tmp + '/c2.sh'], { encoding: 'utf8', env, cwd: tmp });
+    res.i = { changed, reran, stale, rc2: r2.status, rc3: r3.status, bareMarkRerun: cnt('x3') === before.x3 + 1,
+      ok: JSON.stringify(changed) === '["x2","x6"]' && JSON.stringify(reran) === '["x2","x6"]' && JSON.stringify(stale) === '["x2.done.stale","x6.done.stale"]'
+        && r2.status === 0 && r3.status === 0 && cnt('x3') === before.x3 + 1 && /\[旧印\] x3/.test(r3.stdout) };
+  }
   res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
   return res;
 }
@@ -1139,4 +1440,5 @@ export async function regenChainSelfTest(o) {
 export default { REGEN_TABLE_VERSION, REGEN_STEPS, stampedDeclDrift, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
   volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
   writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,
+  codeFilesOf, chainContracts, CHAIN_CONTRACT_VERSION, chainPriority, simulateReadyQueue, waveMakespan, checkTimeline, parseTimeline,
   W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest };
