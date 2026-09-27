@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "c41884294d5ab469558c1e617555a5409772bd3e4dd174558c81189c23750202",
-  "generatedAt": "2026-09-27T12:07:53.705Z",
+  "targetSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+  "generatedAt": "2026-09-27T13:47:50.343Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4914572,
-    "sha256": "c41884294d5ab469558c1e617555a5409772bd3e4dd174558c81189c23750202",
-    "mtime": "2026-09-27T11:39:39.139Z"
+    "bytes": 4915776,
+    "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+    "mtime": "2026-09-27T12:46:47.335Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2673157,
-    "sha256": "1d680e5b57a793aeb0c3af4140cfec0d2a7e23b360201eb998a7bd2b1af65416",
-    "mtime": "2026-09-27T11:50:53.463Z"
+    "bytes": 2673043,
+    "sha256": "5d162b88475b704fd764dbaded94e789992d2ae8a00d83d1f94c56723710bb97",
+    "mtime": "2026-09-27T13:31:12.903Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -32,9 +32,9 @@
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 77966,
-    "sha256": "23a9af895dacbef1acf5ca2f61e14e5d69b4ed4d17325ca50fd15f0d4840ab5e",
-    "mtime": "2026-09-27T12:07:53.683Z"
+    "bytes": 78025,
+    "sha256": "34b02db05c65921b30cb989797f6bf54d09abb11ef950139091256b0413f6a12",
+    "mtime": "2026-09-27T13:47:50.319Z"
    }
   ],
   "code": [
@@ -70,12 +70,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 116331,
-    "sha256": "497e165a23c04baeb278776f0651e3d4f6975a90b25685e67fb4889d7a00dc74",
-    "mtime": "2026-09-27T10:22:26.226Z"
+    "bytes": 116402,
+    "sha256": "b0aad9c80956a7d48fc4f970f1a8dd12f682e838d7f13452308fa2c3847556e3",
+    "mtime": "2026-09-27T12:52:22.874Z"
    }
   ],
-  "codeSha256": "f2af13086e4390382e384cd22cc07a04f651043df981dc34643be0c03beddc3a",
+  "codeSha256": "7c7ee8544ecdba703af7f03e8ff49113a3a190bcd318be4fcc13c8e2449061d3",
   "harnessVersion": "w283b-families-1",
   "scope": {
    "version": "w283e-scope-3",
@@ -100,14 +100,14 @@
    "complete": true,
    "names": 803,
    "segments": 730,
-   "closureShare": 0.3447
+   "closureShare": 0.3448
   },
-  "scopeSha256": "0ca9b0f6b72753e8cd3053aba937c476bf96f35da9d0a3c98586b2a7aa61331e",
+  "scopeSha256": "0c56975dfe43be286cb9f80005783d368827c271d9aaf9f638f896efbbf35978",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "14be624f600248539a90db4d104faf9bd6e328e69b5cf9600761f1294340d4ce",
+    "stableSha256": "e5ba404fa580f028f2a0cb99ca2f09a06faad2652f8fec31b4d7c36a70588e14",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -134,7 +134,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "889443c27b83f9cf69c80d298a4a2ecf60c6417225d3f8d9c097b9137f948291",
+    "stableSha256": "55d122720205d11fa88694ca894598a110f566c5064d372992e433773e1ab738",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -2091,7 +2091,7 @@
      },
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "二重パルサーを質量補正と kF1 で照合",
+     "purpose": "二重パルサーを観測質量(f=1)と kF1 で照合",
      "gates": [
       "behavior.psrF1"
      ],
@@ -2226,7 +2226,7 @@
      },
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "1PN の強さを 1/f で戻す応答候補",
+     "purpose": "旧則(履歴)の 1PN の強さを 1/f で戻す応答候補",
      "gates": [],
      "presetSigHash": "c794a498",
      "accepted": true,
@@ -2665,7 +2665,7 @@
      },
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "1/f の応答候補を J1757 へ当てる",
+     "purpose": "旧則(履歴)の 1/f の応答候補を J1757 へ当てる",
      "gates": [],
      "presetSigHash": "7132210b",
      "accepted": true,
@@ -2879,7 +2879,7 @@
      },
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "1/f の応答候補を J1946 へ当てる",
+     "purpose": "旧則(履歴)の 1/f の応答候補を J1946 へ当てる",
      "gates": [],
      "presetSigHash": "cc595e3c",
      "accepted": true,
@@ -7869,5 +7869,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.507
+ "elapsedS": 0.451
 }

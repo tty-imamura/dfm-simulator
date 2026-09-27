@@ -188,10 +188,10 @@
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| ⚡ | `psrDoubleABDFM` | primary | 主系列(較正母集団) | 基準 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1789 | 1(f-fixed-1) | — | — | 二重パルサーを質量補正と kF1 で照合 | `behavior.psrF1` |
+| ⚡ | `psrDoubleABDFM` | primary | 主系列(較正母集団) | 基準 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1789 | 1(f-fixed-1) | — | — | 二重パルサーを観測質量(f=1)と kF1 で照合 | `behavior.psrF1` |
 | 📻 | `psrDoubleAB` | variant | 主系列(較正母集団) | 同じ入力 | calibration・kf0 | ○ | 1 | 0 | 0.006 | 3.24204e-7 | 3.1789 | — | — | — | 二重パルサーを kF0 で照合する | `behavior.psrDoubleAB` |
 | 🧿 | `psrDoubleABSpinCal` | variant | 主系列(較正母集団) | 違う入力(質量) | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1789 | 1.999914(spin-spin-cal-v1) | — | — | f と λ を回した較正候補を比べる | — |
-| 🪶 | `psrDoubleABPN` | retired | 履歴(familyRole "retired") | 違う入力(質量) | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1789 | 1.999942269345993(inertia-law-lin-v1) | — | — | 1PN の強さを 1/f で戻す応答候補 | — |
+| 🪶 | `psrDoubleABPN` | retired | 履歴(familyRole "retired") | 違う入力(質量) | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1789 | 1.999942269345993(inertia-law-lin-v1) | — | — | 旧則(履歴)の 1PN の強さを 1/f で戻す応答候補 | — |
 | 🪝 | `psrDoubleABCF` | retired | 履歴(familyRole "retired") | 違う入力(質量) | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1789 | 1.999942269345993(inertia-law-lin-v1) | — | — | 速度依存の追加力(案K)を試す | — |
 | 🩻 | `psrDoubleABGeoToy` | variant | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 0.006 | — | 3.1789 | — | — | vertex | 観測質量のまま geoPN=3 則を当てる診断 | — |
 
@@ -231,7 +231,7 @@
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 🧮 | `psrJ1757DFM` | — | 主系列(較正母集団) | 基準 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1726 | 1.9998956627766773(inertia-law-lin-v1) | — | — | ⚡ の処方を J1757 へ当てる | — |
-| 🪃 | `psrJ1757PN` | retired | 履歴(familyRole "retired") | 同じ入力 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1726 | 1.9998956627766773(inertia-law-lin-v1) | — | — | 1/f の応答候補を J1757 へ当てる | — |
+| 🪃 | `psrJ1757PN` | retired | 履歴(familyRole "retired") | 同じ入力 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1726 | 1.9998956627766773(inertia-law-lin-v1) | — | — | 旧則(履歴)の 1/f の応答候補を J1757 へ当てる | — |
 | 🪄 | `psrJ1757CF` | — | 主系列(較正母集団) | 同じ入力 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1726 | 1.9998956627766773(inertia-law-lin-v1) | — | — | 凍結した κ を J1757 へ流す | — |
 
 **鍵ごとの差**(physics の同じ鍵 27):
@@ -256,7 +256,7 @@
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 🩺 | `psrJ1946DFM` | — | 主系列(較正母集団) | 基準 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1856 | 1.9999655295617553(inertia-law-lin-v1) | — | — | ⚡ の処方を J1946 へ当てる | — |
-| 🪀 | `psrJ1946PN` | retired | 履歴(familyRole "retired") | 同じ入力 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1856 | 1.9999655295617553(inertia-law-lin-v1) | — | — | 1/f の応答候補を J1946 へ当てる | — |
+| 🪀 | `psrJ1946PN` | retired | 履歴(familyRole "retired") | 同じ入力 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1856 | 1.9999655295617553(inertia-law-lin-v1) | — | — | 旧則(履歴)の 1/f の応答候補を J1946 へ当てる | — |
 | 🩹 | `psrJ1946CF` | — | 主系列(較正母集団) | 同じ入力 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1856 | 1.9999655295617553(inertia-law-lin-v1) | — | — | 凍結した κ を J1946 へ流す | — |
 
 **鍵ごとの差**(physics の同じ鍵 27):
