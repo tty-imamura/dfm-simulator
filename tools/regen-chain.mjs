@@ -72,17 +72,30 @@ if (argv.includes('--check-order')) {
   const text = fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '';
   if (/^start /m.test(text)) {
     // 第284便f: ready queue の時系列(start/end)—— 依存・書込・worker は表から(全段 regen の鎖の行)
-    const tl = T.parseTimeline(text);
+    // 統括(第284便 統合): 済み印で**再開した回**や別の鎖の時系列を連結したファイルは `# ready-queue` の見出しごとに 1 回として照合する
+    //   (再開した回では済みの段が瞬時の start/end を残すので、回をまたいで「終わり」を引くと偽の順序違反になる)。全回 ok のとき 0
     const all = { steps: T.REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
     const ch = T.buildChain(all, { root: ROOT });
-    const ran = new Set(tl.events.map((e) => e.key));
-    const rows = Object.fromEntries(Object.entries(ch.steps).map(([k, r]) => [k, Object.assign({}, r, { deps: r.deps.filter((d) => ran.has(d)) })]));
-    const tc = T.checkTimeline(tl.events, { rows, lanes: Number(getArg('--lanes', String(tl.lanes || 4))) || 4 });
-    const ends = tl.events.filter((e) => Number.isFinite(e.end)).sort((x, y) => x.end - y.end).map((e) => e.key);
-    const r = T.checkOrder(ends, { root: ROOT });
-    const failed = tl.events.filter((e) => e.rc !== 0).map((e) => e.key + ' rc=' + e.rc);
-    console.log(JSON.stringify({ timeline: { events: tl.events.length, lanes: tl.lanes, order: tc.order, writes: tc.writes, budget: tc.budget, failed }, order: r.order, downstream: r.downstream, wasted: r.wasted }, null, 1));
-    process.exit(tc.ok && !r.order.length && !r.downstream.length ? 0 : 1);
+    const checkOne = (t) => {
+      const tl = T.parseTimeline(t);
+      const ran = new Set(tl.events.map((e) => e.key));
+      const rows = Object.fromEntries(Object.entries(ch.steps).map(([k, r]) => [k, Object.assign({}, r, { deps: r.deps.filter((d) => ran.has(d)) })]));
+      const tc = T.checkTimeline(tl.events, { rows, lanes: Number(getArg('--lanes', String(tl.lanes || 4))) || 4 });
+      const ends = tl.events.filter((e) => Number.isFinite(e.end)).sort((x, y) => x.end - y.end).map((e) => e.key);
+      const r = T.checkOrder(ends, { root: ROOT });
+      const failed = tl.events.filter((e) => e.rc !== 0).map((e) => e.key + ' rc=' + e.rc);
+      return { ok: tc.ok && !r.order.length && !r.downstream.length,
+        timeline: { events: tl.events.length, lanes: tl.lanes, order: tc.order, writes: tc.writes, budget: tc.budget, failed }, order: r.order, downstream: r.downstream, wasted: r.wasted };
+    };
+    const blocks = text.split(/^(?=# ready-queue )/m).filter((t) => /^start /m.test(t));
+    if (blocks.length <= 1) { const one = checkOne(text); console.log(JSON.stringify(one, null, 1)); process.exit(one.ok ? 0 : 1); }
+    const runs = blocks.map((t, i) => Object.assign({ run: i + 1, header: (t.match(/^# ready-queue [^\n]*/) || [''])[0] }, checkOne(t)));
+    // 回ごとに順序・書込・予算の違反 0。後段の欠落は rc≠0 で止まった回にだけ許す(止まりは順序違反ではない —— 再開した回で埋まる)。最後の回は全部 ok
+    const last = runs[runs.length - 1];
+    const okAll = runs.every((z) => !z.timeline.order.length && !z.timeline.writes.length && !z.timeline.budget.length && !z.order.length
+      && (z.downstream.length === 0 || z.timeline.failed.length > 0)) && last.ok;
+    console.log(JSON.stringify({ runs: runs.length, ok: okAll, stoppedRuns: runs.filter((z) => z.timeline.failed.length).map((z) => z.run + ':' + z.timeline.failed.join(',')), perRun: runs }, null, 1));
+    process.exit(okAll ? 0 : 1);
   }
   const r = T.checkOrder(seq, { root: ROOT });
   console.log(JSON.stringify(r, null, 1));
