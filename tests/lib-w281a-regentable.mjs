@@ -511,7 +511,7 @@ export function planRegen(o) {
       //   宣言を足した後も古い Pointer の刻印が残った —— 刻み直すまで「今の宣言で同じ」かは分からない)
       for (const z of (m.inputsStable || [])) {
         if (z.stableVersion !== STABLE_VERSION) continue;
-        const got = JSON.stringify((z.volatilePaths || []).slice().sort()), cur = JSON.stringify(volatilePathsOf(z.file));
+        const got = JSON.stringify((z.volatilePaths || []).slice().sort()), cur = JSON.stringify(volOf(z.file));   // 統括(第284便 統合): 自己試験の差し替え宣言(volOf)を読む
         if (got !== cur) { why.push(out + ': 入力 ' + z.file + ' の刻印の Pointer が今の宣言と違う'); cause('刻印の Pointer ≠ 今の宣言: ' + z.file); }
       }
       // 入力

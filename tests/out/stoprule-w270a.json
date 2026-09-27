@@ -1,5 +1,5 @@
 {
- "when": "2026-09-27T12:08:04.203Z",
+ "when": "2026-09-27T12:52:45.250Z",
  "wave": "第272便a(第62報・AG27)— 初版は第270便a(第60報 W1・AE9)・版つき規約は第271便a(AF3)",
  "baseSource": {
   "commit": "743ad9b",
@@ -248,8 +248,8 @@
   "identical": 66,
   "differing": 7,
   "newStages": 0,
-  "differingDeclared": 4,
-  "differingUndeclared": 3,
+  "differingDeclared": 7,
+  "differingUndeclared": 0,
   "declaredExceptions": [
    {
     "id": "alphaCenABDFM",
@@ -264,12 +264,6 @@
     "why": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)"
    },
    {
-    "id": "alphaCenABDFM",
-    "tag": "dt/4",
-    "since": "w282a",
-    "why": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)"
-   },
-   {
     "id": "siriusABDFM",
     "tag": "dt",
     "since": "w282a",
@@ -282,10 +276,22 @@
     "why": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)"
    },
    {
-    "id": "siriusABDFM",
-    "tag": "dt/4",
-    "since": "w282a",
-    "why": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)"
+    "id": "psrDoubleABDFM",
+    "tag": "dt",
+    "since": "w284b",
+    "why": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)"
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "tag": "dt/2",
+    "since": "w284b",
+    "why": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)"
+   },
+   {
+    "id": "saturnRingReal",
+    "tag": "dt",
+    "since": "w284e",
+    "why": "第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)"
    }
   ],
   "differingRows": [
@@ -405,9 +411,9 @@
     "nowRate": 625000,
     "inBase": true,
     "same": false,
-    "declaredException": false,
-    "exceptionWhy": null,
-    "exceptionSince": null
+    "declaredException": true,
+    "exceptionWhy": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)",
+    "exceptionSince": "w284b"
    },
    {
     "id": "psrDoubleABDFM",
@@ -429,9 +435,9 @@
     "nowRate": 645161,
     "inBase": true,
     "same": false,
-    "declaredException": false,
-    "exceptionWhy": null,
-    "exceptionSince": null
+    "declaredException": true,
+    "exceptionWhy": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)",
+    "exceptionSince": "w284b"
    },
    {
     "id": "saturnRingReal",
@@ -457,9 +463,9 @@
     "nowRate": 36630,
     "inBase": true,
     "same": false,
-    "declaredException": false,
-    "exceptionWhy": null,
-    "exceptionSince": null
+    "declaredException": true,
+    "exceptionWhy": "第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)",
+    "exceptionSince": "w284e"
    }
   ],
   "newStageRows": [],
@@ -1282,9 +1288,9 @@
     "nowRate": 625000,
     "inBase": true,
     "same": false,
-    "declaredException": false,
-    "exceptionWhy": null,
-    "exceptionSince": null
+    "declaredException": true,
+    "exceptionWhy": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)",
+    "exceptionSince": "w284b"
    },
    {
     "id": "psrDoubleABDFM",
@@ -1306,9 +1312,9 @@
     "nowRate": 645161,
     "inBase": true,
     "same": false,
-    "declaredException": false,
-    "exceptionWhy": null,
-    "exceptionSince": null
+    "declaredException": true,
+    "exceptionWhy": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)",
+    "exceptionSince": "w284b"
    },
    {
     "id": "psrDoubleABSpinCal",
@@ -2027,9 +2033,9 @@
     "nowRate": 36630,
     "inBase": true,
     "same": false,
-    "declaredException": false,
-    "exceptionWhy": null,
-    "exceptionSince": null
+    "declaredException": true,
+    "exceptionWhy": "第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)",
+    "exceptionSince": "w284e"
    },
    {
     "id": "saturnRingRealKF1",
@@ -2057,7 +2063,7 @@
     "same": true
    }
   ],
-  "finding": "**7 段で基点と違う**(うち宣言した例外 4 段 / 宣言の無い差 3 段 —— differingRows に並べた)。宣言した例外は「步数上限の宣言を足したので基点より長く走る」段であり、**判定量そのものが動いたという意味ではない**(値が動いたかどうかは走行 JSON を読む)。宣言の無い差は隠さずに読むこと。"
+  "finding": "**7 段で基点と違う**(うち宣言した例外 7 段 / 宣言の無い差 0 段 —— differingRows に並べた)。宣言した例外は「步数上限の宣言を足したので基点より長く走る」段であり、**判定量そのものが動いたという意味ではない**(値が動いたかどうかは走行 JSON を読む)。宣言の無い差は隠さずに読むこと。"
  },
  "recalc": {
   "n": 73,

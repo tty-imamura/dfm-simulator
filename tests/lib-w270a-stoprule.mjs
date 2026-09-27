@@ -152,12 +152,22 @@ export const STOP_RULE_SPEC = {
 // 質量が観測質量そのもの(+0.022% / +0.038% 分だけ軽く)になったので 1 公転の步数が僅かに伸び、
 // 步数上限(60 公転ぶん)と走った步数が基点 743ad9b と違う。**近点数は同じ 60**。判定量は f=1 の宣言どおり動いた
 //(較正ではない —— 質量を観測値へ戻した帰結)。基点は切り直さない(切り直しは次に基点が動く便で)。
+// 第284便c(原仮定者の裁定(第74報)⑥・AN33): dt/4 は常時の鎖から外れた(例外登録簿の本だけ)ので、✴️💫 の DFM 版の dt/4 は
+// 基点に対応する段が**無い**(差ではない)—— 例外の宣言から外す(履歴に残す)。
+// 第284便b(第74報⑤・AN24′): ⚡ psrDoubleABDFM を f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う。
+// 第284便e(第74報 AN34): 💍 saturnRingReal の群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)。
 export const BASE_REPLAY_EXCEPTIONS = [
-  ...['alphaCenABDFM', 'siriusABDFM'].flatMap((id) => ['dt', 'dt/2', 'dt/4'].map((tag) => ({ id, tag, since: 'w282a',
+  ...['alphaCenABDFM', 'siriusABDFM'].flatMap((id) => ['dt', 'dt/2'].map((tag) => ({ id, tag, since: 'w282a',
     why: '第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)' }))),
+  ...['dt', 'dt/2'].map((tag) => ({ id: 'psrDoubleABDFM', tag, since: 'w284b',
+    why: '第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)' })),
+  { id: 'saturnRingReal', tag: 'dt', since: 'w284e',
+    why: '第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)' },
 ];
 // 旧例外の履歴(**削除していない** —— 何を例外にしていたかは資産である)。
 export const BASE_REPLAY_EXCEPTIONS_HISTORY = [
+  { version: 'w282a-1', base: '743ad9b', n: 2, ids: ['alphaCenABDFM|dt/4', 'siriusABDFM|dt/4'],
+    why: '第282便a の f=1 で dt/4 の段も基点と違っていたが、第284便c(AN33)で dt/4 が常時の鎖から外れ、基点に対応する段が無くなった(差ではない)。' },
   { version: 'w271a-1', base: 'f6c19b4', n: 9,
     ids: ['psrJ1946DFM|dt', 'psrJ1946DFM|dt/2', 'psrJ1946DFM|dt/4',
       'psrJ1946PN|dt', 'psrJ1946PN|dt/2',

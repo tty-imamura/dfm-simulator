@@ -5583,14 +5583,18 @@ if (QA_CHANGED) {
   try {
     const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
     reg = ((C.threeStageRegistry || {}).rows || []).find((z) => z.id === 'plutoCharonReal') || null;
+    // 第284便c(原仮定者の裁定(第74報)⑥・AN33): 常時の鎖では**例外登録簿の本だけ**が h/4 を走らせる(❄️ は kF0 の対照だけが登録簿にある)。
+    //   その正本(`threeStageRegistry.chainPolicy` あり)では ❄️ の main は 2 段(h・h/2)・3 段の判定行は kF0 の対照の行にある。登録表は明示診断の入口として残る
+    const H4X = !!((C.threeStageRegistry || {}).chainPolicy);
     if (!reg) bad.push('①THREE_STAGE_REGISTRY に plutoCharonReal が無い');
-    else if (reg.hasQuarter !== true) bad.push('①❄️ が 3 段(dt/4)で走っていない');
+    else if (!H4X && reg.hasQuarter !== true) bad.push('①❄️ が 3 段(dt/4)で走っていない');
+    else if (H4X && reg.hasQuarter !== false) bad.push('①第284便c の鎖の正本では ❄️ の main は h/4 を走らせない(hasQuarter が false でない)');
     const P = (C.presets || []).find((z) => z.id === 'plutoCharonReal') || null;
     if (!P) bad.push('①走行 JSON に ❄️ が無い');
     else {
       const stages = ((P.run || {}).stopRuleStages || []);
       // 第272便a(AG1): 条件つき h/8 を足したので **4 段**だった。第283便c(原仮定者の裁定(第73報)⑤)で dt/8 を常時から外したので **3 段**(明示診断で h/8 を足せば 4 段)。
-      if (stages.length !== 3 && stages.length !== 4) bad.push(`②3 段(明示診断なら 4 段)の停止条件の記録が無い(${stages.length} 段)`);
+      if (H4X ? stages.length !== 2 : (stages.length !== 3 && stages.length !== 4)) bad.push(`②${H4X ? '2 段(第284便c の鎖)' : '3 段(明示診断なら 4 段)'}の停止条件の記録が無い(${stages.length} 段)`);
       const want = { 'dt': 20694498, 'dt/2': 41388996, 'dt/4': 82777992, 'dt/8': 165555984 };
       for (const s of stages) {
         if (s.maxStepsSource !== 'preset')
@@ -5603,8 +5607,13 @@ if (QA_CHANGED) {
       // 第274便a: kF0 対照を配った行(`kf0Applied`)も**判定行ではない**ので外す ——
       //   3 段登録(AF2)が見ているのは**宣言どおり kFrame=1 で走った側**である。
       const q = (P.quantities || []).find((z) => z.kind === 'period' && z.gate
-        && z.gate.status !== 'condition-mismatch' && !z.kf0Applied && z.dtStages) || null;
-      if (!q) bad.push('④❄️ の周期に 3 段の判定行が無い');
+        && z.gate.status !== 'condition-mismatch' && (H4X ? !!z.kf0Applied : !z.kf0Applied) && z.dtStages) || null;
+      if (!q) bad.push('④❄️ の周期に 3 段の判定行が無い' + (H4X ? '(第284便c: kF0 の対照の行)' : ''));
+      if (H4X) {
+        const qm = (P.quantities || []).find((z) => z.kind === 'period' && z.gate && z.gate.status !== 'condition-mismatch' && !z.kf0Applied) || null;
+        const cm = qm && qm.gate.convergence || {};
+        if (!qm || cm.steps !== 2 || qm.gate.assessedStage !== 'h') bad.push(`④第284便c: ❄️ の main の判定行が 2 段・判定段 h でない(${qm ? cm.steps + '/' + qm.gate.assessedStage : '無い'})`);
+      }
       else {
         const c = q.gate.convergence || {};
         // 第272便a(AG1): ❄️ の周期は |p−2| = 1.37 なので**条件つき h/8 の対象**である。
@@ -5944,9 +5953,13 @@ if (QA_CHANGED) {
       nUnit = (ce.mismatch || {}).unitDiffers ? ce.mismatch.unitDiffers.length : -1;
       nSame = (ce.mismatch || {}).sameUnitCenterDiffers ? ce.mismatch.sameUnitCenterDiffers.length : -1;
       if (nUnit < 0 || nSame < 0) bad.push('③adoptedCensus.mismatch の 2 分類が無い');
-      if (nUnit + nSame !== 23)
-        bad.push(`③単位違い ${nUnit} + 同単位差 ${nSame} が第271便a の 23 件と合わない`);
-      if (nUnit !== 16) bad.push(`③単位違いが 16 件でない(${nUnit})`);
+      // 第284便b(原仮定者の裁定(第74報)⑤・AN24′): ⚡ psrDoubleABDFM の f=1 署名で近点移動の採用解の行(単位違い 1 件)が
+      //   採用解の列から外れた(近点 3 個の停止規則で未測定・未判定)—— 単位違い 16→15・合計 23→22(root の旧則は 16/23 のまま)
+      const W284U = /\{ id:"psrDoubleABDFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+      const wantUnit = W284U ? 15 : 16, wantTotal = W284U ? 22 : 23;
+      if (nUnit + nSame !== wantTotal)
+        bad.push(`③単位違い ${nUnit} + 同単位差 ${nSame} が第271便a の 23 件${W284U ? '(第284便b で ⚡ の近点移動 1 件が外れて 22 件)' : ''}と合わない`);
+      if (nUnit !== wantUnit) bad.push(`③単位違いが ${wantUnit} 件でない(${nUnit})`);
       if (nSame !== 7) bad.push(`③同単位差が 7 件でない(${nSame})`);
       if (ce.centerDiffersFromCsv !== nSame)
         bad.push('③centerDiffersFromCsv が同単位差の件数と違う');
@@ -18501,7 +18514,9 @@ if (!FAST) {
         const others = R.survey.filter((z) => z.id !== 'galaxyAnalogyBH' && !z.newInNow);
         const news = R.survey.filter((z) => z.newInNow).map((z) => z.id);
         if (!(moon && moon.heavyBase === 41 && moon.heavyNow === 1 && moon.raysDiffering > 0)) bad.push('🌚 の重い天体 41→1・光線の変化 ' + JSON.stringify(moon));
-        const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id);
+        // 第284便b(原仮定者の裁定(第74報)⑤・AN24′): ⚡ psrDoubleABDFM は f=1 署名で質量が観測値に変わった(光線の源の質量が変わる —— lens 除外の話ではない)
+        const W284R = /\{ id:"psrDoubleABDFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+        const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id).filter((id) => !(W284R && id === 'psrDoubleABDFM'));
         if (diff.length) bad.push('🌚 以外で光線が変わった本 ' + diff.slice(0, 4).join(','));
         if (news.join(',') !== 'clusterAnalogyBH') bad.push('基点に無い本 ' + news.join(','));
         const c = R.cluster;
@@ -56589,13 +56604,16 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         // 第284便b(原仮定者の裁定(第74報)⑤・AN24′・AN39): 基点(de9e39b)からの差に本便の宣言が加わる世代 —— 力学が動いたのは
         //   ⚡(f=1)と 🔆(geoPN 0→1)の 2 本・署名が動いたのは geoPN=1 へ移した 12 本と ⚡。kF0 の写しの基点との比較もこの 2 本だけ違う
         const W284 = /\{ id:"psrDoubleABDFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
-        const PHYS284 = W284 ? ['emAuditSolar', 'psrDoubleABDFM'] : [];
-        const SIG284 = W284 ? ['emAuditSolar', 'earthMoonReal', 'emAuditNewton', 'mercuryReal', 'plutoCharonDFM', 'plutoCharonKF0Control', 'alphaCenAB', 'siriusAB',
-          'psrDoubleAB', 'psrB1534', 'saturnZonalD68', 'saturnRingReal', 'psrDoubleABDFM'] : [];
+        // 第284便e(原仮定者の裁定(第74報)AN34): 🌞💠💍💿 の群に testParticle を署名 —— 力学と署名が動く(💍 は第284便b の 13 本に含む)
+        const W284E = /\{ id:"solarInner"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?testParticle:true/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+        const TP284 = W284E ? ['solarInner', 'uranusReal', 'saturnRingReal', 'saturnRingRealKF1'] : [];
+        const PHYS284 = (W284 ? ['emAuditSolar', 'psrDoubleABDFM'] : []).concat(TP284);
+        const SIG284 = [...new Set((W284 ? ['emAuditSolar', 'earthMoonReal', 'emAuditNewton', 'mercuryReal', 'plutoCharonDFM', 'plutoCharonKF0Control', 'alphaCenAB', 'siriusAB',
+          'psrDoubleAB', 'psrB1534', 'saturnZonalD68', 'saturnRingReal', 'psrDoubleABDFM'] : []).concat(TP284))];
         const srt = (a) => JSON.stringify((a || []).slice().sort());
         const wantDiff = srt(['binary'].concat(PHYS284));
         if (srt(B.diff1) !== wantDiff || srt(B.diff128) !== wantDiff) bad.push(`④ 共通化の前後の差が ${wantDiff} でない: ` + JSON.stringify(B.diff128));
-        if (srt(B.sigDiff) !== srt(L283.KF0_MIGRATED.concat(['binary'], SIG284))) bad.push('④ 署名の差が ⭐ と移した 4 本(+第284便b の 13 本)でない: ' + JSON.stringify(B.sigDiff));
+        if (srt(B.sigDiff) !== srt(L283.KF0_MIGRATED.concat(['binary'], SIG284))) bad.push('④ 署名の差が ⭐ と移した 4 本(+第284便b の 13 本+第284便e の 3 本)でない: ' + JSON.stringify(B.sigDiff));
         if (!(C.n === 37 && C.bitSameNow === 37 && C.bitSameCross === 37 - PHYS284.length)) bad.push(`④ kF0 走行のビット同一が 37/${37 - PHYS284.length} でない(${C.bitSameNow}/${C.bitSameCross}/${C.n})`);
         if (!((C.diag || []).length === 7 && C.diagBitSame === 7)) bad.push('④ 診断コピー 7 本がビット同一でない');
         if (!(D.oneStep && D.oneStep.recordMatches === true && D.oneStep.now.every((x) => x === 0) && D.oneStep.base.every((x) => x !== 0))) bad.push('④ 自由二体の Σm·vx が記録と違う');
