@@ -342,7 +342,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数・geoPN=1 は kFrame=0 専用), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -1508,7 +1508,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     返り値: `{ok, layers, mode, Mc, Ms, Rc, R, sumM, inertiaScale, Ic, omega, tiltDeg, Jz, Jx, Jmag,
     Jshell, Erot, ErotZ, observedRadius?, source, canReplaceV2:false, warnings[]}`。
     **層に載るのは J_z だけ**なので θ≠0 では E_z<E_rot になり、警告 `tiltNotCarried` が付く
-    (🪩 bhCoreTilt は θ=90° で E_z/E_rot=3.75×10⁻³³)。`Kcs`/`pump`/`contract`/`mode:"active"` は
+    (🪩 bhCoreTilt〔**退役(履歴)** —— §16〕は θ=90° で E_z/E_rot=3.75×10⁻³³)。`Kcs`/`pump`/`contract`/`mode:"active"` は
     `KcsNotCarried`/`coreDynamicsNotCarried` を立てるだけで**層は再現しない**。
     **`source` に元の core JSON をそのまま持ち、`canReplaceV2:false`**(コア V2 は消さない)。
     拒否の理由に **`bodyMassNegative`**(第262便b で塞いだ穴 —— 旧実装は |m| を使っていたので
@@ -2609,3 +2609,30 @@ build・力学・光線・`presetSig`・保存 JSON の物理は**この鍵を�
 - **純関数(HP 公開)**: `validateMassLedger(ml)`(`{ok, value, warnings}`)・`MASS_LEDGER_VERSION`(`"w281c-1"`)・`MASS_LEDGER_KEYS`。値は `tests/lib-w281c-rotorledger.mjs` が作る。
 - **内蔵の宣言**: **1 本**(🛞 `ngc3198DFM` —— 観測結果カードに「条件付き質量台帳」の 1 行)。較正母集団には入れない。
 - QA: **`preset.massLedger`**・**`docs.rotorLedger`**。器 `tests/exp-w281c-rotorledger.mjs`・正本 `tests/out/rotorledger-w281c.json`・docs/PHYSICS.md〔第281便c〕。
+
+## 16. familyRole の `"retired"`(退役 —— 第283便b・原仮定者の裁定〔第73報〕④・統括の検証項目 R84・**表示専用**・**SYSTEM_PROMPT には載せない**)
+
+内蔵サンプルの**退役**を `familyRole:"retired"` で宣言する(語彙は `FAMILY_ROLES` = `primary` / `variant` / `retired` —— プリセットの外の定数)。
+**AI 生成には開放していない**(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON の物理・力学・光線は `familyRole` を読まない
+(領域 hash では説明文の欄 `PROSE_KEYS`)。
+
+- **退役した 7 本**(**内蔵から消していない** —— 旧セーブ・履歴の正本・過去の記録が ID で参照する): 🕶️ `darkrotor`・⚫ `bhCore`・🌑 `nebulaRotor`・🐚 `nebulaShell`・⏳ `nebulaBipolar`・🌱 `starSeed`・🪩 `bhCoreTilt`。
+  理由と代わりに見る本はプリセットの外の表 `RETIRED_PRESETS`(減光の原器は 🕳️ `rotorSolo`・銀河の質量要素は 🌚/🛞)。
+- **表示**: サンプル一覧(選択ウィンドウ)に出さない(「すべて表示」・検索でも —— 読み込み中の本だけ〔退役(履歴)〕付きで残る)・開いたときに説明タブへ「退役(履歴)」の 1 行・
+  「この仲間」の導線から外す。**自動で別の本へ置き換えない**(ID で開けば開ける)。
+- **AI 生成のベースサンプル選択**(`#aiBasePreset`)には退役の本がまだ並ぶ(その関数は正本の領域の閉包の中にあるので本便では触らない —— 決断事項候補)。
+  AI には退役の本をベースに選ばせない運用とする。
+- 凍結の写し: `tests/fixtures/retired-w283b.json`(基点 de9e39b の内蔵定義・presetSigHash・ゲートから外した試験の最後の保存 QA の値・⚫ の尺度比較の参照値)。
+- QA: **`docs.retired`**・**`docs.families`**。器 `tests/exp-w283b-families.mjs`・正本 `tests/out/families-w283b.json`・一覧 `docs/FAMILIES_v1.45.md`・docs/PHYSICS.md〔第283便b〕。
+## 17. 第283便d の UI —— 背景複素決定力の宣言欄と空間メッシュの線の明るさ(原仮定者の裁定〔第73報〕⑥・統括の検証項目 R87・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。プリセットの `physics.backgroundComplex`(§12・第276便a/第277便d の受理契約)を**アプリの画面から宣言する欄**と、空間メッシュの線の**表示の契約**を足しただけである。
+
+- **欄の位置**: パラメータタブ「引きずり・測地線」の「背景決定力 D₀」行の**直後**(`#bgcPanel`・`<details>`・既定は閉じる)。見出しに状態チップ(「未確定(未宣言)」/「宣言済み: <background>」/「受理されない宣言」)。
+- **欄の項目**: background(未宣言 / solar-excluded / heliocentric / galactic / declared / zero)・W0 [M/L²]・A0 [M/(L·T)](2 成分)・gradW [M/L³](2)・gradA [M/(L²·T)](4 —— ∂ₓAx,∂_yAx,∂ₓAy,∂_yAy)・dWdt [M/(L²·T)](1)・dAdt [M/(L·T²)](2)・note(200 字以内)。単位は `BG_COMPLEX_UNITS` から出す。
+- **書き込みの規則**: 「宣言する」を押したときだけ受理器 `validateBackgroundComplex` に通し、**正規化後の宣言**を編集対象(A/B 比較中は選択側)の params へ新しいオブジェクトとして置く。**拒否は受理器の文をそのまま**表示し、params は変えない。「未宣言に戻す」は鍵を消す(未宣言 = 未確定 —— ゼロではない)。既存の宣言の sources/frame/refPos は引き継ぐ(欄では編集しない)。
+- **D₀ とは別の鍵**: D₀ は [M/L] のスカラー、W₀ は [M/L²]・A₀ は [M/(L·T)] の向きつき量。**W₀ に D₀ の値を流用しない**。
+- **presetSig**: 欄を出す・開くだけでは変わらない。宣言すればセーブの physics に入り、JSON に同じ宣言を手で書いたプリセットと同じ署名になる(宣言どおり)。力学が読むのは `physics.meshVelocity`(field:"backgroundComplex")を宣言した本の build 時だけ。
+- **線の明るさ**: 空間メッシュの線(格子・空間線・参照ガイド・輸送・tracer・折返しの縁)の不透明度は **D₀ にも χ にも依らない固定値**(D₀=0 のときの値 0.62 / 0.62 / 0.45 / 0.55 / 0.80 / 0.82)。色はスキンの表 `SPACE_MESH_LINE_STYLE` に従う(キャンバスは既定「固定」なので dark と light は同じ値)。tracer の色相は χ の符号化として残る。
+- **読み口(HP 公開)**: `bgcState(S)`・`bgcApply(S, cand|null)`・`spaceMeshLineStyle()`。
+- QA: **`ui.meshLineBrightness`**・**`ui.bgComplexPanel`**(root は SKIP)。器 `tests/exp-w283d-ui.mjs`(MEASURE / PANEL —— 正本は出さない)・docs/PHYSICS.md〔第283便d〕。

@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便b",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-  "generatedAt": "2026-09-26T10:06:26.418Z",
+  "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+  "generatedAt": "2026-09-26T23:16:59.344Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836622,
-    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-    "mtime": "2026-09-26T09:36:38.024Z"
+    "bytes": 4903364,
+    "sha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+    "mtime": "2026-09-26T22:04:04.756Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2815722,
-    "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
-    "mtime": "2026-09-26T09:46:19.584Z"
+    "bytes": 2698393,
+    "sha256": "e3cff1886351ee6127e7a9abd56b47711f708c2028f222c5f09cd0046cdb669d",
+    "mtime": "2026-09-26T21:43:29.368Z"
    }
   ],
   "code": [
@@ -66,13 +66,13 @@
   "measureVersion": "w273b-charonpage-1",
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
+  "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
+   "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-   "obsSha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
+   "obsSha256": "e3cff1886351ee6127e7a9abd56b47711f708c2028f222c5f09cd0046cdb669d",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -100,17 +100,15 @@
    }
   },
   "mergeDecision": {
-   "accept": "scope",
-   "reasons": [
-    "対象 html と観測入力ファイルの hash だけが違い、領域 hash(REGEN_SCOPE)と採用行が一致 —— 旧段を転記で残す"
-   ]
+   "accept": "same",
+   "reasons": []
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
   "pilot": false,
-  "stage": "h",
-  "dt": 0.016,
-  "stepsRequested": 20700000,
+  "stage": "h4",
+  "dt": 0.004,
+  "stepsRequested": 82800000,
   "contract": {
    "stepH": 20700000,
    "orbMax": 60,
@@ -177,7 +175,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b"
+   "calauditSha256": "e3cff1886351ee6127e7a9abd56b47711f708c2028f222c5f09cd0046cdb669d"
   },
   "secondsPerUnit": 100,
   "notClaim": [
@@ -675,75 +673,98 @@
     "requested": 0.05,
     "applied": 0.05,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_base_e0.025": {
     "requested": 0.025,
     "applied": 0.025,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_base_e0.0125": {
     "requested": 0.0125,
     "applied": 0.0125,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_base_e0.01": {
     "requested": 0.01,
     "applied": 0.01,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_base_e0.005": {
     "requested": 0.005,
     "applied": 0.01,
     "clamped": true,
     "warnings": [
-     "physics.softening を値域に修正"
+     "physics.softening を値域に修正",
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ]
    },
    "E_diag_e0.5": {
     "requested": 0.5,
     "applied": 0.5,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_diag_e0.25": {
     "requested": 0.25,
     "applied": 0.25,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_diag_e0.125": {
     "requested": 0.125,
     "applied": 0.125,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_diag_e0.1": {
     "requested": 0.1,
     "applied": 0.1,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_diag_e0.05": {
     "requested": 0.05,
     "applied": 0.05,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_diag_e0.02": {
     "requested": 0.02,
     "applied": 0.02,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    },
    "E_diag_e0.01": {
     "requested": 0.01,
     "applied": 0.01,
     "clamped": false,
-    "warnings": []
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ]
    }
   },
   "massFloorNotConverted": {
@@ -762,7 +783,7 @@
    }
   },
   "scope": {
-   "version": "w282e-scope-2",
+   "version": "w283e-scope-3",
    "presets": [
     "alphaCenAB",
     "neptuneReal",
@@ -796,22 +817,31 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 783,
-   "segments": 711,
-   "closureShare": 0.3164
+   "names": 795,
+   "segments": 723,
+   "closureShare": 0.3175
   },
-  "scopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d",
+  "scopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "d80d3db914d4e66efd951209fdc5a98913d59dd99afdecc0888d3b8a6ca64d8e",
+    "stableSha256": "1aa9a77193d26454f3ec745fee7dd012abb0eba4f0540640ecbbb652d6df2dfb",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
      "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
      "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
      "/meta/when",
-     "/presets/*/run/dtEighth/wallSec",
      "/presets/*/run/stopRule/rateStepsPerSec",
      "/presets/*/run/stopRule/wallSec",
      "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
@@ -820,12 +850,22 @@
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
     ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "e14f569ae69db45b0620e33b36490fd07244d6bff3dc74fc1b7a9fbf44863229",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
    }
   ],
   "stableHashVersion": "w282e-stable-1",
   "carriedStages": [
-   "h2",
-   "h4"
+   "h",
+   "h2"
   ]
  },
  "declaredSystems": [
@@ -1690,7 +1730,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.102,
+    "wallSec": 21.981,
     "revSec": [
      551862.4613633327,
      551864.0613632939,
@@ -1752,11 +1792,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.59599965528715,
     "oscE": 0.000016990022693039395,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_base_e0.05",
@@ -1772,7 +1820,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 35.205,
+    "wallSec": 46.653,
     "revSec": [
      551863.2612657931,
      551864.0612661137,
@@ -1834,16 +1882,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.59599965283887,
     "oscE": 0.000013705498380582199,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -1860,7 +1910,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 70.357,
+    "wallSec": 91.16,
     "revSec": [
      551863.66124295,
      551864.0612407731,
@@ -1922,17 +1972,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999652232763,
     "oscE": 0.00001275287125529755,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_base_e0.025": {
@@ -1950,7 +1996,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.829,
+    "wallSec": 22.105,
     "revSec": [
      551854.3777987654,
      551855.9777990397,
@@ -2012,11 +2058,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999651779508,
     "oscE": 0.00001200053989319149,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_base_e0.025",
@@ -2032,7 +2086,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 34.24,
+    "wallSec": 48.228,
     "revSec": [
      551855.1777015859,
      551855.977699629,
@@ -2094,16 +2148,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.59599964933889,
     "oscE": 0.000006572167781705575,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -2120,7 +2176,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 69.238,
+    "wallSec": 88.388,
     "revSec": [
      551855.5776777081,
      551855.977676368,
@@ -2182,17 +2238,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999648734587,
     "oscE": 0.000004241314157441447,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_base_e0.0125": {
@@ -2210,7 +2262,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.701,
+    "wallSec": 21.394,
     "revSec": [
      551852.3568783228,
      551853.9568783055,
@@ -2272,11 +2324,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999651568352,
     "oscE": 0.000011619467652871863,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_base_e0.0125",
@@ -2292,7 +2352,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 33.738,
+    "wallSec": 48.051,
     "revSec": [
      551853.1567810276,
      551853.9567799019,
@@ -2354,16 +2414,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999649121968,
     "oscE": 0.0000058474362821873055,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -2380,7 +2442,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 68.983,
+    "wallSec": 90.521,
     "revSec": [
      551853.5567568904,
      551853.9567560926,
@@ -2442,17 +2504,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999648520827,
     "oscE": 0.0000029979574929444615,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_base_e0.01": {
@@ -2470,7 +2528,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.207,
+    "wallSec": 21.436,
     "revSec": [
      551852.1143670718,
      551853.714367087,
@@ -2532,11 +2590,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999651548667,
     "oscE": 0.000011604396739165303,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_base_e0.01",
@@ -2552,7 +2618,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 34.118,
+    "wallSec": 47.642,
     "revSec": [
      551852.9142697566,
      551853.714268699,
@@ -2614,16 +2680,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999649111768,
     "oscE": 0.000005817432373129396,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -2640,7 +2708,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 68.549,
+    "wallSec": 92.213,
     "revSec": [
      551853.3142455426,
      551853.7142448771,
@@ -2702,17 +2770,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 19.595999648508922,
     "oscE": 0.000002939003346250988,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_base_e0.005": {
@@ -2730,7 +2794,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.214,
+    "wallSec": 21.853,
     "revSec": [
      551852.1143670718,
      551853.714367087,
@@ -2793,12 +2857,19 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "physics.softening を値域に修正"
+     "physics.softening を値域に修正",
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999651548667,
     "oscE": 0.000011604396739165303,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_base_e0.005",
@@ -2814,7 +2885,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 33.547,
+    "wallSec": 47.283,
     "revSec": [
      551852.9142697566,
      551853.714268699,
@@ -2877,17 +2948,18 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "physics.softening を値域に修正"
+     "physics.softening を値域に修正",
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999649111768,
     "oscE": 0.000005817432373129396,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -2904,7 +2976,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 69.231,
+    "wallSec": 91.438,
     "revSec": [
      551853.3142455426,
      551853.7142448771,
@@ -2967,18 +3039,13 @@
      "geoToyOverlay": null
     },
     "warnings": [
-     "physics.softening を値域に修正"
+     "physics.softening を値域に修正",
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
     "oscA": 19.595999648508922,
     "oscE": 0.000002939003346250988,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_diag_e0.5": {
@@ -3043,7 +3110,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.553,
+    "wallSec": 21.712,
     "revSec": [
      551862.4607197864,
      551864.0607197867,
@@ -3105,11 +3172,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.9599964385142,
     "oscE": 0.000016989752484607868,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_diag_e0.5",
@@ -3172,7 +3247,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 35.18,
+    "wallSec": 45.279,
     "revSec": [
      551863.2606223021,
      551864.0606226932,
@@ -3234,16 +3309,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999641416182,
     "oscE": 0.000013705164086324032,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -3307,7 +3384,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 69.672,
+    "wallSec": 89.053,
     "revSec": [
      551863.6605995073,
      551864.0605974033,
@@ -3369,17 +3446,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999640809094,
     "oscE": 0.00001275251237052118,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_diag_e0.25": {
@@ -3444,7 +3517,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.487,
+    "wallSec": 22.017,
     "revSec": [
      551854.3771552626,
      551855.9771556277,
@@ -3506,11 +3579,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999640363215,
     "oscE": 0.000012000444158925451,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_diag_e0.25",
@@ -3573,7 +3654,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 35.596,
+    "wallSec": 45.018,
     "revSec": [
      551855.1770581169,
      551855.9770562511,
@@ -3635,16 +3716,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637912445,
     "oscE": 0.000006571994408112395,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -3708,7 +3791,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 69.824,
+    "wallSec": 91.844,
     "revSec": [
      551855.577034204,
      551855.9770328897,
@@ -3770,17 +3853,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637321012,
     "oscE": 0.0000042410472425961,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_diag_e0.125": {
@@ -3845,7 +3924,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.221,
+    "wallSec": 21.735,
     "revSec": [
      551852.3562347974,
      551853.9562347803,
@@ -3907,11 +3986,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999640139735,
     "oscE": 0.00001161944324532217,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_diag_e0.125",
@@ -3974,7 +4061,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 34.832,
+    "wallSec": 47.802,
     "revSec": [
      551853.1561375257,
      551853.956136277,
@@ -4036,16 +4123,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637695036,
     "oscE": 0.000005847388417573542,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -4109,7 +4198,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 69.954,
+    "wallSec": 88.518,
     "revSec": [
      551853.5561132607,
      551853.9561123898,
@@ -4171,17 +4260,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637074874,
     "oscE": 0.0000029978645882708303,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_diag_e0.1": {
@@ -4246,7 +4331,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.442,
+    "wallSec": 22.655,
     "revSec": [
      551852.113723571,
      551853.713723639,
@@ -4308,11 +4393,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999640135528,
     "oscE": 0.00001160438131264572,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_diag_e0.1",
@@ -4375,7 +4468,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 34.74,
+    "wallSec": 48.731,
     "revSec": [
      551852.9136262725,
      551853.7136251947,
@@ -4437,16 +4530,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637702934,
     "oscE": 0.000005817401675187842,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -4510,7 +4605,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 69.84,
+    "wallSec": 90.295,
     "revSec": [
      551853.3136020907,
      551853.7136015409,
@@ -4572,17 +4667,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637102804,
     "oscE": 0.000002938943761730296,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_diag_e0.05": {
@@ -4647,7 +4738,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.949,
+    "wallSec": 21.33,
     "revSec": [
      551851.7903749438,
      551853.3903749292,
@@ -4709,11 +4800,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.9599964012035,
     "oscE": 0.000011594767529890992,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_diag_e0.05",
@@ -4776,7 +4875,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 34.788,
+    "wallSec": 44.593,
     "revSec": [
      551852.5902776335,
      551853.3902765872,
@@ -4838,16 +4937,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637681453,
     "oscE": 0.000005798202583698539,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -4911,7 +5012,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 69.902,
+    "wallSec": 90.586,
     "revSec": [
      551852.9902535011,
      551853.3902530037,
@@ -4973,17 +5074,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.9599963708351,
     "oscE": 0.0000029007544865129446,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_diag_e0.02": {
@@ -5048,7 +5145,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 18.03,
+    "wallSec": 21.674,
     "revSec": [
      551851.6998373505,
      551853.299837311,
@@ -5110,11 +5207,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999640128315,
     "oscE": 0.000011594223993627782,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_diag_e0.02",
@@ -5177,7 +5282,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 34.602,
+    "wallSec": 46.228,
     "revSec": [
      551852.4997399191,
      551853.299738846,
@@ -5239,16 +5344,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637688084,
     "oscE": 0.000005797116149984634,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -5312,7 +5419,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 69.904,
+    "wallSec": 91.34,
     "revSec": [
      551852.8997157275,
      551853.2997149873,
@@ -5374,17 +5481,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637062138,
     "oscE": 0.0000028985824592186324,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   },
   "E_diag_e0.01": {
@@ -5449,7 +5552,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 17.246,
+    "wallSec": 22.072,
     "revSec": [
      551851.6869034051,
      551853.2869034362,
@@ -5511,11 +5614,19 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999640126493,
     "oscE": 0.000011594223043860107,
-    "mergeKey": "992379def2187e9fdbe69aae9f1de8cd089eae9012e2afcf1244e2a0d9e63357",
-    "canonicalRun": true
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-09-26T22:08:06.771Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
+    }
    },
    "h2": {
     "id": "E_diag_e0.01",
@@ -5578,7 +5689,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 34.446,
+    "wallSec": 49.396,
     "revSec": [
      551852.4868060789,
      551853.2868049308,
@@ -5640,16 +5751,18 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637691992,
     "oscE": 0.000005797114541672119,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:07:41.460Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
+     "fromGeneratedAt": "2026-09-26T22:58:47.308Z",
+     "fromTargetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+     "fromScopeSha256": "a4910dc9dd9e5dd485200326f9a99ab4c8553574946836cc56cd39242d5a0621"
     }
    },
    "h4": {
@@ -5713,7 +5826,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 69.09,
+    "wallSec": 91.817,
     "revSec": [
      551852.8867818256,
      551853.2867812433,
@@ -5775,17 +5888,13 @@
      "geoToyStop": null,
      "geoToyOverlay": null
     },
-    "warnings": [],
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
     "oscA": 195.95999637067953,
     "oscE": 0.0000028985789157762082,
-    "mergeKey": "59dd79305c99cf2d7fb39e2650009101e7c742851f90341988fdf6a1557096f4",
-    "canonicalRun": true,
-    "carried": {
-     "mark": "転記",
-     "fromGeneratedAt": "2026-09-26T03:21:38.211Z",
-     "fromTargetSha256": "99316d44e0db2db38977b93cc0b2defeae693caa0e9caf4cfefd0f5baf8f3c03",
-     "fromScopeSha256": "04a972a2f767cdaba8c52ec29d6fc6751b5fb14a8e5020ac4b25c60032b73e4d"
-    }
+    "mergeKey": "4c487a26670da4e0ed72068281224b8419f9cd6a82b2a97d8d0dc4f967ee198a",
+    "canonicalRun": true
    }
   }
  },

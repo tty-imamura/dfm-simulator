@@ -134,6 +134,8 @@ const SITE_CLASS = {
   'dfmLocalMeshField :: rd4': { use: '局所場(背景 u_bg を D₀ 倍して分子へ)', replaceable: 'candidate',
     why: '**A₀=D₀·u_bg** と置いた特別な場合 —— (N3) では A₀ を独立に宣言する' },
   'dfmField :: dfmField': { use: '場の純関数(D₀ を引数で受ける)', replaceable: 'candidate', why: '引数の受け口' },
+  // 第283便c: 試験粒子契約の 1 步(本体の E6′ 背景持ち分 bgW=D₀ の写し —— 既定 off・宣言した本だけ)
+  'dfmTestParticleStep :: dfmTestParticleStep': { use: 'E6′(試験粒子の引きずりの力・背景持ち分 bgW=D₀・本体の写し)', replaceable: 'candidate', why: 'χ の分母(makeSim :: F6 と同じ)' },
   'dfmFieldSnapshot :: stop': { use: '場のスナップショット(診断)', replaceable: 'candidate', why: '同じ分母' },
   // 第282便 b/d: 場の契約の読み出し(診断の読み手 = 力学と同じ E6′ q=2 の契約を返す)と geoPN=3 トイの中心自転の 1 步
   'dfmFieldContractOf :: dfmFieldContractOf': { use: '場の契約の読み出し(診断が力学と同じ契約 p・W_bg を読む)', replaceable: 'candidate', why: 'χ の分母(契約に写すだけ)' },
@@ -254,7 +256,9 @@ const bgcFns = [...new Set(bgcSites.map((z) => z.fn))].sort();
 // ほかに許すのは、`physics.meshVelocity` を宣言した本の準備関数 `meshVelocityPrepare` だけ(宣言した読み口)。
 // その関数は meshVelocity が未宣言なら**背景鍵に触れる前に戻る**ことを潰した写しで確かめる(guardBeforeRead)。
 const BGC_READERS = ['meshVelocityPrepare'];
-const BGC_ALLOWED = ['(top-level)', 'validateBackgroundComplex', 'validatePreset'].concat(BGC_READERS);
+// 第283便d: 背景複素決定力の欄(#bgcPanel)は宣言の表示と編集だけ(力学の読み口ではない)—— 受理契約の外ではなく UI として許可
+const BGC_UI = ['bgcState', 'bgcApply', 'buildBgComplexPanel'];
+const BGC_ALLOWED = ['(top-level)', 'validateBackgroundComplex', 'validatePreset'].concat(BGC_READERS, BGC_UI);
 const bgcOutside = bgcFns.filter((f) => BGC_ALLOWED.indexOf(f) < 0);
 const bgcReadersFound = bgcFns.filter((f) => BGC_READERS.indexOf(f) >= 0);
 let bgcGuard = null;

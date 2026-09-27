@@ -3,28 +3,28 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便c",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-  "generatedAt": "2026-09-26T08:27:13.085Z",
+  "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+  "generatedAt": "2026-09-26T23:37:29.385Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836622,
-    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-    "mtime": "2026-09-26T08:09:25.652Z"
+    "bytes": 4903364,
+    "sha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+    "mtime": "2026-09-26T22:04:04.756Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w282c-dragprofile.mjs",
-    "bytes": 8417,
-    "sha256": "0b63aa7dc7f6f53a0f0d1bcf7ac39365296c48ea907f485c1527ba8dbcf37b9c",
-    "mtime": "2026-09-25T23:51:52.681Z"
+    "bytes": 8597,
+    "sha256": "c9c20dd6a99e8d2beff4de7567262fc235b52e3d506eb78735db62231e402028",
+    "mtime": "2026-09-26T17:44:54.703Z"
    },
    {
     "file": "tests/lib-w282c-dragprofile.mjs",
-    "bytes": 39117,
-    "sha256": "9e7c4230218bcfeb32f2232ef823862b934ad60a9bc5deb5e08f7ad2e072dcde",
-    "mtime": "2026-09-25T23:51:52.681Z"
+    "bytes": 39723,
+    "sha256": "d44b1eb564ec5ce75b85b789eb503799a458c5734e2acb9d1f1e8f55bda3aa27",
+    "mtime": "2026-09-26T22:53:29.043Z"
    },
    {
     "file": "tests/lib-w280b-sphereKernel.mjs",
@@ -64,14 +64,14 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 60075,
-    "sha256": "42e586660d12b9554e77d0ecf507747b411e2356812c40d18df599090b62826f",
-    "mtime": "2026-09-26T08:09:25.504Z"
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-26T17:46:31.436Z"
    }
   ],
-  "codeSha256": "526b59178bb42230476f1e1c311fa6bbf06d47d7f38be378098fa5079fa0394d",
+  "codeSha256": "b16103b7f0e7d5574503bd3d738f06e1e59718cd68b414f63d4717608cfb1e63",
   "scope": {
-   "version": "w282e-scope-2",
+   "version": "w283e-scope-3",
    "presets": [
     "alphaCenABDFM",
     "earthMoonDiagOne",
@@ -117,11 +117,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 777,
-   "segments": 705,
-   "closureShare": 0.3155
+   "names": 789,
+   "segments": 717,
+   "closureShare": 0.3167
   },
-  "scopeSha256": "a7e69d3bcfd87e2389b44bfdc1bbb6a16b8ab054f04b150aae7b50ae4f78a087",
+  "scopeSha256": "daaf78d4fbbebc95457a122ff3024b262c11432fa578873270233e589434f456",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -158,8 +158,8 @@
       "spin": 0
      },
      "sha": [
-      "f10e649601d856ac",
-      "f10e649601d856ac"
+      "9dd3a6a286b6b8bb",
+      "9dd3a6a286b6b8bb"
      ]
     },
     "physicsQ": {
@@ -170,8 +170,8 @@
       "spin": 0
      },
      "sha": [
-      "f10e649601d856ac",
-      "f10e649601d856ac"
+      "9dd3a6a286b6b8bb",
+      "9dd3a6a286b6b8bb"
      ]
     },
     "warnings": 0
@@ -208,7 +208,7 @@
       "9dd3a6a286b6b8bb"
      ]
     },
-    "warnings": 0
+    "warnings": 4
    },
    {
     "id": "psrDoubleABDFM",
@@ -226,8 +226,8 @@
       "spin": 0
      },
      "sha": [
-      "b042429501ffc201",
-      "b042429501ffc201"
+      "81807f80788d5ff6",
+      "81807f80788d5ff6"
      ]
     },
     "physicsQ": {
@@ -238,8 +238,8 @@
       "spin": 0
      },
      "sha": [
-      "b042429501ffc201",
-      "b042429501ffc201"
+      "81807f80788d5ff6",
+      "81807f80788d5ff6"
      ]
     },
     "warnings": 0
@@ -276,7 +276,7 @@
       "81807f80788d5ff6"
      ]
     },
-    "warnings": 0
+    "warnings": 4
    }
   ],
   "allBitSame": true,
@@ -288,30 +288,9 @@
     "id": "alphaCenABDFM",
     "emoji": "✴️",
     "geoPN": 1,
-    "kF1DragQ2vs8": {
-     "bitSame": true,
-     "maxAbs": {
-      "pos": 0,
-      "vel": 0,
-      "spin": 0
-     },
-     "sha": [
-      "f10e649601d856ac",
-      "f10e649601d856ac"
-     ]
-    },
-    "kFrame0vs1": {
-     "bitSame": true,
-     "maxAbs": {
-      "pos": 0,
-      "vel": 0,
-      "spin": 0
-     },
-     "sha": [
-      "f10e649601d856ac",
-      "f10e649601d856ac"
-     ]
-    }
+    "rejected": true,
+    "kFrame0Ok": true,
+    "reason": "geoPN=1 は kFrame=0 専用(受理器が kFrame=1 を拒否 —— 第283便a)"
    },
    {
     "id": "alphaCenABDFM",
@@ -346,30 +325,9 @@
     "id": "psrDoubleABDFM",
     "emoji": "⚡",
     "geoPN": 1,
-    "kF1DragQ2vs8": {
-     "bitSame": true,
-     "maxAbs": {
-      "pos": 0,
-      "vel": 0,
-      "spin": 0
-     },
-     "sha": [
-      "b042429501ffc201",
-      "b042429501ffc201"
-     ]
-    },
-    "kFrame0vs1": {
-     "bitSame": true,
-     "maxAbs": {
-      "pos": 0,
-      "vel": 0,
-      "spin": 0
-     },
-     "sha": [
-      "b042429501ffc201",
-      "b042429501ffc201"
-     ]
-    }
+    "rejected": true,
+    "kFrame0Ok": true,
+    "reason": "geoPN=1 は kFrame=0 専用(受理器が kFrame=1 を拒否 —— 第283便a)"
    },
    {
     "id": "psrDoubleABDFM",
@@ -404,30 +362,9 @@
     "id": "earthMoonRealKF1",
     "emoji": "🌘",
     "geoPN": 1,
-    "kF1DragQ2vs8": {
-     "bitSame": true,
-     "maxAbs": {
-      "pos": 0,
-      "vel": 0,
-      "spin": 0
-     },
-     "sha": [
-      "34024911dbee0215",
-      "34024911dbee0215"
-     ]
-    },
-    "kFrame0vs1": {
-     "bitSame": true,
-     "maxAbs": {
-      "pos": 0,
-      "vel": 0,
-      "spin": 0
-     },
-     "sha": [
-      "34024911dbee0215",
-      "34024911dbee0215"
-     ]
-    }
+    "rejected": true,
+    "kFrame0Ok": true,
+    "reason": "geoPN=1 は kFrame=0 専用(受理器が kFrame=1 を拒否 —— 第283便a)"
    },
    {
     "id": "earthMoonRealKF1",
@@ -464,13 +401,13 @@
     "key": "e6Gate",
     "meaning": "E6′ の追従キックは kFrame>0 かつ geoPN=0 のときだけ(geoPN≥1 の物質には当てない)",
     "text": "if(denom>0 && kFrame>0 && !geo){",
-    "count": 1
+    "count": 2
    },
    {
     "key": "g2Gate",
     "meaning": "geoPN=2 の v−u 輸送 3 項は geoPN≥2 かつ kFrame>0 のときだけ",
     "text": "const geo2=(p.geoPN||0)>=2, g2on=geo2&&kFrame>0;",
-    "count": 1
+    "count": 2
    },
    {
     "key": "pnVel",
@@ -479,7 +416,7 @@
     "count": 1
    }
   ],
-  "note": "対照: kFrame=1 でも geoPN=1 では E6′ の門(!geo)と輸送の門(geo2)が閉じるので q も kFrame も物質の力学に入らない。q が効くのは geoPN=2(または 0)で kFrame=1 のときだけ"
+  "note": "対照: q が効くのは geoPN=2(または 0)で kFrame=1 のときだけ。第283便a から geoPN=1 は kFrame=0 専用で、kFrame=1 の写しは受理器が拒否する(旧 html では E6′ の門〔!geo〕と輸送の門〔geo2〕が閉じて q も kFrame も物質の力学に入らなかった)"
  },
  "units": {
   "version": "w282c-1",
@@ -3321,7 +3258,7 @@
   "引きずり消失を確認した",
   "新発見"
  ],
- "headlessMs": 60,
+ "headlessMs": 189,
  "headlessErrors": 0,
- "elapsedS": 0.921
+ "elapsedS": 2.32
 }

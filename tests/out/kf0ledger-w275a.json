@@ -3,38 +3,38 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-  "generatedAt": "2026-09-26T11:06:36.846Z",
+  "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+  "generatedAt": "2026-09-26T23:44:02.994Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
-    "bytes": 80550,
-    "sha256": "0d7e5524700ef8485870c901107329c66bc5c8c79d2a4ed500f15904e212178c",
-    "mtime": "2026-09-26T08:16:53.296Z"
+    "bytes": 81105,
+    "sha256": "b81a107f3f7c14c646faafb678874ac04728af5cb420f693f632ac74a7e0a5d0",
+    "mtime": "2026-09-26T20:15:15.436Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2815722,
-    "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
-    "mtime": "2026-09-26T09:46:19.584Z"
+    "bytes": 2698393,
+    "sha256": "e3cff1886351ee6127e7a9abd56b47711f708c2028f222c5f09cd0046cdb669d",
+    "mtime": "2026-09-26T21:43:29.368Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 155974,
-    "sha256": "b7861b4f67f28e7b7207d414f2eecd5892011487dc2cec14fa5c25bfef579d24",
-    "mtime": "2026-09-26T10:32:35.311Z"
+    "bytes": 159764,
+    "sha256": "88ff6528d0417aad40366ad291e6d677bb10fba4e860837ceb76569ad4323318",
+    "mtime": "2026-09-26T23:30:51.416Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 13500,
-    "sha256": "9516e5472792e04e96b2c414a06e300170e14e7556997ca509a269548c7fa4bc",
-    "mtime": "2026-09-26T10:40:18.463Z"
+    "sha256": "8170e6f3a49f08355aa6dc0ddcc16f068b54cb3f3a460e683bc113458a9bb397",
+    "mtime": "2026-09-26T20:15:19.000Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223870,
-    "sha256": "c22463bf248239a4d290ed81e191e2ed7c9a527222a3356e32ea863bf51de2ec",
-    "mtime": "2026-09-26T00:20:16.792Z"
+    "sha256": "4ec1d8f3c9c351abe56361b5302227afd9f3d3c312a288b430d65c5ab7d326b7",
+    "mtime": "2026-09-26T18:18:36.196Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -44,9 +44,9 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 126530,
-    "sha256": "4f537e77e4513d3dd337150c2c8326f96f82939369b139210119e29c9fdc40bb",
-    "mtime": "2026-09-26T09:46:22.300Z"
+    "bytes": 127353,
+    "sha256": "bf1121adfe367c6484b5e72fc736870797711c768a4cc65cce30970abf1ec4dd",
+    "mtime": "2026-09-26T22:04:04.524Z"
    }
   ],
   "code": [
@@ -1582,12 +1582,12 @@
      "nSigma": [
       {
        "key": "plutoCharonReal|カロン|period",
-       "nSigma": 52269.177609860766,
+       "nSigma": 52261.27216176534,
        "status": "数値未解決"
       },
       {
        "key": "plutoCharonReal|カロン|period",
-       "nSigma": 170347.04589344602,
+       "nSigma": 170367.82615132438,
        "status": "mapping-unresolved"
       }
      ]
@@ -2275,7 +2275,7 @@
      "nSigma": [
       {
        "key": "psrDoubleAB|B|period",
-       "nSigma": 946662.6678473674,
+       "nSigma": 947103.3842678417,
        "status": "数値未解決"
       },
       {
@@ -2360,12 +2360,12 @@
      "nSigma": [
       {
        "key": "psrDoubleABDFM|B|period",
-       "nSigma": 49245670.48694701,
+       "nSigma": 97614187.8846667,
        "status": "数値未解決"
       },
       {
        "key": "psrDoubleABDFM|B|ecc",
-       "nSigma": 1066.5123989509034,
+       "nSigma": 1505.5777130744523,
        "status": "mapping-unresolved"
       },
       {
@@ -2943,7 +2943,7 @@
       },
       {
        "key": "psrDoubleABCF|B|period",
-       "nSigma": 48884420.48280833,
+       "nSigma": 97252156.36019558,
        "status": "数値未解決"
       }
      ]
@@ -4887,7 +4887,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "885e67662240de47f3b0f9de66ddf8a4f28311513c2a0aeeb3274746212f934a",
+   "fileSha256": "dabb413eb6e0191752461dd0b82716a0ec6689951786451aac3d66a2200f4e1f",
    "citedValue": 551864.0613632939,
    "citedCfg": {
     "kFrame": 0,
@@ -4895,7 +4895,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "c980ce960b6bf171f497c8ef7054b937f00f29512bbadbb4b4b40be4c479f299",
+   "citedTargetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
    "thisRunValue": 551864.0613632939,
    "relDiff": 0,
    "identical": true,

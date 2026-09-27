@@ -12,67 +12,79 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-  "generatedAt": "2026-09-26T10:37:55.319Z",
+  "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+  "generatedAt": "2026-09-26T23:38:07.589Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 52268,
-    "sha256": "577cb6b3ac366f352c693d1baa1fa9bc958008d9561808e6fb49f8255ed43b4a",
-    "mtime": "2026-09-26T00:06:36.716Z"
+    "bytes": 64576,
+    "sha256": "fcb1a15bea3c5c9a2ea1294733b5e2266be82f145bcbd690707be9ffe278526e",
+    "mtime": "2026-09-26T17:47:12.775Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2815722,
-    "sha256": "15d4646d2ea9507bdf670f410412159cd1c3cd359d440698225a58ecc099be7b",
-    "mtime": "2026-09-26T09:46:19.584Z"
+    "bytes": 2698393,
+    "sha256": "e3cff1886351ee6127e7a9abd56b47711f708c2028f222c5f09cd0046cdb669d",
+    "mtime": "2026-09-26T21:43:29.368Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90699,
-    "sha256": "fc3f3459e616439700c5e1b5fc2a22d20cad2f080fc46323125cd24b83abcf15",
-    "mtime": "2026-09-26T03:29:24.720Z"
+    "bytes": 90697,
+    "sha256": "da0df9450004c48c298f39775ba04695be5d1b5f231f697e3d16ce61675b3616",
+    "mtime": "2026-09-26T18:38:11.224Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 76851,
-    "sha256": "194caa23f94acd6d0917cebf915551005d839565b9f94b1a454f2baf345a5fe5",
-    "mtime": "2026-09-26T10:37:55.287Z"
+    "bytes": 88860,
+    "sha256": "1a71a2c82f4497b84e116a38b73fc688b59947ed500d677a3d4f2da6e4443b43",
+    "mtime": "2026-09-26T23:38:07.528Z"
+   },
+   {
+    "file": "tests/fixtures/retired-w283b.json",
+    "bytes": 140346,
+    "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
+    "mtime": "2026-09-26T17:44:56.026Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w279a-samplestatus.mjs",
-    "bytes": 22300,
-    "sha256": "28adc0a95b1214641a8346bac5ad755874bdd65444ed9da116996143cbca98c2",
-    "mtime": "2026-09-26T09:35:50.340Z"
+    "bytes": 26222,
+    "sha256": "cfff2dd8f7854b601fcbb8a321bcdba745736225e4d5409402845060e5fb1179",
+    "mtime": "2026-09-26T17:47:11.653Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
-    "bytes": 19451,
-    "sha256": "09e47055bdeceb639a2b4770f085a9315ada2a6e81398c2c9343a3e3e388244f",
-    "mtime": "2026-09-23T20:24:37.442Z"
+    "bytes": 23807,
+    "sha256": "90091abbf1b678d6763d5f0a520c43a5eef18c6320506d3a09b1ec90e04dc1b6",
+    "mtime": "2026-09-26T17:46:31.436Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
     "mtime": "2026-09-18T17:14:55.948Z"
+   },
+   {
+    "file": "tests/lib-w283c-calstages.mjs",
+    "bytes": 11350,
+    "sha256": "81f73698d3cbe8f23519fe793e7fa701d50fc696b63c6b73fe5c2e026e428dfa",
+    "mtime": "2026-09-26T17:45:30.897Z"
    }
   ],
-  "codeSha256": "08e3bd0bbd2b13d716365cb2115f2e9346ba1b929f202e5701271729eff14bd4",
+  "codeSha256": "d6fc8c31cbc66c8904f4f4eb782da4fb9e870d9e8f03dc00a74b6cbae16bb1ec",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "ceafecf0016562027a8c7436a495e177e89d5f62",
-   "date": "2026-09-26T07:59:50.443Z",
-   "pass": 897
+   "commit": "65095277b280c6cbdbe5d2053b878e55740de4d8",
+   "date": "2026-09-26T22:47:24.550Z",
+   "pass": 902
   }
  },
  "tally": {
   "objective": {
    "met": 81,
    "partial": 55,
-   "unmet": 5,
+   "unmet": 6,
    "n/a": 0
   },
   "calibration": {
@@ -81,7 +93,7 @@
    "fail": 2,
    "hold": 33,
    "hold-definition": 2,
-   "out-of-scope": 102
+   "out-of-scope": 103
   },
   "four": {
    "合": 0,
@@ -98,7 +110,7 @@
    {
     "group": "銀河の力学",
     "icon": "🌌",
-    "n": 18
+    "n": 19
    },
    {
     "group": "天体の機構",
@@ -128,7 +140,7 @@
    {
     "group": "自転と減光",
     "icon": "🌗",
-    "n": 10
+    "n": 3
    },
    {
     "group": "現実との照合・太陽系",
@@ -161,8 +173,23 @@
     "n": 0
    }
   ],
-  "n": 141,
-  "predictionEligible": 0
+  "n": 142,
+  "predictionEligible": 0,
+  "retired": {
+   "n": 7,
+   "ids": [
+    "darkrotor",
+    "nebulaRotor",
+    "nebulaShell",
+    "nebulaBipolar",
+    "bhCore",
+    "bhCoreTilt",
+    "starSeed"
+   ],
+   "historyEvidence": [
+    "darkrotor:behavior.darkrotorLong"
+   ]
+  }
  },
  "rows": [
   {
@@ -194,7 +221,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -214,26 +242,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 3,
-     "ms": 13694,
+     "ms": 17454,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 13481,
-       "pass": true
+       "ms": 17115,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 188,
-       "pass": true
+       "ms": 302,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 25,
-       "pass": true
+       "ms": 37,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -269,7 +325,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -289,36 +346,60 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 8,
-     "ms": 229,
+     "attributed": true,
+     "n": 4,
+     "ms": 54,
      "tests": [
       {
-       "id": "behavior.grcal3",
-       "ms": 93,
-       "pass": true
-      },
-      {
-       "id": "preset.grcalGps",
-       "ms": 46,
-       "pass": true
-      },
-      {
        "id": "preset.grcal",
-       "ms": 32,
-       "pass": true
+       "ms": 36,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "preset.grcalLight",
-       "ms": 31,
-       "pass": true
+       "id": "grcal.clocks",
+       "ms": 18,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "preset.grcalShapiro",
-       "ms": 19,
-       "pass": true
+       "id": "grcal.calib-text",
+       "ms": 0,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "grcal.rays",
+       "ms": 0,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -353,7 +434,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -373,21 +455,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 139,
+     "ms": 208,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 93,
-       "pass": true
+       "ms": 166,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 46,
-       "pass": true
+       "ms": 42,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -422,7 +531,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -442,21 +552,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 124,
+     "ms": 219,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 93,
-       "pass": true
+       "ms": 166,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 31,
-       "pass": true
+       "ms": 53,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -491,7 +628,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -511,21 +649,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 112,
+     "ms": 213,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 93,
-       "pass": true
+       "ms": 166,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 19,
-       "pass": true
+       "ms": 47,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -561,7 +726,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -581,21 +747,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
      "ms": 15,
      "tests": [
       {
        "id": "preset.projectile",
        "ms": 15,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "projectile.layout",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -631,7 +824,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -651,36 +845,66 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 8,
-     "ms": 1004,
+     "ms": 1268,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 442,
-       "pass": true
+       "ms": 634,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 361,
-       "pass": true
+       "ms": 387,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 138,
-       "pass": true
+       "ms": 164,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 55,
-       "pass": true
+       "ms": 70,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 8,
-       "pass": true
+       "ms": 13,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -715,7 +939,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -735,16 +960,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 158,
+     "ms": 225,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 158,
-       "pass": true
+       "ms": 225,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -779,7 +1030,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -799,16 +1051,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 216,
+     "ms": 316,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 216,
-       "pass": true
+       "ms": 316,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -843,7 +1121,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -863,16 +1142,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 304,
+     "ms": 414,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 304,
-       "pass": true
+       "ms": 414,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -907,7 +1212,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -927,21 +1233,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 399,
+     "ms": 363,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 285,
-       "pass": true
+       "ms": 237,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 114,
-       "pass": true
+       "ms": 126,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -976,7 +1309,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -996,21 +1330,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 359,
+     "ms": 434,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 316,
-       "pass": true
+       "ms": 381,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 43,
-       "pass": true
+       "ms": 53,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1045,7 +1406,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1065,16 +1427,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 114,
+     "ms": 192,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 114,
-       "pass": true
+       "ms": 192,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1109,7 +1497,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1129,26 +1518,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 3,
-     "ms": 203,
+     "ms": 209,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 130,
-       "pass": true
+       "ms": 148,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 60,
-       "pass": true
+       "ms": 49,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 13,
-       "pass": true
+       "ms": 12,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1183,7 +1600,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1203,21 +1621,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 206,
+     "ms": 211,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 121,
-       "pass": true
+       "ms": 112,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 85,
-       "pass": true
+       "ms": 99,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1252,7 +1697,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1272,36 +1718,66 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 11,
-     "ms": 2208,
+     "ms": 2612,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1232,
-       "pass": true
+       "ms": 1469,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 461,
-       "pass": true
+       "ms": 484,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 268,
-       "pass": true
+       "ms": 333,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 227,
-       "pass": true
+       "ms": 305,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 15,
-       "pass": true
+       "ms": 17,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1336,7 +1812,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1356,21 +1833,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 4248,
+     "ms": 5238,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 4248,
-       "pass": true
+       "ms": 5238,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.cosmicweb",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -1405,7 +1909,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1449,36 +1954,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 22,
-     "ms": 334743,
+     "attributed": true,
+     "n": 3,
+     "ms": 13918,
      "tests": [
       {
-       "id": "claim.galaxygeo2-outerboost",
-       "ms": 164471,
-       "pass": true
+       "id": "shot.regress-galaxy",
+       "ms": 8372,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "claim.galaxystd-outerboost",
-       "ms": 64575,
-       "pass": true
+       "id": "preset.galaxy",
+       "ms": 5545,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "claim.galaxydb-contrast",
-       "ms": 50561,
-       "pass": true
-      },
-      {
-       "id": "preset.galaxyGeoToyCopy",
-       "ms": 9335,
-       "pass": true
-      },
-      {
-       "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7191,
-       "pass": true
+       "id": "claim.galaxy-outerboost",
+       "ms": 1,
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -1513,7 +2036,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1533,21 +2057,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 69060,
+     "ms": 90096,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 64575,
-       "pass": true
+       "ms": 84251,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 4485,
-       "pass": true
+       "ms": 5845,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1582,7 +2133,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1602,21 +2154,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 170641,
+     "ms": 242475,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 164471,
-       "pass": true
+       "ms": 233885,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 6170,
-       "pass": true
+       "ms": 8590,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1651,7 +2230,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1671,21 +2251,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 53998,
+     "ms": 8871,
      "tests": [
       {
-       "id": "claim.galaxydb-contrast",
-       "ms": 50561,
-       "pass": true
+       "id": "preset.galaxyDB",
+       "ms": 5025,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "preset.galaxyDB",
-       "ms": 3437,
-       "pass": true
+       "id": "claim.galaxydb-contrast",
+       "ms": 3846,
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -1720,7 +2327,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1740,36 +2348,60 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 8,
-     "ms": 7553,
+     "attributed": true,
+     "n": 4,
+     "ms": 9720,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 4160,
-       "pass": true
+       "ms": 5398,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3341,
-       "pass": true
-      },
-      {
-       "id": "darkrotor.uphi",
-       "ms": 21,
-       "pass": true
+       "ms": 4244,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 18,
-       "pass": true
+       "ms": 45,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "behavior.darkrotor-multiseed",
-       "ms": 12,
-       "pass": true
+       "id": "darkrotor.uphi",
+       "ms": 33,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1804,7 +2436,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1824,21 +2457,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 1048,
+     "ms": 1297,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 927,
-       "pass": true
+       "ms": 1144,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 121,
-       "pass": true
+       "ms": 153,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1873,7 +2533,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1893,21 +2554,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 4497,
+     "ms": 5556,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 4151,
-       "pass": true
+       "ms": 5119,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 346,
-       "pass": true
+       "ms": 437,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -1942,7 +2630,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -1962,21 +2651,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 3660,
+     "ms": 4907,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 3305,
-       "pass": true
+       "ms": 4336,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 355,
-       "pass": true
+       "ms": 571,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2011,7 +2727,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2031,26 +2748,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 3,
-     "ms": 21097,
+     "ms": 28422,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 15491,
-       "pass": true
+       "ms": 20655,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 5434,
-       "pass": true
+       "ms": 7582,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 172,
-       "pass": true
+       "ms": 185,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2085,7 +2830,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2101,41 +2847,58 @@
       "always": false
      },
      {
-      "key": "analogy",
-      "sec": 148,
-      "share": 8,
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
       "always": false
      },
      {
-      "key": "calcontract",
-      "sec": 2,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
       "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 4,
-     "ms": 59277,
+     "attributed": true,
+     "n": 3,
+     "ms": 20242,
      "tests": [
       {
        "id": "claim.bhcore-selfdrive",
-       "ms": 52899,
-       "pass": true
+       "ms": 16404,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.bhCore",
-       "ms": 3291,
-       "pass": true
-      },
-      {
-       "id": "preset.bhCoreTilt",
-       "ms": 3087,
-       "pass": true
+       "ms": 3838,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "claim.bhcore-free",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -2170,7 +2933,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2190,16 +2954,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 3087,
+     "ms": 3721,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 3087,
-       "pass": true
+       "ms": 3721,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2234,7 +3024,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2254,21 +3045,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 6190,
+     "ms": 8118,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 5669,
-       "pass": true
+       "ms": 7426,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 521,
-       "pass": true
+       "ms": 692,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2303,7 +3121,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2323,36 +3142,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 6,
-     "ms": 24766,
+     "attributed": true,
+     "n": 3,
+     "ms": 29723,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 22936,
-       "pass": true
+       "ms": 27652,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1618,
-       "pass": true
-      },
-      {
-       "id": "behavior.collapseRControl",
-       "ms": 163,
-       "pass": true
-      },
-      {
-       "id": "ai.help-collapsed",
-       "ms": 49,
-       "pass": true
+       "ms": 2071,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.collapse-cooling",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -2388,7 +3225,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2408,16 +3246,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 6465,
+     "ms": 9145,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 6465,
-       "pass": true
+       "ms": 9145,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2453,7 +3317,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2473,16 +3338,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 6209,
+     "ms": 8582,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 6209,
-       "pass": true
+       "ms": 8582,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2518,7 +3409,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2538,16 +3430,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 6032,
+     "ms": 8053,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 6032,
-       "pass": true
+       "ms": 8053,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2582,7 +3500,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2602,26 +3521,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 3,
-     "ms": 1275,
+     "ms": 1433,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1275,
-       "pass": true
+       "ms": 1433,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.selfrotor",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "behavior.selfrotor-multiseed",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -2656,7 +3603,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2674,7 +3622,7 @@
      {
       "key": "analogy",
       "sec": 148,
-      "share": 8,
+      "share": 7,
       "always": false
      },
      {
@@ -2682,26 +3630,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 3,
-     "ms": 12555,
+     "attributed": true,
+     "n": 2,
+     "ms": 4869,
      "tests": [
       {
-       "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7191,
-       "pass": true
-      },
-      {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3624,
-       "pass": true
+       "ms": 4868,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1740,
-       "pass": true
+       "id": "behavior.galaxyMesh",
+       "ms": 1,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2737,7 +3707,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2755,7 +3726,7 @@
      {
       "key": "analogy",
       "sec": 148,
-      "share": 8,
+      "share": 7,
       "always": false
      },
      {
@@ -2763,21 +3734,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 2,
-     "ms": 8931,
+     "attributed": true,
+     "n": 1,
+     "ms": 9256,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7191,
-       "pass": true
-      },
-      {
-       "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1740,
-       "pass": true
+       "ms": 9256,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2812,7 +3804,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2830,7 +3823,7 @@
      {
       "key": "analogy",
       "sec": 148,
-      "share": 8,
+      "share": 7,
       "always": false
      },
      {
@@ -2838,16 +3831,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 1740,
+     "ms": 2272,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1740,
-       "pass": true
+       "ms": 2272,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2882,7 +3901,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2900,7 +3920,7 @@
      {
       "key": "analogy",
       "sec": 148,
-      "share": 8,
+      "share": 7,
       "always": false
      },
      {
@@ -2908,18 +3928,128 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 3261,
+     "ms": 4150,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 3261,
-       "pass": true
+       "ms": 4150,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "clusterAnalogyBH",
+   "emoji": "💮",
+   "name": "球状星団アナロジー(中心 DFM 版 BH+恒星質量 DR)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー",
+    "objective": "unmet",
+    "state": "測る前に宣言した形状の門で未達(保持率・半質量半径・軸比)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/cluster-w283f.json"
+    ],
+    "en": {
+     "purpose": "A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors",
+     "state": "the shape gates declared before measuring are not met",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors. Unmet: the shape gates declared before measuring are not met. Out of calibration scope."
+    },
+    "brief": "中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー。未達・測る前に宣言した形状の門で未達(保持率・半質量半径・軸比)。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -2953,7 +4083,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -2985,21 +4116,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 2,
-     "ms": 2082,
+     "attributed": true,
+     "n": 1,
+     "ms": 1246,
      "tests": [
       {
-       "id": "preset.shapeToyClusterCore",
-       "ms": 1122,
-       "pass": true
-      },
-      {
        "id": "preset.shapeToyCluster",
-       "ms": 960,
-       "pass": true
+       "ms": 1246,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3035,7 +4187,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3061,21 +4214,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 2,
-     "ms": 2719,
+     "attributed": true,
+     "n": 1,
+     "ms": 1793,
      "tests": [
       {
-       "id": "preset.shapeToyDiskCore",
-       "ms": 1383,
-       "pass": true
-      },
-      {
        "id": "preset.shapeToyDisk",
-       "ms": 1336,
-       "pass": true
+       "ms": 1793,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3111,7 +4285,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3137,21 +4312,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 2,
-     "ms": 1110,
+     "attributed": true,
+     "n": 1,
+     "ms": 784,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 603,
-       "pass": true
-      },
-      {
-       "id": "preset.shapeToyArmCore",
-       "ms": 507,
-       "pass": true
+       "ms": 784,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3187,7 +4383,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3213,16 +4410,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 1122,
+     "ms": 1278,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 1122,
-       "pass": true
+       "ms": 1278,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3258,7 +4481,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3284,16 +4508,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 1383,
+     "ms": 1747,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1383,
-       "pass": true
+       "ms": 1747,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3329,7 +4579,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3355,16 +4606,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 507,
+     "ms": 654,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 507,
-       "pass": true
+       "ms": 654,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3400,7 +4677,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3420,21 +4698,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 179,
+     "ms": 226,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 148,
-       "pass": true
+       "ms": 184,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 31,
-       "pass": true
+       "ms": 42,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3469,7 +4774,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3489,21 +4795,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 24,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 24,
-       "pass": true
+       "ms": 26,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "spinlens.kframe-control",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3538,7 +4871,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3558,21 +4892,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 48,
+     "ms": 62,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 29,
-       "pass": true
+       "ms": 39,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 19,
-       "pass": true
+       "ms": 23,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3607,7 +4968,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3627,21 +4989,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 327,
+     "ms": 422,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 298,
-       "pass": true
+       "ms": 384,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 29,
-       "pass": true
+       "ms": 38,
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -3676,7 +5065,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3700,7 +5090,7 @@
      {
       "key": "analogy",
       "sec": 148,
-      "share": 8,
+      "share": 7,
       "always": false
      },
      {
@@ -3714,36 +5104,54 @@
       "sec": 2,
       "share": 21,
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 6,
-     "ms": 30214,
+     "attributed": true,
+     "n": 3,
+     "ms": 36925,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 25672,
-       "pass": true
+       "ms": 31649,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2242,
-       "pass": true
+       "ms": 2771,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2095,
-       "pass": true
-      },
-      {
-       "id": "behavior.gasCohSurface",
-       "ms": 179,
-       "pass": true
-      },
-      {
-       "id": "preset.gasCohSurface",
-       "ms": 26,
-       "pass": true
+       "ms": 2505,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3778,7 +5186,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3798,31 +5207,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 4,
-     "ms": 20490,
+     "attributed": true,
+     "n": 3,
+     "ms": 19072,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 12005,
-       "pass": true
-      },
-      {
-       "id": "behavior.geoToyBandPressure",
-       "ms": 5143,
-       "pass": true
+       "ms": 14917,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2110,
-       "pass": true
+       "ms": 2686,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1232,
-       "pass": true
+       "ms": 1469,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3857,7 +5289,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3877,31 +5310,60 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 4,
-     "ms": 723,
+     "ms": 936,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 596,
-       "pass": true
+       "ms": 741,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 95,
-       "pass": true
+       "ms": 132,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 21,
-       "pass": true
+       "ms": 42,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 11,
-       "pass": true
+       "ms": 21,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -3936,7 +5398,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -3956,16 +5419,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 848,
+     "ms": 1464,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 848,
-       "pass": true
+       "ms": 1464,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -4000,7 +5489,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4020,21 +5510,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 17,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 16,
-       "pass": true
+       "ms": 14,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "new.coolrace",
-       "ms": 1,
-       "pass": true
+       "ms": 0,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -4069,7 +5586,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4089,31 +5607,60 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 4,
-     "ms": 3874,
+     "ms": 4615,
      "tests": [
       {
        "id": "shot.regress-convection",
-       "ms": 2097,
-       "pass": true
+       "ms": 2508,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.convection",
-       "ms": 1766,
-       "pass": true
+       "ms": 2089,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 11,
-       "pass": true
+       "ms": 18,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.convection",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -4148,7 +5695,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4168,21 +5716,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 2552,
+     "ms": 3118,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2552,
-       "pass": true
+       "ms": 3118,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.buoyancy",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -4217,7 +5792,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4237,21 +5813,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 1650,
+     "ms": 2171,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1650,
-       "pass": true
+       "ms": 2171,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.collapse-cooling",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -4286,7 +5889,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4306,36 +5910,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 5,
-     "ms": 2656,
+     "attributed": true,
+     "n": 3,
+     "ms": 1143,
      "tests": [
       {
-       "id": "preset.emergent2",
-       "ms": 1776,
-       "pass": true
-      },
-      {
        "id": "preset.emergent",
-       "ms": 880,
-       "pass": true
+       "ms": 1143,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "phasechange.emergent",
        "ms": 0,
-       "pass": true
-      },
-      {
-       "id": "phasechange.emergent2",
-       "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.phase-multiseed",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -4370,7 +5992,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4390,26 +6013,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 3,
-     "ms": 1776,
+     "ms": 2049,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 1776,
-       "pass": true
+       "ms": 2049,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "phasechange.emergent2",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.phase-multiseed",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -4444,7 +6095,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4464,26 +6116,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 3,
-     "ms": 902,
+     "ms": 1056,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 902,
-       "pass": true
+       "ms": 1056,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "phasechange.chain2",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.phase-multiseed",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -4519,7 +6199,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4539,26 +6220,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 3,
-     "ms": 1193,
+     "ms": 1533,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1193,
-       "pass": true
+       "ms": 1533,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "claim.chaincycle",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "behavior.phase-multiseed",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -4593,7 +6302,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4613,36 +6323,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 8,
-     "ms": 2258,
+     "attributed": true,
+     "n": 3,
+     "ms": 960,
      "tests": [
       {
-       "id": "behavior.earthMoonFree",
-       "ms": 1213,
-       "pass": true
-      },
-      {
        "id": "behavior.earthMoon",
-       "ms": 317,
-       "pass": true
+       "ms": 436,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 294,
-       "pass": true
+       "ms": 385,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 130,
-       "pass": true
-      },
-      {
-       "id": "preset.earthMoonFree",
-       "ms": 127,
-       "pass": true
+       "ms": 139,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -4677,7 +6405,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4697,21 +6426,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 1340,
+     "ms": 1850,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1213,
-       "pass": true
+       "ms": 1605,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 127,
-       "pass": true
+       "ms": 245,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -4753,17 +6509,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 69.075,
+     "wallSec": 88.05099999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 34.27
+       "wallSec": 43.364,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 34.805
+       "wallSec": 44.687,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4785,25 +6544,40 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 2,
-     "ms": 84,
+     "attributed": true,
+     "n": 1,
+     "ms": 21,
      "tests": [
       {
-       "id": "preset.earthMoonRealKF1",
-       "ms": 66,
-       "pass": true
-      },
-      {
        "id": "preset.earthMoonReal",
-       "ms": 18,
-       "pass": true
+       "ms": 21,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -4846,17 +6620,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 129.958,
+     "wallSec": 160.587,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 64.905
+       "wallSec": 80.354,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 65.053
+       "wallSec": 80.233,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4914,20 +6691,40 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 66,
+     "ms": 54,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 66,
-       "pass": true
+       "ms": 54,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -4962,7 +6759,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -4996,25 +6794,46 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 67,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 67,
-       "pass": true
+       "ms": 37,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -5057,17 +6876,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 114.88900000000001,
+     "wallSec": 138.812,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 57.965
+       "wallSec": 69.759,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 56.924
+       "wallSec": 69.053,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5107,25 +6929,46 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
      "ms": 73,
      "tests": [
       {
        "id": "preset.emAuditDFM",
        "ms": 73,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -5167,17 +7010,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.0229999999999997,
+     "wallSec": 3.488,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.061
+       "wallSec": 1.202,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.962
+       "wallSec": 2.286,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5203,21 +7049,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 20,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 20,
-       "pass": true
+       "ms": 22,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -5253,7 +7126,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5285,16 +7159,42 @@
       "sec": 2,
       "share": 21,
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 93,
+     "ms": 98,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 93,
-       "pass": true
+       "ms": 98,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -5329,7 +7229,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5363,30 +7264,46 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 3,
-     "ms": 877,
+     "attributed": true,
+     "n": 2,
+     "ms": 1135,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 724,
-       "pass": true
+       "ms": 960,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 94,
-       "pass": true
-      },
-      {
-       "id": "preset.qLockRadialAuditQ3",
-       "ms": 59,
-       "pass": true
+       "ms": 175,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -5421,7 +7338,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5455,25 +7373,46 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 783,
+     "ms": 1015,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 724,
-       "pass": true
+       "ms": 960,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 59,
-       "pass": true
+       "ms": 55,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -5508,7 +7447,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5536,40 +7476,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 7,
-     "ms": 749,
+     "attributed": true,
+     "n": 2,
+     "ms": 488,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 425,
-       "pass": true
+       "ms": 469,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "ui.mercuryNaming",
-       "ms": 95,
-       "pass": true
-      },
-      {
-       "id": "preset.mercuryGeoToy3",
-       "ms": 73,
-       "pass": true
-      },
-      {
-       "id": "preset.mercuryRealKF1",
-       "ms": 50,
-       "pass": true
-      },
-      {
-       "id": "docs.mercuryDecomp",
-       "ms": 45,
-       "pass": true
+       "id": "preset.mercury",
+       "ms": 19,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -5612,17 +7558,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.254,
+     "wallSec": 9.24,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.432
+       "wallSec": 2.998,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.822
+       "wallSec": 6.242,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5662,25 +7611,40 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 2,
-     "ms": 85,
+     "attributed": true,
+     "n": 1,
+     "ms": 34,
      "tests": [
       {
-       "id": "preset.mercuryRealKF1",
-       "ms": 50,
-       "pass": true
-      },
-      {
        "id": "preset.mercuryReal",
-       "ms": 35,
-       "pass": true
+       "ms": 34,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -5715,7 +7679,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5743,20 +7708,40 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 73,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 73,
-       "pass": true
+       "ms": 57,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -5799,17 +7784,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 13.051,
+     "wallSec": 16.881,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.302
+       "wallSec": 5.864,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 8.749
+       "wallSec": 11.017,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5835,16 +7823,42 @@
       "sec": 284,
       "share": 32,
       "always": true
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 50,
+     "ms": 45,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 50,
-       "pass": true
+       "ms": 45,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -5886,13 +7900,15 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 650.108,
+     "wallSec": 830.64,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 650.108
+       "wallSec": 830.64,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -5918,21 +7934,48 @@
       "sec": 2,
       "share": 21,
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 4141,
+     "ms": 5577,
      "tests": [
       {
        "id": "preset.solarInner",
-       "ms": 2630,
-       "pass": true
+       "ms": 3591,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.solarInner",
-       "ms": 1511,
-       "pass": true
+       "ms": 1986,
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -5974,17 +8017,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 55.927,
+     "wallSec": 68.531,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 18.689
+       "wallSec": 23.017,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 37.238
+       "wallSec": 45.514,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -6024,25 +8070,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 450,
+     "ms": 582,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 427,
-       "pass": true
+       "ms": 549,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 23,
-       "pass": true
+       "ms": 33,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -6084,17 +8151,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 33.051,
+     "wallSec": 40.778,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.879
+       "wallSec": 13.49,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 22.172
+       "wallSec": 27.288,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -6170,25 +8240,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 4155,
+     "ms": 5298,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 4109,
-       "pass": true
+       "ms": 5259,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 46,
-       "pass": true
+       "ms": 39,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -6230,17 +8321,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 22.751,
+     "wallSec": 26.649,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.431
+       "wallSec": 8.782,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.32
+       "wallSec": 17.867,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -6280,25 +8374,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 34,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 34,
-       "pass": true
+       "ms": 50,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.marsMoonsReal",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -6342,29 +8457,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 716.157,
+     "wallSec": 113.97399999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 31.309
+       "wallSec": 38.323,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 61.781
+       "wallSec": 75.651,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 124.575
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 249.246
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 249.246
+       "wallSec": 149.572,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 149.572
     },
     "regenSteps": [
      {
@@ -6470,25 +8581,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 32,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 32,
-       "pass": true
+       "ms": 30,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.plutoCharonReal",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -6529,7 +8661,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -6567,21 +8700,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 9238,
+     "ms": 11229,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 9169,
-       "pass": true
+       "ms": 11171,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 69,
-       "pass": true
+       "ms": 58,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -6621,7 +8781,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -6659,16 +8820,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 59,
+     "ms": 60,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 59,
-       "pass": true
+       "ms": 60,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -6703,7 +8890,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -6731,20 +8919,40 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 24,
-       "pass": true
+       "ms": 42,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -6779,7 +8987,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -6805,16 +9014,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 55,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 24,
-       "pass": true
+       "ms": 55,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -6849,7 +9084,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -6875,16 +9111,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
      "ms": 40,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
        "ms": 40,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -6926,13 +9188,15 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 648.115,
+     "wallSec": 837.946,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 648.115
+       "wallSec": 837.946,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -6958,21 +9222,48 @@
       "sec": 2,
       "share": 21,
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 1938,
+     "ms": 2442,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 1938,
-       "pass": true
+       "ms": 2442,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.uranusReal",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -7014,17 +9305,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.892,
+     "wallSec": 11.107,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.964
+       "wallSec": 3.542,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.928
+       "wallSec": 7.565,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -7100,25 +9394,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 21,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 21,
-       "pass": true
+       "ms": 27,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.neptuneReal",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -7160,21 +9475,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 64.914,
+     "wallSec": 34.368,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 9.52
+       "wallSec": 12.118,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 18.652
+       "wallSec": 22.25,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 36.742
+       "wallSec": 46.019,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 46.019
     },
     "regenSteps": [
      {
@@ -7250,30 +9569,46 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 3,
-     "ms": 3472,
+     "attributed": true,
+     "n": 2,
+     "ms": 4000,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3371,
-       "pass": true
-      },
-      {
-       "id": "preset.alphaCenABDFM",
-       "ms": 54,
-       "pass": true
+       "ms": 3959,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 47,
-       "pass": true
+       "ms": 41,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -7316,21 +9651,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 120.787,
+     "wallSec": 61.668,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 17.653
+       "wallSec": 20.902,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 34.178
+       "wallSec": 40.766,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 68.956
+       "wallSec": 82.591,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 82.591
     },
     "regenSteps": [
      {
@@ -7376,25 +9715,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 3425,
+     "ms": 4017,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3371,
-       "pass": true
+       "ms": 3959,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 54,
-       "pass": true
+       "ms": 58,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -7436,21 +9796,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 40.946,
+     "wallSec": 21.782,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.909
+       "wallSec": 7.001,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.724
+       "wallSec": 14.781,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 23.313
+       "wallSec": 27.943,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 27.943
     },
     "regenSteps": [
      {
@@ -7526,30 +9890,46 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 3,
-     "ms": 2569,
+     "attributed": true,
+     "n": 2,
+     "ms": 2957,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2484,
-       "pass": true
+       "ms": 2899,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 43,
-       "pass": true
-      },
-      {
-       "id": "preset.siriusABDFM",
-       "ms": 42,
-       "pass": true
+       "ms": 58,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -7592,21 +9972,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 73.179,
+     "wallSec": 37.828,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.398
+       "wallSec": 12.861,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 20.922
+       "wallSec": 24.967,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 41.859
+       "wallSec": 51.563,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 51.563
     },
     "regenSteps": [
      {
@@ -7652,25 +10036,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 2526,
+     "ms": 2949,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2484,
-       "pass": true
+       "ms": 2899,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 42,
-       "pass": true
+       "ms": 50,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -7705,7 +10110,7 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[17]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 440.7164204743332,
+    "lastDiffInSigma": 894.2789091340168,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -7713,29 +10118,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 76.31400000000001,
+     "wallSec": 12.192,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.4
+       "wallSec": 4.011,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.741
+       "wallSec": 8.181,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 13.427
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 26.373
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 26.373
+       "wallSec": 15.706,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 15.706
     },
     "regenSteps": [
      {
@@ -7781,40 +10182,46 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 7,
-     "ms": 445,
+     "attributed": true,
+     "n": 2,
+     "ms": 52,
      "tests": [
       {
-       "id": "preset.psrDoubleABGeoToy",
-       "ms": 110,
-       "pass": true
-      },
-      {
-       "id": "preset.psrDoubleABCF",
-       "ms": 106,
-       "pass": true
-      },
-      {
-       "id": "preset.psrDoubleABDFM",
-       "ms": 80,
-       "pass": true
-      },
-      {
-       "id": "preset.psrDoubleABSpinCal",
-       "ms": 77,
-       "pass": true
-      },
-      {
        "id": "preset.psrDoubleAB",
-       "ms": 46,
-       "pass": true
+       "ms": 51,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.psrDoubleAB",
+       "ms": 1,
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -7831,7 +10238,7 @@
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "周期 −1.10%(4.9×10⁷σ)",
+    "mismatch": "周期 −1.10%(9.8×10⁷σ)",
     "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -7840,16 +10247,16 @@
     "en": {
      "purpose": "Compare the double pulsar with a mass factor and kF1",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period −1.10% (4.9×10⁷σ)",
+     "mismatch": "period −1.10% (9.8×10⁷σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Compare the double pulsar with a mass factor and kF1. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.10% (4.9×10⁷σ); numerics unresolved; mapping unresolved."
+     "brief": "Compare the double pulsar with a mass factor and kF1. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.10% (9.8×10⁷σ); numerics unresolved; mapping unresolved."
     },
-    "brief": "二重パルサーを質量補正と kF1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.10%(4.9×10⁷σ)・数値未解決・写像未確定。"
+    "brief": "二重パルサーを質量補正と kF1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.10%(9.8×10⁷σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[18]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 48368517.39771969,
+    "lastDiffInSigma": 96734620.91051702,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -7857,29 +10264,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 66.672,
+     "wallSec": 23.807000000000002,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.922
+       "wallSec": 3.462,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.844
+       "wallSec": 6.957,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 11.498
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 23.204
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 23.204
+       "wallSec": 13.388,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -7961,25 +10364,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 81,
+     "ms": 65,
      "tests": [
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 80,
-       "pass": true
+       "ms": 64,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.psrDoubleAB",
        "ms": 1,
-       "pass": true
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -8015,7 +10439,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -8035,16 +10460,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 110,
+     "ms": 78,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 110,
-       "pass": true
+       "ms": 78,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -8086,17 +10537,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.149999999999999,
+     "wallSec": 10.777,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.989
+       "wallSec": 3.765,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.161
+       "wallSec": 7.012,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -8130,20 +10584,40 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 77,
+     "ms": 83,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 77,
-       "pass": true
+       "ms": 83,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -8186,29 +10660,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 171.157,
+     "wallSec": 26.099,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.586
+       "wallSec": 8.825,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.848
+       "wallSec": 17.274,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 29.555
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 59.584
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 59.584
+       "wallSec": 36.794,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 36.794
     },
     "regenSteps": [
      {
@@ -8290,20 +10760,40 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 55,
+     "ms": 59,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 55,
-       "pass": true
+       "ms": 59,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -8346,29 +10836,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 50.116,
+     "wallSec": 7.6690000000000005,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.277
+       "wallSec": 2.398,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.385
+       "wallSec": 5.271,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 8.854
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 17.3
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 17.3
+       "wallSec": 10.32,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 10.32
     },
     "regenSteps": [
      {
@@ -8456,20 +10942,40 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 47,
+     "ms": 59,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 47,
-       "pass": true
+       "ms": 59,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -8512,17 +11018,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.923,
+     "wallSec": 10.396,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.935
+       "wallSec": 3.491,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.988
+       "wallSec": 6.905,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -8556,20 +11065,40 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 82,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 25,
-       "pass": true
+       "ms": 82,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -8612,17 +11141,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 22.615000000000002,
+     "wallSec": 25.863999999999997,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.727
+       "wallSec": 8.566,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.888
+       "wallSec": 17.298,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -8656,20 +11188,40 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 51,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 26,
-       "pass": true
+       "ms": 51,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -8712,17 +11264,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.497999999999999,
+     "wallSec": 7.6530000000000005,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.169
+       "wallSec": 2.432,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.329
+       "wallSec": 5.221,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -8762,20 +11317,40 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 41,
+     "ms": 46,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 41,
-       "pass": true
+       "ms": 46,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -8817,29 +11392,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 92.788,
+     "wallSec": 13.682,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.112
+       "wallSec": 4.731,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 8.073
+       "wallSec": 8.951,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 16.101
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 32.251
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 32.251
+       "wallSec": 17.555,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 17.555
     },
     "regenSteps": [
      {
@@ -8873,20 +11444,40 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 106,
+     "ms": 138,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 106,
-       "pass": true
+       "ms": 138,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -8928,29 +11519,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 234.315,
+     "wallSec": 34.879,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.399
+       "wallSec": 11.763,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 20.231
+       "wallSec": 23.116,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 40.461
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 81.612
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 81.612
+       "wallSec": 45.993,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 45.993
     },
     "regenSteps": [
      {
@@ -8984,20 +11571,40 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 54,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 54,
-       "pass": true
+       "ms": 34,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9040,29 +11647,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 68.56700000000001,
+     "wallSec": 10.249,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.998
+       "wallSec": 3.39,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.957
+       "wallSec": 6.859,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 11.788
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 23.912
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 23.912
+       "wallSec": 12.991,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 12.991
     },
     "regenSteps": [
      {
@@ -9102,20 +11705,40 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 49,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 49,
-       "pass": true
+       "ms": 32,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9158,21 +11781,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 102.142,
+     "wallSec": 59.223,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 17.314
+       "wallSec": 19.736,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 34.451
+       "wallSec": 39.487,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 50.377
+       "wallSec": 61.445,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 61.445
     },
     "regenSteps": [
      {
@@ -9206,30 +11833,40 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 3,
-     "ms": 140,
+     "attributed": true,
+     "n": 1,
+     "ms": 24,
      "tests": [
       {
-       "id": "preset.psrB1534DFM",
-       "ms": 55,
-       "pass": true
-      },
-      {
-       "id": "preset.psrB1534CF",
-       "ms": 54,
-       "pass": true
-      },
-      {
        "id": "preset.psrB1534",
-       "ms": 31,
-       "pass": true
+       "ms": 24,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9272,21 +11909,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 97.59,
+     "wallSec": 49.234,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.018
+       "wallSec": 16.433,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 27.69
+       "wallSec": 32.801,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 55.882
+       "wallSec": 65.989,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 65.989
     },
     "regenSteps": [
      {
@@ -9368,20 +12009,40 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 55,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 55,
-       "pass": true
+       "ms": 38,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9423,21 +12084,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 132.619,
+     "wallSec": 63.715,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 19.355
+       "wallSec": 20.972,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 37.8
+       "wallSec": 42.743,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 75.464
+       "wallSec": 83.906,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 83.906
     },
     "regenSteps": [
      {
@@ -9471,20 +12136,40 @@
       "always": true
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 54,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 54,
-       "pass": true
+       "ms": 31,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9519,7 +12204,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -9539,16 +12225,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 38,
-       "pass": true
+       "ms": 27,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9583,7 +12295,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -9603,16 +12316,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 83,
+     "ms": 61,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 83,
-       "pass": true
+       "ms": 61,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9647,7 +12386,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -9667,16 +12407,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 72,
+     "ms": 127,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 72,
-       "pass": true
+       "ms": 127,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9718,17 +12484,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.9929999999999999,
+     "wallSec": 2.301,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.676
+       "wallSec": 0.821,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.317
+       "wallSec": 1.48,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -9748,36 +12517,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 5,
-     "ms": 4090,
+     "attributed": true,
+     "n": 2,
+     "ms": 5122,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3901,
-       "pass": true
-      },
-      {
-       "id": "preset.gw150914Merge4s",
-       "ms": 71,
-       "pass": true
-      },
-      {
-       "id": "preset.gw150914DFM",
-       "ms": 58,
-       "pass": true
+       "ms": 5087,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
        "ms": 35,
-       "pass": true
-      },
-      {
-       "id": "preset.gw150914SpinDipole",
-       "ms": 25,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9819,17 +12600,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.471,
+     "wallSec": 1.9080000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.539
+       "wallSec": 0.679,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.932
+       "wallSec": 1.229,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -9853,7 +12637,7 @@
      {
       "key": "analogy",
       "sec": 148,
-      "share": 8,
+      "share": 7,
       "always": false
      },
      {
@@ -9875,25 +12659,46 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 3959,
+     "ms": 5133,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3901,
-       "pass": true
+       "ms": 5087,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 58,
-       "pass": true
+       "ms": 46,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -9935,17 +12740,20 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.101,
+     "wallSec": 0.122,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.041
+       "wallSec": 0.052,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.06
+       "wallSec": 0.07,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -9965,16 +12773,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 71,
+     "ms": 83,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 71,
-       "pass": true
+       "ms": 83,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10009,7 +12843,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10029,16 +12864,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 25,
-       "pass": true
+       "ms": 43,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10073,7 +12934,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10099,26 +12961,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 3,
-     "ms": 9507,
+     "attributed": true,
+     "n": 2,
+     "ms": 4462,
      "tests": [
       {
-       "id": "preset.tuc47DFM",
-       "ms": 6027,
-       "pass": true
-      },
-      {
        "id": "preset.tuc47",
-       "ms": 3480,
-       "pass": true
+       "ms": 4461,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 0,
-       "pass": true
+       "ms": 1,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10153,7 +13037,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10179,16 +13064,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 6027,
+     "ms": 7512,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 6027,
-       "pass": true
+       "ms": 7512,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10223,7 +13134,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10255,26 +13167,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 3,
-     "ms": 15936,
+     "attributed": true,
+     "n": 2,
+     "ms": 7116,
      "tests": [
       {
-       "id": "preset.ngc3198DFM",
-       "ms": 10567,
-       "pass": true
-      },
-      {
        "id": "preset.ngc3198",
-       "ms": 5369,
-       "pass": true
+       "ms": 7116,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.ngc3198",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10309,7 +13243,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10339,7 +13274,7 @@
      {
       "key": "analogy",
       "sec": 148,
-      "share": 8,
+      "share": 7,
       "always": false
      },
      {
@@ -10347,16 +13282,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 10567,
+     "ms": 14012,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 10567,
-       "pass": true
+       "ms": 14012,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10391,7 +13352,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10411,21 +13373,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 2,
-     "ms": 38,
+     "attributed": true,
+     "n": 1,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 19,
-       "pass": true
-      },
-      {
-       "id": "preset.supernovaProgDFM",
-       "ms": 19,
-       "pass": true
+       "ms": 20,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10460,7 +13443,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10480,16 +13464,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 19,
-       "pass": true
+       "ms": 20,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10524,7 +13534,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10544,16 +13555,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 400,
+     "ms": 588,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 400,
-       "pass": true
+       "ms": 588,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10588,7 +13625,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10614,36 +13652,66 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 14,
-     "ms": 17215,
+     "attributed": true,
+     "n": 6,
+     "ms": 6794,
      "tests": [
       {
-       "id": "preset.saturnRingRealKF1",
-       "ms": 6355,
-       "pass": true
-      },
-      {
-       "id": "shot.regress-saturnLayered",
-       "ms": 2609,
-       "pass": true
+       "id": "preset.saturn",
+       "ms": 3509,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "shot.regress-saturn",
-       "ms": 2573,
-       "pass": true
+       "ms": 3284,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "preset.saturn",
-       "ms": 2428,
-       "pass": true
+       "id": "behavior.saturnExp",
+       "ms": 1,
+       "pass": true,
+       "via": "claims"
       },
       {
-       "id": "preset.saturnLayered",
-       "ms": 2158,
-       "pass": true
+       "id": "behavior.saturn",
+       "ms": 0,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.saturn-kframe-control",
+       "ms": 0,
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -10678,7 +13746,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10698,31 +13767,60 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 4,
-     "ms": 4781,
+     "ms": 6572,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2609,
-       "pass": true
+       "ms": 3781,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2158,
-       "pass": true
+       "ms": 2768,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 14,
-       "pass": true
+       "ms": 22,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "behavior.saturnLayered",
-       "ms": 0,
-       "pass": true
+       "ms": 1,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10764,29 +13862,25 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 89.14699999999999,
+     "wallSec": 14.75,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.942
+       "wallSec": 5.129,
+       "reused": false
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.809
+       "wallSec": 9.621,
+       "reused": false
       },
       {
        "tag": "dt/4",
-       "wallSec": 15.486
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 30.955
-      },
-      {
-       "tag": "dt/8",
-       "wallSec": 30.955
+       "wallSec": 19.79,
+       "reused": true
       }
-     ]
+     ],
+     "reusedSec": 19.79
     },
     "regenSteps": [
      {
@@ -10826,35 +13920,58 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 4,
-     "ms": 6531,
+     "ms": 7765,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 6467,
-       "pass": true
+       "ms": 7699,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 46,
-       "pass": true
+       "ms": 45,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 15,
-       "pass": true
+       "ms": 18,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "zonal.d68-preset",
        "ms": 3,
-       "pass": true
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -10889,7 +14006,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10909,16 +14027,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 20,
-       "pass": true
+       "ms": 27,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -10953,7 +14097,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -10973,16 +14118,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 21,
-       "pass": true
+       "ms": 34,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11024,13 +14195,15 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 641.256,
+     "wallSec": 824.085,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 641.256
+       "wallSec": 824.085,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11056,26 +14229,48 @@
       "sec": 2,
       "share": 21,
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
-     "n": 3,
-     "ms": 7398,
+     "attributed": true,
+     "n": 2,
+     "ms": 1332,
      "tests": [
       {
-       "id": "preset.saturnRingRealKF1",
-       "ms": 6355,
-       "pass": true
-      },
-      {
        "id": "preset.saturnRingReal",
-       "ms": 1004,
-       "pass": true
+       "ms": 1299,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 39,
-       "pass": true
+       "ms": 33,
+       "pass": true,
+       "via": "claims"
       }
      ]
     }
@@ -11117,13 +14312,15 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 611.506,
+     "wallSec": 830.204,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 611.506
+       "wallSec": 830.204,
+       "reused": false
       }
-     ]
+     ],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11149,16 +14346,42 @@
       "sec": 2,
       "share": 21,
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 6355,
+     "ms": 8740,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 6355,
-       "pass": true
+       "ms": 8740,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11193,7 +14416,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11215,40 +14439,58 @@
       "always": false
      },
      {
-      "key": "geo1",
-      "sec": 1033,
-      "share": 36,
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
       "always": false
      }
     ],
     "qa": {
-     "n": 8,
-     "ms": 3684,
+     "attributed": true,
+     "n": 4,
+     "ms": 2726,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 2041,
-       "pass": true
-      },
-      {
-       "id": "behavior.boxBinary",
-       "ms": 1391,
-       "pass": true
-      },
-      {
-       "id": "preset.boxBinaryToy",
-       "ms": 83,
-       "pass": true
+       "ms": 2663,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 77,
-       "pass": true
+       "ms": 63,
+       "pass": true,
+       "via": "targetIds"
       },
       {
-       "id": "preset.spaceMeshBinaryToy",
-       "ms": 72,
-       "pass": true
+       "id": "preset.kframe-binary-default",
+       "ms": 0,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.binary",
+       "ms": 0,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11284,7 +14526,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11304,21 +14547,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 136,
+     "ms": 156,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 112,
-       "pass": true
+       "ms": 135,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 24,
-       "pass": true
+       "ms": 21,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11353,7 +14623,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11373,21 +14644,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 666,
+     "ms": 1103,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 666,
-       "pass": true
+       "ms": 1103,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "new.counterring",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11422,7 +14720,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11442,26 +14741,54 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 3,
-     "ms": 1754,
+     "ms": 2424,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 953,
-       "pass": true
+       "ms": 1296,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 801,
-       "pass": true
+       "ms": 1128,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "behavior.spinup",
        "ms": 0,
-       "pass": true
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -11496,7 +14823,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11516,16 +14844,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 275,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 275,
-       "pass": true
+       "ms": 25,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11560,7 +14914,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11580,16 +14935,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 121,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 121,
-       "pass": true
+       "ms": 20,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11624,7 +15005,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11644,16 +15026,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 13,
-       "pass": true
+       "ms": 20,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11688,7 +15096,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11708,16 +15117,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 119,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 119,
-       "pass": true
+       "ms": 22,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11752,7 +15187,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11772,16 +15208,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 36,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 36,
-       "pass": true
+       "ms": 17,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11816,7 +15278,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11836,21 +15299,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 171,
+     "ms": 241,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 98,
-       "pass": true
+       "ms": 135,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 73,
-       "pass": true
+       "ms": 106,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11885,7 +15375,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11905,16 +15396,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 26,
-       "pass": true
+       "ms": 23,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -11949,7 +15466,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -11969,16 +15487,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 20,
-       "pass": true
+       "ms": 17,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -12013,7 +15557,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -12033,21 +15578,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 205,
+     "ms": 244,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 179,
-       "pass": true
+       "ms": 208,
+       "pass": true,
+       "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 26,
-       "pass": true
+       "ms": 36,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -12082,7 +15654,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -12102,16 +15675,42 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 13,
-       "pass": true
+       "ms": 19,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -12146,7 +15745,8 @@
    "timing": {
     "calaudit": {
      "wallSec": 0,
-     "stages": []
+     "stages": [],
+     "reusedSec": 0
     },
     "regenSteps": [
      {
@@ -12166,21 +15766,48 @@
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geomode",
+      "sec": 1608,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "heavy",
+      "sec": 368,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
+     "attributed": true,
      "n": 2,
-     "ms": 64,
+     "ms": 89,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 37,
-       "pass": true
+       "ms": 62,
+       "pass": true,
+       "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
        "ms": 27,
-       "pass": true
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -12189,13 +15816,18 @@
  ],
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
-  "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(id を含む試験+claims の testId・重なりあり)。判定ではない",
-  "regenSteps": 84,
-  "regenSecSum": 21047,
+  "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
+  "regenSteps": 87,
+  "regenSecSum": 22656,
   "alwaysSec": 5993,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
-  "qaTotal": 905,
-  "qaDurationMs": 1356415
+  "qaTotal": 913,
+  "qaDurationMs": 1689200,
+  "qaAttribution": {
+   "version": "w283e-1",
+   "rule": "claims の testId + 原稿の qaTargets(明示)",
+   "unattributed": 1
+  }
  }
 }

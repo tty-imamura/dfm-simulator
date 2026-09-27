@@ -3,28 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-  "generatedAt": "2026-09-26T08:26:44.849Z",
+  "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+  "generatedAt": "2026-09-26T21:34:07.942Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4836622,
-    "sha256": "063843169ccb45a965ab4f7b21aaea71a1bb831090d81170befe8147c75eccdd",
-    "mtime": "2026-09-26T08:09:25.652Z"
+    "bytes": 4903364,
+    "sha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+    "mtime": "2026-09-26T20:10:39.928Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 254806,
-    "sha256": "d8a5bb656684b6e4b3ed4ed9dca2e41ef8acb10161442df1b81079b8d4620b9c",
-    "mtime": "2026-09-26T08:24:22.508Z"
+    "sha256": "f1d56ffa6358ce9f8aa3415764744dba57634df84298f5314ce73f73ffb67474",
+    "mtime": "2026-09-26T20:15:06.533Z"
+   },
+   {
+    "file": "tests/fixtures/retired-w283b.json",
+    "bytes": 140346,
+    "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
+    "mtime": "2026-09-26T17:44:56.026Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w282d-analogy.mjs",
-    "bytes": 34161,
-    "sha256": "46fa997b2654c5a5188e970292751f755e7ee64a61cafbb65f6315e7e9e06c9a",
-    "mtime": "2026-09-26T00:06:36.716Z"
+    "bytes": 35278,
+    "sha256": "f1aca22c2115f1c0ff16c46c9c5b64bc14a75408ad3eb3bd471afe7d7a528aa2",
+    "mtime": "2026-09-26T17:47:12.776Z"
    },
    {
     "file": "tests/exp-w281b-galaxychain.mjs",
@@ -58,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 60075,
-    "sha256": "42e586660d12b9554e77d0ecf507747b411e2356812c40d18df599090b62826f",
-    "mtime": "2026-09-26T08:09:25.504Z"
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-26T17:46:31.436Z"
    }
   ],
-  "codeSha256": "c0943c6d101c8a7dcd2ecd4eba6414fbff63d734d1f666c6edcac9281c82f39b",
+  "codeSha256": "09872c8bcfcf02f104cdbae2cf1e4001ce0f98b91fc3f3e45e15dbe201681f7b",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -102,9 +108,8 @@
    "新発見"
   ],
   "scope": {
-   "version": "w282e-scope-2",
+   "version": "w283e-scope-3",
    "presets": [
-    "bhCore",
     "galaxyAnalogyBH",
     "galaxyMeshSpiral",
     "galaxyMeshSpiralGeoToy",
@@ -154,22 +159,28 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 779,
-   "segments": 707,
-   "closureShare": 0.3163
+   "names": 791,
+   "segments": 719,
+   "closureShare": 0.3175
   },
-  "scopeSha256": "a16d0aedc177745674524d25cbd2037164f026cd50b0e327b5619ae94340e659",
+  "scopeSha256": "3921c219498bc8a278d93837681bcadf2721193cb8034a96977097d706f4ab0c",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "9fd7940f3d0b53f8edf13e01d182aed410c05399d4c77346f8060ec986b867b1",
+    "stableSha256": "11364d228eea604c68a78ee74e0282fcebaedb4a8f6789a4c4a6dff9216592bb",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
      "/meta/generatedAt",
      "/meta/inputs/*/mtime"
     ]
+   },
+   {
+    "file": "tests/fixtures/retired-w283b.json",
+    "stableSha256": "a1774dbfb6cdee50d7a8d7040db4a219a0f1bcb48c89e31c3521eec4230f141e",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
    }
   ],
   "stableHashVersion": "w282e-stable-1"
@@ -923,7 +934,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.9972,
+    "msPerStep": 5.0908,
     "recs": [
      {
       "t": 0,
@@ -1168,7 +1179,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 4.1084,
+    "msPerStep": 5.0736,
     "recs": [
      {
       "t": 0,
@@ -1415,7 +1426,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 8.5944,
+    "msPerStep": 11.0236,
     "recs": [
      {
       "t": 0,
@@ -1662,7 +1673,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 8.5524,
+    "msPerStep": 10.6516,
     "recs": [
      {
       "t": 0,
@@ -2516,6 +2527,7 @@
     "id": "bhCore",
     "emoji": "⚫",
     "body": 0,
+    "fixture": "tests/fixtures/retired-w283b.json",
     "m": 2500,
     "R": 15,
     "spin": 0.15,
@@ -2825,13 +2837,13 @@
    "heavy": {
     "center": 1,
     "stars": 0,
-    "darkRotor": 40,
+    "darkRotor": 0,
     "nDR": 40
    },
    "rays": 31,
-   "maxDeflectionDiffRad": 5.208238178358818,
-   "maxEndPosDiff": 799.6247807683267,
-   "raysDiffering": 31,
+   "maxDeflectionDiffRad": 0,
+   "maxEndPosDiff": 0,
+   "raysDiffering": 0,
    "lensRowsFromMeanMass": [
     {
      "mRotorSun": 0.1,
@@ -2849,14 +2861,14 @@
      "thetaEMuasEta1": 1896.2641287392312
     }
    ],
-   "note": "代表粒子 1 体(53.125 単位 ≈ 2.7×10⁵ M☉)は E8R の「重い天体」判定に入る —— 個別レンズ(光線・減光)にこの質量を使わない宣言(massLedger.darkRotor.lens:\"excluded\")。個別の行は ⟨m_DR⟩ で作る"
+   "note": "代表粒子 1 体(53.125 単位 ≈ 2.7×10⁵ M☉)は massLedger.darkRotor.lens:\"excluded\" を rayHeavy が読むので光線の源から外れる(第283便f —— 重力の源は不変)。個別の行は ⟨m_DR⟩ で作る"
   },
   "health": {
    "declared": {
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 12.825333333333333,
+    "msPerStep": 16.518,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2921,7 +2933,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 12.572666666666667,
+    "msPerStep": 16.075666666666667,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3095,5 +3107,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 140.68
+ "elapsedSec": 178.854
 }

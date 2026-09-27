@@ -478,6 +478,13 @@ export function measureAll(HP, DT, html, P) {
   for (const id of KF0_PRESETS.concat([GEO1_EXTRA])) for (const geo of [1, 2]) {
     const q2 = runState(id, kf(1, geo, setDragQ(Q_PAIR[0]))), q8 = runState(id, kf(1, geo, setDragQ(Q_PAIR[1])));
     const k0 = runState(id, kf(0, geo)), k1 = runState(id, kf(1, geo));
+    // 第283便a(原仮定者の裁定(2026-09-26 追加)): geoPN=1 は kFrame=0 専用 —— 受理器が kFrame=1 の写しを**拒否**する
+    // (旧 html では「kFrame=1 でも q・kFrame 1/0 がビット一致」だった組)。拒否された行は比較せず、拒否の事実を記録する
+    if (!q2.ok || !q8.ok || !k1.ok) {
+      control.push({ id, emoji: byId(id).emoji, geoPN: geo, rejected: true, kFrame0Ok: k0.ok === true,
+        reason: 'geoPN=1 は kFrame=0 専用(受理器が kFrame=1 を拒否 —— 第283便a)' });
+      continue;
+    }
     control.push({ id, emoji: byId(id).emoji, geoPN: geo, kF1DragQ2vs8: cmp(q2, q8), kFrame0vs1: cmp(k0, k1) });
   }
   // 構造の理由(html のソースから引用 —— 門の文字列が在ることを数える)
@@ -532,8 +539,8 @@ export function fmtSci(x, d) {
 export function docTokens(J) {
   const t = [];
   for (const c of J.classes) t.push(c.ratio.toFixed(4), c.kI.toFixed(4), c.rhoCenterOverMean.toFixed(4), c.i3dOverImom2d.toFixed(4));
-  for (const r of J.control.rows) if (!r.kF1DragQ2vs8.bitSame) t.push(fmtSci(r.kF1DragQ2vs8.maxAbs.pos), fmtSci(r.kF1DragQ2vs8.maxAbs.vel));
-  for (const r of J.control.rows) if (!r.kFrame0vs1.bitSame) t.push(fmtSci(r.kFrame0vs1.maxAbs.pos));
+  for (const r of J.control.rows) if (r.kF1DragQ2vs8 && !r.kF1DragQ2vs8.bitSame) t.push(fmtSci(r.kF1DragQ2vs8.maxAbs.pos), fmtSci(r.kF1DragQ2vs8.maxAbs.vel));
+  for (const r of J.control.rows) if (r.kFrame0vs1 && !r.kFrame0vs1.bitSame) t.push(fmtSci(r.kFrame0vs1.maxAbs.pos));
   t.push(J.diagOne.earth.R_drag.toFixed(4));
   const u = (id) => J.units.rows.find((z) => z.id === id);
   const dg = u('degeneracyARdrag').relDiffAt;
