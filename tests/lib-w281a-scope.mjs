@@ -817,11 +817,24 @@ export function readDeclaredScope(harnessText) {
  */
 export const STABLE_VERSION = 'w282e-stable-1';
 
+/**
+ * 第285便f(原仮定者の裁定(第75報)AN52): **除外宣言の語彙の方式の版**(安定 hash の方式 `STABLE_VERSION` とは別 —— hash の作り方は変えない)。
+ * 宣言してよい Pointer の最後の鍵と、その値の型の規約の版。`w285f-decl-2` で足したもの: `carriedFrom`(時刻 —— h2Store/h4Store が前回の diag の
+ * 時刻を写す欄)と `wallNearBudget`(真偽値 —— 壁時計から作る診断〔旧 budgetHit〕)。`lint.stableHashPaths` ② がこの版の語彙で照合する。
+ */
+export const STABLE_DECL_VERSION = 'w285f-decl-2';
+export const STABLE_DECL_HISTORY = [
+  { version: 'w282e-decl-1', since: '第282便e・第283便e(AN29)', note: '時刻(generatedAt・when・carriedOverFrom・mtime)・所要と速度(wallSec・rateStepsPerSec・spentSec・elapsedS)・非物理の同一性 meta' },
+  { version: 'w285f-decl-2', since: '第285便f(AN52)', note: '時刻 carriedFrom・真偽値 wallNearBudget(壁時計近接の診断 —— 停止状態〔stoppedBy・complete・resourceExceeded〕は語彙に入れない)を足した' },
+];
 /** 宣言してよい Pointer の最後の鍵(実行時刻・壁時計の所要・速度・ファイル時刻 —— 観測量の欄名は入れない)。 */
-export const STABLE_RUNTIME_KEYS = ['generatedAt', 'when', 'carriedOverFrom', 'mtime',   // 時刻(ISO 日時)
-  'wallSec', 'rateStepsPerSec', 'spentSec', 'elapsedS'];                                         // 壁時計の所要・速度(有限の数)
-/** 時刻の欄(値は ISO 日時)。残りの STABLE_RUNTIME_KEYS は有限の数。 */
-export const STABLE_TIME_KEYS = ['generatedAt', 'when', 'carriedOverFrom', 'mtime'];
+export const STABLE_RUNTIME_KEYS = ['generatedAt', 'when', 'carriedOverFrom', 'mtime', 'carriedFrom',   // 時刻(ISO 日時)
+  'wallSec', 'rateStepsPerSec', 'spentSec', 'elapsedS',                                                // 壁時計の所要・速度(有限の数)
+  'wallNearBudget'];                                                                                   // 第285便f: 壁時計から作る真偽値の診断
+/** 時刻の欄(値は ISO 日時)。残りの STABLE_RUNTIME_KEYS は有限の数(`STABLE_BOOL_KEYS` は真偽値)。 */
+export const STABLE_TIME_KEYS = ['generatedAt', 'when', 'carriedOverFrom', 'mtime', 'carriedFrom'];
+/** 第285便f(AN52): 真偽値の欄(壁時計から作る診断だけ —— 停止状態の欄は入れない)。 */
+export const STABLE_BOOL_KEYS = ['wallNearBudget'];
 /**
  * 第283便e(AN29): 宣言してよい Pointer の最後の鍵のうち**非物理の同一性 meta**(対象の名前・sha・バイト数)。
  * 値の型: `target` は相対パスの文字列・`*Sha256`/`sha256` は 64 桁の 16 進・`bytes*` は非負の整数(`lint.stableHashPaths` ②)。

@@ -72,7 +72,17 @@ import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha 
 //     (入力のバイト sha が刻印と同じでも)その段を regen にする。随伴ファイルの行も同じ(`stampedDeclDrift`)。
 //     第283便e の `lint.stableHashPaths` ⑤ は「旧宣言 ⊊ 今の宣言」を**照合の上では**通す(刻印の Pointer で照合するので除きすぎにならない)が、
 //     再生成の計画では「今の宣言で刻み直す」ために走らせ直す(`an43Probe` —— QA `lint.regenChain` (g))。
-export const REGEN_TABLE_VERSION = 'w284-regentable-5';
+// ■ 第285便f(原仮定者の裁定(第75報)AN52・AN53・統括の検証項目〔較正走行の窓〕)
+//   ・**AN53**: html 全体を刻む段(正本の meta.target が beta/index.html で、完全な領域の宣言が無い段)に `after:['samplestatus']` を足した
+//     (`W285F_AFTER_SAMPLESTATUS`)。samplestatus は beta/index.html の生成領域を**書く**ので、その前に html 全体を刻んだ段は
+//     samplestatus の後で必ず刻印が古くなる。**足さないもの**: samplestatus の上流(after の閉包 —— calaudit・dt3・kf0・charonwin)と、
+//     samplestatus が読む正本の書き手(循環を作らない: 物理入力 → 測定 → 状態表 → html 全体)。`tableDepsAudit` に
+//     「samplestatus より先に走りうる html 全体の段」の検出(`beforeSamplestatus`)を足した(`--audit`・自己試験 (n))。
+//   ・**AN52**: calaudit の `budgetHit` を `wallNearBudget`(壁時計近接の診断)へ改名し、壁時計・時刻の欄(wallNearBudget・diag の
+//     h2Store/h4Store の generatedAt・carriedFrom・wallSec・rateStepsPerSec)を除外 Pointer に**版つきで**足した(`VOLATILE_DECL` ——
+//     宣言の版と Pointer の指紋。宣言の語彙の方式の版は tests/lib-w281a-scope.mjs の `STABLE_DECL_VERSION`)。
+//     `complete`・`resourceExceeded`・`stoppedBy`・窓充足は**除外しない**(停止状態は物理の記録)。
+export const REGEN_TABLE_VERSION = 'w285-regentable-6';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
@@ -80,6 +90,8 @@ const V_CALAUDIT = ['/meta/when', '/fourValues/current/when', '/diagnosticsSplit
   '/presets/*/run/wallSec', '/presets/*/run/timeBudget/*/wallSec', '/presets/*/run/timeBudget/*/rateStepsPerSec',
   '/presets/*/run/stopRule/wallSec', '/presets/*/run/stopRule/rateStepsPerSec',
   '/presets/*/run/stopRuleStages/*/wallSec', '/presets/*/run/stopRuleStages/*/rateStepsPerSec',
+  // 第285便f(AN52): 旧 budgetHit の改名(wallSec ≥ 0.9×budgetSec —— 壁時計近接の診断。停止状態は stopRule.stoppedBy・complete に残す)
+  '/presets/*/run/timeBudget/*/wallNearBudget',
   // 第283便c で dt/8 を常時から外した(明示診断だけ)ので、常時の正本に dtEighth は無い —— Pointer は宣言から外す(統合時)
   ];
 /**
@@ -93,7 +105,30 @@ export const V_CALAUDIT_META = ['/meta/target', '/meta/targetSha256', '/mergeKey
   '/kf0Runs/charonCitation/citedTargetSha256', '/kf0Runs/charonCitation/fileSha256',
   '/diagnosticsSplit/sha256', '/diagnosticsSplit/bytes', '/diagnosticsSplit/bytesBeforeSplit', '/diagnosticsSplit/bytesAfterSplit'];
 /** 第283便e: 分割先 diag の意味 hash(除くのは生成時刻と持ち越し時刻だけ —— 53aaa64 → 8b05232 の再走で変わった欄の全部)。 */
-const V_CALAUDIT_DIAG = ['/when', '/carriedOverFrom'];
+// 第285便f(AN52): dt/2・dt/4 の転記元(h2Store/h4Store)の壁時計・時刻(新しく走らせた段の記録と、前回の diag の時刻の写し)。
+//   h の生の走行の署名 hSig・契約・run の物理欄・stopRule の complete/stoppedBy/resourceExceeded・窓充足は**除かない**
+const V_STORE_WALL = ['h2Store', 'h4Store'].flatMap((k) => ['/' + k + '/carriedFrom', '/' + k + '/entries/*/generatedAt',
+  '/' + k + '/entries/*/run/wallSec', '/' + k + '/entries/*/run/rateStepsPerSec',
+  '/' + k + '/entries/*/run/timeBudget/wallSec', '/' + k + '/entries/*/run/timeBudget/rateStepsPerSec', '/' + k + '/entries/*/run/timeBudget/wallNearBudget',
+  '/' + k + '/entries/*/run/stopRule/wallSec', '/' + k + '/entries/*/run/stopRule/rateStepsPerSec']);
+const V_CALAUDIT_DIAG = ['/when', '/carriedOverFrom'].concat(V_STORE_WALL);
+/**
+ * 第285便f(原仮定者の裁定(第75報)AN52): **除外 Pointer の宣言の版**(正本ごと)。`fp` は宣言した Pointer の並び(sort)の sha256 の先頭 16 桁 ——
+ * Pointer を足し引きしたら版と fp を上げる(`lint.stableHashPaths` ⑦ が照合)。`renamed` は改名した欄(新 → 旧)で、改名前の世代の正本
+ * (鎖で再生成する前)では旧名の位置に当たることを ② が許す。履歴は `history`。
+ */
+export const VOLATILE_DECL = {
+  'tests/out/calaudit-w249.json': { version: 'w285f-vcal-2', since: '第285便f(AN52)', fp: 'afc6f3285acdc4bf',
+    added: ['/presets/*/run/timeBudget/*/wallNearBudget'], renamed: { wallNearBudget: 'budgetHit' },
+    history: [{ version: 'w283e-vcal-1', since: '第282便e・第283便e(AN29)', note: '実行時刻・壁時計・非物理の同一性 meta(budgetHit は未宣言 —— 第284便f の分割照合で見つかった)' }] },
+  'tests/out/calaudit-w249-diag.json': { version: 'w285f-vdiag-2', since: '第285便f(AN52)', fp: '2461f5b121a2fc1c',
+    added: V_STORE_WALL.slice(), renamed: { wallNearBudget: 'budgetHit' },
+    history: [{ version: 'w283e-vdiag-1', since: '第283便e', note: '/when・/carriedOverFrom だけ(h2Store/h4Store の壁時計と時刻は未宣言)' }] },
+};
+/** 宣言した Pointer の並びの指紋(sort して改行で連ねた sha256 の先頭 16 桁)。 */
+export function volatileDeclFp(file) {
+  return crypto.createHash('sha256').update(volatilePathsOf(file).slice().sort().join('\n')).digest('hex').slice(0, 16);
+}
 
 /**
  * 第283便e: **随伴ファイル**(ある正本の安定 hash がその sha を除いているとき、中身の変化を別の行で見るファイル)。
@@ -340,6 +375,51 @@ export const REGEN_STEPS = [
 ];
 
 /**
+ * 第285便f(原仮定者の裁定(第75報)AN53): **html 全体を刻む段**(正本の meta.target が beta/index.html・完全な領域の宣言なし —— 第285便f の
+ * 基点 b92ffa1 の正本の meta から機械で数えた 27 段)。samplestatus(beta/index.html の生成領域を書く)の**後**に置く。
+ * samplestatus の上流(calaudit・dt3・kf0・charonwin)と、samplestatus が読む正本の書き手は含めない(循環を作らない)。
+ * 検出は `tableDepsAudit` の `beforeSamplestatus`(正本の meta から引き直す —— 新しい段が足されても見落とさない)。
+ */
+export const W285F_AFTER_SAMPLESTATUS = ['bh90', 'd0audit', 'qsplit', 'twobody', 'rpar', 'nslockledger', 'bhcore', 'galaxylite', 'galaxyprof2',
+  'meshnod0', 'kfgate', 'presetaxes', 'bgfield', 'd0audit2', 'bgpredict', 'selfinertia', 'slipaudit', 'bgbudget', 'bgcompose', 'sphereKernel',
+  'galaxyprof', 'needmesh', 'kf0ledger-old', 'kf0ledger', 'galaxychain', 'rotorledger', 'strain'];
+for (const st of REGEN_STEPS) if (W285F_AFTER_SAMPLESTATUS.includes(st.key) && !(st.after || []).includes('samplestatus')) st.after = (st.after || []).concat(['samplestatus']);
+
+/**
+ * 第285便f(AN53): html 全体を刻む現行の段(正本の meta から —— target が beta/index.html で scopeComplete の領域が無い)。
+ * @param {{root:string, steps?:Array, metaOf?:Function}} o
+ */
+export function htmlWholeSteps(o) {
+  const steps = (o && o.steps) || REGEN_STEPS;
+  const metaOf = (o && o.metaOf) || ((f) => readMetaAt(o.root, f));
+  return steps.filter((st) => st.role !== 'history' && !st.outside && (st.outs || []).some((f) => {
+    const m = metaOf(f);
+    return !!(m && m.target === 'beta/index.html' && !(m.scope && m.scopeComplete === true));
+  })).map((st) => st.key);
+}
+/**
+ * 第285便f(AN53): samplestatus の上流(after の閉包)と、samplestatus が読む正本(meta.inputs[]・inputsStable[])の書き手とその閉包 ——
+ * ここに入る段には `after:['samplestatus']` を足さない(循環)。
+ */
+export function samplestatusUpstream(o) {
+  const steps = (o && o.steps) || REGEN_STEPS;
+  const C = afterClosure(steps);
+  const W = writersMap(steps);
+  const metaOf = (o && o.metaOf) || ((f) => readMetaAt(o.root, f));
+  const up = new Set(C.get('samplestatus') || []);
+  const ss = steps.find((z) => z.key === 'samplestatus');
+  for (const f of ((ss || {}).outs || [])) {
+    const m = metaOf(f);
+    if (!m) continue;
+    for (const z of [...(m.inputs || []), ...(m.inputsStable || [])]) for (const w of (W.get(z.file) || [])) {
+      if (w === 'samplestatus') continue;
+      up.add(w); for (const x of (C.get(w) || [])) up.add(x);
+    }
+  }
+  return up;
+}
+
+/**
  * 表の外で作られる JSON 入力の除外 Pointer(第282便e —— 領域を宣言した器が安定 hash を刻む入力のうち、
  * 再生成表の段が書かないもの)。
  */
@@ -351,6 +431,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/retired-w283b.json': [],
   // 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本と ⚡ の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w284b.json': [],
+  // 第285便f(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(🪄)と 🧮 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
+  'tests/fixtures/retired-w285f.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */
@@ -710,7 +792,17 @@ export function tableDepsAudit(o) {
   // 統括(第284便 統合): 段の鍵の重複(後の定義が先の定義を黙って消す —— 第284便e の bgfield)
   const seen = new Set(), dupKeys = [];
   for (const st of steps) { if (seen.has(st.key)) dupKeys.push(st.key); seen.add(st.key); }
-  return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length && !dupKeys.length, missing, unordered, cycles, unknown, dupKeys };
+  // 第285便f(AN53): samplestatus より先に走りうる html 全体の段(samplestatus の上流と、samplestatus が読む正本の書き手は除く)
+  const beforeSamplestatus = [];
+  if (metaOf && keys.has('samplestatus')) {
+    const up = samplestatusUpstream({ steps, metaOf });
+    for (const k of htmlWholeSteps({ steps, metaOf })) {
+      if (k === 'samplestatus' || up.has(k)) continue;
+      if (!(C.get(k) || new Set()).has('samplestatus')) beforeSamplestatus.push(k);
+    }
+  }
+  return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length && !dupKeys.length && !beforeSamplestatus.length,
+    missing, unordered, cycles, unknown, dupKeys, beforeSamplestatus };
 }
 
 /** 依存の推移閉包(key → Set(上流すべて))と逆向き(key → Set(下流すべて))。 */
@@ -1293,7 +1385,7 @@ export const W283E_ADDED_AFTER = ['d0audit', 'nsmode', 'bgequiv', 'bgbudget', 'b
  */
 export async function regenChainSelfTest(o) {
   const root = o.root.replace(/\/$/, '');
-  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null };
+  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null, n: null };
   const deps = tableDeps({ root });
   // (a)
   const A = tableDepsAudit({ root });
@@ -1438,11 +1530,26 @@ export async function regenChainSelfTest(o) {
       ok: JSON.stringify(changed) === '["x2","x6"]' && JSON.stringify(reran) === '["x2","x6"]' && JSON.stringify(stale) === '["x2.done.stale","x6.done.stale"]'
         && r2.status === 0 && r3.status === 0 && cnt('x3') === before.x3 + 1 && /\[旧印\] x3/.test(r3.stdout) };
   }
+  // (n) 第285便f(AN53): 今の表で samplestatus より先に走りうる html 全体の段が 0・足した after を外した写しで**検出される**・
+  //     samplestatus の上流(calaudit・dt3・kf0・charonwin)と読む正本の書き手には足していない(循環 0)
+  {
+    const N0 = tableDepsAudit({ root });
+    const strip = REGEN_STEPS.map((z) => Object.assign({}, z, W285F_AFTER_SAMPLESTATUS.includes(z.key) ? { after: (z.after || []).filter((k) => k !== 'samplestatus') } : {}));
+    const N1 = tableDepsAudit({ root, steps: strip });
+    const up = samplestatusUpstream({ root });
+    const whole = htmlWholeSteps({ root });
+    const intoUp = W285F_AFTER_SAMPLESTATUS.filter((k) => up.has(k));
+    const det = N1.beforeSamplestatus.slice().sort();
+    res.n = { whole: whole.length, upstream: [...up].sort(), added: W285F_AFTER_SAMPLESTATUS.length, now: N0.beforeSamplestatus, detected: det.length,
+      cycles: N0.cycles.length, intoUpstream: intoUp,
+      ok: N0.beforeSamplestatus.length === 0 && N0.cycles.length === 0 && intoUp.length === 0
+        && JSON.stringify(det) === JSON.stringify(W285F_AFTER_SAMPLESTATUS.slice().sort()) && ['calaudit', 'dt3', 'kf0', 'charonwin'].every((k) => up.has(k)) };
+  }
   res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
   return res;
 }
 
-export default { REGEN_TABLE_VERSION, REGEN_STEPS, stampedDeclDrift, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
+export default { REGEN_TABLE_VERSION, REGEN_STEPS, stampedDeclDrift, VOLATILE_DECL, volatileDeclFp, W285F_AFTER_SAMPLESTATUS, htmlWholeSteps, samplestatusUpstream, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
   volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
   writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,
   codeFilesOf, chainContracts, CHAIN_CONTRACT_VERSION, chainPriority, simulateReadyQueue, waveMakespan, checkTimeline, parseTimeline,

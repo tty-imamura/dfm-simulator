@@ -47,7 +47,9 @@ const QAF = 'tests/out/qa-results-full-beta.json';
 const RETIRED_FX = 'tests/fixtures/retired-w283b.json';
 // 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本の凍結の写し(付け替えた試験の最後の保存 QA の値を持つ)
 const RETIRED_FX2 = 'tests/fixtures/retired-w284b.json';
-const RETIRED_FXS = [RETIRED_FX, RETIRED_FX2].filter((f) => fs.existsSync(path.join(ROOT, f)));
+// 第285便f(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(🪄)と 🧮 の旧則の凍結の写し(付け替えた試験の最後の保存 QA の値を持つ)
+const RETIRED_FX3 = 'tests/fixtures/retired-w285f.json';
+const RETIRED_FXS = [RETIRED_FX, RETIRED_FX2, RETIRED_FX3].filter((f) => fs.existsSync(path.join(ROOT, f)));
 const OUT = 'tests/out/samplestatus-w279a.json';
 const MD = 'docs/SAMPLE_STATUS_v1.45.md';
 const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w283c-calstages.mjs'];

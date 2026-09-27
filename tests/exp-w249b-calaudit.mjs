@@ -109,7 +109,9 @@ import { H4_REUSE_VERSION, H4_REUSE_RULE, DT_DT2_RULE, h4ReuseDecision, reusedRu
   counterExample,
   // 第284便c(原仮定者の裁定(第74報)⑥・AN33・R93): dt/4 の例外の登録簿・dt/2 の再利用(同一便の再走)・契約の穴
   H4_EXCEPTIONS, H4_EXCEPTIONS_VERSION, H4_POLICY, h4ExceptionIds, isH4Exception,
-  H2_REUSE_VERSION, H2_REUSE_RULE, h2ReuseDecision, reusedRunDt2, rawRunSig, contractSha } from './lib-w283c-calstages.mjs';
+  H2_REUSE_VERSION, H2_REUSE_RULE, h2ReuseDecision, reusedRunDt2, rawRunSig, contractSha,
+  // 第285便f(統括の検証項目〔較正走行の窓〕): h2・h4 の契約の窓の定義
+  windowContract } from './lib-w283c-calstages.mjs';
 // 第284便c(R93・第283便c の「エンジン指紋が補助関数を取りこぼす」): 法則の指紋を**停止集合つき依存閉包**で作る
 import { scopeHash as w284cScopeHash } from './lib-w281a-scope.mjs';
 // 第284便f(原仮定者の裁定(第74報)⑥・統括の検証項目 R94): **プリセット分割**(job の走行だけを k 個のプロセスに分け、
@@ -1362,7 +1364,8 @@ for (const job of jobs) {
       h2Contract = { version: H2_REUSE_VERSION, key: h4Key, presetHash: b0.sig || null, engineSha: ENGINE_SHA, lawsSha: LAWS_SHA,
         dt: lv.dt, dtH: DT0, orbMax, maxStepsH: hStage ? hStage.maxSteps : null, maxSteps,
         stepsPerOrbit0: stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null),
-        periWindow: PERI_WINDOW, extractorSha: EXTRACTOR_SHA, stopRuleVersion: STOP_RULE_VERSION, kf0: KF0, units };
+        periWindow: PERI_WINDOW, extractorSha: EXTRACTOR_SHA, stopRuleVersion: STOP_RULE_VERSION, kf0: KF0, units,
+        window: windowContract(stopRule) };   // 第285便f: 窓の定義(目標物理時間 T —— h と同じ T を覆う段であること)
       const hRun = rows.find((z) => z.tag === 'dt') || null;
       if (H2_REUSE) {
         const entry = (H2_STORE_PREV && H2_STORE_PREV.entries) ? (H2_STORE_PREV.entries[h4Key] || null) : null;
@@ -1382,7 +1385,8 @@ for (const job of jobs) {
       h4Contract = { version: H4_REUSE_VERSION, key: h4Key, presetHash: b0.sig || null, engineSha: ENGINE_SHA,
         lawsSha: LAWS_SHA, dt: lv.dt, orbMax, maxSteps,
         stepsPerOrbit0: stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null),
-        periWindow: PERI_WINDOW, extractorSha: EXTRACTOR_SHA, stopRuleVersion: STOP_RULE_VERSION, kf0: KF0, units };
+        periWindow: PERI_WINDOW, extractorSha: EXTRACTOR_SHA, stopRuleVersion: STOP_RULE_VERSION, kf0: KF0, units,
+        window: windowContract(stopRule) };   // 第285便f: 窓の定義
       if (H4_SKIP_DT2 && !KF0 && DFM_SYSTEM_IDS.has(id)) {
         const sk = dtDt2Skip(rows.find((z) => z.tag === 'dt'), rows.find((z) => z.tag === 'dt/2'));
         h4Skip = { skippedBy: sk.skip ? 'dt-dt2' : null, why: sk.why, rows: sk.rows, rule: DT_DT2_RULE.rule, scope: DT_DT2_RULE.scope };
@@ -1408,10 +1412,15 @@ for (const job of jobs) {
     r.dt = lv.dt; r.tag = lv.tag; r.rateStepsPerSec = Math.round(rate); r.wallSec = (Date.now() - t0) / 1000;
     r.stepsPerOrbit0 = stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null);
     // 第257便d: **計算時間の予算**を数値の性質と混ぜずに記録する(機種依存の欄)。
-    // budgetSec = この段に与えた秒数 / wallSec = 実際に掛かった秒数 / budgetHit = 予算で切れたか /
+    // budgetSec = この段に与えた秒数 / wallSec = 実際に掛かった秒数 /
     // periFound = 検出できた近点の数(窓 20 に届いたか)。**予算は精度条件ではない**。
+    // 第285便f(原仮定者の裁定(第75報)AN52): 旧 `budgetHit`(wallSec ≥ 0.9×budgetSec)を **`wallNearBudget`**(壁時計近接の診断)へ改名した。
+    //   第270便a(AE9)以降、予算は走行長を切らない(旧名の「予算で切れたか」は誤読を招く)—— 正式な停止状態は `stopRule.stoppedBy`・
+    //   `stopRule.complete`・`stopRule.resourceExceeded`・窓充足に残す。壁時計から作る欄なので安定 hash の除外 Pointer に宣言する(版つき)。
     r.timeBudget = { budgetSec: budget, heavy, wallSec: r.wallSec,
-      budgetHit: r.wallSec >= 0.9 * budget, maxSteps, stepsRun: r.steps,
+      wallNearBudget: r.wallSec >= 0.9 * budget,
+      wallNearBudgetNote: '壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)',
+      maxSteps, stepsRun: r.steps,
       rateStepsPerSec: Math.round(rate), dt: lv.dt,
       periFoundA: r.targets.map((t) => t.A.perFound), periWindow: PERI_WINDOW,
       windowFilledA: r.targets.map((t) => !t.A.perUnmeasured),

@@ -46,7 +46,14 @@
 //     ・`w272a-1`(第272便a・AG27)…… **照合の基点を 743ad9b へ切り直し、宣言例外を空にした**。
 //       階級上限・preset 宣言表・必要近点数・資源上限は **1 つも変えていない** —— 変えたのは
 //       「何と突き合わせるか」だけである。**旧基点(f6c19b4)は履歴として残す**。
-export const STOP_RULE_VERSION = 'w272a-1';
+//     ・`w285f-1`(第285便f・原仮定者の裁定(第75報)AN51・統括の検証項目〔較正走行の窓〕)…… **2 つの宣言を足した**:
+//       ① **目標物理時間 T を先に決め、段ごとの步数上限を ceil(T/dt) で導く**(`TARGET_TIME_RULE`)。階級上限は
+//          「基準刻み dt₀ での步数」= 物理時間 T_cap = maxSteps×dt₀ の宣言として読み、段の上限は ceil(T_cap/dt)(dt/2 は 2 倍)。
+//          旧規約は h と h/2 に同じ步数上限(40e6)を当てていたので、🌙 は h 27 近点・h/2 13 近点と**窓が揃わなかった**
+//          (h/2 の窓不足を精度悪化と読まない)。軌道窓(orbMax 公転)の側は旧規約の round(orbMax×P₀/dt) のまま(既に同じ T)。
+//       ② **⚡ の f=1 の軌道長に合わせた窓の宣言**(`PRESET_ORBIT_WINDOW` —— AN51)。t=0 の接触要素の周期(観測質量のケプラー周期)では
+//          f=1・kFrame=1 の実軌道(同方向1周が約 21.5 倍)の 3 近点しか覆えない。**近点不足のまま別定義の周期で代用しない**。
+export const STOP_RULE_VERSION = 'w285f-1';
 export const DT_BASE = 0.016;            // アプリ既定の刻み(beta/index.html の const DT)
 export const ORB_MAX_DEFAULT = 60;       // 直接法で数える上限公転数(第249便b の宣言)
 export const PERI_WINDOW_DEFAULT = 20;   // 第252便b の近点窓(19 区間)
@@ -84,6 +91,30 @@ export const PRESET_MAX_STEPS = {
       + '**3 段で同じ 60 公転の窓を覆うための宣言**である(階級上限 40e6 では h/4 が 29 公転で切れる)' },
 };
 
+// ---------------------------------------------------------------- ①′ 第285便f: 目標物理時間 T の規則と、軌道長の宣言
+// **T を先に決める**(段ごとに步数上限を決めない)。T = min(T_cap, T_orb)。
+//   T_cap = 宣言した步数上限(階級か preset —— **基準刻み dt₀ での步数**)× dt₀
+//   T_orb = orbMax 公転ぶんの時間(t=0 の接触要素の周期 P₀ の最大 × orbMax)—— 窓の宣言(`PRESET_ORBIT_WINDOW`)があればその時間
+// 段の步数 = min(ceil(T_cap/dt), round(T_orb/dt))。T_orb 側の丸めは旧規約のまま(h の段と軌道窓で決まる段は 1 步も変わらない)。
+// 資源上限(壁時計)で途中終了した段は `resource-limit` の**未測定**(途中までの軌道を判定へ流さない —— 第270便a のまま)。
+export const TARGET_TIME_RULE = {
+  version: 'w285f-T1', since: '第285便f(統括の検証項目〔較正走行の窓〕・原仮定者の裁定(第75報)AN51)',
+  rule: 'T = min(T_cap, T_orb)。T_cap = 宣言した步数上限(dt₀ での步数)× dt₀・T_orb = orbMax 公転(t=0 の接触要素の周期)'
+    + 'または宣言した軌道窓(PRESET_ORBIT_WINDOW)。段の步数上限 = ceil(T_cap/dt)・軌道窓の步数 = round(T_orb/dt)(旧規約の丸め)。',
+  why: '旧規約は h と h/2 に同じ步数上限(階級 40e6)を当てたので、上限で切れる系(🌙🌘🔭 地球–月)は h 27 近点・h/2 13 近点と'
+    + '段ごとに窓が違った。**h/2 の窓不足を精度悪化と読まない** —— 同じ物理時間 T を覆う段どうしで比べる。',
+  resource: '資源上限(壁時計 wallCeilingSec)で途中終了した段は未測定(`resource-limit`)。T を縮めて測ったことにしない。',
+};
+// **軌道長の宣言**(AN51 —— 事前に決めた窓)。t=0 の接触要素の周期が実軌道の周期と大きく違う本(f=1・kFrame=1 で軌道が膨らむ本)は、
+// 実軌道の 1 公転の步数(基準刻み dt₀)と公転数をここに宣言する。**合わせるための値ではない**(近点を数える窓の長さ)。
+export const PRESET_ORBIT_WINDOW = {
+  psrDoubleABDFM: { orbitStepsBase: 1187696, orbits: 22, needPeriastra: 20,
+    source: 'QA behavior.psrF1 / docs/PHYSICS.md〔第284便b〕の実測: f=1・kFrame=1 の同方向1周の 1周目 190031.36 s = 1,187,696 步(dt₀=0.016)',
+    why: '第285便f(AN51): ⚡ は f=1(観測質量)で同方向1周が観測周期の約 21.5 倍になり、t=0 の接触要素の 60 公転(3,312,950 步)では'
+      + '近点 3 個しか入らない。必要近点 20 に 2 公転の余裕を足した **22 公転**(26,129,312 步 —— dt/2 は 52,258,624 步)を窓として先に宣言する。'
+      + '近点が 20 に届かなければ未測定(同方向1周など別定義の周期で代用しない)' },
+};
+
 // ---------------------------------------------------------------- ② 必要近点数の宣言
 // 既定は第252便b の近点窓(20)。**judged window が違う系はここに書く**(自動判定はしない)。
 export const PRESET_NEED_PERIASTRA = {
@@ -109,6 +140,9 @@ export const STOP_RULE_SPEC = {
   classMaxSteps: CLASS_MAX_STEPS,
   presetMaxSteps: PRESET_MAX_STEPS,
   presetNeedPeriastra: PRESET_NEED_PERIASTRA,
+  // 第285便f: 目標物理時間 T の規則と軌道長の宣言(AN51)
+  targetTimeRule: TARGET_TIME_RULE,
+  presetOrbitWindow: PRESET_ORBIT_WINDOW,
   needPeriastraDefault: PERI_WINDOW_DEFAULT,
   orbMaxDefault: ORB_MAX_DEFAULT,
   wallCeilingSec: WALL_CEILING_SEC_DEFAULT,
@@ -129,6 +163,11 @@ export const STOP_RULE_SPEC = {
         + '**1 つも変えていない**。第272便aの条件つき h/8(AG1)はこの規約の'
         + '`scalesWithDt` をそのまま使う(❄️ は 20,694,498 × 8 = 165,555,984 步)—— '
         + '**階級上限を上げていない**ので、上限を超える系の h/8 は**未走行**である。' },
+    { version: 'w285f-1', wave: '第285便f(原仮定者の裁定(第75報)AN51・統括の検証項目〔較正走行の窓〕)', presetMaxSteps: 5, presetOrbitWindow: 1,
+      note: '**目標物理時間 T を先に決め、段の步数上限を ceil(T/dt) で導く**(`TARGET_TIME_RULE` —— 階級上限は dt₀ での步数 = T_cap の宣言。'
+        + 'dt/2 の段は 80,000,000 步まで走れる —— 🌙🌘🔭 の h/2 は h と同じ 27/26/26 近点の窓になる)。**⚡ の f=1 の軌道長の窓**'
+        + '(`PRESET_ORBIT_WINDOW` —— 22 公転 × 1,187,696 步)。階級上限の値 40e6/20e6・preset 宣言 5 本・必要近点 20(📡 58)・'
+        + '資源上限 900 s は変えていない。軌道窓で決まる段(h の段の大半)は 1 步も変わらない。' },
   ],
   says: '停止条件は**どこで止めるか**を機種に依らず決めるだけである —— '
     + '「停止条件を入れたので判定が確定した」「步数を宣言したので収束した」とは言わない。',
@@ -161,6 +200,13 @@ export const BASE_REPLAY_EXCEPTIONS = [
     why: '第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)' }))),
   ...['dt', 'dt/2'].map((tag) => ({ id: 'psrDoubleABDFM', tag, since: 'w284b',
     why: '第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)' })),
+  // 第285便f(統括の検証項目〔較正走行の窓〕・TARGET_TIME_RULE): 階級上限で切れる 3 本の dt/2 は同じ物理時間 T(80,000,000 步)を走る —— 基点より長い
+  ...['earthMoonReal', 'earthMoonRealKF1', 'emAuditDFM'].map((id) => ({ id, tag: 'dt/2', since: 'w285f',
+    why: '第285便f(TARGET_TIME_RULE): h/2 の步数上限を ceil(T/dt) = 80,000,000 步にした(h と同じ物理時間 —— 旧規約は h と同じ 40,000,000 步で近点 13 個)' })),
+  // 第285便f(AN51): ⚡ の軌道長の窓(22 公転)—— dt・dt/2 とも基点と走行長が違う(第284便b の例外と同じ段 —— 理由を足す)
+  // 第285便f(AN24′): 🧮 psrJ1757DFM を f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う
+  ...['dt', 'dt/2'].map((tag) => ({ id: 'psrJ1757DFM', tag, since: 'w285f',
+    why: '第285便f(原仮定者の裁定(第75報)AN24′)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数と走行長が基点と違う' })),
   { id: 'saturnRingReal', tag: 'dt', since: 'w284e',
     why: '第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)' },
 ];
@@ -182,11 +228,16 @@ export function declaredMaxSteps({ id, n, dt = DT_BASE, dtBase = DT_BASE }) {
   const p = PRESET_MAX_STEPS[id] || null;
   if (p) {
     const scale = p.scalesWithDt ? (dtBase / dt) : 1;
-    return { maxSteps: Math.round(p.maxSteps * scale), source: 'preset', why: p.why, scale };
+    return { maxSteps: Math.round(p.maxSteps * scale), source: 'preset', why: p.why, scale, baseSteps: p.maxSteps };
   }
   for (const c of CLASS_MAX_STEPS) {
-    if (Number.isFinite(n) && n <= c.maxN)
-      return { maxSteps: c.maxSteps, source: 'class(n<=' + c.maxN + ')', why: c.why, scale: 1 };
+    // 第285便f(TARGET_TIME_RULE): 階級上限は dt₀ での步数 = 物理時間 T_cap の宣言。段の上限は ceil(T_cap/dt)
+    //   (dt₀/dt が整数なら正確に倍 —— 浮動小数の誤差で 1 步増やさないよう 1e-9 を引いて切り上げる)
+    if (Number.isFinite(n) && n <= c.maxN) {
+      const scale = dtBase / dt;
+      return { maxSteps: Math.ceil(c.maxSteps * scale - 1e-9), source: 'class(n<=' + c.maxN + ')', why: c.why, scale,
+        baseSteps: c.maxSteps };
+    }
   }
   // **推測で埋めない**: 階級にも宣言表にも無い系は、宣言を書くまで走らせない。
   throw new Error('[w270a] 步数上限が宣言されていない(id=' + id + ' / n=' + n + ')'
@@ -195,6 +246,8 @@ export function declaredMaxSteps({ id, n, dt = DT_BASE, dtBase = DT_BASE }) {
 }
 
 export function declaredNeedPeriastra(id) {
+  const w = PRESET_ORBIT_WINDOW[id] || null;
+  if (w && !PRESET_NEED_PERIASTRA[id]) return { needPeriastra: w.needPeriastra, why: w.why, source: 'preset(orbit-window)' };
   const p = PRESET_NEED_PERIASTRA[id] || null;
   return p ? { needPeriastra: p.needPeriastra, why: p.why, source: 'preset' }
     : { needPeriastra: PERI_WINDOW_DEFAULT, source: 'default',
@@ -209,9 +262,19 @@ export function stopRuleFor({ id, n, dt = DT_BASE, dtBase = DT_BASE,
   const cap = declaredMaxSteps({ id, n, dt, dtBase });
   const need = declaredNeedPeriastra(id);
   const finite = (stepsPerOrbit || []).filter((s) => Number.isFinite(s) && s > 0);
-  const wantSteps = finite.length ? Math.max(...finite.map((s) => s * orbMax)) : 1;
+  // 第285便f(AN51): 軌道長の宣言があれば、窓は宣言した公転数 × 宣言した 1 公転の步数(dt₀)を dt へ換算した步数
+  const win = PRESET_ORBIT_WINDOW[id] || null;
+  const wantSteps = win ? win.orbits * win.orbitStepsBase * (dtBase / dt)
+    : (finite.length ? Math.max(...finite.map((s) => s * orbMax)) : 1);
   const floorSteps = finite.length ? 5 * Math.max(...finite.filter((s) => s <= cap.maxSteps), 0) : 0;
   const maxSteps = Math.max(2000, Math.round(Math.min(cap.maxSteps, wantSteps)));
+  // 第285便f(TARGET_TIME_RULE): 目標物理時間 T(dt₀ での步数と模擬時間で記録 —— 段が違っても同じ値になる)
+  const capBase = Number.isFinite(cap.baseSteps) ? cap.baseSteps : cap.maxSteps;
+  const wantBase = wantSteps * (dt / dtBase);
+  const tBaseSteps = Math.min(capBase, wantBase);
+  const targetTime = { rule: TARGET_TIME_RULE.version, dtBase, capBaseSteps: capBase,
+    orbitBaseSteps: Math.round(wantBase), tBaseSteps: Math.round(tBaseSteps), tSim: tBaseSteps * dtBase,
+    window: win ? 'declared-orbit-window' : 'osc0-orbits', boundBy: (capBase <= wantBase) ? 'cap' : 'orbit' };
   return {
     version: STOP_RULE_VERSION,
     id, n, dt, orbMax,
@@ -219,7 +282,9 @@ export function stopRuleFor({ id, n, dt = DT_BASE, dtBase = DT_BASE,
     needPeriastra: need.needPeriastra, needPeriastraSource: need.source, needPeriastraWhy: need.why,
     wantSteps: Math.round(wantSteps), floorSteps: Math.round(floorSteps),
     maxSteps,
-    boundBy: (maxSteps >= cap.maxSteps) ? 'declared-max-steps' : 'orbit-window',
+    targetTime,
+    orbitWindow: win ? { orbits: win.orbits, orbitStepsBase: win.orbitStepsBase, source: win.source } : null,
+    boundBy: (maxSteps >= cap.maxSteps) ? 'declared-max-steps' : (win ? 'declared-orbit-window' : 'orbit-window'),
     floorSatisfied: (floorSteps === 0) ? null : (maxSteps >= floorSteps),
     rule: '步数 = min(**宣言した步数上限**, ' + orbMax + ' 公転ぶんの步数)。'
       + '**步/秒も壁時計も入らない**(第270便a・AE9 —— 機種で走行長が変わらない)。'
