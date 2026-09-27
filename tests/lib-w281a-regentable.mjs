@@ -280,6 +280,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/out/obscal-results.json': ['/manifest/generatedAt'],
   // 第283便b: 退役 7 本の凍結の写し(書き換えない fixture —— 除く欄は無い。現行の正本 rotorledger・analogy・families・samplestatus の入力)
   'tests/fixtures/retired-w283b.json': [],
+  // 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本と ⚡ の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
+  'tests/fixtures/retired-w284b.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

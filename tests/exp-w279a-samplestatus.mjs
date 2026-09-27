@@ -43,6 +43,9 @@ const WIN = 'tests/out/charonwin-w278b.json';
 const QAF = 'tests/out/qa-results-full-beta.json';
 // 第283便b(原仮定者の裁定(第73報)④・R84): 退役の本の凍結の写し(ゲートから外した試験の最後の保存 QA の値を持つ)
 const RETIRED_FX = 'tests/fixtures/retired-w283b.json';
+// 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本の凍結の写し(付け替えた試験の最後の保存 QA の値を持つ)
+const RETIRED_FX2 = 'tests/fixtures/retired-w284b.json';
+const RETIRED_FXS = [RETIRED_FX, RETIRED_FX2].filter((f) => fs.existsSync(path.join(ROOT, f)));
 const OUT = 'tests/out/samplestatus-w279a.json';
 const MD = 'docs/SAMPLE_STATUS_v1.45.md';
 const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w283c-calstages.mjs'];
@@ -53,9 +56,8 @@ const src = rd(SRC), calaudit = rd(CAL), charonwin = rd(WIN), qa = rd(QAF);
 const qaIds = new Set((qa.results || []).filter((r) => r.pass).map((r) => r.id));
 const outFiles = new Set(fs.readdirSync(path.join(ROOT, 'tests', 'out')).map((f) => 'tests/out/' + f));
 // 第283便b: 退役の本(原稿の retired.ids)と、凍結の写しの履歴で PASS の試験
-const fx = rd(RETIRED_FX);
 const retiredIds = new Set(((src.retired || {}).ids) || []);
-const historyIds = new Set(((fx.history || {}).tests || []).filter((t) => t.pass).map((t) => t.id));
+const historyIds = new Set(RETIRED_FXS.flatMap((f) => ((rd(f).history || {}).tests || []).filter((t) => t.pass).map((t) => t.id)));
 const historyUsed = [];
 const built = L.buildTable(src, calaudit, charonwin, { qaIds, outFiles, retiredIds, historyIds, historyUsed });
 if (built.errors.length) {
@@ -160,7 +162,7 @@ md.push('');
 md.push('## 集計');
 md.push('');
 md.push(`- 内蔵 **${tl.n} 本**(群 ${groups.length}・うち 0 本の群 ${groups.filter((g) => !g.ids.length).length})。`);
-if (retiredRows.length) md.push(`- うち **退役 ${retiredRows.length} 本**(原仮定者の裁定(第73報)④ —— 内蔵には残る・サンプル一覧に出ない)は**群の集計から外し**、下の「退役」節に別群として並べる(状況と較正の集計は内蔵の全本で数える)。`);
+if (retiredRows.length) md.push(`- うち **退役 ${retiredRows.length} 本**(${(src.retired || {}).rulingShort || '原仮定者の裁定(第73報)④'} —— 内蔵には残る・サンプル一覧に出ない)は**群の集計から外し**、下の「退役」節に別群として並べる(状況と較正の集計は内蔵の全本で数える)。`);
 md.push(`- 状況: **達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet}・対象外 ${tl.objective['n/a']}**。`);
 md.push(`- 較正: 4 値(合/量限定合/否/保留)**${tl.four['合']}/${tl.four['量限定合']}/${tl.four['否']}/${tl.four['保留']}**(台帳の転記)・判定保留(量定義不一致)**${tl.calibration['hold-definition']}**・較正対象外 **${tl.calibration['out-of-scope']}**。`);
 md.push('');
@@ -185,7 +187,7 @@ for (const g of groups) {
 if (retiredRows.length) {
   md.push(`## 🗄️ 退役(${retiredRows.length} 本)`);
   md.push('');
-  md.push('> 原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」による**退役**(`familyRole:"retired"`)。**BUILTIN_PRESETS からは消していない**(旧セーブ・履歴の正本・過去の記録が ID で参照する)。物理・署名・保存 JSON・status は変えていない。ゲートから外した試験の最後の保存 QA の値は凍結の写し `' + RETIRED_FX + '` に転記してあり、根拠の裏づけはその履歴で行う' + (historyUsed.length ? `(${historyUsed.map((z) => '`' + z.split(':')[1] + '`').join('・')})` : '') + '。');
+  md.push('> ' + ((src.retired || {}).ruling || '原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」') + ' による**退役**(`familyRole:"retired"`)。**BUILTIN_PRESETS からは消していない**(旧セーブ・旧 URL・履歴の正本・過去の記録が ID で参照する)。退役は表示の印で、力学は退役の前と同じである。ゲートから外した/付け替えた試験の最後の保存 QA の値は凍結の写し ' + RETIRED_FXS.map((f) => '`' + f + '`').join('・') + ' に転記してあり、根拠の裏づけはその履歴で行う' + (historyUsed.length ? `(${historyUsed.map((z) => '`' + z.split(':')[1] + '`').join('・')})` : '') + '。');
   md.push('');
   md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み |');
   md.push('|---|---|---|---|---|---|---|---|');
@@ -262,7 +264,7 @@ const canon = {
     rule: '較正の語・合わない量・見込みは正本(calaudit verdictLedger / charonwin grid)から機械で作る。状況の語は根拠 ID(保存 QA で PASS・正本の存在)で裏づくものだけ。',
     doNotWrite: ['較正した', '較正を完了', '観測と一致した', '精度を上げれば合格', '判定が増えた'] },
   provenanceMeta({ root: ROOT, wave: '第279便a', target: 'beta/index.html', code: CODE,
-    inputs: [SRC, CAL, WIN, MD, RETIRED_FX] }),
+    inputs: [SRC, CAL, WIN, MD].concat(RETIRED_FXS) }),
     // 保存 QA は**全走行のたびに書き換わる**ので来歴の inputs には入れない(入れると lint.provenanceMeta が
     // フル QA のたびに落ちる)。根拠 ID の照合に使った保存 QA の commit と件数だけを記録する
     { evidenceQa: { file: QAF, commit: qa.commit || null, date: qa.date || null, pass: qaIds.size } }),
@@ -284,7 +286,7 @@ if (CHECK) {
   fs.writeFileSync(path.join(ROOT, MD), mdText);
   // md を書いた後に来歴を取り直す(inputs に md 自身の sha を刻む)
   canon.meta = Object.assign({}, canon.meta, provenanceMeta({ root: ROOT, wave: '第279便a', target: 'beta/index.html',
-    code: CODE, inputs: [SRC, CAL, WIN, MD, RETIRED_FX] }));
+    code: CODE, inputs: [SRC, CAL, WIN, MD].concat(RETIRED_FXS) }));
   fs.writeFileSync(path.join(ROOT, OUT), JSON.stringify(canon, null, 1));
 }
 const maxJa = Math.max(...Object.values(table).map((t) => t.brief.length));
