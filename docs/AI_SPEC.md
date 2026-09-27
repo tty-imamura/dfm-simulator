@@ -2620,10 +2620,16 @@ build・力学・光線・`presetSig`・保存 JSON の物理は**この鍵を�
   理由と代わりに見る本はプリセットの外の表 `RETIRED_PRESETS`(減光の原器は 🕳️ `rotorSolo`・銀河の質量要素は 🌚/🛞)。
 - **表示**: サンプル一覧(選択ウィンドウ)に出さない(「すべて表示」・検索でも —— 読み込み中の本だけ〔退役(履歴)〕付きで残る)・開いたときに説明タブへ「退役(履歴)」の 1 行・
   「この仲間」の導線から外す。**自動で別の本へ置き換えない**(ID で開けば開ける)。
-- **AI 生成のベースサンプル選択**(`#aiBasePreset`)には退役の本がまだ並ぶ(その関数は正本の領域の閉包の中にあるので本便では触らない —— 決断事項候補)。
-  AI には退役の本をベースに選ばせない運用とする。
-- 凍結の写し: `tests/fixtures/retired-w283b.json`(基点 de9e39b の内蔵定義・presetSigHash・ゲートから外した試験の最後の保存 QA の値・⚫ の尺度比較の参照値)。
-- QA: **`docs.retired`**・**`docs.families`**。器 `tests/exp-w283b-families.mjs`・正本 `tests/out/families-w283b.json`・一覧 `docs/FAMILIES_v1.45.md`・docs/PHYSICS.md〔第283便b〕。
+- **退役を足した 6 本**(第284便b・原仮定者の裁定〔第74報〕⑤「不用なサンプルを廃止する」・AN35 —— 退役は **13 本**): 🎋 `galaxyMeshSpiralGeoToyLite`(空間メッシュの原理は 🪁・中心 DFM BH のアナロジーは 🌚)・
+  🪶 `psrDoubleABPN`・🪃 `psrJ1757PN`・🪀 `psrJ1946PN`(旧則 λ_PN=1/f の履歴 —— 名前に「旧則・履歴」)・⭕ `emAuditNewton`(🌙 `earthMoonReal` と実効 JSON が同一 → 🌙 に集約)・
+  🪝 `psrDoubleABCF`(⚡ の f=1 署名と同時。他の CF 3 本は対応する系の f=1 署名のとき)。
+- **AI 生成のベースサンプル選択**(`#aiBasePreset`)と隠し `#presetSelect` からも外す(第284便b・AN41 —— いま基準に選んである本/読み込み中の本だけは選択の保持のため〔退役(履歴)〕付きで残る)。
+  **旧 URL・保存 JSON・ID 指定の読み込みは従来どおり開ける**。AI には退役の本をベースに選ばせない。
+- 凍結の写し: `tests/fixtures/retired-w283b.json`(基点 de9e39b の内蔵定義・presetSigHash・ゲートから外した試験の最後の保存 QA の値・⚫ の尺度比較の参照値)と
+  `tests/fixtures/retired-w284b.json`(第284便b の内蔵定義 6 本・⚡ の旧則〔f≈2〕の宣言と claims・付け替えた試験の基点の保存 QA の値)。
+- QA: **`docs.retired`**(13 本・AN41 ⑧)・**`docs.families`**。器 `tests/exp-w283b-families.mjs`・正本 `tests/out/families-w283b.json`・一覧 `docs/FAMILIES_v1.45.md`・docs/PHYSICS.md〔第283便b〕〔第284便b〕。
+- **f=1 へ移した ⚡ `psrDoubleABDFM`**(第284便b・AN24′・統括の検証項目 R92): `massCalibration:{law:"f-fixed-1", f:1, baseMass, note, history}` —— `history` は旧台帳の記録(**宣言専用**・受理器は
+  4000 字以内の平たいオブジェクトだけを写す・物理と presetSig は読まない)。AI 生成に `massCalibration` を書かせる必要は無い(§5 は不変)。
 ## 17. 第283便d の UI —— 背景複素決定力の宣言欄と空間メッシュの線の明るさ(原仮定者の裁定〔第73報〕⑥・統括の検証項目 R87・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
 
 AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。プリセットの `physics.backgroundComplex`(§12・第276便a/第277便d の受理契約)を**アプリの画面から宣言する欄**と、空間メッシュの線の**表示の契約**を足しただけである。

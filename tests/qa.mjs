@@ -5341,7 +5341,9 @@ if (QA_REPLAY_FAIL) {
       for (const f of folds) if (!ids.has(f)) bad.push('⑤候補の本が内蔵から消えている ' + f);
       // ⑥
       const R = J.retired || {};
-      if (!(Array.isArray(R.presets) && R.presets.length === 7)) bad.push('⑥退役の棚卸しが 7 本でない');
+      // 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本を足して 13 本(世代切替 —— RETIRED_PRESETS に 🪶 の行)
+      const nRet = html.indexOf('  psrDoubleABPN:{ja:') >= 0 ? 13 : 7;
+      if (!(Array.isArray(R.presets) && R.presets.length === nRet)) bad.push(`⑥退役の棚卸しが ${nRet} 本でない`);
       for (const p of R.presets || []) {
         if (!p.inBuiltin || !p.retired) bad.push(`⑥${p.id}: 内蔵に無い/退役の印が無い`);
         if (!(p.sigBuiltin && p.sigBuiltin === p.sigFixture && p.sigFixtureNow === p.sigFixture)) bad.push(`⑥${p.id}: 署名 内蔵 ${p.sigBuiltin} / 写し ${p.sigFixture}`);
@@ -9086,13 +9088,20 @@ if (QA_REPLAY_FAIL) {
   // NS 4 系の宣言質量(**プリセット JSON から読む** — 手で打ち直した値ではない)
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const block = (html.match(/const BUILTIN_PRESETS = \[([\s\S]*?)\n\];/) || [, ''])[1];
-  const massOf = (pid) => {
+  let massOf = (pid) => {
     const at = block.indexOf('id:"' + pid + '"');
     if (at < 0) return null;
     const seg = block.slice(block.indexOf('bodies:', at), block.indexOf('bodies:', at) + 4000);
     const ms = [...seg.matchAll(/\bm:(-?[\d.eE+-]+)/g)].map((z) => Number(z[1])).filter(Number.isFinite);
     return ms.length >= 2 ? ms.slice(0, 2) : null;
   };
+  // 第284便b(原仮定者の裁定(第74報)⑤・R92): ⚡ は f=1(観測質量 2660.98/2483.37 —— Float32 の刻みは 2⁻¹²)へ移った。
+  // 〔第259便d〕の記録 215.5σ は**旧則(f≈2)の質量**での値なので、⚡ の行は凍結の写しの旧 ⚡(superseded)の質量で再現する(記録の数え方の確認)
+  let SUP284m = null;
+  try { SUP284m = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w284b.json'), 'utf8')).superseded.psrDoubleABDFM.raw.bodies.map((b) => b.m); } catch (e) { SUP284m = null; }
+  const f1Now = (() => { const a = block.indexOf('{ id:"psrDoubleABDFM"'); if (a < 0) return false; const b = block.indexOf('\n{ id:"', a + 10); return block.slice(a, b < 0 ? undefined : b).indexOf('massCalibration:{law:"f-fixed-1"') >= 0; })();
+  const massOf0 = massOf;
+  massOf = (pid) => (pid === 'psrDoubleABDFM' && f1Now && SUP284m) ? SUP284m.slice(0, 2) : massOf0(pid);
   const CASES = [
     { id: 'psrDoubleABDFM', emoji: '⚡', obsP: 8834.534723, sigma: 2.5056e-7, expectSigma: 215.5 },
     { id: 'psrB1534DFM', emoji: '🧶', obsP: 36351.702644, sigma: 8.64e-7, expectSigma: 251.7 },
@@ -9105,6 +9114,7 @@ if (QA_REPLAY_FAIL) {
     for (const c of CASES) {
       const m = massOf(c.id);
       if (!m) { seen.push(`${c.emoji} 不在`); continue; }
+      if (c.id === 'psrDoubleABDFM' && f1Now) seen.push('⚡ は f=1 へ移った —— 記録の再現は凍結の写しの旧則の質量で行う');
       for (const z of m) if (L.float32Ulp(z) !== ULP)
         bad.push(`①${c.emoji} の ULP が ${ULP} でない(${L.float32Ulp(z)} @ m=${z})`);
       const e = L.massRoundingEstimate(m, null, c.obsP, c.sigma);
@@ -10358,6 +10368,24 @@ const pageErrors = [];
 page.on('pageerror', e => pageErrors.push(String(e)));
 page.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
 await page.goto(INDEX);
+// ---- 第284便b(原仮定者の裁定(第74報)⑤・AN24′・R92): ⚡ psrDoubleABDFM は f=1(観測質量)へ移った。⚡ を**数値の器**として使う試験
+// ----   (近点検出器・決定性・3 段・倍精度の宣言・重力磁気の η・対照行列 …)は、観測の軌道を保つ**旧則の ⚡**(凍結の写し
+// ----   tests/fixtures/retired-w284b.json の superseded —— 第245〜283便の宣言そのもの)へ付け替える。ページに `__qaPreset(id)` を置き、
+// ----   ⚡ が f=1 の世代だけ旧 ⚡ を返す(それ以外の id と root 等の世代は内蔵そのまま)。**⚡ の現行の宣言の検査は behavior.psrF1**。
+const PSR_SUP284 = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w284b.json'), 'utf8')).superseded.psrDoubleABDFM.raw; } catch (e) { return null; } })();
+async function installQaPreset(pg) {
+  await pg.evaluate((raw) => {
+    const cur = (window.HP && HP.allPresets) ? HP.allPresets().find((q) => q.id === 'psrDoubleABDFM') : null;
+    window.__psrOld = (raw && cur && cur.massCalibration && cur.massCalibration.law === 'f-fixed-1') ? raw : null;
+    window.__qaPreset = (id) => (id === 'psrDoubleABDFM' && window.__psrOld) ? window.__psrOld : HP.allPresets().find((q) => q.id === id);
+  }, PSR_SUP284);
+}
+await page.waitForFunction(() => window.HP && HP.allPresets);
+await installQaPreset(page);
+// 第284便b: ⚡ が f=1 の世代か(html の ⚡ の宣言に law:"f-fixed-1")。⚡ の補正コア 2 件が消えたので、コア宣言の件数を数える試験が 2 件引く
+const W284_PSR_F1 = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); const a = h.indexOf('{ id:"psrDoubleABDFM"'); if (a < 0) return false;
+  const b = h.indexOf('\n{ id:"', a + 10); return h.slice(a, b < 0 ? undefined : b).indexOf('massCalibration:{law:"f-fixed-1"') >= 0; } catch (e) { return false; } })();
+const W284_CORE = W284_PSR_F1 ? 2 : 0;
 
 // ---- 0b3) 第52便(ChatGPT R-02 提案): release.no-beta-identifiers — ルート対象時、
 // ----      リリース識別子の残存・取り違えを一括機械検査する。
@@ -11442,6 +11470,7 @@ if (!QA_SERIAL && (w5cUnitKeys.length || w5bEnabledN)) {
       wp.on('console', m => { if (m.type() === 'error') pageErrors.push(m.text()); });
       await wp.goto(INDEX);
       await wp.waitForFunction(() => window.HP && HP.sim);
+      await installQaPreset(wp);   // 第284便b: ⚡ の数値の器は旧則の写しへ(__qaPreset)
       if (rBefore) for (const pid of W5_ORDER.reniceNew(osMod, rBefore, W5_ORDER.ownRendererPids(fs, process.pid), W5_NICE)) w5Reniced.add(pid);
       return wp;
     },
@@ -19371,7 +19400,9 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
         eq.same = pick(vb.preset) === pick(r1.preset);
         if (!eq.same) eq.diff = { builtin: pick(vb.preset).slice(0, 400), records: pick(r1.preset).slice(0, 400) };
         // 第242便 pull: kF1 雛形は自己診断(二体クロージャ)を通過して記録経路は kF1 を構築する — 内蔵 ✨ は裁定の根拠②で kF0 を維持。kFrame 以外はビット一致を要求
-        const pickNoKF = (qq) => { const ph = stripPull(qq.physics); delete ph.kFrame; return canon({ physics: ph, bodies: qq.bodies, camera: qq.camera, world: qq.world, scaleExp: qq.scaleExp }); };
+        // 第284便b(原仮定者の裁定(第74報)AN39): 内蔵 ✨ は kF0 版の宣言 geoPN=1・kFrame=0 —— 記録経路の kF1 雛形は geoPN=2。
+        //   geoPN は kFrame と組のモード選択(geoModeOf)なので、「kFrame 以外」は組の 2 キー(kFrame・geoPN)以外で比べる
+        const pickNoKF = (qq) => { const ph = stripPull(qq.physics); delete ph.kFrame; if (ph.geoPN === 1 || ph.geoPN === 2) delete ph.geoPN; return canon({ physics: ph, bodies: qq.bodies, camera: qq.camera, world: qq.world, scaleExp: qq.scaleExp }); };
         eq.recKF = r1.preset.physics.kFrame; eq.sameNoKF = pickNoKF(vb.preset) === pickNoKF(r1.preset);
       }
       // 第203〜209便: ✴️ DFM 版 — 質量較正(f=1.827)+**役割反転二層**(第208便)+**重心ゲージ**
@@ -20070,6 +20101,9 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       {
         const pd = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM');
         if (!pd) dfm = { missing: true };
+        // 第284便b(原仮定者の裁定(第74報)⑤・R92): ⚡ は f=1 へ移った —— 旧則(f≈2)の検査はここでは走らせない
+        // (新しい宣言と走行は behavior.psrF1・旧則の最後の保存 QA の値は tests/fixtures/retired-w284b.json の history)
+        else if (pd.massCalibration && pd.massCalibration.law === 'f-fixed-1') dfm = { f1: true };
         else {
           // 第224便: χ-law 粒子別質量(比は法則導出・fit は正規化 C の1ノブ)+ massFrac=(f−1)/f
           const w242 = pd.physics.frameWeight === 'pull';   // 第242便: pull 重み世代(χ 飽和域なので f≈2 は不変)
@@ -20340,7 +20374,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       && d.sink === 'reservoir';   // 第223便: 1PN 偶力の resL 記帳宣言
     const t0s = ps.kf0.tRev === null ? null : ps.kf0.tRev * 10;   // 単位時間 → 秒
     const dm = ps.dfm || { missing: true };
-    const dfmOk = !dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
+    const dfmOk = dm.f1 === true || (!dm.missing && dm.massOk && dm.declOk && !dm.nan && dm.det
       && dm.p2 !== null && Math.abs(dm.p2 / ps.P_OBS - 1) < 0.012   // 第240便: P 残差 −0.16%(hold-out)
       && dm.e1 !== null && Math.abs(dm.e1 - 0.087977) < 0.002   // 第254便d: 0.087976(第245便 一次則の native は 0.087977・χ² 則 0.087949・share 世代 0.087089 も窓内)
       && dm.rmin1 !== null && Math.abs(dm.rmin1 / 801.37 - 1) < 0.01   // 第245便 一次則: 801.37(χ² 則 801.42・share 世代 802.81 も窓内)
@@ -20381,7 +20415,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       && (dm.ctrl === null || (
         [dm.ctrl.geo0, dm.ctrl.d00, dm.ctrl.sinkRes, dm.ctrl.noGauge].every((x) =>
           x !== null && x >= 0.09 && x <= 0.13 && Math.abs(x - dm.decPct) <= 0.01)
-        && dm.ctrl.dtHalf !== null && dm.ctrl.dtHalf / dm.decPct >= 0.35 && dm.ctrl.dtHalf / dm.decPct <= 0.65));
+        && dm.ctrl.dtHalf !== null && dm.ctrl.dtHalf / dm.decPct >= 0.35 && dm.ctrl.dtHalf / dm.decPct <= 0.65)));
     add('behavior.psrDoubleAB', csvAll.length === 10 && csvRows.length === 9
       && !!csvOmegaDot && Object.is(csvOmegaDot.value, 16.899323) && csvOmegaDot.unit === 'deg/yr'
       && Number(csvOmegaDot.sigma) === 1.3e-5
@@ -20407,7 +20441,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本・2026-09-14 intake の併置行 ${csvIntakeN} 本は渡さない)・`
       + `ω̇ 行=${csvOmegaDot ? csvOmegaDot.value + ' ' + csvOmegaDot.unit + '(σ=' + csvOmegaDot.sigma + ')' : '**無し**'} / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
-      + `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
+      + (dm.f1 ? '⚡ DFM版: 第284便b で f=1(観測質量)へ移した —— 宣言と走行の検査は behavior.psrF1(旧則 f≈2 の最後の保存 QA の値は tests/fixtures/retired-w284b.json の history)' : `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
       + `2周目 ${dm.p2 === null ? '—' : (dm.p2 * 10).toFixed(2) + ' s'}(宣言 ${dm.w242 ? '8819.52〔hold-out −0.17%〕' : '8834.6'})・e1=${dm.e1 === null ? '—' : dm.e1.toFixed(6)}(宣言 ${dm.w242 ? '0.087976' : '0.087089'})・近点 ${dm.rmin1 === null || dm.rmin1 === undefined ? '—' : dm.rmin1.toFixed(2)}(宣言 ${dm.w242 ? '801.37' : '802.81'} ±1%)・`
       + `近点移動(**窓 20 近点・第255便d N6b**) A=${dm.peri20 && dm.peri20.A.slopeDeg !== null ? '+' + dm.peri20.A.slopeDeg.toFixed(7) : '—'}`
       + `/B=${dm.peri20 && dm.peri20.B.slopeDeg !== null ? '+' + dm.peri20.B.slopeDeg.toFixed(7) : '—'}°/周`
@@ -20422,9 +20456,127 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       + `周期短縮 ΔP/P=−${dm.decPct === null || dm.decPct === undefined ? '—' : dm.decPct.toFixed(3)}/−${dm.decPct2 === null || dm.decPct2 === undefined ? '—' : dm.decPct2.toFixed(3)}%/公転(宣言 −0.110・窓0.05〜0.2)・kF0対照 ΔP/P=${dm.decB === null || dm.decB === undefined ? '—' : dm.decB.toFixed(4)}%(<0.02 — 消滅)・`
       + `帳簿 L ${dm.lRel === undefined ? '—' : dm.lRel.toExponential(1)}(<1e-8 — 機械ゼロ・宣言 2.0e-14)/P ${dm.pRel === undefined ? '—' : dm.pRel.toExponential(1)}・重心 ${dm.comMax === undefined ? '—' : dm.comMax.toExponential(1)}・`
       + (dm.ctrl ? `対照行列(第223便): geoPN0=${dm.ctrl.geo0 === null ? '—' : dm.ctrl.geo0.toFixed(4)}/D₀0=${dm.ctrl.d00 === null ? '—' : dm.ctrl.d00.toFixed(4)}/受け皿=${dm.ctrl.sinkRes === null ? '—' : dm.ctrl.sinkRes.toFixed(4)}/ゲージ=${dm.ctrl.noGauge === null ? '—' : dm.ctrl.noGauge.toFixed(4)}%(0.09〜0.13・本番差≤0.01pp)・dt/2 短縮率比=${dm.ctrl.dtHalf === null ? '—' : (dm.ctrl.dtHalf / dm.decPct).toFixed(3)}(0.35〜0.65 — 離散化仕事)・` : '対照行列: QA_FAST では省略(フルゲートで機械固定)・')
-      + `否定対照(coupleSink除去→±40 飽和再現 clampSN Δ=${dm.negSinkClampD === undefined ? '—' : dm.negSinkClampD})=${dm.negSink}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(3)}単位)=${dm.negWalk}・(kF0×f→深い楕円 rmin=${dm.rmin2 === undefined ? '—' : dm.rmin2.toFixed(0)}・1周目 ${dm.tRev2 === null || dm.tRev2 === undefined ? '—' : (dm.tRev2 * 10).toFixed(0) + ' s'})=${dm.negPlunge}・決定性=${dm.det}`);
+      + `否定対照(coupleSink除去→±40 飽和再現 clampSN Δ=${dm.negSinkClampD === undefined ? '—' : dm.negSinkClampD})=${dm.negSink}・(cmGauge除去→歩行 ${dm.negWalkMax === undefined ? '—' : dm.negWalkMax.toFixed(3)}単位)=${dm.negWalk}・(kF0×f→深い楕円 rmin=${dm.rmin2 === undefined ? '—' : dm.rmin2.toFixed(0)}・1周目 ${dm.tRev2 === null || dm.tRev2 === undefined ? '—' : (dm.tRev2 * 10).toFixed(0) + ' s'})=${dm.negPlunge}・決定性=${dm.det}`));
   } else {
     console.log('SKIP behavior.psrDoubleAB(対象に第220便の 📻 なし — root 等)');
+  }
+}
+
+// ---- 第284便b(原仮定者の裁定(第74報)⑤「f=1 の修正を進める」・AN24′・統括の検証項目 R92): behavior.psrF1 ----
+// ----   ⚡ psrDoubleABDFM を **f=1(観測質量)** へ移した宣言と、その新しい走行の記録を機械固定する(**合否の判定ではない** ——
+// ----   観測周期は再現しない。「f=1 で合った」とは書かない)。
+// ----     ① 宣言: massCalibration は law:"f-fixed-1"・f=1・baseMass=[2660.982861, 2483.370041]・history(旧一次則 f=1.999942269345993)。
+// ----        bodies の m は baseMass と**観測版 📻 の m** にビット一致・**補正コア(core)が無い**・λ_PN=1 を physics に明示・geoPN=2・kFrame=1・
+// ----        coupleSink:"reservoir"。位置・速度・dragQ は**移行前(凍結の写し superseded)とビット同一**(比較用に固定)。受理器の警告 0。
+// ----        claims(5 本)の testId はこの試験。
+// ----     ② 走行(既定 dt=0.016。フル=同方向1周を 2 回〔約 43 公転分〕・FAST=4.3 公転窓): 殻 spin=0 の全窓ビット保持(|s|max=0・clampSN Δ=0)・
+// ----        帳簿 L/P の閉包(<1e-8)・重心(<0.01)・**リザーバの収支の記録**(最大 |resL|/L0・終端 resL)。フルでは 1周目・2周目の周期と
+// ----        実測離心率を claims と同じ窓で読む。
+// ----     ③ 対照: B 側 kFrame=0 は観測版 📻 と 4000 步の状態がビット一致(f=1 では質量較正が要らない対照)・coupleSink 除去で ±40 飽和が再現・
+// ----        cmGauge 除去で重心が歩く。
+// ----   **root 等(⚡ が f=1 でない世代)は SKIP**。
+{
+  const hasF1 = await page.evaluate(() => { const p = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM');
+    return !!(p && p.massCalibration && p.massCalibration.law === 'f-fixed-1'); });
+  if (!hasF1) {
+    console.log('SKIP behavior.psrF1(⚡ が f=1 の宣言でない世代 — root 等)');
+  } else {
+    let SUP = null;
+    try { SUP = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w284b.json'), 'utf8')).superseded.psrDoubleABDFM.raw; } catch (e) { SUP = null; }
+    const r = await page.evaluate(({ FAST, SUP }) => {
+      const P_OBS = 883.4534723278, dt = 0.016;
+      const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+      const pd = P('psrDoubleABDFM'), pr = P('psrDoubleAB');
+      const o = {};
+      const mc = pd.massCalibration || {};
+      const BASE = [2660.982861, 2483.370041];
+      o.decl = {
+        law: mc.law === 'f-fixed-1' && mc.f === 1 && Array.isArray(mc.baseMass) && mc.baseMass[0] === BASE[0] && mc.baseMass[1] === BASE[1],
+        history: !!(mc.history && mc.history.law === 'inertia-law-lin-v1' && mc.history.factor === 1.999942269345993),
+        massObs: pd.bodies[0].m === BASE[0] && pd.bodies[1].m === BASE[1] && pd.bodies[0].m === pr.bodies[0].m && pd.bodies[1].m === pr.bodies[1].m,
+        noCore: pd.bodies.every((b) => b.core === undefined),
+        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === 1,
+        mode: pd.physics.geoPN === 2 && pd.physics.kFrame === 1 && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric',
+        fixedState: !!SUP && pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy', 'dragQ', 'radius', 'spin'].every((k) => Object.is(b[k], SUP.bodies[i][k]))),
+        sameAsObs: pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy'].every((k) => Object.is(b[k], pr.bodies[i][k]))),
+        claims: Array.isArray(pd.claims) && pd.claims.length === 5 && pd.claims.every((c) => c.testId === 'behavior.psrF1'),
+      };
+      const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+      o.decl.validator = vd.ok && vd.warnings.length === 0;
+      // ② 走行
+      const S = makeSim(); S.build(vd.preset);
+      const clamp0 = S.clampSN || 0;
+      const T0 = S.totals(); const L0 = T0.L + S.resL + S.radL; const mt = S.m[0] + S.m[1];
+      const com = () => ({ x: (S.m[0] * S.x[0] + S.m[1] * S.x[1]) / mt, y: (S.m[0] * S.y[0] + S.m[1] * S.y[1]) / mt });
+      const c0 = com(); const ep0x = T0.px + S.resPx, ep0y = T0.py + S.resPy;
+      const pScale = S.m[0] * Math.hypot(S.vx[0], S.vy[0]) + S.m[1] * Math.hypot(S.vx[1], S.vy[1]);
+      const maxSteps = Math.round((FAST ? 4.3 : 50) * P_OBS / dt);
+      let ang = 0, px = 0, py = 0, rmin = Infinity, rmax = -Infinity, sMax = 0, comMax = 0, resMax = 0, k = 0, e1 = null, rmin1 = null, rmax1 = null;
+      const revs = [];
+      const t0 = performance.now();
+      for (k = 0; k < maxSteps && revs.length < 2; k++) {
+        S.step(dt);
+        const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
+        if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+        const sm = Math.max(Math.abs(S.spin[0]), Math.abs(S.spin[1])); if (sm > sMax) sMax = sm;
+        const cc = com(); const cd = Math.hypot(cc.x - c0.x, cc.y - c0.y); if (cd > comMax) comMax = cd;
+        const rl = Math.abs(S.resL); if (rl > resMax) resMax = rl;
+        if (k === 0) { px = dx; py = dy; } else {
+          ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
+          if (Math.abs(ang) >= (revs.length + 1) * 2 * Math.PI) { revs.push((k + 1) * dt);
+            if (e1 === null) { e1 = (rmax - rmin) / (rmax + rmin); rmin1 = rmin; rmax1 = rmax; } } }
+      }
+      const T1 = S.totals(); const L1 = T1.L + S.resL + S.radL;
+      o.run = { steps: k, ms: Math.round(performance.now() - t0), revSec: revs.map((t, i) => (i ? t - revs[i - 1] : t) * 10), e1, rmin1, rmax1,
+        sMax, clampD: (S.clampSN || 0) - clamp0, lRel: Math.abs(L1 - L0) / Math.abs(L0),
+        pRel: Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / pScale, comMax,
+        resMaxPct: 100 * resMax / Math.abs(L0), resEnd: S.resL, L0, nan: S.hasNaN() };
+      // ③ 対照
+      const runState = (p, n) => { const v = HP.validatePreset(p); const Z = makeSim(); Z.build(v.preset); for (let i = 0; i < n; i++) Z.step(dt);
+        const a = []; for (let i = 0; i < Z.n; i++) a.push(Z.x[i], Z.y[i], Z.vx[i], Z.vy[i]); return a; };
+      const k0 = P('psrDoubleABDFM'); k0.physics.kFrame = 0;
+      const sa = runState(k0, 4000), sb = runState(P('psrDoubleAB'), 4000);
+      o.kf0SameAsObs = sa.length === sb.length && sa.every((x, i) => Object.is(x, sb[i]));
+      const ns = P('psrDoubleABDFM'); delete ns.physics.coupleSink;
+      { const v = HP.validatePreset(ns); const Z = makeSim(); Z.build(v.preset); const c0z = Z.clampSN || 0; let m3 = 0;
+        for (let i = 0; i < Math.round(0.3 * P_OBS / dt); i++) { Z.step(dt); const s3 = Math.max(Math.abs(Z.spin[0]), Math.abs(Z.spin[1])); if (s3 > m3) m3 = s3; }
+        o.negSink = { sMax: m3, clampD: (Z.clampSN || 0) - c0z }; }
+      const ng = P('psrDoubleABDFM'); delete ng.physics.cmGauge;
+      { const v = HP.validatePreset(ng); const Z = makeSim(); Z.build(v.preset); const mz = Z.m[0] + Z.m[1];
+        const cz = () => ({ x: (Z.m[0] * Z.x[0] + Z.m[1] * Z.x[1]) / mz, y: (Z.m[0] * Z.y[0] + Z.m[1] * Z.y[1]) / mz });
+        const z0 = cz(); let w = 0;
+        for (let i = 0; i < Math.round(0.5 * P_OBS / dt); i++) { Z.step(dt); const c = cz(); const d = Math.hypot(c.x - z0.x, c.y - z0.y); if (d > w) w = d; }
+        o.negWalk = w; }
+      return o;
+    }, { FAST, SUP }).catch((e) => ({ err: String(e).slice(0, 300) }));
+    const bad = [];
+    if (r.err) bad.push('ページ: ' + r.err);
+    else {
+      for (const [k2, v2] of Object.entries(r.decl)) if (v2 !== true) bad.push('①' + k2);
+      const R = r.run;
+      if (R.nan) bad.push('②NaN');
+      if (!(R.sMax === 0 && R.clampD === 0)) bad.push(`②殻スピン |s|max=${R.sMax}・clampSN Δ=${R.clampD}`);
+      if (!(R.lRel < 1e-8 && R.pRel < 1e-8)) bad.push(`②帳簿 L ${R.lRel}・P ${R.pRel}`);
+      if (!(R.comMax < 0.01)) bad.push(`②重心 ${R.comMax}`);
+      if (!(R.resMaxPct > 0 && R.resMaxPct < 5)) bad.push(`②リザーバの記録 ${R.resMaxPct}`);
+      if (!FAST) {
+        if (!(R.revSec.length === 2 && R.revSec[0] >= 185000 && R.revSec[0] <= 195000 && R.revSec[1] >= 185000 && R.revSec[1] <= 195000)) bad.push(`②周期 ${JSON.stringify(R.revSec)}(claim 窓 185000〜195000 s)`);
+        if (!(R.e1 !== null && R.e1 >= 0.80 && R.e1 <= 0.85)) bad.push(`②実測離心率 ${R.e1}(claim 窓 0.80〜0.85)`);
+        if (!(R.resMaxPct >= 0.3 && R.resMaxPct <= 1.0)) bad.push(`②リザーバ最大 ${R.resMaxPct}%(claim 窓 0.3〜1.0)`);
+      }
+      if (r.kf0SameAsObs !== true) bad.push('③kFrame=0 が 📻 とビット一致でない');
+      if (!(r.negSink.sMax === 40 && r.negSink.clampD > 0)) bad.push(`③coupleSink 除去で飽和しない(|s|max ${r.negSink.sMax})`);
+      if (!(r.negWalk > 0.05)) bad.push(`③cmGauge 除去で重心が歩かない(${r.negWalk})`);
+    }
+    const R = r.run || {};
+    add('behavior.psrF1', bad.length === 0,
+      `**⚡ の f=1**(第284便b・原仮定者の裁定(第74報)⑤・AN24′・R92): 宣言 ${r.decl ? Object.entries(r.decl).map(([k2, v2]) => k2 + '=' + v2).join('・') : '—'}` +
+      ` / 走行(${FAST ? 'FAST 4.3 公転' : '同方向1周×2'}・${R.steps} 步・${R.ms} ms): ` +
+      (R.revSec && R.revSec.length ? `同方向1周 ${R.revSec.map((x) => x.toFixed(2)).join(' / ')} s(観測 8834.534723278 s の ${(R.revSec[0] / 8834.534723278).toFixed(2)} 倍 —— **観測周期は再現しない**)・実測離心率 ${R.e1 === null ? '—' : R.e1.toFixed(5)}・分離 ${R.rmin1 === null ? '—' : R.rmin1.toFixed(2)}〜${R.rmax1 === null ? '—' : R.rmax1.toFixed(2)} / ` : '') +
+      `殻 |s|max=${R.sMax}・clampSN Δ=${R.clampD}・帳簿 L ${R.lRel === undefined ? '—' : R.lRel.toExponential(1)}/P ${R.pRel === undefined ? '—' : R.pRel.toExponential(1)}・重心 ${R.comMax === undefined ? '—' : R.comMax.toExponential(1)}` +
+      ` / リザーバの収支(記録): 最大 |resL|/L0=${R.resMaxPct === undefined ? '—' : R.resMaxPct.toFixed(3)}%・終端 resL=${R.resEnd === undefined ? '—' : R.resEnd.toFixed(2)}(L0=${R.L0 === undefined ? '—' : R.L0.toFixed(2)})` +
+      ` / 対照: kFrame=0 は 📻 と 4000 步ビット一致=${r.kf0SameAsObs}・coupleSink 除去 |s|max=${r.negSink ? r.negSink.sMax : '—'}(clampSN Δ ${r.negSink ? r.negSink.clampD : '—'})・cmGauge 除去の重心 ${r.negWalk === undefined ? '—' : r.negWalk.toFixed(3)}` +
+      (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }
 
@@ -20453,7 +20605,7 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
     await page.evaluate(() => {
       window.__ns3 = {
         build: (id, fp) => {
-          const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+          const pd = JSON.parse(JSON.stringify(__qaPreset(id)));
           if (fp) pd.physics.framePrecision = fp; else delete pd.physics.framePrecision;
           delete pd.massCalibration;
           const v = HP.validatePreset(pd);
@@ -22370,7 +22522,7 @@ await w5bRun('axisForceBit', true); async function W5B_axisForceBit(page, add, f
       && (q.bodies || []).some((b) => b && b.spinDipole)));
   if (hasCS) {
     const cs = await page.evaluate(() => {
-      const get = () => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'psrDoubleABDFM')));
+      const get = () => JSON.parse(JSON.stringify(__qaPreset('psrDoubleABDFM')));
       const build = (pd) => { const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset); return { v, S }; };
       // ---- ①④ 宣言された Q と η ----
       const base = get(), { v: v0, S } = build(get());
@@ -22518,7 +22670,7 @@ await w5bRun('compactMeasures', true); async function W5B_compactMeasures(page, 
   if (has247) {
     const r = await page.evaluate(() => {
       const S = HP.sim;
-      const clone = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((p) => p.id === id)));
+      const clone = (id) => JSON.parse(JSON.stringify(__qaPreset(id)));
       const build = (p) => { const v = HP.validatePreset(p); if (!v.ok) throw Error(JSON.stringify(v.errors)); S.build(v.preset); return v; };
       const snap = () => { const o = []; for (let i = 0; i < S.n; i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]); return o; };
       const same = (a, b) => a.length === b.length && a.every((z, i) => Object.is(z, b[i]));
@@ -22611,7 +22763,7 @@ await w5bRun('compactMeasures', true); async function W5B_compactMeasures(page, 
       const KS = HP.FRAME_F64_ARRS.concat(['pairD']);
       // 第254便d: ⚡ 本体が宣言を持ったので、**宣言を外した一時コピー**が native 対照になる
       const noDecl = () => { const q = clone('psrDoubleABDFM'); delete q.physics.framePrecision; return q; };
-      frame.primaryDeclared = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.framePrecision;
+      frame.primaryDeclared = __qaPreset('psrDoubleABDFM').physics.framePrecision;
       build(noDecl());
       frame.single = KS.every((k) => S[k].constructor === Float32Array) && S.framePrec === 'single';
       const vD = build(clone('psrDoubleABDFM'));
@@ -22633,7 +22785,7 @@ await w5bRun('compactMeasures', true); async function W5B_compactMeasures(page, 
         frame.growKeeps = S.pairD.constructor === Float64Array && S.uPx.constructor === Float64Array; }
 
       // ---------------------------------------------------------------- E) 「手段」表
-      const psr = HP.allPresets().find((q) => q.id === 'psrDoubleABDFM');
+      const psr = __qaPreset('psrDoubleABDFM');
       const gw = HP.allPresets().find((q) => q.id === 'gw150914DFM');
       const me = HP.allPresets().find((q) => q.id === 'mercuryRealKF1');
       const fP = psr.massCalibration.factor, fG = gw.massCalibration.factor;
@@ -22698,8 +22850,8 @@ await w5bRun('compactMeasures', true); async function W5B_compactMeasures(page, 
           && /λ=1×10¹¹/.test((sp.parameterAudit.fitted || []).join('')),
         noKnobless: !/フィットしたノブは無い/.test(JSON.stringify(sp)),
         // 第254便d: ⚡ 本体は 🧿 の λ(spinSpin)を持たない — ただし framePrecision は本体化した(M2)
-        primarySpinUntouched: HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.spinSpin === undefined,
-        primaryFrameDouble: HP.allPresets().find((q) => q.id === 'psrDoubleABDFM').physics.framePrecision === 'double' };
+        primarySpinUntouched: __qaPreset('psrDoubleABDFM').physics.spinSpin === undefined,
+        primaryFrameDouble: __qaPreset('psrDoubleABDFM').physics.framePrecision === 'double' };
       HP.loadPreset('saturn', false);
       return { decl, half, frame, meas, smp };
     });
@@ -22709,7 +22861,7 @@ await w5bRun('compactMeasures', true); async function W5B_compactMeasures(page, 
     if (!FAST) {
       conv = await page.evaluate(() => {
         const peri = (prec, dt) => {
-          const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'psrDoubleABDFM')));
+          const pd = JSON.parse(JSON.stringify(__qaPreset('psrDoubleABDFM')));
           pd.physics = Object.assign({}, pd.physics);
           // 第254便d: 本体が double を宣言したので、native 側は**宣言を外して**作る
           if (prec === 'frame') pd.physics.framePrecision = 'double'; else delete pd.physics.framePrecision;
@@ -29639,7 +29791,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     // コア宣言は 76 件・needsResolve 14 件のまま(🎋 は core を 1 件も宣言しない)—— 世代で切り替える。
     const has265 = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'lfbotTrap'));
     const has274c = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite'));
-    const exp6 = has274c ? { n: 125, core: 76, res: 14 }
+    const exp6 = has274c ? { n: 125, core: 76 - W284_CORE, res: 14 }   // 第284便b: ⚡ の補正コア 2 件を外した
       : (has265 ? { n: 124, core: 76, res: 14 } : { n: 122, core: 75, res: 13 });
     // 第274便d: 形状トイ 3 本は core 宣言を持たない(core/res は不変・n だけ増える)
     exp6.n += (mg.rep.nShapeToy || 0);
@@ -29650,7 +29802,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'mercuryGeoToy3'))) ? 2 : 0;   // 第280便c: 🔁🌒(geoPN=3 の診断コピー・core 宣言なし)
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'galaxyAnalogyBH'))) ? 1 : 0;   // 第282便d: 🌚(アナロジーの原理サンプル・core 宣言なし)
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'))) ? 1 : 0;   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
-    const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61
+    const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61 - W284_CORE
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
     const m7 = !mg.fin.inf.ok && mg.fin.inf.why === 'layerNotFinite' && mg.fin.inf.m === 1000
@@ -29896,8 +30048,8 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
     // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
-    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) && rp.rep.nCore === 76
-      && rp.rep.tot.canReplace === 31 && rp.rep.tot.cannot === 45
+    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) && rp.rep.nCore === 76 - W284_CORE
+      && rp.rep.tot.canReplace === 31 - W284_CORE && rp.rep.tot.cannot === 45   // 第284便b: ⚡ の 2 件(置換可)が消えた
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
       && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
       && rp.rep.byAxis.tilt === 15 && rp.rep.byAxis.saveRestore === 15;
@@ -30418,7 +30570,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
       && zt.range.zetaRt === 4 && zt.range.layQ === 1 && zt.range.zetaAfterEdit === 4
       && zt.range.rAfterEdit === 3 && zt.range.zetaClamped === 1e6
       && zt.vBad.hasLayers && zt.vBad.key === false && zt.vBad.warn >= 1;
-    const z5 = zt.rep.nCore === 76 && zt.rep.zetaReason === 0 && zt.rep.can === 31 && zt.rep.cannot === 45; // 第265便d の 🐮(コア宣言 +1・migrationRejected)で 75→76・44→45
+    const z5 = zt.rep.nCore === 76 - W284_CORE && zt.rep.zetaReason === 0 && zt.rep.can === 31 - W284_CORE && zt.rep.cannot === 45;   // 第284便b: ⚡ の補正コア 2 件 // 第265便d の 🐮(コア宣言 +1・migrationRejected)で 75→76・44→45
     add('behavior.layerInertiaScale', z1 && z2 && z3 && z4 && z5,
       `① **移行計画が ζ を層へ運ぶ**: ζ=4 の計画で layers[0].inertiaScale=${zt.plan.zeta4}`
       + `(I_c=${zt.plan.Ic4}・J_z=${zt.plan.Jz4})・ζ=1 では鍵を作らない(${zt.plan.zeta1Key})=${z1} / `
@@ -31112,7 +31264,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
       return O;
     }, 600);
     // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
-    const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76
+    const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 - W284_CORE   // 第284便b: ⚡ の補正コア 2 件
       && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0);
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
@@ -31120,7 +31272,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     const s3 = lw.totalSame.q[0] === lw.totalSame.q[1] && lw.totalSame.d === 0
       && lw.totalSame.key[0] === false && lw.totalSame.key[1] === false;
     const s4 = lw.tally.asIs.shellReason === 29 && lw.tally.forced.shellReason === 0
-      && lw.tally.asIs.can === 31 && lw.tally.forced.can === 57;
+      && lw.tally.asIs.can === 31 - W284_CORE && lw.tally.forced.can === 57 - W284_CORE;
     add('behavior.shellSpinMassLaw', s1 && s2 && s3 && s4,
       `① **内蔵 ${lw.builtins.nPresets} 本のコア宣言 ${lw.builtins.nCore} 件のうち shellSpinMass を`
       + `宣言しているのは ${lw.builtins.nDeclared} 件**(= 既定 Q は変わっていない)=${s1} / `
@@ -32377,7 +32529,7 @@ await w5bRun('ledgerNorm', true); async function W5B_ledgerNorm(page, add, fpRun
     const ps = await page.evaluate(() => {
       const SRC = 'psrDoubleABDFM';
       const build = (patch) => {
-        const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === SRC)));
+        const pd = JSON.parse(JSON.stringify(__qaPreset(SRC)));
         if (patch) for (const k of Object.keys(patch)) {
           if (patch[k] === null) delete pd.physics[k]; else pd.physics[k] = patch[k];
         }
@@ -32923,7 +33075,7 @@ await w5bRun('kalign', true); async function W5B_kalign(page, add, fpRun, consol
   const hasCh = await page.evaluate(() => { const S = HP.sim; return S.dragQT !== undefined && typeof HP.dfmBinaryInertiaFactor === 'function'; });
   if (hasCh) {
     const ch = await page.evaluate(() => {
-      const run = (id, patch, steps) => { const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+      const run = (id, patch, steps) => { const pd = JSON.parse(JSON.stringify(__qaPreset(id)));
         if (patch) Object.assign(pd.physics, patch); const v = HP.validatePreset(pd); const S = HP.sim; S.build(v.preset);
         for (let k = 0; k < steps; k++) S.step(0.016);
         const o = []; for (let i = 0; i < Math.min(6, S.n); i++) o.push(S.x[i], S.y[i], S.vx[i], S.vy[i]);
@@ -32951,7 +33103,7 @@ await w5bRun('kalign', true); async function W5B_kalign(page, add, fpRun, consol
       // ③ 解析慣性則 vs 台帳
       const fl = {};
       for (const [d, o] of [['alphaCenABDFM', 'alphaCenAB'], ['siriusABDFM', 'siriusAB'], ['psrDoubleABDFM', 'psrDoubleAB'], ['gw150914DFM', 'gw150914']]) {
-        const pD = HP.allPresets().find((q) => q.id === d), pO = HP.allPresets().find((q) => q.id === o); if (!pD || !pO) { fl[d] = null; continue; }
+        const pD = __qaPreset(d), pO = HP.allPresets().find((q) => q.id === o); if (!pD || !pO) { fl[d] = null; continue; }
         const mA = pD.bodies[0].m, mB = pD.bodies[1].m, a = Math.hypot(pD.bodies[0].x - pD.bodies[1].x, pD.bodies[0].y - pD.bodies[1].y);
         // 第242便: フレーム重みの世代を宣言から読み、pull なら D₀ᵖ と指数 p を渡す
         const pwD = HP.frameWeightPow ? HP.frameWeightPow(pD.physics) : 1;           // 第262便d: share も p=1(番兵 0 は廃止)
@@ -33164,11 +33316,16 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
 // ----   軽量(積分なし・宣言の読み出しだけ)なので FAST でも実行する。数値の実測は tests/exp-w249a.mjs。
 {
   const has249 = await page.evaluate(() => !!HP.allPresets().find((q) => q.id === 'psrDoubleABPN'));
+  // 第284便b(原仮定者の裁定(第74報)⑤・AN24′): ⚡ は f=1 へ移った —— 🪶(退役・旧則の履歴)の複製元は**凍結の写しの旧 ⚡**
+  // (tests/fixtures/retired-w284b.json の superseded)へ付け替える。🧮🩺 は旧則のままなので内蔵を読む
+  let SUP284 = null;
+  try { SUP284 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w284b.json'), 'utf8')).superseded.psrDoubleABDFM.raw; } catch (e) { SUP284 = null; }
   if (has249) {
-    const r = await page.evaluate(() => {
+    const r = await page.evaluate((SUP) => {
       const PAIR = [['psrDoubleABPN', 'psrDoubleABDFM'], ['psrJ1757PN', 'psrJ1757DFM'], ['psrJ1946PN', 'psrJ1946DFM']];
       const C_EXACT = 2997.92458;
-      const P = (id) => HP.allPresets().find((q) => q.id === id);
+      const f1Now = (() => { const q = HP.allPresets().find((z) => z.id === 'psrDoubleABDFM'); return !!(q && q.massCalibration && q.massCalibration.law === 'f-fixed-1'); })();
+      const P = (id) => (id === 'psrDoubleABDFM' && f1Now && SUP) ? SUP : HP.allPresets().find((q) => q.id === id);
       const bad = [], rows = [];
       for (const [vid, bid] of PAIR) {
         const v = P(vid), b = P(bid);
@@ -33193,10 +33350,11 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
         if (b.physics.lambdaPN !== 1) bad.push(`${bid}: 本体の λ_PN が 1 でない(本体不変が壊れた)`);
         if (b.physics.cLight !== 3000) bad.push(`${bid}: 本体の cLight が 3000 でない(本体不変が壊れた)`);
         if (!(Math.abs(b.physics.kappaT - b.physics.G / 9e6) < 1e-18)) bad.push(`${bid}: 本体の κ が G/3000² でない`);
-        rows.push(`${vid}: f=${f} λ=${lam} diff=${JSON.stringify(diff)}`);
+        rows.push(`${vid}: f=${f} λ=${lam} diff=${JSON.stringify(diff)}${(bid === 'psrDoubleABDFM' && f1Now) ? '(複製元=凍結の写しの旧 ⚡)' : ''}`);
       }
-      return { bad, rows };
-    });
+      if (f1Now && !SUP) bad.push('⚡ は f=1 だが凍結の写し(superseded)が読めない');
+      return { bad, rows, f1Now };
+    }, SUP284);
     add('behavior.w249a-pnResponse', r.bad.length === 0,
       (r.bad.length ? `不成立=[${r.bad.slice(0, 6).join(' / ')}] ` : '')
       + `NS 応答候補 3 本(🪶🪃🪀)の宣言固定: λ_PN=1/f(massCalibration.factor の逆数・±1e-9)・`
@@ -33292,7 +33450,10 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
         alphaCenABDFM: { f: 1.0002157798299423, chi: [0.00019882195798777018, 0.0002359009828947666],
           fQuad: 1.0000000468819212, chiQuad: [0.0001987790833182524, 0.00023585011425950422] },
         siriusABDFM: { f: 1.0003769425929947, chi: [0.00028151427778575297, 0.0005703302298080955],
-          fQuad: 1.000000160419523, chiQuad: [0.00028140827802898143, 0.0005701155429814001] } };
+          fQuad: 1.000000160419523, chiQuad: [0.00028140827802898143, 0.0005701155429814001] },
+        // 第284便b(原仮定者の裁定(第74報)⑤・AN24′): ⚡ も f=1 へ。旧台帳(第245〜283便)の値 = 台帳の history(凍結の写し superseded と同じ)
+        psrDoubleABDFM: { f: 1.999942269345993, chi: [0.9999403473682839, 0.9999443287852461],
+          fQuad: 1.999884538696137, chiQuad: [0.9999403456463946, 0.9999443271782751] } };
       const out = { pairs: {}, allOk: true };
       for (const [obsId, dfmId] of PAIRS) {
         const p = HP.allPresets().find((q) => q.id === obsId);
@@ -33312,7 +33473,7 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
           r.law = mc.law; r.fixed = true;
           r.decl = mc.f === 1 && Array.isArray(mc.baseMass) && mc.baseMass.length === 2
             && mc.baseMass[0] === p.bodies[0].m && mc.baseMass[1] === p.bodies[1].m
-            && typeof mc.note === 'string' && /第282便a/.test(mc.note);
+            && typeof mc.note === 'string' && /第282便a|第284便b/.test(mc.note);
           r.massEq = pd.bodies[0].m === mc.baseMass[0] && pd.bodies[1].m === mc.baseMass[1];
           r.redis = [0, 1].every((i) => ['x', 'y', 'vx', 'vy'].every((k) => Object.is(pd.bodies[i][k], p.bodies[i][k])));
           r.coreDecl = !pd.bodies[0].core && !pd.bodies[1].core
@@ -33430,7 +33591,8 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
         const vbf = HP.validatePreset(bf);
         out.vFixedBad = vbf.ok && vbf.preset.massCalibration === undefined && vbf.warnings.some((w) => /f-fixed-1/.test(w));
       }
-      const pd0 = HP.allPresets().find((q) => q.id === (w282 ? 'psrDoubleABDFM' : 'alphaCenABDFM'));
+      // 第284便b: ⚡ も f 固定形へ移ったので、一次則台帳の見本は凍結の写しの旧 ⚡(__qaPreset —— f=1 の世代だけ写しを返す)
+      const pd0 = w282 ? (typeof __qaPreset === 'function' ? __qaPreset('psrDoubleABDFM') : HP.allPresets().find((q) => q.id === 'psrDoubleABDFM')) : HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
       const v1 = HP.validatePreset(JSON.parse(JSON.stringify(pd0)));
       out.vOk = v1.ok && v1.warnings.length === 0 && v1.preset.massCalibration
         && v1.preset.massCalibration.law === 'inertia-law-lin-v1'   // 第245便(裁定 A6): 台帳は一次則
@@ -33811,7 +33973,8 @@ await w5bRun('emAudit', true); async function W5B_emAudit(page, add, fpRun, cons
     const ratio = Math.abs(ea.C.dpomRL) / Math.abs(ea.A.dpomRL);
     const declOk = ea.A.decl.kF === 0 && ea.A.decl.n === 2
       && ea.B.decl.kF === 1 && ea.B.decl.D0 === 0.006 && Math.abs(ea.B.decl.q - 8.2358) < 0.1   // 第172便: q_exact 規約(許容 0.1 は不変)
-      && ea.C.decl.kF === 0 && ea.C.decl.geo === 0 && ea.C.decl.n === 3 && ea.C.decl.pin0 === 1;
+      // 第284便b(原仮定者の裁定(第74報)AN39): 🔆 の宣言は geoPN 0 → 1(kF0 版 —— 月の 1PN 歳差は信号の 4×10⁻⁹・下の窓は不変)
+      && ea.C.decl.kF === 0 && (ea.C.decl.geo === 0 || ea.C.decl.geo === 1) && ea.C.decl.n === 3 && ea.C.decl.pin0 === 1;
     const longOk = !ea.Bl || (apsBl > 15 && apsBl < 26 && ea.Bl.eMax > 0.12 && ea.Bl.eMax < 0.22);
     add('behavior.emAudit',
       !ea.A.nan && !ea.B.nan && !ea.C.nan && (!ea.Bl || !ea.Bl.nan)
@@ -34956,6 +35119,10 @@ if (!FAST) {
 // ----     ⑥ 正本の付け替え: rotorledger(🕶️ の減光と偏向)と analogy(⚫ の尺度比較の参照値)は写しを入力に持ち、値は写しから作った。
 // ----     ⑦ SAMPLE_STATUS の一覧は退役を群の集計から外して「退役」節に並べる(正本 tally.retired が 7)。
 // ----   **root 等(退役の語彙が無い世代)は SKIP**。
+// ---- 第284便b(原仮定者の裁定(第74報)⑤・AN35・AN41): 退役 6 本(🎋🪶🪃🪀⭕🪝)を足して **13 本**(世代切替 has284b —— RETIRED_PRESETS に 🪶 の行)。
+// ----     新しい 6 本の写しは tests/fixtures/retired-w284b.json(第284便b の html から凍結)。④ は 13 本すべてで写し ↔ 内蔵を照合する。
+// ----     ⑧(AN41)退役の本は隠し #presetSelect(familyGroupedBuiltins の描画)と「AI でシミュレーション追加」の基準候補 #aiBasePreset
+// ----        (orderedBuiltins の描画)にも出ない —— 読み込み中の本 / いま基準に選んである本だけは選択の保持のため残る。
 {
   const has283b = await page.evaluate(() => typeof retiredOf === 'function' && typeof FAMILY_ROLES !== 'undefined');
   if (!has283b) {
@@ -34965,7 +35132,16 @@ if (!FAST) {
     let FX = null;
     try { FX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w283b.json'), 'utf8')); }
     catch (e) { bad.push('凍結の写しが読めない'); }
-    const IDS = ['darkrotor', 'bhCore', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed', 'bhCoreTilt'];
+    const has284b = await page.evaluate(() => typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.psrDoubleABPN);
+    const IDS283 = ['darkrotor', 'bhCore', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed', 'bhCoreTilt'];
+    const IDS284 = has284b ? ['galaxyMeshSpiralGeoToyLite', 'psrDoubleABPN', 'psrJ1757PN', 'psrJ1946PN', 'emAuditNewton', 'psrDoubleABCF'] : [];
+    let FX4 = null;
+    if (has284b) {
+      try { FX4 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w284b.json'), 'utf8')); }
+      catch (e) { bad.push('第284便b の凍結の写しが読めない'); }
+    }
+    const IDS = IDS283.concat(IDS284);
+    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}) };
     const r = await page.evaluate(async (a) => {
       const { IDS, FX } = a;
       const o = {};
@@ -35022,11 +35198,25 @@ if (!FAST) {
         o.fx.push({ id, sigB: presetSigHash(bp), sigF: presetSigHash(raw), sigDecl: FX.presets[id].presetSigHash, h1: hash(S1), h2: hash(S2) });
       }
       HP.loadPreset('saturn', false);
+      // ⑧ 第284便b(AN41): 隠し #presetSelect と AI 追加の基準候補 #aiBasePreset
+      if (a.has284b) {
+        const sa1 = showAllSamples;
+        const optIds = (sel) => [...document.querySelectorAll(sel + ' option')].map((z) => z.value);
+        setShowAllSamples(true); rebuildPresetSelect('saturn');
+        o.selRetired = optIds('#presetSelect').filter((v) => IDS.includes(v));
+        o.aiRetired = optIds('#aiBasePreset').filter((v) => IDS.includes(v));
+        HP.loadPreset('psrDoubleABPN', false); rebuildPresetSelect('psrDoubleABPN');
+        o.selCurKept = optIds('#presetSelect').filter((v) => IDS.includes(v));
+        o.selCurLabel = ([...document.querySelectorAll('#presetSelect option')].find((z) => z.value === 'psrDoubleABPN') || {}).textContent || '';
+        const ab = document.querySelector('#aiBasePreset');
+        if (ab) { const op = document.createElement('option'); op.value = 'emAuditNewton'; ab.appendChild(op); ab.value = 'emAuditNewton'; rebuildAiBaseSelect(); o.aiCurKept = ab.value; ab.value = ''; rebuildAiBaseSelect(); }
+        HP.loadPreset('saturn', false); setShowAllSamples(sa1); rebuildPresetSelect('saturn');
+      }
       return o;
-    }, { IDS, FX: FX || { presets: {} } }).catch((e) => ({ err: String(e).slice(0, 200) }));
+    }, { IDS, FX: FXP, has284b }).catch((e) => ({ err: String(e).slice(0, 200) }));
     if (r.err) bad.push('ページ: ' + r.err);
     else {
-      if (r.present.length !== 7) bad.push('①内蔵に無い ' + IDS.filter((id) => !r.present.includes(id)).join(','));
+      if (r.present.length !== IDS.length) bad.push('①内蔵に無い ' + IDS.filter((id) => !r.present.includes(id)).join(','));
       if (JSON.stringify(r.retired) !== JSON.stringify(IDS.slice().sort())) bad.push('①退役の集合 ' + r.retired.join(','));
       if (!(r.vocab.includes('retired') && r.vocab.includes('primary') && r.vocab.includes('variant'))) bad.push('①語彙 ' + r.vocab.join(','));
       if (r.badRole.length) bad.push('①語彙の外 ' + r.badRole.join(','));
@@ -35036,6 +35226,16 @@ if (!FAST) {
       if (r.famRetiredLinks !== 0 || !r.famLinks.length) bad.push(`③「この仲間」に退役 ${r.famRetiredLinks}(導線 ${r.famLinks.length})`);
       if (!r.enNotice) bad.push('③en の 1 行');
       for (const z of r.fx) if (!(z.sigB === z.sigF && z.sigF === z.sigDecl && z.h1 === z.h2)) bad.push(`④${z.id}: 署名 ${z.sigB}/${z.sigF}/${z.sigDecl}・200 步 ${z.h1} / ${z.h2}`);
+      if (has284b) {   // ⑧ AN41
+        if (r.selRetired.length || r.aiRetired.length) bad.push(`⑧隠し一覧/基準候補に退役 ${r.selRetired.join(',')} / ${r.aiRetired.join(',')}`);
+        if (JSON.stringify(r.selCurKept) !== JSON.stringify(['psrDoubleABPN']) || r.selCurLabel.indexOf('〔') < 0) bad.push(`⑧読み込み中の退役の本が隠し一覧に残らない(${r.selCurKept.join(',')}・${r.selCurLabel.slice(0, 40)})`);
+        if (r.aiCurKept !== 'emAuditNewton') bad.push('⑧基準に選んである退役の本が基準候補に残らない');
+        const hist4 = FX4 ? ((FX4.history || {}).tests || []) : [];
+        if (!hist4.length || !hist4.every((t) => t.pass)) bad.push('⑤第284便b の写しの history が PASS でない');
+        const sup = FX4 && FX4.superseded && FX4.superseded.psrDoubleABDFM;
+        if (!sup || !sup.massCalibration || sup.massCalibration.law !== 'inertia-law-lin-v1' || !Array.isArray(sup.claims) || !sup.claims.length)
+          bad.push('⑤写しに ⚡ の旧則(superseded)が無い');
+      }
     }
     // ⑤ ゲートから外した試験
     const GATE = ['behavior.darkrotor', 'behavior.darkrotorLong', 'behavior.darkrotor-pitch', 'behavior.darkrotor-multiseed'];
@@ -35055,15 +35255,16 @@ if (!FAST) {
       if (!ref || !fr || ref.m !== fr.m || ref.R !== fr.R || ref.spin !== fr.spin || ref.G !== fr.G || ref.c !== fr.c) bad.push('⑥analogy の参照の行が写しの定数と違う');
       if (/"bhCore"/.test((fs.readFileSync(path.join(ROOT, 'tests', 'exp-w282d-analogy.mjs'), 'utf8').match(/^const REGEN_SCOPE = .*$/m) || [''])[0])) bad.push('⑥analogy の領域に ⚫ が残る');
       const SSJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'samplestatus-w279a.json'), 'utf8'));
-      if (!(SSJ.tally && SSJ.tally.retired && SSJ.tally.retired.n === 7)) bad.push('⑦samplestatus の tally.retired が 7 でない');
+      if (!(SSJ.tally && SSJ.tally.retired && SSJ.tally.retired.n === IDS.length)) bad.push(`⑦samplestatus の tally.retired が ${IDS.length} でない`);
       const ssmd = fs.readFileSync(path.join(ROOT, 'docs', 'SAMPLE_STATUS_v1.45.md'), 'utf8');
-      if (ssmd.indexOf('## 🗄️ 退役(7 本)') < 0) bad.push('⑦SAMPLE_STATUS に「退役」節が無い');
+      if (ssmd.indexOf(`## 🗄️ 退役(${IDS.length} 本)`) < 0) bad.push('⑦SAMPLE_STATUS に「退役」節が無い');
     } catch (e) { bad.push('⑥⑦読めない: ' + String(e).slice(0, 80)); }
     add('docs.retired', bad.length === 0,
-      `**退役**(第283便b・原仮定者の裁定(第73報)④・R84): 🕶️⚫🌑🐚⏳🌱🪩 の 7 本は内蔵に残り familyRole "retired"(語彙 ${r.vocab ? r.vocab.join('/') : '—'})` +
+      `**退役**(第283便b・原仮定者の裁定(第73報)④・R84${has284b ? ' + 第284便b・原仮定者の裁定(第74報)⑤・AN35・AN41' : ''}): 🕶️⚫🌑🐚⏳🌱🪩${has284b ? '+🎋🪶🪃🪀⭕🪝' : ''} の ${IDS.length} 本は内蔵に残り familyRole "retired"(語彙 ${r.vocab ? r.vocab.join('/') : '—'})` +
+      (has284b && r.selRetired ? ` / AN41: 隠し #presetSelect の退役 ${r.selRetired.length} 本・AI 追加の基準候補の退役 ${r.aiRetired.length} 本(読み込み中/選択中の本だけ残る=${r.aiCurKept === 'emAuditNewton' && r.selCurKept.length === 1})` : '') +
       ` / 一覧に出ない(既定 ${r.hitDefault}・すべて表示 ${r.hitShowAll}・ID 検索 ${r.hitSearch} 行)` +
       ` / 開ける: 読込で置き換えない=${(r.open || []).every((z) => z.cur === z.id)}・「退役(履歴)」の 1 行=${(r.open || []).every((z) => z.notice)}(en ${r.enNotice})・読み込み中の 1 本だけ一覧に残る=${r.curListed === 1}・「この仲間」に退役 ${r.famRetiredLinks} 本` +
-      ` / 凍結の写し: 署名一致・200 步の状態がビット一致 ${(r.fx || []).filter((z) => z.h1 === z.h2).length}/7` +
+      ` / 凍結の写し: 署名一致・200 步の状態がビット一致 ${(r.fx || []).filter((z) => z.h1 === z.h2).length}/${IDS.length}` +
       ` / ゲートから外した ${GATE.length} 試験(写しの history で PASS・このランで未実行=${!FAST ? ranNow.length === 0 : 'FAST'})` +
       ` / 正本の付け替え: rotorledger・analogy は写しを入力に持つ・SAMPLE_STATUS は退役を別群に` +
       (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
@@ -37074,7 +37275,7 @@ if (!FAST) {
       // aroundMass に差し替えた。意図(=要約ではなく body 階層の詳細キーまで payload に入る)は不変で、
       // lightSweep=single 天体の詳細キー・aroundMass=disk/ring 母集団の詳細キー。
       // 双方とも root(旧v3)/beta(v5)の🕶️に存在するので新旧どちらの構成でも成立する。
-      sel.value = 'darkrotor';
+      (sel.querySelector('option[value="darkrotor"]') || sel.appendChild(Object.assign(document.createElement('option'), { value: 'darkrotor' }))); sel.value = 'darkrotor';   // 第284便b(AN41): 退役の 🕶️ は基準候補に出ない —— 配線の試験なので option を試験の中だけ足す(選ばれている退役の本は再構築でも残る)
       const ctx1 = HP.aiUserContent('テスト要望XYZ');
       res.baseCtx = ctx1.includes('lightSweep') && ctx1.includes('aroundMass') && ctx1.includes('テスト要望XYZ')
         && ctx1.includes('ベースサンプル');
@@ -38969,7 +39170,7 @@ if (!FAST) {
       // 未選択でも例(現在のサンプル)が入るので、素通し検査は「送信本文と完全一致」で行う
       const send = (t) => (HP.aiSendContent ? HP.aiSendContent(t) : HP.aiUserContent(t));   // root は旧経路
       const plain = body.value === send('テスト要望QAプレビュー') && body.value.includes('テスト要望QAプレビュー');
-      sel.value = 'darkrotor'; sel.dispatchEvent(new Event('change'));
+      (sel.querySelector('option[value="darkrotor"]') || sel.appendChild(Object.assign(document.createElement('option'), { value: 'darkrotor' }))); sel.value = 'darkrotor'; sel.dispatchEvent(new Event('change'));   // 第284便b(AN41): 退役の 🕶️ は基準候補に出ない —— 配線の試験なので option を試験の中だけ足す(選ばれている退役の本は再構築でも残る)
       const withBase = body.value === send('テスト要望QAプレビュー') && body.value.includes('lightSweep');
       // システムプロンプトは「自由生成の仕様+共通節(出力の使い分け・内蔵一覧)」— 字数はその合計
       const sysNoteOk = document.querySelector('#aiPreviewSysNote').textContent.includes(String(HP.getSystemPrompt().length))
@@ -38997,7 +39198,7 @@ if (!FAST) {
       sel.value = ''; prompt.value = 'QA外部プロンプト検査';
       const t1 = HP.buildExternalPrompt();
       const plain = t1.includes(HP.SYSTEM_PROMPT) && t1.includes('QA外部プロンプト検査');
-      sel.value = 'darkrotor';
+      (sel.querySelector('option[value="darkrotor"]') || sel.appendChild(Object.assign(document.createElement('option'), { value: 'darkrotor' }))); sel.value = 'darkrotor';   // 第284便b(AN41): 退役の 🕶️ は基準候補に出ない —— 配線の試験なので option を試験の中だけ足す(選ばれている退役の本は再構築でも残る)
       const t2 = HP.buildExternalPrompt();
       const withBase = t2.includes(HP.aiUserContent('QA外部プロンプト検査')) && t2.includes('lightSweep');
       prompt.value = '';
@@ -41160,7 +41361,7 @@ if (!FAST) {
         if (!(exCur.len > 6000)) bad.push('固定例が 6000 字以下 — 上限撤廃の否定対照が成立しない');
       }
       HP.loadPreset('galaxy', false);
-      sel.value = 'darkrotor';
+      (sel.querySelector('option[value="darkrotor"]') || sel.appendChild(Object.assign(document.createElement('option'), { value: 'darkrotor' }))); sel.value = 'darkrotor';   // 第284便b(AN41): 退役の 🕶️ は基準候補に出ない —— 配線の試験なので option を試験の中だけ足す(選ばれている退役の本は再構築でも残る)
       const exBase = HP.aiExampleForPrompt();
       const f2 = HP.buildUnifiedPrompt(false), s2 = HP.buildUnifiedPrompt(true);
       const follow = !!exBase && exBase.base === true && exBase.json !== exCur.json
@@ -51320,10 +51521,12 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     if (r.emAuditLeft !== 0) bad.push('① 旧 family "emAudit" が残っている');
     if (!(r.present && r.groups.length === 1)) bad.push('② ID が欠けた/グループが割れた: ' + JSON.stringify(r.groups));
     const offOk = r.offHits[1] === true && r.offHits.filter((z) => z).length === 1;
-    const onOk = r.onHits.every((z) => z === true);
+    // 第284便b(原仮定者の裁定(第74報)⑤・AN35): ⭕ emAuditNewton は退役(🌙 に集約)—— 一覧(すべて表示でも)と「この仲間」に出ない
+    const retiredEm = await pf.evaluate(() => typeof retiredOf === 'function' && retiredOf(HP.allPresets().find((q) => q.id === 'emAuditNewton')));
+    const onOk = r.onHits.every((z, i) => z === !(retiredEm && IDS[i] === 'emAuditNewton'));
     if (!offOk) bad.push('③ 「すべて表示」OFF で 🌘 以外が出る/🌘 が無い: ' + JSON.stringify(r.offHits));
     if (!onOk) bad.push('③ 「すべて表示」ON で 6 行が揃わない: ' + JSON.stringify(r.onHits));
-    if (!(Array.isArray(r.familyButtons) && r.familyButtons.length === 5)) bad.push('④ 🧲 の「他の仲間」が 5 本でない: ' + JSON.stringify(r.familyButtons));
+    if (!(Array.isArray(r.familyButtons) && r.familyButtons.length === (retiredEm ? 4 : 5))) bad.push(`④ 🧲 の「他の仲間」が ${retiredEm ? 4 : 5} 本でない: ` + JSON.stringify(r.familyButtons));
     const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
     const helpJa = html.indexOf('一覧の入口を 🌘 の 1 つにまとめました') >= 0, helpEn = html.indexOf('now share one entry in the list, 🌘') >= 0;
     if (!(helpJa && helpEn)) bad.push('⑤ ヘルプ(ja/en)にファミリー化の 1 文が無い');
@@ -55005,7 +55208,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // ③ 対照
       for (const src of [J.control.rows, M.control]) {
         const g2 = src.filter((r) => r.geoPN === 2), g1 = src.filter((r) => r.geoPN === 1);
-        if (!(g2.length === 3 && g2.every((r) => r.kF1DragQ2vs8.bitSame === false && r.kFrame0vs1.bitSame === false))) bad.push('③kFrame=1・geoPN=2 で q が効かない(対照が死んでいる)');
+        // 第284便b(原仮定者の裁定(第74報)⑤・R92): ⚡ は f=1 で補正コア(と B のコア Ω)を外したので、殻 spin=0 の 2 体では body.dragQ(E2/E3 の回転の引きずり)が
+        //   **1 bit も効かない**(実測 128 步でビット一致 —— 記録)。q が効く対照は残り 2 本で、kFrame 1/0 の差は 3 本とも要る
+        const psrF1 = /\{ id:"psrDoubleABDFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(htmlT);
+        if (!(g2.length === 3 && g2.every((r) => r.kFrame0vs1.bitSame === false && (r.kF1DragQ2vs8.bitSame === false || (psrF1 && r.id === 'psrDoubleABDFM')))
+          && g2.filter((r) => r.kF1DragQ2vs8.bitSame === false).length >= 2)) bad.push('③kFrame=1・geoPN=2 で q が効かない(対照が死んでいる)');
         // 第283便a(原仮定者の裁定(2026-09-26 追加)): geoPN=1 は kFrame=0 専用 —— 現行の受理器は kFrame=1 の写しを拒否する(rejected)。
         //   第282便c の正本(旧 html の走行)は「kFrame=1 でも q・kFrame 1/0 がビット一致」の行を持つ。**どちらかの形**で 3 本揃うことを固定する
         if (!(g1.length === 3 && (g1.every((r) => r.rejected === true && r.kFrame0Ok === true)
@@ -55628,7 +55835,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           compat: v.geoCompat ? Object.assign({}, v.geoCompat) : null, geoPN: v.ok ? v.preset.physics.geoPN : null, kFrame: v.ok ? v.preset.physics.kFrame : null }; };
         out.val = { g1k1: V(two({ geoPN: 1, kFrame: 1 })), g1k03: V(two({ geoPN: 1, kFrame: 0.3 })), g1kDef: V(two({ geoPN: 1 })),
           g1k0: V(two({ geoPN: 1, kFrame: 0 })), g2k0: V(two({ geoPN: 2, kFrame: 0 })),
-          g2k0b: V(JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'mercuryReal')))),
+          // 第284便b(AN39): 内蔵の ☄️ が geoPN=1 へ移った世代では、旧宣言(geoPN=2・kFrame=0)のまま保存された ☄️ を入れる
+          g2k0b: (() => { const m = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'mercuryReal'))); const g284 = m.physics.geoPN === 1;
+            if (g284) m.physics.geoPN = 2; return Object.assign(V(m), { g284 }); })(),
           g2k1: V(two({ geoPN: 2, kFrame: 1 })), g0k1: V(two({ geoPN: 0, kFrame: 1 })) };
         // ③ ビット同一
         const run = (p, steps, gen) => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); if (!v.ok) return null;
@@ -55669,7 +55878,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const okV = { g1k1: v.g1k1.ok === false && !!v.g1k1.err && /原仮定者の裁定/.test(v.g1k1.err), g1k03: v.g1k03.ok === false && v.g1k03.snapped === null,
         g1kDef: v.g1kDef.ok === false, g1k0: v.g1k0.ok === true && v.g1k0.nw === 0 && v.g1k0.compat === null,
         g2k0: v.g2k0.ok === true && v.g2k0.nw === 1 && v.g2k0.compatW && !!v.g2k0.compat && v.g2k0.compat.builtinPending === false && v.g2k0.geoPN === 2 && v.g2k0.kFrame === 0,
-        g2k0b: v.g2k0b.ok === true && v.g2k0b.nw === 0 && !!v.g2k0b.compat && v.g2k0b.compat.builtinPending === true,
+        g2k0b: v.g2k0b.g284
+          ? (v.g2k0b.ok === true && v.g2k0b.nw === 1 && v.g2k0b.compatW && !!v.g2k0b.compat && v.g2k0b.compat.builtinPending === false)
+          : (v.g2k0b.ok === true && v.g2k0b.nw === 0 && !!v.g2k0b.compat && v.g2k0b.compat.builtinPending === true),
         g2k1: v.g2k1.ok === true && v.g2k1.nw === 0 && v.g2k1.compat === null, g0k1: v.g0k1.ok === true && v.g0k1.kFrame === 1 && v.g0k1.geoPN === 0 };
       for (const [k, ok] of Object.entries(okV)) if (!ok) bad.push('② 受理器の契約 ' + k + ' が崩れた: ' + JSON.stringify(v[k]).slice(0, 120));
       cases.push('受理器: geoPN=1∧kFrame≠0 を拒否(分数も丸めない・未記入の既定 1 も拒否)・geoPN=2∧kFrame=0 は互換(内蔵でない入力は警告 1 行)・geoPN=0 の kFrame は不変');
@@ -55682,9 +55893,17 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const B = J.before || {}, C = J.kf0 || {}, D = J.binary || {};
         if (J.meta && J.meta.provenanceVersion !== 'w272e-1') bad.push('④ 来歴の版が w272e-1 でない');
         if (J.libVersion !== L283.GEOMODE_W283A_VERSION) bad.push('④ 正本の lib の版が違う');
-        if (JSON.stringify(B.diff1) !== '["binary"]' || JSON.stringify(B.diff128) !== '["binary"]') bad.push('④ 共通化の前後の差が ⭐ binary だけでない: ' + JSON.stringify(B.diff128));
-        if (JSON.stringify((B.sigDiff || []).slice().sort()) !== JSON.stringify(L283.KF0_MIGRATED.concat(['binary']).sort())) bad.push('④ 署名の差が ⭐ と移した 4 本でない: ' + JSON.stringify(B.sigDiff));
-        if (!(C.n === 37 && C.bitSameNow === 37 && C.bitSameCross === 37)) bad.push(`④ kF0 走行のビット同一が 37/37 でない(${C.bitSameNow}/${C.bitSameCross}/${C.n})`);
+        // 第284便b(原仮定者の裁定(第74報)⑤・AN24′・AN39): 基点(de9e39b)からの差に本便の宣言が加わる世代 —— 力学が動いたのは
+        //   ⚡(f=1)と 🔆(geoPN 0→1)の 2 本・署名が動いたのは geoPN=1 へ移した 12 本と ⚡。kF0 の写しの基点との比較もこの 2 本だけ違う
+        const W284 = /\{ id:"psrDoubleABDFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+        const PHYS284 = W284 ? ['emAuditSolar', 'psrDoubleABDFM'] : [];
+        const SIG284 = W284 ? ['emAuditSolar', 'earthMoonReal', 'emAuditNewton', 'mercuryReal', 'plutoCharonDFM', 'plutoCharonKF0Control', 'alphaCenAB', 'siriusAB',
+          'psrDoubleAB', 'psrB1534', 'saturnZonalD68', 'saturnRingReal', 'psrDoubleABDFM'] : [];
+        const srt = (a) => JSON.stringify((a || []).slice().sort());
+        const wantDiff = srt(['binary'].concat(PHYS284));
+        if (srt(B.diff1) !== wantDiff || srt(B.diff128) !== wantDiff) bad.push(`④ 共通化の前後の差が ${wantDiff} でない: ` + JSON.stringify(B.diff128));
+        if (srt(B.sigDiff) !== srt(L283.KF0_MIGRATED.concat(['binary'], SIG284))) bad.push('④ 署名の差が ⭐ と移した 4 本(+第284便b の 13 本)でない: ' + JSON.stringify(B.sigDiff));
+        if (!(C.n === 37 && C.bitSameNow === 37 && C.bitSameCross === 37 - PHYS284.length)) bad.push(`④ kF0 走行のビット同一が 37/${37 - PHYS284.length} でない(${C.bitSameNow}/${C.bitSameCross}/${C.n})`);
         if (!((C.diag || []).length === 7 && C.diagBitSame === 7)) bad.push('④ 診断コピー 7 本がビット同一でない');
         if (!(D.oneStep && D.oneStep.recordMatches === true && D.oneStep.now.every((x) => x === 0) && D.oneStep.base.every((x) => x !== 0))) bad.push('④ 自由二体の Σm·vx が記録と違う');
         if (!(D.fixedSource && D.fixedSource.mercury.bitSame === true && D.fixedSource.verify_v18.bitSame === true)) bad.push('④ ☿・V18 が変わった');

@@ -124,7 +124,12 @@ const validator = { cases: [] };
     { key: 'g1kDefault', label: 'geoPN=1・kFrame 未記入(既定 1)', p: (() => { const q = two({ geoPN: 1 }); return q; })(), want: 'reject' },
     { key: 'g1k0', label: 'geoPN=1・kFrame=0', p: two({ geoPN: 1, kFrame: 0 }), want: 'accept・警告 0' },
     { key: 'g2k0', label: 'geoPN=2・kFrame=0(内蔵でない入力)', p: two({ geoPN: 2, kFrame: 0 }), want: 'accept・互換・警告 1' },
-    { key: 'g2k0builtin', label: '☄️ mercuryReal(内蔵の geoPN=2・kFrame=0)', p: byId(presets, 'mercuryReal'), want: 'accept・互換(移行待ち)・警告 0' },
+    // 第284便b(原仮定者の裁定(第74報)AN39): 内蔵の ☄️ が geoPN=1 へ移った世代では、**旧宣言のまま保存された ☄️**(geoPN=2・kFrame=0)を入れる
+    //   —— 内蔵がもう同じ宣言を持たないので「移行待ち」ではなく、警告 1 行つきの互換入力になる
+    (() => { const m = byId(presets, 'mercuryReal'); const g284 = m.physics.geoPN === 1;
+      const p = JSON.parse(JSON.stringify(m)); if (g284) p.physics.geoPN = 2;
+      return { key: 'g2k0builtin', g284, label: g284 ? '☄️ mercuryReal の旧セーブ(geoPN=2・kFrame=0 —— 内蔵は geoPN=1 へ移行済み)' : '☄️ mercuryReal(内蔵の geoPN=2・kFrame=0)', p,
+        want: g284 ? 'accept・互換・警告 1(移行待ちではない)' : 'accept・互換(移行待ち)・警告 0' }; })(),
     { key: 'g2k1', label: 'geoPN=2・kFrame=1', p: two({ geoPN: 2, kFrame: 1 }), want: 'accept・警告 0' },
     { key: 'g0k1', label: 'geoPN=0・kFrame=1', p: two({ geoPN: 0, kFrame: 1 }), want: 'accept・kFrame は書き換えない' },
   ];
@@ -146,7 +151,9 @@ const validator = { cases: [] };
     acceptG1K0: c('g1k0').ok === true && c('g1k0').nWarnings === 0 && c('g1k0').compat === null,
     compatG2K0: c('g2k0').ok === true && c('g2k0').nWarnings === 1 && !!c('g2k0').warning && c('g2k0').compat && c('g2k0').compat.builtinPending === false
       && c('g2k0').geoPN === 2 && c('g2k0').kFrame === 0,
-    compatBuiltin: c('g2k0builtin').ok === true && c('g2k0builtin').nWarnings === 0 && c('g2k0builtin').compat && c('g2k0builtin').compat.builtinPending === true,
+    compatBuiltin: CASES.find((z) => z.key === 'g2k0builtin').g284
+      ? (c('g2k0builtin').ok === true && c('g2k0builtin').nWarnings === 1 && !!c('g2k0builtin').warning && c('g2k0builtin').compat && c('g2k0builtin').compat.builtinPending === false)
+      : (c('g2k0builtin').ok === true && c('g2k0builtin').nWarnings === 0 && c('g2k0builtin').compat && c('g2k0builtin').compat.builtinPending === true),
     acceptG2K1: c('g2k1').ok === true && c('g2k1').nWarnings === 0 && c('g2k1').compat === null,
     keepG0K1: c('g0k1').ok === true && c('g0k1').kFrame === 1 && c('g0k1').geoPN === 0,
   };
