@@ -15,6 +15,8 @@
 //       計画を引いて鎖のシェルを出す(--out が無ければ標準出力)。
 //   node tools/regen-chain.mjs --gate <段> [--html <html>]
 //       鎖の gate: その段の**自分の判定**(依存の伝播の前)が reuse/history なら終了コード 10、regen/always なら 0。
+//       第284便c(原仮定者の裁定(第74報)AN43): 入力の**刻印の安定 hash の Pointer 宣言・方式の版が今の宣言と違えば**(随伴の行も)、
+//       入力のバイト sha が同じでも regen(`planRegen` の `stampedDeclDrift`)。
 //   node tools/regen-chain.mjs --check-order <段,段,…|列のファイル(1 行 1 段)>
 //       実際に走った列を表の依存で照合する(入力より先の走行・後段の再走の欠落・無駄な先走り)。違反があれば 1。
 //   node tools/regen-chain.mjs --audit        表の依存の完全性(入力の書き手 ⊆ after の閉包・書き手の全順序・循環)。

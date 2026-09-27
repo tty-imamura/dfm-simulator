@@ -2692,6 +2692,9 @@ if (QA_REPLAY_FAIL) {
 // ----     (e) 今の計画(planRegen の実物)→ 鎖 → 同じ照合 + 走る段の下流がすべて鎖にある(依存の閉包)。
 // ----     (f) stub の表(5 段)で生成したシェルを bash で走らせる: 必須の環境変数が無ければ走らせる前に止まる・失敗した波で止まり後段を
 // ----         走らせない(rc 1・ログ名 `<波>-<段>.log`・`.rc`)・済み印で再開して完走する。
+// ----     (g) 第284便c(原仮定者の裁定(第74報)AN43): 一時 root の 2 段の表(`an43Probe`)で、読み手の自分の判定(鎖の `--gate` と同じ
+// ----         `planRegen`)が「刻印の Pointer = 今の宣言 → reuse・実行時刻だけの再走 → reuse」「**バイト sha が同じでも**刻印の Pointer ⊊ 今の宣言・
+// ----         方式の版なし・随伴の行の Pointer 違い・随伴の行なし → regen(原因の列に「安定 hash の宣言」)」になる。表の版 w284c-regentable-4。
 // ----   **beta 線の正本なので root は SKIP** する。
 {
   const bad = [];
@@ -2703,7 +2706,7 @@ if (QA_REPLAY_FAIL) {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w283e-chain-'));
     try {
       const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
-      if (RT.REGEN_TABLE_VERSION !== 'w283e-regentable-3') bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION);
+      if (RT.REGEN_TABLE_VERSION !== 'w284c-regentable-4') bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION);
       if (!fs.existsSync(path.join(ROOT, 'tools', 'regen-chain.mjs'))) bad.push('tools/regen-chain.mjs が無い');
       const plan = RT.planRegen({ root: ROOT, html: path.join(ROOT, 'beta', 'index.html') });
       const r = await RT.regenChainSelfTest({ root: ROOT, tmpDir: tmp, plan });
@@ -2714,6 +2717,13 @@ if (QA_REPLAY_FAIL) {
       cases.push(`(d) 全段の鎖 ${r.d.steps}/${r.d.want} 段・波 ${r.d.waves}(最も広い波 ${r.d.widest} 段)・手動 ${r.d.manual}・順序違反 ${r.d.order}・後段の欠落 ${r.d.downstream}`);
       cases.push(`(e) 今の計画 → 鎖 run ${r.e.run}・gate ${r.e.gate}・手動 ${r.e.manual}・波 ${r.e.waves}(実測秒の和 run ${r.e.secRun} s・gate ${r.e.secGate} s)・順序違反 ${r.e.order}・閉包の漏れ ${r.e.lost.length}`);
       cases.push(`(f) stub の鎖 ${r.f.waves}: 構文 ${r.f.syntax}・環境変数なし → 走らせない ${r.f.noEnv}・1 回目 rc ${r.f.run1.rc}(走った ${r.f.run1.ran.join(',')}・ログ ${r.f.run1.logs.join(',')})・2 回目 rc ${r.f.run2.rc}(済み印の段を飛ばす ${r.f.run2.resumedSkip})`);
+      // (g) 第284便c(AN43): 刻印の宣言 ≠ 今の宣言 → regen(バイト sha が同じでも・随伴の行も)
+      const tmp43 = fs.mkdtempSync(path.join(os.tmpdir(), 'w284c-an43-'));
+      try {
+        const g = RT.an43Probe({ tmpDir: tmp43 });
+        if (!g.ok) bad.push('(g) AN43: ' + JSON.stringify(Object.fromEntries(Object.entries(g.cases).map(([k, v]) => [k, v.status]))));
+        cases.push('(g) AN43: ' + Object.entries(g.cases).map(([k, v]) => k + ' → ' + v.status).join('・') + '(バイト sha が同じでも刻印の宣言が今の宣言と違えば regen)');
+      } finally { fs.rmSync(tmp43, { recursive: true, force: true }); }
     } catch (e) { bad.push('鎖の器が読めない: ' + String(e).slice(0, 160)); }
     finally { fs.rmSync(tmp, { recursive: true, force: true }); }
     add('lint.regenChain', bad.length === 0,
@@ -17654,6 +17664,15 @@ if (!FAST) {
 // ----   ② docs.heavyCal …… 正本 heavy-w283c.json(来歴 w272e-1・器の版)を再導出(対の数・ms/步の比・割合・相対差を相対 1e-12)・
 // ----      試験粒子契約の検査(源 1 bit 4/4・並べ替え 4/4・2 体 10/10・内蔵に宣言 0・拒否理由 6/6)・PHYSICS〔第283便c〕の表の行・禁止語 0・
 // ----      いまの html で 💍 の写しの源が主要天体だけの宇宙と 1 bit(300 步)・既定 off(内蔵で hasTestParticle が立たない)。
+// ----   第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)で ① を更新:
+// ----      (ii′) 常時の dt3 段は `--h4-exceptions --merge`(dt/4 は例外の登録簿の本だけ)・kf0 段は `--kf0-h4-exceptions`・明示診断の入口
+// ----      (`--dt4-registry`・旧名 `--dt3-registry`・`--kf0-dt3`)が器に残る。
+// ----      (iii′) 契約の穴の拒否(空契約どうし・必須鍵の欠落・未知の版・不完全窓)・閾値規則の対象 ID と量の集合の完全一致・
+// ----      dt/2 の転記規則(同一契約・h のビット一致・同一便・h/2 の完了 → 転記/それ以外 → 走らせる)と刻印の形・calStagesOf が h2 の転記を数えない。
+// ----      (v) 例外の登録簿: 6 欄・規則(kFrame=0 の行・判定段 h4・門が 3σ)を方針の前の世代の正本から引き直すと登録簿と一致・
+// ----      正本が方針の後の世代なら「走っていない段を走ったと刻まない」(登録外の本に dt/4 の段が無い・kF0 の h/4 は登録簿の本だけ)と前後の集計。
+// ----      (vi) 法則の指紋が閉包(停止集合つき依存閉包)で作られる。
+// ----   ② docs.heavyCal: 第284便c(AN43)で文書の行から壁時計・ms/步を外した(構造と判定量だけ)。
 // ----   root(`QA_TARGET=index.html`)と第283便c 未適用の html は SKIP。
 {
   const html283c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
@@ -17700,8 +17719,15 @@ if (!FAST) {
         }
         // (ii) dt/8
         const dt3 = RT283.REGEN_STEPS.find((z) => z.key === 'dt3');
-        if (!dt3 || !/--dt3-registry --merge\b/.test(dt3.cmd) || /--dt8/.test(dt3.cmd)) bad.push('(ii) 再生成表の dt3 段: ' + (dt3 ? dt3.cmd : '無い'));
+        // 第284便c(AN33): 常時の dt3 段は例外の登録簿だけ(--h4-exceptions)。登録表の全本(--dt4-registry / --dt3-registry)と h/8 は鎖に入れない
+        if (!dt3 || !/--h4-exceptions --merge\b/.test(dt3.cmd) || /--dt8|--dt3-registry|--dt4-registry/.test(dt3.cmd)) bad.push('(ii) 再生成表の dt3 段: ' + (dt3 ? dt3.cmd : '無い'));
+        const kf0st = RT283.REGEN_STEPS.find((z) => z.key === 'kf0');
+        if (!kf0st || !/--kf0-h4-exceptions\b/.test(kf0st.cmd) || /--kf0-dt3\b/.test(kf0st.cmd)) bad.push('(ii′) 再生成表の kf0 段: ' + (kf0st ? kf0st.cmd : '無い'));
         const calSrc283 = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
+        if (calSrc283.indexOf("argv.includes('--dt4-registry')") < 0 || calSrc283.indexOf("argv.includes('--dt3-registry')") < 0
+          || calSrc283.indexOf("argv.includes('--kf0-dt3')") < 0 || calSrc283.indexOf("argv.includes('--h4-exceptions')") < 0
+          || calSrc283.indexOf("argv.includes('--kf0-h4-exceptions')") < 0) bad.push('(ii′) 明示診断の入口(--dt4-registry・--dt3-registry・--kf0-dt3)と例外の入口が器に無い');
+        cases.push('鎖の dt3 段 `' + (dt3 ? dt3.cmd.replace('node tests/exp-w249b-calaudit.mjs ', '') : '—') + '`・kf0 段は --kf0-h4-exceptions(明示診断 --dt4-registry・--kf0-dt3 は器に残る)');
         if (calSrc283.indexOf("argv.includes('--dt8-registry')") < 0 || calSrc283.indexOf("argv.indexOf('--dt8')") < 0) bad.push('(ii) 明示診断の入口(--dt8-registry / --dt8)が器に無い');
         if (calSrc283.indexOf('chainPolicy:') < 0 || calSrc283.indexOf('pObsShifted: -1.7119216449960706') < 0) bad.push('(ii) 鎖の方針・❄️ のずらし 3 段の履歴が器に無い');
         if (CA && CA.h8 && CA.h8.chainPolicy) {
@@ -17712,9 +17738,10 @@ if (!FAST) {
         } else cases.push('正本は鎖の方針の前の世代(h/8 欄 ' + (CA && CA.h8 ? CA.h8.n : '?') + ' —— 鎖の再生成で 0 になる)');
         // (iii) 再利用規則
         const ctr = { version: CS.H4_REUSE_VERSION, key: 'x', presetHash: 'aa', engineSha: 'e', lawsSha: 'l', dt: 0.004,
-          orbMax: 60, maxSteps: 100, stepsPerOrbit0: [10], periWindow: 20, extractorSha: 'x1', stopRuleVersion: 'w272a-1', kf0: false };
+          orbMax: 60, maxSteps: 100, stepsPerOrbit0: [10], periWindow: 20, extractorSha: 'x1', stopRuleVersion: 'w272a-1', kf0: false,
+          units: { G: 1, c: 100, toSec: 1 } };   // 第284便c: 単位を契約へ
         const run0 = { tag: 'dt/4', dt: 0.004, steps: 100, nan: false, clamp: 0, wallSec: 7, targets: [],
-          timeBudget: { tag: 'dt/4', wallSec: 7 }, stopRule: { resourceExceeded: false } };
+          timeBudget: { tag: 'dt/4', wallSec: 7 }, stopRule: { resourceExceeded: false, complete: true } };
         const ent = (o) => Object.assign({ contract: ctr, run: run0, generatedAt: '2026-09-26T00:00:00.000Z', targetSha256: 'f'.repeat(64), verdict4: '保留', mappingSig: 'm1' }, o || {});
         const d1 = CS.h4ReuseDecision({ entry: ent(), contract: ctr, mappingSig: 'm1' });
         const d2 = CS.h4ReuseDecision({ entry: ent(), contract: Object.assign({}, ctr, { presetHash: 'bb' }), mappingSig: 'm1' });
@@ -17725,6 +17752,16 @@ if (!FAST) {
         const d7 = CS.h4ReuseDecision({ entry: null, contract: ctr, mappingSig: 'm1' });
         if (!d1.reuse || d2.reuse || d2.reason !== 'contract' || d2.diff.join() !== 'presetHash' || d3.reuse || d4.reuse || !/mapping-moved/.test(d4.reason || '')
           || !d5.reuse || d6.reuse || d7.reuse || d7.reason !== 'no-entry') bad.push('(iii) 再利用の判定: ' + JSON.stringify([d1, d2, d3, d4, d5, d6, d7].map((z) => z.reuse + ':' + z.reason)));
+        // 第284便c(R93): 契約の穴 —— 空契約どうし・必須鍵の欠落・未知の版・不完全窓を拒否
+        const e1 = CS.h4ReuseDecision({ entry: ent({ contract: {} }), contract: {}, mappingSig: 'm1' });
+        const e2 = CS.h4ReuseDecision({ entry: ent({ contract: Object.assign({}, ctr, { engineSha: null }) }), contract: Object.assign({}, ctr, { engineSha: null }), mappingSig: 'm1' });
+        const e3 = CS.h4ReuseDecision({ entry: ent({ contract: Object.assign({}, ctr, { version: 'w283c-h4reuse-1' }) }), contract: Object.assign({}, ctr, { version: 'w283c-h4reuse-1' }), mappingSig: 'm1' });
+        const e4 = CS.h4ReuseDecision({ entry: ent({ run: Object.assign({}, run0, { stopRule: { resourceExceeded: false, complete: false } }) }), contract: ctr, mappingSig: 'm1' });
+        const e5 = CS.h4ReuseDecision({ entry: ent({ contract: Object.assign({}, ctr, { units: undefined }) }), contract: ctr, mappingSig: 'm1' });
+        if (e1.reuse || e2.reuse || e3.reuse || e4.reuse || e5.reuse || !/必須鍵/.test(e1.diff.join()) || !/未知の版/.test(e3.diff.join()) || !/不完全窓/.test(e4.reason || ''))
+          bad.push('(iii′) 契約の穴: ' + JSON.stringify([e1, e2, e3, e4, e5].map((z) => z.reuse + ':' + z.reason + ':' + z.diff.join('|').slice(0, 40))));
+        if (CS.H4_REUSE_VERSION === 'w283c-h4reuse-1' || CS.H4_REUSE_VERSIONS_KNOWN.includes('w283c-h4reuse-1')) bad.push('(iii′) 契約の版を上げていない(旧キャッシュを読む)');
+        cases.push('契約の穴 5 通り(空契約どうし・必須鍵の欠落・未知の版・不完全窓・単位の欠落)を拒否・版 ' + CS.H4_REUSE_VERSION);
         const rr = CS.reusedRun(ent());
         if (rr.skippedBy !== 'reuse' || !rr.reusedFrom || rr.reusedFrom.generatedAt !== '2026-09-26T00:00:00.000Z' || rr.timeBudget.skippedBy !== 'reuse'
           || rr.timeBudget.reused !== true || rr.stopRule.skippedBy !== 'reuse' || run0.skippedBy !== undefined) bad.push('(iii) 転記の刻印の形');
@@ -17735,6 +17772,38 @@ if (!FAST) {
         const dd = CS.dtDt2Skip({ targets: [{ label: 'B', A: { perMean: 100, slopeDeg: 1 }, B: {}, oscP: 100 }] }, { targets: [{ label: 'B', A: { perMean: 100.00001, slopeDeg: 1.0000001 }, B: {}, oscP: 100 }] });
         const dn = CS.dtDt2Skip({ targets: [{ label: 'B', A: { perMean: 100 }, B: {} }] }, { targets: [{ label: 'B', A: { perMean: 100.1 }, B: {} }] });
         if (!dd.skip || dn.skip) bad.push('(iii) 閾値規則の純関数');
+        // 第284便c: 対象 ID と量の集合の完全一致(片方だけに有限の値がある量・対象の並びの違いは省略の根拠にしない)
+        const dq1 = CS.dtDt2Skip({ targets: [{ label: 'B', A: { perMean: 100, slopeDeg: 1 }, B: {}, oscP: 100 }] }, { targets: [{ label: 'B', A: { perMean: 100.00001 }, B: {}, oscP: 100 }] });
+        const dq2 = CS.dtDt2Skip({ targets: [{ label: 'B', A: { perMean: 100 }, B: {} }] }, { targets: [{ label: 'C', A: { perMean: 100 }, B: {} }] });
+        const dq3 = CS.dtDt2Skip({ targets: [{ label: 'B', A: { perMean: 100 }, B: {} }] }, { targets: [{ label: 'B', A: { perMean: 100 }, B: {} }, { label: 'C', A: { perMean: 5 }, B: {} }] });
+        if (dq1.skip || dq2.skip || dq3.skip || !dq1.setMismatch || !dq2.setMismatch || !dq3.setMismatch) bad.push('(iii′) 閾値規則の集合の完全一致');
+        // 第284便c(第74報⑥): dt/2 の転記規則(同一便の再走)
+        const hR = { tag: 'dt', dt: 0.016, steps: 50, nan: false, clamp: 0, targets: [{ label: 'B', A: { perMean: 100, slopeDeg: 1 }, B: {}, oscP: 100 }], wallSec: 1 };
+        const c2 = { version: CS.H2_REUSE_VERSION, key: 'x', presetHash: 'aa', engineSha: 'e', lawsSha: 'l', dt: 0.008, dtH: 0.016, orbMax: 60,
+          maxStepsH: 50, maxSteps: 100, stepsPerOrbit0: [20], periWindow: 20, extractorSha: 'x1', stopRuleVersion: 'w272a-1', kf0: false, units: { G: 1, c: 100, toSec: 1 } };
+        const h2run = { tag: 'dt/2', dt: 0.008, steps: 100, nan: false, clamp: 0, wallSec: 9, targets: [{ label: 'B', A: { perMean: 100.001 }, B: {} }],
+          timeBudget: { tag: 'dt/2', wallSec: 9 }, stopRule: { resourceExceeded: false, complete: false } };
+        const TS = 'f'.repeat(64);
+        const e2n = (o) => Object.assign({ contract: c2, hSig: CS.rawRunSig(hR), run: h2run, generatedAt: '2026-09-27T00:00:00.000Z', targetSha256: TS }, o || {});
+        const g1 = CS.h2ReuseDecision({ entry: e2n(), contract: c2, hRun: hR, targetSha256: TS });
+        const hR2 = JSON.parse(JSON.stringify(hR)); hR2.targets[0].A.perMean = 100.0000000001;
+        const g2 = CS.h2ReuseDecision({ entry: e2n(), contract: c2, hRun: hR2, targetSha256: TS });
+        const g3 = CS.h2ReuseDecision({ entry: e2n(), contract: c2, hRun: hR, targetSha256: 'e'.repeat(64) });
+        const g3x = CS.h2ReuseDecision({ entry: e2n(), contract: c2, hRun: hR, targetSha256: 'e'.repeat(64), crossFlight: true });
+        const g4 = CS.h2ReuseDecision({ entry: e2n({ run: Object.assign({}, h2run, { clamp: 3 }) }), contract: c2, hRun: hR, targetSha256: TS });
+        const g5 = CS.h2ReuseDecision({ entry: e2n(), contract: Object.assign({}, c2, { maxSteps: 101 }), hRun: hR, targetSha256: TS });
+        const g6 = CS.h2ReuseDecision({ entry: e2n({ contract: {} }), contract: {}, hRun: hR, targetSha256: TS });
+        const g7 = CS.h2ReuseDecision({ entry: null, contract: c2, hRun: hR, targetSha256: TS });
+        const hWall = Object.assign({}, hR, { wallSec: 99, rateStepsPerSec: 5, timeBudget: { wallSec: 99 } });   // 壁時計だけ違う h は同じ署名
+        if (!g1.reuse || g2.reuse || !/h-moved/.test(g2.reason || '') || g3.reuse || g3.reason !== 'other-flight' || !g3x.reuse || g4.reuse || g5.reuse || g5.reason !== 'contract'
+          || g6.reuse || g7.reuse || CS.rawRunSig(hWall) !== CS.rawRunSig(hR) || CS.H2_NONDET_TOL !== null)
+          bad.push('(iii″) dt/2 の転記規則: ' + JSON.stringify([g1, g2, g3, g3x, g4, g5, g6, g7].map((z) => z.reuse + ':' + z.reason)));
+        const r2 = CS.reusedRunDt2(e2n());
+        if (r2.skippedBy !== 'reuse-dt2' || !r2.reusedFrom || !/^[0-9a-f]{64}$/.test(r2.reusedFrom.contractSha || '') || r2.reusedFrom.wallSec !== 9
+          || r2.timeBudget.skippedBy !== 'reuse-dt2' || r2.timeBudget.reused !== true || h2run.skippedBy !== undefined) bad.push('(iii″) dt/2 の転記の刻印の形');
+        const withR2 = CS.calStagesOf({ timeBudget: [{ tag: 'dt', wallSec: 1 }, Object.assign({ tag: 'dt/2' }, r2.timeBudget), Object.assign({ tag: 'dt/4' }, rr.timeBudget)] });
+        if (withR2.wallSec !== 1 || withR2.reusedH2Sec !== 9 || withR2.reusedH4Sec !== 7) bad.push('(iii″) calStagesOf が h2 の転記を数えた / 内訳が違う');
+        cases.push('dt/2 の転記 8 通り(同一契約・h のビット一致・同一便・h/2 の完了 → 転記 / h の 1e-12 の違い・別の便・クランプ・契約違い・空契約・置き場なし → 走らせる・`--h2-reuse-cross` で便をまたぐ)・壁時計だけ違う h は同じ署名・非決定的の許容幅は未宣言');
         if (calSrc283.indexOf("const H4_SKIP_DT2 = argv.includes('--h4-skip-dt2');") < 0 || calSrc283.indexOf("const H4_REUSE = !argv.includes('--no-h4-reuse');") < 0
           || calSrc283.indexOf('DFM_SYSTEM_IDS.has(id)') < 0) bad.push('(iii) 閾値規則が既定 off・DFM の本だけでない / 再利用の既定が違う');
         cases.push('再利用の判定 7 通り・刻印・転記を数えない・反例 e(h₀)=e(h₀/2)=0・e(h₀/4)=' + ce.eH4.toExponential(3) + '・閾値規則は既定 off');
@@ -17750,6 +17819,76 @@ if (!FAST) {
           }
           cases.push(`正本は再利用の世代: 転記 ${nR} 本・新規 ${(CA.h4Reuse.fresh || []).length} 本・拒否 ${(CA.h4Reuse.refused || []).length} 本`);
         } else cases.push('正本は再利用の前の世代(鎖の再生成で h4Reuse が付く)');
+        // (v) 第284便c(AN33): 例外の登録簿と「走っていない段を走ったと刻まない」
+        {
+          const EX = CS.H4_EXCEPTIONS || [];
+          const FIELDS = ['preset', 'quantity', 'reason', 'contract', 'evidence', 'expiryCondition'];
+          const exBad = EX.filter((z) => !z.preset || !(z.gateKey && z.name) || !z.reason || !z.contract || !z.evidence || !z.expiryCondition || !['main', 'kf0'].includes(z.path));
+          if (!EX.length || exBad.length) bad.push('(v) 例外の登録簿の欄(' + FIELDS.join('/') + ')が欠ける: ' + exBad.map((z) => z.preset).join(','));
+          const exKey = (z) => [z.preset, z.path, z.gateKey, z.name].join('|');
+          const regSet = new Set(EX.map(exKey));
+          if (CA && !CA.h4Policy) {
+            // 方針の前の世代の正本から規則(kFrame=0 の行・判定段 h4・門が 3σ)を引き直す
+            const derived = [];
+            for (const p of (CA.presets || [])) (p.quantities || []).forEach((q) => { const g = q.gate || {};
+              if (g.assessedStage === 'h4' && (g.status === '合(3σ)' || g.status === '否(3σ)') && q.requiredContext && q.requiredContext.kFrame === 0)
+                derived.push([p.id, q.kf0Applied ? 'kf0' : 'main', g.key, q.name].join('|')); });
+            const same = derived.length === regSet.size && derived.every((k) => regSet.has(k));
+            if (!same) bad.push('(v) 規則を正本から引き直した集合が登録簿と違う: ' + derived.join(' ; ').slice(0, 160));
+            const nH4 = (CA.presets || []).reduce((a, p) => a + (p.quantities || []).filter((q) => (q.gate || {}).assessedStage === 'h4').length, 0);
+            cases.push(`例外の登録簿 ${EX.length} 量(規則を方針の前の世代の正本から引き直して一致 —— 判定段 h4 は ${nH4} 量・うち 3σ 判定 ${derived.length})・正本は方針の前の世代(鎖の再生成で h4Policy が付く)`);
+          } else if (CA && CA.h4Policy) {
+            const P = CA.h4Policy, excMain = CS.h4ExceptionIds('main'), excKf0 = CS.h4ExceptionIds('kf0');
+            const pol = (P.exceptions || []).map(exKey);
+            if (pol.length !== regSet.size || !pol.every((k) => regSet.has(k))) bad.push('(v) 正本の h4Policy.exceptions が登録簿と違う');
+            // 鎖の最後(kf0 段)の正本だけが読む対象 —— 例外の走行の世代(mode)で見る
+            const final = P.mode && P.mode.kf0H4Exceptions === true;
+            const q4 = [];
+            for (const p of (CA.presets || [])) {
+              const r = p.run || {};
+              const has4 = !!r.dtQuarter || (r.timeBudget || []).some((z) => z.tag === 'dt/4');
+              if (has4 && !excMain.includes(p.id) && !(P.mode && P.mode.dt4Registry)) q4.push(p.id);
+              for (const q of (p.quantities || [])) if (q.kf0Applied && Array.isArray(q.kf0Applied.stages) && q.kf0Applied.stages.includes('h/4') && !excKf0.includes(p.id) && !(P.mode && P.mode.kf0Dt3)) q4.push(p.id + '(kF0)');
+            }
+            if (q4.length) bad.push('(v) 登録外の本に dt/4 の段(走っていない段を走ったと刻まない): ' + [...new Set(q4)].join(','));
+            const sm = P.summary || {};
+            if (final && sm.exceptionsKept !== EX.length) bad.push(`(v) 例外の量が h4 に残っていない(${sm.exceptionsKept}/${EX.length})`);
+            cases.push(`正本は方針の後の世代: 前(判定段 h4)${sm.nBeforeH4} 量 → h4 のまま ${sm.keptH4}・h2 へ ${sm.returnedToH2}・h へ ${sm.returnedToH}・門の状態が動いた ${sm.statusMoved}・5 区分が動いた ${sm.verdictMoved}・例外 ${sm.exceptionsKept}/${EX.length}`
+              + (final ? '' : '(鎖の途中の世代)'));
+          }
+        }
+        // (v′) 第284便c: PHYSICS〔第284便c〕に規則・登録簿の 4 行・反例の注意・禁止の言い回しが無いこと
+        {
+          const Pd4 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+          const a4 = Pd4.indexOf('〔第284便c — '), b4 = (a4 >= 0) ? Pd4.indexOf('\n## 7. 論文', a4) : -1;
+          const sec4 = (a4 >= 0) ? Pd4.slice(a4, b4 > a4 ? b4 : undefined) : '';
+          if (!sec4) bad.push('(v′) PHYSICS〔第284便c — 〕が無い');
+          else {
+            const missEx = (CS.H4_EXCEPTIONS || []).filter((z) => sec4.indexOf('`' + z.preset + '` | ' + z.path + ' |') < 0).map((z) => z.preset);
+            if (missEx.length) bad.push('(v′) PHYSICS〔第284便c〕に登録簿の行が無い: ' + missEx.join(','));
+            if (sec4.indexOf('h と h/2 の一致は収束の証明ではない') < 0 || sec4.indexOf('--h4-exceptions --merge') < 0 || sec4.indexOf('--dt4-registry') < 0) bad.push('(v′) PHYSICS〔第284便c〕に規則・反例の行が無い');
+            const F4 = ['観測一致を達成した', '較正を完了した', 'dt/4 を省いても判定は同じ', '試験が短くなった=数値が収束した', '判定が増えた', 'RC を切った', '新発見'];
+            const hit4 = F4.filter((w) => sec4.replace(/「[^」]*」/g, '').indexOf(w) >= 0);
+            if (hit4.length) bad.push('(v′) PHYSICS〔第284便c〕の禁止語: ' + hit4.join(','));
+          }
+        }
+        // (vi) 第284便c(R93): 法則の指紋は閉包(停止集合つき依存閉包)—— 名指しの関数だけの指紋にしない
+        if (calSrc283.indexOf("import { scopeHash as w284cScopeHash } from './lib-w281a-scope.mjs';") < 0 || calSrc283.indexOf('const ENGINE_SHA = ENGINE_CLOSURE.sha256;') < 0)
+          bad.push('(vi) 法則の指紋が閉包で作られていない');
+        if (CA && CA.h2Reuse && CA.h2Reuse.engineFingerprint) {
+          const ef = CA.h2Reuse.engineFingerprint;
+          if (!/^[0-9a-f]{64}$/.test(ef.sha256 || '') || !ef.closure || ef.closure.complete !== true) bad.push('(vi) 正本の法則の指紋(閉包)が不完全');
+          let nR2 = 0;
+          for (const p of (CA.presets || [])) {
+            const hr = p.run && p.run.h2Reuse;
+            if (!hr || !hr.reused) continue;
+            nR2++;
+            const dh = p.run.dtHalf || {}, tb = (p.run.timeBudget || []).find((z) => z.tag === 'dt/2') || {};
+            if (dh.skippedBy !== 'reuse-dt2' || !dh.reusedFrom || !/^[0-9a-f]{64}$/.test(dh.reusedFrom.contractSha || '') || tb.skippedBy !== 'reuse-dt2' || tb.reused !== true)
+              bad.push('(vi) 正本の dt/2 の転記の刻印が欠ける: ' + p.id);
+          }
+          cases.push(`正本は dt/2 の転記の世代: 転記 ${nR2} 本・新規 ${(CA.h2Reuse.fresh || []).length} 本・拒否 ${(CA.h2Reuse.refused || []).length} 本・法則の指紋(閉包)${String(ef.sha256).slice(0, 12)}`);
+        } else cases.push('正本は dt/2 の転記の前の世代(鎖の再生成で h2Reuse が付く)');
         // (iv) samplestatus
         const ssSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w279a-samplestatus.mjs'), 'utf8');
         if (ssSrc.indexOf("import { calStagesOf } from './lib-w283c-calstages.mjs'") < 0 || ssSrc.indexOf('const cs = calStagesOf(cp && cp.run);') < 0
@@ -17757,7 +17896,7 @@ if (!FAST) {
       }
       add('behavior.calauditStages', bad.length === 0,
         `**較正走行の段**(第283便c・原仮定者の裁定(第73報)⑤・統括の検証項目 R86): ${cases.join(' / ')}`
-        + ' —— **dt と dt/2 の一致は収束の証明ではない**(閾値規則は DFM 概略整合の本だけの既定 off のオプション)'
+        + ' —— **dt と dt/2 の一致は収束の証明ではない**(閾値規則は DFM 概略整合の本だけの既定 off のオプション。第284便c: dt/4 は例外の登録簿の本だけ・dt/2 は同一便の再走で転記)'
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
     // ---- ② docs.heavyCal
@@ -17803,14 +17942,26 @@ if (!FAST) {
         const psec = (pa >= 0) ? Pd.slice(pa, pb > pa ? pb : undefined) : '';
         if (!psec) bad.push('PHYSICS〔第283便c — 〕が無い');
         const R = HV.docRows(Jh);
-        const miss = [R.share].concat(R.structure, R.quantities).filter((t) => psec.indexOf(t) < 0);
+        const miss = [R.share].filter(Boolean).concat(R.structure, R.quantities).filter((t) => psec.indexOf(t) < 0);
         if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(' + String(miss[0]).slice(0, 60) + ')');
+        // 第284便c(原仮定者の裁定(第74報)AN43「heavyCal の壁時計行は転記から外す」): 行に壁時計(秒)・ms/步を写さない
+        {
+          const f4q = (x) => (Number.isFinite(x) ? x.toPrecision(4) : '—');
+          const wallInRows = [];
+          if (R.share) wallInRows.push('share 行');
+          for (const st of (Jh.structure || [])) { const row = R.structure.find((t) => t.indexOf('`' + st.id + '`') >= 0) || '';
+            for (const v of [st.msPerStepNode.full, st.msPerStepNode.major, st.msPerStepNode.tp]) if (row.indexOf(f4q(v)) >= 0) wallInRows.push('ms/步 ' + st.id); }
+          for (const q of (Jh.quantities || [])) { if (q.missing) continue; const row = R.quantities.find((t) => t.indexOf('`' + q.id + '`') >= 0) || '';
+            if (row.indexOf(q.before.wallSec.toFixed(1) + ' → ') >= 0) wallInRows.push('壁時計 ' + q.id); }
+          if (wallInRows.length) bad.push('文書の行に壁時計・ms/步: ' + wallInRows.slice(0, 3).join(','));
+          if (psec.indexOf('3322.9 s') >= 0 || psec.indexOf('4531.1 s') >= 0) bad.push('PHYSICS〔第283便c〕に壁時計の転記が残っている');
+        }
         const FORBID = ['観測一致を達成した', '較正を完了した', 'f=1 で合った', 'kF0 版が成立した', '精度を上げれば成立する', 'dt/8 を消せば合', '試験が短くなった=数値が収束した', '新発見'];
         const strip = psec.replace(/「[^」]*」/g, '');
         const hit = FORBID.filter((w) => strip.indexOf(w) >= 0);
         if (hit.length) bad.push('PHYSICS の禁止語: ' + hit.join(','));
         if (psec.indexOf('dt と dt/2 の一致は収束の証明ではない') < 0 || psec.indexOf('c·h²(h−h₀)(h−h₀/2)') < 0) bad.push('PHYSICS に反例の行が無い');
-        cases.push(`PHYSICS の行 ${1 + R.structure.length + R.quantities.length}・禁止語 0`);
+        cases.push(`PHYSICS の行 ${(R.share ? 1 : 0) + R.structure.length + R.quantities.length}(第284便c: 壁時計・ms/步は行に写さない —— 構造と判定量だけ)・禁止語 0`);
       }
       // いまの html(ページ): 💍 の写しの源が主要天体だけの宇宙と 1 bit(300 步)・内蔵で既定 off
       const live = await page.evaluate(() => {
