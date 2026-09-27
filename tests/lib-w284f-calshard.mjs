@@ -22,7 +22,7 @@
 import v8 from 'node:v8';
 import fs from 'node:fs';
 
-export const SHARD_VERSION = 'w284f-calshard-1';
+export const SHARD_VERSION = 'w284f-calshard-2';   // -2: 産物に h2(dt/2 の転記元)と h2keep を載せる(統括・第284便 統合)
 const FLAGS_WITH_VALUE = ['--shard-jobs', '--shard-dump', '--shard-load'];
 const FLAGS_BARE = ['--shard-plan'];
 

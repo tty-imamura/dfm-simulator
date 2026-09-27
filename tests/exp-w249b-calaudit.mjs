@@ -1289,10 +1289,12 @@ for (const job of jobs) {
       out.presets.push(p);
     }
     for (const h of e.h4) H4_NEW.push(h);
+    for (const h of (e.h2 || [])) H2_NEW.push(h);   // 統括(第284便 統合): c の dt/2 の転記元も産物から積む(落とすと h2Store が合流で消える)
+    if (e.h2keep) H2_KEEP.add(e.key);
     for (const x of e.errors) pageErrors.push(x);
     continue;
   }
-  if (SHARD.dump) SHARD_MARKS.push({ key: jobKey(job), nP: out.presets.length, nH: H4_NEW.length, nE: pageErrors.length });
+  if (SHARD.dump) SHARD_MARKS.push({ key: jobKey(job), nP: out.presets.length, nH: H4_NEW.length, nH2: H2_NEW.length, nE: pageErrors.length });
   const id = job.id;
   const KF0 = job.kf0;
   const d = KF0 ? (() => { const c = JSON.parse(JSON.stringify(decls.find((x) => x.id === id)));
@@ -1445,9 +1447,9 @@ for (const job of jobs) {
 // 第284便f: 分割の産物を書いて終わる(Float32 質量の記録・判定・書き出しは合流の 1 プロセスが直列と同じ経路で行う)
 if (SHARD.dump) {
   const entries = SHARD_MARKS.map((m, i) => {
-    const nx = SHARD_MARKS[i + 1] || { nP: out.presets.length, nH: H4_NEW.length, nE: pageErrors.length };
+    const nx = SHARD_MARKS[i + 1] || { nP: out.presets.length, nH: H4_NEW.length, nH2: H2_NEW.length, nE: pageErrors.length };
     return { key: m.key, skipped: nx.nP === m.nP, preset: nx.nP > m.nP ? out.presets[m.nP] : null,
-      h4: H4_NEW.slice(m.nH, nx.nH), errors: pageErrors.slice(m.nE, nx.nE) };
+      h4: H4_NEW.slice(m.nH, nx.nH), h2: H2_NEW.slice(m.nH2, nx.nH2), h2keep: H2_KEEP.has(m.key), errors: pageErrors.slice(m.nE, nx.nE) };
   });
   writeDump(SHARD.dump, makeDump({ argv, targetSha: TARGET_SHA, codeSha: MEASUREMENT_CODE_SHA, jobsAll: JOB_KEYS,
     jobs: entries.map((e) => e.key), entries }));
