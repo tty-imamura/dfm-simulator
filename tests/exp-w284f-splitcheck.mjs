@@ -27,7 +27,11 @@ export const WALL_DERIVED_PTRS = ['/presets/*/run/timeBudget/*/budgetHit'];
 // 正本(直列の鎖)と比べるとき、その鎖で新しく走った h4 は必ず動く(分割とは無関係)。**物理欄ではない**
 export const WALL_DERIVED_DIAG_PTRS = ['/h4Store/carriedFrom', '/h4Store/entries/*/generatedAt', '/h4Store/entries/*/run/wallSec', '/h4Store/entries/*/run/rateStepsPerSec',
   '/h4Store/entries/*/run/timeBudget/wallSec', '/h4Store/entries/*/run/timeBudget/rateStepsPerSec', '/h4Store/entries/*/run/timeBudget/budgetHit',
-  '/h4Store/entries/*/run/stopRule/wallSec', '/h4Store/entries/*/run/stopRule/rateStepsPerSec'];
+  '/h4Store/entries/*/run/stopRule/wallSec', '/h4Store/entries/*/run/stopRule/rateStepsPerSec',
+  // 統括(第284便 統合): c の dt/2 転記元(h2Store)も同じ形の壁時計・時刻を持つ(h の生の走行の署名 hSig と run の物理欄は照合に残す)
+  '/h2Store/carriedFrom', '/h2Store/entries/*/generatedAt', '/h2Store/entries/*/run/wallSec', '/h2Store/entries/*/run/rateStepsPerSec',
+  '/h2Store/entries/*/run/timeBudget/wallSec', '/h2Store/entries/*/run/timeBudget/rateStepsPerSec', '/h2Store/entries/*/run/timeBudget/budgetHit',
+  '/h2Store/entries/*/run/stopRule/wallSec', '/h2Store/entries/*/run/stopRule/rateStepsPerSec'];
 
 function one(fa, fb, rel) {
   const A = JSON.parse(fs.readFileSync(fa, 'utf8')), B = JSON.parse(fs.readFileSync(fb, 'utf8'));

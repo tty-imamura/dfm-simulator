@@ -8,7 +8,7 @@
  "sandbox": "基点 2a4af53 の tests/out/calaudit-w249*.json の写し(mergeKey の measurementCodeSha256 だけを分割の口を足した器の値に付け替え —— 直列と分割の両方が同じ写しから始める)。正本は書き換えていない",
  "runs": [
   {
-   "name": "kf0",
+   "name": "kf0-w284f(統合前の引数 --kf0-dt3)",
    "calArgs": [
     "--kf0-runs",
     "--kf0-only",
@@ -62,7 +62,8 @@
     "mergeWallSec": 1.5,
     "totalWallSec": 60
    },
-   "note": "鎖の kf0 段そのもの(--merge 経路)・直列と分割を同じ写しから"
+   "note": "鎖の kf0 段そのもの(--merge 経路)・直列と分割を同じ写しから",
+   "superseded": "統合(第284便)で c の旗(--kf0-h4-exceptions)に置き換え。記録は履歴として残す"
   },
   {
    "name": "dt3",
@@ -269,7 +270,107 @@
     }
    },
    "note": "静かな容器(1 分平均負荷 1〜4)で走らせた。重い本は solarInner 506 s 等(直列の鎖の記録 830 s より速い容器)。直列の鎖の壁時計は別の容器・負荷なので比べない —— step1SumOfPresetWallSec はこの走行の各本の壁時計の和(直列で走らせた場合の下限の目安)"
+  },
+  {
+   "name": "kf0",
+   "calArgs": [
+    "--kf0-runs",
+    "--kf0-only",
+    "--kf0-h4-exceptions",
+    "--only",
+    "jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal",
+    "--merge"
+   ],
+   "serialVsSplit": [
+    {
+     "file": "tests/out/calaudit-w249.json",
+     "diffs": 3,
+     "declaredVolatile": 3,
+     "codeIdentity": 0,
+     "wallDerived": [],
+     "other": 0,
+     "stableSha256": "6395fae93cbbf5e39cff38c5dda5c0d8d67797ec5cbf6f5b8f2c8aa64a4d9821",
+     "stableSame": true,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    },
+    {
+     "file": "tests/out/calaudit-w249-diag.json",
+     "diffs": 40,
+     "declaredVolatile": 1,
+     "codeIdentity": 0,
+     "wallDerived": [
+      "/h4Store/entries/plutoCharonReal:kf0/run/rateStepsPerSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/wallSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/timeBudget/wallSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/timeBudget/rateStepsPerSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/stopRule/wallSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/stopRule/rateStepsPerSec",
+      "/h4Store/entries/plutoCharonReal:kf0/generatedAt",
+      "/h2Store/entries/jupiterGalilean:kf0/run/rateStepsPerSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/wallSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/timeBudget/rateStepsPerSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/stopRule/rateStepsPerSec",
+      "/h2Store/entries/jupiterGalilean:kf0/generatedAt",
+      "/h2Store/entries/venusReal:kf0/run/rateStepsPerSec",
+      "/h2Store/entries/venusReal:kf0/run/wallSec",
+      "/h2Store/entries/venusReal:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/venusReal:kf0/run/timeBudget/rateStepsPerSec",
+      "/h2Store/entries/venusReal:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/venusReal:kf0/run/stopRule/rateStepsPerSec",
+      "/h2Store/entries/venusReal:kf0/generatedAt",
+      "/h2Store/entries/marsMoonsReal:kf0/run/rateStepsPerSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/wallSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/timeBudget/rateStepsPerSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/stopRule/rateStepsPerSec",
+      "/h2Store/entries/marsMoonsReal:kf0/generatedAt",
+      "/h2Store/entries/plutoCharonReal:kf0/run/wallSec",
+      "/h2Store/entries/plutoCharonReal:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/plutoCharonReal:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/plutoCharonReal:kf0/generatedAt",
+      "/h2Store/entries/neptuneReal:kf0/run/rateStepsPerSec",
+      "/h2Store/entries/neptuneReal:kf0/run/wallSec",
+      "/h2Store/entries/neptuneReal:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/neptuneReal:kf0/run/timeBudget/rateStepsPerSec",
+      "/h2Store/entries/neptuneReal:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/neptuneReal:kf0/run/stopRule/rateStepsPerSec",
+      "/h2Store/entries/neptuneReal:kf0/generatedAt"
+     ],
+     "other": 0,
+     "stableSha256": "555c3c400f7d0ad741079acae16117fc2f54b47e4757ebbfcb76c9e2ff8eaa0d",
+     "stableSame": false,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    }
+   ],
+   "ok": true,
+   "wall": {
+    "serialWallSec": 139,
+    "splitWallSec": 102.6,
+    "k": 2,
+    "lanes": 2,
+    "shards": [
+     {
+      "jobs": 3,
+      "wallSec": 44.3
+     },
+     {
+      "jobs": 2,
+      "wallSec": 98.6
+     }
+    ],
+    "mergeWallSec": 2.1,
+    "totalWallSec": 102.6
+   },
+   "when": "2026-09-27T10:38Z",
+   "htmlSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "shardVersion": "w284f-calshard-2",
+   "note": "統合(第284便)後の kf0 段そのもの(c の旗 --kf0-h4-exceptions・--merge 経路・前回の正本なし=空の種から)。1 回目は f の産物に c の h2Store が無く合流で消えた(修正 → 産物に h2/h2keep・shard 版 -2)。壁時計から作る欄は h4Store と同じ形で h2Store にもある(照合器の除外に追加)"
   }
  ],
- "wallDerivedNote": "除外 Pointer に宣言されていない壁時計・時刻の欄: calaudit の presets[].run.timeBudget[].budgetHit、diag の h4Store.carriedFrom と h4Store.entries[].{generatedAt, run の wallSec・rateStepsPerSec}。物理欄ではない(走行長・判定に入らない)が、安定 hash を動かす(決断事項候補)"
+ "wallDerivedNote": "除外 Pointer に宣言されていない壁時計・時刻の欄: calaudit の presets[].run.timeBudget[].budgetHit、diag の h4Store.carriedFrom と h4Store.entries[].{generatedAt, run の wallSec・rateStepsPerSec}。物理欄ではない(走行長・判定に入らない)が、安定 hash を動かす(決断事項候補)。第284便 統合: diag の h2Store.entries[].{generatedAt, run の wallSec・rateStepsPerSec} も同じ扱い"
 }
