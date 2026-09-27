@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
-  "generatedAt": "2026-09-27T11:35:49.281Z",
+  "targetSha256": "c41884294d5ab469558c1e617555a5409772bd3e4dd174558c81189c23750202",
+  "generatedAt": "2026-09-27T12:07:32.021Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4915135,
-    "sha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
-    "mtime": "2026-09-27T10:21:02.558Z"
+    "bytes": 4914572,
+    "sha256": "c41884294d5ab469558c1e617555a5409772bd3e4dd174558c81189c23750202",
+    "mtime": "2026-09-27T11:39:39.139Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2669348,
-    "sha256": "bd56a4e70a1682798545bb50491088fa9e4bfcd0eedd3ab5eda92ccc5d459285",
-    "mtime": "2026-09-27T10:53:09.771Z"
+    "bytes": 2673157,
+    "sha256": "1d680e5b57a793aeb0c3af4140cfec0d2a7e23b360201eb998a7bd2b1af65416",
+    "mtime": "2026-09-27T11:50:53.463Z"
    }
   ],
   "code": [
@@ -99,7 +99,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "138765e024d4d1a0c43f50993bf28a829718ce3560f7d45d4ee860d03b151c17",
+    "stableSha256": "14be624f600248539a90db4d104faf9bd6e328e69b5cf9600761f1294340d4ce",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -126,7 +126,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "83d2e9435b5c79af223b782e15df87d46cb8070a241b44888355a76b54dc55ca",
+    "stableSha256": "889443c27b83f9cf69c80d298a4a2ecf60c6417225d3f8d9c097b9137f948291",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -148,15 +148,15 @@
  "after": {
   "source": "canon",
   "file": "tests/out/calaudit-w249.json",
-  "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
-  "when": "2026-09-27T10:53:09.323Z",
+  "targetSha256": "c41884294d5ab469558c1e617555a5409772bd3e4dd174558c81189c23750202",
+  "when": "2026-09-27T11:50:53.188Z",
   "canonFourValues": {
    "合": 0,
    "量限定合": 2,
    "否": 2,
    "保留": 33
   },
-  "wallSec": 0.028
+  "wallSec": 0.019
  },
  "signed": {
   "solarInner": {
@@ -457,7 +457,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 31.066,
+      "wallSec": 31.463,
       "tags": [
        "dt"
       ],
@@ -802,7 +802,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 38.035,
+      "wallSec": 38.951,
       "tags": [
        "dt"
       ],
@@ -1017,7 +1017,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 62.662,
+      "wallSec": 61.81,
       "tags": [
        "dt"
       ],
@@ -1262,7 +1262,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 17.551,
+      "wallSec": 18.064,
       "tags": [
        "dt"
       ],
@@ -1342,5 +1342,5 @@
    "decideNext": "必要な窓(近点数)と誤差予算"
   }
  ],
- "elapsedS": 0.097
+ "elapsedS": 0.086
 }

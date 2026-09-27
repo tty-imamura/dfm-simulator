@@ -1,5 +1,5 @@
 {
- "when": "2026-09-26T23:43:51.543Z",
+ "when": "2026-09-27T12:08:04.084Z",
  "wave": "第263便c(第55報 W3)",
  "inputs": {
   "csv": "paper/data/solar-observations.csv",
@@ -137,20 +137,20 @@
   },
   "NS": {
    "presets": 14,
-   "quantities": 114,
+   "quantities": 115,
    "status": {
-    "数値未解決": 29,
-    "mapping-unresolved": 10,
-    "未判定": 75
+    "数値未解決": 27,
+    "mapping-unresolved": 9,
+    "未判定": 79
    },
    "sigmaFrom": {
-    "csv": 40,
+    "csv": 38,
     "obsCard": 0,
-    "none": 74
+    "none": 77
    },
-   "sigmaVerified": 40,
+   "sigmaVerified": 38,
    "sigmaUnverified": 0,
-   "noSigmaSource": 4
+   "noSigmaSource": 6
   },
   "BH 以降": {
    "presets": 3,
@@ -219,7 +219,7 @@
    "unit": "s",
    "preset": "psrDoubleABDFM",
    "emoji": "⚡",
-   "meas": 8737.372557379043,
+   "meas": null,
    "rows": [
     {
      "rank": 0,
@@ -229,8 +229,8 @@
      "sigma": 2.5056e-7,
      "verified": true,
      "intakeRow": false,
-     "residual": -97.16216589895703,
-     "nSigma": 387780036.3144837
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 1,
@@ -240,8 +240,8 @@
      "sigma": 8.64e-8,
      "verified": true,
      "intakeRow": true,
-     "residual": -97.16216590767726,
-     "nSigma": 1124562105.4129312
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 2,
@@ -251,8 +251,8 @@
      "sigma": 2.5056e-7,
      "verified": true,
      "intakeRow": true,
-     "residual": -97.16216589903706,
-     "nSigma": 387780036.3148031
+     "residual": null,
+     "nSigma": null
     }
    ]
   },
@@ -305,7 +305,7 @@
    "unit": "1",
    "preset": "psrDoubleABDFM",
    "emoji": "⚡",
-   "meas": 0.08797580166914369,
+   "meas": 0.8231458946381733,
    "rows": [
     {
      "rank": 0,
@@ -315,8 +315,8 @@
      "sigma": 4.8e-8,
      "verified": true,
      "intakeRow": false,
-     "residual": 0.00019876566914368843,
-     "nSigma": 4140.951440493509
+     "residual": 0.7353688586381734,
+     "nSigma": 15320184.554961946
     },
     {
      "rank": 1,
@@ -326,8 +326,8 @@
      "sigma": 6.1e-8,
      "verified": true,
      "intakeRow": true,
-     "residual": 0.00019877866914369546,
-     "nSigma": 3258.666707273696
+     "residual": 0.7353688716381733,
+     "nSigma": 12055227.40390448
     },
     {
      "rank": 2,
@@ -337,8 +337,8 @@
      "sigma": 4.8e-8,
      "verified": true,
      "intakeRow": true,
-     "residual": 0.00019876566914368843,
-     "nSigma": 4140.951440493509
+     "residual": 0.7353688586381734,
+     "nSigma": 15320184.554961946
     }
    ]
   },
@@ -391,7 +391,7 @@
    "unit": "deg/yr",
    "preset": "psrDoubleABDFM",
    "emoji": "⚡",
-   "meas": 34.76910129827645,
+   "meas": 0.5242936502714903,
    "rows": [
     {
      "rank": 0,
@@ -401,8 +401,8 @@
      "sigma": 0.000013,
      "verified": true,
      "intakeRow": false,
-     "residual": 17.869778298276454,
-     "nSigma": 1374598.3306366503
+     "residual": -16.375029349728507,
+     "nSigma": 1259617.6422868082
     },
     {
      "rank": 1,
@@ -412,8 +412,8 @@
      "sigma": 0.000013,
      "verified": true,
      "intakeRow": true,
-     "residual": 17.869778298276454,
-     "nSigma": 1374598.3306366503
+     "residual": -16.375029349728507,
+     "nSigma": 1259617.6422868082
     },
     {
      "rank": 2,
@@ -423,8 +423,8 @@
      "sigma": 0.000037,
      "verified": false,
      "intakeRow": true,
-     "residual": 17.869780298276453,
-     "nSigma": 482967.0350885528
+     "residual": -16.37502734972851,
+     "nSigma": 442568.3067494192
     }
    ]
   },
