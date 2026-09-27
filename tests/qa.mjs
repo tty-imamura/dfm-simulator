@@ -2642,7 +2642,7 @@ if (QA_REPLAY_FAIL) {
           // 第283便e: 旧宣言(刻印の Pointer ⊊ 今の宣言)は刻印の Pointer で照合する —— 付け替えは統合時
           if (got.every((z) => cur.includes(z))) nOldDecl++;
           // 第283便 統合: **履歴**の正本(role:'history' —— 走らせ直さない記録)は刻印の Pointer が旧宣言のままでよい(geo1 の dtEighth)
-          else if ((RT.REGEN_STEPS || []).some((z) => z.role === 'history' && (z.outs || []).includes(out))) nOldDecl++;
+          else if ((RT.REGEN_STEPS || []).some((z) => z.role === 'history' && (z.outs || []).some((o) => path.basename(o) === out))) nOldDecl++;
           else bad.push(`⑤ ${out} の ${f} の刻印の Pointer が今の宣言の外にある(器を走らせ直すこと)`);
         } else if (st.stableVersion === undefined) nLegacy++;
         else bad.push(`⑤ ${out} の ${f} の安定 hash の版 ${st.stableVersion} を照合できない`);
