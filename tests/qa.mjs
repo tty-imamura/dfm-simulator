@@ -2172,7 +2172,11 @@ if (QA_REPLAY_FAIL) {
       'tests/out/cluster-w283f.json',
       // 第284便a(原仮定者の裁定(第74報)④・R89/R90): 球状星団安定化 —— 💮 の新しい宣言の門の走行と対照・D_A(target=beta/index.html ——
       //   Node だけ・子プロセス並列。inputs に cluster-w283f.json〔前後の「前」〕)
-      'tests/out/cluster-w284a.json'];
+      'tests/out/cluster-w284a.json',
+      // 第284便e(原仮定者の裁定(第74報)AN34・④・R91): 試験粒子契約の署名の前後(target=beta/index.html —— 基点の calaudit 正本は git show の
+      //   一時読み・inputs に calaudit-w249.json —— **calaudit を走らせ直したら本器も走らせ直す**)/ 背景複素決定力 W₀・A₀ の算出表と接続の実測
+      //   (target=beta/index.html —— Node だけ・他の正本は読まない)
+      'tests/out/tpsign-w284e.json', 'tests/out/bgfield-w284e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -17974,12 +17978,199 @@ if (!FAST) {
         const a = run(J2(sing)), b = run(J2(sing).concat(J2(grp).map((z) => Object.assign(z, { testParticle: true }))));
         let flagged = 0; for (const p of HP.allPresets()) { try { HP.sim.build(HP.validatePreset(J2(p)).preset); if (HP.sim.hasTestParticle) flagged++; } catch (e) { /* */ } }
         const sigA = HP.presetSigHash(J2(P)), q = J2(P); q.bodies[1].testParticle = true;
-        return { same: a.o.every((v, i) => Object.is(v, b.o[i])), on: b.on, nan: b.nan, flagged, n: HP.allPresets().length, sigMoves: HP.presetSigHash(q) !== sigA };
+        // 第284便e(原仮定者の裁定(第74報)AN34): 🌞💠💍💿 の 4 本は群を試験粒子に**署名**した(それ以外は既定 off のまま)
+        const flaggedIds = []; for (const p of HP.allPresets()) { try { HP.sim.build(HP.validatePreset(J2(p)).preset); if (HP.sim.hasTestParticle) flaggedIds.push(p.id); } catch (e) { /* */ } }
+        return { same: a.o.every((v, i) => Object.is(v, b.o[i])), on: b.on, nan: b.nan, flagged, flaggedIds, n: HP.allPresets().length, sigMoves: HP.presetSigHash(q) !== sigA };
       });
-      if (!live.same || !live.on || live.nan || live.flagged !== 0 || !live.sigMoves) bad.push('いまの html: ' + JSON.stringify(live));
-      cases.push(`いまの html: 💍 の写しの源 1 bit(300 步)・内蔵 ${live.n} 本で既定 off・宣言は署名に入る`);
+      // 第284便e: 署名の世代(4 本に testParticle の宣言)では、既定 off の本 = 4 本以外の全部(4 本は docs の履歴 —— 正本 heavy-w283c は署名前の記録)
+      const signed284e = html283c.indexOf('function bgcWireState(') >= 0;   // 第284便e の世代の印(署名と同じ枝で入った関数)
+      const wantFlag = signed284e ? 'saturnRingReal,saturnRingRealKF1,solarInner,uranusReal' : '';
+      if (!live.same || !live.on || live.nan || live.flaggedIds.slice().sort().join(',') !== wantFlag || !live.sigMoves) bad.push('いまの html: ' + JSON.stringify(live));
+      cases.push(`いまの html: 💍 の写しの源 1 bit(300 步)・内蔵 ${live.n} 本で既定 off` + (signed284e ? '(第284便e で署名した 4 本を除く —— 正本 heavy-w283c は署名前の履歴)' : '') + '・宣言は署名に入る');
       add('docs.heavyCal', bad.length === 0,
         `**重い較正 4 本と試験粒子契約**(第283便c・原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv) —— 4 本の宣言は書き換えていない・AN34 の材料): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1c′) 第284便e(原仮定者の裁定(第74報)AN34・④・統括の検証項目 R91): **試験粒子契約の署名と背景場**の 2 ブロック。**root では SKIP**。
+// ----   ① behavior.testParticleSigned …… 🌞💠💍💿 の群が testParticle の宣言(群の数・粒子数・末尾に連続・源の数)で受理され入場する・
+// ----      それ以外の内蔵は既定 off・宣言は署名に入る・試験粒子の質量は宣言どおり(台帳・表示・光線は不変)・正本 tpsign-w284e.json の
+// ----      量ごとの前後を再導出(相対差・絶対差・符号・集計・4 値の差し替え —— 相対 1e-12)・calaudit 正本がいまの html の世代なら
+// ----      後の値が正本の同じ量とビット一致・PHYSICS〔第284便e〕の表の行・C 環内縁とミランダの行・禁止語 0。
+// ----   ② docs.bgField …… 正本 bgfield-w284e.json の検算 3 件と補(D₀≠W₀・u_bg 未定義・受理器)を器の純関数で作り直して一致(相対 1e-12)・
+// ----      4 区分の表が器の表と同じ・接続の実測(share 経路は未接続・meshVelocity は適用中)・いまの html で HP.dfmComplexMomentsOf の 2 源の値・
+// ----      #bgcPanel の状態チップ(💮 未接続・🔁 適用中)・PHYSICS の行・禁止語 0。
+{
+  const html284e = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has284e = TARGET.startsWith('beta/') && html284e.indexOf('function bgcWireState(') >= 0;
+  if (!has284e) {
+    console.log('SKIP behavior.testParticleSigned / docs.bgField(第284便e 未適用 — ' + TARGET + ')');
+  } else {
+    let TS = null, BF = null, loadErr = null;
+    try {
+      TS = await import('file://' + path.join(ROOT, 'tests', 'exp-w284e-tpsign.mjs'));
+      BF = await import('file://' + path.join(ROOT, 'tests', 'exp-w284e-bgfield.mjs'));
+    } catch (e) { loadErr = String(e && e.stack || e).slice(0, 160); }
+    const rd = (rel) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8')); } catch (e) { return null; } };
+    const rel = (a, b) => (a === b) ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-300);
+    const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const pa = Pd.indexOf('〔第284便e — '), pb = (pa >= 0) ? Pd.indexOf('\n〔第', pa + 10) : -1;
+    const psec = (pa >= 0) ? Pd.slice(pa, pb > pa ? pb : Pd.indexOf('\n## 7. 論文', pa)) : '';
+    const FORBID = ['観測一致を達成した', '較正を完了した', 'f=1 で合った', 'kF0 版が成立した', '形状が安定した', '47 Tuc を再現した', '精度を上げれば成立する',
+      '試験が短くなった=数値が収束した', '腕が創発した', '新発見', 'RC を切った', '判定が増えた', '試験粒子にすれば合', '区分が動かないので受理'];
+    const stripQ = (t) => t.replace(/「[^」]*」/g, '');
+    // ---- ① behavior.testParticleSigned
+    {
+      const bad = [], cases = [];
+      if (loadErr) bad.push('器が読めない: ' + loadErr);
+      else {
+        const live = await page.evaluate((G) => {
+          const J2 = (x) => JSON.parse(JSON.stringify(x)), isS = (b) => !b.type || b.type === 'single';
+          const rows = [];
+          for (const id of Object.keys(G)) {
+            const P = HP.allPresets().find((q) => q.id === id);
+            const v = HP.validatePreset(J2(P));
+            const grp = P.bodies.filter((b) => !isS(b)), first = P.bodies.findIndex((b) => !isS(b));
+            const tail = first >= 0 && P.bodies.slice(first).every((b) => !isS(b));
+            HP.sim.build(v.preset); const S = HP.sim;
+            let massOk = true; const n0 = S.tpN0;
+            for (let i = n0; i < S.n; i++) { const b = grp[0]; if (!(b.mMin === b.mMax && S.m[i] === Math.fround(b.mMin))) massOk = false; }   // 質量は Float32(宣言どおり —— 台帳・表示・光線は不変)
+            const q = J2(P); for (const b of q.bodies) delete b.testParticle;
+            rows.push({ id, ok: v.ok, on: S.hasTestParticle === true, deny: S.testParticleDeny || null, n0, nTp: S.n - n0, groups: grp.length,
+              allTp: grp.every((b) => b.testParticle === true), tail, massOk, sigMoves: HP.presetSigHash(q) !== HP.presetSigHash(J2(P)) });
+          }
+          const flagged = [];
+          for (const p of HP.allPresets()) { if ((p.bodies || []).some((b) => b && b.testParticle !== undefined)) flagged.push(p.id); }
+          return { rows, flagged: flagged.sort(), n: HP.allPresets().length };
+        }, TS.SIGNED_GROUPS);
+        for (const r of live.rows) {
+          const g = TS.SIGNED_GROUPS[r.id];
+          if (!r.ok || !r.on || r.deny || r.n0 !== g.sources || r.nTp !== g.particles || r.groups !== g.groups || !r.allTp || !r.tail || !r.massOk || !r.sigMoves)
+            bad.push('宣言・入場 ' + JSON.stringify(r));
+        }
+        if (live.flagged.join(',') !== TS.SIGNED_IDS.slice().sort().join(',')) bad.push('宣言のある内蔵が 4 本でない: ' + live.flagged.join(','));
+        cases.push(`宣言 ${live.rows.filter((r) => r.on).length}/4(源 ${live.rows.map((r) => r.n0).join('/')}・試験粒子 ${live.rows.map((r) => r.nTp).join('/')}・末尾に連続・質量は宣言どおり・署名に入る)・内蔵 ${live.n} 本のうち宣言は 4 本だけ`);
+        const Jt = rd('tests/out/tpsign-w284e.json');
+        if (!Jt) bad.push('正本 tpsign-w284e.json が読めない');
+        else {
+          if (!Jt.meta || Jt.meta.provenanceVersion !== 'w272e-1' || Jt.meta.harnessVersion !== TS.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+          if (!Jt.base || !/^[0-9a-f]{7,40}$/.test(String(Jt.base.rev)) || !/^[0-9a-f]{64}$/.test(String(Jt.base.sha256))) bad.push('基点の刻印');
+          let nQ = 0;
+          for (const p of (Jt.table.presets || [])) {
+            if (p.missing) { bad.push('本が無い ' + p.id); continue; }
+            nQ += p.rows.length;
+            for (const z of p.rows) {
+              if (Number.isFinite(z.before) && Number.isFinite(z.after)) {
+                if (rel(z.after - z.before, z.absDiff) > 1e-12 && !(z.absDiff === 0 && z.after === z.before)) bad.push('絶対差 ' + p.id + ' ' + z.name);
+                if (z.before !== 0 && rel((z.after - z.before) / Math.abs(z.before), z.relDiff) > 1e-12 && !(z.relDiff === 0 && z.after === z.before)) bad.push('相対差 ' + p.id + ' ' + z.name);
+                if (z.signFlip !== (z.before !== 0 && z.after !== 0 && Math.sign(z.before) !== Math.sign(z.after))) bad.push('符号 ' + p.id + ' ' + z.name);
+              }
+            }
+            const per = p.rows.filter((z) => z.kind === 'period' && Number.isFinite(z.relDiff)).reduce((m, z) => Math.max(m, Math.abs(z.relDiff)), 0);
+            const prc = p.rows.filter((z) => z.kind === 'precession' && Number.isFinite(z.absDiff)).reduce((m, z) => Math.max(m, Math.abs(z.absDiff)), 0);
+            if (rel(per, p.maxAbsRelDiffPeriod) > 1e-12 || rel(prc, p.maxAbsDiffPrecession) > 1e-12) bad.push('最大差 ' + p.id);
+            if (p.verdictMoved !== p.rows.filter((z) => !z.missingAfter && z.verdictBefore !== z.verdictAfter).length
+              || p.gateMoved !== p.rows.filter((z) => !z.missingAfter && z.gateBefore !== z.gateAfter).length
+              || p.gateUndetermined !== p.rows.filter((z) => z.gateAfter === '未判定').length) bad.push('集計 ' + p.id);
+            if (!p.run || !p.run.after || p.run.after.tp && p.run.after.tp.on === false) bad.push('後の走行が試験粒子で走っていない ' + p.id);
+          }
+          if (nQ !== Jt.table.nQuantities) bad.push('量の数 ' + nQ + ' ≠ ' + Jt.table.nQuantities);
+          const v4b = {}, v4a = {}; for (const p of Jt.table.presets) { v4b[p.id] = p.verdict4.before; v4a[p.id] = p.verdict4.after; }
+          const f = Jt.table.fourValues, fa = TS.substituteFour(f.before, v4b, v4a);
+          if (JSON.stringify(fa) !== JSON.stringify(f.after)) bad.push('4 値の差し替え: ' + JSON.stringify(fa) + ' ≠ ' + JSON.stringify(f.after));
+          if (JSON.stringify(TS.nextCalibration(Jt.table)) !== JSON.stringify(Jt.nextCalibration)) bad.push('次の較正便で決める項');
+          // 後の値 = calaudit 正本の同じ量(正本がいまの html の世代のとき —— 鎖の再生成の後)
+          const CA = rd('tests/out/calaudit-w249.json'), nowSha = crypto.createHash('sha256').update(html284e).digest('hex');
+          if (CA && CA.meta && CA.meta.targetSha256 === nowSha) {
+            let mis = 0;
+            for (const p of Jt.table.presets) { const cp = (CA.presets || []).find((z) => z.id === p.id);
+              for (const z of p.rows) { const q = cp && (cp.quantities || []).find((y) => y.target === z.target && y.kind === z.kind && y.name === z.name);
+                const v = q && Number.isFinite(q.meas) ? q.meas : null; if (!Object.is(v, z.after)) mis++; } }
+            if (mis) bad.push(`後の値が calaudit 正本と ${mis} 量で違う`);
+            cases.push(`後の値 = calaudit 正本(いまの html の世代)${nQ}/${nQ}`);
+          } else cases.push('calaudit 正本は基点の世代(鎖の再生成の前)—— 後の値は器の判定器の走行(' + (Jt.after || {}).source + ')');
+          const R = TS.docRows(Jt);
+          if (!psec) bad.push('PHYSICS〔第284便e — 〕が無い');
+          const miss = R.presets.concat(R.notable, [R.four]).filter((t) => !t || psec.indexOf(t) < 0);
+          if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(' + String(miss[0]).slice(0, 60) + ')');
+          if (psec.indexOf('C環内縁') < 0 || psec.indexOf('ミランダ') < 0) bad.push('PHYSICS に C環内縁・ミランダの行が無い');
+          const hit = FORBID.filter((w) => stripQ(psec).indexOf(w) >= 0);
+          if (hit.length) bad.push('PHYSICS の禁止語: ' + hit.join(','));
+          cases.push(`正本 ${nQ} 量(門の未判定 ${Jt.table.gateUndeterminedAll})・区分が動いた ${Jt.table.verdictMovedAll}・門が動いた ${Jt.table.gateMovedAll}・`
+            + `${R.four}・次の較正便で決める ${Jt.nextCalibration.length} 量・PHYSICS の行 ${R.presets.length + R.notable.length + 1}・禁止語 0`);
+        }
+      }
+      add('behavior.testParticleSigned', bad.length === 0,
+        `**試験粒子契約の署名**(第284便e・原仮定者の裁定(第74報)AN34 —— 🌞💠💍💿 の群を testParticle に宣言・**「区分が動かない」を受理の根拠にしない**): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② docs.bgField
+    {
+      const bad = [], cases = [];
+      const Jb = rd('tests/out/bgfield-w284e.json');
+      if (loadErr) bad.push('器が読めない: ' + loadErr);
+      else if (!Jb) bad.push('正本 bgfield-w284e.json が読めない');
+      else {
+        if (!Jb.meta || Jb.meta.provenanceVersion !== 'w272e-1' || Jb.meta.harnessVersion !== BF.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+        const C = Jb.checks, flat = (M) => [M.W].concat(M.A, M.gradW, M.gradA, [M.dWdt], M.dAdt || []);
+        // ① 2 源
+        const t = BF.TWO_SOURCE, m1 = BF.momentsP2(t.list, t.at[0], t.at[1], t.eps2);
+        if (m1.W !== 0.5 || m1.A[0] !== 0 || m1.A[1] !== 0 || m1.gradW[0] !== 0 || m1.gradW[1] !== 0 || m1.gradA[2] !== 1.5 || !C.twoSource.ok) bad.push('① 2 源の検算');
+        if (JSON.stringify(flat(m1)) !== JSON.stringify(flat(C.twoSource.mine))) bad.push('① 正本の値');
+        // ② 基準系変更
+        const F = BF.FRAME_LEDGER, M = BF.momentsP2(F.list, F.at[0], F.at[1], F.eps2);
+        if (flat(M).some((v, i) => rel(v, flat(C.frameShift.before)[i]) > 1e-12) || !(C.frameShift.worstRel <= 1e-12) || !(C.frameShift.worstRelHtml <= 1e-12) || !C.frameShift.ok) bad.push('② 基準系変更 A′=A−WV');
+        const us = C.frameShift.uShift;
+        if (rel(us[0], F.V[0]) > 1e-12 || rel(us[1], F.V[1]) > 1e-12) bad.push('② u の差 = V');
+        // ③ 一様 3D(器の純関数で作り直す)
+        const U = BF.uniform3d(BF.UNIFORM3D);
+        if (U.length !== C.uniform3d.rows.length || U.some((z, i) => rel(z.W, C.uniform3d.rows[i].W) > 1e-12 || z.n !== C.uniform3d.rows[i].n || rel(z.Wclosed, C.uniform3d.rows[i].Wclosed) > 1e-12)) bad.push('③ 一様 3D の再導出');
+        if (!C.uniform3d.diverges || !C.uniform3d.offsetGradNonZero) bad.push('③ 発散・中心外の ∇W₀');
+        // 補
+        if (!C.d0NotW0.sameD0 || !C.d0NotW0.differentW0 || !C.uUndefined.ok || BF.uBg(0, [1, 1]) !== null || !C.validator.undeclared || !C.validator.zeroDeclared || !C.validator.w0ZeroNumeratorRejected) bad.push('補 D₀≠W₀・u_bg 未定義・受理器');
+        cases.push(`① W₀=${m1.W}・A₀=[${m1.A}]・∇W₀=[${m1.gradW}]・∂A_y/∂x=${m1.gradA[2]} / ② A′=A−WV(最大相対差 ${C.frameShift.worstRel.toExponential(1)}) / ③ W₀/R ${U.map((z) => z.WoverR.toFixed(2)).join('→')}(発散) / D₀ 同じで W₀ 違う・u_bg(W₀=0)=null`);
+        // 4 区分の表
+        if (JSON.stringify(BF.categoryTable()) !== JSON.stringify(Jb.categories)) bad.push('4 区分の表が器と違う');
+        const cats = new Set(); for (const r of Jb.categories) for (const k of ['ledger', 'uniformStatic', 'none']) cats.add(String(r[k]).split(/[(\uff08]/)[0]);
+        for (const w of Jb.wire) cats.add(w.state);
+        for (const k of ['算出できる', '宣言が要る', '未確定', '未接続']) if (!cats.has(k)) bad.push('4 区分に ' + k + ' が無い');
+        // 接続
+        const sh = Jb.wire.filter((w) => w.path === 'share'), me = Jb.wire.filter((w) => w.path === 'meshVelocity');
+        if (sh.length !== BF.SHARE_IDS.length || !sh.every((w) => w.accepted && w.zeroBitSame && w.largeBitSame && w.state === '未接続' && !w.nan)) bad.push('share 経路の未接続');
+        if (me.length !== BF.MESH_IDS.length || !me.every((w) => w.accepted && !w.zeroBitSame && !w.largeBitSame && w.state === '適用中' && w.hasMeshVelocity)) bad.push('meshVelocity の適用中');
+        cases.push(`接続: ${Jb.wire.map((w) => w.emoji + ' ' + w.state).join('・')}(share ${BF.WIRE_STEPS.share} 步・mesh ${BF.WIRE_STEPS.mesh} 步)`);
+        // いまの html
+        const live = await page.evaluate((T2) => {
+          const h = HP.dfmComplexMomentsOf(T2.list, T2.at[0], T2.at[1], T2.eps2);
+          const out = { h, chip: {} };
+          const J2 = (x) => JSON.parse(JSON.stringify(x));
+          const P = HP.allPresets().find((q) => q.id === 'clusterAnalogyBH');
+          const run = (p) => { HP.sim.build(HP.validatePreset(p).preset); for (let k = 0; k < 20; k++) HP.sim.step(0.016); const o = []; for (let i = 0; i < HP.sim.n; i++) o.push(HP.sim.x[i], HP.sim.vy[i]); return o; };
+          const a = run(J2(P)), q = J2(P);
+          q.physics.backgroundComplex = { background: 'declared', note: 'QA', W0: 1000, A0: [50, -80], gradW: [1, 2], gradA: [0.1, 0.2, 0.3, 0.4], dWdt: 0.5, dAdt: [1, 2] };
+          const b = run(q); out.shareSame = a.every((v, i) => Object.is(v, b[i]));
+          for (const id of ['clusterAnalogyBH', 'mercuryGeoToy3']) { loadPreset(id, false); buildParamRows(); const c = document.getElementById('bgcWire');
+            out.chip[id] = { wire: c ? c.dataset.wire : null, api: HP.bgcWireState().state }; }
+          return out;
+        }, BF.TWO_SOURCE);
+        if (live.h.W !== 0.5 || live.h.gradA[2] !== 1.5 || live.h.A[1] !== 0) bad.push('いまの html の dfmComplexMomentsOf');
+        if (!live.shareSame) bad.push('いまの html: 💮 で背景の宣言が運動を変えた');
+        if (live.chip.clusterAnalogyBH.wire !== 'unwired' || live.chip.clusterAnalogyBH.api !== 'unwired' || live.chip.mercuryGeoToy3.wire !== 'applied' || live.chip.mercuryGeoToy3.api !== 'applied') bad.push('状態チップ ' + JSON.stringify(live.chip));
+        cases.push('いまの html: 2 源の値・💮 で宣言が運動を変えない(20 步)・#bgcWire 💮 未接続/🔁 適用中');
+        // PHYSICS
+        const R = BF.docRows(Jb);
+        if (!psec) bad.push('PHYSICS〔第284便e — 〕が無い');
+        const miss = R.cats.concat(R.wire, R.uniform).filter((t) => psec.indexOf(t) < 0);
+        if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(' + String(miss[0]).slice(0, 60) + ')');
+        for (const w of ['D₀ から W₀ を換算しない', 'W₀=0 で未定義', 'A′ = A − W V', '有限領域']) if (psec.indexOf(w) < 0) bad.push('PHYSICS に「' + w + '」が無い');
+        const hit = FORBID.filter((w) => stripQ(psec).indexOf(w) >= 0);
+        if (hit.length) bad.push('PHYSICS の禁止語: ' + hit.join(','));
+        cases.push(`PHYSICS の行 ${R.cats.length + R.wire.length + R.uniform.length}・禁止語 0`);
+      }
+      add('docs.bgField', bad.length === 0,
+        `**背景複素決定力 W₀・A₀ の算出表と接続**(第284便e・原仮定者の裁定(第74報)④・統括の検証項目 R91 —— p=2 の台帳から算出・D₀ から換算しない・力学が読むのは meshVelocity〔field:"backgroundComplex"〕だけ): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
@@ -19368,7 +19559,9 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
             D0: p.physics.D0, fr: p.physics.frameReaction, ts: p.physics.timeScale,
             dm: p.physics.dispMag, pin0: p.bodies[0].pinned, spin0: p.bodies[0].spin,
             nRingBands: p.bodies.filter((b) => b.type === 'ring').length,
-            ringTestMass: p.bodies.filter((b) => b.type === 'ring').every((b) => b.mMin === 1e-6 && b.mMax === 1e-6) },
+            ringTestMass: p.bodies.filter((b) => b.type === 'ring').every((b) => b.mMin === 1e-6 && b.mMax === 1e-6),
+            // 第284便e(原仮定者の裁定(第74報)AN34): 環 11 帯を試験粒子に署名した世代か(kF0 対照の窓を世代で分ける —— root は旧則)
+            ringTp: p.bodies.filter((b) => b.type === 'ring').every((b) => b.testParticle === true) },
           kf1: run(p, {}, 2 * 1221.245856, 5), kf0: run(p, { kFrame: 0 }, 2 * 1221.245856, 5),
           det: detTwice(p) };
       }
@@ -19399,12 +19592,14 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
         && tM !== null && tM > 1.405 && tM < 1.425 && Math.abs(tM / 1.413479 - 1) < 0.002
         && tA !== null && tA > 2.510 && tA < 2.530 && Math.abs(tA / 2.520379 - 1) < 0.002
         && u.kf1.ringWorst !== null && u.kf1.ringWorst > 0.001 && u.kf1.ringWorst < 0.1
-        && u.kf0.ringWorst > 0.5 && u.kf0.ringWorst < 3
+        // 第284便e: 署名の世代は kF0 対照も環が崩れない(0.0122 単位 —— 試験粒子どうしは相互作用しない)。旧則(root)は 0.968 単位の窓 [0.5, 3] のまま
+        && (d.ringTp ? (u.kf0.ringWorst > 0.001 && u.kf0.ringWorst < 0.1) : (u.kf0.ringWorst > 0.5 && u.kf0.ringWorst < 3))
         && u.kf1.dir.every((x) => x === 1),
         `宣言=${declOk}(fidelity=real・L6/T2/M25・κ=G/c₀²・環11帯=下限質量1e-6〔出典つき実質量は下限未満 — 第192便宣言〕・ts=30/dm=1〔宣言つき調整〕・pinned・中心自転は面内符号+〔第196便〕) / ` +
-        `kFrame=1(2ミランダ公転窓): ミランダ ${tM === null ? '—' : tM.toFixed(5) + '日'}(観測 1.413479・宣言 1.41450)・` +
-        `アリエル ${tA === null ? '—' : tA.toFixed(5) + '日'}(観測 2.520379・宣言 2.52000) / ` +
-        `環88粒の半径保持: kF1 最大 ${u.kf1.ringWorst.toFixed(4)}単位(宣言 0.0164 — 第196便の面内符号+で再実測)/ kF0 対照 ${u.kf0.ringWorst.toFixed(3)}単位(宣言 0.968 — 記録のみ・機構帰属せず) / ` +
+        `kFrame=1(2ミランダ公転窓): ミランダ ${tM === null ? '—' : tM.toFixed(5) + '日'}(観測 1.413479・宣言 ${d.ringTp ? '1.41452' : '1.41450'})・` +
+        `アリエル ${tA === null ? '—' : tA.toFixed(5) + '日'}(観測 2.520379・宣言 ${d.ringTp ? '2.52006' : '2.52000'}) / ` +
+        (d.ringTp ? `環88粒(試験粒子 —— 第284便e)の半径保持: kF1 最大 ${u.kf1.ringWorst.toFixed(4)}単位(宣言 0.0104)/ kF0 対照 ${u.kf0.ringWorst.toFixed(4)}単位(宣言 0.0122・窓 0.001〜0.1 —— 署名の前は 0.968・窓 0.5〜3)/ `
+          : `環88粒の半径保持: kF1 最大 ${u.kf1.ringWorst.toFixed(4)}単位(宣言 0.0164 — 第196便の面内符号+で再実測)/ kF0 対照 ${u.kf0.ringWorst.toFixed(3)}単位(宣言 0.968 — 記録のみ・機構帰属せず) / `) +
         `5衛星の積算角は全て正(順行 — 第188便 逆行転写の順行対照) / 決定性=${u.det} / ${u.kf1.steps}步×2本`);
     }
     { // 🌊

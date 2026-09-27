@@ -19,6 +19,7 @@
 //   'w283a-branch' … 第283便a の枝で器を 1 回走らせた実測(正本の elapsedS —— Node だけ・他の枝と同じ容器で並走)。
 //   'w283c-run' … 第283便c の器の単独走行(正本の elapsedSec —— Node の vm + 判定器の --tp-copy〔Chromium〕)。
 //   'w284a-branch' … 第284便a の枝で器を走らせた実測(正本の elapsedS —— 1 回目 3808.5・2 回目 3067.7 を採る。Node だけ・子プロセス 3 本・他の枝と同じ容器で並走〔負荷平均 12〜34〕)。
+//   'w284e-branch' … 第284便e の枝で器を 1 回走らせた実測(正本の elapsedS —— tpsign は正本が基点の世代で判定器を --only で走らせた値)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -287,10 +288,28 @@ export const REGEN_STEPS = [
   RH('exp-w265d-lfbot', 'node tests/exp-w265d-lfbot.mjs', ['tests/out/lfbot-w265d.json']),
   // ---- 第283便c(第73報 ⑤・R86 (iv)): 重い較正 4 本の粒子数・ms/步・試験粒子契約の検査と判定量の前後(calaudit の後 —— 正本の段別の
   //   壁時計と判定量を読み、判定器を --tp-copy で写しに掛ける —— 一時ファイル)
-  S('heavy', 'node tests/exp-w283c-heavy.mjs', ['tests/out/heavy-w283c.json'], 368, { secSource: 'w283c-run', after: ['calaudit', 'dt3', 'kf0'],
+  // 第284便e(原仮定者の裁定(第74報)AN34): 4 本に試験粒子契約を**宣言して署名**したので、本器の前提(「4 本の宣言は群が相互作用粒子」
+  //   —— 写しと並べる (B)(D)・内蔵に宣言 0 本の (C④))が消えた —— 正本は署名前の記録として**履歴**へ(再生成しない・計画は常に「履歴」)。
+  //   署名の前後の実測は tpsign(下)
+  S('heavy', 'node tests/exp-w283c-heavy.mjs', ['tests/out/heavy-w283c.json'], 368, { role: 'history', secSource: 'w283c-run', after: ['calaudit', 'dt3', 'kf0'],
     env: { PLAYWRIGHT_CORE_DIR: 'Chromium の Playwright(判定器を試験粒子の写しに掛ける (D) —— 残りは Node の vm)' },
     volatilePaths: { 'tests/out/heavy-w283c.json': META_RUN },
-    note: '第283便c: 重い 4 本の粒子数・対・質量の内訳・ms/步(全粒子/主要天体だけ/試験粒子の写し)・試験粒子契約の機械検査・判定量の前後(4 本の宣言は書き換えない)' }),
+    note: '第283便c: 重い 4 本の粒子数・対・質量の内訳・ms/步(全粒子/主要天体だけ/試験粒子の写し)・試験粒子契約の機械検査・判定量の前後。'
+      + '第284便e で**履歴**(4 本の署名の前の記録 —— 再生成しない)' }),
+  // ---- 第284便e(原仮定者の裁定(第74報)AN34・④・統括の検証項目 R91): 試験粒子契約の署名の前後(基点の calaudit 正本〔git show〕と
+  //   いまの calaudit 正本の 4 本 54 量 —— 正本がいまの html の世代でなければ判定器を --only で一時ファイルへ走らせる)/
+  //   背景複素決定力 W₀・A₀ の算出表と接続の実測(html だけを読む —— Node だけ・他の正本は読まない)
+  S('tpsign', 'node tests/exp-w284e-tpsign.mjs', ['tests/out/tpsign-w284e.json'], 153, { secSource: 'w284e-branch', after: ['calaudit', 'dt3', 'kf0'],
+    env: { W284E_BASE_REV: '基点(既定 2a4af53 —— git show で基点の calaudit 正本を一時読み)',
+      PLAYWRIGHT_CORE_DIR: 'Chromium の Playwright(正本 calaudit がいまの html の世代でないときだけ —— 判定器を --only で一時ファイルへ。鎖の中では読むだけ)' },
+    volatilePaths: { 'tests/out/tpsign-w284e.json': META_RUN.concat(['/elapsedS', '/after/when', '/after/wallSec',
+      '/table/presets/*/run/before/wallSec', '/table/presets/*/run/after/wallSec']) },
+    note: '第284便e: 🌞💠💍💿 の群を testParticle に署名した前後(量ごとの値・絶対/相対差・区分・門・近点数・壁時計〔機種依存 —— 文書に写さない〕)と '
+      + '4 値の差し替え集計。sec は枝の実測(正本が基点の世代で判定器を走らせた —— 鎖の中では正本を読むだけで数秒)' }),
+  S('bgfield', 'node tests/exp-w284e-bgfield.mjs', ['tests/out/bgfield-w284e.json'], 6, { secSource: 'w284e-branch', node: true,
+    volatilePaths: { 'tests/out/bgfield-w284e.json': META_RUN.concat(['/elapsedS']) },
+    note: '第284便e: p=2 の台帳からの W₀・A₀・∇・∂ₜ の算出(html の dfmComplexMomentsOf と照合)・検算 3 件・4 区分の表・'
+      + '💮🌚(share 経路)の未接続と 🔁🌒(meshVelocity)の適用中の実測' }),
 ];
 
 /**

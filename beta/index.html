@@ -1239,6 +1239,10 @@ ja: {
   bgcApply:"宣言する",
   bgcClear:"未宣言に戻す",
   bgcApplied:"背景複素決定力を宣言しました(受理器を通過)",
+  /* 第284便e(原仮定者の裁定(第74報)④・R91): 「この運動経路に適用中/未接続」の状態チップ(表示だけ) */
+  bgcWireApplied:"この運動経路に適用中",
+  bgcWireUnwired:"未接続(この運動経路は読まない)",
+  bgcWireTip:"力学が W₀・A₀ を読むのは physics.meshVelocity(field:\"backgroundComplex\")を宣言した本だけ(build 時の準備)。それ以外の経路(share・pull・空間メッシュのトイ等)では宣言しても運動は 1 bit も変わらない(tests/exp-w284e-bgfield.mjs の実測)。",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
   
@@ -2097,6 +2101,10 @@ en: {
   bgcApply:"Declare",
   bgcClear:"Back to undeclared",
   bgcApplied:"Background complex determinacy declared (accepted by the validator)",
+  /* Wave 284e (originator's ruling, report 74 (4), R91): "applied to this motion path / not wired" status chip (display only) */
+  bgcWireApplied:"Applied to this motion path",
+  bgcWireUnwired:"Not wired (this motion path does not read it)",
+  bgcWireTip:"The dynamics read W0/A0 only in samples that declare physics.meshVelocity (field:\"backgroundComplex\") (prepared at build). On every other path (share, pull, space-mesh toys, ...) a declaration leaves the motion bit-for-bit unchanged (measured by tests/exp-w284e-bgfield.mjs).",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
   
@@ -10631,8 +10639,10 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.0048675, radius:0.0605, x:-1082.08,y:0, vx:0,vy:-3.502081, spin:-0.002992, pinned:false},
     {type:"single", m:0.0059724, radius:0.0637, x:1495.98,y:0, vx:0,vy:2.978468, spin:0.729212, pinned:false},
     {type:"single", m:0.00064171, radius:0.0339, x:-2279.39,y:0, vx:0,vy:-2.412940, spin:0.708822, pinned:false},
+    // 第284便e(原仮定者の裁定(第74報)AN34): 小惑星帯は**試験粒子**(力を受けるが源にならない —— 第283便c の契約・末尾に連続)。
+    //  質量台帳・表示・光線は宣言どおりの質量 1e-6 のまま。判定量の前後は tests/out/tpsign-w284e.json
     {type:"ring", rMul:5, n:100, cx:0,cy:0, rIn:3300, rOut:4600, mMin:0.000001, mMax:0.000001,
-     spinMin:0, spinMax:0, vMode:"kepler", aroundMass:1988.5, omega:0, vNoise:0.02, direction:1, pinned:false}
+     spinMin:0, spinMax:0, vMode:"kepler", aroundMass:1988.5, omega:0, vNoise:0.02, direction:1, pinned:false, testParticle:true}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -11607,32 +11617,32 @@ const BUILTIN_PRESETS = [
   fidelity:"real",   // 衛星5体は質量・半径・軌道長半径・離心率・周期・同期自転まで転写。環は実半径帯+質量は出典つき推定が値域下限未満のため下限 1e-6(第192便・宣言)
   notClaim:["solar_cal"],
   obsCard:[
-    {q:"公転周期(ミランダ/アリエル・kFrame=1・周回実測)", model:"1.41450 / 2.52000 日(+0.072% / −0.015%)", obs:"1.413479 / 2.520379 日"},
+    {q:"公転周期(ミランダ/アリエル・kFrame=1・周回実測)", model:"1.41452 / 2.52006 日(+0.074% / −0.013%)", obs:"1.413479 / 2.520379 日"},
     {q:"公転周期(ウンブリエル/チタニア/オベロン・転写診断)", model:"+0.016% / +0.012% / +0.023%(接触要素推定)", obs:"4.144176 / 8.705867 / 13.463234 日"},
-    {q:"環11帯(88粒)の半径保持(2ミランダ公転窓)", model:"kFrame=1 で最大 0.0164 単位(0.039%)/ kFrame=0 対照では 0.968 単位(2.29%)— 記録のみ(機構帰属せず)", obs:"—"},
+    {q:"環11帯(88粒)の半径保持(2ミランダ公転窓)", model:"kFrame=1 で最大 0.0104 単位(0.027%)/ kFrame=0 対照 0.0122 単位(0.032%)— 環は試験粒子(第284便e)", obs:"—"},
     {q:"天王星の自転(第196便: 面内符号+)", model:"17.24時間・面内符号は正(環・衛星と共回転 — NSSDC の負符号は 98° 軸傾斜による黄道基準ラベルとして note 記録)", obs:"NSSDC −17.24 h(磁場座標系)"},
     {q:"環の質量(第192便)", model:"出典つきモデル推定は最大の ε(CSG 6.989×10¹⁵kg)でも粒あたり ~10⁻¹⁰ 単位と値域下限 1e-6 の約1万分の1 → 全帯を下限へ引き上げ(宣言・力学はビット不変)", obs:"French et al. (2024) の SSG–CSG モデル依存幅(統計誤差ではない)・6環は未確立"}],
   failureFirst:{
-    fail:"環の質量は出典つきになった(第192便: French et al. (2024) Icarus 411, 115957 の掩蔽自己重力モデル — 6/5/4/α/β/ε は SSG–CSG のモデル依存幅・δ は SSG のみ・ζ/η/γ/λ/ν/μ は未確立)が、最大の ε(CSG 6.989×10¹⁵kg)でも粒あたり ~10⁻¹⁰ 単位と値域下限 1e-6 を約4桁割るため、**全帯を下限への引き上げとして宣言**する(mMin/mMax は 1e-6 のまま — 力学・実測はテスト質量時代とビット同一)。実在の環の質量比・光学的深さ・羊飼い衛星による狭帯化は引き続き再現しない(宣言)。実機採取の第1便(第184便前)は出力Bのトイ生成で κ とスケール指数が規約外だった(ChatGPT M=24・Grok は ring キー発明で取込失敗)— 第185便のプロンプト改修(実在系の近似〔出力B〕+自己チェック)を経た再採取で、環半径・衛星とも転写の生成に到達した。もう1つの正直な記録: 環の半径保持は kFrame=0 対照のほうが**悪い**(2.29% 対 0.039%)— 直感と逆向きの実測であり、機構の帰属は本便では行わない(記録のみ)。さらに第196便の記録: 当初は NSSDC の負符号をそのまま面内符号に写したため**中心自転だけが環・衛星と逆回り**だった(実機で指摘された Grok 生成と同型の不整合が内蔵にもあった)— 面内符号+へ整合し再実測(変化は環保持 0.0169→0.0164 単位のみ・周期は表示桁で不変)。",
-    pass:"衛星5体(ミランダ〜オベロン)は Grok レコード(NSSDC アーカイブ版・全量 URL つき)からの決定的構築で、転写診断は最大 +0.071%(ミランダ — a と P の出典間張力)・周回実測はミランダ +0.072%・アリエル −0.015%。環11帯は実半径(NTRS)への Kepler 配置で 2ミランダ公転窓を 0.039% で保持する。フィットはゼロ(D₀=0.006 共有値・q=13.792 は q_exact をミランダ軌道で1回評価した直値・初速較正 1.000)。"},
+    fail:"環の質量は出典つきになった(第192便: French et al. (2024) Icarus 411, 115957 の掩蔽自己重力モデル — 6/5/4/α/β/ε は SSG–CSG のモデル依存幅・δ は SSG のみ・ζ/η/γ/λ/ν/μ は未確立)が、最大の ε(CSG 6.989×10¹⁵kg)でも粒あたり ~10⁻¹⁰ 単位と値域下限 1e-6 を約4桁割るため、**全帯を下限への引き上げとして宣言**する(mMin/mMax は 1e-6 のまま — 力学・実測はテスト質量時代とビット同一)。実在の環の質量比・光学的深さ・羊飼い衛星による狭帯化は引き続き再現しない(宣言)。実機採取の第1便(第184便前)は出力Bのトイ生成で κ とスケール指数が規約外だった(ChatGPT M=24・Grok は ring キー発明で取込失敗)— 第185便のプロンプト改修(実在系の近似〔出力B〕+自己チェック)を経た再採取で、環半径・衛星とも転写の生成に到達した。もう1つの正直な記録: 環の半径保持は kFrame=0 対照のほうが**悪い**(2.29% 対 0.039%〔第284便e で環を試験粒子に署名した後は 0.032% 対 0.027% —— 旧差は環粒子が相互作用粒子だった世代の記録〕)— 直感と逆向きの実測であり、機構の帰属は本便では行わない(記録のみ)。さらに第196便の記録: 当初は NSSDC の負符号をそのまま面内符号に写したため**中心自転だけが環・衛星と逆回り**だった(実機で指摘された Grok 生成と同型の不整合が内蔵にもあった)— 面内符号+へ整合し再実測(変化は環保持 0.0169→0.0164 単位のみ・周期は表示桁で不変)。",
+    pass:"衛星5体(ミランダ〜オベロン)は Grok レコード(NSSDC アーカイブ版・全量 URL つき)からの決定的構築で、転写診断は最大 +0.071%(ミランダ — a と P の出典間張力)・周回実測はミランダ +0.074%・アリエル −0.013%。環11帯(試験粒子 —— 第284便e)は実半径(NTRS)への Kepler 配置で 2ミランダ公転窓を 0.027% で保持する。フィットはゼロ(D₀=0.006 共有値・q=13.792 は q_exact をミランダ軌道で1回評価した直値・初速較正 1.000)。"},
   descStruct:{
     summary:"天王星(実質量 8.6811×10²⁵kg・実半径 25,559km・実自転 17.24時間〔面内符号+ — NSSDC の −17.24h(磁場座標系)は 98° 軸傾斜による黄道基準の逆行ラベルで、赤道面内では環・衛星と同回り。第196便宣言〕)と主要5衛星(ミランダ/アリエル/ウンブリエル/チタニア/オベロン — 実質量 0.66/12.9/12.2/34.2/28.8×10²⁰kg・実軌道長半径 129.90/190.90/266.00/436.30/583.50×10³km・実離心率・同期自転)+実半径の環11帯(1986U2R・6・5・4・α・β・η・γ・δ・λ・ε — 半径 37〜51.2×10⁶m・各8粒 1e-6〔値域下限 — 出典つき実質量は下限未満・第192便宣言〕)を、1単位=10⁶m/10²s/10²⁵kg で置いた観測転写サンプル(第186便・第192便で環質量を出典つき化)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)。出典は paper/data/solar-observations.csv(衛星系=NSSDC アーカイブ版・環半径=NTRS \"Passage to a Ringed World\" Appendix D — 2026-08-24 実機採取・環質量=French et al. (2024) Icarus 411, 115957〔arXiv 2401.04634 — 2026-08-25 実機採取〕)。環の質量は出典表のモデル推定(例: ε 3.27〜6.989×10¹⁵kg — SSG–CSG のモデル依存幅であって統計誤差ではない・6環は未確立)が粒あたり ~10⁻¹⁰ 単位と**値域下限 1e-6 未満**のため、下限への引き上げとして宣言する(第192便 — 力学は不変)。天王星は pinned(展示系の外部拘束)。規約は実較正の雛形そのまま(kFrame=1・D₀=0.006・geoPN=2・κ=G/c₀²)・q=13.792 は q_exact をミランダ軌道 a=129.9 で1回評価した直値。2D 理想化の画面平面は**天王星の赤道面**(自転軸の98°横倒しごと取る — 衛星・環とも赤道面系なので内部整合)。",
-    observe:"周回実測(2ミランダ公転窓)はミランダ 1.41450 日(観測 1.413479 日・+0.072%)・アリエル 2.52000 日(観測 2.520379 日・−0.015%)。外側3衛星は窓内で1周しないため転写診断(接触要素推定)で照合し、ウンブリエル +0.016%・チタニア +0.012%・オベロン +0.023%。**環11帯(88粒)の半径保持は最大 0.0164 単位(0.039%)**で、狭帯(幅2km級)も崩れない。kFrame=0 の対照では環のスプレッドが最大 0.968 単位(2.29%)まで大きくなる — 直感と逆向きの差であり、機構の帰属は行わず記録のみとする(引きずりが環を保つという主張はしない — 🪐 の逆例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.uranusReal)。",
-    control:"ワンタップ対照A/B: B側 kFrame=0(空間引きずり OFF)— 衛星周期はほぼ不変(ミランダ +0.091% 対 +0.072%)で、差が出るのは環のスプレッドだけである。timeScale=30 は timeScale 規約(最内公転≈5秒)を**最内環帯 1986U2R で評価**した値(衛星基準の規約値 300 では環が1秒1公転で潰れる — 原仮定者実機確認)。粒子表示倍率 dispMag=1 も実機確認による(既定則の3では中心の描画半径 76.7 単位が環 37〜51 を覆う)。トレイルを点けると環と衛星の周期差が見える。環質量の出典(French et al. 2024)は第192便で得られたが、換算すると粒あたり ~10⁻¹⁰ 単位と値域下限 1e-6 を約4桁割る — 「降格解除」は値域上あり得ず、**実質量併記の下限引き上げ宣言**が正しい着地である(mMin/mMax は 1e-6 のまま・力学ビット不変)。"},
+    observe:"周回実測(2ミランダ公転窓)はミランダ 1.41452 日(観測 1.413479 日・+0.074%)・アリエル 2.52006 日(観測 2.520379 日・−0.013%)。外側3衛星は窓内で1周しないため転写診断(接触要素推定)で照合し、ウンブリエル +0.016%・チタニア +0.012%・オベロン +0.023%。**環11帯(88粒 —— 第284便e から試験粒子)の半径保持は最大 0.0104 単位(0.027%)**で、狭帯(幅2km級)も崩れない。kFrame=0 の対照では環のスプレッドが最大 0.0122 単位(0.032%)(署名の前は 0.968 単位〔2.29%〕—— 環粒子が相互作用粒子だった世代の記録)で、機構の帰属は行わず記録のみとする(引きずりが環を保つという主張はしない — 🪐 の逆例)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.uranusReal)。",
+    control:"ワンタップ対照A/B: B側 kFrame=0(空間引きずり OFF)— 衛星周期はほぼ不変(ミランダ +0.093% 対 +0.074%)で、環のスプレッドも 0.032% 対 0.027%(第284便e で環を試験粒子に署名した後 —— 署名の前は 2.29% 対 0.039%)である。timeScale=30 は timeScale 規約(最内公転≈5秒)を**最内環帯 1986U2R で評価**した値(衛星基準の規約値 300 では環が1秒1公転で潰れる — 原仮定者実機確認)。粒子表示倍率 dispMag=1 も実機確認による(既定則の3では中心の描画半径 76.7 単位が環 37〜51 を覆う)。トレイルを点けると環と衛星の周期差が見える。環質量の出典(French et al. 2024)は第192便で得られたが、換算すると粒あたり ~10⁻¹⁰ 単位と値域下限 1e-6 を約4桁割る — 「降格解除」は値域上あり得ず、**実質量併記の下限引き上げ宣言**が正しい着地である(mMin/mMax は 1e-6 のまま・力学ビット不変)。"},
   en:{name:"Uranus's Rings and Five Major Moons (Real Units)",
     obsCard:[
-      {q:"Orbital periods (Miranda/Ariel, kFrame=1, measured revolutions)", model:"1.41450 / 2.52000 d (+0.072% / −0.015%)", obs:"1.413479 / 2.520379 d"},
+      {q:"Orbital periods (Miranda/Ariel, kFrame=1, measured revolutions)", model:"1.41452 / 2.52006 d (+0.074% / −0.013%)", obs:"1.413479 / 2.520379 d"},
       {q:"Orbital periods (Umbriel/Titania/Oberon, transcription check)", model:"+0.016% / +0.012% / +0.023% (osculating estimate)", obs:"4.144176 / 8.705867 / 13.463234 d"},
-      {q:"Ring retention, 11 bands / 88 grains (two Miranda orbits)", model:"max 0.0164 units (0.039%) at kFrame=1; 0.968 units (2.29%) in the kFrame=0 control — recorded only (no mechanism attributed)", obs:"—"},
+      {q:"Ring retention, 11 bands / 88 grains (two Miranda orbits)", model:"max 0.0104 units (0.027%) at kFrame=1; 0.0122 units (0.032%) in the kFrame=0 control — rings are test particles (wave 284e)", obs:"—"},
       {q:"Uranus's rotation (wave 196: in-plane sign +)", model:"17.24 h with a POSITIVE in-plane sign (co-rotating with the rings and moons — NSSDC's negative sign is the ecliptic-frame label from the 98° obliquity, recorded in a note)", obs:"NSSDC −17.24 h (magnetic coordinates)"},
       {q:"Ring masses (wave 192)", model:"even the largest sourced model estimate (ε, CSG 6.989×10¹⁵ kg) converts to ~10⁻¹⁰ units per grain — about 10⁴ below the value floor 1e-6, so every band is carried at the floor (declared; dynamics bit-identical)", obs:"French et al. (2024) SSG–CSG model-dependent ranges (not statistical errors); six rings not established"}],
     failureFirst:{
-      fail:"The ring masses now HAVE a source (wave 192: the occultation self-gravity models of French et al. (2024), Icarus 411, 115957 — SSG–CSG model-dependent ranges for 6/5/4/α/β/ε, SSG only for δ, not established for ζ/η/γ/λ/ν/μ), but even the largest (ε, CSG 6.989×10¹⁵ kg) converts to ~10⁻¹⁰ units per grain, about four orders below the value floor 1e-6 — so every band is DECLARED as raised to the floor (mMin/mMax stay 1e-6; dynamics and measurements are bit-identical to the test-mass build). The real rings' mass ratio, optical depth and shepherd-moon confinement remain unreproduced (declared). The first device collection (before wave 184) produced OUTPUT-B toys with off-convention κ and scale exponents (ChatGPT M=24; Grok failed intake by inventing ring keys) — after the wave-185 prompt overhaul (the real-system approximation and self-check sections) the re-collection reached a transcription-grade build for both rings and moons. One more honest record: ring retention is WORSE in the kFrame=0 control (2.29% vs 0.039%) — opposite to intuition; no mechanism is attributed in this wave (recorded only). And a wave-196 record: the NSSDC negative sign was initially carried straight into the in-plane spin, leaving THE CENTRAL SPIN COUNTER-ROTATING against its own rings and moons (the same inconsistency the device check flagged in a Grok generation) — the sign was aligned to the in-plane convention (+) and re-measured (only the ring retention moved, 0.0169→0.0164 units; the periods are unchanged at the displayed precision).",
-      pass:"The five moons (Miranda through Oberon) are built deterministically from the Grok records (archived NSSDC, every row with a URL): transcription check at most +0.071% (Miranda — an a-vs-P source tension), measured revolutions +0.072% (Miranda) and −0.015% (Ariel). The 11 ring bands sit at the real radii (NTRS) on Kepler speeds and hold to 0.039% over two Miranda orbits. Zero fits (shared D₀=0.006; q=13.792 is q_exact evaluated once at Miranda's orbit; speed calibration 1.000)."},
+      fail:"The ring masses now HAVE a source (wave 192: the occultation self-gravity models of French et al. (2024), Icarus 411, 115957 — SSG–CSG model-dependent ranges for 6/5/4/α/β/ε, SSG only for δ, not established for ζ/η/γ/λ/ν/μ), but even the largest (ε, CSG 6.989×10¹⁵ kg) converts to ~10⁻¹⁰ units per grain, about four orders below the value floor 1e-6 — so every band is DECLARED as raised to the floor (mMin/mMax stay 1e-6; dynamics and measurements are bit-identical to the test-mass build). The real rings' mass ratio, optical depth and shepherd-moon confinement remain unreproduced (declared). The first device collection (before wave 184) produced OUTPUT-B toys with off-convention κ and scale exponents (ChatGPT M=24; Grok failed intake by inventing ring keys) — after the wave-185 prompt overhaul (the real-system approximation and self-check sections) the re-collection reached a transcription-grade build for both rings and moons. One more honest record: ring retention is WORSE in the kFrame=0 control (2.29% vs 0.039% [after wave 284e signed the rings as test particles: 0.032% vs 0.027% — the old difference is the record of the generation in which the ring grains interacted]) — opposite to intuition; no mechanism is attributed in this wave (recorded only). And a wave-196 record: the NSSDC negative sign was initially carried straight into the in-plane spin, leaving THE CENTRAL SPIN COUNTER-ROTATING against its own rings and moons (the same inconsistency the device check flagged in a Grok generation) — the sign was aligned to the in-plane convention (+) and re-measured (only the ring retention moved, 0.0169→0.0164 units; the periods are unchanged at the displayed precision).",
+      pass:"The five moons (Miranda through Oberon) are built deterministically from the Grok records (archived NSSDC, every row with a URL): transcription check at most +0.071% (Miranda — an a-vs-P source tension), measured revolutions +0.074% (Miranda) and −0.013% (Ariel). The 11 ring bands (test particles — wave 284e) sit at the real radii (NTRS) on Kepler speeds and hold to 0.027% over two Miranda orbits. Zero fits (shared D₀=0.006; q=13.792 is q_exact evaluated once at Miranda's orbit; speed calibration 1.000)."},
     descStruct:{
       summary:"Uranus (real mass 8.6811×10²⁵ kg, real radius 25,559 km, real 17.24-hour rotation with a POSITIVE in-plane sign — NSSDC's −17.24 h, magnetic coordinates, is the ecliptic-frame retrograde label from the 98° obliquity; in the equatorial plane the rotation co-rotates with the rings and moons, declared in wave 196) with its five major moons (Miranda/Ariel/Umbriel/Titania/Oberon — real masses 0.66/12.9/12.2/34.2/28.8 ×10²⁰ kg, real semi-major axes 129.90/190.90/266.00/436.30/583.50 ×10³ km, real eccentricities, synchronous rotations) and eleven rings at their real radii (1986U2R, 6, 5, 4, α, β, η, γ, δ, λ, ε — 37–51.2 ×10⁶ m; 8 grains each at 1e-6, the value floor — the sourced masses sit below it, declared in wave 192), placed with 1 unit = 10⁶ m / 10² s / 10²⁵ kg (wave 186; ring masses sourced in wave 192). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act. Sources: paper/data/solar-observations.csv (moons = archived NSSDC; ring radii = NTRS \"Passage to a Ringed World\" Appendix D — device-collected 2026-08-24). The ring masses are model estimates in the source table (French et al. (2024), Icarus 411, 115957 [arXiv 2401.04634] — e.g. ε 3.27–6.989×10¹⁵ kg, an SSG–CSG model-dependent range, not a statistical error; six rings not established); they convert to ~10⁻¹⁰ units per grain, BELOW the value floor 1e-6, so the floor is used and the raise is declared (wave 192 — dynamics unchanged). Uranus is pinned (an exhibit constraint). The conventions are the real-calibration template (kFrame=1, D₀=0.006, geoPN=2, κ=G/c₀²); q=13.792 is q_exact evaluated once at Miranda's orbit a=129.9. The 2D plane is URANUS'S EQUATORIAL PLANE (taken with its 98° axial tilt — internally consistent, since both the moons and the rings are equatorial systems).",
-      observe:"Measured revolutions (two-Miranda-orbit window): Miranda 1.41450 d (observed 1.413479 d, +0.072%), Ariel 2.52000 d (observed 2.520379 d, −0.015%). The outer three moons do not complete a revolution inside the window, so they are checked by the osculating-element transcription estimate: Umbriel +0.016%, Titania +0.012%, Oberon +0.023%. THE ELEVEN RING BANDS (88 grains) HOLD THEIR RADII TO AT MOST 0.0164 UNITS (0.039%) — even the 2-km-wide bands stay narrow. In the kFrame=0 control the ring spread grows to 0.968 units (2.29%) — a difference in the direction OPPOSITE to intuition; it is recorded without attributing a mechanism (no claim that dragging keeps rings — the converse of 🪐's lesson). Zero NaN; two runs are bit-identical (QA behavior.uranusReal).",
-      control:"One-tap A/B: side B is kFrame=0 — the moon periods barely move (Miranda +0.091% vs +0.072%); the only visible difference is the ring spread. timeScale=30 is the timeScale rule (innermost orbit ≈ 5 s) EVALUATED AT THE INNERMOST RING BAND 1986U2R (the satellite-based 300 makes the rings orbit once per second and smear — device-confirmed). The display magnification dispMag=1 is also device-confirmed (the default rule's 3 would draw Uranus at 76.7 units, covering the 37–51-unit rings). Switch trails on to see the period gradient across rings and moons. Sourced ring masses arrived in wave 192 (French et al. 2024), but they convert to ~10⁻¹⁰ units per grain — about four orders below the value floor 1e-6, so \"lifting the demotion\" is impossible in-range; the honest landing is the declared floor-raise with the real SI values quoted (mMin/mMax stay 1e-6; dynamics bit-identical)."},
+      observe:"Measured revolutions (two-Miranda-orbit window): Miranda 1.41452 d (observed 1.413479 d, +0.074%), Ariel 2.52006 d (observed 2.520379 d, −0.013%). The outer three moons do not complete a revolution inside the window, so they are checked by the osculating-element transcription estimate: Umbriel +0.016%, Titania +0.012%, Oberon +0.023%. THE ELEVEN RING BANDS (88 grains — test particles since wave 284e) HOLD THEIR RADII TO AT MOST 0.0104 UNITS (0.027%) — even the 2-km-wide bands stay narrow. In the kFrame=0 control the ring spread reaches 0.0122 units (0.032%) (before the signing: 0.968 units [2.29%] — the record of the generation in which the ring grains interacted); it is recorded without attributing a mechanism (no claim that dragging keeps rings — the converse of 🪐's lesson). Zero NaN; two runs are bit-identical (QA behavior.uranusReal).",
+      control:"One-tap A/B: side B is kFrame=0 — the moon periods barely move (Miranda +0.093% vs +0.074%) and the ring spread is 0.032% vs 0.027% (after wave 284e signed the rings as test particles; before the signing 2.29% vs 0.039%). timeScale=30 is the timeScale rule (innermost orbit ≈ 5 s) EVALUATED AT THE INNERMOST RING BAND 1986U2R (the satellite-based 300 makes the rings orbit once per second and smear — device-confirmed). The display magnification dispMag=1 is also device-confirmed (the default rule's 3 would draw Uranus at 76.7 units, covering the 37–51-unit rings). Switch trails on to see the period gradient across rings and moons. Sourced ring masses arrived in wave 192 (French et al. 2024), but they convert to ~10⁻¹⁰ units per grain — about four orders below the value floor 1e-6, so \"lifting the demotion\" is impossible in-range; the honest landing is the declared floor-raise with the real SI values quoted (mMin/mMax stay 1e-6; dynamics bit-identical)."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴","Uranus's real mass, radius and 17.24-hour rotation (in-plane sign +, wave 196 — NSSDC's negative sign is the ecliptic-frame obliquity label)",
         "the real semi-major axes, eccentricities, masses, radii and synchronous rotations of the five major moons (archived NSSDC)",
@@ -11656,8 +11666,8 @@ const BUILTIN_PRESETS = [
     { id:"uranusReal.miranda-period", kind:"fixed-seed", prov:"simulated", role:"input_check",
       metric:"mirandaPeriodDays",
       chain:{ax:["A4","A6"], eq:["E4"],
-        note:"観測入力(実軌道長半径・実中心質量・実 G)+実ケプラー初速の転写がミランダの観測周期を写せていることの検証(周回実測)。+0.072% は a と P の出典間張力で、フィットで消していない。",
-        noteEn:"A check that the transcription reproduces Miranda's observed period (measured revolution). The +0.072% is an a-vs-P source tension, not fitted away."},
+        note:"観測入力(実軌道長半径・実中心質量・実 G)+実ケプラー初速の転写がミランダの観測周期を写せていることの検証(周回実測)。+0.074% は a と P の出典間張力で、フィットで消していない。",
+        noteEn:"A check that the transcription reproduces Miranda's observed period (measured revolution). The +0.074% is an a-vs-P source tension, not fitted away."},
       roleNote:"観測入力の検証 — 較正ノブはゼロ。",
       roleNoteEn:"Input check — zero calibration knobs.",
       expected:{min:1.405, max:1.425},
@@ -11665,8 +11675,8 @@ const BUILTIN_PRESETS = [
     { id:"uranusReal.ariel-period", kind:"fixed-seed", prov:"simulated", role:"input_check",
       metric:"arielPeriodDays",
       chain:{ax:["A4","A6"], eq:["E4"],
-        note:"同・アリエル(−0.015%)。",
-        noteEn:"Ditto for Ariel (−0.015%)."},
+        note:"同・アリエル(−0.013%)。",
+        noteEn:"Ditto for Ariel (−0.013%)."},
       roleNote:"観測入力の検証 — 較正ノブはゼロ。",
       roleNoteEn:"Input check — zero calibration knobs.",
       expected:{min:2.510, max:2.530},
@@ -11674,13 +11684,13 @@ const BUILTIN_PRESETS = [
     { id:"uranusReal.ring-retention", kind:"fixed-seed", prov:"simulated", role:"retrospective_check",
       metric:"ringWorstSpreadUnits",
       chain:{ax:["A4","A5"], eq:["E4","E6′"],
-        note:"実半径の環11帯(テスト質量)が雛形規約(kFrame=1)の2ミランダ公転窓で半径を保つことの定量。kFrame=0 対照のスプレッド増(3.31%)は記録のみ — 機構の帰属はしない。",
-        noteEn:"Quantifies that the 11 real-radius ring bands (test masses) hold their radii over a two-Miranda-orbit window under the template (kFrame=1). The larger spread of the kFrame=0 control (3.31%) is recorded only — no mechanism is attributed."},
+        note:"実半径の環11帯(テスト質量)が雛形規約(kFrame=1)の2ミランダ公転窓で半径を保つことの定量。kFrame=0 対照のスプレッド(第284便e で環を試験粒子に署名した後 0.032%・署名の前は 2.29%)は記録のみ — 機構の帰属はしない。",
+        noteEn:"Quantifies that the 11 real-radius ring bands (test masses) hold their radii over a two-Miranda-orbit window under the template (kFrame=1). The spread of the kFrame=0 control (0.032% after wave 284e signed the rings as test particles; 2.29% before) is recorded only — no mechanism is attributed."},
       roleNote:"回顧的確認 — 較正ノブはゼロ。環の質量は出典つき推定が値域下限未満のため下限 1e-6 である(第192便・宣言)。",
       roleNoteEn:"Retrospective check — zero calibration knobs. Ring masses: the sourced model estimates sit below the value floor, so the grains carry the floor 1e-6 (wave 192, declared).",
       expected:{min:0.001, max:0.1},
       descPattern:"半径保持は最大 (\\d+\\.\\d+) 単位", testId:"behavior.uranusReal",
-      control:{patch:{kFrame:0}, expected:{min:0.5, max:3},
+      control:{patch:{kFrame:0}, expected:{min:0.001, max:0.1},   // 第284便e: 環を試験粒子に署名 → kF0 対照 0.0122 単位(署名の前の窓 {0.5, 3} —— 0.968 単位)
         descPattern:"環のスプレッドが最大 (\\d+\\.\\d+) 単位"} }
   ],
   parameterAudit:{
@@ -11710,6 +11720,8 @@ const BUILTIN_PRESETS = [
            // 6〜16=環11帯(1986U2R/6/5/4/α/β/η/γ/δ/λ/ε — 各8粒 1e-6)。第192便: 環質量は
            //  French et al. (2024) のモデル推定が出典表にあるが粒あたり ~1e-10 単位と値域下限未満 —
            //  mMin/mMax は下限 1e-6 のまま「引き上げ」を宣言(力学ビット不変)。
+           // 第284便e(原仮定者の裁定(第74報)AN34): 環 11 帯は**試験粒子**(力を受けるが源にならない —— 第283便c の契約・
+           //  末尾に連続)。質量台帳・表示・光線は宣言どおりの 1e-6 のまま。判定量の前後は tests/out/tpsign-w284e.json
            // 衛星は観測転写経路の決定的配置のビット写し(近点整列・位相60°刻み・実ケプラー初速)。
            // 環半径は ChatGPT 実在系近似(出力B)からの転写(NTRS Appendix D — 実半径・幅)
     {type:"single", m:8.6811, radius:25.559, x:0, y:0, vx:0, vy:0, spin:0.0101237196, pinned:true, pnSource:true},   // 第196便: 面内符号+(NSSDC −17.24h は軸姿勢ラベル — 環・衛星と共回転)
@@ -11718,17 +11730,17 @@ const BUILTIN_PRESETS = [
     {type:"single", m:0.000122, radius:0.5847, x:-132.48129999999995, y:229.46434265277472, vx:-0.40575515966553904, vy:-0.23426285065797842, spin:0.00175480125, pinned:false},
     {type:"single", m:0.000342, radius:0.7889, x:-435.82007000000004, y:0, vx:0, vy:-0.3648090455843085, spin:0.000835322343, pinned:false},
     {type:"single", m:0.000288, radius:0.7614, x:-291.3415500000003, y:-504.61836695586834, vx:0.2732742397962087, vy:-0.15777495590893162, spin:0.000540152924, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:37, rOut:39.5, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:41.836, rOut:41.838, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:42.234, rOut:42.236, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:42.57, rOut:42.572, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:44.713, rOut:44.723, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:45.656, rOut:45.666, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:47.1755, rOut:47.1765, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:47.6245, rOut:47.6275, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:48.3, rOut:48.306, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:50.023, rOut:50.025, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", n:8, cx:0, cy:0, rIn:51.104, rOut:51.194, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false}
+    {type:"ring", n:8, cx:0, cy:0, rIn:37, rOut:39.5, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:41.836, rOut:41.838, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:42.234, rOut:42.236, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:42.57, rOut:42.572, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:44.713, rOut:44.723, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:45.656, rOut:45.666, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:47.1755, rOut:47.1765, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:47.6245, rOut:47.6275, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:48.3, rOut:48.306, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:50.023, rOut:50.025, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", n:8, cx:0, cy:0, rIn:51.104, rOut:51.194, mMin:1e-6, mMax:1e-6, spinMin:0, spinMax:0, vMode:"kepler", aroundMass:8.6811, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -15711,18 +15723,22 @@ const BUILTIN_PRESETS = [
              // (粒 m=1e20kg・R=1e5m)。主要衛星6(ミマス/エンケラドス/テティス/ディオネ/レア/タイタン —
              // 実軌道半径・実質量・ケプラー初速・60°間隔配置。タイタンは同期自転)
     {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true},
-    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658,rOut:92.0, mMin:0.00001,mMax:0.00001,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0,rOut:117.58, mMin:0.00001,mMax:0.00001,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17,rOut:136.775, mMin:0.00001,mMax:0.00001,
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
     {type:"single", m:0.00000375, radius:0.198, x:185.5,y:0, vx:0,vy:1.43, spin:0, pinned:false},
     {type:"single", m:0.0000108, radius:0.252, x:119.0,y:206.1, vx:-1.0933,vy:0.6312, spin:0, pinned:false},
     {type:"single", m:0.0000617, radius:0.531, x:-147.3,y:255.1311, vx:-0.9825,vy:-0.5673, spin:0, pinned:false},   // 第172便: テティスの y を転記ずれの訂正で 255.2→255.1311(=294.6·sin120°。同じ literal の x=−147.3=294.6·cos120° と同一の幾何規則に戻すだけで、再較正ではない — 第170便 ai.placement-determinism が検出したずれ)
     {type:"single", m:0.0001095, radius:0.5615, x:-377.4,y:0, vx:0,vy:-1.0025, spin:0, pinned:false},
     {type:"single", m:0.0002306, radius:0.7635, x:-263.6,y:-456.5, vx:0.7347,vy:-0.42411098, spin:0, pinned:false},   // 第180便: レアの vy を転記ずれの訂正で −0.4242→−0.42411098(=√(GM/527.2)·cos240° の 8 桁丸め。同じ literal の x=−263.6=527.2·cos240° と同一の幾何・ケプラー規則に戻すだけで、再較正ではない — 第172便のテティス y 訂正(255.1311)と同種で、第170便 ai.placement-determinism の支配点だったもの)
-    {type:"single", m:0.013452, radius:2.5747, x:611.0,y:-1058.2, vx:0.4825,vy:0.2786, spin:0.000456, pinned:false}
+    {type:"single", m:0.013452, radius:2.5747, x:611.0,y:-1058.2, vx:0.4825,vy:0.2786, spin:0.000456, pinned:false},
+    // 第284便e(原仮定者の裁定(第74報)AN34): C/B/A 帯は**試験粒子**(力を受けるが源にならない —— 第283便c の契約)。
+    //  契約の入場条件「末尾に連続」のため帯の宣言を衛星の後ろへ移した(帯の粒子の配置は並べ替えで 1 bit も変わらない ——
+    //  乱数の消費順は帯どうしで同じ)。質量台帳・表示・光線は宣言どおりの質量のまま。並び: 0=土星・1〜6=ミマス〜タイタン・7〜9=C/B/A 帯。
+    //  判定量の前後は tests/out/tpsign-w284e.json
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658,rOut:92.0, mMin:0.00001,mMax:0.00001,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0,rOut:117.58, mMin:0.00001,mMax:0.00001,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17,rOut:136.775, mMin:0.00001,mMax:0.00001,
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
@@ -15834,18 +15850,22 @@ const BUILTIN_PRESETS = [
              // (粒 m=1e20kg・R=1e5m)。主要衛星6(ミマス/エンケラドス/テティス/ディオネ/レア/タイタン —
              // 実軌道半径・実質量・ケプラー初速・60°間隔配置。タイタンは同期自転)
     {type:"single", m:56.834, radius:60.3, x:0,y:0, vx:0,vy:0, spin:0.016528, pinned:true, pnSource:true},
-    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658,rOut:92.0, mMin:1.283e-8,mMax:1.283e-8, frameSource:false,   // 第244便: 観測総質量・非フレーム源
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0,rOut:117.58, mMin:1.283e-8,mMax:1.283e-8, frameSource:false,   // 第244便: 観測総質量・非フレーム源
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
-    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17,rOut:136.775, mMin:1.283e-8,mMax:1.283e-8, frameSource:false,   // 第244便: 観測総質量・非フレーム源
-     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
     {type:"single", m:0.00000375, radius:0.198, x:185.5,y:0, vx:0,vy:1.43, spin:0, pinned:false},
     {type:"single", m:0.0000108, radius:0.252, x:119.0,y:206.1, vx:-1.0933,vy:0.6312, spin:0, pinned:false},
     {type:"single", m:0.0000617, radius:0.531, x:-147.3,y:255.1311, vx:-0.9825,vy:-0.5673, spin:0, pinned:false},   // 第172便: テティスの y を転記ずれの訂正で 255.2→255.1311(=294.6·sin120°。同じ literal の x=−147.3=294.6·cos120° と同一の幾何規則に戻すだけで、再較正ではない — 第170便 ai.placement-determinism が検出したずれ)
     {type:"single", m:0.0001095, radius:0.5615, x:-377.4,y:0, vx:0,vy:-1.0025, spin:0, pinned:false},
     {type:"single", m:0.0002306, radius:0.7635, x:-263.6,y:-456.5, vx:0.7347,vy:-0.42411098, spin:0, pinned:false},   // 第180便: レアの vy を転記ずれの訂正で −0.4242→−0.42411098(=√(GM/527.2)·cos240° の 8 桁丸め。同じ literal の x=−263.6=527.2·cos240° と同一の幾何・ケプラー規則に戻すだけで、再較正ではない — 第172便のテティス y 訂正(255.1311)と同種で、第170便 ai.placement-determinism の支配点だったもの)
-    {type:"single", m:0.013452, radius:2.5747, x:611.0,y:-1058.2, vx:0.4825,vy:0.2786, spin:0.000456, pinned:false}
+    {type:"single", m:0.013452, radius:2.5747, x:611.0,y:-1058.2, vx:0.4825,vy:0.2786, spin:0.000456, pinned:false},
+    // 第284便e(原仮定者の裁定(第74報)AN34): C/B/A 帯は**試験粒子**(力を受けるが源にならない —— 第283便c の契約)。
+    //  契約の入場条件「末尾に連続」のため帯の宣言を衛星の後ろへ移した(帯の粒子の配置は並べ替えで 1 bit も変わらない ——
+    //  乱数の消費順は帯どうしで同じ)。質量台帳・表示・光線は宣言どおりの質量のまま。並び: 0=土星・1〜6=ミマス〜タイタン・7〜9=C/B/A 帯。帯の frameSource:false は試験粒子の側の宣言(入場条件を満たす)。
+    //  判定量の前後は tests/out/tpsign-w284e.json
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658,rOut:92.0, mMin:1.283e-8,mMax:1.283e-8, frameSource:false,   // 第244便: 観測総質量・非フレーム源
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0,rOut:117.58, mMin:1.283e-8,mMax:1.283e-8, frameSource:false,   // 第244便: 観測総質量・非フレーム源
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
+    {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17,rOut:136.775, mMin:1.283e-8,mMax:1.283e-8, frameSource:false,   // 第244便: 観測総質量・非フレーム源
+     spinMin:0,spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true}
   ],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:true} },
 
@@ -31216,6 +31236,14 @@ function bgcState(S){
   const v=validateBackgroundComplex(cur);
   return v.ok? {state:"declared", decl:v.backgroundComplex, err:null} : {state:"invalid", decl:cur, err:v.err};
 }
+// 第284便e(原仮定者の裁定(第74報)④・統括の検証項目 R91): **この運動経路が背景を読むか**(表示だけ —— 宣言の有無とは別の軸)。
+// 読むのは build 時の準備 `meshVelocityPrepare` が張った外部ステップ(S.hasMeshVelocity)で field が "backgroundComplex" のときだけ。
+// それ以外(share/pull の対ループ・空間メッシュのトイ・field:"explicit")は宣言しても運動が変わらない(tests/exp-w284e-bgfield.mjs の実測)。
+function bgcWireState(S){
+  const mv=(S && S.params)? S.params[MESH_VEL_KEY] : null;
+  const on=!!(S && S.hasMeshVelocity===true && mv && mv.field==="backgroundComplex");
+  return {state: on? "applied" : "unwired", field: (mv && mv.field) || null, hasMeshVelocity: !!(S && S.hasMeshVelocity===true)};
+}
 function _bgcParseNum(t){
   const z=String(t).trim().replace(/[−ー–—－]/g,"-");
   return (z==="")? undefined : Number(z);
@@ -31242,6 +31270,13 @@ function buildBgComplexPanel(parent){
   chip.textContent=(st.state==="declared")? T("bgcDeclared")(st.decl.background)
     : ((st.state==="invalid")? T("bgcInvalid") : T("bgcUndeclared"));
   sum.appendChild(chip);
+  // 第284便e(R91): 「この運動経路に適用中/未接続」(表示だけ —— 宣言の有無とは別の軸)
+  const ws=bgcWireState(S0);
+  const wchip=document.createElement("span"); wchip.id="bgcWire"; wchip.className="statusChip";
+  wchip.dataset.v=(ws.state==="applied")? "pass" : "n/a"; wchip.dataset.wire=ws.state;
+  wchip.style.cssText="margin-left:6px;"; wchip.title=T("bgcWireTip");
+  wchip.textContent=(ws.state==="applied")? T("bgcWireApplied") : T("bgcWireUnwired");
+  sum.appendChild(wchip);
   det.appendChild(sum);
   // 短い 1 行(常に見える)+ ⓘ で全文(単位・値域・宣言の意味・presetSig への影響)を開閉する
   const desc=document.createElement("div"); desc.id="bgcShort"; desc.className="note";
@@ -32690,7 +32725,8 @@ const ASTRO_CATALOG = {
       {id:"mars",    name:{ja:"火星",en:"Mars"},    m:0.00064171, radius:0.0339, spin:0.708822, a:2279.39, e:0}],
     rings:{ id:"belt", name:{ja:"小惑星帯",en:"asteroid belt"},
       bands:[{type:"ring", rMul:5, n:100, cx:0,cy:0, rIn:3300, rOut:4600, mMin:0.000001, mMax:0.000001,
-        spinMin:0, spinMax:0, vMode:"kepler", aroundMass:1988.5, omega:0, vNoise:0.02, direction:1, pinned:false}] },
+        spinMin:0, spinMax:0, vMode:"kepler", aroundMass:1988.5, omega:0, vNoise:0.02, direction:1, pinned:false,
+        testParticle:true}] },   // 第284便e(第74報 AN34): 出典 🌞 の帯の試験粒子の宣言のビット写し
     variants:{ kf1:{ src:"solarInner", name:{ja:"実較正の雛形規約(kFrame=1)",en:"the real-calibration template (kFrame=1)"},
       physics:astroPh({frameWeight:"share", G:6.674, D0:0.006, kFrame:1, q:5.1, softening:0.05, timeScale:30, dispMag:10}) } },
     defVariant:"kf1" },
@@ -32770,7 +32806,9 @@ const ASTRO_CATALOG = {
     // x=−263.6=527.2·cos240° と同一の幾何・ケプラー規則へ戻しただけ)。以後の支配点はテティスの
     // vx(literal −0.9825 vs 幾何値 −0.98267854 = 相対 1.82e-4)。許容は実測に合わせて
     // **縮める方向にのみ** 3e-4 → 2.5e-4(第172便)→ 2e-4(第180便)へ更新する(緩めていない)。
-    place:"circular", phase0:0, phaseStep:60, ringsAfterSats:false, reproTol:2e-4,
+    // 第284便e(第74報 AN34): 出典 💍💿 の帯を試験粒子にして衛星の後ろへ移したので、カタログも帯を後ろに置き(ringsAfterSats:true)
+    // 帯に testParticle:true を写す(出典の宣言のビット写し —— カタログ経路 = 出典の規約)。
+    place:"circular", phase0:0, phaseStep:60, ringsAfterSats:true, reproTol:2e-4,
     center:{id:"saturn", name:{ja:"土星",en:"Saturn"}, m:56.834, radius:60.3, spin:0.016528, pinned:true, pnSource:true},
     sats:[
       {id:"mimas",     name:{ja:"ミマス",en:"Mimas"},         m:0.00000375, radius:0.198,  spin:0,        a:185.5},
@@ -32782,11 +32820,11 @@ const ASTRO_CATALOG = {
     rings:{ id:"rings", name:{ja:"C環/B環/A環",en:"the C, B and A rings"},
       bands:[
         {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:74.658, rOut:92.0, mMin:0.00001, mMax:0.00001,
-         spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+         spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
         {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:92.0, rOut:117.58, mMin:0.00001, mMax:0.00001,
-         spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false},
+         spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true},
         {type:"ring", rMul:31.62, n:40, cx:0,cy:0, rIn:122.17, rOut:136.775, mMin:0.00001, mMax:0.00001,
-         spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false}] },
+         spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true}] },
     variants:{
       kf0:{ src:"saturnRingReal",    name:{ja:"空間引きずりOFF(kFrame=0)",en:"frame dragging off (kFrame=0)"},
         physics:astroPh({frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:10, dispMag:1, geoPN:1}) },   // 第284便b(AN39): geoPN=1
@@ -45335,6 +45373,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   validateBackgroundComplex, BG_COMPLEX_KEY, BG_COMPLEX_BACKGROUNDS, BG_COMPLEX_NOTE_MAX, BG_COMPLEX_UNITS,
   // 第283便d(R87): 背景複素決定力の宣言欄の読み口/書き口(UI と同じ関数)と、空間メッシュの線の固定スタイル表
   bgcState:(S)=>bgcState(S||editSim()), bgcApply:(S,c)=>bgcApply(S||editSim(),c),
+  bgcWireState:(S)=>bgcWireState(S||editSim()),   // 第284便e(R91): この運動経路に適用中/未接続(表示だけ)
   spaceMeshLineStyle:()=>JSON.parse(JSON.stringify(SPACE_MESH_LINE_STYLE)),
   BG_COMPLEX_REQUIRED, BG_COMPLEX_STRICT,
   // 第278便d(統括の読み R56): **潮汐テンソル T** の宣言鍵(**宣言専用** —— エンジンは 1 箇所も読まない・

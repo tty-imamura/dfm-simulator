@@ -1,0 +1,535 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第284便e",
+  "target": "beta/index.html",
+  "targetSha256": "11ab45757a8d313d212af8b50602ce80b19d762affaff9cd902fc56103210b20",
+  "generatedAt": "2026-09-27T07:57:48.956Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4909587,
+    "sha256": "11ab45757a8d313d212af8b50602ce80b19d762affaff9cd902fc56103210b20",
+    "mtime": "2026-09-27T07:43:04.874Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w284e-bgfield.mjs",
+    "bytes": 21869,
+    "sha256": "14cf399fc1dff2e7693e70ab261f19d5343119ab3c2467ee1834b76917c7bc39",
+    "mtime": "2026-09-27T07:13:22.062Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-09-27T06:19:09.706Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-27T06:19:09.702Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-27T06:19:09.710Z"
+   }
+  ],
+  "codeSha256": "fe9171d0c79e8c99b7daabb6e1e4f3a919d63735fb134d1657337000fb7d3281",
+  "harnessVersion": "w284e-bgfield-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第74報)④: 「背景複素決定力 W₀・A₀」関連パラメータについて算出可能なものを確認する",
+  "reading": "統括の検証項目 R91: 受理器と #bgcPanel はあるが、力学が読むのは physics.meshVelocity(field:\"backgroundComplex\")を宣言した本だけ。p=2 の台帳から W₀・A₀・∇・∂ₜ は算出できる・D₀ から W₀ は換算しない・一様・凍結・静止は宣言・u_bg は W₀=0 で未定義・無限一様 3D は発散",
+  "kernel": "p=2(w=m/(r²+ε²) —— HP.dfmComplexMomentsOf と同じ)",
+  "dt": 0.016,
+  "wireSteps": {
+   "share": 120,
+   "mesh": 2000
+  },
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま vm で実行)",
+  "notClaim": [
+   "観測一致を達成した",
+   "較正を完了した",
+   "D₀ から W₀ を換算した",
+   "u_bg=0",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w283e-scope-3",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "HP.allPresets",
+    "HP.dfmComplexMomentsOf",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validateBackgroundComplex",
+    "HP.validatePreset",
+    "cw",
+    "dfmComplexMomentsOf",
+    "isNum",
+    "validateBackgroundComplex"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 788,
+   "segments": 716,
+   "closureShare": 0.316
+  },
+  "scopeSha256": "db47d11bb385b25b466fc6865b4dbf3ee1e6a22f7e3bf9032bea20b66a9d635e",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "cats": {
+  "computable": "算出できる",
+  "declare": "宣言が要る",
+  "undetermined": "未確定",
+  "unwired": "未接続",
+  "applied": "適用中"
+ },
+ "checks": {
+  "twoSource": {
+   "mine": {
+    "W": 0.5,
+    "A": [
+     0,
+     0
+    ],
+    "gradW": [
+     0,
+     0
+    ],
+    "gradA": [
+     0,
+     0,
+     1.5,
+     0
+    ],
+    "dWdt": 0,
+    "dAdt": [
+     0,
+     0
+    ],
+    "n": 2
+   },
+   "html": {
+    "W": 0.5,
+    "A": [
+     0,
+     0
+    ],
+    "gradW": [
+     0,
+     0
+    ],
+    "gradA": [
+     0,
+     0,
+     1.5,
+     0
+    ],
+    "dWdt": 0,
+    "dAdt": [
+     0,
+     0
+    ],
+    "n": 2
+   },
+   "want": {
+    "W": 0.5,
+    "A": [
+     0,
+     0
+    ],
+    "gradW": [
+     0,
+     0
+    ],
+    "gradA": [
+     0,
+     0,
+     1.5,
+     0
+    ],
+    "dWdt": 0,
+    "dAdt": [
+     0,
+     0
+    ]
+   },
+   "ok": true,
+   "uBg": [
+    0,
+    0
+   ],
+   "note": "A₀ = 0 でも ∂A_y/∂x = 1.5(反対向きに動く 2 源は分子で相殺するが回転勾配は残る)"
+  },
+  "frameShift": {
+   "V": [
+    0.7,
+    -0.4
+   ],
+   "before": {
+    "W": 0.14797400211302428,
+    "A": [
+     0.04961294362131352,
+     -0.05788250400886923
+    ],
+    "gradW": [
+     0.03177877665951789,
+     0.003444177533954285
+    ],
+    "gradA": [
+     0.017221850480824297,
+     -0.016465834130683484,
+     -0.041737666301821616,
+     -0.019987460861268735
+    ],
+    "dWdt": 0.002765610380444439,
+    "dAdt": [
+     0.016321991795514034,
+     0.0015612156982631985
+    ],
+    "n": 3
+   },
+   "after": {
+    "W": 0.14797400211302428,
+    "A": [
+     -0.05396885785780345,
+     0.0013070968363404836
+    ],
+    "gradW": [
+     0.03177877665951789,
+     0.003444177533954285
+    ],
+    "gradA": [
+     -0.005023293180838225,
+     -0.01887675840445148,
+     -0.02902615563801446,
+     -0.018609789847687023
+    ],
+    "dWdt": 0.023633083028525247,
+    "dAdt": [
+     0.018420462664396765,
+     -0.010206933157094335
+    ],
+    "n": 3
+   },
+   "predicted": {
+    "W": 0.14797400211302428,
+    "A": [
+     -0.05396885785780346,
+     0.0013070968363404836
+    ],
+    "gradW": [
+     0.03177877665951789,
+     0.003444177533954285
+    ],
+    "gradA": [
+     -0.005023293180838228,
+     -0.018876758404451483,
+     -0.02902615563801446,
+     -0.018609789847687023
+    ],
+    "dWdt": 0.02363308302852525,
+    "dAdt": [
+     0.018420462664396762,
+     -0.010206933157094334
+    ]
+   },
+   "worstRel": 5.180038513163203e-16,
+   "worstRelHtml": 0,
+   "ok": true,
+   "uBefore": [
+    0.3352814880509792,
+    -0.39116671295176497
+   ],
+   "uAfter": [
+    -0.3647185119490206,
+    0.008833287048235052
+   ],
+   "uShift": [
+    0.6999999999999997,
+    -0.4
+   ]
+  },
+  "uniform3d": {
+   "cfg": {
+    "rho": 1,
+    "h": 1,
+    "eps": 0.5,
+    "radii": [
+     4,
+     8,
+     16,
+     32
+    ]
+   },
+   "rows": [
+    {
+     "R": 4,
+     "n": 257,
+     "W": 41.79268431900796,
+     "Wclosed": 41.177223530957946,
+     "WoverR": 10.44817107975199,
+     "offset": 2,
+     "gradWxOffset": -4.63849181622732
+    },
+    {
+     "R": 8,
+     "n": 2109,
+     "W": 91.76116418526571,
+     "Wclosed": 91.05354946364226,
+     "WoverR": 11.470145523158214,
+     "offset": 4,
+     "gradWxOffset": -4.7176434232209195
+    },
+    {
+     "R": 16,
+     "n": 17077,
+     "W": 192.33775870815,
+     "Wclosed": 191.3886110910652,
+     "WoverR": 12.021109919259375,
+     "offset": 8,
+     "gradWxOffset": -4.700589169829013
+    },
+    {
+     "R": 32,
+     "n": 137065,
+     "W": 393.4229587506374,
+     "Wclosed": 392.3524220405157,
+     "WoverR": 12.294467460957419,
+     "offset": 16,
+     "gradWxOffset": -4.695375365698162
+    }
+   ],
+   "ratios": [
+    2.1956274328981378,
+    2.096069294847003,
+    2.045479584420086
+   ],
+   "diverges": true,
+   "offsetGradNonZero": true,
+   "note": "一様密度の球の中心で W₀ ≈ 4πρR —— R を倍にすると W₀ もほぼ倍(無限一様 3D では発散)。中心を外した点では ∇W₀ ≠ 0"
+  },
+  "d0NotW0": {
+   "rows": [
+    {
+     "D0": 1,
+     "W0": 1
+    },
+    {
+     "D0": 1,
+     "W0": 0.5
+    }
+   ],
+   "sameD0": true,
+   "differentW0": true,
+   "note": "同じ D₀ で W₀ が違う台帳がある → D₀ から W₀ を換算する関数は無い"
+  },
+  "uUndefined": {
+   "emptyW": 0,
+   "uBg": null,
+   "ok": true
+  },
+  "validator": {
+   "undeclared": true,
+   "zeroDeclared": true,
+   "w0ZeroNumeratorRejected": true
+  }
+ },
+ "categories": [
+  {
+   "key": "W0",
+   "sym": "W₀",
+   "unit": "M/L²",
+   "formula": "Σ m_j/s_j",
+   "needs": "m_j・X_j・ε",
+   "ledger": "算出できる",
+   "uniformStatic": "宣言が要る(有限領域か宇宙論的カーネル —— 無限一様 3D は発散)",
+   "fromD0": "未確定(D₀ から換算しない)",
+   "none": "未確定(null —— 0 ではない)"
+  },
+  {
+   "key": "A0",
+   "sym": "A₀",
+   "unit": "M/(L·T)",
+   "formula": "Σ w_j V_j",
+   "needs": "m_j・X_j・V_j・ε",
+   "ledger": "算出できる",
+   "uniformStatic": "宣言が要る(一様・凍結・静止なら 0 と宣言 —— 算出ではない)",
+   "fromD0": "未確定(D₀ から換算しない)",
+   "none": "未確定(null —— 0 ではない)"
+  },
+  {
+   "key": "gradW",
+   "sym": "∇W₀",
+   "unit": "M/L³",
+   "formula": "Σ −2m_j r_j/s_j²",
+   "needs": "m_j・X_j・ε",
+   "ledger": "算出できる",
+   "uniformStatic": "宣言が要る(一様・凍結・静止なら 0 と宣言 —— 算出ではない)",
+   "fromD0": "未確定(D₀ から換算しない)",
+   "none": "未確定(null —— 0 ではない)"
+  },
+  {
+   "key": "gradA",
+   "sym": "∇A₀",
+   "unit": "M/(L²·T)",
+   "formula": "Σ V_ja ∂_b w_j",
+   "needs": "m_j・X_j・V_j・ε",
+   "ledger": "算出できる",
+   "uniformStatic": "宣言が要る(一様・凍結・静止なら 0 と宣言 —— 算出ではない)",
+   "fromD0": "未確定(D₀ から換算しない)",
+   "none": "未確定(null —— 0 ではない)"
+  },
+  {
+   "key": "dWdt",
+   "sym": "∂ₜW₀",
+   "unit": "M/(L²·T)",
+   "formula": "Σ −∇w_j·V_j",
+   "needs": "m_j・X_j・V_j・ε",
+   "ledger": "算出できる",
+   "uniformStatic": "宣言が要る(一様・凍結・静止なら 0 と宣言 —— 算出ではない)",
+   "fromD0": "未確定(D₀ から換算しない)",
+   "none": "未確定(null —— 0 ではない)"
+  },
+  {
+   "key": "dAdt",
+   "sym": "∂ₜA₀",
+   "unit": "M/(L·T²)",
+   "formula": "Σ[(∂ₜw_j)V_j + w_j a_j]",
+   "needs": "m_j・X_j・V_j・a_j・ε",
+   "ledger": "算出できる(a_j が台帳に無ければ未確定)",
+   "uniformStatic": "宣言が要る(一様・凍結・静止なら 0 と宣言 —— 算出ではない)",
+   "fromD0": "未確定(D₀ から換算しない)",
+   "none": "未確定(null —— 0 ではない)"
+  },
+  {
+   "key": "uBg",
+   "sym": "u_bg",
+   "unit": "L/T",
+   "formula": "A₀/W₀(W₀ > 0 のときだけ)",
+   "needs": "W₀ > 0",
+   "ledger": "算出できる(W₀ = 0 では未定義)",
+   "uniformStatic": "宣言が要る(A₀ = 0 の宣言から 0 —— W₀ の宣言が要る)",
+   "fromD0": "未確定(D₀ から換算しない)",
+   "none": "未確定(null —— 0 ではない)"
+  }
+ ],
+ "wire": [
+  {
+   "id": "clusterAnalogyBH",
+   "emoji": "💮",
+   "path": "share",
+   "steps": 120,
+   "n": 211,
+   "meshField": null,
+   "hasMeshVelocity": false,
+   "accepted": true,
+   "err": null,
+   "zeroBitSame": true,
+   "largeBitSame": true,
+   "nan": false,
+   "state": "未接続"
+  },
+  {
+   "id": "galaxyAnalogyBH",
+   "emoji": "🌚",
+   "path": "share",
+   "steps": 120,
+   "n": 211,
+   "meshField": null,
+   "hasMeshVelocity": false,
+   "accepted": true,
+   "err": null,
+   "zeroBitSame": true,
+   "largeBitSame": true,
+   "nan": false,
+   "state": "未接続"
+  },
+  {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "path": "meshVelocity",
+   "steps": 2000,
+   "n": 2,
+   "meshField": "backgroundComplex",
+   "hasMeshVelocity": true,
+   "accepted": true,
+   "err": null,
+   "a0": [
+    2.3,
+    0
+   ],
+   "zeroBitSame": false,
+   "largeBitSame": false,
+   "nan": false,
+   "maxAbsDiffZero": 73.60000000005829,
+   "maxAbsDiffLarge": 662.4000000000265,
+   "state": "適用中"
+  },
+  {
+   "id": "charonGeoToy3",
+   "emoji": "🌒",
+   "path": "meshVelocity",
+   "steps": 2000,
+   "n": 2,
+   "meshField": "backgroundComplex",
+   "hasMeshVelocity": true,
+   "accepted": true,
+   "err": null,
+   "a0": [
+    0,
+    2.7018851611140787e-9
+   ],
+   "zeroBitSame": false,
+   "largeBitSame": false,
+   "nan": false,
+   "maxAbsDiffZero": 0.47401877791156605,
+   "maxAbsDiffLarge": 4.266169001203133,
+   "state": "適用中"
+  }
+ ],
+ "inventory": {
+  "nPresets": 142,
+  "rows": [
+   {
+    "id": "earthMoonDiagOne",
+    "emoji": "🌓",
+    "background": null,
+    "sources": null,
+    "meshField": "explicit",
+    "reads": false
+   },
+   {
+    "id": "mercuryGeoToy3",
+    "emoji": "🔁",
+    "background": "declared",
+    "sources": [
+     "uniform-u"
+    ],
+    "meshField": "backgroundComplex",
+    "reads": true
+   },
+   {
+    "id": "charonGeoToy3",
+    "emoji": "🌒",
+    "background": "declared",
+    "sources": [
+     "sun"
+    ],
+    "meshField": "backgroundComplex",
+    "reads": true
+   }
+  ]
+ },
+ "elapsedS": 13.099
+}
