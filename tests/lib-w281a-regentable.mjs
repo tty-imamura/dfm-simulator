@@ -18,6 +18,7 @@
 //   'w282c-run' … 第282便c の器の単独走行(正本の elapsedS —— Node だけ・Chromium なし)。
 //   'w283a-branch' … 第283便a の枝で器を 1 回走らせた実測(正本の elapsedS —— Node だけ・他の枝と同じ容器で並走)。
 //   'w283c-run' … 第283便c の器の単独走行(正本の elapsedSec —— Node の vm + 判定器の --tp-copy〔Chromium〕)。
+//   'w284a-branch' … 第284便a の枝で器を走らせた実測(正本の elapsedS —— 1 回目 3808.5・2 回目 3067.7 を採る。Node だけ・子プロセス 3 本・他の枝と同じ容器で並走〔負荷平均 12〜34〕)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -217,7 +218,15 @@ export const REGEN_STEPS = [
     after: ['galaxychain', 'analogy'],
     env: { W283F_BASE: '基点 html(第283便の基点 de9e39b の beta/index.html —— git show で一時ファイルを作り終了後に削除。光線の基点比較 (D)。無ければ (D) を SKIP)' },
     volatilePaths: { 'tests/out/cluster-w283f.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec', '/runs/*/rateStepsPerSec']) },
-    note: '第283便f: 💮 の走行(基準・中心 spin 0・DR なし・N_rep 80/160)と門の判定・台帳・軸比の標本の床・光線(🌚 だけが変わる)・47 Tuc の参照行' }),
+    note: '第283便f: 💮 の走行(基準・中心 spin 0・DR なし・N_rep 80/160)と門の判定・台帳・軸比の標本の床・光線(🌚 だけが変わる)・47 Tuc の参照行。'
+      + '第284便a から 💮 は凍結写し tests/fixtures/cluster-w283f-preset.json を読む(第283便f の宣言の記録)' }),
+  // ---- 第284便a(原仮定者の裁定(第74報)④・R89/R90): 球状星団安定化(💮 の新しい宣言 —— 接触ばね 0・代表粒子の半径・平衡初速・台帳の nTrue/radii)。
+  //   門は第283便f のまま(器 exp-w283f の GATES を読む)・代表数 40/80/160 × 個数比 20/10 × 乱数種 3 と対照。前後の「前」に cluster-w283f.json を読む
+  //   (clusterAnalogy の後)。子プロセスの並列(W284A_WORKERS・既定 3 —— 結果は並列数に依らない)。所要は枝の実測
+  S('clusterStable', 'node tests/exp-w284a-cluster.mjs', ['tests/out/cluster-w284a.json'], 3068, { secSource: 'w284a-branch', node: true,
+    after: ['clusterAnalogy'],
+    volatilePaths: { 'tests/out/cluster-w284a.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec', '/runs/*/rateStepsPerSec']) },
+    note: '第284便a: 💮 の宣言の照合・E9 の不発火(300 步のビット一致と検出力)・平衡初速の t=0 の量・門の走行 27 本(行列 18・対照 9)・D_A(中心の引きずり支配の目標)・軸比の床' }),
   // 第283便a(原仮定者の裁定(第73報)AN23): geoPN=1 が 1PN の反作用を返すようになり、本器の「本体 = 反作用を返さない旧則」の
   //   前提が消えた —— 正本は旧則の記録として**履歴**へ(再生成しない・計画は常に「履歴」)。新しい契約の実測は geomode(下)
   S('geo1', 'node tests/exp-w282b-geo1.mjs', ['tests/out/geo1-w282b.json'], 1033, { role: 'history', secSource: 'w282b-run', after: ['calaudit', 'kf0'],

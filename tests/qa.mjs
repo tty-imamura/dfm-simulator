@@ -2169,7 +2169,10 @@ if (QA_REPLAY_FAIL) {
       'tests/out/heavy-w283c.json',
       // 第283便f(原仮定者の裁定(第72報)⑥・第73報 AN27・R81): 球状星団アナロジーの形状の門(測る前に宣言)と対照・rayHeavy の lens 除外の
       //   光線の比較(target=beta/index.html —— Node だけ。inputs に基点 html〔W283F_BASE〕と CSV)
-      'tests/out/cluster-w283f.json'];
+      'tests/out/cluster-w283f.json',
+      // 第284便a(原仮定者の裁定(第74報)④・R89/R90): 球状星団安定化 —— 💮 の新しい宣言の門の走行と対照・D_A(target=beta/index.html ——
+      //   Node だけ・子プロセス並列。inputs に cluster-w283f.json〔前後の「前」〕)
+      'tests/out/cluster-w284a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -17265,7 +17268,8 @@ if (!FAST) {
   // 第282便d: 🛞 の台帳は f★=1 で再宣言(version "w282d-1")—— 第281便c の世代("w281c-1")も読む
   const hasW281c = htmlSrc.indexOf('massLedger:{version:"w281c-1"') >= 0 || htmlSrc.indexOf('massLedger:{version:"w282d-1"') >= 0;
   const has282dML = htmlSrc.indexOf('massLedger:{version:"w282d-1"') >= 0;
-  const has283fML = htmlSrc.indexOf('massLedger:{version:"w283f-1"') >= 0;   // 第283便f: 💮 の台帳(darkRotor つき)
+  const has283fML = htmlSrc.indexOf('massLedger:{version:"w283f-1"') >= 0   // 第283便f: 💮 の台帳(darkRotor つき)
+    || htmlSrc.indexOf('massLedger:{version:"w284a-1"') >= 0;   // 第284便a: 💮 の台帳の版が w284a-1(nTrue・radii)に上がっても宣言する内蔵は同じ 3 本
   if (!hasW281c) {
     console.log('SKIP docs.rotorLedger / preset.massLedger(対象に第281便c の massLedger なし — root 等)');
   } else {
@@ -17806,6 +17810,9 @@ if (!FAST) {
 // ----   ① behavior.clusterAnalogy …… 形状の門の宣言(器の GATES = 正本の gates = PHYSICS〔第283便f〕① の行)が**結果の段落より前**にあり、
 // ----      正本の各走行の門の判定を標本から作り直して一致(相対 1e-12)・いまの html で t=0 の量・T_out・台帳を引き直して正本と相対 1e-12・
 // ----      判定の語は「形状達成/未達」だけ・PHYSICS の結果表の行・禁止の言い回し 0・プリセットの宣言(geoPN=3・kFrame=0・centerSpin read・W_bg 明示)。
+// ----      **第284便a の世代**(💮 の宣言が w284a): 第283便f の器は凍結写し tests/fixtures/cluster-w283f-preset.json を読む(上の照合はそのまま)。
+// ----      加えて器 tests/exp-w284a-cluster.mjs・正本 tests/out/cluster-w284a.json を照合する(門は同じ GATES・中心の引きずり支配の目標 DOMINANCE・
+// ----      標本からの作り直し・いまの html の t=0・台帳/radii・**接触ばね E9 が発火しないことのページでの機械検査**・PHYSICS〔第284便a〕)。
 // ----   ② behavior.rayLensExcluded …… rayHeavy が massLedger.darkRotor.lens:"excluded" を読む: いまの html で 🌚💮 の DR 代表粒子が
 // ----      重い天体に入らない・DR の質量を 0 にした写しと光線の終端がビット一致・宣言の無い本は S.lensEx=null・行の推測をしない(nRep 不一致は null)。
 // ----      正本: 基点 html との比較で 🌚 だけが変わり、他の本は重い天体の集合も光線の扇もビット一致。
@@ -17885,9 +17892,111 @@ if (!FAST) {
         const b0 = J.runs[0].gates;
         cases.push(`基準(💮・N_rep 40)の判定: ${b0.verdict}${b0.failed.length ? '(' + b0.failed.join('・') + ')' : ''}・保持 ${b0.worst.retStars.toFixed(3)}/${b0.worst.retDR.toFixed(3)}・r_h 変化 ${b0.worst.rhRelChange.toFixed(3)}・軸比 ${b0.worst.axis.toFixed(3)}・v/σ ${b0.worst.vOverSigma.toFixed(3)}`);
         cases.push('対照 ' + J.runs.slice(1).map((r) => r.key + ' ' + r.gates.verdict).join('・'));
+      // ---- 第284便a(原仮定者の裁定(第74報)④・統括の検証項目 R89/R90): **球状星団安定化**の世代(💮 の宣言が w284a —— 接触ばね 0・
+      //   代表粒子の半径・平衡初速 vMode "equilibrium"・台帳の nTrue/radii)。器 tests/exp-w284a-cluster.mjs・正本 tests/out/cluster-w284a.json。
+      //   門は第283便f のまま(器の GATES = 正本の gates)・中心の引きずり支配の目標(DOMINANCE)も測る前に宣言・PHYSICS〔第284便a〕の
+      //   門と目標の段落が結果より前・標本から門と目標を作り直して一致(相対 1e-12)・いまの html で t=0 の量と台帳を引き直して相対 1e-12・
+      //   **接触ばね E9 が発火しないことの機械検査**(ページで 💮 と DR の半径だけを 8.75 にした写しを 150 步 —— 全状態がビット一致、
+      //   contactK 既定では一致しない)・判定の語・禁止の言い回し。
+      const has284a = htmlSrc283f.indexOf('function equilibriumRowVelocities(') >= 0 && htmlSrc283f.indexOf('massLedger:{version:"w284a-1"') >= 0;
+      if (has284a) {
+        let E4 = null, J4 = null, err4 = null;
+        try { E4 = await import('file://' + path.join(ROOT, 'tests', 'exp-w284a-cluster.mjs')); J4 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'cluster-w284a.json'), 'utf8')); }
+        catch (e) { err4 = String(e && e.stack || e).slice(0, 160); }
+        const qa4 = Pd.indexOf('〔第284便a — ');
+        const qEnds = (qa4 >= 0) ? [Pd.indexOf('\n〔第', qa4 + 10), Pd.indexOf('\n## 7. 論文', qa4)].filter((k) => k > qa4) : [];
+        const psec4 = (qa4 >= 0) ? Pd.slice(qa4, qEnds.length ? Math.min(...qEnds) : undefined) : '';
+        if (err4) bad.push('第284便a: 器/正本が読めない: ' + err4);
+        else {
+          const rows4 = E4.docRows(J4);
+          if (!J4.meta || J4.meta.provenanceVersion !== 'w272e-1' || J4.meta.harnessVersion !== E4.HARNESS_VERSION) bad.push('第284便a: 来歴(w272e-1)/器の版');
+          const g4 = Object.assign({}, J4.gates); delete g4.text; delete g4.declaredBeforeMeasure; delete g4.source;
+          if (JSON.stringify(g4) !== JSON.stringify(E.GATES) || JSON.stringify(E4.GATES) !== JSON.stringify(E.GATES)) bad.push('第284便a: 門が第283便f の GATES と違う(門は動かさない —— AN36)');
+          if (JSON.stringify(J4.gates.text) !== JSON.stringify(E.GATE_TEXT) || J4.gates.declaredBeforeMeasure !== true) bad.push('第284便a: 門の文');
+          const d4 = Object.assign({}, J4.dominance); delete d4.text; delete d4.declaredBeforeMeasure;
+          if (JSON.stringify(d4) !== JSON.stringify(E4.DOMINANCE) || JSON.stringify(J4.dominance.text) !== JSON.stringify(E4.DOMINANCE_TEXT) || J4.dominance.declaredBeforeMeasure !== true) bad.push('第284便a: 支配の目標の宣言 ≠ 器');
+          if (!psec4) bad.push('PHYSICS〔第284便a〕が無い');
+          else {
+            const iG = psec4.indexOf('**① 門と目標(測る前に宣言'), iR = psec4.indexOf('**④ 結果');
+            if (!(iG >= 0 && iR > iG)) bad.push('第284便a: 門と目標の段落が結果の段落より前にない');
+            for (const t of rows4.gates.concat(rows4.dominance)) { const k = psec4.indexOf(t); if (k < 0) bad.push('第284便a: PHYSICS に無い宣言の行 ' + t.slice(0, 40)); else if (k > iR) bad.push('第284便a: 宣言の行が結果より後ろ ' + t.slice(0, 40)); }
+            const miss = rows4.matrix.concat(rows4.controls, rows4.summary).filter((t) => psec4.indexOf(t) < 0);
+            if (miss.length) bad.push('第284便a: PHYSICS の表に無い行 ' + miss.length + ' 件 ' + miss[0].slice(0, 60));
+            if (psec4.indexOf('判定: **' + J4.verdict + '**') < 0) bad.push('第284便a: PHYSICS に基準走行の判定の語が無い');
+            if (psec4.indexOf('中心の引きずり支配: **' + J4.dominanceVerdict + '**') < 0) bad.push('第284便a: PHYSICS に支配の目標の判定の語が無い');
+            const body4 = psec4.split('**言わないこと。**')[0];
+            for (const re of [/形状が安定した/, /観測一致を達成/, /較正を完了/, /47 Tuc を再現/, /新発見/, /創発した/, /収束した/, /ディスクになった/]) if (re.test(body4)) bad.push('第284便a: 禁止の言い回し ' + re.source);
+          }
+          // 標本から門と目標を作り直す
+          let w4 = 0;
+          for (const r of J4.runs) {
+            const g = E.gateEval(r.samples, r.ToutEff), dm = E4.dominanceEval(r.samples, r.ToutEff);
+            if (g.verdict !== r.gates.verdict || JSON.stringify(g.failed) !== JSON.stringify(r.gates.failed)) bad.push('第284便a ' + r.key + ': 門の判定を作り直すと違う');
+            if (dm.verdict !== r.dominance.verdict) bad.push('第284便a ' + r.key + ': 支配の判定を作り直すと違う');
+            for (const k of Object.keys(g.worst)) if (g.worst[k] !== null) w4 = Math.max(w4, rl(g.worst[k], r.gates.worst[k]));
+            dm.worst.forEach((x, b) => { w4 = Math.max(w4, rl(x, r.dominance.worst[b])); });
+            if (['形状達成', '未達'].indexOf(r.gates.verdict) < 0 || ['支配(目標達成)', '未達'].indexOf(r.dominance.verdict) < 0) bad.push('第284便a ' + r.key + ': 判定の語');
+          }
+          if (!(w4 <= 1e-12)) bad.push('第284便a: 門・目標の量の作り直しの差 ' + w4);
+          const keys4 = J4.runs.map((r) => r.key), want4 = E4.runSpecs().map((z) => z.key);
+          if (keys4.join(',') !== want4.join(',')) bad.push('第284便a: 走行の並び(行列 18・対照)が器の runSpecs と違う');
+          if (J4.verdict !== J4.runs.find((r) => r.key === 'n40-r20-s0').gates.verdict) bad.push('第284便a: 正本の verdict ≠ 基準走行');
+          // いまの html で t=0 の量・T_out・台帳・eqInit を引き直す(headless)
+          try {
+            const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+            const H4 = loadHtmlHeadless(path.join(ROOT, TARGET));
+            const pd4 = H4.HP.allPresets().find((q) => q.id === E4.PRESET);
+            const Rout4 = pd4.bodies.find((b) => b.type === 'disk').radius;
+            const { S, preset } = E4.buildSpec(H4.HP, { key: 'qa', nRep: 40, ratio: 20, seed: 0, variant: 'base' });
+            let w = 0;
+            const orb = E.outerOrbit(H4.HP, S, Rout4);
+            w = Math.max(w, rl(orb.Tout, J4.orbit.Tout), rl(orb.vc, J4.orbit.vc));
+            const b0 = J4.runs.find((r) => r.key === 'n40-r20-s0');
+            const z0 = E4.sampleOf(H4.HP, S, E.populations(preset), E.GATES.retentionRadiusOverRout * Rout4), c0 = b0.samples[0];
+            for (const k of ['retStars', 'retDR', 'rhStars', 'axis', 'vRot', 'sigma', 'vOverSigma']) w = Math.max(w, rl(z0[k], c0[k]));
+            for (const k of ['boundStars', 'boundDR', 'E']) w = Math.max(w, rl(z0.info[k], c0.info[k]));
+            z0.dA.forEach((x, b) => { w = Math.max(w, rl(x.dA, c0.dA[b].dA)); });
+            if (JSON.stringify(S.eqInit) !== JSON.stringify(b0.eqInit)) bad.push('第284便a: いまの html の S.eqInit ≠ 正本');
+            if (!(S.eqInit && S.eqInit.equilibrium && S.eqInit.equilibrium.length === 2 && S.eqInit.equilibrium.every((q) => q.status === 'ok'))) bad.push('第284便a: 平衡初速の行が 2 行とも ok でない(Ψ の単調など)');
+            const D4 = E4.declarationCheck(H4.HP);
+            const L4 = D4.ledger, R4 = D4.radii, P4 = D4.physics;
+            if (!(L4.nTrueRecomputeRel <= 1e-9 && L4.totalRecomputeRel <= 1e-12 && L4.massRatioDRoverStar === L4.massRatioRule && L4.nRatio >= 10 && L4.nRatio <= 20
+              && L4.mRotorSun === 1 && D4.built.builtDrMinusDeclared === 0 && D4.built.builtStarMinusStarBase === 0)) bad.push('第284便a: 台帳(nRep・nTrue・質量合計・個数比)' + JSON.stringify(L4));
+            if (!(R4.physicalClass === 'planet' && R4.physicalM <= R4.physicalMaxM && R4.repDeclaredVsRule <= 1e-12 && R4.softeningVsPhysics === 0 && R4.dragVsCenterR === 0
+              && R4.drawVsRep === 0 && rl(R4.repBuilt, R4.rep) <= 1e-7 && R4.rep < 8.75)) bad.push('第284便a: radii(物理半径・代表粒子の半径・軟化・R_drag・表示)' + JSON.stringify(R4));
+            if (!(P4.contactK === 0 && P4.gammaN === 0 && P4.muF === 0 && P4.vModes.join(',') === 'equilibrium,equilibrium' && P4.centerPinned && P4.geoPN === 3 && P4.kFrame === 0)) bad.push('第284便a: physics(contactK 0・γn 0・μf 0・equilibrium)' + JSON.stringify(P4));
+            if (JSON.stringify(D4) !== JSON.stringify(J4.declaration)) bad.push('第284便a: 宣言の照合が正本と違う');
+            if (!(w <= 1e-12)) bad.push('第284便a: いまの html で t=0 の量・T_out を引き直すと正本と違う(相対 ' + w + ')—— 器を走らせ直すこと');
+            else cases.push(`第284便a: いまの html で t=0 の量・T_out(${orb.Tout.toFixed(3)})・D_A・eqInit を引き直して正本と相対 ${w.toExponential(1)}・束縛率 t=0 ${z0.info.boundStars.toFixed(3)}/${z0.info.boundDR.toFixed(3)}`);
+          } catch (e) { bad.push('第284便a: headless の引き直し: ' + String(e).slice(0, 120)); }
+          // 接触ばね E9 が発火しないこと(ページで機械検査 —— 150 步の全状態のビット比較)
+          const e9 = await page.evaluate(() => {
+            const src = HP.allPresets().find((q) => q.id === 'clusterAnalogyBH');
+            const k = src.bodies.findIndex((b) => b.type === 'disk' && b.lightSweep === 1);
+            const run = (p) => { const v = HP.validatePreset(p); HP.sim.build(v.preset); const S = HP.sim; let ov = 0;
+              for (let i = 0; i < S.n; i++) for (let j = i + 1; j < S.n; j++) if (Math.hypot(S.x[i] - S.x[j], S.y[i] - S.y[j]) < S.R[i] + S.R[j]) ov++;
+              for (let s = 0; s < 150; s++) S.step(0.016);
+              const a = []; for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]); return { a, ov, K: S.params.contactK }; };
+            const p0 = JSON.parse(JSON.stringify(src)), p1 = JSON.parse(JSON.stringify(src)); p1.bodies[k].rMul = 1.2;
+            const a = run(p0), b = run(p1);
+            const q0 = JSON.parse(JSON.stringify(p0)), q1 = JSON.parse(JSON.stringify(p1)); delete q0.physics.contactK; delete q1.physics.contactK;
+            const c = run(q0), d = run(q1);
+            const same = a.a.every((x, i) => Object.is(x, b.a[i]));
+            let nd = 0; c.a.forEach((x, i) => { if (!Object.is(x, d.a[i])) nd++; });
+            return { same, nd, ovDecl: a.ov, ovBig: b.ov, K: a.K };
+          });
+          if (!(e9.same && e9.K === 0 && e9.ovBig > 0 && e9.nd > 0)) bad.push('第284便a: 接触ばね E9 の機械検査 ' + JSON.stringify(e9));
+          const ci = J4.contactInert;
+          if (!(ci && ci.bitSame === true && ci.declared.contactK === 0 && ci.sensitivity.differingValues > 0)) bad.push('第284便a: 正本の E9 検査 ' + JSON.stringify(ci));
+          cases.push(`第284便a: **接触ばね E9 は発火しない** —— いまの html で DR の半径だけを 1.46 → 8.75(t=0 の重なり ${e9.ovDecl} → ${e9.ovBig} 対)にした写しと 150 步の全状態がビット一致・contactK 既定では ${e9.nd} 値が違う(検出力)`);
+          const b4 = J4.runs.find((r) => r.key === 'n40-r20-s0');
+          cases.push(`第284便a の基準(💮・N_rep 40・個数比 20)の判定: ${b4.gates.verdict}${b4.gates.failed.length ? '(' + b4.gates.failed.join('・') + ')' : ''}・保持 ${b4.gates.worst.retStars.toFixed(3)}/${b4.gates.worst.retDR.toFixed(3)}・r_h 変化 ${b4.gates.worst.rhRelChange.toFixed(3)}・中心の引きずり支配 ${b4.dominance.verdict}(D_A 最悪 ${b4.dominance.worst.map((x) => x.toFixed(3)).join('/')})`
+            + `・行列 ${J4.summary.map((s) => 'n' + s.nRep + '/r' + s.ratio + ' ' + s.nPass + '/' + s.nSeeds).join(' ')}`);
+        }
+      }
       }
       add('behavior.clusterAnalogy', bad.length === 0,
-        `**球状星団アナロジー**(第283便f・原仮定者の裁定(第72報)⑥ の第 1 段 —— 形状の門は測る前に宣言・門の語は形状達成/未達だけ): ${cases.join(' / ')}`
+        `**球状星団アナロジー**(第283便f・原仮定者の裁定(第72報)⑥ の第 1 段 —— 形状の門は測る前に宣言・門の語は形状達成/未達だけ。第284便a の世代は 💮 の新しい宣言〔接触ばね 0・平衡初速〕の門と中心の引きずり支配の目標も): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
     // ---- ② behavior.rayLensExcluded

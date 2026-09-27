@@ -1,0 +1,317 @@
+{
+ "fixtureVersion": "w284a-cluster283f-1",
+ "wave": "第284便a",
+ "ruling": "原仮定者の裁定(第74報)④(💮 を修正する)・統括の検証項目 R89",
+ "frozen": true,
+ "note": "第283便f の 💮 clusterAnalogyBH の内蔵定義(基点 2a4af53 の allPresets() の JSON 写し)。第284便a で 💮 の宣言(接触・代表粒子の半径・初速・台帳)を書き換えたので、第283便f の器 tests/exp-w283f-cluster.mjs と正本 cluster-w283f.json(第283便f の記録)はこの写しを読む(書き換えない)。",
+ "source": {
+  "rev": "2a4af53",
+  "file": "beta/index.html",
+  "sha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+  "presetSigSha256": "d96fc1dfa093df970eb0c8c9a0a576bf293bd7597c5bc6c24111e4e064cb2c8a"
+ },
+ "preset": {
+  "id": "clusterAnalogyBH",
+  "name": "球状星団アナロジー(中心 DFM 版 BH+恒星質量 DR)",
+  "emoji": "💮",
+  "group": "銀河の力学",
+  "scaleTier": "galactic",
+  "sampleClass": "principle",
+  "fidelity": "toy",
+  "notClaim": [
+   "cluster",
+   "dm"
+  ],
+  "obsCard": [
+   {
+    "q": "何を置いたか",
+    "model": "中心 DFM 版 BH(pinned m=250・spin 12・R=1.5)+恒星 170 体(M★=53.125)+DR 代表粒子 40 体(M_DR=2125)を同じ Plummer 分布(尺度 10・R_out=40)に置いた",
+    "obs": "—(原理サンプル — 観測転写はしない)"
+   },
+   {
+    "q": "中心 BH のスケール調整",
+    "model": "GM/(Rc²)=0.148・ΩR/c=0.600(🌚 と同じ無次元量)・M_center/(M★+M_DR)=0.115(🌚 の 1/10)",
+    "obs": "—(47 Tuc の中心 IMBH は 3σ 上限 578 M☉ —— 検出ではない)"
+   },
+   {
+    "q": "初速(等方)",
+    "model": "行ごとのビリアル平衡 ⟨v²⟩=−W/M(方向は等方乱数・vMode virial)—— 回転は置いていない",
+    "obs": "—(47 Tuc は v_rot/σ₀=0.47 —— 参照の行であって合わせる量ではない)"
+   },
+   {
+    "q": "形状の門(測る前に宣言)",
+    "model": "窓 [1, 3]×T_out で NaN 0・保持率 ≥0.90・半質量半径の変化 ≤10%・軸比 ≥0.9・|v_rot|/σ ≤0.5・E_toy+E_mesh=0",
+    "obs": "—"
+   },
+   {
+    "q": "光線には使わない",
+    "model": "massLedger.darkRotor.lens:\"excluded\" を rayHeavy が読む —— DR 代表粒子は光線の源から外れる(重力の源は不変)",
+    "obs": "—"
+   },
+   {
+    "q": "言わないこと",
+    "model": "47 Tuc を再現した/観測一致を達成した/較正を完了した/形状が安定した(門の語は形状達成・未達だけ)",
+    "obs": "—"
+   }
+  ],
+  "descStruct": {
+   "summary": "**球状星団アナロジー —— アナロジーの第 1 段**(第283便f・原仮定者の裁定〔第72報〕⑥「geoPN=3・中心にスケール調整した DFM 版 BH・球状星団 → 楕円 → 渦巻 → 棒渦巻・質量合わせは恒星質量ダークローター」)。physics は 🌚 と同じ(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")で、違いは 3 つ: ① 恒星 170 体(M★=53.125)と恒星質量ダークローター(DR)の代表粒子 40 体(M_DR=2125 —— ⟨m_DR⟩=1 M☉ が代表・M_DR/M★=40 は 🌚 と同じ台帳の比)を**同じ Plummer 分布**(投影尺度 10・切断半径 R_out=40)に置き、初速は行ごとのビリアル平衡(等方・回転なし) ② 中心 DFM 版 BH を**スケール調整**した(m=250・R=1.5・spin=12 —— GM/(Rc²)=0.148・ΩR/c=0.600 は 🌚 と同じ・M_center/(M★+M_DR)=0.115 は 🌚 の 1/10) ③ **背景の重み W_bg を physics.spaceMesh.D0=1.5 に明示**した(出どころ \"declared\" —— D₀ を流用しない)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性・中心の自転を読む)。**f=1**。DR の代表粒子は `massLedger.darkRotor.lens:\"excluded\"` により**光線の源から外れる**(重力の源は不変)。**形状の門は測る前に宣言した**(PHYSICS〔第283便f〕)。**言わないこと**: 47 Tuc を再現した/観測一致を達成した/形状が安定した。",
+   "observe": "実測(器 tests/exp-w283f-cluster.mjs・正本 tests/out/cluster-w283f.json・dt=0.016): 窓 [T_relax, T_end]=[1, 3]×T_out(外縁 R_out=40 の公転時間)で、NaN・保持率(r ≤ 2R_out・恒星と DR 別)・恒星の半質量半径の変化・軸比(1/r² 重みの慣性テンソル)・|v_rot|/σ・トイの帳簿を 0.25 T_out ごとに測り、門の語(形状達成/未達)で書く。対照: 中心 spin 0・DR なし・N_rep 80/160(DR の総質量一定)。**言わないこと**: 47 Tuc を再現した/形状が安定した。",
+   "brief": "中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー。未達・測る前に宣言した形状の門で未達(保持率・半質量半径・軸比)。較正対象外。",
+   "control": "ワンタップ対照A/B: B 側は**中心の spin=0**(同じ配置・同じ opt-in —— 中心の自転の寄与だけを外す)。比較の相手は 🌚(同じ physics・同じ台帳の比の銀河アナロジー)と 🍇🫐(47 Tuc の観測転写・DFM 版 —— 単位も初期化も違う)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"
+  },
+  "en": {
+   "name": "Globular-cluster analogy (central DFM black hole + stellar-mass dark rotors)",
+   "status": {
+    "purpose": "A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors",
+    "state": "the shape gates declared before measuring are not met",
+    "mismatch": null,
+    "outlook": null
+   },
+   "obsCard": [
+    {
+     "q": "What is placed",
+     "model": "pinned DFM black hole (m=250, spin 12, R=1.5) + 170 stars (M_star=53.125) + 40 DR particles (M_DR=2125) on one Plummer profile",
+     "obs": "- (a principle sample; nothing transcribed)"
+    },
+    {
+     "q": "Scaled centre",
+     "model": "GM/(Rc^2)=0.148, Omega R/c=0.600 (the same as 🌚), M_c/(M_star+M_DR)=0.115 (1/10 of 🌚)",
+     "obs": "- (47 Tuc: a 3-sigma IMBH upper limit of 578 Msun, not a detection)"
+    },
+    {
+     "q": "Initial velocities (isotropic)",
+     "model": "per-row virial equilibrium <v^2>=-W/M with isotropic random directions (vMode virial); no rotation is placed",
+     "obs": "- (47 Tuc has v_rot/sigma0=0.47 - a reference row, not a target)"
+    },
+    {
+     "q": "Shape gates (declared before measuring)",
+     "model": "window [1,3] x T_out: NaN 0, retention >= 0.90, r_h change <= 10%, axis ratio >= 0.9, |v_rot|/sigma <= 0.5, E_toy+E_mesh = 0",
+     "obs": "-"
+    },
+    {
+     "q": "Not used for rays",
+     "model": "rayHeavy reads massLedger.darkRotor lens excluded: the DR particles are not ray sources (still gravity sources)",
+     "obs": "-"
+    },
+    {
+     "q": "Not claimed",
+     "model": "no reproduction of 47 Tuc, no observational match, no calibration, no stable-shape claim (gate words: met / not met)",
+     "obs": "-"
+    }
+   ],
+   "descStruct": {
+    "summary": "GLOBULAR-CLUSTER ANALOGY - THE FIRST STAGE of the analogy series (wave 283f, the originator's ruling in report 72, item 6: geoPN=3, a scaled DFM black hole at the centre, globular cluster -> elliptical -> spiral -> barred spiral, mass matched by stellar-mass dark rotors). The physics is 🌚's (geoPN=3, kFrame=0, spaceMesh lawVersion scalar, eta=1, eps=3, frameWeight share, centerSpin read) with three differences: (1) 170 stars (M_star=53.125) and 40 representative particles of stellar-mass dark rotors (M_DR=2125 - <m_DR>=1 Msun representative, M_DR/M_star=40 as in 🌚's ledger) sit ON ONE PLUMMER PROFILE (projected scale 10, cut at R_out=40) with per-row virial velocities (isotropic, no rotation); (2) THE CENTRAL DFM BLACK HOLE IS SCALED (m=250, R=1.5, spin=12 - GM/(Rc^2)=0.148 and Omega R/c=0.600 as in 🌚, M_c/(M_star+M_DR)=0.115, 1/10 of 🌚); (3) THE BACKGROUND WEIGHT W_bg IS DECLARED as physics.spaceMesh.D0=1.5 (source label 'declared' - D0 is not reused). Gravity (E4) and the geoPN=3 toy (coordinate inertia, reading the centre's spin) act. f=1. The DR particles are NOT RAY SOURCES through massLedger.darkRotor lens excluded (still gravity sources). THE SHAPE GATES WERE DECLARED BEFORE MEASURING (PHYSICS, wave 283f). NOT CLAIMED: reproducing 47 Tuc, an observational match, a stable shape.",
+    "observe": "Measured (harness tests/exp-w283f-cluster.mjs, canonical tests/out/cluster-w283f.json, dt=0.016): in the window [T_relax, T_end]=[1, 3] x T_out (the orbital time at R_out=40), NaN, retention (r <= 2 R_out, stars and DR separately), the stars' half-mass-radius change, the axis ratio (reduced inertia tensor), |v_rot|/sigma and the toy ledger every 0.25 T_out, reported only as 'shape gates met' / 'not met'. Controls: centre spin 0, no DR, N_rep 80/160 (constant DR mass). NOT CLAIMED: reproducing 47 Tuc, a stable shape.",
+    "brief": "A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors. Unmet: the shape gates declared before measuring are not met. Out of calibration scope.",
+    "control": "One-tap A/B: side B sets THE CENTRE'S SPIN TO 0 (same configuration, same opt-in). Compare with 🌚 (same physics, same ledger ratio, a galaxy analogy) and 🍇🫐 (47 Tuc transcription and DFM build - different units and initialisation). DO NOT MOVE kFrame (the geoPN=3 entry condition)."
+   },
+   "description": "GLOBULAR-CLUSTER ANALOGY - THE FIRST STAGE of the analogy series (wave 283f, the originator's ruling in report 72, item 6: geoPN=3, a scaled DFM black hole at the centre, globular cluster -> elliptical -> spiral -> barred spiral, mass matched by stellar-mass dark rotors). The physics is 🌚's (geoPN=3, kFrame=0, spaceMesh lawVersion scalar, eta=1, eps=3, frameWeight share, centerSpin read) with three differences: (1) 170 stars (M_star=53.125) and 40 representative particles of stellar-mass dark rotors (M_DR=2125 - <m_DR>=1 Msun representative, M_DR/M_star=40 as in 🌚's ledger) sit ON ONE PLUMMER PROFILE (projected scale 10, cut at R_out=40) with per-row virial velocities (isotropic, no rotation); (2) THE CENTRAL DFM BLACK HOLE IS SCALED (m=250, R=1.5, spin=12 - GM/(Rc^2)=0.148 and Omega R/c=0.600 as in 🌚, M_c/(M_star+M_DR)=0.115, 1/10 of 🌚); (3) THE BACKGROUND WEIGHT W_bg IS DECLARED as physics.spaceMesh.D0=1.5 (source label 'declared' - D0 is not reused). Gravity (E4) and the geoPN=3 toy (coordinate inertia, reading the centre's spin) act. f=1. The DR particles are NOT RAY SOURCES through massLedger.darkRotor lens excluded (still gravity sources). THE SHAPE GATES WERE DECLARED BEFORE MEASURING (PHYSICS, wave 283f). NOT CLAIMED: reproducing 47 Tuc, an observational match, a stable shape.Measured (harness tests/exp-w283f-cluster.mjs, canonical tests/out/cluster-w283f.json, dt=0.016): in the window [T_relax, T_end]=[1, 3] x T_out (the orbital time at R_out=40), NaN, retention (r <= 2 R_out, stars and DR separately), the stars' half-mass-radius change, the axis ratio (reduced inertia tensor), |v_rot|/sigma and the toy ledger every 0.25 T_out, reported only as 'shape gates met' / 'not met'. Controls: centre spin 0, no DR, N_rep 80/160 (constant DR mass). NOT CLAIMED: reproducing 47 Tuc, a stable shape.One-tap A/B: side B sets THE CENTRE'S SPIN TO 0 (same configuration, same opt-in). Compare with 🌚 (same physics, same ledger ratio, a galaxy analogy) and 🍇🫐 (47 Tuc transcription and DFM build - different units and initialisation). DO NOT MOVE kFrame (the geoPN=3 entry condition)."
+  },
+  "parameterAudit": {
+   "observedInputs": [
+    "**無い。** 47 Tuc の CSV の行(距離・3D 半質量半径・σ₀・v_rot/σ₀)は参照として並べるだけで入力していない"
+   ],
+   "fixedConventions": [
+    "🌚 の physics 宣言(geoPN=3・kFrame=0・lawVersion:\"scalar\"・inertia:false・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")",
+    "W_bg=physics.spaceMesh.D0=1.5(明示 —— 出どころ \"declared\")",
+    "中心 DFM 版 BH: pinned m=250・spin 12・R=1.5(GM/(Rc²)=0.148・ΩR/c=0.600 —— 🌚 と同じ無次元量)",
+    "恒星 170 体 × 0.3125 と DR 40 体 × 53.125 を同じ Plummer 分布(投影尺度 10・切断 40)・初速は行ごとのビリアル平衡(等方)",
+    "DR: N_DR=20 N★・⟨m_DR⟩=1 M☉(代表)・⟨m★⟩=0.5 M☉・質量単位 10³⁴ kg(🌚 と同じ)",
+    "cLight=30(組込みプリセットの規約)・乱数種 20260926"
+   ],
+   "fitted": [
+    "**無い。**"
+   ],
+   "derived": [
+    "M_DR=40·M★=2125 単位・M_center/(M★+M_DR)=0.115",
+    "T_out=2πR_out/v_c(R_out)(t=0 の配置の実際の重力加速度 —— 器が測る)"
+   ],
+   "numerical": [
+    "ソフトニング ε=3",
+    "時間倍率 timeScale=3",
+    "代表粒子 N_rep=40",
+    "測定: dt=0.016・窓 [1, 3]×T_out"
+   ]
+  },
+  "activeParams": [
+   "G"
+  ],
+  "status": {
+   "purpose": "中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー",
+   "objective": "unmet",
+   "state": "測る前に宣言した形状の門で未達(保持率・半質量半径・軸比)",
+   "calibration": "out-of-scope",
+   "mismatch": null,
+   "outlook": null,
+   "evidence": [
+    "tests/out/cluster-w283f.json"
+   ]
+  },
+  "abBody": {
+   "label": {
+    "ja": "中心の spin=0(自転の寄与だけを外す)",
+    "en": "centre spin = 0 (only the spin contribution removed)"
+   },
+   "targets": [
+    0
+   ],
+   "patch": {
+    "spin": 0
+   }
+  },
+  "massLedger": {
+   "version": "w283f-1",
+   "starBase": 53.125,
+   "fStar": 1,
+   "gas": 0,
+   "core": 250,
+   "unitKg": 1e+34,
+   "mSunKg": 1.9885e+30,
+   "mStarSun": 0.5,
+   "nRatio": 20,
+   "rotorInFStar": false,
+   "defaultScenario": 1,
+   "currentTotalUnit": 303.125,
+   "currentTotalSun": 1524390.243902439,
+   "rotorScenarios": [
+    {
+     "mRotorSun": 0.1,
+     "nRotor": 10686447.070656272,
+     "mRotorUnit": 212.49999999999997,
+     "totalUnit": 515.625,
+     "totalSun": 2593034.950968066
+    },
+    {
+     "mRotorSun": 1,
+     "nRotor": 10686447.070656272,
+     "mRotorUnit": 2124.9999999999995,
+     "totalUnit": 2428.1249999999995,
+     "totalSun": 12210837.31455871
+    },
+    {
+     "mRotorSun": 10,
+     "nRotor": 10686447.070656272,
+     "mRotorUnit": 21249.999999999996,
+     "totalUnit": 21553.124999999996,
+     "totalSun": 108388860.95046516
+    }
+   ],
+   "darkRotor": {
+    "mRotorSun": 1,
+    "nRep": 40,
+    "mPerRepUnit": 53.125,
+    "totalUnit": 2125,
+    "inDynamics": true,
+    "lens": "excluded",
+    "distribution": "恒星と同じ Plummer 分布(投影尺度 10・切断 40)・初速は行ごとのビリアル平衡(等方 —— 宣言)"
+   },
+   "note": "条件付き台帳(第283便f・原仮定者の裁定〔第72報〕⑥)。⟨m_DR⟩=1 M☉ の行を力学の質量要素として bodies に入れた(代表粒子 40 体 × 53.125 = 2125 単位)。0.1/10 M☉ は比較の列。個数比 20 は宣言値。f★=1。代表粒子は光線の源から外す(lens:\"excluded\" —— rayHeavy が読む)。較正母集団に入れない。",
+   "noteEn": "A conditional ledger (wave 283f, the originator's ruling in report 72, item 6). The <m_DR> = 1 Msun row is put into the bodies as a dynamical mass component (40 particles x 53.125 = 2125 units); 0.1 and 10 Msun are comparison columns. The count ratio 20 is declared. f_star = 1. The representative particles are not ray sources (lens excluded - read by rayHeavy). Not in the calibration population."
+  },
+  "camera": {
+   "scale": 60
+  },
+  "world": {
+   "boundary": "none",
+   "size": 0
+  },
+  "seed": 20260926,
+  "physics": {
+   "G": 0.8,
+   "D0": 1.5,
+   "kFrame": 0,
+   "q": 2,
+   "kRep": 0,
+   "muF": 0,
+   "gammaN": 0,
+   "kappaS": 0,
+   "kappaT": 0.02,
+   "cLight": 30,
+   "bM": 1,
+   "etaRad": 0,
+   "pRad": 4,
+   "gravityX": 0,
+   "gravityY": 0,
+   "geoPN": 3,
+   "lambdaPN": 1,
+   "pnAlpha": 1.5,
+   "radiusScale": 1,
+   "softening": 3,
+   "timeScale": 3,
+   "stateCarry": "double",
+   "frameWeight": "share",
+   "spaceMesh": {
+    "mode": "vertex",
+    "gravity": false,
+    "inertia": false,
+    "lawVersion": "scalar",
+    "centerSpin": "read",
+    "D0": 1.5
+   }
+  },
+  "bodies": [
+   {
+    "type": "single",
+    "m": 250,
+    "x": 0,
+    "y": 0,
+    "vx": 0,
+    "vy": 0,
+    "spin": 12,
+    "pinned": true,
+    "radius": 1.5
+   },
+   {
+    "type": "disk",
+    "rMul": 1.2,
+    "n": 170,
+    "cx": 0,
+    "cy": 0,
+    "radius": 40,
+    "profile": "plummer",
+    "plummerScale": 10,
+    "mMin": 0.3125,
+    "mMax": 0.3125,
+    "spinMin": 0,
+    "spinMax": 0,
+    "vMode": "virial",
+    "vScale": 1,
+    "direction": 1,
+    "bulkVx": 0,
+    "bulkVy": 0
+   },
+   {
+    "type": "disk",
+    "rMul": 1.2,
+    "n": 40,
+    "cx": 0,
+    "cy": 0,
+    "radius": 40,
+    "profile": "plummer",
+    "plummerScale": 10,
+    "mMin": 53.125,
+    "mMax": 53.125,
+    "spinMin": 0,
+    "spinMax": 0,
+    "vMode": "virial",
+    "vScale": 1,
+    "direction": 1,
+    "bulkVx": 0,
+    "bulkVy": 0,
+    "lightSweep": 1
+   }
+  ],
+  "overlays": {
+   "rotationCurve": false,
+   "tempHistogram": false,
+   "field": false,
+   "trail": false,
+   "monitor": false,
+   "spaceMesh": {
+    "mode": "mesh"
+   }
+  },
+  "description": "**球状星団アナロジー —— アナロジーの第 1 段**(第283便f・原仮定者の裁定〔第72報〕⑥「geoPN=3・中心にスケール調整した DFM 版 BH・球状星団 → 楕円 → 渦巻 → 棒渦巻・質量合わせは恒星質量ダークローター」)。physics は 🌚 と同じ(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")で、違いは 3 つ: ① 恒星 170 体(M★=53.125)と恒星質量ダークローター(DR)の代表粒子 40 体(M_DR=2125 —— ⟨m_DR⟩=1 M☉ が代表・M_DR/M★=40 は 🌚 と同じ台帳の比)を**同じ Plummer 分布**(投影尺度 10・切断半径 R_out=40)に置き、初速は行ごとのビリアル平衡(等方・回転なし) ② 中心 DFM 版 BH を**スケール調整**した(m=250・R=1.5・spin=12 —— GM/(Rc²)=0.148・ΩR/c=0.600 は 🌚 と同じ・M_center/(M★+M_DR)=0.115 は 🌚 の 1/10) ③ **背景の重み W_bg を physics.spaceMesh.D0=1.5 に明示**した(出どころ \"declared\" —— D₀ を流用しない)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性・中心の自転を読む)。**f=1**。DR の代表粒子は `massLedger.darkRotor.lens:\"excluded\"` により**光線の源から外れる**(重力の源は不変)。**形状の門は測る前に宣言した**(PHYSICS〔第283便f〕)。**言わないこと**: 47 Tuc を再現した/観測一致を達成した/形状が安定した。実測(器 tests/exp-w283f-cluster.mjs・正本 tests/out/cluster-w283f.json・dt=0.016): 窓 [T_relax, T_end]=[1, 3]×T_out(外縁 R_out=40 の公転時間)で、NaN・保持率(r ≤ 2R_out・恒星と DR 別)・恒星の半質量半径の変化・軸比(1/r² 重みの慣性テンソル)・|v_rot|/σ・トイの帳簿を 0.25 T_out ごとに測り、門の語(形状達成/未達)で書く。対照: 中心 spin 0・DR なし・N_rep 80/160(DR の総質量一定)。**言わないこと**: 47 Tuc を再現した/形状が安定した。ワンタップ対照A/B: B 側は**中心の spin=0**(同じ配置・同じ opt-in —— 中心の自転の寄与だけを外す)。比較の相手は 🌚(同じ physics・同じ台帳の比の銀河アナロジー)と 🍇🫐(47 Tuc の観測転写・DFM 版 —— 単位も初期化も違う)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"
+ }
+}
