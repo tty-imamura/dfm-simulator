@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便b",
   "target": "beta/index.html",
-  "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-  "generatedAt": "2026-09-26T18:46:44.904Z",
+  "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+  "generatedAt": "2026-09-27T11:21:27.342Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4902365,
-    "sha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-    "mtime": "2026-09-26T17:47:12.744Z"
+    "bytes": 4915135,
+    "sha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+    "mtime": "2026-09-27T10:21:02.558Z"
    }
   ],
   "code": [
@@ -141,11 +141,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 791,
-   "segments": 719,
-   "closureShare": 0.3172
+   "names": 799,
+   "segments": 726,
+   "closureShare": 0.319
   },
-  "scopeSha256": "cf00caec0e7ebfe91bfc7e0303be334000ca3a20f03cc50e775969af5fdf6864",
+  "scopeSha256": "1ebcd7fe9f5516261571ca294ab4191aac36b5b46cf403b1a7a7fdd10d5d3603",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -161,8 +161,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 222.947,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 105.54,
    "run": {
     "ok": true,
     "warnings": [],
@@ -257,8 +257,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.008,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 316.148,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 209.951,
    "run": {
     "ok": true,
     "warnings": [],
@@ -353,8 +353,8 @@
    "label": "重み pull → share",
    "axis": "weight",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 137.389,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 87.537,
    "run": {
     "ok": true,
     "warnings": [],
@@ -449,8 +449,8 @@
    "label": "初速 🌘 → 🧲(0.201%)",
    "axis": "initialVelocity",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 159.547,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 102.344,
    "run": {
     "ok": true,
     "warnings": [],
@@ -545,8 +545,8 @@
    "label": "🧲 そのまま(share + 🧲 の初速)",
    "axis": "weight+initialVelocity",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 127.952,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 83.684,
    "run": {
     "ok": true,
     "warnings": [],
@@ -641,8 +641,8 @@
    "label": "q 8.2358 → q_fb(表裏核の振幅と参照距離で同じ単一べき)",
    "axis": "q",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 167.059,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 97.914,
    "run": {
     "ok": true,
     "warnings": [],
@@ -737,8 +737,8 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 116.341,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 142.084,
    "run": {
     "ok": true,
     "warnings": [
@@ -835,8 +835,8 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.008,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 210.082,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 146.018,
    "run": {
     "ok": true,
     "warnings": [
@@ -933,8 +933,8 @@
    "label": "法則 kF0 + meshVelocity explicit(点源)・v=ẋ−u(0)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 219.104,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 268.836,
    "run": {
     "ok": true,
     "warnings": [
@@ -1046,8 +1046,8 @@
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 337.635,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 361.95,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1157,8 +1157,8 @@
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.008,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 654.873,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 444.03,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1268,8 +1268,8 @@
    "label": "初速の意味 v=ẋ(変換なし)・表裏核",
    "axis": "initialVelocityMeaning",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 326.08,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 296.771,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1379,8 +1379,8 @@
    "label": "🔆 太陽+地球+月(kF0・geoPN=0)",
    "axis": "reference",
    "dt": 0.016,
-   "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
-   "wallS": 1.384,
+   "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "wallS": 0.882,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1398,60 +1398,60 @@
     "steps": 398475,
     "tEnd": 6375.6,
     "revN": 27,
-    "sidMeanDays": 27.32664540347184,
+    "sidMeanDays": 27.326646941241542,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 1890.237638971855,
-      "eProxy": 0.04366384853301779,
+      "tCut": 1890.237742782611,
+      "eProxy": 0.04366388402901156,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": -2.1341494837508104,
-       "slopeDegPerTime": -0.008378770625065196,
-       "seDegPerTime": 0.013665708609373713,
-       "periMean": 237.4599641992547,
-       "residRmsDeg": 18.00681102276731,
-       "apsPeriodYr": -13.615018388167961,
-       "anomDays": 27.483792152691514
+       "slopeDegPerPeri": -2.1341401103717716,
+       "slopeDegPerTime": -0.008378734125726678,
+       "seDegPerTime": 0.013665667792222213,
+       "periMean": 237.45997823224815,
+       "residRmsDeg": 18.006758690533385,
+       "apsPeriodYr": -13.615077697743564,
+       "anomDays": 27.48379377688057
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": -4.640841096751319,
-       "slopeDegPerTime": -0.01903298991068206,
-       "seDegPerTime": 0.01665035405217001,
-       "periMean": 235.8518753825947,
-       "residRmsDeg": 17.362607030121453,
-       "apsPeriodYr": -5.9936518994569346,
-       "anomDays": 27.297670761874386
+       "slopeDegPerPeri": -4.640832821503201,
+       "slopeDegPerTime": -0.019032959436211205,
+       "seDegPerTime": 0.016650290720489548,
+       "periMean": 235.8518899260902,
+       "residRmsDeg": 17.362542314701166,
+       "apsPeriodYr": -5.993661496144762,
+       "anomDays": 27.297672445149328
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 6375.588304734165,
-      "eProxy": 0.04367038933455538,
+      "tCut": 6375.588664693374,
+      "eProxy": 0.043670424224717064,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 3.2806477840422437,
-       "slopeDegPerTime": 0.013860270384663618,
-       "seDegPerTime": 0.002326637520065064,
-       "periMean": 238.5806083722679,
-       "residRmsDeg": 21.583628537718905,
-       "apsPeriodYr": 8.230511596420982,
-       "anomDays": 27.613496339382856
+       "slopeDegPerPeri": 3.280643927116463,
+       "slopeDegPerTime": 0.013860253041694285,
+       "seDegPerTime": 0.0023266305408540947,
+       "periMean": 238.58061342809137,
+       "residRmsDeg": 21.583564779261724,
+       "apsPeriodYr": 8.230521895043221,
+       "anomDays": 27.61349692454761
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 3.2721375897822256,
-       "slopeDegPerTime": 0.013835391337499068,
-       "seDegPerTime": 0.002513391810606195,
-       "periMean": 238.21698194825422,
-       "residRmsDeg": 21.99728067315073,
-       "apsPeriodYr": 8.24531184899069,
-       "anomDays": 27.571409947714606
+       "slopeDegPerPeri": 3.272133334172159,
+       "slopeDegPerTime": 0.01383537227606217,
+       "seDegPerTime": 0.0025133842925187167,
+       "periMean": 238.21698653419452,
+       "residRmsDeg": 21.99721585495587,
+       "apsPeriodYr": 8.245323208821736,
+       "anomDays": 27.571410478494734
       }
      }
     ]
@@ -1462,13 +1462,13 @@
     "D0": 0.1,
     "D0pull": null,
     "frameWeight": "share",
-    "geoPN": 0,
+    "geoPN": 1,
     "vyEarth": 2.97715665,
     "vyMoon": 3.08512,
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "82a0802a"
+   "presetSigHash": "c90878d7"
   }
  ]
 }

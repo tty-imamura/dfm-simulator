@@ -625,12 +625,10 @@
 - **ゲートから外した長走行**: `darkrotorMidNew`・`darkrotorMidOld`・`darkrotorLong`・`darkrotorMultiseed`(保存 QA の worker の所要の和 341.6 s)と、その結果を読む試験 `behavior.darkrotor`・`behavior.darkrotorLong`・`behavior.darkrotor-pitch`・`behavior.darkrotor-multiseed`。最後の保存 QA の値は凍結の写しの history に転記した(測り直していない)。
 - **機構の最小試験**(ゲートに残す 1 点ずつ): コアの交換(殻のスピン移送) = `claim.bhcore-selfdrive`(bhCore) / 傾斜(コア軸の横倒しで Jz が機械ゼロ・減光は保つ) = `behavior.templates229`(bhCoreTilt) / 減光(暗いコアと明るい外層のコントラスト) = `claim.nebularotor-contrast`(nebulaRotor) / パワーボール(圧縮と軸仕事の経路) = `claim.starseed-powerball`(starSeed)。
 - **第284便b の写し** `tests/fixtures/retired-w284b.json`(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本(`galaxyMeshSpiralGeoToyLite` `psrDoubleABPN` `psrJ1757PN` `psrJ1946PN` `emAuditNewton` `psrDoubleABCF`)と、f=1 へ移した本の旧則(`psrDoubleABDFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.psrDoubleAB`・`behavior.w249a-pnResponse`・`behavior.compactForce`・`behavior.calibrationForecast`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 61 本): 凍結の写しを読む 4・再生成表の履歴 24・再生成表の現行 12・道具 4・表の外 17。QA 本体の出現数: darkrotor 138・bhCore 44・nebulaRotor 15・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 13・galaxyMeshSpiralGeoToyLite 24・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 33・psrDoubleABCF 13。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 59 本): 凍結の写しを読む 2・再生成表の履歴 24・再生成表の現行 12・道具 4・表の外 17。QA 本体の出現数: darkrotor 138・bhCore 44・nebulaRotor 15・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 13・galaxyMeshSpiralGeoToyLite 24・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 33・psrDoubleABCF 13。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|
-| `tests/.qa-run2.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed bhCoreTilt galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF | — | 凍結の写しを読む |
-| `tests/.qa-run3.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed bhCoreTilt galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF | — | 凍結の写しを読む |
 | `tests/exp-4-48.mjs` | darkrotor | — | 表の外(正本ではない) |
 | `tests/exp-4-67.mjs` | darkrotor | h283b-exp-4-67(history) | 履歴(再生成しない) |
 | `tests/exp-4-72.mjs` | darkrotor | h283b-exp-4-72(history) | 履歴(再生成しない) |

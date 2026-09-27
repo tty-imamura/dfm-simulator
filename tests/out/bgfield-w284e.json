@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "11ab45757a8d313d212af8b50602ce80b19d762affaff9cd902fc56103210b20",
-  "generatedAt": "2026-09-27T07:57:48.956Z",
+  "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+  "generatedAt": "2026-09-27T11:38:39.756Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4909587,
-    "sha256": "11ab45757a8d313d212af8b50602ce80b19d762affaff9cd902fc56103210b20",
-    "mtime": "2026-09-27T07:43:04.874Z"
+    "bytes": 4915135,
+    "sha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+    "mtime": "2026-09-27T10:21:02.558Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w284e-bgfield.mjs",
     "bytes": 21869,
     "sha256": "14cf399fc1dff2e7693e70ab261f19d5343119ab3c2467ee1834b76917c7bc39",
-    "mtime": "2026-09-27T07:13:22.062Z"
+    "mtime": "2026-09-27T10:21:02.582Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-27T06:19:09.706Z"
+    "mtime": "2026-09-24T08:51:12.597Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-27T06:19:09.702Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 72632,
     "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
-    "mtime": "2026-09-27T06:19:09.710Z"
+    "mtime": "2026-09-26T17:46:31.436Z"
    }
   ],
   "codeSha256": "fe9171d0c79e8c99b7daabb6e1e4f3a919d63735fb134d1657337000fb7d3281",
@@ -78,11 +78,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 788,
-   "segments": 716,
-   "closureShare": 0.316
+   "names": 796,
+   "segments": 723,
+   "closureShare": 0.3182
   },
-  "scopeSha256": "db47d11bb385b25b466fc6865b4dbf3ee1e6a22f7e3bf9032bea20b66a9d635e",
+  "scopeSha256": "fbcab313c3ab79682b75a8613fe1f133a8be1abeeb05a7910d458024c0983b82",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -531,5 +531,5 @@
    }
   ]
  },
- "elapsedS": 13.099
+ "elapsedS": 5.857
 }

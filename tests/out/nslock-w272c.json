@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+  "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
   "csvSha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-09-26T17:56:36.287Z",
+  "at": "2026-09-27T11:22:44.003Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -54,11 +54,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 788,
-   "segments": 716,
-   "closureShare": 0.3164
+   "names": 796,
+   "segments": 723,
+   "closureShare": 0.3182
   },
-  "scopeSha256": "354cc61dfb5a56dacf214cb4f527c5d20e2a02c501cbc2fd914c74b0c17f1d48",
+  "scopeSha256": "29adfda7e4fda5c9c2c823903f6d72200f05a17e459aaab3e5ec78932cac0005",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -92,7 +92,7 @@
    }
   ],
   "codeSha256": "d9faf10f0abd529667e68b1b27965b8cbf92614d30a577756b6535a735b61ec7",
-  "spentSec": 852.1,
+  "spentSec": 425.6,
   "stages": 102
  },
  "builtinDeclared": [
@@ -104,8 +104,8 @@
    "geoPN": 2,
    "sampleClass": "calibration",
    "masses": [
-    5321.812101719132,
-    4966.596715423392
+    2660.982861,
+    2483.370041
    ],
    "spins": [
     0,
@@ -113,7 +113,7 @@
    ],
    "omegaOrbit": 0.005987381707218403,
    "unitT": 10,
-   "ledgerFactor": 1.999942269345993,
+   "ledgerFactor": null,
    "baseMass": [
     2660.982861,
     2483.370041
@@ -193,7 +193,7 @@
    "emoji": "✨",
    "kFrame": 0,
    "lambdaPN": 1,
-   "geoPN": 2,
+   "geoPN": 1,
    "sampleClass": "calibration",
    "masses": [
     21.451938,
@@ -213,7 +213,7 @@
    "emoji": "🌟",
    "kFrame": 0,
    "lambdaPN": 1,
-   "geoPN": 2,
+   "geoPN": 1,
    "sampleClass": "calibration",
    "masses": [
     41.022755,
@@ -284,7 +284,7 @@
    "unitSec": 10,
    "csvBody": "PSR J0737-3039 B",
    "solutionTag": "Kramer2021-DDS",
-   "ledgerFactor": 1.999942269345993,
+   "ledgerFactor": 1,
    "ledgerFrom": "psrDoubleABDFM",
    "savedRoot": {
     "kStar": 0.6984005973334266,
@@ -298,8 +298,8 @@
     "geoPN": 2,
     "sampleClass": "calibration",
     "masses": [
-     5321.812101719132,
-     4966.596715423392
+     2660.982861,
+     2483.370041
     ],
     "spins": [
      0,
@@ -307,7 +307,7 @@
     ],
     "omegaOrbit": 0.005987381707218403,
     "unitT": 10,
-    "ledgerFactor": 1.999942269345993,
+    "ledgerFactor": null,
     "baseMass": [
      2660.982861,
      2483.370041
@@ -463,7 +463,7 @@
    "variants": [
     {
      "tag": "builtin",
-     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 f=1.999942269)",
+     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 fなし)",
      "spec": {
       "builtin": true
      },
@@ -473,27 +473,27 @@
        "dt": 0.016,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 1065169,
+       "stopped": "escape",
+       "nPeri": 1,
+       "steps": 262648,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.09406572787919135,
-       "P": 8737.372557379043,
-       "omegaDot": 34.61785873573114,
+       "e": 0.7777778804586521,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
-         5321.812101719132,
-         4966.596715423392
+         2660.982861,
+         2483.370041
         ],
         "hasCore": [
-         true,
-         true
+         false,
+         false
         ],
         "spins": [
          0,
@@ -506,27 +506,27 @@
        "dt": 0.008,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 2141850,
+       "stopped": "escape",
+       "nPeri": 1,
+       "steps": 525224,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.09091909529820075,
-       "P": 8785.83868574628,
-       "omegaDot": 34.066930381387586,
+       "e": 0.7777778686130878,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
-         5321.812101719132,
-         4966.596715423392
+         2660.982861,
+         2483.370041
         ],
         "hasCore": [
-         true,
-         true
+         false,
+         false
         ],
         "spins": [
          0,
@@ -539,27 +539,27 @@
        "dt": 0.004,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 4295214,
+       "stopped": "escape",
+       "nPeri": 1,
+       "steps": 1050376,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.08935883047456201,
-       "P": 8810.076512361618,
-       "omegaDot": 33.91656886423957,
+       "e": 0.7777778590047981,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
-         5321.812101719132,
-         4966.596715423392
+         2660.982861,
+         2483.370041
         ],
         "hasCore": [
-         true,
-         true
+         false,
+         false
         ],
         "spins": [
          0,
@@ -570,36 +570,36 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9997165005001694,
-       "ext": 8834.323867584906,
-       "monotone": true,
-       "d1": -48.4661283672358,
-       "d2": -24.237826615339145,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "omegaDot": {
-       "p": 1.8734293378874516,
-       "ext": 33.86012738247004,
-       "monotone": true,
-       "d1": 0.5509283543435544,
-       "d2": 0.1503615171480135,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 1.0120178126596542,
-       "ext": 0.08782423907316578,
+       "p": 0.30199536983080755,
+       "ext": 0.7777778177406494,
        "monotone": true,
-       "d1": 0.0031466325809905993,
-       "d2": 0.0015602648236387323,
+       "d1": 1.184556430722239e-8,
+       "d2": 9.608289719409413e-9,
        "note": null
       }
      },
-     "Pext": 8834.323867584906,
-     "omegaDotExt": 33.86012738247004,
-     "eExt": 0.08782423907316578,
+     "Pext": null,
+     "omegaDotExt": null,
+     "eExt": 0.7777778177406494,
      "resolved": {
-      "P": true,
-      "omegaDot": true,
+      "P": false,
+      "omegaDot": false,
       "e": true
      },
      "sigma": {
@@ -609,30 +609,30 @@
         "sigma": 2.5056e-7,
         "recordId": "SOL-cf1e8fbf",
         "solutionId": null,
-        "modelExt": 8834.323867584906,
-        "modelH4": 8810.076512361618,
-        "sigmaTimesExt": -841537.7278669582,
-        "sigmaTimesH4": -97614187.8846667
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-35dacca5",
         "solutionId": null,
-        "modelExt": 33.86012738247004,
-        "modelH4": 33.91656886423957,
-        "sigmaTimesExt": 1304677.2601900033,
-        "sigmaTimesH4": 1309018.9126338135
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.087777036,
         "sigma": 4.8e-8,
         "recordId": "SOL-40d95cf1",
         "solutionId": null,
-        "modelExt": 0.08782423907316578,
-        "modelH4": 0.08935883047456201,
-        "sigmaTimesExt": 983.3973576203053,
-        "sigmaTimesH4": 32954.051553375255
+        "modelExt": 0.7777778177406494,
+        "modelH4": 0.7777778590047981,
+        "sigmaTimesExt": 14375016.28626353,
+        "sigmaTimesH4": 14375017.145933295
        }
       },
       "solution": {
@@ -641,30 +641,30 @@
         "sigma": 8.64e-8,
         "recordId": "SOL-e35438ab",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 8834.323867584906,
-        "modelH4": 8810.076512361618,
-        "sigmaTimesExt": -2440459.5117428266,
-        "sigmaTimesH4": -283081144.966462
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-c162bd87",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 33.86012738247004,
-        "modelH4": 33.91656886423957,
-        "sigmaTimesExt": 1304677.2601900033,
-        "sigmaTimesH4": 1309018.9126338135
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.087777023,
         "sigma": 6.1e-8,
         "recordId": "SOL-1c67b7d7",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 0.08782423907316578,
-        "modelH4": 0.08935883047456201,
-        "sigmaTimesExt": 774.03398632429,
-        "sigmaTimesH4": 25931.270074787197
+        "modelExt": 0.7777778177406494,
+        "modelH4": 0.7777778590047981,
+        "sigmaTimesExt": 11311488.4383713,
+        "sigmaTimesH4": 11311489.114832755
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -672,11 +672,11 @@
      "jointWithin3Sigma": {
       "ext": false,
       "h4": false,
-      "stateExt": "outside",
-      "stateH4": "outside",
+      "stateExt": "undecidable",
+      "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "outside",
-       "omegaDot": "outside",
+       "P": "undecidable",
+       "omegaDot": "undecidable",
        "e": "outside"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
@@ -1132,9 +1132,9 @@
     },
     {
      "tag": "kf0Ledger",
-     "what": "kFrame=0・f=台帳 1.999942269・λ_PN=1(k と f の分離)",
+     "what": "kFrame=0・f=台帳 1.000000000・λ_PN=1(k と f の分離)",
      "spec": {
-      "f": 1.999942269345993,
+      "f": 1,
       "kFrame": 0,
       "lambdaPN": 1,
       "keepCore": false
@@ -1147,21 +1147,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 450295,
+       "steps": 1076726,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5438685328660605,
-       "P": 3694.7442110791744,
-       "omegaDot": 26.817029780910442,
+       "e": 0.08776458809789227,
+       "P": 8834.772714551871,
+       "omegaDot": 2.818521583518826,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5321.812101719132,
-         4966.596715423392
+         2660.982861,
+         2483.370041
         ],
         "hasCore": [
          false,
@@ -1180,21 +1180,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 900589,
+       "steps": 2153464,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5438672626705082,
-       "P": 3694.735604154964,
-       "omegaDot": 26.9482835373668,
+       "e": 0.0877645451928636,
+       "P": 8834.772253572486,
+       "omegaDot": 2.82172072767192,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5321.812101719132,
-         4966.596715423392
+         2660.982861,
+         2483.370041
         ],
         "hasCore": [
          false,
@@ -1213,21 +1213,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1801179,
+       "steps": 4306939,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5438666200688205,
-       "P": 3694.731300379486,
-       "omegaDot": 26.981116759852174,
+       "e": 0.08776452561754339,
+       "P": 8834.772029501963,
+       "omegaDot": 2.8225205634072816,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5321.812101719132,
-         4966.596715423392
+         2660.982861,
+         2483.370041
         ],
         "hasCore": [
          false,
@@ -1242,33 +1242,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9998949484874191,
-       "ext": 3694.7269959771706,
+       "p": 1.0407493603713962,
+       "ext": 8834.771817574054,
        "monotone": true,
-       "d1": 0.008606924210198486,
-       "d2": 0.004303775478092575,
+       "d1": 0.00046097938502498437,
+       "d2": 0.00022407052347261924,
        "note": null
       },
       "omegaDot": {
-       "p": 1.9991304547159001,
-       "ext": 26.992069967026318,
+       "p": 1.9999103566308365,
+       "ext": 2.8227871974084935,
        "monotone": true,
-       "d1": -0.13125375645635984,
-       "d2": -0.03283322248537246,
+       "d1": -0.003199144153093858,
+       "d2": -0.0007998357353615759,
        "note": null
       },
       "e": {
-       "p": 0.9830539483907638,
-       "ext": 0.5438659621004234,
+       "p": 1.1321108409628473,
+       "ext": 0.08776450919242766,
        "monotone": true,
-       "d1": 0.0000012701955522942399,
-       "d2": 6.426016877503216e-7,
+       "d1": 4.290502866877155e-8,
+       "d2": 1.9575320212017466e-8,
        "note": null
       }
      },
-     "Pext": 3694.7269959771706,
-     "omegaDotExt": 26.992069967026318,
-     "eExt": 0.5438659621004234,
+     "Pext": 8834.771817574054,
+     "omegaDotExt": 2.8227871974084935,
+     "eExt": 0.08776450919242766,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -1281,30 +1281,30 @@
         "sigma": 2.5056e-7,
         "recordId": "SOL-cf1e8fbf",
         "solutionId": null,
-        "modelExt": 3694.7269959771706,
-        "modelH4": 3694.731300379486,
-        "sigmaTimesExt": -20513281159.40625,
-        "sigmaTimesH4": -20513263980.278236
+        "modelExt": 8834.771817574054,
+        "modelH4": 8834.772029501963,
+        "sigmaTimesExt": 946257.5672626455,
+        "sigmaTimesH4": 947103.3842678417
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-35dacca5",
         "solutionId": null,
-        "modelExt": 26.992069967026318,
-        "modelH4": 26.981116759852174,
-        "sigmaTimesExt": 776365.1513097169,
-        "sigmaTimesH4": 775522.5969117058
+        "modelExt": 2.8227871974084935,
+        "modelH4": 2.8225205634072816,
+        "sigmaTimesExt": -1082810.446353193,
+        "sigmaTimesH4": -1082830.9566609785
        },
        "e": {
         "obs": 0.087777036,
         "sigma": 4.8e-8,
         "recordId": "SOL-40d95cf1",
         "solutionId": null,
-        "modelExt": 0.5438659621004234,
-        "modelH4": 0.5438666200688205,
-        "sigmaTimesExt": 9501852.627092155,
-        "sigmaTimesH4": 9501866.334767094
+        "modelExt": 0.08776450919242766,
+        "modelH4": 0.08776452561754339,
+        "sigmaTimesExt": -260.97515775710724,
+        "sigmaTimesH4": -260.6329678461518
        }
       },
       "solution": {
@@ -1313,30 +1313,30 @@
         "sigma": 8.64e-8,
         "recordId": "SOL-e35438ab",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 3694.7269959771706,
-        "modelH4": 3694.731300379486,
-        "sigmaTimesExt": -59488515362.37904,
-        "sigmaTimesH4": -59488465542.90781
+        "modelExt": 8834.771817574054,
+        "modelH4": 8834.772029501963,
+        "sigmaTimesExt": 2744146.844133023,
+        "sigmaTimesH4": 2746599.7134480923
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-c162bd87",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 26.992069967026318,
-        "modelH4": 26.981116759852174,
-        "sigmaTimesExt": 776365.1513097169,
-        "sigmaTimesH4": 775522.5969117058
+        "modelExt": 2.8227871974084935,
+        "modelH4": 2.8225205634072816,
+        "sigmaTimesExt": -1082810.446353193,
+        "sigmaTimesH4": -1082830.9566609785
        },
        "e": {
         "obs": 0.087777023,
         "sigma": 6.1e-8,
         "recordId": "SOL-1c67b7d7",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 0.5438659621004234,
-        "modelH4": 0.5438666200688205,
-        "sigmaTimesExt": 7476867.8541053,
-        "sigmaTimesH4": 7476878.640472466
+        "modelExt": 0.08776450919242766,
+        "modelH4": 0.08776452561754339,
+        "sigmaTimesExt": -205.14438643170675,
+        "sigmaTimesH4": -204.87512223947954
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -1356,9 +1356,9 @@
     },
     {
      "tag": "corr",
-     "what": "kFrame=1・f=台帳 1.999942269・λ_PN=1(既存補正を残した列)",
+     "what": "kFrame=1・f=台帳 1.000000000・λ_PN=1(既存補正を残した列)",
      "spec": {
-      "f": 1.999942269345993,
+      "f": 1,
       "kFrame": 1,
       "lambdaPN": 1,
       "keepCore": false
@@ -1369,23 +1369,23 @@
        "dt": 0.016,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 1065169,
+       "stopped": "escape",
+       "nPeri": 1,
+       "steps": 262648,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.09406572787947502,
-       "P": 8737.372557378292,
-       "omegaDot": 34.61785921006761,
+       "e": 0.7777778804586521,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5321.812101719132,
-         4966.596715423392
+         2660.982861,
+         2483.370041
         ],
         "hasCore": [
          false,
@@ -1402,23 +1402,23 @@
        "dt": 0.008,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 2141850,
+       "stopped": "escape",
+       "nPeri": 1,
+       "steps": 525224,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.09091909529837083,
-       "P": 8785.838685746223,
-       "omegaDot": 34.066930845249125,
+       "e": 0.7777778686130878,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5321.812101719132,
-         4966.596715423392
+         2660.982861,
+         2483.370041
         ],
         "hasCore": [
          false,
@@ -1435,23 +1435,23 @@
        "dt": 0.004,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 4295214,
+       "stopped": "escape",
+       "nPeri": 1,
+       "steps": 1050376,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.08935883047459096,
-       "P": 8810.076512362582,
-       "omegaDot": 33.91656934630788,
+       "e": 0.7777778590047981,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5321.812101719132,
-         4966.596715423392
+         2660.982861,
+         2483.370041
         ],
         "hasCore": [
          false,
@@ -1466,36 +1466,36 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9997165004601133,
-       "ext": 8834.323867588238,
-       "monotone": true,
-       "d1": -48.46612836793065,
-       "d2": -24.237826616359598,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "omegaDot": {
-       "p": 1.8734295400088357,
-       "ext": 33.86012788224833,
-       "monotone": true,
-       "d1": 0.550928364818482,
-       "d2": 0.15036149894124407,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 1.0120178125812316,
-       "ext": 0.08782423907289046,
+       "p": 0.30199536983080755,
+       "ext": 0.7777778177406494,
        "monotone": true,
-       "d1": 0.003146632581104189,
-       "d2": 0.0015602648237798694,
+       "d1": 1.184556430722239e-8,
+       "d2": 9.608289719409413e-9,
        "note": null
       }
      },
-     "Pext": 8834.323867588238,
-     "omegaDotExt": 33.86012788224833,
-     "eExt": 0.08782423907289046,
+     "Pext": null,
+     "omegaDotExt": null,
+     "eExt": 0.7777778177406494,
      "resolved": {
-      "P": true,
-      "omegaDot": true,
+      "P": false,
+      "omegaDot": false,
       "e": true
      },
      "sigma": {
@@ -1505,30 +1505,30 @@
         "sigma": 2.5056e-7,
         "recordId": "SOL-cf1e8fbf",
         "solutionId": null,
-        "modelExt": 8834.323867588238,
-        "modelH4": 8810.076512362582,
-        "sigmaTimesExt": -841537.7145671954,
-        "sigmaTimesH4": -97614187.88081905
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-35dacca5",
         "solutionId": null,
-        "modelExt": 33.86012788224833,
-        "modelH4": 33.91656934630788,
-        "sigmaTimesExt": 1304677.298634487,
-        "sigmaTimesH4": 1309018.949715991
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.087777036,
         "sigma": 4.8e-8,
         "recordId": "SOL-40d95cf1",
         "solutionId": null,
-        "modelExt": 0.08782423907289046,
-        "modelH4": 0.08935883047459096,
-        "sigmaTimesExt": 983.3973518844422,
-        "sigmaTimesH4": 32954.05155397836
+        "modelExt": 0.7777778177406494,
+        "modelH4": 0.7777778590047981,
+        "sigmaTimesExt": 14375016.28626353,
+        "sigmaTimesH4": 14375017.145933295
        }
       },
       "solution": {
@@ -1537,30 +1537,30 @@
         "sigma": 8.64e-8,
         "recordId": "SOL-e35438ab",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 8834.323867588238,
-        "modelH4": 8810.076512362582,
-        "sigmaTimesExt": -2440459.4731735145,
-        "sigmaTimesH4": -283081144.9553039
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-c162bd87",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 33.86012788224833,
-        "modelH4": 33.91656934630788,
-        "sigmaTimesExt": 1304677.298634487,
-        "sigmaTimesH4": 1309018.949715991
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.087777023,
         "sigma": 6.1e-8,
         "recordId": "SOL-1c67b7d7",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 0.08782423907289046,
-        "modelH4": 0.08935883047459096,
-        "sigmaTimesExt": 774.0339818108239,
-        "sigmaTimesH4": 25931.270075261775
+        "modelExt": 0.7777778177406494,
+        "modelH4": 0.7777778590047981,
+        "sigmaTimesExt": 11311488.4383713,
+        "sigmaTimesH4": 11311489.114832755
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -1568,11 +1568,11 @@
      "jointWithin3Sigma": {
       "ext": false,
       "h4": false,
-      "stateExt": "outside",
-      "stateH4": "outside",
+      "stateExt": "undecidable",
+      "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "outside",
-       "omegaDot": "outside",
+       "P": "undecidable",
+       "omegaDot": "undecidable",
        "e": "outside"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
@@ -6380,7 +6380,7 @@
     "emoji": "✨",
     "kFrame": 0,
     "lambdaPN": 1,
-    "geoPN": 2,
+    "geoPN": 1,
     "sampleClass": "calibration",
     "masses": [
      21.451938,
@@ -6542,7 +6542,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          21.451938,
@@ -6575,7 +6575,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          21.451938,
@@ -6608,7 +6608,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          21.451938,
@@ -6735,7 +6735,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          21.451938,
@@ -6768,7 +6768,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          21.451938,
@@ -6801,7 +6801,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          21.451938,
@@ -6928,7 +6928,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          21.451938,
@@ -6961,7 +6961,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          21.451938,
@@ -6994,7 +6994,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          21.451938,
@@ -7107,136 +7107,91 @@
       {
        "div": 1,
        "dt": 0.016,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 3069790,
-       "unwrapFailed": false,
-       "clamp": 14338,
-       "nan": false,
-       "e": 0.5204062552933433,
-       "P": 2518802244.6694407,
-       "omegaDot": 0.011143232053737882,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         21.451938,
-         18.079442
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         4.57371397,
-         2.00723302
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 2,
        "dt": 0.008,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 6139677,
-       "unwrapFailed": false,
-       "clamp": 23608,
-       "nan": false,
-       "e": 0.520404918563237,
-       "P": 2518841731.8873315,
-       "omegaDot": 0.011142943623265109,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         21.451938,
-         18.079442
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         4.57371397,
-         2.00723302
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 4,
        "dt": 0.004,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 12279451,
-       "unwrapFailed": false,
-       "clamp": 37918,
-       "nan": false,
-       "e": 0.52040471752468,
-       "P": 2518861671.14385,
-       "omegaDot": 0.011142806909567735,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         21.451938,
-         18.079442
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         4.57371397,
-         2.00723302
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       }
      ],
      "richardson": {
       "P": {
-       "p": 0.9857741084430724,
-       "ext": 2518882009.5281415,
-       "monotone": true,
-       "d1": -39487.21789073944,
-       "d2": -19939.256518363953,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "omegaDot": {
-       "p": 1.0770657997336757,
-       "ext": 0.011142683715313175,
-       "monotone": true,
-       "d1": 2.884304727730769e-7,
-       "d2": 1.3671369737330852e-7,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 2.733164079776709,
-       "ext": 0.520404681937111,
-       "monotone": true,
-       "d1": 0.0000013367301062716663,
-       "d2": 2.010385570239137e-7,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       }
      },
-     "Pext": 2518882009.5281415,
-     "omegaDotExt": 0.011142683715313175,
-     "eExt": 0.520404681937111,
+     "Pext": null,
+     "omegaDotExt": null,
+     "eExt": null,
      "resolved": {
-      "P": true,
-      "omegaDot": true,
-      "e": true
+      "P": false,
+      "omegaDot": false,
+      "e": false
      },
      "sigma": {
       "adopted": {
@@ -7245,18 +7200,18 @@
         "sigma": 599594.4,
         "recordId": "SOL-177bd56d",
         "solutionId": null,
-        "modelExt": 2518882009.5281415,
-        "modelH4": 2518861671.14385,
-        "sigmaTimesExt": 2.976542689761094,
-        "sigmaTimesH4": 2.942622452527976
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 0,
         "sigma": null,
         "recordId": "SOL-2c8e091b",
         "solutionId": null,
-        "modelExt": 0.011142683715313175,
-        "modelH4": 0.011142806909567735,
+        "modelExt": null,
+        "modelH4": null,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -7265,10 +7220,10 @@
         "sigma": 0.00015,
         "recordId": "SOL-b06af02d",
         "solutionId": null,
-        "modelExt": 0.520404681937111,
-        "modelH4": 0.52040471752468,
-        "sigmaTimesExt": 6.231212914073285,
-        "sigmaTimesH4": 6.231450164533304
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        }
       },
       "solution": null,
@@ -7280,9 +7235,9 @@
       "stateExt": "undecidable",
       "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "within",
+       "P": "undecidable",
        "omegaDot": "undecidable",
-       "e": "outside"
+       "e": "undecidable"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
      }
@@ -7314,7 +7269,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          21.451938,
@@ -7347,7 +7302,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          21.451938,
@@ -7380,7 +7335,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          21.451938,
@@ -7498,7 +7453,7 @@
     "emoji": "🌟",
     "kFrame": 0,
     "lambdaPN": 1,
-    "geoPN": 2,
+    "geoPN": 1,
     "sampleClass": "calibration",
     "masses": [
      41.022755,
@@ -7656,7 +7611,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          41.022755,
@@ -7689,7 +7644,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          41.022755,
@@ -7722,7 +7677,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          41.022755,
@@ -7849,7 +7804,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          41.022755,
@@ -7882,7 +7837,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          41.022755,
@@ -7915,7 +7870,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          41.022755,
@@ -8042,7 +7997,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          41.022755,
@@ -8075,7 +8030,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          41.022755,
@@ -8108,7 +8063,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          41.022755,
@@ -8221,136 +8176,91 @@
       {
        "div": 1,
        "dt": 0.016,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 1930227,
-       "unwrapFailed": false,
-       "clamp": 8986,
-       "nan": false,
-       "e": 0.5936049722717536,
-       "P": 1583770147.1109657,
-       "omegaDot": 0.043630575887329166,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         41.022755,
-         20.24293
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 2,
        "dt": 0.008,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 3860816,
-       "unwrapFailed": false,
-       "clamp": 17266,
-       "nan": false,
-       "e": 0.5936069364825042,
-       "P": 1583921555.2642455,
-       "omegaDot": 0.043624251172055116,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         41.022755,
-         20.24293
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 4,
        "dt": 0.004,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 7721980,
-       "unwrapFailed": false,
-       "clamp": 34120,
-       "nan": false,
-       "e": 0.5936079578093131,
-       "P": 1583994395.922648,
-       "omegaDot": 0.04362116328629491,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         41.022755,
-         20.24293
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       }
      ],
      "richardson": {
       "P": {
-       "p": 1.0556270281516702,
-       "ext": 1584061927.17746,
-       "monotone": true,
-       "d1": -151408.15327978134,
-       "d2": -72840.65840244293,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "omegaDot": {
-       "p": 1.0343811545682142,
-       "ext": 0.0436182174905935,
-       "monotone": true,
-       "d1": 0.000006324715274050319,
-       "d2": 0.0000030878857602070764,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 0.9435051520110298,
-       "ext": 0.5936090641050134,
-       "monotone": true,
-       "d1": -0.0000019642107506046003,
-       "d2": -0.0000010213268089032113,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       }
      },
-     "Pext": 1584061927.17746,
-     "omegaDotExt": 0.0436182174905935,
-     "eExt": 0.5936090641050134,
+     "Pext": null,
+     "omegaDotExt": null,
+     "eExt": null,
      "resolved": {
-      "P": true,
-      "omegaDot": true,
-      "e": true
+      "P": false,
+      "omegaDot": false,
+      "e": false
      },
      "sigma": {
       "adopted": {
@@ -8359,18 +8269,18 @@
         "sigma": 135697.68,
         "recordId": "SOL-4a8f0f25",
         "solutionId": null,
-        "modelExt": 1584061927.17746,
-        "modelH4": 1583994395.922648,
-        "sigmaTimesExt": 15.696151455647888,
-        "sigmaTimesH4": 15.198491843398052
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 0,
         "sigma": null,
         "recordId": "SOL-db007f2a",
         "solutionId": null,
-        "modelExt": 0.0436182174905935,
-        "modelH4": 0.04362116328629491,
+        "modelExt": null,
+        "modelH4": null,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -8379,10 +8289,10 @@
         "sigma": 0.00037,
         "recordId": "SOL-e36df0e9",
         "solutionId": null,
-        "modelExt": 0.5936090641050134,
-        "modelH4": 0.5936079578093131,
-        "sigmaTimesExt": 5.916389473009203,
-        "sigmaTimesH4": 5.9133994846300935
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        }
       },
       "solution": null,
@@ -8394,9 +8304,9 @@
       "stateExt": "undecidable",
       "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "outside",
+       "P": "undecidable",
        "omegaDot": "undecidable",
-       "e": "outside"
+       "e": "undecidable"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
      }
@@ -8428,7 +8338,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          41.022755,
@@ -8461,7 +8371,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          41.022755,
@@ -8494,7 +8404,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          41.022755,
