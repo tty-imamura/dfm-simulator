@@ -1,5 +1,5 @@
 {
- "when": "2026-09-26T23:38:12.036Z",
+ "when": "2026-09-27T13:48:00.614Z",
  "wave": "第272便a(第62報・AG27)— 初版は第270便a(第60報 W1・AE9)・版つき規約は第271便a(AF3)",
  "baseSource": {
   "commit": "743ad9b",
@@ -243,12 +243,12 @@
   "finding": "**旧規則では 4 例で走行長が步/秒で変わった**(同じ入力・同じコードでも機種が違えば近点の本数が変わる)。新しい規則は步/秒を入力に取らないので、定義上この揺れが無い。"
  },
  "replay": {
-  "nStages": 86,
-  "compared": 86,
-  "identical": 80,
-  "differing": 6,
+  "nStages": 73,
+  "compared": 73,
+  "identical": 66,
+  "differing": 7,
   "newStages": 0,
-  "differingDeclared": 6,
+  "differingDeclared": 7,
   "differingUndeclared": 0,
   "declaredExceptions": [
    {
@@ -264,12 +264,6 @@
     "why": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)"
    },
    {
-    "id": "alphaCenABDFM",
-    "tag": "dt/4",
-    "since": "w282a",
-    "why": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)"
-   },
-   {
     "id": "siriusABDFM",
     "tag": "dt",
     "since": "w282a",
@@ -282,10 +276,22 @@
     "why": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)"
    },
    {
-    "id": "siriusABDFM",
-    "tag": "dt/4",
-    "since": "w282a",
-    "why": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)"
+    "id": "psrDoubleABDFM",
+    "tag": "dt",
+    "since": "w284b",
+    "why": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)"
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "tag": "dt/2",
+    "since": "w284b",
+    "why": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)"
+   },
+   {
+    "id": "saturnRingReal",
+    "tag": "dt",
+    "since": "w284e",
+    "why": "第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)"
    }
   ],
   "differingRows": [
@@ -304,9 +310,9 @@
      60
     ],
     "baseWallSec": 10.793,
-    "nowWallSec": 20.902,
+    "nowWallSec": 12.016,
     "baseRate": 714286,
-    "nowRate": 392157,
+    "nowRate": 217391,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -328,33 +334,9 @@
      60
     ],
     "baseWallSec": 21.225,
-    "nowWallSec": 40.766,
+    "nowWallSec": 23.045,
     "baseRate": 909091,
-    "nowRate": 357143,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)",
-    "exceptionSince": "w282a"
-   },
-   {
-    "id": "alphaCenABDFM",
-    "emoji": "✴️",
-    "tag": "dt/4",
-    "baseMaxSteps": 37749376,
-    "nowMaxSteps": 37757313,
-    "baseStepsRun": 37576543,
-    "nowStepsRun": 37584521,
-    "basePeriFoundA": [
-     60
-    ],
-    "nowPeriFoundA": [
-     60
-    ],
-    "baseWallSec": 42.124,
-    "nowWallSec": 82.591,
-    "baseRate": 1052632,
-    "nowRate": 500000,
+    "nowRate": 833333,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -376,9 +358,9 @@
      60
     ],
     "baseWallSec": 6.583,
-    "nowWallSec": 12.861,
+    "nowWallSec": 7.377,
     "baseRate": 1052632,
-    "nowRate": 487805,
+    "nowRate": 909091,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -400,9 +382,9 @@
      60
     ],
     "baseWallSec": 12.982,
-    "nowWallSec": 24.967,
+    "nowWallSec": 14.519,
     "baseRate": 1000000,
-    "nowRate": 540541,
+    "nowRate": 909091,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -410,28 +392,80 @@
     "exceptionSince": "w282a"
    },
    {
-    "id": "siriusABDFM",
-    "emoji": "💫",
-    "tag": "dt/4",
-    "baseMaxSteps": 23721616,
-    "nowMaxSteps": 23729530,
-    "baseStepsRun": 23564167,
-    "nowStepsRun": 23572097,
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt",
+    "baseMaxSteps": 1385472,
+    "nowMaxSteps": 3312950,
+    "baseStepsRun": 1385472,
+    "nowStepsRun": 3312950,
     "basePeriFoundA": [
-     60
+     25
     ],
     "nowPeriFoundA": [
-     60
+     3
     ],
-    "baseWallSec": 25.324,
-    "nowWallSec": 51.563,
-    "baseRate": 952381,
-    "nowRate": 526316,
+    "baseWallSec": 1.924,
+    "nowWallSec": 4.183,
+    "baseRate": 588235,
+    "nowRate": 425532,
     "inBase": true,
     "same": false,
     "declaredException": true,
-    "exceptionWhy": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)",
-    "exceptionSince": "w282a"
+    "exceptionWhy": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)",
+    "exceptionSince": "w284b"
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt/2",
+    "baseMaxSteps": 2770943,
+    "nowMaxSteps": 6625899,
+    "baseStepsRun": 2770943,
+    "nowStepsRun": 6625899,
+    "basePeriFoundA": [
+     25
+    ],
+    "nowPeriFoundA": [
+     3
+    ],
+    "baseWallSec": 3.603,
+    "nowWallSec": 8.235,
+    "baseRate": 769231,
+    "nowRate": 869565,
+    "inBase": true,
+    "same": false,
+    "declaredException": true,
+    "exceptionWhy": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)",
+    "exceptionSince": "w284b"
+   },
+   {
+    "id": "saturnRingReal",
+    "emoji": "💍",
+    "tag": "dt",
+    "baseMaxSteps": 2042988,
+    "nowMaxSteps": 2042988,
+    "baseStepsRun": 2042988,
+    "nowStepsRun": 2042988,
+    "basePeriFoundA": [
+     63,
+     36,
+     3
+    ],
+    "nowPeriFoundA": [
+     63,
+     35,
+     3
+    ],
+    "baseWallSec": 435.531,
+    "nowWallSec": 58.793,
+    "baseRate": 4832,
+    "nowRate": 36364,
+    "inBase": true,
+    "same": false,
+    "declaredException": true,
+    "exceptionWhy": "第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)",
+    "exceptionSince": "w284e"
    }
   ],
   "newStageRows": [],
@@ -451,9 +485,9 @@
      27
     ],
     "baseWallSec": 21.129,
-    "nowWallSec": 43.364,
+    "nowWallSec": 25.166,
     "baseRate": 1428571,
-    "nowRate": 526316,
+    "nowRate": 1052632,
     "inBase": true,
     "same": true
    },
@@ -472,9 +506,9 @@
      13
     ],
     "baseWallSec": 21.962,
-    "nowWallSec": 44.687,
+    "nowWallSec": 24.292,
     "baseRate": 1666667,
-    "nowRate": 222222,
+    "nowRate": 1250000,
     "inBase": true,
     "same": true
    },
@@ -493,9 +527,9 @@
      26
     ],
     "baseWallSec": 37.502,
-    "nowWallSec": 80.354,
+    "nowWallSec": 44.385,
     "baseRate": 769231,
-    "nowRate": 243902,
+    "nowRate": 800000,
     "inBase": true,
     "same": true
    },
@@ -514,9 +548,9 @@
      13
     ],
     "baseWallSec": 37.332,
-    "nowWallSec": 80.233,
+    "nowWallSec": 45.178,
     "baseRate": 1176471,
-    "nowRate": 571429,
+    "nowRate": 740741,
     "inBase": true,
     "same": true
    },
@@ -535,9 +569,9 @@
      26
     ],
     "baseWallSec": 34.812,
-    "nowWallSec": 69.759,
+    "nowWallSec": 41.809,
     "baseRate": 952381,
-    "nowRate": 588235,
+    "nowRate": 392157,
     "inBase": true,
     "same": true
    },
@@ -556,9 +590,9 @@
      13
     ],
     "baseWallSec": 34.394,
-    "nowWallSec": 69.053,
+    "nowWallSec": 39.973,
     "baseRate": 1333333,
-    "nowRate": 571429,
+    "nowRate": 952381,
     "inBase": true,
     "same": true
    },
@@ -577,9 +611,9 @@
      59
     ],
     "baseWallSec": 0.698,
-    "nowWallSec": 1.202,
+    "nowWallSec": 0.854,
     "baseRate": 869565,
-    "nowRate": 606061,
+    "nowRate": 408163,
     "inBase": true,
     "same": true
    },
@@ -598,9 +632,9 @@
      59
     ],
     "baseWallSec": 1.183,
-    "nowWallSec": 2.286,
+    "nowWallSec": 1.538,
     "baseRate": 1428571,
-    "nowRate": 800000,
+    "nowRate": 1052632,
     "inBase": true,
     "same": true
    },
@@ -619,9 +653,9 @@
      59
     ],
     "baseWallSec": 1.276,
-    "nowWallSec": 2.998,
+    "nowWallSec": 2.017,
     "baseRate": 2222222,
-    "nowRate": 800000,
+    "nowRate": 408163,
     "inBase": true,
     "same": true
    },
@@ -640,9 +674,9 @@
      59
     ],
     "baseWallSec": 3.106,
-    "nowWallSec": 6.242,
+    "nowWallSec": 3.407,
     "baseRate": 1538462,
-    "nowRate": 952381,
+    "nowRate": 1818182,
     "inBase": true,
     "same": true
    },
@@ -661,9 +695,9 @@
      59
     ],
     "baseWallSec": 2.661,
-    "nowWallSec": 5.864,
+    "nowWallSec": 3.207,
     "baseRate": 869565,
-    "nowRate": 500000,
+    "nowRate": 588235,
     "inBase": true,
     "same": true
    },
@@ -682,9 +716,9 @@
      59
     ],
     "baseWallSec": 5.305,
-    "nowWallSec": 11.017,
+    "nowWallSec": 5.965,
     "baseRate": 1250000,
-    "nowRate": 571429,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -709,9 +743,9 @@
      2
     ],
     "baseWallSec": 463.498,
-    "nowWallSec": 830.64,
+    "nowWallSec": 31.518,
     "baseRate": 1804,
-    "nowRate": 1042,
+    "nowRate": 24907,
     "inBase": true,
     "same": true
    },
@@ -736,9 +770,9 @@
      59
     ],
     "baseWallSec": 11.709,
-    "nowWallSec": 23.017,
+    "nowWallSec": 13.596,
     "baseRate": 425532,
-    "nowRate": 270270,
+    "nowRate": 392157,
     "inBase": true,
     "same": true
    },
@@ -763,9 +797,9 @@
      59
     ],
     "baseWallSec": 23.7,
-    "nowWallSec": 45.514,
+    "nowWallSec": 27.86,
     "baseRate": 454545,
-    "nowRate": 270270,
+    "nowRate": 425532,
     "inBase": true,
     "same": true
    },
@@ -784,9 +818,9 @@
      59
     ],
     "baseWallSec": 6.877,
-    "nowWallSec": 13.49,
+    "nowWallSec": 8.32,
     "baseRate": 833333,
-    "nowRate": 444444,
+    "nowRate": 384615,
     "inBase": true,
     "same": true
    },
@@ -805,9 +839,9 @@
      59
     ],
     "baseWallSec": 13.486,
-    "nowWallSec": 27.288,
+    "nowWallSec": 15.501,
     "baseRate": 1000000,
-    "nowRate": 571429,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -828,7 +862,7 @@
      59
     ],
     "baseWallSec": 4.632,
-    "nowWallSec": 8.782,
+    "nowWallSec": 5.107,
     "baseRate": 952381,
     "nowRate": 500000,
     "inBase": true,
@@ -851,9 +885,9 @@
      59
     ],
     "baseWallSec": 8.781,
-    "nowWallSec": 17.867,
+    "nowWallSec": 10.074,
     "baseRate": 1000000,
-    "nowRate": 512821,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -872,9 +906,9 @@
      59
     ],
     "baseWallSec": 18.676,
-    "nowWallSec": 38.323,
+    "nowWallSec": 22.002,
     "baseRate": 952381,
-    "nowRate": 425532,
+    "nowRate": 869565,
     "inBase": true,
     "same": true
    },
@@ -893,30 +927,9 @@
      59
     ],
     "baseWallSec": 35.57,
-    "nowWallSec": 75.651,
+    "nowWallSec": 45.024,
     "baseRate": 952381,
-    "nowRate": 434783,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "plutoCharonReal",
-    "emoji": "❄️",
-    "tag": "dt/4",
-    "baseMaxSteps": 82777992,
-    "nowMaxSteps": 82777992,
-    "baseStepsRun": 82777992,
-    "nowStepsRun": 82777992,
-    "basePeriFoundA": [
-     59
-    ],
-    "nowPeriFoundA": [
-     59
-    ],
-    "baseWallSec": 76.959,
-    "nowWallSec": 149.572,
-    "baseRate": 1000000,
-    "nowRate": 555556,
+    "nowRate": 1000000,
     "inBase": true,
     "same": true
    },
@@ -943,9 +956,9 @@
      1
     ],
     "baseWallSec": 468.879,
-    "nowWallSec": 837.946,
+    "nowWallSec": 39.729,
     "baseRate": 2190,
-    "nowRate": 1317,
+    "nowRate": 29455,
     "inBase": true,
     "same": true
    },
@@ -964,9 +977,9 @@
      59
     ],
     "baseWallSec": 1.846,
-    "nowWallSec": 3.542,
+    "nowWallSec": 2.191,
     "baseRate": 1000000,
-    "nowRate": 555556,
+    "nowRate": 1000000,
     "inBase": true,
     "same": true
    },
@@ -985,9 +998,9 @@
      59
     ],
     "baseWallSec": 3.602,
-    "nowWallSec": 7.565,
+    "nowWallSec": 3.907,
     "baseRate": 1000000,
-    "nowRate": 487805,
+    "nowRate": 952381,
     "inBase": true,
     "same": true
    },
@@ -1006,9 +1019,9 @@
      60
     ],
     "baseWallSec": 5.762,
-    "nowWallSec": 12.118,
+    "nowWallSec": 5.943,
     "baseRate": 1176471,
-    "nowRate": 800000,
+    "nowRate": 1333333,
     "inBase": true,
     "same": true
    },
@@ -1027,9 +1040,9 @@
      60
     ],
     "baseWallSec": 11.685,
-    "nowWallSec": 22.25,
+    "nowWallSec": 12.932,
     "baseRate": 1666667,
-    "nowRate": 952381,
+    "nowRate": 1538462,
     "inBase": true,
     "same": true
    },
@@ -1048,9 +1061,9 @@
      60
     ],
     "baseWallSec": 22.453,
-    "nowWallSec": 46.019,
+    "nowWallSec": 24.654,
     "baseRate": 1818182,
-    "nowRate": 952381,
+    "nowRate": 1538462,
     "inBase": true,
     "same": true
    },
@@ -1069,9 +1082,9 @@
      60
     ],
     "baseWallSec": 10.793,
-    "nowWallSec": 20.902,
+    "nowWallSec": 12.016,
     "baseRate": 714286,
-    "nowRate": 392157,
+    "nowRate": 217391,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1093,33 +1106,9 @@
      60
     ],
     "baseWallSec": 21.225,
-    "nowWallSec": 40.766,
+    "nowWallSec": 23.045,
     "baseRate": 909091,
-    "nowRate": 357143,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)",
-    "exceptionSince": "w282a"
-   },
-   {
-    "id": "alphaCenABDFM",
-    "emoji": "✴️",
-    "tag": "dt/4",
-    "baseMaxSteps": 37749376,
-    "nowMaxSteps": 37757313,
-    "baseStepsRun": 37576543,
-    "nowStepsRun": 37584521,
-    "basePeriFoundA": [
-     60
-    ],
-    "nowPeriFoundA": [
-     60
-    ],
-    "baseWallSec": 42.124,
-    "nowWallSec": 82.591,
-    "baseRate": 1052632,
-    "nowRate": 500000,
+    "nowRate": 833333,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1141,7 +1130,7 @@
      60
     ],
     "baseWallSec": 3.672,
-    "nowWallSec": 7.001,
+    "nowWallSec": 3.687,
     "baseRate": 2000000,
     "nowRate": 952381,
     "inBase": true,
@@ -1162,9 +1151,9 @@
      60
     ],
     "baseWallSec": 7.295,
-    "nowWallSec": 14.781,
+    "nowWallSec": 8.216,
     "baseRate": 1666667,
-    "nowRate": 869565,
+    "nowRate": 1333333,
     "inBase": true,
     "same": true
    },
@@ -1183,9 +1172,9 @@
      60
     ],
     "baseWallSec": 14.438,
-    "nowWallSec": 27.943,
+    "nowWallSec": 15.828,
     "baseRate": 1818182,
-    "nowRate": 1000000,
+    "nowRate": 555556,
     "inBase": true,
     "same": true
    },
@@ -1204,9 +1193,9 @@
      60
     ],
     "baseWallSec": 6.583,
-    "nowWallSec": 12.861,
+    "nowWallSec": 7.377,
     "baseRate": 1052632,
-    "nowRate": 487805,
+    "nowRate": 909091,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1228,33 +1217,9 @@
      60
     ],
     "baseWallSec": 12.982,
-    "nowWallSec": 24.967,
+    "nowWallSec": 14.519,
     "baseRate": 1000000,
-    "nowRate": 540541,
-    "inBase": true,
-    "same": false,
-    "declaredException": true,
-    "exceptionWhy": "第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)",
-    "exceptionSince": "w282a"
-   },
-   {
-    "id": "siriusABDFM",
-    "emoji": "💫",
-    "tag": "dt/4",
-    "baseMaxSteps": 23721616,
-    "nowMaxSteps": 23729530,
-    "baseStepsRun": 23564167,
-    "nowStepsRun": 23572097,
-    "basePeriFoundA": [
-     60
-    ],
-    "nowPeriFoundA": [
-     60
-    ],
-    "baseWallSec": 25.324,
-    "nowWallSec": 51.563,
-    "baseRate": 952381,
-    "nowRate": 526316,
+    "nowRate": 909091,
     "inBase": true,
     "same": false,
     "declaredException": true,
@@ -1276,9 +1241,9 @@
      60
     ],
     "baseWallSec": 2.037,
-    "nowWallSec": 4.011,
+    "nowWallSec": 2.989,
     "baseRate": 1111111,
-    "nowRate": 714286,
+    "nowRate": 1111111,
     "inBase": true,
     "same": true
    },
@@ -1297,30 +1262,9 @@
      60
     ],
     "baseWallSec": 4.003,
-    "nowWallSec": 8.181,
+    "nowWallSec": 4.807,
     "baseRate": 2000000,
-    "nowRate": 952381,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrDoubleAB",
-    "emoji": "📻",
-    "tag": "dt/4",
-    "baseMaxSteps": 13251799,
-    "nowMaxSteps": 13251799,
-    "baseStepsRun": 13251799,
-    "nowStepsRun": 13251799,
-    "basePeriFoundA": [
-     60
-    ],
-    "nowPeriFoundA": [
-     60
-    ],
-    "baseWallSec": 8.007,
-    "nowWallSec": 15.706,
-    "baseRate": 1818182,
-    "nowRate": 588235,
+    "nowRate": 1111111,
     "inBase": true,
     "same": true
    },
@@ -1329,63 +1273,48 @@
     "emoji": "⚡",
     "tag": "dt",
     "baseMaxSteps": 1385472,
-    "nowMaxSteps": 1385472,
+    "nowMaxSteps": 3312950,
     "baseStepsRun": 1385472,
-    "nowStepsRun": 1385472,
+    "nowStepsRun": 3312950,
     "basePeriFoundA": [
      25
     ],
     "nowPeriFoundA": [
-     25
+     3
     ],
     "baseWallSec": 1.924,
-    "nowWallSec": 3.462,
+    "nowWallSec": 4.183,
     "baseRate": 588235,
-    "nowRate": 289855,
+    "nowRate": 425532,
     "inBase": true,
-    "same": true
+    "same": false,
+    "declaredException": true,
+    "exceptionWhy": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)",
+    "exceptionSince": "w284b"
    },
    {
     "id": "psrDoubleABDFM",
     "emoji": "⚡",
     "tag": "dt/2",
     "baseMaxSteps": 2770943,
-    "nowMaxSteps": 2770943,
+    "nowMaxSteps": 6625899,
     "baseStepsRun": 2770943,
-    "nowStepsRun": 2770943,
+    "nowStepsRun": 6625899,
     "basePeriFoundA": [
      25
     ],
     "nowPeriFoundA": [
-     25
+     3
     ],
     "baseWallSec": 3.603,
-    "nowWallSec": 6.957,
+    "nowWallSec": 8.235,
     "baseRate": 769231,
-    "nowRate": 434783,
+    "nowRate": 869565,
     "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrDoubleABDFM",
-    "emoji": "⚡",
-    "tag": "dt/4",
-    "baseMaxSteps": 5541886,
-    "nowMaxSteps": 5541886,
-    "baseStepsRun": 5541886,
-    "nowStepsRun": 5541886,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 7.175,
-    "nowWallSec": 13.388,
-    "baseRate": 769231,
-    "nowRate": 434783,
-    "inBase": true,
-    "same": true
+    "same": false,
+    "declaredException": true,
+    "exceptionWhy": "第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)",
+    "exceptionSince": "w284b"
    },
    {
     "id": "psrDoubleABSpinCal",
@@ -1402,9 +1331,9 @@
      25
     ],
     "baseWallSec": 2.112,
-    "nowWallSec": 3.765,
+    "nowWallSec": 2.499,
     "baseRate": 434783,
-    "nowRate": 312500,
+    "nowRate": 240964,
     "inBase": true,
     "same": true
    },
@@ -1423,9 +1352,9 @@
      25
     ],
     "baseWallSec": 4.005,
-    "nowWallSec": 7.012,
+    "nowWallSec": 4.384,
     "baseRate": 625000,
-    "nowRate": 273973,
+    "nowRate": 714286,
     "inBase": true,
     "same": true
    },
@@ -1444,9 +1373,9 @@
      37
     ],
     "baseWallSec": 4.82,
-    "nowWallSec": 8.825,
+    "nowWallSec": 5.284,
     "baseRate": 769231,
-    "nowRate": 434783,
+    "nowRate": 555556,
     "inBase": true,
     "same": true
    },
@@ -1465,30 +1394,9 @@
      36
     ],
     "baseWallSec": 9.279,
-    "nowWallSec": 17.274,
+    "nowWallSec": 10.213,
     "baseRate": 800000,
-    "nowRate": 465116,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrJ1757DFM",
-    "emoji": "🧮",
-    "tag": "dt/4",
-    "baseMaxSteps": 14138701,
-    "nowMaxSteps": 14138701,
-    "baseStepsRun": 14138701,
-    "nowStepsRun": 14138701,
-    "basePeriFoundA": [
-     36
-    ],
-    "nowPeriFoundA": [
-     36
-    ],
-    "baseWallSec": 18.429,
-    "nowWallSec": 36.794,
-    "baseRate": 740741,
-    "nowRate": 408163,
+    "nowRate": 512821,
     "inBase": true,
     "same": true
    },
@@ -1507,9 +1415,9 @@
      25
     ],
     "baseWallSec": 1.31,
-    "nowWallSec": 2.398,
+    "nowWallSec": 1.595,
     "baseRate": 833333,
-    "nowRate": 294118,
+    "nowRate": 769231,
     "inBase": true,
     "same": true
    },
@@ -1528,30 +1436,9 @@
      25
     ],
     "baseWallSec": 2.707,
-    "nowWallSec": 5.271,
+    "nowWallSec": 2.941,
     "baseRate": 869565,
-    "nowRate": 465116,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrJ1946DFM",
-    "emoji": "🩺",
-    "tag": "dt/4",
-    "baseMaxSteps": 4162598,
-    "nowMaxSteps": 4162598,
-    "baseStepsRun": 4162598,
-    "nowStepsRun": 4162598,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 5.499,
-    "nowWallSec": 10.32,
-    "baseRate": 769231,
-    "nowRate": 392157,
+    "nowRate": 769231,
     "inBase": true,
     "same": true
    },
@@ -1570,9 +1457,9 @@
      25
     ],
     "baseWallSec": 1.858,
-    "nowWallSec": 3.491,
+    "nowWallSec": 2.065,
     "baseRate": 869565,
-    "nowRate": 454545,
+    "nowRate": 714286,
     "inBase": true,
     "same": true
    },
@@ -1591,9 +1478,9 @@
      25
     ],
     "baseWallSec": 3.776,
-    "nowWallSec": 6.905,
+    "nowWallSec": 3.875,
     "baseRate": 740741,
-    "nowRate": 444444,
+    "nowRate": 740741,
     "inBase": true,
     "same": true
    },
@@ -1612,9 +1499,9 @@
      37
     ],
     "baseWallSec": 5.043,
-    "nowWallSec": 8.566,
+    "nowWallSec": 5.388,
     "baseRate": 800000,
-    "nowRate": 444444,
+    "nowRate": 689655,
     "inBase": true,
     "same": true
    },
@@ -1633,9 +1520,9 @@
      36
     ],
     "baseWallSec": 9.997,
-    "nowWallSec": 17.298,
+    "nowWallSec": 10.366,
     "baseRate": 740741,
-    "nowRate": 434783,
+    "nowRate": 740741,
     "inBase": true,
     "same": true
    },
@@ -1654,9 +1541,9 @@
      25
     ],
     "baseWallSec": 1.414,
-    "nowWallSec": 2.432,
+    "nowWallSec": 1.646,
     "baseRate": 769231,
-    "nowRate": 232558,
+    "nowRate": 740741,
     "inBase": true,
     "same": true
    },
@@ -1675,9 +1562,9 @@
      25
     ],
     "baseWallSec": 2.946,
-    "nowWallSec": 5.221,
+    "nowWallSec": 3.023,
     "baseRate": 740741,
-    "nowRate": 454545,
+    "nowRate": 444444,
     "inBase": true,
     "same": true
    },
@@ -1696,9 +1583,9 @@
      25
     ],
     "baseWallSec": 2.515,
-    "nowWallSec": 4.731,
+    "nowWallSec": 2.872,
     "baseRate": 285714,
-    "nowRate": 217391,
+    "nowRate": 294118,
     "inBase": true,
     "same": true
    },
@@ -1717,30 +1604,9 @@
      25
     ],
     "baseWallSec": 4.852,
-    "nowWallSec": 8.951,
+    "nowWallSec": 5.651,
     "baseRate": 555556,
-    "nowRate": 338983,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrDoubleABCF",
-    "emoji": "🪝",
-    "tag": "dt/4",
-    "baseMaxSteps": 5541886,
-    "nowMaxSteps": 5541886,
-    "baseStepsRun": 5541886,
-    "nowStepsRun": 5541886,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 10.228,
-    "nowWallSec": 17.555,
-    "baseRate": 666667,
-    "nowRate": 350877,
+    "nowRate": 555556,
     "inBase": true,
     "same": true
    },
@@ -1759,9 +1625,9 @@
      37
     ],
     "baseWallSec": 6.496,
-    "nowWallSec": 11.763,
+    "nowWallSec": 6.779,
     "baseRate": 540541,
-    "nowRate": 322581,
+    "nowRate": 606061,
     "inBase": true,
     "same": true
    },
@@ -1780,30 +1646,9 @@
      36
     ],
     "baseWallSec": 13.15,
-    "nowWallSec": 23.116,
+    "nowWallSec": 14.111,
     "baseRate": 571429,
-    "nowRate": 263158,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrJ1757CF",
-    "emoji": "🪄",
-    "tag": "dt/4",
-    "baseMaxSteps": 14138701,
-    "nowMaxSteps": 14138701,
-    "baseStepsRun": 14138701,
-    "nowStepsRun": 14138701,
-    "basePeriFoundA": [
-     36
-    ],
-    "nowPeriFoundA": [
-     36
-    ],
-    "baseWallSec": 26.079,
-    "nowWallSec": 45.993,
-    "baseRate": 555556,
-    "nowRate": 243902,
+    "nowRate": 588235,
     "inBase": true,
     "same": true
    },
@@ -1822,9 +1667,9 @@
      25
     ],
     "baseWallSec": 2.169,
-    "nowWallSec": 3.39,
+    "nowWallSec": 2.012,
     "baseRate": 476190,
-    "nowRate": 307692,
+    "nowRate": 540541,
     "inBase": true,
     "same": true
    },
@@ -1843,30 +1688,9 @@
      25
     ],
     "baseWallSec": 3.997,
-    "nowWallSec": 6.859,
+    "nowWallSec": 3.85,
     "baseRate": 476190,
-    "nowRate": 322581,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrJ1946CF",
-    "emoji": "🩹",
-    "tag": "dt/4",
-    "baseMaxSteps": 4162598,
-    "nowMaxSteps": 4162598,
-    "baseStepsRun": 4162598,
-    "nowStepsRun": 4162598,
-    "basePeriFoundA": [
-     25
-    ],
-    "nowPeriFoundA": [
-     25
-    ],
-    "baseWallSec": 7.149,
-    "nowWallSec": 12.991,
-    "baseRate": 266667,
-    "nowRate": 338983,
+    "nowRate": 606061,
     "inBase": true,
     "same": true
    },
@@ -1885,9 +1709,9 @@
      60
     ],
     "baseWallSec": 10.023,
-    "nowWallSec": 19.736,
+    "nowWallSec": 12.38,
     "baseRate": 1538462,
-    "nowRate": 555556,
+    "nowRate": 1250000,
     "inBase": true,
     "same": true
    },
@@ -1906,30 +1730,9 @@
      60
     ],
     "baseWallSec": 21.148,
-    "nowWallSec": 39.487,
+    "nowWallSec": 23.995,
     "baseRate": 1538462,
-    "nowRate": 454545,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrB1534",
-    "emoji": "📿",
-    "tag": "dt/4",
-    "baseMaxSteps": 40000000,
-    "nowMaxSteps": 40000000,
-    "baseStepsRun": 40000000,
-    "nowStepsRun": 40000000,
-    "basePeriFoundA": [
-     44
-    ],
-    "nowPeriFoundA": [
-     44
-    ],
-    "baseWallSec": 30.679,
-    "nowWallSec": 61.445,
-    "baseRate": 1428571,
-    "nowRate": 800000,
+    "nowRate": 1333333,
     "inBase": true,
     "same": true
    },
@@ -1948,9 +1751,9 @@
      29
     ],
     "baseWallSec": 8.832,
-    "nowWallSec": 16.433,
+    "nowWallSec": 9.562,
     "baseRate": 833333,
-    "nowRate": 312500,
+    "nowRate": 769231,
     "inBase": true,
     "same": true
    },
@@ -1969,30 +1772,9 @@
      29
     ],
     "baseWallSec": 17.209,
-    "nowWallSec": 32.801,
+    "nowWallSec": 19.446,
     "baseRate": 800000,
-    "nowRate": 454545,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrB1534DFM",
-    "emoji": "🧶",
-    "tag": "dt/4",
-    "baseMaxSteps": 26471251,
-    "nowMaxSteps": 26471251,
-    "baseStepsRun": 26471251,
-    "nowStepsRun": 26471251,
-    "basePeriFoundA": [
-     29
-    ],
-    "nowPeriFoundA": [
-     29
-    ],
-    "baseWallSec": 34.683,
-    "nowWallSec": 65.989,
-    "baseRate": 800000,
-    "nowRate": 363636,
+    "nowRate": 769231,
     "inBase": true,
     "same": true
    },
@@ -2011,9 +1793,9 @@
      29
     ],
     "baseWallSec": 12.858,
-    "nowWallSec": 20.972,
+    "nowWallSec": 12.974,
     "baseRate": 476190,
-    "nowRate": 338983,
+    "nowRate": 270270,
     "inBase": true,
     "same": true
    },
@@ -2032,30 +1814,9 @@
      29
     ],
     "baseWallSec": 26.171,
-    "nowWallSec": 42.743,
+    "nowWallSec": 27.426,
     "baseRate": 540541,
-    "nowRate": 266667,
-    "inBase": true,
-    "same": true
-   },
-   {
-    "id": "psrB1534CF",
-    "emoji": "🪤",
-    "tag": "dt/4",
-    "baseMaxSteps": 26471251,
-    "nowMaxSteps": 26471251,
-    "baseStepsRun": 26471251,
-    "nowStepsRun": 26471251,
-    "basePeriFoundA": [
-     29
-    ],
-    "nowPeriFoundA": [
-     29
-    ],
-    "baseWallSec": 53.718,
-    "nowWallSec": 83.906,
-    "baseRate": 526316,
-    "nowRate": 344828,
+    "nowRate": 465116,
     "inBase": true,
     "same": true
    },
@@ -2074,9 +1835,9 @@
      60
     ],
     "baseWallSec": 0.439,
-    "nowWallSec": 0.821,
+    "nowWallSec": 0.414,
     "baseRate": 1666667,
-    "nowRate": 1000000,
+    "nowRate": 2000000,
     "inBase": true,
     "same": true
    },
@@ -2095,9 +1856,9 @@
      60
     ],
     "baseWallSec": 0.819,
-    "nowWallSec": 1.48,
+    "nowWallSec": 0.857,
     "baseRate": 2222222,
-    "nowRate": 1052632,
+    "nowRate": 1666667,
     "inBase": true,
     "same": true
    },
@@ -2116,9 +1877,9 @@
      7
     ],
     "baseWallSec": 0.311,
-    "nowWallSec": 0.679,
+    "nowWallSec": 0.487,
     "baseRate": 666667,
-    "nowRate": 392157,
+    "nowRate": 645161,
     "inBase": true,
     "same": true
    },
@@ -2137,9 +1898,9 @@
      6
     ],
     "baseWallSec": 0.585,
-    "nowWallSec": 1.229,
+    "nowWallSec": 0.623,
     "baseRate": 1111111,
-    "nowRate": 476190,
+    "nowRate": 689655,
     "inBase": true,
     "same": true
    },
@@ -2158,9 +1919,9 @@
      1
     ],
     "baseWallSec": 0.03,
-    "nowWallSec": 0.052,
+    "nowWallSec": 0.038,
     "baseRate": 540541,
-    "nowRate": 370370,
+    "nowRate": 571429,
     "inBase": true,
     "same": true
    },
@@ -2179,9 +1940,9 @@
      1
     ],
     "baseWallSec": 0.051,
-    "nowWallSec": 0.07,
+    "nowWallSec": 0.059,
     "baseRate": 800000,
-    "nowRate": 246914,
+    "nowRate": 571429,
     "inBase": true,
     "same": true
    },
@@ -2200,9 +1961,9 @@
      58
     ],
     "baseWallSec": 2.927,
-    "nowWallSec": 5.129,
+    "nowWallSec": 3.084,
     "baseRate": 137931,
-    "nowRate": 93458,
+    "nowRate": 153846,
     "inBase": true,
     "same": true
    },
@@ -2221,9 +1982,9 @@
      58
     ],
     "baseWallSec": 5.281,
-    "nowWallSec": 9.621,
+    "nowWallSec": 6.013,
     "baseRate": 238095,
-    "nowRate": 144928,
+    "nowRate": 232558,
     "inBase": true,
     "same": true
    },
@@ -2242,9 +2003,9 @@
      58
     ],
     "baseWallSec": 11.188,
-    "nowWallSec": 19.79,
+    "nowWallSec": 12.691,
     "baseRate": 240964,
-    "nowRate": 147059,
+    "nowRate": 208333,
     "inBase": true,
     "same": true
    },
@@ -2263,15 +2024,18 @@
     ],
     "nowPeriFoundA": [
      63,
-     36,
+     35,
      3
     ],
     "baseWallSec": 435.531,
-    "nowWallSec": 824.085,
+    "nowWallSec": 58.793,
     "baseRate": 4832,
-    "nowRate": 2455,
+    "nowRate": 36364,
     "inBase": true,
-    "same": true
+    "same": false,
+    "declaredException": true,
+    "exceptionWhy": "第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)",
+    "exceptionSince": "w284e"
    },
    {
     "id": "saturnRingRealKF1",
@@ -2292,18 +2056,18 @@
      1
     ],
     "baseWallSec": 409.715,
-    "nowWallSec": 830.204,
+    "nowWallSec": 17.997,
     "baseRate": 670,
-    "nowRate": 297,
+    "nowRate": 14970,
     "inBase": true,
     "same": true
    }
   ],
-  "finding": "**6 段で基点と違う**(うち宣言した例外 6 段 / 宣言の無い差 0 段 —— differingRows に並べた)。宣言した例外は「步数上限の宣言を足したので基点より長く走る」段であり、**判定量そのものが動いたという意味ではない**(値が動いたかどうかは走行 JSON を読む)。宣言の無い差は隠さずに読むこと。"
+  "finding": "**7 段で基点と違う**(うち宣言した例外 7 段 / 宣言の無い差 0 段 —— differingRows に並べた)。宣言した例外は「步数上限の宣言を足したので基点より長く走る」段であり、**判定量そのものが動いたという意味ではない**(値が動いたかどうかは走行 JSON を読む)。宣言の無い差は隠さずに読むこと。"
  },
  "recalc": {
-  "n": 86,
-  "ok": 86,
+  "n": 73,
+  "ok": 73,
   "bad": [],
   "rows": [
    {
@@ -2325,7 +2089,7 @@
      27
     ],
     "periastraOk": true,
-    "wallSec": 43.364,
+    "wallSec": 25.166,
     "resourceExceeded": false
    },
    {
@@ -2347,7 +2111,7 @@
      13
     ],
     "periastraOk": false,
-    "wallSec": 44.687,
+    "wallSec": 24.292,
     "resourceExceeded": false
    },
    {
@@ -2369,7 +2133,7 @@
      26
     ],
     "periastraOk": true,
-    "wallSec": 80.354,
+    "wallSec": 44.385,
     "resourceExceeded": false
    },
    {
@@ -2391,7 +2155,7 @@
      13
     ],
     "periastraOk": false,
-    "wallSec": 80.233,
+    "wallSec": 45.178,
     "resourceExceeded": false
    },
    {
@@ -2413,7 +2177,7 @@
      26
     ],
     "periastraOk": true,
-    "wallSec": 69.759,
+    "wallSec": 41.809,
     "resourceExceeded": false
    },
    {
@@ -2435,7 +2199,7 @@
      13
     ],
     "periastraOk": false,
-    "wallSec": 69.053,
+    "wallSec": 39.973,
     "resourceExceeded": false
    },
    {
@@ -2457,7 +2221,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 1.202,
+    "wallSec": 0.854,
     "resourceExceeded": false
    },
    {
@@ -2479,7 +2243,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 2.286,
+    "wallSec": 1.538,
     "resourceExceeded": false
    },
    {
@@ -2501,7 +2265,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 2.998,
+    "wallSec": 2.017,
     "resourceExceeded": false
    },
    {
@@ -2523,7 +2287,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 6.242,
+    "wallSec": 3.407,
     "resourceExceeded": false
    },
    {
@@ -2545,7 +2309,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 5.864,
+    "wallSec": 3.207,
     "resourceExceeded": false
    },
    {
@@ -2567,7 +2331,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 11.017,
+    "wallSec": 5.965,
     "resourceExceeded": false
    },
    {
@@ -2592,7 +2356,7 @@
      2
     ],
     "periastraOk": false,
-    "wallSec": 830.64,
+    "wallSec": 31.518,
     "resourceExceeded": false
    },
    {
@@ -2617,7 +2381,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 23.017,
+    "wallSec": 13.596,
     "resourceExceeded": false
    },
    {
@@ -2642,7 +2406,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 45.514,
+    "wallSec": 27.86,
     "resourceExceeded": false
    },
    {
@@ -2664,7 +2428,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 13.49,
+    "wallSec": 8.32,
     "resourceExceeded": false
    },
    {
@@ -2686,7 +2450,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 27.288,
+    "wallSec": 15.501,
     "resourceExceeded": false
    },
    {
@@ -2709,7 +2473,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 8.782,
+    "wallSec": 5.107,
     "resourceExceeded": false
    },
    {
@@ -2732,7 +2496,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 17.867,
+    "wallSec": 10.074,
     "resourceExceeded": false
    },
    {
@@ -2754,7 +2518,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 38.323,
+    "wallSec": 22.002,
     "resourceExceeded": false
    },
    {
@@ -2776,29 +2540,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 75.651,
-    "resourceExceeded": false
-   },
-   {
-    "id": "plutoCharonReal",
-    "emoji": "❄️",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 82777992,
-    "source": "preset",
-    "recorded": 82777992,
-    "recomputed": 82777980,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "declared-max-steps",
-    "stoppedBy": "declared-max-steps",
-    "tol": 31,
-    "periFoundA": [
-     59
-    ],
-    "periastraOk": true,
-    "wallSec": 149.572,
+    "wallSec": 45.024,
     "resourceExceeded": false
    },
    {
@@ -2824,7 +2566,7 @@
      1
     ],
     "periastraOk": false,
-    "wallSec": 837.946,
+    "wallSec": 39.729,
     "resourceExceeded": false
    },
    {
@@ -2846,7 +2588,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 3.542,
+    "wallSec": 2.191,
     "resourceExceeded": false
    },
    {
@@ -2868,7 +2610,7 @@
      59
     ],
     "periastraOk": true,
-    "wallSec": 7.565,
+    "wallSec": 3.907,
     "resourceExceeded": false
    },
    {
@@ -2890,7 +2632,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 12.118,
+    "wallSec": 5.943,
     "resourceExceeded": false
    },
    {
@@ -2912,7 +2654,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 22.25,
+    "wallSec": 12.932,
     "resourceExceeded": false
    },
    {
@@ -2934,7 +2676,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 46.019,
+    "wallSec": 24.654,
     "resourceExceeded": false
    },
    {
@@ -2956,7 +2698,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 20.902,
+    "wallSec": 12.016,
     "resourceExceeded": false
    },
    {
@@ -2978,29 +2720,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 40.766,
-    "resourceExceeded": false
-   },
-   {
-    "id": "alphaCenABDFM",
-    "emoji": "✴️",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 37757313,
-    "recomputed": 37757340,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
-    "tol": 31,
-    "periFoundA": [
-     60
-    ],
-    "periastraOk": true,
-    "wallSec": 82.591,
+    "wallSec": 23.045,
     "resourceExceeded": false
    },
    {
@@ -3022,7 +2742,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 7.001,
+    "wallSec": 3.687,
     "resourceExceeded": false
    },
    {
@@ -3044,7 +2764,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 14.781,
+    "wallSec": 8.216,
     "resourceExceeded": false
    },
    {
@@ -3066,7 +2786,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 27.943,
+    "wallSec": 15.828,
     "resourceExceeded": false
    },
    {
@@ -3088,7 +2808,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 12.861,
+    "wallSec": 7.377,
     "resourceExceeded": false
    },
    {
@@ -3110,29 +2830,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 24.967,
-    "resourceExceeded": false
-   },
-   {
-    "id": "siriusABDFM",
-    "emoji": "💫",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 23729530,
-    "recomputed": 23729520,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
-    "tol": 31,
-    "periFoundA": [
-     60
-    ],
-    "periastraOk": true,
-    "wallSec": 51.563,
+    "wallSec": 14.519,
     "resourceExceeded": false
    },
    {
@@ -3154,7 +2852,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 4.011,
+    "wallSec": 2.989,
     "resourceExceeded": false
    },
    {
@@ -3176,29 +2874,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 8.181,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrDoubleAB",
-    "emoji": "📻",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 13251799,
-    "recomputed": 13251780,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-window(走り切った)",
-    "tol": 31,
-    "periFoundA": [
-     60
-    ],
-    "periastraOk": true,
-    "wallSec": 15.706,
+    "wallSec": 4.807,
     "resourceExceeded": false
    },
    {
@@ -3208,8 +2884,8 @@
     "dt": 0.016,
     "declared": 40000000,
     "source": "class(n<=3)",
-    "recorded": 1385472,
-    "recomputed": 1385460,
+    "recorded": 3312950,
+    "recomputed": 3312960,
     "ok": true,
     "error": null,
     "needPeriastra": 20,
@@ -3217,10 +2893,10 @@
     "stoppedBy": "orbit-window(走り切った)",
     "tol": 31,
     "periFoundA": [
-     25
+     3
     ],
-    "periastraOk": true,
-    "wallSec": 3.462,
+    "periastraOk": false,
+    "wallSec": 4.183,
     "resourceExceeded": false
    },
    {
@@ -3230,8 +2906,8 @@
     "dt": 0.008,
     "declared": 40000000,
     "source": "class(n<=3)",
-    "recorded": 2770943,
-    "recomputed": 2770920,
+    "recorded": 6625899,
+    "recomputed": 6625920,
     "ok": true,
     "error": null,
     "needPeriastra": 20,
@@ -3239,32 +2915,10 @@
     "stoppedBy": "orbit-window(走り切った)",
     "tol": 31,
     "periFoundA": [
-     25
+     3
     ],
-    "periastraOk": true,
-    "wallSec": 6.957,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrDoubleABDFM",
-    "emoji": "⚡",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 5541886,
-    "recomputed": 5541900,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-window(走り切った)",
-    "tol": 31,
-    "periFoundA": [
-     25
-    ],
-    "periastraOk": true,
-    "wallSec": 13.388,
+    "periastraOk": false,
+    "wallSec": 8.235,
     "resourceExceeded": false
    },
    {
@@ -3286,7 +2940,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 3.765,
+    "wallSec": 2.499,
     "resourceExceeded": false
    },
    {
@@ -3308,7 +2962,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 7.012,
+    "wallSec": 4.384,
     "resourceExceeded": false
    },
    {
@@ -3330,7 +2984,7 @@
      37
     ],
     "periastraOk": true,
-    "wallSec": 8.825,
+    "wallSec": 5.284,
     "resourceExceeded": false
    },
    {
@@ -3352,29 +3006,7 @@
      36
     ],
     "periastraOk": true,
-    "wallSec": 17.274,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrJ1757DFM",
-    "emoji": "🧮",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 14138701,
-    "recomputed": 14138700,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-window(走り切った)",
-    "tol": 31,
-    "periFoundA": [
-     36
-    ],
-    "periastraOk": true,
-    "wallSec": 36.794,
+    "wallSec": 10.213,
     "resourceExceeded": false
    },
    {
@@ -3396,7 +3028,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 2.398,
+    "wallSec": 1.595,
     "resourceExceeded": false
    },
    {
@@ -3418,29 +3050,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 5.271,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrJ1946DFM",
-    "emoji": "🩺",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 4162598,
-    "recomputed": 4162620,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-window(走り切った)",
-    "tol": 31,
-    "periFoundA": [
-     25
-    ],
-    "periastraOk": true,
-    "wallSec": 10.32,
+    "wallSec": 2.941,
     "resourceExceeded": false
    },
    {
@@ -3462,7 +3072,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 3.491,
+    "wallSec": 2.065,
     "resourceExceeded": false
    },
    {
@@ -3484,7 +3094,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 6.905,
+    "wallSec": 3.875,
     "resourceExceeded": false
    },
    {
@@ -3506,7 +3116,7 @@
      37
     ],
     "periastraOk": true,
-    "wallSec": 8.566,
+    "wallSec": 5.388,
     "resourceExceeded": false
    },
    {
@@ -3528,7 +3138,7 @@
      36
     ],
     "periastraOk": true,
-    "wallSec": 17.298,
+    "wallSec": 10.366,
     "resourceExceeded": false
    },
    {
@@ -3550,7 +3160,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 2.432,
+    "wallSec": 1.646,
     "resourceExceeded": false
    },
    {
@@ -3572,7 +3182,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 5.221,
+    "wallSec": 3.023,
     "resourceExceeded": false
    },
    {
@@ -3594,7 +3204,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 4.731,
+    "wallSec": 2.872,
     "resourceExceeded": false
    },
    {
@@ -3616,29 +3226,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 8.951,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrDoubleABCF",
-    "emoji": "🪝",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 5541886,
-    "recomputed": 5541900,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-window(走り切った)",
-    "tol": 31,
-    "periFoundA": [
-     25
-    ],
-    "periastraOk": true,
-    "wallSec": 17.555,
+    "wallSec": 5.651,
     "resourceExceeded": false
    },
    {
@@ -3660,7 +3248,7 @@
      37
     ],
     "periastraOk": true,
-    "wallSec": 11.763,
+    "wallSec": 6.779,
     "resourceExceeded": false
    },
    {
@@ -3682,29 +3270,7 @@
      36
     ],
     "periastraOk": true,
-    "wallSec": 23.116,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrJ1757CF",
-    "emoji": "🪄",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 14138701,
-    "recomputed": 14138700,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-window(走り切った)",
-    "tol": 31,
-    "periFoundA": [
-     36
-    ],
-    "periastraOk": true,
-    "wallSec": 45.993,
+    "wallSec": 14.111,
     "resourceExceeded": false
    },
    {
@@ -3726,7 +3292,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 3.39,
+    "wallSec": 2.012,
     "resourceExceeded": false
    },
    {
@@ -3748,29 +3314,7 @@
      25
     ],
     "periastraOk": true,
-    "wallSec": 6.859,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrJ1946CF",
-    "emoji": "🩹",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 4162598,
-    "recomputed": 4162620,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-window(走り切った)",
-    "tol": 31,
-    "periFoundA": [
-     25
-    ],
-    "periastraOk": true,
-    "wallSec": 12.991,
+    "wallSec": 3.85,
     "resourceExceeded": false
    },
    {
@@ -3792,7 +3336,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 19.736,
+    "wallSec": 12.38,
     "resourceExceeded": false
    },
    {
@@ -3814,29 +3358,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 39.487,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrB1534",
-    "emoji": "📿",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 40000000,
-    "recomputed": 40000000,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "declared-max-steps",
-    "stoppedBy": "declared-max-steps",
-    "tol": 0,
-    "periFoundA": [
-     44
-    ],
-    "periastraOk": true,
-    "wallSec": 61.445,
+    "wallSec": 23.995,
     "resourceExceeded": false
    },
    {
@@ -3858,7 +3380,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 16.433,
+    "wallSec": 9.562,
     "resourceExceeded": false
    },
    {
@@ -3880,29 +3402,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 32.801,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrB1534DFM",
-    "emoji": "🧶",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 26471251,
-    "recomputed": 26471280,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-window(走り切った)",
-    "tol": 31,
-    "periFoundA": [
-     29
-    ],
-    "periastraOk": true,
-    "wallSec": 65.989,
+    "wallSec": 19.446,
     "resourceExceeded": false
    },
    {
@@ -3924,7 +3424,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 20.972,
+    "wallSec": 12.974,
     "resourceExceeded": false
    },
    {
@@ -3946,29 +3446,7 @@
      29
     ],
     "periastraOk": true,
-    "wallSec": 42.743,
-    "resourceExceeded": false
-   },
-   {
-    "id": "psrB1534CF",
-    "emoji": "🪤",
-    "tag": "dt/4",
-    "dt": 0.004,
-    "declared": 40000000,
-    "source": "class(n<=3)",
-    "recorded": 26471251,
-    "recomputed": 26471280,
-    "ok": true,
-    "error": null,
-    "needPeriastra": 20,
-    "boundBy": "orbit-window",
-    "stoppedBy": "orbit-window(走り切った)",
-    "tol": 31,
-    "periFoundA": [
-     29
-    ],
-    "periastraOk": true,
-    "wallSec": 83.906,
+    "wallSec": 27.426,
     "resourceExceeded": false
    },
    {
@@ -3990,7 +3468,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 0.821,
+    "wallSec": 0.414,
     "resourceExceeded": false
    },
    {
@@ -4012,7 +3490,7 @@
      60
     ],
     "periastraOk": true,
-    "wallSec": 1.48,
+    "wallSec": 0.857,
     "resourceExceeded": false
    },
    {
@@ -4034,7 +3512,7 @@
      7
     ],
     "periastraOk": false,
-    "wallSec": 0.679,
+    "wallSec": 0.487,
     "resourceExceeded": false
    },
    {
@@ -4056,7 +3534,7 @@
      6
     ],
     "periastraOk": false,
-    "wallSec": 1.229,
+    "wallSec": 0.623,
     "resourceExceeded": false
    },
    {
@@ -4078,7 +3556,7 @@
      1
     ],
     "periastraOk": false,
-    "wallSec": 0.052,
+    "wallSec": 0.038,
     "resourceExceeded": false
    },
    {
@@ -4100,7 +3578,7 @@
      1
     ],
     "periastraOk": false,
-    "wallSec": 0.07,
+    "wallSec": 0.059,
     "resourceExceeded": false
    },
    {
@@ -4122,7 +3600,7 @@
      58
     ],
     "periastraOk": true,
-    "wallSec": 5.129,
+    "wallSec": 3.084,
     "resourceExceeded": false
    },
    {
@@ -4144,7 +3622,7 @@
      58
     ],
     "periastraOk": true,
-    "wallSec": 9.621,
+    "wallSec": 6.013,
     "resourceExceeded": false
    },
    {
@@ -4166,7 +3644,7 @@
      58
     ],
     "periastraOk": true,
-    "wallSec": 19.79,
+    "wallSec": 12.691,
     "resourceExceeded": false
    },
    {
@@ -4186,11 +3664,11 @@
     "tol": 0,
     "periFoundA": [
      63,
-     36,
+     35,
      3
     ],
     "periastraOk": false,
-    "wallSec": 824.085,
+    "wallSec": 58.793,
     "resourceExceeded": false
    },
    {
@@ -4214,7 +3692,7 @@
      1
     ],
     "periastraOk": false,
-    "wallSec": 830.204,
+    "wallSec": 17.997,
     "resourceExceeded": false
    }
   ],
@@ -4223,12 +3701,12 @@
  "resource": {
   "ceilingSec": 900,
   "exceeded": [],
-  "maxWallSec": 837.946,
-  "stages": 86,
-  "finding": "**資源上限を超えた段は 0 である**(最長 837.9 s < 900 s)—— 現行の走行では**効いていない上限**である。効いていないことを隠さずに書く(上限があること自体は、打ち切った軌道を判定へ流さないための宣言として要る)。"
+  "maxWallSec": 58.793,
+  "stages": 73,
+  "finding": "**資源上限を超えた段は 0 である**(最長 58.8 s < 900 s)—— 現行の走行では**効いていない上限**である。効いていないことを隠さずに書く(上限があること自体は、打ち切った軌道を判定へ流さないための宣言として要る)。"
  },
  "shortPeriastra": {
-  "n": 11,
+  "n": 13,
   "rows": [
    {
     "id": "earthMoonReal",
@@ -4293,6 +3771,28 @@
     "stoppedBy": "declared-max-steps"
    },
    {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt",
+    "found": [
+     3
+    ],
+    "need": 20,
+    "reason": "window",
+    "stoppedBy": "orbit-window(走り切った)"
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "tag": "dt/2",
+    "found": [
+     3
+    ],
+    "need": 20,
+    "reason": "window",
+    "stoppedBy": "orbit-window(走り切った)"
+   },
+   {
     "id": "gw150914DFM",
     "emoji": "🎻",
     "tag": "dt",
@@ -4342,7 +3842,7 @@
     "tag": "dt",
     "found": [
      63,
-     36,
+     35,
      3
     ],
     "need": 20,

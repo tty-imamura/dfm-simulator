@@ -72,7 +72,19 @@ export const GATE_TEXT = [
 ];
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
-const byId = (HP, id) => HP.allPresets().find((q) => q.id === id);
+const byId0 = (HP, id) => HP.allPresets().find((q) => q.id === id);
+// 第284便a(原仮定者の裁定(第74報)④): 💮 の宣言を書き換えた世代では、第283便f の宣言の**凍結写し**
+//   tests/fixtures/cluster-w283f-preset.json を読む(この器と正本 cluster-w283f.json は第283便f の宣言の記録 ——
+//   第283便f の宣言が使う経路〔vMode virial・既定の接触ばね〕は第284便a で 1 bit も変えていない)。
+export const FIXTURE_283F = 'tests/fixtures/cluster-w283f-preset.json';
+let FX283F = null;
+export function sourcePreset(HP) {
+  const cur = byId0(HP, PRESET);
+  if (cur && cur.massLedger && cur.massLedger.version === 'w283f-1') return cur;
+  if (!FX283F) FX283F = JSON.parse(fs.readFileSync(path.join(ROOT, FIXTURE_283F), 'utf8')).preset;
+  return FX283F;
+}
+const byId = (HP, id) => (id === PRESET) ? sourcePreset(HP) : byId0(HP, id);
 export const rel = (a, b) => (a === b) ? 0 : Math.abs(a - b) / Math.max(Math.abs(a), Math.abs(b), 1e-300);
 
 /** 対照の写し(器の中だけ)。key: base / spin0 / noDR / nrep80 / nrep160。 */

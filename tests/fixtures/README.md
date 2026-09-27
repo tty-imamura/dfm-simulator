@@ -60,3 +60,25 @@ QA `migration.fixtures` が機械固定する。
   その結果を読む 4 試験の**最後の保存 QA の値**(pass・detail・所要 —— 転記であって測り直していない)。
 - `mechanism` … ゲートに残す機構の最小試験(コアの交換・傾斜・減光・パワーボールの 1 点ずつ)の試験 ID と本。
 - `analogyRef` … ⚫ の尺度比較の参照値(`tests/exp-w282d-analogy.mjs` の参照の行が読む)。
+
+## cluster-w283f-preset.json(第284便a — 第283便f の 💮 の凍結写し)
+
+原仮定者の裁定(第74報)④「clusterAnalogyBH を修正する」で 💮 `clusterAnalogyBH` の宣言(接触ばね・代表粒子の半径・初速・台帳)を
+書き換えた。第283便f の器 `tests/exp-w283f-cluster.mjs` と正本 `tests/out/cluster-w283f.json` は**第283便f の宣言の記録**なので、
+内蔵の 💮 が第284便a の世代(`massLedger.version` が `w283f-1` でない)ならこの写しを読む(第283便f の宣言が使う経路 ——
+vMode virial・既定の接触ばね —— は第284便a で 1 bit も変えていないので、同じ写しから同じ走行になる)。**書き換えない**。
+
+- `preset` … 基点 2a4af53 の `allPresets()` の 💮 の要素(JSON 写し)。`source` に基点の html の sha256 と presetSig の sha256。
+
+## retired-w284b.json(第284便b — 退役 6 本と ⚡ の旧則の凍結資産)
+
+原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)。f=1 の修正を進める」で
+**退役**にした 6 本(🎋 `galaxyMeshSpiralGeoToyLite`・🪶 `psrDoubleABPN`・🪃 `psrJ1757PN`・🪀 `psrJ1946PN`・⭕ `emAuditNewton`〔🌙 と実効 JSON 同一〕・
+🪝 `psrDoubleABCF`〔⚡ の f=1 署名と同時〕)と、**f=1 へ移した ⚡ `psrDoubleABDFM` の旧則**(第245〜283便の一次則 f≈2 の条件つき較正)の凍結資産。
+**書き換えない**(器 `tests/exp-w284b-retiredfx.mjs` が 1 度だけ作る —— 既存があれば `--force` なしでは止まる)。
+
+- `presets.<id>.raw` … 第284便b の html の `BUILTIN_PRESETS` の要素そのもの(JSON 写し)と `presetSigHash`・基点 2a4af53 の署名(`base`)。
+  QA `docs.retired` ④ が内蔵と 200 步の状態のビット一致を照合する(⭕ だけは AN39 の geoPN=1 宣言で署名が基点と違う —— 力学はビット同一)。
+- `superseded.psrDoubleABDFM` … 基点 2a4af53 の ⚡ の定義(旧 massCalibration・旧 claims の窓と説明文の値・旧 obsCard の行名)。**現行の根拠ではない**(履歴)。
+  QA `behavior.psrF1` が「初速・位置・dragQ は移行前とビット同一(比較用に固定)」をこの写しと照合し、`behavior.w249a-pnResponse` が 🪶 の複製元をこの写しへ付け替える。
+- `history.tests` … 付け替えた試験の**基点の保存 QA の値**(pass・detail・所要 —— 転記であって測り直していない)。

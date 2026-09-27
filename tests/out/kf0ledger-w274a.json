@@ -3,32 +3,32 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
-  "generatedAt": "2026-09-26T23:44:03.175Z",
+  "targetSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+  "generatedAt": "2026-09-27T14:24:36.356Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2698393,
-    "sha256": "e3cff1886351ee6127e7a9abd56b47711f708c2028f222c5f09cd0046cdb669d",
-    "mtime": "2026-09-26T21:43:29.368Z"
+    "bytes": 2673043,
+    "sha256": "5d162b88475b704fd764dbaded94e789992d2ae8a00d83d1f94c56723710bb97",
+    "mtime": "2026-09-27T13:31:12.903Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 159764,
-    "sha256": "88ff6528d0417aad40366ad291e6d677bb10fba4e860837ceb76569ad4323318",
-    "mtime": "2026-09-26T23:30:51.416Z"
+    "bytes": 159744,
+    "sha256": "0afc19157443a6cf84aef5b60420ed2a8c64ccba345dec8c2f681e6c605b25ed",
+    "mtime": "2026-09-27T14:03:38.775Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
-    "bytes": 13500,
-    "sha256": "8170e6f3a49f08355aa6dc0ddcc16f068b54cb3f3a460e683bc113458a9bb397",
-    "mtime": "2026-09-26T20:15:19.000Z"
+    "bytes": 13295,
+    "sha256": "2eba6e8a8f913b457d6720c8167134710afb2363238a463be9c8746551c914bf",
+    "mtime": "2026-09-27T13:26:39.779Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223870,
-    "sha256": "4ec1d8f3c9c351abe56361b5302227afd9f3d3c312a288b430d65c5ab7d326b7",
-    "mtime": "2026-09-26T18:18:36.196Z"
+    "sha256": "b8dd908b59d7d49d6b61e8f3711d3c801b1838d2c3fee86e36558b14a5ea9e81",
+    "mtime": "2026-09-27T11:33:25.007Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 127353,
-    "sha256": "bf1121adfe367c6484b5e72fc736870797711c768a4cc65cce30970abf1ec4dd",
-    "mtime": "2026-09-26T22:04:04.524Z"
+    "bytes": 125616,
+    "sha256": "4755a7c72da4161f1ff552ad0a8717df9292449da37f062076b8e58a75a2d0ef",
+    "mtime": "2026-09-27T13:47:58.795Z"
    }
   ],
   "code": [
@@ -105,8 +105,8 @@
   "nDiagnostic": 6,
   "kf1": {
    "run": {
-    "✓": 32,
-    "✗": 1,
+    "✓": 31,
+    "✗": 2,
     "未測定": 10
    },
    "structure": {
@@ -116,13 +116,13 @@
    },
    "numeric": {
     "✓": 0,
-    "✗": 12,
-    "未測定": 31
+    "✗": 1,
+    "未測定": 42
    },
    "observation": {
     "✓": 0,
-    "✗": 5,
-    "未測定": 38
+    "✗": 4,
+    "未測定": 39
    }
   },
   "kf0": {
@@ -137,9 +137,9 @@
     "未測定": 42
    },
    "numeric": {
-    "✓": 6,
-    "✗": 1,
-    "未測定": 36
+    "✓": 5,
+    "✗": 0,
+    "未測定": 38
    },
    "observation": {
     "✓": 2,
@@ -151,7 +151,7 @@
   "nLabelled": 0,
   "labelledIds": [],
   "kf1NgKf0OkIds": [],
-  "nKOnlyContrast": 11,
+  "nKOnlyContrast": 13,
   "kOnlyContrastIds": [
    "jupiterGalilean",
    "venusReal",
@@ -162,19 +162,21 @@
    "alphaCenABDFM",
    "siriusAB",
    "siriusABDFM",
+   "psrDoubleAB",
+   "psrDoubleABDFM",
    "plutoCharonReal@charon-w272b",
    "ngc3198DFM@galaxydiag-w271d"
   ],
-  "nPairsKOnly": 2,
+  "nPairsKOnly": 3,
   "pairsKOnly": [
    "alphaCenAB↔alphaCenABDFM",
-   "siriusAB↔siriusABDFM"
+   "siriusAB↔siriusABDFM",
+   "psrDoubleAB↔psrDoubleABDFM"
   ],
   "pairsNotKOnly": [
    "earthMoonReal↔earthMoonRealKF1",
    "mercuryReal↔mercuryRealKF1",
    "saturnRingReal↔saturnRingRealKF1",
-   "psrDoubleAB↔psrDoubleABDFM",
    "psrB1534↔psrB1534DFM",
    "gw150914↔gw150914DFM"
   ],
@@ -182,7 +184,6 @@
    "kf1Ok": [],
    "kf1Ng": [
     "plutoCharonReal@charon-w272b",
-    "psrDoubleABDFM@nslock-lock",
     "psrJ1757DFM@nslock-lock",
     "psrJ1946DFM@nslock-lock",
     "psrB1534DFM@nslock-lock"
@@ -285,13 +286,13 @@
    "emoji0": "📻",
    "emoji1": "⚡",
    "f0": 1,
-   "f1": 1.9999422693459927,
-   "fSame": false,
-   "kOnly": false,
-   "fDeltaRel": 0.9999422693459927,
+   "f1": 1,
+   "fSame": true,
+   "kOnly": true,
+   "fDeltaRel": 0,
    "kf1Observation": "未測定",
    "kf0Observation": "未測定",
-   "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.9999423)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+   "note": "**f 固定・k のみの対照**である"
   },
   {
    "k0": "psrB1534",
@@ -874,8 +875,7 @@
      "periastraOk": true,
      "stages": [
       "dt",
-      "dt/2",
-      "dt/4"
+      "dt/2"
      ]
     },
     "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
@@ -972,8 +972,7 @@
      "periastraOk": true,
      "stages": [
       "dt",
-      "dt/2",
-      "dt/4"
+      "dt/2"
      ]
     },
     "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
@@ -1070,8 +1069,7 @@
      "periastraOk": true,
      "stages": [
       "dt",
-      "dt/2",
-      "dt/4"
+      "dt/2"
      ]
     },
     "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
@@ -1128,7 +1126,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -1147,10 +1145,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "plutoCharonReal|カロン|period",
-      "plutoCharonReal|カロン|period"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -1159,12 +1154,12 @@
      "nSigma": [
       {
        "key": "plutoCharonReal|カロン|period",
-       "nSigma": 52261.27216176534,
+       "nSigma": 52245.18865738733,
        "status": "数値未解決"
       },
       {
        "key": "plutoCharonReal|カロン|period",
-       "nSigma": 170367.82615132438,
+       "nSigma": 170138.21321926554,
        "status": "mapping-unresolved"
       }
      ]
@@ -1359,8 +1354,7 @@
      "periastraOk": true,
      "stages": [
       "dt",
-      "dt/2",
-      "dt/4"
+      "dt/2"
      ]
     },
     "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
@@ -1503,7 +1497,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -1522,10 +1516,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "alphaCenABDFM|B|period",
-      "alphaCenABDFM|B|ecc"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -1534,12 +1525,12 @@
      "nSigma": [
       {
        "key": "alphaCenABDFM|B|period",
-       "nSigma": 25.03628880545534,
+       "nSigma": 25.05094722338467,
        "status": "数値未解決"
       },
       {
        "key": "alphaCenABDFM|B|ecc",
-       "nSigma": 6.231914220879987,
+       "nSigma": 6.232481728218146,
        "status": "mapping-unresolved"
       }
      ]
@@ -1683,7 +1674,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -1702,10 +1693,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "siriusABDFM|B|period",
-      "siriusABDFM|B|ecc"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -1714,12 +1702,12 @@
      "nSigma": [
       {
        "key": "siriusABDFM|B|period",
-       "nSigma": 205.922532514465,
+       "nSigma": 206.1563784106908,
        "status": "数値未解決"
       },
       {
        "key": "siriusABDFM|B|ecc",
-       "nSigma": 5.917484636969022,
+       "nSigma": 5.918433682962466,
        "status": "mapping-unresolved"
       }
      ]
@@ -1772,94 +1760,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✓",
-    "observation": "未測定",
-    "runEvidence": {
-     "source": "calaudit-w249.json#presets[].run",
-     "nan": false,
-     "clamp": 0,
-     "stoppedBy": "orbit-window(走り切った)",
-     "periastraOk": true
-    },
-    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
-    "nQuantities": 4,
-    "nWithSigma": 3,
-    "gateByStatus": {
-     "数値未解決": 2,
-     "mapping-unresolved": 1,
-     "未判定": 1
-    },
-    "numericEvidence": {
-     "convergedKeys": [
-      "psrDoubleAB|B|ecc"
-     ],
-     "threeStageKeys": [
-      "psrDoubleAB|B|period",
-      "psrDoubleAB|B|ecc",
-      "psrDoubleAB|B|precession"
-     ],
-     "orders": [
-      {
-       "key": "psrDoubleAB|B|ecc",
-       "order": 1.810975109102881,
-       "epsHatInSigma": 0.020633000100940373,
-       "assessedStage": "h4"
-      }
-     ]
-    },
-    "observationEvidence": {
-     "okKeys": [],
-     "ngKeys": [],
-     "nSigma": [
-      {
-       "key": "psrDoubleAB|B|period",
-       "nSigma": 947103.3842678417,
-       "status": "数値未解決"
-      },
-      {
-       "key": "psrDoubleAB|B|ecc",
-       "nSigma": 260.9892082230484,
-       "status": "mapping-unresolved"
-      },
-      {
-       "key": "psrDoubleAB|B|precession",
-       "nSigma": 1079785.2734223667,
-       "status": "数値未解決"
-      }
-     ]
-    }
-   },
-   "kOnlyContrast": {
-    "has": false,
-    "how": null,
-    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
-   },
-   "label": null,
-   "labelBasis": null,
-   "pair": {
-    "with": "psrDoubleABDFM",
-    "side": "kF0",
-    "kOnly": false,
-    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.9999423)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
-   }
-  },
-  {
-   "scope": "calibration",
-   "id": "psrDoubleABDFM",
-   "emoji": "⚡",
-   "name": "二重パルサー J0737−3039A/B(DFM版)— pull 重み・kF1 質量較正(f≈2)",
-   "declaredKFrame": 1,
-   "massFactor": 1.9999422693459927,
-   "massFactorSource": "massCalibration.baseMass",
-   "massFactorDeclared": 1.999942269345993,
-   "version": "dfm",
-   "kf0Source": null,
-   "kf0AppliedRows": [],
-   "kf1": {
-    "present": true,
-    "run": "✓",
-    "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -1878,11 +1779,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "psrDoubleABDFM|B|period",
-      "psrDoubleABDFM|B|ecc",
-      "psrDoubleABDFM|B|precession"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -1890,21 +1787,78 @@
      "ngKeys": [],
      "nSigma": [
       {
-       "key": "psrDoubleABDFM|B|period",
-       "nSigma": 97614187.8846667,
+       "key": "psrDoubleAB|B|period",
+       "nSigma": 949837.4595731482,
        "status": "数値未解決"
       },
       {
-       "key": "psrDoubleABDFM|B|ecc",
-       "nSigma": 1505.5777130744523,
+       "key": "psrDoubleAB|B|ecc",
+       "nSigma": 260.7558152997157,
        "status": "mapping-unresolved"
       },
       {
-       "key": "psrDoubleABDFM|B|precession",
-       "nSigma": 1317474.598437688,
+       "key": "psrDoubleAB|B|precession",
+       "nSigma": 1080092.8904408473,
        "status": "数値未解決"
       }
      ]
+    }
+   },
+   "kOnlyContrast": {
+    "has": true,
+    "how": "paired-preset",
+    "pairedWith": "psrDoubleABDFM",
+    "why": "対 `psrDoubleABDFM` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
+   },
+   "label": null,
+   "labelBasis": null,
+   "pair": {
+    "with": "psrDoubleABDFM",
+    "side": "kF0",
+    "kOnly": true,
+    "note": "**f 固定・k のみの対照**である"
+   }
+  },
+  {
+   "scope": "calibration",
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "name": "二重パルサー J0737−3039A/B(DFM版)— 観測質量(f=1)・kF1",
+   "declaredKFrame": 1,
+   "massFactor": 1,
+   "massFactorSource": "massCalibration.baseMass",
+   "massFactorDeclared": 1,
+   "version": "dfm",
+   "kf0Source": null,
+   "kf0AppliedRows": [],
+   "kf1": {
+    "present": true,
+    "run": "✓",
+    "structure": "未測定",
+    "numeric": "未測定",
+    "observation": "未測定",
+    "runEvidence": {
+     "source": "calaudit-w249.json#presets[].run",
+     "nan": false,
+     "clamp": 0,
+     "stoppedBy": "orbit-window(走り切った)",
+     "periastraOk": false
+    },
+    "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
+    "nQuantities": 4,
+    "nWithSigma": 1,
+    "gateByStatus": {
+     "未判定": 4
+    },
+    "numericEvidence": {
+     "convergedKeys": [],
+     "threeStageKeys": [],
+     "orders": []
+    },
+    "observationEvidence": {
+     "okKeys": [],
+     "ngKeys": [],
+     "nSigma": []
     }
    },
    "kf0": {
@@ -1916,17 +1870,18 @@
     "why": "この系に kFrame=0 の走行が無い(対照走行そのものが行われていない)"
    },
    "kOnlyContrast": {
-    "has": false,
-    "how": null,
-    "why": "この系の kF0 と kF1 は同じ走行の中に並んでいない"
+    "has": true,
+    "how": "paired-preset",
+    "pairedWith": "psrDoubleAB",
+    "why": "対 `psrDoubleAB` と **f が同じ**(1.0000000)で kFrame だけが違う。**別サンプルの対**なので、同一プリセットの診断コピーより弱い対照である(初期条件・停止条件の宣言も別である)。"
    },
    "label": null,
    "labelBasis": null,
    "pair": {
     "with": "psrDoubleAB",
     "side": "kF1",
-    "kOnly": false,
-    "note": "**k のみの対照ではない** —— 質量補正 f が一緒に動いている(f 1.0000000 → 1.9999423)。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+    "kOnly": true,
+    "note": "**f 固定・k のみの対照**である"
    }
   },
   {
@@ -2003,7 +1958,7 @@
    "scope": "calibration",
    "id": "psrJ1757DFM",
    "emoji": "🧮",
-   "name": "PSR J1757−1854(DFM版・hold-out)— ⚡ の処方をそのまま当てた中性子星連星2例目",
+   "name": "PSR J1757−1854(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた中性子星連星2例目",
    "declaredKFrame": 1,
    "massFactor": 1.9998956627766773,
    "massFactorSource": "massCalibration.baseMass",
@@ -2015,7 +1970,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -2034,12 +1989,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "psrJ1757DFM|B|precession",
-      "psrJ1757DFM|B|period",
-      "psrJ1757DFM|B|ecc",
-      "psrJ1757DFM|B|period"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -2048,17 +1998,17 @@
      "nSigma": [
       {
        "key": "psrJ1757DFM|B|precession",
-       "nSigma": 53265.373435192734,
+       "nSigma": 54543.637549431165,
        "status": "数値未解決"
       },
       {
        "key": "psrJ1757DFM|B|period",
-       "nSigma": 20787786.994657785,
+       "nSigma": 80932880.6382243,
        "status": "数値未解決"
       },
       {
        "key": "psrJ1757DFM|B|ecc",
-       "nSigma": 129.31638140212254,
+       "nSigma": 196.65744975605472,
        "status": "mapping-unresolved"
       }
      ]
@@ -2084,7 +2034,7 @@
    "scope": "calibration",
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "name": "PSR J1946+2052(DFM版・hold-out)— 銀河系で最短周期の中性子星連星",
+   "name": "PSR J1946+2052(DFM版・旧則 f≈2 — f=1 へ移行予定)— 銀河系で最短周期の中性子星連星",
    "declaredKFrame": 1,
    "massFactor": 1.999965529561755,
    "massFactorSource": "massCalibration.baseMass",
@@ -2096,7 +2046,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -2115,12 +2065,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "psrJ1946DFM|B|precession",
-      "psrJ1946DFM|B|period",
-      "psrJ1946DFM|B|ecc",
-      "psrJ1946DFM|B|period"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -2129,22 +2074,22 @@
      "nSigma": [
       {
        "key": "psrJ1946DFM|B|precession",
-       "nSigma": 65649.84430102621,
+       "nSigma": 70910.15244247513,
        "status": "数値未解決"
       },
       {
        "key": "psrJ1946DFM|B|period",
-       "nSigma": 13788029.042093217,
+       "nSigma": 55395765.81836796,
        "status": "数値未解決"
       },
       {
        "key": "psrJ1946DFM|B|ecc",
-       "nSigma": 85.38273124346699,
+       "nSigma": 294.45678286955587,
        "status": "mapping-unresolved"
       },
       {
        "key": "psrJ1946DFM|B|period",
-       "nSigma": 13788029.042093217,
+       "nSigma": 55395765.81836796,
        "status": "数値未解決"
       }
      ]
@@ -2170,7 +2115,7 @@
    "scope": "calibration",
    "id": "psrDoubleABPN",
    "emoji": "🪶",
-   "name": "二重パルサー J0737−3039A/B(NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
+   "name": "二重パルサー J0737−3039A/B(旧則・履歴: NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
    "declaredKFrame": 1,
    "massFactor": 1.9999422693459927,
    "massFactorSource": "massCalibration.baseMass",
@@ -2245,7 +2190,7 @@
    "scope": "calibration",
    "id": "psrJ1757PN",
    "emoji": "🪃",
-   "name": "PSR J1757−1854(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 2 例目",
+   "name": "PSR J1757−1854(旧則・履歴: NS 応答候補 λ_PN=1/f)— ⚡ の旧処方に 1/f を足して当てた 2 例目",
    "declaredKFrame": 1,
    "massFactor": 1.9998956627766773,
    "massFactorSource": "massCalibration.baseMass",
@@ -2320,7 +2265,7 @@
    "scope": "calibration",
    "id": "psrJ1946PN",
    "emoji": "🪀",
-   "name": "PSR J1946+2052(NS 応答候補 λ_PN=1/f)— ⚡ の処方に 1/f を足して当てた 3 例目",
+   "name": "PSR J1946+2052(旧則・履歴: NS 応答候補 λ_PN=1/f)— ⚡ の旧処方に 1/f を足して当てた 3 例目",
    "declaredKFrame": 1,
    "massFactor": 1.999965529561755,
    "massFactorSource": "massCalibration.baseMass",
@@ -2407,7 +2352,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -2425,10 +2370,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "psrDoubleABCF|B|precession",
-      "psrDoubleABCF|B|period"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -2437,12 +2379,12 @@
      "nSigma": [
       {
        "key": "psrDoubleABCF|B|precession",
-       "nSigma": 3611.5359296474267,
+       "nSigma": 34248.90051570187,
        "status": "数値未解決"
       },
       {
        "key": "psrDoubleABCF|B|period",
-       "nSigma": 97252156.36019558,
+       "nSigma": 387407410.77065396,
        "status": "数値未解決"
       }
      ]
@@ -2480,7 +2422,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -2498,10 +2440,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "psrJ1757CF|B|precession",
-      "psrJ1757CF|B|period"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -2510,12 +2449,12 @@
      "nSigma": [
       {
        "key": "psrJ1757CF|B|precession",
-       "nSigma": 168.73247301866948,
+       "nSigma": 844.4880139561807,
        "status": "数値未解決"
       },
       {
        "key": "psrJ1757CF|B|period",
-       "nSigma": 20777197.180415086,
+       "nSigma": 80920648.91400535,
        "status": "数値未解決"
       }
      ]
@@ -2553,7 +2492,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -2571,11 +2510,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "psrJ1946CF|B|precession",
-      "psrJ1946CF|B|period",
-      "psrJ1946CF|B|ecc"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -2584,17 +2519,17 @@
      "nSigma": [
       {
        "key": "psrJ1946CF|B|precession",
-       "nSigma": 276.04458017423843,
+       "nSigma": 5416.040402984378,
        "status": "数値未解決"
       },
       {
        "key": "psrJ1946CF|B|period",
-       "nSigma": 13736823.863528917,
+       "nSigma": 55343290.315360285,
        "status": "数値未解決"
       },
       {
        "key": "psrJ1946CF|B|ecc",
-       "nSigma": 67.23191317321506,
+       "nSigma": 276.3020695399979,
        "status": "mapping-unresolved"
       }
      ]
@@ -2640,7 +2575,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -2659,11 +2594,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "psrB1534|B|period",
-      "psrB1534|B|ecc",
-      "psrB1534|B|precession"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -2672,17 +2603,17 @@
      "nSigma": [
       {
        "key": "psrB1534|B|period",
-       "nSigma": 323156.64984034136,
+       "nSigma": 323640.0454153665,
        "status": "数値未解決"
       },
       {
        "key": "psrB1534|B|ecc",
-       "nSigma": 10.715496884990591,
+       "nSigma": 10.714453779203659,
        "status": "mapping-unresolved"
       },
       {
        "key": "psrB1534|B|precession",
-       "nSigma": 162641.5331880802,
+       "nSigma": 162649.54191398015,
        "status": "数値未解決"
       }
      ]
@@ -2706,7 +2637,7 @@
    "scope": "calibration",
    "id": "psrB1534DFM",
    "emoji": "🧶",
-   "name": "PSR B1534+12(DFM版・凍結 hold-out)— ⚡ の処方をそのまま当てた 4 例目",
+   "name": "PSR B1534+12(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた 4 例目",
    "declaredKFrame": 1,
    "massFactor": 1.9994854557873434,
    "massFactorSource": "massCalibration.baseMass",
@@ -2718,7 +2649,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -2737,11 +2668,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "psrB1534DFM|B|precession",
-      "psrB1534DFM|B|period",
-      "psrB1534DFM|B|ecc"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -2750,17 +2677,17 @@
      "nSigma": [
       {
        "key": "psrB1534DFM|B|precession",
-       "nSigma": 200942.8132366567,
+       "nSigma": 201841.93741501652,
        "status": "数値未解決"
       },
       {
        "key": "psrB1534DFM|B|period",
-       "nSigma": 52894534.298696235,
+       "nSigma": 156457258.33481568,
        "status": "数値未解決"
       },
       {
        "key": "psrB1534DFM|B|ecc",
-       "nSigma": 1002.5716415364612,
+       "nSigma": 1097.2988225512368,
        "status": "mapping-unresolved"
       }
      ]
@@ -2804,7 +2731,7 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
+    "numeric": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "calaudit-w249.json#presets[].run",
@@ -2822,10 +2749,7 @@
     },
     "numericEvidence": {
      "convergedKeys": [],
-     "threeStageKeys": [
-      "psrB1534CF|B|precession",
-      "psrB1534CF|B|period"
-     ],
+     "threeStageKeys": [],
      "orders": []
     },
     "observationEvidence": {
@@ -2834,12 +2758,12 @@
      "nSigma": [
       {
        "key": "psrB1534CF|B|precession",
-       "nSigma": 5004.119316272204,
+       "nSigma": 5484.981321499245,
        "status": "数値未解決"
       },
       {
        "key": "psrB1534CF|B|period",
-       "nSigma": 52786465.58408413,
+       "nSigma": 156348210.93061435,
        "status": "数値未解決"
       }
      ]
@@ -3382,32 +3306,32 @@
    "emoji": "⚡",
    "name": "J0737−3039A/B ω̇(lock 枝: kFrame=0・f=1・λ_PN=1)↔ 内蔵(kFrame=1・f≈2)",
    "declaredKFrame": 1,
-   "massFactor": 1.999942269345993,
+   "massFactor": 0,
    "version": "diagnostic",
    "kf0Source": "nslockledger-w273c.json variants.lock(kFrame 0・f 1・λ_PN 1)",
    "kf1": {
     "present": true,
-    "run": "✓",
+    "run": "✗",
     "structure": "未測定",
     "numeric": "未測定",
-    "observation": "✗",
+    "observation": "未測定",
     "runEvidence": {
      "source": "nslockledger-w273c.json#rows[].variants.builtin",
-     "resolved": true,
+     "resolved": false,
      "spec": {
       "builtin": true
      }
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
-     "pObs": 1.8734293378874516,
-     "orderGuard": true,
+     "pObs": 0,
+     "orderGuard": false,
      "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
     },
     "observationEvidence": {
-     "omegaDotExt": 33.86012738247004,
-     "ratioExt": 2.003638097364613,
-     "nSigma": 1304677.2601900033,
+     "omegaDotExt": 0,
+     "ratioExt": 0,
+     "nSigma": 0,
      "obs": {
       "value": 16.899323,
       "sigma": 0.000013,
@@ -3467,14 +3391,14 @@
    },
    "kf0SameF": {
     "spec": {
-     "f": 1.999942269345993,
+     "f": 1,
      "kFrame": 0,
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 1.5972278870003442,
-    "nSigma": 776365.1513097169,
-    "pObs": 1.9991304547159001,
+    "ratioExt": 0.167035519553564,
+    "nSigma": -1082810.446353193,
+    "pObs": 1.9999103566308365,
     "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
    },
    "root": {
@@ -4014,8 +3938,7 @@
   "on": true,
   "stages": [
    "h",
-   "h/2",
-   "h/4"
+   "h/2"
   ],
   "nApplied": 8,
   "applied": [
@@ -4165,7 +4088,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "dabb413eb6e0191752461dd0b82716a0ec6689951786451aac3d66a2200f4e1f",
+   "fileSha256": "3c66008cb574fa90a8ae36c1ef9db64f507d4353a207ebcd4e2f8dc726a87fdf",
    "citedValue": 551864.0613632939,
    "citedCfg": {
     "kFrame": 0,
@@ -4173,7 +4096,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "9add6b5daf0c635be2760afae7db9325ba0c5e2aed97fa31b6bbbdac19042103",
+   "citedTargetSha256": "c41884294d5ab469558c1e617555a5409772bd3e4dd174558c81189c23750202",
    "thisRunValue": 551864.0613632939,
    "relDiff": 0,
    "identical": true,

@@ -2620,10 +2620,16 @@ build・力学・光線・`presetSig`・保存 JSON の物理は**この鍵を�
   理由と代わりに見る本はプリセットの外の表 `RETIRED_PRESETS`(減光の原器は 🕳️ `rotorSolo`・銀河の質量要素は 🌚/🛞)。
 - **表示**: サンプル一覧(選択ウィンドウ)に出さない(「すべて表示」・検索でも —— 読み込み中の本だけ〔退役(履歴)〕付きで残る)・開いたときに説明タブへ「退役(履歴)」の 1 行・
   「この仲間」の導線から外す。**自動で別の本へ置き換えない**(ID で開けば開ける)。
-- **AI 生成のベースサンプル選択**(`#aiBasePreset`)には退役の本がまだ並ぶ(その関数は正本の領域の閉包の中にあるので本便では触らない —— 決断事項候補)。
-  AI には退役の本をベースに選ばせない運用とする。
-- 凍結の写し: `tests/fixtures/retired-w283b.json`(基点 de9e39b の内蔵定義・presetSigHash・ゲートから外した試験の最後の保存 QA の値・⚫ の尺度比較の参照値)。
-- QA: **`docs.retired`**・**`docs.families`**。器 `tests/exp-w283b-families.mjs`・正本 `tests/out/families-w283b.json`・一覧 `docs/FAMILIES_v1.45.md`・docs/PHYSICS.md〔第283便b〕。
+- **退役を足した 6 本**(第284便b・原仮定者の裁定〔第74報〕⑤「不用なサンプルを廃止する」・AN35 —— 退役は **13 本**): 🎋 `galaxyMeshSpiralGeoToyLite`(空間メッシュの原理は 🪁・中心 DFM BH のアナロジーは 🌚)・
+  🪶 `psrDoubleABPN`・🪃 `psrJ1757PN`・🪀 `psrJ1946PN`(旧則 λ_PN=1/f の履歴 —— 名前に「旧則・履歴」)・⭕ `emAuditNewton`(🌙 `earthMoonReal` と実効 JSON が同一 → 🌙 に集約)・
+  🪝 `psrDoubleABCF`(⚡ の f=1 署名と同時。他の CF 3 本は対応する系の f=1 署名のとき)。
+- **AI 生成のベースサンプル選択**(`#aiBasePreset`)と隠し `#presetSelect` からも外す(第284便b・AN41 —— いま基準に選んである本/読み込み中の本だけは選択の保持のため〔退役(履歴)〕付きで残る)。
+  **旧 URL・保存 JSON・ID 指定の読み込みは従来どおり開ける**。AI には退役の本をベースに選ばせない。
+- 凍結の写し: `tests/fixtures/retired-w283b.json`(基点 de9e39b の内蔵定義・presetSigHash・ゲートから外した試験の最後の保存 QA の値・⚫ の尺度比較の参照値)と
+  `tests/fixtures/retired-w284b.json`(第284便b の内蔵定義 6 本・⚡ の旧則〔f≈2〕の宣言と claims・付け替えた試験の基点の保存 QA の値)。
+- QA: **`docs.retired`**(13 本・AN41 ⑧)・**`docs.families`**。器 `tests/exp-w283b-families.mjs`・正本 `tests/out/families-w283b.json`・一覧 `docs/FAMILIES_v1.45.md`・docs/PHYSICS.md〔第283便b〕〔第284便b〕。
+- **f=1 へ移した ⚡ `psrDoubleABDFM`**(第284便b・AN24′・統括の検証項目 R92): `massCalibration:{law:"f-fixed-1", f:1, baseMass, note, history}` —— `history` は旧台帳の記録(**宣言専用**・受理器は
+  4000 字以内の平たいオブジェクトだけを写す・物理と presetSig は読まない)。AI 生成に `massCalibration` を書かせる必要は無い(§5 は不変)。
 ## 17. 第283便d の UI —— 背景複素決定力の宣言欄と空間メッシュの線の明るさ(原仮定者の裁定〔第73報〕⑥・統括の検証項目 R87・**表示と器だけ**・**SYSTEM_PROMPT には載せない**)
 
 AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。プリセットの `physics.backgroundComplex`(§12・第276便a/第277便d の受理契約)を**アプリの画面から宣言する欄**と、空間メッシュの線の**表示の契約**を足しただけである。
@@ -2636,3 +2642,19 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **線の明るさ**: 空間メッシュの線(格子・空間線・参照ガイド・輸送・tracer・折返しの縁)の不透明度は **D₀ にも χ にも依らない固定値**(D₀=0 のときの値 0.62 / 0.62 / 0.45 / 0.55 / 0.80 / 0.82)。色はスキンの表 `SPACE_MESH_LINE_STYLE` に従う(キャンバスは既定「固定」なので dark と light は同じ値)。tracer の色相は χ の符号化として残る。
 - **読み口(HP 公開)**: `bgcState(S)`・`bgcApply(S, cand|null)`・`spaceMeshLineStyle()`。
 - QA: **`ui.meshLineBrightness`**・**`ui.bgComplexPanel`**(root は SKIP)。器 `tests/exp-w283d-ui.mjs`(MEASURE / PANEL —— 正本は出さない)・docs/PHYSICS.md〔第283便d〕。
+
+## 18. 第284便d の UI —— 「サンプルを選ぶ」の geoPN の絞り込み・検索のクリアでフォーカスを外す・geoPN 行を「引きずり・測地線」の先頭へ(原仮定者の裁定〔第74報〕⑦・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(全内蔵 142 本の 600 步の状態と presetSig が基点とビット同一)。
+
+- **geoPN の絞り込み**: 「サンプルを選ぶ」ウィンドウの絞り込みに 4 つ目の行「geoPN ⓘ」を足した(スケール・分類・E水準の次)。チップは「すべて / 0 測地線不用 / 1 観測再現(1PN・kF0)/ 2 引きずり有り / 3 空間メッシュ」(en: all / 0 no geodesic / 1 observed (1PN, kF0) / 2 with dragging / 3 space mesh)。同じチップの再タップで「すべて」へ戻る(既定は「すべて」・状態はセッション内だけ —— 他の次元と同じ)。
+  - **桶の決め方**: `ppGeoBucketOf(p)` = `geoModeOf`(`DEFAULT_PHYSICS` で埋めた physics)の**役割**(`noGeodesic`→0・`kF0`→1・`dfm`→2・`spaceMesh`→3)。**geoPN=2・kFrame=0 の旧宣言(互換入力 `compat:"geoPN2-kF0"` —— kF0 版と同じ処理でビット同一)は 1** に入る(その宣言を geoPN=1 へ書き換えても桶は動かない)。受理器を通らない geoPN=1・kFrame>0(`consistent:false` —— geoPN=2 と同じ処理で走る)は 2。
+  - **他の次元・検索と AND**。退役・`catalogHidden` の規則は変えていない(一覧に出ない本は絞り込みでも出ない)。絞り込み中は AI 生成・保存一覧の群を出さない(他の属性の絞り込みと同じ)。
+  - **ⓘ の説明**に 4 桶の件数(全内蔵 —— 退役・非表示の本を含む。実行時に数える)。基点 2a4af53 では 0/1/2/3 = 90/17/28/7(1 のうち 11 本が geoPN=2・kFrame=0 の互換入力)。
+  - 隠しプルダウン `#presetGroupSelect`/`#presetSelect`(`presetFilter`/`presetInFilter`)は画面に出ていない(CSS で display:none)ので**変えていない**。
+- **検索のクリアでフォーカスを外す**: ① ✕ ② 検索欄にフォーカスがあり文字があるときの Esc ③ 削除操作(Backspace・Delete・切り取り)で空にしたとき —— のあと、検索欄のフォーカスを外す(`blur` —— モバイルではキーボードが閉じて一覧が見える)。
+  - ② の Esc は**検索のクリアだけ**で窓は閉じない(もう一度 Esc で閉じる)。検索欄が空のとき・検索欄の外での Esc は従来どおり窓を閉じる。
+  - **IME の変換中は何もしない**(compositionstart〜compositionend・`isComposing`・keyCode 229 —— 変換の取り消しで空になっても外さない・変換中の Esc は窓も検索語も変えない)。
+  - 旧(第278便e)は ✕ のあとフォーカスを検索欄へ戻していた —— QA `ui.searchClear` は世代(`ppGeoBucketOf` の有無)で期待を分ける。
+- **geoPN 行の移動**: パラメータタブ「引きずり・測地線」の並びを **測地線モード geoPN → 保存非対称の注記(`#geoToySaveNote`)→ 背景決定力 D₀ → 背景複素決定力の欄(`#bgcPanel`)→ qLock → 引きずり減衰 q → kFrame → λ_PN → α** にした(旧: D₀ → 欄 → qLock → q → geoPN → 注記 → kFrame → …)。並べ替えは描画ループの中だけで、`PARAM_DEFS` の配列順・値・受理・presetSig は変えていない。「主役」グループ(activeParams の宣言順)は変えていない。
+- QA: **`ui.pickerGeoFilter`**・**`ui.searchClearBlur`**・**`ui.paramOrderDrag`**(root は SKIP)。既存の `ui.searchClear`(✕ のあとのフォーカス)と `wave124.ui`(③ 並び: 旧「kFrame は geoPN の次」→ 新「geoPN の次は D₀・kFrame は q の次」)は `ppGeoBucketOf` の有無で期待を分けた(root は旧則のまま)。3 viewport(iPhone SE 375×667・Android 412×915 —— isMobile・タッチ / PC 1280×800)。

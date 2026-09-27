@@ -1,0 +1,455 @@
+{
+ "version": "w284f-calsplit-evidence-1",
+ "wave": "第284便f",
+ "what": "較正走行のプリセット分割(tools/calaudit-split.mjs)で作った正本と直列の正本の照合(tests/exp-w284f-splitcheck.mjs)。**一度きりの実測の記録**(再生成しない・正本ではない)。kf0・dt3・light33 は同じ容器で他の枝の走行と並走した値(1 分平均負荷 20〜35)、chain37 は静かな容器の値で、壁時計は機種・負荷で変わる",
+ "target": "beta/index.html",
+ "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
+ "baseRev": "2a4af53",
+ "sandbox": "基点 2a4af53 の tests/out/calaudit-w249*.json の写し(mergeKey の measurementCodeSha256 だけを分割の口を足した器の値に付け替え —— 直列と分割の両方が同じ写しから始める)。正本は書き換えていない",
+ "runs": [
+  {
+   "name": "kf0-w284f(統合前の引数 --kf0-dt3)",
+   "calArgs": [
+    "--kf0-runs",
+    "--kf0-only",
+    "--kf0-dt3",
+    "--only",
+    "jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal",
+    "--merge"
+   ],
+   "serialVsSplit": [
+    {
+     "file": "tests/out/calaudit-w249.json",
+     "diffs": 3,
+     "declaredVolatile": 3,
+     "codeIdentity": 0,
+     "wallDerived": [],
+     "other": 0,
+     "stableSha256": "fde2bcf549150b404f1d3ab8485d47b3e87b3ee91377f776f4444120b90295d3",
+     "stableSame": true,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    },
+    {
+     "file": "tests/out/calaudit-w249-diag.json",
+     "diffs": 1,
+     "declaredVolatile": 1,
+     "codeIdentity": 0,
+     "wallDerived": [],
+     "other": 0,
+     "stableSha256": "8b56eeac5a78ef35b137eecf40c3957521831be1f81b2c303f096ef99bf767ad",
+     "stableSame": true,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    }
+   ],
+   "ok": true,
+   "wall": {
+    "serialWallSec": 89.3,
+    "splitWallSec": 60,
+    "k": 2,
+    "lanes": 2,
+    "shards": [
+     {
+      "jobs": 1,
+      "wallSec": 41.6
+     },
+     {
+      "jobs": 4,
+      "wallSec": 57.5
+     }
+    ],
+    "mergeWallSec": 1.5,
+    "totalWallSec": 60
+   },
+   "note": "鎖の kf0 段そのもの(--merge 経路)・直列と分割を同じ写しから",
+   "superseded": "統合(第284便)で c の旗(--kf0-h4-exceptions)に置き換え。記録は履歴として残す"
+  },
+  {
+   "name": "dt3-w284f(統合前の引数 --dt3-registry)",
+   "calArgs": [
+    "--dt3-registry",
+    "--merge"
+   ],
+   "serialVsSplit": [
+    {
+     "file": "tests/out/calaudit-w249.json",
+     "diffs": 170,
+     "declaredVolatile": 170,
+     "codeIdentity": 0,
+     "wallDerived": [],
+     "other": 0,
+     "stableSha256": "37b948e916e06317fabd1551e6fff41f7861b41049f41ae07a11d716ae969a1e",
+     "stableSame": true,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    },
+    {
+     "file": "tests/out/calaudit-w249-diag.json",
+     "diffs": 1,
+     "declaredVolatile": 1,
+     "codeIdentity": 0,
+     "wallDerived": [],
+     "other": 0,
+     "stableSha256": "69dd8bd3a12a69f79241b4960b6984abc8cccbc3e887217aacdb4808f6abe9f7",
+     "stableSame": true,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    }
+   ],
+   "ok": true,
+   "wall": {
+    "serialWallSec": 472.5,
+    "splitWallSec": 312.9,
+    "k": 2,
+    "lanes": 2,
+    "shards": [
+     {
+      "jobs": 8,
+      "wallSec": 303.9
+     },
+     {
+      "jobs": 8,
+      "wallSec": 210.6
+     }
+    ],
+    "mergeWallSec": 4.5,
+    "totalWallSec": 312.5
+   },
+   "note": "鎖の dt3 段そのもの(--merge 経路・h4 は前回の正本から転記)・直列と分割を同じ写しから",
+   "superseded": "統合(第284便)で c の旗(--h4-exceptions)に置き換え。記録は履歴として残す"
+  },
+  {
+   "name": "light33",
+   "calArgs": [
+    "--only",
+    "(較正母集団 37 本から重い 4 本を除いた 33 本)"
+   ],
+   "serialVsSplit": [
+    {
+     "file": "tests/out/calaudit-w249.json",
+     "diffs": 360,
+     "declaredVolatile": 359,
+     "codeIdentity": 0,
+     "wallDerived": [
+      "/presets/26/run/timeBudget/1/budgetHit false→true"
+     ],
+     "other": 0,
+     "stableSha256": "7577ff786b3fb5bd5d3b102647b3831ed4f24966555caa4cf3cc3e2b99f69cef",
+     "stableSame": false,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    },
+    {
+     "file": "tests/out/calaudit-w249-diag.json",
+     "diffs": 1,
+     "declaredVolatile": 1,
+     "codeIdentity": 0,
+     "wallDerived": [],
+     "other": 0,
+     "stableSha256": "c08bb609b0794591069e863a8f96d489c7aec8224823c70868555ef5f89eebba",
+     "stableSame": true,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    }
+   ],
+   "ok": true,
+   "wall": {
+    "serialWallSec": 1115.4,
+    "splitWallSec": 669.7,
+    "k": 2,
+    "lanes": 2,
+    "shards": [
+     {
+      "jobs": 16,
+      "wallSec": 556.7
+     },
+     {
+      "jobs": 17,
+      "wallSec": 662.2
+     }
+    ],
+    "mergeWallSec": 3.6,
+    "totalWallSec": 669.5
+   },
+   "note": "① 通常走行の経路(--merge なし)。budgetHit(= wallSec ≥ 0.9×予算)は負荷で動く(psrB1534 の dt/2 が直列 72 s 未満・分割 73.0 s)"
+  },
+  {
+   "name": "chain37",
+   "calArgs": [],
+   "serialReference": "tests/out/calaudit-w249*.json @ 2a4af53(直列の鎖 ① → dt3 → kf0 の正本)",
+   "chain": "① 通常走行(分割 2)→ dt3 --dt3-registry --merge(分割 2)→ kf0(分割 2)。diag の h4Store は ⚡ の転記元の契約だけを直列の鎖の走行前と同じく不一致にした(⚡ の h4 を新しく走らせる —— 直列の鎖と同じ形)",
+   "serialVsSplit": [
+    {
+     "file": "tests/out/calaudit-w249.json",
+     "diffs": 412,
+     "declaredVolatile": 404,
+     "codeIdentity": 5,
+     "wallDerived": [
+      "/presets/1/run/timeBudget/0/budgetHit true→false",
+      "/presets/1/run/timeBudget/1/budgetHit true→false",
+      "/presets/10/run/timeBudget/1/budgetHit true→false"
+     ],
+     "other": 0,
+     "stableSha256": "4fea064b0af5090c9ffe2aeea017a65af1cb75afe4eb711bd080f2f1e431022f",
+     "stableSame": false,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    },
+    {
+     "file": "tests/out/calaudit-w249-diag.json",
+     "diffs": 10,
+     "declaredVolatile": 2,
+     "codeIdentity": 0,
+     "wallDerived": [
+      "/h4Store/carriedFrom \"2026-09-26T21:40:49.125Z\"→\"2026-09-27T10:14:49.596Z\"",
+      "/h4Store/entries/psrDoubleABDFM/run/rateStepsPerSec 434783→800000",
+      "/h4Store/entries/psrDoubleABDFM/run/wallSec 13.388→8.035",
+      "/h4Store/entries/psrDoubleABDFM/run/timeBudget/wallSec 13.388→8.035",
+      "/h4Store/entries/psrDoubleABDFM/run/timeBudget/rateStepsPerSec 434783→800000",
+      "/h4Store/entries/psrDoubleABDFM/run/stopRule/wallSec 13.388→8.035",
+      "/h4Store/entries/psrDoubleABDFM/run/stopRule/rateStepsPerSec 434783→800000",
+      "/h4Store/entries/psrDoubleABDFM/generatedAt \"2026-09-26T21:31:00.544Z\"→\"2026-09-27T10:14:49.448Z\""
+     ],
+     "other": 0,
+     "stableSha256": "e14f569ae69db45b0620e33b36490fd07244d6bff3dc74fc1b7a9fbf44863229",
+     "stableSame": false,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    }
+   ],
+   "ok": true,
+   "wall": {
+    "step1": {
+     "k": 2,
+     "lanes": 2,
+     "shards": [
+      {
+       "jobs": 19,
+       "wallSec": 1408.8
+      },
+      {
+       "jobs": 18,
+       "wallSec": 1304
+      }
+     ],
+     "mergeWallSec": 1.2,
+     "totalWallSec": 1410.9
+    },
+    "step1SumOfPresetWallSec": 2629,
+    "dt3": {
+     "k": 2,
+     "lanes": 2,
+     "shards": [
+      {
+       "jobs": 8,
+       "wallSec": 168.1
+      },
+      {
+       "jobs": 8,
+       "wallSec": 171.5
+      }
+     ],
+     "mergeWallSec": 1.2,
+     "totalWallSec": 173.6
+    },
+    "kf0": {
+     "k": 2,
+     "lanes": 2,
+     "shards": [
+      {
+       "jobs": 1,
+       "wallSec": 38.4
+      },
+      {
+       "jobs": 4,
+       "wallSec": 53.8
+      }
+     ],
+     "mergeWallSec": 1.2,
+     "totalWallSec": 56.1
+    }
+   },
+   "note": "静かな容器(1 分平均負荷 1〜4)で走らせた。重い本は solarInner 506 s 等(直列の鎖の記録 830 s より速い容器)。直列の鎖の壁時計は別の容器・負荷なので比べない —— step1SumOfPresetWallSec はこの走行の各本の壁時計の和(直列で走らせた場合の下限の目安)"
+  },
+  {
+   "name": "kf0",
+   "calArgs": [
+    "--kf0-runs",
+    "--kf0-only",
+    "--kf0-h4-exceptions",
+    "--only",
+    "jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal",
+    "--merge"
+   ],
+   "serialVsSplit": [
+    {
+     "file": "tests/out/calaudit-w249.json",
+     "diffs": 3,
+     "declaredVolatile": 3,
+     "codeIdentity": 0,
+     "wallDerived": [],
+     "other": 0,
+     "stableSha256": "6395fae93cbbf5e39cff38c5dda5c0d8d67797ec5cbf6f5b8f2c8aa64a4d9821",
+     "stableSame": true,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    },
+    {
+     "file": "tests/out/calaudit-w249-diag.json",
+     "diffs": 40,
+     "declaredVolatile": 1,
+     "codeIdentity": 0,
+     "wallDerived": [
+      "/h4Store/entries/plutoCharonReal:kf0/run/rateStepsPerSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/wallSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/timeBudget/wallSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/timeBudget/rateStepsPerSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/stopRule/wallSec",
+      "/h4Store/entries/plutoCharonReal:kf0/run/stopRule/rateStepsPerSec",
+      "/h4Store/entries/plutoCharonReal:kf0/generatedAt",
+      "/h2Store/entries/jupiterGalilean:kf0/run/rateStepsPerSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/wallSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/timeBudget/rateStepsPerSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/jupiterGalilean:kf0/run/stopRule/rateStepsPerSec",
+      "/h2Store/entries/jupiterGalilean:kf0/generatedAt",
+      "/h2Store/entries/venusReal:kf0/run/rateStepsPerSec",
+      "/h2Store/entries/venusReal:kf0/run/wallSec",
+      "/h2Store/entries/venusReal:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/venusReal:kf0/run/timeBudget/rateStepsPerSec",
+      "/h2Store/entries/venusReal:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/venusReal:kf0/run/stopRule/rateStepsPerSec",
+      "/h2Store/entries/venusReal:kf0/generatedAt",
+      "/h2Store/entries/marsMoonsReal:kf0/run/rateStepsPerSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/wallSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/timeBudget/rateStepsPerSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/marsMoonsReal:kf0/run/stopRule/rateStepsPerSec",
+      "/h2Store/entries/marsMoonsReal:kf0/generatedAt",
+      "/h2Store/entries/plutoCharonReal:kf0/run/wallSec",
+      "/h2Store/entries/plutoCharonReal:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/plutoCharonReal:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/plutoCharonReal:kf0/generatedAt",
+      "/h2Store/entries/neptuneReal:kf0/run/rateStepsPerSec",
+      "/h2Store/entries/neptuneReal:kf0/run/wallSec",
+      "/h2Store/entries/neptuneReal:kf0/run/timeBudget/wallSec",
+      "/h2Store/entries/neptuneReal:kf0/run/timeBudget/rateStepsPerSec",
+      "/h2Store/entries/neptuneReal:kf0/run/stopRule/wallSec",
+      "/h2Store/entries/neptuneReal:kf0/run/stopRule/rateStepsPerSec",
+      "/h2Store/entries/neptuneReal:kf0/generatedAt"
+     ],
+     "other": 0,
+     "stableSha256": "555c3c400f7d0ad741079acae16117fc2f54b47e4757ebbfcb76c9e2ff8eaa0d",
+     "stableSame": false,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    }
+   ],
+   "ok": true,
+   "wall": {
+    "serialWallSec": 139,
+    "splitWallSec": 102.6,
+    "k": 2,
+    "lanes": 2,
+    "shards": [
+     {
+      "jobs": 3,
+      "wallSec": 44.3
+     },
+     {
+      "jobs": 2,
+      "wallSec": 98.6
+     }
+    ],
+    "mergeWallSec": 2.1,
+    "totalWallSec": 102.6
+   },
+   "when": "2026-09-27T10:38Z",
+   "htmlSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "shardVersion": "w284f-calshard-2",
+   "note": "統合(第284便)後の kf0 段そのもの(c の旗 --kf0-h4-exceptions・--merge 経路・前回の正本なし=空の種から)。1 回目は f の産物に c の h2Store が無く合流で消えた(修正 → 産物に h2/h2keep・shard 版 -2)。壁時計から作る欄は h4Store と同じ形で h2Store にもある(照合器の除外に追加)"
+  },
+  {
+   "name": "dt3",
+   "calArgs": [
+    "--h4-exceptions",
+    "--merge"
+   ],
+   "serialVsSplit": [
+    {
+     "file": "tests/out/calaudit-w249.json",
+     "diffs": 39,
+     "declaredVolatile": 39,
+     "codeIdentity": 0,
+     "wallDerived": [],
+     "other": 0,
+     "stableSha256": "f3600c2970e9acdfaaaf0833d2cfc41c25a159f75903f981e20328df5fc3225e",
+     "stableSame": true,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    },
+    {
+     "file": "tests/out/calaudit-w249-diag.json",
+     "diffs": 22,
+     "declaredVolatile": 1,
+     "codeIdentity": 0,
+     "wallDerived": [
+      "/h4Store/entries/alphaCenAB/run/rateStepsPerSec",
+      "/h4Store/entries/alphaCenAB/run/wallSec",
+      "/h4Store/entries/alphaCenAB/run/timeBudget/wallSec",
+      "/h4Store/entries/alphaCenAB/run/timeBudget/rateStepsPerSec",
+      "/h4Store/entries/alphaCenAB/run/stopRule/wallSec",
+      "/h4Store/entries/alphaCenAB/run/stopRule/rateStepsPerSec",
+      "/h4Store/entries/alphaCenAB/generatedAt",
+      "/h4Store/entries/siriusAB/run/rateStepsPerSec",
+      "/h4Store/entries/siriusAB/run/wallSec",
+      "/h4Store/entries/siriusAB/run/timeBudget/wallSec",
+      "/h4Store/entries/siriusAB/run/timeBudget/rateStepsPerSec",
+      "/h4Store/entries/siriusAB/run/stopRule/wallSec",
+      "/h4Store/entries/siriusAB/run/stopRule/rateStepsPerSec",
+      "/h4Store/entries/siriusAB/generatedAt",
+      "/h4Store/entries/saturnZonalD68/run/rateStepsPerSec",
+      "/h4Store/entries/saturnZonalD68/run/wallSec",
+      "/h4Store/entries/saturnZonalD68/run/timeBudget/wallSec",
+      "/h4Store/entries/saturnZonalD68/run/timeBudget/rateStepsPerSec",
+      "/h4Store/entries/saturnZonalD68/run/stopRule/wallSec",
+      "/h4Store/entries/saturnZonalD68/run/stopRule/rateStepsPerSec",
+      "/h4Store/entries/saturnZonalD68/generatedAt"
+     ],
+     "other": 0,
+     "stableSha256": "ccbc81988d4773c3e493ba04883c26b3efc91077db16fc6cdcdbf40ae3816655",
+     "stableSame": false,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    }
+   ],
+   "ok": true,
+   "wall": {
+    "serialWallSec": 69,
+    "splitWallSec": 52.5,
+    "k": 2,
+    "lanes": 2,
+    "shards": [
+     {
+      "jobs": 1,
+      "wallSec": 41
+     },
+     {
+      "jobs": 2,
+      "wallSec": 47
+     }
+    ],
+    "mergeWallSec": 2.6,
+    "totalWallSec": 52.5
+   },
+   "when": "2026-09-27T10:52Z",
+   "htmlSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "shardVersion": "w284f-calshard-2",
+   "note": "統合(第284便)後の dt3 段そのもの(c の旗 --h4-exceptions・--merge 経路)。鎖 1 の calaudit 段(2 分割)の正本の写しを種に、直列と分割を同じ種から走らせた(h4 は例外登録簿の本だけ・h/2 は h2Store から転記)。正本・診断とも物理欄の差 0(残る差は h2Store/h4Store の壁時計・時刻だけ)"
+  }
+ ],
+ "wallDerivedNote": "除外 Pointer に宣言されていない壁時計・時刻の欄: calaudit の presets[].run.timeBudget[].budgetHit、diag の h4Store.carriedFrom と h4Store.entries[].{generatedAt, run の wallSec・rateStepsPerSec}。物理欄ではない(走行長・判定に入らない)が、安定 hash を動かす(決断事項候補)。第284便 統合: diag の h2Store.entries[].{generatedAt, run の wallSec・rateStepsPerSec} も同じ扱い"
+}

@@ -54,9 +54,16 @@
 //        壁時計の資源上限(`--wall-ceiling`)は**走行の途中**(4096 步ごとの境界)で検査して打ち切る(`deadlineHit`)。
 //        `--tp-copy`(診断・`W249_OUT` 必須)は、群(ring/disk)を末尾へ移して `testParticle:true` を付けた**写し**を
 //        走らせる(試験粒子契約の前後比較 —— 正本 tests/out/calaudit-w249.json へは書かない)。
-//     ②′ **kFrame=0 の対照走行**(第274便a・第64報)を条件不一致 8 行へ配る:
-//          PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-dt3 \
+//        **第284便c(原仮定者の裁定(第74報)⑥・AN33・統括の検証項目 R93)**: 常時の鎖の ② は
+//          PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --h4-exceptions --merge
+//        (h/4 は**例外の登録簿** `H4_EXCEPTIONS`〔tests/lib-w283c-calstages.mjs —— kF0 の正式判定で h4 が門の 3σ 判定に残る量〕の本だけ)。
+//        登録表 THREE_STAGE_REGISTRY の全本の 3 段は**明示診断**(`--dt4-registry --merge` 単独 —— 旧名 `--dt3-registry` は同じ意味の別名)。
+//        dt/2 は**同一便の再走で転記**する(`H2_REUSE_RULE` —— h の生の走行がビット一致・前回の h/2 が完了・対象 html が同じ。
+//        `--no-h2-reuse` で切る・`--h2-reuse-cross` で便をまたぐ転記を許す)。法則の指紋は停止集合つき依存閉包の hash。
+//     ②′ **kFrame=0 の対照走行**(第274便a・第64報)を条件不一致 8 行へ配る(第284便c: h/4 は例外の登録簿の kf0 の本だけ):
+//          PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-h4-exceptions \
 //            --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge
+//          (`--kf0-dt3` は 5 本すべてに h/4 を足す明示診断)
 //          (`--kf0-only` は**既定経路を 1 本も測り直さない**。配布は **--merge のあと**なので
 //           既存 JSON 側の 8 行に届き、配る前の門は `kf0Applied.replaced.gate` に残る)
 //     ③ σ 接続器を掛け直す: node tests/exp-w262d-solarsigma.mjs
@@ -99,7 +106,16 @@ import { stopRuleFor, stopDecision, machineIndependenceProbe, STOP_RULE_VERSION,
 import crypto from 'node:crypto';
 // 第283便c(R86): 段の純関数(二重加算の修正・dt/4 の再利用規則・dt と dt/2 の閾値規則)
 import { H4_REUSE_VERSION, H4_REUSE_RULE, DT_DT2_RULE, h4ReuseDecision, reusedRun, dtDt2Skip,
-  counterExample } from './lib-w283c-calstages.mjs';
+  counterExample,
+  // 第284便c(原仮定者の裁定(第74報)⑥・AN33・R93): dt/4 の例外の登録簿・dt/2 の再利用(同一便の再走)・契約の穴
+  H4_EXCEPTIONS, H4_EXCEPTIONS_VERSION, H4_POLICY, h4ExceptionIds, isH4Exception,
+  H2_REUSE_VERSION, H2_REUSE_RULE, h2ReuseDecision, reusedRunDt2, rawRunSig, contractSha } from './lib-w283c-calstages.mjs';
+// 第284便c(R93・第283便c の「エンジン指紋が補助関数を取りこぼす」): 法則の指紋を**停止集合つき依存閉包**で作る
+import { scopeHash as w284cScopeHash } from './lib-w281a-scope.mjs';
+// 第284便f(原仮定者の裁定(第74報)⑥・統括の検証項目 R94): **プリセット分割**(job の走行だけを k 個のプロセスに分け、
+//   判定・併合・書き出しは 1 プロセスで直列と同じ経路を通す —— `--shard-plan` / `--shard-jobs … --shard-dump` / `--shard-load`)。
+//   引数なしの走行は 1 文字も変わらない。使い方は tools/calaudit-split.mjs。
+import { SHARD_VERSION, jobKey, parseShardArgs, makeDump, writeDump, readDump, collectDumps, sameClone } from './lib-w284f-calshard.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -131,6 +147,12 @@ const MEASUREMENT_CODE_FILES = [
   'tests/lib-w270b-obscsv.mjs',
   'tests/lib-w270a-stoprule.mjs',
   'tests/lib-w283c-calstages.mjs',
+  // 第284便c: 法則の指紋(閉包)を作る道具(閉包の hash を作る lib と、それが html を読む headless)。
+  //   本 lib が import する再生成表 tests/lib-w281a-regentable.mjs は安定 hash の宣言(volatilePathsOf)にだけ使われ、
+  //   閉包の hash(scopeHash)は読まない —— 測定コードに入れない(表の所要秒を書き換えるたびに併合の鍵が変わらないように)
+  'tests/lib-w281a-scope.mjs',
+  'tests/lib-w279b-headless.mjs',
+  'tests/lib-w284f-calshard.mjs',
 ].sort();
 const MEASUREMENT_CODE_SHA = crypto.createHash('sha256').update(
   MEASUREMENT_CODE_FILES.map((p) => p + ':' + sha256Of(path.join(ROOT, p))).join('\n')
@@ -138,6 +160,8 @@ const MEASUREMENT_CODE_SHA = crypto.createHash('sha256').update(
 const TARGET_SHA = sha256Of(TARGET_ABS);
 const argv = process.argv.slice(2);
 const FAST = argv.includes('--fast');
+// 第284便f: 分割の引数(無ければ SHARD.on=false —— 従来の走行)
+const SHARD = parseShardArgs(argv);
 const MERGE = argv.includes('--merge');   // --only で一部だけ回して既存 JSON へ差し替える(再判定用)
 // 第263便c(第55報 W3): **--regate**。**エンジンを 1 步も走らせず**、既存の出力 JSON
 // (tests/out/calaudit-w249.json)を読み直し、**CSV の σ の転写と門(assessObservation)だけを
@@ -150,7 +174,17 @@ let ONLY = (() => { const i = argv.indexOf('--only'); return (i >= 0 && argv[i +
 let DT3 = argv.includes('--dt3');         // 第255便d(N8): dt/4 段を足して 3 段+観測次数を出す
 // 第265便a(裁定 Z14): **--dt3-registry** —— 下の `THREE_STAGE_REGISTRY` に登録した系だけを 3 段で回す。
 // 「どれが 3 段対象だったか」を次の便が探し直さないための近道である(--only を手で並べるのと同値)。
-const DT3_REGISTRY = argv.includes('--dt3-registry');
+// 第284便c(原仮定者の裁定(第74報)⑥・AN33): **常時の鎖から外した** —— この登録表の全本を 3 段で回すのは**明示診断**
+// (`--dt4-registry` 単独。旧名 `--dt3-registry` は同じ意味の別名として残す)。鎖の 3 段の段は `--h4-exceptions`(例外の登録簿だけ)。
+const DT3_REGISTRY = argv.includes('--dt3-registry') || argv.includes('--dt4-registry');
+// 第284便c(AN33): **--h4-exceptions** —— h/4 の例外の登録簿(tests/lib-w283c-calstages.mjs の H4_EXCEPTIONS・path:"main")の本だけを
+// 3 段で回す(`--merge` と併用 —— 常時の鎖の dt3 段)。**--kf0-h4-exceptions** —— kF0 の診断コピーの h/4 を登録簿の path:"kf0" の本だけに。
+const H4_EXC = argv.includes('--h4-exceptions');
+const KF0_H4_EXC = argv.includes('--kf0-h4-exceptions');
+// 第284便c(第74報⑥「dt/2 は前回と dt が一致したら省略を検討(特に同一便の再走行時)」): **dt/2 の転記**(既定 on —— 規則は H2_REUSE_RULE)。
+// `--no-h2-reuse` で常に走らせる・`--h2-reuse-cross` で便をまたぐ転記を許す(既定は同一便 = 対象 html の SHA-256 が同じときだけ)。
+const H2_REUSE = !argv.includes('--no-h2-reuse');
+const H2_REUSE_CROSS = argv.includes('--h2-reuse-cross');
 // 第258便d(第50報 W4): **h8 検査点**。--dt8 id1,id2 で指定した系にだけ dt/8=0.002 の 4 段目を足す。
 // 目的は 2 つ: (a) 3 段で出した観測次数 p_obs が h をもう 1 段細かくしても同じか(漸近域に居るか)、
 // (b) |Q_h−Q_{h/4}|/(1−4^−p) という**推定誤差**が、実際に測った |Q_{h/2}−Q_{h/8}| と整合するか。
@@ -178,6 +212,14 @@ const H4_STORE_PREV = (() => { try { const j = JSON.parse(fs.readFileSync(H4_DIA
   return (j && j.h4Store && j.h4Store.version === H4_REUSE_VERSION) ? j.h4Store : null; } catch (e) { return null; } })();
 // この走行で**実際に走らせた** h4 の生の走行(次の走行の転記元 —— 診断の別ファイルの h4Store へ書く)
 const H4_NEW = [];
+// 第284便c: dt/2 の転記元(`h2Store` —— 前回の h の生の走行の署名と h/2 の生の走行)。版が違えば読まない(初回は走らせる)
+const H2_STORE_PREV = (() => { try { const j = JSON.parse(fs.readFileSync(H4_DIAG_PATH, 'utf8'));
+  return (j && j.h2Store && j.h2Store.version === H2_REUSE_VERSION) ? j.h2Store : null; } catch (e) { return null; } })();
+const H2_NEW = [];   // この走行で走らせた h/2(と対の h の署名)
+const H2_KEEP = new Set();   // この走行で転記に使った(= 置き場に残す)鍵
+// 第284便c(AN33): **判定段の前後**の基準(h/4 を常時から外す前の正本の判定段 h4 の量 —— 前回の正本が方針の前の世代ならそこから作り、
+// 方針の後の世代なら前回の `h4Policy.before` を持ち越す)。書き出しは最後なので、ここで読む前回の正本は上書き前のものである
+const PREV_OUT_W284C = (() => { try { return JSON.parse(fs.readFileSync(OUT, 'utf8')); } catch (e) { return null; } })();
 // DFM 概略整合(調整中)の本 = 較正契約の正本で system が "dfm" の本(閾値規則の対象 —— 読むだけ)
 const DFM_SYSTEM_IDS = (() => { try { const j = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calcontract-w282a.json'), 'utf8'));
   return new Set((j.rows || []).filter((r) => r.system === 'dfm').map((r) => r.id)); } catch (e) { return new Set(); } })();
@@ -275,8 +317,10 @@ const CFG = {
   gw150914DFM:        { c: 0, o: [[1, 'B']] },
   gw150914Merge4s:    { c: 0, o: [[1, 'B']], orbMax: 3, note: '合体サンプル(外部放射オーバーレイ)— 3 公転で打ち切る' },
   saturnZonalD68:     { c: 0, o: [[1, 'D68']] },
-  saturnRingReal:     { c: 0, o: [[4, 'ミマス'], [9, 'タイタン']], ringInner: 'C環内縁' },
-  saturnRingRealKF1:  { c: 0, o: [[4, 'ミマス'], [9, 'タイタン']], ringInner: 'C環内縁' },
+  // 第284便e(原仮定者の裁定(第74報)AN34): 💍💿 の帯を試験粒子にして衛星の後ろへ移した(入場条件「末尾に連続」)ので、
+  //   宣言 index を 4→1(ミマス)・9→6(タイタン)に付け替えた(対象の天体は同じ —— 実行 index の対応表は __w249map が作る)
+  saturnRingReal:     { c: 0, o: [[1, 'ミマス'], [6, 'タイタン']], ringInner: 'C環内縁' },
+  saturnRingRealKF1:  { c: 0, o: [[1, 'ミマス'], [6, 'タイタン']], ringInner: 'C環内縁' },
 };
 
 // ---------------------------------------------------------------- 第265便a(第57報 W1・裁定 Z14)
@@ -422,7 +466,15 @@ const ONLY_REQUESTED = ONLY ? ONLY.slice() : null;
 if (DT3_REGISTRY) {
   DT3 = true;
   ONLY = ONLY ? ONLY.filter((z) => THREE_STAGE_IDS.has(z)) : Array.from(THREE_STAGE_IDS);
-  console.error('[w265a] --dt3-registry: 登録表の ' + ONLY.length + ' 本を 3 段で回す(--merge の併用を推奨)');
+  console.error('[w265a] --dt4-registry(明示診断 —— 第284便c で常時の鎖から外した): 登録表の ' + ONLY.length + ' 本を 3 段で回す(--merge の併用を推奨)');
+}
+// 第284便c(AN33): 常時の鎖の 3 段の段 —— 例外の登録簿(path:"main")の本だけ
+if (H4_EXC) {
+  if (DT3_REGISTRY) { console.error('[w284c] --h4-exceptions と --dt4-registry は同時に使わない(鎖の段と明示診断は別の走行)'); process.exit(2); }
+  DT3 = true;
+  const exc = h4ExceptionIds('main');
+  ONLY = ONLY ? ONLY.filter((z) => exc.includes(z)) : exc.slice();
+  console.error('[w284c] --h4-exceptions: h/4 の例外の登録簿の ' + ONLY.length + ' 本(' + ONLY.join(',') + ')を 3 段で回す(--merge と併用)');
 }
 // 第272便a(AG1): **条件つき h/8 の登録表**(`run:true` の系だけ 4 段目を足す)。
 if (DT8_REGISTRY) {
@@ -799,6 +851,8 @@ function spearman(xs, ys) {
 // ================================================================ ブラウザ
 // 第263便c: --regate では**ブラウザも走行も無い**(既存 JSON を読み直して門だけ掛け直す)。
 let decls = [], out = null, report = [];
+// 第284便c: 法則の指紋(閉包)の記録 —— 走行の塊の外(第 (f) 節)で読むので最上位に置く(--regate では null)
+let ENGINE_INFO_W284C = null;
 if (!REGATE) {
 let browser;
 try { const { chromium } = await import('playwright'); browser = await chromium.launch(); }
@@ -1077,8 +1131,22 @@ const EXTRACTOR_SHA = (() => {
 if (TP_COPY) await pg.evaluate(() => { window.__w249variant = 'tp'; });
 // 第283便c: 法則の指紋(dt/4 の再利用契約)—— エンジンの核と対カーネル・試験粒子の外部ステップのソースと理論用語集 LAWS
 const ENGINE_FP = await pg.evaluate(() => window.__w249engineFp());
-const ENGINE_SHA = crypto.createHash('sha256').update(ENGINE_FP.engine).digest('hex');
+// 第284便c(R93): **法則の指紋を閉包で覆う**。第283便c の指紋(上の 9 関数 + `S._core`・`S.step` のソース)は、そこに名前の無い補助関数
+// (初速・背景係数・コア・geo 系の下請け)が変わっても動かなかった。ここでは `tests/lib-w281a-scope.mjs` の**停止集合つき依存閉包**
+// (roots: makeSim・validatePreset・applyQLock・上の 9 関数・LAWS —— 領域の版 3 は説明文字列を除く)と `S._core` の本文の hash を
+// 指紋にする。**「html 全体を含む暫定指紋」にはしない**(CSS・UI の変更で転記が消えない)。閉包が不完全なら null(= 必須鍵の欠落 → 転記しない)。
+const ENGINE_SCOPE = { presets: [], roots: ['makeSim', 'validatePreset', 'applyQLock', 'pairCorePlain', 'pairCorePN', 'geoCoreDispatch', 'chanSetup',
+  'pairChannelOm', 'pairChannelGrad', 'dfmTestParticleCore', 'dfmTestParticleStep', 'testParticlePrepare', 'LAWS'], core: true, consts: [], complete: true };
+const ENGINE_CLOSURE = (() => { try { const r = w284cScopeHash(TARGET_ABS, ENGINE_SCOPE);
+  return { complete: r.scopeComplete, sha256: r.scopeComplete ? r.scopeSha256 : null, version: r.scope.version, names: r.detail.nNames,
+    closureShare: r.detail.closureShare, why: r.detail.why }; } catch (e) { return { complete: false, sha256: null, why: [String(e).slice(0, 120)] }; } })();
+const ENGINE_SHA = ENGINE_CLOSURE.sha256;
+// 旧指紋(第283便c —— 9 関数のソース)は記録として残す(契約には入れない)
+const ENGINE_SHA_W283C = crypto.createHash('sha256').update(ENGINE_FP.engine).digest('hex');
 const LAWS_SHA = crypto.createHash('sha256').update(ENGINE_FP.laws).digest('hex');
+ENGINE_INFO_W284C = { sha256: ENGINE_SHA, closure: ENGINE_CLOSURE, scope: ENGINE_SCOPE, w283cNineFunctionsSha: ENGINE_SHA_W283C };
+console.error('[w284c] 法則の指紋(閉包): ' + (ENGINE_SHA ? ENGINE_SHA.slice(0, 12) : 'null(閉包が不完全 —— 転記しない)')
+  + '・' + ENGINE_CLOSURE.names + ' 名・script の ' + ENGINE_CLOSURE.closureShare);
 
 // ---------------------------------------------------------------- サンプル一覧と宣言の読み出し
 decls = await pg.evaluate(() => HP.allPresets().filter((p) => p.sampleClass === 'calibration').map((p) => ({
@@ -1182,10 +1250,51 @@ if (KF0_RUNS) {
   }
   console.error('[w274a] --kf0-runs: 条件不一致 8 行の kFrame=0 対照を '
     + jobs.filter((j) => j.kf0).length + ' 本の診断コピーで測る(段 h・h/2'
-    + (KF0_DT3 ? '・h/4' : '') + '。プリセットの physics は 1 bit も変えない'
+    + (KF0_DT3 ? '・h/4' : (KF0_H4_EXC ? '・h/4 は例外の登録簿の ' + h4ExceptionIds('kf0').join(',') + ' だけ' : '')) + '。プリセットの physics は 1 bit も変えない'
     + (KF0_ONLY ? ' / --kf0-only: 既定経路の走行は 1 本も行わない' : '') + ')');
 }
+// 第284便f(R94): **プリセット分割**。job の鍵は直列の順(`jobKey`)。
+//   --shard-plan … job の鍵の一覧を標準出力へ出して終わる(走らせない)
+//   --shard-jobs <鍵,…> --shard-dump <file> … その job だけを走らせ、job ごとの産物を構造化複製で書いて終わる(正本へは書かない)
+//   --shard-load <file,…> … job を走らせず、産物を直列の job の順で積む(以降は直列と同じ経路)
+if (SHARD.on && REGATE) throw new Error('[w284f] --regate は分割しない');
+const JOB_KEYS = jobs.map(jobKey);
+if (SHARD.plan) {
+  process.stdout.write(JSON.stringify({ version: SHARD_VERSION, jobs: JOB_KEYS }) + '\n');
+  await browser.close();
+  process.exit(0);
+}
+if (SHARD.jobs) {
+  const unknown = [...SHARD.jobs].filter((k) => !JOB_KEYS.includes(k));
+  if (unknown.length) throw new Error('[w284f] --shard-jobs に job の一覧に無い鍵: ' + unknown.join(','));
+}
+const SHARD_LOADED = SHARD.load ? collectDumps(SHARD.load.map(readDump),
+  { argv, targetSha: TARGET_SHA, codeSha: MEASUREMENT_CODE_SHA, jobs: JOB_KEYS }) : null;
+if (SHARD_LOADED) console.error(`[w284f] --shard-load: 産物 ${SHARD.load.length} 個から ${JOB_KEYS.length} job を直列の順で積む(走らせない)`);
+const SHARD_MARKS = [];
 for (const job of jobs) {
+  if (SHARD.jobs && !SHARD.jobs.has(jobKey(job))) continue;
+  if (SHARD_LOADED) {
+    const e = SHARD_LOADED.get(jobKey(job));
+    if (!e.skipped) {
+      const p = e.preset;
+      // 直列では既定経路の job の decl はページの宣言そのもの(同じ参照)・cfg.orbiters は CFG の配列そのもの —— 同じ参照へ戻す
+      if (!job.kf0) {
+        const d0 = decls.find((x) => x.id === job.id);
+        if (!sameClone(p.decl, d0)) throw new Error('[w284f] 産物の宣言が合流のページと違う: ' + job.id);
+        p.decl = d0;
+      }
+      if (!CFG[job.id] || !sameClone(p.cfg.orbiters, CFG[job.id].o)) throw new Error('[w284f] 産物の CFG が違う: ' + job.id);
+      p.cfg.orbiters = CFG[job.id].o;
+      out.presets.push(p);
+    }
+    for (const h of e.h4) H4_NEW.push(h);
+    for (const h of (e.h2 || [])) H2_NEW.push(h);   // 統括(第284便 統合): c の dt/2 の転記元も産物から積む(落とすと h2Store が合流で消える)
+    if (e.h2keep) H2_KEEP.add(e.key);
+    for (const x of e.errors) pageErrors.push(x);
+    continue;
+  }
+  if (SHARD.dump) SHARD_MARKS.push({ key: jobKey(job), nP: out.presets.length, nH: H4_NEW.length, nH2: H2_NEW.length, nE: pageErrors.length });
   const id = job.id;
   const KF0 = job.kf0;
   const d = KF0 ? (() => { const c = JSON.parse(JSON.stringify(decls.find((x) => x.id === id)));
@@ -1217,13 +1326,18 @@ for (const job of jobs) {
   if (!FAST && !heavy) levels.push({ dt: DT0 / 2, tag: 'dt/2' });
   // 第274便a: kF0 診断コピーの段は **h・h/2(+ --kf0-dt3 で h/4)**。既定経路の DT3 には乗せない
   // (3 段登録表は既定経路の宣言であって、診断コピーの段は本便の宣言である)。
-  if (KF0 ? (KF0_DT3 && !FAST && !heavy) : (DT3 && !FAST && !heavy)) levels.push({ dt: DT0 / 4, tag: 'dt/4' });   // 第255便d(N8)
+  // 第284便c(AN33): kF0 の診断コピーの h/4 は `--kf0-dt3`(明示診断 —— 5 本すべて)か `--kf0-h4-exceptions`(例外の登録簿の path:"kf0" の本だけ)
+  const kf0H4 = KF0_DT3 || (KF0_H4_EXC && h4ExceptionIds('kf0').includes(id));
+  if (KF0 ? (kf0H4 && !FAST && !heavy) : (DT3 && !FAST && !heavy)) levels.push({ dt: DT0 / 4, tag: 'dt/4' });   // 第255便d(N8)
   // 第258便d(第50報 W4): **h8 検査点**。--dt8 で名指しした系にだけ 4 段目を足す(予算の都合で 1 系)。
   if (DT8 && DT8.includes(id) && !FAST && !heavy && !KF0) levels.push({ dt: DT0 / 8, tag: 'dt/8' });
 
   // 第283便c(R86 (iii)): dt/4 の転記・閾値規則の記録(本ごと)
   let h4Reuse = null, h4Skip = null;
   const h4Key = id + (KF0 ? ':kf0' : '');
+  // 第284便c: dt/2 の転記(同一便の再走)の記録(本ごと)と、h の段の契約の写し(h2 の契約に入れる)
+  let h2Reuse = null, hStage = null;
+  const units = { G, c, toSec };
   for (const lv of levels) {
     // t=0 の接触要素から 1 公転の步数を見積もる
     // 第283便c: 步/秒の実測(記録)は**走らせる段だけ**で行う(転記・省略した段では測らない)ので、接触要素を先に作る
@@ -1241,12 +1355,34 @@ for (const job of jobs) {
     const wantSteps = stopRule.wantSteps;
     const maxSteps = stopRule.maxSteps;
     // 第283便c(R86 (iii)): **dt/4 の転記と閾値規則**(規則は tests/lib-w283c-calstages.mjs に宣言 —— 結果を見て選ばない)
-    let h4Contract = null;
+    let h4Contract = null, h2Contract = null;
+    if (lv.tag === 'dt') hStage = { maxSteps };
+    // 第284便c(第74報⑥・H2_REUSE_RULE): **dt/2 の転記**(同一便の再走)—— 今回の h の生の走行が前回と**ビット一致**し、前回の h/2 が完了なら転記
+    if (lv.tag === 'dt/2' && !TP_COPY) {
+      h2Contract = { version: H2_REUSE_VERSION, key: h4Key, presetHash: b0.sig || null, engineSha: ENGINE_SHA, lawsSha: LAWS_SHA,
+        dt: lv.dt, dtH: DT0, orbMax, maxStepsH: hStage ? hStage.maxSteps : null, maxSteps,
+        stepsPerOrbit0: stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null),
+        periWindow: PERI_WINDOW, extractorSha: EXTRACTOR_SHA, stopRuleVersion: STOP_RULE_VERSION, kf0: KF0, units };
+      const hRun = rows.find((z) => z.tag === 'dt') || null;
+      if (H2_REUSE) {
+        const entry = (H2_STORE_PREV && H2_STORE_PREV.entries) ? (H2_STORE_PREV.entries[h4Key] || null) : null;
+        const dec = h2ReuseDecision({ entry, contract: h2Contract, hRun, targetSha256: TARGET_SHA, crossFlight: H2_REUSE_CROSS });
+        h2Reuse = { key: h4Key, reused: dec.reuse, reason: dec.reason, diff: dec.diff, contractSha: contractSha(h2Contract), hSig: rawRunSig(hRun),
+          reusedFrom: dec.reuse ? { generatedAt: entry.generatedAt || null, targetSha256: entry.targetSha256 || null,
+            contractSha: contractSha(entry.contract), wallSec: Number.isFinite(entry.run.wallSec) ? entry.run.wallSec : null } : null };
+        if (dec.reuse) {
+          rows.push(reusedRunDt2(entry));
+          H2_KEEP.add(h4Key);
+          console.error(`  ${d.emoji}${KF0 ? '(kF0)' : ''} ${id} [dt/2] 転記(skippedBy:reuse-dt2 ← ${entry.generatedAt}・h の生の走行がビット一致・元 ${entry.run.wallSec}s)`);
+          continue;
+        }
+      } else h2Reuse = { key: h4Key, reused: false, reason: 'off(--no-h2-reuse)', diff: [], contractSha: contractSha(h2Contract), hSig: rawRunSig(hRun), reusedFrom: null };
+    }
     if (lv.tag === 'dt/4' && !TP_COPY) {
       h4Contract = { version: H4_REUSE_VERSION, key: h4Key, presetHash: b0.sig || null, engineSha: ENGINE_SHA,
         lawsSha: LAWS_SHA, dt: lv.dt, orbMax, maxSteps,
         stepsPerOrbit0: stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null),
-        periWindow: PERI_WINDOW, extractorSha: EXTRACTOR_SHA, stopRuleVersion: STOP_RULE_VERSION, kf0: KF0 };
+        periWindow: PERI_WINDOW, extractorSha: EXTRACTOR_SHA, stopRuleVersion: STOP_RULE_VERSION, kf0: KF0, units };
       if (H4_SKIP_DT2 && !KF0 && DFM_SYSTEM_IDS.has(id)) {
         const sk = dtDt2Skip(rows.find((z) => z.tag === 'dt'), rows.find((z) => z.tag === 'dt/2'));
         h4Skip = { skippedBy: sk.skip ? 'dt-dt2' : null, why: sk.why, rows: sk.rows, rule: DT_DT2_RULE.rule, scope: DT_DT2_RULE.scope };
@@ -1296,6 +1432,9 @@ for (const job of jobs) {
       machineIndependence: machineIndependenceProbe({ id, n: b0.n, dt: lv.dt, stepsPerOrbit, orbMax }) });
     rows.push(r);
     if (h4Contract) H4_NEW.push({ key: h4Key, id, contract: h4Contract, run: JSON.parse(JSON.stringify(r)) });   // 第283便c: 次の走行の転記元
+    // 第284便c: dt/2 の転記元(走らせた h/2 と、対の h の生の走行の署名)
+    if (h2Contract) { const hRun = rows.find((z) => z.tag === 'dt') || null;
+      H2_NEW.push({ key: h4Key, id, contract: h2Contract, hSig: rawRunSig(hRun), run: JSON.parse(JSON.stringify(r)) }); }
     console.error(`  ${d.emoji}${KF0 ? '(kF0)' : ''} ${id} [${lv.tag}=${lv.dt}] n=${r.n} steps=${r.steps}/${maxSteps}`
       + `(${r.stopRule.stoppedBy}) orbits=${r.targets.map((t) => t.revN).join('/')}`
       + ` peri=${r.stopRule.periFoundA.join('/')}≥${r.stopRule.needPeriastra}?${r.stopRule.periastraOk}`
@@ -1303,7 +1442,20 @@ for (const job of jobs) {
   }
   out.presets.push({ decl: d, cfg: { center: cfg.c, orbiters: cfg.o, ringInner: cfg.ringInner || null,
     note: cfg.note || null }, runs: rows, toSec, G, c, heavy, kf0Diagnostic: KF0 || false,
-    h4Reuse, h4Skip, tpCopy: TP_COPY ? (b0.tp || { on: false }) : null });
+    h4Reuse, h4Skip, h2Reuse, tpCopy: TP_COPY ? (b0.tp || { on: false }) : null });
+}
+// 第284便f: 分割の産物を書いて終わる(Float32 質量の記録・判定・書き出しは合流の 1 プロセスが直列と同じ経路で行う)
+if (SHARD.dump) {
+  const entries = SHARD_MARKS.map((m, i) => {
+    const nx = SHARD_MARKS[i + 1] || { nP: out.presets.length, nH: H4_NEW.length, nH2: H2_NEW.length, nE: pageErrors.length };
+    return { key: m.key, skipped: nx.nP === m.nP, preset: nx.nP > m.nP ? out.presets[m.nP] : null,
+      h4: H4_NEW.slice(m.nH, nx.nH), h2: H2_NEW.slice(m.nH2, nx.nH2), h2keep: H2_KEEP.has(m.key), errors: pageErrors.slice(m.nE, nx.nE) };
+  });
+  writeDump(SHARD.dump, makeDump({ argv, targetSha: TARGET_SHA, codeSha: MEASUREMENT_CODE_SHA, jobsAll: JOB_KEYS,
+    jobs: entries.map((e) => e.key), entries }));
+  console.error(`[w284f] --shard-dump: ${entries.length} job → ${SHARD.dump}(正本へは書かない)`);
+  await browser.close();
+  process.exit(0);
 }
 
 // ---------------------------------------------------------------- 第257便d(第49報・3 審査 v15)
@@ -2596,7 +2748,8 @@ for (const P of (REGATE ? [] : out.presets)) {
     run: { n: base.n, dt: base.dt, steps: base.steps, wallSec: base.wallSec,
       orbits: base.targets.map((t) => ({ label: t.label, rev: t.revN, periA: t.A.nPeri, periB: t.B.nPeri })),
       nan: base.nan, clamp: base.clamp, warnings: base.warnings.length,
-      dtHalf: half ? { dt: half.dt, steps: half.steps } : null,
+      dtHalf: half ? Object.assign({ dt: half.dt, steps: half.steps },
+        half.skippedBy ? { skippedBy: half.skippedBy, reusedFrom: half.reusedFrom || null } : {}) : null,   // 第284便c: dt/2 の転記の刻印
       dtQuarter: quarter ? Object.assign({ dt: quarter.dt, steps: quarter.steps },   // 第255便d(N8)
         quarter.skippedBy ? { skippedBy: quarter.skippedBy, reusedFrom: quarter.reusedFrom || null } : {}) : null,   // 第283便c: 転記した段の刻印
       dtEighth: eighth ? { dt: eighth.dt, steps: eighth.steps, wallSec: eighth.wallSec } : null,  // 第258便d(W4)
@@ -2609,6 +2762,7 @@ for (const P of (REGATE ? [] : out.presets)) {
       stepsPerOrbit0: (base.stopRule && base.stopRule.stepsPerOrbit0) || base.stepsPerOrbit0 || null,
       // 第283便c(R86): dt/4 の転記・閾値規則の記録と、壁時計の途中打ち切り(段ごと)。**読み手が区別できる欄**
       ...(P.h4Reuse ? { h4Reuse: P.h4Reuse } : {}), ...(P.h4Skip ? { h4Skip: P.h4Skip } : {}),
+      ...(P.h2Reuse ? { h2Reuse: P.h2Reuse } : {}),   // 第284便c: dt/2 の転記(同一便の再走)の記録
       ...(P.runs.some((z) => z.deadlineHit) ? { deadlineHit: P.runs.filter((z) => z.deadlineHit).map((z) => z.tag) } : {}) },
     ...(P.tpCopy ? { tpCopy: P.tpCopy } : {}),
     correlates, quantities, tally, notes });
@@ -2628,8 +2782,11 @@ for (const P of (REGATE ? [] : out.presets)) {
 //      第258便d の `conditionRejectedEvidence` と同じ趣旨で、**証拠は捨てない**。
 const kf0Report = report.filter((r) => r.kf0Diagnostic === true);
 report = report.filter((r) => r.kf0Diagnostic !== true);
+// 第284便c(AN33): 本ごとの段(`--kf0-h4-exceptions` は例外の登録簿の path:"kf0" の本だけ h/4 —— 走っていない段を走ったと刻まない)
+const kf0StagesOf = (id) => ((KF0_DT3 || (KF0_H4_EXC && h4ExceptionIds('kf0').includes(id))) ? ['h', 'h/2', 'h/4'] : ['h', 'h/2']);
 const kf0Apply = { on: KF0_RUNS, registry: KF0_RUN_REGISTRY,
   stages: KF0_DT3 ? ['h', 'h/2', 'h/4'] : ['h', 'h/2'],
+  stagesH4: KF0_DT3 ? KF0_RUN_REGISTRY.map((z) => z.id) : (KF0_H4_EXC ? h4ExceptionIds('kf0') : []),
   diagnosticPresets: kf0Report.length, applied: [], missing: [] };
 // **配るのは --merge のあと**である(`--only` で一部だけ回しても、既存 JSON 側の同じ行へ届く)。
 const applyKf0Runs = (records) => {
@@ -2681,7 +2838,7 @@ const applyKf0Runs = (records) => {
       const nq = JSON.parse(JSON.stringify(t));
       nq.kf0Applied = {
         since: '第274便a(第64報)', requiredKFrame: 0, measuredKFrame: 0,
-        stages: kf0Apply.stages,
+        stages: kf0StagesOf(r.id),
         how: '`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を、'
           + '**同じ停止条件・同じ近点窓・同じ抽出器・同じ σ の宛先**で走らせた'
           + '(preset id が同じなので宣言はすべて同じ 1 本を引く)。'
@@ -3570,6 +3727,8 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
     const ok = qs.filter((q) => q.gate && q.gate.status === GATE.OK);
     return { id: z.id, emoji: r ? r.emoji : null, registeredBy: z.since, why: z.why,
       present: !!r,
+      // 第284便c(AN33): 例外の登録簿の本か(常時の鎖で 3 段を走らせるのはこの本だけ)
+      h4Exception: h4ExceptionIds('main').includes(z.id),
       hasQuarter: !!(r && r.run && r.run.dtQuarter),
       hasHalf: !!(r && r.run && r.run.dtHalf),
       nQuantities: qs.length, withSigma: withSig.length, sigmaFromCsv: fromCsv.length,
@@ -3587,7 +3746,11 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
     pass3SigmaTotal: rows.reduce((a, z) => a + z.pass3Sigma, 0),
     rule: '**登録表は「3 段(dt/4)で走らせる対象である」という宣言**である。'
       + '登録しても σ は 1 件も増えず、3σ も 1 件も動かない —— `pass3SigmaTotal` がそれを数える。',
-    note: '**新しく繋がった量が 3σ を通らないことを隠さない**(第264便a の 11 件は 0 件のままである)。' };
+    note: '**新しく繋がった量が 3σ を通らないことを隠さない**(第264便a の 11 件は 0 件のままである)。',
+    // 第284便c(原仮定者の裁定(第74報)⑥・AN33): 常時の鎖から外した(h8 の chainPolicy と同じ形)
+    chainPolicy: { since: '第284便c(AN33)', chain: '--h4-exceptions --merge(例外の登録簿の main の本だけ)',
+      explicit: '--dt4-registry(この登録表の全本 —— 明示診断・単独)', exceptions: h4ExceptionIds('main'),
+      hasQuarterMeans: '`hasQuarter` は**その正本で h/4 を走らせた(または同じ契約の h4 を転記した)**かだけを表す —— 鎖の正本では例外の本だけが true' } };
 }
 
 // ---------------------------------------------------------------- 第270便a(第60報 W1・AE8/AE9/(A))
@@ -3626,13 +3789,60 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
     skippedDtDt2: merged.filter((r) => r.run && r.run.h4Skip && r.run.h4Skip.skippedBy === 'dt-dt2').map((r) => r.id),
     storeFrom: H4_STORE_PREV ? 'tests/out/calaudit-w249-diag.json#h4Store' : null,
     tpCopy: TP_COPY };
+  // 第284便c(第74報⑥・H2_REUSE_RULE): dt/2 の転記(同一便の再走)の集計(本ごとの記録は presets[].run.h2Reuse / dtHalf.skippedBy)
+  out.h2Reuse = { version: H2_REUSE_VERSION, on: H2_REUSE, crossFlight: H2_REUSE_CROSS, rule: H2_REUSE_RULE,
+    reused: merged.filter((r) => r.run && r.run.h2Reuse && r.run.h2Reuse.reused).map((r) => r.id),
+    fresh: merged.filter((r) => r.run && r.run.dtHalf && !r.run.dtHalf.skippedBy).map((r) => r.id),
+    refused: merged.filter((r) => r.run && r.run.h2Reuse && !r.run.h2Reuse.reused)
+      .map((r) => ({ id: r.id, reason: r.run.h2Reuse.reason, diff: r.run.h2Reuse.diff })),
+    reusedSec: merged.reduce((a, r) => a + ((r.run && r.run.h2Reuse && r.run.h2Reuse.reused && r.run.h2Reuse.reusedFrom
+      && Number.isFinite(r.run.h2Reuse.reusedFrom.wallSec)) ? r.run.h2Reuse.reusedFrom.wallSec : 0), 0),
+    storeFrom: H2_STORE_PREV ? 'tests/out/calaudit-w249-diag.json#h2Store' : null,
+    engineFingerprint: Object.assign({}, ENGINE_INFO_W284C || { sha256: null },
+      { rule: '第284便c: 法則の指紋は停止集合つき依存閉包(tests/lib-w281a-scope.mjs)の hash —— 名指しの関数だけの指紋は補助関数を取りこぼした' }) };
+  // 第284便c(AN33): **h/4 の方針と判定段の前後**(例外の登録簿・h4 → h2 に戻った量・門の状態と 5 区分の前後 —— 器が数える)
+  {
+    const ledgerOf = (presets) => { const rows = [];
+      for (const p of (presets || [])) (p.quantities || []).forEach((q, i) => { const g = q.gate || {};
+        rows.push({ id: p.id, i, key: g.key || null, name: q.name || null, stage: g.assessedStage || q.assessedStage || null,
+          status: g.status || null, verdict: q.verdict || null, kf0: !!q.kf0Applied }); });
+      return rows; };
+    // 前回が方針の後の世代(`h4Policy` を持つ)なら、その `before` を**そのまま**持ち越す(null も —— 方針の後の走行から「前」を作らない)
+    const prevIsPolicy = !!(PREV_OUT_W284C && PREV_OUT_W284C.h4Policy);
+    const before = prevIsPolicy ? (PREV_OUT_W284C.h4Policy.before || null) : (PREV_OUT_W284C ? { source: { file: path.relative(ROOT, OUT), generatedAt: (PREV_OUT_W284C.meta || {}).when || null,
+      targetSha256: (PREV_OUT_W284C.meta || {}).targetSha256 || null,
+      fourValues: PREV_OUT_W284C.fourValues && PREV_OUT_W284C.fourValues.current ? PREV_OUT_W284C.fourValues.current.counts : null,
+      gate: PREV_OUT_W284C.summary && PREV_OUT_W284C.summary.gate ? PREV_OUT_W284C.summary.gate.byStatus : null },
+    rows: ledgerOf(PREV_OUT_W284C.presets).filter((z) => z.stage === 'h4') } : null);
+    const now = ledgerOf(merged);
+    const moves = before ? before.rows.map((b) => {
+      const a = now.find((z) => z.id === b.id && z.i === b.i && z.key === b.key && z.name === b.name) || null;
+      const path0 = (b.kf0 || (a && a.kf0)) ? 'kf0' : 'main';   // kFrame=0 の対照走行を配った行は kf0 の経路
+      return { id: b.id, i: b.i, key: b.key, name: b.name, path: path0, exception: isH4Exception(b.id, path0, b.key, b.name),
+        stageBefore: b.stage, stageAfter: a ? a.stage : null, statusBefore: b.status, statusAfter: a ? a.status : null,
+        verdictBefore: b.verdict, verdictAfter: a ? a.verdict : null, missingAfter: !a };
+    }) : [];
+    out.h4Policy = Object.assign({}, H4_POLICY, { exceptions: H4_EXCEPTIONS,
+      mode: { h4Exceptions: H4_EXC, kf0H4Exceptions: KF0_H4_EXC, dt4Registry: DT3_REGISTRY, kf0Dt3: KF0_DT3 },
+      before, moves,
+      summary: { nBeforeH4: moves.length, keptH4: moves.filter((z) => z.stageAfter === 'h4').length,
+        returnedToH2: moves.filter((z) => z.stageBefore === 'h4' && z.stageAfter === 'h2').length,
+        returnedToH: moves.filter((z) => z.stageBefore === 'h4' && z.stageAfter === 'h').length,
+        statusMoved: moves.filter((z) => !z.missingAfter && z.statusBefore !== z.statusAfter).length,
+        verdictMoved: moves.filter((z) => !z.missingAfter && z.verdictBefore !== z.verdictAfter).length,
+        missingAfter: moves.filter((z) => z.missingAfter).length,
+        exceptionsKept: moves.filter((z) => z.exception && z.stageAfter === 'h4').length, exceptionsN: H4_EXCEPTIONS.length },
+      reading: '「前」は h/4 を常時から外す前の正本(判定段 h4 の量だけ)。「後」はこの正本。**動いたら動いたと書く**(状態・区分の移動を数える)。'
+        + '鎖の途中の段(① 通常走行・dt3 段)の正本では例外の本もまだ h2 のまま —— 鎖の最後(kf0 段)の正本が読む対象' });
+  }
   out.reproduce = {
     step1: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs(通常走行・全プリセット)',
-    step2: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --dt3-registry --merge',
+    step2: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --h4-exceptions --merge'
+      + '(第284便c・AN33: h/4 は例外の登録簿 H4_EXCEPTIONS の main の本だけ。登録表 THREE_STAGE_REGISTRY の全本の 3 段は明示診断 `--dt4-registry --merge`)',
     step2b: '(第283便c 以降は鎖に入れない)PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --dt3-registry --dt8-registry --merge'
       + '(第272便a・AG1: 条件つき h/8 の登録表だけ 4 段目を足す**明示診断**。原仮定者の裁定(第73報)⑤「dt/8 は無くす方向」'
       + '—— 常時の鎖は step2 だけで、h/8 は判断に要るときだけ手で走らせる)',
-    step2c: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-dt3'
+    step2c: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-h4-exceptions'
       + ' --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge'
       + '(第274便a・第64報: 条件不一致 8 行の **kFrame=0 対照走行**を診断コピーで測り、その行へ配る。'
       + '`--kf0-only` は**既定経路を 1 本も測り直さない** —— 3 段・4 段登録系の段を落とさず、'
@@ -3975,6 +4185,16 @@ if (!TP_COPY) {
   }
   diag.h4Store = { version: H4_REUSE_VERSION, rule: H4_REUSE_RULE, n: Object.keys(entries).length, freshThisRun: fresh,
     carriedFrom: H4_STORE_PREV ? (PREV_DIAG && PREV_DIAG.when) || null : null, entries };
+  // 第284便c(第74報⑥・H2_REUSE_RULE): **dt/2 の転記元**(`h2Store`)。この走行で走らせた h/2 と対の h の生の走行の署名を契約つきで置き、
+  // 走らせなかった本(転記した本・--only の外の本)の置き場は前回から持ち越す
+  const e2 = Object.assign({}, (H2_STORE_PREV && H2_STORE_PREV.entries) || {});
+  let fresh2 = 0;
+  for (const z of H2_NEW) {
+    e2[z.key] = { contract: z.contract, hSig: z.hSig, run: z.run, generatedAt: out.meta.when, targetSha256: TARGET_SHA };
+    fresh2++;
+  }
+  diag.h2Store = { version: H2_REUSE_VERSION, rule: H2_REUSE_RULE, n: Object.keys(e2).length, freshThisRun: fresh2, reusedThisRun: H2_KEEP.size,
+    carriedFrom: H2_STORE_PREV ? (PREV_DIAG && PREV_DIAG.when) || null : null, entries: e2 };
 }
 {
   const bytesBefore = Buffer.byteLength(JSON.stringify(out, null, 1));   // **UTF-8 バイト**で測る(文字数ではない)

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便c",
   "target": "beta/index.html",
-  "targetSha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
-  "generatedAt": "2026-09-26T23:37:29.385Z",
+  "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+  "generatedAt": "2026-09-27T11:38:40.865Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4903364,
-    "sha256": "6fd96635ae9c47656f7919711cdba59d06a1a300da7eba0a039f7cef4cc0dc4f",
-    "mtime": "2026-09-26T22:04:04.756Z"
+    "bytes": 4915135,
+    "sha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+    "mtime": "2026-09-27T10:21:02.558Z"
    }
   ],
   "code": [
@@ -117,11 +117,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 789,
-   "segments": 717,
-   "closureShare": 0.3167
+   "names": 797,
+   "segments": 724,
+   "closureShare": 0.3186
   },
-  "scopeSha256": "daaf78d4fbbebc95457a122ff3024b262c11432fa578873270233e589434f456",
+  "scopeSha256": "58f363257462bb55524d493c607b925b6ab304779fc248cbea1689c86315cb39",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -226,8 +226,8 @@
       "spin": 0
      },
      "sha": [
-      "81807f80788d5ff6",
-      "81807f80788d5ff6"
+      "462edff0aa09fb3c",
+      "462edff0aa09fb3c"
      ]
     },
     "physicsQ": {
@@ -238,8 +238,8 @@
       "spin": 0
      },
      "sha": [
-      "81807f80788d5ff6",
-      "81807f80788d5ff6"
+      "462edff0aa09fb3c",
+      "462edff0aa09fb3c"
      ]
     },
     "warnings": 0
@@ -260,8 +260,8 @@
       "spin": 0
      },
      "sha": [
-      "81807f80788d5ff6",
-      "81807f80788d5ff6"
+      "462edff0aa09fb3c",
+      "462edff0aa09fb3c"
      ]
     },
     "physicsQ": {
@@ -272,8 +272,8 @@
       "spin": 0
      },
      "sha": [
-      "81807f80788d5ff6",
-      "81807f80788d5ff6"
+      "462edff0aa09fb3c",
+      "462edff0aa09fb3c"
      ]
     },
     "warnings": 4
@@ -334,27 +334,27 @@
     "emoji": "⚡",
     "geoPN": 2,
     "kF1DragQ2vs8": {
-     "bitSame": false,
+     "bitSame": true,
      "maxAbs": {
-      "pos": 5.115907697472721e-13,
-      "vel": 1.1799894394926014e-10,
-      "spin": 0.0002894815638327941
+      "pos": 0,
+      "vel": 0,
+      "spin": 0
      },
      "sha": [
-      "bd687eaf9a4bd027",
-      "aa1b0585e91e302b"
+      "b9a92bd4001c9729",
+      "b9a92bd4001c9729"
      ]
     },
     "kFrame0vs1": {
      "bitSame": false,
      "maxAbs": {
-      "pos": 0.04074914034077892,
-      "vel": 0.03979471738754742,
-      "spin": 9.313123998972554
+      "pos": 0.020370824809958776,
+      "vel": 0.019892339367899203,
+      "spin": 0
      },
      "sha": [
-      "81807f80788d5ff6",
-      "277246b8c3f646ca"
+      "462edff0aa09fb3c",
+      "b9a92bd4001c9729"
      ]
     }
    },
@@ -788,7 +788,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0.029031,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -818,7 +818,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0.0124,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1442,7 +1442,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0.016528,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1472,7 +1472,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1502,7 +1502,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1532,7 +1532,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1562,7 +1562,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1592,7 +1592,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1622,7 +1622,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1652,7 +1652,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1682,7 +1682,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1712,7 +1712,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1742,7 +1742,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1786,7 +1786,7 @@
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0.016528,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1805,18 +1805,18 @@
       "dOmegaMean": 0.016071832789310833,
       "dOmegaMeanRatio": 35.23232799882717,
       "observedSpin": null,
-      "partner": 9
+      "partner": 6
      },
      {
       "id": "saturnRingReal",
       "emoji": "💍",
       "group": "solar",
-      "index": 4,
+      "index": 1,
       "m": 0.00000375,
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1841,12 +1841,12 @@
       "id": "saturnRingReal",
       "emoji": "💍",
       "group": "solar",
-      "index": 5,
+      "index": 2,
       "m": 0.0000108,
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1871,12 +1871,12 @@
       "id": "saturnRingReal",
       "emoji": "💍",
       "group": "solar",
-      "index": 6,
+      "index": 3,
       "m": 0.0000617,
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1901,12 +1901,12 @@
       "id": "saturnRingReal",
       "emoji": "💍",
       "group": "solar",
-      "index": 7,
+      "index": 4,
       "m": 0.0001095,
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1931,12 +1931,12 @@
       "id": "saturnRingReal",
       "emoji": "💍",
       "group": "solar",
-      "index": 8,
+      "index": 5,
       "m": 0.0002306,
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -1961,12 +1961,12 @@
       "id": "saturnRingReal",
       "emoji": "💍",
       "group": "solar",
-      "index": 9,
+      "index": 6,
       "m": 0.013452,
       "q": 3,
       "qSource": "physics.q",
       "kFrame": 0,
-      "geoPN": 2,
+      "geoPN": 1,
       "spin": 0.000456,
       "coreOmega": null,
       "spinDipoleOmega": null,
@@ -2029,13 +2029,13 @@
       "dOmegaMean": 0.016071832789310833,
       "dOmegaMeanRatio": 35.23232799882717,
       "observedSpin": null,
-      "partner": 9
+      "partner": 6
      },
      {
       "id": "saturnRingRealKF1",
       "emoji": "💿",
       "group": "solar",
-      "index": 4,
+      "index": 1,
       "m": 0.00000375,
       "q": 20.4932,
       "qSource": "physics.q",
@@ -2065,7 +2065,7 @@
       "id": "saturnRingRealKF1",
       "emoji": "💿",
       "group": "solar",
-      "index": 5,
+      "index": 2,
       "m": 0.0000108,
       "q": 20.4932,
       "qSource": "physics.q",
@@ -2095,7 +2095,7 @@
       "id": "saturnRingRealKF1",
       "emoji": "💿",
       "group": "solar",
-      "index": 6,
+      "index": 3,
       "m": 0.0000617,
       "q": 20.4932,
       "qSource": "physics.q",
@@ -2125,7 +2125,7 @@
       "id": "saturnRingRealKF1",
       "emoji": "💿",
       "group": "solar",
-      "index": 7,
+      "index": 4,
       "m": 0.0001095,
       "q": 20.4932,
       "qSource": "physics.q",
@@ -2155,7 +2155,7 @@
       "id": "saturnRingRealKF1",
       "emoji": "💿",
       "group": "solar",
-      "index": 8,
+      "index": 5,
       "m": 0.0002306,
       "q": 20.4932,
       "qSource": "physics.q",
@@ -2185,7 +2185,7 @@
       "id": "saturnRingRealKF1",
       "emoji": "💿",
       "group": "solar",
-      "index": 9,
+      "index": 6,
       "m": 0.013452,
       "q": 20.4932,
       "qSource": "physics.q",
@@ -2720,13 +2720,13 @@
       "emoji": "⚡",
       "group": "ns",
       "index": 0,
-      "m": 5321.812101719132,
+      "m": 2660.982861,
       "q": 3.1788606596895086,
       "qSource": "body.dragQ",
       "kFrame": 1,
       "geoPN": 2,
       "spin": 0,
-      "coreOmega": 0,
+      "coreOmega": null,
       "spinDipoleOmega": 2767.998768,
       "R": 0.01175,
       "densityClass": null,
@@ -2739,19 +2739,19 @@
       "sense": "nonRotating",
       "senseInst": "nonRotating",
       "senseBasis": "meanMotion",
-      "omegaMean": 0.017006444495045365,
-      "dOmegaMean": -0.017006444495045365,
+      "omegaMean": 0.007112074135833544,
+      "dOmegaMean": -0.007112074135833544,
       "dOmegaMeanRatio": -1,
       "observedSpin": {
        "spinProxy": "spinDipole.omega(観測の自転 —— 力学の値域外で表示・診断専用)",
        "dOmega": 2767.9927806182927,
-       "dOmegaMean": 2767.981761555505,
+       "dOmegaMean": 2767.991655925864,
        "sense": "faster"
       },
       "partner": 1,
       "rDragCore": {
        "status": "未宣言",
-       "hiddenCoreRadius": 0.01,
+       "hiddenCoreRadius": null,
        "note": "core.radius は隠れコア(f の殻/コア分割)の半径であって R_drag の宣言ではない"
       }
      },
@@ -2760,13 +2760,13 @@
       "emoji": "⚡",
       "group": "ns",
       "index": 1,
-      "m": 4966.596715423392,
+      "m": 2483.370041,
       "q": 3.185016056198988,
       "qSource": "body.dragQ",
       "kFrame": 1,
       "geoPN": 2,
       "spin": 0,
-      "coreOmega": 22.654675,
+      "coreOmega": null,
       "spinDipoleOmega": 22.654675,
       "R": 0.01175,
       "densityClass": null,
@@ -2779,19 +2779,19 @@
       "sense": "nonRotating",
       "senseInst": "nonRotating",
       "senseBasis": "meanMotion",
-      "omegaMean": 0.017006444495045365,
-      "dOmegaMean": -0.017006444495045365,
+      "omegaMean": 0.007112074135833544,
+      "dOmegaMean": -0.007112074135833544,
       "dOmegaMeanRatio": -1,
       "observedSpin": {
        "spinProxy": "spinDipole.omega(観測の自転 —— 力学の値域外で表示・診断専用)",
        "dOmega": 22.648687618292783,
-       "dOmegaMean": 22.637668555504955,
+       "dOmegaMean": 22.647562925864168,
        "sense": "faster"
       },
       "partner": 0,
       "rDragCore": {
        "status": "未宣言",
-       "hiddenCoreRadius": 0.01,
+       "hiddenCoreRadius": null,
        "note": "core.radius は隠れコア(f の殻/コア分割)の半径であって R_drag の宣言ではない"
       }
      }
@@ -3258,7 +3258,7 @@
   "引きずり消失を確認した",
   "新発見"
  ],
- "headlessMs": 189,
+ "headlessMs": 72,
  "headlessErrors": 0,
- "elapsedS": 2.32
+ "elapsedS": 1.113
 }
