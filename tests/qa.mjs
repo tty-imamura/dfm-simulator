@@ -2641,6 +2641,8 @@ if (QA_REPLAY_FAIL) {
           if (JSON.stringify(got) === JSON.stringify(cur)) continue;
           // 第283便e: 旧宣言(刻印の Pointer ⊊ 今の宣言)は刻印の Pointer で照合する —— 付け替えは統合時
           if (got.every((z) => cur.includes(z))) nOldDecl++;
+          // 第283便 統合: **履歴**の正本(role:'history' —— 走らせ直さない記録)は刻印の Pointer が旧宣言のままでよい(geo1 の dtEighth)
+          else if ((RT.REGEN_STEPS || []).some((z) => z.role === 'history' && (z.outs || []).includes(out))) nOldDecl++;
           else bad.push(`⑤ ${out} の ${f} の刻印の Pointer が今の宣言の外にある(器を走らせ直すこと)`);
         } else if (st.stableVersion === undefined) nLegacy++;
         else bad.push(`⑤ ${out} の ${f} の安定 hash の版 ${st.stableVersion} を照合できない`);
@@ -54898,7 +54900,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           || g1.every((r) => r.rejected !== true && r.kF1DragQ2vs8.bitSame === true && r.kFrame0vs1.bitSame === true)))) bad.push('③geoPN=1 で kFrame/q が効いた、または kFrame=1 の写しが拒否されない(構造が変わった —— 正本と PHYSICS を直す)');
       }
       // 第283便c の試験粒子の 1 步(dfmTestParticleStep)は本体の門 2 行(e6Gate・g2Gate)の写しを持つ —— 統合時: 写しの分だけ 2 回を許す(pnVel は 1 回)。一本化は AN42
-      const tpCopy = html.indexOf('function dfmTestParticleStep') >= 0;
+      const tpCopy = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmTestParticleStep') >= 0;
       const gateCountOk = (g) => g.count === 1 || (tpCopy && g.count === 2 && (g.key === 'e6Gate' || g.key === 'g2Gate'));
       if (!(M.gates.length === 3 && M.gates.every(gateCountOk))) bad.push('③門の文字列が html に 1 回ずつ無い: ' + M.gates.map((g) => g.key + '×' + g.count).join(','));
       cases.push(`対照: kFrame=1・geoPN=2 で q の差 位置 ${J.control.rows.filter((r) => r.geoPN === 2).map((r) => Ld.fmtSci(r.kF1DragQ2vs8.maxAbs.pos)).join('/')}・`
