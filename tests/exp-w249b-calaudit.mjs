@@ -100,6 +100,10 @@ import crypto from 'node:crypto';
 // 第283便c(R86): 段の純関数(二重加算の修正・dt/4 の再利用規則・dt と dt/2 の閾値規則)
 import { H4_REUSE_VERSION, H4_REUSE_RULE, DT_DT2_RULE, h4ReuseDecision, reusedRun, dtDt2Skip,
   counterExample } from './lib-w283c-calstages.mjs';
+// 第284便f(原仮定者の裁定(第74報)⑥・統括の検証項目 R94): **プリセット分割**(job の走行だけを k 個のプロセスに分け、
+//   判定・併合・書き出しは 1 プロセスで直列と同じ経路を通す —— `--shard-plan` / `--shard-jobs … --shard-dump` / `--shard-load`)。
+//   引数なしの走行は 1 文字も変わらない。使い方は tools/calaudit-split.mjs。
+import { SHARD_VERSION, jobKey, parseShardArgs, makeDump, writeDump, readDump, collectDumps, sameClone } from './lib-w284f-calshard.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -131,6 +135,7 @@ const MEASUREMENT_CODE_FILES = [
   'tests/lib-w270b-obscsv.mjs',
   'tests/lib-w270a-stoprule.mjs',
   'tests/lib-w283c-calstages.mjs',
+  'tests/lib-w284f-calshard.mjs',
 ].sort();
 const MEASUREMENT_CODE_SHA = crypto.createHash('sha256').update(
   MEASUREMENT_CODE_FILES.map((p) => p + ':' + sha256Of(path.join(ROOT, p))).join('\n')
@@ -138,6 +143,8 @@ const MEASUREMENT_CODE_SHA = crypto.createHash('sha256').update(
 const TARGET_SHA = sha256Of(TARGET_ABS);
 const argv = process.argv.slice(2);
 const FAST = argv.includes('--fast');
+// 第284便f: 分割の引数(無ければ SHARD.on=false —— 従来の走行)
+const SHARD = parseShardArgs(argv);
 const MERGE = argv.includes('--merge');   // --only で一部だけ回して既存 JSON へ差し替える(再判定用)
 // 第263便c(第55報 W3): **--regate**。**エンジンを 1 步も走らせず**、既存の出力 JSON
 // (tests/out/calaudit-w249.json)を読み直し、**CSV の σ の転写と門(assessObservation)だけを
@@ -1185,7 +1192,46 @@ if (KF0_RUNS) {
     + (KF0_DT3 ? '・h/4' : '') + '。プリセットの physics は 1 bit も変えない'
     + (KF0_ONLY ? ' / --kf0-only: 既定経路の走行は 1 本も行わない' : '') + ')');
 }
+// 第284便f(R94): **プリセット分割**。job の鍵は直列の順(`jobKey`)。
+//   --shard-plan … job の鍵の一覧を標準出力へ出して終わる(走らせない)
+//   --shard-jobs <鍵,…> --shard-dump <file> … その job だけを走らせ、job ごとの産物を構造化複製で書いて終わる(正本へは書かない)
+//   --shard-load <file,…> … job を走らせず、産物を直列の job の順で積む(以降は直列と同じ経路)
+if (SHARD.on && REGATE) throw new Error('[w284f] --regate は分割しない');
+const JOB_KEYS = jobs.map(jobKey);
+if (SHARD.plan) {
+  process.stdout.write(JSON.stringify({ version: SHARD_VERSION, jobs: JOB_KEYS }) + '\n');
+  await browser.close();
+  process.exit(0);
+}
+if (SHARD.jobs) {
+  const unknown = [...SHARD.jobs].filter((k) => !JOB_KEYS.includes(k));
+  if (unknown.length) throw new Error('[w284f] --shard-jobs に job の一覧に無い鍵: ' + unknown.join(','));
+}
+const SHARD_LOADED = SHARD.load ? collectDumps(SHARD.load.map(readDump),
+  { argv, targetSha: TARGET_SHA, codeSha: MEASUREMENT_CODE_SHA, jobs: JOB_KEYS }) : null;
+if (SHARD_LOADED) console.error(`[w284f] --shard-load: 産物 ${SHARD.load.length} 個から ${JOB_KEYS.length} job を直列の順で積む(走らせない)`);
+const SHARD_MARKS = [];
 for (const job of jobs) {
+  if (SHARD.jobs && !SHARD.jobs.has(jobKey(job))) continue;
+  if (SHARD_LOADED) {
+    const e = SHARD_LOADED.get(jobKey(job));
+    if (!e.skipped) {
+      const p = e.preset;
+      // 直列では既定経路の job の decl はページの宣言そのもの(同じ参照)・cfg.orbiters は CFG の配列そのもの —— 同じ参照へ戻す
+      if (!job.kf0) {
+        const d0 = decls.find((x) => x.id === job.id);
+        if (!sameClone(p.decl, d0)) throw new Error('[w284f] 産物の宣言が合流のページと違う: ' + job.id);
+        p.decl = d0;
+      }
+      if (!CFG[job.id] || !sameClone(p.cfg.orbiters, CFG[job.id].o)) throw new Error('[w284f] 産物の CFG が違う: ' + job.id);
+      p.cfg.orbiters = CFG[job.id].o;
+      out.presets.push(p);
+    }
+    for (const h of e.h4) H4_NEW.push(h);
+    for (const x of e.errors) pageErrors.push(x);
+    continue;
+  }
+  if (SHARD.dump) SHARD_MARKS.push({ key: jobKey(job), nP: out.presets.length, nH: H4_NEW.length, nE: pageErrors.length });
   const id = job.id;
   const KF0 = job.kf0;
   const d = KF0 ? (() => { const c = JSON.parse(JSON.stringify(decls.find((x) => x.id === id)));
@@ -1304,6 +1350,19 @@ for (const job of jobs) {
   out.presets.push({ decl: d, cfg: { center: cfg.c, orbiters: cfg.o, ringInner: cfg.ringInner || null,
     note: cfg.note || null }, runs: rows, toSec, G, c, heavy, kf0Diagnostic: KF0 || false,
     h4Reuse, h4Skip, tpCopy: TP_COPY ? (b0.tp || { on: false }) : null });
+}
+// 第284便f: 分割の産物を書いて終わる(Float32 質量の記録・判定・書き出しは合流の 1 プロセスが直列と同じ経路で行う)
+if (SHARD.dump) {
+  const entries = SHARD_MARKS.map((m, i) => {
+    const nx = SHARD_MARKS[i + 1] || { nP: out.presets.length, nH: H4_NEW.length, nE: pageErrors.length };
+    return { key: m.key, skipped: nx.nP === m.nP, preset: nx.nP > m.nP ? out.presets[m.nP] : null,
+      h4: H4_NEW.slice(m.nH, nx.nH), errors: pageErrors.slice(m.nE, nx.nE) };
+  });
+  writeDump(SHARD.dump, makeDump({ argv, targetSha: TARGET_SHA, codeSha: MEASUREMENT_CODE_SHA, jobsAll: JOB_KEYS,
+    jobs: entries.map((e) => e.key), entries }));
+  console.error(`[w284f] --shard-dump: ${entries.length} job → ${SHARD.dump}(正本へは書かない)`);
+  await browser.close();
+  process.exit(0);
 }
 
 // ---------------------------------------------------------------- 第257便d(第49報・3 審査 v15)
