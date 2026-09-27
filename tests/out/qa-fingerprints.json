@@ -2,7 +2,7 @@
  "schema": 1,
  "targets": {
   "beta/index.html": {
-   "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
+   "commit": "c4ffbc65eadab898b948ef9d50965dfaedd3fbae",
    "date": "2026-09-27",
    "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
    "target": "beta/index.html",
@@ -35,20 +35,6 @@
     "neptuneReal-kF0@3000": "7c9f7784f6a1d2c4527e1060a9821db0f09f55dc03d57a48e24332d9544a34b4"
    },
    "tests": {
-    "behavior.selfrotor": {
-     "key": "98b1b11be43f1b2953b0cb0f16fec88ed5032e7ce1fc3fbd2223dd5729d0359b",
-     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
-     "date": "2026-09-27",
-     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-     "ms": 21783,
-     "results": [
-      {
-       "id": "behavior.selfrotor",
-       "pass": true,
-       "detail": "9000步(t=144=validT・seed固定で決定論) 生成: 180粒→25体(融合155回) 最大天体 m=48・**質量比=26.7%**(窓0.14〜0.6) 殻スピン=0.351 R=6.93 束縛率=0.75 / 対照①融合オフ: 質量比=0.56%(=1/180・束縛率0.14) → 中心天体は初期条件ではなく融合則の生成物 / J_core 継承: 中心天体 J_core=0.0960=**種48.0個ぶん**(窓25〜100)・質量で数えた個数=48.0 → 総和恒等式 J/J_seed ÷ m/m_seed=1.000000(=1) ・ΣJ_core=0.3600(=180×0.0020 不変) / 対照②コア種なし: J_core=0.0000 ΣJ_core=0.0000(継承以外の生成経路なし) / 暗さの生成: lS_eff t=0 で 0.000 → 中心=0.999(窓0.9〜1)・周囲平均=0.317(窓0.2〜0.5)= コントラスト3.16倍 ※対照①では周囲も0.972まで暗い(暗さ単独では融合の有無を判別しない) / 創発モニタ: 塊 166→2・最大塊質量比=0.994・スピン整列度 0.000→1.000・V/σ=10.90 / 保存: |ΔL|/L_scale=6.74e-7(<1e-4) clamp=0/0 NaN=false / バッジ: 閉鎖系=true・E水準=E3・分類=composite / 第82便B の較正実測 = 25体/155回/26.7%/0.589/0.159/種48個/対照0.56%・J=0"
-      }
-     ]
-    },
     "preset.roundtrip-builtins": {
      "key": "e0fc878675e2c3ff28160e1173c135afbbf879035c914c9c85ff7d670b2f9464",
      "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
@@ -63,6 +49,20 @@
       }
      ]
     },
+    "behavior.phase-multiseed": {
+     "key": "9be751fd9b9abf0e9fb1ad7ab588a5282dbdad16e2b011df7a14123356fab8b7",
+     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
+     "date": "2026-09-27",
+     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+     "ms": 268864,
+     "results": [
+      {
+       "id": "behavior.phase-multiseed",
+       "pass": true,
+       "detail": "3seed(7/8/9) / 🧬 初期条件ノイズ版の配位数 c̄ 2.232/2.107/2.107 → **最小=2.107**(claim 窓 1.6〜3) vs 対照 bondK=0 の 0.125(=結合が消える・同じ初期条件ノイズを入れた対照でも 0.089) 比 16.9倍(>10) / 🧊 120°角偏差 19.6°/18.1°/29.2° → **最大=29.2°**(窓 5〜55) vs 対照 angK=0 の 78.8°(密集塊)— 分離 / ⛓️ 2配位率 0.714/0.768/0.750 → **最小=0.714**(窓 0.6〜0.9) vs 対照 angK=0 の 0.268(等方の液滴)— 分離 / ♻️ 解離末(t=528)の成分数 65/69/65 → **最小=65**(窓 30〜95) / ⛓️≡♻️(t≤288)の全秩序変数一致=true(③④の run 共有の根拠) / E水準=🧬E1・🧊E1・⛓️E1・♻️E1(第84便A: ⑤摂動回復が4件とも通らないため E3 昇格なし) / 16seed(7〜22)の分布は tests/exp-4-87.mjs が正本: 🧬c̄1.98〜2.75・🧊角偏差12.3〜44.1°・⛓️2配位率0.696〜0.804・♻️成分48〜84"
+      }
+     ]
+    },
     "behavior.selfrotor-multiseed": {
      "key": "a589211ee4f527451fe04e9a3ec6105e536cd895cfda5f3dff76d0439b1fa32d",
      "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
@@ -74,6 +74,20 @@
        "id": "behavior.selfrotor-multiseed",
        "pass": true,
        "detail": "4seed(20260806/20260807/20260808/20260809・9000步=validT) 最大天体の質量比 26.7%/18.3%/30.0%/35.0% → **最小=18.3%**(claim 窓 10〜60%) / 対照(融合オフ)は全seed 0.5556%(=1/180 厳密 — 融合が無ければ質量は動かない) → 比=33.0倍(>10) / 秩序変数: 最大塊 0.994/1.000/0.989/0.994(≥0.9) 整列度 1.000/1.000/1.000/1.000(≥0.9) V/σ 10.9/12.7/7.2/12.3 / 減光コントラスト(中心/周囲) 本則 3.16/2.89/2.28/2.29 vs 対照 1.03/1.04/1.02/1.02(重なりなし) / E水準=E3 / 16seed の正本は tests/exp-4-85.mjs(質量比 18.3〜53.3%・中央34.7%)"
+      }
+     ]
+    },
+    "behavior.selfrotor": {
+     "key": "98b1b11be43f1b2953b0cb0f16fec88ed5032e7ce1fc3fbd2223dd5729d0359b",
+     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
+     "date": "2026-09-27",
+     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+     "ms": 21783,
+     "results": [
+      {
+       "id": "behavior.selfrotor",
+       "pass": true,
+       "detail": "9000步(t=144=validT・seed固定で決定論) 生成: 180粒→25体(融合155回) 最大天体 m=48・**質量比=26.7%**(窓0.14〜0.6) 殻スピン=0.351 R=6.93 束縛率=0.75 / 対照①融合オフ: 質量比=0.56%(=1/180・束縛率0.14) → 中心天体は初期条件ではなく融合則の生成物 / J_core 継承: 中心天体 J_core=0.0960=**種48.0個ぶん**(窓25〜100)・質量で数えた個数=48.0 → 総和恒等式 J/J_seed ÷ m/m_seed=1.000000(=1) ・ΣJ_core=0.3600(=180×0.0020 不変) / 対照②コア種なし: J_core=0.0000 ΣJ_core=0.0000(継承以外の生成経路なし) / 暗さの生成: lS_eff t=0 で 0.000 → 中心=0.999(窓0.9〜1)・周囲平均=0.317(窓0.2〜0.5)= コントラスト3.16倍 ※対照①では周囲も0.972まで暗い(暗さ単独では融合の有無を判別しない) / 創発モニタ: 塊 166→2・最大塊質量比=0.994・スピン整列度 0.000→1.000・V/σ=10.90 / 保存: |ΔL|/L_scale=6.74e-7(<1e-4) clamp=0/0 NaN=false / バッジ: 閉鎖系=true・E水準=E3・分類=composite / 第82便B の較正実測 = 25体/155回/26.7%/0.589/0.159/種48個/対照0.56%・J=0"
       }
      ]
     },
@@ -105,6 +119,34 @@
       }
      ]
     },
+    "phasechange.chain2": {
+     "key": "95150fdad1fc949d97a4defd05637784748fb4aa5eec6922f035019852166425",
+     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
+     "date": "2026-09-27",
+     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+     "ms": 45732,
+     "results": [
+      {
+       "id": "phasechange.chain2",
+       "pass": true,
+       "detail": "⛓️chain2: 45000步 2配位率=0.80(>0.6 鎖)・c̄=1.89(1.6〜2.2)・180°偏差=13.0°(<25° — angK=0 対照の実測94.5°=まっすぐな鎖) 連結=8成分(≤15・最大37≥25 — 長い鎖) T̄=0.62 帳簿残差=2.27e-2(<0.1) クランプ=0回・あふれ=0回"
+      }
+     ]
+    },
+    "phasechange.multiseed": {
+     "key": "f0e364a64ff2c95b7136c2953415dfe3a8f58f764979fde0f3e75f0f07207045",
+     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
+     "date": "2026-09-27",
+     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+     "ms": 49149,
+     "results": [
+      {
+       "id": "phasechange.multiseed",
+       "pass": true,
+       "detail": "⛓️chain2 15000步 × seed3種: seed7: 2配位率=0.70(>0.5) 180°偏差=16.1°(<30°) / seed8: 2配位率=0.77(>0.5) 180°偏差=11.8°(<30°) / seed9: 2配位率=0.75(>0.5) 180°偏差=12.3°(<30°) — 鎖の創発は seed 非依存(欠陥数のみ変動)"
+      }
+     ]
+    },
     "claim.galaxystd-outerboost": {
      "key": "f7b1ba1390dd2a6c09fb87a0432fc7618901a5c78d8640759ee66001391e9150",
      "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
@@ -119,17 +161,73 @@
       }
      ]
     },
-    "phasechange.chain2": {
-     "key": "95150fdad1fc949d97a4defd05637784748fb4aa5eec6922f035019852166425",
+    "claim.galaxygeo2-outerboost": {
+     "key": "75761641284ae4a0d6cb782132c3d4c3d66a220827e02555ff2d6d9802a0560b",
      "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
      "date": "2026-09-27",
      "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-     "ms": 45732,
+     "ms": 144446,
      "results": [
       {
-       "id": "phasechange.chain2",
+       "id": "claim.galaxygeo2-outerboost",
        "pass": true,
-       "detail": "⛓️chain2: 45000步 2配位率=0.80(>0.6 鎖)・c̄=1.89(1.6〜2.2)・180°偏差=13.0°(<25° — angK=0 対照の実測94.5°=まっすぐな鎖) 連結=8成分(≤15・最大37≥25 — 長い鎖) T̄=0.62 帳簿残差=2.27e-2(<0.1) クランプ=0回・あふれ=0回"
+       "detail": "vφ外縁 kF1=3.389 kF0=2.837 比=1.1948(窓1.14〜1.23・較正実測1.1868(第108便A))/ 純度Π: 熱斥力=0 結合=0(厳密0)・測地線=14.0%(>2% — 1PN)・引きずり=22.6%(>10% — 輸送+渦度)/ クランプ=0"
+      }
+     ]
+    },
+    "claim.galaxydb-contrast": {
+     "key": "9ab172c81dbde698875e009ad9b538f6b2ae9312805b948397f139fa34ab2b7c",
+     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
+     "date": "2026-09-27",
+     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+     "ms": 48967,
+     "results": [
+      {
+       "id": "claim.galaxydb-contrast",
+       "pass": true,
+       "detail": "σT bulge/disk=4.246/1.788=2.37(窓2.2〜3.0・実測2.61)/ |spin| 4.86/2.70=1.80(窓1.5〜2.4・実測1.92)/ 公転 vt disk=4.75 bulge=0.72(回転支持 vs 分散支持)/ kF0対照 spin=0/0(厳密0 — E6′③が唯一の経路)"
+      }
+     ]
+    },
+    "claim.bhcore-selfdrive": {
+     "key": "7d0d03342648b0c6d643838d3f4926586fd706742760bab6c67b2103c5e128cf",
+     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
+     "date": "2026-09-27",
+     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+     "ms": 63174,
+     "results": [
+      {
+       "id": "claim.bhcore-selfdrive",
+       "pass": true,
+       "detail": "外縁増強(中心基準)=1.5060(窓1.37〜1.68・実測1.5236・可視の🎡標準1.2646超)/ 自走: 殻 0.15→1.332(窓 実測±10% — c₀=30単位) コアΩ 20.0→4.24(半減以下)/ 中心lSw=1.000(>0.95 — 真っ暗)/ コアなし対照=1.038(<1.15 — コアが主因)/ 帳簿込み|ΔL|=6.1e-7(<1e-3)"
+      }
+     ]
+    },
+    "claim.bhcore-free": {
+     "key": "8650001bfc78bddc72d1ec07b0d280e58ab4cd2cf38d99b54bc969dfd8e565ea",
+     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
+     "date": "2026-09-27",
+     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+     "ms": 51210,
+     "results": [
+      {
+       "id": "claim.bhcore-free",
+       "pass": true,
+       "detail": "外縁増強=1.5060(窓1.37〜1.68・実測1.5236。同構成 pinned 対照 1.5215)/ 上限発動 R/V/S=0/0/0(すべて0)/ 自走: 殻 0.15→1.332 コアΩ 20.0→4.24(窓は世代係数つき)/ 中心lSw=1.000(≥0.99) 保持率=1.000(≥0.95)/ BH重心相対 最大変位=0.286(0.2〜8 — 固定ではない有限反跳) 最大速度=0.0084(<0.2)/ 重心系初期化=barycentric 帳簿込み|ΔL|=6.1e-7(<1e-5)"
+      }
+     ]
+    },
+    "claim.chaincycle": {
+     "key": "b3adda771f32cd32a6787ee93618c6b60a6657650ad8ed92bf7367279a55517a",
+     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
+     "date": "2026-09-27",
+     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+     "ms": 34982,
+     "results": [
+      {
+       "id": "claim.chaincycle",
+       "pass": true,
+       "detail": "♻️凍結末(t=288): 最大連結=36(窓25〜50・実測36) 組替=0.010(<0.05) T̄=1.24 / 解離末(t=528): 65成分(窓50〜95・実測71) 最大=6(≤12) 組替=0.328(>0.15) T̄=12.20(凍結末の3倍超) — 相・融点・潜熱の入力なしで凍結⇄解離が壁温だけで往復"
       }
      ]
     },
@@ -149,104 +247,6 @@
        "id": "behavior.neptuneReal",
        "pass": true,
        "detail": "宣言=true(fidelity=real・L7/T3/M26・κ=G/c₀²・E6′-R pairReduced・両天体自由・トリトン自転は負符号転写) / 公転の向き: 積算角符号 kF1 -1・kF0 -1(逆行 direction=−1 — 第188便 inclination 転写) / kFrame=0 対照: 5.87741日(観測 5.876854・宣言 5.87741) / kFrame=1: 5.88370日(宣言 5.88370 — E6′ 運動引きずり +0.117%〔χ=0.83・第3例〕を宣言どおり実測) / 振れ幅 kF1 0.139% / kF0 0.0202% / 決定性=true / 47603步×2本"
-      }
-     ]
-    },
-    "phasechange.multiseed": {
-     "key": "f0e364a64ff2c95b7136c2953415dfe3a8f58f764979fde0f3e75f0f07207045",
-     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
-     "date": "2026-09-27",
-     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-     "ms": 49149,
-     "results": [
-      {
-       "id": "phasechange.multiseed",
-       "pass": true,
-       "detail": "⛓️chain2 15000步 × seed3種: seed7: 2配位率=0.70(>0.5) 180°偏差=16.1°(<30°) / seed8: 2配位率=0.77(>0.5) 180°偏差=11.8°(<30°) / seed9: 2配位率=0.75(>0.5) 180°偏差=12.3°(<30°) — 鎖の創発は seed 非依存(欠陥数のみ変動)"
-      }
-     ]
-    },
-    "behavior.phase-multiseed": {
-     "key": "9be751fd9b9abf0e9fb1ad7ab588a5282dbdad16e2b011df7a14123356fab8b7",
-     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
-     "date": "2026-09-27",
-     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-     "ms": 268864,
-     "results": [
-      {
-       "id": "behavior.phase-multiseed",
-       "pass": true,
-       "detail": "3seed(7/8/9) / 🧬 初期条件ノイズ版の配位数 c̄ 2.232/2.107/2.107 → **最小=2.107**(claim 窓 1.6〜3) vs 対照 bondK=0 の 0.125(=結合が消える・同じ初期条件ノイズを入れた対照でも 0.089) 比 16.9倍(>10) / 🧊 120°角偏差 19.6°/18.1°/29.2° → **最大=29.2°**(窓 5〜55) vs 対照 angK=0 の 78.8°(密集塊)— 分離 / ⛓️ 2配位率 0.714/0.768/0.750 → **最小=0.714**(窓 0.6〜0.9) vs 対照 angK=0 の 0.268(等方の液滴)— 分離 / ♻️ 解離末(t=528)の成分数 65/69/65 → **最小=65**(窓 30〜95) / ⛓️≡♻️(t≤288)の全秩序変数一致=true(③④の run 共有の根拠) / E水準=🧬E1・🧊E1・⛓️E1・♻️E1(第84便A: ⑤摂動回復が4件とも通らないため E3 昇格なし) / 16seed(7〜22)の分布は tests/exp-4-87.mjs が正本: 🧬c̄1.98〜2.75・🧊角偏差12.3〜44.1°・⛓️2配位率0.696〜0.804・♻️成分48〜84"
-      }
-     ]
-    },
-    "claim.chaincycle": {
-     "key": "b3adda771f32cd32a6787ee93618c6b60a6657650ad8ed92bf7367279a55517a",
-     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
-     "date": "2026-09-27",
-     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-     "ms": 34982,
-     "results": [
-      {
-       "id": "claim.chaincycle",
-       "pass": true,
-       "detail": "♻️凍結末(t=288): 最大連結=36(窓25〜50・実測36) 組替=0.010(<0.05) T̄=1.24 / 解離末(t=528): 65成分(窓50〜95・実測71) 最大=6(≤12) 組替=0.328(>0.15) T̄=12.20(凍結末の3倍超) — 相・融点・潜熱の入力なしで凍結⇄解離が壁温だけで往復"
-      }
-     ]
-    },
-    "claim.bhcore-free": {
-     "key": "8650001bfc78bddc72d1ec07b0d280e58ab4cd2cf38d99b54bc969dfd8e565ea",
-     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
-     "date": "2026-09-27",
-     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-     "ms": 51210,
-     "results": [
-      {
-       "id": "claim.bhcore-free",
-       "pass": true,
-       "detail": "外縁増強=1.5060(窓1.37〜1.68・実測1.5236。同構成 pinned 対照 1.5215)/ 上限発動 R/V/S=0/0/0(すべて0)/ 自走: 殻 0.15→1.332 コアΩ 20.0→4.24(窓は世代係数つき)/ 中心lSw=1.000(≥0.99) 保持率=1.000(≥0.95)/ BH重心相対 最大変位=0.286(0.2〜8 — 固定ではない有限反跳) 最大速度=0.0084(<0.2)/ 重心系初期化=barycentric 帳簿込み|ΔL|=6.1e-7(<1e-5)"
-      }
-     ]
-    },
-    "claim.galaxydb-contrast": {
-     "key": "9ab172c81dbde698875e009ad9b538f6b2ae9312805b948397f139fa34ab2b7c",
-     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
-     "date": "2026-09-27",
-     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-     "ms": 48967,
-     "results": [
-      {
-       "id": "claim.galaxydb-contrast",
-       "pass": true,
-       "detail": "σT bulge/disk=4.246/1.788=2.37(窓2.2〜3.0・実測2.61)/ |spin| 4.86/2.70=1.80(窓1.5〜2.4・実測1.92)/ 公転 vt disk=4.75 bulge=0.72(回転支持 vs 分散支持)/ kF0対照 spin=0/0(厳密0 — E6′③が唯一の経路)"
-      }
-     ]
-    },
-    "claim.galaxygeo2-outerboost": {
-     "key": "75761641284ae4a0d6cb782132c3d4c3d66a220827e02555ff2d6d9802a0560b",
-     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
-     "date": "2026-09-27",
-     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-     "ms": 144446,
-     "results": [
-      {
-       "id": "claim.galaxygeo2-outerboost",
-       "pass": true,
-       "detail": "vφ外縁 kF1=3.389 kF0=2.837 比=1.1948(窓1.14〜1.23・較正実測1.1868(第108便A))/ 純度Π: 熱斥力=0 結合=0(厳密0)・測地線=14.0%(>2% — 1PN)・引きずり=22.6%(>10% — 輸送+渦度)/ クランプ=0"
-      }
-     ]
-    },
-    "claim.bhcore-selfdrive": {
-     "key": "7d0d03342648b0c6d643838d3f4926586fd706742760bab6c67b2103c5e128cf",
-     "commit": "38cf8eee1bf91b0404d1d7edac80aa2e7fc1e1c5",
-     "date": "2026-09-27",
-     "htmlSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-     "ms": 63174,
-     "results": [
-      {
-       "id": "claim.bhcore-selfdrive",
-       "pass": true,
-       "detail": "外縁増強(中心基準)=1.5060(窓1.37〜1.68・実測1.5236・可視の🎡標準1.2646超)/ 自走: 殻 0.15→1.332(窓 実測±10% — c₀=30単位) コアΩ 20.0→4.24(半減以下)/ 中心lSw=1.000(>0.95 — 真っ暗)/ コアなし対照=1.038(<1.15 — コアが主因)/ 帳簿込み|ΔL|=6.1e-7(<1e-3)"
       }
      ]
     }

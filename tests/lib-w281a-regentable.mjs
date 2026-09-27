@@ -331,7 +331,9 @@ export const REGEN_STEPS = [
       '/table/presets/*/run/before/wallSec', '/table/presets/*/run/after/wallSec']) },
     note: '第284便e: 🌞💠💍💿 の群を testParticle に署名した前後(量ごとの値・絶対/相対差・区分・門・近点数・壁時計〔機種依存 —— 文書に写さない〕)と '
       + '4 値の差し替え集計。sec は枝の実測(正本が基点の世代で判定器を走らせた —— 鎖の中では正本を読むだけで数秒)' }),
-  S('bgfield', 'node tests/exp-w284e-bgfield.mjs', ['tests/out/bgfield-w284e.json'], 6, { secSource: 'w284e-branch', node: true,
+  // 統括(第284便 統合): 段の鍵は表で一意でなければならない —— e の段が第276便a の `bgfield`(bgfield-w276a.json)と同じ鍵で、
+  //   ready queue の表(連想配列)で先の段が消え bgfield-w276a.json が刻み直されなかった(ゲート 2 で検出)。`bgfield284` に改名し、--audit に重複の検査を足した
+  S('bgfield284', 'node tests/exp-w284e-bgfield.mjs', ['tests/out/bgfield-w284e.json'], 6, { secSource: 'w284e-branch', node: true,
     volatilePaths: { 'tests/out/bgfield-w284e.json': META_RUN.concat(['/elapsedS']) },
     note: '第284便e: p=2 の台帳からの W₀・A₀・∇・∂ₜ の算出(html の dfmComplexMomentsOf と照合)・検算 3 件・4 区分の表・'
       + '💮🌚(share 経路)の未接続と 🔁🌒(meshVelocity)の適用中の実測' }),
@@ -705,7 +707,10 @@ export function tableDepsAudit(o) {
       if (!C.get(a).has(b) && !C.get(b).has(a)) unordered.push({ file: f, a, b });
     }
   }
-  return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length, missing, unordered, cycles, unknown };
+  // 統括(第284便 統合): 段の鍵の重複(後の定義が先の定義を黙って消す —— 第284便e の bgfield)
+  const seen = new Set(), dupKeys = [];
+  for (const st of steps) { if (seen.has(st.key)) dupKeys.push(st.key); seen.add(st.key); }
+  return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length && !dupKeys.length, missing, unordered, cycles, unknown, dupKeys };
 }
 
 /** 依存の推移閉包(key → Set(上流すべて))と逆向き(key → Set(下流すべて))。 */
