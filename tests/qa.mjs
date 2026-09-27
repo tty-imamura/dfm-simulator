@@ -2227,7 +2227,10 @@ if (QA_CHANGED) {
       // 第284便e(原仮定者の裁定(第74報)AN34・④・R91): 試験粒子契約の署名の前後(target=beta/index.html —— 基点の calaudit 正本は git show の
       //   一時読み・inputs に calaudit-w249.json —— **calaudit を走らせ直したら本器も走らせ直す**)/ 背景複素決定力 W₀・A₀ の算出表と接続の実測
       //   (target=beta/index.html —— Node だけ・他の正本は読まない)
-      'tests/out/tpsign-w284e.json', 'tests/out/bgfield-w284e.json'];
+      'tests/out/tpsign-w284e.json', 'tests/out/bgfield-w284e.json',
+      // 第285便c(原仮定者の裁定(第75報)⑥・R99): 背景場の微分の算出可否と宣言の型 bgModel(target=beta/index.html —— Node だけ・
+      //   html の純関数と受理器だけを読む・他の正本は読まない)
+      'tests/out/bgderiv-w285c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -18274,6 +18277,136 @@ if (!FAST) {
       }
       add('docs.bgField', bad.length === 0,
         `**背景複素決定力 W₀・A₀ の算出表と接続**(第284便e・原仮定者の裁定(第74報)④・統括の検証項目 R91 —— p=2 の台帳から算出・D₀ から換算しない・力学が読むのは meshVelocity〔field:"backgroundComplex"〕だけ): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1c″) 第285便c(原仮定者の裁定(第75報)⑥・統括の検証項目 R99): **背景場の微分の算出可否と宣言の型 bgModel** の 2 ブロック。**root では SKIP**
+// ----   (世代判定は html の `function bgcModelDerive(`)。器 tests/exp-w285c-bgderiv.mjs・正本 tests/out/bgderiv-w285c.json。
+// ----   ① behavior.bgDerivatives …… いまの html を別の vm(lib-w279b-headless)で読み、器の純関数で全部を作り直す:
+// ----      反例(同じ (W₀,A₀)=(0.5,(0,0)) の台帳 6 つで微分の組が 6 通り・∂A_y/∂x=±1.5)・一様・凍結の宣言(微分は宣言による 0・A₀=W₀U・
+// ----      有限の環の中心で残り ≤1e-12・静止系で A₀′=0)・台帳からの全項(受理器の値 = 独立な実装・加速度だけで ∂ₜA₀ だけが動く・a の欠落の拒否)・
+// ----      遠方 1 源の閉じた式 = 台帳(相対 1e-12)・単位の指数(BG_COMPLEX_UNITS と一致・D₀ は M/L・D0 鍵の拒否)・発散(3D・2D・"infinite" の拒否)・
+// ----      受理器の事例(冪等)。正本の数値が作り直しと相対 1e-12 で一致。ページで: 内蔵の bgModel の宣言 0 本・💮 に bgModel の宣言を足しても
+// ----      20 步の状態がビット一致(share 経路は未接続のまま)・meshVelocity の本で bgModel:null の背景は受理されない。
+// ----   ② docs.bgDerivatives …… PHYSICS〔第285便c〕に正本の表の行(判定表・反例・遠方 1 源・単位・発散)と要の文・禁止語 0・AI_SPEC に bgModel の宣言表。
+{
+  const html285c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has285c = TARGET.startsWith('beta/') && html285c.indexOf('function bgcModelDerive(') >= 0;
+  if (!has285c) {
+    console.log('SKIP behavior.bgDerivatives / docs.bgDerivatives(第285便c 未適用 — ' + TARGET + ')');
+  } else {
+    let BD = null, HPv = null, loadErr = null;
+    try {
+      BD = await import('file://' + path.join(ROOT, 'tests', 'exp-w285c-bgderiv.mjs'));
+      const L = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET));
+      HPv = L.evalExpr('HP');
+    } catch (e) { loadErr = String(e && e.stack || e).slice(0, 160); }
+    const rd = (rel) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8')); } catch (e) { return null; } };
+    // 数は相対 1e-12・それ以外は一致(meta・elapsedS は比べない)
+    const deepNear = (a, b, where, out) => {
+      if (out.length > 4) return;
+      if (typeof a === 'number' && typeof b === 'number') { if (!(a === b || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))) out.push(where + ' ' + a + '≠' + b); return; }
+      if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(where + ' ' + JSON.stringify(a) + '≠' + JSON.stringify(b)); return; }
+      if (Array.isArray(a) !== Array.isArray(b)) { out.push(where + ' 型'); return; }
+      const ka = Object.keys(a).sort(), kb = Object.keys(b).sort();
+      if (JSON.stringify(ka) !== JSON.stringify(kb)) { out.push(where + ' 鍵 ' + ka.join(',') + '≠' + kb.join(',')); return; }
+      for (const k of ka) deepNear(a[k], b[k], where + '/' + k, out);
+    };
+    const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const pa = Pd.indexOf('〔第285便c — '), pb = (pa >= 0) ? Pd.indexOf('\n〔第', pa + 10) : -1;
+    const psec = (pa >= 0) ? Pd.slice(pa, pb > pa ? pb : Pd.indexOf('\n## 7. 論文', pa)) : '';
+    const FORBID = ['W₀・A₀ から微分が出る', 'W₀ は D₀ から出せる', '観測一致を達成した', '較正を完了した', 'f=1 で合った', 'kF0 版が成立した', '形状が安定した',
+      '47 Tuc を再現した', '中心の引きずりが支配的になった', 'λ_PN=1 で既に 1PN と合った', '試験粒子で判定が不変', '精度を上げれば成立する', '腕が創発した', '新発見', 'RC を切った', '判定が増えた'];
+    const stripQ = (t) => t.replace(/「[^」]*」/g, '');
+    // ---- ① behavior.bgDerivatives
+    {
+      const bad = [], cases = [];
+      if (loadErr) bad.push('器/html が読めない: ' + loadErr);
+      else {
+        const R = BD.computeAll(HPv);
+        const C = R.counterexample;
+        if (!C.notAFunction || C.rows.length !== 6 || C.distinctDerivatives !== 6 || C.dAydx.pairUp !== 1.5 || C.dAydx.pairDown !== -1.5 || !(C.worstRelHtml <= 1e-12)) bad.push('(i) 反例');
+        cases.push(`(i) 同じ (W₀,A₀)=(${C.W0},(${C.A0})) の台帳 ${C.rows.length} つで微分の組 ${C.distinctDerivatives} 通り・∂A_y/∂x ${C.dAydx.pairUp}/${C.dAydx.pairDown}`);
+        const U = R.uniform;
+        if (!U.ok || !U.ring.uniformAtCenter || !U.ring.restFrameA0Zero || !U.ring.offCenterGradWNonZero) bad.push('(ii) 一様・凍結');
+        cases.push(`(ii) uniform の微分は宣言による 0(A₀=0・A₀=W₀U)・環の中心の残り ≤${U.ring.tolResidual}・静止系 A₀′=0・中心外 ∇W₀≠0`);
+        const S = R.sources;
+        if (!S.ok || !(S.relDecl <= 1e-12) || !S.accelOnly.fiveBitSame || !(S.accelOnly.relShift <= 1e-12) || !S.missingAccelRejected || !S.allComputed) bad.push('(iii) 台帳');
+        cases.push(`(iii) 台帳 → 6 項算出(受理器 = 独立な実装 ${S.relDecl.toExponential(0)})・a だけで ∂ₜA₀ だけ動く・a の欠落を拒否`);
+        if (!R.distant.ok) bad.push('(iv) 遠方 1 源 ' + R.distant.worstRel);
+        cases.push(`(iv) 遠方 1 源 ${R.distant.rows.length} 例 = 台帳(最大 ${R.distant.worstRel.toExponential(1)})`);
+        const Un = R.units;
+        if (!Un.ok || Un.D0.lengthExponent !== -1 || !Un.D0.sameD0DifferentW0 || !Un.d0KeyRejected || JSON.stringify(Un.velocityUnit) !== JSON.stringify([0, 1, -1])) bad.push('(v) 単位');
+        cases.push(`(v) 指数 ${Un.rows.map((r) => r.key + '(' + r.measured.join(',') + ')').join(' ')}・A₀/W₀=L/T・D₀ は M/L・D0 鍵を拒否`);
+        const D = R.divergence;
+        if (!D.d3.diverges || !D.d2.diverges || !D.infiniteRejected || !D.finiteAccepted) bad.push('(vi) 発散');
+        cases.push(`(vi) 3D W₀/R ${D.d3.rows.map((z) => z.WoverR.toFixed(2)).join('→')}・2D の増分 ${D.d2.increments.map((z) => z.toFixed(2)).join('/')}・"infinite" を拒否`);
+        const nV = R.validator.filter((z) => z.ok).length;
+        if (nV !== R.validator.length) bad.push('受理器の事例 ' + R.validator.filter((z) => !z.ok).map((z) => z.label).join(','));
+        cases.push(`受理器の事例 ${nV}/${R.validator.length}(冪等)`);
+        const J = rd('tests/out/bgderiv-w285c.json');
+        if (!J) bad.push('正本 bgderiv-w285c.json が読めない');
+        else {
+          if (!J.meta || J.meta.provenanceVersion !== 'w272e-1' || J.meta.harnessVersion !== BD.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+          const diff = [];
+          for (const k of Object.keys(R)) deepNear(J[k], R[k], k, diff);
+          if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 2).join(' ; '));
+          cases.push('正本 = いまの html からの作り直し(相対 1e-12)');
+        }
+        const live = await page.evaluate(() => {
+          const J2 = (x) => JSON.parse(JSON.stringify(x));
+          const declared = HP.allPresets().filter((p) => p.physics && p.physics.backgroundComplex && p.physics.backgroundComplex.bgModel !== undefined).map((p) => p.id);
+          const P = HP.allPresets().find((q) => q.id === 'clusterAnalogyBH');
+          const run = (p) => { const v = HP.validatePreset(p); if (!v.ok) return null; HP.sim.build(v.preset); for (let k = 0; k < 20; k++) HP.sim.step(0.016);
+            const o = []; for (let i = 0; i < HP.sim.n; i++) o.push(HP.sim.x[i], HP.sim.y[i], HP.sim.vx[i], HP.sim.vy[i]); return o; };
+          const a = run(J2(P)), q = J2(P);
+          q.physics.backgroundComplex = { background: 'declared', note: 'QA 第285便c', bgModel: 'sources', refPos: [0, 0], eps: 0,
+            ledger: [{ id: 'g1', m: 1, x: 2, y: 0, vx: 0, vy: 3, ax: 0, ay: 0 }, { id: 'g2', m: 1, x: -2, y: 0, vx: 0, vy: -3, ax: 0, ay: 0 }] };
+          const b = run(q);
+          const M = HP.allPresets().find((z) => z.id === 'mercuryGeoToy3');
+          const mq = J2(M); const bc = mq.physics.backgroundComplex;
+          mq.physics.backgroundComplex = { background: bc.background, note: bc.note, W0: bc.W0, A0: bc.A0, bgModel: null, sources: bc.sources, frame: bc.frame };
+          const vm = HP.validatePreset(mq);
+          return { declared, shareSame: !!a && !!b && a.length === b.length && a.every((v, i) => Object.is(v, b[i])), accepted: !!b,
+            nullRejected: vm.ok === false, nullErr: vm.ok ? null : String(vm.errors || vm.err).slice(0, 120) };
+        });
+        if (live.declared.length) bad.push('内蔵に bgModel の宣言がある: ' + live.declared.join(','));
+        if (!live.accepted || !live.shareSame) bad.push('💮 に bgModel の宣言を足すと運動が変わった/受理されない');
+        if (!live.nullRejected || !/bgModel:null/.test(live.nullErr || '')) bad.push('meshVelocity の本で bgModel:null の背景が受理された ' + live.nullErr);
+        cases.push(`ページ: 内蔵の bgModel 宣言 ${live.declared.length} 本・💮 に sources の宣言を足しても 20 步ビット一致(share は未接続のまま)・meshVelocity で bgModel:null を拒否`);
+      }
+      add('behavior.bgDerivatives', bad.length === 0,
+        `**背景場の微分の算出可否と宣言の型**(第285便c・原仮定者の裁定(第75報)⑥・統括の検証項目 R99 —— 1 点の W₀・A₀ だけからは微分は一意に出ない・`
+        + `出るのは一様・凍結の宣言〔微分は宣言による 0〕/背景源の台帳 (m,X,V,a)/遠方 1 源〔台帳の特別な場合〕): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② docs.bgDerivatives
+    {
+      const bad = [], cases = [];
+      const J = rd('tests/out/bgderiv-w285c.json');
+      if (loadErr) bad.push('器が読めない: ' + loadErr);
+      else if (!J) bad.push('正本 bgderiv-w285c.json が読めない');
+      else {
+        if (!psec) bad.push('PHYSICS〔第285便c — 〕が無い');
+        const R = BD.docRows(J);
+        const all = [].concat(R.judgment, R.counter, R.distant, R.units, R.div3, R.div2);
+        const miss = all.filter((t) => psec.indexOf(t) < 0);
+        if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(' + String(miss[0]).slice(0, 60) + ')');
+        if (JSON.stringify(BD.judgmentTable()) !== JSON.stringify(J.judgment)) bad.push('判定表が器と違う');
+        for (const w of ['1 点の (W₀, A₀) だけからは', '宣言による 0', 'A₀=W₀U', 'D₀ から換算しない', '有限領域', '∂ₜA₀=(∂ₜW₀)V+W₀a', '未接続']) if (psec.indexOf(w) < 0) bad.push('PHYSICS に「' + w + '」が無い');
+        const hit = FORBID.filter((w) => stripQ(psec).indexOf(w) >= 0);
+        if (hit.length) bad.push('PHYSICS の禁止語: ' + hit.join(','));
+        cases.push(`PHYSICS〔第285便c〕の行 ${all.length}(判定表 ${R.judgment.length}・反例 ${R.counter.length}・遠方 ${R.distant.length}・単位 ${R.units.length}・発散 ${R.div3.length + R.div2.length})・要の文・禁止語 0`);
+        const Ad = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        const aa = Ad.indexOf('第285便c の宣言鍵'), asec = aa >= 0 ? Ad.slice(aa, Ad.indexOf('\n## ', aa + 10) > aa ? Ad.indexOf('\n## ', aa + 10) : undefined) : '';
+        for (const w of ['bgModel', '"uniform"', '"sources"', '"distantSource"', 'null', 'domain', 'ledger', 'Rbg', 'thetaBg', 'Vext', 'aExt']) if (asec.indexOf(w) < 0) bad.push('AI_SPEC の宣言表に ' + w + ' が無い');
+        if (stripQ(asec).indexOf('W₀・A₀ から微分が出る') >= 0) bad.push('AI_SPEC の禁止語');
+        cases.push('AI_SPEC の宣言表(bgModel と型ごとの鍵)');
+      }
+      add('docs.bgDerivatives', bad.length === 0,
+        `**背景場の微分の文書**(第285便c・R99 —— 判定表「与える情報 → 算出できるもの/不足するもの」・式・反例・書かないこと): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
@@ -36892,6 +37025,37 @@ if (!FAST) {
       `・署名 宣言で変化 ${r.sig && r.sig.changes}/手書きと同一 ${r.sig && r.sig.sameAsHand}・セーブ往復 ${r.save && r.save.eq && r.load && r.load.eq}` +
       `・A/B B=${r.ab && r.ab.bgB}/A=${r.ab && r.ab.bgA} 共有 ${r.ab && r.ab.shared} D₀(B)=${r.ab && r.ab.d0B1}・未宣言に戻す ${r.clear && r.clear.key}・en「${r.en && r.en.chip}」` +
       `・門 ${r.gate.ok}${r.gate.bad.length ? '[' + r.gate.bad.slice(0, 3).join(' ; ') + ']' : ''}・JSエラー ${r.jsErr}`).join(' / '));
+  }
+}
+
+// ---- 第285便c(原仮定者の裁定(第75報)⑥・統括の検証項目 R99): ui.bgDerivPanel —— #bgcPanel の微分の宣言の型 bgModel の選択と算出結果の表
+// ----   (算出/宣言/宣言による 0/未確定 と 接続の行の 適用中/未接続)。器 tests/exp-w285c-ui.mjs(PANEL・gate)。390×844 と 1024×768。
+// ----   世代判定は html の `function bgcModelDerive(` —— root 等では自動 SKIP。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/function bgcModelDerive\(/.test(html)) {
+    console.log('SKIP ui.bgDerivPanel(対象に第285便c の微分の宣言の型なし — root 等)');
+  } else {
+    const UX = await import('file://' + path.join(ROOT, 'tests/exp-w285c-ui.mjs'));
+    const res = [];
+    for (const vp of UX.VIEWPORTS) {
+      const ctxP = await browser.newContext({ viewport: { width: vp.width, height: vp.height } });
+      const pp = await ctxP.newPage();
+      let jsErr = 0;
+      pp.on('pageerror', () => { jsErr++; });
+      pp.on('dialog', (d) => d.accept());
+      await pp.goto(INDEX, { waitUntil: 'load' });
+      await pp.waitForFunction(() => !!window.HP && !!HP.loadPreset && !!HP.bgcState);
+      const r = await pp.evaluate(UX.PANEL, { preset: UX.PANEL_PRESET, mesh: UX.MESH_PRESET, ledger: UX.LEDGER_PAIR, distant: UX.DISTANT });
+      r.vp = vp.name; r.jsErr = jsErr; r.gate = UX.gate(r);
+      res.push(r);
+      await ctxP.close();
+    }
+    const allOk = res.every((r) => r.gate.ok && r.jsErr === 0);
+    add('ui.bgDerivPanel', allOk, res.map((r) => `${r.vp}: 未宣言 6 成分「未確定」・接続「未接続」/ 型ごとの欄 ${Object.entries(r.fields || {}).map(([k, v]) => k + '(' + v.length + ')').join('・')}`
+      + ` / uniform → 微分「宣言による 0」・sources → 6 項「算出」(∂A_y/∂x=${r.sources && r.sources.decl ? r.sources.decl.gradA[2] : '—'})・distantSource = 閉じた式 ${r.distant && r.distant.closedSame}・null → 微分「未確定」`
+      + ` / 拒否 = 受理器の文 ${r.reject && r.reject.same}・横はみ出し ${r.overflow && r.overflow.worst}px・🔁 の接続「適用中」`
+      + `・門 ${r.gate.ok}${r.gate.bad.length ? '[' + r.gate.bad.slice(0, 3).join(' ; ') + ']' : ''}・JSエラー ${r.jsErr}`).join(' / '));
   }
 }
 

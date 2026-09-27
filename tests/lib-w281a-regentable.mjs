@@ -337,6 +337,12 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgfield-w284e.json': META_RUN.concat(['/elapsedS']) },
     note: '第284便e: p=2 の台帳からの W₀・A₀・∇・∂ₜ の算出(html の dfmComplexMomentsOf と照合)・検算 3 件・4 区分の表・'
       + '💮🌚(share 経路)の未接続と 🔁🌒(meshVelocity)の適用中の実測' }),
+  // ---- 第285便c(原仮定者の裁定(第75報)⑥・統括の検証項目 R99): 背景場の微分の算出可否と宣言の型 bgModel(html の純関数と受理器だけを読む ——
+  //   Node だけ・1 步も走らせない・他の正本は読まない)
+  S('bgderiv', 'node tests/exp-w285c-bgderiv.mjs', ['tests/out/bgderiv-w285c.json'], 1, { secSource: 'w285c-branch', node: true,
+    volatilePaths: { 'tests/out/bgderiv-w285c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第285便c: 同じ (W₀,A₀) で微分が違う反例・一様凍結の宣言(微分は宣言による 0)・背景源の台帳からの全項・遠方 1 源の閉じた式の一致・'
+      + '単位の指数・無限一様の発散・判定表・受理器の事例' }),
 ];
 
 /**

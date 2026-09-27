@@ -1115,6 +1115,9 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
       ゼロと言い切れるなら `background:"zero"` を書く(このときは全成分の省略が許され 0 で埋まる)。
       値が**未確定**なら **`backgroundComplex` の鍵ごと書かない**(未宣言 = 未確定)。
     - **内蔵 131 本はこの鍵を 1 本も宣言していない**ので、**presetSig も既定経路の力学も 1 bit も動かない**。
+  - **【第285便c】微分の宣言の型 `bgModel`(任意鍵)**: 1 点の W₀・A₀ だけからは微分は出ないので、`"uniform"`(微分は宣言による 0)/
+    `"sources"`(背景源の台帳から算出)/`"distantSource"`(遠方 1 源の閉じた式)/`null`(微分は未確定)の型で宣言できる
+    (未指定は下の従来どおりの手入力)。鍵と拒否の一覧は §19。
   - **正準形の例(全成分を明示した最小例)**:
     ```json
     { "background": "heliocentric", "W0": 5.7e-9,
@@ -2658,3 +2661,23 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - 旧(第278便e)は ✕ のあとフォーカスを検索欄へ戻していた —— QA `ui.searchClear` は世代(`ppGeoBucketOf` の有無)で期待を分ける。
 - **geoPN 行の移動**: パラメータタブ「引きずり・測地線」の並びを **測地線モード geoPN → 保存非対称の注記(`#geoToySaveNote`)→ 背景決定力 D₀ → 背景複素決定力の欄(`#bgcPanel`)→ qLock → 引きずり減衰 q → kFrame → λ_PN → α** にした(旧: D₀ → 欄 → qLock → q → geoPN → 注記 → kFrame → …)。並べ替えは描画ループの中だけで、`PARAM_DEFS` の配列順・値・受理・presetSig は変えていない。「主役」グループ(activeParams の宣言順)は変えていない。
 - QA: **`ui.pickerGeoFilter`**・**`ui.searchClearBlur`**・**`ui.paramOrderDrag`**(root は SKIP)。既存の `ui.searchClear`(✕ のあとのフォーカス)と `wave124.ui`(③ 並び: 旧「kFrame は geoPN の次」→ 新「geoPN の次は D₀・kFrame は q の次」)は `ppGeoBucketOf` の有無で期待を分けた(root は旧則のまま)。3 viewport(iPhone SE 375×667・Android 412×915 —— isMobile・タッチ / PC 1280×800)。
+
+## 19. 第285便c の宣言鍵 —— `physics.backgroundComplex.bgModel`(背景場の微分の宣言の型・原仮定者の裁定〔第75報〕⑥・統括の検証項目 R99・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`physics.backgroundComplex`(§12・第276便a/第277便d の受理契約)に**任意鍵 `bgModel`** を足した。**1 点の W₀・A₀ だけからは gradW・gradA・dWdt・dAdt は一意に出ない**(同じ W₀=0.5・A₀=(0,0) で ∂A_y/∂x=±1.5 の反例 —— docs/PHYSICS.md〔第285便c〕)ので、微分は**型の宣言**から出す。
+
+| bgModel | 書く鍵(型の入力) | 出る成分(正準形に入る) | 由来の語(画面の算出結果の表) |
+|---|---|---|---|
+| (未指定) | `W0`・`A0`・`gradW`・`gradA`・`dWdt`・`dAdt`(従来どおり全部) | 書いたとおり | 宣言(`background:"zero"` は宣言による 0) |
+| `"uniform"` | `W0`・`A0`(背景が静止する系なら `[0,0]`)か `U`(一様な流れ —— A0=W0·U)・`domain`:`"finite"`/`"boundary"` | 微分 4 つ = 0 | W0・A0 は宣言(U から出した A0 は算出)・微分は宣言による 0 |
+| `"sources"` | `ledger`:[{`id`,`m`,`x`,`y`,`vx`,`vy`,`ax`,`ay`}](1〜32 件)・`refPos`:[x,y]・`eps`(≥0) | 6 成分すべて(p=2 の核 —— `dfmComplexMomentsOf`) | 算出 |
+| `"distantSource"` | `W0`(>0)・`Rbg`(>0)・`thetaBg`(源 → 評価点の方位 rad)・`Vext`:[2]・`aExt`:[2] | A0・gradW・gradA・dWdt・dAdt(閉じた式 —— 軟化を無視) | W0 は宣言・残りは算出 |
+| `null` | `W0`・`A0` だけ(微分は書かない) | W0・A0 だけ(**微分の鍵は正準形に無い** —— 0 で埋めない) | 微分は未確定 |
+
+- **拒否**: 知らない型・`background:"zero"` との併用・型の入力(`domain`・`U`・`ledger`・`eps`・`Rbg`・`thetaBg`・`Vext`・`aExt`)を bgModel なしで書く/別の型の鍵を書く・`domain` なし/`"infinite"`(無限一様 3D の p=2 和は発散する)・台帳の加速度 `ax`/`ay` の欠落(∂ₜA₀ に要る —— 静止・等速なら 0 と明示)・台帳の id `"body:…"`(明示天体と重複させない)と重複 id・源が評価点の上(eps=0)・`null` で微分を書く・型から出る値と違う成分(相対 1e-12)・`backgroundComplex` の中の `D0`/`D0pull`/`D0Source`(**W₀ [M/L²] は D₀ [M/L] から換算しない**)。
+- **単位**(サンプルの scaleExp の単位系): W [M/L²]・A = W×速度 [M/(L·T)]・`U`/`Vext` [L/T]・`aExt`・台帳の a [L/T²]・`Rbg`・`eps`・位置 [L]・台帳の m [M]。
+- **正準形**は型の入力(正規化済み)と、型から出した 6 成分の両方を持つ(冪等)。未指定の宣言の正準形は第277便d から 1 文字も変わらない。
+- **力学への接続は変えない**: 読むのは従来どおり `physics.meshVelocity`(field:"backgroundComplex")を宣言した本の build 時だけ。`bgModel:null` の背景はその相互検査で拒否する(∇u・∂ₜu が決まらない)。💮🌚 の share 経路は未接続のまま。**内蔵はこの鍵を 1 本も宣言していない**(presetSig も力学も 1 bit も動かない)。
+- **画面**: #bgcPanel の先頭に bgModel の選択(既定「手入力」)・選んだ型の欄だけを出す・欄の下に算出結果の表(「算出」/「宣言」/「宣言による 0」/「未確定」と、接続の行の「適用中」/「未接続」)。
+- **読み口(HP 公開)**: `bgcModelDerive(decl)`・`bgcDerivation(canonical)`・`bgcDistantClosed(W0,R,theta,V,a)`・定数 `BGC_MODELS`・`BGC_MODEL_KEYS`・`BGC_LEDGER_MAX` 等(版 `BGC_DERIV_VERSION` = `"w285c-bgderiv-1"`)。
+- QA: **`behavior.bgDerivatives`**・**`docs.bgDerivatives`**・**`ui.bgDerivPanel`**(root は SKIP)。器 `tests/exp-w285c-bgderiv.mjs`(正本 `tests/out/bgderiv-w285c.json`・段 `bgderiv`)・`tests/exp-w285c-ui.mjs`。
