@@ -2658,3 +2658,19 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - 旧(第278便e)は ✕ のあとフォーカスを検索欄へ戻していた —— QA `ui.searchClear` は世代(`ppGeoBucketOf` の有無)で期待を分ける。
 - **geoPN 行の移動**: パラメータタブ「引きずり・測地線」の並びを **測地線モード geoPN → 保存非対称の注記(`#geoToySaveNote`)→ 背景決定力 D₀ → 背景複素決定力の欄(`#bgcPanel`)→ qLock → 引きずり減衰 q → kFrame → λ_PN → α** にした(旧: D₀ → 欄 → qLock → q → geoPN → 注記 → kFrame → …)。並べ替えは描画ループの中だけで、`PARAM_DEFS` の配列順・値・受理・presetSig は変えていない。「主役」グループ(activeParams の宣言順)は変えていない。
 - QA: **`ui.pickerGeoFilter`**・**`ui.searchClearBlur`**・**`ui.paramOrderDrag`**(root は SKIP)。既存の `ui.searchClear`(✕ のあとのフォーカス)と `wave124.ui`(③ 並び: 旧「kFrame は geoPN の次」→ 新「geoPN の次は D₀・kFrame は q の次」)は `ppGeoBucketOf` の有無で期待を分けた(root は旧則のまま)。3 viewport(iPhone SE 375×667・Android 412×915 —— isMobile・タッチ / PC 1280×800)。
+
+## 19. 第285便e の UI —— 「サンプルを選ぶ」の絞り込みを畳む・「その他」のチップ(複数 AND)(原仮定者の裁定〔第75報〕⑧・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(全内蔵 142 本の 600 步の状態と presetSig が基点 b92ffa1 とビット同一)。
+
+- **畳む**: 絞り込みの 5 次元(スケール・分類・E水準・geoPN・その他)を**それぞれ** `<details class="ppFold">`(id `ppFold_scale` / `ppFold_cls` / `ppFold_e` / `ppFold_geo` / `ppFold_other`)に入れ、入れ物 `#ppFolds` に並べた。畳んだ次元は要約行(summary)だけの札として 1 行に並び(折り返しあり)、開いた次元は幅いっぱいの行になって直下に従来のチップ行(`.ppChips` —— 見出し「次元名 ⓘ」の説明ボタンと id は不変)が出る。
+  - **要約行** = 次元名 + 選んだチップの語(`.ppFoldSel`)。何も選んでいなければ「すべて」のチップの語(ja「全カテゴリ」/ en「All categories」)。「その他」は選んだ語を「 ∧ 」でつなぐ。読み上げ名は「次元名: 選んだ語」(summary の aria-label)。
+  - **既定は畳む**。開いた次元だけを端末に記憶する(`localStorage` の `hp_pick_fold` —— 表示専用。記憶が無い・壊れている・読み書きが失敗するときは既定の畳んだ状態のまま描く)。チップを押して窓を組み直しても開閉は保たれる。畳んでも絞り込みは変わらない。
+  - グループの説明行(「グループ ⓘ」)と「すべて表示」は絞り込みの次元ではないので畳みの外のまま。
+- **「その他」のチップ**: 既存の宣言を読むだけの 4 軸(`PP_OTHER_AXES` —— 新しい語・鍵は作らない)。
+  - `obsCard` 📇 観測結果カードあり(`obsCard` の行を宣言)/ `pinned` 固定(pinned)あり(bodies のどれかが `pinned:true`)/ `multi` 多粒子(群あり)(bodies のどれかが群 —— `type` が single 以外)/ `testParticle` 試験粒子契約あり(bodies のどれかが `testParticle:true`)。
+  - **複数選べて AND**(選んだチップをすべて満たす本だけ)。スケール・分類・E水準・geoPN・検索とも AND。「すべて」のチップで選択を空に戻す。既定は「すべて」(AN49)・状態はセッション内だけ(他の次元と同じ)。
+  - **件数**: 各チップに「(n)」—— いま一覧に出せる内蔵(`catalogHidden`・退役を除く)のうち、その軸を満たす本の数(他の次元とは独立 —— そのチップだけを選んだときの行数と同じ。実行時に数える)。基点 b92ffa1 の宣言では「すべて表示」オフで 82 / 42 / 51 / 4(全内蔵では 88 / 51 / 64 / 4)。ⓘ の説明に各軸の宣言と件数。
+  - 分類(principle・現実較正 DFM/kF0)と geoPN はすでに独立の次元なので「その他」には重ねていない。退役の本は一覧に出ない(§16)ので軸にしていない。
+  - 絞り込み中は AI 生成・保存一覧の群を出さない(他の属性の絞り込みと同じ)。隠しプルダウン `#presetSelect` には軸を足していない。検索のクリアで検索欄のフォーカスを外す規則・IME 中の挙動(§18)は不変。
+- QA: **`ui.pickerFilterFold`**・**`ui.pickerOtherChips`**(root は SKIP)。軸の件数は受理器を通した正規化後の宣言から独立に数え直して突き合わせる。既存の `ui.pickerGeoFilter` は畳みの世代では採寸の前に geoPN の畳みを開く(判定は弱めていない)。3 viewport(iPhone SE 375×667・Android 412×915 —— isMobile・タッチ / PC 1280×800)。
