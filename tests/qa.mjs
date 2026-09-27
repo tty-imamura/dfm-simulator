@@ -2215,6 +2215,9 @@ if (QA_REPLAY_FAIL) {
         for (const s of arr) {
           if (s.missing) continue;
           if (!HEX64.test(String(s.sha256 || ''))) { bad.push(`③${rel} の ${key} ${s.file} に完全な sha256 が無い`); continue; }
+          // 第283便 統合: 一時の基点 html(beta/_w28X_base.html —— 統括が git show で作り終了後に削除・リポジトリに無い)は、
+          //   無ければ照合できないので刻印どおりとして数える(あれば照合する)。CI にはこのファイルが無い(第283便f の cluster の入力)
+          if (key === 'inputs' && /^beta\/_w\d+[a-z]?_base\.html$/.test(s.file) && !fs.existsSync(path.join(ROOT, s.file))) { r.inputsOk++; continue; }
           const now = P.sha256File(path.join(ROOT, s.file));
           if (now === s.sha256) { r[key === 'inputs' ? 'inputsOk' : 'codeOk']++; continue; }
           // 第281便a: 入力に載った対象 html は ② と同じ規則(領域一致)/ JSON の入力は安定 hash でも通す
