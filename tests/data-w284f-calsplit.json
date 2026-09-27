@@ -66,7 +66,7 @@
    "superseded": "統合(第284便)で c の旗(--kf0-h4-exceptions)に置き換え。記録は履歴として残す"
   },
   {
-   "name": "dt3",
+   "name": "dt3-w284f(統合前の引数 --dt3-registry)",
    "calArgs": [
     "--dt3-registry",
     "--merge"
@@ -116,7 +116,8 @@
     "mergeWallSec": 4.5,
     "totalWallSec": 312.5
    },
-   "note": "鎖の dt3 段そのもの(--merge 経路・h4 は前回の正本から転記)・直列と分割を同じ写しから"
+   "note": "鎖の dt3 段そのもの(--merge 経路・h4 は前回の正本から転記)・直列と分割を同じ写しから",
+   "superseded": "統合(第284便)で c の旗(--h4-exceptions)に置き換え。記録は履歴として残す"
   },
   {
    "name": "light33",
@@ -370,6 +371,84 @@
    "htmlSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
    "shardVersion": "w284f-calshard-2",
    "note": "統合(第284便)後の kf0 段そのもの(c の旗 --kf0-h4-exceptions・--merge 経路・前回の正本なし=空の種から)。1 回目は f の産物に c の h2Store が無く合流で消えた(修正 → 産物に h2/h2keep・shard 版 -2)。壁時計から作る欄は h4Store と同じ形で h2Store にもある(照合器の除外に追加)"
+  },
+  {
+   "name": "dt3",
+   "calArgs": [
+    "--h4-exceptions",
+    "--merge"
+   ],
+   "serialVsSplit": [
+    {
+     "file": "tests/out/calaudit-w249.json",
+     "diffs": 39,
+     "declaredVolatile": 39,
+     "codeIdentity": 0,
+     "wallDerived": [],
+     "other": 0,
+     "stableSha256": "f3600c2970e9acdfaaaf0833d2cfc41c25a159f75903f981e20328df5fc3225e",
+     "stableSame": true,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    },
+    {
+     "file": "tests/out/calaudit-w249-diag.json",
+     "diffs": 22,
+     "declaredVolatile": 1,
+     "codeIdentity": 0,
+     "wallDerived": [
+      "/h4Store/entries/alphaCenAB/run/rateStepsPerSec",
+      "/h4Store/entries/alphaCenAB/run/wallSec",
+      "/h4Store/entries/alphaCenAB/run/timeBudget/wallSec",
+      "/h4Store/entries/alphaCenAB/run/timeBudget/rateStepsPerSec",
+      "/h4Store/entries/alphaCenAB/run/stopRule/wallSec",
+      "/h4Store/entries/alphaCenAB/run/stopRule/rateStepsPerSec",
+      "/h4Store/entries/alphaCenAB/generatedAt",
+      "/h4Store/entries/siriusAB/run/rateStepsPerSec",
+      "/h4Store/entries/siriusAB/run/wallSec",
+      "/h4Store/entries/siriusAB/run/timeBudget/wallSec",
+      "/h4Store/entries/siriusAB/run/timeBudget/rateStepsPerSec",
+      "/h4Store/entries/siriusAB/run/stopRule/wallSec",
+      "/h4Store/entries/siriusAB/run/stopRule/rateStepsPerSec",
+      "/h4Store/entries/siriusAB/generatedAt",
+      "/h4Store/entries/saturnZonalD68/run/rateStepsPerSec",
+      "/h4Store/entries/saturnZonalD68/run/wallSec",
+      "/h4Store/entries/saturnZonalD68/run/timeBudget/wallSec",
+      "/h4Store/entries/saturnZonalD68/run/timeBudget/rateStepsPerSec",
+      "/h4Store/entries/saturnZonalD68/run/stopRule/wallSec",
+      "/h4Store/entries/saturnZonalD68/run/stopRule/rateStepsPerSec",
+      "/h4Store/entries/saturnZonalD68/generatedAt"
+     ],
+     "other": 0,
+     "stableSha256": "ccbc81988d4773c3e493ba04883c26b3efc91077db16fc6cdcdbf40ae3816655",
+     "stableSame": false,
+     "stableSameExclWallDerived": true,
+     "ok": true
+    }
+   ],
+   "ok": true,
+   "wall": {
+    "serialWallSec": 69,
+    "splitWallSec": 52.5,
+    "k": 2,
+    "lanes": 2,
+    "shards": [
+     {
+      "jobs": 1,
+      "wallSec": 41
+     },
+     {
+      "jobs": 2,
+      "wallSec": 47
+     }
+    ],
+    "mergeWallSec": 2.6,
+    "totalWallSec": 52.5
+   },
+   "when": "2026-09-27T10:52Z",
+   "htmlSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+   "shardVersion": "w284f-calshard-2",
+   "note": "統合(第284便)後の dt3 段そのもの(c の旗 --h4-exceptions・--merge 経路)。鎖 1 の calaudit 段(2 分割)の正本の写しを種に、直列と分割を同じ種から走らせた(h4 は例外登録簿の本だけ・h/2 は h2Store から転記)。正本・診断とも物理欄の差 0(残る差は h2Store/h4Store の壁時計・時刻だけ)"
   }
  ],
  "wallDerivedNote": "除外 Pointer に宣言されていない壁時計・時刻の欄: calaudit の presets[].run.timeBudget[].budgetHit、diag の h4Store.carriedFrom と h4Store.entries[].{generatedAt, run の wallSec・rateStepsPerSec}。物理欄ではない(走行長・判定に入らない)が、安定 hash を動かす(決断事項候補)。第284便 統合: diag の h2Store.entries[].{generatedAt, run の wallSec・rateStepsPerSec} も同じ扱い"
