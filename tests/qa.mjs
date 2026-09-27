@@ -50522,7 +50522,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       invariant: r.def.inv === 0 && r.b0.inv === 0 && r.gen.inv === 0 && r.bInf.inv === 0
         && r.neg.inv === 0 && r.stopped.inv === 0,
       // (2) 繰越が効く(第171便の「予算0 → 実行1步」は維持したまま、未実行分が繰越へ)
-      carryWorks: r.b0.maxPend > 0 && r.b0.carriedIntoRequest === true && r.b0.lastRun === 1,
+      //   統括(第284便 統合): 「予算0 → 実行1步」は 25 標本の**過半**で見る(最後の 1 標本だけだと、負荷で 1 フレームが 2 步走った
+      //   瞬間に当たって落ちる —— CI とゲート 1 で 19/25・22/25 の標本が 1 步なのに最後だけ 2 步だった)。閾値 60%(15/25)
+      carryWorks: r.b0.maxPend > 0 && r.b0.carriedIntoRequest === true && r.b0.oneStep >= Math.ceil(r.b0.samples * 0.6),
       // (3) バックログ上限 = STEP_CARRY_CAP_FRAMES × 新規要求 k(一度も超えない)+ 超過分は明示破棄
       backlogCapped: r.b0.maxOver <= 0 && r.b0.maxPend <= r.b0.cap && r.b0.cancelGrew > 0,
       // (4) 世代破棄: 旧 pending が全量 cancelled へ移り、pending=0・世代 +1
