@@ -2658,3 +2658,9 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - 旧(第278便e)は ✕ のあとフォーカスを検索欄へ戻していた —— QA `ui.searchClear` は世代(`ppGeoBucketOf` の有無)で期待を分ける。
 - **geoPN 行の移動**: パラメータタブ「引きずり・測地線」の並びを **測地線モード geoPN → 保存非対称の注記(`#geoToySaveNote`)→ 背景決定力 D₀ → 背景複素決定力の欄(`#bgcPanel`)→ qLock → 引きずり減衰 q → kFrame → λ_PN → α** にした(旧: D₀ → 欄 → qLock → q → geoPN → 注記 → kFrame → …)。並べ替えは描画ループの中だけで、`PARAM_DEFS` の配列順・値・受理・presetSig は変えていない。「主役」グループ(activeParams の宣言順)は変えていない。
 - QA: **`ui.pickerGeoFilter`**・**`ui.searchClearBlur`**・**`ui.paramOrderDrag`**(root は SKIP)。既存の `ui.searchClear`(✕ のあとのフォーカス)と `wave124.ui`(③ 並び: 旧「kFrame は geoPN の次」→ 新「geoPN の次は D₀・kFrame は q の次」)は `ppGeoBucketOf` の有無で期待を分けた(root は旧則のまま)。3 viewport(iPhone SE 375×667・Android 412×915 —— isMobile・タッチ / PC 1280×800)。
+
+## 19. 第285便d の UI —— 観測対実行のグラフ「📊 観測との差」(原仮定者の裁定〔第75報〕⑦・統括の検証項目 R100・**表示と器だけ**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変わらない。
+
+- 説明タブの監査ビューの行に「📊 観測との差」—— 判定器の正本 `tests/out/calaudit-w249.json` の量ごとの行を 1 行 1 量で描く(中心線=観測値・±3σ の緑の帯は σ が記録された量だけ・点=判定段の値の転記・右に正式判定)。欠測は空欄(0 に置き換えない)・帯の中でも「合」とは書かない(合否は 3σ 門の正式判定だけ)。行は生成領域 `obs-compare`(器 `tests/exp-w285d-obscompare.mjs`)・読み口 `HP.obsCompare`。QA: **`ui.obsCompareGraph`**・**`docs.obsCompareGraph`**(root は SKIP)・docs/PHYSICS.md〔第285便d〕。

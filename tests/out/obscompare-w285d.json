@@ -1,0 +1,219 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第285便d",
+  "target": "beta/index.html",
+  "targetSha256": "60c96696a31c0dd8f5f17fc1a47ebb0a4072c719df1a63569c7cce23881ed351",
+  "generatedAt": "2026-09-28T00:01:04.363Z",
+  "inputs": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2673043,
+    "sha256": "5d162b88475b704fd764dbaded94e789992d2ae8a00d83d1f94c56723710bb97",
+    "mtime": "2026-09-27T22:05:00.005Z"
+   },
+   {
+    "file": "beta/index.html",
+    "bytes": 5027497,
+    "sha256": "60c96696a31c0dd8f5f17fc1a47ebb0a4072c719df1a63569c7cce23881ed351",
+    "mtime": "2026-09-27T23:50:34.873Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w285d-obscompare.mjs",
+    "bytes": 9858,
+    "sha256": "b6585dbe43a1e02aeec21486760c57838edf1f642f416839346398fd49166535",
+    "mtime": "2026-09-27T22:40:25.224Z"
+   },
+   {
+    "file": "tests/lib-w285d-obscompare.mjs",
+    "bytes": 8988,
+    "sha256": "2d9a82c0fb0e3ed5274061fa2e549b5d48c3bfd5ac166cbe3a6eb58b3ba060b1",
+    "mtime": "2026-09-27T22:18:10.031Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-27T22:04:59.961Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-27T22:04:59.969Z"
+   }
+  ],
+  "codeSha256": "b6368a7e50ea1c4c9646b8296696a19bc81bf86b202d7fd454d62e3792acc2f4",
+  "version": "w285d-1",
+  "generator": "tests/exp-w285d-obscompare.mjs",
+  "region": "obs-compare",
+  "ruling": "原仮定者の裁定(第75報)⑦: 観測値と実行結果の一致度を分かり易く比較可能なグラフ系の表示を用意する",
+  "reading": "統括の検証項目 R100: 正本 calaudit-w249.json の量ごとの行を 1 行 1 量で描く(中心線=観測・±3σ 帯は σ のある量だけ・マーカー=実行値)。欠測は 0 に置換しない・帯内でも合格と書かない(合否は 3σ 門の正式判定のまま)・状態表とグラフの数字を二重管理しない",
+  "notClaim": [
+   "観測一致を達成した",
+   "較正を完了した",
+   "判定が増えた",
+   "帯の中なら合格"
+  ],
+  "scope": {
+   "version": "w283e-scope-3",
+   "presets": [
+    "alphaCenAB",
+    "alphaCenABDFM",
+    "earthMoonReal",
+    "earthMoonRealKF1",
+    "emAuditDFM",
+    "emAuditSolar",
+    "gw150914",
+    "gw150914DFM",
+    "gw150914Merge4s",
+    "jupiterGalilean",
+    "marsMoonsReal",
+    "mercuryReal",
+    "mercuryRealKF1",
+    "neptuneReal",
+    "plutoCharonReal",
+    "psrB1534",
+    "psrB1534CF",
+    "psrB1534DFM",
+    "psrDoubleAB",
+    "psrDoubleABCF",
+    "psrDoubleABDFM",
+    "psrDoubleABPN",
+    "psrDoubleABSpinCal",
+    "psrJ1757CF",
+    "psrJ1757DFM",
+    "psrJ1757PN",
+    "psrJ1946CF",
+    "psrJ1946DFM",
+    "psrJ1946PN",
+    "saturnRingReal",
+    "saturnRingRealKF1",
+    "saturnZonalD68",
+    "siriusAB",
+    "siriusABDFM",
+    "solarInner",
+    "uranusReal",
+    "venusReal"
+   ],
+   "roots": [
+    "HP.currentPreset",
+    "HP.obsCompare",
+    "HP.sim",
+    "OBS_COMPARE_CANON",
+    "OBS_COMPARE_REASONS",
+    "OBS_COMPARE_ROWS",
+    "OBS_COMPARE_SOURCES",
+    "obsCompareDiff",
+    "obsCompareHalf",
+    "obsCompareRetired",
+    "obsCompareRows",
+    "obsCompareSeriesOf",
+    "ocRender",
+    "retiredOf"
+   ],
+   "core": false,
+   "consts": [],
+   "complete": true,
+   "names": 814,
+   "segments": 741,
+   "closureShare": 0.3332
+  },
+  "scopeSha256": "b7467c4c670694fa617cd8df515e568e426b6694c5f8e18ac78ef66b5dbfab43",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "e5ba404fa580f028f2a0cb99ca2f09a06faad2652f8fec31b4d7c36a70588e14",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
+     "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
+     "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
+     "/meta/when",
+     "/presets/*/run/stopRule/rateStepsPerSec",
+     "/presets/*/run/stopRule/wallSec",
+     "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
+     "/presets/*/run/stopRuleStages/*/wallSec",
+     "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/wallSec",
+     "/presets/*/run/wallSec"
+    ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "55d122720205d11fa88694ca894598a110f566c5064d372992e433773e1ab738",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "canon": {
+  "file": "tests/out/calaudit-w249.json",
+  "wave": "第249便b",
+  "rows": 315,
+  "presets": 37,
+  "rowsSha256": "1360486c03da933f9790b935cebb141c2e3b671f4aa17d0902f07c1711eed4ad",
+  "sigDigits": 12
+ },
+ "counts": {
+  "rows": 315,
+  "calRows": 315,
+  "presets": 37,
+  "both": 100,
+  "sigma": 52,
+  "gate": {
+   "合(3σ)": 2,
+   "否(3σ)": 2,
+   "数値未解決": 32,
+   "mapping-unresolved": 14,
+   "condition-mismatch": 0,
+   "未判定": 265
+  }
+ },
+ "extra": {
+  "file": "tests/out/pn1-w285b.json",
+  "present": false,
+  "rows": 0,
+  "why": "正本が無い(描かない)"
+ },
+ "retired": {
+  "ids": [
+   "psrDoubleABCF",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN"
+  ],
+  "rows": 33,
+  "from": "内蔵の宣言 familyRole:\"retired\"(ページの retiredOf —— 正本に写さない)"
+ },
+ "page": {
+  "shownDefault": 315,
+  "pageErrors": 0
+ },
+ "htmlChanged": false,
+ "rule": "**転記だけ**(判定しない)。値は gate.assessedValue(判定段の値)・観測は quantities[].obs・σ は gate.sigma・合否語は gate.status。欠測は null(0 に置換しない)。古い verdict は転記しない。帯は σ の目盛りであって門ではない。",
+ "doNotWrite": [
+  "合った",
+  "判定が増えた",
+  "較正した",
+  "帯の中なら合格"
+ ],
+ "elapsedS": 2.306
+}

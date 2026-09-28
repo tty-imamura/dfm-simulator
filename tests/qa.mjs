@@ -2227,7 +2227,10 @@ if (QA_CHANGED) {
       // 第284便e(原仮定者の裁定(第74報)AN34・④・R91): 試験粒子契約の署名の前後(target=beta/index.html —— 基点の calaudit 正本は git show の
       //   一時読み・inputs に calaudit-w249.json —— **calaudit を走らせ直したら本器も走らせ直す**)/ 背景複素決定力 W₀・A₀ の算出表と接続の実測
       //   (target=beta/index.html —— Node だけ・他の正本は読まない)
-      'tests/out/tpsign-w284e.json', 'tests/out/bgfield-w284e.json'];
+      'tests/out/tpsign-w284e.json', 'tests/out/bgfield-w284e.json',
+      // 第285便d(原仮定者の裁定(第75報)⑦・R100): 観測対実行のグラフの行の控え(target=beta/index.html —— 生成領域 obs-compare を書いた後の html・
+      //   inputs に calaudit-w249.json。**calaudit を走らせ直したら本器も走らせ直す** —— 鎖の段 obscompare)
+      'tests/out/obscompare-w285d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -52807,6 +52810,221 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     }
   }
   await ap.close();
+}
+// ---- 第285便d(原仮定者の裁定(第75報)⑦・統括の検証項目 R100): ui.obsCompareGraph ----
+// ----   **観測対実行のグラフ**(説明タブの「📊 観測との差」—— 表示専用)を機械固定する。**root では自動 SKIP**(HP.obsCompare なし)。
+// ----     ① 行は正本の転記: html の生成領域 obs-compare の行が、正本 `tests/out/calaudit-w249.json`(+ あれば
+// ----        `tests/out/pn1-w285b.json` の obsCompareRows)から `tests/lib-w285d-obscompare.mjs` の buildRows で作った行と**完全一致**し、
+// ----        控え `tests/out/obscompare-w285d.json` の行数・rowsSha256 と一致する(状態表と同じ正本 —— 手書きの表を持たない)。
+// ----     ② 既定の表示(全系列・全量・退役も表示)の行数 = 正本の量数。
+// ----     ③ **欠測は空欄**: 観測か実行値の無い行に点を描かない(0 に置換しない)・ページの差の式が lib の diffOf と全行・2 尺度で一致(相対 1e-12)。
+// ----     ④ **帯は σ のある行だけ**: 帯の有無 = (観測あり ∧ σ あり ∧ % 尺度なら観測 ≠ 0)。
+// ----     ⑤ **切替が効く**: 系列 kF0/DFM・量 近点移動/周期/離心率・退役を隠す・検索・σ 尺度・±3σ(行ごと)・±1 の範囲外の数を、画面の操作で。
+// ----     ⑥ **合否語 = 正式判定**: 右欄の語が gate.status の転記(ja/en)で、帯の中でも「合格」とは書かない・古い verdict を持たない。
+// ----     ⑦ モバイル幅(360 px)で横に溢れない。 ⑧ λ_PN=0 の対照: 正本に行が無ければ系列に出さず、描かない旨を出す。
+{
+  const op = await browser.newPage();
+  await op.goto(INDEX, { waitUntil: 'load' });
+  await op.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const hasOC = await op.evaluate(() => !!(window.HP && HP.obsCompare));
+  if (!hasOC) {
+    console.log('SKIP ui.obsCompareGraph(第285便d 未適用 — HP.obsCompare なし)');
+  } else {
+    const bad = [];
+    let nRows = 0, nBoth = 0, nSig = 0, sw = {};
+    try {
+      const LOC = await import('file://' + path.join(ROOT, 'tests', 'lib-w285d-obscompare.mjs'));
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, LOC.CAL_FILE), 'utf8'));
+      const exF = path.join(ROOT, LOC.EXTRA_FILE);
+      const built = LOC.buildRows(J, fs.existsSync(exF) ? JSON.parse(fs.readFileSync(exF, 'utf8')) : null);
+      const want = built.rows;
+      nRows = want.length; nBoth = built.counts.both; nSig = built.counts.sigma;
+      const nCal = (J.presets || []).reduce((a, p) => a + (p.quantities || []).length, 0);
+      const pg = await op.evaluate(() => {
+        const O = HP.obsCompare;
+        const diffs = O.all.map((r) => [O.diff(r, 'pct'), O.diff(r, 'sigma')]);
+        const retired = HP.allPresets().filter((p) => p.familyRole === 'retired').map((p) => p.id);
+        return { all: O.all, reasons: O.reasons, sources: O.sources, canon: O.canon, diffs, retired,
+          keys: [...new Set(O.all.flatMap((r) => Object.keys(r)))] };
+      });
+      // ① 転記
+      if (JSON.stringify(pg.all) !== JSON.stringify(want)) bad.push('①html の行が正本から作った行と違う(器 exp-w285d-obscompare を走らせ直すこと)');
+      if (JSON.stringify(pg.reasons) !== JSON.stringify(built.reasons) || JSON.stringify(pg.sources) !== JSON.stringify(built.sources))
+        bad.push('①理由/出典の辞書が正本と違う');
+      if (built.counts.calRows !== nCal) bad.push(`①calaudit の行 ${built.counts.calRows} ≠ 正本の量数 ${nCal}`);
+      if (pg.canon.rowsSha256 !== LOC.rowsSha256(built)) bad.push('①刻んだ rowsSha256 が正本から作った行と違う');
+      if (pg.keys.includes('verdict') || pg.keys.includes('vd')) bad.push('⑥古い verdict の欄が行にある');
+      try {
+        const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'obscompare-w285d.json'), 'utf8'));
+        if (C.canon.rows !== nRows || C.canon.rowsSha256 !== pg.canon.rowsSha256) bad.push('①控え obscompare-w285d.json の行数/rowsSha256 が html と違う');
+      } catch (e) { bad.push('①控え obscompare-w285d.json が読めない'); }
+      // ③ 差の式(lib と全行・2 尺度)
+      const near = (a, b) => (a === null && b === null) || (a !== null && b !== null && Math.abs(a - b) <= 1e-12 * Math.max(1, Math.abs(a), Math.abs(b)));
+      want.forEach((r, i) => {
+        for (const [k, sc] of [[0, 'pct'], [1, 'sigma']]) {
+          const L0 = LOC.diffOf(r, sc), P0 = pg.diffs[i][k];
+          if (!near(L0.d, P0.d) || !near(L0.band, P0.band) || L0.why !== P0.why) bad.push(`③差の式が lib と違う: ${r.i}「${r.n.slice(0, 10)}」${sc}`);
+        }
+      });
+      // 画面で開いて数える(select/検索は実際の操作 —— change/input を発火)
+      const view = async (set) => op.evaluate((set) => {
+        const O = HP.obsCompare;
+        O.show(true);
+        const fire = (id, v) => { const el = document.getElementById(id); if (!el) return false;
+          if (el.type === 'checkbox') { el.checked = v; el.dispatchEvent(new Event('change')); }
+          else { el.value = v; el.dispatchEvent(new Event(el.tagName === 'INPUT' ? 'input' : 'change')); } return true; };
+        const d0 = { ocSeries: 'all', ocKind: 'all', ocScale: 'pct', ocRange: 'auto', ocSearch: '', ocRetired: true };
+        let ok = true;
+        for (const [id, v] of Object.entries(Object.assign({}, d0, set))) ok = fire(id, v) && ok;
+        const rows = [...document.querySelectorAll('#ocPanel .ocRow')].map((el) => ({ i: el.dataset.i, k: el.dataset.k, series: el.dataset.series,
+          g: el.dataset.g, miss: el.dataset.miss, band: el.dataset.band, clip: el.dataset.clip, mark: !!el.querySelector('.ocMark'),
+          bandEl: !!el.querySelector('.ocBand'), gate: (el.querySelector('.ocGate') || {}).textContent || '', txt: el.textContent,
+          n: (el.querySelector('.ocNm') || {}).textContent || '' }));
+        const series = [...document.querySelectorAll('#ocSeries option')].map((o) => o.value);
+        const extraNote = !!document.getElementById('ocExtraNote');
+        return { ok, rows, series, extraNote };
+      }, set);
+      const retiredSet = new Set(pg.retired);
+      const seriesOf = (r) => (r.sr === 'pn0' ? 'pn0' : (r.kf === 0 ? 'kf0' : (r.kf === 1 ? 'dfm' : 'other')));
+      // ② 既定
+      const v0 = await view({});
+      if (!v0.ok) bad.push('⑤切替の部品(#ocSeries 等)が無い');
+      sw.all = v0.rows.length;
+      if (v0.rows.length !== nRows) bad.push(`②既定の表示 ${v0.rows.length} 行 ≠ 正本の量数 ${nRows}`);
+      v0.rows.forEach((x, i) => {
+        const r = want[i];
+        if (!r || x.i !== r.i) { if (i < 3) bad.push(`②行の並びが正本と違う(${i})`); return; }
+        // ③ 欠測は空欄
+        const hasBoth = r.o !== null && r.v !== null && r.o !== 0;
+        if (x.mark !== hasBoth) bad.push(`③点の有無が違う: ${r.i}「${r.n.slice(0, 10)}」(期待 ${hasBoth})`);
+        if (!hasBoth && !x.miss) bad.push(`③欠測の行に空欄の理由が無い: ${r.i}`);
+        if (!hasBoth && /(^|[^0-9.eE])[+-]?0(\.0+)? %/.test(x.txt)) bad.push(`③欠測の行に 0 % が描かれている: ${r.i}`);
+        // ④ 帯は σ のある行だけ
+        const wantBand = r.o !== null && r.s !== null && r.o !== 0;
+        if ((x.band === '1') !== wantBand || x.bandEl !== wantBand) bad.push(`④帯の有無が違う: ${r.i}「${r.n.slice(0, 10)}」`);
+        // ⑥ 合否語 = 正式判定
+        if (x.g !== (r.g || '')) bad.push(`⑥data-g が正式判定と違う: ${r.i}`);
+        if (x.gate !== (r.g ? '正式判定: ' + r.g : '正式判定なし')) bad.push(`⑥右欄の語が正式判定の転記でない: ${r.i}「${x.gate}」`);
+        if (/合格/.test(x.txt)) bad.push(`⑥行に「合格」の語: ${r.i}`);
+        if (r.g !== '合(3σ)' && /合\(3σ\)/.test(x.gate)) bad.push(`⑥合(3σ)でない行に合(3σ): ${r.i}`);
+      });
+      // ⑤ 切替
+      const expect = (f) => want.filter(f).length;
+      const cases = [
+        ['系列 kF0', { ocSeries: 'kf0' }, (r) => seriesOf(r) === 'kf0'],
+        ['系列 DFM', { ocSeries: 'dfm' }, (r) => seriesOf(r) === 'dfm'],
+        ['量 近点移動', { ocKind: 'precession' }, (r) => r.k === 'precession'],
+        ['量 周期', { ocKind: 'period' }, (r) => r.k === 'period'],
+        ['量 離心率', { ocKind: 'ecc' }, (r) => r.k === 'ecc'],
+        ['退役を隠す', { ocRetired: false }, (r) => !retiredSet.has(r.i)],
+        ['検索 psrJ1757', { ocSearch: 'psrJ1757' }, (r) => [r.i, r.e, r.t, r.n, r.k, r.g].join(' ').toLowerCase().includes('psrj1757')],
+      ];
+      for (const [lab, set, f] of cases) {
+        const v = await view(set);
+        sw[lab] = v.rows.length;
+        if (v.rows.length !== expect(f)) bad.push(`⑤${lab}: ${v.rows.length} 行 ≠ 期待 ${expect(f)}`);
+      }
+      if (!retiredSet.size || expect((r) => retiredSet.has(r.i)) === 0) bad.push('⑤退役の行が 1 つも無い(切替を確かめられない)');
+      { const v = await view({ ocScale: 'sigma' });
+        const m = v.rows.filter((x) => x.mark).length, e = expect((r) => r.o !== null && r.v !== null && r.s !== null);
+        sw['σ 尺度の点'] = m;
+        if (m !== e) bad.push(`⑤σ 尺度の点 ${m} ≠ 期待 ${e}`);
+        if (v.rows.some((x, i) => (x.band === '1') !== (want[i].o !== null && want[i].s !== null))) bad.push('④σ 尺度の帯の有無が違う'); }
+      { const v = await view({ ocRange: '3sigma' });
+        const m = v.rows.filter((x) => x.mark).length, e = expect((r) => r.o !== null && r.v !== null && r.s !== null && r.o !== 0);
+        sw['±3σ の点'] = m;
+        if (m !== e) bad.push(`⑤±3σ(行ごと)の点 ${m} ≠ 期待 ${e}`);
+        if (v.rows.some((x, i) => !x.mark && !x.miss)) bad.push('⑤±3σ で点の無い行に空欄の理由が無い'); }
+      { const v = await view({ ocRange: '1' });
+        const c = v.rows.filter((x) => x.clip === '1').length;
+        const e = want.filter((r) => { const d = LOC.diffOf(r, 'pct').d; return d !== null && Math.abs(d) > 1; }).length;
+        sw['±1 % の範囲外'] = c;
+        if (c !== e) bad.push(`⑤±1 % の範囲外 ${c} ≠ 期待 ${e}`); }
+      // ⑧ λ_PN=0 の対照
+      const vx = await view({});
+      if (built.extra.rows === 0) {
+        if (vx.series.includes('pn0')) bad.push('⑧正本に行が無いのに λ_PN=0 の系列を出している');
+        if (!vx.extraNote) bad.push('⑧「正本に行が無いので描かない」の注記が無い');
+      } else if (!vx.series.includes('pn0')) bad.push('⑧正本に行があるのに λ_PN=0 の系列が無い');
+      // ⑥ en の語
+      const en = await op.evaluate(() => { HP.setLang('en'); HP.obsCompare.redraw();
+        const r = [...document.querySelectorAll('#ocPanel .ocRow')].map((el) => ({ g: el.dataset.g, gate: el.querySelector('.ocGate').textContent }));
+        HP.setLang('ja'); HP.obsCompare.show(false); return r; });
+      const EN = { '合(3σ)': 'pass (3σ)', '否(3σ)': 'fails (3σ)', '数値未解決': 'numerically unresolved', 'mapping-unresolved': 'mapping-unresolved',
+        'condition-mismatch': 'condition mismatch', '未判定': 'not judged' };
+      en.forEach((x) => { const w = x.g ? 'Formal verdict: ' + (EN[x.g] || x.g) : 'No formal verdict';
+        if (x.gate !== w) bad.push(`⑥en の右欄が正式判定の転記でない: ${x.gate}`); });
+
+    } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 160)); }
+    // ⑦ モバイル幅
+    try {
+      const mp = await browser.newPage({ viewport: { width: 360, height: 740 } });
+      await mp.goto(INDEX, { waitUntil: 'load' });
+      await mp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+      const m = await mp.evaluate(() => { HP.obsCompare.show(true); const b = document.querySelector('#ocPanel .fmBox');
+        const rows = [...document.querySelectorAll('#ocPanel .ocBar')].slice(0, 40);
+        return { bw: b.scrollWidth, cw: b.clientWidth, dw: document.documentElement.scrollWidth,
+          barMin: Math.min(...rows.map((r) => r.getBoundingClientRect().width)) }; });
+      sw.mobile = m;
+      if (m.bw > m.cw + 1 || m.dw > 361) bad.push(`⑦360 px で横に溢れる(箱 ${m.bw}/${m.cw}・文書 ${m.dw})`);
+      if (!(m.barMin >= 60)) bad.push(`⑦360 px で横棒が細すぎる(${m.barMin} px)`);
+      await mp.close();
+    } catch (e) { bad.push('⑦モバイル幅の確認に失敗: ' + String(e).slice(0, 100)); }
+    add('ui.obsCompareGraph', bad.length === 0,
+      `**観測対実行のグラフ**(第285便d・原仮定者の裁定(第75報)⑦・統括の検証項目 R100): 説明タブの「📊 観測との差」—— `
+      + `正本 \`tests/out/calaudit-w249.json\` の量ごとの行 **${nRows} 行**(観測と実行値の両方 ${nBoth}・σ あり ${nSig})を 1 行 1 量で`
+      + `(中心線=観測・±3σ の帯は σ のある行だけ・点=判定段の値の転記・右に正式判定)/ 既定の表示 ${sw.all} 行 = 正本の量数 / `
+      + `切替 ${Object.entries(sw).filter(([k]) => k !== 'all' && k !== 'mobile').map(([k, v]) => k + ' ' + v).join('・')} / `
+      + `**欠測は空欄**(0 に置換しない)/ **帯の中でも「合格」と書かない**(合否は 3σ 門の正式判定の転記だけ・古い verdict を持たない)/ `
+      + `モバイル 360 px ${sw.mobile ? '箱 ' + sw.mobile.bw + '/' + sw.mobile.cw : '—'}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+  await op.close();
+}
+// ---- 第285便d(R100): docs.obsCompareGraph ----
+// ----   グラフの説明(PHYSICS〔第285便d〕・AI_SPEC の 1 行・ヘルプとパネルの注記 ja/en)を固定する(fs のみ)。root は SKIP(生成領域 obs-compare なし)。
+// ----     ① PHYSICS に節があり、「何を描き何を描かないか」「門を置き換えない」「欠測は 0 に置換しない」「二重管理しない」がある。
+// ----     ② 禁止語(鉤括弧の中は名指しなので除く): 観測一致を達成・較正を完了・判定が増えた・新発見・RC を切った・f=1 で合った・kF0 版が成立した・帯の中なら合格。
+// ----     ③ AI_SPEC に第285便d の行(ui.obsCompareGraph を名指し)。 ④ ヘルプとパネルの注記(ja/en)が「合否は正式判定だけ」「0 に置き換えない」を言い、
+// ----        ja の注記に鉤括弧の外の「合格」が無い。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (html.indexOf('// >>> w275a-generated: obs-compare') < 0) {
+    console.log('SKIP docs.obsCompareGraph(第285便d 未適用 — 生成領域 obs-compare なし)');
+  } else {
+    const bad = [];
+    const FORBID = /観測一致を達成|較正を完了|判定が増えた|新発見|RC を切った|f=1 で合った|kF0 版が成立した|帯の中なら合格/;
+    const bare = (line) => line.replace(/[「『][^」』]*[」』]/g, '');
+    try {
+      const md = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const i0 = md.indexOf('〔第285便d');
+      if (i0 < 0) bad.push('①PHYSICS に〔第285便d〕の節が無い');
+      else {
+        const rest = md.slice(i0 + 1);
+        const j = rest.search(/\n〔第\d+便[a-z]? |\n## /);
+        const sec = j < 0 ? rest : rest.slice(0, j);
+        for (const need of ['描かない', '門を置き換えない', '0 に置換しない', '二重管理しない', 'calaudit-w249.json', 'ui.obsCompareGraph'])
+          if (!sec.includes(need)) bad.push(`①PHYSICS の節に「${need}」が無い`);
+        for (const line of sec.split('\n')) if (FORBID.test(bare(line))) bad.push(`②禁止語: ${line.slice(0, 40)}`);
+      }
+      const ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      if (!/第285便d[\s\S]{0,4000}ui\.obsCompareGraph/.test(ai)) bad.push('③AI_SPEC に第285便d の行(ui.obsCompareGraph)が無い');
+      for (const line of ai.split('\n')) if (/第285便d/.test(line) && FORBID.test(bare(line))) bad.push(`②AI_SPEC の禁止語: ${line.slice(0, 40)}`);
+      const pick = (key) => [...html.matchAll(new RegExp('\\n  ' + key + ':"((?:[^"\\\\]|\\\\.)*)"', 'g'))].map((m) => m[1]);
+      const notes = pick('ocNote'), helps = pick('helpObsCompare');
+      if (notes.length !== 2 || helps.length !== 2) bad.push(`④注記/ヘルプが ja/en の 2 本でない(${notes.length}/${helps.length})`);
+      else {
+        if (!/0 に置き換えない/.test(notes[0]) || !/門を置き換えない/.test(notes[0]) || !/正式判定/.test(notes[0])) bad.push('④ja の注記に必要な文が無い');
+        if (!/never replaced by 0/.test(notes[1]) || !/does not replace the gate/.test(notes[1]) || !/formal verdict/.test(notes[1])) bad.push('④en の注記に必要な文が無い');
+        if (!/正式判定/.test(helps[0]) || !/formal verdict/.test(helps[1])) bad.push('④ヘルプに「合否は正式判定だけ」が無い');
+        for (const s of [notes[0], helps[0]]) { if (/合格/.test(bare(s))) bad.push('④ja の文に鉤括弧の外の「合格」'); if (FORBID.test(bare(s))) bad.push('②ja の文に禁止語'); }
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 100)); }
+    add('docs.obsCompareGraph', bad.length === 0,
+      `**観測対実行のグラフの説明**(第285便d・R100): PHYSICS〔第285便d〕に何を描き何を描かないか・門を置き換えない・欠測を 0 に置換しない・`
+      + `状態表と二重管理しない / 禁止語なし(鉤括弧の中の名指しは除く)/ AI_SPEC の行 / ヘルプと注記 ja/en が「合否は正式判定だけ」`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
 }
 {
   const xp = await browser.newPage();
