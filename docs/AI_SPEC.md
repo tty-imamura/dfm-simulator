@@ -2731,3 +2731,11 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **share-p1 の式**: u=(A_local+A_bg)/(W_local+W_bg)(局所は自己を除く p=1 の核)・∇u=(∇A−u⊗∇W)/W・∂ₜu=(∂ₜA−u∂ₜW)/W(分母を含む商の微分)・加速度は既定のトイと同じ a=∂ₜū+(∇ū)v−(∇ū)ᵀ(v−ū)。**この経路は D₀ を読まない**(D₀ は別量 —— W₀ に係数を掛けて D₀ を作らない)。
 - **読み口**: `HP.bgcLawCheck`・`HP.bgLawCrossCheck`・`HP.dfmComplexMomentsP`(p 乗の核)・`HP.bgLawBackgroundAt`・`HP.bgLawPrepare`・`HP.dfmGeoToyBgLawStep`・`HP.BGC_LAW_*`。`HP.bgcWireState(S)` に `lawVersion` と `lawPath`("geoToy"/"meshVelocity"/null)。#bgcPanel の算出結果の表に法則版の状態チップ `#bgcLawChip`(未宣言 = 「未宣言(現行 —— 法則版は未接続)」)。
 - **書かないこと**: 「法則版で成立した」「W₀・A₀ から微分が出る」。接続の実測は器 `tests/exp-w286c-bgdiff.mjs` の診断コピー(内蔵にはしない)。
+
+## 24. 第286便d の UI —— サンプル内ライブ比較(グラフ「ライブ比較」・観測カードのインライン表示)(原仮定者の裁定〔第76報〕⑥・AN58 の前倒し・統括の検証項目 R105・**表示と器だけ**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・力学・内蔵の宣言は 1 bit も変わらない(保存 JSON の `graphOverlays` に表示の鍵 `liveCompare` が 1 つ増えるだけ)。
+
+- 「グラフ」カテゴリのトグル「ライブ比較」(`overlays.liveCompare`)—— 開いている本の**今回の走行**を物理 step ごとに読み出しだけで測り(同方向 1 周・近点 検出器 A の近点間周期と近点移動・半径比 eProxy —— 判定器と同じ定義)、正本の観測値(`OBS_COMPARE_ROWS` の転記)と並べる。固定線=観測・帯=±3σ(σ のある量だけ)・点=今回の値・◇=前回の較正(判定段の値)。**暫定値・正式な合否判定なし**を常に出し、合否の語は出さない。宣言(`LIVE_COMPARE_SPEC` —— 本と量の名前と推定器だけ・観測値は書かない)の無い本は「ライブ計測未対応」。説明タブの 📇 観測結果カードの対応する行の直後に同じ計測値を 1 行(`lcInline`)。A/B 比較中は未対応。
+- 読み口(HP 公開): `HP.liveCompare`(`create`・`feed`・`value` は計測器の純関数・`snapshot`・`stepN`・`reset`・`spec`・`rowOf` ほか)。
+- QA: **`ui.liveCompare`**・**`behavior.liveMeterPure`**(root は SKIP)・docs/PHYSICS.md〔第286便d〕。
