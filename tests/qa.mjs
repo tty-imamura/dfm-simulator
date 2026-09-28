@@ -37441,6 +37441,9 @@ if (!FAST) {
         o.noteOpen = !!note && !note.hidden && document.getElementById('ppDimGeoBtn').getAttribute('aria-expanded') === 'true';
         o.noteOk = o.noteOpen && [0, 1, 2, 3].every((k) => note.textContent.includes(HP.T('ppGeo' + k) + '(' + o.nAll[k] + ')'));
         document.getElementById('ppDimGeoBtn').click(); await wait(20);
+        // 第285便e: 絞り込みは既定で畳む(details.ppFold)—— 採寸の前に geoPN の畳みを開く(畳みの無い世代では何もしない。
+        // 判定〔箱の内側・幅 > 0〕は弱めない)
+        { const gfold = document.getElementById('ppFold_geo'); if (gfold && !gfold.open) { gfold.open = true; await wait(20); } }
         // 画面内
         const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
         o.inView = box.left >= -0.5 && box.right <= innerWidth + 0.5
@@ -37582,6 +37585,281 @@ if (!FAST) {
       `「引きずり・測地線」の並び geoPN → 保存非対称の注記 → D₀ → 背景複素決定力の欄 → qLock → q → kFrame → λ_PN → α(先頭「${po[0].first}」)/ ` +
       po.map((r) => `${r.vp}: ${r.rows.filter((z) => /true$/.test(z)).length}/${r.rows.length}(🎠☿🩻 × ja/en)・PARAM_DEFS の配列順は不変=${r.defsOk}` +
         `${r.bad.length ? '・NG ' + r.bad.slice(0, 3).join(' ; ') : ''}${r.errs.length ? '・JS ' + r.errs.join(' | ') : ''}`).join(' / ') + ' ・タブを開いても params/presetSig 不変');
+  }
+}
+
+// ---- 第285便e(原仮定者の裁定(第75報)⑧ UI:「サンプルの絞り込みをそれぞれ畳む(畳んだ状態では選んだ選択を表示)。絞り込みに『その他』の
+// ---- チップを追加(チップは複数 AND 選択可)」): **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。世代判定は html の
+// ---- `const PP_OTHER_AXES=` —— root 等では 2 件とも自動 SKIP。3 viewport は第284便d と同じ(iPhone SE 375×667・Android 412×915
+// ---- —— isMobile・タッチ / PC 1280×800)。
+// ----   ui.pickerFilterFold … 絞り込み 5 次元(スケール/分類/E水準/geoPN/その他)が #ppFolds の中にこの順で details.ppFold として並び、
+// ----     各 details の中にチップ行(.ppChips —— 見出し「次元名 ⓘ」のボタン id は従来どおり)が 1 つ / 記憶が無いときの既定は**畳む**
+// ----     (チップが見えない —— checkVisibility)/ 要約行 = 次元名(T の語)+ 選んだチップの語(未選択は「すべて」のチップの語 T('grpAll')・data-on なし)/
+// ----     **実タップ(PC は実クリック)**で要約行を押すと開き(チップが見える)、端末の記憶 hp_pick_fold に残る / 開いた次元でチップを
+// ----     実タップ → 窓を組み直しても開いたまま・要約行に選んだ語(data-on=1)/ 要約行を押して畳むと、畳んだ状態でも選んだ語が残り、
+// ----     行数は畳む前と同じ(畳みは絞り込みを変えない)/「その他」で 2 つ選ぶと要約行は 2 語を「 ∧ 」でつないだ語 / 窓を開き直すと
+// ----     記憶どおり / 記憶が壊れている('{bad')まま再読込しても JS エラー 0 で 5 次元とも畳んだ状態で描ける・Storage が投げる状態でも
+// ----     開閉とチップの組み直しが続く /
+// ----     全部開いても箱・要約行・チップが画面内・文書の横はみ出し 0 / en の語 / presetSig と params が不変 / JS エラー 0。
+// ----   ui.pickerOtherChips … 軸 4 つ(📇 観測結果カードあり obsCard・固定 pinned・多粒子 multi〔type≠single〕・試験粒子契約 testParticle)
+// ----     を**この場で独立に数え直す**(全内蔵を validatePreset に通した正規化後の宣言から —— ページの PP_OTHER_AXES を使わない):
+// ----     全内蔵でページの ppOtherTest と一致 / 各チップの件数(data-n)= 一覧に出る本(catalogHidden・退役を除く)のうち軸を満たす本 /
+// ----     チップ 1 つだけの行数 = その件数・再タップで外れて元の行数 / **複数 AND**(2 つ・3 つ)の行数 = 独立の数え直し(かつ 1 つだけより
+// ----     少ない)/ geoPN との AND・分類との AND・検索との AND が独立の数え直しと一致(期待 > 0 かつ単独より少ない組を選ぶ)/「すべて」
+// ----     で選択が空へ戻る / ⓘ の説明に各軸の語と件数 / 隠し #presetSelect の選択肢は操作の前後で同じ(AN49 —— 軸を足さない)/
+// ----     presetSig と params が不変 / JS エラー 0。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/const PP_OTHER_AXES=/.test(html)) {
+    console.log('SKIP ui.pickerFilterFold / ui.pickerOtherChips(対象に第285便e の畳み・「その他」の絞り込みなし — root 等)');
+  } else {
+    const VPS = [{ name: 'iPhoneSE-375x667', width: 375, height: 667, mobile: true },
+      { name: 'Android-412x915', width: 412, height: 915, mobile: true },
+      { name: 'PC-1280x800', width: 1280, height: 800, mobile: false }];
+    const openVp = async (vp) => {
+      const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.mobile, hasTouch: vp.mobile });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      pg.on('dialog', (d) => d.accept());
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      await pg.evaluate(() => HP.setLang('ja'));
+      return { ctx, pg, errs };
+    };
+    const DIMS = [['scale', 'ppDimScale', 'ppDimScaleBtn'], ['cls', 'ppDimClass', 'ppDimClassBtn'], ['e', 'ppDimE', 'ppDimEBtn'],
+      ['geo', 'ppDimGeo', 'ppDimGeoBtn'], ['other', 'ppDimOther', 'ppDimOtherBtn']];
+    // ---- ui.pickerFilterFold
+    const ff = [];
+    for (const vp of VPS) {
+      const { ctx, pg, errs } = await openVp(vp);
+      const tapOrClick = (sel) => (vp.mobile ? pg.tap(sel) : pg.click(sel));
+      const o = { bad: [], vp: vp.name };
+      const st = () => pg.evaluate((DIMS) => {
+        const f = [...document.querySelectorAll('#ppFolds > details.ppFold')];
+        return {
+          ids: f.map((d) => d.dataset.dim),
+          open: f.map((d) => d.open),
+          names: f.map((d) => { const n = d.querySelector(':scope > summary .ppFoldName'); return n ? n.textContent : null; }),
+          sels: f.map((d) => { const n = d.querySelector(':scope > summary .ppFoldSel'); return n ? n.textContent : null; }),
+          selOn: f.map((d) => { const n = d.querySelector(':scope > summary .ppFoldSel'); return !!n && n.dataset.on === '1'; }),
+          rowsIn: f.map((d) => d.querySelectorAll(':scope > .ppChips').length),
+          btnIn: DIMS.map(([k, , b]) => { const d = document.getElementById('ppFold_' + k); const x = document.getElementById(b); return !!d && !!x && d.contains(x); }),
+          // 畳んだ中身は content-visibility で描かれない(寸法は残る)ので、見えているかは checkVisibility で判る
+          chipVis: f.map((d) => [...d.querySelectorAll('.ppChip')].some((c) => c.checkVisibility())),
+          rows: document.querySelectorAll('#ppList .ppRow').length,
+          mem: (() => { try { return localStorage.getItem('hp_pick_fold'); } catch (_) { return 'THROW'; } })(),
+        };
+      }, DIMS);
+      const sig0 = await pg.evaluate(() => { try { localStorage.removeItem('hp_pick_fold'); } catch (_) {}
+        ppFold = {}; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
+        HP.loadPreset('saturn', false);
+        return { sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+          par: JSON.stringify(HP.sim.params), all: HP.T('grpAll'), dimT: [['ppDimScale'], ['ppDimClass'], ['ppDimE'], ['ppDimGeo'], ['ppDimOther']].map(([k]) => HP.T(k)) }; });
+      await tapOrClick('#btnPresetPick'); await pg.waitForTimeout(80);
+      const s0 = await st();
+      o.order = s0.ids.join('/');
+      o.structOk = o.order === 'scale/cls/e/geo/other' && s0.rowsIn.every((n) => n === 1) && s0.btnIn.every(Boolean)
+        && s0.names.every((n, i) => n === sig0.dimT[i]);
+      o.defaultFolded = s0.open.every((x) => x === false) && s0.chipVis.every((v) => v === false) && s0.mem === null;
+      o.defaultSel = s0.sels.every((x) => x === sig0.all) && s0.selOn.every((x) => !x);
+      // 実タップで開く → 記憶
+      await tapOrClick('#ppFold_scale > summary'); await pg.waitForTimeout(60);
+      const s1 = await st();
+      o.openOk = s1.open[0] === true && s1.chipVis[0] === true && s1.chipVis.slice(1).every((v) => !v) && s1.open.slice(1).every((x) => !x) && /"scale":true/.test(s1.mem || '');
+      // 開いた次元でチップを実タップ(🌌 のスケール)→ 組み直しても開いたまま・要約行に選んだ語
+      const galTxt = await pg.evaluate(() => { const c = [...document.querySelectorAll('#ppFold_scale .ppChip')].find((x) => x.textContent.includes('🌌'));
+        c.id = 'w285eGal'; return c.textContent; });
+      await tapOrClick('#w285eGal'); await pg.waitForTimeout(60);
+      const s2 = await st();
+      o.pickOk = s2.open[0] === true && s2.sels[0] === galTxt && s2.selOn[0] && s2.rows < s0.rows && s2.rows > 0;
+      // 畳んでも選んだ語が残る・行数は同じ
+      await tapOrClick('#ppFold_scale > summary'); await pg.waitForTimeout(60);
+      const s3 = await st();
+      o.foldKeepsSel = s3.open[0] === false && s3.chipVis[0] === false && s3.sels[0] === galTxt && s3.selOn[0] && s3.rows === s2.rows
+        && !/"scale":true/.test(s3.mem || '');
+      // 「その他」で 2 つ(畳んだままの DOM の click —— 実タップは開いた状態でしか届かないので、ここは語の検査だけ)
+      const two = await pg.evaluate(async () => { const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        ppScale = 'all'; showPresetPicker(true); await wait(20);
+        const chip = (k) => [...document.querySelectorAll('#ppOtherRow .ppChip')].find((c) => c.dataset.v === k);
+        chip('pinned').click(); await wait(20); chip('obsCard').click(); await wait(20);
+        const sv = document.querySelector('#ppFold_other > summary .ppFoldSel');
+        return { text: sv.textContent, on: sv.dataset.on === '1', want: HP.T('ppOther_obsCard') + ' ∧ ' + HP.T('ppOther_pinned'), sel: ppOther.join(',') }; });
+      o.twoOk = two.text === two.want && two.on && two.sel === 'obsCard,pinned';
+      o.two = two.text;
+      // 窓を開き直すと記憶どおり(開いた次元だけが開く)
+      await tapOrClick('#ppFold_other > summary'); await pg.waitForTimeout(60);
+      await pg.evaluate(() => { hidePresetPicker(); showPresetPicker(); });
+      await pg.waitForTimeout(40);
+      const s4 = await st();
+      o.reopenOk = s4.open.join(',') === 'false,false,false,false,true' && /"other":true/.test(s4.mem || '') && s4.sels[4] === two.text;
+      // 全部開いて画面内
+      await pg.evaluate(() => { ppOther = []; for (const d of document.querySelectorAll('#ppFolds > details.ppFold')) d.open = true; });
+      await pg.waitForTimeout(60);
+      const lay = await pg.evaluate(() => {
+        const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
+        const els = [...document.querySelectorAll('#ppFolds .ppFoldSum, #ppFolds .ppChip')];
+        return { inView: box.left >= -0.5 && box.right <= innerWidth + 0.5
+          && els.every((e) => { const q = e.getBoundingClientRect(); return e.checkVisibility() && q.width > 0 && q.left >= box.left - 0.5 && q.right <= box.right + 0.5; }),
+        n: els.length, docX: document.documentElement.scrollWidth - innerWidth };
+      });
+      o.inView = lay.inView; o.docX = lay.docX;
+      // en
+      const en = await pg.evaluate(async () => { const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        hidePresetPicker(); HP.setLang('en'); showPresetPicker(); await wait(30);
+        const nm = [...document.querySelectorAll('#ppFolds .ppFoldName')].map((x) => x.textContent);
+        const sv = document.querySelector('#ppFold_other > summary .ppFoldSel').textContent;
+        const r = { nm, sv, ok: nm[4] === HP.T('ppDimOther') && nm[4] === 'Other' && sv === HP.T('grpAll') };
+        hidePresetPicker(); HP.setLang('ja'); return r; });
+      o.enOk = en.ok;
+      const s5 = await pg.evaluate(() => { ppFold = {}; ppOther = []; ppScale = 'all'; ppSearch = '';
+        return { sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+          par: JSON.stringify(HP.sim.params) }; });
+      o.sigSame = s5.sig === sig0.sig; o.parSame = s5.par === sig0.par;
+      // 記憶が壊れている/Storage が投げる状態で再読込
+      await pg.evaluate(() => { try { localStorage.setItem('hp_pick_fold', '{bad'); } catch (_) {} });
+      await pg.reload({ waitUntil: 'load' }); await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      const bad1 = await pg.evaluate(() => { showPresetPicker(); const f = [...document.querySelectorAll('#ppFolds > details.ppFold')];
+        const r = f.length === 5 && f.every((d) => !d.open); hidePresetPicker(); return r; });
+      // Storage が投げる状態(読み込み後に差し替える —— アプリ全体の起動は Storage 例外を前提にしていないので、畳みの読み書きだけを見る)
+      const bad2 = await pg.evaluate(async () => { const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+        const thr = () => { throw new Error('storage blocked'); };
+        const keep = [Storage.prototype.getItem, Storage.prototype.setItem, Storage.prototype.removeItem];
+        Storage.prototype.getItem = thr; Storage.prototype.setItem = thr; Storage.prototype.removeItem = thr;
+        try {
+        showPresetPicker(); const f = [...document.querySelectorAll('#ppFolds > details.ppFold')];
+        const ok0 = f.length === 5 && f.every((d) => !d.open);
+        f[0].open = true; await wait(30);                          // toggle → 記憶の書き込みが投げても描画は続く
+        document.querySelector('#ppFold_scale .ppChip').click(); await wait(20);   // 組み直し
+        const ok1 = !!document.getElementById('ppFold_scale') && document.getElementById('ppFold_scale').open === true;
+        hidePresetPicker(); return ok0 && ok1;
+        } finally { [Storage.prototype.getItem, Storage.prototype.setItem, Storage.prototype.removeItem] = keep; } });
+      o.storageOk = bad1 && bad2;
+      o.errs = errs.slice(0, 2);
+      o.ok = o.structOk && o.defaultFolded && o.defaultSel && o.openOk && o.pickOk && o.foldKeepsSel && o.twoOk && o.reopenOk
+        && o.inView && o.docX <= 0 && o.enOk && o.sigSame && o.parSame && o.storageOk && errs.length === 0;
+      ff.push(o);
+      await ctx.close();
+    }
+    add('ui.pickerFilterFold', ff.every((o) => o.ok),
+      ff.map((o) => `${o.vp}: 並び ${o.order}・構造(各 details にチップ行 1・ⓘ ボタン)=${o.structOk}・既定は畳む(記憶なし)=${o.defaultFolded}・要約行「すべて」=${o.defaultSel}` +
+        `・実タップで開く+記憶=${o.openOk}・チップ実タップ後も開いたまま+要約行に語=${o.pickOk}・畳んでも語が残り行数同じ=${o.foldKeepsSel}` +
+        `・その他 2 語「${o.two}」=${o.twoOk}・開き直しで記憶どおり=${o.reopenOk}・全開で画面内=${o.inView}・横はみ出し ${o.docX}・en=${o.enOk}` +
+        `・壊れた記憶/Storage 例外でも描画=${o.storageOk}・presetSig/params 不変=${o.sigSame}/${o.parSame}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
+
+    // ---- ui.pickerOtherChips
+    const oc = [];
+    for (const vp of VPS) {
+      const { ctx, pg, errs } = await openVp(vp);
+      const r = await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+        const o = { bad: [] };
+        try { localStorage.removeItem('hp_pick_fold'); } catch (_) {}
+        ppFold = {}; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
+        HP.loadPreset('saturn', false);
+        const builtins = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+        const sig0 = builtins.map((p) => presetSig(p)).join('\u0001');
+        const par0 = JSON.stringify(HP.sim.params);
+        const sel0 = [...document.querySelectorAll('#presetSelect option')].map((x) => x.value).join(',');
+        // 独立の数え直し: 受理器を通した正規化後の宣言から(ページの PP_OTHER_AXES を使わない)
+        const KEYS = ['obsCard', 'pinned', 'multi', 'testParticle'];
+        const ROLE = { noGeodesic: 0, kF0: 1, dfm: 2, spaceMesh: 3 };
+        const ax = {}, qb = {};
+        for (const p of builtins) {
+          const v = validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!v.ok) { o.bad.push('reject:' + p.id); continue; }
+          const q = v.preset, bs = q.bodies || [];
+          ax[p.id] = { obsCard: Array.isArray(q.obsCard) && q.obsCard.length > 0, pinned: bs.some((b) => b.pinned === true),
+            multi: bs.some((b) => b.type !== 'single'), testParticle: bs.some((b) => b.testParticle === true) };
+          const gm = v.geoMode; qb[p.id] = (gm.mode === 1 && !gm.consistent) ? 2 : ROLE[gm.role];
+          for (const k of KEYS) if (ppOtherTest(k, p) !== ax[p.id][k]) o.bad.push('axis:' + k + ':' + p.id);
+        }
+        o.keysOk = PP_OTHER_AXES.map((a) => a.key).join(',') === KEYS.join(',');
+        o.nAll = KEYS.map((k) => builtins.filter((p) => ax[p.id] && ax[p.id][k]).length);
+        const visible = builtins.filter((p) => !catalogHidden(p) && !retiredHidden(p));
+        const cnt = (f) => visible.filter((p) => ax[p.id] && f(p)).length;
+        o.exp = KEYS.map((k) => cnt((p) => ax[p.id][k]));
+        showPresetPicker(); await wait(40);
+        const rows = () => document.querySelectorAll('#ppList .ppRow').length;
+        const chips = () => [...document.querySelectorAll('#ppOtherRow .ppChip')];
+        const chip = (k) => chips().find((c) => c.dataset.v === k);
+        o.labels = chips().map((c) => c.textContent);
+        o.labelsOk = chips().length === 5 && chips()[0].dataset.v === 'all' && chips()[0].textContent === HP.T('grpAll')
+          && KEYS.every((k, i) => chips()[i + 1].dataset.v === k && chips()[i + 1].textContent === HP.T('ppOther_' + k) + '(' + o.exp[i] + ')');
+        o.dataN = KEYS.map((k) => +chip(k).dataset.n);
+        o.countsOk = o.dataN.every((n, i) => n === o.exp[i]);
+        o.row0 = rows();
+        o.allOn0 = chip('all').dataset.on === '1';
+        // 1 つだけ → 件数と同じ行数 → 再タップで外れる
+        o.got = [];
+        for (const k of KEYS) {
+          chip(k).click(); await wait(20);
+          o.got.push(rows());
+          if (!(chip(k).dataset.on === '1' && chip('all').dataset.on !== '1' && chip(k).getAttribute('aria-pressed') === 'true')) o.bad.push('on:' + k);
+          chip(k).click(); await wait(20);
+          if (ppOther.length !== 0 || chip('all').dataset.on !== '1') o.bad.push('off:' + k);
+        }
+        o.singleOk = o.got.every((n, i) => n === o.exp[i]) && rows() === o.row0;
+        // 複数 AND
+        const and = async (ks) => { ppOther = []; showPresetPicker(true); await wait(20);
+          for (const k of ks) { chip(k).click(); await wait(20); }
+          return { ks: ks.join('∧'), got: rows(), exp: cnt((p) => ks.every((k) => ax[p.id][k])),
+            minSingle: Math.min(...ks.map((k) => o.exp[KEYS.indexOf(k)])) }; };
+        o.and = [await and(['obsCard', 'pinned']), await and(['pinned', 'multi']), await and(['obsCard', 'pinned', 'multi'])];
+        o.andOk = o.and.every((a) => a.got === a.exp && a.exp > 0 && a.exp < a.minSingle);
+        // 「すべて」で空へ
+        chip('all').click(); await wait(20);
+        o.clearOk = ppOther.length === 0 && rows() === o.row0 && chip('all').dataset.on === '1';
+        // geoPN との AND(期待 > 0 かつ単独より少ない最初の組)
+        let gAnd = null;
+        for (const k of KEYS) for (const g of [0, 1, 2, 3]) {
+          if (gAnd) break;
+          const e = cnt((p) => ax[p.id][k] && qb[p.id] === g);
+          if (e > 0 && e < o.exp[KEYS.indexOf(k)] && e < visible.filter((p) => qb[p.id] === g).length) gAnd = { k, g, exp: e };
+        }
+        if (gAnd) { ppOther = []; ppGeo = String(gAnd.g); showPresetPicker(true); await wait(20); chip(gAnd.k).click(); await wait(20);
+          gAnd.got = rows(); ppGeo = 'all'; ppOther = []; showPresetPicker(true); await wait(20); }
+        o.gAnd = gAnd;
+        // 分類との AND(較正 kF0 ∧ 固定)
+        { ppOther = []; ppClass = 'calibration:kf0'; showPresetPicker(true); await wait(20); chip('pinned').click(); await wait(20);
+          o.cAnd = { got: rows(), exp: cnt((p) => ax[p.id].pinned && ppClassMatch(p, 'calibration:kf0')),
+            only: cnt((p) => ppClassMatch(p, 'calibration:kf0')) };
+          ppClass = 'all'; ppOther = []; showPresetPicker(true); await wait(20); }
+        // 検索との AND(「saturn」∧ 試験粒子契約)
+        { chip('testParticle').click(); await wait(20);
+          const si = document.getElementById('ppSearch'); si.value = 'saturn'; si.dispatchEvent(new Event('input', { bubbles: true })); await wait(20);
+          const hit = (p) => { const q = 'saturn'; const en = (p.en && p.en.name) || '';
+            return (p.name || '').toLowerCase().includes(q) || en.toLowerCase().includes(q) || String(p.id).toLowerCase().includes(q) || (p.emoji || '').includes(q); };
+          o.sAnd = { got: rows(), exp: cnt((p) => ax[p.id].testParticle && hit(p)), only: o.exp[3] };
+          si.value = ''; si.dispatchEvent(new Event('input', { bubbles: true })); ppOther = []; ppSearch = ''; showPresetPicker(true); await wait(20); }
+        o.andDimOk = !!gAnd && gAnd.got === gAnd.exp
+          && o.cAnd.got === o.cAnd.exp && o.cAnd.exp > 0 && o.cAnd.exp < o.cAnd.only
+          && o.sAnd.got === o.sAnd.exp && o.sAnd.exp > 0 && o.sAnd.exp < o.sAnd.only;
+        // ⓘ の説明
+        document.getElementById('ppDimOtherBtn').click(); await wait(20);
+        const note = document.getElementById('ppOtherNote');
+        o.noteOk = !!note && !note.hidden && KEYS.every((k, i) => note.textContent.includes(HP.T('ppOther_' + k) + '(' + o.exp[i] + ')'));
+        document.getElementById('ppDimOtherBtn').click(); await wait(20);
+        hidePresetPicker();
+        o.selSame = [...document.querySelectorAll('#presetSelect option')].map((x) => x.value).join(',') === sel0;
+        o.sigSame = builtins.map((p) => presetSig(p)).join('\u0001') === sig0;
+        o.parSame = JSON.stringify(HP.sim.params) === par0;
+        return o;
+      });
+      r.vp = vp.name; r.errs = errs.slice(0, 2);
+      r.ok = r.bad.length === 0 && r.keysOk && r.labelsOk && r.countsOk && r.allOn0 && r.singleOk && r.andOk && r.clearOk && r.andDimOk
+        && r.noteOk && r.selSame && r.sigSame && r.parSame && errs.length === 0;
+      oc.push(r);
+      await ctx.close();
+    }
+    const c0 = oc[0];
+    add('ui.pickerOtherChips', oc.every((r) => r.ok),
+      `軸 obsCard/pinned/multi/testParticle(受理器の正規化後の宣言から独立に数え直し = ppOtherTest 全本一致): 全内蔵 ${c0.nAll && c0.nAll.join('/')}・一覧に出る本 ${c0.exp && c0.exp.join('/')} / ` +
+      oc.map((r) => `${r.vp}: チップ [${(r.labels || []).join('|')}]=${r.labelsOk}・件数 data-n ${r.dataN && r.dataN.join('/')}=${r.countsOk}・1 つだけの行数 ${r.got && r.got.join('/')}=${r.singleOk}` +
+        `・AND ${(r.and || []).map((a) => a.ks + ' ' + a.got + '=' + a.exp + '(<' + a.minSingle + ')').join(' ')}=${r.andOk}・「すべて」で解除=${r.clearOk}` +
+        `・geoPN AND ${r.gAnd ? r.gAnd.k + '∧geoPN' + r.gAnd.g + ' ' + r.gAnd.got + '=' + r.gAnd.exp : '—'}・分類 AND kF0∧pinned ${r.cAnd && r.cAnd.got}=${r.cAnd && r.cAnd.exp}(<${r.cAnd && r.cAnd.only})` +
+        `・検索 AND saturn∧testParticle ${r.sAnd && r.sAnd.got}=${r.sAnd && r.sAnd.exp}(<${r.sAnd && r.sAnd.only})=${r.andDimOk}・ⓘ 件数=${r.noteOk}・#presetSelect 不変=${r.selSame}` +
+        `・presetSig/params 不変=${r.sigSame}/${r.parSame}${r.bad.length ? '・NG ' + r.bad.slice(0, 4).join(' ') : ''}${r.errs.length ? '・JS ' + r.errs.join(' | ') : ''}`).join(' / '));
   }
 }
 
