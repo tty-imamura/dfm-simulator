@@ -4,13 +4,13 @@
   "wave": "第285便b",
   "target": "beta/index.html",
   "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T03:34:27.419Z",
+  "generatedAt": "2026-09-28T05:15:30.253Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 5091518,
     "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-    "mtime": "2026-09-28T02:32:01.406Z"
+    "mtime": "2026-09-28T03:59:10.854Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2732666,
-    "sha256": "ecc11f11873ed2e117fbf7636363496aa8d130f3f76f400a5a75699483533bca",
-    "mtime": "2026-09-28T03:29:51.450Z"
+    "bytes": 2765140,
+    "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
+    "mtime": "2026-09-28T05:10:31.970Z"
    }
   ],
   "code": [
@@ -117,7 +117,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "014bb41b6cb125d62a37e5e7ed755842c86e12b4cde6a03296b5969f61c489d5",
+    "stableSha256": "a44ee41e10139bd124cb56a125ff08bdba23f2c50b51b041b2baf1337fc281cc",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -145,7 +145,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "97cd8de9ec928783c70ed4b32720f56bf20767f28c10e171c023b0545a76697e",
+    "stableSha256": "16cb4ef4feabcc8b362fe0124d865f1be809c29a05fecf0066f1d125dbf92ff4",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -1841,9 +1841,9 @@
    "errors": 0
   },
   "base": {
-   "wallSec": 0.208,
+   "wallSec": 0.136,
    "errors": 0
   }
  },
- "elapsedS": 269.751
+ "elapsedS": 291.741
 }

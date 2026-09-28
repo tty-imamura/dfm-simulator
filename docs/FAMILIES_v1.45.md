@@ -628,7 +628,7 @@
 - **機構の最小試験**(ゲートに残す 1 点ずつ): コアの交換(殻のスピン移送) = `claim.bhcore-selfdrive`(bhCore) / 傾斜(コア軸の横倒しで Jz が機械ゼロ・減光は保つ) = `behavior.templates229`(bhCoreTilt) / 減光(暗いコアと明るい外層のコントラスト) = `claim.nebularotor-contrast`(nebulaRotor) / パワーボール(圧縮と軸仕事の経路) = `claim.starseed-powerball`(starSeed)。
 - **第284便b の写し** `tests/fixtures/retired-w284b.json`(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本(`galaxyMeshSpiralGeoToyLite` `psrDoubleABPN` `psrJ1757PN` `psrJ1946PN` `emAuditNewton` `psrDoubleABCF`)と、f=1 へ移した本の旧則(`psrDoubleABDFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.psrDoubleAB`・`behavior.w249a-pnResponse`・`behavior.compactForce`・`behavior.calibrationForecast`。
 - **第285便f の写し** `tests/fixtures/retired-w285f.json`(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(`psrJ1757CF`)と、f=1 へ移した本の旧則(`psrJ1757DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`・`behavior.w249a-pnResponse`・`behavior.jointCalProtocol`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 60 本): 凍結の写しを読む 2・再生成表の履歴 24・再生成表の現行 13・道具 4・表の外 17。QA 本体の出現数: darkrotor 138・bhCore 44・nebulaRotor 15・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 13・galaxyMeshSpiralGeoToyLite 24・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 33・psrDoubleABCF 13・psrJ1757CF 17。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 60 本): 凍結の写しを読む 2・再生成表の履歴 24・再生成表の現行 13・道具 4・表の外 17。QA 本体の出現数: darkrotor 138・bhCore 44・nebulaRotor 15・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 13・galaxyMeshSpiralGeoToyLite 24・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 34・psrDoubleABCF 13・psrJ1757CF 19。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|
