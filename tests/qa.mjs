@@ -38536,6 +38536,227 @@ if (!FAST) {
   }
 }
 
+// ---- 第286便e(原仮定者の裁定(第76報)⑦「『サンプルを選ぶ』の絞り込みは、あらかじめ絞り込み別にセパレータで分ける」・
+// ---- 第285便e の未解決「ⓘ ボタンの次元名が開いた状態で 2 回出る」): **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。
+// ---- 世代判定は html の `className="ppDimName"` —— root 等では自動 SKIP。viewport は 360×640(isMobile・タッチ)と PC 1280×800。
+// ----   ui.pickerSeparators … 絞り込み 5 次元(スケール/分類/E水準/geoPN/その他)が**畳んだ状態でも開いた状態でも**次元ごとの
+// ----     行として縦に並び(次の行の上端 ≥ 前の行の下端・各行は #ppFolds の幅いっぱい)、各行の上辺に見える区切り線
+// ----     (border-top の幅 > 0・style ≠ none・色の不透明度 > 0)と、その区切りの見出し(要約行の左端の次元名 .ppFoldName ——
+// ----     T の語・見える・選んだ語の札より左)がある / 件数 data-n(details の属性)= 次元の選択肢の数(「すべて」を除くチップの数)
+// ----     で、**この場で独立に**数えた数(スケールは SCALE_TIERS・分類 5・E水準は EMERGENCE_LEVELS・geoPN 4・その他 4)と一致 /
+// ----     開いた状態: 見出し(要約行)の下端 ≤ 最初のチップの上端(チップ群の前に見出し)・ⓘ ボタンは見えて、その中の次元名
+// ----     (.ppDimName)は見た目から外れている(1×1 以下)が textContent・読み上げ名は「次元名 ⓘ」のまま / **見えている次元名は
+// ----     各次元 1 つだけ**(畳み・開きの両方 —— 旧は開くと 2 つ)/ 実タップ(PC は実クリック)で見出しの語を押すと開く /
+// ----     箱の内側・文書の横はみ出し 0 / en の見出し / 隠し #presetSelect・presetSig・params 不変 / JS エラー 0。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/className="ppDimName"/.test(html)) {
+    console.log('SKIP ui.pickerSeparators(対象に第286便e の絞り込みのセパレータなし — root 等)');
+  } else {
+    const VPS = [{ name: 'Mobile-360x640', width: 360, height: 640, mobile: true },
+      { name: 'PC-1280x800', width: 1280, height: 800, mobile: false }];
+    const sp = [];
+    for (const vp of VPS) {
+      const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.mobile, hasTouch: vp.mobile });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      pg.on('dialog', (d) => d.accept());
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      await pg.evaluate(() => HP.setLang('ja'));
+      const o = { vp: vp.name, bad: [] };
+      const sig0 = await pg.evaluate(() => { try { localStorage.removeItem('hp_pick_fold'); } catch (_) {}
+        ppFold = {}; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
+        HP.loadPreset('saturn', false);
+        return { sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+          par: JSON.stringify(HP.sim.params), sel: [...document.querySelectorAll('#presetSelect option')].map((x) => x.value).join(',') }; });
+      // 採寸(状態ごと)。独立の期待件数: スケール = SCALE_TIERS・分類 5(原理実証/複合現象/現実較正 DFM/kF0/意味論表示)・
+      // E水準 = EMERGENCE_LEVELS・geoPN 4(0〜3)・その他 4(obsCard/pinned/multi/testParticle)
+      const measure = () => pg.evaluate(() => {
+        const DIM = [['scale', 'ppDimScale', HP.SCALE_TIERS.length], ['cls', 'ppDimClass', 5], ['e', 'ppDimE', HP.EMERGENCE_LEVELS.length],
+          ['geo', 'ppDimGeo', 4], ['other', 'ppDimOther', 4]];
+        const host = document.getElementById('ppFolds');
+        const hr = host.getBoundingClientRect();
+        const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
+        const f = [...host.querySelectorAll(':scope > details.ppFold')];
+        const alpha = (c) => { const m = /rgba?\(([^)]+)\)/.exec(c); if (!m) return 1; const v = m[1].split(',').map((x) => parseFloat(x)); return v.length > 3 ? v[3] : 1; };
+        const shown = (e) => { const q = e.getBoundingClientRect(); return e.checkVisibility() && q.width > 1 && q.height > 1; };
+        const ownText = (e) => [...e.childNodes].filter((n) => n.nodeType === 3).map((n) => n.textContent).join('').trim();
+        const rows = f.map((d, i) => {
+          const [key, tk, nExp] = DIM[i] || [];
+          const cs = getComputedStyle(d);
+          const r = d.getBoundingClientRect();
+          const sm = d.querySelector(':scope > summary');
+          const nm = sm && sm.querySelector('.ppFoldName'), sv = sm && sm.querySelector('.ppFoldSel');
+          const chips = [...d.querySelectorAll('.ppChip')];
+          const btn = d.querySelector('.ppDimBtn'), dn = btn && btn.querySelector('.ppDimName');
+          const name = HP.T(tk);
+          // 見えている次元名: 自分の文字がちょうど次元名の要素のうち見えているもの(ⓘ ボタンの .ppDimName を含めて数える)
+          const vis = [...d.querySelectorAll('*')].filter((e) => ownText(e) === name && shown(e)).length;
+          const q0 = chips.find((c) => shown(c));
+          const smR = sm.getBoundingClientRect();
+          return { key, keyOk: d.dataset.dim === key, open: d.open,
+            sep: parseFloat(cs.borderTopWidth) > 0 && cs.borderTopStyle !== 'none' && alpha(cs.borderTopColor) > 0,
+            head: !!nm && nm.textContent === name && shown(nm) && !!sv && nm.getBoundingClientRect().right <= sv.getBoundingClientRect().left + 0.5
+              && nm.getBoundingClientRect().top >= r.top - 0.5,
+            n: +d.dataset.n, nExp, nChips: chips.length - 1,
+            fullW: r.width >= hr.width - 1, top: r.top, bottom: r.bottom, left: r.left, right: r.right,
+            vis, headBeforeChips: d.open ? (!!q0 && smR.bottom <= q0.getBoundingClientRect().top + 0.5) : true,
+            btnOk: !d.open || (!!btn && shown(btn) && !!dn && dn.getBoundingClientRect().width <= 1 && dn.getBoundingClientRect().height <= 1
+              && btn.textContent === name + ' ⓘ'),
+            chipsVis: chips.some((c) => shown(c)) };
+        });
+        const stacked = rows.every((x, i) => i === 0 || x.top >= rows[i - 1].bottom - 0.5);
+        const inBox = rows.every((x) => x.left >= box.left - 0.5 && x.right <= box.right + 0.5)
+          && [...host.querySelectorAll('.ppFoldSum, .ppChip, .ppDimBtn')].filter((e) => e.checkVisibility())
+            .every((e) => { const q = e.getBoundingClientRect(); return q.left >= box.left - 0.5 && q.right <= box.right + 0.5; });
+        return { rows, stacked, inBox, h: Math.round(hr.height), docX: document.documentElement.scrollWidth - innerWidth,
+          order: f.map((d) => d.dataset.dim).join('/') };
+      });
+      const judge = (m, openWant) => m.order === 'scale/cls/e/geo/other' && m.rows.length === 5 && m.stacked && m.inBox && m.docX <= 0
+        && m.rows.every((x) => x.keyOk && x.sep && x.head && x.n === x.nExp && x.n === x.nChips && x.fullW && x.vis === 1
+          && x.headBeforeChips && x.btnOk && x.open === openWant && x.chipsVis === openWant);
+      await pg.evaluate(() => showPresetPicker()); await pg.waitForTimeout(60);
+      const m0 = await measure();
+      o.foldOk = judge(m0, false); o.hFold = m0.h; o.n = m0.rows.map((x) => x.n).join('/');
+      // 実タップで「分類」の見出しの語を押す → 開く
+      const tapSel = '#ppFold_cls > summary .ppFoldName';
+      if (vp.mobile) await pg.tap(tapSel); else await pg.click(tapSel);
+      await pg.waitForTimeout(60);
+      o.tapOk = await pg.evaluate(() => document.getElementById('ppFold_cls').open === true);
+      // 全部開く
+      await pg.evaluate(() => { for (const d of document.querySelectorAll('#ppFolds > details.ppFold')) d.open = true; });
+      await pg.waitForTimeout(60);
+      const m1 = await measure();
+      o.openOk = judge(m1, true); o.hOpen = m1.h; o.visOpen = m1.rows.map((x) => x.vis).join('/');
+      if (!o.foldOk) o.bad.push('fold:' + JSON.stringify(m0.rows.filter((x) => !(x.sep && x.head && x.n === x.nExp && x.vis === 1)).map((x) => x.key)) + ' stacked=' + m0.stacked + ' inBox=' + m0.inBox + ' docX=' + m0.docX);
+      if (!o.openOk) o.bad.push('open:' + JSON.stringify(m1.rows.filter((x) => !(x.sep && x.head && x.vis === 1 && x.headBeforeChips && x.btnOk)).map((x) => x.key)) + ' stacked=' + m1.stacked + ' inBox=' + m1.inBox + ' docX=' + m1.docX);
+      // en(開いたまま組み直す —— 開閉の記憶は hp_pick_fold)
+      await pg.evaluate(() => { hidePresetPicker(); HP.setLang('en'); showPresetPicker(); });
+      await pg.waitForTimeout(60);
+      const m2 = await measure();
+      o.enNames = await pg.evaluate(() => [...document.querySelectorAll('#ppFolds .ppFoldName')].map((x) => x.textContent).join('/'));
+      o.enOk = judge(m2, true) && o.enNames.split('/')[4] === 'Other';
+      const s1 = await pg.evaluate(() => { hidePresetPicker(); HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); } catch (_) {} ppFold = {};
+        return { sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+          par: JSON.stringify(HP.sim.params), sel: [...document.querySelectorAll('#presetSelect option')].map((x) => x.value).join(',') }; });
+      o.same = s1.sig === sig0.sig && s1.par === sig0.par && s1.sel === sig0.sel;
+      o.errs = errs.slice(0, 2);
+      o.ok = o.foldOk && o.tapOk && o.openOk && o.enOk && o.same && errs.length === 0;
+      sp.push(o);
+      await ctx.close();
+    }
+    add('ui.pickerSeparators', sp.every((o) => o.ok),
+      sp.map((o) => `${o.vp}: 畳んだ状態 5 行・区切り線+見出し・件数 data-n ${o.n}(独立の数え直しと一致)・見える次元名 各 1=${o.foldOk}(高さ ${o.hFold}px)` +
+        `・見出しの実タップで開く=${o.tapOk}・開いた状態 見出し→チップの順・ⓘ の次元名は見た目から外す・見える次元名 ${o.visOpen}=${o.openOk}(高さ ${o.hOpen}px)` +
+        `・en [${o.enNames}]=${o.enOk}・#presetSelect/presetSig/params 不変=${o.same}${o.bad.length ? '・NG ' + o.bad.join(' ; ') : ''}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
+  }
+}
+
+// ---- 第286便e(原仮定者の裁定(第76報)で閉じた AN40 の残り「loadSave も受理器へ・警告→拒否」):
+// ----   behavior.loadSaveBackgroundReject … セーブの physics.backgroundComplex(bgModel を含む)を loadSave が**プリセットと同じ受理器**
+// ----     (validateBackgroundComplex+bgSourcesBodyCheck・背景を読む接続 meshVelocity〔field:"backgroundComplex"〕の相互検査)に通す:
+// ----     ① 正当なセーブは開ける —— **実際の保存ボタン**(#btnSave → hp_saves の JSON)で作った 🪨 mercuryGeoToy3・charonGeoToy3
+// ----       (内蔵で背景を宣言する 2 本)と 🪐 saturn(宣言なし)のセーブが読め、背景は受理器の正規化後の宣言と一致(宣言なしは鍵なし)/
+// ----     ② 欠落と 0 と null を区別 —— 鍵なし=未宣言のまま・background:"zero"(W0:0)=宣言として残る・null=明示の未宣言(鍵なし)/
+// ----     ③ 不正なセーブは**拒否**(読込の中止 —— 現在の本・params・presetSig は 1 bit も変わらない・返り値 false・通知に受理器の文):
+// ----       W0 が NaN/Infinity(JSON で null)・負・文字列・欠落(background≠zero)/ bgModel が知らない型 / 知らない鍵(T)/ 配列・文字列 /
+// ----       sources の天体番号が bodies の外 / bgModel:null(微分が未確定)の背景を meshVelocity が読む / 背景を外して meshVelocity だけ残す /
+// ----     ④ 期待は受理器を**この場で**呼び直して作る(拒否の文 = validateBackgroundComplex か相互検査の文)/ JS エラー 0。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/function loadSaveBgcAccept\(/.test(html)) {
+    console.log('SKIP behavior.loadSaveBackgroundReject(対象に第286便e の loadSave の背景受理なし — root 等)');
+  } else {
+    const pg = await browser.newPage();
+    const errs = [];
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    pg.on('dialog', (d) => d.accept());
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+    const r = await pg.evaluate(async () => {
+      const o = { bad: [], acc: [], rej: [] };
+      const keep = localStorage.getItem('hp_saves');
+      localStorage.setItem('hp_saves', '[]');
+      const notice = () => (document.getElementById('notice') || {}).textContent || '';
+      const snap = () => ({ id: HP.currentPreset().id, par: JSON.stringify(HP.sim.params),
+        sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001') });
+      // ① 実際の保存ボタンで作ったセーブ
+      const saveVia = (pid) => { HP.loadPreset(pid, false); document.getElementById('saveName').value = 'qa_w286e_' + pid;
+        document.getElementById('btnSave').click(); return JSON.parse(localStorage.getItem('hp_saves') || '[]').find((s) => s.name === 'qa_w286e_' + pid); };
+      const decl = HP.allPresets().filter((p) => p.physics && p.physics.backgroundComplex !== undefined).map((p) => p.id).sort();
+      o.decl = decl.join(',');
+      const legit = {};
+      for (const pid of ['mercuryGeoToy3', 'charonGeoToy3', 'saturn']) {
+        const s = saveVia(pid);
+        if (!s) { o.bad.push('nosave:' + pid); continue; }
+        legit[pid] = JSON.parse(JSON.stringify(s));
+        HP.loadPreset('gas', false);
+        const ok = HP.loadSaveItem(JSON.parse(JSON.stringify(s)), 'x');
+        const want = (() => { const b = s.physics.backgroundComplex; if (b === undefined) return undefined;
+          const v = validateBackgroundComplex(b); return v.ok ? v.backgroundComplex : 'REJECT'; })();
+        const got = HP.sim.params.backgroundComplex;
+        const pass = ok === true && HP.currentPreset().id === pid && JSON.stringify(got) === JSON.stringify(want)
+          && (want === undefined ? !('backgroundComplex' in s.physics) : typeof want === 'object');
+        o.acc.push(pid + ':' + (want === undefined ? '鍵なし' : 'W0=' + want.W0) + '=' + pass);
+        if (!pass) o.bad.push('legit:' + pid);
+      }
+      // ② 欠落・0・null の区別(saturn の正当なセーブから)
+      const variant = (base, f) => { const s = JSON.parse(JSON.stringify(base)); f(s.physics); return JSON.parse(JSON.stringify(s)); };
+      const accept = (label, s, check) => { HP.loadPreset('gas', false); const ok = HP.loadSaveItem(s, 'x');
+        const pass = ok === true && HP.currentPreset().id === s.presetId && check(HP.sim.params);
+        o.acc.push(label + '=' + pass); if (!pass) o.bad.push('acc:' + label); };
+      const sat = legit.saturn, mer = legit.mercuryGeoToy3;
+      if (sat && mer) {
+        accept('欠落', variant(sat, (ph) => { delete ph.backgroundComplex; }), (P) => P.backgroundComplex === undefined);
+        accept('zero(W0:0)', variant(sat, (ph) => { ph.backgroundComplex = { background: 'zero', W0: 0 }; }),
+          (P) => !!P.backgroundComplex && P.backgroundComplex.W0 === 0 && P.backgroundComplex.background === 'zero');
+        accept('null', variant(sat, (ph) => { ph.backgroundComplex = null; }), (P) => P.backgroundComplex === undefined);
+        // ③ 拒否
+        const zz = { background: 'declared', note: 'qa', W0: 1, A0: [0, 0], gradW: [0, 0], gradA: [0, 0, 0, 0], dWdt: 0, dAdt: [0, 0] };
+        const REJ = [
+          ['W0=NaN', variant(mer, (ph) => { ph.backgroundComplex.W0 = NaN; })],
+          ['W0=Infinity', variant(mer, (ph) => { ph.backgroundComplex.W0 = Infinity; })],
+          ['W0=-1', variant(sat, (ph) => { ph.backgroundComplex = Object.assign({}, zz, { W0: -1 }); })],
+          ['W0="1"', variant(sat, (ph) => { ph.backgroundComplex = Object.assign({}, zz, { W0: '1' }); })],
+          ['W0 欠落', variant(sat, (ph) => { const b = Object.assign({}, zz); delete b.W0; ph.backgroundComplex = b; })],
+          ['bgModel 不明', variant(sat, (ph) => { ph.backgroundComplex = Object.assign({}, zz, { bgModel: 'bogus' }); })],
+          ['知らない鍵 T', variant(sat, (ph) => { ph.backgroundComplex = Object.assign({}, zz, { T: [1, 0, 0, 1] }); })],
+          ['配列', variant(sat, (ph) => { ph.backgroundComplex = [1, 2]; })],
+          ['文字列', variant(sat, (ph) => { ph.backgroundComplex = 'zero'; })],
+          ['sources の天体番号が外', variant(mer, (ph) => { ph.backgroundComplex.sources = [{ id: 'body:99', kind: 'body', excludedExplicit: false }]; })],
+          ['bgModel:null を meshVelocity が読む', variant(mer, (ph) => { const b = ph.backgroundComplex;
+            ph.backgroundComplex = { background: b.background, note: b.note, W0: b.W0, A0: b.A0, bgModel: null, sources: b.sources, frame: b.frame }; })],
+          ['背景を外して meshVelocity だけ', variant(mer, (ph) => { ph.backgroundComplex = null; })],
+        ];
+        for (const [label, s] of REJ) {
+          HP.loadPreset('gas', false);
+          const before = snap();
+          const want = loadSaveBgcAccept(s, HP.allPresets().find((p) => p.id === s.presetId));
+          // 期待の文は受理器をこの場で呼び直して作る(背景そのものの拒否は validateBackgroundComplex の文)
+          const vb = (s.physics.backgroundComplex === undefined) ? { ok: true } : validateBackgroundComplex(s.physics.backgroundComplex);
+          const ok = HP.loadSaveItem(s, 'x');
+          const after = snap();
+          const msg = notice();
+          const pass = ok === false && want.ok === false && after.id === before.id && after.par === before.par && after.sig === before.sig
+            && msg.includes(want.err) && (vb.ok || want.err === vb.err);
+          o.rej.push(label + '=' + pass);
+          if (!pass) o.bad.push('rej:' + label + ':' + String(want.err).slice(0, 60));
+        }
+      } else o.bad.push('legit saves missing');
+      if (keep === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', keep);
+      HP.loadPreset('saturn', false);
+      return o;
+    });
+    await pg.close();
+    add('behavior.loadSaveBackgroundReject', r.bad.length === 0 && errs.length === 0 && r.decl === 'charonGeoToy3,mercuryGeoToy3',
+      `内蔵で背景を宣言する本 ${r.decl} / 受理(実際の保存ボタンで作ったセーブ・欠落/0/null の区別): ${r.acc.join('・')} / ` +
+      `拒否(読込の中止 —— 現在の本・params・presetSig 不変・通知に受理器の文): ${r.rej.join('・')}` +
+      `${r.bad.length ? ' / NG ' + r.bad.slice(0, 5).join(' ; ') : ''}${errs.length ? ' / JS ' + errs.slice(0, 2).join(' | ') : ''}`);
+  }
+}
+
 // ---- 第282便e(原仮定者の裁定(第72報)⑦「ワンタップ対照のボタンを A/B比較のラベルの下に配置」・統括の検証項目 R82):
 // ---- ui.abQuickPlacement —— **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。世代判定: beta 線は常に走らせ、
 // ---- root 等は html の h3#abHead の直下に #abQuickRow があるときだけ走らせる(v1.44 の root は旧配置なので SKIP)。
@@ -40270,7 +40491,10 @@ if (!FAST) {
       const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
       const au = A.auditTokenSites(html, /\b(BG_COMPLEX_[A-Z_]+|validateBackgroundComplex|backgroundComplex)\b/g,
         // 第283便d: 背景複素決定力の欄(#bgcPanel)は宣言の**表示と編集**だけ(力学の読み口ではない)—— 統合時に許可へ
-        ['(top-level)', 'validateBackgroundComplex', 'validatePreset', 'meshVelocityPrepare', 'bgcState', 'bgcApply', 'buildBgComplexPanel']);
+        // 第286便e(AN40 の残り): セーブの読込 loadSave とその受理 loadSaveBgcAccept は宣言を**受理器に通して**置き直すだけ
+        // (力学の読み口ではない —— 読むのは従来どおり meshVelocityPrepare だけ)。名指しで許可へ(他の関数は従来どおり違反)
+        ['(top-level)', 'validateBackgroundComplex', 'validatePreset', 'meshVelocityPrepare', 'bgcState', 'bgcApply', 'buildBgComplexPanel',
+          'loadSave', 'loadSaveBgcAccept']);
       if (!au.selfCheck.ok) bad.push('⑦ 潰しの自己検査が通らない');
       if (au.outsideAllowed.length) bad.push('⑦ 検証器と宣言した外部ステップの外から背景鍵が読まれている: ' + au.outsideAllowed.join(','));
       const st = A.stripJs(html);

@@ -267,7 +267,9 @@ const BGC_READERS = HAS_BGLAW ? ['meshVelocityPrepare', 'bgLawPrepare'] : ['mesh
 // 第283便d: 背景複素決定力の欄(#bgcPanel)は宣言の表示と編集だけ(力学の読み口ではない)—— 受理契約の外ではなく UI として許可
 // 第286便c: 接続の読み口 `bgcWireState`(表示だけ —— 法則版の宣言を表の状態チップに出す)も UI として許可
 const BGC_UI = ['bgcState', 'bgcApply', 'buildBgComplexPanel'].concat(HAS_BGLAW ? ['bgcWireState'] : []);
-const BGC_ALLOWED = ['(top-level)', 'validateBackgroundComplex', 'validatePreset'].concat(BGC_READERS, BGC_UI);
+// 第286便e(AN40 の残り): セーブの読込 loadSave とその受理 loadSaveBgcAccept —— 宣言を受理器に通して置き直すだけ(力学の読み口は従来どおり meshVelocityPrepare だけ)
+const BGC_LOAD = ['loadSave', 'loadSaveBgcAccept'];
+const BGC_ALLOWED = ['(top-level)', 'validateBackgroundComplex', 'validatePreset'].concat(BGC_READERS, BGC_UI, BGC_LOAD);
 const bgcOutside = bgcFns.filter((f) => BGC_ALLOWED.indexOf(f) < 0);
 const bgcReadersFound = BGC_READERS.filter((f) => bgcFns.indexOf(f) >= 0);   // 第286便c: 宣言の並びで(比較は並びごと)
 let bgcGuard = null;
