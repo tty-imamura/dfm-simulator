@@ -5517,7 +5517,8 @@ if (QA_CHANGED) {
       // ⑥
       const R = J.retired || {};
       // 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本を足して 13 本(世代切替 —— RETIRED_PRESETS に 🪶 の行)
-      const nRet = html.indexOf('  psrDoubleABPN:{ja:') >= 0 ? 13 : 7;
+      // 第285便f(原仮定者の裁定(第75報)AN24′): 🪄 psrJ1757CF の退役で 14(世代切替は html の RETIRED_PRESETS の行で読む)
+      const nRet = html.indexOf('  psrJ1757CF:{ja:') >= 0 ? 14 : html.indexOf('  psrDoubleABPN:{ja:') >= 0 ? 13 : 7;
       if (!(Array.isArray(R.presets) && R.presets.length === nRet)) bad.push(`⑥退役の棚卸しが ${nRet} 本でない`);
       for (const p of R.presets || []) {
         if (!p.inBuiltin || !p.retired) bad.push(`⑥${p.id}: 内蔵に無い/退役の印が無い`);
@@ -18148,6 +18149,8 @@ if (!FAST) {
               if (gen === 'w285f-1') {
                 nNew++;
                 if (!(h.targetTime && h2.targetTime && h.targetTime.tBaseSteps === h2.targetTime.tBaseSteps)) off.push(p.id + (p.kf0Diagnostic ? '(kF0)' : '') + ': T');
+                // 統括(第285便 統合): 軌道窓で止まる段は必要近点で終わる —— 物理時間は近点検出の刻み分だけ dt と dt/2 で違う(✴️💫 の DFM 版で 7 s・27 s / 1.5e5 s)ので近点数で照合
+                else if (h.boundBy === 'orbit-window' || h2.boundBy === 'orbit-window') { if (JSON.stringify(h.periFoundA || []) !== JSON.stringify(h2.periFoundA || [])) off.push(p.id + ': 近点 ' + (h.periFoundA || []).join('/') + ' / ' + (h2.periFoundA || []).join('/')); }
                 else if (!h2.resourceExceeded && Math.abs(h2.stepsRun * h2.dt - h.stepsRun * h.dt) > 2 * h.dt) off.push(p.id + ': 物理時間 ' + (h.stepsRun * h.dt) + ' / ' + (h2.stepsRun * h2.dt));
                 if (h.boundBy === 'declared-max-steps') winTxt.push(`${p.id} h ${(h.periFoundA || []).join('/')}・h/2 ${(h2.periFoundA || []).join('/')} 近点`);
               } else if (Math.abs(h2.stepsRun * h2.dt - h.stepsRun * h.dt) > 2 * h.dt) { nOld++; winTxt.push(`${p.id} h ${(h.periFoundA || []).join('/')}・h/2 ${(h2.periFoundA || []).join('/')} 近点(窓が違う)`); }
@@ -18813,7 +18816,9 @@ if (!FAST) {
         if (!(moon && moon.heavyBase === 41 && moon.heavyNow === 1 && moon.raysDiffering > 0)) bad.push('🌚 の重い天体 41→1・光線の変化 ' + JSON.stringify(moon));
         // 第284便b(原仮定者の裁定(第74報)⑤・AN24′): ⚡ psrDoubleABDFM は f=1 署名で質量が観測値に変わった(光線の源の質量が変わる —— lens 除外の話ではない)
         const W284R = /\{ id:"psrDoubleABDFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
-        const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id).filter((id) => !(W284R && id === 'psrDoubleABDFM'));
+        // 第285便f(原仮定者の裁定(第75報)AN24′): 🧮 psrJ1757DFM も f=1(観測質量)—— 質量が変わったので光線の扇が基点と違う(lens 除外の規則は不変)
+        const W285F = /\{ id:"psrJ1757DFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+        const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id).filter((id) => !(W284R && id === 'psrDoubleABDFM') && !(W285F && id === 'psrJ1757DFM'));
         if (diff.length) bad.push('🌚 以外で光線が変わった本 ' + diff.slice(0, 4).join(','));
         if (news.join(',') !== 'clusterAnalogyBH') bad.push('基点に無い本 ' + news.join(','));
         const c = R.cluster;
@@ -18899,7 +18904,12 @@ if (!FAST) {
         if (acc.some((x) => x !== false)) bad.push('ページの受理器(fusion 併用・不正値・particleRadius 0 を拒否)' + JSON.stringify(acc));
         // 1 步の比較・拘束の記帳・適用表
         const O = JC.oneStep;
-        if (!(O.n === 142 && O.differSubsetOfDeclared === true && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
+        // 統括(第285便 統合): 同便の b(EIH 型 1PN —— 自由な 1PN 源を持つ kF0 の本 12)と f(🧮 f=1)が 1 步の結果を変えた本は宣言の外でよい
+        //   (正本は事実のまま differSubsetOfDeclared:false を記録する —— 基点 b92ffa1 と現行の差のうち contactMode 由来はこの集合の外)
+        const OTHER285 = new Set(['earthMoonReal', 'emAuditNewton', 'emAuditSolar', 'earthMoonDiagOne', 'plutoCharonDFM', 'plutoCharonKF0Control', 'plutoCharonDiagInput',
+          'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'psrB1534', 'binary', 'psrJ1757DFM']);
+        const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
+        if (!(O.n === 142 && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
         if (!(C.pinned.centerMoved === 0 && C.pinned.relDPfree > 1e-3 && C.free.relDPtotal < 1e-5)) bad.push('拘束の反作用の記帳 ' + JSON.stringify(C).slice(0, 160));
         if (JSON.stringify(JC.apply.map((a) => a.id)) !== JSON.stringify(EC.APPLIED.map((a) => a.id))) bad.push('適用表の並びが器の APPLIED と違う');
@@ -18919,7 +18929,7 @@ if (!FAST) {
           const body = psec.split('**言わないこと。**')[0];
           for (const re of NG) if (re.test(body)) bad.push('禁止の言い回し ' + re.source);
         }
-        cases.push(`正本: 1 步 ${O.identical}/${O.n} 一致(違う本 ${O.differ.length} ⊆ 宣言 ${O.declared.length})・拘束の記帳 ΔP_free/|P| ${C.pinned.relDPfree.toExponential(2)}(中心 固定)vs 自由 ${C.free.relDPtotal.toExponential(2)}・`
+        cases.push(`正本: 1 步 ${O.identical}/${O.n} 一致(違う本 ${O.differ.length} = 宣言 ${O.differ.length - extra285.length}+同便の他枝 ${extra285.length})・拘束の記帳 ΔP_free/|P| ${C.pinned.relDPfree.toExponential(2)}(中心 固定)vs 自由 ${C.free.relDPtotal.toExponential(2)}・`
           + `力学が変わる本 ${changed.length}(${changed.join(',')})・💍💿 ${R && R.table ? R.table.map((t) => t.emoji + ' ' + t.nChanged + '/' + t.nQuantities).join(' ') : '—'}`);
       }
       add('behavior.contactMode', bad.length === 0,
@@ -58050,7 +58060,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const inc = J.F.grid.map((z) => z.incB);
       if (!(Math.max(...inc) / Math.min(...inc) - 1 <= 1e-4)) bad.push('② 水星の λ 増分が ε・dt で動く');
       const G = J.G;
-      if (!(G.changedNotEih.length === 0 && G.sigSame === G.n)) bad.push(`② EIH の本以外の差 ${G.changedNotEih.join(',')}・署名 ${G.sigSame}/${G.n}`);
+      // 統括(第285便 統合): 同便の a(💫 galaxyGeo2 の接触契約・💍💿 の宣言)と f(🧮 f=1)が変えた本と署名は EIH の外でよい(正本は事実のまま記録)
+      const OTHER285B = ['galaxyGeo2', 'psrJ1757DFM'], SIG285B = OTHER285B.concat(['saturnRingReal', 'saturnRingRealKF1']);
+      const notEih285 = G.changedNotEih.filter((id) => !OTHER285B.includes(id));
+      const sigOff285 = (G.rows || []).filter((r) => !r.sigSame && !SIG285B.includes(r.id)).map((r) => r.id);
+      if (!(notEih285.length === 0 && sigOff285.length === 0)) bad.push(`② EIH の本以外の差 ${notEih285.join(',')}・署名の差 ${sigOff285.join(',')}(${G.sigSame}/${G.n})`);
       cases.push(`基点 ${A.reproBase.q1e4.toFixed(4)}・${A.reproBase.q1.toFixed(4)} → 現行 ${A.now.q1e4.toFixed(5)}・${A.now.q1.toFixed(5)}・前後 ${G.bitSame128}/${G.n}`);
       const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
       const i0 = P.indexOf('\n〔第285便b — '), i7 = P.indexOf('\n## 7. ');
