@@ -4,7 +4,7 @@
   "wave": "第285便a",
   "target": "beta/index.html",
   "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T03:12:56.525Z",
+  "generatedAt": "2026-09-28T03:47:51.243Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -14,9 +14,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2732695,
-    "sha256": "d7bf04a219b09c040abe396cc401860a395bae0e4a2bec2e2b3a2177d1282709",
-    "mtime": "2026-09-28T02:31:58.178Z"
+    "bytes": 2732666,
+    "sha256": "ecc11f11873ed2e117fbf7636363496aa8d130f3f76f400a5a75699483533bca",
+    "mtime": "2026-09-28T03:29:51.450Z"
    }
   ],
   "code": [
@@ -132,7 +132,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "f770a172aeafdbe1cc3c47dd542208fce4d5b518aea665ae67552e018958fcee",
+    "stableSha256": "014bb41b6cb125d62a37e5e7ed755842c86e12b4cde6a03296b5969f61c489d5",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "02a218d31c71d9ab000ee9b53fe83e36ebbe72fdffbf508ffecf081f329a8812",
+    "stableSha256": "97cd8de9ec928783c70ed4b32720f56bf20767f28c10e171c023b0545a76697e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -1622,10 +1622,9 @@
    "targetSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0"
   },
   "after": {
-   "source": "fresh-run",
-   "cmd": "node tests/exp-w249b-calaudit.mjs --only saturnRingReal,saturnRingRealKF1(W249_OUT は一時ファイル)",
-   "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-   "why": "正本 calaudit-w249.json がいまの html の世代でない(鎖の再生成の前)"
+   "source": "canon",
+   "file": "tests/out/calaudit-w249.json",
+   "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5"
   },
   "table": [
    {
@@ -1827,7 +1826,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 77.494,
+      "wallSec": 78.254,
       "tags": [
        "dt"
       ],
@@ -2066,7 +2065,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 18.7,
+      "wallSec": 18.843,
       "tags": [
        "dt"
       ],
@@ -2077,5 +2076,5 @@
   ],
   "note": null
  },
- "elapsedS": 294.06
+ "elapsedS": 188.444
 }
