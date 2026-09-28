@@ -288,10 +288,10 @@ export const REGEN_STEPS = [
   //   単独(exclusive)・samplestatus(html 全体の後段 —— AN53)の前。領域に時刻・sha を入れない(正本の値が変わったときだけ html が動く)。
   //   常時群には入れない(入力 calaudit の安定 hash と領域 hash で判定 —— 常時群の契約〔lint.regenScope ③〕は変えない)。
   //   所要は第285便d の枝の実測(器の elapsedS 2.0〜2.9 s —— Chromium 1 本・領域 hash の headless 読み込みを含む)
-  S('obscompare', 'node tests/exp-w285d-obscompare.mjs && node tests/exp-w285d-obscompare.mjs --check', ['tests/out/obscompare-w285d.json'], 3, { after: ['kf0'],
+  S('obscompare', 'node tests/exp-w285d-obscompare.mjs && node tests/exp-w285d-obscompare.mjs --check', ['tests/out/obscompare-w285d.json'], 3, { after: ['kf0', 'pn1'],
     secSource: 'w285d-branch', exclusive: true, touches: ['beta/index.html'],
     volatilePaths: { 'tests/out/obscompare-w285d.json': META_RUN.concat(['/elapsedS']) },
-    note: '第285便d: 正本の量ごとの行の転記(判定しない)。枝 b の診断正本 tests/out/pn1-w285b.json があれば obsCompareRows を λ_PN=0 の対照として足す(統合時に b の段を after へ)' }),
+    note: '第285便d: 正本の量ごとの行の転記(判定しない)。枝 b の診断正本 tests/out/pn1-w285b.json があれば obsCompareRows を λ_PN=0 の対照として足す(統合で b の段 pn1 を after に入れた —— 第285便の鎖 2 で pn1 の前に走り check-order が順序違反を出した)' }),
   S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin', 'obscompare'],
     exclusive: true, touches: ['beta/index.html', 'docs/SAMPLE_STATUS_v1.45.md'] }),
   S('mercury', 'node tests/exp-w280a-mercury.mjs', ['tests/out/mercury-w280a.json'], 284, { secSource: 'w281a-chain', alwaysRun: true, after: ['kf0'] }),
