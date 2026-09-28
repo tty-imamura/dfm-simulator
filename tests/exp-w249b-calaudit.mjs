@@ -915,7 +915,8 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
   window.__w249engineFp = () => {
     const src = (f) => (typeof f === 'function') ? f.toString() : '';
     const names = ['pairCorePlain', 'pairCorePN', 'geoCoreDispatch', 'chanSetup', 'pairChannelOm', 'pairChannelGrad',
-      'dfmTestParticleCore', 'dfmTestParticleStep', 'testParticlePrepare'];
+      'dfmTestParticleCore', 'dfmTestParticleStep', 'testParticlePrepare',
+      'dfmPN1Delta', 'dfmPN1EIHKick'];   // 第285便b: kF0 の 1PN(EIH 型の差分 —— _core の外)
     const engine = [src(HP.sim._core), src(HP.sim.step)].concat(names.map((n) => src(window[n]))).join('\n/*--*/\n');
     let laws = 'null';
     try { laws = JSON.stringify(LAWS); } catch (e) { /* 旧版 html */ }

@@ -1,0 +1,1818 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第285便b",
+  "target": "beta/index.html",
+  "targetSha256": "ffee4cce83e0c748b5c5fe51138733333cf79746e1dcc54714305d9704f16812",
+  "generatedAt": "2026-09-27T23:36:00.575Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4924594,
+    "sha256": "ffee4cce83e0c748b5c5fe51138733333cf79746e1dcc54714305d9704f16812",
+    "mtime": "2026-09-27T23:20:27.161Z"
+   },
+   {
+    "file": "tests/exp-w249b-calaudit.mjs",
+    "bytes": 340664,
+    "sha256": "8076ca18110847ef1eaa767ed459d0cbbf63e8ad4a2431c36ee86ca93d120007",
+    "mtime": "2026-09-27T23:15:35.810Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2673043,
+    "sha256": "5d162b88475b704fd764dbaded94e789992d2ae8a00d83d1f94c56723710bb97",
+    "mtime": "2026-09-27T22:04:58.573Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w285b-pn1.mjs",
+    "bytes": 34914,
+    "sha256": "1b1bc287ac612a14bfc37f1468501cccc63f4eb4f2d513ae8afedf2f50c813c6",
+    "mtime": "2026-09-27T23:12:27.452Z"
+   },
+   {
+    "file": "tests/lib-w285b-gr1pn.mjs",
+    "bytes": 19379,
+    "sha256": "b20018afa5df7c5fd3dbceaac111507faf52e5be7ec6c708bdb4a6d3a3031332",
+    "mtime": "2026-09-27T23:20:44.788Z"
+   },
+   {
+    "file": "tests/lib-w282b-geo1.mjs",
+    "bytes": 19581,
+    "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
+    "mtime": "2026-09-27T22:04:58.533Z"
+   },
+   {
+    "file": "tests/lib-w280c-geo3.mjs",
+    "bytes": 5394,
+    "sha256": "720a78b1243add6a208a29df1896e052cc32f10315ef0957d87471685dbe5ec3",
+    "mtime": "2026-09-27T22:04:58.529Z"
+   },
+   {
+    "file": "tests/lib-w283a-geomode.mjs",
+    "bytes": 8878,
+    "sha256": "f90c47a27a7a9a2746b29e6f6edc5f54e47d21b0516bc97e62f8d1f5ae37d647",
+    "mtime": "2026-09-27T22:04:58.533Z"
+   },
+   {
+    "file": "tests/lib-w280a-mercury.mjs",
+    "bytes": 9579,
+    "sha256": "a0071d7615a287dda2d94b462b48c73369eb0f79e6fbd834541795bf5f9665af",
+    "mtime": "2026-09-27T22:04:58.525Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-27T22:04:58.525Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-27T22:04:58.513Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-27T22:04:58.529Z"
+   }
+  ],
+  "codeSha256": "f92a0f682252acb40e4219a02161840ae8331ddad2bee50d4e95649e781a8b99",
+  "scope": {
+   "version": "w283e-scope-3",
+   "presets": "all",
+   "roots": [
+    "DT",
+    "GEO_CORE_PN",
+    "GEO_MODE_VERSION",
+    "HP.allPresets",
+    "HP.coreState",
+    "HP.loadPreset",
+    "HP.sim",
+    "HP.validatePreset",
+    "PN1_CONTRACT",
+    "PN1_EIH_VERSION",
+    "RAY_ALPHA_MIN",
+    "dfmPN1Delta",
+    "dfmPN1EIHKick",
+    "geoCoreDispatch",
+    "geoModeOf",
+    "pnSource",
+    "presetSig",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 801,
+   "segments": 728,
+   "closureShare": 0.3197
+  },
+  "scopeSha256": "d369a237dcb94a4b12d113eb58e775f5b10dc930f974d8193f40c844f7084147",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "e5ba404fa580f028f2a0cb99ca2f09a06faad2652f8fec31b4d7c36a70588e14",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
+     "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
+     "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
+     "/meta/when",
+     "/presets/*/run/stopRule/rateStepsPerSec",
+     "/presets/*/run/stopRule/wallSec",
+     "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
+     "/presets/*/run/stopRuleStages/*/wallSec",
+     "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/wallSec",
+     "/presets/*/run/wallSec"
+    ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "55d122720205d11fa88694ca894598a110f566c5064d372992e433773e1ab738",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "harnessVersion": "w285b-pn1-1",
+ "libVersion": "w285b-gr1pn-1",
+ "htmlPn1Version": "w285b-eih-1",
+ "htmlGeoModeVersion": "w285b-geomode-2",
+ "coreTable": [
+  0,
+  1,
+  2
+ ],
+ "contract": {
+  "version": "w285b-eih-1",
+  "law": "PPN N-body 1PN (EIH at pnAlpha=1.5)",
+  "ppn": {
+   "beta": 1,
+   "gamma": "pnAlpha-0.5"
+  },
+  "coordinates": "harmonic",
+  "time": "coordinate time t (the simulation time)",
+  "role": "kF0 (lambdaPN=1 and kFrame=0: geoPN=1, and the compat input geoPN=2 with kFrame=0)",
+  "sources": "sums run over 1PN sources only (pnSource: declared pnSource or m >= pnK*max(R,eps)); non-sources only receive",
+  "pinned": "pinned receivers receive nothing; a pinned source has g_b=0",
+  "softening": "Plummer, same as _core (1/r -> 1/sqrt(r^2+eps^2))",
+  "scale": "lambdaPN multiplies the whole 1PN term",
+  "conserved": "1PN energy and momentum (sum of dL/dv), not the Newtonian sum of m*v",
+  "split": "_core adds the test-particle form (core=1, no reaction); dfmPN1EIHKick adds Delta = EIH - test-particle form before _core",
+  "notDerivedFromDFM": true
+ },
+ "ruling": "原仮定者の裁定(第75報)⑦: 「geoPN=1」の「λ_PN=1」は GR の 1PN と同等の軌道になる想定。観測値で実行結果が合わない場合は算出方法を調べつつ「λ_PN=0」なども確認する",
+ "base": {
+  "rev": "b92ffa1",
+  "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+  "note": "基点 html は git show の一時ファイル(終了後に削除)"
+ },
+ "nowSha256": "ffee4cce83e0c748b5c5fe51138733333cf79746e1dcc54714305d9704f16812",
+ "note": "geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。S._core は 1 命令も変えていない(geoCoreDispatch が kF0 の役割に core=1 を渡し、差分 Δ を _core の前に当てる)。Σm·v は状態変数の和で、相対論的な全運動量ではない。",
+ "A": {
+  "cond": {
+   "G": 1,
+   "M": 10,
+   "a": 10,
+   "e": 0.3,
+   "c": 100,
+   "eps": 0.01,
+   "dt": 0.01,
+   "orbits": 8,
+   "detector": "B",
+   "sources": "both pnSource・both free・barycentre at rest"
+  },
+  "rows": [
+   {
+    "q": 0.0001,
+    "nu": 0.00009998000299960004,
+    "grDeg": 0.11868132934752104,
+    "osc0": {
+     "a": 9.999999758035244,
+     "e": 0.300000031455419,
+     "P": 62.83184937961593,
+     "mu": 10.000000449363142
+    },
+    "now": {
+     "lam1B": 0.11791212328511126,
+     "lam0B": -0.000774206298847775,
+     "lam1A": 0.11791374348990943,
+     "lam0A": -0.0007742061571546699,
+     "nB": 8
+    },
+    "base": {
+     "lam1B": 0.11787253616154371,
+     "lam1A": 0.1178741561265311,
+     "lam0B": -0.000774206298847775
+    },
+    "lam0BitSameBase": true,
+    "ratioNowB": 1.000042131618052,
+    "ratioNowA": 1.0000557821485438,
+    "ratioBaseB": 0.9997085734772293,
+    "ratioBaseA": 0.9997222219870933,
+    "analyticOld": 0.9996667333233346,
+    "analyticNew": 1,
+    "oracleNew": 1.0000651714842117,
+    "oracleOld": 0.9997316059638542,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "q": 0.001,
+    "nu": 0.0009980029960049942,
+    "grDeg": 0.1186813251363053,
+    "osc0": {
+     "a": 9.999999853567441,
+     "e": 0.30000001903623286,
+     "P": 62.8318508373574,
+     "mu": 10.000000271946192
+    },
+    "now": {
+     "lam1B": 0.11791208046177529,
+     "lam0B": -0.0007742062735348005,
+     "lam1A": 0.11791369986254832,
+     "lam0A": -0.0007742061323390734,
+     "nB": 8
+    },
+    "base": {
+     "lam1B": 0.11751692153323208,
+     "lam1A": 0.11751853853621586,
+     "lam0B": null
+    },
+    "lam0BitSameBase": null,
+    "ratioNowB": 1.0000418060634146,
+    "ratioNowA": 1.0000554498239258,
+    "ratioBaseB": 0.9967122263836347,
+    "ratioBaseA": 0.9967258499405521,
+    "analyticOld": 0.9966733233466499,
+    "analyticNew": 1,
+    "oracleNew": 1.0000648040974673,
+    "oracleOld": 0.996735150874269,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "q": 0.01,
+    "nu": 0.009802960494069209,
+    "grDeg": 0.11868132787746409,
+    "osc0": {
+     "a": 9.999999791383754,
+     "e": 0.3000000271201123,
+     "P": 62.83184988848631,
+     "mu": 10.000000387430191
+    },
+    "now": {
+     "lam1B": 0.11791170559833272,
+     "lam0B": -0.0007742062878433587,
+     "lam1A": 0.1179133170831968,
+     "lam0A": -0.0007742061482276101,
+     "nB": 8
+    },
+    "base": {
+     "lam1B": 0.11403030090758955,
+     "lam1A": 0.11403188945114721,
+     "lam0B": null
+    },
+    "lam0BitSameBase": null,
+    "ratioNowB": 1.0000386245148583,
+    "ratioNowA": 1.0000522015895097,
+    "ratioBaseB": 0.9673341986362513,
+    "ratioBaseA": 0.9673475824091692,
+    "analyticOld": 0.9673234650197693,
+    "analyticNew": 1,
+    "oracleNew": 1.0000612259158446,
+    "oracleOld": 0.9673560746397021,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "q": 0.1,
+    "nu": 0.08264462809917354,
+    "grDeg": 0.11868131726652706,
+    "osc0": {
+     "a": 10.000000032094812,
+     "e": 0.29999999582767467,
+     "P": 62.83185356153586,
+     "mu": 9.999999940395355
+    },
+    "now": {
+     "lam1B": 0.11790865322717785,
+     "lam0B": -0.0007742062294486778,
+     "lam1A": 0.11791019970120706,
+     "lam0A": -0.0007742060863658217,
+     "nB": 8
+    },
+    "base": {
+     "lam1B": 0.0851913137830732,
+     "lam1A": 0.08519266472747082,
+     "lam0B": null
+    },
+    "lam0BitSameBase": null,
+    "ratioNowB": 1.0000129943796967,
+    "ratioNowA": 1.000026023649863,
+    "ratioBaseB": 0.7243391124440075,
+    "ratioBaseA": 0.7243504941959621,
+    "analyticOld": 0.7245179063360881,
+    "analyticNew": 1,
+    "oracleNew": 1.000033276997611,
+    "oracleOld": 0.7243530228197174,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "q": 0.25,
+    "nu": 0.16,
+    "grDeg": 0.11868131868131869,
+    "osc0": {
+     "a": 10,
+     "e": 0.30000000000000004,
+     "P": 62.83185307179586,
+     "mu": 10
+    },
+    "now": {
+     "lam1B": 0.11790558530908939,
+     "lam0B": -0.0007742062394477358,
+     "lam1A": 0.11790706312099548,
+     "lam0A": -0.000774206094876683,
+     "nB": 8
+    },
+    "base": {
+     "lam1B": 0.054575417775679876,
+     "lam1A": 0.05457651761666213,
+     "lam0B": null
+    },
+    "lam0BitSameBase": null,
+    "ratioNowB": 0.9999871324923035,
+    "ratioNowA": 0.9999995832078118,
+    "ratioBaseB": 0.466371831979316,
+    "ratioBaseA": 0.46638109793981775,
+    "analyticOld": 0.46666666666666656,
+    "analyticNew": 1,
+    "oracleNew": 1.000006820595844,
+    "oracleOld": 0.4663781536756025,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "q": 0.5,
+    "nu": 0.22222222222222224,
+    "grDeg": 0.11868131302215243,
+    "osc0": {
+     "a": 10.000000128379241,
+     "e": 0.2999999833106989,
+     "P": 62.8318550307558,
+     "mu": 9.999999761581421
+    },
+    "now": {
+     "lam1B": 0.11790323532235042,
+     "lam0B": -0.0007742062076752062,
+     "lam1A": 0.11790465757157285,
+     "lam0A": -0.0007742060617095558,
+     "nB": 8
+    },
+    "base": {
+     "lam1B": 0.029956502205644404,
+     "lam1A": 0.029957401515308388,
+     "lam0B": null
+    },
+    "lam0BitSameBase": null,
+    "ratioNowB": 0.9999673790925613,
+    "ratioNowA": 0.9999793616298333,
+    "ratioBaseB": 0.25893468508882755,
+    "ratioBaseA": 0.2589422613759063,
+    "analyticOld": 0.2592592592592593,
+    "analyticNew": 1,
+    "oracleNew": 0.9999879456518852,
+    "oracleOld": 0.25893571919307773,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "q": 1,
+    "nu": 0.25,
+    "grDeg": 0.11868131868131869,
+    "osc0": {
+     "a": 10,
+     "e": 0.30000000000000004,
+     "P": 62.83185307179586,
+     "mu": 10
+    },
+    "now": {
+     "lam1B": 0.11790222961205794,
+     "lam0B": -0.0007742062404164419,
+     "lam1A": 0.1179036262613029,
+     "lam0A": -0.0007742060947552161,
+     "nB": 8
+    },
+    "base": {
+     "lam1B": 0.018968094418130074,
+     "lam1A": 0.018968902922419633,
+     "lam0B": -0.0007742062404164419
+    },
+    "lam0BitSameBase": true,
+    "ratioNowB": 0.9999588576458489,
+    "ratioNowA": 0.9999706244816007,
+    "ratioBaseB": 0.16634716295627155,
+    "ratioBaseA": 0.1663539741261955,
+    "analyticOld": 0.16666666666666666,
+    "analyticNew": 1,
+    "oracleNew": 0.9999802108836099,
+    "oracleOld": 0.16634603437274648,
+    "nan": false,
+    "clamp": 0
+   }
+  ],
+  "boost": [
+   {
+    "q": 1,
+    "html": "now",
+    "V": 3,
+    "ratioV": 0.9938563307327674,
+    "ratioRest": 0.9999588576458489,
+    "nan": false
+   },
+   {
+    "q": 1,
+    "html": "base",
+    "V": 3,
+    "ratioV": 2.925981242033262,
+    "ratioRest": 0.16634716295627155,
+    "nan": false
+   },
+   {
+    "q": 0.1,
+    "html": "now",
+    "V": 3,
+    "ratioV": 0.9964527380299023,
+    "ratioRest": 1.0000129943796967,
+    "nan": false
+   },
+   {
+    "q": 0.1,
+    "html": "base",
+    "V": 3,
+    "ratioV": 3.831925608545386,
+    "ratioRest": 0.7243391124440075,
+    "nan": false
+   }
+  ],
+  "ppn": [
+   {
+    "alpha": 0.5,
+    "gamma": 0,
+    "q": 0.0001,
+    "ratio": 0.33328128206079005,
+    "predicted": 0.3333333333333333,
+    "relToPred": -0.00015615381762978942
+   },
+   {
+    "alpha": 0.5,
+    "gamma": 0,
+    "q": 1,
+    "ratio": 0.33323323477410705,
+    "predicted": 0.3333333333333333,
+    "relToPred": -0.00030029567767886345
+   },
+   {
+    "alpha": 1,
+    "gamma": 0.5,
+    "q": 0.0001,
+    "ratio": 0.6666308787657541,
+    "predicted": 0.6666666666666666,
+    "relToPred": -0.0000536818513687809
+   },
+   {
+    "alpha": 1,
+    "gamma": 0.5,
+    "q": 1,
+    "ratio": 0.6665652566105285,
+    "predicted": 0.6666666666666666,
+    "relToPred": -0.000152115084207316
+   }
+  ],
+  "summary": {
+   "reproBase": {
+    "q1e4": 0.9997085734772293,
+    "q1": 0.16634716295627155
+   },
+   "now": {
+    "q1e4": 1.000042131618052,
+    "q1": 0.9999588576458489
+   },
+   "minNow": 0.9999588576458489,
+   "maxDevNow": 0.0000421316180521103,
+   "maxDevNowVsOracle": 0.00002303986615959097,
+   "maxDevBaseVsOracle": 0.00002303248662494095,
+   "testLimitNowMinusBase": 0.00033355814082280943,
+   "testLimitAnalytic": 0.00033326667666533344
+  }
+ },
+ "B": {
+  "cases": [
+   {
+    "key": "two-free",
+    "label": "自由な源 2(質量比 3/1)",
+    "n": 2,
+    "sources": 2,
+    "pinned": 0,
+    "nAny": 2,
+    "deltaZero": false,
+    "expectZero": false,
+    "maxAbs": 1.7482234731686756e-18,
+    "maxPn": 0.006358759681998741,
+    "rel": 2.7493152133391506e-16,
+    "maxDelta": 0.0017441925777762627
+   },
+   {
+    "key": "three-free",
+    "label": "自由な源 3",
+    "n": 3,
+    "sources": 3,
+    "pinned": 0,
+    "nAny": 3,
+    "deltaZero": false,
+    "expectZero": false,
+    "maxAbs": 1.734723475976807e-18,
+    "maxPn": 0.01287062701136038,
+    "rel": 1.3478158247035183e-16,
+    "maxDelta": 0.004526532444794901
+   },
+   {
+    "key": "pinned-one",
+    "label": "固定源 1 + 源でない受け手 2(Δ は厳密に 0)",
+    "n": 3,
+    "sources": 1,
+    "pinned": 1,
+    "nAny": 0,
+    "deltaZero": true,
+    "expectZero": true,
+    "maxAbs": 2.168404344971009e-19,
+    "maxPn": 0.009928131299872908,
+    "rel": 2.1841011963638788e-17,
+    "maxDelta": 0
+   },
+   {
+    "key": "free-one-test",
+    "label": "自由な源 1 + 源でない受け手 1(🌙 型)",
+    "n": 2,
+    "sources": 1,
+    "pinned": 0,
+    "nAny": 1,
+    "deltaZero": false,
+    "expectZero": false,
+    "maxAbs": 4.336808689942018e-19,
+    "maxPn": 0.003990631452393197,
+    "rel": 1.0867474838703074e-16,
+    "maxDelta": 0.00011548908267005599
+   },
+   {
+    "key": "pinned-plus-free",
+    "label": "固定源 1 + 自由な源 1 + 受け手 1(🔆 型)",
+    "n": 3,
+    "sources": 2,
+    "pinned": 1,
+    "nAny": 2,
+    "deltaZero": false,
+    "expectZero": false,
+    "maxAbs": 4.336808689942018e-19,
+    "maxPn": 0.36027991305590656,
+    "rel": 1.2037331343723988e-18,
+    "maxDelta": 0.23340871284112855
+   },
+   {
+    "key": "ppn-gamma0",
+    "label": "自由な源 3・pnAlpha 0.5(γ=0)",
+    "n": 3,
+    "sources": 3,
+    "pinned": 0,
+    "nAny": 3,
+    "deltaZero": false,
+    "expectZero": false,
+    "maxAbs": 8.741117365843378e-19,
+    "maxPn": 0.0071840172331614415,
+    "rel": 1.2167450441925945e-16,
+    "maxDelta": 0.0029012814869638606
+   }
+  ],
+  "bi": [
+   {
+    "q": 0.0001,
+    "nu": 0.00009998000218028205,
+    "rel": 3.368613117213655e-8,
+    "cmSpeed": 8.070960431908541e-13,
+    "eps": 0.001,
+    "epsOverR2": 1.589825119236884e-8
+   },
+   {
+    "q": 0.3,
+    "nu": 0.17751479487447347,
+    "rel": 3.4674366185084356e-8,
+    "cmSpeed": 3.612539601613427e-9,
+    "eps": 0.001,
+    "epsOverR2": 1.5898251192368844e-8
+   },
+   {
+    "q": 1,
+    "nu": 0.25,
+    "rel": 3.6445150553371734e-8,
+    "cmSpeed": 0,
+    "eps": 0.001,
+    "epsOverR2": 1.589825119236884e-8
+   }
+  ],
+  "maxRel": 2.7493152133391506e-16,
+  "zeroOk": true,
+  "biMaxRel": 3.6445150553371734e-8
+ },
+ "C": {
+  "rows": [
+   {
+    "gamma": 1,
+    "c": 30,
+    "diff": 2.203274752232174e-7,
+    "pn": 0.00011733273720618586,
+    "rel": 0.0018778005224240313
+   },
+   {
+    "gamma": 1,
+    "c": 100,
+    "diff": 1.7875208073086166e-9,
+    "pn": 0.000010559946348556727,
+    "rel": 0.00016927366373910836
+   },
+   {
+    "gamma": 1,
+    "c": 300,
+    "diff": 2.6055272019114457e-11,
+    "pn": 0.0000011733273720618586,
+    "rel": 0.00002220631056559107
+   },
+   {
+    "gamma": 0.5,
+    "c": 30,
+    "diff": 1.2923372869227457e-7,
+    "pn": 0.00009661540367457137,
+    "rel": 0.001337609985334959
+   },
+   {
+    "gamma": 0.5,
+    "c": 100,
+    "diff": 1.0491545475670435e-9,
+    "pn": 0.000008695386330711424,
+    "rel": 0.00012065646167571782
+   },
+   {
+    "gamma": 0.5,
+    "c": 300,
+    "diff": 1.986952948981556e-11,
+    "pn": 9.66154036745714e-7,
+    "rel": 0.000020565591752575892
+   },
+   {
+    "gamma": 0,
+    "c": 30,
+    "diff": 6.092111730116883e-8,
+    "pn": 0.00007608466989781573,
+    "rel": 0.0008007016049749305
+   },
+   {
+    "gamma": 0,
+    "c": 100,
+    "diff": 4.943678792996722e-10,
+    "pn": 0.000006847620290803416,
+    "rel": 0.00007219557427324422
+   },
+   {
+    "gamma": 0,
+    "c": 300,
+    "diff": 1.3407675079000006e-11,
+    "pn": 7.608466989781572e-7,
+    "rel": 0.00001762204540941949
+   }
+  ],
+  "slope": {
+   "0": -3.9984750444782478,
+   "1": -3.9986661742460625,
+   "0.5": -3.9981284883998875
+  }
+ },
+ "D": {
+  "cond": {
+   "q": 0.5,
+   "c": 100,
+   "eps": 0.001,
+   "dt": 0.001,
+   "orbits": 2,
+   "sampleEvery": 200
+  },
+  "rows": [
+   {
+    "html": "now",
+    "samples": 629,
+    "steps": 125664,
+    "E1pnRel": 0.0000879812237922156,
+    "ENewtonRel": 0.0009492598997128936,
+    "P1pnRel": 4.503453999278182e-8,
+    "PNewtonRel": 0.000010345064419033081,
+    "J1pnRel": 3.309820238212831e-7
+   },
+   {
+    "html": "base",
+    "samples": 629,
+    "steps": 125664,
+    "E1pnRel": 0.00013067814069223468,
+    "ENewtonRel": 0.0008464730743863286,
+    "P1pnRel": 0.000010328836515947059,
+    "PNewtonRel": 6.648833279541468e-20,
+    "J1pnRel": 0.00008787976887827382
+   },
+   {
+    "html": "now-lambda0",
+    "samples": 629,
+    "steps": 125664,
+    "E1pnRel": 0.00008740487754218107,
+    "ENewtonRel": 0.0000874048775417814,
+    "P1pnRel": 0,
+    "PNewtonRel": 0,
+    "J1pnRel": 2.5473910817660943e-14
+   }
+  ]
+ },
+ "E": {
+  "rule": "calaudit の __w249build(id, true) と同じ: 複製の kFrame=0・geoPN 2→1(kF0 の本は複製をそのまま)。λ だけ差し替えた変種を同じ窓・同じ dt で",
+  "dt": 0.016,
+  "rows": [
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "kf0Copy": true,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 2,
+    "nu": 0.24970199265534332,
+    "orbits": 8,
+    "GMoverAc2": 0.000004340765558824302,
+    "grDeg": 0.004724427629995065,
+    "lam0B": -0.00000297018999927541,
+    "lam1NowB": 0.004721421226645638,
+    "lam1BaseB": 0.0007890641626269914,
+    "incNow": 0.0047243914166449135,
+    "incBase": 0.0007920343526262669,
+    "circular": false,
+    "e": 0.0877770582265942,
+    "ratioNow": 0.9999923348703827,
+    "ratioBase": 0.16764662614317458,
+    "periodRelNow": 0.00003075011011999251,
+    "obs": 0.00472,
+    "obsFrom": "psrDoubleAB",
+    "residNow": 0.0003011073401774863,
+    "residBase": -0.8328253892739425,
+    "residLam0": -1.0006292775422194,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "kf0Copy": true,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 1,
+    "nu": 0.24818046944749272,
+    "orbits": 4,
+    "GMoverAc2": 8.410522348787695e-10,
+    "grDeg": 0.0000012440392598160553,
+    "lam0B": -0.00002123775984782537,
+    "lam1NowB": -0.000020301097598086867,
+    "lam1BaseB": -0.000021077251865792333,
+    "incNow": 9.366622497385031e-7,
+    "incBase": 1.6050798203303676e-7,
+    "circular": false,
+    "e": 0.5194699963497409,
+    "ratioNow": 0.7529201689961125,
+    "ratioBase": 0.12902163719235807,
+    "periodRelNow": 9.40126421156151e-10,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
+    "nPeri": 4,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "kf0Copy": true,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 1,
+    "nu": 0.22123997798843226,
+    "orbits": 4,
+    "GMoverAc2": 1.535139356206896e-9,
+    "grDeg": 0.0000025498206905473417,
+    "lam0B": -0.00003789490793168952,
+    "lam1NowB": -0.00003568559232768419,
+    "lam1BaseB": -0.00003712779818697618,
+    "incNow": 0.000002209315604005331,
+    "incBase": 7.671097447133386e-7,
+    "circular": false,
+    "e": 0.5914199941833609,
+    "ratioNow": 0.866459203266988,
+    "ratioBase": 0.30084850576244704,
+    "periodRelNow": 2.3532540360804433e-9,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
+    "nPeri": 4,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "kf0Copy": true,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 2,
+    "nu": 0.24989428591061366,
+    "orbits": 8,
+    "GMoverAc2": 0.000006844962374915852,
+    "grDeg": 0.020803207610649414,
+    "lam0B": -0.00003420062619900301,
+    "lam1NowB": 0.020770492579740948,
+    "lam1BaseB": 0.0034393142664814187,
+    "incNow": 0.02080469320593995,
+    "incBase": 0.003473514892680422,
+    "circular": false,
+    "e": 0.8028968130203311,
+    "ratioNow": 1.0000714118379408,
+    "ratioBase": 0.1669701594912838,
+    "periodRelNow": 0.000030594884344647966,
+    "obs": 0.0052085,
+    "obsFrom": "psrJ1757DFM",
+    "residNow": 2.9878069654873665,
+    "residBase": -0.3396727913062458,
+    "residLam0": -1.0065663101082851,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "kf0Copy": true,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 2,
+    "nu": 0.24995001421298602,
+    "orbits": 8,
+    "GMoverAc2": 0.000014698432880417762,
+    "grDeg": 0.022137686024208396,
+    "lam0B": -0.00004447353792253381,
+    "lam1NowB": 0.022093896118155366,
+    "lam1BaseB": 0.0036475818119690237,
+    "incNow": 0.0221383696560779,
+    "incBase": 0.0036920553498915576,
+    "circular": false,
+    "e": 0.5319100759873017,
+    "ratioNow": 1.0000308809090868,
+    "ratioBase": 0.16677693169259677,
+    "periodRelNow": 0.00005581983832270154,
+    "obs": 0.0055424,
+    "obsFrom": "psrJ1946DFM",
+    "residNow": 2.9863409566533208,
+    "residBase": -0.3418768381984296,
+    "residLam0": -1.008024238222166,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "kf0Copy": true,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 2,
+    "nu": 0.2499945552657727,
+    "orbits": 8,
+    "GMoverAc2": 0.000004445320355180831,
+    "grDeg": 0.008074850046308778,
+    "lam0B": -0.000002740521188531425,
+    "lam1NowB": 0.00807225642267226,
+    "lam1BaseB": 0.0013430533403863876,
+    "incNow": 0.00807499694386079,
+    "incBase": 0.001345793861574919,
+    "circular": false,
+    "e": 0.6367452903500576,
+    "ratioNow": 1.0000181919851354,
+    "ratioBase": 0.1666648735093373,
+    "periodRelNow": 0.000014211084570669996,
+    "obs": 0.0020225,
+    "obsFrom": "psrB1534DFM",
+    "residNow": 2.99122690861422,
+    "residBase": -0.3359439602539493,
+    "residLam0": -1.0013550166568759,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "mercuryReal",
+    "emoji": "☄️",
+    "kf0Copy": false,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 1,
+    "nu": 1.6600949641734588e-7,
+    "orbits": 8,
+    "GMoverAc2": 2.5463771139511785e-8,
+    "grDeg": 0.000028715058380965584,
+    "lam0B": -0.000006200391092366659,
+    "lam1NowB": 0.00002251464202305556,
+    "lam1BaseB": 0.00002251464202305556,
+    "incNow": 0.00002871503311542222,
+    "incBase": 0.00002871503311542222,
+    "circular": false,
+    "e": 0.20563056948385805,
+    "ratioNow": 0.9999991201291313,
+    "ratioBase": 0.9999991201291313,
+    "periodRelNow": 3.937906867257368e-7,
+    "obs": 0.00002875439440328561,
+    "obsFrom": "mercuryReal",
+    "residNow": -0.21700169694817384,
+    "residBase": -0.21700169694817384,
+    "residLam0": -1.215632817906197,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "kf0Copy": true,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 1,
+    "nu": 0.09673653398300044,
+    "orbits": 3,
+    "GMoverAc2": 5.531014691290331e-13,
+    "grDeg": 5.97349586659356e-10,
+    "lam0B": -0.0035383502780504754,
+    "lam1NowB": -0.0035089291223990666,
+    "lam1BaseB": -0.0035185831553481172,
+    "incNow": 0.000029421155651408824,
+    "incBase": 0.000019767122702358218,
+    "circular": true,
+    "e": 1.7947584751709655e-8,
+    "ratioNow": null,
+    "ratioBase": null,
+    "periodRelNow": 8.172645360460251e-8,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
+    "nPeri": 3,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "kf0Copy": false,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 1,
+    "nu": 0.24818046944749272,
+    "orbits": 4,
+    "GMoverAc2": 8.410522348787695e-10,
+    "grDeg": 0.0000012440392598160553,
+    "lam0B": -0.00002123775984782537,
+    "lam1NowB": -0.000020301097598086867,
+    "lam1BaseB": -0.000021077251865792333,
+    "incNow": 9.366622497385031e-7,
+    "incBase": 1.6050798203303676e-7,
+    "circular": false,
+    "e": 0.5194699963497409,
+    "ratioNow": 0.7529201689961125,
+    "ratioBase": 0.12902163719235807,
+    "periodRelNow": 9.40126421156151e-10,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
+    "nPeri": 4,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "kf0Copy": false,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 1,
+    "nu": 0.22123997798843226,
+    "orbits": 4,
+    "GMoverAc2": 1.535139356206896e-9,
+    "grDeg": 0.0000025498206905473417,
+    "lam0B": -0.00003789490793168952,
+    "lam1NowB": -0.00003568559232768419,
+    "lam1BaseB": -0.00003712779818697618,
+    "incNow": 0.000002209315604005331,
+    "incBase": 7.671097447133386e-7,
+    "circular": false,
+    "e": 0.5914199941833609,
+    "ratioNow": 0.866459203266988,
+    "ratioBase": 0.30084850576244704,
+    "periodRelNow": 2.3532540360804433e-9,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
+    "nPeri": 4,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "kf0Copy": false,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 2,
+    "nu": 0.24970199265534332,
+    "orbits": 8,
+    "GMoverAc2": 0.000004340765558824302,
+    "grDeg": 0.004724427629995065,
+    "lam0B": -0.00000297018999927541,
+    "lam1NowB": 0.004721421226645638,
+    "lam1BaseB": 0.0007890641626269914,
+    "incNow": 0.0047243914166449135,
+    "incBase": 0.0007920343526262669,
+    "circular": false,
+    "e": 0.0877770582265942,
+    "ratioNow": 0.9999923348703827,
+    "ratioBase": 0.16764662614317458,
+    "periodRelNow": 0.00003075011011999251,
+    "obs": 0.00472,
+    "obsFrom": "psrDoubleAB",
+    "residNow": 0.0003011073401774863,
+    "residBase": -0.8328253892739425,
+    "residLam0": -1.0006292775422194,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "kf0Copy": false,
+    "geoPN": 1,
+    "kFrame": 0,
+    "nSources": 2,
+    "nu": 0.2499945551796392,
+    "orbits": 8,
+    "GMoverAc2": 0.0000017300681018866955,
+    "grDeg": 0.0020197516895917025,
+    "lam0B": -3.9118265173709386e-7,
+    "lam1NowB": 0.0020193590542785626,
+    "lam1BaseB": 0.00033625959748799034,
+    "incNow": 0.0020197502369303,
+    "incBase": 0.0003366507801397274,
+    "circular": false,
+    "e": 0.2736775021307486,
+    "ratioNow": 0.9999992807722801,
+    "ratioBase": 0.1666792912587102,
+    "periodRelNow": 0.000008734511857788618,
+    "obs": 0.0020225,
+    "obsFrom": "psrB1534DFM",
+    "residNow": -0.0015530015927996837,
+    "residBase": -0.8337406192890036,
+    "residLam0": -1.0001934154025895,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0
+   }
+  ]
+ },
+ "F": {
+  "grid": [
+   {
+    "eps": 0.05,
+    "dt": 0.016,
+    "lam0B": -0.000006200391092366659,
+    "lam1B": 0.00002251464202305556,
+    "incB": 0.00002871503311542222,
+    "lam0A": -0.000006200397905943103,
+    "softAnalytic": -0.000004389013777140126,
+    "lam0MinusSoft": -0.0000018113773152265332,
+    "nPeri": 8,
+    "nan": false
+   },
+   {
+    "eps": 0.05,
+    "dt": 0.008,
+    "lam0B": -0.0000048419570537808224,
+    "lam1B": 0.00002387307222794194,
+    "incB": 0.000028715029281722763,
+    "lam0A": -0.000004841858527035644,
+    "softAnalytic": -0.000004389013777140126,
+    "lam0MinusSoft": -4.529432766406968e-7,
+    "nPeri": 8,
+    "nan": false
+   },
+   {
+    "eps": 0.01,
+    "dt": 0.016,
+    "lam0B": -0.0000019869226372059906,
+    "lam1B": 0.00002672812369348697,
+    "incB": 0.00002871504633069296,
+    "lam0A": -0.0000019869453262440262,
+    "softAnalytic": -1.7556055108560502e-7,
+    "lam0MinusSoft": -0.0000018113620861203857,
+    "nPeri": 8,
+    "nan": false
+   },
+   {
+    "eps": 0.01,
+    "dt": 0.008,
+    "lam0B": -6.28491845407106e-7,
+    "lam1B": 0.00002808654415572377,
+    "incB": 0.000028715036001130878,
+    "lam0A": -6.2840730146978e-7,
+    "softAnalytic": -1.7556055108560502e-7,
+    "lam0MinusSoft": -4.52931294321501e-7,
+    "nPeri": 8,
+    "nan": false
+   }
+  ],
+  "note": "mercuryReal(太陽は pinned —— 源 1 つ固定なので本便の変更で 1 bit も変わらない)・8 周・検出器 B",
+  "analytic": {
+   "osc0": {
+    "a": 579.0907634765185,
+    "e": 0.20563056948385805,
+    "P": 760.0530225710731,
+    "mu": 13271.251203154095
+   },
+   "cSim": 30000,
+   "cTrue": 29979.245799999997,
+   "pn1PredSimC": 0.000028715058380965584,
+   "pn1PredTrueC": 0.00002875483018544786,
+   "cRoundingFactor": 0.9986168652631304,
+   "cRoundingRel": -0.0013831347368695734,
+   "obs": 0.00002875439440328561,
+   "obsFrom": "mercuryReal",
+   "obsFrom4298": 0.000028754368529926224,
+   "obsOverPredSimC": 1.001369874363414,
+   "obsOverPredTrueC": 0.9999848449057276
+  },
+  "summary": {
+   "base005": -0.000006200391092366659,
+   "base001": -0.0000019869226372059906,
+   "base001h2": -6.28491845407106e-7,
+   "incRange": [
+    0.000028715029281722763,
+    0.00002871504633069296
+   ],
+   "incOverPred": [
+    0.9999991201291313,
+    0.9999989866208024,
+    0.9999995803500565,
+    0.9999992206237435
+   ],
+   "deficitFormal": -0.21700169694817384,
+   "deficitSmall": -0.023226023758146943,
+   "softAnalytic005": -0.000004389013777140126
+  }
+ },
+ "G": {
+  "steps": [
+   1,
+   128
+  ],
+  "dt": 0.016,
+  "rows": [
+   {
+    "id": "galaxyGeo2",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "earthMoonReal",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "emAuditNewton",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "emAuditDFM",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "emAuditSolar",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 4.4317045562207667e-10,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "earthMoonDiagOne",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "qLockRadialAudit",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "qLockRadialAuditQ3",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "mercury",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "mercuryReal",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "mercuryRealKF1",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "solarInner",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "jupiterGalilean",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "venusReal",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "marsMoonsReal",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "plutoCharonReal",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "plutoCharonDFM",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "plutoCharonKF0Control",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "plutoCharonDiagInput",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "uranusReal",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "neptuneReal",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "alphaCenAB",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 1.2221336315773858e-12,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "alphaCenABDFM",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "siriusAB",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 3.1548102468752664e-12,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "siriusABDFM",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleAB",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 1.0505670834758195e-7,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleABSpinCal",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1757DFM",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1946DFM",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleABPN",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1757PN",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1946PN",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleABCF",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1757CF",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1946CF",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrB1534",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 2.477011220579002e-9,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrB1534DFM",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrB1534CF",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "saturnZonalD68",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "saturnD68Consistent",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "saturnD68ObsOrbit",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "saturnRingReal",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "saturnRingRealKF1",
+    "geoPN": 2,
+    "kFrame": 1,
+    "pn1": null,
+    "bitSame1": true,
+    "bitSame128": true,
+    "maxPos128": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "binary",
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0.0011883256513938929,
+    "sigSame": true,
+    "nan": false
+   }
+  ],
+  "diff1": [
+   "earthMoonReal",
+   "emAuditNewton",
+   "emAuditSolar",
+   "earthMoonDiagOne",
+   "plutoCharonDFM",
+   "plutoCharonKF0Control",
+   "plutoCharonDiagInput",
+   "alphaCenAB",
+   "siriusAB",
+   "psrDoubleAB",
+   "psrB1534",
+   "binary"
+  ],
+  "diff128": [
+   "earthMoonReal",
+   "emAuditNewton",
+   "emAuditSolar",
+   "earthMoonDiagOne",
+   "plutoCharonDFM",
+   "plutoCharonKF0Control",
+   "plutoCharonDiagInput",
+   "alphaCenAB",
+   "siriusAB",
+   "psrDoubleAB",
+   "psrB1534",
+   "binary"
+  ],
+  "sigDiff": [],
+  "scope": "geoPN 1/2 の内蔵(46 本)—— 0・3 は geoCoreDispatch の変わらない行を通る",
+  "nAll": 142,
+  "n": 46,
+  "bitSame128": 34,
+  "sigSame": 46,
+  "eihBooks": [
+   "earthMoonReal",
+   "emAuditNewton",
+   "emAuditSolar",
+   "earthMoonDiagOne",
+   "mercury",
+   "mercuryReal",
+   "plutoCharonDFM",
+   "plutoCharonKF0Control",
+   "plutoCharonDiagInput",
+   "alphaCenAB",
+   "siriusAB",
+   "psrDoubleAB",
+   "psrB1534",
+   "saturnZonalD68",
+   "saturnD68Consistent",
+   "saturnD68ObsOrbit",
+   "saturnRingReal",
+   "binary"
+  ],
+  "eihUnchanged": [
+   "mercury",
+   "mercuryReal",
+   "saturnZonalD68",
+   "saturnD68Consistent",
+   "saturnD68ObsOrbit",
+   "saturnRingReal"
+  ],
+  "changedNotEih": []
+ },
+ "doNotWrite": [
+  "λ_PN=1 で既に 1PN と合った",
+  "不足は DFM の新現象",
+  "観測一致を達成した",
+  "較正を完了した",
+  "f=1 で合った",
+  "kF0 版が成立した",
+  "精度を上げれば成立する",
+  "新発見",
+  "RC を切った"
+ ],
+ "headless": {
+  "now": {
+   "wallSec": 0.099,
+   "errors": 0
+  },
+  "base": {
+   "wallSec": 0.241,
+   "errors": 0
+  }
+ },
+ "elapsedS": 681.555
+}

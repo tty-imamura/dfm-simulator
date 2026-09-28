@@ -2212,6 +2212,10 @@ if (QA_CHANGED) {
       //   kF0 走行 37 本の geoPN=1 対 geoPN=2∧kFrame=0・⭐ の前後(target=beta/index.html —— Node だけ・inputs に calaudit の器)。
       //   geo1-w282b.json は第283便a から**履歴**(旧則〔反作用を返さない geoPN=1〕の記録)
       'tests/out/geomode-w283a.json',
+      // 第285便b(原仮定者の裁定(第75報)⑦・R97/R98): kF0 の 1PN(EIH 型)の制御二体・加速度の照合・λ=0/1 対照・水星の ε/dt・前後
+      //   (target=beta/index.html —— Node だけ。inputs に calaudit の器と calaudit-w249.json〔観測の近点移動〕)。
+      //   geomode-w283a.json は第285便b から**履歴**(第283便a の記録)
+      'tests/out/pn1-w285b.json',
       // 第283便b(第73報④・R85): 同一天体の家族の差分表と統廃合の候補・退役 7 本の棚卸し(target=beta/index.html —— 器は Node だけで
       //   html を読む・1 步も走らせない。inputs に calaudit-w249.json・凍結の写し tests/fixtures/retired-w283b.json・一覧 md)
       'tests/out/families-w283b.json',
@@ -16838,11 +16842,14 @@ if (!FAST) {
               L += S.m[i] * (S.x[i] * S.vy[i] - S.y[i] * S.vx[i]) + 0.5 * S.m[i] * S.R[i] * S.R[i] * S.spin[i]; }
             return { px: px + S.resPx, py: py + S.resPy, L: L + S.resL }; };
           const t0 = tot();
+          // 第285便b: 1PN 源の状態(1PN の角運動量を node 側の参照実装で数える —— kF0 の EIH 型の保存量)
+          const snapS = () => { const o = []; for (let i = 0; i < S.n; i++) if (pnSource(S, i)) o.push({ m: S.mEff[i], x: S.x[i], y: S.y[i], vx: S.vx[i], vy: S.vy[i] }); return o; };
+          const s0 = snapS();
           for (let k = 0; k < 3000; k++) S.step(0.016);
           const t1 = tot();
           let pS = 0; for (let i = 0; i < S.n; i++) pS += S.m[i] * Math.hypot(S.vx[i], S.vy[i]);
           return { dP: Math.hypot(t1.px - t0.px, t1.py - t0.py), dL: Math.abs(t1.L - t0.L),
-            pScale: pS, L0: Math.abs(t0.L), resP: Math.hypot(S.resPx, S.resPy), nan: S.hasNaN() };
+            pScale: pS, L0: Math.abs(t0.L), resP: Math.hypot(S.resPx, S.resPy), nan: S.hasNaN(), s0, s1: snapS(), c: S.params.cLight, G: S.params.G };
         };
         const c2 = cons(2), c1 = cons(1);
         HP.loadPreset('saturn', false);
@@ -16863,11 +16870,24 @@ if (!FAST) {
       //   |ΔΣP|/Σm|v|<1e-4・|ΔΣL|/|L₀|<1e-4 で閉じる(第283便a の実測 relL=2.54e-5 —— geoPN=2・kFrame=0 とビット同一)
       // 統合(第283便): root(v1.44.0 RC)は旧則(geoPN=1 は反作用を返さない)のまま —— 2 フラグ表 GEO_CORE_PN の有無で固定値を分ける
       const geoNewRule = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('const GEO_CORE_PN=') >= 0;
+      // 第285便b(原仮定者の裁定(第75報)⑦・R97): kF0 の役割(geoPN=1・kFrame=0)は EIH 型 —— **固定値を変えた**: 保存するのは
+      //   1PN の角運動量 J=Σx×∂L/∂v(参照実装 tests/lib-w285b-gr1pn.mjs の `ppnConserved` —— 1PN 源 2 体)で、Newton の ΣL(スピン込み)
+      //   ではない(第285便b の実測: 1PN の J の相対変化 4.2e−6・Newton の ΔL 比 5.9e−4 —— 第283便a の反作用返しは J が 6.0e−4)。
+      //   |ΔΣP|/Σm|v|<1e−4 はそのまま(5.8e−7)
+      const has285bPN = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
+      let relJ1 = null;
+      if (has285bPN) { const O285 = await import('file://' + path.join(ROOT, 'tests', 'lib-w285b-gr1pn.mjs'));
+        const o = { G: r.c1.G, c: r.c1.c }, j0 = O285.ppnConserved(r.c1.s0, o).Jz, j1 = O285.ppnConserved(r.c1.s1, o).Jz;
+        relJ1 = Math.abs(j1 - j0) / Math.abs(j0); }
       add('geo2.conservation', !r.c2.nan && !r.c1.nan && r.c2.resP === 0
-        && relP2 < 1e-4 && relL2 < 1e-4 && (geoNewRule ? (relP1 < 1e-4 && relL1 < 1e-4) : (relL2 < relL1 * 0.2)),
+        && relP2 < 1e-4 && relL2 < 1e-4 && (has285bPN ? (relP1 < 1e-4 && relJ1 < 1e-4)
+          : geoNewRule ? (relP1 < 1e-4 && relL1 < 1e-4) : (relL2 < relL1 * 0.2)),
         `自由連星+惑星2(D0=0・3000步)の帳簿: geoPN=2 で |ΔΣP|/Σm|v|=${relP2.toExponential(2)}` +
         `(<1e-4)・|ΔΣL|/|L₀|=${relL2.toExponential(2)}(<1e-4・リザーバ=0のまま) / ` +
-        (geoNewRule
+        (has285bPN
+          ? `geoPN=1(kFrame=0)は EIH 型(第285便b): |ΔΣP|/Σm|v|=${relP1.toExponential(2)}(<1e-4)・**1PN の角運動量** J の相対変化=${relJ1.toExponential(2)}(<1e-4)`
+            + `・Newton の ΔL 比=${relL1.toExponential(2)}(保存量ではない —— 記録)`
+          : geoNewRule
           ? `geoPN=1(kFrame=0)も反作用を返すので |ΔΣP|/Σm|v|=${relP1.toExponential(2)}・ΔL 比=${relL1.toExponential(2)}(<1e-4 —— 第283便a・AN23。第282便b までの開放 1PN は 1.71e-4)`
           : `geoPN=1(開放 1PN・旧則)は ΔL 比=${relL1.toExponential(2)} — 対反作用で ${(relL1 / relL2).toFixed(1)}倍閉じる(較正実測26倍。§18.4 反作用返し)`));
     } else {
@@ -20368,11 +20388,15 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
       // 第227便: 測光相殺 lightSweep=massFrac(ビット同一)+(1−l)·f=1(<1e-7)
       && (dm.dimOff === null || (dm.dimOff.lsEqMfA && dm.dimOff.lsEqMfB
         && dm.dimOff.invA < 1e-7 && dm.dimOff.invB < 1e-7));
+    // 第285便b(原仮定者の裁定(第75報)⑦・R97): **固定値を変えた** —— kF0 の役割は EIH 型で、和は 1PN 源だけを走る。🌟 は A だけが
+    //   pnSource なので、源でない B は 1PN を受けるだけで A へは返らない(反作用は式に内在 —— 源でない天体は場を作らない)。
+    //   Σm·v の相対変化は 2.2e−8(第285便b の実測 —— 基点は反作用返しで 1e−16)なので門を 1e−7 にした(記録)
+    const has285bSI = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
     add('behavior.siriusAB', csvRows.length === 7
       && declOk && !si.kf0.nan && !si.kf1.nan
       && t0 !== null && Math.abs(t0 / 50.1284 - 1) < 0.001
       && Math.abs(si.kf0.ecc - 0.59142) < 0.02
-      && si.kf0.comMax < 1e-3 && si.kf0.pRel < 1e-8
+      && si.kf0.comMax < 1e-3 && si.kf0.pRel < (has285bSI ? 1e-7 : 1e-8)
       && (si.d.pull ? (Math.abs(si.kf1.growth) < 0.03 && si.kf1.rmin > 110)   // 第242便 pull: −0.94% で近点(120.9)にほぼ届く
         : (si.kf1.growth < -0.05 && si.kf1.rmin > 300))
       && si.eq.ok && si.eq.stab === 'obs-stability' && si.eq.closure === true
@@ -20867,6 +20891,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
         [dm.ctrl.geo0, dm.ctrl.d00, dm.ctrl.sinkRes, dm.ctrl.noGauge].every((x) =>
           x !== null && x >= 0.09 && x <= 0.13 && Math.abs(x - dm.decPct) <= 0.01)
         && dm.ctrl.dtHalf !== null && dm.ctrl.dtHalf / dm.decPct >= 0.35 && dm.ctrl.dtHalf / dm.decPct <= 0.65)));
+    const has285bPS = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
     add('behavior.psrDoubleAB', csvAll.length === 10 && csvRows.length === 9
       && !!csvOmegaDot && Object.is(csvOmegaDot.value, 16.899323) && csvOmegaDot.unit === 'deg/yr'
       && Number(csvOmegaDot.sigma) === 1.3e-5
@@ -20875,7 +20900,10 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       && Math.abs(ps.kf0.ecc - 0.087777036) < 0.005
       && ps.kf0.comMax < 1e-3 && ps.kf0.pRel < 1e-8
       && ps.kf0.sMax === 0 && ps.kf0.clampD === 0   // 第223便: 記帳化 — 殻 spin=0 は全窓保持
-      && ps.kf0ns.sMax >= 20 && ps.kf0ns.sMax <= 40 && ps.kf0ns.clampD === 0   // 否定対照: 宣言を外すと有界振動が再現
+      // 第285便b(R97): **固定値を変えた** —— kF0 の役割は EIH 型で、1PN の偶力をスピンへ移す分岐(対反作用)が無い —— 宣言を外しても
+      //   スピンは 0 のまま(否定対照の有界振動 ±30.40 は旧 kF0 則の反作用の偶力だった)。軌道のビット不変はそのまま
+      && (has285bPS ? (ps.kf0ns.sMax === 0 && ps.kf0ns.clampD === 0)
+        : (ps.kf0ns.sMax >= 20 && ps.kf0ns.sMax <= 40 && ps.kf0ns.clampD === 0))   // 否定対照: 宣言を外すと有界振動が再現
       && ps.orbitBitEq === true                      // 記帳の有無で kF0 軌道はビット不変(スピンは力学に不干渉)
       && ps.kf1.growth > 0.5 && ps.kf1.rmax > 1500 && ps.kf1.sMax === 0   // 測定側は膨張(飽和は記帳化で解消)
       && ps.pr1.proj >= 0.05 && ps.pr1.proj <= 0.4   // kF1 雛形のドリフト外挿発火(宣言 18.00%/公転)
@@ -20886,7 +20914,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       && ps.hole.spinDecl === 2 && ps.hole.same === true   // 値域外スピン2件の宣言つき降格+📻 とビット一致
       && dfmOk,
       `宣言=${declOk}(fidelity=real・**L6/T1/M27=第220便 L−T=5 相対論的連星族(c₀=3×10³)**・κ=G/c₀²・kFrame=0〔観測安定則 第3号〕・spin=0×2〔測定はあるが値域外〕・半径=EOS proxy 0.01175×2・pnSource 両宣言・A/B 測定側 kF1) / `
-      + `kF0(採用側・1.05公転): ${t0s === null ? '—' : t0s.toFixed(2) + ' s'}(観測 8834.53・宣言 8835.04)・実測離心率 ${ps.kf0.ecc.toFixed(6)}(転写 0.087777)・重心 ${ps.kf0.comMax.toExponential(1)}・殻 spin=0 保持 |s|max=${ps.kf0.sMax}(=0 — 第223便 resL 記帳)・否定対照(宣言除去→有界振動 |s|max=${ps.kf0ns.sMax.toFixed(2)}〔20〜40〕・軌道ビット不変=${ps.orbitBitEq}) / `
+      + `kF0(採用側・1.05公転): ${t0s === null ? '—' : t0s.toFixed(2) + ' s'}(観測 8834.53・宣言 8835.04)・実測離心率 ${ps.kf0.ecc.toFixed(6)}(転写 0.087777)・重心 ${ps.kf0.comMax.toExponential(1)}・殻 spin=0 保持 |s|max=${ps.kf0.sMax}(=0 — 第223便 resL 記帳)・否定対照(宣言除去→${has285bPS ? 'スピン |s|max=' + ps.kf0ns.sMax.toFixed(2) + '〔0 —— 第285便b: EIH 型は偶力をスピンへ移さない〕' : '有界振動 |s|max=' + ps.kf0ns.sMax.toFixed(2) + '〔20〜40〕'}・軌道ビット不変=${ps.orbitBitEq}) / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・殻 |s|max=${ps.kf1.sMax}(=0 — 記帳化で飽和解消) / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
       + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本・2026-09-14 intake の併置行 ${csvIntakeN} 本は渡さない)・`
@@ -27090,6 +27118,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
           && ((wLo - wObs) * (wHi - wObs) < 0) };
     }, { wObs: kjRow ? kjRow.value : null });
     const near = (a, b, tol) => a !== null && Number.isFinite(a) && Math.abs(a - b) <= tol;
+    const has285bKJ = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
     const CK = {
       h2ref: near(r.h2ref, 0.7, 1e-12),
       h2free: near(r.h2free, 1 - 1 * 0.24 * 0.8 / 1.3, 1e-12),
@@ -27105,7 +27134,10 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       copyPrinciple: !!(r.copy && r.copy.ok === true && r.copy.cls === 'principle'
         && r.copy.hasCal === false && r.copy.hasClaims === false),
       copySrcUntouched: !!(r.copy && r.copy.srcUntouched === true),
-      bracket: r.brackets === true };
+      // 第285便b(原仮定者の裁定(第75報)⑦・R97): **固定値を変えた** —— k=0.2 の走行は受理器が kFrame を 0 に丸める(分数は宣言が要る)ので
+      //   kF0 の役割(EIH 型)で走る。f=1.2 の質量で GR の 1PN を積むと観測を上回る(第285便b の実測 24.16 °/yr —— 基点 5.77)。
+      //   旧則の「跨ぐ」は kF0 の 1PN の 1/6 の不足に依っていたので、第285便b の世代では「両端とも観測より上」を記録として固定する
+      bracket: has285bKJ ? (Number.isFinite(r.wLo) && Number.isFinite(r.wHi) && r.wLo > r.wObs && r.wHi > r.wObs) : r.brackets === true };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     add('behavior.kJointRoot', bad.length === 0,
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
@@ -27120,6 +27152,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       + `本体は 1 bit 不変=${r.copy && r.copy.srcUntouched} / `
       + `④ ⚡ 8 近点窓 ω̇: k=0.2/f=1.2 で ${r.wLo === null ? '—' : r.wLo.toFixed(4)}・`
       + `k=1.0/f=2.0 で ${r.wHi === null ? '—' : r.wHi.toFixed(4)} が観測 ${r.wObs} °/yr を跨ぐ=${r.brackets}`
+      + (has285bKJ ? '(第285便b: k=0.2 は受理器が kFrame=0 へ丸め kF0 の EIH 型で走る —— f=1.2 の質量では観測を上回るので「両端とも観測より上」を記録として固定。'
+        + '旧則の跨ぎは kF0 の 1PN の 1/6 の不足に依っていた)' : '')
       + `(**跨ぐことは根が 0.7 だという意味ではない** — 根は器 tests/exp-w264a-kjoint.mjs が出す)`);
   } else {
     console.log('SKIP behavior.kJointRoot(対象に第264便a の HP.dfmFrameKCandidates なし — root 等)');
@@ -56349,11 +56383,16 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     console.log('SKIP behavior.geo1Momentum(beta 対象でない: ' + TARGET + ' — 第282便b の記録は beta 線)');
   } else {
     const bad = [];
-    let Lg = null, out = null;
+    let Lg = null, out = null, has285bPN = false, L285 = null;
     try {
       Lg = await import('file://' + path.join(ROOT, 'tests', 'lib-w282b-geo1.mjs'));
       const L283 = await import('file://' + path.join(ROOT, 'tests', 'lib-w283a-geomode.mjs'));
-      const R = L283.GEO1_MOMENTUM_RECORD_W283A;   // 第283便a: g1 も 0(AN23)
+      // 第285便b(原仮定者の裁定(第75報)⑦・R97): kF0 の役割(geoPN=1・互換の geoPN=2∧kFrame=0・lawVersion の無い 3 → 2)は EIH 型 ——
+      //   **固定値を変えた**: 記録は tests/lib-w285b-gr1pn.mjs の `PN1_MOMENTUM_RECORD_W285B`(g1・g2・g3raw は Σm·vx ≠ 0 で互いにビット同一)。
+      //   世代は html の `dfmPN1Delta` の有無で判る(root・第284便までの beta は第283便a の記録のまま)
+      has285bPN = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
+      L285 = has285bPN ? await import('file://' + path.join(ROOT, 'tests', 'lib-w285b-gr1pn.mjs')) : null;
+      const R = has285bPN ? L285.PN1_MOMENTUM_RECORD_W285B : L283.GEO1_MOMENTUM_RECORD_W283A;   // 第283便a: g1 も 0(AN23)
       const universes = Object.keys(R.px).map((law) => [law, Lg.lawVariant(law, Lg.freeTwoBody())]);
       out = await page.evaluate(({ universes, dts }) => {
         const o = {};
@@ -56377,15 +56416,31 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (Lg.relErr(g.px, v[i]) > 1e-12 || (v[i] === 0 && g.px !== 0)) bad.push(`① ${law}@${dt} の Σm·vx ${g.px} ≠ 記録 ${v[i]}`);
         if (!g.same) bad.push(`② ${law}@${dt} で特別化と汎用の状態が違う`);
       });
-      // ③ 第283便a: geoPN=1 も 1PN の反作用を返す —— g1 の Σm·vx は 0(第282便b の旧記録 R.previousG1 ではない)
       const g1 = out.g1 || [];
+      if (has285bPN) {
+        // ③ 第285便b: kF0 の役割は EIH 型 —— g1・g2・g3raw の Σm·vx は互いにビット同一で ≠ 0・dt を半分にすると半分・
+        //   参照実装の EIH(`eihAccel`)の Σm·a·dt と相対 1e−10。他の法則(トイ scalar を除く)は 0
+        const fb = Lg.freeTwoBody(), bod = fb.bodies.map((b) => ({ m: b.m, x: b.x, y: b.y, vx: b.vx, vy: b.vy }));
+        const ea = L285.eihAccel(bod, { G: fb.physics.G, c: fb.physics.cLight, eps: fb.physics.softening });
+        const sma = bod[0].m * ea[0].pnx + bod[1].m * ea[1].pnx;
+        for (const law of R.kf0Laws) R.dts.forEach((dt, i) => { const g = out[law] && out[law][i];
+          if (!g || g.px === 0 || g.px !== (out.g1[i] || {}).px) bad.push(`③ ${law}@${dt} の Σm·vx が g1 と同じ非 0 でない`);
+          else if (Lg.relErr(g.px, sma * dt) > 1e-10) bad.push(`③ ${law}@${dt} の Σm·vx ${g.px} が EIH の Σm·a·dt ${sma * dt} と合わない`); });
+        if (!(g1[0] && g1[1] && Math.abs(g1[0].px / g1[1].px - 2) < 1e-9)) bad.push('③ geoPN=1 の Σm·vx の dt 比が 2 でない');
+        for (const law of ['g0', 'g3vmu', 'newton']) if (out[law] && out[law].some((z) => z.px !== 0)) bad.push(`③ ${law} の Σm·vx が 0 でない`);
+      } else {
+      // ③ 第283便a: geoPN=1 も 1PN の反作用を返す —— g1 の Σm·vx は 0(第282便b の旧記録 R.previousG1 ではない)
       if (!(g1[0] && g1[1] && g1[0].px === 0 && g1[1].px === 0)) bad.push('③ geoPN=1 の Σm·vx が 0 でない(反作用が返っていない —— 旧記録 ' + R.previousG1[0] + ')');
       for (const law of ['g0', 'g1', 'g2', 'g3raw', 'g3vmu', 'newton']) if (out[law] && out[law].some((z) => z.px !== 0)) bad.push(`③ ${law} の Σm·vx が 0 でない`);
+      }
     } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 100)); }
     const f = (law, i) => (out && out[law] && out[law][i]) ? Number(out[law][i].px).toExponential(6) : '—';
     add('behavior.geo1Momentum', bad.length === 0,
       `**自由二体の 1 歩の Σm·vx**(第282便b・R79・**記録であって門ではない** —— 値が動いたら気づくため): `
-      + `geoPN=1 ${f('g1', 0)}(dt=0.001)/ ${f('g1', 1)}(dt/2)・geoPN=0/2/3(宣言なし→2)/3 vMinusU/λ_PN=0 は 0・`
+      + (has285bPN
+        ? `geoPN=1 ${f('g1', 0)}(dt=0.001)/ ${f('g1', 1)}(dt/2)= geoPN=2∧kFrame=0 = 3(宣言なし→2)—— **第285便b から kF0 の 1PN は EIH 型**`
+          + `(反作用は式に内在・保存するのは 1PN の運動量 Σ∂L/∂v —— 参照実装の Σm·a·dt と一致)・geoPN=0/3 vMinusU/λ_PN=0 は 0・`
+        : `geoPN=1 ${f('g1', 0)}(dt=0.001)/ ${f('g1', 1)}(dt/2)・geoPN=0/2/3(宣言なし→2)/3 vMinusU/λ_PN=0 は 0・`)
       + `トイ scalar ${f('g3toy', 0)}(メッシュの帳簿へ移った分)/ 特別化カーネルと汎用対ループの全状態がビット一致 —— `
       + `**第283便a から geoPN=1 も 1PN の反作用を自由源へ返す**(AN23 —— 第282便b の旧記録 ${Number(7.999999840000143e-8).toExponential(6)} は正本 geo1-w282b.json〔履歴〕)`
       + `(Σm·v は状態変数の和で、相対論的な全運動量ではない)`
@@ -56446,15 +56501,21 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         return o;
       }, { universes, dts: [0.001, 0.0005] });
       let nCmp = 0;
+      // 第285便b(R97): kF0 の役割(g1・g2・g3raw —— kFrame=0)は EIH 型になった —— この 3 法則は第285便b の記録
+      //   (tests/lib-w285b-gr1pn.mjs の `PN1_MOMENTUM_RECORD_W285B`)と照合する(正本〔履歴〕の行は旧則の記録のまま)
+      const has285bPN = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
+      const R285 = has285bPN ? (await import('file://' + path.join(ROOT, 'tests', 'lib-w285b-gr1pn.mjs'))).PN1_MOMENTUM_RECORD_W285B : null;
       for (const law of lawsA) [0.001, 0.0005].forEach((dt, i) => {
         const rowLaw = (HISTORY && law === 'g1') ? 'g1R' : law;
-        const row = (J.A.rows || []).find((z) => z.law === rowLaw && z.dt === dt), g = re[law] && re[law][i];
+        const row0 = (J.A.rows || []).find((z) => z.law === rowLaw && z.dt === dt), g = re[law] && re[law][i];
+        const row = (R285 && R285.kf0Laws.includes(law) && row0)
+          ? { px: R285.px[law][i], vx: R285.vx.g1[i], vy: [0, 0], applied: row0.applied } : row0;
         if (!row || !g) { bad.push(`② ${law}@${dt} が無い`); return; }
         const pairs = [[row.px, g.px], [row.vx[0], g.vx[0]], [row.vx[1], g.vx[1]], [row.vy[0], g.vy[0]], [row.vy[1], g.vy[1]]];
         for (const [a, b] of pairs) { nCmp++; if (Lg.relErr(a, b) > 1e-12 || ((a === 0) !== (b === 0))) bad.push(`② ${law}@${dt}: 正本 ${a} ⇔ 再導出 ${b}`); }
         if (row.applied !== g.applied) bad.push(`② ${law}@${dt} の適用 geoPN が違う`);
       });
-      cases.push(`1 歩の表を再導出(${nCmp} 値・相対 1e−12${HISTORY ? '・現行の geoPN=1 は正本の反作用返しのコピー g1R と照合' : ''})`);
+      cases.push(`1 歩の表を再導出(${nCmp} 値・相対 1e−12${HISTORY ? (R285 ? '・kF0 の役割 g1・g2・g3raw は第285便b の EIH 型の記録と照合' : '・現行の geoPN=1 は正本の反作用返しのコピー g1R と照合') : ''})`);
       // ③ 表の数
       const cnt = { A: (J.A.rows || []).length, B: (J.B.rows || []).length, C1: (J.C.oneStep || []).length, C2: (J.C.orbit || []).length,
         E: (J.E.rows || []).length, F: ((J.F || {}).rows || []).length, G: ((J.G || {}).rows || []).length, Gu: ((J.G || {}).undeclared || []).length };
@@ -56564,14 +56625,22 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         return out;
       }, { bin, cal3 });
       // ①
-      if (r.version !== L283.HTML_GEO_MODE_VERSION) bad.push('① GEO_MODE_VERSION が ' + r.version);
-      if (JSON.stringify(r.core) !== '[0,2,2]') bad.push('① GEO_CORE_PN が [0,2,2] でない: ' + JSON.stringify(r.core));
+      // 第285便b(原仮定者の裁定(第75報)⑦・R97): **固定値を変えた** —— kF0 の役割(λ_PN=1∧kFrame=0)は `_core` へ 1 を渡し EIH 型の差分を
+      //   `_core` の前に当てる(core 表 [0,1,2]・版 w285b-geomode-2)。正本 geomode-w283a.json は第283便a の記録(**履歴**)なので、
+      //   導出表の core の列は正本と照合せず、ページの表から引く(他の列は正本と 1 本ずつ一致)
+      const has285bPN = typeof r.rows[0] === 'object' && fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
+      const L285 = has285bPN ? await import('file://' + path.join(ROOT, 'tests', 'lib-w285b-gr1pn.mjs')) : null;
+      const wantVer = has285bPN ? L285.HTML_GEO_MODE_VERSION_W285B : L283.HTML_GEO_MODE_VERSION;
+      const wantCore = has285bPN ? L285.CORE_TABLE_W285B : [0, 2, 2];
+      const coreOf = (z) => (has285bPN ? ((z.mode === 1) ? ((z.kFrame > 0) ? 2 : 1) : (z.mode === 2 && z.kFrame === 0) ? 1 : wantCore[z.mode]) : wantCore[z.mode]);
+      if (r.version !== wantVer) bad.push('① GEO_MODE_VERSION が ' + r.version);
+      if (JSON.stringify(r.core) !== JSON.stringify(wantCore)) bad.push('① GEO_CORE_PN が ' + JSON.stringify(wantCore) + ' でない: ' + JSON.stringify(r.core));
       const incons = r.rows.filter((z) => !z.consistent).map((z) => z.id);
       if (incons.length) bad.push('① 内蔵に不整合: ' + incons.join(','));
       for (const z of r.rows) {
         if (z.mode === 1 && z.kFrame !== 0) bad.push(`① ${z.id} は geoPN=1 なのに kFrame=${z.kFrame}`);
         if (z.mode === 2 && z.kFrame === 0 && z.compat !== 'geoPN2-kF0') bad.push(`① ${z.id} の互換が立たない`);
-        if (z.mode < 3 && z.core !== [0, 2, 2][z.mode]) bad.push(`① ${z.id} の core が ${z.core}`);
+        if (z.mode < 3 && z.core !== coreOf(z)) bad.push(`① ${z.id} の core が ${z.core}`);
         if (z.mode === 3 && z.spaceMesh !== true) bad.push(`① ${z.id} の spaceMesh が立たない`);
       }
       const byMode = {}; for (const z of r.rows) byMode[z.mode] = (byMode[z.mode] || 0) + 1;
@@ -56579,7 +56648,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const JR = new Map(((J.derive || {}).rows || []).map((z) => [z.id, z]));
         let nCmp = 0;
         for (const z of r.rows) { const y = JR.get(z.id); if (!y) { bad.push('① 正本の導出表に ' + z.id + ' が無い'); continue; }
-          for (const k of ['geoPN', 'mode', 'lambdaPN', 'kFrame', 'spaceMesh', 'core', 'role', 'consistent', 'compat']) if (y[k] !== z[k]) bad.push(`① ${z.id}.${k}: 正本 ${y[k]} ⇔ ページ ${z[k]}`);
+          for (const k of ['geoPN', 'mode', 'lambdaPN', 'kFrame', 'spaceMesh', 'core', 'role', 'consistent', 'compat']) {
+            if (has285bPN && k === 'core') continue;   // 第285便b: core は正本(履歴)の後に変わった列
+            if (y[k] !== z[k]) bad.push(`① ${z.id}.${k}: 正本 ${y[k]} ⇔ ページ ${z[k]}`); }
           nCmp++; }
         if (JR.size !== r.rows.length) bad.push(`① 正本の導出表 ${JR.size} 本 ⇔ 内蔵 ${r.rows.length} 本`);
         cases.push(`導出表 ${r.rows.length} 本(geoPN ${Object.entries(byMode).map(([k, v]) => k + ':' + v).join('/')})= 正本 ${nCmp} 本・不整合 0・core ${JSON.stringify(r.core)}`);
@@ -56630,7 +56701,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     add('behavior.geoMode', bad.length === 0,
       `**geoPN の 2 フラグ**(第283便a・原仮定者の裁定(2026-09-26 追加)・AN23・R83): ${cases.join(' / ')} —— `
       + `geoPN(モード番号)→ λ_PN(1PN の有無)・kFrame(宣言のまま)・spaceMesh(3 の排他)を \`geoModeOf\` の 1 か所で導き、`
-      + `\`S._core\` は 1 命令も変えない(geoCoreDispatch が geoPN=1 を 2 として渡す —— geoPN=1 も 1PN の反作用を自由源へ返す)`
+      + `\`S._core\` は 1 命令も変えない(第283便a: geoCoreDispatch が geoPN=1 を 2 として渡す —— geoPN=1 も 1PN の反作用を自由源へ返す。`
+      + `第285便b から kF0 の役割は 1 を渡し、EIH 型の差分を \`_core\` の前に当てる —— 正本 geomode-w283a.json は第283便a の記録〔履歴〕)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -56674,6 +56746,143 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     add('docs.geoMode', bad.length === 0,
       `**geoPN の整理の文書**(第283便a・原仮定者の裁定(2026-09-26 追加)・AN23・R83): ${cases.join(' / ')} —— 4 モードの表・2 フラグ・`
       + `反作用返し・⭐ の変化・kF0 版の定義を PHYSICS〔第283便a〕が正本の数で持つ`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第285便b(原仮定者の裁定(第75報)⑦・統括の検証項目 R97): behavior.pn1Binary ----
+// ----   **kF0 の 1PN(EIH 型)を制御二体で固定する**。このページで次を測る(正式の判定器 calaudit のページ側ヘルパ —— 近点抽出 B を
+// ----   ソースの文字列のまま注入):
+// ----     ① 制御二体(G=1・M=10・a=10・e=0.3・c=100・ε=0.01・両方 pnSource・自由・重心静止・dt 0.01・8 周・検出器 B)の λ=1 と 0 の近点移動の差を
+// ----        GR の主次数予測 6πGM/(c²a(1−e²)) で割った比が質量比 1e−4 と 1 でどちらも 0.99 以上(基点 b92ffa1 は 0.9997 と 0.1663)
+// ----     ② 等質量(ν=1/4)の比が 1 と 1e−3 以内
+// ----     ③ 正本 tests/out/pn1-w285b.json の同じ行(Node の vm で同じ器)と比の差 1e−9 以内
+// ----     ④ 試験粒子極限: 固定源 1 つ(☄️ mercuryReal)では差分 Δ(`dfmPN1Delta`)が 2000 步のどの步でも厳密に 0 —— `_core` の試験粒子形だけが
+// ----        当たる(第284便までと同じ式・同じ演算)
+// ----     ⑤ 加速度: 自由な源 3 の宇宙で html の Δ + 試験粒子形が参照実装(tests/lib-w285b-gr1pn.mjs の `eihAccel` —— EIH を全体の形で書いた式)と
+// ----        相対 1e−12 で一致
+// ----   **root は SKIP**(`dfmPN1Delta` が無い世代)。geoPN は**アプリのモード番号**(標準理論の 2PN・3PN ではない)。
+{
+  const has285bPN = TARGET.startsWith('beta/') && fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
+  if (!has285bPN) {
+    console.log('SKIP behavior.pn1Binary(対象に dfmPN1Delta が無い: ' + TARGET + ' — 第285便b の kF0 の 1PN は beta 線)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const Lg = await import('file://' + path.join(ROOT, 'tests', 'lib-w282b-geo1.mjs'));
+      const O = await import('file://' + path.join(ROOT, 'tests', 'lib-w285b-gr1pn.mjs'));
+      const LM = await import('file://' + path.join(ROOT, 'tests', 'lib-w280a-mercury.mjs'));
+      const calSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
+      const PW = Number((calSrc.match(/const PERI_WINDOW = (\d+);/) || [])[1]);
+      await page.evaluate('(function(PERI_WINDOW){' + LM.extractCalauditHelpers(calSrc) + '})(' + PW + ')');
+      const mk = (q, lam) => Lg.boundBinary({ id: 'qa_w285b_' + String(q).replace('.', 'p') + '_' + lam, m1: 10 / (1 + q), m2: 10 * q / (1 + q), a: 10, e: 0.3, G: 1,
+        lambdaPN: lam, geoPN: 1, physics: { cLight: 100, softening: 0.01, softeningFloor: 0.01 } });
+      const U = [1e-4, 1].map((q) => ({ q, p1: mk(q, 1), p0: mk(q, 0) }));
+      const three = { id: 'qa_w285b_b3', name: 'p', description: 'd', sampleClass: 'principle', world: { boundary: 'none', size: 0 }, camera: { scale: 20 },
+        physics: { G: 1, cLight: 30, softening: 0.05, softeningFloor: 1e-9, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, etaRad: 0,
+          lambdaPN: 1, pnAlpha: 1.5, stateCarry: 'double', frameWeight: 'share', timeScale: 1, massFloor: 1e-9, geoPN: 1 },
+        bodies: [{ m: 30, x: 0, y: 0, vx: 0.1, vy: -0.2 }, { m: 10, x: 8, y: 1, vx: -0.2, vy: 0.6 }, { m: 5, x: -5, y: 6, vx: 0.5, vy: 0.3 }]
+          .map((b) => Object.assign({ type: 'single', spin: 0, radius: 0.1, pinned: false, pnSource: true }, b)) };
+      const r = await page.evaluate(({ U, three }) => {
+        const run = (p) => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); HP.sim.build(v.preset);
+          const map = window.__w249map(v.preset), G = HP.sim.params.G, c = HP.sim.params.cLight;
+          const osc = window.__w249osc0(map[0], map[1], G);
+          const V0 = window.__w249build; window.__w249build = () => { HP.sim.build(v.preset); return { warnings: [], n: HP.sim.n, map }; };
+          let rr; try { rr = window.__w249run(p.id, 0.01, Math.ceil(9.5 * osc.P / 0.01), [{ ci: map[0], oi: map[1], label: p.id }], 8, G, false); } finally { window.__w249build = V0; }
+          return { B: rr.targets[0].B.slopeDeg, nB: rr.targets[0].B.nPeri, osc, c, nan: rr.nan }; };
+        const bin = U.map((z) => ({ q: z.q, one: run(z.p1), zero: run(z.p0) }));
+        // ④ 固定源 1 つ: 2000 步のどの步でも Δ≡0
+        HP.loadPreset('mercuryReal', false);
+        const S = HP.sim, DX = new Float64Array(S.n), DY = new Float64Array(S.n);
+        let nonZero = 0; for (let k = 0; k < 2000; k++) { if (dfmPN1Delta(S, DX, DY) !== 0) nonZero++; S.step(0.016); }
+        // ⑤ 自由な源 3 の Δ と状態
+        const v3 = HP.validatePreset(JSON.parse(JSON.stringify(three))); HP.sim.build(v3.preset);
+        const T = HP.sim, dx = new Float64Array(T.n), dy = new Float64Array(T.n); dfmPN1Delta(T, dx, dy);
+        const st = { DX: Array.from(dx), DY: Array.from(dy), m: Array.from(T.mEff.subarray(0, T.n)), x: Array.from(T.x.subarray(0, T.n)), y: Array.from(T.y.subarray(0, T.n)),
+          vx: Array.from(T.vx.subarray(0, T.n)), vy: Array.from(T.vy.subarray(0, T.n)), eps: T.params.softening, c: T.params.cLight };
+        HP.loadPreset('saturn', false);
+        return { bin, nonZero, st };
+      }, { U, three });
+      const ratio = (z) => (z.one.B - z.zero.B) / (O.gr1pnAdvanceRad({ GM: z.zero.osc.mu, c: z.zero.c, a: z.zero.osc.a, e: z.zero.osc.e }) * 180 / Math.PI);
+      const R1 = r.bin.map((z) => ({ q: z.q, ratio: ratio(z), nB: z.one.nB, nan: z.one.nan || z.zero.nan }));
+      for (const z of R1) if (!(z.ratio >= 0.99 && !z.nan && z.nB >= 8)) bad.push(`① 質量比 ${z.q} の比 ${z.ratio} が 0.99 未満(近点 ${z.nB})`);
+      const eq = R1.find((z) => z.q === 1);
+      if (!(Math.abs(eq.ratio - 1) <= 1e-3)) bad.push(`② 等質量の比 ${eq.ratio} が 1 と 1e−3 以内でない`);
+      cases.push(`制御二体の比 ${R1.map((z) => 'q=' + z.q + ' ' + z.ratio.toFixed(5)).join('・')}(基点 b92ffa1 は 0.9997・0.1663)`);
+      let J = null; try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pn1-w285b.json'), 'utf8')); } catch (e) { J = null; }
+      if (J) { for (const z of R1) { const y = (J.A.rows || []).find((w) => w.q === z.q);
+        if (!y || !(Math.abs(y.ratioNowB - z.ratio) <= 1e-9)) bad.push(`③ 正本の q=${z.q} の比 ${y && y.ratioNowB} ⇔ ページ ${z.ratio}`); }
+        cases.push('正本の行と一致'); } else bad.push('③ 正本 tests/out/pn1-w285b.json が無い');
+      if (r.nonZero !== 0) bad.push(`④ ☄️ で Δ が 0 でない步が ${r.nonZero}`);
+      cases.push(`☄️(固定源 1 つ)2000 步で Δ≡0`);
+      const st = r.st, bodies = st.m.map((m, i) => ({ m, x: st.x[i], y: st.y[i], vx: st.vx[i], vy: st.vy[i] })), o = { G: 1, c: st.c, eps: st.eps };
+      const full = O.eihAccel(bodies, o), tf = O.testFormSum(bodies, o);
+      let d = 0, s = 0; for (let i = 0; i < bodies.length; i++) { d = Math.max(d, Math.hypot(tf[i].ax + st.DX[i] - full[i].pnx, tf[i].ay + st.DY[i] - full[i].pny)); s = Math.max(s, Math.hypot(full[i].pnx, full[i].pny)); }
+      if (!(d / s <= 1e-12)) bad.push(`⑤ Δ + 試験粒子形と参照 EIH の相対差 ${d / s}`);
+      cases.push(`加速度(源 3)の相対差 ${(d / s).toExponential(2)}`);
+    } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+    add('behavior.pn1Binary', bad.length === 0,
+      `**kF0 の 1PN(EIH 型)の制御二体**(第285便b・原仮定者の裁定(第75報)⑦・R97): ${cases.join(' / ')} —— kF0 の役割(λ_PN=1∧kFrame=0)は`
+      + ` PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH・調和座標・座標時)を当てる(\`_core\` の試験粒子形 + \`_core\` の前の差分 Δ)。DFM から導出した項ではない`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第285便b(原仮定者の裁定(第75報)⑦・R97/R98): docs.pn1 ----
+// ----   docs/PHYSICS.md〔第285便b〕と正本 tests/out/pn1-w285b.json を突き合わせる。固定するのは 4 点:
+// ----     ① 正本の来歴(w272e-1・対象 html の sha か領域一致)・器と lib の版・html の PN1_EIH_VERSION と core 表
+// ----     ② 正本の事実: 基点の比 q=1e−4 ≥ 0.999・q=1 が 0.166±0.001(再現)・現行の全行 |比−1| ≤ 1e−3・RK4 の照合先と 1e−4 以内・加速度の照合 ≤ 1e−12・
+// ----        固定源で Δ≡0・Euler–Lagrange 残差の c 依存 −4±0.1・水星の λ 増分が ε・dt に依らない(相対 1e−4)・geoPN 1/2 の前後の差は EIH の本だけ
+// ----     ③ PHYSICS〔第285便b〕が「## 7.」の前にあり、裁定・R97/R98・Blanchet & Iyer・(1−10ν/3)・正本の数(`physicsNumbers`)を持つ
+// ----     ④ 禁止語 0(〔第285便b〕の「」の外と正本〔doNotWrite を除く〕)
+// ----   **root は SKIP**(beta 線の正本)。
+{
+  let J = null;
+  try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pn1-w285b.json'), 'utf8')); } catch (e) { J = null; }
+  if (!TARGET.startsWith('beta/') || !J || fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') < 0) {
+    console.log('SKIP docs.pn1(beta 対象でないか正本・dfmPN1Delta が無い: ' + TARGET + ' — 第285便b の正本は beta 線)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const O = await import('file://' + path.join(ROOT, 'tests', 'lib-w285b-gr1pn.mjs'));
+      const M = J.meta || {};
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (M.provenanceVersion !== 'w272e-1') bad.push('① 来歴の版が w272e-1 でない');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, M, sha)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
+      if (J.libVersion !== O.GR1PN_W285B_VERSION) bad.push('① 正本の lib の版が違う: ' + J.libVersion);
+      if (J.htmlPn1Version !== O.HTML_PN1_EIH_VERSION || JSON.stringify(J.coreTable) !== JSON.stringify(O.CORE_TABLE_W285B)) bad.push('① html の PN1_EIH_VERSION・core 表が違う');
+      cases.push('来歴・版');
+      const A = J.A.summary;
+      if (!(A.reproBase.q1e4 >= 0.999 && Math.abs(A.reproBase.q1 - 0.166) <= 1e-3)) bad.push(`② 基点の再現 ${A.reproBase.q1e4}・${A.reproBase.q1}`);
+      if (!(A.maxDevNow <= 1e-3 && A.maxDevNowVsOracle <= 1e-4)) bad.push(`② 現行の比のずれ ${A.maxDevNow}・照合先との差 ${A.maxDevNowVsOracle}`);
+      if (!(J.B.maxRel <= 1e-12 && J.B.zeroOk === true)) bad.push(`② 加速度の照合 ${J.B.maxRel}・固定源の Δ≡0 ${J.B.zeroOk}`);
+      for (const g of ['1', '0.5', '0']) if (!(Math.abs(J.C.slope[g] + 4) <= 0.1)) bad.push(`② EL 残差の c 依存(γ=${g})${J.C.slope[g]}`);
+      const inc = J.F.grid.map((z) => z.incB);
+      if (!(Math.max(...inc) / Math.min(...inc) - 1 <= 1e-4)) bad.push('② 水星の λ 増分が ε・dt で動く');
+      const G = J.G;
+      if (!(G.changedNotEih.length === 0 && G.sigSame === G.n)) bad.push(`② EIH の本以外の差 ${G.changedNotEih.join(',')}・署名 ${G.sigSame}/${G.n}`);
+      cases.push(`基点 ${A.reproBase.q1e4.toFixed(4)}・${A.reproBase.q1.toFixed(4)} → 現行 ${A.now.q1e4.toFixed(5)}・${A.now.q1.toFixed(5)}・前後 ${G.bitSame128}/${G.n}`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const i0 = P.indexOf('\n〔第285便b — '), i7 = P.indexOf('\n## 7. ');
+      if (i0 < 0) bad.push('③ PHYSICS に〔第285便b〕節が無い');
+      else {
+        if (!(i7 > i0)) bad.push('③〔第285便b〕が「## 7.」の前に無い');
+        const i1 = (() => { const z = [P.indexOf('\n〔第', i0 + 5), P.indexOf('\n## ', i0 + 5)].filter((q) => q >= 0); return z.length ? Math.min(...z) : P.length; })();
+        const sec = P.slice(i0, i1);
+        const need = ['原仮定者の裁定(第75報)', '統括の検証項目 R97', 'R98', 'Blanchet & Iyer', '1−10ν/3', 'EIH', 'アプリのモード番号', 'λ_PN=0'].concat(O.physicsNumbers(J));
+        for (const w of need) if (sec.indexOf(w) < 0) bad.push('③ PHYSICS〔第285便b〕に ' + w + ' が無い');
+        cases.push(`PHYSICS〔第285便b〕の語と数 ${need.length} 件`);
+        const secNoQuote = sec.replace(/「[^」]*」/g, '');
+        for (const w of O.FORBIDDEN_W285B) if (secNoQuote.indexOf(w) >= 0) bad.push('④ PHYSICS〔第285便b〕に禁止語 ' + w);
+      }
+      const scanJ = JSON.parse(JSON.stringify(J)); delete scanJ.doNotWrite;
+      const txt = JSON.stringify(scanJ);
+      for (const w of O.FORBIDDEN_W285B) if (txt.indexOf(w) >= 0) bad.push('④ 正本に禁止語 ' + w);
+      cases.push('禁止語 0');
+    } catch (e) { bad.push('正本・lib が読めない: ' + String(e).slice(0, 120)); }
+    add('docs.pn1', bad.length === 0,
+      `**kF0 1PN 対照の文書**(第285便b・原仮定者の裁定(第75報)⑦・R97/R98): ${cases.join(' / ')} —— 旧 kF0 則の相対二体への還元(1−10ν/3)・`
+      + `EIH 型への修正・制御二体・λ_PN=0 の対照・水星の ε/dt の分解を PHYSICS〔第285便b〕が正本の数で持つ`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }

@@ -1188,7 +1188,7 @@ ja: {
   // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
   grpSpacetimeDesc:"時空の骨格を決める法則群 — 光速 c₀・重力 G・時空係数 κ(時計と光)・一様重力 g_x/g_y・物理対応ロック(κ=G/c₀²)。この宇宙の「舞台」を作るパラメータ。",
   grpSpinHeatDesc:"スピン=熱のセクター(A9〜A12系)— 圧力の正体であるスピン斥力 kRep・摩擦 muF・衝突減衰 γn・熱伝導 κs・放射冷却 η_rad・ウィーン定数 b_m・熱容量 C。熱・温度・光のスペクトルに関わる法則。",
-  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(モード番号)**: 0=測地線不用 / 1=kF0 版(1PN の測地線・kFrame=0 専用・1PN の反作用を自由源へ返す)/ 2=引きずり有り(DFM 版は kFrame=1)/ 3=空間メッシュ(排他)。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ(第283便a)。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。",
+  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(モード番号)**: 0=測地線不用 / 1=kF0 版(1PN の測地線・kFrame=0 専用・第285便b から有限質量比の N 体 1PN〔EIH 型 —— 反作用は式に内在〕)/ 2=引きずり有り(DFM 版は kFrame=1)/ 3=空間メッシュ(排他)。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ(第283便a)。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。",
   grpLabBoxDesc:"箱境界のサンプル専用の実験条件 — 伝熱壁の壁温/壁レート(tint 箱のみ)と壁別の反発係数。箱を「ビーカーの壁」として外部環境を与える。箱境界のサンプルでのみ表示される。",
   grpSimDesc:"物理法則ではなく数値・離散化の設定 — ソフトニング ε・時間経過倍率(速回し)・摂動注入・ステップ診断・物理ベンチ。結果の頑健性を確かめる実験ノブでもある。",   /* 第254便c: ステップ診断・物理ベンチを追記(粒子表示倍率は表示カテゴリへ移動) */
   grpGraphDesc:"グラフウィンドウ(回転曲線・温度ヒストグラム・スペクトル・膨張・相変化・機構スペクトル・創発モニタ)の表示切替。表示のみ — OFF なら計測コストもゼロ。「初めから」ではリセットされない(第95便)。",
@@ -2051,7 +2051,7 @@ en: {
   // wave 95: category descriptions (ⓘ) for every category
   grpSpacetimeDesc:"The laws that set the stage of this universe — light speed c₀, gravity G, the spacetime coefficient κ (clocks & light), uniform gravity g_x/g_y, and the correspondence lock (κ=G/c₀²).",
   grpSpinHeatDesc:"The spin=heat sector (A9–A12) — spin repulsion kRep (the origin of pressure), friction muF, collision damping γn, conduction κs, radiative cooling η_rad, Wien constant b_m and heat capacity C. Everything about heat, temperature and spectra.",
-  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A MODE NUMBER): 0 = no geodesic / 1 = kF0 build (1PN geodesic, kFrame=0 only, the 1PN reaction is returned to free sources) / 2 = with dragging (the DFM build has kFrame=1) / 3 = space mesh (exclusive). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame (wave 283a). THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets).",
+  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A MODE NUMBER): 0 = no geodesic / 1 = kF0 build (1PN geodesic, kFrame=0 only; from wave 285b the finite-mass-ratio N-body 1PN in EIH form, with the reaction built into the equations) / 2 = with dragging (the DFM build has kFrame=1) / 3 = space mesh (exclusive). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame (wave 283a). THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets).",
   grpLabBoxDesc:"Experimental conditions specific to box-bounded samples — thermal-wall temperature/rate (tint boxes only) and per-wall restitution. The box acts as a beaker wall providing an external environment. Shown only for box-bounded samples.",
   grpSimDesc:"Numerical / discretization settings, not physical laws — softening ε, time multiplier (fast-forward), perturbation injection, step diagnostics and the physics bench. Also robustness-testing knobs.",   /* wave 254c */
   grpGraphDesc:"Toggles for graph windows (rotation curve, temperature histogram, spectrum, expansion, phase change, mechanism spectrum, emergence monitor). Display only — zero cost when OFF. Not reset by ⏮ Restart (wave 95).",
@@ -3350,8 +3350,11 @@ const CAL_CONTRACT={"version":"w283a-1","ruling":"原仮定者の裁定(第72報
 // 受理器を通らない経路(UI のつまみ・build 直呼び)で geoPN=1 のまま kFrame>0 にした状態は、同じ 2 フラグ(λ_PN=1・kFrame>0)
 // として geoPN=2 と同じ処理で走る(`consistent:false` —— ラベルだけが食い違う)。physics.lambdaPN は 1PN 項の**係数**
 // (0〜1)で、ここで言う λ_PN(有無)とは別の欄である(`lambdaPNCoef`)。
-const GEO_MODE_VERSION="w283a-geomode-1";
-const GEO_CORE_PN=[0,2,2];   // geoPN 0/1/2 → `S._core` へ渡す番号(λ_PN=0→0・λ_PN=1→2)。3 は geoCoreDispatch が入場で決める
+const GEO_MODE_VERSION="w285b-geomode-2";   // 第285便b: core 表 [0,2,2]→[0,1,2]・kF0 の 1PN を EIH 型へ(欄 pn1)
+// 第285便b(原仮定者の裁定(第75報)⑦・R97): **kF0 の役割(λ_PN=1 ∧ kFrame=0)は `_core` へ 1 を渡す**(試験粒子形の 1PN・反作用は返さない)
+// + `_core` の前の差分 Δ=EIH−試験粒子形(`dfmPN1EIHKick`)。上の 4 行の読み替え: kF0 では geo=真・geo2=偽 —— E6′・輸送 3 項・u 減算・
+// 対反作用は立たない(反作用は EIH 型の式に内在する)。geoPN=2 ∧ kFrame>0(DFM 版)は従来どおり 2・geoPN=1 ∧ kFrame>0(不整合)も 2。
+const GEO_CORE_PN=[0,1,2];   // geoPN 0/1/2 → `S._core` へ渡す番号(λ_PN=0→0・kF0〔λ_PN=1∧kFrame=0〕→1 + EIH の差分・DFM〔λ_PN=1∧kFrame>0〕→2)。3 は geoCoreDispatch が入場で決める
 const GEO_MODE_ROLE=["noGeodesic","kF0","dfm","spaceMesh"];   // 0=測地線不用 / 1=kF0 版 / 2=DFM 版(kFrame=0 は互換入力) / 3=空間メッシュ
 function geoModeOf(ph){
   const g=(ph && typeof ph.geoPN==="number" && isFinite(ph.geoPN))? ph.geoPN : 0;
@@ -3365,7 +3368,9 @@ function geoModeOf(ph){
     out.lambdaPN=(sm && sm.pn==="reference-1PN")? 1 : 0;   // 3 の 1PN は宣言 pn:"reference-1PN"(第280便c)のときだけ(_core の外)
     out.spaceMeshDeclared=!!sm; }
   if(mode===1 && kF!==0) out.consistent=false;                       // 受理器は拒否する組(kFrame>0 の geoPN=1 は無い)
-  if(mode===2 && kF===0){ out.role="kF0"; out.compat="geoPN2-kF0"; }  // 旧宣言(互換入力): kF0 版と同じ処理(ビット同一)
+  if(mode===1 && kF>0) out.core=2;                                     // 第285便b: 不整合の組は v−u 則(2)で走る(geoCoreDispatch と同じ)
+  if(mode===2 && kF===0){ out.role="kF0"; out.compat="geoPN2-kF0"; out.core=GEO_CORE_PN[1]; }  // 旧宣言(互換入力): kF0 版と同じ処理(ビット同一)
+  out.pn1=(out.core===GEO_CORE_PN[1] && mode!==0)? "eih" : null;       // 第285便b: kF0 の 1PN は EIH 型(PN1_EIH_VERSION)
   return out;
 }
 // ===== 第273便c(第63報・統括の検証項目 AG24): **正式判定値の side table** =====
@@ -43378,6 +43383,85 @@ function dfmTestParticleStep(S,dt,T,n0,n){
     if(S.hasPulse && S.pulseOm[t]!==0) S.pulsePh[t]+=S.pulseOm[t]*dt;
   }
 }
+// ===== 第285便b(原仮定者の裁定(第75報)⑦・統括の検証項目 R97): **kF0 の 1PN を有限質量比の N 体 1PN(EIH 型)にする** =====
+// 旧 kF0 則(第283便a〜第284便)は「受け手の絶対速度と相手の静的ポテンシャルで試験粒子型の 1PN 項を評価し、∇U 因子の対反作用を
+// 自由源へ返す」形で、両天体が自由な孤立二体(重心静止)に還元すると a_PN=(GM/c²r²)[(4GM/r−(1−2ν)v²)n+4(1−2ν)ṙv]、近点移動は
+// GR の (1−10ν/3) 倍(等質量で 1/6)だった。本便から kF0 の役割(λ_PN=1 ∧ kFrame=0)は、PPN(β=1・γ=α−½ —— α=pnAlpha)の
+// N 体 1PN の運動方程式(調和座標・座標時 t —— GR の α=1.5 で Einstein–Infeld–Hoffmann 式)を当てる:
+//   a_a = Σ_b g_ab{1 + (λ/c²)[γv_a² + (1+γ)v_b² − 2(1+γ)v_a·v_b − (3/2)(n_ab·v_b)² − 2(1+γ)Φ_a − Φ_b + ½(x_b−x_a)·g_b]}
+//       + (λ/c²)Σ_b (Gm_b/r_ab²)[n_ab·(2(1+γ)v_a − (1+2γ)v_b)](v_a−v_b) + (λ/c²)((3+4γ)/2)Σ_b Gm_b g_b/r_ab
+// (g_ab=−Gm_b n_ab/r_ab² は a が b から受けるニュートン加速度・Φ_a=Σ_{c≠a} Gm_c/r_ac・g_b=Σ_{c≠b} g_bc は源 b のニュートン加速度)。
+// **和は 1PN 源(pnSource と同じ条件)だけ**を走る —— 源でない天体(試験粒子)は 1PN の場を作らず、受けるだけ。固定(pinned)の
+// 受け手は受けない・固定の源の g_b は 0(拘束)。軟化は `_core` と同じ Plummer 形(1/r→W=1/√(r²+ε²)・n/r²→(x_a−x_b)W³)。
+// 実装は **`_core` の中の試験粒子形(core=1 —— 反作用を返さない)+ ここの差分 Δ=EIH−試験粒子形**。Δ は源が 1 つで固定・静止
+// なら厳密に 0 になり(Φ_a−U_b・v_b・g_b・Φ_b がすべて 0)、その宇宙では 1 bit も当てない。相対二体に還元すると Blanchet & Iyer
+// (gr-qc/0209089 §III)の調和座標の 1PN 相対加速度に一致し、近点移動は ν に依らず GR と同じ(器 tests/exp-w285b-pn1.mjs・
+// 参照実装 tests/lib-w285b-gr1pn.mjs)。**保存量は 1PN の量**(EIH のエネルギー・運動量 Σ∂L/∂v)であって Σm·v ではない。
+// **DFM から導出した項ではない**(kF0 対照 —— 標準理論の 1PN と照合する物差し)。geoPN=2 ∧ kFrame>0(DFM 版)は変えない。
+const PN1_EIH_VERSION="w285b-eih-1";
+const PN1_CONTRACT={version:PN1_EIH_VERSION, law:"PPN N-body 1PN (EIH at pnAlpha=1.5)", ppn:{beta:1, gamma:"pnAlpha-0.5"},
+  coordinates:"harmonic", time:"coordinate time t (the simulation time)", role:"kF0 (lambdaPN=1 and kFrame=0: geoPN=1, and the compat input geoPN=2 with kFrame=0)",
+  sources:"sums run over 1PN sources only (pnSource: declared pnSource or m >= pnK*max(R,eps)); non-sources only receive",
+  pinned:"pinned receivers receive nothing; a pinned source has g_b=0", softening:"Plummer, same as _core (1/r -> 1/sqrt(r^2+eps^2))",
+  scale:"lambdaPN multiplies the whole 1PN term", conserved:"1PN energy and momentum (sum of dL/dv), not the Newtonian sum of m*v",
+  split:"_core adds the test-particle form (core=1, no reaction); dfmPN1EIHKick adds Delta = EIH - test-particle form before _core",
+  notDerivedFromDFM:true};
+// Δ=EIH−試験粒子形(`_core` の core=1 が当てる分)を DX/DY に書く。当てた受け手の数を返す(0 なら何も当てない)。**状態は変えない**。
+function dfmPN1Delta(S,DX,DY){
+  const p=S.params, n=S.n, G=p.G, c=p.cLight;
+  const invC2=(p.lambdaPN!==undefined? p.lambdaPN : 1)/(c*c);
+  for(let i=0;i<n;i++){ DX[i]=0; DY[i]=0; }
+  if(!(n>=2) || !(invC2>0) || !(G>0)) return 0;
+  const pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5), gam=pnA-0.5, cA=1+2*pnA;   // β=1: 2(β+γ)=1+2α=cA
+  const cVb=1+gam, cV2=1+2*gam, cAb=(3+4*gam)/2;
+  const pnK=(RAY_ALPHA_MIN/4)*(c*c)/G, eps=p.softening, eps2=eps*eps;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.mEff, R=S.R, pin=S.pinned, pnOv=S.pnOv;
+  let T=S._pn1; if(!T || T.nAl<n) T=S._pn1={nAl:n, src:new Int32Array(n), phi:new Float64Array(n), gx:new Float64Array(n), gy:new Float64Array(n)};
+  const src=T.src, phi=T.phi, gxA=T.gx, gyA=T.gy;
+  let ns=0; for(let i=0;i<n;i++) if(pnOv[i] || m[i]>=pnK*Math.max(R[i],eps)) src[ns++]=i;
+  if(ns===0) return 0;
+  for(let i=0;i<n;i++){   // Φ_i(源だけの和)と源のニュートン加速度 g_i(源だけの和・固定は 0)
+    let ph=0, gx=0, gy=0;
+    for(let k=0;k<ns;k++){ const j=src[k]; if(j===i) continue;
+      const dx=x[i]-x[j], dy=y[i]-y[j], W=1/Math.sqrt(dx*dx+dy*dy+eps2), Gm=G*m[j], f=Gm*W*W*W;
+      ph+=Gm*W; gx-=f*dx; gy-=f*dy; }
+    phi[i]=ph; gxA[i]=pin[i]? 0 : gx; gyA[i]=pin[i]? 0 : gy;
+  }
+  let nAny=0;
+  for(let a=0;a<n;a++){
+    if(pin[a]) continue;
+    const vax=vx[a], vay=vy[a], phA=phi[a];
+    let sx=0, sy=0;
+    for(let k=0;k<ns;k++){ const b=src[k]; if(b===a) continue;
+      const dx=x[a]-x[b], dy=y[a]-y[b], W=1/Math.sqrt(dx*dx+dy*dy+eps2), Gm=G*m[b], q=Gm*W*W*W;
+      const vbx=vx[b], vby=vy[b], gbx=gxA[b], gby=gyA[b];
+      const dva=dx*vax+dy*vay, dvb=dx*vbx+dy*vby;
+      // 係数(g_ab の向き): (1+γ)v_b² − 2(1+γ)v_a·v_b − (3/2)(n·v_b)² − 2(1+γ)(Φ_a−U_b) − Φ_b + ½(x_b−x_a)·g_b
+      const s=cVb*(vbx*vbx+vby*vby) - 2*cVb*(vax*vbx+vay*vby) - 1.5*dvb*dvb*W*W - cA*(phA-Gm*W) - phi[b] - 0.5*(dx*gbx+dy*gby);
+      // 速度項: (Gm/r³)[−2(1+γ)(d·v_a)v_b − (1+2γ)(d·v_b)(v_a−v_b)]・加速度項: ((3+4γ)/2)(Gm/r)g_b
+      sx+=s*(-q*dx) + q*(-cA*dva*vbx - cV2*dvb*(vax-vbx)) + cAb*Gm*W*gbx;
+      sy+=s*(-q*dy) + q*(-cA*dva*vby - cV2*dvb*(vay-vby)) + cAb*Gm*W*gby;
+    }
+    if(sx!==0 || sy!==0){ DX[a]=invC2*sx; DY[a]=invC2*sy; nAny++; }
+  }
+  return nAny;
+}
+// Δ を h だけ速度へ当てる(stateCarry:"double" は `_core` と同じ補償和)。Δ が 0 の受け手には 1 bit も触らない。
+function dfmPN1EIHKick(S,h){
+  const n=S.n;
+  let K=S._pn1K; if(!K || K.dx.length<n) K=S._pn1K={dx:new Float64Array(n), dy:new Float64Array(n)};
+  if(!dfmPN1Delta(S,K.dx,K.dy)) return 0;
+  const vx=S.vx, vy=S.vy, carV=!!S.carVx;
+  for(let i=0;i<n;i++){
+    const kx=K.dx[i]*h, ky=K.dy[i]*h;
+    if(kx===0 && ky===0) continue;
+    if(carV){
+      const addX=kx+S.carVx[i], v0x=vx[i]; vx[i]=v0x+addX; S.carVx[i]=addX-(vx[i]-v0x);
+      const addY=ky+S.carVy[i], v0y=vy[i]; vy[i]=v0y+addY; S.carVy[i]=addY-(vy[i]-v0y);
+    } else { vx[i]+=kx; vy[i]+=ky; }
+  }
+  return 1;
+}
 // 第259便a: **geoPN=3 の dispatch 除外**(`S._core` には 1 命令も足さない)。
 // `S._core` は入口で `const n=S.n, p=S.params;` と読むだけなので、**`_core` を呼んでいる間だけ**
 // `S.params.geoPN` を 0 にして戻す。これで `geo=(p.geoPN||0)>0`・`geo2=(p.geoPN||0)>=2`・
@@ -43396,13 +43480,21 @@ function dfmTestParticleStep(S,dt,T,n0,n){
 // `geoModeOf` の 1 か所)。_core の中の geo・geo2 がどちらも λ_PN=1 になり、1PN の反作用が自由源へ返る(第282便b の器内
 // コピー g1R と同じ分岐)。kFrame=0 では E6′・輸送 3 項・u 減算が立たないので geoPN=1 ≡ geoPN=2∧kFrame=0(ビット同一)。
 // 固定源(pinned)の本(☿・V18)は反作用の分岐に入らないので 1 bit も変わらない。geoPN=0/2 の経路は従来のまま。
+// 第285便b(原仮定者の裁定(第75報)⑦・統括の検証項目 R97): **kF0 の役割(λ_PN=1 ∧ kFrame=0 —— geoPN=1 と互換入力の geoPN=2∧kFrame=0)
+// は `_core` へ 1 を渡し**(試験粒子形の 1PN・反作用は返さない)、**有限質量比の差分 Δ=EIH−試験粒子形を `_core` の前に 1 回当てる**
+// (`dfmPN1EIHKick` —— semi は dt・leapfrog は各パスの前に dt/2。第280便c の `dfmGeo3PNKick` と同じ相)。反作用は EIH 型の式に内在する
+// ので別途「返す」処理は無い。**`S._core` は 1 命令も変えない**。固定源 1 つ(☿・☄️・📡・💍・V18)は Δ が厳密に 0 なので 1 bit も変わらない。
+// geoPN=1 ∧ kFrame>0(受理器を通らない不整合)は従来どおり 2(v−u 則)・geoPN=2 ∧ kFrame>0(DFM 版)と 0・3 は 1 命令も変わらない。
 function geoCoreDispatch(S,dt,mode){
-  if(S.hasTestParticle){ dfmTestParticleCore(S,dt,mode); return; }   // 第283便c: 試験粒子契約(未宣言は真偽値 1 つで素通り)
-  const p=S.params, g=p.geoPN;
+  const p=S.params, g=p.geoPN, kf0=(g>0 && g<3 && !(p.kFrame>0));   // 第285便b: kF0 の役割(2 フラグ: λ_PN=1・kFrame=0)
+  if(S.hasTestParticle){   // 第283便c: 試験粒子契約(未宣言は真偽値 1 つで素通り)
+    if(!kf0){ dfmTestParticleCore(S,dt,mode); return; }
+    dfmPN1EIHKick(S,(mode===0)? dt : dt*0.5); p.geoPN=GEO_CORE_PN[1]; try{ dfmTestParticleCore(S,dt,mode); } finally{ p.geoPN=g; } return; }
   if(g>=3){
     if(S.hasGeo3PN) dfmGeo3PNKick(S,(mode===0)? dt : dt*0.5);
     p.geoPN=(S.hasGeoToy || S.hasGeo3)?0:2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
-  else if(g>0 && g<2){ p.geoPN=GEO_CORE_PN[1]; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
+  else if(kf0){ dfmPN1EIHKick(S,(mode===0)? dt : dt*0.5); p.geoPN=GEO_CORE_PN[1]; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
+  else if(g>0 && g<2){ p.geoPN=2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }   // geoPN=1 ∧ kFrame>0(不整合)—— 従来どおり
   else S._core(dt,mode);
 }
 // ===== 第280便c: geoPN=3・vMinusU の**天体ごとのメッシュ速度 u**(步の頭の状態で評価・未定義の点は null) =====
