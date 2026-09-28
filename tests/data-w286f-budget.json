@@ -1,0 +1,74 @@
+{
+ "version": "w286f-budget-1",
+ "since": "第286便f",
+ "ruling": "原仮定者の裁定(第76報)AN44(量ごとに窓と誤差予算 —— 同じ ID のまま・💍 C 環内縁と 💠 ミランダを先に書く)",
+ "status": "宣言表(判定器 tests/exp-w249b-calaudit.mjs は読むだけ —— 門の合否の規則は変えない。量ごとの行の budget 欄へ写す)",
+ "sigmaBudget": {
+  "factor": 0.3,
+  "status": "proposal",
+  "note": "0.3σ は提案値であって合意済みの閾値ではない(現行の門の数値予算と同じ値を写しただけ —— 採否は決断事項)"
+ },
+ "rules": [
+  "σ がある量は数値誤差予算(数値誤差幅 ε_num ≤ factor × σ —— factor は上の提案値)",
+  "σ の無い量は事前に宣言した絶対幅または相対幅(結果を見て広げない)",
+  "窓不足(必要近点数・公転数に届かない段)と量の不一致(定義・宛先の不一致)を幅で救わない —— 窓不足は未測定・不一致は mapping-unresolved のまま",
+  "周期・近点移動・離心率を同じ契約にしない(量の種類ごとに窓と予算を分ける)",
+  "転記・宣言の行(other)と自転の保持(spin)は数値の判定をしない —— 窓と予算は「判定しない」と宣言する(空欄にしない)"
+ ],
+ "kinds": {
+  "period": {
+   "window": { "needPeriastra": 20, "orbits": null, "def": "近点間周期 = 最初の 20 近点(19 区間)の平均間隔(停止規則の必要近点数 —— 📡 などの宣言が優先)。円に近い系・同方向1周の行は定義の宣言に従う" },
+   "budget": { "withSigma": { "mode": "sigma", "factor": 0.3 }, "noSigma": { "mode": "relative", "width": 0.0001, "of": "obs", "note": "観測値の 1×10⁻⁴(事前の相対幅)" } }
+  },
+  "precession": {
+   "window": { "needPeriastra": 20, "orbits": null, "def": "近点の位相の直線 fit(同じ近点集合 —— 周期の窓と同じ近点で換算する)" },
+   "budget": { "withSigma": { "mode": "sigma", "factor": 0.3 }, "noSigma": { "mode": "relative", "width": 0.01, "of": "meas", "floorAbs": 0.0001, "unit": "deg/orbit", "note": "実測値の 1%(0 に近い量は絶対 1×10⁻⁴ °/周 を下限)" } }
+  },
+  "ecc": {
+   "window": { "needPeriastra": null, "orbits": 2, "def": "半径比 proxy (r_max−r_min)/(r_max+r_min) —— 同じ走行窓で 2 公転以上" },
+   "budget": { "withSigma": { "mode": "sigma", "factor": 0.3 }, "noSigma": { "mode": "absolute", "width": 0.0001, "unit": "1", "note": "絶対 1×10⁻⁴(円に近い系で相対幅は使わない)" } }
+  },
+  "spin": {
+   "window": { "needPeriastra": null, "orbits": null, "def": "走行窓の全体(停止規則の步数)で殻・コアの保持を見る" },
+   "budget": { "withSigma": { "mode": "not-judged" }, "noSigma": { "mode": "not-judged", "note": "保持の記録であって観測値との数値判定をしない" } }
+  },
+  "other": {
+   "window": { "needPeriastra": null, "orbits": null, "def": "宣言・転記の行(走行窓に依らない)" },
+   "budget": { "withSigma": { "mode": "not-judged" }, "noSigma": { "mode": "not-judged", "note": "転記・宣言の行 —— 数値の判定をしない" } }
+  }
+ },
+ "entries": [
+  {
+   "key": "saturnRingReal|C環内縁|precession",
+   "emoji": "💍",
+   "first": true,
+   "why": "第284便e の試験粒子契約の前後で近点移動の符号が変わった(−0.235036 → +0.228481 °/周 —— tests/out/tpsign-w284e.json の nextCalibration)。環は表示のまま(環粒子そのもの)",
+   "window": { "needPeriastra": 20, "orbits": null, "def": "C 環内縁の環粒子の近点(停止規則の宣言步数 2,042,988 —— 近点 63 個)" },
+   "budget": { "noSigma": { "mode": "absolute", "width": 0.001, "unit": "deg/orbit", "note": "0 に近く符号が変わる量 —— 相対幅は使わない(絶対 1×10⁻³ °/周)。n>12 で dt/2 の段が無いので数値誤差幅は未測定 —— 幅で救わない" } }
+  },
+  {
+   "key": "uranusReal|ミランダ|precession",
+   "emoji": "💠",
+   "first": true,
+   "why": "第284便e の試験粒子契約の前後で近点移動が約 +35%(0.00320467 → 0.00431815 °/周 —— 環 11 帯の重力が源から消えた分)",
+   "window": { "needPeriastra": 20, "orbits": null, "def": "ミランダの近点(停止規則の宣言步数 1,075,028 では近点 14 個 —— 窓不足は未測定のまま)" },
+   "budget": { "noSigma": { "mode": "relative", "width": 0.01, "of": "meas", "floorAbs": 0.0001, "unit": "deg/orbit", "note": "実測値の 1%(近点移動の種類の既定と同じ)。窓不足を幅で救わない" } }
+  },
+  {
+   "key": "saturnRingReal|タイタン|ecc",
+   "emoji": "💍",
+   "first": false,
+   "why": "第284便e の前後で −16.9%(0.0000221986 → 0.0000184525)",
+   "window": { "needPeriastra": null, "orbits": 2, "def": "タイタンの公転 2 回以上(停止規則の宣言步数では近点 3 個 —— 窓不足は未測定のまま)" },
+   "budget": { "noSigma": { "mode": "absolute", "width": 0.000001, "unit": "1", "note": "離心率 2×10⁻⁵ の量 —— 絶対 1×10⁻⁶" } }
+  },
+  {
+   "key": "saturnRingReal|タイタン|precession",
+   "emoji": "💍",
+   "first": false,
+   "why": "第284便e の前後で −1.43044 → −0.174516 °/周(相対差 0.878)",
+   "window": { "needPeriastra": 20, "orbits": null, "def": "タイタンの近点(近点 3 個 —— 窓不足は未測定のまま)" },
+   "budget": { "noSigma": { "mode": "absolute", "width": 0.01, "unit": "deg/orbit", "note": "絶対 1×10⁻² °/周。窓不足を幅で救わない" } }
+  }
+ ]
+}

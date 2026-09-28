@@ -118,6 +118,8 @@ import { scopeHash as w284cScopeHash } from './lib-w281a-scope.mjs';
 //   判定・併合・書き出しは 1 プロセスで直列と同じ経路を通す —— `--shard-plan` / `--shard-jobs … --shard-dump` / `--shard-load`)。
 //   引数なしの走行は 1 文字も変わらない。使い方は tools/calaudit-split.mjs。
 import { SHARD_VERSION, jobKey, parseShardArgs, makeDump, writeDump, readDump, collectDumps, sameClone } from './lib-w284f-calshard.mjs';
+// 第286便f(原仮定者の裁定(第76報)AN44): 量ごとの窓と誤差予算の**宣言表**(tests/data-w286f-budget.json)を読むだけ —— 行の `budget` 欄へ写す(門の規則は変えない)
+import { loadBudgetTable, resolveBudget, compactBudget, auditBudgetTable, BUDGET_TABLE_FILE, BUDGET_LIB_VERSION } from './lib-w286f-budget.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -4342,6 +4344,26 @@ if (!TP_COPY) {
     rule: '**削っていない** —— 上の欄は別ファイルへ移しただけである。正本を単独で配ると'
       + 'これらの欄の参照先が欠ける(`…Moved` の印が残るので、欠けていることが分かる)。',
     says: '**分離はサイズの都合であって、診断を捨てたという意味ではない**。' };
+}
+
+// ---------------------------------------------------------------- 第286便f(原仮定者の裁定(第76報)AN44)
+// **量ごとの窓と誤差予算**: 宣言表(tests/data-w286f-budget.json)を読み、全 preset(kF0 の診断コピーを含む)の全量の行へ `budget` 欄を写す。
+// **門の合否の規則は変えない**(gate の status・nSigma・numBound・verdict は読みも書きもしない)。--merge で持ち越した行も今の表で写し直す
+// (表は走行の入力ではなく宣言 —— 行ごとの世代が混ざらない)。表の形と全量の被覆は QA behavior.calauditBudgetTable が同じ関数で見る。
+{
+  const BT = loadBudgetTable(ROOT);
+  let nRows = 0, nEntry = 0;
+  for (const p of (out.presets || [])) for (const q of (p.quantities || [])) {
+    const r = resolveBudget(BT.table, p.id, q); nRows++;
+    q.budget = compactBudget(r);   // 短い形(文言は下の budgetTable.table に 1 部だけ)
+    if (r && r.source === 'entry') nEntry++;
+  }
+  const au = auditBudgetTable(BT.table, out);
+  out.budgetTable = { since: '第286便f(原仮定者の裁定(第76報)AN44)', file: BUDGET_TABLE_FILE, version: BT.table.version, lib: BUDGET_LIB_VERSION,
+    sha256: BT.sha256, rows: nRows, entryRows: nEntry, entries: (BT.table.entries || []).map((e) => e.key), audit: { ok: au.ok, bad: au.bad, cover: au.cover },
+    sigmaBudget: BT.table.sigmaBudget, table: { rules: BT.table.rules, kinds: BT.table.kinds, entries: BT.table.entries },
+    says: '宣言表を行へ写しただけ —— **門の合否の規則は変えていない**。0.3σ は提案値(合意済みの閾値ではない)。窓不足・量の不一致を幅で救わない' };
+  console.error(`[w286f] 窓と誤差予算の宣言表 ${BT.table.version}: ${nRows} 行へ写した(鍵の行 ${nEntry})・表の検査 ${au.ok ? 'ok' : au.bad.join(' / ')}`);
 }
 
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
