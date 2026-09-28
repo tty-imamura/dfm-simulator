@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便c",
   "target": "beta/index.html",
-  "targetSha256": "0a15299c088e825eea7f7e1d2240e490f5908221824b0842b17d21932571a1a9",
-  "generatedAt": "2026-09-28T16:32:10.785Z",
+  "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+  "generatedAt": "2026-09-28T20:14:19.602Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5116148,
-    "sha256": "0a15299c088e825eea7f7e1d2240e490f5908221824b0842b17d21932571a1a9",
-    "mtime": "2026-09-28T16:01:00.366Z"
+    "bytes": 5180982,
+    "sha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+    "mtime": "2026-09-28T18:54:13.155Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w286c-bgdiff.mjs",
     "bytes": 30717,
     "sha256": "068995059c5e0700b49fd43eea3bb084d9c019a4b244228d866a9450ff1fc312",
-    "mtime": "2026-09-28T15:46:37.308Z"
+    "mtime": "2026-09-28T18:49:03.293Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-28T15:16:16.498Z"
+    "mtime": "2026-09-24T08:51:12.597Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-28T15:16:16.490Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 74147,
     "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T15:16:16.502Z"
+    "mtime": "2026-09-28T01:00:42.100Z"
    }
   ],
   "codeSha256": "779de89f7bbc051bd28e97156752ef1a23f81c7738172430dd46947e33671c97",
@@ -77,11 +77,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 826,
-   "segments": 752,
-   "closureShare": 0.3144
+   "names": 870,
+   "segments": 792,
+   "closureShare": 0.3377
   },
-  "scopeSha256": "049706a2647dc91994a11bdb7cc4a64f897af08a7b36d9ca3599a07d27488f4f",
+  "scopeSha256": "e7c912fa5576014e1c0f9fbe34600bfcfefa61845bf7af097d9facb5f1a5d1f6",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -778,7 +778,6 @@
    "stars": 40,
    "dr": 10
   },
-  "n": 51,
   "distantDecl": {
    "W0": 0.2,
    "R": 400,
@@ -790,120 +789,40 @@
   },
   "compare": {
    "noneVsToyD0zero": {
-    "same": true,
-    "maxRel": 0
+    "same": false,
+    "maxRel": null
    },
    "uniformVsToyD0": {
-    "same": true,
-    "maxRel": 0
+    "same": false,
+    "maxRel": null
    },
    "distantVsUniform": {
     "same": false,
-    "maxRel": 0.8071894784187077
+    "maxRel": null
    },
    "unwiredVsToyD0": {
-    "same": true,
-    "maxRel": 0
+    "same": false,
+    "maxRel": null
    }
   },
   "rows": {
    "none": {
-    "ok": true,
-    "stop": null,
-    "law": {
-     "law": "share-p1",
-     "deny": null
-    },
-    "steps": 200,
-    "vacuum": 0,
-    "chi": [
-     1,
-     1
-    ],
-    "ledger": {
-     "pSum": 0,
-     "pScale": 500.8916127271858,
-     "lSum": 0,
-     "eSum": 0,
-     "toyE": -9.880691345644493
-    },
-    "wire": {
-     "state": "applied",
-     "field": null,
-     "hasMeshVelocity": false,
-     "lawVersion": "share-p1",
-     "lawPath": "geoToy"
-    }
+    "ok": false,
+    "err": "[\"physics.spaceMesh.dragR は centerSpin:\\\"read\\\" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い —— 第286便a)\",\"physics.backgroundComplex.lawVersion:\\\"share-p1\\\" は geoPN=3 のトイ(physics.spaceMesh)の経路 —— 経路の宣言が無い(宣言だけでは接続しない)\"]"
    },
    "uniform": {
-    "ok": true,
-    "stop": null,
-    "law": {
-     "law": "share-p1",
-     "deny": null
-    },
-    "steps": 200,
-    "vacuum": 0,
-    "chi": [
-     0.9301967456478718,
-     0.9916723499815063
-    ],
-    "ledger": {
-     "pSum": 0,
-     "pScale": 491.4601485446494,
-     "lSum": 0,
-     "eSum": 0,
-     "toyE": 0.008644057241617986
-    },
-    "wire": {
-     "state": "applied",
-     "field": null,
-     "hasMeshVelocity": false,
-     "lawVersion": "share-p1",
-     "lawPath": "geoToy"
-    }
+    "ok": false,
+    "err": "[\"physics.spaceMesh.dragR は centerSpin:\\\"read\\\" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い —— 第286便a)\",\"physics.backgroundComplex.lawVersion:\\\"share-p1\\\" は geoPN=3 のトイ(physics.spaceMesh)の経路 —— 経路の宣言が無い(宣言だけでは接続しない)\"]"
    },
    "distant": {
-    "ok": true,
-    "stop": null,
-    "law": {
-     "law": "share-p1",
-     "deny": null
-    },
-    "steps": 200,
-    "vacuum": 0,
-    "chi": [
-     0.9902951181019936,
-     0.9988843669505904
-    ],
-    "ledger": {
-     "pSum": 0,
-     "pScale": 499.4636775030411,
-     "lSum": 0,
-     "eSum": 0,
-     "toyE": -8.184611064579009
-    },
-    "wire": {
-     "state": "applied",
-     "field": null,
-     "hasMeshVelocity": false,
-     "lawVersion": "share-p1",
-     "lawPath": "geoToy"
-    }
+    "ok": false,
+    "err": "[\"physics.spaceMesh.dragR は centerSpin:\\\"read\\\" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い —— 第286便a)\",\"physics.backgroundComplex.lawVersion:\\\"share-p1\\\" は geoPN=3 のトイ(physics.spaceMesh)の経路 —— 経路の宣言が無い(宣言だけでは接続しない)\"]"
    }
   },
   "unwired": {
-   "ok": true,
-   "law": null,
-   "wire": {
-    "state": "unwired",
-    "field": null,
-    "hasMeshVelocity": false,
-    "lawVersion": null,
-    "lawPath": null
-   }
+   "ok": false
   },
-  "ok": true
+  "ok": false
  },
  "mesh": {
   "steps": 2000,
@@ -982,7 +901,7 @@
     "n": 2000,
     "undef": 0,
     "bad": 0,
-    "work": 3.6379345849604235e-23,
+    "work": 1.2626162730780236e-23,
     "uMax": 2.334523505985751
    },
    "wire": {
@@ -1047,5 +966,5 @@
   ],
   "allSame": true
  },
- "elapsedS": 8.175
+ "elapsedS": 0.448
 }

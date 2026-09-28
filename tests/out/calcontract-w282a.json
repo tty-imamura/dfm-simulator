@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便a(原仮定者の裁定(第72報)②③⑤⑥・R77/R78 —— 較正契約の 3 系統と f=1 の棚卸し)",
   "target": "beta/index.html",
-  "targetSha256": "852512dc072ab0186f810bcbe56498d4d5b887a7eb1026fca59668fe11cccd58",
-  "generatedAt": "2026-09-28T17:55:50.313Z",
+  "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+  "generatedAt": "2026-09-28T20:14:20.799Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5095156,
-    "sha256": "852512dc072ab0186f810bcbe56498d4d5b887a7eb1026fca59668fe11cccd58",
-    "mtime": "2026-09-28T17:50:46.334Z"
+    "bytes": 5180982,
+    "sha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+    "mtime": "2026-09-28T18:54:13.155Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2765140,
-    "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-    "mtime": "2026-09-28T15:16:15.602Z"
+    "bytes": 2857428,
+    "sha256": "bb3b58ea170887fb43a45c17fdb1a8665c548e7469426661a1290502c823335b",
+    "mtime": "2026-09-28T19:15:39.063Z"
    }
   ],
   "code": [
@@ -24,19 +24,19 @@
     "file": "tests/exp-w282a-calcontract.mjs",
     "bytes": 21365,
     "sha256": "1bb7067a1f83af9ae0d125e46403462332d20ee823678060d75db9692bb9d555",
-    "mtime": "2026-09-28T15:16:15.510Z"
+    "mtime": "2026-09-25T23:51:59.280Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-28T15:16:15.538Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 74147,
     "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T15:16:15.550Z"
+    "mtime": "2026-09-28T01:00:42.100Z"
    }
   ],
   "codeSha256": "9b16e736f1012467972d5cc87afbeb8fc314015379e43afe6eaeeb8abcec16b1",
@@ -60,14 +60,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 816,
-   "segments": 742,
-   "closureShare": 0.3143
+   "names": 872,
+   "segments": 794,
+   "closureShare": 0.3399
   },
-  "scopeSha256": "9867581519f1760bbbb9e5fcd5fd1465fc32ca7fd0df71c448224dc01520a3d7",
+  "scopeSha256": "620f71490a12ff1be23e122a40e9c48a3d33e356e2cf3a12937c9505b71b463f",
   "scopeComplete": true,
   "tableVersion": "w282a-1",
-  "contractVersion": "w283a-1",
+  "contractVersion": "w286f-1",
   "doNotWrite": [
    "f=1 で合った",
    "kF0 版が成立した",
@@ -80,8 +80,8 @@
   "rule": "**数えるだけで合否を変えない**。f は `massCalibration` の有無ではなく**基準質量との数値比較**で出す(基準質量が無い本は「出典不明」)。旧 4 値は旧契約の履歴として別欄に残す。"
  },
  "contract": {
-  "version": "w283a-1",
-  "ruling": "原仮定者の裁定(第72報)②③⑤⑥・原仮定者の裁定(第73報)AN23・原仮定者の裁定(2026-09-26 追加)geoPN の整理",
+  "version": "w286f-1",
+  "ruling": "原仮定者の裁定(第72報)②③⑤⑥・原仮定者の裁定(第73報)AN23・原仮定者の裁定(2026-09-26 追加)geoPN の整理・原仮定者の裁定(第76報)AN57(f=1 の本 3 本と窓の規則)",
   "systems": [
    {
     "key": "kf0",
@@ -114,7 +114,13 @@
      "調整中",
      "適用外"
     ],
-    "rule": "DFM 版=geoPN=2 かつ kFrame=1(geoPN=1 の DFM 版は無い)。観測値との大きな差異を無くす範囲。許容幅は系統ごとに事前宣言し(周期は相対残差・近点移動は絶対残差を別欄)、残差を併記する。許容幅は未裁定なので本版は語彙を当てない(数えるだけ)"
+    "rule": "DFM 版=geoPN=2 かつ kFrame=1(geoPN=1 の DFM 版は無い)。観測値との大きな差異を無くす範囲。許容幅は系統ごとに事前宣言し(周期は相対残差・近点移動は絶対残差を別欄)、残差を併記する。許容幅は未裁定なので本版は語彙を当てない(数えるだけ)。f=1(観測質量・law \"f-fixed-1\")の DFM 版は ⚡ psrDoubleABDFM・🧮 psrJ1757DFM・🩺 psrJ1946DFM の 3 本(第284便b・第285便f・第286便f —— 観測に合わせて調整しない)。判定器の窓は「実軌道の 1 公転(同方向1周の 1周目)×(必要近点 + 2)公転」を短い試走で見積もってから事前に宣言し、実行中に門を変えない(近点が足りない段は未測定 —— 別定義の周期で代用しない)",
+    "f1Books": [
+     "psrDoubleABDFM",
+     "psrJ1757DFM",
+     "psrJ1946DFM"
+    ],
+    "orbitWindowRule": "実軌道 1 公転 ×(必要近点 + 2)公転(停止規則 w286f-1 の ORBIT_WINDOW_RULE)"
    },
    {
     "key": "compare",
@@ -1800,17 +1806,17 @@
      "kind": "precession",
      "target": "水星",
      "status": "数値未解決",
-     "nSigma": 6217.309649756984,
-     "residualPct": -21.70011761701593,
-     "absResidual": -0.000006239737405573624,
+     "nSigma": 1979.3729438229177,
+     "residualPct": -6.908555003461227,
+     "absResidual": -0.0000019865131118065543,
      "unit": "deg/orbit"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "precession",
-    "nSigma": 6217.309649756984,
-    "residualPct": -21.70011761701593
+    "nSigma": 1979.3729438229177,
+    "residualPct": -6.908555003461227
    }
   },
   {
@@ -1861,17 +1867,17 @@
      "kind": "precession",
      "target": "水星",
      "status": "数値未解決",
-     "nSigma": 6259.097597213949,
-     "residualPct": -21.835808110540903,
-     "absResidual": -0.0000062816760948583445,
+     "nSigma": 6219.469217900776,
+     "residualPct": -21.697558518970492,
+     "absResidual": -0.000006241904767159715,
      "unit": "deg/orbit"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "precession",
-    "nSigma": 6259.097597213949,
-    "residualPct": -21.835808110540903
+    "nSigma": 6219.469217900776,
+    "residualPct": -21.697558518970492
    }
   },
   {
@@ -1987,35 +1993,35 @@
      "kind": "period",
      "target": "カロン",
      "status": "否(3σ)",
-     "nSigma": 294.07871878464465,
-     "residualPct": 0.0013812728083979968,
-     "absResidual": 7.622520390897989,
+     "nSigma": 294.0787173653838,
+     "residualPct": 0.001381272806879141,
+     "absResidual": 7.622520354110748,
      "unit": "s"
     },
     {
      "kind": "period",
      "target": "カロン",
      "status": "数値未解決",
-     "nSigma": 52245.18865738733,
-     "residualPct": 0.24538905320022347,
-     "absResidual": 1354.1952899994794,
+     "nSigma": 52245.05105590966,
+     "residualPct": 0.24538840690346025,
+     "absResidual": 1354.1917233691784,
      "unit": "s"
     },
     {
      "kind": "period",
      "target": "カロン",
      "status": "mapping-unresolved",
-     "nSigma": 170138.21321926554,
-     "residualPct": 0.7991177011311256,
-     "absResidual": 4409.982486643363,
+     "nSigma": 170109.38090036093,
+     "residualPct": 0.7989822793703973,
+     "absResidual": 4409.235152937355,
      "unit": "s"
     }
    ],
    "oldVerdict4": "否",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 294.07871878464465,
-    "residualPct": 0.0013812728083979968
+    "nSigma": 294.0787173653838,
+    "residualPct": 0.001381272806879141
    }
   },
   {
@@ -2197,26 +2203,26 @@
      "kind": "period",
      "target": "B",
      "status": "合(3σ)",
-     "nSigma": 0.0956171694812924,
-     "residualPct": 0.002277961722975204,
-     "absResidual": 57331.51936483383,
+     "nSigma": 0.09561602617161595,
+     "residualPct": 0.002277934830645248,
+     "absResidual": 57330.833842754364,
      "unit": "s"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 0.00021965169979173046,
-     "residualPct": -0.00000648941690548522,
-     "absResidual": -3.294775496875957e-8,
+     "nSigma": 0.00022212357878951633,
+     "residualPct": -0.000006560668615685126,
+     "absResidual": -3.3318536818427447e-8,
      "unit": "-"
     }
    ],
    "oldVerdict4": "量限定合",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 0.0956171694812924,
-    "residualPct": 0.002277961722975204
+    "nSigma": 0.09561602617161595,
+    "residualPct": 0.002277934830645248
    }
   },
   {
@@ -2245,26 +2251,26 @@
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 25.05094722338467,
-     "residualPct": -0.5967352840253615,
-     "absResidual": -15020407.669836998,
+     "nSigma": 25.050985780133345,
+     "residualPct": -0.5967362024805466,
+     "absResidual": -15020430.788247585,
      "unit": "s"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 6.232481728218146,
-     "residualPct": 0.17996655422502203,
-     "absResidual": 0.0009348722592327219,
+     "nSigma": 6.232485130882963,
+     "residualPct": 0.17996665247895824,
+     "absResidual": 0.0009348727696324444,
      "unit": "-"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 25.05094722338467,
-    "residualPct": -0.5967352840253615
+    "nSigma": 25.050985780133345,
+    "residualPct": -0.5967362024805466
    }
   },
   {
@@ -2292,26 +2298,26 @@
      "kind": "period",
      "target": "B",
      "status": "合(3σ)",
-     "nSigma": 0.27409459919759294,
-     "residualPct": 0.0023523450408751995,
-     "absResidual": 37194.00121164322,
+     "nSigma": 0.2740909116196267,
+     "residualPct": 0.0023523146363466215,
+     "absResidual": 37193.50081586838,
      "unit": "s"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 0.00013463807876398255,
-     "residualPct": -0.000008975444167195165,
-     "absResidual": -4.981608914267355e-8,
+     "nSigma": 0.0001360791368476555,
+     "residualPct": -0.000009065149894739198,
+     "absResidual": -5.034928063363253e-8,
      "unit": "-"
     }
    ],
    "oldVerdict4": "量限定合",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 0.27409459919759294,
-    "residualPct": 0.0023523450408751995
+    "nSigma": 0.2740909116196267,
+    "residualPct": 0.0023523146363466215
    }
   },
   {
@@ -2340,26 +2346,26 @@
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 206.1563784106908,
-     "residualPct": -1.7684035939027984,
-     "absResidual": -27974942.267532825,
+     "nSigma": 206.15726586023146,
+     "residualPct": -1.7684112064199045,
+     "absResidual": -27975062.692376614,
      "unit": "s"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 5.918433682962466,
-     "residualPct": 0.3702648646809565,
-     "absResidual": 0.0021898204626961126,
+     "nSigma": 5.918438153401801,
+     "residualPct": 0.3702651443574222,
+     "absResidual": 0.0021898221167586662,
      "unit": "-"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 206.1563784106908,
-    "residualPct": -1.7684035939027984
+    "nSigma": 206.15726586023146,
+    "residualPct": -1.7684112064199045
    }
   },
   {
@@ -2387,35 +2393,35 @@
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 1079420.091295777,
-     "residualPct": 0.003061389270025049,
-     "absResidual": 0.27045949807506986,
+     "nSigma": 1080926.8801924684,
+     "residualPct": 0.0030656627381564286,
+     "absResidual": 0.27083703910102486,
      "unit": "s"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 175.9368193184179,
-     "residualPct": -0.009620930156816936,
-     "absResidual": -0.000008444967327284059,
+     "nSigma": 176.18130748279597,
+     "residualPct": -0.009634299749166976,
+     "absResidual": -0.000008456702759174206,
      "unit": "-"
     },
     {
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 390.5844143520137,
-     "residualPct": 0.030116831097613508,
-     "absResidual": 0.0000014215144278073577,
+     "nSigma": 2188.5096961468366,
+     "residualPct": 0.16874964097143907,
+     "absResidual": 0.000007964983053851925,
      "unit": "deg/orbit"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 1079420.091295777,
-    "residualPct": 0.003061389270025049
+    "nSigma": 1080926.8801924684,
+    "residualPct": 0.0030656627381564286
    }
   },
   {
@@ -2444,17 +2450,17 @@
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 715623537648.6239,
-     "residualPct": 2029.6103780178314,
-     "absResidual": 179306.63359323918,
+     "nSigma": 715623849891.6362,
+     "residualPct": 2029.6112635835304,
+     "absResidual": 179306.71182884838,
      "unit": "s"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 715623537648.6239,
-    "residualPct": 2029.6103780178314
+    "nSigma": 715623849891.6362,
+    "residualPct": 2029.6112635835304
    }
   },
   {
@@ -2505,26 +2511,26 @@
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 31831.896686010274,
-     "residualPct": 2.42186253338573,
-     "absResidual": 0.00011457727505358953,
+     "nSigma": 33668.27796052971,
+     "residualPct": 2.5615799911927106,
+     "absResidual": 0.00012118724790393092,
      "unit": "deg/orbit"
     },
     {
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 386516714.44968224,
-     "residualPct": -1.0962165072183723,
-     "absResidual": -96.84562797251237,
+     "nSigma": 386513003.77636766,
+     "residualPct": -1.0962059832198274,
+     "absResidual": -96.84469822620667,
      "unit": "s"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "precession",
-    "nSigma": 31831.896686010274,
-    "residualPct": 2.42186253338573
+    "nSigma": 33668.27796052971,
+    "residualPct": 2.5615799911927106
    }
   },
   {
@@ -2553,35 +2559,35 @@
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 4217091074.394641,
-     "residualPct": 114.88342592700096,
-     "absResidual": 18217.83344138485,
+     "nSigma": 4217091220.4058146,
+     "residualPct": 114.88342990468689,
+     "absResidual": 18217.83407215312,
      "unit": "s"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 393585.5106466525,
-     "residualPct": -64.96802330593316,
-     "absResidual": -0.3935855106466525,
+     "nSigma": 393585.5139527501,
+     "residualPct": -64.96802385166113,
+     "absResidual": -0.39358551395275004,
      "unit": "-"
     },
     {
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 11670.03385633753,
+     "nSigma": 11659.633769661994,
      "residualPct": null,
-     "absResidual": -0.0025202313698529967,
+     "absResidual": -0.002517985439715247,
      "unit": "deg/orbit"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 4217091074.394641,
-    "residualPct": 114.88342592700096
+    "nSigma": 4217091220.4058146,
+    "residualPct": 114.88342990468689
    }
   },
   {
@@ -2595,59 +2601,50 @@
    "geoPN": 2,
    "frameWeight": "pull",
    "lambdaPN": 1,
-   "fDeclared": 1.9999655295617553,
-   "law": "inertia-law-lin-v1",
-   "fEffective": 1.999965529561755,
+   "fDeclared": 1,
+   "law": "f-fixed-1",
+   "fEffective": 1,
    "fRatios": [
-    1.999965529561755,
-    1.9999655295617556
+    1,
+    1
    ],
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
-   "lawVersion": "kF1・geoPN2・pull・f=1.9999655",
+   "lawVersion": "kF1・geoPN2・pull・f=1",
    "observables": [
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 70910.15244247513,
-     "residualPct": null,
-     "absResidual": 0.006009076018374147,
-     "unit": "deg/orbit"
-    },
     {
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 55395765.81836796,
-     "residualPct": -1.411571873891984,
-     "absResidual": -95.72388333413983,
+     "nSigma": 124890140083.44145,
+     "residualPct": 3182.398626751391,
+     "absResidual": 215810.16206418682,
      "unit": "s"
+    },
+    {
+     "kind": "precession",
+     "target": "B",
+     "status": "数値未解決",
+     "nSigma": 136.566343437054,
+     "residualPct": null,
+     "absResidual": -0.0003853082787124689,
+     "unit": "deg/orbit"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 294.45678286955587,
-     "residualPct": 0.36901484938137813,
-     "absResidual": 0.0002355654262956447,
+     "nSigma": 1009087.3354873514,
+     "residualPct": 1264.5937630938529,
+     "absResidual": 0.8072698683898811,
      "unit": "-"
-    },
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 55395765.81836796,
-     "residualPct": -1.411571873891984,
-     "absResidual": -95.72388333413983,
-     "unit": "s"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 70910.15244247513,
-    "residualPct": null
+    "kind": "period",
+    "nSigma": 124890140083.44145,
+    "residualPct": 3182.398626751391
    }
   },
   {
@@ -2999,35 +2996,35 @@
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 368010.9097651304,
-     "residualPct": 0.0008746809720329663,
-     "absResidual": 0.31796142603707267,
+     "nSigma": 368520.8352079725,
+     "residualPct": 0.0008758929526296669,
+     "absResidual": 0.31840200161968824,
      "unit": "s"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 3.2610191521194785,
-     "residualPct": -0.00035746663340458873,
-     "absResidual": -9.783057456358435e-7,
+     "nSigma": 3.26554290978424,
+     "residualPct": -0.0003579625189996517,
+     "absResidual": -9.796628729352719e-7,
      "unit": "-"
     },
     {
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 302.97339644287376,
-     "residualPct": -0.15530415088957955,
-     "absResidual": -0.0000031410264517417463,
+     "nSigma": 33.13990569645294,
+     "residualPct": -0.016987514539402948,
+     "absResidual": -3.435724815594246e-7,
      "unit": "deg/orbit"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 368010.9097651304,
-    "residualPct": 0.0008746809720329663
+    "nSigma": 368520.8352079725,
+    "residualPct": 0.0008758929526296669
    }
   },
   {
@@ -3056,34 +3053,34 @@
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 201841.93741501652,
+     "nSigma": 202385.0079503328,
      "residualPct": null,
-     "absResidual": 0.002084763085891601,
+     "absResidual": 0.002090372345984825,
      "unit": "deg/orbit"
     },
     {
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 156457258.33481568,
-     "residualPct": -0.3718644832818928,
-     "absResidual": -135.17907120128075,
+     "nSigma": 156456213.23455492,
+     "residualPct": -0.37186199930848957,
+     "absResidual": -135.17816823465546,
      "unit": "s"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 1097.2988225512368,
-     "residualPct": 0.12028378173776469,
-     "absResidual": 0.000329189646765371,
+     "nSigma": 1097.289626142972,
+     "residualPct": 0.12028277364521803,
+     "absResidual": 0.00032918688784289163,
      "unit": "-"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "precession",
-    "nSigma": 201841.93741501652,
+    "nSigma": 202385.0079503328,
     "residualPct": null
    }
   },
@@ -3113,26 +3110,26 @@
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 5484.981321499245,
-     "residualPct": 2.8011286457747424,
-     "absResidual": 0.00005665282686079416,
+     "nSigma": 5756.0864034337765,
+     "residualPct": 2.9395795586590445,
+     "absResidual": 0.00005945299657387918,
      "unit": "deg/orbit"
     },
     {
      "kind": "period",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 156348210.93061435,
-     "residualPct": -0.3716053015919658,
-     "absResidual": -135.0848542440508,
+     "nSigma": 156347014.7977939,
+     "residualPct": -0.3716024586473946,
+     "absResidual": -135.08382078529394,
      "unit": "s"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "precession",
-    "nSigma": 5484.981321499245,
-    "residualPct": 2.8011286457747424
+    "nSigma": 5756.0864034337765,
+    "residualPct": 2.9395795586590445
    }
   },
   {
@@ -3527,17 +3524,17 @@
      "kind": "precession",
      "target": "D68",
      "status": "否(3σ)",
-     "nSigma": 14.603411410167835,
-     "residualPct": -0.305899606262591,
-     "absResidual": -42.67116814051042,
+     "nSigma": 14.60340607134803,
+     "residualPct": -0.30589949573600517,
+     "absResidual": -42.67115254047894,
      "unit": "deg/yr"
     }
    ],
    "oldVerdict4": "否",
    "oldRepresentative": {
     "kind": "precession",
-    "nSigma": 14.603411410167835,
-    "residualPct": -0.305899606262591
+    "nSigma": 14.60340607134803,
+    "residualPct": -0.30589949573600517
    }
   },
   {
@@ -3975,97 +3972,97 @@
   "populationNotPresets": [],
   "nonPresetOccurrences": [
    {
-    "line": 4679,
+    "line": 4742,
     "text": "//   ・`sampleClass:\"calibration\"` では**拒否**(下の geoPN 門と同じ場所で機械固定する)。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 4691,
+    "line": 4754,
     "text": "// **診断であって採用則ではない** —— 宣言すると警告を 1 行出し、`sampleClass:\"calibration\"` では拒否する。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 5570,
+    "line": 5782,
     "text": "// geoPN=3(トイの輸送)・spaceMesh の宣言(座標変換慣性/織り込み)・sampleClass:\"calibration\"・single 以外の天体。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 5612,
+    "line": 5824,
     "text": "return 'physics.meshVelocity は sampleClass:\"calibration\" では使えない(**検証仮説の構成則** —— 現実較正へ入れない)';",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 5843,
+    "line": 6055,
     "text": "//    **`sampleClass:\"calibration\"` では拒否**する(現実較正の受理契約は内蔵のまま)。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 6731,
+    "line": 7065,
     "text": "//   ② `sampleClass:\"calibration\"`(現実較正)で **0<kFrame<1 の分数**を書くときだけ、",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 6764,
+    "line": 7098,
     "text": "// (無ければ従来どおり 2 へ丸めて警告)。`sampleClass:\"calibration\"` では**拒否**する",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 18368,
+    "line": 18743,
     "text": "// **sampleClass:\"calibration\" では拒否**(現実較正の受理契約は内蔵のまま 0.01)",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 18372,
+    "line": 18747,
     "text": "bad('physics.softeningFloor は sampleClass:\"calibration\" では使えません(現実較正の ε 下限 '",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 18401,
+    "line": 18776,
     "text": "bad('physics.kFrameApprox:\"'+p.physics[k]+'\" は sampleClass:\"calibration\" では使えません(サンプル限りと宣言した分数は現実較正に入れない — 較正で使えるのは \"space-mesh-effective\" だ",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 18507,
+    "line": 18882,
     "text": "+(calib?'sampleClass:\"calibration\" で使えるのは \"space-mesh-effective\" だけ':'\"space-mesh-effective\" か \"sample-only\"')",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 18521,
+    "line": 18896,
     "text": "//   (a) `sampleClass:\"calibration\"` では**拒否**(検証エラー)—— トイを現実較正に混ぜない",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 18532,
+    "line": 18907,
     "text": "//   **(a) は迂回しない** —— `sampleClass:\"calibration\"` では geoPN=3 も toyAllowDrag も拒否する。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 18539,
+    "line": 18914,
     "text": "bad('physics.geoPN=3(トイの測地線モード)は sampleClass:\"calibration\" では使えません(現実較正にトイを混ぜない)');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 18575,
+    "line": 18950,
     "text": "bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 18578,
+    "line": 18953,
     "text": "bad('physics.spaceMesh.centerSpin:\"read\"(geoPN=3 のトイが中心の自転を読む opt-in —— 第282便d)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 18580,
+    "line": 18955,
     "text": "bad('physics.spaceMesh.toyClosure:\"iterate\"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 18585,
+    "line": 18960,
     "text": "bad('physics.spaceMesh.diskSupport:\"band-pressure\"(帯平均の近似 variant)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 18593,
+    "line": 18968,
     "text": "bad('physics.spaceMesh.law:\"mesh-v2\"(引きずりの完全置換の候補・最小代数実装)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    }
@@ -4085,10 +4082,10 @@
    "gate": {
     "合(3σ)": 2,
     "否(3σ)": 2,
-    "数値未解決": 33,
+    "数値未解決": 32,
     "mapping-unresolved": 14,
     "condition-mismatch": 0,
-    "未判定": 265
+    "未判定": 267
    },
    "commit": "第274便a(署名便)"
   },
@@ -4213,11 +4210,10 @@
     "bh-binary": 2
    },
    "lawVersions": {
-    "kF1・geoPN2・pull・f=1": 7,
+    "kF1・geoPN2・pull・f=1": 8,
     "kF1・geoPN2・share・f=出典不明": 7,
     "kF1・geoPN2・share・f=1": 1,
     "kF1・geoPN2・pull・f=1.999914": 1,
-    "kF1・geoPN2・pull・f=1.9999655": 1,
     "kF1・geoPN2・pull・f=1.9999423・λ_PN=0.5000144330801174": 1,
     "kF1・geoPN2・pull・f=1.9998957・λ_PN=0.5000260856666837": 1,
     "kF1・geoPN2・pull・f=1.9999655・λ_PN=0.5000086177580901": 1,
@@ -4228,7 +4224,7 @@
     "kF1・geoPN2・pull・f=1.9994855・CF": 1,
     "kF1・geoPN0・pull・f=2": 2
    },
-   "observablesGated": 39,
+   "observablesGated": 38,
    "oldVerdict4": {
     "合": 0,
     "量限定合": 0,
@@ -4501,35 +4497,6 @@
    "hiddenCore": {
     "kind": "f-derived",
     "text": "(f−1)/f 由来(massFrac=0.4999784990754602)"
-   },
-   "lambdaPN": 1,
-   "lambdaIsInvF": false,
-   "cfDependsOnF": null,
-   "dimmingCancel": null,
-   "stage": {
-    "key": "next-ns",
-    "text": "第283便以降(NS 連星 —— 移行計画のみ。λ_PN=1/f・CF の閉形式・隠れコア (f−1)/f が f に絡む)"
-   },
-   "migrated": false
-  },
-  {
-   "id": "psrJ1946DFM",
-   "emoji": "🩺",
-   "system": "dfm",
-   "target": "ns-binary",
-   "law": "inertia-law-lin-v1",
-   "fDeclared": 1.9999655295617553,
-   "fEffective": 1.999965529561755,
-   "fRatios": [
-    1.999965529561755,
-    1.9999655295617556
-   ],
-   "fSource": "massCalibration.baseMass",
-   "fSourceKind": "declared-base",
-   "ledgerMissingButEffective": false,
-   "hiddenCore": {
-    "kind": "f-derived",
-    "text": "(f−1)/f 由来(massFrac=0.49999138224190987)"
    },
    "lambdaPN": 1,
    "lambdaIsInvF": false,
@@ -5047,9 +5014,9 @@
   }
  ],
  "fSummary": {
-  "n": 22,
-  "declaredOff": 19,
-  "effectiveOff": 15,
+  "n": 21,
+  "declaredOff": 18,
+  "effectiveOff": 14,
   "ledgerMissingButEffective": [
    "gw150914Merge4s"
   ],
@@ -5066,7 +5033,7 @@
   ],
   "byStage": {
    "w282a": 2,
-   "next-ns": 10,
+   "next-ns": 9,
    "next-bh": 2,
    "analogy": 2,
    "toy": 6
