@@ -1,14 +1,14 @@
 {
- "when": "2026-09-28T05:52:16.798Z",
+ "when": "2026-09-28T21:18:42.618Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
+  "calauditSha256": "843f666ff00751c89eaf88d0aea30de488df0575a47cc3d2800a6e506d46aa49",
+  "targetSha256": "b7c8a37a5241f542f86810947675254888205155acf7b29532803522f125a7ff",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "e31db2d7c57d404979cc57d12442167cd585226c1db717e1516723773bd886b6",
+  "charonSha256": "7494c866c806b96be943fda51868c37388a0acd2b7a26455ec9bf911e8c243b7",
   "nslock": "tests/out/nslock-w272c.json",
-  "nslockSha256": "7b5292cf49853358b5990effb458c995a9879ed84653efad48909d7a940b48f3"
+  "nslockSha256": "6eb92e74f2afb3935a08f309a1e2557374415a37d5774ce486f43d4f8f1c9c30"
  },
  "nPresets": 37,
  "nTheoryControl": 0,
@@ -26,10 +26,10 @@
  "gate": {
   "合(3σ)": 2,
   "否(3σ)": 2,
-  "数値未解決": 33,
+  "数値未解決": 32,
   "mapping-unresolved": 14,
   "condition-mismatch": 0,
-  "未判定": 265
+  "未判定": 267
  },
  "rows": [
   {
@@ -696,7 +696,7 @@
    },
    "stop": {
     "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
-    "stepsRun": 9395479,
+    "stepsRun": 9395477,
     "maxSteps": 9439328,
     "maxStepsSource": "class(n<=3)",
     "needPeriastra": 20,
@@ -963,11 +963,11 @@
    },
    "stop": {
     "stoppedBy": "orbit-window(走り切った)",
-    "stepsRun": 5946570,
-    "maxSteps": 5946570,
+    "stepsRun": 4699552,
+    "maxSteps": 4699552,
     "maxStepsSource": "class(n<=3)",
     "needPeriastra": 20,
-    "minPeriastra": 28,
+    "minPeriastra": 22,
     "complete": true,
     "unmeasuredReason": null
    },
@@ -977,10 +977,10 @@
   {
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "name": "PSR J1946+2052(DFM版・旧則 f≈2 — f=1 へ移行予定)— 銀河系で最短周期の中性子星連星",
+   "name": "PSR J1946+2052(DFM版)— 観測質量(f=1)・kF1 の銀河系で最短周期の中性子星連星",
    "version": "dfm",
    "theoryControl": false,
-   "nQ": 8,
+   "nQ": 9,
    "verdict4": "保留",
    "missing": [
     "写像未確定",
@@ -989,35 +989,35 @@
    "gate": {
     "ok": 0,
     "ng": 0,
-    "num": 3,
+    "num": 2,
     "map": 1,
     "cond": 0,
-    "na": 4
+    "na": 6
    },
    "reasons": {
     "num": {
-     "dt 3 段が走っていない(2 段は感度診断)": 3
+     "dt 3 段が走っていない(2 段は感度診断)": 2
     },
     "map": {
      "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
     },
     "cond": {},
     "na": {
-     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 4
+     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 6
     }
    },
    "stop": {
     "stoppedBy": "orbit-window(走り切った)",
-    "stepsRun": 1040650,
-    "maxSteps": 1040650,
+    "stepsRun": 31153210,
+    "maxSteps": 31153210,
     "maxStepsSource": "class(n<=3)",
     "needPeriastra": 20,
-    "minPeriastra": 25,
+    "minPeriastra": 23,
     "complete": true,
     "unmeasuredReason": null
    },
    "solarCuts": null,
-   "sigmaConnected": 4
+   "sigmaConnected": 3
   },
   {
    "id": "psrDoubleABPN",
@@ -1685,7 +1685,7 @@
    "key": "sigma-missing",
    "title": "σ・測定値が足りない",
    "what": "観測 σ が CSV に無い(空欄)・判定量に σ の宛先が無い・実測が窓不足で取れない。**門へ入っていない**ので合否が言えない。",
-   "n": 265,
+   "n": 267,
    "presets": 37,
    "rows": [
     {
@@ -2054,7 +2054,7 @@
    "key": "numeric",
    "title": "数値(収束が確認できない)",
    "what": "3 段(条件つきで 4 段)・次数ガード |p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ のどれかを満たさない。**「合わない」ではなく「まだ言えない」**である。",
-   "n": 33,
+   "n": 32,
    "presets": 19,
    "rows": [
     {
@@ -2132,20 +2132,14 @@
     {
      "id": "psrJ1946DFM",
      "emoji": "🩺",
+     "kind": "period",
+     "name": "公転周期(kFrame=1・観測質量 f=1 — 同方向1周)"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
      "kind": "precession",
      "name": "近点移動(**hold-out** — 較正に使っていない)"
-    },
-    {
-     "id": "psrJ1946DFM",
-     "emoji": "🩺",
-     "kind": "period",
-     "name": "公転周期(hold-out — 合わせていない・2 定義)"
-    },
-    {
-     "id": "psrJ1946DFM",
-     "emoji": "🩺",
-     "kind": "period",
-     "name": "dt 収束(短周期ゆえ刻みが効く)"
     },
     {
      "id": "psrDoubleABPN",
@@ -2310,7 +2304,7 @@
      "id": "psrJ1946DFM",
      "emoji": "🩺",
      "kind": "ecc",
-     "name": "離心率(hold-out — 合わせていない)"
+     "name": "実測(標準検出器): 離心率(B)"
     },
     {
      "id": "psrDoubleABPN",
@@ -2545,7 +2539,7 @@
    "key": "display",
    "title": "表示(合否の対象でない宣言行)",
    "what": "規約・帳簿・単位族・受け皿など、obsCard に並んでいるが**合否の対象ではない**行。",
-   "n": 134,
+   "n": 136,
    "presets": 37,
    "rows": [
     {
@@ -2913,7 +2907,7 @@
  ],
  "reasonAgg": {
   "num": {
-   "dt 3 段が走っていない(2 段は感度診断)": 33
+   "dt 3 段が走っていない(2 段は感度診断)": 32
   },
   "map": {
    "円に近い系の近点間周期である(この preset の転写は e=0.0・実測 eProxy ≈1.2×10⁻³)。近点方位が縮退しているので、観測側の「公転周期」(two-body Keplerian fit の P)と、ここで測る近点間平均間隔が同じ測定量であることは確定していない。数値が足りないのではない —— 観測量対応が未確定である。": 1,
@@ -2923,7 +2917,7 @@
   "cond": {},
   "na": {
    "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 123,
-   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 134,
+   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 136,
    "実測が無い(窓不足・未走行)(門の文面: 観測誤差(σ)または有限の実測が無い)": 8
   }
  },
@@ -2944,7 +2938,7 @@
   {
    "key": "circular-orbit",
    "title": "円に近い軌道の近点",
-   "measured": 0.0012226704501995223,
+   "measured": 0.0012226707653146816,
    "text": "転写された離心率は e=0.0、実測 eProxy は上の値である。近点方位が縮退しているので、**近点間平均間隔と観測側の two-body Keplerian の P が同じ測定量である保証が無い**(第272便a・R10 で `mapping-unresolved` を宣言した)。"
   },
   {
@@ -2962,10 +2956,10 @@
   {
    "key": "softening",
    "title": "softening の効き(実測・第272便b の S 系列)",
-   "measured": 389.83352623526355,
+   "measured": null,
    "unit": "σ",
    "ref": "tests/out/charon-w272b.json(列 S_e0.05/0.025/0.0125 × kF0/kF1)",
-   "text": "softening ε を 0.05 → 0.025 → 0.0125 と半分にすると、同方向 1 周の周期はkF0 で 551864.061363 s(294.083σ) → 551855.977799 s(-17.7825σ) → 551853.956878 s(-95.7501σ)、kF1 で 553210.634010 s(52245.2σ) → 553202.441337 s(51929.1σ) → 553200.386308 s(51849.8σ) と動く。 **「0.1% 台の差に効くかどうか未測定」ではない** —— **σ 倍で数百の幅を動かし、kF0 側では符号も反転する**(+294.08σ → −17.78σ → −95.75σ)。a/R は `correlates.aOverR` = 16.5151 である。**「softening を小さくすれば合う」とは書かない**(ε=0.025 の −17.78σ も 3σ の外である)。"
+   "text": "softening ε を 0.05 → 0.025 → 0.0125 と半分にすると、同方向 1 周の周期は**参照先の JSON が無い**(tests/out/charon-w272b.json)。 **「0.1% 台の差に効くかどうか未測定」ではない** —— **σ 倍で数百の幅を動かし、kF0 側では符号も反転する**(+294.08σ → −17.78σ → −95.75σ)。a/R は `correlates.aOverR` = 16.5151 である。**「softening を小さくすれば合う」とは書かない**(ε=0.025 の −17.78σ も 3σ の外である)。"
   },
   {
    "key": "f-approx",
@@ -2976,18 +2970,18 @@
   {
    "key": "tidal-lock",
    "title": "潮汐ロックの動的維持(❄️ は未測定・NS 4 系は実測あり)",
-   "measured": "0.9981〜0.9985",
+   "measured": "0.9995〜0.9999",
    "unit": "ω̇/ω̇_obs",
    "ref": "tests/out/nslock-w272c.json(lock 枝 kFrame=0・f=1・λ_PN=1)",
-   "text": "冥王星–カロンは互いに潮汐ロックしているが、**プリセットはロックを動的に維持する機構を持たない**(転写した spin がそのまま回るだけである)。❄️ についてはこの便でも**測っていない**。**NS 連星 4 系では lock 枝(kFrame=0・f=1・λ_PN=1)が実測されている**: ω̇/ω̇_obs は ⚡ 0.9982・🧮 0.9983・🩺 0.9981・🧶 0.9985(上の欄は最小〜最大)。**「潮汐ロック → kFrame≈0」が観測と合う**という結果ではない —— **1/6 付近で 4 系とも 3σ の外**である(§4 の台帳・CALIBRATION_VERDICT §5.19)。**係数 6 は導入しない**(6 倍すれば合う、とは書かない)。"
+   "text": "冥王星–カロンは互いに潮汐ロックしているが、**プリセットはロックを動的に維持する機構を持たない**(転写した spin がそのまま回るだけである)。❄️ についてはこの便でも**測っていない**。**NS 連星 4 系では lock 枝(kFrame=0・f=1・λ_PN=1)が実測されている**: ω̇/ω̇_obs は ⚡ 0.9996・🧮 0.9997・🩺 0.9995・🧶 0.9999(上の欄は最小〜最大)。**「潮汐ロック → kFrame≈0」が観測と合う**という結果ではない —— **1/6 付近で 4 系とも 3σ の外**である(§4 の台帳・CALIBRATION_VERDICT §5.19)。**係数 6 は導入しない**(6 倍すれば合う、とは書かない)。"
   },
   {
    "key": "geopn",
    "title": "geoPN=3(空間メッシュ)の実測と受理条件",
-   "measured": 62026.419602517744,
+   "measured": null,
    "unit": "σ",
    "ref": "tests/out/charon-w272b.json(列 C6_scalar / C6_local / C6_complex)",
-   "text": "geoPN=3 で測ると何が動くかは**第272便b が測っている**: scalar 553224.927236 s(52796.6σ) / local 551617.202440 s(-9229.79σ) / complex 551864.061362 s(294.083σ・停止 complexNotVelocity)(同条件の geoPN=2 対照 C1 は 551864.061363 s)。 **`complex` は数が 1 bit も動かない** —— 実行情報の `geoToyStop` が `complexNotVelocity` で、**意図された未接続**である(第273便c・AH23。「複素決定力場が作動した」とは書かない)。**受理条件(何をもって採るか)は宣言されていない**ので、この 3 列はどれも**判定へ繋いでいない**。"
+   "text": "geoPN=3 で測ると何が動くかは**第272便b が測っている**: **参照先の JSON が無い**(tests/out/charon-w272b.json)。 **`complex` は数が 1 bit も動かない** —— 実行情報の `geoToyStop` が `complexNotVelocity` で、**意図された未接続**である(第273便c・AH23。「複素決定力場が作動した」とは書かない)。**受理条件(何をもって採るか)は宣言されていない**ので、この 3 列はどれも**判定へ繋いでいない**。"
   }
  ],
  "naKinds": [
@@ -3013,10 +3007,10 @@
   }
  ],
  "naCensus": {
-  "total": 265,
+  "total": 267,
   "byKind": {
    "declaration-row": {
-    "n": 134,
+    "n": 136,
     "presets": 37
    },
    "no-measurement": {
@@ -3040,8 +3034,8 @@
   "nQ": 5,
   "withSigma": 1,
   "missing": "(門に入った量 1: 合 0・否 1 — 残り 4 量は σ が無い)",
-  "revSec": 17865.949830569363,
-  "periSec": 18224.858223651565,
+  "revSec": 17865.94983177155,
+  "periSec": 18224.85822532271,
   "definitions": [
    {
     "key": "revolution",
@@ -3103,7 +3097,7 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "水星",
-    "eProxy": 0.00006526975104741732,
+    "eProxy": 0.00006526974879049547,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3111,7 +3105,7 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "金星",
-    "eProxy": 0.000024438710334657894,
+    "eProxy": 0.000024438713661630994,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3119,7 +3113,7 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "地球",
-    "eProxy": 0.000022029468256479515,
+    "eProxy": 0.00002202945818681845,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3127,7 +3121,7 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "火星",
-    "eProxy": 0.000021680617437715287,
+    "eProxy": 0.00002168061367346075,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3135,7 +3129,7 @@
     "id": "jupiterGalilean",
     "emoji": "🟠",
     "target": "イオ",
-    "eProxy": 0.004108855862166393,
+    "eProxy": 0.004108855876346581,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3143,7 +3137,7 @@
     "id": "jupiterGalilean",
     "emoji": "🟠",
     "target": "エウロパ",
-    "eProxy": 0.009129943026359217,
+    "eProxy": 0.009129943011121931,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3151,7 +3145,7 @@
     "id": "jupiterGalilean",
     "emoji": "🟠",
     "target": "ガニメデ",
-    "eProxy": 0.0015034654109661514,
+    "eProxy": 0.0015034654266256149,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3159,7 +3153,7 @@
     "id": "jupiterGalilean",
     "emoji": "🟠",
     "target": "カリスト",
-    "eProxy": 0.007472407087182559,
+    "eProxy": 0.007472407058145399,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3167,7 +3161,7 @@
     "id": "venusReal",
     "emoji": "🌇",
     "target": "金星",
-    "eProxy": 0.007008166125620266,
+    "eProxy": 0.007008166831727635,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3175,7 +3169,7 @@
     "id": "marsMoonsReal",
     "emoji": "🥔",
     "target": "ダイモス",
-    "eProxy": 0.00032688021621366464,
+    "eProxy": 0.00032688021631697295,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3183,7 +3177,7 @@
     "id": "plutoCharonReal",
     "emoji": "❄️",
     "target": "カロン",
-    "eProxy": 0.0012226704501995223,
+    "eProxy": 0.0012226707653146816,
     "hasPeriastronRow": true,
     "declared": true
    },
@@ -3191,7 +3185,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "ミランダ",
-    "eProxy": 0.0013155753964149259,
+    "eProxy": 0.001315575392190865,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3199,7 +3193,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "アリエル",
-    "eProxy": 0.0012244323759752727,
+    "eProxy": 0.0012244323757170704,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3207,7 +3201,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "ウンブリエル",
-    "eProxy": 0.00398558354529419,
+    "eProxy": 0.003985583538961665,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3215,7 +3209,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "チタニア",
-    "eProxy": 0.001161310662623717,
+    "eProxy": 0.0011613106951686462,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3223,7 +3217,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "オベロン",
-    "eProxy": 0.0013399394470035078,
+    "eProxy": 0.001339939457376243,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3231,7 +3225,7 @@
     "id": "neptuneReal",
     "emoji": "🌊",
     "target": "トリトン",
-    "eProxy": 0.0005510458544491574,
+    "eProxy": 0.0005510446115308492,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3239,7 +3233,7 @@
     "id": "saturnRingReal",
     "emoji": "💍",
     "target": "C環内縁",
-    "eProxy": 0.00023818254483150725,
+    "eProxy": 0.00023818254527633315,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3247,7 +3241,7 @@
     "id": "saturnRingReal",
     "emoji": "💍",
     "target": "ミマス",
-    "eProxy": 0.00007132830355015766,
+    "eProxy": 0.00007132830720406437,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3255,7 +3249,7 @@
     "id": "saturnRingReal",
     "emoji": "💍",
     "target": "タイタン",
-    "eProxy": 0.000018452523648559504,
+    "eProxy": 0.000018452524110840894,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3263,7 +3257,7 @@
     "id": "saturnRingRealKF1",
     "emoji": "💿",
     "target": "C環内縁",
-    "eProxy": 0.00022904233671719362,
+    "eProxy": 0.00022904233716185203,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3271,7 +3265,7 @@
     "id": "saturnRingRealKF1",
     "emoji": "💿",
     "target": "ミマス",
-    "eProxy": 0.00005669684470132555,
+    "eProxy": 0.000056696850861892174,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -3279,101 +3273,15 @@
     "id": "saturnRingRealKF1",
     "emoji": "💿",
     "target": "タイタン",
-    "eProxy": 0.000006446121661225422,
+    "eProxy": 0.000006446122824105594,
     "hasPeriastronRow": false,
     "declared": false
    }
   ],
   "nearCircularThreshold": 0.01
  },
- "softeningSeries": [
-  {
-   "id": "S_e0.05_k0",
-   "softening": 0.05,
-   "kFrame": 0,
-   "rev2Sec": 551864.0613629294,
-   "sigmaRev": 294.08344635157846,
-   "periASec": 551858.672320631,
-   "sigmaPeriA": 86.17286385057845,
-   "eProxy": 0.000013340793278847204
-  },
-  {
-   "id": "S_e0.025_k0",
-   "softening": 0.025,
-   "kFrame": 0,
-   "rev2Sec": 551855.9777985957,
-   "sigmaRev": -17.782461585694016,
-   "periASec": 551854.6302733022,
-   "sigmaPeriA": -69.770320130183,
-   "eProxy": 0.000009425366146168237
-  },
-  {
-   "id": "S_e0.0125_k0",
-   "softening": 0.0125,
-   "kFrame": 0,
-   "rev2Sec": 551853.9568779294,
-   "sigmaRev": -95.75007988368506,
-   "periASec": 551853.620720904,
-   "sigmaPeriA": -108.71910092612747,
-   "eProxy": 0.000009127730296323173
-  },
-  {
-   "id": "S_e0.05_k1",
-   "softening": 0.05,
-   "kFrame": 1,
-   "rev2Sec": 553210.6340099995,
-   "sigmaRev": 52245.18865738733,
-   "periASec": 556266.4212066433,
-   "sigmaPeriA": 170138.21321926554,
-   "eProxy": 0.002414095136736377
-  },
-  {
-   "id": "S_e0.025_k1",
-   "softening": 0.025,
-   "kFrame": 1,
-   "rev2Sec": 553202.4413371511,
-   "sigmaRev": 51929.11331601571,
-   "periASec": 556270.8453990739,
-   "sigmaPeriA": 170308.89965563006,
-   "eProxy": 0.0024096727927918516
-  },
-  {
-   "id": "S_e0.0125_k1",
-   "softening": 0.0125,
-   "kFrame": 1,
-   "rev2Sec": 553200.3863079243,
-   "sigmaRev": 51849.829781030516,
-   "periASec": 556272.186090831,
-   "sigmaPeriA": 170360.62387465162,
-   "eProxy": 0.002408404840564563
-  }
- ],
- "geoPnSeries": [
-  {
-   "id": "C6_scalar",
-   "law": "scalar",
-   "rev2Sec": 553224.9272364771,
-   "sigmaRev": 52796.62486408833,
-   "geoToyStop": null,
-   "hasGeoToy": true
-  },
-  {
-   "id": "C6_local",
-   "law": "local",
-   "rev2Sec": 551617.2024403799,
-   "sigmaRev": -9229.794738429418,
-   "geoToyStop": null,
-   "hasGeoToy": true
-  },
-  {
-   "id": "C6_complex",
-   "law": "complex",
-   "rev2Sec": 551864.0613615632,
-   "sigmaRev": 294.08339364130774,
-   "geoToyStop": "complexNotVelocity",
-   "hasGeoToy": true
-  }
- ],
+ "softeningSeries": [],
+ "geoPnSeries": [],
  "nsLockRows": [
   {
    "id": "psrDoubleABDFM",
@@ -3385,14 +3293,14 @@
     "lambdaPN": 1,
     "keepCore": false
    },
-   "omegaDotExt": 16.86901563503089,
-   "omegaDotH4": 16.868748523965515,
+   "omegaDotExt": 16.892387945766103,
+   "omegaDotH4": 16.89212083480947,
    "obs": 16.899323,
    "sigma": 0.000013,
-   "ratioExt": 0.9982065929523267,
-   "ratioH4": 0.9981907869306668,
-   "nSigmaExt": -2331.3357668544545,
-   "pObs": 1.9989307152867601,
+   "ratioExt": 0.9995896253220383,
+   "ratioH4": 0.9995738193068132,
+   "nSigmaExt": -533.4657102996888,
+   "pObs": 1.9989293339548189,
    "resolved": true
   },
   {
@@ -3405,14 +3313,14 @@
     "lambdaPN": 1,
     "keepCore": false
    },
-   "omegaDotExt": 10.347219315014701,
-   "omegaDotH4": 10.347024371284064,
+   "omegaDotExt": 10.361556057827336,
+   "omegaDotH4": 10.3613611120462,
    "obs": 10.3651,
    "sigma": 0.0002,
-   "ratioExt": 0.9982749143775459,
-   "ratioH4": 0.9982561066737479,
-   "nSigmaExt": -89.403424926493,
-   "pObs": 1.9970681122534852,
+   "ratioExt": 0.999658088954987,
+   "ratioH4": 0.9996392810533618,
+   "nSigmaExt": -17.719710863319804,
+   "pObs": 1.9970647324891095,
    "resolved": true
   },
   {
@@ -3425,14 +3333,14 @@
     "lambdaPN": 1,
     "keepCore": false
    },
-   "omegaDotExt": 25.742371671015125,
-   "omegaDotH4": 25.74178842388821,
+   "omegaDotExt": 25.77804082106481,
+   "omegaDotH4": 25.77745758648087,
    "obs": 25.79205,
    "sigma": 0.0004,
-   "ratioExt": 0.9980738898619972,
-   "ratioH4": 0.9980512764161131,
-   "nSigmaExt": -124.19582246218752,
-   "pObs": 1.9988625694460223,
+   "ratioExt": 0.9994568411997033,
+   "ratioH4": 0.9994342282401311,
+   "nSigmaExt": -35.02294733797484,
+   "pObs": 1.9988756536438648,
    "resolved": true
   },
   {
@@ -3445,14 +3353,14 @@
     "lambdaPN": 1,
     "keepCore": false
    },
-   "omegaDotExt": 1.7531053369849594,
-   "omegaDotH4": 1.753100520503307,
+   "omegaDotExt": 1.7555338145985582,
+   "omegaDotH4": 1.7555289995606818,
    "obs": 1.755789,
    "sigma": 0.000009,
-   "ratioExt": 0.9984715344411882,
-   "ratioH4": 0.9984687912404663,
-   "nSigmaExt": -298.1847794489598,
-   "pObs": 1.9988381125368304,
+   "ratioExt": 0.9998546605534937,
+   "ratioH4": 0.9998519181750665,
+   "nSigmaExt": -28.353933493541206,
+   "pObs": 1.999023630019853,
    "resolved": true
   }
  ],

@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T05:42:09.576Z",
+  "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+  "generatedAt": "2026-09-28T21:08:26.622Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 74646,
-    "sha256": "8976aac9b850bc10e6d8e98245dbccdd65b3ce5c941b04a891407667a53e7dcd",
-    "mtime": "2026-09-28T01:00:42.094Z"
+    "bytes": 74784,
+    "sha256": "c5fcf88eeeff3fe5ca927f0da904ee6feb02200125e6889febf5ed8c3216cefb",
+    "mtime": "2026-09-28T18:49:51.304Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2765140,
-    "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-    "mtime": "2026-09-28T05:10:31.970Z"
+    "bytes": 2854555,
+    "sha256": "843f666ff00751c89eaf88d0aea30de488df0575a47cc3d2800a6e506d46aa49",
+    "mtime": "2026-09-28T20:36:14.371Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90684,
-    "sha256": "ab2059adab015249e8398549c76379421aaa5e4f037cdb997f008659833a66b5",
-    "mtime": "2026-09-28T01:07:13.869Z"
+    "bytes": 90697,
+    "sha256": "af5235d12bacd7286a66fc5798c68cf7b86a9a5f8300770a466e6e7efc0b56c8",
+    "mtime": "2026-09-28T19:17:09.311Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 104163,
-    "sha256": "d5e8103ab4d8eed99ffe8c2554550f5e923ecc8206a48944579dc3cb14307bcd",
-    "mtime": "2026-09-28T05:42:09.558Z"
+    "bytes": 112968,
+    "sha256": "c74595e0da5656085715e8182c04164bfc38f01e0d588509a08325fc3694709f",
+    "mtime": "2026-09-28T21:08:26.607Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -56,14 +56,20 @@
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
     "mtime": "2026-09-28T01:00:42.098Z"
+   },
+   {
+    "file": "tests/fixtures/retired-w286f.json",
+    "bytes": 71553,
+    "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
+    "mtime": "2026-09-28T18:49:51.308Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w279a-samplestatus.mjs",
-    "bytes": 28616,
-    "sha256": "b47e1c1b02aefa44c312824bc8eb6ca696e7d186c28b72aa93b459755e98a619",
-    "mtime": "2026-09-28T01:00:42.097Z"
+    "bytes": 28853,
+    "sha256": "0af498f733f71c0e796179e7bcaba4de548c93edee134bbda86423191e11f79d",
+    "mtime": "2026-09-28T18:49:51.307Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
@@ -84,12 +90,12 @@
     "mtime": "2026-09-28T01:00:42.100Z"
    }
   ],
-  "codeSha256": "74ac588dbfeb259af3345cdd206c9dba8fe8f6e85c0888e49f8f2b45df387da9",
+  "codeSha256": "fe72531235fc051f088a69f9864980120681924df99a010d82ed4dae281ff222",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "98128a1955366a4d401f76191836da3190a65cf4",
-   "date": "2026-09-28T04:39:45.812Z",
-   "pass": 922
+   "commit": "e6b1eff39b2549da1d3c909f7e51da79d29e79e7",
+   "date": "2026-09-28T07:14:06.256Z",
+   "pass": 931
   }
  },
  "tally": {
@@ -162,7 +168,7 @@
    {
     "group": "現実との照合・連星",
     "icon": "⭐",
-    "n": 14
+    "n": 13
    },
    {
     "group": "実在天体のアナロジー",
@@ -188,7 +194,7 @@
   "n": 142,
   "predictionEligible": 0,
   "retired": {
-   "n": 14,
+   "n": 15,
    "ids": [
     "darkrotor",
     "nebulaRotor",
@@ -203,6 +209,7 @@
     "psrJ1946PN",
     "psrDoubleABCF",
     "psrJ1757CF",
+    "psrJ1946CF",
     "starSeed"
    ],
    "historyEvidence": [
@@ -283,6 +290,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -307,8 +320,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -316,23 +341,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 12838,
+     "ms": 13321,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 12641,
+       "ms": 13115,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 166,
+       "ms": 172,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 31,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -413,6 +438,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -437,8 +468,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -446,17 +489,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 48,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 38,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 10,
+       "ms": 9,
        "pass": true,
        "via": "targetIds"
       },
@@ -548,6 +591,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -572,8 +621,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -581,17 +642,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 118,
+     "ms": 152,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 75,
+       "ms": 127,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 43,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -671,6 +732,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -695,8 +762,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -704,17 +783,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 112,
+     "ms": 172,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 75,
+       "ms": 127,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 37,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -794,6 +873,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -818,8 +903,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -827,17 +924,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 98,
+     "ms": 156,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 75,
+       "ms": 127,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 23,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -918,6 +1015,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -942,8 +1045,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -951,11 +1066,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 15,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 15,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -1042,6 +1157,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -1066,8 +1187,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -1075,35 +1208,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 1082,
+     "ms": 946,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 452,
+       "ms": 429,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 425,
+       "ms": 301,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 122,
+       "ms": 153,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 72,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 11,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -1183,6 +1316,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -1207,8 +1346,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -1216,11 +1367,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 142,
+     "ms": 158,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 142,
+       "ms": 158,
        "pass": true,
        "via": "targetIds"
       }
@@ -1300,6 +1451,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -1324,8 +1481,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -1333,11 +1502,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 218,
+     "ms": 202,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 218,
+       "ms": 202,
        "pass": true,
        "via": "targetIds"
       }
@@ -1417,6 +1586,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -1441,8 +1616,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -1450,11 +1637,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 303,
+     "ms": 300,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 303,
+       "ms": 300,
        "pass": true,
        "via": "targetIds"
       }
@@ -1534,6 +1721,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -1558,8 +1751,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -1567,17 +1772,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 328,
+     "ms": 356,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 180,
+       "ms": 250,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 148,
+       "ms": 106,
        "pass": true,
        "via": "targetIds"
       }
@@ -1657,6 +1862,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -1681,8 +1892,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -1690,17 +1913,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 390,
+     "ms": 671,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 325,
+       "ms": 624,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 65,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -1780,6 +2003,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -1804,8 +2033,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -1813,11 +2054,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 95,
+     "ms": 94,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 95,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       }
@@ -1897,6 +2138,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -1921,8 +2168,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -1930,11 +2189,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 161,
+     "ms": 155,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 112,
+       "ms": 108,
        "pass": true,
        "via": "targetIds"
       },
@@ -1946,7 +2205,7 @@
       },
       {
        "id": "preset.boxredshift",
-       "ms": 19,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -2026,6 +2285,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -2050,8 +2315,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -2059,17 +2336,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 211,
+     "ms": 174,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 109,
+       "ms": 115,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 102,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -2149,6 +2426,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -2173,8 +2456,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -2182,35 +2477,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2149,
+     "ms": 2180,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1242,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "preset.freebox",
-       "ms": 348,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "freebox.graph-measured",
-       "ms": 303,
+       "ms": 1158,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 236,
+       "ms": 389,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.freebox",
+       "ms": 383,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "freebox.graph-measured",
+       "ms": 237,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 13,
+       "ms": 8,
        "pass": true,
        "via": "targetIds"
       }
@@ -2290,6 +2585,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -2314,8 +2615,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -2323,11 +2636,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3751,
+     "ms": 3849,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 3751,
+       "ms": 3849,
        "pass": true,
        "via": "targetIds"
       },
@@ -2437,6 +2750,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -2461,8 +2780,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -2470,23 +2801,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 9515,
+     "ms": 10779,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 5525,
+       "ms": 6547,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 3990,
+       "ms": 4231,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -2566,6 +2897,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -2590,8 +2927,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -2599,17 +2948,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 61440,
+     "ms": 66420,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 57551,
+       "ms": 62383,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 3889,
+       "ms": 4037,
        "pass": true,
        "via": "targetIds"
       }
@@ -2689,6 +3038,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -2713,8 +3068,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -2722,17 +3089,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 159840,
+     "ms": 173711,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 153589,
+       "ms": 167465,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 6251,
+       "ms": 6246,
        "pass": true,
        "via": "targetIds"
       }
@@ -2812,6 +3179,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -2836,8 +3209,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -2845,17 +3230,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3123,
+     "ms": 3328,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3123,
+       "ms": 3327,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxydb-contrast",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -2935,6 +3320,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -2959,8 +3350,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -2968,29 +3371,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7642,
+     "ms": 8442,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 3932,
+       "ms": 4662,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3663,
+       "ms": 3713,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 28,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 19,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -3070,6 +3473,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -3094,8 +3503,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -3103,17 +3524,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 928,
+     "ms": 993,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 776,
+       "ms": 908,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 152,
+       "ms": 85,
        "pass": true,
        "via": "targetIds"
       }
@@ -3193,6 +3614,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -3217,8 +3644,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -3226,17 +3665,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3750,
+     "ms": 4073,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 3446,
+       "ms": 3833,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 304,
+       "ms": 240,
        "pass": true,
        "via": "targetIds"
       }
@@ -3316,6 +3755,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -3340,8 +3785,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -3349,17 +3806,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3582,
+     "ms": 3455,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 3017,
+       "ms": 3120,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 565,
+       "ms": 335,
        "pass": true,
        "via": "targetIds"
       }
@@ -3439,6 +3896,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -3463,8 +3926,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -3472,23 +3947,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15923,
+     "ms": 21497,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 11429,
+       "ms": 15648,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 4325,
+       "ms": 5701,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 169,
+       "ms": 148,
        "pass": true,
        "via": "targetIds"
       }
@@ -3568,6 +4043,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -3592,8 +4073,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -3601,11 +4094,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3110,
+     "ms": 3224,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 3110,
+       "ms": 3224,
        "pass": true,
        "via": "targetIds"
       },
@@ -3697,6 +4190,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -3721,8 +4220,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -3730,11 +4241,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2819,
+     "ms": 2912,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 2819,
+       "ms": 2912,
        "pass": true,
        "via": "targetIds"
       }
@@ -3814,6 +4325,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -3838,8 +4355,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -3847,17 +4376,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5212,
+     "ms": 6200,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 4760,
+       "ms": 5646,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 452,
+       "ms": 554,
        "pass": true,
        "via": "targetIds"
       }
@@ -3937,6 +4466,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -3961,8 +4496,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -3970,17 +4517,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 25249,
+     "ms": 26589,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 23580,
+       "ms": 24778,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1669,
+       "ms": 1811,
        "pass": true,
        "via": "targetIds"
       },
@@ -4067,6 +4614,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -4091,8 +4644,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -4100,11 +4665,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5359,
+     "ms": 5762,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 5359,
+       "ms": 5762,
        "pass": true,
        "via": "targetIds"
       }
@@ -4185,6 +4750,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -4209,8 +4780,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -4218,11 +4801,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5709,
+     "ms": 5396,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 5709,
+       "ms": 5396,
        "pass": true,
        "via": "targetIds"
       }
@@ -4303,6 +4886,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -4327,8 +4916,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -4336,11 +4937,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4757,
+     "ms": 5090,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 4757,
+       "ms": 5090,
        "pass": true,
        "via": "targetIds"
       }
@@ -4420,6 +5021,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -4444,8 +5051,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -4453,17 +5072,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1189,
+     "ms": 1356,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1189,
+       "ms": 1355,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.selfrotor",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       },
@@ -4555,6 +5174,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -4579,8 +5204,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -4588,11 +5225,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3545,
+     "ms": 3469,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3545,
+       "ms": 3469,
        "pass": true,
        "via": "targetIds"
       },
@@ -4685,6 +5322,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -4709,8 +5352,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -4718,11 +5373,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6929,
+     "ms": 6882,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 6929,
+       "ms": 6882,
        "pass": true,
        "via": "targetIds"
       }
@@ -4808,6 +5463,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -4832,8 +5493,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -4841,11 +5514,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1667,
+     "ms": 1773,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1667,
+       "ms": 1773,
        "pass": true,
        "via": "targetIds"
       }
@@ -4931,6 +5604,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -4955,8 +5634,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -4964,11 +5655,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2758,
+     "ms": 3057,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 2758,
+       "ms": 3057,
        "pass": true,
        "via": "targetIds"
       }
@@ -4985,23 +5676,22 @@
    "status": {
     "purpose": "中心 DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置いた球状星団アナロジー",
     "objective": "unmet",
-    "state": "接触判定なし・DR を恒星より小さい惑星級の半径に直し中心質量・自転・引きずりの核を走査しても、宣言した形状の門で未達",
+    "state": "星団スケールの単位・同じ代表率・半径の 4 分離・わずかに回転する動径 Jeans の初期分布でも、宣言した形状の門で未達",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
-     "tests/out/cluster-w285a.json",
-     "tests/out/cluster-w284a.json",
-     "tests/out/cluster-w283f.json"
+     "tests/out/cluster-w286a.json",
+     "tests/out/jeans-w286a.json"
     ],
     "en": {
      "purpose": "Globular-cluster analogy with a central DFM black hole and dark rotors",
-     "state": "no contact, dark rotors below star size, centre mass/spin/drag scanned; shape gates not met",
+     "state": "cluster units, one representative rate, four radii, rotating Jeans start; gates not met",
      "mismatch": null,
      "outlook": null,
-     "brief": "Globular-cluster analogy with a central DFM black hole and dark rotors. Unmet: no contact, dark rotors below star size, centre mass/spin/drag scanned; shape gates not met. Out of calibration scope."
+     "brief": "Globular-cluster analogy with a central DFM black hole and dark rotors. Unmet: cluster units, one representative rate, four radii, rotating Jeans start; gates not met. Out of calibration scope."
     },
-    "brief": "中心 DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置いた球状星団アナロジー。未達・接触判定なし・DR を恒星より小さい惑星級の半径に直し中心質量・自転・引きずりの核を走査しても、宣言した形状の門で未達。較正対象外。"
+    "brief": "中心 DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置いた球状星団アナロジー。未達・星団スケールの単位・同じ代表率・半径の 4 分離・わずかに回転する動径 Jeans の初期分布でも、宣言した形状の門で未達。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -5050,6 +5740,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -5074,8 +5770,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -5173,6 +5881,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -5197,8 +5911,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -5206,11 +5932,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 867,
+     "ms": 896,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 867,
+       "ms": 896,
        "pass": true,
        "via": "targetIds"
       }
@@ -5297,6 +6023,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -5321,8 +6053,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -5330,11 +6074,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1224,
+     "ms": 1351,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1224,
+       "ms": 1351,
        "pass": true,
        "via": "targetIds"
       }
@@ -5421,6 +6165,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -5445,8 +6195,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -5454,11 +6216,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 486,
+     "ms": 634,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 486,
+       "ms": 634,
        "pass": true,
        "via": "targetIds"
       }
@@ -5545,6 +6307,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -5569,8 +6337,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -5578,11 +6358,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 857,
+     "ms": 1095,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 857,
+       "ms": 1095,
        "pass": true,
        "via": "targetIds"
       }
@@ -5669,6 +6449,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -5693,8 +6479,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -5702,11 +6500,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1278,
+     "ms": 1378,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1278,
+       "ms": 1378,
        "pass": true,
        "via": "targetIds"
       }
@@ -5793,6 +6591,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -5817,8 +6621,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -5826,11 +6642,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 468,
+     "ms": 490,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 468,
+       "ms": 490,
        "pass": true,
        "via": "targetIds"
       }
@@ -5911,6 +6727,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -5935,8 +6757,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -5944,17 +6778,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 171,
+     "ms": 185,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 143,
+       "ms": 152,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 28,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -6034,6 +6868,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -6058,8 +6898,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -6067,11 +6919,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 20,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 20,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -6157,6 +7009,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -6181,8 +7039,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -6190,17 +7060,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 53,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 31,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.blens",
-       "ms": 22,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -6280,6 +7150,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -6304,8 +7180,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -6313,17 +7201,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 307,
+     "ms": 334,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 283,
+       "ms": 308,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 24,
+       "ms": 26,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -6421,6 +7309,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -6445,8 +7339,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -6454,23 +7360,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 26892,
+     "ms": 30129,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 22904,
+       "ms": 25772,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2101,
+       "ms": 2461,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 1887,
+       "ms": 1896,
        "pass": true,
        "via": "targetIds"
       }
@@ -6550,6 +7456,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -6574,8 +7486,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -6583,23 +7507,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 13938,
+     "ms": 15086,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 11030,
+       "ms": 11958,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 1666,
+       "ms": 1970,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1242,
+       "ms": 1158,
        "pass": true,
        "via": "targetIds"
       }
@@ -6679,6 +7603,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -6703,8 +7633,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -6712,29 +7654,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 739,
+     "ms": 901,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 523,
+       "ms": 731,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 163,
+       "ms": 130,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 42,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 11,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -6814,6 +7756,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -6838,8 +7786,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -6847,11 +7807,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 766,
+     "ms": 970,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 766,
+       "ms": 970,
        "pass": true,
        "via": "targetIds"
       }
@@ -6931,6 +7891,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -6955,8 +7921,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -6964,11 +7942,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 15,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 15,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       },
@@ -7054,6 +8032,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -7078,8 +8062,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -7087,23 +8083,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3321,
+     "ms": 3603,
      "tests": [
       {
        "id": "shot.regress-convection",
-       "ms": 1835,
+       "ms": 2058,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.convection",
-       "ms": 1475,
+       "ms": 1528,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 11,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
@@ -7189,6 +8185,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -7213,8 +8215,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -7222,11 +8236,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2101,
+     "ms": 2364,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2101,
+       "ms": 2364,
        "pass": true,
        "via": "targetIds"
       },
@@ -7312,6 +8326,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -7336,8 +8356,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -7435,6 +8467,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -7459,8 +8497,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -7468,11 +8518,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 857,
+     "ms": 866,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 857,
+       "ms": 866,
        "pass": true,
        "via": "targetIds"
       },
@@ -7564,6 +8614,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -7588,8 +8644,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -7597,11 +8665,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1807,
+     "ms": 1891,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 1807,
+       "ms": 1891,
        "pass": true,
        "via": "targetIds"
       },
@@ -7693,6 +8761,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -7717,8 +8791,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -7726,11 +8812,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 845,
+     "ms": 926,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 845,
+       "ms": 926,
        "pass": true,
        "via": "targetIds"
       },
@@ -7823,6 +8909,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -7847,8 +8939,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -7856,11 +8960,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1052,
+     "ms": 1135,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1052,
+       "ms": 1135,
        "pass": true,
        "via": "targetIds"
       },
@@ -7952,6 +9056,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -7976,8 +9086,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -7985,23 +9107,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 902,
+     "ms": 759,
      "tests": [
       {
-       "id": "behavior.earthMoon",
-       "ms": 475,
-       "pass": true,
-       "via": "claims+targetIds"
-      },
-      {
        "id": "preset.earthMoon",
-       "ms": 314,
+       "ms": 322,
        "pass": true,
        "via": "targetIds"
       },
       {
+       "id": "behavior.earthMoon",
+       "ms": 303,
+       "pass": true,
+       "via": "claims+targetIds"
+      },
+      {
        "id": "shot.regress-earthMoon",
-       "ms": 113,
+       "ms": 134,
        "pass": true,
        "via": "targetIds"
       }
@@ -8081,6 +9203,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -8105,8 +9233,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -8114,17 +9254,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1283,
+     "ms": 1520,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1146,
+       "ms": 1255,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 137,
+       "ms": 265,
        "pass": true,
        "via": "targetIds"
       }
@@ -8168,23 +9308,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 35.53,
+     "wallSec": 108.965,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 35.53,
+       "wallSec": 35.339,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 64.582,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 73.626,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 64.582,
-     "reusedH2Sec": 64.582,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -8237,6 +9377,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -8261,8 +9407,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -8270,11 +9428,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 39,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 39,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -8319,23 +9477,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 60.974,
+     "wallSec": 186.414,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 60.974,
+       "wallSec": 63.065,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 114.844,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 123.349,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 114.844,
-     "reusedH2Sec": 114.844,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -8418,6 +9576,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -8442,8 +9606,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -8451,11 +9627,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 42,
+     "ms": 88,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 42,
+       "ms": 88,
        "pass": true,
        "via": "targetIds"
       }
@@ -8547,6 +9723,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -8571,8 +9753,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -8584,13 +9778,13 @@
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 25,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -8635,23 +9829,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 50.849,
+     "wallSec": 153.523,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 50.849,
+       "wallSec": 52.04,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 92.049,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 101.483,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 92.049,
-     "reusedH2Sec": 92.049,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -8716,6 +9910,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -8740,8 +9940,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -8749,17 +9961,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 65,
+     "ms": 51,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 64,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -8803,23 +10015,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.121,
+     "wallSec": 3.4509999999999996,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.121,
+       "wallSec": 1.184,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.981,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 2.267,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 1.981,
-     "reusedH2Sec": 1.981,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -8872,6 +10084,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -8896,8 +10114,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -8905,17 +10135,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 37,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 36,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -9008,6 +10238,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -9032,8 +10268,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -9041,11 +10289,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 63,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 57,
+       "ms": 63,
        "pass": true,
        "via": "targetIds"
       }
@@ -9137,6 +10385,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -9161,8 +10415,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -9170,17 +10436,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 923,
+     "ms": 863,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 845,
+       "ms": 743,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 78,
+       "ms": 120,
        "pass": true,
        "via": "targetIds"
       }
@@ -9272,6 +10538,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -9296,8 +10568,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -9305,17 +10589,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 893,
+     "ms": 801,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 845,
+       "ms": 743,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 48,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -9401,6 +10685,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -9425,8 +10715,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -9434,17 +10736,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 398,
+     "ms": 438,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 384,
+       "ms": 422,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 14,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -9463,7 +10765,7 @@
     "objective": "partial",
     "state": "不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解",
     "calibration": "hold",
-    "mismatch": "近点移動 −21.7%(6.2×10³σ)",
+    "mismatch": "近点移動 −6.91%(2.0×10³σ)",
     "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -9473,39 +10775,39 @@
     "en": {
      "purpose": "Compare Mercury's perihelion advance with kF0",
      "state": "the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%",
-     "mismatch": "apsidal advance −21.7% (6.2×10³σ)",
+     "mismatch": "apsidal advance −6.91% (2.0×10³σ)",
      "outlook": "numerics unresolved",
-     "brief": "Compare Mercury's perihelion advance with kF0. Partial: the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."
+     "brief": "Compare Mercury's perihelion advance with kF0. Partial: the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%. Calibration: hold — apsidal advance −6.91% (2.0×10³σ); numerics unresolved."
     },
-    "brief": "水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"
+    "brief": "水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −6.91%(2.0×10³σ)・数値未解決。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[4]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 1353.6489016376847,
+    "lastDiffInSigma": 1353.650322719815,
     "missing": [
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.383,
+     "wallSec": 7.541,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.383,
+       "wallSec": 2.587,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.678,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 4.954,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 4.678,
-     "reusedH2Sec": 4.678,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -9570,6 +10872,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -9594,8 +10902,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -9603,11 +10923,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 24,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -9693,6 +11013,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -9717,8 +11043,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -9726,11 +11064,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 53,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 52,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -9749,7 +11087,7 @@
     "objective": "partial",
     "state": "☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり",
     "calibration": "hold",
-    "mismatch": "近点移動 −21.8%(6.3×10³σ)",
+    "mismatch": "近点移動 −21.7%(6.2×10³σ)",
     "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -9759,39 +11097,39 @@
     "en": {
      "purpose": "Compare Mercury's perihelion advance with kF1",
      "state": "the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag",
-     "mismatch": "apsidal advance −21.8% (6.3×10³σ)",
+     "mismatch": "apsidal advance −21.7% (6.2×10³σ)",
      "outlook": "numerics unresolved",
-     "brief": "Compare Mercury's perihelion advance with kF1. Partial: the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag. Calibration: hold — apsidal advance −21.8% (6.3×10³σ); numerics unresolved."
+     "brief": "Compare Mercury's perihelion advance with kF1. Partial: the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."
     },
-    "brief": "水星の近日点前進を kF1 で照合する。部分・☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり。較正は保留・近点移動 −21.8%(6.3×10³σ)・数値未解決。"
+    "brief": "水星の近日点前進を kF1 で照合する。部分・☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[5]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 1353.9711515983327,
+    "lastDiffInSigma": 1353.9711418569952,
     "missing": [
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.316,
+     "wallSec": 12.607,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.316,
+       "wallSec": 4.303,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.473,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 8.304,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 7.473,
-     "reusedH2Sec": 7.473,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -9844,6 +11182,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -9868,8 +11212,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -9877,11 +11233,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 34,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -9927,11 +11283,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 35.465,
+     "wallSec": 36.283,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 35.465,
+       "wallSec": 36.283,
        "reused": false,
        "reusedBy": null
       }
@@ -9990,6 +11346,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -10014,8 +11376,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -10023,17 +11397,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1394,
+     "ms": 1716,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1147,
+       "ms": 1470,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 247,
+       "ms": 246,
        "pass": true,
        "via": "targetIds"
       }
@@ -10077,23 +11451,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 16.533,
+     "wallSec": 49.735,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 16.533,
+       "wallSec": 16.43,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 29.398,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 33.305,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 29.398,
-     "reusedH2Sec": 29.398,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -10158,6 +11532,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -10182,8 +11562,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -10191,17 +11583,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 460,
+     "ms": 512,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 383,
+       "ms": 412,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 77,
+       "ms": 100,
        "pass": true,
        "via": "targetIds"
       }
@@ -10245,23 +11637,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.907,
+     "wallSec": 29.728,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.907,
+       "wallSec": 9.713,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 18.062,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 20.015,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 18.062,
-     "reusedH2Sec": 18.062,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -10362,6 +11754,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -10386,8 +11784,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -10395,17 +11805,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3801,
+     "ms": 4066,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 3764,
+       "ms": 4023,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 37,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -10449,23 +11859,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.599,
+     "wallSec": 20.278,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.599,
+       "wallSec": 6.634,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.61,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 13.644,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 11.61,
-     "reusedH2Sec": 11.61,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -10530,6 +11940,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -10554,8 +11970,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -10563,11 +11991,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 41,
+     "ms": 46,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 41,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       },
@@ -10611,7 +12039,7 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[10]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.0009792630508955982,
+    "lastDiffInSigma": 0.0009791911895858285,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -10619,23 +12047,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 28.763,
+     "wallSec": 83.644,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 28.763,
+       "wallSec": 27.585,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 51.339,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 56.059,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 51.339,
-     "reusedH2Sec": 51.339,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -10766,6 +12194,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -10790,8 +12224,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -10799,11 +12245,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 23,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 23,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       },
@@ -10847,7 +12293,7 @@
    },
    "ledgerSource": {
     "row": "tables.grid.dfmMid",
-    "vsBuieSec": 31.598325503524393
+    "vsBuieSec": 31.59832550911233
    },
    "timing": {
     "calaudit": {
@@ -10913,6 +12359,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -10937,8 +12389,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -10946,17 +12410,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 9172,
+     "ms": 10197,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 9119,
+       "ms": 10122,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 53,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       }
@@ -10993,7 +12457,7 @@
    },
    "ledgerSource": {
     "row": "tables.grid.kf0Leap",
-    "vsBuieSec": 30.225398476817645
+    "vsBuieSec": 30.225398488808423
    },
    "timing": {
     "calaudit": {
@@ -11059,6 +12523,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -11083,8 +12553,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -11092,11 +12574,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 40,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 40,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -11182,6 +12664,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -11206,8 +12694,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -11215,11 +12715,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 38,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       }
@@ -11305,6 +12805,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -11329,8 +12835,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -11338,11 +12856,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 44,
+     "ms": 41,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 44,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -11428,6 +12946,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -11452,8 +12976,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -11461,11 +12997,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 42,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 42,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -11511,11 +13047,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 45.692,
+     "wallSec": 44.364,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 45.692,
+       "wallSec": 44.364,
        "reused": false,
        "reusedBy": null
       }
@@ -11574,6 +13110,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -11598,8 +13140,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -11607,11 +13161,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 195,
+     "ms": 169,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 195,
+       "ms": 169,
        "pass": true,
        "via": "targetIds"
       },
@@ -11661,23 +13215,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.59,
+     "wallSec": 8.262,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.59,
+       "wallSec": 3.038,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.298,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 5.224,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 5.298,
-     "reusedH2Sec": 5.298,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -11778,6 +13332,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -11802,8 +13362,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -11811,11 +13383,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 20,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 20,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       },
@@ -11858,37 +13430,37 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[13]",
     "mismatch": null,
-    "lastDiffInSigma": 0.0000023361342168632494,
+    "lastDiffInSigma": 0.0000023396795135692717,
     "missing": [
      "写像未確定"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.518,
+     "wallSec": 9.324,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 9.518,
+       "wallSec": 9.324,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 18.375,
+       "wallSec": 20.984,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 33.846,
+       "wallSec": 41.046,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 52.221,
-     "reusedH2Sec": 18.375,
-     "reusedH4Sec": 33.846
+     "reusedSec": 62.03,
+     "reusedH2Sec": 20.984,
+     "reusedH4Sec": 41.046
     },
     "regenSteps": [
      {
@@ -11988,6 +13560,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -12012,8 +13590,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -12021,17 +13611,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2766,
+     "ms": 3139,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 2713,
+       "ms": 3094,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 53,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -12068,7 +13658,7 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[14]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.009559756229738637,
+    "lastDiffInSigma": 0.009583361818833274,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -12076,23 +13666,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 16.675,
+     "wallSec": 51.245000000000005,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 16.675,
+       "wallSec": 17.292,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 29.283,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 33.953,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 29.283,
-     "reusedH2Sec": 29.283,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -12163,6 +13753,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -12187,8 +13783,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -12196,17 +13804,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2780,
+     "ms": 3138,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 2713,
+       "ms": 3094,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 67,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -12243,37 +13851,37 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[15]",
     "mismatch": null,
-    "lastDiffInSigma": 0.00002730564186539282,
+    "lastDiffInSigma": 0.000027352535753897184,
     "missing": [
      "写像未確定"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.163,
+     "wallSec": 5.654,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.163,
+       "wallSec": 5.654,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 10.176,
+       "wallSec": 12.374,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 20.058,
+       "wallSec": 22.769,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 30.234,
-     "reusedH2Sec": 10.176,
-     "reusedH4Sec": 20.058
+     "reusedSec": 35.143,
+     "reusedH2Sec": 12.374,
+     "reusedH4Sec": 22.769
     },
     "regenSteps": [
      {
@@ -12373,6 +13981,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -12397,8 +14011,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -12406,17 +14032,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2474,
+     "ms": 2685,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2415,
+       "ms": 2649,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 59,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -12453,7 +14079,7 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[16]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.15705673826627523,
+    "lastDiffInSigma": 0.1575233089871086,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -12461,23 +14087,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.12,
+     "wallSec": 31.878,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.12,
+       "wallSec": 10.753,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 18.83,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 21.125,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 18.83,
-     "reusedH2Sec": 18.83,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -12548,6 +14174,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -12572,8 +14204,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -12581,17 +14225,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2462,
+     "ms": 2704,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2415,
+       "ms": 2649,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 47,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -12610,7 +14254,7 @@
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "周期 +0.00306%(1.1×10⁶σ)",
+    "mismatch": "周期 +0.00307%(1.1×10⁶σ)",
     "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -12619,16 +14263,16 @@
     "en": {
      "purpose": "Compare the double pulsar with kF0",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period +0.00306% (1.1×10⁶σ)",
+     "mismatch": "period +0.00307% (1.1×10⁶σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Compare the double pulsar with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.00306% (1.1×10⁶σ); numerics unresolved; mapping unresolved."
+     "brief": "Compare the double pulsar with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.00307% (1.1×10⁶σ); numerics unresolved; mapping unresolved."
     },
-    "brief": "二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00306%(1.1×10⁶σ)・数値未解決・写像未確定。"
+    "brief": "二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00307%(1.1×10⁶σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[17]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 3136.5571071877625,
+    "lastDiffInSigma": 3140.7591208077497,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -12636,23 +14280,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.987,
+     "wallSec": 10.006,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.987,
+       "wallSec": 3.357,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.449,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 6.649,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 6.449,
-     "reusedH2Sec": 6.449,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -12723,6 +14367,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -12747,8 +14397,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -12756,7 +14418,7 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 47,
+     "ms": 48,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
@@ -12766,7 +14428,7 @@
       },
       {
        "id": "behavior.psrDoubleAB",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -12803,30 +14465,30 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[18]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 3965001633.3534846,
+    "lastDiffInSigma": 3965004021.2854877,
     "missing": [
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 48.812,
+     "wallSec": 144.925,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 48.812,
+       "wallSec": 47.99,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 86.684,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 96.935,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 86.684,
-     "reusedH2Sec": 86.684,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -12933,6 +14595,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -12957,8 +14625,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -12966,17 +14646,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 7279,
+     "ms": 8121,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 7215,
+       "ms": 8064,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 64,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -13057,6 +14737,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -13081,8 +14767,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -13090,11 +14788,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 82,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 60,
+       "ms": 82,
        "pass": true,
        "via": "targetIds"
       }
@@ -13113,7 +14811,7 @@
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "近点移動 +2.42%(3.2×10⁴σ)",
+    "mismatch": "近点移動 +2.56%(3.4×10⁴σ)",
     "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -13122,39 +14820,39 @@
     "en": {
      "purpose": "Compare a calibration candidate with f and λ turned",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +2.42% (3.2×10⁴σ)",
+     "mismatch": "apsidal advance +2.56% (3.4×10⁴σ)",
      "outlook": "numerics unresolved",
-     "brief": "Compare a calibration candidate with f and λ turned. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.42% (3.2×10⁴σ); numerics unresolved."
+     "brief": "Compare a calibration candidate with f and λ turned. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.56% (3.4×10⁴σ); numerics unresolved."
     },
-    "brief": "f と λ を回した較正候補を比べる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.42%(3.2×10⁴σ)・数値未解決。"
+    "brief": "f と λ を回した較正候補を比べる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.56%(3.4×10⁴σ)・数値未解決。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[19]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 29937.2689098075,
+    "lastDiffInSigma": 29933.625407092673,
     "missing": [
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.986,
+     "wallSec": 8.589,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.986,
+       "wallSec": 2.911,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.235,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 5.678,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 5.235,
-     "reusedH2Sec": 5.235,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -13213,6 +14911,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -13237,8 +14941,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -13246,11 +14962,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 77,
+     "ms": 82,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 77,
+       "ms": 82,
        "pass": true,
        "via": "targetIds"
       }
@@ -13287,7 +15003,7 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[20]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 12564488.80379779,
+    "lastDiffInSigma": 12564488.703057779,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -13295,23 +15011,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.644,
+     "wallSec": 26.461,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.644,
+       "wallSec": 8.586,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 19.515,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 17.875,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 19.515,
-     "reusedH2Sec": 19.515,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -13418,6 +15134,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -13442,8 +15164,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -13451,11 +15185,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 58,
+     "ms": 79,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 58,
+       "ms": 79,
        "pass": true,
        "via": "targetIds"
       }
@@ -13466,33 +15200,33 @@
   {
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "name": "PSR J1946+2052(DFM版・旧則 f≈2 — f=1 へ移行予定)— 銀河系で最短周期の中性子星連星",
+   "name": "PSR J1946+2052(DFM版)— 観測質量(f=1)・kF1 の銀河系で最短周期の中性子星連星",
    "group": "現実との照合・連星",
    "sampleClass": "calibration",
    "status": {
-    "purpose": "⚡ の処方を J1946 へ当てる",
+    "purpose": "J1946 を観測質量(f=1)と kF1 で照合",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "近点移動 7.1×10⁴σ(差の%は正本に無い)",
+    "mismatch": "周期 +3.2×10³%(1.2×10¹¹σ)",
     "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
     ],
     "en": {
-     "purpose": "Apply ⚡'s recipe to J1946",
+     "purpose": "Compare J1946 with the observed masses (f=1) under kF1",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance 7.1×10⁴σ (no % in the ledger)",
+     "mismatch": "period +3.2×10³% (1.2×10¹¹σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Apply ⚡'s recipe to J1946. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance 7.1×10⁴σ (no % in the ledger); numerics unresolved; mapping unresolved."
+     "brief": "Compare J1946 with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Calibration: hold — period +3.2×10³% (1.2×10¹¹σ); numerics unresolved; mapping unresolved."
     },
-    "brief": "⚡ の処方を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 7.1×10⁴σ(差の%は正本に無い)・数値未解決・写像未確定。"
+    "brief": "J1946 を観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +3.2×10³%(1.2×10¹¹σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[21]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 4039.8336339989273,
+    "lastDiffInSigma": 1205286414.035931,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -13500,32 +15234,26 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.239,
+     "wallSec": 170.201,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.239,
+       "wallSec": 57.419,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.712,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 112.782,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 3.712,
-     "reusedH2Sec": 3.712,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
-     {
-      "key": "j1946adopt",
-      "sec": 149,
-      "share": 3,
-      "always": false
-     },
      {
       "key": "nslock",
       "sec": 688,
@@ -13629,6 +15357,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -13653,8 +15387,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -13662,11 +15408,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 32,
+     "ms": 60,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 32,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       }
@@ -13711,23 +15457,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.084,
+     "wallSec": 8.539,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.084,
+       "wallSec": 2.746,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.175,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 5.793,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 5.175,
-     "reusedH2Sec": 5.175,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -13786,6 +15532,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -13810,8 +15562,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -13819,11 +15583,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 29,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -13868,23 +15632,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.153,
+     "wallSec": 21.677,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.153,
+       "wallSec": 6.85,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.457,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 14.827,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 13.457,
-     "reusedH2Sec": 13.457,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -13943,6 +15707,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -13967,8 +15737,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -13976,11 +15758,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 31,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -14025,32 +15807,26 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.086,
+     "wallSec": 6.58,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.086,
+       "wallSec": 2.211,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.178,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 4.369,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 4.178,
-     "reusedH2Sec": 4.178,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
-     {
-      "key": "j1946adopt",
-      "sec": 149,
-      "share": 3,
-      "always": false
-     },
      {
       "key": "shapecrit",
       "sec": 106,
@@ -14106,6 +15882,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -14130,8 +15912,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -14139,11 +15933,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 28,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 28,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -14187,23 +15981,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.361,
+     "wallSec": 11.568,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.361,
+       "wallSec": 4.012,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.788,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 7.556,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 6.788,
-     "reusedH2Sec": 6.788,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -14262,6 +16056,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -14286,8 +16086,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -14295,11 +16107,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 67,
+     "ms": 62,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 67,
+       "ms": 62,
        "pass": true,
        "via": "targetIds"
       }
@@ -14343,23 +16155,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.029,
+     "wallSec": 29.415,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 9.029,
+       "wallSec": 9.628,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 16.54,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 19.787,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 16.54,
-     "reusedH2Sec": 16.54,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -14418,6 +16230,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -14442,8 +16260,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -14451,11 +16281,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 63,
+     "ms": 61,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 63,
+       "ms": 61,
        "pass": true,
        "via": "targetIds"
       }
@@ -14500,32 +16330,26 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.54,
+     "wallSec": 8.001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.54,
+       "wallSec": 2.772,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.989,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 5.229,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 4.989,
-     "reusedH2Sec": 4.989,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
-     {
-      "key": "j1946adopt",
-      "sec": 149,
-      "share": 3,
-      "always": false
-     },
      {
       "key": "shapecrit",
       "sec": 106,
@@ -14581,6 +16405,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -14605,8 +16435,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -14614,11 +16456,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 54,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 52,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -14637,7 +16479,7 @@
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "周期 +0.000875%(3.7×10⁵σ)",
+    "mismatch": "周期 +0.000876%(3.7×10⁵σ)",
     "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -14646,16 +16488,16 @@
     "en": {
      "purpose": "Check B1534's observed inputs with kF0",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period +0.000875% (3.7×10⁵σ)",
+     "mismatch": "period +0.000876% (3.7×10⁵σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Check B1534's observed inputs with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000875% (3.7×10⁵σ); numerics unresolved; mapping unresolved."
+     "brief": "Check B1534's observed inputs with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000876% (3.7×10⁵σ); numerics unresolved; mapping unresolved."
     },
-    "brief": "B1534 の観測入力を kF0 で確かめる。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000875%(3.7×10⁵σ)・数値未解決・写像未確定。"
+    "brief": "B1534 の観測入力を kF0 で確かめる。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000876%(3.7×10⁵σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[28]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 557.9345943934405,
+    "lastDiffInSigma": 558.7033447901141,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -14663,23 +16505,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 18.095,
+     "wallSec": 58.137,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 18.095,
+       "wallSec": 19.965,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 33.969,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 38.172,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 33.969,
-     "reusedH2Sec": 33.969,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -14738,6 +16580,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -14762,8 +16610,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -14771,11 +16631,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 39,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 39,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -14812,7 +16672,7 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[29]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 615.3757314341923,
+    "lastDiffInSigma": 616.1482666215226,
     "missing": [
      "写像未確定",
      "数値精度"
@@ -14820,23 +16680,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 13.474,
+     "wallSec": 41.748000000000005,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 13.474,
+       "wallSec": 13.64,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 25.037,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 28.108,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 25.037,
-     "reusedH2Sec": 25.037,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -14943,6 +16803,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -14967,8 +16833,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -14976,11 +16854,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 46,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 60,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -14999,7 +16877,7 @@
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "近点移動 +2.80%(5.5×10³σ)",
+    "mismatch": "近点移動 +2.94%(5.8×10³σ)",
     "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -15008,39 +16886,39 @@
     "en": {
      "purpose": "Carry the frozen κ over to B1534",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +2.80% (5.5×10³σ)",
+     "mismatch": "apsidal advance +2.94% (5.8×10³σ)",
      "outlook": "numerics unresolved",
-     "brief": "Carry the frozen κ over to B1534. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.80% (5.5×10³σ); numerics unresolved."
+     "brief": "Carry the frozen κ over to B1534. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.94% (5.8×10³σ); numerics unresolved."
     },
-    "brief": "凍結した κ を B1534 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.80%(5.5×10³σ)・数値未解決。"
+    "brief": "凍結した κ を B1534 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.94%(5.8×10³σ)・数値未解決。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[30]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 336.2377978937172,
+    "lastDiffInSigma": 336.62356004116816,
     "missing": [
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 16.702,
+     "wallSec": 51.187,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 16.702,
+       "wallSec": 17.391,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 31.062,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 33.796,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 31.062,
-     "reusedH2Sec": 31.062,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15099,6 +16977,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -15123,8 +17007,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -15132,11 +17028,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 49,
+     "ms": 61,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 49,
+       "ms": 61,
        "pass": true,
        "via": "targetIds"
       }
@@ -15216,6 +17112,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -15240,8 +17142,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -15249,11 +17163,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 72,
+     "ms": 66,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 72,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       }
@@ -15333,6 +17247,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -15357,8 +17277,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -15366,11 +17298,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 40,
+     "ms": 62,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 40,
+       "ms": 62,
        "pass": true,
        "via": "targetIds"
       }
@@ -15450,6 +17382,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -15474,8 +17412,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -15483,11 +17433,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 81,
+     "ms": 75,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 81,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       }
@@ -15531,23 +17481,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.586,
+     "wallSec": 1.676,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.586,
+       "wallSec": 0.54,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.062,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 1.136,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 1.062,
-     "reusedH2Sec": 1.062,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15594,6 +17544,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -15618,8 +17574,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -15627,11 +17595,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3609,
+     "ms": 3787,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3578,
+       "ms": 3756,
        "pass": true,
        "via": "claims+targetIds"
       },
@@ -15681,23 +17649,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.46,
+     "wallSec": 1.5430000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.46,
+       "wallSec": 0.469,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.768,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 1.074,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0.768,
-     "reusedH2Sec": 0.768,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15768,6 +17736,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -15792,8 +17766,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -15801,17 +17787,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3615,
+     "ms": 3797,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3578,
+       "ms": 3756,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 37,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -15855,23 +17841,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.073,
+     "wallSec": 0.149,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.073,
+       "wallSec": 0.042,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.054,
-       "reused": true,
-       "reusedBy": "reuse-dt2"
+       "wallSec": 0.107,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 0.054,
-     "reusedH2Sec": 0.054,
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15918,6 +17904,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -15942,8 +17934,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -15951,11 +17955,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 67,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 52,
+       "ms": 67,
        "pass": true,
        "via": "targetIds"
       }
@@ -16035,6 +18039,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -16059,8 +18069,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -16068,11 +18090,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 55,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 34,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -16158,6 +18180,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -16182,8 +18210,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -16191,17 +18231,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3203,
+     "ms": 3116,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 3203,
+       "ms": 3115,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -16287,6 +18327,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -16311,8 +18357,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -16320,11 +18378,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5513,
+     "ms": 5635,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 5513,
+       "ms": 5635,
        "pass": true,
        "via": "targetIds"
       }
@@ -16416,6 +18474,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -16440,8 +18504,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -16449,11 +18525,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5869,
+     "ms": 5365,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 5869,
+       "ms": 5365,
        "pass": true,
        "via": "targetIds"
       },
@@ -16557,6 +18633,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -16581,8 +18663,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -16590,11 +18684,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9659,
+     "ms": 11259,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 9659,
+       "ms": 11259,
        "pass": true,
        "via": "targetIds"
       }
@@ -16674,6 +18768,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -16698,8 +18798,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -16707,11 +18819,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 17,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -16791,6 +18903,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -16815,8 +18933,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -16824,11 +18954,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 16,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -16908,6 +19038,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -16932,8 +19068,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -16941,11 +19089,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 384,
+     "ms": 524,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 384,
+       "ms": 524,
        "pass": true,
        "via": "targetIds"
       }
@@ -17031,6 +19179,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -17055,8 +19209,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -17064,17 +19230,17 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 4494,
+     "ms": 5409,
      "tests": [
       {
-       "id": "preset.saturn",
-       "ms": 2273,
+       "id": "shot.regress-saturn",
+       "ms": 2830,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "shot.regress-saturn",
-       "ms": 2221,
+       "id": "preset.saturn",
+       "ms": 2579,
        "pass": true,
        "via": "targetIds"
       },
@@ -17172,6 +19338,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -17196,8 +19368,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -17205,23 +19389,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4527,
+     "ms": 5115,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2431,
+       "ms": 2883,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2080,
+       "ms": 2218,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 16,
+       "ms": 14,
        "pass": true,
        "via": "claims"
       },
@@ -17264,37 +19448,37 @@
    "ledgerSource": {
     "row": "verdictLedger.rows[34]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.003992070110265076,
+    "lastDiffInSigma": 0.0039920897014408185,
     "missing": [
      "(門に入った量 1: 合 0・否 1 — 残り 4 量は σ が無い)"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.843,
+     "wallSec": 3.722,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.843,
+       "wallSec": 3.722,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.234,
+       "wallSec": 7.945,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 14.172,
+       "wallSec": 16.181,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 21.406,
-     "reusedH2Sec": 7.234,
-     "reusedH4Sec": 14.171999999999999
+     "reusedSec": 24.126,
+     "reusedH2Sec": 7.945,
+     "reusedH4Sec": 16.181
     },
     "regenSteps": [
      {
@@ -17358,6 +19542,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -17382,8 +19572,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -17391,23 +19593,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6411,
+     "ms": 6870,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 6340,
+       "ms": 6808,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 47,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 21,
+       "ms": 18,
        "pass": true,
        "via": "claims"
       },
@@ -17493,6 +19695,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -17517,8 +19725,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -17526,11 +19746,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 19,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -17610,6 +19830,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -17634,8 +19860,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -17643,11 +19881,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 16,
+     "ms": 13,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 16,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -17693,11 +19931,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 84.298,
+     "wallSec": 85.214,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 84.298,
+       "wallSec": 85.214,
        "reused": false,
        "reusedBy": null
       }
@@ -17762,6 +20000,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -17786,8 +20030,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -17795,17 +20051,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 179,
+     "ms": 199,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 152,
+       "ms": 171,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 27,
+       "ms": 28,
        "pass": true,
        "via": "claims"
       }
@@ -17851,11 +20107,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 20.754,
+     "wallSec": 20.388,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 20.754,
+       "wallSec": 20.388,
        "reused": false,
        "reusedBy": null
       }
@@ -17914,6 +20170,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -17938,8 +20200,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -17947,11 +20221,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 257,
+     "ms": 290,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 257,
+       "ms": 290,
        "pass": true,
        "via": "targetIds"
       }
@@ -18031,6 +20305,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -18055,8 +20335,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -18064,28 +20356,28 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 1934,
+     "ms": 2270,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 1826,
+       "ms": 2156,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 108,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "preset.kframe-binary-default",
-       "ms": 0,
+       "ms": 113,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.binary",
+       "ms": 1,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.kframe-binary-default",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
@@ -18167,6 +20459,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -18191,8 +20489,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -18200,17 +20510,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 109,
+     "ms": 139,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 93,
+       "ms": 125,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 16,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -18290,6 +20600,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -18314,8 +20630,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -18323,11 +20651,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 693,
+     "ms": 700,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 693,
+       "ms": 700,
        "pass": true,
        "via": "targetIds"
       },
@@ -18413,6 +20741,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -18437,8 +20771,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -18446,17 +20792,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1601,
+     "ms": 1992,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 856,
+       "ms": 1101,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 745,
+       "ms": 891,
        "pass": true,
        "via": "targetIds"
       },
@@ -18542,6 +20888,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -18566,8 +20918,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -18575,11 +20939,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 220,
+     "ms": 221,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 220,
+       "ms": 221,
        "pass": true,
        "via": "targetIds"
       }
@@ -18659,6 +21023,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -18683,8 +21053,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -18692,11 +21074,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 123,
+     "ms": 127,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 123,
+       "ms": 127,
        "pass": true,
        "via": "targetIds"
       }
@@ -18776,6 +21158,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -18800,8 +21188,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -18809,11 +21209,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 14,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -18893,6 +21293,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -18917,8 +21323,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -18926,11 +21344,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 69,
+     "ms": 45,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 69,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -19010,6 +21428,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -19034,8 +21458,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -19043,11 +21479,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 21,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -19127,6 +21563,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -19151,8 +21593,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -19160,17 +21614,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 181,
+     "ms": 216,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 101,
+       "ms": 148,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 80,
+       "ms": 68,
        "pass": true,
        "via": "targetIds"
       }
@@ -19250,6 +21704,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -19274,8 +21734,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -19283,11 +21755,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 9,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -19367,6 +21839,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -19391,8 +21869,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -19400,11 +21890,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 9,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -19484,6 +21974,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -19508,8 +22004,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -19517,17 +22025,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 183,
+     "ms": 196,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 151,
+       "ms": 154,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 32,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       }
@@ -19607,6 +22115,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -19631,8 +22145,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -19640,11 +22166,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 19,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -19724,6 +22250,12 @@
       "always": false
      },
      {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
       "key": "families",
       "sec": 8,
       "share": "all",
@@ -19748,8 +22280,20 @@
       "always": false
      },
      {
-      "key": "clusterScan",
-      "sec": 4645,
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterScan286",
+      "sec": 8895,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
       "share": "all",
       "always": false
      }
@@ -19757,17 +22301,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 90,
+     "ms": 51,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 57,
+       "ms": 31,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 33,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -19779,22 +22323,22 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 93,
-  "regenSecSum": 27821,
+  "regenSteps": 95,
+  "regenSecSum": 33201,
   "alwaysSec": 4294,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
   "qaTotal": 932,
-  "qaDurationMs": 1306149,
+  "qaDurationMs": 1409890,
   "reuse": {
    "since": "第284便c",
    "h2": {
-    "n": 33,
-    "sec": 749.8860000000002
+    "n": 3,
+    "sec": 41.303000000000004
    },
    "h4": {
     "n": 3,
-    "sec": 68.076
+    "sec": 79.996
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },

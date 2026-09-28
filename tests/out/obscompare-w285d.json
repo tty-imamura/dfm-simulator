@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便d",
   "target": "beta/index.html",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T05:42:05.852Z",
+  "targetSha256": "2556a24532c055e3b7672954669a3326509f67e70c232f84226783868c9ccf72",
+  "generatedAt": "2026-09-28T21:08:23.398Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2765140,
-    "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-    "mtime": "2026-09-28T05:10:31.970Z"
+    "bytes": 2854555,
+    "sha256": "843f666ff00751c89eaf88d0aea30de488df0575a47cc3d2800a6e506d46aa49",
+    "mtime": "2026-09-28T20:36:14.371Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 44022,
-    "sha256": "116702ae4d10603e6128495533d2f66b107826e4c25d5e7351e0a199ae99a844",
-    "mtime": "2026-09-28T05:15:30.418Z"
+    "bytes": 51012,
+    "sha256": "d76c00342842ae1f3547df739720e8fde19ffa09815b88e443ccf01858d97c09",
+    "mtime": "2026-09-28T20:41:22.795Z"
    },
    {
     "file": "beta/index.html",
-    "bytes": 5091518,
-    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-    "mtime": "2026-09-28T03:59:10.854Z"
+    "bytes": 5184335,
+    "sha256": "2556a24532c055e3b7672954669a3326509f67e70c232f84226783868c9ccf72",
+    "mtime": "2026-09-28T21:08:22.411Z"
    }
   ],
   "code": [
@@ -123,16 +123,16 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 831,
-   "segments": 757,
-   "closureShare": 0.3348
+   "names": 885,
+   "segments": 807,
+   "closureShare": 0.3414
   },
-  "scopeSha256": "b9c40bad8c5e39d5b57d3392f67d1ac88abbcfc5e4e6787b3785642237723722",
+  "scopeSha256": "b7d79c28b71b14abad3d97ff120e6cb8ab48d36939ff1ade3a7a1dde208d086b",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "a44ee41e10139bd124cb56a125ff08bdba23f2c50b51b041b2baf1337fc281cc",
+    "stableSha256": "929ea56e20cfd32a27f7dd49bc1aa1b5a9bd0ad2a69bc9ef5087d05f9f07ad5a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "16cb4ef4feabcc8b362fe0124d865f1be809c29a05fecf0066f1d125dbf92ff4",
+    "stableSha256": "2e61c634e13189545edde66d9e08cb22b3747f20387eee9899975734e21b3bc5",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -188,7 +188,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "de874eb9e7e193d0e1a39d62c835702780f66f1937cca3b5b0b96fa5589e85f9",
+    "stableSha256": "e42ae63c5ba85f1c2ad14dd475e60e33c2d2e8a1935e143a3627503fde2d6e23",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -204,31 +204,31 @@
  "canon": {
   "file": "tests/out/calaudit-w249.json",
   "wave": "第249便b",
-  "rows": 316,
+  "rows": 328,
   "presets": 37,
-  "rowsSha256": "57a8abfc24b61f57b27ca64fb4c638bea9f2d70b8ad680c5b766adc9961b8fd2",
+  "rowsSha256": "dd77ef21961ab02575ff1ae92359462f1eeeeb04c4dbd4c3aaf9b0bb78ee8d0a",
   "sigDigits": 12
  },
  "counts": {
-  "rows": 316,
-  "calRows": 316,
+  "rows": 328,
+  "calRows": 317,
   "presets": 37,
-  "both": 101,
-  "sigma": 51,
+  "both": 107,
+  "sigma": 50,
   "gate": {
    "合(3σ)": 2,
    "否(3σ)": 2,
-   "数値未解決": 33,
+   "数値未解決": 32,
    "mapping-unresolved": 14,
    "condition-mismatch": 0,
-   "未判定": 265
+   "未判定": 267
   }
  },
  "extra": {
   "file": "tests/out/pn1-w285b.json",
   "present": true,
-  "rows": 0,
-  "why": "`obsCompareRows` 欄が無い(描かない —— 仮の数を置かない)"
+  "rows": 11,
+  "why": null
  },
  "retired": {
   "ids": [
@@ -236,16 +236,17 @@
    "psrDoubleABPN",
    "psrJ1757CF",
    "psrJ1757PN",
+   "psrJ1946CF",
    "psrJ1946PN"
   ],
-  "rows": 41,
+  "rows": 50,
   "from": "内蔵の宣言 familyRole:\"retired\"(ページの retiredOf —— 正本に写さない)"
  },
  "page": {
-  "shownDefault": 316,
+  "shownDefault": 328,
   "pageErrors": 0
  },
- "htmlChanged": false,
+ "htmlChanged": true,
  "rule": "**転記だけ**(判定しない)。値は gate.assessedValue(判定段の値)・観測は quantities[].obs・σ は gate.sigma・合否語は gate.status。欠測は null(0 に置換しない)。古い verdict は転記しない。帯は σ の目盛りであって門ではない。",
  "doNotWrite": [
   "合った",
@@ -253,5 +254,5 @@
   "較正した",
   "帯の中なら合格"
  ],
- "elapsedS": 2.27
+ "elapsedS": 2.162
 }

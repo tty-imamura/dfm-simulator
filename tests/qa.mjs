@@ -8917,12 +8917,12 @@ if (!TARGET.startsWith('beta/')) {
 // ----   **水星の近点移動の不足の分解**の正本 `tests/out/mercury-w280a.json`(器 `tests/exp-w280a-mercury.mjs`)を
 // ----   CALIBRATION_VERDICT §5.32 と PHYSICS〔第280便a〕に突き合わせる(fs のみ):
 // ----     ① 来歴 w272e-1・`targetSha256` が対象 html と一致・抽出器は判定器のヘルパの sha256 を持つ。
-// ----     ② **正式値の再現**: 判定器の正本(☄️ 2.2514656997711987e−5・🪨 2.2486098667853376e−5 deg/周)を
+// ----     ② **正式値の再現**: 判定器の正本(☄️ 2.6767880691402648e−5〔第286便: 較正行 calPhysics ε=0.01・cLight 真値〕・🪨 2.252587001128979e−5 deg/周)を
 // ----        同じ抽出器・同じ窓(近点 59 本)で**ビット一致**で再現している。
 // ----     ③ 格子 24 行(λ_PN 1/0 × ε 0.05/0.02/0.01 × dt 0.032/0.016/0.008/0.004)がすべて近点 59 本・NaN なし。
 // ----     ④ 刻みの観測次数 p が 6 列とも 2±0.01・ε² の係数が解析値 −3π/(a²(1−e²)²) と相対 1e−3 以内・
 // ----        λ_PN=1 − 0 の差が 12 格子点とも 1PN 解析値と相対 2e−6 以内。
-// ----     ⑤ 分解が閉じる(残差 1e−15 以下)・軟化 0.70±0.01・刻み 0.29±0.01・入力と換算 0.0063±0.001(対 ☄️ の観測換算)。
+// ----     ⑤ 分解が閉じる(残差 1e−15 以下)・軟化 0.09±0.01・刻み 0.91±0.01・入力と換算 0±0.001(第286便: 起点は較正行 ε=0.01・cLight 真値で c の丸めの項は 0)。
 // ----     ⑥ 1 表: vMinusU(field:"explicit"・固定した太陽 1 個)は kF0 と**ビット一致**(u・正準項とも最大 0)・
 // ----        geoPN=3 scalar は λ_PN=0 と**ビット一致**・kF1−kF0 は −3.0e−8〜−2.7e−8 deg/周・太陽の自転 0 の 🪨 は kF0 とビット一致。
 // ----     ⑦ §5.32 に `keyNumbers()` の数がすべて・PHYSICS〔第280便a〕に主要な数がある。
@@ -8947,9 +8947,9 @@ if (!TARGET.startsWith('beta/')) {
       if (m.extractor && m.extractor.helperSha256 !== hs) bad.push('①判定器のヘルパが正本の走行後に変わった');
       cases.push('来歴・抽出器');
       const R = J.reproduction || {};
-      if (!(R.kF0 && R.kF0.bitIdentical && R.kF0.formal === 0.000022514656997711987 && R.kF0.nPeri === 59)) bad.push('②☄️ の正式値をビットで再現していない');
-      if (!(R.kF1 && R.kF1.bitIdentical && R.kF1.formal === 0.000022486098667853376 && R.kF1.nPeri === 59)) bad.push('②🪨 の正式値をビットで再現していない');
-      cases.push('正式値 2.2514657×10⁻⁵/2.2486099×10⁻⁵ をビット再現(59 近点)');
+      if (!(R.kF0 && R.kF0.bitIdentical && R.kF0.formal === 0.000026767880691402648 && R.kF0.nPeri === 59)) bad.push('②☄️ の正式値をビットで再現していない');
+      if (!(R.kF1 && R.kF1.bitIdentical && R.kF1.formal === 0.00002252587001128979 && R.kF1.nPeri === 59)) bad.push('②🪨 の正式値をビットで再現していない');
+      cases.push('正式値 2.6767881×10⁻⁵(較正行 ε=0.01)/2.2525870×10⁻⁵ をビット再現(59 近点)');
       const G = J.grid || [];
       if (G.length !== 24) bad.push('③格子が 24 行でない: ' + G.length);
       if (G.some((g) => g.nPeriA !== 59 || g.nan)) bad.push('③近点 59 本でない/NaN の行がある');
@@ -8964,8 +8964,8 @@ if (!TARGET.startsWith('beta/')) {
       cases.push('p=2・ε² 係数=解析値・λ 差=1PN 解析値(12 点)');
       const D = J.decomposition.coarse.obsKF0;
       if (!(Math.abs(D.closure) < 1e-15)) bad.push('⑤分解が閉じない');
-      if (!(Math.abs(D.share.softening - 0.70) < 0.01 && Math.abs(D.share.step - 0.29) < 0.01
-        && Math.abs(D.share.inputConversion - 0.0063) < 0.001)) bad.push('⑤分解の割合が §5.32 と違う: ' + JSON.stringify(D.share));
+      if (!(Math.abs(D.share.softening - 0.09) < 0.01 && Math.abs(D.share.step - 0.91) < 0.01
+        && Math.abs(D.share.inputConversion - 0) < 0.001)) bad.push('⑤分解の割合が §5.32 と違う: ' + JSON.stringify(D.share));
       cases.push(`分解 軟化 ${(D.share.softening * 100).toFixed(1)}%・刻み ${(D.share.step * 100).toFixed(1)}%・入力 ${(D.share.inputConversion * 100).toFixed(2)}%`);
       for (const d of J.table.diff) {
         if (!d.vMinusU_bitIdenticalToKF0) bad.push('⑥vMinusU が kF0 とビット一致でない(dt=' + d.dt + ')');
