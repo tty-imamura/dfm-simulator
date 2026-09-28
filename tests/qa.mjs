@@ -54043,6 +54043,290 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
+// ---- 第286便d(原仮定者の裁定(第76報)⑥・AN58 の前倒し・統括の検証項目 R105): behavior.liveMeterPure ----
+// ----   ライブ比較の**計測器(純関数)**の単体: 合成軌道(円・ケプラー楕円+近点の回転)を与えて
+// ----     ① 正逆どちらの回りでも同方向 1 周の周期が真値(相対 1e-9)・周回数が同じ
+// ----     ② 楕円(e=0.3・Δϖ=0.5°/周): 近点間周期 = 近点周期(相対 1e-6)・近点移動 = Δϖ(相対 1e-3)・eProxy ≈ e(1e-4)・近点回転の周期 = 360/Δϖ × P
+// ----     ③ 時刻の逆行・停止(t が増えない)で無効化し、以後は積まない ④ aliasing(1 標本の角 > π/4)を拒否して止める ⑤ 非有限を拒否
+// ----     ⑥ 必要数(同方向 2 周・近点 2・近点移動 5)に満たない間は値を出さない。root は SKIP(HP.liveCompare なし)。
+{
+  const lp = await browser.newPage();
+  await lp.goto(INDEX, { waitUntil: 'load' });
+  await lp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has = await lp.evaluate(() => !!(window.HP && HP.liveCompare && HP.liveCompare.feed));
+  if (!has) {
+    console.log('SKIP behavior.liveMeterPure(第286便d 未適用 — HP.liveCompare なし)');
+  } else {
+    const r = await lp.evaluate(() => {
+      const L = HP.liveCompare, out = {};
+      const circ = (w, P, nOrb, spo) => { const st = L.create({ pRef: P }); const dt = P / spo;
+        for (let k = 0; k <= Math.round(nOrb * spo); k++) { const t = k * dt, a = w * t;
+          L.feed(st, t, Math.cos(a), Math.sin(a), -w * Math.sin(a), w * Math.cos(a)); }
+        return st; };
+      const P = 10;
+      const sp = circ(2 * Math.PI / P, P, 3.2, 2000), sr = circ(-2 * Math.PI / P, P, 3.2, 2000);
+      const vp = L.value(sp, 'rev', 1), vr = L.value(sr, 'rev', 1), ep = L.value(sp, 'eProxy', 1);
+      out.circ = { nP: sp.rev.length, nR: sr.rev.length, vP: vp.v, vR: vr.v, e: ep.v, invP: sp.invalid, invR: sr.invalid };
+      // ② ケプラー楕円 + 近点の回転(ϖ = ϖ̇ t)
+      const e = 0.3, a0 = 1, mu = 4 * Math.PI * Math.PI * a0 ** 3 / (P * P), n = 2 * Math.PI / P;
+      const dW = 0.5, wd = dW * Math.PI / 180 / P;
+      const kep = (t) => { const M = n * t; let E = M; for (let i = 0; i < 40; i++) E -= (E - e * Math.sin(E) - M) / (1 - e * Math.cos(E));
+        const x = a0 * (Math.cos(E) - e), y = a0 * Math.sqrt(1 - e * e) * Math.sin(E);
+        const Ed = n / (1 - e * Math.cos(E)), vx = -a0 * Math.sin(E) * Ed, vy = a0 * Math.sqrt(1 - e * e) * Math.cos(E) * Ed;
+        const W0 = wd * t, c = Math.cos(W0), s = Math.sin(W0);
+        const X = c * x - s * y, Y = s * x + c * y;
+        return [X, Y, c * vx - s * vy - wd * Y, s * vx + c * vy + wd * X]; };
+      const se = L.create({ pRef: P }); const spo = 4000;
+      const need = {};
+      for (let k = 0; k <= 12 * spo; k++) { const t = k * P / spo; const q = kep(t); L.feed(se, t, q[0], q[1], q[2], q[3]);
+        if (k === Math.round(1.05 * spo)) need.one = { rev: L.value(se, 'rev', 1).v, peri: L.value(se, 'peri', 1).v, prec: L.value(se, 'prec', 1).v, e: L.value(se, 'eProxy', 1).v };
+        if (k === Math.round(3.5 * spo)) need.three = { prec: L.value(se, 'prec', 1).v, precN: L.value(se, 'prec', 1).n }; }
+      const vPeri = L.value(se, 'peri', 1), vPrec = L.value(se, 'prec', 1), vE = L.value(se, 'eProxy', 1), vAps = L.value(se, 'aps', 1), vRev = L.value(se, 'rev', 1);
+      out.kep = { peri: vPeri.v, periN: vPeri.n, prec: vPrec.v, precN: vPrec.n, se: vPrec.se, e: vE.v, aps: vAps.v, rev: vRev.v, need, inv: se.invalid };
+      // ③ 時刻の逆行・停止
+      const s3 = L.create({}); L.feed(s3, 0, 1, 0, 0, 1); L.feed(s3, 0.01, Math.cos(0.01), Math.sin(0.01), 0, 1);
+      const back = L.feed(s3, 0.005, 1, 0, 0, 1), after = L.feed(s3, 0.02, 1, 0, 0, 1);
+      const s3b = L.create({}); L.feed(s3b, 0, 1, 0, 0, 1); const same = L.feed(s3b, 0, 1, 0, 0, 1);
+      out.rev = { back, after, n: s3.nFeed, same };
+      // ④ aliasing(1 周 3 標本)
+      const s4 = L.create({}); let ali = null;
+      for (let k = 0; k < 10 && !ali; k++) { const a = k * 2 * Math.PI / 3; ali = L.feed(s4, k, Math.cos(a), Math.sin(a), -Math.sin(a), Math.cos(a)); }
+      out.alias = { ret: ali, rev: s4.rev.length, inv: s4.invalid, lim: L.consts.alias };
+      // ⑤ 非有限
+      const s5 = L.create({}); L.feed(s5, 0, 1, 0, 0, 1);
+      out.nan = { ret: L.feed(s5, 1, NaN, 0, 0, 1), inf: L.feed(L.create({}), Infinity, 1, 0, 0, 1) };
+      return out;
+    });
+    const bad = [];
+    const rel = (a, b) => Math.abs(a - b) / Math.max(1e-300, Math.abs(b));
+    const P = 10;
+    if (r.circ.nP !== 3 || r.circ.nR !== 3) bad.push(`①周回数 ${r.circ.nP}/${r.circ.nR}(期待 3/3)`);
+    if (!(rel(r.circ.vP, P) < 1e-9) || !(rel(r.circ.vR, P) < 1e-9)) bad.push(`①同方向 1 周 ${r.circ.vP}/${r.circ.vR} ≠ ${P}`);
+    if (!(Math.abs(r.circ.e) < 1e-12)) bad.push(`①円の eProxy ${r.circ.e}`);
+    if (r.circ.invP || r.circ.invR) bad.push('①円で無効化された');
+    const K = r.kep;
+    if (K.inv) bad.push('②楕円で無効化された: ' + K.inv);
+    if (!(rel(K.peri, P) < 1e-6)) bad.push(`②近点間周期 ${K.peri} ≠ ${P}`);
+    if (!(rel(K.prec, 0.5) < 1e-3)) bad.push(`②近点移動 ${K.prec} °/周 ≠ 0.5`);
+    if (!(Math.abs(K.e - 0.3) < 1e-4)) bad.push(`②eProxy ${K.e} ≠ 0.3`);
+    if (!(rel(K.aps, 360 / 0.5 * P) < 1e-3)) bad.push(`②近点回転の周期 ${K.aps} ≠ ${360 / 0.5 * P}`);
+    if (!(rel(K.rev, P * 360 / 360.5) < 1e-3)) bad.push(`②同方向 1 周 ${K.rev} ≠ ${P * 360 / 360.5}(近点の回転ぶん短い)`);
+    if (K.need.one.rev !== null || K.need.one.prec !== null) bad.push('⑥1 周の時点で同方向 1 周/近点移動の値が出ている');
+    if (K.need.one.e === null) bad.push('⑥1 周で eProxy が出ていない');
+    if (K.need.three.prec !== null) bad.push(`⑥近点 ${K.need.three.precN} 個で近点移動の値が出ている(最低 5)`);
+    if (r.rev.back !== 'time-reverse' || r.rev.after !== 'time-reverse' || r.rev.n !== 2 || r.rev.same !== 'time-reverse') bad.push('③時刻の逆行/停止の無効化: ' + JSON.stringify(r.rev));
+    if (r.alias.ret !== 'aliasing' || r.alias.rev !== 0) bad.push('④aliasing を拒否していない: ' + JSON.stringify(r.alias));
+    if (r.nan.ret !== 'nonfinite' || r.nan.inf !== 'nonfinite') bad.push('⑤非有限を拒否していない');
+    add('behavior.liveMeterPure', bad.length === 0,
+      `**ライブ比較の計測器(純関数)**(第286便d・原仮定者の裁定(第76報)⑥・R105): 円(P=10・1 周 2000 標本)の同方向 1 周 正 ${r.circ.vP}・逆 ${r.circ.vR}(周回 ${r.circ.nP}/${r.circ.nR})/ `
+      + `楕円 e=0.3+Δϖ=0.5°/周: 近点間 ${K.peri}・近点移動 ${K.prec} °/周(近点 ${K.precN}・SE ${K.se})・eProxy ${K.e}・近点回転 ${K.aps}・同方向 ${K.rev} / `
+      + `必要数前は値なし / 逆行・停止 → ${r.rev.back}・aliasing(>${(r.alias.lim).toFixed(4)} rad/標本)→ ${r.alias.ret}・非有限 → ${r.nan.ret}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+  await lp.close();
+}
+// ---- 第286便d(R105): ui.liveCompare ----
+// ----   開いている本の**今回の走行**を観測と比べるグラフ(`overlays.liveCompare`)と観測カードのインライン表示。root は SKIP。
+// ----     ① 表示 ON/OFF で**ビット一致**(🌙📻 の 1 步〔HP.tick〕と 2000 步〔描画つき〕の x・y・vx・vy・spin・R・m・t)
+// ----     ② 🌙: 同方向 2 周の前は「計測中 1/2」・2 周の後に暫定周期が出て、単位は観測レコードの単位(s)・値は正本 calaudit の判定段(h)の実測と相対 1e-12
+// ----     ③ 世代切替でリセット(同じ本の再読込・チェックポイント復元・実行条件の変更・サンプル切替 —— 事象が 0 に戻る)
+// ----     ④ 宣言の表: 本と量が正本の行へ 1 対 1・観測あり・単位が推定器と一致・推定器が正本の測定定義(periodDef・method)と同じ・
+// ----        宣言の無い内蔵はグラフに「ライブ計測未対応」・est:null の量は「未対応」と理由
+// ----     ⑤ 非有限の標本で「非有限」 ⑥ 帯は σ のある量だけ(全量) ⑦ 合否の語が出ない(グラフの文・観測カードの行 ja/en)・「暫定値・正式な合否判定なし」を常に出す
+// ----     ⑧ 観測の回転曲線を持つ内蔵は 0(仮の曲線を置かない) ⑨ グラフのトグル・スロット・⏮ で保持 ⑩ 文書(PHYSICS〔第286便d〕・AI_SPEC)
+{
+  const lp = await browser.newPage();
+  const errs = [];
+  lp.on('pageerror', (e) => errs.push(String(e.message || e)));
+  await lp.goto(INDEX, { waitUntil: 'load' });
+  await lp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+  const has = await lp.evaluate(() => !!(window.HP && HP.liveCompare && HP.liveCompare.spec));
+  if (!has) {
+    console.log('SKIP ui.liveCompare(第286便d 未適用 — HP.liveCompare なし)');
+  } else {
+    const bad = [];
+    const info = {};
+    try {
+      // ① ON/OFF のビット一致
+      const bit = await lp.evaluate(() => {
+        const L = HP.liveCompare;
+        const hash = () => { const S = HP.sim; let a = 0x811c9dc5; const buf = new ArrayBuffer(8), f = new Float64Array(buf), u = new Uint8Array(buf);
+          const push = (v) => { f[0] = v; for (let b = 0; b < 8; b++) { a ^= u[b]; a = Math.imul(a, 0x01000193) >>> 0; } };
+          for (const k of ['x', 'y', 'vx', 'vy', 'spin', 'R', 'm']) { const A = S[k]; if (!A) continue; for (let i = 0; i < S.n; i++) push(A[i]); }
+          push(S.t); return a.toString(16); };
+        const o = {};
+        for (const id of ['earthMoonReal', 'psrDoubleAB']) {
+          HP.loadPreset(id, false); HP.sim.overlays.liveCompare = false; HP.tick(1); const off1 = hash();
+          for (let k = 0; k < 20; k++) L.stepN(100); const off = hash();
+          HP.loadPreset(id, false); HP.sim.overlays.liveCompare = true; L.reset('on'); L.paint(); HP.tick(1); const on1 = hash();
+          for (let k = 0; k < 20; k++) { L.stepN(100); L.paint(); } const on = hash();
+          o[id] = { one: off1 === on1, many: off === on, fed: L.meter() ? L.meter().nFeed : 0 };
+        }
+        return o;
+      });
+      info.bit = bit;
+      for (const [id, v] of Object.entries(bit)) {
+        if (!v.one) bad.push(`①${id}: 表示 ON/OFF の 1 步で状態が違う`);
+        if (!v.many) bad.push(`①${id}: 表示 ON/OFF の 2000 步で状態が違う`);
+        if (!(v.fed > 2000)) bad.push(`①${id}: ON で計測器が標本を積んでいない(${v.fed})`);
+      }
+      // ② 🌙 の 2 回の同方向通過
+      const moon = await lp.evaluate(() => {
+        const L = HP.liveCompare;
+        HP.loadPreset('earthMoonReal', false); HP.sim.overlays.liveCompare = true; L.reset('on');
+        let s = L.snapshot(), guard = 0, before = null;
+        while (s.laps < 2 && guard++ < 20) {
+          L.stepN(250000); s = L.snapshot();
+          if (s.laps === 1 && !before) before = { st: s.q[0].status, v: s.q[0].v, n: s.q[0].n, need: s.q[0].need, txt: L.paint().texts.join(' | ') };
+        }
+        const rec = L.paint(), x = s.q[0];
+        return { laps: s.laps, st: x.status, v: x.v, unit: x.unit, obs: x.obs, ref: x.ref, band: rec.band, texts: rec.texts, before,
+          row: HP.liveCompare.rowOf('earthMoonReal', '恒星月') };
+      });
+      info.moon = { laps: moon.laps, v: moon.v, st: moon.st };
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      const qOf = (id, n) => { const p = (J.presets || []).find((z) => z.id === id && !z.kf0Diagnostic); return p ? (p.quantities || []).find((q) => q.name === n) : null; };
+      const cm = qOf('earthMoonReal', '恒星月');
+      if (moon.laps < 2) bad.push(`②🌙 同方向 2 周に届かない(${moon.laps})`);
+      if (!moon.before || moon.before.st !== 'measuring' || moon.before.v !== null || !/計測中 1\/2/.test(moon.before.txt)) bad.push('②🌙 1 周の時点で「計測中 1/2」でない: ' + JSON.stringify(moon.before && { st: moon.before.st, v: moon.before.v }));
+      if (moon.st !== 'provisional') bad.push(`②🌙 2 周の後の状態 ${moon.st}(期待 provisional)`);
+      if (!moon.row || moon.unit !== moon.row.u || moon.unit !== 's') bad.push(`②🌙 単位 ${moon.unit} が観測レコードの単位 ${moon.row && moon.row.u} と違う`);
+      if (!cm || !(Math.abs(moon.v - cm.meas) <= 1e-12 * Math.abs(cm.meas))) bad.push(`②🌙 ライブ ${moon.v} ≠ 正本の実測 ${cm && cm.meas}(相対 1e-12)`);
+      if (!moon.texts.some((t) => t.startsWith('今回 ') && / s$/.test(t))) bad.push('②🌙 グラフの「今回」の行に単位 s が無い');
+      if (moon.band) bad.push('⑥🌙 σ の無い量に帯を描いた');
+      // ③ 世代切替
+      const gen = await lp.evaluate(() => {
+        const L = HP.liveCompare, o = {};
+        const run = (id, n) => { HP.loadPreset(id, false); HP.sim.overlays.liveCompare = true; L.reset('on'); L.stepN(n); return L.snapshot(); };
+        let s = run('psrDoubleAB', 120000); o.start = { gen: s.gen, laps: s.laps, peri: s.periN };
+        // 同じ本の再読込(⏮ 相当 —— グラフの ON は保持)
+        document.getElementById('btnReset').click(); L.stepN(10); s = L.snapshot(); o.restart = { gen: s.gen, laps: s.laps, reason: s.reason, on: s.on };
+        // チェックポイント復元
+        L.stepN(120000); document.getElementById('btnCkSave').click(); L.stepN(60000); const g0 = L.snapshot().gen;
+        document.getElementById('btnCkLoad').click(); L.stepN(10); s = L.snapshot(); o.ck = { gen: s.gen, g0, reason: s.reason, laps: s.laps };
+        // 実行条件の変更(編集の入口 setParamsDirty)
+        L.stepN(120000); const g1 = L.snapshot().gen; setParamsDirty(true); L.stepN(10); s = L.snapshot(); o.cond = { gen: s.gen, g1, reason: s.reason, laps: s.laps, cond: s.cond };
+        // サンプル切替
+        s = run('alphaCenAB', 10); o.sw = { gen: s.gen, id: s.id, laps: s.laps, reason: s.reason };
+        return o;
+      });
+      info.gen = gen;
+      if (!(gen.start.laps >= 2 && gen.start.peri >= 2)) bad.push('③📻 の起点の走行で事象が積まれていない');
+      if (!(gen.restart.gen > gen.start.gen && gen.restart.laps === 0 && gen.restart.on)) bad.push('③⏮ でリセットされない(またはグラフが OFF に): ' + JSON.stringify(gen.restart));
+      if (!(gen.ck.gen > gen.ck.g0 && gen.ck.reason === 'checkpoint' && gen.ck.laps === 0)) bad.push('③チェックポイント復元でリセットされない: ' + JSON.stringify(gen.ck));
+      if (!(gen.cond.gen > gen.cond.g1 && gen.cond.reason === 'condition' && gen.cond.laps === 0 && gen.cond.cond)) bad.push('③実行条件の変更でリセットされない: ' + JSON.stringify(gen.cond));
+      if (!(gen.sw.id === 'alphaCenAB' && gen.sw.laps === 0)) bad.push('③サンプル切替でリセットされない');
+      // ④ 宣言の表 ⑥ 帯 ⑦ 語(ja)
+      const tab = await lp.evaluate(() => {
+        const L = HP.liveCompare, sp = L.spec, o = { rows: [], none: [], texts: [], cards: [] };
+        const units = { rev: 's', peri: 's', aps: 's', prec: 'deg/orbit', eProxy: '-' };
+        for (const [id, d] of Object.entries(sp)) {
+          const p = HP.allPresets().find((q) => q.id === id);
+          HP.loadPreset(id, false); HP.sim.overlays.liveCompare = true; L.reset('on'); L.stepN(3000);
+          for (let i = 0; i < d.q.length; i++) {
+            const qd = d.q[i], row = L.rowOf(id, qd.n); L.setQ(i); const rec = L.paint(); const x = L.snapshot().q[i];
+            o.texts.push(...rec.texts);
+            o.rows.push({ id, n: qd.n, est: qd.est, why: qd.why || null, has: !!p, retired: !!(p && p.familyRole === 'retired'), row: !!row, o: row ? row.o : null, s: row ? row.s : null, u: row ? row.u : null,
+              wantU: qd.est ? units[qd.est] : null, band: rec.band, status: x.status, whyTxt: rec.texts.join(' '), prov: rec.texts.includes(HP.T('lcProv')) });
+          }
+          o.cards.push(...[...document.querySelectorAll('#helpBody .lcInline')].map((e) => e.textContent));
+          L.setQ(0);
+        }
+        for (const p of HP.allPresets()) {
+          if (sp[p.id]) continue;
+          HP.loadPreset(p.id, false); HP.sim.overlays.liveCompare = true; L.reset('on');
+          const rec = L.paint();
+          if (!(rec.status === 'none' && rec.texts.includes(HP.T('lcNone')) && rec.texts.includes(HP.T('lcProv')))) o.none.push(p.id);
+          const cs = [...document.querySelectorAll('#helpBody .lcInline')];
+          if (cs.length && !cs.every((e) => e.dataset.status === 'none' && e.textContent.includes(HP.T('lcNone')))) o.none.push(p.id + '(カード)');
+          o.nAll = (o.nAll || 0) + 1;
+        }
+        // ⑤ 非有限
+        HP.loadPreset('psrDoubleAB', false); HP.sim.overlays.liveCompare = true; L.reset('on'); L.stepN(100);
+        L.feed(L.meter(), HP.sim.t + 1, NaN, 0, 0, 0);
+        const sn = L.snapshot(), rn = L.paint();
+        o.nan = { st: sn.q.map((x) => x.status), txt: rn.texts.join(' | ') };
+        return o;
+      });
+      const est2def = { rev: 'revolution', peri: 'periastron' };
+      for (const x of tab.rows) {
+        const tag = `${x.id}「${x.n.slice(0, 12)}」`;
+        if (!x.has || x.retired) bad.push(`④${tag}: 内蔵に無い/退役の本`);
+        if (!x.row) { bad.push(`④${tag}: 正本の行に 1 対 1 で引けない`); continue; }
+        if (x.o === null) bad.push(`④${tag}: 観測値の無い行`);
+        if (x.est && x.u !== x.wantU) bad.push(`④${tag}: 単位 ${x.u} ≠ 推定器 ${x.est} の ${x.wantU}`);
+        const q = qOf(x.id, x.n);
+        if (!q) bad.push(`④${tag}: 正本 calaudit の量に無い`);
+        else if (x.est === 'rev' || x.est === 'peri') { if (q.periodDef !== est2def[x.est]) bad.push(`④${tag}: 推定器 ${x.est} ≠ 正本の periodDef ${q.periodDef}`); }
+        else if (x.est === 'prec') { if (!/近点移動 検出器A/.test(q.method || '')) bad.push(`④${tag}: 正本の method が近点移動の検出器 A でない`); }
+        else if (x.est === 'aps') { if (!/近点回転の周期 = 360°/.test(q.method || '')) bad.push(`④${tag}: 正本の method が近点回転の周期でない`); }
+        else if (x.est === 'eProxy') { if (!/半径比 proxy/.test(q.method || '')) bad.push(`④${tag}: 正本の method が半径比 eProxy でない`); }
+        else if (x.est === null) { if (x.status !== 'unsupported' || !x.why || !x.whyTxt.includes('未対応')) bad.push(`④${tag}: est:null の量が「未対応」と理由を出さない`); }
+        if (x.band !== (x.s !== null)) bad.push(`⑥${tag}: 帯の有無 ${x.band} ≠ σ の有無 ${x.s !== null}`);
+        if (!x.prov) bad.push(`⑦${tag}: 「暫定値・正式な合否判定なし」が無い`);
+      }
+      if (tab.none.length) bad.push(`④宣言の無い本に「ライブ計測未対応」が出ない: ${tab.none.slice(0, 4).join(',')}`);
+      info.nSpec = tab.rows.length; info.nNone = tab.nAll;
+      if (!tab.nan.st.every((s, i) => s === 'nonfinite' || tab.rows.filter((z) => z.id === 'psrDoubleAB')[i].est === null)) bad.push('⑤非有限の標本で「非有限」にならない: ' + tab.nan.st.join(','));
+      if (!/非有限/.test(tab.nan.txt)) bad.push('⑤グラフに「非有限」が出ない');
+      const VERDICT = /合格|不合格|合\(3σ\)|否\(3σ\)|\bpass(es|ed)?\b|\bfail(s|ed)?\b|\bOK\b/i;
+      const strip = (s, prov) => s.split(prov).join('');
+      const provJa = await lp.evaluate(() => HP.T('lcProv'));
+      for (const t of tab.texts.concat(tab.cards)) if (VERDICT.test(strip(t, provJa))) { bad.push('⑦合否の語: ' + t.slice(0, 40)); break; }
+      // ⑦ en
+      const en = await lp.evaluate(() => {
+        const L = HP.liveCompare; HP.setLang('en');
+        const o = { texts: [], prov: HP.T('lcProv') };
+        for (const id of ['alphaCenAB', 'psrDoubleAB', 'galaxy']) { HP.loadPreset(id, false); HP.sim.overlays.liveCompare = true; L.reset('on'); if (L.spec[id]) L.stepN(200000);   // 宣言の無い本(多粒子)は走らせない
+          const n = (L.spec[id] || { q: [0] }).q.length;
+          for (let i = 0; i < n; i++) { L.setQ(i); o.texts.push(...L.paint().texts); }
+          o.texts.push(...[...document.querySelectorAll('#helpBody .lcInline')].map((e) => e.textContent)); L.setQ(0); }
+        HP.setLang('ja'); return o; });
+      for (const t of en.texts) if (VERDICT.test(strip(t, en.prov))) { bad.push('⑦en の合否の語: ' + t.slice(0, 40)); break; }
+      if (!en.texts.includes(en.prov)) bad.push('⑦en のグラフに provisional の注記が無い');
+      // ⑧ 回転曲線の観測データ ⑨ トグル・スロット・⏮
+      const ui = await lp.evaluate(() => {
+        const L = HP.liveCompare;
+        const rot = HP.allPresets().filter((p) => Object.keys(p).some((k) => /obs.*curve|curve.*obs|rotObs/i.test(k))).map((p) => p.id);
+        HP.loadPreset('earthMoonReal', false);
+        document.querySelector('#tabs button[data-tab=params]').click();
+        const labels = Array.from(document.querySelectorAll('#paramRows .prow label')).map((e) => e.textContent);
+        HP.sim.overlays.liveCompare = true; L.reset('on');
+        const slots = HP.overlaySlots();
+        document.getElementById('btnReset').click();
+        return { rot, toggle: labels.includes(HP.T('tgLiveCompare')), slots, kept: HP.sim.overlays.liveCompare === true };
+      });
+      info.ui = ui;
+      if (ui.rot.length) bad.push('⑧観測の回転曲線の鍵を持つ内蔵がある(重ね描きの対象を宣言すること): ' + ui.rot.join(','));
+      if (!ui.toggle) bad.push('⑨「グラフ」カテゴリにトグルが無い');
+      if (!ui.slots.includes('liveCompare')) bad.push('⑨スロットが割り当たらない');
+      if (!ui.kept) bad.push('⑨⏮ でグラフの ON が保持されない');
+      // ⑩ 文書
+      try {
+        const md = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+        const i0 = md.indexOf('〔第286便d');
+        if (i0 < 0) bad.push('⑩PHYSICS に〔第286便d〕の節が無い');
+        else {
+          const rest = md.slice(i0 + 1), j = rest.search(/\n〔第\d+便[a-z]? |\n## /), sec = j < 0 ? rest : rest.slice(0, j);
+          for (const need of ['何を測る', '何を測らない', '暫定値', '正式判定', '読み出しだけ', 'ui.liveCompare', 'behavior.liveMeterPure'])
+            if (!sec.includes(need)) bad.push(`⑩PHYSICS の節に「${need}」が無い`);
+          const bare = (line) => line.replace(/[「『][^」』]*[」』]/g, '');
+          for (const line of sec.split('\n')) if (/帯内=合格|帯の中なら合格|観測一致を達成|較正を完了|判定が増えた|新発見/.test(bare(line))) bad.push('⑩PHYSICS の禁止語: ' + line.slice(0, 40));
+        }
+        const ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        if (!/第286便d[\s\S]{0,4000}ui\.liveCompare/.test(ai)) bad.push('⑩AI_SPEC に第286便d の行(ui.liveCompare)が無い');
+      } catch (e) { bad.push('⑩文書が読めない: ' + String(e).slice(0, 80)); }
+    } catch (e) { bad.push('実行に失敗: ' + String(e).slice(0, 200)); }
+    if (errs.length) bad.push('ページのエラー: ' + errs[0].slice(0, 100));
+    add('ui.liveCompare', bad.length === 0,
+      `**サンプル内ライブ比較**(第286便d・原仮定者の裁定(第76報)⑥・AN58 の前倒し・R105): 表示 ON/OFF で 1 步・2000 步のビット一致(🌙📻)/ `
+      + `🌙 同方向 ${info.moon ? info.moon.laps : '—'} 周で暫定周期 ${info.moon ? info.moon.v : '—'} s(正本 calaudit の判定段の実測と相対 1e-12・観測レコードと同じ単位)/ `
+      + `世代切替(⏮・チェックポイント・実行条件・サンプル切替)でリセット / 宣言 ${info.nSpec || '—'} 量(正本の行へ 1 対 1・推定器 = 正本の測定定義)・宣言の無い内蔵 ${info.nNone || '—'} 本は「ライブ計測未対応」/ `
+      + `帯は σ のある量だけ / 非有限 / 合否の語なし(ja/en)・「暫定値・正式な合否判定なし」を常時 / 回転曲線の観測データを持つ内蔵 0(描かない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+  await lp.close();
+}
 {
   const xp = await browser.newPage();
   await xp.goto(INDEX, { waitUntil: 'load' });

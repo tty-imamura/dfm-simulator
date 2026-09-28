@@ -1392,6 +1392,29 @@ ja: {
   ovEmergence:"創発モニタ", ovEmergNote:"上:金=最大塊の質量比 水=塊の数/粒子数 下:緑=スピン整列度 紫=回転支持比V/σ(圧縮表示)",
   ovEmergLegend:"上:金=最大塊質量比 水=塊数/粒子数 下:緑=整列 紫=V/σ(圧縮)",
   emHud:(k,n,f,a,v)=>`塊${k}/${n} 最大${f}% 整列${a} V/σ=${v}`,
+  // 第286便d(原仮定者の裁定(第76報)⑥・R105): サンプル内ライブ比較(表示専用 —— 暫定値であって正式な合否判定ではない)
+  tgLiveCompare:"ライブ比較(今回の走行と観測)",
+  tgLiveCompareDesc:"開いている本の**今回の走行**を物理 step ごとに測り(位置・速度の読み出しだけ —— 力も速度も書き換えない)、正本の観測値と並べるグラフ(第286便d)。白線=観測値・緑の帯=±3σ(σ のある量だけ)・点=今回の値(水色=周や近点ごと・赤=いまの推定)・◇=前回の較正(正本の判定段の値)。横軸は公転数か近点の番号(計算上の量 —— fps・再生倍率は使わない)。**暫定値であって正式な合否判定ではない**(ライブは刻み一段で、正式判定の収束・量対応・独立予測の条件を満たさない —— 帯の中でも合否を言わない)。量の宣言が無い本は「ライブ計測未対応」。右上の「n/N ▸」で量を、「[尺度 ▸]」で差の尺度(単位・%・σ)を切り替える。計測は 初めから・サンプル切替・実行条件の変更・チェックポイント復元 で新しい世代になる。A/B 比較中は未対応。説明タブの 📇 観測結果カードにも同じ計測値を出す。",
+  ovLiveCompare:"ライブ比較",
+  lcProv:"暫定値・正式な合否判定なし",
+  lcSt:{measuring:"計測中", provisional:"暫定", mapping:"量対応未確認", unsupported:"未対応", nonfinite:"非有限", aliasing:"標本が粗い(計測停止)", off:"停止(グラフ OFF)", ab:"A/B 比較中は未対応"},
+  lcWhy:{nearCircular:"円に近い軌道 —— 近点を測らない"},
+  lcNone:"ライブ計測未対応(この本は量の宣言が無い)",
+  lcNoneSub:"観測との差の一覧は説明タブの 📊",
+  lcEst:{rev:"推定器: 同方向1周(2周目からの平均)", peri:"推定器: 近点間周期(検出器A・最初の20近点)", eProxy:"推定器: 半径比 eProxy(周ごと)", prec:"推定器: 近点移動(近点番号への直線fit)", aps:"推定器: 360°/|Δϖ|×近点間周期", none:"—"},
+  lcMapNote:"量対応未確認(正本の理由: 同じ測定量とは確定していない)",
+  lcObs:"観測", lcNow:"今回", lcDiff:"差", lcRef:"前回の較正", lcStage:"段", lcNoSigma:"(σ なし)",
+  lcScale:{si:"単位", pct:"%", sigma:"σ"},
+  lcScaleWhy:{obsZero:"観測 0 —— % は出さない", noSigma:"σ なし —— 単位で表示"},
+  lcAxisLap:"横軸: 公転数", lcAxisPeri:"横軸: 近点の番号",
+  lcWin:(w,n)=>`窓 ${w}/${n}`,
+  lcGen:(g,r)=>`計測世代 ${g}(${r})`,
+  lcReason:{init:"起動", preset:"サンプル読込", reload:"初めから・再読込", diverged:"発散停止", gap:"步の欠け", restart:"初めから", condition:"実行条件の変更", checkpoint:"チェックポイント復元", save:"セーブ読込", on:"表示 ON", ab:"A/B", rewind:"時刻の巻き戻り", nchange:"粒子数の変化"},
+  lcCond:"条件がプリセット既定と違う",
+  lcCardHead:"ライブ(今回の走行)",
+  lcCardOff:"グラフ「ライブ比較」を ON にすると今回の走行を測る(OFF のあいだは測らない)",
+  lcLaps:(n)=>`${n} 周`, lcPeri:(n)=>`近点 ${n}`,
+  helpLiveCompare:"グラフ「ライブ比較」(第286便d)は、開いている本の今回の走行を物理 step ごとに測り(位置・速度の読み出しだけ)、正本の観測値と並べる表示専用のグラフです。白線=観測値、緑の帯=±3σ(σ のある量だけ)、赤い点=今回の値、◇=前回の較正(判定段の値の転記)。**暫定値であって正式判定を置き換えない**(帯の中でも合否の語は出さない)。量の宣言が無い本は「ライブ計測未対応」と出ます。",
   bdgSC_principle:"原理実証", bdgSC_principleTip:"主張の主役機構が対照実験(A/B・ノックアウト)で分離され、QA が機械固定している基準・実証系(第67便 P3 分類)",
   bdgSC_composite:"複合現象", bdgSC_compositeTip:"複数機構の相互作用そのものが主題の物語系 — どの機構が主役かは機構スペクトルと要因分離実測で読む(第67便 P3 分類)",
   bdgSC_calibration:"現実較正", bdgSC_calibrationTip:"現実の観測値・公理外の補正則(E13等)で較正した対応デモ — DFM公理だけからの創発ではない(第67便 P3 分類)",
@@ -2309,6 +2332,29 @@ en: {
   ovEmergence:"Emergence monitor", ovEmergNote:"top: gold=largest-clump mass fraction, cyan=clumps/particles; btm: green=spin alignment, magenta=rotation support V/σ (squashed)",
   ovEmergLegend:"top gold=max clump, cyan=clumps/N; btm green=align, magenta=V/σ",
   emHud:(k,n,f,a,v)=>`clumps ${k}/${n} max ${f}% align ${a} V/σ=${v}`,
+  // Wave 286d: live comparison inside the sample (display only — provisional, not a formal verdict)
+  tgLiveCompare:"Live comparison (this run vs observation)",
+  tgLiveCompareDesc:"Measures THIS RUN of the open sample at every physics step (read-only: positions and velocities are only read — no force or velocity is written) and sets it against the canonical observed value (wave 286d). White line = observed value; green band = ±3σ (only for quantities with a σ); dots = this run (cyan = per orbit/periastron, red = current estimate); ◇ = previous calibration (the judged-stage value of the canonical run). The x axis is the orbit count or the periastron number (computed quantities — never fps or playback rate). PROVISIONAL, NOT A FORMAL VERDICT (the live run is one step size and does not meet the convergence, quantity-mapping and independent-prediction conditions of the formal judgement — no pass/fail word even inside the band). Samples without a declaration show \"live measurement not supported\". Tap \"n/N ▸\" at the top right to switch the quantity and \"[scale ▸]\" to switch the difference scale (unit, %, σ). A new measurement generation starts at Restart, sample switch, a change of run conditions and checkpoint restore. Not supported during A/B. The same measured value is shown in the 📇 observation card of the Description tab.",
+  ovLiveCompare:"Live comparison",
+  lcProv:"Provisional — no formal pass/fail verdict",
+  lcSt:{measuring:"measuring", provisional:"provisional", mapping:"quantity mapping unconfirmed", unsupported:"not supported", nonfinite:"non-finite", aliasing:"sampling too coarse (stopped)", off:"stopped (graph OFF)", ab:"not supported during A/B"},
+  lcWhy:{nearCircular:"near-circular orbit — periastra are not measured"},
+  lcNone:"Live measurement not supported (no declaration for this sample)",
+  lcNoneSub:"The full list is 📊 in the Description tab",
+  lcEst:{rev:"Estimator: same-direction lap (mean from lap 2)", peri:"Estimator: periastron-to-periastron period (detector A, first 20 periastra)", eProxy:"Estimator: radius-ratio eProxy (per lap)", prec:"Estimator: periastron shift (linear fit vs periastron number)", aps:"Estimator: 360°/|Δϖ| × periastron period", none:"—"},
+  lcMapNote:"Quantity mapping unconfirmed (canonical reason: not established to be the same measured quantity)",
+  lcObs:"Obs", lcNow:"Now", lcDiff:"Diff", lcRef:"Prev. calibration", lcStage:"stage", lcNoSigma:"(no σ)",
+  lcScale:{si:"unit", pct:"%", sigma:"σ"},
+  lcScaleWhy:{obsZero:"observed 0 — no %", noSigma:"no σ — shown in unit"},
+  lcAxisLap:"x: orbit count", lcAxisPeri:"x: periastron number",
+  lcWin:(w,n)=>`window ${w}/${n}`,
+  lcGen:(g,r)=>`generation ${g} (${r})`,
+  lcReason:{init:"start-up", preset:"sample load", reload:"restart / reload", diverged:"diverged", gap:"missed steps", restart:"restart", condition:"run conditions changed", checkpoint:"checkpoint restore", save:"save load", on:"display ON", ab:"A/B", rewind:"time rewound", nchange:"particle count changed"},
+  lcCond:"conditions differ from the preset",
+  lcCardHead:"Live (this run)",
+  lcCardOff:"Turn on the \"Live comparison\" graph to measure this run (nothing is measured while it is OFF)",
+  lcLaps:(n)=>`${n} laps`, lcPeri:(n)=>`${n} periastra`,
+  helpLiveCompare:"The \"Live comparison\" graph (wave 286d) measures this run of the open sample at every physics step (positions and velocities are only read) and sets it against the canonical observed value — display only. White line = observed value, green band = ±3σ (only where a σ exists), red dot = this run, ◇ = previous calibration (the judged-stage value, transcribed). PROVISIONAL AND DOES NOT REPLACE THE FORMAL VERDICT (no pass/fail word even inside the band). Samples without a declaration show \"live measurement not supported\".",
   bdgSC_principle:"Principle", bdgSC_principleTip:"A baseline/demonstration system whose lead mechanism is isolated by controls (A/B, knockouts) and machine-verified by QA (P3 classification, session 67)",
   bdgSC_composite:"Composite", bdgSC_compositeTip:"A narrative system whose subject is the interaction of several mechanisms — read the lead actor from the mechanism spectrum and factor-separation runs (P3 classification, session 67)",
   bdgSC_calibration:"Calibrated", bdgSC_calibrationTip:"A correspondence demo calibrated with real observed values or beyond-axiom corrections (e.g. E13) — not emergence from the DFM axioms alone (P3 classification, session 67)",
@@ -26284,7 +26330,8 @@ function setCanvasSkin(v){
 }
 let paramsDirty=false;  // v1.17: 「保存」していない編集の有無(バックアップ対象外の注意喚起)
 // P2(beta): 未保存フラグ強調 — 保存ボタン横バッジを paramsDirty に常時同期(v1.17 の notify は補助に降格)
-function setParamsDirty(v){ paramsDirty=v; const b=document.getElementById("dirtyBadge"); if(b) b.style.display=v?"inline-block":"none"; saveDraft(v); }
+function setParamsDirty(v){ paramsDirty=v; const b=document.getElementById("dirtyBadge"); if(b) b.style.display=v?"inline-block":"none"; saveDraft(v);
+  if(v) lcReset("condition"); }   // 第286便d: 実行条件の変更でライブ比較の計測世代を切り替える(表示層のみ)
 // 第13次裁定 P1-2 後半(保留分の実施): 未保存編集を sessionStorage に自動ドラフト保存し、
 // 誤リロードで編集が消えるのを防ぐ(タブ単位 — タブを閉じると消える。ルート/β間も干渉しない)。
 // beforeunload は iOS Safari で発火が保証されないため、編集のたびに即時保存する方式を採る。
@@ -27313,14 +27360,15 @@ function overlaySlots(){
   if(sim.overlays.phaseGraph && sim.phase) s.push("phaseGraph");
   if(sim.overlays.mechSpectrum) s.push("mechSpectrum");   // 第65便 65A: 機構スペクトル(全プリセット有効)
   if(sim.overlays.emergence) s.push("emergence");   // 第82便B: 創発モニタ(全プリセット有効・表示専用)
+  if(sim.overlays.liveCompare) s.push("liveCompare");   // 第286便d: ライブ比較(全プリセットで枠を出す —— 宣言の無い本は「未対応」)
   return s;
 }
 // 第26便(原仮定者指示): グラフの最小化 — キーごとの状態と可変高さのスロット積み。
 // 最小化中はタイトルバー(高さ16)だけを描き、バー全体のタップで復元。展開中は右上「−」で最小化
-const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false,mechSpectrum:false,emergence:false};
+const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false,mechSpectrum:false,emergence:false,liveCompare:false};
 const OV_H=92, OV_HMIN=16;
 // 第61便 61B(レビューP1「phaseGraph 二段化」): グラフごとの展開高さ(未登録は OV_H)
-const OV_HK={phaseGraph:152, mechSpectrum:152, emergence:132};   // 第66便 66C: 機構スペクトルは二段(全体+半径ビン)。第82便B: 創発モニタも二段
+const OV_HK={phaseGraph:152, mechSpectrum:152, emergence:132, liveCompare:158};   // 第286便d: ライブ比較は 158   // 第66便 66C: 機構スペクトルは二段(全体+半径ビン)。第82便B: 創発モニタも二段
 const ovH=(key)=>OV_HK[key]||OV_H;
 let ovHit=[];   // グラフのトグル用タップ領域(キャンバス座標。描画のたびに再登録)
 function overlayBaseY(slot){
@@ -27880,6 +27928,392 @@ function drawEmergence(slot=0){
   ctx.fillText(T("ovEmergLegend"),X+6,Y+128);
   ctx.restore();
   ovDrawToggle("emergence",slot);
+}
+// ===== 第286便d(原仮定者の裁定(第76報)⑥・AN58 の前倒し・統括の検証項目 R105): **サンプル内ライブ比較** =====
+// 開いている本の**今回の走行**を物理 step ごとに測り、観測値と並べる表示専用のグラフ(`overlays.liveCompare`)。
+//   ・**計測器は位置・速度の読み出しだけ**(sim のどの配列・スカラーも書かない —— 表示 ON/OFF で 1 步のビット一致:
+//     QA `ui.liveCompare`)。状態は表示層のモジュール変数に持つ(sim のオブジェクト形状を変えない —— 第77便知見)。
+//   ・観測値・σ・単位・前回の較正(判定段の値)は**正本の転記** `OBS_COMPARE_ROWS`(生成領域 obs-compare —— calaudit の量ごとの行)
+//     から量の名前で引く(**仮の数を置かない**・二重管理しない)。行が引けない量は「未対応」。
+//   ・推定器は判定器(`tests/exp-w249b-calaudit.mjs` の in-page 検出器)と同じ定義: 同方向 1 周(相対角の 2π 交差・線形内挿)・
+//     近点 検出器 A(ṙ の −→+ 交差・r ≤ (r_min+r_max)/2・0.5 P_ref 以内の重複を落とす・角の飛び >π/2 で打ち切り)・
+//     近点間周期(最初の 20 近点の窓)・近点移動(近点番号への直線 fit・°/周)・半径比 eProxy(周ごと)。
+//     **eProxy は時刻解の e_T でも軌道 fit の e でもない**(量対応の未確定は正本の理由の文をそのまま出す)。
+//   ・**暫定値であって正式な合否判定ではない**(ライブは刻み dt 一段 —— 正式判定の収束・量対応・独立予測の条件を満たさない)。
+//     帯(±3σ)は σ のある量だけ・帯の中でも合否の語を出さない。宣言の無い本・量は「ライブ計測未対応」。
+const LM_ALIAS=Math.PI/4;   // 1 標本あたりの相対角の変化の上限(超えたら角の連続化が一意でない = aliasing として計測を止める)
+const LM_CAP=600;           // 事象(同方向通過・近点候補)の記録上限(超えた分は記録しない —— 表示に件数を出す)
+const LM_PERI_WIN=20;       // 近点間周期の窓(判定器の PERI_WINDOW と同じ「最初の 20 近点」)
+const LM_MIN_PREC=5;        // 近点移動をライブで出す最低近点数(それ未満は「計測中」—— 決断事項候補)
+const LC_REFRESH_MS=125;    // 表示の更新は 8 Hz に間引く(採取は物理 step ごと)
+const LC_HIST_MAX=120;      // グラフに描く事象の最大数(最新側)
+// ---- 計測器(純関数群 —— 入力の状態と標本だけで決まる。sim・DOM を読まない)----
+function lmCreate(o){
+  return {t0:null, t:null, th:0, rd:0, hasRd:false, acc:0, rev:[], lapMin:Infinity, lapMax:-Infinity, laps:[],
+    rMin:Infinity, rMax:-Infinity, peri:[], pRef:(o && isFinite(o.pRef) && o.pRef>0)? o.pRef : 0, nFeed:0, invalid:null};
+}
+// 標本 1 つ(相対位置・相対速度と計算上の時刻 t)を積む。最初の 1 つは起点(角だけを置く —— 判定器の t=0 と同じ)。
+// 戻り値: null(積んだ)/ 無効化の理由("nonfinite"・"time-reverse"・"aliasing")—— 一度無効になった状態は以後積まない。
+function lmFeed(st,t,dx,dy,dvx,dvy){
+  if(st.invalid) return st.invalid;
+  if(!(isFinite(t)&&isFinite(dx)&&isFinite(dy)&&isFinite(dvx)&&isFinite(dvy))){ st.invalid="nonfinite"; return st.invalid; }
+  const r=Math.hypot(dx,dy), th=Math.atan2(dy,dx), rd=(r>0)? (dx*dvx+dy*dvy)/r : 0;
+  if(st.t===null){ st.t0=t; st.t=t; st.th=th; st.nFeed=1; return null; }
+  if(!(t>st.t)){ st.invalid="time-reverse"; return st.invalid; }
+  let d=th-st.th; while(d>Math.PI) d-=2*Math.PI; while(d<-Math.PI) d+=2*Math.PI;
+  if(Math.abs(d)>LM_ALIAS){ st.invalid="aliasing"; return st.invalid; }
+  st.nFeed++;
+  if(r<st.rMin) st.rMin=r; if(r>st.rMax) st.rMax=r;
+  if(r<st.lapMin) st.lapMin=r; if(r>st.lapMax) st.lapMax=r;
+  const prevAcc=st.acc; st.acc+=d;
+  const nPrev=Math.floor(Math.abs(prevAcc)/(2*Math.PI)), nNow=Math.floor(Math.abs(st.acc)/(2*Math.PI));
+  if(nNow>nPrev && st.rev.length<LM_CAP){   // 同方向 1 周(正逆どちらの回りも |累積角| の 2π 交差)
+    const target=Math.sign(st.acc)*nNow*2*Math.PI;
+    const fr=(st.acc!==prevAcc)? (target-prevAcc)/(st.acc-prevAcc) : 0;
+    st.rev.push(st.t+fr*(t-st.t));
+    st.laps.push((st.lapMax+st.lapMin>0)? (st.lapMax-st.lapMin)/(st.lapMax+st.lapMin) : null);
+    st.lapMin=Infinity; st.lapMax=-Infinity;
+  }
+  if(st.hasRd && st.rd<0 && rd>=0 && st.peri.length<LM_CAP){   // 近点 検出器 A(ṙ の −→+ 交差)
+    const fr=(rd!==st.rd)? (-st.rd/(rd-st.rd)) : 0;
+    st.peri.push({t:st.t+fr*(t-st.t), ang:st.th+fr*d, r});
+  }
+  st.t=t; st.th=th; st.rd=rd; st.hasRd=true;
+  return null;
+}
+// 近点候補の選別(判定器の fit と同じ: 半径の中点より内側・0.5 P_ref 以内の重複を落とす・角を連続化し >π/2 の飛びで打ち切る)
+function lmPeriUse(st){
+  const mid=0.5*(st.rMin+st.rMax), keep=[];
+  for(const p of st.peri){
+    if(!(p.r<=mid)) continue;
+    if(keep.length && (p.t-keep[keep.length-1].t)<0.5*st.pRef) continue;
+    keep.push(p);
+  }
+  const ang=[]; let jump=false;
+  for(let i=0;i<keep.length;i++){
+    let a=keep[i].ang;
+    if(i){ let z=a-ang[i-1]; while(z>Math.PI) z-=2*Math.PI; while(z<-Math.PI) z+=2*Math.PI;
+      if(Math.abs(z)>Math.PI/2){ jump=true; break; }
+      a=ang[i-1]+z; }
+    ang.push(a);
+  }
+  return {keep, ang, jump};
+}
+// 近点番号への直線 fit(判定器と同じ中心化した式)。傾き °/周 と標準誤差
+function lmSlope(ang){
+  const n=ang.length; if(n<2) return null;
+  const mx=(n-1)/2, my=ang.reduce((a,b)=>a+b,0)/n;
+  let sxy=0, sxx=0;
+  for(let i=0;i<n;i++){ sxy+=(i-mx)*(ang[i]-my); sxx+=(i-mx)*(i-mx); }
+  const sl=sxy/sxx;
+  let ss=0; for(let i=0;i<n;i++){ const e=ang[i]-(my+sl*(i-mx)); ss+=e*e; }
+  return {deg:sl*180/Math.PI, se:(n>2)? Math.sqrt(ss/(n-2)/sxx)*180/Math.PI : null};
+}
+// 推定器ごとの値。toSec は時刻の SI 換算(10^scaleExp.T)。v は観測レコードと同じ単位(s・deg/orbit・-)。
+//   rev  … 同方向 1 周: 2 周目から(1 周目は除く —— 判定器の数え方は「2 周目」)の平均。2 周で出る
+//   eProxy … 半径比 (r_max−r_min)/(r_max+r_min) の周ごとの平均(1 周で出る —— 判定器は 1 周目)
+//   peri … 近点間周期: 最初の 20 近点の窓の平均間隔(2 近点で出る・窓の充足を win に出す)
+//   prec … 近点移動 °/周(LM_MIN_PREC 近点で出る)/ aps … 近点回転の周期 360°/|Δϖ| × 近点間周期
+function lmValue(st,est,toSec){
+  const f=(isFinite(toSec) && toSec>0)? toSec : 1;
+  const out={v:null, n:0, need:0, hist:[], se:null, win:null};
+  if(est==="rev"){
+    const P=[]; for(let i=0;i<st.rev.length;i++) P.push(st.rev[i]-(i? st.rev[i-1] : st.t0));
+    out.n=P.length; out.need=2;
+    P.forEach((p,i)=>out.hist.push([i+1, p*f]));
+    if(P.length>=2){ let s=0; for(let i=1;i<P.length;i++) s+=P[i]; out.v=s/(P.length-1)*f; }
+  }else if(est==="eProxy"){
+    out.n=st.laps.length; out.need=1;
+    let s=0, k=0;
+    st.laps.forEach((e,i)=>{ if(e!==null && isFinite(e)){ out.hist.push([i+1, e]); s+=e; k++; } });
+    if(k>=1) out.v=s/k;
+  }else if(est==="peri" || est==="prec" || est==="aps"){
+    const U=lmPeriUse(st), K=U.keep, w=Math.min(K.length, LM_PERI_WIN);
+    const pMean=(w>=2)? (K[w-1].t-K[0].t)/(w-1) : null;
+    out.win=[w, LM_PERI_WIN];
+    if(est==="peri"){
+      out.n=K.length; out.need=2;
+      for(let i=1;i<K.length;i++) out.hist.push([i+1, (K[i].t-K[i-1].t)*f]);
+      if(pMean!==null) out.v=pMean*f;
+    }else{
+      const A=U.ang, n=A.length; out.n=n; out.need=LM_MIN_PREC;
+      // 履歴: 近点 k 個までの傾き(前方からの累積 —— 表示だけ)
+      let sa=0, sia=0;
+      for(let k=0;k<n;k++){ sa+=A[k]; sia+=k*A[k]; const m=k+1;
+        if(m>=2){ const mx=(m-1)/2, sxx=m*(m*m-1)/12, sl=(sia-mx*sa)/sxx*180/Math.PI;
+          out.hist.push([m, est==="prec"? sl : ((pMean!==null && sl!==0)? Math.abs(360/sl)*pMean*f : null)]); } }
+      out.hist=out.hist.filter(h=>h[1]!==null && isFinite(h[1]));
+      if(n>=out.need){ const S=lmSlope(A);
+        if(S){ out.se=S.se;
+          out.v=(est==="prec")? S.deg : ((pMean!==null && S.deg!==0)? Math.abs(360/S.deg)*pMean*f : null); } }
+    }
+  }
+  if(out.hist.length>LC_HIST_MAX) out.hist=out.hist.slice(out.hist.length-LC_HIST_MAX);
+  return out;
+}
+// ---- 量のアダプター(宣言表)----
+// 本ごとに 相手の組(c=中心・o=周回 —— 宣言 index)と量(n=正本の行の名前 —— OBS_COMPARE_ROWS から観測値・σ・単位・
+// 前回の較正を引く・est=推定器)を宣言する。**観測値と σ はこの表に書かない**(正本の転記を読む)。
+// est:null の量は「未対応」と理由(why)を出す(円に近い軌道では近点を無理に測らない)。
+// 推定器は判定器の行の定義(calaudit の periodDef・method)と同じもの —— QA ui.liveCompare が正本と突き合わせる。
+const LIVE_COMPARE_SPEC={
+  earthMoonReal:{c:0, o:1, q:[{n:"恒星月", est:"rev"}]},
+  earthMoonRealKF1:{c:0, o:1, q:[{n:"恒星月・同方向1周(履歴 — 現行 QA の定義)", est:"rev"},
+    {n:"恒星月・近点間(第250便d — 定義併記)", est:"peri"}, {n:"近点回転の周期", est:"aps"}]},
+  mercuryReal:{c:0, o:1, q:[{n:"公転周期", est:"rev"}, {n:"近日点前進(推定器つき宣言 — 第250便d)", est:"prec"}]},
+  plutoCharonReal:{c:0, o:1, q:[{n:"公転周期(kFrame=1・E6′-R)同方向1周", est:"rev"},
+    {n:"公転周期(kFrame=1)近点間(第250便d)", est:null, why:"nearCircular"}]},
+  alphaCenAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev"}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
+  siriusAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev"}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
+  psrDoubleAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"peri"}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"},
+    {n:"近点前進(1PN — 合わせない照合)", est:"prec"}]},
+  psrDoubleABDFM:{c:0, o:1, q:[{n:"公転周期(kFrame=1・観測質量 f=1 — 同方向1周)", est:"peri"}]},
+  psrJ1757DFM:{c:0, o:1, q:[{n:"公転周期(kFrame=1・観測質量 f=1 — 同方向1周)", est:"peri"},
+    {n:"離心率(hold-out — 合わせていない)", est:"eProxy"}, {n:"近点移動(**hold-out** — 較正に使っていない)", est:"prec"}]},
+};
+const LC_EST_UNIT={rev:"s", peri:"s", aps:"s", prec:"deg/orbit", eProxy:"-"};
+const LC_SCALES=["si","pct","sigma"];
+// 正本の行(本 id と量の名前で 1 行 —— 無ければ null)
+function lcRowOf(id,n){
+  const rs=OBS_COMPARE_ROWS.filter(r=>r.i===id && r.n===n);
+  return rs.length===1? rs[0] : null;
+}
+// 観測量対応が未確定の行(正本の判定 mapping-unresolved か、理由の文が「観測量対応が未確定」)
+function lcMappingOf(row){
+  if(!row) return false;
+  if(row.g==="mapping-unresolved") return true;
+  const why=(row.r===null || row.r===undefined)? "" : String(OBS_COMPARE_REASONS[row.r]||"");
+  return /観測量対応が未確定/.test(why);
+}
+// 宣言 index → 実行 index(群は count 個へ展開 —— 判定器の __w249map と同じ規則)
+function lcRunIndex(p,di){
+  let si=0; const bs=(p && p.bodies)||[];
+  for(let k=0;k<bs.length;k++){ if(k===di) return si;
+    const b=bs[k], n=(b.n!==undefined)? b.n : (b.count!==undefined? b.count : 1);
+    si+=(b.type && b.type!=="single")? Math.max(1,Math.round(n)) : 1; }
+  return -1;
+}
+// ---- 表示層の状態(sim の外)----
+var liveCmp={gen:0, reason:"init", id:null, stepGen:-1, meter:null, k:0, t0:0, tSim:0, n:0, ci:-1, oi:-1, toSec:1,
+  qi:0, scale:"si", snap:null, snapAt:0, drawRec:null};
+function lcActive(){ return !!(sim.overlays && sim.overlays.liveCompare && !ab && currentPreset && LIVE_COMPARE_SPEC[currentPreset.id]); }
+// 計測世代の切替。旧世代の事象は捨て、いまの状態を新しい起点にする(読み出しだけ)。
+// 切替は **観測だけで検出する**(読込・⏮・チェックポイント・A/B の本文には手を入れない): 本 id の変化・步の世代
+// (stepGen —— 停止〔pause〕は世代を切らない)・計算上の時刻の連続性(1 步 = DT でなければ「步の欠け/巻き戻り」)・粒子数。
+// 実行条件の変更は setParamsDirty(true)(編集の入口 1 つ)から、表示 ON はトグルから呼ぶ。
+function lcReset(reason){
+  if(!liveCmp) return;
+  liveCmp.gen++; liveCmp.reason=reason||""; liveCmp.meter=null; liveCmp.snap=null;
+  liveCmp.stepGen=stepGen;
+  const p=currentPreset; liveCmp.id=p? p.id : null;
+  if(liveCmp.qi && !(p && LIVE_COMPARE_SPEC[p.id] && liveCmp.qi<LIVE_COMPARE_SPEC[p.id].q.length)) liveCmp.qi=0;
+  if(lcActive()) lcPrime();
+  lcCardSync();
+}
+const LC_GEN_REASON={preset:"reload", checkpoint:"checkpoint", "reset-ab":"ab", "ab-start":"ab", "ab-stop":"ab", diverged:"diverged"};
+function lcCheckGen(){
+  const id=currentPreset? currentPreset.id : null;
+  if(id!==liveCmp.id){ lcReset("preset"); return true; }
+  if(stepGen!==liveCmp.stepGen){
+    if(lastGenReason==="pause"){ liveCmp.stepGen=stepGen; return false; }   // 停止は世代を切らない(時刻の連続性は別に見る)
+    lcReset(LC_GEN_REASON[lastGenReason]||lastGenReason); return true;
+  }
+  return false;
+}
+function lcPrime(){
+  const p=currentPreset, sp=LIVE_COMPARE_SPEC[p.id];
+  const ci=lcRunIndex(p,sp.c), oi=lcRunIndex(p,sp.o);
+  liveCmp.ci=ci; liveCmp.oi=oi; liveCmp.n=sim.n; liveCmp.k=0; liveCmp.t0=sim.t; liveCmp.tSim=sim.t;
+  liveCmp.toSec=Math.pow(10, (p.scaleExp && isFinite(p.scaleExp.T))? Number(p.scaleExp.T) : 0);
+  if(ci<0 || oi<0 || ci>=sim.n || oi>=sim.n){ liveCmp.meter=lmCreate({}); liveCmp.meter.invalid="nonfinite"; return; }
+  // 重複近点の判定に使う P_ref = 起点の接触要素(2 体近似)のケプラー周期(判定器の osc0 と同じ)
+  const dx=sim.x[oi]-sim.x[ci], dy=sim.y[oi]-sim.y[ci], dvx=sim.vx[oi]-sim.vx[ci], dvy=sim.vy[oi]-sim.vy[ci];
+  const r=Math.hypot(dx,dy), v2=dvx*dvx+dvy*dvy, mu=sim.params.G*(sim.m[ci]+sim.m[oi]);
+  const inv=2/r-v2/mu, a=(inv!==0)? 1/inv : NaN;
+  liveCmp.meter=lmCreate({pRef:(a>0)? 2*Math.PI*Math.sqrt(a*a*a/mu) : 0});
+  lmFeed(liveCmp.meter, liveCmp.t0, dx, dy, dvx, dvy);
+}
+// 物理 step の直後に呼ぶ(ループ側が「表示 ON」のときだけ呼ぶ)。読むのは x・y・vx・vy・t・n と世代の番号だけ。
+function lcAfterStep(){
+  if(stepGen!==liveCmp.stepGen || !currentPreset || currentPreset.id!==liveCmp.id){ if(lcCheckGen()) return; }
+  if(!liveCmp.meter){ if(lcActive()) lcPrime(); return; }
+  if(sim.n!==liveCmp.n){ lcReset("nchange"); return; }
+  const dtt=sim.t-liveCmp.tSim;
+  if(!(Math.abs(dtt-DT)<=1e-9*Math.max(1,Math.abs(sim.t)))){ lcReset(dtt<0? "rewind" : "gap"); return; }
+  liveCmp.tSim=sim.t;
+  const M=liveCmp.meter; if(M.invalid) return;
+  liveCmp.k++;
+  const ci=liveCmp.ci, oi=liveCmp.oi;
+  lmFeed(M, liveCmp.t0+liveCmp.k*DT, sim.x[oi]-sim.x[ci], sim.y[oi]-sim.y[ci], sim.vx[oi]-sim.vx[ci], sim.vy[oi]-sim.vy[ci]);
+}
+// 量ごとの表示値(純粋に読み出すだけ —— グラフと観測カードが同じこの 1 つを読む)
+function lcSnapshot(){
+  const p=currentPreset, id=p? p.id : null, sp=id? (LIVE_COMPARE_SPEC[id]||null) : null;
+  const on=!!(sim.overlays && sim.overlays.liveCompare), M=liveCmp.meter;
+  const S={id, emoji:p? (p.emoji||"") : "", gen:liveCmp.gen, reason:liveCmp.reason, on, ab:!!ab, supported:!!sp,
+    cond:!!paramsDirty, invalid:M? M.invalid : null, laps:M? M.rev.length : 0, periN:M? M.peri.length : 0,
+    tCalc:M && M.t!==null? M.t : null, toSec:liveCmp.toSec, q:[]};
+  if(!sp) return S;
+  for(const qd of sp.q){
+    const row=lcRowOf(id,qd.n);
+    const x={name:qd.n, est:qd.est, why:qd.why||null, row:!!row, unit:row? row.u : null,
+      obs:row? row.o : null, sigma:row? row.s : null, ref:row? {v:row.v, st:row.st} : null,
+      mapping:lcMappingOf(row), mapWhy:(row && row.r!==null && row.r!==undefined)? (OBS_COMPARE_REASONS[row.r]||null) : null,
+      v:null, n:0, need:0, win:null, se:null, hist:[], status:"measuring", diff:{si:null, pct:null, sigma:null},
+      band:!!(row && row.o!==null && row.s!==null)};
+    if(!on) x.status="off";
+    else if(S.ab) x.status="ab";
+    else if(!qd.est || !row) x.status="unsupported";
+    else if(M && M.invalid==="nonfinite") x.status="nonfinite";
+    else if(M && M.invalid==="aliasing") x.status="aliasing";
+    else if(M){
+      const V=lmValue(M, qd.est, liveCmp.toSec);
+      x.v=V.v; x.n=V.n; x.need=V.need; x.win=V.win; x.se=V.se; x.hist=V.hist;
+      if(V.v===null) x.status="measuring";
+      else if(!isFinite(V.v)) x.status="nonfinite";
+      else x.status=x.mapping? "mapping" : "provisional";
+      if(x.v!==null && isFinite(x.v) && x.obs!==null){
+        x.diff.si=x.v-x.obs;
+        x.diff.pct=(x.obs!==0)? (x.v-x.obs)/Math.abs(x.obs)*100 : null;
+        x.diff.sigma=(x.sigma!==null && x.sigma>0)? (x.v-x.obs)/x.sigma : null;
+      }
+    }
+    S.q.push(x);
+  }
+  return S;
+}
+function lcFmt(x){
+  if(x===null || x===undefined || !isFinite(x)) return "—";
+  const a=Math.abs(x);
+  if(a!==0 && a<1e-3) return x.toExponential(5);
+  if(a>=1e15) return x.toExponential(11);
+  return String(Number(x.toPrecision(12)));
+}
+function lcUnit(u){ return (u && u!=="-")? u : ""; }   // 無次元("-")は単位を書かない
+function lcFmtD(x){ return (x===null || !isFinite(x))? "—" : ((x>0? "+" : "")+lcFmt(x)); }
+// 差の尺度: si(量の単位)・pct(観測 0 なら出さない)・sigma(σ が無ければ出さない)—— 出せないときは単位へ戻して理由を返す
+function lcScaleOf(x,want){
+  if(want==="pct" && (x.obs===null || x.obs===0)) return {sc:"si", why:"obsZero"};
+  if(want==="sigma" && !(x.sigma!==null && x.sigma>0)) return {sc:"si", why:"noSigma"};
+  return {sc:want, why:null};
+}
+function lcDiffIn(x,v,sc){
+  if(v===null || !isFinite(v) || x.obs===null) return null;
+  if(sc==="pct") return (x.obs!==0)? (v-x.obs)/Math.abs(x.obs)*100 : null;
+  if(sc==="sigma") return (x.sigma>0)? (v-x.obs)/x.sigma : null;
+  return v-x.obs;
+}
+function lcDiffTxt(d,sc,u){ return d===null? "—" : (lcFmtD(d)+(sc==="pct"? " %" : (sc==="sigma"? " σ" : (u? " "+u : "")))); }
+function lcStatusTxt(x){
+  const L=T("lcSt");
+  if(x.status==="measuring") return L.measuring+" "+x.n+"/"+x.need;
+  if(x.status==="unsupported" && x.why) return L.unsupported+"("+T("lcWhy")[x.why]+")";
+  return L[x.status]||x.status;
+}
+// 観測カード(説明タブ 📇)の対応する行へのインライン表示 —— **グラフと同じ lcSnapshot を読む**(二重管理しない)
+function lcCardText(S,x){
+  const L=T("lcSt");
+  if(!S.supported) return "⏱ "+T("lcNone");
+  if(!S.on) return "⏱ "+T("lcCardOff");
+  if(!x) return "⏱ "+L.unsupported;
+  let s="⏱ "+T("lcCardHead")+": "+lcStatusTxt(x);
+  if(x.v!==null && isFinite(x.v)){
+    s+=" · "+T("lcNow")+" "+lcFmt(x.v)+(lcUnit(x.unit)? " "+x.unit : "");
+    const sc=lcScaleOf(x,liveCmp.scale).sc;
+    s+=" · "+T("lcDiff")+" "+lcDiffTxt(lcDiffIn(x,x.v,sc),sc,lcUnit(x.unit));
+    s+=" · "+(x.est==="rev" || x.est==="eProxy"? T("lcLaps")(x.n) : T("lcPeri")(x.n));
+  }
+  return s+" — "+T("lcProv");
+}
+function lcCardSync(){
+  if(typeof document==="undefined") return;
+  const els=document.querySelectorAll("#helpBody .lcInline");
+  if(!els.length) return;
+  const S=(liveCmp.snap && liveCmp.snap.gen===liveCmp.gen)? liveCmp.snap : lcSnapshot();
+  els.forEach((el)=>{
+    const q=el.dataset.q, x=(q===undefined)? null : (S.q.find(z=>z.name===q)||null);
+    el.dataset.status=x? x.status : (S.supported? (S.on? "unsupported" : "off") : "none");
+    el.textContent=lcCardText(S,x);
+  });
+}
+function lcCycleQ(){ const sp=currentPreset && LIVE_COMPARE_SPEC[currentPreset.id]; if(!sp) return;
+  liveCmp.qi=(liveCmp.qi+1)%sp.q.length; liveCmp.snap=null; }
+function lcCycleScale(){ liveCmp.scale=LC_SCALES[(LC_SCALES.indexOf(liveCmp.scale)+1)%LC_SCALES.length]; liveCmp.snap=null; lcCardSync(); }
+function drawLiveCompare(slot=0){
+  lcCheckGen();
+  const now=performance.now();
+  if(!liveCmp.snap || liveCmp.snap.gen!==liveCmp.gen || now-liveCmp.snapAt>=LC_REFRESH_MS){
+    liveCmp.snap=lcSnapshot(); liveCmp.snapAt=now; lcCardSync(); }
+  if(ovOverlayMin("liveCompare",slot,T("ovLiveCompare"))) return;
+  const S=liveCmp.snap, uz=uiFontScale, W=150, H=OV_HK.liveCompare, ox=cw-W*uz-8, oy=overlayBaseY(slot);
+  const rec={texts:[], band:false, obsLine:false, now:false, ref:false, clip:0, hist:0, q:null, status:null, scale:null, scaleWhy:null};
+  const tx=(s,x,y,col)=>{ ctx.fillStyle=col||"#dfe4ff"; ctx.fillText(s,x,y); rec.texts.push(s); };
+  const fit=(s,w)=>{ if(ctx.measureText(s).width<=w) return s; let t=s; while(t.length>1 && ctx.measureText(t+"…").width>w) t=t.slice(0,-1); return t+"…"; };
+  ctx.save(); ctx.translate(ox,oy); ctx.scale(uz,uz);
+  ctx.fillStyle="rgba(12,16,34,0.82)"; ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle="#2a3060"; ctx.strokeRect(0,0,W,H);
+  ctx.font="9px sans-serif";
+  tx(T("ovLiveCompare")+" "+S.emoji,6,11,"#8b93c8");
+  ctx.font="7px sans-serif";
+  const x=(S.supported && S.q.length)? S.q[Math.min(liveCmp.qi,S.q.length-1)] : null;
+  if(!S.supported || !x){
+    tx(fit(T("lcNone"),W-12),6,26,"#e0a05a");
+    tx(fit(T("lcNoneSub"),W-12),6,36,"#8b93c8");
+    rec.status=S.supported? "unsupported" : "none";
+  }else{
+    rec.q=x.name; rec.status=x.status;
+    if(S.q.length>1){ tx((liveCmp.qi+1)+"/"+S.q.length+" ▸",W-48,11,"#8bd3ff"); }
+    tx(fit(x.name,W-12),6,20,"#dfe4ff");
+    tx(fit(lcStatusTxt(x)+(x.win? " · "+T("lcWin")(x.win[0],x.win[1]) : "")
+      +(S.tCalc!==null? " · t="+lcFmt(S.tCalc) : ""),W-12),6,29,x.status==="provisional"? "#57d38c" : "#e0a05a");
+    // ---- グラフ(縦軸 = 観測との差・横軸 = 公転数/近点の番号 —— fps・再生倍率は使わない)----
+    const sw=lcScaleOf(x,liveCmp.scale), sc=sw.sc; rec.scale=sc; rec.scaleWhy=sw.why;
+    const X0=8, X1=W-14, Y0=33, Y1=84, YM=(Y0+Y1)/2;
+    ctx.strokeStyle="#2a3060"; ctx.strokeRect(X0,Y0,X1-X0,Y1-Y0);
+    const bandH=(x.band && x.obs!==null)? (sc==="sigma"? 3 : (sc==="pct"? (x.obs!==0? 3*x.sigma/Math.abs(x.obs)*100 : null) : 3*x.sigma)) : null;
+    const hd=x.hist.map(h=>[h[0], lcDiffIn(x,h[1],sc)]).filter(h=>h[1]!==null);
+    const dNow=lcDiffIn(x,x.v,sc), dRef=x.ref? lcDiffIn(x,x.ref.v,sc) : null;
+    let half;
+    if(bandH!==null && bandH>0) half=2*bandH;
+    else { let m=0; for(const h of hd) m=Math.max(m,Math.abs(h[1])); if(dNow!==null) m=Math.max(m,Math.abs(dNow)); if(dRef!==null) m=Math.max(m,Math.abs(dRef));
+      half=(m>0)? 1.25*m : 1; }
+    const py=(d)=>YM-(d/half)*(YM-Y0);
+    if(bandH!==null && bandH>0){ ctx.fillStyle="rgba(87,211,140,0.22)"; ctx.fillRect(X0+1,py(bandH),X1-X0-2,py(-bandH)-py(bandH)); rec.band=true; }
+    if(x.obs!==null){ ctx.strokeStyle="#ffffff"; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(X0,YM); ctx.lineTo(X1,YM); ctx.stroke(); rec.obsLine=true; }
+    const xs=hd.map(h=>h[0]), xMin=xs.length? Math.min(...xs) : 1, xMax=Math.max(xs.length? Math.max(...xs) : 2, xMin+1);
+    const px=(k)=>X0+3+((k-xMin)/(xMax-xMin))*(X1-X0-10);
+    const clipMark=(xx,d,col)=>{ const up=d>0; ctx.fillStyle=col; ctx.fillText(up? "▲" : "▼",xx-3,up? Y0+7 : Y1-1); rec.clip++; };
+    ctx.fillStyle="#4fd8e8";
+    for(const h of hd){ if(Math.abs(h[1])>half) continue; ctx.fillRect(px(h[0])-1,py(h[1])-1,2,2); rec.hist++; }
+    if(dNow!==null){
+      const xx=px(xMax);
+      if(Math.abs(dNow)>half) clipMark(xx,dNow,"#ff6b6b");
+      else { ctx.fillStyle="#ff6b6b"; ctx.beginPath(); ctx.arc(xx,py(dNow),2.6,0,2*Math.PI); ctx.fill(); }
+      rec.now=true;
+    }
+    if(dRef!==null){   // 参照点 = 前回の較正(判定段の値の転記)—— ◇ を右端の外に
+      const xx=X1+7;
+      if(Math.abs(dRef)>half) clipMark(xx,dRef,"#ffc84f");
+      else { const yy=py(dRef); ctx.strokeStyle="#ffc84f"; ctx.beginPath(); ctx.moveTo(xx,yy-3); ctx.lineTo(xx+3,yy); ctx.lineTo(xx,yy+3); ctx.lineTo(xx-3,yy); ctx.closePath(); ctx.stroke(); }
+      rec.ref=true;
+    }
+    ctx.fillStyle="#5a6090"; ctx.fillText((x.est==="rev" || x.est==="eProxy")? T("lcAxisLap") : T("lcAxisPeri"),X0+2,Y1+7);
+    const u=lcUnit(x.unit), us=u? " "+u : "";
+    tx(fit(T("lcObs")+" "+lcFmt(x.obs)+us+(x.sigma!==null? " σ="+lcFmt(x.sigma) : " "+T("lcNoSigma")),W-12),6,99,"#ffffff");
+    tx(fit(T("lcNow")+" "+lcFmt(x.v)+us+(x.se!==null? " (SE "+lcFmt(x.se)+")" : ""),W-12),6,108,"#ff9d9d");
+    const dTxt=T("lcDiff")+" "+lcDiffTxt(dNow,sc,u)+(sw.why? " ("+T("lcScaleWhy")[sw.why]+")" : "");
+    tx(fit(dTxt,W-40),6,117,"#dfe4ff");
+    tx("["+T("lcScale")[liveCmp.scale]+" ▸]",W-36,117,"#8bd3ff");
+    tx(fit("◇ "+T("lcRef")+" "+(x.ref? lcFmt(x.ref.v)+us+"("+T("lcStage")+" "+x.ref.st+")" : "—"),W-12),6,126,"#ffc84f");
+    tx(fit(x.mapping? T("lcMapNote") : T("lcEst")[x.est||"none"],W-12),6,135,"#8b93c8");
+    ovHit.push({x:ox+(W-50)*uz, y:oy, w:28*uz, h:14*uz, key:"liveCompare", fn:lcCycleQ});
+    ovHit.push({x:ox+(W-40)*uz, y:oy+110*uz, w:38*uz, h:10*uz, key:"liveCompare", fn:lcCycleScale});
+  }
+  tx(fit(T("lcProv"),W-12),6,H-13,"#ffc84f");
+  tx(fit(T("lcGen")(S.gen, (T("lcReason")[S.reason]||S.reason))+(S.cond? " · "+T("lcCond") : ""),W-12),6,H-4,"#5a6090");
+  ctx.restore();
+  liveCmp.drawRec=rec;
+  ovDrawToggle("liveCompare",slot);
 }
 function drawBoxGraph(slot=0){
   const meas=!sim.box && !!sim.measureBox;
@@ -29504,6 +29938,7 @@ function render(){
   if(sim.overlays.phaseGraph && sim.phase) drawPhaseGraph(slots.indexOf("phaseGraph"));   // 第53便 53B(E14)
   if(sim.overlays.mechSpectrum) drawMechSpectrum(slots.indexOf("mechSpectrum"));   // 第65便 65A
   if(sim.overlays.emergence) drawEmergence(slots.indexOf("emergence"));   // 第82便B: 創発モニタ(表示専用)
+  if(sim.overlays.liveCompare) drawLiveCompare(slots.indexOf("liveCompare"));   // 第286便d: ライブ比較(表示専用・読み出しだけ)
   // 近点検出器の UI 表示(第11次裁定 保留分): 最内粒子の実測 Δϖ/周 と E13 解析値を左上に併記
   if(sim.zonal && sim.periDet){
     const P=sim.periDet; let bi=-1, ba=1e18;
@@ -30068,8 +30503,9 @@ function loop(now){
     // STEP_CARRY_CAP_FRAMES フレーム分)。上限超過分だけを cancelled として明示計上する
     const tPhys0=performance.now();
     let kRun=0;
+    const lcOn=(sim.overlays.liveCompare===true && !ab);   // 第286便d: ライブ比較の採取(読み出しだけ・OFF なら 1 命令も足さない)
     for(let s2=0;s2<kReq;s2++){
-      sim.step(DT); kRun=s2+1;
+      sim.step(DT); if(lcOn) lcAfterStep(); kRun=s2+1;
       if(s2+1<kReq && performance.now()-tPhys0>frameBudgetMs) break;
     }
     const physMs=performance.now()-tPhys0;
@@ -31426,7 +31862,7 @@ $("#btnCkLoad").addEventListener("click",()=>{
 });
 // 第95便(原仮定者指示): 「グラフ」カテゴリのトグル(sim.overlays のグラフ系フラグ)は
 // ⏮初めから でリセットしない — 退避・復元のキー一覧(表示のみ・物理不変)
-const GRAPH_OVERLAY_KEYS=["rotationCurve","tempHistogram","spectrum","boxGraph","phaseGraph","mechSpectrum","emergence"];
+const GRAPH_OVERLAY_KEYS=["rotationCurve","tempHistogram","spectrum","boxGraph","phaseGraph","mechSpectrum","emergence","liveCompare"];
 function snapshotGraphOverlays(){ const o={}; for(const k of GRAPH_OVERLAY_KEYS) o[k]=!!sim.overlays[k]; return o; }
 function applyGraphOverlays(S,o){ if(o) for(const k of GRAPH_OVERLAY_KEYS) S.overlays[k]=!!o[k]; }
 // 第254便c(第46報「『表示』カテゴリのパラメータの、チェックボックスの変更は、『初めから』では
@@ -32809,7 +33245,10 @@ function buildParamRows(){
     ["mechSpectrum",T("tgMechSpec"),()=>!!sim.overlays.mechSpectrum,setOv("mechSpectrum"),"tgMechSpecDesc"],
     // 第82便B: 創発モニタ(全プリセット有効・表示専用。OFF で計測コストもゼロ)
     ["emergence",T("tgEmergence"),()=>!!sim.overlays.emergence,
-      (v)=>{ setOv("emergence")(v); if(!v) emergenceReset(); },"tgEmergenceDesc"]];
+      (v)=>{ setOv("emergence")(v); if(!v) emergenceReset(); },"tgEmergenceDesc"],
+    // 第286便d(原仮定者の裁定(第76報)⑥・R105): ライブ比較(表示専用・読み出しだけ。ON にした瞬間を新しい計測世代の起点にする)
+    ["liveCompare",T("tgLiveCompare"),()=>!!sim.overlays.liveCompare,
+      (v)=>{ setOv("liveCompare")(v); lcReset("on"); },"tgLiveCompareDesc"]];
   // 第23便(原仮定者指示): 「表示」の各行もパラメータ名タップで説明を開閉(品質行と同じ pdesc 方式)
   const tapDesc=(row,lab,descKey)=>{
     if(!descKey) return;
@@ -36309,11 +36748,23 @@ function renderHelp(){
           box.appendChild(r0);
         }
       }
+      // 第286便d(R105): 宣言した量の行の直後に**ライブ比較の同じ計測値**を 1 行(クラスに ocRow を付けない —— 宣言行の数え方は不変)。
+      // 文は lcCardSync が lcSnapshot(グラフと同じ 1 つ)から書く。宣言の無い本は「ライブ計測未対応」を 1 行
+      const lcSp=LIVE_COMPARE_SPEC[currentPreset.id]||null, lcDone=new Set();
+      const lcS=lcSnapshot();
+      const lcRow=(q)=>{ const d=document.createElement("div"); d.className="ffRow lcInline"; if(q!==null) d.dataset.q=q;
+        const x=(q===null)? null : (lcS.q.find(z=>z.name===q)||null);
+        d.dataset.status=x? x.status : (lcS.supported? (lcS.on? "unsupported" : "off") : "none");
+        d.textContent=lcCardText(lcS,x); box.appendChild(d); };
       for(const row of oc){
         const r=document.createElement("div"); r.className="ffRow ocRow";
         r.textContent="📊 "+row.q+": "+T("ocModel")+" "+row.model+" / "+T("ocObs")+" "+row.obs;
         box.appendChild(r);
+        const lq=lcSp? lcSp.q.find(z=>z.n===row.q) : null;
+        if(lq){ lcRow(lq.n); lcDone.add(lq.n); }
       }
+      if(lcSp){ for(const z of lcSp.q) if(!lcDone.has(z.n)) lcRow(z.n); }
+      else lcRow(null);
       // 第273便c(第63報・AG24): **正式判定値**(判定器の正本の転記)。obsCard の宣言行の**後ろ**に
       // 別の欄として出す(`ocRow` を付けない —— 宣言行の数え方を変えない)。
       // **署名が正本と違えば数を出さない**(理由だけ出す)。**このページでは何も測っていない**
@@ -36555,6 +37006,7 @@ function buildAbout(){
   mk("h4",T("helpOps"));
   mk("p",T("helpOpsBody"));
   mk("p",T("helpObsCompare"));   // 第285便d
+  mk("p",T("helpLiveCompare"));   // 第286便d
   mk("h4",T("helpLaws"));
   mk("p",T("helpLawsBody"));
 }
@@ -36625,7 +37077,7 @@ $("#aboutPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) 
     const cx=px-rect.left, cy=py-rect.top;
     // 第26便: グラフ最小化トグルのタップを最優先で処理(A/B中はオーバーレイ非表示のため対象外)
     if(!ab){ for(const r of ovHit){ if(cx>=r.x&&cx<=r.x+r.w&&cy>=r.y&&cy<=r.y+r.h){
-      ovMin[r.key]=!ovMin[r.key]; requestRender(); return; } } }
+      if(r.fn) r.fn(); else ovMin[r.key]=!ovMin[r.key]; requestRender(); return; } } }   // 第286便d: fn のある領域はグラフ内の切替
     let S=sim, world="A", z=zoom(), wx, wy;
     if(ab){ // 第12便: A/B比較中も選択可 — タップ位置の半面(A=上/B=下)の宇宙から拾う
       const hh=ch/2, inB=cy>=hh, y0=inB? hh : 0;
@@ -47050,7 +47502,14 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   rayLambda0:()=>rayLambda0, setRayLambda0,  // 第37便 A3(原仮定者指示): 光線の基準波長λ0のQA用
   rayBandColor, rayLambda0FromRaw,  // 第38便(原仮定者指示): 可視光外の記号色/既定移行ロジックのQA用
   fieldWDisp,  // 第37便 A4(原仮定者裁定): 決定力マップの表示合成 W_disp=W+Φ_g のQA用
-  tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); for(let s2=0;s2<Math.min(k,24);s2++) sim.step(DT); } render(); } };
+  // 第286便d(R105): ライブ比較の読み口(計測器は純関数 create/feed/value・stepN は物理 step ごとに採取する —— ループと同じ lcAfterStep)
+  liveCompare:{ spec:LIVE_COMPARE_SPEC, create:lmCreate, feed:lmFeed, value:lmValue, periUse:lmPeriUse, rowOf:lcRowOf,
+    snapshot:()=>{ lcCheckGen(); return lcSnapshot(); }, state:()=>liveCmp, meter:()=>liveCmp.meter, reset:lcReset, cycleQ:lcCycleQ, cycleScale:lcCycleScale,
+    setQ:(i)=>{ liveCmp.qi=i|0; liveCmp.snap=null; }, setScale:(s)=>{ if(LC_SCALES.indexOf(s)>=0){ liveCmp.scale=s; liveCmp.snap=null; lcCardSync(); } },
+    paint:()=>{ liveCmp.snap=null; drawLiveCompare(Math.max(0,overlaySlots().indexOf("liveCompare"))); return liveCmp.drawRec; }, cardSync:lcCardSync, cardText:lcCardText,
+    stepN:(n)=>{ const on=(sim.overlays.liveCompare===true && !ab); for(let k=0;k<n;k++){ sim.step(DT); if(on) lcAfterStep(); } },
+    consts:{alias:LM_ALIAS, cap:LM_CAP, periWin:LM_PERI_WIN, minPrec:LM_MIN_PREC, refreshMs:LC_REFRESH_MS} },
+  tick:(frames)=>{ for(let f=0;f<frames;f++){ const k=Math.max(1,Math.round(SUBSTEPS*sim.params.timeScale)); const lcOn=(sim.overlays.liveCompare===true && !ab); for(let s2=0;s2<Math.min(k,24);s2++){ sim.step(DT); if(lcOn) lcAfterStep(); } } render(); } };
 
 // ===== 起動 =====
 applyUiScale();   // v1.17: 文字サイズ設定の反映(hp_uiscale 永続)
