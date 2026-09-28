@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便b",
   "target": "beta/index.html",
-  "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-  "generatedAt": "2026-09-28T01:52:19.137Z",
+  "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+  "generatedAt": "2026-09-28T19:58:51.292Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5090937,
-    "sha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-    "mtime": "2026-09-28T01:00:42.061Z"
+    "bytes": 5180982,
+    "sha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+    "mtime": "2026-09-28T18:54:13.155Z"
    }
   ],
   "code": [
@@ -67,7 +67,7 @@
    "新発見"
   ],
   "allRowsSameHtml": true,
-  "physicsSourceSha256": "d12ec1cc0399a01791ded0478a4cd32f1060120cd65fab843d5ec98cc354a0c6",
+  "physicsSourceSha256": "43e700e893872596fd5c3c4cb77b2fb31a429931ec48674741357fa10c3d29e0",
   "physicsSourceNames": [
    "dfmGaussLegendre01",
    "dfmLaneEmden",
@@ -141,11 +141,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 816,
-   "segments": 742,
-   "closureShare": 0.3129
+   "names": 872,
+   "segments": 794,
+   "closureShare": 0.3383
   },
-  "scopeSha256": "8715b1ac2b8374a3e6509bed4c7efd0f051fcad0c28b5605336affe4e9b9d5aa",
+  "scopeSha256": "59f73eec613c49853cc1ad97975ebbcfb2467d24b613fbaa92ba9e1cf89b9677",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -161,8 +161,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 193.242,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 133.398,
    "run": {
     "ok": true,
     "warnings": [],
@@ -177,63 +177,63 @@
     },
     "yearUnits": 315576,
     "dayUnits": 864,
-    "steps": 39828529,
-    "tEnd": 637256.464,
+    "steps": 39828522,
+    "tEnd": 637256.352,
     "revN": 27,
-    "sidMeanDays": 27.317128876667947,
+    "sidMeanDays": 27.317123558783436,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 188833.99538461395,
-      "eProxy": 0.05520121736398304,
+      "tCut": 188834.0353188757,
+      "eProxy": 0.055200963201390875,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": 2.9717427397690837,
-       "slopeDegPerTime": 0.00012497427841754157,
-       "seDegPerTime": 1.9632754623422264e-7,
-       "periMean": 23778.737284856725,
-       "residRmsDeg": 0.026201559510016285,
-       "apsPeriodYr": 9.128047593071134,
-       "anomDays": 27.521686672287874
+       "slopeDegPerPeri": 2.9718283261150735,
+       "slopeDegPerTime": 0.00012497782962237296,
+       "seDegPerTime": 1.9590949872667668e-7,
+       "periMean": 23778.746456683028,
+       "residRmsDeg": 0.02614577758940773,
+       "apsPeriodYr": 9.127788222534685,
+       "anomDays": 27.52169728782758
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": 2.9668585498307003,
-       "slopeDegPerTime": 0.00012477055412256967,
-       "seDegPerTime": 2.1069444777542775e-7,
-       "periMean": 23778.45349905711,
-       "residRmsDeg": 0.02240540905916726,
-       "apsPeriodYr": 9.142951791208633,
-       "anomDays": 27.521358216501284
+       "slopeDegPerPeri": 2.9669566725284864,
+       "slopeDegPerTime": 0.00012477462255897315,
+       "seDegPerTime": 2.1029339792844475e-7,
+       "periMean": 23778.46371711858,
+       "residRmsDeg": 0.022362771502927942,
+       "apsPeriodYr": 9.14265367355346,
+       "anomDays": 27.52137004296132
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 637256.4599900517,
-      "eProxy": 0.06681996649497138,
+      "tCut": 637256.3401369179,
+      "eProxy": 0.06682089655195599,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 2.732241761966853,
-       "slopeDegPerTime": 0.00011497825824275911,
-       "seDegPerTime": 8.581774109116592e-7,
-       "periMean": 23762.631229816783,
-       "residRmsDeg": 0.7942003647392636,
-       "apsPeriodYr": 9.921624998845237,
-       "anomDays": 27.503045404880535
+       "slopeDegPerPeri": 2.73229726496719,
+       "slopeDegPerTime": 0.00011498060150433132,
+       "seDegPerTime": 8.582961651848254e-7,
+       "periMean": 23762.62998083141,
+       "residRmsDeg": 0.7943102201171514,
+       "apsPeriodYr": 9.92142279984567,
+       "anomDays": 27.503043959295614
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 2.719343565284297,
-       "slopeDegPerTime": 0.00011443945923072438,
-       "seDegPerTime": 8.637594929454586e-7,
-       "periMean": 23761.919917134284,
-       "residRmsDeg": 0.7541407846817834,
-       "apsPeriodYr": 9.96833757318884,
-       "anomDays": 27.50222212631283
+       "slopeDegPerPeri": 2.719398381014096,
+       "slopeDegPerTime": 0.00011444177588316312,
+       "seDegPerTime": 8.63890681752895e-7,
+       "periMean": 23761.91850236275,
+       "residRmsDeg": 0.7542552661524197,
+       "apsPeriodYr": 9.96813578347201,
+       "anomDays": 27.502220488845776
       }
      }
     ]
@@ -250,15 +250,15 @@
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "ec6ee31e"
+   "presetSigHash": "6251ad7c"
   },
   {
    "id": "E0",
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.008,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 238.56,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 258.496,
    "run": {
     "ok": true,
     "warnings": [],
@@ -273,63 +273,63 @@
     },
     "yearUnits": 315576,
     "dayUnits": 864,
-    "steps": 79657142,
-    "tEnd": 637257.136,
+    "steps": 79657173,
+    "tEnd": 637257.384,
     "revN": 27,
-    "sidMeanDays": 27.317158489272558,
+    "sidMeanDays": 27.317169663932034,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 188834.09620557193,
-      "eProxy": 0.055201204008772216,
+      "tCut": 188834.12792999556,
+      "eProxy": 0.055201353514702324,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": 2.9717002893829427,
-       "slopeDegPerTime": 0.00012497245246662864,
-       "seDegPerTime": 1.9622235468390929e-7,
-       "periMean": 23778.74648249577,
-       "residRmsDeg": 0.026187529324372724,
-       "apsPeriodYr": 9.128180961397568,
-       "anomDays": 27.52169731770344
+       "slopeDegPerPeri": 2.9716803057705823,
+       "slopeDegPerTime": 0.00012497159495628436,
+       "seDegPerTime": 1.9553971511046375e-7,
+       "periMean": 23778.747491692582,
+       "residRmsDeg": 0.026096428869083355,
+       "apsPeriodYr": 9.128243595707403,
+       "anomDays": 27.521698485755305
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": 2.966804990574879,
-       "slopeDegPerTime": 0.0001247682540814084,
-       "seDegPerTime": 2.1034709716491854e-7,
-       "periMean": 23778.462140772677,
-       "residRmsDeg": 0.022368480038643015,
-       "apsPeriodYr": 9.14312033701069,
-       "anomDays": 27.521368218486895
+       "slopeDegPerPeri": 2.966814825057343,
+       "slopeDegPerTime": 0.000124768638829381,
+       "seDegPerTime": 2.0992520848340677e-7,
+       "periMean": 23778.466869679778,
+       "residRmsDeg": 0.02232362121327861,
+       "apsPeriodYr": 9.143092142449573,
+       "anomDays": 27.521373691759003
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 637257.1293724251,
-      "eProxy": 0.06681930998200929,
+      "tCut": 637257.3760074804,
+      "eProxy": 0.06682235907054433,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 2.7322605395947175,
-       "slopeDegPerTime": 0.00011497891759096116,
-       "seDegPerTime": 8.582477610275872e-7,
-       "periMean": 23762.65657870256,
-       "residRmsDeg": 0.7942663683432551,
-       "apsPeriodYr": 9.921568103148692,
-       "anomDays": 27.503074743868705
+       "slopeDegPerPeri": 2.7321790445428973,
+       "slopeDegPerTime": 0.00011497546017312797,
+       "seDegPerTime": 8.584055817225069e-7,
+       "periMean": 23762.659260685232,
+       "residRmsDeg": 0.794412624836376,
+       "apsPeriodYr": 9.921866453826665,
+       "anomDays": 27.503077848015316
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 2.7193541238257573,
-       "slopeDegPerTime": 0.00011443977196223466,
-       "seDegPerTime": 8.63861965437636e-7,
-       "periMean": 23761.94525911248,
-       "residRmsDeg": 0.7542311152779846,
-       "apsPeriodYr": 9.968310332543295,
-       "anomDays": 27.50225145730611
+       "slopeDegPerPeri": 2.7192714440403574,
+       "slopeDegPerTime": 0.00011443626481179275,
+       "seDegPerTime": 8.64032756050749e-7,
+       "periMean": 23761.94890114502,
+       "residRmsDeg": 0.7543804223162971,
+       "apsPeriodYr": 9.968615833286835,
+       "anomDays": 27.50225567262155
       }
      }
     ]
@@ -346,15 +346,15 @@
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "ec6ee31e"
+   "presetSigHash": "6251ad7c"
   },
   {
    "id": "E1",
    "label": "重み pull → share",
    "axis": "weight",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 155.151,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 109.212,
    "run": {
     "ok": true,
     "warnings": [],
@@ -369,63 +369,63 @@
     },
     "yearUnits": 315576,
     "dayUnits": 864,
-    "steps": 40118842,
-    "tEnd": 641901.4720000001,
+    "steps": 40118793,
+    "tEnd": 641900.688,
     "revN": 27,
-    "sidMeanDays": 27.516338975309214,
+    "sidMeanDays": 27.516304427393166,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 190195.1250965597,
-      "eProxy": 0.05938078551570785,
+      "tCut": 190194.98103486962,
+      "eProxy": 0.05938062407142702,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": 2.810921239929873,
-       "slopeDegPerTime": 0.00011741896998698076,
-       "seDegPerTime": 3.240623821159719e-7,
-       "periMean": 23939.08838515712,
-       "residRmsDeg": 0.04354060512606844,
-       "apsPeriodYr": 9.715390634337274,
-       "anomDays": 27.70727822356148
+       "slopeDegPerPeri": 2.8108853677296097,
+       "slopeDegPerTime": 0.00011741757965128838,
+       "seDegPerTime": 3.239563364494645e-7,
+       "periMean": 23939.065030712027,
+       "residRmsDeg": 0.043526316879339035,
+       "apsPeriodYr": 9.71550567379222,
+       "anomDays": 27.707251192953734
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": 2.8027680003456337,
-       "slopeDegPerTime": 0.00011708097415231353,
-       "seDegPerTime": 3.468323728948263e-7,
-       "periMean": 23938.61719306601,
-       "residRmsDeg": 0.037130910123171136,
-       "apsPeriodYr": 9.743437561605738,
-       "anomDays": 27.706732862344918
+       "slopeDegPerPeri": 2.8027616232286445,
+       "slopeDegPerTime": 0.00011708081281592065,
+       "seDegPerTime": 3.4737181929477467e-7,
+       "periMean": 23938.593002944297,
+       "residRmsDeg": 0.03718862841634237,
+       "apsPeriodYr": 9.74345098798221,
+       "anomDays": 27.706704864518862
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 641901.4666392882,
-      "eProxy": 0.07802893123280667,
+      "tCut": 641900.6843179514,
+      "eProxy": 0.07803231843176636,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 2.442088165108123,
-       "slopeDegPerTime": 0.00010211538836346798,
-       "seDegPerTime": 0.0000012701588592703347,
-       "periMean": 23914.828706331275,
-       "residRmsDeg": 1.1829988431939151,
-       "apsPeriodYr": 11.17139325999132,
-       "anomDays": 27.679199891587125
+       "slopeDegPerPeri": 2.4421051976569985,
+       "slopeDegPerTime": 0.00010211623435525682,
+       "seDegPerTime": 0.0000012703190940155733,
+       "periMean": 23914.798466855755,
+       "residRmsDeg": 1.1831465480007155,
+       "apsPeriodYr": 11.17130070950679,
+       "anomDays": 27.679164892194162
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 2.4224140673262293,
-       "slopeDegPerTime": 0.00010129798777311724,
-       "seDegPerTime": 0.000001273612506600903,
-       "periMean": 23913.746558589828,
-       "residRmsDeg": 1.1190835642664638,
-       "apsPeriodYr": 11.261538223840054,
-       "anomDays": 27.677947405775264
+       "slopeDegPerPeri": 2.4224340357053546,
+       "slopeDegPerTime": 0.00010129895756708497,
+       "seDegPerTime": 0.0000012738298145491701,
+       "periMean": 23913.715843847614,
+       "residRmsDeg": 1.1192730324605258,
+       "apsPeriodYr": 11.261430410570311,
+       "anomDays": 27.67791185630511
       }
      }
     ]
@@ -442,15 +442,15 @@
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "8d654aea"
+   "presetSigHash": "1d43e80"
   },
   {
    "id": "E2",
    "label": "初速 🌘 → 🧲(0.201%)",
    "axis": "initialVelocity",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 187.152,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 133.699,
    "run": {
     "ok": true,
     "warnings": [],
@@ -465,63 +465,63 @@
     },
     "yearUnits": 315576,
     "dayUnits": 864,
-    "steps": 39560259,
-    "tEnd": 632964.144,
+    "steps": 39560238,
+    "tEnd": 632963.808,
     "revN": 27,
-    "sidMeanDays": 27.13313389308198,
+    "sidMeanDays": 27.133119255867058,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 187561.57375091745,
-      "eProxy": 0.05100992018256028,
+      "tCut": 187561.64014280564,
+      "eProxy": 0.05100977820863571,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": 3.0789125152164663,
-       "slopeDegPerTime": 0.00013031653939456504,
-       "seDegPerTime": 2.3864636947726796e-7,
-       "periMean": 23626.298117729097,
-       "residRmsDeg": 0.031645210859592675,
-       "apsPeriodYr": 8.753847873838023,
-       "anomDays": 27.345252451075343
+       "slopeDegPerPeri": 3.0788375277564097,
+       "slopeDegPerTime": 0.00013031335243836661,
+       "seDegPerTime": 2.386396587530547e-7,
+       "periMean": 23626.30107355164,
+       "residRmsDeg": 0.03164432414736762,
+       "apsPeriodYr": 8.754061958804911,
+       "anomDays": 27.34525587216625
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": 3.0729970105797473,
-       "slopeDegPerTime": 0.00013006827315244693,
-       "seDegPerTime": 2.557368179761754e-7,
-       "periMean": 23625.956380293093,
-       "residRmsDeg": 0.027020855188999392,
-       "apsPeriodYr": 8.770556675016342,
-       "anomDays": 27.344856921635525
+       "slopeDegPerPeri": 3.0729194654866667,
+       "slopeDegPerTime": 0.00013006496941304796,
+       "seDegPerTime": 2.556566920936285e-7,
+       "periMean": 23625.960250125605,
+       "residRmsDeg": 0.027012393633650173,
+       "apsPeriodYr": 8.770779453169206,
+       "anomDays": 27.344861400608337
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 632964.1341833775,
-      "eProxy": 0.0631168272856317,
+      "tCut": 632963.8043778616,
+      "eProxy": 0.06311496820302501,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 2.797574340381651,
-       "slopeDegPerTime": 0.00011850105480212721,
-       "seDegPerTime": 0.0000010022872496533353,
-       "periMean": 23607.568354852927,
-       "residRmsDeg": 0.9215155496932137,
-       "apsPeriodYr": 9.626675165127427,
-       "anomDays": 27.32357448478348
+       "slopeDegPerPeri": 2.7974911831756897,
+       "slopeDegPerTime": 0.00011849759567536743,
+       "seDegPerTime": 0.000001002602714217793,
+       "periMean": 23607.55256590618,
+       "residRmsDeg": 0.9218051247669962,
+       "apsPeriodYr": 9.62695618255636,
+       "anomDays": 27.323556210539557
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 2.7824757945507788,
-       "slopeDegPerTime": 0.00011786630476701855,
-       "seDegPerTime": 0.0000010074763883500184,
-       "periMean": 23606.738388232632,
-       "residRmsDeg": 0.8738749881829405,
-       "apsPeriodYr": 9.678518076561044,
-       "anomDays": 27.32261387526925
+       "slopeDegPerPeri": 2.782389696368192,
+       "slopeDegPerTime": 0.00011786272581165926,
+       "seDegPerTime": 0.0000010078133043384861,
+       "periMean": 23606.722068351795,
+       "residRmsDeg": 0.8741667447538464,
+       "apsPeriodYr": 9.678811969171296,
+       "anomDays": 27.322594986518283
       }
      }
     ]
@@ -538,15 +538,15 @@
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "ae24834"
+   "presetSigHash": "860bb6a2"
   },
   {
    "id": "E3",
    "label": "🧲 そのまま(share + 🧲 の初速)",
    "axis": "weight+initialVelocity",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 139.146,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 108.757,
    "run": {
     "ok": true,
     "warnings": [],
@@ -561,63 +561,63 @@
     },
     "yearUnits": 315576,
     "dayUnits": 864,
-    "steps": 39848178,
-    "tEnd": 637570.848,
+    "steps": 39848105,
+    "tEnd": 637569.68,
     "revN": 27,
-    "sidMeanDays": 27.330697867808997,
+    "sidMeanDays": 27.330646327440057,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 188911.88976768564,
-      "eProxy": 0.05523890433047783,
+      "tCut": 188911.73607477656,
+      "eProxy": 0.055238379723146755,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": 2.944924494664012,
-       "slopeDegPerTime": 0.00012380388461591824,
-       "seDegPerTime": 3.97661889701841e-7,
-       "periMean": 23786.828524564935,
-       "residRmsDeg": 0.053089588469896476,
-       "apsPeriodYr": 9.214340606872735,
-       "anomDays": 27.531051533061266
+       "slopeDegPerPeri": 2.944860486444922,
+       "slopeDegPerTime": 0.00012380129244615165,
+       "seDegPerTime": 3.9735927004683145e-7,
+       "periMean": 23786.80934548532,
+       "residRmsDeg": 0.0530491452122303,
+       "apsPeriodYr": 9.2145335380988,
+       "anomDays": 27.53102933505245
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": 2.934977995399627,
-       "slopeDegPerTime": 0.00012338907389940554,
-       "seDegPerTime": 4.255718431034025e-7,
-       "periMean": 23786.252741482425,
-       "residRmsDeg": 0.045270598583817635,
-       "apsPeriodYr": 9.245317476287,
-       "anomDays": 27.53038511745651
+       "slopeDegPerPeri": 2.9349205882173517,
+       "slopeDegPerTime": 0.00012338676985273518,
+       "seDegPerTime": 4.2523172102060116e-7,
+       "periMean": 23786.23265634097,
+       "residRmsDeg": 0.0452343777468927,
+       "apsPeriodYr": 9.245490117510798,
+       "anomDays": 27.53036187076501
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 637570.8357291427,
-      "eProxy": 0.07465941852369934,
+      "tCut": 637569.6729412604,
+      "eProxy": 0.07465544418058544,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 2.512490027041052,
-       "slopeDegPerTime": 0.00010575086895726492,
-       "seDegPerTime": 0.0000014750479647469272,
-       "periMean": 23758.631090912535,
-       "residRmsDeg": 1.3648533422810698,
-       "apsPeriodYr": 10.78734550886802,
-       "anomDays": 27.498415614482102
+       "slopeDegPerPeri": 2.51240424213549,
+       "slopeDegPerTime": 0.00010574748723574703,
+       "seDegPerTime": 0.0000014753931777229752,
+       "periMean": 23758.584613307976,
+       "residRmsDeg": 1.3651698598253081,
+       "apsPeriodYr": 10.78769047969789,
+       "anomDays": 27.498361820958305
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 2.4895282557045277,
-       "slopeDegPerTime": 0.00010479077358159753,
-       "seDegPerTime": 0.000001476360303567011,
-       "periMean": 23757.36655903762,
-       "residRmsDeg": 1.2887456023828878,
-       "apsPeriodYr": 10.886179406021435,
-       "anomDays": 27.49695203592317
+       "slopeDegPerPeri": 2.489439138129207,
+       "slopeDegPerTime": 0.0001047872562928004,
+       "seDegPerTime": 0.000001476728750682446,
+       "periMean": 23757.318770844526,
+       "residRmsDeg": 1.2890643946348643,
+       "apsPeriodYr": 10.886544811493655,
+       "anomDays": 27.496896725514496
       }
      }
     ]
@@ -634,15 +634,15 @@
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "b136ac88"
+   "presetSigHash": "84e57e"
   },
   {
    "id": "E4",
    "label": "q 8.2358 → q_fb(表裏核の振幅と参照距離で同じ単一べき)",
    "axis": "q",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 146.45,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 136.601,
    "run": {
     "ok": true,
     "warnings": [],
@@ -657,63 +657,63 @@
     },
     "yearUnits": 315576,
     "dayUnits": 864,
-    "steps": 39869982,
-    "tEnd": 637919.712,
+    "steps": 39870024,
+    "tEnd": 637920.384,
     "revN": 27,
-    "sidMeanDays": 27.345607285894225,
+    "sidMeanDays": 27.345637539664807,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 189022.760181796,
-      "eProxy": 0.055429179185907104,
+      "tCut": 189022.81274225036,
+      "eProxy": 0.05542842757306547,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": 2.462616866658084,
-       "slopeDegPerTime": 0.00010359103130059255,
-       "seDegPerTime": 1.2397353151290067e-7,
-       "periMean": 23772.430175308516,
-       "residRmsDeg": 0.016540893602938325,
-       "apsPeriodYr": 11.012257982014287,
-       "anomDays": 27.51438677697745
+       "slopeDegPerPeri": 2.462608553533692,
+       "slopeDegPerTime": 0.00010359065309186386,
+       "seDegPerTime": 1.243742670626054e-7,
+       "periMean": 23772.435453190294,
+       "residRmsDeg": 0.016594365426289198,
+       "apsPeriodYr": 11.012298187688902,
+       "anomDays": 27.514392885636912
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": 2.459527711559018,
-       "slopeDegPerTime": 0.00010346196765108016,
-       "seDegPerTime": 1.327801444046204e-7,
-       "periMean": 23772.248137916617,
-       "residRmsDeg": 0.014116243637111921,
-       "apsPeriodYr": 11.025995225146218,
-       "anomDays": 27.51417608555164
+       "slopeDegPerPeri": 2.4595193890389897,
+       "slopeDegPerTime": 0.00010346158471581268,
+       "seDegPerTime": 1.3345056986989918e-7,
+       "periMean": 23772.25526825234,
+       "residRmsDeg": 0.014187523029912235,
+       "apsPeriodYr": 11.026036034906113,
+       "anomDays": 27.51418433825502
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 637919.7024288938,
-      "eProxy": 0.06433807804226602,
+      "tCut": 637920.3810645238,
+      "eProxy": 0.06433364317182184,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 2.302302115933558,
-       "slopeDegPerTime": 0.00009689013967797828,
-       "seDegPerTime": 5.907759210455783e-7,
-       "periMean": 23761.512540423682,
-       "residRmsDeg": 0.5467051129894249,
-       "apsPeriodYr": 11.773862284608956,
-       "anomDays": 27.501750625490374
+       "slopeDegPerPeri": 2.302419579580473,
+       "slopeDegPerTime": 0.00009689495986781548,
+       "seDegPerTime": 5.904391849292566e-7,
+       "periMean": 23761.544077780527,
+       "residRmsDeg": 0.5463941816066455,
+       "apsPeriodYr": 11.77327657559575,
+       "anomDays": 27.501787127060794
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 2.2936025100880197,
-       "slopeDegPerTime": 0.00009652629919391616,
-       "seDegPerTime": 5.962808033906205e-7,
-       "periMean": 23761.032964493646,
-       "residRmsDeg": 0.520586273009509,
-       "apsPeriodYr": 11.818241979973706,
-       "anomDays": 27.501195560756535
+       "slopeDegPerPeri": 2.2937259480398966,
+       "slopeDegPerTime": 0.00009653136610537865,
+       "seDegPerTime": 5.95950017767358e-7,
+       "periMean": 23761.065996713605,
+       "residRmsDeg": 0.5202981595772433,
+       "apsPeriodYr": 11.817621642893949,
+       "anomDays": 27.5012337924926
       }
      }
     ]
@@ -730,15 +730,15 @@
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "6ab00112"
+   "presetSigHash": "5046a610"
   },
   {
    "id": "E5",
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 135.122,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 107.884,
    "run": {
     "ok": true,
     "warnings": [
@@ -758,60 +758,60 @@
     "steps": 39676220,
     "tEnd": 634819.52,
     "revN": 27,
-    "sidMeanDays": 27.212770457446464,
+    "sidMeanDays": 27.21277045746679,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 188094.66940186254,
-      "eProxy": 0.052378401642158436,
+      "tCut": 188094.6694018902,
+      "eProxy": 0.052378401642253006,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": -0.00003686614416203182,
-       "slopeDegPerTime": -1.5679826620979104e-9,
-       "seDegPerTime": 1.4031270910884457e-13,
-       "periMean": 23511.8315101279,
-       "residRmsDeg": 1.851564082967352e-8,
-       "apsPeriodYr": -727540.6730446414,
-       "anomDays": 27.21276795153692
+       "slopeDegPerPeri": -0.00003686506646792338,
+       "slopeDegPerTime": -1.567936825846852e-9,
+       "seDegPerTime": 1.2236378611813083e-13,
+       "periMean": 23511.831510234882,
+       "residRmsDeg": 1.6147104055778296e-8,
+       "apsPeriodYr": -727561.9415909215,
+       "anomDays": 27.212767951660744
       },
       "A": {
        "nPeri": 8,
-       "slopeDegPerPeri": -0.000036864823758853934,
-       "slopeDegPerTime": -1.5679265029978594e-9,
-       "seDegPerTime": 3.100627999605511e-16,
-       "periMean": 23511.831510193773,
-       "residRmsDeg": 4.091583346365124e-11,
-       "apsPeriodYr": -727566.7316828304,
-       "anomDays": 27.212767951613163
+       "slopeDegPerPeri": -0.00003686482341080566,
+       "slopeDegPerTime": -1.5679264881945938e-9,
+       "seDegPerTime": 2.738576006966895e-16,
+       "periMean": 23511.83151019594,
+       "residRmsDeg": 3.613820162975876e-11,
+       "apsPeriodYr": -727566.7385520068,
+       "anomDays": 27.212767951615675
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 634819.5092313008,
-      "eProxy": 0.05237840164221377,
+      "tCut": 634819.5092317612,
+      "eProxy": 0.052378401642338285,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": -0.000036864469845951646,
-       "slopeDegPerTime": -1.567911450451899e-9,
-       "seDegPerTime": 2.728308337901437e-14,
-       "periMean": 23511.83151026994,
-       "residRmsDeg": 2.4981872186484498e-8,
-       "apsPeriodYr": -727573.7166000366,
-       "anomDays": 27.21276795170132
+       "slopeDegPerPeri": -0.00003686487547825587,
+       "slopeDegPerTime": -1.5679287027154364e-9,
+       "seDegPerTime": 2.3539542065315194e-14,
+       "periMean": 23511.831510205826,
+       "residRmsDeg": 2.155408254392017e-8,
+       "apsPeriodYr": -727565.7109467948,
+       "anomDays": 27.212767951627114
       },
       "A": {
        "nPeri": 27,
-       "slopeDegPerPeri": -0.00003686483642546521,
-       "slopeDegPerTime": -1.5679270417319055e-9,
-       "seDegPerTime": 7.520012948047127e-17,
-       "periMean": 23511.83151018632,
-       "residRmsDeg": 6.885732074298656e-11,
-       "apsPeriodYr": -727566.4816935397,
-       "anomDays": 27.212767951604537
+       "slopeDegPerPeri": -0.00003686480191789998,
+       "slopeDegPerTime": -1.5679255740623784e-9,
+       "seDegPerTime": 6.95175842090031e-17,
+       "periMean": 23511.83151020603,
+       "residRmsDeg": 6.365407381917233e-11,
+       "apsPeriodYr": -727567.1627380814,
+       "anomDays": 27.21276795162735
       }
      }
     ]
@@ -828,15 +828,15 @@
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "a3243607"
+   "presetSigHash": "e36e227f"
   },
   {
    "id": "E5",
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.008,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 188.029,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 199.332,
    "run": {
     "ok": true,
     "warnings": [
@@ -856,60 +856,60 @@
     "steps": 79352439,
     "tEnd": 634819.512,
     "revN": 27,
-    "sidMeanDays": 27.212770457128904,
+    "sidMeanDays": 27.21277045713688,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 188094.6693996027,
-      "eProxy": 0.0523784015978965,
+      "tCut": 188094.66939959532,
+      "eProxy": 0.052378401598155794,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": -0.00003686088590300657,
-       "slopeDegPerTime": -1.5677590189891778e-9,
-       "seDegPerTime": 3.7103242128699885e-13,
-       "periMean": 23511.831509878433,
-       "residRmsDeg": 4.896137415034198e-8,
-       "apsPeriodYr": -727644.4577818862,
-       "anomDays": 27.212767951248185
+       "slopeDegPerPeri": -0.000036863023621829396,
+       "slopeDegPerTime": -1.5678499399801266e-9,
+       "seDegPerTime": 2.705460045135367e-13,
+       "periMean": 23511.83151026959,
+       "residRmsDeg": 3.570120396985618e-8,
+       "apsPeriodYr": -727602.2610425984,
+       "anomDays": 27.21276795170091
       },
       "A": {
        "nPeri": 8,
-       "slopeDegPerPeri": -0.000036863550866558284,
-       "slopeDegPerTime": -1.5678723646380714e-9,
-       "seDegPerTime": 2.718519471122734e-16,
-       "periMean": 23511.83151000183,
-       "residRmsDeg": 3.5873535929299264e-11,
-       "apsPeriodYr": -727591.8544354077,
-       "anomDays": 27.212767951391008
+       "slopeDegPerPeri": -0.000036863531249886404,
+       "slopeDegPerTime": -1.5678715303062354e-9,
+       "seDegPerTime": 2.1510097354905527e-16,
+       "periMean": 23511.831510000706,
+       "residRmsDeg": 2.838468727189933e-11,
+       "apsPeriodYr": -727592.2416183089,
+       "anomDays": 27.212767951389704
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 634819.5092239006,
-      "eProxy": 0.052378401598275795,
+      "tCut": 634819.5092240835,
+      "eProxy": 0.0523784015983654,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": -0.000036863856844572924,
-       "slopeDegPerTime": -1.5678853784294394e-9,
-       "seDegPerTime": 4.8523868012098036e-14,
-       "periMean": 23511.831510163276,
-       "residRmsDeg": 4.443108763843053e-8,
-       "apsPeriodYr": -727585.8152639703,
-       "anomDays": 27.212767951577867
+       "slopeDegPerPeri": -0.000036864923383462653,
+       "slopeDegPerTime": -1.5679307402286362e-9,
+       "seDegPerTime": 5.667818614018118e-14,
+       "periMean": 23511.831510147415,
+       "residRmsDeg": 5.1897623968222446e-8,
+       "apsPeriodYr": -727564.7654810917,
+       "anomDays": 27.212767951559506
       },
       "A": {
        "nPeri": 27,
-       "slopeDegPerPeri": -0.00003686357092208706,
-       "slopeDegPerTime": -1.5678732176367077e-9,
-       "seDegPerTime": 5.865967129958558e-17,
-       "periMean": 23511.83150998346,
-       "residRmsDeg": 5.371197934396531e-11,
-       "apsPeriodYr": -727591.458590353,
-       "anomDays": 27.21276795136975
+       "slopeDegPerPeri": -0.000036863524676973745,
+       "slopeDegPerTime": -1.5678712507491908e-9,
+       "seDegPerTime": 5.759327526086075e-17,
+       "periMean": 23511.831509994037,
+       "residRmsDeg": 5.273552924231506e-11,
+       "apsPeriodYr": -727592.3713506047,
+       "anomDays": 27.212767951381988
       }
      }
     ]
@@ -926,15 +926,15 @@
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "a3243607"
+   "presetSigHash": "e36e227f"
   },
   {
    "id": "E6",
    "label": "法則 kF0 + meshVelocity explicit(点源)・v=ẋ−u(0)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 236.846,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 177.897,
    "run": {
     "ok": true,
     "warnings": [
@@ -963,66 +963,66 @@
     "steps": 40751601,
     "tEnd": 652025.616,
     "revN": 27,
-    "sidMeanDays": 27.950343140376916,
+    "sidMeanDays": 27.950343140377683,
     "nan": false,
     "meshVel": {
      "n": 40751601,
      "undef": 40751601,
      "bad": 0,
      "uMax": 0.0013130341661508394,
-     "work": 3.617015116040524e-25
+     "work": 1.3451090465592602e-25
     },
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 193192.77178619555,
-      "eProxy": 0.06532256248536403,
+      "tCut": 193192.77178621566,
+      "eProxy": 0.06532256248542279,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": -0.00003596567928829494,
-       "slopeDegPerTime": -1.4893179326142117e-9,
-       "seDegPerTime": 1.6249074378190234e-13,
+       "slopeDegPerPeri": -0.000035969479971999924,
+       "slopeDegPerTime": -1.4894753167370512e-9,
+       "seDegPerTime": 1.2012663807296115e-13,
        "periMean": 24149.094360904717,
-       "residRmsDeg": 2.202341953685394e-8,
-       "apsPeriodYr": -765968.8615329014,
+       "residRmsDeg": 1.6281538789430698e-8,
+       "apsPeriodYr": -765887.9260947374,
        "anomDays": 27.950340695491573
       },
       "A": {
        "nPeri": 8,
-       "slopeDegPerPeri": -0.00003606066499287537,
-       "slopeDegPerTime": -1.493251235929313e-9,
-       "seDegPerTime": 4.900230628901659e-16,
-       "periMean": 24149.09435546613,
-       "residRmsDeg": 6.641598926248756e-11,
-       "apsPeriodYr": -763951.2587411939,
-       "anomDays": 27.95034068919691
+       "slopeDegPerPeri": -0.000036060663689499216,
+       "slopeDegPerTime": -1.4932511819571003e-9,
+       "seDegPerTime": 3.6339901533613686e-16,
+       "periMean": 24149.09435546838,
+       "residRmsDeg": 4.925381462295742e-11,
+       "apsPeriodYr": -763951.2863535209,
+       "anomDays": 27.950340689199514
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 652025.604778681,
-      "eProxy": 0.06532256248571641,
+      "tCut": 652025.6047787027,
+      "eProxy": 0.06532256248555235,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": -0.000035973337663535204,
-       "slopeDegPerTime": -1.4896350615212413e-9,
-       "seDegPerTime": 2.568242896869227e-14,
+       "slopeDegPerPeri": -0.00003597327744864487,
+       "slopeDegPerTime": -1.4896325680571984e-9,
+       "seDegPerTime": 1.8040363499635757e-14,
        "periMean": 24149.094360561074,
-       "residRmsDeg": 2.41536080793934e-8,
-       "apsPeriodYr": -765805.7941654964,
+       "residRmsDeg": 1.6966458667569018e-8,
+       "apsPeriodYr": -765807.0760314091,
        "anomDays": 27.950340695093836
       },
       "A": {
        "nPeri": 27,
-       "slopeDegPerPeri": -0.000036060699551782045,
-       "slopeDegPerTime": -1.4932526669934223e-9,
-       "seDegPerTime": 7.542871634767486e-17,
-       "periMean": 24149.094355470545,
-       "residRmsDeg": 7.093860376007984e-11,
-       "apsPeriodYr": -763950.5266057344,
-       "anomDays": 27.95034068920202
+       "slopeDegPerPeri": -0.000036060686757408764,
+       "slopeDegPerTime": -1.4932521371856962e-9,
+       "seDegPerTime": 6.749156818571998e-17,
+       "periMean": 24149.09435547228,
+       "residRmsDeg": 6.347393730797926e-11,
+       "apsPeriodYr": -763950.7976563368,
+       "anomDays": 27.950340689204026
       }
      }
     ]
@@ -1039,15 +1039,15 @@
     "meshVelocity": true,
     "kernel": false
    },
-   "presetSigHash": "2a20db70"
+   "presetSigHash": "c1e90bb8"
   },
   {
    "id": "E7",
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 344.684,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 247.834,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1074,66 +1074,66 @@
     "steps": 40751011,
     "tEnd": 652016.176,
     "revN": 27,
-    "sidMeanDays": 27.949938943631583,
+    "sidMeanDays": 27.94993894363228,
     "nan": false,
     "meshVel": {
      "n": 40751011,
      "undef": 40751011,
      "bad": 0,
      "uMax": 0.001030029370554999,
-     "work": 1.4416893734918683e-10
+     "work": 1.4416893734415362e-10
     },
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 193189.9740876795,
-      "eProxy": 0.06531539231837524,
+      "tCut": 193189.97408767656,
+      "eProxy": 0.06531539231842119,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": 0.0010717826858770005,
-       "slopeDegPerTime": 4.438242298618742e-8,
-       "seDegPerTime": 7.28844031450776e-14,
-       "periMean": 24148.809681140647,
-       "residRmsDeg": 9.878377244334812e-9,
-       "apsPeriodYr": 25703.219530399907,
-       "anomDays": 27.9500112050239
+       "slopeDegPerPeri": 0.0010717818539513588,
+       "slopeDegPerTime": 4.438238853631125e-8,
+       "seDegPerTime": 1.1243108307039633e-13,
+       "periMean": 24148.809681106457,
+       "residRmsDeg": 1.5238330899761347e-8,
+       "apsPeriodYr": 25703.239481393062,
+       "anomDays": 27.950011204984325
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": 0.0010605706355574212,
-       "slopeDegPerTime": 4.391813416132019e-8,
-       "seDegPerTime": 5.563172924904262e-16,
-       "periMean": 24148.80904689227,
-       "residRmsDeg": 6.008046356826585e-11,
-       "apsPeriodYr": 25974.945955462474,
-       "anomDays": 27.95001047094013
+       "slopeDegPerPeri": 0.0010605706453253596,
+       "slopeDegPerTime": 4.391813456580798e-8,
+       "seDegPerTime": 5.707800699850737e-16,
+       "periMean": 24148.809046893468,
+       "residRmsDeg": 6.164239663792562e-11,
+       "apsPeriodYr": 25974.945716232174,
+       "anomDays": 27.950010470941514
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 652016.17502046,
-      "eProxy": 0.06531540582667013,
+      "tCut": 652016.1750204792,
+      "eProxy": 0.06531540582695398,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 0.0010717882408572625,
-       "slopeDegPerTime": 4.438265216767992e-8,
-       "seDegPerTime": 2.387919262022073e-14,
-       "periMean": 24148.81014334855,
-       "residRmsDeg": 2.2457450280816904e-8,
-       "apsPeriodYr": 25703.08680506858,
-       "anomDays": 27.95001173998675
+       "slopeDegPerPeri": 0.0010717882122893568,
+       "slopeDegPerTime": 4.438265098469127e-8,
+       "seDegPerTime": 2.4921708620340366e-14,
+       "periMean": 24148.810143395815,
+       "residRmsDeg": 2.343789596053169e-8,
+       "apsPeriodYr": 25703.087490166457,
+       "anomDays": 27.95001174004145
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 0.0010605706105133305,
-       "slopeDegPerTime": 4.391813228400374e-8,
-       "seDegPerTime": 1.0532034180991033e-16,
-       "periMean": 24148.809508906106,
-       "residRmsDeg": 9.344904551433138e-11,
-       "apsPeriodYr": 25974.947065782762,
-       "anomDays": 27.950011005678363
+       "slopeDegPerPeri": 0.0010605706277442013,
+       "slopeDegPerTime": 4.391813299753323e-8,
+       "seDegPerTime": 1.206795331420346e-16,
+       "periMean": 24148.809508907227,
+       "residRmsDeg": 1.0707700897507814e-10,
+       "apsPeriodYr": 25974.946643772775,
+       "anomDays": 27.95001100567966
       }
      }
     ]
@@ -1150,15 +1150,15 @@
     "meshVelocity": true,
     "kernel": true
    },
-   "presetSigHash": "a9df4f96"
+   "presetSigHash": "9a878f3e"
   },
   {
    "id": "E7",
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.008,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 472.386,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 506.738,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1185,66 +1185,66 @@
     "steps": 81502021,
     "tEnd": 652016.1680000001,
     "revN": 27,
-    "sidMeanDays": 27.94993854926124,
+    "sidMeanDays": 27.94993854928952,
     "nan": false,
     "meshVel": {
      "n": 81502021,
      "undef": 81502021,
      "bad": 0,
      "uMax": 0.0010300293705084822,
-     "work": 7.208621697674976e-11
+     "work": 7.208621724902239e-11
     },
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 193189.9733071532,
-      "eProxy": 0.06531538961534002,
+      "tCut": 193189.97330724978,
+      "eProxy": 0.06531538961571483,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": 0.001071779990700118,
-       "slopeDegPerTime": 4.438231153639226e-8,
-       "seDegPerTime": 8.995214578426953e-14,
-       "periMean": 24148.809595463626,
-       "residRmsDeg": 1.2191651279323978e-8,
-       "apsPeriodYr": 25703.28407454942,
-       "anomDays": 27.95001110586068
+       "slopeDegPerPeri": 0.0010717858903964994,
+       "slopeDegPerTime": 4.438255584162833e-8,
+       "seDegPerTime": 1.6723891356029639e-13,
+       "periMean": 24148.809595672567,
+       "residRmsDeg": 2.2666702352826576e-8,
+       "apsPeriodYr": 25703.142589978186,
+       "anomDays": 27.950011106102508
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": 0.0010605717821258196,
-       "slopeDegPerTime": 4.391818181790365e-8,
-       "seDegPerTime": 6.946335202776614e-16,
-       "periMean": 24148.808949406888,
-       "residRmsDeg": 7.501816733583614e-11,
-       "apsPeriodYr": 25974.917769478252,
-       "anomDays": 27.950010358109825
+       "slopeDegPerPeri": 0.0010605718147516606,
+       "slopeDegPerTime": 4.3918183168916434e-8,
+       "seDegPerTime": 6.356641985085486e-16,
+       "periMean": 24148.808949417984,
+       "residRmsDeg": 6.864967183569717e-11,
+       "apsPeriodYr": 25974.916970436865,
+       "anomDays": 27.950010358122668
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 652016.1661488855,
-      "eProxy": 0.0653153963690483,
+      "tCut": 652016.1661495233,
+      "eProxy": 0.06531539636976816,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 0.0010717882716351405,
-       "slopeDegPerTime": 4.438265402373295e-8,
-       "seDegPerTime": 4.3973154399601797e-14,
-       "periMean": 24148.80982677999,
-       "residRmsDeg": 4.135503789370249e-8,
-       "apsPeriodYr": 25703.08573018261,
-       "anomDays": 27.95001137358795
+       "slopeDegPerPeri": 0.0010717893544540463,
+       "slopeDegPerTime": 4.43826988630111e-8,
+       "seDegPerTime": 3.5802268992498164e-14,
+       "periMean": 24148.809827102035,
+       "residRmsDeg": 3.3670638622273074e-8,
+       "apsPeriodYr": 25703.05976268086,
+       "anomDays": 27.950011373960688
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 0.00106057174306119,
-       "slopeDegPerTime": 4.391817978016079e-8,
-       "seDegPerTime": 1.3255790680902794e-16,
-       "periMean": 24148.809180390817,
-       "residRmsDeg": 1.1761649730043002e-10,
-       "apsPeriodYr": 25974.918974678545,
-       "anomDays": 27.950010625452336
+       "slopeDegPerPeri": 0.001060571775867252,
+       "slopeDegPerTime": 4.3918181138616047e-8,
+       "seDegPerTime": 1.7329625059983643e-16,
+       "periMean": 24148.809180414173,
+       "residRmsDeg": 1.5376297409579415e-10,
+       "apsPeriodYr": 25974.91817123532,
+       "anomDays": 27.95001062547937
       }
      }
     ]
@@ -1261,15 +1261,15 @@
     "meshVelocity": true,
     "kernel": true
    },
-   "presetSigHash": "a9df4f96"
+   "presetSigHash": "9a878f3e"
   },
   {
    "id": "E8",
    "label": "初速の意味 v=ẋ(変換なし)・表裏核",
    "axis": "initialVelocityMeaning",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 255.394,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 243.51,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1296,66 +1296,66 @@
     "steps": 39464043,
     "tEnd": 631424.688,
     "revN": 27,
-    "sidMeanDays": 27.067244564259585,
+    "sidMeanDays": 27.067244564269433,
     "nan": false,
     "meshVel": {
      "n": 39464043,
      "undef": 39464043,
      "bad": 0,
      "uMax": 0.00103002937056349,
-     "work": 1.5218094997030652e-10
+     "work": 1.5218095007464923e-10
     },
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 187088.7905403817,
-      "eProxy": 0.04510360619415492,
+      "tCut": 187088.79054042033,
+      "eProxy": 0.0451036061942187,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": 0.0010880997547299712,
-       "slopeDegPerTime": 4.652750176523614e-8,
-       "seDegPerTime": 1.7300502551291172e-13,
-       "periMean": 23386.16331089111,
-       "residRmsDeg": 2.270769089805256e-8,
-       "apsPeriodYr": 24518.212197616635,
-       "anomDays": 27.06731864686471
+       "slopeDegPerPeri": 0.0010880968693014492,
+       "slopeDegPerTime": 4.6527378383696705e-8,
+       "seDegPerTime": 2.159403184498126e-13,
+       "periMean": 23386.163310855278,
+       "residRmsDeg": 2.8343141993784383e-8,
+       "apsPeriodYr": 24518.27721513686,
+       "anomDays": 27.06731864682324
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": 0.0010749009843716557,
-       "slopeDegPerTime": 4.596311951370762e-8,
-       "seDegPerTime": 7.077509834393054e-16,
-       "periMean": 23386.16255258828,
-       "residRmsDeg": 7.402091399731649e-11,
-       "apsPeriodYr": 24819.271915711226,
-       "anomDays": 27.0673177691994
+       "slopeDegPerPeri": 0.0010749010083857806,
+       "slopeDegPerTime": 4.596312054054381e-8,
+       "seDegPerTime": 8.152737292883347e-16,
+       "periMean": 23386.1625525969,
+       "residRmsDeg": 8.526629847504704e-11,
+       "apsPeriodYr": 24819.271361237854,
+       "anomDays": 27.067317769209374
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 631424.6805389951,
-      "eProxy": 0.045103619917385346,
+      "tCut": 631424.6805392193,
+      "eProxy": 0.045103619918179155,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 0.0010881023693745477,
-       "slopeDegPerTime": 4.6527612649494845e-8,
-       "seDegPerTime": 3.340339276962046e-14,
-       "periMean": 23386.16377272385,
-       "residRmsDeg": 3.0422481652117945e-8,
-       "apsPeriodYr": 24518.15376599658,
-       "anomDays": 27.067319181393344
+       "slopeDegPerPeri": 0.0010881034615303844,
+       "slopeDegPerTime": 4.6527659350297025e-8,
+       "seDegPerTime": 3.225980977319043e-14,
+       "periMean": 23386.16377256745,
+       "residRmsDeg": 2.938095174036298e-8,
+       "apsPeriodYr": 24518.1291566037,
+       "anomDays": 27.06731918121233
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 0.0010749010326373425,
-       "slopeDegPerTime": 4.5963120670208796e-8,
-       "seDegPerTime": 1.440108526942688e-16,
-       "periMean": 23386.163014252772,
-       "residRmsDeg": 1.2374312479434772e-10,
-       "apsPeriodYr": 24819.271291221055,
-       "anomDays": 27.067318303533302
+       "slopeDegPerPeri": 0.0010749010468570437,
+       "slopeDegPerTime": 4.596312127823723e-8,
+       "seDegPerTime": 1.0806087040805604e-16,
+       "periMean": 23386.163014261416,
+       "residRmsDeg": 9.285265326968776e-11,
+       "apsPeriodYr": 24819.270962896473,
+       "anomDays": 27.067318303543306
       }
      }
     ]
@@ -1372,15 +1372,15 @@
     "meshVelocity": true,
     "kernel": true
    },
-   "presetSigHash": "82a8f40f"
+   "presetSigHash": "cf2ac97"
   },
   {
    "id": "S0",
    "label": "🔆 太陽+地球+月(kF0・geoPN=0)",
    "axis": "reference",
    "dt": 0.016,
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-   "wallS": 1.186,
+   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "wallS": 1.325,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1398,60 +1398,60 @@
     "steps": 398475,
     "tEnd": 6375.6,
     "revN": 27,
-    "sidMeanDays": 27.326649240864384,
+    "sidMeanDays": 27.326649245720137,
     "nan": false,
     "meshVel": null,
     "windows": [
      {
       "orbits": 8,
       "complete": true,
-      "tCut": 1890.2379059346044,
-      "eProxy": 0.04366391235459067,
+      "tCut": 1890.2379063173912,
+      "eProxy": 0.04366391243753158,
       "B": {
        "nPeri": 8,
-       "slopeDegPerPeri": -2.1341432347657454,
-       "slopeDegPerTime": -0.008378744675263056,
-       "seDegPerTime": 0.013665687502752804,
-       "periMean": 237.45999886781217,
-       "residRmsDeg": 18.006786027566815,
-       "apsPeriodYr": -13.615060555228423,
-       "anomDays": 27.483796165256038
+       "slopeDegPerPeri": -2.1341432154310866,
+       "slopeDegPerTime": -0.008378744595214501,
+       "seDegPerTime": 0.013665687457167749,
+       "periMean": 237.4599989224542,
+       "residRmsDeg": 18.00678597202138,
+       "apsPeriodYr": -13.615060685303508,
+       "anomDays": 27.483796171580344
       },
       "A": {
        "nPeri": 7,
-       "slopeDegPerPeri": -4.640833271176153,
-       "slopeDegPerTime": -0.019032956095658634,
-       "seDegPerTime": 0.016650324625969205,
-       "periMean": 235.85191057231523,
-       "residRmsDeg": 17.362579133287372,
-       "apsPeriodYr": -5.993662548116995,
-       "anomDays": 27.297674834758705
+       "slopeDegPerPeri": -4.64083325970002,
+       "slopeDegPerTime": -0.019032956045326677,
+       "seDegPerTime": 0.016650324590581557,
+       "periMean": 235.85191062360568,
+       "residRmsDeg": 17.36257910044093,
+       "apsPeriodYr": -5.993662563967017,
+       "anomDays": 27.297674840695098
       }
      },
      {
       "orbits": 27,
       "complete": true,
-      "tCut": 6375.589201082988,
-      "eProxy": 0.04367045274293943,
+      "tCut": 6375.589202221039,
+      "eProxy": 0.043670452828751934,
       "B": {
        "nPeri": 27,
-       "slopeDegPerPeri": 3.280647865009132,
-       "slopeDegPerTime": 0.013860268540665346,
-       "seDegPerTime": 0.0023266339878998893,
-       "periMean": 238.58063868826386,
-       "residRmsDeg": 21.583598793285844,
-       "apsPeriodYr": 8.230512691424957,
-       "anomDays": 27.613499848178687
+       "slopeDegPerPeri": 3.28064786529498,
+       "slopeDegPerTime": 0.013860268538996755,
+       "seDegPerTime": 0.002326633982480585,
+       "periMean": 238.58063873156965,
+       "residRmsDeg": 21.58359874686014,
+       "apsPeriodYr": 8.230512692415802,
+       "anomDays": 27.61349985319093
       },
       "A": {
        "nPeri": 26,
-       "slopeDegPerPeri": 3.2721375473847636,
-       "slopeDegPerTime": 0.013835388953227019,
-       "seDegPerTime": 0.002513387978848884,
-       "periMean": 238.2170121180507,
-       "residRmsDeg": 21.99725021055071,
-       "apsPeriodYr": 8.245313269916885,
-       "anomDays": 27.571413439589197
+       "slopeDegPerPeri": 3.2721375505686776,
+       "slopeDegPerTime": 0.0138353889636963,
+       "seDegPerTime": 0.0025133879743022298,
+       "periMean": 238.21701216165485,
+       "residRmsDeg": 21.99725017481688,
+       "apsPeriodYr": 8.24531326367763,
+       "anomDays": 27.571413444635976
       }
      }
     ]
@@ -1468,7 +1468,7 @@
     "meshVelocity": false,
     "kernel": false
    },
-   "presetSigHash": "c90878d7"
+   "presetSigHash": "e480b08f"
   }
  ]
 }

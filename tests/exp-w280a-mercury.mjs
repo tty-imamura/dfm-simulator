@@ -9,6 +9,11 @@
 //   `stopRuleFor`(60 公転ぶんの步数・orbMax=60)で、☄️ の正式窓(近点 59 本)と同じ本数になる。
 //   **判定器の正式値そのもの**(dt=0.016・ε=0.05 の ☄️ 2.2514656997711987e−5 deg/周)を最初に再現し、
 //   ビットで一致しなければ器を止める(同じ抽出器・同じ窓の 1 表を先に作る)。
+//   第286便(統合・原仮定者の裁定(第76報)AN59・統括の検証項目 R104): 判定器の較正行は **calPhysics**(☄️ の較正専用
+//   ε=0.01 —— 判定器の写しにだけ当たる・本の宣言 0.05 は不変)を持つので、正式値の再現は正本 calaudit-w249.json の
+//   `calPhysics.rows` を判定器と同じ窓口 `window.__w249calPhys` で当てて行い(再現のあとは外す)、**不足の分解の起点も
+//   その較正行の ε**(`reproduction.epsFormal`)に置く(dt→0 の外挿は同じ ε の列・ε→0 は ε² の外挿のまま)。
+//   格子(ε 0.05/0.02/0.01)と 1 表(☄️ そのもの = 本の宣言 ε=0.05)は変えない。
 //
 //   (1) 格子: ☄️ の kF0 走行を dt 4 段(0.032/0.016/0.008/0.004)× ε 3 段(0.05/0.02/0.01 = 5000/2000/1000 km)
 //       × λ_PN 2 値(1/0)で回す。ε と λ_PN を変えた走行は**器の中だけの診断コピー**(内蔵には足さない)。
@@ -143,25 +148,36 @@ async function run(id, dt) {
   };
 }
 
+const EPS = [0.05, 0.02, 0.01];   // 格子の ε(第286便: 較正行の ε もこの中に無ければ止める)
 // ---------------------------------------------------------------- 正式値の再現(同じ抽出器・同じ窓)
 const cal = JSON.parse(fs.readFileSync(path.join(ROOT, CANON_CAL), 'utf8'));
 const calRow = (id) => cal.presets.find((p) => p.id === id).quantities.find((q) => q.kind === 'precession');
 const CAL0 = calRow('mercuryReal'), CAL1 = calRow('mercuryRealKF1');
+// 第286便(AN59): 判定器の較正行の宣言(calPhysics —— ☄️ の較正専用 ε)を正本から読み、再現の走行にだけ当てる(判定器と同じ窓口)
+const CAL_PHYS_ROWS = (cal.calPhysics && cal.calPhysics.rows) || {};
+const CAL_PHYS = CAL_PHYS_ROWS.mercuryReal || null;
+const EPS_PRESET = Number(KF0.physics.softening);
+const EPS_FORMAL = (CAL_PHYS && Number.isFinite(Number(CAL_PHYS.softening))) ? Number(CAL_PHYS.softening) : EPS_PRESET;
+await E(`window.__w249calPhys = ${JSON.stringify(CAL_PHYS_ROWS)};`);
 const r00 = await run('mercuryReal', 0.016);
 const r01 = await run('mercuryRealKF1', 0.016);
+await E('window.__w249calPhys = {};');   // 再現のあとは外す(格子・1 表の ☄️ は本の宣言 ε のまま)
 const repro = {
-  kF0: { formal: CAL0.meas, here: r00.slopeDegA, bitIdentical: r00.slopeDegA === CAL0.meas, nPeri: r00.nPeriA },
-  kF1: { formal: CAL1.meas, here: r01.slopeDegA, bitIdentical: r01.slopeDegA === CAL1.meas, nPeri: r01.nPeriA },
+  kF0: { formal: CAL0.meas, here: r00.slopeDegA, bitIdentical: r00.slopeDegA === CAL0.meas, nPeri: r00.nPeriA, softening: r00.state.softening },
+  kF1: { formal: CAL1.meas, here: r01.slopeDegA, bitIdentical: r01.slopeDegA === CAL1.meas, nPeri: r01.nPeriA, softening: r01.state.softening },
+  calPhysics: CAL_PHYS, epsFormal: EPS_FORMAL, epsPreset: EPS_PRESET,
   engine: ENGINE,
-  note: '判定器の正本値(calaudit-w249.json)と、同じ抽出器のソースを本器(' + ENGINE + ')で評価した値のビット比較',
+  note: '判定器の正本値(calaudit-w249.json)と、同じ抽出器のソースを本器(' + ENGINE + ')で評価した値のビット比較'
+    + '(第286便: 較正行の calPhysics を正本から読んで再現の走行にだけ当てる —— 本の宣言 ε は不変)',
 };
 log('正式値の再現', JSON.stringify(repro));
 if (!repro.kF0.bitIdentical || !repro.kF1.bitIdentical) throw new Error('正式値をビットで再現できない —— 器を止める');
+if (r00.state.softening !== EPS_FORMAL) throw new Error('再現の走行の ε が較正行の宣言と違う: ' + r00.state.softening + ' ≠ ' + EPS_FORMAL);
+if (!EPS.includes(EPS_FORMAL)) throw new Error('較正行の ε が格子に無い(分解の起点が取れない): ' + EPS_FORMAL);
 if (QUICK) { log('QUICK 終了', (Date.now() - t0) / 1000, 's'); if (browser) await browser.close(); process.exit(0); }
 
 // ---------------------------------------------------------------- (1) 格子 dt × ε × λ_PN
 const DTS = [0.032, 0.016, 0.008, 0.004];
-const EPS = [0.05, 0.02, 0.01];
 const LAMS = [1, 0];
 const KM_PER_UNIT = 1e5;   // 1 単位 = 10⁸ m = 10⁵ km
 const grid = [];
@@ -170,7 +186,7 @@ for (const lam of LAMS) for (const eps of EPS) {
   const id = isBase ? 'mercuryReal' : `mercuryDiag_eps${eps}_lam${lam}`;
   if (!isBase) await register(variant(KF0, id, { softening: eps, lambdaPN: lam }, (p) => { p.sampleClass = 'principle'; }));
   for (const dt of DTS) {
-    const r = (isBase && dt === 0.016) ? r00 : await run(id, dt);
+    const r = (isBase && dt === 0.016 && EPS_FORMAL === EPS_PRESET) ? r00 : await run(id, dt);   // 第286便: 較正行の ε が本と違えば再現の走行は流用しない
     grid.push(Object.assign({ lambdaPN: lam, eps, epsKm: eps * KM_PER_UNIT }, r));
     log(`grid λ=${lam} ε=${eps} dt=${dt}: ${r.slopeDegA} (n=${r.nPeriA}, ${r.wallSec}s)`);
   }
@@ -251,15 +267,16 @@ inputBreak.allTrueDelta = pnAnTrue - pnAn;
 inputBreak.obsKF0MinusAllTrue = CAL0.obs - pnAnTrue;
 
 // 不足の分解(主: 0.032/0.016/0.008 の Richardson・ε は 0.02/0.01 の 2 点 ε²)
+//   第286便: 起点は較正行(calPhysics の ε=EPS_FORMAL・dt=0.016)。dt→0 は**同じ ε の列**の Richardson、ε→0 は ε² の外挿(λ=1)
 const decomp = {};
 for (const which of ['coarse', 'fine']) {
-  const qStarEps = rich['lam1_eps0.05'][which].qStar;
+  const qStarEps = rich[`lam1_eps${EPS_FORMAL}`][which].qStar;
   const q00 = epsFit[`lam1_${which}`].Q0;
   decomp[which] = {
     obsKF0: decompose({ obs: CAL0.obs, qFormal: CAL0.meas, qStarEps, q00, pnAn }),
     obsKF1Row: decompose({ obs: CAL1.obs, qFormal: CAL0.meas, qStarEps, q00, pnAn }),
-    qStarEps005: qStarEps, q00,
-    arcsecPerCentury: { formal: cy(CAL0.meas), qStarEps005: cy(qStarEps), q00: cy(q00), pnAn: cy(pnAn), obsKF0: cy(CAL0.obs),
+    epsFormal: EPS_FORMAL, qStarEpsFormal: qStarEps, q00,
+    arcsecPerCentury: { formal: cy(CAL0.meas), qStarEpsFormal: cy(qStarEps), q00: cy(q00), pnAn: cy(pnAn), obsKF0: cy(CAL0.obs),
       step: cy(qStarEps - CAL0.meas), softening: cy(q00 - qStarEps), inputConversion: cy(CAL0.obs - pnAn) },
   };
 }
@@ -338,7 +355,8 @@ const lad = obscal && obscal.tests && obscal.tests.mercuryReal ? obscal.tests.me
 const ladFin = lad ? lad.ladder[lad.ladder.length - 1] : null;
 const solarRealC = obscal && obscal.profiles ? obscal.profiles.solarRealC : null;
 const operator = {
-  formal: { estimator: 'periapsis-crossing(検出器 A)', window: '59 近点(60 公転ぶんの步数)', system: '☄️ そのもの(a=579.09・ε=0.05・dt=0.016)',
+  formal: { estimator: 'periapsis-crossing(検出器 A)', window: '59 近点(60 公転ぶんの步数)',
+    system: '☄️ の較正行(a=579.09・ε=' + EPS_FORMAL + (CAL_PHYS ? '〔calPhysics —— 本の宣言は ' + EPS_PRESET + '〕' : '') + '・dt=0.016)',
     subtraction: 'なし(1PN + 軟化 + 刻みの総量)', degPerOrbit: CAL0.meas, arcsecPerCentury: cy(CAL0.meas) },
   lambdaDiffFormalCell: { estimator: 'periapsis-crossing(検出器 A)の λ_PN=1 − λ_PN=0', window: '59 近点', system: '☄️ そのもの(ε=0.05・dt=0.016)',
     degPerOrbit: Q(1, 0.05, 0.016) - Q(0, 0.05, 0.016), arcsecPerCentury: cy(Q(1, 0.05, 0.016) - Q(0, 0.05, 0.016)),
@@ -364,6 +382,8 @@ const out = {
       detector: 'A(ṙ の −→+ 交差 = 相対距離の極小)・近点位相の直線 fit(判定器の q.meas と同じ)',
       stopRuleVersion: STOP_RULE_VERSION },
     engine: ENGINE === 'node' ? 'Node の vm(tests/lib-w279b-headless.mjs)で対象 html の inline script をそのまま評価' : 'Chromium(判定器と同じ —— ページで対象 html を読む)',
+    calPhysics: { rows: CAL_PHYS_ROWS, epsFormal: EPS_FORMAL, epsPreset: EPS_PRESET,
+      note: '第286便(AN59): 正式値の再現と不足の分解の起点は判定器の較正行(calPhysics)—— 格子と 1 表の ☄️ は本の宣言 ε' },
     declarations: ['(M1) 較正 2 本の物理・入力・claims は不変 —— 診断コピーは器の中だけ',
       '(M2) q は触らない', '(M3) 窓は判定器の正式窓(近点 59 本)',
       '(M4) dt→0・ε→0 の外挿値は外挿であって、そこで走らせた値ではない'],

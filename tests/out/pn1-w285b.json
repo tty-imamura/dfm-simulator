@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便b",
   "target": "beta/index.html",
-  "targetSha256": "852512dc072ab0186f810bcbe56498d4d5b887a7eb1026fca59668fe11cccd58",
-  "generatedAt": "2026-09-28T18:05:56.281Z",
+  "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+  "generatedAt": "2026-09-28T19:20:43.638Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5095156,
-    "sha256": "852512dc072ab0186f810bcbe56498d4d5b887a7eb1026fca59668fe11cccd58",
-    "mtime": "2026-09-28T17:50:46.334Z"
+    "bytes": 5180982,
+    "sha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+    "mtime": "2026-09-28T18:54:13.155Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 343346,
-    "sha256": "28084c9418622748c2aca85de3817a3762e733faffbb98b6989f132fa5c14220",
-    "mtime": "2026-09-28T15:29:22.698Z"
+    "bytes": 345584,
+    "sha256": "dffcf674c44924d6506d1a3fca68fa0d97ce28bead1e322734fbb10e76599633",
+    "mtime": "2026-09-28T18:49:51.305Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2765140,
-    "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-    "mtime": "2026-09-28T15:16:15.602Z"
+    "bytes": 2857428,
+    "sha256": "bb3b58ea170887fb43a45c17fdb1a8665c548e7469426661a1290502c823335b",
+    "mtime": "2026-09-28T19:15:39.063Z"
    }
   ],
   "code": [
@@ -30,55 +30,55 @@
     "file": "tests/exp-w285b-pn1.mjs",
     "bytes": 36496,
     "sha256": "af0cfed50ade1cb4e7671cc16c60de9f00d4ec5e12afcdbde2e173e1664fbd10",
-    "mtime": "2026-09-28T16:09:07.408Z"
+    "mtime": "2026-09-28T18:48:35.432Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
     "bytes": 19379,
     "sha256": "b20018afa5df7c5fd3dbceaac111507faf52e5be7ec6c708bdb4a6d3a3031332",
-    "mtime": "2026-09-28T15:16:15.554Z"
+    "mtime": "2026-09-28T00:59:08.154Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
     "bytes": 19581,
     "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
-    "mtime": "2026-09-28T15:16:15.550Z"
+    "mtime": "2026-09-25T23:55:41.021Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
     "bytes": 5394,
     "sha256": "720a78b1243add6a208a29df1896e052cc32f10315ef0957d87471685dbe5ec3",
-    "mtime": "2026-09-28T15:16:15.546Z"
+    "mtime": "2026-09-24T09:35:25.390Z"
    },
    {
     "file": "tests/lib-w283a-geomode.mjs",
     "bytes": 8878,
     "sha256": "f90c47a27a7a9a2746b29e6f6edc5f54e47d21b0516bc97e62f8d1f5ae37d647",
-    "mtime": "2026-09-28T15:16:15.550Z"
+    "mtime": "2026-09-26T17:44:54.707Z"
    },
    {
     "file": "tests/lib-w280a-mercury.mjs",
     "bytes": 9579,
     "sha256": "a0071d7615a287dda2d94b462b48c73369eb0f79e6fbd834541795bf5f9665af",
-    "mtime": "2026-09-28T15:16:15.546Z"
+    "mtime": "2026-09-24T08:50:04.614Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-28T15:16:15.546Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-28T15:16:15.538Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 74147,
     "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T15:16:15.550Z"
+    "mtime": "2026-09-28T01:00:42.100Z"
    }
   ],
   "codeSha256": "005c377afef0a5b808b71693c4b12281580c541697b3de358e4e4dbbfef1d3c9",
@@ -109,16 +109,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 824,
-   "segments": 750,
-   "closureShare": 0.3331
+   "names": 878,
+   "segments": 800,
+   "closureShare": 0.3392
   },
-  "scopeSha256": "be42de528e414776af76e2a0315db05458d4ccb5db8b3e2e9828ce52ec865bf9",
+  "scopeSha256": "57224675a9cbef2d52581ef8b3e404bc352d7e0a5f9c0ca7f2ea0098160f78dc",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "a44ee41e10139bd124cb56a125ff08bdba23f2c50b51b041b2baf1337fc281cc",
+    "stableSha256": "51fb2987f764f6a92d2c55504a63d038a3190631858438237d5a4ef35d7a0022",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -146,7 +146,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "16cb4ef4feabcc8b362fe0124d865f1be809c29a05fecf0066f1d125dbf92ff4",
+    "stableSha256": "8b8059a652cbf3f4bf2d4506818180d5f022ec551ca646f8e5155a91d824609b",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -208,7 +208,7 @@
   "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "852512dc072ab0186f810bcbe56498d4d5b887a7eb1026fca59668fe11cccd58",
+ "nowSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
  "note": "geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。S._core は 1 命令も変えていない(geoCoreDispatch が kF0 の役割に core=1 を渡し、差分 Δ を _core の前に当てる)。Σm·v は状態変数の和で、相対論的な全運動量ではない。",
  "A": {
   "cond": {
@@ -910,25 +910,25 @@
     "geoPN": 1,
     "kFrame": 0,
     "nSources": 2,
-    "nu": 0.24995001421298602,
+    "nu": 0.2499500142197555,
     "orbits": 8,
-    "GMoverAc2": 0.000014718790951467456,
-    "grDeg": 0.02216834783615959,
-    "lam0B": -0.00004447353792253381,
-    "lam1NowB": 0.02212455987532794,
+    "GMoverAc2": 0.000005110826495787521,
+    "grDeg": 0.005542277780834197,
+    "lam0B": -0.0000045478874735186475,
+    "lam1NowB": 0.0055376750446658185,
     "lam1BaseB": 0.0036475818119690237,
-    "incNow": 0.022169033413250473,
-    "incBase": 0.0036920553498915576,
+    "incNow": 0.005542222932139337,
+    "incBase": 0.0036521296994425426,
     "circular": false,
-    "e": 0.5319100759873017,
-    "ratioNow": 1.0000309259443216,
-    "ratioBase": 0.16654625672506423,
-    "periodRelNow": 0.00005589715759102276,
+    "e": 0.0638362685482543,
+    "ratioNow": 0.999990103582493,
+    "ratioBase": 0.6589582557684147,
+    "periodRelNow": 0.00003802415089682043,
     "obs": 0.0055424,
     "obsFrom": "psrJ1946DFM",
-    "residNow": 2.991873534087749,
+    "residNow": -0.0008525107055033515,
     "residBase": -0.3418768381984296,
-    "residLam0": -1.008024238222166,
+    "residLam0": -1.0008205628380338,
     "nPeri": 8,
     "nan": false,
     "clamp": 0
@@ -984,11 +984,11 @@
     "ratioNow": 0.9999991081869463,
     "ratioBase": 0.998615986609242,
     "periodRelNow": 3.9433612997186174e-7,
-    "obs": 0.00002875439440328561,
+    "obs": 0.000028754393803209202,
     "obsFrom": "mercuryReal",
-    "residNow": -0.21561855440881403,
-    "residBase": -0.21700169694817384,
-    "residLam0": -1.215632817906197,
+    "residNow": -0.21561853803953135,
+    "residBase": -0.217001680607756,
+    "residLam0": -1.2156328224062456,
     "nPeri": 8,
     "nan": false,
     "clamp": 0
@@ -1210,11 +1210,11 @@
    "pn1PredTrueC": 0.000028754830185447852,
    "cRoundingFactor": 1,
    "cRoundingRel": 0,
-   "obs": 0.00002875439440328561,
+   "obs": 0.000028754393803209202,
    "obsFrom": "mercuryReal",
    "obsFrom4298": 0.000028754368529926224,
-   "obsOverPredSimC": 0.9999848449057278,
-   "obsOverPredTrueC": 0.9999848449057278
+   "obsOverPredSimC": 0.9999848240370109,
+   "obsOverPredTrueC": 0.9999848240370109
   },
   "summary": {
    "base005": -0.000006200391092366659,
@@ -1230,8 +1230,8 @@
     0.9999994684820943,
     1.0000008356135057
    ],
-   "deficitFormal": -0.21561855440881403,
-   "deficitSmall": -0.021841254123183586,
+   "deficitFormal": -0.21561853803953135,
+   "deficitSmall": -0.021841233709955908,
    "softAnalytic005": -0.000004389013777140126
   }
  },
@@ -1579,7 +1579,7 @@
     "pn1": null,
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 2.4486755034273282e-9,
+    "maxPos128": 0.02995836137020367,
     "sigSame": false,
     "nan": false
    },
@@ -1986,7 +1986,7 @@
    "name": "近点移動(λ_PN=0 の対照・検出器 B・8 周)",
    "kind": "precession",
    "obs": 0.0055424,
-   "value": -0.00004447353792253381,
+   "value": -0.0000045478874735186475,
    "unit": "deg/orbit",
    "sigma": null,
    "status": "未判定",
@@ -2013,7 +2013,7 @@
    "target": "B",
    "name": "近点移動(λ_PN=0 の対照・検出器 B・8 周)",
    "kind": "precession",
-   "obs": 0.00002875439440328561,
+   "obs": 0.000028754393803209202,
    "value": -0.000006200391092366659,
    "unit": "deg/orbit",
    "sigma": null,
@@ -2092,13 +2092,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.186,
+   "wallSec": 0.071,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.346,
+   "wallSec": 0.125,
    "errors": 0
   }
  },
- "elapsedS": 864.189
+ "elapsedS": 303.212
 }

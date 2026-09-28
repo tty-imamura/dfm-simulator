@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便a",
   "target": "beta/index.html",
-  "targetSha256": "d0381fd86d5415b6f6774df29d85c5313a5a45e598c57c582f3d0d0a417f4260",
-  "generatedAt": "2026-09-28T15:48:54.124Z",
+  "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+  "generatedAt": "2026-09-28T18:57:05.776Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5108541,
-    "sha256": "d0381fd86d5415b6f6774df29d85c5313a5a45e598c57c582f3d0d0a417f4260",
-    "mtime": "2026-09-28T15:44:16.326Z"
+    "bytes": 5180982,
+    "sha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+    "mtime": "2026-09-28T18:54:13.155Z"
    }
   ],
   "code": [
@@ -18,55 +18,55 @@
     "file": "tests/exp-w286a-cluster.mjs",
     "bytes": 30812,
     "sha256": "967bd40ec2fc4e6db10ef33843d27a207f2766fe13aab76d3cd90b60a2a5e9fa",
-    "mtime": "2026-09-28T15:48:03.776Z"
+    "mtime": "2026-09-28T18:48:34.510Z"
    },
    {
     "file": "tests/exp-w285a-cluster.mjs",
     "bytes": 34556,
     "sha256": "7368ec7839a4ff62760ef75645c515728863d82406356ff632ca4e097cb8dc13",
-    "mtime": "2026-09-28T15:40:39.411Z"
+    "mtime": "2026-09-28T18:48:34.510Z"
    },
    {
     "file": "tests/exp-w284a-cluster.mjs",
     "bytes": 31648,
     "sha256": "1bfc5713e384ac4d572ac3e2c6e6703c75cf5743f29cea13b0c715f6de3a5c7f",
-    "mtime": "2026-09-28T15:16:07.638Z"
+    "mtime": "2026-09-28T00:59:07.248Z"
    },
    {
     "file": "tests/exp-w283f-cluster.mjs",
     "bytes": 32804,
     "sha256": "661d6069c0228b669087a925b3d61736370b9f9f950ca866940d479fe844b302",
-    "mtime": "2026-09-28T15:16:07.586Z"
+    "mtime": "2026-09-27T10:20:28.270Z"
    },
    {
     "file": "tests/lib-w281c-rotorledger.mjs",
     "bytes": 12812,
     "sha256": "b9e66190d5afb7a69dbf576a1bfde5b19fc369147873da4640e70c2e71fec968",
-    "mtime": "2026-09-28T15:16:10.170Z"
+    "mtime": "2026-09-26T00:07:02.816Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-28T15:16:09.798Z"
+    "mtime": "2026-09-24T08:51:12.597Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-28T15:16:09.606Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-28T15:16:08.510Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 74147,
     "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T15:16:10.122Z"
+    "mtime": "2026-09-28T01:00:42.100Z"
    }
   ],
   "codeSha256": "31ed576c710db20d2ffe62839fae316a070a8bb77d23ad54b6414091ff790aa6",
@@ -121,11 +121,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 825,
-   "segments": 747,
-   "closureShare": 0.3154
+   "names": 871,
+   "segments": 793,
+   "closureShare": 0.3382
   },
-  "scopeSha256": "666d83e70e0ac80bc45d1c148024070c4cda09239b3b266450b183fbcaea7159",
+  "scopeSha256": "6fdb232eaa8dafb7c88664b5212522a2faf12858b6ee3e74f69a42e963512ef5",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -2507,7 +2507,7 @@
     "EEnd": -8953.695848558185,
     "E0": -10517.402389728064
    },
-   "wallSec": 1491.985
+   "wallSec": 468.997
   },
   {
    "key": "r20-v0.1-mc1/8.5-s12-seed1",
@@ -4500,7 +4500,7 @@
     "EEnd": -9064.43616925026,
     "E0": -10580.368718713467
    },
-   "wallSec": 1542.403
+   "wallSec": 476.395
   },
   {
    "key": "r20-v0.1-mc1/8.5-s12-seed2",
@@ -6513,7 +6513,7 @@
     "EEnd": -9216.466281933197,
     "E0": -10957.28136486728
    },
-   "wallSec": 2527.005
+   "wallSec": 471.35
   },
   {
    "key": "r20-v0-mc1/8.5-s12-seed0",
@@ -8528,7 +8528,7 @@
     "EEnd": -9071.754135936539,
     "E0": -10537.462252730165
    },
-   "wallSec": 2378.985
+   "wallSec": 396.193
   },
   {
    "key": "r20-v0.47-mc1/8.5-s12-seed0",
@@ -10563,7 +10563,7 @@
     "EEnd": -8721.361253953846,
     "E0": -10396.720114962713
    },
-   "wallSec": 3081.882
+   "wallSec": 395.857
   },
   {
    "key": "r20-v0.1-mc4-s12-seed0",
@@ -12589,7 +12589,7 @@
     "EEnd": -31460.584842702687,
     "E0": -100816.63501024418
    },
-   "wallSec": 1466.407
+   "wallSec": 230.94
   },
   {
    "key": "r20-v0.1-mc1/8.5-s0-seed0",
@@ -14593,7 +14593,7 @@
     "EEnd": -10519.083873606665,
     "E0": -10532.82576440954
    },
-   "wallSec": 2547.543
+   "wallSec": 312.381
   },
   {
    "key": "r10-v0.1-mc1/8.5-s12-seed0",
@@ -16636,7 +16636,7 @@
     "EEnd": -2197.316679924696,
     "E0": -2735.655752558071
    },
-   "wallSec": 1840.284
+   "wallSec": 463.128
   }
  ],
  "summary": {
@@ -16646,6 +16646,6 @@
   "verdict": "未達",
   "candidates": []
  },
- "elapsedS": 8894.381,
+ "elapsedS": 1349.315,
  "verdict": "未達"
 }
