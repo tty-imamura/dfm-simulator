@@ -86,7 +86,13 @@ import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha 
 //     h2Store/h4Store の generatedAt・carriedFrom・wallSec・rateStepsPerSec)を除外 Pointer に**版つきで**足した(`VOLATILE_DECL` ——
 //     宣言の版と Pointer の指紋。宣言の語彙の方式の版は tests/lib-w281a-scope.mjs の `STABLE_DECL_VERSION`)。
 //     `complete`・`resourceExceeded`・`stoppedBy`・窓充足は**除外しない**(停止状態は物理の記録)。
-export const REGEN_TABLE_VERSION = 'w285-regentable-6';
+// ■ 第286便f(統括の検証項目〔再生成表の after 検査〕): 第285便の統合で「obscompare の after に pn1」の注記が取りこぼされ、check-order が順序違反を出した。
+//   `tableDepsAudit` に **「器が読む正本の書き手が after の推移閉包に無い」を静的に検査する項**(`missingAfter`)を足した: 各段の cmd が名指しする
+//   器(tests/*.mjs・tools/*.mjs)と、その器が `from './x.mjs'` で読む同じ木の module(推移 —— 再生成表そのもの lib-w281a-regentable.mjs は除く)の本文から
+//   `tests/out/*.json` の名指しを拾い(注釈は除く)、その正本を書く現行の段が after の閉包に無ければ欠落とする。同じ器を使う段の出力・import した器の自分の
+//   出力は「書き」とみなす。前回の世代を読む循環の読み・文言の中の言及は `STATIC_READ_DECL` に**理由つきで宣言**する(宣言が実態に合わなくなったら `staleReadDecl`)。
+//   現行の表で出た欠落 1 件(galaxydiag ← sparc)は after に足した。自己試験 (o)・QA `lint.regenChain` (o)。
+export const REGEN_TABLE_VERSION = 'w286-regentable-7';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
@@ -153,7 +159,10 @@ export const REGEN_STEPS = [
   S('recordid', 'node tests/exp-w270b-recordid.mjs', ['tests/out/recordid-w270b.json'], 1),
   S('corrections', 'node tests/exp-w272e-corrections.mjs', ['tests/out/corrections-w272e.json'], 0),
   S('bh90', 'node tests/exp-w269c-bh90.mjs', ['tests/out/bh90-w269c.json'], 20),
-  S('j1946adopt', 'node tests/exp-w270c-j1946adopt.mjs', ['tests/out/j1946adopt-w270c.json'], 149, { secSource: 'w281a-chain' }),
+  // 第286便f(原仮定者の裁定(第76報)AN57): 🩺 psrJ1946DFM を f=1 へ移した —— この器は第270便c(AD9)の採用レコードを**旧則(f≈2)の 🩺 🪀 🩹**で
+  //   4 段(h/1〜h/8・20 近点窓)と共同根の探索で測る記録で、f=1 の 🩺(同方向1周が観測の約 33 倍)には当たらない。**履歴**(再生成しない —— 正本は第285便の鎖の走行のまま)
+  S('j1946adopt', 'node tests/exp-w270c-j1946adopt.mjs', ['tests/out/j1946adopt-w270c.json'], 149, { secSource: 'w281a-chain', role: 'history',
+    note: '第286便f(AN57): 🩺 の f=1 で旧則(f≈2)の採用記録は履歴 —— **再生成しない**(計画は常に「履歴」)。旧 🩺 の宣言は tests/fixtures/retired-w286f.json の superseded' }),
   S('nslock', 'node tests/exp-w272c-nslock.mjs', ['tests/out/nslock-w272c.json'], 688, { secSource: 'w281a-chain' }),
   S('plutostates', 'node tests/exp-w277a-plutostates.mjs', ['tests/out/plutostates-w277a.json'], 1),
   // ---- 常時群(calaudit 系と署名の後段): 領域が一致しても**毎回走らせる**
@@ -209,7 +218,8 @@ export const REGEN_STEPS = [
   // ---- 第280便の chain2
   S('sparc', 'node tests/exp-w269c-sparc.mjs', ['tests/out/sparc-w269c.json'], 192, { secSource: 'w281a-chain' }),
   S('cluster', 'node tests/exp-w269d-cluster.mjs', ['tests/out/cluster-w269d.json'], 84, { secSource: 'w281a-chain' }),
-  S('galaxydiag', 'node tests/exp-w271d-galaxydiag.mjs', ['tests/out/galaxydiag-w271d.json'], 352, { secSource: 'w281a-chain' }),
+  // 第286便f(再生成表の after 検査): galaxydiag は sparc-w269c.json の帯を読んで一致を確かめる(`missingAfter` が検出)—— after に sparc
+  S('galaxydiag', 'node tests/exp-w271d-galaxydiag.mjs', ['tests/out/galaxydiag-w271d.json'], 352, { secSource: 'w281a-chain', after: ['sparc'] }),
   S('qsplit', 'node tests/exp-w271c-qsplit.mjs', ['tests/out/qsplit-w271c.json'], 1),
   S('twobody', 'node tests/exp-w272c-twobody.mjs', ['tests/out/twobody-w272c.json'], 8),
   S('rpar', 'node tests/exp-w272c-rpar.mjs', ['tests/out/rpar-w272c.json'], 1),
@@ -510,6 +520,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/cluster-w285a-preset.json': [],
   // 第286便b(原仮定者の裁定(第76報)AN59): cLight の真値化の一覧と従属値(手で書いた宣言の表 —— 除く欄は無い。現行の正本 pnsource-w286b の入力)
   'tests/data-w286b-clight.json': [],
+  // 第286便f(原仮定者の裁定(第76報)AN57): 退役 1 本(🩹)と 🩺 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
+  'tests/fixtures/retired-w286f.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */
@@ -825,6 +837,92 @@ export function tableDeps(o) {
 }
 
 /**
+ * 第286便f: **静的な読み取りの宣言**(after に足せない読み —— 循環する前回の世代の読みと、文言の中の言及)。
+ * via = 名指しが書いてあるファイル・file = 正本・kind = 'prev-generation'(書き手が下流 —— 前回の正本を読む)| 'mention'(文言の中の言及で読まない)| 'imported-main'(import した器の本走だけが読む)。
+ */
+export const STATIC_READ_DECL = [
+  { via: 'tests/exp-w249b-calaudit.mjs', file: 'tests/out/charon-w272b.json', kind: 'prev-generation',
+    why: 'kF0 の対照走行の独立照合(kf0Runs.charonCitation)—— ❄️ の系列(charon-h/h2/h4)は calaudit の下流なので、前回の世代の正本を hash つきで引用する(走行の代わりではない)' },
+  { via: 'tests/exp-w249b-calaudit.mjs', file: 'tests/out/calcontract-w282a.json', kind: 'prev-generation',
+    why: 'dt と dt/2 の閾値規則(既定 off)の対象 = 較正契約の正本で system が dfm の本 —— calcontract は calaudit の下流なので前回の世代を読む(既定の鎖では使わない)' },
+  { via: 'tests/lib-w283c-calstages.mjs', file: 'tests/out/calcontract-w282a.json', kind: 'mention',
+    why: 'DT_DT2_RULE.scope の説明文の中の言及(読まない)' },
+  { via: 'tests/exp-w277c-nsgrid.mjs', file: 'tests/out/powerball2-w276c.json', kind: 'mention',
+    why: '出力の説明文の中の言及(読まない)' },
+  { via: 'tests/exp-w284a-cluster.mjs', file: 'tests/out/cluster-w283f.json', kind: 'imported-main',
+    why: 'exp-w284a-cluster の本走(段 clusterStable —— after に clusterAnalogy)が読む正本。段 clusterScan(exp-w285a-cluster)は定数と関数だけを import し、この読みは走らない' },
+];
+const STATIC_SKIP_MODULES = ['tests/lib-w281a-regentable.mjs'];
+const stripComments = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"`\\])\/\/.*$/gm, '$1');
+/**
+ * 第286便f: 段が**名指しする正本**(静的)。{ key, file, via } の配列(自分の段・同じ器を使う段の出力・import した器の段の出力は除く)。
+ * @param {{root:string, steps?:Array, readText?:(rel)=>string|null}} o
+ */
+export function harnessReads(o) {
+  const steps = (o && o.steps) || REGEN_STEPS;
+  const root = String(o.root).replace(/\/$/, '');
+  const readText = (o && o.readText) || ((rel) => { try { return fs.readFileSync(root + '/' + rel, 'utf8'); } catch { return null; } });
+  const cur = steps.filter((z) => z.role !== 'history');
+  const harnessOf = (st) => [...new Set(String(st.cmd).match(/(?:tests|tools)\/[A-Za-z0-9_.-]+\.mjs/g) || [])];
+  const outsByHarness = new Map();
+  for (const st of cur) for (const h of harnessOf(st)) { if (!outsByHarness.has(h)) outsByHarness.set(h, new Set()); for (const f of writesOf(st)) outsByHarness.get(h).add(f); }
+  const memo = new Map();
+  const namesOf = (rel, stack) => {
+    if (memo.has(rel)) return memo.get(rel);
+    const out = new Map();
+    if (stack.has(rel) || STATIC_SKIP_MODULES.includes(rel)) return out;
+    stack.add(rel);
+    const t = readText(rel);
+    if (t !== null) {
+      const u = stripComments(t);
+      for (const m of u.matchAll(/tests\/out\/([A-Za-z0-9_.-]+\.json)/g)) out.set('tests/out/' + m[1], rel);
+      for (const m of u.matchAll(/'tests',\s*'out',\s*'([A-Za-z0-9_.-]+\.json)'/g)) out.set('tests/out/' + m[1], rel);
+      for (const m of u.matchAll(/from\s+'\.\/([A-Za-z0-9_.-]+\.mjs)'/g)) {
+        const dir = rel.slice(0, rel.lastIndexOf('/') + 1), r2 = dir + m[1];
+        const own = outsByHarness.get(r2) || new Set();   // import した器の自分の出力は「書き」
+        for (const [f, via] of namesOf(r2, stack)) if (!out.has(f) && !own.has(f)) out.set(f, via);
+      }
+    }
+    stack.delete(rel);
+    memo.set(rel, out);
+    return out;
+  };
+  const res = [];
+  for (const st of cur) {
+    const hs = harnessOf(st);
+    const sib = new Set(); for (const h of hs) for (const f of (outsByHarness.get(h) || [])) sib.add(f);
+    for (const f of writesOf(st)) sib.add(f);
+    const seen = new Set();
+    for (const h of hs) for (const [f, via] of namesOf(h, new Set())) {
+      if (sib.has(f) || seen.has(f)) continue;
+      seen.add(f); res.push({ key: st.key, file: f, via });
+    }
+  }
+  return res;
+}
+/**
+ * 第286便f: **器が読む正本の書き手が after に無い**(静的)。宣言した読み(STATIC_READ_DECL)は別に数える。
+ * @returns {{missingAfter:Array<{key,file,writer,via}>, declared:Array, staleReadDecl:Array, reads:number}}
+ */
+export function staticAfterAudit(o) {
+  const steps = (o && o.steps) || REGEN_STEPS;
+  const cur = new Set(steps.filter((z) => z.role !== 'history').map((z) => z.key));
+  const C = afterClosure(steps);
+  const W = writersMap(steps);
+  const reads = harnessReads(Object.assign({}, o, { steps }));
+  const decl = (o && o.decl) || STATIC_READ_DECL;
+  const missingAfter = [], declared = [], used = new Set();
+  for (const r of reads) for (const w of (W.get(r.file) || [])) {
+    if (w === r.key || !cur.has(w) || (C.get(r.key) || new Set()).has(w)) continue;
+    const d = decl.find((z) => z.via === r.via && z.file === r.file);
+    if (d) { declared.push({ key: r.key, file: r.file, writer: w, via: r.via, kind: d.kind }); used.add(d.via + '|' + d.file); continue; }
+    missingAfter.push({ key: r.key, file: r.file, writer: w, via: r.via });
+  }
+  const staleReadDecl = decl.filter((z) => !used.has(z.via + '|' + z.file)).map((z) => z.via + '|' + z.file);
+  return { missingAfter, declared, staleReadDecl, reads: reads.length };
+}
+
+/**
  * **表の依存の完全性**(第282便の順序不整合を表から検出する):
  *   ① 正本の入力(meta.inputs[]・inputsStable[])を書く現行の段が、読む段の **after の推移閉包**に入っている
  *      (入っていないと、手で書いた鎖が入力より先に走らせても表からは分からない)
@@ -878,8 +976,12 @@ export function tableDepsAudit(o) {
       if (!(C.get(k) || new Set()).has('samplestatus')) beforeSamplestatus.push(k);
     }
   }
-  return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length && !dupKeys.length && !beforeSamplestatus.length,
-    missing, unordered, cycles, unknown, dupKeys, beforeSamplestatus };
+  // 第286便f: 器が読む正本の書き手が after に無い(静的 —— root があるときだけ)
+  let missingAfter = [], staleReadDecl = [], declaredReads = 0;
+  if (opt.root) { const sa = staticAfterAudit({ root: opt.root, steps, decl: opt.decl }); missingAfter = sa.missingAfter; staleReadDecl = sa.staleReadDecl; declaredReads = sa.declared.length; }
+  return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length && !dupKeys.length && !beforeSamplestatus.length
+      && !missingAfter.length && !staleReadDecl.length,
+    missing, unordered, cycles, unknown, dupKeys, beforeSamplestatus, missingAfter, staleReadDecl, declaredReads };
 }
 
 /** 依存の推移閉包(key → Set(上流すべて))と逆向き(key → Set(下流すべて))。 */
@@ -1462,7 +1564,7 @@ export const W283E_ADDED_AFTER = ['d0audit', 'nsmode', 'bgequiv', 'bgbudget', 'b
  */
 export async function regenChainSelfTest(o) {
   const root = o.root.replace(/\/$/, '');
-  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null, n: null };
+  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null, n: null, o: null };
   const deps = tableDeps({ root });
   // (a)
   const A = tableDepsAudit({ root });
@@ -1622,11 +1724,28 @@ export async function regenChainSelfTest(o) {
       ok: N0.beforeSamplestatus.length === 0 && N0.cycles.length === 0 && intoUp.length === 0
         && JSON.stringify(det) === JSON.stringify(W285F_AFTER_SAMPLESTATUS.slice().sort()) && ['calaudit', 'dt3', 'kf0', 'charonwin'].every((k) => up.has(k)) };
   }
+  // (o) 第286便f(再生成表の after 検査): 今の表で静的な欠落 0・宣言した読みが実態に合う(stale 0)・第285便の型(obscompare の after から pn1 を外した写し)と
+  //     galaxydiag の after から sparc を外した写しで**検出される**・宣言を空にした写しで宣言した読みがすべて欠落として出る(宣言が素通しでない)
+  {
+    const A0 = staticAfterAudit({ root });
+    const strip = (key, dep) => REGEN_STEPS.map((z) => z.key === key ? Object.assign({}, z, { after: (z.after || []).filter((k) => k !== dep) }) : z);
+    const hasMiss = (A, key, file, writer) => A.missingAfter.some((z) => z.key === key && z.file === file && z.writer === writer);
+    const A1 = staticAfterAudit({ root, steps: strip('obscompare', 'pn1') });
+    const A2 = staticAfterAudit({ root, steps: strip('galaxydiag', 'sparc') });
+    const A3 = staticAfterAudit({ root, decl: [] });
+    const T0 = tableDepsAudit({ root });
+    res.o = { reads: A0.reads, missingAfter: A0.missingAfter.length, declared: A0.declared.length, declaredDecl: STATIC_READ_DECL.length, stale: A0.staleReadDecl,
+      detect285: hasMiss(A1, 'obscompare', 'tests/out/pn1-w285b.json', 'pn1'), detectSparc: hasMiss(A2, 'galaxydiag', 'tests/out/sparc-w269c.json', 'sparc'),
+      undeclared: A3.missingAfter.length, auditOk: T0.ok && T0.missingAfter.length === 0,
+      ok: A0.missingAfter.length === 0 && A0.staleReadDecl.length === 0 && hasMiss(A1, 'obscompare', 'tests/out/pn1-w285b.json', 'pn1')
+        && hasMiss(A2, 'galaxydiag', 'tests/out/sparc-w269c.json', 'sparc') && A3.missingAfter.length === A0.declared.length && A0.declared.length > 0
+        && T0.ok && T0.missingAfter.length === 0 };
+  }
   res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
   return res;
 }
 
-export default { REGEN_TABLE_VERSION, REGEN_STEPS, stampedDeclDrift, VOLATILE_DECL, volatileDeclFp, W285F_AFTER_SAMPLESTATUS, htmlWholeSteps, samplestatusUpstream, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
+export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessReads, staticAfterAudit, stampedDeclDrift, VOLATILE_DECL, volatileDeclFp, W285F_AFTER_SAMPLESTATUS, htmlWholeSteps, samplestatusUpstream, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
   volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
   writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,
   codeFilesOf, chainContracts, CHAIN_CONTRACT_VERSION, chainPriority, simulateReadyQueue, waveMakespan, checkTimeline, parseTimeline,
