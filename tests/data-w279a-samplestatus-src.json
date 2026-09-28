@@ -237,15 +237,14 @@
   "clusterAnalogyBH": {
    "purpose": "中心 DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置いた球状星団アナロジー",
    "objective": "unmet",
-   "state": "接触判定なし・DR を恒星より小さい惑星級の半径に直し中心質量・自転・引きずりの核を走査しても、宣言した形状の門で未達",
+   "state": "星団スケールの単位・同じ代表率・半径の 4 分離・わずかに回転する動径 Jeans の初期分布でも、宣言した形状の門で未達",
    "evidence": [
-    "tests/out/cluster-w285a.json",
-    "tests/out/cluster-w284a.json",
-    "tests/out/cluster-w283f.json"
+    "tests/out/cluster-w286a.json",
+    "tests/out/jeans-w286a.json"
    ],
    "en": {
     "purpose": "Globular-cluster analogy with a central DFM black hole and dark rotors",
-    "state": "no contact, dark rotors below star size, centre mass/spin/drag scanned; shape gates not met"
+    "state": "cluster units, one representative rate, four radii, rotating Jeans start; gates not met"
    }
   },
   "shapeToyCluster": {

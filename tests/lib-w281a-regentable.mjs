@@ -23,6 +23,7 @@
 //   'w285a-branch' … 第285便a の枝で器を走らせた実測(正本の elapsedS —— contact285 は判定器なし・clusterScan は子プロセス 2 本・他の枝と同じ容器で並走)。
 //   'w285b-branch' … 第285便b の枝で器を 1 回走らせた実測(正本の elapsedS 681.6 —— Node だけ・他の枝と同じ容器で並走〔負荷平均 30 前後〕)。
 //   'w285d-branch' … 第285便d の枝で器を走らせた実測(正本の elapsedS —— Chromium 1 本・1 步も走らせない生成器)。
+//   'w286a-branch' … 第286便a の枝で器を走らせた実測(正本の elapsedS —— jeans286 は Node だけ・clusterScan286 は子プロセス 2 本・他の 5 枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -406,10 +407,22 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/contact-w285a.json': META_RUN.concat(['/elapsedS']) },
     note: '第285便a: contactMode:"none" は E9 の 4 経路を止める(単体試験)・未指定 ≡ normal・fusion/phaseChange 併用の拒否・particleRadius・'
       + '1 步の比較(違う本 ⊆ 宣言した本)・pinned の反作用の記帳・適用表 16 本の前後と normal のまま残す本・💍💿 の量ごとの前後' }),
-  S('clusterScan', 'node tests/exp-w285a-cluster.mjs', ['tests/out/cluster-w285a.json'], 4645, { secSource: 'w285a-branch', node: true,
+  // 第286便a(原仮定者の裁定(第76報)⑤・R101〜R103): 💮 を星団スケールへ書き換えたので、第285便a の走査の正本は**履歴**(走らせない ——
+  //   器は凍結写し tests/fixtures/cluster-w285a-preset.json を読むように直した・正本は第285便a の宣言の記録)
+  S('clusterScan', 'node tests/exp-w285a-cluster.mjs', ['tests/out/cluster-w285a.json'], 4645, { role: 'history', secSource: 'w285a-branch(第286便a から履歴 —— 走らせない)', node: true,
     volatilePaths: { 'tests/out/cluster-w285a.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第285便a: 💮 の半径の分離(DR 惑星級・恒星は表示比較の仮定・dispMag)・E9 の不発火と検出力・第284便a の宣言との力学のビット一致・'
       + '走査 (a) 半径 bin の診断 → (b) 実効ポテンシャル Φ_eff=Φ̄_E4−½⟨|ū|²⟩ の初期分布 → (c) N_rep 320 × 乱数種 3 の門(門は第283便f のまま)' }),
+  // ---- 第286便a(原仮定者の裁定(第76報)⑤・統括の検証項目 R101〜R103・AN60)
+  //   jeans286: 動径 Jeans の初期分布の純関数の検算・負の σ² の拒否・html と純関数のビット一致・💮 の t=0・受理器(Node だけ・他の正本を読まない)
+  //   clusterScan286: 💮 の星団スケールの宣言の照合(単位の一組・同じ代表率・4 半径の分離)・測定不確かさの床・走査 8 構成(宣言の構成 × 乱数種 3 +
+  //     1 因子ずつ)。子プロセスの並列(W286A_WORKERS・既定 2 —— 結果は並列数に依らない)。所要は枝の実測(他の枝と同じ容器で並走)
+  S('jeans286', 'node tests/exp-w286a-jeans.mjs', ['tests/out/jeans-w286a.json'], 27, { secSource: 'w286a-branch', node: true,
+    volatilePaths: { 'tests/out/jeans-w286a.json': META_RUN.concat(['/elapsedS']) },
+    note: '第286便a: σ²=a²{ω_g²−(Ω−ω)²}(35.64)の検算・平衡解なしの拒否・html の jeansSigma2Profile と純関数のビット一致・💮 の Jeans の反復と ∂ₜū の大きさ・受理器の拒否 5 種' }),
+  S('clusterScan286', 'node tests/exp-w286a-cluster.mjs', ['tests/out/cluster-w286a.json'], 8895, { secSource: 'w286a-branch', node: true, workers: 2,
+    volatilePaths: { 'tests/out/cluster-w286a.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
+    note: '第286便a: 💮 の星団スケール(L16/T12/M35 の単位の一組・同じ代表率・4 半径の分離・vMode jeans)の宣言の照合と走査 8 構成(門は第283便f のまま・D_A と η_mesh)' }),
   // ---- 第285便c(原仮定者の裁定(第75報)⑥・統括の検証項目 R99): 背景場の微分の算出可否と宣言の型 bgModel(html の純関数と受理器だけを読む ——
   //   Node だけ・1 步も走らせない・他の正本は読まない)
   S('bgderiv', 'node tests/exp-w285c-bgderiv.mjs', ['tests/out/bgderiv-w285c.json'], 1, { secSource: 'w285c-branch', node: true,
@@ -479,6 +492,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/cluster-w284a-preset.json': [],
   // 第285便f(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(🪄)と 🧮 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w285f.json': [],
+  // 第286便a(原仮定者の裁定(第76報)⑤・R101〜R103): 第285便a の 💮 の宣言の凍結の写し(書き換えない fixture —— 履歴の正本 cluster-w285a の入力)
+  'tests/fixtures/cluster-w285a-preset.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

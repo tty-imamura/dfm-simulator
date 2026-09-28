@@ -4712,6 +4712,17 @@ function validateSpaceMesh(a){
       return {ok:false, err:'physics.spaceMesh.centerSpin は "off"/"read"(geoPN=3 のトイが中心の自転を読むか —— 既定 off)'};
     cSpin=a.centerSpin;
   }
+  // 第286便a(原仮定者の裁定(第76報)⑤・統括の検証項目 R102): **引きずりの核 R_drag を中心の本体半径から分ける** `dragR`(正の数値)。
+  //   centerSpin:"read" の宇宙だけが読む(中心 = pinned の源の自転項 ω(d)=s(R/(R+d))^q の R をこの値にする)。宣言が無ければ
+  //   従来どおり中心の R(表示・衝突の半径)を読む —— **既定は 1 文字も正準形に出さない**(🌚 など既存の本は署名も力学もビット不変)。
+  let dragR=null;
+  if(a.dragR!==undefined && a.dragR!==null){
+    if(!isNum(a.dragR) || !(a.dragR>0))
+      return {ok:false, err:"physics.spaceMesh.dragR は正の数値(中心の引きずりの核 R_drag —— 本体半径とは別の欄)"};
+    if(cSpin!==SPACE_MESH_CENTER_SPIN[1])
+      return {ok:false, err:'physics.spaceMesh.dragR は centerSpin:"read" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い —— 第286便a)'};
+    dragR=clamp(Number(a.dragR),1e-12,1e6);
+  }
   // 第265便b(Z2・第57報 W2): **法則版 `law`**("toy" 既定 = 既存の geoPN=3 トイ /"mesh-v2" = 最小代数実装)。
   //   **既存トイと排他**である(同じ步で両方は走らない —— `dfmGeoToyStep` の入口で分岐する)。
   //   `meshGauge` は共通並進の扱い("inertia"=重心の慣性を独立に残す /"constraint"=拘束で解く)。
@@ -4851,6 +4862,7 @@ function validateSpaceMesh(a){
   // 第280便c: vMinusU は **pn を既定 off でも明示**する(署名から「1PN なしで走った」が読めないと再現できない)
   if(lawV===GEO3_LAW){ out.pn=g3pn; if(g3pv!==null) out.pnVelocity=g3pv; out.velocityMeaning=g3vm; }
   if(cSpin!==SPACE_MESH_CENTER_SPIN[0]) out.centerSpin=cSpin;   // 第282便d(既定 "off" は 1 文字も出さない)
+  if(dragR!==null) out.dragR=dragR;   // 第286便a(R102 —— 宣言したときだけ正準形に入る)
   if(tAllowDrag) out.toyAllowDrag=true;   // 第263便a(既定 false は 1 文字も出さない = 内蔵 122 本は署名不変)
   // 第264便b(既定 "gravity" は 1 文字も出さない = 内蔵 122 本は署名不変。反復数は "iterate" のときだけ)
   if(tClosure!==SPACE_MESH_TOY_CLOSURE[0]){
@@ -6235,6 +6247,125 @@ function equilibriumRowVelocities(P,idx,row,o){
   }
   return out;
 }
+// ===== 第286便a(原仮定者の裁定(第76報)⑤「球状星団はわずかに回転している —— これをヒントにバランスの取れる状態を計算で割り出す」・
+//        統括の検証項目 R103・AN60「自己無撞着な初期分布を 1 段」): **動径 Jeans の初期分布** vMode:"jeans" =====
+// **2D 投影のアナロジー**である(面内の運動・力は E4 の軟化した 1/r² 核 —— 3D 分布の投影と同じではない)。
+//   仮定(宣言): 等方(σ_r=σ_φ=σ)・定常・軸対称・**外縁 R_t で圧力 Σσ²=0**。動径 Jeans 式
+//       d(Σσ²)/dr = Σ( V_φ²/r − g + ⟨a_mesh,r⟩ )  →  **σ²(r) = (1/Σ) ∫_r^{R_t} Σ [ g − ⟨a_mesh,r⟩ − V_φ²/s ] ds**
+//   ・Σ(r): 行の宣言した面密度(profile:"plummer" —— ν∝(1+r²/a²)^−2)。g(r): 配置を終えた全粒子の E4(−G m/√(d²+ε²) の核)の
+//     内向き動径加速度の環平均(JEANS_GRID_NAZ 方位)。
+//   ・V_φ(r) = k·σ(r)·r/√(r²+a²)(k = 行の jeansRot —— 外側の漸近値 v_rot/σ。中心で 0・r=a で k/√2。向きは行の direction)。
+//   ・⟨a_mesh,r⟩: geoPN=3 のトイ a = ∂ₜū + (∇ū)v − (∇ū)ᵀ(v−ū) は v について 1 次なので、速度分布の平均は平均速度 ⟨v⟩=V_φ e_φ だけで決まる:
+//     ⟨a⟩ = (J−Jᵀ)⟨v⟩ + Jᵀū + ∂ₜū(J=∇ū)。**∂ₜū は 0 と置く**(定常な平均場の近似 —— 標本の ∂ₜū の環平均は器が別に測る)。
+//     ū・J は場の契約 `dfmFieldContract`(トイと同じ p・ε・W_bg・中心の自転 e6・R_drag)を格子点で読み、環平均の動径成分をとる
+//     (内側 2·JEANS_MESH_STRIDE 点は毎点・その外は JEANS_MESH_STRIDE 点おき・間は線形補間)。
+//     ū は速度に依るので **Σ・V_φ・σ・場を JEANS_ITERS 回まわす**(各回: σ² → 速度の標本 → 場 → ⟨a_mesh,r⟩)。
+//   ・**負の σ² は「その密度・回転・境界条件では平衡解がない」**(status "noEquilibrium" —— 0 へ丸めて使わない・その行の速さは 0)。
+//   ・標本: v = V_φ e_φ + σ(r)·(n₁ e_r + n₂ e_φ)(n は Box–Muller の標準正規 —— 2D の等方ガウスは宣言した形。脱出速度で切らない)。
+//   ・任意鍵 angularSym:k(2〜12・n が k の倍数): 位置だけ k 回対称に置く(k 個ずつ同じ半径・角度を 2π/k ずつ回す)。速度の乱数は独立。
+// **既存の vMode の経路は 1 bit も変えない**(宣言の無い構成はこの関数を呼ばない)。`S._core` の外。純関数の写しは tests/lib-w286a-jeans.mjs。
+const VMODE_JEANS="jeans";
+const JEANS_VERSION="w286a-jeans-1";
+const JEANS_GRID_K=128, JEANS_GRID_NAZ=16, JEANS_MESH_STRIDE=4, JEANS_ITERS=4, JEANS_ROT_MAX=0.5;   // 場の環平均は JEANS_MESH_STRIDE 点おき(間は線形補間 —— build の所要を抑える)
+function jeansSigma2Profile(r,Sig,g,aM,V){
+  const K=r.length-1, P=new Float64Array(K+1), s2=new Float64Array(K+1);
+  const f=(k)=>{ const s=r[k], cen=(s>0)? V[k]*V[k]/s : 0; return Sig[k]*(g[k]-aM[k]-cen); };
+  let fk1=f(K); P[K]=0;
+  for(let k=K-1;k>=0;k--){ const fk=f(k); P[k]=P[k+1]+0.5*(r[k+1]-r[k])*(fk+fk1); fk1=fk; }
+  for(let k=0;k<K;k++) if(!(P[k]>=0)) return {ok:false, badRadius:r[k], P};
+  for(let k=0;k<=K;k++) s2[k]=(Sig[k]>0)? P[k]/Sig[k] : 0;
+  return {ok:true, sigma2:s2, P};
+}
+function jeansRowsVelocities(P,rows,o){
+  const G=o.G, eps2=o.eps2, ph=o.phys||{}, K=JEANS_GRID_K, NAZ=JEANS_GRID_NAZ;
+  const cf=ph[SPACE_MESH_KEY]||null;
+  // トイの場を読むか(geoPN=3・lawVersion "scalar"・帯平均/mesh-v2 なし —— それ以外は ⟨a_mesh,r⟩=0 と宣言して記録)
+  const toy=!!(cf && (ph.geoPN||0)>=3 && cf.lawVersion==="scalar" && cf.diskSupport===undefined && cf.law===undefined);
+  const spinRead=!!(toy && cf.centerSpin===SPACE_MESH_CENTER_SPIN[1]);
+  const eta=(toy && cf.toyGain!==undefined)? cf.toyGain : 1;
+  const D0p=frameWeightIsPull(ph)? ((ph.D0pull!==undefined)? ph.D0pull : ph.D0) : ph.D0;
+  const C=toy? { p:frameWeightPow(ph), eps:Math.sqrt(eps2), Wbg:(spinRead && cf.D0!==undefined && cf.D0!==null)? cf.D0 : D0p,
+    sources:"all", velocity:"v", spin:spinRead? "e6" : "none", spinSources:spinRead? "center" : undefined, q:spinRead? ph.q : undefined,
+    fit:"mean", background:"static", need:"uB" } : null;
+  const dR=(spinRead && cf.dragR!==undefined && cf.dragR!==null)? cf.dragR : null;
+  const R=[];
+  for(const [row,idx] of rows){
+    const Rt=row.radius, a=row.plummerScale, k=(row.jeansRot===undefined)? 0 : row.jeansRot, dir=row.direction||1;
+    const out={mode:VMODE_JEANS, version:JEANS_VERSION, n:idx.length, M:0, K, nAz:NAZ, iters:[], status:"ok", badRadius:null,
+      rot:k, toyField:toy, dragR:dR, dtUbar:"zero-declared", vMax:0, sigma0:null, profile:null};
+    for(const i of idx) out.M+=P[i].m;
+    const r=new Float64Array(K+1), Sig=new Float64Array(K+1), g=new Float64Array(K+1), aM=new Float64Array(K+1), V=new Float64Array(K+1);
+    const a2=a*a;
+    for(let q=0;q<=K;q++){ r[q]=Rt*q/K; const z=1+r[q]*r[q]/a2; Sig[q]=1/(z*z); }
+    R.push({row, idx, out, r, Sig, g, aM, V, s2:null, a, k, dir, cx:row.cx, cy:row.cy});
+  }
+  const ringG=(z)=>{
+    for(let q=1;q<=K;q++){ let s=0;
+      for(let t=0;t<NAZ;t++){ const th=2*Math.PI*t/NAZ, c=Math.cos(th), sn=Math.sin(th), x=z.cx+z.r[q]*c, y=z.cy+z.r[q]*sn;
+        let ax=0, ay=0;
+        for(let j=0;j<P.length;j++){ const dx=P[j].x-x, dy=P[j].y-y, d2=dx*dx+dy*dy+eps2, w=G*P[j].m/(d2*Math.sqrt(d2)); ax+=w*dx; ay+=w*dy; }
+        s+=-(ax*c+ay*sn); }
+      z.g[q]=s/NAZ; }
+    z.g[0]=0;
+  };
+  const ringMesh=(z)=>{
+    const BD=[];
+    for(let j=0;j<P.length;j++){ const b=P[j];
+      BD.push({id:j, m:b.m, x:b.x, y:b.y, vx:b.vx, vy:b.vy, ax:0, ay:0, spin:b.spin||0, omegaDot:0, pinned:!!b.pinned,
+        R:(dR!==null && b.pinned)? dR : ((b.radius!==undefined)? b.radius : 0)}); }
+    let nBad=0;
+    const QS=[]; for(let q=0;q<=K;q+=((q<2*JEANS_MESH_STRIDE)? 1 : JEANS_MESH_STRIDE)) QS.push(q);   // 内側 2·stride 点は毎点
+    if(QS[QS.length-1]!==K) QS.push(K);
+    for(const q of QS){ let s=0, n=0;
+      for(let t=0;t<NAZ;t++){ const th=2*Math.PI*(t+0.5)/NAZ, c=Math.cos(th), sn=Math.sin(th);
+        const f=dfmFieldContract(BD,z.cx+z.r[q]*c,z.cy+z.r[q]*sn,C);
+        if(!f || !f.gradU){ nBad++; continue; }
+        const ux=eta*f.u[0], uy=eta*f.u[1], J0=eta*f.gradU[0], J1=eta*f.gradU[1], J2=eta*f.gradU[2], J3=eta*f.gradU[3];
+        const vx=-z.dir*z.V[q]*sn, vy=z.dir*z.V[q]*c;
+        const ax=(J1-J2)*vy+J0*ux+J2*uy, ay=(J2-J1)*vx+J1*ux+J3*uy;   // (J−Jᵀ)⟨v⟩ + Jᵀū
+        s+=ax*c+ay*sn; n++; }
+      z.aM[q]=n? s/n : 0; }
+    for(let h=0;h+1<QS.length;h++){ const q=QS[h], q1=QS[h+1];
+      for(let t=q+1;t<q1;t++) z.aM[t]=z.aM[q]+(z.aM[q1]-z.aM[q])*(t-q)/(q1-q); }
+    return nBad;
+  };
+  const solve=(z)=>{ const res=jeansSigma2Profile(z.r,z.Sig,z.g,z.aM,z.V);
+    if(!res.ok){ z.out.status="noEquilibrium"; z.out.badRadius=res.badRadius; return false; }
+    z.s2=res.sigma2; return true; };
+  const setV=(z)=>{ for(let q=0;q<=K;q++) z.V[q]=z.k*Math.sqrt(Math.max(0,z.s2[q]))*z.r[q]/Math.sqrt(z.r[q]*z.r[q]+z.a*z.a); };
+  const at=(z,arr,rr)=>{ const t=Math.min(Math.max(rr,0),z.row.radius)/z.row.radius*K, q=Math.min(K-1,Math.floor(t)), f=t-q; return arr[q]*(1-f)+arr[q+1]*f; };
+  const assign=(z)=>{ z.out.vMax=0;
+    for(const i of z.idx){ const b=P[i], dx=b.x-z.cx, dy=b.y-z.cy, rr=Math.hypot(dx,dy);
+      const c=(rr>0)? dx/rr : 1, sn=(rr>0)? dy/rr : 0;
+      const sg=Math.sqrt(Math.max(0,at(z,z.s2,rr))), Vp=z.dir*at(z,z.V,rr);
+      const m=Math.sqrt(-2*Math.log(1-b.eq.u1)), n1=m*Math.cos(2*Math.PI*b.eq.u2), n2=m*Math.sin(2*Math.PI*b.eq.u2);
+      const vr=sg*n1, vp=Vp+sg*n2;
+      b.vx=(vr*c-vp*sn)*b.eq.scale+(z.row.bulkVx||0); b.vy=(vr*sn+vp*c)*b.eq.scale+(z.row.bulkVy||0);
+      const v=Math.hypot(b.vx,b.vy); if(v>z.out.vMax) z.out.vMax=v; } };
+  const zeroV=(z)=>{ for(const i of z.idx){ P[i].vx=(z.row.bulkVx||0); P[i].vy=(z.row.bulkVy||0); } };
+  for(const z of R){ if(o.halo){ z.out.status="haloUnsupported"; continue; } if(!(z.row.radius>0) || !(z.a>0)){ z.out.status="geometry"; continue; } ringG(z); }
+  // 0 回目: ⟨a_mesh,r⟩=0・V_φ=0
+  for(const z of R) if(z.out.status==="ok") solve(z);
+  for(let it=1;it<=JEANS_ITERS;it++){
+    const live=R.filter((z)=>z.out.status==="ok");
+    if(!live.length) break;
+    for(const z of live){ setV(z); assign(z); }
+    for(const z of live){
+      const prev=z.s2, nBad=toy? ringMesh(z) : 0;
+      let gm=0; for(let q=1;q<=K;q++) if(z.g[q]>0) gm=Math.max(gm,Math.abs(z.aM[q])/z.g[q]);
+      if(!solve(z)){ z.out.iters.push({it, status:z.out.status, badRadius:z.out.badRadius, nFieldNull:nBad, meshOverGMax:gm}); continue; }
+      let dm=0, sm=0; for(let q=0;q<=K;q++){ dm=Math.max(dm,Math.abs(Math.sqrt(z.s2[q])-Math.sqrt(prev[q]))); sm=Math.max(sm,Math.sqrt(z.s2[q])); }
+      z.out.iters.push({it, status:"ok", sigmaMaxAbsChange:dm, sigmaMax:sm, nFieldNull:nBad, meshOverGMax:gm});
+    }
+  }
+  for(const z of R){
+    if(z.out.status!=="ok"){ zeroV(z); continue; }
+    setV(z); assign(z);
+    z.out.sigma0=Math.sqrt(z.s2[0]);
+    z.out.profile={r:Array.from(z.r), Sig:Array.from(z.Sig), g:Array.from(z.g), aMesh:Array.from(z.aM), Vphi:Array.from(z.V), sigma2:Array.from(z.s2)};
+  }
+  return R.map((z)=>z.out);
+}
 // 波長依存の基準波長[nm]。τ(λ) = τ_ref·(λ_ref/λ)^pAbs(τ_ref = ∫kAbs·ρ_local ds)。
 // 可視帯の中央付近を基準に採る(光線表示の既定 λ0=580nm とは独立の物理側の基準)
 const ABS_LAMBDA_REF = 550;
@@ -6345,7 +6476,7 @@ const SCALE_BASES=[
   {id:"planetE8",  tier:"planetary", L:8,    T:4,    M:27,   C:4, nameKey:"scaleBase_planetE8"},  // 第258便c: 🔆☄️🪨🌞🌇
   {id:"starBinary",tier:"stellar",   L:10,   T:6,    M:29,   C:4, nameKey:"scaleBase_starBinary"}, // 第254便c: ✨✴️🌟💫🥀🌹
   {id:"stellar",   tier:"stellar",   L:11,   T:7,    M:30,   C:4},
-  {id:"cluster",   tier:"stellar",   L:16,   T:12,   M:35,   C:4, nameKey:"scaleBase_cluster", retired:true},    // 第254便c: 🍇🫐 / 第258便c: **廃止**(較正 40 本の使用 0)
+  {id:"cluster",   tier:"stellar",   L:16,   T:12,   M:35,   C:4, nameKey:"scaleBase_cluster", retired:false, revived:"第286便a"},   // 第254便c: 🍇🫐 / 第258便c: **廃止**(較正 40 本の使用 0 —— 履歴)/ 第286便a: **復帰**(原仮定者の裁定(第76報)⑤「星団スケールを用意する」—— 💮 が使う)
   {id:"galactic",  tier:"galactic",  L:19,   T:14,   M:34,   C:5},
   {id:"galaxyReal",tier:"galactic",  L:19,   T:15,   M:38,   C:5, nameKey:"scaleBase_galaxyReal", retired:true}, // 第254便c: 🌃🛞 / 第258便c: **廃止**(較正 40 本の使用 0)
   {id:"cosmic",    tier:"cosmic",    L:23,   T:17,   M:42,   C:6}];
@@ -6391,6 +6522,9 @@ function scaleBaseAltOf(b){
     if(d<bd){ bd=d; best=x; } }
   return best;
 }
+// 第286便a(原仮定者の裁定(第76報)⑤「銀河スケールは星団に合わないので星団スケールを用意する」): **cluster 行を復帰**した。
+// 第258便c の廃止の規則(非アンカー×恒星以上×較正 0)は残し、裁定で戻した行は `revived`(復帰した便)で**規則の例外**として宣言する
+// (💮 clusterAnalogyBH が星団スケールの単位 L16/T12/M35 を使う —— 🍇🫐 と同じ指数。表示セレクタ専用・物理には触れない)。
 // 旧セーブ・旧サンプルの指数が廃止行と一致したときの読み替え表(**値は動かさない** —— 表示の案内だけ)
 function scaleBaseRetiredAt(e){
   for(const b of SCALE_BASES){ if(!b.retired) continue;
@@ -8957,92 +9091,103 @@ const BUILTIN_PRESETS = [
 // ① 接触ばね contactK=0(DR の半径 8.75 は捨てて rMul 0.2 = 1.46)② 初速を 2D 等方の基準解 vMode "equilibrium" に。
 // 台帳に nTrue(実個数)と radii(物理半径〔惑星級〕・代表粒子の半径・軟化・R_drag・表示半径)を足した。門は第283便f のまま・
 // 中心の引きずり支配の目標(D_A)も測る前に宣言(器 tests/exp-w284a-cluster.mjs・PHYSICS〔第284便a〕)—— 結果は未達。
+// 第286便a(原仮定者の裁定(第76報)⑤「銀河スケールは星団に合わないので星団スケールを用意する・中心天体の半径が大き過ぎる・
+// 画面縮小で潰れる粒子も点として見える表示を残す・球状星団はわずかに回転している —— バランスの取れる状態を計算で割り出す」・
+// 統括の検証項目 R101〜R103・AN60): 💮 を**星団スケール**(L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg —— SCALE_BASES の cluster 行)へ移した。
+// ① 単位は一組(G_sim=G_SI·M₀T₀²/L₀³=6.6743・c_sim=c_SI·T₀/L₀=29979.2458 —— 旧 G=0.8・c=30・中心 m=250 は持ち込まない)・
+//    台帳 massLedger.unitTable に L₀/T₀/M₀・換算式・恒星と DR の 1 個の物理質量・nTrue・nRep・m_rep を一つの表で
+// ② 半径の 4 分離: 中心の本体半径 0.01(受理器の下限 —— 10¹⁴ m・星団尺度 L₀ の 1/100)・引きずりの核 spaceMesh.dragR=1.5・
+//    数値軟化 ε=3・描画(最小 1.2 px —— 恒星・DR・中心とも実半径では点になる。DR は暗い色で区別し恒星より大きい記号にしない)
+// ③ 同じ代表率 w=nTrue/nRep(恒星 25+DR 500 —— m_rep 0.2125/0.425)・④ 初速は動径 Jeans の初期分布 vMode "jeans"
+//    (わずかな回転 jeansRot 0.1 —— 候補 0/0.1/0.25/0.47 は器が走査)。形状の門は第283便f のまま(器 tests/exp-w286a-cluster.mjs)。
 { id:"clusterAnalogyBH", name:"球状星団アナロジー(中心 DFM 版 BH+恒星質量 DR)", emoji:"💮",
-  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  group:"銀河の力学", scaleTier:"stellar", scaleExp:{L:16, T:12, M:35}, sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","dm"],
   obsCard:[
-    {q:"何を置いたか", model:"中心 DFM 版 BH(pinned m=250・spin 12・R=1.5)+恒星 170 体(M★=53.125)+DR 代表粒子 40 体(M_DR=2125)を同じ Plummer 分布(尺度 10・R_out=40)に置いた", obs:"—(原理サンプル — 観測転写はしない)"},
-    {q:"中心 BH のスケール調整", model:"GM/(Rc²)=0.148・ΩR/c=0.600(🌚 と同じ無次元量)・M_center/(M★+M_DR)=0.115(🌚 の 1/10)", obs:"—(47 Tuc の中心 IMBH は 3σ 上限 578 M☉ —— 検出ではない)"},
-    {q:"接触判定なし・中心固定(第285便a)", model:"contactMode:\"none\" —— E9 の全経路(ばね・減衰・摩擦)を止める(第284便a の contactK=0 はばねだけ)・中心は pinned。DR の半径だけ 8.75 にした写しと 300 步の全状態がビット一致", obs:"—"},
-    {q:"DR の量と半径の分離(第284便a・第285便a)", model:"⟨m_DR⟩=1 M☉・nTrue 1.07×10⁷ を代表 40 体に。particleRadius: DR 0.00856(惑星級)・恒星 0.0833(太陽半径の仮定)・dispMag 10 —— DR は恒星より小さい", obs:"—(観測された浮遊惑星は地球質量級 —— 恒星質量は仮定)"},
-    {q:"初速(等方・第284便a)", model:"2D 等方の基準解 vMode equilibrium(E4 の定常な外場で f=(1/2π)dν/dΨ から標本化・t=0 の束縛率 1.000/1.000)—— 回転なし", obs:"—(47 Tuc は v_rot/σ₀=0.47 —— 参照の行であって合わせる量ではない)"},
-    {q:"形状の門と中心の引きずり支配(測る前に宣言)", model:"門は第283便f のまま・D_A ≥0.5 —— 第285便a の走査 36 構成と N_rep 320 × 3 種の検証も未達(宣言の構成: 保持率 0.994〜1.000・r_h 変化 0.188〜0.565・軸比)", obs:"—"},
+    {q:"星団スケールの単位(第286便a)", model:"L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg —— G=6.6743・c=29979.2458 を一組で。Plummer 尺度 10(3.24 pc)・切断 40(13.0 pc)", obs:"—(原理サンプル —— 2D 投影のアナロジー)"},
+    {q:"何を置いたか", model:"中心 DFM 版 BH(固定・m=25 = M_DR/8.5・spin 12)+恒星 25 体(0.2125)+DR 500 体(0.425)—— 同じ代表率 w=2.14×10⁴", obs:"—(47 Tuc の中心 IMBH は 3σ 上限 578 M☉ —— 検出ではない)"},
+    {q:"半径の 4 分離(第286便a)", model:"中心の本体 0.01(10¹⁴ m —— 星団尺度に比べ極めて小さい)・引きずりの核 R_drag 1.5(spaceMesh.dragR —— 別パラメータ)・数値軟化 ε 3(天体半径ではない)・描画は最小 1.2 px", obs:"—"},
+    {q:"表示(縮小しても点が残る)", model:"恒星(太陽半径)・DR(惑星級)・中心は実半径では 1.2 px の点になる。DR は暗い色で区別し、恒星より大きい記号にしない", obs:"—"},
+    {q:"初速(動径 Jeans・第286便a)", model:"vMode jeans: σ²(r)=(1/Σ)∫_r^{R_t}Σ[g−⟨a_mesh,r⟩−V_φ²/s]ds(等方・定常・外縁の圧力 0)・V_φ=0.1σ·r/√(r²+a²)・∂ₜū=0 は定常平均場の近似の宣言", obs:"—(47 Tuc は v_rot/σ₀=0.47 —— 参照の行であって合わせる量ではない)"},
+    {q:"形状の門と中心の支配(測る前に宣言)", model:"門は第283便f のまま・D_A ≥0.5 と η_mesh=|⟨a_mesh,r⟩|/g を別々に記録 —— 結果は PHYSICS〔第286便a〕", obs:"—"},
     {q:"光線には使わない", model:"massLedger.darkRotor.lens:\"excluded\" を rayHeavy が読む —— DR 代表粒子は光線の源から外れる(重力の源は不変)", obs:"—"},
-    {q:"言わないこと", model:"47 Tuc を再現した/観測一致を達成した/較正を完了した/形状が安定した(門の語は形状達成・未達だけ)/楕円以降の円盤化は次段の前提", obs:"—"}],
+    {q:"言わないこと", model:"47 Tuc を再現した/観測一致を達成した/形状が安定した(門の語は形状達成・未達だけ)/中心の引きずりが支配的になった", obs:"—"}],
   descStruct:{
-    summary:"**球状星団アナロジー —— アナロジーの第 1 段**(第283便f・原仮定者の裁定〔第72報〕⑥)を**第284便a で修正**した(原仮定者の裁定〔第74報〕④「ダークローターは恒星質量で、大きさは惑星、数は恒星の 10〜20 倍。星団では中心の DFM 版 BH の引きずりが支配的。この条件で安定させる」)。physics は 🌚 と同じ(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")で、恒星 170 体(M★=53.125)と恒星質量ダークローター(DR)の代表粒子 40 体(M_DR=2125 —— ⟨m_DR⟩=1 M☉・⟨m★⟩=0.5 M☉・個数比 20 → M_DR/M★=40)を**同じ Plummer 分布**(投影尺度 10・切断 R_out=40)に置き、中心 DFM 版 BH は**スケール調整**(m=250・R=1.5・spin=12)。**第284便a の修正は 3 つ**: ① **接触ばねを外した**(contactK=0 —— 第283便f の未達の原因の 1 つ・DR の半径 8.75 は捨てて代表粒子の半径 1.46)② **平衡初速**(vMode equilibrium —— E4 の定常な外場に対する 2D 等方の基準解・Ψ が単調でなければ使わない)③ **量を別々の欄に**(台帳の nTrue〔実個数〕と radii〔物理半径 惑星級・代表粒子の半径・軟化・R_drag・表示半径〕)。**f=1**。DR の代表粒子は光線の源から外れる(重力の源は不変)。**形状の門と中心の引きずり支配の目標は測る前に宣言した**(PHYSICS〔第283便f〕〔第284便a〕)。**結果は未達**(PHYSICS〔第284便a〕)。**言わないこと**: 47 Tuc を再現した/観測一致を達成した/形状が安定した。 **第285便a**(原仮定者の裁定〔第75報〕④⑤): 接触判定なし(contactMode:\"none\" —— E9 の全経路を止める)・中心固定・個々の粒子の半径 particleRadius(DR は惑星級 7.1492×10⁷ m を長さ単位で換算した 0.00856・恒星は太陽半径の 0.0833 —— 表示比較の仮定)・見易さは dispMag 10(表示専用)で、DR は恒星より小さく描かれる(第284便a までは rMul の下限と √m の写像で DR が約 2.2 倍大きく描かれていた)。中心質量比・中心 spin・R_drag の走査と N_rep 320 の検証も**未達**。",
-    observe:"実測(器 tests/exp-w285a-cluster.mjs・正本 tests/out/cluster-w285a.json・dt=0.016 —— 第284便a の正本 cluster-w284a.json は第284便a の宣言の記録): 窓 [1, 3]×T_out(各構成の T_out)で保持率・恒星の半質量半径の変化・軸比・|v_rot|/σ と中心の引きずりの割合 D_A を測り、門の語(形状達成/未達)で書く。走査(N_rep 40): 中心質量比 M_c/M_DR 1/8.5・1・4 × spin 12・3・0(対照)× R_drag 1.5・3 × 初速 2 種の 36 構成はすべて未達。spin 3・0 では中心質量を増やすほど保持率が上がり r_h の変化が小さくなった(M_c/M_DR=4・spin 0 で保持率 1.000・r_h の変化 0.100)が、spin 12 では単調でない。検証(N_rep 320 × 乱数種 3): 上位 2 構成と宣言の構成はすべて未達(r_h の変化・軸比)。**言わないこと**: 47 Tuc を再現した/形状が安定した/中心の引きずりが支配的になった。",
-    brief:"中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー。接触判定なし・DR は恒星より小さい惑星級の半径に直し、中心質量・自転・引きずりの核を走査したが、測る前に宣言した形状の門で未達。較正対象外。",
-    control:"ワンタップ対照A/B: B 側は**中心の spin=0**(同じ配置・同じ opt-in —— 中心の自転の寄与だけを外す)。比較の相手は 🌚(同じ physics・同じ台帳の比の銀河アナロジー)と 🍇🫐(47 Tuc の観測転写・DFM 版 —— 単位も初期化も違う)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
+    summary:"**球状星団アナロジー —— アナロジーの第 1 段**(第283便f・原仮定者の裁定〔第72報〕⑥ → 第284便a・第285便a で修正)を**第286便a で星団スケールへ移した**(原仮定者の裁定〔第76報〕⑤)。**単位は一組**: L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg(SCALE_BASES の cluster 行)で G=6.6743・c=29979.2458(旧 G=0.8・c=30・中心 m=250 は持ち込まない)。physics は 🌚 と同じ宣言(geoPN=3・kFrame=0・lawVersion:\"scalar\"・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")で、恒星(⟨m★⟩=0.5 M☉・実個数 5.34×10⁵)と恒星質量ダークローター(⟨m_DR⟩=1 M☉・個数比 20)を**同じ代表率 w=2.14×10⁴** で恒星 25 体・DR 500 体の代表粒子にし、**同じ Plummer 分布**(尺度 10 = 3.24 pc・切断 40 = 13.0 pc)に置く。中心 DFM 版 BH は固定(m=25 = M_DR/8.5・spin 12)。**半径は 4 つに分けた**: 本体 0.01(10¹⁴ m —— 星団尺度に比べ極めて小さい)・引きずりの核 R_drag=1.5(spaceMesh.dragR)・数値軟化 ε=3・描画(最小 1.2 px)。**初速は動径 Jeans の初期分布**(vMode \"jeans\" —— 2D 等方・定常・軸対称・外縁の圧力 0・トイの平均加速度 ⟨a_mesh,r⟩ と わずかな回転 V_φ=0.1σ·r/√(r²+a²) を入れて場と反復)。**2D 投影のアナロジー**(面内の運動で 3D 分布の投影と同じではない)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性)。接触判定なし・DR は光線の源から外れる(重力の源は不変)・f=1。**形状の門は第283便f のまま**(測る前に宣言)。**言わないこと**: 47 Tuc を再現した/観測一致を達成した/形状が安定した/中心の引きずりが支配的になった。",
+    observe:"実測(器 tests/exp-w286a-cluster.mjs・正本 tests/out/cluster-w286a.json —— 第285便a までの正本は履歴): 代表率(恒星 25+DR 500/50+500)× v_rot/σ(0・0.1・0.25・0.47)× 中心質量比 × spin の走査で、窓 [1, 3]×T_out の保持率・恒星と DR の半質量半径・軸比・|v_rot|/σ・D_A と η_mesh・エネルギーと固定拘束の帳簿を測り、門の語(形状達成/未達)で書く。数は PHYSICS〔第286便a〕。**言わないこと**: 47 Tuc を再現した/形状が安定した/中心の引きずりが支配的になった。",
+    brief:"中心 DFM 版 BH と恒星質量ダークローターを星団スケールの単位で同じ Plummer 分布に置いた球状星団アナロジー。同じ代表率・半径の 4 分離・わずかな回転の動径 Jeans の初期分布で、測る前に宣言した形状の門を測った。較正対象外。",
+    control:"ワンタップ対照A/B: B 側は**中心の spin=0**(同じ配置・同じ opt-in —— 中心の自転の寄与だけを外す)。比較の相手は 🌚(同じ physics の銀河アナロジー —— 単位が違う)と 🍇🫐(47 Tuc の観測転写・DFM 版 —— 同じ星団スケールの単位で、初期化が違う)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
   en:{name:"Globular-cluster analogy (central DFM black hole + stellar-mass dark rotors)",
-    status:{purpose:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors", state:"no contact, dark rotors below star size, centre mass/spin/drag scanned; shape gates not met", mismatch:null, outlook:null},
+    status:{purpose:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors", state:"cluster units, one representative rate, four radii, rotating Jeans start; gates not met", mismatch:null, outlook:null},
     obsCard:[
-      {q:"What is placed", model:"pinned DFM black hole (m=250, spin 12, R=1.5) + 170 stars (M_star=53.125) + 40 DR particles (M_DR=2125) on one Plummer profile", obs:"- (a principle sample; nothing transcribed)"},
-      {q:"Scaled centre", model:"GM/(Rc^2)=0.148, Omega R/c=0.600 (the same as 🌚), M_c/(M_star+M_DR)=0.115 (1/10 of 🌚)", obs:"- (47 Tuc: a 3-sigma IMBH upper limit of 578 Msun, not a detection)"},
-      {q:"No contact, pinned centre (wave 285a)", model:"contactMode none: every E9 path (spring, damping, friction) is off (wave 284a's contactK=0 removed only the spring); the centre is pinned. A copy with DR radius 8.75 is bit-identical over 300 steps", obs:"-"},
-      {q:"Dark-rotor quantities and radii (waves 284a/285a)", model:"<m_DR>=1 Msun, nTrue=1.07e7 (ratio 20) as 40 particles; particle radius particleRadius (separate from the group radius 40): DR 0.00856 (planet class 7.1492e7 m in the length unit L=8.354e9 m), stars 0.0833 (solar radius - a display-comparison assumption); visibility from dispMag 10 (display only) - DR are drawn smaller than stars", obs:"- (observed free floaters are Earth-mass; stellar mass is an assumption)"},
-      {q:"Initial velocities (isotropic, wave 284a)", model:"2D isotropic reference solution vMode equilibrium (f=(1/2pi) dnu/dPsi, steady E4 field; bound at t=0 1.000/1.000); no rotation", obs:"- (47 Tuc has v_rot/sigma0=0.47 - a reference row, not a target)"},
-      {q:"Shape gates and centre-drag dominance (declared first)", model:"wave-283f gates, dominance target D_A >= 0.5; the wave-285a scan (36 configurations) and verification (N_rep 320 x 3 seeds) are not met; the declared configuration passes retention 0.994-1.000 at N_rep 320 but not r_h (0.188-0.565) or the axis ratio", obs:"-"},
+      {q:"Cluster-scale units (wave 286a)", model:"L0=1e16 m (0.324 pc), T0=1e12 s, M0=1e35 kg: G=6.6743 and c=29979.2458 as one set (GM/(Rc^2) and Omega R/c re-derived in these units); Plummer scale 10 (3.24 pc), cut at 40 (13.0 pc)", obs:"- (a principle sample; a 2D projected analogy)"},
+      {q:"What is placed", model:"pinned DFM black hole (m=25 = M_DR/8.5, spin 12) + 25 star particles (m_rep 0.2125) + 500 dark-rotor particles (m_rep 0.425), both at the same representative rate w=2.14e4", obs:"- (47 Tuc: a 3-sigma IMBH upper limit of 578 Msun, not a detection)"},
+      {q:"Four separate radii (wave 286a)", model:"centre body 0.01 (1e14 m, tiny against the cluster scale), drag core R_drag 1.5 (spaceMesh.dragR, a separate parameter), softening 3 (not a body radius), drawing at least 1.2 px", obs:"-"},
+      {q:"Display (points survive zooming out)", model:"stars (solar radius), dark rotors (planet class) and the centre are 1.2-px points at their real radii; dark rotors are told apart by a dark colour and are never drawn larger than stars", obs:"-"},
+      {q:"Initial velocities (radial Jeans, wave 286a)", model:"vMode jeans: sigma^2(r)=(1/Sigma) int_r^Rt Sigma[g-<a_mesh,r>-V_phi^2/s]ds (isotropic, steady, zero pressure at the edge), V_phi=0.1 sigma r/sqrt(r^2+a^2); d_t u=0 is a declared steady mean-field approximation", obs:"- (47 Tuc has v_rot/sigma0=0.47 - a reference row, not a target)"},
+      {q:"Shape gates and centre dominance (declared first)", model:"wave-283f gates; D_A >= 0.5 and eta_mesh=|<a_mesh,r>|/g recorded separately; results in PHYSICS (wave 286a)", obs:"-"},
       {q:"Not used for rays", model:"rayHeavy reads massLedger.darkRotor lens excluded: the DR particles are not ray sources (still gravity sources)", obs:"-"},
-      {q:"Not claimed", model:"no 47 Tuc reproduction, no observational match, no calibration, no stable shape (met / not met); discs beyond ellipticals: next-stage premise", obs:"-"}],
+      {q:"Not claimed", model:"no 47 Tuc reproduction, no observational match, no stable shape (met / not met), no centre-drag dominance", obs:"-"}],
     descStruct:{
-      summary:"GLOBULAR-CLUSTER ANALOGY - THE FIRST STAGE of the analogy series (wave 283f), REVISED IN WAVE 284a (the originator's ruling in report 74, item 4: dark rotors of stellar mass, planet-sized, 10-20 times as many as the stars; the central DFM black hole's drag dominates in a cluster; stabilise under these conditions). The physics is 🌚's (geoPN=3, kFrame=0, spaceMesh lawVersion scalar, eta=1, eps=3, frameWeight share, centerSpin read); 170 stars (M_star=53.125) and 40 representative particles of stellar-mass dark rotors (M_DR=2125; <m_DR>=1 Msun, <m_star>=0.5 Msun, count ratio 20 -> M_DR/M_star=40) sit ON ONE PLUMMER PROFILE (projected scale 10, cut at R_out=40) around a scaled central DFM black hole (m=250, R=1.5, spin=12). WAVE 284a CHANGES THREE THINGS: (1) THE CONTACT SPRING IS REMOVED (contactK=0; representative radius 1.46 instead of 8.75); (2) EQUILIBRIUM VELOCITIES (vMode equilibrium: the 2D isotropic reference solution in the steady E4 field; not used where Psi is not monotonic); (3) SEPARATE FIELDS FOR SEPARATE QUANTITIES (ledger nTrue and radii: planet-class physical radius, representative radius, softening, drag core, draw radius). f=1. The DR particles are not ray sources (still gravity sources). THE SHAPE GATES AND THE DOMINANCE TARGET WERE DECLARED BEFORE MEASURING. THE RESULT IS NOT MET (PHYSICS, wave 284a). NOT CLAIMED: reproducing 47 Tuc, an observational match, a stable shape. WAVE 285a (the originator's ruling in report 75, items 4-5): no contact (contactMode none - every E9 path off), a pinned centre, and per-particle radii particleRadius (dark rotors 0.00856 = the planet-class 7.1492e7 m in the length unit; stars 0.0833 = the solar radius, a display-comparison assumption) with dispMag 10 (display only), so dark rotors are drawn smaller than stars (until wave 284a the rMul floor and the sqrt(m) map drew them about 2.2 times larger). A scan of centre mass ratio, centre spin and drag core, and an N_rep 320 verification, are also NOT MET.",
-      observe:"Measured (harness tests/exp-w285a-cluster.mjs, canonical tests/out/cluster-w285a.json, dt=0.016; cluster-w284a.json remains the record of the wave-284a declaration): in the window [1,3] x T_out of each configuration, retention, the stars' half-mass-radius change, the axis ratio, |v_rot|/sigma and the centre-drag share D_A, reported only as met / not met. The scan (N_rep 40: M_c/M_DR 1/8.5, 1, 4 x spin 12, 3, 0 (control) x R_drag 1.5, 3 x two velocity initialisations, 36 configurations) is all not met; with spin 3 or 0 a heavier centre raised retention and lowered the r_h change (M_c/M_DR=4, spin 0: retention 1.000, r_h change 0.100), but not with spin 12. The verification (N_rep 320 x 3 seeds) of the top two and the declared configuration is not met (r_h change, axis ratio). NOT CLAIMED: reproducing 47 Tuc, a stable shape, centre-drag dominance.",
-      brief:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors on one Plummer profile. With no contact, dark rotors given planet-class radii smaller than the stars, and a scan of centre mass, spin and drag core, the shape gates declared before measuring are still not met. Out of calibration scope.",
-      control:"One-tap A/B: side B sets THE CENTRE'S SPIN TO 0 (same configuration, same opt-in). Compare with 🌚 (same physics, same ledger ratio, a galaxy analogy) and 🍇🫐 (47 Tuc transcription and DFM build - different units and initialisation). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
+      summary:"GLOBULAR-CLUSTER ANALOGY - THE FIRST STAGE of the analogy series (wave 283f, revised in waves 284a and 285a), MOVED TO THE CLUSTER SCALE IN WAVE 286a (the originator's ruling in report 76, item 5). ONE SET OF UNITS: L0=1e16 m, T0=1e12 s, M0=1e35 kg (the cluster row of SCALE_BASES) give G=6.6743 and c=29979.2458 (the old G=0.8, c=30 and centre m=250 are not carried over). The physics declaration is 🌚's (geoPN=3, kFrame=0, lawVersion scalar, eta=1, eps=3, frameWeight share, centerSpin read). Stars (<m_star>=0.5 Msun, 5.34e5 real stars) and stellar-mass dark rotors (<m_DR>=1 Msun, count ratio 20) become 25 and 500 particles AT ONE REPRESENTATIVE RATE w=2.14e4 on ONE PLUMMER PROFILE (scale 10 = 3.24 pc, cut at 40 = 13.0 pc) around a pinned DFM black hole (m=25 = M_DR/8.5, spin 12). FOUR SEPARATE RADII: body 0.01 (1e14 m, tiny against the cluster scale), drag core R_drag=1.5 (spaceMesh.dragR), softening 3, drawing (at least 1.2 px). THE START IS A RADIAL-JEANS DISTRIBUTION (vMode jeans: 2D isotropic, steady, axisymmetric, zero pressure at the edge, with the toy's mean acceleration <a_mesh,r> and a slight rotation V_phi=0.1 sigma r/sqrt(r^2+a^2), iterated with the field). A 2D PROJECTED ANALOGY (in-plane motion, not the projection of a 3D distribution). Gravity (E4) and the geoPN=3 toy (coordinate inertia) act. No contact; dark rotors are not ray sources (still gravity sources); f=1. THE SHAPE GATES ARE WAVE 283f's (declared before measuring). NOT CLAIMED: reproducing 47 Tuc, an observational match, a stable shape, centre-drag dominance.",
+      observe:"Measured (harness tests/exp-w286a-cluster.mjs, canonical tests/out/cluster-w286a.json; earlier canonicals are history): a scan of representative rate (25+500 / 50+500 stars+dark rotors) x v_rot/sigma (0, 0.1, 0.25, 0.47) x centre mass ratio x spin, measuring in the window [1,3] x T_out the retention, the half-mass radii of stars and dark rotors, the axis ratio, |v_rot|/sigma, D_A and eta_mesh, and the energy and pinned-constraint ledgers, reported only as met / not met. Numbers in PHYSICS (wave 286a). NOT CLAIMED: reproducing 47 Tuc, a stable shape, centre-drag dominance.",
+      brief:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors on one Plummer profile in cluster-scale units. With one representative rate, four separate radii and a slightly rotating radial-Jeans start, the shape gates declared before measuring were measured. Out of calibration scope.",
+      control:"One-tap A/B: side B sets THE CENTRE'S SPIN TO 0 (same configuration, same opt-in). Compare with 🌚 (same physics, a galaxy analogy in different units) and 🍇🫐 (47 Tuc transcription and DFM build - the same cluster-scale units, a different initialisation). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
   parameterAudit:{
     observedInputs:["**無い。** 47 Tuc の CSV の行(距離・3D 半質量半径・σ₀・v_rot/σ₀)は参照として並べるだけで入力していない"],
-    fixedConventions:["🌚 の physics 宣言(geoPN=3・kFrame=0・lawVersion:\"scalar\"・inertia:false・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")",
-      "W_bg=physics.spaceMesh.D0=1.5(明示 —— 出どころ \"declared\")",
-      "中心 DFM 版 BH: pinned m=250・spin 12・R=1.5(GM/(Rc²)=0.148・ΩR/c=0.600 —— 🌚 と同じ無次元量)",
-      "恒星 170 体 × 0.3125 と DR 40 体 × 53.125 を同じ Plummer 分布(投影尺度 10・切断 40)・初速は 2D 等方の基準解(vMode equilibrium —— 第284便a)",
-      "接触判定なし contactMode:\"none\"(E9 の全経路を止める —— 第285便a・第284便a の contactK=0 はばねだけ)・中心固定 pinned",
-      "個々の粒子の半径 particleRadius(第285便a): DR 0.0085574 = 惑星級 7.1492×10⁷ m / L・恒星 0.083273 = 太陽半径 6.957×10⁸ m / L(表示比較の仮定)・L=(G_SI·10³⁴ kg/c_SI²)/(G/c²)=8.354×10⁹ m",
-      "DR: N_DR=20 N★(nTrue=1.07×10⁷)・⟨m_DR⟩=1 M☉(代表)・⟨m★⟩=0.5 M☉・質量単位 10³⁴ kg(🌚 と同じ)・個体の物理半径 7.1492×10⁷ m(惑星級・上限 10⁸ m —— 力学に入らない)",
-      "cLight=30(組込みプリセットの規約)・乱数種 20260926"],
+    fixedConventions:["星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg(G_sim=G_SI·M₀T₀²/L₀³=6.6743・c_sim=c_SI·T₀/L₀=29979.2458・R_sim=R/L₀・Ω_sim=Ω·T₀)—— 台帳 massLedger.unitTable",
+      "🌚 の physics 宣言(geoPN=3・kFrame=0・lawVersion:\"scalar\"・inertia:false・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")",
+      "W_bg=physics.spaceMesh.D0=0.15(明示 —— 出どころ \"declared\"・旧 1.5 を質量 1/10 の単位で置いた値)・引きずりの核 spaceMesh.dragR=1.5(中心の本体半径とは別の欄)",
+      "中心 DFM 版 BH: pinned m=25(=M_DR/8.5)・spin 12・本体半径 0.01(受理器の下限 —— 10¹⁴ m)",
+      "恒星 25 体 × 0.2125 と DR 500 体 × 0.425 を同じ Plummer 分布(尺度 10・切断 40)・同じ代表率 w=nTrue/nRep=2.137×10⁴・恒星は位置だけ 5 回対称(angularSym 5)",
+      "初速: 動径 Jeans の初期分布 vMode jeans(等方・定常・外縁の圧力 0・jeansRot 0.1・∂ₜū=0 は定常平均場の近似の宣言・反復 4 回)",
+      "接触判定なし contactMode:\"none\"・中心固定 pinned・乱数種 20260926"],
     fitted:["**無い。**"],
-    derived:["M_DR=40·M★=2125 単位・M_center/(M★+M_DR)=0.115","T_out=2πR_out/v_c(R_out)(t=0 の配置の実際の重力加速度 —— 器が測る)","初速の分布関数 f(ℰ)=(1/2π)dν/dΨ(Ψ は配置を終えた全粒子の E4 の場の環平均 —— build が作る)"],
-    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","代表粒子 N_rep=40","粒子表示倍率 dispMag=10(表示専用 —— DR の表示 0.0856・恒星 0.833)・引きずりの核 R_drag=1.5(中心の R)","測定: dt=0.016・窓 [1, 3]×T_out(各構成の T_out)"]},
+    derived:["nTrue: 恒星 5.343×10⁵(M★=5.3125×10³⁵ kg / 0.5 M☉)・DR 1.0686×10⁷(個数比 20)・M_DR=212.5 単位・M_DR/M★=40",
+      "中心の無次元量(この単位で): GM/(R_body c²)=GM/(0.01·c²)・ΩR_drag/c=12·1.5/29979.2458(器が記録)","T_out=2πR_out/v_c(R_out)(t=0 の配置の実際の重力加速度 —— 器が測る)",
+      "Jeans の σ²(r)・V_φ(r)・⟨a_mesh,r⟩(r)(build が作る —— S.eqInit.jeans)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","代表粒子 恒星 25・DR 500","粒子表示倍率 dispMag=1(実半径では全粒子が 1.2 px の点)","測定: dt=0.016・窓 [1, 3]×T_out(各構成の T_out)"]},
   activeParams:["G"],
-  // 第283便f → 第284便a: サンプルの状況(原稿 tests/data-w279a-samplestatus-src.json と同じ文 —— 生成領域 sample-status の行は再生成の鎖で入る)
+  // 第283便f → 第286便a: サンプルの状況(原稿 tests/data-w279a-samplestatus-src.json と同じ文 —— 生成領域 sample-status の行は再生成の鎖で入る)
   status:{purpose:"中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー", objective:"unmet",
-    state:"接触判定なし・DR を恒星より小さい惑星級の半径に直し中心質量・自転・引きずりの核を走査しても、宣言した形状の門で未達", calibration:"out-of-scope", mismatch:null, outlook:null,
-    evidence:["tests/out/cluster-w285a.json","tests/out/cluster-w284a.json","tests/out/cluster-w283f.json"]},
+    state:"星団スケールの単位・同じ代表率・半径の 4 分離・わずかに回転する動径 Jeans の初期分布でも、宣言した形状の門で未達", calibration:"out-of-scope", mismatch:null, outlook:null,
+    evidence:["tests/out/cluster-w286a.json","tests/out/jeans-w286a.json"]},
   abBody:{ label:{ja:"中心の spin=0(自転の寄与だけを外す)", en:"centre spin = 0 (only the spin contribution removed)"},
     targets:[0], patch:{spin:0} },
-  massLedger:{version:"w285a-1", starBase:53.125, fStar:1, gas:0, core:250, unitKg:1e34, mSunKg:1.9885e30,
+  massLedger:{version:"w286a-1", starBase:5.3125, fStar:1, gas:0, core:25, unitKg:1e35, mSunKg:1.9885e30,
     mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:1,
-    currentTotalUnit:303.125, currentTotalSun:1524390.243902439,
+    currentTotalUnit:30.3125, currentTotalSun:1524390.243902439,
     rotorScenarios:[
-      {mRotorSun:0.1, nRotor:10686447.070656272, mRotorUnit:212.49999999999997, totalUnit:515.625, totalSun:2593034.950968066},
-      {mRotorSun:1, nRotor:10686447.070656272, mRotorUnit:2124.9999999999995, totalUnit:2428.1249999999995, totalSun:12210837.31455871},
-      {mRotorSun:10, nRotor:10686447.070656272, mRotorUnit:21249.999999999996, totalUnit:21553.124999999996, totalSun:108388860.95046516}],
-    darkRotor:{mRotorSun:1, nRep:40, mPerRepUnit:53.125, totalUnit:2125, inDynamics:true, lens:"excluded", nTrue:10686447.070656272,
-      radii:{physicalM:7.1492e7, physicalMaxM:1e8, physicalClass:"planet", lengthUnitM:8354430302.76, lengthRule:"L=(G_SI·M_unit/c_SI²)/(G/c²)・G_SI=6.6743e-11・c_SI=299792458・M_unit=unitKg・G=physics.G・c=physics.cLight",
-        rep:0.0085574, starAssumedM:6.957e8, starAssumedClass:"sun-radius-display-assumption", starRep:0.083273, softening:3, drag:1.5, dispMag:10,
-        draw:0.085574, starDraw:0.83273},
-      distribution:"恒星と同じ Plummer 分布(投影尺度 10・切断 40)・初速は 2D 等方の基準解(vMode equilibrium —— 宣言)"},
-    note:"条件付き台帳(第283便f・原仮定者の裁定〔第72報〕⑥)。⟨m_DR⟩=1 M☉ の行を力学の質量要素として bodies に入れた(代表粒子 40 体 × 53.125 = 2125 単位)。0.1/10 M☉ は比較の列。個数比 20 は宣言値。f★=1。代表粒子は光線の源から外す(lens:\"excluded\" —— rayHeavy が読む)。較正母集団に入れない。",
-    noteEn:"A conditional ledger (wave 283f, the originator's ruling in report 72, item 6). The <m_DR> = 1 Msun row is put into the bodies as a dynamical mass component (40 particles x 53.125 = 2125 units); 0.1 and 10 Msun are comparison columns. The count ratio 20 is declared. f_star = 1. The representative particles are not ray sources (lens excluded - read by rayHeavy). Not in the calibration population."},
+      {mRotorSun:0.1, nRotor:10686447.070656274, mRotorUnit:21.25, totalUnit:51.5625, totalSun:2593034.950968066},
+      {mRotorSun:1, nRotor:10686447.070656274, mRotorUnit:212.5, totalUnit:242.8125, totalSun:12210837.314558713},
+      {mRotorSun:10, nRotor:10686447.070656274, mRotorUnit:2125, totalUnit:2155.3125, totalSun:108388860.95046516}],
+    unitTable:{version:"w286a-units-1", scale:"cluster", L0M:1e16, T0S:1e12, M0Kg:1e35, GSI:6.6743e-11, cSI:299792458, Gsim:6.6743, cSim:29979.2458,
+      rule:"G_sim=G_SI·M₀T₀²/L₀³・c_sim=c_SI·T₀/L₀・R_sim=R/L₀・Ω_sim=Ω·T₀・m_rep=w·m/M₀(w=nTrue/nRep —— 恒星と DR で同じ)",
+      w:21372.894141312547,
+      rows:[{pop:"star", mSun:0.5, nTrue:534322.3535328137, nRep:25, mRep:0.2125},
+        {pop:"darkRotor", mSun:1, nTrue:10686447.070656274, nRep:500, mRep:0.425}]},
+    darkRotor:{mRotorSun:1, nRep:500, mPerRepUnit:0.425, totalUnit:212.5, inDynamics:true, lens:"excluded", nTrue:10686447.070656274,
+      radii:{physicalM:7.1492e7, physicalMaxM:1e8, physicalClass:"planet", lengthUnitM:1e16, lengthRule:"L₀=10¹⁶ m(星団スケール —— massLedger.unitTable)",
+        rep:7.1492e-9, starAssumedM:6.957e8, starAssumedClass:"sun-radius-display-assumption", starRep:6.957e-8, softening:3, drag:1.5, dispMag:1,
+        draw:7.1492e-9, starDraw:6.957e-8},
+      distribution:"恒星と同じ Plummer 分布(尺度 10・切断 40)・同じ代表率・初速は動径 Jeans の初期分布(vMode jeans —— 宣言)"},
+    note:"条件付き台帳(第283便f → 第286便a の星団スケール・原仮定者の裁定〔第76報〕⑤)。⟨m_DR⟩=1 M☉ の行を力学の質量要素として bodies に入れた(代表粒子 500 体 × 0.425 = 212.5 単位 = 2.125×10³⁷ kg)。0.1/10 M☉ は比較の列。個数比 20 は宣言値。恒星と DR は同じ代表率(unitTable.w)。f★=1。代表粒子は光線の源から外す(lens:\"excluded\" —— rayHeavy が読む)。較正母集団に入れない。",
+    noteEn:"A conditional ledger (wave 283f, moved to the cluster scale in wave 286a; the originator's ruling in report 76, item 5). The <m_DR> = 1 Msun row is put into the bodies as a dynamical mass component (500 particles x 0.425 = 212.5 units = 2.125e37 kg); 0.1 and 10 Msun are comparison columns. The count ratio 20 is declared. Stars and dark rotors share one representative rate (unitTable.w). f_star = 1. The representative particles are not ray sources (lens excluded - read by rayHeavy). Not in the calibration population."},
   camera:{scale:60}, world:{boundary:"none",size:0}, seed:20260926,
-  physics:{G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
-    contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 接触判定なし(E9 の 4 経路を止める —— 第284便a の contactK:0 は法線ばねだけだった)*/,
-    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:3, dispMag:10/* 第285便a(第75報⑤): 見易さは表示専用の粒子表示倍率で(力学不変)*/, stateCarry:"double", frameWeight:"share",
-    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read", D0:1.5}},
+  physics:{G:6.6743, D0:0.15, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 接触判定なし */,
+    cLight:29979.2458/* 第286便a: 星団スケールの c_sim=c_SI·T₀/L₀ */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, dispMag:1, stateCarry:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read", D0:0.15, dragR:1.5/* 第286便a(R102): 引きずりの核 */}},
   bodies:[
-    // 中心 DFM 版 BH(スケール調整 —— GM/(Rc²)=0.8·250/(1.5·900)=0.148・ΩR/c=12·1.5/30=0.600)
-    {type:"single", m:250, x:0,y:0, vx:0,vy:0, spin:12, pinned:true, radius:1.5},
-    // 恒星(Plummer・M★=170×0.3125=53.125)—— 初速は 2D 等方の基準解(第284便a: virial → equilibrium)
-    // 第285便a(第75報⑤・R96): 個々の恒星の半径は particleRadius(太陽半径 6.957×10⁸ m の長さ単位換算 0.0833 —— **表示比較の仮定**)。群の分布半径 radius とは別の欄
-    {type:"disk", particleRadius:0.083273, n:170, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
-     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"equilibrium", vScale:1, direction:1, bulkVx:0, bulkVy:0},
-    // 恒星質量ダークローターの代表粒子(N_rep=40・1 体 53.125・計 2125 —— 同じ Plummer 分布・lightSweep 1 = 表示で暗い)
-    // 第284便a: rMul 1.2 → 0.2(代表粒子の半径 8.75 → 1.46 —— 受理器の下限。接触ばねは contactK=0 で力 0)
-    // 第285便a(第75報⑤「ダークローターはコンパクト天体で恒星より小さい」・R96): particleRadius = 惑星級 7.1492×10⁷ m の長さ単位換算 0.00856
-    //   (L = (G_SI·M_unit/c_SI²)/(G/c²) = 8.354×10⁹ m —— 台帳 radii.lengthUnitM)。rMul は使わない
-    {type:"disk", particleRadius:0.0085574, n:40, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
-     mMin:53.125,mMax:53.125, spinMin:0,spinMax:0, vMode:"equilibrium", vScale:1, direction:1, bulkVx:0, bulkVy:0, lightSweep:1}],
+    // 中心 DFM 版 BH(固定・m=M_DR/8.5=25・本体半径 0.01 = 受理器の下限 —— 引きずりの核は spaceMesh.dragR の別の欄)
+    {type:"single", m:25, x:0,y:0, vx:0,vy:0, spin:12, pinned:true, radius:0.01},
+    // 恒星(代表 25 体 × 0.2125 = 5.3125 —— 同じ代表率・位置だけ 5 回対称)・個々の半径は太陽半径 / L₀(表示比較の仮定)
+    {type:"disk", particleRadius:6.957e-8, n:25, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
+     mMin:0.2125,mMax:0.2125, spinMin:0,spinMax:0, vMode:"jeans", jeansRot:0.1, angularSym:5, vScale:1, direction:1, bulkVx:0, bulkVy:0},
+    // 恒星質量ダークローターの代表粒子(500 体 × 0.425 = 212.5 —— 同じ Plummer 分布・lightSweep 1 = 表示で暗い)・半径は惑星級 / L₀
+    {type:"disk", particleRadius:7.1492e-9, n:500, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
+     mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"jeans", jeansRot:0.1, vScale:1, direction:1, bulkVx:0, bulkVy:0, lightSweep:1}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false,
     spaceMesh:{mode:"mesh"}} },
 // ===== 第274便d(第64報「銀河のアナロジーのゴール: **実在天体に先立ち安定サンプルを用意する**」)=====
@@ -18000,7 +18145,13 @@ function validateCompactForce(a){
 //     **値は bodies の実際の質量と QA `docs.analogyLedger` が照合する**(この検証器は宣言の内部整合だけを見る)。
 const MASS_LEDGER_VERSION="w282d-1";
 const MASS_LEDGER_KEYS=["version","starBase","fStar","gas","core","unitKg","mSunKg","mStarSun","nRatio","rotorInFStar",
-  "defaultScenario","currentTotalUnit","currentTotalSun","rotorScenarios","note","noteEn","fDynamics","darkRotor"];
+  "defaultScenario","currentTotalUnit","currentTotalSun","rotorScenarios","note","noteEn","fDynamics","darkRotor",
+  // 第286便a(原仮定者の裁定(第76報)⑤・R101): 任意鍵 unitTable —— 星団スケールの単位と代表率を**一つの表**で
+  //   {version,scale,L0M,T0S,M0Kg,GSI,cSI,Gsim,cSim,rule,w,rows:[{pop,mSun,nTrue,nRep,mRep}]}。受理の条件(相対 1e-9):
+  //   Gsim=G_SI·M₀T₀²/L₀³・cSim=c_SI·T₀/L₀・M0Kg=unitKg・各行 nTrue/nRep=w(同じ代表率)・mRep=w·mSun·mSunKg/M0Kg。
+  //   physics の G・cLight・bodies との照合は QA `behavior.clusterScale`(この検証器は宣言の内部整合だけを見る)
+  "unitTable"];
+const MASS_LEDGER_UNIT_KEYS=["version","scale","L0M","T0S","M0Kg","GSI","cSI","Gsim","cSim","rule","w","rows"];
 const MASS_LEDGER_ROW_KEYS=["mRotorSun","nRotor","mRotorUnit","totalUnit","totalSun"];
 const MASS_LEDGER_DR_KEYS=["mRotorSun","nRep","mPerRepUnit","totalUnit","inDynamics","lens","distribution","nTrue","radii"];
 // 第284便a(原仮定者の裁定(第74報)④「ダークローターは恒星質量で、大きさは惑星、数は恒星の 10〜20 倍」・統括の検証項目 R89):
@@ -18094,6 +18245,24 @@ function validateMassLedger(ml){
           starAssumedM:q.starAssumedM, starAssumedClass:(typeof q.starAssumedClass==="string")? q.starAssumedClass.slice(0,60) : "", starRep:q.starRep, dispMag:q.dispMag, starDraw:q.starDraw});
       }
     }
+  }
+  if(ml.unitTable!==undefined){   // 第286便a(R101): 星団スケールの単位と代表率の表
+    const u=ml.unitTable, r9=(a,b)=>Math.abs(a-b)<=1e-9*Math.max(Math.abs(a),Math.abs(b));
+    if(!u || typeof u!=="object" || Array.isArray(u)) return {ok:false, warnings:warnings.concat(["massLedger.unitTable はオブジェクト"])};
+    for(const k of Object.keys(u)) if(MASS_LEDGER_UNIT_KEYS.indexOf(k)<0) warnings.push("massLedger.unitTable の未知キー("+String(k).slice(0,20)+")— 無視");
+    for(const k of ["L0M","T0S","M0Kg","GSI","cSI","Gsim","cSim","w"]) if(!pos(u[k])) return {ok:false, warnings:warnings.concat(["massLedger.unitTable."+k+" は正の有限数"])};
+    if(!(r9(u.Gsim,u.GSI*u.M0Kg*u.T0S*u.T0S/(u.L0M*u.L0M*u.L0M)) && r9(u.cSim,u.cSI*u.T0S/u.L0M) && r9(u.M0Kg,o.unitKg)))
+      return {ok:false, warnings:warnings.concat(["massLedger.unitTable: Gsim=G_SI·M₀T₀²/L₀³・cSim=c_SI·T₀/L₀・M0Kg=unitKg(相対 1e-9)"])};
+    if(!Array.isArray(u.rows) || u.rows.length<1 || u.rows.length>4) return {ok:false, warnings:warnings.concat(["massLedger.unitTable.rows は 1〜4 行"])};
+    const rows=[];
+    for(let i=0;i<u.rows.length;i++){ const q=u.rows[i];
+      if(!q || typeof q!=="object" || typeof q.pop!=="string" || !pos(q.mSun) || !pos(q.nTrue) || !pos(q.mRep) || !(isNum(q.nRep) && q.nRep>=1 && Math.floor(q.nRep)===q.nRep))
+        return {ok:false, warnings:warnings.concat(["massLedger.unitTable.rows["+i+"] は {pop,mSun,nTrue,nRep(整数),mRep}"])};
+      if(!(r9(q.nTrue/q.nRep,u.w) && r9(q.mRep,u.w*q.mSun*o.mSunKg/u.M0Kg)))
+        return {ok:false, warnings:warnings.concat(["massLedger.unitTable.rows["+i+"]: nTrue/nRep=w(同じ代表率)・mRep=w·mSun·mSunKg/M0Kg(相対 1e-9)"])};
+      rows.push({pop:q.pop.slice(0,20), mSun:q.mSun, nTrue:q.nTrue, nRep:q.nRep, mRep:q.mRep}); }
+    o.unitTable={version:String(u.version||"").slice(0,40), scale:String(u.scale||"").slice(0,20), L0M:u.L0M, T0S:u.T0S, M0Kg:u.M0Kg, GSI:u.GSI, cSI:u.cSI,
+      Gsim:u.Gsim, cSim:u.cSim, rule:(typeof u.rule==="string")? u.rule.slice(0,300) : "", w:u.w, rows};
   }
   for(const k of ["note","noteEn"]) if(typeof ml[k]==="string" && ml[k].trim()) o[k]=ml[k].trim().slice(0,600);
   return {ok:true, value:o, warnings};
@@ -19224,7 +19393,7 @@ function validatePreset(obj){
         out.push(oR);
       } else if(t==="disk"){
         if(!needNum(["n","cx","cy","radius","mMin","mMax","spinMin","spinMax","vScale"])) return;
-        if(["kepler","rigid","flat","random","hubble","none","enclosed","virial",VMODE_EQUILIBRIUM].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }   // 第235便: enclosed(自己無撞着円運動)/virial(ビリアル等方)   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加   // 第284便a: equilibrium(2D 等方の基準解)
+        if(["kepler","rigid","flat","random","hubble","none","enclosed","virial",VMODE_EQUILIBRIUM,VMODE_JEANS].indexOf(b.vMode)<0){ bad(at+".vMode が不正"); return; }   // 第235便: enclosed(自己無撞着円運動)/virial(ビリアル等方)   // 第31便: hubble(初期 Hubble 流 v=vScale·(r−c))を追加   // 第284便a: equilibrium(2D 等方の基準解)   // 第286便a: jeans(動径 Jeans の初期分布)
         if(b.direction!==1 && b.direction!==-1){ bad(at+".direction は 1 か -1"); return; }
         if(b.vMode==="kepler" && !needNum(["aroundMass"])) return;   // 第83便: ring と同条件(kepler 以外は build が参照しない任意キー)
         const oD={type:"disk", n:clamp(Math.round(b.n),0,N_CAP), cx:CO(b.cx,"cx"), cy:CO(b.cy,"cy"), radius:LEN(b.radius,"radius"),
@@ -19301,6 +19470,24 @@ function validatePreset(obj){
             if(b.eqSources!==EQ_SOURCES[0]) oD.eqSources=b.eqSources;   // 既定 "all" は 1 文字も出さない
           }
         } else if(b.eqSources!==undefined) warnings.push(at+'.eqSources は vMode "equilibrium" の行だけ — 削除します');
+        // 第286便a(原仮定者の裁定(第76報)⑤・R103・AN60): vMode:"jeans" も **profile:"plummer" の disk 行だけ**(面密度 Σ の解析形を Jeans 式に使う)。
+        //   任意鍵 jeansRot(0〜JEANS_ROT_MAX —— 外側の漸近値 v_rot/σ・既定 0)・angularSym(2〜12 の整数・n が倍数 —— 位置だけ k 回対称)。
+        //   jeans でない行のこれらの鍵は警告つきで落とす(他の vMode の経路は 1 bit も変えない)。
+        if(b.vMode===VMODE_JEANS){
+          if(oD.profile!=="plummer"){ bad(at+'.vMode "jeans" は profile:"plummer" の disk 行だけ(第286便a)'); return; }
+          if(b.jeansRot!==undefined){
+            if(!isNum(b.jeansRot) || !(b.jeansRot>=0) || !(b.jeansRot<=JEANS_ROT_MAX)){ bad(at+'.jeansRot は 0〜'+JEANS_ROT_MAX+'(外側の v_rot/σ —— 門の上限の内側で宣言)'); return; }
+            if(b.jeansRot!==0) oD.jeansRot=Number(b.jeansRot);
+          }
+          if(b.angularSym!==undefined){
+            const k=b.angularSym;
+            if(!Number.isInteger(k) || k<2 || k>12 || (oD.n%k)!==0){ bad(at+'.angularSym は 2〜12 の整数で n の約数(位置だけ k 回対称)'); return; }
+            oD.angularSym=k;
+          }
+        } else {
+          if(b.jeansRot!==undefined) warnings.push(at+'.jeansRot は vMode "jeans" の行だけ — 削除します');
+          if(b.angularSym!==undefined) warnings.push(at+'.angularSym は vMode "jeans" の行だけ — 削除します');
+        }
         // 第80便(コアv2): 群共通の core:{}(ring と同じ — single と同じ意味論・クランプ)
         // 第81便: 旧キー(コアv1)だけの群は代表値(平均質量・平均スピン)で v2 へ移行する
         const repD={m:(oD.mMin+oD.mMax)/2, spin:(oD.spinMin+oD.spinMax)/2, rMul:oD.rMul};
@@ -21336,12 +21523,16 @@ function makeSim(){
         const lS=b.lightSweep;   // 第70便: 群共通の減光(未指定=undefined → P.forEach で 0)
         const cCore=b.core;   // 第80便: 群共通のコアv2(未指定=undefined → o に core キーを付けない)
         const invR=makeProfileInv(b);   // 第228便: null=現行一様(r=R√u — ビット不変)
+        let symAng=0, symR=0;   // 第286便a: angularSym の基準(宣言の無い行は読まない)
         for(let i=0;i<b.n;i++){
           let ang,r,x,y,tries=0;
           do{
             ang=rng()*Math.PI*2; r=invR? invR(rng()) : b.radius*Math.sqrt(rng());
+            // 第286便a: angularSym:k(vMode jeans の行だけ)—— k 個ずつ同じ半径で角度を 2π/k ずつ回す(乱数列は同じだけ進める)
+            if(b.angularSym>1 && (i%b.angularSym)!==0){ ang=symAng+2*Math.PI*(i%b.angularSym)/b.angularSym; r=symR; }
             x=b.cx+r*Math.cos(ang); y=b.cy+r*Math.sin(ang);
           }while(insideBig(x,y) && ++tries<30);
+          if(b.angularSym>1 && (i%b.angularSym)===0){ symAng=ang; symR=r; }
           const tx=-Math.sin(ang), ty=Math.cos(ang);
           let vX=0,vY=0,eqA=0,eqU=0;
           if(b.vMode==="kepler" && b.aroundMass>0 && r>1){ const v=Math.sqrt(G*b.aroundMass/r)*b.vScale*b.direction; vX=v*tx; vY=v*ty; }
@@ -21351,6 +21542,7 @@ function makeSim(){
           else if(b.vMode==="random"){ const a2=rng()*Math.PI*2, v=b.vScale*rng(); vX=v*Math.cos(a2); vY=v*Math.sin(a2); }
           else if(b.vMode==="virial"){ const a2=rng()*Math.PI*2, v=rng(); vX=v*Math.cos(a2); vY=v*Math.sin(a2); }   // 第235便: 単位乱数 — 後段の post-pass で √(3·(−W/M))·vScale 倍
           else if(b.vMode===VMODE_EQUILIBRIUM){ eqA=rng()*Math.PI*2; eqU=rng(); }   // 第284便a: 向き a と分位 u(virial と同じ 2 回の乱数 —— 位置の乱数列は同じ)。速さは post-pass
+          else if(b.vMode===VMODE_JEANS){ eqA=rng(); eqU=rng(); }   // 第286便a: Box–Muller の 2 つの一様乱数(u₁=eqA・u₂=eqU)。速度は post-pass
           if(b.vMode!=="hubble"){ vX += (rng()*2-1)*0.02; vY += (rng()*2-1)*0.02; }   // 第31便: hubble は共動初期条件を乱さない
           const o={m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:vX+(b.bulkVx||0), vy:vY+(b.bulkVy||0),   // v1.18: 母集団の並進速度
@@ -21363,6 +21555,7 @@ function makeSim(){
           // 第235便: 平衡初期化の後段タグ(全群の配置が終わってから実ポテンシャルで速度を決める)
           if(b.vMode==="enclosed"||b.vMode==="virial") o.eq={mode:b.vMode, cx:b.cx, cy:b.cy, dir:b.direction, scale:(b.vScale===undefined?1:b.vScale), row:b};
           else if(b.vMode===VMODE_EQUILIBRIUM) o.eq={mode:b.vMode, cx:b.cx, cy:b.cy, a:eqA, u:eqU, scale:(b.vScale===undefined?1:b.vScale), row:b};   // 第284便a
+          else if(b.vMode===VMODE_JEANS) o.eq={mode:b.vMode, cx:b.cx, cy:b.cy, u1:eqA, u2:eqU, scale:(b.vScale===undefined?1:b.vScale), row:b};   // 第286便a
           if(lensRowSet && lensRowSet.has(b)) o.lensEx=1;   // 第283便f: 光線の源から外す DR 代表粒子
           if(b.particleRadius>0) o.radius=b.particleRadius;   // 第285便a(R96): 群の代表粒子の半径(明示半径 radOv —— 分布半径とは別の欄)
           push(o);
@@ -21458,6 +21651,13 @@ function makeSim(){
         for(let i=0;i<P.length;i++){ const o=P[i]; if(!o.eq || o.eq.mode!==VMODE_EQUILIBRIUM) continue;
           if(!eqRows.has(o.eq.row)) eqRows.set(o.eq.row,[]); eqRows.get(o.eq.row).push(i); }
         S.eqInit.equilibrium=[...eqRows.entries()].map(([row,idx])=>equilibriumRowVelocities(P,idx,row,{G, eps2, halo:hl}));
+      }
+      // 第286便a(R103・AN60): vMode:"jeans" の行は**全群の配置・virial・equilibrium の後**に(宣言の無い構成はここへ入らない)
+      if(P.some(o=>o.eq && o.eq.mode===VMODE_JEANS)){
+        const jRows=new Map();
+        for(let i=0;i<P.length;i++){ const o=P[i]; if(!o.eq || o.eq.mode!==VMODE_JEANS) continue;
+          if(!jRows.has(o.eq.row)) jRows.set(o.eq.row,[]); jRows.get(o.eq.row).push(i); }
+        S.eqInit.jeans=jeansRowsVelocities(P,[...jRows.entries()],{G, eps2, phys, halo:hl});
       }
     }
     if(preset.balanceFrame==="barycentric"){
@@ -42981,7 +43181,8 @@ function dfmGeoToyStep(S,dt){
 // (中心 spin 1.2/0 の 2 走行が t=40 までビット一致)。本関数は `physics.spaceMesh.centerSpin:"read"` を
 // 宣言した宇宙だけが通る別経路で、onePass の場を**場の契約の読み手** `dfmFieldContract`
 // (p=frameWeightPow・W_bg=D₀(pull 系は D0pull)・全源・mean・static・**spin:"e6"・spinSources:"center"・q=physics.q**)に替える。
-//   中心 = pinned の源(pinned が無ければ最大質量の 1 体)。自転 s=S.spin・R=S.R(表示・衝突の半径をそのまま —— **R_drag の宣言は未実装**)。
+//   中心 = pinned の源(pinned が無ければ最大質量の 1 体)。自転 s=S.spin・R=S.R(表示・衝突の半径をそのまま)——
+//   第286便a: `spaceMesh.dragR` を宣言した宇宙は pinned の源の R を R_drag にする(引きずりの核を本体半径から分ける —— R102)。
 //   **それ以外の式・順序・帳簿は既定のトイと同じ**(源の加速度は同じ `dfmField` need:"gravity"・適用と記帳は `dfmGeoToyFinish`)。
 //   **中心の自転 0 では既定経路とビット一致**(自転を読まない源の演算は `dfmLocalMeshField` と同じ順 ——
 //   器 tests/exp-w282d-analogy.mjs と QA `behavior.centerSpinResponse` が機械確認する)。
@@ -42999,8 +43200,11 @@ function dfmGeoToySpinStep(S,dt,cf,law){
   const eps=p.softening, G=p.G;
   const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;
   const BD=[];
+  // 第286便a(R102): `spaceMesh.dragR` を宣言した宇宙は **pinned の源(中心)の自転項の R を R_drag にする**(本体半径 S.R とは別の欄)。
+  //   宣言が無ければ従来どおり S.R(1 bit 不変)。自転を読むのは中心だけなので、pinned 以外の R は読まれない
+  const dR=(cf.dragR!==undefined && cf.dragR!==null)? cf.dragR : null;
   for(let i=0;i<n;i++) BD.push({id:i, m:m[i], x:x[i], y:y[i], vx:vx[i], vy:vy[i], ax:0, ay:0,
-    spin:S.spin[i], R:S.R[i], omegaDot:0, pinned:(pin[i]===1)});
+    spin:S.spin[i], R:(dR!==null && pin[i]===1)? dR : S.R[i], omegaDot:0, pinned:(pin[i]===1)});
   // 源の加速度(既定のトイと同じ: pinned は規定運動〔静止・等速 0 / レールは 2 階微分〕・自由粒子は g=G∇D)
   for(let i=0;i<n;i++){
     if(pin[i]){
