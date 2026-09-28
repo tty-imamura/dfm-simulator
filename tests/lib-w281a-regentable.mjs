@@ -365,6 +365,12 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/cluster-w285a.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第285便a: 💮 の半径の分離(DR 惑星級・恒星は表示比較の仮定・dispMag)・E9 の不発火と検出力・第284便a の宣言との力学のビット一致・'
       + '走査 (a) 半径 bin の診断 → (b) 実効ポテンシャル Φ_eff=Φ̄_E4−½⟨|ū|²⟩ の初期分布 → (c) N_rep 320 × 乱数種 3 の門(門は第283便f のまま)' }),
+  // ---- 第285便c(原仮定者の裁定(第75報)⑥・統括の検証項目 R99): 背景場の微分の算出可否と宣言の型 bgModel(html の純関数と受理器だけを読む ——
+  //   Node だけ・1 步も走らせない・他の正本は読まない)
+  S('bgderiv', 'node tests/exp-w285c-bgderiv.mjs', ['tests/out/bgderiv-w285c.json'], 1, { secSource: 'w285c-branch', node: true,
+    volatilePaths: { 'tests/out/bgderiv-w285c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第285便c: 同じ (W₀,A₀) で微分が違う反例・一様凍結の宣言(微分は宣言による 0)・背景源の台帳からの全項・遠方 1 源の閉じた式の一致・'
+      + '単位の指数・無限一様の発散・判定表・受理器の事例' }),
 ];
 
 /**

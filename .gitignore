@@ -747,3 +747,7 @@ tests/out/regen-plan-w281a.json
 #   html の Δ と参照実装 tests/lib-w285b-gr1pn.mjs の照合・Euler–Lagrange・保存量・kF0 主系列の λ=0/1・☄️ の ε/dt・geoPN 1/2 の前後)。
 #   QA behavior.pn1Binary・docs.pn1 が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**
 !tests/out/pn1-w285b.json
+# 第285便c(原仮定者の裁定(第75報)⑥・統括の検証項目 R99): **背景場の微分の算出可否と宣言の型 bgModel** の正本
+#   (tests/exp-w285c-bgderiv.mjs —— 反例・一様凍結の宣言・台帳・遠方 1 源・単位・発散・判定表・受理器の事例)。
+#   QA behavior.bgDerivatives・docs.bgDerivatives が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/bgderiv-w285c.json

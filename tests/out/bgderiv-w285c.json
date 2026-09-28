@@ -1,0 +1,1452 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第285便c",
+  "target": "beta/index.html",
+  "targetSha256": "d627b6c83f89c5adb0ef12352e1ccc4d3edac9670c4a88a0d2519b1c01631637",
+  "generatedAt": "2026-09-27T23:48:12.175Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4940573,
+    "sha256": "d627b6c83f89c5adb0ef12352e1ccc4d3edac9670c4a88a0d2519b1c01631637",
+    "mtime": "2026-09-27T22:18:45.017Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w285c-bgderiv.mjs",
+    "bytes": 33468,
+    "sha256": "7336c75506862094b01c3e42f05120e0a31df9974bb2779d4888c8760a184adb",
+    "mtime": "2026-09-27T22:22:43.184Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-09-27T22:04:59.353Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-27T22:04:59.345Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-27T22:04:59.357Z"
+   }
+  ],
+  "codeSha256": "6ea101f4f4f37fffb10f70f78997ba72ef2c85acb50930ee1913f4b136090075",
+  "harnessVersion": "w285c-bgderiv-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第75報)⑥: 背景複素決定力の W₀・A₀ を設定することで gradW・gradA・dWdt・dAdt が算出できるか調査する",
+  "reading": "統括の検証項目 R99: 1 点の (W₀,A₀) だけから微分は一意に出ない。出るのは一様・凍結の宣言(微分 0)・背景源の台帳 (m,X,V,a)・遠方 1 源(台帳の特別な場合)。W は M/L²・A は W×速度・D₀ から換算しない・無限一様 3D の p=2 和は発散",
+  "kernel": "p=2(w=m/(r²+ε²) —— HP.dfmComplexMomentsOf と同じ)",
+  "relTol": 1e-12,
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま vm で実行・1 步も走らせない)",
+  "notClaim": [
+   "W₀・A₀ から微分が出る",
+   "W₀ は D₀ から出せる",
+   "観測一致を達成した",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w283e-scope-3",
+   "presets": [],
+   "roots": [
+    "$",
+    "BG_COMPLEX_UNITS",
+    "HP.BGC_DERIV_VERSION",
+    "HP.BG_COMPLEX_UNITS",
+    "HP.bgcDerivation",
+    "HP.bgcDistantClosed",
+    "HP.dfmComplexMomentsOf",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validateBackgroundComplex",
+    "HP.validatePreset",
+    "bgcDerivation",
+    "bgcDistantClosed",
+    "bgcModelDerive",
+    "cw",
+    "dfmComplexMomentsOf",
+    "isNum",
+    "validateBackgroundComplex"
+   ],
+   "core": false,
+   "consts": [],
+   "complete": true,
+   "names": 811,
+   "segments": 738,
+   "closureShare": 0.3194
+  },
+  "scopeSha256": "6745a8cb437699b5b61f0f2501468ccdd304da9503fe7c9881cc3b70b7b8a785",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "counterexample": {
+  "at": [
+   0,
+   0
+  ],
+  "eps2": 0,
+  "W0": 0.5,
+  "A0": [
+   0,
+   0
+  ],
+  "rows": [
+   {
+    "key": "pairUp",
+    "label": "源対 (±2,0)・速度 (0,±3)",
+    "html": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      1.5,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ],
+     "n": 2
+    },
+    "mine": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      1.5,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ]
+    },
+    "relHtml": 0,
+    "sameW0A0": true
+   },
+   {
+    "key": "pairDown",
+    "label": "同じ源対・速度の向きを反転 (0,∓3)",
+    "html": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      -1.5,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ],
+     "n": 2
+    },
+    "mine": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      -1.5,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ]
+    },
+    "relHtml": 0,
+    "sameW0A0": true
+   },
+   {
+    "key": "pairStatic",
+    "label": "同じ源対・静止",
+    "html": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ],
+     "n": 2
+    },
+    "mine": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ]
+    },
+    "relHtml": 0,
+    "sameW0A0": true
+   },
+   {
+    "key": "single",
+    "label": "1 源 m=2 を (2,0)・静止",
+    "html": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0.5,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ],
+     "n": 1
+    },
+    "mine": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0.5,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ]
+    },
+    "relHtml": 0,
+    "sameW0A0": true
+   },
+   {
+    "key": "breathing",
+    "label": "源対 (±2,0)・速度 (±1,0)(離れていく)",
+    "html": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0.5,
+      0,
+      0,
+      0
+     ],
+     "dWdt": -0.5,
+     "dAdt": [
+      0,
+      0
+     ],
+     "n": 2
+    },
+    "mine": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0.5,
+      0,
+      0,
+      0
+     ],
+     "dWdt": -0.5,
+     "dAdt": [
+      0,
+      0
+     ]
+    },
+    "relHtml": 0,
+    "sameW0A0": true
+   },
+   {
+    "key": "pairAccel",
+    "label": "源対 (±2,0)・速度 (0,±3)・加速度 (0,1)(同じ向き)",
+    "html": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      1.5,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0.5
+     ],
+     "n": 2
+    },
+    "mine": {
+     "W": 0.5,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      1.5,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0.5
+     ]
+    },
+    "relHtml": 0,
+    "sameW0A0": true
+   }
+  ],
+  "distinctDerivatives": 6,
+  "distinctByQuantity": {
+   "gradW": 2,
+   "gradA": 4,
+   "dWdt": 2,
+   "dAdt": 2
+  },
+  "allSameW0A0": true,
+  "worstRelHtml": 0,
+  "dAydx": {
+   "pairUp": 1.5,
+   "pairDown": -1.5
+  },
+  "notAFunction": true
+ },
+ "uniform": {
+  "decls": [
+   {
+    "key": "rest",
+    "ok": true,
+    "err": null,
+    "decl": {
+     "background": "declared",
+     "W0": 0.5,
+     "A0": [
+      0,
+      0
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ],
+     "note": "第285便c 一様・凍結(背景が静止する系)",
+     "bgModel": "uniform",
+     "domain": "finite"
+    },
+    "derivation": {
+     "W0": "declared",
+     "A0": "declared",
+     "gradW": "declaredZero",
+     "gradA": "declaredZero",
+     "dWdt": "declaredZero",
+     "dAdt": "declaredZero"
+    },
+    "derivZero": true,
+    "a0IsW0U": true,
+    "statusDeclaredZero": true
+   },
+   {
+    "key": "flow",
+    "ok": true,
+    "err": null,
+    "decl": {
+     "background": "declared",
+     "W0": 0.5,
+     "A0": [
+      0.15,
+      -0.35
+     ],
+     "gradW": [
+      0,
+      0
+     ],
+     "gradA": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0,
+      0
+     ],
+     "note": "第285便c 一様に流れる背景",
+     "bgModel": "uniform",
+     "U": [
+      0.3,
+      -0.7
+     ],
+     "domain": "boundary"
+    },
+    "derivation": {
+     "W0": "declared",
+     "A0": "computed",
+     "gradW": "declaredZero",
+     "gradA": "declaredZero",
+     "dWdt": "declaredZero",
+     "dAdt": "declaredZero"
+    },
+    "derivZero": true,
+    "a0IsW0U": true,
+    "statusDeclaredZero": true
+   }
+  ],
+  "ring": {
+   "cfg": {
+    "N": 64,
+    "m": 0.25,
+    "R": 10,
+    "eps2": 0.01,
+    "U": [
+     0.3,
+     -0.7
+    ],
+    "offset": 5
+   },
+   "W": 0.15998400159983997,
+   "Wexact": 0.15998400159984,
+   "relWexact": 1.7348969483244049e-16,
+   "relHtml": 1.2190476190476192,
+   "residual": {
+    "gradW": 3.3927035465100835e-17,
+    "gradA": 9.899647724643042e-17,
+    "dWdt": 9.565951733924738e-17,
+    "dAdt": 1.4367105387469555e-15,
+    "A0minusW0U": 0
+   },
+   "uniformAtCenter": true,
+   "restFrameA0": [
+    0,
+    0
+   ],
+   "restFrameA0Zero": true,
+   "offCenterGradW": [
+    0.02842170118782424,
+    -2.927345865710862e-18
+   ],
+   "offCenterGradWNonZero": true,
+   "tolResidual": 1e-12
+  },
+  "ok": true
+ },
+ "sources": {
+  "ok": true,
+  "err": null,
+  "decl": {
+   "background": "declared",
+   "W0": 0.14797400211302428,
+   "A0": [
+    0.04961294362131352,
+    -0.05788250400886923
+   ],
+   "gradW": [
+    0.03177877665951789,
+    0.003444177533954285
+   ],
+   "gradA": [
+    0.017221850480824297,
+    -0.016465834130683484,
+    -0.041737666301821616,
+    -0.019987460861268735
+   ],
+   "dWdt": 0.002765610380444439,
+   "dAdt": [
+    0.016321991795514034,
+    0.0015612156982631985
+   ],
+   "note": "第285便c 背景源の台帳(明示天体と重複しない 3 源)",
+   "refPos": [
+    0.4,
+    -0.3
+   ],
+   "bgModel": "sources",
+   "ledger": [
+    {
+     "id": "g1",
+     "m": 2,
+     "x": 5,
+     "y": 1,
+     "vx": 0.3,
+     "vy": -1.2,
+     "ax": 0.01,
+     "ay": -0.02
+    },
+    {
+     "id": "g2",
+     "m": 0.7,
+     "x": -3,
+     "y": 4,
+     "vx": -0.8,
+     "vy": 0.5,
+     "ax": -0.03,
+     "ay": 0.004
+    },
+    {
+     "id": "g3",
+     "m": 1.3,
+     "x": 1.5,
+     "y": -6,
+     "vx": 1.1,
+     "vy": 0.9,
+     "ax": 0.002,
+     "ay": 0.015
+    }
+   ],
+   "eps": 0.5
+  },
+  "mine": {
+   "W": 0.14797400211302428,
+   "A": [
+    0.04961294362131352,
+    -0.05788250400886923
+   ],
+   "gradW": [
+    0.03177877665951789,
+    0.003444177533954285
+   ],
+   "gradA": [
+    0.017221850480824297,
+    -0.016465834130683484,
+    -0.041737666301821616,
+    -0.019987460861268735
+   ],
+   "dWdt": 0.002765610380444439,
+   "dAdt": [
+    0.016321991795514034,
+    0.0015612156982631985
+   ]
+  },
+  "relDecl": 0,
+  "relHtml": 0,
+  "accelOnly": {
+   "dA": [
+    [
+     0.5,
+     -0.25
+    ],
+    [
+     0,
+     0.125
+    ],
+    [
+     -0.375,
+     0
+    ]
+   ],
+   "fiveBitSame": true,
+   "dAdtShift": [
+    0.028930691301825327,
+    -0.018757232866143763
+   ],
+   "predicted": [
+    0.02893069130182533,
+    -0.01875723286614376
+   ],
+   "relShift": 1.1992271168904684e-16
+  },
+  "missingAccelRejected": true,
+  "missingAccelErr": "physics.backgroundComplex.ledger[0].ax は有限数(∂ₜA₀ には源の加速度が要る —— 静止・等速なら 0 と明示する)",
+  "allComputed": true
+ },
+ "distant": {
+  "at": [
+   1.25,
+   -0.5
+  ],
+  "rows": [
+   {
+    "W0": 0.25,
+    "R": 2,
+    "th": 0.3,
+    "V": [
+     0.3,
+     -0.2
+    ],
+    "a": [
+     0.01,
+     0.02
+    ],
+    "m": 1,
+    "X": [
+     -0.660672978251212,
+     -1.0910404133226792
+    ],
+    "relLedger": 1.7735402504097346e-16,
+    "relHtmlClosed": 0,
+    "relValidator": 0,
+    "accepted": true,
+    "closed": {
+     "W": 0.25,
+     "A": [
+      0.075,
+      -0.05
+     ],
+     "gradW": [
+      -0.2388341222814015,
+      -0.07388005166533489
+     ],
+     "gradA": [
+      -0.07165023668442044,
+      -0.022164015499600464,
+      0.047766824456280305,
+      0.014776010333066978
+     ],
+     "dWdt": 0.05687422635135347,
+     "dAdt": [
+      0.01956226790540604,
+      -0.006374845270270694
+     ]
+    }
+   },
+   {
+    "W0": 0.0015,
+    "R": 40,
+    "th": 2.1,
+    "V": [
+     -1.1,
+     0.4
+    ],
+    "a": [
+     0,
+     -0.05
+    ],
+    "m": 2.4,
+    "X": [
+     21.4438441839943,
+     -35.02837466595495
+    ],
+    "relLedger": 0,
+    "relHtmlClosed": 0,
+    "relValidator": 0,
+    "accepted": true,
+    "closed": {
+     "W": 0.0015,
+     "A": [
+      -0.0016500000000000002,
+      0.0006000000000000001
+     ],
+     "gradW": [
+      0.00003786345784498932,
+      -0.00006474070249866553
+     ],
+     "gradA": [
+      -0.00004164980362948825,
+      0.00007121477274853209,
+      0.000015145383137995727,
+      -0.000025896280999466213
+     ],
+     "dWdt": 0.00006754608462895446,
+     "dAdt": [
+      -0.00007430069309184991,
+      -0.000047981566148418226
+     ]
+    }
+   },
+   {
+    "W0": 0.0000073,
+    "R": 900,
+    "th": -1.2,
+    "V": [
+     0.05,
+     2.5
+    ],
+    "a": [
+     0.0003,
+     0.0001
+    ],
+    "m": 5.913,
+    "X": [
+     -324.87197902900624,
+     838.3351773705036
+    ],
+    "relLedger": 2.1883453804904753e-16,
+    "relHtmlClosed": 0,
+    "relValidator": 0,
+    "accepted": true,
+    "closed": {
+     "W": 0.0000073,
+     "A": [
+      3.6500000000000005e-7,
+      0.00001825
+     ],
+     "gradW": [
+      -5.878248017066039e-9,
+      1.5119745172357226e-8
+     ],
+     "gradA": [
+      -2.9391240085330195e-10,
+      7.559872586178613e-10,
+      -1.4695620042665099e-8,
+      3.779936293089306e-8
+     ],
+     "dWdt": -3.750545053003976e-8,
+     "dAdt": [
+      3.147274734980119e-10,
+      -9.303362632509942e-8
+     ]
+    }
+   },
+   {
+    "W0": 4.2,
+    "R": 0.75,
+    "th": 4,
+    "V": [
+     0,
+     0
+    ],
+    "a": [
+     0.2,
+     -0.1
+    ],
+    "m": 2.3625000000000003,
+    "X": [
+     1.7402327156477089,
+     0.0676018714809461
+    ],
+    "relLedger": 6.287107543202505e-16,
+    "relHtmlClosed": 0,
+    "relValidator": 0,
+    "accepted": true,
+    "closed": {
+     "W": 4.2,
+     "A": [
+      0,
+      0
+     ],
+     "gradW": [
+      7.320808553672454,
+      8.476187947448796
+     ],
+     "gradA": [
+      0,
+      0,
+      0,
+      0
+     ],
+     "dWdt": 0,
+     "dAdt": [
+      0.8400000000000001,
+      -0.42000000000000004
+     ]
+    }
+   }
+  ],
+  "worstRel": 6.287107543202505e-16,
+  "ok": true
+ },
+ "units": {
+  "scale": {
+   "alpha": 3,
+   "beta": 5,
+   "gamma": 7
+  },
+  "rows": [
+   {
+    "key": "W0",
+    "sym": "W₀",
+    "unit": "M/L^2",
+    "want": [
+     1,
+     -2,
+     0
+    ],
+    "measured": [
+     1,
+     -2,
+     0
+    ],
+    "ok": true
+   },
+   {
+    "key": "A0",
+    "sym": "A₀",
+    "unit": "M/(L·T)",
+    "want": [
+     1,
+     -1,
+     -1
+    ],
+    "measured": [
+     1,
+     -1,
+     -1
+    ],
+    "ok": true
+   },
+   {
+    "key": "gradW",
+    "sym": "∇W₀",
+    "unit": "M/L^3",
+    "want": [
+     1,
+     -3,
+     0
+    ],
+    "measured": [
+     1,
+     -3,
+     0
+    ],
+    "ok": true
+   },
+   {
+    "key": "gradA",
+    "sym": "∇A₀",
+    "unit": "M/(L^2·T)",
+    "want": [
+     1,
+     -2,
+     -1
+    ],
+    "measured": [
+     1,
+     -2,
+     -1
+    ],
+    "ok": true
+   },
+   {
+    "key": "dWdt",
+    "sym": "∂ₜW₀",
+    "unit": "M/(L^2·T)",
+    "want": [
+     1,
+     -2,
+     -1
+    ],
+    "measured": [
+     1,
+     -2,
+     -1
+    ],
+    "ok": true
+   },
+   {
+    "key": "dAdt",
+    "sym": "∂ₜA₀",
+    "unit": "M/(L·T^2)",
+    "want": [
+     1,
+     -1,
+     -2
+    ],
+    "measured": [
+     1,
+     -1,
+     -2
+    ],
+    "ok": true
+   }
+  ],
+  "ok": true,
+  "velocityUnit": [
+   0,
+   1,
+   -1
+  ],
+  "D0": {
+   "unit": "M/L",
+   "lengthExponent": -1,
+   "pair": [
+    {
+     "D0": 1,
+     "W0": 1
+    },
+    {
+     "D0": 1,
+     "W0": 0.5
+    }
+   ],
+   "sameD0DifferentW0": true
+  },
+  "d0KeyRejected": true,
+  "d0KeyErr": "physics.backgroundComplex に D0 は置けない(W₀ は [M/L²]・A₀ は W₀×速度 [M/(L·T)] —— D₀ [M/L] から換算しない。D₀ は physics.D0 の別鍵)"
+ },
+ "divergence": {
+  "d3": {
+   "cfg": {
+    "rho": 1,
+    "h": 1,
+    "eps": 0.5,
+    "radii": [
+     4,
+     8,
+     16,
+     32
+    ]
+   },
+   "rows": [
+    {
+     "R": 4,
+     "n": 257,
+     "W": 41.79268431900796,
+     "Wclosed": 41.177223530957946,
+     "WoverR": 10.44817107975199
+    },
+    {
+     "R": 8,
+     "n": 2109,
+     "W": 91.76116418526571,
+     "Wclosed": 91.05354946364226,
+     "WoverR": 11.470145523158214
+    },
+    {
+     "R": 16,
+     "n": 17077,
+     "W": 192.33775870815,
+     "Wclosed": 191.3886110910652,
+     "WoverR": 12.021109919259375
+    },
+    {
+     "R": 32,
+     "n": 137065,
+     "W": 393.4229587506374,
+     "Wclosed": 392.3524220405157,
+     "WoverR": 12.294467460957419
+    }
+   ],
+   "ratios": [
+    2.1956274328981378,
+    2.096069294847003,
+    2.045479584420086
+   ],
+   "diverges": true
+  },
+  "d2": {
+   "cfg": {
+    "sigma": 1,
+    "h": 0.5,
+    "eps": 0.5,
+    "radii": [
+     8,
+     32,
+     128,
+     512
+    ]
+   },
+   "rows": [
+    {
+     "R": 8,
+     "n": 797,
+     "W": 17.429155506021814,
+     "Wclosed": 17.432936662517633
+    },
+    {
+     "R": 32,
+     "n": 12853,
+     "W": 26.152659341934317,
+     "Wclosed": 26.131799980425647
+    },
+    {
+     "R": 128,
+     "n": 205861,
+     "W": 34.86554467053701,
+     "Wclosed": 34.84142538139153
+    },
+    {
+     "R": 512,
+     "n": 3294097,
+     "W": 43.576150707283446,
+     "Wclosed": 43.55172480212684
+    }
+   ],
+   "increments": [
+    8.723503835912503,
+    8.712885328602695,
+    8.710606036746434
+   ],
+   "logSlope": [
+    6.2926778616234085,
+    6.285018227704658,
+    6.283374066175774
+   ],
+   "diverges": true
+  },
+  "infiniteRejected": true,
+  "infiniteErr": "physics.backgroundComplex.domain:\"infinite\" は受理しない(無限一様 3D の p=2 和 Σm/r² は領域の半径に比例して発散する —— 有限領域 \"finite\" か境界モデル \"boundary\" を宣言する)",
+  "finiteAccepted": true
+ },
+ "judgment": [
+  {
+   "given": "1 点の W₀・A₀ だけ",
+   "model": "null",
+   "status": {
+    "W0": "宣言",
+    "A0": "宣言",
+    "gradW": "未確定",
+    "gradA": "未確定",
+    "dWdt": "未確定",
+    "dAdt": "未確定"
+   },
+   "computable": "なし(W₀・A₀ は宣言の値)",
+   "missing": "∇W₀・∇A₀・∂ₜW₀・∂ₜA₀(同じ W₀・A₀ で違う値の台帳がある —— (i))"
+  },
+  {
+   "given": "W₀・A₀ + 一様・凍結の宣言(有限領域/境界モデル)",
+   "model": "uniform",
+   "status": {
+    "W0": "宣言",
+    "A0": "宣言",
+    "gradW": "宣言による 0",
+    "gradA": "宣言による 0",
+    "dWdt": "宣言による 0",
+    "dAdt": "宣言による 0"
+   },
+   "computable": "微分 4 つ = 宣言による 0(算出ではない)",
+   "missing": "なし(A₀=0 は背景が静止する座標系の宣言・流れる背景は U で A₀=W₀U)"
+  },
+  {
+   "given": "背景源の台帳 (m, X, V) + 評価点 + ε(加速度なし)",
+   "model": "—(受理しない)",
+   "status": {
+    "W0": "算出",
+    "A0": "算出",
+    "gradW": "算出",
+    "gradA": "算出",
+    "dWdt": "算出",
+    "dAdt": "未確定"
+   },
+   "computable": "W₀・A₀・∇W₀・∇A₀・∂ₜW₀",
+   "missing": "∂ₜA₀(源の加速度 a が要る —— 受理器は a の欠落を拒否)"
+  },
+  {
+   "given": "背景源の台帳 (m, X, V, a) + 評価点 + ε",
+   "model": "sources",
+   "status": {
+    "W0": "算出",
+    "A0": "算出",
+    "gradW": "算出",
+    "gradA": "算出",
+    "dWdt": "算出",
+    "dAdt": "算出"
+   },
+   "computable": "6 項すべて",
+   "missing": "なし(明示天体と重複しない源・有限個)"
+  },
+  {
+   "given": "遠方 1 源 (W₀, R_bg, θ_bg, V, a)",
+   "model": "distantSource",
+   "status": {
+    "W0": "宣言",
+    "A0": "算出",
+    "gradW": "算出",
+    "gradA": "算出",
+    "dWdt": "算出",
+    "dAdt": "算出"
+   },
+   "computable": "A₀・∇W₀・∇A₀・∂ₜW₀・∂ₜA₀(閉じた式 —— sources の特別な場合)",
+   "missing": "なし(軟化を無視 R≫ε)"
+  },
+  {
+   "given": "D₀ だけ",
+   "model": "—(受理しない)",
+   "status": {
+    "W0": "未確定",
+    "A0": "未確定",
+    "gradW": "未確定",
+    "gradA": "未確定",
+    "dWdt": "未確定",
+    "dAdt": "未確定"
+   },
+   "computable": "なし(D₀ は M/L・W₀ は M/L² —— 換算しない)",
+   "missing": "6 項すべて"
+  },
+  {
+   "given": "無限一様 3D の背景",
+   "model": "—(受理しない)",
+   "status": {
+    "W0": "未確定",
+    "A0": "未確定",
+    "gradW": "未確定",
+    "gradA": "未確定",
+    "dWdt": "未確定",
+    "dAdt": "未確定"
+   },
+   "computable": "なし(p=2 の和が半径に比例して発散)",
+   "missing": "有限領域か境界モデルの宣言"
+  }
+ ],
+ "validator": [
+  {
+   "label": "uniform・A0=0・finite",
+   "want": true,
+   "got": true,
+   "ok": true,
+   "idempotent": true,
+   "err": null,
+   "derivation": {
+    "W0": "declared",
+    "A0": "declared",
+    "gradW": "declaredZero",
+    "gradA": "declaredZero",
+    "dWdt": "declaredZero",
+    "dAdt": "declaredZero"
+   }
+  },
+  {
+   "label": "uniform・U(A0=W0·U)・boundary",
+   "want": true,
+   "got": true,
+   "ok": true,
+   "idempotent": true,
+   "err": null,
+   "derivation": {
+    "W0": "declared",
+    "A0": "computed",
+    "gradW": "declaredZero",
+    "gradA": "declaredZero",
+    "dWdt": "declaredZero",
+    "dAdt": "declaredZero"
+   }
+  },
+  {
+   "label": "uniform・domain なし",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.domain は \"finite\"(有限領域)か \"boundary\"(境界モデル)を明示する(bgModel:\"uniform\")",
+   "derivation": null
+  },
+  {
+   "label": "uniform・domain \"infinite\"(発散)",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.domain:\"infinite\" は受理しない(無限一様 3D の p=2 和 Σm/r² は領域の半径に比例して発散する —— 有限領域 \"finite\" か境界モデル \"boundary\" を宣言する)",
+   "derivation": null
+  },
+  {
+   "label": "uniform・A0 も U も無い",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.bgModel:\"uniform\" は A0(座標系の宣言 —— 背景が静止する系なら [0,0])か U(一様な流れ —— A0=W0·U)を書く",
+   "derivation": null
+  },
+  {
+   "label": "uniform・gradW を 0 でない値で書く",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.gradW の値が bgModel:\"uniform\" から出る値と違う(型の宣言と成分の宣言が矛盾 —— 成分は書かないか一致させる)",
+   "derivation": null
+  },
+  {
+   "label": "uniform・A0 と U が矛盾",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.A0 の値が bgModel:\"uniform\" から出る値と違う(型の宣言と成分の宣言が矛盾 —— 成分は書かないか一致させる)",
+   "derivation": null
+  },
+  {
+   "label": "sources・源対",
+   "want": true,
+   "got": true,
+   "ok": true,
+   "idempotent": true,
+   "err": null,
+   "derivation": {
+    "W0": "computed",
+    "A0": "computed",
+    "gradW": "computed",
+    "gradA": "computed",
+    "dWdt": "computed",
+    "dAdt": "computed"
+   }
+  },
+  {
+   "label": "sources・加速度の欠落",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.ledger[0].ax は有限数(∂ₜA₀ には源の加速度が要る —— 静止・等速なら 0 と明示する)",
+   "derivation": null
+  },
+  {
+   "label": "sources・id \"body:0\"(明示天体と重複)",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.ledger[0].id に \"body:…\" は使えない(明示天体の予約 —— **同じ源を明示天体と背景の両方に入れない**)",
+   "derivation": null
+  },
+  {
+   "label": "sources・refPos なし",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.bgModel:\"sources\" は refPos(評価点 [x,y])が要る",
+   "derivation": null
+  },
+  {
+   "label": "sources・源が評価点の上(ε=0)",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.ledger の源が評価点 refPos の上にある(eps=0 では未定義)",
+   "derivation": null
+  },
+  {
+   "label": "sources・W0 を算出値と違う値で書く",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.W0 の値が bgModel:\"sources\" から出る値と違う(型の宣言と成分の宣言が矛盾 —— 成分は書かないか一致させる)",
+   "derivation": null
+  },
+  {
+   "label": "distantSource",
+   "want": true,
+   "got": true,
+   "ok": true,
+   "idempotent": true,
+   "err": null,
+   "derivation": {
+    "W0": "declared",
+    "A0": "computed",
+    "gradW": "computed",
+    "gradA": "computed",
+    "dWdt": "computed",
+    "dAdt": "computed"
+   }
+  },
+  {
+   "label": "distantSource・aExt なし",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.aExt は有限数 2 つの配列(源の加速度 [L/T²] —— ∂ₜA₀ に要る。等速なら [0,0] と明示する)",
+   "derivation": null
+  },
+  {
+   "label": "distantSource・Rbg=0",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.Rbg は正の有限数(源までの距離 [L])",
+   "derivation": null
+  },
+  {
+   "label": "null・W0 と A0 だけ(微分は未確定)",
+   "want": true,
+   "got": true,
+   "ok": true,
+   "idempotent": true,
+   "err": null,
+   "derivation": {
+    "W0": "declared",
+    "A0": "declared",
+    "gradW": "undetermined",
+    "gradA": "undetermined",
+    "dWdt": "undetermined",
+    "dAdt": "undetermined"
+   }
+  },
+  {
+   "label": "null・微分を書く",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.bgModel:null(未確定)は微分 dWdt を書かない —— 値を置くなら bgModel を外す(手入力)か型を宣言する(**微分を 0 で埋めない**)",
+   "derivation": null
+  },
+  {
+   "label": "知らない型",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.bgModel は \"uniform\"/\"sources\"/\"distantSource\" か null(未確定)",
+   "derivation": null
+  },
+  {
+   "label": "bgModel と background:\"zero\"",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.bgModel は background:\"zero\" と併用しない(ゼロの宣言はそれだけで全成分が決まる)",
+   "derivation": null
+  },
+  {
+   "label": "型の入力を bgModel なしで書く",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex.domain は bgModel の型の入力 —— bgModel を宣言しない宣言には置かない(黙って読まない鍵にしない)",
+   "derivation": null
+  },
+  {
+   "label": "D0 の鍵を中へ入れる",
+   "want": false,
+   "got": false,
+   "ok": true,
+   "idempotent": null,
+   "err": "physics.backgroundComplex に D0 は置けない(W₀ は [M/L²]・A₀ は W₀×速度 [M/(L·T)] —— D₀ [M/L] から換算しない。D₀ は physics.D0 の別鍵)",
+   "derivation": null
+  },
+  {
+   "label": "手入力(従来どおり 6 成分)",
+   "want": true,
+   "got": true,
+   "ok": true,
+   "idempotent": true,
+   "err": null,
+   "derivation": {
+    "W0": "declared",
+    "A0": "declared",
+    "gradW": "declared",
+    "gradA": "declared",
+    "dWdt": "declared",
+    "dAdt": "declared"
+   }
+  }
+ ],
+ "words": {
+  "computed": "算出",
+  "declared": "宣言",
+  "declaredZero": "宣言による 0",
+  "undetermined": "未確定",
+  "unwired": "未接続",
+  "applied": "適用中"
+ },
+ "htmlVersion": "w285c-bgderiv-1",
+ "elapsedS": 0.227
+}

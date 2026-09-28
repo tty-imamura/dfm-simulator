@@ -1229,7 +1229,11 @@ ja: {
     +"background が \"zero\" のときだけ成分の省略を許し(=ゼロと宣言)、それ以外は全成分を明示する。\"declared\" は note に出所が要る。"
     +"未宣言は「未確定」(ゼロとは違う)。宣言は受理器(validateBackgroundComplex)を通したときだけ編集対象の params に入り、拒否は受理器の文をそのまま出す。"
     +"欄を出す・開くだけでは params も presetSig も変わらない(宣言すればセーブの physics に入り、JSON に書いたのと同じ扱いになる)。"
-    +"力学が読むのは physics.meshVelocity(field:\"backgroundComplex\")を宣言した本だけで、⏮ 初めから の再構築で効く。",
+    +"力学が読むのは physics.meshVelocity(field:\"backgroundComplex\")を宣言した本だけで、⏮ 初めから の再構築で効く。"
+    +"第285便c: 1 点の W₀・A₀ だけからは gradW・gradA・dWdt・dAdt は一意に出ない(同じ W₀・A₀ で ∂A_y/∂x=±1.5 の反例)。bgModel で型を宣言すると出る: "
+    +"uniform(一様・凍結 —— 微分は宣言による 0・domain は finite/boundary〔無限一様 3D は発散するので拒否〕・A0=0 は背景が静止する座標系の宣言・流れる背景は U で A0=W0·U)/"
+    +"sources(明示天体と重複しない背景源の台帳 {m,x,y,vx,vy,ax,ay} と refPos・eps から全 6 項を算出 —— ∂ₜA には源の加速度が要る)/"
+    +"distantSource(遠方 1 源 R・θ・V・a の閉じた式)/null(未確定 —— 微分を書かない。0 で埋めない)。",
   bgcShort:"D₀ とは別の鍵(W₀ [M/L²]・A₀ [M/(L·T)] — W₀ に D₀ を流用しない)。未宣言=未確定。受理器を通った値だけが宣言になる。",
   bgcBgNone:"—(未宣言)",
   bgcPhScalar:"数値",
@@ -1243,6 +1247,28 @@ ja: {
   bgcWireApplied:"この運動経路に適用中",
   bgcWireUnwired:"未接続(この運動経路は読まない)",
   bgcWireTip:"力学が W₀・A₀ を読むのは physics.meshVelocity(field:\"backgroundComplex\")を宣言した本だけ(build 時の準備)。それ以外の経路(share・pull・空間メッシュのトイ等)では宣言しても運動は 1 bit も変わらない(tests/exp-w284e-bgfield.mjs の実測)。",
+  /* 第285便c(原仮定者の裁定(第75報)⑥・R99): 微分の宣言の型 bgModel と算出結果の表(算出/宣言/未確定/未接続) */
+  bgcModelManual:"手入力(型なし —— 6 成分を書く)",
+  bgcModelUniform:"uniform —— 一様・凍結(微分は宣言による 0)",
+  bgcModelSources:"sources —— 背景源の台帳から算出",
+  bgcModelDistant:"distantSource —— 遠方 1 源の閉じた式",
+  bgcModelNull:"null —— 未確定(微分を書かない)",
+  bgcPhU:"一様な流れの速度 U(2 成分 —— A0=W0·U)",
+  bgcPhRefPos:"評価点 [x, y]",
+  bgcPhEps:"軟化 ε ≥ 0(p=2 の核)",
+  bgcPhRbg:"源までの距離 R > 0",
+  bgcPhTheta:"源 → 評価点の方位 [rad]",
+  bgcPhVext:"源の速度 V(2 成分)",
+  bgcPhAext:"源の加速度 a(2 成分 —— ∂ₜA₀ に要る)",
+  bgcPhLedger:'[{"id":"g1","m":1,"x":5,"y":0,"vx":0,"vy":1,"ax":0,"ay":0}]',
+  bgcDerivTitle:"算出結果(1 点の W₀・A₀ だけでは微分は出ない —— 型の宣言から出す)",
+  bgcSt_computed:"算出",
+  bgcSt_declared:"宣言",
+  bgcSt_declaredZero:"宣言による 0",
+  bgcSt_undetermined:"未確定",
+  bgcSt_applied:"適用中",
+  bgcSt_unwired:"未接続",
+  bgcDerWire:"力学への接続(この運動経路)",
   divUndo:"⏪ 直前の設定に戻して初めから",
   divRestored:"発散前の設定に戻し、初期配置から再開できます(▶実行)",
   
@@ -2092,7 +2118,11 @@ en: {
     +"Components may be omitted only with background \"zero\" (a declaration of zero); otherwise every component must be written, and \"declared\" needs its source in note. "
     +"Not declared means undetermined (not zero). A value enters the edited side's params only after the validator (validateBackgroundComplex) accepts it; a rejection shows the validator's own message. "
     +"Showing or opening this panel changes neither params nor presetSig (a declaration goes into the save's physics exactly as if written in the JSON). "
-    +"The dynamics read it only in samples that declare physics.meshVelocity (field:\"backgroundComplex\"), from the next rebuild (restart).",
+    +"The dynamics read it only in samples that declare physics.meshVelocity (field:\"backgroundComplex\"), from the next rebuild (restart). "
+    +"Wave 285c: W0 and A0 at one point do NOT determine gradW, gradA, dWdt, dAdt (same W0/A0 with dAy/dx=+-1.5 is a counterexample). A model declared with bgModel gives them: "
+    +"uniform (uniform and frozen - derivatives are 0 by declaration; domain finite/boundary - an infinite uniform 3D sum diverges and is rejected; A0=0 declares the frame where the background rests; a flowing background uses U with A0=W0*U) / "
+    +"sources (all 6 terms computed from a ledger {m,x,y,vx,vy,ax,ay} of background sources not duplicated as explicit bodies, with refPos and eps - dA/dt needs the source accelerations) / "
+    +"distantSource (closed form for one distant source R, theta, V, a) / null (undetermined - derivatives are not written, never filled with 0).",
   bgcShort:"A separate key from D0 (W0 in [M/L^2], A0 in [M/(L*T)] - do not reuse D0 for W0). Not declared = undetermined. Only values the validator accepts become a declaration.",
   bgcBgNone:"- (not declared)",
   bgcPhScalar:"number",
@@ -2106,6 +2136,28 @@ en: {
   bgcWireApplied:"Applied to this motion path",
   bgcWireUnwired:"Not wired (this motion path does not read it)",
   bgcWireTip:"The dynamics read W0/A0 only in samples that declare physics.meshVelocity (field:\"backgroundComplex\") (prepared at build). On every other path (share, pull, space-mesh toys, ...) a declaration leaves the motion bit-for-bit unchanged (measured by tests/exp-w284e-bgfield.mjs).",
+  /* Wave 285c (originator's ruling, report 75 (6), R99): the derivative model bgModel and the result table (computed / declared / undetermined / not wired) */
+  bgcModelManual:"Manual (no model - write all 6 components)",
+  bgcModelUniform:"uniform - uniform and frozen (derivatives are 0 by declaration)",
+  bgcModelSources:"sources - computed from a ledger of background sources",
+  bgcModelDistant:"distantSource - closed form for one distant source",
+  bgcModelNull:"null - undetermined (derivatives are not written)",
+  bgcPhU:"uniform flow velocity U (2 components - A0=W0*U)",
+  bgcPhRefPos:"evaluation point [x, y]",
+  bgcPhEps:"softening eps >= 0 (p=2 kernel)",
+  bgcPhRbg:"distance to the source R > 0",
+  bgcPhTheta:"direction source -> point [rad]",
+  bgcPhVext:"source velocity V (2 components)",
+  bgcPhAext:"source acceleration a (2 components - needed for dA0/dt)",
+  bgcPhLedger:'[{"id":"g1","m":1,"x":5,"y":0,"vx":0,"vy":1,"ax":0,"ay":0}]',
+  bgcDerivTitle:"Result (W0 and A0 at one point do not give the derivatives - they come from a declared model)",
+  bgcSt_computed:"computed",
+  bgcSt_declared:"declared",
+  bgcSt_declaredZero:"0 by declaration",
+  bgcSt_undetermined:"undetermined",
+  bgcSt_applied:"applied",
+  bgcSt_unwired:"not wired",
+  bgcDerWire:"Wiring to the dynamics (this motion path)",
   divUndo:"⏪ Restore last-good settings & restart",
   divRestored:"Pre-divergence settings restored — press ▶ Run to restart from the initial layout",
   
@@ -4477,6 +4529,21 @@ function validateBackgroundComplex(a){
     return {ok:false, err:"physics.backgroundComplex に "+nk+" は置けない(潮汐テンソル T は別鍵 physics.backgroundTidal —— 単位 1/s² の宣言専用。W₀・A₀ とは次元も役割も違う)"};
   if(BG_COMPLEX_BACKGROUNDS.indexOf(a.background)<0)
     return {ok:false, err:'physics.backgroundComplex.background は "solar-excluded"/"heliocentric"/"galactic"/"declared"/"zero" のみ'};
+  // 第285便c(R99 (v)): **W₀ は D₀ から換算しない**(W₀ [M/L²] と D₀ [M/L] は次元が違う)—— D₀ の鍵をこの中へ入れない
+  for(const dk of ["D0","D0pull","D0Source"]) if(a[dk]!==undefined)
+    return {ok:false, err:"physics.backgroundComplex に "+dk+" は置けない(W₀ は [M/L²]・A₀ は W₀×速度 [M/(L·T)] —— D₀ [M/L] から換算しない。D₀ は physics.D0 の別鍵)"};
+  // 第285便c(原仮定者の裁定(第75報)⑥・R99): **微分の宣言の型** bgModel(任意鍵 —— 未指定は従来どおりの手入力)。
+  // 型が 6 成分を出し(uniform は微分を「宣言による 0」・sources/distantSource は算出・null は微分を書かない)、以下の従来の検査に通す
+  let bgm=null;
+  if(a.bgModel!==undefined){
+    const r=bgcModelDerive(a);
+    if(!r.ok) return r;
+    bgm=r;
+    a=Object.assign({}, a, r.fields, r.undetermined? {gradW:[0,0], gradA:[0,0,0,0], dWdt:0, dAdt:[0,0]} : {});   // null 型の微分は検査の間だけの置き場(正準形からは消す)
+  } else {
+    for(const k of BGC_MODEL_ONLY_KEYS) if(a[k]!==undefined)
+      return {ok:false, err:"physics.backgroundComplex."+k+" は bgModel の型の入力 —— bgModel を宣言しない宣言には置かない(黙って読まない鍵にしない)"};
+  }
   if(!isNum(a.W0) || !(a.W0>=0))
     return {ok:false, err:"physics.backgroundComplex.W0 は 0 以上の有限数([M/L²] —— 背景の重み。**D₀([M/L])とは別の量**)"};
   // ===== 第277便d(統括の読み R52): **未確定を 0 にしない** =====
@@ -4540,6 +4607,12 @@ function validateBackgroundComplex(a){
     const fv=validateBgFrame(a.frame);
     if(!fv.ok) return fv;
     out.frame=fv.frame;
+  }
+  // 第285便c: 型の宣言と型の入力(正規化済み)を正準形へ。null 型は微分の鍵を持たない(未確定 —— 0 ではない)
+  if(bgm){
+    out.bgModel=bgm.model;
+    for(const k of Object.keys(bgm.extra)) out[k]=bgm.extra[k];
+    if(bgm.undetermined) for(const k of BGC_DERIV_KEYS) delete out[k];
   }
   return {ok:true, backgroundComplex:out};
 }
@@ -4686,6 +4759,158 @@ function bgSourcesBodyCheck(bgc, nBodies){
   }
   return null;
 }
+// ===== 第285便c(原仮定者の裁定(第75報)⑥「W₀・A₀ を設定することで gradW・gradA・dWdt・dAdt が算出できるか調査する」・統括の検証項目 R99) =====
+// **背景場の微分の宣言の型** `backgroundComplex.bgModel`(任意鍵)。**1 点の (W₀, A₀) だけからは ∇W・∇A・∂ₜW・∂ₜA は一意に出ない**
+// (同じ W₀=0.5・A₀=(0,0) でも源対 (±2,0)・速度 (0,±3) の向きで ∂A_y/∂x=±1.5 —— tests/exp-w285c-bgderiv.mjs の反例)。
+// 出るのは次の 3 つの**宣言**をしたときだけである:
+//   ・"uniform"       … 一様・凍結の宣言。W0・A0(座標系の宣言 —— 背景が静止する系なら A0=[0,0]。一様に流れる背景は U で A0=W0·U)と
+//                       domain("finite" 有限領域 / "boundary" 境界モデル —— 無限一様 3D の p=2 和は発散するので "infinite" は拒否)。
+//                       微分 4 つは**宣言による 0**(算出ではない)。
+//   ・"sources"       … 明示天体と重複しない背景源の台帳 ledger:[{id,m,x,y,vx,vy,ax,ay}](有限個)・評価点 refPos・軟化 eps から
+//                       p=2 の核(dfmComplexMomentsOf と同じ —— w=m/(r²+ε²))で全 6 項を**算出**。∂ₜA には源の加速度 a が要るので ax/ay は必須。
+//   ・"distantSource" … 遠方の 1 源(距離 Rbg・方位 thetaBg・速度 Vext・加速度 aExt)の閉じた式(sources の特別な場合 —— 軟化を無視 R≫ε)。
+//                       n=(cos thetaBg, sin thetaBg) は**源から評価点へ向かう**単位ベクトル:
+//                       A₀=W₀V・∇W₀=−2W₀n/R・(∇A₀)_ab=V_a ∂_b W₀・∂ₜW₀=−∇W₀·V・∂ₜA₀=(∂ₜW₀)V+W₀a。
+//   ・null            … 型は**未確定**: W0・A0 だけを宣言し、微分 4 つは書かない(**0 で埋めない** —— 正準形に微分の鍵が無い)。
+//                       meshVelocity(field:"backgroundComplex")からは使えない(相互検査で拒否)。
+//   ・未指定(鍵なし)… 従来どおり手入力の W0/A0/gradW/gradA/dWdt/dAdt(第277便d の受理契約 —— 正準形は 1 文字も変えない)。
+// 単位はサンプルの scaleExp の単位系: W [M/L²]・A = W×速度 [M/(L·T)](**D₀ [M/L] から換算しない** —— D0/D0pull の鍵は拒否)。
+// 宣言された成分の値が型から出る値と違えば拒否する(相対 1e-12)。正準形は型の入力と、型から出した 6 成分の両方を持つ。
+// **力学への接続は変えない**(読むのは従来どおり meshVelocity〔field:"backgroundComplex"〕の本の build 時だけ・💮🌚 の share 経路は未接続 ——
+// 接続の法則版は AN47 の後)。**内蔵はこの鍵を 1 本も宣言していない**(presetSig も力学も 1 bit も動かない)。
+const BGC_DERIV_VERSION = "w285c-bgderiv-1";
+const BGC_MODELS = ["uniform","sources","distantSource"];
+const BGC_DERIV_KEYS = ["gradW","gradA","dWdt","dAdt"];
+const BGC_COMPONENTS = ["W0","A0","gradW","gradA","dWdt","dAdt"];
+const BGC_UNIFORM_DOMAINS = ["finite","boundary"];
+const BGC_LEDGER_MAX = 32;
+const BGC_LEDGER_KEYS = ["id","m","x","y","vx","vy","ax","ay"];
+const BGC_MODEL_KEYS = { uniform:["domain","U"], sources:["ledger","refPos","eps"], distantSource:["Rbg","thetaBg","Vext","aExt"] };
+const BGC_MODEL_ONLY_KEYS = ["domain","U","ledger","eps","Rbg","thetaBg","Vext","aExt"];
+const BGC_REL_TOL = 1e-12;
+// 成分ごとの由来(表示の 4 語へ写す): computed=算出 / declared=宣言 / declaredZero=宣言による 0 / undetermined=未確定
+const BGC_DERIV_STATUS = ["computed","declared","declaredZero","undetermined"];
+function _bgcVec(z,n){
+  if(!Array.isArray(z) || z.length!==n) return null;
+  const o=[]; for(let i=0;i<n;i++){ if(!isNum(z[i])) return null; o.push(z[i]); }
+  return o;
+}
+// 遠方 1 源の閉じた式(軟化なし)。W0>0・R>0。n は源 → 評価点
+function bgcDistantClosed(W0, R, theta, V, a){
+  const nx=Math.cos(theta), ny=Math.sin(theta);
+  const gx=-2*W0*nx/R, gy=-2*W0*ny/R;
+  const dW=-(gx*V[0]+gy*V[1]);
+  return { W0:W0, A0:[W0*V[0], W0*V[1]], gradW:[gx,gy], gradA:[V[0]*gx, V[0]*gy, V[1]*gx, V[1]*gy],
+    dWdt:dW, dAdt:[dW*V[0]+W0*a[0], dW*V[1]+W0*a[1]] };
+}
+// 宣言 a(bgModel を持つ)を型で検査し、6 成分を出す。{ok:false, err} / {ok:true, model, fields, extra}
+//   fields … 正準形の 6 成分(null 型は W0・A0 だけ)。extra … 正準形へ写す型の入力(正規化済み)
+function bgcModelDerive(a){
+  const W="physics.backgroundComplex";
+  const m=a.bgModel;
+  if(m!==null && BGC_MODELS.indexOf(m)<0)
+    return {ok:false, err:W+'.bgModel は "uniform"/"sources"/"distantSource" か null(未確定)'};
+  if(a.background==="zero")
+    return {ok:false, err:W+'.bgModel は background:"zero" と併用しない(ゼロの宣言はそれだけで全成分が決まる)'};
+  const mine=(m===null)? [] : BGC_MODEL_KEYS[m];
+  for(const k of BGC_MODEL_ONLY_KEYS) if(a[k]!==undefined && mine.indexOf(k)<0)
+    return {ok:false, err:W+"."+k+" は bgModel:"+JSON.stringify(m)+" の鍵ではない(型ごとの入力は "+(mine.join("/")||"なし")+")"};
+  const extra={}, fields={};
+  const given=(k)=>a[k]!==undefined && a[k]!==null;
+  if(m===null){
+    for(const k of BGC_DERIV_KEYS) if(given(k))
+      return {ok:false, err:W+'.bgModel:null(未確定)は微分 '+k+' を書かない —— 値を置くなら bgModel を外す(手入力)か型を宣言する(**微分を 0 で埋めない**)'};
+    if(!isNum(a.W0) || !(a.W0>=0)) return {ok:false, err:W+".W0 は 0 以上の有限数([M/L²])"};
+    const A0=_bgcVec(a.A0,2);
+    if(!A0) return {ok:false, err:W+".bgModel:null でも A0 は有限数 2 つの配列([M/(L·T)] —— 背景が静止する系なら [0,0] と書く)"};
+    if(a.W0===0 && (A0[0]!==0 || A0[1]!==0)) return {ok:false, err:W+".W0=0 のときは A0 も 0"};
+    fields.W0=a.W0; fields.A0=A0;
+    return {ok:true, model:null, fields, extra, undetermined:true};
+  }
+  let F=null;
+  if(m==="uniform"){
+    if(a.domain==="infinite")
+      return {ok:false, err:W+'.domain:"infinite" は受理しない(無限一様 3D の p=2 和 Σm/r² は領域の半径に比例して発散する —— 有限領域 "finite" か境界モデル "boundary" を宣言する)'};
+    if(BGC_UNIFORM_DOMAINS.indexOf(a.domain)<0)
+      return {ok:false, err:W+'.domain は "finite"(有限領域)か "boundary"(境界モデル)を明示する(bgModel:"uniform")'};
+    if(!isNum(a.W0) || !(a.W0>=0)) return {ok:false, err:W+".W0 は 0 以上の有限数([M/L²] —— 一様背景の重み)"};
+    let A0=null;
+    if(given("U")){
+      const U=_bgcVec(a.U,2);
+      if(!U) return {ok:false, err:W+".U は有限数 2 つの配列(一様に流れる背景の速度 [L/T])"};
+      extra.U=U; A0=[a.W0*U[0], a.W0*U[1]];
+    } else if(given("A0")){
+      A0=_bgcVec(a.A0,2);
+      if(!A0) return {ok:false, err:W+".A0 は有限数 2 つの配列 [M/(L·T)]"};
+    } else return {ok:false, err:W+'.bgModel:"uniform" は A0(座標系の宣言 —— 背景が静止する系なら [0,0])か U(一様な流れ —— A0=W0·U)を書く'};
+    extra.domain=a.domain;
+    F={W0:a.W0, A0:A0, gradW:[0,0], gradA:[0,0,0,0], dWdt:0, dAdt:[0,0]};
+  } else if(m==="sources"){
+    const L=a.ledger;
+    if(!Array.isArray(L) || L.length<1 || L.length>BGC_LEDGER_MAX)
+      return {ok:false, err:W+'.ledger は 1〜'+BGC_LEDGER_MAX+' 件の配列(有限個の背景源 [{id,m,x,y,vx,vy,ax,ay}] —— 無限個の和は宣言できない)'};
+    const led=[], seen={};
+    for(let i=0;i<L.length;i++){
+      const s=L[i];
+      if(!s || typeof s!=="object" || Array.isArray(s)) return {ok:false, err:W+".ledger["+i+"] はオブジェクト {id,m,x,y,vx,vy,ax,ay}"};
+      for(const k of Object.keys(s)) if(BGC_LEDGER_KEYS.indexOf(k)<0)
+        return {ok:false, err:W+".ledger["+i+"] に知らない鍵 "+k+" がある(id/m/x/y/vx/vy/ax/ay のみ)"};
+      if(typeof s.id!=="string" || s.id==="" || s.id.length>60) return {ok:false, err:W+".ledger["+i+"].id は 1〜60 字の文字列"};
+      if(s.id.slice(0,5)==="body:") return {ok:false, err:W+".ledger["+i+'].id に "body:…" は使えない(明示天体の予約 —— **同じ源を明示天体と背景の両方に入れない**)'};
+      if(seen[s.id]) return {ok:false, err:W+".ledger の id「"+s.id+"」が重複している(同じ源を 2 度数えない)"};
+      seen[s.id]=true;
+      for(const k of ["m","x","y","vx","vy","ax","ay"]) if(!isNum(s[k]))
+        return {ok:false, err:W+".ledger["+i+"]."+k+" は有限数"+((k==="ax"||k==="ay")? "(∂ₜA₀ には源の加速度が要る —— 静止・等速なら 0 と明示する)" : "")};
+      if(!(s.m>0)) return {ok:false, err:W+".ledger["+i+"].m は正([M] —— 負・0 の源は置かない)"};
+      led.push({id:s.id, m:s.m, x:s.x, y:s.y, vx:s.vx, vy:s.vy, ax:s.ax, ay:s.ay});
+    }
+    const rp=_bgcVec(a.refPos,2);
+    if(!rp) return {ok:false, err:W+'.bgModel:"sources" は refPos(評価点 [x,y])が要る'};
+    if(!isNum(a.eps) || !(a.eps>=0)) return {ok:false, err:W+'.bgModel:"sources" は eps(軟化 ≥0 [L] —— p=2 の核 w=m/(r²+ε²))が要る'};
+    if(Array.isArray(a.sources)){   // 源の分割の宣言があれば、台帳の id はその「背景だけが持つ源」でなければならない
+      const own={}; for(const s of a.sources) if(s && s.excludedExplicit===true) own[s.id]=true;
+      for(const s of led) if(!own[s.id]) return {ok:false, err:W+".ledger の「"+s.id+"」が sources(源の分割)の excludedExplicit:true に無い"};
+    }
+    const M=dfmComplexMomentsOf(led, rp[0], rp[1], a.eps*a.eps);
+    if(!M) return {ok:false, err:W+'.ledger の源が評価点 refPos の上にある(eps=0 では未定義)'};
+    extra.ledger=led; extra.refPos=rp; extra.eps=a.eps;
+    F={W0:M.W, A0:M.A, gradW:M.gradW, gradA:M.gradA, dWdt:M.dWdt, dAdt:M.dAdt};
+  } else {   // distantSource
+    if(!isNum(a.W0) || !(a.W0>0)) return {ok:false, err:W+'.bgModel:"distantSource" は W0>0(評価点での遠方源の重み [M/L²])'};
+    if(!isNum(a.Rbg) || !(a.Rbg>0)) return {ok:false, err:W+'.Rbg は正の有限数(源までの距離 [L])'};
+    if(!isNum(a.thetaBg)) return {ok:false, err:W+'.thetaBg は有限数(源から評価点へ向かう方位 [rad])'};
+    const V=_bgcVec(a.Vext,2), ac=_bgcVec(a.aExt,2);
+    if(!V) return {ok:false, err:W+'.Vext は有限数 2 つの配列(源の速度 [L/T])'};
+    if(!ac) return {ok:false, err:W+'.aExt は有限数 2 つの配列(源の加速度 [L/T²] —— ∂ₜA₀ に要る。等速なら [0,0] と明示する)'};
+    extra.Rbg=a.Rbg; extra.thetaBg=a.thetaBg; extra.Vext=V; extra.aExt=ac;
+    F=bgcDistantClosed(a.W0, a.Rbg, a.thetaBg, V, ac);
+  }
+  // 書かれた成分は型から出る値と一致すること(相対 1e-12)
+  const flat=(k,v)=>Array.isArray(v)? v : [v];
+  for(const k of BGC_COMPONENTS){
+    if(!given(k)) continue;
+    const want=flat(k,F[k]), got=Array.isArray(a[k])? a[k] : [a[k]];
+    if(got.length!==want.length || got.some((g,i)=>!isNum(g) || Math.abs(g-want[i])>BGC_REL_TOL*Math.max(Math.abs(g),Math.abs(want[i]),1e-300)))
+      return {ok:false, err:W+"."+k+" の値が bgModel:"+JSON.stringify(m)+" から出る値と違う(型の宣言と成分の宣言が矛盾 —— 成分は書かないか一致させる)"};
+  }
+  return {ok:true, model:m, fields:F, extra};
+}
+// 正準形(validateBackgroundComplex の出力)から成分ごとの由来を返す(表示の 4 語 —— 算出/宣言/未確定。未接続は bgcWireState)
+function bgcDerivation(decl){
+  const o={};
+  if(!decl){ for(const k of BGC_COMPONENTS) o[k]="undetermined"; return o; }
+  const m=decl.bgModel;
+  for(const k of BGC_COMPONENTS){
+    let s="declared";
+    if(m===undefined) s=(decl.background==="zero")? "declaredZero" : "declared";
+    else if(m===null) s=(k==="W0"||k==="A0")? "declared" : "undetermined";
+    else if(m==="uniform") s=(k==="W0")? "declared" : (k==="A0"? (Array.isArray(decl.U)? "computed" : "declared") : "declaredZero");
+    else if(m==="sources") s="computed";
+    else if(m==="distantSource") s=(k==="W0")? "declared" : "computed";
+    o[k]=s;
+  }
+  return o;
+}
 // ===== 第279便c(統括の読み R62・R63 ⑤): physics.meshVelocity — **複素決定力による座標変換(空間による引きずり)**の opt-in =====
 // 形: {law:"vMinusU", field:"backgroundComplex"|"explicit", mutual:0|1, frame:{…}, external?:["body:<n>",…]}
 //   ・law "vMinusU" … 構成則候補 L/m=|ẋ−u|²/2−Φ から ẋ=v+u・v̇=a_space−Jᵀv(J=∂u/∂x)。
@@ -4760,6 +4985,8 @@ function meshVelocityCrossCheck(mv, bgc, ph, bodies, sampleClass){
   if(oi>=0 && !(oi<nb)) return "physics.meshVelocity.frame.origin の "+mv.frame.origin+" は bodies に無い";
   if(mv.field==="backgroundComplex"){
     if(!bgc) return 'physics.meshVelocity.field:"backgroundComplex" は physics.backgroundComplex の宣言が要る';
+    // 第285便c: bgModel:null(微分が未確定)の背景は座標変換に使えない(∇u・∂ₜu が決まらない —— 0 で埋めない)
+    if(bgc.bgModel===null) return 'physics.meshVelocity.field:"backgroundComplex" は bgModel:null(微分が未確定)の背景を使えない —— 型(uniform/sources/distantSource)か手入力で微分を宣言する';
     if(!Array.isArray(bgc.sources) || !bgc.frame)
       return 'physics.meshVelocity.field:"backgroundComplex" は backgroundComplex.sources(源の分割)と backgroundComplex.frame(凍結参照系)の宣言が要る(R63 の順: 源の分割 → 凍結参照系 → 接続)';
     if(JSON.stringify(bgc.frame)!==JSON.stringify(mv.frame))
@@ -31374,10 +31601,18 @@ function buildBgComplexPanel(parent){
   desc.appendChild(info);
   det.appendChild(desc);
   const grid=document.createElement("div"); grid.id="bgcFields";
-  grid.style.cssText="display:grid;grid-template-columns:auto 1fr;gap:3px 6px;align-items:center;";
+  grid.style.cssText="display:grid;grid-template-columns:auto minmax(0,1fr);gap:3px 6px;align-items:center;";   // 第285便c: 長い選択肢で列が広がらない(minmax(0,…))
   const cellLab=(txt,forId)=>{ const l=document.createElement("label"); l.htmlFor=forId; l.textContent=txt;
     l.style.cssText="font-size:calc(11px*var(--uz,1));white-space:nowrap;"; grid.appendChild(l); };
   const d=st.decl||{};
+  // 第285便c(原仮定者の裁定(第75報)⑥・R99): 微分の宣言の型 bgModel(未指定=手入力・null=未確定)。選んだ型の入力欄だけを出す
+  cellLab("bgModel","bgcModel");
+  const msel=document.createElement("select"); msel.id="bgcModel";
+  msel.style.cssText="min-height:32px;padding:2px 6px;width:100%;box-sizing:border-box;";
+  for(const [v,lk] of [["","bgcModelManual"],["uniform","bgcModelUniform"],["sources","bgcModelSources"],["distantSource","bgcModelDistant"],["null","bgcModelNull"]]){
+    const o=document.createElement("option"); o.value=v; o.textContent=T(lk); msel.appendChild(o); }
+  msel.value=(d.bgModel===null)? "null" : ((typeof d.bgModel==="string")? d.bgModel : "");
+  grid.appendChild(msel);
   // background(背景の出所)
   cellLab("background","bgcBackground");
   const sel=document.createElement("select"); sel.id="bgcBackground";
@@ -31397,12 +31632,61 @@ function buildBgComplexPanel(parent){
     inp.value=_bgcFmtV(d[k]);
     ins[k]=inp; grid.appendChild(inp);
   }
+  // 第285便c: 型の入力(uniform: domain・U / sources: ledger・refPos・eps / distantSource: Rbg・thetaBg・Vext・aExt)
+  const mrow={};   // 鍵 → [label, input]
+  const mLab=(k,forId)=>{ cellLab(k,forId); return grid.lastChild; };
+  { const l=mLab("domain","bgc_domain"); const dsel=document.createElement("select"); dsel.id="bgc_domain";
+    dsel.style.cssText="min-height:32px;padding:2px 6px;";
+    for(const v of ["finite","boundary"]){ const o=document.createElement("option"); o.value=v; o.textContent=v; dsel.appendChild(o); }
+    if(d.domain==="boundary") dsel.value="boundary";
+    grid.appendChild(dsel); mrow.domain=[l,dsel]; }
+  for(const [k,nc,ph] of [["U",2,"bgcPhU"],["refPos",2,"bgcPhRefPos"],["eps",0,"bgcPhEps"],["Rbg",0,"bgcPhRbg"],["thetaBg",0,"bgcPhTheta"],["Vext",2,"bgcPhVext"],["aExt",2,"bgcPhAext"]]){
+    const id="bgc_"+k, l=mLab(k,id);
+    const inp=document.createElement("input"); inp.type="text"; inp.id=id; inp.autocomplete="off"; inp.dataset.key=k; inp.dataset.n=String(nc);
+    inp.placeholder=T(ph); inp.style.cssText="width:100%;box-sizing:border-box;"; inp.value=_bgcFmtV(d[k]);
+    grid.appendChild(inp); mrow[k]=[l,inp];
+  }
+  { const l=mLab("ledger","bgc_ledger"); const ta=document.createElement("textarea"); ta.id="bgc_ledger"; ta.rows=3;
+    ta.placeholder=T("bgcPhLedger"); ta.style.cssText="width:100%;box-sizing:border-box;font-size:calc(11px*var(--uz,1));";
+    ta.value=Array.isArray(d.ledger)? JSON.stringify(d.ledger) : "";
+    grid.appendChild(ta); mrow.ledger=[l,ta]; }
+  const MODEL_SHOW={ "":["W0","A0","gradW","gradA","dWdt","dAdt"], uniform:["W0","A0","domain","U"], sources:["ledger","refPos","eps"],
+    distantSource:["W0","Rbg","thetaBg","Vext","aExt"], "null":["W0","A0"] };
+  const compLab={}; for(const el of grid.querySelectorAll("label")) compLab[el.htmlFor]=el;
+  const syncModel=()=>{
+    const show=MODEL_SHOW[msel.value]||MODEL_SHOW[""];
+    for(const [k] of BGC_FIELDS){ const on=show.indexOf(k)>=0; ins[k].style.display=on? "" : "none"; if(compLab["bgc_"+k]) compLab["bgc_"+k].style.display=on? "" : "none"; }
+    for(const k of Object.keys(mrow)){ const on=show.indexOf(k)>=0; mrow[k][0].style.display=on? "" : "none"; mrow[k][1].style.display=on? "" : "none"; }
+    det.dataset.model=msel.value;
+  };
+  msel.addEventListener("change",syncModel);
   cellLab("note","bgc_note");
   const nt=document.createElement("input"); nt.type="text"; nt.id="bgc_note"; nt.autocomplete="off";
   nt.maxLength=BG_COMPLEX_NOTE_MAX; nt.placeholder=T("bgcPhNote"); nt.style.cssText="width:100%;box-sizing:border-box;";
   nt.value=(typeof d.note==="string")? d.note : "";
   grid.appendChild(nt);
   det.appendChild(grid);
+  syncModel();
+  // 第285便c: 算出結果の表(成分ごとの値と由来 —— 算出/宣言/宣言による 0/未確定。最後の行は力学への接続〔適用中/未接続〕)
+  { const der=bgcDerivation(st.state==="declared"? st.decl : null);
+    const tb=document.createElement("div"); tb.id="bgcDerived"; tb.dataset.version=BGC_DERIV_VERSION;
+    tb.style.cssText="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 6px;margin-top:4px;font-size:calc(10.5px*var(--uz,1));line-height:1.4;";
+    const hd=document.createElement("div"); hd.style.cssText="grid-column:1/-1;font-weight:600;"; hd.textContent=T("bgcDerivTitle"); tb.appendChild(hd);
+    const fmt=(v)=>(v===undefined||v===null)? "—" : (Array.isArray(v)? v.map((z)=>Number(z.toPrecision(6))).join(", ") : String(Number(v.toPrecision(6))));
+    for(const [k,,uk] of BGC_FIELDS){
+      const a1=document.createElement("div"); a1.textContent=k+" ["+BG_COMPLEX_UNITS[uk]+"]"; a1.style.cssText="white-space:nowrap;";
+      const a2=document.createElement("div"); a2.className="bgcDerVal"; a2.style.cssText="overflow-wrap:anywhere;min-width:0;";
+      a2.textContent=(st.state==="declared" && der[k]!=="undetermined")? fmt(st.decl[k]) : "—";
+      const a3=document.createElement("span"); a3.className="statusChip bgcDerSt"; a3.dataset.key=k; a3.dataset.status=der[k];
+      a3.dataset.v=(der[k]==="computed")? "pass" : "n/a"; a3.textContent=T("bgcSt_"+der[k]);
+      tb.appendChild(a1); tb.appendChild(a2); tb.appendChild(a3);
+    }
+    const ws2=bgcWireState(S0);
+    const w1=document.createElement("div"); w1.style.cssText="grid-column:1/3;"; w1.textContent=T("bgcDerWire");
+    const w3=document.createElement("span"); w3.className="statusChip bgcDerSt"; w3.dataset.key="wire"; w3.dataset.status=ws2.state;
+    w3.dataset.v=(ws2.state==="applied")? "pass" : "n/a"; w3.textContent=(ws2.state==="applied")? T("bgcSt_applied") : T("bgcSt_unwired");
+    tb.appendChild(w1); tb.appendChild(w3);
+    det.appendChild(tb); }
   const keep=BGC_KEEP.filter((k)=>d[k]!==undefined && d[k]!==null);
   if(keep.length){ const kp=document.createElement("div"); kp.id="bgcKeep"; kp.className="note";
     kp.style.cssText="font-size:calc(10.5px*var(--uz,1));padding:2px 0 0;";
@@ -31421,8 +31705,15 @@ function buildBgComplexPanel(parent){
     const S=editSim(), prev=bgcState(S);
     if(prev.decl) for(const k of BGC_KEEP) if(prev.decl[k]!==undefined && prev.decl[k]!==null) cand[k]=JSON.parse(JSON.stringify(prev.decl[k]));
     if(sel.value!=="") cand.background=sel.value;
-    for(const [k,nc] of BGC_FIELDS){ const v=(nc===0)? _bgcParseNum(ins[k].value) : _bgcParseVec(ins[k].value);
+    // 第285便c: 型を選んだときは、その型の欄だけを読む(隠れた欄の値は宣言に入れない)
+    const mv=msel.value, show=MODEL_SHOW[mv]||MODEL_SHOW[""];
+    if(mv==="null") cand.bgModel=null; else if(mv!=="") cand.bgModel=mv;
+    for(const [k,nc] of BGC_FIELDS){ if(show.indexOf(k)<0) continue; const v=(nc===0)? _bgcParseNum(ins[k].value) : _bgcParseVec(ins[k].value);
       if(v!==undefined) cand[k]=v; }
+    for(const k of Object.keys(mrow)){ if(show.indexOf(k)<0) continue; const el=mrow[k][1];
+      if(k==="domain"){ cand.domain=el.value; continue; }
+      if(k==="ledger"){ const t=el.value.trim(); if(t==="") continue; try{ cand.ledger=JSON.parse(t); }catch(e){ cand.ledger=t; } continue; }
+      const nc=Number(el.dataset.n); const v=(nc===0)? _bgcParseNum(el.value) : _bgcParseVec(el.value); if(v!==undefined) cand[k]=v; }
     if(nt.value!=="") cand.note=nt.value;
     const r=bgcApply(S,cand);
     if(!r.ok){ _bgcLastErr={sim:S, pid:currentPreset && currentPreset.id, err:r.err}; er.textContent=r.err; return; }
@@ -45564,6 +45855,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第279便c(第69報・R62/R63): 源の分割・凍結参照系の宣言、背景の**閾値なし合成**と速度分解 RHS の純関数、
   // opt-in 外部ステップ `dfmMeshVelocityStep`(physics.meshVelocity を宣言した本だけ)。
   // QA preset.meshVelocity・preset.bgSources・docs.bgCompose・docs.bgbudget2-sync が機械固定する
+  // 第285便c(原仮定者の裁定(第75報)⑥・R99): 背景場の微分の宣言の型 bgModel(uniform/sources/distantSource/null)の純関数と定数。
+  // QA behavior.bgDerivatives・docs.bgDerivatives・ui.bgDerivPanel が機械固定する
+  bgcModelDerive, bgcDerivation, bgcDistantClosed, BGC_DERIV_VERSION, BGC_MODELS, BGC_DERIV_KEYS, BGC_COMPONENTS,
+  BGC_UNIFORM_DOMAINS, BGC_LEDGER_MAX, BGC_LEDGER_KEYS, BGC_MODEL_KEYS, BGC_MODEL_ONLY_KEYS, BGC_DERIV_STATUS,
   validateBgSources, validateBgFrame, bgBodyRefIndex, bgSourcesBodyCheck, BG_SOURCE_KINDS, BG_SOURCE_MAX,
   BG_SOURCE_ID_MAX, BG_FRAME_ROTATIONS, BG_FRAME_TRANSLATIONS, BG_FRAME_EPOCH_MAX, BG_FRAME_KEYS,
   validateMeshVelocity, meshVelocityCrossCheck, MESH_VEL_KEY, MESH_VEL_LAWS, MESH_VEL_FIELDS, MESH_VEL_MUTUALS,
