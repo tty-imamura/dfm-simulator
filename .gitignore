@@ -751,3 +751,6 @@ tests/out/regen-plan-w281a.json
 #   (tests/exp-w285c-bgderiv.mjs —— 反例・一様凍結の宣言・台帳・遠方 1 源・単位・発散・判定表・受理器の事例)。
 #   QA behavior.bgDerivatives・docs.bgDerivatives が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/bgderiv-w285c.json
+# 第285便d(原仮定者の裁定(第75報)⑦・統括の検証項目 R100): **観測対実行のグラフの行の控え**(tests/exp-w285d-obscompare.mjs —— 正本
+#   calaudit-w249.json の量ごとの行を beta/index.html の生成領域 obs-compare へ転記した記録)。QA ui.obsCompareGraph・lint.provenanceMeta が読むのでコミットする
+!tests/out/obscompare-w285d.json

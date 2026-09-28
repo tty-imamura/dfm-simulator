@@ -2694,3 +2694,8 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **画面**: #bgcPanel の先頭に bgModel の選択(既定「手入力」)・選んだ型の欄だけを出す・欄の下に算出結果の表(「算出」/「宣言」/「宣言による 0」/「未確定」と、接続の行の「適用中」/「未接続」)。
 - **読み口(HP 公開)**: `bgcModelDerive(decl)`・`bgcDerivation(canonical)`・`bgcDistantClosed(W0,R,theta,V,a)`・定数 `BGC_MODELS`・`BGC_MODEL_KEYS`・`BGC_LEDGER_MAX` 等(版 `BGC_DERIV_VERSION` = `"w285c-bgderiv-1"`)。
 - QA: **`behavior.bgDerivatives`**・**`docs.bgDerivatives`**・**`ui.bgDerivPanel`**(root は SKIP)。器 `tests/exp-w285c-bgderiv.mjs`(正本 `tests/out/bgderiv-w285c.json`・段 `bgderiv`)・`tests/exp-w285c-ui.mjs`。
+## 21. 第285便d の UI —— 観測対実行のグラフ「📊 観測との差」(原仮定者の裁定〔第75報〕⑦・統括の検証項目 R100・**表示と器だけ**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変わらない。
+
+- 説明タブの監査ビューの行に「📊 観測との差」—— 判定器の正本 `tests/out/calaudit-w249.json` の量ごとの行を 1 行 1 量で描く(中心線=観測値・±3σ の緑の帯は σ が記録された量だけ・点=判定段の値の転記・右に正式判定)。欠測は空欄(0 に置き換えない)・帯の中でも「合」とは書かない(合否は 3σ 門の正式判定だけ)。行は生成領域 `obs-compare`(器 `tests/exp-w285d-obscompare.mjs`)・読み口 `HP.obsCompare`。QA: **`ui.obsCompareGraph`**・**`docs.obsCompareGraph`**(root は SKIP)・docs/PHYSICS.md〔第285便d〕。

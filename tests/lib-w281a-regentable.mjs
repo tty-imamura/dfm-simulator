@@ -22,6 +22,7 @@
 //   'w284e-branch' … 第284便e の枝で器を 1 回走らせた実測(正本の elapsedS —— tpsign は正本が基点の世代で判定器を --only で走らせた値)。
 //   'w285a-branch' … 第285便a の枝で器を走らせた実測(正本の elapsedS —— contact285 は判定器なし・clusterScan は子プロセス 2 本・他の枝と同じ容器で並走)。
 //   'w285b-branch' … 第285便b の枝で器を 1 回走らせた実測(正本の elapsedS 681.6 —— Node だけ・他の枝と同じ容器で並走〔負荷平均 30 前後〕)。
+//   'w285d-branch' … 第285便d の枝で器を走らせた実測(正本の elapsedS —— Chromium 1 本・1 步も走らせない生成器)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -247,7 +248,16 @@ export const REGEN_STEPS = [
     note: '第282便a: ✴️💫 の f=1 移行の前後(基点 8b05232 と移行後の html に判定器を --only --dt3 で 2 回)。**再生成しない**(計画は常に「履歴」)' }),
   // 第284便f: samplestatus は beta/index.html の生成領域と docs/SAMPLE_STATUS を**書く**(outs の外)。html はほぼ全段が読むので、
   //   鎖の中では**単独**で走らせる(exclusive —— ready queue はレーンを全部取り、走行中の段が無いときだけ入れる)
-  S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin'],
+  // 第285便d(原仮定者の裁定(第75報)⑦・統括の検証項目 R100): 観測対実行のグラフの行(beta/index.html の生成領域 obs-compare)を calaudit の
+  //   量ごとの行から書く(1 步も走らせない —— Chromium で照合するだけ)。calaudit を書く段(calaudit・dt3・kf0)の最後の kf0 の後・html を書くので
+  //   単独(exclusive)・samplestatus(html 全体の後段 —— AN53)の前。領域に時刻・sha を入れない(正本の値が変わったときだけ html が動く)。
+  //   常時群には入れない(入力 calaudit の安定 hash と領域 hash で判定 —— 常時群の契約〔lint.regenScope ③〕は変えない)。
+  //   所要は第285便d の枝の実測(器の elapsedS 2.0〜2.9 s —— Chromium 1 本・領域 hash の headless 読み込みを含む)
+  S('obscompare', 'node tests/exp-w285d-obscompare.mjs && node tests/exp-w285d-obscompare.mjs --check', ['tests/out/obscompare-w285d.json'], 3, { after: ['kf0'],
+    secSource: 'w285d-branch', exclusive: true, touches: ['beta/index.html'],
+    volatilePaths: { 'tests/out/obscompare-w285d.json': META_RUN.concat(['/elapsedS']) },
+    note: '第285便d: 正本の量ごとの行の転記(判定しない)。枝 b の診断正本 tests/out/pn1-w285b.json があれば obsCompareRows を λ_PN=0 の対照として足す(統合時に b の段を after へ)' }),
+  S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin', 'obscompare'],
     exclusive: true, touches: ['beta/index.html', 'docs/SAMPLE_STATUS_v1.45.md'] }),
   S('mercury', 'node tests/exp-w280a-mercury.mjs', ['tests/out/mercury-w280a.json'], 284, { secSource: 'w281a-chain', alwaysRun: true, after: ['kf0'] }),
   // ---- 第282便c の新しい正本(html だけを読む・他の正本を読まない —— 所要は器の elapsedS の実測)

@@ -263,6 +263,46 @@
   #avPanel .avRow b{color:var(--dim);font-weight:700;}
   #avPanel .avRow[data-avk="fail"] b{color:var(--errText);}
   #avPanel .avRow[data-avk="out"] b{color:var(--okText);}
+  /* 第285便d(原仮定者の裁定(第75報)⑦・統括の検証項目 R100): 観測対実行のグラフ(表示専用)。外枠・箱は .fmModal / .fmBox。
+     1 行 1 量の grid(名前・横棒・正式判定)—— 狭い画面では名前を上段へ回し、横スクロールを作らない */
+  #ocPanel .fmBox{line-height:1.45;}
+  #ocPanel .beHead{display:flex;align-items:center;justify-content:space-between;font-weight:700;color:var(--fg);
+    position:sticky;top:-10px;z-index:5;margin:-10px -10px 4px;padding:8px 10px 6px;background:rgba(20,24,48,.98);
+    border-bottom:1px solid var(--line);}
+  #ocPanel .beHead button{background:none;border:none;color:var(--dim);font-size:calc(14px*var(--uz,1));
+    padding:2px 6px;min-height:28px;}
+  #ocPanel .avNote{color:var(--dim);font-size:calc(10.5px*var(--uz,1));line-height:1.45;margin:4px 0;}
+  #ocPanel .ocCtl{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;margin:6px 0;font-size:calc(11px*var(--uz,1));}
+  #ocPanel .ocCtl select,#ocPanel .ocCtl input{font-size:calc(11px*var(--uz,1));max-width:100%;}
+  #ocPanel .ocSearch{flex:1 1 140px;min-width:0;}
+  #ocPanel .ocAxis{font-size:calc(10.5px*var(--uz,1));color:var(--dim);text-align:center;margin:2px 0 4px;}
+  #ocPanel .ocRow{border-bottom:1px solid var(--line);}
+  #ocPanel .ocSum{display:grid;grid-template-columns:minmax(0,36%) minmax(0,1fr) minmax(0,22%);gap:6px;
+    align-items:center;list-style:none;cursor:pointer;padding:3px 0;}
+  #ocPanel .ocSum::-webkit-details-marker{display:none;}
+  #ocPanel .ocName{min-width:0;overflow-wrap:anywhere;font-size:calc(11px*var(--uz,1));}
+  #ocPanel .ocTags{display:block;color:var(--dim);font-size:calc(9.5px*var(--uz,1));}
+  #ocPanel .ocBar{position:relative;height:30px;min-width:0;background:rgba(0,0,0,.18);border-radius:var(--rS);overflow:hidden;}
+  #ocPanel .ocBand{position:absolute;top:0;bottom:12px;background:rgba(80,200,110,.38);}
+  #ocPanel .ocCenter{position:absolute;left:50%;top:0;bottom:12px;width:1px;background:var(--dim);}
+  /* 点は文字を持たない(色は背景だけ)。範囲外の ◀/▶ だけが文字 —— 文字色は --fg(ui.contrast の組) */
+  #ocPanel .ocMark{position:absolute;top:3px;width:10px;height:10px;margin-left:-5px;border-radius:50%;
+    background:var(--accText);font-size:9px;line-height:10px;text-align:center;}
+  #ocPanel .ocMark.ocClip{background:none;color:var(--fg);}
+  #ocPanel .ocDiffTxt{position:absolute;left:0;right:0;bottom:0;text-align:center;font-size:calc(9.5px*var(--uz,1));
+    color:var(--fg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  #ocPanel .ocDiffTxt.ocMissTxt{color:var(--dim);}
+  #ocPanel .ocGate{font-size:calc(10.5px*var(--uz,1));overflow-wrap:anywhere;color:var(--fg);}
+  #ocPanel .ocGate[data-g="合(3σ)"]{color:var(--okText);}
+  #ocPanel .ocGate[data-g="否(3σ)"]{color:var(--errText);}
+  #ocPanel .ocDet{font-size:calc(10.5px*var(--uz,1));color:var(--fg);padding:2px 4px 6px;overflow-wrap:anywhere;}
+  #ocPanel .ocDet b{color:var(--dim);}
+  @media (max-width:420px){
+    #ocPanel .ocSum{grid-template-columns:minmax(0,1fr) minmax(0,32%);}
+    #ocPanel .ocName{grid-column:1 / -1;}
+  }
+  html[data-skin="light"] #ocPanel .beHead{background:rgba(255,255,255,.99);}
+  html[data-skin="light"] #ocPanel .ocBar{background:rgba(22,27,54,.06);}
   /* v1.17: 選択粒子の編集パネル(タップ選択中のみ表示) */
   /* 第12便: z-index — 狭い横画面等でキャンバスが低くても、後続UI(操作列・タブ)に隠れず操作できる */
   /* 第92便(原仮定者指示): コア内訳(v2)の数値見切れ対策 — パネル幅 172→188px */
@@ -1037,6 +1077,17 @@
     <div class="beHead"><span id="avTitle">現実較正ファミリー監査ビュー</span><button id="avClose" aria-label="close">✕</button></div>
     <div class="avNote" id="avNote"></div>
     <div id="avBody"></div>
+  </div>
+</div>
+<!-- 第285便d(原仮定者の裁定(第75報)⑦・統括の検証項目 R100): 観測対実行のグラフ —— 1 行 1 量(中心線=観測・±3σ の帯・点=実行値・
+     右に正式判定)。行はすべて生成領域 obs-compare(判定器の正本の転記)から作る表示専用パネル。物理・保存 JSON・AI 仕様には影響しない -->
+<div id="ocPanel" class="fmModal" role="dialog" aria-modal="true" aria-labelledby="ocTitle">
+  <div class="fmBox">
+    <div class="beHead"><span id="ocTitle">観測との差</span><button id="ocClose" aria-label="close">✕</button></div>
+    <div class="avNote" id="ocNote"></div>
+    <div class="ocCtl" id="ocCtl"></div>
+    <div class="avNote" id="ocStat"></div>
+    <div id="ocBody"></div>
   </div>
 </div>
 <script>
@@ -1934,6 +1985,28 @@ ja: {
   cbQLock:"qLock 自動算出(有限参照正規化規約 q_exact)", cbPhysLock:"physLock 導出(κ=G/cLight²)",
   // 第146便: 現実較正ファミリー監査ビュー(表示専用 — 全項目をプリセット宣言から実行時に導出)
   avOpen:(n)=>"🔬 現実較正ファミリー監査ビュー("+n+"サンプル)",
+  // 第285便d(原仮定者の裁定(第75報)⑦・R100): 観測対実行のグラフ(表示専用 —— 正本の転記。合否は正式判定だけ)
+  ocOpen:(n)=>"📊 観測との差(グラフ・"+n+" 量)",
+  ocOpenTip:"判定器の正本(calaudit)の量ごとに、観測値を中心線・±3σ を緑の帯・実行値を点として並べる(表示専用・測り直さない)",
+  ocTitle:"観測との差(観測値と実行値の比較グラフ)",
+  ocNote:"1 行 1 量。中心の縦線=観測値、緑の帯=±3σ(観測誤差 σ が記録された量だけ)、点=実行値(判定器の正本 tests/out/calaudit-w249.json の判定段の値の転記 —— この画面では測り直していない)。欠測は空欄で、0 に置き換えない。帯の中に点があっても「合」とは書かない —— 合否は右欄の正式判定(3σ 門。数値誤差の予算と収束も見る)だけで、この図は門を置き換えない。「kF0 診断コピー」の行は、プリセットの physics を変えずに kFrame=0 で走らせた診断コピーの値。範囲の外の点は端に ◀/▶ で示す。行をタップすると観測・実行値・σ・判定段・近点数・収束・理由・出典を開く。",
+  ocLabSeries:"系列", ocLabKind:"量", ocLabScale:"尺度", ocLabRange:"横軸", ocLabRetired:"退役も表示",
+  ocSearchPh:"検索(ID・対象・量の名前・判定)",
+  ocOpt:(k,v)=>(({series:{all:"全",kf0:"kF0(kFrame=0)",dfm:"DFM(kFrame=1)",pn0:"λ_PN=0 対照(診断)"},
+    kind:{all:"全",precession:"近点移動",period:"周期",ecc:"離心率"},
+    scale:{pct:"観測との差 %",sigma:"σ 単位"},
+    range:{auto:"自動","100":"±100","10":"±10","1":"±1","0.1":"±0.1","0.01":"±0.01","3sigma":"±3σ(行ごと)"}})[k]||{})[v]||v,
+  ocAxis:(s)=>s===null? "横軸: 行ごとに ±3σ(σ の無い行は空欄)" : "横軸: "+s+"(中心=観測値)",
+  ocSum:(n,N,P,both,sig,miss,clip)=>"表示 "+n+" 量 / 正本 "+N+" 量("+P+" 本)・観測値と実行値の両方がある量 "+both+"・σ が記録された量 "+sig+"・この表示で空欄 "+miss+"・範囲の外 "+clip,
+  ocMiss:{"obs-missing":"空欄(観測値なし)","value-missing":"空欄(実行値なし)","sigma-missing":"空欄(σ なし —— σ 単位では描けない)",
+    "obs-zero":"空欄(観測値 0 —— % では描けない)","no-band":"空欄(σ なし —— ±3σ の範囲を作れない)"},
+  ocGate:(g)=>g? "正式判定: "+g : "正式判定なし",
+  ocKf0Copy:"kF0 診断コピー", ocRetiredTag:"退役", ocPn0Tag:"λ_PN=0 対照(診断)",
+  ocDet:{obs:"観測",val:"実行(判定段の値)",stage:"判定段",sigma:"σ",kf:"測った kFrame",peri:"近点(実測 / 必要)",
+    conv:"収束",reason:"判定の理由",src:"出典",yes:"充足",no:"不足",none:"—"},
+  ocExtraNone:"λ_PN=0 の対照(診断正本 tests/out/pn1-w285b.json): 正本に行が無いので描かない(仮の数を置かない)。",
+  ocEmpty:"条件に合う量が無い。",
+  helpObsCompare:"説明タブの「📊 観測との差」は、判定器の正本(calaudit)の量ごとに観測値を中心線・±3σ を緑の帯・実行値を点として 1 行 1 量で並べる表示専用のグラフです(系列・量・尺度 %/σ・横軸の範囲・検索・退役の表示を切り替え)。帯の中でも「合」とは書かず、合否は右欄の正式判定(3σ 門)だけです(第285便d)。",
   avTitle:"現実較正ファミリー監査ビュー",
   avNote:"現実較正ファミリーのサンプルを1画面に並べた**表示専用**の監査ビュー(第146便)。各カードの内容は、そのサンプルが宣言した failureFirst(失敗と結果)・parameterAudit(観測入力・fit・導出)・claims(役割・説明文の実測値・QA テストID)から**毎回その場で組み立てている**。ビューは独自の数値を1つも持たない — 宣言に無い項目は空欄になる。物理・保存 JSON・AI 仕様には一切影響しない。",
   avFail:"❌ 失敗(base)", avCorr:"🛠 補正(fit した自由パラメータ)", avOut:"✅ 結果",
@@ -2791,6 +2864,28 @@ en: {
   cbQLock:"auto-derived by qLock (finite-reference normalization q_exact)", cbPhysLock:"derived by physLock (κ=G/cLight²)",
   // 第146便: real-calibration family audit view (display only — every item derived from declarations)
   avOpen:(n)=>"🔬 Real-calibration family audit ("+n+" samples)",
+  // wave 285d (R100): observed-vs-run graph (display only - a transcript of the canonical run; pass/fail is the formal verdict only)
+  ocOpen:(n)=>"📊 Difference from observation (graph, "+n+" quantities)",
+  ocOpenTip:"For each quantity of the judging harness's canonical run (calaudit): the observed value as the centre line, ±3σ as a green band and the run value as a dot (display only - nothing is re-measured)",
+  ocTitle:"Difference from observation (observed vs run value)",
+  ocNote:"One row per quantity. Centre line = observed value; green band = ±3σ (only for quantities with a recorded observational σ); dot = run value (a VERBATIM COPY of the assessed-step value in the canonical tests/out/calaudit-w249.json - nothing is re-measured on this screen). Missing values are left blank and never replaced by 0. A dot inside the band is NOT labelled a pass - pass/fail is only the formal verdict in the right column (the 3σ gate, which also checks the numerical-error budget and convergence); this graph does not replace the gate. Rows marked \"kF0 diagnostic copy\" come from a diagnostic copy run at kFrame=0 without changing the preset's physics. Dots outside the range are shown at the edge as ◀/▶. Tap a row for observed / run value / σ / stage / periastra / convergence / reason / source.",
+  ocLabSeries:"Series", ocLabKind:"Quantity", ocLabScale:"Scale", ocLabRange:"Axis", ocLabRetired:"Show retired",
+  ocSearchPh:"Search (ID, target, quantity, verdict)",
+  ocOpt:(k,v)=>(({series:{all:"All",kf0:"kF0 (kFrame=0)",dfm:"DFM (kFrame=1)",pn0:"λ_PN=0 control (diagnostic)"},
+    kind:{all:"All",precession:"Periapsis advance",period:"Period",ecc:"Eccentricity"},
+    scale:{pct:"Difference %",sigma:"In σ"},
+    range:{auto:"Auto","100":"±100","10":"±10","1":"±1","0.1":"±0.1","0.01":"±0.01","3sigma":"±3σ (per row)"}})[k]||{})[v]||v,
+  ocAxis:(s)=>s===null? "Axis: ±3σ per row (rows without σ are blank)" : "Axis: "+s+" (centre = observed value)",
+  ocSum:(n,N,P,both,sig,miss,clip)=>"Showing "+n+" / "+N+" quantities in the canonical run ("+P+" samples) - with both observed and run value "+both+" - with recorded σ "+sig+" - blank in this view "+miss+" - outside the range "+clip,
+  ocMiss:{"obs-missing":"blank (no observed value)","value-missing":"blank (no run value)","sigma-missing":"blank (no σ - cannot plot in σ units)",
+    "obs-zero":"blank (observed value 0 - cannot plot in %)","no-band":"blank (no σ - no ±3σ range)"},
+  ocGate:(g)=>g? "Formal verdict: "+(({"合(3σ)":"pass (3σ)","否(3σ)":"fails (3σ)","数値未解決":"numerically unresolved","mapping-unresolved":"mapping-unresolved","condition-mismatch":"condition mismatch","未判定":"not judged"})[g]||g) : "No formal verdict",
+  ocKf0Copy:"kF0 diagnostic copy", ocRetiredTag:"retired", ocPn0Tag:"λ_PN=0 control (diagnostic)",
+  ocDet:{obs:"Observed",val:"Run (assessed-step value)",stage:"Assessed step",sigma:"σ",kf:"Measured kFrame",peri:"Periastra (found / needed)",
+    conv:"Convergence",reason:"Verdict reason",src:"Source",yes:"met",no:"short",none:"—"},
+  ocExtraNone:"λ_PN=0 control (diagnostic canonical file tests/out/pn1-w285b.json): no rows in a canonical file, so nothing is drawn (no placeholder numbers).",
+  ocEmpty:"No quantity matches.",
+  helpObsCompare:"\"📊 Difference from observation\" in the Description tab is a display-only graph with one row per quantity of the judging harness's canonical run (calaudit): observed value as the centre line, ±3σ as a green band and the run value as a dot (switch series, quantity, scale %/σ, axis range, search and retired). Being inside the band is never labelled a pass; pass/fail is only the formal verdict (3σ gate) in the right column (wave 285d).",
   avTitle:"Real-calibration family audit",
   avNote:"A DISPLAY-ONLY audit view (wave 146) that lines up the real-calibration family on one screen. Every card is assembled on the spot from what that sample declares: failureFirst (the failure and the outcome), parameterAudit (observed inputs, fits, derived values) and claims (roles, the measured values quoted in the description, QA test IDs). The view holds no numbers of its own — anything not declared is left blank. No effect on physics, saved JSON or the AI spec.",
   avFail:"❌ Failure (base)", avCorr:"🛠 Correction (fitted free parameters)", avOut:"✅ Outcome",
@@ -3495,6 +3590,517 @@ function assessedValuesOf(p,opts){
     canonical:ASSESSED_CANON, n:rows.length, rows:show? rows.slice() : [],
     reason: show? null : (!sigOk? "preset-signature-differs" : "canonical-target-differs"),
     note:"**判定ではなく転記である**。σ 倍は |実測−観測|/σ であって合否ではない"};
+}
+// ===== 第285便d(原仮定者の裁定(第75報)⑦「観測値と実行結果の一致度を分かり易く比較可能なグラフ系の表示を用意する」・統括の検証項目 R100) =====
+// **観測対実行のグラフ**(表示専用)。1 行 1 量 —— 中心線=観測値・横軸=観測との差(% か σ 単位)・±3σ の帯(σ が記録された量だけ・緑)・
+// 点=実行値。行は下の生成領域 `OBS_COMPARE_ROWS`(判定器の正本 tests/out/calaudit-w249.json の**転記** —— 器
+// tests/exp-w285d-obscompare.mjs が機械生成)だけから作る。**このページでは 1 つも測り直さない・判定しない**:
+//   ・欠測(観測なし・実行値なし・σ 尺度で σ なし・観測 0 の % 尺度)は**空欄**(0 に置き換えない)。
+//   ・右欄は正式判定(3σ 門 —— gate.status の転記)だけ。**帯の中に点があっても「合」とは書かない**
+//     (門は数値誤差の予算と収束も見る —— 帯は σ の目盛りであって門ではない)。古い verdict の語は持たない。
+//   ・退役の別は内蔵の宣言(familyRole:"retired" —— retiredOf)から引く(同じ事実を 2 か所に持たない)。
+//   ・状態表(SAMPLE_STATUS・正式判定値の表)と同じ正本を読む(別の手書きの表を持たない)。
+// 物理・presetSig・保存 JSON・AI 仕様には 1 バイトも効かない。
+// >>> w275a-generated: obs-compare
+// 第285便d(R100): 観測対実行のグラフの行 —— **正本 tests/out/calaudit-w249.json の転記**(器 tests/exp-w285d-obscompare.mjs が機械生成・手で打った数は無い)。
+// 欠測は null(0 に置き換えない)。合否は g(正式判定 gate.status)だけ。時刻・sha を入れない(値が変わったときだけ動く)。
+const OBS_COMPARE_CANON={file:"tests/out/calaudit-w249.json",version:"w285d-1",rows:315,calRows:315,presets:37,rowsSha256:"1360486c03da933f9790b935cebb141c2e3b671f4aa17d0902f07c1711eed4ad",sigDigits:12,extra:{"file":"tests/out/pn1-w285b.json","present":false,"rows":0}};
+const OBS_COMPARE_REASONS=["観測誤差(σ)または有限の実測が無い","数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)","観測量対応が未確定(**円に近い系の近点間周期である**(この preset の転写は e=0.0・実測 eProxy ≈1.2×10⁻³)。近点方位が縮退しているので、観測側の「公転周期」(two-body Keplerian fit の P)と、ここで測る近点間平均間隔が**同じ測定量であることは確定していない**。**数値が足りないのではない** —— 観測量対応が未確定である。)","観測量対応が未確定(軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない)","観測量対応が未確定(タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない)"];
+const OBS_COMPARE_SOURCES=["JPL SSD Planetary Satellite Mean Elements (Moon; ephemeris DE405/LE405)","NASA NSSDC Mercury Fact Sheet","Park R.S. Folkner W.M. Konopliv A.S. Williams J.G. Smith D.E. Zuber M.T. 2017 AJ 153 121 T","dfm-simulator solarInner declaration (committed)","IERS useful constants (sidereal year from Simon et al. 1994 A&A 282 663)","NASA NSSDC Mars Fact Sheet","JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1","JPL SSD Planetary Satellite Mean Elements (Io; ephemeris JUP365)","JPL SSD Planetary Satellite Mean Elements (Europa; ephemeris JUP365)","JPL SSD Planetary Satellite Mean Elements (Ganymede; ephemeris JUP365)","JPL SSD Planetary Satellite Mean Elements (Callisto; ephemeris JUP365)","Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=1128.844409 deg/d","Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=285.161886 deg/d)","Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)","Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)","NASA NSSDC Neptunian Satellite Fact Sheet (archived)","Akeson et al. (2021) AJ 162 14 - Precision Millimeter Astrometry of the Alpha Centauri AB ","Bond et al. (2017) ApJ 840 70 - The Sirius System and its Astrophysical Puzzles: HST and G","Hu et al. (2022) A&A 667 A149 (via device-collected record)","Kramer et al. (2021) Phys. Rev. X 11 041050 - Strong-Field Gravity Tests with the Double P","Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Universe Pulsar Survey XIII","Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+2052 I. Masses and tes","Meng et al. 2025, A&A 704, A153, Table 1 DDFWHE column","Stairs et al. (2002) ApJ 581 501 - Studies of the Relativistic Binary Pulsar PSR B1534+12.","Hedman et al. 2014 Icarus 233 147 abstract","Hedman M.M. Burt J.A. Burns J.A. Showalter M.R. 2014 Icarus 233 147 (arXiv:1401.6103)","NASA NSSDC Saturnian Rings Fact Sheet; Nicholson et al. 2014 Icarus 241 373; French et al.","JPL SSD Planetary Satellite Mean Elements (Titan; ephemeris SAT441) = Jacobson 2022 AJ 164","Nicholson et al. 2014 Icarus 241 373; French et al. 2017 Icarus 290 14"];
+const OBS_COMPARE_ROWS=[
+  {"i":"earthMoonReal","e":"🌙","t":"月","n":"恒星月","k":"period","o":2360594.88,"v":2360600.59973,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":27,"pk":true,"cv":false,"so":0,"sr":"calaudit"},
+  {"i":"earthMoonReal","e":"🌙","t":null,"n":"軌道長半径","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":27,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"earthMoonReal","e":"🌙","t":null,"n":"近地点相対速度","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":27,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"earthMoonReal","e":"🌙","t":"月","n":"実測(標準検出器): 離心率(月)","k":"ecc","o":null,"v":0.0549003355643,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":27,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"earthMoonReal","e":"🌙","t":"月","n":"実測(標準検出器): 近点移動(月)","k":"precession","o":null,"v":-0.0000366891347755,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":27,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"earthMoonRealKF1","e":"🌘","t":"月","n":"恒星月・同方向1周(履歴 — 現行 QA の定義)","k":"period","o":2360594.88,"v":2360445.78083,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":0,"sr":"calaudit"},
+  {"i":"earthMoonRealKF1","e":"🌘","t":"月","n":"恒星月・近点間(第250便d — 定義併記)","k":"period","o":2360594.88,"v":2376799.81238,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":0,"sr":"calaudit"},
+  {"i":"earthMoonRealKF1","e":"🌘","t":"月","n":"近点回転の周期","k":"precession","o":279284760,"v":314652382.795,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"earthMoonRealKF1","e":"🌘","t":"月","n":"引きずり歳差の由来","k":"precession","o":null,"v":2.71934356528,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"earthMoonRealKF1","e":"🌘","t":null,"n":"補正の共通性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"earthMoonRealKF1","e":"🌘","t":"月","n":"実測(標準検出器): 離心率(月)","k":"ecc","o":null,"v":0.0540418079761,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"emAuditDFM","e":"🧲","t":"月","n":"近点回転の周期(8公転窓=較正窓)","k":"precession","o":279284760,"v":343687191.44,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"emAuditDFM","e":"🧲","t":"月","n":"恒星月・同方向1周(履歴 — 現行 QA の定義)","k":"period","o":2360594.88,"v":2361401.62677,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":0,"sr":"calaudit"},
+  {"i":"emAuditDFM","e":"🧲","t":"月","n":"恒星月・近点間(第250便d — 定義併記)","k":"period","o":2360594.88,"v":2376719.37282,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":0,"sr":"calaudit"},
+  {"i":"emAuditDFM","e":"🧲","t":null,"n":"窓を延ばすと(第135便 実測)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"emAuditDFM","e":"🧲","t":"月","n":"離心率(第135便 実測)","k":"ecc","o":0.0515,"v":0.0532458625413,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":26,"pk":true,"cv":false,"so":0,"sr":"calaudit"},
+  {"i":"emAuditSolar","e":"🔆","t":"月","n":"近点回転の周期(118公転窓・較正ゼロ)","k":"precession","o":279284760,"v":282521456.193,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"emAuditSolar","e":"🔆","t":null,"n":"窓・dt 依存","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"emAuditSolar","e":"🔆","t":"月","n":"恒星月","k":"period","o":2360594.88,"v":2363862.29677,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":0,"sr":"calaudit"},
+  {"i":"emAuditSolar","e":"🔆","t":"月","n":"離心率(236公転=17.7年)","k":"ecc","o":0.0515,"v":0.0432696464579,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":0,"sr":"calaudit"},
+  {"i":"emAuditSolar","e":"🔆","t":null,"n":"一次永年論との比較","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"mercuryReal","e":"☄️","t":"水星","n":"公転周期","k":"period","o":7600521.6,"v":7600536.76079,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":1,"sr":"calaudit"},
+  {"i":"mercuryReal","e":"☄️","t":"水星","n":"近日点前進(推定器つき宣言 — 第250便d)","k":"precession","o":0.0000287543944033,"v":0.0000225146569977,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":1.0036073088e-9,"kf":0,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":2,"sr":"calaudit"},
+  {"i":"mercuryReal","e":"☄️","t":null,"n":"近日点速度","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"mercuryReal","e":"☄️","t":"水星","n":"実測(標準検出器): 離心率(水星)","k":"ecc","o":null,"v":0.205630964051,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"mercuryRealKF1","e":"🪨","t":"水星","n":"引きずり歳差(qLock q_exact=6.1471・推定器つき宣言)","k":"precession","o":0.0000287677747627,"v":0.0000224860986679,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":1.00360730877e-9,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":2,"sr":"calaudit"},
+  {"i":"mercuryRealKF1","e":"🪨","t":null,"n":"q=3 対照(第120便版)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"mercuryRealKF1","e":"🪨","t":null,"n":"共通性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"mercuryRealKF1","e":"🪨","t":"水星","n":"実測(標準検出器): 公転周期(水星)","k":"period","o":null,"v":7600536.76092,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"mercuryRealKF1","e":"🪨","t":"水星","n":"実測(標準検出器): 離心率(水星)","k":"ecc","o":null,"v":0.205630964066,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"水星","n":"公転周期(水/金/地/火)(水星)","k":"period","o":7600521.6,"v":7600499.01248,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":1,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"金星","n":"公転周期(水/金/地/火)(金星)","k":"period","o":19414166.4,"v":19413805.4801,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":3,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"地球","n":"公転周期(水/金/地/火)(地球)","k":"period","o":31558118.4,"v":31558312.1895,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":4,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"火星","n":"公転周期(水/金/地/火)(火星)","k":"period","o":59355072,"v":59353330.3206,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":5,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":null,"n":"軌道速度(地球)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":null,"n":"円軌道の維持(2水星周窓)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"水星","n":"実測(標準検出器): 離心率(水星)","k":"ecc","o":null,"v":0.0000652697510474,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"水星","n":"実測(標準検出器): 近点移動(水星)","k":"precession","o":null,"v":-0.326047038443,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"金星","n":"実測(標準検出器): 離心率(金星)","k":"ecc","o":0.00677672,"v":0.0000244387103347,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":6,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"金星","n":"実測(標準検出器): 近点移動(金星)","k":"precession","o":null,"v":3.79192070441,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"地球","n":"実測(標準検出器): 離心率(地球)","k":"ecc","o":null,"v":0.0000220294682565,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"地球","n":"実測(標準検出器): 近点移動(地球)","k":"precession","o":null,"v":26.7333684508,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"火星","n":"実測(標準検出器): 離心率(火星)","k":"ecc","o":null,"v":0.0000216806174377,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"solarInner","e":"🌞","t":"火星","n":"実測(標準検出器): 近点移動(火星)","k":"precession","o":null,"v":7.8285184271,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":2,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"イオ","n":"恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)","k":"period","o":152853.5232,"v":152929.008039,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":1,"np":20,"mp":59,"pk":true,"cv":false,"so":7,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"エウロパ","n":"恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)","k":"period","o":306822.0384,"v":306825.707395,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":1,"np":20,"mp":59,"pk":true,"cv":false,"so":8,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"ガニメデ","n":"恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)","k":"period","o":618153.3792,"v":618087.616974,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":1,"np":20,"mp":59,"pk":true,"cv":false,"so":9,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"カリスト","n":"恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)","k":"period","o":1441931.0688,"v":1441544.07578,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":1,"np":20,"mp":59,"pk":true,"cv":false,"so":10,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"イオ","n":"kFrame=1(D₀=0.006・q_exact=12.0586)での周期(イオ)","k":"period","o":152853.5232,"v":152933.545059,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":7,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"エウロパ","n":"kFrame=1(D₀=0.006・q_exact=12.0586)での周期(エウロパ)","k":"period","o":306822.0384,"v":306919.363093,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":8,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"ガニメデ","n":"kFrame=1(D₀=0.006・q_exact=12.0586)での周期(ガニメデ)","k":"period","o":618153.3792,"v":618322.11934,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":9,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"カリスト","n":"kFrame=1(D₀=0.006・q_exact=12.0586)での周期(カリスト)","k":"period","o":1441931.0688,"v":1442107.26054,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":10,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"イオ","n":"20イオ公転窓の軌道保持(kFrame=1)","k":"period","o":null,"v":152933.545059,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":7,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":null,"n":"フレーム回転の内訳","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":null,"n":"払った較正","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":null,"n":"ラプラス共鳴","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":null,"n":"スピン双極子モーメント Q(第246便d)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"イオ","n":"実測(標準検出器): 離心率(イオ)","k":"ecc","o":null,"v":0.00410885586217,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"イオ","n":"実測(標準検出器): 近点移動(イオ)","k":"precession","o":null,"v":0.181916474037,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"エウロパ","n":"実測(標準検出器): 離心率(エウロパ)","k":"ecc","o":null,"v":0.00912994302636,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"エウロパ","n":"実測(標準検出器): 近点移動(エウロパ)","k":"precession","o":null,"v":-0.579742464114,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"ガニメデ","n":"実測(標準検出器): 離心率(ガニメデ)","k":"ecc","o":null,"v":0.00150346541097,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"ガニメデ","n":"実測(標準検出器): 近点移動(ガニメデ)","k":"precession","o":null,"v":-0.980670204981,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"カリスト","n":"実測(標準検出器): 離心率(カリスト)","k":"ecc","o":null,"v":0.00747240708718,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"jupiterGalilean","e":"🟠","t":"カリスト","n":"実測(標準検出器): 近点移動(カリスト)","k":"precession","o":null,"v":0.000738763104576,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"venusReal","e":"🌇","t":"金星","n":"公転周期(kFrame=1・E6′-R)","k":"period","o":19414166.4,"v":19414266.8474,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":3,"sr":"calaudit"},
+  {"i":"venusReal","e":"🌇","t":"金星","n":"公転周期(kFrame=0 対照)","k":"period","o":19414166.4,"v":19413888.6073,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":1,"np":20,"mp":59,"pk":true,"cv":false,"so":3,"sr":"calaudit"},
+  {"i":"venusReal","e":"🌇","t":"金星","n":"半径振れ幅(1公転窓)","k":"period","o":null,"v":19414266.8474,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":3,"sr":"calaudit"},
+  {"i":"venusReal","e":"🌇","t":null,"n":"legacy 反作用の対照","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"venusReal","e":"🌇","t":"金星","n":"実測(標準検出器): 離心率(金星)","k":"ecc","o":0.00677672,"v":0.00700816612562,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":6,"sr":"calaudit"},
+  {"i":"venusReal","e":"🌇","t":"金星","n":"実測(標準検出器): 近点移動(金星)","k":"precession","o":null,"v":0.0629220670456,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"marsMoonsReal","e":"🥔","t":"フォボス","n":"公転周期(フォボス/ダイモス・kFrame=1)(フォボス)","k":"period","o":27553.8415675,"v":27566.6434407,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":11,"sr":"calaudit"},
+  {"i":"marsMoonsReal","e":"🥔","t":"ダイモス","n":"公転周期(フォボス/ダイモス・kFrame=1)(ダイモス)","k":"period","o":109074.885274,"v":109116.891737,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":12,"sr":"calaudit"},
+  {"i":"marsMoonsReal","e":"🥔","t":"ダイモス","n":"半径振れ幅(2ダイモス公転窓)","k":"period","o":109074.885274,"v":109116.891737,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":12,"sr":"calaudit"},
+  {"i":"marsMoonsReal","e":"🥔","t":"フォボス","n":"kFrame=0 対照との周期差","k":"period","o":27553.8415675,"v":27566.8220224,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":1,"np":20,"mp":59,"pk":true,"cv":false,"so":11,"sr":"calaudit"},
+  {"i":"marsMoonsReal","e":"🥔","t":null,"n":"テスト粒子降格","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"marsMoonsReal","e":"🥔","t":"フォボス","n":"実測(標準検出器): 離心率(フォボス)","k":"ecc","o":null,"v":0.0151604291773,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"marsMoonsReal","e":"🥔","t":"フォボス","n":"実測(標準検出器): 近点移動(フォボス)","k":"precession","o":null,"v":-0.0149772981289,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"marsMoonsReal","e":"🥔","t":"ダイモス","n":"実測(標準検出器): 離心率(ダイモス)","k":"ecc","o":null,"v":0.000326880216214,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"marsMoonsReal","e":"🥔","t":"ダイモス","n":"実測(標準検出器): 近点移動(ダイモス)","k":"precession","o":null,"v":-0.00416226318846,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"plutoCharonReal","e":"❄️","t":"カロン","n":"公転周期(kFrame=0 対照・同方向1周)","k":"period","o":551856.43872,"v":551864.061241,"u":"s","st":"h4","g":"否(3σ)","r":null,"s":0.02592,"kf":0,"kc":1,"np":20,"mp":59,"pk":true,"cv":true,"so":13,"sr":"calaudit"},
+  {"i":"plutoCharonReal","e":"❄️","t":"カロン","n":"公転周期(kFrame=1・E6′-R)同方向1周","k":"period","o":551856.43872,"v":553210.63401,"u":"s","st":"h","g":"数値未解決","r":1,"s":0.02592,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":13,"sr":"calaudit"},
+  {"i":"plutoCharonReal","e":"❄️","t":"カロン","n":"公転周期(kFrame=1)近点間(第250便d)","k":"period","o":551856.43872,"v":556266.421207,"u":"s","st":"h","g":"mapping-unresolved","r":2,"s":0.02592,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":13,"sr":"calaudit"},
+  {"i":"plutoCharonReal","e":"❄️","t":null,"n":"共通重心の位置","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"plutoCharonReal","e":"❄️","t":null,"n":"半径振れ幅","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"plutoCharonReal","e":"❄️","t":"カロン","n":"実測(標準検出器): 離心率(カロン)","k":"ecc","o":null,"v":0.0012226704502,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"plutoCharonReal","e":"❄️","t":"カロン","n":"実測(標準検出器): 近点移動(カロン)","k":"precession","o":null,"v":1.45069922373,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"ミランダ","n":"公転周期(ミランダ/アリエル・kFrame=1・周回実測)(ミランダ)","k":"period","o":122124.62102,"v":122212.09987,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":14,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"アリエル","n":"公転周期(ミランダ/アリエル・kFrame=1・周回実測)(アリエル)","k":"period","o":217760.761192,"v":217724.754804,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":14,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"ウンブリエル","n":"公転周期(ウンブリエル/チタニア/オベロン・転写診断)(ウンブリエル)","k":"period","o":358056.897739,"v":358086.821746,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":14,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"チタニア","n":"公転周期(ウンブリエル/チタニア/オベロン・転写診断)(チタニア)","k":"period","o":752187.010213,"v":752230.212798,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":14,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"オベロン","n":"公転周期(ウンブリエル/チタニア/オベロン・転写診断)(オベロン)","k":"period","o":1163223.66511,"v":1163339.62522,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":14,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"ミランダ","n":"環11帯(88粒)の半径保持(2ミランダ公転窓)","k":"period","o":122124.62102,"v":122212.09987,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":14,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"ミランダ","n":"天王星の自転(第196便: 面内符号+)","k":"spin","o":62064,"v":62064.0006,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":null,"n":"環の質量(第192便)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"ミランダ","n":"実測(標準検出器): 離心率(ミランダ)","k":"ecc","o":null,"v":0.00131557539641,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"ミランダ","n":"実測(標準検出器): 近点移動(ミランダ)","k":"precession","o":null,"v":0.00431814722242,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"アリエル","n":"実測(標準検出器): 離心率(アリエル)","k":"ecc","o":null,"v":0.00122443237598,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"アリエル","n":"実測(標準検出器): 近点移動(アリエル)","k":"precession","o":null,"v":-0.100933316016,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"ウンブリエル","n":"実測(標準検出器): 離心率(ウンブリエル)","k":"ecc","o":null,"v":0.00398558354529,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"ウンブリエル","n":"実測(標準検出器): 近点移動(ウンブリエル)","k":"precession","o":null,"v":-0.174099560413,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"チタニア","n":"実測(標準検出器): 離心率(チタニア)","k":"ecc","o":null,"v":0.00116131066262,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"チタニア","n":"実測(標準検出器): 近点移動(チタニア)","k":"precession","o":null,"v":-1.15473702847,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"オベロン","n":"実測(標準検出器): 離心率(オベロン)","k":"ecc","o":null,"v":0.001339939447,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"uranusReal","e":"💠","t":"オベロン","n":"実測(標準検出器): 近点移動(オベロン)","k":"precession","o":null,"v":null,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"neptuneReal","e":"🌊","t":"トリトン","n":"公転周期(kFrame=0 対照)","k":"period","o":507760.1856,"v":507781.482356,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":1,"np":20,"mp":59,"pk":true,"cv":false,"so":15,"sr":"calaudit"},
+  {"i":"neptuneReal","e":"🌊","t":"トリトン","n":"公転周期(kFrame=1・E6′-R)","k":"period","o":507760.1856,"v":508323.314529,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":15,"sr":"calaudit"},
+  {"i":"neptuneReal","e":"🌊","t":"トリトン","n":"トリトンの自転","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"neptuneReal","e":"🌊","t":"トリトン","n":"公転の向き(第188便)","k":"period","o":null,"v":508323.314529,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":15,"sr":"calaudit"},
+  {"i":"neptuneReal","e":"🌊","t":null,"n":"半径振れ幅","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"neptuneReal","e":"🌊","t":"トリトン","n":"実測(標準検出器): 離心率(トリトン)","k":"ecc","o":null,"v":0.000551045854449,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"neptuneReal","e":"🌊","t":"トリトン","n":"実測(標準検出器): 近点移動(トリトン)","k":"precession","o":null,"v":-0.320106218353,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":59,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenAB","e":"✨","t":"B","n":"公転周期(kFrame=0 採用側)","k":"period","o":2517097291.2,"v":2517154638.63,"u":"s","st":"h4","g":"合(3σ)","r":null,"s":599594.4,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":true,"so":16,"sr":"calaudit"},
+  {"i":"alphaCenAB","e":"✨","t":"B","n":"実測離心率(1公転の半径比振れ幅)","k":"ecc","o":0.51947,"v":0.519469965648,"u":"-","st":"h4","g":"mapping-unresolved","r":3,"s":0.00015,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":true,"so":16,"sr":"calaudit"},
+  {"i":"alphaCenAB","e":"✨","t":null,"n":"観測安定則(2026-08-25 裁定・適用第1号)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenAB","e":"✨","t":null,"n":"A/B 測定側(kFrame=1・第242便 pull 重み)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenAB","e":"✨","t":null,"n":"初期位相(第211便 — 遠点整列)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenAB","e":"✨","t":"B","n":"自転(両星)","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenAB","e":"✨","t":"B","n":"実測(標準検出器): 近点移動(B)","k":"precession","o":null,"v":-0.0000207081887251,"u":"deg/orbit","st":"h4","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":true,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenABDFM","e":"✴️","t":"B","n":"軌道の形(歳差の定量)","k":"precession","o":null,"v":0.889446879416,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenABDFM","e":"✴️","t":"B","n":"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)","k":"period","o":2517097291.2,"v":2502076883.53,"u":"s","st":"h","g":"数値未解決","r":1,"s":599594.4,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":16,"sr":"calaudit"},
+  {"i":"alphaCenABDFM","e":"✴️","t":"B","n":"実測離心率(1周目の半径比振れ幅)","k":"ecc","o":0.51947,"v":0.520404872259,"u":"-","st":"h","g":"mapping-unresolved","r":3,"s":0.00015,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":16,"sr":"calaudit"},
+  {"i":"alphaCenABDFM","e":"✴️","t":null,"n":"解析慣性則(第245便の一次則 — 第282便a で履歴)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenABDFM","e":"✴️","t":"B","n":"外殻の半径と自転(第208便 — 役割反転)","k":"spin","o":1373760,"v":1373760.05805,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenABDFM","e":"✴️","t":null,"n":"DFM 質量(第282便a — f=1: 観測質量そのもの)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenABDFM","e":"✴️","t":null,"n":"偶力の受け皿(第242便 — 隠れコアは持たない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"alphaCenABDFM","e":"✴️","t":null,"n":"重心(第209便 — cmGauge:barycentric)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusAB","e":"🌟","t":"B","n":"公転周期(kFrame=0 採用側)","k":"period","o":1581931995.84,"v":1581969210.93,"u":"s","st":"h4","g":"合(3σ)","r":null,"s":135697.68,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":true,"so":17,"sr":"calaudit"},
+  {"i":"siriusAB","e":"🌟","t":"B","n":"実測離心率(1公転の半径比振れ幅)","k":"ecc","o":0.59142,"v":0.591419947828,"u":"-","st":"h4","g":"mapping-unresolved","r":3,"s":0.00037,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":true,"so":17,"sr":"calaudit"},
+  {"i":"siriusAB","e":"🌟","t":null,"n":"観測安定則(適用第2号)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusAB","e":"🌟","t":null,"n":"二体クロージャ確認(第214便 新設)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusAB","e":"🌟","t":null,"n":"A/B 測定側(kFrame=1・第242便 pull 重み)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusAB","e":"🌟","t":"B","n":"自転(両星 — 転写なし)","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusAB","e":"🌟","t":null,"n":"Sirius B の半径(白色矮星)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusAB","e":"🌟","t":null,"n":"初期位相(第211便 — 遠点整列)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusAB","e":"🌟","t":"B","n":"実測(標準検出器): 近点移動(B)","k":"precession","o":null,"v":-0.0000357799365152,"u":"deg/orbit","st":"h4","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":true,"so":null,"sr":"calaudit"},
+  {"i":"siriusABDFM","e":"💫","t":null,"n":"軌道の形","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusABDFM","e":"💫","t":"B","n":"公転周期(kFrame=1・pull 重み・観測質量 — 2 定義)","k":"period","o":1581931995.84,"v":1553957053.57,"u":"s","st":"h","g":"数値未解決","r":1,"s":135697.68,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":17,"sr":"calaudit"},
+  {"i":"siriusABDFM","e":"💫","t":"B","n":"実測離心率(1周目の半径比振れ幅)","k":"ecc","o":0.59142,"v":0.593609820463,"u":"-","st":"h","g":"mapping-unresolved","r":3,"s":0.00037,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":17,"sr":"calaudit"},
+  {"i":"siriusABDFM","e":"💫","t":null,"n":"近点(合わせていない側)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusABDFM","e":"💫","t":null,"n":"DFM 質量(第282便a — f=1: 観測質量そのもの)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusABDFM","e":"💫","t":null,"n":"解析慣性則(第245便の一次則 — 第282便a で履歴)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusABDFM","e":"💫","t":"B","n":"A の殻自転(第221便 — 宣言つき代理値)","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusABDFM","e":"💫","t":null,"n":"偶力の受け皿と重心(第242便)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"siriusABDFM","e":"💫","t":"B","n":"実測(標準検出器): 近点移動(B)","k":"precession","o":null,"v":2.19033253168,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleAB","e":"📻","t":"B","n":"公転周期(kFrame=0 採用側)","k":"period","o":8834.53472328,"v":8834.77271455,"u":"s","st":"h","g":"数値未解決","r":1,"s":2.5056e-7,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":18,"sr":"calaudit"},
+  {"i":"psrDoubleAB","e":"📻","t":"B","n":"実測離心率(1公転の半径比振れ幅)","k":"ecc","o":0.087777036,"v":0.0877645197209,"u":"-","st":"h","g":"mapping-unresolved","r":4,"s":4.8e-8,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":18,"sr":"calaudit"},
+  {"i":"psrDoubleAB","e":"📻","t":null,"n":"観測安定則(適用第3号)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleAB","e":"📻","t":null,"n":"単位族(第220便 新設 → 第222便 経路拡張)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleAB","e":"📻","t":"B","n":"近点前進(1PN — 合わせない照合)","k":"precession","o":0.00472,"v":0.000789064898173,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":3.63944169674e-9,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":19,"sr":"calaudit"},
+  {"i":"psrDoubleAB","e":"📻","t":"B","n":"自転(両星 — 測定はあるが転写不能)","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleAB","e":"📻","t":null,"n":"半径(EOS proxy — 直接観測なし)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleAB","e":"📻","t":null,"n":"スピンと 1PN 偶力(第223便 — 記帳化)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABDFM","e":"⚡","t":"B","n":"公転周期(kFrame=1・観測質量 f=1 — 同方向1周)","k":"period","o":8834.53472328,"v":null,"u":"s","st":"h","g":"未判定","r":0,"s":2.5056e-7,"kf":1,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":18,"sr":"calaudit"},
+  {"i":"psrDoubleABDFM","e":"⚡","t":null,"n":"軌道の形(合わせていない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABDFM","e":"⚡","t":null,"n":"DFM 質量(第284便b — f=1: 観測質量そのもの)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABDFM","e":"⚡","t":null,"n":"偶力の受け皿(第284便b — 補正コアを外した)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABDFM","e":"⚡","t":"B","n":"パルス時計(第221→226便)","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABDFM","e":"⚡","t":null,"n":"重力磁気のスピン–スピン(第246便)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABDFM","e":"⚡","t":null,"n":"旧台帳の記録(第245〜283便 — **履歴**)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABDFM","e":"⚡","t":"B","n":"実測(標準検出器): 離心率(B)","k":"ecc","o":null,"v":0.823145894638,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABDFM","e":"⚡","t":"B","n":"実測(標準検出器): 近点移動(B)","k":"precession","o":null,"v":0.00315564401746,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABSpinCal","e":"🧿","t":"B","n":"近点移動(**fit 対象** — 2 ノブを回した先)","k":"precession","o":0.004730957,"v":0.00484553427505,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":3.59944857147e-9,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":19,"sr":"calaudit"},
+  {"i":"psrDoubleABSpinCal","e":"🧿","t":"B","n":"公転周期(照合先 — fit していない)","k":"period","o":8834.53472328,"v":8737.68909531,"u":"s","st":"h","g":"数値未解決","r":1,"s":2.5056e-7,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":18,"sr":"calaudit"},
+  {"i":"psrDoubleABSpinCal","e":"🧿","t":null,"n":"**調整した量は 2 つ**(⚡ 本体の「ノブなし」とは別系譜)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABSpinCal","e":"🧿","t":null,"n":"スピン–スピン比 η=|F_SS|/|F_N|(遠点)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABSpinCal","e":"🧿","t":null,"n":"**共通則にできない**(3 系同時評価)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABSpinCal","e":"🧿","t":null,"n":"数値床(第247便a の framePrecision)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABSpinCal","e":"🧿","t":"B","n":"実測(標準検出器): 離心率(B)","k":"ecc","o":null,"v":0.0879509145482,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757DFM","e":"🧮","t":"B","n":"近点移動(**hold-out** — 較正に使っていない)","k":"precession","o":0.0052085,"v":0.0105692679731,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":9.82840201714e-8,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":20,"sr":"calaudit"},
+  {"i":"psrJ1757DFM","e":"🧮","t":null,"n":"**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757DFM","e":"🧮","t":"B","n":"公転周期(hold-out — 合わせていない・2 定義)","k":"period","o":15857.6690192,"v":15508.0389748,"u":"s","st":"h","g":"数値未解決","r":1,"s":0.00000432,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":20,"sr":"calaudit"},
+  {"i":"psrJ1757DFM","e":"🧮","t":"B","n":"離心率(hold-out — 合わせていない)","k":"ecc","o":0.6058142,"v":0.60601085745,"u":"-","st":"h","g":"mapping-unresolved","r":4,"s":0.000001,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":20,"sr":"calaudit"},
+  {"i":"psrJ1757DFM","e":"🧮","t":null,"n":"DFM 質量(**較正していない** — ⚡ と同じ一次則を1回評価した値)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757DFM","e":"🧮","t":"B","n":"**伴星の自転は未観測**(だから感度帯で出す)","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757DFM","e":"🧮","t":null,"n":"半径は EOS proxy(NICER 測定ではない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757DFM","e":"🧮","t":"B","n":"周期の収縮(⚡ と同じ離散化仕事)","k":"period","o":null,"v":15508.0389748,"u":"s","st":"h","g":"未判定","r":0,"s":0.00000432,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":20,"sr":"calaudit"},
+  {"i":"psrJ1946DFM","e":"🩺","t":"B","n":"近点移動(**hold-out** — 較正に使っていない)","k":"precession","o":0.0055424,"v":0.0115514760184,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":8.47421111279e-8,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":21,"sr":"calaudit"},
+  {"i":"psrJ1946DFM","e":"🩺","t":null,"n":"**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946DFM","e":"🩺","t":"B","n":"公転周期(hold-out — 合わせていない・2 定義)","k":"period","o":6781.36799866,"v":6685.64411532,"u":"s","st":"h","g":"数値未解決","r":1,"s":0.000001728,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":22,"sr":"calaudit"},
+  {"i":"psrJ1946DFM","e":"🩺","t":"B","n":"離心率(hold-out — 合わせていない)","k":"ecc","o":0.0638363,"v":0.0640718654263,"u":"-","st":"h","g":"mapping-unresolved","r":4,"s":8e-7,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":22,"sr":"calaudit"},
+  {"i":"psrJ1946DFM","e":"🩺","t":null,"n":"DFM 質量(**較正していない** — ⚡ と同じ一次則を1回評価した値)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946DFM","e":"🩺","t":"B","n":"**伴星の自転は未観測**(だから感度帯で出す)","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946DFM","e":"🩺","t":null,"n":"半径は EOS proxy(NICER 測定ではない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946DFM","e":"🩺","t":"B","n":"dt 収束(短周期ゆえ刻みが効く)","k":"period","o":6781.36799866,"v":6685.64411532,"u":"s","st":"h","g":"数値未解決","r":1,"s":0.000001728,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":22,"sr":"calaudit"},
+  {"i":"psrDoubleABPN","e":"🪶","t":"B","n":"近点移動(本 variant の主眼 — 旧則の約2倍を直す)","k":"precession","o":0.004731,"v":0.00489034040022,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":3.59920378224e-9,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":19,"sr":"calaudit"},
+  {"i":"psrDoubleABPN","e":"🪶","t":null,"n":"宣言したのは 2 つだけ(**既存キー**)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABPN","e":"🪶","t":null,"n":"**現象論の候補であって完成ではない**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABPN","e":"🪶","t":null,"n":"fit と hold-out の線引き(第41報 H1)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABPN","e":"🪶","t":null,"n":"旧則との差(A/B 対照で見える)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABPN","e":"🪶","t":"B","n":"公転周期(合わせていない・2 定義)","k":"period","o":8834.53472328,"v":8737.09486756,"u":"s","st":"h","g":"数値未解決","r":1,"s":2.5056e-7,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":18,"sr":"calaudit"},
+  {"i":"psrDoubleABPN","e":"🪶","t":"B","n":"離心率(合わせていない)","k":"ecc","o":0.087777036,"v":0.0879849278314,"u":"-","st":"h","g":"mapping-unresolved","r":4,"s":4.8e-8,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":18,"sr":"calaudit"},
+  {"i":"psrDoubleABPN","e":"🪶","t":null,"n":"刻み依存(連続極限の確定ではない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757PN","e":"🪃","t":"B","n":"近点移動(本 variant の主眼 — 旧則の約2倍を直す)","k":"precession","o":0.0052085,"v":0.00529683758848,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":9.82830052692e-8,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":20,"sr":"calaudit"},
+  {"i":"psrJ1757PN","e":"🪃","t":null,"n":"宣言したのは 2 つだけ(**既存キー**)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757PN","e":"🪃","t":null,"n":"**現象論の候補であって完成ではない**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757PN","e":"🪃","t":null,"n":"新しい観測表との比較(第249便a で CSV へ別版追加)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757PN","e":"🪃","t":null,"n":"旧則との差(A/B 対照で見える)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757PN","e":"🪃","t":"B","n":"公転周期(合わせていない・2 定義)","k":"period","o":15857.6690192,"v":15507.8788354,"u":"s","st":"h","g":"数値未解決","r":1,"s":0.00000432,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":20,"sr":"calaudit"},
+  {"i":"psrJ1757PN","e":"🪃","t":"B","n":"離心率(合わせていない)","k":"ecc","o":0.6058142,"v":0.606006657166,"u":"-","st":"h","g":"mapping-unresolved","r":4,"s":0.000001,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":20,"sr":"calaudit"},
+  {"i":"psrJ1757PN","e":"🪃","t":null,"n":"刻み依存(連続極限の確定ではない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946PN","e":"🪀","t":"B","n":"近点移動(本 variant の主眼 — 旧則の約2倍を直す)","k":"precession","o":0.0055424,"v":0.00596000359393,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":8.47386141067e-8,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":21,"sr":"calaudit"},
+  {"i":"psrJ1946PN","e":"🪀","t":null,"n":"宣言したのは 2 つだけ(**既存キー**)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946PN","e":"🪀","t":null,"n":"**現象論の候補であって完成ではない**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946PN","e":"🪀","t":null,"n":"**採用レコードを一組へ揃えた**(第270便c/AD9)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946PN","e":"🪀","t":null,"n":"旧則との差(A/B 対照で見える)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946PN","e":"🪀","t":"B","n":"公転周期(合わせていない・2 定義)","k":"period","o":6781.36799866,"v":6685.36822133,"u":"s","st":"h","g":"数値未解決","r":1,"s":0.000001728,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":22,"sr":"calaudit"},
+  {"i":"psrJ1946PN","e":"🪀","t":"B","n":"離心率(合わせていない)","k":"ecc","o":0.0638363,"v":0.0640837745236,"u":"-","st":"h","g":"mapping-unresolved","r":4,"s":8e-7,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":22,"sr":"calaudit"},
+  {"i":"psrJ1946PN","e":"🪀","t":null,"n":"刻み依存(連続極限の確定ではない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABCF","e":"🪝","t":"B","n":"近点移動(本 variant の主眼)","k":"precession","o":0.004731,"v":0.00485427400736,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":3.59935663649e-9,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":19,"sr":"calaudit"},
+  {"i":"psrDoubleABCF","e":"🪝","t":null,"n":"足した宣言は 1 個(**新キー**)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABCF","e":"🪝","t":null,"n":"κ は fit ではなく閉形式の 1 度の評価","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABCF","e":"🪝","t":null,"n":"**現象論の候補であって完成ではない**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABCF","e":"🪝","t":null,"n":"ゲート(恒星連星を壊さないこと)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABCF","e":"🪝","t":"B","n":"公転周期(合わせていない・2 定義)","k":"period","o":8834.53472328,"v":8737.46592244,"u":"s","st":"h","g":"数値未解決","r":1,"s":2.5056e-7,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":18,"sr":"calaudit"},
+  {"i":"psrDoubleABCF","e":"🪝","t":null,"n":"刻み依存(連続極限の確定ではない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABCF","e":"🪝","t":null,"n":"健全性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrDoubleABCF","e":"🪝","t":"B","n":"実測(標準検出器): 離心率(B)","k":"ecc","o":null,"v":0.0879636926252,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757CF","e":"🪄","t":"B","n":"近点移動(⚡ で凍結した κ をそのまま)","k":"precession","o":0.0052085,"v":0.00529149995981,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":9.82843550578e-8,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":20,"sr":"calaudit"},
+  {"i":"psrJ1757CF","e":"🪄","t":null,"n":"足した宣言は 1 個・**値は ⚡ と同一**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757CF","e":"🪄","t":null,"n":"外した場合(A/B 対照)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757CF","e":"🪄","t":null,"n":"**現象論の候補であって完成ではない**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757CF","e":"🪄","t":"B","n":"公転周期(合わせていない・2 定義)","k":"period","o":15857.6690192,"v":15508.0918159,"u":"s","st":"h","g":"数値未解決","r":1,"s":0.00000432,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":20,"sr":"calaudit"},
+  {"i":"psrJ1757CF","e":"🪄","t":null,"n":"刻み依存","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757CF","e":"🪄","t":null,"n":"健全性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1757CF","e":"🪄","t":"B","n":"実測(標準検出器): 離心率(B)","k":"ecc","o":null,"v":0.606003065188,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":37,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946CF","e":"🩹","t":"B","n":"近点移動(⚡ で凍結した κ をそのまま)","k":"precession","o":0.0055424,"v":0.00600137292269,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":8.47432604886e-8,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":21,"sr":"calaudit"},
+  {"i":"psrJ1946CF","e":"🩹","t":null,"n":"足した宣言は 1 個・**値は ⚡ と同一**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946CF","e":"🩹","t":null,"n":"外した場合(A/B 対照)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946CF","e":"🩹","t":null,"n":"**既定 dt では軌道が解けない**(本系固有・第251便a 以前から)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946CF","e":"🩹","t":null,"n":"**現象論の候補であって完成ではない**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946CF","e":"🩹","t":"B","n":"公転周期(合わせていない・2 定義)","k":"period","o":6781.36799866,"v":6685.73479299,"u":"s","st":"h","g":"数値未解決","r":1,"s":0.000001728,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":22,"sr":"calaudit"},
+  {"i":"psrJ1946CF","e":"🩹","t":null,"n":"刻み依存","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946CF","e":"🩹","t":null,"n":"健全性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrJ1946CF","e":"🩹","t":"B","n":"実測(標準検出器): 離心率(B)","k":"ecc","o":0.0638363,"v":0.0640573416556,"u":"-","st":"h","g":"mapping-unresolved","r":4,"s":8e-7,"kf":1,"kc":0,"np":20,"mp":25,"pk":true,"cv":false,"so":22,"sr":"calaudit"},
+  {"i":"psrB1534","e":"📿","t":"B","n":"公転周期(**入力確認** — 転写が閉じているかだけを見る・2 定義)","k":"period","o":36351.702644,"v":36351.982269,"u":"s","st":"h","g":"数値未解決","r":1,"s":8.64e-7,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":23,"sr":"calaudit"},
+  {"i":"psrB1534","e":"📿","t":"B","n":"離心率(入力確認)","k":"ecc","o":0.2736775,"v":0.273674285664,"u":"-","st":"h","g":"mapping-unresolved","r":4,"s":3e-7,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":23,"sr":"calaudit"},
+  {"i":"psrB1534","e":"📿","t":null,"n":"計算式(観測安定則)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534","e":"📿","t":null,"n":"半長径は**派生値**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534","e":"📿","t":"B","n":"近点移動は**この版では基準にしない**","k":"precession","o":0.0020225,"v":0.000336259621344,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":1.03673232572e-8,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":23,"sr":"calaudit"},
+  {"i":"psrB1534","e":"📿","t":"B","n":"自転は転写できない","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534","e":"📿","t":null,"n":"伴星は未観測","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534","e":"📿","t":null,"n":"健全性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534DFM","e":"🧶","t":null,"n":"DFM 質量(条件つき較正 — 実在値の主張ではない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534DFM","e":"🧶","t":"B","n":"近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)","k":"precession","o":0.0020225,"v":0.00410726308589,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":1.03286914136e-8,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":23,"sr":"calaudit"},
+  {"i":"psrB1534DFM","e":"🧶","t":"B","n":"公転周期(合わせていない・2 定義)","k":"period","o":36351.702644,"v":36216.5235728,"u":"s","st":"h","g":"数値未解決","r":1,"s":8.64e-7,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":23,"sr":"calaudit"},
+  {"i":"psrB1534DFM","e":"🧶","t":"B","n":"離心率(合わせていない)","k":"ecc","o":0.2736775,"v":0.274006689647,"u":"-","st":"h","g":"mapping-unresolved","r":4,"s":3e-7,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":23,"sr":"calaudit"},
+  {"i":"psrB1534DFM","e":"🧶","t":null,"n":"**この系では係数を 1 つも決めていない**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534DFM","e":"🧶","t":null,"n":"**比 2.025 の内訳(第252便a で同定)**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534DFM","e":"🧶","t":"B","n":"自転は転写できない","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534DFM","e":"🧶","t":null,"n":"健全性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534CF","e":"🪤","t":"B","n":"近点移動(**凍結 hold-out の本番**)","k":"precession","o":0.0020225,"v":0.00207915282686,"u":"deg/orbit","st":"h","g":"数値未解決","r":1,"s":1.03287182836e-8,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":23,"sr":"calaudit"},
+  {"i":"psrB1534CF","e":"🪤","t":null,"n":"**残差 +2.65% の正体(第252便a)**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534CF","e":"🪤","t":null,"n":"足した宣言は 1 個・**値は ⚡ と同一**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534CF","e":"🪤","t":null,"n":"外した場合(A/B 対照)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534CF","e":"🪤","t":"B","n":"公転周期(合わせていない・2 定義)","k":"period","o":36351.702644,"v":36216.6177898,"u":"s","st":"h","g":"数値未解決","r":1,"s":8.64e-7,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":23,"sr":"calaudit"},
+  {"i":"psrB1534CF","e":"🪤","t":null,"n":"開発集合との差","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534CF","e":"🪤","t":null,"n":"**現象論の候補であって完成ではない**","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534CF","e":"🪤","t":null,"n":"健全性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"psrB1534CF","e":"🪤","t":"B","n":"実測(標準検出器): 離心率(B)","k":"ecc","o":null,"v":0.2740023057,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":29,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914","e":"🎐","t":"B","n":"公転周期(kFrame=0・geoPN=0 採用側)","k":"period","o":0.181818,"v":0.181681573558,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914","e":"🎐","t":"B","n":"実測離心率(1公転の半径比振れ幅)","k":"ecc","o":0.095,"v":0.0800001926412,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914","e":"🎐","t":null,"n":"基準状態(スナップショット宣言)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914","e":"🎐","t":null,"n":"単位族(第223便 新設 — 3例目)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914","e":"🎐","t":null,"n":"換算整合則(geoPN=0 採用 — 第223便)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914","e":"🎐","t":"B","n":"質量・半径・自転(転写と代理値)","k":"spin","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914","e":"🎐","t":"B","n":"帳簿・決定性(10公転)","k":"period","o":null,"v":0.181681573558,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914","e":"🎐","t":"B","n":"実測(標準検出器): 近点移動(B)","k":"precession","o":null,"v":-0.0000649198823561,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":60,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914DFM","e":"🎻","t":"B","n":"公転周期(kFrame=1・χ-law 粒子別質量 — 2 定義)","k":"period","o":0.181818,"v":0.180233405891,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":7,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914DFM","e":"🎻","t":null,"n":"hold-out の e(第223便 — 初の不成立例)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":7,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914DFM","e":"🎻","t":null,"n":"DFM 質量(条件つき較正 — 実在値の主張ではない)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":7,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914DFM","e":"🎻","t":null,"n":"χ-law(第224便 — f≈2 の説明と受け皿の裁定)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":7,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914DFM","e":"🎻","t":"B","n":"近点移動と周期短縮(第246便で1行に統合)","k":"precession","o":4,"v":null,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":7,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914DFM","e":"🎻","t":null,"n":"否定対照(QA 機械固定)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":7,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914DFM","e":"🎻","t":null,"n":"帳簿・決定性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":7,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914DFM","e":"🎻","t":null,"n":"重力磁気のスピン–スピン(第246便)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":7,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914DFM","e":"🎻","t":"B","n":"実測(標準検出器): 離心率(B)","k":"ecc","o":null,"v":0.0808242479092,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":7,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":null,"n":"融合時刻(接線放射・用量 a=0.1313)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":null,"n":"接触後の遅れ(放射の方向が決める)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":null,"n":"用量 a=0.1313(**合わせ込みの1ノブ**)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":null,"n":"刻み収束(接線・a=0.1313)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":null,"n":"スピン–スピン(λ=1・χ=0.7 宣言)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":null,"n":"帳簿・安全(dt=0.002)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":null,"n":"再現しないもの","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":null,"n":"何を仮定したか(まとめ)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":"B","n":"実測(標準検出器): 公転周期(B)","k":"period","o":null,"v":0.180873878811,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":"B","n":"実測(標準検出器): 離心率(B)","k":"ecc","o":null,"v":0.0801463579537,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"gw150914Merge4s","e":"⏰","t":"B","n":"実測(標準検出器): 近点移動(B)","k":"precession","o":null,"v":null,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnZonalD68","e":"📡","t":"D68","n":"D68 リングレットの近点移動(推定器つき宣言 — 第250便d)","k":"precession","o":13968.25575,"v":13925.5845819,"u":"deg/yr","st":"h4","g":"否(3σ)","r":null,"s":2.922,"kf":0,"kc":0,"np":58,"mp":58,"pk":true,"cv":true,"so":24,"sr":"calaudit"},
+  {"i":"saturnZonalD68","e":"📡","t":"D68","n":"D68 の公転周期・同方向1周(履歴)","k":"period","o":17928,"v":17865.9787572,"u":"s","st":"h4","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":58,"mp":58,"pk":true,"cv":false,"so":25,"sr":"calaudit"},
+  {"i":"saturnZonalD68","e":"📡","t":"D68","n":"D68 の公転周期・近点間(第250便d)","k":"period","o":17928,"v":18224.8548913,"u":"s","st":"h4","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":58,"mp":58,"pk":true,"cv":true,"so":25,"sr":"calaudit"},
+  {"i":"saturnZonalD68","e":"📡","t":null,"n":"解析式(J一次永年理論)への fit","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":58,"mp":58,"pk":true,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnZonalD68","e":"📡","t":"D68","n":"実測(標準検出器): 離心率(D68)","k":"ecc","o":null,"v":0.0524323104442,"u":"-","st":"h4","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":58,"mp":58,"pk":true,"cv":true,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":"C環内縁","n":"C環内縁の公転","k":"period","o":20880,"v":20823.7803315,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":26,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":"タイタン","n":"タイタンの公転","k":"period","o":1377648,"v":1378015.70029,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":27,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":null,"n":"軌道速度(C環内縁)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":"C環内縁","n":"実測(標準検出器): 離心率(C環内縁)","k":"ecc","o":null,"v":0.000238182544832,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":"C環内縁","n":"実測(標準検出器): 近点移動(C環内縁)","k":"precession","o":null,"v":0.228481265078,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":"ミマス","n":"実測(標準検出器): 公転周期(ミマス)","k":"period","o":null,"v":81511.7177057,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":"ミマス","n":"実測(標準検出器): 離心率(ミマス)","k":"ecc","o":null,"v":0.0000713283035502,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":"ミマス","n":"実測(標準検出器): 近点移動(ミマス)","k":"precession","o":null,"v":21.9198830895,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":"タイタン","n":"実測(標準検出器): 離心率(タイタン)","k":"ecc","o":null,"v":0.0000184525236486,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingReal","e":"💍","t":"タイタン","n":"実測(標準検出器): 近点移動(タイタン)","k":"precession","o":null,"v":-0.174515588183,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":0,"kc":0,"np":20,"mp":3,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":"C環内縁","n":"環の近点移動(偏心軌道・kF1)","k":"precession","o":0,"v":2.03113811443,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":28,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":null,"n":"随伴プロファイル(ω_drag/LT)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":null,"n":"補正の共通性","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":null,"n":"環と衛星を分けるもの(第246便d)","k":"other","o":null,"v":null,"u":null,"st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":"C環内縁","n":"実測(標準検出器): 公転周期(C環内縁)","k":"period","o":null,"v":21719.3485404,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":"C環内縁","n":"実測(標準検出器): 離心率(C環内縁)","k":"ecc","o":null,"v":0.000229042336717,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":"ミマス","n":"実測(標準検出器): 公転周期(ミマス)","k":"period","o":null,"v":81512.0326274,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":"ミマス","n":"実測(標準検出器): 離心率(ミマス)","k":"ecc","o":null,"v":0.0000566968447013,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":"ミマス","n":"実測(標準検出器): 近点移動(ミマス)","k":"precession","o":null,"v":23.4860455188,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":"タイタン","n":"実測(標準検出器): 公転周期(タイタン)","k":"period","o":null,"v":1377401.1327,"u":"s","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":"タイタン","n":"実測(標準検出器): 離心率(タイタン)","k":"ecc","o":null,"v":0.00000644612166123,"u":"-","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"},
+  {"i":"saturnRingRealKF1","e":"💿","t":"タイタン","n":"実測(標準検出器): 近点移動(タイタン)","k":"precession","o":null,"v":null,"u":"deg/orbit","st":"h","g":"未判定","r":0,"s":null,"kf":1,"kc":0,"np":20,"mp":1,"pk":false,"cv":false,"so":null,"sr":"calaudit"}
+];
+// <<< w275a-generated: obs-compare
+const OBSCMP_SERIES=["all","kf0","dfm","pn0"];
+const OBSCMP_KINDS=["all","precession","period","ecc"];
+const OBSCMP_SCALES=["pct","sigma"];
+const OBSCMP_RANGES=["auto","100","10","1","0.1","0.01","3sigma"];
+const OBSCMP_STATE={series:"all",kind:"all",scale:"pct",range:"auto",q:"",retired:true};
+// 観測との差(tests/lib-w285d-obscompare.mjs の diffOf と同じ規則 —— QA ui.obsCompareGraph が全行で突き合わせる)。
+//   帯 band は**観測側**の目盛り(o と σ があれば実行値の有無に依らない)・点 d は o と v の両方があるときだけ。
+function obsCompareDiff(r,scale){
+  const sig=(scale==="sigma");
+  let band=null, d=null, why=null;
+  if(r.o!==null && r.s!==null && (sig || r.o!==0)) band=sig? 3 : 3*r.s/Math.abs(r.o)*100;
+  if(r.o===null) why="obs-missing";
+  else if(r.v===null) why="value-missing";
+  else if(sig && r.s===null) why="sigma-missing";
+  else if(!sig && r.o===0) why="obs-zero";
+  else d=sig? (r.v-r.o)/r.s : (r.v-r.o)/Math.abs(r.o)*100;
+  return {d, band, why};
+}
+function obsCompareSeriesOf(r){ return r.sr==="pn0"? "pn0" : (r.kf===0? "kf0" : (r.kf===1? "dfm" : "other")); }
+function obsCompareRetired(r){ return retiredOf(BUILTIN_PRESETS.find(x=>x.id===r.i)||null); }
+// 絞り込んだ行(純関数 —— sim・プリセットを書き換えない)。opt は OBSCMP_STATE と同じ鍵。
+function obsCompareRows(opt){
+  const o=Object.assign({},OBSCMP_STATE,opt||{});
+  const q=String(o.q||"").trim().toLowerCase();
+  const out=[];
+  for(const r of OBS_COMPARE_ROWS){
+    const series=obsCompareSeriesOf(r);
+    if(o.series!=="all" && series!==o.series) continue;
+    if(o.kind!=="all" && r.k!==o.kind) continue;
+    const retired=obsCompareRetired(r);
+    if(!o.retired && retired) continue;
+    if(q){ const hay=[r.i,r.e,r.t,r.n,r.k,r.g].join(" ").toLowerCase(); if(hay.indexOf(q)<0) continue; }
+    const df=obsCompareDiff(r,o.scale);
+    out.push({row:r, series, retired, d:df.d, band:df.band, miss:df.why,
+      reason:(r.r===null? null : OBS_COMPARE_REASONS[r.r]), source:(r.so===null? null : OBS_COMPARE_SOURCES[r.so])});
+  }
+  return out;
+}
+// 横軸の半幅(共通)。"3sigma" は行ごと(帯の半幅)なので null を返す。"auto" は表示中の |差| と帯の最大 × 1.1。
+function obsCompareHalf(list,range){
+  if(range==="3sigma") return null;
+  if(range!=="auto") return Number(range);
+  let m=0;
+  for(const x of list){ if(x.d!==null) m=Math.max(m,Math.abs(x.d)); if(x.band!==null) m=Math.max(m,x.band); }
+  return m>0? m*1.1 : 1;
+}
+function ocFmt(x){
+  if(x===null || !isFinite(x)) return "—";
+  const a=Math.abs(x);
+  const s=(a!==0 && (a<1e-3 || a>=1e4))? x.toExponential(2) : String(Number(x.toPrecision(3)));
+  return (x>0? "+" : "")+s;
+}
+function ocBuildControls(){
+  const c=$("#ocCtl"); if(!c) return;
+  if(c.dataset.lang===LANG && c.childNodes.length) return;
+  c.textContent=""; c.dataset.lang=LANG;
+  const sel=(id,label,opts,key)=>{
+    const w=document.createElement("label"); w.className="ocCtlItem";
+    w.appendChild(document.createTextNode(label+" "));
+    const s=document.createElement("select"); s.id=id;
+    for(const v of opts){ const op=document.createElement("option"); op.value=v; op.textContent=T("ocOpt")(key,v); s.appendChild(op); }
+    s.value=OBSCMP_STATE[key];
+    s.addEventListener("change",()=>{ OBSCMP_STATE[key]=s.value; ocRender(); });
+    w.appendChild(s); c.appendChild(w);
+  };
+  // λ_PN=0 の対照は**正本に行があるときだけ**選べる(無ければ出さない —— 仮の数を置かない)
+  const series=OBSCMP_SERIES.filter(v=>v!=="pn0" || OBS_COMPARE_CANON.extra.rows>0);
+  sel("ocSeries",T("ocLabSeries"),series,"series");
+  sel("ocKind",T("ocLabKind"),OBSCMP_KINDS,"kind");
+  sel("ocScale",T("ocLabScale"),OBSCMP_SCALES,"scale");
+  sel("ocRange",T("ocLabRange"),OBSCMP_RANGES,"range");
+  const qs=document.createElement("input"); qs.type="search"; qs.id="ocSearch"; qs.className="ocSearch";
+  qs.placeholder=T("ocSearchPh"); qs.value=OBSCMP_STATE.q;
+  qs.addEventListener("input",()=>{ OBSCMP_STATE.q=qs.value; ocRender(); });
+  c.appendChild(qs);
+  const rl=document.createElement("label"); rl.className="ocCtlItem";
+  const rc=document.createElement("input"); rc.type="checkbox"; rc.id="ocRetired"; rc.checked=OBSCMP_STATE.retired;
+  rc.addEventListener("change",()=>{ OBSCMP_STATE.retired=rc.checked; ocRender(); });
+  rl.appendChild(rc); rl.appendChild(document.createTextNode(" "+T("ocLabRetired"))); c.appendChild(rl);
+}
+function ocRender(){
+  const body=$("#ocBody"); if(!body) return;
+  const ttl=$("#ocTitle"); if(ttl) ttl.textContent=T("ocTitle");
+  const note=$("#ocNote"); if(note) note.textContent=T("ocNote");
+  ocBuildControls();
+  const st=OBSCMP_STATE;
+  const list=obsCompareRows();
+  const half=obsCompareHalf(list,st.range);
+  const unit=(st.scale==="sigma")? "σ" : "%";
+  body.textContent="";
+  const ax=document.createElement("div"); ax.className="ocAxis"; ax.id="ocAxis";
+  ax.textContent=T("ocAxis")(half===null? null : ("±"+ocFmt(half).replace(/^\+/,"")+" "+unit));
+  body.appendChild(ax);
+  const pos=(x,h)=>Math.max(0,Math.min(100,50+50*x/h));
+  let nMiss=0, nClip=0;
+  const D=T("ocDet");
+  for(const x of list){
+    const r=x.row;
+    const h=(half===null)? x.band : half;   // 3sigma: 行ごとの半幅(帯が無ければ軸なし)
+    const det=document.createElement("details"); det.className="ocRow";
+    det.dataset.i=r.i; det.dataset.k=r.k||""; det.dataset.series=x.series; det.dataset.g=r.g||"";
+    det.dataset.retired=x.retired? "1" : "0";
+    const sum=document.createElement("summary"); sum.className="ocSum";
+    const nm=document.createElement("div"); nm.className="ocName";
+    const b1=document.createElement("span"); b1.className="ocNm"; b1.textContent=(r.e? r.e+" " : "")+(r.t? r.t+"・" : "")+r.n;
+    nm.appendChild(b1);
+    const tags=[r.i];
+    if(r.kc) tags.push(T("ocKf0Copy"));
+    if(x.series==="pn0") tags.push(T("ocPn0Tag"));
+    if(x.retired) tags.push(T("ocRetiredTag"));
+    const b2=document.createElement("small"); b2.className="ocTags"; b2.textContent=tags.join(" · "); nm.appendChild(b2);
+    sum.appendChild(nm);
+    const bar=document.createElement("div"); bar.className="ocBar";
+    let miss=x.miss;
+    if(miss===null && h===null) miss="no-band";
+    det.dataset.miss=miss||"";
+    det.dataset.band="0"; det.dataset.clip="0";
+    if(x.band!==null && h!==null){
+      const bd=document.createElement("span"); bd.className="ocBand";
+      const l=pos(-x.band,h), rr=pos(x.band,h);
+      bd.style.left=l+"%"; bd.style.width=Math.max(0.5,rr-l)+"%"; bar.appendChild(bd);
+      det.dataset.band="1";
+    }
+    const cl=document.createElement("span"); cl.className="ocCenter"; bar.appendChild(cl);
+    const tx=document.createElement("span"); tx.className="ocDiffTxt";
+    if(miss===null){
+      const mk=document.createElement("span"); mk.className="ocMark";
+      const clip=Math.abs(x.d)>h;
+      mk.style.left=pos(x.d,h)+"%";
+      if(clip){ mk.classList.add("ocClip"); mk.textContent=(x.d>0? "▶" : "◀"); mk.style.left=(x.d>0? "calc(100% - 5px)" : "5px");
+        det.dataset.clip="1"; nClip++; }
+      bar.appendChild(mk);
+      tx.textContent=ocFmt(x.d)+" "+unit;
+    } else { tx.textContent=T("ocMiss")[miss]||"—"; tx.classList.add("ocMissTxt"); nMiss++; }
+    bar.appendChild(tx);
+    sum.appendChild(bar);
+    const gt=document.createElement("div"); gt.className="ocGate"; gt.dataset.g=r.g||"";
+    gt.textContent=T("ocGate")(r.g);
+    sum.appendChild(gt);
+    det.appendChild(sum);
+    const dl=document.createElement("div"); dl.className="ocDet";
+    const u=r.u? " "+r.u : "";
+    const kv=[[D.obs, r.o===null? D.none : String(r.o)+u], [D.val, r.v===null? D.none : String(r.v)+u+(r.kc? "("+T("ocKf0Copy")+")" : "")],
+      [D.stage, r.st||D.none], [D.sigma, r.s===null? D.none : String(r.s)+u],
+      [D.kf, r.kf===null? D.none : String(r.kf)],
+      [D.peri, (r.mp===null && r.np===null)? D.none : (r.mp===null? "—" : r.mp)+" / "+(r.np===null? "—" : r.np)+(r.pk===null? "" : " ("+(r.pk? D.yes : D.no)+")")],
+      [D.conv, r.cv===null? D.none : (r.cv? D.yes : D.no)], [D.reason, x.reason||D.none], [D.src, x.source||D.none]];
+    for(const [k,v] of kv){ const p=document.createElement("div"); const b=document.createElement("b"); b.textContent=k+": "; p.appendChild(b);
+      p.appendChild(document.createTextNode(v)); dl.appendChild(p); }
+    det.appendChild(dl);
+    body.appendChild(det);
+  }
+  if(!list.length){ const e=document.createElement("p"); e.className="avNote"; e.textContent=T("ocEmpty"); body.appendChild(e); }
+  if(!(OBS_COMPARE_CANON.extra.rows>0)){ const e=document.createElement("p"); e.className="avNote"; e.id="ocExtraNote"; e.textContent=T("ocExtraNone"); body.appendChild(e); }
+  const C=OBS_COMPARE_CANON;
+  const both=OBS_COMPARE_ROWS.filter(r=>r.o!==null && r.v!==null).length, sig=OBS_COMPARE_ROWS.filter(r=>r.s!==null).length;
+  const sm=$("#ocStat"); if(sm) sm.textContent=T("ocSum")(list.length,C.rows,C.presets,both,sig,nMiss,nClip);
+}
+function ocOpen(on){
+  const el=$("#ocPanel"); if(!el) return;
+  if(on===undefined) on=(el.style.display!=="block");
+  el.style.display=on? "block" : "none";
+  if(on){
+    // 同じ z-index の全面パネル(監査ビュー・このアプリについて)とは排他 —— 他のパネルの開閉関数は呼ばない
+    // (表示の要素だけを閉じ、導線ボタンの aria を同期する。領域 hash の閉包を他のパネルへ広げない)
+    // (局所名は最上位の let と重ねない —— 領域 hash の閉包が「書き手」と読むため)
+    const avEl=$("#avPanel"); if(avEl && avEl.style.display==="block"){ avEl.style.display="none";
+      const avBtn=$("#btnAuditView"); if(avBtn) avBtn.setAttribute("aria-expanded","false"); }
+    const apEl=$("#aboutPanel"); if(apEl && apEl.style.display==="block"){ apEl.style.display="none";
+      const apTtl=$("#appTitle"); if(apTtl) apTtl.setAttribute("aria-expanded","false"); }
+    ocRender();
+    const c=$("#ocClose"); if(c) c.focus();
+  } else if(el.contains(document.activeElement)){
+    const b=$("#btnObsCompare"); if(b) b.focus(); else document.activeElement.blur();
+  }
+  const bt=$("#btnObsCompare"); if(bt) bt.setAttribute("aria-expanded",String(on));
 }
 // ===== 第277便e(原仮定者の裁定(第67報)(4)・AL15): **畳んだ見出しに状態語を残す** =====
 // 第276便f で「失敗から見る」「観測結果カード」を details へ畳んだ結果、Failure First が
@@ -17213,6 +17819,7 @@ function avOpen(on){
     const ap=$("#aboutPanel"); if(ap) ap.style.display="none";
     const pp=$("#pmPanel"); if(pp && pp.style.display==="block") pmOpen(false);
     avRender();
+    const oc=$("#ocPanel"); if(oc && oc.style.display==="block") ocOpen(false);   // 第285便d: 観測対実行のグラフとも排他
     // 第278便e: 画面手前のモーダルになったので、開いたらフォーカスを閉じるボタンへ(#aboutPanel と同じ)
     const c=$("#avClose"); if(c) c.focus();
   } else if(el.contains(document.activeElement)){
@@ -31520,6 +32127,10 @@ $("#avClose").addEventListener("click",()=>avOpen(false));
 addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#avPanel").style.display==="block") avOpen(false); });
 // 第278便e: 背景(箱の外)のクリックで閉じる —— #ppModal と同じ作法(e.target が外枠自身のときだけ)
 $("#avPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) avOpen(false); });
+// 第285便d(R100): 観測対実行のグラフ(表示専用パネル)の開閉導線 —— 監査ビューと同じ作法(✕・Escape・背景のクリック)
+$("#ocClose").addEventListener("click",()=>ocOpen(false));
+addEventListener("keydown",(e)=>{ if(e.key==="Escape" && $("#ocPanel").style.display==="block") ocOpen(false); });
+$("#ocPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) ocOpen(false); });
 
 // ===== 第283便d(原仮定者の裁定(第73報)⑥「背景複素決定力のパラメータを『背景決定力 D₀』の下に追加」・統括の検証項目 R87) =====
 // physics.backgroundComplex(第276便a の宣言専用鍵 —— {W0,A0,gradW,gradA,dWdt,dAdt,background,note})の**編集欄**。
@@ -35245,6 +35856,7 @@ function applyLang(){
   if($("#pmPanel") && $("#pmPanel").style.display==="block") pmRender();
   // 第146便: 監査ビューが開いていれば見出し・ラベル・宣言文も言語追随させる(件数は ja/en 同数)
   if($("#avPanel") && $("#avPanel").style.display==="block") avRender();
+  if($("#ocPanel") && $("#ocPanel").style.display==="block") ocRender();   // 第285便d
   renderSaves(); renderCustomList(); renderAiConfig(); updatePlayBtn();
   updateBodyEdit();   // 第264便c: 層モードの読み取り専用の数値行(と合計行)も言語追随させる(表示専用)
   requestRender();   // v1.22: オーバーレイ内の文字列も言語追従するため再描画
@@ -35459,6 +36071,13 @@ function renderHelp(){
     b.setAttribute("aria-controls","avPanel");
     b.addEventListener("click",()=>avOpen());
     row.appendChild(b); el.appendChild(row);
+    // 第285便d(原仮定者の裁定(第75報)⑦・R100): 同じ行に「観測との差」のグラフを開く導線(どのサンプルを見ているときでも開ける)
+    const b2=document.createElement("button"); b2.type="button"; b2.className="btn"; b2.id="btnObsCompare";
+    b2.textContent=T("ocOpen")(OBS_COMPARE_CANON.rows); b2.title=T("ocOpenTip");
+    b2.setAttribute("aria-expanded", String(!!($("#ocPanel") && $("#ocPanel").style.display==="block")));
+    b2.setAttribute("aria-controls","ocPanel");
+    b2.addEventListener("click",()=>ocOpen());
+    row.appendChild(b2);
   }
   el=SEC.title;
   // タイトル(第51便 51B: チップの直後へ移動)
@@ -35803,6 +36422,7 @@ function buildAbout(){
     fb.textContent=T("fvAgain"); fb.addEventListener("click",showFirstVisit); el.appendChild(fb); }
   mk("h4",T("helpOps"));
   mk("p",T("helpOpsBody"));
+  mk("p",T("helpObsCompare"));   // 第285便d
   mk("h4",T("helpLaws"));
   mk("p",T("helpLawsBody"));
 }
@@ -35813,6 +36433,7 @@ function aboutToggle(show){
   el.style.display=to?"block":"none";
   // 第278便e: 監査ビューとは排他(どちらも画面手前の同じ z-index のモーダル — avOpen 側と対称)
   if(to){ const av=$("#avPanel"); if(av && av.style.display==="block") avOpen(false); }
+  if(to){ const oc=$("#ocPanel"); if(oc && oc.style.display==="block") ocOpen(false); }   // 第285便d
   $("#appTitle").setAttribute("aria-expanded",String(to));
   if(to) $("#aboutClose").focus(); else $("#appTitle").focus();
 }
@@ -46168,6 +46789,10 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   auditView:{ family:AUDIT_FAMILY.slice(), rows:auditRows, row:auditRow,
     resultFiles:auditResultFiles, residuals:auditResiduals, gates:auditGates,
     open:avOpen, render:avRender },
+  // 第285便d(R100): 観測対実行のグラフの QA 用フック(rows/diff/half は純関数 —— sim・プリセットを書き換えない・show/redraw は表示だけ)
+  obsCompare:{ canon:OBS_COMPARE_CANON, all:OBS_COMPARE_ROWS, reasons:OBS_COMPARE_REASONS, sources:OBS_COMPARE_SOURCES,
+    rows:obsCompareRows, diff:obsCompareDiff, half:obsCompareHalf, seriesOf:obsCompareSeriesOf, state:OBSCMP_STATE,
+    show:ocOpen, redraw:ocRender },   // 鍵は停止集合の名前(render 等)と重ねない(lint.scopeStop ②)
   // 第276便f(第66報(5)): 説明タブの「概要」と区画の並び — どちらも表示専用の読み口。
   // descBriefOf/descBriefSource は LANG に従う(HP.setLang で切り替えてから読む)。
   // descBriefExtract は言語に依らない純関数(同じ文字列からは常に同じ結果)
