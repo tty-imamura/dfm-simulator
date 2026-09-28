@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "b7c8a37a5241f542f86810947675254888205155acf7b29532803522f125a7ff",
-  "generatedAt": "2026-09-28T21:01:09.288Z",
+  "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+  "generatedAt": "2026-09-28T23:09:23.801Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5180835,
-    "sha256": "b7c8a37a5241f542f86810947675254888205155acf7b29532803522f125a7ff",
-    "mtime": "2026-09-28T20:19:17.291Z"
+    "bytes": 5184280,
+    "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+    "mtime": "2026-09-28T21:08:25.763Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2854555,
-    "sha256": "843f666ff00751c89eaf88d0aea30de488df0575a47cc3d2800a6e506d46aa49",
-    "mtime": "2026-09-28T20:36:14.371Z"
+    "bytes": 2852111,
+    "sha256": "b980b4480d34f2d512eeee46a9fb133818b261005ba71c2b5c32853b492daff5",
+    "mtime": "2026-09-28T22:18:16.275Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -44,9 +44,9 @@
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 79305,
-    "sha256": "e063c2afd834682cb1d5205cd0d83a1d14dcbb7cd15154bd43756669f75c01be",
-    "mtime": "2026-09-28T21:01:09.255Z"
+    "bytes": 79313,
+    "sha256": "9cc683388cfc2034d354d877b4dbf6cb985ac434f0e76820cc03b98caa748b12",
+    "mtime": "2026-09-28T23:09:23.779Z"
    }
   ],
   "code": [
@@ -76,21 +76,21 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 74147,
-    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T01:00:42.100Z"
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 148233,
-    "sha256": "cbebaf8e245fc9e7bb63aee3ebabd1ad9e2807fd3b10e3d6241ecd04f8d31af7",
-    "mtime": "2026-09-28T18:50:37.063Z"
+    "bytes": 149099,
+    "sha256": "fa4ccad6b0fc29e0d7356d54c93973820fdf3066f5e7850f4fae923d3cc7b9ae",
+    "mtime": "2026-09-28T22:00:35.744Z"
    }
   ],
-  "codeSha256": "ac98a6d490267ccc600ee3638dadbb36721ebf2703c754dbc7f7f9868658eb54",
+  "codeSha256": "f8e2ee22b18c3ff903f46eac3e5ca9d534d9cce8ded4d1c8cced1ddcf2a4d1a1",
   "harnessVersion": "w283b-families-1",
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": "all",
    "roots": [
     "$",
@@ -110,16 +110,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 876,
-   "segments": 798,
-   "closureShare": 0.363
+   "names": 843,
+   "segments": 765,
+   "closureShare": 0.3398
   },
-  "scopeSha256": "eaf9e96d4d7b43110d01446d7098e507497afe5bf2ddf7f500a33a2b675997f5",
+  "scopeSha256": "f6307f6d91ccbe86a3185a452e57256b3ce3a1876fa1034b8d717c2096800dde",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "929ea56e20cfd32a27f7dd49bc1aa1b5a9bd0ad2a69bc9ef5087d05f9f07ad5a",
+    "stableSha256": "95aaea3fbc2c563f73ccf379a8c7d86ce9d2e9c3df8fe03590eafba55edca943",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -147,7 +147,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "2e61c634e13189545edde66d9e08cb22b3747f20387eee9899975734e21b3bc5",
+    "stableSha256": "129a54b166d4dbb04fac57b915f112f3d2e2e556b9eac1d604a895a2d19cdc63",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -2891,7 +2891,7 @@
      },
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "⚡ の処方を J1946 へ当てる",
+     "purpose": "J1946 を観測質量(f=1)と kF1 で照合",
      "gates": [],
      "presetSigHash": "3890aecf",
      "accepted": true,
@@ -8002,7 +8002,7 @@
    "emAuditNewton": 34,
    "psrDoubleABCF": 13,
    "psrJ1757CF": 19,
-   "psrJ1946CF": 17
+   "psrJ1946CF": 19
   },
   "kindCounts": {
    "not-in-table": 17,
@@ -8030,5 +8030,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.64
+ "elapsedS": 0.598
 }

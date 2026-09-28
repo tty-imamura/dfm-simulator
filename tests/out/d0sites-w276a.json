@@ -4,21 +4,21 @@
   "wave": "第276便a",
   "target": "beta/index.html",
   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-  "generatedAt": "2026-09-28T21:11:37.707Z",
+  "generatedAt": "2026-09-28T23:10:37.759Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 5184280,
     "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-    "mtime": "2026-09-28T21:08:25.763Z"
+    "mtime": "2026-09-28T23:10:06.603Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w276a-d0audit2.mjs",
-    "bytes": 28846,
-    "sha256": "b8824435c5b0682cb73b590bbc4b3271651fa45c8a78d2e44954148f172de32e",
-    "mtime": "2026-09-28T18:49:50.385Z"
+    "bytes": 29221,
+    "sha256": "69880b8bd3b352866180825a36d66e0a52f20a5b1df59dfb67156e503a48974f",
+    "mtime": "2026-09-28T21:59:02.299Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -27,7 +27,7 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "9145c110ade05f7815376ec9fc596e309e364d6a8f0756273354aa37923be5c0",
+  "codeSha256": "a67bb555531e522846de45aac65cde1eb00c6f0a040603a0be6cc9b8c69737d7",
   "harness": "tests/exp-w276a-d0audit2.mjs",
   "harnessVersion": "w276a-d0sites-2",
   "tokens": [
@@ -62,13 +62,10 @@
   "groups": 71,
   "byReplaceable": {
    "n/a": 13,
-   "candidate": 51,
-   "unclassified": 1,
+   "candidate": 52,
    "forbidden": 6
   },
-  "unclassified": [
-   "jeansRowsVelocities :: jeansRowsVelocities"
-  ],
+  "unclassified": [],
   "forbidden": [
    "traceRay :: traceRay",
    "dfmFrameAt :: dfmFrameAt",
@@ -525,10 +522,10 @@
     "hasPullFallback": true,
     "readsD0Member": true,
     "objectKeyOnly": false,
-    "use": null,
-    "replaceable": null,
-    "why": null,
-    "classified": false
+    "use": "初速(Jeans 平衡 —— W_bg=D₀ を σ² の分母に・vMode:\"jeans\" の本だけ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
    },
    {
     "key": "dfmGalaxyMeshField :: g",

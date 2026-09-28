@@ -207,6 +207,12 @@ export const MINI = { stars: 40, dr: 10 };
 export function miniCluster(HP) {
   const P = clone(HP.allPresets().find((q) => q.id === 'clusterAnalogyBH'));
   delete P.physics.spaceMesh.centerSpin; delete P.physics.spaceMesh.D0;
+  // 第286便a の統合(統括): 💮 は R_drag(spaceMesh.dragR —— centerSpin:"read" の宇宙だけ)を宣言する。中心の自転を読まない写しでは受理器が拒否するので外す
+  delete P.physics.spaceMesh.dragR;
+  // 第286便a の統合(統括): 💮 は vMode:"jeans"(σ² の分母に W_bg=D₀ を読む)・D₀=0.15 になった。この診断は**法則版の経路**の照合であって
+  //   初速の生成ではないので、写しは基点の vMode:"equilibrium"(D₀ を読まない)に戻し、D₀ は本器の宣言 W_bg=1.5 に合わせる(uniform の写しと同じ値)
+  for (const b of P.bodies) if (b.vMode === 'jeans') { b.vMode = 'equilibrium'; delete b.jeansRot; delete b.angularSym; }
+  P.physics.D0 = 1.5;
   P.bodies[1].n = MINI.stars; P.bodies[2].n = MINI.dr;
   P.id = 'w286cDiagShare'; P.name = '第286便c 診断コピー(💮 の縮小写し)';
   return P;

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便b",
   "target": "beta/index.html",
-  "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-  "generatedAt": "2026-09-28T19:58:51.292Z",
+  "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+  "generatedAt": "2026-09-28T23:01:09.110Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5180982,
-    "sha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-    "mtime": "2026-09-28T18:54:13.155Z"
+    "bytes": 5184280,
+    "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+    "mtime": "2026-09-28T21:08:25.763Z"
    }
   ],
   "code": [
@@ -91,7 +91,7 @@
    "qLockCalc"
   ],
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": [
     "earthMoonDiagOne",
     "earthMoonRealKF1",
@@ -141,11 +141,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 872,
-   "segments": 794,
-   "closureShare": 0.3383
+   "names": 839,
+   "segments": 761,
+   "closureShare": 0.3151
   },
-  "scopeSha256": "59f73eec613c49853cc1ad97975ebbcfb2467d24b613fbaa92ba9e1cf89b9677",
+  "scopeSha256": "93eb93c76742de47fb611e2c44217007b507e62c9d345e8ad198b074a8d06f9c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -161,8 +161,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 133.398,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 127.222,
    "run": {
     "ok": true,
     "warnings": [],
@@ -257,8 +257,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.008,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 258.496,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 246.715,
    "run": {
     "ok": true,
     "warnings": [],
@@ -353,8 +353,8 @@
    "label": "重み pull → share",
    "axis": "weight",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 109.212,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 105.879,
    "run": {
     "ok": true,
     "warnings": [],
@@ -449,8 +449,8 @@
    "label": "初速 🌘 → 🧲(0.201%)",
    "axis": "initialVelocity",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 133.699,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 129.308,
    "run": {
     "ok": true,
     "warnings": [],
@@ -545,8 +545,8 @@
    "label": "🧲 そのまま(share + 🧲 の初速)",
    "axis": "weight+initialVelocity",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 108.757,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 108.125,
    "run": {
     "ok": true,
     "warnings": [],
@@ -641,8 +641,8 @@
    "label": "q 8.2358 → q_fb(表裏核の振幅と参照距離で同じ単一べき)",
    "axis": "q",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 136.601,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 130.196,
    "run": {
     "ok": true,
     "warnings": [],
@@ -737,8 +737,8 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 107.884,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 101.164,
    "run": {
     "ok": true,
     "warnings": [
@@ -835,8 +835,8 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.008,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 199.332,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 192.055,
    "run": {
     "ok": true,
     "warnings": [
@@ -933,8 +933,8 @@
    "label": "法則 kF0 + meshVelocity explicit(点源)・v=ẋ−u(0)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 177.897,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 172.958,
    "run": {
     "ok": true,
     "warnings": [
@@ -1046,8 +1046,8 @@
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 247.834,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 241.456,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1157,8 +1157,8 @@
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.008,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 506.738,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 479.108,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1268,8 +1268,8 @@
    "label": "初速の意味 v=ẋ(変換なし)・表裏核",
    "axis": "initialVelocityMeaning",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "wallS": 243.51,
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+   "wallS": 231.807,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1379,7 +1379,7 @@
    "label": "🔆 太陽+地球+月(kF0・geoPN=0)",
    "axis": "reference",
    "dt": 0.016,
-   "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
+   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
    "wallS": 1.325,
    "run": {
     "ok": true,

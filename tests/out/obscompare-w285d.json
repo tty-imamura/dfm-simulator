@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便d",
   "target": "beta/index.html",
-  "targetSha256": "2556a24532c055e3b7672954669a3326509f67e70c232f84226783868c9ccf72",
-  "generatedAt": "2026-09-28T21:08:23.398Z",
+  "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+  "generatedAt": "2026-09-28T23:10:04.134Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2854555,
-    "sha256": "843f666ff00751c89eaf88d0aea30de488df0575a47cc3d2800a6e506d46aa49",
-    "mtime": "2026-09-28T20:36:14.371Z"
+    "bytes": 2852111,
+    "sha256": "b980b4480d34f2d512eeee46a9fb133818b261005ba71c2b5c32853b492daff5",
+    "mtime": "2026-09-28T22:18:16.275Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 51012,
-    "sha256": "d76c00342842ae1f3547df739720e8fde19ffa09815b88e443ccf01858d97c09",
-    "mtime": "2026-09-28T20:41:22.795Z"
+    "bytes": 51011,
+    "sha256": "6c7f6169867a94454143cfbedd27359731b6d962ddb039753559d4f56ff48300",
+    "mtime": "2026-09-28T22:23:10.727Z"
    },
    {
     "file": "beta/index.html",
-    "bytes": 5184335,
-    "sha256": "2556a24532c055e3b7672954669a3326509f67e70c232f84226783868c9ccf72",
-    "mtime": "2026-09-28T21:08:22.411Z"
+    "bytes": 5184280,
+    "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+    "mtime": "2026-09-28T21:08:25.763Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 74147,
-    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T01:00:42.100Z"
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "8a43d33822094b0983296800755c0f60a1a63329961da293d57efafe218814e4",
+  "codeSha256": "76cfcc131e9416cfc3dd73369dee50002702716121085db75ba4d58c1ea2a45a",
   "version": "w285d-1",
   "generator": "tests/exp-w285d-obscompare.mjs",
   "region": "obs-compare",
@@ -64,7 +64,7 @@
    "帯の中なら合格"
   ],
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": [
     "alphaCenAB",
     "alphaCenABDFM",
@@ -123,16 +123,16 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 885,
-   "segments": 807,
-   "closureShare": 0.3414
+   "names": 854,
+   "segments": 776,
+   "closureShare": 0.3375
   },
-  "scopeSha256": "b7d79c28b71b14abad3d97ff120e6cb8ab48d36939ff1ade3a7a1dde208d086b",
+  "scopeSha256": "40274b696eabb00fc4848dac6c579c6ac03e8ac1999d68f5f83c3bb56add6fe6",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "929ea56e20cfd32a27f7dd49bc1aa1b5a9bd0ad2a69bc9ef5087d05f9f07ad5a",
+    "stableSha256": "95aaea3fbc2c563f73ccf379a8c7d86ce9d2e9c3df8fe03590eafba55edca943",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "2e61c634e13189545edde66d9e08cb22b3747f20387eee9899975734e21b3bc5",
+    "stableSha256": "129a54b166d4dbb04fac57b915f112f3d2e2e556b9eac1d604a895a2d19cdc63",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -188,7 +188,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "e42ae63c5ba85f1c2ad14dd475e60e33c2d2e8a1935e143a3627503fde2d6e23",
+    "stableSha256": "38a5e268406db2ad52778e696c524f7602812ee549cca6d74e00bdd15bba7ac9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -246,7 +246,7 @@
   "shownDefault": 328,
   "pageErrors": 0
  },
- "htmlChanged": true,
+ "htmlChanged": false,
  "rule": "**転記だけ**(判定しない)。値は gate.assessedValue(判定段の値)・観測は quantities[].obs・σ は gate.sigma・合否語は gate.status。欠測は null(0 に置換しない)。古い verdict は転記しない。帯は σ の目盛りであって門ではない。",
  "doNotWrite": [
   "合った",
@@ -254,5 +254,5 @@
   "較正した",
   "帯の中なら合格"
  ],
- "elapsedS": 2.162
+ "elapsedS": 2.259
 }

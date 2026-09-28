@@ -4,13 +4,13 @@
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-  "generatedAt": "2026-09-28T21:11:47.392Z",
+  "generatedAt": "2026-09-28T23:10:44.941Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
     "bytes": 229220,
-    "sha256": "6eb92e74f2afb3935a08f309a1e2557374415a37d5774ce486f43d4f8f1c9c30",
-    "mtime": "2026-09-28T19:56:22.983Z"
+    "sha256": "127d51d952a16e2ad30089effa8a527e9dae4f449c52a727ce50be9061a7a760",
+    "mtime": "2026-09-28T23:00:05.371Z"
    }
   ],
   "code": [
@@ -31,7 +31,7 @@
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-09-28T19:45:31.022Z",
+ "sourceAt": "2026-09-28T22:49:14.452Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便a",
   "target": "beta/index.html",
-  "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-  "generatedAt": "2026-09-28T18:57:05.776Z",
+  "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+  "generatedAt": "2026-09-28T22:01:53.224Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5180982,
-    "sha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-    "mtime": "2026-09-28T18:54:13.155Z"
+    "bytes": 5184280,
+    "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+    "mtime": "2026-09-28T21:08:25.763Z"
    }
   ],
   "code": [
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 74147,
-    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T01:00:42.100Z"
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "31ed576c710db20d2ffe62839fae316a070a8bb77d23ad54b6414091ff790aa6",
+  "codeSha256": "9102c0402dc842371fbb7d55cbfd6ea5f4230d4fc251bec4bc9acda39abe217c",
   "harnessVersion": "w286a-cluster-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第76報)⑤: 銀河スケールは星団に合わないので星団スケールを用意する。中心天体の半径が大き過ぎる。画面縮小で潰れる粒子も点として見える表示を残す。球状星団はわずかに回転している —— これをヒントにバランスの取れる状態を計算で割り出す",
@@ -90,7 +90,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": "all",
    "roots": [
     "$",
@@ -121,11 +121,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 871,
-   "segments": 793,
-   "closureShare": 0.3382
+   "names": 838,
+   "segments": 760,
+   "closureShare": 0.3151
   },
-  "scopeSha256": "6fdb232eaa8dafb7c88664b5212522a2faf12858b6ee3e74f69a42e963512ef5",
+  "scopeSha256": "e45c581b3675c574c43ee2e2b2eb96f4658a11b07309658fdb8ad1511b20cd28",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -2507,7 +2507,7 @@
     "EEnd": -8953.695848558185,
     "E0": -10517.402389728064
    },
-   "wallSec": 468.997
+   "wallSec": 439.103
   },
   {
    "key": "r20-v0.1-mc1/8.5-s12-seed1",
@@ -4500,7 +4500,7 @@
     "EEnd": -9064.43616925026,
     "E0": -10580.368718713467
    },
-   "wallSec": 476.395
+   "wallSec": 450.139
   },
   {
    "key": "r20-v0.1-mc1/8.5-s12-seed2",
@@ -6513,7 +6513,7 @@
     "EEnd": -9216.466281933197,
     "E0": -10957.28136486728
    },
-   "wallSec": 471.35
+   "wallSec": 445.148
   },
   {
    "key": "r20-v0-mc1/8.5-s12-seed0",
@@ -8528,7 +8528,7 @@
     "EEnd": -9071.754135936539,
     "E0": -10537.462252730165
    },
-   "wallSec": 396.193
+   "wallSec": 432.606
   },
   {
    "key": "r20-v0.47-mc1/8.5-s12-seed0",
@@ -10563,7 +10563,7 @@
     "EEnd": -8721.361253953846,
     "E0": -10396.720114962713
    },
-   "wallSec": 395.857
+   "wallSec": 440.81
   },
   {
    "key": "r20-v0.1-mc4-s12-seed0",
@@ -12589,7 +12589,7 @@
     "EEnd": -31460.584842702687,
     "E0": -100816.63501024418
    },
-   "wallSec": 230.94
+   "wallSec": 221.32
   },
   {
    "key": "r20-v0.1-mc1/8.5-s0-seed0",
@@ -14593,7 +14593,7 @@
     "EEnd": -10519.083873606665,
     "E0": -10532.82576440954
    },
-   "wallSec": 312.381
+   "wallSec": 361.963
   },
   {
    "key": "r10-v0.1-mc1/8.5-s12-seed0",
@@ -16636,7 +16636,7 @@
     "EEnd": -2197.316679924696,
     "E0": -2735.655752558071
    },
-   "wallSec": 463.128
+   "wallSec": 446.57
   }
  ],
  "summary": {
@@ -16646,6 +16646,6 @@
   "verdict": "未達",
   "candidates": []
  },
- "elapsedS": 1349.315,
+ "elapsedS": 1337.575,
  "verdict": "未達"
 }

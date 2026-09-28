@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便c",
   "target": "beta/index.html",
-  "targetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-  "generatedAt": "2026-09-28T20:14:19.602Z",
+  "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+  "generatedAt": "2026-09-28T23:09:47.994Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5180982,
-    "sha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-    "mtime": "2026-09-28T18:54:13.155Z"
+    "bytes": 5184280,
+    "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+    "mtime": "2026-09-28T21:08:25.763Z"
    }
   ],
   "code": [
@@ -34,12 +34,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 74147,
-    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T01:00:42.100Z"
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "779de89f7bbc051bd28e97156752ef1a23f81c7738172430dd46947e33671c97",
+  "codeSha256": "8f7f7384bda56d427a237ad9a8da2d9a3dceb3cee348c78f45f1f7711b91db16",
   "harnessVersion": "w286c-bgdiff-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第76報)と第76報で閉じた AN7′(解析微分と有限差分の照合)・AN47(share p=1 と複素 p=2 を法則版で分け、単位・有限領域・基準系を宣言してから接続)・AN56(台帳はプリセットの宣言の中・座標系は宣言必須)",
@@ -51,7 +51,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": "all",
    "roots": [
     "$",
@@ -77,11 +77,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 870,
-   "segments": 792,
-   "closureShare": 0.3377
+   "names": 837,
+   "segments": 759,
+   "closureShare": 0.3145
   },
-  "scopeSha256": "e7c912fa5576014e1c0f9fbe34600bfcfefa61845bf7af097d9facb5f1a5d1f6",
+  "scopeSha256": "ef700be4933170f92574a40f5acf53907557bf22ed028f453ecbdda6e5187905",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -966,5 +966,5 @@
   ],
   "allSame": true
  },
- "elapsedS": 0.448
+ "elapsedS": 0.543
 }

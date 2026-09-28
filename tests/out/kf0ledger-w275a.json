@@ -4,7 +4,7 @@
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-  "generatedAt": "2026-09-28T21:18:42.752Z",
+  "generatedAt": "2026-09-28T23:10:48.339Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
@@ -14,27 +14,27 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2854555,
-    "sha256": "843f666ff00751c89eaf88d0aea30de488df0575a47cc3d2800a6e506d46aa49",
-    "mtime": "2026-09-28T20:36:14.371Z"
+    "bytes": 2852111,
+    "sha256": "b980b4480d34f2d512eeee46a9fb133818b261005ba71c2b5c32853b492daff5",
+    "mtime": "2026-09-28T22:18:16.275Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 31954,
-    "sha256": "7494c866c806b96be943fda51868c37388a0acd2b7a26455ec9bf911e8c243b7",
-    "mtime": "2026-09-28T21:18:42.435Z"
+    "bytes": 160649,
+    "sha256": "0b75f529a3b3358d2c402d612b1b692b14d98013e4d28ec9bc748f6318da3b27",
+    "mtime": "2026-09-28T23:01:31.515Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 13042,
-    "sha256": "b4abf105abe5e7151ba80809671e453ae6c87975d8f7a7e8f5fb9551e91564dc",
-    "mtime": "2026-09-28T21:11:47.387Z"
+    "sha256": "e186cda1e81f1facaf4bf5b23b61ccd587a0de8658f183ac84914d353153f8c4",
+    "mtime": "2026-09-28T23:10:44.939Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223870,
-    "sha256": "5196e09bb7e037ac58422011e9900d95cdfdf156d839c217109f46c75f8164f8",
-    "mtime": "2026-09-28T20:10:04.583Z"
+    "sha256": "a4d81a84e8f8bb5cac76474442c013197f245e311de99ad81ad563d77aa20fff",
+    "mtime": "2026-09-28T23:08:39.219Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -45,8 +45,8 @@
    {
     "file": "tests/out/calcontract-w282a.json",
     "bytes": 125067,
-    "sha256": "89118820eb69f1535cb43bd06ba52b884a2f802878e9d7e3d351b9879e5aaa23",
-    "mtime": "2026-09-28T21:01:21.263Z"
+    "sha256": "65d6404608ee2444e6b5b8da9f0a1f6563aafcd5cada67ff44e37da08cdf19cb",
+    "mtime": "2026-09-28T23:09:50.787Z"
    }
   ],
   "code": [
@@ -165,8 +165,8 @@
   "nDiagnostic": 6,
   "kf1": {
    "run": {
-    "✓": 29,
-    "✗": 4,
+    "✓": 30,
+    "✗": 3,
     "未測定": 10
    },
    "structure": {
@@ -176,12 +176,12 @@
    },
    "numeric": {
     "✓": 0,
-    "✗": 0,
-    "未測定": 43
+    "✗": 1,
+    "未測定": 42
    },
    "extrapolated": {
-    "✓": 1,
-    "✗": 2,
+    "✓": 0,
+    "✗": 3,
     "未測定": 40
    },
    "observation": {
@@ -192,8 +192,8 @@
   },
   "kf0": {
    "run": {
-    "✓": 20,
-    "✗": 1,
+    "✓": 21,
+    "✗": 0,
     "未測定": 22
    },
    "structure": {
@@ -202,13 +202,13 @@
     "未測定": 42
    },
    "numeric": {
-    "✓": 4,
+    "✓": 5,
     "✗": 0,
-    "未測定": 39
+    "未測定": 38
    },
    "extrapolated": {
-    "✓": 1,
-    "✗": 4,
+    "✓": 0,
+    "✗": 5,
     "未測定": 38
    },
    "observation": {
@@ -3764,29 +3764,52 @@
    "kf0Source": "charon-w272b.json 列 C1(kFrame 0・f 1・geoPN 2・softening 0.05)",
    "kf1": {
     "present": true,
-    "run": "✗",
+    "run": "✓",
     "structure": "未測定",
-    "numeric": "未測定",
-    "extrapolated": "✓",
+    "numeric": "✗",
+    "extrapolated": "✗",
     "observation": "未測定",
     "runEvidence": {
      "source": "charon-w272b.json#columns.C0.h",
+     "nan": false,
      "clamp": 0,
-     "stop": null
+     "stop": "steps",
+     "steps": 20700000
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
-    "numericEvidence": null,
+    "numericEvidence": {
+     "stages": [
+      553210.6304433692,
+      553210.9003053728,
+      553211.1464493255
+     ],
+     "pObs": 0.1327195649510854,
+     "epsHat": 2.5544613963412197,
+     "epsHatSigma": 98.55175140205324,
+     "assessedStage": "h4",
+     "orderEstimable": true
+    },
     "extrapolatedEvidence": {
-     "nSigma": 0,
-     "residPct": null,
-     "cfg": null,
+     "nSigma": 52264.95869311394,
+     "residPct": 0.24548191056131952,
+     "cfg": {
+      "kFrame": 1,
+      "f": 1,
+      "geoPN": 2,
+      "softening": 0.05
+     },
      "source": "charon-w272b.json#stageOrders.C0",
      "why": "**門を通っていない残差**(判定段の周期と観測周期の差を σ_obs で割った数)である。"
     },
     "observationEvidence": {
-     "nSigma": 0,
-     "residPct": null,
-     "cfg": null,
+     "nSigma": 52264.95869311394,
+     "residPct": 0.24548191056131952,
+     "cfg": {
+      "kFrame": 1,
+      "f": 1,
+      "geoPN": 2,
+      "softening": 0.05
+     },
      "source": "charon-w272b.json#stageOrders.C0",
      "why": "**この診断列は判定器の門に接続していない**(較正 37 本の量ではない)ので、観測成立は**未測定**である。外挿残差は隣の列にある —— **小さいことは合格ではない**。"
     },
@@ -3796,29 +3819,52 @@
    },
    "kf0": {
     "present": true,
-    "run": "✗",
+    "run": "✓",
     "structure": "未測定",
-    "numeric": "未測定",
-    "extrapolated": "✓",
+    "numeric": "✓",
+    "extrapolated": "✗",
     "observation": "未測定",
     "runEvidence": {
      "source": "charon-w272b.json#columns.C1.h",
+     "nan": false,
      "clamp": 0,
-     "stop": null
+     "stop": "orbMax",
+     "steps": 20694902
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
-    "numericEvidence": null,
+    "numericEvidence": {
+     "stages": [
+      551864.061362921,
+      551864.0612657347,
+      551864.0612403541
+     ],
+     "pObs": 1.9370248248263864,
+     "epsHat": 0.000008971111532098443,
+     "epsHatSigma": 0.00034610769799762515,
+     "assessedStage": "h4",
+     "orderEstimable": true
+    },
     "extrapolatedEvidence": {
-     "nSigma": 0,
-     "residPct": null,
-     "cfg": null,
+     "nSigma": 294.0787173653838,
+     "residPct": 0.001381250596947053,
+     "cfg": {
+      "kFrame": 0,
+      "f": 1,
+      "geoPN": 2,
+      "softening": 0.05
+     },
      "source": "charon-w272b.json#stageOrders.C1",
      "why": "**門を通っていない残差**(判定段の周期と観測周期の差を σ_obs で割った数)である。"
     },
     "observationEvidence": {
-     "nSigma": 0,
-     "residPct": null,
-     "cfg": null,
+     "nSigma": 294.0787173653838,
+     "residPct": 0.001381250596947053,
+     "cfg": {
+      "kFrame": 0,
+      "f": 1,
+      "geoPN": 2,
+      "softening": 0.05
+     },
      "source": "charon-w272b.json#stageOrders.C1",
      "why": "**この診断列は判定器の門に接続していない**(較正 37 本の量ではない)ので、観測成立は**未測定**である。外挿残差は隣の列にある —— **小さいことは合格ではない**。"
     },
@@ -3835,21 +3881,24 @@
     "columns": [
      {
       "column": "S_e0.05_k0",
-      "rev2Sec": null,
-      "residPctRev": null
+      "softening": 0.05,
+      "rev2Sec": 551864.061362921,
+      "residPctRev": 0.001381272806879141
      },
      {
       "column": "S_e0.025_k0",
-      "rev2Sec": null,
-      "residPctRev": null
+      "softening": 0.025,
+      "rev2Sec": 551855.9777986223,
+      "residPctRev": -0.0000835219715314297
      },
      {
       "column": "S_e0.0125_k0",
-      "rev2Sec": null,
-      "residPctRev": null
+      "softening": 0.0125,
+      "rev2Sec": 551853.9568779507,
+      "residPctRev": -0.00044972602929805553
      }
     ],
-    "signFlip": false,
+    "signFlip": true,
     "why": "**kF0 の残差は softening ε に依存し、ε を 0.05 → 0.025 で符号が反転する**。ε は観測量ではないので、この符号は物理の符号ではない。"
    },
    "label": null,
@@ -4763,19 +4812,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "405bb46f81d4082f1b1613cfaa9d24c61668c3dc2a54754d680e97143d72f18b",
-   "citedValue": 551864.061362921,
-   "citedCfg": {
-    "kFrame": 0,
-    "f": 1,
-    "geoPN": 2,
-    "softening": 0.05
-   },
-   "citedTargetSha256": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-   "thisRunValue": 551864.061362921,
-   "relDiff": 0,
-   "identical": true,
-   "note": "**一致は「正しい」ではない** —— 同じ html を同じ定義で走らせた 2 本の器が同じ数に着いた、というだけである。"
+   "error": "Error: ENOENT: no such file or directory, open '/home/user/dfm-simulator/tests/out/charon-w272b.json'"
   }
  },
  "w259dCrossCheck": {

@@ -4,13 +4,13 @@
   "wave": "第282便d",
   "target": "beta/index.html",
   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-  "generatedAt": "2026-09-28T21:11:47.483Z",
+  "generatedAt": "2026-09-28T23:12:21.121Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 5184280,
     "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-    "mtime": "2026-09-28T21:08:25.763Z"
+    "mtime": "2026-09-28T23:10:06.603Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 74147,
-    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T01:00:42.100Z"
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "fc93fdc87f0991e3ae0bd25ca2dfd15711475dd7791b05dcbab77544dc13f70c",
+  "codeSha256": "8f0a3b9e176086dcbe536be885efcc81842a24a86afae9ed7c27f6051b8e3fc8",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -108,7 +108,7 @@
    "新発見"
   ],
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": [
     "galaxyAnalogyBH",
     "galaxyMeshSpiral",
@@ -159,11 +159,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 872,
-   "segments": 794,
-   "closureShare": 0.3392
+   "names": 839,
+   "segments": 761,
+   "closureShare": 0.3155
   },
-  "scopeSha256": "b0689ffb114ecf9c76470dd9d79089af64a9d67ccd84d004208ada11e03f0ebf",
+  "scopeSha256": "b4b98baf8e0a1d896910b54be171773ddbc630f70913b90250cd619f75052a11",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -934,7 +934,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.704,
+    "msPerStep": 3.7416,
     "recs": [
      {
       "t": 0,
@@ -1179,7 +1179,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.3276,
+    "msPerStep": 3.318,
     "recs": [
      {
       "t": 0,
@@ -1426,7 +1426,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 8.0536,
+    "msPerStep": 8.702,
     "recs": [
      {
       "t": 0,
@@ -1673,7 +1673,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 8.496,
+    "msPerStep": 7.6276,
     "recs": [
      {
       "t": 0,
@@ -2868,7 +2868,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 12.062333333333333,
+    "msPerStep": 11.56,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2933,7 +2933,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 12.506,
+    "msPerStep": 11.853,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3107,5 +3107,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 134.301
+ "elapsedSec": 130.079
 }

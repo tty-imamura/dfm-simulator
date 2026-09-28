@@ -2417,7 +2417,8 @@ if (QA_CHANGED) {
       cases.push(`宣言 ${nDecl} 器・刻印 ${nStamp} 本(下限を覆う)`);
       // ③ 常時群
       const ALWAYS = ['calaudit', 'dt3', 'kf0', 'solarsigma', 'stoprule', 'issues', 'assessed',
-        'kf0ledger-old', 'kf0ledger', 'samplestatus', 'mercury'];
+        'kf0ledger-old', 'kf0ledger', 'samplestatus', 'mercury',
+        'd68three'];   // 第286便 統合(統括): 第268便a の 3 段(旧形式・meta なし → 毎回 regen)
       const tableAlways = RT.REGEN_STEPS.filter((z) => z.alwaysRun).map((z) => z.key).sort();
       if (JSON.stringify(tableAlways) !== JSON.stringify(ALWAYS.slice().sort())) bad.push('③ 常時群の集合が契約と違う: ' + tableAlways.join(','));
       const plan = RT.planRegen({ root: ROOT, html: HTML });
@@ -18775,7 +18776,11 @@ if (!FAST) {
         cases.push(`受理器の事例 ${nV}/${V.length}(受理 ${V.filter((z) => z.got).length}・拒否 ${V.filter((z) => !z.got).length}・受理は冪等)`);
         const C = BL.census(HPv);
         if (C.declared.length) bad.push('内蔵に lawVersion の宣言がある: ' + C.declared.join(','));
-        const Q = BL.computeRuns(HPv);
+        // 第286便 統合(統括): 器(exp-w286c-bgdiff.mjs)は lib-w280b-emgrid の loadHtmlMain で走る(S.n が無い → share.n が出ない)。
+        //   作り直しも**同じ読み込み**で行う(headless の HPv では share.n が付いて鍵の集合が違う)
+        const { loadHtmlMain: loadMainBL } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
+        const HPm = loadMainBL(path.join(ROOT, TARGET)).HP;
+        const Q = BL.computeRuns(HPm);
         const diff = [];
         for (const k of ['share', 'mesh', 'geo12']) deepNear(J[k], Q[k], k, diff);
         if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 2).join(' ; '));
