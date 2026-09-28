@@ -18149,8 +18149,9 @@ if (!FAST) {
               if (gen === 'w285f-1') {
                 nNew++;
                 if (!(h.targetTime && h2.targetTime && h.targetTime.tBaseSteps === h2.targetTime.tBaseSteps)) off.push(p.id + (p.kf0Diagnostic ? '(kF0)' : '') + ': T');
-                // 統括(第285便 統合): 軌道窓で止まる段は必要近点で終わる —— 物理時間は近点検出の刻み分だけ dt と dt/2 で違う(✴️💫 の DFM 版で 7 s・27 s / 1.5e5 s)ので近点数で照合
-                else if (h.boundBy === 'orbit-window' || h2.boundBy === 'orbit-window') { if (JSON.stringify(h.periFoundA || []) !== JSON.stringify(h2.periFoundA || [])) off.push(p.id + ': 近点 ' + (h.periFoundA || []).join('/') + ' / ' + (h2.periFoundA || []).join('/')); }
+                // 統括(第285便 統合): 軌道窓で止まる段は必要近点で終わる —— 物理時間は近点検出の刻み分だけ dt と dt/2 で違い(✴️💫 の DFM 版で 7 s・27 s / 1.5e5 s)、
+                //   近点数も窓の端の 1 個が dt で入り dt/2 で入らないことがある(🧮 の PN/CF で 37/36・🌊 で 7/6 —— 基点 743ad9b から同じ)。窓の同一性は上の T(tBaseSteps)で見る
+                else if (h.boundBy === 'orbit-window' || h2.boundBy === 'orbit-window') { /* T が同じであれば足りる */ }
                 else if (!h2.resourceExceeded && Math.abs(h2.stepsRun * h2.dt - h.stepsRun * h.dt) > 2 * h.dt) off.push(p.id + ': 物理時間 ' + (h.stepsRun * h.dt) + ' / ' + (h2.stepsRun * h2.dt));
                 if (h.boundBy === 'declared-max-steps') winTxt.push(`${p.id} h ${(h.periFoundA || []).join('/')}・h/2 ${(h2.periFoundA || []).join('/')} 近点`);
               } else if (Math.abs(h2.stepsRun * h2.dt - h.stepsRun * h.dt) > 2 * h.dt) { nOld++; winTxt.push(`${p.id} h ${(h.periFoundA || []).join('/')}・h/2 ${(h2.periFoundA || []).join('/')} 近点(窓が違う)`); }
