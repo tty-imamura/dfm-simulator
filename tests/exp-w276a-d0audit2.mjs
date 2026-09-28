@@ -258,7 +258,9 @@ const bgcFns = [...new Set(bgcSites.map((z) => z.fn))].sort();
 const BGC_READERS = ['meshVelocityPrepare'];
 // 第283便d: 背景複素決定力の欄(#bgcPanel)は宣言の表示と編集だけ(力学の読み口ではない)—— 受理契約の外ではなく UI として許可
 const BGC_UI = ['bgcState', 'bgcApply', 'buildBgComplexPanel'];
-const BGC_ALLOWED = ['(top-level)', 'validateBackgroundComplex', 'validatePreset'].concat(BGC_READERS, BGC_UI);
+// 第286便e(AN40 の残り): セーブの読込 loadSave とその受理 loadSaveBgcAccept —— 宣言を受理器に通して置き直すだけ(力学の読み口ではない)
+const BGC_LOAD = ['loadSave', 'loadSaveBgcAccept'];
+const BGC_ALLOWED = ['(top-level)', 'validateBackgroundComplex', 'validatePreset'].concat(BGC_READERS, BGC_UI, BGC_LOAD);
 const bgcOutside = bgcFns.filter((f) => BGC_ALLOWED.indexOf(f) < 0);
 const bgcReadersFound = bgcFns.filter((f) => BGC_READERS.indexOf(f) >= 0);
 let bgcGuard = null;
