@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便c",
   "target": "beta/index.html",
-  "targetSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-  "generatedAt": "2026-09-27T13:43:58.613Z",
+  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
+  "generatedAt": "2026-09-28T02:48:18.935Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4915776,
-    "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-    "mtime": "2026-09-27T12:46:47.335Z"
+    "bytes": 5091518,
+    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
+    "mtime": "2026-09-28T02:32:01.406Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2673043,
-    "sha256": "5d162b88475b704fd764dbaded94e789992d2ae8a00d83d1f94c56723710bb97",
-    "mtime": "2026-09-27T13:31:12.903Z"
+    "bytes": 2732695,
+    "sha256": "d7bf04a219b09c040abe396cc401860a395bae0e4a2bec2e2b3a2177d1282709",
+    "mtime": "2026-09-28T02:31:58.178Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "bytes": 142052,
-    "sha256": "1cc5fe63f53568ad0d6a4a93bf620a1abf0f12017e7a7eeb7cef5e1c334d3884",
-    "mtime": "2026-09-27T13:24:46.651Z"
+    "bytes": 142089,
+    "sha256": "aaf7b4fe696eb92f66b8acaee0b2a463d60d46d7dbdc8dccd73e347bc8790335",
+    "mtime": "2026-09-28T02:34:04.494Z"
    }
   ],
   "code": [
@@ -40,9 +40,9 @@
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 340559,
-    "sha256": "9e1a77d7c4fec3a865a1ed82acd78f449bc3c306a2769e5106952dad5c3c13e2",
-    "mtime": "2026-09-27T10:29:40.277Z"
+    "bytes": 341644,
+    "sha256": "82ac2f40e73df82180fd63a6b4a8957a880e97f67bb5afa824412a870fbca58f",
+    "mtime": "2026-09-28T01:00:42.095Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -51,12 +51,12 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "d139498cfe97d76408cc079b09d59e297a7881f8028a9018fb6a8b5d0a8a6b5a",
+  "codeSha256": "3fa02904479942122294adf29ba131c89ffaea3e7c109a3593baf874aa9596eb",
   "harnessVersion": "w280c-geo3-1",
   "quick": false,
   "part": null,
   "extractor": "tests/exp-w249b-calaudit.mjs のページ側ヘルパ(__w249run —— 近点 検出器 A の方位の回帰)をソースから文字列で取り出して評価(写しを持たない)",
-  "extractorSha256": "bd469a1face3c10113adc10f3c38c6fbcf1b7fa666e1ab3ed5747ff9ace3f0ad",
+  "extractorSha256": "8faa103a0507caaa54604f6fc359441e7b58e1144deb41b7e9375a30a08d64fc",
   "window": "正本 calaudit-w249.json の presets[].run(dt と dt/2 の步数・60 公転上限)",
   "runner": "Chromium(playwright —— 正式の判定器と同じ)",
   "notClaim": [
@@ -133,16 +133,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 797,
-   "segments": 724,
-   "closureShare": 0.3185
+   "names": 814,
+   "segments": 740,
+   "closureShare": 0.3124
   },
-  "scopeSha256": "da569e6b2b62876002a87a39a900ffb27caf8265e53f723410298ded67283917",
+  "scopeSha256": "c1294d4d4b2f96aa54dcb502076278d1484849c6b2d77ac256d514ee39e10030",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "e5ba404fa580f028f2a0cb99ca2f09a06faad2652f8fec31b4d7c36a70588e14",
+    "stableSha256": "f770a172aeafdbe1cc3c47dd542208fce4d5b518aea665ae67552e018958fcee",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -163,23 +163,42 @@
      "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
      "/presets/*/run/stopRuleStages/*/wallSec",
      "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/wallNearBudget",
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
     ]
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "55d122720205d11fa88694ca894598a110f566c5064d372992e433773e1ab738",
+    "stableSha256": "02a218d31c71d9ab000ee9b53fe83e36ebbe72fdffbf508ffecf081f329a8812",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
+     "/h2Store/carriedFrom",
+     "/h2Store/entries/*/generatedAt",
+     "/h2Store/entries/*/run/rateStepsPerSec",
+     "/h2Store/entries/*/run/stopRule/rateStepsPerSec",
+     "/h2Store/entries/*/run/stopRule/wallSec",
+     "/h2Store/entries/*/run/timeBudget/rateStepsPerSec",
+     "/h2Store/entries/*/run/timeBudget/wallNearBudget",
+     "/h2Store/entries/*/run/timeBudget/wallSec",
+     "/h2Store/entries/*/run/wallSec",
+     "/h4Store/carriedFrom",
+     "/h4Store/entries/*/generatedAt",
+     "/h4Store/entries/*/run/rateStepsPerSec",
+     "/h4Store/entries/*/run/stopRule/rateStepsPerSec",
+     "/h4Store/entries/*/run/stopRule/wallSec",
+     "/h4Store/entries/*/run/timeBudget/rateStepsPerSec",
+     "/h4Store/entries/*/run/timeBudget/wallNearBudget",
+     "/h4Store/entries/*/run/timeBudget/wallSec",
+     "/h4Store/entries/*/run/wallSec",
      "/when"
     ],
     "companionOf": "tests/out/calaudit-w249.json"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "stableSha256": "c6303223bcf3e73c47d881ec5f015f07f42ae447044e6efff96cb697cadcd0f8",
+    "stableSha256": "8f0b0902108b8409734c517575079380702c333966bfa353e889b63eb22ed01f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -259,7 +278,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 1.994
+       "wallSec": 2.557
       },
       "dt/2": {
        "steps": 5700398,
@@ -292,7 +311,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.495
+       "wallSec": 4.742
       }
      }
     },
@@ -331,7 +350,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 1.633
+       "wallSec": 1.968
       },
       "dt/2": {
        "steps": 5700398,
@@ -364,7 +383,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.18
+       "wallSec": 4.101
       }
      }
     },
@@ -403,7 +422,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 1.605
+       "wallSec": 2.044
       },
       "dt/2": {
        "steps": 5700398,
@@ -436,7 +455,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.539
+       "wallSec": 3.874
       }
      }
     },
@@ -479,7 +498,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.092
+       "wallSec": 8.074
       },
       "dt/2": {
        "steps": 5700398,
@@ -516,7 +535,7 @@
          "stop": null
         }
        },
-       "wallSec": 14.188
+       "wallSec": 16.287
       }
      }
     },
@@ -559,7 +578,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.694
+       "wallSec": 12.019
       },
       "dt/2": {
        "steps": 5700398,
@@ -596,7 +615,7 @@
          "stop": null
         }
        },
-       "wallSec": 21.837
+       "wallSec": 23.423
       }
      }
     },
@@ -639,7 +658,7 @@
          "stop": null
         }
        },
-       "wallSec": 6.24
+       "wallSec": 7.035
       },
       "dt/2": {
        "steps": 5700398,
@@ -676,7 +695,7 @@
          "stop": null
         }
        },
-       "wallSec": 12.434
+       "wallSec": 13.341
       }
      }
     },
@@ -719,7 +738,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.257
+       "wallSec": 10.345
       },
       "dt/2": {
        "steps": 5700398,
@@ -756,7 +775,7 @@
          "stop": null
         }
        },
-       "wallSec": 19.628
+       "wallSec": 19.375
       }
      }
     },
@@ -799,7 +818,7 @@
          "stop": null
         }
        },
-       "wallSec": 6.401
+       "wallSec": 6.764
       },
       "dt/2": {
        "steps": 5700398,
@@ -836,7 +855,7 @@
          "stop": null
         }
        },
-       "wallSec": 11.382
+       "wallSec": 13.025
       }
      }
     },
@@ -875,7 +894,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.398
+       "wallSec": 3.255
       },
       "dt/2": {
        "steps": 5700398,
@@ -908,7 +927,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.452
+       "wallSec": 5.926
       }
      }
     },
@@ -947,7 +966,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.058
+       "wallSec": 2.829
       },
       "dt/2": {
        "steps": 5700398,
@@ -980,7 +999,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.563
+       "wallSec": 5.245
       }
      }
     },
@@ -1023,7 +1042,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.596
+       "wallSec": 8.207
       },
       "dt/2": {
        "steps": 5700398,
@@ -1060,7 +1079,7 @@
          "stop": null
         }
        },
-       "wallSec": 15.353
+       "wallSec": 15.623
       }
      }
     }
@@ -1110,14 +1129,14 @@
    "officialKf0": {
     "period": {
      "name": "公転周期(kFrame=0 対照・同方向1周)",
-     "meas": 551864.0613632939,
+     "meas": 551864.0613629294,
      "rev": [
-      551862.4613633327,
-      551864.0613632939,
-      551864.0613632784,
-      551864.0613630436,
-      551864.0613630799,
-      551864.0613632607
+      551862.4613629383,
+      551864.0613629294,
+      551864.0613629121,
+      551864.0613626678,
+      551864.0613627216,
+      551864.0613629031
      ]
     }
    },
@@ -1132,14 +1151,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.0035154788699808264,
-       "residDegA": 2.0555161013100482e-7,
-       "slopeDegPerOrbitB": -0.003976141839752314,
-       "nPeriB": 55,
-       "periMeanA20S": 551858.672387397,
-       "rev2S": 551864.0613632939,
+       "slopeDegPerOrbitA": -0.003515478657974933,
+       "residDegA": 2.4807912826481653e-7,
+       "slopeDegPerOrbitB": -0.0037810654864392414,
+       "nPeriB": 57,
+       "periMeanA20S": 551858.672320631,
+       "rev2S": 551864.0613629294,
        "revN": 59,
-       "eProxy": 0.000013340793691291012,
+       "eProxy": 0.000013340793278847204,
        "diag": {
         "geoPN": 2,
         "hasGeo3": false,
@@ -1157,7 +1176,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 13.086
+       "wallSec": 16.977
       },
       "dt/2": {
        "steps": 41388996,
@@ -1165,14 +1184,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.003515444653023405,
-       "residDegA": 5.206448847115363e-7,
-       "slopeDegPerOrbitB": -0.004666164042913723,
-       "nPeriB": 44,
-       "periMeanA20S": 551858.672336422,
-       "rev2S": 551864.0612661137,
+       "slopeDegPerOrbitA": -0.0035154095845257773,
+       "residDegA": 3.319452046428841e-7,
+       "slopeDegPerOrbitB": -0.00449145798124731,
+       "nPeriB": 48,
+       "periMeanA20S": 551858.6723457214,
+       "rev2S": 551864.0612657734,
        "revN": 59,
-       "eProxy": 0.000010758874767439755,
+       "eProxy": 0.000010758874289996307,
        "diag": {
         "geoPN": 2,
         "hasGeo3": false,
@@ -1190,7 +1209,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 25.788
+       "wallSec": 34.118
       }
      }
     },
@@ -1229,7 +1248,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 12.932
+       "wallSec": 14.114
       },
       "dt/2": {
        "steps": 41388996,
@@ -1262,7 +1281,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 24.915
+       "wallSec": 28.518
       }
      }
     },
@@ -1301,7 +1320,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 11.773
+       "wallSec": 13.398
       },
       "dt/2": {
        "steps": 41388996,
@@ -1334,7 +1353,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 24.554
+       "wallSec": 28.327
       }
      }
     },
@@ -1379,7 +1398,7 @@
          "stop": null
         }
        },
-       "wallSec": 66.258
+       "wallSec": 72.656
       },
       "dt/2": {
        "steps": 41388996,
@@ -1418,7 +1437,7 @@
          "stop": null
         }
        },
-       "wallSec": 137.739
+       "wallSec": 146.644
       }
      }
     },
@@ -1463,7 +1482,7 @@
          "stop": null
         }
        },
-       "wallSec": 47.422
+       "wallSec": 54.611
       },
       "dt/2": {
        "steps": 41388996,
@@ -1502,7 +1521,7 @@
          "stop": null
         }
        },
-       "wallSec": 94.215
+       "wallSec": 103.59
       }
      }
     },
@@ -1547,7 +1566,7 @@
          "stop": null
         }
        },
-       "wallSec": 42.519
+       "wallSec": 48.636
       },
       "dt/2": {
        "steps": 41388996,
@@ -1586,7 +1605,7 @@
          "stop": null
         }
        },
-       "wallSec": 83.861
+       "wallSec": 99.351
       }
      }
     }
@@ -1631,16 +1650,16 @@
     "tag": "dt",
     "officialKf0ReproducedBit": true,
     "rev2": {
-     "pn1PN": 0.0000017307465896010399,
-     "C1_minus_C0": 6.984919309616089e-9,
-     "C2_minus_C0": 0.0005615776171907783,
+     "pn1PN": 0.000001366250216960907,
+     "C1_minus_C0": 3.71481291949749e-7,
+     "C2_minus_C0": 0.0005619421135634184,
      "C3_minus_C0n": -2.5727786123752594e-8,
      "roundoffControl_C0nV_minus_C0n": 0.000009556068107485771
     },
     "peri20": {
-     "pn1PN": -0.000009136158041656017,
-     "C1_minus_C0": -0.0039334631292149425,
-     "C2_minus_C0": -2.9705780948279426,
+     "pn1PN": -0.00007590220775455236,
+     "C1_minus_C0": -0.003866697079502046,
+     "C2_minus_C0": -2.9705113287782297,
      "C3_minus_C0n": -0.003930293140001595,
      "roundoffControl_C0nV_minus_C0n": -0.043253525043837726
     }
@@ -1649,16 +1668,16 @@
     "tag": "dt/2",
     "officialKf0ReproducedBit": null,
     "rev2": {
-     "pn1PN": 0.0000016492558643221855,
-     "C1_minus_C0": -0.000009219162166118622,
-     "C2_minus_C0": 0.0005526670720428228,
+     "pn1PN": 0.000001308973878622055,
+     "C1_minus_C0": -0.000008878880180418491,
+     "C2_minus_C0": 0.000553007354028523,
      "C3_minus_C0n": -0.000009150593541562557,
      "roundoffControl_C0nV_minus_C0n": 0.000007211114279925823
     },
     "peri20": {
-     "pn1PN": 0.000035687931813299656,
-     "C1_minus_C0": -0.13407529843971133,
-     "C2_minus_C0": -3.100209508673288,
+     "pn1PN": 0.000044987304136157036,
+     "C1_minus_C0": -0.1340845978120342,
+     "C2_minus_C0": -3.100218808045611,
      "C3_minus_C0n": -0.13401297386735678,
      "roundoffControl_C0nV_minus_C0n": 0.001151173491962254
     }
@@ -1947,5 +1966,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 758.05
+ "elapsedS": 853.084
 }

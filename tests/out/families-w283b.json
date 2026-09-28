@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-  "generatedAt": "2026-09-28T02:06:00.639Z",
+  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
+  "generatedAt": "2026-09-28T03:12:30.749Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5090937,
-    "sha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-    "mtime": "2026-09-28T01:00:42.061Z"
+    "bytes": 5091518,
+    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
+    "mtime": "2026-09-28T02:32:01.406Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2728897,
-    "sha256": "b36c697e9cc5bfda428980dd3191a3db5d39899798833d0810aa3466b312ad3a",
-    "mtime": "2026-09-28T01:20:26.505Z"
+    "bytes": 2732695,
+    "sha256": "d7bf04a219b09c040abe396cc401860a395bae0e4a2bec2e2b3a2177d1282709",
+    "mtime": "2026-09-28T02:31:58.178Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 79084,
-    "sha256": "0fed1d9ec30c84dbd8ff88bcfbd0962b3a6995c7b9d6b6f65bb3fd62773fadb8",
-    "mtime": "2026-09-28T02:06:00.622Z"
+    "bytes": 79092,
+    "sha256": "30c09d783de29a18b8d57390161da6be7f1897e2ee41990f38ae36f243a34a08",
+    "mtime": "2026-09-28T03:12:30.730Z"
    }
   ],
   "code": [
@@ -108,12 +108,12 @@
    "segments": 746,
    "closureShare": 0.3379
   },
-  "scopeSha256": "91403d857837d9277f45d0bd4e7ab29c5028eae40f359edcf9bb7a5ebf21324f",
+  "scopeSha256": "9927c02e56921bcbb531481567c9e5d0a919ee7583824daa8b4fd98c4e0ebd5c",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "66785610ff9c6bf6efaf90d276accbf77fdda0e23a92f0470aa3c5957e19b3a9",
+    "stableSha256": "f770a172aeafdbe1cc3c47dd542208fce4d5b518aea665ae67552e018958fcee",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -141,7 +141,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "fc965f8ca02cc7db52af762a3eabd23592b873ceae2c87a16ef913ab86f44995",
+    "stableSha256": "02a218d31c71d9ab000ee9b53fe83e36ebbe72fdffbf508ffecf081f329a8812",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -2675,7 +2675,7 @@
      },
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "⚡ の処方を J1757 へ当てる",
+     "purpose": "J1757 を観測質量(f=1)と kF1 で照合",
      "gates": [],
      "presetSigHash": "80f048f7",
      "accepted": true,
@@ -8002,5 +8002,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 2.534
+ "elapsedS": 0.52
 }

@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-  "generatedAt": "2026-09-27T13:25:33.839Z",
+  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
+  "generatedAt": "2026-09-28T02:35:07.358Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4915776,
-    "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-    "mtime": "2026-09-27T12:46:47.335Z"
+    "bytes": 5091518,
+    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
+    "mtime": "2026-09-28T02:32:01.406Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "bytes": 254806,
-    "sha256": "29360455a6e6d1281e18aab8f5ec80ca65e6ab8daecb172c6806786ac9dfa64b",
-    "mtime": "2026-09-27T13:23:31.291Z"
+    "bytes": 254774,
+    "sha256": "682a4cf5f2141788023788984b0cfee87c38672ab427692aa83d967e5e37f269",
+    "mtime": "2026-09-28T02:33:04.074Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 72632,
-    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
-    "mtime": "2026-09-26T17:46:31.436Z"
+    "bytes": 74147,
+    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
+    "mtime": "2026-09-28T01:00:42.100Z"
    }
   ],
-  "codeSha256": "09872c8bcfcf02f104cdbae2cf1e4001ce0f98b91fc3f3e45e15dbe201681f7b",
+  "codeSha256": "fc93fdc87f0991e3ae0bd25ca2dfd15711475dd7791b05dcbab77544dc13f70c",
   "harnessVersion": "w282d-analogy-1",
   "loadErrors": 0,
   "headlessErrors": 0,
@@ -159,16 +159,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 799,
-   "segments": 726,
-   "closureShare": 0.3193
+   "names": 816,
+   "segments": 742,
+   "closureShare": 0.3132
   },
-  "scopeSha256": "d7738c62ce8000aecb837ad9425931de266d943316e5dc3aafc6fa1cbd2d84a9",
+  "scopeSha256": "bce2c5b504c382350da8fe9705f2c83d4193404877c0b715557ec31cd4ff26b3",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "3318f5283dd40bff311c4fd4ad1c2b5fab6661d72c38ba106253e819cfadc9fd",
+    "stableSha256": "ee96d48a9b57d669cfe22ac14cbab3f7f788738d621f52ce68d71352cdc89d29",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -934,7 +934,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.1456,
+    "msPerStep": 3.2472,
     "recs": [
      {
       "t": 0,
@@ -1179,7 +1179,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 3.1428,
+    "msPerStep": 3.0816,
     "recs": [
      {
       "t": 0,
@@ -1426,7 +1426,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 7.5384,
+    "msPerStep": 7.402,
     "recs": [
      {
       "t": 0,
@@ -1673,7 +1673,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 7.1144,
+    "msPerStep": 7.8788,
     "recs": [
      {
       "t": 0,
@@ -2868,13 +2868,13 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 10.400666666666666,
+    "msPerStep": 11.273333333333333,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
     "drN": 40,
-    "diskRetention": 0.775,
-    "drRetention": 0.775,
+    "diskRetention": 0.95,
+    "drRetention": 0.9,
     "Eclose": 0,
     "stop": null,
     "spinSources": 1,
@@ -2883,49 +2883,49 @@
       "R": 20,
       "lo": 10,
       "hi": 30,
-      "n": 14,
-      "uPhi": -2.085364612548595,
-      "uAbs": 10.797004972538618
+      "n": 36,
+      "uPhi": 1.423808208969387,
+      "uAbs": 10.219160721410173
      },
      {
       "R": 40,
       "lo": 30,
       "hi": 60,
-      "n": 15,
-      "uPhi": 2.8835592514745914,
-      "uAbs": 7.194640932578342
+      "n": 54,
+      "uPhi": 3.7169809099384117,
+      "uAbs": 6.571452688392355
      },
      {
       "R": 80,
       "lo": 60,
       "hi": 100,
-      "n": 38,
-      "uPhi": 3.085974064016002,
-      "uAbs": 5.714882120820809
+      "n": 39,
+      "uPhi": 3.575805446302534,
+      "uAbs": 4.53656351187093
      },
      {
       "R": 120,
       "lo": 100,
       "hi": 180,
-      "n": 54,
-      "uPhi": 2.671268458622089,
-      "uAbs": 5.525198475333107
+      "n": 45,
+      "uPhi": 4.230342810289962,
+      "uAbs": 4.974061396650784
      },
      {
       "R": 240,
       "lo": 180,
       "hi": 360,
-      "n": 58,
-      "uPhi": 2.8421797423286543,
-      "uAbs": 6.226642463890108
+      "n": 23,
+      "uPhi": 4.141989952597291,
+      "uAbs": 4.634271969083663
      },
      {
       "R": 480,
       "lo": 360,
       "hi": 720,
-      "n": 22,
-      "uPhi": 1.7632536435784145,
-      "uAbs": 11.685017736340429
+      "n": 1,
+      "uPhi": 1.8353540360392762,
+      "uAbs": 7.978734190038443
      }
     ]
    },
@@ -2933,13 +2933,13 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 10.185666666666666,
+    "msPerStep": 10.87,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
     "drN": 40,
-    "diskRetention": 0.7,
-    "drRetention": 0.775,
+    "diskRetention": 0.9375,
+    "drRetention": 0.9,
     "Eclose": 0,
     "stop": null,
     "spinSources": 0,
@@ -2948,95 +2948,95 @@
       "R": 20,
       "lo": 10,
       "hi": 30,
-      "n": 18,
-      "uPhi": -0.45686140657922814,
-      "uAbs": 8.276635763090379
+      "n": 45,
+      "uPhi": 2.330309308644019,
+      "uAbs": 8.760065458927459
      },
      {
       "R": 40,
       "lo": 30,
       "hi": 60,
-      "n": 29,
-      "uPhi": 1.897575643640835,
-      "uAbs": 7.171812793815457
+      "n": 68,
+      "uPhi": 3.568965590132728,
+      "uAbs": 6.30115941805657
      },
      {
       "R": 80,
       "lo": 60,
       "hi": 100,
-      "n": 23,
-      "uPhi": 4.066879047168348,
-      "uAbs": 6.494890808308318
+      "n": 35,
+      "uPhi": 4.813475298696098,
+      "uAbs": 5.71274555782197
      },
      {
       "R": 120,
       "lo": 100,
       "hi": 180,
-      "n": 62,
-      "uPhi": 3.5019645611601438,
-      "uAbs": 5.005015999340398
+      "n": 30,
+      "uPhi": 4.995657731621866,
+      "uAbs": 5.353031878667252
      },
      {
       "R": 240,
       "lo": 180,
       "hi": 360,
-      "n": 49,
-      "uPhi": 2.722061586792897,
-      "uAbs": 5.857132477403328
+      "n": 18,
+      "uPhi": 4.230900090538555,
+      "uAbs": 4.529783134906696
      },
      {
       "R": 480,
       "lo": 360,
       "hi": 720,
-      "n": 17,
-      "uPhi": 0.6082627009275856,
-      "uAbs": 10.66841230687605
+      "n": 1,
+      "uPhi": 2.27678661426852,
+      "uAbs": 8.382515215656783
      }
     ]
    },
-   "maxAbsDxSpinVsZero": 860.9291392388272,
+   "maxAbsDxSpinVsZero": 240.5882037456145,
    "dVphiPerOmega": [
     {
      "R": 20,
      "lo": 10,
      "hi": 30,
-     "n": 14,
-     "v": -1.3570859510487219
+     "n": 36,
+     "v": -0.7554175530445967
     },
     {
      "R": 40,
      "lo": 30,
      "hi": 60,
-     "n": 15,
-     "v": 0.8216529738785745
+     "n": 54,
+     "v": 0.12334609493673632
     },
     {
      "R": 80,
      "lo": 60,
      "hi": 100,
-     "n": 38,
-     "v": -0.8174207868122375
+     "n": 39,
+     "v": -1.031391502677487
     },
     {
      "R": 120,
      "lo": 100,
      "hi": 180,
-     "n": 54,
-     "v": -0.692246724607632
+     "n": 45,
+     "v": -0.6377624091008522
     },
     {
      "R": 240,
      "lo": 180,
      "hi": 360,
-     "n": 58,
-     "v": 0.10009845896890905
+     "n": 23,
+     "v": -0.07409177867357725
     },
     {
      "R": 480,
      "lo": 360,
      "hi": 720,
-     "n": 22,
-     "v": 0.9624924139630118
+     "n": 1,
+     "v": -0.3678604672402416
     }
    ]
   }
@@ -3107,5 +3107,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 115.442
+ "elapsedSec": 122.023
 }

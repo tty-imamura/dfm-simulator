@@ -10,13 +10,13 @@
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "17bae69758747f4aa7e9fae87953670f871ce6870ee937a4b2b9fb510797f484",
+  "mergeKey": "de740858fba565ebe1844f2347b5c9b9d3ab4520a30832d4076cfe6d797e5076",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
+   "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
-   "obsSha256": "b36c697e9cc5bfda428980dd3191a3db5d39899798833d0810aa3466b312ad3a",
+   "obsSha256": "d7bf04a219b09c040abe396cc401860a395bae0e4a2bec2e2b3a2177d1282709",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -45,7 +45,7 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-09-28T02:00:47.724Z",
+  "generatedAt": "2026-09-28T03:07:55.780Z",
   "pilot": false,
   "stage": "h",
   "dt": 0.016,
@@ -158,7 +158,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "b36c697e9cc5bfda428980dd3191a3db5d39899798833d0810aa3466b312ad3a"
+   "calauditSha256": "d7bf04a219b09c040abe396cc401860a395bae0e4a2bec2e2b3a2177d1282709"
   },
   "builtinUnchanged": {
    "m": [
@@ -186,25 +186,25 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
+  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5090937,
-    "sha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
-    "mtime": "2026-09-28T01:00:42.061Z"
+    "bytes": 5091518,
+    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
+    "mtime": "2026-09-28T02:32:01.406Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2728897,
-    "sha256": "b36c697e9cc5bfda428980dd3191a3db5d39899798833d0810aa3466b312ad3a",
-    "mtime": "2026-09-28T01:20:26.505Z"
+    "bytes": 2732695,
+    "sha256": "d7bf04a219b09c040abe396cc401860a395bae0e4a2bec2e2b3a2177d1282709",
+    "mtime": "2026-09-28T02:31:58.178Z"
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "bytes": 163683,
-    "sha256": "9c1f4acabc620e057b9fb26b2d72be44e9420996794c748a4068636493e11112",
-    "mtime": "2026-09-28T01:44:10.870Z"
+    "bytes": 163686,
+    "sha256": "b3cee06df1ef0b8c06b6daa04e4a2177bdf3f5b95d679f4d239a02d6b0002e3d",
+    "mtime": "2026-09-28T02:56:06.066Z"
    }
   ],
   "code": [
@@ -275,14 +275,14 @@
    "complete": true,
    "names": 820,
    "segments": 746,
-   "closureShare": 0.3133
+   "closureShare": 0.3132
   },
   "scopeSha256": "88be0030932546717cecdd9cf330bb04d38c17ab0de50a4918f49dfff980eda7",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "66785610ff9c6bf6efaf90d276accbf77fdda0e23a92f0470aa3c5957e19b3a9",
+    "stableSha256": "f770a172aeafdbe1cc3c47dd542208fce4d5b518aea665ae67552e018958fcee",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -310,7 +310,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "fc965f8ca02cc7db52af762a3eabd23592b873ceae2c87a16ef913ab86f44995",
+    "stableSha256": "02a218d31c71d9ab000ee9b53fe83e36ebbe72fdffbf508ffecf081f329a8812",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -338,7 +338,7 @@
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "stableSha256": "8696b8eebcf99b6fa31bfcc27ef486a90059cb89d597274e70978dea533699f8",
+    "stableSha256": "198204f7a2f255afc0ab8ee34c0fabcb969d08714c2f83133643f2c31c3943d0",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/columns/*/h/wallSec",
@@ -354,8 +354,8 @@
  },
  "epsilonSeries": {
   "from": "tests/out/charoneps-w276b.json",
-  "sha256": "9c1f4acabc620e057b9fb26b2d72be44e9420996794c748a4068636493e11112",
-  "generatedAt": "2026-09-28T01:44:10.700Z",
+  "sha256": "b3cee06df1ef0b8c06b6daa04e4a2177bdf3f5b95d679f4d239a02d6b0002e3d",
+  "generatedAt": "2026-09-28T02:56:05.641Z",
   "rows": [
    {
     "id": "E_diag_e0.01",
@@ -1099,7 +1099,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 17.033,
+   "wallSec": 17.898,
    "rev2Sec": 551864.0607193693,
    "revN": 60,
    "residSec": 7.621999369352125,
@@ -1150,7 +1150,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694906,
-   "wallSec": 40.502,
+   "wallSec": 40.493,
    "rev2Sec": 551864.3107683142,
    "revN": 60,
    "residSec": 7.872048314195126,
@@ -1201,7 +1201,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694899,
-   "wallSec": 22.165,
+   "wallSec": 21.467,
    "rev2Sec": 551864.0244726109,
    "revN": 60,
    "residSec": 7.585752610932104,
@@ -1252,7 +1252,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694909,
-   "wallSec": 21.863,
+   "wallSec": 21.688,
    "rev2Sec": 551864.3919199295,
    "revN": 60,
    "residSec": 7.953199929557741,
@@ -1303,7 +1303,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 21.675,
+   "wallSec": 22.342,
    "rev2Sec": 551864.069663993,
    "revN": 60,
    "residSec": 7.630943992990069,
@@ -1354,7 +1354,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694901,
-   "wallSec": 21.034,
+   "wallSec": 22.561,
    "rev2Sec": 551864.0068655831,
    "revN": 60,
    "residSec": 7.568145583150908,
@@ -1405,7 +1405,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20695300,
-   "wallSec": 41.019,
+   "wallSec": 40.842,
    "rev2Sec": 551889.119270731,
    "revN": 60,
    "residSec": 32.68055073102005,
@@ -1456,7 +1456,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 16.82,
+   "wallSec": 17.172,
    "rev2Sec": 551864.0607193693,
    "revN": 60,
    "residSec": 7.621999369352125,
@@ -1507,7 +1507,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20692453,
-   "wallSec": 21.664,
+   "wallSec": 22.761,
    "rev2Sec": 551805.6249430098,
    "revN": 60,
    "residSec": -50.813776990165934,
@@ -1558,7 +1558,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694659,
-   "wallSec": 22.891,
+   "wallSec": 22.776,
    "rev2Sec": 551858.2236921501,
    "revN": 60,
    "residSec": 1.784972150111571,
@@ -1609,7 +1609,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694878,
-   "wallSec": 22.492,
+   "wallSec": 22.423,
    "rev2Sec": 551863.4770511135,
    "revN": 60,
    "residSec": 7.038331113522872,

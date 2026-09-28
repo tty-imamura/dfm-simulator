@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便c",
   "target": "beta/index.html",
-  "targetSha256": "d627b6c83f89c5adb0ef12352e1ccc4d3edac9670c4a88a0d2519b1c01631637",
-  "generatedAt": "2026-09-27T23:48:12.175Z",
+  "targetSha256": "3c6043eca85c1301c36fcd207691493935f997b427de838e0330c867d47f0683",
+  "generatedAt": "2026-09-28T02:19:23.398Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4940573,
-    "sha256": "d627b6c83f89c5adb0ef12352e1ccc4d3edac9670c4a88a0d2519b1c01631637",
-    "mtime": "2026-09-27T22:18:45.017Z"
+    "bytes": 5091017,
+    "sha256": "3c6043eca85c1301c36fcd207691493935f997b427de838e0330c867d47f0683",
+    "mtime": "2026-09-28T02:17:15.902Z"
    }
   ],
   "code": [
@@ -18,28 +18,28 @@
     "file": "tests/exp-w285c-bgderiv.mjs",
     "bytes": 33468,
     "sha256": "7336c75506862094b01c3e42f05120e0a31df9974bb2779d4888c8760a184adb",
-    "mtime": "2026-09-27T22:22:43.184Z"
+    "mtime": "2026-09-28T00:59:50.474Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-27T22:04:59.353Z"
+    "mtime": "2026-09-24T08:51:12.597Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-27T22:04:59.345Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 72632,
-    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
-    "mtime": "2026-09-27T22:04:59.357Z"
+    "bytes": 74147,
+    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
+    "mtime": "2026-09-28T01:00:42.100Z"
    }
   ],
-  "codeSha256": "6ea101f4f4f37fffb10f70f78997ba72ef2c85acb50930ee1913f4b136090075",
+  "codeSha256": "bca1a730147e3f76b43751535a9cb875fea65e777b9751930c71090f6ee19a96",
   "harnessVersion": "w285c-bgderiv-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第75報)⑥: 背景複素決定力の W₀・A₀ を設定することで gradW・gradA・dWdt・dAdt が算出できるか調査する",
@@ -79,11 +79,11 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 811,
-   "segments": 738,
-   "closureShare": 0.3194
+   "names": 816,
+   "segments": 742,
+   "closureShare": 0.3127
   },
-  "scopeSha256": "6745a8cb437699b5b61f0f2501468ccdd304da9503fe7c9881cc3b70b7b8a785",
+  "scopeSha256": "cff7634636081fa8e03d083141b8a17c29ca4e5d64ddc06289a8b64d33be1658",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1448,5 +1448,5 @@
   "applied": "適用中"
  },
  "htmlVersion": "w285c-bgderiv-1",
- "elapsedS": 0.227
+ "elapsedS": 0.106
 }
