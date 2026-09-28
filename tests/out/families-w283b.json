@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-  "generatedAt": "2026-09-27T14:24:36.188Z",
+  "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
+  "generatedAt": "2026-09-28T02:06:00.639Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 4915776,
-    "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-    "mtime": "2026-09-27T14:03:39.007Z"
+    "bytes": 5090937,
+    "sha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
+    "mtime": "2026-09-28T01:00:42.061Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2673043,
-    "sha256": "5d162b88475b704fd764dbaded94e789992d2ae8a00d83d1f94c56723710bb97",
-    "mtime": "2026-09-27T13:31:12.903Z"
+    "bytes": 2728897,
+    "sha256": "b36c697e9cc5bfda428980dd3191a3db5d39899798833d0810aa3466b312ad3a",
+    "mtime": "2026-09-28T01:20:26.505Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -31,18 +31,24 @@
     "mtime": "2026-09-27T10:20:29.214Z"
    },
    {
+    "file": "tests/fixtures/retired-w285f.json",
+    "bytes": 64583,
+    "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
+    "mtime": "2026-09-28T01:00:42.098Z"
+   },
+   {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 78025,
-    "sha256": "34b02db05c65921b30cb989797f6bf54d09abb11ef950139091256b0413f6a12",
-    "mtime": "2026-09-27T14:24:36.147Z"
+    "bytes": 79084,
+    "sha256": "0fed1d9ec30c84dbd8ff88bcfbd0962b3a6995c7b9d6b6f65bb3fd62773fadb8",
+    "mtime": "2026-09-28T02:06:00.622Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w283b-families.mjs",
-    "bytes": 35449,
-    "sha256": "43e60b2daaa05597b5fb9e333e4e7ecd8bac11a0a5b9b982e081c4066db65e82",
-    "mtime": "2026-09-27T10:20:29.212Z"
+    "bytes": 36687,
+    "sha256": "91ee88357ad01bd3cc66ac6eff80c646c6a52a4ce1c6615c12745b10596e979d",
+    "mtime": "2026-09-28T01:00:42.098Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -64,18 +70,18 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 72632,
-    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
-    "mtime": "2026-09-26T17:46:31.436Z"
+    "bytes": 74147,
+    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
+    "mtime": "2026-09-28T01:00:42.100Z"
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 117059,
-    "sha256": "b8ea1b9e9a64623bca1a6130d4a069e57b9e981cec5d9326b1ba335e895bce95",
-    "mtime": "2026-09-27T14:24:04.377Z"
+    "bytes": 133141,
+    "sha256": "26d555b2b6c2cac1f7591651cb7a8fa1ccaf81b4888b8c82f203b49d5ac3c09a",
+    "mtime": "2026-09-28T01:00:54.552Z"
    }
   ],
-  "codeSha256": "e1e10d088e42d42d5ce883de1f427690d1e75275f186b38a85c751590ccd10d0",
+  "codeSha256": "926d38622bebb784f50e014c6bdbacf1eed0001c00bf72d3813407225f1eb299",
   "harnessVersion": "w283b-families-1",
   "scope": {
    "version": "w283e-scope-3",
@@ -98,16 +104,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 803,
-   "segments": 730,
-   "closureShare": 0.3448
+   "names": 820,
+   "segments": 746,
+   "closureShare": 0.3379
   },
-  "scopeSha256": "0c56975dfe43be286cb9f80005783d368827c271d9aaf9f638f896efbbf35978",
+  "scopeSha256": "91403d857837d9277f45d0bd4e7ab29c5028eae40f359edcf9bb7a5ebf21324f",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "e5ba404fa580f028f2a0cb99ca2f09a06faad2652f8fec31b4d7c36a70588e14",
+    "stableSha256": "66785610ff9c6bf6efaf90d276accbf77fdda0e23a92f0470aa3c5957e19b3a9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -128,16 +134,35 @@
      "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
      "/presets/*/run/stopRuleStages/*/wallSec",
      "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/wallNearBudget",
      "/presets/*/run/timeBudget/*/wallSec",
      "/presets/*/run/wallSec"
     ]
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "55d122720205d11fa88694ca894598a110f566c5064d372992e433773e1ab738",
+    "stableSha256": "fc965f8ca02cc7db52af762a3eabd23592b873ceae2c87a16ef913ab86f44995",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
+     "/h2Store/carriedFrom",
+     "/h2Store/entries/*/generatedAt",
+     "/h2Store/entries/*/run/rateStepsPerSec",
+     "/h2Store/entries/*/run/stopRule/rateStepsPerSec",
+     "/h2Store/entries/*/run/stopRule/wallSec",
+     "/h2Store/entries/*/run/timeBudget/rateStepsPerSec",
+     "/h2Store/entries/*/run/timeBudget/wallNearBudget",
+     "/h2Store/entries/*/run/timeBudget/wallSec",
+     "/h2Store/entries/*/run/wallSec",
+     "/h4Store/carriedFrom",
+     "/h4Store/entries/*/generatedAt",
+     "/h4Store/entries/*/run/rateStepsPerSec",
+     "/h4Store/entries/*/run/stopRule/rateStepsPerSec",
+     "/h4Store/entries/*/run/stopRule/wallSec",
+     "/h4Store/entries/*/run/timeBudget/rateStepsPerSec",
+     "/h4Store/entries/*/run/timeBudget/wallNearBudget",
+     "/h4Store/entries/*/run/timeBudget/wallSec",
+     "/h4Store/entries/*/run/wallSec",
      "/when"
     ],
     "companionOf": "tests/out/calaudit-w249.json"
@@ -151,6 +176,12 @@
    {
     "file": "tests/fixtures/retired-w284b.json",
     "stableSha256": "346ac203188fd8ccff38eb7de133892acc2e2e47e7fe8da5186cbc29fc947200",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   },
+   {
+    "file": "tests/fixtures/retired-w285f.json",
+    "stableSha256": "4fef8265711560d8781f00168ff7237625aa6bdf964eba7e2b229655998eee8d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
    }
@@ -189,16 +220,16 @@
  "counts": {
   "families": 21,
   "members": 81,
-  "retiredMembers": 13,
+  "retiredMembers": 14,
   "role": {
-   "主系列": 38,
+   "主系列": 37,
    "診断": 13,
-   "履歴": 13,
+   "履歴": 14,
    "比較": 17
   },
   "cand": {
    "A": 4,
-   "C": 4
+   "C": 3
   },
   "keepApart": 15
  },
@@ -1658,7 +1689,7 @@
      "spaceMesh": null,
      "purpose": "土星の環を kF1 と自動算出 q で照合する",
      "gates": [],
-     "presetSigHash": "341c0d54",
+     "presetSigHash": "21db7255",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -1691,7 +1722,7 @@
      "gates": [
       "wave121.ui"
      ],
-     "presetSigHash": "9d9f57db",
+     "presetSigHash": "635566d6",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -1761,6 +1792,7 @@
       "physicsDiff": [
        "D0",
        "D0pull",
+       "contactMode",
        "frameWeight",
        "geoPN",
        "kFrame",
@@ -1813,6 +1845,7 @@
       "physicsDiff": [
        "D0",
        "D0pull",
+       "contactMode",
        "frameWeight",
        "geoPN",
        "kFrame",
@@ -1866,6 +1899,7 @@
       "physicsDiff": [
        "D0",
        "D0pull",
+       "contactMode",
        "frameWeight",
        "geoPN",
        "kFrame",
@@ -1897,6 +1931,16 @@
      "values": {
       "saturnRingRealKF1": 0.0000324204,
       "saturnRingReal": null,
+      "saturnZonalD68": null,
+      "saturnD68Consistent": null,
+      "saturnD68ObsOrbit": null
+     }
+    },
+    {
+     "key": "physics.contactMode",
+     "values": {
+      "saturnRingRealKF1": "none",
+      "saturnRingReal": "none",
       "saturnZonalD68": null,
       "saturnD68Consistent": null,
       "saturnD68ObsOrbit": null
@@ -2609,7 +2653,7 @@
     {
      "id": "psrJ1757DFM",
      "emoji": "🧮",
-     "name": "PSR J1757−1854(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた中性子星連星2例目",
+     "name": "PSR J1757−1854(DFM版)— 観測質量(f=1)・kF1 の中性子星連星2例目",
      "familyId": null,
      "familyRole": null,
      "retired": false,
@@ -2626,14 +2670,14 @@
      "q": 3.1726,
      "qLock": false,
      "massCalibration": {
-      "law": "inertia-law-lin-v1",
-      "f": 1.9998956627766773
+      "law": "f-fixed-1",
+      "f": 1
      },
      "relativeDrag": null,
      "spaceMesh": null,
      "purpose": "⚡ の処方を J1757 へ当てる",
      "gates": [],
-     "presetSigHash": "9dd447b2",
+     "presetSigHash": "80f048f7",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -2674,27 +2718,30 @@
      "vsRef": {
       "bodies": {
        "count": true,
-       "m": true,
+       "m": false,
        "x": true,
        "v": true,
-       "other": true
+       "other": false
       },
       "physicsDiff": [
        "cLight",
+       "coupleSink",
        "kappaT",
        "lambdaPN"
       ],
-      "topDiff": []
+      "topDiff": [
+       "massCalibration"
+      ]
      },
-     "input": "同じ入力"
+     "input": "違う入力(質量)"
     },
     {
      "id": "psrJ1757CF",
      "emoji": "🪄",
      "name": "PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目",
      "familyId": null,
-     "familyRole": null,
-     "retired": false,
+     "familyRole": "retired",
+     "retired": true,
      "sampleClass": "calibration",
      "catalog": null,
      "group": "現実との照合・連星",
@@ -2717,24 +2764,27 @@
      "gates": [],
      "presetSigHash": "12797269",
      "accepted": true,
-     "roleEst": "主系列",
-     "roleWhy": "較正母集団",
+     "roleEst": "履歴",
+     "roleWhy": "familyRole \"retired\"",
      "vsRef": {
       "bodies": {
        "count": true,
-       "m": true,
+       "m": false,
        "x": true,
        "v": true,
-       "other": true
+       "other": false
       },
       "physicsDiff": [
        "cLight",
        "compactForce",
+       "coupleSink",
        "kappaT"
       ],
-      "topDiff": []
+      "topDiff": [
+       "massCalibration"
+      ]
      },
-     "input": "同じ入力"
+     "input": "違う入力(質量)"
     }
    ],
    "keyDiff": [
@@ -2760,6 +2810,14 @@
      }
     },
     {
+     "key": "physics.coupleSink",
+     "values": {
+      "psrJ1757DFM": "reservoir",
+      "psrJ1757PN": "core",
+      "psrJ1757CF": "core"
+     }
+    },
+    {
      "key": "physics.kappaT",
      "values": {
       "psrJ1757DFM": 7.415555555555556e-7,
@@ -2776,38 +2834,36 @@
      }
     },
     {
+     "key": "massCalibration",
+     "values": {
+      "psrJ1757DFM": "(宣言あり)",
+      "psrJ1757PN": "(宣言あり)",
+      "psrJ1757CF": "(宣言あり)"
+     }
+    },
+    {
      "key": "familyRole",
      "values": {
       "psrJ1757DFM": null,
       "psrJ1757PN": "retired",
-      "psrJ1757CF": null
+      "psrJ1757CF": "retired"
      }
     },
     {
      "key": "bodies(vs 基準)",
      "values": {
       "psrJ1757DFM": "基準",
-      "psrJ1757PN": "同じ入力",
-      "psrJ1757CF": "同じ入力"
+      "psrJ1757PN": "違う入力(質量)",
+      "psrJ1757CF": "違う入力(質量)"
      }
     }
    ],
-   "physicsSameKeys": 27,
-   "candidates": [
-    {
-     "rule": "C",
-     "keep": null,
-     "fold": [
-      "psrJ1757DFM",
-      "psrJ1757CF"
-     ],
-     "how": "要裁定(1 本 + 法則の切替に畳めるか)",
-     "reason": "同じ bodies・同じ派生値 dfm・違うのは physics の cLight・compactForce・kappaT"
-    }
-   ],
+   "physicsSameKeys": 26,
+   "candidates": [],
    "keepApart": [],
    "history": [
-    "psrJ1757PN"
+    "psrJ1757PN",
+    "psrJ1757CF"
    ]
   },
   {
@@ -3983,7 +4039,7 @@
      "spaceMesh": null,
      "purpose": "銀河の空間メッシュを局所場と物質線で表す",
      "gates": [],
-     "presetSigHash": "2e84d59",
+     "presetSigHash": "6dfee074",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "母集団の外の家族の基準の本",
@@ -4014,7 +4070,7 @@
      "spaceMesh": "vertex",
      "purpose": "🎠 の配置で法則だけ geoPN=3 に替えて比べる",
      "gates": [],
-     "presetSigHash": "af952037",
+     "presetSigHash": "2c6c96a8",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・geoPN=3",
@@ -4073,6 +4129,7 @@
        "other": false
       },
       "physicsDiff": [
+       "contactMode",
        "geoPN",
        "kFrame",
        "ledger",
@@ -4106,7 +4163,7 @@
      "spaceMesh": "vertex",
      "purpose": "中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー",
      "gates": [],
-     "presetSigHash": "2e21c512",
+     "presetSigHash": "2a6ae845",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・geoPN=3",
@@ -4132,6 +4189,15 @@
     }
    ],
    "keyDiff": [
+    {
+     "key": "physics.contactMode",
+     "values": {
+      "galaxyMeshSpiral": "none",
+      "galaxyMeshSpiralGeoToy": "none",
+      "galaxyMeshSpiralGeoToyLite": null,
+      "galaxyAnalogyBH": "none"
+     }
+    },
     {
      "key": "physics.geoPN",
      "values": {
@@ -4268,7 +4334,7 @@
      "gates": [
       "claim.galaxy-outerboost"
      ],
-     "presetSigHash": "a9174738",
+     "presetSigHash": "1350ef63",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "母集団の外の家族の入口(primary)",
@@ -4301,7 +4367,7 @@
      "gates": [
       "claim.galaxystd-outerboost"
      ],
-     "presetSigHash": "330d8506",
+     "presetSigHash": "85a60de7",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -4353,7 +4419,7 @@
      "gates": [
       "claim.galaxygeo2-outerboost"
      ],
-     "presetSigHash": "71a249bb",
+     "presetSigHash": "e939a1d6",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -4404,7 +4470,7 @@
      "gates": [
       "claim.galaxydb-contrast"
      ],
-     "presetSigHash": "aff64781",
+     "presetSigHash": "81eb5a75",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -4419,6 +4485,7 @@
       "physicsDiff": [
        "contactCap",
        "contactK",
+       "contactMode",
        "gammaN",
        "kRep",
        "kappaS",
@@ -4449,6 +4516,15 @@
       "galaxyStd": null,
       "galaxyGeo2": 10,
       "galaxyDB": null
+     }
+    },
+    {
+     "key": "physics.contactMode",
+     "values": {
+      "galaxy": "none",
+      "galaxyStd": "none",
+      "galaxyGeo2": "none",
+      "galaxyDB": "normal"
      }
     },
     {
@@ -4855,7 +4931,7 @@
      "spaceMesh": null,
      "purpose": "指定した 3D 正規分布を保つ参照模型",
      "gates": [],
-     "presetSigHash": "e0673642",
+     "presetSigHash": "38156713",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "母集団の外の家族の基準の本",
@@ -4886,7 +4962,7 @@
      "spaceMesh": null,
      "purpose": "指定した薄い回転円盤を保つ参照模型",
      "gates": [],
-     "presetSigHash": "97ad6e63",
+     "presetSigHash": "b5673bea",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -4929,7 +5005,7 @@
      "spaceMesh": null,
      "purpose": "腕の軸に対する正規分布を保つ参照模型",
      "gates": [],
-     "presetSigHash": "b1a2bb58",
+     "presetSigHash": "ffbcf715",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -4972,7 +5048,7 @@
      "spaceMesh": null,
      "purpose": "中心スピンに依存する力学で星団を束ねる",
      "gates": [],
-     "presetSigHash": "66149083",
+     "presetSigHash": "e5fffafa",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -5019,7 +5095,7 @@
      "spaceMesh": null,
      "purpose": "中心スピンから薄さと円盤の回転を作る",
      "gates": [],
-     "presetSigHash": "f79c40dd",
+     "presetSigHash": "762ea0c6",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -5066,7 +5142,7 @@
      "spaceMesh": null,
      "purpose": "面内の自転軸に沿った棒を作る",
      "gates": [],
-     "presetSigHash": "7cfcb988",
+     "presetSigHash": "76132401",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -5309,7 +5385,7 @@
      }
     }
    ],
-   "physicsSameKeys": 24,
+   "physicsSameKeys": 25,
    "candidates": [],
    "keepApart": [],
    "history": []
@@ -6896,6 +6972,7 @@
    "psrJ1757PN",
    "psrJ1946PN",
    "psrDoubleABCF",
+   "psrJ1757CF",
    "starSeed"
   ],
   "fixture": {
@@ -6966,6 +7043,22 @@
     "behavior.w249a-pnResponse",
     "behavior.compactForce",
     "behavior.calibrationForecast"
+   ]
+  },
+  "fixture3": {
+   "file": "tests/fixtures/retired-w285f.json",
+   "version": "w285f-retired-1",
+   "ids": [
+    "psrJ1757CF"
+   ],
+   "superseded": [
+    "psrJ1757DFM"
+   ],
+   "repointedTests": [
+    "lint.precisionUlp",
+    "behavior.nsThreeStage",
+    "behavior.w249a-pnResponse",
+    "behavior.jointCalProtocol"
    ]
   },
   "presets": [
@@ -7098,6 +7191,16 @@
     "sigFixture": "8767377",
     "sigFixtureNow": "8767377",
     "fixture": "tests/fixtures/retired-w284b.json"
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "inBuiltin": true,
+    "retired": true,
+    "sigBuiltin": "12797269",
+    "sigFixture": "12797269",
+    "sigFixtureNow": "12797269",
+    "fixture": "tests/fixtures/retired-w285f.json"
    }
   ],
   "harnesses": [
@@ -7405,7 +7508,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "emAuditNewton",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [
      {
@@ -7445,7 +7549,8 @@
     "file": "tests/exp-w252a-boxbinary.mjs",
     "ids": [
      "psrJ1946PN",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7456,7 +7561,8 @@
      "psrDoubleABPN",
      "psrJ1757PN",
      "psrJ1946PN",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7520,7 +7626,8 @@
      "psrDoubleABPN",
      "psrJ1757PN",
      "psrJ1946PN",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [
      {
@@ -7597,7 +7704,8 @@
      "psrDoubleABPN",
      "psrJ1757PN",
      "psrJ1946PN",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [
      {
@@ -7627,7 +7735,8 @@
      "psrDoubleABPN",
      "psrJ1757PN",
      "psrJ1946PN",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [
      {
@@ -7644,7 +7753,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "emAuditNewton",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [
      {
@@ -7661,7 +7771,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "emAuditNewton",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [
      {
@@ -7726,7 +7837,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "emAuditNewton",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [
      {
@@ -7743,7 +7855,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "emAuditNewton",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [
      {
@@ -7768,12 +7881,30 @@
     "kind": "fixture"
    },
    {
+    "file": "tests/exp-w285d-obscompare.mjs",
+    "ids": [
+     "psrDoubleABPN",
+     "psrJ1757PN",
+     "psrJ1946PN",
+     "psrDoubleABCF",
+     "psrJ1757CF"
+    ],
+    "steps": [
+     {
+      "key": "obscompare",
+      "role": "current"
+     }
+    ],
+    "kind": "current"
+   },
+   {
     "file": "tests/lib-sigma-destinations.mjs",
     "ids": [
      "psrDoubleABPN",
      "psrJ1757PN",
      "psrJ1946PN",
-     "psrDoubleABCF"
+     "psrDoubleABCF",
+     "psrJ1757CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7843,12 +7974,13 @@
    "psrJ1757PN": 11,
    "psrJ1946PN": 13,
    "emAuditNewton": 33,
-   "psrDoubleABCF": 13
+   "psrDoubleABCF": 13,
+   "psrJ1757CF": 17
   },
   "kindCounts": {
    "not-in-table": 17,
    "history": 24,
-   "current": 12,
+   "current": 13,
    "tool": 4,
    "fixture": 2
   },
@@ -7863,11 +7995,12 @@
    "nebulaShell",
    "psrDoubleABCF",
    "psrDoubleABPN",
+   "psrJ1757CF",
    "psrJ1757PN",
    "psrJ1946PN",
    "starSeed"
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 1.156
+ "elapsedS": 2.534
 }

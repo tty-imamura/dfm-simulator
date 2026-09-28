@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "7ccdabe88210ca31a57f09ba631a6c8d14aa3da2f7ce8191144fe1d63611d95d",
+  "targetSha256": "f83bf5201576b1a6463caee668f5ea1a8eca88e38eca3f9a661361e93f1107e2",
   "csvSha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-09-27T11:22:44.003Z",
+  "at": "2026-09-28T01:44:12.977Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -54,11 +54,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 796,
-   "segments": 723,
-   "closureShare": 0.3182
+   "names": 813,
+   "segments": 739,
+   "closureShare": 0.3121
   },
-  "scopeSha256": "29adfda7e4fda5c9c2c823903f6d72200f05a17e459aaab3e5ec78932cac0005",
+  "scopeSha256": "51ae8c218c259226fa8dcf5c5d8cdb958039cec538dda45c0edf288702589a43",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -92,7 +92,7 @@
    }
   ],
   "codeSha256": "d9faf10f0abd529667e68b1b27965b8cbf92614d30a577756b6535a735b61ec7",
-  "spentSec": 425.6,
+  "spentSec": 614.2,
   "stages": 102
  },
  "builtinDeclared": [
@@ -127,8 +127,8 @@
    "geoPN": 2,
    "sampleClass": "calibration",
    "masses": [
-    5322.5391160374165,
-    5546.034855966663
+    2661.4084000000003,
+    2773.1621
    ],
    "spins": [
     0,
@@ -136,7 +136,7 @@
    ],
    "omegaOrbit": 0.0012225091562296233,
    "unitT": 10,
-   "ledgerFactor": 1.9998956627766773,
+   "ledgerFactor": null,
    "baseMass": [
     2661.4084000000003,
     2773.1621
@@ -699,13 +699,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1076726,
+       "steps": 1076730,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.08776458809789227,
-       "P": 8834.772714551871,
-       "omegaDot": 2.818521583518826,
+       "e": 0.08776870988783624,
+       "P": 8834.805182776076,
+       "omegaDot": 16.86474818849676,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -732,13 +732,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 2153464,
+       "steps": 2153472,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.0877645451928636,
-       "P": 8834.772253572486,
-       "omegaDot": 2.82172072767192,
+       "e": 0.08776864083310672,
+       "P": 8834.804396880327,
+       "omegaDot": 16.86794798237662,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -765,13 +765,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4306939,
+       "steps": 4306955,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.08776452561754339,
-       "P": 8834.772029501963,
-       "omegaDot": 2.8225205634072816,
+       "e": 0.0877686081692546,
+       "P": 8834.804010352835,
+       "omegaDot": 16.868748523965515,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -794,33 +794,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 1.0407493603713962,
-       "ext": 8834.771817574054,
+       "p": 1.0237669170692547,
+       "ext": 8834.803636253242,
        "monotone": true,
-       "d1": 0.00046097938502498437,
-       "d2": 0.00022407052347261924,
+       "d1": 0.0007858957487769658,
+       "d2": 0.0003865274920826778,
        "note": null
       },
       "omegaDot": {
-       "p": 1.9999103566308365,
-       "ext": 2.8227871974084935,
+       "p": 1.9989307152867601,
+       "ext": 16.86901563503089,
        "monotone": true,
-       "d1": -0.003199144153093858,
-       "d2": -0.0007998357353615759,
+       "d1": -0.003199793879861801,
+       "d2": -0.0008005415888945322,
        "note": null
       },
       "e": {
-       "p": 1.1321108409628473,
-       "ext": 0.08776450919242766,
+       "p": 1.0800452859321914,
+       "ext": 0.08776857885071897,
        "monotone": true,
-       "d1": 4.290502866877155e-8,
-       "d2": 1.9575320212017466e-8,
+       "d1": 6.905472951790337e-8,
+       "d2": 3.266385212308265e-8,
        "note": null
       }
      },
-     "Pext": 8834.771817574054,
-     "omegaDotExt": 2.8227871974084935,
-     "eExt": 0.08776450919242766,
+     "Pext": 8834.803636253242,
+     "omegaDotExt": 16.86901563503089,
+     "eExt": 0.08776857885071897,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -833,30 +833,30 @@
         "sigma": 2.5056e-7,
         "recordId": "SOL-cf1e8fbf",
         "solutionId": null,
-        "modelExt": 8834.771817574054,
-        "modelH4": 8834.772029501963,
-        "sigmaTimesExt": 946257.5672626455,
-        "sigmaTimesH4": 947103.3842678417
+        "modelExt": 8834.803636253242,
+        "modelH4": 8834.804010352835,
+        "sigmaTimesExt": 1073247.825836603,
+        "sigmaTimesH4": 1074740.8797661648
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-35dacca5",
         "solutionId": null,
-        "modelExt": 2.8227871974084935,
-        "modelH4": 2.8225205634072816,
-        "sigmaTimesExt": -1082810.446353193,
-        "sigmaTimesH4": -1082830.9566609785
+        "modelExt": 16.86901563503089,
+        "modelH4": 16.868748523965515,
+        "sigmaTimesExt": -2331.3357668544545,
+        "sigmaTimesH4": -2351.8827718834136
        },
        "e": {
         "obs": 0.087777036,
         "sigma": 4.8e-8,
         "recordId": "SOL-40d95cf1",
         "solutionId": null,
-        "modelExt": 0.08776450919242766,
-        "modelH4": 0.08776452561754339,
-        "sigmaTimesExt": -260.97515775710724,
-        "sigmaTimesH4": -260.6329678461518
+        "modelExt": 0.08776857885071897,
+        "modelH4": 0.0877686081692546,
+        "sigmaTimesExt": -176.19061002156997,
+        "sigmaTimesH4": -175.57980719600658
        }
       },
       "solution": {
@@ -865,30 +865,30 @@
         "sigma": 8.64e-8,
         "recordId": "SOL-e35438ab",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 8834.771817574054,
-        "modelH4": 8834.772029501963,
-        "sigmaTimesExt": 2744146.844133023,
-        "sigmaTimesH4": 2746599.7134480923
+        "modelExt": 8834.803636253242,
+        "modelH4": 8834.804010352835,
+        "sigmaTimesExt": 3112418.593997501,
+        "sigmaTimesH4": 3116748.4503932293
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-c162bd87",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 2.8227871974084935,
-        "modelH4": 2.8225205634072816,
-        "sigmaTimesExt": -1082810.446353193,
-        "sigmaTimesH4": -1082830.9566609785
+        "modelExt": 16.86901563503089,
+        "modelH4": 16.868748523965515,
+        "sigmaTimesExt": -2331.3357668544545,
+        "sigmaTimesH4": -2351.8827718834136
        },
        "e": {
         "obs": 0.087777023,
         "sigma": 6.1e-8,
         "recordId": "SOL-1c67b7d7",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 0.08776450919242766,
-        "modelH4": 0.08776452561754339,
-        "sigmaTimesExt": -205.14438643170675,
-        "sigmaTimesH4": -204.87512223947954
+        "modelExt": 0.08776857885071897,
+        "modelH4": 0.0877686081692546,
+        "sigmaTimesExt": -138.42867673816923,
+        "sigmaTimesH4": -137.94804500657835
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -1147,13 +1147,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1076726,
+       "steps": 1076730,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.08776458809789227,
-       "P": 8834.772714551871,
-       "omegaDot": 2.818521583518826,
+       "e": 0.08776870988783624,
+       "P": 8834.805182776076,
+       "omegaDot": 16.86474818849676,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -1180,13 +1180,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 2153464,
+       "steps": 2153472,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.0877645451928636,
-       "P": 8834.772253572486,
-       "omegaDot": 2.82172072767192,
+       "e": 0.08776864083310672,
+       "P": 8834.804396880327,
+       "omegaDot": 16.86794798237662,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -1213,13 +1213,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4306939,
+       "steps": 4306955,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.08776452561754339,
-       "P": 8834.772029501963,
-       "omegaDot": 2.8225205634072816,
+       "e": 0.0877686081692546,
+       "P": 8834.804010352835,
+       "omegaDot": 16.868748523965515,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -1242,33 +1242,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 1.0407493603713962,
-       "ext": 8834.771817574054,
+       "p": 1.0237669170692547,
+       "ext": 8834.803636253242,
        "monotone": true,
-       "d1": 0.00046097938502498437,
-       "d2": 0.00022407052347261924,
+       "d1": 0.0007858957487769658,
+       "d2": 0.0003865274920826778,
        "note": null
       },
       "omegaDot": {
-       "p": 1.9999103566308365,
-       "ext": 2.8227871974084935,
+       "p": 1.9989307152867601,
+       "ext": 16.86901563503089,
        "monotone": true,
-       "d1": -0.003199144153093858,
-       "d2": -0.0007998357353615759,
+       "d1": -0.003199793879861801,
+       "d2": -0.0008005415888945322,
        "note": null
       },
       "e": {
-       "p": 1.1321108409628473,
-       "ext": 0.08776450919242766,
+       "p": 1.0800452859321914,
+       "ext": 0.08776857885071897,
        "monotone": true,
-       "d1": 4.290502866877155e-8,
-       "d2": 1.9575320212017466e-8,
+       "d1": 6.905472951790337e-8,
+       "d2": 3.266385212308265e-8,
        "note": null
       }
      },
-     "Pext": 8834.771817574054,
-     "omegaDotExt": 2.8227871974084935,
-     "eExt": 0.08776450919242766,
+     "Pext": 8834.803636253242,
+     "omegaDotExt": 16.86901563503089,
+     "eExt": 0.08776857885071897,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -1281,30 +1281,30 @@
         "sigma": 2.5056e-7,
         "recordId": "SOL-cf1e8fbf",
         "solutionId": null,
-        "modelExt": 8834.771817574054,
-        "modelH4": 8834.772029501963,
-        "sigmaTimesExt": 946257.5672626455,
-        "sigmaTimesH4": 947103.3842678417
+        "modelExt": 8834.803636253242,
+        "modelH4": 8834.804010352835,
+        "sigmaTimesExt": 1073247.825836603,
+        "sigmaTimesH4": 1074740.8797661648
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-35dacca5",
         "solutionId": null,
-        "modelExt": 2.8227871974084935,
-        "modelH4": 2.8225205634072816,
-        "sigmaTimesExt": -1082810.446353193,
-        "sigmaTimesH4": -1082830.9566609785
+        "modelExt": 16.86901563503089,
+        "modelH4": 16.868748523965515,
+        "sigmaTimesExt": -2331.3357668544545,
+        "sigmaTimesH4": -2351.8827718834136
        },
        "e": {
         "obs": 0.087777036,
         "sigma": 4.8e-8,
         "recordId": "SOL-40d95cf1",
         "solutionId": null,
-        "modelExt": 0.08776450919242766,
-        "modelH4": 0.08776452561754339,
-        "sigmaTimesExt": -260.97515775710724,
-        "sigmaTimesH4": -260.6329678461518
+        "modelExt": 0.08776857885071897,
+        "modelH4": 0.0877686081692546,
+        "sigmaTimesExt": -176.19061002156997,
+        "sigmaTimesH4": -175.57980719600658
        }
       },
       "solution": {
@@ -1313,30 +1313,30 @@
         "sigma": 8.64e-8,
         "recordId": "SOL-e35438ab",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 8834.771817574054,
-        "modelH4": 8834.772029501963,
-        "sigmaTimesExt": 2744146.844133023,
-        "sigmaTimesH4": 2746599.7134480923
+        "modelExt": 8834.803636253242,
+        "modelH4": 8834.804010352835,
+        "sigmaTimesExt": 3112418.593997501,
+        "sigmaTimesH4": 3116748.4503932293
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-c162bd87",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 2.8227871974084935,
-        "modelH4": 2.8225205634072816,
-        "sigmaTimesExt": -1082810.446353193,
-        "sigmaTimesH4": -1082830.9566609785
+        "modelExt": 16.86901563503089,
+        "modelH4": 16.868748523965515,
+        "sigmaTimesExt": -2331.3357668544545,
+        "sigmaTimesH4": -2351.8827718834136
        },
        "e": {
         "obs": 0.087777023,
         "sigma": 6.1e-8,
         "recordId": "SOL-1c67b7d7",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 0.08776450919242766,
-        "modelH4": 0.08776452561754339,
-        "sigmaTimesExt": -205.14438643170675,
-        "sigmaTimesH4": -204.87512223947954
+        "modelExt": 0.08776857885071897,
+        "modelH4": 0.0877686081692546,
+        "sigmaTimesExt": -138.42867673816923,
+        "sigmaTimesH4": -137.94804500657835
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -1812,7 +1812,7 @@
    "unitSec": 10,
    "csvBody": "PSR J1757-1854",
    "solutionTag": "Singha2026-DDH",
-   "ledgerFactor": 1.9998956627766773,
+   "ledgerFactor": 1,
    "ledgerFrom": "psrJ1757DFM",
    "savedRoot": {
     "kStar": 0.740871852668369,
@@ -1826,8 +1826,8 @@
     "geoPN": 2,
     "sampleClass": "calibration",
     "masses": [
-     5322.5391160374165,
-     5546.034855966663
+     2661.4084000000003,
+     2773.1621
     ],
     "spins": [
      0,
@@ -1835,7 +1835,7 @@
     ],
     "omegaOrbit": 0.0012225091562296233,
     "unitT": 10,
-    "ledgerFactor": 1.9998956627766773,
+    "ledgerFactor": null,
     "baseMass": [
      2661.4084000000003,
      2773.1621
@@ -1983,7 +1983,7 @@
    "variants": [
     {
      "tag": "builtin",
-     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 f=1.999895663)",
+     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 fなし)",
      "spec": {
       "builtin": true
      },
@@ -1995,25 +1995,25 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1891125,
+       "steps": 4153288,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6089203668102275,
-       "P": 15508.038974810872,
-       "omegaDot": 21.359639524248152,
+       "e": 0.21367939154152446,
+       "P": 34075.50246055285,
+       "omegaDot": 2.487940561388411,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
-         5322.5391160374165,
-         5546.034855966663
+         2661.4084000000003,
+         2773.1621
         ],
         "hasCore": [
-         true,
-         true
+         false,
+         false
         ],
         "spins": [
          0,
@@ -2028,25 +2028,25 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 3823266,
+       "steps": 8319470,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6074112930414002,
-       "P": 15680.724196643438,
-       "omegaDot": 21.029000627886038,
+       "e": 0.21293240469871647,
+       "P": 34129.78105218526,
+       "omegaDot": 2.480705548888386,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
-         5322.5391160374165,
-         5546.034855966663
+         2661.4084000000003,
+         2773.1621
         ],
         "hasCore": [
-         true,
-         true
+         false,
+         false
         ],
         "spins": [
          0,
@@ -2061,25 +2061,25 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 7687928,
+       "steps": 16651837,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6066638499764121,
-       "P": 15767.86577935108,
-       "omegaDot": 20.8685745126045,
+       "e": 0.21255974447424175,
+       "P": 34156.9257861413,
+       "omegaDot": 2.477397739590597,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
-         5322.5391160374165,
-         5546.034855966663
+         2661.4084000000003,
+         2773.1621
         ],
         "hasCore": [
-         true,
-         true
+         false,
+         false
         ],
         "spins": [
          0,
@@ -2090,33 +2090,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9867114027316336,
-       "ext": 15856.63515501095,
+       "p": 0.9997109434419909,
+       "ext": 34184.081400736635,
        "monotone": true,
-       "d1": -172.68522183256573,
-       "d2": -87.14158270764165,
+       "d1": -54.27859163240646,
+       "d2": -27.14473395604,
        "note": null
       },
       "omegaDot": {
-       "p": 1.0433474404011374,
-       "ext": 20.717372362560653,
+       "p": 1.1291194468398715,
+       "ext": 2.474611634113726,
        "monotone": true,
-       "d1": 0.33063889636211385,
-       "d2": 0.16042611528153827,
+       "d1": 0.0072350125000251175,
+       "d2": 0.003307809297788733,
        "note": null
       },
       "e": {
-       "p": 1.0136277374514762,
-       "ext": 0.6059303302632721,
+       "p": 1.0032219894232821,
+       "ext": 0.21218874322532202,
        "monotone": true,
-       "d1": 0.0015090737688273625,
-       "d2": 0.0007474430649880848,
+       "d1": 0.0007469868428079951,
+       "d2": 0.0003726602244747135,
        "note": null
       }
      },
-     "Pext": 15856.63515501095,
-     "omegaDotExt": 20.717372362560653,
-     "eExt": 0.6059303302632721,
+     "Pext": 34184.081400736635,
+     "omegaDotExt": 2.474611634113726,
+     "eExt": 0.21218874322532202,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -2129,30 +2129,30 @@
         "sigma": 0.00000432,
         "recordId": "SOL-7cc2400b",
         "solutionId": null,
-        "modelExt": 15856.63515501095,
-        "modelH4": 15767.86577935108,
-        "sigmaTimesExt": -239320.4067246828,
-        "sigmaTimesH4": -20787786.994657785
+        "modelExt": 34184.081400736635,
+        "modelH4": 34156.9257861413,
+        "sigmaTimesExt": 4242225088.326072,
+        "sigmaTimesH4": 4235939066.4290037
        },
        "omegaDot": {
         "obs": 10.3651,
         "sigma": 0.0002,
         "recordId": "SOL-f141dc30",
         "solutionId": null,
-        "modelExt": 20.717372362560653,
-        "modelH4": 20.8685745126045,
-        "sigmaTimesExt": 51761.36181280326,
-        "sigmaTimesH4": 52517.372563022494
+        "modelExt": 2.474611634113726,
+        "modelH4": 2.477397739590597,
+        "sigmaTimesExt": -39452.441829431365,
+        "sigmaTimesH4": -39438.511302047016
        },
        "e": {
         "obs": 0.6058142,
         "sigma": 0.000001,
         "recordId": "SOL-251ef664",
         "solutionId": null,
-        "modelExt": 0.6059303302632721,
-        "modelH4": 0.6066638499764121,
-        "sigmaTimesExt": 116.1302632721739,
-        "sigmaTimesH4": 849.6499764121257
+        "modelExt": 0.21218874322532202,
+        "modelH4": 0.21255974447424175,
+        "sigmaTimesExt": -393625.45677467796,
+        "sigmaTimesH4": -393254.4555257582
        }
       },
       "solution": {
@@ -2161,30 +2161,30 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-73e1ba36",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 15856.63515501095,
-        "modelH4": 15767.86577935108,
-        "sigmaTimesExt": -5976910.668110762,
-        "sigmaTimesH4": -519688575.36643827
+        "modelExt": 34184.081400736635,
+        "modelH4": 34156.9257861413,
+        "sigmaTimesExt": 106055633307.65182,
+        "sigmaTimesH4": 105898482760.22511
        },
        "omegaDot": {
         "obs": 10.364986,
         "sigma": 0.000008,
         "recordId": "SOL-4d073b22",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 20.717372362560653,
-        "modelH4": 20.8685745126045,
-        "sigmaTimesExt": 1294048.2953200818,
-        "sigmaTimesH4": 1312948.5640755626
+        "modelExt": 2.474611634113726,
+        "modelH4": 2.477397739590597,
+        "sigmaTimesExt": -986296.7957357842,
+        "sigmaTimesH4": -985948.5325511754
        },
        "e": {
         "obs": 0.605817,
         "sigma": 0.000002,
         "recordId": "SOL-8d0fec54",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 0.6059303302632721,
-        "modelH4": 0.6066638499764121,
-        "sigmaTimesExt": 56.665131636046695,
-        "sigmaTimesH4": 423.4249882060226
+        "modelExt": 0.21218874322532202,
+        "modelH4": 0.21255974447424175,
+        "sigmaTimesExt": -196814.12838733903,
+        "sigmaTimesH4": -196628.62776287916
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -2219,13 +2219,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1932650,
+       "steps": 1932653,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6058127212402122,
-       "P": 15857.66175713325,
-       "omegaDot": 1.7217377542044459,
+       "e": 0.6058184428194817,
+       "P": 15857.686934557722,
+       "omegaDot": 10.344112867050084,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -2252,13 +2252,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 3865302,
+       "steps": 3865308,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6058126159021527,
-       "P": 15857.658247215219,
-       "omegaDot": 1.7240617447092645,
+       "e": 0.6058182612181567,
+       "P": 15857.680936130619,
+       "omegaDot": 10.3464411231648,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -2285,13 +2285,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 7730605,
+       "steps": 7730616,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.605812562319347,
-       "P": 15857.656491892041,
-       "omegaDot": 1.7246428568964087,
+       "e": 0.6058181690706341,
+       "P": 15857.677936555574,
+       "omegaDot": 10.347024371284064,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -2314,33 +2314,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9997006655187365,
-       "ext": 15857.654735840239,
+       "p": 0.9998261234015097,
+       "ext": 15857.674936257368,
        "monotone": true,
-       "d1": 0.0035099180313409306,
-       "d2": 0.0017553231773490552,
+       "d1": 0.005998427102895221,
+       "d2": 0.0029995750446687452,
        "note": null
       },
       "omegaDot": {
-       "p": 1.9997155578621721,
-       "ext": 1.7248366118881502,
+       "p": 1.9970681122534852,
+       "ext": 10.347219315014701,
        "monotone": true,
-       "d1": -0.002323990504818685,
-       "d2": -0.0005811121871441838,
+       "d1": -0.0023282561147155434,
+       "d2": -0.0005832481192644678,
        "note": null
       },
       "e": {
-       "p": 0.9751847561185322,
-       "ext": 0.6058125068444558,
+       "p": 0.9787574440757318,
+       "ext": 0.6058180741482754,
        "monotone": true,
-       "d1": 1.0533805949730635e-7,
-       "d2": 5.358280574796481e-8,
+       "d1": 1.8160132497779813e-7,
+       "d2": 9.214752261232917e-8,
        "note": null
       }
      },
-     "Pext": 15857.654735840239,
-     "omegaDotExt": 1.7248366118881502,
-     "eExt": 0.6058125068444558,
+     "Pext": 15857.674936257368,
+     "omegaDotExt": 10.347219315014701,
+     "eExt": 0.6058180741482754,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -2353,30 +2353,30 @@
         "sigma": 0.00000432,
         "recordId": "SOL-7cc2400b",
         "solutionId": null,
-        "modelExt": 15857.654735840239,
-        "modelH4": 15857.656491892041,
-        "sigmaTimesExt": -3306.3258709060187,
-        "sigmaTimesH4": -2899.8323980684086
+        "modelExt": 15857.674936257368,
+        "modelH4": 15857.677936555574,
+        "sigmaTimesExt": 1369.696612814382,
+        "sigmaTimesH4": 2064.2100863639184
        },
        "omegaDot": {
         "obs": 10.3651,
         "sigma": 0.0002,
         "recordId": "SOL-f141dc30",
         "solutionId": null,
-        "modelExt": 1.7248366118881502,
-        "modelH4": 1.7246428568964087,
-        "sigmaTimesExt": -43201.31694055924,
-        "sigmaTimesH4": -43202.28571551795
+        "modelExt": 10.347219315014701,
+        "modelH4": 10.347024371284064,
+        "sigmaTimesExt": -89.403424926493,
+        "sigmaTimesH4": -90.3781435796791
        },
        "e": {
         "obs": 0.6058142,
         "sigma": 0.000001,
         "recordId": "SOL-251ef664",
         "solutionId": null,
-        "modelExt": 0.6058125068444558,
-        "modelH4": 0.605812562319347,
-        "sigmaTimesExt": -1.6931555442134538,
-        "sigmaTimesH4": -1.6376806529772026
+        "modelExt": 0.6058180741482754,
+        "modelH4": 0.6058181690706341,
+        "sigmaTimesExt": 3.8741482754067746,
+        "sigmaTimesH4": 3.9690706341577453
        }
       },
       "solution": {
@@ -2385,30 +2385,30 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-73e1ba36",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 15857.654735840239,
-        "modelH4": 15857.656491892041,
-        "sigmaTimesExt": -76558.64676634235,
-        "sigmaTimesH4": -66396.3099454021
+        "modelExt": 15857.674936257368,
+        "modelH4": 15857.677936555574,
+        "sigmaTimesExt": 40341.91532666766,
+        "sigmaTimesH4": 57704.75216540607
        },
        "omegaDot": {
         "obs": 10.364986,
         "sigma": 0.000008,
         "recordId": "SOL-4d073b22",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 1.7248366118881502,
-        "modelH4": 1.7246428568964087,
-        "sigmaTimesExt": -1080018.6735139813,
-        "sigmaTimesH4": -1080042.892887949
+        "modelExt": 10.347219315014701,
+        "modelH4": 10.347024371284064,
+        "sigmaTimesExt": -2220.8356231623316,
+        "sigmaTimesH4": -2245.203589491984
        },
        "e": {
         "obs": 0.605817,
         "sigma": 0.000002,
         "recordId": "SOL-8d0fec54",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 0.6058125068444558,
-        "modelH4": 0.605812562319347,
-        "sigmaTimesExt": -2.246577772146985,
-        "sigmaTimesH4": -2.218840326528859
+        "modelExt": 0.6058180741482754,
+        "modelH4": 0.6058181690706341,
+        "sigmaTimesExt": 0.5370741376631294,
+        "sigmaTimesH4": 0.5845353170386147
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -2421,7 +2421,7 @@
       "perQuantityExt": {
        "P": "outside",
        "omegaDot": "outside",
-       "e": "within"
+       "e": "outside"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
      }
@@ -2652,9 +2652,9 @@
     },
     {
      "tag": "kf0Ledger",
-     "what": "kFrame=0・f=台帳 1.999895663・λ_PN=1(k と f の分離)",
+     "what": "kFrame=0・f=台帳 1.000000000・λ_PN=1(k と f の分離)",
      "spec": {
-      "f": 1.9998956627766773,
+      "f": 1,
       "kFrame": 0,
       "lambdaPN": 1,
       "keepCore": false
@@ -2667,21 +2667,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1148806,
+       "steps": 1932653,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.8029015746171663,
-       "P": 9426.122225742443,
-       "omegaDot": 11.514470407324476,
+       "e": 0.6058184428194817,
+       "P": 15857.686934557722,
+       "omegaDot": 10.344112867050084,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5322.5391160374165,
-         5546.034855966663
+         2661.4084000000003,
+         2773.1621
         ],
         "hasCore": [
          false,
@@ -2700,21 +2700,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 2297593,
+       "steps": 3865308,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.8028992703501582,
-       "P": 9426.033682217836,
-       "omegaDot": 11.581064837458888,
+       "e": 0.6058182612181567,
+       "P": 15857.680936130619,
+       "omegaDot": 10.3464411231648,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5322.5391160374165,
-         5546.034855966663
+         2661.4084000000003,
+         2773.1621
         ],
         "hasCore": [
          false,
@@ -2733,21 +2733,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4595168,
+       "steps": 7730616,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.8028981074038203,
-       "P": 9425.98940768918,
-       "omegaDot": 11.597743183385314,
+       "e": 0.6058181690706341,
+       "P": 15857.677936555574,
+       "omegaDot": 10.347024371284064,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5322.5391160374165,
-         5546.034855966663
+         2661.4084000000003,
+         2773.1621
         ],
         "hasCore": [
          false,
@@ -2762,33 +2762,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9999098549847335,
-       "ext": 9425.945127627127,
+       "p": 0.9998261234015097,
+       "ext": 15857.674936257368,
        "monotone": true,
-       "d1": 0.08854352460730297,
-       "d2": 0.0442745286563877,
+       "d1": 0.005998427102895221,
+       "d2": 0.0029995750446687452,
        "note": null
       },
       "omegaDot": {
-       "p": 1.997425300618116,
-       "ext": 11.603315880588132,
+       "p": 1.9970681122534852,
+       "ext": 10.347219315014701,
        "monotone": true,
-       "d1": -0.06659443013441191,
-       "d2": -0.01667834592642592,
+       "d1": -0.0023282561147155434,
+       "d2": -0.0005832481192644678,
        "note": null
       },
       "e": {
-       "p": 0.9865233717420036,
-       "ext": 0.802896922422053,
+       "p": 0.9787574440757318,
+       "ext": 0.6058180741482754,
        "monotone": true,
-       "d1": 0.0000023042670080908323,
-       "d2": 0.0000011629463378959315,
+       "d1": 1.8160132497779813e-7,
+       "d2": 9.214752261232917e-8,
        "note": null
       }
      },
-     "Pext": 9425.945127627127,
-     "omegaDotExt": 11.603315880588132,
-     "eExt": 0.802896922422053,
+     "Pext": 15857.674936257368,
+     "omegaDotExt": 10.347219315014701,
+     "eExt": 0.6058180741482754,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -2801,30 +2801,30 @@
         "sigma": 0.00000432,
         "recordId": "SOL-7cc2400b",
         "solutionId": null,
-        "modelExt": 9425.945127627127,
-        "modelH4": 9425.98940768918,
-        "sigmaTimesExt": -1488824974.8937209,
-        "sigmaTimesH4": -1488814724.8793566
+        "modelExt": 15857.674936257368,
+        "modelH4": 15857.677936555574,
+        "sigmaTimesExt": 1369.696612814382,
+        "sigmaTimesH4": 2064.2100863639184
        },
        "omegaDot": {
         "obs": 10.3651,
         "sigma": 0.0002,
         "recordId": "SOL-f141dc30",
         "solutionId": null,
-        "modelExt": 11.603315880588132,
-        "modelH4": 11.597743183385314,
-        "sigmaTimesExt": 6191.0794029406625,
-        "sigmaTimesH4": 6163.215916926567
+        "modelExt": 10.347219315014701,
+        "modelH4": 10.347024371284064,
+        "sigmaTimesExt": -89.403424926493,
+        "sigmaTimesH4": -90.3781435796791
        },
        "e": {
         "obs": 0.6058142,
         "sigma": 0.000001,
         "recordId": "SOL-251ef664",
         "solutionId": null,
-        "modelExt": 0.802896922422053,
-        "modelH4": 0.8028981074038203,
-        "sigmaTimesExt": 197082.72242205305,
-        "sigmaTimesH4": 197083.9074038203
+        "modelExt": 0.6058180741482754,
+        "modelH4": 0.6058181690706341,
+        "sigmaTimesExt": 3.8741482754067746,
+        "sigmaTimesH4": 3.9690706341577453
        }
       },
       "solution": {
@@ -2833,30 +2833,30 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-73e1ba36",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 9425.945127627127,
-        "modelH4": 9425.98940768918,
-        "sigmaTimesExt": -37220618272.84302,
-        "sigmaTimesH4": -37220362022.48391
+        "modelExt": 15857.674936257368,
+        "modelH4": 15857.677936555574,
+        "sigmaTimesExt": 40341.91532666766,
+        "sigmaTimesH4": 57704.75216540607
        },
        "omegaDot": {
         "obs": 10.364986,
         "sigma": 0.000008,
         "recordId": "SOL-4d073b22",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 11.603315880588132,
-        "modelH4": 11.597743183385314,
-        "sigmaTimesExt": 154791.23507351655,
-        "sigmaTimesH4": 154094.6479231642
+        "modelExt": 10.347219315014701,
+        "modelH4": 10.347024371284064,
+        "sigmaTimesExt": -2220.8356231623316,
+        "sigmaTimesH4": -2245.203589491984
        },
        "e": {
         "obs": 0.605817,
         "sigma": 0.000002,
         "recordId": "SOL-8d0fec54",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 0.802896922422053,
-        "modelH4": 0.8028981074038203,
-        "sigmaTimesExt": 98539.96121102649,
-        "sigmaTimesH4": 98540.55370191012
+        "modelExt": 0.6058180741482754,
+        "modelH4": 0.6058181690706341,
+        "sigmaTimesExt": 0.5370741376631294,
+        "sigmaTimesH4": 0.5845353170386147
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -2876,9 +2876,9 @@
     },
     {
      "tag": "corr",
-     "what": "kFrame=1・f=台帳 1.999895663・λ_PN=1(既存補正を残した列)",
+     "what": "kFrame=1・f=台帳 1.000000000・λ_PN=1(既存補正を残した列)",
      "spec": {
-      "f": 1.9998956627766773,
+      "f": 1,
       "kFrame": 1,
       "lambdaPN": 1,
       "keepCore": false
@@ -2891,21 +2891,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1891125,
+       "steps": 4153288,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6089203668101694,
-       "P": 15508.038974810195,
-       "omegaDot": 21.359639530770195,
+       "e": 0.21367939154152446,
+       "P": 34075.50246055285,
+       "omegaDot": 2.487940561388411,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5322.5391160374165,
-         5546.034855966663
+         2661.4084000000003,
+         2773.1621
         ],
         "hasCore": [
          false,
@@ -2924,21 +2924,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 3823266,
+       "steps": 8319470,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6074112930414459,
-       "P": 15680.724196641866,
-       "omegaDot": 21.029000631992474,
+       "e": 0.21293240469871647,
+       "P": 34129.78105218526,
+       "omegaDot": 2.480705548888386,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5322.5391160374165,
-         5546.034855966663
+         2661.4084000000003,
+         2773.1621
         ],
         "hasCore": [
          false,
@@ -2957,21 +2957,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 7687928,
+       "steps": 16651837,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6066638499762377,
-       "P": 15767.865779346548,
-       "omegaDot": 20.868574513638606,
+       "e": 0.21255974447424175,
+       "P": 34156.9257861413,
+       "omegaDot": 2.477397739590597,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5322.5391160374165,
-         5546.034855966663
+         2661.4084000000003,
+         2773.1621
         ],
         "hasCore": [
          false,
@@ -2986,33 +2986,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9867114027731535,
-       "ext": 15856.635154998246,
+       "p": 0.9997109434419909,
+       "ext": 34184.081400736635,
        "monotone": true,
-       "d1": -172.6852218316708,
-       "d2": -87.14158270468215,
+       "d1": -54.27859163240646,
+       "d2": -27.14473395604,
        "note": null
       },
       "omegaDot": {
-       "p": 1.0433474233121536,
-       "ext": 20.71737235722002,
+       "p": 1.1291194468398715,
+       "ext": 2.474611634113726,
        "monotone": true,
-       "d1": 0.3306388987777211,
-       "d2": 0.16042611835386822,
+       "d1": 0.0072350125000251175,
+       "d2": 0.003307809297788733,
        "note": null
       },
       "e": {
-       "p": 1.0136277369271887,
-       "ext": 0.6059303302623534,
+       "p": 1.0032219894232821,
+       "ext": 0.21218874322532202,
        "monotone": true,
-       "d1": 0.0015090737687234457,
-       "d2": 0.000747443065208242,
+       "d1": 0.0007469868428079951,
+       "d2": 0.0003726602244747135,
        "note": null
       }
      },
-     "Pext": 15856.635154998246,
-     "omegaDotExt": 20.71737235722002,
-     "eExt": 0.6059303302623534,
+     "Pext": 34184.081400736635,
+     "omegaDotExt": 2.474611634113726,
+     "eExt": 0.21218874322532202,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -3025,30 +3025,30 @@
         "sigma": 0.00000432,
         "recordId": "SOL-7cc2400b",
         "solutionId": null,
-        "modelExt": 15856.635154998246,
-        "modelH4": 15767.865779346548,
-        "sigmaTimesExt": -239320.40966538232,
-        "sigmaTimesH4": -20787786.99570665
+        "modelExt": 34184.081400736635,
+        "modelH4": 34156.9257861413,
+        "sigmaTimesExt": 4242225088.326072,
+        "sigmaTimesH4": 4235939066.4290037
        },
        "omegaDot": {
         "obs": 10.3651,
         "sigma": 0.0002,
         "recordId": "SOL-f141dc30",
         "solutionId": null,
-        "modelExt": 20.71737235722002,
-        "modelH4": 20.868574513638606,
-        "sigmaTimesExt": 51761.361786100104,
-        "sigmaTimesH4": 52517.37256819303
+        "modelExt": 2.474611634113726,
+        "modelH4": 2.477397739590597,
+        "sigmaTimesExt": -39452.441829431365,
+        "sigmaTimesH4": -39438.511302047016
        },
        "e": {
         "obs": 0.6058142,
         "sigma": 0.000001,
         "recordId": "SOL-251ef664",
         "solutionId": null,
-        "modelExt": 0.6059303302623534,
-        "modelH4": 0.6066638499762377,
-        "sigmaTimesExt": 116.13026235346436,
-        "sigmaTimesH4": 849.6499762377097
+        "modelExt": 0.21218874322532202,
+        "modelH4": 0.21255974447424175,
+        "sigmaTimesExt": -393625.45677467796,
+        "sigmaTimesH4": -393254.4555257582
        }
       },
       "solution": {
@@ -3057,30 +3057,30 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-73e1ba36",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 15856.635154998246,
-        "modelH4": 15767.865779346548,
-        "sigmaTimesExt": -5976910.74162825,
-        "sigmaTimesH4": -519688575.39265996
+        "modelExt": 34184.081400736635,
+        "modelH4": 34156.9257861413,
+        "sigmaTimesExt": 106055633307.65182,
+        "sigmaTimesH4": 105898482760.22511
        },
        "omegaDot": {
         "obs": 10.364986,
         "sigma": 0.000008,
         "recordId": "SOL-4d073b22",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 20.71737235722002,
-        "modelH4": 20.868574513638606,
-        "sigmaTimesExt": 1294048.2946525028,
-        "sigmaTimesH4": 1312948.5642048258
+        "modelExt": 2.474611634113726,
+        "modelH4": 2.477397739590597,
+        "sigmaTimesExt": -986296.7957357842,
+        "sigmaTimesH4": -985948.5325511754
        },
        "e": {
         "obs": 0.605817,
         "sigma": 0.000002,
         "recordId": "SOL-8d0fec54",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 0.6059303302623534,
-        "modelH4": 0.6066638499762377,
-        "sigmaTimesExt": 56.66513117669192,
-        "sigmaTimesH4": 423.4249881188146
+        "modelExt": 0.21218874322532202,
+        "modelH4": 0.21255974447424175,
+        "sigmaTimesExt": -196814.12838733903,
+        "sigmaTimesH4": -196628.62776287916
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -3739,13 +3739,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 826500,
+       "steps": 826504,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.06382083616998813,
-       "P": 6781.672534129379,
-       "omegaDot": 4.275161403623387,
+       "e": 0.06382544731973526,
+       "P": 6781.703448154823,
+       "omegaDot": 25.733054420141062,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -3772,13 +3772,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1653016,
+       "steps": 1653024,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.06382076393100401,
-       "P": 6781.6719984439915,
-       "omegaDot": 4.282147986988382,
+       "e": 0.06382533721085767,
+       "P": 6781.7025394825905,
+       "omegaDot": 25.74004052112654,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -3805,13 +3805,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 3306049,
+       "steps": 3306064,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.06382073312039518,
-       "P": 6781.671739994044,
-       "omegaDot": 4.283894769010249,
+       "e": 0.06382528744211373,
+       "P": 6781.702094539245,
+       "omegaDot": 25.74178842388821,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -3834,33 +3834,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 1.0515010347990714,
-       "ext": 6781.671499056684,
+       "p": 1.0301383428835407,
+       "ext": 6781.701667620443,
        "monotone": true,
-       "d1": 0.0005356853871489875,
-       "d2": 0.00025844994706858415,
+       "d1": 0.0009086722320716945,
+       "d2": 0.00044494334542832803,
        "note": null
       },
       "omegaDot": {
-       "p": 1.999887521877549,
-       "ext": 4.2844770902152165,
+       "p": 1.9988625694460223,
+       "ext": 25.742371671015125,
        "monotone": true,
-       "d1": -0.006986583364994914,
-       "d2": -0.00174678202186751,
+       "d1": -0.006986100985479027,
+       "d2": -0.0017479027616680298,
        "note": null
       },
       "e": {
-       "p": 1.2293504137523548,
-       "ext": 0.06382071020630285,
+       "p": 1.1456189095130571,
+       "ext": 0.06382524639268734,
        "monotone": true,
-       "d1": 7.223898411401475e-8,
-       "d2": 3.081060882814679e-8,
+       "d1": 1.1010887758511334e-7,
+       "d2": 4.9768743945466376e-8,
        "note": null
       }
      },
-     "Pext": 6781.671499056684,
-     "omegaDotExt": 4.2844770902152165,
-     "eExt": 0.06382071020630285,
+     "Pext": 6781.701667620443,
+     "omegaDotExt": 25.742371671015125,
+     "eExt": 0.06382524639268734,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -3873,30 +3873,30 @@
         "sigma": 0.000864,
         "recordId": "SOL-cb34a1f4",
         "solutionId": null,
-        "modelExt": 6781.671499056684,
-        "modelH4": 6781.671739994044,
-        "sigmaTimesExt": 352.82761190295014,
-        "sigmaTimesH4": 353.1064745882557
+        "modelExt": 6781.701667620443,
+        "modelH4": 6781.702094539245,
+        "sigmaTimesExt": 387.7449310681203,
+        "sigmaTimesH4": 388.23905005200584
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-f5d43612",
         "solutionId": null,
-        "modelExt": 4.2844770902152165,
-        "modelH4": 4.283894769010249,
-        "sigmaTimesExt": -53768.93227446196,
-        "sigmaTimesH4": -53770.388077474374
+        "modelExt": 25.742371671015125,
+        "modelH4": 25.74178842388821,
+        "sigmaTimesExt": -124.19582246218752,
+        "sigmaTimesH4": -125.6539402794754
        },
        "e": {
         "obs": 0.063848,
         "sigma": 0.000009,
         "recordId": "SOL-efbb5491",
         "solutionId": null,
-        "modelExt": 0.06382071020630285,
-        "modelH4": 0.06382073312039518,
-        "sigmaTimesExt": -3.0321992996832727,
-        "sigmaTimesH4": -3.0296532894241723
+        "modelExt": 0.06382524639268734,
+        "modelH4": 0.06382528744211373,
+        "sigmaTimesExt": -2.528178590295428,
+        "sigmaTimesH4": -2.5236175429192245
        }
       },
       "solution": {
@@ -3905,30 +3905,30 @@
         "sigma": 0.000001728,
         "recordId": "SOL-dd4b7894",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 6781.671499056684,
-        "modelH4": 6781.671739994044,
-        "sigmaTimesExt": 175636.8059515294,
-        "sigmaTimesH4": 175776.23729418215
+        "modelExt": 6781.701667620443,
+        "modelH4": 6781.702094539245,
+        "sigmaTimesExt": 193095.46553411445,
+        "sigmaTimesH4": 193342.52502605724
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-4d53d566",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 4.2844770902152165,
-        "modelH4": 4.283894769010249,
-        "sigmaTimesExt": -53768.93227446196,
-        "sigmaTimesH4": -53770.388077474374
+        "modelExt": 25.742371671015125,
+        "modelH4": 25.74178842388821,
+        "sigmaTimesExt": -124.19582246218752,
+        "sigmaTimesH4": -125.6539402794754
        },
        "e": {
         "obs": 0.0638363,
         "sigma": 8e-7,
         "recordId": "SOL-ae8d8ac9",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 0.06382071020630285,
-        "modelH4": 0.06382073312039518,
-        "sigmaTimesExt": -19.4872421214326,
-        "sigmaTimesH4": -19.458599506017723
+        "modelExt": 0.06382524639268734,
+        "modelH4": 0.06382528744211373,
+        "sigmaTimesExt": -13.817009140819348,
+        "sigmaTimesH4": -13.765697357837059
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -3941,7 +3941,7 @@
       "perQuantityExt": {
        "P": "outside",
        "omegaDot": "outside",
-       "e": "outside"
+       "e": "within"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
      }
@@ -4187,13 +4187,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 338226,
+       "steps": 338230,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5319020492729003,
-       "P": 2775.208260207766,
-       "omegaDot": 41.47787553752539,
+       "e": 0.5319300324499919,
+       "P": 2775.2398260058817,
+       "omegaDot": 251.23258668131805,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -4220,13 +4220,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 676452,
+       "steps": 676458,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5319001728359785,
-       "P": 2775.198866286723,
-       "omegaDot": 41.77030450019884,
+       "e": 0.5319267608920917,
+       "P": 2775.223720973206,
+       "omegaDot": 251.5266554537857,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -4253,13 +4253,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1352905,
+       "steps": 1352915,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5318992231408586,
-       "P": 2775.194169216934,
-       "omegaDot": 41.843457444256856,
+       "e": 0.5319251255591975,
+       "P": 2775.215668386029,
+       "omegaDot": 251.60063542990224,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -4282,33 +4282,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9999664383665601,
-       "ext": 2775.1894719286,
+       "p": 0.9999873084132801,
+       "ext": 2775.2076156571707,
        "monotone": true,
-       "d1": 0.009393921043283626,
-       "d2": 0.004697069789017405,
+       "d1": 0.01610503267556851,
+       "d2": 0.008052587177189707,
        "note": null
       },
       "omegaDot": {
-       "p": 1.999098373137224,
-       "ext": 41.86786208849541,
+       "p": 1.9909468509406765,
+       "ext": 251.62550283322736,
        "monotone": true,
-       "d1": -0.29242896267344776,
-       "d2": -0.07315294405801609,
+       "d1": -0.2940687724676536,
+       "d2": -0.07397997611653295,
        "note": null
       },
       "e": {
-       "p": 0.9824594482597361,
-       "ext": 0.5318982499239185,
+       "p": 1.0003934580597147,
+       "ext": 0.5319234911179287,
        "monotone": true,
-       "d1": 0.0000018764369218438048,
-       "d2": 9.496951198784132e-7,
+       "d1": 0.0000032715579002529083,
+       "d2": 0.000001635332894212027,
        "note": null
       }
      },
-     "Pext": 2775.1894719286,
-     "omegaDotExt": 41.86786208849541,
-     "eExt": 0.5318982499239185,
+     "Pext": 2775.2076156571707,
+     "omegaDotExt": 251.62550283322736,
+     "eExt": 0.5319234911179287,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -4321,30 +4321,30 @@
         "sigma": 0.000864,
         "recordId": "SOL-cb34a1f4",
         "solutionId": null,
-        "modelExt": 2775.1894719286,
-        "modelH4": 2775.194169216934,
-        "sigmaTimesExt": -4636779.148230787,
-        "sigmaTimesH4": -4636773.711554475
+        "modelExt": 2775.2076156571707,
+        "modelH4": 2775.215668386029,
+        "sigmaTimesExt": -4636758.148544942,
+        "sigmaTimesH4": -4636748.828256912
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-f5d43612",
         "solutionId": null,
-        "modelExt": 41.86786208849541,
-        "modelH4": 41.843457444256856,
-        "sigmaTimesExt": 40189.530221238514,
-        "sigmaTimesH4": 40128.51861064214
+        "modelExt": 251.62550283322736,
+        "modelH4": 251.60063542990224,
+        "sigmaTimesExt": 564583.6320830684,
+        "sigmaTimesH4": 564521.4635747556
        },
        "e": {
         "obs": 0.063848,
         "sigma": 0.000009,
         "recordId": "SOL-efbb5491",
         "solutionId": null,
-        "modelExt": 0.5318982499239185,
-        "modelH4": 0.5318992231408586,
-        "sigmaTimesExt": 52005.58332487984,
-        "sigmaTimesH4": 52005.6914600954
+        "modelExt": 0.5319234911179287,
+        "modelH4": 0.5319251255591975,
+        "sigmaTimesExt": 52008.38790199207,
+        "sigmaTimesH4": 52008.56950657749
        }
       },
       "solution": {
@@ -4353,30 +4353,30 @@
         "sigma": 0.000001728,
         "recordId": "SOL-dd4b7894",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 2775.1894719286,
-        "modelH4": 2775.194169216934,
-        "sigmaTimesExt": -2318390351.1153936,
-        "sigmaTimesH4": -2318387632.7772374
+        "modelExt": 2775.2076156571707,
+        "modelH4": 2775.215668386029,
+        "sigmaTimesExt": -2318379851.2724705,
+        "sigmaTimesH4": -2318375191.1284556
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-4d53d566",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 41.86786208849541,
-        "modelH4": 41.843457444256856,
-        "sigmaTimesExt": 40189.530221238514,
-        "sigmaTimesH4": 40128.51861064214
+        "modelExt": 251.62550283322736,
+        "modelH4": 251.60063542990224,
+        "sigmaTimesExt": 564583.6320830684,
+        "sigmaTimesH4": 564521.4635747556
        },
        "e": {
         "obs": 0.0638363,
         "sigma": 8e-7,
         "recordId": "SOL-ae8d8ac9",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 0.5318982499239185,
-        "modelH4": 0.5318992231408586,
-        "sigmaTimesExt": 585077.4374048982,
-        "sigmaTimesH4": 585078.6539260732
+        "modelExt": 0.5319234911179287,
+        "modelH4": 0.5319251255591975,
+        "sigmaTimesExt": 585108.9888974109,
+        "sigmaTimesH4": 585111.0319489968
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -5259,13 +5259,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4430394,
+       "steps": 4430398,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.2736742969336538,
-       "P": 36351.982268999236,
-       "omegaDot": 0.2919110909404772,
+       "e": 0.27367654112332696,
+       "P": 36352.020605426034,
+       "omegaDot": 1.7530283973065104,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -5292,13 +5292,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 8860791,
+       "steps": 8860801,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.27367429110174535,
-       "P": 36351.98199015338,
-       "omegaDot": 0.2919687513930363,
+       "e": 0.27367653102882267,
+       "P": 36352.020123370545,
+       "omegaDot": 1.7530860865680915,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -5325,13 +5325,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 17721587,
+       "steps": 17721606,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.2736742881683506,
-       "P": 36351.98185134546,
-       "omegaDot": 0.29198316972897687,
+       "e": 0.2736765259623651,
+       "P": 36352.01988295665,
+       "omegaDot": 1.753100520503307,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -5354,33 +5354,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 1.0063779779028956,
-       "ext": 36351.98171375676,
+       "p": 1.0036789500214787,
+       "ext": 36352.01964376422,
        "monotone": true,
-       "d1": 0.00027884585870197043,
-       "d2": 0.00013880791811970994,
+       "d1": 0.0004820554895559326,
+       "d2": 0.00024041389406193048,
        "note": null
       },
       "omegaDot": {
-       "p": 1.999677491324462,
-       "ext": 0.29198797727374,
+       "p": 1.9988381125368304,
+       "ext": 1.7531053369849594,
        "monotone": true,
-       "d1": -0.000057660452559116226,
-       "d2": -0.000014418335940569182,
+       "d1": -0.000057689261581117535,
+       "d2": -0.000014433935215496518,
        "note": null
       },
       "e": {
-       "p": 0.9913968449560879,
-       "ext": 0.27367428519965503,
+       "p": 0.9945207780100797,
+       "ext": 0.2736765208572032,
        "monotone": true,
-       "d1": 5.8319084561553325e-9,
-       "d2": 2.9333947493270784e-9,
+       "d1": 1.0094504288016282e-8,
+       "d2": 5.0664575867998e-9,
        "note": null
       }
      },
-     "Pext": 36351.98171375676,
-     "omegaDotExt": 0.29198797727374,
-     "eExt": 0.27367428519965503,
+     "Pext": 36352.01964376422,
+     "omegaDotExt": 1.7531053369849594,
+     "eExt": 0.2736765208572032,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -5393,30 +5393,30 @@
         "sigma": 8.64e-7,
         "recordId": "SOL-450a261d",
         "solutionId": null,
-        "modelExt": 36351.98171375676,
-        "modelH4": 36351.98185134546,
-        "sigmaTimesExt": 322997.2406997048,
-        "sigmaTimesH4": 323156.4868807861
+        "modelExt": 36352.01964376422,
+        "modelH4": 36352.01988295665,
+        "sigmaTimesExt": 366897.71230124246,
+        "sigmaTimesH4": 367174.5553893507
        },
        "omegaDot": {
         "obs": 1.755789,
         "sigma": 0.000009,
         "recordId": "SOL-033838b1",
         "solutionId": null,
-        "modelExt": 0.29198797727374,
-        "modelH4": 0.29198316972897687,
-        "sigmaTimesExt": -162644.55808069557,
-        "sigmaTimesH4": -162645.09225233592
+        "modelExt": 1.7531053369849594,
+        "modelH4": 1.753100520503307,
+        "sigmaTimesExt": -298.1847794489598,
+        "sigmaTimesH4": -298.7199440770046
        },
        "e": {
         "obs": 0.2736775,
         "sigma": 3e-7,
         "recordId": "SOL-ae4a0c44",
         "solutionId": null,
-        "modelExt": 0.27367428519965503,
-        "modelH4": 0.2736742881683506,
-        "sigmaTimesExt": -10.71600114995371,
-        "sigmaTimesH4": -10.706105498063206
+        "modelExt": 0.2736765208572032,
+        "modelH4": 0.2736765259623651,
+        "sigmaTimesExt": -3.2638093228065657,
+        "sigmaTimesH4": -3.246792116458804
        }
       },
       "solution": {
@@ -5425,18 +5425,18 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-9a098c54",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 36351.98171375676,
-        "modelH4": 36351.98185134546,
-        "sigmaTimesExt": 1615106.7034621113,
-        "sigmaTimesH4": 1615902.9343675177
+        "modelExt": 36352.01964376422,
+        "modelH4": 36352.01988295665,
+        "sigmaTimesExt": 1834609.0614697996,
+        "sigmaTimesH4": 1835993.2769103409
        },
        "omegaDot": {
         "obs": 1.755795,
         "sigma": null,
         "recordId": "SOL-adb67dcf",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 0.29198797727374,
-        "modelH4": 0.29198316972897687,
+        "modelExt": 1.7531053369849594,
+        "modelH4": 1.753100520503307,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -5445,10 +5445,10 @@
         "sigma": 4e-8,
         "recordId": "SOL-437b2220",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 0.27367428519965503,
-        "modelH4": 0.2736742881683506,
-        "sigmaTimesExt": -77.87000862458093,
-        "sigmaTimesH4": -77.79579123540215
+        "modelExt": 0.2736765208572032,
+        "modelH4": 0.2736765259623651,
+        "sigmaTimesExt": -21.978569920977353,
+        "sigmaTimesH4": -21.85094087336914
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -5707,13 +5707,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 2150814,
+       "steps": 2150819,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6367435949826977,
-       "P": 17647.723458061097,
-       "omegaDot": 2.4016439885911933,
+       "e": 0.6367521676730276,
+       "P": 17647.765110944125,
+       "omegaDot": 14.434746932459591,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -5740,13 +5740,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4301629,
+       "steps": 4301638,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6367434245376351,
-       "P": 17647.71666919939,
-       "omegaDot": 2.4036970861782607,
+       "e": 0.6367518741306915,
+       "P": 17647.75351775222,
+       "omegaDot": 14.436810209446751,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -5773,13 +5773,13 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 8603258,
+       "steps": 8603275,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6367433382646536,
-       "P": 17647.713274310234,
-       "omegaDot": 2.4042106355312582,
+       "e": 0.6367517256871768,
+       "P": 17647.747720700965,
+       "omegaDot": 14.437328845077948,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -5802,33 +5802,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9998052250372349,
-       "ext": 17647.709878504218,
+       "p": 0.9998866863019551,
+       "ext": 17647.74192273897,
        "monotone": true,
-       "d1": 0.006788861704990268,
-       "d2": 0.0033948891577892937,
+       "d1": 0.011593191906285938,
+       "d2": 0.005797051253466634,
        "note": null
       },
       "omegaDot": {
-       "p": 1.9992273688643747,
-       "ext": 2.404381940938993,
+       "p": 1.9921442801554403,
+       "ext": 14.437502984477304,
        "monotone": true,
-       "d1": -0.0020530975870673984,
-       "d2": -0.0005135493529975221,
+       "d1": -0.002063276987160023,
+       "d2": -0.0005186356311970286,
        "note": null
       },
       "e": {
-       "p": 0.9823260881754935,
-       "ext": 0.636743249838334,
+       "p": 0.9836545255488622,
+       "ext": 0.6367515738218698,
        "monotone": true,
-       "d1": 1.704450626194287e-7,
-       "d2": 8.627298153651708e-8,
+       "d1": 2.935423361050127e-7,
+       "d2": 1.4844351470255646e-7,
        "note": null
       }
      },
-     "Pext": 17647.709878504218,
-     "omegaDotExt": 2.404381940938993,
-     "eExt": 0.636743249838334,
+     "Pext": 17647.74192273897,
+     "omegaDotExt": 14.437502984477304,
+     "eExt": 0.6367515738218698,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -5841,30 +5841,30 @@
         "sigma": 8.64e-7,
         "recordId": "SOL-450a261d",
         "solutionId": null,
-        "modelExt": 17647.709878504218,
-        "modelH4": 17647.713274310234,
-        "sigmaTimesExt": -21648139775.04233,
-        "sigmaTimesH4": -21648135844.711296
+        "modelExt": 17647.74192273897,
+        "modelH4": 17647.747720700965,
+        "sigmaTimesExt": -21648102686.807667,
+        "sigmaTimesH4": -21648095976.203506
        },
        "omegaDot": {
         "obs": 1.755789,
         "sigma": 0.000009,
         "recordId": "SOL-033838b1",
         "solutionId": null,
-        "modelExt": 2.404381940938993,
-        "modelH4": 2.4042106355312582,
-        "sigmaTimesExt": 72065.88232655475,
-        "sigmaTimesH4": 72046.84839236202
+        "modelExt": 14.437502984477304,
+        "modelH4": 14.437328845077948,
+        "sigmaTimesExt": 1409079.3316085893,
+        "sigmaTimesH4": 1409059.9827864387
        },
        "e": {
         "obs": 0.2736775,
         "sigma": 3e-7,
         "recordId": "SOL-ae4a0c44",
         "solutionId": null,
-        "modelExt": 0.636743249838334,
-        "modelH4": 0.6367433382646536,
-        "sigmaTimesExt": 1210219.16612778,
-        "sigmaTimesH4": 1210219.4608821785
+        "modelExt": 0.6367515738218698,
+        "modelH4": 0.6367517256871768,
+        "sigmaTimesExt": 1210246.9127395658,
+        "sigmaTimesH4": 1210247.4189572558
        }
       },
       "solution": {
@@ -5873,18 +5873,18 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-9a098c54",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 17647.709878504218,
-        "modelH4": 17647.713274310234,
-        "sigmaTimesExt": -108240698754.7117,
-        "sigmaTimesH4": -108240679103.05652
+        "modelExt": 17647.74192273897,
+        "modelH4": 17647.747720700965,
+        "sigmaTimesExt": -108240513313.53838,
+        "sigmaTimesH4": -108240479760.51756
        },
        "omegaDot": {
         "obs": 1.755795,
         "sigma": null,
         "recordId": "SOL-adb67dcf",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 2.404381940938993,
-        "modelH4": 2.4042106355312582,
+        "modelExt": 14.437502984477304,
+        "modelH4": 14.437328845077948,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -5893,10 +5893,10 @@
         "sigma": 4e-8,
         "recordId": "SOL-437b2220",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 0.636743249838334,
-        "modelH4": 0.6367433382646536,
-        "sigmaTimesExt": 9076646.245958349,
-        "sigmaTimesH4": 9076648.456616338
+        "modelExt": 0.6367515738218698,
+        "modelH4": 0.6367517256871768,
+        "sigmaTimesExt": 9076854.345546743,
+        "sigmaTimesH4": 9076858.142179418
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -6536,9 +6536,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5194699649074508,
-       "P": 2517154247.469216,
-       "omegaDot": -2.6424589607967974e-7,
+       "e": 0.5194699663191317,
+       "P": 2517154246.258515,
+       "omegaDot": -2.545139715116818e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -6569,9 +6569,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.519469965511613,
-       "P": 2517154247.4320607,
-       "omegaDot": -2.6054427241997065e-7,
+       "e": 0.5194699669197579,
+       "P": 2517154246.205177,
+       "omegaDot": -2.508123547700693e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -6602,9 +6602,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5194699656598772,
-       "P": 2517154247.415796,
-       "omegaDot": -2.5961886458985347e-7,
+       "e": 0.5194699670660625,
+       "P": 2517154246.1785197,
+       "omegaDot": -2.4988694201304007e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -6627,33 +6627,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 1.191798922468938,
-       "ext": 2517154247.403132,
+       "p": 1.0006450220708203,
+       "ext": 2517154246.1518865,
        "monotone": true,
-       "d1": 0.0371551513671875,
-       "d2": 0.016264915466308594,
+       "d1": 0.053338050842285156,
+       "d2": 0.0266571044921875,
        "note": null
       },
       "omegaDot": {
-       "p": 1.9999970142484746,
-       "ext": -2.5931039446194986e-7,
+       "p": 1.999986636990219,
+       "ext": -2.4957846728437166e-7,
        "monotone": true,
-       "d1": -3.7016236597090943e-9,
-       "d2": -9.254078301171805e-10,
+       "d1": -3.701616741612496e-9,
+       "d2": -9.254127570292138e-10,
        "note": null
       },
       "e": {
-       "p": 2.0267646804297255,
-       "ext": 0.5194699657080948,
+       "p": 2.037491969147021,
+       "ext": 0.5194699671131768,
        "monotone": true,
-       "d1": -6.041621647412398e-10,
-       "d2": -1.4826428973435668e-10,
+       "d1": -6.006262154301112e-10,
+       "d2": -1.4630463507359082e-10,
        "note": null
       }
      },
-     "Pext": 2517154247.403132,
-     "omegaDotExt": -2.5931039446194986e-7,
-     "eExt": 0.5194699657080948,
+     "Pext": 2517154246.1518865,
+     "omegaDotExt": -2.4957846728437166e-7,
+     "eExt": 0.5194699671131768,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -6666,18 +6666,18 @@
         "sigma": 599594.4,
         "recordId": "SOL-177bd56d",
         "solutionId": null,
-        "modelExt": 2517154247.403132,
-        "modelH4": 2517154247.415796,
-        "sigmaTimesExt": 0.09499121928449057,
-        "sigmaTimesH4": 0.09499124040517024
+        "modelExt": 2517154246.1518865,
+        "modelH4": 2517154246.1785197,
+        "sigmaTimesExt": 0.09498913246463592,
+        "sigmaTimesH4": 0.09498917688343408
        },
        "omegaDot": {
         "obs": 0,
         "sigma": null,
         "recordId": "SOL-2c8e091b",
         "solutionId": null,
-        "modelExt": -2.5931039446194986e-7,
-        "modelH4": -2.5961886458985347e-7,
+        "modelExt": -2.4957846728437166e-7,
+        "modelH4": -2.4988694201304007e-7,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -6686,10 +6686,10 @@
         "sigma": 0.00015,
         "recordId": "SOL-b06af02d",
         "solutionId": null,
-        "modelExt": 0.5194699657080948,
-        "modelH4": 0.5194699656598772,
-        "sigmaTimesExt": -0.00022861270136213346,
-        "sigmaTimesH4": -0.00022893415163594002
+        "modelExt": 0.5194699671131768,
+        "modelH4": 0.5194699670660625,
+        "sigmaTimesExt": -0.0002192454876907372,
+        "sigmaTimesH4": -0.00021955958310707996
        }
       },
       "solution": null,
@@ -6729,9 +6729,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5194699649074508,
-       "P": 2517154247.469216,
-       "omegaDot": -2.6424589607967974e-7,
+       "e": 0.5194699663191317,
+       "P": 2517154246.258515,
+       "omegaDot": -2.545139715116818e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -6762,9 +6762,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.519469965511613,
-       "P": 2517154247.4320607,
-       "omegaDot": -2.6054427241997065e-7,
+       "e": 0.5194699669197579,
+       "P": 2517154246.205177,
+       "omegaDot": -2.508123547700693e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -6795,9 +6795,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5194699656598772,
-       "P": 2517154247.415796,
-       "omegaDot": -2.5961886458985347e-7,
+       "e": 0.5194699670660625,
+       "P": 2517154246.1785197,
+       "omegaDot": -2.4988694201304007e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -6820,33 +6820,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 1.191798922468938,
-       "ext": 2517154247.403132,
+       "p": 1.0006450220708203,
+       "ext": 2517154246.1518865,
        "monotone": true,
-       "d1": 0.0371551513671875,
-       "d2": 0.016264915466308594,
+       "d1": 0.053338050842285156,
+       "d2": 0.0266571044921875,
        "note": null
       },
       "omegaDot": {
-       "p": 1.9999970142484746,
-       "ext": -2.5931039446194986e-7,
+       "p": 1.999986636990219,
+       "ext": -2.4957846728437166e-7,
        "monotone": true,
-       "d1": -3.7016236597090943e-9,
-       "d2": -9.254078301171805e-10,
+       "d1": -3.701616741612496e-9,
+       "d2": -9.254127570292138e-10,
        "note": null
       },
       "e": {
-       "p": 2.0267646804297255,
-       "ext": 0.5194699657080948,
+       "p": 2.037491969147021,
+       "ext": 0.5194699671131768,
        "monotone": true,
-       "d1": -6.041621647412398e-10,
-       "d2": -1.4826428973435668e-10,
+       "d1": -6.006262154301112e-10,
+       "d2": -1.4630463507359082e-10,
        "note": null
       }
      },
-     "Pext": 2517154247.403132,
-     "omegaDotExt": -2.5931039446194986e-7,
-     "eExt": 0.5194699657080948,
+     "Pext": 2517154246.1518865,
+     "omegaDotExt": -2.4957846728437166e-7,
+     "eExt": 0.5194699671131768,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -6859,18 +6859,18 @@
         "sigma": 599594.4,
         "recordId": "SOL-177bd56d",
         "solutionId": null,
-        "modelExt": 2517154247.403132,
-        "modelH4": 2517154247.415796,
-        "sigmaTimesExt": 0.09499121928449057,
-        "sigmaTimesH4": 0.09499124040517024
+        "modelExt": 2517154246.1518865,
+        "modelH4": 2517154246.1785197,
+        "sigmaTimesExt": 0.09498913246463592,
+        "sigmaTimesH4": 0.09498917688343408
        },
        "omegaDot": {
         "obs": 0,
         "sigma": null,
         "recordId": "SOL-2c8e091b",
         "solutionId": null,
-        "modelExt": -2.5931039446194986e-7,
-        "modelH4": -2.5961886458985347e-7,
+        "modelExt": -2.4957846728437166e-7,
+        "modelH4": -2.4988694201304007e-7,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -6879,10 +6879,10 @@
         "sigma": 0.00015,
         "recordId": "SOL-b06af02d",
         "solutionId": null,
-        "modelExt": 0.5194699657080948,
-        "modelH4": 0.5194699656598772,
-        "sigmaTimesExt": -0.00022861270136213346,
-        "sigmaTimesH4": -0.00022893415163594002
+        "modelExt": 0.5194699671131768,
+        "modelH4": 0.5194699670660625,
+        "sigmaTimesExt": -0.0002192454876907372,
+        "sigmaTimesH4": -0.00021955958310707996
        }
       },
       "solution": null,
@@ -6922,9 +6922,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5194699649074508,
-       "P": 2517154247.469216,
-       "omegaDot": -2.6424589607967974e-7,
+       "e": 0.5194699663191317,
+       "P": 2517154246.258515,
+       "omegaDot": -2.545139715116818e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -6955,9 +6955,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.519469965511613,
-       "P": 2517154247.4320607,
-       "omegaDot": -2.6054427241997065e-7,
+       "e": 0.5194699669197579,
+       "P": 2517154246.205177,
+       "omegaDot": -2.508123547700693e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -6988,9 +6988,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5194699656598772,
-       "P": 2517154247.415796,
-       "omegaDot": -2.5961886458985347e-7,
+       "e": 0.5194699670660625,
+       "P": 2517154246.1785197,
+       "omegaDot": -2.4988694201304007e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -7013,33 +7013,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 1.191798922468938,
-       "ext": 2517154247.403132,
+       "p": 1.0006450220708203,
+       "ext": 2517154246.1518865,
        "monotone": true,
-       "d1": 0.0371551513671875,
-       "d2": 0.016264915466308594,
+       "d1": 0.053338050842285156,
+       "d2": 0.0266571044921875,
        "note": null
       },
       "omegaDot": {
-       "p": 1.9999970142484746,
-       "ext": -2.5931039446194986e-7,
+       "p": 1.999986636990219,
+       "ext": -2.4957846728437166e-7,
        "monotone": true,
-       "d1": -3.7016236597090943e-9,
-       "d2": -9.254078301171805e-10,
+       "d1": -3.701616741612496e-9,
+       "d2": -9.254127570292138e-10,
        "note": null
       },
       "e": {
-       "p": 2.0267646804297255,
-       "ext": 0.5194699657080948,
+       "p": 2.037491969147021,
+       "ext": 0.5194699671131768,
        "monotone": true,
-       "d1": -6.041621647412398e-10,
-       "d2": -1.4826428973435668e-10,
+       "d1": -6.006262154301112e-10,
+       "d2": -1.4630463507359082e-10,
        "note": null
       }
      },
-     "Pext": 2517154247.403132,
-     "omegaDotExt": -2.5931039446194986e-7,
-     "eExt": 0.5194699657080948,
+     "Pext": 2517154246.1518865,
+     "omegaDotExt": -2.4957846728437166e-7,
+     "eExt": 0.5194699671131768,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -7052,18 +7052,18 @@
         "sigma": 599594.4,
         "recordId": "SOL-177bd56d",
         "solutionId": null,
-        "modelExt": 2517154247.403132,
-        "modelH4": 2517154247.415796,
-        "sigmaTimesExt": 0.09499121928449057,
-        "sigmaTimesH4": 0.09499124040517024
+        "modelExt": 2517154246.1518865,
+        "modelH4": 2517154246.1785197,
+        "sigmaTimesExt": 0.09498913246463592,
+        "sigmaTimesH4": 0.09498917688343408
        },
        "omegaDot": {
         "obs": 0,
         "sigma": null,
         "recordId": "SOL-2c8e091b",
         "solutionId": null,
-        "modelExt": -2.5931039446194986e-7,
-        "modelH4": -2.5961886458985347e-7,
+        "modelExt": -2.4957846728437166e-7,
+        "modelH4": -2.4988694201304007e-7,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -7072,10 +7072,10 @@
         "sigma": 0.00015,
         "recordId": "SOL-b06af02d",
         "solutionId": null,
-        "modelExt": 0.5194699657080948,
-        "modelH4": 0.5194699656598772,
-        "sigmaTimesExt": -0.00022861270136213346,
-        "sigmaTimesH4": -0.00022893415163594002
+        "modelExt": 0.5194699671131768,
+        "modelH4": 0.5194699670660625,
+        "sigmaTimesExt": -0.0002192454876907372,
+        "sigmaTimesH4": -0.00021955958310707996
        }
       },
       "solution": null,
@@ -7605,9 +7605,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5914199452409241,
-       "P": 1581968717.2221692,
-       "omegaDot": -7.406363753422036e-7,
+       "e": 0.5914199476255465,
+       "P": 1581968716.1352491,
+       "omegaDot": -7.118670503736123e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -7638,9 +7638,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5914199473527759,
-       "P": 1581968717.1997266,
-       "omegaDot": -7.191266367754129e-7,
+       "e": 0.5914199497226418,
+       "P": 1581968716.064845,
+       "omegaDot": -6.903573003494362e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -7671,9 +7671,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5914199478694232,
-       "P": 1581968717.1593695,
-       "omegaDot": -7.137492056551845e-7,
+       "e": 0.5914199502320925,
+       "P": 1581968716.0004,
+       "omegaDot": -6.849798745573013e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -7696,35 +7696,35 @@
      ],
      "richardson": {
       "P": {
-       "p": -0.8465844780882096,
-       "ext": null,
-       "monotone": false,
-       "d1": 0.02244257926940918,
-       "d2": 0.040357112884521484,
-       "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+       "p": 0.12758962764397747,
+       "ext": 1581968715.3034482,
+       "monotone": true,
+       "d1": 0.070404052734375,
+       "d2": 0.06444501876831055,
+       "note": null
       },
       "omegaDot": {
-       "p": 2.000000944764222,
-       "ext": -7.119567301802043e-7,
+       "p": 2.00000314268959,
+       "ext": -6.831874044994229e-7,
        "monotone": true,
-       "d1": -2.1509738566790708e-8,
-       "d2": -5.37743112022845e-9,
+       "d1": -2.1509750024176046e-8,
+       "d2": -5.377425792134984e-9,
        "note": null
       },
       "e": {
-       "p": 2.031257018126847,
-       "ext": 0.5914199480367525,
+       "p": 2.041377949172435,
+       "ext": 0.5914199503955674,
        "monotone": true,
-       "d1": -2.1118518045426526e-9,
-       "d2": -5.166472805129274e-10,
+       "d1": -2.0970952752108474e-9,
+       "d2": -5.094507038450047e-10,
        "note": null
       }
      },
-     "Pext": null,
-     "omegaDotExt": -7.119567301802043e-7,
-     "eExt": 0.5914199480367525,
+     "Pext": 1581968715.3034482,
+     "omegaDotExt": -6.831874044994229e-7,
+     "eExt": 0.5914199503955674,
      "resolved": {
-      "P": false,
+      "P": true,
       "omegaDot": true,
       "e": true
      },
@@ -7735,18 +7735,18 @@
         "sigma": 135697.68,
         "recordId": "SOL-4a8f0f25",
         "solutionId": null,
-        "modelExt": null,
-        "modelH4": 1581968717.1593695,
-        "sigmaTimesExt": null,
-        "sigmaTimesH4": 0.27061125414638276
+        "modelExt": 1581968715.3034482,
+        "modelH4": 1581968716.0004,
+        "sigmaTimesExt": 0.2705975772635616,
+        "sigmaTimesH4": 0.2706027133268027
        },
        "omegaDot": {
         "obs": 0,
         "sigma": null,
         "recordId": "SOL-db007f2a",
         "solutionId": null,
-        "modelExt": -7.119567301802043e-7,
-        "modelH4": -7.137492056551845e-7,
+        "modelExt": -6.831874044994229e-7,
+        "modelH4": -6.849798745573013e-7,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -7755,10 +7755,10 @@
         "sigma": 0.00037,
         "recordId": "SOL-e36df0e9",
         "solutionId": null,
-        "modelExt": 0.5914199480367525,
-        "modelH4": 0.5914199478694232,
-        "sigmaTimesExt": -0.00014044120941267356,
-        "sigmaTimesH4": -0.00014089345066012712
+        "modelExt": 0.5914199503955674,
+        "modelH4": 0.5914199502320925,
+        "sigmaTimesExt": -0.00013406603395006223,
+        "sigmaTimesH4": -0.0001345078580048818
        }
       },
       "solution": null,
@@ -7770,7 +7770,7 @@
       "stateExt": "undecidable",
       "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "undecidable",
+       "P": "within",
        "omegaDot": "undecidable",
        "e": "within"
       },
@@ -7798,9 +7798,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5914199452409241,
-       "P": 1581968717.2221692,
-       "omegaDot": -7.406363753422036e-7,
+       "e": 0.5914199476255465,
+       "P": 1581968716.1352491,
+       "omegaDot": -7.118670503736123e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -7831,9 +7831,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5914199473527759,
-       "P": 1581968717.1997266,
-       "omegaDot": -7.191266367754129e-7,
+       "e": 0.5914199497226418,
+       "P": 1581968716.064845,
+       "omegaDot": -6.903573003494362e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -7864,9 +7864,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5914199478694232,
-       "P": 1581968717.1593695,
-       "omegaDot": -7.137492056551845e-7,
+       "e": 0.5914199502320925,
+       "P": 1581968716.0004,
+       "omegaDot": -6.849798745573013e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -7889,35 +7889,35 @@
      ],
      "richardson": {
       "P": {
-       "p": -0.8465844780882096,
-       "ext": null,
-       "monotone": false,
-       "d1": 0.02244257926940918,
-       "d2": 0.040357112884521484,
-       "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+       "p": 0.12758962764397747,
+       "ext": 1581968715.3034482,
+       "monotone": true,
+       "d1": 0.070404052734375,
+       "d2": 0.06444501876831055,
+       "note": null
       },
       "omegaDot": {
-       "p": 2.000000944764222,
-       "ext": -7.119567301802043e-7,
+       "p": 2.00000314268959,
+       "ext": -6.831874044994229e-7,
        "monotone": true,
-       "d1": -2.1509738566790708e-8,
-       "d2": -5.37743112022845e-9,
+       "d1": -2.1509750024176046e-8,
+       "d2": -5.377425792134984e-9,
        "note": null
       },
       "e": {
-       "p": 2.031257018126847,
-       "ext": 0.5914199480367525,
+       "p": 2.041377949172435,
+       "ext": 0.5914199503955674,
        "monotone": true,
-       "d1": -2.1118518045426526e-9,
-       "d2": -5.166472805129274e-10,
+       "d1": -2.0970952752108474e-9,
+       "d2": -5.094507038450047e-10,
        "note": null
       }
      },
-     "Pext": null,
-     "omegaDotExt": -7.119567301802043e-7,
-     "eExt": 0.5914199480367525,
+     "Pext": 1581968715.3034482,
+     "omegaDotExt": -6.831874044994229e-7,
+     "eExt": 0.5914199503955674,
      "resolved": {
-      "P": false,
+      "P": true,
       "omegaDot": true,
       "e": true
      },
@@ -7928,18 +7928,18 @@
         "sigma": 135697.68,
         "recordId": "SOL-4a8f0f25",
         "solutionId": null,
-        "modelExt": null,
-        "modelH4": 1581968717.1593695,
-        "sigmaTimesExt": null,
-        "sigmaTimesH4": 0.27061125414638276
+        "modelExt": 1581968715.3034482,
+        "modelH4": 1581968716.0004,
+        "sigmaTimesExt": 0.2705975772635616,
+        "sigmaTimesH4": 0.2706027133268027
        },
        "omegaDot": {
         "obs": 0,
         "sigma": null,
         "recordId": "SOL-db007f2a",
         "solutionId": null,
-        "modelExt": -7.119567301802043e-7,
-        "modelH4": -7.137492056551845e-7,
+        "modelExt": -6.831874044994229e-7,
+        "modelH4": -6.849798745573013e-7,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -7948,10 +7948,10 @@
         "sigma": 0.00037,
         "recordId": "SOL-e36df0e9",
         "solutionId": null,
-        "modelExt": 0.5914199480367525,
-        "modelH4": 0.5914199478694232,
-        "sigmaTimesExt": -0.00014044120941267356,
-        "sigmaTimesH4": -0.00014089345066012712
+        "modelExt": 0.5914199503955674,
+        "modelH4": 0.5914199502320925,
+        "sigmaTimesExt": -0.00013406603395006223,
+        "sigmaTimesH4": -0.0001345078580048818
        }
       },
       "solution": null,
@@ -7963,7 +7963,7 @@
       "stateExt": "undecidable",
       "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "undecidable",
+       "P": "within",
        "omegaDot": "undecidable",
        "e": "within"
       },
@@ -7991,9 +7991,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5914199452409241,
-       "P": 1581968717.2221692,
-       "omegaDot": -7.406363753422036e-7,
+       "e": 0.5914199476255465,
+       "P": 1581968716.1352491,
+       "omegaDot": -7.118670503736123e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -8024,9 +8024,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5914199473527759,
-       "P": 1581968717.1997266,
-       "omegaDot": -7.191266367754129e-7,
+       "e": 0.5914199497226418,
+       "P": 1581968716.064845,
+       "omegaDot": -6.903573003494362e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -8057,9 +8057,9 @@
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5914199478694232,
-       "P": 1581968717.1593695,
-       "omegaDot": -7.137492056551845e-7,
+       "e": 0.5914199502320925,
+       "P": 1581968716.0004,
+       "omegaDot": -6.849798745573013e-7,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
@@ -8082,35 +8082,35 @@
      ],
      "richardson": {
       "P": {
-       "p": -0.8465844780882096,
-       "ext": null,
-       "monotone": false,
-       "d1": 0.02244257926940918,
-       "d2": 0.040357112884521484,
-       "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+       "p": 0.12758962764397747,
+       "ext": 1581968715.3034482,
+       "monotone": true,
+       "d1": 0.070404052734375,
+       "d2": 0.06444501876831055,
+       "note": null
       },
       "omegaDot": {
-       "p": 2.000000944764222,
-       "ext": -7.119567301802043e-7,
+       "p": 2.00000314268959,
+       "ext": -6.831874044994229e-7,
        "monotone": true,
-       "d1": -2.1509738566790708e-8,
-       "d2": -5.37743112022845e-9,
+       "d1": -2.1509750024176046e-8,
+       "d2": -5.377425792134984e-9,
        "note": null
       },
       "e": {
-       "p": 2.031257018126847,
-       "ext": 0.5914199480367525,
+       "p": 2.041377949172435,
+       "ext": 0.5914199503955674,
        "monotone": true,
-       "d1": -2.1118518045426526e-9,
-       "d2": -5.166472805129274e-10,
+       "d1": -2.0970952752108474e-9,
+       "d2": -5.094507038450047e-10,
        "note": null
       }
      },
-     "Pext": null,
-     "omegaDotExt": -7.119567301802043e-7,
-     "eExt": 0.5914199480367525,
+     "Pext": 1581968715.3034482,
+     "omegaDotExt": -6.831874044994229e-7,
+     "eExt": 0.5914199503955674,
      "resolved": {
-      "P": false,
+      "P": true,
       "omegaDot": true,
       "e": true
      },
@@ -8121,18 +8121,18 @@
         "sigma": 135697.68,
         "recordId": "SOL-4a8f0f25",
         "solutionId": null,
-        "modelExt": null,
-        "modelH4": 1581968717.1593695,
-        "sigmaTimesExt": null,
-        "sigmaTimesH4": 0.27061125414638276
+        "modelExt": 1581968715.3034482,
+        "modelH4": 1581968716.0004,
+        "sigmaTimesExt": 0.2705975772635616,
+        "sigmaTimesH4": 0.2706027133268027
        },
        "omegaDot": {
         "obs": 0,
         "sigma": null,
         "recordId": "SOL-db007f2a",
         "solutionId": null,
-        "modelExt": -7.119567301802043e-7,
-        "modelH4": -7.137492056551845e-7,
+        "modelExt": -6.831874044994229e-7,
+        "modelH4": -6.849798745573013e-7,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -8141,10 +8141,10 @@
         "sigma": 0.00037,
         "recordId": "SOL-e36df0e9",
         "solutionId": null,
-        "modelExt": 0.5914199480367525,
-        "modelH4": 0.5914199478694232,
-        "sigmaTimesExt": -0.00014044120941267356,
-        "sigmaTimesH4": -0.00014089345066012712
+        "modelExt": 0.5914199503955674,
+        "modelH4": 0.5914199502320925,
+        "sigmaTimesExt": -0.00013406603395006223,
+        "sigmaTimesH4": -0.0001345078580048818
        }
       },
       "solution": null,
@@ -8156,7 +8156,7 @@
       "stateExt": "undecidable",
       "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "undecidable",
+       "P": "within",
        "omegaDot": "undecidable",
        "e": "within"
       },
