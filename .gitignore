@@ -754,3 +754,9 @@ tests/out/regen-plan-w281a.json
 # 第285便d(原仮定者の裁定(第75報)⑦・統括の検証項目 R100): **観測対実行のグラフの行の控え**(tests/exp-w285d-obscompare.mjs —— 正本
 #   calaudit-w249.json の量ごとの行を beta/index.html の生成領域 obs-compare へ転記した記録)。QA ui.obsCompareGraph・lint.provenanceMeta が読むのでコミットする
 !tests/out/obscompare-w285d.json
+# 第286便a(原仮定者の裁定(第76報)⑤・統括の検証項目 R101〜R103・AN60): **星団スケールと平衡便**の正本
+#   (tests/exp-w286a-jeans.mjs —— 動径 Jeans の純関数の検算・html とのビット一致・💮 の t=0 / tests/exp-w286a-cluster.mjs —— 💮 の
+#   星団スケールの宣言の照合と走査 8 構成)。QA behavior.clusterScale・behavior.jeans2D・behavior.clusterAnalogyW286 が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**
+!tests/out/jeans-w286a.json
+!tests/out/cluster-w286a.json

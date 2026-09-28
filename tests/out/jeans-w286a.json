@@ -1,0 +1,435 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第286便a",
+  "target": "beta/index.html",
+  "targetSha256": "63f67a0f9b94b10ed5bb9fccf537d991ddbb0bc25a8e3ff4dc0cdf2978335f6d",
+  "generatedAt": "2026-09-28T18:16:22.375Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5108601,
+    "sha256": "63f67a0f9b94b10ed5bb9fccf537d991ddbb0bc25a8e3ff4dc0cdf2978335f6d",
+    "mtime": "2026-09-28T17:35:54.394Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w286a-jeans.mjs",
+    "bytes": 10825,
+    "sha256": "5d90daa98982d91daa591d2a83d427d505cb044b8e3308b485aef8f5c262b1c5",
+    "mtime": "2026-09-28T15:42:59.326Z"
+   },
+   {
+    "file": "tests/lib-w286a-jeans.mjs",
+    "bytes": 5322,
+    "sha256": "ee65cb1d524f7fe88691ff30c68bc4bcfb123159c8fadf6611f8b190deaa6668",
+    "mtime": "2026-09-28T15:35:35.214Z"
+   },
+   {
+    "file": "tests/exp-w283f-cluster.mjs",
+    "bytes": 32804,
+    "sha256": "661d6069c0228b669087a925b3d61736370b9f9f950ca866940d479fe844b302",
+    "mtime": "2026-09-28T15:16:07.586Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-28T15:16:09.606Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-28T15:16:08.510Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 74147,
+    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
+    "mtime": "2026-09-28T15:16:10.122Z"
+   }
+  ],
+  "codeSha256": "0dbb9c636ec1400ec680cba5a379a0bd454fe01d303d76955b099d07fe22a0b0",
+  "harnessVersion": "w286a-jeans-1",
+  "libVersion": "w286a-jeans-1",
+  "ruling": "原仮定者の裁定(第76報)⑤: 球状星団はわずかに回転している —— これをヒントにバランスの取れる状態を計算で割り出す",
+  "reading": "統括の検証項目 R103(2D 等方・定常・軸対称の動径 Jeans 式・外縁の圧力 0・負の σ² は平衡解なし・速度依存の a_mesh は分布で平均して反復・∂ₜu=0 の近似条件の宣言・検算は近似問題の検算)・AN60",
+  "notClaim": [
+   "安定平衡版",
+   "形状が安定した",
+   "粒子系の安定化の証明",
+   "3D の球状星団の平衡"
+  ],
+  "scope": {
+   "version": "w283e-scope-3",
+   "presets": "all",
+   "roots": [
+    "$",
+    "CONTACT_MODE_KEY",
+    "DT",
+    "HP.allPresets",
+    "HP.dfmField",
+    "HP.dfmFieldContractOf",
+    "HP.dfmFieldSnapshot",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ch",
+    "contactNoneOf",
+    "ctx",
+    "cw",
+    "dfmField",
+    "dfmFieldContract",
+    "geoCoreDispatch",
+    "jeansRowsVelocities",
+    "jeansSigma2Profile"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 825,
+   "segments": 747,
+   "closureShare": 0.3153
+  },
+  "scopeSha256": "1caace0ef57c6036428b7f28d8697f99229f30baf1a72954b3aa7b96a8fcff1d",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "check": {
+  "a": 2,
+  "wg": 3,
+  "Om": 0.4,
+  "om": 0.1,
+  "exact": 35.64,
+  "relTol": 0.0001,
+  "result": {
+   "a": 2,
+   "wg": 3,
+   "Om": 0.4,
+   "om": 0.1,
+   "Rt": 24,
+   "K": 20000,
+   "sigma2At0": 35.63999893079991,
+   "exact": 35.64,
+   "relDiff": 3.000000248221113e-8,
+   "meshRadialCoef": 0.08000000000000002,
+   "meshRadialCoefExact": 0.08000000000000002,
+   "meshRel": 0
+  },
+  "pass": true
+ },
+ "noSolution": {
+  "threw": true,
+  "code": "noEquilibrium",
+  "badRadius": 4.4,
+  "P": -0.00000437367466110504
+ },
+ "htmlVsLib": {
+  "check": {
+   "htmlOk": true,
+   "n": 2001,
+   "nDiffer": 0,
+   "maxRel": 0,
+   "bitSame": true
+  },
+  "noSolution": {
+   "htmlOk": false,
+   "htmlBad": 4.4,
+   "libThrew": "noEquilibrium",
+   "bitSame": true
+  },
+  "build": {
+   "htmlOk": true,
+   "n": 129,
+   "nDiffer": 0,
+   "maxRel": 0,
+   "bitSame": true,
+   "maxRelStored": 2.5925454263283837e-15
+  }
+ },
+ "t0": {
+  "rows": [
+   {
+    "status": "ok",
+    "rot": 0.1,
+    "sigma0": 7.8672987770467,
+    "vMax": 21.73418800317964,
+    "iters": [
+     {
+      "it": 1,
+      "status": "ok",
+      "sigmaMaxAbsChange": 0.027340501395702432,
+      "sigmaMax": 7.867268980945847,
+      "nFieldNull": 0,
+      "meshOverGMax": 0.334525129653002
+     },
+     {
+      "it": 2,
+      "status": "ok",
+      "sigmaMaxAbsChange": 0.000029780624072550665,
+      "sigmaMax": 7.86729876156992,
+      "nFieldNull": 0,
+      "meshOverGMax": 0.33449356817071996
+     },
+     {
+      "it": 3,
+      "status": "ok",
+      "sigmaMaxAbsChange": 1.54667985086121e-8,
+      "sigmaMax": 7.867298777036718,
+      "nFieldNull": 0,
+      "meshOverGMax": 0.3344934462704407
+     },
+     {
+      "it": 4,
+      "status": "ok",
+      "sigmaMaxAbsChange": 9.981349080590007e-12,
+      "sigmaMax": 7.8672987770467,
+      "nFieldNull": 0,
+      "meshOverGMax": 0.3344934462016185
+     }
+    ],
+    "toyField": true,
+    "dragR": 1.5,
+    "dtUbar": "zero-declared"
+   },
+   {
+    "status": "ok",
+    "rot": 0.1,
+    "sigma0": 7.8672987770467,
+    "vMax": 21.62033283727341,
+    "iters": [
+     {
+      "it": 1,
+      "status": "ok",
+      "sigmaMaxAbsChange": 0.027340501395702432,
+      "sigmaMax": 7.867268980945847,
+      "nFieldNull": 0,
+      "meshOverGMax": 0.334525129653002
+     },
+     {
+      "it": 2,
+      "status": "ok",
+      "sigmaMaxAbsChange": 0.000029780624072550665,
+      "sigmaMax": 7.86729876156992,
+      "nFieldNull": 0,
+      "meshOverGMax": 0.33449356817071996
+     },
+     {
+      "it": 3,
+      "status": "ok",
+      "sigmaMaxAbsChange": 1.54667985086121e-8,
+      "sigmaMax": 7.867298777036718,
+      "nFieldNull": 0,
+      "meshOverGMax": 0.3344934462704407
+     },
+     {
+      "it": 4,
+      "status": "ok",
+      "sigmaMaxAbsChange": 9.981349080590007e-12,
+      "sigmaMax": 7.8672987770467,
+      "nFieldNull": 0,
+      "meshOverGMax": 0.3344934462016185
+     }
+    ],
+    "toyField": true,
+    "dragR": 1.5,
+    "dtUbar": "zero-declared"
+   }
+  ],
+  "meshOverGMax": 0.3344934462016185,
+  "dUdtOverGMax": 0.01656801326951754,
+  "dUdtRows": [
+   {
+    "r": 2.5,
+    "g": 10.058772080341658,
+    "aMesh": -0.17979980637863546,
+    "dUdtR": -0.16665386930215315,
+    "dUdtOverG": 0.01656801326951754,
+    "sigma": 7.2493977594276195,
+    "Vphi": 0.17582372167197696
+   },
+   {
+    "r": 5,
+    "g": 9.90720228132449,
+    "aMesh": -0.05732888024498363,
+    "dUdtR": -0.05241536657379448,
+    "dUdtOverG": 0.005290632520201968,
+    "sigma": 6.476811368600285,
+    "Vphi": 0.2896518099526737
+   },
+   {
+    "r": 7.5,
+    "g": 8.85629483756083,
+    "aMesh": -0.028548916941753787,
+    "dUdtR": 0.006986167774756559,
+    "dUdtOverG": 0.0007888364042632376,
+    "sigma": 5.961715575835156,
+    "Vphi": 0.35770293455010943
+   },
+   {
+    "r": 10,
+    "g": 7.873370676605958,
+    "aMesh": -0.02031029481792073,
+    "dUdtR": 0.013214468997742937,
+    "dUdtOverG": 0.001678375062031172,
+    "sigma": 5.566890950004026,
+    "Vphi": 0.3936386340873868
+   },
+   {
+    "r": 12.5,
+    "g": 6.755671095011337,
+    "aMesh": -0.011004852160983222,
+    "dUdtR": 0.020370056080223367,
+    "dUdtOverG": 0.0030152527844739875,
+    "sigma": 5.198519071878893,
+    "Vphi": 0.4059361398524958
+   },
+   {
+    "r": 15,
+    "g": 5.636752612807594,
+    "aMesh": -0.0054836176864997335,
+    "dUdtR": 0.02478810876840958,
+    "dUdtOverG": 0.004397586779325222,
+    "sigma": 4.855520846946298,
+    "Vphi": 0.40400375498652036
+   },
+   {
+    "r": 17.5,
+    "g": 4.6839229282828185,
+    "aMesh": -0.0034967332696423403,
+    "dUdtR": 0.04514379615960001,
+    "dUdtOverG": 0.009638031378998428,
+    "sigma": 4.533801963256675,
+    "Vphi": 0.39364424623480176
+   },
+   {
+    "r": 20,
+    "g": 3.844445729709793,
+    "aMesh": -0.003281669011840355,
+    "dUdtR": 0.04323131884393852,
+    "dUdtOverG": 0.011245136980305855,
+    "sigma": 4.231072377844123,
+    "Vphi": 0.37843861818324537
+   },
+   {
+    "r": 22.5,
+    "g": 3.208291024480303,
+    "aMesh": -0.0030821167300636547,
+    "dUdtR": 0.03994866885270811,
+    "dUdtOverG": 0.01245169735160769,
+    "sigma": 3.949367419548313,
+    "Vphi": 0.36089775577278327
+   },
+   {
+    "r": 25,
+    "g": 2.7163289339225902,
+    "aMesh": -0.0014491265888354366,
+    "dUdtR": 0.0347320256777853,
+    "dUdtOverG": 0.012786384315992818,
+    "sigma": 3.6593186467304517,
+    "Vphi": 0.33975920680110155
+   },
+   {
+    "r": 27.5,
+    "g": 2.2833405712380745,
+    "aMesh": -0.0009333604355738152,
+    "dUdtR": 0.027608657603792355,
+    "dUdtOverG": 0.012091344563996588,
+    "sigma": 3.3571611177409975,
+    "Vphi": 0.31550379400440803
+   },
+   {
+    "r": 30,
+    "g": 1.928740062880398,
+    "aMesh": -0.001094781087939742,
+    "dUdtR": 0.024359849979552296,
+    "dUdtOverG": 0.012629928961590126,
+    "sigma": 3.0341281465301817,
+    "Vphi": 0.2878426696758145
+   },
+   {
+    "r": 32.5,
+    "g": 1.643366038938465,
+    "aMesh": -0.0009387414354896814,
+    "dUdtR": 0.02106185480583129,
+    "dUdtOverG": 0.012816289436914631,
+    "sigma": 2.669865022799654,
+    "Vphi": 0.25518009449128604
+   },
+   {
+    "r": 35,
+    "g": 1.4141613246954745,
+    "aMesh": -0.0009262636493107315,
+    "dUdtR": 0.014294975501264264,
+    "dUdtOverG": 0.010108447495792282,
+    "sigma": 2.2313907956227546,
+    "Vphi": 0.21455356865365882
+   },
+   {
+    "r": 37.5,
+    "g": 1.2526358888364642,
+    "aMesh": -0.0007107766053151849,
+    "dUdtR": 0.009955739408373198,
+    "dUdtOverG": 0.007947831845709599,
+    "sigma": 1.6250167798939155,
+    "Vphi": 0.1570147990171809
+   },
+   {
+    "r": 40,
+    "g": 1.1227730268842848,
+    "aMesh": -0.0003560078311983232,
+    "dUdtR": 0.009645783280273502,
+    "dUdtOverG": 0.008591035809829457,
+    "sigma": 0,
+    "Vphi": 0
+   }
+  ],
+  "t0": {
+   "stars": {
+    "vRot": 1.363929112147542,
+    "sigma": 6.746967211884592,
+    "ratio": 0.2021544005349573
+   },
+   "dr": {
+    "vRot": 0.5169868758152568,
+    "sigma": 5.674207979359266,
+    "ratio": 0.09111172478976268
+   },
+   "boundStars": 0.88,
+   "boundDR": 0.992,
+   "axisStars": 0.9999999999999997,
+   "rhStars": 9.70901584169617,
+   "rhDR": 9.392054410743691
+  }
+ },
+ "acceptance": {
+  "nonPlummer": {
+   "ok": false,
+   "err": "bodies[2].vMode \"jeans\" は profile:\"plummer\" の disk 行だけ(第286便a)"
+  },
+  "rotTooHigh": {
+   "ok": false,
+   "err": "bodies[1].jeansRot は 0〜0.5(外側の v_rot/σ —— 門の上限の内側で宣言)"
+  },
+  "symNotDivisor": {
+   "ok": false,
+   "err": "bodies[1].angularSym は 2〜12 の整数で n の約数(位置だけ k 回対称)"
+  },
+  "dragRNoSpin": {
+   "ok": false,
+   "err": "physics.spaceMesh.dragR は centerSpin:\"read\" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い —— 第286便a)"
+  },
+  "dragRNeg": {
+   "ok": false,
+   "err": "physics.spaceMesh.dragR は正の数値(中心の引きずりの核 R_drag —— 本体半径とは別の欄)"
+  },
+  "declared": {
+   "ok": true,
+   "err": ""
+  }
+ },
+ "elapsedS": 26.583
+}
