@@ -190,6 +190,11 @@ export const REGEN_STEPS = [
     merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'], workers: 2,   // 第284便f: プリセット 2 分割(統合時に c の旗と合成)
     note: '第284便c: kF0 の診断コピーの h/4 は例外の登録簿の kf0 の本(plutoCharonReal)だけ(--kf0-h4-exceptions)。5 本すべての h/4 は明示診断 --kf0-dt3' }),
   S('solarsigma', 'node tests/exp-w262d-solarsigma.mjs', ['tests/out/solarsigma-w262d.json'], 0, { alwaysRun: true, after: ['kf0'] }),
+  // 第286便 統合(統括): 📡 D68 の 3 段(第268便a・h/h2/h4・T=10698.816)。QA docs.threeStageD68 ⑥ / docs.d68Decomp が calaudit の門の値・
+  //   d68-w280e の再現とビットで突き合わせる正本なのに表に無く、cLight 真値化(第286便b)で 1e-9 動いた値が古いまま残った → 常時群に
+  //   (meta を刻まない旧形式の器 —— 計画は毎回 regen。所要は実測で埋める)
+  S('d68three', 'node tests/exp-w268a-d68.mjs', ['tests/out/d68-w268a.json'], 900, { secSource: 'w286-estimate', alwaysRun: true, after: ['kf0'],
+    note: '第268便a の 3 段(旧形式・meta なし)。docs.threeStageD68 ⑥ と docs.d68Decomp の再現の照合先' }),
   S('stoprule', 'node tests/exp-w270a-stoprule.mjs', ['tests/out/stoprule-w270a.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   S('issues', 'node tests/exp-w272a-issues.mjs', ['tests/out/issues-w272a.json'], 0, { alwaysRun: true, after: ['kf0', 'solarsigma', 'charon-h', 'charon-h2', 'charon-h4', 'nslock'] }),
   S('assessed', 'node tests/exp-w273c-assessedtable.mjs --check', ['tests/out/assessed-w273c.json'], 1, { alwaysRun: true, after: ['kf0'] }),
@@ -263,7 +268,8 @@ export const REGEN_STEPS = [
   S('sphereKernel', 'node tests/exp-w280b-sphereKernel.mjs', ['tests/out/spherekernel-w280b.json'], 2),
   S('galaxyprof', 'node tests/exp-w274c-galaxyprof.mjs $BASE_HTML beta/index.html', ['tests/out/galaxyprof-w274c.json'], 25, { env: { BASE_HTML: '基点 html(引数)' } }),
   S('needmesh', 'node tests/exp-w274c-needmesh.mjs $BASE_HTML beta/index.html', ['tests/out/needmesh-w274c.json'], 2, { env: { BASE_HTML: '基点 html(引数)' } }),
-  S('d68', 'node tests/exp-w280e-d68.mjs', ['tests/out/d68-w280e.json'], 153, { secSource: 'w281a-chain' }),
+  S('d68', 'node tests/exp-w280e-d68.mjs', ['tests/out/d68-w280e.json'], 153, { secSource: 'w281a-chain', after: ['d68three'],
+    note: '第286便 統合: 第268便a の 3 段(d68-w268a.json)をビット再現の照合先に読む → d68three の後' }),
   // QA の確認順・並列化の実測(統括がフル QA の後に --record —— chain の外。所要は QA 本体に含まれる)
   S('qaorder', 'node tests/exp-w279b-qaorder.mjs --record', ['tests/out/qaorder-w279b.json'], 0, { secSource: 'chain の外(フル QA の後)', outside: true }),
   // 第283便e: cmd は 1 行のシェルでない(部分走行 4 本 + --merge)—— 鎖は「手動の段」として止まる(済み印を置けば進む)

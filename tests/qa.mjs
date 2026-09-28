@@ -2554,9 +2554,12 @@ if (QA_CHANGED) {
       const src = htmlText.slice(htmlText.indexOf('<script>') + 8, htmlText.lastIndexOf('</script>'));
       const PT = SC.parseTopLevel(src);
       // ①
-      // 第283便e(AN32): 現行版は w283e-scope-3(停止集合は版 2 と同じ)。旧 2 版は照合だけ
-      if (SC.SCOPE_VERSION !== 'w283e-scope-3' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2'
-        || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
+      // 第283便e(AN32): 版 3 は w283e-scope-3(停止集合は版 2 と同じ)。第286便d の統合(統括・R105): 現行版は w286d-scope-4
+      //   (停止集合に lcAfterStep/lcReset —— ライブ比較の入口。版 3 以前の刻印は SCOPE_STOP_3 で引き直す)。旧 3 版は照合だけ
+      if (SC.SCOPE_VERSION !== 'w286d-scope-4' || SC.SCOPE_VERSION_LEGACY !== 'w281a-scope-1' || SC.SCOPE_VERSION_2 !== 'w282e-scope-2' || SC.SCOPE_VERSION_3 !== 'w283e-scope-3'
+        || JSON.stringify(SC.SCOPE_VERSIONS) !== JSON.stringify(['w281a-scope-1', 'w282e-scope-2', 'w283e-scope-3', 'w286d-scope-4'])) bad.push('① 版が契約と違う: ' + SC.SCOPE_VERSION);
+      if (!(Array.isArray(SC.SCOPE_STOP_3) && SC.SCOPE_STOP.length === SC.SCOPE_STOP_3.length + 2 && SC.SCOPE_STOP.includes('lcAfterStep') && SC.SCOPE_STOP.includes('lcReset')
+        && !SC.SCOPE_STOP_3.includes('lcAfterStep'))) bad.push('① 版 4 の停止集合が版 3 + lcAfterStep/lcReset でない');
       for (const nm of SC.SCOPE_STOP) if (!PT.segments.some((z) => z.kind === 'function' && z.names.includes(nm))) bad.push('① 停止集合の ' + nm + ' が最上位の function 宣言でない');
       for (const nm of ['$', 'ctx', 'sim'].concat(SC.PHYSICS_KEEP)) if (SC.SCOPE_STOP.includes(nm)) bad.push('① 停止集合に ' + nm + ' がある(止めてはいけない)');
       cases.push(`停止集合 ${SC.SCOPE_STOP.length} 関数(最上位の function)・$/ctx/sim と物理側 ${SC.PHYSICS_KEEP.length} 名を含まない`);
@@ -5635,7 +5638,8 @@ if (!TARGET.startsWith('beta/')) {
       const R = J.retired || {};
       // 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本を足して 13 本(世代切替 —— RETIRED_PRESETS に 🪶 の行)
       // 第285便f(原仮定者の裁定(第75報)AN24′): 🪄 psrJ1757CF の退役で 14(世代切替は html の RETIRED_PRESETS の行で読む)
-      const nRet = html.indexOf('  psrJ1757CF:{ja:') >= 0 ? 14 : html.indexOf('  psrDoubleABPN:{ja:') >= 0 ? 13 : 7;
+      // 第286便f(原仮定者の裁定(第76報)AN57): 🩹 psrJ1946CF の退役で 15(世代切替は同じく RETIRED_PRESETS の行)
+      const nRet = html.indexOf('  psrJ1946CF:{ja:') >= 0 ? 15 : html.indexOf('  psrJ1757CF:{ja:') >= 0 ? 14 : html.indexOf('  psrDoubleABPN:{ja:') >= 0 ? 13 : 7;
       if (!(Array.isArray(R.presets) && R.presets.length === nRet)) bad.push(`⑥退役の棚卸しが ${nRet} 本でない`);
       for (const p of R.presets || []) {
         if (!p.inBuiltin || !p.retired) bad.push(`⑥${p.id}: 内蔵に無い/退役の印が無い`);

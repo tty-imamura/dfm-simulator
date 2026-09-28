@@ -165,6 +165,8 @@ const SITE_CLASS = {
   'dfmGeoToyStep :: onePass': { use: 'geoPN=3 トイ(1 巡)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmGeoToyBandStep :: dfmGeoToyBandStep': { use: 'geoPN=3 トイ(帯平均 variant)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmGeoScalarPrepared :: dfmGeoScalarPrepared': { use: 'geoPN=3 トイ(準備済み経路)', replaceable: 'candidate', why: 'χ の分母' },
+  // 第286便a の統合(統括): Jeans 平衡の初速生成(vMode:"jeans" を宣言した本だけ —— 💮)は W_bg=D₀ を σ² の分母に読む(宣言した読み口)
+  'jeansRowsVelocities :: jeansRowsVelocities': { use: '初速(Jeans 平衡 —— W_bg=D₀ を σ² の分母に・vMode:"jeans" の本だけ)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmDominance :: dfmDominance': { use: '診断(支配度 —— χ の偏り)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmDominance :: stat': { use: '診断(支配度の統計)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmBinaryChi :: dfmBinaryChi': { use: '二体の χ(質量補正 f の材料)', replaceable: 'candidate', why: 'χ の分母' },
