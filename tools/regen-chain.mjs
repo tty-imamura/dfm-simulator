@@ -84,17 +84,29 @@ if (argv.includes('--check-order')) {
       const ends = tl.events.filter((e) => Number.isFinite(e.end)).sort((x, y) => x.end - y.end).map((e) => e.key);
       const r = T.checkOrder(ends, { root: ROOT });
       const failed = tl.events.filter((e) => e.rc !== 0).map((e) => e.key + ' rc=' + e.rc);
+      const ranOk = tl.events.filter((e) => e.rc === 0).map((e) => e.key);
       return { ok: tc.ok && !r.order.length && !r.downstream.length,
-        timeline: { events: tl.events.length, lanes: tl.lanes, order: tc.order, writes: tc.writes, budget: tc.budget, failed }, order: r.order, downstream: r.downstream, wasted: r.wasted };
+        timeline: { events: tl.events.length, lanes: tl.lanes, order: tc.order, writes: tc.writes, budget: tc.budget, failed }, order: r.order, downstream: r.downstream, wasted: r.wasted, ranOk };
     };
     const blocks = text.split(/^(?=# ready-queue )/m).filter((t) => /^start /m.test(t));
     if (blocks.length <= 1) { const one = checkOne(text); console.log(JSON.stringify(one, null, 1)); process.exit(one.ok ? 0 : 1); }
     const runs = blocks.map((t, i) => Object.assign({ run: i + 1, header: (t.match(/^# ready-queue [^\n]*/) || [''])[0] }, checkOne(t)));
+    // 統括(第285便 統合): 先の回の順序違反は、後の回でその段が rc=0 で走り直していれば**治っている**(cured)—— 違反として数えず、記録は cured に残す
+    //   (後の回の中の順序はその回で照合済み。依存が後の回で走らなければ、その産物は後の回の前に出来ている)。最後の回では治しようがないので厳密
+    runs.forEach((z, i) => {
+      const later = new Set(runs.slice(i + 1).flatMap((w) => w.ranOk));
+      const cure = (o) => later.has(o.step);
+      z.cured = z.timeline.order.filter(cure).concat(z.order.filter(cure));
+      z.timeline.order = z.timeline.order.filter((o) => !cure(o)); z.order = z.order.filter((o) => !cure(o));
+      z.ok = z.ok || (!z.timeline.order.length && !z.timeline.writes.length && !z.timeline.budget.length && !z.order.length && !z.downstream.length && !z.timeline.failed.length);
+      delete z.ranOk;
+    });
     // 回ごとに順序・書込・予算の違反 0。後段の欠落は rc≠0 で止まった回にだけ許す(止まりは順序違反ではない —— 再開した回で埋まる)。最後の回は全部 ok
     const last = runs[runs.length - 1];
     const okAll = runs.every((z) => !z.timeline.order.length && !z.timeline.writes.length && !z.timeline.budget.length && !z.order.length
       && (z.downstream.length === 0 || z.timeline.failed.length > 0)) && last.ok;
-    console.log(JSON.stringify({ runs: runs.length, ok: okAll, stoppedRuns: runs.filter((z) => z.timeline.failed.length).map((z) => z.run + ':' + z.timeline.failed.join(',')), perRun: runs }, null, 1));
+    console.log(JSON.stringify({ runs: runs.length, ok: okAll, stoppedRuns: runs.filter((z) => z.timeline.failed.length).map((z) => z.run + ':' + z.timeline.failed.join(',')),
+      cured: runs.flatMap((z) => z.cured.map((o) => z.run + ':' + o.step + '<' + o.dep)), perRun: runs }, null, 1));
     process.exit(okAll ? 0 : 1);
   }
   const r = T.checkOrder(seq, { root: ROOT });
