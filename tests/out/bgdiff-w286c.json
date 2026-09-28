@@ -4,21 +4,21 @@
   "wave": "第286便c",
   "target": "beta/index.html",
   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-  "generatedAt": "2026-09-28T23:09:47.994Z",
+  "generatedAt": "2026-09-28T23:35:18.911Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 5184280,
     "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-    "mtime": "2026-09-28T21:08:25.763Z"
+    "mtime": "2026-09-28T23:10:06.603Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w286c-bgdiff.mjs",
-    "bytes": 30717,
-    "sha256": "068995059c5e0700b49fd43eea3bb084d9c019a4b244228d866a9450ff1fc312",
-    "mtime": "2026-09-28T18:49:03.293Z"
+    "bytes": 31480,
+    "sha256": "c966b9c3010bd0f8c906dc0e5cd2c67347b24a7d383c83a842681c7f91d132f6",
+    "mtime": "2026-09-28T23:34:35.953Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "8f7f7384bda56d427a237ad9a8da2d9a3dceb3cee348c78f45f1f7711b91db16",
+  "codeSha256": "91e62e7b76fc189d4b10b06529e46cfc6991a514f11a2c8e296ec4eb9a420ea4",
   "harnessVersion": "w286c-bgdiff-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第76報)と第76報で閉じた AN7′(解析微分と有限差分の照合)・AN47(share p=1 と複素 p=2 を法則版で分け、単位・有限領域・基準系を宣言してから接続)・AN56(台帳はプリセットの宣言の中・座標系は宣言必須)",
@@ -778,6 +778,7 @@
    "stars": 40,
    "dr": 10
   },
+  "n": 51,
   "distantDecl": {
    "W0": 0.2,
    "R": 400,
@@ -789,40 +790,120 @@
   },
   "compare": {
    "noneVsToyD0zero": {
-    "same": false,
-    "maxRel": null
+    "same": true,
+    "maxRel": 0
    },
    "uniformVsToyD0": {
-    "same": false,
-    "maxRel": null
+    "same": true,
+    "maxRel": 0
    },
    "distantVsUniform": {
     "same": false,
-    "maxRel": null
+    "maxRel": 21.688521819597486
    },
    "unwiredVsToyD0": {
-    "same": false,
-    "maxRel": null
+    "same": true,
+    "maxRel": 0
    }
   },
   "rows": {
    "none": {
-    "ok": false,
-    "err": "[\"physics.spaceMesh.dragR は centerSpin:\\\"read\\\" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い —— 第286便a)\",\"physics.backgroundComplex.lawVersion:\\\"share-p1\\\" は geoPN=3 のトイ(physics.spaceMesh)の経路 —— 経路の宣言が無い(宣言だけでは接続しない)\"]"
+    "ok": true,
+    "stop": null,
+    "law": {
+     "law": "share-p1",
+     "deny": null
+    },
+    "steps": 200,
+    "vacuum": 0,
+    "chi": [
+     1,
+     1
+    ],
+    "ledger": {
+     "pSum": 0,
+     "pScale": 1.6266254695477174,
+     "lSum": 0,
+     "eSum": 0,
+     "toyE": -0.041035181694528945
+    },
+    "wire": {
+     "state": "applied",
+     "field": null,
+     "hasMeshVelocity": false,
+     "lawVersion": "share-p1",
+     "lawPath": "geoToy"
+    }
    },
    "uniform": {
-    "ok": false,
-    "err": "[\"physics.spaceMesh.dragR は centerSpin:\\\"read\\\" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い —— 第286便a)\",\"physics.backgroundComplex.lawVersion:\\\"share-p1\\\" は geoPN=3 のトイ(physics.spaceMesh)の経路 —— 経路の宣言が無い(宣言だけでは接続しない)\"]"
+    "ok": true,
+    "stop": null,
+    "law": {
+     "law": "share-p1",
+     "deny": null
+    },
+    "steps": 200,
+    "vacuum": 0,
+    "chi": [
+     0.39092127513261177,
+     0.8672205001878287
+    ],
+    "ledger": {
+     "pSum": 0,
+     "pScale": 1.046897916149129,
+     "lSum": 0,
+     "eSum": 0,
+     "toyE": -0.12259233521049741
+    },
+    "wire": {
+     "state": "applied",
+     "field": null,
+     "hasMeshVelocity": false,
+     "lawVersion": "share-p1",
+     "lawPath": "geoToy"
+    }
    },
    "distant": {
-    "ok": false,
-    "err": "[\"physics.spaceMesh.dragR は centerSpin:\\\"read\\\" の宇宙だけ(中心の自転を読まない宇宙に引きずりの核は無い —— 第286便a)\",\"physics.backgroundComplex.lawVersion:\\\"share-p1\\\" は geoPN=3 のトイ(physics.spaceMesh)の経路 —— 経路の宣言が無い(宣言だけでは接続しない)\"]"
+    "ok": true,
+    "stop": null,
+    "law": {
+     "law": "share-p1",
+     "deny": null
+    },
+    "steps": 200,
+    "vacuum": 0,
+    "chi": [
+     0.814584874172926,
+     0.9800217325165407
+    ],
+    "ledger": {
+     "pSum": 0,
+     "pScale": 1.5091611139405872,
+     "lSum": 0,
+     "eSum": 0,
+     "toyE": -0.0679930754678504
+    },
+    "wire": {
+     "state": "applied",
+     "field": null,
+     "hasMeshVelocity": false,
+     "lawVersion": "share-p1",
+     "lawPath": "geoToy"
+    }
    }
   },
   "unwired": {
-   "ok": false
+   "ok": true,
+   "law": null,
+   "wire": {
+    "state": "unwired",
+    "field": null,
+    "hasMeshVelocity": false,
+    "lawVersion": null,
+    "lawPath": null
+   }
   },
-  "ok": false
+  "ok": true
  },
  "mesh": {
   "steps": 2000,
@@ -966,5 +1047,5 @@
   ],
   "allSame": true
  },
- "elapsedS": 0.543
+ "elapsedS": 0.93
 }

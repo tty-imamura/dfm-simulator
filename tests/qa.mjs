@@ -18800,10 +18800,11 @@ if (!FAST) {
             lawVersion: lv, lawUnits: HP.BGC_LAW_UNITS[lv], lawDomainR: 1e6, lawWZero: 'vacuum' });
           const v = (p) => { const r = HP.validatePreset(p); return { ok: r.ok, err: r.ok ? null : String(JSON.stringify(r.errors || r.err)).slice(0, 140) }; };
           const a = J2(P); a.physics.backgroundComplex = law('share-p1');   // centerSpin・spaceMesh.D0 が残る → 拒否
-          const b = J2(P); delete b.physics.spaceMesh.centerSpin; delete b.physics.spaceMesh.D0; b.physics.backgroundComplex = law('complex-p2');   // meshVelocity なし → 拒否
+          // 第286便a の統合(統括): 💮 の spaceMesh.dragR(centerSpin:"read" の宇宙だけ)も外す(外さないと dragR で拒否され、期待する理由で拒否/受理されない)
+          const b = J2(P); delete b.physics.spaceMesh.centerSpin; delete b.physics.spaceMesh.D0; delete b.physics.spaceMesh.dragR; b.physics.backgroundComplex = law('complex-p2');   // meshVelocity なし → 拒否
           const c = J2(M); c.physics.backgroundComplex = Object.assign(J2(M.physics.backgroundComplex), { lawVersion: 'share-p1', lawUnits: HP.BGC_LAW_UNITS['share-p1'], lawDomainR: 1e6, lawWZero: 'vacuum' });
-          const d = J2(P); delete d.physics.spaceMesh.centerSpin; delete d.physics.spaceMesh.D0; d.physics.backgroundComplex = law('share-p1');
-          const e = J2(P); e.sampleClass = 'calibration'; delete e.physics.spaceMesh.centerSpin; delete e.physics.spaceMesh.D0; e.physics.backgroundComplex = law('share-p1');
+          const d = J2(P); delete d.physics.spaceMesh.centerSpin; delete d.physics.spaceMesh.D0; delete d.physics.spaceMesh.dragR; d.physics.backgroundComplex = law('share-p1');
+          const e = J2(P); e.sampleClass = 'calibration'; delete e.physics.spaceMesh.centerSpin; delete e.physics.spaceMesh.D0; delete e.physics.spaceMesh.dragR; e.physics.backgroundComplex = law('share-p1');
           const vd = v(d);
           let wireD = null, wireP = null;
           if (vd.ok) { HP.sim.build(HP.validatePreset(J2(d)).preset); wireD = HP.bgcWireState(HP.sim); }
