@@ -754,3 +754,6 @@ tests/out/regen-plan-w281a.json
 # 第285便d(原仮定者の裁定(第75報)⑦・統括の検証項目 R100): **観測対実行のグラフの行の控え**(tests/exp-w285d-obscompare.mjs —— 正本
 #   calaudit-w249.json の量ごとの行を beta/index.html の生成領域 obs-compare へ転記した記録)。QA ui.obsCompareGraph・lint.provenanceMeta が読むのでコミットする
 !tests/out/obscompare-w285d.json
+# 第286便c(原仮定者の裁定(第76報)・AN7′/AN47/AN56): **背景場の解析微分と中心差分の照合・背景の法則版の受理と接続の診断コピー**の正本
+#   (tests/exp-w286c-bgdiff.mjs)。QA behavior.bgLawVersion・behavior.bgDiffCheck・docs.calPolicyText が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/bgdiff-w286c.json
