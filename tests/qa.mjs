@@ -15,6 +15,14 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 // 既定は従来どおり index.html — CI の挙動は不変。
 const TARGET = process.env.QA_TARGET || 'index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
+// 第286便b(原仮定者の裁定(第76報)AN59): **cLight の真値化の世代**。実単位の本の c は c_SI·10^(T−L)(L−T=4 の族 29979.2458・
+//   L−T=5 の族 2997.92458・L−T=7 の族 29.9792458)、κ=G/c² も同期。root(旧則 —— 3×10⁴・3×10³・30 の丸め)と beta を分ける。
+//   世代の目印は html の CAL_CONTRACT の units 欄(第286便b)。旧値は履歴(tests/data-w286b-clight.json)。
+const C_TRUE_286B = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('"units":{"wave":"第286便b"') >= 0;
+const C4_286B = C_TRUE_286B ? 29979.2458 : 30000;
+const KAPPA4_286B = C_TRUE_286B ? 7.425826474101849e-9 : 7.415555555555556e-9;
+const C5_286B = C_TRUE_286B ? 2997.92458 : 3000;   // L−T=5(相対論的連星族)
+const C7_286B = C_TRUE_286B ? 29.9792458 : 30;   // L−T=7(合体連星族)
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
 // 第279便b: QA_TIER=fast は QA_FAST=1 と同じ意味(QA_FAST=1 は残す・意味不変)
 const FAST = process.env.QA_FAST === '1' || process.env.QA_TIER === 'fast';
@@ -2240,7 +2248,11 @@ if (QA_CHANGED) {
       'tests/out/bgderiv-w285c.json',
       // 第285便d(原仮定者の裁定(第75報)⑦・R100): 観測対実行のグラフの行の控え(target=beta/index.html —— 生成領域 obs-compare を書いた後の html・
       //   inputs に calaudit-w249.json。**calaudit を走らせ直したら本器も走らせ直す** —— 鎖の段 obscompare)
-      'tests/out/obscompare-w285d.json'];
+      'tests/out/obscompare-w285d.json',
+      // 第286便b(原仮定者の裁定(第76報)AN54・AN59・R104): 伴星の pnSource・cLight の真値化・☄️ の較正専用 ε の前後(target=beta/index.html ——
+      //   Node だけ・基点 html は git show の一時ファイル。inputs に calaudit-w249.json・pn1-w285b.json・tests/data-w286b-clight.json ——
+      //   **calaudit・pn1 を走らせ直したら本器も走らせ直す** —— 鎖の段 pnsource286)
+      'tests/out/pnsource-w286b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -17663,7 +17675,8 @@ if (!FAST) {
       if (!j.ds1.kept || j.ds1.ds !== 1) bad.push('④ 既定にシナリオの値を受理');
       if (!r.hp) bad.push('HP.validateMassLedger / MASS_LEDGER_VERSION');
       // ⑤ 物理は不変: 署名は基点 53aaa64 の値のまま・台帳の有無・不正な台帳でも署名は同じ
-      const SIG0 = '1a98b3d3';
+      // 第286便b(AN59): 🛞 は cLight の真値化の本(一覧 tests/data-w286b-clight.json)—— 署名は世代で分ける(root/旧則 1a98b3d3・beta 67ef3d3d)
+      const SIG0 = C_TRUE_286B ? '67ef3d3d' : '1a98b3d3';
       if (r.sig !== SIG0) bad.push(`⑤ presetSigHash ${r.sig} ≠ 基点 ${SIG0}`);
       if (r.sigNo !== r.sig || Object.values(j).some((x) => x.sig !== r.sig)) bad.push('⑤ massLedger が署名に入っている');
       add('preset.massLedger', bad.length === 0,
@@ -17832,7 +17845,7 @@ if (!FAST) {
         } else if (!(A.rays.heavy.darkRotor === A.rays.heavy.nDR && A.rays.raysDiffering > 0)) bad.push('光線: 代表粒子が重い天体に入ること/質量 0 の写しとの差の記録');
         const N = J.ngc;
         if (!(N.fLedger === 1 && N.currentTotalUnit === 767.5 && N.declared.currentTotalUnit === 767.5 && N.declared.fStar === 1
-          && N.presetSigHash === '1a98b3d3' && N.presetSigHashNoLedger === '1a98b3d3' && N.historyW281c.currentTotalUnit > 1147 && N.historyW281c.currentTotalUnit < 1148)) bad.push('🛞 の f=1 台帳・署名 ' + JSON.stringify({ f: N.fLedger, t: N.currentTotalUnit, s: N.presetSigHash }));
+          && ['1a98b3d3', '67ef3d3d'].includes(N.presetSigHash) && N.presetSigHashNoLedger === N.presetSigHash && /* 第286便b: 正本の世代で 1a98b3d3(c 丸め)か 67ef3d3d(c 真値) */ N.historyW281c.currentTotalUnit > 1147 && N.historyW281c.currentTotalUnit < 1148)) bad.push('🛞 の f=1 台帳・署名 ' + JSON.stringify({ f: N.fLedger, t: N.currentTotalUnit, s: N.presetSigHash }));
         if (!(Array.isArray(J.references) && J.references.map((z) => z.key).join(',') === 'MOA-9y-5919,M31-2014-DS1,VASCO')) bad.push('参考 3 件の行');
         for (const k of ['ledger', 'curves', 'refs', 'ngc']) { const m = missRows(k); if (m.length) bad.push(`PHYSICS の表(${k})に無い行 ` + m.slice(0, 2).join(' ')); }
         const body = psec.split('**言わないこと。**')[0];
@@ -19124,7 +19137,7 @@ if (!FAST) {
           mSun: P.bodies[0].m, rSun: P.bodies[0].radius } };
     });
     const d = si.decl;
-    const declOk = d.fid === 'real' && d.G === 6.674 && d.c === 30000
+    const declOk = d.fid === 'real' && d.G === 6.674 && d.c === C4_286B
       && Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18 && d.kF === 1 && d.D0 === 0.006
       && d.mf === 1e-6 && d.sc === 'double' && d.mSun === 1988.5 && d.rSun === 6.96;
     add('behavior.solarInner',
@@ -19225,7 +19238,7 @@ if (!FAST) {
     const day = (u, eT) => u === null ? null : u * Math.pow(10, eT) / 86400;
     { // 🌇 金星
       const v = tr.venus, d = v.decl;
-      const declOk = d.fid === 'real' && d.L === 8 && d.T === 4 && d.M === 27 && d.G === 6.674 && d.c === 30000
+      const declOk = d.fid === 'real' && d.L === 8 && d.T === 4 && d.M === 27 && d.G === 6.674 && d.c === C4_286B
         && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced' && d.sc === 'double'
         && v.pin0 === false && v.pin1 === false;
       const t1 = day(v.kf1.tRev[0], 4), t0 = day(v.kf0.tRev[0], 4);
@@ -19243,7 +19256,7 @@ if (!FAST) {
     }
     { // 🥔 火星
       const m = tr.mars, d = m.decl;
-      const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === 30000
+      const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === C4_286B
         && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === undefined && d.sc === 'double'
         && m.pin0 === true && m.m1 === 1e-6 && m.m2 === 1e-6 && m.r2 === 0.01;
       const p1 = day(m.kf1.tRev[0], 2), p2 = day(m.kf1.tRev[1], 2);
@@ -19265,7 +19278,7 @@ if (!FAST) {
     }
     { // ❄️ 冥王星カロン
       const c = tr.pluto, d = c.decl;
-      const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === 30000
+      const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === C4_286B
         && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced' && d.sc === 'double'
         && c.pin0 === false && c.pin1 === false && c.bary > 1.7 && c.bary < 1.9;
       const t1 = day(c.kf1.tRev[0], 2), t0 = day(c.kf0.tRev[0], 2);
@@ -19441,7 +19454,7 @@ if (!FAST) {
     const d = r.dfm, c = r.ctl;
     const kOk = (z) => Math.abs(z.kap - z.G / (z.c * z.c)) < 1e-18;
     const declOk = !!d && !!c && d.L === 5 && d.T === 1 && d.M === 24 && c.L === 5 && c.T === 1 && c.M === 24
-      && d.G === 6.674 && d.c === 30000 && kOk(d) && kOk(c)
+      && d.G === 6.674 && d.c === C4_286B && kOk(d) && kOk(c)
       && d.kF === 0 && c.kF === 0 && d.D0 === 0.006 && c.D0 === 0.006
       && d.fr === 'pairReduced' && c.fr === 'pairReduced' && d.fw === 'share' && c.fw === 'share'
       && d.sc === 'double' && c.sc === 'double' && d.mp === 'double' && c.mp === 'double'
@@ -20226,7 +20239,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
     const day = (u, eT) => u === null ? null : u * Math.pow(10, eT) / 86400;
     { // 💠
       const u = un.uranus, d = u.decl;
-      const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === 30000
+      const declOk = d.fid === 'real' && d.L === 6 && d.T === 2 && d.M === 25 && d.G === 6.674 && d.c === C4_286B
         && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === undefined && d.ts === 30 && d.dm === 1
         && d.pin0 === true && d.nRingBands === 11 && d.ringTestMass
         && d.spin0 > 0;   // 第196便: 中心自転は面内符号+(環・衛星と共回転 — NSSDC 負符号は軸姿勢ラベル)
@@ -20248,7 +20261,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
     }
     { // 🌊
       const n = un.neptune, d = n.decl;
-      const declOk = d.fid === 'real' && d.L === 7 && d.T === 3 && d.M === 26 && d.G === 6.674 && d.c === 30000
+      const declOk = d.fid === 'real' && d.L === 7 && d.T === 3 && d.M === 26 && d.G === 6.674 && d.c === C4_286B
         && kOk(d) && d.kF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
         && d.pin0 === false && d.pin1 === false && d.spin1 < 0;
       const t1 = day(n.kf1.tRev[0], 3), t0 = day(n.kf0.tRev[0], 3);
@@ -20565,7 +20578,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
       return { d, kf0, kf1, det, eq, dfm, P_OBS };
     }, { csvRows });
     const d = ac.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
-    const declOk = d.fid === 'real' && d.L === 10 && d.T === 6 && d.M === 29 && d.G === 6.674 && d.c === 30000
+    const declOk = d.fid === 'real' && d.L === 10 && d.T === 6 && d.M === 29 && d.G === 6.674 && d.c === C4_286B
       && kOk && d.kF === 0 && d.abKF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
       && d.ts === 1000 && d.dm === 300 && d.pin0 === false && d.pin1 === false
       && d.spin0 > 0 && d.spin1 > 0 && d.ruleDecl;
@@ -20887,7 +20900,7 @@ await w5bRun('uranusReal', true); async function W5B_uranusReal(page, add, fpRun
       return { d, kf0, kf1, eq, dfm, P_OBS };
     }, { csvRows });
     const d = si.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
-    const declOk = d.fid === 'real' && d.L === 10 && d.T === 6 && d.M === 29 && d.G === 6.674 && d.c === 30000
+    const declOk = d.fid === 'real' && d.L === 10 && d.T === 6 && d.M === 29 && d.G === 6.674 && d.c === C4_286B
       && kOk && d.kF === 0 && d.abKF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
       && d.ts === 300 && d.dm === 300 && d.pin0 === false && d.pin1 === false
       && d.spin0 === 0 && d.spin1 === 0 && d.rB === 0.01 && d.ruleDecl && d.fam === 'variant';
@@ -21360,7 +21373,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       return { d, kf0, kf1, kf0ns: { sMax: kf0ns.sMax, clampD: kf0ns.clampD }, orbitBitEq, pr0, pr1, hole, dfm, P_OBS };
     }, { csvRows, FAST });
     const d = ps.d, kOk = Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18;
-    const declOk = d.fid === 'real' && d.L === 6 && d.T === 1 && d.M === 27 && d.G === 6.674 && d.c === 3000
+    const declOk = d.fid === 'real' && d.L === 6 && d.T === 1 && d.M === 27 && d.G === 6.674 && d.c === C5_286B
       && kOk && d.kF === 0 && d.abKF === 1 && d.D0 === 0.006 && d.fr === 'pairReduced'
       && d.ts === 300 && d.dm === 1000 && d.pin0 === false && d.pin1 === false
       && d.spin0 === 0 && d.spin1 === 0 && d.r0 === 0.01175 && d.r1 === 0.01175
@@ -22022,7 +22035,7 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
     }, { FAST });
     const d = gw.d;
     const declOk = d.fid === 'real' && d.L === 4 && d.T === -3 && d.M === 29 && d.sameExp
-      && d.G === 6.674 && d.c === 30 && d.cD === 30 && gw.kOk
+      && d.G === 6.674 && d.c === C7_286B && d.cD === C7_286B && gw.kOk
       && d.kF === 0 && d.kFD === 1 && d.geo === 0 && d.geoD === 0   // 換算整合則: geoPN=0 は両版共通
       && d.D0 === 0.006 && d.fr === 'pairReduced' && d.sink === 'reservoir' && d.sinkD === 'reservoir'
       && d.gauge === 'barycentric' && d.gaugeD === 'barycentric' && d.ts === 30 && d.dm === 1
@@ -34057,7 +34070,10 @@ await w5bRun('kalign', true); async function W5B_kalign(page, add, fpRun, consol
         const pd = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
         const v = HP.validatePreset(pd); const p = v.preset; const ph = p.physics;
         const R = (o) => (typeof o.radius === 'number' && o.radius > 0) ? ph.radiusScale * o.radius : ph.radiusScale * (o.rMul || 1) * Math.sqrt(Math.abs(o.m));
-        const qs = p.bodies.slice(0, 2).map((o) => { const mf = (o.core && o.core.massFrac) || 0; const mSh = o.core ? o.m * (1 - mf) : o.m / ((p.massCalibration && p.massCalibration.factor) || 1); return { decl: o.dragQ, calc: qexact(mSh, R(o), REF[id], ph.G, ph.cLight) }; });   // 第242便: コアなし(pull で (f−1)/f<0.01)は台帳 f で観測殻質量へ
+        // 第286便b(AN59): dragQ は q_exact の**直値**(宣言の評価条件は丸めの c₀=3×10^(L−T) —— 第286便b で cLight を真値にしても直値は評価し直さない。
+        //   tests/data-w286b-clight.json の dependents qExactDirect)。旧世代(c が丸めのまま)では cQ = ph.cLight と同じ値
+        const cQ = p.scaleExp ? 3 * Math.pow(10, 8 + p.scaleExp.T - p.scaleExp.L) : ph.cLight;
+        const qs = p.bodies.slice(0, 2).map((o) => { const mf = (o.core && o.core.massFrac) || 0; const mSh = o.core ? o.m * (1 - mf) : o.m / ((p.massCalibration && p.massCalibration.factor) || 1); return { decl: o.dragQ, calc: qexact(mSh, R(o), REF[id], ph.G, cQ) }; });   // 第242便: コアなし(pull で (f−1)/f<0.01)は台帳 f で観測殻質量へ
         const S = HP.sim; S.build(p); S.step(0.016);
         decl[id] = { qs, hasDragQ: S.hasDragQ, kKind: S._kKind, dq0: S.dragQ[0], dq1: S.dragQ[1],
           aOK: Math.abs(qs[0].decl - ph.q) < 1e-4 };   // A 側は現行 q(丸め値)と一致
@@ -34452,7 +34468,7 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
   let SUP285 = null;
   try { SUP285 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w285f.json'), 'utf8')).superseded.psrJ1757DFM.raw; } catch (e) { SUP285 = null; }
   if (has249) {
-    const r = await page.evaluate(({ SUP, SUP5 }) => {
+    const r = await page.evaluate(({ SUP, SUP5, C5_286B }) => {
       const PAIR = [['psrDoubleABPN', 'psrDoubleABDFM'], ['psrJ1757PN', 'psrJ1757DFM'], ['psrJ1946PN', 'psrJ1946DFM']];
       const C_EXACT = 2997.92458;
       const f1Of = (id) => { const q = HP.allPresets().find((z) => z.id === id); return !!(q && q.massCalibration && q.massCalibration.law === 'f-fixed-1'); };
@@ -34480,13 +34496,15 @@ await w5bRun('framePull', true); async function W5B_framePull(page, add, fpRun, 
         if (diff.some((k) => ALLOW.indexOf(k) < 0)) bad.push(`${vid}: physics の差が ${JSON.stringify(diff)} で許容 4 キーを超える`);
         // 複製元(本体)は旧則のまま: λ_PN=1・c=3000・κ=G/3000²
         if (b.physics.lambdaPN !== 1) bad.push(`${bid}: 本体の λ_PN が 1 でない(本体不変が壊れた)`);
-        if (b.physics.cLight !== 3000) bad.push(`${bid}: 本体の cLight が 3000 でない(本体不変が壊れた)`);
-        if (!(Math.abs(b.physics.kappaT - b.physics.G / 9e6) < 1e-18)) bad.push(`${bid}: 本体の κ が G/3000² でない`);
+        // 第286便b(AN59): 生きている本体(🧮🩺)は cLight の真値化の本 —— 本体の c は世代で分ける(凍結の写しの旧 ⚡ は 3000 のまま)
+        const cB = ((bid === 'psrDoubleABDFM' && f1Now && SUP) || (bid === 'psrJ1757DFM' && f1Now5 && SUP5)) ? 3000 : C5_286B;
+        if (b.physics.cLight !== cB) bad.push(`${bid}: 本体の cLight が ${cB} でない(本体不変が壊れた)`);
+        if (!(Math.abs(b.physics.kappaT - b.physics.G / (cB * cB)) < 1e-18)) bad.push(`${bid}: 本体の κ が G/${cB}² でない`);
         rows.push(`${vid}: f=${f} λ=${lam} diff=${JSON.stringify(diff)}${(bid === 'psrDoubleABDFM' && f1Now) ? '(複製元=凍結の写しの旧 ⚡)' : ''}`);
       }
       if (f1Now && !SUP) bad.push('⚡ は f=1 だが凍結の写し(superseded)が読めない');
       return { bad, rows, f1Now };
-    }, { SUP: SUP284, SUP5: SUP285 });
+    }, { SUP: SUP284, SUP5: SUP285, C5_286B });
     add('behavior.w249a-pnResponse', r.bad.length === 0,
       (r.bad.length ? `不成立=[${r.bad.slice(0, 6).join(' / ')}] ` : '')
       + `NS 応答候補 3 本(🪶🪃🪀)の宣言固定: λ_PN=1/f(massCalibration.factor の逆数・±1e-9)・`
@@ -35431,7 +35449,7 @@ await w5bRun('emAudit', true); async function W5B_emAudit(page, add, fpRun, cons
     // 判定の厳しさ(1e-9 の直値一致)は不変 — 世代ごとにその世代の規約値へ厳密一致を要求する
     const qDecl = d.qexactGen ? 12.0586 : 12.30;
     const declOk = d.n === 5 && Math.abs(d.q - qDecl) < 1e-9 && d.D0 === 0.006 && d.kF === 1
-      && d.geo === 2 && d.G === 6.674 && d.c === 30000
+      && d.geo === 2 && d.G === 6.674 && d.c === C4_286B
       && Math.abs(d.kap - d.G / (d.c * d.c)) < 1e-18
       && d.mf === 1e-6 && d.sc === 'double'
       && d.L === 7 && d.T === 3 && d.M === 26 && d.fid === 'real'
@@ -49831,7 +49849,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     return !!(p && p.physics && typeof p.physics.kappaT === 'number');
   });
   if (has125) {
-    const r = await page.evaluate(() => {
+    const r = await page.evaluate((KAPPA4_286B) => {   // 第286便b: κ の期待値は世代で分ける(root 7.415555555555556e-9・beta 7.425826474101849e-9)
       const out = {};
       // ① 内蔵プリセットの physics は kappaT 正準(Kt キーなし)+実行時 Kt が bit 一致
       const ek = HP.allPresets().find((x) => x.id === 'earthMoonRealKF1');
@@ -49839,7 +49857,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       HP.loadPreset('earthMoonRealKF1', false);
       // 第125便: 実行時 params は Kt 正準で bit 一致 → 第128便: params も κ 正準(Kt キーは残らない)
       out.bitExact = (typeof HP.sim.params.kappaT === 'number')
-        ? (HP.sim.params.kappaT === 7.415555555555556e-9 && !('Kt' in HP.sim.params))
+        ? (HP.sim.params.kappaT === KAPPA4_286B && !('Kt' in HP.sim.params))
         : (HP.sim.params.Kt === 134851663.17051244 && !('kappaT' in HP.sim.params));
       // ② SYSTEM_PROMPT: 既定値・few-shot とも kappaT
       const src = document.documentElement.outerHTML;
@@ -49863,7 +49881,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         || src.includes('physics:Object.assign({},sim.params,{[FRAME_WEIGHT_KEY]:frameWeightOf(sim.params)}),');   // 第243便: 直コピー+解決済み frameWeight の明示
       HP.loadPreset('saturn', false);
       return out;
-    });
+    }, KAPPA4_286B);
     add('wave125.ui',
       r.canonical && r.bitExact && r.prompt && r.kappaZero && r.zeroLeft && r.lockLabel && r.width && r.saveKap,
       `kappaT正準=${r.canonical}・実行時Kt bit一致=${r.bitExact} / プロンプト=${r.prompt} / ` +
@@ -58062,7 +58080,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (!(Math.max(...inc) / Math.min(...inc) - 1 <= 1e-4)) bad.push('② 水星の λ 増分が ε・dt で動く');
       const G = J.G;
       // 統括(第285便 統合): 同便の a(💫 galaxyGeo2 の接触契約・💍💿 の宣言)と f(🧮 f=1)が変えた本と署名は EIH の外でよい(正本は事実のまま記録)
-      const OTHER285B = ['galaxyGeo2', 'psrJ1757DFM'], SIG285B = OTHER285B.concat(['saturnRingReal', 'saturnRingRealKF1']);
+      // 第286便b(AN54・AN59): cLight の真値化の本(一覧 tests/data-w286b-clight.json)と伴星の pnSource の 4 本も EIH の外で動いてよい(基点 b92ffa1 との前後)
+      const W286B = C_TRUE_286B ? JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8')).books.map((b) => b.id)
+        .concat(['alphaCenABDFM', 'siriusABDFM', 'alphaCenAB', 'siriusAB']) : [];
+      const OTHER285B = ['galaxyGeo2', 'psrJ1757DFM'].concat(W286B), SIG285B = OTHER285B.concat(['saturnRingReal', 'saturnRingRealKF1']);
       const notEih285 = G.changedNotEih.filter((id) => !OTHER285B.includes(id));
       const sigOff285 = (G.rows || []).filter((r) => !r.sigSame && !SIG285B.includes(r.id)).map((r) => r.id);
       if (!(notEih285.length === 0 && sigOff285.length === 0)) bad.push(`② EIH の本以外の差 ${notEih285.join(',')}・署名の差 ${sigOff285.join(',')}(${G.sigSame}/${G.n})`);
@@ -58088,6 +58109,116 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     add('docs.pn1', bad.length === 0,
       `**kF0 1PN 対照の文書**(第285便b・原仮定者の裁定(第75報)⑦・R97/R98): ${cases.join(' / ')} —— 旧 kF0 則の相対二体への還元(1−10ν/3)・`
       + `EIH 型への修正・制御二体・λ_PN=0 の対照・水星の ε/dt の分解を PHYSICS〔第285便b〕が正本の数で持つ`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第286便b(原仮定者の裁定(第76報)AN54・AN59・統括の検証項目 R104): behavior.pnSourceCompanion ----
+// ----   ✴️ alphaCenABDFM・💫 siriusABDFM・✨ alphaCenAB・🌟 siriusAB の**伴星も 1PN 源**(宣言だけ・質量は不変)と、正本 tests/out/pnsource-w286b.json の前後の表を固定する:
+// ----     ① html: 4 本の両天体が pnSource・伴星の質量が基点の記録(正本の decl.massSame)と同じ
+// ----     ② 正本の来歴(w272e-1・対象 html の sha か領域一致)・器の版
+// ----     ③ 前後の表(P): kF0(4 本)と DFM 版(✴️💫)の 6 行が before(基点・源 1)/ srcOff(c 真値・伴星外し)/ after(源 2)の比を持ち有限・
+// ----        kF0 の before が第285便b の記録 0.7529/0.8665(±1e−3)・kF0 の after が 1 と 1e−3 以内(EIH の二体 —— **正式判定ではない**)
+// ----     ④ 制御二体(Q): 両方源の比が 1 と 1e−3 以内・主星だけ源の比が 0.99 未満(伴星を源にしないと比が 1 から外れる照合先)
+// ----     ⑤ ☄️ の cLight(M.cLight): λ 増分の比 = (30000/29979.2458)² と相対 1e−4 以内・較正行の宣言(calaudit の CFG.mercuryReal.calPhysics.softening 0.01)・
+// ----        本の宣言 softening 0.05 とアプリの既定(DEFAULT_PHYSICS)は基点から不変
+// ----   **root は SKIP**(伴星の宣言が無い世代)。器で「合」を書かない(正式判定は鎖の calaudit)。
+{
+  const hasComp = await page.evaluate(() => { const p = HP.allPresets().find((q) => q.id === 'alphaCenABDFM');
+    return !!(p && p.bodies && p.bodies[1] && p.bodies[1].pnSource === true); });
+  if (!TARGET.startsWith('beta/') || !hasComp) {
+    console.log('SKIP behavior.pnSourceCompanion(伴星の pnSource が無い世代: ' + TARGET + ' — 第286便b は beta 線)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsource-w286b.json'), 'utf8'));
+      const IDS = ['alphaCenABDFM', 'siriusABDFM', 'alphaCenAB', 'siriusAB'];
+      const decl = await page.evaluate((ids) => ids.map((id) => { const p = HP.allPresets().find((q) => q.id === id);
+        return { id, src: p.bodies.map((b) => b.pnSource === true), m: p.bodies.map((b) => b.m), eps: p.physics.softening }; }), IDS);
+      for (const d of decl) if (!(d.src.length === 2 && d.src.every(Boolean))) bad.push('① ' + d.id + ' の両天体が pnSource でない');
+      for (const r of J.P.rows) if (!(r.decl && r.decl.massSame === true)) bad.push('① ' + r.id + ' の質量が基点と違う');
+      cases.push('4 本の両天体が 1PN 源(質量不変)');
+      const M = J.meta || {};
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (M.provenanceVersion !== 'w272e-1') bad.push('② 来歴の版が w272e-1 でない');
+      if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, M, sha)) bad.push('② meta.targetSha256 が検査対象の html と違う(器を再走する)');
+      if (J.harnessVersion !== 'w286b-pnsource-1') bad.push('② 器の版が違う: ' + J.harnessVersion);
+      const fin = (x) => typeof x === 'number' && Number.isFinite(x);
+      if (J.P.rows.length !== 6) bad.push('③ 前後の表の行が 6 でない: ' + J.P.rows.length);
+      const REC = { alphaCenABDFM: 0.7529, siriusABDFM: 0.8665, alphaCenAB: 0.7529, siriusAB: 0.8665 };
+      for (const r of J.P.rows) {
+        if (![r.before, r.srcOff, r.after].every((z) => z && fin(z.ratio) && !z.nan)) { bad.push('③ ' + r.id + ' ' + r.mode + ' の比が有限でない'); continue; }
+        if (!(r.before.nSources === 1 && r.srcOff.nSources === 1 && r.after.nSources === 2)) bad.push('③ ' + r.id + ' ' + r.mode + ' の源の数 ' + [r.before.nSources, r.srcOff.nSources, r.after.nSources]);
+        if (r.mode === 'kf0') {
+          if (!(Math.abs(r.before.ratio - REC[r.id]) <= 1e-3)) bad.push(`③ ${r.id} の before ${r.before.ratio} が記録 ${REC[r.id]} と違う`);
+          if (!(Math.abs(r.after.ratio - 1) <= 1e-3)) bad.push(`③ ${r.id} の after ${r.after.ratio} が 1 と 1e−3 以内でない`);
+        }
+      }
+      cases.push('比 ' + J.P.rows.map((r) => r.emoji + r.mode + ' ' + r.before.ratio.toFixed(4) + '→' + r.after.ratio.toFixed(4)).join('・'));
+      for (const q of J.Q.rows) {
+        if (!(Math.abs(q.both - 1) <= 1e-3)) bad.push(`④ 制御二体 ${q.label} の両方源 ${q.both}`);
+        if (!(q.primaryOnly < 0.99)) bad.push(`④ 制御二体 ${q.label} の主星だけ源 ${q.primaryOnly}`);
+      }
+      cases.push('制御二体 ' + J.Q.rows.map((q) => q.label + ' ' + q.both.toFixed(5) + '/' + q.primaryOnly.toFixed(5)).join('・'));
+      const C = J.M.cLight;
+      if (!(Math.abs(C.relToExpected) <= 1e-4)) bad.push(`⑤ ☄️ の λ 増分の比 ${C.incRatio} が (30000/29979.2458)² と違う`);
+      const calSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
+      if (!/mercuryReal:\s*\{ c: 0, o: \[\[1, '水星'\]\], calPhysics: \{ softening: 0\.01 \} \}/.test(calSrc)) bad.push('⑤ 判定器の較正行に ☄️ の calPhysics.softening 0.01 が無い');
+      const me = await page.evaluate(() => ({ eps: HP.allPresets().find((q) => q.id === 'mercuryReal').physics.softening, def: DEFAULT_PHYSICS.softening }));
+      const CR = J.M.calibrationRow || {}, AD = CR.appDefaultSoftening || {};
+      if (!(me.eps === 0.05 && CR.presetSoftening0 === 0.05)) bad.push(`⑤ 本の softening ${me.eps}(基点 ${CR.presetSoftening0})が 0.05 でない`);
+      if (!(me.def === AD.base && AD.now === AD.base)) bad.push(`⑤ アプリの既定 softening ${me.def} が基点 ${AD.base} と違う`);
+      cases.push(`☄️ 1PN 増分の比 ${C.incRatio.toFixed(7)}(期待 ${C.expected.toFixed(7)})・較正行 ε=0.01(本の宣言 0.05・アプリの既定 ${me.def} は不変)`);
+    } catch (e) { bad.push('正本・器が読めない: ' + String(e).slice(0, 160)); }
+    add('behavior.pnSourceCompanion', bad.length === 0,
+      `**伴星の 1PN 源と較正行の宣言**(第286便b・原仮定者の裁定(第76報)AN54・AN59・R104): ${cases.join(' / ')} —— 判定は鎖の calaudit(3σ 門)が付ける(この試験は前後の記録)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第286便b(原仮定者の裁定(第76報)AN59・統括の検証項目 R104): lint.cLightTrue ----
+// ----   実単位の本(scaleExp を宣言し G=6.674)の c が c_SI·10^(T−L)(c_SI=299792458 m/s)の真値で、κ=G/c² が同期していること:
+// ----     ① 退役を除く実単位の本で丸めが残る本 0(相対 1e−12)・全実単位の本で κ=G/c²(相対 1e−12)
+// ----     ② 一覧 tests/data-w286b-clight.json の本の cLight・κ が html と一致し、一覧の外の実単位の本(以前から真値の本と退役を除く)が 0
+// ----     ③ 従属値: ASTRO_COMMON(AI カタログの共通 physics)・観測転写の組立の相対論的連星族 phO・AI 追加の指示文(ja/en)が真値
+// ----     ④ 正本 tests/out/pnsource-w286b.json の (K) が ok・(G) の前後で違う本 ⊆ 宣言を変えた本
+// ----   **root は SKIP**(旧則 —— CAL_CONTRACT の units 欄が無い世代)。
+{
+  if (!C_TRUE_286B) {
+    console.log('SKIP lint.cLightTrue(cLight の真値化の前の世代: ' + TARGET + ' — 第286便b は beta 線)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const D = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8'));
+      const rows = await page.evaluate(() => HP.allPresets().filter((p) => p.scaleExp).map((p) => { const ph = p.physics || {};
+        return { id: p.id, L: p.scaleExp.L, T: p.scaleExp.T, G: ph.G, c: ph.cLight, k: ph.kappaT, retired: p.familyRole === 'retired' }; }));
+      const real = rows.filter((r) => r.G === 6.674);
+      const rel = (a, b) => Math.abs(a / b - 1);
+      const rounded = real.filter((r) => !r.retired && rel(r.c, 299792458 * Math.pow(10, r.T - r.L)) > D.tolerance.cRel).map((r) => r.id);
+      const kap = real.filter((r) => rel(r.k, r.G / (r.c * r.c)) > D.tolerance.kappaRel).map((r) => r.id);
+      if (rounded.length) bad.push('① 丸めが残る本: ' + rounded.join(','));
+      if (kap.length) bad.push('① κ≠G/c² の本: ' + kap.join(','));
+      cases.push(`実単位の本 ${real.length}(退役 ${real.filter((r) => r.retired).length} は凍結)・丸め 0・κ 同期`);
+      for (const b of D.books) { const r = rows.find((z) => z.id === b.id);
+        if (!r || r.c !== b.cNew || r.k !== b.kappaNew) bad.push('② 一覧と html が違う: ' + b.id); }
+      const known = new Set(D.books.map((b) => b.id).concat(D.exact.map((z) => z.id)));
+      const outside = real.filter((r) => !r.retired && !known.has(r.id)).map((r) => r.id);
+      if (outside.length) bad.push('② 一覧の外の実単位の本: ' + outside.join(','));
+      cases.push(`一覧 ${D.books.length} 本(以前から真値 ${D.exact.length}・除外 ${D.excluded.length})`);
+      const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const ac = await page.evaluate(() => ({ c: ASTRO_COMMON.cLight, k: ASTRO_COMMON.kappaT }));
+      if (!(ac.c === 29979.2458 && ac.k === 7.425826474101849e-9)) bad.push('③ ASTRO_COMMON が真値でない');
+      if (html.indexOf('phO.cLight=2997.92458; phO.kappaT=7.42582647410185e-7;') < 0) bad.push('③ 組立の相対論的連星族 phO が真値でない');
+      if (html.indexOf('"cLight":29979.2458 (=299792458 m/s in these units) and "kappaT":7.425826474101849e-9') < 0
+        || html.indexOf('"cLight":29979.2458(=299792458 m/s のこの単位での値)・"kappaT":7.425826474101849e-9') < 0) bad.push('③ AI 追加の指示文(ja/en)が真値でない');
+      cases.push('ASTRO_COMMON・組立・指示文が真値');
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsource-w286b.json'), 'utf8'));
+      if (!(J.K && J.K.ok === true)) bad.push('④ 正本の (K) が ok でない: ' + JSON.stringify((J.K || {}).bad || '').slice(0, 120));
+      if (!(J.G && J.G.changedUndeclared.length === 0)) bad.push('④ 宣言の外で動いた本: ' + ((J.G || {}).changedUndeclared || []).join(','));
+      cases.push(`前後 ${J.G.bitSameMany}/${J.G.n}(ビット)・${J.G.sigSame}/${J.G.n}(署名)—— 違う本 ⊆ 宣言した ${J.G.declaredN} 本`);
+    } catch (e) { bad.push('一覧・正本が読めない: ' + String(e).slice(0, 160)); }
+    add('lint.cLightTrue', bad.length === 0,
+      `**cLight の真値と従属値**(第286便b・原仮定者の裁定(第76報)AN59・R104): ${cases.join(' / ')} —— G=6.674 の丸めと q_exact の直値は本便の範囲の外(一覧の dependents)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }

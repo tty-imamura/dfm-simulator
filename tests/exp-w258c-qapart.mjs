@@ -84,6 +84,12 @@ const FAST = process.env.QA_FAST === '1';
 const OUT_DIR = path.join(ROOT, 'tests', 'out');
 // tests/qa.mjs が上流で作っている共有フラグ(切り出したブロックが参照する)
 const hasMerger = await page.evaluate(() => HP.allPresets().some((p) => p.id === 'merger'));
+// 第286便b: cLight の真値化の世代(tests/qa.mjs の冒頭と同じ式 —— 既存の試験の c=3×10⁴ の固定値を世代で分ける)
+const C_TRUE_286B = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('"units":{"wave":"第286便b"') >= 0;
+const C4_286B = C_TRUE_286B ? 29979.2458 : 30000;
+const KAPPA4_286B = C_TRUE_286B ? 7.425826474101849e-9 : 7.415555555555556e-9;
+const C5_286B = C_TRUE_286B ? 2997.92458 : 3000;
+const C7_286B = C_TRUE_286B ? 29.9792458 : 30;
 // 第279便b: fpRun(指紋キャッシュ)は部分実行では使わない — 本体をそのまま走らせる
 const fpRun = async (testId, body) => { await body(); return false; };
 const results = [];
