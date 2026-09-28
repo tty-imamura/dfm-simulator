@@ -27,7 +27,9 @@
 //      (決定的走行)、前回の h/2 が完了(非有限・クランプ・資源打切りなし)なら h/2 を転記する(`skippedBy:"reuse-dt2"`)。
 //   ⑦ `dtDt2Skip`(閾値規則・既定 off)は**対象 ID と量の集合の完全一致**を必須にした。
 import crypto from 'node:crypto';
-export const H4_REUSE_VERSION = 'w284c-h4reuse-2';
+// 第285便f(統括の検証項目〔較正走行の窓〕): 契約に**窓の定義**(`window` —— 目標物理時間 T の規則の版・T〔dt₀ での步数〕・dt₀・
+//   軌道窓の出所〔t=0 の接触要素 / 宣言した軌道長〕・必要近点数)を足して版を上げた(w284c-h4reuse-2 → w285f-h4reuse-3。旧版は「未知の版」で拒否 = 初回は再取得)
+export const H4_REUSE_VERSION = 'w285f-h4reuse-3';
 /** 受理する契約の版(これ以外の版の契約は「未知の版」で拒否する —— 旧版 w283c-h4reuse-1 も拒否 = 初回は再取得)。 */
 export const H4_REUSE_VERSIONS_KNOWN = [H4_REUSE_VERSION];
 
@@ -36,7 +38,7 @@ export const H4_REUSE_VERSIONS_KNOWN = [H4_REUSE_VERSION];
 // 対カーネル・試験粒子の外部ステップを roots にした停止集合つき依存閉包 + `S._core` の本文 —— 閉包が不完全なら null = 再利用しない)。
 // `units` は {G, c, toSec}(第284便c で追加 —— 単位の契約)。
 export const H4_CONTRACT_KEYS = ['version', 'key', 'presetHash', 'engineSha', 'lawsSha',
-  'dt', 'orbMax', 'maxSteps', 'stepsPerOrbit0', 'periWindow', 'extractorSha', 'stopRuleVersion', 'kf0', 'units'];
+  'dt', 'orbMax', 'maxSteps', 'stepsPerOrbit0', 'periWindow', 'extractorSha', 'stopRuleVersion', 'kf0', 'units', 'window'];
 /** 必須鍵(null・undefined・空配列を欠落とみなす —— 空契約 `{}` どうしを一致にしない)。`kf0` は真偽値(false は欠落でない)。 */
 export const H4_REQUIRED_KEYS = H4_CONTRACT_KEYS.slice();
 
@@ -281,10 +283,24 @@ export const H4_POLICY = {
 // ---------------------------------------------------------------------------------------------------------------------
 // ⑥ dt/2 の再利用(同一便の再走)
 // ---------------------------------------------------------------------------------------------------------------------
-export const H2_REUSE_VERSION = 'w284c-h2reuse-1';
-/** h2 の契約の鍵(h の段の契約 + h/2 の段の刻み・步数上限)。 */
+// 第285便f: 契約に**窓の定義**(`window` —— h4 と同じ形)を足して版を上げた(w284c-h2reuse-1 → w285f-h2reuse-2)
+export const H2_REUSE_VERSION = 'w285f-h2reuse-2';
+/** h2 の契約の鍵(h の段の契約 + h/2 の段の刻み・步数上限 + 第285便f の窓の定義)。 */
 export const H2_CONTRACT_KEYS = ['version', 'key', 'presetHash', 'engineSha', 'lawsSha',
-  'dt', 'dtH', 'orbMax', 'maxStepsH', 'maxSteps', 'stepsPerOrbit0', 'periWindow', 'extractorSha', 'stopRuleVersion', 'kf0', 'units'];
+  'dt', 'dtH', 'orbMax', 'maxStepsH', 'maxSteps', 'stepsPerOrbit0', 'periWindow', 'extractorSha', 'stopRuleVersion', 'kf0', 'units', 'window'];
+/**
+ * 第285便f: **窓の定義**(h2・h4 の契約の `window` 欄)。停止規則の記録(`stopRuleFor` の `targetTime`・`orbitWindow`・必要近点数)から作る。
+ * 段が違っても同じ値になる(T は dt₀ での步数で持つ)—— h と h/2・h/4 が**同じ物理時間 T の窓**であることの契約。
+ */
+export const WINDOW_CONTRACT_VERSION = 'w285f-window-1';
+export function windowContract(stopRule) {
+  if (!stopRule || !stopRule.targetTime) return null;
+  const t = stopRule.targetTime;
+  return { version: WINDOW_CONTRACT_VERSION, rule: t.rule, dtBase: t.dtBase, tBaseSteps: t.tBaseSteps,
+    capBaseSteps: t.capBaseSteps, orbitBaseSteps: t.orbitBaseSteps, window: t.window,
+    orbitWindow: stopRule.orbitWindow ? { orbits: stopRule.orbitWindow.orbits, orbitStepsBase: stopRule.orbitWindow.orbitStepsBase } : null,
+    needPeriastra: stopRule.needPeriastra };
+}
 export const H2_REQUIRED_KEYS = H2_CONTRACT_KEYS.slice();
 /** 非決定的な走行の許容幅(**未宣言** —— 較正走行は決定的とみなし、h の生の走行がビット一致しなければ h/2 を走らせる)。 */
 export const H2_NONDET_TOL = null;
@@ -314,6 +330,7 @@ export function rawNonFinite(run) {
 export const H2_REUSE_RULE = {
   version: H2_REUSE_VERSION, since: '第284便c(原仮定者の裁定(第74報)⑥「dt/2 は前回と dt が一致したら省略を検討(特に同一便の再走行時)」)',
   contract: '受理後 preset(presetHash —— seed を含む宣言の全欄)・法則の指紋(engineSha〔閉包〕・lawsSha)・h と h/2・窓・停止則(版・步数上限)・'
+    + '**窓の定義 window**(第285便f —— 目標物理時間 T の規則の版・T〔dt₀ での步数〕・軌道窓の出所・必要近点数)・'
     + '抽出器・単位(G・c・toSec)・kF0 の別。**必須鍵が 1 つでも欠けた契約・未知の版は拒否**',
   what: '前回の正本(診断の別ファイル tests/out/calaudit-w249-diag.json の `h2Store`)に同じ本・同じ契約の h と h/2 の組があり、'
     + '(a) **今回の h の生の走行が前回の h とビット一致**(`rawRunSig` —— 対象 ID と量の集合と値が同じ・有限。決定的走行の条件。'

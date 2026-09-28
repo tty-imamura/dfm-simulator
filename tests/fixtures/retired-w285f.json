@@ -1,0 +1,831 @@
+{
+ "fixtureVersion": "w285f-retired-1",
+ "wave": "第285便f",
+ "ruling": "原仮定者の裁定(第75報)AN51・AN24′",
+ "frozen": true,
+ "note": "退役 1 本(🪄)と 🧮 の旧則(f≈2)の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・履歴の正本の参照が残る)。履歴の値は基点の保存 QA の転記であって測り直していない。",
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "0b30e779e2ce29506a048a384da08bc212220056dce023845deadd8858c0d4de",
+  "note": "第285便f の html(退役の宣言と 🧮 の f=1 を入れた後)"
+ },
+ "base": {
+  "rev": "b92ffa1",
+  "commit": "b92ffa1f447cdb0fce61ca847d5fc0d2a7ea44ac",
+  "file": "beta/index.html",
+  "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0"
+ },
+ "ids": [
+  "psrJ1757CF"
+ ],
+ "presets": {
+  "psrJ1757CF": {
+   "emoji": "🪄",
+   "name": "PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目",
+   "familyId": null,
+   "familyRole": "retired",
+   "familyRoleAtBase": null,
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "presetSigHash": "12797269",
+   "presetSigSha256": "8bbfb4c5f29f6885422564cd57c342188ec4834eaf1213fa5718b9e1ea9eae71",
+   "base": {
+    "rev": "b92ffa1",
+    "presetSigHash": "12797269",
+    "name": "PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目",
+    "sigSame": true
+   },
+   "raw": {
+    "id": "psrJ1757CF",
+    "name": "PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目",
+    "emoji": "🪄",
+    "group": "現実との照合・連星",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 6,
+     "T": 1,
+     "M": 27
+    },
+    "sampleClass": "calibration",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "obsCard": [
+     {
+      "q": "近点移動(⚡ で凍結した κ をそのまま)",
+      "model": "+0.0052064°/周(dt=0.0005)= 2018 転写換算の **−0.040%**。既定 dt=0.016 でも +0.0052465(+0.73%)",
+      "obs": "+0.0052085°/周(ω̇=10.3651°/yr と P=15857.669 s の換算)"
+     },
+     {
+      "q": "足した宣言は 1 個・**値は ⚡ と同一**",
+      "model": "compactForce={model:\"current\", kappa:12.015360249506628, chiGate:0.5, rc:0}。本系で再評価も再 fit もしていない",
+      "obs": "—(bodies・massCalibration は 🧮 とビット同一)"
+     },
+     {
+      "q": "外した場合(A/B 対照)",
+      "model": "compactForce を外すと +0.0104210°/周(観測の +100.1%)— 差の全部が足した 1 行",
+      "obs": "—(第248便b: 較正質量 f≈2 が E12 の 1PN へ入っていた)"
+     },
+     {
+      "q": "**現象論の候補であって完成ではない**",
+      "model": "作用原理・保存則は未導出。compactWorkE=8.27(外部仕事の記帳)。κ の閉形式に掛かる f は実測であって導出ではない",
+      "obs": "—(claim 窓は付けない)"
+     },
+     {
+      "q": "公転周期(合わせていない・2 定義)",
+      "model": "近点間 15853.39 秒(−0.027% — 判定)・同方向1周は 🪃 と同水準(履歴)。既定 dt では 15750.42 秒(−0.676%)",
+      "obs": "15857.669019168 s(Cameron et al. 2018)"
+     },
+     {
+      "q": "刻み依存",
+      "model": "dt 0.016→0.008→0.004→0.0005 で +0.73%→+0.21%→+0.047%→−0.040%。e=0.606 の深い楕円だが 1 公転あたりの步数が多く、⚡ より既定 dt に強い",
+      "obs": "—(4 点の傾向)"
+     },
+     {
+      "q": "健全性",
+      "model": "NaN 0・clampRN/SN/VN/AN すべて 0・実行時 χ=0.99990",
+      "obs": "—"
+     }
+    ],
+    "failureFirst": {
+     "fail": "**本系は凍結 hold-out ではない。** ①κ の閉形式(半分を打ち消す条件)は ⚡🧮🩺 の 3 系を見たうえで選んだ設計なので、本系は開発検証集合である(凍結 hold-out は 🪤 PSR B1534+12 で、そこでは残差が +2.65% になる)。②残差 −0.040% は ω̇ の観測精度より 3 桁大きい。③既定 dt=0.016 では +0.73% で、0.1% を切るのは dt=0.0005 まで細かくしたときである。④作用原理・保存則は未導出で、エネルギーは閉じない(compactWorkE=8.27)。⑤質量 f=1.9998957 は条件つき較正値のままである。",
+     "pass": "**⚡ で凍結した 1 個の κ を、系ごとの再評価なしでそのまま流して −0.040%。** 🧮 の宣言を 1 か所も動かさず compactForce を 1 行足すと、近点移動は +0.0104210°/周(観測の +100.1%)から **+0.0052064°/周(観測の −0.040%)** へ移る。κ の比則 Δϖ_K/Δϖ_1PN=−κχ₁χ₂(m₁m₂/M²)/3 は質量比と χ しか読まず、3 系で m₁m₂/M² が 0.24970/0.24989/0.24995 と 0.1% 以内に揃っているので、**同じ κ が同じ割合を打ち消す**。合わせていない周期(−0.027%)は 🪃 と同水準を保つ。"
+    },
+    "descStruct": {
+     "summary": "**🧮 を複製して、⚡ で凍結した κ をそのまま宣言した 2 例目**(第251便a — 第43報 W1)。式もゲートも 🪝 と同一の **U_K=−κ·χ₁χ₂·(G m₁m₂/ρ)·(v₁·v₂)/c²**(近点で最も強い斥力 = 近点移動を後退させる)で、**本系で再 fit も再評価もしていない**(κ=12.015360249506628 は ⚡ の値そのまま)。引きずり(A8/E6′)と測地線1PN(E12)は 🧮 の宣言のままである。あわせて cLight を正確値 2997.92458 へ・κ_T=G/c² を同期(🪃 と同じ 2 キー)。PSR J1757−1854 は既知で最も加速された連星パルサーで、e=0.605814 の深い楕円である。",
+     "observe": "実測(6 近点窓): **近点移動 +0.0052064°/周**(dt=0.0005。2018 転写換算 0.0052085°/周 の **−0.040%**)。compactForce を外すと +0.0104210°/周(観測の +100.1%)。刻み依存は dt 0.016→0.008→0.004→0.0005 で +0.0052465→+0.0052192→+0.0052109→+0.0052064(観測比 +0.73%→+0.21%→+0.047%→−0.040%)。合わせていない近点間周期は 15853.39 秒(観測 15857.669 s の −0.027%。既定 dt では 15750.42 秒 = −0.676%)。帳簿: compactU=14.13・compactWorkE=8.27・実行時 χ=0.99990。NaN 0・安全クランプ 0。**周期は定義を宣言してから合否を言う**(裁定 I6)。",
+     "control": "ワンタップ対照A/B: B側 **compactForce なし** — +0.0104210°/周(2 倍)へ戻る。🪝(J0737)・🩹(J1946)・🪤(B1534+12)と並べると、同じ 1 個の κ での残差 −0.020% / −0.040% / −0.143% / +2.65% が読める。timeScale=500 で1公転が実時間 約3.2秒・dispMag=1000(表示専用)。",
+     "brief": "凍結した κ を J1757 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +1.59%(844σ)・数値未解決。"
+    },
+    "en": {
+     "name": "PSR J1757−1854 (compact force, proposal K) — the kappa frozen on ⚡, passed through unchanged",
+     "obsCard": [
+      {
+       "q": "Periastron advance (⚡'s frozen kappa, unchanged)",
+       "model": "+0.0052064°/orbit at dt=0.0005 = −0.040% of the 2018 conversion; even at the default dt=0.016 it is +0.0052465 (+0.73%)",
+       "obs": "+0.0052085°/orbit (from omega_dot=10.3651°/yr and P=15857.669 s)"
+      },
+      {
+       "q": "ONE DECLARATION, WITH ⚡'S VALUE",
+       "model": "compactForce={model:\"current\", kappa:12.015360249506628, chiGate:0.5, rc:0} — neither re-evaluated nor re-fitted on this system",
+       "obs": "— (bodies and massCalibration are bit-identical to 🧮)"
+      },
+      {
+       "q": "With it removed (the A/B control)",
+       "model": "removing compactForce gives +0.0104210°/orbit (+100.1%) — the whole difference is the one added line",
+       "obs": "— (wave 248b: the calibrated mass f≈2 was entering E12's 1PN channel)"
+      },
+      {
+       "q": "A PHENOMENOLOGICAL CANDIDATE, NOT A FINISHED LAW",
+       "model": "no action principle and no conservation law; compactWorkE=8.27 books the external work; the f factor in the closed form is measured, not derived",
+       "obs": "— (no claims window)"
+      },
+      {
+       "q": "Orbital period (never fitted; two definitions)",
+       "model": "periastron-to-periastron 15853.39 s (−0.027% — the verdict); the same-direction revolution stays at 🪃's level (historical). At the default dt: 15750.42 s (−0.676%)",
+       "obs": "15857.669019168 s (Cameron et al. 2018)"
+      },
+      {
+       "q": "Step-size dependence",
+       "model": "dt 0.016→0.008→0.004→0.0005 gives +0.73%→+0.21%→+0.047%→−0.040%: at e=0.606 the orbit is deep, but there are more steps per revolution than on ⚡, so the default step hurts less",
+       "obs": "— (a trend over four points)"
+      },
+      {
+       "q": "Sanity",
+       "model": "zero NaN; clampRN/SN/VN/AN all zero; run-time chi=0.99990",
+       "obs": "—"
+      }
+     ],
+     "failureFirst": {
+      "fail": "THIS SYSTEM IS NOT A FROZEN HOLD-OUT. (1) The closed form for kappa (the cancel-exactly-half condition) was chosen after looking at ⚡🧮🩺, so this is a development-set system; the frozen hold-out is 🪤 PSR B1534+12, where the residual is +2.65%. (2) The −0.040% residual is three orders of magnitude above the observational precision of omega_dot. (3) At the default dt=0.016 it is +0.73%; 0.1% is only reached at dt=0.0005. (4) No action principle and no conservation law; energy does not close (compactWorkE=8.27). (5) The mass factor f=1.9998957 remains a conditional calibration.",
+      "pass": "ONE FROZEN kappa, PASSED THROUGH WITH NO PER-SYSTEM RE-EVALUATION, LANDS AT −0.040%. Without moving any of 🧮's declarations, one added line of compactForce moves the advance from +0.0104210°/orbit (+100.1%) to +0.0052064°/orbit (−0.040%). The ratio law Δϖ_K/Δϖ_1PN = −kappa chi₁chi₂ (m₁m₂/M²)/3 reads only the mass ratio and chi, and m₁m₂/M² is 0.24970 / 0.24989 / 0.24995 across the three systems — within 0.1% — so THE SAME kappa CANCELS THE SAME FRACTION. The unfitted period (−0.027%) stays at 🪃's level."
+     },
+     "descStruct": {
+      "summary": "🧮 COPIED, WITH ⚡'S FROZEN kappa DECLARED UNCHANGED (wave 251a, report 43 W1). The formula and the gate are 🪝's: U_K = −kappa·chi₁chi₂·(G m₁m₂/rho)·(v₁·v₂)/c², a repulsion strongest at periastron and therefore driving the apsides backward. NOTHING WAS RE-FITTED OR RE-EVALUATED HERE (kappa=12.015360249506628 is ⚡'s number). cLight is also corrected to the exact 2997.92458 with kappa_T=G/c² in sync (🪃's two keys). PSR J1757−1854 is the most accelerated binary pulsar known, on a deep e=0.605814 ellipse.",
+      "observe": "Measured over a six-periastron window: PERIASTRON ADVANCE +0.0052064°/orbit at dt=0.0005, which is −0.040% of the 2018 conversion 0.0052085°/orbit. Removing compactForce gives +0.0104210°/orbit (+100.1%). The step dependence over dt 0.016→0.008→0.004→0.0005 is +0.0052465→+0.0052192→+0.0052109→+0.0052064 (+0.73%→+0.21%→+0.047%→−0.040%). The unfitted periastron-to-periastron period is 15853.39 s (−0.027% of 15857.669 s; 15750.42 s = −0.676% at the default step). Ledger: compactU=14.13, compactWorkE=8.27, run-time chi=0.99990. Zero NaN, zero clamps. Periods are judged only after their definition has been declared (adjudication I6).",
+      "control": "One-tap A/B: side B has NO compactForce and the advance returns to +0.0104210°/orbit (the factor of two). Beside 🪝 (J0737), 🩹 (J1946) and 🪤 (B1534+12), one and the same kappa gives residuals of −0.020% / −0.040% / −0.143% / +2.65%. With timeScale=500 one orbit takes ~3.2 wall seconds; dispMag=1000 (display only).",
+      "brief": "Carry the frozen κ over to J1757. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +1.59% (844σ); numerics unresolved."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "the EXACT c = 2997.92458 in these units",
+       "the same transcribed geometry, masses, radius proxy and pulsar spin as 🧮 (bit-identical bodies)",
+       "the observed period 15857.669019168 s and eccentricity 0.6058142 (compared against, never fitted)",
+       "the observed periastron advance 10.3651°/yr = 0.0052085°/orbit (compared against — kappa was NOT solved here)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10⁶ m / 10¹ s / 10²⁷ kg)",
+       "kFrame=1, geoPN=2, lambdaPN=1, pnAlpha=1.5, frameReaction:\"pairReduced\", coupleSink:\"core\", cmGauge:\"barycentric\", frameWeight:\"pull\", D0pull=3.24204e-7, framePrecision:\"double\" — all 🧮's",
+       "compactForce chiGate=0.5, rc=0 — identical to 🪝"
+      ],
+      "fitted": [
+       "NOTHING. kappa is ⚡'s frozen number; there is no per-system re-fit and no re-evaluation of the closed form here."
+      ],
+      "derived": [
+       "kappa_T = G/c² = 7.42582647410185e-7 at the exact c",
+       "masses, positions, velocities, radii, cores and the pulsar's spinDipole: bit-identical to 🧮"
+      ],
+      "numerical": [
+       "softening ε=0.05",
+       "time multiplier timeScale=500",
+       "display magnification dispMag=1000 (display only)",
+       "measurement dt 0.016 / 0.008 / 0.004 / 0.0005 (six periastra, three-point parabola detector)"
+      ]
+     },
+     "description": "🧮 COPIED, WITH ⚡'S FROZEN kappa DECLARED UNCHANGED (wave 251a, report 43 W1). The formula and the gate are 🪝's: U_K = −kappa·chi₁chi₂·(G m₁m₂/rho)·(v₁·v₂)/c², a repulsion strongest at periastron and therefore driving the apsides backward. NOTHING WAS RE-FITTED OR RE-EVALUATED HERE (kappa=12.015360249506628 is ⚡'s number). cLight is also corrected to the exact 2997.92458 with kappa_T=G/c² in sync (🪃's two keys). PSR J1757−1854 is the most accelerated binary pulsar known, on a deep e=0.605814 ellipse.Measured over a six-periastron window: PERIASTRON ADVANCE +0.0052064°/orbit at dt=0.0005, which is −0.040% of the 2018 conversion 0.0052085°/orbit. Removing compactForce gives +0.0104210°/orbit (+100.1%). The step dependence over dt 0.016→0.008→0.004→0.0005 is +0.0052465→+0.0052192→+0.0052109→+0.0052064 (+0.73%→+0.21%→+0.047%→−0.040%). The unfitted periastron-to-periastron period is 15853.39 s (−0.027% of 15857.669 s; 15750.42 s = −0.676% at the default step). Ledger: compactU=14.13, compactWorkE=8.27, run-time chi=0.99990. Zero NaN, zero clamps. Periods are judged only after their definition has been declared (adjudication I6).One-tap A/B: side B has NO compactForce and the advance returns to +0.0104210°/orbit (the factor of two). Beside 🪝 (J0737), 🩹 (J1946) and 🪤 (B1534+12), one and the same kappa gives residuals of −0.020% / −0.040% / −0.143% / +2.65%. With timeScale=500 one orbit takes ~3.2 wall seconds; dispMag=1000 (display only).",
+     "status": {
+      "purpose": "Carry the frozen κ over to J1757",
+      "state": "the comparison runs are in the ledger",
+      "mismatch": "apsidal advance +1.59% (844σ)",
+      "outlook": "numerics unresolved"
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "**正確な** c=2997.92458(本単位系)",
+      "🧮 と同じ転写幾何・質量・半径 proxy・パルサー自転(bodies はビット同一)",
+      "観測周期 15857.669019168 s・離心率 0.6058142(照合先であって fit の対象ではない)",
+      "観測の近点移動 10.3651°/yr = 0.0052085°/周(照合先。**κ は本系では解いていない**)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁶m/10¹s/10²⁷kg)",
+      "kFrame=1・geoPN=2・lambdaPN=1・pnAlpha=1.5・frameReaction:\"pairReduced\"・coupleSink:\"core\"・cmGauge:\"barycentric\"・frameWeight:\"pull\"・D0pull=3.24204e-7・framePrecision:\"double\" — すべて 🧮 の宣言のまま",
+      "compactForce の chiGate=0.5・rc=0 — 🪝 と同一"
+     ],
+     "fitted": [
+      "**無し**。κ は ⚡ の凍結値で、本系での再 fit も閉形式の再評価もしていない"
+     ],
+     "derived": [
+      "κ_T = G/c² = 7.42582647410185e-7(正確な c)",
+      "質量・位置・速度・半径・コア・パルサーの spinDipole は 🧮 とビット同一"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.05",
+      "時間倍率 timeScale=500",
+      "粒子表示倍率 dispMag=1000(表示専用)",
+      "測定 dt 0.016 / 0.008 / 0.004 / 0.0005(6 近点・3 点放物線頂点の検出器)"
+     ]
+    },
+    "abBody": {
+     "label": {
+      "ja": "compactForce なし(🧮 の旧則)",
+      "en": "no compactForce (🧮's old law)"
+     },
+     "physicsPatch": {
+      "compactForce": null
+     }
+    },
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "camera": {
+     "scale": 1100
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 1,
+     "q": 3.1726,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.42582647410185e-7,
+     "cLight": 2997.92458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 500,
+     "dispMag": 1000,
+     "stateCarry": "double",
+     "framePrecision": "double",
+     "frameReaction": "pairReduced",
+     "coupleSink": "core",
+     "cmGauge": "barycentric",
+     "frameWeight": "pull",
+     "D0pull": 3.24204e-7,
+     "compactForce": {
+      "model": "current",
+      "kappa": 12.015360249506628,
+      "chiGate": 0.5,
+      "rc": 0
+     }
+    },
+    "massCalibration": {
+     "law": "inertia-law-lin-v1",
+     "fitDt": 0.016,
+     "baseMass": [
+      2661.4084000000003,
+      2773.1621
+     ],
+     "factor": 1.9998956627766773,
+     "factorByBody": [
+      1.9998956627766773,
+      1.9998956627766773
+     ],
+     "chi": [
+      0.9998978512795448,
+      0.9998935624667403
+     ],
+     "factorQuad": 1.9997913255590885,
+     "chiQuad": [
+      0.9998978459505765,
+      0.999893556914054
+     ]
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "dragQ": 3.1725695614875535,
+      "m": 5322.5391160374165,
+      "radius": 0.01175,
+      "x": -1083.2434800003837,
+      "y": 0,
+      "vx": 0,
+      "vy": -1.3242750727265096,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "pulse": {
+       "omega": 2922.7880777030828,
+       "source": "observed"
+      },
+      "spinDipole": {
+       "omega": 2922.7880777030828,
+       "radius": 0.01175,
+       "source": "observed"
+      },
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.4999739143333163,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     },
+     {
+      "type": "single",
+      "dragQ": 3.1690330197233236,
+      "m": 5546.034855966663,
+      "radius": 0.01175,
+      "x": 1039.5906164007697,
+      "y": 0,
+      "vx": 0,
+      "vy": 1.2709090472803386,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.4999739143333163,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**🧮 を複製して、⚡ で凍結した κ をそのまま宣言した 2 例目**(第251便a — 第43報 W1)。式もゲートも 🪝 と同一の **U_K=−κ·χ₁χ₂·(G m₁m₂/ρ)·(v₁·v₂)/c²**(近点で最も強い斥力 = 近点移動を後退させる)で、**本系で再 fit も再評価もしていない**(κ=12.015360249506628 は ⚡ の値そのまま)。引きずり(A8/E6′)と測地線1PN(E12)は 🧮 の宣言のままである。あわせて cLight を正確値 2997.92458 へ・κ_T=G/c² を同期(🪃 と同じ 2 キー)。PSR J1757−1854 は既知で最も加速された連星パルサーで、e=0.605814 の深い楕円である。実測(6 近点窓): **近点移動 +0.0052064°/周**(dt=0.0005。2018 転写換算 0.0052085°/周 の **−0.040%**)。compactForce を外すと +0.0104210°/周(観測の +100.1%)。刻み依存は dt 0.016→0.008→0.004→0.0005 で +0.0052465→+0.0052192→+0.0052109→+0.0052064(観測比 +0.73%→+0.21%→+0.047%→−0.040%)。合わせていない近点間周期は 15853.39 秒(観測 15857.669 s の −0.027%。既定 dt では 15750.42 秒 = −0.676%)。帳簿: compactU=14.13・compactWorkE=8.27・実行時 χ=0.99990。NaN 0・安全クランプ 0。**周期は定義を宣言してから合否を言う**(裁定 I6)。ワンタップ対照A/B: B側 **compactForce なし** — +0.0104210°/周(2 倍)へ戻る。🪝(J0737)・🩹(J1946)・🪤(B1534+12)と並べると、同じ 1 個の κ での残差 −0.020% / −0.040% / −0.143% / +2.65% が読める。timeScale=500 で1公転が実時間 約3.2秒・dispMag=1000(表示専用)。",
+    "status": {
+     "purpose": "凍結した κ を J1757 へ流す",
+     "objective": "partial",
+     "state": "照合の走行は台帳に記帳",
+     "calibration": "hold",
+     "mismatch": "近点移動 +1.59%(844σ)",
+     "outlook": "数値未解決",
+     "evidence": [
+      "tests/out/calaudit-w249.json",
+      "docs.calibration-verdict-sync"
+     ]
+    }
+   }
+  }
+ },
+ "superseded": {
+  "psrJ1757DFM": {
+   "emoji": "🧮",
+   "nameAtBase": "PSR J1757−1854(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた中性子星連星2例目",
+   "nameNow": "PSR J1757−1854(DFM版)— 観測質量(f=1)・kF1 の中性子星連星2例目",
+   "rev": "b92ffa1",
+   "presetSigHash": "9dd447b2",
+   "presetSigSha256": "7c35575704b91da825156c2d5be2c074215be93c40223f7c8009060f5f3965c0",
+   "presetSigHashNow": "80f048f7",
+   "massCalibration": {
+    "law": "inertia-law-lin-v1",
+    "fitDt": 0.016,
+    "baseMass": [
+     2661.4084000000003,
+     2773.1621
+    ],
+    "factor": 1.9998956627766773,
+    "factorByBody": [
+     1.9998956627766773,
+     1.9998956627766773
+    ],
+    "chi": [
+     0.9998978512795448,
+     0.9998935624667403
+    ],
+    "factorQuad": 1.9997913255590885,
+    "chiQuad": [
+     0.9998978459505765,
+     0.999893556914054
+    ]
+   },
+   "obsCardRows": [
+    "近点移動(**hold-out** — 較正に使っていない)",
+    "**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍",
+    "公転周期(hold-out — 合わせていない・2 定義)",
+    "離心率(hold-out — 合わせていない)",
+    "DFM 質量(**較正していない** — ⚡ と同じ一次則を1回評価した値)",
+    "**伴星の自転は未観測**(だから感度帯で出す)",
+    "半径は EOS proxy(NICER 測定ではない)",
+    "周期の収縮(⚡ と同じ離散化仕事)"
+   ],
+   "claims": [],
+   "raw": {
+    "id": "psrJ1757DFM",
+    "name": "PSR J1757−1854(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた中性子星連星2例目",
+    "emoji": "🧮",
+    "group": "現実との照合・連星",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 6,
+     "T": 1,
+     "M": 27
+    },
+    "sampleClass": "calibration",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "calibrationForecast": {
+     "status": "convergence-incomplete",
+     "scope": "近点間 P",
+     "basis": "docs/CALIBRATION_VERDICT_v1.44.md §5.4・§5.6 / tests/out/richardson-w261c.json",
+     "declaredSig": "9dd447b2",
+     "note": "4 量とも漸近域に居る(門 3)が、**漸近域と 3σ は別の門である**。収束先へ外挿しても観測との差は 10⁵σ 台で、これは刻みを細かくしても残る差(模型差)である。",
+     "gate": {
+      "passed": 0,
+      "of": 5,
+      "failed": [
+       "(4) 独立推定が無い",
+       "(5) 距離が 3σ に遠い"
+      ]
+     }
+    },
+    "obsCard": [
+     {
+      "q": "近点移動(**hold-out** — 較正に使っていない)",
+      "model": "+0.010407°/周(dt=0.001・引きずり場 倍精度・近点検出 2 方式の差 8×10⁻⁸)",
+      "obs": "+0.0052085°/周(ω̇=10.3651°/yr と P=15857.669 s からの換算)"
+     },
+     {
+      "q": "**比の別欄(第256便d)**: 較正質量での 1PN 値 = 観測の f 倍",
+      "model": "DFM/観測=**2.0020**(h/4・3段収束・窓20近点)。⚡ 2.0014・🩺 2.0023・🧶 2.0258 — 4 連星で同じ比。**3σ 一致は主張しない**(ε_num が σ の 10³倍超)",
+      "obs": "較正質量 fM がそのまま E12 の 1PN チャネルへ入る**較正の従属量**であって、独立な hold-out ではない。λ_PN=1/f の候補は variant 🪃 で"
+     },
+     {
+      "q": "公転周期(hold-out — 合わせていない・2 定義)",
+      "model": "近点間 15853.35 秒(−0.027%・dt=0.001 — 判定)/ 同方向1周は既定 dt で 15801.39 秒(−0.355% — 履歴)",
+      "obs": "15857.669019168 s(Pb=0.18353783587 d・Cameron et al. 2018)"
+     },
+     {
+      "q": "離心率(hold-out — 合わせていない)",
+      "model": "実測 0.605972(転写比 +0.026%)",
+      "obs": "0.6058142(転写)"
+     },
+     {
+      "q": "DFM 質量(**較正していない** — ⚡ と同じ一次則を1回評価した値)",
+      "model": "f=1.9998957(不動点・fit ノブなし)→ A 2.6767・B 2.7891 M☉。殻質量=観測値",
+      "obs": "—(観測 1.3384 / 1.3946 M☉。実在質量の主張ではない)"
+     },
+     {
+      "q": "**伴星の自転は未観測**(だから感度帯で出す)",
+      "model": "η=|F_SS|/|F_N| は 0(未観測)/ 6.5×10⁻¹⁵(仮定 10 ms)/ 6.5×10⁻¹⁶(仮定 100 ms)",
+      "obs": "—(伴星のパルスは検出されていない。0 とは書かず、レコードに行を置かない)"
+     },
+     {
+      "q": "半径は EOS proxy(NICER 測定ではない)",
+      "model": "11 / 11.75 / 13 km を入れても近点移動は 10 桁一致(半径は軌道に効かない)。η だけが 1.5 倍動く",
+      "obs": "—(本系の直接半径観測は無い。NICER 半径は J0740/J0030/J0437 の radius_nicer 行)"
+     },
+     {
+      "q": "周期の収縮(⚡ と同じ離散化仕事)",
+      "model": "近点間周期は単調減少。率は dt に厳密に比例(0.1109→0.0555→0.0277→0.0139%/周)= 連続極限で消える離散化仕事",
+      "obs": "—(B1913+16 の Ṗb/GR=0.9983±0.0016 が負対照。本収縮は数値起源で物理比較ではない)"
+     }
+    ],
+    "failureFirst": {
+     "fail": "**この便では較正していない — だから合っていない量がある。** ①近点移動は観測換算 0.0052085°/周 に対し DFM は +0.010407°/周 で、**約 2 倍**ずれる(⚡ 1.998・🩺 1.997 と同じ比 — 系ごとの偶然ではなく E6′ 引きずり項の構造)。②質量係数 f≈2 は ⚡ と同じ一次則を本系で1回評価しただけの**条件つき較正値**で、実在質量(1.3384/1.3946 M☉)の主張ではない。③半径 11.75 km は EOS/マルチメッセンジャー代理値で、本系の観測半径ではない(NICER 半径があるのは J0740+6620・J0030+0451・J0437−4715 の3天体だけ)。④**伴星の自転は観測されていない** — spinDipole を伴星に宣言せず、η は「未観測 / 仮定 10 ms / 仮定 100 ms」の感度帯としてしか出せない。⑤公転周期の収縮(dt=0.008 で −0.111%/周)は ⚡ と同じ離散化仕事で、B1913+16 の Ṗb/GR=0.9983±0.0016 と比べられる物理量ではない。⑥Cameron et al. (2023) と Singha et al. (2026) が本系の post-Keplerian を更に精密化しているが、本便では表を取得できず転写していない(出典表の note に明記)。",
+     "pass": "**hold-out として、合わせていない量が合う。** ⚡(J0737−3039A/B)で決めた処方 — kFrame=1・pull 重み(D₀ᵖ=3.24204×10⁻⁷)・一次則の質量・EOS proxy 半径・遠点整列 — を **1 か所も動かさずに** 本系へ当てると、fit していない公転周期が近点間 15853.35 秒(観測 15857.669 s の **−0.027%**)、fit していない離心率が 0.605972(転写 0.6058142 の **+0.026%**)に入る。⚡ の 2周目 P −0.17% よりも良い。**そして近点移動の DFM/GR 比が 1.998** — ⚡ の 1.998・🩺 J1946 の 1.997 と 3 桁一致する。「⚡ で見えた ≈2 倍」は J0737 固有の数字ではなく、kFrame=1 の引きずり項が中性子星連星一般に出す比である、という**測定できる主張**へ変わった(較正で消していないので比較できる)。伴星スピンが未観測でも軌道は 1 bit も変わらない(λ 既定では spinDipole は読み取り専用 — tests/exp-w248a.mjs の SPIN 節が 400 步ビット一致で機械対照)。"
+    },
+    "descStruct": {
+     "summary": "**予告(第284便b・原仮定者の裁定(第74報)⑤): この本は旧則(質量補正 f≈2 の条件つき較正)のままである。⚡ は f=1(観測質量)へ移った。本系も f=1 署名の便で移行する —— 以下の f≈2 に基づく判定と近点移動の比は旧則の履歴で、「質量を補正して周期に合わせる」処方を現行の根拠にはしない。** **⚡ の処方をそのまま別の中性子星連星へ当てた hold-out**(第248便a — 第40報「中性子星までの較正を目指す」)。PSR J1757−1854 は 21.5 ms パルサーと中性子星の 4.40 時間・e=0.606 の連星で、既知で最も強く加速された連星のひとつ(Cameron et al. 2018 MNRAS 475 L57 — paper/data/solar-observations.csv の 2026-09-08 追加行)。1単位=10⁶m/10¹s/10²⁷kg(⚡📻 と同じ L−T=5 相対論的連星族)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)で、⚡ と同一。**較正はしていない**: 質量係数 f は ⚡ と同じ一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解を本系で1回評価した 1.9998957(fit ノブなし)、スピン–スピンの用量 λ は既定(physics.spinSpin 未宣言 = 0)。半径は宣言つき EOS proxy 11.75 km。パルサーの観測自転 21.497 ms は殻(±20)・コア Ω(±50)の値域外なので spinDipole の読み取り専用チャネルにだけ載せ、**伴星の自転は未観測なので spinDipole を宣言しない**(0 と書かない)。physics.framePrecision:\"double\"(第247便a)で近点移動の数値床を外す。",
+     "observe": "実測(4.6公転窓・近点 4 個の位相 fit・引きずり場 倍精度): **近点移動 +0.010407°/周**(dt=0.001。dt 0.008→0.004→0.002→0.001 で 0.0104161→0.0104106→0.0104082→0.0104071 と収束し、近点検出 2 方式の差は 8×10⁻⁸)。観測換算は 0.0052085°/周(ω̇=10.3651°/yr)なので **DFM/GR 比 1.998**。合わせていない側: 近点間周期 15853.35 秒(観測 15857.669 s の −0.027%)・実測離心率 0.605972(転写 0.6058142 の +0.026%)。近点間周期は単調に縮み、率は dt に厳密に比例する(0.1109→0.0555→0.0277→0.0139%/周 — ⚡ と同じ離散化仕事)。感度表(tests/exp-w248a.mjs): 伴星スピンを 0(未観測)/ 仮定 10 ms / 仮定 100 ms と変えても軌道は 400 步ビット一致(λ 既定では spinDipole は力学に触れない)、半径を 11 / 11.75 / 13 km と変えても近点移動は 10 桁一致 — 動くのは η=|F_SS|/|F_N| だけで、仮定 10 ms・半径 11→13 km で 5.0×10⁻¹⁵→9.7×10⁻¹⁵。NaN ゼロ・clamp ゼロ。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
+     "control": "ワンタップ対照A/B: B側 **kFrame=0**(観測版の計算式側)— 同じ初期状態・同じ較正質量(×2.0)では引力が過剰になり軌道が深い楕円へ落ちる(⚡ と同じ機械対照: この質量は kFrame=1 専用)。**⚡(J0737)・🩺(J1946)と並べて見る**のが本サンプルの使い方 — 3 系とも近点移動の DFM/GR 比が 1.998 / 1.997 / 1.998 に揃う。伴星の自転は未観測なので、粒子をタップしても伴星側に spinDipole の読み出しは無い(「未知」であることが見えるのが宣言)。timeScale=500 で1公転が実時間 約3.2秒・dispMag=1000(表示専用)・トレイルで軌道を見る。",
+     "brief": "⚡ の処方を J1757 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 5.5×10⁴σ(差の%は正本に無い)・数値未解決・写像未確定。"
+    },
+    "en": {
+     "name": "PSR J1757−1854 (DFM build, old rule f≈2 — f=1 migration pending) — ⚡'s old recipe on a second neutron-star binary",
+     "calibrationForecast": {
+      "scope": "periastron-to-periastron P",
+      "note": "All four quantities sit in the asymptotic regime (gate 3), BUT THE ASYMPTOTIC GATE AND THE 3-SIGMA GATE ARE DIFFERENT GATES. Extrapolated to the continuum limit the residual is still of order 1e5 sigma - a difference that a finer step does not remove."
+     },
+     "obsCard": [
+      {
+       "q": "Periastron advance (A HOLD-OUT — nothing was calibrated here)",
+       "model": "+0.010407°/orbit (dt=0.001, double-precision dragging field; the two periastron detectors differ by 8e-8)",
+       "obs": "+0.0052085°/orbit (converted from omega_dot=10.3651°/yr and P=15857.669 s)"
+      },
+      {
+       "q": "RATIO — A SEPARATE FIELD (wave 256d): the 1PN value at the calibrated mass is f times the observation",
+       "model": "DFM/observed = 2.0020 (h/4, three-step converged, 20-periastron window); ⚡ 2.0014, 🩺 2.0023, 🧶 2.0258 — the same ratio on four binaries. NOT A CLAIM OF 3σ AGREEMENT (eps_num exceeds σ by >10³)",
+       "obs": "The calibrated mass fM enters E12's 1PN channel unchanged, so this is a DEPENDENT quantity of the calibration, not an independent hold-out. The lambdaPN=1/f candidate lives in the variant 🪃"
+      },
+      {
+       "q": "Orbital period (a hold-out — never fitted; two definitions)",
+       "model": "periastron-to-periastron 15853.35 s (−0.027% at dt=0.001 — the verdict) / same-direction 15801.39 s at the default dt (−0.355% — historical)",
+       "obs": "15857.669019168 s (Pb=0.18353783587 d; Cameron et al. 2018)"
+      },
+      {
+       "q": "Eccentricity (a hold-out — never fitted)",
+       "model": "measured 0.605972 (+0.026% of the transcribed value)",
+       "obs": "0.6058142 (transcribed)"
+      },
+      {
+       "q": "DFM masses (NOT CALIBRATED — ⚡'s law evaluated once on this system)",
+       "model": "f=1.9998957 (the linear law's fixed point; no fitted knob) → A 2.6767, B 2.7891 M☉; shell mass = observed",
+       "obs": "— (observed 1.3384 / 1.3946 M☉; not a real-mass claim)"
+      },
+      {
+       "q": "THE COMPANION'S SPIN IS UNOBSERVED (hence a sensitivity band)",
+       "model": "η=|F_SS|/|F_N| is 0 (unobserved) / 6.5e-15 (assuming 10 ms) / 6.5e-16 (assuming 100 ms)",
+       "obs": "— (no pulsations are detected from the companion; the record carries no row rather than a zero)"
+      },
+      {
+       "q": "The radius is an EOS proxy, NOT a NICER measurement",
+       "model": "11 / 11.75 / 13 km leave the periastron advance identical to 10 digits (the radius does not reach the orbit); only η moves, by 1.5x",
+       "obs": "— (no direct radius measurement of this system exists; the NICER radii are the radius_nicer rows for J0740, J0030, J0437)"
+      },
+      {
+       "q": "Period contraction (the same discretization work as ⚡)",
+       "model": "the period shrinks monotonically and the rate is exactly proportional to dt (0.1109→0.0555→0.0277→0.0139%/orbit) = discretization work that vanishes in the continuum limit",
+       "obs": "— (B1913+16's Pb_dot/GR = 0.9983 ± 0.0016 is the negative control; this contraction is numerical in origin, not a physical comparison)"
+      }
+     ],
+     "failureFirst": {
+      "fail": "NOTHING WAS CALIBRATED IN THIS WAVE — so some quantities do not agree. (1) The periastron advance comes out at +0.010407°/orbit against the converted observation 0.0052085°/orbit: ABOUT TWICE (the same 1.998 / 1.997 / 1.998 ratio as ⚡ and 🩺 — a structural consequence of the E6′ dragging term, not a per-system coincidence). (2) The mass factor f≈2 is ⚡'s linear law evaluated once on this system: a CONDITIONAL calibration, not a claim about the real masses (1.3384 / 1.3946 M☉). (3) The 11.75 km radius is an EOS/multimessenger proxy, not a measured radius of this system (only J0740+6620, J0030+0451 and J0437−4715 have NICER radii). (4) THE COMPANION'S SPIN IS NOT OBSERVED — no spinDipole is declared for it, and η can only be given as a band over 'unobserved / assumed 10 ms / assumed 100 ms'. (5) The orbital-period contraction (−0.111%/orbit at dt=0.008) is ⚡'s discretization work; it is not a physical quantity to set beside B1913+16's Pb_dot/GR = 0.9983 ± 0.0016. (6) Cameron et al. (2023) and Singha et al. (2026) refine this system's post-Keplerian parameters further; their tables could not be fetched in this session and are NOT transcribed (declared in the source table's note).",
+      "pass": "AS A HOLD-OUT, THE UNFITTED QUANTITIES LAND. Taking ⚡'s recipe — kFrame=1, the pull weight (D₀ᵖ=3.24204e-7), the linear-law masses, the EOS proxy radius, apoapsis alignment — and moving NOT ONE of them, the unfitted orbital period comes out at 15853.35 s (−0.027% of the observed 15857.669 s) and the unfitted eccentricity at 0.605972 (+0.026% of the transcribed 0.6058142). Both are better than ⚡'s own −0.17% period residual. AND THE PERIASTRON-ADVANCE RATIO DFM/GR IS 1.998 — agreeing to three digits with ⚡'s 1.998 and 🩺 J1946's 1.997. So 'the factor of two seen on ⚡' is not a number peculiar to J0737: it is what the kFrame=1 dragging term returns on neutron-star binaries generally — a MEASURABLE claim, because it was never fitted away. The unobserved companion spin changes nothing in the orbit (at the default λ the spinDipole channel is read-only — the SPIN section of tests/exp-w248a.mjs machine-fixes 400 steps bit-identically)."
+     },
+     "descStruct": {
+      "summary": "NOTICE (wave 284b, the adjudicator's ruling, 74th report ⑤): THIS BUILD STILL RUNS THE OLD RULE (the conditional f≈2 mass correction). ⚡ has moved to f=1 (the observed masses) and this system will move in its own f=1 signature wave — the f≈2-based verdicts and apsidal-advance ratios below are the old rule's history, and the recipe of correcting the masses to match the period is not a current basis. ⚡'S RECIPE, APPLIED UNCHANGED TO A DIFFERENT NEUTRON-STAR BINARY, AS A HOLD-OUT (wave 248a — report 40, 'aim the calibration at neutron stars'). PSR J1757−1854 is a 21.5-ms pulsar with a neutron-star companion in a 4.40-hour, e=0.606 orbit, one of the most strongly accelerated binaries known (Cameron et al. 2018 MNRAS 475 L57 — the rows added to paper/data/solar-observations.csv on 2026-09-08). 1 unit = 10⁶ m / 10¹ s / 10²⁷ kg (the same L−T=5 relativistic-binary family as ⚡📻). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act — exactly as on ⚡. NOTHING IS CALIBRATED: the mass factor f is ⚡'s linear law f=1+k_F(αχ_A+βχ_B) evaluated once on this system, 1.9998957 (no fitted knob), and the spin–spin dose λ is the default (physics.spinSpin undeclared = 0). The radius is the declared EOS proxy 11.75 km. The pulsar's observed 21.497-ms rotation is outside both the shell (±20) and core-Ω (±50) ranges, so it rides only the read-only spinDipole channel — AND THE COMPANION'S ROTATION IS UNOBSERVED, so no spinDipole is declared for it (a zero is never written). physics.framePrecision:\"double\" (wave 247a) removes the numerical floor under the periastron advance.",
+      "observe": "Measured (a 4.6-orbit window, phase fit over 4 periastra, double-precision dragging field): PERIASTRON ADVANCE +0.010407°/orbit at dt=0.001 (the dt sequence 0.008→0.004→0.002→0.001 gives 0.0104161→0.0104106→0.0104082→0.0104071 and the two detectors differ by 8e-8). The converted observation is 0.0052085°/orbit (omega_dot=10.3651°/yr), so the DFM/GR RATIO IS 1.998. The unfitted side: periastron-to-periastron period 15853.35 s (−0.027% of 15857.669 s) and measured eccentricity 0.605972 (+0.026% of the transcribed 0.6058142). The period shrinks monotonically and the rate is exactly proportional to dt (0.1109→0.0555→0.0277→0.0139%/orbit — ⚡'s discretization work). Sensitivity table (tests/exp-w248a.mjs): changing the companion spin over unobserved / assumed 10 ms / assumed 100 ms leaves 400 steps BIT-IDENTICAL (at the default λ the spinDipole never touches the dynamics), and changing the radius over 11 / 11.75 / 13 km leaves the periastron advance identical to 10 digits — only η=|F_SS|/|F_N| moves, from 5.0e-15 to 9.7e-15 at an assumed 10 ms. Zero NaN, zero clamps. Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
+      "control": "One-tap A/B: side B is kFrame=0 (the observation build's formula) — at the same initial state and the same calibrated masses (×2.0) gravity is excessive and the orbit plunges into a deep ellipse (⚡'s machine control: these masses belong to kFrame=1 only). THE INTENDED USE IS TO PUT THIS SAMPLE BESIDE ⚡ (J0737) AND 🩺 (J1946): all three give a periastron-advance DFM/GR ratio of 1.998 / 1.997 / 1.998. Tapping the companion shows NO spinDipole readout — the unobserved quantity is visibly absent, which is the declaration. With timeScale=500 one orbit takes ~3.2 wall seconds; dispMag=1000 (display only); use trails.",
+      "brief": "Apply ⚡'s recipe to J1757. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance 5.5×10⁴σ (no % in the ledger); numerics unresolved; mapping unresolved."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "real c₀=3×10³ (the L−T=5 relativistic-binary family)",
+       "the transcribed geometry: apoapsis separation a(1+e)=2122.83 units and the real Kepler apoapsis speed at the transcribed masses (a is the Kepler-equivalent value derived in the record from the DDGR total mass 2.73295 M☉ and Pb)",
+       "the observed masses 1.3384 / 1.3946 M☉ (Cameron et al. 2018; DDGR — GR-derived, conditional reference)",
+       "radius = the declared EOS proxy 11.75 km (no direct radius measurement of this system exists)",
+       "the pulsar's observed rotation 21.4972318900292 ms — transcribed into the read-only spinDipole Q",
+       "THE COMPANION'S ROTATION IS UNOBSERVED — no spinDipole is declared for it (never a zero)",
+       "the observed period 15857.669019168 s and eccentricity 0.6058142 (HOLD-OUTS — compared against, never fitted)",
+       "the observed periastron advance 10.3651°/yr = 0.0052085°/orbit (A HOLD-OUT — never fitted)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10⁶ m / 10¹ s / 10²⁷ kg — same as ⚡📻)",
+       "kFrame=1 (⚡'s DFM formula, unchanged)",
+       "frameReaction:\"pairReduced\" (E6′-R), kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+       "physics.framePrecision:\"double\" (wave 247a — Float64 for the nine dragging-field arrays only)",
+       "physics.spinSpin is NOT declared (λ = the default) — the spin–spin overlay of 🧿 is deliberately absent",
+       "initial state = the apoapsis of the observed orbit (two-body barycentric, both free — the wave-211 alignment)",
+       "shell spin=0 declared (the pulsar's 2922.79 rad/unit is outside both ranges; the companion's is unknown), coupleSink:\"core\", cmGauge:\"barycentric\"",
+       "core: differential, radius 0.01, massFrac=(f−1)/f, Ω(t=0)=0 for both (receptacles), Kcs=0, ζ=10⁶ — the same construction as ⚡",
+       "D₀=0.006 and the pull dose D₀ᵖ=3.24204e-7 are reused from ⚡ as declared shared values"
+      ],
+      "fitted": [
+       "NOTHING. This sample is a HOLD-OUT: f=1.9998957 is the self-consistent linear law evaluated once on this system's own observables (the χ² law gives 1.9997913, recorded as factorQuad), and λ is the default. The period, eccentricity and periastron advance are all comparison targets."
+      ],
+      "derived": [
+       "per-body dragQ: A 3.1725695614875535 / B 3.1690330197233236 — q_exact from the observed shell mass at the reference a=1321.9674 (E2/E3 drag only; not a fit knob); physics.q=3.1726 is the rounded A-side value",
+       "f_A=f_B=1.9998956627766773 (the linear law's fixed point; χ_A=0.99989785, χ_B=0.99989356)",
+       "A 5322.539 / B 5546.035 units (= observed mass × f) = 2.6767 / 2.7891 M☉",
+       "massFrac=(f−1)/f=0.4999739143333163 (shell mass = the observed mass — the wave-224 convention)",
+       "a=1321.9674457986196 units from a³=G M Pb²/(4π²) with (GM)☉=1.3271244e20 (IAU 2015 B3)",
+       "κ=G/c₀²=7.4156×10⁻⁷",
+       "camera.scale=500, timeScale=500, dispMag=1000 (display only)"
+      ],
+      "numerical": [
+       "softening ε=0.05",
+       "time multiplier timeScale=500",
+       "display magnification dispMag=1000 (display only)",
+       "measurement dt=0.001 (two periastron detectors, a phase fit over 4 periastra, a 4.6-orbit window — tests/exp-w248a.mjs)"
+      ]
+     },
+     "description": "NOTICE (wave 284b, the adjudicator's ruling, 74th report ⑤): THIS BUILD STILL RUNS THE OLD RULE (the conditional f≈2 mass correction). ⚡ has moved to f=1 (the observed masses) and this system will move in its own f=1 signature wave — the f≈2-based verdicts and apsidal-advance ratios below are the old rule's history, and the recipe of correcting the masses to match the period is not a current basis. ⚡'S RECIPE, APPLIED UNCHANGED TO A DIFFERENT NEUTRON-STAR BINARY, AS A HOLD-OUT (wave 248a — report 40, 'aim the calibration at neutron stars'). PSR J1757−1854 is a 21.5-ms pulsar with a neutron-star companion in a 4.40-hour, e=0.606 orbit, one of the most strongly accelerated binaries known (Cameron et al. 2018 MNRAS 475 L57 — the rows added to paper/data/solar-observations.csv on 2026-09-08). 1 unit = 10⁶ m / 10¹ s / 10²⁷ kg (the same L−T=5 relativistic-binary family as ⚡📻). Only gravity (E4), frame dragging (A8/E6′) and the geodesic 1PN term (E12) act — exactly as on ⚡. NOTHING IS CALIBRATED: the mass factor f is ⚡'s linear law f=1+k_F(αχ_A+βχ_B) evaluated once on this system, 1.9998957 (no fitted knob), and the spin–spin dose λ is the default (physics.spinSpin undeclared = 0). The radius is the declared EOS proxy 11.75 km. The pulsar's observed 21.497-ms rotation is outside both the shell (±20) and core-Ω (±50) ranges, so it rides only the read-only spinDipole channel — AND THE COMPANION'S ROTATION IS UNOBSERVED, so no spinDipole is declared for it (a zero is never written). physics.framePrecision:\"double\" (wave 247a) removes the numerical floor under the periastron advance.Measured (a 4.6-orbit window, phase fit over 4 periastra, double-precision dragging field): PERIASTRON ADVANCE +0.010407°/orbit at dt=0.001 (the dt sequence 0.008→0.004→0.002→0.001 gives 0.0104161→0.0104106→0.0104082→0.0104071 and the two detectors differ by 8e-8). The converted observation is 0.0052085°/orbit (omega_dot=10.3651°/yr), so the DFM/GR RATIO IS 1.998. The unfitted side: periastron-to-periastron period 15853.35 s (−0.027% of 15857.669 s) and measured eccentricity 0.605972 (+0.026% of the transcribed 0.6058142). The period shrinks monotonically and the rate is exactly proportional to dt (0.1109→0.0555→0.0277→0.0139%/orbit — ⚡'s discretization work). Sensitivity table (tests/exp-w248a.mjs): changing the companion spin over unobserved / assumed 10 ms / assumed 100 ms leaves 400 steps BIT-IDENTICAL (at the default λ the spinDipole never touches the dynamics), and changing the radius over 11 / 11.75 / 13 km leaves the periastron advance identical to 10 digits — only η=|F_SS|/|F_N| moves, from 5.0e-15 to 9.7e-15 at an assumed 10 ms. Zero NaN, zero clamps. Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.One-tap A/B: side B is kFrame=0 (the observation build's formula) — at the same initial state and the same calibrated masses (×2.0) gravity is excessive and the orbit plunges into a deep ellipse (⚡'s machine control: these masses belong to kFrame=1 only). THE INTENDED USE IS TO PUT THIS SAMPLE BESIDE ⚡ (J0737) AND 🩺 (J1946): all three give a periastron-advance DFM/GR ratio of 1.998 / 1.997 / 1.998. Tapping the companion shows NO spinDipole readout — the unobserved quantity is visibly absent, which is the declaration. With timeScale=500 one orbit takes ~3.2 wall seconds; dispMag=1000 (display only); use trails.",
+     "status": {
+      "purpose": "Apply ⚡'s recipe to J1757",
+      "state": "the comparison runs are in the ledger",
+      "mismatch": "apsidal advance 5.5×10⁴σ (no % in the ledger)",
+      "outlook": "numerics unresolved; mapping unresolved"
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "実 c₀=3×10³(L−T=5 相対論的連星族)",
+      "転写幾何: 遠点分離 a(1+e)=2122.83 単位・転写質量での実ケプラー遠点速度(a は DDGR 総質量 2.73295 M☉ と Pb からの Kepler 等価値 — レコードで導出)",
+      "観測質量 1.3384 / 1.3946 M☉(Cameron et al. 2018・DDGR = GR 由来の条件つき参照値)",
+      "半径=宣言つき EOS proxy 11.75 km(本系固有の直接半径観測は存在しない)",
+      "パルサーの観測自転 21.4972318900292 ms — 読み取り専用の spinDipole の Q へ転写",
+      "**伴星の自転は未観測** — 伴星に spinDipole を宣言しない(0 とは書かない)",
+      "観測周期 15857.669019168 s・離心率 0.6058142(**hold-out** — 照合先であって fit の対象ではない)",
+      "観測の近点移動 10.3651°/yr = 0.0052085°/周(**hold-out** — fit の対象ではない)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁶m/10¹s/10²⁷kg — ⚡📻 と同一)",
+      "kFrame=1(⚡ の DFM の計算式のまま)",
+      "frameReaction:\"pairReduced\"(E6′-R)・kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "physics.framePrecision:\"double\"(第247便a — 引きずり場の 9 配列だけ Float64)",
+      "physics.spinSpin は**宣言しない**(λ=既定)— 🧿 のスピン–スピン重畳は意図的に持ち込まない",
+      "初期状態=観測軌道の遠点(二体重心系・両星自由 — 第211便の整列規約)",
+      "殻 spin=0 宣言(パルサーの 2922.79 rad/単位は両値域外・伴星は未知)・coupleSink:\"core\"・cmGauge:\"barycentric\"",
+      "コア: mode=differential・半径 0.01・massFrac=(f−1)/f・両体とも Ω(t=0)=0(受け皿)・Kcs=0・ζ=10⁶(⚡ と同じ建付け)",
+      "D₀=0.006 と pull 用量 D₀ᵖ=3.24204e-7 は ⚡ の宣言値の流用"
+     ],
+     "fitted": [
+      "**フィットしたノブは無い(hold-out)**。f=1.9998957 は一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解を本系の観測量で1回評価した値(χ² 則の 1.9997913 は factorQuad に併記)・λ は既定。周期・離心率・近点移動はすべて照合先である"
+     ],
+     "derived": [
+      "粒子別 dragQ: A 3.1725695614875535 / B 3.1690330197233236(参照 a=1321.9674 での観測殻質量からの q_exact — E2/E3 の引きずり専用・fit ノブではない)。physics.q=3.1726 は A 側の丸め値",
+      "f_A=f_B=1.9998956627766773(一次則の不動点・χ_A=0.99989785・χ_B=0.99989356)",
+      "A 5322.539 / B 5546.035 単位(=観測質量×f)= 2.6767 / 2.7891 M☉",
+      "massFrac=(f−1)/f=0.4999739143333163(殻質量=観測質量の記帳 — 第224便の規約)",
+      "a=1321.9674457986196 単位(a³=G M Pb²/(4π²)・(GM)☉=1.3271244e20〔IAU 2015 B3〕)",
+      "κ=G/c₀²=7.4156×10⁻⁷",
+      "camera.scale=500・timeScale=500・dispMag=1000(表示専用)"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.05",
+      "時間倍率 timeScale=500",
+      "粒子表示倍率 dispMag=1000(表示専用)",
+      "測定 dt=0.001(近点検出 2 方式・4 近点の位相 fit・4.6公転窓 — tests/exp-w248a.mjs)"
+     ]
+    },
+    "abBody": {
+     "label": {
+      "ja": "kFrame=0(観測版の計算式側 — 較正質量(f≈2)では深い楕円へ)",
+      "en": "kFrame=0 (the observation build's formula — the f≈2 masses plunge)"
+     },
+     "physicsPatch": {
+      "kFrame": 0
+     }
+    },
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "camera": {
+     "scale": 500
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 1,
+     "q": 3.1726,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.415555555555556e-7,
+     "cLight": 3000,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 500,
+     "dispMag": 1000,
+     "stateCarry": "double",
+     "framePrecision": "double",
+     "frameReaction": "pairReduced",
+     "coupleSink": "core",
+     "cmGauge": "barycentric",
+     "frameWeight": "pull",
+     "D0pull": 3.24204e-7
+    },
+    "massCalibration": {
+     "law": "inertia-law-lin-v1",
+     "fitDt": 0.016,
+     "baseMass": [
+      2661.4084000000003,
+      2773.1621
+     ],
+     "factor": 1.9998956627766773,
+     "factorByBody": [
+      1.9998956627766773,
+      1.9998956627766773
+     ],
+     "chi": [
+      0.9998978512795448,
+      0.9998935624667403
+     ],
+     "factorQuad": 1.9997913255590885,
+     "chiQuad": [
+      0.9998978459505765,
+      0.999893556914054
+     ]
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "dragQ": 3.1725695614875535,
+      "m": 5322.5391160374165,
+      "radius": 0.01175,
+      "x": -1083.2434800003837,
+      "y": 0,
+      "vx": 0,
+      "vy": -1.3242750727265096,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "pulse": {
+       "omega": 2922.7880777030828,
+       "source": "observed"
+      },
+      "spinDipole": {
+       "omega": 2922.7880777030828,
+       "radius": 0.01175,
+       "source": "observed"
+      },
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.4999739143333163,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     },
+     {
+      "type": "single",
+      "dragQ": 3.1690330197233236,
+      "m": 5546.034855966663,
+      "radius": 0.01175,
+      "x": 1039.5906164007697,
+      "y": 0,
+      "vx": 0,
+      "vy": 1.2709090472803386,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.4999739143333163,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**予告(第284便b・原仮定者の裁定(第74報)⑤): この本は旧則(質量補正 f≈2 の条件つき較正)のままである。⚡ は f=1(観測質量)へ移った。本系も f=1 署名の便で移行する —— 以下の f≈2 に基づく判定と近点移動の比は旧則の履歴で、「質量を補正して周期に合わせる」処方を現行の根拠にはしない。** **⚡ の処方をそのまま別の中性子星連星へ当てた hold-out**(第248便a — 第40報「中性子星までの較正を目指す」)。PSR J1757−1854 は 21.5 ms パルサーと中性子星の 4.40 時間・e=0.606 の連星で、既知で最も強く加速された連星のひとつ(Cameron et al. 2018 MNRAS 475 L57 — paper/data/solar-observations.csv の 2026-09-08 追加行)。1単位=10⁶m/10¹s/10²⁷kg(⚡📻 と同じ L−T=5 相対論的連星族)。働いているのは重力(E4)と空間引きずり(A8/E6′)+測地線1PN(E12)で、⚡ と同一。**較正はしていない**: 質量係数 f は ⚡ と同じ一次則 f=1+k_F(αχ_A+βχ_B) の自己無撞着解を本系で1回評価した 1.9998957(fit ノブなし)、スピン–スピンの用量 λ は既定(physics.spinSpin 未宣言 = 0)。半径は宣言つき EOS proxy 11.75 km。パルサーの観測自転 21.497 ms は殻(±20)・コア Ω(±50)の値域外なので spinDipole の読み取り専用チャネルにだけ載せ、**伴星の自転は未観測なので spinDipole を宣言しない**(0 と書かない)。physics.framePrecision:\"double\"(第247便a)で近点移動の数値床を外す。実測(4.6公転窓・近点 4 個の位相 fit・引きずり場 倍精度): **近点移動 +0.010407°/周**(dt=0.001。dt 0.008→0.004→0.002→0.001 で 0.0104161→0.0104106→0.0104082→0.0104071 と収束し、近点検出 2 方式の差は 8×10⁻⁸)。観測換算は 0.0052085°/周(ω̇=10.3651°/yr)なので **DFM/GR 比 1.998**。合わせていない側: 近点間周期 15853.35 秒(観測 15857.669 s の −0.027%)・実測離心率 0.605972(転写 0.6058142 の +0.026%)。近点間周期は単調に縮み、率は dt に厳密に比例する(0.1109→0.0555→0.0277→0.0139%/周 — ⚡ と同じ離散化仕事)。感度表(tests/exp-w248a.mjs): 伴星スピンを 0(未観測)/ 仮定 10 ms / 仮定 100 ms と変えても軌道は 400 步ビット一致(λ 既定では spinDipole は力学に触れない)、半径を 11 / 11.75 / 13 km と変えても近点移動は 10 桁一致 — 動くのは η=|F_SS|/|F_N| だけで、仮定 10 ms・半径 11→13 km で 5.0×10⁻¹⁵→9.7×10⁻¹⁵。NaN ゼロ・clamp ゼロ。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。ワンタップ対照A/B: B側 **kFrame=0**(観測版の計算式側)— 同じ初期状態・同じ較正質量(×2.0)では引力が過剰になり軌道が深い楕円へ落ちる(⚡ と同じ機械対照: この質量は kFrame=1 専用)。**⚡(J0737)・🩺(J1946)と並べて見る**のが本サンプルの使い方 — 3 系とも近点移動の DFM/GR 比が 1.998 / 1.997 / 1.998 に揃う。伴星の自転は未観測なので、粒子をタップしても伴星側に spinDipole の読み出しは無い(「未知」であることが見えるのが宣言)。timeScale=500 で1公転が実時間 約3.2秒・dispMag=1000(表示専用)・トレイルで軌道を見る。",
+    "status": {
+     "purpose": "⚡ の処方を J1757 へ当てる",
+     "objective": "partial",
+     "state": "照合の走行は台帳に記帳",
+     "calibration": "hold",
+     "mismatch": "近点移動 5.5×10⁴σ(差の%は正本に無い)",
+     "outlook": "数値未解決・写像未確定",
+     "evidence": [
+      "tests/out/calaudit-w249.json",
+      "docs.calibration-verdict-sync"
+     ]
+    }
+   },
+   "why": "原仮定者の裁定(第75報)AN24′: 旧則(一次則 f≈2 の条件つき較正・Kcs=0 の補正コア・偶力はコアへ)の宣言。**現行の根拠ではない**(履歴)"
+  }
+ },
+ "history": {
+  "qa": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "rev": "b92ffa1",
+   "commit": "fa86f3939bde7aa118b1ccb2c638ac417f575903",
+   "date": "2026-09-27T15:05:15.207Z",
+   "targetSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+   "total": 919
+  },
+  "tests": [
+   {
+    "id": "lint.precisionUlp",
+    "pass": true,
+    "ms": 32,
+    "detail": "Float32 の最小刻みは対象質量付近で **0.00048828125(=2⁻¹¹)**(質量が [4096,8192) にあるため) / ⚡ は f=1 へ移った —— 記録の再現は凍結の写しの旧則の質量で行う / ⚡ ULP 0.00048828125・ΔP 5.398e-5 s = 215.5σ / 🧶 ULP 0.00048828125・ΔP 2.175e-4 s = 251.7σ / 🧮 ULP 0.00048828125・ΔP 1.762e-4 s = 40.8σ / 質量丸めは **診断**(isBound:false・isMeasured:false — 誤差上限でも Float64 実走の結果でもない) / 旧記録 ~0.0004 の探索版は ULP ではなく「丸めが倒れるまでの距離」を返していた(第260便d で訂正)"
+   },
+   {
+    "id": "behavior.nsThreeStage",
+    "pass": true,
+    "ms": 0,
+    "detail": "① 宣言: NS 4 系 ⚡double/🧮double/🩺double/🧶double(4 本とも double = 第255便d の p_obs 検定で新規宣言は 0 本)・native のまま残る kF1 宣言 61 本(うち現実較正 15 本)に NS 系は 0 本 / ② 決定性(⚡ 3.2 公転・窓 3 近点 ×2): 近点側候補 3=3/3=3・Δϖ=0.00980383・ビット同一=true / ③ 3 段(窓 20 近点・21.5 公転): **double** Q=[0.00958477, 0.00948451, 0.00946865] p_obs=2.661(>0) ε_num=1.161e-4 柵却下 A/B=[0,0,0]/[0,0,0](=0) / **native(宣言を外した対照)** Q=[0.00930811, 0.00946798, 0.00829348] p_obs=-2.877(<0 — 収束しない) ε_num=1.015e-3 柵却下 A/B=[0,1,3]/[1,1,2](dt を細かくするほど偽検出が増える)"
+   },
+   {
+    "id": "behavior.w249a-pnResponse",
+    "pass": true,
+    "ms": 26,
+    "detail": "NS 応答候補 3 本(🪶🪃🪀)の宣言固定: λ_PN=1/f(massCalibration.factor の逆数・±1e-9)・c=2997.92458(299,792,458 m/s の単位換算)・κ=G/c² 同期・framePrecision:\"double\" / 複製元(⚡🧮🩺)は旧則のまま(λ_PN=1・c=3000)で bodies と massCalibration はビット同一 — physics の差は lambdaPN/cLight/kappaT/framePrecision の 4 キーだけ / psrDoubleABPN: f=1.999942269345993 λ=0.5000144330801174 diff=[\"cLight\",\"kappaT\",\"lambdaPN\"](複製元=凍結の写しの旧 ⚡) | psrJ1757PN: f=1.9998956627766773 λ=0.5000260856666837 diff=[\"cLight\",\"kappaT\",\"lambdaPN\"] | psrJ1946PN: f=1.9999655295617553 λ=0.5000086177580901 diff=[\"cLight\",\"kappaT\",\"lambdaPN\"]"
+   },
+   {
+    "id": "behavior.jointCalProtocol",
+    "pass": true,
+    "ms": 3817,
+    "detail": "① 2σ=correction-not-required・4σ=correction-required・σ なし=undecidable・根 fit-search-tolerance-met/fit-search-unresolved/measurement-unresolved・observationalPass は常に null かつ isPrediction=false=true・不正な門の宣言は null=true・空入力は undecidable=true / ② 内蔵 142 本の kFrame 集合={0,1}・NS 4 系は kFrame=1/geoPN=2/calibration=true / ③ kFrame=1.2 の宣言は検証器で 1 になる(値域 [0,1] の実測)・本体は 1 bit 不変=true / ④ 🧮 基準走行(f=1・kFrame=1・4 近点)P=34162.35 s 対 観測 15857.669019168 s(4.24e+9σ) → correction-required / ⑤ 台帳 f=1.999896(6 近点)P=15750.37 s・ω̇=22.2093 °/yr は観測 10.3651 の2.143 倍 → correction-required(**この 2 点は較正ではない** — 20 近点・3 刻みの表は器 tests/exp-w265a-basis.mjs が出す)"
+   }
+  ]
+ }
+}
