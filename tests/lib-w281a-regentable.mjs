@@ -21,6 +21,7 @@
 //   'w284a-branch' … 第284便a の枝で器を走らせた実測(正本の elapsedS —— 1 回目 3808.5・2 回目 3067.7 を採る。Node だけ・子プロセス 3 本・他の枝と同じ容器で並走〔負荷平均 12〜34〕)。
 //   'w284e-branch' … 第284便e の枝で器を 1 回走らせた実測(正本の elapsedS —— tpsign は正本が基点の世代で判定器を --only で走らせた値)。
 //   'w285a-branch' … 第285便a の枝で器を走らせた実測(正本の elapsedS —— contact285 は判定器なし・clusterScan は子プロセス 2 本・他の枝と同じ容器で並走)。
+//   'w285b-branch' … 第285便b の枝で器を 1 回走らせた実測(正本の elapsedS 681.6 —— Node だけ・他の枝と同じ容器で並走〔負荷平均 30 前後〕)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -276,11 +277,21 @@ export const REGEN_STEPS = [
       + '第283便a で**履歴**(geoPN=1 の旧則〔反作用を返さない〕の記録 —— 再生成しない)' }),
   // ---- 第283便a(原仮定者の裁定(2026-09-26 追加)・AN23・R83): geoPN の 2 フラグの導出表・共通化の前後(基点 html と 141 本 × 1/128 歩)・
   //   kF0 走行 37 本の geoPN=1 対 geoPN=2∧kFrame=0・⭐ の前後(html と calaudit のページ側ヘルパだけを読む —— Node だけ・他の正本は読まない)
-  S('geomode', 'node tests/exp-w283a-geomode.mjs', ['tests/out/geomode-w283a.json'], 1608, { secSource: 'w283a-branch', node: true,
+  // 第285便b(原仮定者の裁定(第75報)⑦・統括の検証項目 R97): kF0 の 1PN が EIH 型(有限質量比の N 体 1PN)になり、本器の (d)
+  //   「geoPN=1 は試験粒子形 + 対反作用(Σm·vx=0・近点移動比 1−10ν/3)」と (b) の前後の差(⭐ だけ)の前提が消えた —— 正本は第283便a の
+  //   記録として**履歴**へ(再生成しない・計画は常に「履歴」)。新しい kF0 の 1PN の実測は pn1(下)
+  S('geomode', 'node tests/exp-w283a-geomode.mjs', ['tests/out/geomode-w283a.json'], 1608, { role: 'history', secSource: 'w283a-branch', node: true,
     env: { W283A_BASE_REV: '基点(既定 de9e39b —— git show で一時ファイルを作り終了後に削除)' },
     volatilePaths: { 'tests/out/geomode-w283a.json': META_RUN.concat(['/elapsedS', '/headless/*/wallSec']) },
     note: '第283便a: 導出表(141 本)・受理器の契約・基点との 1/128 歩のビット比較と署名・kF0 走行 37 本 + 診断コピー 7 本・⭐ の前後'
-      + '(1 歩の Σm·vx・束縛二体の近点移動比・本体 6000 步)・☿ と V18' }),
+      + '(1 歩の Σm·vx・束縛二体の近点移動比・本体 6000 步)・☿ と V18。第285便b で**履歴**(kF0 の 1PN が EIH 型へ —— 再生成しない)' }),
+  // ---- 第285便b(原仮定者の裁定(第75報)⑦・R97/R98): kF0 1PN 対照便の正本(制御二体の近点移動比・加速度の照合・ラグランジアン・保存量・
+  //   kF0 主系列の λ=0/1 対照・水星の ε/dt の分解・geoPN 1/2 の本の前後)。**calaudit-w249.json を読む**(観測の近点移動)—— 書く段の
+  //   calaudit・dt3・kf0 の後。所要は第285便b の枝の実測(Node 1 本・他の枝と同じ容器で並走)
+  S('pn1', 'node tests/exp-w285b-pn1.mjs', ['tests/out/pn1-w285b.json'], 682, { secSource: 'w285b-branch', node: true, after: ['calaudit', 'dt3', 'kf0'],
+    env: { W285B_BASE_REV: '基点(既定 b92ffa1 —— git show で一時ファイルを作り終了後に削除)' },
+    volatilePaths: { 'tests/out/pn1-w285b.json': META_RUN.concat(['/elapsedS', '/headless/*/wallSec']) },
+    note: '第285便b: kF0 の 1PN(EIH 型)—— 制御二体(R97)・html の Δ と参照実装の照合・Euler–Lagrange・保存量・kF0 主系列の λ=0/1・☄️ の ε/dt・前後' }),
   // ---- 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R85): 同一天体の家族の差分表と統廃合の候補(html・calaudit の較正母集団・
   //   凍結の写し tests/fixtures/retired-w283b.json を読む —— 1 步も走らせない。所要は第283便b の枝の実測〔Node 1 本・壁時計〕)
   S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit', 'dt3', 'kf0'],
