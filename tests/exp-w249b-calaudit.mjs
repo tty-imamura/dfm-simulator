@@ -286,7 +286,9 @@ const CFG = {
   emAuditSolar:       { c: 1, o: [[2, '月']] },
   qLockRadialAudit:   { c: 0, o: [[1, '最内'], [8, '参照点']] },
   qLockRadialAuditQ3: { c: 0, o: [[1, '最内'], [8, '参照点']] },
-  mercuryReal:        { c: 0, o: [[1, '水星']] },
+  // 第286便b(原仮定者の裁定(第76報)AN59・統括の検証項目 R104): ☄️ の**較正専用 ε**。`calPhysics` は較正行の宣言で、判定器の**写しにだけ**
+  //   当てる(内蔵の本〔表示の本〕の softening 0.05 と既定 0.05 は変えない)。ε の変更は刻み dt の変更と別要因(前後は tests/out/pnsource-w286b.json)
+  mercuryReal:        { c: 0, o: [[1, '水星']], calPhysics: { softening: 0.01 } },
   mercuryRealKF1:     { c: 0, o: [[1, '水星']] },
   solarInner:         { c: 0, o: [[1, '水星'], [2, '金星'], [3, '地球'], [4, '火星']] },
   jupiterGalilean:    { c: 0, o: [[1, 'イオ'], [2, 'エウロパ'], [3, 'ガニメデ'], [4, 'カリスト']] },
@@ -324,6 +326,9 @@ const CFG = {
   saturnRingReal:     { c: 0, o: [[1, 'ミマス'], [6, 'タイタン']], ringInner: 'C環内縁' },
   saturnRingRealKF1:  { c: 0, o: [[1, 'ミマス'], [6, 'タイタン']], ringInner: 'C環内縁' },
 };
+
+// 第286便b: 較正行の宣言の表(CFG の calPhysics だけ —— 出力 JSON の calPhysics 欄にも同じものを書く)
+const CAL_PHYSICS = Object.fromEntries(Object.entries(CFG).filter(([, c]) => c.calPhysics).map(([id, c]) => [id, c.calPhysics]));
 
 // ---------------------------------------------------------------- 第265便a(第57報 W1・裁定 Z14)
 // **3 段(dt/4)の恒久登録表**。`--dt3` を付けた走行で 3 段を走らせる対象として**宣言列挙**する
@@ -890,6 +895,10 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
     // tests/exp-w283a-geomode.mjs の (c) が 37 本 × 128 歩で実測)。geoPN=0・3 の本は書き換えない。
     if (kFrame0 === true) { copy.physics = copy.physics || {}; copy.physics.kFrame = 0;
       if (copy.physics.geoPN === 2) copy.physics.geoPN = 1; }
+    // 第286便b(AN59): 較正行の宣言 `calPhysics`(CFG —— ☄️ の較正専用 ε=0.01)を**写しにだけ**当てる(本体・表示の本は 1 bit も不変)。
+    //   窓口 window.__w249calPhys を置かない器(このヘルパを文字列で取り出す他の器)では何もしない
+    const calPhys = (window.__w249calPhys || {})[id] || null;
+    if (calPhys) copy.physics = Object.assign({}, copy.physics || {}, calPhys);
     // 第283便c(R86 (iv)): **--tp-copy の写し**。single を宣言順のまま先頭へ、群(ring/disk 等)を宣言順のまま末尾へ移し、
     // 群に `testParticle:true` を付ける(**写しだけ** —— プリセット本体は 1 bit も書き換えない)。宣言 index → 実行 index の
     // 対応表は**元の宣言 index で**返す(CFG の対象がそのまま引ける)。
@@ -907,6 +916,7 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
     return { warnings: v.warnings, n: HP.sim.n, map,
       kFrameApplied: (v.preset.physics || {}).kFrame,
       geoPNApplied: (v.preset.physics || {}).geoPN,   // 第283便a: kF0 の診断コピーの geoPN(2→1)
+      calPhysApplied: calPhys,   // 第286便b: 較正行の宣言(無ければ null)
       // 第283便c: 受理後のプリセット JSON(presetSig の上位集合)の FNV-1a(dt/4 の再利用契約 `presetHash`)
       sig: (() => { const t = JSON.stringify(v.preset); let a = 0x811c9dc5;
         for (let i = 0; i < t.length; i++) { a ^= t.charCodeAt(i) & 0xff; a = Math.imul(a, 0x01000193) >>> 0; }
@@ -1132,6 +1142,8 @@ const EXTRACTOR_SHA = (() => {
   return crypto.createHash('sha256').update((i0 >= 0 && i1 > i0) ? src.slice(i0 + head.length, i1) : src).digest('hex');
 })();
 if (TP_COPY) await pg.evaluate(() => { window.__w249variant = 'tp'; });
+// 第286便b(AN59): 較正行の宣言(CFG の calPhysics)をページへ渡す(写しにだけ当たる —— 上の __w249build)
+await pg.evaluate((cp) => { window.__w249calPhys = cp; }, CAL_PHYSICS);
 // 第283便c: 法則の指紋(dt/4 の再利用契約)—— エンジンの核と対カーネル・試験粒子の外部ステップのソースと理論用語集 LAWS
 const ENGINE_FP = await pg.evaluate(() => window.__w249engineFp());
 // 第284便c(R93): **法則の指紋を閉包で覆う**。第283便c の指紋(上の 9 関数 + `S._core`・`S.step` のソース)は、そこに名前の無い補助関数
@@ -3749,6 +3761,8 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
       verdict4: (out.verdictLedger.rows.find((v) => v.id === z.id) || {}).verdict4 || null,
       tally: r ? r.tally : null };
   });
+  // 第286便b(AN59): 較正行の宣言(写しにだけ当てた physics —— ☄️ の較正専用 ε)
+  out.calPhysics = { rows: CAL_PHYSICS, note: '判定器の写しにだけ当てる(内蔵の本・表示の本・既定値は不変)。ε の変更は刻みの変更と別要因' };
   out.threeStageRegistry = { n: rows.length, rows,
     registeredThisWave: reg.filter((z) => z.since.indexOf('第265便a') === 0).map((z) => z.id),
     quarterRun: rows.filter((z) => z.hasQuarter).length,

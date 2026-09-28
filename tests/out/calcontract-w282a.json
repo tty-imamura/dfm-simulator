@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便a(原仮定者の裁定(第72報)②③⑤⑥・R77/R78 —— 較正契約の 3 系統と f=1 の棚卸し)",
   "target": "beta/index.html",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T05:29:43.638Z",
+  "targetSha256": "852512dc072ab0186f810bcbe56498d4d5b887a7eb1026fca59668fe11cccd58",
+  "generatedAt": "2026-09-28T17:55:50.313Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5091518,
-    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-    "mtime": "2026-09-28T03:59:10.854Z"
+    "bytes": 5095156,
+    "sha256": "852512dc072ab0186f810bcbe56498d4d5b887a7eb1026fca59668fe11cccd58",
+    "mtime": "2026-09-28T17:50:46.334Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
     "bytes": 2765140,
     "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-    "mtime": "2026-09-28T05:10:31.970Z"
+    "mtime": "2026-09-28T15:16:15.602Z"
    }
   ],
   "code": [
@@ -24,19 +24,19 @@
     "file": "tests/exp-w282a-calcontract.mjs",
     "bytes": 21365,
     "sha256": "1bb7067a1f83af9ae0d125e46403462332d20ee823678060d75db9692bb9d555",
-    "mtime": "2026-09-25T23:51:59.280Z"
+    "mtime": "2026-09-28T15:16:15.510Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-28T15:16:15.538Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 74147,
     "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T01:00:42.100Z"
+    "mtime": "2026-09-28T15:16:15.550Z"
    }
   ],
   "codeSha256": "9b16e736f1012467972d5cc87afbeb8fc314015379e43afe6eaeeb8abcec16b1",
@@ -64,7 +64,7 @@
    "segments": 742,
    "closureShare": 0.3143
   },
-  "scopeSha256": "6d1997a2058abea18ca18eb8f523b4d55dfbd0e8b3246bd1143fa5efeda6aa79",
+  "scopeSha256": "9867581519f1760bbbb9e5fcd5fd1465fc32ca7fd0df71c448224dc01520a3d7",
   "scopeComplete": true,
   "tableVersion": "w282a-1",
   "contractVersion": "w283a-1",
@@ -175,6 +175,12 @@
    "星団以降(アナロジーの系統で扱う)"
   ],
   "sigmaRule": "σ は観測の定義に従う(非対称区間・90% 信用区間を一律 1σ にしない)",
+  "units": {
+   "wave": "第286便b",
+   "cLight": "実単位の本の c は c_SI·10^(T−L)(c_SI=299792458 m/s)の真値 —— L−T=4 の族 29979.2458・L−T=5 の族 2997.92458・L−T=7 の族 29.9792458(第285便までの丸め 3×10^(4)/3×10^(3)/30 は履歴)",
+   "kappaT": "κ=G/c² を c と一緒に同期(従属値の一覧は tests/data-w286b-clight.json)",
+   "G": "G=6.674 は丸めのまま(G_SI·10^(M+2T−3L)=6.6743 —— 本便では変えない)"
+  },
   "legacy": {
    "label": "旧契約(第281便まで)の 4 値",
    "counts": "0/2/2/33",

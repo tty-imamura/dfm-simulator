@@ -338,6 +338,14 @@ export const REGEN_STEPS = [
     env: { W285B_BASE_REV: '基点(既定 b92ffa1 —— git show で一時ファイルを作り終了後に削除)' },
     volatilePaths: { 'tests/out/pn1-w285b.json': META_RUN.concat(['/elapsedS', '/headless/*/wallSec']) },
     note: '第285便b: kF0 の 1PN(EIH 型)—— 制御二体(R97)・html の Δ と参照実装の照合・Euler–Lagrange・保存量・kF0 主系列の λ=0/1・☄️ の ε/dt・前後' }),
+  // ---- 第286便b(原仮定者の裁定(第76報)AN54・AN59・統括の検証項目 R104): kF0 較正の正式判定便の正本(✴️💫✨🌟 の伴星の pnSource の前後・
+  //   制御二体の両方源/主星だけ源・☄️ の cLight 真値化と較正専用 ε の要因分解・cLight の従属値の一覧 tests/data-w286b-clight.json と html の照合・
+  //   内蔵全本の 1/32 歩のビット比較と署名)。**calaudit-w249.json(観測の近点移動)と pn1-w285b.json(第285便b の比の記録)を読む** —— 書く段の
+  //   calaudit・dt3・kf0 と pn1 の後。判定はしない(正式判定は鎖の calaudit)。所要は第286便b の枝の実測(Node 1 本・他の枝と同じ容器で並走)
+  S('pnsource286', 'node tests/exp-w286b-pnsource.mjs', ['tests/out/pnsource-w286b.json'], 1249, { secSource: 'w286b-branch', node: true, after: ['calaudit', 'dt3', 'kf0', 'pn1'],
+    env: { W286B_BASE_REV: '基点(既定 7822768 —— git show で一時ファイルを作り終了後に削除)' },
+    volatilePaths: { 'tests/out/pnsource-w286b.json': META_RUN.concat(['/elapsedS', '/headless/*/wallSec']) },
+    note: '第286便b: 伴星の pnSource(✴️💫✨🌟 —— 基点・c 真値で伴星外し・現行の 3 本立て)・制御二体・☄️ の c/ε/dt の要因・cLight の従属値と html・前後' }),
   // ---- 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R85): 同一天体の家族の差分表と統廃合の候補(html・calaudit の較正母集団・
   //   凍結の写し tests/fixtures/retired-w283b.json を読む —— 1 步も走らせない。所要は第283便b の枝の実測〔Node 1 本・壁時計〕)
   S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit', 'dt3', 'kf0'],
@@ -494,6 +502,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/retired-w285f.json': [],
   // 第286便a(原仮定者の裁定(第76報)⑤・R101〜R103): 第285便a の 💮 の宣言の凍結の写し(書き換えない fixture —— 履歴の正本 cluster-w285a の入力)
   'tests/fixtures/cluster-w285a-preset.json': [],
+  // 第286便b(原仮定者の裁定(第76報)AN59): cLight の真値化の一覧と従属値(手で書いた宣言の表 —— 除く欄は無い。現行の正本 pnsource-w286b の入力)
+  'tests/data-w286b-clight.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */
