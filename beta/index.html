@@ -14443,7 +14443,7 @@ const BUILTIN_PRESETS = [
   calibrationForecast:{ status:"measurement-recheck", scope:"近点間 P・近点移動",
     basis:"docs/PHYSICS.md〔第286便f〕/ tests/out/calaudit-w249.json(第286便f の f=1 走行)",
     // 宣言時の presetSig ハッシュ(第286便f の f=1 宣言)。**これが変われば自動で「較正要再確認」へ倒れる**(第261便c)
-    declaredSig:"cb439c1d",
+    declaredSig:"3890aecf",   // 統括(第286便 統合): f=1(第286便f・cb439c1d)に cLight の真値化(第286便b)が重なって署名が動いた —— 状態は measurement-recheck のまま。正式判定は鎖の calaudit
     note:"f=1(観測質量)・kFrame=1 では軌道が遠点 778.19 単位から外へ膨らみ(出発点が近点側になり、遠点は 11294.92 単位)、同方向1周が観測周期の約 33.4 倍になる。判定器の近点間周期は第286便f(AN57)で宣言した軌道窓(22 公転 × 1,416,055 步)で測る。旧台帳(f≈2)の段の記録と収束の記録は履歴で、この本の収束の材料にしない。",
     gate:{passed:0, of:5, failed:["(4) 独立推定が無い","(5) 距離が 3σ に遠い"]} },
   obsCard:[
