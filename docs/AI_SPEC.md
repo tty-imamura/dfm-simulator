@@ -2714,3 +2714,20 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - 分類(principle・現実較正 DFM/kF0)と geoPN はすでに独立の次元なので「その他」には重ねていない。退役の本は一覧に出ない(§16)ので軸にしていない。
   - 絞り込み中は AI 生成・保存一覧の群を出さない(他の属性の絞り込みと同じ)。隠しプルダウン `#presetSelect` には軸を足していない。検索のクリアで検索欄のフォーカスを外す規則・IME 中の挙動(§18)は不変。
 - QA: **`ui.pickerFilterFold`**・**`ui.pickerOtherChips`**(root は SKIP)。軸の件数は受理器を通した正規化後の宣言から独立に数え直して突き合わせる。既存の `ui.pickerGeoFilter` は畳みの世代では採寸の前に geoPN の畳みを開く(判定は弱めていない)。3 viewport(iPhone SE 375×667・Android 412×915 —— isMobile・タッチ / PC 1280×800)。
+
+## 23. 第286便c の宣言鍵 —— `physics.backgroundComplex.lawVersion`(背景の法則版・原仮定者の裁定〔第76報〕・第76報で閉じた AN47/AN56・**SYSTEM_PROMPT には載せない**)
+
+背景の重みの核 w=m/(r²+ε²)^{p/2} の **2 つの法則版を分ける**任意鍵。**未指定 = 現行**(share 経路〔geoPN=3 のトイ〕は背景を読まない = 未接続・`physics.meshVelocity` の経路は第279便c のまま)。**内蔵はこの鍵を 1 本も宣言していない**(物理・presetSig は 1 bit も動かない)。
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `lawVersion` | `"share-p1"` / `"complex-p2"` | share-p1 = p=1(frameWeight:"share" の重み)・経路は geoPN=3 のトイ(`spaceMesh.lawVersion:"scalar"`)/ complex-p2 = p=2・経路は `physics.meshVelocity`(field:"backgroundComplex") |
+| `lawUnits` | 法則版の単位表と完全一致 | share-p1: `{W:"M/L", A:"M/T", gradW:"M/L^2", gradA:"M/(L·T)", dWdt:"M/(L·T)", dAdt:"M/T^2"}` / complex-p2: `{W:"M/L^2", A:"M/(L·T)", gradW:"M/L^3", gradA:"M/(L^2·T)", dWdt:"M/(L^2·T)", dAdt:"M/(L·T^2)"}` |
+| `lawDomainR` | 正の有限数 [L] | 有限領域の半径(凍結参照系の原点のまわりで背景の一次の値を使う範囲 —— 外へ出たらその步で止める・無限一様は宣言できない) |
+| `lawWZero` | `"vacuum"` / `"undefined"` | W=0 の点の規約: 真空規約(移送も正準項も当てない・慣性はそのまま)/未定義(その步で経路を止める・meshVelocity では不正点として数える)。**u を 0 にしない** |
+
+- **同時に要るもの**: `sources`(源の分割 —— 明示天体と背景を重複して数えない)・`frame`(凍結参照系 —— 座標系の宣言。黙って A₀=0 にしない)。`bgModel:null` とは併用しない。share-p1 は bgModel `"sources"`/`"distantSource"`(p=2 の核で算出する型)と併用しない(手入力か `"uniform"` で p=1 の値を書く)。
+- **経路の相互検査**(validatePreset): share-p1 は geoPN=3・spaceMesh.lawVersion "scalar"・frameWeight "share"・kFrame=0・meshVelocity なし・spaceMesh の centerSpin/diskSupport/law/toyAllowDrag/**D0** なし・toyClosure "gravity"。complex-p2 は meshVelocity(field:"backgroundComplex")が要る。sampleClass:"calibration" では拒否。**経路の宣言が無い法則版は拒否**(宣言だけでは接続しない)。
+- **share-p1 の式**: u=(A_local+A_bg)/(W_local+W_bg)(局所は自己を除く p=1 の核)・∇u=(∇A−u⊗∇W)/W・∂ₜu=(∂ₜA−u∂ₜW)/W(分母を含む商の微分)・加速度は既定のトイと同じ a=∂ₜū+(∇ū)v−(∇ū)ᵀ(v−ū)。**この経路は D₀ を読まない**(D₀ は別量 —— W₀ に係数を掛けて D₀ を作らない)。
+- **読み口**: `HP.bgcLawCheck`・`HP.bgLawCrossCheck`・`HP.dfmComplexMomentsP`(p 乗の核)・`HP.bgLawBackgroundAt`・`HP.bgLawPrepare`・`HP.dfmGeoToyBgLawStep`・`HP.BGC_LAW_*`。`HP.bgcWireState(S)` に `lawVersion` と `lawPath`("geoToy"/"meshVelocity"/null)。#bgcPanel の算出結果の表に法則版の状態チップ `#bgcLawChip`(未宣言 = 「未宣言(現行 —— 法則版は未接続)」)。
+- **書かないこと**: 「法則版で成立した」「W₀・A₀ から微分が出る」。接続の実測は器 `tests/exp-w286c-bgdiff.mjs` の診断コピー(内蔵にはしない)。

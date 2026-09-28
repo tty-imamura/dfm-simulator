@@ -2246,6 +2246,9 @@ if (QA_CHANGED) {
       // 第285便c(原仮定者の裁定(第75報)⑥・R99): 背景場の微分の算出可否と宣言の型 bgModel(target=beta/index.html —— Node だけ・
       //   html の純関数と受理器だけを読む・他の正本は読まない)
       'tests/out/bgderiv-w285c.json',
+      // 第286便c(原仮定者の裁定(第76報)・AN7′/AN47/AN56): 背景場の解析微分と中心差分の照合・法則版の受理と接続の診断コピー
+      //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない)
+      'tests/out/bgdiff-w286c.json',
       // 第285便d(原仮定者の裁定(第75報)⑦・R100): 観測対実行のグラフの行の控え(target=beta/index.html —— 生成領域 obs-compare を書いた後の html・
       //   inputs に calaudit-w249.json。**calaudit を走らせ直したら本器も走らせ直す** —— 鎖の段 obscompare)
       'tests/out/obscompare-w285d.json',
@@ -8136,7 +8139,9 @@ if (QA_CHANGED) {
       const html5 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
       if (html5.indexOf('MESH_VEL_KEY') >= 0) {
         const R5 = B.readers || {};
-        if (JSON.stringify(R5.declared) !== JSON.stringify(['meshVelocityPrepare'])) bad.push('⑤ 宣言した読み口が meshVelocityPrepare だけでない');
+        // 第286便c(AN47): 法則版 share-p1 の準備 bgLawPrepare を宣言した読み口に足す(html に関数がある世代だけ)
+        const want5 = (html5.indexOf('function bgLawPrepare(') >= 0) ? ['meshVelocityPrepare', 'bgLawPrepare'] : ['meshVelocityPrepare'];
+        if (JSON.stringify(R5.declared) !== JSON.stringify(want5)) bad.push('⑤ 宣言した読み口が ' + want5.join('・') + ' でない');
         if (JSON.stringify(R5.found) !== JSON.stringify(R5.declared)) bad.push('⑤ 検証器の外の読み口が宣言と違う: ' + JSON.stringify(R5.found));
         if (R5.guardBeforeRead !== true) bad.push('⑤ meshVelocityPrepare が未宣言の判定より前に背景鍵を読む');
       }
@@ -18587,6 +18592,189 @@ if (!FAST) {
       }
       add('docs.bgDerivatives', bad.length === 0,
         `**背景場の微分の文書**(第285便c・R99 —— 判定表「与える情報 → 算出できるもの/不足するもの」・式・反例・書かないこと): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1c‴) 第286便c(原仮定者の裁定(第76報)④・第76報で閉じた AN7′/AN47/AN56・統括の検証項目 R106): **ダークローターの根拠表と背景の法則版・
+// ----   解析微分の照合・旧い較正方針の文言**の 4 ブロック。**root では SKIP**(世代判定は html の `function dfmGeoToyBgLawStep(`)。
+// ----   器 tests/exp-w286c-bgdiff.mjs・正本 tests/out/bgdiff-w286c.json・根拠表 docs/dark-rotor-evidence.md。
+// ----   ① behavior.bgLawVersion …… 受理器の事例(期待どおり・冪等)・内蔵の宣言 0 本・経路の相互検査(経路の無い法則版を拒否)・既定は未接続・
+// ----      診断コピー(share-p1 の 3 つと complex-p2 の写し)を器の純関数で作り直して正本と一致・帳簿の和 0・ビット一致の 4 件。
+// ----   ② behavior.bgDiffCheck …… 解析微分と中心差分(h・h/2・h/4 の次数 2)・合成 u の商の微分・並進基準系・W=0 の未定義・正本 = 作り直し。
+// ----   ③ docs.darkRotorEvidence …… 根拠表の節・4 件・出典(arXiv/DOI)・禁止語 0・MOA のレンズ式・E_res の帳簿・CSV の 9 行(門に接続しない)。
+// ----   ④ docs.calPolicyText …… html の旧語 0(旧い較正方針・geoPN=2 の「厳密に同じ」)・現行方針の文・PHYSICS〔第286便c〕の表の行。
+{
+  const html286c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has286c = TARGET.startsWith('beta/') && html286c.indexOf('function dfmGeoToyBgLawStep(') >= 0;
+  if (!has286c) {
+    console.log('SKIP behavior.bgLawVersion / behavior.bgDiffCheck / docs.darkRotorEvidence / docs.calPolicyText(第286便c 未適用 — ' + TARGET + ')');
+  } else {
+    let BL = null, HPv = null, loadErr = null;
+    try {
+      BL = await import('file://' + path.join(ROOT, 'tests', 'exp-w286c-bgdiff.mjs'));
+      const L = (await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'))).loadHtmlHeadless(path.join(ROOT, TARGET));
+      HPv = L.evalExpr('HP');
+    } catch (e) { loadErr = String(e && e.stack || e).slice(0, 160); }
+    const rd = (rel) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8')); } catch (e) { return null; } };
+    const deepNear = (a, b, where, out) => {
+      if (out.length > 4) return;
+      if (typeof a === 'number' && typeof b === 'number') { if (!(a === b || Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)))) out.push(where + ' ' + a + '≠' + b); return; }
+      if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(where + ' ' + JSON.stringify(a) + '≠' + JSON.stringify(b)); return; }
+      if (Array.isArray(a) !== Array.isArray(b)) { out.push(where + ' 型'); return; }
+      const ka = Object.keys(a).sort(), kb = Object.keys(b).sort();
+      if (JSON.stringify(ka) !== JSON.stringify(kb)) { out.push(where + ' 鍵 ' + ka.join(',') + '≠' + kb.join(',')); return; }
+      for (const k of ka) deepNear(a[k], b[k], where + '/' + k, out);
+    };
+    const J = rd('tests/out/bgdiff-w286c.json');
+    const stripQ = (t) => t.replace(/「[^」]*」/g, '');
+    const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const pa = Pd.indexOf('〔第286便c — '), pb = (pa >= 0) ? Pd.indexOf('\n〔第', pa + 10) : -1;
+    const psec = (pa >= 0) ? Pd.slice(pa, pb > pa ? pb : Pd.indexOf('\n## 7. 論文', pa)) : '';
+    const FORBID = ['ダークローターを検出した', '検出した', '観測された', 'ハローの代わり', 'チェレンコフ放射', 'VASCO が恒星質量 DR を検出した',
+      'MOA の浮遊惑星がハローの代わり', 'AT2023fhn はチェレンコフ放射', '法則版で成立した', 'W₀・A₀ から微分が出る', '観測一致を達成した', '較正を完了した',
+      '帯内=合格', '安定平衡版', '新発見', 'RC を切った', '判定が増えた'];
+    // ---- ① behavior.bgLawVersion
+    {
+      const bad = [], cases = [];
+      if (loadErr) bad.push('器/html が読めない: ' + loadErr);
+      else if (!J) bad.push('正本 bgdiff-w286c.json が読めない');
+      else {
+        if (!J.meta || J.meta.provenanceVersion !== 'w272e-1' || J.meta.harnessVersion !== BL.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+        const V = BL.validatorCases(HPv);
+        const nV = V.filter((z) => z.ok).length;
+        if (nV !== V.length) bad.push('受理器の事例 ' + V.filter((z) => !z.ok).map((z) => z.label).join(','));
+        cases.push(`受理器の事例 ${nV}/${V.length}(受理 ${V.filter((z) => z.got).length}・拒否 ${V.filter((z) => !z.got).length}・受理は冪等)`);
+        const C = BL.census(HPv);
+        if (C.declared.length) bad.push('内蔵に lawVersion の宣言がある: ' + C.declared.join(','));
+        const Q = BL.computeRuns(HPv);
+        const diff = [];
+        for (const k of ['share', 'mesh', 'geo12']) deepNear(J[k], Q[k], k, diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 2).join(' ; '));
+        const S = Q.share, M = Q.mesh;
+        if (!S.ok || !S.compare.noneVsToyD0zero.same || !S.compare.uniformVsToyD0.same || S.compare.distantVsUniform.same || !S.compare.unwiredVsToyD0.same) bad.push('share-p1 の診断コピー');
+        for (const k of Object.keys(S.rows)) { const r = S.rows[k]; if (!r.ok || r.steps !== S.steps || r.ledger.pSum > 1e-12 * Math.max(1, r.ledger.pScale) || r.ledger.eSum > 1e-12 * Math.max(1, Math.abs(r.ledger.toyE)) || !r.wire || r.wire.lawPath !== 'geoToy') bad.push('share-p1 ' + k + ' の帳簿/接続'); }
+        if (!S.unwired || !S.unwired.wire || S.unwired.wire.state !== 'unwired') bad.push('法則版なしの写しが未接続でない');
+        cases.push(`share-p1(💮 の縮小写し ${S.n} 体・${S.steps} 步): 背景なし ≡ D₀=0 のトイ・共動一様 ≡ D₀=1.5 のトイ(ビット一致)・遠方 1 源は違う・法則版なしは未接続・帳簿の和 0`);
+        if (!M.ok || !M.compare.sameVsBase.same || M.compare.distantVsBase.same || M.noneVacuum.meshVel.undef === 0 || M.noneUndefined.meshVel.bad === 0) bad.push('complex-p2 の診断コピー');
+        cases.push(`complex-p2(🔁 の写し ${M.steps} 步): 法則版の鍵だけ ≡ 🔁(ビット一致)・背景なしは真空規約 ${M.noneVacuum.meshVel.undef} 点/未定義の規約 ${M.noneUndefined.meshVel.bad} 点・遠方 1 源は違う`);
+        const live = await page.evaluate(() => {
+          const J2 = (x) => JSON.parse(JSON.stringify(x));
+          const declared = HP.allPresets().filter((p) => p.physics && p.physics.backgroundComplex && p.physics.backgroundComplex.lawVersion !== undefined).map((p) => p.id);
+          const P = HP.allPresets().find((q) => q.id === 'clusterAnalogyBH'), M = HP.allPresets().find((q) => q.id === 'mercuryGeoToy3');
+          const law = (lv) => ({ background: 'declared', note: 'QA 第286便c', W0: 1.5, A0: [0, 0], gradW: [0, 0], gradA: [0, 0, 0, 0], dWdt: 0, dAdt: [0, 0],
+            sources: [{ id: 'bg:qa', kind: 'field', excludedExplicit: true }], frame: { origin: 'barycenter', epoch: 't0', rotation: 'none', translation: 'comoving' },
+            lawVersion: lv, lawUnits: HP.BGC_LAW_UNITS[lv], lawDomainR: 1e6, lawWZero: 'vacuum' });
+          const v = (p) => { const r = HP.validatePreset(p); return { ok: r.ok, err: r.ok ? null : String(JSON.stringify(r.errors || r.err)).slice(0, 140) }; };
+          const a = J2(P); a.physics.backgroundComplex = law('share-p1');   // centerSpin・spaceMesh.D0 が残る → 拒否
+          const b = J2(P); delete b.physics.spaceMesh.centerSpin; delete b.physics.spaceMesh.D0; b.physics.backgroundComplex = law('complex-p2');   // meshVelocity なし → 拒否
+          const c = J2(M); c.physics.backgroundComplex = Object.assign(J2(M.physics.backgroundComplex), { lawVersion: 'share-p1', lawUnits: HP.BGC_LAW_UNITS['share-p1'], lawDomainR: 1e6, lawWZero: 'vacuum' });
+          const d = J2(P); delete d.physics.spaceMesh.centerSpin; delete d.physics.spaceMesh.D0; d.physics.backgroundComplex = law('share-p1');
+          const e = J2(P); e.sampleClass = 'calibration'; delete e.physics.spaceMesh.centerSpin; delete e.physics.spaceMesh.D0; e.physics.backgroundComplex = law('share-p1');
+          const vd = v(d);
+          let wireD = null, wireP = null;
+          if (vd.ok) { HP.sim.build(HP.validatePreset(J2(d)).preset); wireD = HP.bgcWireState(HP.sim); }
+          HP.sim.build(HP.validatePreset(J2(P)).preset); wireP = HP.bgcWireState(HP.sim);
+          return { declared, a: v(a), b: v(b), c: v(c), d: vd, e: v(e), wireD, wireP };
+        });
+        if (live.declared.length) bad.push('ページ: 内蔵に lawVersion の宣言 ' + live.declared.join(','));
+        if (live.a.ok || !/centerSpin/.test(live.a.err || '')) bad.push('💮 のまま share-p1 が受理された(centerSpin)');
+        if (live.b.ok || !/meshVelocity/.test(live.b.err || '')) bad.push('経路の無い complex-p2 が受理された');
+        if (live.c.ok) bad.push('meshVelocity の本で share-p1 が受理された');
+        if (live.e.ok) bad.push('calibration で法則版が受理された(較正クラスの拒否)');
+        if (!live.d.ok || !live.wireD || live.wireD.state !== 'applied' || live.wireD.lawPath !== 'geoToy' || live.wireD.lawVersion !== 'share-p1') bad.push('宣言した写しが接続されない ' + JSON.stringify(live.wireD));
+        if (!live.wireP || live.wireP.state !== 'unwired' || live.wireP.lawVersion !== null) bad.push('💮 の既定が未接続でない');
+        cases.push(`ページ: 内蔵の宣言 ${live.declared.length} 本・💮 の既定は未接続・宣言した写しは geoToy 経路で適用中・centerSpin 併用/経路なし/meshVelocity の本/calibration を拒否`);
+      }
+      add('behavior.bgLawVersion', bad.length === 0,
+        `**背景の法則版 lawVersion**(第286便c・第76報で閉じた AN47/AN56 —— share-p1〔p=1・geoPN=3 のトイ〕と complex-p2〔p=2・meshVelocity〕を分け、`
+        + `単位・有限領域・W=0 の規約・源の分割・基準系を宣言した本だけ接続・既定は未接続): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.bgDiffCheck
+    {
+      const bad = [], cases = [];
+      if (loadErr) bad.push('器/html が読めない: ' + loadErr);
+      else if (!J) bad.push('正本 bgdiff-w286c.json が読めない');
+      else {
+        const R = BL.computeAll(HPv);
+        const bd = R.deriv.filter((d) => !d.ok).map((d) => d.key);
+        if (bd.length) bad.push('解析微分 ≠ 中心差分: ' + bd.join(','));
+        cases.push(`∇W・∇A・∂ₜW・∂ₜA ${R.deriv.length} 事例(等速・加速・p=1・遠方・W→0)の h/4 の最大相対誤差 ${Math.max(...R.deriv.map((d) => Math.max(...Object.values(d.steps[2].err)))).toExponential(1)}・次数 2`);
+        if (!R.blend.ok) bad.push('合成 u の商の微分/W=0');
+        cases.push(`合成 u の ∇u・∂ₜu(次数 ${R.blend.rows.map((r) => r.order.gradU.map((o) => o.toFixed(2)).join('/')).join(' ; ')})・W=0 は u=null`);
+        if (!R.boost.ok) bad.push('並進基準系');
+        if (!R.distant.ok) bad.push('遠方 1 源の閉じた式');
+        if (!R.census.p2BitSame) bad.push('p=2 の一般形が dfmComplexMomentsOf とビット一致でない');
+        cases.push('並進基準系の変換(相対 1e-12)・遠方 1 源(p=1・2)・p=2 の一般形のビット一致');
+        const diff = [];
+        for (const k of Object.keys(R)) deepNear(J[k], R[k], k, diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 2).join(' ; '));
+        cases.push('正本 = いまの html からの作り直し(相対 1e-12)');
+      }
+      add('behavior.bgDiffCheck', bad.length === 0,
+        `**背景場の解析微分と中心差分の照合**(第286便c・AN7′ —— 幅 h・h/2・h/4・微分が合うことと力学の保存則は別の試験): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ docs.darkRotorEvidence
+    {
+      const bad = [], cases = [];
+      let E = '';
+      try { E = fs.readFileSync(path.join(ROOT, 'docs', 'dark-rotor-evidence.md'), 'utf8'); } catch (e) { bad.push('docs/dark-rotor-evidence.md が無い'); }
+      const HEADS = ['## 1. 着想と定義', '## 2. 観測 4 件', '## 3. MOA を恒星質量へ置き換える場合', '## 4. 蓄光→放出の帳簿', '## 5. 力学の DR と光学のトイは別の物', '## 6. 書かないこと'];
+      for (const h of HEADS) if (E.indexOf(h) < 0) bad.push('根拠表の節が無い: ' + h);
+      const EVENTS = ['| VASCO', '| M31-2014-DS1', '| MOA-9y-5919', '| AT2023fhn'];
+      for (const h of EVENTS) if (E.indexOf(h) < 0) bad.push('根拠表の行が無い: ' + h);
+      const REFS = ['arXiv:1911.05068', 'arXiv:2410.14778', 'arXiv:2601.05317', 'arXiv:2303.08279', 'arXiv:2303.08280', 'arXiv:2307.01771',
+        'Villarroel', 'De, K. et al. 2026', 'Beasor', 'Koshimoto', 'Sumi', 'Chrimes'];
+      for (const r of REFS) if (E.indexOf(r) < 0) bad.push('出典が無い: ' + r);
+      for (const w of ['χ = cJ/(GM²)', '宇宙検閲官仮説は仮説である', '一次資料で言えること', '一次資料で言えないこと', 't_E = θ_E / μ_rel', 'θ_E² = κ M π_rel', '8.144 mas/M☉',
+        '確率 0 を意味せず、反証でもない', 'Ė_res = f_trap L_src − E_res / t_esc − L_loss', 'L_out = (1 − f_trap) L_src + E_res / t_esc', '同じ物体の証明ではない', 'θ_E はレンズの半径ではない'])
+        if (E.indexOf(w) < 0) bad.push('根拠表に「' + w + '」が無い');
+      const hit = FORBID.filter((w) => stripQ(E).indexOf(w) >= 0 || stripQ(psec).indexOf(w) >= 0);
+      if (hit.length) bad.push('禁止語: ' + hit.join(','));
+      if (!psec) bad.push('PHYSICS〔第286便c — 〕が無い');
+      for (const w of ['ダークローター(第76報)', 'χ=cJ/(GM²)', 'VASCO', 'M31-2014-DS1', 'MOA-9y-5919', 'AT2023fhn', '同じ物体の証明ではない']) if (psec.indexOf(w) < 0) bad.push('PHYSICS に「' + w + '」が無い');
+      cases.push(`根拠表の節 ${HEADS.length}・4 件・出典 ${REFS.length}・要の文・禁止語 0(根拠表と PHYSICS〔第286便c〕)`);
+      // CSV の 9 行(門に接続しない)
+      try {
+        const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+        const rows = OB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'transient-observations.csv')).rows.filter((r) => /dr_evidence=analogy-context-only/.test(r.note || ''));
+        const bodies = [...new Set(rows.map((r) => r.body))].sort();
+        if (rows.length !== 9) bad.push('CSV の DR 根拠の行が 9 でない: ' + rows.length);
+        if (rows.some((r) => !/gate=not-connected/.test(r.note) || !/sigma_primary=unverified/.test(r.note))) bad.push('CSV の DR 根拠の行に gate=not-connected/unverified が無い行');
+        if (JSON.stringify(bodies) !== JSON.stringify(['AT2023fhn', 'M31-2014-DS1', 'MOA-9y-5919', 'MOA-II-FFP', 'VASCO'])) bad.push('CSV の天体 ' + bodies.join(','));
+        cases.push(`CSV の行 ${rows.length}(${bodies.join('・')})—— 全行 gate=not-connected・sigma_primary=unverified`);
+      } catch (e) { bad.push('CSV が読めない: ' + String(e).slice(0, 60)); }
+      add('docs.darkRotorEvidence', bad.length === 0,
+        `**ダークローターの根拠表**(第286便c・原仮定者の裁定(第76報)④・R106 —— 着想と超 Kerr の定義 χ=cJ/(GM²)・宇宙検閲は仮説・4 件を一次資料で言えること/言えないことに分ける・`
+        + `MOA の標準レンズ式・E_res の帳簿と 🐮 の対応・力学の DR と光学のトイは別): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ④ docs.calPolicyText
+    {
+      const bad = [], cases = [];
+      const OLD = ['天体の現実較正の雛形', '本構成をコピーして作る', '雛形 🪨🌘💿', '実較正の雛形規約', '雛形は kF1', 'real-calibration template', 'REAL-CALIBRATION TEMPLATE',
+        'copy this construction', 'copy the TEMPLATE', 'kFrame=0 では 1 と厳密に同じ', 'exactly equal to 1 when kFrame=0'];
+      const left = OLD.filter((w) => html286c.indexOf(w) >= 0);
+      if (left.length) bad.push('html に旧語: ' + left.join(','));
+      const NEW_JA = '観測との合(3σ)を目指すのは kF0(λ_PN=1 ∧ kFrame=0)と f=1 の本で、DFM 版は観測との大差を減らす段階にある';
+      const NEW_EN = 'agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps';
+      const nJa = html286c.split(NEW_JA).length - 1, nEn = html286c.split(NEW_EN).length - 1;
+      if (nJa < 5 || nEn < 6) bad.push(`現行方針の文が足りない(ja ${nJa}・en ${nEn})`);
+      if (html286c.indexOf('v−u 則の式を u=0 に還元した結果ではなく kF0 の契約による') < 0) bad.push('geoPN の説明に法則の相違の文が無い');
+      cases.push(`html の旧語 0(${OLD.length} 語)・現行方針の文 ja ${nJa}・en ${nEn}・geoPN=2 の説明は「同一と断言しない」文`);
+      if (J && BL) {
+        const R = BL.docRows(J);
+        const all = [].concat(R.deriv, R.blend, R.boost, R.law, R.share, R.mesh);
+        const miss = all.filter((t) => psec.indexOf(t) < 0);
+        if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(' + String(miss[0]).slice(0, 60) + ')');
+        if (!J.geo12 || !J.geo12.allSame) bad.push('geoPN=1 と geoPN=2∧kFrame=0 の 400 步が一致しない —— 説明文の前提が崩れた');
+        cases.push(`PHYSICS〔第286便c〕の表の行 ${all.length}・geoPN 1/2∧kF0 の 400 步 ${J.geo12 ? J.geo12.rows.length : '—'} 本一致`);
+      } else bad.push('正本/器が読めない');
+      add('docs.calPolicyText', bad.length === 0,
+        `**旧い較正方針の文言の更新**(第286便c —— 合を目指すのは kF0 と f=1・DFM 版は大差を減らす段階・geoPN=2∧kFrame=0 は契約で同じ経路〔同一の法則とは言わない〕): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }

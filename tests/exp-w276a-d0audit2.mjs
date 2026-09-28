@@ -88,6 +88,11 @@ function stripJs(code) {
 const SITE_CLASS = {
   '(top-level) :: -': { use: '宣言(内蔵の physics・既定値・値域・patch)', replaceable: 'n/a',
     why: '読み口ではなく**値そのものの宣言**である(内蔵 131 本・DEFAULT_PHYSICS・CLAMPS)' },
+  // 第286便c(AN47): 法則版 share-p1 の相互検査は spaceMesh.D0 の宣言を**拒否するために**鍵名を見るだけ(値は読まない —— 背景を二重に数えない)
+  'bgLawCrossCheck :: bgLawCrossCheck': { use: '受理契約(法則版 share-p1 と spaceMesh.D0 の併用を拒否 —— 値は読まない)', replaceable: 'n/a',
+    why: '鍵名の検査だけ(W_bg と D₀ を二重に数えない)' },
+  'dfmGeoToyBgLawStep :: dfmGeoToyBgLawStep': { use: 'geoPN=3 トイの法則版 share-p1(1 步 —— 源の加速度の場へ D0:0 を渡すだけ・D₀ は読まない)', replaceable: 'n/a',
+    why: '背景は W_bg(backgroundComplex)だけ —— D₀ を分母に置かない(frameWeightPow は核の指数 p)' },
   'validateSpaceMesh :: validateSpaceMesh': { use: '受理契約(physics.spaceMesh.D0 の検証)', replaceable: 'n/a',
     why: '検証器であって力学の読み口ではない' },
   'frameWeightPow :: frameWeightPow': { use: '単位換算(重みの指数 p を返す)', replaceable: 'n/a',
@@ -255,12 +260,16 @@ const bgcFns = [...new Set(bgcSites.map((z) => z.fn))].sort();
 // 第279便c(統括の読み R63 ⑤): 契約を「**宣言した外部ステップだけが読む**」へ更新 —— 検証器・検証器の分岐・定数の
 // ほかに許すのは、`physics.meshVelocity` を宣言した本の準備関数 `meshVelocityPrepare` だけ(宣言した読み口)。
 // その関数は meshVelocity が未宣言なら**背景鍵に触れる前に戻る**ことを潰した写しで確かめる(guardBeforeRead)。
-const BGC_READERS = ['meshVelocityPrepare'];
+// 第286便c(AN47): 法則版 lawVersion:"share-p1" を宣言した本だけが通る準備 `bgLawPrepare` を**宣言した読み口**に足す(html に関数がある世代だけ)。
+//   その関数は lawVersion が "share-p1" でなければ**検証器を呼ぶ前に戻る**(guardBeforeRead の 2 本目)。
+const HAS_BGLAW = stripped.indexOf('function bgLawPrepare(') >= 0;
+const BGC_READERS = HAS_BGLAW ? ['meshVelocityPrepare', 'bgLawPrepare'] : ['meshVelocityPrepare'];
 // 第283便d: 背景複素決定力の欄(#bgcPanel)は宣言の表示と編集だけ(力学の読み口ではない)—— 受理契約の外ではなく UI として許可
-const BGC_UI = ['bgcState', 'bgcApply', 'buildBgComplexPanel'];
+// 第286便c: 接続の読み口 `bgcWireState`(表示だけ —— 法則版の宣言を表の状態チップに出す)も UI として許可
+const BGC_UI = ['bgcState', 'bgcApply', 'buildBgComplexPanel'].concat(HAS_BGLAW ? ['bgcWireState'] : []);
 const BGC_ALLOWED = ['(top-level)', 'validateBackgroundComplex', 'validatePreset'].concat(BGC_READERS, BGC_UI);
 const bgcOutside = bgcFns.filter((f) => BGC_ALLOWED.indexOf(f) < 0);
-const bgcReadersFound = bgcFns.filter((f) => BGC_READERS.indexOf(f) >= 0);
+const bgcReadersFound = BGC_READERS.filter((f) => bgcFns.indexOf(f) >= 0);   // 第286便c: 宣言の並びで(比較は並びごと)
 let bgcGuard = null;
 {
   const fi = stripped.indexOf('function meshVelocityPrepare(');
@@ -268,6 +277,13 @@ let bgcGuard = null;
     const body = stripped.slice(fi, stripped.indexOf('\nfunction ', fi + 10));
     const iG = body.indexOf('return false;'), iR = body.indexOf('BG_COMPLEX_KEY');
     bgcGuard = iG > 0 && iR > iG;
+  }
+  if (HAS_BGLAW && bgcGuard !== false) {
+    const fj = stripped.indexOf('function bgLawPrepare(');
+    const body = stripped.slice(fj, stripped.indexOf('\nfunction ', fj + 10));
+    // 潰した写しは文字列の中身を空白にするので、比較の左辺と直後の return false; の順で見る
+    const iG = body.indexOf('raw.lawVersion!=='), iRet = body.indexOf('return false;', iG), iV = body.indexOf('validateBackgroundComplex(raw)');
+    bgcGuard = iG > 0 && iRet > iG && iV > iRet;
   }
 }
 

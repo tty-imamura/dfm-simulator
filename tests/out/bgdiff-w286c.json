@@ -1,0 +1,1051 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第286便c",
+  "target": "beta/index.html",
+  "targetSha256": "0a15299c088e825eea7f7e1d2240e490f5908221824b0842b17d21932571a1a9",
+  "generatedAt": "2026-09-28T16:32:10.785Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5116148,
+    "sha256": "0a15299c088e825eea7f7e1d2240e490f5908221824b0842b17d21932571a1a9",
+    "mtime": "2026-09-28T16:01:00.366Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w286c-bgdiff.mjs",
+    "bytes": 30717,
+    "sha256": "068995059c5e0700b49fd43eea3bb084d9c019a4b244228d866a9450ff1fc312",
+    "mtime": "2026-09-28T15:46:37.308Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-09-28T15:16:16.498Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-28T15:16:16.490Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 74147,
+    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
+    "mtime": "2026-09-28T15:16:16.502Z"
+   }
+  ],
+  "codeSha256": "779de89f7bbc051bd28e97156752ef1a23f81c7738172430dd46947e33671c97",
+  "harnessVersion": "w286c-bgdiff-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第76報)と第76報で閉じた AN7′(解析微分と有限差分の照合)・AN47(share p=1 と複素 p=2 を法則版で分け、単位・有限領域・基準系を宣言してから接続)・AN56(台帳はプリセットの宣言の中・座標系は宣言必須)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "notClaim": [
+   "W₀・A₀ から微分が出る",
+   "法則版で成立した",
+   "観測一致を達成した",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w283e-scope-3",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "HP.BGC_LAW_UNITS",
+    "HP.BGC_LAW_VERSION_TAG",
+    "HP.allPresets",
+    "HP.bgcDistantClosed",
+    "HP.bgcWireState",
+    "HP.dfmBlendComplexMoments",
+    "HP.dfmComplexMomentsOf",
+    "HP.dfmComplexMomentsP",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validateBackgroundComplex",
+    "HP.validatePreset",
+    "bgLawCrossCheck",
+    "bgLawPrepare",
+    "bgcLawCheck",
+    "dfmGeoToyBgLawStep",
+    "dfmMeshVelocityStep"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 826,
+   "segments": 752,
+   "closureShare": 0.3144
+  },
+  "scopeSha256": "049706a2647dc91994a11bdb7cc4a64f897af08a7b36d9ca3599a07d27488f4f",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "deriv": [
+  {
+   "key": "uniformVel",
+   "label": "等速源 3 個(a=0)",
+   "p": 2,
+   "at": [
+    0.4,
+    -0.3
+   ],
+   "eps": 0.5,
+   "W": 0.14797400211302428,
+   "steps": [
+    {
+     "hSpace": 0.02,
+     "hTime": 0.02,
+     "err": {
+      "gradW": 0.0000305779272208706,
+      "gradA": 0.000029349101823218747,
+      "dWdt": 0.0001576810403723942,
+      "dAdt": 0.000011798867607270808
+     }
+    },
+    {
+     "hSpace": 0.01,
+     "hTime": 0.01,
+     "err": {
+      "gradW": 0.0000076445401268862,
+      "gradA": 0.000007337343376953147,
+      "dWdt": 0.00003942043564028014,
+      "dAdt": 0.000002949680944410065
+     }
+    },
+    {
+     "hSpace": 0.005,
+     "hTime": 0.005,
+     "err": {
+      "gradW": 0.0000019111386241804537,
+      "gradA": 0.0000018343401510120484,
+      "dWdt": 0.000009855120996432618,
+      "dAdt": 7.374178638018758e-7
+     }
+    }
+   ],
+   "order": {
+    "gradW": [
+     1.9999889933597628,
+     1.999997288094411
+    ],
+    "gradA": [
+     1.9999866450358714,
+     1.9999966127501279
+    ],
+    "dWdt": [
+     1.999993575372567,
+     1.9999982306715405
+    ],
+    "dAdt": [
+     2.0000175867351326,
+     2.000004641196033
+    ]
+   },
+   "ok": true
+  },
+  {
+   "key": "accel",
+   "label": "加速源 3 個",
+   "p": 2,
+   "at": [
+    0.4,
+    -0.3
+   ],
+   "eps": 0.5,
+   "W": 0.14797400211302428,
+   "steps": [
+    {
+     "hSpace": 0.02,
+     "hTime": 0.02,
+     "err": {
+      "gradW": 0.0000305779272208706,
+      "gradA": 0.000029349101823218747,
+      "dWdt": 0.00027118134364959446,
+      "dAdt": 0.00011829688361999955
+     }
+    },
+    {
+     "hSpace": 0.01,
+     "hTime": 0.01,
+     "err": {
+      "gradW": 0.0000076445401268862,
+      "gradA": 0.000007337343376953147,
+      "dWdt": 0.0000677986559163406,
+      "dAdt": 0.000029575169268833044
+     }
+    },
+    {
+     "hSpace": 0.005,
+     "hTime": 0.005,
+     "err": {
+      "gradW": 0.0000019111386241804537,
+      "gradA": 0.0000018343401510120484,
+      "dWdt": 0.000016949871515912822,
+      "dAdt": 0.000007393851653659403
+     }
+    }
+   ],
+   "order": {
+    "gradW": [
+     1.9999889933597628,
+     1.999997288094411
+    ],
+    "gradA": [
+     1.9999866450358714,
+     1.9999966127501279
+    ],
+    "dWdt": [
+     1.9999293515419203,
+     1.9999823353124038
+    ],
+    "dAdt": [
+     1.9999537374841854,
+     1.9999884221713784
+    ]
+   },
+   "ok": true
+  },
+  {
+   "key": "accelP1",
+   "label": "加速源 3 個(p=1 —— share の核)",
+   "p": 1,
+   "at": [
+    0.4,
+    -0.3
+   ],
+   "eps": 0.5,
+   "W": 0.7664051368890623,
+   "steps": [
+    {
+     "hSpace": 0.02,
+     "hTime": 0.02,
+     "err": {
+      "gradW": 0.00001472282644040737,
+      "gradA": 0.000014161045053102795,
+      "dWdt": 0.0002308982002487764,
+      "dAdt": 0.0000699049003624366
+     }
+    },
+    {
+     "hSpace": 0.01,
+     "hTime": 0.01,
+     "err": {
+      "gradW": 0.000003680712645017702,
+      "gradA": 0.0000035402761211152735,
+      "dWdt": 0.00005772643606941911,
+      "dAdt": 0.000017476666444028364
+     }
+    },
+    {
+     "hSpace": 0.005,
+     "hTime": 0.005,
+     "err": {
+      "gradW": 9.201783969674078e-7,
+      "gradA": 8.850700208623179e-7,
+      "dWdt": 0.000014431727730535991,
+      "dAdt": 0.0000043691940317936975
+     }
+    }
+   ],
+   "order": {
+    "gradW": [
+     1.999997634547665,
+     1.999999630439059
+    ],
+    "gradA": [
+     1.9999939452811817,
+     1.999998385313401
+    ],
+    "dWdt": [
+     1.9999528642697302,
+     1.9999881325628202
+    ],
+    "dAdt": [
+     1.9999635659105008,
+     1.9999909457083607
+    ]
+   },
+   "ok": true
+  },
+  {
+   "key": "distant",
+   "label": "遠方 1 源(R=40・ε=0)",
+   "p": 2,
+   "at": [
+    1.25,
+    -0.5
+   ],
+   "eps": 0,
+   "W": 0.0015,
+   "steps": [
+    {
+     "hSpace": 0.02,
+     "hTime": 0.02,
+     "err": {
+      "gradW": 2.4513050816674925e-7,
+      "gradA": 2.451304700296464e-7,
+      "dWdt": 6.260676633992282e-7,
+      "dAdt": 6.260677218040561e-7
+     }
+    },
+    {
+     "hSpace": 0.01,
+     "hTime": 0.01,
+     "err": {
+      "gradW": 6.128233382992694e-8,
+      "gradA": 6.128234897820289e-8,
+      "dWdt": 1.5651702590150265e-7,
+      "dAdt": 1.5651705512215672e-7
+     }
+    },
+    {
+     "hSpace": 0.005,
+     "hTime": 0.005,
+     "err": {
+      "gradW": 1.532113795868386e-8,
+      "gradA": 1.5321259677756584e-8,
+      "dWdt": 3.912844357757301e-8,
+      "dAdt": 3.9128239324836214e-8
+     }
+    }
+   ],
+   "order": {
+    "gradW": [
+     2.0000069027093814,
+     1.9999477851701806
+    ],
+    "gradA": [
+     2.0000063216393533,
+     1.9999366803147316
+    ],
+    "dWdt": [
+     1.9999989855985927,
+     2.0000299718399055
+    ],
+    "dAdt": [
+     1.9999988508440132,
+     2.000037772152285
+    ]
+   },
+   "ok": true
+  },
+  {
+   "key": "distantP1",
+   "label": "遠方 1 源(R=40・ε=0・p=1)",
+   "p": 1,
+   "at": [
+    1.25,
+    -0.5
+   ],
+   "eps": 0,
+   "W": 0.06,
+   "steps": [
+    {
+     "hSpace": 0.02,
+     "hTime": 0.02,
+     "err": {
+      "gradW": 1.2615544659159098e-7,
+      "gradA": 1.261553248725409e-7,
+      "dWdt": 5.431801532990892e-7,
+      "dAdt": 3.2816836424576995e-7
+     }
+    },
+    {
+     "hSpace": 0.01,
+     "hTime": 0.01,
+     "err": {
+      "gradW": 3.1538492013666935e-8,
+      "gradA": 3.1538735680174174e-8,
+      "dWdt": 1.3579518856489932e-7,
+      "dAdt": 8.204205954240614e-8
+     }
+    },
+    {
+     "hSpace": 0.005,
+     "hTime": 0.005,
+     "err": {
+      "gradW": 7.884452319743686e-9,
+      "gradA": 7.884160087391431e-9,
+      "dWdt": 3.3948048508797024e-8,
+      "dAdt": 2.0510517578494372e-8
+     }
+    }
+   ],
+   "order": {
+    "gradW": [
+     2.0000169084288033,
+     2.0000312313161843
+    ],
+    "gradA": [
+     2.0000043702428423,
+     2.000095851131431
+    ],
+    "dWdt": [
+     1.9999984038403098,
+     2.000031814387863
+    ],
+    "dAdt": [
+     2.0000005542565478,
+     1.9999998105838441
+    ]
+   },
+   "ok": true
+  },
+  {
+   "key": "farW0",
+   "label": "W→0(評価点が源から 10⁴ 離れる)",
+   "p": 2,
+   "at": [
+    10000,
+    7000
+   ],
+   "eps": 0.5,
+   "W": 1.8130953758714506e-8,
+   "steps": [
+    {
+     "hSpace": 20,
+     "hTime": 0.02,
+     "err": {
+      "gradW": 0.0000018385915720211817,
+      "gradA": 0.0000018367145967612583,
+      "dWdt": 1.0759859659175055e-8,
+      "dAdt": 7.083548495951688e-9
+     }
+    },
+    {
+     "hSpace": 10,
+     "hTime": 0.01,
+     "err": {
+      "gradW": 4.5964927690179335e-7,
+      "gradA": 4.5917999769786357e-7,
+      "dWdt": 2.7411462313255964e-9,
+      "dAdt": 1.7708999338783853e-9
+     }
+    },
+    {
+     "hSpace": 5,
+     "hTime": 0.005,
+     "err": {
+      "gradW": 1.1491244623656777e-7,
+      "gradA": 1.1479513403880987e-7,
+      "dWdt": 1.2951487142569585e-9,
+      "dAdt": 4.427108905206376e-10
+     }
+    }
+   ],
+   "order": {
+    "gradW": [
+     1.9999956563760228,
+     1.9999984054084705
+    ],
+    "gradA": [
+     1.999995763125528,
+     1.9999983082248043
+    ],
+    "dWdt": [
+     1.9728080624845703,
+     1.081661529800836
+    ],
+    "dAdt": [
+     1.9999895641577858,
+     2.000045925014274
+    ]
+   },
+   "ok": true
+  }
+ ],
+ "distant": {
+  "rows": [
+   {
+    "p": 1,
+    "W0": 0.0015,
+    "R": 40,
+    "th": 2.1,
+    "V": [
+     -1.1,
+     0.4
+    ],
+    "a": [
+     0,
+     -0.05
+    ],
+    "rel": 0,
+    "relHtmlP2": null
+   },
+   {
+    "p": 2,
+    "W0": 0.0015,
+    "R": 40,
+    "th": 2.1,
+    "V": [
+     -1.1,
+     0.4
+    ],
+    "a": [
+     0,
+     -0.05
+    ],
+    "rel": 0,
+    "relHtmlP2": 0
+   }
+  ],
+  "ok": true
+ },
+ "blend": {
+  "rows": [
+   {
+    "key": "accel",
+    "p": 2,
+    "u": [
+     0.315860409238647,
+     -0.46697168145534634
+    ],
+    "chi": 0.15318631949652667,
+    "steps": [
+     {
+      "h": 0.02,
+      "errGradU": 0.00002429184341025488,
+      "errDUdt": 0.00006307540223029309
+     },
+     {
+      "h": 0.01,
+      "errGradU": 0.000006072943104727557,
+      "errDUdt": 0.000015769268418029544
+     },
+     {
+      "h": 0.005,
+      "errGradU": 0.000001518235019748254,
+      "errDUdt": 0.000003942342978514339
+     }
+    ],
+    "order": {
+     "gradU": [
+      2.000004216189311,
+      2.0000007187970033
+     ],
+     "dUdt": [
+      1.999961770376442,
+      1.9999905314113415
+     ]
+    },
+    "ok": true
+   },
+   {
+    "key": "accelP1",
+    "p": 1,
+    "u": [
+     0.3307404826320479,
+     -0.39646762626914106
+    ],
+    "chi": 0.4837179071470814,
+    "steps": [
+     {
+      "h": 0.02,
+      "errGradU": 0.000008777154786238596,
+      "errDUdt": 0.00004890472922574119
+     },
+     {
+      "h": 0.01,
+      "errGradU": 0.000002194295152737214,
+      "errDUdt": 0.000012226437221870377
+     },
+     {
+      "h": 0.005,
+      "errGradU": 5.485746102214183e-7,
+      "errDUdt": 0.0000030566249187478226
+     }
+    ],
+    "order": {
+     "gradU": [
+      1.999995755215953,
+      1.99999783812496
+     ],
+     "dUdt": [
+      1.9999699201769674,
+      1.9999926306759626
+     ]
+    },
+    "ok": true
+   }
+  ],
+  "wZero": {
+   "ok": true,
+   "defined": false,
+   "u": null,
+   "why": "W=0(外部平均が未定義 —— 慣性を 0 にしない)"
+  },
+  "ok": true
+ },
+ "boost": {
+  "rows": [
+   {
+    "key": "accel",
+    "p": 2,
+    "V": [
+     0.7,
+     -0.35
+    ],
+    "relMoments": 9.378531099817412e-17,
+    "relU": 4.566081738045998e-16,
+    "relGradU": 1.7517667649521892e-16,
+    "relDUdt": 1.3005702851640387e-16
+   },
+   {
+    "key": "accelP1",
+    "p": 1,
+    "V": [
+     0.7,
+     -0.35
+    ],
+    "relMoments": 7.243055736367423e-17,
+    "relU": 2.7785109189322606e-16,
+    "relGradU": 1.384532292328417e-16,
+    "relDUdt": 3.7526906821733104e-16
+   }
+  ],
+  "ok": true
+ },
+ "validator": [
+  {
+   "label": "share-p1(単位・有限領域・真空規約・源の分割・凍結参照系)",
+   "want": true,
+   "got": true,
+   "idempotent": true,
+   "ok": true,
+   "err": null
+  },
+  {
+   "label": "complex-p2",
+   "want": true,
+   "got": true,
+   "idempotent": true,
+   "ok": true,
+   "err": null
+  },
+  {
+   "label": "complex-p2・lawWZero \"undefined\"",
+   "want": true,
+   "got": true,
+   "idempotent": true,
+   "ok": true,
+   "err": null
+  },
+  {
+   "label": "未知の lawVersion",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawVersion は \"share-p1\"(p=1 の share 経路 —— geoPN=3 のトイ)か \"complex-p2\"(p=2 の複素経路 —— physics.meshVelocity)"
+  },
+  {
+   "label": "lawUnits なし",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawVersion:\"share-p1\" は lawUnits(単位の宣言 {\"W\":\"M/L\",\"A\":\"M/T\",\"gradW\":\"M/L^2\",\"gradA\":\"M/(L·T)\",\"dWdt\":\"M/(L·T)\",\"dAdt\":\"M/T^2\"})を書く —— 単位を宣言しない背景は接続しない"
+  },
+  {
+   "label": "share-p1 に p=2 の単位",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawUnits.W は \"M/L\"(lawVersion share-p1 —— 核 w=m/(r²+ε²)^{p/2}・p=1。局所と背景は同じ法則版・同じ単位)"
+  },
+  {
+   "label": "lawUnits に知らない鍵",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawUnits に知らない鍵 D0 がある(W/A/gradW/gradA/dWdt/dAdt のみ)"
+  },
+  {
+   "label": "lawDomainR なし(無限領域)",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawDomainR は正の有限数(有限領域の半径 [L] —— 凍結参照系の原点のまわりで背景の一次の値を使う範囲。無限一様の背景は宣言できない)"
+  },
+  {
+   "label": "lawDomainR=0",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawDomainR は正の有限数(有限領域の半径 [L] —— 凍結参照系の原点のまわりで背景の一次の値を使う範囲。無限一様の背景は宣言できない)"
+  },
+  {
+   "label": "lawWZero なし",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawWZero は \"vacuum\"(真空規約 —— W=0 の点では移送しない・慣性はそのまま)か \"undefined\"(未定義 —— その步で経路を止める)を宣言する(u を 0 にしない)"
+  },
+  {
+   "label": "lawWZero \"zero\"(u を 0 にする規約)",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawWZero は \"vacuum\"(真空規約 —— W=0 の点では移送しない・慣性はそのまま)か \"undefined\"(未定義 —— その步で経路を止める)を宣言する(u を 0 にしない)"
+  },
+  {
+   "label": "sources なし(重複計上の宣言なし)",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawVersion は sources(源の分割 —— 明示天体と背景を重複して数えない)の宣言が要る"
+  },
+  {
+   "label": "frame なし(座標系の宣言なし)",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawVersion は frame(凍結参照系 —— 座標系の宣言。黙って A₀=0 にしない)の宣言が要る"
+  },
+  {
+   "label": "share-p1 と bgModel \"distantSource\"(p=2 の核で算出)",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawVersion:\"share-p1\" は bgModel \"distantSource\"(p=2 の核で算出する型)と併用しない —— 単位が合わない(手入力か uniform で p=1 の値を書く)"
+  },
+  {
+   "label": "complex-p2 と bgModel \"distantSource\"",
+   "want": true,
+   "got": true,
+   "idempotent": true,
+   "ok": true,
+   "err": null
+  },
+  {
+   "label": "lawVersion と bgModel:null",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawVersion は bgModel:null(微分が未確定)と併用しない(∇u・∂ₜu が決まらない)"
+  },
+  {
+   "label": "法則版の鍵だけ(lawVersion なし)",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex.lawUnits は法則版 lawVersion の宣言の鍵 —— lawVersion を宣言しない宣言には置かない(未指定 = 現行・法則版は未接続)"
+  },
+  {
+   "label": "D0 の鍵を中へ(D₀ は別量)",
+   "want": false,
+   "got": false,
+   "idempotent": null,
+   "ok": true,
+   "err": "physics.backgroundComplex に D0 は置けない(W₀ は [M/L²]・A₀ は W₀×速度 [M/(L·T)] —— D₀ [M/L] から換算しない。D₀ は physics.D0 の別鍵)"
+  },
+  {
+   "label": "背景なし(background \"zero\")+ share-p1",
+   "want": true,
+   "got": true,
+   "idempotent": true,
+   "ok": true,
+   "err": null
+  }
+ ],
+ "census": {
+  "nPresets": 142,
+  "declared": [],
+  "p2BitSame": true
+ },
+ "htmlVersion": "w286c-bglaw-1",
+ "share": {
+  "steps": 200,
+  "dt": 0.016,
+  "mini": {
+   "stars": 40,
+   "dr": 10
+  },
+  "n": 51,
+  "distantDecl": {
+   "W0": 0.2,
+   "R": 400,
+   "theta": 0.4,
+   "V": [
+    0.05,
+    -0.02
+   ]
+  },
+  "compare": {
+   "noneVsToyD0zero": {
+    "same": true,
+    "maxRel": 0
+   },
+   "uniformVsToyD0": {
+    "same": true,
+    "maxRel": 0
+   },
+   "distantVsUniform": {
+    "same": false,
+    "maxRel": 0.8071894784187077
+   },
+   "unwiredVsToyD0": {
+    "same": true,
+    "maxRel": 0
+   }
+  },
+  "rows": {
+   "none": {
+    "ok": true,
+    "stop": null,
+    "law": {
+     "law": "share-p1",
+     "deny": null
+    },
+    "steps": 200,
+    "vacuum": 0,
+    "chi": [
+     1,
+     1
+    ],
+    "ledger": {
+     "pSum": 0,
+     "pScale": 500.8916127271858,
+     "lSum": 0,
+     "eSum": 0,
+     "toyE": -9.880691345644493
+    },
+    "wire": {
+     "state": "applied",
+     "field": null,
+     "hasMeshVelocity": false,
+     "lawVersion": "share-p1",
+     "lawPath": "geoToy"
+    }
+   },
+   "uniform": {
+    "ok": true,
+    "stop": null,
+    "law": {
+     "law": "share-p1",
+     "deny": null
+    },
+    "steps": 200,
+    "vacuum": 0,
+    "chi": [
+     0.9301967456478718,
+     0.9916723499815063
+    ],
+    "ledger": {
+     "pSum": 0,
+     "pScale": 491.4601485446494,
+     "lSum": 0,
+     "eSum": 0,
+     "toyE": 0.008644057241617986
+    },
+    "wire": {
+     "state": "applied",
+     "field": null,
+     "hasMeshVelocity": false,
+     "lawVersion": "share-p1",
+     "lawPath": "geoToy"
+    }
+   },
+   "distant": {
+    "ok": true,
+    "stop": null,
+    "law": {
+     "law": "share-p1",
+     "deny": null
+    },
+    "steps": 200,
+    "vacuum": 0,
+    "chi": [
+     0.9902951181019936,
+     0.9988843669505904
+    ],
+    "ledger": {
+     "pSum": 0,
+     "pScale": 499.4636775030411,
+     "lSum": 0,
+     "eSum": 0,
+     "toyE": -8.184611064579009
+    },
+    "wire": {
+     "state": "applied",
+     "field": null,
+     "hasMeshVelocity": false,
+     "lawVersion": "share-p1",
+     "lawPath": "geoToy"
+    }
+   }
+  },
+  "unwired": {
+   "ok": true,
+   "law": null,
+   "wire": {
+    "state": "unwired",
+    "field": null,
+    "hasMeshVelocity": false,
+    "lawVersion": null,
+    "lawPath": null
+   }
+  },
+  "ok": true
+ },
+ "mesh": {
+  "steps": 2000,
+  "dt": 0.016,
+  "base": {
+   "ok": true,
+   "meshVel": {
+    "n": 2000,
+    "undef": 0,
+    "bad": 0,
+    "work": 0,
+    "uMax": 2.3
+   },
+   "wire": {
+    "state": "applied",
+    "field": "backgroundComplex",
+    "hasMeshVelocity": true,
+    "lawVersion": null,
+    "lawPath": "meshVelocity"
+   }
+  },
+  "sameLaw": {
+   "ok": true,
+   "meshVel": {
+    "n": 2000,
+    "undef": 0,
+    "bad": 0,
+    "work": 0,
+    "uMax": 2.3
+   },
+   "wire": {
+    "state": "applied",
+    "field": "backgroundComplex",
+    "hasMeshVelocity": true,
+    "lawVersion": "complex-p2",
+    "lawPath": "meshVelocity"
+   }
+  },
+  "noneVacuum": {
+   "ok": true,
+   "meshVel": {
+    "n": 2000,
+    "undef": 4000,
+    "bad": 0,
+    "work": 0,
+    "uMax": 0
+   },
+   "wire": {
+    "state": "applied",
+    "field": "backgroundComplex",
+    "hasMeshVelocity": true,
+    "lawVersion": "complex-p2",
+    "lawPath": "meshVelocity"
+   }
+  },
+  "noneUndefined": {
+   "ok": true,
+   "meshVel": {
+    "n": 2000,
+    "undef": 0,
+    "bad": 4000,
+    "work": 0,
+    "uMax": 0
+   },
+   "wire": {
+    "state": "applied",
+    "field": "backgroundComplex",
+    "hasMeshVelocity": true,
+    "lawVersion": "complex-p2",
+    "lawPath": "meshVelocity"
+   }
+  },
+  "distant": {
+   "ok": true,
+   "meshVel": {
+    "n": 2000,
+    "undef": 0,
+    "bad": 0,
+    "work": 3.6379345849604235e-23,
+    "uMax": 2.334523505985751
+   },
+   "wire": {
+    "state": "applied",
+    "field": "backgroundComplex",
+    "hasMeshVelocity": true,
+    "lawVersion": "complex-p2",
+    "lawPath": "meshVelocity"
+   }
+  },
+  "compare": {
+   "sameVsBase": {
+    "same": true,
+    "maxRel": 0
+   },
+   "distantVsBase": {
+    "same": false,
+    "maxRel": 1
+   }
+  },
+  "ok": true
+ },
+ "geo12": {
+  "steps": 400,
+  "rows": [
+   {
+    "id": "earthMoonReal",
+    "free": true,
+    "kFrame": 0,
+    "same": true
+   },
+   {
+    "id": "mercuryReal",
+    "free": false,
+    "kFrame": 0,
+    "same": true
+   },
+   {
+    "id": "plutoCharonDFM",
+    "free": true,
+    "kFrame": 0,
+    "same": true
+   },
+   {
+    "id": "alphaCenAB",
+    "free": true,
+    "kFrame": 0,
+    "same": true
+   },
+   {
+    "id": "siriusAB",
+    "free": true,
+    "kFrame": 0,
+    "same": true
+   },
+   {
+    "id": "psrDoubleAB",
+    "free": true,
+    "kFrame": 0,
+    "same": true
+   }
+  ],
+  "allSame": true
+ },
+ "elapsedS": 8.175
+}

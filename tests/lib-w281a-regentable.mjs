@@ -437,6 +437,12 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgderiv-w285c.json': META_RUN.concat(['/elapsedS']) },
     note: '第285便c: 同じ (W₀,A₀) で微分が違う反例・一様凍結の宣言(微分は宣言による 0)・背景源の台帳からの全項・遠方 1 源の閉じた式の一致・'
       + '単位の指数・無限一様の発散・判定表・受理器の事例' }),
+  // ---- 第286便c(原仮定者の裁定(第76報)・第76報で閉じた AN7′/AN47/AN56): 背景場の解析微分と中心差分の照合・背景の法則版(share-p1/complex-p2)の
+  //   受理と接続の診断コピー(Node だけ・html だけを読む —— 他の正本は読まない)
+  S('bgdiff286', 'node tests/exp-w286c-bgdiff.mjs', ['tests/out/bgdiff-w286c.json'], 3, { secSource: 'w286c-branch', node: true,
+    volatilePaths: { 'tests/out/bgdiff-w286c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第286便c: ∇W・∇A・∂ₜW・∂ₜA と合成 u の ∇u・∂ₜu を中心差分 h・h/2・h/4 で照合(次数 2)・並進基準系・W→0・W=0 の未定義・'
+      + '法則版の受理器・share-p1(💮 の縮小写し 3 つ)と complex-p2(🔁 の写し)の接続と帳簿・geoPN=1 と geoPN=2∧kFrame=0 の 400 步' }),
 ];
 
 /**
