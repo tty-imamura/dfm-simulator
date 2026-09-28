@@ -20,6 +20,7 @@
 //   'w283c-run' … 第283便c の器の単独走行(正本の elapsedSec —— Node の vm + 判定器の --tp-copy〔Chromium〕)。
 //   'w284a-branch' … 第284便a の枝で器を走らせた実測(正本の elapsedS —— 1 回目 3808.5・2 回目 3067.7 を採る。Node だけ・子プロセス 3 本・他の枝と同じ容器で並走〔負荷平均 12〜34〕)。
 //   'w284e-branch' … 第284便e の枝で器を 1 回走らせた実測(正本の elapsedS —— tpsign は正本が基点の世代で判定器を --only で走らせた値)。
+//   'w285a-branch' … 第285便a の枝で器を走らせた実測(正本の elapsedS —— contact285 は判定器なし・clusterScan は子プロセス 2 本・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -337,6 +338,22 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgfield-w284e.json': META_RUN.concat(['/elapsedS']) },
     note: '第284便e: p=2 の台帳からの W₀・A₀・∇・∂ₜ の算出(html の dfmComplexMomentsOf と照合)・検算 3 件・4 区分の表・'
       + '💮🌚(share 経路)の未接続と 🔁🌒(meshVelocity)の適用中の実測' }),
+  // ---- 第285便a(原仮定者の裁定(第75報)④⑤・統括の検証項目 R95/R96)
+  //   contact285: 多粒子の契約 contactMode の単体試験(4 経路・ばねエネルギー・受理)・内蔵 142 本の 1 步(基点 html と —— git show の一時ファイル)・
+  //     拘束の反作用の記帳・適用表の前後(基点の宣言をいまのエンジンで)・💍💿 の量ごとの前後(calaudit の正本がいまの html の世代なら読むだけ ——
+  //     そうでなければ判定器を --only で一時ファイルへ走らせる〔Chromium〕)。所要は枝の実測(判定器を走らせない場合)
+  //   clusterScan: 💮 の宣言の照合(particleRadius・長さ単位・表示半径)・E9 の不発火・第284便a の宣言との力学のビット一致・
+  //     走査 36 構成(N_rep 40)と検証(上位 2 + 宣言 × N_rep 320 × 乱数種 3)。子プロセスの並列(W285A_WORKERS・既定 2 —— 結果は並列数に依らない)
+  S('contact285', 'node tests/exp-w285a-contact.mjs', ['tests/out/contact-w285a.json'], 282, { secSource: 'w285a-branch', after: ['calaudit', 'dt3', 'kf0'],
+    env: { W285A_BASE_REV: '基点(既定 b92ffa1 —— git show で基点 html と基点の calaudit 正本を一時読み)',
+      PLAYWRIGHT_CORE_DIR: 'Chromium の Playwright(正本 calaudit がいまの html の世代でないときだけ —— 💍💿 の判定器を --only で一時ファイルへ。鎖の中では読むだけ)' },
+    volatilePaths: { 'tests/out/contact-w285a.json': META_RUN.concat(['/elapsedS']) },
+    note: '第285便a: contactMode:"none" は E9 の 4 経路を止める(単体試験)・未指定 ≡ normal・fusion/phaseChange 併用の拒否・particleRadius・'
+      + '1 步の比較(違う本 ⊆ 宣言した本)・pinned の反作用の記帳・適用表 16 本の前後と normal のまま残す本・💍💿 の量ごとの前後' }),
+  S('clusterScan', 'node tests/exp-w285a-cluster.mjs', ['tests/out/cluster-w285a.json'], 4645, { secSource: 'w285a-branch', node: true,
+    volatilePaths: { 'tests/out/cluster-w285a.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
+    note: '第285便a: 💮 の半径の分離(DR 惑星級・恒星は表示比較の仮定・dispMag)・E9 の不発火と検出力・第284便a の宣言との力学のビット一致・'
+      + '走査 (a) 半径 bin の診断 → (b) 実効ポテンシャル Φ_eff=Φ̄_E4−½⟨|ū|²⟩ の初期分布 → (c) N_rep 320 × 乱数種 3 の門(門は第283便f のまま)' }),
 ];
 
 /**
@@ -351,6 +368,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/fixtures/retired-w283b.json': [],
   // 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本と ⚡ の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w284b.json': [],
+  // 第285便a(原仮定者の裁定(第75報)⑤・R96): 第284便a の 💮 の宣言の凍結の写し(書き換えない fixture —— 現行の正本 cluster-w284a・cluster-w285a の入力)
+  'tests/fixtures/cluster-w284a-preset.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

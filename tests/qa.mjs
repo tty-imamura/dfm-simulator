@@ -2227,7 +2227,10 @@ if (QA_CHANGED) {
       // 第284便e(原仮定者の裁定(第74報)AN34・④・R91): 試験粒子契約の署名の前後(target=beta/index.html —— 基点の calaudit 正本は git show の
       //   一時読み・inputs に calaudit-w249.json —— **calaudit を走らせ直したら本器も走らせ直す**)/ 背景複素決定力 W₀・A₀ の算出表と接続の実測
       //   (target=beta/index.html —— Node だけ・他の正本は読まない)
-      'tests/out/tpsign-w284e.json', 'tests/out/bgfield-w284e.json'];
+      'tests/out/tpsign-w284e.json', 'tests/out/bgfield-w284e.json',
+      // 第285便a(原仮定者の裁定(第75報)④⑤・R95/R96): 多粒子の契約(contactMode・中心固定・particleRadius)の単体試験と適用表・
+      //   💮 の半径と走査((a) 半径 bin の診断 → (b) 実効ポテンシャルの初期分布 → (c) N_rep 320 × 乱数種 3 の門)
+      'tests/out/contact-w285a.json', 'tests/out/cluster-w285a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -17415,7 +17418,8 @@ if (!FAST) {
   const hasW281c = htmlSrc.indexOf('massLedger:{version:"w281c-1"') >= 0 || htmlSrc.indexOf('massLedger:{version:"w282d-1"') >= 0;
   const has282dML = htmlSrc.indexOf('massLedger:{version:"w282d-1"') >= 0;
   const has283fML = htmlSrc.indexOf('massLedger:{version:"w283f-1"') >= 0   // 第283便f: 💮 の台帳(darkRotor つき)
-    || htmlSrc.indexOf('massLedger:{version:"w284a-1"') >= 0;   // 第284便a: 💮 の台帳の版が w284a-1(nTrue・radii)に上がっても宣言する内蔵は同じ 3 本
+    || htmlSrc.indexOf('massLedger:{version:"w284a-1"') >= 0   // 第284便a: 💮 の台帳の版が w284a-1(nTrue・radii)に上がっても宣言する内蔵は同じ 3 本
+    || htmlSrc.indexOf('massLedger:{version:"w285a-1"') >= 0;   // 第285便a: 💮 の台帳の版が w285a-1(radii の長さ単位換算・恒星の表示の仮定)でも同じ 3 本
   if (!hasW281c) {
     console.log('SKIP docs.rotorLedger / preset.massLedger(対象に第281便c の massLedger なし — root 等)');
   } else {
@@ -18372,7 +18376,10 @@ if (!FAST) {
       //   門と目標の段落が結果より前・標本から門と目標を作り直して一致(相対 1e-12)・いまの html で t=0 の量と台帳を引き直して相対 1e-12・
       //   **接触ばね E9 が発火しないことの機械検査**(ページで 💮 と DR の半径だけを 8.75 にした写しを 150 步 —— 全状態がビット一致、
       //   contactK 既定では一致しない)・判定の語・禁止の言い回し。
-      const has284a = htmlSrc283f.indexOf('function equilibriumRowVelocities(') >= 0 && htmlSrc283f.indexOf('massLedger:{version:"w284a-1"') >= 0;
+      // 第285便a(R95/R96): 💮 の宣言を w285a へ書き換えた世代では、第284便a の器は凍結写し tests/fixtures/cluster-w284a-preset.json を読む
+      //   (下の照合はそのまま —— ページの E9 検査も凍結写しで行う)
+      const is284aLive = htmlSrc283f.indexOf('massLedger:{version:"w284a-1"') >= 0;
+      const has284a = htmlSrc283f.indexOf('function equilibriumRowVelocities(') >= 0 && (is284aLive || fs.existsSync(path.join(ROOT, 'tests', 'fixtures', 'cluster-w284a-preset.json')));
       if (has284a) {
         let E4 = null, J4 = null, err4 = null;
         try { E4 = await import('file://' + path.join(ROOT, 'tests', 'exp-w284a-cluster.mjs')); J4 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'cluster-w284a.json'), 'utf8')); }
@@ -18444,8 +18451,9 @@ if (!FAST) {
             else cases.push(`第284便a: いまの html で t=0 の量・T_out(${orb.Tout.toFixed(3)})・D_A・eqInit を引き直して正本と相対 ${w.toExponential(1)}・束縛率 t=0 ${z0.info.boundStars.toFixed(3)}/${z0.info.boundDR.toFixed(3)}`);
           } catch (e) { bad.push('第284便a: headless の引き直し: ' + String(e).slice(0, 120)); }
           // 接触ばね E9 が発火しないこと(ページで機械検査 —— 150 步の全状態のビット比較)
-          const e9 = await page.evaluate(() => {
-            const src = HP.allPresets().find((q) => q.id === 'clusterAnalogyBH');
+          const fx284a = is284aLive ? null : JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'cluster-w284a-preset.json'), 'utf8')).preset;
+          const e9 = await page.evaluate((fx) => {
+            const src = fx || HP.allPresets().find((q) => q.id === 'clusterAnalogyBH');
             const k = src.bodies.findIndex((b) => b.type === 'disk' && b.lightSweep === 1);
             const run = (p) => { const v = HP.validatePreset(p); HP.sim.build(v.preset); const S = HP.sim; let ov = 0;
               for (let i = 0; i < S.n; i++) for (let j = i + 1; j < S.n; j++) if (Math.hypot(S.x[i] - S.x[j], S.y[i] - S.y[j]) < S.R[i] + S.R[j]) ov++;
@@ -18458,7 +18466,7 @@ if (!FAST) {
             const same = a.a.every((x, i) => Object.is(x, b.a[i]));
             let nd = 0; c.a.forEach((x, i) => { if (!Object.is(x, d.a[i])) nd++; });
             return { same, nd, ovDecl: a.ov, ovBig: b.ov, K: a.K };
-          });
+          }, fx284a);
           if (!(e9.same && e9.K === 0 && e9.ovBig > 0 && e9.nd > 0)) bad.push('第284便a: 接触ばね E9 の機械検査 ' + JSON.stringify(e9));
           const ci = J4.contactInert;
           if (!(ci && ci.bitSame === true && ci.declared.contactK === 0 && ci.sensitivity.differingValues > 0)) bad.push('第284便a: 正本の E9 検査 ' + JSON.stringify(ci));
@@ -18526,6 +18534,238 @@ if (!FAST) {
       }
       add('behavior.rayLensExcluded', bad.length === 0,
         `**rayHeavy の lens 除外**(第283便f・AN27/AN37 —— massLedger.darkRotor.lens:"excluded" の DR 代表粒子は光線の源から外れる・重力の源は不変): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1e) 第285便a(原仮定者の裁定(第75報)④⑤・統括の検証項目 R95/R96): **多粒子の契約と球状星団便**の 3 ブロック。**root では SKIP**
+// ----   (器 tests/exp-w285a-contact.mjs・正本 tests/out/contact-w285a.json / 器 tests/exp-w285a-cluster.mjs・正本 tests/out/cluster-w285a.json)。
+// ----   ① behavior.contactMode …… physics.contactMode:"none" が E9 の 4 経路(特別化 2・generic・試験粒子の側)を止める(ページで重なった二体の
+// ----      vx が normal では変わり none では不変・スピン不変)・未指定 ≡ "normal"(ビット一致)・接触ばねエネルギー 0・fusion/phaseChange 併用と
+// ----      不正値の拒否・群の particleRadius の受理と拒否。正本: 単体の表・1 步の比較(違う本 ⊆ 宣言した本)・拘束の反作用の記帳・適用表・
+// ----      💍💿 の量ごとの前後・PHYSICS〔第285便a〕の表の行・CONTACT_DEFAULT 不変(40/8)。
+// ----   ② preset.multiParticleContract …… 適用表の本が contactMode:"none" と中心の固定を宣言していること(中心なしの版に固定天体を足さない・
+// ----      💍💿 は土星だけ固定で衛星は自由)・衝突や合体が目的の本は宣言しない(normal のまま)・S.contactNone の張り方。
+// ----   ③ behavior.clusterAnalogyW285 …… 💮 の半径の分離(particleRadius を G・c・質量単位から作り直す・恒星は表示比較の仮定)・
+// ----      **DR の表示半径 < 恒星の表示半径の機械検査**(レンダラの式 max(1.2, R·dispMag·z))・門と走査の宣言が結果より前・標本から門と目標を
+// ----      作り直す・いまの html の t=0・E9 の不発火(ページ)・判定の語・禁止の言い回し。
+{
+  const html285 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has285a = TARGET.startsWith('beta/') && html285.indexOf('const CONTACT_MODE_KEY="contactMode"') >= 0;
+  if (!has285a) {
+    console.log('SKIP behavior.contactMode / preset.multiParticleContract / behavior.clusterAnalogyW285(第285便a 未適用 — ' + TARGET + ')');
+  } else {
+    const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const pa = Pd.indexOf('〔第285便a — ');
+    const pEnds = (pa >= 0) ? [Pd.indexOf('\n〔第', pa + 10), Pd.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa) : [];
+    const psec = (pa >= 0) ? Pd.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined) : '';
+    const rl = (p, q) => (p === q) ? 0 : Math.abs(p - q) / Math.max(Math.abs(p), Math.abs(q), 1e-300);
+    const NG = [/形状が安定した/, /観測一致を達成/, /較正を完了/, /47 Tuc を再現/, /新発見/, /中心の引きずりが支配的になった/, /判定が増えた/, /RC を切った/];
+    let EC = null, JC = null, EK = null, JK = null, errC = null, errK = null;
+    try { EC = await import('file://' + path.join(ROOT, 'tests', 'exp-w285a-contact.mjs')); JC = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'contact-w285a.json'), 'utf8')); }
+    catch (e) { errC = String(e && e.stack || e).slice(0, 160); }
+    try { EK = await import('file://' + path.join(ROOT, 'tests', 'exp-w285a-cluster.mjs')); JK = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'cluster-w285a.json'), 'utf8')); }
+    catch (e) { errK = String(e && e.stack || e).slice(0, 160); }
+    // ---- ① behavior.contactMode
+    {
+      const bad = [], cases = [];
+      if (errC) bad.push('器/正本が読めない: ' + errC);
+      else {
+        if (!JC.meta || JC.meta.provenanceVersion !== 'w272e-1' || JC.meta.harnessVersion !== EC.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+        // ページで 4 経路を走らせ直す(正本と同じ単体の宇宙)
+        const live = await page.evaluate((U) => {
+          const out = [];
+          for (const [key, pn] of Object.entries(U)) {
+            const one = (p) => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); if (!v.ok) return { err: v.errors }; HP.sim.build(v.preset); const S = HP.sim, t = S.n - 1;
+              const b = [S.vx[t], S.vy[t], S.spin[t]]; S.step(0.016); const st = []; for (let i = 0; i < S.n; i++) st.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]);
+              return { dvx: S.vx[t] - b[0], same: S.vx[t] === b[0] && S.vy[t] === b[1] && S.spin[t] === b[2], kKind: S._kKind, tp: !!S.hasTestParticle, none: S.contactNone === true, st }; };
+            const u = one(pn.unspecified), n = one(pn.normal), z = one(pn.none);
+            out.push({ key, normalDvx: n.dvx, noneSame: z.same, normalSame: n.same, kKind: n.kKind, tp: n.tp, noneFlag: z.none,
+              uEqN: !!(u.st && n.st && u.st.length === n.st.length && u.st.every((x, i) => Object.is(x, n.st[i]))) });
+          }
+          const sp = { normal: springUOf({}, 0.5, 1, 0.3), none: springUOf({ contactMode: 'none' }, 0.5, 1, 0.3) };
+          return { out, sp, def: JSON.stringify(CONTACT_DEFAULT), modes: JSON.stringify(CONTACT_MODES) };
+        }, Object.fromEntries(['generic', 'plain', 'pn', 'tp'].map((k) => [k, { unspecified: EC.unitPreset(k, null), normal: EC.unitPreset(k, 'normal'), none: EC.unitPreset(k, 'none') }])));
+        const want = { generic: 0, plain: 1, pn: 2, tp: null };
+        for (const r of live.out) {
+          if (!(r.normalSame === false && r.noneSame === true && r.noneFlag === true && r.uEqN === true)) bad.push(`ページ ${r.key}: normal で変わり none で不変・未指定≡normal ` + JSON.stringify(r).slice(0, 120));
+          if (want[r.key] !== null && r.kKind !== want[r.key]) bad.push(`ページ ${r.key}: 経路 kKind ${r.kKind} ≠ ${want[r.key]}`);
+          if (r.key === 'tp' && !r.tp) bad.push('ページ tp: 試験粒子の契約に入っていない');
+        }
+        if (!(live.sp.none === 0 && live.sp.normal > 0)) bad.push('ばねエネルギー ' + JSON.stringify(live.sp));
+        if (live.def !== '{"contactK":40,"contactCap":8}') bad.push('CONTACT_DEFAULT が変わった ' + live.def);
+        cases.push(`ページで 4 経路(generic kKind 0・pairCorePlain 1・pairCorePN 2・試験粒子の側): normal の Δvx ${live.out.map((r) => r.normalDvx.toExponential(2)).join('/')}・none は vx/vy/spin 不変・未指定 ≡ normal(ビット一致)・ばね U none=${live.sp.none}・CONTACT_DEFAULT ${live.def}`);
+        // 正本の単体の表
+        const U = JC.unit;
+        if (!(U.paths.length === 4 && U.paths.every((r) => r.pathOk && r.normalChanges && r.noneUnchanged && r.unspecifiedEqualsNormal && r.noneFlag && r.accepted === 'none'))) bad.push('正本の 4 経路の表');
+        if (!(U.contactKZero.stillChanges === true && U.contactKZero.noneUnchanged === true)) bad.push('contactK=0 だけでは γn/μF が残ること(正本)');
+        const A = U.acceptance;
+        if (!(A.fusionNone.ok === false && A.phaseChangeNone.ok === false && A.bogus.ok === false && A.fusionNormal.ok === true)) bad.push('受理器(fusion/phaseChange 併用・不正値)' + JSON.stringify(A).slice(0, 160));
+        const prBad = U.particleRadius.filter((z) => (z.want !== null) ? !(z.ok && z.R === z.want) : z.ok);
+        if (prBad.length || !U.particleRadius.some((z) => z.warnRMul)) bad.push('particleRadius の受理 ' + JSON.stringify(prBad.slice(0, 2)));
+        // 受理器をページでも(fusion 併用・particleRadius 0)
+        const acc = await page.evaluate((P) => { const r = []; for (const p of P) { const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); r.push(v.ok); } return r; },
+          [Object.assign(EC.unitPreset('generic', 'none'), { thermal: 'tint', fusion: { dFrac: 0.5 } }), EC.unitPreset('generic', 'bogus'),
+            Object.assign(EC.unitPreset('generic', null), { bodies: EC.unitPreset('generic', null).bodies.concat([{ type: 'disk', n: 2, cx: 9, cy: 0, radius: 2, mMin: 1, mMax: 1, spinMin: 0, spinMax: 0, vMode: 'none', vScale: 0, direction: 1, particleRadius: 0 }]) })]);
+        if (acc.some((x) => x !== false)) bad.push('ページの受理器(fusion 併用・不正値・particleRadius 0 を拒否)' + JSON.stringify(acc));
+        // 1 步の比較・拘束の記帳・適用表
+        const O = JC.oneStep;
+        if (!(O.n === 142 && O.differSubsetOfDeclared === true && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
+        const C = JC.constraint;
+        if (!(C.pinned.centerMoved === 0 && C.pinned.relDPfree > 1e-3 && C.free.relDPtotal < 1e-5)) bad.push('拘束の反作用の記帳 ' + JSON.stringify(C).slice(0, 160));
+        if (JSON.stringify(JC.apply.map((a) => a.id)) !== JSON.stringify(EC.APPLIED.map((a) => a.id))) bad.push('適用表の並びが器の APPLIED と違う');
+        for (const a of JC.apply) {
+          if (a.declared !== EC.declOf(EC.APPLIED.find((z) => z.id === a.id) || {})) bad.push(a.id + ': 宣言 ' + a.declared);
+          if ((a.center === 'none' && a.nPinned !== 0) || (a.center !== 'none' && a.nPinned !== 1)) bad.push(a.id + ': 固定の数 ' + a.nPinned);
+        }
+        const changed = JC.apply.filter((a) => a.dynamicsChanged).map((a) => a.id);
+        const R = JC.ring;
+        if (!(R && R.table && R.table.length === 2 && R.table.every((t) => !t.missing))) bad.push('💍💿 の量ごとの前後が無い(' + (R && R.note) + ')');
+        // PHYSICS
+        if (!psec) bad.push('PHYSICS〔第285便a〕が無い');
+        else {
+          const rows = EC.docRows(JC);
+          const miss = rows.paths.concat(rows.apply, rows.kept, rows.ring).filter((t) => psec.indexOf(t) < 0);
+          if (miss.length) bad.push('PHYSICS の表に無い行 ' + miss.length + ' 件 ' + miss[0].slice(0, 60));
+          const body = psec.split('**言わないこと。**')[0];
+          for (const re of NG) if (re.test(body)) bad.push('禁止の言い回し ' + re.source);
+        }
+        cases.push(`正本: 1 步 ${O.identical}/${O.n} 一致(違う本 ${O.differ.length} ⊆ 宣言 ${O.declared.length})・拘束の記帳 ΔP_free/|P| ${C.pinned.relDPfree.toExponential(2)}(中心 固定)vs 自由 ${C.free.relDPtotal.toExponential(2)}・`
+          + `力学が変わる本 ${changed.length}(${changed.join(',')})・💍💿 ${R && R.table ? R.table.map((t) => t.emoji + ' ' + t.nChanged + '/' + t.nQuantities).join(' ') : '—'}`);
+      }
+      add('behavior.contactMode', bad.length === 0,
+        `**多粒子の契約 contactMode**(第285便a・原仮定者の裁定(第75報)④・R95 —— "none" は E9 の 4 経路を止める・未指定は既存挙動): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② preset.multiParticleContract
+    {
+      const bad = [], cases = [];
+      if (errC) bad.push('器が読めない: ' + errC);
+      else {
+        const r = await page.evaluate((X) => {
+          const out = { applied: [], kept: [] };
+          for (const a of X.applied) {
+            const p = HP.allPresets().find((q) => q.id === a.id);
+            if (!p) { out.applied.push({ id: a.id, missing: true }); continue; }
+            const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); HP.sim.build(v.preset); const S = HP.sim;
+            let nPin = 0, pinRows = 0; for (let i = 0; i < S.n; i++) if (S.pinned[i] === 1) nPin++;
+            for (const b of p.bodies) if (b.pinned) pinRows++;
+            const singles = p.bodies.filter((b) => b.type === 'single');
+            out.applied.push({ id: a.id, mode: p.physics.contactMode, flag: S.contactNone === true, nPin, pinRows, nSingles: singles.length, freeSingles: singles.filter((b) => !b.pinned).length,
+              fusion: !!p.fusion, phase: !!p.phaseChange });
+          }
+          for (const k of X.kept) { const p = HP.allPresets().find((q) => q.id === k.id); out.kept.push({ id: k.id, present: !!p, mode: p ? p.physics.contactMode : null,
+            flag: p ? (() => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); HP.sim.build(v.preset); return HP.sim.contactNone === true; })() : null }); }
+          out.nDeclNone = HP.allPresets().filter((q) => q.physics && q.physics.contactMode === 'none').map((q) => q.id);
+          return out;
+        }, { applied: EC.APPLIED, kept: EC.NORMAL_KEPT });
+        for (const z of r.applied) {
+          const A = EC.APPLIED.find((a) => a.id === z.id);
+          if (z.missing) { bad.push(z.id + ' が無い'); continue; }
+          const wantM = EC.declOf(A);
+          if (!(z.mode === wantM && z.flag === (wantM === 'none') && !z.fusion && !z.phase)) bad.push(z.id + ': contactMode ' + z.mode + '・flag ' + z.flag);
+          if (A.center === 'none' && !(z.nPin === 0 && z.pinRows === 0)) bad.push(z.id + ': 中心なしの版に固定がある');
+          if (A.center === 'pinned' && !(z.nPin === 1 && z.pinRows === 1)) bad.push(z.id + ': 中心の固定が 1 個でない(' + z.nPin + ')');
+          if (A.center === 'saturn' && !(z.nPin === 1 && z.pinRows === 1 && z.freeSingles === z.nSingles - 1 && z.freeSingles >= 1)) bad.push(z.id + ': 土星だけ固定・衛星は自由 でない');
+        }
+        for (const k of r.kept) if (!(k.present && (k.mode === undefined || k.mode === 'normal') && k.flag === false)) bad.push(k.id + ': normal のまま残す本が none を宣言');
+        const extra = r.nDeclNone.filter((id) => !EC.APPLIED.some((a) => a.id === id));
+        if (extra.length) bad.push('適用表の外で none を宣言した本 ' + extra.join(','));
+        cases.push(`適用表 ${r.applied.length} 本が契約を宣言(none ${EC.APPLIED.filter((a) => EC.declOf(a) === 'none').length}・normal の明示 ${EC.APPLIED.filter((a) => EC.declOf(a) === 'normal').map((a) => a.emoji).join('')}・中心固定 ${EC.APPLIED.filter((a) => a.center === 'pinned').length}・中心なし ${EC.APPLIED.filter((a) => a.center === 'none').length}・土星だけ固定 ${EC.APPLIED.filter((a) => a.center === 'saturn').length})・`
+          + `normal のまま ${r.kept.length} 本(${EC.NORMAL_KEPT.map((k) => k.emoji).join('')} —— 衝突・合体・散逸が本題)・宣言は適用表の外に無い`);
+      }
+      add('preset.multiParticleContract', bad.length === 0,
+        `**多粒子の契約の宣言**(第285便a・R95 —— 中心は pinned:true・接触なし。銀河衝突や合体が目的の本は別の条件): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ behavior.clusterAnalogyW285
+    {
+      const bad = [], cases = [];
+      if (errK) bad.push('器/正本が読めない: ' + errK);
+      else {
+        const E3 = await import('file://' + path.join(ROOT, 'tests', 'exp-w283f-cluster.mjs'));
+        const E4 = await import('file://' + path.join(ROOT, 'tests', 'exp-w284a-cluster.mjs'));
+        if (!JK.meta || JK.meta.provenanceVersion !== 'w272e-1' || JK.meta.harnessVersion !== EK.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+        const g = Object.assign({}, JK.gates); delete g.text; delete g.declaredBeforeMeasure; delete g.source;
+        if (JSON.stringify(g) !== JSON.stringify(E3.GATES) || JSON.stringify(JK.gates.text) !== JSON.stringify(E3.GATE_TEXT)) bad.push('門が第283便f の GATES と違う(門は動かさない)');
+        const d = Object.assign({}, JK.dominance); delete d.declaredBeforeMeasure; delete d.source;
+        if (JSON.stringify(d) !== JSON.stringify(E4.DOMINANCE)) bad.push('支配の目標が第284便a の DOMINANCE と違う');
+        const sc = Object.assign({}, JK.scan); delete sc.text; delete sc.declaredBeforeMeasure;
+        if (JSON.stringify(sc) !== JSON.stringify(EK.SCAN) || JSON.stringify(JK.scan.text) !== JSON.stringify(EK.SCAN_TEXT) || JSON.stringify(JK.eqToyRule) !== JSON.stringify(EK.EQTOY_RULE)) bad.push('走査の宣言 ≠ 器');
+        // 標本から門と目標を作り直す・走行の並び(走査 + 上位 2 と宣言の検証)
+        let w = 0;
+        for (const r of JK.runs) {
+          const gg = E3.gateEval(r.samples, r.ToutEff), dm = E4.dominanceEval(r.samples, r.ToutEff);
+          if (gg.verdict !== r.gates.verdict || JSON.stringify(gg.failed) !== JSON.stringify(r.gates.failed) || dm.verdict !== r.dominance.verdict) bad.push(r.key + ': 門/目標を作り直すと違う');
+          for (const k of Object.keys(gg.worst)) if (gg.worst[k] !== null) w = Math.max(w, rl(gg.worst[k], r.gates.worst[k]));
+          if (['形状達成', '未達'].indexOf(r.gates.verdict) < 0) bad.push(r.key + ': 判定の語');
+        }
+        if (!(w <= 1e-12)) bad.push('門の量の作り直しの差 ' + w);
+        const scanRuns = JK.runs.filter((r) => r.phase === 'scan');
+        const wantKeys = EK.scanSpecs().map((z) => z.key).concat(EK.verifySpecs(scanRuns).map((z) => z.key));
+        if (JSON.stringify(JK.runs.map((r) => r.key)) !== JSON.stringify(wantKeys)) bad.push('走行の並び(走査 36 + 検証)が器と違う');
+        const base = JK.runs.find((r) => r.key === JK.baseKey);
+        const dec = EK.eqToyDecision(base);
+        if (dec.include !== JK.eqToyDecision.include) bad.push('(b) の採否を作り直すと違う');
+        const hyp = EK.hypothesisCheck(scanRuns);
+        if (hyp.word !== JK.hypothesis.word) bad.push('仮説の単調性を作り直すと違う');
+        const vAll = JK.verifySummary.some((s) => s.nPass === s.n && s.n > 0) ? '形状達成' : '未達';
+        if (vAll !== JK.verdict) bad.push('正本の verdict ≠ 検証の集計');
+        // 宣言の照合(いまの html —— headless)と表示半径
+        try {
+          const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+          const H = loadHtmlHeadless(path.join(ROOT, TARGET));
+          const D = EK.declarationCheck(H.HP);
+          if (JSON.stringify(D) !== JSON.stringify(JK.declaration)) bad.push('宣言の照合が正本と違う —— 器を走らせ直すこと');
+          if (!(D.lengthUnitM.rel <= 1e-9 && D.dr.relDeclared <= 1e-4 && D.star.relDeclared <= 1e-4 && D.dr.builtVsFround && D.star.builtVsFround && D.dr.rMulAbsent && D.star.rMulAbsent))
+            bad.push('particleRadius(G・c・質量単位からの換算)' + JSON.stringify({ L: D.lengthUnitM, dr: D.dr.relDeclared, st: D.star.relDeclared }));
+          if (!(D.draw.length === 3 && D.draw.every((z) => z.drBelowStar && z.starAboveFloor))) bad.push('**DR の表示半径 < 恒星**でない(または恒星が床に潰れる)' + JSON.stringify(D.draw));
+          if (!(D.contactMode === 'none' && D.centerPinned && D.ledgerRadii.physicalClass === 'planet' && D.ledgerRadii.starAssumedClass === 'sun-radius-display-assumption')) bad.push('💮 の契約・台帳の宣言');
+          if (html285.indexOf(EK.DISPLAY.formula) < 0) bad.push('レンダラの表示半径の式が器の写しと違う(' + EK.DISPLAY.formula + ')');
+          // いまの html で t=0 の量(宣言どおりの構成・N_rep 40・乱数種 0)
+          const spec = Object.assign({ key: 'qa', nRep: 40, seed: 0 }, EK.DECLARED_CFG);
+          const pv = H.HP.validatePreset(EK.variantPreset(H.HP, spec)); H.HP.sim.build(pv.preset);
+          const S = H.HP.sim, pop = E3.populations(pv.preset);
+          const z0 = E4.sampleOf(H.HP, S, pop, E3.GATES.retentionRadiusOverRout * 40), c0 = base.samples[0];
+          let w0 = 0; for (const k of ['retStars', 'retDR', 'rhStars', 'axis', 'vRot', 'sigma', 'vOverSigma']) w0 = Math.max(w0, rl(z0[k], c0[k]));
+          z0.dA.forEach((x, b) => { w0 = Math.max(w0, rl(x.dA, c0.dA[b].dA)); });
+          if (!(w0 <= 1e-12)) bad.push('いまの html で t=0 の量を引き直すと正本と違う(相対 ' + w0 + ')');
+          cases.push(`宣言: L=${(D.lengthUnitM.recomputed / 1e9).toFixed(3)}×10⁹ m・DR particleRadius ${D.dr.particleRadius}(惑星級 7.1492×10⁷ m / L)・恒星 ${D.star.particleRadius}(太陽半径 / L —— 表示比較の仮定)・恒星/DR ${D.ratioStarOverDR.toFixed(2)} 倍・`
+            + `dispMag ${D.dispMag} で表示 ${D.draw.map((z) => z.canvasMin + 'px: DR ' + z.drPx.toFixed(2) + ' < 恒星 ' + z.starPx.toFixed(2)).join(' / ')}・t=0 を引き直して相対 ${w0.toExponential(1)}`);
+        } catch (e) { bad.push('headless の引き直し: ' + String(e).slice(0, 140)); }
+        // E9 の不発火(ページ —— 150 步)
+        const e9 = await page.evaluate(() => {
+          const src = HP.allPresets().find((q) => q.id === 'clusterAnalogyBH'), k = src.bodies.findIndex((b) => b.type === 'disk' && b.lightSweep === 1);
+          const run = (p) => { const v = HP.validatePreset(p); HP.sim.build(v.preset); const S = HP.sim; for (let s = 0; s < 150; s++) S.step(0.016);
+            const a = []; for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.vx[i], S.vy[i], S.spin[i]); return { a, none: S.contactNone === true }; };
+          const p0 = JSON.parse(JSON.stringify(src)), p1 = JSON.parse(JSON.stringify(src)); p1.bodies[k].particleRadius = 8.75;
+          const q0 = JSON.parse(JSON.stringify(p0)), q1 = JSON.parse(JSON.stringify(p1)); delete q0.physics.contactMode; delete q1.physics.contactMode;
+          const a = run(p0), b = run(p1), c = run(q0), d = run(q1);
+          let nd = 0; c.a.forEach((x, i) => { if (!Object.is(x, d.a[i])) nd++; });
+          return { same: a.a.every((x, i) => Object.is(x, b.a[i])), none: a.none, nd };
+        });
+        if (!(e9.same && e9.none && e9.nd > 0)) bad.push('E9 の不発火(ページ)' + JSON.stringify(e9));
+        const ci = JK.contactInert;
+        if (!(ci.bitSame && ci.sensitivity.differingValues > 0 && ci.vs284a.bitSameDynamics)) bad.push('正本の E9 検査・第284便a との力学の一致 ' + JSON.stringify(ci).slice(0, 160));
+        cases.push(`E9 は発火しない —— DR の particleRadius だけ 8.75 にした写しと 150 步のビット一致(ページ)・normal の写しでは ${e9.nd} 値が違う(検出力)・第284便a の宣言と力学がビット一致(半径だけ ${ci.vs284a.RdrBefore.toFixed(3)} → ${ci.vs284a.RdrNow.toFixed(4)})`);
+        // PHYSICS
+        if (!psec) bad.push('PHYSICS〔第285便a〕が無い');
+        else {
+          const rows = EK.docRows(JK);
+          const iG = psec.indexOf('**① 門と走査(測る前に宣言'), iR = psec.indexOf('**③ 走査の結果');
+          if (!(iG >= 0 && iR > iG)) bad.push('PHYSICS: 門と走査の段落が結果の段落より前にない');
+          for (const t of rows.gates.concat(rows.scan)) { const k = psec.indexOf(t); if (k < 0) bad.push('PHYSICS に無い宣言の行 ' + t.slice(0, 40)); else if (k > iR) bad.push('宣言の行が結果より後ろ ' + t.slice(0, 40)); }
+          const miss = rows.scanRows.concat(rows.verifyRows, rows.diagRows, rows.hypothesis).filter((t) => psec.indexOf(t) < 0);
+          if (miss.length) bad.push('PHYSICS の表に無い行 ' + miss.length + ' 件 ' + miss[0].slice(0, 60));
+          if (psec.indexOf('判定: **' + JK.verdict + '**') < 0) bad.push('PHYSICS に判定の語が無い');
+          if (psec.indexOf('仮説の単調性: **' + JK.hypothesis.word + '**') < 0) bad.push('PHYSICS に仮説の単調性の語が無い');
+        }
+        const vs = JK.verifySummary.map((s) => `${s.cfg} ${s.nPass}/${s.n}`).join(' ・ ');
+        cases.push(`走査 ${scanRuns.length} 構成・(b) 採否 ${JK.eqToyDecision.include ? '含める' : '含めない'}・仮説(中心質量を増やせば拡散しにくい)${JK.hypothesis.word}・検証 N_rep 320 × 3: ${vs}・判定 ${JK.verdict}`);
+      }
+      add('behavior.clusterAnalogyW285', bad.length === 0,
+        `**💮 の半径と走査**(第285便a・原仮定者の裁定(第75報)⑤・R96 —— 門は第283便f のまま・語は形状達成/未達だけ): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
@@ -28089,7 +28329,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       if (nLite !== null) bl[bl.length - 1].n = nSrc;
       return { cls: lite.sampleClass, fid: lite.fidelity, claims: !!lite.claims,
         mcal: !!lite.massCalibration, notClaim: lite.notClaim,
-        samePhysics: JSON.stringify(lite.physics) === JSON.stringify(src.physics),
+        // 第285便a(R95): 🪁 は多粒子の契約 contactMode:"none" を宣言した —— 退役の 🎋 は凍結(宣言しない)。違いはこの 1 鍵だけ
+        samePhysics: JSON.stringify(lite.physics) === JSON.stringify((() => { const q = JSON.parse(JSON.stringify(src.physics)); if (q.contactMode === 'none' && lite.physics.contactMode === undefined) delete q.contactMode; return q; })()),
         sameSeed: lite.seed === src.seed,
         sameBodiesExceptN: JSON.stringify(bl) === JSON.stringify(bs), nLite, nSrc,
         emoji: lite.emoji, nEmoji: all.filter((z) => z.emoji === lite.emoji).length,
@@ -39332,7 +39573,8 @@ if (!FAST) {
       // ④ dispatch
       const coreSrc = HP.sim._core.toString();
       res.coreClean = !/geo3|Geo3|GEO3/.test(coreSrc);
-      const disp = HP.geoCoreDispatch.toString();
+      // 第285便a: geoCoreDispatch は接触なしの契約の入口だけになり、本体は geoCoreDispatchBody(同じ形を両方の本文で読む)
+      const disp = HP.geoCoreDispatch.toString() + ((typeof geoCoreDispatchBody === 'function') ? geoCoreDispatchBody.toString() : '');
       res.dispatch = { kickGuarded: /if\(S\.hasGeo3PN\) dfmGeo3PNKick\(/.test(disp), zeroForGeo3: disp.indexOf('(S.hasGeoToy || S.hasGeo3)?0:2') >= 0 };
       HP.loadPreset('mercuryGeoToy3', false);
       { const S = HP.sim; for (let i = 0; i < 20; i++) S.step(0.016);
@@ -43212,8 +43454,11 @@ if (hasEchoFlipAt) {
     const has216zc = await page.evaluate(() =>
       HP.allPresets().find((q) => q.id === 'galaxy').bodies[0].rMul === undefined);
     const has218zc = await page.evaluate(() => { HP.loadPreset('galaxy', false); return HP.sim.exclMode === 'placed'; });
+    const has285zc = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.contactMode === 'none');
     const ZC = hasC30zc ? {
-      galaxy: [has218zc ? '7b0e10ec63c90c86fa9a72d92787381baf375392fa274737dabf40455136f471'
+      // 第285便a(R95): 🌌 は多粒子の契約 contactMode:"none"(E9 を止める)で力学が変わる = 意図した変更 → 再採取(世代は宣言の有無)
+      galaxy: [has285zc ? '2ba8ff296e62a7a76adff6dd9dc0e2bb7725df24e0c0b0bcfaa0366443946b88'
+        : has218zc ? '7b0e10ec63c90c86fa9a72d92787381baf375392fa274737dabf40455136f471'
         : has216zc ? 'd208837773145e61e53642c40d6477f1bde3a1836c09b24fadffbc284a43c814'
         : galRolled ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3', 381],   // 第218便/第216便: 各世代で再採取 / 第108便A: 巻き戻し世代(G=0.8)は再採取ハッシュ・変換世代(root v1.39 = G=0.2)は96便実測のまま
       saturn: hasSat240
@@ -43420,7 +43665,10 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
       const has216mb = await page.evaluate(() =>
         HP.allPresets().find((q) => q.id === 'galaxy').bodies[0].rMul === undefined);
       const has218mb = await page.evaluate(() => { HP.loadPreset('galaxy', false); return HP.sim.exclMode === 'placed'; });
-      MB.galaxy = has218mb ? '7b0e10ec63c90c86fa9a72d92787381baf375392fa274737dabf40455136f471'
+      // 第285便a(R95): 🌌 の contactMode:"none" 世代は再採取(tint.zero-cost と同値)
+      const has285mb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.contactMode === 'none');
+      MB.galaxy = has285mb ? '2ba8ff296e62a7a76adff6dd9dc0e2bb7725df24e0c0b0bcfaa0366443946b88'
+        : has218mb ? '7b0e10ec63c90c86fa9a72d92787381baf375392fa274737dabf40455136f471'
         : has216mb ? 'd208837773145e61e53642c40d6477f1bde3a1836c09b24fadffbc284a43c814'
         : galRolledMb ? '6c56d8c7023a08b73162d08827202c7ebe24e31bdd41bc1206a351a667566f9d' : 'b08e5869a4f02c427bbc4194af947bf5505526a5b0b37edfd43327bc456ea1a3';   // 第108便A: 巻き戻し世代(G=0.8)は再採取・変換世代(root)は96便実測のまま
     }

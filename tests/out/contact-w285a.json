@@ -1,0 +1,2049 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第285便a",
+  "target": "beta/index.html",
+  "targetSha256": "28133d064f79cb5a168a68a803498d28566da7da9d520e7ab1fbf3dca4e3f39e",
+  "generatedAt": "2026-09-28T00:10:47.443Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 4930163,
+    "sha256": "28133d064f79cb5a168a68a803498d28566da7da9d520e7ab1fbf3dca4e3f39e",
+    "mtime": "2026-09-28T00:05:20.397Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2673043,
+    "sha256": "5d162b88475b704fd764dbaded94e789992d2ae8a00d83d1f94c56723710bb97",
+    "mtime": "2026-09-27T22:04:56.557Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w285a-contact.mjs",
+    "bytes": 32682,
+    "sha256": "8c6cc11c1fc000c92ff05a8c43a1f15d01abc7378fde56f32f70905422cf0167",
+    "mtime": "2026-09-27T23:43:22.274Z"
+   },
+   {
+    "file": "tests/exp-w284e-tpsign.mjs",
+    "bytes": 15789,
+    "sha256": "5337814debc26fae956110b85f1afa82b8f16ece1e5e3d28f7a3bdbe4b90d3cf",
+    "mtime": "2026-09-27T22:04:52.749Z"
+   },
+   {
+    "file": "tests/lib-w283c-calstages.mjs",
+    "bytes": 31498,
+    "sha256": "b20e72403295d1c772586cff9b39bbc9a46b14fcec2136578bb0e3673df9279f",
+    "mtime": "2026-09-27T22:04:55.585Z"
+   },
+   {
+    "file": "tests/exp-w249b-calaudit.mjs",
+    "bytes": 340559,
+    "sha256": "9e1a77d7c4fec3a865a1ed82acd78f449bc3c306a2769e5106952dad5c3c13e2",
+    "mtime": "2026-09-27T22:04:45.441Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-09-27T22:04:54.833Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-27T22:04:54.581Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-27T22:04:53.201Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 72632,
+    "sha256": "e8abde0bddbe17087bd0f2f8d22e57b5cc22a609514c8072c6bf26108e58a3fa",
+    "mtime": "2026-09-27T22:04:55.257Z"
+   }
+  ],
+  "codeSha256": "da78190a3bdfed1d54c8db82a0b44d40d5a15513f6c3c70e0c5c8105524b63ed",
+  "harnessVersion": "w285a-contact-1",
+  "loadErrors": 0,
+  "dt": 0.016,
+  "applySteps": 1500,
+  "ruling": "原仮定者の裁定(第75報)④: 多粒子サンプルでは粒子数を減らして近似している。粒子の偏りで中心天体が想定外に動くため中心天体は固定する。粒子同士の接触も現実より多くなるため接触判定は無しとする。銀河同士の衝突などを再現する場合は固定を外す。粒子同士の衝突や合体などを再現する場合は衝突判定を行う",
+  "reading": "統括の検証項目 R95(多粒子の契約 —— contactMode:\"none\" は E9 の 4 経路を止め・ばねエネルギー 0・fusion 併用は拒否・中心固定は pinned:true で反作用は別に記帳)",
+  "notClaim": [
+   "接触を外したので観測一致を達成した",
+   "較正を完了した",
+   "形状が安定した"
+  ],
+  "scope": {
+   "version": "w283e-scope-3",
+   "presets": "all",
+   "roots": [
+    "$",
+    "CONTACT_DEFAULT",
+    "CONTACT_MODES",
+    "CONTACT_MODE_KEY",
+    "DT",
+    "HP.allPresets",
+    "HP.coreState",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validatePreset",
+    "LAWS",
+    "T",
+    "applyQLock",
+    "ch",
+    "chanSetup",
+    "clamp",
+    "contactCapOf",
+    "contactKOf",
+    "contactNoneOf",
+    "dfmTestParticleCore",
+    "dfmTestParticleStep",
+    "geoCoreDispatch",
+    "geoCoreDispatchBody",
+    "isNum",
+    "makeSim",
+    "pairChannelGrad",
+    "pairChannelOm",
+    "pairCorePN",
+    "pairCorePlain",
+    "presetSig",
+    "scaleExpT",
+    "springUOf",
+    "testParticlePrepare",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 801,
+   "segments": 727,
+   "closureShare": 0.3196
+  },
+  "scopeSha256": "30ae1da879726631532dd730c3329cec6191f9058733750b529fef5367b4c832",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "e5ba404fa580f028f2a0cb99ca2f09a06faad2652f8fec31b4d7c36a70588e14",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
+     "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
+     "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
+     "/meta/when",
+     "/presets/*/run/stopRule/rateStepsPerSec",
+     "/presets/*/run/stopRule/wallSec",
+     "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
+     "/presets/*/run/stopRuleStages/*/wallSec",
+     "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/wallSec",
+     "/presets/*/run/wallSec"
+    ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "55d122720205d11fa88694ca894598a110f566c5064d372992e433773e1ab738",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "contract": {
+  "key": "contactMode",
+  "values": [
+   "normal",
+   "none"
+  ],
+  "defaultUnchanged": {
+   "contactK": 40,
+   "contactCap": 8
+  }
+ },
+ "unit": {
+  "paths": [
+   {
+    "path": "generic",
+    "label": "generic の対ループ(γn 0.4・μF 0.5 —— kKind 0)",
+    "kKindNormal": 0,
+    "kKindNone": 1,
+    "tpNormal": false,
+    "tpNone": false,
+    "pathOk": true,
+    "normal": {
+     "dvx": 0.5279999673366547,
+     "dvy": 0.02500000037252903,
+     "dspin": -0.02500000037252903
+    },
+    "none": {
+     "dvx": 0,
+     "dvy": 0,
+     "dspin": 0
+    },
+    "normalChanges": true,
+    "noneUnchanged": true,
+    "unspecifiedEqualsNormal": true,
+    "noneFlag": true,
+    "accepted": "none"
+   },
+   {
+    "path": "plain",
+    "label": "特別化 pairCorePlain(γn=μF=0・geoPN 0 —— kKind 1)",
+    "kKindNormal": 1,
+    "kKindNone": 1,
+    "tpNormal": false,
+    "tpNone": false,
+    "pathOk": true,
+    "normal": {
+     "dvx": 0.12800002098083496,
+     "dvy": 0,
+     "dspin": 0
+    },
+    "none": {
+     "dvx": 0,
+     "dvy": 0,
+     "dspin": 0
+    },
+    "normalChanges": true,
+    "noneUnchanged": true,
+    "unspecifiedEqualsNormal": true,
+    "noneFlag": true,
+    "accepted": "none"
+   },
+   {
+    "path": "pn",
+    "label": "特別化 pairCorePN(γn=μF=0・geoPN 1 —— kKind 2)",
+    "kKindNormal": 2,
+    "kKindNone": 2,
+    "tpNormal": false,
+    "tpNone": false,
+    "pathOk": true,
+    "normal": {
+     "dvx": 0.12800002098083496,
+     "dvy": 0,
+     "dspin": 0
+    },
+    "none": {
+     "dvx": 0,
+     "dvy": 0,
+     "dspin": 0
+    },
+    "normalChanges": true,
+    "noneUnchanged": true,
+    "unspecifiedEqualsNormal": true,
+    "noneFlag": true,
+    "accepted": "none"
+   },
+   {
+    "path": "tp",
+    "label": "試験粒子の側 dfmTestParticleStep(源 1 + 試験粒子 1)",
+    "kKindNormal": 1,
+    "kKindNone": 1,
+    "tpNormal": true,
+    "tpNone": true,
+    "pathOk": true,
+    "normal": {
+     "dvx": 0.1274196356534958,
+     "dvy": -0.012175303883850574,
+     "dspin": 0
+    },
+    "none": {
+     "dvx": 0,
+     "dvy": 0,
+     "dspin": 0
+    },
+    "normalChanges": true,
+    "noneUnchanged": true,
+    "unspecifiedEqualsNormal": true,
+    "noneFlag": true,
+    "accepted": "none"
+   }
+  ],
+  "contactKZero": {
+   "dvx": 0.3999999761581421,
+   "dspin": -0.02500000037252903,
+   "stillChanges": true,
+   "noneUnchanged": true
+  },
+  "spring": {
+   "normal": 0.8999999999999999,
+   "none": 0,
+   "zeroK": 0
+  },
+  "acceptance": {
+   "fusionNone": {
+    "ok": false,
+    "errors": [
+     "physics.contactMode:\"none\" は fusion と併用できません(融合は E9 の重なりで起きる —— 衝突・合体を再現する本は \"normal\")"
+    ],
+    "warnings": []
+   },
+   "fusionNormal": {
+    "ok": true,
+    "errors": [],
+    "warnings": []
+   },
+   "phaseChangeNone": {
+    "ok": false,
+    "errors": [
+     "physics.contactMode:\"none\" は phaseChange と併用できません(E14″ の芯は E9 の法線ばね)"
+    ],
+    "warnings": []
+   },
+   "bogus": {
+    "ok": false,
+    "errors": [
+     "physics.contactMode は \"normal\"/\"none\" のみ"
+    ],
+    "warnings": []
+   }
+  },
+  "particleRadius": [
+   {
+    "label": "正の値",
+    "type": "disk",
+    "ok": true,
+    "R": 0.019999999552965164,
+    "want": 0.019999999552965164,
+    "warnRMul": false
+   },
+   {
+    "label": "正の値",
+    "type": "ring",
+    "ok": true,
+    "R": 0.019999999552965164,
+    "want": 0.019999999552965164,
+    "warnRMul": false
+   },
+   {
+    "label": "正の値",
+    "type": "box",
+    "ok": true,
+    "R": 0.019999999552965164,
+    "want": 0.019999999552965164,
+    "warnRMul": false
+   },
+   {
+    "label": "正の値",
+    "type": "grid",
+    "ok": true,
+    "R": 0.019999999552965164,
+    "want": 0.019999999552965164,
+    "warnRMul": false
+   },
+   {
+    "label": "rMul と併記(rMul は半径に使わない)",
+    "type": "disk",
+    "ok": true,
+    "R": 0.019999999552965164,
+    "want": 0.019999999552965164,
+    "warnRMul": true
+   },
+   {
+    "label": "rMul と併記(rMul は半径に使わない)",
+    "type": "ring",
+    "ok": true,
+    "R": 0.019999999552965164,
+    "want": 0.019999999552965164,
+    "warnRMul": true
+   },
+   {
+    "label": "rMul と併記(rMul は半径に使わない)",
+    "type": "box",
+    "ok": true,
+    "R": 0.019999999552965164,
+    "want": 0.019999999552965164,
+    "warnRMul": true
+   },
+   {
+    "label": "rMul と併記(rMul は半径に使わない)",
+    "type": "grid",
+    "ok": true,
+    "R": 0.019999999552965164,
+    "want": 0.019999999552965164,
+    "warnRMul": true
+   },
+   {
+    "label": "0",
+    "type": "disk",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "0",
+    "type": "ring",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "0",
+    "type": "box",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "0",
+    "type": "grid",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "負",
+    "type": "disk",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "負",
+    "type": "ring",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "負",
+    "type": "box",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "負",
+    "type": "grid",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "NaN",
+    "type": "disk",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "NaN",
+    "type": "ring",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "NaN",
+    "type": "box",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "NaN",
+    "type": "grid",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "文字列",
+    "type": "disk",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "文字列",
+    "type": "ring",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "文字列",
+    "type": "box",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   },
+   {
+    "label": "文字列",
+    "type": "grid",
+    "ok": false,
+    "R": null,
+    "want": null,
+    "warnRMul": false
+   }
+  ]
+ },
+ "oneStep": {
+  "baseRev": "b92ffa1",
+  "baseSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
+  "n": 142,
+  "nBase": 142,
+  "identical": 135,
+  "differ": [
+   "galaxy",
+   "galaxyStd",
+   "galaxyGeo2",
+   "galaxyMeshSpiral",
+   "galaxyMeshSpiralGeoToy",
+   "galaxyAnalogyBH",
+   "clusterAnalogyBH"
+  ],
+  "differSubsetOfDeclared": true,
+  "declared": [
+   "galaxy",
+   "galaxyStd",
+   "galaxyGeo2",
+   "galaxyDB",
+   "galaxyMeshSpiral",
+   "galaxyMeshSpiralGeoToy",
+   "galaxyAnalogyBH",
+   "clusterAnalogyBH",
+   "shapeToyCluster",
+   "shapeToyDisk",
+   "shapeToyArm",
+   "shapeToyClusterCore",
+   "shapeToyDiskCore",
+   "shapeToyArmCore",
+   "saturnRingReal",
+   "saturnRingRealKF1"
+  ]
+ },
+ "constraint": {
+  "pinned": {
+   "steps": 1000,
+   "dPfree": [
+    -22.468696081279194,
+    8.190061885071032
+   ],
+   "dPtotal": [
+    -22.468696081279194,
+    8.190061885071032
+   ],
+   "reactionJ": [
+    22.468696081279194,
+    -8.190061885071032
+   ],
+   "centerMoved": 0,
+   "relDPtotal": 0.34905475522338514,
+   "relDPfree": 0.34905475522338514
+  },
+  "free": {
+   "steps": 1000,
+   "dPfree": [
+    -3.0158217554240707,
+    -36.71878591334985
+   ],
+   "dPtotal": [
+    -0.000015229478407263741,
+    -0.000006111027452959661
+   ],
+   "reactionJ": [
+    3.0158217554240707,
+    36.71878591334985
+   ],
+   "centerMoved": 6.033558243067877,
+   "relDPtotal": 2.395132442134178e-7,
+   "relDPfree": 0.5377425082156722
+  }
+ },
+ "apply": [
+  {
+   "id": "clusterAnalogyBH",
+   "emoji": "💮",
+   "role": "cluster",
+   "center": "pinned",
+   "note": "接触 0 済み(contactK:0)→ 明示の contactMode:\"none\" へ・群の particleRadius",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 211,
+   "steps": 1500,
+   "before": {
+    "hash": "02c50b28",
+    "dynHash": "74d61212",
+    "t0": {
+     "rHalf": 9.213762840061436,
+     "vtOuter": -0.29432500491744507,
+     "sigma": 7.910569170769318,
+     "overlapPairs": 188,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 12.787580626859945,
+     "vtOuter": -0.676731361481351,
+     "sigma": 7.592523191172759,
+     "overlapPairs": 110,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "dd45fef0",
+    "dynHash": "74d61212",
+    "t0": {
+     "rHalf": 9.213762840061436,
+     "vtOuter": -0.29432500491744507,
+     "sigma": 7.910569170769318,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 12.787580626859945,
+     "vtOuter": -0.676731361481351,
+     "sigma": 7.592523191172759,
+     "overlapPairs": 3,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 210,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "shapeToyCluster",
+   "emoji": "🔮",
+   "role": "shapeToy",
+   "center": "none",
+   "note": "中心なしの版(固定天体を足さない)",
+   "declared": "none",
+   "pinnedRows": [],
+   "nPinned": 0,
+   "n": 240,
+   "steps": 1500,
+   "before": {
+    "hash": "2e45e281",
+    "dynHash": "5586c821",
+    "t0": {
+     "rHalf": 46.78075639474446,
+     "vtOuter": 0.0017861489840583615,
+     "sigma": 0.016047158100496336,
+     "overlapPairs": 23,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 43.308200450801486,
+     "vtOuter": 0.12208643038136845,
+     "sigma": 4.910350669122815,
+     "overlapPairs": 30,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "2e45e281",
+    "dynHash": "5586c821",
+    "t0": {
+     "rHalf": 46.78075639474446,
+     "vtOuter": 0.0017861489840583615,
+     "sigma": 0.016047158100496336,
+     "overlapPairs": 23,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 43.308200450801486,
+     "vtOuter": 0.12208643038136845,
+     "sigma": 4.910350669122815,
+     "overlapPairs": 30,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "shapeToyDisk",
+   "emoji": "🥏",
+   "role": "shapeToy",
+   "center": "none",
+   "note": "中心なしの版(固定天体を足さない)",
+   "declared": "none",
+   "pinnedRows": [],
+   "nPinned": 0,
+   "n": 300,
+   "steps": 1500,
+   "before": {
+    "hash": "82550cfd",
+    "dynHash": "e21ef765",
+    "t0": {
+     "rHalf": 57.604734453712474,
+     "vtOuter": 3.6511929744040548,
+     "sigma": 2.960451807449477,
+     "overlapPairs": 28,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 55.55790857066648,
+     "vtOuter": 3.619856041201356,
+     "sigma": 2.9716469734987716,
+     "overlapPairs": 28,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "82550cfd",
+    "dynHash": "e21ef765",
+    "t0": {
+     "rHalf": 57.604734453712474,
+     "vtOuter": 3.6511929744040548,
+     "sigma": 2.960451807449477,
+     "overlapPairs": 28,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 55.55790857066648,
+     "vtOuter": 3.619856041201356,
+     "sigma": 2.9716469734987716,
+     "overlapPairs": 28,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "shapeToyArm",
+   "emoji": "🧵",
+   "role": "shapeToy",
+   "center": "none",
+   "note": "中心なしの版(固定天体を足さない)",
+   "declared": "none",
+   "pinnedRows": [],
+   "nPinned": 0,
+   "n": 180,
+   "steps": 1500,
+   "before": {
+    "hash": "1e8f7e79",
+    "dynHash": "c82ea5d1",
+    "t0": {
+     "rHalf": 60.21634892540914,
+     "vtOuter": 0,
+     "sigma": 0,
+     "overlapPairs": 75,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 60.333464438065995,
+     "vtOuter": 0.028602709069737647,
+     "sigma": 0.893663891641873,
+     "overlapPairs": 73,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "1e8f7e79",
+    "dynHash": "c82ea5d1",
+    "t0": {
+     "rHalf": 60.21634892540914,
+     "vtOuter": 0,
+     "sigma": 0,
+     "overlapPairs": 75,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 60.333464438065995,
+     "vtOuter": 0.028602709069737647,
+     "sigma": 0.893663891641873,
+     "overlapPairs": 73,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "shapeToyClusterCore",
+   "emoji": "🎱",
+   "role": "shapeToy",
+   "center": "pinned",
+   "note": "contactK/Cap 0/0 済み → 明示",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 241,
+   "steps": 1500,
+   "before": {
+    "hash": "5cfd146e",
+    "dynHash": "e2240efe",
+    "t0": {
+     "rHalf": 54.046576404537404,
+     "vtOuter": 0.27064516273571454,
+     "sigma": 7.7942893558811575,
+     "overlapPairs": 23,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 50.84195087700987,
+     "vtOuter": 0.4357369226586832,
+     "sigma": 8.03468752714044,
+     "overlapPairs": 28,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "5cfd146e",
+    "dynHash": "e2240efe",
+    "t0": {
+     "rHalf": 54.046576404537404,
+     "vtOuter": 0.27064516273571454,
+     "sigma": 7.7942893558811575,
+     "overlapPairs": 23,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 50.84195087700987,
+     "vtOuter": 0.4357369226586832,
+     "sigma": 8.03468752714044,
+     "overlapPairs": 28,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "shapeToyDiskCore",
+   "emoji": "📀",
+   "role": "shapeToy",
+   "center": "pinned",
+   "note": "contactK/Cap 0/0 済み → 明示",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 301,
+   "steps": 1500,
+   "before": {
+    "hash": "d17cade5",
+    "dynHash": "ab9234dd",
+    "t0": {
+     "rHalf": 63.39283243282744,
+     "vtOuter": 10.636721205169533,
+     "sigma": 9.399796242807511,
+     "overlapPairs": 18,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 55.37578749278799,
+     "vtOuter": 10.935234137378249,
+     "sigma": 9.58739275196108,
+     "overlapPairs": 26,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "d17cade5",
+    "dynHash": "ab9234dd",
+    "t0": {
+     "rHalf": 63.39283243282744,
+     "vtOuter": 10.636721205169533,
+     "sigma": 9.399796242807511,
+     "overlapPairs": 18,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 55.37578749278799,
+     "vtOuter": 10.935234137378249,
+     "sigma": 9.58739275196108,
+     "overlapPairs": 26,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "shapeToyArmCore",
+   "emoji": "🧹",
+   "role": "shapeToy",
+   "center": "pinned",
+   "note": "contactK/Cap 0/0 済み → 明示",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 181,
+   "steps": 1500,
+   "before": {
+    "hash": "c3a0cde4",
+    "dynHash": "193061ac",
+    "t0": {
+     "rHalf": 67.64797507858303,
+     "vtOuter": 0.2026990473794349,
+     "sigma": 4.896368016055888,
+     "overlapPairs": 29,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 44.68489216309808,
+     "vtOuter": 0.3378984773800883,
+     "sigma": 5.082522643467476,
+     "overlapPairs": 51,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "c3a0cde4",
+    "dynHash": "193061ac",
+    "t0": {
+     "rHalf": 67.64797507858303,
+     "vtOuter": 0.2026990473794349,
+     "sigma": 4.896368016055888,
+     "overlapPairs": 29,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 44.68489216309808,
+     "vtOuter": 0.3378984773800883,
+     "sigma": 5.082522643467476,
+     "overlapPairs": 51,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "galaxy",
+   "emoji": "🌌",
+   "role": "galaxy",
+   "center": "pinned",
+   "note": "ばね 10/2・γn 0.4・μF 0.5 → 接触なし(力学が変わる)",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 381,
+   "steps": 1500,
+   "before": {
+    "hash": "72478ec1",
+    "dynHash": "c87708bf",
+    "t0": {
+     "rHalf": 176.84557027511445,
+     "vtOuter": 3.1630448332696544,
+     "sigma": 3.9409011163708874,
+     "overlapPairs": 1,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 174.23328189673103,
+     "vtOuter": 3.206409269940032,
+     "sigma": 4.334450008011105,
+     "overlapPairs": 8,
+     "radE": 0.8490347617897931
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "0e41a2a8",
+    "dynHash": "97f8469e",
+    "t0": {
+     "rHalf": 176.84557027511445,
+     "vtOuter": 3.1630448332696544,
+     "sigma": 3.9409011163708874,
+     "overlapPairs": 1,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 174.2332483817675,
+     "vtOuter": 3.2076691707426384,
+     "sigma": 4.335400758851924,
+     "overlapPairs": 15,
+     "radE": 0.3505003640485039
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": true,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "galaxyGeo2",
+   "emoji": "💫",
+   "role": "galaxy",
+   "center": "pinned",
+   "note": "ばね 10/2 → 接触なし(力学が変わる)",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 381,
+   "steps": 1500,
+   "before": {
+    "hash": "a46a964c",
+    "dynHash": "a3d59a8a",
+    "t0": {
+     "rHalf": 176.84557027511445,
+     "vtOuter": 3.1630448332696544,
+     "sigma": 3.9409011163708874,
+     "overlapPairs": 1,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 176.6566260956144,
+     "vtOuter": 3.168509017462334,
+     "sigma": 4.126270552141946,
+     "overlapPairs": 1,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "164f2210",
+    "dynHash": "3a768f46",
+    "t0": {
+     "rHalf": 176.84557027511445,
+     "vtOuter": 3.1630448332696544,
+     "sigma": 3.9409011163708874,
+     "overlapPairs": 1,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 176.65672968511444,
+     "vtOuter": 3.1701924336943574,
+     "sigma": 4.127120970236276,
+     "overlapPairs": 14,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": true,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "galaxyStd",
+   "emoji": "🎡",
+   "role": "galaxy",
+   "center": "pinned",
+   "note": "既定のばね 40/8 → 接触なし(E6′ だけの基準実験の趣旨どおり)",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 381,
+   "steps": 1500,
+   "before": {
+    "hash": "0ed4b9ab",
+    "dynHash": "5cda9805",
+    "t0": {
+     "rHalf": 176.84557027511445,
+     "vtOuter": 3.1630448332696544,
+     "sigma": 3.9409011163708874,
+     "overlapPairs": 1,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 171.98253208688809,
+     "vtOuter": 3.231704719113006,
+     "sigma": 4.69923858183309,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "05b3f025",
+    "dynHash": "aabee17b",
+    "t0": {
+     "rHalf": 176.84557027511445,
+     "vtOuter": 3.1630448332696544,
+     "sigma": 3.9409011163708874,
+     "overlapPairs": 1,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 171.98002184016522,
+     "vtOuter": 3.233090552776942,
+     "sigma": 4.719831008779683,
+     "overlapPairs": 16,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": true,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "galaxyDB",
+   "emoji": "🍳",
+   "role": "galaxy",
+   "center": "pinned",
+   "note": "契約は \"normal\" を明示(保留)—— none を宣言した版では bulge/disk 対比の claim(claim.galaxydb-contrast)の窓を外れた(枝の QA: 速度分散比 3.13〔窓 2.2〜3.0〕・|spin| 比 1.01〔窓 1.5〜2.4〕)",
+   "declared": "normal",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 381,
+   "steps": 1500,
+   "before": {
+    "hash": "ebec08b3",
+    "dynHash": "81eb925f",
+    "t0": {
+     "rHalf": 85.52463062965037,
+     "vtOuter": 3.3009329657422546,
+     "sigma": 3.8261765349734453,
+     "overlapPairs": 6,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 88.89434446026371,
+     "vtOuter": 2.884233878905821,
+     "sigma": 6.111653881373348,
+     "overlapPairs": 27,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "ebec08b3",
+    "dynHash": "81eb925f",
+    "t0": {
+     "rHalf": 85.52463062965037,
+     "vtOuter": 3.3009329657422546,
+     "sigma": 3.8261765349734453,
+     "overlapPairs": 6,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 88.89434446026371,
+     "vtOuter": 2.884233878905821,
+     "sigma": 6.111653881373348,
+     "overlapPairs": 27,
+     "radE": 0
+    },
+    "contactNone": false
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 0,
+   "want": "normal",
+   "trialNone": {
+    "hash": "0d24e2f5",
+    "dynHash": "cc1548c9",
+    "end": {
+     "rHalf": 86.04082611474406,
+     "vtOuter": 2.9096555231580603,
+     "sigma": 6.072236102681709,
+     "overlapPairs": 22,
+     "radE": 0
+    },
+    "dynamicsChangedVsBase": true
+   }
+  },
+  {
+   "id": "galaxyMeshSpiral",
+   "emoji": "🎠",
+   "role": "galaxy",
+   "center": "pinned",
+   "note": "既定のばね 40/8 → 接触なし",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 351,
+   "steps": 1500,
+   "before": {
+    "hash": "5a7d400e",
+    "dynHash": "3e4a33f7",
+    "t0": {
+     "rHalf": 70.74369408916996,
+     "vtOuter": 4.237399216288038,
+     "sigma": 5.15922326092969,
+     "overlapPairs": 7,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 56.36292850537279,
+     "vtOuter": 4.491225916198497,
+     "sigma": 7.825631552066081,
+     "overlapPairs": 47,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "d2a096e4",
+    "dynHash": "a6577761",
+    "t0": {
+     "rHalf": 70.74369408916996,
+     "vtOuter": 4.237399216288038,
+     "sigma": 5.15922326092969,
+     "overlapPairs": 7,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 50.01605623232382,
+     "vtOuter": 4.840024745283626,
+     "sigma": 7.978877867085119,
+     "overlapPairs": 44,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": true,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "galaxyMeshSpiralGeoToy",
+   "emoji": "🪁",
+   "role": "galaxy",
+   "center": "pinned",
+   "note": "既定のばね 40/8 → 接触なし",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 351,
+   "steps": 1500,
+   "before": {
+    "hash": "ddaa9247",
+    "dynHash": "dacd45ea",
+    "t0": {
+     "rHalf": 70.74369408916996,
+     "vtOuter": 4.237399216288038,
+     "sigma": 5.15922326092969,
+     "overlapPairs": 7,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 74.48829724924937,
+     "vtOuter": 4.104939725206323,
+     "sigma": 6.974405431965399,
+     "overlapPairs": 33,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "7a2700c1",
+    "dynHash": "b4f6c070",
+    "t0": {
+     "rHalf": 70.74369408916996,
+     "vtOuter": 4.237399216288038,
+     "sigma": 5.15922326092969,
+     "overlapPairs": 7,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 74.71884746145103,
+     "vtOuter": 4.1126837813733435,
+     "sigma": 6.17472582557718,
+     "overlapPairs": 33,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": true,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "galaxyAnalogyBH",
+   "emoji": "🌚",
+   "role": "galaxy",
+   "center": "pinned",
+   "note": "既定のばね 40/8 → 接触なし",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 211,
+   "steps": 1500,
+   "before": {
+    "hash": "7110c5ef",
+    "dynHash": "88aae822",
+    "t0": {
+     "rHalf": 97.6997861388807,
+     "vtOuter": 4.697777262588746,
+     "sigma": 5.220679901038009,
+     "overlapPairs": 55,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 130.4058721625266,
+     "vtOuter": 3.6636751217832026,
+     "sigma": 8.24344761931603,
+     "overlapPairs": 32,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "1e6291cc",
+    "dynHash": "72781631",
+    "t0": {
+     "rHalf": 97.6997861388807,
+     "vtOuter": 4.697777262588746,
+     "sigma": 5.220679901038009,
+     "overlapPairs": 55,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 90.23926347294852,
+     "vtOuter": 4.631396143572385,
+     "sigma": 8.32261135382554,
+     "overlapPairs": 83,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": true,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "role": "ring",
+   "center": "saturn",
+   "note": "土星だけ固定(既に)・衛星は自由・環は試験粒子 —— 接触を使わない較正条件の明示",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 127,
+   "steps": 1500,
+   "before": {
+    "hash": "dac17449",
+    "dynHash": "7edf31fc",
+    "t0": {
+     "rHalf": 1221.928082990157,
+     "vtOuter": 0.5571572578428776,
+     "sigma": 1.8929150722514287,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 1221.9278969582879,
+     "vtOuter": 0.557157326614881,
+     "sigma": 1.8929999150842416,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "dac17449",
+    "dynHash": "7edf31fc",
+    "t0": {
+     "rHalf": 1221.928082990157,
+     "vtOuter": 0.5571572578428776,
+     "sigma": 1.8929150722514287,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 1221.9278969582879,
+     "vtOuter": 0.557157326614881,
+     "sigma": 1.8929999150842416,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "role": "ring",
+   "center": "saturn",
+   "note": "土星だけ固定(既に)・衛星は自由・環は試験粒子 —— 接触を使わない較正条件の明示",
+   "declared": "none",
+   "pinnedRows": [
+    0
+   ],
+   "nPinned": 1,
+   "n": 127,
+   "steps": 1500,
+   "before": {
+    "hash": "9f34e99e",
+    "dynHash": "60b2c50b",
+    "t0": {
+     "rHalf": 1221.928082990157,
+     "vtOuter": 0.5571572578428776,
+     "sigma": 1.8869688144213799,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 1221.9278982096694,
+     "vtOuter": 0.5571574721648717,
+     "sigma": 1.8871320264059126,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "contactMode": null
+   },
+   "after": {
+    "hash": "9f34e99e",
+    "dynHash": "60b2c50b",
+    "t0": {
+     "rHalf": 1221.928082990157,
+     "vtOuter": 0.5571572578428776,
+     "sigma": 1.8869688144213799,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "end": {
+     "rHalf": 1221.9278982096694,
+     "vtOuter": 0.5571574721648717,
+     "sigma": 1.8871320264059126,
+     "overlapPairs": 0,
+     "radE": 0
+    },
+    "contactNone": true
+   },
+   "dynamicsChanged": false,
+   "radiusChanged": 0,
+   "want": "none",
+   "trialNone": null
+  }
+ ],
+ "normalKept": [
+  {
+   "id": "selfRotor",
+   "emoji": "🥚",
+   "why": "融合(fusion)で中心が育つ —— 衝突判定が本題",
+   "present": true,
+   "declared": null,
+   "fusion": true,
+   "phaseChange": false
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "why": "融合(fusion)で合体する —— 衝突判定が本題",
+   "present": true,
+   "declared": null,
+   "fusion": true,
+   "phaseChange": false
+  },
+  {
+   "id": "emergent",
+   "emoji": "🧬",
+   "why": "創発相変化(E14″ の芯は E9 の法線ばね)",
+   "present": true,
+   "declared": null,
+   "fusion": false,
+   "phaseChange": true
+  },
+  {
+   "id": "emergent2",
+   "emoji": "🧊",
+   "why": "創発相変化(E14″)",
+   "present": true,
+   "declared": null,
+   "fusion": false,
+   "phaseChange": true
+  },
+  {
+   "id": "chain2",
+   "emoji": "⛓️",
+   "why": "創発相変化(E14″)",
+   "present": true,
+   "declared": null,
+   "fusion": false,
+   "phaseChange": true
+  },
+  {
+   "id": "chaincycle",
+   "emoji": "♻️",
+   "why": "創発相変化(E14″)",
+   "present": true,
+   "declared": null,
+   "fusion": false,
+   "phaseChange": true
+  },
+  {
+   "id": "counterring",
+   "emoji": "💥",
+   "why": "順行・逆行リングの衝突そのものが本題(名前に「環」があるだけでは変えない)",
+   "present": true,
+   "declared": null,
+   "fusion": false,
+   "phaseChange": false
+  },
+  {
+   "id": "saturn",
+   "emoji": "🪐",
+   "why": "環の衝突・散逸の実験(名前に「環」があるだけでは変えない)",
+   "present": true,
+   "declared": null,
+   "fusion": false,
+   "phaseChange": false
+  },
+  {
+   "id": "saturnLayered",
+   "emoji": "🎯",
+   "why": "環の衝突・散逸の実験(主星 2 層)",
+   "present": true,
+   "declared": null,
+   "fusion": false,
+   "phaseChange": false
+  },
+  {
+   "id": "collapse",
+   "emoji": "🌫️",
+   "why": "雲の崩壊と原始星形成(接触の散逸が本題)",
+   "present": true,
+   "declared": null,
+   "fusion": false,
+   "phaseChange": false
+  }
+ ],
+ "ring": {
+  "base": {
+   "rev": "b92ffa1",
+   "file": "tests/out/calaudit-w249.json",
+   "sha256": "5d162b88475b704fd764dbaded94e789992d2ae8a00d83d1f94c56723710bb97",
+   "targetSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0"
+  },
+  "after": {
+   "source": "fresh-run",
+   "cmd": "node tests/exp-w249b-calaudit.mjs --only saturnRingReal,saturnRingRealKF1(W249_OUT は一時ファイル)",
+   "targetSha256": "28133d064f79cb5a168a68a803498d28566da7da9d520e7ab1fbf3dca4e3f39e",
+   "why": "正本 calaudit-w249.json がいまの html の世代でない(鎖の再生成の前)"
+  },
+  "table": [
+   {
+    "id": "saturnRingReal",
+    "emoji": "💍",
+    "rows": [
+     {
+      "target": "C環内縁",
+      "kind": "period",
+      "name": "C環内縁の公転",
+      "unit": "s",
+      "missingAfter": false,
+      "before": 20823.780331545262,
+      "after": 20823.780331545262,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "合",
+      "verdictAfter": "合",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "タイタン",
+      "kind": "period",
+      "name": "タイタンの公転",
+      "unit": "s",
+      "missingAfter": false,
+      "before": 1378015.700291505,
+      "after": 1378015.700291505,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "合",
+      "verdictAfter": "合",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": null,
+      "kind": "other",
+      "name": "軌道速度(C環内縁)",
+      "unit": null,
+      "missingAfter": false,
+      "before": null,
+      "after": null,
+      "absDiff": null,
+      "relDiff": null,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "C環内縁",
+      "kind": "ecc",
+      "name": "実測(標準検出器): 離心率(C環内縁)",
+      "unit": "-",
+      "missingAfter": false,
+      "before": 0.00023818254483150725,
+      "after": 0.00023818254483150725,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "C環内縁",
+      "kind": "precession",
+      "name": "実測(標準検出器): 近点移動(C環内縁)",
+      "unit": "deg/orbit",
+      "missingAfter": false,
+      "before": 0.22848126507759803,
+      "after": 0.22848126507759803,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "ミマス",
+      "kind": "period",
+      "name": "実測(標準検出器): 公転周期(ミマス)",
+      "unit": "s",
+      "missingAfter": false,
+      "before": 81511.71770572502,
+      "after": 81511.71770572502,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "ミマス",
+      "kind": "ecc",
+      "name": "実測(標準検出器): 離心率(ミマス)",
+      "unit": "-",
+      "missingAfter": false,
+      "before": 0.00007132830355015766,
+      "after": 0.00007132830355015766,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "ミマス",
+      "kind": "precession",
+      "name": "実測(標準検出器): 近点移動(ミマス)",
+      "unit": "deg/orbit",
+      "missingAfter": false,
+      "before": 21.91988308948662,
+      "after": 21.91988308948662,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "タイタン",
+      "kind": "ecc",
+      "name": "実測(標準検出器): 離心率(タイタン)",
+      "unit": "-",
+      "missingAfter": false,
+      "before": 0.000018452523648559504,
+      "after": 0.000018452523648559504,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "タイタン",
+      "kind": "precession",
+      "name": "実測(標準検出器): 近点移動(タイタン)",
+      "unit": "deg/orbit",
+      "missingAfter": false,
+      "before": -0.1745155881834425,
+      "after": -0.1745155881834425,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     }
+    ],
+    "nQuantities": 10,
+    "nChanged": 0,
+    "maxAbsDiff": 0,
+    "verdictMoved": 0,
+    "gateMoved": 0,
+    "run": {
+     "before": {
+      "steps": 2042988,
+      "n": 127,
+      "periFound": [
+       63,
+       35,
+       3
+      ],
+      "needPeriastra": 20,
+      "periastraOk": false,
+      "stoppedBy": "declared-max-steps",
+      "wallSec": 58.793,
+      "tags": [
+       "dt"
+      ],
+      "tp": null
+     },
+     "after": {
+      "steps": 2042988,
+      "n": 127,
+      "periFound": [
+       63,
+       35,
+       3
+      ],
+      "needPeriastra": 20,
+      "periastraOk": false,
+      "stoppedBy": "declared-max-steps",
+      "wallSec": 66.913,
+      "tags": [
+       "dt"
+      ],
+      "tp": null
+     }
+    }
+   },
+   {
+    "id": "saturnRingRealKF1",
+    "emoji": "💿",
+    "rows": [
+     {
+      "target": "C環内縁",
+      "kind": "precession",
+      "name": "環の近点移動(偏心軌道・kF1)",
+      "unit": "deg/orbit",
+      "missingAfter": false,
+      "before": 2.031138114433031,
+      "after": 2.031138114433031,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": null,
+      "kind": "other",
+      "name": "随伴プロファイル(ω_drag/LT)",
+      "unit": null,
+      "missingAfter": false,
+      "before": null,
+      "after": null,
+      "absDiff": null,
+      "relDiff": null,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": null,
+      "kind": "other",
+      "name": "補正の共通性",
+      "unit": null,
+      "missingAfter": false,
+      "before": null,
+      "after": null,
+      "absDiff": null,
+      "relDiff": null,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": null,
+      "kind": "other",
+      "name": "環と衛星を分けるもの(第246便d)",
+      "unit": null,
+      "missingAfter": false,
+      "before": null,
+      "after": null,
+      "absDiff": null,
+      "relDiff": null,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "C環内縁",
+      "kind": "period",
+      "name": "実測(標準検出器): 公転周期(C環内縁)",
+      "unit": "s",
+      "missingAfter": false,
+      "before": 21719.348540431674,
+      "after": 21719.348540431674,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "C環内縁",
+      "kind": "ecc",
+      "name": "実測(標準検出器): 離心率(C環内縁)",
+      "unit": "-",
+      "missingAfter": false,
+      "before": 0.00022904233671719362,
+      "after": 0.00022904233671719362,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "ミマス",
+      "kind": "period",
+      "name": "実測(標準検出器): 公転周期(ミマス)",
+      "unit": "s",
+      "missingAfter": false,
+      "before": 81512.03262743763,
+      "after": 81512.03262743763,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "ミマス",
+      "kind": "ecc",
+      "name": "実測(標準検出器): 離心率(ミマス)",
+      "unit": "-",
+      "missingAfter": false,
+      "before": 0.00005669684470132555,
+      "after": 0.00005669684470132555,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "ミマス",
+      "kind": "precession",
+      "name": "実測(標準検出器): 近点移動(ミマス)",
+      "unit": "deg/orbit",
+      "missingAfter": false,
+      "before": 23.48604551884022,
+      "after": 23.48604551884022,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "タイタン",
+      "kind": "period",
+      "name": "実測(標準検出器): 公転周期(タイタン)",
+      "unit": "s",
+      "missingAfter": false,
+      "before": 1377401.1327012395,
+      "after": 1377401.1327012395,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "タイタン",
+      "kind": "ecc",
+      "name": "実測(標準検出器): 離心率(タイタン)",
+      "unit": "-",
+      "missingAfter": false,
+      "before": 0.000006446121661225422,
+      "after": 0.000006446121661225422,
+      "absDiff": 0,
+      "relDiff": 0,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     },
+     {
+      "target": "タイタン",
+      "kind": "precession",
+      "name": "実測(標準検出器): 近点移動(タイタン)",
+      "unit": "deg/orbit",
+      "missingAfter": false,
+      "before": null,
+      "after": null,
+      "absDiff": null,
+      "relDiff": null,
+      "signFlip": false,
+      "verdictBefore": "転",
+      "verdictAfter": "転",
+      "gateBefore": "未判定",
+      "gateAfter": "未判定"
+     }
+    ],
+    "nQuantities": 12,
+    "nChanged": 0,
+    "maxAbsDiff": 0,
+    "verdictMoved": 0,
+    "gateMoved": 0,
+    "run": {
+     "before": {
+      "steps": 254730,
+      "n": 127,
+      "periFound": [
+       13,
+       2,
+       1
+      ],
+      "needPeriastra": 20,
+      "periastraOk": false,
+      "stoppedBy": "declared-max-steps",
+      "wallSec": 17.997,
+      "tags": [
+       "dt"
+      ],
+      "tp": null
+     },
+     "after": {
+      "steps": 254730,
+      "n": 127,
+      "periFound": [
+       13,
+       2,
+       1
+      ],
+      "needPeriastra": 20,
+      "periastraOk": false,
+      "stoppedBy": "declared-max-steps",
+      "wallSec": 19.61,
+      "tags": [
+       "dt"
+      ],
+      "tp": null
+     }
+    }
+   }
+  ],
+  "note": null
+ },
+ "elapsedS": 282.019
+}

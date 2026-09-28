@@ -88,37 +88,37 @@
   "galaxy": {
    "purpose": "中心天体の引きずりで外縁の回転が速まるかを測る",
    "objective": "met",
-   "state": "外縁速度比 1.526 が門 >1.04 を通過",
+   "state": "外縁速度比 1.521 が門 >1.04 を通過",
    "evidence": [
     "claim.galaxy-outerboost"
    ],
    "en": {
     "purpose": "Measure whether the central body's dragging speeds up the outer rotation",
-    "state": "outer speed ratio 1.526 passes the >1.04 gate"
+    "state": "outer speed ratio 1.521 passes the >1.04 gate"
    }
   },
   "galaxyStd": {
    "purpose": "重力と引きずりだけで外縁の増速を測る基準",
    "objective": "met",
-   "state": "外縁速度比 1.267 が窓 1.15〜1.4 内",
+   "state": "外縁速度比 1.266 が窓 1.15〜1.4 内",
    "evidence": [
     "claim.galaxystd-outerboost"
    ],
    "en": {
     "purpose": "Baseline that measures the outer speed-up with gravity and dragging only",
-    "state": "outer speed ratio 1.267 lies in the 1.15–1.4 window"
+    "state": "outer speed ratio 1.266 lies in the 1.15–1.4 window"
    }
   },
   "galaxyGeo2": {
    "purpose": "v−u 測地線則で外縁の増速を比べる",
    "objective": "met",
-   "state": "外縁速度比 1.195 が窓内・クランプ 0",
+   "state": "外縁速度比 1.188 が窓内・クランプ 0",
    "evidence": [
     "claim.galaxygeo2-outerboost"
    ],
    "en": {
     "purpose": "Compare the outer speed-up under the v−u geodesic law",
-    "state": "outer speed ratio 1.195 lies in its window with zero clamps"
+    "state": "outer speed ratio 1.188 lies in its window with zero clamps"
    }
   },
   "galaxyDB": {
@@ -236,14 +236,15 @@
   "clusterAnalogyBH": {
    "purpose": "中心 DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置いた球状星団アナロジー",
    "objective": "unmet",
-   "state": "接触ばね 0・平衡初速でも、測る前に宣言した形状の門で未達(半質量半径・軸比・保持率)",
+   "state": "接触判定なし・DR を恒星より小さい惑星級の半径に直し中心質量・自転・引きずりの核を走査しても、宣言した形状の門で未達",
    "evidence": [
+    "tests/out/cluster-w285a.json",
     "tests/out/cluster-w284a.json",
     "tests/out/cluster-w283f.json"
    ],
    "en": {
     "purpose": "Globular-cluster analogy with a central DFM black hole and dark rotors",
-    "state": "the declared shape gates are not met even with contact spring 0 and equilibrium velocities"
+    "state": "no contact, dark rotors below star size, centre mass/spin/drag scanned; shape gates not met"
    }
   },
   "shapeToyCluster": {

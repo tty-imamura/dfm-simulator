@@ -70,6 +70,16 @@ vMode virial・既定の接触ばね —— は第284便a で 1 bit も変えて
 
 - `preset` … 基点 2a4af53 の `allPresets()` の 💮 の要素(JSON 写し)。`source` に基点の html の sha256 と presetSig の sha256。
 
+## cluster-w284a-preset.json(第285便a — 第284便a の 💮 の凍結写し)
+
+原仮定者の裁定(第75報)⑤「粒子が大き過ぎる。見易さは粒子表示倍率で調整する」と R95/R96 で 💮 `clusterAnalogyBH` の宣言(接触の契約
+`contactMode:"none"`・群の `particleRadius`・`dispMag`・台帳の radii の長さ単位換算)を書き換えた。第284便a の器 `tests/exp-w284a-cluster.mjs` と
+正本 `tests/out/cluster-w284a.json` は**第284便a の宣言の記録**なので、内蔵の 💮 が第285便a の世代(`massLedger.version` が `w284a-1` でない)なら
+この写しを読む(第284便a の宣言が使う経路 —— contactK=0・rMul の半径・vMode equilibrium —— は第285便a で 1 bit も変えていない。今の宣言との
+力学のビット一致は器 `tests/exp-w285a-cluster.mjs` の `contactInert().vs284a` が確かめる)。**書き換えない**。
+
+- `preset` … 基点 b92ffa1 の `allPresets()` の 💮 の要素(JSON 写し)。`source` に基点の html の sha256 と presetSig の sha256。
+
 ## retired-w284b.json(第284便b — 退役 6 本と ⚡ の旧則の凍結資産)
 
 原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)。f=1 の修正を進める」で

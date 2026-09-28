@@ -1567,6 +1567,7 @@ ja: {
   ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
   presetMissing:"元プリセットが見つからないため読込を中止しました(β専用サンプルのセーブを旧版で開いた可能性 — 対応する版で読み込んでください)",
   geoPN1SaveKF0:"このセーブは geoPN=1・kFrame≠0 — geoPN=1 は kFrame=0 専用(第283便a)なので kFrame=0 として読みました(旧 geoPN=1 では kFrame は物質の力学に入っていません)。引きずりを入れるなら geoPN=2・kFrame=1",
+  contactModeSaveDrop:"このセーブの physics.contactMode は読めない値か、融合・相変化の本での \"none\" です — 受理器と同じ規則で宣言を外して読みました(接触判定は既存挙動 \"normal\")(第285便a)",
   fwUndeclared:"このセーブは frameWeight 未宣言 — 第242便以降の既定 pull(重力の引き m/d²)で走ります。旧来の挙動に戻すには physics.frameWeight:\"share\" を宣言してください",
   fwNoD0pull:"注意: D0pull 未宣言の現実較正(DFM 版/KF1)は pull では周期が数十% ずれます — 第242便の再較正版サンプルから読み直してください",
   resetDone:"初期配置に戻しました(パラメータは保持)", defaultsDone:"プリセットの既定値に戻しました",
@@ -2420,6 +2421,7 @@ en: {
   ioNoteSum:"Import",   // 第36便 B4
   presetMissing:"Original preset not found — load aborted (this save may come from a newer/beta build; open it there instead)",
   geoPN1SaveKF0:"This save has geoPN=1 with kFrame≠0 — geoPN=1 takes kFrame=0 only (wave 283a), so it was read with kFrame=0 (under the old geoPN=1 kFrame never entered the dynamics of matter). For dragging use geoPN=2 with kFrame=1",
+  contactModeSaveDrop:"This save's physics.contactMode is not readable, or is \"none\" on a sample with fusion or phase change — by the same rule as the validator the declaration was dropped (contact is the existing \"normal\" behaviour) (wave 285a)",
   fwUndeclared:"This save declares no frameWeight — it runs under the wave-242 default pull (gravitational pull m/d²). Declare physics.frameWeight:\"share\" to restore the old behaviour",
   fwNoD0pull:"Caution: a real-calibration (DFM/KF1) save without D0pull drifts by tens of percent in period under pull — reload it from the wave-242 recalibrated sample",
   resetDone:"Reset to initial layout (parameters kept)", defaultsDone:"Restored preset defaults",
@@ -5285,10 +5287,19 @@ const ABS_SUPPORT_K = 4;
 // どちらも加速度次元なので、c₀=30 相似変換(速度×k・時間÷k)では ×k² を宣言する —
 // これで接触を含む系(融合カスケード・環の衝突)も相似変換が厳密に成立する
 const CONTACT_DEFAULT={ contactK:40, contactCap:8 };
-function contactKOf(p){ return (p && typeof p.contactK==="number")? p.contactK : CONTACT_DEFAULT.contactK; }
-function contactCapOf(p){ return (p && typeof p.contactCap==="number")? p.contactCap : CONTACT_DEFAULT.contactCap; }
+// ===== 第285便a(原仮定者の裁定(第75報)④・統括の検証項目 R95): **多粒子の契約** physics.contactMode =====
+// "normal"(= 未指定と同じ既存挙動)/"none"(**E9 の全経路を止める** —— 特別化 2 経路 pairCorePlain/pairCorePN・generic の
+// 対ループ・試験粒子の側 dfmTestParticleStep)。contactK=0 は法線ばねだけを消し、generic 経路の γn 減衰・μF 摩擦は残る ——
+// "none" はそれも止める(`geoCoreDispatch` が `_core` を呼ぶ間だけ γn・μF を 0 に見せる —— `S._core` は 1 命令も変えない)。
+// 接触ばねエネルギーは 0(`springUOf`)。E9 の重なりを使う機構(fusion・phaseChange)との併用は受理器で拒否する。
+// 未宣言の本は 1 bit も変わらない(`contactKOf` 等は宣言が "none" のときだけ 0 を返す)。**既定 CONTACT_DEFAULT は変えない**。
+const CONTACT_MODE_KEY="contactMode", CONTACT_MODES=["normal","none"];
+function contactNoneOf(p){ return !!(p && p.contactMode==="none"); }
+function contactKOf(p){ return (p && p.contactMode==="none")? 0 : (p && typeof p.contactK==="number")? p.contactK : CONTACT_DEFAULT.contactK; }
+function contactCapOf(p){ return (p && p.contactMode==="none")? 0 : (p && typeof p.contactCap==="number")? p.contactCap : CONTACT_DEFAULT.contactCap; }
 // ばねエネルギー(全エネルギー帳簿サイト共通の1本 — 力側 7030 行付近と同一定数を読む)
 function springUOf(p,muM,maxInv,xO){
+  if(p && p.contactMode==="none") return 0;   // 第285便a: 接触なしの契約 —— ばねエネルギー 0(0/0 の NaN を作らない)
   const K=contactKOf(p), C=contactCapOf(p);
   const xC=C/(maxInv*K*muM);
   return (xO<=xC)? 0.5*K*muM*xO*xO : 0.5*K*muM*xC*xC+(C/maxInv)*(xO-xC);
@@ -6783,7 +6794,7 @@ const BUILTIN_PRESETS = [
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxy-outerboost" }
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
-  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0.8, muF:0.5, gammaN:0.4, kappaS:0.05, kappaT:0.02,
     cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1/* 旧値 1.2 は各 body の rMul へ焼込(第36便 C1)*/, softening:3, timeScale:3, frameWeight:"share"},
   bodies:[
     {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, lightSweep:0.8, radius:15},
@@ -6836,7 +6847,7 @@ const BUILTIN_PRESETS = [
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxystd-outerboost" }
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
-  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
   bodies:[
     {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
@@ -6881,7 +6892,7 @@ const BUILTIN_PRESETS = [
       descPattern:"実測約(\\d+\\.\\d+)倍に増強", testId:"claim.galaxygeo2-outerboost" }
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260727,
-  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
     cLight:30, contactK:10, contactCap:2, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
   bodies:[
     {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
@@ -6921,7 +6932,7 @@ const BUILTIN_PRESETS = [
       testId:"claim.galaxydb-contrast" }
   ],
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260804,
-  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"normal"/* 第285便a(R95): 契約は normal を明示(保留)—— none の版では bulge/disk 対比の claim(claim.galaxydb-contrast)の窓を外れた(枝の QA: 速度分散比 3.13・|spin| 比 1.01)。決断事項候補 */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
     cLight:30/* 第97便: c₀のみ一律規約の30(力学は従来値 — 相似変換は光速依存サンプルのみ) */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, frameWeight:"share"},
   bodies:[
@@ -7817,7 +7828,7 @@ const BUILTIN_PRESETS = [
   validT:48,
   abQuick:{key:"D0", v:500},   // 第254便b: B 側は D₀ 大 = χ→0(物質線が背景に貼り付く)
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260910,
-  physics:{G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:1, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
     // 第259便c(第51報・署名便): **引きずりの仕事を内蔵で記録する**(第258便b の opt-in の宣言)。
@@ -7899,7 +7910,7 @@ const BUILTIN_PRESETS = [
   validT:48,
   abQuick:{key:"D0", v:500},   // B 側は D₀ 大 = χ→0(トイがほぼ切れる対照)
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260910,
-  physics:{G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
     spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar"}},
@@ -8038,7 +8049,7 @@ const BUILTIN_PRESETS = [
     note:"条件付き台帳(第282便d・原仮定者の裁定〔第72報〕⑥)。⟨m_DR⟩=1 M☉ の行を**力学の質量要素として bodies に入れた**(代表粒子 40 体 × 53.125 = 2125 単位)。0.1/10 M☉ は比較の列で、bodies には入れていない。個数比 20 は宣言値で、浮遊惑星の観測(地球質量級)は恒星質量の暗い天体が恒星の 20 倍あることを示していない。f★=1。較正母集団に入れない。",
     noteEn:"A conditional ledger (wave 282d, the originator's ruling in report 72, item 6). The <m_DR> = 1 Msun row IS PUT INTO THE BODIES AS A DYNAMICAL MASS COMPONENT (40 representative particles x 53.125 = 2125 units); 0.1 and 10 Msun are comparison columns not in the bodies. The count ratio 20 is a declared value; the observed free-floating planets (Earth-mass class) do not show 20 stellar-mass dark bodies per star. f_star = 1. Not in the calibration population."},
   camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260925,
-  physics:{G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
     spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read"}},
@@ -8075,32 +8086,32 @@ const BUILTIN_PRESETS = [
   obsCard:[
     {q:"何を置いたか", model:"中心 DFM 版 BH(pinned m=250・spin 12・R=1.5)+恒星 170 体(M★=53.125)+DR 代表粒子 40 体(M_DR=2125)を同じ Plummer 分布(尺度 10・R_out=40)に置いた", obs:"—(原理サンプル — 観測転写はしない)"},
     {q:"中心 BH のスケール調整", model:"GM/(Rc²)=0.148・ΩR/c=0.600(🌚 と同じ無次元量)・M_center/(M★+M_DR)=0.115(🌚 の 1/10)", obs:"—(47 Tuc の中心 IMBH は 3σ 上限 578 M☉ —— 検出ではない)"},
-    {q:"DR の量(第284便a)", model:"⟨m_DR⟩=1 M☉・実個数 nTrue=1.07×10⁷(個数比 20)を代表 40 体に。物理半径は惑星級 7.1×10⁷ m(力学に入らない)・代表の半径 1.46・軟化 3・R_drag 1.5・表示 1.46 は別の欄", obs:"—(観測された浮遊惑星は地球質量級 —— 恒星質量は仮定)"},
-    {q:"接触ばねを外した(第284便a)", model:"contactK=0 —— E9 の接触ばねの力は 0(DR の半径だけを 8.75 にした写しと 300 步の全状態がビット一致)", obs:"—"},
+    {q:"接触判定なし・中心固定(第285便a)", model:"contactMode:\"none\" —— E9 の全経路(ばね・減衰・摩擦)を止める(第284便a の contactK=0 はばねだけ)・中心は pinned。DR の半径だけ 8.75 にした写しと 300 步の全状態がビット一致", obs:"—"},
+    {q:"DR の量と半径の分離(第284便a・第285便a)", model:"⟨m_DR⟩=1 M☉・nTrue 1.07×10⁷ を代表 40 体に。particleRadius: DR 0.00856(惑星級)・恒星 0.0833(太陽半径の仮定)・dispMag 10 —— DR は恒星より小さい", obs:"—(観測された浮遊惑星は地球質量級 —— 恒星質量は仮定)"},
     {q:"初速(等方・第284便a)", model:"2D 等方の基準解 vMode equilibrium(E4 の定常な外場で f=(1/2π)dν/dΨ から標本化・t=0 の束縛率 1.000/1.000)—— 回転なし", obs:"—(47 Tuc は v_rot/σ₀=0.47 —— 参照の行であって合わせる量ではない)"},
-    {q:"形状の門と中心の引きずり支配(測る前に宣言)", model:"門は第283便f のまま・支配の目標 D_A ≥0.5 —— 基準は未達(保持率 0.747/0.975・r_h 変化 0.638・D_A 0.098)・代表 160 も r_h 変化 0.300〜0.576 で未達", obs:"—"},
+    {q:"形状の門と中心の引きずり支配(測る前に宣言)", model:"門は第283便f のまま・D_A ≥0.5 —— 第285便a の走査 36 構成と N_rep 320 × 3 種の検証も未達(宣言の構成: 保持率 0.994〜1.000・r_h 変化 0.188〜0.565・軸比)", obs:"—"},
     {q:"光線には使わない", model:"massLedger.darkRotor.lens:\"excluded\" を rayHeavy が読む —— DR 代表粒子は光線の源から外れる(重力の源は不変)", obs:"—"},
     {q:"言わないこと", model:"47 Tuc を再現した/観測一致を達成した/較正を完了した/形状が安定した(門の語は形状達成・未達だけ)/楕円以降の円盤化は次段の前提", obs:"—"}],
   descStruct:{
-    summary:"**球状星団アナロジー —— アナロジーの第 1 段**(第283便f・原仮定者の裁定〔第72報〕⑥)を**第284便a で修正**した(原仮定者の裁定〔第74報〕④「ダークローターは恒星質量で、大きさは惑星、数は恒星の 10〜20 倍。星団では中心の DFM 版 BH の引きずりが支配的。この条件で安定させる」)。physics は 🌚 と同じ(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")で、恒星 170 体(M★=53.125)と恒星質量ダークローター(DR)の代表粒子 40 体(M_DR=2125 —— ⟨m_DR⟩=1 M☉・⟨m★⟩=0.5 M☉・個数比 20 → M_DR/M★=40)を**同じ Plummer 分布**(投影尺度 10・切断 R_out=40)に置き、中心 DFM 版 BH は**スケール調整**(m=250・R=1.5・spin=12)。**第284便a の修正は 3 つ**: ① **接触ばねを外した**(contactK=0 —— 第283便f の未達の原因の 1 つ・DR の半径 8.75 は捨てて代表粒子の半径 1.46)② **平衡初速**(vMode equilibrium —— E4 の定常な外場に対する 2D 等方の基準解・Ψ が単調でなければ使わない)③ **量を別々の欄に**(台帳の nTrue〔実個数〕と radii〔物理半径 惑星級・代表粒子の半径・軟化・R_drag・表示半径〕)。**f=1**。DR の代表粒子は光線の源から外れる(重力の源は不変)。**形状の門と中心の引きずり支配の目標は測る前に宣言した**(PHYSICS〔第283便f〕〔第284便a〕)。**結果は未達**(PHYSICS〔第284便a〕)。**言わないこと**: 47 Tuc を再現した/観測一致を達成した/形状が安定した。",
-    observe:"実測(器 tests/exp-w284a-cluster.mjs・正本 tests/out/cluster-w284a.json・dt=0.016): 窓 [1, 3]×T_out(外縁 R_out=40 の公転時間)で保持率・恒星の半質量半径の変化・軸比・|v_rot|/σ と、中心の引きずりの割合 D_A(r)=|A_center|/(|A_center|+Σ|A_j|+|A₀|) を 0.25 T_out ごとに測り、門の語(形状達成/未達)で書く。代表数 40/80/160 × 個数比 20/10 × 乱数種 3 の 18 走行はすべて未達(代表数 160 は保持率 0.971〜0.988 で門を通るが r_h の変化 0.300〜0.576)・D_A は最大 0.260(目標 0.5 に届かない)。対照: 中心 spin 0・virial 初速・接触あり・中心固定の基準場・中心自由・トイなし。**言わないこと**: 47 Tuc を再現した/形状が安定した。",
-    brief:"中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー。接触ばね 0・平衡初速に直したが、測る前に宣言した形状の門で未達(半質量半径・軸比・保持率)。中心の引きずり支配の目標も未達。較正対象外。",
+    summary:"**球状星団アナロジー —— アナロジーの第 1 段**(第283便f・原仮定者の裁定〔第72報〕⑥)を**第284便a で修正**した(原仮定者の裁定〔第74報〕④「ダークローターは恒星質量で、大きさは惑星、数は恒星の 10〜20 倍。星団では中心の DFM 版 BH の引きずりが支配的。この条件で安定させる」)。physics は 🌚 と同じ(geoPN=3・kFrame=0・physics.spaceMesh の lawVersion:\"scalar\"・η=1・ε=3・frameWeight:\"share\"・centerSpin:\"read\")で、恒星 170 体(M★=53.125)と恒星質量ダークローター(DR)の代表粒子 40 体(M_DR=2125 —— ⟨m_DR⟩=1 M☉・⟨m★⟩=0.5 M☉・個数比 20 → M_DR/M★=40)を**同じ Plummer 分布**(投影尺度 10・切断 R_out=40)に置き、中心 DFM 版 BH は**スケール調整**(m=250・R=1.5・spin=12)。**第284便a の修正は 3 つ**: ① **接触ばねを外した**(contactK=0 —— 第283便f の未達の原因の 1 つ・DR の半径 8.75 は捨てて代表粒子の半径 1.46)② **平衡初速**(vMode equilibrium —— E4 の定常な外場に対する 2D 等方の基準解・Ψ が単調でなければ使わない)③ **量を別々の欄に**(台帳の nTrue〔実個数〕と radii〔物理半径 惑星級・代表粒子の半径・軟化・R_drag・表示半径〕)。**f=1**。DR の代表粒子は光線の源から外れる(重力の源は不変)。**形状の門と中心の引きずり支配の目標は測る前に宣言した**(PHYSICS〔第283便f〕〔第284便a〕)。**結果は未達**(PHYSICS〔第284便a〕)。**言わないこと**: 47 Tuc を再現した/観測一致を達成した/形状が安定した。 **第285便a**(原仮定者の裁定〔第75報〕④⑤): 接触判定なし(contactMode:\"none\" —— E9 の全経路を止める)・中心固定・個々の粒子の半径 particleRadius(DR は惑星級 7.1492×10⁷ m を長さ単位で換算した 0.00856・恒星は太陽半径の 0.0833 —— 表示比較の仮定)・見易さは dispMag 10(表示専用)で、DR は恒星より小さく描かれる(第284便a までは rMul の下限と √m の写像で DR が約 2.2 倍大きく描かれていた)。中心質量比・中心 spin・R_drag の走査と N_rep 320 の検証も**未達**。",
+    observe:"実測(器 tests/exp-w285a-cluster.mjs・正本 tests/out/cluster-w285a.json・dt=0.016 —— 第284便a の正本 cluster-w284a.json は第284便a の宣言の記録): 窓 [1, 3]×T_out(各構成の T_out)で保持率・恒星の半質量半径の変化・軸比・|v_rot|/σ と中心の引きずりの割合 D_A を測り、門の語(形状達成/未達)で書く。走査(N_rep 40): 中心質量比 M_c/M_DR 1/8.5・1・4 × spin 12・3・0(対照)× R_drag 1.5・3 × 初速 2 種の 36 構成はすべて未達。spin 3・0 では中心質量を増やすほど保持率が上がり r_h の変化が小さくなった(M_c/M_DR=4・spin 0 で保持率 1.000・r_h の変化 0.100)が、spin 12 では単調でない。検証(N_rep 320 × 乱数種 3): 上位 2 構成と宣言の構成はすべて未達(r_h の変化・軸比)。**言わないこと**: 47 Tuc を再現した/形状が安定した/中心の引きずりが支配的になった。",
+    brief:"中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー。接触判定なし・DR は恒星より小さい惑星級の半径に直し、中心質量・自転・引きずりの核を走査したが、測る前に宣言した形状の門で未達。較正対象外。",
     control:"ワンタップ対照A/B: B 側は**中心の spin=0**(同じ配置・同じ opt-in —— 中心の自転の寄与だけを外す)。比較の相手は 🌚(同じ physics・同じ台帳の比の銀河アナロジー)と 🍇🫐(47 Tuc の観測転写・DFM 版 —— 単位も初期化も違う)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
   en:{name:"Globular-cluster analogy (central DFM black hole + stellar-mass dark rotors)",
-    status:{purpose:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors", state:"after removing the contact spring and using equilibrium velocities, the shape gates declared before measuring are still not met", mismatch:null, outlook:null},
+    status:{purpose:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors", state:"no contact, dark rotors below star size, centre mass/spin/drag scanned; shape gates not met", mismatch:null, outlook:null},
     obsCard:[
       {q:"What is placed", model:"pinned DFM black hole (m=250, spin 12, R=1.5) + 170 stars (M_star=53.125) + 40 DR particles (M_DR=2125) on one Plummer profile", obs:"- (a principle sample; nothing transcribed)"},
       {q:"Scaled centre", model:"GM/(Rc^2)=0.148, Omega R/c=0.600 (the same as 🌚), M_c/(M_star+M_DR)=0.115 (1/10 of 🌚)", obs:"- (47 Tuc: a 3-sigma IMBH upper limit of 578 Msun, not a detection)"},
-      {q:"Dark-rotor quantities (wave 284a)", model:"<m_DR>=1 Msun, nTrue=1.07e7 (ratio 20) as 40 particles; planet-class radius 7.1e7 m (not dynamical); rep 1.46, eps 3, drag 1.5, draw 1.46", obs:"- (observed free floaters are Earth-mass; stellar mass is an assumption)"},
-      {q:"Contact spring removed (wave 284a)", model:"contactK=0: zero E9 force (a copy with DR radius 8.75 is bit-identical over 300 steps)", obs:"-"},
+      {q:"No contact, pinned centre (wave 285a)", model:"contactMode none: every E9 path (spring, damping, friction) is off (wave 284a's contactK=0 removed only the spring); the centre is pinned. A copy with DR radius 8.75 is bit-identical over 300 steps", obs:"-"},
+      {q:"Dark-rotor quantities and radii (waves 284a/285a)", model:"<m_DR>=1 Msun, nTrue=1.07e7 (ratio 20) as 40 particles; particle radius particleRadius (separate from the group radius 40): DR 0.00856 (planet class 7.1492e7 m in the length unit L=8.354e9 m), stars 0.0833 (solar radius - a display-comparison assumption); visibility from dispMag 10 (display only) - DR are drawn smaller than stars", obs:"- (observed free floaters are Earth-mass; stellar mass is an assumption)"},
       {q:"Initial velocities (isotropic, wave 284a)", model:"2D isotropic reference solution vMode equilibrium (f=(1/2pi) dnu/dPsi, steady E4 field; bound at t=0 1.000/1.000); no rotation", obs:"- (47 Tuc has v_rot/sigma0=0.47 - a reference row, not a target)"},
-      {q:"Shape gates and centre-drag dominance (declared first)", model:"wave-283f gates, dominance target D_A >= 0.5; baseline not met (retention 0.747/0.975, r_h 0.638, D_A 0.098); 160 reps: r_h 0.300-0.576", obs:"-"},
+      {q:"Shape gates and centre-drag dominance (declared first)", model:"wave-283f gates, dominance target D_A >= 0.5; the wave-285a scan (36 configurations) and verification (N_rep 320 x 3 seeds) are not met; the declared configuration passes retention 0.994-1.000 at N_rep 320 but not r_h (0.188-0.565) or the axis ratio", obs:"-"},
       {q:"Not used for rays", model:"rayHeavy reads massLedger.darkRotor lens excluded: the DR particles are not ray sources (still gravity sources)", obs:"-"},
       {q:"Not claimed", model:"no 47 Tuc reproduction, no observational match, no calibration, no stable shape (met / not met); discs beyond ellipticals: next-stage premise", obs:"-"}],
     descStruct:{
-      summary:"GLOBULAR-CLUSTER ANALOGY - THE FIRST STAGE of the analogy series (wave 283f), REVISED IN WAVE 284a (the originator's ruling in report 74, item 4: dark rotors of stellar mass, planet-sized, 10-20 times as many as the stars; the central DFM black hole's drag dominates in a cluster; stabilise under these conditions). The physics is 🌚's (geoPN=3, kFrame=0, spaceMesh lawVersion scalar, eta=1, eps=3, frameWeight share, centerSpin read); 170 stars (M_star=53.125) and 40 representative particles of stellar-mass dark rotors (M_DR=2125; <m_DR>=1 Msun, <m_star>=0.5 Msun, count ratio 20 -> M_DR/M_star=40) sit ON ONE PLUMMER PROFILE (projected scale 10, cut at R_out=40) around a scaled central DFM black hole (m=250, R=1.5, spin=12). WAVE 284a CHANGES THREE THINGS: (1) THE CONTACT SPRING IS REMOVED (contactK=0; representative radius 1.46 instead of 8.75); (2) EQUILIBRIUM VELOCITIES (vMode equilibrium: the 2D isotropic reference solution in the steady E4 field; not used where Psi is not monotonic); (3) SEPARATE FIELDS FOR SEPARATE QUANTITIES (ledger nTrue and radii: planet-class physical radius, representative radius, softening, drag core, draw radius). f=1. The DR particles are not ray sources (still gravity sources). THE SHAPE GATES AND THE DOMINANCE TARGET WERE DECLARED BEFORE MEASURING. THE RESULT IS NOT MET (PHYSICS, wave 284a). NOT CLAIMED: reproducing 47 Tuc, an observational match, a stable shape.",
-      observe:"Measured (harness tests/exp-w284a-cluster.mjs, canonical tests/out/cluster-w284a.json, dt=0.016): in the window [1,3] x T_out, retention, the stars' half-mass-radius change, the axis ratio, |v_rot|/sigma and the centre-drag share D_A(r)=|A_center|/(|A_center|+sum|A_j|+|A0|) every 0.25 T_out, reported only as met / not met. All 18 runs (40/80/160 representatives x count ratio 20/10 x 3 seeds) are not met (with 160 representatives retention 0.971〜0.988 passes but the r_h change is 0.300〜0.576); D_A reaches at most 0.260 (target 0.5). Controls: centre spin 0, virial velocities, contact on, pinned-only reference field, free centre, no toy. NOT CLAIMED: reproducing 47 Tuc, a stable shape.",
-      brief:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors. With the contact spring removed and equilibrium velocities, the shape gates declared before measuring are still not met; the centre-drag dominance target is not met either. Out of calibration scope.",
+      summary:"GLOBULAR-CLUSTER ANALOGY - THE FIRST STAGE of the analogy series (wave 283f), REVISED IN WAVE 284a (the originator's ruling in report 74, item 4: dark rotors of stellar mass, planet-sized, 10-20 times as many as the stars; the central DFM black hole's drag dominates in a cluster; stabilise under these conditions). The physics is 🌚's (geoPN=3, kFrame=0, spaceMesh lawVersion scalar, eta=1, eps=3, frameWeight share, centerSpin read); 170 stars (M_star=53.125) and 40 representative particles of stellar-mass dark rotors (M_DR=2125; <m_DR>=1 Msun, <m_star>=0.5 Msun, count ratio 20 -> M_DR/M_star=40) sit ON ONE PLUMMER PROFILE (projected scale 10, cut at R_out=40) around a scaled central DFM black hole (m=250, R=1.5, spin=12). WAVE 284a CHANGES THREE THINGS: (1) THE CONTACT SPRING IS REMOVED (contactK=0; representative radius 1.46 instead of 8.75); (2) EQUILIBRIUM VELOCITIES (vMode equilibrium: the 2D isotropic reference solution in the steady E4 field; not used where Psi is not monotonic); (3) SEPARATE FIELDS FOR SEPARATE QUANTITIES (ledger nTrue and radii: planet-class physical radius, representative radius, softening, drag core, draw radius). f=1. The DR particles are not ray sources (still gravity sources). THE SHAPE GATES AND THE DOMINANCE TARGET WERE DECLARED BEFORE MEASURING. THE RESULT IS NOT MET (PHYSICS, wave 284a). NOT CLAIMED: reproducing 47 Tuc, an observational match, a stable shape. WAVE 285a (the originator's ruling in report 75, items 4-5): no contact (contactMode none - every E9 path off), a pinned centre, and per-particle radii particleRadius (dark rotors 0.00856 = the planet-class 7.1492e7 m in the length unit; stars 0.0833 = the solar radius, a display-comparison assumption) with dispMag 10 (display only), so dark rotors are drawn smaller than stars (until wave 284a the rMul floor and the sqrt(m) map drew them about 2.2 times larger). A scan of centre mass ratio, centre spin and drag core, and an N_rep 320 verification, are also NOT MET.",
+      observe:"Measured (harness tests/exp-w285a-cluster.mjs, canonical tests/out/cluster-w285a.json, dt=0.016; cluster-w284a.json remains the record of the wave-284a declaration): in the window [1,3] x T_out of each configuration, retention, the stars' half-mass-radius change, the axis ratio, |v_rot|/sigma and the centre-drag share D_A, reported only as met / not met. The scan (N_rep 40: M_c/M_DR 1/8.5, 1, 4 x spin 12, 3, 0 (control) x R_drag 1.5, 3 x two velocity initialisations, 36 configurations) is all not met; with spin 3 or 0 a heavier centre raised retention and lowered the r_h change (M_c/M_DR=4, spin 0: retention 1.000, r_h change 0.100), but not with spin 12. The verification (N_rep 320 x 3 seeds) of the top two and the declared configuration is not met (r_h change, axis ratio). NOT CLAIMED: reproducing 47 Tuc, a stable shape, centre-drag dominance.",
+      brief:"A globular-cluster analogy with a central DFM black hole and stellar-mass dark rotors on one Plummer profile. With no contact, dark rotors given planet-class radii smaller than the stars, and a scan of centre mass, spin and drag core, the shape gates declared before measuring are still not met. Out of calibration scope.",
       control:"One-tap A/B: side B sets THE CENTRE'S SPIN TO 0 (same configuration, same opt-in). Compare with 🌚 (same physics, same ledger ratio, a galaxy analogy) and 🍇🫐 (47 Tuc transcription and DFM build - different units and initialisation). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
   parameterAudit:{
     observedInputs:["**無い。** 47 Tuc の CSV の行(距離・3D 半質量半径・σ₀・v_rot/σ₀)は参照として並べるだけで入力していない"],
@@ -8108,20 +8119,21 @@ const BUILTIN_PRESETS = [
       "W_bg=physics.spaceMesh.D0=1.5(明示 —— 出どころ \"declared\")",
       "中心 DFM 版 BH: pinned m=250・spin 12・R=1.5(GM/(Rc²)=0.148・ΩR/c=0.600 —— 🌚 と同じ無次元量)",
       "恒星 170 体 × 0.3125 と DR 40 体 × 53.125 を同じ Plummer 分布(投影尺度 10・切断 40)・初速は 2D 等方の基準解(vMode equilibrium —— 第284便a)",
-      "接触ばね contactK=0(E9 の力 0 —— 第284便a)・DR 代表粒子の rMul 0.2(R 1.46 —— 受理器の下限)",
+      "接触判定なし contactMode:\"none\"(E9 の全経路を止める —— 第285便a・第284便a の contactK=0 はばねだけ)・中心固定 pinned",
+      "個々の粒子の半径 particleRadius(第285便a): DR 0.0085574 = 惑星級 7.1492×10⁷ m / L・恒星 0.083273 = 太陽半径 6.957×10⁸ m / L(表示比較の仮定)・L=(G_SI·10³⁴ kg/c_SI²)/(G/c²)=8.354×10⁹ m",
       "DR: N_DR=20 N★(nTrue=1.07×10⁷)・⟨m_DR⟩=1 M☉(代表)・⟨m★⟩=0.5 M☉・質量単位 10³⁴ kg(🌚 と同じ)・個体の物理半径 7.1492×10⁷ m(惑星級・上限 10⁸ m —— 力学に入らない)",
       "cLight=30(組込みプリセットの規約)・乱数種 20260926"],
     fitted:["**無い。**"],
     derived:["M_DR=40·M★=2125 単位・M_center/(M★+M_DR)=0.115","T_out=2πR_out/v_c(R_out)(t=0 の配置の実際の重力加速度 —— 器が測る)","初速の分布関数 f(ℰ)=(1/2π)dν/dΨ(Ψ は配置を終えた全粒子の E4 の場の環平均 —— build が作る)"],
-    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","代表粒子 N_rep=40","代表粒子の半径 R_rep=1.46・表示半径 1.46・引きずりの核 R_drag=1.5(中心の R)","測定: dt=0.016・窓 [1, 3]×T_out"]},
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","代表粒子 N_rep=40","粒子表示倍率 dispMag=10(表示専用 —— DR の表示 0.0856・恒星 0.833)・引きずりの核 R_drag=1.5(中心の R)","測定: dt=0.016・窓 [1, 3]×T_out(各構成の T_out)"]},
   activeParams:["G"],
   // 第283便f → 第284便a: サンプルの状況(原稿 tests/data-w279a-samplestatus-src.json と同じ文 —— 生成領域 sample-status の行は再生成の鎖で入る)
   status:{purpose:"中心 DFM 版 BH と恒星質量ダークローターを同じ Plummer 分布に置いた球状星団アナロジー", objective:"unmet",
-    state:"接触ばね 0・平衡初速に直した後も、測る前に宣言した形状の門で未達(半質量半径・軸比・保持率 —— 代表数 160 では保持率は通る)", calibration:"out-of-scope", mismatch:null, outlook:null,
-    evidence:["tests/out/cluster-w284a.json","tests/out/cluster-w283f.json"]},
+    state:"接触判定なし・DR を恒星より小さい惑星級の半径に直し中心質量・自転・引きずりの核を走査しても、宣言した形状の門で未達", calibration:"out-of-scope", mismatch:null, outlook:null,
+    evidence:["tests/out/cluster-w285a.json","tests/out/cluster-w284a.json","tests/out/cluster-w283f.json"]},
   abBody:{ label:{ja:"中心の spin=0(自転の寄与だけを外す)", en:"centre spin = 0 (only the spin contribution removed)"},
     targets:[0], patch:{spin:0} },
-  massLedger:{version:"w284a-1", starBase:53.125, fStar:1, gas:0, core:250, unitKg:1e34, mSunKg:1.9885e30,
+  massLedger:{version:"w285a-1", starBase:53.125, fStar:1, gas:0, core:250, unitKg:1e34, mSunKg:1.9885e30,
     mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:1,
     currentTotalUnit:303.125, currentTotalSun:1524390.243902439,
     rotorScenarios:[
@@ -8129,25 +8141,30 @@ const BUILTIN_PRESETS = [
       {mRotorSun:1, nRotor:10686447.070656272, mRotorUnit:2124.9999999999995, totalUnit:2428.1249999999995, totalSun:12210837.31455871},
       {mRotorSun:10, nRotor:10686447.070656272, mRotorUnit:21249.999999999996, totalUnit:21553.124999999996, totalSun:108388860.95046516}],
     darkRotor:{mRotorSun:1, nRep:40, mPerRepUnit:53.125, totalUnit:2125, inDynamics:true, lens:"excluded", nTrue:10686447.070656272,
-      radii:{physicalM:7.1492e7, physicalMaxM:1e8, physicalClass:"planet", rep:1.4577379737113252, softening:3, drag:1.5, draw:1.4577379737113252},
+      radii:{physicalM:7.1492e7, physicalMaxM:1e8, physicalClass:"planet", lengthUnitM:8354430302.76, lengthRule:"L=(G_SI·M_unit/c_SI²)/(G/c²)・G_SI=6.6743e-11・c_SI=299792458・M_unit=unitKg・G=physics.G・c=physics.cLight",
+        rep:0.0085574, starAssumedM:6.957e8, starAssumedClass:"sun-radius-display-assumption", starRep:0.083273, softening:3, drag:1.5, dispMag:10,
+        draw:0.085574, starDraw:0.83273},
       distribution:"恒星と同じ Plummer 分布(投影尺度 10・切断 40)・初速は 2D 等方の基準解(vMode equilibrium —— 宣言)"},
     note:"条件付き台帳(第283便f・原仮定者の裁定〔第72報〕⑥)。⟨m_DR⟩=1 M☉ の行を力学の質量要素として bodies に入れた(代表粒子 40 体 × 53.125 = 2125 単位)。0.1/10 M☉ は比較の列。個数比 20 は宣言値。f★=1。代表粒子は光線の源から外す(lens:\"excluded\" —— rayHeavy が読む)。較正母集団に入れない。",
     noteEn:"A conditional ledger (wave 283f, the originator's ruling in report 72, item 6). The <m_DR> = 1 Msun row is put into the bodies as a dynamical mass component (40 particles x 53.125 = 2125 units); 0.1 and 10 Msun are comparison columns. The count ratio 20 is declared. f_star = 1. The representative particles are not ray sources (lens excluded - read by rayHeavy). Not in the calibration population."},
   camera:{scale:60}, world:{boundary:"none",size:0}, seed:20260926,
   physics:{G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
-    contactK:0/* 第284便a: E9 の接触ばねの力を 0(contactCap は既定のまま —— 0/0 にしない)*/,
+    contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 接触判定なし(E9 の 4 経路を止める —— 第284便a の contactK:0 は法線ばねだけだった)*/,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
-    radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
+    radiusScale:1, softening:3, timeScale:3, dispMag:10/* 第285便a(第75報⑤): 見易さは表示専用の粒子表示倍率で(力学不変)*/, stateCarry:"double", frameWeight:"share",
     spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read", D0:1.5}},
   bodies:[
     // 中心 DFM 版 BH(スケール調整 —— GM/(Rc²)=0.8·250/(1.5·900)=0.148・ΩR/c=12·1.5/30=0.600)
     {type:"single", m:250, x:0,y:0, vx:0,vy:0, spin:12, pinned:true, radius:1.5},
     // 恒星(Plummer・M★=170×0.3125=53.125)—— 初速は 2D 等方の基準解(第284便a: virial → equilibrium)
-    {type:"disk", rMul:1.2, n:170, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
+    // 第285便a(第75報⑤・R96): 個々の恒星の半径は particleRadius(太陽半径 6.957×10⁸ m の長さ単位換算 0.0833 —— **表示比較の仮定**)。群の分布半径 radius とは別の欄
+    {type:"disk", particleRadius:0.083273, n:170, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
      mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"equilibrium", vScale:1, direction:1, bulkVx:0, bulkVy:0},
     // 恒星質量ダークローターの代表粒子(N_rep=40・1 体 53.125・計 2125 —— 同じ Plummer 分布・lightSweep 1 = 表示で暗い)
     // 第284便a: rMul 1.2 → 0.2(代表粒子の半径 8.75 → 1.46 —— 受理器の下限。接触ばねは contactK=0 で力 0)
-    {type:"disk", rMul:0.2, n:40, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
+    // 第285便a(第75報⑤「ダークローターはコンパクト天体で恒星より小さい」・R96): particleRadius = 惑星級 7.1492×10⁷ m の長さ単位換算 0.00856
+    //   (L = (G_SI·M_unit/c_SI²)/(G/c²) = 8.354×10⁹ m —— 台帳 radii.lengthUnitM)。rMul は使わない
+    {type:"disk", particleRadius:0.0085574, n:40, cx:0,cy:0, radius:40, profile:"plummer", plummerScale:10,
      mMin:53.125,mMax:53.125, spinMin:0,spinMax:0, vMode:"equilibrium", vScale:1, direction:1, bulkVx:0, bulkVy:0, lightSweep:1}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false,
     spaceMesh:{mode:"mesh"}} },
@@ -8204,7 +8221,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   validT:200,
   camera:{scale:160}, world:{boundary:"none",size:0}, seed:20260919,
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     shapeToy:{shape:"cluster", supply:"external-bath", coupling:"prescribed",
@@ -8257,7 +8274,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   validT:200,
   camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260919,
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     shapeToy:{shape:"disk", supply:"external-bath", coupling:"prescribed",
@@ -8311,7 +8328,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   validT:200,
   camera:{scale:180}, world:{boundary:"none",size:0}, seed:20260919,
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     shapeToy:{shape:"arm", supply:"external-bath", coupling:"prescribed",
@@ -8377,7 +8394,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   validT:200,
   camera:{scale:160}, world:{boundary:"none",size:0}, seed:20260920,
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     contactK:0, contactCap:0,
@@ -8440,7 +8457,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   validT:200,
   camera:{scale:200}, world:{boundary:"none",size:0}, seed:20260920,
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     contactK:0, contactCap:0,
@@ -8503,7 +8520,7 @@ const BUILTIN_PRESETS = [
   activeParams:["G","softening"],
   validT:200,
   camera:{scale:260}, world:{boundary:"none",size:0}, seed:20260920,
-  physics:{G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
     cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
     contactK:0, contactCap:0,
@@ -15715,7 +15732,7 @@ const BUILTIN_PRESETS = [
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=10","粒子表示倍率 dispMag=1(実半径のまま)"]},
   activeParams:["kFrame","lambdaPN","dispMag"],
   camera:{scale:1300}, world:{boundary:"none",size:0},
-  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
     geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:10, dispMag:1, stateCarry:"double", frameWeight:"share"},   // 第284便b(原仮定者の裁定(第74報)AN39): kF0 版の宣言を geoPN=1・kFrame=0 へ(旧宣言 geoPN=2 は互換入力 —— 力学はビット同一)
   bodies:[   // 第121便: 惑星(e6)実単位 — 土星 5.6834e26kg/6.03e7m/自転10.56h。環=実半径 C/B/A 帯
@@ -15842,7 +15859,7 @@ const BUILTIN_PRESETS = [
   // 第244便(裁定 B7′ — 3 審査 v2 一致・Opus S 実測): pull(D0pull=3.24204e-5 — 🌘 と同じ指数系で物理共通 D0p)+環を**観測総質量**(Cassini 1.54×10¹⁹ kg → 1.283e-8/粒×120)+
   // frameSource:false(環は u の源ではない)。massFloor 1e-8 は検証器の質量下限を環質量まで下げるため。r_max の門・qLock・環の形は不変。
   // 旧 1e20 kg/粒(779 倍)の近点ドリフト 1.59e-5 はスピン 0 でも 2.39e-5 残る粗視化の人工物だった — 新構成では スピン 0 で厳密 0・反転で厳密符号反転(LT 型)
-  physics:{frameWeight:"pull", D0pull:3.24204e-5, G:6.674, D0:0.006, kFrame:1, q:20.4932, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, frameWeight:"pull", D0pull:3.24204e-5, G:6.674, D0:0.006, kFrame:1, q:20.4932, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.415555555555556e-9,
     cLight:30000, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-8,
     geoPN:2, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.05, timeScale:10, dispMag:1, stateCarry:"double"},
   bodies:[   // 第121便: 惑星(e6)実単位 — 土星 5.6834e26kg/6.03e7m/自転10.56h。環=実半径 C/B/A 帯
@@ -17105,7 +17122,11 @@ const MASS_LEDGER_DR_KEYS=["mRotorSun","nRep","mPerRepUnit","totalUnit","inDynam
 //   **radii**(別々の量を別々の欄に: physicalM〔個体の物理半径 m・惑星級〕・physicalMaxM〔惑星級の上限の宣言 m〕・physicalClass:"planet"・
 //   rep〔代表粒子の半径 R=rMul·√m —— 衝突の半径〕・softening〔重力の数値軟化 ε〕・drag〔引きずりの核 R_drag〕・draw〔表示半径〕 —— 後の 4 つはトイ単位)。
 //   **受理器は宣言の内部整合だけを見る**(bodies・physics との照合は QA `behavior.clusterAnalogy` —— 物理へは何も効かない)。
-const MASS_LEDGER_DR_RADII_KEYS=["physicalM","physicalMaxM","physicalClass","rep","softening","drag","draw"];
+const MASS_LEDGER_DR_RADII_KEYS=["physicalM","physicalMaxM","physicalClass","rep","softening","drag","draw",
+  // 第285便a(原仮定者の裁定(第75報)⑤・R96): 任意鍵 —— lengthUnitM〔長さ単位 L の m・G・c・質量単位からの換算〕・lengthRule〔換算式の文〕・
+  //   starAssumedM/starAssumedClass/starRep〔恒星の半径 —— **表示比較の仮定**〕・dispMag〔表示倍率〕・starDraw〔恒星の表示半径〕。
+  //   宣言したときだけ内部整合(rep ≈ physicalM/L・starRep ≈ starAssumedM/L・draw = rep·dispMag・starDraw = starRep·dispMag —— 相対 1e-4)を見る
+  "lengthUnitM","lengthRule","starAssumedM","starAssumedClass","starRep","dispMag","starDraw"];
 function validateMassLedger(ml){
   const warnings=[];
   if(!ml || typeof ml!=="object" || Array.isArray(ml)) return {ok:false, warnings:["massLedger はオブジェクトが必要"]};
@@ -17178,6 +17199,14 @@ function validateMassLedger(ml){
       if(q.physicalClass!=="planet") return {ok:false, warnings:warnings.concat(['massLedger.darkRotor.radii.physicalClass は "planet"(惑星級)だけを受理'])};
       if(!(q.physicalM<=q.physicalMaxM)) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor.radii.physicalM は physicalMaxM(惑星級の上限)以下"])};
       o.darkRotor.radii={physicalM:q.physicalM, physicalMaxM:q.physicalMaxM, physicalClass:"planet", rep:q.rep, softening:q.softening, drag:q.drag, draw:q.draw};
+      if(q.lengthUnitM!==undefined){   // 第285便a(R96): 物理半径の長さ単位換算と恒星の表示比較の仮定
+        for(const k of ["lengthUnitM","starAssumedM","starRep","dispMag","starDraw"]) if(!pos(q[k])) return {ok:false, warnings:warnings.concat(["massLedger.darkRotor.radii."+k+" は正の有限数(lengthUnitM を宣言したとき)"])};
+        const r4=(a,b)=>Math.abs(a-b)<=1e-4*Math.max(Math.abs(a),Math.abs(b));
+        if(!(r4(q.rep,q.physicalM/q.lengthUnitM) && r4(q.starRep,q.starAssumedM/q.lengthUnitM) && r4(q.draw,q.rep*q.dispMag) && r4(q.starDraw,q.starRep*q.dispMag)))
+          return {ok:false, warnings:warnings.concat(["massLedger.darkRotor.radii: rep=physicalM/lengthUnitM・starRep=starAssumedM/lengthUnitM・draw=rep·dispMag・starDraw=starRep·dispMag(相対 1e-4)"])};
+        Object.assign(o.darkRotor.radii, {lengthUnitM:q.lengthUnitM, lengthRule:(typeof q.lengthRule==="string")? q.lengthRule.slice(0,200) : "",
+          starAssumedM:q.starAssumedM, starAssumedClass:(typeof q.starAssumedClass==="string")? q.starAssumedClass.slice(0,60) : "", starRep:q.starRep, dispMag:q.dispMag, starDraw:q.starDraw});
+      }
     }
   }
   for(const k of ["note","noteEn"]) if(typeof ml[k]==="string" && ml[k].trim()) o[k]=ml[k].trim().slice(0,600);
@@ -17506,6 +17535,13 @@ function validatePreset(obj){
         const ac=ABS_CLAMPS[k], av=clamp(p.physics[k],ac[0],ac[1]);
         if(av!==p.physics[k]) warnings.push("physics."+k+" を値域に修正");
         if(av!==ABS_DEFAULT[k]) ph[k]=av;
+        continue;
+      }
+      // 第285便a(原仮定者の裁定(第75報)④・R95): contactMode — "normal"|"none"(未指定=既存挙動。宣言した値はそのまま ph へ ——
+      // "normal" の明示は「衝突・合体が目的の本」の宣言として残す)。fusion・phaseChange との併用は下の最上位キーの段で拒否する
+      if(k===CONTACT_MODE_KEY){
+        if(CONTACT_MODES.indexOf(p.physics[k])<0){ bad('physics.contactMode は "normal"/"none" のみ'); continue; }
+        ph[k]=p.physics[k];
         continue;
       }
       // 第96便: contactK/contactCap(E9 法線ばね定数)も同じ流儀 — 既定(40/8)なら ph へ入れない
@@ -18245,6 +18281,13 @@ function validatePreset(obj){
           if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
           oR.rMul=wc(b.rMul,0.2,40,"rMul");   /* 第118便: 5→20 / 第121便: 20→40(💍e6 実環代表粒 rMul=31.62) */
         }
+        // 第285便a(原仮定者の裁定(第75報)⑤・R96): 群の**個々の代表粒子の半径** particleRadius(正の有限値・長さの値域)。
+        // 群の分布半径(radius/rIn/rOut/w/h/pitch)とは別の欄。宣言すると粒子は明示半径(single の radius と同じ radOv)を持ち、rMul は半径に使われない
+        if(b.particleRadius!==undefined){
+          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(at+".particleRadius は正の有限値(個々の代表粒子の半径)"); return; }
+          oR.particleRadius=LEN(b.particleRadius,"particleRadius");
+          if(b.rMul!==undefined) warnings.push(at+".particleRadius があるので rMul は半径に使いません(第285便a)");
+        }
         // 第231便: 群共通の殻の相(disk と同じ — 第230便の ring 拡張。省略は 1 bit 不変)
         if(b.shell!==undefined){
           if(b.shell==="solid"||b.shell==="gas") oR.shell=b.shell;
@@ -18306,6 +18349,13 @@ function validatePreset(obj){
         if(b.rMul!==undefined){   // 第36便 C1: 群共通の半径倍率(0.2〜5・既定1)
           if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
           oD.rMul=wc(b.rMul,0.2,20,"rMul");   /* 第118便: 上限 5→20 */
+        }
+        // 第285便a(原仮定者の裁定(第75報)⑤・R96): 群の**個々の代表粒子の半径** particleRadius(正の有限値・長さの値域)。
+        // 群の分布半径(radius/rIn/rOut/w/h/pitch)とは別の欄。宣言すると粒子は明示半径(single の radius と同じ radOv)を持ち、rMul は半径に使われない
+        if(b.particleRadius!==undefined){
+          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(at+".particleRadius は正の有限値(個々の代表粒子の半径)"); return; }
+          oD.particleRadius=LEN(b.particleRadius,"particleRadius");
+          if(b.rMul!==undefined) warnings.push(at+".particleRadius があるので rMul は半径に使いません(第285便a)");
         }
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
           if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
@@ -18390,6 +18440,13 @@ function validatePreset(obj){
           if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
           oB.rMul=wc(b.rMul,0.2,20,"rMul");   /* 第118便: 上限 5→20 */
         }
+        // 第285便a(原仮定者の裁定(第75報)⑤・R96): 群の**個々の代表粒子の半径** particleRadius(正の有限値・長さの値域)。
+        // 群の分布半径(radius/rIn/rOut/w/h/pitch)とは別の欄。宣言すると粒子は明示半径(single の radius と同じ radOv)を持ち、rMul は半径に使われない
+        if(b.particleRadius!==undefined){
+          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(at+".particleRadius は正の有限値(個々の代表粒子の半径)"); return; }
+          oB.particleRadius=LEN(b.particleRadius,"particleRadius");
+          if(b.rMul!==undefined) warnings.push(at+".particleRadius があるので rMul は半径に使いません(第285便a)");
+        }
         if(b.tInt!==undefined){   // 第36便 D(台帳4-51): 群共通の内部温度初期値(既定0)
           if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
           oB.tInt=wc(b.tInt,0,10000,"tInt");
@@ -18414,6 +18471,13 @@ function validatePreset(obj){
         if(b.rMul!==undefined){
           if(!isNum(b.rMul)){ bad(at+".rMul が数値ではありません"); return; }
           oG.rMul=wc(b.rMul,0.2,20,"rMul");   /* 第118便: 上限 5→20 */
+        }
+        // 第285便a(原仮定者の裁定(第75報)⑤・R96): 群の**個々の代表粒子の半径** particleRadius(正の有限値・長さの値域)。
+        // 群の分布半径(radius/rIn/rOut/w/h/pitch)とは別の欄。宣言すると粒子は明示半径(single の radius と同じ radOv)を持ち、rMul は半径に使われない
+        if(b.particleRadius!==undefined){
+          if(!isNum(b.particleRadius) || !(b.particleRadius>0)){ bad(at+".particleRadius は正の有限値(個々の代表粒子の半径)"); return; }
+          oG.particleRadius=LEN(b.particleRadius,"particleRadius");
+          if(b.rMul!==undefined) warnings.push(at+".particleRadius があるので rMul は半径に使いません(第285便a)");
         }
         if(b.tInt!==undefined){
           if(!isNum(b.tInt)){ bad(at+".tInt が数値ではありません"); return; }
@@ -18584,6 +18648,11 @@ function validatePreset(obj){
   // 融合で消える運動エネルギーの行き先(内部温度)が無く第一法則の帳簿が閉じないため、警告つきで
   // キーごと削除する(挙動を静かに変えない — world.thermalWalls と同じ方針)。
   // 構造が壊れている場合も警告つきで削除する。※ SYSTEM_PROMPT には載せない(AI生成には開放しない)
+  // 第285便a(R95): 接触なしの契約と E9 の重なりを使う機構(融合・創発相変化)は**併用を拒否**する(静かにどちらかを落とさない)
+  if(p.physics && p.physics[CONTACT_MODE_KEY]==="none"){
+    if(p.fusion!==undefined) bad('physics.contactMode:"none" は fusion と併用できません(融合は E9 の重なりで起きる —— 衝突・合体を再現する本は "normal")');
+    if(p.phaseChange!==undefined) bad('physics.contactMode:"none" は phaseChange と併用できません(E14″ の芯は E9 の法線ばね)');
+  }
   if(p.fusion!==undefined){
     const FU=p.fusion;
     if(!FU || typeof FU!=="object" || Array.isArray(FU)){
@@ -20359,6 +20428,7 @@ function makeSim(){
             const ca=Math.cos(ang), sa=Math.sin(ang);   // レール初速 v = H·r·r̂ + ω·r·φ̂(解析値)
             o.vx=o.railH*r*ca - o.railOmega*r*sa; o.vy=o.railH*r*sa + o.railOmega*r*ca;
           }
+          if(b.particleRadius>0) o.radius=b.particleRadius;   // 第285便a(R96): 群の代表粒子の半径(明示半径 radOv —— 分布半径とは別の欄)
           push(o);
         }
         // 第35便(台帳4-61): vMode="hubble" — 群の重心 r̄ を中心とした放射方向初速 v=vScale·(r−r̄)。
@@ -20408,6 +20478,7 @@ function makeSim(){
           if(b.vMode==="enclosed"||b.vMode==="virial") o.eq={mode:b.vMode, cx:b.cx, cy:b.cy, dir:b.direction, scale:(b.vScale===undefined?1:b.vScale), row:b};
           else if(b.vMode===VMODE_EQUILIBRIUM) o.eq={mode:b.vMode, cx:b.cx, cy:b.cy, a:eqA, u:eqU, scale:(b.vScale===undefined?1:b.vScale), row:b};   // 第284便a
           if(lensRowSet && lensRowSet.has(b)) o.lensEx=1;   // 第283便f: 光線の源から外す DR 代表粒子
+          if(b.particleRadius>0) o.radius=b.particleRadius;   // 第285便a(R96): 群の代表粒子の半径(明示半径 radOv —— 分布半径とは別の欄)
           push(o);
         }
       } else if(b.type==="box"){
@@ -20419,7 +20490,7 @@ function makeSim(){
           const a2=rng()*Math.PI*2, v=b.vScale*rng();
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:v*Math.cos(a2)+(b.bulkVx||0), vy:v*Math.sin(a2)+(b.bulkVy||0),   // v1.18: 並進速度
-            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI});
+            spin:b.spinMin+(b.spinMax-b.spinMin)*rng(), pinned:0, railOmega:0, rMul:rM, tInt:tI, ...((b.particleRadius>0)? {radius:b.particleRadius} : null)});   // 第285便a(R96): 群の代表粒子の半径
         }
       } else if(b.type==="grid"){
         // 第53便 53A(E14): 格子配置 — 六方充填の決定論初期条件(相変化デモの「結晶」用)。
@@ -20443,7 +20514,7 @@ function makeSim(){
           const a2=rng()*Math.PI*2, v=(b.vScale||0)*rng();
           push({m:b.mMin+(b.mMax-b.mMin)*rng(), x,y,
             vx:v*Math.cos(a2)+(b.bulkVx||0), vy:v*Math.sin(a2)+(b.bulkVy||0),
-            spin:0, pinned:0, railOmega:0, rMul:rM, tInt:tI});
+            spin:0, pinned:0, railOmega:0, rMul:rM, tInt:tI, ...((b.particleRadius>0)? {radius:b.particleRadius} : null)});   // 第285便a(R96): 群の代表粒子の半径
         }
       }
     }
@@ -20984,6 +21055,8 @@ function makeSim(){
     // 唯一ここで張り直せば全経路が揃う。未宣言・0 は false = S.step の真偽値1つだけを読んで素通りする
     const __ss=S.params[SPIN_SPIN_KEY];
     S.hasSpinSpin=(__ss>0 || __ss<0);
+    // 第285便a(R95): 接触なしの契約のフラグも同じ場所で張る(未宣言・"normal" は false = 素通り)
+    S.contactNone=(S.params[CONTACT_MODE_KEY]==="none");
     // 第249便c: 軸ポテンシャル(案A)の有無フラグも同じ場所で張る(未宣言・A=0 は false = 素通り)
     const __af=S.params[AXIS_FORCE_KEY];
     S.hasAxisForce=!!(__af && (__af.A>0 || __af.A<0));
@@ -29952,6 +30025,10 @@ function loadSave(s, selValue){
   // 第283便a(原仮定者の裁定(2026-09-26 追加)): 旧セーブの geoPN=1・kFrame≠0(旧 ⭐ など)は kFrame=0 として読む(通知 1 行)。
   // 旧 geoPN=1 では E6′ と輸送の門が閉じていたので、この読み替えで変わるのは 1PN の反作用の返し(AN23)だけである
   { const gmS=geoModeOf(sim.params); if(gmS.mode===1 && !gmS.consistent){ sim.params.kFrame=0; notify(T("geoPN1SaveKF0"),6000); } }
+  // 第285便a(R95): contactMode は "normal"/"none" のみ。融合・相変化の本に "none" は載せない(受理器と同じ規則 —— 外したら通知 1 行)
+  { const cm=sim.params[CONTACT_MODE_KEY];
+    if(cm!==undefined && (CONTACT_MODES.indexOf(cm)<0 || (cm==="none" && (sim.fusion || sim.phase)))){
+      sim.params[CONTACT_MODE_KEY]=undefined; sim.updateRadii(); notify(T("contactModeSaveDrop"),6000); } }
   // 第243便(裁定 B5・第35報 Grok E): frameWeight 未宣言のセーブは既定 pull で走る(第242便)— 読込時に周知。
   // D0pull 未宣言の現実較正 DFM 連星は周期が数十% ずれる(第242便 −42〜−53%)ので強い警告
   if(s.physics && s.physics[FRAME_WEIGHT_KEY]===undefined && sim.params.kFrame>0){
@@ -32628,6 +32705,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - disk: {type,n,cx,cy,radius,mMin,mMax,spinMin,spinMax,vMode,aroundMass,vScale,direction} — 半径radiusの円盤にn個。vMode: "kepler"(vScaleは倍率,通常1)|"rigid"(vScale=角速度)|"flat"(vScale=一定速さ)|"random"(vScale=速さ)|"enclosed"(配置後の実ポテンシャルの円運動解・vScaleは倍率)|"virial"(群のビリアル平衡 ⟨v²⟩=−W/M・vScaleは倍率)|"none"。省略可の rMul(0.2〜20)。
 - box: {type,n,cx,cy,w,h,mMin,mMax,spinMin,spinMax,vScale} — 幅w高さhの矩形にn個、ランダム方向に速さ〜vScale。省略可の rMul(0.2〜20)。
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
+- ring/disk/box には省略可の particleRadius(個々の粒子の半径 — 群の配置の半径 radius・rIn/rOut・w/h とは別の欄。正の値・長さの値域 0〜5000。宣言すると rMul は半径に使わない)を指定できる。環・星団・銀河のように粒子数を減らして近似した多粒子の系では physics.contactMode:"none"(接触判定なし — 接触ばね・減衰・摩擦をすべて止める。粒子同士の接触が現実より多くなるため)と中心天体の pinned:true を宣言する。粒子同士の衝突・合体や銀河同士の衝突を見せる系は contactMode:"normal"(既定と同じ)にし、中心の固定を外す。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
 - single/ring/disk には省略可の core(コアv2 — 中心コアの独立サブシステム)を指定できる: {"mode":"rigid"|"differential"|"active"|"cavity","massFrac":0.01〜0.95,"radius":0.01〜200,"omega":−50〜50,"Kcs":0〜10,"pump":0〜5,"contract":0〜0.2,"sourceRate":0〜100,"voidFraction":0.01〜1}。m は総質量のままで、massFrac=Mc/m・radius=コア半径 R_c(絶対値)・omega=初期コア角速度 Ω_c(角運動量 J=½·Mc·R_c²·Ω として保持され、以後 J が主変数)。差動分だけが ω += (Mc/m)·(Ω_c−s)·(R_c/(R_c+d))^q として追加の空間引きずりに効く。mode: rigid=殻と剛体回転(差動なし)・differential=独立回転・active=differential+sourceRate で内部エネルギー注入・cavity=空洞(massFrac の代わりに voidFraction。引きずりの符号が反転)。Kcs はコア⇄殻のトルク結合(緩和率)・contract は収縮率(J 保存で Ω 上昇)・pump はパワーボール係数。要望がコア/深部回転・空洞天体・2層天体・ダークローターのときだけ使う高度な属性。
 - core.shed(省略可・第244便/第246便): コアの回転が限界を超えたら**殻の一部をガス粒へ割って放出する**保存的な質量放出。{"omegaCrit":発火する|Ω_c|,"frac":放出する殻質量の比(0〜0.6],"n":粒数(4〜128・偶数),"rLaunch":放出半径(親半径R単位),"jFrac":コアJの移送比0〜1,"once":true/false,"rInner":最内層の半径(親半径R単位・既定=rLaunch),"layers":層数1〜8(既定1・n は layers×偶数へ正規化),"cooldown":再発火までの最短時間(once:false のときだけ効く)}。layers≧2 なら粒は rInner·R〜rLaunch·R の等間隔の層に置かれる(元の半径の円周だけでなくコアとの間にも配置される)。once:false は「Ω が再び omegaCrit を超えたら再発火」= 外殻が徐々に剥がれる。質量・運動量・角運動量・エネルギーは帳簿込みで閉じ、収支が負なら発火しない。core.burst(省略可・第234便): {"rate":放出率,"frac":放出する|J|の総比率} でコアの回転エネルギーを気体殻へ保存的に注入する(爆発)。要望が質量放出・恒星風・超新星・白色矮星/中性子星のときだけ使う高度な属性。
@@ -32826,10 +32904,10 @@ const ASTRO_CATALOG = {
          spinMin:0, spinMax:0, vMode:"kepler", aroundMass:56.834, omega:0, vNoise:0, direction:1, pinned:false, testParticle:true}] },
     variants:{
       kf0:{ src:"saturnRingReal",    name:{ja:"空間引きずりOFF(kFrame=0)",en:"frame dragging off (kFrame=0)"},
-        physics:astroPh({frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:10, dispMag:1, geoPN:1}) },   // 第284便b(AN39): geoPN=1
+        physics:astroPh({contactMode:"none"/* 第285便a: 出典 💍💿 と同じ多粒子の契約 */, frameWeight:"share", G:6.674, D0:0.1,   kFrame:0, q:3,    softening:0.05, timeScale:10, dispMag:1, geoPN:1}) },   // 第284便b(AN39): geoPN=1
       kf1:{ src:"saturnRingRealKF1", name:{ja:"共通補正つき(kFrame=1・q_exact=20.4932・観測環質量)",en:"with the shared correction (kFrame=1, q_exact=20.4932, observed ring mass)"},
         // 第244便(裁定 B7′): 出典 💿 と同じく pull・D0pull・massFloor 1e-8。環帯は ringPatch で観測総質量(1.283e-8/粒)+frameSource:false に上書き(kf0 の帯は不変)
-        physics:astroPh({frameWeight:"pull", D0pull:3.24204e-5, massFloor:1e-8, G:6.674, D0:0.006, kFrame:1, q:20.4932, softening:0.05, timeScale:10, dispMag:1}),
+        physics:astroPh({contactMode:"none"/* 第285便a: 出典 💍💿 と同じ多粒子の契約 */, frameWeight:"pull", D0pull:3.24204e-5, massFloor:1e-8, G:6.674, D0:0.006, kFrame:1, q:20.4932, softening:0.05, timeScale:10, dispMag:1}),
         ringPatch:{mMin:1.283e-8, mMax:1.283e-8, frameSource:false} } },
     defVariant:"kf1" },
 
@@ -43396,7 +43474,19 @@ function dfmTestParticleStep(S,dt,T,n0,n){
 // `geoModeOf` の 1 か所)。_core の中の geo・geo2 がどちらも λ_PN=1 になり、1PN の反作用が自由源へ返る(第282便b の器内
 // コピー g1R と同じ分岐)。kFrame=0 では E6′・輸送 3 項・u 減算が立たないので geoPN=1 ≡ geoPN=2∧kFrame=0(ビット同一)。
 // 固定源(pinned)の本(☿・V18)は反作用の分岐に入らないので 1 bit も変わらない。geoPN=0/2 の経路は従来のまま。
+// 第285便a(R95): **接触なしの契約**(physics.contactMode:"none" —— `S.contactNone` は updateRadii が張る)。`_core` を呼ぶ間だけ
+// γn・μF を 0 に見せる(ばね定数は contactKOf/contactCapOf が 0 を返す)。4 経路(特別化 2・generic・試験粒子の側)がどれも
+// 力・インパルス 0 になる。未宣言は真偽値 1 つで素通り(`S._core` は 1 命令も変えない —— geoPN=3 の除外と同じ型)
 function geoCoreDispatch(S,dt,mode){
+  if(S.contactNone===true){
+    const p=S.params, gN=p.gammaN, mF=p.muF;
+    p.gammaN=0; p.muF=0;
+    try{ geoCoreDispatchBody(S,dt,mode); } finally{ p.gammaN=gN; p.muF=mF; }
+    return;
+  }
+  geoCoreDispatchBody(S,dt,mode);
+}
+function geoCoreDispatchBody(S,dt,mode){
   if(S.hasTestParticle){ dfmTestParticleCore(S,dt,mode); return; }   // 第283便c: 試験粒子契約(未宣言は真偽値 1 つで素通り)
   const p=S.params, g=p.geoPN;
   if(g>=3){

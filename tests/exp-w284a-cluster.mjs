@@ -72,7 +72,19 @@ export const DOMINANCE_TEXT = [
 ];
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
-const byId = (HP, id) => HP.allPresets().find((q) => q.id === id);
+const byId0 = (HP, id) => HP.allPresets().find((q) => q.id === id);
+// 第285便a(原仮定者の裁定(第75報)⑤・R95/R96): 💮 の宣言(接触の契約・群の particleRadius・dispMag・台帳の radii)を書き換えた世代では、
+//   第284便a の宣言の**凍結写し** tests/fixtures/cluster-w284a-preset.json を読む(この器と正本 cluster-w284a.json は第284便a の宣言の記録 ——
+//   第284便a の宣言が使う経路〔contactK=0・rMul の半径・vMode equilibrium〕は第285便a で 1 bit も変えていない)。
+export const FIXTURE_284A = 'tests/fixtures/cluster-w284a-preset.json';
+let FX284A = null;
+export function sourcePreset(HP) {
+  const cur = byId0(HP, PRESET);
+  if (cur && cur.massLedger && cur.massLedger.version === 'w284a-1') return cur;
+  if (!FX284A) FX284A = JSON.parse(fs.readFileSync(path.join(ROOT, FIXTURE_284A), 'utf8')).preset;
+  return FX284A;
+}
+const byId = (HP, id) => (id === PRESET) ? sourcePreset(HP) : byId0(HP, id);
 export const rel = E283.rel;
 export const runKey = (nRep, ratio, s) => `n${nRep}-r${ratio}-s${s}`;
 
@@ -423,7 +435,7 @@ if (IS_MAIN && process.argv.includes('--child')) {
       boundStarsT0: b0.samples[0].info.boundStars, E0: b0.samples[0].info.E, E1: b0.samples[1].info.E }; } catch { before = null; }
   const CODE = ['tests/exp-w284a-cluster.mjs', 'tests/exp-w283f-cluster.mjs', 'tests/lib-w281c-rotorledger.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs',
     'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  const INPUTS = [TARGET, 'tests/out/cluster-w283f.json'];
+  const INPUTS = [TARGET, 'tests/out/cluster-w283f.json'].concat(byId0(HP, PRESET) && byId0(HP, PRESET).massLedger && byId0(HP, PRESET).massLedger.version === 'w284a-1' ? [] : [FIXTURE_284A]);
   const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第284便a', target: TARGET, code: CODE, inputs: INPUTS }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第74報)④: clusterAnalogyBH を修正する。ダークローターは恒星質量で、大きさは惑星、数は恒星の 10〜20 倍。星団では中心の DFM 版 BH の引きずりが支配的。この条件で安定させる。楕円銀河以降では引きずりの連鎖でディスクになる',
