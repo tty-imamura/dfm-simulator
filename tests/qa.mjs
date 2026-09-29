@@ -18842,16 +18842,19 @@ if (!FAST) {
         if (!R.census.p2BitSame) bad.push('p=2 の一般形が dfmComplexMomentsOf とビット一致でない');
         cases.push('並進基準系の変換(相対 1e-12)・遠方 1 源(p=1・2)・p=2 の一般形のビット一致');
         // 照合の許容は量の性質で分ける(第286便 統合 —— PR #287 の CI 4b7df76 で accelP1 の order が 4.6e-8 ずれた):
-        //   差分由来(steps[].err・errGradU/errDUdt・order)は h=0.005 の中心差分の丸め床(|M|·ε/h ≈ 1e-13 の絶対誤差 →
-        //   相対誤差 1e-6 の量が 1e-7〜1e-8 揺れる)を持ち、V8 の版(CI の Chromium と手元の Chromium)で Math.pow 等が
-        //   1 ulp 違うだけで動く → 相対 1e-6(次数の門 [1.8,2.2] と誤差の門 1e-4 は上で別に判定している)。
+        //   差分由来の誤差(steps[].err・errGradU/errDUdt)は h=0.005 の中心差分の丸め床(|M|·ε/h ≈ 1e-13 の絶対誤差)を
+        //   持ち、V8 の版(CI の Chromium 1228 と手元の 1194)で Math.pow 等が 1 ulp 違うだけで動く: 誤差 1e-6 の事例で
+        //   1e-8、誤差 1e-8 の事例(遠方 1 源・W→0 —— 器の floor=1e-8 の近く)で 3e-13(相対 3e-6)。次数 log2(e_h/e_h/2)
+        //   はその比なので 1e-8 の事例で 5e-6 動く(f678d01 の CI で実測)。→ 誤差は相対 1e-4 か絶対 1e-10 の緩い方、
+        //   次数は絶対 1e-3(次数の門 [1.8,2.2] と誤差の門 1e-4 は上で別に判定しており、場が変われば誤差は O(1) 動く)。
         //   残差(boost の rel*・mesh の work・compare の maxRel)は 1e-16 の丸めそのもの → 絶対 1e-12 の床。
         //   解析量(W・A・u・χ・帳簿・遠方・p=2 のビット一致)は相対 1e-12 のまま。
-        const FD_PATH = /\/(steps\/\d+\/(err(\/|$)|errGradU$|errDUdt$)|order(\/|$))/, RESID_PATH = /\/(rel[A-Za-z0-9]*|work|maxRel)$/;
+        const FD_ERR_PATH = /\/steps\/\d+\/(err(\/|$)|errGradU$|errDUdt$)/, FD_ORDER_PATH = /\/order(\/|$)/, RESID_PATH = /\/(rel[A-Za-z0-9]*|work|maxRel)$/;
         const nearFD = (a, b, where, out) => {
           if (out.length > 4) return;
           if (typeof a === 'number' && typeof b === 'number') {
-            const rel = FD_PATH.test(where) ? 1e-6 : 1e-12, abs = RESID_PATH.test(where) ? 1e-12 : 0;
+            const rel = FD_ERR_PATH.test(where) ? 1e-4 : 1e-12;
+            const abs = FD_ORDER_PATH.test(where) ? 1e-3 : FD_ERR_PATH.test(where) ? 1e-10 : RESID_PATH.test(where) ? 1e-12 : 0;
             if (!(a === b || Math.abs(a - b) <= Math.max(abs, rel * Math.max(Math.abs(a), Math.abs(b))))) out.push(where + ' ' + a + '≠' + b);
             return;
           }
@@ -18864,7 +18867,7 @@ if (!FAST) {
         const diff = [];
         for (const k of Object.keys(R)) nearFD(J[k], R[k], k, diff);
         if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 5).join(' ; '));
-        cases.push('正本 = いまの html からの作り直し(解析量は相対 1e-12・差分の誤差と次数は相対 1e-6・残差は絶対 1e-12 —— 丸めの床)');
+        cases.push('正本 = いまの html からの作り直し(解析量は相対 1e-12・差分の誤差は相対 1e-4/絶対 1e-10・次数は絶対 1e-3・残差は絶対 1e-12 —— 丸めの床)');
       }
       add('behavior.bgDiffCheck', bad.length === 0,
         `**背景場の解析微分と中心差分の照合**(第286便c・AN7′ —— 幅 h・h/2・h/4・微分が合うことと力学の保存則は別の試験): ${cases.join(' / ')}`
