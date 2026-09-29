@@ -9386,7 +9386,7 @@ const BUILTIN_PRESETS = [
     note:"条件付き台帳(第283便f → 第286便a の星団スケール・原仮定者の裁定〔第76報〕⑤)。⟨m_DR⟩=1 M☉ の行を力学の質量要素として bodies に入れた(代表粒子 500 体 × 0.425 = 212.5 単位 = 2.125×10³⁷ kg)。0.1/10 M☉ は比較の列。個数比 20 は宣言値。恒星と DR は同じ代表率(unitTable.w)。f★=1。代表粒子は光線の源から外す(lens:\"excluded\" —— rayHeavy が読む)。較正母集団に入れない。",
     noteEn:"A conditional ledger (wave 283f, moved to the cluster scale in wave 286a; the originator's ruling in report 76, item 5). The <m_DR> = 1 Msun row is put into the bodies as a dynamical mass component (500 particles x 0.425 = 212.5 units = 2.125e37 kg); 0.1 and 10 Msun are comparison columns. The count ratio 20 is declared. Stars and dark rotors share one representative rate (unitTable.w). f_star = 1. The representative particles are not ray sources (lens excluded - read by rayHeavy). Not in the calibration population."},
   camera:{scale:60}, world:{boundary:"none",size:0}, seed:20260926,
-  physics:{G:6.6743, D0:0.15, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.426160269118665e-9,
+  physics:{G:6.6743, D0:0.15, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
     contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 接触判定なし */,
     cLight:29979.2458/* 第286便a: 星団スケールの c_sim=c_SI·T₀/L₀ */, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
     radiusScale:1, softening:3, timeScale:3, dispMag:1, stateCarry:"double", frameWeight:"share",
@@ -36199,7 +36199,9 @@ function stabilizePreset(input, opts){
   { const kd=(ph.cLight>0)? ph.G/(ph.cLight*ph.cLight) : 0;
     const sc=Math.max(Math.abs(kd), Math.abs(ph.kappaT));
     const rel=(sc>0)? Math.abs(ph.kappaT-kd)/sc : 0;
-    const real=(p.fidelity==="real") || !!p.scaleExp;
+    // 第286便 統合(統括): fidelity:"toy" を明示した本(💮 —— 星団スケールの単位表 scaleExp を持つが κ はトイの値〔光線の重い天体の判定に使う〕)は
+    //   scaleExp だけでは実較正と見なさない(明示の fidelity が優先)。fidelity:"real" と、fidelity 未宣言で scaleExp を持つ本は従来どおり
+    const real=(p.fidelity==="real") || (!!p.scaleExp && p.fidelity!=="toy");
     if(rel>1e-9){
       if(real && kd>=CLAMPS.kappaT[0] && kd<=CLAMPS.kappaT[1]){
         changes.push(T("stabKappa")(String(ph.kappaT), String(kd))); ph.kappaT=kd;
