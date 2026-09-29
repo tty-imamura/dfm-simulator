@@ -2834,12 +2834,14 @@ if (QA_CHANGED) {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w283e-chain-'));
     try {
       const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
-      if (RT.REGEN_TABLE_VERSION !== 'w286-regentable-7') bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION);
+      // 第287便f(AN69): 表の版 w287f-regentable-8(html を書く段の宣言 htmlRegions・families/obscompare/assessed/samplestatus の after・families の touches)
+      if (RT.REGEN_TABLE_VERSION !== 'w287f-regentable-8') bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION);
       for (const f of ['tools/regen-chain.mjs', 'tools/calaudit-split.mjs', 'tools/qa-staged.mjs', 'tests/exp-w284f-splitcheck.mjs'])
         if (!fs.existsSync(path.join(ROOT, f))) bad.push(f + ' が無い');
       const plan = RT.planRegen({ root: ROOT, html: path.join(ROOT, 'beta', 'index.html') });
       const r = await RT.regenChainSelfTest({ root: ROOT, tmpDir: tmp, plan });
-      for (const k of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'n', 'o']) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
+      globalThis.__W287F_CHAIN_SELFTEST = r;   // 第287便f: lint.regenStableHash が同じ結果を読む(部分実行で単独なら自分で走らせる)
+      for (const k of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'n', 'o', 'p', 'q']) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
       // (o) 第286便f(再生成表の after 検査)の固定値: 宣言した読み 5 本(17 組)・静的な欠落 0・古い宣言 0・第285便の型と galaxydiag←sparc を検出
       if (r.o && !(r.o.missingAfter === 0 && r.o.stale.length === 0 && r.o.declaredDecl === 5 && r.o.declared === 17 && r.o.detect285 === true && r.o.detectSparc === true))
         bad.push('(o) 固定値: ' + JSON.stringify(r.o).slice(0, 200));
@@ -2880,7 +2882,12 @@ if (QA_CHANGED) {
       } finally { fs.rmSync(tmp43, { recursive: true, force: true }); }
       cases.push(`(g) ready queue の模擬 ${r.g.steps} 段(未了 ${r.g.pending})・見積り ${r.g.makespan} s(波の型 ${r.g.waveMakespan} s)・順序違反 ${r.g.order}・書込の重なり ${r.g.writes}・予算超過 ${r.g.budget}・同じファイルの書き手 ${r.g.sharedWriters.join(' / ')}・単独 ${r.g.exclusive.join(',')} ${r.g.exclusiveAlone}・合成の違反の検出 ${JSON.stringify(r.g.detect)}`);
       cases.push(`(h) stub の鎖(レーン 3): rc ${r.h.rc}・時系列 ${r.h.events} 段・順序違反 ${r.h.order}・書込の重なり ${r.h.writes}(同じファイルの 2 段が直列 ${r.h.serialF})・予算超過 ${r.h.budget}・波の境を待たない ${r.h.noWaveBarrier}・済み印の契約 ${r.h.marksOk}`);
-      cases.push(`(i) 済み印の契約: 変えた段の契約 ${r.i.changed.join(',')} → 走り直した ${r.i.reran.join(',')}・旧印 ${r.i.stale.join(',')}・契約の無い印は走り直す ${r.i.bareMarkRerun}`);
+      cases.push(`(i) 済み印の契約: 静的な契約が変わった段 ${r.i.changed.join(',')} → 走り直した ${r.i.reran.join(',')}(x6 は x2 の意味的出力が変わった —— 第287便f)・旧印 ${r.i.stale.join(',')}・契約の無い印は走り直す ${r.i.bareMarkRerun}`);
+      // (p)(q) 第287便f(原仮定者の裁定(第77報)AN69): 済み印の契約 = 静的 + 入力の安定 hash・html を書く段の検査(詳細は lint.regenStableHash)
+      cases.push(`(p) 入力の安定 hash: stub の鎖 A ${r.p.runs.A.length} 段・B(k0 が時刻だけ書き直す)→ ${r.p.runs.B.join(',')}・C(html だけ)→ ${r.p.runs.C.join(',')}・`
+        + `D(k0 が値を変える)→ ${r.p.runs.D.join(',')}・E(cal の cmd)→ ${r.p.runs.E.join(',')} / 旧版の契約(Merkle)なら html の変更で ${r.p.p1.htmlChange.length} 段・k0 の変更で ${r.p.p1.k0Change.join(',')}`);
+      cases.push(`(q) html を書く段の検査: 書く段 ${r.q.now.writers.join(' → ')}・読む段 本文 ${r.q.now.reads.whole}/領域 ${r.q.now.reads.scope}/読まない ${r.q.now.reads.none}・`
+        + `壊した写しの検出 ${['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'].map((k) => k + ' ' + r.q[k]).join('・')}`);
       cases.push(`(j) 分割の純関数 ${Object.keys(j).filter((z) => z !== 'ok').map((z) => z + ' ' + j[z].ok).join('・')}`);
       cases.push(`(k) 確認順の段: 鍵 ${k.tokens.join(',')} → 先に走る文 ${k.selected.join(',')}・長走行は本走行へ ${k.long.join(',')}`);
       // (n) 第285便f(原仮定者の裁定(第75報)AN53): html 全体を刻む段は samplestatus の後(上流と読む正本の書き手には足さない —— 循環 0)
@@ -2895,6 +2902,211 @@ if (QA_CHANGED) {
       `**再生成の鎖の機械生成**(第283便e・原仮定者の裁定(第73報)⑤・統括の検証項目 R88)と **ready queue・書込排他・済み印の契約・分割**(第284便f・第74報⑥・R94): ${cases.join(' / ')} —— `
       + `鎖に入った段の**下流はすべて**鎖に入り、上流の後に置かれて自分の判定(対象・コード・入力〔安定 hash〕)を引き直す(gate)。`
       + `**鎖が表の依存を守ることは「結果が正しい」ことの保証ではない**(meta.inputs[] と after に無い読み込みは辿れない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第287便f(原仮定者の裁定(第77報)AN69・統括の検証項目 R112): lint.regenStableHash ----
+// ----   **済み印の契約 = 静的な部分 + 入力の安定 hash**(tests/lib-w281a-regentable.mjs の版 w287f-chaincontract-2・`--digest`)と
+// ----   **html を書く段の検査**(`htmlTailAudit` —— `--audit`)を固定する。自己試験は lint.regenChain と同じ結果を読む(部分実行で単独なら走らせる):
+// ----     ① 版と除外の欄: CHAIN_CONTRACT_VERSION = w287f-chaincontract-2・旧版の記録・SEMANTIC_RUN_META が来歴と時刻の欄だけ(/meta/… か最上位の
+// ----        generatedAt・when・elapsed*)で物理欄の名を含まない
+// ----     ② (p0) 実物の calaudit-w249.json の時刻・来歴だけを変えた写しの意味的出力が同じ・物理欄 1 つ(相対 1e-9)で違う
+// ----     ③ (p1)(p2) 第286便の鎖 7〜8 の空回りの**再現と解消**: 旧版(Merkle)なら html の変更で全 6 段・k0 の変更で k0・r1・r2 の契約が変わる /
+// ----        新版の stub の鎖では k0 が時刻だけ書き直しても **k0 だけ**・html だけ変えると **hw だけ**・k0 が値を変えると k0・r1・r2・
+// ----        cal を走らせ直すと同じファイルを段階的に書く k0 も(mark:)
+// ----     ④ 今の鎖: 全段に入力の並びがある・**html を入力に持たない段がある**(全 html のバイト hash を全段の入力にしない)・
+// ----        html を書く段の入力は自分の生成領域を除く(html:strip:…)・シェルが --digest を呼ぶ(contract_of・REGEN_TOOL)
+// ----     ⑤ (q) html を書く段の検査が今の表で ok・型ごとの壊した写し 7 つ(順序の欠け・宣言漏れ・循環・領域の閉包・after 欠落・宣言の読み・印の欠け)を検出
+// ----   **beta 線の正本なので root は SKIP** する。**安定 hash の一致は「読む入力の意味が同じ」ことだけを意味する**(結果が正しいことの保証ではない)。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.regenStableHash(beta 対象でない: ' + TARGET + ' — 再生成の鎖は beta 線の正本)');
+  } else {
+    const os = await import('node:os');
+    let tmp = null;
+    try {
+      const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+      // ①
+      if (RT.CHAIN_CONTRACT_VERSION !== 'w287f-chaincontract-2') bad.push('①契約の版が w287f-chaincontract-2 でない: ' + RT.CHAIN_CONTRACT_VERSION);
+      if (!(RT.CHAIN_CONTRACT_HISTORY || []).some((z) => z.version === 'w284f-chaincontract-1')) bad.push('①旧版 w284f-chaincontract-1 の記録が無い');
+      const semBad = (RT.SEMANTIC_RUN_META || []).filter((p) => !(/^\/meta\//.test(p) || /^\/(generatedAt|when|elapsedS|elapsedSec)$/.test(p)));
+      if (semBad.length || !(RT.SEMANTIC_RUN_META || []).length) bad.push('①SEMANTIC_RUN_META に来歴・時刻の外の欄: ' + semBad.join(','));
+      if (RT.SEMANTIC_RUN_META.some((p) => /presets|period|precession|gate|sigma|value/i.test(p))) bad.push('①SEMANTIC_RUN_META に物理欄の名');
+      let r = globalThis.__W287F_CHAIN_SELFTEST || null;
+      if (!r) {
+        tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w287f-stable-'));
+        r = await RT.regenChainSelfTest({ root: ROOT, tmpDir: tmp });
+      }
+      // ②
+      if (!r.p || !r.p.p0 || r.p.p0.ok !== true) bad.push('②(p0) ' + JSON.stringify(r.p && r.p.p0).slice(0, 160));
+      // ③
+      const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+      if (!r.p || r.p.ok !== true) bad.push('③(p) ' + JSON.stringify(r.p || null).slice(0, 200));
+      else {
+        if (!(r.p.p1.htmlChange.length === 6 && eq(r.p.p1.k0Change, ['k0', 'r1', 'r2']))) bad.push('③旧版の再現の固定値: ' + JSON.stringify(r.p.p1));
+        if (!(eq(r.p.runs.B, ['k0']) && eq(r.p.runs.C, ['hw']) && eq(r.p.runs.D, ['k0', 'r1', 'r2']) && eq(r.p.runs.E, ['cal', 'k0'])))
+          bad.push('③新版の走り直しの固定値: ' + JSON.stringify(r.p.runs));
+      }
+      // ④ 今の鎖(全段 regen の鎖の行 —— 走らせない)
+      const all = { steps: RT.REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
+      const ch = RT.buildChain(all, { root: ROOT });
+      const rows = Object.values(ch.steps);
+      const noIn = rows.filter((z) => !Array.isArray(z.inputs));
+      const noHtml = rows.filter((z) => Array.isArray(z.inputs) && !z.inputs.some((x) => x.startsWith('html:')));
+      const whole = rows.filter((z) => (z.inputs || []).includes('html:whole'));
+      const scoped = rows.filter((z) => (z.inputs || []).some((x) => x.startsWith('html:scope:')));
+      const strip = rows.filter((z) => (z.inputs || []).some((x) => x.startsWith('html:strip:')));
+      if (noIn.length) bad.push('④入力の並びの無い段: ' + noIn.map((z) => z.key).join(','));
+      if (!noHtml.length) bad.push('④html を入力に持たない段が無い(全段に html を入れている)');
+      for (const k of ['obscompare', 'samplestatus', 'assessed']) {
+        const z = ch.steps[k];
+        const own = (RT.REGEN_STEPS.find((y) => y.key === k) || {}).htmlRegions || [];
+        const sp = z && (z.inputs || []).find((x) => x.startsWith('html:strip:'));
+        if (!sp || !own.every((g) => sp.slice(11).split(',').includes(g))) bad.push(`④${k} の html の入力が自分の生成領域を除いていない: ${sp}`);
+      }
+      const sh = RT.chainShell(ch, { lanes: 4 });
+      if (!/contract_of\(\)/.test(sh) || !/--digest --static/.test(sh) || !/REGEN_TOOL=/.test(sh)) bad.push('④鎖のシェルが --digest を呼ばない');
+      if (!/argv\.includes\('--digest'\)/.test(fs.readFileSync(path.join(ROOT, 'tools', 'regen-chain.mjs'), 'utf8'))) bad.push('④tools/regen-chain.mjs に --digest が無い');
+      // ⑤
+      if (!r.q || r.q.ok !== true) bad.push('⑤(q) ' + JSON.stringify(r.q || null).slice(0, 200));
+      const A = RT.tableDepsAudit({ root: ROOT });
+      if (!A.html || A.html.ok !== true) bad.push('⑤--audit の html 検査: ' + JSON.stringify(A.html || null).slice(0, 200));
+      cases.push(`① 版 ${RT.CHAIN_CONTRACT_VERSION}(旧 w284f-chaincontract-1 は Merkle)・来歴と時刻の除外欄 ${RT.SEMANTIC_RUN_META.length}`);
+      if (r.p && r.p.p0) cases.push(`② calaudit の時刻だけの写し → 意味的出力が同じ ${r.p.p0.timeOnly}・物理欄 ${r.p.p0.physChanged}(相対 1e-9)→ 違う ${r.p.p0.physDiffers}`);
+      if (r.p && r.p.runs) cases.push(`③ 旧版: html の変更で ${r.p.p1.htmlChange.length} 段・k0 の変更で ${r.p.p1.k0Change.join(',')} の契約が変わる / 新版: k0 が時刻だけ → ${r.p.runs.B.join(',')}・`
+        + `html だけ → ${r.p.runs.C.join(',')}・k0 が値を変える → ${r.p.runs.D.join(',')}・cal の cmd → ${r.p.runs.E.join(',')}`);
+      cases.push(`④ 全段の鎖 ${rows.length} 段: html を入力に持たない ${noHtml.length}・本文全体 ${whole.length}・領域 hash ${scoped.length}・生成領域を除いた本文 ${strip.length}`);
+      if (A.html) cases.push(`⑤ 書く段 ${A.html.writers.join(' → ')}・宣言した領域の読み ${A.html.declaredRegionReads.join(',') || 'なし'}・`
+        + `書く段の上流で html 本文を読む段(常時群・刻印なし)${A.html.beforeAlways.length} 組・末尾の型への移行の残り ${A.html.tailBacklog.length} 段(AN53 で後ろへ回した段 —— 判定に使わない)`
+        + (r.q ? `・壊した写しの検出 ${['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'].filter((k) => r.q[k] === true).length}/7` : ''));
+    } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+    finally { if (tmp) fs.rmSync(tmp, { recursive: true, force: true }); }
+    add('lint.regenStableHash', bad.length === 0,
+      `**済み印の契約 = 静的な部分 + 入力の安定 hash**と **html を書く段の検査**(第287便f・原仮定者の裁定(第77報)AN69・統括の検証項目 R112): ${cases.join(' / ')} —— `
+      + `上流が走り直しても**意味的出力が同じなら読み手の済み印は生きる**。html は読む段だけが読み方どおりに入れる。`
+      + `**安定 hash の一致は読む入力の意味が同じことだけを意味する**(結果が正しいことの保証ではない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第287便f(原仮定者の裁定(第77報)AN67・AN68・統括の検証項目 R112): lint.nightlyPaper2 ----
+// ----   nightly.yml の job `paper2-figures`(論文2 の**図の再生成だけ** —— TeX は載せない・失敗は FAIL)と、PR の paper2.yml が
+// ----   **同じ照合器** tools/p2fig-compare.mjs を呼ぶことを固定する:
+// ----     ① nightly.yml に job paper2-figures があり、gen-figures2(22 ゲート)→ p2fig-compare の順・Node 24・timeout ≤ 20 分・
+// ----        **TeX の語(texlive・pdflatex・lualatex・latexmk)が job に無い**・continue-on-error が無い(informational にしない)・
+// ----        Chromium の版を固定する書き方(playwright@<版>・chromium-<番号>)が無い
+// ----     ② paper2.yml は paper/** か生成器・照合器の変更で走り(従来どおり)、同じ照合器を呼び、TeX のビルドを残す
+// ----     ③ 照合器の揮発キー = generated・commit・targetSha256・generatorSha256・chromiumVersion。コミット済みの p2fig8.json で
+// ----        揮発キーだけ変えた写し → 一致・データを 1 つ変えた写し → 不一致(照合器が空回りしない)
+// ----     ④ 生成器が図のメタに対象 html と生成器の sha256・gates.json に Chromium の版(記録)を書く
+// ----   **beta 線の器なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.nightlyPaper2(beta 対象でない: ' + TARGET + ' — 論文2 の図は beta/index.html から作る)');
+  } else {
+    try {
+      const WFD = path.join(ROOT, '.github', 'workflows');
+      const ny = fs.readFileSync(path.join(WFD, 'nightly.yml'), 'utf8');
+      const p2 = fs.readFileSync(path.join(WFD, 'paper2.yml'), 'utf8');
+      // ① job の本文(次の 2 字下げの job 名まで)
+      const m0 = ny.search(/^  paper2-figures:\s*$/m);
+      let job = '';
+      if (m0 < 0) bad.push('①nightly.yml に job paper2-figures が無い');
+      else { const rest = ny.slice(m0 + 1); const nx = rest.search(/^  [A-Za-z0-9_-]+:\s*$/m); job = nx < 0 ? ny.slice(m0) : ny.slice(m0, m0 + 1 + nx); }
+      if (job) {
+        const g = job.indexOf('node tools/gen-figures2.mjs'), c = job.indexOf('node tools/p2fig-compare.mjs');
+        if (g < 0 || c < 0 || c < g) bad.push('①job が gen-figures2 → p2fig-compare の順で呼ばない');
+        if (/texlive|pdflatex|lualatex|latexmk|xelatex/i.test(job)) bad.push('①job に TeX が載っている');
+        if (/continue-on-error/.test(job)) bad.push('①job に continue-on-error(失敗を informational にしない)');
+        const tm = job.match(/timeout-minutes:\s*(\d+)/);
+        if (!tm || Number(tm[1]) > 20) bad.push('①job の timeout-minutes が 20 以下でない: ' + (tm ? tm[1] : 'なし'));
+        if (!/node-version:\s*24/.test(job)) bad.push('①job が Node 24 でない');
+        if (/playwright@\d|chromium@\d|chromium-\d{3,}/.test(job)) bad.push('①job が Chromium の版を固定する書き方をしている');
+        cases.push(`① nightly job paper2-figures: gen-figures2 → p2fig-compare・timeout ${tm ? tm[1] : '?'} 分・TeX なし・continue-on-error なし`);
+      }
+      if (!/schedule:/.test(ny)) bad.push('①nightly.yml に schedule が無い');
+      // ②
+      for (const pth of ['"paper/**"', '"tools/gen-figures2.mjs"', '"tools/p2fig-compare.mjs"']) if (!p2.includes(pth)) bad.push('②paper2.yml の paths に ' + pth + ' が無い');
+      if (!p2.includes('node tools/p2fig-compare.mjs')) bad.push('②paper2.yml が照合器を呼ばない');
+      if (!/pdflatex/.test(p2) || !/lualatex/.test(p2)) bad.push('②paper2.yml の TeX のビルドが無い(PR では従来どおり)');
+      cases.push('② paper2.yml(PR・paper/** か生成器・照合器の変更)は同じ照合器 + TeX のビルド');
+      // ③
+      const CMP = await import('file://' + path.join(ROOT, 'tools', 'p2fig-compare.mjs'));
+      const want = ['generated', 'commit', 'targetSha256', 'generatorSha256', 'chromiumVersion'];
+      if (JSON.stringify(CMP.P2FIG_VOLATILE_KEYS) !== JSON.stringify(want)) bad.push('③揮発キーが契約と違う: ' + JSON.stringify(CMP.P2FIG_VOLATILE_KEYS));
+      const head = fs.readFileSync(path.join(ROOT, 'paper', 'figures', 'p2fig8.json'), 'utf8');
+      const J = JSON.parse(head);
+      const vol = Object.assign({}, J, { generated: '2099-01-01T00:00:00Z', commit: 'fffffff', targetSha256: 'a'.repeat(64), generatorSha256: 'b'.repeat(64), chromiumVersion: '999.0' });
+      let changed = null;
+      const bump = (x, pth) => { if (changed || !x || typeof x !== 'object') return; for (const k of Object.keys(x)) { if (changed) return; if (want.includes(k)) continue;
+        if (typeof x[k] === 'number' && Number.isFinite(x[k]) && x[k] !== 0) { x[k] = x[k] * (1 + 1e-9); changed = pth + '/' + k; return; }
+        bump(x[k], pth + '/' + k); } };
+      const dat = JSON.parse(head); bump(dat, '');
+      const r1 = CMP.compareOne(head, JSON.stringify(vol, null, 1)), r2 = CMP.compareOne(head, JSON.stringify(dat, null, 1));
+      if (!r1.ok) bad.push('③揮発キーだけ変えた写しが不一致になった');
+      if (r2.ok || !changed) bad.push('③データを 1 つ変えた写しが一致した(照合器が空回り)');
+      cases.push(`③ 揮発キー ${want.join('/')}・揮発キーだけの写し → 一致 ${r1.ok}・データ ${changed} を相対 1e-9 変えた写し → 不一致 ${!r2.ok}`);
+      // ④
+      const gen = fs.readFileSync(path.join(ROOT, 'tools', 'gen-figures2.mjs'), 'utf8');
+      if (!/targetSha256: TARGET_SHA256, generatorSha256: GENERATOR_SHA256/.test(gen)) bad.push('④生成器が図のメタに html と生成器の sha256 を書かない');
+      if (!/chromiumVersion/.test(gen)) bad.push('④生成器が Chromium の版を記録しない');
+      if (!/P2FIG_OUT/.test(gen)) bad.push('④生成器に出力先の差し替え(P2FIG_OUT)が無い');
+      cases.push('④ 図のメタに targetSha256・generatorSha256(gates.json は chromiumVersion も —— 記録であって固定ではない)');
+    } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+    add('lint.nightlyPaper2', bad.length === 0,
+      `**nightly の論文2 の図の再生成**(第287便f・原仮定者の裁定(第77報)AN67・AN68・統括の検証項目 R112): ${cases.join(' / ')} —— `
+      + '図 8 は再生成の鎖の段にしない(失効したら第216便追補の形で再同期)。**手元の再生成は CI の代わりにしない**'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第287便f(原仮定者の裁定(第77報)AN70・統括の検証項目 R112): lint.postMergeQaScript ----
+// ----   統合直後の部分 QA の常設集合を 1 本にした tools/post-merge-qa.sh を固定する:
+// ----     ① 在る・実行可能・bash -n が通る ② 順序 静的受理(qa-preflight)→ 接続契約(regen-chain --audit・--self-test)→ 前回失敗項 →
+// ----        常設集合(qapart —— beta と root〔QA_TARGET=index.html〕)→ 影響サンプルの短走(bitsame)③ 常設集合 9 本
+// ----        (regenScope・rayLensExcluded・stabilize・fourValuesHistory・preset-table-sync・families・samplePicker・provenanceMeta・
+// ----        pickerSeparators)がすべて tests/qa.mjs のブロック ④ 最後に 1 行で出す ⑤ tools/README.md に使い方
+// ----   **beta 線の器なので root は SKIP** する。
+{
+  const bad = [];
+  const cases = [];
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP lint.postMergeQaScript(beta 対象でない: ' + TARGET + ' — 統合直後の部分 QA は beta 線の運用)');
+  } else {
+    try {
+      const SH = path.join(ROOT, 'tools', 'post-merge-qa.sh');
+      if (!fs.existsSync(SH)) bad.push('①tools/post-merge-qa.sh が無い');
+      else {
+        const t = fs.readFileSync(SH, 'utf8');
+        if ((fs.statSync(SH).mode & 0o111) === 0) bad.push('①実行可能でない');
+        try { execSync('bash -n ' + JSON.stringify(SH), { stdio: 'pipe' }); } catch (e) { bad.push('①bash -n が通らない'); }
+        const body = t.split('\n').filter((l) => !/^\s*#/.test(l)).join('\n');
+        const at = (re) => { const m = body.search(re); return m; };
+        const pos = [at(/tests\/qa-preflight\.mjs/), at(/regen-chain\.mjs --audit/), at(/regen-chain\.mjs --self-test/), at(/qapart\.mjs \$FAILED/),
+          at(/qapart\.mjs \$IDS/), at(/QA_TARGET=index\.html node tests\/exp-w258c-qapart\.mjs \$IDS/), at(/exp-w258c-bitsame\.mjs/)];
+        if (pos.some((z) => z < 0)) bad.push('②呼び出しが欠けている: ' + JSON.stringify(pos));
+        else if (!pos.every((z, i) => i === 0 || z > pos[i - 1])) bad.push('②順序が 静的受理 → 接続契約 → 前回失敗 → 常設(beta → root)→ bitsame でない');
+        const m = t.match(/^DEFAULT_IDS="([^"]*)"/m);
+        const ids = m ? m[1].trim().split(/\s+/) : [];
+        const want = ['lint.regenScope', 'behavior.rayLensExcluded', 'ai.stabilize', 'docs.fourValuesHistory', 'docs.preset-table-sync', 'docs.families', 'ui.samplePicker', 'lint.provenanceMeta', 'ui.pickerSeparators'];
+        const qaSrc = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+        if (JSON.stringify(ids) !== JSON.stringify(want)) bad.push('③常設集合が契約と違う: ' + ids.join(','));
+        const missingIds = ids.filter((id) => !qaSrc.includes("add('" + id + "'"));
+        if (missingIds.length) bad.push('③qa.mjs に無いブロック: ' + missingIds.join(','));
+        if (!/^echo "post-merge-qa: /m.test(t)) bad.push('④最後の 1 行(post-merge-qa: …)が無い');
+        const rd = path.join(ROOT, 'tools', 'README.md');
+        if (!fs.existsSync(rd) || !/post-merge-qa\.sh/.test(fs.readFileSync(rd, 'utf8'))) bad.push('⑤tools/README.md に使い方が無い');
+        cases.push(`常設集合 ${ids.length} 本(${ids.join('・')})・順序 ① preflight → ② --audit/--self-test → ③ 前回失敗 → ④ beta → root → ⑤ bitsame(--base があるとき・情報)`);
+      }
+    } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+    add('lint.postMergeQaScript', bad.length === 0,
+      `**統合直後の部分 QA**(第287便f・原仮定者の裁定(第77報)AN70・統括の検証項目 R112): tools/post-merge-qa.sh —— ${cases.join(' / ')} —— `
+      + '**フル QA・CI の代わりではない**(壊れやすい所を統合の直後に短く一周する)'
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }

@@ -9,6 +9,7 @@
 // - 対象は **beta/index.html**(箱宇宙プリセット・V23a〜V29 は beta 先行)。
 // - 外部チャートライブラリは使わない(単一HTML・ゼロ依存の設計思想と揃える)。
 import { execSync } from 'node:child_process';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -16,8 +17,16 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = 'beta/index.html';
 const INDEX = 'file://' + path.join(ROOT, TARGET);
-const OUT = path.join(ROOT, 'paper', 'figures');
+// 第287便f(原仮定者の裁定(第77報)AN67): 出力先を P2FIG_OUT で差し替えられる(既定 paper/figures —— nightly と PR は既定のまま走らせ、
+//   コミット済み JSON との照合は tools/p2fig-compare.mjs。手元で照合だけしたいときは一時ディレクトリへ書く)
+const OUT = process.env.P2FIG_OUT ? path.resolve(process.env.P2FIG_OUT) : path.join(ROOT, 'paper', 'figures');
 fs.mkdirSync(OUT, { recursive: true });
+// 第287便f(AN67): 図のメタに**対象 html の sha256 と生成器の sha256** を残す(gates.json の target と同じ形 —— 図がどの html と
+//   どの生成器から出たかを後から引ける)。照合(tools/p2fig-compare.mjs)では generated・commit と同じく**揮発キー**として除く
+//   (html が 1 字でも変われば sha は変わるが、図のデータが同じなら失効ではない —— 失効はデータの不一致で判定する)
+const sha256Of = (abs) => { try { return crypto.createHash('sha256').update(fs.readFileSync(abs)).digest('hex'); } catch { return null; } };
+const TARGET_SHA256 = sha256Of(path.join(ROOT, TARGET));
+const GENERATOR_SHA256 = sha256Of(fileURLToPath(import.meta.url));
 const ONLY = process.env.FIG ? process.env.FIG.split(',').map(Number) : null;
 const want = (n) => !ONLY || ONLY.includes(n);
 
@@ -141,7 +150,8 @@ const writeFig = async (pdfPage, n, fig, data) => {
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${fig.w}" height="${fig.h}" viewBox="0 0 ${fig.w} ${fig.h}">${fig.svg}</svg>`;
   fs.writeFileSync(path.join(OUT, `p2fig${n}.svg`), svg);
   fs.writeFileSync(path.join(OUT, `p2fig${n}.json`), JSON.stringify({
-    figure: `p2fig${n}`, paper: 'dfm-paper2', generated: new Date().toISOString(), commit, target: TARGET, ...data
+    figure: `p2fig${n}`, paper: 'dfm-paper2', generated: new Date().toISOString(), commit, target: TARGET,
+    targetSha256: TARGET_SHA256, generatorSha256: GENERATOR_SHA256, ...data
   }, null, 1));
   await pdfPage.setContent(`<html><head><style>@page{margin:0;size:${fig.w}px ${fig.h}px}body{margin:0}</style></head><body>${svg}</body></html>`);
   await pdfPage.pdf({ path: path.join(OUT, `p2fig${n}.pdf`), width: `${fig.w}px`, height: `${fig.h}px`, printBackground: true });
@@ -777,11 +787,15 @@ if (want(8)) {
   gate('p2fig8.caption', capPass, capDetail);
 }
 
+// 第287便f(AN67・AN68): 走らせた Chromium の版を**記録する**(固定はしない —— 照合では揮発キー)
+let chromiumVersion = null;
+try { chromiumVersion = browser.version(); } catch {}
 await browser.close();
 if (errs.length) console.log('page errors:', errs.slice(0, 3));
 const ok = gates.every(g => g.pass) && errs.length === 0;
 fs.writeFileSync(path.join(OUT, 'p2figs-gates.json'), JSON.stringify({
-  paper: 'dfm-paper2', commit, target: TARGET, generated: new Date().toISOString(), gates, pageErrors: errs
+  paper: 'dfm-paper2', commit, target: TARGET, targetSha256: TARGET_SHA256, generatorSha256: GENERATOR_SHA256, chromiumVersion,
+  generated: new Date().toISOString(), gates, pageErrors: errs
 }, null, 1));
 console.log(ok ? `ALL GATES PASS (${gates.length})` : 'GATE FAIL');
 process.exit(ok ? 0 : 1);
