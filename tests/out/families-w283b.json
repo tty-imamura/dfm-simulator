@@ -3,56 +3,56 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "7159d9bad58616a505b51598547e70712ebba1806f2726059ea37ec65f8cf2e2",
-  "generatedAt": "2026-09-29T17:40:47.019Z",
+  "targetSha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
+  "generatedAt": "2026-09-29T21:07:55.767Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5192461,
-    "sha256": "7159d9bad58616a505b51598547e70712ebba1806f2726059ea37ec65f8cf2e2",
-    "mtime": "2026-09-29T17:30:40.572Z"
+    "bytes": 5263849,
+    "sha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
+    "mtime": "2026-09-29T21:06:41.859Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2854534,
-    "sha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
-    "mtime": "2026-09-29T16:51:31.660Z"
+    "bytes": 2887860,
+    "sha256": "c086d6bf788c16d4807a0d9e3beb0954977fd552ee9b43ac78ba7910b95f8bb5",
+    "mtime": "2026-09-29T20:32:32.579Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-09-29T16:51:26.816Z"
+    "mtime": "2026-09-26T17:44:56.026Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-09-29T16:51:26.920Z"
+    "mtime": "2026-09-27T10:20:29.214Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-09-29T16:51:27.072Z"
+    "mtime": "2026-09-28T01:00:42.098Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-09-29T16:51:27.132Z"
+    "mtime": "2026-09-28T18:49:51.308Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-09-29T17:30:47.876Z"
+    "mtime": "2026-09-29T17:55:53.116Z"
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 79616,
-    "sha256": "fcec2db811dd524206a55f5b0adfe3876f666e2176b4d7c6d45600309c97ef1d",
-    "mtime": "2026-09-29T17:40:46.952Z"
+    "bytes": 79885,
+    "sha256": "2831e4871b637755c0c05b1f296ea4fe3f75e97b01512b743242b62c4024355a",
+    "mtime": "2026-09-29T21:07:55.739Z"
    }
   ],
   "code": [
@@ -60,40 +60,40 @@
     "file": "tests/exp-w283b-families.mjs",
     "bytes": 39143,
     "sha256": "34854cec3dfb083c4cec3662df9f55ff094e65b1e29d79b2b7ed94810d36940d",
-    "mtime": "2026-09-29T17:26:02.433Z"
+    "mtime": "2026-09-29T17:55:53.115Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-29T16:51:30.220Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-29T16:51:28.648Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 23807,
     "sha256": "90091abbf1b678d6763d5f0a520c43a5eef18c6320506d3a09b1ec90e04dc1b6",
-    "mtime": "2026-09-29T16:51:30.220Z"
+    "mtime": "2026-09-26T17:46:31.436Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-09-29T16:51:30.772Z"
+    "mtime": "2026-09-28T21:48:12.641Z"
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 150450,
-    "sha256": "299b5b3a93a472754e3db66f50169e5f5f231df67d5234fd5b2d051a9defc092",
-    "mtime": "2026-09-29T17:17:16.025Z"
+    "bytes": 197338,
+    "sha256": "6ce3f7523c89c58be4914e95c1da9bd1f48eef54ad2c8982a5413002715e386c",
+    "mtime": "2026-09-29T18:57:02.546Z"
    }
   ],
-  "codeSha256": "dc1a917ba04983d16d55026b3b23addf22bef5b0730b564c3d45ccbe97f62e46",
+  "codeSha256": "8d413e61ff181f9eba603e0e00bbc31b90f687d861aaba77cf195151189d982d",
   "harnessVersion": "w283b-families-1",
   "scope": {
    "version": "w286d-scope-4",
@@ -116,16 +116,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 843,
-   "segments": 765,
-   "closureShare": 0.3395
+   "names": 865,
+   "segments": 784,
+   "closureShare": 0.3404
   },
-  "scopeSha256": "4b2a8fd080a858673263ce83b5ad2b80c8eb3891825490c421593153369cfe2e",
+  "scopeSha256": "0b5f1d885a07a5d6e6a4f443967aba4803cb9f2d7f5a67d130ed5d4690aa646a",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "f5c83f5d6b2360b30fd578ac73f72ea066c321aac14b80b066eb31e36f87206e",
+    "stableSha256": "81b7197f026f4be12a9323267d2252b4724b37fd28beee64da42e373fb0d4991",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "11b16457c1fba534f610f7a14b2b0c28431e7eb0695669871fadaec81bb43b94",
+    "stableSha256": "dc1897708b96d75e6433557f163adc2005c57c94767ec64158368b13b33b388b",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -528,7 +528,7 @@
      "spaceMesh": "vertex",
      "purpose": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる",
      "gates": [],
-     "presetSigHash": "59214c9a",
+     "presetSigHash": "497e238a",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・geoPN=3",
@@ -563,27 +563,31 @@
       "plutoCharonSyncZero": null,
       "charonGeoToy3": {
        "background": "declared",
-       "W0": 5.699987574282822e-9,
+       "W0": 5.6999875742828215e-9,
        "A0": [
         0,
-        2.7018851611140787e-9
+        2.701885161114078e-9
        ],
        "gradW": [
-        -1.930092225608931e-15,
+        -1.93009222560893e-15,
         0
        ],
        "gradA": [
         0,
         0,
-        -9.148945459956653e-16,
+        -9.14894545995665e-16,
         0
        ],
        "dWdt": 0,
        "dAdt": [
-        2.1683731460773505e-16,
+        2.16837314607735e-16,
         0
        ],
        "note": "第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)",
+       "refPos": [
+        0,
+        0
+       ],
        "sources": [
         {
          "id": "sun",
@@ -596,6 +600,26 @@
         "epoch": "t0(第280便c の診断コピー)",
         "rotation": "none",
         "translation": "comoving"
+       },
+       "bgModel": "sources",
+       "ledger": [
+        {
+         "id": "sun",
+         "m": 198849.99999999997,
+         "x": -5906440.633928273,
+         "y": 0,
+         "vx": 0,
+         "vy": 0.4740159738776329,
+         "ax": 3.8041717070763564e-8,
+         "ay": 0
+        }
+       ],
+       "eps": 0.05,
+       "timeContract": {
+        "mode": "sources",
+        "t0": 0,
+        "derivFrame": "frame",
+        "widthT": 340000
        }
       }
      }
@@ -3140,7 +3164,7 @@
      },
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "⚡ の処方を B1534 へ当てる",
+     "purpose": "B1534 を観測質量(f=1)と kF1 で照合",
      "gates": [],
      "presetSigHash": "a2b0fbf6",
      "accepted": true,
@@ -3322,7 +3346,7 @@
      "retired": false,
      "sampleClass": "calibration",
      "catalog": null,
-     "group": "実在天体のアナロジー",
+     "group": "現実との照合・連星",
      "calVariant": "dfm",
      "inPopulation": true,
      "variantLabel": null,
@@ -3358,7 +3382,7 @@
      "retired": false,
      "sampleClass": "calibration",
      "catalog": null,
-     "group": "実在天体のアナロジー",
+     "group": "現実との照合・連星",
      "calVariant": "kf0",
      "inPopulation": true,
      "variantLabel": null,
@@ -3406,7 +3430,7 @@
      "retired": false,
      "sampleClass": "calibration",
      "catalog": null,
-     "group": "実在天体のアナロジー",
+     "group": "現実との照合・連星",
      "calVariant": "dfm",
      "inPopulation": true,
      "variantLabel": null,
@@ -3457,7 +3481,7 @@
      "retired": false,
      "sampleClass": "principle",
      "catalog": null,
-     "group": "実在天体のアナロジー",
+     "group": "現実との照合・連星",
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
@@ -8075,5 +8099,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 1.323
+ "elapsedS": 0.599
 }
