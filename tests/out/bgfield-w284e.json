@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "7ab3adf044f778f3e797884c5e3a037b73c060f4a49df34a015da687e457457b",
-  "generatedAt": "2026-09-29T17:23:41.226Z",
+  "targetSha256": "cea53a3b1ea76e256be4723845c71c0b2c1bfe1222a85623eebced4a3e5a5b94",
+  "generatedAt": "2026-09-29T20:14:44.754Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5200470,
-    "sha256": "7ab3adf044f778f3e797884c5e3a037b73c060f4a49df34a015da687e457457b",
-    "mtime": "2026-09-29T17:22:24.344Z"
+    "bytes": 5262734,
+    "sha256": "cea53a3b1ea76e256be4723845c71c0b2c1bfe1222a85623eebced4a3e5a5b94",
+    "mtime": "2026-09-29T18:56:48.778Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w284e-bgfield.mjs",
     "bytes": 22699,
     "sha256": "29eef115c62dc6b7515a1222481e78abc8e28d0133c7d3934a973715ba676f5e",
-    "mtime": "2026-09-29T17:12:49.224Z"
+    "mtime": "2026-09-29T18:03:32.760Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-29T16:51:30.396Z"
+    "mtime": "2026-09-24T08:51:12.597Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-29T16:51:28.648Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-09-29T16:51:30.772Z"
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
   "codeSha256": "67b5660f915c5bb1de830108178c0cd3bc68119cf323d8725606e596b3c7682f",
@@ -78,11 +78,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 846,
-   "segments": 768,
-   "closureShare": 0.3157
+   "names": 858,
+   "segments": 777,
+   "closureShare": 0.315
   },
-  "scopeSha256": "395bcee85263c9532efda0507b7c08581e25b726084ff89f10d0747d9e3e6b99",
+  "scopeSha256": "bb44c307d9ceb9437db565269a48dcd8c3609008021525ba2ceb253a4f94c29b",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -499,7 +499,7 @@
   }
  ],
  "inventory": {
-  "nPresets": 142,
+  "nPresets": 143,
   "rows": [
    {
     "id": "earthMoonDiagOne",
@@ -531,5 +531,5 @@
    }
   ]
  },
- "elapsedS": 48.931
+ "elapsedS": 35.361
 }
