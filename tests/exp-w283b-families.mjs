@@ -48,7 +48,9 @@ export const RETIRED_FX2 = 'tests/fixtures/retired-w284b.json';
 export const RETIRED_FX3 = 'tests/fixtures/retired-w285f.json';
 // 第286便f(原仮定者の裁定(第76報)AN57): 退役 1 本(🩹)と 🩺 の旧則(f≈2)の凍結の写し(器 tests/exp-w286f-retiredfx.mjs)
 export const RETIRED_FX4 = 'tests/fixtures/retired-w286f.json';
-const retiredFixtures = (root) => [RETIRED_FX, RETIRED_FX2, RETIRED_FX3, RETIRED_FX4].filter((f) => fs.existsSync(path.join(root, f)));
+// 第287便b(原仮定者の裁定(第77報)AN62): 退役 1 本(🪤)と 🧶 の旧則(f≈2)の凍結の写し(器 tests/exp-w287b-retiredfx.mjs)
+export const RETIRED_FX5 = 'tests/fixtures/retired-w287b.json';
+const retiredFixtures = (root) => [RETIRED_FX, RETIRED_FX2, RETIRED_FX3, RETIRED_FX4, RETIRED_FX5].filter((f) => fs.existsSync(path.join(root, f)));
 
 /** 家族の宣言(並びは表の並び・ref は差を測る基準の本 —— 入口〔primary〕か、較正母集団の代表)。 */
 export const FAMILIES = [
@@ -257,10 +259,11 @@ export function retiredInventory(ctx) {
   const FX2 = fs.existsSync(path.join(root, RETIRED_FX2)) ? JSON.parse(fs.readFileSync(path.join(root, RETIRED_FX2), 'utf8')) : null;
   const FX3 = fs.existsSync(path.join(root, RETIRED_FX3)) ? JSON.parse(fs.readFileSync(path.join(root, RETIRED_FX3), 'utf8')) : null;
   const FX4 = fs.existsSync(path.join(root, RETIRED_FX4)) ? JSON.parse(fs.readFileSync(path.join(root, RETIRED_FX4), 'utf8')) : null;
+  const FX5 = fs.existsSync(path.join(root, RETIRED_FX5)) ? JSON.parse(fs.readFileSync(path.join(root, RETIRED_FX5), 'utf8')) : null;   // 第287便b
   const ids = HP.allPresets().filter((p) => p.familyRole === 'retired').map((p) => p.id);
-  const allIds = FX.ids.concat(FX2 ? FX2.ids : []).concat(FX3 ? FX3.ids : []).concat(FX4 ? FX4.ids : []);
+  const allIds = FX.ids.concat(FX2 ? FX2.ids : []).concat(FX3 ? FX3.ids : []).concat(FX4 ? FX4.ids : []).concat(FX5 ? FX5.ids : []);
   const fxOf = (id) => (FX.presets[id] ? { fx: FX, file: RETIRED_FX } : (FX2 && FX2.presets[id]) ? { fx: FX2, file: RETIRED_FX2 }
-    : (FX3 && FX3.presets[id]) ? { fx: FX3, file: RETIRED_FX3 } : { fx: FX4, file: RETIRED_FX4 });
+    : (FX3 && FX3.presets[id]) ? { fx: FX3, file: RETIRED_FX3 } : (FX4 && FX4.presets[id]) ? { fx: FX4, file: RETIRED_FX4 } : { fx: FX5, file: RETIRED_FX5 });
   const presets = allIds.map((id) => {
     const p = HP.allPresets().find((q) => q.id === id);
     const { fx, file } = fxOf(id);
@@ -272,12 +275,12 @@ export function retiredInventory(ctx) {
     .concat(fs.readdirSync(path.join(root, 'tools')).filter((f) => /\.mjs$/.test(f)).map((f) => 'tools/' + f)).sort();
   const harnesses = [];
   for (const f of files) {
-    if (f === 'tests/qa.mjs' || f === 'tests/exp-w283b-families.mjs' || f === 'tests/exp-w283b-retiredfx.mjs' || f === 'tests/exp-w284b-retiredfx.mjs' || f === 'tests/exp-w285f-retiredfx.mjs' || f === 'tests/exp-w286f-retiredfx.mjs' || f === 'tests/lib-w281a-regentable.mjs') continue;   // 表そのもの・写しを作る器は数えない
+    if (f === 'tests/qa.mjs' || f === 'tests/exp-w283b-families.mjs' || f === 'tests/exp-w283b-retiredfx.mjs' || f === 'tests/exp-w284b-retiredfx.mjs' || f === 'tests/exp-w285f-retiredfx.mjs' || f === 'tests/exp-w286f-retiredfx.mjs' || f === 'tests/exp-w287b-retiredfx.mjs' || f === 'tests/lib-w281a-regentable.mjs') continue;   // 表そのもの・写しを作る器は数えない
     const text = fs.readFileSync(path.join(root, f), 'utf8');
     const hit = allIds.filter((id) => new RegExp('\\b' + id + '\\b').test(text));
     if (!hit.length) continue;
     const steps = REGEN_STEPS.filter((z) => z.cmd.indexOf(f) >= 0).map((z) => ({ key: z.key, role: z.role }));
-    const usesFixture = text.indexOf('retired-w283b.json') >= 0 || text.indexOf('retired-w284b.json') >= 0 || text.indexOf('retired-w285f.json') >= 0 || text.indexOf('retired-w286f.json') >= 0;
+    const usesFixture = text.indexOf('retired-w283b.json') >= 0 || text.indexOf('retired-w284b.json') >= 0 || text.indexOf('retired-w285f.json') >= 0 || text.indexOf('retired-w286f.json') >= 0 || text.indexOf('retired-w287b.json') >= 0;
     const kind = usesFixture ? 'fixture' : steps.some((z) => z.role === 'history') ? 'history'
       : steps.length ? 'current' : /^tests\/(perf|probe-)/.test(f) || /jitprobe|canvasskin/.test(f) ? 'tool' : 'not-in-table';
     harnesses.push({ file: f, ids: hit, steps, kind });
@@ -292,6 +295,8 @@ export function retiredInventory(ctx) {
     repointedTests: ((FX3.history || {}).tests || []).map((t) => t.id) } : null,
   fixture4: FX4 ? { file: RETIRED_FX4, version: FX4.fixtureVersion, ids: FX4.ids, superseded: Object.keys(FX4.superseded || {}),
     repointedTests: ((FX4.history || {}).tests || []).map((t) => t.id) } : null,
+  fixture5: FX5 ? { file: RETIRED_FX5, version: FX5.fixtureVersion, ids: FX5.ids, superseded: Object.keys(FX5.superseded || {}),
+    repointedTests: ((FX5.history || {}).tests || []).map((t) => t.id) } : null,
   presets, harnesses, qaRefs,
   kindCounts: harnesses.reduce((a, h) => { a[h.kind] = (a[h.kind] || 0) + 1; return a; }, {}) };
 }
@@ -373,6 +378,7 @@ export function renderMd(J) {
   if (R.fixture2) L.push(`- **第284便b の写し** \`${R.fixture2.file}\`(原仮定者の裁定(第74報)⑤・AN35): 退役 ${R.fixture2.ids.length} 本(${R.fixture2.ids.map((x) => '\`' + x + '\`').join(' ')})と、f=1 へ移した本の旧則(${R.fixture2.superseded.map((x) => '\`' + x + '\`').join(' ')} —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: ${R.fixture2.repointedTests.map((x) => '\`' + x + '\`').join('・')}。`);
   if (R.fixture3) L.push(`- **第285便f の写し** \`${R.fixture3.file}\`(原仮定者の裁定(第75報)AN51・AN24′): 退役 ${R.fixture3.ids.length} 本(${R.fixture3.ids.map((x) => '\`' + x + '\`').join(' ')})と、f=1 へ移した本の旧則(${R.fixture3.superseded.map((x) => '\`' + x + '\`').join(' ')} —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: ${R.fixture3.repointedTests.map((x) => '\`' + x + '\`').join('・')}。`);
   if (R.fixture4) L.push(`- **第286便f の写し** \`${R.fixture4.file}\`(原仮定者の裁定(第76報)AN57): 退役 ${R.fixture4.ids.length} 本(${R.fixture4.ids.map((x) => '\`' + x + '\`').join(' ')})と、f=1 へ移した本の旧則(${R.fixture4.superseded.map((x) => '\`' + x + '\`').join(' ')} —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: ${R.fixture4.repointedTests.map((x) => '\`' + x + '\`').join('・')}。`);
+  if (R.fixture5) L.push(`- **第287便b の写し** \`${R.fixture5.file}\`(原仮定者の裁定(第77報)AN62): 退役 ${R.fixture5.ids.length} 本(${R.fixture5.ids.map((x) => '\`' + x + '\`').join(' ')})と、f=1 へ移した本の旧則(${R.fixture5.superseded.map((x) => '\`' + x + '\`').join(' ')} —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: ${R.fixture5.repointedTests.map((x) => '\`' + x + '\`').join('・')}。`);
   L.push(`- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く ${R.harnesses.length} 本): 凍結の写しを読む ${R.kindCounts.fixture || 0}・再生成表の履歴 ${R.kindCounts.history || 0}・再生成表の現行 ${R.kindCounts.current || 0}・道具 ${R.kindCounts.tool || 0}・表の外 ${R.kindCounts['not-in-table'] || 0}。QA 本体の出現数: ` + Object.entries(R.qaRefs).map(([k, v]) => `${k} ${v}`).join('・') + '。');
   L.push('');
   L.push('| 器 | 名指しする ID | 再生成表の段 | 扱い |');

@@ -362,6 +362,12 @@ export const REGEN_STEPS = [
     env: { W286B_BASE_REV: '基点(既定 7822768 —— git show で一時ファイルを作り終了後に削除)' },
     volatilePaths: { 'tests/out/pnsource-w286b.json': META_RUN.concat(['/elapsedS', '/headless/*/wallSec']) },
     note: '第286便b: 伴星の pnSource(✴️💫✨🌟 —— 基点・c 真値で伴星外し・現行の 3 本立て)・制御二体・☄️ の c/ε/dt の要因・cLight の従属値と html・前後' }),
+  // ---- 第287便b(原仮定者の裁定(第77報)⑤・AN61・AN75・統括の検証項目 R110): kF0 写しの診断 1 行の正本(制御二体 q=1/10⁻⁴ で、現行の kF0 の EIH と
+  //   DFM 経路 geoPN=2・kFrame=κ→0⁺ の極限〔試験粒子形 + 対反作用〕の近点移動の λ 増分 —— 等質量の倍率)と、DFM 版へ EIH を足すときの手順(実装しない)。
+  //   **pn1-w285b.json を読む**(第285便b の基点の旧 kF0 則の比 —— 書く段 pn1 の後)。html だけを読む(Node 1 本)。所要は第287便b の枝の実測
+  S('eihdiag287', 'node tests/exp-w287b-eihdiag.mjs', ['tests/out/eihdiag-w287b.json'], 20, { secSource: 'w287b-branch', node: true, after: ['pn1'],
+    volatilePaths: { 'tests/out/eihdiag-w287b.json': META_RUN.concat(['/elapsedS', '/headless/wallSec']) },
+    note: '第287便b: kF0 写しの診断(EIH / 対反作用だけ の近点移動の λ 増分 —— 等質量で約 6 倍・試験粒子の極限で一致)・DFM 版へ EIH を足さない理由と足すときの手順(診断コピーの受入条件 6 つ)' }),
   // ---- 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R85): 同一天体の家族の差分表と統廃合の候補(html・calaudit の較正母集団・
   //   凍結の写し tests/fixtures/retired-w283b.json を読む —— 1 步も走らせない。所要は第283便b の枝の実測〔Node 1 本・壁時計〕)
   S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit', 'dt3', 'kf0'],
@@ -528,6 +534,8 @@ export const EXTERNAL_VOLATILE = {
   'tests/data-w286b-clight.json': [],
   // 第286便f(原仮定者の裁定(第76報)AN57): 退役 1 本(🩹)と 🩺 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
   'tests/fixtures/retired-w286f.json': [],
+  // 第287便b(原仮定者の裁定(第77報)AN62): 退役 1 本(🪤)と 🧶 の旧則(f≈2)の凍結の写し(書き換えない fixture —— 現行の正本 families・samplestatus の入力)
+  'tests/fixtures/retired-w287b.json': [],
 };
 
 /** 第282便e: 正本(相対パス)の除外 Pointer —— 書く段の宣言の和 + 表の外の宣言。**宣言が無ければ []**(除外なし)。 */

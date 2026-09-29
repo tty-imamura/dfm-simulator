@@ -110,6 +110,8 @@ import { H4_REUSE_VERSION, H4_REUSE_RULE, DT_DT2_RULE, h4ReuseDecision, reusedRu
   // 第284便c(原仮定者の裁定(第74報)⑥・AN33・R93): dt/4 の例外の登録簿・dt/2 の再利用(同一便の再走)・契約の穴
   H4_EXCEPTIONS, H4_EXCEPTIONS_VERSION, H4_POLICY, h4ExceptionIds, isH4Exception,
   H2_REUSE_VERSION, H2_REUSE_RULE, h2ReuseDecision, reusedRunDt2, rawRunSig, contractSha,
+  // 第287便b(原仮定者の裁定(第77報)AN62・R111): 便をまたぐ dt/2 の再利用 —— 安定 hash(7 要素)と完走済み出力の整合
+  H2_CROSS_RULE, stableInputHash,
   // 第285便f(統括の検証項目〔較正走行の窓〕): h2・h4 の契約の窓の定義
   windowContract } from './lib-w283c-calstages.mjs';
 // 第284便c(R93・第283便c の「エンジン指紋が補助関数を取りこぼす」): 法則の指紋を**停止集合つき依存閉包**で作る
@@ -162,6 +164,9 @@ const MEASUREMENT_CODE_SHA = crypto.createHash('sha256').update(
   MEASUREMENT_CODE_FILES.map((p) => p + ':' + sha256Of(path.join(ROOT, p))).join('\n')
 ).digest('hex');
 const TARGET_SHA = sha256Of(TARGET_ABS);
+// 第287便b(原仮定者の裁定(第77報)AN62・R111): 観測参照の hash(便をまたぐ dt/2 の安定 hash の構成要素 —— `mergeKey` の csvSha・judgementSourcesSha と同じ 2 本)
+const OBS_REF_SHA = (() => { const f = (p) => { try { return sha256Of(path.join(ROOT, p)); } catch (e) { return null; } };
+  return { csvSha: f('paper/data/solar-observations.csv'), judgementSourcesSha: f('paper/data/judgement-sources.json') }; })();
 const argv = process.argv.slice(2);
 const FAST = argv.includes('--fast');
 // 第284便f: 分割の引数(無ければ SHARD.on=false —— 従来の走行)
@@ -868,6 +873,8 @@ try { const { chromium } = await import('playwright'); browser = await chromium.
 catch { const { chromium } = await import('playwright-core');
   browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' }); }
 const pg = await browser.newPage();
+// 第287便b(R111): エンジン条件(ブラウザの版 —— CI の Chromium と手元で 1 ulp 違う)。便をまたぐ dt/2 の安定 hash の構成要素
+const BROWSER_VERSION = (() => { try { return browser.version(); } catch (e) { return null; } })();
 const pageErrors = [];
 pg.on('pageerror', (e) => pageErrors.push(String(e)));
 await pg.goto(INDEX, { waitUntil: 'load' });
@@ -919,6 +926,8 @@ await pg.evaluate((PERI_WINDOW) => {   // 第252便b: 近点間周期の固定�
       kFrameApplied: (v.preset.physics || {}).kFrame,
       geoPNApplied: (v.preset.physics || {}).geoPN,   // 第283便a: kF0 の診断コピーの geoPN(2→1)
       calPhysApplied: calPhys,   // 第286便b: 較正行の宣言(無ければ null)
+      // 第287便b(R111): 精度の宣言(便をまたぐ dt/2 の安定 hash の構成要素 —— 宣言が無ければ null)
+      precisionApplied: { stateCarry: (v.preset.physics || {}).stateCarry || null, framePrecision: (v.preset.physics || {}).framePrecision || null },
       // 第283便c: 受理後のプリセット JSON(presetSig の上位集合)の FNV-1a(dt/4 の再利用契約 `presetHash`)
       sig: (() => { const t = JSON.stringify(v.preset); let a = 0x811c9dc5;
         for (let i = 0; i < t.length; i++) { a ^= t.charCodeAt(i) & 0xff; a = Math.imul(a, 0x01000193) >>> 0; }
@@ -1353,7 +1362,7 @@ for (const job of jobs) {
   let h4Reuse = null, h4Skip = null;
   const h4Key = id + (KF0 ? ':kf0' : '');
   // 第284便c: dt/2 の転記(同一便の再走)の記録(本ごと)と、h の段の契約の写し(h2 の契約に入れる)
-  let h2Reuse = null, hStage = null;
+  let h2Reuse = null, hStage = null, h2Stable = null;   // 第287便b: h2Stable = 便をまたぐ dt/2 の安定 hash(H2_CROSS_RULE)
   const units = { G, c, toSec };
   for (const lv of levels) {
     // t=0 の接触要素から 1 公転の步数を見積もる
@@ -1382,10 +1391,20 @@ for (const job of jobs) {
         periWindow: PERI_WINDOW, extractorSha: EXTRACTOR_SHA, stopRuleVersion: STOP_RULE_VERSION, kf0: KF0, units,
         window: windowContract(stopRule) };   // 第285便f: 窓の定義(目標物理時間 T —— h と同じ T を覆う段であること)
       const hRun = rows.find((z) => z.tag === 'dt') || null;
+      // 第287便b(原仮定者の裁定(第77報)AN62・H2_CROSS_RULE): **安定 hash**(7 要素 —— 物理宣言・観測参照・計測器・停止規則・数値方式・精度・エンジン条件)。
+      //   便をまたぐ転記(--h2-reuse-cross)はこれと完走済み出力の整合が一致するときだけ。同一便の転記の判定には使わない(記録だけ)
+      h2Stable = stableInputHash({
+        physicsDecl: { presetHash: b0.sig || null, calPhysics: CAL_PHYSICS[id] || null, kf0: KF0, tp: !!TP_COPY },
+        obsRef: { csvSha: OBS_REF_SHA.csvSha, judgementSourcesSha: OBS_REF_SHA.judgementSourcesSha },
+        instrument: { extractorSha: EXTRACTOR_SHA, periWindow: PERI_WINDOW, cfg: { c: cfg.c, o: cfg.o, ringInner: cfg.ringInner || null, orbMax: cfg.orbMax || null } },
+        stopRule: { version: STOP_RULE_VERSION, windowDef: h2Contract.window, maxStepsH: hStage ? hStage.maxSteps : null, maxSteps },
+        numerics: { dt: lv.dt, dtH: DT0, stepsPerOrbit0: stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null), engineSha: ENGINE_SHA },
+        precision: { stateCarry: (b0.precisionApplied || {}).stateCarry || null, framePrecision: (b0.precisionApplied || {}).framePrecision || null, units },
+        engine: BROWSER_VERSION ? { browser: BROWSER_VERSION, lawsSha: LAWS_SHA } : null });
       if (H2_REUSE) {
         const entry = (H2_STORE_PREV && H2_STORE_PREV.entries) ? (H2_STORE_PREV.entries[h4Key] || null) : null;
-        const dec = h2ReuseDecision({ entry, contract: h2Contract, hRun, targetSha256: TARGET_SHA, crossFlight: H2_REUSE_CROSS });
-        h2Reuse = { key: h4Key, reused: dec.reuse, reason: dec.reason, diff: dec.diff, contractSha: contractSha(h2Contract), hSig: rawRunSig(hRun),
+        const dec = h2ReuseDecision({ entry, contract: h2Contract, hRun, targetSha256: TARGET_SHA, crossFlight: H2_REUSE_CROSS, stable: h2Stable });
+        h2Reuse = { key: h4Key, reused: dec.reuse, reason: dec.reason, diff: dec.diff, contractSha: contractSha(h2Contract), hSig: rawRunSig(hRun), stable: h2Stable,
           reusedFrom: dec.reuse ? { generatedAt: entry.generatedAt || null, targetSha256: entry.targetSha256 || null,
             contractSha: contractSha(entry.contract), wallSec: Number.isFinite(entry.run.wallSec) ? entry.run.wallSec : null } : null };
         if (dec.reuse) {
@@ -1394,7 +1413,7 @@ for (const job of jobs) {
           console.error(`  ${d.emoji}${KF0 ? '(kF0)' : ''} ${id} [dt/2] 転記(skippedBy:reuse-dt2 ← ${entry.generatedAt}・h の生の走行がビット一致・元 ${entry.run.wallSec}s)`);
           continue;
         }
-      } else h2Reuse = { key: h4Key, reused: false, reason: 'off(--no-h2-reuse)', diff: [], contractSha: contractSha(h2Contract), hSig: rawRunSig(hRun), reusedFrom: null };
+      } else h2Reuse = { key: h4Key, reused: false, reason: 'off(--no-h2-reuse)', diff: [], contractSha: contractSha(h2Contract), hSig: rawRunSig(hRun), stable: h2Stable, reusedFrom: null };
     }
     if (lv.tag === 'dt/4' && !TP_COPY) {
       h4Contract = { version: H4_REUSE_VERSION, key: h4Key, presetHash: b0.sig || null, engineSha: ENGINE_SHA,
@@ -1458,7 +1477,7 @@ for (const job of jobs) {
     if (h4Contract) H4_NEW.push({ key: h4Key, id, contract: h4Contract, run: JSON.parse(JSON.stringify(r)) });   // 第283便c: 次の走行の転記元
     // 第284便c: dt/2 の転記元(走らせた h/2 と、対の h の生の走行の署名)
     if (h2Contract) { const hRun = rows.find((z) => z.tag === 'dt') || null;
-      H2_NEW.push({ key: h4Key, id, contract: h2Contract, hSig: rawRunSig(hRun), run: JSON.parse(JSON.stringify(r)) }); }
+      H2_NEW.push({ key: h4Key, id, contract: h2Contract, hSig: rawRunSig(hRun), stable: h2Stable, run: JSON.parse(JSON.stringify(r)) }); }
     console.error(`  ${d.emoji}${KF0 ? '(kF0)' : ''} ${id} [${lv.tag}=${lv.dt}] n=${r.n} steps=${r.steps}/${maxSteps}`
       + `(${r.stopRule.stoppedBy}) orbits=${r.targets.map((t) => t.revN).join('/')}`
       + ` peri=${r.stopRule.periFoundA.join('/')}≥${r.stopRule.needPeriastra}?${r.stopRule.periastraOk}`
@@ -3817,6 +3836,7 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
     tpCopy: TP_COPY };
   // 第284便c(第74報⑥・H2_REUSE_RULE): dt/2 の転記(同一便の再走)の集計(本ごとの記録は presets[].run.h2Reuse / dtHalf.skippedBy)
   out.h2Reuse = { version: H2_REUSE_VERSION, on: H2_REUSE, crossFlight: H2_REUSE_CROSS, rule: H2_REUSE_RULE,
+    crossFlightRule: H2_CROSS_RULE,   // 第287便b(AN62・R111): 便をまたぐ転記の条件(安定 hash の 7 要素と完走済み出力の整合 —— 本ごとの hash は presets[].run.h2Reuse.stable)
     reused: merged.filter((r) => r.run && r.run.h2Reuse && r.run.h2Reuse.reused).map((r) => r.id),
     fresh: merged.filter((r) => r.run && r.run.dtHalf && !r.run.dtHalf.skippedBy).map((r) => r.id),
     refused: merged.filter((r) => r.run && r.run.h2Reuse && !r.run.h2Reuse.reused)
@@ -4216,7 +4236,7 @@ if (!TP_COPY) {
   const e2 = Object.assign({}, (H2_STORE_PREV && H2_STORE_PREV.entries) || {});
   let fresh2 = 0;
   for (const z of H2_NEW) {
-    e2[z.key] = { contract: z.contract, hSig: z.hSig, run: z.run, generatedAt: out.meta.when, targetSha256: TARGET_SHA };
+    e2[z.key] = { contract: z.contract, hSig: z.hSig, stable: z.stable || null, run: z.run, generatedAt: out.meta.when, targetSha256: TARGET_SHA };   // 第287便b: 安定 hash を置き場へ
     fresh2++;
   }
   diag.h2Store = { version: H2_REUSE_VERSION, rule: H2_REUSE_RULE, n: Object.keys(e2).length, freshThisRun: fresh2, reusedThisRun: H2_KEEP.size,
@@ -4376,7 +4396,11 @@ if (!TP_COPY) {
   out.budgetTable = { since: '第286便f(原仮定者の裁定(第76報)AN44)', file: BUDGET_TABLE_FILE, version: BT.table.version, lib: BUDGET_LIB_VERSION,
     sha256: BT.sha256, rows: nRows, entryRows: nEntry, entries: (BT.table.entries || []).map((e) => e.key), audit: { ok: au.ok, bad: au.bad, cover: au.cover },
     sigmaBudget: BT.table.sigmaBudget, table: { rules: BT.table.rules, kinds: BT.table.kinds, entries: BT.table.entries },
-    says: '宣言表を行へ写しただけ —— **門の合否の規則は変えていない**。0.3σ は提案値(合意済みの閾値ではない)。窓不足・量の不一致を幅で救わない' };
+    says: '宣言表を行へ写しただけ —— **門の合否の規則は変えていない**。'
+      + ((BT.table.sigmaBudget || {}).status === 'adopted'
+        ? '0.3σ は数値誤差予算の上限(ε_num ≤ 0.3σ)として採用(第287便b・原仮定者の裁定(第77報)AN62)—— 観測差を許す幅ではない・3σ 門は広げない。'
+        : '0.3σ は提案値(合意済みの閾値ではない)。')
+      + '窓不足・量の不一致を幅で救わない' };
   console.error(`[w286f] 窓と誤差予算の宣言表 ${BT.table.version}: ${nRows} 行へ写した(鍵の行 ${nEntry})・表の検査 ${au.ok ? 'ok' : au.bad.join(' / ')}`);
 }
 

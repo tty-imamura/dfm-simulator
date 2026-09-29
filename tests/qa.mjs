@@ -2258,7 +2258,10 @@ if (QA_CHANGED) {
       // 第286便b(原仮定者の裁定(第76報)AN54・AN59・R104): 伴星の pnSource・cLight の真値化・☄️ の較正専用 ε の前後(target=beta/index.html ——
       //   Node だけ・基点 html は git show の一時ファイル。inputs に calaudit-w249.json・pn1-w285b.json・tests/data-w286b-clight.json ——
       //   **calaudit・pn1 を走らせ直したら本器も走らせ直す** —— 鎖の段 pnsource286)
-      'tests/out/pnsource-w286b.json'];
+      'tests/out/pnsource-w286b.json',
+      // 第287便b(原仮定者の裁定(第77報)⑤・AN61・AN75・R110): kF0 写しの診断 1 行(制御二体の EIH / DFM 経路 κ→0⁺ の対反作用だけ —— 等質量の倍率)と
+      //   DFM 版へ EIH を足すときの手順(target=beta/index.html —— Node だけ。inputs に pn1-w285b.json —— **pn1 を走らせ直したら本器も走らせ直す** —— 鎖の段 eihdiag287)
+      'tests/out/eihdiag-w287b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -5084,18 +5087,21 @@ if (QA_CHANGED) {
       if (qP && !(qP.periodDef === 'unmeasured' || /peri|近点/.test(String(qP.periodDef)))) bad.push(`⑥⚡ の周期の行が近点間でも未測定でもない(${qP.periodDef} —— 別定義で代用しない)`);
       if (qP && qP.periodDef === 'unmeasured' && !['window', 'max-steps', 'resource-limit'].includes(qP.unmeasuredReason)) bad.push('⑥⚡ の未測定の理由が語彙の外');
       const gen = ((C.meta || {}).stopRule || {}).version;
-      if (h && (gen === 'w285f-1' || gen === 'w286f-1') && h.maxSteps !== 26129312) bad.push('⑥正本の ⚡ の dt 段が宣言の窓でない: ' + h.maxSteps);
+      if (h && (gen === 'w285f-1' || gen === 'w286f-1' || gen === 'w287b-1') && h.maxSteps !== 26129312) bad.push('⑥正本の ⚡ の dt 段が宣言の窓でない: ' + h.maxSteps);
       psrW = `⚡ の窓 ${W0.orbits} 公転 × ${W0.orbitStepsBase} 步 = h ${a.maxSteps}・h/2 ${b.maxSteps} 步(必要近点 ${W0.needPeriastra})/ 正本 ${gen}: dt 段 ${h ? h.stepsRun + ' 步・近点 ' + (h.periFoundA || []).join('/') : '—'}・周期の行 ${qP ? qP.periodDef + (qP.unmeasuredReason ? '(' + qP.unmeasuredReason + ')' : '') : '—'}`
-        + ((gen === 'w285f-1' || gen === 'w286f-1') ? '' : '(旧版の世代 —— 鎖の再生成で宣言の窓になる)');
+        + ((gen === 'w285f-1' || gen === 'w286f-1' || gen === 'w287b-1') ? '' : '(旧版の世代 —— 鎖の再生成で宣言の窓になる)');
     }
   } catch (e) { bad.push('⑥⚡ の窓が読めない: ' + String(e).slice(0, 90)); }
   // ⑦ 第286便f(原仮定者の裁定(第76報)AN57): **軌道長の窓を f=1 の本 3 本(⚡🧮🩺)へ一般化**(ORBIT_WINDOW_RULE —— 実軌道 1 公転 ×(必要近点 + 2))。
   //    🧮 22 × 213,616 = 4,699,552 步(dt/2 9,399,104)・🩺 22 × 1,416,055 = 31,153,210 步(dt/2 62,306,420)。基点との照合の宣言例外に 🩺 の dt・dt/2(since w286f)。
   //    正本が w286f-1 の世代なら 🧮🩺 の dt 段が宣言の窓(旧世代なら記録だけ —— 鎖の再生成で宣言の窓になる)
+  //    第287便b(原仮定者の裁定(第77報)AN62): 🧶 psrB1534DFM を足した(22 × 1,126,979 = 24,793,538 步・dt/2 49,587,076)—— 🧶 の正本の窓は w287b-1 の世代だけ見る。
+  //    基点との照合の宣言例外に 🧶 の dt・dt/2(since w287b)
   let owTxt = '—';
   try {
     const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w270a-stoprule.mjs'));
-    const want = { psrJ1757DFM: [4699552, 9399104, 213616], psrJ1946DFM: [31153210, 62306420, 1416055] };
+    const want = { psrJ1757DFM: [4699552, 9399104, 213616], psrJ1946DFM: [31153210, 62306420, 1416055], psrB1534DFM: [24793538, 49587076, 1126979] };
+    const GEN_OW = { psrJ1757DFM: ['w286f-1', 'w287b-1'], psrJ1946DFM: ['w286f-1', 'w287b-1'], psrB1534DFM: ['w287b-1'] };
     const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
     const gen = ((C.meta || {}).stopRule || {}).version;
     const parts = [];
@@ -5107,12 +5113,14 @@ if (QA_CHANGED) {
       if (!(a.maxSteps === h1 && b.maxSteps === h2 && a.boundBy === 'declared-orbit-window' && a.needPeriastra === 20)) bad.push(`⑦${id} の窓の步数 ${a.maxSteps}/${b.maxSteps}・${a.boundBy}`);
       const p = (C.presets || []).find((z) => z.id === id && !z.kf0Diagnostic);
       const h = p ? ((p.run || {}).stopRuleStages || []).find((z) => z.tag === 'dt') : null;
-      if (h && gen === 'w286f-1' && h.maxSteps !== h1) bad.push(`⑦正本の ${id} の dt 段が宣言の窓でない: ${h.maxSteps}`);
+      if (h && GEN_OW[id].includes(gen) && h.maxSteps !== h1) bad.push(`⑦正本の ${id} の dt 段が宣言の窓でない: ${h.maxSteps}`);
       parts.push(`${id} ${W1.orbits}×${W1.orbitStepsBase} = h ${a.maxSteps}・h/2 ${b.maxSteps}(正本 ${gen}: ${h ? h.stepsRun + ' 步・近点 ' + (h.periFoundA || []).join('/') : '—'})`);
     }
     const ex = (L.BASE_REPLAY_EXCEPTIONS || []).filter((z) => z.id === 'psrJ1946DFM' && z.since === 'w286f').map((z) => z.tag).sort();
     if (JSON.stringify(ex) !== JSON.stringify(['dt', 'dt/2'])) bad.push('⑦基点との照合の宣言例外に 🩺 の dt・dt/2(since w286f)が無い');
-    owTxt = parts.join(' / ') + ` / 宣言例外 🩺 ${ex.join('・')}(since w286f)` + (gen === 'w286f-1' ? '' : '(正本は旧版の世代 —— 鎖の再生成で宣言の窓になる)');
+    const ex7 = (L.BASE_REPLAY_EXCEPTIONS || []).filter((z) => z.id === 'psrB1534DFM' && z.since === 'w287b').map((z) => z.tag).sort();
+    if (JSON.stringify(ex7) !== JSON.stringify(['dt', 'dt/2'])) bad.push('⑦基点との照合の宣言例外に 🧶 の dt・dt/2(since w287b)が無い');
+    owTxt = parts.join(' / ') + ` / 宣言例外 🩺 ${ex.join('・')}(since w286f)・🧶 ${ex7.join('・')}(since w287b)` + (gen === 'w287b-1' ? '' : '(正本は旧版の世代 —— 鎖の再生成で宣言の窓になる)');
   } catch (e) { bad.push('⑦軌道窓が読めない: ' + String(e).slice(0, 90)); }
   add('behavior.stopRuleDeclared', bad.length === 0,
     `**⚡ の停止規則(第285便f・AN51)**: ${psrW} / **軌道長の窓の一般化(第286便f・AN57)**: ${owTxt} / ` +
@@ -5142,6 +5150,9 @@ if (QA_CHANGED) {
 // ----        正本が表の世代なら budgetTable の版・sha が今の表と同じで、全行の budget が今の表の解決と一致する(旧世代なら記録だけ —— 鎖の calaudit で写る)。
 // ----   **書かないこと**: 「予算を宣言したので判定が確定した」「0.3σ で合意した」「幅に入ったので合格」。
 // ----   root(旧 html)は対象外なので SKIP する(正本 calaudit は beta 線の走行である)。
+// ---- 第287便b(原仮定者の裁定(第77報)AN62): 表の版 w287b-budget-2 —— 0.3σ を**数値誤差予算の上限**(ε_num ≤ 0.3σ)として採用(status "adopted")。
+// ----   観測差を許す幅ではない・3σ 門は広げない・σ の無い量に 1% 等を補わない・|Q_h−Q_h/2|/3 は 2 次収束域で窓・抽出・次数の条件を満たすときだけ。
+// ----   ① の注記の検査は lib の auditBudgetTable(採用の表)。③ は正本の表が**前の版**(w286f-budget-1 —— 提案値の世代)なら記録だけ(鎖の calaudit で写る)。
 if (!TARGET.startsWith('beta/')) {
   console.log('SKIP behavior.calauditBudgetTable(量ごとの窓と誤差予算の宣言表は beta 線の較正走行 — root は対象外)');
 } else {
@@ -5165,7 +5176,11 @@ if (!TARGET.startsWith('beta/')) {
     if ((src.match(/numBound > 0\.3 \* sigma/g) || []).length !== 1) bad.push('③門の数値予算(numBound > 0.3 × σ)が器の本文に 1 か所でない —— 表で門を変えない');
     if (table.sigmaBudget.factor !== 0.3) bad.push('③表の factor が門の 0.3 の写しでない');
     const bt = C.budgetTable || null;
-    if (bt) {
+    const PREV_BT = ['w286f-budget-1'];   // 第287便b: 前の版の世代の正本は記録だけ(鎖の calaudit で今の表が写る)
+    if (bt && PREV_BT.includes(bt.version) && bt.version !== table.version) {
+      gen = bt.version + '(前の版の世代 —— 鎖の calaudit で ' + table.version + ' が写る)';
+      console.log('NOTE behavior.calauditBudgetTable: 正本の宣言表は前の版 ' + bt.version + ' の世代(鎖の calaudit で ' + table.version + ' へ)');
+    } else if (bt) {
       gen = bt.version;
       if (bt.version !== table.version || bt.sha256 !== sha256) bad.push(`③正本の宣言表の版・sha が今の表と違う(${bt.version})`);
       let off = 0, nRow = 0;
@@ -5180,11 +5195,123 @@ if (!TARGET.startsWith('beta/')) {
   } catch (e) { bad.push('宣言表が読めない: ' + String(e).slice(0, 120)); }
   add('behavior.calauditBudgetTable', bad.length === 0,
     `**量ごとの窓と誤差予算**(第286便f・原仮定者の裁定(第76報)AN44・tests/data-w286f-budget.json 版 ${ver}): `
-    + `種類 5(周期・近点移動・離心率・自転・転記 —— 周期・近点移動・離心率は別の契約)・σ ありは数値誤差予算 0.3σ(**提案値** —— 合意済みの閾値ではない)・`
+    + `種類 5(周期・近点移動・離心率・自転・転記 —— 周期・近点移動・離心率は別の契約)・σ ありは数値誤差予算 0.3σ(`
+    + (ver && ver !== 'w286f-budget-1' ? `**数値誤差予算の上限として採用** —— 第287便b・原仮定者の裁定(第77報)AN62。観測差を許す幅ではない・3σ 門は広げない)・` : `**提案値** —— 合意済みの閾値ではない)・`)
     + `σ なしは事前の絶対/相対幅・先に書く行 ${nFirst} 本(💍 C 環内縁の近点移動〔符号反転〕・💠 ミランダの近点移動〔+35%〕)/ `
     + `正本の全量 ${cov ? cov.n : '—'} 行に窓 ${cov ? cov.withWindow : '—'}・予算 ${cov ? cov.withBudget : '—'}(鍵の行 ${cov ? cov.entryHits : '—'})/ `
     + `判定器は読むだけ(門の合否の規則は変えない)・正本の世代 ${gen} / **窓不足・量の不一致を幅で救わない**`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+}
+
+// ---- 0a3o″) 第287便b(原仮定者の裁定(第77報)AN62・統括の検証項目 R111): docs.tallySync ----
+// ----   **量の 5 区分(合/窓/否/従/転)の現況は正本 calaudit の summary.tally から 1 か所で出す**ことを機械固定する(fs のみ)。
+// ----     ① 生成元: SAMPLE_STATUS の生成器(tests/exp-w279a-samplestatus.mjs)が「量の 5 区分(正本 … の summary.tally の転記」の行を書く
+// ----        (文書の本文に現況の数を手で書かない)。一覧 md にその行があれば数が正本と同じ(無ければ前の世代 —— 鎖の samplestatus で書かれる)。
+// ----     ② 文書の同期: docs/PHYSICS.md〔第286便f〕の「否 26 → 27」(枝の単独走行を差し替えた見込み)に第287便b の注記(統合後の正本の値と生成元)があり、
+// ----        〔第287便b〕は基点の正本の値を「基点 f94ca580 の正本」と名乗って書き、現況は生成元を指す(本文に現況の 5 区分を書かない)。
+// ----        docs/CALIBRATION_VERDICT_v1.44.md §5.37 も同じ。
+// ----   root は SKIP(正本 calaudit は beta 線)。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.tallySync(量の 5 区分の現況は beta 線の較正走行 — root は対象外)');
+  } else {
+    const bad = [];
+    let T5 = null, gen = '—';
+    try {
+      const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      T5 = (C.summary || {}).tally || null;
+      if (!T5 || !['合', '窓', '否', '従', '転'].every((k) => Number.isInteger(T5[k]))) bad.push('①正本の summary.tally が 5 区分の整数でない');
+      const gsrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w279a-samplestatus.mjs'), 'utf8');
+      if (gsrc.indexOf('量の 5 区分(正本') < 0 || gsrc.indexOf('summary || {}).tally') < 0) bad.push('①生成器が 5 区分の行を正本の summary.tally から書かない');
+      const ss = fs.readFileSync(path.join(ROOT, 'docs', 'SAMPLE_STATUS_v1.45.md'), 'utf8');
+      const m = ss.match(/量の 5 区分\(正本[^\n]*?合 \*\*(\d+)\*\*・窓 \*\*(\d+)\*\*・否 \*\*(\d+)\*\*・従 \*\*(\d+)\*\*・転 \*\*(\d+)\*\*/);
+      if (m && T5) {
+        gen = '生成元の世代';
+        const got = m.slice(1, 6).map(Number), want = ['合', '窓', '否', '従', '転'].map((k) => T5[k]);
+        if (JSON.stringify(got) !== JSON.stringify(want)) bad.push(`①一覧 md の 5 区分 ${got.join('/')} が正本 ${want.join('/')} と違う(鎖の samplestatus で書き直す)`);
+      } else {
+        gen = '前の世代(鎖の samplestatus で 5 区分の行が書かれる)';
+        console.log('NOTE docs.tallySync: SAMPLE_STATUS に 5 区分の行が無い世代 —— 鎖の samplestatus の段で生成元から書かれる');
+      }
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const sec = (tag) => { const i = P.indexOf('〔' + tag + ' — '); if (i < 0) return ''; const j = P.indexOf('\n〔第', i + 5), k = P.indexOf('\n## ', i);
+        const e = [j, k].filter((z) => z >= 0); return P.slice(i, e.length ? Math.min(...e) : P.length); };
+      const s286 = sec('第286便f'), s287 = sec('第287便b');
+      if (!s286) bad.push('②PHYSICS に〔第286便f〕が無い');
+      else if (s286.indexOf('否 26 → 27') >= 0 && !/第287便b[^\n]*(統合後の正本|生成元)/.test(s286)) bad.push('②〔第286便f〕の「否 26 → 27」に第287便b の注記(統合後の正本・生成元)が無い');
+      if (!s287) bad.push('②PHYSICS に〔第287便b〕が無い');
+      else {
+        if (s287.indexOf('基点 f94ca580 の正本') < 0 || s287.indexOf('合 64・窓 5・否 26・従 4・転 218') < 0) bad.push('②〔第287便b〕に基点の正本の 5 区分(合 64・窓 5・否 26・従 4・転 218)が「基点 f94ca580 の正本」として無い');
+        if (s287.indexOf('SAMPLE_STATUS') < 0 || s287.indexOf('summary.tally') < 0) bad.push('②〔第287便b〕が現況の生成元(SAMPLE_STATUS の集計行・summary.tally)を指していない');
+      }
+      const V = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      const iv = V.indexOf('### 5.37 第287便b');
+      if (iv < 0) bad.push('②CALIBRATION_VERDICT に §5.37(第287便b)が無い');
+      else { const sv = V.slice(iv, V.indexOf('\n## ', iv) > 0 ? V.indexOf('\n## ', iv) : undefined);
+        if (sv.indexOf('summary.tally') < 0 || sv.indexOf('SAMPLE_STATUS') < 0) bad.push('②§5.37 が現況の生成元を指していない'); }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 120)); }
+    add('docs.tallySync', bad.length === 0,
+      `**量の 5 区分の同期**(第287便b・原仮定者の裁定(第77報)AN62・R111): 正本 summary.tally ${T5 ? ['合', '窓', '否', '従', '転'].map((k) => k + ' ' + T5[k]).join('・') : '—'} / `
+      + `生成元 = SAMPLE_STATUS の生成器の集計行(${gen})/ PHYSICS〔第286便f〕の見込みの数に注記・〔第287便b〕と CALIBRATION_VERDICT §5.37 は基点の値と生成元だけを書く(本文に現況を手で書かない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 0a3o‴) 第287便b(原仮定者の裁定(第77報)⑤・AN61・AN75・統括の検証項目 R110): behavior.eihDiag287 ----
+// ----   **kF0 写しの診断 1 行**(正本 tests/out/eihdiag-w287b.json —— 器 tests/exp-w287b-eihdiag.mjs)と EIH の注釈・宣言を機械固定する(fs のみ)。
+// ----     ① 診断: 制御二体 q=1 で現行 EIH の比 ≈1(|r−1|<1e−3)・DFM 経路 kFrame→0⁺ の極限(core 2 = 試験粒子形 + 対反作用)が解析 1−10ν/3=1/6 の
+// ----        近く(|r−1/6|<5e−3)・κ=10⁻⁶ と 10⁻⁹ で動かない・倍率(EIH / 対反作用だけ)が 5.5〜6.5(約 6 倍)・試験粒子の極限(q=10⁻⁴)で倍率 ≈1(|f−1|<1e−2)。
+// ----        第285便b の基点の旧 kF0 則(pn1-w285b.json の q=1 の ratioBaseB)と κ→0⁺ の極限が相対 1e−6 で同じ形。
+// ----     ② 手順(実装しない): 足さない理由・置換差分・別帳簿・受入条件 6 つ・反例の扱いが正本にある。
+// ----     ③ html: geoModeOf の上の注釈が実装に合う(旧文「geoPN=1 も自由源へ返す」が消え、core 1/2 の分岐と「DFM 版に EIH の差分を足さない」)・
+// ----        geoCoreDispatchBody の kF0 の判定が `!(p.kFrame>0)` のまま(DFM 版に dfmPN1EIHKick を当てる分岐が無い)・CAL_CONTRACT の dfm の規則に同じ宣言。
+// ----   **書かないこと**: 「geoPN=2 に EIH を入れた」「DFM 版の 1PN が GR と合った」。root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP behavior.eihDiag287(kF0 写しの診断は beta 線 — root は対象外)');
+  } else {
+    const bad = [];
+    let L1 = null;
+    try {
+      const E = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'eihdiag-w287b.json'), 'utf8'));
+      L1 = E.line || null;
+      const r1 = (E.rows || []).find((z) => z.q === 1), r4 = (E.rows || []).find((z) => z.q === 1e-4);
+      if (!r1 || !r4 || !L1) bad.push('①行が無い');
+      else {
+        if (!(Math.abs(r1.eih.ratio - 1) < 1e-3 && r1.eih.core === 1 && r1.eih.pn1 === 'eih')) bad.push(`①EIH の比 ${r1.eih.ratio}(core ${r1.eih.core})`);
+        const lim = r1.pairOnly[r1.pairOnly.length - 1];
+        if (!(Math.abs(lim.ratio - 1 / 6) < 5e-3 && lim.core === 2 && lim.kFrame <= 1e-9)) bad.push(`①対反作用だけの極限 ${lim.ratio}(core ${lim.core}・κ ${lim.kFrame})`);
+        const k6 = r1.pairOnly.find((z) => z.kFrame === 1e-6);
+        if (!(k6 && Math.abs(k6.ratio - lim.ratio) < 1e-6)) bad.push('①κ=10⁻⁶ と 10⁻⁹ で極限が動く');
+        if (!(L1.factor >= 5.5 && L1.factor <= 6.5)) bad.push(`①等質量の倍率 ${L1.factor}(約 6 倍でない)`);
+        if (!(Math.abs(r4.eihOverPairOnly - 1) < 1e-2)) bad.push(`①試験粒子の極限の倍率 ${r4.eihOverPairOnly}`);
+        if ((E.rows || []).some((z) => z.eih.nan || z.eih.clamp || z.pairOnly.some((p) => p.nan || p.clamp || p.warnings))) bad.push('①NaN・クランプ・警告');
+        const ref = ((E.pn1Ref || {}).q1 || {}).ratioBaseB;
+        if (!(Number.isFinite(ref) && Math.abs(lim.ratio / ref - 1) < 1e-6)) bad.push(`①第285便b の旧 kF0 則(${ref})と κ→0⁺ の極限(${lim.ratio})が同じ形でない`);
+      }
+      const pr = E.procedure || {};
+      if (pr.status !== 'not-implemented' || !(pr.acceptance || []).length || pr.acceptance.length !== 6 || !(pr.ifEverTried || []).length || !pr.refuse || !pr.counterExample) bad.push('②手順(足さない理由・置換差分・受入条件 6 つ・反例)が正本に無い');
+      if (!(E.doNotWrite || []).includes('geoPN=2 に EIH を入れた')) bad.push('②書かない語に「geoPN=2 に EIH を入れた」が無い');
+      const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+      const ig = html.indexOf('const GEO_MODE_VERSION=');
+      const head = html.slice(Math.max(0, ig - 4000), ig);
+      if (head.indexOf('geoPN=1 も自由源へ返す** —— AN23') >= 0) bad.push('③geoModeOf の上に旧文「geoPN=1 も自由源へ返す」が残る');
+      if (head.indexOf('第287便b(原仮定者の裁定(第77報)AN75)') < 0 || head.indexOf('DFM 版(core 2)に EIH の差分を足さない') < 0 || head.indexOf('core 2 だけ(DFM 版') < 0) bad.push('③geoModeOf の上の注釈が実装(core 1/2 の分岐・DFM 版に足さない)に合っていない');
+      const db = html.slice(html.indexOf('function geoCoreDispatchBody(S,dt,mode){'), html.indexOf('function geoCoreDispatchBody(S,dt,mode){') + 1200);
+      if (db.indexOf('kf0=(g>0 && g<3 && !(p.kFrame>0))') < 0 || (db.match(/dfmPN1EIHKick\(/g) || []).length !== 2) bad.push('③geoCoreDispatchBody の kF0 の判定・EIH の当て先が変わった(DFM 版に足していないこと)');
+      const cm = html.match(/^const CAL_CONTRACT=(\{.*\});$/m);
+      const CC = cm ? JSON.parse(cm[1]) : null;
+      const dfm = CC ? CC.systems.find((z) => z.key === 'dfm') : null;
+      if (!dfm || dfm.rule.indexOf('EIH の差分を足さない') < 0) bad.push('③CAL_CONTRACT の dfm の規則に「EIH の差分を足さない」が無い');
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 120)); }
+    add('behavior.eihDiag287', bad.length === 0,
+      `**kF0 写しの診断 1 行**(第287便b・原仮定者の裁定(第77報)⑤・AN61・AN75・R110 —— **診断であって判定ではない**): `
+      + (L1 ? `制御二体 q=1 で EIH の比 ${L1.eihRatio.toFixed(6)} / DFM 経路 kFrame→0⁺ の極限(試験粒子形 + 対反作用)${L1.pairOnlyRatio.toFixed(6)}(解析 1−10ν/3 ${L1.pairOnlyAnalytic.toFixed(6)})= **倍率 ${L1.factor.toFixed(4)}**・`
+        + `試験粒子の極限 q=10⁻⁴ で ${L1.testLimit.factor.toFixed(6)} / ` : '')
+      + `DFM 版(geoPN=2 ∧ kFrame>0)に EIH の差分を**足さない**(対反作用と二重計上)—— 足すときの手順(対反作用を明示に切る・置換差分・別帳簿・受入条件 6 つ)は正本と PHYSICS〔第287便b〕に宣言だけ / `
+      + `geoModeOf の上の注釈を実装(kF0 は core 1 で対反作用は立たない・反作用は EIH の式に内在)に合わせた(実行文は不変)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
 }
 
 // ---- 0a3p) 第270便a(第60報 W1・AD8): docs.threeStageD68 ----
@@ -5640,7 +5767,8 @@ if (!TARGET.startsWith('beta/')) {
       // 第284便b(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本を足して 13 本(世代切替 —— RETIRED_PRESETS に 🪶 の行)
       // 第285便f(原仮定者の裁定(第75報)AN24′): 🪄 psrJ1757CF の退役で 14(世代切替は html の RETIRED_PRESETS の行で読む)
       // 第286便f(原仮定者の裁定(第76報)AN57): 🩹 psrJ1946CF の退役で 15(世代切替は同じく RETIRED_PRESETS の行)
-      const nRet = html.indexOf('  psrJ1946CF:{ja:') >= 0 ? 15 : html.indexOf('  psrJ1757CF:{ja:') >= 0 ? 14 : html.indexOf('  psrDoubleABPN:{ja:') >= 0 ? 13 : 7;
+      // 第287便b(原仮定者の裁定(第77報)AN62): 🪤 psrB1534CF の退役で 16(世代切替は同じく RETIRED_PRESETS の行)
+      const nRet = html.indexOf('  psrB1534CF:{ja:') >= 0 ? 16 : html.indexOf('  psrJ1946CF:{ja:') >= 0 ? 15 : html.indexOf('  psrJ1757CF:{ja:') >= 0 ? 14 : html.indexOf('  psrDoubleABPN:{ja:') >= 0 ? 13 : 7;
       if (!(Array.isArray(R.presets) && R.presets.length === nRet)) bad.push(`⑥退役の棚卸しが ${nRet} 本でない`);
       for (const p of R.presets || []) {
         if (!p.inBuiltin || !p.retired) bad.push(`⑥${p.id}: 内蔵に無い/退役の印が無い`);
@@ -5867,9 +5995,10 @@ if (!TARGET.startsWith('beta/')) {
     // 第285便f(AN51・統括の検証項目〔較正走行の窓〕): 版 w285f-1(T の規則・⚡ の軌道窓)。正本(走行 JSON・照合器の出力)は**中身で世代を判る** ——
     //   鎖で再生成する前の正本は直前の版 w272a-1(履歴にある版)のまま通し、それ以外の版は落とす
     // 第286便f(原仮定者の裁定(第76報)AN57): 版 w286f-1(軌道長の窓を f=1 の本 3 本へ一般化 —— ORBIT_WINDOW_RULE)。直前の版 w285f-1 の世代の正本も通す
-    if (ver !== 'w286f-1') bad.push(`①版が w286f-1 でない(${ver})`);
+    // 第287便b(原仮定者の裁定(第77報)AN62): 版 w287b-1(🧶 psrB1534DFM の f=1 に同じ窓の規則 —— f=1 の本 4 本)。直前の版 w286f-1 の世代の正本も通す
+    if (ver !== 'w287b-1') bad.push(`①版が w287b-1 でない(${ver})`);
     if (spec.version !== ver) bad.push('①規約の版が定数と違う');
-    const genOk = (v) => v === ver || v === 'w285f-1' || v === 'w272a-1';
+    const genOk = (v) => v === ver || v === 'w286f-1' || v === 'w285f-1' || v === 'w272a-1';
     if (!genOk(((C.meta || {}).stopRule || {}).version)) bad.push('①走行 JSON の版が違う');
     if (!genOk(S.version)) bad.push('①照合器の版が違う');
     if (((C.meta || {}).stopRule || {}).version !== ver) console.log('NOTE docs.stopRuleVersion: 正本の停止規則は旧版 ' + ((C.meta || {}).stopRule || {}).version + ' の世代(鎖で ' + ver + ' へ)');
@@ -5880,10 +6009,12 @@ if (!TARGET.startsWith('beta/')) {
     // 第286便f(AN57): 軌道長の窓の規則(実軌道 1 公転 ×(必要近点 + 2))と f=1 の本 3 本の宣言
     if (!spec.orbitWindowRule || spec.orbitWindowRule.version !== 'w286f-ow1' || spec.orbitWindowRule.margin !== 2) bad.push('②軌道長の窓の規則(w286f-ow1・余裕 2 公転)が規約に無い');
     const OWIDS = Object.keys(L.PRESET_ORBIT_WINDOW).sort();
-    if (JSON.stringify(OWIDS) !== JSON.stringify(['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM'])) bad.push('②軌道窓の宣言が f=1 の本 3 本(⚡🧮🩺)でない: ' + OWIDS.join(','));
+    if (JSON.stringify(OWIDS) !== JSON.stringify(['psrB1534DFM', 'psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM'])) bad.push('②軌道窓の宣言が f=1 の本 4 本(⚡🧮🩺🧶)でない: ' + OWIDS.join(','));
+    if (JSON.stringify(OWIDS) !== JSON.stringify(L.ORBIT_WINDOW_RULE.appliesTo.slice().sort())) bad.push('②軌道窓の宣言と規則の適用先(appliesTo)が違う');
     for (const id of OWIDS) if (!L.orbitWindowFollowsRule(L.PRESET_ORBIT_WINDOW[id])) bad.push(`②${id} の軌道窓が規則(必要近点 + 2 公転)に従わない`);
-    if (!((L.PRESET_ORBIT_WINDOW.psrJ1757DFM || {}).orbitStepsBase === 213616 && (L.PRESET_ORBIT_WINDOW.psrJ1946DFM || {}).orbitStepsBase === 1416055))
-      bad.push('②🧮 213,616 步・🩺 1,416,055 步の 1 公転の宣言が無い');
+    if (!((L.PRESET_ORBIT_WINDOW.psrJ1757DFM || {}).orbitStepsBase === 213616 && (L.PRESET_ORBIT_WINDOW.psrJ1946DFM || {}).orbitStepsBase === 1416055
+      && (L.PRESET_ORBIT_WINDOW.psrB1534DFM || {}).orbitStepsBase === 1126979))
+      bad.push('②🧮 213,616 步・🩺 1,416,055 步・🧶 1,126,979 步の 1 公転の宣言が無い');
     if (JSON.stringify(spec.classMaxSteps) !== JSON.stringify(L.CLASS_MAX_STEPS))
       bad.push('②階級表が定数と違う');
     if (JSON.stringify(spec.presetMaxSteps) !== JSON.stringify(L.PRESET_MAX_STEPS))
@@ -5923,6 +6054,7 @@ if (!TARGET.startsWith('beta/')) {
     if (md.indexOf('82,777,992') < 0) bad.push('⑥文書にカロンの dt/4 の步数宣言が無い');
     if (md.indexOf('w285f-1') < 0 || md.indexOf('26,129,312') < 0 || md.indexOf('80,000,000') < 0) bad.push('⑥文書に版 w285f-1(T の規則・⚡ の窓 26,129,312 步・h/2 の 80,000,000 步)が無い');
     if (md.indexOf('w286f-1') < 0 || md.indexOf('4,699,552') < 0 || md.indexOf('31,153,210') < 0) bad.push('⑥文書に版 w286f-1(🧮 の窓 4,699,552 步・🩺 の窓 31,153,210 步)が無い');
+    if (md.indexOf('w287b-1') < 0 || md.indexOf('24,793,538') < 0) bad.push('⑥文書に版 w287b-1(🧶 の窓 24,793,538 步)が無い');
   } catch (e) { bad.push('停止条件の版が読めない: ' + String(e).slice(0, 90)); }
   add('docs.stopRuleVersion', bad.length === 0,
     `**停止条件の版つき既定規約**(第271便a・AF3): 版 **${ver}** —— `
@@ -9437,8 +9569,13 @@ if (!TARGET.startsWith('beta/')) {
   let SUP285m = null;
   try { SUP285m = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w285f.json'), 'utf8')).superseded.psrJ1757DFM.raw.bodies.map((b) => b.m); } catch (e) { SUP285m = null; }
   const f1Now1757 = (() => { const a = block.indexOf('{ id:"psrJ1757DFM"'); if (a < 0) return false; const b = block.indexOf('\n{ id:"', a + 10); return block.slice(a, b < 0 ? undefined : b).indexOf('massCalibration:{law:"f-fixed-1"') >= 0; })();
+  // 第287便b(原仮定者の裁定(第77報)AN62): 🧶 も f=1 へ移った —— 〔第259便d〕の 🧶 251.7σ は旧則の質量(凍結の写し retired-w287b.json の superseded)で再現する
+  let SUP287m = null;
+  try { SUP287m = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w287b.json'), 'utf8')).superseded.psrB1534DFM.raw.bodies.map((b) => b.m); } catch (e) { SUP287m = null; }
+  const f1Now1534 = (() => { const a = block.indexOf('{ id:"psrB1534DFM"'); if (a < 0) return false; const b = block.indexOf('\n{ id:"', a + 10); return block.slice(a, b < 0 ? undefined : b).indexOf('massCalibration:{law:"f-fixed-1"') >= 0; })();
   massOf = (pid) => (pid === 'psrDoubleABDFM' && f1Now && SUP284m) ? SUP284m.slice(0, 2)
-    : (pid === 'psrJ1757DFM' && f1Now1757 && SUP285m) ? SUP285m.slice(0, 2) : massOf0(pid);
+    : (pid === 'psrJ1757DFM' && f1Now1757 && SUP285m) ? SUP285m.slice(0, 2)
+    : (pid === 'psrB1534DFM' && f1Now1534 && SUP287m) ? SUP287m.slice(0, 2) : massOf0(pid);
   const CASES = [
     { id: 'psrDoubleABDFM', emoji: '⚡', obsP: 8834.534723, sigma: 2.5056e-7, expectSigma: 215.5 },
     { id: 'psrB1534DFM', emoji: '🧶', obsP: 36351.702644, sigma: 8.64e-7, expectSigma: 251.7 },
@@ -9453,6 +9590,7 @@ if (!TARGET.startsWith('beta/')) {
       if (!m) { seen.push(`${c.emoji} 不在`); continue; }
       if (c.id === 'psrDoubleABDFM' && f1Now) seen.push('⚡ は f=1 へ移った —— 記録の再現は凍結の写しの旧則の質量で行う');
       if (c.id === 'psrJ1757DFM' && f1Now1757) seen.push('🧮 は f=1 へ移った(第285便f)—— 記録の再現は凍結の写しの旧則の質量で行う');
+      if (c.id === 'psrB1534DFM' && f1Now1534) seen.push('🧶 は f=1 へ移った(第287便b)—— 記録の再現は凍結の写しの旧則の質量で行う');
       for (const z of m) if (L.float32Ulp(z) !== ULP)
         bad.push(`①${c.emoji} の ULP が ${ULP} でない(${L.float32Ulp(z)} @ m=${z})`);
       const e = L.massRoundingEstimate(m, null, c.obsP, c.sigma);
@@ -10723,17 +10861,22 @@ const PSR_SUP285 = (() => { try { return JSON.parse(fs.readFileSync(path.join(RO
 // 第286便f(原仮定者の裁定(第76報)AN57): 🩺 psrJ1946DFM も f=1 へ移った —— 🩺 を数値の器として使う試験は凍結の写し
 //   tests/fixtures/retired-w286f.json の superseded(第248〜285便の旧則)へ付け替える(⚡🧮 と同じ流儀・🩺 が f=1 の世代だけ)
 const PSR_SUP286 = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w286f.json'), 'utf8')).superseded.psrJ1946DFM.raw; } catch (e) { return null; } })();
+// 第287便b(原仮定者の裁定(第77報)AN62): 🧶 psrB1534DFM も f=1 へ移った —— 🧶 を数値の器として使う試験(behavior.nsThreeStage の NS 4 系)は凍結の写し
+//   tests/fixtures/retired-w287b.json の superseded(第251〜286便の旧則)へ付け替える(⚡🧮🩺 と同じ流儀・🧶 が f=1 の世代だけ)
+const PSR_SUP287 = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w287b.json'), 'utf8')).superseded.psrB1534DFM.raw; } catch (e) { return null; } })();
 async function installQaPreset(pg) {
-  await pg.evaluate(({ raw, raw5, raw6 }) => {
+  await pg.evaluate(({ raw, raw5, raw6, raw7 }) => {
     const f1 = (id) => { const cur = (window.HP && HP.allPresets) ? HP.allPresets().find((q) => q.id === id) : null;
       return !!(cur && cur.massCalibration && cur.massCalibration.law === 'f-fixed-1'); };
     window.__psrOld = (raw && f1('psrDoubleABDFM')) ? raw : null;
     window.__psrOld1757 = (raw5 && f1('psrJ1757DFM')) ? raw5 : null;
     window.__psrOld1946 = (raw6 && f1('psrJ1946DFM')) ? raw6 : null;
+    window.__psrOld1534 = (raw7 && f1('psrB1534DFM')) ? raw7 : null;
     window.__qaPreset = (id) => (id === 'psrDoubleABDFM' && window.__psrOld) ? window.__psrOld
       : (id === 'psrJ1757DFM' && window.__psrOld1757) ? window.__psrOld1757
-      : (id === 'psrJ1946DFM' && window.__psrOld1946) ? window.__psrOld1946 : HP.allPresets().find((q) => q.id === id);
-  }, { raw: PSR_SUP284, raw5: PSR_SUP285, raw6: PSR_SUP286 });
+      : (id === 'psrJ1946DFM' && window.__psrOld1946) ? window.__psrOld1946
+      : (id === 'psrB1534DFM' && window.__psrOld1534) ? window.__psrOld1534 : HP.allPresets().find((q) => q.id === id);
+  }, { raw: PSR_SUP284, raw5: PSR_SUP285, raw6: PSR_SUP286, raw7: PSR_SUP287 });
 }
 await page.waitForFunction(() => window.HP && HP.allPresets);
 await installQaPreset(page);
@@ -10746,7 +10889,10 @@ const W285_J1757_F1 = (() => { try { const h = fs.readFileSync(path.join(ROOT, T
 // 第286便f(原仮定者の裁定(第76報)AN57): 🩺 psrJ1946DFM も f=1 へ移り補正コア 2 件を外した —— 同じ差し引きに足す(🩺 が f=1 の世代だけ)
 const W286_J1946_F1 = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); const a = h.indexOf('{ id:"psrJ1946DFM"'); if (a < 0) return false;
   const b = h.indexOf('\n{ id:"', a + 10); return h.slice(a, b < 0 ? undefined : b).indexOf('massCalibration:{law:"f-fixed-1"') >= 0; } catch (e) { return false; } })();
-const W284_CORE = (W284_PSR_F1 ? 2 : 0) + (W285_J1757_F1 ? 2 : 0) + (W286_J1946_F1 ? 2 : 0);
+// 第287便b(原仮定者の裁定(第77報)AN62): 🧶 psrB1534DFM も f=1 へ移り補正コア 2 件を外した —— 同じ差し引きに足す(🧶 が f=1 の世代だけ。🪤 は退役でもコアを持つので数えたまま)
+const W287_B1534_F1 = (() => { try { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); const a = h.indexOf('{ id:"psrB1534DFM"'); if (a < 0) return false;
+  const b = h.indexOf('\n{ id:"', a + 10); return h.slice(a, b < 0 ? undefined : b).indexOf('massCalibration:{law:"f-fixed-1"') >= 0; } catch (e) { return false; } })();
+const W284_CORE = (W284_PSR_F1 ? 2 : 0) + (W285_J1757_F1 ? 2 : 0) + (W286_J1946_F1 ? 2 : 0) + (W287_B1534_F1 ? 2 : 0);
 
 // ---- 0b3) 第52便(ChatGPT R-02 提案): release.no-beta-identifiers — ルート対象時、
 // ----      リリース識別子の残存・取り違えを一括機械検査する。
@@ -18167,9 +18313,30 @@ if (!FAST) {
         const g6 = CS.h2ReuseDecision({ entry: e2n({ contract: {} }), contract: {}, hRun: hR, targetSha256: TS });
         const g7 = CS.h2ReuseDecision({ entry: null, contract: c2, hRun: hR, targetSha256: TS });
         const hWall = Object.assign({}, hR, { wallSec: 99, rateStepsPerSec: 5, timeBudget: { wallSec: 99 } });   // 壁時計だけ違う h は同じ署名
-        if (!g1.reuse || g2.reuse || !/h-moved/.test(g2.reason || '') || g3.reuse || g3.reason !== 'other-flight' || !g3x.reuse || g4.reuse || g5.reuse || g5.reason !== 'contract'
-          || g6.reuse || g7.reuse || CS.rawRunSig(hWall) !== CS.rawRunSig(hR) || CS.H2_NONDET_TOL !== null)
-          bad.push('(iii″) dt/2 の転記規則: ' + JSON.stringify([g1, g2, g3, g3x, g4, g5, g6, g7].map((z) => z.reuse + ':' + z.reason)));
+        // 第287便b(原仮定者の裁定(第77報)AN62・H2_CROSS_RULE): **便をまたぐ転記は安定 hash(7 要素)と完走済み出力の整合を要る** ——
+        //   g3x(安定 hash の無い置き場の組を --h2-reuse-cross で)は第284便c では転記だったが、本便から**拒否**(QA の固定値を変えた箇所)。
+        //   g8: 7 要素が同じ・前回の h/2 の窓が完了 → 転記 / g9: dt は同じでエンジン条件(ブラウザの版)だけ違う → 拒否(diff engine)/
+        //   g10: 前回の置き場に安定 hash が無い → 拒否 / g11: 前回の h/2 の窓が不完全 → 拒否 / g12: 同一便は安定 hash が無くても従来どおり転記
+        const hasCross = typeof CS.stableInputHash === 'function' && typeof CS.h2CrossFlightCheck === 'function';
+        const ST = hasCross ? CS.stableInputHash({ physicsDecl: { presetHash: 'aa' }, obsRef: { csvSha: 'c' }, instrument: { extractorSha: 'x1' }, stopRule: { version: 'w287b-1' },
+          numerics: { dt: 0.008, dtH: 0.016 }, precision: { stateCarry: 'double' }, engine: { browser: '140.0.7339.16', lawsSha: 'l' } }) : null;
+        const ST2 = hasCross ? CS.stableInputHash({ physicsDecl: { presetHash: 'aa' }, obsRef: { csvSha: 'c' }, instrument: { extractorSha: 'x1' }, stopRule: { version: 'w287b-1' },
+          numerics: { dt: 0.008, dtH: 0.016 }, precision: { stateCarry: 'double' }, engine: { browser: '141.0.7390.37', lawsSha: 'l' } }) : null;
+        const h2done = Object.assign({}, h2run, { stopRule: { resourceExceeded: false, complete: true } });
+        const TSX = 'e'.repeat(64);
+        const g8 = hasCross ? CS.h2ReuseDecision({ entry: e2n({ stable: ST, run: h2done }), contract: c2, hRun: hR, targetSha256: TSX, crossFlight: true, stable: ST }) : null;
+        const g9 = hasCross ? CS.h2ReuseDecision({ entry: e2n({ stable: ST, run: h2done }), contract: c2, hRun: hR, targetSha256: TSX, crossFlight: true, stable: ST2 }) : null;
+        const g10 = hasCross ? CS.h2ReuseDecision({ entry: e2n({ run: h2done }), contract: c2, hRun: hR, targetSha256: TSX, crossFlight: true, stable: ST }) : null;
+        const g11 = hasCross ? CS.h2ReuseDecision({ entry: e2n({ stable: ST }), contract: c2, hRun: hR, targetSha256: TSX, crossFlight: true, stable: ST }) : null;
+        const g12 = hasCross ? CS.h2ReuseDecision({ entry: e2n(), contract: c2, hRun: hR, targetSha256: TS, crossFlight: true, stable: null }) : null;
+        const g3xOk = hasCross ? (!g3x.reuse && /^cross-flight: stable-hash-incomplete/.test(g3x.reason || '')) : g3x.reuse;
+        const crossOk = !hasCross || (g8.reuse && !g9.reuse && JSON.stringify(g9.diff) === JSON.stringify(['engine']) && !g10.reuse && /stable-hash-missing/.test(g10.reason || '')
+          && !g11.reuse && /output: 不完全窓/.test(g11.reason || '') && g12.reuse && CS.H2_STABLE_PARTS.length === 7 && ST.missing.length === 0);
+        if (!g1.reuse || g2.reuse || !/h-moved/.test(g2.reason || '') || g3.reuse || g3.reason !== 'other-flight' || !g3xOk || g4.reuse || g5.reuse || g5.reason !== 'contract'
+          || g6.reuse || g7.reuse || CS.rawRunSig(hWall) !== CS.rawRunSig(hR) || CS.H2_NONDET_TOL !== null || !crossOk)
+          bad.push('(iii″) dt/2 の転記規則: ' + JSON.stringify([g1, g2, g3, g3x, g4, g5, g6, g7].concat(hasCross ? [g8, g9, g10, g11, g12] : []).map((z) => z.reuse + ':' + z.reason + (z.diff && z.diff.length ? '[' + z.diff.join('|') + ']' : ''))));
+        if (hasCross) cases.push(`第287便b(AN62)便をまたぐ転記 ${CS.H2_CROSS_RULE ? CS.H2_CROSS_RULE.version : '—'}: 安定 hash ${CS.H2_STABLE_PARTS.length} 要素(${CS.H2_STABLE_PARTS.join('・')})と完走済み出力の整合 —— `
+          + `同じ 7 要素・窓完了 → 転記 / dt が同じでもエンジン条件だけ違えば拒否(diff ${g9.diff.join(',')})/ 安定 hash の無い置き場・不完全窓 → 拒否 / 同一便は従来どおり`);
         const r2 = CS.reusedRunDt2(e2n());
         if (r2.skippedBy !== 'reuse-dt2' || !r2.reusedFrom || !/^[0-9a-f]{64}$/.test(r2.reusedFrom.contractSha || '') || r2.reusedFrom.wallSec !== 9
           || r2.timeBudget.skippedBy !== 'reuse-dt2' || r2.timeBudget.reused !== true || h2run.skippedBy !== undefined) bad.push('(iii″) dt/2 の転記の刻印の形');
@@ -18275,8 +18442,8 @@ if (!FAST) {
           if (!(e1.maxSteps === 40000000 && e2.maxSteps === 80000000 && e4.maxSteps === 160000000)) bad.push(`(vii) 階級上限の T 規則: ${e1.maxSteps}/${e2.maxSteps}/${e4.maxSteps}`);
           if (!(e1.targetTime && e2.targetTime && e1.targetTime.tBaseSteps === e2.targetTime.tBaseSteps && e2.targetTime.tBaseSteps === e4.targetTime.tBaseSteps)) bad.push('(vii) 段で T が違う');
           if (!(m1.maxSteps === Math.round(47503.32 * 60) && m2.maxSteps === Math.round(47503.32 * 2 * 60) && m1.boundBy === 'orbit-window')) bad.push(`(vii) 軌道窓の段が旧規約の round でない: ${m1.maxSteps}/${m2.maxSteps}`);
-          // 第286便f: 停止規則の版は w286f-1(軌道長の窓の一般化 —— T の規則 w285f-T1 は同じ)
-          if (SR.STOP_RULE_VERSION !== 'w286f-1' || !SR.TARGET_TIME_RULE || SR.TARGET_TIME_RULE.version !== 'w285f-T1') bad.push('(vii) 停止規則の版・T の規則の版');
+          // 第286便f: 停止規則の版は w286f-1(軌道長の窓の一般化 —— T の規則 w285f-T1 は同じ)→ 第287便b: w287b-1(🧶 の窓を足した)
+          if (SR.STOP_RULE_VERSION !== 'w287b-1' || !SR.TARGET_TIME_RULE || SR.TARGET_TIME_RULE.version !== 'w285f-T1') bad.push('(vii) 停止規則の版・T の規則の版');
           const w1 = CS.windowContract(e1), w2 = CS.windowContract(e2);
           if (!w1 || JSON.stringify(w1) !== JSON.stringify(w2) || w1.version !== CS.WINDOW_CONTRACT_VERSION) bad.push('(vii) h と h/2 の窓の定義が違う');
           if (!CS.H2_CONTRACT_KEYS.includes('window') || !CS.H4_CONTRACT_KEYS.includes('window') || CS.H2_REUSE_VERSION !== 'w285f-h2reuse-2' || CS.H4_REUSE_VERSION !== 'w285f-h4reuse-3')
@@ -18296,7 +18463,7 @@ if (!FAST) {
               const st = (p.run || {}).stopRuleStages || [];
               const h = st.find((z) => z.tag === 'dt'), h2 = st.find((z) => z.tag === 'dt/2');
               if (!h || !h2) continue;
-              if (gen === 'w285f-1' || gen === 'w286f-1') {
+              if (gen === 'w285f-1' || gen === 'w286f-1' || gen === 'w287b-1') {
                 nNew++;
                 if (!(h.targetTime && h2.targetTime && h.targetTime.tBaseSteps === h2.targetTime.tBaseSteps)) off.push(p.id + (p.kf0Diagnostic ? '(kF0)' : '') + ': T');
                 // 統括(第285便 統合): 軌道窓で止まる段は必要近点で終わる —— 物理時間は近点検出の刻み分だけ dt と dt/2 で違い(✴️💫 の DFM 版で 7 s・27 s / 1.5e5 s)、
@@ -18307,7 +18474,7 @@ if (!FAST) {
               } else if (Math.abs(h2.stepsRun * h2.dt - h.stepsRun * h.dt) > 2 * h.dt) { nOld++; winTxt.push(`${p.id} h ${(h.periFoundA || []).join('/')}・h/2 ${(h2.periFoundA || []).join('/')} 近点(窓が違う)`); }
             }
             if (off.length) bad.push('(vii) 正本の dt と dt/2 の窓が違う: ' + off.slice(0, 4).join(','));
-            cases.push((gen === 'w285f-1' || gen === 'w286f-1') ? `dt/2 の窓: 正本は T の規則の世代 —— ${nNew} 本の dt と dt/2 が同じ T(上限で決まる本 ${winTxt.join(' ; ') || 'なし'})`
+            cases.push((gen === 'w285f-1' || gen === 'w286f-1' || gen === 'w287b-1') ? `dt/2 の窓: 正本は T の規則の世代 —— ${nNew} 本の dt と dt/2 が同じ T(上限で決まる本 ${winTxt.join(' ; ') || 'なし'})`
               : `dt/2 の窓: 正本は旧規約の世代(停止規則 ${gen})—— 窓の違う本 ${nOld}(${winTxt.join(' ; ')})は鎖の再生成で T の窓になる`);
           }
           cases.push(`T の規則 ${SR.TARGET_TIME_RULE ? SR.TARGET_TIME_RULE.version : '—'}: 🌙 級(階級上限)h ${e1.maxSteps}・h/2 ${e2.maxSteps}・h/4 ${e4.maxSteps} 步(T=${e1.targetTime ? e1.targetTime.tBaseSteps : '—'} 步@dt₀)/ 軌道窓は旧規約のまま・契約の窓の定義 ${CS.WINDOW_CONTRACT_VERSION}(版 ${CS.H2_REUSE_VERSION}・${CS.H4_REUSE_VERSION})`);
@@ -19186,9 +19353,11 @@ if (!FAST) {
         // 統括(第286便 統合): b の cLight 真値化(実単位の本 51 —— 光線は c を読む)と f の 🩺 f=1 で光線が変わった本は 🌚 の除外と無関係(基点 de9e39b との差)
         const html286 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
         const W286B = html286.indexOf('cLight:29979.2458') >= 0, W286F = html286.indexOf('  psrJ1946CF:{ja:') >= 0;
+        // 第287便b(原仮定者の裁定(第77報)AN62): 🧶 psrB1534DFM も f=1(観測質量)—— 光線の源の質量が変わる(lens 除外の規則とは無関係 —— 鎖で正本を刻み直した後に出る差)
+        const W287B = html286.indexOf('  psrB1534CF:{ja:') >= 0;
         const CL286 = new Set(); if (W286B) { try { const CL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8')); for (const b of (CL.books || []).concat(CL.others || [])) CL286.add(b.id); } catch (e) { /* 無い世代 */ } }
         const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id).filter((id) => !(W284R && id === 'psrDoubleABDFM') && !(W285F && id === 'psrJ1757DFM')
-          && !(W286B && (CL286.has(id) || id === 'psrDoubleABGeoToy' || id === 'psrDoubleABSpinCal')) && !(W286F && id === 'psrJ1946DFM'));
+          && !(W286B && (CL286.has(id) || id === 'psrDoubleABGeoToy' || id === 'psrDoubleABSpinCal')) && !(W286F && id === 'psrJ1946DFM') && !(W287B && id === 'psrB1534DFM'));
         if (diff.length) bad.push('🌚 以外で光線が変わった本 ' + diff.slice(0, 4).join(','));
         if (news.join(',') !== 'clusterAnalogyBH') bad.push('基点に無い本 ' + news.join(','));
         const c = R.cluster;
@@ -22374,6 +22543,143 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       ` / 対照: kFrame=0 の 1周目 ${r.kf0 ? r.kf0.sec.toFixed(2) + ' s・離心率 ' + r.kf0.e.toFixed(5) : '—'}(観測の軌道)・coupleSink 除去 |s|max=${r.negSink ? r.negSink.sMax : '—'}(clampSN Δ ${r.negSink ? r.negSink.clampD : '—'})・cmGauge 除去の重心 ${r.negWalk === undefined ? '—' : r.negWalk.toFixed(3)}` +
       ` / 軌道窓 ${OW ? OW.orbits + ' 公転 × ' + OW.orbitStepsBase + ' 步(1周目 ' + R.rev1Steps + ' 步)' : '—'} / 引きずり非依存 ${r.dragBit}` +
       ` / 退役 🩹 psrJ1946CF(🩺 の f=1 と同時 —— AN57)` +
+      (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第287便b(原仮定者の裁定(第77報)AN62「🧶 の f=1 と 🪤 の退役は同時」・第76報 AN57「🩺 → 🧶 の順」): behavior.psrF1 の 🧶 psrB1534DFM ----
+// ----   ⚡🧮🩺 と同じ手順で 🧶 を **f=1(観測質量)** へ移した宣言と新しい走行の記録を機械固定する(**合否の判定ではない** ——
+// ----   観測周期は再現しない。「f=1 で合った」とは書かない。**観測に合わせて調整しない**)。
+// ----     ① 宣言: law:"f-fixed-1"・f=1・baseMass=[2650.6705, 2675.52675]・history(旧一次則 f=1.9994854557873434・補正コア・coupleSink:"core")。
+// ----        bodies の m は baseMass とビット一致・補正コアが無い・λ_PN=1 明示・geoPN=2・kFrame=1・coupleSink:"reservoir"・cmGauge:"barycentric"。
+// ----        位置・速度・dragQ・半径・spin は**移行前(凍結の写し retired-w287b.json の superseded)とビット同一**。受理器の警告 0。
+// ----        退役: 🪤 psrB1534CF は familyRole "retired"(RETIRED_PRESETS に理由と see)・物理は写しとビット同一の署名。
+// ----        軌道窓: 停止規則の PRESET_ORBIT_WINDOW.psrB1534DFM(22 公転 × 1,126,979 步 —— ORBIT_WINDOW_RULE)が下の走行の 1周目の步数と同じ(±1 步)。
+// ----     ② 走行(既定 dt=0.016・同方向1周を 2 回〔FAST も同じ —— 約 225 万步〕): 殻 spin=0 の全窓ビット保持・帳簿 L/P の閉包・重心・
+// ----        リザーバの収支の記録・1周目/2周目の周期と実測離心率(obsCard・説明文と同じ値の窓)。
+// ----     ③ 対照: B 側 kFrame=0 は観測の軌道(1周目 36340〜36365 s・離心率 0.270〜0.278 —— 値の窓で見る)・
+// ----        dragQ・q を 2→8 にしても 20000 步の状態がビット一致(引きずり非依存)・
+// ----        coupleSink 除去で殻が飽和・cmGauge 除去で重心が歩く。
+// ----   **🧶 が f=1 でない世代(root 等)は SKIP**(⚡🧮🩺 とは別の add —— `behavior.psrF1-1534`)。
+{
+  const hasF1d = await page.evaluate(() => { const p = HP.allPresets().find((q) => q.id === 'psrB1534DFM');
+    return !!(p && p.massCalibration && p.massCalibration.law === 'f-fixed-1'); });
+  if (!hasF1d) {
+    console.log('SKIP behavior.psrF1-1534(🧶 が f=1 の宣言でない世代 — root 等)');
+  } else {
+    let FX7 = null;
+    try { FX7 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w287b.json'), 'utf8')); } catch (e) { FX7 = null; }
+    const SUP = FX7 ? FX7.superseded.psrB1534DFM.raw : null;
+    let OW = null;
+    try { OW = ((await import('file://' + path.join(ROOT, 'tests', 'lib-w270a-stoprule.mjs'))).PRESET_ORBIT_WINDOW || {}).psrB1534DFM || null; } catch (e) { OW = null; }
+    const r = await page.evaluate(({ SUP, CFSIG }) => {
+      const P_OBS = 3635.1702644, dt = 0.016;
+      const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+      const pd = P('psrB1534DFM');
+      const o = {};
+      const mc = pd.massCalibration || {};
+      const BASE = [2650.6705, 2675.52675];
+      const cf = HP.allPresets().find((q) => q.id === 'psrB1534CF');
+      o.decl = {
+        law: mc.law === 'f-fixed-1' && mc.f === 1 && Array.isArray(mc.baseMass) && mc.baseMass[0] === BASE[0] && mc.baseMass[1] === BASE[1],
+        history: !!(mc.history && mc.history.law === 'inertia-law-lin-v1' && mc.history.factor === 1.9994854557873434 && mc.history.coupleSink === 'core' && mc.history.core && mc.history.core.Kcs === 0),
+        massObs: pd.bodies[0].m === BASE[0] && pd.bodies[1].m === BASE[1],
+        noCore: pd.bodies.every((b) => b.core === undefined),
+        lambdaPN: Object.prototype.hasOwnProperty.call(pd.physics, 'lambdaPN') && pd.physics.lambdaPN === 1,
+        mode: pd.physics.geoPN === 2 && pd.physics.kFrame === 1 && pd.physics.coupleSink === 'reservoir' && pd.physics.cmGauge === 'barycentric',
+        fixedState: !!SUP && pd.bodies.every((b, i) => ['x', 'y', 'vx', 'vy', 'dragQ', 'radius', 'spin'].every((k) => Object.is(b[k], SUP.bodies[i][k]))),
+        supOld: !!SUP && SUP.massCalibration.law === 'inertia-law-lin-v1' && SUP.bodies.every((b) => !!b.core),
+        name: pd.name.indexOf('観測質量(f=1)') >= 0 && pd.name.indexOf('f=1 へ移行予定') < 0 && (pd.en || {}).name.indexOf('observed masses (f=1)') >= 0,
+        cfRetired: !!cf && cf.familyRole === 'retired' && typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.psrB1534CF
+          && (RETIRED_PRESETS.psrB1534CF.see || []).includes('psrB1534DFM') && presetSigHash(cf) === CFSIG,
+        dragIndependent: (pd.obsCard || []).some((z) => /引きずり非依存/.test(z.q)),
+      };
+      const vd = HP.validatePreset(JSON.parse(JSON.stringify(pd)));
+      o.decl.validator = vd.ok && vd.warnings.length === 0;
+      const S = makeSim(); S.build(vd.preset);
+      const clamp0 = S.clampSN || 0;
+      const T0 = S.totals(); const L0 = T0.L + S.resL + S.radL; const mt = S.m[0] + S.m[1];
+      const com = () => ({ x: (S.m[0] * S.x[0] + S.m[1] * S.x[1]) / mt, y: (S.m[0] * S.y[0] + S.m[1] * S.y[1]) / mt });
+      const c0 = com(); const ep0x = T0.px + S.resPx, ep0y = T0.py + S.resPy;
+      const pScale = S.m[0] * Math.hypot(S.vx[0], S.vy[0]) + S.m[1] * Math.hypot(S.vx[1], S.vy[1]);
+      const maxSteps = Math.round(20 * P_OBS / dt);   // 1 周が観測の約 5 倍 —— 2 周が入る上限
+      let ang = 0, px = 0, py = 0, rmin = Infinity, rmax = -Infinity, sMax = 0, comMax = 0, resMax = 0, k = 0, e1 = null, rmin1 = null, rmax1 = null;
+      const revs = [];
+      const t0 = performance.now();
+      for (k = 0; k < maxSteps && revs.length < 2; k++) {
+        S.step(dt);
+        const dx = S.x[1] - S.x[0], dy = S.y[1] - S.y[0], rr = Math.hypot(dx, dy);
+        if (rr < rmin) rmin = rr; if (rr > rmax) rmax = rr;
+        const sm = Math.max(Math.abs(S.spin[0]), Math.abs(S.spin[1])); if (sm > sMax) sMax = sm;
+        const cc = com(); const cd = Math.hypot(cc.x - c0.x, cc.y - c0.y); if (cd > comMax) comMax = cd;
+        const rl = Math.abs(S.resL); if (rl > resMax) resMax = rl;
+        if (k === 0) { px = dx; py = dy; } else {
+          ang += Math.atan2(px * dy - py * dx, px * dx + py * dy); px = dx; py = dy;
+          if (Math.abs(ang) >= (revs.length + 1) * 2 * Math.PI) { revs.push((k + 1) * dt);
+            if (e1 === null) { e1 = (rmax - rmin) / (rmax + rmin); rmin1 = rmin; rmax1 = rmax; } } }
+      }
+      const T1 = S.totals(); const L1 = T1.L + S.resL + S.radL;
+      o.run = { steps: k, ms: Math.round(performance.now() - t0), rev1Steps: revs.length ? Math.round(revs[0] / dt) : null, revSec: revs.map((t, i) => (i ? t - revs[i - 1] : t) * 10), e1, rmin1, rmax1,
+        sMax, clampD: (S.clampSN || 0) - clamp0, lRel: Math.abs(L1 - L0) / Math.abs(L0),
+        pRel: Math.hypot(T1.px + S.resPx - ep0x, T1.py + S.resPy - ep0y) / pScale, comMax,
+        resMaxPct: 100 * resMax / Math.abs(L0), resEnd: S.resL, L0, nan: S.hasNaN() };
+      // ③ 対照
+      const firstRev = (p) => { const v = HP.validatePreset(p); const Z = makeSim(); Z.build(v.preset);
+        let a = 0, qx = 0, qy = 0, lo = Infinity, hi = -Infinity;
+        for (let i = 0; i < Math.round(1.5 * P_OBS / dt); i++) { Z.step(dt); const dx = Z.x[1] - Z.x[0], dy = Z.y[1] - Z.y[0], rr = Math.hypot(dx, dy);
+          if (rr < lo) lo = rr; if (rr > hi) hi = rr;
+          if (i === 0) { qx = dx; qy = dy; } else { a += Math.atan2(qx * dy - qy * dx, qx * dx + qy * dy); qx = dx; qy = dy;
+            if (Math.abs(a) >= 2 * Math.PI) return { sec: (i + 1) * dt * 10, e: (hi - lo) / (hi + lo) }; } }
+        return null; };
+      const k0 = P('psrB1534DFM'); k0.physics.kFrame = 0; k0.physics.geoPN = 1;
+      o.kf0 = firstRev(k0);
+      const ns = P('psrB1534DFM'); delete ns.physics.coupleSink;
+      { const v = HP.validatePreset(ns); const Z = makeSim(); Z.build(v.preset); const c0z = Z.clampSN || 0; let m3 = 0;
+        for (let i = 0; i < Math.round(0.3 * P_OBS / dt); i++) { Z.step(dt); const s3 = Math.max(Math.abs(Z.spin[0]), Math.abs(Z.spin[1])); if (s3 > m3) m3 = s3; }
+        o.negSink = { sMax: m3, clampD: (Z.clampSN || 0) - c0z }; }
+      const ng = P('psrB1534DFM'); delete ng.physics.cmGauge;
+      { const v = HP.validatePreset(ng); const Z = makeSim(); Z.build(v.preset); const mz = Z.m[0] + Z.m[1];
+        const cz = () => ({ x: (Z.m[0] * Z.x[0] + Z.m[1] * Z.x[1]) / mz, y: (Z.m[0] * Z.y[0] + Z.m[1] * Z.y[1]) / mz });
+        const z0 = cz(); let w = 0;
+        for (let i = 0; i < Math.round(0.5 * P_OBS / dt); i++) { Z.step(dt); const c = cz(); const d = Math.hypot(c.x - z0.x, c.y - z0.y); if (d > w) w = d; }
+        o.negWalk = w; }
+      // 引きずり非依存(AN51・AN57): dragQ・q を 2→8 にしても 20000 步の状態がビット一致
+      const runN = (p, n) => { const v = HP.validatePreset(p); const Z = makeSim(); Z.build(v.preset); for (let i = 0; i < n; i++) Z.step(dt);
+        return [Z.x[0], Z.y[0], Z.vx[0], Z.vy[0], Z.x[1], Z.y[1], Z.vx[1], Z.vy[1], Z.spin[0], Z.spin[1]]; };
+      const q2 = P('psrB1534DFM'); q2.physics.q = 2; q2.bodies.forEach((b) => { b.dragQ = 2; });
+      const q8 = P('psrB1534DFM'); q8.physics.q = 8; q8.bodies.forEach((b) => { b.dragQ = 8; });
+      const a2 = runN(q2, 20000), a8 = runN(q8, 20000); o.dragBit = a2.every((x, i) => Object.is(x, a8[i]));
+      return o;
+    }, { SUP, CFSIG: FX7 ? FX7.presets.psrB1534CF.presetSigHash : null }).catch((e) => ({ err: String(e).slice(0, 300) }));
+    const bad = [];
+    if (r.err) bad.push('ページ: ' + r.err);
+    else {
+      for (const [k2, v2] of Object.entries(r.decl)) if (v2 !== true) bad.push('①' + k2);
+      const R = r.run;
+      if (R.nan) bad.push('②NaN');
+      if (!(R.sMax === 0 && R.clampD === 0)) bad.push(`②殻スピン |s|max=${R.sMax}・clampSN Δ=${R.clampD}`);
+      if (!(R.lRel < 1e-8 && R.pRel < 1e-8)) bad.push(`②帳簿 L ${R.lRel}・P ${R.pRel}`);
+      if (!(R.comMax < 0.01)) bad.push(`②重心 ${R.comMax}`);
+      if (!(R.revSec.length === 2 && R.revSec.every((x) => x >= 179500 && x <= 181000))) bad.push(`②周期 ${JSON.stringify(R.revSec)}(窓 179500〜181000 s —— 説明文の 180316.64 / 180298.40 s)`);
+      if (!(R.e1 !== null && R.e1 >= 0.43 && R.e1 <= 0.47)) bad.push(`②実測離心率 ${R.e1}(窓 0.43〜0.47 —— 説明文の 0.44921)`);
+      if (!(R.resMaxPct >= 0.15 && R.resMaxPct <= 0.5)) bad.push(`②リザーバ最大 ${R.resMaxPct}%(窓 0.15〜0.5 —— 説明文の 0.30%)`);
+      // 第287便b: 🩺 と同じく |差| ≤ 1 步を宣言どおりと見る(試走の粒度 —— 窓の長さの宣言であって精度条件ではない。CI の Chromium の 1 ulp で 1 步動きうる)
+      if (!(OW && Math.abs(R.rev1Steps - OW.orbitStepsBase) <= 1 && OW.orbits === OW.needPeriastra + 2)) bad.push(`②軌道窓の宣言 ${OW ? OW.orbits + '×' + OW.orbitStepsBase : '無し'} が 1周目の步数 ${R.rev1Steps} と違う(±1 步の外)`);
+      if (!(r.kf0 && r.kf0.sec >= 36340 && r.kf0.sec <= 36365 && r.kf0.e >= 0.270 && r.kf0.e <= 0.278)) bad.push(`③kFrame=0 の 1周目 ${JSON.stringify(r.kf0)}(観測の軌道の窓)`);
+      if (r.dragBit !== true) bad.push('③dragQ・q 2→8 で状態がビット一致しない(引きずり非依存でない)');
+      if (!(r.negSink.clampD > 0 || r.negSink.sMax >= 20)) bad.push(`③coupleSink 除去で殻が飽和しない(|s|max ${r.negSink.sMax}・clampSN Δ ${r.negSink.clampD})`);
+      if (!(r.negWalk > 0.01)) bad.push(`③cmGauge 除去で重心が歩かない(${r.negWalk})`);
+    }
+    const R = r.run || {};
+    add('behavior.psrF1-1534', bad.length === 0,
+      `**🧶 の f=1**(第287便b・原仮定者の裁定(第77報)AN62 —— ⚡ の第284便b・🧮 の第285便f・🩺 の第286便f と同じ手順): 宣言 ${r.decl ? Object.entries(r.decl).map(([k2, v2]) => k2 + '=' + v2).join('・') : '—'}` +
+      ` / 走行(同方向1周×2・${R.steps} 步・${R.ms} ms): ` +
+      (R.revSec && R.revSec.length ? `同方向1周 ${R.revSec.map((x) => x.toFixed(2)).join(' / ')} s(観測 36351.702644 s の ${(R.revSec[0] / 36351.702644).toFixed(3)} 倍 —— **観測周期は再現しない**)・実測離心率 ${R.e1 === null ? '—' : R.e1.toFixed(5)}・分離 ${R.rmin1 === null ? '—' : R.rmin1.toFixed(2)}〜${R.rmax1 === null ? '—' : R.rmax1.toFixed(2)} / ` : '') +
+      `殻 |s|max=${R.sMax}・clampSN Δ=${R.clampD}・帳簿 L ${R.lRel === undefined ? '—' : R.lRel.toExponential(1)}/P ${R.pRel === undefined ? '—' : R.pRel.toExponential(1)}・重心 ${R.comMax === undefined ? '—' : R.comMax.toExponential(1)}` +
+      ` / リザーバの収支(記録): 最大 |resL|/L0=${R.resMaxPct === undefined ? '—' : R.resMaxPct.toFixed(4)}%・終端 resL=${R.resEnd === undefined ? '—' : R.resEnd.toFixed(2)}(L0=${R.L0 === undefined ? '—' : R.L0.toFixed(2)})` +
+      ` / 対照: kFrame=0 の 1周目 ${r.kf0 ? r.kf0.sec.toFixed(2) + ' s・離心率 ' + r.kf0.e.toFixed(5) : '—'}(観測の軌道)・coupleSink 除去 |s|max=${r.negSink ? r.negSink.sMax : '—'}(clampSN Δ ${r.negSink ? r.negSink.clampD : '—'})・cmGauge 除去の重心 ${r.negWalk === undefined ? '—' : r.negWalk.toFixed(3)}` +
+      ` / 軌道窓 ${OW ? OW.orbits + ' 公転 × ' + OW.orbitStepsBase + ' 步(1周目 ' + R.rev1Steps + ' 步)' : '—'} / 引きずり非依存 ${r.dragBit}` +
+      ` / 退役 🪤 psrB1534CF(🧶 の f=1 と同時 —— AN62・CF 系列の最後の 1 本)` +
       (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }
@@ -36977,8 +37283,17 @@ if (!FAST) {
       try { FX6 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w286f.json'), 'utf8')); }
       catch (e) { bad.push('第286便f の凍結の写しが読めない'); }
     }
-    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286);
-    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}) };
+    // 第287便b(原仮定者の裁定(第77報)AN62): 🪤 psrB1534CF を 🧶 の f=1 署名と同時に退役(**16 本** —— 世代切替 has287b = RETIRED_PRESETS に 🪤 の行)。
+    //   写しは tests/fixtures/retired-w287b.json(第287便b の html から凍結・🧶 の旧則 superseded を含む)。CF 系列はこれで全部退役
+    const has287b = await page.evaluate(() => typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.psrB1534CF);
+    const IDS287 = has287b ? ['psrB1534CF'] : [];
+    let FX7 = null;
+    if (has287b) {
+      try { FX7 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w287b.json'), 'utf8')); }
+      catch (e) { bad.push('第287便b の凍結の写しが読めない'); }
+    }
+    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287);
+    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}) };
     const r = await page.evaluate(async (a) => {
       const { IDS, FX } = a;
       const o = {};
@@ -37087,6 +37402,13 @@ if (!FAST) {
         if (!sup6 || !sup6.massCalibration || sup6.massCalibration.law !== 'inertia-law-lin-v1' || !sup6.raw || !sup6.raw.bodies.every((b) => b.core))
           bad.push('⑤写しに 🩺 の旧則(superseded —— 一次則 f≈2 と補正コア)が無い');
       }
+      if (has287b) {   // 第287便b: 🧶 の旧則の写しと付け替えた試験の保存 QA
+        const hist7 = FX7 ? ((FX7.history || {}).tests || []) : [];
+        if (!hist7.length || !hist7.every((t) => t.pass)) bad.push('⑤第287便b の写しの history が PASS でない');
+        const sup7 = FX7 && FX7.superseded && FX7.superseded.psrB1534DFM;
+        if (!sup7 || !sup7.massCalibration || sup7.massCalibration.law !== 'inertia-law-lin-v1' || !sup7.raw || !sup7.raw.bodies.every((b) => b.core))
+          bad.push('⑤写しに 🧶 の旧則(superseded —— 一次則 f≈2 と補正コア)が無い');
+      }
     }
     // ⑤ ゲートから外した試験
     const GATE = ['behavior.darkrotor', 'behavior.darkrotorLong', 'behavior.darkrotor-pitch', 'behavior.darkrotor-multiseed'];
@@ -37113,17 +37435,20 @@ if (!FAST) {
         || !!(SSJ.tally && SSJ.tally.retired && SSJ.tally.retired.n === IDS.length);
       // 第286便f: 同じ流儀で 🩹 の世代を判る(正本の tally.retired が 15 なら第286便の世代・14 なら第285便の世代〔鎖の samplestatus の段で 15 本へ〕)
       const ssGen286 = !!(SSJ.tally && SSJ.tally.retired && SSJ.tally.retired.n === IDS.length);
+      // 第287便b: 同じ流儀で 🪤 の世代を判る(正本の tally.retired が 16 なら第287便の世代・15 なら第286便の世代〔鎖の samplestatus の段で 16 本へ〕)
+      const nRetSS = SSJ.tally && SSJ.tally.retired ? SSJ.tally.retired.n : null;
       const nSS = ssGen286 ? IDS.length
-        : (has286f && ssGen285 && SSJ.tally && SSJ.tally.retired && SSJ.tally.retired.n === IDS.length - IDS286.length) ? IDS.length - IDS286.length
-        : (has285f && !ssGen285) ? IDS.length - IDS285.length - IDS286.length : IDS.length;
+        : (has287b && nRetSS === IDS.length - IDS287.length) ? IDS.length - IDS287.length
+        : (has286f && ssGen285 && nRetSS === IDS.length - IDS286.length - IDS287.length) ? IDS.length - IDS286.length - IDS287.length
+        : (has285f && !ssGen285) ? IDS.length - IDS285.length - IDS286.length - IDS287.length : IDS.length;
       if (!(SSJ.tally && SSJ.tally.retired && SSJ.tally.retired.n === nSS)) bad.push(`⑦samplestatus の tally.retired が ${nSS} でない`);
       const ssmd = fs.readFileSync(path.join(ROOT, 'docs', 'SAMPLE_STATUS_v1.45.md'), 'utf8');
       if (ssmd.indexOf(`## 🗄️ 退役(${nSS} 本)`) < 0) bad.push('⑦SAMPLE_STATUS に「退役」節が無い');
       if (has285f && !ssGen285) console.log('NOTE docs.retired ⑦: 状態表の正本は第284便の世代(退役 13 本)—— 鎖の samplestatus の段で 14 本の世代へ(第285便f)');
-      if (has286f && !ssGen286) console.log(`NOTE docs.retired ⑦: 状態表の正本は第285便の世代(退役 ${nSS} 本)—— 鎖の samplestatus の段で ${IDS.length} 本の世代へ(第286便f)`);
+      if (has286f && !ssGen286) console.log(`NOTE docs.retired ⑦: 状態表の正本は前の世代(退役 ${nSS} 本)—— 鎖の samplestatus の段で ${IDS.length} 本の世代へ(第286便f・第287便b)`);
     } catch (e) { bad.push('⑥⑦読めない: ' + String(e).slice(0, 80)); }
     add('docs.retired', bad.length === 0,
-      `**退役**(第283便b・原仮定者の裁定(第73報)④・R84${has284b ? ' + 第284便b・原仮定者の裁定(第74報)⑤・AN35・AN41' : ''}${has285f ? ' + 第285便f・原仮定者の裁定(第75報)AN51・AN24′' : ''}${has286f ? ' + 第286便f・原仮定者の裁定(第76報)AN57' : ''}): 🕶️⚫🌑🐚⏳🌱🪩${has284b ? '+🎋🪶🪃🪀⭕🪝' : ''}${has285f ? '+🪄' : ''}${has286f ? '+🩹' : ''} の ${IDS.length} 本は内蔵に残り familyRole "retired"(語彙 ${r.vocab ? r.vocab.join('/') : '—'})` +
+      `**退役**(第283便b・原仮定者の裁定(第73報)④・R84${has284b ? ' + 第284便b・原仮定者の裁定(第74報)⑤・AN35・AN41' : ''}${has285f ? ' + 第285便f・原仮定者の裁定(第75報)AN51・AN24′' : ''}${has286f ? ' + 第286便f・原仮定者の裁定(第76報)AN57' : ''}${has287b ? ' + 第287便b・原仮定者の裁定(第77報)AN62' : ''}): 🕶️⚫🌑🐚⏳🌱🪩${has284b ? '+🎋🪶🪃🪀⭕🪝' : ''}${has285f ? '+🪄' : ''}${has286f ? '+🩹' : ''}${has287b ? '+🪤' : ''} の ${IDS.length} 本は内蔵に残り familyRole "retired"(語彙 ${r.vocab ? r.vocab.join('/') : '—'})` +
       (has284b && r.selRetired ? ` / AN41: 隠し #presetSelect の退役 ${r.selRetired.length} 本・AI 追加の基準候補の退役 ${r.aiRetired.length} 本(読み込み中/選択中の本だけ残る=${r.aiCurKept === 'emAuditNewton' && r.selCurKept.length === 1})` : '') +
       ` / 一覧に出ない(既定 ${r.hitDefault}・すべて表示 ${r.hitShowAll}・ID 検索 ${r.hitSearch} 行)` +
       ` / 開ける: 読込で置き換えない=${(r.open || []).every((z) => z.cur === z.id)}・「退役(履歴)」の 1 行=${(r.open || []).every((z) => z.notice)}(en ${r.enNotice})・読み込み中の 1 本だけ一覧に残る=${r.curListed === 1}・「この仲間」に退役 ${r.famRetiredLinks} 本` +

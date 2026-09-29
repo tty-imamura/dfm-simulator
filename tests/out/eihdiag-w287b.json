@@ -1,0 +1,353 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第287便b",
+  "target": "beta/index.html",
+  "targetSha256": "7159d9bad58616a505b51598547e70712ebba1806f2726059ea37ec65f8cf2e2",
+  "generatedAt": "2026-09-29T17:41:15.421Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5192461,
+    "sha256": "7159d9bad58616a505b51598547e70712ebba1806f2726059ea37ec65f8cf2e2",
+    "mtime": "2026-09-29T17:30:40.572Z"
+   },
+   {
+    "file": "tests/exp-w249b-calaudit.mjs",
+    "bytes": 348846,
+    "sha256": "9b5602019c7e479bd69492e29df3d19f8cc2514e48739774fc823b7e9e2f0574",
+    "mtime": "2026-09-29T17:10:31.814Z"
+   },
+   {
+    "file": "tests/out/pn1-w285b.json",
+    "bytes": 51012,
+    "sha256": "60fca6d58fd8db2da1b6b8b7f758beaca126763a0c6d902ef45b245511e76fc1",
+    "mtime": "2026-09-29T16:51:27.072Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w287b-eihdiag.mjs",
+    "bytes": 13737,
+    "sha256": "3182bb1a4e4ef8e8acba8b87dfbca9e9637811ff155027e0271d15bdd1199fb8",
+    "mtime": "2026-09-29T17:30:40.701Z"
+   },
+   {
+    "file": "tests/lib-w282b-geo1.mjs",
+    "bytes": 19581,
+    "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
+    "mtime": "2026-09-29T16:51:31.092Z"
+   },
+   {
+    "file": "tests/lib-w280a-mercury.mjs",
+    "bytes": 9761,
+    "sha256": "b8dd3b76544fd2ec4a17f026025b805b02672e50012e600c42e82bab44ee5f75",
+    "mtime": "2026-09-29T16:51:30.392Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-29T16:51:30.220Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-29T16:51:28.648Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-29T16:51:30.772Z"
+   }
+  ],
+  "codeSha256": "57718d3052cdce6311314f4de4ee122a4336224d13c99f2077e25fd9be6bb04d",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "GEO_CORE_PN",
+    "GEO_MODE_VERSION",
+    "HP.allPresets",
+    "HP.coreState",
+    "HP.sim",
+    "HP.validatePreset",
+    "PN1_EIH_VERSION",
+    "dfmPN1Delta",
+    "dfmPN1EIHKick",
+    "geoCoreDispatch",
+    "geoModeOf",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 837,
+   "segments": 759,
+   "closureShare": 0.3139
+  },
+  "scopeSha256": "e3dba45c7594befbcdef5e11f1e863c78f973f2c9d168df75bd7229126903ff1",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/pn1-w285b.json",
+    "stableSha256": "74abbce9d2f4bc7defba0558305fcdcff9106ce10634bdc5bac8da4baed837e5",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/headless/*/wallSec",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "harnessVersion": "w287b-eihdiag-1",
+ "role": "diagnostic",
+ "ruling": "原仮定者の裁定(第77報)⑤・AN61・AN75・統括の検証項目 R110",
+ "htmlPn1Version": "w285b-eih-1",
+ "htmlGeoModeVersion": "w285b-geomode-2",
+ "coreTable": [
+  0,
+  1,
+  2
+ ],
+ "note": "geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。本器は**診断**で、正式判定の語を作らない。html・S._core は 1 bit も変えていない(器の中の宇宙の 2 経路を並べただけ)。",
+ "cond": {
+  "G": 1,
+  "M": 10,
+  "a": 10,
+  "e": 0.3,
+  "c": 100,
+  "eps": 0.01,
+  "dt": 0.01,
+  "orbits": 8,
+  "detector": "B",
+  "sources": "both pnSource・both free・barycentre at rest"
+ },
+ "kappas": [
+  0.001,
+  0.000001,
+  1e-9
+ ],
+ "rows": [
+  {
+   "q": 1,
+   "nu": 0.25,
+   "grDeg": 0.11868131868131869,
+   "osc0": {
+    "a": 10,
+    "e": 0.30000000000000004,
+    "P": 62.83185307179586,
+    "mu": 10
+   },
+   "eih": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "core": 1,
+    "role": "kF0",
+    "pn1": "eih",
+    "lam1B": 0.11790222961205794,
+    "lam0B": -0.0007742062404164419,
+    "inc": 0.11867643585247438,
+    "ratio": 0.9999588576458489,
+    "nB": 8,
+    "nan": false,
+    "clamp": 0
+   },
+   "pairOnly": [
+    {
+     "geoPN": 2,
+     "kFrame": 0.001,
+     "core": 2,
+     "role": "dfm",
+     "pn1": null,
+     "lam1B": 0.07280624589444148,
+     "lam0B": 0.05307101653447358,
+     "inc": 0.019735229359967903,
+     "ratio": 0.16628758071824806,
+     "nB": 8,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0
+    },
+    {
+     "geoPN": 2,
+     "kFrame": 0.000001,
+     "core": 2,
+     "role": "dfm",
+     "pn1": null,
+     "lam1B": 0.01902193202488204,
+     "lam0B": -0.0007203616823253506,
+     "inc": 0.01974229370720739,
+     "ratio": 0.166347104384803,
+     "nB": 8,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0
+    },
+    {
+     "geoPN": 2,
+     "kFrame": 1e-9,
+     "core": 2,
+     "role": "dfm",
+     "pn1": null,
+     "lam1B": 0.018968148258287104,
+     "lam0B": -0.0007741523935366292,
+     "inc": 0.019742300651823735,
+     "ratio": 0.1663471628996259,
+     "nB": 8,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0
+    }
+   ],
+   "analytic": {
+    "eih": 1,
+    "pairOnly": 0.16666666666666663
+   },
+   "eihOverPairOnly": 6.0112768995599,
+   "pairLimitSpread": 0.00005958218137783189
+  },
+  {
+   "q": 0.0001,
+   "nu": 0.00009998000299960004,
+   "grDeg": 0.11868132934752104,
+   "osc0": {
+    "a": 9.999999758035244,
+    "e": 0.300000031455419,
+    "P": 62.83184937961593,
+    "mu": 10.000000449363142
+   },
+   "eih": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "core": 1,
+    "role": "kF0",
+    "pn1": "eih",
+    "lam1B": 0.11791212328511126,
+    "lam0B": -0.000774206298847775,
+    "inc": 0.11868632958395904,
+    "ratio": 1.000042131618052,
+    "nB": 8,
+    "nan": false,
+    "clamp": 0
+   },
+   "pairOnly": [
+    {
+     "geoPN": 2,
+     "kFrame": 0.001,
+     "core": 2,
+     "role": "dfm",
+     "pn1": null,
+     "lam1B": 0.117891800416719,
+     "lam0B": -0.0007549661661693348,
+     "inc": 0.11864676658288834,
+     "ratio": 0.9997087767315826,
+     "nB": 8,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0
+    },
+    {
+     "geoPN": 2,
+     "kFrame": 0.000001,
+     "core": 2,
+     "role": "dfm",
+     "pn1": null,
+     "lam1B": 0.11787255543980647,
+     "lam0B": -0.0007741870450819394,
+     "inc": 0.1186467424848884,
+     "ratio": 0.9997085736836385,
+     "nB": 8,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0
+    },
+    {
+     "geoPN": 2,
+     "kFrame": 1e-9,
+     "core": 2,
+     "role": "dfm",
+     "pn1": null,
+     "lam1B": 0.11787253615653116,
+     "lam0B": -0.0007742063027065452,
+     "inc": 0.1186467424592377,
+     "ratio": 0.9997085734675076,
+     "nB": 8,
+     "nan": false,
+     "clamp": 0,
+     "warnings": 0
+    }
+   ],
+   "analytic": {
+    "eih": 1,
+    "pairOnly": 0.9996667333233347
+   },
+   "eihOverPairOnly": 1.000333655386577,
+   "pairLimitSpread": 2.0326407501602972e-7
+  }
+ ],
+ "line": {
+  "what": "kF0 写しの診断 1 行: 制御二体(q=1)で、現行 EIH の近点移動の λ 増分 / DFM 経路 κ→0⁺ の極限(試験粒子形 + 対反作用)の λ 増分",
+  "eihRatio": 0.9999588576458489,
+  "pairOnlyRatio": 0.1663471628996259,
+  "pairOnlyAnalytic": 0.16666666666666663,
+  "factor": 6.0112768995599,
+  "testLimit": {
+   "eihRatio": 1.000042131618052,
+   "pairOnlyRatio": 0.9997085734675076,
+   "factor": 1.000333655386577
+  },
+  "says": "等質量で約 6 倍違う(試験粒子の極限では一致する)—— DFM 版に EIH の差分を足すと対反作用と重なる。**足さない**(手順は procedure)"
+ },
+ "pn1Ref": {
+  "file": "tests/out/pn1-w285b.json",
+  "q1": {
+   "ratioBaseB": 0.16634716295627155,
+   "ratioNowB": 0.9999588576458489
+  },
+  "q1e4": {
+   "ratioBaseB": 0.9997085734772293,
+   "ratioNowB": 1.000042131618052
+  },
+  "note": "第285便b の (A): 基点 b92ffa1 の旧 kF0 則(geoPN=1 → core 2 = 試験粒子形 + 対反作用)と現行の EIH。本器の DFM 経路 κ→0⁺ の極限と同じ形"
+ },
+ "procedure": {
+  "status": "not-implemented",
+  "ruling": "原仮定者の裁定(第77報)AN61・AN75",
+  "refuse": "geoPN=2 ∧ kFrame>0(DFM 版)に `dfmPN1EIHKick` をそのまま足さない —— 対反作用(`geo2 && !pinned` の ∇U 因子の運動量の反作用)と EIH の式に内在する反作用が重なり、輸送 3 項(`geo2 && kFrame>0`)が 1PN の読む速度から引いた u と EIH が仮定する調和座標の速度も混ざる",
+  "ifEverTried": [
+   "対反作用の分岐を**明示に切る**宣言(診断コピーだけ —— 内蔵の本を変えない)",
+   "置換差分 a_new = a_old + λ_PN·(a_EIH,1PN − a_old,1PN)(1PN を二重に加えない)",
+   "輸送 3 項は引きずりとして残し、a_1PN と a_transport を**別帳簿**にする(同一状態でメッシュ分と PN 分を別々に取り出せる)"
+  ],
+  "acceptance": [
+   "u=0 で既存の kF0(EIH)にビットで戻る",
+   "試験粒子の極限(q→0)で試験粒子形に戻る",
+   "有限質量比(q=1)で相対二体の 1PN(近点移動の比 1)に一致する",
+   "λ_PN=0 で PN 分が消える(λ=0 の基線に戻る)",
+   "1PN を二重に加えない(置換差分の和が a_EIH,1PN 1 回分)",
+   "同一状態でメッシュ分(輸送)と PN 分を別々に取り出せる(帳簿が閉じる)"
+  ],
+  "counterExample": "切らずに足した走行は**二重計上の反例**として残し、較正に使わない"
+ },
+ "doNotWrite": [
+  "geoPN=2 に EIH を入れた",
+  "DFM 版の 1PN が GR と合った",
+  "λ_PN=1 で既に GR と合った",
+  "観測一致を達成した",
+  "較正を完了した",
+  "kF0 版が成立した",
+  "新発見"
+ ],
+ "headless": {
+  "wallSec": 0.133,
+  "errors": 0
+ },
+ "elapsedS": 21.158
+}
