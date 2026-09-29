@@ -40798,8 +40798,10 @@ if (!FAST) {
         // 第283便d: 背景複素決定力の欄(#bgcPanel)は宣言の**表示と編集**だけ(力学の読み口ではない)—— 統合時に許可へ
         // 第286便e(AN40 の残り): セーブの読込 loadSave とその受理 loadSaveBgcAccept は宣言を**受理器に通して**置き直すだけ
         // (力学の読み口ではない —— 読むのは従来どおり meshVelocityPrepare だけ)。名指しで許可へ(他の関数は従来どおり違反)
+        // 第286便c の統合(統括): 法則版の準備 bgLawPrepare(lawVersion を宣言した本だけ通る**宣言した読み口** —— d0audit2 の BGC_READERS と同じ)と
+        // 接続状態の読み口 bgcWireState(#bgcLawChip の表示・診断 —— 力学の読み口ではない)を名指しで許可へ
         ['(top-level)', 'validateBackgroundComplex', 'validatePreset', 'meshVelocityPrepare', 'bgcState', 'bgcApply', 'buildBgComplexPanel',
-          'loadSave', 'loadSaveBgcAccept']);
+          'loadSave', 'loadSaveBgcAccept', 'bgLawPrepare', 'bgcWireState']);
       if (!au.selfCheck.ok) bad.push('⑦ 潰しの自己検査が通らない');
       if (au.outsideAllowed.length) bad.push('⑦ 検証器と宣言した外部ステップの外から背景鍵が読まれている: ' + au.outsideAllowed.join(','));
       const st = A.stripJs(html);
