@@ -114,6 +114,12 @@ const levels = (w) => {
   return L2;
 };
 const merc = await presetOf('mercuryReal');
+// 第286便 統合(統括・原仮定者の裁定(第76報)AN59): 判定器の較正行 calPhysics(☄️ の較正専用 ε=0.01 —— 判定器の写しにだけ当たる)を正本
+//   calaudit-w249.json から読み、☄️ そのもの(M0 —— 判定器と同じ __w249build)と、☄️ から作る写し(λ_PN=0・座標変更の変種)に**同じ物理**を当てる。
+//   正式値の再現(officialReproducedBit)は較正行の値と比べ、変種どうしの差は同じ ε の下で取る(本の宣言 0.05 は変えない)
+const CAL_PHYS = (CAL.calPhysics && CAL.calPhysics.rows) || {};
+await pg.evaluate((cp) => { window.__w249calPhys = cp; }, CAL_PHYS);
+if (CAL_PHYS.mercuryReal) merc.physics = Object.assign({}, merc.physics, CAL_PHYS.mercuryReal);
 const pc = await presetOf('plutoCharonReal');
 
 /* ── (a)(b) 水星: 一様な u=V の座標変更 ── */

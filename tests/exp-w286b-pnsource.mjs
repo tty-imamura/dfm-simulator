@@ -240,7 +240,8 @@ HN.evalExpr(CTX); HB.evalExpr(CTX);
 const Gb = { steps: [1, 32], dt: DT, rows: [], diff1: [], diffMany: [], sigDiff: [] };
 {
   const D = JSON.parse(fs.readFileSync(path.join(ROOT, CLIGHT_JSON), 'utf8'));
-  const declared = new Set(D.books.map((b) => b.id).concat(['alphaCenABDFM', 'siriusABDFM', 'alphaCenAB', 'siriusAB']));
+  // 統括(第286便 統合): 一覧の others(a の 💮 —— cluster スケールで c_sim が真値になった本)も宣言した本
+  const declared = new Set(D.books.map((b) => b.id).concat((D.others || []).map((o) => o.id), ['alphaCenABDFM', 'siriusABDFM', 'alphaCenAB', 'siriusAB']));
   const ids = HN.evalExpr('HP.allPresets().map((p)=>p.id)'), baseIds = new Set(HB.evalExpr('HP.allPresets().map((p)=>p.id)'));
   for (const id of ids) {
     if (!baseIds.has(id)) continue;

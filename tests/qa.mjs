@@ -19160,7 +19160,12 @@ if (!FAST) {
         const W284R = /\{ id:"psrDoubleABDFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
         // 第285便f(原仮定者の裁定(第75報)AN24′): 🧮 psrJ1757DFM も f=1(観測質量)—— 質量が変わったので光線の扇が基点と違う(lens 除外の規則は不変)
         const W285F = /\{ id:"psrJ1757DFM"[^\n]*\n(?:(?!\n\{ id:")[\s\S])*?massCalibration:\{law:"f-fixed-1"/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
-        const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id).filter((id) => !(W284R && id === 'psrDoubleABDFM') && !(W285F && id === 'psrJ1757DFM'));
+        // 統括(第286便 統合): b の cLight 真値化(実単位の本 51 —— 光線は c を読む)と f の 🩺 f=1 で光線が変わった本は 🌚 の除外と無関係(基点 de9e39b との差)
+        const html286 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        const W286B = html286.indexOf('cLight:29979.2458') >= 0, W286F = html286.indexOf('  psrJ1946CF:{ja:') >= 0;
+        const CL286 = new Set(); if (W286B) { try { const CL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8')); for (const b of (CL.books || []).concat(CL.others || [])) CL286.add(b.id); } catch (e) { /* 無い世代 */ } }
+        const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id).filter((id) => !(W284R && id === 'psrDoubleABDFM') && !(W285F && id === 'psrJ1757DFM')
+          && !(W286B && (CL286.has(id) || id === 'psrDoubleABGeoToy' || id === 'psrDoubleABSpinCal')) && !(W286F && id === 'psrJ1946DFM'));
         if (diff.length) bad.push('🌚 以外で光線が変わった本 ' + diff.slice(0, 4).join(','));
         if (news.join(',') !== 'clusterAnalogyBH') bad.push('基点に無い本 ' + news.join(','));
         const c = R.cluster;
@@ -19250,6 +19255,11 @@ if (!FAST) {
         //   (正本は事実のまま differSubsetOfDeclared:false を記録する —— 基点 b92ffa1 と現行の差のうち contactMode 由来はこの集合の外)
         const OTHER285 = new Set(['earthMoonReal', 'emAuditNewton', 'emAuditSolar', 'earthMoonDiagOne', 'plutoCharonDFM', 'plutoCharonKF0Control', 'plutoCharonDiagInput',
           'alphaCenAB', 'siriusAB', 'psrDoubleAB', 'psrB1534', 'binary', 'psrJ1757DFM']);
+        // 統括(第286便 統合): 同便の b(cLight 真値化 —— tests/data-w286b-clight.json の books+others・伴星 pnSource の 4 本)・a(💮 の cluster スケール)・
+        //   f(🩺 f=1)が 1 步の結果を変えた本も宣言の外でよい(基点は b92ffa1 のままなので第285便の集合と合わせる)
+        try { const CL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8'));
+          for (const b of (CL.books || []).concat(CL.others || [])) OTHER285.add(b.id);
+          for (const id of ['alphaCenABDFM', 'siriusABDFM', 'alphaCenAB', 'siriusAB', 'clusterAnalogyBH', 'psrJ1946DFM']) OTHER285.add(id); } catch (e) { /* 一覧が無い世代 */ }
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
         if (!(O.n === 142 && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
@@ -22324,7 +22334,8 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       if (!(R.revSec.length === 2 && R.revSec.every((x) => x >= 225500 && x <= 227500))) bad.push(`②周期 ${JSON.stringify(R.revSec)}(窓 225500〜227500 s —— 説明文の 226568.80 / 226119.68 s)`);
       if (!(R.e1 !== null && R.e1 >= 0.85 && R.e1 <= 0.89)) bad.push(`②実測離心率 ${R.e1}(窓 0.85〜0.89 —— 説明文の 0.87111)`);
       if (!(R.resMaxPct >= 0.5 && R.resMaxPct <= 1.2)) bad.push(`②リザーバ最大 ${R.resMaxPct}%(窓 0.5〜1.2 —— 説明文の 0.81%)`);
-      if (!(OW && R.rev1Steps === OW.orbitStepsBase && OW.orbits === OW.needPeriastra + 2)) bad.push(`②軌道窓の宣言 ${OW ? OW.orbits + '×' + OW.orbitStepsBase : '無し'} が 1周目の步数 ${R.rev1Steps} と違う`);
+      // 統括(第286便 統合): 1 公転の步数は短い試走の見積り(第286便f)。cLight 真値化(第286便b)で 🩺 の 1 周目が 1416055→1416056 步と 1 步動いた —— 試走の粒度は 1 步なので |差| ≤ 1 步を宣言どおりと見る(窓の長さの宣言であって精度条件ではない)
+      if (!(OW && Math.abs(R.rev1Steps - OW.orbitStepsBase) <= 1 && OW.orbits === OW.needPeriastra + 2)) bad.push(`②軌道窓の宣言 ${OW ? OW.orbits + '×' + OW.orbitStepsBase : '無し'} が 1周目の步数 ${R.rev1Steps} と違う(±1 步の外)`);
       if (!(r.kf0 && r.kf0.sec >= 6775 && r.kf0.sec <= 6790 && r.kf0.e >= 0.060 && r.kf0.e <= 0.067)) bad.push(`③kFrame=0 の 1周目 ${JSON.stringify(r.kf0)}(観測の軌道の窓)`);
       if (r.dragBit !== true) bad.push('③dragQ・q 2→8 で状態がビット一致しない(引きずり非依存でない)');
       if (!(r.negSink.clampD > 0 || r.negSink.sMax >= 20)) bad.push(`③coupleSink 除去で殻が飽和しない(|s|max ${r.negSink.sMax}・clampSN Δ ${r.negSink.clampD})`);
