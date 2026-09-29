@@ -2262,6 +2262,9 @@ if (QA_CHANGED) {
       //   Node だけ・基点 html は git show の一時ファイル。inputs に calaudit-w249.json・pn1-w285b.json・tests/data-w286b-clight.json ——
       //   **calaudit・pn1 を走らせ直したら本器も走らせ直す** —— 鎖の段 pnsource286)
       'tests/out/pnsource-w286b.json',
+      // 第287便a(原仮定者の裁定(第77報)④・R107・AN63/AN74): 成長経路の原理コピー 🌰 の門・帳簿・D_g/η_mesh・負の対照・同一初期状態の比較
+      //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない。cluster-w286a.json は本便から履歴 —— 段 clusterScan286 は role:"history")
+      'tests/out/growth-w287a.json',
       // 第287便b(原仮定者の裁定(第77報)⑤・AN61・AN75・R110): kF0 写しの診断 1 行(制御二体の EIH / DFM 経路 κ→0⁺ の対反作用だけ —— 等質量の倍率)と
       //   DFM 版へ EIH を足すときの手順(target=beta/index.html —— Node だけ。inputs に pn1-w285b.json —— **pn1 を走らせ直したら本器も走らせ直す** —— 鎖の段 eihdiag287)
       'tests/out/eihdiag-w287b.json'];
@@ -19829,8 +19832,11 @@ if (!FAST) {
         try { const CL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w286b-clight.json'), 'utf8'));
           for (const b of (CL.books || []).concat(CL.others || [])) OTHER285.add(b.id);
           for (const id of ['alphaCenABDFM', 'siriusABDFM', 'alphaCenAB', 'siriusAB', 'clusterAnalogyBH', 'psrJ1946DFM']) OTHER285.add(id); } catch (e) { /* 一覧が無い世代 */ }
+        // 第287便a: 原理コピー 🌰 clusterGrowthCopy を足した(内蔵 143 本 —— 基点 b92ffa1 には無い本。鎖の段 contact285 で入れ替わるまでは 142 本の正本)
+        OTHER285.add('clusterGrowthCopy');
+        const nBuiltin285 = [142, 143];
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
-        if (!(O.n === 142 && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
+        if (!(nBuiltin285.includes(O.n) && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
         if (!(C.pinned.centerMoved === 0 && C.pinned.relDPfree > 1e-3 && C.free.relDPtotal < 1e-5)) bad.push('拘束の反作用の記帳 ' + JSON.stringify(C).slice(0, 160));
         if (JSON.stringify(JC.apply.map((a) => a.id)) !== JSON.stringify(EC.APPLIED.map((a) => a.id))) bad.push('適用表の並びが器の APPLIED と違う');
@@ -19876,7 +19882,10 @@ if (!FAST) {
           }
           for (const k of X.kept) { const p = HP.allPresets().find((q) => q.id === k.id); out.kept.push({ id: k.id, present: !!p, mode: p ? p.physics.contactMode : null,
             flag: p ? (() => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); HP.sim.build(v.preset); return HP.sim.contactNone === true; })() : null }); }
-          out.nDeclNone = HP.allPresets().filter((q) => q.physics && q.physics.contactMode === 'none').map((q) => q.id);
+          // 第287便a: 中心捕獲 centerCapture を宣言した本(🌰 —— 合体が本題の「別の条件」。受理器 centerCaptureCheck が contactMode "none"・自由中心を要る)は
+          //   本表(中心 pinned・接触なし)の外で none を宣言してよい —— 受理器を通ることを確かめて別に数える(root には宣言した本が無い = 従来どおり)
+          out.nDeclNone = HP.allPresets().filter((q) => q.physics && q.physics.contactMode === 'none' && q.centerCapture === undefined).map((q) => q.id);
+          out.capture = HP.allPresets().filter((q) => q.centerCapture !== undefined).map((q) => ({ id: q.id, ok: !!(HP.centerCaptureCheck && HP.centerCaptureCheck(q).ok), mode: q.physics.contactMode }));
           return out;
         }, { applied: EC.APPLIED, kept: EC.NORMAL_KEPT });
         for (const z of r.applied) {
@@ -19891,8 +19900,10 @@ if (!FAST) {
         for (const k of r.kept) if (!(k.present && (k.mode === undefined || k.mode === 'normal') && k.flag === false)) bad.push(k.id + ': normal のまま残す本が none を宣言');
         const extra = r.nDeclNone.filter((id) => !EC.APPLIED.some((a) => a.id === id));
         if (extra.length) bad.push('適用表の外で none を宣言した本 ' + extra.join(','));
+        for (const z of r.capture) if (!(z.ok && z.mode === 'none')) bad.push(z.id + ': centerCapture の宣言が受理器を通らない');
         cases.push(`適用表 ${r.applied.length} 本が契約を宣言(none ${EC.APPLIED.filter((a) => EC.declOf(a) === 'none').length}・normal の明示 ${EC.APPLIED.filter((a) => EC.declOf(a) === 'normal').map((a) => a.emoji).join('')}・中心固定 ${EC.APPLIED.filter((a) => a.center === 'pinned').length}・中心なし ${EC.APPLIED.filter((a) => a.center === 'none').length}・土星だけ固定 ${EC.APPLIED.filter((a) => a.center === 'saturn').length})・`
-          + `normal のまま ${r.kept.length} 本(${EC.NORMAL_KEPT.map((k) => k.emoji).join('')} —— 衝突・合体・散逸が本題)・宣言は適用表の外に無い`);
+          + `normal のまま ${r.kept.length} 本(${EC.NORMAL_KEPT.map((k) => k.emoji).join('')} —— 衝突・合体・散逸が本題)・宣言は適用表の外に無い`
+          + (r.capture.length ? `(中心捕獲 centerCapture の本 ${r.capture.map((z) => z.id).join(',')} は別の条件 —— 受理器を通る)` : ''));
       }
       add('preset.multiParticleContract', bad.length === 0,
         `**多粒子の契約の宣言**(第285便a・R95 —— 中心は pinned:true・接触なし。銀河衝突や合体が目的の本は別の条件): ${cases.join(' / ')}`
@@ -20152,6 +20163,178 @@ if (!FAST) {
       }
       add('behavior.clusterAnalogyW286', bad.length === 0,
         `**💮 の星団スケールの走査**(第286便a・原仮定者の裁定(第76報)⑤・R103 —— 門は測る前に宣言・語は形状達成/未達だけ): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1g) 第287便a(原仮定者の裁定(第77報)④「銀河の成長を考える」・統括の検証項目 R107・AN63/AN74): **成長経路便**の 3 ブロック。**root では SKIP**
+// ----   (器 tests/exp-w287a-growth.mjs・純関数 tests/lib-w287a-growth.mjs・正本 tests/out/growth-w287a.json)。世代切替 has287a = html に
+// ----   `function dfmCenterCaptureStep(` と 🌰 clusterGrowthCopy の宣言がある。
+// ----   ① behavior.growthCopy …… 門・走行・判定の規則・摂動の規則が器 = 正本 = PHYSICS で**結果より前**・捕獲の帳簿の閉じ(格納残差 ≤1e-12・Q ≥ 0・
+// ----      安全上限の発火 0・E_toy+E_mesh=0・粒子+メッシュの運動量)・標本から門を作り直して一致・**負の対照 2 つ**(無自転・真正面で J を作らない /
+// ----      逆行でスピンが減り得る —— いまの html で捕獲関数を直接呼び直して正本と一致)・**D_g と η_mesh が全走行の正本にある**・表の行が PHYSICS に・
+// ----      🌰 の名前と説明に「安定」「銀河ができた」「腕」「渦伸長」が無い・Jeans の走行の写し(JEANS_REF)が第286便a の正本と一致・禁止の言い回し。
+// ----   ② behavior.growthMinimal …… 対照の最小模型の単体試験(閉形式との相対 1e-12・散逸なしで振幅が残る・散逸ありで減る)・正本と一致。
+// ----   ③ behavior.clusterScanSameInit …… 💮 の走査器の同一初期状態化: 同じ初期状態から中心の本体半径だけを変えると積分前・5 步後の差 0・
+// ----      別 build では差が出る(insideBig の乱数列)—— いまの html で引き直して正本と一致・🌰 の半径の対照(捕獲なし)も差 0。
+{
+  const html287 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has287a = TARGET.startsWith('beta/') && html287.indexOf('function dfmCenterCaptureStep(') >= 0 && html287.indexOf('id:"clusterGrowthCopy"') >= 0;
+  if (!has287a) {
+    console.log('SKIP behavior.growthCopy / behavior.growthMinimal / behavior.clusterScanSameInit(第287便a 未適用 — ' + TARGET + ')');
+  } else {
+    const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const pa = Pd.indexOf('〔第287便a — ');
+    const pEnds = (pa >= 0) ? [Pd.indexOf('\n〔第', pa + 10), Pd.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa) : [];
+    const psec = (pa >= 0) ? Pd.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined) : '';
+    const NG = [/形状が安定した/, /星団が安定した/, /星団が落ち着いた/, /銀河ができた/, /合体で自転が増えて斥力になった/, /中心の引きずりが支配的になった/, /観測一致を達成/, /較正を完了/, /新発見/, /安定平衡版/, /判定が増えた/, /RC を切った/];
+    let EG = null, LG = null, JG = null, errG = null, H = null, errH = null;
+    try { EG = await import('file://' + path.join(ROOT, 'tests', 'exp-w287a-growth.mjs')); LG = await import('file://' + path.join(ROOT, 'tests', 'lib-w287a-growth.mjs'));
+      JG = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'growth-w287a.json'), 'utf8')); }
+    catch (e) { errG = String(e && e.stack || e).slice(0, 160); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { errH = String(e).slice(0, 140); }
+    // ---- ① behavior.growthCopy
+    {
+      const bad = [], cases = [];
+      if (errG || errH) bad.push('器/正本/headless が読めない: ' + (errG || errH));
+      else {
+        if (!JG.meta || JG.meta.provenanceVersion !== 'w272e-1' || JG.meta.harnessVersion !== EG.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+        const g = Object.assign({}, JG.gates); delete g.text; delete g.declaredBeforeMeasure;
+        if (JSON.stringify(g) !== JSON.stringify(EG.GATES) || JSON.stringify(JG.gates.text) !== JSON.stringify(EG.GATE_TEXT) || JG.gates.declaredBeforeMeasure !== true) bad.push('門が器の GATES と違う(門は動かさない)');
+        if (!(EG.GATES.retentionMin === 0.9 && EG.GATES.halfMassRelChangeMax === 0.1 && EG.GATES.axisRatioMin === 0.9)) bad.push('門の閾値が 💮 の門(0.90・10%・0.9)と違う');
+        if (JSON.stringify(JG.runSpecs) !== JSON.stringify(EG.RUNS) || JSON.stringify(JG.radiusSpec) !== JSON.stringify(EG.RADIUS_RUN) || JSON.stringify(JG.verdictRule) !== JSON.stringify(EG.VERDICT_RULE)
+          || JSON.stringify(JG.perturb) !== JSON.stringify(EG.PERTURB) || JSON.stringify(JG.diagSpec) !== JSON.stringify(EG.DIAG)) bad.push('走行・判定・摂動・診断の宣言 ≠ 器');
+        if (JSON.stringify(JG.runs.map((r) => r.key)) !== JSON.stringify(EG.RUNS.map((r) => r.key))) bad.push('走行の並びが宣言の RUNS と違う');
+        let nDiag = 0, worstLedger = 0, worstDrift = 0;
+        for (const r of JG.runs.concat([JG.radiusRun])) {
+          const L = EG.ledgerSummary(r.capture.log);
+          if (JSON.stringify(L) !== JSON.stringify(r.capture.summary)) bad.push(r.key + ': 帳簿の要約を作り直すと違う');
+          worstLedger = Math.max(worstLedger, L.ledgerRel);
+          if (!(L.ledgerRel <= 1e-12 && L.qMin >= 0)) bad.push(r.key + ': 捕獲の帳簿が閉じない(' + L.ledgerRel + '・Q ' + L.qMin + ')');
+          if (r.capture.logTrim !== 0) bad.push(r.key + ': 捕獲の記録が切り詰められた');
+          if (r.capture.log.some((z) => z.Jesc !== 0 || z.Jrad !== 0)) bad.push(r.key + ': J_escaped/J_radiation の列が 0 でない(本則は放出・放射を持たない)');
+          const gg = EG.gateEval(r.samples, r.window, { notQuiet: r.notQuiet, ledgerRel: L.ledgerRel, qMin: L.qMin });
+          if (gg.verdict !== r.gates.verdict || JSON.stringify(gg.failed) !== JSON.stringify(r.gates.failed)) bad.push(r.key + ': 門を作り直すと違う');
+          if (['形状達成', '未達'].indexOf(r.gates.verdict) < 0) bad.push(r.key + ': 判定の語');
+          const last = r.samples[r.samples.length - 1], first = r.samples[0];
+          if (last.clampV + last.clampS !== 0) bad.push(r.key + ': エンジンの安全上限が発火(クランプ)');
+          if (r.samples.some((z) => z.toyEclose !== 0)) bad.push(r.key + ': E_toy+E_mesh ≠ 0');
+          const drift = Math.max(Math.abs((last.P[0] + last.Pmesh[0]) - (first.P[0] + first.Pmesh[0])), Math.abs((last.P[1] + last.Pmesh[1]) - (first.P[1] + first.Pmesh[1])));
+          worstDrift = Math.max(worstDrift, drift);
+          if (!(drift <= 1e-9)) bad.push(r.key + ': 粒子+メッシュの運動量が保存しない ' + drift);
+          const okD = (d) => d && d.d && Array.isArray(d.d.Dg) && d.d.Dg.length === EG.DIAG.rings.length && Array.isArray(d.d.bins) && d.d.bins.length === EG.DIAG.bins.length;
+          if (okD(r.diag.t0) && okD(r.diag.winStart) && okD(r.diag.winEnd)) nDiag++;
+          if (!(r.restore.replayBitSame === true)) bad.push(r.key + ': 摂動の再走が決定論でない');
+        }
+        if (nDiag !== JG.runs.length + 1) bad.push(`D_g と η_mesh が正本に無い走行がある(${nDiag}/${JG.runs.length + 1})`);
+        const V = EG.verdictOf(JG.runs);
+        if (JSON.stringify(V) !== JSON.stringify(JG.summary) || JG.verdict !== V.verdict) bad.push('判定の規則を作り直すと違う');
+        // 負の対照(いまの html で捕獲関数を直接呼び直す)
+        try {
+          const N = EG.negativeControls(H.HP);
+          if (JSON.stringify(N) !== JSON.stringify(JG.negativeControls)) bad.push('負の対照を引き直すと正本と違う');
+          if (!(N.ok && N.checks.headOnNoJ && N.checks.retroLowersSpin)) bad.push('負の対照 ' + JSON.stringify(N.checks));
+          const byK = Object.fromEntries(N.cases.map((z) => [z.key, z]));
+          cases.push(`負の対照: 無自転・真正面 spin ${byK.headOnNoSpin.spin0}→${byK.headOnNoSpin.spin1}・μ r×v_rel ${byK.headOnNoSpin.Jorb}・`
+            + `逆行 spin ${byK.retrograde.spin0}→${byK.retrograde.spin1.toFixed(3)}(μ r×v_rel ${byK.retrograde.Jorb.toExponential(2)})・順行 →${byK.prograde.spin1.toFixed(3)}・`
+            + `拒否: 供給不足 ${byK.energyShort.refEnergy}・安全上限 ${byK.spinCap.refSpinCap}・非束縛 ${byK.unbound.refBound}・全 J の差 ${Math.max(...N.cases.map((z) => Math.abs(z.dJtot)))}`);
+        } catch (e) { bad.push('負の対照の引き直し: ' + String(e).slice(0, 140)); }
+        // 宣言の照合(💮 の台帳の写し・自由中心)
+        try {
+          const D = EG.declarationCheck(H.HP);
+          if (!(D.allSame && D.pinned === false && D.sampleClass === 'principle' && D.countRatio === 20 && D.toyAllowDrag && D.capture && D.capture.version === 'w287a-capture-1')) bad.push('宣言(💮 の写し・自由中心・捕獲)' + JSON.stringify(D).slice(0, 160));
+          if (!(D.toyReplica.relToToy <= 1e-6)) bad.push('トイ加速度の写しがエンジンの 1 步と合わない ' + D.toyReplica.relToToy);
+          if (JSON.stringify(D) !== JSON.stringify(JG.declaration)) bad.push('宣言の照合が正本と違う —— 器を走らせ直すこと');
+        } catch (e) { bad.push('宣言の照合: ' + String(e).slice(0, 140)); }
+        // 名前と説明の語(🌰 の宣言の本文)
+        const i0 = html287.indexOf('{ id:"clusterGrowthCopy"');
+        const i1 = Math.min(...['\n{ id:', '\n// ====='].map((k) => html287.indexOf(k, i0 + 10)).filter((k) => k > i0));   // 次の本(またはその前の注釈)の手前まで
+        const blk = (i0 >= 0) ? html287.slice(i0, Number.isFinite(i1) ? i1 : undefined) : '';
+        if (!blk) bad.push('🌰 の宣言が読めない');
+        for (const re of [/安定/, /銀河ができた/, /腕/, /渦伸長/, /vortex stretching/i, /\bstable\b/i]) if (re.test(blk)) bad.push('🌰 の名前・説明に ' + re.source);
+        if ((html287.match(/emoji:"🌰"/g) || []).length !== 1) bad.push('emoji 🌰 が唯一でない');
+        // Jeans の走行の写し(第286便a の正本 —— 履歴)
+        try {
+          const JK = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'cluster-w286a.json'), 'utf8'));
+          for (const z of EG.JEANS_REF.runs) { const r = JK.runs.find((q) => q.key === z.key);
+            if (!r || r.steps !== z.steps || r.wallSec !== z.wallSec || r.gates.verdict !== z.verdict) bad.push('JEANS_REF が第286便a の正本と違う ' + z.key); }
+          const sp = EG.speedTable(JG.runs);
+          if (JSON.stringify(sp) !== JSON.stringify(JG.speed)) bad.push('歩数と壁時計の並びを作り直すと違う');
+          cases.push(`歩数と壁時計(同じ閾値・乱数種 3): 成長経路 ${sp.growthSteps} 步・形状達成 ${sp.growthPass}/3 / Jeans 初期値 ${sp.jeansSteps} 步・形状達成 ${sp.jeansPass}/3(N ${sp.growth[0].n0} と ${EG.JEANS_REF.n} —— 壁時計は正本に)`);
+        } catch (e) { bad.push('JEANS_REF の照合: ' + String(e).slice(0, 120)); }
+        if (!psec) bad.push('PHYSICS〔第287便a〕が無い');
+        else {
+          const rows = EG.docRows(JG);
+          const iG = psec.indexOf('**③ 門(測る前に宣言'), iR = psec.indexOf('**④ 実測');
+          if (!(iG >= 0 && iR > iG)) bad.push('PHYSICS: 門の段落が実測の段落より前にない');
+          for (const t of rows.gates) { const k = psec.indexOf(t); if (k < 0) bad.push('PHYSICS に無い門の行 ' + t.slice(0, 40)); else if (k > iR) bad.push('門の行が実測より後ろ ' + t.slice(0, 40)); }
+          const miss = rows.runs.concat(rows.dg, rows.eta, rows.fr).filter((t) => psec.indexOf(t) < 0);
+          if (miss.length) bad.push('PHYSICS の表に無い行 ' + miss.length + ' 件 ' + miss[0].slice(0, 60));
+          if (psec.indexOf('判定: **' + JG.verdict + '**') < 0) bad.push('PHYSICS に判定の語が無い');
+          const body = psec.split('**言わないこと。**')[0];
+          for (const re of NG) if (re.test(body)) bad.push('禁止の言い回し ' + re.source);
+          if (/渦伸長/.test(body.replace(/「[^」]*」/g, ''))) bad.push('PHYSICS〔第287便a〕の本文(鉤括弧の外)に「渦伸長」');
+        }
+        cases.push(`走行 ${JG.runs.length}+半径の対照 1・捕獲の帳簿の格納残差の最大 ${worstLedger.toExponential(1)}・粒子+メッシュの運動量の差の最大 ${worstDrift.toExponential(1)}・D_g と η_mesh を全走行で記録・`
+          + `宣言の構成(順行)${V.nPass}/${V.nDeclared} 形状達成・判定 ${JG.verdict}`);
+      }
+      add('behavior.growthCopy', bad.length === 0,
+        `**🌰 成長経路の原理コピー**(第287便a・原仮定者の裁定(第77報)④・R107 —— 門は測る前に宣言・語は形状達成/未達だけ・合体の回数は門にしない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.growthMinimal
+    {
+      const bad = [], cases = [];
+      if (errG) bad.push('器/正本が読めない: ' + errG);
+      else {
+        const T = LG.selfTest();
+        if (!(T.ok && T.worstRel <= 1e-12)) bad.push('最小模型の単体試験 ' + JSON.stringify({ ok: T.ok, worst: T.worstRel }));
+        if (JSON.stringify(T) !== JSON.stringify(JG.minimal)) bad.push('最小模型の単体試験が正本と違う');
+        if (!(T.noDissipation.ampRatio > 0.9 && T.withDissipation.ampRatio < 0.1)) bad.push('散逸なしで振幅が残る/散逸ありで減る');
+        if (!(LG.scalingExponent(2) === 1 && LG.growsOutward(1.6) && !LG.growsOutward(1.5))) bad.push('r*∝M^{2p−3}・p>3/2');
+        cases.push(`r* の閉形式と二分法・釣り合いの残差・a_r′(r*)=−GM/r*³ の最大相対 ${T.worstRel.toExponential(1)}・M 倍 2 で r* 比 = 2^{2p−3}(p=1/1.5/2)・`
+          + `散逸なしの振幅比 ${T.noDissipation.ampRatio.toFixed(4)}(エネルギー相対 ${T.noDissipation.relEnergyChange.toExponential(1)})・散逸ありの振幅比 ${T.withDissipation.ampRatio.toExponential(1)}`);
+      }
+      add('behavior.growthMinimal', bad.length === 0,
+        `**対照の最小模型**(第287便a —— Φ=−GM_c/r+αℓ_c²/(2r²)・DFM から導出した法則ではない・エンジン未接続): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ behavior.clusterScanSameInit
+    {
+      const bad = [], cases = [];
+      if (errG || errH) bad.push('器/正本/headless が読めない: ' + (errG || errH));
+      else {
+        const SI = JG.sameInit286;
+        if (!(SI && SI.cases.length === 2)) bad.push('💮 の同一初期状態の比較が正本に無い');
+        else {
+          for (const c of SI.cases) {
+            if (!SI.steps.every((s) => c.sameInit[s] === 0)) bad.push(`spin ${c.spin}: 同じ初期状態から半径だけ変えて差が出る ` + JSON.stringify(c.sameInit));
+            if (!(c.separateBuild[0] > 0)) bad.push(`spin ${c.spin}: 別 build で初期状態の差が 0(insideBig の再現にならない)`);
+          }
+          // いまの html で宣言の構成(spin 12)を引き直す(💮 の build は Jeans の反復で重いので 3 回だけ: 宣言 → 別 build の半径 1.5 → 同じ初期状態の半径 1.5)
+          try {
+            const E286 = await import('file://' + path.join(ROOT, 'tests', 'exp-w286a-cluster.mjs'));
+            const st = (S) => { const a = []; for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.vx[i], S.vy[i]); return a; };
+            const nd = (a, b) => { let n = 0; for (let i = 0; i < Math.max(a.length, b.length); i++) if (!Object.is(a[i], b[i])) n++; return n; };
+            const D = Object.assign({ seed: 0 }, E286.SCAN.declared);
+            let S = E286.sameInitCopy(H.HP, D).S; const A0 = st(S); for (let k = 0; k < 5; k++) S.step(E286.DT); const A5 = st(S);
+            const vB = H.HP.validatePreset(E286.variantPreset(H.HP, Object.assign({ variant: 'bodyR15' }, D))); H.HP.sim.build(vB.preset); const B0 = st(H.HP.sim);
+            S = E286.sameInitCopy(H.HP, D, { bodyR: 1.5 }).S; const C0 = st(S); for (let k = 0; k < 5; k++) S.step(E286.DT); const C5 = st(S);
+            const w = SI.cases.find((z) => z.spin === 12);
+            if (!(w && nd(A0, B0) === w.separateBuild[0] && nd(A0, C0) === w.sameInit[0] && nd(A5, C5) === w.sameInit[5])) bad.push(`いまの html で引き直すと違う(別 build ${nd(A0, B0)}・同じ初期状態 ${nd(A0, C0)}/${nd(A5, C5)})`);
+          } catch (e) { bad.push('引き直し: ' + String(e).slice(0, 120)); }
+          const c0 = SI.cases[0];
+          cases.push(`💮(spin 12/0): 別 build(本体半径 0.01 と 1.5)の状態の差 積分前 ${c0.separateBuild[0]}/${SI.n}・5 步 ${c0.separateBuild[5]}・${SI.steps[2]} 步 ${c0.separateBuild[SI.steps[2]]} / `
+            + `同じ初期状態から半径だけ変えると ${SI.steps.map((s) => c0.sameInit[s]).join('/')}(0 —— 第286便a の「本体半径が力学に入る」は初期配置〔乱数列〕の違い)`);
+        }
+        const RC = JG.radiusControl;
+        if (!(RC && RC.captureOff.t0Diff === 0 && RC.captureOff.endDiff === 0)) bad.push('🌰 の半径の対照(捕獲なし・同じ初期状態)で差が出る ' + JSON.stringify(RC));
+        else cases.push(`🌰 の半径の対照(捕獲なし・同じ初期状態・${RC.steps} 步): 本体半径 0.01 と 1.5 で状態の差 ${RC.captureOff.endDiff}/${RC.n}`);
+      }
+      add('behavior.clusterScanSameInit', bad.length === 0,
+        `**走査器の同一初期状態化**(第287便a・統括が設定した検証仮説「本体半径の漏れの正体」—— sim.build の insideBig の引き直し): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }

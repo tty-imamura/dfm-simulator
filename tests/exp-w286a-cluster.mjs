@@ -305,6 +305,42 @@ export function declarationCheck(HP) {
       vModes: P.bodies.filter((b) => b.type === 'disk').map((b) => b.vMode), jeansRot: P.bodies.filter((b) => b.type === 'disk').map((b) => b.jeansRot === undefined ? 0 : b.jeansRot), angularSym: P.bodies[kS].angularSym || null } };
 }
 
+/**
+ * 第287便a(統括の検証項目 R107・統括が設定した検証仮説「本体半径の漏れの正体」): **同じ初期状態のコピーから条件を変える**。
+ *   `sim.build` の群生成は single を除外域に登録し、本体半径+1 の内側に引いた群の粒子を引き直す(`insideBig`・30 回)ので、
+ *   本体半径 0.01 → 1.5 で除外域 1.01 → 2.5 になり**乱数列の消費順が変わる**(初期配置が別物になる)。本関数は宣言の構成を
+ *   **1 回だけ build**(有限半径の重なり回避は宣言どおりに掛かる —— 全サンプルから削らない)し、その状態のまま条件だけを変える:
+ *   change.bodyR(中心の本体半径 —— radOv を書いて updateRadii)・change.spin(中心の自転)・change.dragR(spaceMesh.dragR)。
+ *   第286便a の走査(`variantPreset` → build)と正本 cluster-w286a.json は**履歴**として残す(この関数は正本を書かない)。
+ */
+export function sameInitCopy(HP, spec, change = {}) {
+  const v = HP.validatePreset(variantPreset(HP, spec));
+  if (!v.ok) throw new Error('validatePreset: ' + (v.errors || []).join(' / '));
+  HP.sim.build(v.preset);
+  const S = HP.sim;
+  if (change.bodyR !== undefined) { const rs = S.params.radiusScale; S.radOv[0] = change.bodyR / rs; S.updateRadii(); }
+  if (change.spin !== undefined) S.spin[0] = change.spin;
+  if (change.dragR !== undefined) S.params.spaceMesh.dragR = change.dragR;
+  return { S, preset: v.preset };
+}
+/** 同じ初期状態の比較(別 build の差 / 同じ初期状態から半径だけ変えた差)—— 積分前・5 步後・100 步後の状態の差の数。 */
+export function sameInitSeparation(HP, steps = [0, 5, SEP_STEPS]) {
+  const stateOf = (S) => { const a = []; for (let i = 0; i < S.n; i++) a.push(S.x[i], S.y[i], S.vx[i], S.vy[i]); return a; };
+  const nd = (a, b) => { let n = 0; const L = Math.max(a.length, b.length); for (let i = 0; i < L; i++) if (!Object.is(a[i], b[i])) n++; return n; };
+  const trace = (S) => { const out = {}; let k = 0; for (const s of steps) { while (k < s) { S.step(DT); k++; } out[s] = stateOf(S); } return out; };
+  const D = Object.assign({ seed: 0 }, SCAN.declared);
+  const out = { version: 'w287a-sameinit-1', steps, n: null, cases: [] };
+  for (const sp of [12, 0]) {
+    const spec = Object.assign({}, D, { spin: sp });
+    const A = trace(sameInitCopy(HP, spec).S);
+    const B = trace((() => { const v = HP.validatePreset(variantPreset(HP, Object.assign({ variant: 'bodyR15' }, spec))); HP.sim.build(v.preset); return HP.sim; })());
+    const C = trace(sameInitCopy(HP, spec, { bodyR: 1.5 }).S);
+    out.n = A[0].length;
+    out.cases.push({ spin: sp, separateBuild: Object.fromEntries(steps.map((s) => [s, nd(A[s], B[s])])), sameInit: Object.fromEntries(steps.map((s) => [s, nd(A[s], C[s])])) });
+  }
+  return out;
+}
+
 const f3 = (x) => (x === null || x === undefined || !Number.isFinite(x) ? '—' : Number(x).toFixed(3));
 /** PHYSICS〔第286便a〕の表の行(QA が正本から作り直して探す)。 */
 export function docRows(J) {
