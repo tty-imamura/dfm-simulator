@@ -14,6 +14,13 @@
 #   ・凍結基準 html の取り出し(`ci-frozen-baseline.sh`)は **informational** のまま。
 #     取れたときだけ perf の A/B (b) 系統が `frozen-file` 基準になる(`root-fallback` は凍結扱いしない)。
 #
+# 第287便f(原仮定者の裁定(第77報)AN67): job `paper2-figures` を足した —— 論文2 の**図の再生成だけ**
+#   (`node tools/gen-figures2.mjs` の数値ゲート 22 件 → `node tools/p2fig-compare.mjs` でコミット済み JSON と揮発キーを除いて一致)。
+#   **TeX は載せない**(PDF のビルドは PR の paper2.yml が paper/** か生成器の変更で従来どおり)。
+#   この job は**取得の失敗が無い**(リポジトリの中だけで完結する)ので、ゲートの FAIL・照合の不一致は**そのまま FAIL**
+#   (informational にしない・continue-on-error を付けない)。図 8 は再生成の鎖の段にしない —— 失効したら第216便追補の形で再同期する。
+#   Chromium の版は固定しない(runner の Playwright が入れる版のまま —— 版は p2figs-gates.json の chromiumVersion に**記録**する)。
+#
 # **書かないこと**: 「Release した」「配信を検証したので昇格してよい」。本ジョブが見るのは
 # **配られている HTML の同一性**だけで、較正にも判定にも 1 bit も触らない。
 name: Nightly collate
@@ -107,3 +114,29 @@ jobs:
           path: |
             frozen.json
             tests/out/perf-abjit-only.json
+
+  # 第287便f(AN67): 論文2 の図の再生成と照合(TeX なし・失敗は FAIL)
+  paper2-figures:
+    name: 論文2 の図の再生成(数値ゲート 22 件)とコミット済み JSON の照合(TeX なし・失敗は FAIL)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 24
+      - name: Install Playwright
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Regenerate figures (asserts 22 numeric gates)
+        run: node tools/gen-figures2.mjs
+      - name: Assert figure data matches committed JSONs (volatile keys excluded)
+        run: node tools/p2fig-compare.mjs --ref HEAD
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        if: always()
+        with:
+          name: nightly-paper2-figures
+          path: |
+            paper/figures/p2fig*.json
+            paper/figures/p2figs-gates.json

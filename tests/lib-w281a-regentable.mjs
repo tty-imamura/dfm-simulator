@@ -67,7 +67,7 @@
 // ■ しないこと: 走らせない・判定しない(表と、表を読む計画の純関数だけ)。
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha } from './lib-w281a-scope.mjs';
+import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha, stableValueSha, canonJson, parseTopLevel, closureOf, SCOPE_STOP, normalizeScope } from './lib-w281a-scope.mjs';
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
 //   ・常時の dt3 段を `--h4-exceptions --merge`(h/4 は例外の登録簿の本だけ)・kf0 段を `--kf0-h4-exceptions`(h/4 は登録簿の kf0 の本だけ)へ。
@@ -92,7 +92,16 @@ import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha 
 //   `tests/out/*.json` の名指しを拾い(注釈は除く)、その正本を書く現行の段が after の閉包に無ければ欠落とする。同じ器を使う段の出力・import した器の自分の
 //   出力は「書き」とみなす。前回の世代を読む循環の読み・文言の中の言及は `STATIC_READ_DECL` に**理由つきで宣言**する(宣言が実態に合わなくなったら `staleReadDecl`)。
 //   現行の表で出た欠落 1 件(galaxydiag ← sparc)は after に足した。自己試験 (o)・QA `lint.regenChain` (o)。
-export const REGEN_TABLE_VERSION = 'w286-regentable-7';
+// ■ 第287便f(原仮定者の裁定(第77報)AN69・統括の検証項目 R112): **済み印の契約を入力の安定 hash へ・html を書く段の宣言と検査**
+//   ・済み印の契約(版 w287f-chaincontract-2)= 静的な部分(policy・code)+ 段を入れる直前に引く**入力の安定 hash**(`chainInputSpecs`・`inputDigest`・
+//     `tools/regen-chain.mjs --digest`)。上流の意味的出力が同じなら読み手の印は生きる(第286便の鎖 7〜8 の空回りの再現と解消 —— 自己試験 (p))。
+//   ・html を書く段に `htmlRegions`(生成領域の名 —— obscompare・assessed〔htmlWriteMode:'check'〕・samplestatus)を宣言し、書く段を
+//     obscompare → assessed → samplestatus の全順序に並べた。`tableDepsAudit` の `html`(`htmlTailAudit`)が宣言と器の本文・領域の印・
+//     書く段の順序・after 欠落・領域の閉包の重なり・依存の循環を検査する(自己試験 (q))。検査で見つけた欠落 2 型を表で直した:
+//     families の領域が SAMPLE_STATUS を読む → after に samplestatus / meta を刻まない d68three・confirm4 が html の本文を読む → obscompare の after に。
+//     順序で直せない読み(pn1 の領域の閉包が OBS_COMPARE_* に掛かる —— obscompare が pn1 を読む)は `HTML_REGION_READ_DECL` に理由つきで宣言。
+//   ・families の `touches`(docs/FAMILIES_v1.45.md)を足した(outs の外に書くファイル —— 入力の並びから除く)。
+export const REGEN_TABLE_VERSION = 'w287f-regentable-8';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
@@ -197,7 +206,10 @@ export const REGEN_STEPS = [
     note: '第268便a の 3 段(旧形式・meta なし)。docs.threeStageD68 ⑥ と docs.d68Decomp の再現の照合先' }),
   S('stoprule', 'node tests/exp-w270a-stoprule.mjs', ['tests/out/stoprule-w270a.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   S('issues', 'node tests/exp-w272a-issues.mjs', ['tests/out/issues-w272a.json'], 0, { alwaysRun: true, after: ['kf0', 'solarsigma', 'charon-h', 'charon-h2', 'charon-h4', 'nslock'] }),
-  S('assessed', 'node tests/exp-w273c-assessedtable.mjs --check', ['tests/out/assessed-w273c.json'], 1, { alwaysRun: true, after: ['kf0'] }),
+  // 第287便f(AN69): 器は --check が無いと beta/index.html の生成領域 assessed-table を書く(鎖では --check —— html を読むだけ)。
+  //   html を書きうる段として領域を宣言し(htmlWriteMode:'check')、html を書く段の列 obscompare → assessed → samplestatus に並べる
+  S('assessed', 'node tests/exp-w273c-assessedtable.mjs --check', ['tests/out/assessed-w273c.json'], 1, { alwaysRun: true, after: ['kf0', 'obscompare'],
+    htmlRegions: ['assessed-table'], htmlWriteMode: 'check' }),
   // 第283便e: calaudit-w249.json を読む(meta.inputs)—— 書く段(calaudit・dt3・kf0)の最後の kf0 の後
   S('d0audit', 'node tests/exp-w275b-d0audit.mjs', ['tests/out/d0audit-w275b.json'], 21, { after: ['kf0'] }),
   // ---- ❄️ 対照系列(第281便a: 現行列 C0/C1/C3/C5/C6/S・h4 は C0/C1/C6 だけ・履歴列 C2/C4/C7 は再生成しない)
@@ -305,12 +317,14 @@ export const REGEN_STEPS = [
   //   単独(exclusive)・samplestatus(html 全体の後段 —— AN53)の前。領域に時刻・sha を入れない(正本の値が変わったときだけ html が動く)。
   //   常時群には入れない(入力 calaudit の安定 hash と領域 hash で判定 —— 常時群の契約〔lint.regenScope ③〕は変えない)。
   //   所要は第285便d の枝の実測(器の elapsedS 2.0〜2.9 s —— Chromium 1 本・領域 hash の headless 読み込みを含む)
-  S('obscompare', 'node tests/exp-w285d-obscompare.mjs && node tests/exp-w285d-obscompare.mjs --check', ['tests/out/obscompare-w285d.json'], 3, { after: ['kf0', 'pn1'],
-    secSource: 'w285d-branch', exclusive: true, touches: ['beta/index.html'],
+  // 第287便f(AN69): meta を刻まない旧形式の段で html の本文を読む d68three・confirm4 は、html を書く段と順序が無かった(html を書く段の検査 ④ の
+  //   after 欠落)。刻印が無い(古くならない)ので**書く段の上流**に置く(末尾の型 —— 書く段が後)。d68three は kf0 の後の 900 s で charon の系列と並走する
+  S('obscompare', 'node tests/exp-w285d-obscompare.mjs && node tests/exp-w285d-obscompare.mjs --check', ['tests/out/obscompare-w285d.json'], 3, { after: ['kf0', 'pn1', 'd68three', 'confirm4'],
+    secSource: 'w285d-branch', exclusive: true, touches: ['beta/index.html'], htmlRegions: ['obs-compare'],
     volatilePaths: { 'tests/out/obscompare-w285d.json': META_RUN.concat(['/elapsedS']) },
     note: '第285便d: 正本の量ごとの行の転記(判定しない)。枝 b の診断正本 tests/out/pn1-w285b.json があれば obsCompareRows を λ_PN=0 の対照として足す(統合で b の段 pn1 を after に入れた —— 第285便の鎖 2 で pn1 の前に走り check-order が順序違反を出した)' }),
-  S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin', 'obscompare'],
-    exclusive: true, touches: ['beta/index.html', 'docs/SAMPLE_STATUS_v1.45.md'] }),
+  S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin', 'obscompare', 'assessed'],
+    exclusive: true, touches: ['beta/index.html', 'docs/SAMPLE_STATUS_v1.45.md'], htmlRegions: ['sample-status'] }),
   S('mercury', 'node tests/exp-w280a-mercury.mjs', ['tests/out/mercury-w280a.json'], 284, { secSource: 'w281a-chain', alwaysRun: true, after: ['kf0'] }),
   // ---- 第282便c の新しい正本(html だけを読む・他の正本を読まない —— 所要は器の elapsedS の実測)
   S('dragprofile', 'node tests/exp-w282c-dragprofile.mjs', ['tests/out/dragprofile-w282c.json'], 2, { secSource: 'w282c-run', node: true,
@@ -364,7 +378,10 @@ export const REGEN_STEPS = [
     note: '第286便b: 伴星の pnSource(✴️💫✨🌟 —— 基点・c 真値で伴星外し・現行の 3 本立て)・制御二体・☄️ の c/ε/dt の要因・cLight の従属値と html・前後' }),
   // ---- 第283便b(原仮定者の裁定(第73報)④・統括の検証項目 R85): 同一天体の家族の差分表と統廃合の候補(html・calaudit の較正母集団・
   //   凍結の写し tests/fixtures/retired-w283b.json を読む —— 1 步も走らせない。所要は第283便b の枝の実測〔Node 1 本・壁時計〕)
-  S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit', 'dt3', 'kf0'],
+  // 第287便f(AN69): families の領域(REGEN_SCOPE の roots)は SAMPLE_STATUS(生成領域 sample-status —— samplestatus が書く)を読む ——
+  //   html を書く段の検査 ⑤ が見つけた after 欠落。samplestatus の後に置く(samplestatus は families を読まない —— 循環なし)
+  S('families', 'node tests/exp-w283b-families.mjs', ['tests/out/families-w283b.json'], 8, { secSource: 'w283b-branch', node: true, after: ['calaudit', 'dt3', 'kf0', 'samplestatus'],
+    touches: ['docs/FAMILIES_v1.45.md'],
     volatilePaths: { 'tests/out/families-w283b.json': META_RUN.concat(['/elapsedS']) },
     note: '第283便b: 家族 21・鍵ごとの差・推定の列・候補(畳まない)・退役 7 本の棚卸し。一覧 docs/FAMILIES_v1.45.md も同じ器が書く(QA docs.families が照合)' }),
   // ---- 第283便b(第73報④・R84): 退役 7 本を名指しする**表の外の器**のうち tests/out に出力が残るもの —— **履歴**として登録する
@@ -985,9 +1002,11 @@ export function tableDepsAudit(o) {
   // 第286便f: 器が読む正本の書き手が after に無い(静的 —— root があるときだけ)
   let missingAfter = [], staleReadDecl = [], declaredReads = 0;
   if (opt.root) { const sa = staticAfterAudit({ root: opt.root, steps, decl: opt.decl }); missingAfter = sa.missingAfter; staleReadDecl = sa.staleReadDecl; declaredReads = sa.declared.length; }
+  // 第287便f(AN69 後半): html を書く段の検査(root があるときだけ —— 書く段の宣言・領域・順序・after 欠落・領域の閉包・依存の循環)
+  const html = opt.root && opt.html !== false ? htmlTailAudit({ root: opt.root, steps, metaOf: opt.metaOf, htmlText: opt.htmlText }) : null;
   return { ok: !missing.length && !unordered.length && !cycles.length && !unknown.length && !dupKeys.length && !beforeSamplestatus.length
-      && !missingAfter.length && !staleReadDecl.length,
-    missing, unordered, cycles, unknown, dupKeys, beforeSamplestatus, missingAfter, staleReadDecl, declaredReads };
+      && !missingAfter.length && !staleReadDecl.length && (!html || html.ok),
+    missing, unordered, cycles, unknown, dupKeys, beforeSamplestatus, missingAfter, staleReadDecl, declaredReads, html };
 }
 
 /** 依存の推移閉包(key → Set(上流すべて))と逆向き(key → Set(下流すべて))。 */
@@ -1117,6 +1136,9 @@ export function buildChain(plan, o) {
   // 第284便f: 済み印の契約(code/input/policy —— 鎖の生成時に決まる値)と ready queue の優先度(臨界路)
   const ct = chainContracts(rows, { by, root: opt.root || null, htmlSha: plan.htmlSha256 || null });
   for (const k of Object.keys(rows)) rows[k].contract = ct.get(k);
+  // 第287便f(AN69): 入力の並び(段を入れる直前に --digest で hash を引く —— 契約の入力の部分)
+  const specs = chainInputSpecs(rows, { by, root: opt.root || null, steps, deps });
+  for (const k of Object.keys(rows)) rows[k].inputs = specs.get(k) || [];
   const priority = chainPriority({ steps: rows }, tableIdx);
   return { version: REGEN_TABLE_VERSION, contractVersion: CHAIN_CONTRACT_VERSION, waves, priority, steps: rows, skipped,
     count: { run: [...mode.values()].filter((m) => m === 'run').length, gate: [...mode.values()].filter((m) => m === 'gate').length,
@@ -1157,14 +1179,63 @@ export function codeFilesOf(st, root) {
 }
 const sha256Hex = (s) => crypto.createHash('sha256').update(s).digest('hex');
 
+// ======================================================================================================
+// 第287便f(原仮定者の裁定(第77報)AN69・統括の検証項目 R112): **済み印の契約 = 静的な部分 + 入力の安定 hash**(版 w287f-chaincontract-2)
+//   ・静的(鎖の生成時 —— `chainContracts`): policy(段・mode・cmd・env の名前・書くファイル・workers)・code(器と meta.code[] の現行 sha)。
+//   ・入力(段を入れる直前に `tools/regen-chain.mjs --digest` で引く —— `chainInputSpecs` の並び・`inputDigest`):
+//       json:<file>  … 読む正本の**意味的出力**(宣言した除外 Pointer〔volatilePathsOf〕と来歴・時刻の欄 SEMANTIC_RUN_META を除いた安定 hash)
+//       bytes:<file> … 表の外の入力(観測値の CSV・量対応の表など —— バイトの sha)
+//       html:scope:<正本> … 領域を宣言した段(meta.scopeComplete)は**領域 hash**(刻印の宣言で今の html から引く)
+//       html:strip:<領域,…> / html:whole … それ以外で html を読む段は本文。**自分と下流の html を書く段の生成領域だけを除く**
+//                    (上流の段は下流が書く領域を入力にできない —— 読めば循環)。下流でも上流でもない書き手の領域は除かない
+//       mark:<段>    … 同じファイルを段階的に書く上流(鎖の中)の済み印の走行行(上流が走り直せば、中身が同じでも自分の列を書き直す)
+//       env:<名前>   … 環境変数の値(hash)
+//   ・旧版 w284f-chaincontract-1 は input に「対象 html の sha と鎖の中の上流の契約(Merkle)」を入れていた —— html を 1 字でも変えて鎖を
+//     作り直すか、上流が走り直す(中身が同じでも)と下流の済み印が全部無効になった(第286便の鎖 7〜8 の空回り: kf0 が calaudit の
+//     時刻の欄だけを書き直し、読み手が全部走り直した)。新版では**上流の意味的出力が同じなら読み手の印が生きる**(自己試験 (p))。
+//   ・**全 html のバイト hash を全段の入力にしない**(html を読まない段は html を入れない)。「説明文なら全て除く」の大まかな除外もしない
+//     (除くのは宣言した生成領域の中身だけ —— 領域は `htmlRegions` で段が宣言し、`htmlTailAudit` が器の本文と html の印で照合する)。
+// ======================================================================================================
+
+/** 済み印の契約の版(第287便f で入力の安定 hash へ)。 */
+export const CHAIN_CONTRACT_VERSION = 'w287f-chaincontract-2';
+export const CHAIN_CONTRACT_HISTORY = [
+  { version: 'w284f-chaincontract-1', since: '第284便f(R94)',
+    note: 'policy・code・input(計画の対象 html の sha と鎖の中の上流の契約 —— Merkle)。html を変えて鎖を作り直すか上流が走り直すと、中身が同じでも下流の済み印が全部無効(第286便の鎖 7〜8 の空回り)' },
+];
+/** 生成領域の印(beta/index.html の JS 注釈 —— 第275便a の形)。 */
+export const HTML_TARGET = 'beta/index.html';
+export const htmlGenBegin = (r) => '// >>> w275a-generated: ' + r;
+export const htmlGenEnd = (r) => '// <<< w275a-generated: ' + r;
 /**
- * 済み印の契約(鎖の生成時に決まる値だけ —— 走行中に変わる入力の中身は入れない):
- *   policy … 表の版・段・mode(run/gate/manual)・cmd・env の名前・書くファイル・workers
- *   code   … codeFilesOf の各ファイルの現行 sha256(root が無ければ名前だけ)
- *   input  … 計画の対象 html の sha256 と、**鎖の中の直接の上流の契約**(上流の契約が変われば下流の済み印も無効 —— Merkle)
+ * 意味的出力で除く欄(どの正本にも共通の**来歴と時刻** —— 値が変わっても読み手の入力は変わらない)。
+ * 正本ごとの壁時計・非物理 meta は従来どおり段の `volatilePaths` の宣言(`volatilePathsOf`)で除く。物理欄は 1 つも入れない。
+ */
+export const SEMANTIC_RUN_META = ['/meta/generatedAt', '/meta/when', '/meta/inputs', '/meta/inputsStable', '/meta/code', '/meta/codeSha256',
+  '/meta/targetSha256', '/meta/scopeSha256', '/meta/elapsedS', '/meta/spentSec', '/meta/wallSec', '/generatedAt', '/when', '/elapsedS', '/elapsedSec'];
+
+/**
+ * 済み印の契約の**静的な部分**(鎖の生成時 —— policy と code だけ。入力は `inputDigest` が段を入れる直前に引く)。
  * @returns {Map<string,string>} 段 → 64 桁
  */
 export function chainContracts(rows, o) {
+  const opt = o || {};
+  const memo = new Map();
+  for (const k of Object.keys(rows)) {
+    const r = rows[k];
+    const st = opt.by ? opt.by.get(k) : null;
+    const code = st ? codeFilesOf(st, opt.root).map((f) => [f, opt.root ? shaFile(opt.root.replace(/\/$/, '') + '/' + f) : null]) : [];
+    memo.set(k, sha256Hex(JSON.stringify({ contract: CHAIN_CONTRACT_VERSION,
+      policy: { key: k, mode: r.mode, cmd: r.cmd, env: Object.keys(r.env || {}).sort(), writes: (r.writes || []).slice().sort(), workers: r.workers || 1 },
+      code })));
+  }
+  return memo;
+}
+/**
+ * 旧版(w284f-chaincontract-1)の契約 —— **自己試験 (p) の再現専用**(html の sha と鎖の中の上流の契約を入れる Merkle)。
+ * @returns {Map<string,string>}
+ */
+export function legacyChainContracts(rows, o) {
   const opt = o || {};
   const memo = new Map();
   const go = (k, stack) => {
@@ -1175,7 +1246,7 @@ export function chainContracts(rows, o) {
     const st = opt.by ? opt.by.get(k) : null;
     const code = st ? codeFilesOf(st, opt.root).map((f) => [f, opt.root ? shaFile(opt.root.replace(/\/$/, '') + '/' + f) : null]) : [];
     const ups = (r.deps || []).slice().sort().map((d) => [d, go(d, stack)]);
-    const c = sha256Hex(JSON.stringify({ v: REGEN_TABLE_VERSION, contract: CHAIN_CONTRACT_VERSION,
+    const c = sha256Hex(JSON.stringify({ v: REGEN_TABLE_VERSION, contract: 'w284f-chaincontract-1',
       policy: { key: k, mode: r.mode, cmd: r.cmd, env: Object.keys(r.env || {}).sort(), writes: (r.writes || []).slice().sort(), workers: r.workers || 1 },
       code, input: { html: opt.htmlSha || null, ups } }));
     stack.delete(k);
@@ -1185,7 +1256,358 @@ export function chainContracts(rows, o) {
   for (const k of Object.keys(rows)) go(k, new Set());
   return memo;
 }
-export const CHAIN_CONTRACT_VERSION = 'w284f-chaincontract-1';
+
+/** 器(cmd が名指しする tests/*.mjs・tools/*.mjs)と、その `from './x.mjs'` の閉包の本文(注釈を除く)。 */
+function harnessClosureTexts(st, root, readText) {
+  const rt = readText || ((rel) => { try { return fs.readFileSync(String(root).replace(/\/$/, '') + '/' + rel, 'utf8'); } catch { return null; } });
+  const out = new Map();
+  const visit = (rel) => {
+    if (out.has(rel) || STATIC_SKIP_MODULES.includes(rel)) return;
+    const t = root || readText ? rt(rel) : null;
+    if (t === null) return;
+    const u = stripComments(t);
+    out.set(rel, u);
+    const dir = rel.slice(0, rel.lastIndexOf('/') + 1);
+    for (const m of u.matchAll(/from\s+'\.\/([A-Za-z0-9_.-]+\.mjs)'/g)) visit(dir + m[1]);
+  };
+  for (const h of new Set(String(st.cmd || '').match(/(?:tests|tools)\/[A-Za-z0-9_.-]+\.mjs/g) || [])) visit(h);
+  return out;
+}
+
+/**
+ * 段の **html の読み方**(機械で):
+ *   gen   … html を書く段(`htmlRegions` を宣言)
+ *   scope … 正本の meta が対象 beta/index.html・完全な領域の宣言(scopeComplete)を持つ(html を刻む正本がすべてそう)
+ *   whole … それ以外で meta が html を刻む・入力に持つ / meta が html を刻まず器の本文(import の閉包・注釈を除く)が index.html を名指しする /
+ *           meta も器の本文も引けない(読まないと言えない —— 保守側)
+ *   none  … 読まない
+ * 自己試験の stub は `htmlInput`('none'|'whole')で直に与える。root も metaOf も無いときは 'none'。
+ * @param {object} st 段
+ * @param {{root?:string, metaOf?:Function, readText?:Function}} o
+ */
+export function htmlReadOf(st, o) {
+  const opt = o || {};
+  if ((st.htmlRegions || []).length) return { kind: 'gen' };
+  if (st.htmlInput) return { kind: st.htmlInput, why: 'htmlInput' };
+  const metaOf = opt.metaOf || (opt.root ? (f) => readMetaAt(opt.root, f) : null);
+  if (!metaOf) return { kind: 'none', why: 'meta を引けない(stub)' };
+  const metas = (st.outs || []).map((f) => [f, metaOf(f)]);
+  const hm = metas.filter(([, m]) => m && (/\.html$/.test(String(m.target || '')) || (m.inputs || []).some((z) => /\.html$/.test(String(z.file || '')))));
+  if (hm.length) {
+    const scoped = hm.every(([, m]) => m.target === HTML_TARGET && m.scope && m.scopeComplete === true);
+    return scoped ? { kind: 'scope', outs: hm.map(([f]) => f) } : { kind: 'whole', why: 'meta が html 全体を刻む' };
+  }
+  // meta がすべての正本にあり html を刻まない → 読まない(来歴の meta が器の宣言した入力 —— 器の本文の文言の言及で html 読みにしない)
+  if (metas.length && metas.every(([, m]) => !!m)) return { kind: 'none', why: 'meta が html を刻まない' };
+  const texts = harnessClosureTexts(st, opt.root, opt.readText);
+  for (const [rel, t] of texts) if (!HTML_READ_SCAN_SKIP.includes(rel) && /index\.html/.test(t)) return { kind: 'whole', why: '器の本文 ' + rel };
+  if (!texts.size) return { kind: 'whole', why: 'meta も器の本文も引けない' };
+  return { kind: 'none' };
+}
+
+/** html 読みの静的な走査で見ない共通の器(既定の対象名として 'beta/index.html' を持つだけで、読むのは呼び出した器)。 */
+export const HTML_READ_SCAN_SKIP = ['tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+
+/** html の生成領域の中身を除いた本文(印は残す・無い領域は `missing` に返す)。 */
+export function stripHtmlRegions(text, regions) {
+  let t = String(text);
+  const missing = [];
+  for (const r of [...new Set(regions || [])].sort()) {
+    const a = t.indexOf(htmlGenBegin(r)), b = t.indexOf(htmlGenEnd(r));
+    if (a < 0 || b < a) { missing.push(r); continue; }
+    t = t.slice(0, a + htmlGenBegin(r).length) + '\n' + t.slice(b);
+  }
+  return { text: t, missing };
+}
+
+/** 表の依存(tableDeps)の上流・下流の推移閉包。 */
+export function depClosures(deps) { return closures(deps); }
+
+/**
+ * 鎖の各段の**入力の並び**(`inputDigest` が段を入れる直前に hash を引く)。純関数(ファイルの中身は読まない —— meta と器の本文の名指しだけ)。
+ * 読む正本 = 正本の meta.inputs[]・inputsStable[]・target(html 以外)∪ 器が名指しする正本(`harnessReads`)∪ 表の直接の依存の書くファイル
+ * (html を書く段への依存は html の読み方で見る)∪ 段の `reads`(stub)。自分が書くファイルは除く(同じファイルの上流は mark: で見る)。
+ * 表の段が書くファイルは**書き手が上流にあるときだけ**入れる(前回の世代を読む循環の読み —— STATIC_READ_DECL —— は入れない)。
+ * @param {object} rows buildChain の段(mode・deps・sameFileUps・writes)
+ * @param {{by:Map, root?:string, steps?:Array, deps?:Map, metaOf?:Function}} o
+ * @returns {Map<string,string[]>}
+ */
+export function chainInputSpecs(rows, o) {
+  const opt = o || {};
+  const steps = opt.steps || REGEN_STEPS;
+  const by = opt.by || new Map(steps.map((z) => [z.key, z]));
+  const deps = opt.deps || tableDeps({ root: opt.root, steps });
+  const { up, down } = closures(deps);
+  const W = writersMap(steps);
+  const cur = new Set(steps.filter((z) => z.role !== 'history').map((z) => z.key));
+  const metaOf = opt.metaOf || (opt.root ? (f) => readMetaAt(opt.root, f) : null);
+  const reads = new Map();
+  if (opt.root) for (const r of harnessReads({ root: opt.root, steps })) { if (!reads.has(r.key)) reads.set(r.key, new Set()); reads.get(r.key).add(r.file); }
+  const writers = steps.filter((z) => z.role !== 'history' && !z.outside && (z.htmlRegions || []).length);
+  const res = new Map();
+  for (const k of Object.keys(rows)) {
+    const st = by.get(k) || { key: k, outs: [], cmd: rows[k].cmd };
+    const specs = [];
+    for (const u of (rows[k].sameFileUps || []).slice().sort()) specs.push('mark:' + u);
+    const own = new Set(writesOf(st).concat(st.touches || []));   // outs の外に書くファイル(touches)も自分の書き
+    const want = new Set(st.reads || []);
+    for (const f of (reads.get(k) || [])) want.add(f);
+    // 表の外のデータ(観測値の CSV・宣言の表・凍結の写し)を器の本文(import の閉包・注釈は除く)の名指しから
+    if (opt.root) for (const [, t] of harnessClosureTexts(st, opt.root)) {
+      for (const m of t.matchAll(/\b(paper\/data\/[A-Za-z0-9_.-]+\.(?:csv|json)|tests\/data-[A-Za-z0-9_.-]+\.json|tests\/fixtures\/[A-Za-z0-9_.-]+\.json)\b/g)) want.add(m[1]);
+      for (const m of t.matchAll(/'paper',\s*'data',\s*'([A-Za-z0-9_.-]+\.(?:csv|json))'/g)) want.add('paper/data/' + m[1]);
+    }
+    if (metaOf) for (const out of (st.outs || [])) {
+      const m = metaOf(out);
+      if (!m) continue;
+      for (const z of [...(m.inputs || []), ...(m.inputsStable || [])]) if (z && z.file) want.add(z.file);
+      if (m.target && !/\.html$/.test(String(m.target))) want.add(m.target);
+    }
+    for (const d of (deps.get(k) || [])) {
+      const ds = by.get(d);
+      if (!ds || (ds.htmlRegions || []).length) continue;
+      for (const f of writesOf(ds)) want.add(f);
+    }
+    const upK = up.get(k) || new Set();
+    for (const f of [...want].sort()) {
+      if (own.has(f) || /\.html$/.test(f)) continue;
+      const ws = (W.get(f) || []).filter((w) => cur.has(w) && w !== k);
+      if (ws.length && !ws.some((w) => upK.has(w))) continue;   // 書き手が上流に無い(前回の世代の読み・宣言した言及)—— 入れない
+      specs.push((/\.json$/.test(f) ? 'json:' : 'bytes:') + f);
+    }
+    const h = htmlReadOf(st, { root: opt.root, metaOf });
+    if (h.kind === 'scope') for (const out of h.outs) specs.push('html:scope:' + out);
+    else if (h.kind === 'gen' || h.kind === 'whole') {
+      const dn = down.get(k) || new Set();
+      const regs = writers.filter((w) => w.key === k || dn.has(w.key)).flatMap((w) => w.htmlRegions);
+      specs.push(regs.length ? 'html:strip:' + [...new Set(regs)].sort().join(',') : 'html:whole');
+    }
+    const envs = new Set(Object.keys(st.env || {}));
+    for (const m of String(st.cmd || '').matchAll(/\$([A-Z_][A-Z0-9_]*)/g)) envs.add(m[1]);
+    for (const e of [...envs].sort()) specs.push('env:' + e);
+    res.set(k, specs);
+  }
+  return res;
+}
+
+/**
+ * 正本の**意味的出力**の hash(JSON は宣言した除外 Pointer ∪ SEMANTIC_RUN_META を除いた安定 hash・読めなければバイト sha・無ければ 'missing')。
+ * @param {string} abs 絶対パス
+ * @param {string} rel 相対パス(除外 Pointer の宣言を引く鍵)
+ */
+export function semanticSha(abs, rel) {
+  let buf;
+  try { buf = fs.readFileSync(abs); } catch { return 'missing'; }
+  if (/\.json$/.test(rel)) {
+    try {
+      const J = JSON.parse(buf.toString('utf8'));
+      return 'sem:' + stableValueSha(J, [...new Set(volatilePathsOf(rel).concat(SEMANTIC_RUN_META))]);
+    } catch { /* バイトで */ }
+  }
+  return 'bytes:' + crypto.createHash('sha256').update(buf).digest('hex');
+}
+
+/**
+ * 入力の並び → **契約**(静的な部分と各入力の hash の sha256)。段を入れる直前に鎖のランナーが `--digest` で呼ぶ。
+ * @param {string[]} specs chainInputSpecs の並び
+ * @param {{root:string, html:string, logDir?:string, staticContract:string}} o html は絶対パス(REGEN_HTML)・logDir は済み印と領域 hash の控えの置き場
+ * @returns {{contract:string, lines:string[]}}
+ */
+export function inputDigest(specs, o) {
+  const root = String(o.root).replace(/\/$/, '');
+  const htmlAbs = o.html && o.html.startsWith('/') ? o.html : root + '/' + (o.html || HTML_TARGET);
+  let htmlText = null, htmlSha = null;
+  const html = () => {
+    if (htmlText === null) { try { const b = fs.readFileSync(htmlAbs); htmlText = b.toString('utf8'); htmlSha = crypto.createHash('sha256').update(b).digest('hex'); } catch { htmlText = ''; htmlSha = 'missing'; } }
+    return htmlText;
+  };
+  const cacheDir = o.logDir ? o.logDir.replace(/\/$/, '') + '/.digest' : null;
+  const lines = [];
+  for (const spec of (specs || [])) {
+    const i = spec.indexOf(':');
+    const kind = spec.slice(0, i), arg = spec.slice(i + 1);
+    let v;
+    if (kind === 'json' || kind === 'bytes') v = kind === 'json' ? semanticSha(root + '/' + arg, arg) : (shaFile(root + '/' + arg) || 'missing');
+    else if (kind === 'env') v = process.env[arg] === undefined ? '(unset)' : sha256Hex(String(process.env[arg]));
+    else if (kind === 'mark') {
+      let t = null;
+      try { t = fs.readFileSync((o.logDir || '') + '/done/' + arg + '.done', 'utf8').split('\n'); } catch { t = null; }
+      v = !t ? 'missing' : (/^(run|manual)\b/.test(t[0]) ? sha256Hex(t[0] + '\n' + (t[1] || '')) : 'noRun');
+    } else if (kind === 'html') {
+      html();
+      if (arg === 'whole') v = htmlSha;
+      else if (arg.startsWith('strip:')) {
+        const r = stripHtmlRegions(htmlText, arg.slice(6).split(','));
+        v = sha256Hex(r.text) + (r.missing.length ? '(印なし ' + r.missing.join(',') + ')' : '');
+      } else if (arg.startsWith('scope:')) {
+        const out = arg.slice(6);
+        const m = readMetaAt(root, out);
+        if (!(m && m.scope && m.scopeComplete === true)) v = 'whole:' + htmlSha;
+        else {
+          const key = sha256Hex(htmlSha + '\n' + canonJson(m.scope));
+          const cf = cacheDir ? cacheDir + '/scope-' + key : null;
+          let got = null;
+          if (cf) { try { got = fs.readFileSync(cf, 'utf8').trim(); } catch { got = null; } }
+          if (!got) {
+            let r = null;
+            try { r = scopeHash(htmlAbs, m.scope); } catch { r = null; }
+            got = r && r.scopeComplete ? r.scopeSha256 : 'incomplete:' + htmlSha;
+            if (cf) { try { fs.mkdirSync(cacheDir, { recursive: true }); fs.writeFileSync(cf, got + '\n'); } catch { /* 控えは任意 */ } }
+          }
+          v = got;
+        }
+      } else v = 'unknown-html-spec';
+    } else v = 'unknown-spec';
+    lines.push(spec + ' ' + v);
+  }
+  return { contract: sha256Hex(JSON.stringify({ contract: CHAIN_CONTRACT_VERSION, static: o.staticContract || null, inputs: lines })), lines };
+}
+
+// ======================================================================================================
+// 第287便f(原仮定者の裁定(第77報)AN69 後半・統括の検証項目 R112): **html を書く段の検査**(`tableDepsAudit` の `html` —— `--audit`)
+//   html を書く段(assessed・obscompare・samplestatus —— 表の `htmlRegions`)は生成領域だけを書く。「末尾に移したから依存が満たされる」とは
+//   決めず、次を**機械で**照合する:
+//     ① 書く段の宣言 = 器の本文(import の閉包・注釈は除く)が `writeFileSync(HTML …)` と index.html を持つ段(宣言漏れ・古い宣言 0)・
+//        htmlWriteMode:'check' の段は cmd が --check
+//     ② 宣言した領域の印(// >>> w275a-generated: <領域>)が html にあり、器の本文が領域名を持つ・同じ領域を 2 段が書かない
+//     ③ 書く段どうしが表の依存の推移閉包で全順序(同じ html を並べて書かない)
+//     ④ **after 欠落**: html の本文を読む段(`htmlReadOf` = whole)は、鎖で書く段(check でない)の**どちらか側に順序がある**こと
+//        (上流 = 書き手が自分の正本を読む/下流 = 書いた後の html を読む —— AN53 の形)。どちらでもない段は欠落。
+//        上流にいて常時群でない段(書かれた後に刻印が古くなる)は `beforeStale`
+//     ⑤ 領域を宣言した段(scope)の依存閉包(最上位の文)と定数が、書き手が上流に無い生成領域に**重ならない**こと(重なれば下流に置くべき)
+//     ⑥ 表の依存(after ∪ meta の入力の書き手)に循環が無い
+//   **末尾の型への移行の残り**(`tailBacklog`): html 本文を刻む段のうち書く段の**後**にいる段(AN53 で後ろへ回した段)。末尾の型は
+//   「書く段が DAG の末尾・読む段はすべて上流」で、これらの段の刻印を「生成領域を除いた本文」の hash へ替えるまで移れない(判定には使わない)。
+// ======================================================================================================
+
+/**
+ * 第287便f: **領域の閉包が上流の段の書く生成領域に掛かる読み**の宣言(順序では直せない —— 書き手がこの段の正本を読むので、下流へ置くと循環)。
+ * 宣言が実態に合わなくなったら `staleRegionDecl`。**直し方は領域の宣言(器の REGEN_SCOPE の roots / 停止集合)の側**で、鎖の順序ではない。
+ */
+export const HTML_REGION_READ_DECL = [
+  { key: 'pn1', region: 'obs-compare', kind: 'scope-closure-cycle',
+    why: 'pn1 の領域の閉包(最上位の文)が OBS_COMPARE_REASONS・OBS_COMPARE_SOURCES・OBS_COMPARE_ROWS に掛かる。obscompare は pn1 の正本を λ_PN=0 の対照として読む(pn1 が上流)ので下流へ置けない。'
+      + 'obscompare が行を書き換えると pn1 の領域 hash が変わり、次の計画で pn1 が 1 回余分に走る(pn1 の出力が同じなら行も同じで止まる)。直し方は pn1 の REGEN_SCOPE の側(統括の決断事項候補)' },
+];
+
+const htmlAuditCache = new Map();
+/** html の最上位の文の分解(本文の sha で控える)。 */
+function htmlParsedOf(htmlText) {
+  const key = sha256Hex(htmlText);
+  if (htmlAuditCache.has(key)) return htmlAuditCache.get(key);
+  const sIdx = htmlText.indexOf('<script>'), eIdx = htmlText.lastIndexOf('</script>');
+  const src = sIdx >= 0 && eIdx > sIdx ? htmlText.slice(sIdx + '<script>'.length, eIdx) : '';
+  let parsed = null;
+  try { parsed = parseTopLevel(src); } catch { parsed = null; }
+  const v = { src, parsed, closures: new Map() };
+  htmlAuditCache.clear();
+  htmlAuditCache.set(key, v);
+  return v;
+}
+
+/**
+ * html を書く段の検査(上の ①〜⑥)。
+ * @param {{root:string, steps?:Array, metaOf?:Function, readText?:Function, htmlText?:string}} o
+ */
+export function htmlTailAudit(o) {
+  const opt = o || {};
+  const steps = opt.steps || REGEN_STEPS;
+  const root = String(opt.root).replace(/\/$/, '');
+  const readText = opt.readText || ((rel) => { try { return fs.readFileSync(root + '/' + rel, 'utf8'); } catch { return null; } });
+  const metaOf = opt.metaOf || ((f) => readMetaAt(root, f));
+  const htmlText = opt.htmlText !== undefined ? opt.htmlText : (readText(HTML_TARGET) || '');
+  const cur = steps.filter((z) => z.role !== 'history' && !z.outside);
+  const deps = tableDeps({ root, steps, metaOf });
+  const { up, down } = closures(deps);
+  const U = (k) => up.get(k) || new Set(), D = (k) => down.get(k) || new Set();
+  // ⑥
+  const cycles = cur.filter((z) => U(z.key).has(z.key)).map((z) => z.key);
+  const writers = cur.filter((z) => (z.htmlRegions || []).length);
+  const chainWriters = writers.filter((z) => z.htmlWriteMode !== 'check');
+  // ①
+  const textsOf = new Map(cur.map((z) => [z.key, harnessClosureTexts(z, root, readText)]));
+  const writesHtml = (st) => { for (const [rel, t] of textsOf.get(st.key)) if (/writeFileSync\(\s*HTML\b/.test(t) && /index\.html/.test(t)) return rel; return null; };
+  const undeclared = [], staleDecl = [], checkMode = [];
+  for (const st of cur) {
+    const w = writesHtml(st);
+    const decl = writers.includes(st);
+    if (w && !decl) undeclared.push(st.key + '(' + w + ')');
+    if (!w && decl) staleDecl.push(st.key);
+  }
+  for (const st of writers) if (st.htmlWriteMode === 'check' && !/\s--check\b/.test(st.cmd)) checkMode.push(st.key);
+  // ②
+  const regionMissing = [], regionDup = [];
+  const owner = new Map();
+  for (const st of writers) for (const r of st.htmlRegions) {
+    if (owner.has(r)) regionDup.push(r + ':' + owner.get(r) + '+' + st.key); else owner.set(r, st.key);
+    if (htmlText.indexOf(htmlGenBegin(r)) < 0 || htmlText.indexOf(htmlGenEnd(r)) < 0) regionMissing.push(st.key + ':' + r + '(html に印が無い)');
+    if (![...textsOf.get(st.key).values()].some((t) => t.indexOf(r) >= 0)) regionMissing.push(st.key + ':' + r + '(器の本文に領域名が無い)');
+  }
+  // ③
+  const writerUnordered = [];
+  for (let i = 0; i < writers.length; i++) for (let j = i + 1; j < writers.length; j++) {
+    const a = writers[i].key, b = writers[j].key;
+    if (!U(a).has(b) && !U(b).has(a)) writerUnordered.push(a + '|' + b);
+  }
+  // ④
+  const afterMissing = [], beforeStale = [], beforeAlways = [], tail = new Set(), reads = { whole: 0, scope: 0, none: 0 };
+  const scopeReaders = [];
+  for (const st of cur) {
+    if (writers.includes(st)) continue;
+    const h = htmlReadOf(st, { root, metaOf, readText });
+    reads[h.kind] = (reads[h.kind] || 0) + 1;
+    if (h.kind === 'scope') { scopeReaders.push([st, h]); continue; }
+    if (h.kind !== 'whole') continue;
+    for (const w of chainWriters) {
+      if (U(st.key).has(w.key)) { tail.add(st.key); continue; }
+      // 書き手の上流: 常時群は毎回刻み直す・meta を刻まない段は古くなる刻印が無い(情報)/ html 全体を刻む現行の段は書かれた後に刻印が古くなる
+      if (D(st.key).has(w.key)) { (st.alwaysRun || h.why !== 'meta が html 全体を刻む' ? beforeAlways : beforeStale).push(st.key + '<' + w.key); continue; }
+      afterMissing.push(st.key + '?' + w.key + '(' + (h.why || '') + ')');
+    }
+  }
+  // ⑤ 領域の宣言の閉包が、上流に無い書き手の生成領域に重なるか(最上位の文の範囲で)
+  const scopeReadsRegion = [];
+  const P = htmlParsedOf(htmlText);
+  const ranges = [];
+  for (const w of chainWriters.concat(writers.filter((z) => z.htmlWriteMode === 'check'))) for (const r of w.htmlRegions) {
+    const a = P.src.indexOf(htmlGenBegin(r)), b = P.src.indexOf(htmlGenEnd(r));
+    if (a >= 0 && b > a) ranges.push({ writer: w.key, region: r, a, b });
+  }
+  let scopeChecked = 0;
+  const declaredRegionReads = [], usedDecl = new Set();
+  if (P.parsed) for (const [st, h] of scopeReaders) for (const out of h.outs) {
+    const m = metaOf(out);
+    if (!m || !m.scope) continue;
+    const sc = normalizeScope(m.scope);
+    const ck = canonJson({ v: m.scope.version || null, roots: sc.roots, consts: sc.consts });
+    let segs = P.closures.get(ck);
+    if (!segs) {
+      const stop = m.scope.version === 'w286d-scope-4' ? SCOPE_STOP : SCOPE_STOP.filter((n) => n !== 'lcAfterStep' && n !== 'lcReset');
+      let cl = null;
+      try { cl = closureOf(P.parsed, sc.roots, undefined, { hardStop: stop }); } catch { cl = null; }
+      segs = cl ? cl.segIdx.map((i) => P.parsed.segments[i]) : [];
+      for (const nm of sc.consts) for (const s of P.parsed.segments) if ((s.names || []).includes(nm)) segs.push(s);
+      P.closures.set(ck, segs);
+    }
+    scopeChecked++;
+    for (const g of ranges) {
+      if (U(st.key).has(g.writer)) continue;   // 書き手が上流(書いた後に読む)なら重なってよい
+      // 文の始まりが領域の中 / 文が領域をまたぐ(直前の文の末尾の注釈が印の行に掛かるだけの重なりは数えない)
+      if (segs.some((s) => (g.a <= s.start && s.start < g.b) || (s.start < g.a && s.end > g.b))) {
+        const d = (opt.regionDecl || HTML_REGION_READ_DECL).find((z) => z.key === st.key && z.region === g.region);
+        if (d) { declaredRegionReads.push(st.key + '→' + g.region); usedDecl.add(d.key + '|' + d.region); }
+        else scopeReadsRegion.push(st.key + '→' + g.region);
+      }
+    }
+  }
+  const staleRegionDecl = (opt.regionDecl || HTML_REGION_READ_DECL).filter((z) => !usedDecl.has(z.key + '|' + z.region)).map((z) => z.key + '→' + z.region);
+  const ok = !cycles.length && !undeclared.length && !staleDecl.length && !checkMode.length && !regionMissing.length && !regionDup.length
+    && !writerUnordered.length && !afterMissing.length && !beforeStale.length && !scopeReadsRegion.length && !staleRegionDecl.length && !!P.parsed;
+  return { ok, writers: writers.map((z) => z.key + '[' + z.htmlRegions.join(',') + (z.htmlWriteMode === 'check' ? '・check' : '') + ']'),
+    cycles, undeclared, staleDecl, checkMode, regionMissing, regionDup, writerUnordered, afterMissing, beforeStale,
+    beforeAlways: [...new Set(beforeAlways)], scopeReadsRegion: [...new Set(scopeReadsRegion)], declaredRegionReads: [...new Set(declaredRegionReads)], staleRegionDecl, scopeChecked, reads,
+    tailBacklog: [...tail].sort(), parsed: !!P.parsed };
+}
 
 /** 優先度: 自分から下流の端までの実測秒の最長路(臨界路)の長い順 → 表の順。 */
 export function chainPriority(chain, tableIdx) {
@@ -1317,13 +1739,14 @@ export function chainShell(chain, o) {
   L.push('# 生成物(手で直さない): node tools/regen-chain.mjs —— 再生成表 ' + chain.version
     + (opt.htmlSha ? '・html ' + String(opt.htmlSha).slice(0, 12) : '')
     + `・段 run ${chain.count.run} / gate ${chain.count.gate} / manual ${chain.count.manual}・ready queue(レーン ≤${lanes}・書込排他・worker 予算)`);
-  L.push('# 済み印 $REGEN_LOG/done/<段>.done は契約(code/input/policy の hash)が同じときだけ再開に使う。rc≠0 の段があれば、走行中の段の終わりで止まる(rc 1)。');
+  L.push('# 済み印 $REGEN_LOG/done/<段>.done は契約(' + CHAIN_CONTRACT_VERSION + ' —— 静的な policy/code と、段を入れる直前に引く入力の安定 hash)が同じときだけ再開に使う。rc≠0 の段があれば、走行中の段の終わりで止まる(rc 1)。');
   L.push('# gate の段は上流が走った後に `node tools/regen-chain.mjs --gate <段>` で自分の判定を引き直し、再利用なら走らせない。');
   L.push('set -u');
   L.push('ROOT=${REGEN_ROOT:-$(pwd)}');
   L.push('REGEN_HTML=${REGEN_HTML:-beta/index.html}');
   L.push('REGEN_LOG=${REGEN_LOG:-${TMPDIR:-/tmp}/regen-chain' + (opt.htmlSha ? '-' + String(opt.htmlSha).slice(0, 12) : '') + '}');
   L.push(`REGEN_LANES=\${REGEN_LANES:-${lanes}}`);
+  L.push('REGEN_TOOL=${REGEN_TOOL:-tools/regen-chain.mjs}   # 第287便f: 入力の安定 hash を引く器(--digest)');
   L.push('DONE="$REGEN_LOG/done"; ST="$REGEN_LOG/.st"; mkdir -p "$DONE" "$ST" || exit 2; rm -f "$ST"/*.rc');
   L.push('cd "$ROOT" || exit 2');
   const envNeed = new Map();
@@ -1332,32 +1755,38 @@ export function chainShell(chain, o) {
     envNeed.get(m[1]).push(r.key + (r.env && r.env[m[1]] ? '(' + r.env[m[1]] + ')' : ''));
   }
   for (const [v, who] of envNeed) L.push(`: "\${${v}:?${v} が要る —— ${who.join('・').replace(/["`$\\]/g, '')}}"`);
+  L.push('contract_of() {   # $1=段 $2=静的な契約 → 標準出力に契約(静的 + 入力の安定 hash)。各入力の hash は $ST/<段>.in(済み印に写す)');
+  L.push('  node "$REGEN_TOOL" --digest --static "$2" --html "$REGEN_HTML" --log "$REGEN_LOG" --lines "$ST/$1.in" -- ${IN[$1]}');
+  L.push('}');
   L.push('mark_ok() {   # $1=段 $2=契約: 同じ契約の済み印だけを済みと見なす');
   L.push('  [ -f "$DONE/$1.done" ] || return 1');
   L.push('  if grep -qx "contract $2" "$DONE/$1.done"; then return 0; fi');
   L.push('  mv -f "$DONE/$1.done" "$DONE/$1.done.stale"; echo "[旧印] $1: 済み印の契約がこの鎖と違う → 走らせ直す($DONE/$1.done.stale)"; return 1');
   L.push('}');
-  L.push('write_mark() {   # $1=段 $2=状態の行 $3=契約 $4=書くファイル');
-  L.push('  { echo "$2"; echo "contract $3"; local f; for f in $4; do if [ -f "$f" ]; then echo "out $f $(sha256sum "$f" | cut -c1-64)"; fi; done; } >"$DONE/$1.done"');
+  L.push('write_mark() {   # $1=段 $2=状態の行 $3=契約 $4=書くファイル $5=静的な契約(入力の hash は $ST/<段>.in —— 走らせる前に引いた値)');
+  L.push('  { echo "$2"; echo "contract $3"; echo "static $5"; [ -f "$ST/$1.in" ] && sed "s/^/in /" "$ST/$1.in"; local f; for f in $4; do if [ -f "$f" ]; then echo "out $f $(sha256sum "$f" | cut -c1-64)"; fi; done; } >"$DONE/$1.done"');
   L.push('}');
-  L.push('run_step() {   # $1=段 $2=ログ名 $3=cmd $4=契約 $5=書くファイル');
-  L.push('  if mark_ok "$1" "$4"; then echo "[済] $1"; return 0; fi');
+  L.push('run_step() {   # $1=段 $2=ログ名 $3=cmd $4=静的な契約 $5=書くファイル');
+  L.push('  local c; c=$(contract_of "$1" "$4") || { echo "[止] $1 の入力の hash が引けない"; return 4; }');
+  L.push('  if mark_ok "$1" "$c"; then echo "[済] $1"; return 0; fi');
   L.push('  echo "[走] $1 → $REGEN_LOG/$2.log"; local t0; t0=$(date +%s)');
   L.push('  ( eval "$3" ) >"$REGEN_LOG/$2.log" 2>&1; local rc=$?');
   L.push('  if [ $rc -ne 0 ]; then echo "$rc" >"$REGEN_LOG/$2.rc"; echo "[止] $1 rc=$rc(ログ $REGEN_LOG/$2.log)"; return $rc; fi');
-  L.push('  write_mark "$1" "run $(( $(date +%s) - t0 ))s $(date -u +%FT%TZ)" "$4" "$5"');
+  L.push('  write_mark "$1" "run $(( $(date +%s) - t0 ))s $(date -u +%FT%TZ)" "$c" "$5" "$4"');
   L.push('}');
   L.push('gate_step() {  # 上流の後で自分の判定を引き直す(終了コード 10 = 再利用)。$6=同じファイルを書く上流(実際に走っていれば再利用しない)');
-  L.push('  if mark_ok "$1" "$4"; then echo "[済] $1"; return 0; fi');
+  L.push('  local c; c=$(contract_of "$1" "$4") || { echo "[止] $1 の入力の hash が引けない"; return 4; }');
+  L.push('  if mark_ok "$1" "$c"; then echo "[済] $1"; return 0; fi');
   L.push('  local u; for u in ${6:-}; do if [ -f "$DONE/$u.done" ] && grep -q "^run" "$DONE/$u.done"; then echo "[走・上流 $u が同じファイルを書き直した] $1"; run_step "$1" "$2" "$3" "$4" "$5"; return $?; fi; done');
   L.push('  node tools/regen-chain.mjs --gate "$1" --html "$REGEN_HTML" >"$REGEN_LOG/$2.gate" 2>&1; local g=$?');
-  L.push('  if [ $g -eq 10 ]; then write_mark "$1" "reuse $(date -u +%FT%TZ)" "$4" "$5"; echo "[再利用] $1"; return 0; fi');
+  L.push('  if [ $g -eq 10 ]; then write_mark "$1" "reuse $(date -u +%FT%TZ)" "$c" "$5" "$4"; echo "[再利用] $1"; return 0; fi');
   L.push('  if [ $g -ne 0 ]; then echo "[止] $1 の再判定が rc=$g"; return $g; fi');
   L.push('  run_step "$1" "$2" "$3" "$4" "$5"');
   L.push('}');
   L.push('manual_step() {  # 1 行のシェルでない段: 同じ契約の済み印が無ければ止まる');
-  L.push('  if mark_ok "$1" "$4"; then echo "[済] $1"; return 0; fi');
-  L.push('  echo "[手動] $1: $3 —— 走らせた後に printf \'manual\\ncontract %s\\n\' $4 >$DONE/$1.done で再開"; return 3');
+  L.push('  local c; c=$(contract_of "$1" "$4") || { echo "[止] $1 の入力の hash が引けない"; return 4; }');
+  L.push('  if mark_ok "$1" "$c"; then echo "[済] $1"; return 0; fi');
+  L.push('  echo "[手動] $1: $3 —— 走らせた後に printf \'manual\\ncontract %s\\n\' $c >$DONE/$1.done で再開(入力が変われば契約も変わる)"; return 3');
   L.push('}');
   // 表(段の属性 —— 書くファイルは排他の鍵 w<番号> に写す)
   const files = [...new Set(keys.flatMap((k) => chain.steps[k].writes || []))].sort();
@@ -1371,6 +1800,7 @@ export function chainShell(chain, o) {
   assoc('FN', (r) => (r.mode === 'gate' ? 'gate_step' : r.mode === 'manual' ? 'manual_step' : 'run_step'));
   assoc('CMD', (r) => r.cmd);
   assoc('CT', (r) => r.contract || '-');
+  assoc('IN', (r) => (r.inputs || []).join(' '));
   assoc('UPS', (r) => (r.mode === 'gate' ? (r.sameFileUps || []).join(' ') : ''));
   assoc('LOGN', (r) => String((r.wave || 0) + 1).padStart(2, '0') + '-' + r.key);
   L.push('declare -A STATE=() LOCK=()');
@@ -1570,7 +2000,7 @@ export const W283E_ADDED_AFTER = ['d0audit', 'nsmode', 'bgequiv', 'bgbudget', 'b
  */
 export async function regenChainSelfTest(o) {
   const root = o.root.replace(/\/$/, '');
-  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null, n: null, o: null };
+  const res = { a: null, b: null, c: null, d: null, e: null, f: null, g: null, h: null, i: null, n: null, o: null, p: null, q: null };
   const deps = tableDeps({ root });
   // (a)
   const A = tableDepsAudit({ root });
@@ -1623,7 +2053,7 @@ export async function regenChainSelfTest(o) {
     const sh = chainShell(ch, { lanes: 2 });
     fs.writeFileSync(tmp + '/chain.sh', sh);
     const syn = cp.spawnSync('bash', ['-n', tmp + '/chain.sh'], { encoding: 'utf8' });
-    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log' });
+    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log', REGEN_TOOL: root + '/tools/regen-chain.mjs' });
     delete env.W283E_STUB;
     const r0 = cp.spawnSync('bash', [tmp + '/chain.sh'], { encoding: 'utf8', env, cwd: tmp });   // 環境変数が無い → 走らせる前に止まる
     const noEnv = r0.status !== 0 && !fs.existsSync(tmp + '/marks/sa');
@@ -1677,7 +2107,8 @@ export async function regenChainSelfTest(o) {
     const tick = (k) => `echo x >> cnt/${k}`;
     const stubOf = (x2cmd) => [
       mk('x1', tick('x1') + '; sleep 0.6', [], { merges: ['out/F.json'] }),
-      mk('x2', (x2cmd || tick('x2')) + '; sleep 0.6', [], { merges: ['out/F.json'] }),
+      // 第287便f: x2 は F.json に値を書く(契約の入力は上流の意味的出力 —— cmd を変えた x2 が違う値を書くので下流 x6 が走り直す)
+      mk('x2', (x2cmd || tick('x2') + " && mkdir -p out && printf '{\"v\":1}' > out/F.json") + '; sleep 0.6', [], { merges: ['out/F.json'] }),
       mk('x3', tick('x3') + '; sleep 0.3', [], { outs: ['out/G.json'] }),
       mk('x4', tick('x4') + '; sleep 0.3', ['x3']),
       mk('x5', tick('x5') + '; sleep 0.3', [], { workers: 2 }),
@@ -1689,7 +2120,7 @@ export async function regenChainSelfTest(o) {
       return ch;
     };
     const ch1 = gen(stubOf(null), 'c1.sh');
-    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log' });
+    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log', REGEN_TOOL: root + '/tools/regen-chain.mjs' });
     const r1 = cp.spawnSync('bash', [tmp + '/c1.sh'], { encoding: 'utf8', env, cwd: tmp });
     const tl = parseTimeline(fs.readFileSync(tmp + '/log/timeline.txt', 'utf8'));
     const ev = (k) => tl.events.find((e) => e.key === k);
@@ -1697,12 +2128,13 @@ export async function regenChainSelfTest(o) {
     const x12 = [ev('x1'), ev('x2')].sort((a, b) => a.start - b.start);
     const noWave = ev('x4') && ev('x2') && ev('x4').start < Math.max(ev('x1').end, ev('x2').end);
     const cnt = (k) => { try { return fs.readFileSync(tmp + '/cnt/' + k, 'utf8').split('\n').filter(Boolean).length; } catch { return 0; } };
-    const marksOk = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6'].every((k) => { try { return fs.readFileSync(tmp + '/log/done/' + k + '.done', 'utf8').split('\n')[1] === 'contract ' + ch1.steps[k].contract; } catch { return false; } });
+    // 第287便f: 済み印の 2 行目は契約(静的 + 入力の安定 hash)・3 行目が鎖の静的な契約
+    const marksOk = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6'].every((k) => { try { const t = fs.readFileSync(tmp + '/log/done/' + k + '.done', 'utf8').split('\n'); return /^contract [0-9a-f]{64}$/.test(t[1]) && t[2] === 'static ' + ch1.steps[k].contract; } catch { return false; } });
     res.h = { rc: r1.status, events: tl.events.length, lanes: tl.lanes, order: chk.order.length, writes: chk.writes.length, budget: chk.budget.length,
       serialF: x12[0].end <= x12[1].start + 1e-6, noWaveBarrier: noWave, marksOk,
       ok: r1.status === 0 && tl.events.length === 6 && tl.lanes === 3 && chk.ok && x12[0].end <= x12[1].start + 1e-6 && noWave && marksOk };
     // (i)
-    const ch2 = gen(stubOf(tick('x2') + '; true'), 'c2.sh');
+    const ch2 = gen(stubOf(tick('x2') + " && mkdir -p out && printf '{\"v\":2}' > out/F.json"), 'c2.sh');
     const changed = Object.keys(ch2.steps).filter((k) => ch2.steps[k].contract !== ch1.steps[k].contract).sort();
     const before = Object.fromEntries(['x1', 'x2', 'x3', 'x4', 'x5', 'x6'].map((k) => [k, cnt(k)]));
     const r2 = cp.spawnSync('bash', [tmp + '/c2.sh'], { encoding: 'utf8', env, cwd: tmp });
@@ -1712,7 +2144,8 @@ export async function regenChainSelfTest(o) {
     fs.writeFileSync(tmp + '/log/done/x3.done', 'run 1s\n');
     const r3 = cp.spawnSync('bash', [tmp + '/c2.sh'], { encoding: 'utf8', env, cwd: tmp });
     res.i = { changed, reran, stale, rc2: r2.status, rc3: r3.status, bareMarkRerun: cnt('x3') === before.x3 + 1,
-      ok: JSON.stringify(changed) === '["x2","x6"]' && JSON.stringify(reran) === '["x2","x6"]' && JSON.stringify(stale) === '["x2.done.stale","x6.done.stale"]'
+      // 第287便f: 静的な契約が変わるのは cmd を変えた x2 だけ(旧版は Merkle で x6 も)。x6 は x2 の意味的出力(F.json の値)が変わったので走り直す
+      ok: JSON.stringify(changed) === '["x2"]' && JSON.stringify(reran) === '["x2","x6"]' && JSON.stringify(stale) === '["x2.done.stale","x6.done.stale"]'
         && r2.status === 0 && r3.status === 0 && cnt('x3') === before.x3 + 1 && /\[旧印\] x3/.test(r3.stdout) };
   }
   // (n) 第285便f(AN53): 今の表で samplestatus より先に走りうる html 全体の段が 0・足した after を外した写しで**検出される**・
@@ -1747,6 +2180,127 @@ export async function regenChainSelfTest(o) {
         && hasMiss(A2, 'galaxydiag', 'tests/out/sparc-w269c.json', 'sparc') && A3.missingAfter.length === A0.declared.length && A0.declared.length > 0
         && T0.ok && T0.missingAfter.length === 0 };
   }
+  // ---- 第287便f(原仮定者の裁定(第77報)AN69・統括の検証項目 R112)
+  // (p) **済み印の契約 = 静的 + 入力の安定 hash**:
+  //     (p0) 実物の calaudit-w249.json で、宣言した除外 Pointer と来歴・時刻の欄(kf0 の書き戻しが変える欄)だけを書き換えた写しの意味的出力が同じ・
+  //          物理欄を 1 つ変えた写しは違う。
+  //     (p1) 旧版の契約(Merkle)の再現: html の sha を変えて鎖を作り直すと全段の契約が変わる / 1 段(k0)の cmd を変えると k0 と下流の全部が変わる
+  //          (第286便の鎖 7〜8 の空回りの型)。
+  //     (p2) stub の鎖(cal → k0〔同じ C.json へ書き戻す〕→ r1 → r2・html を読む hw・読まない hn)を bash で同じ REGEN_LOG に 5 回:
+  //          A 全段が走る / B k0 の cmd だけ変える(k0 は C.json の時刻だけを書き直す)→ **k0 だけが走り r1・r2 の印は生きる** /
+  //          C html だけ変える → hw だけ / D k0 が値を変える(負の対照)→ k0・r1・r2 / E cal の cmd を変える → cal と、同じファイルを段階的に書く k0
+  //          (mark: —— 中身が同じでも書き直す)だけ。
+  if (o.tmpDir) {
+    const cp = await import('node:child_process');
+    const tmp = o.tmpDir.replace(/\/$/, '') + '/p287';
+    fs.mkdirSync(tmp + '/cnt', { recursive: true });
+    // (p0)
+    const CAL = 'tests/out/calaudit-w249.json';
+    let p0 = { ok: false };
+    try {
+      const J = JSON.parse(fs.readFileSync(root + '/' + CAL, 'utf8'));
+      const base = semanticSha(root + '/' + CAL, CAL);
+      const W = JSON.parse(JSON.stringify(J));
+      if (W.meta) { W.meta.generatedAt = '2099-01-01T00:00:00.000Z'; W.meta.when = '2099-01-01T00:00:00.000Z'; W.meta.targetSha256 = 'f'.repeat(64); W.meta.code = []; }
+      for (const pr of Object.values(W.presets || {})) if (pr && pr.run && typeof pr.run.wallSec === 'number') pr.run.wallSec += 1;
+      fs.writeFileSync(tmp + '/cal-time.json', JSON.stringify(W));
+      const Y = JSON.parse(JSON.stringify(J));
+      // 物理欄: presets の最初の本の最初の数値の量(再帰で最初に見つかる有限数 —— wallSec 等の除外欄は避ける)
+      let hit = null;
+      const firstNum = (x, pth) => {
+        if (hit || !x || typeof x !== 'object') return;
+        for (const k of Object.keys(x)) {
+          if (hit) return;
+          if (/wall|rate|when|generatedAt|elapsed|spent|sha|bytes/i.test(k)) continue;
+          if (typeof x[k] === 'number' && Number.isFinite(x[k]) && x[k] !== 0) { x[k] = x[k] * (1 + 1e-9); hit = pth + '/' + k; return; }
+          firstNum(x[k], pth + '/' + k);
+        }
+      };
+      firstNum(Y.presets, '/presets');
+      fs.writeFileSync(tmp + '/cal-phys.json', JSON.stringify(Y));
+      const sT = semanticSha(tmp + '/cal-time.json', CAL), sP = semanticSha(tmp + '/cal-phys.json', CAL);
+      p0 = { base: base.slice(0, 16), timeOnly: sT === base, physChanged: hit, physDiffers: sP !== base, ok: sT === base && !!hit && sP !== base };
+    } catch (e) { p0 = { ok: false, error: String(e).slice(0, 120) }; }
+    // stub の器(1 本の node スクリプト —— 段の名前で振る舞いを変える)
+    fs.writeFileSync(tmp + '/w.mjs', [
+      "import fs from 'node:fs';",
+      "const k = process.argv[2]; fs.mkdirSync('out', { recursive: true }); fs.appendFileSync('cnt/' + k, 'x\\n');",
+      "const now = () => new Date().toISOString() + ':' + process.hrtime.bigint();",
+      "const rd = (f) => JSON.parse(fs.readFileSync(f, 'utf8'));",
+      "if (k === 'cal') fs.writeFileSync('out/C.json', JSON.stringify({ meta: { generatedAt: now() }, v: 1 }));",
+      "if (k === 'k0') { const j = rd('out/C.json'); j.meta.generatedAt = now(); j.v += Number(fs.existsSync('k0dv') ? fs.readFileSync('k0dv', 'utf8') : 0); fs.writeFileSync('out/C.json', JSON.stringify(j)); }",
+      "if (k === 'r1') fs.writeFileSync('out/R1.json', JSON.stringify({ meta: { generatedAt: now() }, v: 2 * rd('out/C.json').v }));",
+      "if (k === 'r2') fs.writeFileSync('out/R2.json', JSON.stringify({ meta: { generatedAt: now() }, v: rd('out/R1.json').v + 1 }));",
+      "if (k === 'hw') fs.writeFileSync('out/H.json', JSON.stringify({ meta: { generatedAt: now() }, n: fs.readFileSync('page.html', 'utf8').length }));",
+      "if (k === 'hn') fs.writeFileSync('out/N.json', JSON.stringify({ meta: { generatedAt: now() }, n: 1 }));",
+    ].join('\n'));
+    fs.writeFileSync(tmp + '/page.html', '<html><script>// a</script></html>\n');
+    const mk = (k, extra, after, more) => Object.assign({ key: k, cmd: 'node w.mjs ' + k + (extra || ''), outs: [], after: after || [], role: 'current', sec: 1 }, more || {});
+    const table = (x) => [
+      mk('cal', x.cal, [], { outs: ['out/C.json'], htmlInput: 'none' }),
+      mk('k0', x.k0, ['cal'], { merges: ['out/C.json'], htmlInput: 'none' }),
+      mk('r1', '', ['k0'], { outs: ['out/R1.json'], htmlInput: 'none' }),
+      mk('r2', '', ['r1'], { outs: ['out/R2.json'], htmlInput: 'none' }),
+      mk('hw', '', [], { outs: ['out/H.json'], htmlInput: 'whole' }),
+      mk('hn', '', [], { outs: ['out/N.json'], htmlInput: 'none' })];
+    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log', REGEN_TOOL: root + '/tools/regen-chain.mjs', REGEN_HTML: 'page.html' });
+    const cnt = (k) => { try { return fs.readFileSync(tmp + '/cnt/' + k, 'utf8').split('\n').filter(Boolean).length; } catch { return 0; } };
+    const K6 = ['cal', 'k0', 'r1', 'r2', 'hw', 'hn'];
+    const runOnce = (x, name) => {
+      const stub = table(x);
+      const sd = tableDeps({ steps: stub });
+      const ch = buildChain({ steps: stub.map((z) => ({ key: z.key, status: 'regen' })) }, { steps: stub, deps: sd });
+      fs.writeFileSync(tmp + '/' + name + '.sh', chainShell(ch, { lanes: 2 }));
+      const before = Object.fromEntries(K6.map((k) => [k, cnt(k)]));
+      const r = cp.spawnSync('bash', [tmp + '/' + name + '.sh'], { encoding: 'utf8', env, cwd: tmp });
+      return { rc: r.status, reran: K6.filter((k) => cnt(k) > before[k]), ch, out: (r.stdout || '').slice(-400) };
+    };
+    const A = runOnce({}, 'pA');
+    const B = runOnce({ k0: ' --again' }, 'pB');
+    fs.writeFileSync(tmp + '/page.html', '<html><script>// b</script></html>\n');
+    const C = runOnce({ k0: ' --again' }, 'pC');
+    fs.writeFileSync(tmp + '/k0dv', '1');
+    const D = runOnce({ k0: ' --again2' }, 'pD');
+    const E = runOnce({ cal: ' --x', k0: ' --again2' }, 'pE');
+    // (p1) 旧版の契約の再現(同じ stub の鎖の行で —— 純関数)
+    const legacyA = legacyChainContracts(A.ch.steps, { htmlSha: 'a'.repeat(64) });
+    const legacyHtml = legacyChainContracts(A.ch.steps, { htmlSha: 'b'.repeat(64) });
+    const legacyK0 = legacyChainContracts(B.ch.steps, { htmlSha: 'a'.repeat(64) });
+    const diff = (m1, m2) => K6.filter((k) => m1.get(k) !== m2.get(k));
+    const p1 = { htmlChange: diff(legacyA, legacyHtml), k0Change: diff(legacyA, legacyK0) };
+    p1.ok = p1.htmlChange.length === K6.length && JSON.stringify(p1.k0Change) === '["k0","r1","r2"]';
+    const specsR1 = (A.ch.steps.r1 || {}).inputs || [];
+    const specsK0 = (A.ch.steps.k0 || {}).inputs || [];
+    const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    res.p = { p0, p1, specs: { r1: specsR1, k0: specsK0, hw: (A.ch.steps.hw || {}).inputs, hn: (A.ch.steps.hn || {}).inputs },
+      runs: { A: A.reran, B: B.reran, C: C.reran, D: D.reran, E: E.reran }, rc: [A.rc, B.rc, C.rc, D.rc, E.rc],
+      ok: p0.ok && p1.ok && [A.rc, B.rc, C.rc, D.rc, E.rc].every((z) => z === 0)
+        && eq(A.reran, K6) && eq(B.reran, ['k0']) && eq(C.reran, ['hw']) && eq(D.reran, ['k0', 'r1', 'r2']) && eq(E.reran, ['cal', 'k0'])
+        && eq(specsK0, ['mark:cal']) && eq(specsR1, ['json:out/C.json']) && eq((A.ch.steps.hw || {}).inputs, ['html:whole']) && eq((A.ch.steps.hn || {}).inputs, []) };
+  }
+  // (q) **html を書く段の検査が型ごとに検出する**(今の表の写しを 1 か所ずつ壊す —— 正本は書き換えない):
+  //     q1 書く段の順序を外す → 全順序の欠け / q2 obscompare の領域の宣言を外す → 器の本文から宣言漏れ / q3 samplestatus の after に families
+  //     → 循環 / q4 families の after から samplestatus を外す → 領域の閉包が sample-status に掛かる / q5 obscompare の after から d68three を外す
+  //     → after 欠落 / q6 領域の読みの宣言を空にする → pn1→obs-compare が違反に出る / q7 html から sample-status の印を消す → 領域の印の欠け
+  {
+    const Q0 = htmlTailAudit({ root });
+    const edit = (key, f) => REGEN_STEPS.map((z) => (z.key === key ? f(Object.assign({}, z)) : z));
+    const drop = (arr, v) => (arr || []).filter((x) => x !== v);
+    const q1 = htmlTailAudit({ root, steps: edit('samplestatus', (z) => Object.assign(z, { after: drop(z.after, 'assessed') })).map((z) => (z.key === 'assessed' ? Object.assign({}, z, { after: drop(z.after, 'obscompare') }) : z)) });
+    const q2 = htmlTailAudit({ root, steps: edit('obscompare', (z) => { delete z.htmlRegions; return z; }) });
+    const q3 = htmlTailAudit({ root, steps: edit('samplestatus', (z) => Object.assign(z, { after: (z.after || []).concat(['families']) })) });
+    const q4 = htmlTailAudit({ root, steps: edit('families', (z) => Object.assign(z, { after: drop(z.after, 'samplestatus') })) });
+    const q5 = htmlTailAudit({ root, steps: edit('obscompare', (z) => Object.assign(z, { after: drop(z.after, 'd68three') })) });
+    const q6 = htmlTailAudit({ root, regionDecl: [] });
+    let htmlNow = ''; try { htmlNow = fs.readFileSync(root + '/' + HTML_TARGET, 'utf8'); } catch { htmlNow = ''; }
+    const q7 = htmlTailAudit({ root, htmlText: htmlNow.split(htmlGenBegin('sample-status')).join('// (印を消した写し)') });
+    const has = (arr, re) => (arr || []).some((z) => re.test(z));
+    res.q = { now: { ok: Q0.ok, writers: Q0.writers, reads: Q0.reads, tailBacklog: Q0.tailBacklog.length, declaredRegionReads: Q0.declaredRegionReads, beforeAlways: Q0.beforeAlways.length },
+      q1: has(q1.writerUnordered, /assessed\|samplestatus|samplestatus\|assessed|obscompare\|assessed|assessed\|obscompare/), q2: has(q2.undeclared, /^obscompare\(/),
+      q3: q3.cycles.some((k) => k === 'samplestatus' || k === 'families'), q4: has(q4.scopeReadsRegion, /^families→sample-status$/),
+      q5: has(q5.afterMissing, /^d68three\?obscompare/), q6: has(q6.scopeReadsRegion, /^pn1→obs-compare$/), q7: has(q7.regionMissing, /^samplestatus:sample-status\(html/) };
+    res.q.ok = Q0.ok && ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'].every((k) => res.q[k] === true);
+  }
   res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
   return res;
 }
@@ -1755,4 +2309,6 @@ export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessRead
   volatilePathsOf, volatileDeclared, stepsByOut, alwaysRunOuts, historyOuts, planRegen,
   writesOf, writersMap, afterClosure, tableDeps, tableDepsAudit, checkOrder, buildChain, chainSequence, laneSplit, chainShell, an29Probe,
   codeFilesOf, chainContracts, CHAIN_CONTRACT_VERSION, chainPriority, simulateReadyQueue, waveMakespan, checkTimeline, parseTimeline,
-  W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest };
+  W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest,
+  CHAIN_CONTRACT_HISTORY, SEMANTIC_RUN_META, HTML_TARGET, htmlGenBegin, htmlGenEnd, legacyChainContracts, htmlReadOf, HTML_READ_SCAN_SKIP, stripHtmlRegions,
+  depClosures, chainInputSpecs, semanticSha, inputDigest, HTML_REGION_READ_DECL, htmlTailAudit };

@@ -42,6 +42,17 @@
 //   node tools/regen-chain.mjs --audit [--lanes 4]  表の依存の完全性(入力の書き手 ⊆ after の閉包・書き手の全順序・循環)と、
 //       全段 regen の鎖の ready queue の模擬(順序違反・書込の重なり・予算超過 0 —— 第284便f)。
 //   node tools/regen-chain.mjs --self-test    dry-run の自己試験(QA `lint.regenChain` と同じ関数)。違反があれば 1。
+//
+// 第287便f(原仮定者の裁定(第77報)AN69・統括の検証項目 R112):
+//   ・**済み印の契約 = 静的な部分(policy・code)+ 入力の安定 hash**(版 w287f-chaincontract-2 —— tests/lib-w281a-regentable.mjs の
+//     `chainInputSpecs`・`inputDigest`)。入力 = 読む正本の意味的出力(除外 Pointer と来歴・時刻の欄を除いた安定 hash)・表の外の入力のバイト sha・
+//     html の読み方(領域 hash / 自分と下流の書く段の生成領域を除いた本文 / 本文全体)・同じファイルを段階的に書く上流の走行行・env の値。
+//     上流が走り直しても意味的出力が同じなら読み手の済み印は生きる(第286便の鎖 7〜8 の空回りの再現と解消 —— 自己試験 (p))。
+//     `--digest` は鎖のランナーが段を入れる直前に呼ぶ(ランナーは REGEN_TOOL でこの器の場所を受ける)。
+//   ・`--audit` に **html を書く段の検査**(`htmlTailAudit`: 書く段の宣言と器の本文・領域の印・書く段の全順序・html 本文を読む段の after 欠落・
+//     領域の閉包と生成領域の重なり・表の依存の循環)を足した。末尾に移しただけで依存が満たされるとは決めない(自己試験 (q) が型ごとに検出を確かめる)。
+//   ・html を書く段は今も各段が beta/index.html を直に書く。**一時出力を最後に集約する方式**(中断時に半分書いた html を完成扱いしない)は
+//     設計だけ(tests/README.md「再生成の鎖」)—— 本便は検査と契約まで。
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -54,6 +65,24 @@ const resolve = (p) => (p ? (path.isAbsolute(p) ? p : path.join(ROOT, p)) : null
 const HTML = resolve(getArg('--html', 'beta/index.html'));
 const BASE = resolve(getArg('--base', null));
 const T = await import(pathToFileURL(path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs')).href);
+
+// 第287便f(原仮定者の裁定(第77報)AN69): 済み印の契約の**入力の安定 hash**(鎖のランナーが段を入れる直前に呼ぶ —— 手で呼ぶ用途は照合だけ)。
+//   node tools/regen-chain.mjs --digest --static <静的な契約> [--html <html>] [--log <REGEN_LOG>] [--lines <出力>] [--root <dir>] -- <入力…>
+//   標準出力に契約(64 桁)。--lines に入力ごとの hash の行(済み印に写す)。root の既定は今のディレクトリ(鎖は cd "$ROOT" の後に呼ぶ)。
+if (argv.includes('--digest')) {
+  const dd = argv.indexOf('--');
+  const specs = dd >= 0 ? argv.slice(dd + 1) : [];
+  const head = dd >= 0 ? argv.slice(0, dd) : argv;
+  const hArg = (k, d) => { const i = head.indexOf(k); return (i >= 0 && head[i + 1] !== undefined) ? head[i + 1] : d; };
+  const root = path.resolve(hArg('--root', process.cwd()));
+  const htmlArg = hArg('--html', 'beta/index.html');
+  const r = T.inputDigest(specs, { root, html: path.isAbsolute(htmlArg) ? htmlArg : path.join(root, htmlArg),
+    logDir: hArg('--log', null) ? path.resolve(hArg('--log', null)) : null, staticContract: hArg('--static', null) });
+  const lf = hArg('--lines', null);
+  if (lf) fs.writeFileSync(path.resolve(lf), r.lines.join('\n') + (r.lines.length ? '\n' : ''));
+  process.stdout.write(r.contract + '\n');
+  process.exit(0);
+}
 
 if (argv.includes('--gate')) {
   const key = getArg('--gate', null);
