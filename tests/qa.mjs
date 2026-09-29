@@ -18203,6 +18203,7 @@ if (!FAST) {
   const htmlSrc282d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has282d = htmlSrc282d.indexOf('function dfmFieldContract(') >= 0 && htmlSrc282d.indexOf('id:"galaxyAnalogyBH"') >= 0;
   const has283fCS = htmlSrc282d.indexOf('id:"clusterAnalogyBH"') >= 0;
+  const has287aCS = htmlSrc282d.indexOf('id:"clusterGrowthCopy"') >= 0;   // 第287便a: 🌰 clusterGrowthCopy(💮 の台帳の写し)も centerSpin:"read" を宣言
   // 第283便f(原仮定者の裁定(第73報)AN27・AN37): rayHeavy が massLedger.darkRotor.lens:"excluded" を読む世代では、
   //   🌚 の DR 代表粒子は光線の源から外れる(重い天体 0/40・DR の質量を 0 にした写しと光線がビット一致)
   const has283fLens = htmlSrc282d.indexOf('function lensExcludedRows(') >= 0;
@@ -18308,7 +18309,7 @@ if (!FAST) {
         if (r.stops.some((z) => z !== null)) bad.push('停止理由 ' + r.stops.join(','));
         if (!(r.rejBogus && r.rejLocal && r.rejCal && r.okRead)) bad.push('検証器(bogus/local/calibration の拒否・read の受理)');
         // 第283便f: 💮 clusterAnalogyBH も centerSpin:"read" を宣言する(世代で切り替える)
-        const wantCS = has283fCS ? 'galaxyAnalogyBH,clusterAnalogyBH' : 'galaxyAnalogyBH';
+        const wantCS = has287aCS ? 'galaxyAnalogyBH,clusterAnalogyBH,clusterGrowthCopy' : (has283fCS ? 'galaxyAnalogyBH,clusterAnalogyBH' : 'galaxyAnalogyBH');   // 第287便a: 🌰 も宣言(世代で切り替える)
         if (r.decl.join(',') !== wantCS) bad.push('centerSpin を宣言する内蔵が ' + wantCS + ' でない: ' + r.decl.join(','));
         if (!r.canonOff) bad.push('既定 off が正準形に出ている');
         const R = J.spinResponse.response;
@@ -19497,6 +19498,7 @@ if (!FAST) {
 {
   const htmlSrc283f = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has283f = TARGET.startsWith('beta/') && htmlSrc283f.indexOf('id:"clusterAnalogyBH"') >= 0 && htmlSrc283f.indexOf('function lensExcludedRows(') >= 0;
+  const has287aRL = htmlSrc283f.indexOf('id:"clusterGrowthCopy"') >= 0;   // 第287便a: 🌰(💮 の写し)も基点 beta/_w283_base.html に無い
   if (!has283f) {
     console.log('SKIP behavior.clusterAnalogy / behavior.rayLensExcluded(第283便f 未適用 — ' + TARGET + ')');
   } else {
@@ -19739,7 +19741,7 @@ if (!FAST) {
         const diff = others.filter((z) => !z.heavySame || z.raysDiffering !== 0).map((z) => z.id).filter((id) => !(W284R && id === 'psrDoubleABDFM') && !(W285F && id === 'psrJ1757DFM')
           && !(W286B && (CL286.has(id) || id === 'psrDoubleABGeoToy' || id === 'psrDoubleABSpinCal')) && !(W286F && id === 'psrJ1946DFM') && !(W287B && id === 'psrB1534DFM'));
         if (diff.length) bad.push('🌚 以外で光線が変わった本 ' + diff.slice(0, 4).join(','));
-        if (news.join(',') !== 'clusterAnalogyBH') bad.push('基点に無い本 ' + news.join(','));
+        if (news.join(',') !== (has287aRL ? 'clusterAnalogyBH,clusterGrowthCopy' : 'clusterAnalogyBH')) bad.push('基点に無い本 ' + news.join(','));
         const c = R.cluster;
         if (!(c.heavy.dr === 0 && c.heavy.center === 1 && c.raysDifferingDrMassZero === 0 && c.oldRule && c.oldRule.drHeavy === 40)) bad.push('💮 の光線 ' + JSON.stringify(c));
         cases.push(`正本(基点 ${R.base}): 🌚 の重い天体 ${moon ? moon.heavyBase + '→' + moon.heavyNow : '—'}・光線 ${moon ? moon.raysDiffering : '—'}/${R.fan} 本が変わる / 他 ${others.length} 本は重い天体の集合も光線 ${others.length * R.fan} 本もビット一致 / 💮 は基点の規則なら DR ${c.oldRule ? c.oldRule.drHeavy : '—'} 体が重い天体`);
@@ -20898,17 +20900,18 @@ if (!FAST) {
       // 内蔵で宣言しているのは第277便b の 2 本(massPrecision)/ 0 本(softeningFloor・massFloorScaled)
       o.nMassPrec = HP.allPresets().filter((z) => z.physics && z.physics.massPrecision === 'double').length;
       o.has280d = HP.allPresets().some((z) => z.id === 'plutoCharonSyncZero');   // 第280便d: 🥶☃️ も double を宣言(2→4)
+      o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰 も double を宣言(💮 の写し・4→5)
       o.nSoftFloor = HP.allPresets().filter((z) => z.physics && z.physics.softeningFloor !== undefined).length;
       o.nMfs = HP.allPresets().filter((z) => z.physics && z.physics.massFloorScaled !== undefined).length;
       HP.loadPreset('saturn', false);
       return o;
     });
     add('preset.massPrecision',
-      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2),
+      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2) + (r.has287a ? 1 : 0),
       `不正値は警告つき削除=${r.badDropped} / 既定 "single" は正準形に出ない(署名同一)=${r.singleNotCanonical} / `
       + `"double" は正準形と署名に入る=${r.doubleCanonical} / build で S.m・S.mEff が Float64Array=${r.f64} / `
       + `**未宣言の本は Float32 のまま**(❄️ で確認・自転も Float32)=${r.f32Default} / `
-      + `内蔵の宣言 ${r.nMassPrec} 本(第277便b の ⛄🌨️${r.has280d ? '・第280便d の 🥶☃️' : ''})`);
+      + `内蔵の宣言 ${r.nMassPrec} 本(第277便b の ⛄🌨️${r.has280d ? '・第280便d の 🥶☃️' : ''}${r.has287a ? '・第287便a の 🌰' : ''})`);
     add('preset.softeningFloor',
       r.calibRejected && r.diagAccepted && r.floorClamped && r.defaultClamp && r.floorEqualDropped
       && r.mfsDeclared && r.mfsFalseDropped && r.nSoftFloor === 0 && r.nMfs === 0,
@@ -29602,7 +29605,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         railExpect: [-OM32 * OM32 * rail.sx * DT, -OM32 * OM32 * rail.sy * DT], hits, live,
         has274c: HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite'),
         has282d: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBH'),   // 第282便d: 🌚(pinned 中心 1 個・centerSpin:"read")
-        has283f: HP.allPresets().some((q) => q.id === 'clusterAnalogyBH') };   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+        has283f: HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'),
+        has287a: HP.allPresets().some((q) => q.id === 'clusterGrowthCopy') };   // 第287便a: 🌰 成長経路の原理コピー(中心を pinned しない → pinned 0)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     });
     // 自由源の期待値: 試験粒子が受けるトイ Δv = η·a_src·dt(a_src は**源が受けている重力加速度**)
     const relFree = r.dvFree
@@ -29621,7 +29625,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       // **世代で切り替える**(root は 🎋 を持たないので 2 本のまま)。
       // 第282便d: 🌚 galaxyAnalogyBH(pinned 中心 1 個)が加わって 3 → 4 本(世代で切り替える)。
       // 第283便f: 💮 clusterAnalogyBH(pinned 中心 1 個)が加わって 4 → 5 本(世代で切り替える)。
-      builtinRoster: r.hits.length === (r.has274c ? 3 : 2) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0)
+      builtinRoster: r.hits.length === (r.has274c ? 3 : 2) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0)
+        && (!r.has287a || r.hits.indexOf('clusterGrowthCopy:0') >= 0)   // 第287便a: 🌰 は自由な中心(pinned 0)・live(pinned の 1 步走行)には入らない
         && r.hits.indexOf('galaxyMeshSpiralGeoToy:1') >= 0 && r.hits.indexOf('psrDoubleABGeoToy:0') >= 0
         && (!r.has274c || r.hits.indexOf('galaxyMeshSpiralGeoToyLite:1') >= 0)
         && (!r.has282d || r.hits.indexOf('galaxyAnalogyBH:1') >= 0)
@@ -32473,7 +32478,8 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'earthMoonDiagOne'))) ? 1 : 0;   // 第280便b: 🌓(core 宣言なし)
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'mercuryGeoToy3'))) ? 2 : 0;   // 第280便c: 🔁🌒(geoPN=3 の診断コピー・core 宣言なし)
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'galaxyAnalogyBH'))) ? 1 : 0;   // 第282便d: 🌚(アナロジーの原理サンプル・core 宣言なし)
-    exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'))) ? 1 : 0;   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+    exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'))) ? 1 : 0;
+    exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'clusterGrowthCopy'))) ? 1 : 0;   // 第287便a: 🌰 成長経路の原理コピー(💮 の写し・core 宣言なし)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61 - W284_CORE
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
@@ -32709,7 +32715,8 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
         has280b: HP.allPresets().some((q) => q.id === 'earthMoonDiagOne'),   // 第280便b: 🌓 表裏核の診断コピー(core 宣言なし)
         has280c: HP.allPresets().some((q) => q.id === 'mercuryGeoToy3'),   // 第280便c: 🔁🌒 geoPN=3 の診断コピー(core 宣言なし)
         has282d: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBH'),   // 第282便d: 🌚 アナロジーの原理サンプル(core 宣言なし)
-        has283f: HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'),   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+        has283f: HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'),
+        has287a: HP.allPresets().some((q) => q.id === 'clusterGrowthCopy'),   // 第287便a: 🌰 成長経路の原理コピー(💮 の写し・core 宣言なし)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
           nShapeToy: HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length } };
     });
     const bad = rp.C.filter((c) => !c.pass);
@@ -32720,7 +32727,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
     // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
-    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) && rp.rep.nCore === 76 - W284_CORE
+    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) && rp.rep.nCore === 76 - W284_CORE
       && rp.rep.tot.canReplace === 31 - W284_CORE && rp.rep.tot.cannot === 45   // 第284便b: ⚡ の 2 件(置換可)が消えた
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
       && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
@@ -33908,14 +33915,16 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
           has280b: HP.allPresets().some((q) => q.id === 'earthMoonDiagOne'),   // 第280便b: 🌓 表裏核の診断コピー(core 宣言なし)
           has280c: HP.allPresets().some((q) => q.id === 'mercuryGeoToy3'),   // 第280便c: 🔁🌒 geoPN=3 の診断コピー(core 宣言なし)
           has282d: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBH'),   // 第282便d: 🌚 アナロジーの原理サンプル(core 宣言なし)
-          has283f: HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'),   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+          has283f: HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'),
+        has287a: HP.allPresets().some((q) => q.id === 'clusterGrowthCopy'),   // 第287便a: 🌰 成長経路の原理コピー(💮 の写し・core 宣言なし)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
         has277b: HP.allPresets().some((q) => q.id === 'plutoCharonDFM'),
         n280e: HP.allPresets().filter((q) => q.id === 'saturnD68Consistent' || q.id === 'saturnD68ObsOrbit').length,   // 第280便e: 🧷📎(core 宣言なし)
         has280d: HP.allPresets().some((q) => q.id === 'plutoCharonSyncZero'),
         has280b: HP.allPresets().some((q) => q.id === 'earthMoonDiagOne'),   // 第280便b: 🌓 表裏核の診断コピー(core 宣言なし)
         has280c: HP.allPresets().some((q) => q.id === 'mercuryGeoToy3'),   // 第280便c: 🔁🌒 geoPN=3 の診断コピー(core 宣言なし)
         has282d: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBH'),   // 第282便d: 🌚 アナロジーの原理サンプル(core 宣言なし)
-        has283f: HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'),   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+        has283f: HP.allPresets().some((q) => q.id === 'clusterAnalogyBH'),
+        has287a: HP.allPresets().some((q) => q.id === 'clusterGrowthCopy'),   // 第287便a: 🌰 成長経路の原理コピー(💮 の写し・core 宣言なし)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
           nShapeToy: HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length }; }
       { const v2 = run('v2', 0.4, 'shell'), lay = run('lay', 0.4, 'shell');
         const v2t = run('v2', 0.4, null), layt = run('lay', 0.4, null);
@@ -33937,7 +33946,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     }, 600);
     // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
     const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 - W284_CORE   // 第284便b: ⚡ の補正コア 2 件
-      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0);
+      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0) + (lw.builtins.has287a ? 1 : 0);
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
       && lw.match.total.dQ !== 0 && lw.match.total.d600 > 0 && lw.match.total.law === 'total';
@@ -54499,7 +54508,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // 第282便d: 🌚 galaxyAnalogyBH も overlays.spaceMesh{mode:"mesh"} を宣言する(5 → 6 本・世代で切り替える)
       const has282dMesh = HP.allPresets().some((q) => q.id === 'galaxyAnalogyBH');
       const has283fMesh = HP.allPresets().some((q) => q.id === 'clusterAnalogyBH');   // 第283便f: 💮 も overlays.spaceMesh{mode:"mesh"}(6 → 7 本)
-      o.declOk = decl.length === (hasLite ? 5 : (hasGeoCopy ? 4 : 3)) + (has282dMesh ? 1 : 0) + (has283fMesh ? 1 : 0) && decl.every((z) => /"mode":"mesh"/.test(z));
+      const has287aMesh = HP.allPresets().some((q) => q.id === 'clusterGrowthCopy');   // 第287便a: 🌰 も overlays.spaceMesh{mode:"mesh"}(💮 の写し・8 → 9 本)
+      o.declOk = decl.length === (hasLite ? 5 : (hasGeoCopy ? 4 : 3)) + (has282dMesh ? 1 : 0) + (has283fMesh ? 1 : 0) + (has287aMesh ? 1 : 0) && decl.every((z) => /"mode":"mesh"/.test(z));
       // ⑨ 1 フレームの描画時間
       const bench = (fn, n) => { fn(); let best = Infinity;
         for (let r2 = 0; r2 < 3; r2++) { const t0 = performance.now();
@@ -56795,13 +56805,14 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has274c = ps.some((p) => p.id === 'galaxyMeshSpiralGeoToyLite');   // 第274便c: 🎋 が 4 件目の宣言
       o.has280c = ps.some((p) => p.id === 'mercuryGeoToy3');   // 第280便c: 🔁🌒(geoPN=3・vMinusU の診断コピー)が 5・6 件目
       o.has282d = ps.some((p) => p.id === 'galaxyAnalogyBH');   // 第282便d: 🌚(geoPN=3・scalar・centerSpin read)が 7 件目
-      o.has283f = ps.some((p) => p.id === 'clusterAnalogyBH');   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+      o.has283f = ps.some((p) => p.id === 'clusterAnalogyBH');
+      o.has287a = ps.some((p) => p.id === 'clusterGrowthCopy');   // 第287便a: 🌰(geoPN=3・scalar・💮 の写し)が 9 件目   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
       o.geo3Rows = o.rows.filter((x) => x[2] === 'geo3').map((x) => x[0]).sort();
       HP.setLang('ja'); HP.loadPreset('saturn', false);
       return o;
     });
     add('ui.meshChipState',
-      r.noComplexChip && r.complexDecl.length === 0 && r.rows.length === (r.has274c ? 4 : 3) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0)
+      r.noComplexChip && r.complexDecl.length === 0 && r.rows.length === (r.has274c ? 4 : 3) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0)
       && (!r.has280c || JSON.stringify(r.geo3Rows) === JSON.stringify(['charonGeoToy3', 'mercuryGeoToy3']))
       && r.declaredOnly.length === 1 && r.denyKey === 'stopped' && r.denyReason === 'kFrame'
       && /メッシュ未作動: kFrame>0 と重なる/.test(String(r.denyLabel))
@@ -56985,7 +56996,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has280b = HP.allPresets().some((z) => z.id === 'earthMoonDiagOne');   // 第280便b: 🌓(内蔵 +1・較正母集団は不変)
       o.has280c = HP.allPresets().some((z) => z.id === 'mercuryGeoToy3');   // 第280便c: 🔁🌒(geoPN=3 の診断コピー)で +2
       o.has282d = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBH');   // 第282便d: 🌚(アナロジーの原理サンプル)で +1
-      o.has283f = HP.allPresets().some((z) => z.id === 'clusterAnalogyBH');   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+      o.has283f = HP.allPresets().some((z) => z.id === 'clusterAnalogyBH');
+      o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰(成長経路の原理コピー)で +1   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
       // ⑥ 群の説明(ja/en)があり、「観測一致版ではない」を言う
       o.noteJa = (I18N.ja.groupNotes || {})[G] || '';
       o.noteEn = (I18N.en.groupNotes || {})[G] || '';
@@ -56997,7 +57009,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       r.exact && r.n === (r.has287d ? 7 : 11) && r.gid === 'realAnalogy' && r.psrToy === r.beyondName
       && r.lfbot === r.celName && r.cross.length === 0 && r.calN === 37
       && r.sigSame && r.sigNoGroup
-      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) && r.beyondN === (r.has287d ? 23 : 19)
+      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) && r.beyondN === (r.has287d ? 23 : 19)
       && r.noteOk && r.enName === 'Real-object Analogies',
       `**新グループ「実在天体のアナロジー」**(id=${r.gid}・en=${r.enName}): ${r.n} 本=${JSON.stringify(r.members)} / `
       + `🩻 psrDoubleABGeoToy は psr family に残す=${r.psrToy}・🐮 lfbotTrap は入れない=${r.lfbot} / `
@@ -57245,7 +57257,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has280b = HP.allPresets().some((z) => z.id === 'earthMoonDiagOne');   // 第280便b: 🌓(内蔵 +1・較正母集団は不変)
       o.has280c = HP.allPresets().some((z) => z.id === 'mercuryGeoToy3');   // 第280便c: 🔁🌒(geoPN=3 の診断コピー)で +2
       o.has282d = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBH');   // 第282便d: 🌚(アナロジーの原理サンプル)で +1
-      o.has283f = HP.allPresets().some((z) => z.id === 'clusterAnalogyBH');   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+      o.has283f = HP.allPresets().some((z) => z.id === 'clusterAnalogyBH');
+      o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰(成長経路の原理コピー)で +1   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
       // ④ **presetSig は group を見ない**: 移した 5 本の署名に群名が出ない
       o.sigNoGroup = WANT.every((id) => presetSig(ps.find((q) => q.id === id)).indexOf(G) < 0);
       // ⑤ 群の説明(ja/en)があり、表示順では「天体の機構」の直後に出る
@@ -57260,7 +57273,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     add('preset.clocksGravity',
       r.exact && r.n === 5 && r.gid === 'clocksGravity' && r.enName === 'Clocks & Gravity'
       && r.restOk && r.cross.length === 0 && r.grcalOk && r.calN === 37
-      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0)
+      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0)
       && r.sigNoGroup && r.noteOk && r.posOk,
       `**新グループ「時計と重力」**(第273便a・AH6。id=${r.gid}・en=${r.enName}): ${r.n} 本=`
       + `${JSON.stringify(r.members)} / 「運動と時空」に残る=${JSON.stringify(r.rest)}=${r.restOk} / `
@@ -60538,14 +60551,15 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const byMode = {}; for (const z of r.rows) byMode[z.mode] = (byMode[z.mode] || 0) + 1;
       if (J) {
         const JR = new Map(((J.derive || {}).rows || []).map((z) => [z.id, z]));
-        let nCmp = 0;
-        for (const z of r.rows) { const y = JR.get(z.id); if (!y) { bad.push('① 正本の導出表に ' + z.id + ' が無い'); continue; }
+        let nCmp = 0, nAdded = 0;
+        const addedAfterCanon = ['clusterGrowthCopy'];   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
+        for (const z of r.rows) { const y = JR.get(z.id); if (!y) { if (addedAfterCanon.indexOf(z.id) >= 0) { nAdded++; continue; } bad.push('① 正本の導出表に ' + z.id + ' が無い'); continue; }
           for (const k of ['geoPN', 'mode', 'lambdaPN', 'kFrame', 'spaceMesh', 'core', 'role', 'consistent', 'compat']) {
             if (has285bPN && k === 'core') continue;   // 第285便b: core は正本(履歴)の後に変わった列
             if (y[k] !== z[k]) bad.push(`① ${z.id}.${k}: 正本 ${y[k]} ⇔ ページ ${z[k]}`); }
           nCmp++; }
-        if (JR.size !== r.rows.length) bad.push(`① 正本の導出表 ${JR.size} 本 ⇔ 内蔵 ${r.rows.length} 本`);
-        cases.push(`導出表 ${r.rows.length} 本(geoPN ${Object.entries(byMode).map(([k, v]) => k + ':' + v).join('/')})= 正本 ${nCmp} 本・不整合 0・core ${JSON.stringify(r.core)}`);
+        if (JR.size !== r.rows.length - nAdded) bad.push(`① 正本の導出表 ${JR.size} 本 ⇔ 内蔵 ${r.rows.length} 本(履歴の後に入った ${nAdded} 本を除く)`);
+        cases.push(`導出表 ${r.rows.length} 本(geoPN ${Object.entries(byMode).map(([k, v]) => k + ':' + v).join('/')})= 正本 ${nCmp} 本(履歴の後に入った ${nAdded} 本 ${addedAfterCanon.join(',')} は導出だけ検査)・不整合 0・core ${JSON.stringify(r.core)}`);
       } else bad.push('① 正本 tests/out/geomode-w283a.json が無い');
       // ②
       const v = r.val;
