@@ -2249,6 +2249,9 @@ if (QA_CHANGED) {
       // 第286便c(原仮定者の裁定(第76報)・AN7′/AN47/AN56): 背景場の解析微分と中心差分の照合・法則版の受理と接続の診断コピー
       //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない)
       'tests/out/bgdiff-w286c.json',
+      // 第287便c(原仮定者の裁定(第77報)⑤・R109): 背景場の時間発展の契約(反例の再現・時間差分と ∂ₜu・🌒 の前後・share-p1 の基準コピー)
+      //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない)
+      'tests/out/bgtime-w287c.json',
       // 第285便d(原仮定者の裁定(第75報)⑦・R100): 観測対実行のグラフの行の控え(target=beta/index.html —— 生成領域 obs-compare を書いた後の html・
       //   inputs に calaudit-w249.json。**calaudit を走らせ直したら本器も走らせ直す** —— 鎖の段 obscompare)
       'tests/out/obscompare-w285d.json',
@@ -19064,7 +19067,10 @@ if (!FAST) {
           return { declared, shareSame: !!a && !!b && a.length === b.length && a.every((v, i) => Object.is(v, b[i])), accepted: !!b,
             nullRejected: vm.ok === false, nullErr: vm.ok ? null : String(vm.errors || vm.err).slice(0, 120) };
         });
-        if (live.declared.length) bad.push('内蔵に bgModel の宣言がある: ' + live.declared.join(','));
+        // 第287便c(R109): 🌒 charonGeoToy3 は背景を太陽 1 源の台帳(bgModel "sources")で宣言し、時間の契約 timeContract の mode "sources" で
+        //   毎 step 作り直す —— 第287便c の世代(html に bgcTimeCheck)では内蔵の bgModel 宣言は 🌒 の 1 本だけ(旧則〔root・第286便まで〕は 0 本)
+        const bgmWant287 = /function bgcTimeCheck\(/.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')) ? ['charonGeoToy3'] : [];
+        if (JSON.stringify(live.declared) !== JSON.stringify(bgmWant287)) bad.push('内蔵の bgModel の宣言が期待(' + (bgmWant287.join(',') || 'なし') + ')と違う: ' + (live.declared.join(',') || 'なし'));
         if (!live.accepted || !live.shareSame) bad.push('💮 に bgModel の宣言を足すと運動が変わった/受理されない');
         if (!live.nullRejected || !/bgModel:null/.test(live.nullErr || '')) bad.push('meshVelocity の本で bgModel:null の背景が受理された ' + live.nullErr);
         cases.push(`ページ: 内蔵の bgModel 宣言 ${live.declared.length} 本・💮 に sources の宣言を足しても 20 步ビット一致(share は未接続のまま)・meshVelocity で bgModel:null を拒否`);
@@ -19311,6 +19317,165 @@ if (!FAST) {
       add('docs.calPolicyText', bad.length === 0,
         `**旧い較正方針の文言の更新**(第286便c —— 合を目指すのは kF0 と f=1・DFM 版は大差を減らす段階・geoPN=2∧kFrame=0 は契約で同じ経路〔同一の法則とは言わない〕): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1c⁗) 第287便c(原仮定者の裁定(第77報)⑤・第77報で閉じた AN64/AN73・統括の検証項目 R109): **背景場の時間発展の契約**と
+// ----   **セーブ経路の法則版の相互検査**の 3 ブロック。**root では SKIP**(世代判定は html の `function bgcTimeCheck(`)。
+// ----   器 tests/exp-w287c-bgtime.mjs・正本 tests/out/bgtime-w287c.json・試験 tests/exp-w287c-bgsave.mjs。
+// ----   ① behavior.bgTimeContract …… 反例の再現(旧い契約 = 時間の契約を外した実行形で u(t₀+1)=u(t₀) なのに ∂ₜu≠0)と新しい契約での一致・
+// ----      時間差分 (u(τ+h)−u(τ−h))/2h と返却 ∂ₜu(h・h/2・h/4 の次数 2・u が τ の一次なら全段が器の宣言した丸め床の下)・RHS の coordAccel が同じ ∂ₜu・
+// ----      範囲の外(台帳あり → 源から再展開 / 台帳なし → 一次のまま数える)・🔁 は宣言なしで静止・受理器の事例・棚卸し(時間微分のある内蔵は宣言済み)を
+// ----      いまの html から作り直して正本と一致(解析量は相対 1e-12・差分の誤差は相対 1e-4/絶対 1e-10・次数は絶対 1e-3・残差は絶対 1e-12)・
+// ----      正本の走行(🌒 の前後・kF0 の写し・taylor の採らない形・share-p1 の基準コピーのビット一致)の判定。
+// ----   ② behavior.loadSaveBgLaw …… 8 条件 + 欠落/null の 2 条件(受理 3・拒否 5〔経路の無い法則版 2・較正クラス・centerSpin 併用・時間の契約の欠け〕)が
+// ----      期待どおりで、プリセットとしての判定と揃う・ページで拒否のセーブを読むと中止(本・params 不変)。
+// ----   ③ docs.bgTimeContract …… PHYSICS〔第287便c〕の表の行(正本から)・禁止語 0・AI_SPEC と CHANGELOG の記載。
+{
+  const html287c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has287c = TARGET.startsWith('beta/') && html287c.indexOf('function bgcTimeCheck(') >= 0;
+  if (!has287c) {
+    console.log('SKIP behavior.bgTimeContract / behavior.loadSaveBgLaw / docs.bgTimeContract(第287便c 未適用 — ' + TARGET + ')');
+  } else {
+    let BT = null, BS = null, HPt = null, loadErr287 = null;
+    try {
+      BT = await import('file://' + path.join(ROOT, 'tests', 'exp-w287c-bgtime.mjs'));
+      BS = await import('file://' + path.join(ROOT, 'tests', 'exp-w287c-bgsave.mjs'));
+      // loadHtmlMain は html を**この process の大域**で実行する(2 度目は const の再宣言で落ちる)—— 前のブロック(第286便c の作り直し)が
+      // 同じ TARGET を読んでいればその HP を使う(世代の印 bgcTimeCheck と版で確かめる)
+      if (globalThis.HP && typeof globalThis.HP.bgcTimeCheck === 'function' && typeof globalThis.HP.BGC_TIME_VERSION === 'string'
+        && html287c.indexOf('"' + globalThis.HP.BGC_TIME_VERSION + '"') >= 0) HPt = globalThis.HP;
+      else {
+        const { loadHtmlMain: loadMain287 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
+        HPt = loadMain287(path.join(ROOT, TARGET)).HP;
+      }
+    } catch (e) { loadErr287 = String(e && e.stack || e).slice(0, 160); }
+    let J287 = null;
+    try { J287 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgtime-w287c.json'), 'utf8')); } catch (e) { J287 = null; }
+    // ---- ① behavior.bgTimeContract
+    {
+      const bad = [], cases = [];
+      if (loadErr287) bad.push('器/html が読めない: ' + loadErr287);
+      else if (!J287) bad.push('正本 bgtime-w287c.json が読めない');
+      else {
+        if (!J287.meta || J287.meta.provenanceVersion !== 'w272e-1' || J287.meta.harnessVersion !== BT.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+        const R = BT.computeAll(HPt);
+        // 許容は量の性質で分ける(第286便 統合の behavior.bgDiffCheck と同じ規則): 差分の誤差(err・rel)は相対 1e-4 か絶対 1e-10・次数は絶対 1e-3・
+        // 残差(rhsRel)と差(timeDiff —— u の差は u の丸めを持つ)は絶対 1e-12・床(floor —— 解析量 |u|/|∂ₜu| の式)と解析量は相対 1e-12
+        const FD = /\/(err|rel)$/, ORD = /\/order(\/|$)/, RES = /\/(rhsRel)$|\/timeDiff\//;
+        // 器が宣言した丸め床(u が τ の一次の事例の差分の誤差・反例の前進差分の相対差 —— 床の下は丸めの揺れ)はその床を絶対の許容にする
+        const floorAt = (where) => { let m = where.match(/^fd\/(\d+)\/rows\/(\d+)\/steps\/(\d+)\/err$/);
+          if (m) { const c = R.fd[+m[1]]; return (c && c.linear && c.rows[+m[2]]) ? c.rows[+m[2]].steps[+m[3]].floor : 0; }
+          m = where.match(/^counterexample\/rows\/(\d+)\/now\/rel$/); return m && R.counterexample.rows[+m[1]] ? R.counterexample.rows[+m[1]].now.floor : 0; };
+        const near = (a, b, where, out) => {
+          if (out.length > 4) return;
+          if (typeof a === 'number' && typeof b === 'number') {
+            const rel = FD.test(where) ? 1e-4 : 1e-12, abs = Math.max(ORD.test(where) ? 1e-3 : FD.test(where) ? 1e-10 : RES.test(where) ? 1e-12 : 0, floorAt(where));
+            if (!(a === b || Math.abs(a - b) <= Math.max(abs, rel * Math.max(Math.abs(a), Math.abs(b))))) out.push(where + ' ' + a + '≠' + b);
+            return;
+          }
+          if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(where + ' ' + JSON.stringify(a) + '≠' + JSON.stringify(b)); return; }
+          if (Array.isArray(a) !== Array.isArray(b)) { out.push(where + ' 型'); return; }
+          const ka = Object.keys(a).sort(), kb = Object.keys(b).sort();
+          if (JSON.stringify(ka) !== JSON.stringify(kb)) { out.push(where + ' 鍵 ' + ka.join(',') + '≠' + kb.join(',')); return; }
+          for (const k of ka) near(a[k], b[k], where + '/' + k, out);
+        };
+        const diff = [];
+        for (const k of Object.keys(R)) near(J287[k], R[k], k, diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 3).join(' ; '));
+        const CX = R.counterexample;
+        if (!CX.ok) bad.push('反例の再現/新しい契約の一致');
+        cases.push(`反例(🌒・状態を固定して評価時刻だけ +1): 旧い契約は u の差 0 なのに ∂ₜu=${CX.rows.map((r) => r.old.dUdt[0].toExponential(4)).join('/')}・`
+          + `新しい契約は差 ${CX.rows.map((r) => r.now.timeDiff[0].toExponential(4)).join('/')} = ∂ₜu(相対 ${CX.rows.map((r) => r.now.rel.toExponential(1)).join('/')} ≤ 丸め床)`);
+        const fdBad = R.fd.filter((c) => !c.ok).map((c) => c.key);
+        if (fdBad.length) bad.push('時間差分 ≠ ∂ₜu: ' + fdBad.join(','));
+        cases.push(`時間差分と ∂ₜu ${R.fd.length} 事例(${R.fd.map((c) => c.key + (c.linear ? '〔一次・床の下〕' : '〔次数 ' + c.rows.map((r) => r.order.map((o) => o === null ? '—' : o.toFixed(2)).join('/')).join(';') + '〕')).join('・')})・RHS の coordAccel が同じ ∂ₜu`);
+        if (!R.range.ok) bad.push('範囲の外(再展開/数える)');
+        if (!R.mercury.ok) bad.push('🔁 が宣言なしで静止でない');
+        if (!R.validator.ok) bad.push('受理器の事例/相互検査: ' + R.validator.rows.filter((z) => !z.ok).map((z) => z.label).join(','));
+        if (!R.census.ok || JSON.stringify(R.census.timeContract) !== JSON.stringify(['charonGeoToy3'])) bad.push('棚卸し ' + JSON.stringify(R.census).slice(0, 120));
+        cases.push(`範囲の外は源から再展開(sources とビット一致)/台帳なしは一次のまま数える・🔁 は時間微分 0 で宣言なし・受理器 ${R.validator.rows.length} 事例・内蔵の宣言 ${R.census.timeContract.join(',')}(欠け 0・法則版の宣言 0)`);
+        const C = J287.charon || {}, P1 = J287.p1 || {};
+        const rr = C.rows || {};
+        if (!C.ok) bad.push('🌒 の走行');
+        if (!(C.beforeAfter && C.beforeAfter.kf0SameAsBefore === true)) bad.push('kF0 の写しが基点と同じでない');
+        if (!(C.beforeAfter && Math.abs(C.beforeAfter.dtS) < 1e-6 && Math.abs(C.beforeAfter.dtHalfS) < 1e-6)) bad.push('🌒 の周期の前後差が 1e-6 s 以上(記録を読み直すこと)');
+        if (!(C.taylorVariant && C.taylorVariant.vsSourcesS > 1e-4)) bad.push('taylor(採らない形)の見かけのせん断が記録されていない');
+        if (!(P1.ok && P1.bitSame === true)) bad.push('share-p1 の基準コピーが 🪁 とビット一致しない');
+        if (rr.dt && rr.dtHalf) cases.push(`🌒 周期(2 周目)の kF0 との差 ${Number(rr.dt.diffS).toExponential(3)}/${Number(rr.dtHalf.diffS).toExponential(3)} s(dt・dt/2)・前後差 ${Number(C.beforeAfter.dtS).toExponential(1)}/${Number(C.beforeAfter.dtHalfS).toExponential(1)} s・`
+          + `taylor(採らない形)は sources から ${Number(C.taylorVariant.vsSourcesS).toExponential(2)} s・share-p1 の基準コピー ${P1.n} 体 ${P1.steps} 步でビット一致`);
+      }
+      add('behavior.bgTimeContract', bad.length === 0,
+        `**背景場の時間発展の契約**(第287便c・統括の検証項目 R109 —— 時間微分のある背景は timeContract〔sources: 源の台帳から毎回作り直す/taylor: t₀・有効半径・有効幅〕を宣言し、`
+        + `値を時間で動かして返す ∂ₜu と一致させる・v へ ∂ₜu を足さない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.loadSaveBgLaw
+    {
+      const bad = [], cases = [];
+      if (loadErr287) bad.push('器/html が読めない: ' + loadErr287);
+      else {
+        const R = BS.saveCases(HPt);
+        const ng = R.filter((r) => !r.ok);
+        if (R.length !== 10) bad.push('事例が 10 でない: ' + R.length);
+        if (ng.length) bad.push('期待と違う: ' + ng.map((r) => r.key).join(','));
+        cases.push(`受理 ${R.filter((r) => r.got).map((r) => r.key).join('・')} / 拒否 ${R.filter((r) => !r.got).map((r) => r.key).join('・')}(プリセットとしての判定と一致 ${R.filter((r) => r.sameAsPreset).length}/${R.length})`);
+        const pg = await browser.newPage();
+        const errs = [];
+        pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+        await pg.goto(INDEX, { waitUntil: 'load' });
+        await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+        const live = await pg.evaluate(() => {
+          HP.loadPreset('saturn', false);
+          const snap = () => ({ id: HP.currentPreset().id, par: JSON.stringify(HP.sim.params) });
+          const P = HP.allPresets().find((q) => q.id === 'clusterAnalogyBH');
+          const ph = JSON.parse(JSON.stringify(P.physics));
+          ph.backgroundComplex = { background: 'declared', note: 'QA 第287便c', W0: 1.5, A0: [0, 0], gradW: [0, 0], gradA: [0, 0, 0, 0], dWdt: 0, dAdt: [0, 0],
+            sources: [{ id: 'bg:qa', kind: 'field', excludedExplicit: true }], frame: { origin: 'barycenter', epoch: 't0', rotation: 'none', translation: 'comoving' },
+            lawVersion: 'share-p1', lawUnits: HP.BGC_LAW_UNITS['share-p1'], lawDomainR: 1e6, lawWZero: 'vacuum' };
+          const before = snap();
+          const ok = HP.loadSaveItem({ name: 'qa_w287c', presetId: 'clusterAnalogyBH', physics: ph }, 'x');
+          const after = snap();
+          return { ok, same: before.id === after.id && before.par === after.par, notice: ((document.getElementById('notice') || {}).textContent || '').slice(0, 400) };
+        });
+        await pg.close();
+        if (live.ok !== false || !live.same || !/centerSpin/.test(live.notice)) bad.push('ページ: 💮 の share-p1 のセーブが中止されない ' + JSON.stringify(live));
+        if (errs.length) bad.push('JS エラー ' + errs.slice(0, 2).join(' | '));
+        cases.push(`ページ: 💮 に share-p1 のセーブは読込を中止(本・params 不変・通知に受理器の文)`);
+      }
+      add('behavior.loadSaveBgLaw', bad.length === 0,
+        `**セーブ経路の法則版の相互検査**(第287便c・AN40 の残りの残り —— loadSaveBgcAccept が bgLawCrossCheck も呼ぶ): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ docs.bgTimeContract
+    {
+      const bad = [], cases = [];
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const pa = Pd.indexOf('〔第287便c — '), pb = (pa >= 0) ? Pd.indexOf('\n〔第', pa + 10) : -1;
+      const psec = (pa >= 0) ? Pd.slice(pa, pb > pa ? pb : Pd.indexOf('\n## 7. 論文', pa)) : '';
+      if (!psec) bad.push('PHYSICS〔第287便c — 〕が無い');
+      else {
+        if (J287 && BT) {
+          const Rw = BT.docRows(J287), all = [].concat(Rw.cx, Rw.fd, Rw.law);
+          const miss = all.filter((t) => psec.indexOf(t) < 0);
+          if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(' + String(miss[0]).slice(0, 60) + ')');
+          cases.push(`PHYSICS〔第287便c〕の表の行 ${all.length}`);
+        } else bad.push('正本/器が読めない');
+        const cut = psec.indexOf('**言わないこと。**'), body = cut >= 0 ? psec.slice(0, cut) : psec;
+        const FORBID = ['背景法則版を内蔵に接続した', '安定化した', '複素場の有無で見た目が違う', '観測一致を達成した', '観測と合った', '新発見', 'RC を切った', '判定が増えた'];
+        const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
+        if (hit.length) bad.push('禁止語: ' + hit.join(','));
+        for (const w of ['timeContract', '源から再展開', '見かけのせん断', 'loadSaveBgcAccept', '🌚💮']) if (psec.indexOf(w) < 0) bad.push('PHYSICS に「' + w + '」が無い');
+        cases.push('禁止語 0・契約・再展開・taylor の見かけのせん断・セーブ経路・🌚💮 の設計条件の記載');
+      }
+      const A = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      if (A.indexOf('backgroundComplex.timeContract') < 0) bad.push('AI_SPEC に timeContract の節が無い');
+      const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+      if (CL.indexOf('第287便c') < 0) bad.push('CHANGELOG に第287便c が無い');
+      cases.push('AI_SPEC・CHANGELOG の記載');
+      add('docs.bgTimeContract', bad.length === 0,
+        `**背景場の時間発展の契約の文書**(第287便c): ${cases.join(' / ')}` + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
 }

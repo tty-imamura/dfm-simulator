@@ -214,8 +214,17 @@ for (const S of SAMPLES.filter((z) => z.engine)) {
   const U = units(d);
   const bgS = toSample(d, sm.background.comoving);
   const frame = { origin: 'barycenter', epoch: 't0(器の診断コピー)', rotation: 'none', translation: 'comoving' };
-  const bgDecl = Object.assign({ background: 'declared', note: '第279便c 器の診断コピー: ' + S.ext + 'の点質量を t=0・対の重心で評価(comoving)',
-    sources: [{ id: S.ext === '太陽' ? 'sun' : 'galaxy', kind: 'body', excludedExplicit: true }], frame }, bgS);
+  const srcId = S.ext === '太陽' ? 'sun' : 'galaxy';
+  const bgDecl0 = Object.assign({ background: 'declared', note: '第279便c 器の診断コピー: ' + S.ext + 'の点質量を t=0・対の重心で評価(comoving)',
+    sources: [{ id: srcId, kind: 'body', excludedExplicit: true }], frame }, bgS);
+  // 第287便c(統括の検証項目 R109): 時間微分(∂ₜA≠0)のある背景をエンジンが読むには時間の契約 timeContract が要る
+  // (旧: 値は凍結・∂ₜu だけ宣言値 —— 反例)。同じ外部源(comoving 系で −V で動き −g_c で加速する点質量)を**源の台帳**にして
+  // 毎回作り直す(mode "sources" —— u は源の速度 V+aτ・∇u=0)。6 成分(bgS)は台帳から出る値と相対 1e-12 以内で一致すること(受理器が照合)。
+  // 有効幅 3.4×10⁵(🌒 charonGeoToy3 と同じ宣言 —— 正式の判定器の窓 331112 を含む。第280便c の器がこの宣言を 🌒 の写しに使う)
+  const bgDecl = Object.assign({}, bgDecl0, { note: bgDecl0.note, bgModel: 'sources',
+    ledger: [{ id: srcId, m: sm.extMassKg / U.M, x: -sm.extDistanceM / U.L, y: 0, vx: 0, vy: sm.extSpeedMS * U.T / U.L,
+      ax: -sm.background.gc[0] * U.T * U.T / U.L, ay: -sm.background.gc[1] * U.T * U.T / U.L }], refPos: [0, 0], eps: d.softening,
+    timeContract: { mode: 'sources', t0: 0, derivFrame: 'frame', widthT: 340000 } });
   const u0Of = (key) => { const o = sm.onoff.find((z) => z.key === key); return o && o.u0 ? o.u0.map((u) => [u[0] * U.T / U.L, u[1] * U.T / U.L]) : null; };
   const T0u = sm.T0S / U.T;
   // 要因分離: サンプルの 1PN(geoPN=2・λ_PN)は**速度に依る「空間に対する加速」**なので、vx,vy を慣性速度 v=ẋ−u と

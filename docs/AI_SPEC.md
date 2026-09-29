@@ -2758,7 +2758,26 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - 正当なセーブ(内蔵で背景を宣言する 🔁 `mercuryGeoToy3`・🌒 `charonGeoToy3` と宣言の無い本)は従来どおり開け、背景は受理器の正規化後の宣言が入る。セーブの取り込み(`{saves:[…]}` の JSON)は従来どおり保存一覧へ入れるだけで、検査は読込(`loadSave`)の時に行う。
 - QA: **`ui.pickerSeparators`**(360×640 —— isMobile・タッチ / PC 1280×800)・**`behavior.loadSaveBackgroundReject`**(root は SKIP)。既存の `ui.pickerFilterFold`・`ui.pickerOtherChips`・`ui.pickerGeoFilter` は判定を変えずに通る(採寸は畳みを開いてから)。
 
-## 26. 第287便d の表示 —— BH 連星の家族の移管・線の軌跡の追従フレーム・ライブ比較の周期の定義(原仮定者の裁定〔第77報〕⑤・AN65/AN71/AN72・**表示と器だけ・SYSTEM_PROMPT には載せない**)
+## 26. 第287便c の宣言鍵 —— `physics.backgroundComplex.timeContract`(背景場の時間発展の契約・原仮定者の裁定〔第77報〕⑤・統括の検証項目 R109・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`physics.backgroundComplex`(§12・§20・§23)に**任意鍵 `timeContract`** を足した。**時間微分(`dWdt`・`dAdt`)が 0 でない背景を力学が読む本**(`physics.meshVelocity` の field:"backgroundComplex"・`lawVersion:"share-p1"` のトイ)では**宣言が必須**(無ければ validatePreset・セーブの受理器・build の準備のどれも拒否)。時間微分がすべて 0 の背景(静止・一様)は宣言なしで従来どおり(値は時間で動かず ∂ₜu=0)。
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `mode` | `"sources"` / `"taylor"` | sources: 源の台帳(`bgModel` "sources" の ledger / "distantSource" の遠方 1 源)の位置・速度・加速度を X+Vτ+½aτ²・V+aτ・a で動かし、評価点ごとに毎回 6 成分を p=2 の核で作り直す(本命)。taylor: 宣言の 6 成分を W(x,t)=W₀+∇W·dx+∂ₜW·τ・A も同様に一次で動かす(∇・∂ₜ は宣言値) |
+| `t0` | 有限数 | 展開の基準時刻 [T](走行の時刻 t と同じ時計 —— τ=t−t₀) |
+| `derivFrame` | `"frame"` | 宣言の ∂ₜ は凍結参照系の座標で固定した点の偏微分(comoving なら原点と一緒に動く点)。原点速度の移流分を別に足さない。慣性系の偏微分は ∂ₜ\|frame=∂ₜ\|慣性+V_O·∇ に直して書く |
+| `widthT` | 正の有限数 | 時間有効幅 [T]。\|τ\| がこれを超えた評価は範囲外として数える(値は消さない) |
+| `radiusR` | 正の有限数(taylor だけ) | 空間有効半径 [L](凍結参照系の原点のまわり)。sources では書かない |
+
+- **範囲の外**(taylor): 源の台帳があればその点・その時刻の値を源から作り直す(再展開 —— sources の値とビット一致)。台帳が無ければ一次のまま評価し、範囲外の回数を数える(`S.meshVelTimeOut`・`S.bgLawTimeOut`、再展開は `S.meshVelTimeReexp`・`S.bgLawTimeReexp`)。**閾値で背景を消さない**。
+- **拒否**: 知らない mode/鍵・t0 なし・derivFrame なし/"frame" 以外・widthT なし/0 以下・taylor で radiusR なし・sources で radiusR を書く・sources で台帳なし・`bgModel:null` と併用・配列。
+- **採らない形**: 速度 `v` へ ∂ₜu をそのまま足す修正(ẋ=v+u の u の時間変化と重複する)。1 源の場を taylor で動かすと勾配を凍結するので見かけのせん断 −τ ∂ₜu⊗∇W/W を作る(🌒 で周期 +1.37×10⁻³ s —— PHYSICS〔第287便c〕)。
+- **内蔵の宣言**: 🌒 `charonGeoToy3` の 1 本(`bgModel:"sources"` の太陽 1 源 + `mode:"sources"`・`widthT` 3.4×10⁵)。🔁 `mercuryGeoToy3` は時間微分 0 なので宣言しない。これに伴い `bgModel` を宣言する内蔵も 🌒 の 1 本になった(§20 の「内蔵はこの鍵を 1 本も宣言していない」は第285便c の時点の記述 —— QA `behavior.bgDerivatives` は第287便c の世代で 🌒 の 1 本を期待する)。
+- **セーブ**: `loadSaveBgcAccept` は法則版の経路の相互検査 `bgLawCrossCheck(bgc, Object.assign({},DEFAULT_PHYSICS,ph), preset.sampleClass)` も呼ぶ(経路の無い法則版・較正クラス・centerSpin 等との併用・時間の契約の欠けをセーブ経路でも拒否)。背景の欄(#bgcPanel)は `timeContract` を編集せず引き継ぐ(`BGC_KEEP`)。
+- **読み口(HP 公開)**: `bgcTimeCheck(decl)`・`bgTimeNeeded(canonical)`・`bgTimeCrossCheck(canonical, path)`・`bgTimePrepare(canonical)`・`bgTimeMomentsAt(B, T, dx, dy, tau)`・`bgTimeFromSources(T, dx, dy, tau)`・`loadSaveBgcAccept(save, preset)`・定数 `BGC_TIME_VERSION`(`"w287c-bgtime-1"`)・`BGC_TIME_MODES`・`BGC_TIME_KEYS`。
+- QA: **`behavior.bgTimeContract`**・**`behavior.loadSaveBgLaw`**・**`docs.bgTimeContract`**(root は SKIP)。器 `tests/exp-w287c-bgtime.mjs`(正本 `tests/out/bgtime-w287c.json`・段 `bgtime287`)・試験 `tests/exp-w287c-bgsave.mjs`。
+## 27. 第287便d の表示 —— BH 連星の家族の移管・線の軌跡の追従フレーム・ライブ比較の周期の定義(原仮定者の裁定〔第77報〕⑤・AN65/AN71/AN72・**表示と器だけ・SYSTEM_PROMPT には載せない**)
 
 AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・力学・内蔵の physics/bodies/camera/overlays は 1 bit も変えていない。
 
@@ -2767,7 +2786,7 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **ライブ比較の周期の定義**: `LIVE_COMPARE_SPEC` の周期の量に観測側の定義 `od`(revolution / periastron / null=未宣言)を宣言し、推定器の定義(`LC_EST_DEF` —— 正本の periodDef と同じ語)と並べて「定義: 今回=…・観測=…」を出す(違えば「別量」・観測側が未宣言なら何も足さない)。正本の行名と推定器の定義が食い違う ⚡🧮 は表示名を生成(`cond` —— 「近点間周期(kFrame=1・観測質量 f=1)」)。照合の鍵は正本の行名のまま。
 - 読み口(HP 公開): `HP.trailFrame`(`decl`・`mode`・`set`・`anchor`・`rec`・`bufs`)・`HP.groupCardNote`・`HP.liveCompare.labelOf`・`HP.liveCompare.estDef`。
 - QA: **`ui.gwGroupMove`**・**`ui.trailFollowFrame`**・**`ui.liveComparePeriodDef`**(root は SKIP)・docs/PHYSICS.md〔第287便d〕。
-## 27. 第287便e の UI —— 「その他」の三状態チップ・説明タブの分類バッジの軸・「較正対象」(原仮定者の裁定〔第77報〕⑥・第77報で閉じた AN66・統括の検証項目 R112 の UI 部分・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+## 28. 第287便e の UI —— 「その他」の三状態チップ・説明タブの分類バッジの軸・「較正対象」(原仮定者の裁定〔第77報〕⑥・第77報で閉じた AN66・統括の検証項目 R112 の UI 部分・**表示だけ**・**SYSTEM_PROMPT には載せない**)
 
 AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(全内蔵 142 本の 600 步の状態と presetSig が基点 f94ca580 とビット同一 —— bitsame 142/142・sigsame 142/142・`S._core` 35197 字)。隠しプルダウン `#presetSelect` には何も足していない。
 
