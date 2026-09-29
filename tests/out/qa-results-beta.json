@@ -1,38 +1,77 @@
 {
- "commit": "131981906b6ef14f3ad5a83d8bd836c561754882",
- "date": "2026-09-28T21:45:57.738Z",
+ "commit": "0b8054bca3a5974197d37cb75e9444a53451a6e5",
+ "date": "2026-09-29T00:18:00.672Z",
  "fast": false,
  "tier": "full",
  "target": "beta/index.html",
  "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
- "total": 475,
- "failed": 19,
+ "total": 481,
+ "failed": 5,
  "pass": false,
  "aborted": {
   "phase": "uncaught",
-  "reason": "TypeError: Cannot read properties of undefined (reading '0')\n    at Module.docRows (file:///home/user/dfm-simulator/tests/exp-w286c-bgdiff.mjs:304:137)\n    at file:///home/user/dfm-simulator/tests/qa.mjs:18892:22"
+  "reason": "page.evaluate: Target page, context or browser has been closed\n    at /home/user/dfm-simulator/tests/qa.mjs:19464:31"
  },
- "wallDurationMs": 866588,
+ "wallDurationMs": 2156388,
  "replay": {
   "enabled": true,
   "sources": [
    "tests/out/qa-results-full-beta.json",
    "tests/out/qa-results-beta.json"
   ],
-  "failedIds": [],
-  "units": [],
+  "failedIds": [
+   "lint.provenanceMeta",
+   "docs.threeStageD68",
+   "docs.families",
+   "lint.calauditMergeKeyHash",
+   "docs.issuesD68Explain",
+   "docs.charonSeries",
+   "docs.charonKScan",
+   "docs.charonFactors",
+   "docs.d0sites-sync",
+   "docs.bgbudget2-sync",
+   "docs.mercuryDecomp",
+   "docs.nsLockBranch",
+   "docs.d68Decomp",
+   "behavior.centerSpinResponse",
+   "behavior.calauditStages",
+   "docs.heavyCal",
+   "behavior.testParticleSigned",
+   "behavior.bgLawVersion"
+  ],
+  "units": [
+   "2090-2342",
+   "5202-5262",
+   "5603-5659",
+   "6096-6146",
+   "6355-6422",
+   "7750-7846",
+   "7866-7984",
+   "8005-8115",
+   "8221-8298",
+   "8842-8919",
+   "8936-9015",
+   "10006-10117",
+   "17491-17660",
+   "17838-18020",
+   "18047-18414",
+   "18424-18596",
+   "18736-18914"
+  ],
   "missing": [],
-  "exit": null,
-  "total": 0,
-  "failed": 0,
-  "failedNow": [],
-  "ms": 183
+  "exit": 1,
+  "total": 27,
+  "failed": 1,
+  "failedNow": [
+   "docs.calPolicyText"
+  ],
+  "ms": 14623
  },
  "changed": {
   "enabled": true,
   "version": "w284f-qastage-1",
   "base": "7822768e5536afcc5a6f6d3982fb754a60a3634a",
-  "files": 113,
+  "files": 118,
   "tokens": [
    ".gitignore",
    "AI_SPEC.md",
@@ -79,6 +118,7 @@
    "corrections-w272e.json",
    "d0audit-w275b.json",
    "d0sites-w276a.json",
+   "d68-w268a.json",
    "d68-w280e.json",
    "dark-rotor-evidence.md",
    "data-w279a-samplestatus-src.json",
@@ -115,6 +155,7 @@
    "lib-w270a-stoprule.mjs",
    "lib-w280a-mercury.mjs",
    "lib-w281a-regentable.mjs",
+   "lib-w281a-scope.mjs",
    "lib-w286a-jeans.mjs",
    "lib-w286f-budget.mjs",
    "mercury-w280a.json",
@@ -127,8 +168,11 @@
    "pn1-w285b.json",
    "pnsource-w286b.json",
    "presetaxes-w275a.json",
+   "qa-results-beta.json",
+   "qa-results.json",
    "qsplit-w271c.json",
    "recordid-w270b.json",
+   "regen-chain.mjs",
    "retired-w286f.json",
    "rotorledger-w281c.json",
    "rpar-w272c.json",
@@ -147,137 +191,133 @@
    "twobody-w272c.json"
   ],
   "units": [
-   "2364-2528",
-   "2631-2795",
-   "2823-2896",
-   "2903-2943",
-   "3082-3160",
-   "3575-3666",
-   "5141-5184",
-   "5500-5587",
-   "5599-5654",
-   "6350-6417",
-   "6548-6578",
-   "6755-6817",
-   "7211-7268",
-   "7281-7349",
-   "8755-8819",
-   "8837-8914",
-   "8931-9010",
-   "9084-9158",
-   "9167-9233",
-   "9243-9285",
-   "9295-9353",
-   "10001-10112",
-   "10126-10196",
-   "10208-10274",
-   "10290-10375",
-   "10388-10458",
-   "17486-17655",
-   "17667-17820",
-   "17833-18015",
-   "18042-18409",
-   "18419-18591",
-   "18602-18721",
-   "18731-18904",
-   "18917-19165",
-   "19178-19402",
-   "19414-19569",
-   "20397-20462",
-   "20471-20506",
-   "22215-22335",
-   "35082-35142",
-   "35214-35401",
-   "36759-36883",
-   "36901-37091",
-   "40995-41061",
-   "41327-41399",
-   "54735-54893",
-   "54900-54938",
-   "55030-55222",
-   "57660-57720",
-   "58132-58177",
-   "58188-58238",
-   "58250-58293",
-   "58307-58396",
-   "58562-58653",
-   "58841-58944",
-   "59096-59129",
-   "59143-59207",
-   "59217-59273",
-   "59285-59336",
-   "59345-59383"
+   "1160-1211",
+   "1375-1534",
+   "1553-1684",
+   "2364-2529",
+   "2545-2613",
+   "2635-2799",
+   "2827-2900",
+   "2907-2947",
+   "3086-3164",
+   "3491-3560",
+   "3579-3670",
+   "4740-4794",
+   "4805-4854",
+   "4932-4993",
+   "5007-5133",
+   "5145-5188",
+   "5504-5591",
+   "6553-6583",
+   "6760-6822",
+   "7216-7273",
+   "7286-7354",
+   "8760-8824",
+   "9089-9163",
+   "9172-9238",
+   "9248-9290",
+   "9300-9358",
+   "10131-10201",
+   "10213-10279",
+   "10295-10380",
+   "10393-10463",
+   "17672-17825",
+   "18607-18726",
+   "18927-19175",
+   "19188-19412",
+   "19424-19579",
+   "20407-20472",
+   "20481-20516",
+   "22225-22345",
+   "35092-35152",
+   "35224-35411",
+   "36769-36893",
+   "36911-37101",
+   "41005-41071",
+   "41337-41409",
+   "54745-54903",
+   "54910-54948",
+   "55040-55232",
+   "57670-57730",
+   "58142-58187",
+   "58198-58248",
+   "58260-58303",
+   "58317-58406",
+   "58572-58663",
+   "58681-58755",
+   "58851-58954",
+   "59106-59139",
+   "59153-59217",
+   "59227-59283",
+   "59295-59346",
+   "59355-59393"
   ],
   "long": 1,
-  "capped": 82,
-  "expectedMs": 83,
+  "capped": 68,
+  "expectedMs": 192,
   "exit": 1,
-  "total": 45,
-  "failed": 12,
+  "total": 68,
+  "failed": 8,
   "failedNow": [
-   "docs.families",
-   "docs.issuesD68Explain",
-   "docs.bgbudget2-sync",
-   "docs.mercuryDecomp",
-   "docs.nsLockBranch",
-   "docs.d68Decomp",
-   "behavior.centerSpinResponse",
-   "behavior.calauditStages",
-   "docs.heavyCal",
-   "behavior.testParticleSigned",
-   "behavior.bgLawVersion",
-   "qa.aborted"
+   "lint.stableHashPaths",
+   "behavior.rayLensExcluded",
+   "behavior.contactMode",
+   "behavior.psrF1-1946",
+   "docs.emgrid-sync",
+   "docs.geo3-sync",
+   "lint.kf0RunsCondition",
+   "lint.cLightTrue"
   ],
-  "ms": 49166
+  "ms": 722104
  },
  "results": [
   {
    "id": "syntax",
    "pass": true,
    "detail": "",
-   "ms": 49555
+   "ms": 736922
   },
   {
    "id": "lint.coreBudget",
    "pass": true,
    "detail": "S._core = 35197 字(予算 36000・残量 803 字・97.77%) / 数え方: コメント除去→空白正規化→String.length(生 48165 字) / 記録: becda7a(第257便・基点) 36249 / 第258便 HEAD(a+b の 13 行) 36920 / 第258便e(光子伝播を外へ) 35629 / 第259便d(boxHist を外へ) 35197 / 参考: root(旧世代 index.html) 34802",
-   "ms": 238
+   "ms": 267
   },
   {
    "id": "lint.perfAbJit",
    "pass": true,
    "detail": "器あり・**2 系統**((a)同一 html の 2 ページ自己対照〔基準値不要・CI 再現可〕/ (b)凍結基準 html 対 候補〔frozen-file は opt-in・root-fallback が CI 既定〕)・A/B 2 sim・warm 後 3 反復の中央値・ms/步・**第262便d で FAIL 化した**((a)は常に gate・(b)は frozen-file のときだけ gate・root-fallback は informational のまま) / 直近の実測: 自己/galaxyGeo2 5.304ms/步 ÷ 7.329 = ×0.724 / 対html(root-fallback)/galaxyGeo2 5.6575ms/步 ÷ 5.2205 = ×1.084 / 自己/bhCore 2.7015ms/步 ÷ 3.123 = ×0.865 / 対html(root-fallback)/bhCore 2.5675ms/步 ÷ 2.66 = ×0.965 / **第261便d の宣言をそのまま適用した(値は 1 つも動かしていない)**: (a)自己対照 >4=FAIL(WARN 3)・(b)凍結基準 html 対 候補 >1.5・**root-fallback は凍結扱いしない**=true・雑音床 ×0.95〜0.99(同じファイルどうし)・(a)の観測帯 第260便d 0.72/0.81・第261便d 0.75/0.86(= **2 便続けて同じ帯**)・**2 便安定したので適用した**(activatedAt=第262便d(第54報)) / **JIT 崖のしきい値そのものは依然として測っていない** —— 「FAIL 化した」は「JIT 崖を解決した」ではない",
-   "ms": 1
+   "ms": 2
   },
   {
    "id": "lint.frozenBaseline",
    "pass": true,
    "detail": "**凍結基準 html の部分 clone の器**(〔第260便d〕の決断事項「部分 clone なら別」への処置): `git clone --filter=blob:none --no-checkout` + `git show <凍結SHA>:beta/index.html` で **3.7 MB の 1 ファイルだけ**を取り出す。手元の実測(3 回): **合計 1.79 / 1.56 / 1.66 s**・`.git` 2.6 MB(全履歴 448 MB の 0.6%)・取り出した html は凍結 SHA と**バイト同一**。**第264便d(統括の裁定 X13)で夜間 yaml へ繋いだ**: 参照している workflows は nightly.yml(**PR ゲート ci.yml からは呼ばない** —— 違反 0 件)。夜間 yaml は schedule + workflow_dispatch で、**取得失敗は informational・取得できた不一致は FAIL** / **第262便d: 位置づけを文書で固定した** —— **夜間/手動ジョブの候補であって PR ゲートには入れない**。**frozen-file を取得できたときだけ** (b) を FAIL の基準として読み、**取得失敗は root-fallback の合格に置き換えない**(root-fallback の行は informational のままで fail を増やさない) —— **手元の秒数は CI の上限ではない**(ランナーの回線も GitHub 側の応答も測っていない)",
-   "ms": 5
+   "ms": 1
   },
   {
    "id": "lint.sigmaMark",
    "pass": true,
    "detail": "**`sigma_primary` の印の厳密読み**(第263便c ⑤′ の読み違いを直した): 語境界つきの出現を拾い、第251便c の**凡例文**(`sigma_primary=… means …`)を除き、**凡例でない最初の出現**を行の印とする。**無印は verified ではない** / ① 単体試験 15 ケース全通過 / ② 門・σ 接続器・会計器の 3 器が同じ 1 本を読む(旧読みの残骸 0 件)/ ③ 旧読みとの差(CSV 601 行中): 旧読みで verified 111 行 → 厳密読みで 109 行(**反転 2 行**・凡例を持つ行 17) —— **厳しくなる方向にしか動いていない** / ④ X7 の規約 `verified_by=<確認者> <日付>; verified_at=<表/列>; verified_value=<原記載>` を読み、`verified` なのに `verified_by` が無い行は**警告**(拒否はしない・該当 0 行)/ ⑤ `sigma_kind` / `spread` / `older_sigma` / `digits` は **σ ではない**(informational な尺度)/ ⑥ 第265便d(Z11)+第266便a: **外部確認印 `value_checked_by=` は印を上げない**(該当 10 行・そのうち `verified` は 7 行で、**いずれも X7 の `verified_by=` を持っている** —— 印だけが上がっている行は 0)/ ⑦ 第266便a: `value_checked_by=` への `(answer B)` の追記は**重複させない**(出現は 1 つのまま)・`verified_by=` の読みは `value_checked_by=` を拾わない / ⑧ 第268便b+第269便b: **2026-09-17 の外部照合印を持つ行は 5 行(J1946+2052 の判定解 5 行)で、そのすべてが `verified`** —— ただし**上げたのは外部照合ではない**。第 3 回の確認記録(第59報)で原仮定者が A&A 版の Table 1 を表単体で読んだ記録(X7 の `verified_by=原仮定者 2026-09-17`)が印を上げており、外部照合印そのものは⑥ の単体試験どおり印を 1 bit も動かさない / ⑨ 第269便b: **同印写し**(`same_mark_as=<行>`)は 5 行 —— 写す元は実在して `verified` で X7 の確認者を持ち、写した行の `verified_at` と確認者・日付は**写す元と一致**する(別の表の印も、確認者のいない行の印も写さない)。**同印写しでは印そのものは動かない**(写す側は写す前から `verified` である)/ ⑩ 第270便b: **X7 警告(`verified` なのに確認者が無い行)は 0 行**(太陽系 0 / 星団・銀河 0 / 過渡天体 0)—— 第 4 回の確認記録でCameron 2018 Table 2 と Stairs 2002 の残り 6 行の確認者が埋まった。**確認者欄が埋まっただけであって、印が増えたのでも σ が揃ったのでもない**",
-   "ms": 149
+   "ms": 169
   },
   {
    "id": "docs.intakeA-sync",
    "pass": true,
    "detail": "**観測レコード(2026-09-15 intake・2 系統)の転写の会計**(器 tests/exp-w264d-intakeA.mjs): ① 転写 154 行(CSV と JSON が一致)/ ② 一次資料の 1σ を持つ行 10 行 / ③ 印は `unverified` 145 行 + `verified` 9 行(**第266便a で原仮定者が一次資料を確認した行だけ**が verified で、そのすべてに `verified_by=` が入っている 9 行 —— 印だけを上げた行は 0)/ ④ 候補行 36 行(**既存の鍵と同じ名前の行は 1 行も無い** = 既存の値を 1 バイトも置き換えていない)/ ⑤ 派生行 14 行(量名は `…_derived` で、**門に入る量名ではない**)/ ⑥ 照合 {\"食い違い\":30,\"片方のみ\":26,\"一致\":50} / 不足表 68 組 {\"σ つきで埋まった\":3,\"埋まった(σ なし)\":53,\"定義違い\":8,\"定義不能\":1,\"代替\":3,\"未取得\":0}",
-   "ms": 20
+   "ms": 30
   },
   {
    "id": "docs.solarSourceDeclaration",
    "pass": true,
    "detail": "**判定に使う出典の宣言(Z10)**: 食い違い 30 組について「正(judgement source)」と「候補」を宣言した(規則: ①一次資料の解 ②ファクトシート/Wikipedia/別版/定義違い/空の記録行は候補 ③Z10 が名指ししたカロン P=Buie 2012・地球 P=IERS は①と同じ向き)/ **現行の器が採る行(ファイル順の最初の `body|quantity`)と宣言した正が食い違うのは 14 組**(行選択は本便では差し替えない —— 差し替えは判定を動かすので統括の裁定を待つ)/ **値・σ・`sigma_primary` の印は 1 文字も動かしていない**",
-   "ms": 35
+   "ms": 38
   },
   {
    "id": "docs.intakeB-sync",
    "pass": true,
    "detail": "**観測レコード(2026-09-16 intake B)の照合と転写の会計**(器 tests/exp-w266a-intakeB.mjs): ① 器の違反 0 件 / ② 転写 87 行(solar-observations.csv 14 / cluster-galaxy-observations.csv 46 / transient-observations.csv 27)/ ③ **原仮定者が一次資料(表・列・桁)を確認した行 21 行を `sigma_primary=verified` にした(2026-09-16)** —— そのすべてに X7 の 3 欄が入っている(CSV 側で数えて 21 行 —— **第267便a の第 2 回の確認記録で上がった行(`confirmation_round=2`)と、第269便b の第 3 回の同印写し(`confirmation_round=3`)はここでは数えない**。確認者も確認日も同じなので、日付ではなく回で分ける。第 2 回は `docs.confirm2-sync`・第 3 回は `docs.confirm3-sync` が数える)。**1σ を確認できなかった行(値だけの確認 1 行)・sigma 列が視差との伝播値である行 2 行・別資料を見ていた行 3 行・未確認 1 行は unverified のまま** / ④ 訂正 4 行(火星 P と水星 P の**換算訂正**・J1946+2052 の**出典ラベル訂正** 2 行 —— 旧値は note に残してある)/ ⑤ 取得回答 2 系統の照合 {\"一致(値・出典)\":19,\"片方のみ\":46,\"食い違い\":7} / ⑥ **星団・銀河・LFBOT は門に繋がっていない**(記録である)/ ⑦ **回で分ける**(第271便b・AF9): `CONFIRM` は**第 1 回(2026-09-16)の宣言**であり、各回に基点 commit と solar CSV の sha256 が付いている(第1回 4d1571a / 第2回 fa7cd6c / 第3回 f6c19b4 / 第4回 ef2cd45)。現行 CSV との食い違い 3 件は**すべて後の回の確認記録に帰属する**(根拠の無い食い違い 0 件)—— **閾値は緩めていない**(宣言も再現条件もそのまま・帰属先を分けただけ)",
-   "ms": 38
+   "ms": 43
   },
   {
    "id": "docs.clusterGalaxySigma",
@@ -289,7 +329,7 @@
    "id": "docs.transientObs",
    "pass": true,
    "detail": "**LFBOT の観測記録 CSV**(第266便a・新設 paper/data/transient-observations.csv): 36 行 / 天体 AT2018cow , AT2022tsd , AT2023fhn , M31-2014-DS1 , MOA-9y-5919 , MOA-II-FFP , VASCO / **全行に `gate=not-connected`**(36/36 —— この CSV は**記録**であって判定ではない。🐮 のプリセットと obsCard は 1 バイトも触っていない)/ 一次資料に印字された対称 1σ を持つ行 5 行 / **上限・下限の行は value を空にした** 7 行(上限を「値」として読ませない)/ **印はすべて `sigma_primary=unverified`**(0 行が verified)",
-   "ms": 17
+   "ms": 19
   },
   {
    "id": "docs.confirm2-sync",
@@ -301,67 +341,67 @@
    "id": "docs.confirm3-sync",
    "pass": true,
    "detail": "**確認記録(2026-09-17・第 3 回)の突き合わせ**(器 tests/exp-w269b-confirm3.mjs): ① 器の違反 0 件 / 分類 {\"verified-new\":5,\"same-mark-copied\":5,\"acknowledged\":3,\"acknowledgement-pending\":1,\"trust-and-proceed\":2,\"unchanged-no-source-mark\":6,\"doi-corrected\":5,\"doi-excluded\":1,\"external-checked\":10} / ② **印を付ける前に原記載から value と σ を再現する** —— 10/10 行で再現できた(再現できない行には印を付けない)/ ③ **J1946+2052 の判定解 5 行**(原仮定者が A&A 版の Table 1 を表単体で読んだ記録)が `unverified` → `verified`。X7 の 3 欄と `confirmation_round=3` と σ を持ち、第268便b の外部照合印は残っている(**印を上げたのは外部照合ではない**)/ ④ **同印写し 5 行**(114/115 ← 194/195・125 ← 211・148/180 ← 290)は**印そのものが動いていない**(写す前から `verified`。足したのは X7 の 3 欄と `same_mark_as=`)/ ⑤ **タイタン環 2 行は `unverified` のまま**で、**値も σ も空欄にしていない** ——原仮定者の裁定は「把握している数値を信用して進める」であって**目視の確認ではない**(閲覧できたという記録ではない。C 環内縁の観測門へも転送しない)/ ⑥ **写す元(原仮定者確認済みの同一表の行)が無い 6 行**(Cameron 2018 Table 2 の 3 行・Stairs 2002 Table 1 の 3 行)は**印不変**で、理由を note に残した / ⑦ SPARC の候補 10 点は**外部照合の注記だけ**(`verified` にしていない)/ CSV 全体の `verified`(厳密読み): 太陽系 49 → 109 行・星団/銀河 6 → 6 行。**X7 警告**(`verified` なのに確認者が無い行)は 11 → 0 行 / **判定(4 値)は 1 本も動いていない** —— `--regate` は σ の宛先 0 件・変化 0 件・印の反転 0 件",
-   "ms": 22
+   "ms": 23
   },
   {
    "id": "docs.confirm4-sync",
    "pass": true,
    "detail": "**確認記録(2026-09-18・第 4 回)の突き合わせ**(器 tests/exp-w270b-confirm4.mjs): ① 器の違反 0 件 / 分類 {\"x7-filled\":6,\"verified-new\":3,\"acknowledged\":1} / ② **印を付ける前に原記載から value と σ を再現する** —— 9/9 行で再現できた / ③ **Cameron 2018 Table 2 の 136/137/139 と Stairs 2002 の 171/172/173** は原仮定者が表そのものを目視確認したので X7 の 3 欄が埋まった —— **印そのものは 1 bit も動いていない**(前から `verified`。第 3 回の「写す元が無い」の記録は残したまま閉じた)/ ④ **併置行 260/262/263** は `unverified` → `verified`(同じ表の転写。旧印は`previous_mark=` に残す)/ ⑤ **タイタン環 421 の量名改名は追認だけ**(`acknowledged_by=原仮定者 2026-09-18`)—— **印は `unverified` のまま**で値・単位・σ は 1 文字も動いていない(追認は確認ではない)/ ⑥ CSV 全体の `verified`(厳密読み): 太陽系 54 → 109 行・**X7 警告 6 → 0 行** / ⑦ AE7: 171〜173 の note の外部名を中立表現へ(値・印・来歴は不変)/ **判定(4 値)は 1 本も動いていない**",
-   "ms": 15
+   "ms": 18
   },
   {
    "id": "lint.recordId",
    "pass": true,
    "detail": "**観測 CSV の `record_id` 欄**(第270便b・AE2): solar 601 行(ID 601・欠損 0・重複 0) / cluster-galaxy 154 行(ID 154・欠損 0・重複 0) / transient 36 行(ID 36・欠損 0・重複 0) / ① ID の綴りは `<SOL|CLG|TRN>-<16 進 8 桁>`(同じ `body|quantity|unit|source` の**重複転写**だけ出現順の枝番 `-2`)/ ② ID は `body|quantity|unit|source` から**毎回作り直せる**(手打ちの号ではない)/ ③ **列追加で集計が不変** —— ヘッダ名で読んだ値と**列位置で読んだ従来の値が全行で一致**し(食い違い 0 行)、`body`〜`sigma` のヘッダ位置は 0〜8 のまま・`record_id` は末尾 / ④ 宣言 4 件が `record_id` を持ち CSV に 1 件で当たる(`pickDeclaredRow` は**record_id を最優先で厳密一致**し、当たらなければ理由つきで null=true)。`solution_id` は第271便b(AF4)で**欄になった**(`lint.solutionId` が固定する)/ ⑤ AE15: `value_checked_at=` 等の値に `;` を含む行 0 件(検査 670 件)/ ⑥ 器 tests/exp-w270b-recordid.mjs の違反 0 件。**`record_id` は同定の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)",
-   "ms": 57
+   "ms": 63
   },
   {
    "id": "behavior.declaredContentMatch",
    "pass": true,
    "detail": "**宣言の内容照合**(第271便b・R1): `record_id` は**候補行を一意に定める鍵**であって、宣言内容(body/quantity/source/unit/value/σ/solution_id)は**一致条件**である / ① 現行の宣言 11 件が内容照合つきで一致(`matchedBy:'record_id'`)/ ② 内容改変 77/77 件が `record-id-content-mismatch(<欄名>)` で拒否され、**文字列出典へ黙って落ちない**(単位 day・別論文・value 99・σ 99・別天体・別量・別 solution_id)/ ③ 当たらない ID / 重複 ID = 2/2 件が理由つきで null / ④ `value`/`sigma` は**有限の number だけ** 9/9 件(null・文字列・NaN・0・負・`record_id:null` は schema で不正 —— **宣言を 1 件も配らない**)。**内容照合は止めるための条件であって、判定を増やすものではない**",
-   "ms": 17
+   "ms": 18
   },
   {
    "id": "lint.solutionId",
    "pass": true,
    "detail": "**観測 CSV の `solution_id` 欄**(第271便b・AF4): solar 付与 81/601 行 / cluster-galaxy 付与 0/154 行 / transient 付与 0/36 行 / ① 位置は `record_id`=9・`solution_id`=10(既存 9 列は 0〜8 のまま)/ ② 値が入る行は note が**語境界で** `solution=<同じ id>` を持ち、id は台帳 `paper/data/solutions.json`(6 件: Kramer2021-DDS / Fonseca2014-DDGR / Singha2026-DDH / Meng2025-DDFWHE / PLU060-2024 / PLU043-2015)にある / ③ `adopted_solution=` **だけ**の行(太陽系 4 行)には**入れない** —— **指し先は出所ではない** / ④ 台帳外の解タグを持つ行(太陽系 50 行)は**空欄のまま**(空欄は「解が無い」ではなく「台帳に登録していない」)/ ⑤ 台帳の `printedRecord` が例の行の note にそのまま現れる / ⑥ 宣言の `solution_id` が行の欄と一致 / ⑦ **参照切れ 0**(台帳の id は重複せず 2 形の綴り —— 第278便a で暦の解 `PLU060-2024`・`PLU043-2015` を登録・どの id も CSV の行が指している・孤立 0 件)。**`solution_id` は出所の鍵であって、印でも σ でも判定でもない**(4 値は 1 本も動かない)",
-   "ms": 19
+   "ms": 22
   },
   {
    "id": "lint.externalNamesCsv",
    "pass": true,
    "detail": "**観測レコードの外部名**(第271便b・AF10): `paper/data/` の 10 本を走査し **残り 0 件**(検出語は base64 で持ち、平文で置かない —— `tests/exp-w270b-confirm4.mjs` と同じ方式)/ 太陽系 行 66(`SOL-3c8c1f88`・Uranus ring 1986U2R)の取込経路の記述を中立表現へ(`external_name_neutralised=2026-09-18`)—— **value・unit・source・url・retrieved・sigma・印・来歴は 1 文字も動いていない**(動いたのは note の 1 語)/ **歴史文書(CHANGELOG の過去便・docs/PHYSICS.md の過去節)は触らない**(過去便の記録である)",
-   "ms": 19
+   "ms": 20
   },
   {
    "id": "lint.provenanceMeta",
-   "pass": false,
-   "detail": "**正本 JSON の来歴**(第272便e・AG11・統括の検証項目 R11): 版 `w272e-1` を **79 本**に同じ形で持たせた(`provenanceVersion`・`wave`・`target`・**完全 64 桁の `targetSha256`**・`generatedAt`・`inputs[]`・`code[]`・`codeSha256`)/ bh90-w269c.json(target 一致・入力 3/3・コード 4/4） / sparc-w269c.json(target **不一致**・入力 2/3・コード 4/4） / cluster-w269d.json(target **不一致**・入力 4/5・コード 4/4） / galaxydiag-w271d.json(target **不一致**・入力 2/3・コード 4/4） / qsplit-w271c.json(target 一致・入力 1/1・コード 2/2） / j1946adopt-w270c.json(**履歴**(②③④ は照合しない)） / corrections-w272e.json(target 一致・入力 6/6・コード 4/4） / charonk-w273b.json(target **不一致**・入力 1/2・コード 5/5） / sync-w274b.json(target 一致・入力 3/3・コード 5/5） / bhcore-w274e.json(target 一致・入力 1/1・コード 3/3） / armbar-w274e.json(target 一致・入力 2/2・コード 4/4） / galaxyprof-w274c.json(target 一致・入力 1/1・コード 2/2） / needmesh-w274c.json(target 一致・入力 1/1・コード 2/2） / galaxylite-w274c.json(target 一致・入力 1/1・コード 2/2） / shapetoy-w274d.json(target **不一致**・入力 0/1・コード 3/3） / kf0ledger-w274a.json(target 一致・入力 6/6・コード 2/2） / presetaxes-w275a.json(target 一致・入力 1/1・コード 2/2） / kf0ledger-w275a.json(target 一致・入力 7/7・コード 2/2） / kfgate-w275a.json(target 一致・入力 1/1・コード 2/2） / galaxyprof2-w275c.json(target 一致・入力 1/1・コード 3/3） / powerball-w275e.json(target 一致・入力 1/1・コード 3/3） / d0audit-w275b.json(target 一致・入力 2/2・コード 3/3） / meshnod0-w275b.json(target 一致・入力 1/1・コード 3/3） / charond0-w275b.json(**履歴**(②③④ は照合しない)） / shapecrit-w275d.json(target **不一致**・入力 0/1・コード 3/3） / dyncenter-w275d.json(target 一致・入力 1/1・コード 3/3） / powerball2-w276c.json(target 一致・入力 2/2・コード 4/4） / bgfield-w276a.json(target 一致・入力 1/1・コード 3/3） / d0sites-w276a.json(target 一致・入力 1/1・コード 2/2） / bgpredict-w276a.json(target 一致・入力 1/1・コード 3/3） / galaxyproto-w276e.json(target 一致・入力 2/2・コード 4/4） / corefield-w276d.json(target **不一致**・入力 0/1・コード 4/4） / charoneps-w276b.json(target **不一致**・入力 1/2・コード 6/6） / charonfactors-w276b.json(target **不一致**・入力 2/3・コード 6/6） / selfinertia-w277d.json(target 一致・入力 2/2・コード 4/4） / bgbudget-w277d.json(target 一致・入力 3/3・コード 4/4） / charondfm-w277b.json(target **不一致**・入力 0/1・コード 3/3） / charonwin-w278b.json(target **不一致**・入力 0/1・コード 3/3） / plutostates-w277a.json(target 一致・入力 2/2・コード 4/4） / nsgrid-w277c.json(target 一致・入力 4/4・コード 6/6） / bgequiv-w278d.json(target 一致・入力 2/2・コード 4/4） / slipaudit-w278c.json(target 一致・入力 3/3・コード 4/4） / nsmode-w278c.json(target 一致・入力 2/2・コード 4/4） / samplestatus-w279a.json(target 一致・入力 8/8・コード 4/4） / qaorder-w279b.json(target 一致・入力 1/1・コード 4/4） / bgcompose-w279c.json(target 一致・入力 1/1・コード 5/5） / bgbudget2-w279c.json(target 一致・入力 3/3・コード 7/7） / mercury-w280a.json(target **不一致**・入力 2/3・コード 6/6） / d68-w280e.json(target **不一致**・入力 1/2・コード 5/5） / charoninput-w280d.json(target **不一致**・入力 1/2・コード 6/6） / spherekernel-w280b.json(target 一致・入力 1/1・コード 5/5） / emgrid-w280b.json(target **不一致**・入力 0/1・コード 6/6） / geo3-w280c.json(target 一致・入力 3/3・コード 4/4） / strain-w281d.json(target 一致・入力 2/2・コード 6/6） / galaxychain-w281b.json(target 一致・入力 1/1・コード 5/5） / chainledger-w281b.json(target 一致・入力 1/1・コード 3/3） / rotorledger-w281c.json(target 一致・入力 2/2・コード 4/4） / dragprofile-w282c.json(target **不一致**・入力 0/1・コード 9/9） / analogy-w282d.json(target 一致・入力 3/3・コード 7/7） / charon-history-w272b.json(**履歴**(②③④ は照合しない)） / calcontract-w282a.json(target **不一致**・入力 1/2・コード 3/3） / fmigration-w282a.json(**履歴**(②③④ は照合しない)） / geo1-w282b.json(**履歴**(②③④ は照合しない)） / geomode-w283a.json(**履歴**(②③④ は照合しない)） / pn1-w285b.json(target **不一致**・入力 2/3・コード 9/9） / families-w283b.json(target **不一致**・入力 6/7・コード 6/6） / heavy-w283c.json(**履歴**(②③④ は照合しない)） / cluster-w283f.json(target 一致・入力 3/3・コード 6/6） / cluster-w284a.json(target 一致・入力 3/3・コード 7/7） / tpsign-w284e.json(target **不一致**・入力 1/2・コード 5/5） / bgfield-w284e.json(target **不一致**・入力 0/1・コード 4/4） / contact-w285a.json(target **不一致**・入力 1/2・コード 8/8） / cluster-w285a.json(**履歴**(②③④ は照合しない)） / bgderiv-w285c.json(target **不一致**・入力 0/1・コード 4/4） / bgdiff-w286c.json(target **不一致**・入力 0/1・コード 4/4） / obscompare-w285d.json(target **領域一致**・入力 3/3・コード 4/4） / jeans-w286a.json(target **不一致**・入力 0/1・コード 6/6） / cluster-w286a.json(target **不一致**・入力 0/1・コード 9/9） / pnsource-w286b.json(target **不一致**・入力 4/5・コード 7/7） / **第281便a**: 領域一致 1 本・履歴 8 本 / **不一致は FAIL のまま**(AG10 —— 走らせ直せば直る種類の FAIL で、html や器を変えた枝の統合後は統括が再走する)。短縮 hash は表示用で、**判定は完全値**で行う / **違反 54 件**: ②tests/out/sparc-w269c.json の targetSha256 が現行 beta/index.html と一致しない(刻印 020464032c81 ≠ 現行 d0ec312925da)・領域 hash も一致しない —— **器を走らせ直すこと** , ③tests/out/sparc-w269c.json の beta/index.html が刻印と違う —— **器を走らせ直すこと** , ②tests/out/cluster-w269d.json の targetSha256 が現行 beta/index.html と一致しない(刻印 020464032c81 ≠ 現行 d0ec312925da)・領域 hash も一致しない —— **器を走らせ直すこと** , ③tests/out/cluster-w269d.json の beta/index.html が刻印と違う —— **器を走らせ直すこと**",
-   "ms": 4488
+   "pass": true,
+   "detail": "**正本 JSON の来歴**(第272便e・AG11・統括の検証項目 R11): 版 `w272e-1` を **79 本**に同じ形で持たせた(`provenanceVersion`・`wave`・`target`・**完全 64 桁の `targetSha256`**・`generatedAt`・`inputs[]`・`code[]`・`codeSha256`)/ bh90-w269c.json(target 一致・入力 3/3・コード 4/4） / sparc-w269c.json(target 一致・入力 3/3・コード 4/4） / cluster-w269d.json(target 一致・入力 5/5・コード 4/4） / galaxydiag-w271d.json(target 一致・入力 3/3・コード 4/4） / qsplit-w271c.json(target 一致・入力 1/1・コード 2/2） / j1946adopt-w270c.json(**履歴**(②③④ は照合しない)） / corrections-w272e.json(target 一致・入力 6/6・コード 4/4） / charonk-w273b.json(target 一致・入力 2/2・コード 5/5） / sync-w274b.json(target 一致・入力 3/3・コード 5/5） / bhcore-w274e.json(target 一致・入力 1/1・コード 3/3） / armbar-w274e.json(target 一致・入力 2/2・コード 4/4） / galaxyprof-w274c.json(target 一致・入力 1/1・コード 2/2） / needmesh-w274c.json(target 一致・入力 1/1・コード 2/2） / galaxylite-w274c.json(target 一致・入力 1/1・コード 2/2） / shapetoy-w274d.json(target 一致・入力 1/1・コード 3/3） / kf0ledger-w274a.json(target 一致・入力 6/6・コード 2/2） / presetaxes-w275a.json(target 一致・入力 1/1・コード 2/2） / kf0ledger-w275a.json(target 一致・入力 7/7・コード 2/2） / kfgate-w275a.json(target 一致・入力 1/1・コード 2/2） / galaxyprof2-w275c.json(target 一致・入力 1/1・コード 3/3） / powerball-w275e.json(target 一致・入力 1/1・コード 3/3） / d0audit-w275b.json(target 一致・入力 2/2・コード 3/3） / meshnod0-w275b.json(target 一致・入力 1/1・コード 3/3） / charond0-w275b.json(**履歴**(②③④ は照合しない)） / shapecrit-w275d.json(target 一致・入力 1/1・コード 3/3） / dyncenter-w275d.json(target 一致・入力 1/1・コード 3/3） / powerball2-w276c.json(target 一致・入力 2/2・コード 4/4） / bgfield-w276a.json(target 一致・入力 1/1・コード 3/3） / d0sites-w276a.json(target 一致・入力 1/1・コード 2/2） / bgpredict-w276a.json(target 一致・入力 1/1・コード 3/3） / galaxyproto-w276e.json(target 一致・入力 2/2・コード 4/4） / corefield-w276d.json(target 一致・入力 1/1・コード 4/4） / charoneps-w276b.json(target 一致・入力 2/2・コード 6/6） / charonfactors-w276b.json(target 一致・入力 3/3・コード 6/6） / selfinertia-w277d.json(target 一致・入力 2/2・コード 4/4） / bgbudget-w277d.json(target 一致・入力 3/3・コード 4/4） / charondfm-w277b.json(target 一致・入力 1/1・コード 3/3） / charonwin-w278b.json(target 一致・入力 1/1・コード 3/3） / plutostates-w277a.json(target 一致・入力 2/2・コード 4/4） / nsgrid-w277c.json(target 一致・入力 4/4・コード 6/6） / bgequiv-w278d.json(target 一致・入力 2/2・コード 4/4） / slipaudit-w278c.json(target 一致・入力 3/3・コード 4/4） / nsmode-w278c.json(target 一致・入力 2/2・コード 4/4） / samplestatus-w279a.json(target 一致・入力 8/8・コード 4/4） / qaorder-w279b.json(target 一致・入力 1/1・コード 4/4） / bgcompose-w279c.json(target 一致・入力 1/1・コード 5/5） / bgbudget2-w279c.json(target 一致・入力 3/3・コード 7/7） / mercury-w280a.json(target 一致・入力 3/3・コード 6/6） / d68-w280e.json(target 一致・入力 2/2・コード 5/5） / charoninput-w280d.json(target 一致・入力 2/2・コード 6/6） / spherekernel-w280b.json(target 一致・入力 1/1・コード 5/5） / emgrid-w280b.json(target 一致・入力 1/1・コード 6/6） / geo3-w280c.json(target 一致・入力 3/3・コード 4/4） / strain-w281d.json(target 一致・入力 2/2・コード 6/6） / galaxychain-w281b.json(target 一致・入力 1/1・コード 5/5） / chainledger-w281b.json(target 一致・入力 1/1・コード 3/3） / rotorledger-w281c.json(target 一致・入力 2/2・コード 4/4） / dragprofile-w282c.json(target 一致・入力 1/1・コード 9/9） / analogy-w282d.json(target 一致・入力 3/3・コード 7/7） / charon-history-w272b.json(**履歴**(②③④ は照合しない)） / calcontract-w282a.json(target 一致・入力 2/2・コード 3/3） / fmigration-w282a.json(**履歴**(②③④ は照合しない)） / geo1-w282b.json(**履歴**(②③④ は照合しない)） / geomode-w283a.json(**履歴**(②③④ は照合しない)） / pn1-w285b.json(target 一致・入力 3/3・コード 9/9） / families-w283b.json(target 一致・入力 7/7・コード 6/6） / heavy-w283c.json(**履歴**(②③④ は照合しない)） / cluster-w283f.json(target 一致・入力 3/3・コード 6/6） / cluster-w284a.json(target 一致・入力 3/3・コード 7/7） / tpsign-w284e.json(target 一致・入力 2/2・コード 5/5） / bgfield-w284e.json(target 一致・入力 1/1・コード 4/4） / contact-w285a.json(target 一致・入力 2/2・コード 8/8） / cluster-w285a.json(**履歴**(②③④ は照合しない)） / bgderiv-w285c.json(target 一致・入力 1/1・コード 4/4） / bgdiff-w286c.json(target 一致・入力 1/1・コード 4/4） / obscompare-w285d.json(target 一致・入力 3/3・コード 4/4） / jeans-w286a.json(target 一致・入力 1/1・コード 6/6） / cluster-w286a.json(target 一致・入力 1/1・コード 9/9） / pnsource-w286b.json(target 一致・入力 5/5・コード 7/7） / **第281便a**: 領域一致 0 本・履歴 8 本 / **不一致は FAIL のまま**(AG10 —— 走らせ直せば直る種類の FAIL で、html や器を変えた枝の統合後は統括が再走する)。短縮 hash は表示用で、**判定は完全値**で行う",
+   "ms": 724
   },
   {
    "id": "lint.regenScope",
    "pass": true,
-   "detail": "**正本の再生成範囲**(第281便a・原仮定者の裁定(第71報)AN16 採用・統括の検証項目 R71): 表 125 段が CANON 79 本を覆う / 宣言 41 器・刻印 36 本(下限を覆う) / 常時群 11 段は計画で always・計画 always 11/regen 37/reuse 14/recheck 33/history 30 / 履歴 30 本は現行の入力に無い / 収支 0・動的参照 0・説明文の欄を力学が読まない・I18N 2139 葉は文字列/関数 / 感度: CSS だけ → 領域 hash 同じ(true)・❄️ の質量の最下位桁 → 変わる(true) / 版 3(AN32): ⛄ の claims の説明文字列だけ → 現行版で一致 true・版 2 で変わる true / expected → 変わる true / 単体 142 本(説明文字列を持つ 42 本・473 欄): 説明だけ → 版 3 同じ 42・版 2 変わる 42・expected 62/62 変わる・testId 57/57 変わる・descPattern 62/62 変わる・chainEq 38/38 変わる・massCalF 5/5 変わる / 旧版の刻印の照合: 対象が今の html と同じ 7 本(w283e-scope-3 7)のうち刻印の版で一致 7 —— **領域 hash** = 器が宣言した html の領域(宣言したプリセットの生の定義と受理後の定義・roots から辿った最上位の依存閉包・S._core の本文・宣言した定数)の正準 JSON の sha256。`targetSha256` は生成当時の値のまま残し、lint.provenanceMeta ② は「一致 **または**(scopeComplete かつ領域 hash 一致)」で通す。**履歴は再生成しない・現行の結論に昇格させない**。閉包は**静的な識別子の閉包**(過大近似)で、UI の操作で閉包の値を書き換える経路は辿らない(器は UI を操作しない)",
-   "ms": 13420
+   "detail": "**正本の再生成範囲**(第281便a・原仮定者の裁定(第71報)AN16 採用・統括の検証項目 R71): 表 126 段が CANON 79 本を覆う / 宣言 41 器・刻印 36 本(下限を覆う) / 常時群 12 段は計画で always・計画 always 12/regen 8/reuse 32/recheck 44/history 30 / 履歴 30 本は現行の入力に無い / 収支 0・動的参照 0・説明文の欄を力学が読まない・I18N 2139 葉は文字列/関数 / 感度: CSS だけ → 領域 hash 同じ(true)・❄️ の質量の最下位桁 → 変わる(true) / 版 3(AN32): ⛄ の claims の説明文字列だけ → 現行版で一致 true・版 2 で変わる true / expected → 変わる true / 単体 142 本(説明文字列を持つ 42 本・473 欄): 説明だけ → 版 3 同じ 42・版 2 変わる 42・expected 62/62 変わる・testId 57/57 変わる・descPattern 62/62 変わる・chainEq 38/38 変わる・massCalF 5/5 変わる / 旧版の刻印の照合: 対象が今の html と同じ 36 本(w286d-scope-4 34・w283e-scope-3 2)のうち刻印の版で一致 36 —— **領域 hash** = 器が宣言した html の領域(宣言したプリセットの生の定義と受理後の定義・roots から辿った最上位の依存閉包・S._core の本文・宣言した定数)の正準 JSON の sha256。`targetSha256` は生成当時の値のまま残し、lint.provenanceMeta ② は「一致 **または**(scopeComplete かつ領域 hash 一致)」で通す。**履歴は再生成しない・現行の結論に昇格させない**。閉包は**静的な識別子の閉包**(過大近似)で、UI の操作で閉包の値を書き換える経路は辿らない(器は UI を操作しない)",
+   "ms": 15423
   },
   {
    "id": "lint.scopeStop",
    "pass": true,
-   "detail": "**停止集合**(第282便e・原仮定者の裁定(第72報)AN22・統括の検証項目 R82): 停止集合 19 関数(最上位の function)・$/ctx/sim と物理側 12 名を含まない / 停止関数の直接の書き込み 27 件はすべて境界 12 名の中(操作ハンドラの中の書き込み 20 件は辿らない)・器 35 本は停止関数・境界を HP/文字列で読まない / 閉包の名前 旧版 1109 → 現行版 869(inline script の 0.4093 → 0.3381) / 感度(宣言 36 本): (b) CSS+表示関数 9 個 → 現行版 0 本・旧版 36 本が変わる / (c) validatePreset → 36 本 / (d) ❄️ の質量 0.001303→0.001304 → 25 本(予想 25) / 刻印の版: 版 1 0 本(版 1 の閉包で引き直して今の html と一致 0 本)・版 2 0 本・現行版 w283e-scope-3 36 本(旧版の付け替えは統合時) —— 閉包の roots($・ctx・sim)から閉包の let へ代入する関数を経て UI の関数まで入る経路を、**純粋な表示関数**で止めた($・ctx・sim と物理側は止めない)。止めた関数は名前で辿らず・書き換える文/代入する関数としても入れず・素の名前の roots でも辿らない。**「停止した関数が結果を変えない」ことの証明ではない**(操作ハンドラの中の書き込みは辿らない —— 器は UI を操作しない)",
-   "ms": 33548
+   "detail": "**停止集合**(第282便e・原仮定者の裁定(第72報)AN22・統括の検証項目 R82): 停止集合 21 関数(最上位の function)・$/ctx/sim と物理側 12 名を含まない / 停止関数の直接の書き込み 27 件はすべて境界 13 名の中(操作ハンドラの中の書き込み 20 件は辿らない)・器 35 本は停止関数・境界を HP/文字列で読まない / 閉包の名前 旧版 1109 → 現行版 836(inline script の 0.4093 → 0.3144) / 感度(宣言 36 本): (b) CSS+表示関数 9 個 → 現行版 0 本・旧版 36 本が変わる / (c) validatePreset → 36 本 / (d) ❄️ の質量 0.001303→0.001304 → 25 本(予想 25) / 刻印の版: 版 1 0 本(版 1 の閉包で引き直して今の html と一致 0 本)・版 2 0 本・現行版 w286d-scope-4 36 本(旧版の付け替えは統合時) —— 閉包の roots($・ctx・sim)から閉包の let へ代入する関数を経て UI の関数まで入る経路を、**純粋な表示関数**で止めた($・ctx・sim と物理側は止めない)。止めた関数は名前で辿らず・書き換える文/代入する関数としても入れず・素の名前の roots でも辿らない。**「停止した関数が結果を変えない」ことの証明ではない**(操作ハンドラの中の書き込みは辿らない —— 器は UI を操作しない)",
+   "ms": 34496
   },
   {
    "id": "lint.stableHashPaths",
-   "pass": true,
-   "detail": "**安定 hash の除外契約**(第282便e・統括の検証項目 R82): 宣言 33 ファイル・Pointer 142 本(合った位置 1227・うち非物理 meta の Pointer 10 本・改名前の世代の正本で旧名に当たった Pointer 0 本)・meta の外の Pointer 72 本 / ⑦ 宣言の版 calaudit-w249.json w285f-vcal-2(指紋 afc6f3285acdc4bf)・calaudit-w249-diag.json w285f-vdiag-2(指紋 2461f5b121a2fc1c)・語彙の方式 w285f-decl-2(真偽値 wallNearBudget・時刻に carriedFrom) / 回帰: 観測の durationMs → 変わる true・観測の when → 変わる true・宣言した生成時刻だけ → 同じ true・宣言なしなら生成時刻も効く true / 旧方式はこの durationMs・when の変化を見落とす(true・true) / 実物 12 ファイル: 宣言した位置だけ書き換え → 同じ・宣言の外 → 変わる / 刻印: 版 w282e-stable-1 49 行(うち旧宣言 ⊊ 今の宣言 3 行 —— 統合時に付け替え・随伴の行 14)・版なし(旧方式 —— 照合だけ旧方式で行う・統合時に付け替え)0 行 / meta の外の Pointer: bgbudget2-w279c.json/elapsedS , bgderiv-w285c.json/elapsedS , bgdiff-w286c.json/elapsedS , bgequiv-w278d.json/elapsedS , bgfield-w284e.json/elapsedS , calaudit-w249-diag.json/carriedOverFrom … / AN29(一時 root で html だけの再走を模す —— calaudit の Pointer 21・489 か所・diag 20): calaudit を読む現行の正本 18 本・安定 hash を刻む 13 本のうち 今の刻印のまま再利用 13・今の宣言で刻み直せば 13 / 物理欄の変化を検出 true・diag の中身の変化を検出 true・随伴の行の無い刻印は不一致 true / 器が安定 hash を刻まない 5 本(d0audit・kf0ledger-old・kf0ledger・calcontract・samplestatus)は sha のまま —— 除くのは**正本ごとに宣言した JSON Pointer**(再生成表の段の volatilePaths —— 既定は除外なし・`*` は 1 段の任意)だけ。方式の版と Pointer の並びを hash の本文に入れる。**安定 hash の一致は「実行時刻と所要以外が同じ」ことだけを意味する**(結果が正しいことの保証ではない)",
-   "ms": 6846
+   "pass": false,
+   "detail": "**安定 hash の除外契約**(第282便e・統括の検証項目 R82): 宣言 33 ファイル・Pointer 142 本(合った位置 1225・うち非物理 meta の Pointer 10 本・改名前の世代の正本で旧名に当たった Pointer 0 本)・meta の外の Pointer 72 本 / ⑦ 宣言の版 calaudit-w249.json w285f-vcal-2(指紋 afc6f3285acdc4bf)・calaudit-w249-diag.json w285f-vdiag-2(指紋 2461f5b121a2fc1c)・語彙の方式 w285f-decl-2(真偽値 wallNearBudget・時刻に carriedFrom) / 回帰: 観測の durationMs → 変わる true・観測の when → 変わる true・宣言した生成時刻だけ → 同じ true・宣言なしなら生成時刻も効く true / 旧方式はこの durationMs・when の変化を見落とす(true・true) / 実物 12 ファイル: 宣言した位置だけ書き換え → 同じ・宣言の外 → 変わる / 刻印: 版 w282e-stable-1 49 行(うち旧宣言 ⊊ 今の宣言 3 行 —— 統合時に付け替え・随伴の行 14)・版なし(旧方式 —— 照合だけ旧方式で行う・統合時に付け替え)0 行 / meta の外の Pointer: bgbudget2-w279c.json/elapsedS , bgderiv-w285c.json/elapsedS , bgdiff-w286c.json/elapsedS , bgequiv-w278d.json/elapsedS , bgfield-w284e.json/elapsedS , calaudit-w249-diag.json/carriedOverFrom … / AN29(一時 root で html だけの再走を模す —— calaudit の Pointer 21・487 か所・diag 20): calaudit を読む現行の正本 18 本・安定 hash を刻む 13 本のうち 今の刻印のまま再利用 13・今の宣言で刻み直せば 13 / 物理欄の変化を検出 true・diag の中身の変化を検出 true・随伴の行の無い刻印は不一致 true / 器が安定 hash を刻まない 5 本(d0audit・kf0ledger-old・kf0ledger・calcontract・samplestatus)は sha のまま —— 除くのは**正本ごとに宣言した JSON Pointer**(再生成表の段の volatilePaths —— 既定は除外なし・`*` は 1 段の任意)だけ。方式の版と Pointer の並びを hash の本文に入れる。**安定 hash の一致は「実行時刻と所要以外が同じ」ことだけを意味する**(結果が正しいことの保証ではない) / **違反 2 件**: ② tests/out/calaudit-w249.json /kf0Runs/charonCitation/citedTargetSha256 が今のファイルのどこにも合わない , ② tests/out/calaudit-w249.json /kf0Runs/charonCitation/fileSha256 が今のファイルのどこにも合わない",
+   "ms": 6702
   },
   {
    "id": "lint.regenChain",
    "pass": true,
-   "detail": "**再生成の鎖の機械生成**(第283便e・原仮定者の裁定(第73報)⑤・統括の検証項目 R88)と **ready queue・書込排他・済み印の契約・分割**(第284便f・第74報⑥・R94): (l) 分割の段 calaudit(k 2・workers 2・記録 chain37 ok true)・dt3(k 2・workers 2・記録 dt3 ok true)・kf0(k 2・workers 2・記録 kf0 ok true) / (a) 今の表: 入力の書き手の欠け 0・書き手の並列 0・循環 0 / (b) 第282便の型の表で検出した欠け 7 件(bgbudget・bgbudget2・bgequiv・d0audit・nsmode) / (c) 第282便の型の列で 順序違反 d0audit<kf0, d0audit<dt3, d0audit<calaudit, bgbudget<bgpredict, bgbudget<kf0, bgbudget<dt3, bgbudget<calaudit, bgbudget<bgequiv, kf0ledger<nslockledger / 無駄な先走り nslockledger<nslock, nslockledger<kf0, nslockledger<dt3, nslockledger<calaudit / (d) 全段の鎖 94/94 段・波 10(最も広い波 31 段)・手動 1・順序違反 0・後段の欠落 0 / (e) 今の計画 → 鎖 run 47・gate 33・手動 1・波 10(実測秒の和 run 21184 s・gate 8138 s)・順序違反 0・閉包の漏れ 0 / (f) stub の鎖 sa → sb+sc → sd → se: 構文 true・環境変数なし → 走らせない true・1 回目 rc 1(走った sa,sc・ログ 01-sa.log,02-sb.log,02-sb.rc,02-sc.log)・2 回目 rc 0(済み印の段を飛ばす true) / (m) AN43: same → reuse・stable → reuse・ptr → regen・version → regen・companion → regen・noComp → regen(バイト sha が同じでも刻印の宣言が今の宣言と違えば regen) / (g) ready queue の模擬 94 段(未了 0)・見積り 14159 s(波の型 16894 s)・順序違反 0・書込の重なり 0・予算超過 0・同じファイルの書き手 calaudit-w249.json:calaudit→dt3→kf0 / calaudit-w249-diag.json:calaudit→dt3→kf0 / charon-w272b.json:charon-h→charon-h2→charon-h4 / charoneps-w276b.json:charoneps-h→charoneps-h2→charoneps-h4・単独 obscompare,samplestatus true・合成の違反の検出 {\"order\":1,\"writes\":2,\"budget\":1} / (h) stub の鎖(レーン 3): rc 0・時系列 6 段・順序違反 0・書込の重なり 0(同じファイルの 2 段が直列 true)・予算超過 0・波の境を待たない true・済み印の契約 true / (i) 済み印の契約: 変えた段の契約 x2,x6 → 走り直した x2,x6・旧印 x2.done.stale,x6.done.stale・契約の無い印は走り直す true / (j) 分割の純関数 a true・b true・c true・d true・e true / (k) 確認順の段: 鍵 lib-w281a-regentable.mjs,regen-chain.mjs → 先に走る文 10・長走行は本走行へ 20,50 / (n) AN53: html 全体を刻む段 30(samplestatus の上流 6 段 calaudit,charonwin,dt3,kf0,obscompare,pn1 は除く)・after に samplestatus を足した 27 段・samplestatus より先に走りうる段 0・足した after を外した写しで検出 27・循環 0・上流へ足した 0 / (o) after 検査: 器が名指しする正本 110 組・書き手が after に無い 0・宣言した読み 5 本(17 組 —— 前回の世代・言及・import した器の本走)・古い宣言 0・第285便の型(obscompare の after から pn1 を外した写し)の検出 true・galaxydiag←sparc の検出 true・宣言を空にした写しの欠落 17 —— 鎖に入った段の**下流はすべて**鎖に入り、上流の後に置かれて自分の判定(対象・コード・入力〔安定 hash〕)を引き直す(gate)。**鎖が表の依存を守ることは「結果が正しい」ことの保証ではない**(meta.inputs[] と after に無い読み込みは辿れない)",
-   "ms": 8488
+   "detail": "**再生成の鎖の機械生成**(第283便e・原仮定者の裁定(第73報)⑤・統括の検証項目 R88)と **ready queue・書込排他・済み印の契約・分割**(第284便f・第74報⑥・R94): (l) 分割の段 calaudit(k 2・workers 2・記録 chain37 ok true)・dt3(k 2・workers 2・記録 dt3 ok true)・kf0(k 2・workers 2・記録 kf0 ok true) / (a) 今の表: 入力の書き手の欠け 0・書き手の並列 0・循環 0 / (b) 第282便の型の表で検出した欠け 7 件(bgbudget・bgbudget2・bgequiv・d0audit・nsmode) / (c) 第282便の型の列で 順序違反 d0audit<kf0, d0audit<dt3, d0audit<calaudit, bgbudget<bgpredict, bgbudget<kf0, bgbudget<dt3, bgbudget<calaudit, bgbudget<bgequiv, kf0ledger<nslockledger / 無駄な先走り nslockledger<nslock, nslockledger<kf0, nslockledger<dt3, nslockledger<calaudit / (d) 全段の鎖 95/95 段・波 10(最も広い波 30 段)・手動 1・順序違反 0・後段の欠落 0 / (e) 今の計画 → 鎖 run 20・gate 46・手動 0・波 10(実測秒の和 run 5205 s・gate 14046 s)・順序違反 0・閉包の漏れ 0 / (f) stub の鎖 sa → sb+sc → sd → se: 構文 true・環境変数なし → 走らせない true・1 回目 rc 1(走った sa,sc・ログ 01-sa.log,02-sb.log,02-sb.rc,02-sc.log)・2 回目 rc 0(済み印の段を飛ばす true) / (m) AN43: same → reuse・stable → reuse・ptr → regen・version → regen・companion → regen・noComp → regen(バイト sha が同じでも刻印の宣言が今の宣言と違えば regen) / (g) ready queue の模擬 95 段(未了 0)・見積り 14366 s(波の型 17134 s)・順序違反 0・書込の重なり 0・予算超過 0・同じファイルの書き手 calaudit-w249.json:calaudit→dt3→kf0 / calaudit-w249-diag.json:calaudit→dt3→kf0 / charon-w272b.json:charon-h→charon-h2→charon-h4 / charoneps-w276b.json:charoneps-h→charoneps-h2→charoneps-h4・単独 obscompare,samplestatus true・合成の違反の検出 {\"order\":1,\"writes\":2,\"budget\":1} / (h) stub の鎖(レーン 3): rc 0・時系列 6 段・順序違反 0・書込の重なり 0(同じファイルの 2 段が直列 true)・予算超過 0・波の境を待たない true・済み印の契約 true / (i) 済み印の契約: 変えた段の契約 x2,x6 → 走り直した x2,x6・旧印 x2.done.stale,x6.done.stale・契約の無い印は走り直す true / (j) 分割の純関数 a true・b true・c true・d true・e true / (k) 確認順の段: 鍵 lib-w281a-regentable.mjs,regen-chain.mjs → 先に走る文 10・長走行は本走行へ 20,50 / (n) AN53: html 全体を刻む段 30(samplestatus の上流 6 段 calaudit,charonwin,dt3,kf0,obscompare,pn1 は除く)・after に samplestatus を足した 27 段・samplestatus より先に走りうる段 0・足した after を外した写しで検出 27・循環 0・上流へ足した 0 / (o) after 検査: 器が名指しする正本 110 組・書き手が after に無い 0・宣言した読み 5 本(17 組 —— 前回の世代・言及・import した器の本走)・古い宣言 0・第285便の型(obscompare の after から pn1 を外した写し)の検出 true・galaxydiag←sparc の検出 true・宣言を空にした写しの欠落 17 —— 鎖に入った段の**下流はすべて**鎖に入り、上流の後に置かれて自分の判定(対象・コード・入力〔安定 hash〕)を引き直す(gate)。**鎖が表の依存を守ることは「結果が正しい」ことの保証ではない**(meta.inputs[] と after に無い読み込みは辿れない)",
+   "ms": 5249
   },
   {
    "id": "docs.rcResearch",
@@ -379,7 +419,7 @@
    "id": "lint.listKeys",
    "pass": true,
    "detail": "**note の並び鍵**(第272便e・AG19): `paper/data/` の 5 本を走査し、並び鍵を持つ行 **22 行**/ ① `;` 区切りの旧綴り **0 件**(区切りは `|` で、`;` は鍵の区切り専用)/ ② `record_id` の並びを持つ行 22 行・参照 23 件がすべて CSV に実在 / ③ **未解決**: 参照 1 件の中に `|` を含む`<body>|<quantity>` 形が `derived_from=` に残っている行 **0 行** / ④(第273便e・AH16 (a))**旧綴りを `derived_from_legacy=` に併記している行 14 行** —— 2026-09-15 intake の派生行 14 行を、**参照先が現行 CSV の 1 行に一意に解決できるときだけ** record_id へ書き換えた(解けない行は書き換えず ③ に残る = **推定で紐づけない**)/ **値・単位・出典・σ・印・record_id は 1 文字も動いていない**",
-   "ms": 23
+   "ms": 26
   },
   {
    "id": "docs.correctionsLedger",
@@ -391,43 +431,43 @@
    "id": "docs.plutoStatesFile",
    "pass": true,
    "detail": "**冥王星系の状態ファイル**(第277便a・`paper/data/pluto-system-states.csv`): 全 92 行(**状態 72 行** = 6 体 × 2 元期 × 6 成分・欠け 0・要素と識別子 20 行)/ ② **sigma 列は全行空**(σ を持つ行 0 行)—— Horizons の出力は σ も共分散も印字しないので、**この暦から σ を作らない** / ③ `projectToOrbitPlane` は基底が正規直交・**位置と速度を同じ回転**で射影し、**面外成分を返す**(z を捨てない)/ ④ 「別の量」の周期 4 つ(two-body 551856.43872 s / 400 年平均 551855.8944 s / osculating PR 551850.6774206633 s・551853.069964631 s)は**すべて違う数**である —— この差は残差ではなく**定義の差**である / 面外成分の最大 273.5 km / 187.5 km / **判定もしないし採用値も作らない**",
-   "ms": 4
+   "ms": 5
   },
   {
    "id": "docs.intakeC",
    "pass": true,
    "detail": "**取得依頼 C の回答の転写**(第277便a・2 系統の外部調査): CSV 601 行 / **2026-09-22 の転写行 54 行**(第277便a で σ 列へ入れたのは **6 行** —— **2 系統が値・σ・出典まで一致した行だけ**)/ 既存行の note へ照合結果を書き足したのは 12 行(値・σ・単位・出典・印・record_id は 1 文字も動かしていない)/ ② 転写行はすべて `sigma_primary=unverified`(転写では印を上げない —— **第278便a の確認依頼 第 5 回で原仮定者が印を上げた 35 行と、sigma 列へ上げた 9 行は後の回の変更として別に数える**)/ ③ **1 系統だけの行は sigma 列が空**で `sigma_candidate_unconfirmed=` を持つ(原仮定者の照合で sigma 列へ上がる)/ ④ **切断点 106/26/3/4 と太陽系 4 値 {\"保留\":14,\"否\":2} は動いていない** / ⑤ 判定量名の行を宛先天体へ 1 行も足していない —— **転写で判定は 1 本も増えていない**",
-   "ms": 28
+   "ms": 29
   },
   {
    "id": "docs.intakeD",
    "pass": true,
    "detail": "**確認依頼 第 5 回・取得依頼 D の回答の転写**(第278便a・§5.28): CSV 601 行 / ① **2026-09-23 の新規行 21 行**(sigma 列あり 10 行・verified 10 行・全行に `intake_agreement=`)/ ② 既存行で**原仮定者が同じ表を開いて印を上げた 42 行**(すべて `verified_by=原仮定者 2026-09-23`・`verified_at=`・`verified_value=` つき —— 印だけ上げた行は 0)/ ③ **sigma 列へ上げた既存行 9 行**(2of2 かつ verified の定義名の量だけ —— 判定量ではない)/ ④ **切断点 106/26/3/4 と太陽系 4 値 {\"保留\":14,\"否\":2} は動いていない** / ⑤ 判定量名の行を宛先天体へ 1 行も足していない / ⑥ §5.28 に件数・禁止語なし / ⑦ 会計器と台帳の器が現行 CSV と一致",
-   "ms": 24
+   "ms": 32
   },
   {
    "id": "docs.deimosSwap",
    "pass": true,
    "detail": "**ダイモスの判定行の差し替え**(第278便a・AM7 —— 原仮定者の裁定(第68報)「概ね同意」): Deimos SOL-7b5370e1=109074.88527411409 s(旧 109123.2 s・差 -48.314726 s) / Phobos SOL-e57b4bc2=27553.841567549454 s(旧 27553.843872 s・差 -0.002304 s) / ① 宣言は Jacobson 2010 Table 6 の **λ̇ 由来**(`derived-in-record`・**sigma は null** —— 1σ は印字されていない)/ ② `derived_from=` が λ̇ の行へ解決し、P=360/λ̇ d×86400 s を計算し直すと行の値に一致 / ③ **「Table 6 に Period 列がある」とは書かない**(Period 列読みの行に `period_column=absent`)/ ④ 旧判定行は履歴の行(`superseded_by=`・`superseded_on=2026-09-23`)/ ⑤ σ 接続器が宣言行で読み、判定は**保留**(σ が無いので門へは入らない)/ ⑥ フォボスも同型・天王星の衛星 5 本は第279便e(AM7′)で Jacobson 2014 Table 2 の λ̇ 由来へ差し替えた(検査は `docs.uranusSwap`)",
-   "ms": 25
+   "ms": 20
   },
   {
    "id": "docs.uranusSwap",
    "pass": true,
    "detail": "**天王星の 5 衛星の判定行の差し替え**(第279便e・AM7′ —— 原仮定者の裁定(第69報)「概ね同意」): Miranda SOL-0209ddd1=122124.62101961837 s(旧 122124.5856 s・差 0.035420 s) / Ariel SOL-dedae320=217760.7611919261 s(旧 217760.7456 s・差 0.015592 s) / Umbriel SOL-3e22ae39=358056.89773906855 s(旧 358056.8064 s・差 0.091339 s) / Titania SOL-b908b3a5=752187.0102125419 s(旧 752186.9088 s・差 0.101413 s) / Oberon SOL-096d042d=1163223.665109313 s(旧 1163223.4176 s・差 0.247509 s) / ① 宣言は Jacobson 2014 Table 2 の **λ̇ 由来**(`derived-in-record`・**sigma は null** —— 1σ は印字されていない・`solution_id` は空欄)/ ② `derived_from=` が λ̇ の行へ解決し、P=360/λ̇ d×86400 s を計算し直すと行の値に一致 / ③ 旧判定行(NSSDC)は履歴の行(量名は `orbital_period` のまま・`superseded_by=`・`superseded_on=2026-09-24`)・NSSDC 値の候補行は候補のまま / ④ σ 接続器が宣言行で読み、判定は**保留** —— **切断点 106/26/3/4・太陽系 4 値 {\"保留\":14,\"否\":2} は動いていない** / ⑤ 台帳に `source-replacement` の revision / ⑥ §5.31 に 5 本の新値・禁止語なし",
-   "ms": 24
+   "ms": 30
   },
   {
    "id": "docs.obsRulings69",
    "pass": true,
    "detail": "**観測レコードの σ の読み方の裁定**(第279便e・原仮定者の裁定(第69報)): ① AN1 4 行(Brozović 2015 の保守的な ± は sigma 列に印字のまま・`uncertainty_kind=conservative-inflated`)/ ② AN3 2 行(2024 系 GM の sigma 列 = 公表の膨らませた 0.2 km³/s²・形式 1σ 0.09 は note —— 二乗和しない)/ ③ AN2 4 行(Weaver 2016 Table 2 の周期は転載 —— `source_status=secondary-transcription`・出典は付け替えない)/ ④ AM8′ 4 行(Chapront 2002 の formal errors は 1σ として読まない・sigma 列は空)/ ⑤ どの行も判定量ではない(門は動かない)",
-   "ms": 17
+   "ms": 18
   },
   {
    "id": "lint.derivedFromRecordIds",
    "pass": true,
    "detail": "**`derived_from` の参照は record_id**(第273便e・AH16 (a)): `paper/data/` の 5 本を走査し、① record_id 参照 **23 件がすべて CSV に実在** / ② 旧綴りを併記している行 **14 行**(`derived_from_legacy=`)/ ③ **旧綴りを今の CSV で解き直すと同じrecord_id に戻る 14/14 行**(参照先が動いたらここで落ちる)/ ④ 書き換えた行に印 `derived_from_resolved=` がある / **未解決**(`<body>|<quantity>` 形が残っている行)**0 行** —— 一意に解決できない行は**書き換えない**(**推定で紐づけない**)。**値・単位・出典・σ・印・record_id は 1 文字も動いていない**",
-   "ms": 21
+   "ms": 27
   },
   {
    "id": "lint.qaFullResultsSaved",
@@ -439,31 +479,31 @@
    "id": "lint.qaOrder",
    "pass": true,
    "detail": "**QA の確認順と並列化の契約**(第279便b・統括の検証項目 R61): ① preflight の器・マニフェストあり / ② `npm test` はフルのまま・`test:preflight` あり / ③ ci.yml: preflight(1838)→ `npm test`(2041)の順・CI で先行再実行 OFF / ④ W5b 呼び出し 33 件 = 表 33 件(ガード式は表と文字列一致・本文は共有状態に触れない)/ ⑤ 最上位の文 638 件(単独でコンパイル 633)・add() の静的 id 778/778 が試験の文に入る / ⑥ 先行再実行の版: 行数保存=true・W5b 関数 33/33・選択 233-253 / マニフェスト 419 文(生成 2026-09-23・未収載の id 94 件 — 想定時間の古さは FAIL にしない)。**判定式・閾値・seed・物理時間・母集団は変えていない**",
-   "ms": 880
+   "ms": 1020
   },
   {
    "id": "qa.w5cPoolFault",
    "pass": true,
    "detail": "**ワーカープールの失敗注入**(第279便b): S1 正常=OK[fulfilled/fulfilled/fulfilled] / S2 ユニット例外=OK[rejected/fulfilled](旧実装: pending(hang)) / S3 全ワーカー起動失敗=OK[rejected/rejected/rejected/rejected](旧実装: pending(hang)) / S4 一部ワーカー起動失敗=OK[fulfilled/fulfilled/fulfilled] / S5 横取り=OK[false/true/fulfilled] / 旧実装はユニット例外・全ワーカー起動失敗で待機が解決しない(=QA のハング/結果 JSON なし)ことを再現=true",
-   "ms": 2056
+   "ms": 2054
   },
   {
    "id": "docs.j1946adoptPublished",
    "pass": true,
    "detail": "**J1946 専用再走の結果 JSON を公開物にする**(第271便e・統括の検証項目 R8): ① .gitignore の例外行=true・ファイル=あり / ② 入力 hash f83bf5201576… が 現行 beta/index.html(d0ec312925da…)と一致=history / ③ 採用入力は CSV の Meng 2025 DDFWHE 行そのもの / ④ 刻み h=0.016・窓 20 近点・段 [1,2,4,8] / ⑤ 共同根の探索条件(刻み・履歴・目標 ω̇)つき / ⑥ 宣言リテラルが採用レコードの転写から相対差 0 で戻る。**本ブロックは JSON の来歴を見るだけで、合否も σ 倍も判定しない**",
-   "ms": 151
+   "ms": 1204
   },
   {
    "id": "lint.sigmaDestinations",
    "pass": true,
    "detail": "**σ の宛先表を共通モジュールへ移した**(第268便a・統括の読み (C)・tests/lib-sigma-destinations.mjs): 正規化 SHA-256 `bdf6d605b02691b2…` が基点 fa7cd6c の定義から作った値と**一致**(= **旧定義との diff 0**・件数 SIGMA_BODY 18 / SIGMA_QUANT 3 / SIGMA_TARGET_BODY 31・宛先 body 28 個)/ **器のソース文字列検索(`CAL_SRC.indexOf` / `calSrc.indexOf`)は 3 器とも廃止**(コメント中の body 名に当たる読み方だった)/ **47 Tuc・NGC 3198・GW150914 A/B は宛先に無い**(星団・銀河・BH 連星は門に接続していない)—— **中身は 1 文字も変えていない**",
-   "ms": 27
+   "ms": 30
   },
   {
    "id": "behavior.analogyGateWiring",
    "pass": true,
    "detail": "**アナロジー器の接続判定**(第268便a・統括の読み (C)): 5 ケース ①配線+門の量+verified σ=1 / ②候補行だけ=0 / ③配線の無い body=0 / ④σ が 0/空=0 / ⑤印が unverified=0 —— 接続は「**同じ body・同じ quantity の行に、配線と `verified` の σ(σ>0)が揃うこと**」で決める(候補行 `_candidate`・別の body・σ=0・印 unverified はどれも数えない)/ 実体: 47 Tuc は **verified σ 6 行**を持つが**門の宛先 0・接続 0**(**印は接続ではない**)—— **接続候補の判定であって、採用解・単位の一致・観測量対応・必要 2 量の充足ではない**",
-   "ms": 1
+   "ms": 2
   },
   {
    "id": "behavior.clusterCenterContract",
@@ -475,31 +515,31 @@
    "id": "behavior.clusterV1a",
    "pass": true,
    "detail": "**星団 47 Tuc の比較サンプル v1a**(第269便d・統括の読み (A)(D)・**内部診断の完成であって観測一致版ではない**): withheld+値=throw / 理論比=1.732051 / 列 10・段 30・monotone:false 103 件 —— 47 Tuc の観測量は not-applicable 35 / not-measurable 9 / mapping-unresolved 13 で**値の比較は 0 件**(開口・重み・視線・中心が未定義/3D 量/転写入力)—— **非単調(`monotone:false` 103 件)はそのまま残す**(「収束済み」とは書かない)",
-   "ms": 76
+   "ms": 83
   },
   {
    "id": "docs.clusterV1bDesign",
    "pass": true,
    "detail": "**星団 v1b の設計宣言**(第269便d・**実装していない**): 項 5 / PHYSICS 節 13294 字 —— 投影面半光半径は光度重み(M/L の宣言が要る)/ RV は観測と同じ環状開口(候補 6 点は非対称 σ)/ PM は v=4.74047·D[kpc]·μ[mas/yr](**距離の不確かさは全点共通の系統要因**)/ **現行 2D エンジンに z/vz が無い**ので 3D 化か球対称+速度異方性の前向きモデルかは**決断事項** / GGCD の構造量の多くは **N-body fit の出力**で独立観測ではない",
-   "ms": 44
+   "ms": 37
   },
   {
    "id": "behavior.solarsigmaGuards",
    "pass": true,
    "detail": "**σ 接続器の必須ガード**(第268便a・統括の読み (B)・tests/lib-w268a-judgement.mjs): 4 ケース ①3 欄そろい=ok / ②定義未宣言=保留(判定量の定義が未宣言) / ③対応未確定=保留(観測量対応が未確定) / ④収束未確認=保留(数値収束が未確認) —— `definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` の**どれか 1 つでも欠けたら判定しない**(合とも否とも言わない)/ 実体(第270便・AD5/AD8 後): 門へ σ が届いた量は **4 件**(📡 1・カロン P 3)・切断点 `unit-not-converted` は **3 件**(対照として温存)—— **ガードを通って否(3σ)へ進んだのは 📡 の 1 件だけ・カロン 3 件は保留**(保留は否定ではない)",
-   "ms": 27
+   "ms": 23
   },
   {
    "id": "behavior.unitConvertedFirst",
    "pass": true,
    "detail": "**換算後の欄と 3 段**(第268便a・統括の読み (A)・器 tests/exp-w268a-d68.mjs): 📡 D68 の Δϖ を**傾きと同じ 58 近点の近点間周期**(第269便a の新契約)で deg/yr へ写すと **−14.6231σ**(h 段)、**対照**は同方向 1 周の周期行 **+81.1169σ**・丸めた観測周期 **+64.2909σ** —— **どの P を使うかで符号まで変わる** / 3 段 3 段・見かけの次数 1.9797 / **第270便a(AD8)で 📡 はこの診断欄から正式判定へ移った**(`movedToOfficial`)—— ここに残るのは**換算していない水星の 3 行**で、切断点 `unit-not-converted` の対照である。**旧値(切断点 4 件・太陽系 4 値 保留 16)は `history` に温存**し、新値は再集計して測った",
-   "ms": 26
+   "ms": 28
   },
   {
    "id": "docs.judgementSources",
    "pass": true,
    "detail": "**採用観測解の明示宣言**(第268便a・第270便c/AD9・paper/data/judgement-sources.json): 宣言 11 件(**カロン P = Buie 2012 の 551856.43872 s ± 0.02592**・**金星 e = JPL SSD Table 1 の 0.00677672(σ の印字なし)**・**PSR J1946+2052 の P = 6781.367998656 s ± 1.728e-6 と e = 0.0638363 ± 8e-7(Meng 2025 Table 1 DDFWHE — 第270便c/AD9 で採用解を一組へ揃えた)**・**ダイモス P と同型のフォボス P = Jacobson 2010 Table 6 の λ̇ 由来(σ の印字なし — 第278便a/AM7)**・**天王星の 5 衛星 P = Jacobson 2014 Table 2 の λ̇ 由来(σ の印字なし — 第279便e/AM7′)**)で、どれも CSV の行に**1 件で当たる**(Charon|orbital_period_candidate=1 / Venus|eccentricity_candidate=1 / PSR J1946+2052|orbital_period=1 / PSR J1946+2052|eccentricity=1 / Deimos|orbital_period_candidate=1 / Phobos|orbital_period_candidate=1 / Miranda|orbital_period_candidate=1 / Ariel|orbital_period_candidate=1 / Umbriel|orbital_period_candidate=1 / Titania|orbital_period_candidate=1 / Oberon|orbital_period_candidate=1 —— 宣言に新しい数値は 1 つも書いていない)/ **宣言の無い対象は従来どおりファイル順の最初の行**(ダイモス e・水星 P・火星 P・トリトン P/e は**周期定義の照合が先**なので宣言しない)/ **第270便a(AD5)で宣言は正式経路へ入った** —— 太陽系 4 値は {\"保留\":14,\"否\":2}(**旧値 保留 16 は `history` に温存**・旧行は `previousRow` に温存)—— **「宣言したので判定が増えた」とは書かない**",
-   "ms": 41
+   "ms": 49
   },
   {
    "id": "behavior.d68SameWindow",
@@ -510,110 +550,110 @@
   {
    "id": "behavior.convergenceRule",
    "pass": true,
-   "detail": "**AD4 の収束規約**(第269便a・第59報「決断事項は概ね同意」): ①3 段の窓充足 ②抽出異常 0 ③次数>0 ④**判定段 h/4 の Richardson 推定誤差 ε̂=|Q_{h/2}−Q_{h/4}|/(2^p−1) ≤ 0.3σ** ⑤**最終 2 段差 ≤ 0.3σ** —— 実体: 次数 1.9797・ε̂ 0.00396220 deg/yr(0.001356σ)・2 段差 0.0116648 deg/yr(0.003992σ)・予算 0.8766 deg/yr / **ε̂ は漸近形の推定であって厳密な上界ではない**・**次数が不安定なら h/8 を足す**・**ok になっても合否は言わない**(**第270便a(AD8)で 📡 は THREE_STAGE_REGISTRY に登録された** —— 登録は合格の宣言ではなく、門が何を出すかは門の JSON を読む)",
-   "ms": 1
+   "detail": "**AD4 の収束規約**(第269便a・第59報「決断事項は概ね同意」): ①3 段の窓充足 ②抽出異常 0 ③次数>0 ④**判定段 h/4 の Richardson 推定誤差 ε̂=|Q_{h/2}−Q_{h/4}|/(2^p−1) ≤ 0.3σ** ⑤**最終 2 段差 ≤ 0.3σ** —— 実体: 次数 1.9797・ε̂ 0.00396224 deg/yr(0.001356σ)・2 段差 0.0116649 deg/yr(0.003992σ)・予算 0.8766 deg/yr / **ε̂ は漸近形の推定であって厳密な上界ではない**・**次数が不安定なら h/8 を足す**・**ok になっても合否は言わない**(**第270便a(AD8)で 📡 は THREE_STAGE_REGISTRY に登録された** —— 登録は合格の宣言ではなく、門が何を出すかは門の JSON を読む)",
+   "ms": 0
   },
   {
    "id": "lint.judgementSourceStrict",
    "pass": true,
    "detail": "**宣言行の同定**(第269便a・統括の読み (F)・tests/lib-w268a-judgement.mjs): 一致条件に **source と unit** を足し、**欠損値を 0 に変換せず**、**重複宣言・不正スキーマは ok:false で器を止める**(黙って別の解に戻して走行を続けない)—— 5 ケース(別論文・別単位・null→0・重複・不正スキーマ)を純関数で固定 / 正本は ok=true で 2 件とも `unit` を持つ —— **現行の選択(カロン P・金星 e)が誤っていたという検査ではない**(拡張に対する穴を塞いだ)",
-   "ms": 0
+   "ms": 1
   },
   {
    "id": "behavior.declaredDiagnosticOnly",
    "pass": true,
    "detail": "**宣言の混在禁止**(第269便a の「診断欄だけ」を**第270便a(AD5)の形へ改めた**): 第268便a の `applySigma` は**宣言行の σ だけ**を `q.obsSigmaCsv` に入れ、中心値は従来行のままだった —— **中心値と σ が別の解から来る混在**である。第269便a は宣言を診断欄へ退避してこれを止め、**第270便a(AD5)で 6 つ(中心値・σ・単位・解 ID・verified 状態・測定定義)を同時に切り替えた** / 宣言 21 件・適用 21 件 / カロン: 中心値 551856.43872 s・σ 0.02592 s が**同じ宣言行(Buie 2012)から**来ていて、旧参照値 551854.08 s は `previous` に温存 / **宣言の解決失敗は throw**(旧行へ黙って戻らない)",
-   "ms": 24
+   "ms": 27
   },
   {
    "id": "behavior.stopRuleDeclared",
    "pass": true,
-   "detail": "**⚡ の停止規則(第285便f・AN51)**: ⚡ の窓 22 公転 × 1187696 步 = h 26129312・h/2 52258624 步(必要近点 20)/ 正本 w286f-1: dt 段 26129312 步・近点 23・周期の行 periastron / **軌道長の窓の一般化(第286便f・AN57)**: psrJ1757DFM 22×213616 = h 4699552・h/2 9399104(正本 w286f-1: 4699552 步・近点 22) / psrJ1946DFM 22×1416055 = h 31153210・h/2 62306420(正本 w286f-1: 31153210 步・近点 23) / 宣言例外 🩺 dt・dt/2(since w286f) / **停止条件の宣言**(第270便a・AE9・器 tests/exp-w270a-stoprule.mjs): 走行長は「**宣言した步数上限 × 必要近点数**」で決まり、**步/秒も壁時計も入らない** —— 第257便d までは `実測した步/秒 × 時間予算` で走行長が決まっていたので、**同じ入力でも機種が違えば近点の本数が変わり、判定が動いた**(🌘 の 26 近点は 40,000,000 步まで走れたときの数である)/ preset 37 本に宣言あり / **基点 f6c19b4 との照合 57/73 段が同じ步数・同じ近点数**(違い 16 段 = **宣言した例外 16 段**〔第271便a: ❄️ の dt/2 — 步数上限を階級から preset 宣言へ移したので基点より長く走る〕+ 宣言の無い差 0 段)/ 宣言から再計算できた段 73/73 / 資源上限 900 s の超過 0 段(最長 123.3 s —— **現行では効いていない上限**である)/ 近点不足は **unmeasured**(max-steps / window / resource-limit)であって「否」ではない",
-   "ms": 62
+   "detail": "**⚡ の停止規則(第285便f・AN51)**: ⚡ の窓 22 公転 × 1187696 步 = h 26129312・h/2 52258624 步(必要近点 20)/ 正本 w286f-1: dt 段 26129312 步・近点 23・周期の行 periastron / **軌道長の窓の一般化(第286便f・AN57)**: psrJ1757DFM 22×213616 = h 4699552・h/2 9399104(正本 w286f-1: 4699552 步・近点 22) / psrJ1946DFM 22×1416055 = h 31153210・h/2 62306420(正本 w286f-1: 31153210 步・近点 23) / 宣言例外 🩺 dt・dt/2(since w286f) / **停止条件の宣言**(第270便a・AE9・器 tests/exp-w270a-stoprule.mjs): 走行長は「**宣言した步数上限 × 必要近点数**」で決まり、**步/秒も壁時計も入らない** —— 第257便d までは `実測した步/秒 × 時間予算` で走行長が決まっていたので、**同じ入力でも機種が違えば近点の本数が変わり、判定が動いた**(🌘 の 26 近点は 40,000,000 步まで走れたときの数である)/ preset 37 本に宣言あり / **基点 f6c19b4 との照合 57/73 段が同じ步数・同じ近点数**(違い 16 段 = **宣言した例外 16 段**〔第271便a: ❄️ の dt/2 — 步数上限を階級から preset 宣言へ移したので基点より長く走る〕+ 宣言の無い差 0 段)/ 宣言から再計算できた段 73/73 / 資源上限 900 s の超過 0 段(最長 117.4 s —— **現行では効いていない上限**である)/ 近点不足は **unmeasured**(max-steps / window / resource-limit)であって「否」ではない",
+   "ms": 70
   },
   {
    "id": "behavior.calauditBudgetTable",
    "pass": true,
    "detail": "**量ごとの窓と誤差予算**(第286便f・原仮定者の裁定(第76報)AN44・tests/data-w286f-budget.json 版 w286f-budget-1): 種類 5(周期・近点移動・離心率・自転・転記 —— 周期・近点移動・離心率は別の契約)・σ ありは数値誤差予算 0.3σ(**提案値** —— 合意済みの閾値ではない)・σ なしは事前の絶対/相対幅・先に書く行 2 本(💍 C 環内縁の近点移動〔符号反転〕・💠 ミランダの近点移動〔+35%〕)/ 正本の全量 317 行に窓 317・予算 317(鍵の行 4)/ 判定器は読むだけ(門の合否の規則は変えない)・正本の世代 w286f-budget-1 / **窓不足・量の不一致を幅で救わない**",
-   "ms": 31
+   "ms": 28
   },
   {
    "id": "docs.threeStageD68",
-   "pass": false,
-   "detail": "**📡 D68 の 3 段登録と換算後判定の正式接続**(第270便a・AD8): `THREE_STAGE_REGISTRY` へ登録して 3 段(dt/4)で走らせ、判定量を **ϖ̇ [deg/yr]**(傾きと同じ 58 近点の近点間周期で割った)へ写して正式な門へ繋いだ —— 実測 13925.52693 / 観測 13968.25575 ± 2.922 deg/yr(**CSV の σ をそのまま**)・**14.6034σ** → `否(3σ)` / 収束 p=1.9797(|p−2| ≤ 0.5)・ε̂ 0.00136σ / **換算前(°/周)は `previousUnit` に温存**・**切断点 `unit-not-converted` は 3 件残っている**(換算していない水星の行が対照)—— **「較正を完了した」とは書かない** / **違反 1 件**: ⑥門の実測(13925.526926097635)が器の h 段(13925.526910658999)と違う",
-   "ms": 20
+   "pass": true,
+   "detail": "**📡 D68 の 3 段登録と換算後判定の正式接続**(第270便a・AD8): `THREE_STAGE_REGISTRY` へ登録して 3 段(dt/4)で走らせ、判定量を **ϖ̇ [deg/yr]**(傾きと同じ 58 近点の近点間周期で割った)へ写して正式な門へ繋いだ —— 実測 13925.52693 / 観測 13968.25575 ± 2.922 deg/yr(**CSV の σ をそのまま**)・**14.6034σ** → `否(3σ)` / 収束 p=1.9797(|p−2| ≤ 0.5)・ε̂ 0.00136σ / **換算前(°/周)は `previousUnit` に温存**・**切断点 `unit-not-converted` は 3 件残っている**(換算していない水星の行が対照)—— **「較正を完了した」とは書かない**",
+   "ms": 31
   },
   {
    "id": "behavior.declaredApplied",
    "pass": true,
    "detail": "**採用観測解の宣言を正式経路へ**(第270便a・AD5・署名便): 宣言 2 件を**中心値・σ・単位・解 ID・verified 状態・測定定義の 6 つ同時**で切り替えた(適用 21 行)/ **カロン P**: 551854.08 s(NSSDC・σ なし)→ **551856.43872 s ± 0.02592**(Buie 2012・verified)—— 門は **数値未解決**(3 段登録が無いので**保留**であって合でも否でもない)/ **金星 e**: シミュレータ自身の宣言値 → **0.00677672**(JPL SSD 要素表)—— **1σ が印字されていないので門へは 1 bit も入らない**(未判定)/ 旧経路は `previous` に温存 / **5 区分の許容は obsCard の ±(無ければ ±1%)のまま** —— **「宣言したので判定が増えた」とは書かない**",
-   "ms": 24
+   "ms": 23
   },
   {
    "id": "docs.fourValuesHistory",
    "pass": true,
    "detail": "**4 値の履歴**(第270便a・署名便): 本便は既定経路の結果が動く便なので、**旧値(基点 f6c19b4: 4 値 0/2/2/33・門 2/2/31/13/8/258・5 区分 56/6/22/4/218/8・太陽系 保留 16・切断点 109/26/4)を履歴として残し**、新値は再集計して測った —— 新: 4 値 0/2/2/33・門 2/2/32/14/0/267 / 履歴には commit・入力 CSV の SHA・宣言版・理由が付く(数字だけを残さない)/ **「判定が増えた」「較正を完了した」とは書かない**",
-   "ms": 31
+   "ms": 39
   },
   {
    "id": "docs.sampleStatus-sync",
    "pass": true,
    "detail": "**サンプル状況一覧 ↔ html ↔ 正本**(第279便a): 行数 md 142・html 142・正本 142 / 状況 達 81・部分 55・未達 6 / 4 値 0/2/2/33・判定保留(量定義不一致)2・較正対象外 103 / QA 帰属 w283e-1: qaTargets 246 試験・帰属なし 1 本・galaxy←galaxyStd 旧 2・新 0 / earthMoonReal←earthMoonRealKF1 旧 1・新 0 / bhCore←bhCoreTilt 旧 1・新 0・旧規則の混入 82 組(29 本)は新規則で 0・正本の帰属 142/142 本が再計算と一致 / 3 者一致・禁止語 0",
-   "ms": 139
+   "ms": 180
   },
   {
    "id": "docs.families",
-   "pass": false,
-   "detail": "**同一天体の家族の差分表**(第283便b・原仮定者の裁定(第73報)④・R85): 家族 21・本 81(退役 15) / 推定の列 主系列 36・比較 17・診断 13・履歴 15 / 候補 A 4・B 0・C(要裁定)2・畳まない組 15 / md は正本の生成物と 1 字一致・禁止語 0・観測版と DFM 版をまたぐ候補 0・候補の本はすべて内蔵に残る(畳んでいない) / 退役 15 本は内蔵に残り署名が凍結の写しと同じ・名指しする器 60 本(not-in-table 17・history 25・current 12・tool 4・fixture 2) / **違反 1 件**: ⑥退役の棚卸しが 14 本でない",
-   "ms": 37
+   "pass": true,
+   "detail": "**同一天体の家族の差分表**(第283便b・原仮定者の裁定(第73報)④・R85): 家族 21・本 81(退役 15) / 推定の列 主系列 36・比較 17・診断 13・履歴 15 / 候補 A 4・B 0・C(要裁定)2・畳まない組 15 / md は正本の生成物と 1 字一致・禁止語 0・観測版と DFM 版をまたぐ候補 0・候補の本はすべて内蔵に残る(畳んでいない) / 退役 15 本は内蔵に残り署名が凍結の写しと同じ・名指しする器 60 本(not-in-table 17・history 25・current 12・tool 4・fixture 2)",
+   "ms": 56
   },
   {
    "id": "docs.assessedStageH4",
    "pass": true,
    "detail": "**3 段登録系の正式判定段は h/4**(第271便a・統括の検証項目 R3 —— 文書 §5.13′.2 は h/4 と書いていたのに器は h 段で判定していた。**AD4 の既決どおり h/4 へ統一した**): 判定値 = Q_{h/4}・最終 2 段差 = |Q_{h/2}−Q_{h/4}|・ε̂ = 最終 2 段差/(2^p−1)(p の定義は不変)/ **h 段の値は `coarseValue`・|Q_h−Q_{h/4}| は `coarseNumBound` に履歴として残す** / **登録表の外(2 段だけ)の系の扱いは変えていない** / 次数は**連続 2 段差が同符号のときだけ**推定する(非単調列・3 段完全一致は `orderNotEstimable` で保留)/ 判定段 h/4 の量 11 件・第272便a(AG1)で h/8 へ昇格した量 0 件(検査は `docs.h8Rule`)・登録外の 3 段の量 0 件",
-   "ms": 23
+   "ms": 26
   },
   {
    "id": "behavior.charonRegistered",
    "pass": true,
    "detail": "**❄️ カロンの公転周期を 3 段登録した**(第271便a・AF2): 走らせる前に步数を計算し、**dt/2(41,388,996)と dt/4(82,777,992)が階級上限 40e6 を超える**ことを確かめてから、60 公転ぶんの步数を `PRESET_MAX_STEPS` に宣言した(AF3・版 w271a-1)—— そうしないと h/4 が 29 公転で切れて **3 段の窓が揃わない** / 各段の近点 59 , 59(全段とも同じ窓)/ 第272便a(AG1)で**条件つき h/8(165,555,984 步)**を足した / 周期行の門 否(3σ) , 数値未解決 , mapping-unresolved —— **登録は合格の宣言ではない**(登録した結果どちらへ動くかは走らせて測った。旧状態は `fourValues.history` にある)",
-   "ms": 19
+   "ms": 23
   },
   {
    "id": "docs.stopRuleVersion",
    "pass": true,
    "detail": "**停止条件の版つき既定規約**(第271便a・AF3): 版 **w286f-1** —— 步数 = min(宣言した步数上限, 60 公転ぶんの步数)・階級上限 40,000,000(n≤3)/ 20,000,000(n≤12)・preset 宣言 **5 本**(🌞 866,426・💠 1,075,028・💍 2,042,988・💿 254,730・❄️ 20,694,498 —— いずれも刻みに反比例)・必要近点は既定 20(📡 58)・**壁時計 900 s は資源上限だけ**(未完走は max-steps / window / resource-limit の 3 語)/ 版の履歴 w270a-1 → w271a-1 → w272a-1 → w285f-1 → w286f-1 —— **中身を変えるときは版を上げる**(版を上げずに宣言を変えたらこのブロックが落ちる)/ **全系一律の步数にはしない**(系ごとに 60 公転ぶんの步数が違うので、一律の步数は「同じ窓を見ている」ことを意味しない)",
-   "ms": 25
+   "ms": 30
   },
   {
    "id": "lint.calauditDiagSplit",
    "pass": true,
-   "detail": "**正本 JSON の重い診断を別ファイルへ分けた**(第271便a・AF16 —— **削ったのではない**): `tests/out/calaudit-w249.json` から `machineIndependence` / `stageHealth.rows` / `gate.deprecatedKeys` / `predictionEligibleReasons` を `tests/out/calaudit-w249-diag.json`(602782 B)へ移し、正本には**要約 + 相対パス + SHA-256**を残した(移した欄 643 件)/ 正本 3593048 → 2854555 B / あわせて**何百行にも複製されていた文言を正本の中の辞書へ 1 か所化**した(`contracts.texts` 305 本・置換 1784 箇所・参照先の欠落 0 件)—— **数は 1 つも辞書化していない** / **単独で配ると参照先が欠ける** —— 欠けたことが分かるように `…Moved` の印を残してある",
-   "ms": 23
+   "detail": "**正本 JSON の重い診断を別ファイルへ分けた**(第271便a・AF16 —— **削ったのではない**): `tests/out/calaudit-w249.json` から `machineIndependence` / `stageHealth.rows` / `gate.deprecatedKeys` / `predictionEligibleReasons` を `tests/out/calaudit-w249-diag.json`(602779 B)へ移し、正本には**要約 + 相対パス + SHA-256**を残した(移した欄 643 件)/ 正本 3590604 → 2852111 B / あわせて**何百行にも複製されていた文言を正本の中の辞書へ 1 か所化**した(`contracts.texts` 305 本・置換 1784 箇所・参照先の欠落 0 件)—— **数は 1 つも辞書化していない** / **単独で配ると参照先が欠ける** —— 欠けたことが分かるように `…Moved` の印を残してある",
+   "ms": 28
   },
   {
    "id": "docs.periodContractRows",
    "pass": true,
    "detail": "**行ごとの測定定義契約**(第272便a・統括の検証項目 R10): obsCard の行名が「近点間」と名乗っている **4 行**(❄️ カロン・📡 D68・🌘 恒星月・🧲 恒星月)に、第271便a までは**同方向 1 周の値**が配られていた(`periodDef:\"revolution\"`)—— preset 単位の定義契約(第251便c)が、**1 つの preset の中で定義の違う行**を見ていなかった / 本便で preset id + **既存の行名**の宣言列挙にし、`periastron` の行は**全段で近点検出器 A の 20 近点窓の近点間周期**を配る(ε_num も同じ定義)/ **近点が測れない段は他の周期へ置換しない** / 円に近い系(❄️・実測 eProxy ≈1.2×10⁻³)の行は**`mapping-unresolved`**(数が足りないのではなく観測量対応が未確定である —— **「数値未解決」とは混ぜない**)/ **これは合否の宣言ではない**",
-   "ms": 32
+   "ms": 22
   },
   {
    "id": "lint.calauditMergeKeyHash",
-   "pass": false,
-   "detail": "**`--merge` の鍵に対象 HTML と測定コードの hash**(第272便a・統括の検証項目 R11): 第271便a までの `mergeKey.target` は**パス文字列**(`beta/index.html`)だけだったので、**同じパスの中身が動いた走行どうしが黙って混ざる** / 本便で `targetSha256`(html の完全 SHA-256 `b7c8a37a5241…`)と `measurementCodeSha256`(本器 + import する lib **11 本**の「パス:SHA-256」の SHA-256 `7d8d68c9eaf0…`)を足した / **第271便a までの保存物はこの 2 欄を持たないので `--merge` が止まる**(意図した動作 —— 通常走行 + `--dt3-registry --merge` で作り直す) / **違反 1 件**: ①targetSha256 が現在の beta/index.html と違う(走行後に html が動いた)",
-   "ms": 26
+   "pass": true,
+   "detail": "**`--merge` の鍵に対象 HTML と測定コードの hash**(第272便a・統括の検証項目 R11): 第271便a までの `mergeKey.target` は**パス文字列**(`beta/index.html`)だけだったので、**同じパスの中身が動いた走行どうしが黙って混ざる** / 本便で `targetSha256`(html の完全 SHA-256 `d0ec312925da…`)と `measurementCodeSha256`(本器 + import する lib **11 本**の「パス:SHA-256」の SHA-256 `1e88986d0930…`)を足した / **第271便a までの保存物はこの 2 欄を持たないので `--merge` が止まる**(意図した動作 —— 通常走行 + `--dt3-registry --merge` で作り直す)",
+   "ms": 35
   },
   {
    "id": "docs.adoptedUnitColumns",
    "pass": true,
    "detail": "**採用解の列の単位を分けた**(第272便a・統括の検証項目 R12・AG26): `adopted.unit` は**判定量の単位**・`csvUnit` は CSV 行の単位で、**単位が違う行の中心値は比べない**(`centerMatchesCsv:null` + 理由 `unit-differs`)/ 第271便a が「中心値が CSV 行と一致しない **23 件**」と数えた集合は、**単位違い 15 件**(近点移動 deg/orbit ↔ CSV deg/yr)+ **同単位の差 7 件**(相対 3.9e-12〜3.5e-9 = **丸めの桁**)に分かれる / `solutionId` は**選ばれた CSV 行**から読む(宣言は照合条件であって出所ではない)/ **「23 件を直した」「採用解を揃えた」とは書かない** —— 分けて数えただけである",
-   "ms": 31
+   "ms": 33
   },
   {
    "id": "docs.h8Rule",
    "pass": true,
    "detail": "**条件つき h/8**(第272便a・AG1): **規約を先に書いてから走らせた** —— 対象は「3 段登録系 かつ その量の 3 段観測次数が **|p−2| > 0.5**」だけで、**結果を見てから段を選ばない** / 昇格した量の正式段は **(h/2, h/4, h/8)**・ε_num = |Q_{h/4}−Q_{h/8}|・p は shifted・ε̂ = 最終 2 段差/(2^p−1) / 登録表は**走らせた 9 系**と、**階級上限 40,000,000 步で 60 公転を覆えないので走らせていない 5 系**(步数を計算して並べた —— 推測で埋めない)に分かれる / 昇格した量 **0**(昇格しなかった量には理由が入っている)/ **「h/8 で必ず収束する」とは書かない** —— 昇格は収束の宣言ではない",
-   "ms": 24
+   "ms": 25
   },
   {
    "id": "docs.issuesSync",
@@ -623,9 +663,9 @@
   },
   {
    "id": "docs.issuesD68Explain",
-   "pass": false,
-   "detail": "**問題一覧の書き方の訂正**(第273便c・統括の検証項目 R19): ① 📡 D68 の「足りないもの」を**門の内訳の数**にした(既定文「3σ を通った量がある」は合 0・否 1 の系にも付いていた)/ ② 保留理由を**切り詰めない**(52 字で切って「…(|p−」で終わっていた)/ ③ 表のセルの `|` を**エスケープ**する / ④ 「未測定」と書いていた 3 件(softening・geoPN=3・潮汐ロック)に**参照先の実測**を繋いだ(`charon-w272b.json` / `nslock-w272c.json`)/ ⑤ **未判定 267 ≠ σ 未接続 123**(宣言行・実測が無い行・σ はあるが観測値が無い行を分けて数える)/ ⑥ カロンの `correlates.chi` と一次則の χ_A/χ_B は**別の量**である / **判定・4 値・門の数は 1 つも動かしていない** / **違反 4 件**: ④softening の実測系列(6 列)が JSON に無い , ④geoPN=3 の実測系列(3 列)が JSON に無い , ④「softening」がまだ**未測定**のままである(参照先に実測がある) , ④「geopn」がまだ**未測定**のままである(参照先に実測がある)",
-   "ms": 2
+   "pass": true,
+   "detail": "**問題一覧の書き方の訂正**(第273便c・統括の検証項目 R19): ① 📡 D68 の「足りないもの」を**門の内訳の数**にした(既定文「3σ を通った量がある」は合 0・否 1 の系にも付いていた)/ ② 保留理由を**切り詰めない**(52 字で切って「…(|p−」で終わっていた)/ ③ 表のセルの `|` を**エスケープ**する / ④ 「未測定」と書いていた 3 件(softening・geoPN=3・潮汐ロック)に**参照先の実測**を繋いだ(`charon-w272b.json` / `nslock-w272c.json`)/ ⑤ **未判定 267 ≠ σ 未接続 123**(宣言行・実測が無い行・σ はあるが観測値が無い行を分けて数える)/ ⑥ カロンの `correlates.chi` と一次則の χ_A/χ_B は**別の量**である / **判定・4 値・門の数は 1 つも動かしていない**",
+   "ms": 1
   },
   {
    "id": "behavior.orderNonPositiveNoRichardson",
@@ -637,7 +677,7 @@
    "id": "docs.mappingRowsDeclared",
    "pass": true,
    "detail": "**mapping-unresolved の行ごとの宣言**(第273便c・統括の検証項目 AH27/AH28): 宣言のある行 **53 行**(出どころは行ごと / 量の種類ごとの 2 つだけ)・近点間の行 **4 行**すべてに「宣言する/しない」と理由がある・近く円い対象 **23 件**を数え上げたうえで、**近点間行を持たない対象には宣言しない**(**e の小ささで一括して mapping-unresolved にはしない**)/ 📡 D68 の周期は **3 定義**(周回 / 径方向振動 / m=1 パターン速度)を宣言し、**σ は 1 つも接続しない**(どれが観測側の「周期」かを照合していない)",
-   "ms": 30
+   "ms": 20
   },
   {
    "id": "docs.nsLockLedgerRow",
@@ -649,13 +689,13 @@
    "id": "docs.transcriptionCorrections",
    "pass": true,
    "detail": "**転写訂正 4 件と、値を動かさない注記 3 件**(第268便b・統括の読み (E)(J))。**一次資料の値は 1 バイトも動いていない**(宣言表 20 行の value/unit/source を機械固定)/ ① 行 137 の **σ 1.0e-7 → 1.0e-6**(原表 e=0.6058142(10) の最終桁 —— 同じ Cameron 2018 Table 2 の併置行 262 と揃った。旧値は `previous_sigma=` に残す)/ ② **DOI `slx185` → `sly003`**(arXiv:1711.07697 の書誌・行 260/262/263 と一致。旧 URL は `previous_url=` に残す)—— 第268便b の 3 行(136/137/139)に**第269便b(AD7)が残っていた 5 行(133/134/135/138/140)を足して 8 行**にした。照合は行番号ではなく**body・quantity・旧 URL**で行い、同じ系の**行 141(Dietrich 2020 の半径 proxy)は対象外**。旧 DOI は url 欄に 0 件・note の `previous_url=` に 8 件 / ③ 行 421 の **quantity `mean_motion` → `pattern_speed_m1`**(note どおり **forced m=1 pattern speed** であって粒子の公転平均運動ではない)/ ④ 行 420 の `proxy_for` は**説明に限定**し、**C 環内縁の観測門へ転送しない**/ ⑤ 行 115 と行 194 は **4.16 s 離れている**(共通 σ 135697.68 s の 3.07×10⁻⁵)—— **「完全に同一値」とは書かない**/ ⑥ 行 145/146/148 は **採用レコードの混在**(P/e=Stovall 2018・ω̇=Meng 2025 DDFWHE・X4)/ ⑦ **転写訂正では印(`sigma_primary`)を 1 bit も動かしていない**(宣言表 16 行 —— 第269便b で印が動いた 5 行は**原仮定者の第 3 回の確認記録**で上がったもので、DOI の訂正でも外部照合でもない)・`*_corrected=2026-09-17` を持つ行は 9 行",
-   "ms": 23
+   "ms": 41
   },
   {
    "id": "behavior.compareStates",
    "pass": true,
    "detail": "**明示状態の語彙と比較行の形**(第269便c・統括の読み (A)・tests/lib-w269c-compare.mjs): 語彙は **7 語**(comparable / inside-interval / outside-interval / numerically-unresolved / mapping-unresolved / not-measurable / not-applicable)—— ②値つき not-measurable=throw / ①語彙外の状態=throw / ①理由なし=throw / ③食い違う区間判定=throw / ④対称 σ の同時宣言=throw / ④p 値の鍵=throw / 実体: 比較行 **75 行**・うち `not-measurable` **24 行**は**すべて値 null**(0 や最後の値で補わない) / **「完成」は比較サンプル v1 であって観測一致ではない**(観測一致は別段階・現時点で未達)",
-   "ms": 12
+   "ms": 14
   },
   {
    "id": "behavior.compareGuards",
@@ -673,19 +713,19 @@
    "id": "behavior.sparc10",
    "pass": true,
    "detail": "**NGC 3198 の SPARC 10 点比較器**(第269便c・統括の読み (C)・器 tests/exp-w269c-sparc.mjs): ① 契約 6 項(傾斜補正済み → **sin i を再びかけない**/共通の中心位置・中心速度/**星と HI を区別**/ビン端の事前宣言/窓/h・h2・h4 と N・softening・seed)が JSON にある / ② **ビン端は全 43 点の半径間隔から事前宣言**(最内点の内側端は −0.16 kpc)/ ③ **標本最大半径**(t=0 実測の最外 HI 粒子)は 4 本で [30.35,30.35,38.79,38.79] kpc・**宣言支持半径**は 42.13 kpc(**別の量である** —— 第270便e・F8)—— **42.17・44.08 kpc はどの走行でも標本の外**なので `mapping-unresolved`(0 で補わない)/ ④ **🌃 の NFW は同じ 43 点への自前 fit なので、10 点は独立 hold-out ではない**(fit の再現確認。🛞 は未使用予測)/ ⑤ **χ² の p 値の鍵はどこにも無い** / ⑥ **対照が触るのは kFrame・seed・softening・ハローの有無だけ**(**🛞 の中心核質量は増やしても調整してもいない**)/ 帯の最大粒子数 [10,0,7,11]・状態 {\"comparable\":0,\"inside-interval\":0,\"outside-interval\":0,\"numerically-unresolved\":8,\"mapping-unresolved\":18,\"not-measurable\":14,\"not-applicable\":0} —— **回転曲線を再現したとは書かない**",
-   "ms": 44
+   "ms": 42
   },
   {
    "id": "behavior.galaxyStateBranch",
    "pass": true,
    "detail": "**銀河 10 点の状態分岐**(第270便e・統括の読み (F) F2/F3/F8): 分岐は**標本最大半径の外 → 空ビン → 恒星列 → 数値条件 → comparable** / **恒星列 8 行は 1 つも comparable にしない**(**ガス〔Hα/HI〕の回転曲線に恒星の平均接線速度を直接当てない** —— 非対称ドリフト・トレーサ分布・速度分散の対応が未宣言)/ **値を持つのは comparable の行だけ**(他は null・3 段は stages と diagnostics に残る)/ 数値条件は**同時刻・NaN 0・クランプ 0・有限な 3 段・単調差・正の有限次数・最終 2 段差と h/4 外挿誤差の両方 ≤ e_Vobs** —— **D68 の 0.3σ は転用しない** / **打切りは 3 量**: 宣言支持半径 42.13 kpc / 標本最大半径 [30.35,30.35,38.79,38.79] kpc / 帯の占有 —— **44.08 kpc は宣言支持域も越える** / **クランプは種類別** [\"0\",\"0\",\"clampSN=393839\",\"0\"](dt/4) / **事前固定 seed 4 本**の標本間 SD は e_Vobs の [3.5,2.7,20.1,40.4,24.3,15.7,18.8,25.2,6.3] 倍(**SD と SE は別・観測 σ には足さない**)/ 状態 {\"comparable\":0,\"inside-interval\":0,\"outside-interval\":0,\"numerically-unresolved\":8,\"mapping-unresolved\":18,\"not-measurable\":14,\"not-applicable\":0} —— **回転曲線を再現したとは書かない**",
-   "ms": 40
+   "ms": 38
   },
   {
    "id": "behavior.clusterInjection",
    "pass": true,
    "detail": "**星団器の注入(F1)**(第270便e・統括の読み (F)): lib-w269d-state=構文 OK / lib-w265a-analogy=構文 OK / 語彙 7 語が一致 / 星団 JSON pageErrors 0 件・AE14 10 行 —— `tests/exp-w269d-cluster.mjs` は `lib-w269d-state.mjs` を**文字列で読んで classic script として注入**するので、第269便の統合で入った `import { STATES as SHARED_STATES } …` が**ブラウザで SyntaxError になり、星団器は実ブラウザで走らなくなっていた**(**保存 JSON を読む QA では気づけなかった**)。**Node 側で解決した配列を `const SHARED_STATES = <JSON>` に差し替えてから `export ` を落とす** ——ここでは同じ規則で作った文字列を `new Function` に通し、**語彙が共通モジュールと一致する**ことと、星団 JSON の **pageErrors 0**・**AE14 の U と W_vir が別々に出ている**ことを見る",
-   "ms": 13
+   "ms": 12
   },
   {
    "id": "behavior.compareObsRequired",
@@ -697,133 +737,133 @@
    "id": "docs.quasiSteadyVariant",
    "pass": true,
    "detail": "**準定常窓 variant(AF5)**(第271便d): 事前基準 0.02 / 0.25 km/s / 窓長 10 / 候補 3 つ / 主判定窓 T=40 は不変 / variant 行 0 行・主集計への混入 0 / 候補 12 件中 0 件が基準を満たす —— 基準は**第270便e が走行前に宣言した数値のまま**(構造ドリフト |d ln R_half,HI/dt| ≤ 0.02 /時間単位・速度ドリフト |d⟨v_t⟩/dt| ≤ 0.25 km/s /時間単位・窓長 ≥ 10・候補は [10,20]/[20,30]/[30,40] の 3 つだけ)で、**本便で緩めていない・候補を足していない**(**観測残差を見て窓を選ばない**)。**主判定窓は T=40 のまま**であり、variant 行は**主集計に混ぜない** / 実体: 列 4・候補 12 件中 **0 件**が基準を満たし、variant 行は 0 行(**窓なしなら 0 行**)",
-   "ms": 30
+   "ms": 35
   },
   {
    "id": "docs.clampSNSeparation",
    "pass": true,
    "detail": "**clampSN の切り分け(AF7)**(第271便d): 上限 ±40 の規則は基点のまま / 走行 6 本(2 列 × 3 刻み) / 両側の断定を doNotSay に固定 —— **上限 ±40 は engine の規則で 1 bit も変えていない**(器は**数えるだけ**である)。同じ窓(T=40)・同じ seed で **dt / dt2 / dt4** の**作動率(步あたり粒子あたり)・飽和粒子の割合・初回時刻・角運動量帳簿の動き**を並べ、**kFrame=0 対照(clampSN=0)を積分誤差の床**として置く。**制限前の超過量そのものは器から読めない**(クランプ後は必ず ±40 ちょうど)ので、出しているのは**初回飽和の 1 步外挿による推定**だけである / 実体: 作動率 [0.18629767441860465,0.14516943521594686,0.13084352159468438]・飽和割合 [0.18629767441860465,0.14516943521594686,0.13084385382059802]・clampSN [140189,218480,393839]・|ΔJ| 積分 [118009.50381923997,166794.22750034637,241263.32158473937](kF0 の床 [2.6269655589130707,5.366690809139982,11.052432850236073])",
-   "ms": 52
+   "ms": 57
   },
   {
    "id": "docs.nSeedSeries",
    "pass": true,
    "detail": "**N・seed 系列(AF19)**(第271便d): seed 4 本(270105001+1000k) / ×2 / ×4 は N_CAP=600 で縮小されることを実測 / N ×1/×1.5/×1.99 で総質量 1147.3982 を保存 / 帯統合は declared-not-implemented —— seed は**第270便e が走行前に宣言した等差列 4 本のまま**(後から足さない)。**素朴な ×2/×4 は engine の粒子総数上限 `N_CAP=600` に当たって実施できない**(×2 は 399/199 へ、×4 は 359/239 へ比例縮小され、×4 では総質量まで落ちる)ので、**上限は変えずに**系列を **×1 / ×1.5 / ×1.99(上限直下・disk 粒子 300/450/597)**にした。粒あたり質量は**丸めた後の n から決め直して総質量を保存**し、**中心核は宣言質量なので割らない**。**帯占有・標本間 SD・平均の SE は別々の欄**で、**空帯は分母から外して使った本数を併記**する(0 で平均しない)。**SD も SE も観測 σ(e_Vobs)には足さない。帯統合は定義だけで実施しない。** / 実体: N×[1,1.5,1.99] = 粒子 [301,451,598]",
-   "ms": 25
+   "ms": 31
   },
   {
    "id": "docs.paramAuditRestated",
    "pass": true,
    "detail": "**🫐 parameterAudit の言い換え(AF11)**(第271便d): 1 つの状態から ja/en と JSON / preset は言い換え文を持ち・旧表現は履歴として引用(第272便d) —— 第270便e は 🫐 の `descStruct`/`obsCard` だけを直したので、**同じサンプルの `parameterAudit.fitted`/`derived` には旧表現「σ hold-out ×1.70 不成立」が残っている**。第271便d は**器の出力側**で比較器の語彙(面内 proxy と中央視線分散の対応未宣言・v1a では `not-applicable`・旧値は履歴)へ言い換え、**表示(ja/en)と JSON を同じ状態から作った**。**数値は 1 つも変えていない** / 実体: 比 1.7・状態 not-applicable・preset が言い換え文を持つ true・旧表現の履歴引用 true(第272便d が html へ移した — AG23) / **html の `parameterAudit` を直すかどうかは決断事項**",
-   "ms": 53
+   "ms": 68
   },
   {
    "id": "behavior.pairLockPure",
    "pass": true,
    "detail": "**連星の状態 → 引きずり係数の候補 3 本(純関数)**(第272便b・原仮定者の仮説〔第62報〕「互いに潮汐ロックしている天体は kFrame≈0 とみなせる」「連星の状態が引きずりに有意に影響する計算式」の**測れる形**): 基準 3 本・不変残差の最大 1.11e-16 / html からの参照 0 —— 候補(i)相対メッシュ運動応答 k₀X²/(1+X²)・(ii)ロック係数 k_F(1−αS_lockχ_pair)・(iii)指数ロック k₀(1−T_lock·R)。**同期円軌道で(i)(iii)が 0・無自転円軌道で(i)=k₀/2・(iii)=1−e⁻¹** は**閉じた形から出る値であって当てはめではない**。天体交換・並進・回転・単位変更に不変で、**面外の宣言 σ_i n は s_i に効かない**((σ n)×n=0 —— 2D では面外を幾何として持てないので宣言にとどめる)。**エンジンへは 1 バイトも接続していない**(内蔵 124 本の kFrame は `preset.kframe-unitInterval` の [0,1] 契約のままで、**値は 1 本も動いていない**)/ **ロック検出器ではない・法則ではない**",
-   "ms": 30
+   "ms": 35
   },
   {
    "id": "docs.charonSeries",
-   "pass": false,
-   "detail": "**❄️ 冥王星–カロンの対照系列(診断のみ・既定不変)**(第272便b・原仮定者の仮説〔第62報〕「様々な計算式を検証する」「kFrame<1 は空間メッシュの影響の近似として許容する」): html/lib の SHA-256 一致 / 契約: 近点窓 20 / ORB_MAX 60 / 2 周目 / h=20.7M 步 / 現行 6 系列 0 列・NaN 0 / h4 段 5 列(C0/C1/C6)・h/h2 までの差 0 列 / 履歴 3 系列 15 列(再生成しない) —— 窓・終了条件・保存量は**走行前に固定**した(近点窓 20 近点・同方向 1 周は ORB_MAX 60 本・判定は 2 周目・h 段 20,700,000 步 = 第271便a の 3 段登録と同じ物理時間)。**kFrame<1・geoPN=3・f≠1 は器の中の診断コピーだけ**で、**内蔵 124 本は 1 bit も変えていない**。**判定はしていない**(「合/否」「新発見」は書かない —— 次数が立ち・残差が観測 σ の 3 倍に入り・独立な観測量を予測できたときにだけ結論の語を使う) / **違反 17 件**: ③ C0 に h 段の走行が無い , ③ C1 に h 段の走行が無い , ③ C6_scalar に h 段の走行が無い , ③ C6_local に h 段の走行が無い , ③ C6_complex に h 段の走行が無い",
-   "ms": 52
+   "pass": true,
+   "detail": "**❄️ 冥王星–カロンの対照系列(診断のみ・既定不変)**(第272便b・原仮定者の仮説〔第62報〕「様々な計算式を検証する」「kFrame<1 は空間メッシュの影響の近似として許容する」): html/lib の SHA-256 一致 / 契約: 近点窓 20 / ORB_MAX 60 / 2 周目 / h=20.7M 步 / 現行 6 系列 23 列・NaN 0 / h4 段 5 列(C0/C1/C6)・h/h2 までの差 18 列 / 履歴 3 系列 15 列(再生成しない) / C0 = 553210.6304 s(棚卸し正本と一致) —— 窓・終了条件・保存量は**走行前に固定**した(近点窓 20 近点・同方向 1 周は ORB_MAX 60 本・判定は 2 周目・h 段 20,700,000 步 = 第271便a の 3 段登録と同じ物理時間)。**kFrame<1・geoPN=3・f≠1 は器の中の診断コピーだけ**で、**内蔵 124 本は 1 bit も変えていない**。**判定はしていない**(「合/否」「新発見」は書かない —— 次数が立ち・残差が観測 σ の 3 倍に入り・独立な観測量を予測できたときにだけ結論の語を使う)",
+   "ms": 58
   },
   {
    "id": "docs.charonKScan",
-   "pass": false,
-   "detail": "**❄️ C3 の符号反転区間の探索(診断のみ・既定不変・fit)**(第273便b・統括の検証項目 R21): 来歴 w272e-1・html の SHA-256 一致 / fit:true(宛先は観測周期・自由パラメータ 1 個) / C3 16 点・NaN 0・符号反転あり / 3 段の物理時間が同一・次数 p=1.6567 / C2 は単調・符号反転なし(6 点) / ε 系列 3 点(k 固定) / 宣言鍵は力学に不関与(200000 步で状態ビット同一・presetSig は変わる) / softening 宣言(Plummer・ε/a=2.552e-3) / 併合鍵 6 成分 —— **これは fit である**: 零点は**観測周期そのもの**に合わせて挟み込んだ **1 自由パラメータ**であって、**「解」でも「kFrame の正しい値」でもない**(候補 k*=0.005853271484375・そこでの σ=2.370・2 点からの線形零点 5.854864e-3・3 段の ε̂/σ=1.041e-2)/ **分数 kFrame は器の中の診断コピーだけ**で、内蔵 124 本の値は 1 本も変えていない(診断コピーは裁定 AH1 の二層契約どおり `physics.kFrameApprox:\"space-mesh-effective\"` を宣言する —— **宣言専用で力学には 1 bit も効かない**ことを同じ步数の突き合わせで実測した)/ **判定はしていない**(「合/否」「新発見」は書かない —— 次数が立ち・残差が観測 σ の 3 倍に入り・**独立な観測量を予測できた**ときにだけ結論の語を使う) / **違反 1 件**: ① meta.targetSha256 が検査対象の html と違う(器を再走する)",
-   "ms": 40
+   "pass": true,
+   "detail": "**❄️ C3 の符号反転区間の探索(診断のみ・既定不変・fit)**(第273便b・統括の検証項目 R21): 来歴 w272e-1・html の SHA-256 一致 / fit:true(宛先は観測周期・自由パラメータ 1 個) / C3 16 点・NaN 0・符号反転あり / 3 段の物理時間が同一・次数 p=1.6567 / C2 は単調・符号反転なし(6 点) / ε 系列 3 点(k 固定) / 宣言鍵は力学に不関与(200000 步で状態ビット同一・presetSig は変わる) / softening 宣言(Plummer・ε/a=2.552e-3) / 併合鍵 6 成分 —— **これは fit である**: 零点は**観測周期そのもの**に合わせて挟み込んだ **1 自由パラメータ**であって、**「解」でも「kFrame の正しい値」でもない**(候補 k*=0.005853271484375・そこでの σ=2.370・2 点からの線形零点 5.854864e-3・3 段の ε̂/σ=1.041e-2)/ **分数 kFrame は器の中の診断コピーだけ**で、内蔵 124 本の値は 1 本も変えていない(診断コピーは裁定 AH1 の二層契約どおり `physics.kFrameApprox:\"space-mesh-effective\"` を宣言する —— **宣言専用で力学には 1 bit も効かない**ことを同じ步数の突き合わせで実測した)/ **判定はしていない**(「合/否」「新発見」は書かない —— 次数が立ち・残差が観測 σ の 3 倍に入り・**独立な観測量を予測できた**ときにだけ結論の語を使う)",
+   "ms": 35
   },
   {
    "id": "docs.charonFactors",
-   "pass": false,
-   "detail": "**❄️ kF0 の残差を要因へ分解した表(診断のみ・既定不変)**(第276便b・原仮定者の裁定〔第66報〕(2)「plutoCharonReal の kF0 版に問題がないか確認し…『どの様な要因が加われば解決するか』を探る」): 来歴 w272e-1・html の SHA-256 一致 / 書かない語 8 件を宣言 / 要因 8 行 / 最小 ε 1 km で残差 -3.152 s(-121.6σ) / massFloor の持ち上げ 最大 ×3337(基準単位)→ 診断単位では 0 件 / 太陽は受理値域の外(必要 5.906e+9 対 受理 5.000e+5) / 内蔵 ❄️ の質量・G・D₀・kFrame・ε は不変 —— **解決したのは「説明」「低 ε 検査を妨げる単位設定」「小衛星の質量床」という実装上の 3 つで、観測一致は達成していない**(ε を受理下限の 1/10 まで下げても残差は 3σ の外で、符号は負である)。**残差ゼロになる ε・f・a を探索して採用していない**・**内蔵 ❄️ の物理入力は 1 bit も変えていない**(本便が変えたのは obsCard と説明文の判定の書き方だけ) / **違反 1 件**: ① meta.targetSha256 が検査対象の html と違う(器を再走する)",
+   "pass": true,
+   "detail": "**❄️ kF0 の残差を要因へ分解した表(診断のみ・既定不変)**(第276便b・原仮定者の裁定〔第66報〕(2)「plutoCharonReal の kF0 版に問題がないか確認し…『どの様な要因が加われば解決するか』を探る」): 来歴 w272e-1・html の SHA-256 一致 / 書かない語 8 件を宣言 / 要因 8 行 / 最小 ε 1 km で残差 -3.152 s(-121.6σ) / massFloor の持ち上げ 最大 ×3337(基準単位)→ 診断単位では 0 件 / 太陽は受理値域の外(必要 5.906e+9 対 受理 5.000e+5) / 内蔵 ❄️ の質量・G・D₀・kFrame・ε は不変 —— **解決したのは「説明」「低 ε 検査を妨げる単位設定」「小衛星の質量床」という実装上の 3 つで、観測一致は達成していない**(ε を受理下限の 1/10 まで下げても残差は 3σ の外で、符号は負である)。**残差ゼロになる ε・f・a を探索して採用していない**・**内蔵 ❄️ の物理入力は 1 bit も変えていない**(本便が変えたのは obsCard と説明文の判定の書き方だけ)",
    "ms": 71
   },
   {
    "id": "docs.d0audit-sync",
    "pass": true,
    "detail": "**D₀ の背景の定義・単位監査・規則適用表・源分割不変性**(第275便b・原仮定者の裁定〔第65報〕(2)「D₀ は『何を背景とするか』でサンプル毎に変わる」): html の SHA-256 一致 / 39 行・規則の内訳 {\"undetermined\":5,\"heliocentric\":11,\"solar-excluded\":5,\"galactic\":18} / 仮定 6 件(すべて出典つき) / 源分割不変性 ε=0 の最大相対残差 0 / V0 の 2 列が判定器の正本とビット一致 / D₀ 欄 39/39・内蔵の D0Source 宣言 0 本 / PHYSICS〔第275便b〕と一致 —— D_bg(x*) = Σ_{j∉分解集合} m_j/(r_j²+ε²)^(p/2) は **p=1 で M/L・p=2 で M/L²**なので、**同じ 1 つの数を share(p=1)と pull(p=2)の両方には使えない**(エンジンが `D0` と `D0pull` を別鍵で持っているのと同じ理由)。**規則の値はすべて仮定つき**(質量・距離・銀河の参考値をJSON に出典つきで並べてある)であって観測入力ではない。**内蔵 128 本の D₀ の値は 1 本も変えていない**/ **判定はしていない**(「D₀ を較正した」「規則値が正しい」「新発見」は書かない)",
-   "ms": 34
+   "ms": 33
   },
   {
    "id": "docs.d0sites-sync",
-   "pass": false,
-   "detail": "**D₀ の読み口の機械監査**(第276便a・原仮定者の裁定〔第66報〕(1)「引きずり減衰 q の算出や計算など**影響箇所を精査する**」): html の SHA-256 一致 / 潰しの収支 0(波括弧/丸括弧/角括弧) / 読み口 566 箇所・71 群・未分類 1 / 置換禁止 6 群(時計 1 + 光 5)・**重力の読み口 0**・置換候補 51 群 / backgroundComplex の参照 58 箇所((top-level)/bgLawPrepare/bgcApply/bgcState/bgcWireState/buildBgComplexPanel/loadSave/loadSaveBgcAccept/meshVelocityPrepare/validateBackgroundComplex/validatePreset)・力学側の読み口は宣言した外部ステップの準備 meshVelocityPrepare/bgLawPrepare だけ(未宣言は読む前に戻る=true) / q は D₀ に不変(plutoCharonReal=11.938159585180609 / earthMoonRealKF1=8.23547809065647 / mercuryRealKF1=6.146772566553902) / PHYSICS〔第276便a〕と一致 —— 識別子 D0/D0pull/D0p/frameWeightPow の出現を**機械抽出**し、用途と「W₀ へ置き換えてよいか」だけを宣言表で与える。**重力・時計・光は置換禁止**(スカラーの決定力 D を読む量である)。**本便は D₀ を 1 つも置き換えていない**(表に並べただけ)/ **q_exact は有限参照点での LT 振幅の正規化規約**であって、環境から引きずり指数を予言する式ではない —— **背景を変えても q は自動では動かない**(実測) / **違反 5 件**: ③ 宣言表に無い読み口がある: jeansRowsVelocities :: jeansRowsVelocities , ⑧ PHYSICS〔第276便a〕に 566 が無い , ⑧ PHYSICS〔第276便a〕に plutoCharonReal の q が無い , ⑧ PHYSICS〔第276便a〕に earthMoonRealKF1 の q が無い , ⑧ PHYSICS〔第276便a〕に mercuryRealKF1 の q が無い",
-   "ms": 69
+   "pass": true,
+   "detail": "**D₀ の読み口の機械監査**(第276便a・原仮定者の裁定〔第66報〕(1)「引きずり減衰 q の算出や計算など**影響箇所を精査する**」): html の SHA-256 一致 / 潰しの収支 0(波括弧/丸括弧/角括弧) / 読み口 566 箇所・71 群・未分類 0 / 置換禁止 6 群(時計 1 + 光 5)・**重力の読み口 0**・置換候補 52 群 / backgroundComplex の参照 58 箇所((top-level)/bgLawPrepare/bgcApply/bgcState/bgcWireState/buildBgComplexPanel/loadSave/loadSaveBgcAccept/meshVelocityPrepare/validateBackgroundComplex/validatePreset)・力学側の読み口は宣言した外部ステップの準備 meshVelocityPrepare/bgLawPrepare だけ(未宣言は読む前に戻る=true) / q は D₀ に不変(plutoCharonReal=11.938159585180609 / earthMoonRealKF1=8.23547809065647 / mercuryRealKF1=6.146772566553902) / PHYSICS〔第276便a〕と一致 —— 識別子 D0/D0pull/D0p/frameWeightPow の出現を**機械抽出**し、用途と「W₀ へ置き換えてよいか」だけを宣言表で与える。**重力・時計・光は置換禁止**(スカラーの決定力 D を読む量である)。**本便は D₀ を 1 つも置き換えていない**(表に並べただけ)/ **q_exact は有限参照点での LT 振幅の正規化規約**であって、環境から引きずり指数を予言する式ではない —— **背景を変えても q は自動では動かない**(実測)",
+   "ms": 67
   },
   {
    "id": "docs.bgpredict-sync",
    "pass": true,
    "detail": "**背景の事前予測表**(第276便a・原仮定者の裁定〔第66報〕(1)「両者はサンプルによって変動するが**シチュエーションで決まるので事前予測が可能**」): html の SHA-256 一致 / 39 行・規則の内訳 {\"undetermined\":5,\"heliocentric\":11,\"solar-excluded\":5,\"galactic\":18}・予測できた 29 行 / 仮定 8 件(すべて出典つき) / D₀ は p=1([M/L])・背景複素決定力は p=2([M/L²]) / 規則が値を決めない行 5・シチュエーション 3 / 内蔵の宣言 0 本(backgroundComplex・D0Source) / PHYSICS〔第276便a〕と一致 —— **D₀=M/r([M/L])と W₀=M/r²([M/L²])・A₀=W₀·v([M/(L·T)])は別の量**で、速度・加速度は円軌道近似 v=√(GM/r)・a=GM/r² で**同じ仮定から**導いた。**これは概算条件からの計算であって特定時刻の環境値ではない**(仮定は出典つきで JSON に全部ある)。**内蔵の D₀・D0pull は 1 本も変えていない**/ **カロンの残差に合わせて選んだ背景は「事前予測」と呼ばない**",
-   "ms": 33
+   "ms": 34
   },
   {
    "id": "docs.selfInertia-sync",
    "pass": true,
    "detail": "**慣性移動の仮定**(第277便d・原仮定者の裁定〔第67報〕(3)「**慣性移動は、複素決定力による、自分自身に対するゼロ距離の座標変換**」): html の SHA-256 一致 / 仮説「慣性移動は、複素決定力による、自分自身に対するゼロ距離の座標変換であ…」・含意 7 件・エンジン未接続 / 門 9 本(必須 7 本 PASS・G2b は参考行) / html 監査 11 群(自己除外 9 群・力学経路は全部自己除外) / 否定対照(分母へ入れる)χ_ext=3.170e-34 / 否定対照(L の退化)= 運動エネルギー 0・正準運動量 0 / PHYSICS〔第277便d〕と一致(禁止語なし) —— **自己場の値 m/0 は 1 度も計算していない**(使うのは有限な極限 u_self=v だけ)。自己並進写像 selfDrift(x,v,Δt)=x+vΔt は**既存の位置更新と同じ写像**で、足し増す新しい項ではない(二重に足すと変位がちょうど 2 倍になる否定対照つき)。**エンジン未接続**で S._core には1 命令も足していない。**慣性は導出していない** —— 置いたのは仮説と、その検算・否定対照である",
-   "ms": 27
+   "ms": 30
   },
   {
    "id": "docs.bgbudget-sync",
    "pass": true,
    "detail": "**背景 ON/OFF の誤差予算**(第277便d・統括の読み R52「『ほぼ一様』と『効果が小さい』は**別**」): html の SHA-256 一致 / 門「|Δt_phase| ≤ 1e−3·σ_Buie」(σ_Buie=0.02592 s) / 3 行(❄️ σ 比 3.06e+5 / 🌘 σ 比 2.70e+7 / 📻 σ 比 6.46e-7) / 警告計算 ❄️ 冥王星側 64.530 m/s・カロン側 7.950 m/s(**予測ではない**) / 規約の実測(❄️・V が ∇W と平行成分を持つ・背景+局所源): advected の a 不変 3.15e-9 / fieldTime 1.34e+0(背景だけの配置では ∇u≡0 で 2 規約が一致する —— 見分けられない) / 判定 ❄️ **無視できない** / 🌘 **無視できない** / 📻 無視できる / 版 w278d-bgbudget-2・候補 4 列 × 3 行(刻み 3 段・**採用しない**) / PHYSICS〔第277便d〕と一致(禁止語なし) —— **これは予算であって判定ではない**(合否は門が出す)。**一様な背景「速度」は参照系の取り替えで消えるが、一様な背景「重み」W₀ は消えない** ——重み付き平均の分母を変えるからである(実測: 一様項の大半が W₀ の希釈から来る)。**背景を無視してよいことを証明してはいない**",
-   "ms": 61
+   "ms": 60
   },
   {
    "id": "docs.bgEquivalence",
    "pass": true,
    "detail": "**明示天体 ↔ 局所背景展開の一致試験**(第278便d・統括の読み R56 ①「同じ外部源を明示天体と局所背景展開に分け直したときの一致」): html の SHA-256 一致 / 3 行 × はしご 12 段 × 項 9 × 刻み 20000/40000/80000 步・分解恒等式は 1 点も走行も一致 / ❄️ EXP 7923.9 s / L0ff 7921.8 s(食い違い 2.149 s・相対 2.71e-4・相対の門=true・参考の絶対門=false) / 🌘 は ON 走行が 1 公転で壊れる —— 門は判定しない(差として読まない) / 📻 は全段が相対の門を通る(EXP の ON/OFF 差 1.726e-8 s) / 潮汐鍵の受理契約 ページ=純関数 17 件・3×3 の T はトレース 0(軟化 ε の分を除く) / PHYSICS〔第278便d〕と一致(禁止語なし) —— **一致は「背景展開が明示天体の効果を再現する」ことであって、効果が小さいことではない**(❄️ の ON/OFF 差そのものは 10³ s 級)。閾値 1e−3σ_Buie は**採用していない**",
-   "ms": 59
+   "ms": 62
   },
   {
    "id": "docs.comovingAdvection",
    "pass": true,
    "detail": "**移流項の一貫性**(第278便d・統括の読み R56 ③「advected は物質微分・fieldTime は偏微分 —— 両者を結ぶ移流項を一貫して扱う。fieldTime を禁止にはしない」): 代数 2.8e-17・差分の恒等式 1.5e-12・advected/fieldTime+移流の残差 4.0e-13/4.0e-13・fieldTime だけ 1.00e+0 / 背景だけ: 一般の線形背景は見分けられる=true・点源形は |(V·∇)u|/参照率 5.1e-14 で見分けられない / ❄️ fieldTime+移流の残差 2.7e-12・fieldTime だけ 3.32e-6 / PHYSICS〔第278便d〕と一致 —— **規約を混ぜる(背景だけ fieldTime・局所源は共動系の偏微分)と座標変換の加速度が不変でなくなる**。fieldTime は**背景と局所源の両方に同じ規約で使えば**整合し、共動系の物質微分へは移流項を足して戻す",
-   "ms": 58
+   "ms": 69
   },
   {
    "id": "docs.bgCompose",
    "pass": true,
    "detail": "**背景の閾値なし合成と速度分解 RHS の検算**(第279便c・原仮定者の裁定〔第69報〕「背景複素決定力は閾値で無視せず適切に導入する/厳密には空間に対する加速と空間による引きずり(座標変換)は区別する」): html の SHA-256 一致 / (a) 30/30 条件: u 3.0×10⁻¹⁶・∇u(項比)1.6×10⁻¹⁶・∂ₜu(項比)2.5×10⁻¹⁶ / (b) 12 条件: ẍ 4.4×10⁻¹⁵・v̇ 1.0×10⁻¹⁵・fieldTime だけ 1.4×10⁻²〜 / (c) dH/H 8.84×10⁻¹¹ → 5.66×10⁻¹²(比 15.61) / (d) 30/30・W=0 で慣性を保つ / (e) 4 件・相対誤差 0 / (f) 3 件・追加の加速度 0 / ページ vs node 24/24 ビット一致・(d)(e)(f) の引き直しは正本と同じ / PHYSICS〔第279便c〕と一致(禁止語なし) —— W=W_loc+W_bg・A=A_loc+A_bg・u=A/W(**閾値なし・D₀ なし・自己項なし**)と ẋ=v+u・v̇=a_space−Jᵀv・ẍ=a_space+∂ₜu+Ju+(J−Jᵀ)v を**別々に**返す。**慣性は導出していない**(構成則の候補の検算である)",
-   "ms": 425
+   "ms": 442
   },
   {
    "id": "docs.bgbudget2-sync",
-   "pass": false,
-   "detail": "**新契約での背景の誤差予算**(第279便c・統括の読み R63 ④「誤差予算をサンプルごとに出す(❄️・📻 で ON/OFF 差と刻み収束 2 段・🌘 は最初の対象にしない)」): html の SHA-256 一致 / 3 行 × 模型 12 × 刻み 20000/40000/80000 步・mutual:0 の明示天体と慣性系の背景は ON/OFF 差が厳密に 0 / ❄️ BC_SH -5.70e-7 s・BC_TL 4.270e-2 s・T なし/あり -3.428e-3/-2.44e-7 s・mutual:1 は束縛を失う(行列式 0.0153) / エンジン: λ_PN=0 の ON/OFF 差 ❄️ -4.1e-8/2.7e-7・📻 3.1e-11/1.9e-10 s・λ_PN=1 ❄️ -4.119e-4/-4.116e-4・📻 -1.218e-2/-1.218e-2 s / PHYSICS〔第279便c〕と一致(禁止語なし) —— **閾値は置いていない**(差と収束を並べるだけ)。**qLock は再 fit していない**(診断コピーの q は宣言値のまま) / **違反 1 件**: ⑨ PHYSICS〔第279便c〕に予算表の数が無い: 4.116×10⁻⁴,1.218×10⁻²",
-   "ms": 54
+   "pass": true,
+   "detail": "**新契約での背景の誤差予算**(第279便c・統括の読み R63 ④「誤差予算をサンプルごとに出す(❄️・📻 で ON/OFF 差と刻み収束 2 段・🌘 は最初の対象にしない)」): html の SHA-256 一致 / 3 行 × 模型 12 × 刻み 20000/40000/80000 步・mutual:0 の明示天体と慣性系の背景は ON/OFF 差が厳密に 0 / ❄️ BC_SH -5.70e-7 s・BC_TL 4.270e-2 s・T なし/あり -3.428e-3/-2.44e-7 s・mutual:1 は束縛を失う(行列式 0.0153) / エンジン: λ_PN=0 の ON/OFF 差 ❄️ -4.1e-8/2.7e-7・📻 3.1e-11/1.9e-10 s・λ_PN=1 ❄️ -4.119e-4/-4.116e-4・📻 -1.218e-2/-1.218e-2 s / PHYSICS〔第279便c〕と一致(禁止語なし) —— **閾値は置いていない**(差と収束を並べるだけ)。**qLock は再 fit していない**(診断コピーの q は宣言値のまま)",
+   "ms": 61
   },
   {
    "id": "docs.mercuryDecomp",
-   "pass": false,
-   "detail": "**水星の近点移動の不足の分解**(第280便a・原仮定者の裁定(第70報)・統括の検証項目 R66)—— 判定器と同じ抽出器・同じ窓(59 近点)で 来歴・抽出器 / 正式値 2.6767881×10⁻⁵(較正行 ε=0.01)/2.2525870×10⁻⁵ をビット再現(59 近点) / p=2・ε² 係数=解析値・λ 差=1PN 解析値(12 点) / 分解 軟化 8.8%・刻み 91.2%・入力 -0.02% / vMinusU≡kF0・geoPN3≡λ0・自転 0 の 🪨≡kF0(ビット) / §5.32 に 36/36 の数 / 禁止語 0。**外挿値(dt→0・ε→0)は外挿であって、そこで走らせた値ではない**(ε=0.01・dt=0.004 の実測でも観測換算に届かない) / **違反 1 件**: ①targetSha256 が対象 html と違う(器を再走する)",
-   "ms": 44
+   "pass": true,
+   "detail": "**水星の近点移動の不足の分解**(第280便a・原仮定者の裁定(第70報)・統括の検証項目 R66)—— 判定器と同じ抽出器・同じ窓(59 近点)で 来歴・抽出器 / 正式値 2.6767881×10⁻⁵(較正行 ε=0.01)/2.2525870×10⁻⁵ をビット再現(59 近点) / p=2・ε² 係数=解析値・λ 差=1PN 解析値(12 点) / 分解 軟化 8.8%・刻み 91.2%・入力 -0.02% / vMinusU≡kF0・geoPN3≡λ0・自転 0 の 🪨≡kF0(ビット) / §5.32 に 36/36 の数 / 禁止語 0。**外挿値(dt→0・ε→0)は外挿であって、そこで走らせた値ではない**(ε=0.01・dt=0.004 の実測でも観測換算に届かない)",
+   "ms": 41
   },
   {
    "id": "ui.mercuryNaming",
    "pass": true,
    "detail": "**水星 2 本の名称の是正**(第280便a・統括の検証項目 R66): ☄️ 水星(実単位)— 近日点前進(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き) / 🪨 水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き) —— 「43″/世紀」は **別系(a=150・ε=2)で λ_PN=1 と 0 の差を RL 勾配・600 公転で取った値**として推定器・窓・差引き対象を併記(数値は履歴として残す)・claims の descPattern は切れていない・署名は宣言どおり",
-   "ms": 87
+   "ms": 98
   },
   {
    "id": "docs.sphereKernel",
    "pass": true,
    "detail": "**表裏核の検算**(第280便b・原仮定者の裁定〔第70報〕「表側の引きずりと裏側の引きずりは逆転している。手前側の方が距離が近いので、その差分が残る。潮汐力に良く似ている」・統括の読み R69): html の SHA-256 一致 / (a) 遠方 r=100: W 2.00×10⁻⁵・A 2.86×10⁻⁵ / r=10⁴: 2.00×10⁻⁹・2.86×10⁻⁹(r⁻² で縮む) / (b) 16 点 3.6×10⁻¹¹・32 点 1.2×10⁻¹⁴・2 次元求積 7.2×10⁻¹⁴・一様球の閉じた式 5.5×10⁻¹⁴ / (c) r/R=1.05 の u_φ: 一様 0.4440・β=1 0.3074・β=3 0.1878・solid 0.3932・star n=3 0.0758 / (d) q_eff の遠方極限: W_bg=0 で 2.000/2.000/2.000/2.000・W_bg>0 で 4.000/4.000/4.000/4.000/4.000/4.000/4.000/4.000 / (e) 地球 a=月: 現行核 3.000×10⁻¹⁵・表裏核(solid・背景なし)1.067×10⁻⁴・比 3.558×10¹⁰(**c² の抑制が無い**)・q 相当 2.2523 / (f) 中心で A_spin=0・ε_c=0 の内部/表面/中心は拒否 / (g) 微分の中心差分 2.1×10⁻¹⁰ / ページ vs node 42/47 ビット一致(残りは Math.pow の最下位ビット・最大 7.4×10⁻¹⁶)・(c)(e) の引き直しは正本と相対 1e-12 で同じ / PHYSICS〔第280便b〕と一致(禁止語なし) —— **弱場振幅(c² の抑制)は導出できていない**(旧 q に合わせて再 fit していない)。密度は表面近くの振幅に効き、遠方の指数(角速度 r⁻² / 背景優勢で r⁻⁴)には効かない",
-   "ms": 501
+   "ms": 516
   },
   {
    "id": "docs.galaxyFieldContract",
    "pass": true,
    "detail": "**銀河の場の契約の一覧**(第281便b・原仮定者の裁定(第71報)・統括の読み R72): 読み手 5 つ(GF-disp=表示 p=2・D₀ 流用・disk/affine / GF-api1=共通 API p=1 / GF-api2=対照 p=2 / GF-e6=E6′(自転項あり)/ GF-toy=geoPN=3 トイ(自転なし))/ 🎠 r=240 の χ: 表示 0.0302 / 共通 API p=1 0.8794 / p=2 0.0302(**χ の割れは p だけ** —— 表示と p=2 は 4 本の全点で差 0) / 🎠 E6′ の u_φ(10–30): 自転そのまま 4.1771・自転 0 で 0.0215 / PHYSICS の表 27 行と一致 / いまの html で 🎠 の行(3 列・E6′ の 2 列)を引き直して正本と相対 1e-12 で一致 —— **どれを境界判定の正典にするかは決断事項**(本ブロックは数と宣言の一致だけを見る)",
-   "ms": 1997
+   "ms": 2104
   },
   {
    "id": "behavior.chainLedger",
    "pass": true,
    "detail": "**有限予算の交換模型の帳簿**(第281便b・統括の読み R73 —— **連鎖仮説を調べる構成則であって DFM の導出則ではない**・K と I は宣言値・エンジン未接続): ① J 相対 ≤9.64×10⁻¹⁴ ② ΔQ の最小 0(負なし)・閉じ ≤3.08×10⁻¹³ ③ 次数 1.9976/1.9994/1.9998/2.0000 ④ 辺 3–4 を 0 → 外側 4 節点はビットで 0 / 閉じた鎖は共通角速度 0.043636 へ(T=4000 で差 4.61×10⁻¹⁵)・両端固定の開いた実験は定常の散逸率 0.102836 = 外部の仕事率 0.102836 —— **差動回転の勾配が定常に残るのは外部トルクで両端を固定して仕事を払う開いた実験だけ**",
-   "ms": 665
+   "ms": 710
   },
   {
    "id": "docs.galaxyChain",
@@ -835,43 +875,43 @@
    "id": "lint.precisionUlp",
    "pass": true,
    "detail": "Float32 の最小刻みは対象質量付近で **0.00048828125(=2⁻¹¹)**(質量が [4096,8192) にあるため) / ⚡ は f=1 へ移った —— 記録の再現は凍結の写しの旧則の質量で行う / ⚡ ULP 0.00048828125・ΔP 5.398e-5 s = 215.5σ / 🧶 ULP 0.00048828125・ΔP 2.175e-4 s = 251.7σ / 🧮 は f=1 へ移った(第285便f)—— 記録の再現は凍結の写しの旧則の質量で行う / 🧮 ULP 0.00048828125・ΔP 1.762e-4 s = 40.8σ / 質量丸めは **診断**(isBound:false・isMeasured:false — 誤差上限でも Float64 実走の結果でもない) / 旧記録 ~0.0004 の探索版は ULP ではなく「丸めが倒れるまでの距離」を返していた(第260便d で訂正)",
-   "ms": 33
+   "ms": 36
   },
   {
    "id": "lint.periPhaseGate",
    "pass": true,
    "detail": "きれいな列では旧法と同じ(5 近点・棄却 0)・重複を注入すると旧法 6 / 位相制限 5(棄却 1) / 閾値 1.25π・1.5π・1.75π で不変 / unwrap 失敗は measured:false / 方式名 radial-crossing/orbit-phase-1.5pi-v1 / **観測周期は閾値に入れていない**(累積公転位相だけで決める)",
-   "ms": 10
+   "ms": 8
   },
   {
    "id": "version.sync",
    "pass": true,
    "detail": "APP_VERSION=1.44 package.json=1.44.0",
-   "ms": 26
+   "ms": 29
   },
   {
    "id": "slider.covers-builtins",
    "pass": true,
    "detail": "",
-   "ms": 33
+   "ms": 37
   },
   {
    "id": "prompt.physics-keys",
    "pass": true,
    "detail": "defaults欠落=[] few-shot欠落=[]",
-   "ms": 3
+   "ms": 4
   },
   {
    "id": "builtin.explicit-physics",
    "pass": true,
    "detail": "",
-   "ms": 28
+   "ms": 38
   },
   {
    "id": "docs.no-preset-count",
    "pass": true,
    "detail": "",
-   "ms": 1
+   "ms": 2
   },
   {
    "id": "docs.no-qa-count",
@@ -883,7 +923,7 @@
    "id": "docs.preset-table-sync",
    "pass": true,
    "detail": "142 ids",
-   "ms": 50
+   "ms": 56
   },
   {
    "id": "docs.gravity-params",
@@ -895,19 +935,19 @@
    "id": "behavior.w248b-so-reference",
    "pass": true,
    "detail": "grad 7.1e-11 / relE 7.7e-13 / relJ 9.2e-14",
-   "ms": 150
+   "ms": 149
   },
   {
    "id": "docs.calaudit-sync",
    "pass": true,
    "detail": "37/37 本・量 317 件",
-   "ms": 57
+   "ms": 58
   },
   {
    "id": "docs.calaudit-period",
    "pass": true,
    "detail": "離心タイミング連星の period 行 14 件を**近点間**で判定(未測定 0 件)・視覚連星は同方向1周のまま 4 件・CSV の sigma 列から転写した σ 50 件(一次表の印つき 50 件)・門の内訳 {\"合(3σ)\":2,\"否(3σ)\":2,\"数値未解決\":32,\"mapping-unresolved\":14,\"condition-mismatch\":0,\"未判定\":267}",
-   "ms": 84
+   "ms": 90
   },
   {
    "id": "docs.j1946Adopted",
@@ -917,9 +957,9 @@
   },
   {
    "id": "docs.nsLockBranch",
-   "pass": false,
-   "detail": "**潮汐ロック枝の走行の来歴**(第272便c §1・**原仮定者の仮説(第62報)**): 系 **6 本**(NS 4 + 恒星 2)× 列 34 × 3 段(h/h2/h4・20 近点窓)/ 仮説列 `lock` は **kFrame=0・λ_PN=1・f=1 の診断コピー**(sampleClass:\"principle\"・コア殻なし)/ 内蔵の kFrame の受理契約は第273便b で**有限な [0,1]**(+較正クラスの分数には `physics.kFrameApprox` の宣言)へ開いたが、**この 6 系の内蔵 kFrame は {0,1} のまま**である(実測 ⚡=1 🧮=1 🩺=1 🧶=1 ✨=0 🌟=0)/ **旧共同根(第265便a の k\\*/f\\*)の列は消さずに並べてある**/ 2D では面外の自転軸を持てないことが 6 系の宣言に載っている / 入力 hash: CSV 照合済み・対象 html 照合済み / 仮説列の P と ω̇ の同時 3σ: ⚡outside 🧮outside 🩺outside 🧶outside ✨undecidable 🌟undecidable (**数え上げであって合否ではない**・σ の宛先が無い量は undecidable)/ 観測の自転周期は CSV の `rotation_period` 行から読んだ **7 天体**で、**P_spin/P_orb が 1% 以内の系は 0 本**(**「潮汐ロックしている」は観測事実ではなく仮説である**・転写行が無い天体は null のまま) / **違反 1 件**: ②対象 html の hash が走行時と違う(器を再走する)",
-   "ms": 94
+   "pass": true,
+   "detail": "**潮汐ロック枝の走行の来歴**(第272便c §1・**原仮定者の仮説(第62報)**): 系 **6 本**(NS 4 + 恒星 2)× 列 34 × 3 段(h/h2/h4・20 近点窓)/ 仮説列 `lock` は **kFrame=0・λ_PN=1・f=1 の診断コピー**(sampleClass:\"principle\"・コア殻なし)/ 内蔵の kFrame の受理契約は第273便b で**有限な [0,1]**(+較正クラスの分数には `physics.kFrameApprox` の宣言)へ開いたが、**この 6 系の内蔵 kFrame は {0,1} のまま**である(実測 ⚡=1 🧮=1 🩺=1 🧶=1 ✨=0 🌟=0)/ **旧共同根(第265便a の k\\*/f\\*)の列は消さずに並べてある**/ 2D では面外の自転軸を持てないことが 6 系の宣言に載っている / 入力 hash: CSV 照合済み・対象 html 照合済み / 仮説列の P と ω̇ の同時 3σ: ⚡outside 🧮outside 🩺outside 🧶outside ✨undecidable 🌟undecidable (**数え上げであって合否ではない**・σ の宛先が無い量は undecidable)/ 観測の自転周期は CSV の `rotation_period` 行から読んだ **7 天体**で、**P_spin/P_orb が 1% 以内の系は 0 本**(**「潮汐ロックしている」は観測事実ではなく仮説である**・転写行が無い天体は null のまま)",
+   "ms": 11
   },
   {
    "id": "docs.twoBodyMesh",
@@ -937,37 +977,37 @@
    "id": "docs.binlockAxisDef",
    "pass": true,
    "detail": "**自転軸 n の訂正と符号規約**(第273便d・統括の検証項目 R18 / AH22 / AH21): ① 運動学の宣言 ω_i = Ω_AB + σ_i·n の **n は「相手へ向かう単位ベクトル」**(天体間方向・面内)で、第272便c の「面直の単位ベクトル」は**撤回した** —— 仮説の「自転軸が互いを向く」がこの向きだからである / ② **(σ_i n)×n = 0 の意味は「軸上の相対すべりをこの項が拾わない」に限る**(「面内軸の自転が力学に効かない」ではない)/ ③ 符号規約(面直 z は画面手前向きが正・反時計回りが正・視線は +z 側)を宣言し、**同期 +1 と逆行の同期 −1 を区別する**(|ratio| では区別できないので**絶対値で判定しない**)/ ④ 走行正本 6 系・符号つきの宣言 12 天体に載せた。**NS 4 系の内蔵 spin=0 は「観測同期の代用」ではない**(自転が転写できないので 0 を宣言してある)/ ⑤ 候補式ライブラリの面外宣言も同じ軸 / ⑥ 候補の位置づけ(AH21): **(i) 主・(iii) 対照・(ii) 不十分**(完全同期でも k_F(1−χ_pair) が残る —— ❄️ では 0.998(「同期 → k≈0」を表せない))。**C5 は t=0 の定数評価であって動的維持の実証ではない** —— 位置づけは**採用ではない**",
-   "ms": 3
+   "ms": 4
   },
   {
    "id": "docs.rparCanonical",
    "pass": true,
    "detail": "**不均衡 2 種と正準運動量**(第273便d・AH26・**mesh-v2 は候補の則であって確立則ではない**): 静止 6 行 —— **① 1ᵀH′a(正準運動量の微分の第 1 項)は 0**(相対不均衡の最大 8.0e-15 —— H′a=R・静止では R=F・**1ᵀF=0** から出る恒等)/ **② 同じ行で Σmᵢaᵢ(通常の重心)は 0 にならない**(3 行)。統括の予備測定と同じ構成(m₁=2・m₂=1・r=3・D₀=1・η=0.7・ε=0)の実測は **Σma_x=-4.4748e-2・1ᵀH′a_x=0.0000e+0** / ③ 実装(`HP.dfmMeshV2Solve` の返り値)と**純関数**(`canonicalMomentumCheck`)は**厳密に一致** / ④ 非静止 4 行で Ḣ′ を q±h·v の中心差分にして 1ᵀ(Ḣ′)v も測った(刻み 2 段・最大の刻み依存 1.9e-8): circularish/500:500/D0=0.5: 1ᵀH′a=0.00e+0・1ᵀḢ′v=0.00e+0・計=0.00e+0 / circularish/1000:100/D0=0.5: 1ᵀH′a=7.11e-15・1ᵀḢ′v=0.00e+0・計=7.11e-15 / radial/1000:100/D0=0.5: 1ᵀH′a=-8.41e-2・1ᵀḢ′v=8.41e-2・計=-1.99e-8 / brief/m2:1/r3/D0=1/eta0.7: 1ᵀH′a=5.55e-17・1ᵀḢ′v=0.00e+0・計=5.55e-17 / ⑤ 受理条件の候補 5 つ(長時間の正準運動量・角運動量・エネルギー・背景交換・通常の重心)は**並べただけで、どれも採用していない** —— **「保存則違反」とは書かない**",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "behavior.syncTorqueLedger",
    "pass": true,
    "detail": "**独立同期トルクの純関数**(第274便b・原仮定者の裁定〔第64報〕の**因果の向き** ——**採る**「連星が kFrame≈0 で安定なら相対メッシュ運動が消え、**独立の同期トルク**で自転が公転へ引き込まれる」/ **採らない**「ロックしているから k≈0 と置く」): 版 `w274b-1`・基準 4 本 —— dissipativePrograde ω/Ω 3.00・0.25 → 1.0001・1.0000 / dissipativeRetrograde ω/Ω -1.50・-0.50 → 0.9999・0.9999 / orientationLibration ω/Ω 1.40・0.70 → 0.8431・1.0781 / zeroTorqueNull ω/Ω 3.00・0.25 → 3.0000・0.2500 / **① 角運動量 L_orb+ΣIω の相対ドリフト最大 4.00e-15**(≤1e−12)・**② Q は単調非減少で非負**・**③ E+Q の相対残差最大 3.02e-13**(≤1e−8 —— 準円の永年模型では dE_orb/dL=Ω が恒等なので**式の上で厳密な関係の数値確認**である)/ **④ Γ・K を kFrame で乗じていない**(同期トルクの関数は kFrame を字面に持たない。k_F を取るのは質量則 `massFactorLinear` だけ —— **f と k は別軸**)/ **⑤ 零トルク(Γ=K=0)の否定対照では自転も L_orb も動かず Q=0** / **⑥ エンジンへ接続していない**(html からの参照 0・`S._core` に 1 命令も足していない・内蔵プリセットは 1 bit も変えていない)/ Γ・K は**宣言された自由パラメータ**であって観測から同定した値ではない —— **「潮汐ロックへ収束することを証明した」とは書かない**",
-   "ms": 179
+   "ms": 191
   },
   {
    "id": "docs.syncCausal",
    "pass": true,
    "detail": "**因果の向きの試験の契約**(第274便b・原仮定者の裁定〔第64報〕): **① k を外から固定する**(格子 4 点・**同期率から k を作らない**)/ **② 非同期から出発する**(初期 ω/Ω の格子 5 点に 1 は無く、逆行を含む —— 符号つきで読む・AH22)/ **③ Γ・K を kFrame で乗じない**(k=0 で Γ まで 0 にすると自転を変える原因が消えるため)—— この 3 つをライブラリ(`CAUSAL_CONTRACT`)・器(`tests/exp-w274b-sync.mjs`)・正本(`tests/out/sync-w274b.json` の meta)・docs/PHYSICS.md 〔第274便b〕の **4 か所**で一致させた / 因果の格子 **120 行**の判定は **R28 の 4 列に分けて**記録する —— 走行成立 / **定常 28 行** / **同期 44 行** / **観測成立は本便で評価しない**(観測との突き合わせを 1 件もしていない)/ 第272便b の候補 (i)(iii) は「同期率 → k」の**診断式**であって**因果の証拠には使わない**(循環を作らない)—— **「潮汐ロックへ収束することを証明した」「kF0 版が成立した」とは書かない**",
-   "ms": 25
+   "ms": 29
   },
   {
    "id": "docs.period-definitions",
    "pass": true,
    "detail": "2 定義の併記 13/13本(ja「同方向1周」「近点間」+ en + 近点間の実測値)/ 推定器つき宣言(estimator=RL-gradient・window) 3/3本(☄️🪨📡)",
-   "ms": 31
+   "ms": 33
   },
   {
    "id": "verify.V1",
    "pass": true,
    "detail": "|ΔP|/P_scale=7.35e-7 |ΔL|/L_scale=2.57e-7 (< 1e-3)",
-   "ms": 6227
+   "ms": 6933
   },
   {
    "id": "verify.V2",
@@ -991,7 +1031,7 @@
    "id": "verify.V9",
    "pass": true,
    "detail": "|a−G∇W|/|a| 最大=2.38e-4 (< 1e-3) (10,0)=2.8e-5 (-14,6)=9.4e-6 (40,25)=2.4e-4",
-   "ms": 0
+   "ms": 1
   },
   {
    "id": "verify.V10",
@@ -1117,769 +1157,769 @@
    "id": "preset.gclock",
    "pass": true,
    "detail": "n=4",
-   "ms": 27
+   "ms": 29
   },
   {
    "id": "preset.grcal",
    "pass": true,
    "detail": "n=3",
-   "ms": 50
+   "ms": 31
   },
   {
    "id": "preset.grcalGps",
    "pass": true,
    "detail": "n=4",
-   "ms": 33
+   "ms": 31
   },
   {
    "id": "preset.grcalLight",
    "pass": true,
    "detail": "n=3",
-   "ms": 38
+   "ms": 42
   },
   {
    "id": "preset.grcalShapiro",
    "pass": true,
    "detail": "n=3",
-   "ms": 30
+   "ms": 32
   },
   {
    "id": "preset.projectile",
    "pass": true,
    "detail": "n=4",
-   "ms": 22
+   "ms": 26
   },
   {
    "id": "preset.echo",
    "pass": true,
    "detail": "n=31",
-   "ms": 60
+   "ms": 47
   },
   {
    "id": "preset.boxtrans",
    "pass": true,
    "detail": "n=86",
-   "ms": 158
+   "ms": 224
   },
   {
    "id": "preset.boxrot",
    "pass": true,
    "detail": "n=120",
-   "ms": 185
+   "ms": 238
   },
   {
    "id": "preset.boxexpand",
    "pass": true,
    "detail": "n=120",
-   "ms": 355
+   "ms": 339
   },
   {
    "id": "preset.boxcomoving",
    "pass": true,
    "detail": "n=26",
-   "ms": 111
+   "ms": 115
   },
   {
    "id": "preset.boxbound",
    "pass": true,
    "detail": "n=20",
-   "ms": 62
+   "ms": 38
   },
   {
    "id": "preset.boxbreath",
    "pass": true,
    "detail": "n=25",
-   "ms": 99
+   "ms": 114
   },
   {
    "id": "preset.boxredshift",
    "pass": true,
    "detail": "n=3",
-   "ms": 12
+   "ms": 16
   },
   {
    "id": "preset.probeH",
    "pass": true,
    "detail": "n=17",
-   "ms": 68
+   "ms": 88
   },
   {
    "id": "preset.freebox",
    "pass": true,
    "detail": "n=72",
-   "ms": 298
+   "ms": 363
   },
   {
    "id": "preset.cosmicweb",
    "pass": true,
    "detail": "n=320",
-   "ms": 3719
+   "ms": 3794
   },
   {
    "id": "preset.galaxy",
    "pass": true,
    "detail": "n=381",
-   "ms": 3920
+   "ms": 4349
   },
   {
    "id": "preset.galaxyStd",
    "pass": true,
    "detail": "n=381",
-   "ms": 3712
+   "ms": 3921
   },
   {
    "id": "preset.galaxyGeo2",
    "pass": true,
    "detail": "n=381",
-   "ms": 5790
+   "ms": 6220
   },
   {
    "id": "preset.galaxyDB",
    "pass": true,
    "detail": "n=381",
-   "ms": 2980
+   "ms": 3221
   },
   {
    "id": "preset.darkrotor",
    "pass": true,
    "detail": "n=383",
-   "ms": 4039
+   "ms": 3797
   },
   {
    "id": "preset.rotorSolo",
    "pass": true,
    "detail": "n=25",
-   "ms": 100
+   "ms": 78
   },
   {
    "id": "preset.nebulaRotor",
    "pass": true,
    "detail": "n=98",
-   "ms": 304
+   "ms": 242
   },
   {
    "id": "preset.nebulaShell",
    "pass": true,
    "detail": "n=98",
-   "ms": 417
+   "ms": 342
   },
   {
    "id": "preset.nebulaBipolar",
    "pass": true,
    "detail": "n=83",
-   "ms": 175
+   "ms": 152
   },
   {
    "id": "preset.bhCore",
    "pass": true,
    "detail": "n=321",
-   "ms": 3174
+   "ms": 3528
   },
   {
    "id": "preset.bhCoreTilt",
    "pass": true,
    "detail": "n=321",
-   "ms": 3106
+   "ms": 3038
   },
   {
    "id": "preset.massLadder",
    "pass": true,
    "detail": "n=147",
-   "ms": 551
+   "ms": 476
   },
   {
    "id": "preset.collapse",
    "pass": true,
    "detail": "n=260",
-   "ms": 1757
+   "ms": 1728
   },
   {
    "id": "preset.axisBarStill",
    "pass": true,
    "detail": "n=321",
-   "ms": 5822
+   "ms": 5800
   },
   {
    "id": "preset.axisBarArms",
    "pass": true,
    "detail": "n=321",
-   "ms": 5528
+   "ms": 5435
   },
   {
    "id": "preset.axisBarReach",
    "pass": true,
    "detail": "n=321",
-   "ms": 5157
+   "ms": 5068
   },
   {
    "id": "preset.selfRotor",
    "pass": true,
    "detail": "n=178",
-   "ms": 1202
+   "ms": 1110
   },
   {
    "id": "preset.galaxyMeshSpiral",
    "pass": true,
    "detail": "n=351",
-   "ms": 3571
+   "ms": 3516
   },
   {
    "id": "preset.galaxyMeshSpiralGeoToy",
    "pass": true,
    "detail": "n=351",
-   "ms": 7291
+   "ms": 7442
   },
   {
    "id": "preset.galaxyMeshSpiralGeoToyLite",
    "pass": true,
    "detail": "n=171",
-   "ms": 1851
+   "ms": 1702
   },
   {
    "id": "preset.galaxyAnalogyBH",
    "pass": true,
    "detail": "n=211",
-   "ms": 3515
+   "ms": 3184
   },
   {
    "id": "preset.clusterAnalogyBH",
    "pass": true,
    "detail": "n=526",
-   "ms": 18499
+   "ms": 18423
   },
   {
    "id": "preset.shapeToyCluster",
    "pass": true,
    "detail": "n=240",
-   "ms": 1064
+   "ms": 969
   },
   {
    "id": "preset.shapeToyDisk",
    "pass": true,
    "detail": "n=300",
-   "ms": 1337
+   "ms": 1449
   },
   {
    "id": "preset.shapeToyArm",
    "pass": true,
    "detail": "n=180",
-   "ms": 552
+   "ms": 619
   },
   {
    "id": "preset.shapeToyClusterCore",
    "pass": true,
    "detail": "n=241",
-   "ms": 1056
+   "ms": 1019
   },
   {
    "id": "preset.shapeToyDiskCore",
    "pass": true,
    "detail": "n=301",
-   "ms": 1423
+   "ms": 1438
   },
   {
    "id": "preset.shapeToyArmCore",
    "pass": true,
    "detail": "n=181",
-   "ms": 512
+   "ms": 565
   },
   {
    "id": "preset.lensing",
    "pass": true,
    "detail": "n=2",
-   "ms": 31
+   "ms": 49
   },
   {
    "id": "preset.spinlens",
    "pass": true,
    "detail": "n=1",
-   "ms": 21
+   "ms": 28
   },
   {
    "id": "preset.blens",
    "pass": true,
    "detail": "n=2",
-   "ms": 36
+   "ms": 32
   },
   {
    "id": "preset.reddening",
    "pass": true,
    "detail": "n=154",
-   "ms": 294
+   "ms": 313
   },
   {
    "id": "preset.gas",
    "pass": true,
    "detail": "n=240",
-   "ms": 2056
+   "ms": 2151
   },
   {
    "id": "preset.pressure",
    "pass": true,
    "detail": "n=240",
-   "ms": 2169
+   "ms": 2078
   },
   {
    "id": "preset.conduction",
    "pass": true,
    "detail": "n=28",
-   "ms": 117
+   "ms": 212
   },
   {
    "id": "preset.frictionHeat",
    "pass": true,
    "detail": "n=201",
-   "ms": 1142
+   "ms": 823
   },
   {
    "id": "preset.coolrace",
    "pass": true,
    "detail": "n=3",
-   "ms": 15
+   "ms": 26
   },
   {
    "id": "preset.convection",
    "pass": true,
    "detail": "n=210",
-   "ms": 1683
+   "ms": 1658
   },
   {
    "id": "preset.buoyancy",
    "pass": true,
    "detail": "n=280",
-   "ms": 2424
+   "ms": 2317
   },
   {
    "id": "preset.cooling",
    "pass": true,
    "detail": "n=220",
-   "ms": 1681
+   "ms": 1665
   },
   {
    "id": "preset.emergent",
    "pass": true,
    "detail": "n=112",
-   "ms": 899
+   "ms": 800
   },
   {
    "id": "preset.emergent2",
    "pass": true,
    "detail": "n=112",
-   "ms": 1748
+   "ms": 1806
   },
   {
    "id": "preset.chain2",
    "pass": true,
    "detail": "n=112",
-   "ms": 834
+   "ms": 939
   },
   {
    "id": "preset.chaincycle",
    "pass": true,
    "detail": "n=112",
-   "ms": 1222
+   "ms": 1201
   },
   {
    "id": "preset.earthMoon",
    "pass": true,
    "detail": "n=2",
-   "ms": 53
+   "ms": 319
   },
   {
    "id": "preset.earthMoonFree",
    "pass": true,
    "detail": "n=2",
-   "ms": 21
+   "ms": 164
   },
   {
    "id": "preset.earthMoonReal",
    "pass": true,
    "detail": "n=2",
-   "ms": 39
+   "ms": 37
   },
   {
    "id": "preset.earthMoonRealKF1",
    "pass": true,
    "detail": "n=2",
-   "ms": 58
+   "ms": 59
   },
   {
    "id": "preset.emAuditNewton",
    "pass": true,
    "detail": "n=2",
-   "ms": 27
+   "ms": 28
   },
   {
    "id": "preset.emAuditDFM",
    "pass": true,
    "detail": "n=2",
-   "ms": 55
+   "ms": 58
   },
   {
    "id": "preset.emAuditSolar",
    "pass": true,
    "detail": "n=3",
-   "ms": 24
+   "ms": 14
   },
   {
    "id": "preset.earthMoonDiagOne",
    "pass": true,
    "detail": "n=2",
-   "ms": 74
+   "ms": 80
   },
   {
    "id": "preset.qLockRadialAudit",
    "pass": true,
    "detail": "n=11",
-   "ms": 89
+   "ms": 73
   },
   {
    "id": "preset.qLockRadialAuditQ3",
    "pass": true,
    "detail": "n=11",
-   "ms": 77
+   "ms": 50
   },
   {
    "id": "preset.mercury",
    "pass": true,
    "detail": "n=2",
-   "ms": 20
+   "ms": 16
   },
   {
    "id": "preset.mercuryReal",
    "pass": true,
    "detail": "n=2",
-   "ms": 38
+   "ms": 23
   },
   {
    "id": "preset.mercuryGeoToy3",
    "pass": true,
    "detail": "n=2",
-   "ms": 76
+   "ms": 73
   },
   {
    "id": "preset.mercuryRealKF1",
    "pass": true,
    "detail": "n=2",
-   "ms": 45
+   "ms": 46
   },
   {
    "id": "preset.solarInner",
    "pass": true,
    "detail": "n=105",
-   "ms": 295
+   "ms": 264
   },
   {
    "id": "preset.jupiterGalilean",
    "pass": true,
    "detail": "n=5",
-   "ms": 35
+   "ms": 73
   },
   {
    "id": "preset.venusReal",
    "pass": true,
    "detail": "n=2",
-   "ms": 36
+   "ms": 38
   },
   {
    "id": "preset.marsMoonsReal",
    "pass": true,
    "detail": "n=3",
-   "ms": 46
+   "ms": 47
   },
   {
    "id": "preset.plutoCharonReal",
    "pass": true,
    "detail": "n=2",
-   "ms": 35
+   "ms": 18
   },
   {
    "id": "preset.plutoCharonDFM",
    "pass": true,
    "detail": "n=2",
-   "ms": 53
+   "ms": 54
   },
   {
    "id": "preset.plutoCharonKF0Control",
    "pass": true,
    "detail": "n=2",
-   "ms": 46
+   "ms": 50
   },
   {
    "id": "preset.plutoCharonDiagInput",
    "pass": true,
    "detail": "n=2",
-   "ms": 47
+   "ms": 24
   },
   {
    "id": "preset.plutoCharonSyncZero",
    "pass": true,
    "detail": "n=2",
-   "ms": 30
+   "ms": 39
   },
   {
    "id": "preset.charonGeoToy3",
    "pass": true,
    "detail": "n=2",
-   "ms": 41
+   "ms": 27
   },
   {
    "id": "preset.uranusReal",
    "pass": true,
    "detail": "n=94",
-   "ms": 176
+   "ms": 167
   },
   {
    "id": "preset.neptuneReal",
    "pass": true,
    "detail": "n=2",
-   "ms": 18
+   "ms": 26
   },
   {
    "id": "preset.alphaCenAB",
    "pass": true,
    "detail": "n=2",
-   "ms": 40
+   "ms": 41
   },
   {
    "id": "preset.alphaCenABDFM",
    "pass": true,
    "detail": "n=2",
-   "ms": 52
+   "ms": 58
   },
   {
    "id": "preset.siriusAB",
    "pass": true,
    "detail": "n=2",
-   "ms": 32
+   "ms": 38
   },
   {
    "id": "preset.siriusABDFM",
    "pass": true,
    "detail": "n=2",
-   "ms": 70
+   "ms": 93
   },
   {
    "id": "preset.psrDoubleAB",
    "pass": true,
    "detail": "n=2",
-   "ms": 51
+   "ms": 21
   },
   {
    "id": "preset.psrDoubleABDFM",
    "pass": true,
    "detail": "n=2",
-   "ms": 75
+   "ms": 53
   },
   {
    "id": "preset.psrDoubleABGeoToy",
    "pass": true,
    "detail": "n=2",
-   "ms": 105
+   "ms": 92
   },
   {
    "id": "preset.psrDoubleABSpinCal",
    "pass": true,
    "detail": "n=2",
-   "ms": 107
+   "ms": 52
   },
   {
    "id": "preset.psrJ1757DFM",
    "pass": true,
    "detail": "n=2",
-   "ms": 51
+   "ms": 63
   },
   {
    "id": "preset.psrJ1946DFM",
    "pass": true,
    "detail": "n=2",
-   "ms": 59
+   "ms": 51
   },
   {
    "id": "preset.psrDoubleABPN",
    "pass": true,
    "detail": "n=2",
-   "ms": 25
+   "ms": 33
   },
   {
    "id": "preset.psrJ1757PN",
    "pass": true,
    "detail": "n=2",
-   "ms": 28
+   "ms": 32
   },
   {
    "id": "preset.psrJ1946PN",
    "pass": true,
    "detail": "n=2",
-   "ms": 32
+   "ms": 29
   },
   {
    "id": "preset.psrDoubleABCF",
    "pass": true,
    "detail": "n=2",
-   "ms": 77
+   "ms": 65
   },
   {
    "id": "preset.psrJ1757CF",
    "pass": true,
    "detail": "n=2",
-   "ms": 53
+   "ms": 42
   },
   {
    "id": "preset.psrJ1946CF",
    "pass": true,
    "detail": "n=2",
-   "ms": 55
+   "ms": 40
   },
   {
    "id": "preset.psrB1534",
    "pass": true,
    "detail": "n=2",
-   "ms": 37
+   "ms": 40
   },
   {
    "id": "preset.psrB1534DFM",
    "pass": true,
    "detail": "n=2",
-   "ms": 54
+   "ms": 22
   },
   {
    "id": "preset.psrB1534CF",
    "pass": true,
    "detail": "n=2",
-   "ms": 72
+   "ms": 25
   },
   {
    "id": "preset.compactForceToy",
    "pass": true,
    "detail": "n=2",
-   "ms": 35
+   "ms": 23
   },
   {
    "id": "preset.boxBinaryToy",
    "pass": true,
    "detail": "n=2",
-   "ms": 68
+   "ms": 85
   },
   {
    "id": "preset.spaceMeshBinaryToy",
    "pass": true,
    "detail": "n=2",
-   "ms": 113
+   "ms": 207
   },
   {
    "id": "preset.gw150914",
    "pass": true,
    "detail": "n=2",
-   "ms": 27
+   "ms": 44
   },
   {
    "id": "preset.gw150914DFM",
    "pass": true,
    "detail": "n=2",
-   "ms": 61
+   "ms": 60
   },
   {
    "id": "preset.gw150914Merge4s",
    "pass": true,
    "detail": "n=2",
-   "ms": 45
+   "ms": 90
   },
   {
    "id": "preset.gw150914SpinDipole",
    "pass": true,
    "detail": "n=2",
-   "ms": 29
+   "ms": 62
   },
   {
    "id": "preset.tuc47",
    "pass": true,
    "detail": "n=240",
-   "ms": 3723
+   "ms": 3539
   },
   {
    "id": "preset.tuc47DFM",
    "pass": true,
    "detail": "n=240",
-   "ms": 5635
+   "ms": 5811
   },
   {
    "id": "preset.ngc3198",
    "pass": true,
    "detail": "n=300",
-   "ms": 5739
+   "ms": 5416
   },
   {
    "id": "preset.ngc3198DFM",
    "pass": true,
    "detail": "n=301",
-   "ms": 11307
+   "ms": 11446
   },
   {
    "id": "preset.supernovaProg",
    "pass": true,
    "detail": "n=1",
-   "ms": 25
+   "ms": 15
   },
   {
    "id": "preset.supernovaProgDFM",
    "pass": true,
    "detail": "n=1",
-   "ms": 13
+   "ms": 14
   },
   {
    "id": "preset.crabRemnant",
    "pass": true,
    "detail": "n=73",
-   "ms": 431
+   "ms": 436
   },
   {
    "id": "preset.saturn",
    "pass": true,
    "detail": "n=241",
-   "ms": 2708
+   "ms": 2568
   },
   {
    "id": "preset.saturnLayered",
    "pass": true,
    "detail": "n=241",
-   "ms": 2357
+   "ms": 2201
   },
   {
    "id": "preset.saturnZonalD68",
    "pass": true,
    "detail": "n=11",
-   "ms": 60
+   "ms": 37
   },
   {
    "id": "preset.saturnD68Consistent",
    "pass": true,
    "detail": "n=2",
-   "ms": 25
+   "ms": 19
   },
   {
    "id": "preset.saturnD68ObsOrbit",
    "pass": true,
    "detail": "n=2",
-   "ms": 23
+   "ms": 15
   },
   {
    "id": "preset.saturnRingReal",
    "pass": true,
    "detail": "n=127",
-   "ms": 188
+   "ms": 153
   },
   {
    "id": "preset.saturnRingRealKF1",
    "pass": true,
    "detail": "n=127",
-   "ms": 368
+   "ms": 305
   },
   {
    "id": "preset.binary",
    "pass": true,
    "detail": "n=242",
-   "ms": 2513
+   "ms": 2136
   },
   {
    "id": "preset.fig8",
@@ -1891,49 +1931,49 @@
    "id": "preset.counterring",
    "pass": true,
    "detail": "n=201",
-   "ms": 863
+   "ms": 884
   },
   {
    "id": "preset.spinup",
    "pass": true,
    "detail": "n=240",
-   "ms": 819
+   "ms": 812
   },
   {
    "id": "preset.pulsarSolo",
    "pass": true,
    "detail": "n=1",
-   "ms": 248
+   "ms": 231
   },
   {
    "id": "preset.supernovaCore",
    "pass": true,
    "detail": "n=1",
-   "ms": 159
+   "ms": 147
   },
   {
    "id": "preset.whiteDwarfDFM",
    "pass": true,
    "detail": "n=1",
-   "ms": 18
+   "ms": 66
   },
   {
    "id": "preset.whiteDwarfBareDFM",
    "pass": true,
    "detail": "n=1",
-   "ms": 100
+   "ms": 20
   },
   {
    "id": "preset.envelopeShedDFM",
    "pass": true,
    "detail": "n=1",
-   "ms": 14
+   "ms": 10
   },
   {
    "id": "preset.lfbotTrap",
    "pass": true,
    "detail": "n=17",
-   "ms": 124
+   "ms": 137
   },
   {
    "id": "preset.layeredCoreDFM",
@@ -1945,55 +1985,55 @@
    "id": "preset.spinDipoleBinary",
    "pass": true,
    "detail": "n=2",
-   "ms": 12
+   "ms": 8
   },
   {
    "id": "preset.gasCohSurface",
    "pass": true,
    "detail": "n=9",
-   "ms": 42
+   "ms": 28
   },
   {
    "id": "preset.mmPhaseToy",
    "pass": true,
    "detail": "n=4",
-   "ms": 19
+   "ms": 18
   },
   {
    "id": "preset.starSeed",
    "pass": true,
    "detail": "n=3",
-   "ms": 34
+   "ms": 21
   },
   {
    "id": "preset.validate-all-builtins",
    "pass": true,
    "detail": "内蔵142件が validatePreset を致命エラー0で通過(NG=[])/ 許容警告 0種=[]件(第83便D で W1 descStruct純分割不一致・W2 m値域クランプ とも根本解消 — 内蔵の警告は0件が正規値)/ 想定外の警告=[](0件)/ 正規化の挙動bit不変(生定義build vs 正規化後build・400步の全状態)=[](0件)",
-   "ms": 6617
+   "ms": 6034
   },
   {
    "id": "preset.roundtrip-builtins",
    "pass": true,
    "detail": "内蔵142件のエクスポートJSON往復(stringify→parse→validatePreset→build)/ 致命エラー=[](0件)/ descStruct 保全 142件・status 保全 142件(第279便a)=[](喪失0件)/ 質量クランプ発動=[](0件)/ bit一致(往復build vs 直接build)t=0 のみ 0件=[](0件)・t=0+400步 142件(フル=全件)=[](0件)/ 上限は健在(desc 16000切り詰め=true・節上限内は保持=true・summary 3000超は切り詰め警告→descStruct削除=true・m は20000で警告つきクランプ=true)",
-   "ms": 165179
+   "ms": 153941
   },
   {
    "id": "migration.fixtures",
    "pass": true,
    "detail": "固定資産 3件(rigid/differential/cavity)/ 封筒 schemaVersion=[2 2 3]/ 移行した body=6件・致命エラー=[](0件)/ legacyCore フラグ=[](0件)/ 想定外の警告=[](0件 — 値域クランプ等が起きたら FAIL)/ 軌跡の但し書きが無い告知=[](0件)/ core:{} が独立実装の移行式と厳密一致=[](0件)/ t=0 の全状態(x,y,vx,vy,spin,m,pinned+coreMd/coreMF/RcV/coreJ/coreOm0)=[](0件)/ **主張は初期状態一致のみ**(1步も進めない — コアv1 の Ω_c=coreSR·s(t) 追従と コアv2 の独立 J_core は、コアが時間発展する構成で軌跡が割れうる)",
-   "ms": 40
+   "ms": 46
   },
   {
    "id": "migration.export-record",
    "pass": true,
    "detail": "移行なし: 封筒キー=[schemaVersion,appVersion,appBuild,exportedAt,saves,customPresets](=従来どおり・migration キーなし=true・本文に \"migration\" の文字列なし=true・schemaVersion=4)/ コアv2 明示の新規構成でも付かない=true(キー=[schemaVersion,appVersion,appBuild,exportedAt,saves,customPresets])/ 旧キー入り(schemaVersion 2)→ migration:{fromSchema:2,legacyCoreConverted:true} 付与=true(キー=[schemaVersion,appVersion,appBuild,exportedAt,migration,saves,customPresets]・schemaVersion は 4 のまま)/ 2→3 の順で重ねても fromSchema は最小=true / 3→2 の逆順でも同じ=true(順序非依存)/ 移行記録つき JSON の読込で記録を引き継ぐ=true / 情報表示は移行時だけ=true(新規=「インポート: 追加1件…」・移行=「…ア形式から変換済み(初期状態は互換・軌跡は旧版と一致しない場合あり)」)",
-   "ms": 55
+   "ms": 46
   },
   {
    "id": "i18n.presets-en",
    "pass": true,
    "detail": "",
-   "ms": 41
+   "ms": 31
   },
   {
    "id": "i18n.toggle",
@@ -2005,13 +2045,13 @@
    "id": "i18n.claim-sync",
    "pass": true,
    "detail": "binary: A5 空間の引きずり(dragging)(ja=true/en=true) / fig8: kFrame=0 ニュートン退化(Newtonian degeneracy)(ja=true/en=true) 運動量・角運動量保存(T7 / conservation)(ja=true/en=true)",
-   "ms": 14
+   "ms": 11
   },
   {
    "id": "fewshot.validate",
    "pass": true,
    "detail": "[{\"i\":0,\"ok\":true,\"w\":0},{\"i\":1,\"ok\":true,\"w\":0},{\"i\":2,\"ok\":true,\"w\":0},{\"i\":3,\"ok\":true,\"w\":0},{\"i\":4,\"ok\":true,\"w\":0}]",
-   "ms": 7
+   "ms": 11
   },
   {
    "id": "fewshot.bh-nonescape",
@@ -2023,13 +2063,13 @@
    "id": "compat.kLens",
    "pass": true,
    "detail": "",
-   "ms": 5
+   "ms": 6
   },
   {
    "id": "import.formats",
    "pass": true,
    "detail": "added=5/5",
-   "ms": 25
+   "ms": 24
   },
   {
    "id": "import.content-dedup",
@@ -2065,7 +2105,7 @@
    "id": "new.gclock",
    "pass": true,
    "detail": "err=1.1e-5",
-   "ms": 13857
+   "ms": 12748
   },
   {
    "id": "new.coolrace",
@@ -2083,7 +2123,7 @@
    "id": "box.trans-clocks",
    "pass": true,
    "detail": "共動τ/t=0.9994(>0.999 — 箱と動く運動は「静止」) 固有運動τ/t=0.9881(0.97<τ/t<0.995)",
-   "ms": 3710
+   "ms": 3539
   },
   {
    "id": "box.rot-support",
@@ -2107,13 +2147,13 @@
    "id": "box.schema-clamp",
    "pass": true,
    "detail": "H0→0.2 D→10000 非pinned railH→0 warns=3",
-   "ms": 10
+   "ms": 8
   },
   {
    "id": "box.redshift",
    "pass": true,
    "detail": "t=16.0 z=0.066092 vs e^{0.004t}−1 の相対誤差=0.0e+0(<1e-6) 箱なし→null=true",
-   "ms": 64
+   "ms": 51
   },
   {
    "id": "box.hist",
@@ -2125,19 +2165,19 @@
    "id": "box.graph-overlay",
    "pass": true,
    "detail": "overlays.boxGraph=true boxHist=13件(≥1) slots(boxcomoving)=[boxGraph] slots(gclock)=[] pageErrors増分=0(0期待) i18n ja=\"膨張グラフ(a・H・赤方偏移)\" en=\"Expansion graph (a, H, redshift)\"",
-   "ms": 89
+   "ms": 66
   },
   {
    "id": "box.edit-ui",
    "pass": true,
    "detail": "セクション表示=true dirty none→inline-block H0=0.008(boxScaleAtのH=0.008) mode=pow coef=0.05 expo=0.66 coef=5→1(クランプ) coef=''→1(据置) A/B編集=対象側のみ(B引継ぎ+A限定反映)=true(第95便) A/B終了後もsim.box維持=true gclockでは非表示=true",
-   "ms": 47
+   "ms": 24
   },
   {
    "id": "box.redshift-bar",
    "pass": true,
-   "detail": "2000步後 z=0.1366(≥0.1) a=1.1366(>1.1) HUD=\"t=0.0 (0步)  N=26  37fps  a=1.000  H=0.0040  W_B=80.0  z=+0.000 / 系: 開放系(固定天体・レール — リザーバ・帳簿を含めて読む) / P=(1.12, -0.0486)  L=0.0000 / 帳簿P=(0.00, 0.00)  帳簿L=0.00  放射L=0.00  放射E=0.00 / E_kin=0.53  E_rot=0.00 / 帳簿分母: 活動=5.283e-1(正本)/ 従来=5.283e-1(固定天体 1 体の一定スピンE が 0.000%) / スケール換算 長さ1=10^23m 時間1=10^17s 質量1=10^42kg t≈0 s(実効倍率4: 再生1s≈2.43e10 年)\"",
-   "ms": 200
+   "detail": "2000步後 z=0.1366(≥0.1) a=1.1366(>1.1) HUD=\"t=32.0 (2000步)  N=26  38fps  a=1.137  H=0.0040  W_B=70.4  z=+0.137 / 系: 開放系(固定天体・レール — リザーバ・帳簿を含めて読む) / P=(1.27, -0.0553)  L=0.0000 / 帳簿P=(-0.15, 0.0066)  帳簿L=0.0000  放射L=0.00  放射E=0.00 / E_kin=0.68  E_rot=0.0000 / 帳簿分母: 活動=5.283e-1(正本)/ 従来=5.283e-1(固定天体 1 体の一定スピンE が 0.000%) / スケール換算 長さ1=10^23m 時間1=10^17s 質量1=10^42kg t≈1.01e11 年(実効倍率4: 再生1s≈2.43e10 年)\"",
+   "ms": 188
   },
   {
    "id": "box.save-roundtrip",
@@ -2149,37 +2189,37 @@
    "id": "box.photon-abc",
    "pass": true,
    "detail": "到着2件 A(t放出=0.0) z_A=2.9275(3±0.3) λ 500→1963.7nm a 1.0000→3.9275 / B(t放出=6.944) z_B=0.9581(1±0.15) λ 500→979.1nm a 2.0025→3.9212 / 到着時刻 tO=13.680・13.664 差=0.016(<0.2 ほぼ同時観測 — 第50便 50F で厳格化) 帳簿|λ比−a比|<1e-9=true static対照 z=0=true 残存光子=0 範囲外警告=false",
-   "ms": 34
+   "ms": 27
   },
   {
    "id": "box.photon-zero-cost",
    "pass": true,
    "detail": "🌌galaxy: photons=null photonLog=null _phSched=null",
-   "ms": 568
+   "ms": 530
   },
   {
    "id": "box.flrw-badge",
    "pass": true,
    "detail": "friction=flrw→grav=true(外部場) 未指定→dfm/grav=false 不正値→dfm(警告1件) 既定dfmのgrav: 🌌=false 🔦=false",
-   "ms": 21
+   "ms": 22
   },
   {
    "id": "box.photon-draw",
    "pass": true,
    "detail": "pageErrors増分=0(0期待) 生存中の光子=1件(render複数回) 到着ログ=2件 wavelengthColor(500)=#00ff80(RGB=0,255,128・G成分最大=true) NaN=false",
-   "ms": 69
+   "ms": 67
   },
   {
    "id": "integrator.default-unchanged",
    "pass": true,
    "detail": "🪐saturn 300步 位置ハッシュ=146bf72a65b92c3c…(基準=146bf72a65b92c3c… bit一致=true) n=241(定義=241) [E6′倍精度化(4-81)=true 環240化(4-82)=true]",
-   "ms": 1294
+   "ms": 1237
   },
   {
    "id": "echo.leapfrog-return",
    "pass": true,
    "detail": "⏪A条件(leapfrog・muF=0): 反転時RMS=33.88(>10 十分動いた) → 復帰後RMS=1.304e-3(< 0.01 — 実測1.30e-3) 反転步数=1251 t_flip=20.016",
-   "ms": 577
+   "ms": 709
   },
   {
    "id": "echo.semi-noreturn",
@@ -2203,19 +2243,19 @@
    "id": "echo.schema-clamp",
    "pass": true,
    "detail": "不正 integrator=\"bogus\"→\"semi\" 非数 echoFlipAt→undefined(無視) 警告2件 / 正常 \"leapfrog\"→\"leapfrog\" echoFlipAt 999999→100000(上限クランプ) / 省略→undefined(未設定=semi扱い)",
-   "ms": 4
+   "ms": 18
   },
   {
    "id": "echo.hud",
    "pass": true,
-   "detail": "ja HUD=\"t=20.0 (1251步)  N=31  44fps  echo RMS=33.881  反転済み↩︎ / 系: 閉鎖系(外部要素なし — P/L は帳簿込みで保存) / P=(-3.53, 9.65)  L=-8238 / 帳簿P=(0.00, 0.00)  帳簿L=0.00  放射L=0.00  放射E=0.00 / E_kin=97.9  E_rot=633 / 帳簿分母: 活動=9.136e+2(正本)/ 従来=9.136e+2(固定天体 0 体の一定スピンE が 0.000%) / スケール換算 長さ1=10^11m 時間1=10^7s 質量1=10^30kg t≈6.343 年(実効倍率2: 再生1s≈1.217 年)\" en HUD=\"t=20.0 (1251步)  N=31  50fps  echo RMS=33.881  reversed ↩︎ / System: closed (no external elements — P/L conserved incl. ledgers) / P=(-3.53, 9.65)  L=-8238 / 帳簿P=(0.00, 0.00)  帳簿L=0.00  放射L=0.00  放射E=0.00 / E_kin=97.9  E_rot=633 / Ledger denominators: active=9.136e+2 (primary) / legacy=9.136e+2 (the constant spin E of 0 pinned bodies is 0.000%) / scale conv: len1=10^11m time1=10^7s mass1=10^30kg t≈6.343 yr (effective rate 2: 1s of playback≈1.217 yr)\" ⏱️gclock(echoFlipAt なし)に echo 行なし=true",
-   "ms": 423
+   "detail": "ja HUD=\"t=20.0 (1251步)  N=31  43fps  echo RMS=33.881  反転済み↩︎ / 系: 閉鎖系(外部要素なし — P/L は帳簿込みで保存) / P=(-3.53, 9.65)  L=-8238 / 帳簿P=(0.00, 0.00)  帳簿L=0.00  放射L=0.00  放射E=0.00 / E_kin=97.9  E_rot=633 / 帳簿分母: 活動=9.136e+2(正本)/ 従来=9.136e+2(固定天体 0 体の一定スピンE が 0.000%) / スケール換算 長さ1=10^11m 時間1=10^7s 質量1=10^30kg t≈6.343 年(実効倍率2: 再生1s≈1.217 年)\" en HUD=\"t=20.0 (1251步)  N=31  50fps  echo RMS=33.881  reversed ↩︎ / System: closed (no external elements — P/L conserved incl. ledgers) / P=(-3.53, 9.65)  L=-8238 / 帳簿P=(0.00, 0.00)  帳簿L=0.00  放射L=0.00  放射E=0.00 / E_kin=97.9  E_rot=633 / Ledger denominators: active=9.136e+2 (primary) / legacy=9.136e+2 (the constant spin E of 0 pinned bodies is 0.000%) / scale conv: len1=10^11m time1=10^7s mass1=10^30kg t≈6.343 yr (effective rate 2: 1s of playback≈1.217 yr)\" ⏱️gclock(echoFlipAt なし)に echo 行なし=true",
+   "ms": 333
   },
   {
    "id": "freebox.pressure-expand",
    "pass": true,
    "detail": "🕊️既定(kRep=0.5・壁スピン1.0): 実測 a_eff=2.1795(> 1.15 — 実測2.1795・単調増加=true) H_eff 前半3.179e-2→後半5.140e-2(圧力駆動で加速) 壁リング動径偏差=0.039%(< 1% 座屈なし) 履歴48点 t=19.20",
-   "ms": 1317
+   "ms": 1148
   },
   {
    "id": "freebox.inertial-decel",
@@ -2227,7 +2267,7 @@
    "id": "freebox.conservation",
    "pass": true,
    "detail": "🕊️既定 1200步: 帳簿=[0,0,0,0,0](全0 — 全自由・完全閉鎖系) |ΣP|(t=0)=7.91e-7(相対3.09e-9 < 1e-6) |ΔP|/P_scale=3.27e-8 |ΔL|/L_scale=4.36e-8(< 1e-6) 参考 |ΔL|/|L₀|=2.62e-5",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "freebox.quadrants",
@@ -2245,19 +2285,19 @@
    "id": "freebox.no-rail-badge",
    "pass": true,
    "detail": "externalTags(freebox)= rail=false pin=0 bath=false grav=false(全て外部駆動なし) universeBox なし=true measureBox=true 壁 pinned=false/railH無し=true",
-   "ms": 7
+   "ms": 11
   },
   {
    "id": "freebox.schema",
    "pass": true,
    "detail": "measureBox true→true / 非真偽値\"yes\"→undefined(無視・警告1件) / 省略→undefined / universeBox 併用→false(規定 a(t) 優先・警告1件) / integrator 併用→true+\"leapfrog\" / ring vMode=\"hubble\" vScale 99→50(上限クランプ)",
-   "ms": 5
+   "ms": 8
   },
   {
    "id": "freebox.graph-measured",
    "pass": true,
    "detail": "slots=[boxGraph](boxGraph あり — universeBox 無しでも measureBox で有効) 履歴24点 a_eff=1.3529 赤方偏移は非適用(z 全0=true boxRedshift()=null=true) HUD=\"t=0.0 (0步)  N=72  49fps  a_eff=1.000(実測)\" 🫧boxcomoving(規定a)には a_eff 行なし=true i18n ja=\"実測\"/en=\"measured\" pageErrors増分=0(0期待)",
-   "ms": 267
+   "ms": 225
   },
   {
    "id": "freebox.zero-cost-elsewhere",
@@ -2269,7 +2309,7 @@
    "id": "conservation.float32-range",
    "pass": true,
    "detail": "回帰側(既定域 S_bh=0.12・n=63・8000步): |ΔL|/L_scale=2.24e-5 (< 1e-3 — 実測 beta(4-81後) 3.50e-6 / 倍精度化前(現 root) 5.14e-6。E6′飽和は 0.26% の頻度で発動するが恒等式は閉じる)",
-   "ms": 6918
+   "ms": 6480
   },
   {
    "id": "conservation.float32-canary",
@@ -2281,25 +2321,25 @@
    "id": "badge.classify",
    "pass": true,
    "detail": "☿mercury=extension:OK 🛰️saturnZonalD68=extension:OK 🫧boxcomoving=background:OK 🔦boxredshift=background+semantic:OK ♾️fig8=core+closed:OK ⏱️gclock=core+外部駆動(pinned):OK ⏪echo=core+closed:OK 🕊️freebox=core+closed:OK / 実測: mercury=[\"extension\"] saturnZonalD68=[\"extension\"] boxcomoving=[\"background\"] boxredshift=[\"background\",\"semantic\"] fig8=[\"core\"](closed=true) gclock=[\"core\"](pin=4,closed=false) echo=[\"core\"](closed=true) freebox=[\"core\"](closed=true)",
-   "ms": 13
+   "ms": 19
   },
   {
    "id": "badge.no-hscroll",
    "pass": true,
    "detail": "🔦boxredshift チップ=[規定背景, 意味論, 外部駆動, 意味論表示, 🫧 宇宙全体, 引きずり]・横スクロールなし(viewport 390)",
-   "ms": 43
+   "ms": 39
   },
   {
    "id": "badge.tint",
    "pass": true,
    "detail": "ラベル=\"温度=T_int\" / 🔥gas(thermal:\"tint\"): cls.tint=true チップ含む=true チップ一覧=[コア公理, 閉鎖系, 温度=T_int, 原理実証, ⚛️ 分子] / 🌌galaxy(非tint): cls.tint=false チップ含む=false チップ一覧=[コア公理, 外部駆動, ⚠強場トイ領域, 複合現象, 🌌 銀河, 引きずり] / 横スクロールなし(viewport 390): gas=true galaxy=true",
-   "ms": 70
+   "ms": 68
   },
   {
    "id": "ui.valid-window",
    "pass": true,
-   "detail": "(a)validatePreset: accept=kept(384)/warn0 zero=dropped/warn0 negative=dropped/warn0 nan=dropped/warn0 inf=dropped/warn0 string=dropped/warn0 omitted=dropped/warn0(OK) / (b)🕶️darkrotor validT=384 窓内t=4.80 HUD=\"t=4.8 (300步)  N=383  51fps / スケール換算 長さ1=10^19m 時間1=10^14s 質量1=10^34kg t≈1.52e7 年(実効倍率2: 再生1s≈1.22e7 年)\" → t=385.0へ直接進行後 HUD=\"t=385.0 (24063步)  N=383  54fps ⚠評価窓外(t>384) / スケール換算 長さ1=10^19m 時間1=10^14s 質量1=10^34kg t≈1.22e9 年(実効倍率2: 再生1s≈1.22e7 年)\" マーカー有無(窓内true/窓外true) 物理ハッシュ不変=true(OK) / (c)⏱️gclock validT=null(無し) t=100000でもマーカー無し=true(OK)",
-   "ms": 3189
+   "detail": "(a)validatePreset: accept=kept(384)/warn0 zero=dropped/warn0 negative=dropped/warn0 nan=dropped/warn0 inf=dropped/warn0 string=dropped/warn0 omitted=dropped/warn0(OK) / (b)🕶️darkrotor validT=384 窓内t=4.80 HUD=\"t=4.8 (300步)  N=383  52fps / スケール換算 長さ1=10^19m 時間1=10^14s 質量1=10^34kg t≈1.52e7 年(実効倍率2: 再生1s≈1.22e7 年)\" → t=385.0へ直接進行後 HUD=\"t=385.0 (24063步)  N=383  55fps ⚠評価窓外(t>384) / スケール換算 長さ1=10^19m 時間1=10^14s 質量1=10^34kg t≈1.22e9 年(実効倍率2: 再生1s≈1.22e7 年)\" マーカー有無(窓内true/窓外true) 物理ハッシュ不変=true(OK) / (c)⏱️gclock validT=null(無し) t=100000でもマーカー無し=true(OK)",
+   "ms": 3044
   },
   {
    "id": "ui.ab-body-onetap",
@@ -2317,31 +2357,31 @@
    "id": "behavior.gas",
    "pass": true,
    "detail": "温度分散(T_obs) 初期=9.734 → 6000步後=6.298(比=0.647 < 0.75 — 実測 tint 0.640 / spin 0.485) tint",
-   "ms": 25883
+   "ms": 24710
   },
   {
    "id": "behavior.pressure",
    "pass": true,
    "detail": "2000步後RMS半径比: 既定(kRep=2)=1.1826(>1.10) kRep=0=1.0157(<1.08) 成長量比=11.63倍(閾値2倍以上 — 実測 tint 11.63倍 / spin 3.59倍)",
-   "ms": 11919
+   "ms": 11678
   },
   {
    "id": "behavior.conduction",
    "pass": true,
    "detail": "加熱端T=64.0(不変) 中間(4000步) 近接T1=27.8 > 中位T9=4.9 > 遠端T17=2.3(距離依存) / ΔT 初期=64.0 → 20000步後=43.6(比=0.682 < 0.75 — 実測0.682。第39便 kappaS 1.5→0.3 再較正) / 行別(4000步): 前線 間隔9=90 > 間隔18=72 列熱比=2.55(窓2.125〜2.875・claims 連動) condHud=true",
-   "ms": 538
+   "ms": 550
   },
   {
    "id": "behavior.blens",
    "pass": true,
    "detail": "上側(y0=200)偏向 cy=-0.6162(<-0.3) cx=0.7876(捕獲なし) / 下側(y0=-200)偏向 cy=0.6162(>0.3・符号反転=井戸方向) cx=0.7876",
-   "ms": 31
+   "ms": 27
   },
   {
    "id": "behavior.boxbound",
    "pass": true,
    "detail": "φ_B=0.9506(実測sumW/boxWAtから算出) 2φ_B=1.901 / 12000步 d:24→106.85 a=2.1555 n_eff=1.9445(目標比1.023・許容±40%)",
-   "ms": 308
+   "ms": 297
   },
   {
    "id": "behavior.probeH",
@@ -2353,43 +2393,43 @@
    "id": "rail.custom-center",
    "pass": true,
    "detail": "中心(100,0)からの距離 50.000〜50.000(50±0.5・警告0件) railOmega無しのrailCx→警告して無視=true 未指定=原点 r=150.000(150)",
-   "ms": 14
+   "ms": 17
   },
   {
    "id": "gravity.uniform",
    "pass": true,
    "detail": "vy=0.800(理論0.8) y=0.646(理論0.6400000000000001) 帳簿=true badge=true",
-   "ms": 4
+   "ms": 3
   },
   {
    "id": "behavior.buoyancy",
    "pass": true,
    "detail": "分離(重-軽の平均y差)=163.8 (>20)",
-   "ms": 0
+   "ms": 1
   },
   {
    "id": "collapse.rotation",
    "pass": true,
    "detail": "rMax=244 (<600) L=12688 (>0)",
-   "ms": 25346
+   "ms": 23562
   },
   {
    "id": "theory.refs-all",
    "pass": true,
    "detail": "",
-   "ms": 48
+   "ms": 30
   },
   {
    "id": "theory.panel",
    "pass": true,
    "detail": "ja=true en=true",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "ext.detect",
    "pass": true,
    "detail": "{\"gcPin\":4,\"f8Pin\":0,\"cvBath\":true,\"shown\":true,\"closed\":true}",
-   "ms": 16
+   "ms": 24
   },
   {
    "id": "ext.panel",
@@ -2401,7 +2441,7 @@
    "id": "grcal.clocks",
    "pass": true,
    "detail": "τ/t 地上=0.9200 衛星=0.9713 err=9.0e-6/1.0e-5 衛星>地上=true",
-   "ms": 11
+   "ms": 13
   },
   {
    "id": "grcal.calib-text",
@@ -2419,19 +2459,19 @@
    "id": "behavior.grcal3",
    "pass": true,
    "detail": "式レベル出力↔🛰️正典(事前登録窓 ±1%)=true: GPS正味 38.5034 vs 38.5(0.009%) / GPS重力項 45.7160 vs 45.7(0.035%) / GPS運動項 7.21253 vs 7.2(0.174%) / 光偏向 1.75088 vs 1.7512(0.018%) / シャピロ 280.998 vs 281(0.001%) / claims↔式レベル 同期=true(11件) / 🕰️ τ/t 地上=0.94601<衛星=0.97980<参照=0.98672(順序=true) 分解比 重力/運動=6.3202 vs SI 6.3384(0.29%・窓±3%) / 🌟 光子偏向=0.09404rad vs 4GM/(c₀²b)=0.09259(比 1.0156・窓0.90〜1.10) 観測者を外す距離=35.4 / ⏲️ 伝播 κ=23.29 vs κ=0 は 22.67(遅れ 0.620) vs 有限幾何シャピロ 0.575(比 1.0789・窓0.90〜1.25) / 宣言=true(物理対応条件 κ=G/c₀²=[true,true,true]・🛰️は誇張=true)",
-   "ms": 82
+   "ms": 184
   },
   {
    "id": "label.gravity-notation",
    "pass": true,
    "detail": "",
-   "ms": 53
+   "ms": 34
   },
   {
    "id": "params.direct-input",
    "pass": true,
    "detail": "",
-   "ms": 34
+   "ms": 40
   },
   {
    "id": "display.trail-toggle",
@@ -2467,7 +2507,7 @@
    "id": "params.desc-all",
    "pass": true,
    "detail": "ja欠落=なし en欠落=なし",
-   "ms": 568
+   "ms": 562
   },
   {
    "id": "params.desc-toggle",
@@ -2491,7 +2531,7 @@
    "id": "spinlens.kframe-control",
    "pass": true,
    "detail": "非対称度 kF=1: 6.78e-1 / kF=0: 0.00e+0(0で消失)",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "projectile.layout",
@@ -2503,7 +2543,7 @@
    "id": "activeParams.all",
    "pass": true,
    "detail": "全内蔵で宣言済み",
-   "ms": 9
+   "ms": 21
   },
   {
    "id": "activeParams.ui",
@@ -2515,7 +2555,7 @@
    "id": "ui.54d-preset-nav",
    "pass": true,
    "detail": "カテゴリ選択肢=12(先頭=all) 絞り込み(スピンと熱)=9件・全て域内=true・先頭自動ロード=gas / 域外読込で全カテゴリへ復帰=true / hp_last_preset=saturn / 仕込み emergent2 → 別ページ boot 復元=emergent2",
-   "ms": 535
+   "ms": 470
   },
   {
    "id": "ui.54d-params",
@@ -2527,49 +2567,49 @@
    "id": "ui.57c-labbox",
    "pass": true,
    "detail": "実験箱カテゴリ=true・行数=12(期待12=壁4面×2+反発係数4行〔第94便〕) / 一様重力の所在=時空(第79便)・時空に有=true / 未設定面の編集で生成=true(レート0へ復帰=true — 物理不変) / 再構築後もカテゴリ開いたまま=true(57B) / タブ別スクロール配線=true",
-   "ms": 78
+   "ms": 57
   },
   {
    "id": "ui.58b-reset-keep",
    "pass": true,
    "detail": "⏮保持: 相変化ノブ(bondN/condN)=true・既存壁=true・新設面=true / rad面: convection 実験箱行=12(期待12 — 4面すべて表示。一様重力は時空へ移動〔第79便〕+反発係数4行〔第94便〕)・天井(rad)T編集→heat変換(レート保持)=true",
-   "ms": 35
+   "ms": 32
   },
   {
    "id": "ui.61b-tools",
    "pass": true,
    "detail": "チェックポイント: 500步進めて復帰=bit一致(true)・プリセット読込で無効化=true / ワンタップ対照A/B(chain2): B側 angK=0(A側=1.2)・100步併走 NaNなし / HUD 步数併記(静的)=true",
-   "ms": 1853
+   "ms": 1631
   },
   {
    "id": "ui.63-ab-tools",
    "pass": true,
    "detail": "タイトル統一(⚖️ ワンタップ対照A/B(B側: …))=true / darkrotor: ⏮初めから後もB側へ再patch(spin=0)=true(A/B継続=true・A側spin保持=true) / チェックポイント: A/B中の保存→200步→復帰で両側bit一致=true・A/B終了で無効化=true",
-   "ms": 1076
+   "ms": 756
   },
   {
    "id": "render.on-demand",
    "pass": true,
    "detail": "停止500msの描画=0回(0) 操作後=1回(≥1)",
-   "ms": 1011
+   "ms": 1012
   },
   {
    "id": "cache.rays-field",
    "pass": true,
    "detail": "描画42回の間に 光線再積分=0(≤2) フィールド再計算=0(≤2)",
-   "ms": 1008
+   "ms": 1009
   },
   {
    "id": "divergence.undo",
    "pass": true,
    "detail": "snapshot=true 停止=true ボタン=true 復元=true",
-   "ms": 3822
+   "ms": 3828
   },
   {
    "id": "ab.edit-target",
    "pass": true,
    "detail": "トグル表示=true B編集=true A表示値=true A編集=true",
-   "ms": 43
+   "ms": 32
   },
   {
    "id": "ab.display-sync",
@@ -2593,43 +2633,43 @@
    "id": "physlock.kt-derive",
    "pass": true,
    "detail": "世代=κ正準(第128便) OFF時=0.0033333333333333335(条件外バッジ=true) ON時=0.0002777777777777778(条件値=0.0002777777777777778) cLight半減追随=0.0011111111111111111(期待0.0011111111111111111) 直編集=0.0011111111111111111/表示0.0011 G=0エッジ=0(クランプ近似=false) 解除後=0.0033333333333333335",
-   "ms": 45
+   "ms": 11
   },
   {
    "id": "pn.source-flag",
    "pass": true,
    "detail": "新値域保持(c=3e4・Kt=1.35e8)=true クランプ(2e6→1e6/2e9→1e9)=true 不正フラグ削除=true / 既定=閾値未満でλ無関係(bit一致)=true フラグで1PN発現=true pnSource()正本=on:true/off:true",
-   "ms": 43
+   "ms": 36
   },
   {
    "id": "state.carry-double",
    "pass": true,
    "detail": "不正値は既定へ=true 既定=ゼロコスト(配列なし/ax=F32)=true / 量子化再現: 既定は vy=1 のまま凍結=true → \"double\" で Δvy=g·t を蓄積=true(vy=1.000032)",
-   "ms": 124
+   "ms": 100
   },
   {
    "id": "time.step-accounting",
    "pass": true,
    "detail": "低負荷=800/800 過負荷=200000/200000 繰越最大=2000≤2000 バースト=2500/2500(上限=2000)",
-   "ms": 12
+   "ms": 18
   },
   {
    "id": "paper.v1-convergence",
    "pass": true,
    "detail": "dt=0.016: P=7.4e-7 L=2.6e-7 / dt=0.008: P=3.4e-6 L=9.7e-7 / dt=0.004: P=8.4e-7 L=4.9e-8(全て丸め床 <5e-5・dt 非依存)",
-   "ms": 2022
+   "ms": 1827
   },
   {
    "id": "paper.zeroth-law-isolated",
    "pass": true,
    "detail": "2体率=2.227e-3 vs 解析 2.227e-3(誤差 2.2e-5) 格子gap 3.08→2.88(率 1.07e-3) ΣIsドリフト=7.6e-6",
-   "ms": 0
+   "ms": 1
   },
   {
    "id": "ab.same-init",
    "pass": true,
    "detail": "",
-   "ms": 1866
+   "ms": 1651
   },
   {
    "id": "ab.params-differ",
@@ -2677,7 +2717,7 @@
    "id": "claim.galaxy-outerboost",
    "pass": true,
    "detail": "vφ外縁 kF1=3.810 kF0=2.505 比=1.521 (>1.04)",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "behavior.saturn",
@@ -2695,31 +2735,31 @@
    "id": "claim.galaxystd-outerboost",
    "pass": true,
    "detail": "vφ外縁 kF1=3.982 kF0=3.145 比=1.2659(窓1.15〜1.4・較正実測1.2646) / 純度Π: 測地線=0 熱斥力=0 結合=0(厳密0)・引きずり=37.9%(>15% — 実測24.5%)",
-   "ms": 65593
+   "ms": 62839
   },
   {
    "id": "claim.galaxygeo2-outerboost",
    "pass": true,
    "detail": "vφ外縁 kF1=3.376 kF0=2.841 比=1.1884(窓1.14〜1.23・較正実測1.1868(第108便A))/ 純度Π: 熱斥力=0 結合=0(厳密0)・測地線=14.0%(>2% — 1PN)・引きずり=24.0%(>10% — 輸送+渦度)/ クランプ=0",
-   "ms": 163353
+   "ms": 160461
   },
   {
    "id": "preset.scale-tier",
    "pass": true,
    "detail": "未分類=なし 内訳={\"planetary\":57,\"stellar\":38,\"everyday\":1,\"cosmic\":10,\"galactic\":24,\"molecular\":9,\"beaker\":3}(全142件)",
-   "ms": 7
+   "ms": 28
   },
   {
    "id": "light.canonical-builtins",
    "pass": true,
    "detail": "全142件が c₀=30 またはティア実c値を宣言 / 既定値マージ=30(=30)",
-   "ms": 3
+   "ms": 4
   },
   {
    "id": "scale.display-invariant",
    "pass": true,
    "detail": "240步 bit一致=true(N=240)/ 換算 exp0: cLight60→\"≈6e4 m/s\"(=≈6e4 m/s — 第130便: eC は 🔥gas のティア既定 3 に固定(実測 eC=3))/ 無次元キーは非換算=true",
-   "ms": 2011
+   "ms": 2221
   },
   {
    "id": "ai.scale-templates",
@@ -2737,13 +2777,13 @@
    "id": "claim.nebularotor-contrast",
    "pass": true,
    "detail": "lS̄ コア=0.859(窓0.75〜0.95・実測0.859(第108便A)) エンベロープ=0.075(<0.1) コントラスト=11.5倍(>10)/ スピン0対照 コア=0.032(<0.1 — 散光化)",
-   "ms": 3868
+   "ms": 3776
   },
   {
    "id": "lsw.core-auto",
    "pass": true,
    "detail": "単層=解析式 0.080992(=0.080992) / 剛体コア(mode=rigid)=単層 bit等価=true / 2層(Ω_c=12)=0.508(単層+0.2 以上 — 差動コアが暗さを担う)",
-   "ms": 12
+   "ms": 9
   },
   {
    "id": "preset.group-core",
@@ -2755,43 +2795,43 @@
    "id": "core.v2-mech",
    "pass": true,
    "detail": "zero-shell: lSw=0.808(>0.7) Ω=12.00(≈12) 殻=0(=0) / 収縮: J 81→81(厳密保存) Ω→13.6(>10・Rc=1.15) W=471 / τ_cs: コア→殻 J 移送(殻=0.269) 合計ドリフト=1.5e-5(<1e-3)",
-   "ms": 195
+   "ms": 186
   },
   {
    "id": "core.tilt-sink",
    "pass": true,
    "detail": "静的 tilt の z 射影: コアΩ 20.000/10.000/0.000(20·cosθ — 0°/60°/90°) / 偶力→軸傾き(coupleSink:\"tilt\"・点状慣性): 容量 |J|=[0.0403, 0.0074]・|J_z|−|J| 最大 0.0e+0(≤0=容量内)・clampTN=94134(>0 — 容量到達・溢れはリザーバへ)・殻スピンはビット凍結=true・clampSN=0(=0)・L帳簿残差 1.0e-14(<1e-8) — 第206便 §4「点状慣性の歳差経路は単独では主砲にならない」の機械確認(保存的に成立)",
-   "ms": 197
+   "ms": 261
   },
   {
    "id": "core.tilt-energy-audit",
    "pass": true,
    "detail": "固定|J|エネルギー比 0/60/90°=1.000/1.000/1.000 (=1)・射影エネルギー比=1.000/0.250/0.000 (=1/.25/0)・角力積/|J|=0.9999999999999999/1.414213562373095 (=1/√2)・tilt×Kcs は破棄=true・軸引きずりの担当警告(Kcs→Kalign)=true",
-   "ms": 10
+   "ms": 8
   },
   {
    "id": "behavior.core-axis3d",
    "pass": true,
    "detail": "歳差(5000步): J_z bit=true・|J| 1.9e-13・方位誤差 1.5e-7(=Ω_s·t)・radE増 0(仕事0)・θ=60.000000°(=60 保存) / 減光 tilt 0/30/60/90°: [0.397621, 0.397621, 0.397621, 0.397621](広がり 7.5e-8 <1e-6 — 傾いても消えない) / 融合: 整列 |J|′=6(=6)・60+120° θ′=90.00°(=90 — 実面内 Jx=5.196152)・反平行 |J|′=0(=0 — 隠れ容量の解消)・コアKE欠損の熱記帳: ΔT·Cm−ΔE = 1.8e-6/-2.3e-6(<1e-4 — Tint Float32 丸め)",
-   "ms": 19
+   "ms": 21
   },
   {
    "id": "core.edit-ui",
    "pass": true,
    "detail": "applyCoreEdit=build 鏡写し: J/|J| ビット一致=true/true / 無効化: coreMd=0・J=0・hasCoreV2=false(false)→再付与で復帰(有効=フィールド追加/無効=無視) / クランプ(実行状態の値域): massFrac 0.9990000128746033(上限 0.999)・radius 0.009999999776482582(0.01)・Kcs 0(0)・ζ 1000000(1e6)・Ω 999.0(999) / tilt:90 の描画入力 |J_z|/|J|=6.1e-17(<1e-9 — エッジオン楕円=横棒) / コア無し粒子への付与→除去=OK / 編集 DOM 8要素=true / **第247便c(E1)**: 何も触らずに change → Mc・J とも bit 不変(true・台帳 0行)・MF 欄だけ 0.4 へ → massFrac 0.4000000059604645 に変わり **J は bit 不変**(true・台帳 1行)",
-   "ms": 19
+   "ms": 28
   },
   {
    "id": "preset.rmul-audit",
    "pass": true,
    "detail": "lint: rMul:1 書き出し=0件・radius 併記 single の rMul=0件(いずれも0 — 第213便/第216便で削除・再導入防止) / 生存対照(第218便原理): galaxy 中心 radius 15→40 で配置が変わる=true・counterring 中心(radius なし)rMul 0.8→4 で配置が変わる=true(除外=配置粒子の実半径 — radius 併記では rMul が除外にも効かないので lint で禁止できる)",
-   "ms": 28
+   "ms": 27
   },
   {
    "id": "claim.starseed-powerball",
    "pass": true,
    "detail": "種A: Ω比=107.9(窓80〜140・実測107.9) 減光=0.9988(≥0.98) / 種B(軸固定): spin比=0.871(0.8〜0.95 — 同じ揺すりで減速) / 帳簿込み|ΔL|=3.4e-6(<1e-3) コア仕事W=15140",
-   "ms": 30
+   "ms": 34
   },
   {
    "id": "claim.bhcore-selfdrive",
@@ -2803,67 +2843,67 @@
    "id": "claim.bhcore-free",
    "pass": true,
    "detail": "外縁増強=1.5060(窓1.37〜1.68・実測1.5236。同構成 pinned 対照 1.5215)/ 上限発動 R/V/S=0/0/0(すべて0)/ 自走: 殻 0.15→1.332 コアΩ 20.0→4.24(窓は世代係数つき)/ 中心lSw=1.000(≥0.99) 保持率=1.000(≥0.95)/ BH重心相対 最大変位=0.286(0.2〜8 — 固定ではない有限反跳) 最大速度=0.0084(<0.2)/ 重心系初期化=barycentric 帳簿込み|ΔL|=6.1e-7(<1e-5)",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "core.extreme-fuzz",
    "pass": true,
    "detail": "境界・不正値 7件: 走行=7 拒否=0 NaN/Inf/負半径=0(=0)/ 保存互換: core 保持=true・core を落とした読み(root 相当)も単層として走行=true",
-   "ms": 22
+   "ms": 85
   },
   {
    "id": "core.active-energy",
    "pass": true,
    "detail": "注入 ΣΔE_int=40.000000 = 帳簿 coreSrcE=40.000000(相対差 2.1e-15<1e-12・理論値 sourceRate·t=40.000000)/ 回転化しない: J=54(不変) Ω=2.9999998807907153(不変)/ differential 対照の E_int=0(=0 — 注入は active 限定)",
-   "ms": 12
+   "ms": 14
   },
   {
    "id": "core.cavity-no-negative-mass",
    "pass": true,
    "detail": "旧キー読込 coreMR=−0.5/coreSR=3/coreRR=0.4(移行警告1件)⇔ 手書き cavity(voidFraction=0.5・R_c=2・Ω=1.5): 1步 bit一致=true(a=0.076316,0.000000 lSw=0.078840)/ 空洞の質量=0・J=0(ともに厳密0)・R_c=2(>0)/ 引きずり重み coreMF=-0.5(負の**重み**であって質量ではない)/ 400步後: 総質量 50→50(不変)・最小質量=20(>0 — 負質量なし)",
-   "ms": 15
+   "ms": 18
   },
   {
    "id": "core.group-core",
    "pass": true,
    "detail": "disk 6粒=differential・ring 6粒=cavity(全メンバーに同一設定)/ R_c min=1.2000000476837158(>0) コアΩ=4.000 lSw=0.174/ 帳簿込み|ΔL|=3.0e-8(<1e-3・600步)/ core 無しの同構成: hasCoreV2=false(false) ΣcoreMd=0(=0 — ゼロコスト経路)",
-   "ms": 124
+   "ms": 127
   },
   {
    "id": "core.merge-split",
    "pass": true,
    "detail": "融合: J_c -1.5→-1.5(厳密和) E_int 10→10(厳密和) M_c 3.200000→3.200000 R_c=1.802776(面積等価 √(1²+1.5²)=1.802776)/ リザーバ退避 ΔresL=0(=0 — 継承なので不要)・帳簿込み|ΔL|=0.0e+0/ 分裂: J_c 1.2→1.2(和が厳密一致) E_int 6.032→6.032 R_c²=1→1.000000(和が不変) massFrac=0.30000001192092896(両片とも親と同値)",
-   "ms": 17
+   "ms": 9
   },
   {
    "id": "core.schema-roundtrip",
    "pass": true,
    "detail": "export: schemaVersion=4(=4)/ 旧キー併記なし=true(第81便でコアv1 廃止)/ 読み戻し: core 保持=true(警告0件=0)・mode=differential/cavity 値の欠落なし",
-   "ms": 6
+   "ms": 5
   },
   {
    "id": "claim.nebulashell-stress",
    "pass": true,
    "detail": "2層: lS̄=0.962(窓0.9〜0.99 — claims宣言) 保持=1.000(≥0.93) env保持=1 / 単層(spin6・同等暗さ0.965): 保持=0.481(0.4〜0.6 — 熱圧で自壊) env|spin| 3.77 vs 1.25(>2.5倍 — 影響範囲の狭さ)",
-   "ms": 3330
+   "ms": 3592
   },
   {
    "id": "claim.nebulabipolar-polar",
    "pass": true,
    "detail": "脱出=42(30〜55) 極方向比=0.762(窓0.65〜0.88・等方1/3・実測0.762(第218便)) / 中心lSw=1.00(>0.95) アーク帯lS̄=0.944(>0.85) / スピン0対照 脱出=0(≤3 — 圧力が唯一の駆動源)",
-   "ms": 5376
+   "ms": 4934
   },
   {
    "id": "claim.nebulabipolar-multiseed",
    "pass": true,
    "detail": "3seed(20260805/20260806/20260807・内蔵seedは claim.nebulabipolar-polar が担当) 6000步 極方向比 0.714/0.614/0.625 → **最小=0.614**(claim 窓 0.45〜0.9・等方 1/3=0.333 — 最小でも1.84倍の集中) / 脱出 49/60 44/60 40/60(各≥20) / 圧力オフ対照(kRep=0)の脱出 0/0/0(最大 ≤3) / 中心lSw 1.00/1.00/1.00(>0.95) アーク帯lS̄ 0.944/0.944/0.944(>0.85) / E水準=E1(赤道アーク22体が pinned = 外部固定の幾何なので閉鎖系ではなく、E2/E3 には定義上該当しない — 第84便B) / 16seed の分布の正本は tests/exp-4-88.mjs",
-   "ms": 14643
+   "ms": 12520
   },
   {
    "id": "dimming.dynamics-invariant",
    "pass": true,
    "detail": "減光なし vs auto vs 固定1(121粒子・2000步・etaRad=0): 力学+時計の不一致=0/0(厳密0 — x,y,vx,vy,spin,τ)・光線差=0/0(厳密0)/ disk群 lightSweep:\"auto\" 配線=121/121・実効減光>0=121/121 — 減光は光学のみ(「暗いが重い」天体の前提の機械証明)",
-   "ms": 9133
+   "ms": 8823
   },
   {
    "id": "clamp.reaction-cap",
@@ -2875,37 +2915,37 @@
    "id": "geo2.kf0-bitequal",
    "pass": true,
    "detail": "geoPN=2∧kFrame=0 ≡ geoPN=1(☿型 pinned 源・1500步): 全状態(x,y,vx,vy,spin×2粒子)の不一致=0(厳密0 — P4a-4 のエンジン版・段階導入アンカー)",
-   "ms": 140
+   "ms": 139
   },
   {
    "id": "geo2.comoving",
    "pass": true,
    "detail": "共動連星(等質量自由源対・D0=0・2000步): V=0 の分離窓平均=84.40 ⇔ V=3 ブースト=83.83 相対差=0.67%(<3%・較正実測0.75%) — 統一則のガリレイ共変性(P4a-2 のエンジン版。現行 E12 の絶対 v は式レベルで 34% 破れ)",
-   "ms": 1
+   "ms": 0
   },
   {
    "id": "geo2.conservation",
    "pass": true,
    "detail": "自由連星+惑星2(D0=0・3000步)の帳簿: geoPN=2 で |ΔΣP|/Σm|v|=1.31e-6(<1e-4)・|ΔΣL|/|L₀|=6.94e-6(<1e-4・リザーバ=0のまま) / geoPN=1(kFrame=0)は EIH 型(第285便b): |ΔΣP|/Σm|v|=5.80e-7(<1e-4)・**1PN の角運動量** J の相対変化=4.22e-6(<1e-4)・Newton の ΔL 比=5.95e-4(保存量ではない —— 記録)",
-   "ms": 62
+   "ms": 69
   },
   {
    "id": "behavior.mercury-builtin",
    "pass": true,
    "detail": "Δϖ/周: λ1=3.79° λ0=-0.65° α0.5=0.84° 比(基線差引)=2.98(理論3±0.6)",
-   "ms": 417
+   "ms": 409
   },
   {
    "id": "claim.massladder",
    "pass": true,
    "detail": "力学質量=2780/5448/10676(実質量 2500/5000/10000)/ 比=1.9599(窓1.76〜2.16・実測1.960) 3.8401(窓3.46〜4.22・実測3.840)/ M_dyn/m=1.112/1.090/1.068(いずれも1超1.3未満 — E6′超過)/ 中心lSw 最小=1.0000(≥0.99 — 真っ暗) T_obs=0/0/0(全て0)/ リング半径ばらつき 最大=6.5%(≤15%)/ 上限発動 V/S/R=0/0/0(すべて0)",
-   "ms": 5240
+   "ms": 5053
   },
   {
    "id": "zonal.analytic-d68",
    "pass": true,
    "detail": "ϖ̇=38.231443°/日(38.231443±0.05) 較正=38.243009(38.243±0.002)",
-   "ms": 16
+   "ms": 20
   },
   {
    "id": "zonal.point-mass-degenerate",
@@ -2929,7 +2969,7 @@
    "id": "zonal.ai-open",
    "pass": true,
    "detail": "受理/クランプ(refR→5000, calib→2, J2→0.1)/奇数次は警告無視/refR欠落は拒否 — 警告4件",
-   "ms": 4
+   "ms": 3
   },
   {
    "id": "zonal.d68-preset",
@@ -2941,19 +2981,19 @@
    "id": "zonal.d68-realunit",
    "pass": true,
    "detail": "D68(a=67.627=67,627km)エンジン実測 38.072°/日(Cassini 38.243 に対し -0.45%・窓 37.9〜38.35)/ 10粒の解析式比 0.9944〜1.0021(窓 0.98〜1.02)/ μ=G·M=379.3101(実 GM_土星=379.3121)・J基準半径=60.33(=60,330km)・C=1.000302283/ 672813步",
-   "ms": 6371
+   "ms": 6455
   },
   {
    "id": "zonal.peri-ui",
    "pass": true,
    "detail": "最内粒子(a_eff=67.8): 実測=8.05°/周 解析=7.99°/周(相対差 0.8% <25%・n=4)",
-   "ms": 631
+   "ms": 524
   },
   {
    "id": "zonal.sim-precession",
    "pass": true,
    "detail": "Δϖ/周 実測=8.050° 解析(a_eff=67.8)=7.989°(相対差 0.77% <15%)",
-   "ms": 1079
+   "ms": 1059
   },
   {
    "id": "zonal.no-double-count",
@@ -2965,91 +3005,91 @@
    "id": "zonal.dt-convergence",
    "pass": true,
    "detail": "Δϖ/周: dt=0.016 → 8.050° / dt=0.008 → 8.041°(相対差 0.11% <10%)",
-   "ms": 1096
+   "ms": 1002
   },
   {
    "id": "docs.d68Decomp",
-   "pass": false,
-   "detail": "**📡 D68 の問題の分解**(第280便e・R67): 正式 h/4 13925.5846・🧷 13968.2435・📎 13968.2142・C=1 13964.0190 deg/yr / 分解: 初速 +42.23・ε +0.54・他の環粒子 +0.109・1PN +0.011 deg/yr / 独立: 平均半径 67800.72 km・38.1259 °/日・a の円軌道極限 ε=0.05 38.2415・ε=0 38.2429 °/日 / **食い違い 3 件**: 正式値(d68-w268a)のビット再現が 3 段で 0 差でない , §5.34 に 13968.2435 が無い , PHYSICS に 13968.2435 が無い",
-   "ms": 76
+   "pass": true,
+   "detail": "**📡 D68 の問題の分解**(第280便e・R67): 正式 h/4 13925.5846・🧷 13968.2435・📎 13968.2142・C=1 13964.0190 deg/yr / 分解: 初速 +42.23・ε +0.54・他の環粒子 +0.109・1PN +0.011 deg/yr / 独立: 平均半径 67800.72 km・38.1259 °/日・a の円軌道極限 ε=0.05 38.2415・ε=0 38.2429 °/日 / 正本 ↔ §5.34 ↔ PHYSICS 一致・正式値ビット再現",
+   "ms": 64
   },
   {
    "id": "behavior.d68Consistent",
    "pass": true,
    "detail": "**📡 の診断コピー 2 本**(第280便e): 🧷 saturnD68Consistent(e*=0.001)h 段 13968.187028・📎 saturnD68ObsOrbit(r=a∓ae)h 段 13968.157821 deg/yr(正式の抽出器・58 近点窓・正本と一致)/ 初速は純関数の構成とビット一致・principle・門の器に未登録(**C は D68 の ϖ̇ への既存 fit —— 観測一致とは書かない**)",
-   "ms": 2620
+   "ms": 2588
   },
   {
    "id": "lint.zonalApsidal",
    "pass": true,
    "detail": "**解析ヘルパ zonalApsidal の C の位置**(第280便e・R67): Ω²=Ω0²+C·ΔΩ²・κ²=κ0²+C·Δκ² → Ω−κ。D68(a=67627 km)で 新 38.2429105 − 旧 C·(Ω−κ) 38.2429012 = 9.3066e-6 °/日・C=1 は旧式とビット同一・ε=0.05 の円軌道極限 38.2414877 °/日(純関数と一致)・HUD も C を内側で渡す",
-   "ms": 7
+   "ms": 16
   },
   {
    "id": "ui.d68Naming",
    "pass": true,
    "detail": "**📡 の名前**(第280便e): 「土星の近点移動(実単位・D68 — 帯状重力の照合)」/「Saturn Apsidal Precession (Real Units, D68 — Zonal-Gravity Comparison)」—— 解析式への fit(C)と実軌道の照合(門の判定)を分けた名前・語",
-   "ms": 6
+   "ms": 7
   },
   {
    "id": "docs.rotorLedger",
    "pass": true,
    "detail": "**条件付き質量台帳**(第281便c・R74 —— 仮定の 3 シナリオ・既定は追加 0・較正母集団の外): 現状 767.500 単位(3.860×10¹⁰ M☉)→ A/B/C 2287.500(1.150×10¹¹) / 15967.500(8.030×10¹¹) / 152767.500(7.683×10¹²) / 観測の行 +0.1826 単位(恒星質量の 0.0481%) / η 2.253×10⁻⁵・2.253×10⁻⁶・2.253×10⁻⁷(η=1 の t_E 12.01/37.98/120.10 日) / 偏向の質量比 2.007・4.041 / 引き直しの最大相対差 0.0e+0 / 正本 ↔ いまの html の引き直し(≤1e-12)↔ PHYSICS 一致・出典あり・禁止の言い回し 0",
-   "ms": 94
+   "ms": 85
   },
   {
    "id": "preset.massLedger",
    "pass": true,
    "detail": "**🛞 の条件付き質量台帳の宣言**(第281便c・表示専用): 3 シナリオ 0.1 M☉→2287.5 / 1 M☉→15967.5 / 10 M☉→152767.5 単位・既定 none(追加 0)・rotorInFStar false(f★ を掛けない別集団)・宣言は 3 本・拒否 3 種と未知の鍵・既定の修正を確認・presetSigHash 67ef3d3d(基点と同じ・台帳の有無で不変)",
-   "ms": 11
+   "ms": 12
   },
   {
    "id": "preset.fieldContract",
    "pass": true,
    "detail": "**場の契約の読み手**(第282便d・G0・AN17 —— p・q・W_bg〔D₀ とは別鍵〕・源集合・速度・自転項を宣言して u と χ を返す 1 本の読み手。既存の読み手は互換として残す): 🎋・🛞 を 6 半径 × 8 方位: 共通 API の宣言はビット一致・表示の宣言は相対 2.2e-16 / 正本: 4 本 × 3 読み手の契約表が第281便b の正本と最大相対 1.7e-16・自転項の勾配の差分検算 5.7e-12・時間微分 4.0e-12",
-   "ms": 146
+   "ms": 177
   },
   {
    "id": "behavior.centerSpinResponse",
-   "pass": false,
-   "detail": "**中心 DFM BH のスピン応答**(第282便d・R81 —— opt-in physics.spaceMesh.centerSpin:\"read\"・**既定 off**・宣言は 🌚 の 1 本だけ): いまの html で 🎋 の写し 150 步: 既定 off は spin 1.2/0 がビット一致・\"read\" で最大位置差 1.406e+1・\"read\" の spin 0 は既定とビット一致 / 正本(t=40): \"read\" の最大位置差 213.22・場の ∂u_φ/∂Ω(r=20/480)3.585/0.336 —— **中心の自転が回転を「作った」とは言わない**(読み手が読むようになった応答を数で置くだけ) / **違反 1 件**: PHYSICS の応答表・無次元量の表に無い行 | 参照: 🎻 gw150914DFM#0 | 1376.0 | 1.0000 | 0.000 | — | — | | 参照: 🎻 gw150914DFM#1 | 1193.1 | 1.0000 | 0.000 | — | — |",
-   "ms": 2825
+   "pass": true,
+   "detail": "**中心 DFM BH のスピン応答**(第282便d・R81 —— opt-in physics.spaceMesh.centerSpin:\"read\"・**既定 off**・宣言は 🌚 の 1 本だけ): いまの html で 🎋 の写し 150 步: 既定 off は spin 1.2/0 がビット一致・\"read\" で最大位置差 1.406e+1・\"read\" の spin 0 は既定とビット一致 / 正本(t=40): \"read\" の最大位置差 213.22・場の ∂u_φ/∂Ω(r=20/480)3.585/0.336 —— **中心の自転が回転を「作った」とは言わない**(読み手が読むようになった応答を数で置くだけ)",
+   "ms": 2972
   },
   {
    "id": "docs.analogyLedger",
    "pass": true,
    "detail": "**アナロジーの質量台帳**(第282便d・AN19 —— DR は力学の質量要素・⟨m_DR⟩=1 M☉ が代表・0.1/10 M☉ は比較の列・η=1・f=1): いまの html で台帳・回転曲線(4 列)・🛞 の台帳を引き直して正本と相対 0.0e+0 / 🌚: 代表粒子 40 × 53.125 = M_DR 2125(bodies の和)・M★ 53.125・M_DR/M★ 40・v_c(1 M☉)= 9.838/7.556/6.092/5.321/4.413/2.832・T=48 NaN 0・DR の代表粒子 0/40 が光線の重い天体に入る(第283便f: lens:\"excluded\" を rayHeavy が読む —— 光線の源から外れる) / 🛞 の台帳 f★=1 で 767.5 単位(旧 1147.398 は履歴 —— 持ち越さない)・署名 67ef3d3d —— **平坦回転を再現したとは書かない**(回転曲線は観測と突き合わせていない)",
-   "ms": 529
+   "ms": 555
   },
   {
    "id": "behavior.calauditStages",
-   "pass": false,
-   "detail": "**較正走行の段**(第283便c・原仮定者の裁定(第73報)⑤・統括の検証項目 R86): ❄️ 716.157 → 466.911 s(旧形式だけ dt/8 を 1 回) / 正本 37 本: 段の和 = timeBudget の和(第282便の式との差 -0.000 s —— 鎖の方針の後の世代では 0) / 鎖の dt3 段 `node tools/calaudit-split.mjs --k 2 --harness tests/exp-w249b-calaudit.mjs -- --h4-exceptions --merge`・kf0 段は --kf0-h4-exceptions(明示診断 --dt4-registry・--kf0-dt3 は器に残る) / 正本は鎖の方針の後の世代: h/8 欄 0・dtEighth 0・判定段 h8 0 / 契約の穴 5 通り(空契約どうし・必須鍵の欠落・未知の版・不完全窓・単位の欠落)を拒否・版 w285f-h4reuse-3 / dt/2 の転記 8 通り(同一契約・h のビット一致・同一便・h/2 の完了 → 転記 / h の 1e-12 の違い・別の便・クランプ・契約違い・空契約・置き場なし → 走らせる・`--h2-reuse-cross` で便をまたぐ)・壁時計だけ違う h は同じ署名・非決定的の許容幅は未宣言 / 再利用の判定 7 通り・刻印・転記を数えない・反例 e(h₀)=e(h₀/2)=0・e(h₀/4)=7.680e-10・閾値規則は既定 off / 正本は再利用の世代: 転記 3 本・新規 0 本・拒否 0 本 / 正本は方針の後の世代: 前(判定段 h4)53 量 → h4 のまま 11・h2 へ 0・h へ 31・門の状態が動いた 0・5 区分が動いた 2・例外 4/4 / 正本は dt/2 の転記の世代: 転記 3 本・新規 30 本・拒否 30 本・法則の指紋(閉包)a3f5d096ecbb / dt/2 の窓: 正本は T の規則の世代 —— 33 本の dt と dt/2 が同じ T(上限で決まる本 earthMoonReal h 27・h/2 27 近点 ; earthMoonRealKF1 h 26・h/2 26 近点 ; emAuditDFM h 26・h/2 26 近点 ; plutoCharonReal h 59・h/2 59 近点) / T の規則 w285f-T1: 🌙 級(階級上限)h 40000000・h/2 80000000・h/4 160000000 步(T=40000000 步@dt₀)/ 軌道窓は旧規約のまま・契約の窓の定義 w285f-window-1(版 w285f-h2reuse-2・w285f-h4reuse-3) —— **dt と dt/2 の一致は収束の証明ではない**(閾値規則は DFM 概略整合の本だけの既定 off のオプション。第284便c: dt/4 は例外の登録簿の本だけ・dt/2 は同一便の再走で転記) / **違反 1 件**: (v′) PHYSICS〔第284便c〕の禁止語: 観測一致を達成した",
-   "ms": 94
+   "pass": true,
+   "detail": "**較正走行の段**(第283便c・原仮定者の裁定(第73報)⑤・統括の検証項目 R86): ❄️ 716.157 → 466.911 s(旧形式だけ dt/8 を 1 回) / 正本 37 本: 段の和 = timeBudget の和(第282便の式との差 -0.000 s —— 鎖の方針の後の世代では 0) / 鎖の dt3 段 `node tools/calaudit-split.mjs --k 2 --harness tests/exp-w249b-calaudit.mjs -- --h4-exceptions --merge`・kf0 段は --kf0-h4-exceptions(明示診断 --dt4-registry・--kf0-dt3 は器に残る) / 正本は鎖の方針の後の世代: h/8 欄 0・dtEighth 0・判定段 h8 0 / 契約の穴 5 通り(空契約どうし・必須鍵の欠落・未知の版・不完全窓・単位の欠落)を拒否・版 w285f-h4reuse-3 / dt/2 の転記 8 通り(同一契約・h のビット一致・同一便・h/2 の完了 → 転記 / h の 1e-12 の違い・別の便・クランプ・契約違い・空契約・置き場なし → 走らせる・`--h2-reuse-cross` で便をまたぐ)・壁時計だけ違う h は同じ署名・非決定的の許容幅は未宣言 / 再利用の判定 7 通り・刻印・転記を数えない・反例 e(h₀)=e(h₀/2)=0・e(h₀/4)=7.680e-10・閾値規則は既定 off / 正本は再利用の世代: 転記 0 本・新規 3 本・拒否 3 本 / 正本は方針の後の世代: 前(判定段 h4)53 量 → h4 のまま 11・h2 へ 0・h へ 31・門の状態が動いた 0・5 区分が動いた 2・例外 4/4 / 正本は dt/2 の転記の世代: 転記 3 本・新規 30 本・拒否 30 本・法則の指紋(閉包)1af266b769f5 / dt/2 の窓: 正本は T の規則の世代 —— 33 本の dt と dt/2 が同じ T(上限で決まる本 earthMoonReal h 27・h/2 27 近点 ; earthMoonRealKF1 h 26・h/2 26 近点 ; emAuditDFM h 26・h/2 26 近点 ; plutoCharonReal h 59・h/2 59 近点) / T の規則 w285f-T1: 🌙 級(階級上限)h 40000000・h/2 80000000・h/4 160000000 步(T=40000000 步@dt₀)/ 軌道窓は旧規約のまま・契約の窓の定義 w285f-window-1(版 w285f-h2reuse-2・w285f-h4reuse-3) —— **dt と dt/2 の一致は収束の証明ではない**(閾値規則は DFM 概略整合の本だけの既定 off のオプション。第284便c: dt/4 は例外の登録簿の本だけ・dt/2 は同一便の再走で転記)",
+   "ms": 110
   },
   {
    "id": "docs.heavyCal",
-   "pass": false,
-   "detail": "**重い較正 4 本と試験粒子契約**(第283便c・原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv) —— 4 本の宣言は書き換えていない・AN34 の材料): 重い 4 本 73.3%・全粒子/主要天体だけ 235/204/67/258 倍・試験粒子の写し 12.7/14.0/4.0/24.3 倍・源 1 bit 4/4・2 体 9/9・拒否 6/6 / PHYSICS の行 8(第284便c: 壁時計・ms/步は行に写さない —— 構造と判定量だけ)・禁止語 0 / いまの html: 💍 の写しの源 1 bit(300 步)・内蔵 142 本で既定 off(第284便e で署名した 4 本を除く —— 正本 heavy-w283c は署名前の履歴)・宣言は署名に入る / **違反 1 件**: PHYSICS の禁止語: 観測一致を達成した",
-   "ms": 1404
+   "pass": true,
+   "detail": "**重い較正 4 本と試験粒子契約**(第283便c・原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv) —— 4 本の宣言は書き換えていない・AN34 の材料): 重い 4 本 73.3%・全粒子/主要天体だけ 235/204/67/258 倍・試験粒子の写し 12.7/14.0/4.0/24.3 倍・源 1 bit 4/4・2 体 9/9・拒否 6/6 / PHYSICS の行 8(第284便c: 壁時計・ms/步は行に写さない —— 構造と判定量だけ)・禁止語 0 / いまの html: 💍 の写しの源 1 bit(300 步)・内蔵 142 本で既定 off(第284便e で署名した 4 本を除く —— 正本 heavy-w283c は署名前の履歴)・宣言は署名に入る",
+   "ms": 1510
   },
   {
    "id": "behavior.testParticleSigned",
-   "pass": false,
-   "detail": "**試験粒子契約の署名**(第284便e・原仮定者の裁定(第74報)AN34 —— 🌞💠💍💿 の群を testParticle に宣言・**「区分が動かない」を受理の根拠にしない**): 宣言 4/4(源 5/6/7/7・試験粒子 100/88/120/120・末尾に連続・質量は宣言どおり・署名に入る)・内蔵 142 本のうち宣言は 4 本だけ / calaudit 正本は基点の世代(鎖の再生成の前)—— 後の値は器の判定器の走行(canon) / 正本 54 量(門の未判定 54)・区分が動いた 0・門が動いた 0・4 値 0/2/2/33 → 0/2/2/33・次の較正便で決める 4 量・PHYSICS の行 9・禁止語 0 / **違反 1 件**: PHYSICS に正本の行が無い: 4 行(| 🌞 `solarInner` | 14 | 4.032e-8 | 2.471e-2 | 0 / 0 / 未判定 1)",
-   "ms": 115
+   "pass": true,
+   "detail": "**試験粒子契約の署名**(第284便e・原仮定者の裁定(第74報)AN34 —— 🌞💠💍💿 の群を testParticle に宣言・**「区分が動かない」を受理の根拠にしない**): 宣言 4/4(源 5/6/7/7・試験粒子 100/88/120/120・末尾に連続・質量は宣言どおり・署名に入る)・内蔵 142 本のうち宣言は 4 本だけ / 後の値 = calaudit 正本(いまの html の世代)54/54 / 正本 54 量(門の未判定 54)・区分が動いた 0・門が動いた 0・4 値 0/2/2/33 → 0/2/2/33・次の較正便で決める 4 量・PHYSICS の行 9・禁止語 0",
+   "ms": 120
   },
   {
    "id": "docs.bgField",
    "pass": true,
    "detail": "**背景複素決定力 W₀・A₀ の算出表と接続**(第284便e・原仮定者の裁定(第74報)④・統括の検証項目 R91 —— p=2 の台帳から算出・D₀ から換算しない・力学が読むのは meshVelocity〔field:\"backgroundComplex\"〕だけ): ① W₀=0.5・A₀=[0,0]・∇W₀=[0,0]・∂A_y/∂x=1.5 / ② A′=A−WV(最大相対差 5.2e-16) / ③ W₀/R 10.45→11.47→12.02→12.29(発散) / D₀ 同じで W₀ 違う・u_bg(W₀=0)=null / 接続: 💮 未接続・🌚 未接続・🔁 適用中・🌒 適用中(share 120 步・mesh 2000 步) / いまの html: 2 源の値・💮 で宣言が運動を変えない(20 步)・#bgcWire 💮 未接続/🔁 適用中 / PHYSICS の行 15・禁止語 0",
-   "ms": 3638
+   "ms": 3764
   },
   {
    "id": "behavior.bgDerivatives",
    "pass": true,
    "detail": "**背景場の微分の算出可否と宣言の型**(第285便c・原仮定者の裁定(第75報)⑥・統括の検証項目 R99 —— 1 点の W₀・A₀ だけからは微分は一意に出ない・出るのは一様・凍結の宣言〔微分は宣言による 0〕/背景源の台帳 (m,X,V,a)/遠方 1 源〔台帳の特別な場合〕): (i) 同じ (W₀,A₀)=(0.5,(0,0)) の台帳 6 つで微分の組 6 通り・∂A_y/∂x 1.5/-1.5 / (ii) uniform の微分は宣言による 0(A₀=0・A₀=W₀U)・環の中心の残り ≤1e-12・静止系 A₀′=0・中心外 ∇W₀≠0 / (iii) 台帳 → 6 項算出(受理器 = 独立な実装 0e+0)・a だけで ∂ₜA₀ だけ動く・a の欠落を拒否 / (iv) 遠方 1 源 4 例 = 台帳(最大 6.3e-16) / (v) 指数 W0(1,-2,0) A0(1,-1,-1) gradW(1,-3,0) gradA(1,-2,-1) dWdt(1,-2,-1) dAdt(1,-1,-2)・A₀/W₀=L/T・D₀ は M/L・D0 鍵を拒否 / (vi) 3D W₀/R 10.45→11.47→12.02→12.29・2D の増分 8.72/8.71/8.71・\"infinite\" を拒否 / 受理器の事例 23/23(冪等) / 正本 = いまの html からの作り直し(相対 1e-12) / ページ: 内蔵の bgModel 宣言 0 本・💮 に sources の宣言を足しても 20 步ビット一致(share は未接続のまま)・meshVelocity で bgModel:null を拒否",
-   "ms": 3466
+   "ms": 3383
   },
   {
    "id": "docs.bgDerivatives",
@@ -3059,26 +3099,62 @@
   },
   {
    "id": "behavior.bgLawVersion",
-   "pass": false,
-   "detail": "**背景の法則版 lawVersion**(第286便c・第76報で閉じた AN47/AN56 —— share-p1〔p=1・geoPN=3 のトイ〕と complex-p2〔p=2・meshVelocity〕を分け、単位・有限領域・W=0 の規約・源の分割・基準系を宣言した本だけ接続・既定は未接続): 受理器の事例 19/19(受理 5・拒否 14・受理は冪等) / share-p1(💮 の縮小写し undefined 体・200 步): 背景なし ≡ D₀=0 のトイ・共動一様 ≡ D₀=1.5 のトイ(ビット一致)・遠方 1 源は違う・法則版なしは未接続・帳簿の和 0 / complex-p2(🔁 の写し 2000 步): 法則版の鍵だけ ≡ 🔁(ビット一致)・背景なしは真空規約 4000 点/未定義の規約 4000 点・遠方 1 源は違う / ページ: 内蔵の宣言 0 本・💮 の既定は未接続・宣言した写しは geoToy 経路で適用中・centerSpin 併用/経路なし/meshVelocity の本/calibration を拒否 / **違反 8 件**: 正本 ≠ 作り直し: share 鍵 compare,distantDecl,dt,mini,ok,rows,steps,unwired≠compare,distantDecl,dt,mini,n,ok,rows,steps,unwired , share-p1 の診断コピー , share-p1 none の帳簿/接続 , share-p1 uniform の帳簿/接続 , share-p1 distant の帳簿/接続",
-   "ms": 1122
+   "pass": true,
+   "detail": "**背景の法則版 lawVersion**(第286便c・第76報で閉じた AN47/AN56 —— share-p1〔p=1・geoPN=3 のトイ〕と complex-p2〔p=2・meshVelocity〕を分け、単位・有限領域・W=0 の規約・源の分割・基準系を宣言した本だけ接続・既定は未接続): 受理器の事例 19/19(受理 5・拒否 14・受理は冪等) / share-p1(💮 の縮小写し 51 体・200 步): 背景なし ≡ D₀=0 のトイ・共動一様 ≡ D₀=1.5 のトイ(ビット一致)・遠方 1 源は違う・法則版なしは未接続・帳簿の和 0 / complex-p2(🔁 の写し 2000 步): 法則版の鍵だけ ≡ 🔁(ビット一致)・背景なしは真空規約 4000 点/未定義の規約 4000 点・遠方 1 源は違う / ページ: 内蔵の宣言 0 本・💮 の既定は未接続・宣言した写しは geoToy 経路で適用中・centerSpin 併用/経路なし/meshVelocity の本/calibration を拒否",
+   "ms": 1902
   },
   {
    "id": "behavior.bgDiffCheck",
    "pass": true,
    "detail": "**背景場の解析微分と中心差分の照合**(第286便c・AN7′ —— 幅 h・h/2・h/4・微分が合うことと力学の保存則は別の試験): ∇W・∇A・∂ₜW・∂ₜA 6 事例(等速・加速・p=1・遠方・W→0)の h/4 の最大相対誤差 1.7e-5・次数 2 / 合成 u の ∇u・∂ₜu(次数 2.00/2.00 ; 2.00/2.00)・W=0 は u=null / 並進基準系の変換(相対 1e-12)・遠方 1 源(p=1・2)・p=2 の一般形のビット一致 / 正本 = いまの html からの作り直し(相対 1e-12)",
-   "ms": 7
+   "ms": 9
   },
   {
    "id": "docs.darkRotorEvidence",
    "pass": true,
    "detail": "**ダークローターの根拠表**(第286便c・原仮定者の裁定(第76報)④・R106 —— 着想と超 Kerr の定義 χ=cJ/(GM²)・宇宙検閲は仮説・4 件を一次資料で言えること/言えないことに分ける・MOA の標準レンズ式・E_res の帳簿と 🐮 の対応・力学の DR と光学のトイは別): 根拠表の節 6・4 件・出典 12・要の文・禁止語 0(根拠表と PHYSICS〔第286便c〕) / CSV の行 9(AT2023fhn・M31-2014-DS1・MOA-9y-5919・MOA-II-FFP・VASCO)—— 全行 gate=not-connected・sigma_primary=unverified",
-   "ms": 3
+   "ms": 5
+  },
+  {
+   "id": "docs.calPolicyText",
+   "pass": false,
+   "detail": "**旧い較正方針の文言の更新**(第286便c —— 合を目指すのは kF0 と f=1・DFM 版は大差を減らす段階・geoPN=2∧kFrame=0 は契約で同じ経路〔同一の法則とは言わない〕): html の旧語 0(11 語)・現行方針の文 ja 6・en 7・geoPN=2 の説明は「同一と断言しない」文 / PHYSICS〔第286便c〕の表の行 37・geoPN 1/2∧kF0 の 400 步 6 本一致 / **違反 1 件**: PHYSICS に正本の行が無い: 4 行(| none | 200 | 0 | 1.00e+0〜1.00e+0 | 0 | 0 | -4.10e-2 |)",
+   "ms": 25
+  },
+  {
+   "id": "behavior.clusterAnalogy",
+   "pass": true,
+   "detail": "**球状星団アナロジー**(第283便f・原仮定者の裁定(第72報)⑥ の第 1 段 —— 形状の門は測る前に宣言・門の語は形状達成/未達だけ。第284便a の世代は 💮 の新しい宣言〔接触ばね 0・平衡初速〕の門と中心の引きずり支配の目標も): いまの html で t=0 の量・T_out(34.547)・台帳を引き直して正本と相対 0.0e+0 / 基準(💮・N_rep 40)の判定: 未達(retStars・retDR・rh・axis)・保持 0.094/0.025・r_h 変化 1.244・軸比 0.690・v/σ 0.342 / 対照 spin0 未達・noDR 未達・nrep80 未達・nrep160 未達・toyOff 未達・toyOffNoDR 未達・smallR 未達 / 第284便a: いまの html で t=0 の量・T_out(34.547)・D_A・eqInit を引き直して正本と相対 0.0e+0・束縛率 t=0 1.000/1.000 / 第284便a: **接触ばね E9 は発火しない** —— いまの html で DR の半径だけを 1.46 → 8.75(t=0 の重なり 188 → 2208 対)にした写しと 150 步の全状態がビット一致・contactK 既定では 840 値が違う(検出力) / 第284便a の基準(💮・N_rep 40・個数比 20)の判定: 未達(retStars・rh・axis)・保持 0.747/0.975・r_h 変化 0.638・中心の引きずり支配 未達(D_A 最悪 0.098/0.039/0.020/0.011)・行列 n40/r20 0/3 n40/r10 0/3 n80/r20 0/3 n80/r10 0/3 n160/r20 0/3 n160/r10 0/3",
+   "ms": 7183
+  },
+  {
+   "id": "behavior.rayLensExcluded",
+   "pass": false,
+   "detail": "**rayHeavy の lens 除外**(第283便f・AN27/AN37 —— massLedger.darkRotor.lens:\"excluded\" の DR 代表粒子は光線の源から外れる・重力の源は不変): いまの html: 🌚 の DR 代表粒子 40 体・💮 の 500 体は重い天体 0・中心 1・DR の質量 0 の写しと光線の扇 31 本がビット一致・宣言の無い本は S.lensEx=null・nRep 不一致は null / 正本(基点 beta/_w283_base.html): 🌚 の重い天体 41→1・光線 31/31 本が変わる / 他 140 本は重い天体の集合も光線 4340 本もビット一致 / 💮 は基点の規則なら DR 40 体が重い天体 / **違反 1 件**: 🌚 以外で光線が変わった本 psrDoubleAB,psrDoubleABGeoToy,psrDoubleABSpinCal,psrJ1946DFM",
+   "ms": 613
+  },
+  {
+   "id": "behavior.contactMode",
+   "pass": false,
+   "detail": "**多粒子の契約 contactMode**(第285便a・原仮定者の裁定(第75報)④・R95 —— \"none\" は E9 の 4 経路を止める・未指定は既存挙動): ページで 4 経路(generic kKind 0・pairCorePlain 1・pairCorePN 2・試験粒子の側): normal の Δvx 5.28e-1/1.28e-1/1.28e-1/1.27e-1・none は vx/vy/spin 不変・未指定 ≡ normal(ビット一致)・ばね U none=0・CONTACT_DEFAULT {\"contactK\":40,\"contactCap\":8} / 正本: 1 步 93/142 一致(違う本 49 = 宣言 9+同便の他枝 40)・拘束の記帳 ΔP_free/|P| 3.49e-1(中心 固定)vs 自由 2.40e-7・力学が変わる本 9(clusterAnalogyBH,galaxy,galaxyGeo2,galaxyStd,galaxyMeshSpiral,galaxyMeshSpiralGeoToy,galaxyAnalogyBH,saturnRingReal,saturnRingRealKF1)・💍💿 💍 9/10 💿 8/12 / **違反 2 件**: 1 步の比較 {\"baseRev\":\"b92ffa1\",\"baseSha256\":\"91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0\",\"n\":142,\"nBase\":142,\"identical\":93,\"differ\":[\"galaxy\",\"gala , PHYSICS の表に無い行 5 件 | 💮 `clusterAnalogyBH` | none | pinned | 変わる(半径 211 体) | 12",
+   "ms": 100
+  },
+  {
+   "id": "preset.multiParticleContract",
+   "pass": true,
+   "detail": "**多粒子の契約の宣言**(第285便a・R95 —— 中心は pinned:true・接触なし。銀河衝突や合体が目的の本は別の条件): 適用表 16 本が契約を宣言(none 15・normal の明示 🍳・中心固定 11・中心なし 3・土星だけ固定 2)・normal のまま 10 本(🥚⏰🧬🧊⛓️♻️💥🪐🎯🌫️ —— 衝突・合体・散逸が本題)・宣言は適用表の外に無い",
+   "ms": 507
+  },
+  {
+   "id": "behavior.clusterAnalogyW285",
+   "pass": true,
+   "detail": "**💮 の半径と走査**(第285便a・原仮定者の裁定(第75報)⑤・R96 —— 門は第283便f のまま・語は形状達成/未達だけ): 宣言: L=8.354×10⁹ m・DR particleRadius 0.0085574(惑星級 7.1492×10⁷ m / L)・恒星 0.083273(太陽半径 / L —— 表示比較の仮定)・恒星/DR 9.73 倍・dispMag 10 で表示 360px: DR 1.20 < 恒星 2.50 / 720px: DR 1.20 < 恒星 5.00 / 1080px: DR 1.20 < 恒星 7.49・t=0 を引き直して相対 0.0e+0 / E9 は発火しない —— DR の particleRadius だけ 8.75 にした写しと 150 步のビット一致(ページ)・normal の写しでは 2100 値が違う(検出力)・第284便a の宣言と力学がビット一致(半径だけ 1.458 → 0.0086) / 走査 36 構成・(b) 採否 含める・仮説(中心質量を増やせば拡散しにくい)単調でない・検証 N_rep 320 × 3: mc4-s0-R1.5-eq 0/3 ・ mc4-s3-R1.5-eqToy 0/3 ・ mc1/8.5-s12-R1.5-eq 0/3・判定 未達",
+   "ms": 37993
   },
   {
    "id": "qa.aborted",
    "pass": false,
-   "detail": "uncaught: TypeError: Cannot read properties of undefined (reading '0')\n    at Module.docRows (file:///home/user/dfm-simulator/tests/exp-w286c-bgdiff.mjs:304:137)\n    at file:///home/user/dfm-simulator/tests/qa.mjs:18892:22",
+   "detail": "uncaught: page.evaluate: Target page, context or browser has been closed\n    at /home/user/dfm-simulator/tests/qa.mjs:19464:31",
    "ms": 0
   }
  ]

@@ -4,13 +4,13 @@
   "wave": "第286便b",
   "target": "beta/index.html",
   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-  "generatedAt": "2026-09-28T22:33:37.770Z",
+  "generatedAt": "2026-09-29T00:23:45.387Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 5184280,
     "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-    "mtime": "2026-09-28T21:08:25.763Z"
+    "mtime": "2026-09-28T23:35:22.208Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2852111,
-    "sha256": "b980b4480d34f2d512eeee46a9fb133818b261005ba71c2b5c32853b492daff5",
-    "mtime": "2026-09-28T22:18:16.275Z"
+    "bytes": 2852670,
+    "sha256": "bdf5649f40ff218cb1792bc6a950121b0a712ae867f67c53bd90beecbf63b61a",
+    "mtime": "2026-09-29T00:14:28.828Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
@@ -32,17 +32,17 @@
    },
    {
     "file": "tests/data-w286b-clight.json",
-    "bytes": 19689,
-    "sha256": "49417666312bb35d4fcb4b1bde11d491b463517a89c90dcf1bcc919257b64812",
-    "mtime": "2026-09-28T18:48:35.422Z"
+    "bytes": 20102,
+    "sha256": "d034992c6c13bbf7feb8fd4821a0bf32f39fcdac9d4b8265d941d7154654ea2e",
+    "mtime": "2026-09-29T00:09:33.395Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w286b-pnsource.mjs",
-    "bytes": 24227,
-    "sha256": "d815345cae546306eb1c5ea6f3b653a290673b10194d91403e3d20fe270749ca",
-    "mtime": "2026-09-28T18:48:35.432Z"
+    "bytes": 24402,
+    "sha256": "a58cff49dc4e19c43ab19fa115ad26c879266049adf072f8b7e21ac843ea293e",
+    "mtime": "2026-09-29T00:09:33.396Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
@@ -81,7 +81,7 @@
     "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "92238b0e0a53251f4e4b061158d34aa66baf277dbd83f823687453e637d56359",
+  "codeSha256": "09d7bd3dc91b441ccd51f03299e042646295030306053b58f41536262af36ead",
   "scope": {
    "version": "w286d-scope-4",
    "presets": "all",
@@ -114,7 +114,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "95aaea3fbc2c563f73ccf379a8c7d86ce9d2e9c3df8fe03590eafba55edca943",
+    "stableSha256": "68979175ae0a02b3b6d7c715d032fb70e025c0a462ea0b0ac1446d0578ad59fa",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -142,7 +142,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "129a54b166d4dbb04fac57b915f112f3d2e2e556b9eac1d604a895a2d19cdc63",
+    "stableSha256": "bd13405a9b2089fcf175b95f6b53c4a92b20cb1cce91ede17fbf49ff5ce09ddf",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -182,7 +182,7 @@
    },
    {
     "file": "tests/data-w286b-clight.json",
-    "stableSha256": "9e0399390c3a27e42f004fa911a5f0b159af403186a2e74c6004de8f148bc31a",
+    "stableSha256": "dbe8e82868a05bd71f34233dae764acfd48892c0e4c76dbe12108153991f8473",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
    }
@@ -1298,7 +1298,7 @@
    },
    {
     "id": "clusterAnalogyBH",
-    "declared": false,
+    "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
     "maxPosMany": null,
@@ -2372,13 +2372,10 @@
    "saturnRingRealKF1"
   ],
   "n": 142,
-  "declaredN": 51,
+  "declaredN": 52,
   "bitSameMany": 101,
   "sigSame": 90,
-  "changedUndeclared": [
-   "clusterAnalogyBH",
-   "clusterAnalogyBH"
-  ],
+  "changedUndeclared": [],
   "declaredUnchangedBits": [
    "plutoCharonSyncZero",
    "psrDoubleABGeoToy",
@@ -2405,13 +2402,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.065,
+   "wallSec": 0.068,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.161,
+   "wallSec": 0.133,
    "errors": 0
   }
  },
- "elapsedS": 583.39
+ "elapsedS": 555.02
 }

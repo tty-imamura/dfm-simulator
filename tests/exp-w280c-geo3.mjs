@@ -116,10 +116,11 @@ const levels = (w) => {
 const merc = await presetOf('mercuryReal');
 // 第286便 統合(統括・原仮定者の裁定(第76報)AN59): 判定器の較正行 calPhysics(☄️ の較正専用 ε=0.01 —— 判定器の写しにだけ当たる)を正本
 //   calaudit-w249.json から読み、☄️ そのもの(M0 —— 判定器と同じ __w249build)と、☄️ から作る写し(λ_PN=0・座標変更の変種)に**同じ物理**を当てる。
-//   正式値の再現(officialReproducedBit)は較正行の値と比べ、変種どうしの差は同じ ε の下で取る(本の宣言 0.05 は変えない)
+//   正式値の再現(officialReproducedBit)は **M0 = 判定器と同じ写し**(較正行 ε=0.01)で較正行の値と比べる。変種(M1〜M4・M0n・第 3 天体)
+//   は**本の宣言のまま**(ε=0.05 —— 内蔵の診断コピー mercuryGeoToy3 と同じ物理)で作り、差の基準は **M0p = ☄️ 本の宣言のまま**の写しに置く
+//   (鍵の名前 a_M*_minus_M0 は文書・QA の互換のため残す —— 基準は M0p)
 const CAL_PHYS = (CAL.calPhysics && CAL.calPhysics.rows) || {};
 await pg.evaluate((cp) => { window.__w249calPhys = cp; }, CAL_PHYS);
-if (CAL_PHYS.mercuryReal) merc.physics = Object.assign({}, merc.physics, CAL_PHYS.mercuryReal);
 const pc = await presetOf('plutoCharonReal');
 
 /* ── (a)(b) 水星: 一様な u=V の座標変更 ── */
@@ -138,7 +139,8 @@ if (!PART || PART === 'mercury') {
   await reg(noPNX);
   const mk = (id, V, pn, pnVelocity) => makeGeo3Copy(merc, { id, pn, pnVelocity, velocityMeaning: 'v', background: uniformBackground(V) });
   const M = [
-    { key: 'M0', label: '☄️ mercuryReal そのもの(geoPN=2・kF0・λ_PN=1)', id: 'mercuryReal' },
+    { key: 'M0', label: '☄️ mercuryReal(判定器と同じ写し —— 較正行 calPhysics ε=0.01・正式値の再現用)', id: 'mercuryReal' },
+    { key: 'M0p', label: '☄️ 本の宣言のまま(ε=0.05 —— 変種の差の基準)', p: (() => { const b = JSON.parse(JSON.stringify(merc)); b.id = 'm0p_w280c'; b.sampleClass = 'principle'; delete b.claims; return b; })() },
     { key: 'M0n', label: '1PN なし対照(geoPN=2・kF0・λ_PN=0)', id: noPN.id },
     { key: 'M0nX', label: '丸めの対照: 同 λ_PN=0 で両天体を x に +52000 単位ずらした複製', id: noPNX.id },
     { key: 'M1', label: 'geoPN=3・vMinusU・u=0・pn:reference-1PN(v)', p: mk('m1_w280c', [0, 0], 'reference-1PN', 'v') },
@@ -185,10 +187,12 @@ if (!PART || PART === 'mercury') {
     official: { precession: off, period: periodOf('mercuryReal', false) }, rows };
   out.tables.mercury = tags.map((tag) => ({ tag,
     officialReproducedBit: (tag === 'dt' && !QUICK) ? (rows.M0.runs[tag].slopeDegPerOrbitA === off.detectorA) : null,
-    pn1PNContribution: d('M0', 'M0n', tag),
-    a_M1_minus_M0: d('M1', 'M0', tag), a_M2_minus_M0: d('M2', 'M0', tag), a_M3_minus_M0: d('M3', 'M0', tag),
-    a_M1x_minus_M1: d('M1x', 'M1', tag), a_M2e_minus_M0s: d('M2e', 'M0s', tag), thirdBodyStatic_M0s_minus_M0: d('M0s', 'M0', tag), thirdBodyFree_M0e_minus_M0: d('M0e', 'M0', tag),
-    stepWidthM0: (tags.length > 1 && rows.M0.runs['dt'] && rows.M0.runs['dt/2']) ? rows.M0.runs['dt/2'].slopeDegPerOrbitA - rows.M0.runs['dt'].slopeDegPerOrbitA : null,
+    diffBase: 'M0p',   // 第286便 統合: 差の基準は本の宣言のままの写し(M0 は較正行 ε=0.01 の再現用)
+    pn1PNContribution: d('M0p', 'M0n', tag),
+    a_M1_minus_M0: d('M1', 'M0p', tag), a_M2_minus_M0: d('M2', 'M0p', tag), a_M3_minus_M0: d('M3', 'M0p', tag),
+    a_M1x_minus_M1: d('M1x', 'M1', tag), a_M2e_minus_M0s: d('M2e', 'M0s', tag), thirdBodyStatic_M0s_minus_M0: d('M0s', 'M0p', tag), thirdBodyFree_M0e_minus_M0: d('M0e', 'M0p', tag),
+    M0_minus_M0p: d('M0', 'M0p', tag),
+    stepWidthM0: (tags.length > 1 && rows.M0p.runs['dt'] && rows.M0p.runs['dt/2']) ? rows.M0p.runs['dt/2'].slopeDegPerOrbitA - rows.M0p.runs['dt'].slopeDegPerOrbitA : null,
     b_M4_minus_M0n: d('M4', 'M0n', tag), roundoffControl_M0nX_minus_M0n: d('M0nX', 'M0n', tag) }));
 }
 
