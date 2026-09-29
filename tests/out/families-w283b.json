@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T05:29:36.920Z",
+  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "generatedAt": "2026-09-29T05:27:27.220Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5091518,
-    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-    "mtime": "2026-09-28T03:59:10.854Z"
+    "bytes": 5184678,
+    "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+    "mtime": "2026-09-29T04:36:34.917Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2765140,
-    "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-    "mtime": "2026-09-28T05:10:31.970Z"
+    "bytes": 2854534,
+    "sha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
+    "mtime": "2026-09-29T04:53:53.017Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -37,18 +37,24 @@
     "mtime": "2026-09-28T01:00:42.098Z"
    },
    {
+    "file": "tests/fixtures/retired-w286f.json",
+    "bytes": 71553,
+    "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
+    "mtime": "2026-09-28T18:49:51.308Z"
+   },
+   {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 79092,
-    "sha256": "a1145d6280fc5ba1c2ace508433c8645fb6111124d2542a91924e41be9bb092b",
-    "mtime": "2026-09-28T05:29:36.902Z"
+    "bytes": 79313,
+    "sha256": "1fbd2842e20643e8682a03277a09856573f431e52641eadc71b4bfbb68213917",
+    "mtime": "2026-09-29T05:27:27.193Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w283b-families.mjs",
-    "bytes": 36687,
-    "sha256": "91ee88357ad01bd3cc66ac6eff80c646c6a52a4ce1c6615c12745b10596e979d",
-    "mtime": "2026-09-28T01:00:42.098Z"
+    "bytes": 37909,
+    "sha256": "66f5c9656950b3b6b7feac2f299f723f31bab16b7db833f3e312d4f2eb7d7213",
+    "mtime": "2026-09-28T18:49:51.308Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -70,21 +76,21 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 74147,
-    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T01:00:42.100Z"
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 133248,
-    "sha256": "6d77bfb4fa2d37c2aa60d9b07ab57ebd4c12bb36252a5ca72b6f065b7a09e654",
-    "mtime": "2026-09-28T03:16:39.895Z"
+    "bytes": 149099,
+    "sha256": "fa4ccad6b0fc29e0d7356d54c93973820fdf3066f5e7850f4fae923d3cc7b9ae",
+    "mtime": "2026-09-28T22:00:35.744Z"
    }
   ],
-  "codeSha256": "4a3a721b61ba4aa8e4c680d1fcb77b7e82cb68186a4eaf860de47bb52b75da90",
+  "codeSha256": "f8e2ee22b18c3ff903f46eac3e5ca9d534d9cce8ded4d1c8cced1ddcf2a4d1a1",
   "harnessVersion": "w283b-families-1",
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": "all",
    "roots": [
     "$",
@@ -104,16 +110,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 820,
-   "segments": 746,
-   "closureShare": 0.3379
+   "names": 843,
+   "segments": 765,
+   "closureShare": 0.3398
   },
-  "scopeSha256": "9927c02e56921bcbb531481567c9e5d0a919ee7583824daa8b4fd98c4e0ebd5c",
+  "scopeSha256": "f6307f6d91ccbe86a3185a452e57256b3ce3a1876fa1034b8d717c2096800dde",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "a44ee41e10139bd124cb56a125ff08bdba23f2c50b51b041b2baf1337fc281cc",
+    "stableSha256": "f5c83f5d6b2360b30fd578ac73f72ea066c321aac14b80b066eb31e36f87206e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -141,7 +147,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "16cb4ef4feabcc8b362fe0124d865f1be809c29a05fecf0066f1d125dbf92ff4",
+    "stableSha256": "11b16457c1fba534f610f7a14b2b0c28431e7eb0695669871fadaec81bb43b94",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -184,6 +190,12 @@
     "stableSha256": "4fef8265711560d8781f00168ff7237625aa6bdf964eba7e2b229655998eee8d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": []
+   },
+   {
+    "file": "tests/fixtures/retired-w286f.json",
+    "stableSha256": "d7c013c3a3202908bf2dee72e018a507824554963394dfc0edfcdccfd44491bd",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
    }
   ],
   "stableHashVersion": "w282e-stable-1"
@@ -220,16 +232,16 @@
  "counts": {
   "families": 21,
   "members": 81,
-  "retiredMembers": 14,
+  "retiredMembers": 15,
   "role": {
-   "主系列": 37,
+   "主系列": 36,
    "診断": 13,
-   "履歴": 14,
+   "履歴": 15,
    "比較": 17
   },
   "cand": {
    "A": 4,
-   "C": 3
+   "C": 2
   },
   "keepApart": 15
  },
@@ -273,7 +285,7 @@
      "gates": [
       "behavior.plutoCharonReal"
      ],
-     "presetSigHash": "c482cab0",
+     "presetSigHash": "1988ec4a",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -306,7 +318,7 @@
      "gates": [
       "behavior.plutoCharonDFM"
      ],
-     "presetSigHash": "589d5dfb",
+     "presetSigHash": "fb8ad6e3",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「零」",
@@ -356,7 +368,7 @@
      "spaceMesh": null,
      "purpose": "⛄ と同じ入力で則だけを外した kF0 対照",
      "gates": [],
-     "presetSigHash": "943b1543",
+     "presetSigHash": "9b837bbb",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「対照」",
@@ -405,7 +417,7 @@
      "spaceMesh": null,
      "purpose": "❄️ の入力の丸めと軟化を外した kF0 診断コピー",
      "gates": [],
-     "presetSigHash": "d8c2182b",
+     "presetSigHash": "9842c8c3",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「対照」",
@@ -454,7 +466,7 @@
      "spaceMesh": null,
      "purpose": "厳密同期円で相対すべり則の零条件を走行中も試す",
      "gates": [],
-     "presetSigHash": "733c8a7a",
+     "presetSigHash": "2bb0ba92",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「零」",
@@ -504,7 +516,7 @@
      "spaceMesh": "vertex",
      "purpose": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる",
      "gates": [],
-     "presetSigHash": "6157bd42",
+     "presetSigHash": "59214c9a",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・geoPN=3",
@@ -815,7 +827,7 @@
      "spaceMesh": null,
      "purpose": "月の周期と近点回転を kF1 で照合する",
      "gates": [],
-     "presetSigHash": "ec6ee31e",
+     "presetSigHash": "6251ad7c",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -846,7 +858,7 @@
      "spaceMesh": null,
      "purpose": "実単位の地球と月を kF0 で照合する",
      "gates": [],
-     "presetSigHash": "a573f11b",
+     "presetSigHash": "8b203223",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -913,9 +925,11 @@
       "physicsDiff": [
        "D0",
        "D0pull",
+       "cLight",
        "frameWeight",
        "geoPN",
        "kFrame",
+       "kappaT",
        "q"
       ],
       "topDiff": [
@@ -950,7 +964,7 @@
      "gates": [
       "behavior.emAudit"
      ],
-     "presetSigHash": "b136ac88",
+     "presetSigHash": "84e57e",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -996,7 +1010,7 @@
      "gates": [
       "behavior.emAudit"
      ],
-     "presetSigHash": "c90878d7",
+     "presetSigHash": "e480b08f",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -1049,7 +1063,7 @@
      "spaceMesh": null,
      "purpose": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断",
      "gates": [],
-     "presetSigHash": "a9df4f96",
+     "presetSigHash": "9a878f3e",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「診断」",
@@ -1099,6 +1113,17 @@
      }
     },
     {
+     "key": "physics.cLight",
+     "values": {
+      "earthMoonRealKF1": 29979.2458,
+      "earthMoonReal": 29979.2458,
+      "emAuditNewton": 30000,
+      "emAuditDFM": 29979.2458,
+      "emAuditSolar": 29979.2458,
+      "earthMoonDiagOne": 29979.2458
+     }
+    },
+    {
      "key": "physics.frameWeight",
      "values": {
       "earthMoonRealKF1": null,
@@ -1129,6 +1154,17 @@
       "emAuditDFM": 1,
       "emAuditSolar": 0,
       "earthMoonDiagOne": 0
+     }
+    },
+    {
+     "key": "physics.kappaT",
+     "values": {
+      "earthMoonRealKF1": 7.425826474101849e-9,
+      "earthMoonReal": 7.425826474101849e-9,
+      "emAuditNewton": 7.415555555555556e-9,
+      "emAuditDFM": 7.425826474101849e-9,
+      "emAuditSolar": 7.425826474101849e-9,
+      "earthMoonDiagOne": 7.425826474101849e-9
      }
     },
     {
@@ -1281,7 +1317,7 @@
      }
     }
    ],
-   "physicsSameKeys": 19,
+   "physicsSameKeys": 17,
    "candidates": [],
    "keepApart": [
     {
@@ -1351,7 +1387,7 @@
      "spaceMesh": null,
      "purpose": "水星の近日点前進を kF1 で照合する",
      "gates": [],
-     "presetSigHash": "f530078c",
+     "presetSigHash": "fe64ef84",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -1382,7 +1418,7 @@
      "spaceMesh": null,
      "purpose": "水星の近日点前進を kF0 で照合する",
      "gates": [],
-     "presetSigHash": "9d852937",
+     "presetSigHash": "504f66ef",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -1432,7 +1468,7 @@
      "spaceMesh": "vertex",
      "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる",
      "gates": [],
-     "presetSigHash": "11615998",
+     "presetSigHash": "cb798520",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・geoPN=3",
@@ -1689,7 +1725,7 @@
      "spaceMesh": null,
      "purpose": "土星の環を kF1 と自動算出 q で照合する",
      "gates": [],
-     "presetSigHash": "21db7255",
+     "presetSigHash": "f6585077",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -1722,7 +1758,7 @@
      "gates": [
       "wave121.ui"
      ],
-     "presetSigHash": "635566d6",
+     "presetSigHash": "2c51619e",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -1777,7 +1813,7 @@
       "zonal.d68-preset",
       "zonal.d68-realunit"
      ],
-     "presetSigHash": "aa728da0",
+     "presetSigHash": "13b08308",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -1830,7 +1866,7 @@
      "spaceMesh": null,
      "purpose": "📡 の差を同じ窓で初速の幾何と他の要因に分ける",
      "gates": [],
-     "presetSigHash": "6af5b802",
+     "presetSigHash": "60d1f72a",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「診断」",
@@ -1884,7 +1920,7 @@
      "spaceMesh": null,
      "purpose": "観測の a と ae の定義で置いた D68 の近点移動を測る",
      "gates": [],
-     "presetSigHash": "85e1e3fd",
+     "presetSigHash": "d5f87565",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「診断」",
@@ -2139,7 +2175,7 @@
      "gates": [
       "behavior.psrF1"
      ],
-     "presetSigHash": "7c857afd",
+     "presetSigHash": "c9e48e89",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -2172,7 +2208,7 @@
      "gates": [
       "behavior.psrDoubleAB"
      ],
-     "presetSigHash": "d581716f",
+     "presetSigHash": "4216236d",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -2223,7 +2259,7 @@
      "spaceMesh": null,
      "purpose": "f と λ を回した較正候補を比べる",
      "gates": [],
-     "presetSigHash": "6fe76b76",
+     "presetSigHash": "3bc44312",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -2285,9 +2321,7 @@
        "other": false
       },
       "physicsDiff": [
-       "cLight",
        "coupleSink",
-       "kappaT",
        "lambdaPN"
       ],
       "topDiff": [
@@ -2336,10 +2370,8 @@
        "other": false
       },
       "physicsDiff": [
-       "cLight",
        "compactForce",
-       "coupleSink",
-       "kappaT"
+       "coupleSink"
       ],
       "topDiff": [
        "massCalibration"
@@ -2371,7 +2403,7 @@
      "spaceMesh": "vertex",
      "purpose": "観測質量のまま geoPN=3 則を当てる診断",
      "gates": [],
-     "presetSigHash": "2f2acd57",
+     "presetSigHash": "d002fc29",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・geoPN=3",
@@ -2407,17 +2439,6 @@
       "psrDoubleABPN": 3.24204e-7,
       "psrDoubleABCF": 3.24204e-7,
       "psrDoubleABGeoToy": null
-     }
-    },
-    {
-     "key": "physics.cLight",
-     "values": {
-      "psrDoubleABDFM": 3000,
-      "psrDoubleAB": 3000,
-      "psrDoubleABSpinCal": 3000,
-      "psrDoubleABPN": 2997.92458,
-      "psrDoubleABCF": 2997.92458,
-      "psrDoubleABGeoToy": 3000
      }
     },
     {
@@ -2489,17 +2510,6 @@
       "psrDoubleABPN": 1,
       "psrDoubleABCF": 1,
       "psrDoubleABGeoToy": 0
-     }
-    },
-    {
-     "key": "physics.kappaT",
-     "values": {
-      "psrDoubleABDFM": 7.415555555555556e-7,
-      "psrDoubleAB": 7.415555555555556e-7,
-      "psrDoubleABSpinCal": 7.415555555555556e-7,
-      "psrDoubleABPN": 7.42582647410185e-7,
-      "psrDoubleABCF": 7.42582647410185e-7,
-      "psrDoubleABGeoToy": 7.415555555555556e-7
      }
     },
     {
@@ -2607,7 +2617,7 @@
      }
     }
    ],
-   "physicsSameKeys": 21,
+   "physicsSameKeys": 23,
    "candidates": [
     {
      "rule": "A",
@@ -2677,7 +2687,7 @@
      "spaceMesh": null,
      "purpose": "J1757 を観測質量(f=1)と kF1 で照合",
      "gates": [],
-     "presetSigHash": "80f048f7",
+     "presetSigHash": "ba812a15",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -2724,9 +2734,7 @@
        "other": false
       },
       "physicsDiff": [
-       "cLight",
        "coupleSink",
-       "kappaT",
        "lambdaPN"
       ],
       "topDiff": [
@@ -2775,10 +2783,8 @@
        "other": false
       },
       "physicsDiff": [
-       "cLight",
        "compactForce",
-       "coupleSink",
-       "kappaT"
+       "coupleSink"
       ],
       "topDiff": [
        "massCalibration"
@@ -2788,14 +2794,6 @@
     }
    ],
    "keyDiff": [
-    {
-     "key": "physics.cLight",
-     "values": {
-      "psrJ1757DFM": 3000,
-      "psrJ1757PN": 2997.92458,
-      "psrJ1757CF": 2997.92458
-     }
-    },
     {
      "key": "physics.compactForce",
      "values": {
@@ -2815,14 +2813,6 @@
       "psrJ1757DFM": "reservoir",
       "psrJ1757PN": "core",
       "psrJ1757CF": "core"
-     }
-    },
-    {
-     "key": "physics.kappaT",
-     "values": {
-      "psrJ1757DFM": 7.415555555555556e-7,
-      "psrJ1757PN": 7.42582647410185e-7,
-      "psrJ1757CF": 7.42582647410185e-7
      }
     },
     {
@@ -2858,7 +2848,7 @@
      }
     }
    ],
-   "physicsSameKeys": 26,
+   "physicsSameKeys": 28,
    "candidates": [],
    "keepApart": [],
    "history": [
@@ -2879,7 +2869,7 @@
     {
      "id": "psrJ1946DFM",
      "emoji": "🩺",
-     "name": "PSR J1946+2052(DFM版・旧則 f≈2 — f=1 へ移行予定)— 銀河系で最短周期の中性子星連星",
+     "name": "PSR J1946+2052(DFM版)— 観測質量(f=1)・kF1 の銀河系で最短周期の中性子星連星",
      "familyId": null,
      "familyRole": null,
      "retired": false,
@@ -2896,14 +2886,14 @@
      "q": 3.1856,
      "qLock": false,
      "massCalibration": {
-      "law": "inertia-law-lin-v1",
-      "f": 1.9999655295617553
+      "law": "f-fixed-1",
+      "f": 1
      },
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "⚡ の処方を J1946 へ当てる",
+     "purpose": "J1946 を観測質量(f=1)と kF1 で照合",
      "gates": [],
-     "presetSigHash": "3bc590f2",
+     "presetSigHash": "3890aecf",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -2944,27 +2934,28 @@
      "vsRef": {
       "bodies": {
        "count": true,
-       "m": true,
+       "m": false,
        "x": true,
        "v": true,
-       "other": true
+       "other": false
       },
       "physicsDiff": [
-       "cLight",
-       "kappaT",
+       "coupleSink",
        "lambdaPN"
       ],
-      "topDiff": []
+      "topDiff": [
+       "massCalibration"
+      ]
      },
-     "input": "同じ入力"
+     "input": "違う入力(質量)"
     },
     {
      "id": "psrJ1946CF",
      "emoji": "🩹",
      "name": "PSR J1946+2052(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 3 例目",
      "familyId": null,
-     "familyRole": null,
-     "retired": false,
+     "familyRole": "retired",
+     "retired": true,
      "sampleClass": "calibration",
      "catalog": null,
      "group": "現実との照合・連星",
@@ -2987,35 +2978,28 @@
      "gates": [],
      "presetSigHash": "f8600f7c",
      "accepted": true,
-     "roleEst": "主系列",
-     "roleWhy": "較正母集団",
+     "roleEst": "履歴",
+     "roleWhy": "familyRole \"retired\"",
      "vsRef": {
       "bodies": {
        "count": true,
-       "m": true,
+       "m": false,
        "x": true,
        "v": true,
-       "other": true
+       "other": false
       },
       "physicsDiff": [
-       "cLight",
        "compactForce",
-       "kappaT"
+       "coupleSink"
       ],
-      "topDiff": []
+      "topDiff": [
+       "massCalibration"
+      ]
      },
-     "input": "同じ入力"
+     "input": "違う入力(質量)"
     }
    ],
    "keyDiff": [
-    {
-     "key": "physics.cLight",
-     "values": {
-      "psrJ1946DFM": 3000,
-      "psrJ1946PN": 2997.92458,
-      "psrJ1946CF": 2997.92458
-     }
-    },
     {
      "key": "physics.compactForce",
      "values": {
@@ -3030,11 +3014,11 @@
      }
     },
     {
-     "key": "physics.kappaT",
+     "key": "physics.coupleSink",
      "values": {
-      "psrJ1946DFM": 7.415555555555556e-7,
-      "psrJ1946PN": 7.42582647410185e-7,
-      "psrJ1946CF": 7.42582647410185e-7
+      "psrJ1946DFM": "reservoir",
+      "psrJ1946PN": "core",
+      "psrJ1946CF": "core"
      }
     },
     {
@@ -3046,38 +3030,36 @@
      }
     },
     {
+     "key": "massCalibration",
+     "values": {
+      "psrJ1946DFM": "(宣言あり)",
+      "psrJ1946PN": "(宣言あり)",
+      "psrJ1946CF": "(宣言あり)"
+     }
+    },
+    {
      "key": "familyRole",
      "values": {
       "psrJ1946DFM": null,
       "psrJ1946PN": "retired",
-      "psrJ1946CF": null
+      "psrJ1946CF": "retired"
      }
     },
     {
      "key": "bodies(vs 基準)",
      "values": {
       "psrJ1946DFM": "基準",
-      "psrJ1946PN": "同じ入力",
-      "psrJ1946CF": "同じ入力"
+      "psrJ1946PN": "違う入力(質量)",
+      "psrJ1946CF": "違う入力(質量)"
      }
     }
    ],
-   "physicsSameKeys": 27,
-   "candidates": [
-    {
-     "rule": "C",
-     "keep": null,
-     "fold": [
-      "psrJ1946DFM",
-      "psrJ1946CF"
-     ],
-     "how": "要裁定(1 本 + 法則の切替に畳めるか)",
-     "reason": "同じ bodies・同じ派生値 dfm・違うのは physics の cLight・compactForce・kappaT"
-    }
-   ],
+   "physicsSameKeys": 28,
+   "candidates": [],
    "keepApart": [],
    "history": [
-    "psrJ1946PN"
+    "psrJ1946PN",
+    "psrJ1946CF"
    ]
   },
   {
@@ -3114,7 +3096,7 @@
      "spaceMesh": null,
      "purpose": "B1534 の観測入力を kF0 で確かめる",
      "gates": [],
-     "presetSigHash": "f1730cce",
+     "presetSigHash": "f6792a1e",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -3148,7 +3130,7 @@
      "spaceMesh": null,
      "purpose": "⚡ の処方を B1534 へ当てる",
      "gates": [],
-     "presetSigHash": "5888662e",
+     "presetSigHash": "8f70083c",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -3197,7 +3179,7 @@
      "spaceMesh": null,
      "purpose": "凍結した κ を B1534 へ流す",
      "gates": [],
-     "presetSigHash": "d1e506a2",
+     "presetSigHash": "84820b4",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -3355,7 +3337,7 @@
      "gates": [
       "behavior.gw150914"
      ],
-     "presetSigHash": "6da88556",
+     "presetSigHash": "58ee1620",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -3388,7 +3370,7 @@
      "gates": [
       "behavior.gw150914"
      ],
-     "presetSigHash": "be865ce",
+     "presetSigHash": "40c218be",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -3434,7 +3416,7 @@
      "spaceMesh": null,
      "purpose": "放射の向きと量を宣言して約 4 秒の合体を回す",
      "gates": [],
-     "presetSigHash": "4993f601",
+     "presetSigHash": "64db5b49",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -3485,7 +3467,7 @@
      "spaceMesh": null,
      "purpose": "合体直前で λ=1 のスピン双極子の強さを測る",
      "gates": [],
-     "presetSigHash": "2ce453c7",
+     "presetSigHash": "4ae20686",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -3708,7 +3690,7 @@
      "gates": [
       "behavior.alphaCenAB"
      ],
-     "presetSigHash": "3db39372",
+     "presetSigHash": "c9ab6811",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -3741,7 +3723,7 @@
      "gates": [
       "behavior.alphaCenAB"
      ],
-     "presetSigHash": "5c06c976",
+     "presetSigHash": "919fda5b",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -3875,7 +3857,7 @@
      "gates": [
       "behavior.siriusAB"
      ],
-     "presetSigHash": "dd6d9902",
+     "presetSigHash": "27ec16f3",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -3908,7 +3890,7 @@
      "gates": [
       "behavior.siriusAB"
      ],
-     "presetSigHash": "b65821d7",
+     "presetSigHash": "1b87793c",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "較正母集団",
@@ -4668,7 +4650,7 @@
      "spaceMesh": null,
      "purpose": "連星の質量補正を星団へ当てる hold-out",
      "gates": [],
-     "presetSigHash": "570dbd40",
+     "presetSigHash": "e917080e",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "母集団の外の家族の入口(primary)",
@@ -4699,7 +4681,7 @@
      "spaceMesh": null,
      "purpose": "47 Tuc の配置と速度を観測から転写する",
      "gates": [],
-     "presetSigHash": "d67ea783",
+     "presetSigHash": "c766c1ab",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -4792,7 +4774,7 @@
      "spaceMesh": null,
      "purpose": "ハローなしの DFM で外縁速度を支える",
      "gates": [],
-     "presetSigHash": "1a98b3d3",
+     "presetSigHash": "67ef3d3d",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "母集団の外の家族の入口(primary)",
@@ -4823,7 +4805,7 @@
      "spaceMesh": null,
      "purpose": "指数円盤と NFW ハローで回転を比べる",
      "gates": [],
-     "presetSigHash": "3c5df9c1",
+     "presetSigHash": "67136c99",
      "accepted": true,
      "roleEst": "診断",
      "roleWhy": "principle・「対照」",
@@ -5426,7 +5408,7 @@
      "spaceMesh": null,
      "purpose": "質量台帳 f=2 の前駆星を比べる",
      "gates": [],
-     "presetSigHash": "f0725b70",
+     "presetSigHash": "9cbb7932",
      "accepted": true,
      "roleEst": "主系列",
      "roleWhy": "母集団の外の家族の基準の本",
@@ -5457,7 +5439,7 @@
      "spaceMesh": null,
      "purpose": "ベテルギウスの前駆星状態を転写する",
      "gates": [],
-     "presetSigHash": "354ffa49",
+     "presetSigHash": "31910bb1",
      "accepted": true,
      "roleEst": "比較",
      "roleWhy": "上のどれでもない",
@@ -6973,6 +6955,7 @@
    "psrJ1946PN",
    "psrDoubleABCF",
    "psrJ1757CF",
+   "psrJ1946CF",
    "starSeed"
   ],
   "fixture": {
@@ -7059,6 +7042,21 @@
     "behavior.nsThreeStage",
     "behavior.w249a-pnResponse",
     "behavior.jointCalProtocol"
+   ]
+  },
+  "fixture4": {
+   "file": "tests/fixtures/retired-w286f.json",
+   "version": "w286f-retired-1",
+   "ids": [
+    "psrJ1946CF"
+   ],
+   "superseded": [
+    "psrJ1946DFM"
+   ],
+   "repointedTests": [
+    "behavior.w249a-pnResponse",
+    "docs.j1946adoptPublished",
+    "docs.j1946Adopted"
    ]
   },
   "presets": [
@@ -7201,6 +7199,16 @@
     "sigFixture": "12797269",
     "sigFixtureNow": "12797269",
     "fixture": "tests/fixtures/retired-w285f.json"
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "inBuiltin": true,
+    "retired": true,
+    "sigBuiltin": "f8600f7c",
+    "sigFixture": "f8600f7c",
+    "sigFixtureNow": "f8600f7c",
+    "fixture": "tests/fixtures/retired-w286f.json"
    }
   ],
   "harnesses": [
@@ -7496,7 +7504,8 @@
     "ids": [
      "psrDoubleABPN",
      "psrJ1757PN",
-     "psrJ1946PN"
+     "psrJ1946PN",
+     "psrJ1946CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7509,7 +7518,8 @@
      "psrJ1946PN",
      "emAuditNewton",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [
      {
@@ -7540,7 +7550,8 @@
     "ids": [
      "psrDoubleABPN",
      "psrJ1757PN",
-     "psrJ1946PN"
+     "psrJ1946PN",
+     "psrJ1946CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7550,7 +7561,8 @@
     "ids": [
      "psrJ1946PN",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7562,7 +7574,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7570,7 +7583,8 @@
    {
     "file": "tests/exp-w253b-a0sweep.mjs",
     "ids": [
-     "psrJ1946PN"
+     "psrJ1946PN",
+     "psrJ1946CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7607,7 +7621,8 @@
    {
     "file": "tests/exp-w262c-v2delta.mjs",
     "ids": [
-     "psrJ1946PN"
+     "psrJ1946PN",
+     "psrJ1946CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7627,7 +7642,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [
      {
@@ -7661,15 +7677,16 @@
    {
     "file": "tests/exp-w270c-j1946adopt.mjs",
     "ids": [
-     "psrJ1946PN"
+     "psrJ1946PN",
+     "psrJ1946CF"
     ],
     "steps": [
      {
       "key": "j1946adopt",
-      "role": "current"
+      "role": "history"
      }
     ],
-    "kind": "current"
+    "kind": "history"
    },
    {
     "file": "tests/exp-w272a-issues.mjs",
@@ -7705,7 +7722,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [
      {
@@ -7736,7 +7754,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [
      {
@@ -7754,7 +7773,8 @@
      "psrJ1946PN",
      "emAuditNewton",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [
      {
@@ -7772,7 +7792,8 @@
      "psrJ1946PN",
      "emAuditNewton",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [
      {
@@ -7838,7 +7859,8 @@
      "psrJ1946PN",
      "emAuditNewton",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [
      {
@@ -7856,7 +7878,8 @@
      "psrJ1946PN",
      "emAuditNewton",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [
      {
@@ -7887,7 +7910,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [
      {
@@ -7904,7 +7928,8 @@
      "psrJ1757PN",
      "psrJ1946PN",
      "psrDoubleABCF",
-     "psrJ1757CF"
+     "psrJ1757CF",
+     "psrJ1946CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7912,7 +7937,8 @@
    {
     "file": "tests/lib-w270a-stoprule.mjs",
     "ids": [
-     "psrJ1946PN"
+     "psrJ1946PN",
+     "psrJ1946CF"
     ],
     "steps": [],
     "kind": "not-in-table"
@@ -7975,12 +8001,13 @@
    "psrJ1946PN": 13,
    "emAuditNewton": 34,
    "psrDoubleABCF": 13,
-   "psrJ1757CF": 19
+   "psrJ1757CF": 19,
+   "psrJ1946CF": 20
   },
   "kindCounts": {
    "not-in-table": 17,
-   "history": 24,
-   "current": 13,
+   "history": 25,
+   "current": 12,
    "tool": 4,
    "fixture": 2
   },
@@ -7997,10 +8024,11 @@
    "psrDoubleABPN",
    "psrJ1757CF",
    "psrJ1757PN",
+   "psrJ1946CF",
    "psrJ1946PN",
    "starSeed"
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.594
+ "elapsedS": 0.507
 }

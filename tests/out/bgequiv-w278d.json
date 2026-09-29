@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第278便d",
   "target": "beta/index.html",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T02:33:09.338Z",
+  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "generatedAt": "2026-09-29T05:37:37.720Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5091518,
-    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-    "mtime": "2026-09-28T02:32:01.406Z"
+    "bytes": 5184678,
+    "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+    "mtime": "2026-09-29T05:36:14.025Z"
    },
    {
     "file": "tests/out/bgpredict-w276a.json",
     "bytes": 97740,
-    "sha256": "87b9ae62e118f7f636e55783bdc0cfa9b9458e503896d831ae86b6727c61f044",
-    "mtime": "2026-09-28T02:32:04.162Z"
+    "sha256": "c8068eeb7a293179cf636bea70e24a50b8e094ba07a422294932c716596edeee",
+    "mtime": "2026-09-29T05:36:17.369Z"
    }
   ],
   "code": [
@@ -69,7 +69,7 @@
    "観測と合った"
   ],
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": [
     "earthMoonRealKF1",
     "plutoCharonReal",
@@ -99,16 +99,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 813,
-   "segments": 739,
-   "closureShare": 0.3121
+   "names": 836,
+   "segments": 758,
+   "closureShare": 0.3144
   },
-  "scopeSha256": "48674e0df71e51b7b32b1bc35ff02cfdfcb401b77acc9755ecada0a958a534b0",
+  "scopeSha256": "e0dd118c9ecf35fbb41511f2c076995b7198b972b608d3534b0685167314bf79",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/bgpredict-w276a.json",
-    "stableSha256": "64c2553d8c884c8301d8ff328cf55d620fce2a3c7b1742107b1d15a03ff2339d",
+    "stableSha256": "ae321f95cc24679d4137d855e59fc9ab076dfe0de5562b42fbab01b273d8c4cb",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -4920,5 +4920,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 63.175
+ "elapsedS": 74.13
 }

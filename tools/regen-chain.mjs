@@ -96,8 +96,10 @@ if (argv.includes('--check-order')) {
     runs.forEach((z, i) => {
       const later = new Set(runs.slice(i + 1).flatMap((w) => w.ranOk));
       const cure = (o) => later.has(o.step);
-      z.cured = z.timeline.order.filter(cure).concat(z.order.filter(cure));
-      z.timeline.order = z.timeline.order.filter((o) => !cure(o)); z.order = z.order.filter((o) => !cure(o));
+      // 統括(第286便 統合): 下流の欠落(downstream —— 依存が走ったのにその下流がその回に無い)も同じ規則で治る: 後の回でその下流が
+      //   rc=0 で走っていれば、その産物は依存の最後の走行の後に出来ている(表に段を足した回〔d68three〕や再利用で列に出ない回で偽の欠落になる)
+      z.cured = z.timeline.order.filter(cure).concat(z.order.filter(cure), z.downstream.filter(cure));
+      z.timeline.order = z.timeline.order.filter((o) => !cure(o)); z.order = z.order.filter((o) => !cure(o)); z.downstream = z.downstream.filter((o) => !cure(o));
       z.ok = z.ok || (!z.timeline.order.length && !z.timeline.writes.length && !z.timeline.budget.length && !z.order.length && !z.downstream.length && !z.timeline.failed.length);
       delete z.ranOk;
     });

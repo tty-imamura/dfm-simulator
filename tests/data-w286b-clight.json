@@ -1,0 +1,801 @@
+{
+ "version": "w286b-1",
+ "wave": "第286便b",
+ "ruling": "原仮定者の裁定(第76報)AN59: cLight は真値 29979.2458(従属定数 κ=G/c² 等も一緒に)",
+ "reading": "統括の検証項目 R104: cLight=30000 の丸めは 1PN を −0.138% ずらす —— 真値にするときは κ=G/c² 等の従属値を一緒に更新し、実単位の本すべての前後(4 値・bitsame の差分 ID・切断点)を記録する",
+ "rule": "c_sim = c_SI·10^(T−L)(c_SI=299792458 m/s・scaleExp の L・T)。実単位の本 = scaleExp を宣言し G=6.674 の内蔵(退役は凍結のまま)。κ=G/c²(G=6.674 のまま)",
+ "tolerance": {
+  "cRel": 1e-12,
+  "kappaRel": 1e-12
+ },
+ "families": [
+  {
+   "LminusT": 4,
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09
+  },
+  {
+   "LminusT": 5,
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07
+  },
+  {
+   "LminusT": 7,
+   "cOld": 30,
+   "cNew": 29.9792458,
+   "kappaOld": 0.007415555555555556,
+   "kappaNew": 0.00742582647410185
+  }
+ ],
+ "pn1Shift": {
+  "factor": 1.0013850504482567,
+  "rel": 0.0013850504482566528,
+  "note": "1PN の主次数 ∝ 1/c²: 真値化で +0.1385%(旧値の丸めが 1PN を −0.138% ずらしていた分)"
+ },
+ "books": [
+  {
+   "id": "earthMoonReal",
+   "emoji": "🌙",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": true,
+   "abBodyC": null
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "emAuditDFM",
+   "emoji": "🧲",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "emAuditSolar",
+   "emoji": "🔆",
+   "scaleExp": "8/4/27",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "earthMoonDiagOne",
+   "emoji": "🌓",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "qLockRadialAudit",
+   "emoji": "📶",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "qLockRadialAuditQ3",
+   "emoji": "📐",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "mercuryReal",
+   "emoji": "☄️",
+   "scaleExp": "8/4/27",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": 30
+  },
+  {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "scaleExp": "8/4/27",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "mercuryRealKF1",
+   "emoji": "🪨",
+   "scaleExp": "8/4/27",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": 30
+  },
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "scaleExp": "8/4/27",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "scaleExp": "7/3/26",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "scaleExp": "8/4/27",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "plutoCharonDFM",
+   "emoji": "⛄",
+   "scaleExp": "5/1/24",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "plutoCharonKF0Control",
+   "emoji": "🌨️",
+   "scaleExp": "5/1/24",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "scaleExp": "5/1/24",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "plutoCharonSyncZero",
+   "emoji": "☃️",
+   "scaleExp": "5/1/24",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "charonGeoToy3",
+   "emoji": "🌒",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "scaleExp": "7/3/26",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "alphaCenAB",
+   "emoji": "✨",
+   "scaleExp": "10/6/29",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "scaleExp": "10/6/29",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "siriusAB",
+   "emoji": "🌟",
+   "scaleExp": "10/6/29",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "scaleExp": "10/6/29",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "psrDoubleAB",
+   "emoji": "📻",
+   "scaleExp": "6/1/27",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "scaleExp": "6/1/27",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "psrDoubleABGeoToy",
+   "emoji": "🩻",
+   "scaleExp": "6/1/27",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "psrDoubleABSpinCal",
+   "emoji": "🧿",
+   "scaleExp": "6/1/27",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "scaleExp": "6/1/27",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "scaleExp": "6/1/27",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "psrB1534",
+   "emoji": "📿",
+   "scaleExp": "6/1/27",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "scaleExp": "6/1/27",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "psrB1534CF",
+   "emoji": "🪤",
+   "scaleExp": "6/1/27",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "gw150914",
+   "emoji": "🎐",
+   "scaleExp": "4/-3/29",
+   "cOld": 30,
+   "cNew": 29.9792458,
+   "kappaOld": 0.007415555555555556,
+   "kappaNew": 0.00742582647410185,
+   "cTrue": 29.979245799999998,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "scaleExp": "4/-3/29",
+   "cOld": 30,
+   "cNew": 29.9792458,
+   "kappaOld": 0.007415555555555556,
+   "kappaNew": 0.00742582647410185,
+   "cTrue": 29.979245799999998,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "scaleExp": "4/-3/29",
+   "cOld": 30,
+   "cNew": 29.9792458,
+   "kappaOld": 0.007415555555555556,
+   "kappaNew": 0.00742582647410185,
+   "cTrue": 29.979245799999998,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "gw150914SpinDipole",
+   "emoji": "⚛️",
+   "scaleExp": "4/-3/29",
+   "cOld": 30,
+   "cNew": 29.9792458,
+   "kappaOld": 0.007415555555555556,
+   "kappaNew": 0.00742582647410185,
+   "cTrue": 29.979245799999998,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "tuc47",
+   "emoji": "🍇",
+   "scaleExp": "16/12/35",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "tuc47DFM",
+   "emoji": "🫐",
+   "scaleExp": "16/12/35",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "ngc3198",
+   "emoji": "🌃",
+   "scaleExp": "19/15/38",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "ngc3198DFM",
+   "emoji": "🛞",
+   "scaleExp": "19/15/38",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "supernovaProg",
+   "emoji": "🥀",
+   "scaleExp": "10/6/29",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "supernovaProgDFM",
+   "emoji": "🌹",
+   "scaleExp": "10/6/29",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "crabRemnant",
+   "emoji": "🦀",
+   "scaleExp": "14/9/35",
+   "cOld": 3000,
+   "cNew": 2997.92458,
+   "kappaOld": 7.415555555555556e-07,
+   "kappaNew": 7.42582647410185e-07,
+   "cTrue": 2997.92458,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "saturnD68Consistent",
+   "emoji": "🧷",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "saturnD68ObsOrbit",
+   "emoji": "📎",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "saturnRingReal",
+   "emoji": "💍",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "scaleExp": "6/2/25",
+   "cOld": 30000,
+   "cNew": 29979.2458,
+   "kappaOld": 7.415555555555556e-09,
+   "kappaNew": 7.425826474101849e-09,
+   "cTrue": 29979.245799999997,
+   "qLockRuntime": false,
+   "abBodyC": null
+  }
+ ],
+ "exact": [
+  {
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "c": 2997.92458,
+   "role": "retired",
+   "why": "第286便b 以前から真値(第249便a〜 の 2997.92458)"
+  },
+  {
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "c": 2997.92458,
+   "role": "retired",
+   "why": "第286便b 以前から真値(第249便a〜 の 2997.92458)"
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "c": 2997.92458,
+   "role": "retired",
+   "why": "第286便b 以前から真値(第249便a〜 の 2997.92458)"
+  },
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "c": 2997.92458,
+   "role": "retired",
+   "why": "第286便b 以前から真値(第249便a〜 の 2997.92458)"
+  },
+  {
+   "id": "psrJ1757CF",
+   "emoji": "🪄",
+   "c": 2997.92458,
+   "role": "retired",
+   "why": "第286便b 以前から真値(第249便a〜 の 2997.92458)"
+  },
+  {
+   "id": "psrJ1946CF",
+   "emoji": "🩹",
+   "c": 2997.92458,
+   "role": null,
+   "why": "第286便b 以前から真値(第249便a〜 の 2997.92458)"
+  }
+ ],
+ "excluded": [
+  {
+   "id": "emAuditNewton",
+   "emoji": "⭕",
+   "c": 30000,
+   "cTrue": 29979.245799999997,
+   "role": "retired",
+   "why": "退役(凍結の写し tests/fixtures/retired-w284b.json —— 宣言は凍結のまま・旧値は履歴)"
+  },
+  {
+   "id": "pulsarSolo",
+   "emoji": "🏮",
+   "c": 30,
+   "why": "G=1(実単位の G 6.674 でない —— scaleExp は表示の換算だけのアナロジー)"
+  }
+ ],
+ "dependents": [
+  {
+   "key": "kappaT",
+   "what": "κ=G/c²(physics.kappaT)",
+   "action": "updated",
+   "where": "上の books の全本(c と同じ宣言の行)"
+  },
+  {
+   "key": "ASTRO_COMMON",
+   "what": "AI カタログの共通 physics(出典の内蔵のビット写し —— QA ai.catalog-integrity)",
+   "action": "updated",
+   "where": "beta/index.html const ASTRO_COMMON"
+  },
+  {
+   "key": "obsFamilyRel",
+   "what": "観測転写の組立(相対論的連星族 L−T=5)の cLight・κ",
+   "action": "updated",
+   "where": "beta/index.html obsMakeSys の phO(sc.rel)"
+  },
+  {
+   "key": "aiPrompt",
+   "what": "AI 追加の指示文(出力 B の実単位の規約)の cLight・κ",
+   "action": "updated",
+   "where": "beta/index.html の指示文 ja/en"
+  },
+  {
+   "key": "parameterAudit",
+   "what": "内蔵の parameterAudit.observedInputs の c₀ と derived の κ の表示値",
+   "action": "updated",
+   "where": "上の books の本の observedInputs・derived(経緯の文は書き換えない)"
+  },
+  {
+   "key": "spinDipoleDeclared",
+   "what": "χ から宣言した spinDipole.omega(ω=2χGm/(cR²) —— ⏰ gw150914Merge4s・⚛️ gw150914SpinDipole の 4 体・χ=0.7)",
+   "action": "updated",
+   "where": "同じ式を真値の c で評価(旧 c₀=30 の値は履歴)。観測自転の spinDipole(source:\"observed\" —— 連星パルサー)は c に依らない"
+  },
+  {
+   "key": "obsBuilderStellarPn",
+   "what": "観測転写の組立(buildAstroFromRecords)の恒星連星の族(L≥10・衛星 1)の伴星の pnSource",
+   "action": "updated",
+   "where": "内蔵 ✨🌟 の伴星の宣言(AN54)と同型 —— 記録経路と内蔵のビット一致を保つ。他の族は不変"
+  },
+  {
+   "key": "qLockRuntime",
+   "what": "qLock:true の本の q(実行時に params.cLight から算出)",
+   "action": "automatic",
+   "where": "qLockRuntime が true の本(本体または abBody)"
+  },
+  {
+   "key": "qExactDirect",
+   "what": "q_exact を 1 回評価した直値(宣言の q・カタログ・組立の cQ)",
+   "action": "unchanged",
+   "where": "旧 c₀(3×10⁴・3×10³)で評価した直値のまま —— 真値の c で評価し直すかは決断事項(物理を変える範囲の外)"
+  },
+  {
+   "key": "G",
+   "what": "G=6.674(G_SI·10^(M+2T−3L)=6.6743 の丸め —— 相対 −4.5×10⁻⁵)",
+   "action": "unchanged",
+   "where": "本便の範囲の外(決断事項の候補)"
+  },
+  {
+   "key": "abBodyContrast",
+   "what": "☄️🪨 の abBody の誇張対照 cLight:30・κ(c₀=30 の対照)",
+   "action": "unchanged",
+   "where": "真値の丸めではない(誇張アナログの対照)"
+  },
+  {
+   "key": "massLedger",
+   "what": "💮🌚 等の massLedger の長さ換算文(c_SI=299792458 を既に使う)",
+   "action": "unchanged",
+   "where": "換算文は既に真値 —— トイの c=30 の本(実単位ではない)"
+  },
+  {
+   "key": "CAL_CONTRACT",
+   "what": "較正契約の units 欄(c の真値・κ の同期・G は丸めのまま)",
+   "action": "updated",
+   "where": "beta/index.html const CAL_CONTRACT"
+  }
+ ],
+ "others": [
+  {
+   "id": "clusterAnalogyBH",
+   "emoji": "💮",
+   "wave": "第286便a",
+   "reason": "cluster スケール(L16/T12/M35)へ復帰: G_sim 6.6743・c_sim 29979.2458 = c_SI·10^(T−L)。b の規則(G=6.674 の実単位の本)の外だが同じ真値 —— 統合で宣言に足す(統括)"
+  }
+ ]
+}

@@ -3,38 +3,38 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T05:52:16.813Z",
+  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "generatedAt": "2026-09-29T05:37:56.126Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
-    "bytes": 81149,
-    "sha256": "f7b247e815fcedde2443a06779e2adc87bffcf3a915b0f5d3edd1162586a57e5",
-    "mtime": "2026-09-28T03:12:40.194Z"
+    "bytes": 81120,
+    "sha256": "899f1e8e7b71fc5076e7fd90cefb481b728904699745704f0c4abec65d04f5db",
+    "mtime": "2026-09-29T05:37:53.509Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2765140,
-    "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-    "mtime": "2026-09-28T05:10:31.970Z"
+    "bytes": 2854534,
+    "sha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
+    "mtime": "2026-09-29T04:53:53.017Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
     "bytes": 160643,
-    "sha256": "e31db2d7c57d404979cc57d12442167cd585226c1db717e1516723773bd886b6",
-    "mtime": "2026-09-28T05:52:16.626Z"
+    "sha256": "aee394682f5cb33f2853523b39809983fc794ef5dde2f69f13855566e0c8788f",
+    "mtime": "2026-09-29T05:36:06.473Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
-    "bytes": 13252,
-    "sha256": "2d0527105b5b739929b10a6ac9706f6ec97942f070c498184fa837d5315359b5",
-    "mtime": "2026-09-28T03:12:38.746Z"
+    "bytes": 13042,
+    "sha256": "036d62f45eae6a247b91860c23a530c9a80240e529d386afd7e498f829add85b",
+    "mtime": "2026-09-29T05:37:50.873Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223870,
-    "sha256": "50d5252ccf0b98dee758425d11a9cb546dbbe2509cc1b8b34c4a7d3321b51af3",
-    "mtime": "2026-09-28T01:59:34.450Z"
+    "sha256": "a4d81a84e8f8bb5cac76474442c013197f245e311de99ad81ad563d77aa20fff",
+    "mtime": "2026-09-28T23:08:39.219Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -44,9 +44,9 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 124967,
-    "sha256": "9b04308341aa2625ece65de7d5e6fe23a8473a8ea284292475066f55459b8d40",
-    "mtime": "2026-09-28T05:29:44.914Z"
+    "bytes": 125067,
+    "sha256": "d2b14c9f994a33234640b4c2550f64ee79570692c5e1fcecb2015ebc2d747d33",
+    "mtime": "2026-09-29T05:27:34.201Z"
    }
   ],
   "code": [
@@ -165,8 +165,8 @@
   "nDiagnostic": 6,
   "kf1": {
    "run": {
-    "✓": 31,
-    "✗": 2,
+    "✓": 30,
+    "✗": 3,
     "未測定": 10
    },
    "structure": {
@@ -181,8 +181,8 @@
    },
    "extrapolated": {
     "✓": 0,
-    "✗": 4,
-    "未測定": 39
+    "✗": 3,
+    "未測定": 40
    },
    "observation": {
     "✓": 0,
@@ -480,14 +480,14 @@
      "pull"
     ],
     "bodiesSha256": [
-     "274816ab932583e1162d8961571b95b75e0b58d9b33af844b74d5585e3e11593",
-     "c367559cf95d903cebc3a1b4f39ef7f5cd9477dddc542467f49e0d442ee74658"
+     "5b90c87607deb57a98f16773d04b166ba9686fb685dae26aec610e4fe17fab8b",
+     "d8e5ebbe87763cdca8245210e70ac51f2948d6efd01797ed6dec0b84fba42925"
     ]
    },
    "fDeltaRel": 0,
    "kf1Observation": "未測定",
    "kf0Observation": "✓",
-   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 274816ab932583e1162d8961571b95b75e0b58d9b33af844b74d5585e3e11593 → c367559cf95d903cebc3a1b4f39ef7f5cd9477dddc542467f49e0d442ee74658。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。"
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 5b90c87607deb57a98f16773d04b166ba9686fb685dae26aec610e4fe17fab8b → d8e5ebbe87763cdca8245210e70ac51f2948d6efd01797ed6dec0b84fba42925。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。"
   },
   {
    "k0": "siriusAB",
@@ -528,14 +528,14 @@
      "pull"
     ],
     "bodiesSha256": [
-     "d42e9735986258e42a789e0e55a65f3576fb3f486e882060c43eca9a1570cb96",
-     "4f9874e9dea0251dd671783388de9ce83de5068753e96a77aad5fa3035236bc9"
+     "8c491c03f75b99037fc464cf7a7a98228ad2cce2c7c28aa084304bee2bdfdc49",
+     "6e9db3ba3fde6fe5fbcd2f1c7d66a5dc82b8f1ccddde7664f0b872b724fc61d1"
     ]
    },
    "fDeltaRel": 0,
    "kf1Observation": "未測定",
    "kf0Observation": "✓",
-   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 d42e9735986258e42a789e0e55a65f3576fb3f486e882060c43eca9a1570cb96 → 4f9874e9dea0251dd671783388de9ce83de5068753e96a77aad5fa3035236bc9。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。"
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 8c491c03f75b99037fc464cf7a7a98228ad2cce2c7c28aa084304bee2bdfdc49 → 6e9db3ba3fde6fe5fbcd2f1c7d66a5dc82b8f1ccddde7664f0b872b724fc61d1。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。"
   },
   {
    "k0": "psrDoubleAB",
@@ -1012,7 +1012,7 @@
      "nSigma": [
       {
        "key": "mercuryReal|水星|precession",
-       "nSigma": 6217.309649756984,
+       "nSigma": 1979.3729438229177,
        "status": "数値未解決"
       }
      ]
@@ -1083,7 +1083,7 @@
      "nSigma": [
       {
        "key": "mercuryRealKF1|水星|precession",
-       "nSigma": 6259.097597213949,
+       "nSigma": 6219.469217900776,
        "status": "数値未解決"
       }
      ]
@@ -1196,49 +1196,49 @@
      "target": "イオ",
      "kind": "period",
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
-     "kf1Meas": 152933.5450591308,
-     "kf0Meas": 152929.0080392533,
+     "kf1Meas": 152933.54506432873,
+     "kf0Meas": 152929.0080435925,
      "unit": "s",
      "obs": 152853.5232,
      "kf1ResidualPct": null,
-     "kf0ResidualPct": 0.04938377452676354,
-     "deltaPct": -0.002966661026354035
+     "kf0ResidualPct": 0.049383777365563986,
+     "deltaPct": -0.0029666615877635126
     },
     {
      "target": "エウロパ",
      "kind": "period",
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
-     "kf1Meas": 306919.3630930592,
-     "kf0Meas": 306825.7073951724,
+     "kf1Meas": 306919.36312297307,
+     "kf0Meas": 306825.7074007059,
      "unit": "s",
      "obs": 306822.0384,
      "kf1ResidualPct": null,
-     "kf0ResidualPct": 0.0011958056179733115,
-     "deltaPct": -0.03051475701728055
+     "kf0ResidualPct": 0.0011958074214654315,
+     "deltaPct": -0.03051476495787074
     },
     {
      "target": "ガニメデ",
      "kind": "period",
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
-     "kf1Meas": 618322.1193396464,
-     "kf0Meas": 618087.6169737832,
+     "kf1Meas": 618322.119193969,
+     "kf0Meas": 618087.6169805632,
      "unit": "s",
      "obs": 618153.3792,
      "kf1ResidualPct": null,
-     "kf0ResidualPct": -0.010638496598018415,
-     "deltaPct": -0.037925598733816374
+     "kf0ResidualPct": -0.0106384955012175,
+     "deltaPct": -0.037925574086123
     },
     {
      "target": "カリスト",
      "kind": "period",
      "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
-     "kf1Meas": 1442107.2605434186,
-     "kf0Meas": 1441544.0757841982,
+     "kf1Meas": 1442107.2604654715,
+     "kf0Meas": 1441544.0757933764,
      "unit": "s",
      "obs": 1441931.0688,
      "kf1ResidualPct": null,
-     "kf0ResidualPct": -0.026838523988794362,
-     "deltaPct": -0.03905290366599503
+     "kf0ResidualPct": -0.02683852335227406,
+     "deltaPct": -0.039052897626583906
     }
    ],
    "kf1": {
@@ -1334,13 +1334,13 @@
      "target": "金星",
      "kind": "period",
      "name": "公転周期(kFrame=0 対照)",
-     "kf1Meas": 19414266.84737822,
-     "kf0Meas": 19413888.60729404,
+     "kf1Meas": 19414266.578568343,
+     "kf0Meas": 19413888.609564465,
      "unit": "s",
      "obs": 19414166.4,
      "kf1ResidualPct": null,
-     "kf0ResidualPct": -0.0014308763004980038,
-     "deltaPct": -0.0019482583975599615
+     "kf0ResidualPct": -0.0014308646058270656,
+     "deltaPct": -0.001946862130222208
     }
    ],
    "kf1": {
@@ -1436,13 +1436,13 @@
      "target": "フォボス",
      "kind": "period",
      "name": "kFrame=0 対照との周期差",
-     "kf1Meas": 27566.6434406517,
-     "kf0Meas": 27566.822022411514,
+     "kf1Meas": 27566.643440662006,
+     "kf0Meas": 27566.822022425855,
      "unit": "s",
      "obs": 27553.841567549454,
      "kf1ResidualPct": null,
-     "kf0ResidualPct": 0.04710941968014661,
-     "deltaPct": 0.0006478182960442496
+     "kf0ResidualPct": 0.04710941973219348,
+     "deltaPct": 0.0006478183106795161
     }
    ],
    "kf1": {
@@ -1538,13 +1538,13 @@
      "target": "カロン",
      "kind": "period",
      "name": "公転周期(kFrame=0 対照・同方向1周)",
-     "kf1Meas": 553210.6340099995,
-     "kf0Meas": 551864.0613629294,
+     "kf1Meas": 553210.6304433692,
+     "kf0Meas": 551864.061362921,
      "unit": "s",
      "obs": 551856.43872,
      "kf1ResidualPct": null,
-     "kf0ResidualPct": 0.0013812728083979968,
-     "deltaPct": -0.24341047772514562
+     "kf0ResidualPct": 0.001381272806879141,
+     "deltaPct": -0.2434098345812558
     }
    ],
    "kf1": {
@@ -1581,12 +1581,12 @@
      "nSigma": [
       {
        "key": "plutoCharonReal|カロン|period",
-       "nSigma": 52245.18865738733,
+       "nSigma": 52245.05105590966,
        "status": "数値未解決"
       },
       {
        "key": "plutoCharonReal|カロン|period",
-       "nSigma": 170138.21321926554,
+       "nSigma": 170109.38090036093,
        "status": "mapping-unresolved"
       }
      ]
@@ -1628,8 +1628,8 @@
      "orders": [
       {
        "key": "plutoCharonReal|カロン|period",
-       "order": 1.936469564481718,
-       "epsHatInSigma": 0.0003463134641282191,
+       "order": 1.9370248248263864,
+       "epsHatInSigma": 0.00034610769799762515,
        "assessedStage": "h4"
       }
      ]
@@ -1642,7 +1642,7 @@
      "nSigma": [
       {
        "key": "plutoCharonReal|カロン|period",
-       "nSigma": 294.07871878464465,
+       "nSigma": 294.0787173653838,
        "status": "否(3σ)"
       }
      ]
@@ -1735,13 +1735,13 @@
      "target": "トリトン",
      "kind": "period",
      "name": "公転周期(kFrame=0 対照)",
-     "kf1Meas": 508323.3145286334,
-     "kf0Meas": 507781.48235554586,
+     "kf1Meas": 508323.31450961385,
+     "kf0Meas": 507781.4823564407,
      "unit": "s",
      "obs": 507760.18559999997,
      "kf1ResidualPct": null,
-     "kf0ResidualPct": 0.004194254719031092,
-     "deltaPct": -0.10659203652501302
+     "kf0ResidualPct": 0.0041942548952612095,
+     "deltaPct": -0.10659203261134621
     }
    ],
    "kf1": {
@@ -1877,14 +1877,14 @@
      "orders": [
       {
        "key": "alphaCenAB|B|period",
-       "order": 1.9973696104203618,
-       "epsHatInSigma": 7.806073301494052e-7,
+       "order": 1.996855092747337,
+       "epsHatInSigma": 7.821640639653845e-7,
        "assessedStage": "h4"
       },
       {
        "key": "alphaCenAB|B|ecc",
-       "order": 1.9872107114984203,
-       "epsHatInSigma": 3.4550722567364125e-7,
+       "order": 1.9882831496787685,
+       "epsHatInSigma": 3.446649112545369e-7,
        "assessedStage": "h4"
       }
      ]
@@ -1897,12 +1897,12 @@
      "nSigma": [
       {
        "key": "alphaCenAB|B|period",
-       "nSigma": 0.0956171694812924,
+       "nSigma": 0.09561602617161595,
        "status": "合(3σ)"
       },
       {
        "key": "alphaCenAB|B|ecc",
-       "nSigma": 0.00021965169979173046,
+       "nSigma": 0.00022212357878951633,
        "status": "mapping-unresolved"
       }
      ]
@@ -1919,7 +1919,7 @@
     "with": "alphaCenABDFM",
     "side": "kF0",
     "kOnly": false,
-    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 274816ab932583e1162d8961571b95b75e0b58d9b33af844b74d5585e3e11593 → c367559cf95d903cebc3a1b4f39ef7f5cd9477dddc542467f49e0d442ee74658。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 5b90c87607deb57a98f16773d04b166ba9686fb685dae26aec610e4fe17fab8b → d8e5ebbe87763cdca8245210e70ac51f2948d6efd01797ed6dec0b84fba42925。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
     "axisDiffering": [
      "bodiesSha256"
     ]
@@ -1972,12 +1972,12 @@
      "nSigma": [
       {
        "key": "alphaCenABDFM|B|period",
-       "nSigma": 25.05094722338467,
+       "nSigma": 25.050985780133345,
        "status": "数値未解決"
       },
       {
        "key": "alphaCenABDFM|B|ecc",
-       "nSigma": 6.232481728218146,
+       "nSigma": 6.232485130882963,
        "status": "mapping-unresolved"
       }
      ]
@@ -2003,7 +2003,7 @@
     "with": "alphaCenAB",
     "side": "kF1",
     "kOnly": false,
-    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 274816ab932583e1162d8961571b95b75e0b58d9b33af844b74d5585e3e11593 → c367559cf95d903cebc3a1b4f39ef7f5cd9477dddc542467f49e0d442ee74658。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 5b90c87607deb57a98f16773d04b166ba9686fb685dae26aec610e4fe17fab8b → d8e5ebbe87763cdca8245210e70ac51f2948d6efd01797ed6dec0b84fba42925。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
     "axisDiffering": [
      "bodiesSha256"
     ]
@@ -2066,14 +2066,14 @@
      "orders": [
       {
        "key": "siriusAB|B|period",
-       "order": 1.9971823101703037,
-       "epsHatInSigma": 0.00000912562144619469,
+       "order": 1.9959793317263326,
+       "epsHatInSigma": 0.000009151470401640203,
        "assessedStage": "h4"
       },
       {
        "key": "siriusAB|B|ecc",
-       "order": 2.23110341430375,
-       "epsHatInSigma": 4.195504459271457e-7,
+       "order": 2.2316549006333597,
+       "epsHatInSigma": 4.188739936195703e-7,
        "assessedStage": "h4"
       }
      ]
@@ -2086,12 +2086,12 @@
      "nSigma": [
       {
        "key": "siriusAB|B|period",
-       "nSigma": 0.27409459919759294,
+       "nSigma": 0.2740909116196267,
        "status": "合(3σ)"
       },
       {
        "key": "siriusAB|B|ecc",
-       "nSigma": 0.00013463807876398255,
+       "nSigma": 0.0001360791368476555,
        "status": "mapping-unresolved"
       }
      ]
@@ -2108,7 +2108,7 @@
     "with": "siriusABDFM",
     "side": "kF0",
     "kOnly": false,
-    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 d42e9735986258e42a789e0e55a65f3576fb3f486e882060c43eca9a1570cb96 → 4f9874e9dea0251dd671783388de9ce83de5068753e96a77aad5fa3035236bc9。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 8c491c03f75b99037fc464cf7a7a98228ad2cce2c7c28aa084304bee2bdfdc49 → 6e9db3ba3fde6fe5fbcd2f1c7d66a5dc82b8f1ccddde7664f0b872b724fc61d1。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
     "axisDiffering": [
      "bodiesSha256"
     ]
@@ -2161,12 +2161,12 @@
      "nSigma": [
       {
        "key": "siriusABDFM|B|period",
-       "nSigma": 206.1563784106908,
+       "nSigma": 206.15726586023146,
        "status": "数値未解決"
       },
       {
        "key": "siriusABDFM|B|ecc",
-       "nSigma": 5.918433682962466,
+       "nSigma": 5.918438153401801,
        "status": "mapping-unresolved"
       }
      ]
@@ -2192,7 +2192,7 @@
     "with": "siriusAB",
     "side": "kF1",
     "kOnly": false,
-    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 d42e9735986258e42a789e0e55a65f3576fb3f486e882060c43eca9a1570cb96 → 4f9874e9dea0251dd671783388de9ce83de5068753e96a77aad5fa3035236bc9。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 8c491c03f75b99037fc464cf7a7a98228ad2cce2c7c28aa084304bee2bdfdc49 → 6e9db3ba3fde6fe5fbcd2f1c7d66a5dc82b8f1ccddde7664f0b872b724fc61d1。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
     "axisDiffering": [
      "bodiesSha256"
     ]
@@ -2254,17 +2254,17 @@
      "nSigma": [
       {
        "key": "psrDoubleAB|B|period",
-       "nSigma": 1079420.091295777,
+       "nSigma": 1080926.8801924684,
        "status": "数値未解決"
       },
       {
        "key": "psrDoubleAB|B|ecc",
-       "nSigma": 175.9368193184179,
+       "nSigma": 176.18130748279597,
        "status": "mapping-unresolved"
       },
       {
        "key": "psrDoubleAB|B|precession",
-       "nSigma": 390.5844143520137,
+       "nSigma": 2188.5096961468366,
        "status": "数値未解決"
       }
      ]
@@ -2333,7 +2333,7 @@
      "nSigma": [
       {
        "key": "psrDoubleABDFM|B|period",
-       "nSigma": 715623537648.6239,
+       "nSigma": 715623849891.6362,
        "status": "数値未解決"
       }
      ]
@@ -2411,12 +2411,12 @@
      "nSigma": [
       {
        "key": "psrDoubleABSpinCal|B|precession",
-       "nSigma": 31831.896686010274,
+       "nSigma": 33668.27796052971,
        "status": "数値未解決"
       },
       {
        "key": "psrDoubleABSpinCal|B|period",
-       "nSigma": 386516714.44968224,
+       "nSigma": 386513003.77636766,
        "status": "数値未解決"
       }
      ]
@@ -2486,17 +2486,17 @@
      "nSigma": [
       {
        "key": "psrJ1757DFM|B|period",
-       "nSigma": 4217091074.394641,
+       "nSigma": 4217091220.4058146,
        "status": "数値未解決"
       },
       {
        "key": "psrJ1757DFM|B|ecc",
-       "nSigma": 393585.5106466525,
+       "nSigma": 393585.5139527501,
        "status": "mapping-unresolved"
       },
       {
        "key": "psrJ1757DFM|B|precession",
-       "nSigma": 11670.03385633753,
+       "nSigma": 11659.633769661994,
        "status": "数値未解決"
       }
      ]
@@ -2523,12 +2523,12 @@
    "scope": "calibration",
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "name": "PSR J1946+2052(DFM版・旧則 f≈2 — f=1 へ移行予定)— 銀河系で最短周期の中性子星連星",
+   "name": "PSR J1946+2052(DFM版)— 観測質量(f=1)・kF1 の銀河系で最短周期の中性子星連星",
    "declaredKFrame": 1,
-   "massFactor": 1.999965529561755,
+   "massFactor": 1,
    "massFactorSource": "massCalibration.baseMass",
    "massFactorSourceKind": "declared-base",
-   "massFactorDeclared": 1.9999655295617553,
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -2548,12 +2548,12 @@
      "periastraOk": true
     },
     "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
-    "nQuantities": 5,
-    "nWithSigma": 4,
+    "nQuantities": 4,
+    "nWithSigma": 3,
     "gateByStatus": {
-     "数値未解決": 3,
-     "mapping-unresolved": 1,
-     "未判定": 1
+     "数値未解決": 2,
+     "未判定": 1,
+     "mapping-unresolved": 1
     },
     "numericEvidence": {
      "convergedKeys": [],
@@ -2565,24 +2565,19 @@
      "ngKeys": [],
      "nSigma": [
       {
-       "key": "psrJ1946DFM|B|precession",
-       "nSigma": 70910.15244247513,
+       "key": "psrJ1946DFM|B|period",
+       "nSigma": 124890140083.44145,
        "status": "数値未解決"
       },
       {
-       "key": "psrJ1946DFM|B|period",
-       "nSigma": 55395765.81836796,
+       "key": "psrJ1946DFM|B|precession",
+       "nSigma": 136.566343437054,
        "status": "数値未解決"
       },
       {
        "key": "psrJ1946DFM|B|ecc",
-       "nSigma": 294.45678286955587,
+       "nSigma": 1009087.3354873514,
        "status": "mapping-unresolved"
-      },
-      {
-       "key": "psrJ1946DFM|B|period",
-       "nSigma": 55395765.81836796,
-       "status": "数値未解決"
       }
      ]
     }
@@ -3124,17 +3119,17 @@
      "nSigma": [
       {
        "key": "psrB1534|B|period",
-       "nSigma": 368010.9097651304,
+       "nSigma": 368520.8352079725,
        "status": "数値未解決"
       },
       {
        "key": "psrB1534|B|ecc",
-       "nSigma": 3.2610191521194785,
+       "nSigma": 3.26554290978424,
        "status": "mapping-unresolved"
       },
       {
        "key": "psrB1534|B|precession",
-       "nSigma": 302.97339644287376,
+       "nSigma": 33.13990569645294,
        "status": "数値未解決"
       }
      ]
@@ -3205,17 +3200,17 @@
      "nSigma": [
       {
        "key": "psrB1534DFM|B|precession",
-       "nSigma": 201841.93741501652,
+       "nSigma": 202385.0079503328,
        "status": "数値未解決"
       },
       {
        "key": "psrB1534DFM|B|period",
-       "nSigma": 156457258.33481568,
+       "nSigma": 156456213.23455492,
        "status": "数値未解決"
       },
       {
        "key": "psrB1534DFM|B|ecc",
-       "nSigma": 1097.2988225512368,
+       "nSigma": 1097.289626142972,
        "status": "mapping-unresolved"
       }
      ]
@@ -3294,12 +3289,12 @@
      "nSigma": [
       {
        "key": "psrB1534CF|B|precession",
-       "nSigma": 5484.981321499245,
+       "nSigma": 5756.0864034337765,
        "status": "数値未解決"
       },
       {
        "key": "psrB1534CF|B|period",
-       "nSigma": 156348210.93061435,
+       "nSigma": 156347014.7977939,
        "status": "数値未解決"
       }
      ]
@@ -3582,8 +3577,8 @@
      "orders": [
       {
        "key": "saturnZonalD68|D68|precession",
-       "order": 1.9796685390104243,
-       "epsHatInSigma": 0.0013559907590108232,
+       "order": 1.9796647249585413,
+       "epsHatInSigma": 0.0013560022160963691,
        "assessedStage": "h4"
       }
      ]
@@ -3596,7 +3591,7 @@
      "nSigma": [
       {
        "key": "saturnZonalD68|D68|precession",
-       "nSigma": 14.603411410167835,
+       "nSigma": 14.60340607134803,
        "status": "否(3σ)"
       }
      ]
@@ -3784,19 +3779,19 @@
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
      "stages": [
-      553210.6340099995,
-      553210.8870908859,
-      553211.0508944329
+      553210.6304433692,
+      553210.9003053728,
+      553211.1464493255
      ],
-     "pObs": 0.6276319563895256,
-     "epsHat": 0.3005421331164922,
-     "epsHatSigma": 11.594989703568372,
+     "pObs": 0.1327195649510854,
+     "epsHat": 2.5544613963412197,
+     "epsHatSigma": 98.55175140205324,
      "assessedStage": "h4",
      "orderEstimable": true
     },
     "extrapolatedEvidence": {
-     "nSigma": 52261.27216176534,
-     "residPct": 0.24546459538913862,
+     "nSigma": 52264.95869311394,
+     "residPct": 0.24548191056131952,
      "cfg": {
       "kFrame": 1,
       "f": 1,
@@ -3807,8 +3802,8 @@
      "why": "**門を通っていない残差**(判定段の周期と観測周期の差を σ_obs で割った数)である。"
     },
     "observationEvidence": {
-     "nSigma": 52261.27216176534,
-     "residPct": 0.24546459538913862,
+     "nSigma": 52264.95869311394,
+     "residPct": 0.24548191056131952,
      "cfg": {
       "kFrame": 1,
       "f": 1,
@@ -3839,19 +3834,19 @@
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
      "stages": [
-      551864.0613629294,
-      551864.0612657734,
-      551864.0612403909
+      551864.061362921,
+      551864.0612657347,
+      551864.0612403541
      ],
-     "pObs": 1.936469564481718,
-     "epsHat": 0.000008976444990203438,
-     "epsHatSigma": 0.0003463134641282191,
+     "pObs": 1.9370248248263864,
+     "epsHat": 0.000008971111532098443,
+     "epsHatSigma": 0.00034610769799762515,
      "assessedStage": "h4",
      "orderEstimable": true
     },
     "extrapolatedEvidence": {
-     "nSigma": 294.07871878464465,
-     "residPct": 0.001381250603613142,
+     "nSigma": 294.0787173653838,
+     "residPct": 0.001381250596947053,
      "cfg": {
       "kFrame": 0,
       "f": 1,
@@ -3862,8 +3857,8 @@
      "why": "**門を通っていない残差**(判定段の周期と観測周期の差を σ_obs で割った数)である。"
     },
     "observationEvidence": {
-     "nSigma": 294.07871878464465,
-     "residPct": 0.001381250603613142,
+     "nSigma": 294.0787173653838,
+     "residPct": 0.001381250596947053,
      "cfg": {
       "kFrame": 0,
       "f": 1,
@@ -3887,20 +3882,20 @@
      {
       "column": "S_e0.05_k0",
       "softening": 0.05,
-      "rev2Sec": 551864.0613629294,
-      "residPctRev": 0.0013812728083979968
+      "rev2Sec": 551864.061362921,
+      "residPctRev": 0.001381272806879141
      },
      {
       "column": "S_e0.025_k0",
       "softening": 0.025,
-      "rev2Sec": 551855.9777985957,
-      "residPctRev": -0.00008352197636223474
+      "rev2Sec": 551855.9777986223,
+      "residPctRev": -0.0000835219715314297
      },
      {
       "column": "S_e0.0125_k0",
       "softening": 0.0125,
-      "rev2Sec": 551853.9568779294,
-      "residPctRev": -0.00044972603315848053
+      "rev2Sec": 551853.9568779507,
+      "residPctRev": -0.00044972602929805553
      }
     ],
     "signFlip": true,
@@ -3987,14 +3982,14 @@
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
-     "pObs": 1.9989307152867601,
+     "pObs": 1.9989293339548189,
      "orderGuard": true,
      "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
     },
     "extrapolatedEvidence": {
-     "omegaDotExt": 16.86901563503089,
-     "ratioExt": 0.9982065929523267,
-     "nSigma": -2331.3357668544545,
+     "omegaDotExt": 16.892387945766103,
+     "ratioExt": 0.9995896253220383,
+     "nSigma": -533.4657102996888,
      "obs": {
       "value": 16.899323,
       "sigma": 0.000013,
@@ -4006,7 +4001,7 @@
      "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
     },
     "observationEvidence": {
-     "nSigma": -2331.3357668544545,
+     "nSigma": -533.4657102996888,
      "obs": {
       "value": 16.899323,
       "sigma": 0.000013,
@@ -4033,9 +4028,9 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 0.9982065929523267,
-    "nSigma": -2331.3357668544545,
-    "pObs": 1.9989307152867601,
+    "ratioExt": 0.9995896253220383,
+    "nSigma": -533.4657102996888,
+    "pObs": 1.9989293339548189,
     "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
    },
    "root": {
@@ -4045,8 +4040,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 1.0439299840750575,
-    "nSigma": 57106.69155917331,
+    "ratioExt": 1.045375081567922,
+    "nSigma": 58985.24304366613,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -4077,14 +4072,14 @@
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
-     "pObs": 1.1291194468398715,
+     "pObs": 1.1289649840476064,
      "orderGuard": false,
      "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
     },
     "extrapolatedEvidence": {
-     "omegaDotExt": 2.474611634113726,
-     "ratioExt": 0.23874459813351784,
-     "nSigma": -39452.441829431365,
+     "omegaDotExt": 2.477937660780722,
+     "ratioExt": 0.2390654852129475,
+     "nSigma": -39435.81169609639,
      "obs": {
       "value": 10.3651,
       "sigma": 0.0002,
@@ -4096,7 +4091,7 @@
      "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
     },
     "observationEvidence": {
-     "nSigma": -39452.441829431365,
+     "nSigma": -39435.81169609639,
      "obs": {
       "value": 10.3651,
       "sigma": 0.0002,
@@ -4130,14 +4125,14 @@
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
-     "pObs": 1.9970681122534852,
+     "pObs": 1.9970647324891095,
      "orderGuard": true,
      "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
     },
     "extrapolatedEvidence": {
-     "omegaDotExt": 10.347219315014701,
-     "ratioExt": 0.9982749143775459,
-     "nSigma": -89.403424926493,
+     "omegaDotExt": 10.361556057827336,
+     "ratioExt": 0.999658088954987,
+     "nSigma": -17.719710863319804,
      "obs": {
       "value": 10.3651,
       "sigma": 0.0002,
@@ -4149,7 +4144,7 @@
      "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
     },
     "observationEvidence": {
-     "nSigma": -89.403424926493,
+     "nSigma": -17.719710863319804,
      "obs": {
       "value": 10.3651,
       "sigma": 0.0002,
@@ -4176,9 +4171,9 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 0.9982749143775459,
-    "nSigma": -89.403424926493,
-    "pObs": 1.9970681122534852,
+    "ratioExt": 0.999658088954987,
+    "nSigma": -17.719710863319804,
+    "pObs": 1.9970647324891095,
     "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
    },
    "root": {
@@ -4188,8 +4183,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 1.3364442000753525,
-    "nSigma": 17436.388891005183,
+    "ratioExt": 1.3382937694416241,
+    "nSigma": 17532.243748196892,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -4201,33 +4196,33 @@
    "emoji": "🩺",
    "name": "J1946+2052 ω̇(lock 枝: kFrame=0・f=1・λ_PN=1)↔ 内蔵(kFrame=1・f≈2)",
    "declaredKFrame": 1,
-   "massFactor": 1.9999655295617553,
+   "massFactor": 0,
    "version": "diagnostic",
    "kf0Source": "nslockledger-w273c.json variants.lock(kFrame 0・f 1・λ_PN 1)",
    "kf1": {
     "present": true,
-    "run": "✓",
+    "run": "✗",
     "structure": "未測定",
     "numeric": "未測定",
-    "extrapolated": "✗",
+    "extrapolated": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "nslockledger-w273c.json#rows[].variants.builtin",
-     "resolved": true,
+     "resolved": false,
      "spec": {
       "builtin": true
      }
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
-     "pObs": 1.6540791745612973,
-     "orderGuard": true,
+     "pObs": 0,
+     "orderGuard": false,
      "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
     },
     "extrapolatedEvidence": {
-     "omegaDotExt": 51.47665852033846,
-     "ratioExt": 1.9958343179521776,
-     "nSigma": 64211.52130084615,
+     "omegaDotExt": 0,
+     "ratioExt": 0,
+     "nSigma": 0,
      "obs": {
       "value": 25.79205,
       "sigma": 0.0004,
@@ -4239,7 +4234,7 @@
      "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
     },
     "observationEvidence": {
-     "nSigma": 64211.52130084615,
+     "nSigma": 0,
      "obs": {
       "value": 25.79205,
       "sigma": 0.0004,
@@ -4273,14 +4268,14 @@
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
-     "pObs": 1.9988625694460223,
+     "pObs": 1.9988756536438648,
      "orderGuard": true,
      "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
     },
     "extrapolatedEvidence": {
-     "omegaDotExt": 25.742371671015125,
-     "ratioExt": 0.9980738898619972,
-     "nSigma": -124.19582246218752,
+     "omegaDotExt": 25.77804082106481,
+     "ratioExt": 0.9994568411997033,
+     "nSigma": -35.02294733797484,
      "obs": {
       "value": 25.79205,
       "sigma": 0.0004,
@@ -4292,7 +4287,7 @@
      "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
     },
     "observationEvidence": {
-     "nSigma": -124.19582246218752,
+     "nSigma": -35.02294733797484,
      "obs": {
       "value": 25.79205,
       "sigma": 0.0004,
@@ -4314,14 +4309,14 @@
    },
    "kf0SameF": {
     "spec": {
-     "f": 1.9999655295617553,
+     "f": 1,
      "kFrame": 0,
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 9.755932654954815,
-    "nSigma": 564583.6320830684,
-    "pObs": 1.9909468509406765,
+    "ratioExt": 0.9994568411997033,
+    "nSigma": -35.02294733797484,
+    "pObs": 1.9988756536438648,
     "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
    },
    "root": {
@@ -4331,8 +4326,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 0.9248816215799509,
-    "nSigma": -4843.64243032207,
+    "ratioExt": 0.9261496257071371,
+    "nSigma": -4761.8813657005885,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -4363,14 +4358,14 @@
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
-     "pObs": 1.065287531623993,
+     "pObs": 1.0652075432299204,
      "orderGuard": false,
      "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
     },
     "extrapolatedEvidence": {
-     "omegaDotExt": 3.556937189563483,
-     "ratioExt": 2.025834077764175,
-     "nSigma": 200127.57661816478,
+     "omegaDotExt": 3.5617949687002683,
+     "ratioExt": 2.0286007992419752,
+     "nSigma": 200667.32985558535,
      "obs": {
       "value": 1.755789,
       "sigma": 0.000009,
@@ -4382,7 +4377,7 @@
      "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
     },
     "observationEvidence": {
-     "nSigma": 200127.57661816478,
+     "nSigma": 200667.32985558535,
      "obs": {
       "value": 1.755789,
       "sigma": 0.000009,
@@ -4416,14 +4411,14 @@
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
-     "pObs": 1.9988381125368304,
+     "pObs": 1.999023630019853,
      "orderGuard": true,
      "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
     },
     "extrapolatedEvidence": {
-     "omegaDotExt": 1.7531053369849594,
-     "ratioExt": 0.9984715344411882,
-     "nSigma": -298.1847794489598,
+     "omegaDotExt": 1.7555338145985582,
+     "ratioExt": 0.9998546605534937,
+     "nSigma": -28.353933493541206,
      "obs": {
       "value": 1.755789,
       "sigma": 0.000009,
@@ -4435,7 +4430,7 @@
      "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
     },
     "observationEvidence": {
-     "nSigma": -298.1847794489598,
+     "nSigma": -28.353933493541206,
      "obs": {
       "value": 1.755789,
       "sigma": 0.000009,
@@ -4462,9 +4457,9 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 8.222800680763635,
-    "nSigma": 1409079.3316085893,
-    "pObs": 1.9921442801554403,
+    "ratioExt": 8.234191431820161,
+    "nSigma": 1411301.5266537878,
+    "pObs": 1.9921234650511501,
     "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
    },
    "root": {
@@ -4474,8 +4469,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 1.8216054619176618,
-    "nSigma": 160285.0924861055,
+    "ratioExt": 1.8240845934595111,
+    "nSigma": 160768.74047396463,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -4677,15 +4672,15 @@
     "target": "イオ",
     "kind": "period",
     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)",
-    "kf1Meas": 152933.5450591308,
-    "kf0Meas": 152929.0080392533,
+    "kf1Meas": 152933.54506432873,
+    "kf0Meas": 152929.0080435925,
     "unit": "s",
     "obs": 152853.5232,
     "kf1ResidualPct": null,
-    "kf0ResidualPct": 0.04938377452676354,
+    "kf0ResidualPct": 0.049383777365563986,
     "kf1Verdict": "条",
     "kf0Verdict": "合",
-    "deltaPct": -0.002966661026354035,
+    "deltaPct": -0.0029666615877635126,
     "periodDef": "revolution"
    },
    {
@@ -4694,15 +4689,15 @@
     "target": "エウロパ",
     "kind": "period",
     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)",
-    "kf1Meas": 306919.3630930592,
-    "kf0Meas": 306825.7073951724,
+    "kf1Meas": 306919.36312297307,
+    "kf0Meas": 306825.7074007059,
     "unit": "s",
     "obs": 306822.0384,
     "kf1ResidualPct": null,
-    "kf0ResidualPct": 0.0011958056179733115,
+    "kf0ResidualPct": 0.0011958074214654315,
     "kf1Verdict": "条",
     "kf0Verdict": "合",
-    "deltaPct": -0.03051475701728055,
+    "deltaPct": -0.03051476495787074,
     "periodDef": "revolution"
    },
    {
@@ -4711,15 +4706,15 @@
     "target": "ガニメデ",
     "kind": "period",
     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)",
-    "kf1Meas": 618322.1193396464,
-    "kf0Meas": 618087.6169737832,
+    "kf1Meas": 618322.119193969,
+    "kf0Meas": 618087.6169805632,
     "unit": "s",
     "obs": 618153.3792,
     "kf1ResidualPct": null,
-    "kf0ResidualPct": -0.010638496598018415,
+    "kf0ResidualPct": -0.0106384955012175,
     "kf1Verdict": "条",
     "kf0Verdict": "合",
-    "deltaPct": -0.037925598733816374,
+    "deltaPct": -0.037925574086123,
     "periodDef": "revolution"
    },
    {
@@ -4728,15 +4723,15 @@
     "target": "カリスト",
     "kind": "period",
     "name": "恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)",
-    "kf1Meas": 1442107.2605434186,
-    "kf0Meas": 1441544.0757841982,
+    "kf1Meas": 1442107.2604654715,
+    "kf0Meas": 1441544.0757933764,
     "unit": "s",
     "obs": 1441931.0688,
     "kf1ResidualPct": null,
-    "kf0ResidualPct": -0.026838523988794362,
+    "kf0ResidualPct": -0.02683852335227406,
     "kf1Verdict": "条",
     "kf0Verdict": "合",
-    "deltaPct": -0.03905290366599503,
+    "deltaPct": -0.039052897626583906,
     "periodDef": "revolution"
    },
    {
@@ -4745,15 +4740,15 @@
     "target": "金星",
     "kind": "period",
     "name": "公転周期(kFrame=0 対照)",
-    "kf1Meas": 19414266.84737822,
-    "kf0Meas": 19413888.60729404,
+    "kf1Meas": 19414266.578568343,
+    "kf0Meas": 19413888.609564465,
     "unit": "s",
     "obs": 19414166.4,
     "kf1ResidualPct": null,
-    "kf0ResidualPct": -0.0014308763004980038,
+    "kf0ResidualPct": -0.0014308646058270656,
     "kf1Verdict": "条",
     "kf0Verdict": "合",
-    "deltaPct": -0.0019482583975599615,
+    "deltaPct": -0.001946862130222208,
     "periodDef": "revolution"
    },
    {
@@ -4762,15 +4757,15 @@
     "target": "フォボス",
     "kind": "period",
     "name": "kFrame=0 対照との周期差",
-    "kf1Meas": 27566.6434406517,
-    "kf0Meas": 27566.822022411514,
+    "kf1Meas": 27566.643440662006,
+    "kf0Meas": 27566.822022425855,
     "unit": "s",
     "obs": 27553.841567549454,
     "kf1ResidualPct": null,
-    "kf0ResidualPct": 0.04710941968014661,
+    "kf0ResidualPct": 0.04710941973219348,
     "kf1Verdict": "条",
     "kf0Verdict": "合",
-    "deltaPct": 0.0006478182960442496,
+    "deltaPct": 0.0006478183106795161,
     "periodDef": "revolution"
    },
    {
@@ -4779,15 +4774,15 @@
     "target": "カロン",
     "kind": "period",
     "name": "公転周期(kFrame=0 対照・同方向1周)",
-    "kf1Meas": 553210.6340099995,
-    "kf0Meas": 551864.0613629294,
+    "kf1Meas": 553210.6304433692,
+    "kf0Meas": 551864.061362921,
     "unit": "s",
     "obs": 551856.43872,
     "kf1ResidualPct": null,
-    "kf0ResidualPct": 0.0013812728083979968,
+    "kf0ResidualPct": 0.001381272806879141,
     "kf1Verdict": "条",
     "kf0Verdict": "合",
-    "deltaPct": -0.24341047772514562,
+    "deltaPct": -0.2434098345812558,
     "periodDef": "revolution"
    },
    {
@@ -4796,15 +4791,15 @@
     "target": "トリトン",
     "kind": "period",
     "name": "公転周期(kFrame=0 対照)",
-    "kf1Meas": 508323.3145286334,
-    "kf0Meas": 507781.48235554586,
+    "kf1Meas": 508323.31450961385,
+    "kf0Meas": 507781.4823564407,
     "unit": "s",
     "obs": 507760.18559999997,
     "kf1ResidualPct": null,
-    "kf0ResidualPct": 0.004194254719031092,
+    "kf0ResidualPct": 0.0041942548952612095,
     "kf1Verdict": "条",
     "kf0Verdict": "合",
-    "deltaPct": -0.10659203652501302,
+    "deltaPct": -0.10659203261134621,
     "periodDef": "revolution"
    }
   ],
@@ -4817,16 +4812,16 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "54d24ffe67a151d6115e7a058b5305d6d080747577196a7c55cc500d72718aea",
-   "citedValue": 551864.0613629294,
+   "fileSha256": "7b6aeabace6672c44c49e5dfe2eb5ff7f84b62a19c584f0bea721eb92467e1c8",
+   "citedValue": 551864.061362921,
    "citedCfg": {
     "kFrame": 0,
     "f": 1,
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-   "thisRunValue": 551864.0613629294,
+   "citedTargetSha256": "783960c0cb1a9b759eda30b25d4fbf990cd50fe03370bcf658dc6b433fdff088",
+   "thisRunValue": 551864.061362921,
    "relDiff": 0,
    "identical": true,
    "note": "**一致は「正しい」ではない** —— 同じ html を同じ定義で走らせた 2 本の器が同じ数に着いた、というだけである。"

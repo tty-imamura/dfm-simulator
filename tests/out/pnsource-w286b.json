@@ -1,0 +1,2414 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第286便b",
+  "target": "beta/index.html",
+  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "generatedAt": "2026-09-29T05:12:27.770Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5184678,
+    "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+    "mtime": "2026-09-29T04:36:34.917Z"
+   },
+   {
+    "file": "tests/exp-w249b-calaudit.mjs",
+    "bytes": 345584,
+    "sha256": "dffcf674c44924d6506d1a3fca68fa0d97ce28bead1e322734fbb10e76599633",
+    "mtime": "2026-09-28T18:49:51.305Z"
+   },
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 2854534,
+    "sha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
+    "mtime": "2026-09-29T04:53:53.017Z"
+   },
+   {
+    "file": "tests/out/pn1-w285b.json",
+    "bytes": 51012,
+    "sha256": "60fca6d58fd8db2da1b6b8b7f758beaca126763a0c6d902ef45b245511e76fc1",
+    "mtime": "2026-09-29T04:59:01.577Z"
+   },
+   {
+    "file": "tests/data-w286b-clight.json",
+    "bytes": 20102,
+    "sha256": "d034992c6c13bbf7feb8fd4821a0bf32f39fcdac9d4b8265d941d7154654ea2e",
+    "mtime": "2026-09-29T00:09:33.395Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w286b-pnsource.mjs",
+    "bytes": 24402,
+    "sha256": "a58cff49dc4e19c43ab19fa115ad26c879266049adf072f8b7e21ac843ea293e",
+    "mtime": "2026-09-29T00:09:33.396Z"
+   },
+   {
+    "file": "tests/lib-w282b-geo1.mjs",
+    "bytes": 19581,
+    "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
+    "mtime": "2026-09-25T23:55:41.021Z"
+   },
+   {
+    "file": "tests/lib-w283a-geomode.mjs",
+    "bytes": 8878,
+    "sha256": "f90c47a27a7a9a2746b29e6f6edc5f54e47d21b0516bc97e62f8d1f5ae37d647",
+    "mtime": "2026-09-26T17:44:54.707Z"
+   },
+   {
+    "file": "tests/lib-w280a-mercury.mjs",
+    "bytes": 9761,
+    "sha256": "b8dd3b76544fd2ec4a17f026025b805b02672e50012e600c42e82bab44ee5f75",
+    "mtime": "2026-09-28T20:02:19.366Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-09-23T22:41:00.738Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
+   }
+  ],
+  "codeSha256": "09d7bd3dc91b441ccd51f03299e042646295030306053b58f41536262af36ead",
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "ASTRO_COMMON",
+    "CAL_CONTRACT",
+    "DEFAULT_PHYSICS",
+    "DT",
+    "HP.allPresets",
+    "HP.coreState",
+    "HP.loadPreset",
+    "HP.sim",
+    "HP.validatePreset",
+    "dfmPN1Delta",
+    "dfmPN1EIHKick",
+    "geoCoreDispatch",
+    "pnSource",
+    "presetSig",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 838,
+   "segments": 760,
+   "closureShare": 0.3156
+  },
+  "scopeSha256": "70f428f943bedb75a5c358f91d1ef7419c1cdbc84b450ab4267bb65c57811f18",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "f5c83f5d6b2360b30fd578ac73f72ea066c321aac14b80b066eb31e36f87206e",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
+     "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
+     "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
+     "/meta/when",
+     "/presets/*/run/stopRule/rateStepsPerSec",
+     "/presets/*/run/stopRule/wallSec",
+     "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
+     "/presets/*/run/stopRuleStages/*/wallSec",
+     "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/wallNearBudget",
+     "/presets/*/run/timeBudget/*/wallSec",
+     "/presets/*/run/wallSec"
+    ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "11b16457c1fba534f610f7a14b2b0c28431e7eb0695669871fadaec81bb43b94",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/h2Store/carriedFrom",
+     "/h2Store/entries/*/generatedAt",
+     "/h2Store/entries/*/run/rateStepsPerSec",
+     "/h2Store/entries/*/run/stopRule/rateStepsPerSec",
+     "/h2Store/entries/*/run/stopRule/wallSec",
+     "/h2Store/entries/*/run/timeBudget/rateStepsPerSec",
+     "/h2Store/entries/*/run/timeBudget/wallNearBudget",
+     "/h2Store/entries/*/run/timeBudget/wallSec",
+     "/h2Store/entries/*/run/wallSec",
+     "/h4Store/carriedFrom",
+     "/h4Store/entries/*/generatedAt",
+     "/h4Store/entries/*/run/rateStepsPerSec",
+     "/h4Store/entries/*/run/stopRule/rateStepsPerSec",
+     "/h4Store/entries/*/run/stopRule/wallSec",
+     "/h4Store/entries/*/run/timeBudget/rateStepsPerSec",
+     "/h4Store/entries/*/run/timeBudget/wallNearBudget",
+     "/h4Store/entries/*/run/timeBudget/wallSec",
+     "/h4Store/entries/*/run/wallSec",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
+   },
+   {
+    "file": "tests/out/pn1-w285b.json",
+    "stableSha256": "74abbce9d2f4bc7defba0558305fcdcff9106ce10634bdc5bac8da4baed837e5",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/headless/*/wallSec",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime"
+    ]
+   },
+   {
+    "file": "tests/data-w286b-clight.json",
+    "stableSha256": "dbe8e82868a05bd71f34233dae764acfd48892c0e4c76dbe12108153991f8473",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": []
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "harnessVersion": "w286b-pnsource-1",
+ "ruling": "原仮定者の裁定(第76報)AN54: 鎖の calaudit で EIH 後の正式判定を確定した上で、✴️💫✨🌟 の伴星に pnSource を宣言し測り直す / AN59: 較正専用 ε=0.01 を宣言(既定 0.05 は変えない)・cLight は真値 29979.2458(従属定数 κ=G/c² 等も一緒に)",
+ "base": {
+  "rev": "7822768",
+  "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
+  "note": "基点 html は git show の一時ファイル(終了後に削除)"
+ },
+ "nowSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+ "note": "判定はしない(正式判定は鎖の calaudit の 3σ 門)。比は λ_PN=1 と 0 の近点増分を GR の主次数(同じ走行の c・接触要素)で割った量 —— λ 増分の一致と λ=1 の実軌道の観測一致は別。Δϖ は deg/周(ω̇ deg/年ではない)。S._core は 1 命令も変えていない。",
+ "P": {
+  "cond": {
+   "dt": 0.016,
+   "orbits": 8,
+   "detector": "B",
+   "window": "判定器の近点位相の直線 fit(ページ側ヘルパの文字列のまま)"
+  },
+  "rows": [
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "mode": "kf0",
+    "decl": {
+     "base": [
+      true,
+      false
+     ],
+     "now": [
+      true,
+      true
+     ],
+     "massSame": true,
+     "physics": {
+      "kFrame": 0,
+      "geoPN": 1
+     }
+    },
+    "before": {
+     "lam1B": -0.000020301010970742683,
+     "lam0B": -0.00002123777341661688,
+     "incB": 9.367624458741966e-7,
+     "grDeg": 0.0000012440392598160553,
+     "ratio": 0.7530007099717312,
+     "c": 30000,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5194699963497409,
+     "a": 348.5480808373254,
+     "P": 2517.154221659065,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 2517156
+    },
+    "srcOff": {
+     "lam1B": -0.000020299697072093193,
+     "lam0B": -0.00002123777341661688,
+     "incB": 9.380763445236867e-7,
+     "grDeg": 0.0000012457623169505123,
+     "ratio": 0.7530139030212387,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5194699963497409,
+     "a": 348.5480808373254,
+     "P": 2517.154221659065,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 2517156
+    },
+    "after": {
+     "lam1B": -0.000019992001827357545,
+     "lam0B": -0.00002123777341661688,
+     "incB": 0.0000012457715892593354,
+     "grDeg": 0.0000012457623169505123,
+     "ratio": 1.0000074430801902,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 2,
+     "e": 0.5194699963497409,
+     "a": 348.5480808373254,
+     "P": 2517.154221659065,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 2517156
+    },
+    "effect": {
+     "cLight": 0.00001319304950753164,
+     "companion": 0.24699354005895147,
+     "total": 0.247006733108459
+    },
+    "resolution": 0.00001319304950753164,
+    "resolved": true,
+    "incOverValue": 0.0623134991691823,
+    "pn1Record": {
+     "ratioNow": 0.9999984576301837,
+     "nSources": 2,
+     "orbits": 4
+    }
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "mode": "dfm",
+    "decl": {
+     "base": [
+      true,
+      false
+     ],
+     "now": [
+      true,
+      true
+     ],
+     "massSame": true,
+     "physics": {
+      "kFrame": 1,
+      "geoPN": 2
+     }
+    },
+    "before": {
+     "lam1B": 0.8894010179668072,
+     "lam0B": 0.8894004910657474,
+     "incB": 5.269010597830359e-7,
+     "grDeg": 0.0000012440392598160553,
+     "ratio": 0.423540539919089,
+     "c": 30000,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5194699963497409,
+     "a": 348.5480808373254,
+     "P": 2517.154221659065,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 2502140
+    },
+    "srcOff": {
+     "lam1B": 0.8894013507961105,
+     "lam0B": 0.8894004910657474,
+     "incB": 8.597303631230346e-7,
+     "grDeg": 0.0000012457623169505123,
+     "ratio": 0.6901239116202832,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5194699963497409,
+     "a": 348.5480808373254,
+     "P": 2517.154221659065,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 2502140
+    },
+    "after": {
+     "lam1B": 0.8894006663276174,
+     "lam0B": 0.8894004910657474,
+     "incB": 1.7526187001681848e-7,
+     "grDeg": 0.0000012457623169505123,
+     "ratio": 0.14068644365952573,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 2,
+     "e": 0.5194699963497409,
+     "a": 348.5480808373254,
+     "P": 2517.154221659065,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 2502140
+    },
+    "effect": {
+     "cLight": 0.26658337170119417,
+     "companion": -0.5494374679607574,
+     "total": -0.28285409625956326
+    },
+    "resolution": 0.26658337170119417,
+    "resolved": false,
+    "incOverValue": 1.9705614876643172e-7,
+    "pn1Record": null
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "mode": "kf0",
+    "decl": {
+     "base": [
+      true,
+      false
+     ],
+     "now": [
+      true,
+      true
+     ],
+     "massSame": true,
+     "physics": {
+      "kFrame": 0,
+      "geoPN": 1
+     }
+    },
+    "before": {
+     "lam1B": -0.00003568559944049494,
+     "lam0B": -0.000037894922476517536,
+     "incB": 0.000002209323036022599,
+     "grDeg": 0.0000025498206905473417,
+     "ratio": 0.8664621179885196,
+     "c": 30000,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5914199941833609,
+     "a": 295.9464770816842,
+     "P": 1581.9686954631493,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 1581970
+    },
+    "srcOff": {
+     "lam1B": -0.00003568254578812781,
+     "lam0B": -0.000037894922476517536,
+     "incB": 0.000002212376688389728,
+     "grDeg": 0.0000025533523208377578,
+     "ratio": 0.8664596226437895,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5914199941833609,
+     "a": 295.9464770816842,
+     "P": 1581.9686954631493,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 1581970
+    },
+    "after": {
+     "lam1B": -0.00003534156172793887,
+     "lam0B": -0.000037894922476517536,
+     "incB": 0.000002553360748578668,
+     "grDeg": 0.0000025533523208377578,
+     "ratio": 1.0000033006572737,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 2,
+     "e": 0.5914199941833609,
+     "a": 295.9464770816842,
+     "P": 1581.9686954631493,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 1581970
+    },
+    "effect": {
+     "cLight": -0.000002495344730069071,
+     "companion": 0.1335436780134842,
+     "total": 0.13354118266875414
+    },
+    "resolution": 0.000002495344730069071,
+    "resolved": true,
+    "incOverValue": 0.07224810177418214,
+    "pn1Record": {
+     "ratioNow": 0.9999977140978226,
+     "nSources": 2,
+     "orbits": 4
+    }
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "mode": "dfm",
+    "decl": {
+     "base": [
+      true,
+      false
+     ],
+     "now": [
+      true,
+      true
+     ],
+     "massSame": true,
+     "physics": {
+      "kFrame": 1,
+      "geoPN": 2
+     }
+    },
+    "before": {
+     "lam1B": 2.189766414030815,
+     "lam0B": 2.1897661492829856,
+     "incB": 2.647478294370842e-7,
+     "grDeg": 0.0000025498206905473417,
+     "ratio": 0.1038299792681711,
+     "c": 30000,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5914199941833609,
+     "a": 295.9464770816842,
+     "P": 1581.9686954631493,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 1555016
+    },
+    "srcOff": {
+     "lam1B": 2.1897668481947017,
+     "lam0B": 2.1897661492829856,
+     "incB": 6.989117160571823e-7,
+     "grDeg": 0.0000025533523208377578,
+     "ratio": 0.27372317966204857,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5914199941833609,
+     "a": 295.9464770816842,
+     "P": 1581.9686954631493,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 1555016
+    },
+    "after": {
+     "lam1B": 2.189767318743473,
+     "lam0B": 2.1897661492829856,
+     "incB": 0.000001169460487560059,
+     "grDeg": 0.0000025533523208377578,
+     "ratio": 0.45800983985490795,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 2,
+     "e": 0.5914199941833609,
+     "a": 295.9464770816842,
+     "P": 1581.9686954631493,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 1555016
+    },
+    "effect": {
+     "cLight": 0.16989320039387745,
+     "companion": 0.1842866601928594,
+     "total": 0.35417986058673684
+    },
+    "resolution": 0.16989320039387745,
+    "resolved": false,
+    "incOverValue": 5.340569646601155e-7,
+    "pn1Record": null
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "mode": "kf0",
+    "decl": {
+     "base": [
+      true,
+      false
+     ],
+     "now": [
+      true,
+      true
+     ],
+     "massSame": true,
+     "physics": {
+      "kFrame": 0,
+      "geoPN": 1
+     }
+    },
+    "before": {
+     "lam1B": -0.000020301010970742683,
+     "lam0B": -0.00002123777341661688,
+     "incB": 9.367624458741966e-7,
+     "grDeg": 0.0000012440392598160553,
+     "ratio": 0.7530007099717312,
+     "c": 30000,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5194699963497409,
+     "a": 348.5480808373254,
+     "P": 2517.154221659065,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 2517156
+    },
+    "srcOff": {
+     "lam1B": -0.000020299697072093193,
+     "lam0B": -0.00002123777341661688,
+     "incB": 9.380763445236867e-7,
+     "grDeg": 0.0000012457623169505123,
+     "ratio": 0.7530139030212387,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5194699963497409,
+     "a": 348.5480808373254,
+     "P": 2517.154221659065,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 2517156
+    },
+    "after": {
+     "lam1B": -0.000019992001827357545,
+     "lam0B": -0.00002123777341661688,
+     "incB": 0.0000012457715892593354,
+     "grDeg": 0.0000012457623169505123,
+     "ratio": 1.0000074430801902,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 2,
+     "e": 0.5194699963497409,
+     "a": 348.5480808373254,
+     "P": 2517.154221659065,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 2517156
+    },
+    "effect": {
+     "cLight": 0.00001319304950753164,
+     "companion": 0.24699354005895147,
+     "total": 0.247006733108459
+    },
+    "resolution": 0.00001319304950753164,
+    "resolved": true,
+    "incOverValue": 0.0623134991691823,
+    "pn1Record": {
+     "ratioNow": 0.9999984576301837,
+     "nSources": 2,
+     "orbits": 4
+    }
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "mode": "kf0",
+    "decl": {
+     "base": [
+      true,
+      false
+     ],
+     "now": [
+      true,
+      true
+     ],
+     "massSame": true,
+     "physics": {
+      "kFrame": 0,
+      "geoPN": 1
+     }
+    },
+    "before": {
+     "lam1B": -0.00003568559944049494,
+     "lam0B": -0.000037894922476517536,
+     "incB": 0.000002209323036022599,
+     "grDeg": 0.0000025498206905473417,
+     "ratio": 0.8664621179885196,
+     "c": 30000,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5914199941833609,
+     "a": 295.9464770816842,
+     "P": 1581.9686954631493,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 1581970
+    },
+    "srcOff": {
+     "lam1B": -0.00003568254578812781,
+     "lam0B": -0.000037894922476517536,
+     "incB": 0.000002212376688389728,
+     "grDeg": 0.0000025533523208377578,
+     "ratio": 0.8664596226437895,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 1,
+     "e": 0.5914199941833609,
+     "a": 295.9464770816842,
+     "P": 1581.9686954631493,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 1581970
+    },
+    "after": {
+     "lam1B": -0.00003534156172793887,
+     "lam0B": -0.000037894922476517536,
+     "incB": 0.000002553360748578668,
+     "grDeg": 0.0000025533523208377578,
+     "ratio": 1.0000033006572737,
+     "c": 29979.2458,
+     "eps": 0.05,
+     "nSources": 2,
+     "e": 0.5914199941833609,
+     "a": 295.9464770816842,
+     "P": 1581.9686954631493,
+     "nPeri": 8,
+     "nan": false,
+     "clamp": 0,
+     "steps": 1581970
+    },
+    "effect": {
+     "cLight": -0.000002495344730069071,
+     "companion": 0.1335436780134842,
+     "total": 0.13354118266875414
+    },
+    "resolution": 0.000002495344730069071,
+    "resolved": true,
+    "incOverValue": 0.07224810177418214,
+    "pn1Record": {
+     "ratioNow": 0.9999977140978226,
+     "nSources": 2,
+     "orbits": 4
+    }
+   }
+  ]
+ },
+ "Q": {
+  "cond": {
+   "G": 1,
+   "M": 10,
+   "a": 10,
+   "e": 0.3,
+   "c": 100,
+   "eps": 0.01,
+   "dt": 0.01,
+   "orbits": 8,
+   "detector": "B"
+  },
+  "rows": [
+   {
+    "label": "q=1",
+    "q": 1,
+    "nu": 0.25,
+    "both": 0.9999588576458489,
+    "primaryOnly": 0.7085969943673882,
+    "primaryOnlyBase": 0.7085969943673882,
+    "nSources": [
+     2,
+     1
+    ],
+    "nan": false
+   },
+   {
+    "label": "✴️ の質量比",
+    "q": 0.842788283277716,
+    "nu": 0.24818047115692143,
+    "both": 0.9999594102475675,
+    "primaryOnly": 0.7532879014236106,
+    "primaryOnlyBase": 0.7532879014236106,
+    "nSources": [
+     2,
+     1
+    ],
+    "nan": false
+   },
+   {
+    "label": "💫 の質量比",
+    "q": 0.4934561318468251,
+    "nu": 0.2212399793901772,
+    "both": 0.9999676837482564,
+    "primaryOnly": 0.8667847092928761,
+    "primaryOnlyBase": 0.8667847092928761,
+    "nSources": [
+     2,
+     1
+    ],
+    "nan": false
+   }
+  ]
+ },
+ "M": {
+  "cond": {
+   "orbits": 8,
+   "detector": "B",
+   "note": "mercuryReal(太陽は pinned —— 源 1 つ)。λ 増分は 1PN・λ=0 の基線は軟化と刻み"
+  },
+  "grid": [
+   {
+    "html": "base",
+    "eps": 0.05,
+    "dt": 0.016,
+    "residLam1": -0.217001680607756,
+    "lam1B": 0.00002251464202305556,
+    "lam0B": -0.000006200391092366659,
+    "incB": 0.00002871503311542222,
+    "grDeg": 0.000028715058380965584,
+    "ratio": 0.9999991201291313,
+    "c": 30000,
+    "nSources": 1,
+    "e": 0.20563056948385805,
+    "a": 579.0907634765185,
+    "P": 760.0530225710731,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0,
+    "steps": 760054
+   },
+   {
+    "html": "now",
+    "eps": 0.05,
+    "dt": 0.016,
+    "residLam1": -0.21561853803953135,
+    "lam1B": 0.000022554413449148274,
+    "lam0B": -0.000006200391092366659,
+    "incB": 0.000028754804541514935,
+    "grDeg": 0.000028754830185447852,
+    "ratio": 0.9999991081869463,
+    "c": 29979.2458,
+    "nSources": 1,
+    "e": 0.20563056948385805,
+    "a": 579.0907634765185,
+    "P": 760.0530225710731,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0,
+    "steps": 760054
+   },
+   {
+    "html": "now",
+    "eps": 0.05,
+    "dt": 0.008,
+    "residLam1": -0.16837691312126996,
+    "lam1B": 0.000023912817735951463,
+    "lam0B": -0.0000048419570537808224,
+    "incB": 0.000028754774789732287,
+    "grDeg": 0.000028754830185447852,
+    "ratio": 0.9999980735161638,
+    "c": 29979.2458,
+    "nSources": 1,
+    "e": 0.20563056948385805,
+    "a": 579.0907634765185,
+    "P": 760.0530225710731,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0,
+    "steps": 1520108
+   },
+   {
+    "html": "now",
+    "eps": 0.01,
+    "dt": 0.016,
+    "residLam1": -0.06908514755239765,
+    "lam1B": 0.000026767892264534745,
+    "lam0B": -0.0000019869226372059906,
+    "incB": 0.000028754814901740735,
+    "grDeg": 0.000028754830185447852,
+    "ratio": 0.9999994684820943,
+    "c": 29979.2458,
+    "nSources": 1,
+    "e": 0.20563056948385805,
+    "a": 579.0907634765185,
+    "P": 760.0530225710731,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0,
+    "steps": 760054
+   },
+   {
+    "html": "now",
+    "eps": 0.01,
+    "dt": 0.008,
+    "residLam1": -0.021841233709955908,
+    "lam1B": 0.000028126362367965202,
+    "lam0B": -6.28491845407106e-7,
+    "incB": 0.000028754854213372308,
+    "grDeg": 0.000028754830185447852,
+    "ratio": 1.0000008356135057,
+    "c": 29979.2458,
+    "nSources": 1,
+    "e": 0.20563056948385805,
+    "a": 579.0907634765185,
+    "P": 760.0530225710731,
+    "nPeri": 8,
+    "nan": false,
+    "clamp": 0,
+    "steps": 1520108
+   }
+  ],
+  "obs": 0.000028754393803209202,
+  "obsFrom": "tests/out/calaudit-w249.json の mercuryReal 近点移動の obs",
+  "cLight": {
+   "cBefore": 30000,
+   "cAfter": 29979.2458,
+   "incRatio": 1.0013850384895204,
+   "expected": 1.0013850504482567,
+   "relToExpected": -1.1942195676795109e-8,
+   "lam0Same": true,
+   "lam0Rel": 0,
+   "grRatioBefore": 0.9999991201291313,
+   "grRatioAfter": 0.9999991081869463,
+   "lam1Before": 0.00002251464202305556,
+   "lam1After": 0.000022554413449148274,
+   "residBefore": -0.217001680607756,
+   "residAfter": -0.21561853803953135
+  },
+  "factors": [
+   {
+    "key": "cLight",
+    "from": "base ε0.05 dt0.016",
+    "to": "now ε0.05 dt0.016",
+    "dLam1": 3.977142609271403e-8,
+    "dLam0": 0,
+    "dInc": 3.977142609271403e-8
+   },
+   {
+    "key": "epsilon",
+    "from": "now ε0.05 dt0.016",
+    "to": "now ε0.01 dt0.016",
+    "dLam1": 0.000004213478815386471,
+    "dLam0": 0.000004213468455160668,
+    "dInc": 1.0360225799813366e-11
+   },
+   {
+    "key": "dt",
+    "from": "now ε0.01 dt0.016",
+    "to": "now ε0.01 dt0.008",
+    "dLam1": 0.0000013584701034304565,
+    "dLam0": 0.0000013584307917988846,
+    "dInc": 3.9311631573157695e-11
+   }
+  ],
+  "calibrationRow": {
+   "declared": {
+    "softening": 0.01
+   },
+   "where": "tests/exp-w249b-calaudit.mjs の CFG.mercuryReal.calPhysics(判定器の写しにだけ当てる)",
+   "presetSoftening": 0.05,
+   "presetSoftening0": 0.05,
+   "appDefaultSoftening": {
+    "now": 2,
+    "base": 2
+   },
+   "lam1AtCalRow": 0.000026767892264534745,
+   "residAtCalRow": -0.06908514755239765,
+   "note": "較正行の dt は判定器の段(h・h/2・h/4)が決める —— ここは dt 0.016 の値"
+  }
+ },
+ "K": {
+  "file": "tests/data-w286b-clight.json",
+  "bad": [],
+  "nReal": 58,
+  "nRetired": 7,
+  "roundedLive": [],
+  "roundedRetired": [
+   "emAuditNewton"
+  ],
+  "kappaBad": [],
+  "astroCommon": {
+   "c": 29979.2458,
+   "k": 7.425826474101849e-9
+  },
+  "books": 51,
+  "exact": 6,
+  "excluded": [
+   "emAuditNewton",
+   "pulsarSolo"
+  ],
+  "ok": true
+ },
+ "G": {
+  "steps": [
+   1,
+   32
+  ],
+  "dt": 0.016,
+  "rows": [
+   {
+    "id": "gclock",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "grcal",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "grcalGps",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "grcalLight",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "grcalShapiro",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "projectile",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "echo",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "boxtrans",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "boxrot",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "boxexpand",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "boxcomoving",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "boxbound",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "boxbreath",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "boxredshift",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "probeH",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "freebox",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "cosmicweb",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "galaxy",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "galaxyStd",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "galaxyGeo2",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "galaxyDB",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "darkrotor",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "rotorSolo",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "nebulaRotor",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "nebulaShell",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "nebulaBipolar",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "bhCore",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "bhCoreTilt",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "massLadder",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "collapse",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "axisBarStill",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "axisBarArms",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "axisBarReach",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "selfRotor",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "galaxyMeshSpiral",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "galaxyMeshSpiralGeoToy",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "galaxyMeshSpiralGeoToyLite",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "galaxyAnalogyBH",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "clusterAnalogyBH",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": null,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "shapeToyCluster",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "shapeToyDisk",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "shapeToyArm",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "shapeToyClusterCore",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "shapeToyDiskCore",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "shapeToyArmCore",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "lensing",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "spinlens",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "blens",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "reddening",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "gas",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "pressure",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "conduction",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "frictionHeat",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "coolrace",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "convection",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "buoyancy",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "cooling",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "emergent",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "emergent2",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "chain2",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "chaincycle",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "earthMoon",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "earthMoonFree",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "earthMoonReal",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "emAuditNewton",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "emAuditDFM",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "emAuditSolar",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 2.2737378386342346e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "earthMoonDiagOne",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "qLockRadialAudit",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 1.2438957793485554e-14,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "qLockRadialAuditQ3",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 1.5988078892812826e-14,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "mercury",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "mercuryReal",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 9.09498604892374e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "mercuryGeoToy3",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 9.09498604892374e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "mercuryRealKF1",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 1.0800282451948319e-12,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "solarInner",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 9.094964364947499e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "jupiterGalilean",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 1.4211379459365244e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "venusReal",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 4.336808689942018e-19,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "marsMoonsReal",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "plutoCharonReal",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "plutoCharonDFM",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "plutoCharonKF0Control",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "plutoCharonDiagInput",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "plutoCharonSyncZero",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "charonGeoToy3",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "uranusReal",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 5.049354855498186e-14,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "neptuneReal",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "alphaCenAB",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 1.136868453449123e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "alphaCenABDFM",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 5.684341886080802e-14,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "siriusAB",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 4.547473542745959e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "siriusABDFM",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 1.7053027691121357e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleAB",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 4.1950459704921885e-11,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 1.693939080538841e-11,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleABGeoToy",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleABSpinCal",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 1.3443473848534326e-10,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "psrJ1757DFM",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 3.1832314736299268e-12,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "psrJ1946DFM",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 0.0019587810008954354,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleABPN",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1757PN",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1946PN",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrDoubleABCF",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1757CF",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrJ1946CF",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "psrB1534",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 2.0463631060941424e-12,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "psrB1534DFM",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 3.637978808785779e-12,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "psrB1534CF",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 5.0022209386021715e-12,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "compactForceToy",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "boxBinaryToy",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "spaceMeshBinaryToy",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "gw150914",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "gw150914DFM",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "gw150914Merge4s",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 1.261485337601957e-7,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "gw150914SpinDipole",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 3.035884088806087e-8,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "tuc47",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "tuc47DFM",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "ngc3198",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "ngc3198DFM",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "supernovaProg",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "supernovaProgDFM",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "crabRemnant",
+    "declared": true,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "saturn",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "saturnLayered",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "saturnZonalD68",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 3.126466887417199e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "saturnD68Consistent",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 2.984332357487219e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "saturnD68ObsOrbit",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 2.415910607938386e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "saturnRingReal",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 2.352583284610902e-13,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "saturnRingRealKF1",
+    "declared": true,
+    "bitSame1": false,
+    "bitSameMany": false,
+    "maxPosMany": 3.0658745765577567e-12,
+    "sigSame": false,
+    "nan": false
+   },
+   {
+    "id": "binary",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "fig8",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "counterring",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "spinup",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "pulsarSolo",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "supernovaCore",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "whiteDwarfDFM",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "whiteDwarfBareDFM",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "envelopeShedDFM",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "lfbotTrap",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "layeredCoreDFM",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "spinDipoleBinary",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "gasCohSurface",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "mmPhaseToy",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   },
+   {
+    "id": "starSeed",
+    "declared": false,
+    "bitSame1": true,
+    "bitSameMany": true,
+    "maxPosMany": 0,
+    "sigSame": true,
+    "nan": false
+   }
+  ],
+  "diff1": [
+   "clusterAnalogyBH",
+   "earthMoonReal",
+   "earthMoonRealKF1",
+   "emAuditDFM",
+   "emAuditSolar",
+   "earthMoonDiagOne",
+   "qLockRadialAudit",
+   "qLockRadialAuditQ3",
+   "mercuryReal",
+   "mercuryGeoToy3",
+   "mercuryRealKF1",
+   "solarInner",
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonReal",
+   "plutoCharonDiagInput",
+   "charonGeoToy3",
+   "uranusReal",
+   "neptuneReal",
+   "alphaCenAB",
+   "alphaCenABDFM",
+   "siriusAB",
+   "siriusABDFM",
+   "psrDoubleAB",
+   "psrDoubleABDFM",
+   "psrDoubleABSpinCal",
+   "psrJ1757DFM",
+   "psrJ1946DFM",
+   "psrB1534",
+   "psrB1534DFM",
+   "psrB1534CF",
+   "gw150914Merge4s",
+   "gw150914SpinDipole",
+   "saturnZonalD68",
+   "saturnD68Consistent",
+   "saturnD68ObsOrbit",
+   "saturnRingReal",
+   "saturnRingRealKF1"
+  ],
+  "diffMany": [
+   "clusterAnalogyBH",
+   "earthMoonReal",
+   "earthMoonRealKF1",
+   "emAuditDFM",
+   "emAuditSolar",
+   "earthMoonDiagOne",
+   "qLockRadialAudit",
+   "qLockRadialAuditQ3",
+   "mercuryReal",
+   "mercuryGeoToy3",
+   "mercuryRealKF1",
+   "solarInner",
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonReal",
+   "plutoCharonDFM",
+   "plutoCharonKF0Control",
+   "plutoCharonDiagInput",
+   "charonGeoToy3",
+   "uranusReal",
+   "neptuneReal",
+   "alphaCenAB",
+   "alphaCenABDFM",
+   "siriusAB",
+   "siriusABDFM",
+   "psrDoubleAB",
+   "psrDoubleABDFM",
+   "psrDoubleABSpinCal",
+   "psrJ1757DFM",
+   "psrJ1946DFM",
+   "psrB1534",
+   "psrB1534DFM",
+   "psrB1534CF",
+   "gw150914Merge4s",
+   "gw150914SpinDipole",
+   "saturnZonalD68",
+   "saturnD68Consistent",
+   "saturnD68ObsOrbit",
+   "saturnRingReal",
+   "saturnRingRealKF1"
+  ],
+  "sigDiff": [
+   "clusterAnalogyBH",
+   "earthMoonReal",
+   "earthMoonRealKF1",
+   "emAuditDFM",
+   "emAuditSolar",
+   "earthMoonDiagOne",
+   "qLockRadialAudit",
+   "qLockRadialAuditQ3",
+   "mercuryReal",
+   "mercuryGeoToy3",
+   "mercuryRealKF1",
+   "solarInner",
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonReal",
+   "plutoCharonDFM",
+   "plutoCharonKF0Control",
+   "plutoCharonDiagInput",
+   "plutoCharonSyncZero",
+   "charonGeoToy3",
+   "uranusReal",
+   "neptuneReal",
+   "alphaCenAB",
+   "alphaCenABDFM",
+   "siriusAB",
+   "siriusABDFM",
+   "psrDoubleAB",
+   "psrDoubleABDFM",
+   "psrDoubleABGeoToy",
+   "psrDoubleABSpinCal",
+   "psrJ1757DFM",
+   "psrJ1946DFM",
+   "psrB1534",
+   "psrB1534DFM",
+   "psrB1534CF",
+   "gw150914",
+   "gw150914DFM",
+   "gw150914Merge4s",
+   "gw150914SpinDipole",
+   "tuc47",
+   "tuc47DFM",
+   "ngc3198",
+   "ngc3198DFM",
+   "supernovaProg",
+   "supernovaProgDFM",
+   "crabRemnant",
+   "saturnZonalD68",
+   "saturnD68Consistent",
+   "saturnD68ObsOrbit",
+   "saturnRingReal",
+   "saturnRingRealKF1"
+  ],
+  "n": 142,
+  "declaredN": 52,
+  "bitSameMany": 101,
+  "sigSame": 90,
+  "changedUndeclared": [],
+  "declaredUnchangedBits": [
+   "plutoCharonSyncZero",
+   "psrDoubleABGeoToy",
+   "gw150914",
+   "gw150914DFM",
+   "tuc47",
+   "tuc47DFM",
+   "ngc3198",
+   "ngc3198DFM",
+   "supernovaProg",
+   "supernovaProgDFM",
+   "crabRemnant"
+  ],
+  "declaredUnchangedSig": []
+ },
+ "doNotWrite": [
+  "λ_PN=1 で観測と合った",
+  "f=1 で合った",
+  "較正を完了した",
+  "観測一致を達成した",
+  "判定が増えた",
+  "kF0 版が成立した",
+  "精度を上げれば成立する"
+ ],
+ "headless": {
+  "now": {
+   "wallSec": 0.073,
+   "errors": 0
+  },
+  "base": {
+   "wallSec": 0.123,
+   "errors": 0
+  }
+ },
+ "elapsedS": 600.166
+}

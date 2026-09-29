@@ -14,7 +14,7 @@
 // ■ しないこと
 //   値を決めない・判定に触らない・q を動かさない。「精度を上げれば成立」とは書かない
 //   (ε→0・dt→0 の外挿値は**外挿**であって、そこで走らせた値ではない)。
-export const MERCURY_W280A_VERSION = 'w280a-mercury-1';
+export const MERCURY_W280A_VERSION = 'w280a-mercury-2';   // 第286便: 正式値の再現と分解の起点を判定器の較正行(calPhysics)に
 export const JULIAN_CENTURY_DAYS = 36525;
 export const DEG = 180 / Math.PI;
 
@@ -120,7 +120,7 @@ export function fmtFix(x, n) { return (x < 0 ? '−' : '') + Math.abs(x).toFixed
 export function keyNumbers(J) {
   const g = (lam, eps, dt) => J.grid.find((z) => z.lambdaPN === lam && z.eps === eps && z.dt === dt).slopeDegA;
   const D = J.decomposition.coarse.obsKF0;
-  const R = J.richardson['lam1_eps0.05'].coarse;
+  const R = J.richardson[`lam1_eps${(J.reproduction && J.reproduction.epsFormal) || 0.05}`].coarse;   // 第286便: 較正行の ε の列
   const EF = J.epsExtrap.lam1_coarse;
   const TD = J.table.diff;
   const out = [];

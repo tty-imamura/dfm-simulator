@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便d",
   "target": "beta/index.html",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T05:42:05.852Z",
+  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "generatedAt": "2026-09-29T05:36:11.339Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2765140,
-    "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-    "mtime": "2026-09-28T05:10:31.970Z"
+    "bytes": 2854534,
+    "sha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
+    "mtime": "2026-09-29T04:53:53.017Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 44022,
-    "sha256": "116702ae4d10603e6128495533d2f66b107826e4c25d5e7351e0a199ae99a844",
-    "mtime": "2026-09-28T05:15:30.418Z"
+    "bytes": 51012,
+    "sha256": "60fca6d58fd8db2da1b6b8b7f758beaca126763a0c6d902ef45b245511e76fc1",
+    "mtime": "2026-09-29T04:59:01.577Z"
    },
    {
     "file": "beta/index.html",
-    "bytes": 5091518,
-    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-    "mtime": "2026-09-28T03:59:10.854Z"
+    "bytes": 5184678,
+    "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+    "mtime": "2026-09-29T04:36:34.917Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 74147,
-    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T01:00:42.100Z"
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "8a43d33822094b0983296800755c0f60a1a63329961da293d57efafe218814e4",
+  "codeSha256": "76cfcc131e9416cfc3dd73369dee50002702716121085db75ba4d58c1ea2a45a",
   "version": "w285d-1",
   "generator": "tests/exp-w285d-obscompare.mjs",
   "region": "obs-compare",
@@ -64,7 +64,7 @@
    "帯の中なら合格"
   ],
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": [
     "alphaCenAB",
     "alphaCenABDFM",
@@ -123,16 +123,16 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 831,
-   "segments": 757,
-   "closureShare": 0.3348
+   "names": 854,
+   "segments": 776,
+   "closureShare": 0.3375
   },
-  "scopeSha256": "b9c40bad8c5e39d5b57d3392f67d1ac88abbcfc5e4e6787b3785642237723722",
+  "scopeSha256": "40274b696eabb00fc4848dac6c579c6ac03e8ac1999d68f5f83c3bb56add6fe6",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "a44ee41e10139bd124cb56a125ff08bdba23f2c50b51b041b2baf1337fc281cc",
+    "stableSha256": "f5c83f5d6b2360b30fd578ac73f72ea066c321aac14b80b066eb31e36f87206e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "16cb4ef4feabcc8b362fe0124d865f1be809c29a05fecf0066f1d125dbf92ff4",
+    "stableSha256": "11b16457c1fba534f610f7a14b2b0c28431e7eb0695669871fadaec81bb43b94",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -188,7 +188,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "de874eb9e7e193d0e1a39d62c835702780f66f1937cca3b5b0b96fa5589e85f9",
+    "stableSha256": "74abbce9d2f4bc7defba0558305fcdcff9106ce10634bdc5bac8da4baed837e5",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -204,31 +204,31 @@
  "canon": {
   "file": "tests/out/calaudit-w249.json",
   "wave": "第249便b",
-  "rows": 316,
+  "rows": 328,
   "presets": 37,
-  "rowsSha256": "57a8abfc24b61f57b27ca64fb4c638bea9f2d70b8ad680c5b766adc9961b8fd2",
+  "rowsSha256": "dd77ef21961ab02575ff1ae92359462f1eeeeb04c4dbd4c3aaf9b0bb78ee8d0a",
   "sigDigits": 12
  },
  "counts": {
-  "rows": 316,
-  "calRows": 316,
+  "rows": 328,
+  "calRows": 317,
   "presets": 37,
-  "both": 101,
-  "sigma": 51,
+  "both": 107,
+  "sigma": 50,
   "gate": {
    "合(3σ)": 2,
    "否(3σ)": 2,
-   "数値未解決": 33,
+   "数値未解決": 32,
    "mapping-unresolved": 14,
    "condition-mismatch": 0,
-   "未判定": 265
+   "未判定": 267
   }
  },
  "extra": {
   "file": "tests/out/pn1-w285b.json",
   "present": true,
-  "rows": 0,
-  "why": "`obsCompareRows` 欄が無い(描かない —— 仮の数を置かない)"
+  "rows": 11,
+  "why": null
  },
  "retired": {
   "ids": [
@@ -236,13 +236,14 @@
    "psrDoubleABPN",
    "psrJ1757CF",
    "psrJ1757PN",
+   "psrJ1946CF",
    "psrJ1946PN"
   ],
-  "rows": 41,
+  "rows": 50,
   "from": "内蔵の宣言 familyRole:\"retired\"(ページの retiredOf —— 正本に写さない)"
  },
  "page": {
-  "shownDefault": 316,
+  "shownDefault": 328,
   "pageErrors": 0
  },
  "htmlChanged": false,
@@ -253,5 +254,5 @@
   "較正した",
   "帯の中なら合格"
  ],
- "elapsedS": 2.27
+ "elapsedS": 2.41
 }

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T03:12:38.748Z",
+  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "generatedAt": "2026-09-29T05:37:50.876Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
-    "bytes": 229838,
-    "sha256": "7b5292cf49853358b5990effb458c995a9879ed84653efad48909d7a940b48f3",
-    "mtime": "2026-09-28T01:54:27.306Z"
+    "bytes": 229220,
+    "sha256": "127d51d952a16e2ad30089effa8a527e9dae4f449c52a727ce50be9061a7a760",
+    "mtime": "2026-09-28T23:00:05.371Z"
    }
   ],
   "code": [
@@ -31,7 +31,7 @@
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-09-28T01:44:12.977Z",
+ "sourceAt": "2026-09-28T22:49:14.452Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",
@@ -75,12 +75,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 16.86901563503089,
-     "omegaDotH4": 16.868748523965515,
-     "ratioExt": 0.9982065929523267,
-     "ratioH4": 0.9981907869306668,
-     "nSigmaExt": -2331.3357668544545,
-     "pObs": 1.9989307152867601,
+     "omegaDotExt": 16.892387945766103,
+     "omegaDotH4": 16.89212083480947,
+     "ratioExt": 0.9995896253220383,
+     "ratioH4": 0.9995738193068132,
+     "nSigmaExt": -533.4657102996888,
+     "pObs": 1.9989293339548189,
      "resolved": true
     },
     "root": {
@@ -90,12 +90,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 17.641709990269252,
-     "omegaDotH4": 17.92597867433083,
-     "ratioExt": 1.0439299840750575,
-     "ratioH4": 1.0607512901156353,
-     "nSigmaExt": 57106.69155917331,
-     "pObs": 1.0928640605071274,
+     "omegaDotExt": 17.66613115956766,
+     "omegaDotH4": 17.950443992946525,
+     "ratioExt": 1.045375081567922,
+     "ratioH4": 1.0621990000987924,
+     "nSigmaExt": 58985.24304366613,
+     "pObs": 1.0929263057257093,
      "resolved": true
     },
     "kf0Ledger": {
@@ -105,12 +105,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 16.86901563503089,
-     "omegaDotH4": 16.868748523965515,
-     "ratioExt": 0.9982065929523267,
-     "ratioH4": 0.9981907869306668,
-     "nSigmaExt": -2331.3357668544545,
-     "pObs": 1.9989307152867601,
+     "omegaDotExt": 16.892387945766103,
+     "omegaDotH4": 16.89212083480947,
+     "ratioExt": 0.9995896253220383,
+     "ratioH4": 0.9995738193068132,
+     "nSigmaExt": -533.4657102996888,
+     "pObs": 1.9989293339548189,
      "resolved": true
     },
     "corr": {
@@ -171,12 +171,12 @@
      "spec": {
       "builtin": true
      },
-     "omegaDotExt": 2.474611634113726,
-     "omegaDotH4": 2.477397739590597,
-     "ratioExt": 0.23874459813351784,
-     "ratioH4": 0.23901339491086407,
-     "nSigmaExt": -39452.441829431365,
-     "pObs": 1.1291194468398715,
+     "omegaDotExt": 2.477937660780722,
+     "omegaDotH4": 2.4807279379937364,
+     "ratioExt": 0.2390654852129475,
+     "ratioH4": 0.239334684469396,
+     "nSigmaExt": -39435.81169609639,
+     "pObs": 1.1289649840476064,
      "resolved": true
     },
     "lock": {
@@ -186,12 +186,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 10.347219315014701,
-     "omegaDotH4": 10.347024371284064,
-     "ratioExt": 0.9982749143775459,
-     "ratioH4": 0.9982561066737479,
-     "nSigmaExt": -89.403424926493,
-     "pObs": 1.9970681122534852,
+     "omegaDotExt": 10.361556057827336,
+     "omegaDotH4": 10.3613611120462,
+     "ratioExt": 0.999658088954987,
+     "ratioH4": 0.9996392810533618,
+     "nSigmaExt": -17.719710863319804,
+     "pObs": 1.9970647324891095,
      "resolved": true
     },
     "root": {
@@ -201,12 +201,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 13.852377778201037,
-     "omegaDotH4": 13.921909903596086,
-     "ratioExt": 1.3364442000753525,
-     "ratioH4": 1.343152492845808,
-     "nSigmaExt": 17436.388891005183,
-     "pObs": 1.0457476632347509,
+     "omegaDotExt": 13.871548749639379,
+     "omegaDotH4": 13.94117923948623,
+     "ratioExt": 1.3382937694416241,
+     "ratioH4": 1.345011552178583,
+     "nSigmaExt": 17532.243748196892,
+     "pObs": 1.0457035865581066,
      "resolved": true
     },
     "kf0Ledger": {
@@ -216,12 +216,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 10.347219315014701,
-     "omegaDotH4": 10.347024371284064,
-     "ratioExt": 0.9982749143775459,
-     "ratioH4": 0.9982561066737479,
-     "nSigmaExt": -89.403424926493,
-     "pObs": 1.9970681122534852,
+     "omegaDotExt": 10.361556057827336,
+     "omegaDotH4": 10.3613611120462,
+     "ratioExt": 0.999658088954987,
+     "ratioH4": 0.9996392810533618,
+     "nSigmaExt": -17.719710863319804,
+     "pObs": 1.9970647324891095,
      "resolved": true
     },
     "corr": {
@@ -231,12 +231,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 2.474611634113726,
-     "omegaDotH4": 2.477397739590597,
-     "ratioExt": 0.23874459813351784,
-     "ratioH4": 0.23901339491086407,
-     "nSigmaExt": -39452.441829431365,
-     "pObs": 1.1291194468398715,
+     "omegaDotExt": 2.477937660780722,
+     "omegaDotH4": 2.4807279379937364,
+     "ratioExt": 0.2390654852129475,
+     "ratioH4": 0.239334684469396,
+     "nSigmaExt": -39435.81169609639,
+     "pObs": 1.1289649840476064,
      "resolved": true
     },
     "newton": {
@@ -275,20 +275,20 @@
     "pnAlpha": 1.5,
     "geoPN": 2,
     "frameWeight": "pull",
-    "massFactor": 1.9999655295617553
+    "massFactor": null
    },
    "variants": {
     "builtin": {
      "spec": {
       "builtin": true
      },
-     "omegaDotExt": 51.47665852033846,
-     "omegaDotH4": 51.826564089038456,
-     "ratioExt": 1.9958343179521776,
-     "ratioH4": 2.009400729644928,
-     "nSigmaExt": 64211.52130084615,
-     "pObs": 1.6540791745612973,
-     "resolved": true
+     "omegaDotExt": null,
+     "omegaDotH4": null,
+     "ratioExt": null,
+     "ratioH4": null,
+     "nSigmaExt": null,
+     "pObs": null,
+     "resolved": false
     },
     "lock": {
      "spec": {
@@ -297,12 +297,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 25.742371671015125,
-     "omegaDotH4": 25.74178842388821,
-     "ratioExt": 0.9980738898619972,
-     "ratioH4": 0.9980512764161131,
-     "nSigmaExt": -124.19582246218752,
-     "pObs": 1.9988625694460223,
+     "omegaDotExt": 25.77804082106481,
+     "omegaDotH4": 25.77745758648087,
+     "ratioExt": 0.9994568411997033,
+     "ratioH4": 0.9994342282401311,
+     "nSigmaExt": -35.02294733797484,
+     "pObs": 1.9988756536438648,
      "resolved": true
     },
     "root": {
@@ -312,43 +312,43 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 23.85459302787117,
-     "omegaDotH4": 24.09712308730089,
-     "ratioExt": 0.9248816215799509,
-     "ratioH4": 0.9342849090049411,
-     "nSigmaExt": -4843.64243032207,
-     "pObs": 1.1294751916366497,
+     "omegaDotExt": 23.887297453719764,
+     "omegaDotH4": 24.130241371898467,
+     "ratioExt": 0.9261496257071371,
+     "ratioH4": 0.9355689591133108,
+     "nSigmaExt": -4761.8813657005885,
+     "pObs": 1.1285064440391182,
      "resolved": true
     },
     "kf0Ledger": {
      "spec": {
-      "f": 1.9999655295617553,
+      "f": 1,
       "kFrame": 0,
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 251.62550283322736,
-     "omegaDotH4": 251.60063542990224,
-     "ratioExt": 9.755932654954815,
-     "ratioH4": 9.754968505020045,
-     "nSigmaExt": 564583.6320830684,
-     "pObs": 1.9909468509406765,
+     "omegaDotExt": 25.77804082106481,
+     "omegaDotH4": 25.77745758648087,
+     "ratioExt": 0.9994568411997033,
+     "ratioH4": 0.9994342282401311,
+     "nSigmaExt": -35.02294733797484,
+     "pObs": 1.9988756536438648,
      "resolved": true
     },
     "corr": {
      "spec": {
-      "f": 1.9999655295617553,
+      "f": 1,
       "kFrame": 1,
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 51.47665861428279,
-     "omegaDotH4": 51.826564141477284,
-     "ratioExt": 1.995834321594553,
-     "ratioH4": 2.009400731678067,
-     "nSigmaExt": 64211.521535706976,
-     "pObs": 1.6540792475119672,
-     "resolved": true
+     "omegaDotExt": null,
+     "omegaDotH4": null,
+     "ratioExt": null,
+     "ratioH4": null,
+     "nSigmaExt": null,
+     "pObs": null,
+     "resolved": false
     },
     "newton": {
      "spec": {
@@ -393,12 +393,12 @@
      "spec": {
       "builtin": true
      },
-     "omegaDotExt": 3.556937189563483,
-     "omegaDotH4": 3.561282305434385,
-     "ratioExt": 2.025834077764175,
-     "ratioH4": 2.028308814689228,
-     "nSigmaExt": 200127.57661816478,
-     "pObs": 1.065287531623993,
+     "omegaDotExt": 3.5617949687002683,
+     "omegaDotH4": 3.5661463877034003,
+     "ratioExt": 2.0286007992419752,
+     "ratioH4": 2.031079126081437,
+     "nSigmaExt": 200667.32985558535,
+     "pObs": 1.0652075432299204,
      "resolved": true
     },
     "lock": {
@@ -408,12 +408,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 1.7531053369849594,
-     "omegaDotH4": 1.753100520503307,
-     "ratioExt": 0.9984715344411882,
-     "ratioH4": 0.9984687912404663,
-     "nSigmaExt": -298.1847794489598,
-     "pObs": 1.9988381125368304,
+     "omegaDotExt": 1.7555338145985582,
+     "omegaDotH4": 1.7555289995606818,
+     "ratioExt": 0.9998546605534937,
+     "ratioH4": 0.9998519181750665,
+     "nSigmaExt": -28.353933493541206,
+     "pObs": 1.999023630019853,
      "resolved": true
     },
     "root": {
@@ -423,12 +423,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 3.1983548323749496,
-     "omegaDotH4": 3.201932061396673,
-     "ratioExt": 1.8216054619176618,
-     "ratioH4": 1.823642853097196,
-     "nSigmaExt": 160285.0924861055,
-     "pObs": 1.072251997017144,
+     "omegaDotExt": 3.2027076642656818,
+     "omegaDotH4": 3.2062901116885727,
+     "ratioExt": 1.8240845934595111,
+     "ratioH4": 1.826124956750824,
+     "nSigmaExt": 160768.74047396463,
+     "pObs": 1.0721632299678732,
      "resolved": true
     },
     "kf0Ledger": {
@@ -438,12 +438,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 14.437502984477304,
-     "omegaDotH4": 14.437328845077948,
-     "ratioExt": 8.222800680763635,
-     "ratioH4": 8.222701500623337,
-     "nSigmaExt": 1409079.3316085893,
-     "pObs": 1.9921442801554403,
+     "omegaDotExt": 14.45750273988409,
+     "omegaDotH4": 14.457328592110656,
+     "ratioExt": 8.234191431820161,
+     "ratioH4": 8.234092246910452,
+     "nSigmaExt": 1411301.5266537878,
+     "pObs": 1.9921234650511501,
      "resolved": true
     },
     "corr": {
@@ -453,12 +453,12 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 3.556937191015676,
-     "omegaDotH4": 3.5612823062722234,
-     "ratioExt": 2.0258340785912634,
-     "ratioH4": 2.0283088151664144,
-     "nSigmaExt": 200127.57677951956,
-     "pObs": 1.0652876126344037,
+     "omegaDotExt": 3.5617949712249533,
+     "omegaDotH4": 3.566146387892879,
+     "ratioExt": 2.0286008006798957,
+     "ratioH4": 2.0310791261893537,
+     "nSigmaExt": 200667.3301361059,
+     "pObs": 1.065207860897362,
      "resolved": true
     },
     "newton": {
@@ -481,8 +481,8 @@
    "spinAllWithin1Pct": false
   }
  ],
- "lockRatioMin": 0.9980738898619972,
- "lockRatioMax": 0.9984715344411882,
+ "lockRatioMin": 0.9994568411997033,
+ "lockRatioMax": 0.9998546605534937,
  "doNotWrite": [
   "潮汐ロックを証明した",
   "観測と合った",

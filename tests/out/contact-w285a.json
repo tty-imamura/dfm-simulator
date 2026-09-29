@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-  "generatedAt": "2026-09-28T05:29:25.611Z",
+  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "generatedAt": "2026-09-29T05:27:26.464Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5091518,
-    "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
-    "mtime": "2026-09-28T03:59:10.854Z"
+    "bytes": 5184678,
+    "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+    "mtime": "2026-09-29T04:36:34.917Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2765140,
-    "sha256": "d9e3687ca46dcf0f1834e3467832e34d7292056ee02c70493ec4f38421383957",
-    "mtime": "2026-09-28T05:10:31.970Z"
+    "bytes": 2854534,
+    "sha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
+    "mtime": "2026-09-29T04:53:53.017Z"
    }
   ],
   "code": [
@@ -40,9 +40,9 @@
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 341644,
-    "sha256": "82ac2f40e73df82180fd63a6b4a8957a880e97f67bb5afa824412a870fbca58f",
-    "mtime": "2026-09-28T01:00:42.095Z"
+    "bytes": 345584,
+    "sha256": "dffcf674c44924d6506d1a3fca68fa0d97ce28bead1e322734fbb10e76599633",
+    "mtime": "2026-09-28T18:49:51.305Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -64,12 +64,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 74147,
-    "sha256": "98edd6806b3f73712dceb96b8cc0276fcd73b9a8dcb7f155e72aa3e2ccc3f599",
-    "mtime": "2026-09-28T01:00:42.100Z"
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "bf6bf0acceae86a02b265ba423b7f67424227a2fdfbef888c652fa20cc3c7d3e",
+  "codeSha256": "98a314cc6311bd68f99dc7cad5811e5ba3493f9d26ae73ab560c64b1bdcb9dfe",
   "harnessVersion": "w285a-contact-1",
   "loadErrors": 0,
   "dt": 0.016,
@@ -82,7 +82,7 @@
    "形状が安定した"
   ],
   "scope": {
-   "version": "w283e-scope-3",
+   "version": "w286d-scope-4",
    "presets": "all",
    "roots": [
     "$",
@@ -123,16 +123,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 815,
-   "segments": 741,
-   "closureShare": 0.3124
+   "names": 838,
+   "segments": 760,
+   "closureShare": 0.3147
   },
-  "scopeSha256": "bb862e4bb042fe296e20df185923b9cba36bbe53b604b3ba1b92a299c9afe8e9",
+  "scopeSha256": "3dd3009ed7f56316ccc705a98f66224355efe84cd132f4ff19a8884717eb4301",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "a44ee41e10139bd124cb56a125ff08bdba23f2c50b51b041b2baf1337fc281cc",
+    "stableSha256": "f5c83f5d6b2360b30fd578ac73f72ea066c321aac14b80b066eb31e36f87206e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "16cb4ef4feabcc8b362fe0124d865f1be809c29a05fecf0066f1d125dbf92ff4",
+    "stableSha256": "11b16457c1fba534f610f7a14b2b0c28431e7eb0695669871fadaec81bb43b94",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -538,7 +538,7 @@
   "baseSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
   "n": 142,
   "nBase": 142,
-  "identical": 122,
+  "identical": 93,
   "differ": [
    "galaxy",
    "galaxyStd",
@@ -548,17 +548,46 @@
    "galaxyAnalogyBH",
    "clusterAnalogyBH",
    "earthMoonReal",
+   "earthMoonRealKF1",
    "emAuditNewton",
+   "emAuditDFM",
    "emAuditSolar",
    "earthMoonDiagOne",
+   "qLockRadialAudit",
+   "qLockRadialAuditQ3",
+   "mercuryReal",
+   "mercuryGeoToy3",
+   "mercuryRealKF1",
+   "solarInner",
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonReal",
    "plutoCharonDFM",
    "plutoCharonKF0Control",
    "plutoCharonDiagInput",
+   "charonGeoToy3",
+   "uranusReal",
+   "neptuneReal",
    "alphaCenAB",
+   "alphaCenABDFM",
    "siriusAB",
+   "siriusABDFM",
    "psrDoubleAB",
+   "psrDoubleABDFM",
+   "psrDoubleABSpinCal",
    "psrJ1757DFM",
+   "psrJ1946DFM",
    "psrB1534",
+   "psrB1534DFM",
+   "psrB1534CF",
+   "gw150914Merge4s",
+   "gw150914SpinDipole",
+   "saturnZonalD68",
+   "saturnD68Consistent",
+   "saturnD68ObsOrbit",
+   "saturnRingReal",
+   "saturnRingRealKF1",
    "binary"
   ],
   "differSubsetOfDeclared": false,
@@ -631,7 +660,7 @@
     0
    ],
    "nPinned": 1,
-   "n": 211,
+   "n": 526,
    "steps": 1500,
    "before": {
     "hash": "02c50b28",
@@ -653,26 +682,26 @@
     "contactMode": null
    },
    "after": {
-    "hash": "dd45fef0",
-    "dynHash": "74d61212",
+    "hash": "20db15c2",
+    "dynHash": "fba3ef65",
     "t0": {
-     "rHalf": 9.213762840061436,
-     "vtOuter": -0.29432500491744507,
-     "sigma": 7.910569170769318,
+     "rHalf": 9.475526950702594,
+     "vtOuter": 0.43658697638028576,
+     "sigma": 8.107472541544322,
      "overlapPairs": 0,
      "radE": 0
     },
     "end": {
-     "rHalf": 12.787580626859945,
-     "vtOuter": -0.676731361481351,
-     "sigma": 7.592523191172759,
-     "overlapPairs": 3,
+     "rHalf": 9.499963950677207,
+     "vtOuter": 0.49841487891978176,
+     "sigma": 7.739805068055485,
+     "overlapPairs": 0,
      "radE": 0
     },
     "contactNone": true
    },
-   "dynamicsChanged": false,
-   "radiusChanged": 210,
+   "dynamicsChanged": true,
+   "radiusChanged": 211,
    "want": "none",
    "trialNone": null
   },
@@ -1442,8 +1471,8 @@
     "contactMode": null
    },
    "after": {
-    "hash": "dac17449",
-    "dynHash": "7edf31fc",
+    "hash": "628414a9",
+    "dynHash": "c36e391c",
     "t0": {
      "rHalf": 1221.928082990157,
      "vtOuter": 0.5571572578428776,
@@ -1454,13 +1483,13 @@
     "end": {
      "rHalf": 1221.9278969582879,
      "vtOuter": 0.557157326614881,
-     "sigma": 1.8929999150842416,
+     "sigma": 1.892999915079873,
      "overlapPairs": 0,
      "radE": 0
     },
     "contactNone": true
    },
-   "dynamicsChanged": false,
+   "dynamicsChanged": true,
    "radiusChanged": 0,
    "want": "none",
    "trialNone": null
@@ -1498,8 +1527,8 @@
     "contactMode": null
    },
    "after": {
-    "hash": "9f34e99e",
-    "dynHash": "60b2c50b",
+    "hash": "e1400980",
+    "dynHash": "675c61d1",
     "t0": {
      "rHalf": 1221.928082990157,
      "vtOuter": 0.5571572578428776,
@@ -1509,14 +1538,14 @@
     },
     "end": {
      "rHalf": 1221.9278982096694,
-     "vtOuter": 0.5571574721648717,
-     "sigma": 1.8871320264059126,
+     "vtOuter": 0.5571574721648715,
+     "sigma": 1.8871320264017055,
      "overlapPairs": 0,
      "radE": 0
     },
     "contactNone": true
    },
-   "dynamicsChanged": false,
+   "dynamicsChanged": true,
    "radiusChanged": 0,
    "want": "none",
    "trialNone": null
@@ -1624,7 +1653,7 @@
   "after": {
    "source": "canon",
    "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5"
+   "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d"
   },
   "table": [
    {
@@ -1638,9 +1667,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 20823.780331545262,
-      "after": 20823.780331545262,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 20823.780332526785,
+      "absDiff": 9.81523044174537e-7,
+      "relDiff": 4.713471946722661e-11,
       "signFlip": false,
       "verdictBefore": "合",
       "verdictAfter": "合",
@@ -1654,9 +1683,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 1378015.700291505,
-      "after": 1378015.700291505,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 1378015.7002953242,
+      "absDiff": 0.0000038191210478544235,
+      "relDiff": 2.7714641038171973e-12,
       "signFlip": false,
       "verdictBefore": "合",
       "verdictAfter": "合",
@@ -1686,9 +1715,9 @@
       "unit": "-",
       "missingAfter": false,
       "before": 0.00023818254483150725,
-      "after": 0.00023818254483150725,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 0.00023818254527633315,
+      "absDiff": 4.448258981212122e-13,
+      "relDiff": 1.8675839509393375e-9,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1702,9 +1731,9 @@
       "unit": "deg/orbit",
       "missingAfter": false,
       "before": 0.22848126507759803,
-      "after": 0.22848126507759803,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 0.22848124801368808,
+      "absDiff": -1.7063909951708922e-8,
+      "relDiff": -7.468406631026656e-8,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1718,9 +1747,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 81511.71770572502,
-      "after": 81511.71770572502,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 81511.71770726173,
+      "absDiff": 0.0000015367113519459963,
+      "relDiff": 1.8852643462794607e-11,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1734,9 +1763,9 @@
       "unit": "-",
       "missingAfter": false,
       "before": 0.00007132830355015766,
-      "after": 0.00007132830355015766,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 0.00007132830720406437,
+      "absDiff": 3.65390671278748e-12,
+      "relDiff": 5.122660333871636e-8,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1750,9 +1779,9 @@
       "unit": "deg/orbit",
       "missingAfter": false,
       "before": 21.91988308948662,
-      "after": 21.91988308948662,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 21.919882991209658,
+      "absDiff": -9.827696345610093e-8,
+      "relDiff": -4.483462026457489e-9,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1766,9 +1795,9 @@
       "unit": "-",
       "missingAfter": false,
       "before": 0.000018452523648559504,
-      "after": 0.000018452523648559504,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 0.000018452524110840894,
+      "absDiff": 4.62281390467903e-13,
+      "relDiff": 2.505247516666865e-8,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1782,9 +1811,9 @@
       "unit": "deg/orbit",
       "missingAfter": false,
       "before": -0.1745155881834425,
-      "after": -0.1745155881834425,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": -0.17451565327016122,
+      "absDiff": -6.508671870908422e-8,
+      "relDiff": -3.7295647561676926e-7,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1793,8 +1822,8 @@
      }
     ],
     "nQuantities": 10,
-    "nChanged": 0,
-    "maxAbsDiff": 0,
+    "nChanged": 9,
+    "maxAbsDiff": 0.0000038191210478544235,
     "verdictMoved": 0,
     "gateMoved": 0,
     "run": {
@@ -1826,7 +1855,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 84.298,
+      "wallSec": 85.318,
       "tags": [
        "dt"
       ],
@@ -1845,9 +1874,9 @@
       "unit": "deg/orbit",
       "missingAfter": false,
       "before": 2.031138114433031,
-      "after": 2.031138114433031,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 2.031137923853314,
+      "absDiff": -1.9057971689662168e-7,
+      "relDiff": -9.382902892835519e-8,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1909,9 +1938,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 21719.348540431674,
-      "after": 21719.348540431674,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 21719.348541423875,
+      "absDiff": 9.922005119733512e-7,
+      "relDiff": 4.5682793391630484e-11,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1925,9 +1954,9 @@
       "unit": "-",
       "missingAfter": false,
       "before": 0.00022904233671719362,
-      "after": 0.00022904233671719362,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 0.00022904233716185203,
+      "absDiff": 4.446584159906175e-13,
+      "relDiff": 1.9413808921258622e-9,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1941,9 +1970,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 81512.03262743763,
-      "after": 81512.03262743763,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 81512.03262927946,
+      "absDiff": 0.0000018418359104543924,
+      "relDiff": 2.2595877578869445e-11,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1957,9 +1986,9 @@
       "unit": "-",
       "missingAfter": false,
       "before": 0.00005669684470132555,
-      "after": 0.00005669684470132555,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 0.000056696850861892174,
+      "absDiff": 6.160566624706636e-12,
+      "relDiff": 1.08658015400328e-7,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1973,9 +2002,9 @@
       "unit": "deg/orbit",
       "missingAfter": false,
       "before": 23.48604551884022,
-      "after": 23.48604551884022,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 23.486040873675627,
+      "absDiff": -0.000004645164594307971,
+      "relDiff": -1.9778402415943868e-7,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1989,9 +2018,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 1377401.1327012395,
-      "after": 1377401.1327012395,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 1377401.132701655,
+      "absDiff": 4.153698682785034e-7,
+      "relDiff": 3.0156056824486276e-13,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -2005,9 +2034,9 @@
       "unit": "-",
       "missingAfter": false,
       "before": 0.000006446121661225422,
-      "after": 0.000006446121661225422,
-      "absDiff": 0,
-      "relDiff": 0,
+      "after": 0.000006446122824105594,
+      "absDiff": 1.1628801720325074e-12,
+      "relDiff": 1.8039997275066032e-7,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -2032,8 +2061,8 @@
      }
     ],
     "nQuantities": 12,
-    "nChanged": 0,
-    "maxAbsDiff": 0,
+    "nChanged": 8,
+    "maxAbsDiff": 0.000004645164594307971,
     "verdictMoved": 0,
     "gateMoved": 0,
     "run": {
@@ -2065,7 +2094,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 20.754,
+      "wallSec": 20.159,
       "tags": [
        "dt"
       ],
@@ -2076,5 +2105,5 @@
   ],
   "note": null
  },
- "elapsedS": 203.433
+ "elapsedS": 261.614
 }

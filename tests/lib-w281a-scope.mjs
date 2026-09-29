@@ -60,13 +60,15 @@ import { volatilePathsOf, companionsOf } from './lib-w281a-regentable.mjs';
  * (`CLAIM_PROSE_KEYS`・`CHAIN_PROSE_KEYS`・`MASSCAL_PROSE_KEYS`)を領域から外す(expected・testId・descPattern・
  * chain.ax/eq・control・noteRatio は残す)。新しい刻印は版 3 だけで作る。
  */
-export const SCOPE_VERSION = 'w283e-scope-3';
+export const SCOPE_VERSION = 'w286d-scope-4';   // 第286便d の統合(統括・R105): 停止集合に lcAfterStep/lcReset(版 3 の閉包・本文はそのまま)
+/** 第283便e の版 3(claims の説明文字列を外す)。旧刻印の照合用 —— 停止集合は SCOPE_STOP_3。 */
+export const SCOPE_VERSION_3 = 'w283e-scope-3';
 /** 旧版(第281便a —— 停止集合なし)。この版の刻印は旧版の閉包で照合する(`scopeHash(…, {version})`)。 */
 export const SCOPE_VERSION_LEGACY = 'w281a-scope-1';
 /** 版 2(第282便e —— 停止集合あり・説明文の除外は最上位の PROSE_KEYS だけ)。この版の刻印は版 2 の規則で照合する。 */
 export const SCOPE_VERSION_2 = 'w282e-scope-2';
 /** 照合できる版の一覧(これ以外の版の刻印は照合できない = 不一致)。 */
-export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION];
+export const SCOPE_VERSIONS = [SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSION];
 
 /**
  * **停止集合**(第282便e・AN22 —— 原仮定者の裁定(第72報)・統括の検証項目 R82)。
@@ -88,7 +90,14 @@ export const SCOPE_STOP = [
   'applyLang', 'renderHelp', 'showFirstVisit',
   // 描画(キャンバスへの 1 フレーム)
   'render', 'drawSpaceLinesOn', 'drawEmergence', 'drawOrbitObs', 'pmRender',
+  // 第286便d の統合(統括・R105): ライブ比較の入口。loop の `if(lcOn) lcAfterStep()` と setParamsDirty の lcReset から
+  //   LIVE_COMPARE_SPEC → OBS_COMPARE_ROWS(obscompare の生成領域 = 正本の転記)が物理の閉包に入り、転記のたびに全正本の
+  //   領域 hash が動いた(第286便 鎖 3 のゲート 1 で 54 本が「領域 hash も一致しない」)。計測器は表示専用(ON/OFF で
+  //   ビット一致 —— 器 tests/qa.mjs behavior.liveMeterPure)なので、ここで止める(書くのは liveCmp だけ —— 境界に入れる)
+  'lcAfterStep', 'lcReset',
 ];
+/** 版 2・3 の停止集合(第286便d の統合で足した 2 名を除く —— 旧刻印を同じ規則で引き直すため)。 */
+export const SCOPE_STOP_3 = SCOPE_STOP.filter((n) => n !== 'lcAfterStep' && n !== 'lcReset');
 
 /**
  * プリセットの**説明文だけの欄**(`sim.build`・`validatePreset` の受理判定・`applyQLock` が読まない欄)。
@@ -606,8 +615,9 @@ export function scopeHash(htmlPath, decl, opts) {
     }
   }
   // ② ③ 依存閉包
+  const stopSet = (version === SCOPE_VERSION) ? SCOPE_STOP : SCOPE_STOP_3;   // 第286便d の統合: 版 4 だけ lcAfterStep/lcReset を止める
   const cl = legacy ? closureOf(X.parsed, sc.roots)
-    : closureOf(X.parsed, sc.roots, undefined, { hardStop: SCOPE_STOP });
+    : closureOf(X.parsed, sc.roots, undefined, { hardStop: stopSet });
   for (const r of cl.missing) why.push('roots の名前が最上位に無い: ' + r);
   const segs = cl.segIdx.map((k) => X.parsed.segments[k]);
   const fnTexts = segs.map((s) => [s.names.length ? s.names.join(',') : '(stmt)', s.text]);
@@ -634,10 +644,10 @@ export function scopeHash(htmlPath, decl, opts) {
       proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES })
     : version === SCOPE_VERSION_2
       ? canonJson({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
-        proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES, scopeStop: SCOPE_STOP })
+        proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES, scopeStop: stopSet })
       // 第283便e: 版 3 は外した説明文の欄名も本文に入れる(欄の集合を変えたら hash も変わる)
       : canonJson({ v: version, presets, closure: fnTexts, hp: hpTexts, core, consts,
-        proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES, scopeStop: SCOPE_STOP,
+        proseKeys: PROSE_KEYS, registries: DATA_REGISTRIES, textRegistries: TEXT_REGISTRIES, scopeStop: stopSet,
         claimProse: { claim: CLAIM_PROSE_KEYS, chain: CHAIN_PROSE_KEYS, massCalibration: MASSCAL_PROSE_KEYS } });
   const complete = why.length === 0;
   const scopeSha256 = sha256(body);
@@ -674,7 +684,7 @@ export function scopeStamp(htmlPath, decl) {
   scopeSha256: r.scopeSha256, scopeComplete: r.scopeComplete };
 }
 
-export default { SCOPE_VERSION, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSIONS, SCOPE_STOP, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
+export default { SCOPE_VERSION, SCOPE_VERSION_LEGACY, SCOPE_VERSION_2, SCOPE_VERSION_3, SCOPE_VERSIONS, SCOPE_STOP, SCOPE_STOP_3, PROSE_KEYS, DATA_REGISTRIES, TEXT_REGISTRIES,
   CLAIM_PROSE_KEYS, CHAIN_PROSE_KEYS, MASSCAL_PROSE_KEYS, stripPresetProse,
   scanJs, normText, parseTopLevel, hpProps, closureOf, countDynamicRefs, canonJson, normalizeScope, scopeHash, scopeStamp };
 
@@ -1110,7 +1120,8 @@ export async function scopeStopProbe(o) {
  * 描画用の平滑値・履歴、行の表示同期の表、相図のタップ領域、QA 用の描画サマリ)。
  * `lint.scopeStop` ② が「停止関数の直接の書き込み ⊆ この一覧」と「宣言した器がこれらを HP・文字列で読まない」を照合する。
  */
-export const SCOPE_STOP_BOUNDARY = ['cv', 'ctx', 'dpr', 'cw', 'ch', 'tempP90EMA', 'emTick', 'emHist', '_ooLast',
+export const SCOPE_STOP_BOUNDARY = ['liveCmp',   // 第286便d の統合: ライブ比較の表示状態(lcAfterStep/lcReset が書く)
+  'cv', 'ctx', 'dpr', 'cw', 'ch', 'tempP90EMA', 'emTick', 'emHist', '_ooLast',
   'pmCells', 'paramRowSync', '_monCls'];
 
 /** 第282便e: 物理側(停止集合に入れてはいけない —— 現行版の閉包に残ることを `lint.scopeStop` ③ が照合)。 */

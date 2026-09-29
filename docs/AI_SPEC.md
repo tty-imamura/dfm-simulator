@@ -144,7 +144,7 @@ Exactly one preset that follows the specification above. Even when approximating
 For a real system that OUTPUT A cannot express (planetary rings, discs, continuous distributions):
 - Keep the transcription discipline: the central mass/radius/rotation and the feature radii (ring edges, orbital radii) come from sources you actually opened, cited in "description"; claim no accuracy beyond that.
 - Declare per-sample real units as "scaleExp":{"L":<L>,"T":<L-4>,"M":<L+19>}. The convention L-T=4 and M+2T-3L=11 keeps the real constants (G=6.674, c0=3e4) — any other T or M is flagged by the importer. Pick L so the central radius lands between 0.01 and 100 units AND camera.scale (~1.2 x the outermost feature radius) lands inside its valid range 20-3000. Picking L from the central radius alone tends to overshoot by one for ring-only systems — when 1.2 x the outermost radius falls below 20, use the next smaller L (every radius and mass just shifts a digit; the physics is identical).
-- With scaleExp declared, use "G":6.674, "cLight":30000 and "kappaT":7.415555555555556e-9 (=G/c0^2) — not the toy defaults of "# EXAMPLE".
+- With scaleExp declared, use "G":6.674, "cLight":29979.2458 (=299792458 m/s in these units) and "kappaT":7.425826474101849e-9 (=G/c0^2) — not the toy defaults of "# EXAMPLE".
 - Ring features become "ring" groups (vMode:"kepler", aroundMass = the central body's m in the SAME units) at the real radii; unsourced masses stay tiny (1e-6 per particle) and "description" says so.
 - Rings and discs must CO-ROTATE with the transcribed central spin: direction = the sign of the centre's spin (direction:-1 when spin<0). A counter-rotating ring is a transcription error unless your source explicitly says the ring is retrograde.
 - Display conventions for real-radius systems: camera.scale ~= 1.2 x the outermost feature radius (below 20 the importer clamps it up to 20 and the system renders tiny — the L rule above keeps it in range); evaluate the timeScale rule (innermost orbit ~= 5 s) at the INNERMOST feature; set dispMag to 1 (the default 3 draws a large centre over its rings; display-only).
@@ -578,7 +578,7 @@ mass・semi_major_axis・orbital_period について複数出典が 1% を超え
 出力Aで表せない実在系(惑星の環・円盤・連続分布)を出力Bで近似するときの規約です:
 - 転写の規律は出力Aと同じに保ちます: 中心天体の質量・半径・自転と、特徴半径(環の内外縁・軌道半径)は**実際に開いた出典**から写し、description に出典を記し、それ以上の精度は主張しません。
 - サンプル別の実単位を "scaleExp":{"L":<L>,"T":<L−4>,"M":<L+19>} で宣言します。規約 T=L−4・M=L+19(L−T=4・M+2T−3L=11)が実定数(G=6.674・c₀=3×10⁴)を保つ唯一の組で、他の T・M はインポート時に警告されます。L は、中心天体の半径が 0.01〜100 単位に入り、**かつ camera.scale(≈最外の特徴半径×1.2)が有効範囲 20〜3000 に入る**桁を選びます。環だけの系を中心半径だけで選ぶと L が 1 大きくなりがちです — ×1.2 が 20 を割るなら L を 1 下げます(全半径・全質量の数値が桁送りされるだけで物理は同じです)。
-- scaleExp を宣言したら "G":6.674・"cLight":30000・"kappaT":7.415555555555556e-9(=G/c₀²)を使います(「# 例」のトイ既定値ではありません)。
+- scaleExp を宣言したら "G":6.674・"cLight":29979.2458(=299792458 m/s のこの単位での値)・"kappaT":7.425826474101849e-9(=G/c₀²)を使います(「# 例」のトイ既定値ではありません)。
 - 環は実半径の "ring" 群(vMode:"kepler"・aroundMass=**同じ単位系での**中心質量)にします。出典の無い環の質量は微小値(1粒 1e-6)に置き、その旨を description に書きます。
 - **環・円盤は転写した中心の spin と同じ向きに回します**: direction = spin の符号(spin<0 なら direction:-1)。出典が明示的に逆行環と言わない限り、逆向きの環は転写ミスです。
 - 実半径系の表示規約: **camera.scale ≈ 最外の特徴半径×1.2**(20 未満はインポート時に 20 へ切り上げられ、系が極小に表示されます — 上の L 選択で範囲内に収めます)・timeScale は規約(最内公転≈5秒)を**最内の特徴**で評価・**dispMag は 1**(既定の 3 は大きな中心の描画が環を覆います — 表示専用)。
@@ -2714,3 +2714,46 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - 分類(principle・現実較正 DFM/kF0)と geoPN はすでに独立の次元なので「その他」には重ねていない。退役の本は一覧に出ない(§16)ので軸にしていない。
   - 絞り込み中は AI 生成・保存一覧の群を出さない(他の属性の絞り込みと同じ)。隠しプルダウン `#presetSelect` には軸を足していない。検索のクリアで検索欄のフォーカスを外す規則・IME 中の挙動(§18)は不変。
 - QA: **`ui.pickerFilterFold`**・**`ui.pickerOtherChips`**(root は SKIP)。軸の件数は受理器を通した正規化後の宣言から独立に数え直して突き合わせる。既存の `ui.pickerGeoFilter` は畳みの世代では採寸の前に geoPN の畳みを開く(判定は弱めていない)。3 viewport(iPhone SE 375×667・Android 412×915 —— isMobile・タッチ / PC 1280×800)。
+
+## 23. 第286便c の宣言鍵 —— `physics.backgroundComplex.lawVersion`(背景の法則版・原仮定者の裁定〔第76報〕・第76報で閉じた AN47/AN56・**SYSTEM_PROMPT には載せない**)
+
+背景の重みの核 w=m/(r²+ε²)^{p/2} の **2 つの法則版を分ける**任意鍵。**未指定 = 現行**(share 経路〔geoPN=3 のトイ〕は背景を読まない = 未接続・`physics.meshVelocity` の経路は第279便c のまま)。**内蔵はこの鍵を 1 本も宣言していない**(物理・presetSig は 1 bit も動かない)。
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `lawVersion` | `"share-p1"` / `"complex-p2"` | share-p1 = p=1(frameWeight:"share" の重み)・経路は geoPN=3 のトイ(`spaceMesh.lawVersion:"scalar"`)/ complex-p2 = p=2・経路は `physics.meshVelocity`(field:"backgroundComplex") |
+| `lawUnits` | 法則版の単位表と完全一致 | share-p1: `{W:"M/L", A:"M/T", gradW:"M/L^2", gradA:"M/(L·T)", dWdt:"M/(L·T)", dAdt:"M/T^2"}` / complex-p2: `{W:"M/L^2", A:"M/(L·T)", gradW:"M/L^3", gradA:"M/(L^2·T)", dWdt:"M/(L^2·T)", dAdt:"M/(L·T^2)"}` |
+| `lawDomainR` | 正の有限数 [L] | 有限領域の半径(凍結参照系の原点のまわりで背景の一次の値を使う範囲 —— 外へ出たらその步で止める・無限一様は宣言できない) |
+| `lawWZero` | `"vacuum"` / `"undefined"` | W=0 の点の規約: 真空規約(移送も正準項も当てない・慣性はそのまま)/未定義(その步で経路を止める・meshVelocity では不正点として数える)。**u を 0 にしない** |
+
+- **同時に要るもの**: `sources`(源の分割 —— 明示天体と背景を重複して数えない)・`frame`(凍結参照系 —— 座標系の宣言。黙って A₀=0 にしない)。`bgModel:null` とは併用しない。share-p1 は bgModel `"sources"`/`"distantSource"`(p=2 の核で算出する型)と併用しない(手入力か `"uniform"` で p=1 の値を書く)。
+- **経路の相互検査**(validatePreset): share-p1 は geoPN=3・spaceMesh.lawVersion "scalar"・frameWeight "share"・kFrame=0・meshVelocity なし・spaceMesh の centerSpin/diskSupport/law/toyAllowDrag/**D0** なし・toyClosure "gravity"。complex-p2 は meshVelocity(field:"backgroundComplex")が要る。sampleClass:"calibration" では拒否。**経路の宣言が無い法則版は拒否**(宣言だけでは接続しない)。
+- **share-p1 の式**: u=(A_local+A_bg)/(W_local+W_bg)(局所は自己を除く p=1 の核)・∇u=(∇A−u⊗∇W)/W・∂ₜu=(∂ₜA−u∂ₜW)/W(分母を含む商の微分)・加速度は既定のトイと同じ a=∂ₜū+(∇ū)v−(∇ū)ᵀ(v−ū)。**この経路は D₀ を読まない**(D₀ は別量 —— W₀ に係数を掛けて D₀ を作らない)。
+- **読み口**: `HP.bgcLawCheck`・`HP.bgLawCrossCheck`・`HP.dfmComplexMomentsP`(p 乗の核)・`HP.bgLawBackgroundAt`・`HP.bgLawPrepare`・`HP.dfmGeoToyBgLawStep`・`HP.BGC_LAW_*`。`HP.bgcWireState(S)` に `lawVersion` と `lawPath`("geoToy"/"meshVelocity"/null)。#bgcPanel の算出結果の表に法則版の状態チップ `#bgcLawChip`(未宣言 = 「未宣言(現行 —— 法則版は未接続)」)。
+- **書かないこと**: 「法則版で成立した」「W₀・A₀ から微分が出る」。接続の実測は器 `tests/exp-w286c-bgdiff.mjs` の診断コピー(内蔵にはしない)。
+
+## 24. 第286便d の UI —— サンプル内ライブ比較(グラフ「ライブ比較」・観測カードのインライン表示)(原仮定者の裁定〔第76報〕⑥・AN58 の前倒し・統括の検証項目 R105・**表示と器だけ**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・力学・内蔵の宣言は 1 bit も変わらない(保存 JSON の `graphOverlays` に表示の鍵 `liveCompare` が 1 つ増えるだけ)。
+
+- 「グラフ」カテゴリのトグル「ライブ比較」(`overlays.liveCompare`)—— 開いている本の**今回の走行**を物理 step ごとに読み出しだけで測り(同方向 1 周・近点 検出器 A の近点間周期と近点移動・半径比 eProxy —— 判定器と同じ定義)、正本の観測値(`OBS_COMPARE_ROWS` の転記)と並べる。固定線=観測・帯=±3σ(σ のある量だけ)・点=今回の値・◇=前回の較正(判定段の値)。**暫定値・正式な合否判定なし**を常に出し、合否の語は出さない。宣言(`LIVE_COMPARE_SPEC` —— 本と量の名前と推定器だけ・観測値は書かない)の無い本は「ライブ計測未対応」。説明タブの 📇 観測結果カードの対応する行の直後に同じ計測値を 1 行(`lcInline`)。A/B 比較中は未対応。
+- 読み口(HP 公開): `HP.liveCompare`(`create`・`feed`・`value` は計測器の純関数・`snapshot`・`stepN`・`reset`・`spec`・`rowOf` ほか)。
+- QA: **`ui.liveCompare`**・**`behavior.liveMeterPure`**(root は SKIP)・docs/PHYSICS.md〔第286便d〕。
+
+## 25. 第286便e の UI —— 「サンプルを選ぶ」の絞り込みを見出しつきのセパレータで分ける・セーブの背景複素決定力を受理器へ(原仮定者の裁定〔第76報〕⑦・第76報で閉じた AN40 の残り・AN55・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・力学・内蔵の宣言は 1 bit も変えていない(全内蔵 142 本の状態と presetSig が基点 7822768 とビット同一 —— bitsame 142/142・sigsame 142/142)。保存 JSON の形も変えていない(読む側の検査だけを足した)。
+
+- **セパレータ**(第76報⑦「『サンプルを選ぶ』の絞り込みは、あらかじめ絞り込み別にセパレータで分ける」): 絞り込みの 5 次元(スケール・分類・E水準・geoPN・その他 —— §22 の `details.ppFold`)を、**畳んだ状態でも開いた状態でも**次元ごとの 1 行として縦に並べ、各行の上辺に区切り線を引いた。区切りの**見出し**は要約行の左端の次元名(`.ppFoldName`)で、右に選んだ語の札(`.ppFoldSel` —— ▸/▾ は札の中)。開いた次元は見出しの下にチップ行が出る。
+  - 旧(§22)の「畳んだ次元は札として 1 行に並ぶ(折り返しあり)」はやめた。畳んだ 5 行の高さは 360×640 でも 1280×800 でも 172 px(基点 7822768 の折り返し表示は 103 px / 71 px —— その分だけ一覧の見える高さが 360×640 で 351→282 px・1280×800 で 530→429 px に減る)。
+  - 各行(`details.ppFold`)に `data-n` = その次元の選択肢の数(「すべて」を除くチップの数 —— スケール 7・分類 5・E水準 4・geoPN 4・その他 4)。表示はしない(試験と説明の照合用)。
+  - 見出しの語は従来の次元名(`ppDimScale`・`ppDimClass`・`ppDimE`・`ppDimGeo`・`ppDimOther`)のまま —— 新しい語は作っていない。「その他」の 4 軸は AND のまま・既定は閉・「すべて」のチップの語は「全カテゴリ」(AN55)。隠しプルダウン `#presetSelect` には何も足していない。
+  - 畳みの中のチップ行の下辺(第94便のセパレータ)は、次の行の区切り線と重ならないよう点線の細い罫にした。
+- **ⓘ ボタンの次元名が 2 回出る件**(§22 の未解決): 開いた次元では見出し(要約行の次元名)とチップ行の「次元名 ⓘ」の説明ボタンが同じ語を 2 回出していた。説明ボタンの次元名を `span.ppDimName` に入れ、畳みの中では**見た目から外した**(読み上げ用に残す —— ボタンの textContent と読み上げ名は従来どおり「次元名 ⓘ」・id も不変)。見えている次元名は各次元 1 つになる。畳みの外の説明行(「グループ ⓘ」)は変えていない。
+  - 起動時から Storage が例外を投げる状態(`hp_pick_fold` の読み込みが最初から失敗する状態)は、アプリ全体の起動が Storage の例外を前提にしていないので**試験できないまま**(記録だけ —— §22 の試験は読み込み後に差し替えた状態で開閉を見ている)。
+- **セーブの背景複素決定力を受理器へ**(AN40 の残り「loadSave も受理器へ・警告→拒否」): `loadSave` はセーブの `physics.backgroundComplex`(`bgModel` を含む)を、プリセットと同じ受理器 `validateBackgroundComplex` と明示天体との突き合わせ `bgSourcesBodyCheck` に通す(関数 `loadSaveBgcAccept`)。背景を読む接続(`physics.meshVelocity` の `field:"backgroundComplex"`)を宣言したセーブは、接続の相互検査 `meshVelocityCrossCheck`(bgModel:null〔微分が未確定〕の背景・sources/frame の欠け・frame の不一致)も通す。
+  - **拒否**: 受理器を通らないセーブは**読込そのものを中止**する(`loadPreset` の前 —— 現在の本・params・presetSig は 1 bit も変わらない)。通知に受理器の文をそのまま出し、プルダウンの表示を読込前の本へ戻す。旧は検査なしで params へ素通しだった(走行時に黙って読まない値・落ちる値になりえた)。
+  - **欠落と 0 と null を区別**: 鍵が無い(欠落)=保存時に未宣言(未確定)なので params にも入れない / `background:"zero"`(W0:0)=**ゼロの宣言**として残る / `null`=明示の未宣言(鍵を外す)。`NaN`・`Infinity` は JSON では `null` になり、受理器が「有限数」で拒否する(`|| 0` で 0 に置き換えない)。
+  - 背景鍵の読み口の監査(QA `preset.meshVelocity` の ⑦ と器 `tests/exp-w276a-d0audit2.mjs` の許可表)に `loadSave`・`loadSaveBgcAccept` を名指しで足した(宣言を受理器に通して置き直すだけ —— 力学の読み口は従来どおり `meshVelocityPrepare` だけ)。
+  - 正当なセーブ(内蔵で背景を宣言する 🔁 `mercuryGeoToy3`・🌒 `charonGeoToy3` と宣言の無い本)は従来どおり開け、背景は受理器の正規化後の宣言が入る。セーブの取り込み(`{saves:[…]}` の JSON)は従来どおり保存一覧へ入れるだけで、検査は読込(`loadSave`)の時に行う。
+- QA: **`ui.pickerSeparators`**(360×640 —— isMobile・タッチ / PC 1280×800)・**`behavior.loadSaveBackgroundReject`**(root は SKIP)。既存の `ui.pickerFilterFold`・`ui.pickerOtherChips`・`ui.pickerGeoFilter` は判定を変えずに通る(採寸は畳みを開いてから)。

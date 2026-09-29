@@ -754,3 +754,16 @@ tests/out/regen-plan-w281a.json
 # 第285便d(原仮定者の裁定(第75報)⑦・統括の検証項目 R100): **観測対実行のグラフの行の控え**(tests/exp-w285d-obscompare.mjs —— 正本
 #   calaudit-w249.json の量ごとの行を beta/index.html の生成領域 obs-compare へ転記した記録)。QA ui.obsCompareGraph・lint.provenanceMeta が読むのでコミットする
 !tests/out/obscompare-w285d.json
+# 第286便a(原仮定者の裁定(第76報)⑤・統括の検証項目 R101〜R103・AN60): **星団スケールと平衡便**の正本
+#   (tests/exp-w286a-jeans.mjs —— 動径 Jeans の純関数の検算・html とのビット一致・💮 の t=0 / tests/exp-w286a-cluster.mjs —— 💮 の
+#   星団スケールの宣言の照合と走査 8 構成)。QA behavior.clusterScale・behavior.jeans2D・behavior.clusterAnalogyW286 が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする。**較正ではない**
+!tests/out/jeans-w286a.json
+!tests/out/cluster-w286a.json
+# 第286便b(原仮定者の裁定(第76報)AN54・AN59・統括の検証項目 R104): **伴星の pnSource・cLight の真値化・☄️ の較正専用 ε の前後**
+#   (tests/exp-w286b-pnsource.mjs —— ✴️💫✨🌟 の比の 3 本立て・制御二体・☄️ の c/ε/dt の要因・従属値の一覧と html・内蔵全本の前後)。
+#   QA behavior.pnSourceCompanion・lint.cLightTrue が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**判定ではない**
+!tests/out/pnsource-w286b.json
+# 第286便c(原仮定者の裁定(第76報)・AN7′/AN47/AN56): **背景場の解析微分と中心差分の照合・背景の法則版の受理と接続の診断コピー**の正本
+#   (tests/exp-w286c-bgdiff.mjs)。QA behavior.bgLawVersion・behavior.bgDiffCheck・docs.calPolicyText が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/bgdiff-w286c.json

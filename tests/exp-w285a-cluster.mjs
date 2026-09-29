@@ -77,7 +77,18 @@ export const SCAN_TEXT = [
 ];
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
-const byId = (HP, id) => HP.allPresets().find((q) => q.id === id);
+const byId0 = (HP, id) => HP.allPresets().find((q) => q.id === id);
+// 第286便a(原仮定者の裁定(第76報)⑤・R101〜R103): 💮 の宣言を星団スケール(w286a)へ書き換えた世代では、この器は第285便a の宣言の
+//   **凍結写し** tests/fixtures/cluster-w285a-preset.json を読む(この器と正本 cluster-w285a.json は第285便a の宣言の記録 —— 履歴)
+export const FIXTURE_285A = 'tests/fixtures/cluster-w285a-preset.json';
+let FX285A = null;
+export function sourcePreset(HP) {
+  const cur = byId0(HP, PRESET);
+  if (cur && cur.massLedger && cur.massLedger.version === 'w285a-1') return cur;
+  if (!FX285A) FX285A = JSON.parse(fs.readFileSync(path.join(ROOT, FIXTURE_285A), 'utf8')).preset;
+  return FX285A;
+}
+const byId = (HP, id) => (id === PRESET) ? sourcePreset(HP) : byId0(HP, id);
 const rel = E283.rel;
 const fmtMc = (x) => (Math.abs(x - 1 / 8.5) < 1e-12 ? '1/8.5' : String(x));
 export const cfgKey = (c) => `mc${fmtMc(c.mcOverMdr)}-s${c.spin}-R${c.rDrag}-${c.init}`;
@@ -421,7 +432,8 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const anyShape = Object.values(vsum).some((s) => s.nPass === s.n && s.n > 0);
   const CODE = ['tests/exp-w285a-cluster.mjs', 'tests/exp-w284a-cluster.mjs', 'tests/exp-w283f-cluster.mjs', 'tests/lib-w281c-rotorledger.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
-  const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第285便a', target: TARGET, code: CODE, inputs: [TARGET, E284.FIXTURE_284A] }), {
+  const live285 = (() => { const c = byId0(HP, PRESET); return !!(c && c.massLedger && c.massLedger.version === 'w285a-1'); })();
+  const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第285便a', target: TARGET, code: CODE, inputs: [TARGET, E284.FIXTURE_284A].concat(live285 ? [] : [FIXTURE_285A]) }), {
     harnessVersion: HARNESS_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第75報)⑤: 球状星団はまず安定するバランスを見付ける。中心天体の質量を大きくすると拡散しにくくなる。引きずりによる斥力でバランスが取れれば安定する。衝突判定は無いので当たらないが粒子が大き過ぎる。見易さは粒子表示倍率で調整する。ダークローターはコンパクト天体で恒星より小さい',
     reading: '統括の検証項目 R96(半径の分離・DR の物理半径の長さ単位換算・恒星は表示比較の仮定・dispMag・中心質量を増やせば単調に安定するとは現行式では言えない・走査 (a)→(b)→(c)・門は下げない)',
