@@ -767,3 +767,7 @@ tests/out/regen-plan-w281a.json
 # 第286便c(原仮定者の裁定(第76報)・AN7′/AN47/AN56): **背景場の解析微分と中心差分の照合・背景の法則版の受理と接続の診断コピー**の正本
 #   (tests/exp-w286c-bgdiff.mjs)。QA behavior.bgLawVersion・behavior.bgDiffCheck・docs.calPolicyText が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/bgdiff-w286c.json
+# 第287便b(原仮定者の裁定(第77報)⑤・AN61・AN75・統括の検証項目 R110): **kF0 写しの診断 1 行**(tests/exp-w287b-eihdiag.mjs —— 制御二体の
+#   現行 EIH と DFM 経路 kFrame→0⁺ の対反作用だけの近点移動の λ 増分・等質量の倍率)と DFM 版へ EIH を足すときの手順(実装しない)。
+#   QA behavior.eihDiag287 が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**判定ではない**
+!tests/out/eihdiag-w287b.json

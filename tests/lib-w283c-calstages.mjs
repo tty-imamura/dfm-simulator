@@ -26,6 +26,13 @@
 //   ⑥ **dt/2 の再利用**(`H2_REUSE_RULE` —— 同一便の再走): 前回の h と今回の h が同じ契約で、生の走行が**ビット一致**し
 //      (決定的走行)、前回の h/2 が完了(非有限・クランプ・資源打切りなし)なら h/2 を転記する(`skippedBy:"reuse-dt2"`)。
 //   ⑦ `dtDt2Skip`(閾値規則・既定 off)は**対象 ID と量の集合の完全一致**を必須にした。
+//
+// ■ 第287便b(原仮定者の裁定(第77報)AN62「便をまたぐ dt/2 の再利用は安定 hash〔物理入力・観測参照・計測器・停止規則・数値方式・精度・
+//   エンジン条件〕と完走済み出力が一致するときだけ」・統括の検証項目 R111)
+//   ⑧ **便をまたぐ dt/2 の再利用条件**(`H2_CROSS_RULE` —— `--h2-reuse-cross` のときだけ効く): 同一便の条件(契約・h の生の走行のビット一致・
+//      h/2 の健全)に加えて、(a) **安定 hash**(`stableInputHash` —— 7 つの構成要素がすべて揃い、前回と今回で同じ)(b) **完走済み出力の整合**
+//      (前回の h/2 の窓が完了 `stopRule.complete===true`・前回の h の署名 = 今回の h の署名)を要る。安定 hash の無い旧い置き場の組は
+//      便をまたいで転記しない。**「新しい dt の数値が前回と同じ」だけでは再利用しない**(刻みは構成要素の 1 つにすぎない)。同一便の経路は変えない。
 import crypto from 'node:crypto';
 // 第285便f(統括の検証項目〔較正走行の窓〕): 契約に**窓の定義**(`window` —— 目標物理時間 T の規則の版・T〔dt₀ での步数〕・dt₀・
 //   軌道窓の出所〔t=0 の接触要素 / 宣言した軌道長〕・必要近点数)を足して版を上げた(w284c-h4reuse-2 → w285f-h4reuse-3。旧版は「未知の版」で拒否 = 初回は再取得)
@@ -353,7 +360,13 @@ export function h2ReuseDecision(o) {
   if (!entry || !entry.run) return { reuse: false, reason: 'no-entry', diff: [] };
   const diff = h4ContractDiff(entry.contract, contract, { keys: H2_CONTRACT_KEYS, required: H2_REQUIRED_KEYS, versions: [H2_REUSE_VERSION] });
   if (diff.length) return { reuse: false, reason: 'contract', diff };
-  if (!(o && o.crossFlight) && (!targetSha256 || entry.targetSha256 !== targetSha256)) return { reuse: false, reason: 'other-flight', diff: ['targetSha256'] };
+  const sameFlight = !!targetSha256 && entry.targetSha256 === targetSha256;
+  if (!(o && o.crossFlight) && !sameFlight) return { reuse: false, reason: 'other-flight', diff: ['targetSha256'] };
+  // 第287便b(AN62・H2_CROSS_RULE): 便をまたぐ転記は安定 hash の 7 要素の一致と完走済み出力の整合を要る(同一便の経路は変えない)
+  if (!sameFlight) {
+    const cx = h2CrossFlightCheck({ entryStable: entry.stable || null, stable: (o && o.stable) || null, entryRun: entry.run });
+    if (!cx.ok) return { reuse: false, reason: 'cross-flight: ' + cx.reason, diff: cx.diff };
+  }
   if (!hRun || hRun.nan) return { reuse: false, reason: 'h: NaN / 走行が無い', diff: [] };
   const nf = rawNonFinite(hRun);
   if (nf.length) return { reuse: false, reason: 'h: 非有限 ' + nf.slice(0, 3).join(','), diff: [] };
@@ -369,6 +382,54 @@ export function h2ReuseDecision(o) {
 }
 /** 契約の hash(刻印用 —— 鍵の正準 JSON の SHA-256)。 */
 export function contractSha(c) { return c ? crypto.createHash('sha256').update(canon(c)).digest('hex') : null; }
+// ---------------------------------------------------------------------------------------------------------------------
+// ⑧ 第287便b(原仮定者の裁定(第77報)AN62・統括の検証項目 R111): 便をまたぐ dt/2 の再利用 —— 安定 hash と完走済み出力の整合
+// ---------------------------------------------------------------------------------------------------------------------
+export const H2_CROSS_VERSION = 'w287b-h2cross-1';
+/** 安定 hash の構成要素(7 つ —— どれか 1 つでも欠ければ便をまたいで転記しない)。 */
+export const H2_STABLE_PARTS = ['physicsDecl', 'obsRef', 'instrument', 'stopRule', 'numerics', 'precision', 'engine'];
+export const H2_CROSS_RULE = {
+  version: H2_CROSS_VERSION, since: '第287便b(原仮定者の裁定(第77報)AN62・統括の検証項目 R111)',
+  scope: '`--h2-reuse-cross` のときだけ効く(既定は同一便 = 対象 html の SHA-256 が同じときだけ —— 同一便の経路は第284便c のまま)',
+  parts: {
+    physicsDecl: '器が読む物理宣言: 受理後のプリセット JSON の hash(presetHash —— presetSig の上位集合)・較正行の宣言 calPhysics・kF0 の診断コピーの別・試験粒子の写しの別',
+    obsRef: '観測参照: 観測 CSV(paper/data/solar-observations.csv)と採用解の宣言(paper/data/judgement-sources.json)の SHA-256',
+    instrument: '計測器: 抽出器のソースの SHA-256(extractorSha)・近点窓・対象の宣言(CFG の行 —— 中心と周回体・ラベル)',
+    stopRule: '停止規則: 停止規則の版・窓の定義(windowContract —— T の規則の版・T〔dt₀ での步数〕・軌道窓・必要近点数)・h と h/2 の步数上限',
+    numerics: '数値方式: 刻み h/2 と h・t=0 の接触要素の 1 公転の步数・積分器の法則の指紋(engineSha —— 停止集合つき依存閉包)',
+    precision: '精度: 受理後の physics の stateCarry・framePrecision(宣言が無ければ既定の null)・単位(G・c・toSec)',
+    engine: 'エンジン条件: ブラウザの版(Chromium の版 —— 1 ulp の違いが出る)・理論用語集 LAWS の hash',
+  },
+  output: '完走済み出力の整合: 前回の h/2 が完了(非有限・NaN・安全クランプ・資源打切りなし・**窓が完了 stopRule.complete===true**)で、'
+    + '前回の h の生の走行の署名(rawRunSig)が今回の h とビット一致',
+  notEnough: '**「新しい dt の数値が前回と同じ」だけでは再利用しない**(刻みは 7 要素の 1 つ)。安定 hash の無い旧い置き場の組は便をまたいで転記しない',
+  provenance: '構成要素ごとの SHA-256 と合成 hash を正本の presets[].run.h2Reuse.stable と out.h2Reuse.crossFlightRule に書く',
+  doNotWrite: ['前回と同じ dt なので同じ結果', '再利用したので収束した'],
+};
+/** 構成要素の正準 JSON の SHA-256(null・undefined の要素は欠落として数える)。 */
+export function stableInputHash(parts) {
+  const P = parts || {};
+  const missing = H2_STABLE_PARTS.filter((k) => P[k] === undefined || P[k] === null);
+  const each = {};
+  for (const k of H2_STABLE_PARTS) each[k] = (P[k] === undefined || P[k] === null) ? null : crypto.createHash('sha256').update(canon(P[k])).digest('hex');
+  const sha = missing.length ? null : crypto.createHash('sha256').update(canon(each)).digest('hex');
+  return { version: H2_CROSS_VERSION, sha, parts: each, missing };
+}
+/**
+ * 便をまたぐ転記の追加条件(同一便の条件の上に掛ける)。entryStable / stable = `stableInputHash` の戻り値。
+ * @returns {{ok:boolean, reason:string|null, diff:string[]}}
+ */
+export function h2CrossFlightCheck({ entryStable, stable, entryRun }) {
+  if (!stable || !stable.sha || (stable.missing || []).length) return { ok: false, reason: 'stable-hash-incomplete(今回)', diff: (stable && stable.missing) || ['stable'] };
+  if (!entryStable || !entryStable.sha || entryStable.version !== H2_CROSS_VERSION) return { ok: false, reason: 'stable-hash-missing(前回の置き場)', diff: ['stable'] };
+  if (entryStable.sha !== stable.sha) {
+    const d = H2_STABLE_PARTS.filter((k) => (entryStable.parts || {})[k] !== (stable.parts || {})[k]);
+    return { ok: false, reason: 'stable-hash', diff: d.length ? d : ['stable'] };
+  }
+  const h = h4RunHealthy(entryRun, { requireWindow: true });
+  if (!h.ok) return { ok: false, reason: 'output: ' + h.why, diff: [] };
+  return { ok: true, reason: null, diff: [] };
+}
 /** 転記した h/2 の生の走行(元の記録は書き換えない —— 深い写しに刻印を足す)。 */
 export function reusedRunDt2(entry) {
   const r = JSON.parse(JSON.stringify(entry.run));

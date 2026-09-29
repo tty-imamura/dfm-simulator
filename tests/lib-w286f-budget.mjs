@@ -9,7 +9,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 
 export const BUDGET_TABLE_FILE = 'tests/data-w286f-budget.json';
-export const BUDGET_LIB_VERSION = 'w286f-budgetlib-1';
+export const BUDGET_LIB_VERSION = 'w287b-budgetlib-2';   // 第287便b: 採用(adopted)の表の検査を足した(w286f-budgetlib-1 → 2)
 export const BUDGET_KINDS = ['period', 'precession', 'ecc', 'spin', 'other'];
 export const BUDGET_MODES = ['sigma', 'relative', 'absolute', 'not-judged'];
 
@@ -80,9 +80,19 @@ export function compactBudget(r) {
 export function auditBudgetTable(table, calaudit) {
   const bad = [];
   if (!table || typeof table !== 'object') return { ok: false, bad: ['表が読めない'] };
-  if (!/^w286f-budget-\d+$/.test(String(table.version))) bad.push('版が w286f-budget-N でない');
+  // 第287便b(原仮定者の裁定(第77報)AN62): 版 w287b-budget-2 —— 0.3σ を**数値誤差予算の上限**として採用(status "adopted")。
+  //   採用の表には「観測差を許す幅ではない」「3σ 門は広げない」「σ の無い量に 1% 等を補わない」と |Q_h−Q_h/2|/3 の条件(errorEstimate)・
+  //   前の版(提案値)の履歴が要る。旧版 w286f-budget-1(提案値)の形も読める(履歴の表の検査)
+  if (!/^w28[67][a-z]-budget-\d+$/.test(String(table.version))) bad.push('版が w286f-budget-N / w287b-budget-N でない');
   const sb = table.sigmaBudget || {};
-  if (!(sb.factor === 0.3 && sb.status === 'proposal' && /提案値/.test(String(sb.note || '')) && /合意済みの閾値ではない/.test(String(sb.note || ''))))
+  if (sb.status === 'adopted') {
+    const t = String(sb.note || '') + '\n' + String(sb.definition || '') + '\n' + String(sb.notA || '');
+    if (!(sb.factor === 0.3 && /数値誤差予算の上限/.test(t) && /観測差を許す幅ではない/.test(t) && /3σ 門は広げない/.test(t) && /1% 等を補わない/.test(t)))
+      bad.push('0.3σ の採用の注記(数値誤差予算の上限・観測差を許す幅ではない・3σ 門は広げない・1% 等を補わない)が無い');
+    if (!/2 次収束域/.test(String(sb.errorEstimate || '')) || !/窓/.test(String(sb.errorEstimate || '')) || !/次数/.test(String(sb.errorEstimate || '')))
+      bad.push('|Q_h−Q_h/2|/3 の誤差推定の条件(2 次収束域・窓・抽出・次数)が無い');
+    if (!((sb.history || []).some((h) => h.status === 'proposal'))) bad.push('提案値(前の版)の履歴が無い');
+  } else if (!(sb.factor === 0.3 && sb.status === 'proposal' && /提案値/.test(String(sb.note || '')) && /合意済みの閾値ではない/.test(String(sb.note || ''))))
     bad.push('0.3σ が提案値であるという注記が無い');
   const rules = (table.rules || []).join('\n');
   if (!/幅で救わない/.test(rules)) bad.push('規則に「窓不足・量の不一致を幅で救わない」が無い');

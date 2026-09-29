@@ -51,7 +51,9 @@ const RETIRED_FX2 = 'tests/fixtures/retired-w284b.json';
 const RETIRED_FX3 = 'tests/fixtures/retired-w285f.json';
 // 第286便f(原仮定者の裁定(第76報)AN57): 退役 1 本(🩹)と 🩺 の旧則の凍結の写し(付け替えた試験の最後の保存 QA の値を持つ)
 const RETIRED_FX4 = 'tests/fixtures/retired-w286f.json';
-const RETIRED_FXS = [RETIRED_FX, RETIRED_FX2, RETIRED_FX3, RETIRED_FX4].filter((f) => fs.existsSync(path.join(ROOT, f)));
+// 第287便b(原仮定者の裁定(第77報)AN62): 退役 1 本(🪤)と 🧶 の旧則の凍結の写し(付け替えた試験の最後の保存 QA の値を持つ)
+const RETIRED_FX5 = 'tests/fixtures/retired-w287b.json';
+const RETIRED_FXS = [RETIRED_FX, RETIRED_FX2, RETIRED_FX3, RETIRED_FX4, RETIRED_FX5].filter((f) => fs.existsSync(path.join(ROOT, f)));
 const OUT = 'tests/out/samplestatus-w279a.json';
 const MD = 'docs/SAMPLE_STATUS_v1.45.md';
 const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w283c-calstages.mjs'];
@@ -171,6 +173,10 @@ md.push(`- 内蔵 **${tl.n} 本**(群 ${groups.length}・うち 0 本の群 ${gr
 if (retiredRows.length) md.push(`- うち **退役 ${retiredRows.length} 本**(${(src.retired || {}).rulingShort || '原仮定者の裁定(第73報)④'} —— 内蔵には残る・サンプル一覧に出ない)は**群の集計から外し**、下の「退役」節に別群として並べる(状況と較正の集計は内蔵の全本で数える)。`);
 md.push(`- 状況: **達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet}・対象外 ${tl.objective['n/a']}**。`);
 md.push(`- 較正: 4 値(合/量限定合/否/保留)**${tl.four['合']}/${tl.four['量限定合']}/${tl.four['否']}/${tl.four['保留']}**(台帳の転記)・判定保留(量定義不一致)**${tl.calibration['hold-definition']}**・較正対象外 **${tl.calibration['out-of-scope']}**。`);
+// 第287便b(原仮定者の裁定(第77報)AN62・統括の検証項目 R111): **量の 5 区分の現況は正本 calaudit の summary.tally の転記**(生成元はここ 1 か所 ——
+//   文書の本文に現況の数を手で書かない。QA docs.tallySync がこの行と正本を照合する)
+{ const T5 = ((calaudit.summary || {}).tally) || {};
+  md.push(`- 量の 5 区分(正本 \`${CAL}\` の summary.tally の転記 —— 来歴の欄であって合否ではない): 合 **${T5['合']}**・窓 **${T5['窓']}**・否 **${T5['否']}**・従 **${T5['従']}**・転 **${T5['転']}**${T5['条'] ? '・条 **' + T5['条'] + '**' : ''}。`); }
 md.push('');
 md.push('| 群 | 本数 | 達 | 部分 | 未達 | 4 値の本 | 判定保留(量定義不一致) | 較正対象外 |');
 md.push('|---|---|---|---|---|---|---|---|');
