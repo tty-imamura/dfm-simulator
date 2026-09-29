@@ -2757,3 +2757,13 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - 背景鍵の読み口の監査(QA `preset.meshVelocity` の ⑦ と器 `tests/exp-w276a-d0audit2.mjs` の許可表)に `loadSave`・`loadSaveBgcAccept` を名指しで足した(宣言を受理器に通して置き直すだけ —— 力学の読み口は従来どおり `meshVelocityPrepare` だけ)。
   - 正当なセーブ(内蔵で背景を宣言する 🔁 `mercuryGeoToy3`・🌒 `charonGeoToy3` と宣言の無い本)は従来どおり開け、背景は受理器の正規化後の宣言が入る。セーブの取り込み(`{saves:[…]}` の JSON)は従来どおり保存一覧へ入れるだけで、検査は読込(`loadSave`)の時に行う。
 - QA: **`ui.pickerSeparators`**(360×640 —— isMobile・タッチ / PC 1280×800)・**`behavior.loadSaveBackgroundReject`**(root は SKIP)。既存の `ui.pickerFilterFold`・`ui.pickerOtherChips`・`ui.pickerGeoFilter` は判定を変えずに通る(採寸は畳みを開いてから)。
+
+## 26. 第287便d の表示 —— BH 連星の家族の移管・線の軌跡の追従フレーム・ライブ比較の周期の定義(原仮定者の裁定〔第77報〕⑤・AN65/AN71/AN72・**表示と器だけ・SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・力学・内蔵の physics/bodies/camera/overlays は 1 bit も変えていない。
+
+- **群の移管**: 🎐🎻⏰⚛️(familyId `gw150914`)の `group` を「現実との照合・連星」へ(家族のまま —— group 文字列だけ)。カードに 1 行(side table `GROUP_CARD_NOTE` —— 「geoPN=0・較正母集団の門には入れない」・🎻 は f≈2 の履歴・⚛️ は原理サンプル)。AI が生成する本の群の語彙は不変。
+- **線の軌跡の追従フレーム**: side table `TRAIL_FRAME_DECL`(🔁 `mercuryGeoToy3` だけ `trail:"follow"`)。camera.follow の天体を原点にした相対位置で線を積んで描く(表示専用 —— 保存 JSON・presetSig・`sim.overlays` には書かない)。「表示」カテゴリのトグル「線の軌跡を追従フレームで」。🔁 だけ HUD に 1 行(相対近点は零試験済み・画面の流れは u=V)。**プリセットの鍵として宣言する経路は無い**(camera・overlays は presetSig に入るため)。
+- **ライブ比較の周期の定義**: `LIVE_COMPARE_SPEC` の周期の量に観測側の定義 `od`(revolution / periastron / null=未宣言)を宣言し、推定器の定義(`LC_EST_DEF` —— 正本の periodDef と同じ語)と並べて「定義: 今回=…・観測=…」を出す(違えば「別量」・観測側が未宣言なら何も足さない)。正本の行名と推定器の定義が食い違う ⚡🧮 は表示名を生成(`cond` —— 「近点間周期(kFrame=1・観測質量 f=1)」)。照合の鍵は正本の行名のまま。
+- 読み口(HP 公開): `HP.trailFrame`(`decl`・`mode`・`set`・`anchor`・`rec`・`bufs`)・`HP.groupCardNote`・`HP.liveCompare.labelOf`・`HP.liveCompare.estDef`。
+- QA: **`ui.gwGroupMove`**・**`ui.trailFollowFrame`**・**`ui.liveComparePeriodDef`**(root は SKIP)・docs/PHYSICS.md〔第287便d〕。

@@ -117,6 +117,9 @@ function targetOf(p) {
 }
 function systemOf(p) {
   if (p.sampleClass === 'calibration') return p.kFrame === 0 ? 'kf0' : 'dfm';
+  // 第287便d(原仮定者の裁定(第77報)AN71・R108): BH 連星の家族は group を「現実との照合・連星」へ移した(表示だけ)。
+  // 家族の principle(⚛️ gw150914SpinDipole)は group で落とさず analogy のまま(🎐🎻⏰ は上の calibration の行で kf0/dfm)
+  if (p.familyId === 'gw150914' && p.sampleClass === 'principle') return 'analogy';
   if (p.scaleTier === 'galactic' || p.group === '実在天体のアナロジー' || p.group === '銀河の力学') return 'analogy';
   return 'outside';
 }

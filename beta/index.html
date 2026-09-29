@@ -1423,6 +1423,19 @@ ja: {
   lcReason:{init:"起動", preset:"サンプル読込", reload:"初めから・再読込", diverged:"発散停止", gap:"步の欠け", restart:"初めから", condition:"実行条件の変更", checkpoint:"チェックポイント復元", save:"セーブ読込", on:"表示 ON", ab:"A/B", rewind:"時刻の巻き戻り", nchange:"粒子数の変化"},
   lcCond:"条件がプリセット既定と違う",
   lcCardHead:"ライブ(今回の走行)",
+  // 第287便d(AN65): 周期の定義(同方向公転周期と近点間周期は**別量**)。今回=推定器の定義・観測=観測値の定義
+  lcDefName:{revolution:"同方向公転周期", periastron:"近点間周期", undeclared:"未宣言"},
+  lcDefLine:(m,o,rel)=>"定義: 今回="+m+"・観測="+o+(rel==="differ"? "(別量)" : ""),
+  lcDefShort:{revolution:"同方向", periastron:"近点間", undeclared:"未宣言"},
+  lcDefLineShort:(m,o,rel)=>rel==="same"? "定義 今回・観測とも "+m : "定義 今回="+m+"・観測="+o+(rel==="differ"? "(別量)" : ""),
+  // 第287便d(AN72): 線の軌跡の追従フレーム・🔁 の HUD 1 行
+  tgTrailFollow:"線の軌跡を追従フレームで",
+  tgTrailFollowDesc:"線の軌跡を、カメラ追従の既定の天体(camera.follow)から見た相対位置で積んで描く(表示専用 —— 力学・保存 JSON・署名は変わらない)。宣言した本(🔁)だけ既定 ON・他は世界座標のまま。切り替えると積んだ線は引き直す。",
+  hudTrailFollowNull:"相対近点は零試験済み(☄️ との差 10⁻¹² °/周の桁)・画面の流れは u=V(≈230 km/s)の一様な移送 —— 線の軌跡は太陽を原点にした追従フレーム",
+  // 第287便d(AN71): 群を移した BH 連星の家族のカードの 1 行(side table GROUP_CARD_NOTE)
+  gcnCal:"BH 連星の家族(🎐🎻⏰⚛️)は「現実との照合・連星」に置く(第287便d・表示だけ —— 群の名前は合否を意味しない)。geoPN=0・較正母集団の門には入れない(σ 未接続)。",
+  gcnCalF2:"BH 連星の家族(🎐🎻⏰⚛️)は「現実との照合・連星」に置く(第287便d・表示だけ —— 群の名前は合否を意味しない)。geoPN=0・較正母集団の門には入れない(σ 未接続)。f≈2 は履歴の質量則として名前に残す(f=1・geoPN=1 へは上げていない)。",
+  gcnPrinciple:"BH 連星の家族(🎐🎻⏰⚛️)は「現実との照合・連星」に置く(第287便d・表示だけ —— 群の名前は合否を意味しない)。本サンプルは原理サンプル —— geoPN=0・較正母集団の外。",
   lcCardOff:"グラフ「ライブ比較」を ON にすると今回の走行を測る(OFF のあいだは測らない)",
   lcLaps:(n)=>`${n} 周`, lcPeri:(n)=>`近点 ${n}`,
   helpLiveCompare:"グラフ「ライブ比較」(第286便d)は、開いている本の今回の走行を物理 step ごとに測り(位置・速度の読み出しだけ)、正本の観測値と並べる表示専用のグラフです。白線=観測値、緑の帯=±3σ(σ のある量だけ)、赤い点=今回の値、◇=前回の較正(判定段の値の転記)。**暫定値であって正式判定を置き換えない**(帯の中でも合否の語は出さない)。量の宣言が無い本は「ライブ計測未対応」と出ます。",
@@ -1901,10 +1914,10 @@ ja: {
     "光の伝播":"重力レンズと光子捕捉・回る星のレンズ・連星重力レンズ・暗黒雲の赤化など、光の伝わり方と見え方が主題。",
     "天体の機構":"物語・トイ系で天体の機構を見る群。実単位で現実へ較正したサンプルは「現実との照合・太陽系/連星」へ移してある。",
     "現実との照合・太陽系":"スケール換算込みで数値を現実の太陽系天体へ較正したサンプルと、その較正を監査する対照群。**群の名前(「照合」)は合否を意味しない**。",
-    "現実との照合・連星":"太陽系の外の実在系(恒星連星・中性子星連星)へ較正したサンプル。観測値再現版(観測安定則)と DFM 版(kF1 質量較正)の対で構成する(第220便で「現実との照合」から分割 — 今後の現実較正の増加に備えた区分)。第272便d で、実在天体の**模型**として置いてある 11 本を「実在天体のアナロジー」へ移した。第273便a で「現実との照合・太陽系外」から改名した(中身は不変)。**群の名前は合否を意味しない**。",
+    "現実との照合・連星":"太陽系の外の実在の連星(恒星連星・中性子星連星・BH 連星)のサンプル。観測値再現版(観測安定則)と DFM 版(kF1 質量較正)の対で構成する(第220便で「現実との照合」から分割 — 今後の現実較正の増加に備えた区分)。第272便d で、実在天体の**模型**として置いてある 11 本を「実在天体のアナロジー」へ移した。第273便a で「現実との照合・太陽系外」から改名した(中身は不変)。第287便d で **BH 連星(🎐🎻⏰⚛️)を家族のまま**「実在天体のアナロジー」からここへ移した(表示だけ・物理は不変)。**BH 連星は geoPN=0** で、🎐🎻⏰ は**較正母集団の門には入れない**(σ 未接続)。🎻 の f≈2 は履歴の質量則として名前に残す(f=1・geoPN=1 へは上げていない)。⚛️ は原理サンプル(較正母集団の外)。**群の名前は合否を意味しない**。",
     // 第272便d(第62報「実在天体アナロジーサンプルを新グループへ」): **表示・分類だけの新グループ**。
     // 「観測と一致した」という意味は持たない —— 比較器の状態(comparable/inside/…)で並べるだけである
-    "実在天体のアナロジー":"実在天体の**模型**を、比較 v1 の状態(comparable / inside / not-applicable など)で観測と並べるサンプル群。**観測一致版ではない**(この群に入っていることは合否を意味しない)。較正クラスの母集団・比較器の導線・旧較正の履歴はそのまま残している。",
+    "実在天体のアナロジー":"実在天体の**模型**を、比較 v1 の状態(comparable / inside / not-applicable など)で観測と並べるサンプル群。**観測一致版ではない**(この群に入っていることは合否を意味しない)。較正クラスの母集団・比較器の導線・旧較正の履歴はそのまま残している。第287便d で BH 連星の家族(🎐🎻⏰⚛️)は「現実との照合・連星」へ移した(表示だけ)。",
     "銀河の力学":"銀河の回転曲線・銀河合体・自己重力雲の崩壊など、銀河スケールの力学と構造が主題。",
     // 第272便d(第62報「ダークローターは『減光』の検証用という位置付けにとどめる」): 群の達成条件を書く
     "自転と減光":"**自転状態による減光を確認する実験群**。表示輝度・脱出光・吸収・放射エネルギーを比較する。**銀河の不足質量や観測ブラックホールの再現を、この群の達成条件に含めない**(暗さを「隠れた質量の証拠」として読まない — 暗さと質量は別々に測る)。実在のダークマターについての主張ではない。",
@@ -2368,6 +2381,16 @@ en: {
   lcReason:{init:"start-up", preset:"sample load", reload:"restart / reload", diverged:"diverged", gap:"missed steps", restart:"restart", condition:"run conditions changed", checkpoint:"checkpoint restore", save:"save load", on:"display ON", ab:"A/B", rewind:"time rewound", nchange:"particle count changed"},
   lcCond:"conditions differ from the preset",
   lcCardHead:"Live (this run)",
+  lcDefName:{revolution:"same-direction revolution period", periastron:"periastron-to-periastron period", undeclared:"not declared"},
+  lcDefLine:(m,o,rel)=>"Definition: now="+m+", obs="+o+(rel==="differ"? " (different quantities)" : ""),
+  lcDefShort:{revolution:"same-dir rev", periastron:"peri-to-peri", undeclared:"undeclared"},
+  lcDefLineShort:(m,o,rel)=>rel==="same"? "Def: now & obs both "+m : "Def: now "+m+", obs "+o+(rel==="differ"? " (differ)" : ""),
+  tgTrailFollow:"Line trails in the follow frame",
+  tgTrailFollowDesc:"Record and draw the line trails as positions relative to the default camera-follow body (camera.follow). Display only — the dynamics, the save JSON and the signature do not change. ON by default only where declared (🔁); elsewhere trails stay in world coordinates. Switching redraws the trails from scratch.",
+  hudTrailFollowNull:"Relative periapsis passed its null test (difference from ☄️ of order 10⁻¹² deg/orbit); the drift on screen is the uniform transport u=V (≈230 km/s) — line trails are in the follow frame centred on the Sun",
+  gcnCal:"The binary-black-hole family (🎐🎻⏰⚛️) sits in \"Reality Checks — Binaries\" (wave 287d, display only — the group name says nothing about pass or fail). geoPN=0; it does NOT enter the calibration-population gate (no σ connected).",
+  gcnCalF2:"The binary-black-hole family (🎐🎻⏰⚛️) sits in \"Reality Checks — Binaries\" (wave 287d, display only — the group name says nothing about pass or fail). geoPN=0; it does NOT enter the calibration-population gate (no σ connected). f≈2 stays in the name as the historical mass law (it was not raised to f=1 or geoPN=1).",
+  gcnPrinciple:"The binary-black-hole family (🎐🎻⏰⚛️) sits in \"Reality Checks — Binaries\" (wave 287d, display only — the group name says nothing about pass or fail). This is a principle sample — geoPN=0, outside the calibration population.",
   lcCardOff:"Turn on the \"Live comparison\" graph to measure this run (nothing is measured while it is OFF)",
   lcLaps:(n)=>`${n} laps`, lcPeri:(n)=>`${n} periastra`,
   helpLiveCompare:"The \"Live comparison\" graph (wave 286d) measures this run of the open sample at every physics step (positions and velocities are only read) and sets it against the canonical observed value — display only. White line = observed value, green band = ±3σ (only where a σ exists), red dot = this run, ◇ = previous calibration (the judged-stage value, transcribed). PROVISIONAL AND DOES NOT REPLACE THE FORMAL VERDICT (no pass/fail word even inside the band). Samples without a declaration show \"live measurement not supported\".",
@@ -2826,8 +2849,8 @@ en: {
     "光の伝播":"The subject is how light travels and appears: gravitational lensing and photon capture, the lens of a spinning star, binary lensing, reddening by a dark cloud.",
     "天体の機構":"Narrative / toy systems that show celestial mechanisms. Samples calibrated to reality in real units live under \"Reality Checks — Solar System / Binaries\".",
     "現実との照合・太陽系":"Samples whose numbers are calibrated — unit conversion included — against real solar-system counterparts, plus the controls that audit that calibration. THE GROUP NAME SAYS NOTHING ABOUT PASS OR FAIL.",
-    "現実との照合・連星":"Samples calibrated against real systems beyond the solar system (stellar binaries and the double neutron-star binary). Built as pairs: an observation build (the observation-stability rule) and a DFM build (the kF1 mass calibration). Split out of \"Reality Checks\" in wave 220, anticipating more reality calibrations. Wave 272d moved the 11 samples that stand as MODELS of real objects to \"Real-object Analogies\". Renamed from \"Reality Checks — Beyond the Solar System\" in wave 273a (contents unchanged). THE GROUP NAME SAYS NOTHING ABOUT PASS OR FAIL.",
-    "実在天体のアナロジー":"MODELS of real astronomical objects, placed beside the observations through the v1 comparison state (comparable / inside / not-applicable and so on). THEY ARE NOT OBSERVATION-MATCHING BUILDS — membership of this group says nothing about pass or fail. The calibration-class population, the comparison links and the older calibration history are all kept unchanged.",
+    "現実との照合・連星":"Samples of real binaries beyond the solar system (stellar binaries, the double neutron-star binaries and the binary black hole). Built as pairs: an observation build (the observation-stability rule) and a DFM build (the kF1 mass calibration). Split out of \"Reality Checks\" in wave 220, anticipating more reality calibrations. Wave 272d moved the 11 samples that stand as MODELS of real objects to \"Real-object Analogies\". Renamed from \"Reality Checks — Beyond the Solar System\" in wave 273a (contents unchanged). Wave 287d moved THE BINARY BLACK HOLE (🎐🎻⏰⚛️) here AS ONE FAMILY from \"Real-object Analogies\" (display only; the physics is unchanged). THE BINARY BLACK HOLE RUNS AT geoPN=0 and 🎐🎻⏰ DO NOT ENTER THE CALIBRATION-POPULATION GATE (no σ connected). 🎻's f≈2 stays in its name as the historical mass law (it was not raised to f=1 or geoPN=1). ⚛️ is a principle sample (outside the calibration population). THE GROUP NAME SAYS NOTHING ABOUT PASS OR FAIL.",
+    "実在天体のアナロジー":"MODELS of real astronomical objects, placed beside the observations through the v1 comparison state (comparable / inside / not-applicable and so on). THEY ARE NOT OBSERVATION-MATCHING BUILDS — membership of this group says nothing about pass or fail. The calibration-class population, the comparison links and the older calibration history are all kept unchanged. Wave 287d moved the binary-black-hole family (🎐🎻⏰⚛️) to \"Reality Checks — Binaries\" (display only).",
     "銀河の力学":"The subject is dynamics and structure on galactic scales: rotation curves, galaxy mergers, collapse of self-gravitating clouds.",
     "自転と減光":"EXPERIMENTS THAT CHECK DIMMING BY ROTATION STATE: they compare displayed brightness, escaping light, absorption and radiated energy. REPRODUCING A GALAXY'S MISSING MASS OR AN OBSERVED BLACK HOLE IS NOT PART OF THIS GROUP'S SUCCESS CRITERIA — darkness is never read as evidence of hidden mass; darkness and mass are measured separately. Not a claim about real dark matter.",
     "箱宇宙の実験":"Experiments in which the box itself stands for a universe (translation, rotation, expansion, breathing, redshift of light). The reference document is docs/BOX_UNIVERSE.md.",
@@ -3558,6 +3581,11 @@ const MASS_BASIS={
   tuc47DFM:{kind:"undeclared", note:"🍇 と同じ理由。平均場 χ-law の f は**質量補正であって観測質量ではない**。", noteEn:"Same reason as the observation build. The mean-field chi-law f is a MASS CORRECTION, not an observed mass."}
 };
 // 宣言を読む(**未宣言と \"undeclared\" は null** —— チップを出さない)。f は preset 側の台帳から読む
+// ===== 第287便d(原仮定者の裁定(第77報)⑤・AN71・統括の検証項目 R108): **群を移した本のカードの 1 行** =====
+// 🎐🎻⏰⚛️(familyId gw150914)は「実在天体のアナロジー」から「現実との照合・連星」へ**家族ごと**移した(group 文字列だけ)。
+// 第283便a の食い違い(較正クラスなのに geoPN=0 —— 🔆🎐🎻⏰)は群を移しても消えないので、カードに
+// 「geoPN=0・較正母集団の門には入れない」を残す。**side table**(presetSig・保存 JSON・力学の外)。値は i18n の鍵。
+const GROUP_CARD_NOTE={gw150914:"gcnCal", gw150914DFM:"gcnCalF2", gw150914Merge4s:"gcnCal", gw150914SpinDipole:"gcnPrinciple"};
 function massBasisOf(p){
   if(!p) return null;
   const e=MASS_BASIS[p.id]; if(!e) return null;
@@ -15760,7 +15788,7 @@ const BUILTIN_PRESETS = [
 // 半径は Schwarzschild 換算 r_s=2GM/c²(宣言つき代理値)・自転は上限値のみで spin=0 宣言。
 // **本サンプルは基準状態(f_GW,det=10Hz)のスナップショット** — 実系はここから約4.0秒・数十公転で
 // 合体する(Peters 換算)。DFM は合体・チャープを再現しない(🎻 の宣言参照)。
-{ id:"gw150914", name:"GW150914(実単位)— 連星ブラックホールの基準状態", emoji:"🎐", group:"実在天体のアナロジー",
+{ id:"gw150914", name:"GW150914(実単位)— 連星ブラックホールの基準状態", emoji:"🎐", group:"現実との照合・連星",   // 第287便d(原仮定者の裁定(第77報)⑤・AN71): 家族ごと「実在天体のアナロジー」から移す(表示だけ —— presetSig は group を見ない・物理 1 bit 不変)
   familyId:"gw150914", familyRole:"variant",   // ✨✴️🌟💫📻⚡ と同じ建付け: DFM 版 🎻 が仲間のメイン
   scaleTier:"planetary",   // L=4 は everyday(0)と planetary(8)の等距離 — 天体系として planetary を宣言(表示のみ)
   scaleExp:{L:4, T:-3, M:29},   // 第223便: 合体連星族(1単位=10⁴m/10⁻³s/10²⁹kg・c₀=30・G=6.674)
@@ -15894,7 +15922,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"gw150914DFM", name:"GW150914(DFM版)— pull 重み・kF1 質量較正(f≈2)", emoji:"🎻", group:"実在天体のアナロジー",
+{ id:"gw150914DFM", name:"GW150914(DFM版)— pull 重み・kF1 質量較正(f≈2)", emoji:"🎻", group:"現実との照合・連星",   // 第287便d(原仮定者の裁定(第77報)⑤・AN71): 家族ごと「実在天体のアナロジー」から移す(表示だけ —— presetSig は group を見ない・物理 1 bit 不変)
   familyId:"gw150914", familyRole:"primary",   // ✴️💫⚡ と同じ建付け: DFM 版が仲間のメイン
   scaleTier:"planetary",
   scaleExp:{L:4, T:-3, M:29},   // 🎐 と同じ単位系(1単位=10⁴m/10⁻³s/10²⁹kg — L−T=7 合体連星族)
@@ -16056,7 +16084,7 @@ const BUILTIN_PRESETS = [
 // ===== 第247便b(第39報「コンパクト天体連星が解決しないと星団や銀河に進めない」): GW150914 の
 // ===== 合体(放射の**方向**と**用量**)と Kerr Q の原理サンプル。**🎻 本体は 1 bit も書き換えない**
 // ===== (petersScale 未宣言=1・petersDirection 未宣言=従来方向で、既定経路は完全に不変)。
-{ id:"gw150914Merge4s", name:"GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant", emoji:"⏰", group:"実在天体のアナロジー",
+{ id:"gw150914Merge4s", name:"GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant", emoji:"⏰", group:"現実との照合・連星",   // 第287便d(原仮定者の裁定(第77報)⑤・AN71): 家族ごと「実在天体のアナロジー」から移す(表示だけ —— presetSig は group を見ない・物理 1 bit 不変)
   familyId:"gw150914", familyRole:"variant",   // 仲間のメインは 🎻(primary)のまま
   scaleTier:"planetary",
   scaleExp:{L:4, T:-3, M:29},   // 🎐🎻 と同じ単位系(1単位=10⁴m/10⁻³s/10²⁹kg — L−T=7 合体連星族)
@@ -16147,7 +16175,7 @@ const BUILTIN_PRESETS = [
 // 第247便b(Grok v5 §5B): Kerr の Q=χGm²/c を λ=1(=G/c² の物理係数)で見る**原理サンプル**。
 // **較正には足さない**(claim 窓にしない・🎻 の台帳には入れない)。質量は f≈2 の較正値ではなく
 // **観測質量**を使う — η は質量の比で決まるので、較正質量を使うと GR 比が 4 倍に歪むため(第38報)。
-{ id:"gw150914SpinDipole", name:"BH 合体直前のスピン双極子 — λ=1 の届く場所(原理)", emoji:"⚛️", group:"実在天体のアナロジー",
+{ id:"gw150914SpinDipole", name:"BH 合体直前のスピン双極子 — λ=1 の届く場所(原理)", emoji:"⚛️", group:"現実との照合・連星",   // 第287便d(原仮定者の裁定(第77報)⑤・AN71): 家族ごと「実在天体のアナロジー」から移す(表示だけ —— presetSig は group を見ない・物理 1 bit 不変)
   familyId:"gw150914", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:4, T:-3, M:29},
@@ -27744,7 +27772,7 @@ function overlaySlots(){
 const ovMin={rotationCurve:false,tempHistogram:false,spectrum:false,boxGraph:false,phaseGraph:false,mechSpectrum:false,emergence:false,liveCompare:false};
 const OV_H=92, OV_HMIN=16;
 // 第61便 61B(レビューP1「phaseGraph 二段化」): グラフごとの展開高さ(未登録は OV_H)
-const OV_HK={phaseGraph:152, mechSpectrum:152, emergence:132, liveCompare:158};   // 第286便d: ライブ比較は 158   // 第66便 66C: 機構スペクトルは二段(全体+半径ビン)。第82便B: 創発モニタも二段
+const OV_HK={phaseGraph:152, mechSpectrum:152, emergence:132, liveCompare:167};   // 第286便d: ライブ比較は 158 / 第287便d: 周期の定義の 1 行で 167   // 第66便 66C: 機構スペクトルは二段(全体+半径ビン)。第82便B: 創発モニタも二段
 const ovH=(key)=>OV_HK[key]||OV_H;
 let ovHit=[];   // グラフのトグル用タップ領域(キャンバス座標。描画のたびに再登録)
 function overlayBaseY(slot){
@@ -28432,21 +28460,43 @@ function lmValue(st,est,toSec){
 // 前回の較正を引く・est=推定器)を宣言する。**観測値と σ はこの表に書かない**(正本の転記を読む)。
 // est:null の量は「未対応」と理由(why)を出す(円に近い軌道では近点を無理に測らない)。
 // 推定器は判定器の行の定義(calaudit の periodDef・method)と同じもの —— QA ui.liveCompare が正本と突き合わせる。
+// 第287便d(原仮定者の裁定(第77報)AN65・統括の検証項目 R112): **周期の定義を量として持つ**。
+//   ・n は正本の行名(**照合の鍵** —— lcRowOf が OBS_COMPARE_ROWS と calaudit の quantities を 1 対 1 で引く。ここで書き換えない)。
+//   ・今回の定義は推定器から決まる(LC_EST_DEF: rev → 同方向公転周期・peri → 近点間周期 —— 正本の periodDef と同じ語)。
+//   ・od = **観測値の周期の定義**(revolution / periastron / null=未宣言)。出どころ: 離心タイミング連星(📻⚡🧮)の P_b は
+//     近点間の平均周期(calaudit の定義契約 ECC_TIMING_BINARY・第251便c)・恒星月と惑星の公転周期は恒星に対する同方向の 1 周
+//     (🌘 の近点間行の観測欄「近点間は観測の恒星月に対応しない」)。視覚連星(✨🌟)と ❄️ は軌道要素の当てはめの P で、
+//     どちらの定義かを宣言していない(null —— 推定で埋めない)。
+//   ・cond = 表示名の条件の句(正本の行名が推定器と違う定義を名乗っている行だけ)。⚡🧮 の正本の行名「… — 同方向1周」は、
+//     正本の periodDef(periastron)・推定器 peri と食い違うので、表示名は**今回の定義の語(近点間周期)+条件の句**を生成する。
+//     正本の行名そのもの(obsCard の q)を改めるのは calaudit 以下の再生成と名前鍵の表に波及するので、本便では表示名で分ける。
 const LIVE_COMPARE_SPEC={
-  earthMoonReal:{c:0, o:1, q:[{n:"恒星月", est:"rev"}]},
-  earthMoonRealKF1:{c:0, o:1, q:[{n:"恒星月・同方向1周(履歴 — 現行 QA の定義)", est:"rev"},
-    {n:"恒星月・近点間(第250便d — 定義併記)", est:"peri"}, {n:"近点回転の周期", est:"aps"}]},
-  mercuryReal:{c:0, o:1, q:[{n:"公転周期", est:"rev"}, {n:"近日点前進(推定器つき宣言 — 第250便d)", est:"prec"}]},
-  plutoCharonReal:{c:0, o:1, q:[{n:"公転周期(kFrame=1・E6′-R)同方向1周", est:"rev"},
-    {n:"公転周期(kFrame=1)近点間(第250便d)", est:null, why:"nearCircular"}]},
-  alphaCenAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev"}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
-  siriusAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev"}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
-  psrDoubleAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"peri"}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"},
+  earthMoonReal:{c:0, o:1, q:[{n:"恒星月", est:"rev", od:"revolution"}]},
+  earthMoonRealKF1:{c:0, o:1, q:[{n:"恒星月・同方向1周(履歴 — 現行 QA の定義)", est:"rev", od:"revolution"},
+    {n:"恒星月・近点間(第250便d — 定義併記)", est:"peri", od:"revolution"}, {n:"近点回転の周期", est:"aps"}]},
+  mercuryReal:{c:0, o:1, q:[{n:"公転周期", est:"rev", od:"revolution"}, {n:"近日点前進(推定器つき宣言 — 第250便d)", est:"prec"}]},
+  plutoCharonReal:{c:0, o:1, q:[{n:"公転周期(kFrame=1・E6′-R)同方向1周", est:"rev", od:null},
+    {n:"公転周期(kFrame=1)近点間(第250便d)", est:null, why:"nearCircular", od:null}]},
+  alphaCenAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev", od:null}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
+  siriusAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev", od:null}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
+  psrDoubleAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"peri", od:"periastron"}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"},
     {n:"近点前進(1PN — 合わせない照合)", est:"prec"}]},
-  psrDoubleABDFM:{c:0, o:1, q:[{n:"公転周期(kFrame=1・観測質量 f=1 — 同方向1周)", est:"peri"}]},
-  psrJ1757DFM:{c:0, o:1, q:[{n:"公転周期(kFrame=1・観測質量 f=1 — 同方向1周)", est:"peri"},
+  psrDoubleABDFM:{c:0, o:1, q:[{n:"公転周期(kFrame=1・観測質量 f=1 — 同方向1周)", est:"peri", od:"periastron",
+    cond:{ja:"kFrame=1・観測質量 f=1", en:"kFrame=1, observed masses f=1"}}]},
+  psrJ1757DFM:{c:0, o:1, q:[{n:"公転周期(kFrame=1・観測質量 f=1 — 同方向1周)", est:"peri", od:"periastron",
+    cond:{ja:"kFrame=1・観測質量 f=1", en:"kFrame=1, observed masses f=1"}},
     {n:"離心率(hold-out — 合わせていない)", est:"eProxy"}, {n:"近点移動(**hold-out** — 較正に使っていない)", est:"prec"}]},
 };
+// 第287便d: 推定器 → 今回の周期の定義(正本 calaudit の periodDef と同じ語)。周期の推定器でなければ null
+const LC_EST_DEF={rev:"revolution", peri:"periastron"};
+// 表示名: cond があれば「今回の定義の語(条件の句)」を**生成**する(行名の文字列置換はしない)・無ければ正本の行名
+function lcLabelOf(qd){
+  if(!qd) return "";
+  const d=LC_EST_DEF[qd.est];
+  if(qd.cond && d){ const en=(LANG==="en"), c=en? (qd.cond.en||qd.cond.ja) : qd.cond.ja;
+    const w=T("lcDefName")[d]; return en? (w.charAt(0).toUpperCase()+w.slice(1)+" ("+c+")") : (w+"("+c+")"); }
+  return qd.n;
+}
 const LC_EST_UNIT={rev:"s", peri:"s", aps:"s", prec:"deg/orbit", eProxy:"-"};
 const LC_SCALES=["si","pct","sigma"];
 // 正本の行(本 id と量の名前で 1 行 —— 無ければ null)
@@ -28532,7 +28582,9 @@ function lcSnapshot(){
   if(!sp) return S;
   for(const qd of sp.q){
     const row=lcRowOf(id,qd.n);
-    const x={name:qd.n, est:qd.est, why:qd.why||null, row:!!row, unit:row? row.u : null,
+    const md=LC_EST_DEF[qd.est]||null, od=md? ((qd.od==="revolution" || qd.od==="periastron")? qd.od : "undeclared") : null;
+    const x={name:qd.n, label:lcLabelOf(qd), est:qd.est, why:qd.why||null, row:!!row, unit:row? row.u : null,
+      def:md, obsDef:od, defRel:(md===null)? null : ((od==="undeclared")? "unknown" : (md===od? "same" : "differ")),
       obs:row? row.o : null, sigma:row? row.s : null, ref:row? {v:row.v, st:row.st} : null,
       mapping:lcMappingOf(row), mapWhy:(row && row.r!==null && row.r!==undefined)? (OBS_COMPARE_REASONS[row.r]||null) : null,
       v:null, n:0, need:0, win:null, se:null, hist:[], status:"measuring", diff:{si:null, pct:null, sigma:null},
@@ -28599,6 +28651,7 @@ function lcCardText(S,x){
     s+=" · "+T("lcDiff")+" "+lcDiffTxt(lcDiffIn(x,x.v,sc),sc,lcUnit(x.unit));
     s+=" · "+(x.est==="rev" || x.est==="eProxy"? T("lcLaps")(x.n) : T("lcPeri")(x.n));
   }
+  if(x.def) s+=" · "+T("lcDefLine")(T("lcDefName")[x.def], T("lcDefName")[x.obsDef], x.defRel);   // 第287便d(AN65)
   return s+" — "+T("lcProv");
 }
 function lcCardSync(){
@@ -28622,7 +28675,7 @@ function drawLiveCompare(slot=0){
     liveCmp.snap=lcSnapshot(); liveCmp.snapAt=now; lcCardSync(); }
   if(ovOverlayMin("liveCompare",slot,T("ovLiveCompare"))) return;
   const S=liveCmp.snap, uz=uiFontScale, W=150, H=OV_HK.liveCompare, ox=cw-W*uz-8, oy=overlayBaseY(slot);
-  const rec={texts:[], band:false, obsLine:false, now:false, ref:false, clip:0, hist:0, q:null, status:null, scale:null, scaleWhy:null};
+  const rec={texts:[], band:false, obsLine:false, now:false, ref:false, clip:0, hist:0, q:null, label:null, def:null, obsDef:null, defRel:null, status:null, scale:null, scaleWhy:null};
   const tx=(s,x,y,col)=>{ ctx.fillStyle=col||"#dfe4ff"; ctx.fillText(s,x,y); rec.texts.push(s); };
   const fit=(s,w)=>{ if(ctx.measureText(s).width<=w) return s; let t=s; while(t.length>1 && ctx.measureText(t+"…").width>w) t=t.slice(0,-1); return t+"…"; };
   ctx.save(); ctx.translate(ox,oy); ctx.scale(uz,uz);
@@ -28637,9 +28690,9 @@ function drawLiveCompare(slot=0){
     tx(fit(T("lcNoneSub"),W-12),6,36,"#8b93c8");
     rec.status=S.supported? "unsupported" : "none";
   }else{
-    rec.q=x.name; rec.status=x.status;
+    rec.q=x.name; rec.label=x.label; rec.def=x.def; rec.obsDef=x.obsDef; rec.defRel=x.defRel; rec.status=x.status;
     if(S.q.length>1){ tx((liveCmp.qi+1)+"/"+S.q.length+" ▸",W-48,11,"#8bd3ff"); }
-    tx(fit(x.name,W-12),6,20,"#dfe4ff");
+    tx(fit(x.label||x.name,W-12),6,20,"#dfe4ff");   // 第287便d: 表示名(定義を生成して付けた名前 —— 照合の鍵は x.name のまま)
     tx(fit(lcStatusTxt(x)+(x.win? " · "+T("lcWin")(x.win[0],x.win[1]) : "")
       +(S.tCalc!==null? " · t="+lcFmt(S.tCalc) : ""),W-12),6,29,x.status==="provisional"? "#57d38c" : "#e0a05a");
     // ---- グラフ(縦軸 = 観測との差・横軸 = 公転数/近点の番号 —— fps・再生倍率は使わない)----
@@ -28682,6 +28735,10 @@ function drawLiveCompare(slot=0){
     tx("["+T("lcScale")[liveCmp.scale]+" ▸]",W-36,117,"#8bd3ff");
     tx(fit("◇ "+T("lcRef")+" "+(x.ref? lcFmt(x.ref.v)+us+"("+T("lcStage")+" "+x.ref.st+")" : "—"),W-12),6,126,"#ffc84f");
     tx(fit(x.mapping? T("lcMapNote") : T("lcEst")[x.est||"none"],W-12),6,135,"#8b93c8");
+    // 第287便d(AN65): 周期の量だけ、今回と観測の**周期の定義**を 1 行(同方向公転周期と近点間周期は別量)
+    if(x.def){ ctx.font="6px sans-serif";   // グラフは幅 150 —— 短い語で 1 行に収める(観測カードは長い語)
+      tx(fit(T("lcDefLineShort")(T("lcDefShort")[x.def], T("lcDefShort")[x.obsDef], x.defRel),W-12),6,144,x.defRel==="differ"? "#e0a05a" : "#8b93c8");
+      ctx.font="7px sans-serif"; }
     ovHit.push({x:ox+(W-50)*uz, y:oy, w:28*uz, h:14*uz, key:"liveCompare", fn:lcCycleQ});
     ovHit.push({x:ox+(W-40)*uz, y:oy+110*uz, w:38*uz, h:10*uz, key:"liveCompare", fn:lcCycleScale});
   }
@@ -28800,6 +28857,27 @@ function drawBG(){
 // 第122便(原仮定者指示): 「軌跡を残す」(残像トグル)は廃止 — 粒子が見えなくなる不具合もあり、
 // 軌跡表示は「線の軌跡」(寿命フェード付き)に一本化した
 let trailBuf=[];   // overlays.trail 用の蓄積ポリライン(v1.9 — 長周期の軌道形状を保持する)
+// ===== 第287便d(原仮定者の裁定(第77報)⑤「🔁 は見た目が不安定」・AN72): **線の軌跡の追従フレーム**(表示専用)=====
+// 線の軌跡は世界座標で積んでいた(recTrail が S.x・S.y をそのまま積む)。🔁 mercuryGeoToy3 は一様な u=V=(2.3,0)
+// (230 km/s)で系全体が x へ流れる(carryPin で固定の太陽も 1 step 0.0368 移送)ので、カメラが太陽を追っても
+// 世界座標の線は画面上で伸びたらせんになる —— 相対近点の零試験(☄️ との差 −2.81×10⁻¹² °/周)とは別の、**表示の問題**。
+// 追従フレームは camera.follow の天体を原点にした相対位置で線を積む。**宣言は side table**(presetSig は camera・
+// overlays を見るので、プリセットの鍵には書かない)。宣言した本だけ既定 ON・他は従来どおり world。
+// ユーザーのトグルは同じ本の ⏮ では保持し、別の本を読み込んだら宣言の既定へ戻す。**法則・u=V・pnVelocity は変えない。**
+const TRAIL_FRAME_DECL={
+  mercuryGeoToy3:{trail:"follow", hud:"hudTrailFollowNull"}
+};
+let trailFrameMode="world", trailFrameId=null;
+function trailFrameDeclOf(p){ const d=p? TRAIL_FRAME_DECL[p.id] : null; return (d && d.trail==="follow")? "follow" : "world"; }
+function trailFrameSyncOnLoad(p){ const id=p? p.id : null; if(id!==trailFrameId){ trailFrameId=id; trailFrameMode=trailFrameDeclOf(p); } }
+function setTrailFrame(m){ const nm=(m==="follow")? "follow" : "world";
+  if(nm!==trailFrameMode){ trailFrameMode=nm; trailBuf=[]; trailBufB=[]; } }
+// 追従フレームの原点(camera.follow の天体 —— いまの位置)。world のとき・対象が無いときは null
+function trailAnchorOf(S){
+  if(trailFrameMode!=="follow" || !S) return null;
+  const i=camFollowPreset;
+  return (isNum(i) && i>=0 && i<S.n)? [S.x[i],S.y[i]] : null;
+}
 let trailBufB=[];  // v1.19: A/B比較のB側の線の軌跡
 let fusLastN=-1;   // 第44便 44B: 融合による粒子数変化の検出(線の軌跡の引き直し用)
 // 線の軌跡の記録(自由粒子の経路を最大3000点=約100秒・数周分保持)
@@ -28807,6 +28885,13 @@ let fusLastN=-1;   // 第44便 44B: 融合による粒子数変化の検出(線�
 // 約16個」だけを記録 — 🌠merger/🌫️collapse の全粒子軌跡(数百本×3000点)による
 // 描画・メモリ負荷と視認性低下を解消。既定 "all" は従来どおり全自由粒子。
 function recTrail(S,buf){
+  // 第287便d(原仮定者の裁定(第77報)⑤・AN72): **追従フレーム**の軌跡(表示専用)。原点 = camera.follow の天体。
+  // 点は原点からの相対位置で積み、描くときに**いまの**原点を足す。フレームが変わったら積んだ点は捨てる
+  // (世界座標と相対座標の点を 1 本の線に混ぜない)。読むのは x・y だけ —— 力学・保存 JSON・presetSig は不変。
+  const a=trailAnchorOf(S), fr=a? "follow" : "world";
+  if((buf._fr||"world")!==fr){ buf.length=0; }
+  buf._fr=fr;
+  const ax=a? a[0] : 0, ay=a? a[1] : 0;
   const sampled=S.overlays.trailTargets==="sampled";
   let stride=1;
   if(sampled){
@@ -28825,7 +28910,7 @@ function recTrail(S,buf){
   for(let i=0;i<S.n;i++){ if(S.pinned[i]) continue;
     if(sampled && S.m[i]<100 && (k++%stride)!==0) continue;
     const b=buf[i]||(buf[i]=[]);
-    b.push(S.x[i],S.y[i],S.t);
+    b.push(S.x[i]-ax,S.y[i]-ay,S.t);   // world では ax=ay=0(従来と同じ値を積む)
     if(b.length>capF+360) b.splice(0,b.length-capF);
   }
 }
@@ -28836,7 +28921,13 @@ try{ const _tl=parseFloat(localStorage.getItem("hp_trail_life")); if(isFinite(_t
 function setTrailLife(v){ trailLife=Math.max(0,+v||0); try{ localStorage.setItem("hp_trail_life",String(trailLife)); }catch(_){} }
 // 共通の軌跡ポリライン描画(main/A-B 両ビュー)。寿命指定時は6帯の等分ストロークで
 // 残り時間に応じて暗くする(表示専用)
-function drawTrailPolys(bufArr, tNow, SX, SY, n){
+function drawTrailPolys(bufArr, tNow, SX0, SY0, n, S){
+  // 第287便d: 追従フレームで積んだ線は、いまの原点を足して世界座標へ戻して描く(原点が無ければ描かない)
+  let SX=SX0, SY=SY0;
+  if(bufArr && bufArr._fr==="follow"){
+    const a=trailAnchorOf(S); if(!a) return;
+    SX=(x)=>SX0(x+a[0]); SY=(y)=>SY0(y+a[1]);
+  }
   const tst=3*(qLevel()+1);
   for(let i=0;i<n;i++){ const b=bufArr[i]; if(!b||b.length<6) continue;
     let s0=0;
@@ -30269,7 +30360,7 @@ function render(){
   // 軌道トレイルの描画(記録は上の粒子ループ前。グローに隠れないよう最上層に描く)
   if(sim.overlays.trail){
     ctx.lineWidth=1;
-    drawTrailPolys(trailBuf, sim.t, w2sX, w2sY, sim.n);   // 第121便: 寿命フェード対応の共通描画
+    drawTrailPolys(trailBuf, sim.t, w2sX, w2sY, sim.n, sim);   // 第121便: 寿命フェード対応の共通描画 / 第287便d: 追従フレーム
   }
   // 選択粒子の固有時計
   if(selIdx>=0&&selIdx<sim.n){
@@ -30657,7 +30748,7 @@ function drawWorldInto(S, y0, hgt, label, tbuf){
   // v1.19: 線の軌跡(A/B比較でも表示)
   if(S.overlays.trail && tbuf){
     ctx.lineWidth=1;
-    drawTrailPolys(tbuf, S.t, sx, sy, S.n);   // 第121便: 寿命フェード対応の共通描画(A/B側)
+    drawTrailPolys(tbuf, S.t, sx, sy, S.n, S);   // 第121便: 寿命フェード対応の共通描画(A/B側)/ 第287便d: 追従フレーム
   }
   ctx.font="11px sans-serif"; ctx.fillStyle="#dfe4ff";
   ctx.fillText(label, 8, y0+hgt-8);   // 左下(左上は HUD と重なる)
@@ -30719,6 +30810,8 @@ function syncHud(){
   // A/B比較中は simB も同じ座標時間だけ進む(loop() 内 for 文が両方を同じ k だけ step する)ため
   // sim.t===ab.simB.t が常に成り立ち、sim 側だけを見れば両画面の判定を兼ねる
   if(sim.validT!==null && sim.t>sim.validT) txt+=T("hudBeyondWindow")(sim.validT);
+  // 第287便d(原仮定者の裁定(第77報)⑤・AN72): 宣言した本(TRAIL_FRAME_DECL の hud)だけ 1 行 —— 他の本では 1 文字も増えない(表示専用)
+  { const td=currentPreset? TRAIL_FRAME_DECL[currentPreset.id] : null; if(td && td.hud) txt+="\n"+T(td.hud); }
   if(sim.box){ // 第31便: UniverseBox の尺度因子・Hubble 率・現在の背景決定力
     const sc=boxScaleAt(sim.box,sim.t);
     // 第33便: H クランプ可視化 — 安全弁が発動している間は H=+0.500(CLAMP) の様式で明示
@@ -31936,6 +32029,7 @@ function loadPreset(id, keepPhysics){
   qLockOn=!!p.qLock;
   if(qLockOn) applyQLock(sim);
   trailBuf=[]; trailBufB=[];  // 軌道トレイルはプリセット読込・⏮初めからでリセット
+  trailFrameSyncOnLoad(p);    // 第287便d: 線の軌跡の追従フレーム(別の本なら宣言の既定へ・同じ本の ⏮ ではユーザーの選択を保持)
   emergenceReset();           // 第82便B: 創発モニタの履歴もプリセット読込でリセット(表示層のみ)
   pmReset();                  // 第83便B: 相図の結果はプリセット単位・セッション内のみ(保存しない)
   applyPresetMonitor(sim);   // v1.12: プリセット既定の保存量モニタ / 第255便c: 永続は camFollow 方式(hp_monitor を上書きしない)
@@ -32132,6 +32226,7 @@ function abStart(key, valB, bodyPatch){
       const j=nm[selIdx]; if(j!==selIdx){ selIdx=j; updateBodyEdit(); } }
   };
   trailBufB=trailBuf.map(b=>b.slice());   // 線の軌跡も現在までの履歴ごと複製
+  trailBufB._fr=trailBuf._fr;             // 第287便d: 積んだフレーム(world/follow)も写す
   if(key!==undefined){
     const c=CLAMPS[key];
     ab.simB.params[key]=clamp(valB,c[0],c[1]); ab.simB.updateRadii();
@@ -33648,6 +33743,10 @@ function buildParamRows(){
     // v1.19: 線の軌跡(overlays.trail)をトグル化。A/B比較中はB側にも連動
     ["trail",T("tgTrailLine"),()=>!!sim.overlays.trail,
       (v)=>{ setOv("trail")(v); if(!v){ trailBuf=[]; trailBufB=[]; } },"tgTrailLineDesc"],
+    // 第287便d(AN72): 線の軌跡の追従フレーム(表示専用・sim.overlays には書かない —— 保存 JSON・presetSig は不変)。
+    // 既定は side table TRAIL_FRAME_DECL(🔁 だけ ON)。切り替えると積んだ線は引き直す
+    ["trailFollow",T("tgTrailFollow"),()=>trailFrameMode==="follow",
+      (v)=>{ setTrailFrame(v? "follow" : "world"); },"tgTrailFollowDesc"],
     ["field",T("tgField"),()=>!!sim.overlays.field,setOv("field"),"tgFieldDesc"],
     // 第253便a(第45報): 空間メッシュ(表示のみ・既定 OFF・力学へは一切影響しない)
     // 第254便b: 宣言したモード(物質線など)が OFF→ON で落ちないよう、直前のモードを覚えて復元する
@@ -37020,6 +37119,11 @@ function renderHelp(){
   if(retiredOf(currentPreset)){
     const rn=document.createElement("p"); rn.id="retiredNotice"; rn.className="note retiredNotice";
     rn.textContent=retiredNoticeText(currentPreset); el.appendChild(rn);
+  }
+  // 第287便d(原仮定者の裁定(第77報)⑤・AN71・R108): 群を移した BH 連星の家族のカードに 1 行(side table・表示専用)
+  if(GROUP_CARD_NOTE[currentPreset.id]){
+    const gn=document.createElement("p"); gn.id="groupCardNote"; gn.className="note groupCardNote";
+    gn.dataset.k=GROUP_CARD_NOTE[currentPreset.id]; gn.textContent=T(GROUP_CARD_NOTE[currentPreset.id]); el.appendChild(gn);
   }
   el=SEC.ledger;
   // 第132便 EXT-06: 較正台帳 — バッジ列の直下に1行チップ(折り畳み時は1行のみ = 常時表示)。
@@ -48048,7 +48152,13 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   rayBandColor, rayLambda0FromRaw,  // 第38便(原仮定者指示): 可視光外の記号色/既定移行ロジックのQA用
   fieldWDisp,  // 第37便 A4(原仮定者裁定): 決定力マップの表示合成 W_disp=W+Φ_g のQA用
   // 第286便d(R105): ライブ比較の読み口(計測器は純関数 create/feed/value・stepN は物理 step ごとに採取する —— ループと同じ lcAfterStep)
+  // 第287便d(AN72): 線の軌跡の追従フレーム(表示専用)の QA 用の読み口 —— rec は描画ループと同じ recTrail を 1 回呼ぶだけ
+  trailFrame:{ decl:TRAIL_FRAME_DECL, mode:()=>trailFrameMode, set:setTrailFrame, anchor:(S)=>trailAnchorOf(S||sim),
+    rec:()=>recTrail(sim,trailBuf), bufs:()=>({a:trailBuf, b:trailBufB, frA:trailBuf._fr||"world", frB:trailBufB._fr||"world"}) },
+  // 第287便d(AN71): 群を移した本のカードの 1 行(side table)
+  groupCardNote:GROUP_CARD_NOTE,
   liveCompare:{ spec:LIVE_COMPARE_SPEC, create:lmCreate, feed:lmFeed, value:lmValue, periUse:lmPeriUse, rowOf:lcRowOf,
+    labelOf:lcLabelOf, estDef:LC_EST_DEF,   // 第287便d(AN65): 表示名の生成と推定器 → 周期の定義
     snapshot:()=>{ lcCheckGen(); return lcSnapshot(); }, state:()=>liveCmp, meter:()=>liveCmp.meter, reset:lcReset, cycleQ:lcCycleQ, cycleScale:lcCycleScale,
     setQ:(i)=>{ liveCmp.qi=i|0; liveCmp.snap=null; }, setScale:(s)=>{ if(LC_SCALES.indexOf(s)>=0){ liveCmp.scale=s; liveCmp.snap=null; lcCardSync(); } },
     paint:()=>{ liveCmp.snap=null; drawLiveCompare(Math.max(0,overlaySlots().indexOf("liveCompare"))); return liveCmp.drawRec; }, cardSync:lcCardSync, cardText:lcCardText,
