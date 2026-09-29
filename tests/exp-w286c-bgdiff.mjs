@@ -38,7 +38,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","HP.BGC_LAW_UNITS","HP.BGC_LAW_VERSION_TAG","HP.allPresets","HP.bgcDistantClosed","HP.bgcWireState","HP.dfmBlendComplexMoments","HP.dfmComplexMomentsOf","HP.dfmComplexMomentsP","HP.dfmMeshVelocityFieldAt","HP.sim","HP.validateBackgroundComplex","HP.validatePreset","bgLawCrossCheck","bgLawPrepare","bgcLawCheck","dfmGeoToyBgLawStep","dfmMeshVelocityStep"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w286c-bgdiff-1';
+export const HARNESS_VERSION = 'w287c-bgdiff-2';   // 第287便c: 遠方 1 源の写し 2 つに時間の契約(timeContract)を足した
 export const REL_TOL = 1e-12;
 export const DT = 0.016;
 export const STEPS = { share: 200, mesh: 2000, geo12: 400 };
@@ -243,12 +243,14 @@ export function shareCopies(HP) {
   const V = {
     none: law({ background: 'zero', W0: 0, note: '第286便c 背景なし' }),
     uniform: law({ background: 'declared', note: '第286便c 共動一様背景(W_bg=1.5・A_bg=0)', W0: 1.5, A0: [0, 0], gradW: [0, 0], gradA: [0, 0, 0, 0], dWdt: 0, dAdt: [0, 0] }),
-    distant: law(Object.assign({ background: 'declared', note: '第286便c 遠方 1 源(p=1 の閉じた式・R=400)' }, { W0: dist.W0, A0: dist.A0, gradW: dist.gradW, gradA: dist.gradA, dWdt: dist.dWdt, dAdt: dist.dAdt })) };
+    // 第287便c(R109): 遠方 1 源は時間微分が 0 でない(源が動く)ので時間の契約が要る —— 手入力の値を t₀=0 のまわりの一次で動かす(taylor)
+    distant: law(Object.assign({ background: 'declared', note: '第286便c 遠方 1 源(p=1 の閉じた式・R=400)' }, { W0: dist.W0, A0: dist.A0, gradW: dist.gradW, gradA: dist.gradA, dWdt: dist.dWdt, dAdt: dist.dAdt,
+      timeContract: { mode: 'taylor', t0: 0, derivFrame: 'frame', radiusR: 1e6, widthT: 1e4 } })) };
   const mk = (bg, D0) => { const q = clone(B); if (bg) q.physics.backgroundComplex = bg; if (D0 !== undefined) q.physics.D0 = D0; return q; };
   const toyD0 = runCopy(HP, mk(null), N), toyZero = runCopy(HP, mk(null, 0), N);
   const rows = {};
   for (const k of Object.keys(V)) rows[k] = runCopy(HP, mk(V[k]), N);
-  const unwiredDecl = clone(V.distant); for (const k of ['lawVersion', 'lawUnits', 'lawDomainR', 'lawWZero']) delete unwiredDecl[k];
+  const unwiredDecl = clone(V.distant); for (const k of ['lawVersion', 'lawUnits', 'lawDomainR', 'lawWZero', 'timeContract']) delete unwiredDecl[k];
   const unwired = runCopy(HP, mk(unwiredDecl), N);
   const cmp = { noneVsToyD0zero: stateDiff(rows.none, toyZero), uniformVsToyD0: stateDiff(rows.uniform, toyD0), distantVsUniform: stateDiff(rows.distant, rows.uniform),
     unwiredVsToyD0: stateDiff(unwired, toyD0) };
@@ -268,7 +270,9 @@ export function meshCopies(HP) {
   const same = runCopy(HP, mk(add(bc)), N);
   const zeroB = { background: 'zero', W0: 0, sources: bc.sources, frame: bc.frame };
   const noneV = runCopy(HP, mk(add(zeroB, 'vacuum')), N), noneU = runCopy(HP, mk(add(zeroB, 'undefined')), N);
-  const dd = { background: 'declared', note: '第286便c 遠方 1 源(p=2・bgModel distantSource)', bgModel: 'distantSource', W0: bc.W0, Rbg: 1e4, thetaBg: 0.3, Vext: [bc.A0[0] / bc.W0, 0.4], aExt: [0, 0.01], sources: bc.sources, frame: bc.frame };
+  // 第287便c(R109): 遠方 1 源は時間微分が 0 でないので時間の契約が要る —— 源(bgModel distantSource)から毎回作り直す(sources)
+  const dd = { background: 'declared', note: '第286便c 遠方 1 源(p=2・bgModel distantSource)', bgModel: 'distantSource', W0: bc.W0, Rbg: 1e4, thetaBg: 0.3, Vext: [bc.A0[0] / bc.W0, 0.4], aExt: [0, 0.01], sources: bc.sources, frame: bc.frame,
+    timeContract: { mode: 'sources', t0: 0, derivFrame: 'frame', widthT: 1e4 } };
   const dist = runCopy(HP, mk(add(dd)), N);
   const row = (r) => r.ok ? { ok: true, meshVel: r.meshVel, wire: r.wire } : { ok: false, err: r.err };
   const out = { steps: N, dt: DT, base: row(base), sameLaw: row(same), noneVacuum: row(noneV), noneUndefined: row(noneU), distant: row(dist),

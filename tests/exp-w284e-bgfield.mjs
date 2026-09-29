@@ -156,8 +156,18 @@ export function wireChecks(HP) {
     const bgc = P.physics.backgroundComplex;
     const base = runState(HP, P, WIRE_STEPS.mesh);
     // A₀ だけを動かす(W₀・∇・∂ₜ は宣言のまま —— 受理器を通る形)。0 と 10 倍
-    const z = J(P); z.physics.backgroundComplex.A0 = [0, 0];
-    const L = J(P); L.physics.backgroundComplex.A0 = bgc.A0.map((v) => 10 * v);
+    const z = J(P), L = J(P);
+    if (bgc.bgModel === 'sources') {
+      // 第287便c(R109): 🌒 は背景を源の台帳(bgModel "sources" —— 時間の契約 "sources")で宣言する。A₀=Σw V は台帳から出る値で
+      // 手入力の A₀ を変えると受理器が「型の値と違う」で拒否するので、台帳の速度を 0 倍・10 倍にして A₀ を 0・10 倍にする
+      // (V に比例する ∇A・∂ₜW・∂ₜA の V の項も一緒に動く —— 手入力の成分は外して台帳から出させる)
+      for (const Q of [z, L]) for (const k of ['A0', 'gradA', 'dWdt', 'dAdt']) delete Q.physics.backgroundComplex[k];
+      for (const s of z.physics.backgroundComplex.ledger) { s.vx = 0; s.vy = 0; }
+      for (const s of L.physics.backgroundComplex.ledger) { s.vx *= 10; s.vy *= 10; }
+    } else {
+      z.physics.backgroundComplex.A0 = [0, 0];
+      L.physics.backgroundComplex.A0 = bgc.A0.map((v) => 10 * v);
+    }
     const rz = runState(HP, z, WIRE_STEPS.mesh), rl = runState(HP, L, WIRE_STEPS.mesh);
     rows.push({ id, emoji: EMOJI[id], path: 'meshVelocity', steps: WIRE_STEPS.mesh, n: base.n, meshField: base.meshField, hasMeshVelocity: base.hasMeshVelocity,
       accepted: !rz.err && !rl.err, err: rz.err || rl.err || null, a0: bgc.A0,

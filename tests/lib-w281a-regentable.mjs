@@ -24,6 +24,7 @@
 //   'w285b-branch' … 第285便b の枝で器を 1 回走らせた実測(正本の elapsedS 681.6 —— Node だけ・他の枝と同じ容器で並走〔負荷平均 30 前後〕)。
 //   'w285d-branch' … 第285便d の枝で器を走らせた実測(正本の elapsedS —— Chromium 1 本・1 步も走らせない生成器)。
 //   'w286a-branch' … 第286便a の枝で器を走らせた実測(正本の elapsedS —— jeans286 は Node だけ・clusterScan286 は子プロセス 2 本・他の 5 枝と同じ容器で並走)。
+//   'w287c-branch' … 第287便c の枝で器を走らせた実測(正本の elapsedS 71.5〜109.2 —— Node だけ・geo3 の再走〔Chromium〕と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -459,6 +460,12 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgdiff-w286c.json': META_RUN.concat(['/elapsedS']) },
     note: '第286便c: ∇W・∇A・∂ₜW・∂ₜA と合成 u の ∇u・∂ₜu を中心差分 h・h/2・h/4 で照合(次数 2)・並進基準系・W→0・W=0 の未定義・'
       + '法則版の受理器・share-p1(💮 の縮小写し 3 つ)と complex-p2(🔁 の写し)の接続と帳簿・geoPN=1 と geoPN=2∧kFrame=0 の 400 步' }),
+  // ---- 第287便c(原仮定者の裁定(第77報)⑤・統括の検証項目 R109): 背景場の時間発展の契約(timeContract)—— 反例の再現・時間差分と返却 ∂ₜu の照合・
+  //   🌒 の前後(周期 2 周目・kF0 の写し・taylor の採らない形)・share-p1 の基準コピー(🪁 と 600 步のビット一致)。Node だけ・html だけを読む(他の正本は読まない)
+  S('bgtime287', 'node tests/exp-w287c-bgtime.mjs', ['tests/out/bgtime-w287c.json'], 110, { secSource: 'w287c-branch', node: true,
+    volatilePaths: { 'tests/out/bgtime-w287c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第287便c: 状態を固定して評価時刻だけ進めたとき u と ∂ₜu が一致するか(旧い契約の反例と新しい契約)・時間差分 h・h/2・h/4(次数 2・器の丸め床)・'
+      + 'RHS の coordAccel・範囲の外の再展開・受理器・🌒 の周期の前後と η_bg・share-p1 の基準コピー' }),
 ];
 
 /**

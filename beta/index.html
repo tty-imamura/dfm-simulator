@@ -5268,6 +5268,9 @@ function validateBackgroundComplex(a){
   // 宣言したときだけ単位・有限領域・W=0 の規約・源の分割・凍結参照系を要求する(bgcLawCheck)
   const blv=bgcLawCheck(a);
   if(!blv.ok) return blv;
+  // 第287便c(R109): 時間の契約 timeContract(任意鍵 —— 未宣言は従来どおり。宣言したときだけ形を検査して正準形へ)
+  const btc=bgcTimeCheck(a);
+  if(!btc.ok) return btc;
   // 第285便c(原仮定者の裁定(第75報)⑥・R99): **微分の宣言の型** bgModel(任意鍵 —— 未指定は従来どおりの手入力)。
   // 型が 6 成分を出し(uniform は微分を「宣言による 0」・sources/distantSource は算出・null は微分を書かない)、以下の従来の検査に通す
   let bgm=null;
@@ -5352,6 +5355,8 @@ function validateBackgroundComplex(a){
   }
   // 第286便c: 法則版の宣言(正規化済み)を正準形へ(未宣言なら鍵を 1 つも足さない —— 正準形は第285便c と 1 文字も変わらない)
   if(blv.law) for(const k of BGC_LAW_KEYS) out[k]=blv.law[k];
+  // 第287便c: 時間の契約(未宣言なら鍵を足さない —— 正準形は第286便c と 1 文字も変わらない)
+  if(btc.time) out.timeContract=btc.time;
   return {ok:true, backgroundComplex:out};
 }
 // ===== 第278便d(統括の読み R56): physics.backgroundTidal — **潮汐テンソル T** の宣言(**宣言専用の別鍵**) =====
@@ -5719,12 +5724,119 @@ function bgLawCrossCheck(bgc, ph, sampleClass){
     for(const k of ["centerSpin","diskSupport","law","toyAllowDrag","D0"]) if(sm[k]!==undefined)
       return W+" は spaceMesh."+k+" と併用しない"+(k==="D0"? "(背景は W_bg だけ —— D₀ を背景に二重に数えない)" : "(法則版の経路は既定のトイの 1 巡だけ)");
     if(sm.toyClosure==="iterate") return W+' は spaceMesh.toyClosure:"iterate" と併用しない(閉包は "gravity" の 1 巡)';
+    // 第287便c(R109): 時間微分を宣言した背景は時間の契約 timeContract が要る(値を時間で動かさずに ∂ₜu だけ当てない)
+    const tx=bgTimeCrossCheck(bgc, "share-p1");
+    if(tx) return tx;
     return null;
   }
   const mv=ph[MESH_VEL_KEY];
   if(!mv || mv.field!=="backgroundComplex")
     return W+' は physics.meshVelocity(field:"backgroundComplex")の経路 —— 経路の宣言が無い(宣言だけでは接続しない)';
   return null;
+}
+// ===== 第287便c(原仮定者の裁定(第77報)⑤・統括の検証項目 R109): **背景場の時間発展の契約** `backgroundComplex.timeContract` =====
+// 反例(第286便まで): `dfmMeshVelocityFieldAt` は背景を W₀+∇W·dx・A₀+∇A·dx で評価し(時刻を読まない)、合成の ∂ₜu=(∂ₜA−u∂ₜW)/W だけは
+// 宣言の dWdt・dAdt から返していた —— 状態を固定して評価時刻だけ進めると u は動かないのに ∂ₜu≠0(🌒 で 3.80×10⁻⁸)。
+// 「ある瞬間の値と微分」の局所模型としては書けるが、**同じ微分を持つ時変場を進めてはいない**。share-p1 の経路(bgLawBackgroundAt)も同じ形。
+// 契約(版 BGC_TIME_VERSION):
+//   ・時間微分(dWdt・dAdt)が 0 でない背景を力学が読むときは timeContract を**宣言する**(無ければ拒否 —— 経路の相互検査)。
+//     時間微分がすべて 0 の背景(静止・一様 —— 🔁)は宣言なしで厳密(値は時間で動かず ∂ₜu=0)。
+//   ・mode "sources"(本命)… 源の台帳(bgModel "sources" の ledger / "distantSource" の遠方 1 源)の位置・速度・加速度を
+//     X+Vτ+½aτ²・V+aτ・a で動かし、評価点ごとに**毎回** W・A・∇・∂ₜ を p=2 の核(dfmComplexMomentsOf)で作り直す(τ=t−t₀)。
+//   ・mode "taylor" … 宣言の 6 成分を基準時刻 t₀ のまわりの一次で動かす: W(x,t)=W₀+∇W·dx+∂ₜW·τ・A も同様(∇ と ∂ₜ は宣言値のまま)。
+//     空間有効半径 radiusR と時間有効幅 widthT を宣言する。範囲の外は、源の台帳があれば**源から再展開**(その点・その時刻の値を作り直す)、
+//     台帳が無ければ一次のまま評価して範囲外の回数を数える(**閾値で背景を消さない**)。
+//   ・derivFrame "frame" … 宣言の ∂ₜ は**宣言した凍結参照系の座標で固定した点**の偏微分(comoving なら原点と一緒に動く点)。
+//     dx は評価点 − 原点 O(t) なので、原点速度の移流分 V_O·∇ を別に足さない(二重計上しない)。慣性系の偏微分で書いた値は
+//     ∂ₜ|frame=∂ₜ|慣性+V_O·∇ に直してから書く。
+//   ・`v` へ ∂ₜu をそのまま足す修正は採らない(ẋ=v+u の u の時間変化と重複する)—— 変えるのは背景の値の時間発展だけ。
+const BGC_TIME_VERSION = "w287c-bgtime-1";
+const BGC_TIME_MODES = ["taylor","sources"];
+const BGC_TIME_DERIV_FRAMES = ["frame"];
+const BGC_TIME_KEYS = ["mode","t0","derivFrame","radiusR","widthT"];
+function bgcTimeCheck(a){
+  const W="physics.backgroundComplex.timeContract";
+  const tc=a.timeContract;
+  if(tc===undefined || tc===null) return {ok:true, time:null};
+  if(typeof tc!=="object" || Array.isArray(tc))
+    return {ok:false, err:W+' はオブジェクト {mode:"taylor"|"sources", t0, derivFrame:"frame", widthT, radiusR?} か null'};
+  for(const k of Object.keys(tc)) if(BGC_TIME_KEYS.indexOf(k)<0)
+    return {ok:false, err:W+" に知らない鍵 "+k+" がある("+BGC_TIME_KEYS.join("/")+" のみ)"};
+  if(BGC_TIME_MODES.indexOf(tc.mode)<0)
+    return {ok:false, err:W+'.mode は "sources"(源の台帳から毎回作り直す)か "taylor"(基準時刻のまわりの一次 —— 有効半径と有効幅を宣言)'};
+  if(!isNum(tc.t0)) return {ok:false, err:W+".t0 は有限数(展開の基準時刻 [T] —— 走行の時刻 t と同じ時計)"};
+  if(BGC_TIME_DERIV_FRAMES.indexOf(tc.derivFrame)<0)
+    return {ok:false, err:W+'.derivFrame は "frame"(宣言の ∂ₜ は凍結参照系の座標で固定した点の偏微分 —— 原点速度の移流分を別に足さない)を明示する'};
+  if(!isNum(tc.widthT) || !(tc.widthT>0))
+    return {ok:false, err:W+".widthT は正の有限数(時間有効幅 [T] —— |t−t₀| がこれを超えた評価は範囲外として数える)"};
+  if(a.bgModel===null)
+    return {ok:false, err:W+" は bgModel:null(微分が未確定)と併用しない(時間の契約は微分の宣言が要る)"};
+  const out={mode:tc.mode, t0:tc.t0, derivFrame:tc.derivFrame, widthT:tc.widthT};
+  if(tc.mode==="taylor"){
+    if(!isNum(tc.radiusR) || !(tc.radiusR>0))
+      return {ok:false, err:W+'.mode:"taylor" は radiusR(空間有効半径 [L] —— 原点のまわりで一次の値を使う範囲)が要る'};
+    out.radiusR=tc.radiusR;
+  } else {
+    if(tc.radiusR!==undefined && tc.radiusR!==null)
+      return {ok:false, err:W+'.mode:"sources" は radiusR を書かない(評価点ごとに源から作り直す —— 空間の一次展開をしない)'};
+    if(a.bgModel!=="sources" && a.bgModel!=="distantSource")
+      return {ok:false, err:W+'.mode:"sources" は源の台帳(bgModel "sources" か "distantSource")の宣言が要る'};
+  }
+  return {ok:true, time:out};
+}
+// 時間の契約が要るか(正準形の dWdt・dAdt のどれかが 0 でない)。bgModel:null(微分なし)は別の検査が拒否する
+function bgTimeNeeded(bgc){
+  if(!bgc || typeof bgc!=="object") return false;
+  const d=bgc.dAdt;
+  return (isNum(bgc.dWdt) && bgc.dWdt!==0) || (Array.isArray(d) && d.some((z)=>isNum(z) && z!==0));
+}
+// 経路の相互検査(meshVelocityCrossCheck・bgLawCrossCheck が呼ぶ)。null=問題なし / 文字列=拒否理由
+function bgTimeCrossCheck(bgc, path){
+  if(!bgc || !bgTimeNeeded(bgc) || bgc.timeContract) return null;
+  return "physics.backgroundComplex は時間微分(dWdt/dAdt)が 0 でないので timeContract(時間の契約 —— \"sources\" か \"taylor\"・t0・derivFrame・widthT)を宣言する("
+    +path+" の経路は ∂ₜu を読む —— 値を時間で動かさずに ∂ₜu だけ当てない)";
+}
+// build 時の準備: 正準形の背景 B から時間の契約の実行形を作る(契約なしは null —— 従来の形)。源の台帳は評価点の座標(refPos が原点)で持つ
+function bgTimePrepare(B){
+  const tc=B && B.timeContract;
+  if(!tc) return null;
+  let ledger=null, refPos=[0,0], eps2=0;
+  if(B.bgModel==="sources" && Array.isArray(B.ledger)){
+    ledger=B.ledger.map((s)=>({m:s.m, x:s.x, y:s.y, vx:s.vx, vy:s.vy, ax:s.ax, ay:s.ay}));
+    refPos=[B.refPos[0], B.refPos[1]]; eps2=B.eps*B.eps;
+  } else if(B.bgModel==="distantSource"){
+    // 遠方 1 源の閉じた式(軟化なし)と同じ源: 評価点(原点)から −R·n の位置・質量 W₀R²・速度 Vext・加速度 aExt
+    const nx=Math.cos(B.thetaBg), ny=Math.sin(B.thetaBg);
+    ledger=[{m:B.W0*B.Rbg*B.Rbg, x:-B.Rbg*nx, y:-B.Rbg*ny, vx:B.Vext[0], vy:B.Vext[1], ax:B.aExt[0], ay:B.aExt[1]}];
+  }
+  return {mode:tc.mode, t0:tc.t0, widthT:tc.widthT, radiusR:(tc.radiusR===undefined)? null : tc.radiusR,
+    ledger, refPos, eps2, version:BGC_TIME_VERSION};
+}
+// 源の台帳を τ だけ進めて、評価点 refPos+(dx,dy) の 6 成分を作る(p=2 の核)。作れなければ null
+function bgTimeFromSources(T, dx, dy, tau){
+  const L=T.ledger, h=0.5*tau*tau, list=new Array(L.length);
+  for(let k=0;k<L.length;k++){ const s=L[k];
+    list[k]={m:s.m, x:s.x+s.vx*tau+s.ax*h, y:s.y+s.vy*tau+s.ay*h, vx:s.vx+s.ax*tau, vy:s.vy+s.ay*tau, ax:s.ax, ay:s.ay}; }
+  const M=dfmComplexMomentsOf(list, T.refPos[0]+dx, T.refPos[1]+dy, T.eps2);
+  if(!M) return null;
+  return {W:M.W, A:M.A, gradW:M.gradW, gradA:M.gradA, dWdt:M.dWdt, dAdt:M.dAdt};
+}
+// 時間の契約つきの背景の値(dx,dy = 評価点 − 原点 O(t)・τ = t − t₀)。{ok, bg:{W,A,gradW,gradA,dWdt,dAdt}, out, reexp} / {ok:false, why}
+//   B は {W0,A0,gradW,gradA,dWdt,dAdt}・T は bgTimePrepare の実行形。out=宣言の範囲外・reexp=源から作り直した
+function bgTimeMomentsAt(B, T, dx, dy, tau){
+  const outT=Math.abs(tau)>T.widthT;
+  if(T.mode==="sources"){
+    const M=bgTimeFromSources(T, dx, dy, tau);
+    return M? {ok:true, bg:M, out:outT, reexp:false} : {ok:false, why:"sources"};
+  }
+  const outR=Math.hypot(dx,dy)>T.radiusR;
+  if((outT || outR) && T.ledger){
+    const M=bgTimeFromSources(T, dx, dy, tau);
+    return M? {ok:true, bg:M, out:false, reexp:true} : {ok:false, why:"sources"};
+  }
+  return {ok:true, out:(outT || outR), reexp:false, bg:{W:B.W0+B.gradW[0]*dx+B.gradW[1]*dy+B.dWdt*tau,
+    A:[B.A0[0]+B.gradA[0]*dx+B.gradA[1]*dy+B.dAdt[0]*tau, B.A0[1]+B.gradA[2]*dx+B.gradA[3]*dy+B.dAdt[1]*tau],
+    gradW:B.gradW.slice(), gradA:B.gradA.slice(), dWdt:B.dWdt, dAdt:B.dAdt.slice()}};
 }
 // p 乗の核の複素モーメント(自己を含めない和 —— 呼び出し側が i を除いた並びを渡す)。p=2 は dfmComplexMomentsOf と同じ式。
 //   w=m·s^{−p/2}・∇w=−p·m·s^{−p/2−1}(x−xⱼ)・∂ₜw=−∇w·vⱼ・A=Σw vⱼ・∇A=Σ vⱼ⊗∇w・∂ₜA=Σ(∂ₜw vⱼ + w aⱼ)
@@ -5752,9 +5864,19 @@ function dfmComplexMomentsP(list, px, py, eps2, p){
 }
 // 背景の値を凍結参照系の原点 O のまわりで一次に移す(meshVelocity と同じ規約 —— 勾配と時間微分は宣言値のまま・値を時間で外挿しない)。
 // 有限領域の外・負の重みは {ok:false, why}(黙って 0 にしない)
-function bgLawBackgroundAt(L, px, py, O){
+function bgLawBackgroundAt(L, px, py, O, tau){
   const dx=px-O[0], dy=py-O[1];
   if(Math.hypot(dx,dy)>L.domainR) return {ok:false, why:"domain"};
+  // 第287便c: 時間の契約を宣言した背景は値を τ=t−t₀ で動かす(契約なしは従来の式 —— 時間微分 0 の背景だけが通る)
+  if(L.time){
+    const r=bgTimeMomentsAt(L, L.time, dx, dy, tau);
+    if(!r.ok) return {ok:false, why:"time:"+r.why};
+    const B=r.bg;
+    if(!(B.W>=0)) return {ok:false, why:"negW"};
+    if(B.W===0 && L.W0===0 && L.dWdt===0) return {ok:true, bg:null, out:r.out, reexp:r.reexp};
+    if(B.W===0) return {ok:false, why:"zeroW"};
+    return {ok:true, bg:B, out:r.out, reexp:r.reexp};
+  }
   const W=L.W0+L.gradW[0]*dx+L.gradW[1]*dy;
   if(!(W>=0)) return {ok:false, why:"negW"};
   if(W===0 && L.W0===0) return {ok:true, bg:null};   // 背景なし(ゼロの宣言)
@@ -5765,6 +5887,7 @@ function bgLawBackgroundAt(L, px, py, O){
 // build 時の準備(share-p1 だけ —— complex-p2 は meshVelocityPrepare)。未宣言は S.bgLaw=null のまま(トイは 1 回の真偽の比較で素通り)
 function bgLawPrepare(S){
   S.bgLaw=null; S.bgLawVacuum=0; S.bgLawSteps=0; S.bgLawStopWhy=null; S.bgLawChiMin=null; S.bgLawChiMax=null;
+  S.bgLawTimeOut=0; S.bgLawTimeReexp=0;   // 第287便c: 時間の契約の範囲外・源からの再展開の回数
   const raw=(S.params)? S.params[BG_COMPLEX_KEY] : undefined;
   if(!raw || typeof raw!=="object" || raw.lawVersion!=="share-p1") return false;
   const bv=validateBackgroundComplex(raw);
@@ -5778,6 +5901,9 @@ function bgLawPrepare(S){
   S.bgLaw={law:B.lawVersion, p:BGC_LAW_P[B.lawVersion], W0:B.W0, A0:B.A0.slice(), gradW:B.gradW.slice(), gradA:B.gradA.slice(),
     dWdt:B.dWdt, dAdt:B.dAdt.slice(), domainR:B.lawDomainR, wZero:B.lawWZero, frame:B.frame, originIdx:oi,
     O0:meshVelocityOriginNow(S, oi), version:BGC_LAW_VERSION_TAG, deny:null};
+  // 第287便c: 時間の契約(宣言が無ければ null —— 従来の式)
+  const tm=bgTimePrepare(B);
+  if(tm) S.bgLaw.time=tm;
   return true;
 }
 // ===== 第279便c(統括の読み R62・R63 ⑤): physics.meshVelocity — **複素決定力による座標変換(空間による引きずり)**の opt-in =====
@@ -5860,6 +5986,9 @@ function meshVelocityCrossCheck(mv, bgc, ph, bodies, sampleClass){
       return 'physics.meshVelocity.field:"backgroundComplex" は backgroundComplex.sources(源の分割)と backgroundComplex.frame(凍結参照系)の宣言が要る(R63 の順: 源の分割 → 凍結参照系 → 接続)';
     if(JSON.stringify(bgc.frame)!==JSON.stringify(mv.frame))
       return "physics.meshVelocity.frame と physics.backgroundComplex.frame が違う(同じ事象・同じ参照系で評価する)";
+    // 第287便c(R109): 時間微分を宣言した背景は時間の契約が要る
+    const tx=bgTimeCrossCheck(bgc, "meshVelocity");
+    if(tx) return tx;
   } else {
     for(const s of mv.external){ const bi=bgBodyRefIndex(s); if(!(bi<nb)) return "physics.meshVelocity.external の "+s+" は bodies に無い"; }
     if(mv.external.length>=nb) return "physics.meshVelocity.external が全天体を挙げている(外部でない天体が 1 つも無い)";
@@ -11615,6 +11744,7 @@ const BUILTIN_PRESETS = [
     {q:"pnVelocity:\"xdot\"(1PN が ẋ=v+u を読む)", model:"2.3561689×10⁻⁵ °/周・☄️ との差 +1.05×10⁻⁶ —— u=V が 1PN の入力に入る", obs:"—(事後採用しない — v と並べる)"},
     {q:"(b) pn:off と 1PN なし対照", model:"geoPN=2・λ_PN=0 との差 −3.25×10⁻¹¹ °/周(dt)/ +5.92×10⁻¹¹(dt/2)", obs:"—"},
     {q:"pinned の太陽", model:"慣性速度 v=0 を規定したまま、位置は ẋ=u で移送(正準項は受けない)", obs:"—(運ばないと相対軌道が u で壊れる)"},
+    {q:"見た目と合格(第287便c)", model:"追従は太陽。相対近点の差は 10⁻¹² °/周の桁(零試験)。画面の流れは一様な u=V の移送で、合格とは書かない", obs:"—(背景は時間微分 0 —— 時間の契約の前後で 1 bit も変わらない)"},
     {q:"言わないこと", model:"43″ を再現した/較正した/1PN を DFM から導出した、とは書かない", obs:"—"}],
   descStruct:{
     summary:"**☄️ mercuryReal の physics と bodies をビット同一で複製し、法則だけを geoPN=3 の速度分解(lawVersion:\"vMinusU\")へ替えた零試験**(第280便c・原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」)。移送 ẋ=v+u と正準項 v̇=a_space−Jᵀv を分けて当て(第279便c の外部ステップ)、**独立の遠心斥力は足さない**。背景は一様な u=V=(2.3,0)単位=230 km/s(**診断値** —— 観測の転写ではない。点源 1 個の mutual:0 の場は u が一様になる、という第279便c の結論を背景の宣言形で置いた)。1PN は pn:\"reference-1PN\"(E12 の試験粒子形 —— **比較用の外部理論項**で DFM から導出した項ではない)・pnVelocity:\"v\"。**較正ではない**(sampleClass:\"principle\")。",
@@ -11628,6 +11758,7 @@ const BUILTIN_PRESETS = [
       {q:"pnVelocity xdot (1PN reads xdot=v+u)", model:"2.3561689×10⁻⁵ deg/orbit; difference from ☄️ +1.05×10⁻⁶ - u=V enters the 1PN input", obs:"- (not adopted after the fact; listed beside v)"},
       {q:"(b) pn off against the no-1PN control", model:"difference from geoPN=2, lambda_PN=0: −3.25×10⁻¹¹ deg/orbit (dt) / +5.92×10⁻¹¹ (dt/2)", obs:"-"},
       {q:"The pinned Sun", model:"its inertial velocity v=0 stays prescribed while its position is carried by xdot=u (no canonical term)", obs:"- (without carrying it, u would break the relative orbit)"},
+      {q:"What you see vs a pass (wave 287c)", model:"The camera follows the Sun. The relative periapsis difference is of order 10⁻¹² deg/orbit (a null test). The drift on screen is the transport by the uniform u=V; this is not called a pass", obs:"- (the background has zero time derivative - bit-identical across the time contract)"},
       {q:"What this does not claim", model:"NOT a reproduction of 43 arcsec, NOT a calibration, NOT a 1PN term derived from DFM", obs:"-"}],
     descStruct:{
       summary:"A NULL TEST: ☄️ mercuryReal's physics and bodies are copied bit for bit and ONLY THE LAW is swapped for the geoPN=3 velocity decomposition (lawVersion vMinusU) (wave 280c; the originator's ruling, report 70: 'examine the periapsis-advance differences - proceed as geoPN=3'). The transport xdot=v+u and the canonical term vdot=a_space-J^T v are applied separately (wave 279c's external step) and NO SEPARATE CENTRIFUGAL REPULSION IS ADDED. The background is a uniform u=V=(2.3,0) units = 230 km/s (A DIAGNOSTIC VALUE, not a transcription; it puts wave 279c's result - one point source gives a uniform u under mutual:0 - in declared-background form). 1PN is pn reference-1PN (the E12 test-particle form - AN EXTERNAL REFERENCE TERM FOR COMPARISON, not derived from DFM) with pnVelocity v. NOT A CALIBRATION (sampleClass principle).",
@@ -12807,6 +12938,8 @@ const BUILTIN_PRESETS = [
     {q:"同 pnVelocity:\"xdot\"", model:"kF0 との差 +6.98×10⁻⁹ s(dt)/ −9.22×10⁻⁶ s(dt/2)", obs:"—(事後採用しない — v と並べる)"},
     {q:"(b) pn:off と 1PN なし対照", model:"差 −2.57×10⁻⁸ s(dt)/ −9.15×10⁻⁶ s(dt/2)", obs:"—"},
     {q:"1PN 項の大きさ(kF0 の λ_PN=1 と 0)", model:"+1.73×10⁻⁶ s(dt)", obs:"—(差の桁を読むための物差し)"},
+    {q:"背景の時間の契約(第287便c)", model:"太陽 1 源の台帳から毎 step 作り直す(sources)。u=太陽の速度 V+aτ・∇u=0。旧い形は ∂ₜu だけを返し値は動かなかった", obs:"—(周期 2 周目の前後差 +4.9×10⁻⁸ s〔dt〕— 丸めの桁・判定しない)"},
+    {q:"静かに見えることと合格", model:"静かに見えることと合格は別。B 側(geoPN=2)は ẋ→v 変換済みで kF0 そのものではない。q と D₀ は kFrame=0 なので力に入らない", obs:"—(判定行ではない)"},
     {q:"言わないこと", model:"観測と合った/潮汐ロックで観測値版と同じ精度になる/引きずりが消えた、とは書かない", obs:"—"}],
   descStruct:{
     summary:"**❄️ plutoCharonReal の physics と bodies を複製し(kFrame=0)、法則だけを geoPN=3 の速度分解(lawVersion:\"vMinusU\")へ替えた診断コピー**(第280便c・原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」)。外部の場は第279便c の器と同じ**太陽の背景**(点質量を t=0・対の重心で評価した comoving の値 —— u=A/W は y 向き 4740 m/s)を mutual:0 で置く。bodies の vx,vy は**観測の座標速度 ẋ**(velocityMeaning:\"xdot\")として読み、build で慣性速度 v=ẋ−u(0) へ変換する。1PN は pn:\"reference-1PN\"(E12 の試験粒子形 —— **比較用の外部理論項**で DFM から導出した項ではない)・pnVelocity:\"v\"。働いているのは重力(E4)と速度分解の移送だけで、kFrame=0 なので核の E6′ 運動引きずりは使わない。**較正ではない**(sampleClass:\"principle\"・❄️ の判定行ではない)。",
@@ -12820,6 +12953,8 @@ const BUILTIN_PRESETS = [
       {q:"The same with pnVelocity xdot", model:"difference from kF0 +6.98×10⁻⁹ s (dt) / −9.22×10⁻⁶ s (dt/2)", obs:"- (not adopted after the fact; listed beside v)"},
       {q:"(b) pn off against the no-1PN control", model:"difference −2.57×10⁻⁸ s (dt) / −9.15×10⁻⁶ s (dt/2)", obs:"-"},
       {q:"Size of the 1PN term (kF0 lambda_PN 1 minus 0)", model:"+1.73×10⁻⁶ s (dt)", obs:"- (a yardstick for the differences)"},
+      {q:"Time contract of the background (wave 287c)", model:"Rebuilt every step from a one-source ledger of the Sun (sources): u = the Sun's velocity V+a tau, grad u = 0. The old form returned only d_t u while the values stood still", obs:"- (period, revolution 2: before/after +4.9×10⁻⁸ s at dt - the rounding digit; not judged)"},
+      {q:"Looking quiet vs a pass", model:"Looking quiet is not a pass. Side B (geoPN=2) keeps the xdot-to-v conversion and is not ❄️'s kF0 itself. q and D0 do not enter the force because kFrame=0", obs:"- (not a verdict row)"},
       {q:"What this does not claim", model:"NOT an observational match, NOT 'tidal locking makes it as precise as the observed build', NOT 'the dragging vanished'", obs:"-"}],
     descStruct:{
       summary:"A DIAGNOSTIC COPY: ❄️ plutoCharonReal's physics and bodies are copied (kFrame=0) and ONLY THE LAW is swapped for the geoPN=3 velocity decomposition (lawVersion vMinusU) (wave 280c; the originator's ruling, report 70: 'examine the periapsis-advance differences - proceed as geoPN=3'). The external field is THE SAME SOLAR BACKGROUND as wave 279c's harness (the point mass evaluated at t=0 at the pair's barycentre, comoving - u=A/W is 4740 m/s along y), under mutual 0. The bodies' vx, vy are read as OBSERVED COORDINATE VELOCITIES xdot (velocityMeaning xdot) and converted at build to the inertial velocity v=xdot-u(0). 1PN is pn reference-1PN (AN EXTERNAL REFERENCE TERM FOR COMPARISON, not derived from DFM) with pnVelocity v. NOT A CALIBRATION (sampleClass principle; not ❄️'s verdict row).",
@@ -12846,7 +12981,17 @@ const BUILTIN_PRESETS = [
     backgroundComplex:{background:"declared", note:"第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)",
       sources:[{id:"sun", kind:"body", excludedExplicit:true}], W0:5.699987574282822e-09,
       A0:[0,2.7018851611140787e-09], gradW:[-1.930092225608931e-15,0], gradA:[0,0,-9.148945459956653e-16,0], dWdt:0, dAdt:[2.1683731460773505e-16,0],
-      frame:{origin:"barycenter", epoch:"t0(第280便c の診断コピー)", rotation:"none", translation:"comoving"}},
+      frame:{origin:"barycenter", epoch:"t0(第280便c の診断コピー)", rotation:"none", translation:"comoving"},
+      // 第287便c(R109): **時間の契約 —— 源の台帳から毎回作り直す(本命)**。台帳は第279便c の器(bgbudget2-w279c)の太陽そのもの:
+      // 質量 1.9885×10³⁰ kg・対の重心から −5.906440633928272×10¹² m・速度 +4740.16 m/s(y)・加速度 +3.804171707×10⁻⁶ m/s²(x —— 対と一緒に
+      // 自由落下する系で見た太陽の加速度 −g_c)・ε=0.05(単位換算は器と同じ浮動小数の割り算の値をそのまま —— 器の写しと宣言が 1 bit も違わない)。
+      // 上の手入力の 6 成分は台帳から出る値と相対 5×10⁻¹⁶ 以内(受理器が 1e-12 で照合)。
+      // 有効幅 3.4×10⁵(正式の判定器の窓 20694498 步×0.016=331112 を含む —— 源の軌道 X+Vt+½at² の宣言の範囲)。
+      // ∂ₜ は凍結参照系(対の重心と一緒に動く系)の座標で固定した点の偏微分。**taylor(一次)は採らない**: 勾配を凍結するので
+      // ∂ₜu≠0 の背景では見かけのせん断 −τ ∂ₜu⊗∇W/W を作る(周期 +1.37×10⁻³ s —— PHYSICS〔第287便c〕)
+      bgModel:"sources", ledger:[{id:"sun", m:198849.99999999997, x:-5906440.633928273, y:0, vx:0, vy:0.4740159738776329, ax:3.8041717070763564e-8, ay:0}],
+      refPos:[0,0], eps:0.05,
+      timeContract:{mode:"sources", t0:0, derivFrame:"frame", widthT:340000}},
     meshVelocity:{law:"vMinusU", field:"backgroundComplex", mutual:0,
       frame:{origin:"barycenter", epoch:"t0(第280便c の診断コピー)", rotation:"none", translation:"comoving"}}},
   bodies:[ // ❄️ plutoCharonReal の bodies を**ビット同一で複製**(vx,vy は観測の座標速度 ẋ として読む —— velocityMeaning:"xdot")
@@ -31819,6 +31964,10 @@ function loadSaveBgcAccept(s, preset){
     if(bgc!==null){
       const bx=bgSourcesBodyCheck(bgc, (preset && Array.isArray(preset.bodies))? preset.bodies.length : 0);
       if(bx) return {ok:false, present:true, err:bx};
+      // 第287便c(R109・AN40 の残りの残り): 法則版 lawVersion の経路の相互検査もプリセットと同じに(経路の無い法則版・較正クラス・
+      // centerSpin 等との併用・時間の契約の欠けをセーブ経路でも拒否 —— 未宣言の法則版は null を返すだけ)
+      const lx=bgLawCrossCheck(bgc, Object.assign({},DEFAULT_PHYSICS,ph), preset? preset.sampleClass : undefined);
+      if(lx) return {ok:false, present:true, err:lx};
     }
   }
   const mv0=(ph && typeof ph==="object")? ph[MESH_VEL_KEY] : undefined;
@@ -33144,7 +33293,7 @@ $("#ocPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) ocO
 // sources/frame/refPos(任意鍵)はこの欄では編集せず、既存の宣言にあればそのまま引き継ぐ。
 const BGC_FIELDS=[   // [鍵, 成分数(0=スカラー), 単位の鍵]
   ["W0",0,"W0"],["A0",2,"A0"],["gradW",2,"gradW"],["gradA",4,"gradA"],["dWdt",0,"dWdt"],["dAdt",2,"dAdt"]];
-const BGC_KEEP=["sources","frame","refPos","lawVersion","lawUnits","lawDomainR","lawWZero"];   // 第286便c: 法則版の鍵もこの欄では編集せず引き継ぐ
+const BGC_KEEP=["sources","frame","refPos","lawVersion","lawUnits","lawDomainR","lawWZero","timeContract"];   // 第286便c: 法則版の鍵もこの欄では編集せず引き継ぐ(第287便c: 時間の契約も)
 let _bgcOpen=false;   // 欄の開閉(buildParamRows の組み直しをまたいで保つ・永続しない)
 let _bgcLastErr=null; // 直近の拒否 {sim,pid,err}(組み直し後も同じ文を出す。宣言/未宣言に戻す/編集対象・サンプルの切替で消える)
 function bgcState(S){
@@ -43928,8 +44077,10 @@ function dfmGeoToyBgLawStep(S,dt,cf,law){
     const loc=(k>0)? dfmComplexMomentsP(others.length===k? others : others.slice(0,k), x[i], y[i], eps2, L.p) : null;
     if(k>0 && !loc){ S.geoToyStop="bgLaw:local"; S.bgLawStopWhy="local"; return null; }
     if(loc) loc.selfExcluded=true;
-    const b=bgLawBackgroundAt(L, x[i], y[i], O);
+    const b=bgLawBackgroundAt(L, x[i], y[i], O, L.time? S.t-L.time.t0 : 0);
     if(!b.ok){ S.geoToyStop="bgLaw:"+b.why; S.bgLawStopWhy=b.why; return null; }
+    if(b.out) S.bgLawTimeOut++;
+    if(b.reexp) S.bgLawTimeReexp++;
     if(!loc && !b.bg){ nVac++; continue; }
     const f=dfmBlendComplexMoments(loc, b.bg);
     if(!f.ok){ S.geoToyStop="bgLaw:blend"; S.bgLawStopWhy="blend"; return null; }
@@ -46156,6 +46307,7 @@ function meshVelocityPrepare(S){
   S.hasMeshVelocity=false; S.meshVel=null; S.meshVelDeny=null;
   S.meshVelN=0; S.meshVelUndef=0; S.meshVelBad=0; S.meshVelUMax=0; S.meshVelKickMax=0;
   S.meshVelWork=0; S.meshVelChiMin=null; S.meshVelChiMax=null;
+  S.meshVelTimeOut=0; S.meshVelTimeReexp=0;   // 第287便c: 時間の契約の範囲外・源からの再展開の回数
   // 第280便c: geoPN=3・vMinusU の読み口(未宣言は false/null のまま —— 既定経路は真偽値を読むだけ)
   S.hasGeo3=false; S.hasGeo3PN=false; S.geo3=null; S.geo3PnN=0; S.geo3PnKickMax=0; S.geo3PnDL=0;
   S.geo3PnUndef=0; S.geo3PinCarry=0;
@@ -46190,6 +46342,10 @@ function meshVelocityPrepare(S){
     // 第286便c(AN47): 法則版。share-p1 はトイの経路なので拒否・complex-p2 は有限領域と W=0 の規約だけを足す(式は変えない)
     if(B.lawVersion==="share-p1") return deny("lawVersion share-p1 は geoPN=3 のトイの経路");
     if(B.lawVersion==="complex-p2") bg.law={law:B.lawVersion, p:2, domainR:B.lawDomainR, wZero:B.lawWZero, version:BGC_LAW_VERSION_TAG};
+    // 第287便c(R109): 時間の契約(時間微分が 0 でない背景は宣言が必須 —— 相互検査と同じ規則をここでも守る)
+    if(bgTimeCrossCheck(B, "meshVelocity")) return deny("backgroundComplex.timeContract 未宣言(時間微分あり)");
+    const tm=bgTimePrepare(B);
+    if(tm) bg.time=tm;
   }
   const n=S.n, oi=bgBodyRefIndex(mv.frame.origin);
   if(oi>=0 && !(oi<n)) return deny("origin 範囲外");
@@ -46251,16 +46407,28 @@ function dfmMeshVelocityFieldAt(S, i, src, O){
   const OO=O || meshVelocityOrigin(S);
   const e2=(S.params.softening||0)*(S.params.softening||0);
   const px=S.x[i], py=S.y[i];
-  let ext=null, loc=null;
+  let ext=null, loc=null, tOut=false, tRe=false;
   if(mv.field==="backgroundComplex"){
     const B=mv.bg, dx=px-OO[0], dy=py-OO[1];
     if(B.law && Math.hypot(dx,dy)>B.law.domainR) return {ok:false, err:"有限領域 lawDomainR の外(背景の一次の値を使わない)", bad:true, outside:true};
-    const W=B.W0+B.gradW[0]*dx+B.gradW[1]*dy;
-    if(!(W>=0)) return {ok:false, err:"背景の重みが負(線形の外挿が源の近くまで伸びた)", bad:true};
-    const A=[B.A0[0]+B.gradA[0]*dx+B.gradA[1]*dy, B.A0[1]+B.gradA[2]*dx+B.gradA[3]*dy];
-    if(W===0 && B.W0===0) ext={W:0, A:[0,0], gradW:[0,0], gradA:[0,0,0,0], dWdt:0, dAdt:[0,0]};
-    else if(W===0) return {ok:false, err:"背景の重みがちょうど 0 の点(分子は残る)", bad:true};
-    else ext={W, A, gradW:B.gradW.slice(), gradA:B.gradA.slice(), dWdt:B.dWdt, dAdt:B.dAdt.slice()};
+    if(B.time){
+      // 第287便c(R109): 時間の契約 —— 値を τ=t−t₀ で動かす(sources は源から毎回作り直す・taylor は一次)。返す ∂ₜ はその値の時間微分と一致する
+      const r=bgTimeMomentsAt(B, B.time, dx, dy, S.t-B.time.t0);
+      if(!r.ok) return {ok:false, err:"時間の契約: 源の台帳から背景が作れない", bad:true};
+      const E=r.bg;
+      if(!(E.W>=0)) return {ok:false, err:"背景の重みが負(時間の契約の値)", bad:true};
+      if(E.W===0 && B.W0===0 && B.dWdt===0) ext={W:0, A:[0,0], gradW:[0,0], gradA:[0,0,0,0], dWdt:0, dAdt:[0,0]};
+      else if(E.W===0) return {ok:false, err:"背景の重みがちょうど 0 の点(時間の契約の値)", bad:true};
+      else ext=E;
+      tOut=!!r.out; tRe=!!r.reexp;
+    } else {
+      const W=B.W0+B.gradW[0]*dx+B.gradW[1]*dy;
+      if(!(W>=0)) return {ok:false, err:"背景の重みが負(線形の外挿が源の近くまで伸びた)", bad:true};
+      const A=[B.A0[0]+B.gradA[0]*dx+B.gradA[1]*dy, B.A0[1]+B.gradA[2]*dx+B.gradA[3]*dy];
+      if(W===0 && B.W0===0) ext={W:0, A:[0,0], gradW:[0,0], gradA:[0,0,0,0], dWdt:0, dAdt:[0,0]};
+      else if(W===0) return {ok:false, err:"背景の重みがちょうど 0 の点(分子は残る)", bad:true};
+      else ext={W, A, gradW:B.gradW.slice(), gradA:B.gradA.slice(), dWdt:B.dWdt, dAdt:B.dAdt.slice()};
+    }
   } else {
     const L=[];
     for(let j=0;j<S.n;j++) if(j!==i && mv.ext[j]) L.push(SR[j]);
@@ -46279,6 +46447,8 @@ function dfmMeshVelocityFieldAt(S, i, src, O){
     u:null, gradU:null, dUdt:null, chi:null, why:"外部の源が無い"};
   const f=dfmBlendComplexMoments(loc, ext);
   if(!f.ok) f.bad=true;
+  if(tOut) f.timeOut=true;       // 第287便c: 時間の契約の宣言範囲の外(値は消さない —— 数えるだけ)
+  if(tRe) f.timeReexp=true;     // 第287便c: 範囲の外を源の台帳から作り直した
   return f;
 }
 function dfmMeshVelocityStep(S,dt){
@@ -46298,6 +46468,8 @@ function dfmMeshVelocityStep(S,dt){
   for(let i=0;i<n;i++){
     const f=F[i];
     if(!f) continue;
+    if(f.timeOut) S.meshVelTimeOut++;
+    if(f.timeReexp) S.meshVelTimeReexp++;
     if(!f.ok){ nBad++; continue; }
     if(f.defined!==true){
       // 第286便c: complex-p2 の lawWZero:"undefined" は W=0 の点を不正として数える(真空規約 "vacuum" と未宣言は従来どおり nUndef)
@@ -47608,6 +47780,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // QA behavior.bgLawVersion・behavior.bgDiffCheck が機械固定する
   bgcLawCheck, bgLawCrossCheck, dfmComplexMomentsP, bgLawBackgroundAt, bgLawPrepare, dfmGeoToyBgLawStep,
   BGC_LAW_VERSION_TAG, BGC_LAW_VERSIONS, BGC_LAW_P, BGC_LAW_UNITS, BGC_LAW_WZERO, BGC_LAW_KEYS,
+  // 第287便c(R109): 背景場の時間発展の契約(受理器・要否・相互検査・準備・評価)とセーブの受理。QA behavior.bgTimeContract・behavior.loadSaveBgLaw が機械固定する
+  bgcTimeCheck, bgTimeNeeded, bgTimeCrossCheck, bgTimePrepare, bgTimeMomentsAt, bgTimeFromSources, loadSaveBgcAccept,
+  BGC_TIME_VERSION, BGC_TIME_MODES, BGC_TIME_KEYS,
   BGC_UNIFORM_DOMAINS, BGC_LEDGER_MAX, BGC_LEDGER_KEYS, BGC_MODEL_KEYS, BGC_MODEL_ONLY_KEYS, BGC_DERIV_STATUS,
   validateBgSources, validateBgFrame, bgBodyRefIndex, bgSourcesBodyCheck, BG_SOURCE_KINDS, BG_SOURCE_MAX,
   BG_SOURCE_ID_MAX, BG_FRAME_ROTATIONS, BG_FRAME_TRANSLATIONS, BG_FRAME_EPOCH_MAX, BG_FRAME_KEYS,

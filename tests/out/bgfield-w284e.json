@@ -3,43 +3,43 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
-  "generatedAt": "2026-09-29T05:27:48.275Z",
+  "targetSha256": "7ab3adf044f778f3e797884c5e3a037b73c060f4a49df34a015da687e457457b",
+  "generatedAt": "2026-09-29T17:23:41.226Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5184678,
-    "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
-    "mtime": "2026-09-29T04:36:34.917Z"
+    "bytes": 5200470,
+    "sha256": "7ab3adf044f778f3e797884c5e3a037b73c060f4a49df34a015da687e457457b",
+    "mtime": "2026-09-29T17:22:24.344Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w284e-bgfield.mjs",
-    "bytes": 21869,
-    "sha256": "14cf399fc1dff2e7693e70ab261f19d5343119ab3c2467ee1834b76917c7bc39",
-    "mtime": "2026-09-27T10:21:02.582Z"
+    "bytes": 22699,
+    "sha256": "29eef115c62dc6b7515a1222481e78abc8e28d0133c7d3934a973715ba676f5e",
+    "mtime": "2026-09-29T17:12:49.224Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-24T08:51:12.597Z"
+    "mtime": "2026-09-29T16:51:30.396Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-09-29T16:51:28.648Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-09-28T21:48:12.641Z"
+    "mtime": "2026-09-29T16:51:30.772Z"
    }
   ],
-  "codeSha256": "bf9bc5a8753ad25c2001b7e7444cc4a72bae4f1504df9ba83a3d49be56edf350",
+  "codeSha256": "67b5660f915c5bb1de830108178c0cd3bc68119cf323d8725606e596b3c7682f",
   "harnessVersion": "w284e-bgfield-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第74報)④: 「背景複素決定力 W₀・A₀」関連パラメータについて算出可能なものを確認する",
@@ -78,11 +78,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 836,
-   "segments": 758,
-   "closureShare": 0.3144
+   "names": 846,
+   "segments": 768,
+   "closureShare": 0.3157
   },
-  "scopeSha256": "4901a6e08387361832485b1d71845afe2e1ba09388728841b4fbc2da0a3d3f16",
+  "scopeSha256": "395bcee85263c9532efda0507b7c08581e25b726084ff89f10d0747d9e3e6b99",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -493,8 +493,8 @@
    "zeroBitSame": false,
    "largeBitSame": false,
    "nan": false,
-   "maxAbsDiffZero": 0.47401877791156605,
-   "maxAbsDiffLarge": 4.266169001203132,
+   "maxAbsDiffZero": 0.474015973877634,
+   "maxAbsDiffLarge": 4.266143764898815,
    "state": "適用中"
   }
  ],
@@ -531,5 +531,5 @@
    }
   ]
  },
- "elapsedS": 18.198
+ "elapsedS": 48.931
 }
