@@ -248,6 +248,18 @@
     "state": "cluster units, one representative rate, four radii, rotating Jeans start; gates not met"
    }
   },
+  "clusterGrowthCopy": {
+   "purpose": "自由な中心が落ちてくる塊を中心とだけの捕獲で合体させる成長経路の原理コピー",
+   "objective": "unmet",
+   "state": "捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達",
+   "evidence": [
+    "tests/out/growth-w287a.json"
+   ],
+   "en": {
+    "purpose": "A free centre merges with infalling clumps by centre-only capture",
+    "state": "the capture ledger closes; the free centre drifts away from the clumps; gates not met"
+   }
+  },
   "shapeToyCluster": {
    "purpose": "指定した 3D 正規分布を保つ参照模型",
    "objective": "met",

@@ -24,6 +24,7 @@
 //   'w285b-branch' … 第285便b の枝で器を 1 回走らせた実測(正本の elapsedS 681.6 —— Node だけ・他の枝と同じ容器で並走〔負荷平均 30 前後〕)。
 //   'w285d-branch' … 第285便d の枝で器を走らせた実測(正本の elapsedS —— Chromium 1 本・1 步も走らせない生成器)。
 //   'w286a-branch' … 第286便a の枝で器を走らせた実測(正本の elapsedS —— jeans286 は Node だけ・clusterScan286 は子プロセス 2 本・他の 5 枝と同じ容器で並走)。
+//   'w287a-branch' … 第287便a の枝で器を走らせた実測(正本の elapsedS 157.9 —— Node だけ・子プロセス 2 本・負荷平均 1 未満の容器。他の 5 枝と並走した 1 回目は 559.1)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -444,9 +445,22 @@ export const REGEN_STEPS = [
   S('jeans286', 'node tests/exp-w286a-jeans.mjs', ['tests/out/jeans-w286a.json'], 27, { secSource: 'w286a-branch', node: true,
     volatilePaths: { 'tests/out/jeans-w286a.json': META_RUN.concat(['/elapsedS']) },
     note: '第286便a: σ²=a²{ω_g²−(Ω−ω)²}(35.64)の検算・平衡解なしの拒否・html の jeansSigma2Profile と純関数のビット一致・💮 の Jeans の反復と ∂ₜū の大きさ・受理器の拒否 5 種' }),
-  S('clusterScan286', 'node tests/exp-w286a-cluster.mjs', ['tests/out/cluster-w286a.json'], 8895, { secSource: 'w286a-branch', node: true, workers: 2,
+  // 第287便a(統括の検証項目 R107・統括が設定した検証仮説「本体半径の漏れの正体」): 走査器 exp-w286a-cluster に**同じ初期状態のコピーから条件を変える**
+  //   関数(sameInitCopy・sameInitSeparation)を足したので、第286便a の走査の正本は**履歴**(走らせない —— 第286便a の宣言と別 build の走査の記録)。
+  //   同一初期状態の比較の数は段 growth287 の正本(growth-w287a.json の sameInit286)に入る
+  S('clusterScan286', 'node tests/exp-w286a-cluster.mjs', ['tests/out/cluster-w286a.json'], 8895, { role: 'history', secSource: 'w286a-branch(第287便a から履歴 —— 走らせない)', node: true, workers: 2,
     volatilePaths: { 'tests/out/cluster-w286a.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
-    note: '第286便a: 💮 の星団スケール(L16/T12/M35 の単位の一組・同じ代表率・4 半径の分離・vMode jeans)の宣言の照合と走査 8 構成(門は第283便f のまま・D_A と η_mesh)' }),
+    note: '第286便a: 💮 の星団スケール(L16/T12/M35 の単位の一組・同じ代表率・4 半径の分離・vMode jeans)の宣言の照合と走査 8 構成(門は第283便f のまま・D_A と η_mesh)。'
+      + '第287便a から**履歴**(走査器に同一初期状態の関数を足した —— 第286便a の走行は別 build で半径を変えていた記録)' }),
+  // ---- 第287便a(原仮定者の裁定(第77報)④・統括の検証項目 R107・AN63/AN74): 成長経路の原理コピー 🌰 の走行(順行・逆行・真正面 × 乱数種 3 +
+  //   半径の対照)・捕獲の帳簿・門(合体が止んだ後の窓)・D_g と符号つき η_mesh・F_r・摂動後の復元・負の対照(捕獲関数の直接呼び出し)・
+  //   💮 の同一初期状態の比較・対照の最小模型の単体試験(Node だけ・html だけを読む —— 他の正本は読まない。子プロセスの並列 W287A_WORKERS・既定 2)
+  S('growth287', 'node tests/exp-w287a-growth.mjs', ['tests/out/growth-w287a.json'], 158, { secSource: 'w287a-branch', node: true, workers: 2,
+    env: { W287A_WORKERS: '子プロセスの並列数(既定 2 —— 結果は並列数に依らない)' },
+    volatilePaths: { 'tests/out/growth-w287a.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec', '/runs/*/spentSec', '/radiusRun/wallSec', '/radiusRun/spentSec',
+      '/speed/growth/*/wallSec', '/speed/growthTotal/wallSec']) },
+    note: '第287便a: 🌰 clusterGrowthCopy(自由な中心・中心とだけの捕獲 centerCapture)の門(💮 の閾値・合体が止んだ後の窓)・捕獲の帳簿・D_g/η_mesh/F_r・'
+      + '摂動後の復元・負の対照 6 事例・半径の対照(同じ初期状態)・💮 の走査器の同一初期状態の比較・最小模型の単体試験' }),
   // ---- 第285便c(原仮定者の裁定(第75報)⑥・統括の検証項目 R99): 背景場の微分の算出可否と宣言の型 bgModel(html の純関数と受理器だけを読む ——
   //   Node だけ・1 步も走らせない・他の正本は読まない)
   S('bgderiv', 'node tests/exp-w285c-bgderiv.mjs', ['tests/out/bgderiv-w285c.json'], 1, { secSource: 'w285c-branch', node: true,

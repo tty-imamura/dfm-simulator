@@ -9402,6 +9402,83 @@ const BUILTIN_PRESETS = [
      mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"jeans", jeansRot:0.1, vScale:1, direction:1, bulkVx:0, bulkVy:0, lightSweep:1}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false,
     spaceMesh:{mode:"mesh"}} },
+// ===== 第287便a(原仮定者の裁定(第77報)④「銀河の成長を考える」・統括の検証項目 R107・AN63/AN74)=====
+// 🌰 clusterGrowthCopy —— **成長経路の原理コピー**(💮 は 1 bit も変えない・較正母集団に入れない)。
+// 💮 の台帳の写し(星団スケール L16/T12/M35・G 6.6743・c 29979.2458・geoPN=3・kFrame=0・lawVersion "scalar"・centerSpin "read"・
+// W_bg=spaceMesh.D0 0.15・R_drag 1.5・ε 3・恒星と DR の代表粒子の質量 0.2125/0.425 = 同じ代表率 w)に対し、違いは 3 つ:
+// ① **中心は pinned しない**(自由中心 —— 落ちてきた相手と合体できることが仮説の本体)② **中心捕獲** `centerCapture`
+//    (接触と融合は中心とだけ・恒星どうし・DR どうしは contactMode "none" のまま —— 捕獲の 3 条件と 1 行の帳簿は
+//    `dfmCenterCaptureStep` の注釈)③ N は小さく: 中心 1 + 落ちてくる塊 4 個(各 恒星 1 + DR 20 = 個数比 20)= 85 体。
+// 塊は中心から 24 の 4 方向に置き、塊の並進速度は接線 1.4(順行 —— 中心の spin 12 と同じ向き)。逆行・真正面・半径の対照は器が
+// 同じ初期状態のコピーから作る(tests/exp-w287a-growth.mjs)。**門(保持・半質量半径・軸比)は測る前に器と PHYSICS〔第287便a〕に書いた**。
+// E6′ を重ねない(toyAllowDrag を使わない)・f も観測質量への合わせ込みもしない。
+{ id:"clusterGrowthCopy", name:"成長経路の原理コピー(自由な中心が落ちてくる塊を捕獲する)", emoji:"🌰",
+  group:"銀河の力学", scaleTier:"stellar", scaleExp:{L:16, T:12, M:35}, sampleClass:"principle", fidelity:"toy",
+  notClaim:["cluster","dm"],
+  obsCard:[
+    {q:"何を置いたか", model:"自由な中心(m=25・spin 12・本体半径 0.01)+ 塊 4 個(各 恒星 1 + DR 20・💮 と同じ代表率)を中心から 24 に置き、接線 1.4 の順行で落とす", obs:"—(原理サンプル —— 2D のアナロジー)"},
+    {q:"中心捕獲(接触と融合は中心とだけ)", model:"距離 < 1.5・束縛・供給 Q ≥ 0・|Ω′| ≤ 40 で捕獲。帳簿 1 行: M′・P′・J_s′=J_s,c+J_s,j+μ r×v_rel−J_esc−J_rad・Ω′=J_s′/I′・E_self・Q", obs:"—"},
+    {q:"Ω′ は必ず増えるわけではない", model:"逆行の相手は J_s を減らし、I′=½M′R′² は M′ とともに増える。供給の足りない捕獲は行わない(拒否の数を記録)", obs:"—"},
+    {q:"単位(💮 の台帳の写し)", model:"L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg —— G=6.6743・c=29979.2458・W_bg=0.15・R_drag=1.5・ε=3", obs:"—"},
+    {q:"門(測る前に宣言)", model:"保持率・半質量半径の変化・軸比(💮 と同じ閾値)を合体が止んだ後の窓で測る。合体の回数は門にしない —— PHYSICS〔第287便a〕", obs:"—"},
+    {q:"言わないこと", model:"星団が落ち着いた/合体で自転が増えて斥力になった/中心の引きずりが支配的になった", obs:"—"}],
+  descStruct:{
+    summary:"**成長経路の原理コピー**(第287便a・原仮定者の裁定〔第77報〕④「銀河の成長を考える」)。💮 を書き換えずに、💮 の台帳の写し(星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg・G=6.6743・c=29979.2458・geoPN=3・kFrame=0・lawVersion \"scalar\"・centerSpin \"read\"・W_bg=0.15・R_drag=1.5・ε=3・恒星と DR の代表粒子 0.2125/0.425)で、**中心を pinned しない**(自由中心)・**接触と融合は中心とだけ**(`centerCapture` —— 恒星どうし・DR どうしは contactMode \"none\" のまま)・**N は小さく**(中心 1 + 塊 4 個 × 21 体)の 3 点だけを変えた。塊は中心から 24 の 4 方向から接線 1.4 で順行に落ちる。捕獲は 4 条件(距離 < 1.5・対が束縛・エネルギーの供給 Q ≥ 0・|Ω′| ≤ エンジンの安全上限 40)で、捕獲のたびに 1 行の帳簿(M′・P′・J_s′=J_s,c+J_s,j+μ r×v_rel−J_escaped−J_radiation・I′=½M′R′²・Ω′=J_s′/I′・自己束縛 E_self・熱 Q)を付ける。**Ω′ は必ず増えるわけではない**(逆行の相手は J_s を減らす)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性)と中心捕獲だけ。**言わないこと**: 星団が落ち着いた/合体で自転が増えて斥力になった/中心の引きずりが支配的になった。",
+    observe:"実測(器 tests/exp-w287a-growth.mjs・正本 tests/out/growth-w287a.json —— 結果は 9 走行とも未達: 自由な中心がトイの加速度で塊から離れる): 順行・逆行・真正面の 3 対照 × 乱数種 3 で、捕獲の帳簿の閉じ(P・J・E の残差・Q ≥ 0・クランプ 0)・合体が止んだ後の窓の保持率・半質量半径の変化・軸比・半径別の D_g(r)=|a_g,core|/(|a_g,core|+|a_g,group|) と符号つきの η_mesh(r)=a_mesh,r/|a_g,r|・F_r の各項・摂動後の復元を測る。負の対照 2 つ(無自転・真正面で J を作らない/逆行でスピンが減り得る)と半径の対照(同じ初期状態から中心の本体半径だけを変える)も同じ正本に。数は PHYSICS〔第287便a〕。",
+    brief:"自由な中心に落ちてくる塊を、中心とだけの捕獲(M・P・J・E の 1 行の帳簿)で合体させ、合体が止んだ後の形を宣言済みの門で測る原理コピー。較正対象外。",
+    control:"順行(宣言)に対し、器が同じ初期状態から逆行・真正面・中心の本体半径だけを変えた対照を作る。比較の相手は 💮(同じ単位の台帳・中心 pinned・Jeans の初期分布)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
+  en:{name:"Growth-path principle copy (a free centre captures infalling clumps)",
+    status:{purpose:"A free centre merges with infalling clumps by centre-only capture", state:"the capture ledger closes; the free centre drifts away from the clumps; gates not met", mismatch:null, outlook:null},
+    obsCard:[
+      {q:"What is placed", model:"free centre (m=25, spin 12, body 0.01) + 4 clumps (1 star + 20 dark rotors each) placed 24 out, dropped prograde at 1.4", obs:"- (a principle sample; a 2D analogy)"},
+      {q:"Centre capture (contact and merging only with the centre)", model:"d < 1.5, bound, Q >= 0, |Omega'| <= 40; one ledger line: M', P', J_s'=J_s,c+J_s,j+mu r x v_rel-J_esc-J_rad, E_self, Q", obs:"-"},
+      {q:"Omega' need not grow", model:"a retrograde partner lowers J_s and I' grows with M'; captures without an energy supply are refused and counted", obs:"-"},
+      {q:"Units (a copy of 💮's ledger)", model:"L0=1e16 m, T0=1e12 s, M0=1e35 kg: G=6.6743, c=29979.2458, W_bg=0.15, R_drag=1.5, eps=3", obs:"-"},
+      {q:"Gates (declared first)", model:"retention, half-mass-radius change, axis ratio (💮's thresholds) after merging stops; merger counts are no gate", obs:"-"},
+      {q:"Not claimed", model:"no settled cluster, no spin-up turning into repulsion, no centre-drag dominance", obs:"-"}],
+    descStruct:{
+      summary:"A GROWTH-PATH PRINCIPLE COPY (wave 287a, the originator's ruling in report 77, item 4). Without touching 💮, it copies 💮's ledger (cluster units L0=1e16 m, T0=1e12 s, M0=1e35 kg, G=6.6743, c=29979.2458, geoPN=3, kFrame=0, lawVersion scalar, centerSpin read, W_bg=0.15, R_drag=1.5, eps=3, star and dark-rotor particles 0.2125/0.425) and changes three things: THE CENTRE IS NOT PINNED; CONTACT AND MERGING HAPPEN ONLY WITH THE CENTRE (centerCapture; stars and dark rotors keep contactMode none among themselves); N IS SMALL (a centre + 4 clumps x 21). The clumps start 24 from the centre in 4 directions and fall prograde with tangential speed 1.4. A capture needs distance < 1.5, a bound pair, an energy supply Q >= 0 and |Omega'| within the engine's safety cap 40, and each capture writes one ledger line (M', P', J_s'=J_s,c+J_s,j+mu r x v_rel-J_escaped-J_radiation, I'=M'R'^2/2, Omega'=J_s'/I', self-binding E_self, heat Q). OMEGA' NEED NOT GROW (a retrograde partner lowers J_s). Only gravity (E4), the geoPN=3 toy (coordinate inertia) and the centre capture act. NOT CLAIMED: a settled cluster, spin-up turning into repulsion, centre-drag dominance.",
+      observe:"Measured (harness tests/exp-w287a-growth.mjs, canonical tests/out/growth-w287a.json; all 9 runs miss the gates as the free centre drifts away from the clumps under the toy acceleration): prograde, retrograde and head-on controls x 3 seeds - ledger closure (P, J, E residuals, Q >= 0, no clamps), retention, half-mass-radius change and axis ratio in the window after merging stops, D_g(r)=|a_g,core|/(|a_g,core|+|a_g,group|) and the signed eta_mesh(r)=a_mesh,r/|a_g,r| by radius, the terms of F_r and recovery after a perturbation. Two negative controls (no spin and head-on makes no J; retrograde capture can lower the spin) and a radius control (only the centre's body radius changed from the same initial state) are in the same canonical. Numbers in PHYSICS (wave 287a).",
+      brief:"A free centre merges with infalling clumps by centre-only capture with a one-line M/P/J/E ledger; the shape after merging stops is measured against gates declared first. Out of calibration scope.",
+      control:"Against the declared prograde run, the harness builds retrograde, head-on and body-radius-only controls from the same initial state. Compare with 💮 (the same unit ledger, a pinned centre, a Jeans start). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
+  parameterAudit:{
+    observedInputs:["**無い。**"],
+    fixedConventions:["💮 の台帳の写し: 星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg(G=6.6743・c=29979.2458)・geoPN=3・kFrame=0・lawVersion:\"scalar\"・centerSpin:\"read\"・W_bg=spaceMesh.D0=0.15・R_drag=spaceMesh.dragR=1.5・ε=3・frameWeight:\"share\"",
+      "中心: m=25・spin 12・本体半径 0.01・**pinned しない**(自由中心 —— dragR は場の契約の「中心」〔pinned が無ければ最大質量の 1 体〕に掛かる)",
+      "塊 4 個: 中心から 24 の 0°/90°/180°/270°・半径 3 の一様円盤・恒星 1 × 0.2125 + DR 20 × 0.425(💮 と同じ代表率・個数比 20)・内部の速度 vMode random(vScale 1)・並進は接線 1.4(順行)",
+      "centerCapture: rCap 1.5(=R_drag の値を宣言 —— 決断事項候補)・inertia \"body\"(I=½MR²・R′=√(R_c²+R_j²))・|Ω′| はエンジンの安全上限 40 以下(超える捕獲は行わない)・contactMode:\"none\"・乱数種 20260929"],
+    fitted:["**無い。**"],
+    derived:["捕獲ごとの M′・P′・J_s′・I′・Ω′・E_self・Q(帳簿 S.capture —— 器が記録)","T_dyn=2π√(D³/(G M_tot))(D=24 —— 器が記録)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","粒子 85 体(中心 1 + 84)","質量と位置・速度・自転は Float64(massPrecision・stateCarry・捕獲の宣言)","測定: dt=0.016・窓は合体が止んだ後 [1, 3] T_dyn"]},
+  activeParams:["G"],
+  // 第287便a: サンプルの状況(原稿 tests/data-w279a-samplestatus-src.json と同じ文 —— 生成領域 sample-status の行は再生成の鎖で入る)
+  status:{purpose:"自由な中心が落ちてくる塊を中心とだけの捕獲で合体させる成長経路の原理コピー", objective:"unmet",
+    state:"捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達", calibration:"out-of-scope", mismatch:null, outlook:null,
+    evidence:["tests/out/growth-w287a.json"]},
+  centerCapture:{version:"w287a-capture-1", center:0, rCap:1.5, inertia:"body"},
+  camera:{scale:40}, world:{boundary:"none",size:0}, seed:20260929,
+  physics:{G:6.6743, D0:0.15, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    contactMode:"none"/* 接触は中心捕獲だけ(centerCapture) */,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, dispMag:1, stateCarry:"double", massPrecision:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read", D0:0.15, dragR:1.5}},
+  bodies:[
+    // 自由な中心(pinned しない・m=25・spin 12・本体半径 0.01 —— 💮 と同じ値。捕獲で M・J_s・R′ が変わる)
+    {type:"single", m:25, x:0,y:0, vx:0,vy:0, spin:12, pinned:false, radius:0.01},
+    // 塊 A(0°): 恒星 1 + DR 20・並進は接線 +1.4(順行)
+    {type:"disk", particleRadius:6.957e-8, n:1, cx:24,cy:0, radius:3, mMin:0.2125,mMax:0.2125, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:1.4},
+    {type:"disk", particleRadius:7.1492e-9, n:20, cx:24,cy:0, radius:3, mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:1.4, lightSweep:1},
+    // 塊 B(90°)
+    {type:"disk", particleRadius:6.957e-8, n:1, cx:0,cy:24, radius:3, mMin:0.2125,mMax:0.2125, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:-1.4, bulkVy:0},
+    {type:"disk", particleRadius:7.1492e-9, n:20, cx:0,cy:24, radius:3, mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:-1.4, bulkVy:0, lightSweep:1},
+    // 塊 C(180°)
+    {type:"disk", particleRadius:6.957e-8, n:1, cx:-24,cy:0, radius:3, mMin:0.2125,mMax:0.2125, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:-1.4},
+    {type:"disk", particleRadius:7.1492e-9, n:20, cx:-24,cy:0, radius:3, mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:-1.4, lightSweep:1},
+    // 塊 D(270°)
+    {type:"disk", particleRadius:6.957e-8, n:1, cx:0,cy:-24, radius:3, mMin:0.2125,mMax:0.2125, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:1.4, bulkVy:0},
+    {type:"disk", particleRadius:7.1492e-9, n:20, cx:0,cy:-24, radius:3, mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:1.4, bulkVy:0, lightSweep:1}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false,
+    spaceMesh:{mode:"mesh"}} },
 // ===== 第274便d(第64報「銀河のアナロジーのゴール: **実在天体に先立ち安定サンプルを用意する**」)=====
 // 原仮定者(第64報):「時間経過で形状が安定成長する計算式を、現状の実装や既存の物理法則に捉われずに
 // 考案する」/「球状星団=構成天体の集団を安定化・中心に対して正規分布・3D で横から見ても正規分布なので
@@ -19988,6 +20065,8 @@ function validatePreset(obj){
       p.fusion=out;
     }
   }
+  // 第287便a(R107): centerCapture — 中心捕獲(最上位キー・宣言した本だけ)。受理できない宣言は拒否(静かに落とさない)
+  if(p.centerCapture!==undefined){ const cc=centerCaptureCheck(p); if(!cc.ok) bad(cc.err); else p.centerCapture=cc.out; }
   // E14″ phaseChange — 創発相変化(最上位キー。fusion と同じ配置。第60便で創発一本に整理)。
   // 「相」は物理入力ではない: 結合予算 bondN(必須)を核に、引力・角度・減衰・熱伝導のすべてを
   // 「いまの結合状態(滑らかな配位数)」から導出する。**thermal:"tint" のときだけ有効**・
@@ -21925,6 +22004,8 @@ function makeSim(){
       if(__rdp && typeof __rdp==="object" && !Array.isArray(__rdp)
         && REL_DRAG_LAWS.indexOf(__rdp.law)>=0){ S.spin=new Float64Array(P.length); S.spinPrec="double"; }
       else S.spinPrec="single"; }
+    // 第287便a: centerCapture を宣言した宇宙は S.spin も Float64 へ(捕獲の J_s の帳簿を Float32 の丸めで崩さない —— 宣言した本だけ)
+    if(preset.centerCapture!==undefined && centerCaptureCheck(preset).ok && centerCaptureCheck(preset).out){ S.spin=new Float64Array(P.length); S.spinPrec="double"; }
     if(phys[STATE_CARRY_KEY]==="double"){
       S.ax=new Float64Array(P.length); S.ay=new Float64Array(P.length);
       S.x=new Float64Array(P.length); S.y=new Float64Array(P.length);
@@ -22155,6 +22236,12 @@ function makeSim(){
     }
     S.fusN=0; S.fusU=0; S.fusPx=0; S.fusPy=0; S.fusL=0; S.fusLog=S.fusion? [] : null;
     S.fisN=0; S.fisLog=(S.fusion&&S.fusion.fission)? [] : null; S._fisN0=S.n;
+    // 第287便a(R107): 中心捕獲の状態と帳簿(宣言が受理できないときは null —— 捕獲しない)
+    { const cc=(preset.centerCapture!==undefined)? centerCaptureCheck(preset) : null;
+      S.capture=(cc && cc.ok && cc.out)? {version:cc.out.version, i:cc.out.center, rCap:cc.out.rCap, inertia:cc.out.inertia,
+        nCand:0, nRefBound:0, nRefEnergy:0, nRefSpinCap:0, nCap:0, M:0, Eself:0, Q:0, dU3:0, eM:0, ePx:0, ePy:0, eL:0, eE:0, Jorb:0,
+        log:[], logMax:4096, logTrim:0} : null;
+      S.hasCenterCapture=!!S.capture; }
     // E14″ 創発相変化(第60便で一本化)。最上位キー phaseChange:{bondN,…}(thermal:"tint" かつ
     // fusion なしのときだけ有効 — validatePreset も同条件で警告つき削除する。内蔵プリセットは
     // バリデータを通らないので、ここが最終的な門番になる: fusion/twall と同形)。
@@ -24058,6 +24145,7 @@ function makeSim(){
         S.periSubHits=(S.periSubHits||0)+1; S.periSubSteps=(S.periSubSteps||0)+nn;
         if(S.echoFlipAt!==null) S._echo();
         if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
+        if(S.hasCenterCapture) dfmCenterCaptureStep(S);   // 第287便a: 中心捕獲(宣言した本だけ —— 真偽値 1 つで素通り)
         if(S.hasShed) S._shed();
         if(S.hasGalaxyTracer) _galTracerAdvance(S,dt);   // 第254便b: 物質線は外側の dt で 1 回だけ(第256便c: 非表示なら運ばない)
         return;
@@ -24118,6 +24206,7 @@ function makeSim(){
       // 第44便 44B(台帳4-68c): 融合はサブステップ末(E系適用後)。fusion 未指定では null 判定 1 回
       // 第45便 45B(台帳4-68d): 分裂は融合の**後**(同一サブステップで新生対が再融合しないための第1の柵)
       if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
+      if(S.hasCenterCapture) dfmCenterCaptureStep(S);   // 第287便a: 中心捕獲(融合・分裂と同じ位置・`S._core` の外 —— 未宣言は真偽値 1 つで素通り)
       // 第244便(第36報): envelopeShed はステップ末(融合・分裂の後)。未宣言はフラグ1つで素通り =
       // 1步あたりの追加コストは真偽値の読みだけ(S._core の中には 1 命令も足していない — 第208便の教訓)
       if(S.hasShed) S._shed();
@@ -32036,6 +32125,8 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   simB.fusPx=sim.fusPx; simB.fusPy=sim.fusPy; simB.fusL=sim.fusL;
   simB.fusLog=sim.fusLog? sim.fusLog.slice() : null;
   simB.fisN=sim.fisN; simB.fisLog=sim.fisLog? sim.fisLog.slice() : null; simB._fisN0=sim._fisN0;
+  // 第287便a: 中心捕獲の状態と帳簿も A 側の現況へ(宣言の無い本では null のまま)
+  simB.capture=sim.capture? Object.assign({}, sim.capture, {log:sim.capture.log.slice()}) : null; simB.hasCenterCapture=!!simB.capture;
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
   // 第37便 C1(台帳4-70): 壁帳簿と伝熱境界も転写(build 済みなので twall は同値だが明示する)
@@ -34410,7 +34501,8 @@ function presetSig(p){
     thermal:(q.thermal==="tint")?"tint":"spin",   // 第36便 D(台帳4-51): 温度の意味論も署名に含める
     // 第54便 54B: phaseChange(E14)と fusion も署名へ — これらだけが異なる2プリセットの
     // インポートが第36便の integrator 等と同型の誤重複スキップになるのを防ぐ
-    phaseChange:q.phaseChange||null, fusion:q.fusion||null
+    phaseChange:q.phaseChange||null, fusion:q.fusion||null,
+    ...(q.centerCapture? {centerCapture:q.centerCapture} : null)   // 第287便a: 宣言した本だけ(他の本の署名は 1 字も変わらない)
   });
 }
 // 第103便: 外部AIチャット返答からのJSON候補抽出(doImportText の寛容経路用)。
@@ -43957,6 +44049,128 @@ function dfmGeoToyBgLawStep(S,dt,cf,law){
   return dfmGeoToyFinish(S,dt,ACC,{ closure:SPACE_MESH_TOY_CLOSURE[0], iters:1, resid:null, residRel:null, conv:null,
     nOn, dvM, chiMax, law:L.law, R:null, Rdot:0, prepared:false });
 }
+// ===== 第287便a(原仮定者の裁定(第77報)④・統括の検証項目 R107): **中心捕獲** `dfmCenterCaptureStep(S)`(`S._core` の外) =====
+// 最上位キー `centerCapture:{version, center, rCap, inertia}` を宣言した宇宙だけが通る(未宣言は S.hasCenterCapture の
+// 真偽値 1 つで素通り = 既定経路 1 bit 不変)。**接触と融合は中心とだけ**: 恒星どうし・DR どうしの接触は無効のまま
+// (physics.contactMode:"none" を保つ —— 既存の `S._fuse` は pinned を除き全対を見て thermal:"tint" を要るので使わない)。
+// 中心 c(自由・pinned でない)と粒子 j の対を、ステップ末(融合・分裂と同じ位置)に次の 4 条件で捕獲する:
+//   (1) 距離 d < rCap(宣言 —— 中心捕獲の半径)
+//   (2) 対が束縛している: ½μ|v_rel|² − G m_c m_j/√(d²+ε²) < 0(E4 と同じ軟化核)
+//   (3) エネルギーの供給が足りる: Q = ½μ|v_rel|² + K_s,c + K_s,j − K_s′ + ΔU₃ ≥ 0
+//       (K_s = J_s²/(2I) の自転の運動エネルギー・ΔU₃ = 周辺の全粒子と対 2 体の重力ポテンシャル − 周辺と合体後 1 体の差)。
+//       足りない捕獲は**行わない**(拒否の数を数える —— 自転の運動エネルギーを無から作らない・Q をクランプしない)。
+//   (4) 捕獲後の |Ω′| がエンジンの安全上限(`S._core` の粒子ループのスピン ±40 —— 物理の法則ではない数値の柵)以下。
+//       超える捕獲も**行わない**(拒否の数を数える —— 捕獲の直後に柵で J_s を削られると帳簿が閉じないため。柵そのものは変えない)。
+// 帳簿(捕獲ごとに 1 行・S.capLog):
+//   M′ = m_c + m_j・P′ = m_c v_c + m_j v_j(重心へ)
+//   J_s′ = J_s,c + J_s,j + μ (r × v_rel) − J_escaped − J_radiation(本則は放出・放射を持たないので後 2 項は 0 の列)
+//   I′ = ½ M′ R′²(R′ = √(R_c² + R_j²) —— 融合と同じ面積等価・エンジンの自転の慣性の規約 I=½mR²)・Ω′ = J_s′/I′
+//   (Ω′ は必ず増えるわけではない —— 逆行の相手は J_s を減らし、I′ は M′ とともに増える)
+//   E: 対のポテンシャル U_pair(≤0)は合体体の**自己束縛エネルギー**の列 E_self へ(1 回あたり |U_pair| ≤ G m_c m_j/ε で有界)・
+//      残り Q(≥0)は**散逸の熱**の列 Q へ(力学へ戻らない)。E_mech + E_self + Q が捕獲の前後で一定(格納の丸めだけが残る)。
+//   トイ(geoPN=3)は位置エネルギーを持たない —— 中心の M・J が変わった後の周辺への仕事は次の步からトイの帳簿(E_toy+E_mesh)に入る。
+// **書かないこと**: 捕獲で中心の自転が増えて斥力になった(測る前)/ 星団が落ち着いた。
+const CENTER_CAPTURE_VERSION="w287a-capture-1", CENTER_CAPTURE_INERTIA=["body"], CENTER_CAPTURE_SPIN_CAP=40;
+// 受理(validatePreset と build の両方が読む —— 内蔵プリセットは受理器を通らないので build が最後の門番)。
+// 形: {version:"w287a-capture-1", center:0, rCap:>0, inertia:"body"}。中心は bodies[0] の single で pinned でないこと・
+// physics.contactMode:"none"(恒星どうし・DR どうしの接触は無効のまま)・fusion/phaseChange/thermal:"tint" と併用しない。
+function centerCaptureCheck(p){
+  const CC=p? p.centerCapture : undefined;
+  if(CC===undefined) return {ok:true, out:null};
+  if(!CC || typeof CC!=="object" || Array.isArray(CC)) return {ok:false, err:"centerCapture はオブジェクト(第287便a)"};
+  if(CC.version!==CENTER_CAPTURE_VERSION) return {ok:false, err:'centerCapture.version は "'+CENTER_CAPTURE_VERSION+'"'};
+  if(CC.center!==0) return {ok:false, err:"centerCapture.center は 0(bodies[0] の single が中心)"};
+  const b0=(p.bodies||[])[0];
+  if(!b0 || b0.type!=="single") return {ok:false, err:"centerCapture: bodies[0] が single でない"};
+  if(b0.pinned) return {ok:false, err:"centerCapture: 中心は pinned でない自由な天体(落ちてきた相手と合体できることが仮説の本体)"};
+  if(!(typeof CC.rCap==="number" && Number.isFinite(CC.rCap) && CC.rCap>0)) return {ok:false, err:"centerCapture.rCap は正の数値(中心捕獲の半径)"};
+  const inr=(CC.inertia===undefined)? CENTER_CAPTURE_INERTIA[0] : CC.inertia;
+  if(CENTER_CAPTURE_INERTIA.indexOf(inr)<0) return {ok:false, err:'centerCapture.inertia は "body"(I=½MR²・R′=√(R_c²+R_j²))'};
+  const ph=p.physics||{};
+  if(ph[CONTACT_MODE_KEY]!=="none") return {ok:false, err:'centerCapture は physics.contactMode:"none" と組む(接触と融合は中心とだけ)'};
+  if(p.fusion!==undefined || p.phaseChange!==undefined || p.thermal==="tint") return {ok:false, err:'centerCapture は fusion・phaseChange・thermal:"tint" と併用しない'};
+  return {ok:true, out:{version:CENTER_CAPTURE_VERSION, center:0, rCap:CC.rCap, inertia:inr}};
+}
+function dfmCenterCaptureStep(S){
+  const C=S.capture; if(!C) return 0;
+  const n=S.n, c=C.i;
+  if(!(c>=0 && c<n)) return 0;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, spin=S.spin, R=S.R, m=S.m, p=S.params;
+  const G=p.G, eps2=p.softening*p.softening, rc2=C.rCap*C.rCap, rs=p.radiusScale;
+  let dead=null, nDead=0, nBefore=0;
+  for(let j=0;j<n;j++){
+    if(j===c || (dead && dead[j])) continue;
+    const dx=x[j]-x[c], dy=y[j]-y[c], d2=dx*dx+dy*dy;
+    if(!(d2<rc2)) continue;
+    const mc=m[c], mj=m[j];
+    if(!(mc>0 && mj>0)) continue;
+    const mn=mc+mj, mu=mc*mj/mn;
+    const rvx=vx[j]-vx[c], rvy=vy[j]-vy[c];
+    const Krel=0.5*mu*(rvx*rvx+rvy*rvy);
+    const Upair=-G*mc*mj/Math.sqrt(d2+eps2);
+    C.nCand++;
+    if(!(Krel+Upair<0)){ C.nRefBound++; continue; }
+    const Rc=R[c], Rj=R[j], sc=spin[c], sj=spin[j];
+    const Ic=0.5*mc*Rc*Rc, Ij=0.5*mj*Rj*Rj;
+    const Jc=Ic*sc, Jj=Ij*sj, Jorb=mu*(dx*rvy-dy*rvx), Jesc=0, Jrad=0;
+    const Jn=Jc+Jj+Jorb-Jesc-Jrad;
+    const Rn=Math.sqrt(Rc*Rc+Rj*Rj), In=0.5*mn*Rn*Rn;
+    const Ks0=0.5*Ic*sc*sc+0.5*Ij*sj*sj, Ks1=(In>0)? Jn*Jn/(2*In) : Infinity;
+    const Xn=(mc*x[c]+mj*x[j])/mn, Yn=(mc*y[c]+mj*y[j])/mn;
+    let u3a=0, u3b=0;
+    for(let k=0;k<n;k++){
+      if(k===c || k===j || (dead && dead[k])) continue;
+      const mk=m[k];
+      const ax=x[c]-x[k], ay=y[c]-y[k], bx=x[j]-x[k], by=y[j]-y[k], ex=Xn-x[k], ey=Yn-y[k];
+      u3a+=-G*mc*mk/Math.sqrt(ax*ax+ay*ay+eps2)-G*mj*mk/Math.sqrt(bx*bx+by*by+eps2);
+      u3b+=-G*mn*mk/Math.sqrt(ex*ex+ey*ey+eps2);
+    }
+    const dU3=u3a-u3b;
+    const Q=Krel+Ks0-Ks1+dU3;
+    if(!(Q>=0)){ C.nRefEnergy++; continue; }
+    if(!(Math.abs(Jn/In)<=CENTER_CAPTURE_SPIN_CAP)){ C.nRefSpinCap++; continue; }
+    // ---- 捕獲前の量(帳簿の照合用)
+    const xc=x[c], yc=y[c], xj=x[j], yj=y[j], vxc=vx[c], vyc=vy[c], vxj=vx[j], vyj=vy[j];
+    const Px=mc*vxc+mj*vxj, Py=mc*vyc+mj*vyj;
+    const Ltot=mc*(xc*vyc-yc*vxc)+Jc+mj*(xj*vyj-yj*vxj)+Jj;
+    const E0=0.5*mc*(vxc*vxc+vyc*vyc)+0.5*mj*(vxj*vxj+vyj*vyj)+Ks0+Upair+u3a;
+    // ---- 書き込み(格納値を読み戻して逐次確定)
+    m[c]=mn; const mS=m[c];
+    { const mf=(p.massFloor>0)? p.massFloor : 0.01; S.mEff[c]=(Math.abs(mS)<mf)? mf : mS; }
+    x[c]=(mc*xc+mj*xj)/mS; y[c]=(mc*yc+mj*yj)/mS;
+    vx[c]=Px/mS; vy[c]=Py/mS;
+    if(S.radOv[c]>0) S.radOv[c]=(rs>0)? Rn/rs : 0;
+    else if(rs>0){ const rmi=S.rMulv[c], rmj=S.rMulv[j]; S.rMulv[c]=Math.sqrt((rmi*rmi*mc+rmj*rmj*mj)/mS); }
+    R[c]=Rn; const RS=R[c];
+    const X=x[c], Y=y[c], VX=vx[c], VY=vy[c], IS=0.5*mS*RS*RS;
+    spin[c]=(IS>0)? (Ltot-mS*(X*VY-Y*VX))/IS : 0;
+    const SP=spin[c];
+    // ---- 周辺(合体後)と監査
+    let u3c=0;
+    for(let k=0;k<n;k++){
+      if(k===c || k===j || (dead && dead[k])) continue;
+      const ex=X-x[k], ey=Y-y[k]; u3c+=-G*mS*m[k]/Math.sqrt(ex*ex+ey*ey+eps2);
+    }
+    const KsS=0.5*IS*SP*SP;
+    const QS=Krel+Ks0-KsS+(u3a-u3c);
+    const E1=0.5*mS*(VX*VX+VY*VY)+KsS+u3c+Upair+QS;
+    const eM=mS-mn, ePx=mS*VX-Px, ePy=mS*VY-Py, eL=(mS*(X*VY-Y*VX)+IS*SP)-Ltot, eE=E1-E0;
+    C.M+=mj; C.Eself+=Upair; C.Q+=QS; C.dU3+=(u3a-u3c); C.eM+=eM; C.ePx+=ePx; C.ePy+=ePy; C.eL+=eL; C.eE+=eE;
+    C.Jorb+=Jorb; C.nCap++;
+    C.log.push({t:S.t, id:(S.linId? S.linId[j] : j), idC:(S.linId? S.linId[c] : c), mC:mc, mJ:mj, d:Math.sqrt(d2),
+      Krel, Upair, dU3:(u3a-u3c), Jc, Jj, Jorb, Jesc, Jrad, Jn, Ic, In:IS, spin0:sc, spin1:SP, Ks0, Ks1:KsS, Q:QS,
+      eM, ePx, ePy, eL, eE,
+      scP:Math.abs(mc*vxc)+Math.abs(mj*vxj)+Math.abs(mc*vyc)+Math.abs(mj*vyj),
+      scL:Math.abs(mc*(xc*vyc-yc*vxc))+Math.abs(Jc)+Math.abs(mj*(xj*vyj-yj*vxj))+Math.abs(Jj),
+      scE:Math.abs(E0)+Math.abs(Upair)+Math.abs(Krel)});
+    if(C.log.length>C.logMax){ C.log.shift(); C.logTrim++; }
+    if(!dead){ dead=new Uint8Array(n); S._capInto=new Int32Array(n); }
+    dead[j]=1; S._capInto[j]=c; nDead++;
+    if(j<c) nBefore++;
+  }
+  if(nDead){ S._compact(dead, S._capInto, n); C.i=c-nBefore; }
+  return nDead;
+}
 // ===== 第282便d(原仮定者の裁定(第72報)⑥・統括の読み R81): **中心の自転を読む geoPN=3 のトイ** `dfmGeoToySpinStep` =====
 // 第281便b の実測: 🎋 の経路(`dfmGeoToyStep`)は源の omega を 0 で渡すので**中心の自転を読まない**
 // (中心 spin 1.2/0 の 2 走行が t=40 までビット一致)。本関数は `physics.spaceMesh.centerSpin:"read"` を
@@ -43984,8 +44198,14 @@ function dfmGeoToySpinStep(S,dt,cf,law){
   // 第286便a(R102): `spaceMesh.dragR` を宣言した宇宙は **pinned の源(中心)の自転項の R を R_drag にする**(本体半径 S.R とは別の欄)。
   //   宣言が無ければ従来どおり S.R(1 bit 不変)。自転を読むのは中心だけなので、pinned 以外の R は読まれない
   const dR=(cf.dragR!==undefined && cf.dragR!==null)? cf.dragR : null;
+  // 第287便a(R107): 中心が自由な宇宙(pinned が 1 体も無い —— 中心捕獲の原理コピー)では、場の契約の「中心」の規則
+  //   (pinned が無ければ最大質量の 1 体 —— dfmFieldContract の isCenter)と同じ 1 体の R を R_drag にする。
+  //   pinned がある宇宙(💮)は従来どおり pinned の源だけ(1 bit 不変)。dragR の宣言が無ければ読まない
+  let dRfree=-1;
+  if(dR!==null){ let anyPin=false, bm=-Infinity; for(let i=0;i<n;i++){ if(pin[i]===1){ anyPin=true; break; } if(m[i]>bm){ bm=m[i]; dRfree=i; } }
+    if(anyPin) dRfree=-1; }
   for(let i=0;i<n;i++) BD.push({id:i, m:m[i], x:x[i], y:y[i], vx:vx[i], vy:vy[i], ax:0, ay:0,
-    spin:S.spin[i], R:(dR!==null && pin[i]===1)? dR : S.R[i], omegaDot:0, pinned:(pin[i]===1)});
+    spin:S.spin[i], R:(dR!==null && (pin[i]===1 || i===dRfree))? dR : S.R[i], omegaDot:0, pinned:(pin[i]===1)});
   // 源の加速度(既定のトイと同じ: pinned は規定運動〔静止・等速 0 / レールは 2 階微分〕・自由粒子は g=G∇D)
   for(let i=0;i<n;i++){
     if(pin[i]){
@@ -47555,6 +47775,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmFieldSnapshot,
   // 第282便d(第72報⑥・R81・AN17): 場の契約の読み手(表示・診断・力学が同じ場を読む入口)と、既存の読み手の宣言
   dfmFieldContract, dfmFieldContractOf, FIELD_CONTRACT_VERSION, SPACE_MESH_CENTER_SPIN,
+  dfmCenterCaptureStep, centerCaptureCheck, CENTER_CAPTURE_VERSION,   // 第287便a
   // 第259便a: geoPN=3(トイの測地線モード)の積分器と、追従キックの**除去の段階**の値域。
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)
