@@ -4,19 +4,19 @@
   "wave": "第283便b",
   "target": "beta/index.html",
   "targetSha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
-  "generatedAt": "2026-09-29T21:07:55.767Z",
+  "generatedAt": "2026-09-29T22:12:23.628Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 5263849,
     "sha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
-    "mtime": "2026-09-29T21:06:41.859Z"
+    "mtime": "2026-09-29T22:11:43.827Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887860,
-    "sha256": "c086d6bf788c16d4807a0d9e3beb0954977fd552ee9b43ac78ba7910b95f8bb5",
-    "mtime": "2026-09-29T20:32:32.579Z"
+    "bytes": 2887853,
+    "sha256": "ca1d0eed272e20a807a60c6e1f2308a6b1007e8209e5a9432421d10692a4dc8c",
+    "mtime": "2026-09-29T21:38:03.871Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -52,7 +52,7 @@
     "file": "docs/FAMILIES_v1.45.md",
     "bytes": 79885,
     "sha256": "2831e4871b637755c0c05b1f296ea4fe3f75e97b01512b743242b62c4024355a",
-    "mtime": "2026-09-29T21:07:55.739Z"
+    "mtime": "2026-09-29T22:12:23.607Z"
    }
   ],
   "code": [
@@ -125,7 +125,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "81b7197f026f4be12a9323267d2252b4724b37fd28beee64da42e373fb0d4991",
+    "stableSha256": "f906eb4d7a3503216cd0d6464769bd4e4b6639005cd378d0680aeda623fce5b4",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "dc1897708b96d75e6433557f163adc2005c57c94767ec64158368b13b33b388b",
+    "stableSha256": "a6fcac33b3f9536da8e6b1ef3a63f8e5ca7992c7f325ee649abbc91efb029e49",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -8099,5 +8099,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.599
+ "elapsedS": 0.49
 }
