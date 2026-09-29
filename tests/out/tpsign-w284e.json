@@ -4,19 +4,19 @@
   "wave": "第284便e",
   "target": "beta/index.html",
   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-  "generatedAt": "2026-09-28T23:08:25.602Z",
+  "generatedAt": "2026-09-29T00:53:40.034Z",
   "inputs": [
    {
     "file": "beta/index.html",
     "bytes": 5184280,
     "sha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-    "mtime": "2026-09-28T21:08:25.763Z"
+    "mtime": "2026-09-28T23:35:22.208Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2852111,
-    "sha256": "b980b4480d34f2d512eeee46a9fb133818b261005ba71c2b5c32853b492daff5",
-    "mtime": "2026-09-28T22:18:16.275Z"
+    "bytes": 2852670,
+    "sha256": "bdf5649f40ff218cb1792bc6a950121b0a712ae867f67c53bd90beecbf63b61a",
+    "mtime": "2026-09-29T00:14:28.828Z"
    }
   ],
   "code": [
@@ -99,7 +99,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "95aaea3fbc2c563f73ccf379a8c7d86ce9d2e9c3df8fe03590eafba55edca943",
+    "stableSha256": "68979175ae0a02b3b6d7c715d032fb70e025c0a462ea0b0ac1446d0578ad59fa",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -127,7 +127,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "129a54b166d4dbb04fac57b915f112f3d2e2e556b9eac1d604a895a2d19cdc63",
+    "stableSha256": "bd13405a9b2089fcf175b95f6b53c4a92b20cb1cce91ede17fbf49ff5ce09ddf",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -168,14 +168,14 @@
   "source": "canon",
   "file": "tests/out/calaudit-w249.json",
   "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
-  "when": "2026-09-28T22:18:15.971Z",
+  "when": "2026-09-29T00:14:28.539Z",
   "canonFourValues": {
    "合": 0,
    "量限定合": 2,
    "否": 2,
    "保留": 33
   },
-  "wallSec": 0.028
+  "wallSec": 0.026
  },
  "signed": {
   "solarInner": {
@@ -1361,5 +1361,5 @@
    "decideNext": "必要な窓(近点数)と誤差予算"
   }
  ],
- "elapsedS": 0.1
+ "elapsedS": 0.098
 }
