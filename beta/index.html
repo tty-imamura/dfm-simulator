@@ -164,6 +164,18 @@
   #ppModal .ppFold .ppDimName{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;
     clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;}
   #ppModal .ppChip .ppChipN{margin-left:2px;}
+  /* 第287便e(原仮定者の裁定(第77報)⑥「『その他』の絞り込みの選択肢に説明タブの『コア公理』『強場トイ領域』なども加える。
+     1 回タップで選択・2 回タップで NOT 選択・3 回タップで解除」): 「その他」のチップは**三状態**(data-state on/not/off・
+     aria-pressed true/mixed/false)。on は塗り(--accFill の下地に --fg の文字)・not は「¬」接頭+打消し線+橙の枠と文字
+     (赤は台帳の「否」の色なので使わない)・off は従来の見た目。軸が増えたので「宣言」「分類バッジ」の 2 段の見出し
+     (.ppOtherSec —— 第286便e のセパレータと同じ作法: 上辺の区切り線+太字の見出し・行の幅いっぱい)で分ける。
+     入れ物 .ppOtherGrp(role=group)は display:contents なので、チップの折り返しは従来の .ppChips の flex のまま */
+  #ppModal .ppOtherGrp{display:contents;}
+  #ppModal .ppOtherSec{flex:1 0 100%;box-sizing:border-box;margin:3px 0 0;padding:4px 0 0;border-top:1px dotted var(--line,#2a3242);
+    font-size:calc(10.5px*var(--uz,1));font-weight:700;color:var(--dim);}
+  #ppModal .ppChip[data-state="on"]{background:var(--accFill);border-color:var(--acc);color:var(--fg);}
+  #ppModal .ppChip[data-state="not"]{border-color:var(--hot);color:var(--hotText);text-decoration:line-through;}
+  #ppModal .ppChip[data-state="not"]::before{content:"¬";display:inline-block;margin-right:3px;font-weight:700;text-decoration:none;}
   #ppList{overflow-y:auto;flex:1;margin-top:6px;border-top:1px solid var(--line);}
   /* 第147便(原仮定者指示): 一覧のグループ区切りを「見出し+罫線」のセパレータへ(表示専用)。
      見出し行そのものが上辺の区切り線を持つ。先頭の見出しだけは上辺の線を出さない。絞り込み・
@@ -1892,6 +1904,14 @@ ja: {
   ppOther_pinnedTip:"bodies のどれかが pinned:true(固定の天体・粒子群)を宣言している本",
   ppOther_multiTip:"bodies のどれかが群(disk・ring・box・grid —— n 粒子)を宣言している本",
   ppOther_testParticleTip:"bodies のどれかが試験粒子契約 testParticle:true を宣言している本",
+  // 第287便e(原仮定者の裁定(第77報)⑥・AN66): 三状態のチップ・2 段の見出し・「較正対象」。分類バッジの軸の語は説明タブの bdg* をそのまま使う
+  ppOther_calTarget:"較正対象",
+  ppOther_calTargetTip:"sampleClass:\"calibration\" を宣言している本(分類の「現実較正」DFM 版・kF0 版の両方)。較正の対象であって合格ではない —— 合否は較正監査の判定で、このチップは宣言を読むだけ",
+  ppOtherSecDecl:"宣言", ppOtherSecBadge:"分類バッジ(説明タブ)",
+  ppOtherState_on:"含む", ppOtherState_not:"除く(NOT)", ppOtherState_off:"未選択",
+  ppOtherCycleTip:(st)=>"1 回タップ=含む・2 回=除く(NOT)・3 回=解除(Space/Enter でも同じ) —— いま: "+st,
+  ppNoteOtherTri:"チップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除。含むチップをすべて満たし、除くチップをどれも満たさない本だけを出す(AND の中の否定)。件数は「除く」にしたチップでは満たさない本の数",
+  ppNoteOtherSecBadge:"分類バッジは説明タブのチップと同じ判定(classifyPreset と kFrame の宣言)から機械で引く",
   ppNoteOtherHead:"「その他」は既存の宣言を読むだけの絞り込み(表示専用 —— 物理・保存 JSON には一切影響しない)。チップは複数選べて、選んだチップを**すべて**満たす本だけを出す(AND —— スケール・分類・E水準・geoPN・検索とも AND)。「全カテゴリ」で選択を外す。件数はいま一覧に出せる本(退役・非表示の本を除く)で実行時に数える。",
   // 第255便c: グループは絞り込みの次元ではなくなった(一覧の見出しとして残る)ので、説明行の見出し語を分ける
   ppNoteGroupLabel:"グループ",   // 第256便c(第48報): 「グループ(一覧の見出し)」から改名
@@ -1936,7 +1956,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブと、ヘッダーと同じ高さのシミュレーション画面を残した高さ — 第281便e でどのタブでも同じ高さに固定)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します。✕・検索欄で文字があるときの Esc・削除して空にしたときは、検索文字列を消したあと検索欄のフォーカスを外します(モバイルではキーボードが閉じます。IME の変換中は何もしません。検索欄が空のときや検索欄の外での Esc はウィンドウを閉じます — 第284便d)。絞り込みには「geoPN」(0 測地線不用 / 1 観測再現(1PN・kF0) / 2 引きずり有り / 3 空間メッシュ)があり、スケール・分類・E水準・検索と同時に効きます(第284便d)。絞り込みはそれぞれ畳めて、畳んだ状態でも選んだチップの語が見えます。「その他」のチップ(📇 観測結果カードあり・固定(pinned)あり・多粒子(群あり)・試験粒子契約あり)は複数選べて、選んだものをすべて満たす本だけが出ます(第285便e)。絞り込みは次元ごと(スケール・分類・E水準・geoPN・その他)に見出しつきの区切り線で分かれ、開くと見出しの下にチップが並びます(第286便e)。「パラメータ」タブの「引きずり・測地線」は「測地線モード geoPN」の行が先頭です(第284便d)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘⭕🧲🔆🌓)は一覧の入口を 🌘 の 1 つにまとめました —— 残りは「すべて表示」か説明タブの「他の仲間」から開きます(サンプルの ID は 1 つも変えていません・第280便b)。「共通設定」の「スキン」で画面の配色をダーク(既定)/ライトから選べます —— ライトでもシミュレーション画面は暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)で、表示のみです(第281便e)。",   /* 第254便c: パラメータタブの構成を追記 */
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブと、ヘッダーと同じ高さのシミュレーション画面を残した高さ — 第281便e でどのタブでも同じ高さに固定)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します。✕・検索欄で文字があるときの Esc・削除して空にしたときは、検索文字列を消したあと検索欄のフォーカスを外します(モバイルではキーボードが閉じます。IME の変換中は何もしません。検索欄が空のときや検索欄の外での Esc はウィンドウを閉じます — 第284便d)。絞り込みには「geoPN」(0 測地線不用 / 1 観測再現(1PN・kF0) / 2 引きずり有り / 3 空間メッシュ)があり、スケール・分類・E水準・検索と同時に効きます(第284便d)。絞り込みはそれぞれ畳めて、畳んだ状態でも選んだチップの語が見えます。「その他」のチップ(📇 観測結果カードあり・固定(pinned)あり・多粒子(群あり)・試験粒子契約あり)は複数選べて、選んだものをすべて満たす本だけが出ます(第285便e)。絞り込みは次元ごと(スケール・分類・E水準・geoPN・その他)に見出しつきの区切り線で分かれ、開くと見出しの下にチップが並びます(第286便e)。「その他」のチップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除の三状態で、「宣言」(📇 観測結果カード・固定・多粒子・試験粒子契約・較正対象)と「分類バッジ」(説明タブのコア公理・拡張則・規定背景・意味論・比較チャネル・外部駆動・閉鎖系・温度=T_int・⚠強場トイ領域・引きずり)の 2 段に分かれます。「較正対象」は較正の対象という意味で、合格ではありません(第287便e)。「パラメータ」タブの「引きずり・測地線」は「測地線モード geoPN」の行が先頭です(第284便d)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘⭕🧲🔆🌓)は一覧の入口を 🌘 の 1 つにまとめました —— 残りは「すべて表示」か説明タブの「他の仲間」から開きます(サンプルの ID は 1 つも変えていません・第280便b)。「共通設定」の「スキン」で画面の配色をダーク(既定)/ライトから選べます —— ライトでもシミュレーション画面は暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)で、表示のみです(第281便e)。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -2832,6 +2852,14 @@ en: {
   ppOther_pinnedTip:"samples in which some body declares pinned:true (a fixed body or particle group)",
   ppOther_multiTip:"samples in which some body is a group (disk, ring, box, grid - n particles)",
   ppOther_testParticleTip:"samples in which some body declares the test-particle contract testParticle:true",
+  // wave 287e (report 77 item 6, AN66): three-state chips, two sub-headings, "Calibration target". The class-badge axes reuse the bdg* words of the Description tab
+  ppOther_calTarget:"Calibration target",
+  ppOther_calTargetTip:"samples declaring sampleClass:\"calibration\" (both the DFM and the kF0 variants of the class filter). A calibration target, not a pass - the verdict belongs to the calibration audit; this chip only reads the declaration",
+  ppOtherSecDecl:"Declarations", ppOtherSecBadge:"Class badges (Description tab)",
+  ppOtherState_on:"include", ppOtherState_not:"exclude (NOT)", ppOtherState_off:"not chosen",
+  ppOtherCycleTip:(st)=>"1st tap = include, 2nd = exclude (NOT), 3rd = clear (Space/Enter too) - now: "+st,
+  ppNoteOtherTri:"A chip cycles on each tap: include, exclude (NOT - shown with ¬ and a strike-through), clear. Only samples that satisfy every included chip and none of the excluded chips are listed (negation inside the AND). An excluded chip counts the samples that do not satisfy it",
+  ppNoteOtherSecBadge:"Class badges are drawn by the same rule as the Description tab chips (classifyPreset and the kFrame declaration)",
   ppNoteOtherHead:"\"Other\" filters only read existing declarations (display only - it never touches the physics or the saved JSON). Several chips can be chosen; only samples that satisfy ALL chosen chips are listed (AND - also AND with scale, class, E-level, geoPN and search). \"All categories\" clears the choice. Counts are taken at runtime over the samples the list can show (retired and hidden ones excluded).",
   // wave 255c: groups are no longer a filter dimension - they stay as the list headings
   ppNoteGroupLabel:"Groups",   // wave 256c (report 48): renamed from "Groups (list headings)"
@@ -2868,7 +2896,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, leaving a strip of the simulation view as tall as the header (wave 281e: the same height on every tab), turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search. After clearing with ✕, with Esc while the box holds text, or by deleting the text down to empty, the search box loses focus (on mobile the keyboard closes; nothing happens during IME composition; Esc with an empty box or outside the box closes the window - wave 284d). The filters include \"geoPN\" (0 no geodesic / 1 observed (1PN, kF0) / 2 with dragging / 3 space mesh), applied together with scale, class, E-level and search (wave 284d). Each filter folds, and a folded filter still shows the chosen chip; the \"Other\" chips (📇 has observation card, has pinned body, many particles (group), test-particle contract) can be combined and list only samples that satisfy all of them (wave 285e). The filters are separated per dimension (scale, class, E-level, geoPN, other) by a line with a heading, and an opened filter lists its chips under that heading (wave 286e). In the Parameters tab, \"Dragging & Geodesics\" now starts with the geodesic mode geoPN row (wave 284d). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘⭕🧲🔆🌓) now share one entry in the list, 🌘 — open the others with \"Show all\" or from \"family\" in the Description tab (no sample ID was changed; wave 280b). \"Skin\" in General switches the colour scheme between Dark (default) and Light; the simulation view keeps its dark background in both (body temperature and ray wavelength colours are drawn for a dark background) - display only (wave 281e).",   /* wave 254c */
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, leaving a strip of the simulation view as tall as the header (wave 281e: the same height on every tab), turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search. After clearing with ✕, with Esc while the box holds text, or by deleting the text down to empty, the search box loses focus (on mobile the keyboard closes; nothing happens during IME composition; Esc with an empty box or outside the box closes the window - wave 284d). The filters include \"geoPN\" (0 no geodesic / 1 observed (1PN, kF0) / 2 with dragging / 3 space mesh), applied together with scale, class, E-level and search (wave 284d). Each filter folds, and a folded filter still shows the chosen chip; the \"Other\" chips (📇 has observation card, has pinned body, many particles (group), test-particle contract) can be combined and list only samples that satisfy all of them (wave 285e). The filters are separated per dimension (scale, class, E-level, geoPN, other) by a line with a heading, and an opened filter lists its chips under that heading (wave 286e). The \"Other\" chips have three states - 1st tap include, 2nd exclude (NOT, shown with ¬ and a strike-through), 3rd clear - and are split into \"Declarations\" (📇 observation card, pinned, many particles, test-particle contract, calibration target) and \"Class badges\" (the Description tab's core axioms, extension, prescribed background, semantics, comparison channel, external drive, closed system, temperature = T_int, ⚠strong-field toy, dragging). \"Calibration target\" means a sample under calibration, not a pass (wave 287e). In the Parameters tab, \"Dragging & Geodesics\" now starts with the geodesic mode geoPN row (wave 284d). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘⭕🧲🔆🌓) now share one entry in the list, 🌘 — open the others with \"Show all\" or from \"family\" in the Description tab (no sample ID was changed; wave 280b). \"Skin\" in General switches the colour scheme between Dark (default) and Light; the simulation view keeps its dark background in both (body temperature and ray wavelength colours are drawn for a dark background) - display only (wave 281e).",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -3326,6 +3354,27 @@ function classifyPreset(p){
   // 初見ガイド・⚠しない主張行がその既定を明示する)。自動判定しない・物理に一切影響しない
   const fidelity=(p.fidelity==="real")? "real" : null;
   return {layers, external:ext, closed, tint, strongField, psiStatic, sampleClass:p.sampleClass||null, scaleTier, emergence, fidelity};
+}
+// 第287便e(原仮定者の裁定(第77報)⑥「『その他』の絞り込みの選択肢に『説明』タブで表示される『コア公理』『強場トイ領域』なども加える」):
+// 説明タブの分類バッジ 10 個(#classChips の data-g)を **1 つの表**にした。説明タブ(renderHelp)のチップと「サンプルを選ぶ」の
+// 「その他」の軸は**この表の同じ判定**を読む(classifyPreset の戻り値と、引きずりだけは従来どおり physics.kFrame>0 の宣言 —— 手で別の
+// 分類を作らない)。key は i18n の語の鍵(bdg*・tip は bdg*+"Tip")。並びは説明タブに出る順(core は他の層が無いときだけ立つので
+// layers の順と同じ)。表示専用 —— 物理・presetSig・保存 JSON に 1 bit も効かない
+const PRESET_BADGE_AXES=[
+  {key:"bdgCore",        g:"core",        test:(c,p)=>c.layers.indexOf("core")>=0},
+  {key:"bdgExtension",   g:"extension",   test:(c,p)=>c.layers.indexOf("extension")>=0},
+  {key:"bdgBackground",  g:"background",  test:(c,p)=>c.layers.indexOf("background")>=0},
+  {key:"bdgSemantic",    g:"semantic",    test:(c,p)=>c.layers.indexOf("semantic")>=0},
+  {key:"bdgComparison",  g:"comparison",  test:(c,p)=>c.layers.indexOf("comparison")>=0},
+  {key:"bdgDrive",       g:"drive",       test:(c,p)=>!!(c.external.rail||c.external.pin||c.external.bath||c.external.grav)},
+  {key:"bdgClosed",      g:"closed",      test:(c,p)=>!!c.closed},
+  {key:"bdgTint",        g:"tint",        test:(c,p)=>!!c.tint},
+  {key:"bdgStrongField", g:"strongfield", test:(c,p)=>!!c.strongField},
+  {key:"bdgDrag",        g:"drag",        test:(c,p)=>!!(p && p.physics && p.physics.kFrame>0)}];
+// その本に立つ分類バッジ(表の要素)の配列。cls を渡せば classifyPreset を呼び直さない
+function presetBadgeAxesOf(p,cls){
+  const c=cls||classifyPreset(p);
+  return PRESET_BADGE_AXES.filter(a=>a.test(c,p));
 }
 // 第273便a: 表示名は**正規化してから**引く(旧名を宣言したプリセット・旧名の記憶も新名で出る)
 function gName(g){ const k=gCanon(g); return (LANG==="en" && I18N.en.groups[k]) || k; }
@@ -31494,21 +31543,61 @@ function ppGeoBucketOf(p){
 //   testParticle … bodies のどれかが試験粒子契約 testParticle:true(第283便c)を宣言している
 // 分類(principle・現実較正 DFM/kF0)と geoPN はすでに独立の次元なので「その他」には重ねない。退役の本は一覧に出ない
 // (第283便b)ので軸にしない。**選んだチップをすべて満たす本だけ**(AND)を出し、他の次元・検索とも AND
+// 第287便e(原仮定者の裁定(第77報)⑥・AN66): 軸を **2 段**に分けた —— sec:"decl"(宣言: 上の 4 軸+「較正対象」)と
+// sec:"badge"(説明タブの分類バッジ 10 個 —— 表 PRESET_BADGE_AXES から**機械で**引く。key は i18n の bdg* の鍵そのもの)。
+//   calTarget … sampleClass:"calibration" の宣言(分類の「現実較正」DFM 版・kF0 版の両方)。**較正の対象であって合格ではない**
+//               (合否は較正監査の判定 —— このチップは宣言を読むだけ・tip に明記)
 const PP_OTHER_AXES=[
-  {key:"obsCard",      test:(p)=>Array.isArray(p.obsCard) && p.obsCard.length>0},
-  {key:"pinned",       test:(p)=>(p.bodies||[]).some(b=>!!b && b.pinned===true)},
-  {key:"multi",        test:(p)=>(p.bodies||[]).some(b=>!!b && !!b.type && b.type!=="single")},
-  {key:"testParticle", test:(p)=>(p.bodies||[]).some(b=>!!b && b.testParticle===true)}];
-let ppOther=[];   // 選んだ「その他」の軸の key(複数 AND・既定は空 =「すべて」・セッション内のみ —— 他の次元と同じ)
+  {key:"obsCard",      sec:"decl", test:(p)=>Array.isArray(p.obsCard) && p.obsCard.length>0},
+  {key:"pinned",       sec:"decl", test:(p)=>(p.bodies||[]).some(b=>!!b && b.pinned===true)},
+  {key:"multi",        sec:"decl", test:(p)=>(p.bodies||[]).some(b=>!!b && !!b.type && b.type!=="single")},
+  {key:"testParticle", sec:"decl", test:(p)=>(p.bodies||[]).some(b=>!!b && b.testParticle===true)},
+  {key:"calTarget",    sec:"decl", test:(p)=>p.sampleClass==="calibration"}]
+  .concat(PRESET_BADGE_AXES.map(a=>({key:a.key, sec:"badge", bdg:true, test:(p)=>a.test(ppClsOf(p),p)})));
+// 第287便e: 窓を組み立てる間だけ classifyPreset の結果を本ごとに覚える(件数 15 軸×一覧の数え直しで同じ本を何度も分類するため)。
+// 覚えるのは showPresetPicker / ppRender の 1 回の呼び出しの間だけ(終われば捨てる —— 外から ppOtherTest を呼べば毎回分類し直す)。
+// チップの件数(ppOtherCount)も同じ間だけ覚える
+let ppClsCache=null;   // {cls:WeakMap(本 → classifyPreset の結果), cnt:Map("key|on/not" → 件数)}
+function ppClsOf(p){
+  if(!ppClsCache) return classifyPreset(p);
+  let c=ppClsCache.cls.get(p); if(!c){ c=classifyPreset(p); ppClsCache.cls.set(p,c); }
+  return c;
+}
+function ppWithClsCache(fn){
+  if(ppClsCache) return fn();
+  ppClsCache={cls:new WeakMap(), cnt:new Map()};
+  try{ return fn(); } finally{ ppClsCache=null; }
+}
+const PP_OTHER_SECS=[["decl","ppOtherSecDecl"],["badge","ppOtherSecBadge"]];
+// 第287便e: **三状態**。ppOther の要素は「key」(含む = on)か「!key」(除く = NOT)で、無ければ解除(off)。並びは軸の表の順。
+// 第285便e の旧形(key だけの配列)はそのまま「含む」として読める(後方互換 —— 絞り込みはセッション内のみで URL・保存には載らない)。
+// sig(ppFiltering)は ppOther.join(",") なので状態(「!」)がそのまま入る
+let ppOther=[];   // 選んだ「その他」の軸(複数 AND・既定は空 =「すべて」・セッション内のみ —— 他の次元と同じ)
 function ppOtherTest(key,p){ const a=PP_OTHER_AXES.find(x=>x.key===key); return !!a && a.test(p); }
-function ppOtherMatch(p){ return ppOther.every(k=>ppOtherTest(k,p)); }
+function ppOtherMatch(p){ return ppOther.every(e=>(e.charAt(0)==="!")? !ppOtherTest(e.slice(1),p) : ppOtherTest(e,p)); }
+function ppOtherStateOf(key){ return ppOther.indexOf(key)>=0? "on" : (ppOther.indexOf("!"+key)>=0? "not" : "off"); }
+function ppOtherSetState(key,st){
+  const cur={};
+  for(const e of ppOther){ const neg=e.charAt(0)==="!"; cur[neg? e.slice(1) : e]=neg? "not" : "on"; }
+  if(st==="on"||st==="not") cur[key]=st; else delete cur[key];
+  ppOther=PP_OTHER_AXES.filter(a=>cur[a.key]).map(a=>(cur[a.key]==="not"? "!" : "")+a.key);
+}
+// 1 回タップ=含む・2 回=除く(NOT)・3 回=解除(off → on → not → off)
+function ppOtherCycle(key){ const st=ppOtherStateOf(key); ppOtherSetState(key, st==="off"? "on" : (st==="on"? "not" : "off")); }
+function ppOtherLabel(a){ return a.bdg? T(a.key) : T("ppOther_"+a.key); }
+function ppOtherTip(a){ return a.bdg? T(a.key+"Tip") : T("ppOther_"+a.key+"Tip"); }
 // チップの件数: **いま一覧に出せる内蔵**(catalogHidden・退役を除く)のうち、その軸を満たす本の数(他の次元とは独立に数える
-// —— そのチップだけを選んだときの行数と同じ)。実行時に宣言から数える(手打ちしない)
-function ppOtherCount(key){
-  return BUILTIN_PRESETS.filter(p=>!catalogHidden(p) && !retiredHidden(p) && ppOtherTest(key,p)).length;
+// —— そのチップだけを選んだときの行数と同じ)。実行時に宣言から数える(手打ちしない)。
+// 第287便e: state="not" は**満たさない**本の数(そのチップだけを「除く」にしたときの行数)
+function ppOtherCount(key,state){
+  const neg=(state==="not"), ck=key+"|"+(neg? "not" : "on");
+  if(ppClsCache && ppClsCache.cnt.has(ck)) return ppClsCache.cnt.get(ck);
+  const n=BUILTIN_PRESETS.filter(p=>!catalogHidden(p) && !retiredHidden(p) && (ppOtherTest(key,p)!==neg)).length;
+  if(ppClsCache) ppClsCache.cnt.set(ck,n);
+  return n;
 }
 function ppMatch(p){
-  if(ppOther.length && !ppOtherMatch(p)) return false;   // 第285便e: 「その他」(複数 AND)
+  if(ppOther.length && !ppOtherMatch(p)) return false;   // 第285便e: 「その他」(複数 AND)・第287便e: 「!key」は除く(AND の中の否定)
   if(ppGeo!=="all" && String(ppGeoBucketOf(p))!==ppGeo) return false;   // 第284便d: 他の次元と AND
   if(ppScale!=="all" && ((typeof presetTierOf==="function"? presetTierOf(p) : p.scaleTier)||null)!==ppScale) return false;   // 第120便: タグ=距離指数由来
   if(!ppClassMatch(p,ppClass)) return false;
@@ -31524,6 +31613,7 @@ function ppMatch(p){
 }
 let ppGrpSeq=0;
 function ppRender(){
+  if(!ppClsCache) return ppWithClsCache(ppRender);   // 第287便e: 分類の覚え(この呼び出しの間だけ)
   const list=$("#ppList"); if(!list) return;
   list.textContent="";
   const filtering=ppFiltering();
@@ -31645,8 +31735,11 @@ function ppNoteText(kind){
       +"\n・"+T("ppNoteGeoCompat");
   }
   if(kind==="other"){   // 第285便e: 各軸の宣言と件数(一覧に出せる本 —— チップの件数と同じ数え方。実行時に数える)
-    return T("ppNoteOtherHead")+"\n"
-      +PP_OTHER_AXES.map(a=>"・"+T("ppOther_"+a.key)+"("+ppOtherCount(a.key)+") — "+T("ppOther_"+a.key+"Tip")).join("\n");
+    // 第287便e: 三状態の説明と 2 段(宣言・分類バッジ)。件数は「含む」の数(除くの数は一覧に出せる本からその数を引いたもの)
+    return T("ppNoteOtherHead")+"\n"+T("ppNoteOtherTri")
+      +PP_OTHER_SECS.map(([sec,tk])=>"\n【"+T(tk)+"】"+(sec==="badge"? " "+T("ppNoteOtherSecBadge") : "")+"\n"
+        +PP_OTHER_AXES.filter(a=>a.sec===sec)
+          .map(a=>"・"+ppOtherLabel(a)+"("+ppOtherCount(a.key)+") — "+ppOtherTip(a)).join("\n")).join("");
   }
   const n=allPresets().filter(p=>EMERGENCE_LEVELS.indexOf(p.emergence)>=0).length;
   return T("ppENote")(n);
@@ -31682,9 +31775,11 @@ function ppSetFold(key,open){
 function ppFoldSel(opts,sel){
   const vs=Array.isArray(sel)? sel : [sel];
   const on=vs.filter(v=>v!=="all");
-  const n=opts.filter(x=>x[0]!=="all").length;
+  const n=opts.filter(x=>x[0]!=="all" && x[0].charAt(0)!=="§").length;   // 第287便e: 「§」は段の見出し(チップではない)
   if(!on.length) return {text:T("grpAll"), on:false, n};
-  return {text:on.map(v=>{ const o=opts.find(x=>x[0]===v); return o? o[1] : v; }).join(" ∧ "), on:true, n};
+  // 第287便e: 「その他」の「!key」(除く)は「¬語」
+  return {text:on.map(v=>{ const neg=(v.charAt(0)==="!"), k=neg? v.slice(1) : v;
+    const o=opts.find(x=>x[0]===k); return (neg? "¬" : "")+(o? o[1] : k); }).join(" ∧ "), on:true, n};
 }
 // 次元 1 つぶんの畳み(details)を host に足して返す。中身(チップ行と ⓘ の説明)は呼び手が details へ入れる
 function ppFoldBox(host,key,name,sel){
@@ -31706,6 +31801,10 @@ function ppFoldBox(host,key,name,sel){
 // (ボタンは見出し領域だけを占めるので、チップの選択操作とは当たり判定が重ならない)
 // 第285便e: multi を渡すと**複数選択**(multi.isOn(v)・multi.toggle(v) —— 「すべて」の v は "all")。opts の 3 つ目の要素
 // (数値)はチップの件数で、語の後ろに .ppChipN として出す(チップの語 textContent は「語(件数)」になる)
+// 第287便e: multi.stateOf(v) があれば**三状態**(data-state on/not/off・aria-pressed true/mixed/false —— data-on は on のときだけ)。
+// opts の 4 つ目の要素は tip(title)。v が「§」で始まる要素は**段の見出し**(.ppOtherSec)で、以降のチップをその段の
+// 入れ物(.ppOtherGrp —— role=group・aria-labelledby=見出し)へ入れる。チップを押して窓を組み直したあと、押したチップに
+// フォーカスがあれば新しいチップへ戻す(キーボードの Space/Enter で同じチップの状態を続けて回せる)
 function ppChipsRow(host,dimLabel,opts,get,set,note,multi){
   const row=document.createElement("div"); row.className="ppChips";
   if(note && note.rowId) row.id=note.rowId;
@@ -31721,18 +31820,34 @@ function ppChipsRow(host,dimLabel,opts,get,set,note,multi){
     dl=document.createElement("span"); dl.className="ppDim"; dl.textContent=dimLabel;
   }
   row.appendChild(dl);
-  opts.forEach(([v,txt,n])=>{
+  let tgt=row;
+  opts.forEach(([v,txt,n,tip])=>{
+    if(v.charAt(0)==="§"){   // 第287便e: 段の見出し
+      const g=document.createElement("div"); g.className="ppOtherGrp"; g.setAttribute("role","group"); g.dataset.sec=v.slice(1);
+      const h=document.createElement("span"); h.className="ppOtherSec"; h.id="ppOtherSec_"+v.slice(1); h.textContent=txt;
+      g.setAttribute("aria-labelledby",h.id);
+      g.appendChild(h); row.appendChild(g); tgt=g; return;
+    }
     const c=document.createElement("button"); c.type="button"; c.className="ppChip"; c.textContent=txt;
     c.dataset.v=v;
     if(typeof n==="number"){ const cn=document.createElement("span"); cn.className="ppChipN"; cn.textContent="("+n+")";
       c.appendChild(cn); c.dataset.n=String(n); }
-    const on=multi? multi.isOn(v) : (get()===v);
+    if(tip) c.title=tip;
+    const st=(multi && multi.stateOf)? multi.stateOf(v) : null;
+    const on=st? st==="on" : (multi? multi.isOn(v) : (get()===v));
     if(on) c.dataset.on="1";
-    c.setAttribute("aria-pressed",on? "true":"false");
+    if(st){ c.dataset.state=st; c.setAttribute("aria-pressed",st==="on"? "true" : (st==="not"? "mixed" : "false")); }
+    else c.setAttribute("aria-pressed",on? "true":"false");
     c.addEventListener("click",()=>{
+      const had=(document.activeElement===c);
       if(multi) multi.toggle(v); else set(get()===v? "all": v);
-      showPresetPicker(true); });
-    row.appendChild(c);
+      showPresetPicker(true);
+      if(had && note && note.rowId){
+        const r=document.getElementById(note.rowId);
+        const nc=r && [...r.querySelectorAll(".ppChip")].find(x=>x.dataset.v===v);
+        if(nc) nc.focus({preventScroll:true});
+      } });
+    tgt.appendChild(c);
   });
   host.appendChild(row);
   if(note){
@@ -31748,6 +31863,7 @@ function ppChipsRow(host,dimLabel,opts,get,set,note,multi){
 }
 function hidePresetPicker(){ const m=$("#ppModal"); if(m) m.remove(); }
 function showPresetPicker(rebuildOnly){
+  if(!ppClsCache) return ppWithClsCache(()=>showPresetPicker(rebuildOnly));   // 第287便e: 分類の覚え(この呼び出しの間だけ)
   const old=$("#ppModal"); if(old) old.remove();
   ppNoteSyncs=[];   // 第149便: 説明ブロックの同期関数はウィンドウごとに作り直す(開閉状態は ppNoteOpen が持ち越す)
   const ov=document.createElement("div"); ov.id="ppModal";
@@ -31811,13 +31927,24 @@ function showPresetPicker(rebuildOnly){
   ppChipsRow(ppFoldBox(folds,"geo",T("ppDimGeo"),ppFoldSel(oGeo,ppGeo)), T("ppDimGeo"), oGeo,
     ()=>ppGeo,(v)=>ppGeo=v, {key:"geo", id:"ppGeoNote", btnId:"ppDimGeoBtn"});
   // 第285便e(原仮定者の裁定(第75報)⑧): 「その他」—— 複数 AND。「すべて」で選択を空に戻す。チップに件数(ppOtherCount)
-  const oOther=[["all",T("grpAll")]].concat(PP_OTHER_AXES.map(a=>[a.key,T("ppOther_"+a.key),ppOtherCount(a.key)]));
+  // 第287便e(原仮定者の裁定(第77報)⑥・AN66): 三状態(1 回=含む・2 回=除く NOT・3 回=解除)・2 段(宣言/分類バッジ)・「較正対象」。
+  // 件数(data-n・語の後ろの数)は**状態ごとに引き直す**(除くにしたチップは満たさない本の数)。data-n-on/data-n-not に両方を置く
+  const oOther=[["all",T("grpAll")]];
+  for(const [sec,tk] of PP_OTHER_SECS){
+    oOther.push(["§"+sec,T(tk)]);
+    for(const a of PP_OTHER_AXES.filter(x=>x.sec===sec)){
+      const st=ppOtherStateOf(a.key);
+      oOther.push([a.key, ppOtherLabel(a), ppOtherCount(a.key,st), ppOtherTip(a)+"\n"+T("ppOtherCycleTip")(T("ppOtherState_"+st))]);
+    }
+  }
   ppChipsRow(ppFoldBox(folds,"other",T("ppDimOther"),ppFoldSel(oOther,ppOther)), T("ppDimOther"), oOther,
     ()=>"all",()=>{}, {key:"other", id:"ppOtherNote", btnId:"ppDimOtherBtn", rowId:"ppOtherRow"},
-    {isOn:(v)=>v==="all"? ppOther.length===0 : ppOther.indexOf(v)>=0,
-     toggle:(v)=>{ if(v==="all") ppOther=[];
-       else ppOther=(ppOther.indexOf(v)>=0)? ppOther.filter(k=>k!==v)
-         : PP_OTHER_AXES.map(a=>a.key).filter(k=>k===v || ppOther.indexOf(k)>=0); } });   // 並びは軸の表の順
+    {isOn:(v)=>v==="all"? ppOther.length===0 : ppOtherStateOf(v)==="on",
+     stateOf:(v)=>v==="all"? (ppOther.length===0? "on" : "off") : ppOtherStateOf(v),
+     toggle:(v)=>{ if(v==="all") ppOther=[]; else ppOtherCycle(v); } });   // 並びは軸の表の順(ppOtherSetState)
+  { const r=folds.querySelector("#ppOtherRow");   // data-n-on / data-n-not(両状態の件数 —— 試験と説明の照合用・表示しない。窓はまだ文書の外)
+    if(r) for(const c of r.querySelectorAll(".ppChip")) if(c.dataset.v!=="all"){
+      c.dataset.nOn=String(ppOtherCount(c.dataset.v,"on")); c.dataset.nNot=String(ppOtherCount(c.dataset.v,"not")); } }
   // 第93便(原仮定者指示): 「すべて表示」(ファミリー変種)をヘッダからウィンドウ内へ移動。
   // 状態はヘッダの非表示チェックと同じ showAllSamples(localStorage)— 両者を同期する
   { const row=document.createElement("div"); row.className="ppChips";
@@ -37028,21 +37155,13 @@ function renderHelp(){
     if(tip) s.title=tip;
     chipRow.appendChild(s);
   };
-  for(const layer of cls.layers){
-    if(layer==="core") addChip("core",T("bdgCore"),T("bdgCoreTip"));
-    else if(layer==="extension") addChip("extension",T("bdgExtension"),T("bdgExtensionTip"));
-    else if(layer==="background") addChip("background",T("bdgBackground"),T("bdgBackgroundTip"));
-    else if(layer==="semantic") addChip("semantic",T("bdgSemantic"),T("bdgSemanticTip"));
-    else if(layer==="comparison") addChip("comparison",T("bdgComparison"),T("bdgComparisonTip"));
-  }
-  if(cls.external.rail||cls.external.pin||cls.external.bath||cls.external.grav) addChip("drive",T("bdgDrive"),T("bdgDriveTip"));
-  if(cls.closed) addChip("closed",T("bdgClosed"),T("bdgClosedTip"));
-  // 第39便 39E(台帳4-75 E1): 温度モデルバッジ — thermal:"tint" のプリセットにだけ1個追加(ノイズ回避)
-  if(cls.tint) addChip("tint",T("bdgTint"),T("bdgTintTip"));
-  // 第45便 45C(台帳4-85): 強場トイ領域バッジ — ψ_static>0.5(静的近似)のときだけ追加。
-  // 「物理対応ロック(Kt=c²/G)」とは別概念(#physLockBadge・パラメータタブ)— 混同しないよう
-  // 弱場展開の適用外であることだけを言う独立チップにする(併存しうる: ロックあり+強場も可)
-  if(cls.strongField) addChip("strongfield",T("bdgStrongField"),T("bdgStrongFieldTip"));
+  // 第287便e: 分類バッジは表 PRESET_BADGE_AXES の判定で出す(「その他」の絞り込みと同じ表 —— 出る順・語・data-g は従来と同じ)。
+  //   層(core/extension/background/semantic/comparison)→ 外部駆動 → 閉鎖系 →
+  //   温度モデル(第39便 39E: thermal:"tint" の本だけ)→ 強場トイ領域(第45便 45C: ψ_static>0.5 —— 「物理対応ロック(Kt=c²/G)」とは
+  //   別概念の独立チップ)。引きずり(drag)だけは従来どおりチップ列の末尾で出す
+  const badges=presetBadgeAxesOf(currentPreset,cls);
+  const addBadge=(a)=>addChip(a.g,T(a.key),T(a.key+"Tip"));
+  badges.filter(a=>a.g!=="drag").forEach(addBadge);
   // 第67便 67B(P3 サンプル分類): 4分類チップ — principle/composite/calibration/semantic。
   // 宣言のあるプリセットにだけ表示(第64便裁定キュー P3。🕶️は複合現象と明示)
   // 第258便c(第50報): 較正は **DFM 版 / kF0 版**へ分けて出す(派生値 —— 宣言・保存 JSON は不変)
@@ -37113,7 +37232,7 @@ function renderHelp(){
   }
   // 第51便 51B(原仮定者指示): 引きずりタグ — kFrame>0 の系に表示(A8/E6′ が働く系の目印。
   // 0にすると引きずりなしの対照になることをツールチップで案内)
-  if(currentPreset.physics && currentPreset.physics.kFrame>0) addChip("drag",T("bdgDrag"),T("bdgDragTip"));
+  badges.filter(a=>a.g==="drag").forEach(addBadge);   // 第287便e: 判定は表(physics.kFrame>0 の宣言)
   el.appendChild(chipRow);
   // 第283便b(原仮定者の裁定(第73報)④・R84): 退役の本を開いたら「退役(履歴)」の 1 行(表示専用 —— 自動で別の本へ置き換えない)
   if(retiredOf(currentPreset)){
