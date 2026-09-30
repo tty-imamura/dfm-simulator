@@ -2803,7 +2803,46 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - 件数(基点 f94ca580 の宣言で・一覧に出る本 120 のうち): コア公理 70・拡張則 44・規定背景 4・意味論 3・比較チャネル 0・外部駆動 53・閉鎖系 67・温度=T_int 20・⚠強場トイ領域 12・引きずり 56 / 較正対象 31(全内蔵では 37)。比較チャネル(FLRW 対照)は内蔵に該当が無く 0 件のチップになる(表から機械で引くので手で外さない)。
 - 例(AND と NOT): コア公理 含む ∧ 引きずり 除く = 39 本・較正対象 含む ∧ 引きずり 除く = 10 本・📇 含む ∧ ⚠強場 除く = 72 本。
 - QA: **`ui.pickerOtherTriState`**(360×640 —— isMobile・タッチ / PC 1280×800)・**`ui.pickerBadgeAxes`**(root は SKIP)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators` は世代切替(html の `function ppOtherStateOf(`)で軸 4 → 15・チップ数 1+15・2 回目のタップは「除く」に読み替える(旧 4 軸の独立の数え直しと AND の検査は不変)。`ui.pickerFilterFold` は判定を変えずに通る。
-## 29. 第288便b の一本化 —— 群「現実較正」とサブチップ・分類チップの語・退役 10 本と在位移行 10 本(原仮定者の裁定〔第78報〕④・AN80〜AN83・統括の検証項目 R114)
+## 29. 第288便a の宣言鍵 —— 固定中心の合体・離散 `fixedCapture`・`fixedEject`(原仮定者の裁定〔第78報〕⑤・第78報で閉じた AN76/AN77/AN78・統括の検証項目 R113・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。最上位の**任意鍵 2 つ**を足した(宣言した本だけが通る —— 未宣言は `S.hasFixedCapture` の真偽値 1 つで素通り・`S._core` の外)。第287便a の `centerCapture`(自由中心・版 `w287a-capture-1`)とは**逆の契約**で、別の版キー `w288a-fixcap-1` に置く(`centerCapture` とは併用しない)。
+
+`fixedCapture` —— 支配天体(bodies[0] の single・**pinned 必須**)への合体をエネルギー優先で配分する:
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `version` | `"w288a-fixcap-1"` | 版キー(`FIXED_CAPTURE_VERSION`) |
+| `center` | `0` | 中心 = bodies[0](pinned の single) |
+| `rCap` | 正の数(既定 1.5) | 捕獲半径(本体半径・引きずり核 R_drag・慣性半径と別欄) |
+| `rInertia` | 正の数(**必須**) | 合体後の慣性半径 R_I(I = ½ M R_I² —— 合体の前の中心の自転エネルギーもこの I で数える) |
+| `h` | 0〜1(**必須**) | 熱の割合(ΔQ = h E_*・E_s′ = (1−h) E_*) |
+| `omegaMax` | 0 < Ω_max ≤ 40(**必須**) | 物理上限(エンジンの数値柵 ±40 とは別の宣言 —— 柵を越える値は受理しない) |
+| `overflowTo` | `"heat"` / `"precession"` / `"eject"` / `null`(**必須**) | \|Ω′\| > Ω_max の超過エネルギーの口座(熱 Q_over・歳差 E_prec〔帳簿だけ〕・離散の待ち口座 E_pend)。null は超過する合体を拒否(クランプで捨てない) |
+| `spinSign` | `"center"`(既定) | Ω′ の符号 = 中心の自転の符号(0 なら持ち込み J の符号・それも 0 なら符号を選ばず全部を熱へ) |
+
+- 規則: 距離 < rCap・束縛(½m_j\|v_j−v_c\|² − G m_c m_j/√(d²+ε²) < 0)で合体。E_* = K_in + E_s,c + E_s,j + (U_before − U_after) − ΔE_self(K_in = ½m_j\|v_j−v_c\|²・ΔE_self = U_pair)・**E_* < 0 は拒否**・Ω′ = s√(2E_s′/I′)。
+- 帳簿(`S.fixcap`): M・E(回転 + 並進 + ポテンシャル + 内部結合 E_self + 熱 Q + 超過口座)の格納残差・**J_pin**(ピンが持ち去った角運動量)・**P_pin**(固定近似の運動量残差)・拘束仕事(0 の列)。**固定中心は運動量と角運動量を保存しない**(J_pin・P_pin は別の口座 —— エネルギーの行と運動量の行を同じ文にしない)。
+- 拒否: 自由中心(pinned でない)・`thermal:"tint"`・fusion・phaseChange・`centerCapture` との併用・contactMode が "none" でない・h/Ω_max/R_I/overflowTo の未宣言・Ω_max > 40・overflowTo:"eject" で `fixedEject.trigger:"overflow"` が無い。
+
+`fixedEject` —— 離散(逆写像)。`fixedCapture` と組む:
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `version` | `"w288a-fixcap-1"` | 版キー |
+| `mass` | 正の数 | 放出する質量 |
+| `rInertiaAfter` | 正の数 | 放出後の中心の慣性半径 |
+| `rLaunch` | rCap より大きい数 | 放出体を置く距離(直後に捕獲し直さない) |
+| `direction` | `{posDeg, velDeg}` | 置く方位と速度の向き(度) |
+| `spinEject`・`radiusEject` | 数・正の数 | 放出体の自転と本体半径(= 慣性半径) |
+| `omegaAfter` | 0〜Ω_max | 宣言した歩の放出の後の \|Ω\|(trigger "overflow" では書かない) |
+| `trigger` | `{atStep:N}` / `"overflow"` | 宣言した歩で 1 回 / 超過の待ち口座 E_pend を使い切る |
+
+- 規則: K_eject = E_before − E_spin,remaining − E_spin,eject − U_after − E_self,after − Q_after(E_self,after = E_self − U_pair(c′,e)・Q_after = Q —— 熱化分を再利用しない)。**K < 0 なら放出しない**(拒否の数を数える)。v_eject = √(2K/m)。
+- **内蔵の宣言**: 🥜 `fixedCaptureCopy` の 1 本(`fixedCapture` だけ —— R_I 1.5・h 0・Ω_max 20・overflowTo "heat")。`fixedEject` を宣言する内蔵は無い(器が往復と 2 つのトリガを試す)。
+- **読み口(HP 公開)**: `dfmFixedCaptureStep(S)`・`dfmFixedEject(S, why, spec)`・`fixedCaptureCheck(p)`・定数 `FIXED_CAPTURE_VERSION`。純関数の配分器 `tests/lib-w288a-fixcap.mjs`(`allocate`・`ejectInverse`・`selfTest`)。
+- QA: **`behavior.fixedCaptureCopy`**・**`behavior.fixedCaptureAlloc`**・**`behavior.fixedCaptureContract`**(root は SKIP)。器 `tests/exp-w288a-fixcap.mjs`(正本 `tests/out/fixcap-w288a.json`・段 `fixcap288`)。
+
+## 30. 第288便b の一本化 —— 群「現実較正」とサブチップ・分類チップの語・退役 10 本と在位移行 10 本(原仮定者の裁定〔第78報〕④・AN80〜AN83・統括の検証項目 R114)
 
 AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。変えたのは内蔵の宣言(退役の familyRole・在位移行の geoPN/kFrame・⏰ の f=1)と表示の表だけである。
 
@@ -2817,7 +2856,7 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - 読み口: `calTargetOf(p)`・`calSubOf(p)`・`UNIFY_MIGRATED`・`unifyNoticeText(p)`(ページの大域 —— QA が読む)。
 - QA: **`preset.unifyTable`**・**`ui.calGroupUnified`**・**`docs.calVocab`**(root は SKIP)。器 `tests/exp-w288b-unify.mjs`(移行表 `tests/data-w288b-unify.json`)・`tests/exp-w288b-retiredfx.mjs`(凍結の写し 2 本)。docs/PHYSICS.md〔第288便b〕・docs/CALIBRATION_VERDICT_v1.44.md §5.38。
 
-## 30. 第288便c —— 背景と中心の合成の診断コピー・pair 巡回の融合・回転核の候補・🔁 の単位の訂正(原仮定者の裁定〔第78報〕⑧・第78報で閉じた AN84/AN85/AN86・統括の検証項目 R115・**SYSTEM_PROMPT には載せない**)
+## 31. 第288便c —— 背景と中心の合成の診断コピー・pair 巡回の融合・回転核の候補・🔁 の単位の訂正(原仮定者の裁定〔第78報〕⑧・第78報で閉じた AN84/AN85/AN86・統括の検証項目 R115・**SYSTEM_PROMPT には載せない**)
 
 AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`S._core` は不変。
 
@@ -2827,7 +2866,7 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **🔁 の単位の訂正**: u=V=(2.3,0) 単位は L=8・T=4 で 1 単位 = 10 km/s → **23 km/s**(第280便c〜第287便d の記載はこの 10 倍の値で、換算の誤記 —— 値 2.3 と近点移動の結果は不変)。HUD の 1 行・🔁 の説明を訂正。
 - QA: **`behavior.bgRangeFlag`**・**`behavior.composeCenterOnce`**・**`behavior.pairLoopFused`**・**`behavior.rotletKernel`**・**`docs.mercuryUnits`**(root は SKIP)。正本 `bgrange-w288c.json`(段 `bgrange288`)・`compose-w288c.json`(段 `compose288`)・`pairfuse-w288c.json`(段 `pairfuse288`)。
 
-## 31. 第288便f の UI —— 「背景決定力 D₀」の次の静止背景相当 Wbg・「その他」の段ごとの畳み・0 件の軸の無効表示(原仮定者の裁定〔第78報〕⑨・第78報で閉じた AN89・統括の検証項目 R118・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+## 32. 第288便f の UI —— 「背景決定力 D₀」の次の静止背景相当 Wbg・「その他」の段ごとの畳み・0 件の軸の無効表示(原仮定者の裁定〔第78報〕⑨・第78報で閉じた AN89・統括の検証項目 R118・**表示だけ**・**SYSTEM_PROMPT には載せない**)
 
 AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(bitsame/sigsame 全本一致)。
 

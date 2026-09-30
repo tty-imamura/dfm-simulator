@@ -504,6 +504,16 @@ export const REGEN_STEPS = [
       '/speed/growth/*/wallSec', '/speed/growthTotal/wallSec']) },
     note: '第287便a: 🌰 clusterGrowthCopy(自由な中心・中心とだけの捕獲 centerCapture)の門(💮 の閾値・合体が止んだ後の窓)・捕獲の帳簿・D_g/η_mesh/F_r・'
       + '摂動後の復元・負の対照 6 事例・半径の対照(同じ初期状態)・💮 の走査器の同一初期状態の比較・最小模型の単体試験' }),
+  // ---- 第288便a(原仮定者の裁定(第78報)⑤・統括の検証項目 R113・AN76/AN77/AN78): 固定中心の合体・離散の原理コピー 🥜 の走行(順行・逆行・真正面 ×
+  //   乱数種 3 + R_I=0.01 の対照)・帳簿(M・E の格納残差・J_pin/P_pin の別口座・配分器 lib-w288a-fixcap での作り直し)・門(🌰 と同じ閾値・合体が止んだ後の窓)・
+  //   D_g と符号つき η_mesh・摂動後の復元・トイの補償値 E_mesh・負の対照・離散の往復・受理器の事例・半径対照(同じ捕獲列)。🌰 の正本 growth-w287a.json を
+  //   **読むだけ**(同じ鍵の走行と並べる —— after growth287)。Node だけ・子プロセスの並列 W288A_WORKERS・既定 2
+  S('fixcap288', 'node tests/exp-w288a-fixcap.mjs', ['tests/out/fixcap-w288a.json'], 175, { secSource: 'w288a-branch(W288A_WORKERS=3 で 129 s —— 既定 2 の見積り)', node: true, workers: 2,
+    after: ['growth287'],
+    env: { W288A_WORKERS: '子プロセスの並列数(既定 2 —— 結果は並列数に依らない)' },
+    volatilePaths: { 'tests/out/fixcap-w288a.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec', '/runs/*/spentSec', '/radiusRun/wallSec', '/radiusRun/spentSec']) },
+    note: '第288便a: 🥜 fixedCaptureCopy(🌰 と同じ初期状態・中心 pinned・fixedCapture w288a-fixcap-1)の門(🌰 の閾値・合体が止んだ後の窓)・帳簿(E の格納残差・J_pin・P_pin・'
+      + '配分器での作り直し)・D_g/η_mesh/F_r・摂動後の復元・E_mesh・負の対照 9 事例 + 超過からの放出・離散の往復(h=0)・受理器 14 事例・半径対照・🌰 の正本と並べる' }),
   // ---- 第285便c(原仮定者の裁定(第75報)⑥・統括の検証項目 R99): 背景場の微分の算出可否と宣言の型 bgModel(html の純関数と受理器だけを読む ——
   //   Node だけ・1 步も走らせない・他の正本は読まない)
   S('bgderiv', 'node tests/exp-w285c-bgderiv.mjs', ['tests/out/bgderiv-w285c.json'], 1, { secSource: 'w285c-branch', node: true,
