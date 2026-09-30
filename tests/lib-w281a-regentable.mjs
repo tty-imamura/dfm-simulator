@@ -503,6 +503,21 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgtime-w287c.json': META_RUN.concat(['/elapsedS']) },
     note: '第287便c: 状態を固定して評価時刻だけ進めたとき u と ∂ₜu が一致するか(旧い契約の反例と新しい契約)・時間差分 h・h/2・h/4(次数 2・器の丸め床)・'
       + 'RHS の coordAccel・範囲の外の再展開・受理器・🌒 の周期の前後と η_bg・share-p1 の基準コピー' }),
+  // ---- 第288便c(原仮定者の裁定(第78報)⑧・第78報で閉じた AN84/AN86・統括の検証項目 R115): 背景場と総当たり便
+  //   (Node だけ・html だけを読む —— 他の正本は読まない。基点 html〔W288C_BASE〕は任意の照合 —— 無ければ宣言値)
+  S('bgrange288', 'node tests/exp-w288c-bgrange.mjs', ['tests/out/bgrange-w288c.json'], 12, { secSource: 'w288c-branch', node: true,
+    volatilePaths: { 'tests/out/bgrange-w288c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第288便c: taylor の契約の再展開の out 旗(反例 3 件 widthT+1・−widthT−1・空間と時間の両超過 —— 基点 0/3 → 3/3・対照 2 件)・'
+      + '🌒 の sources 経路の前後のビット同一・有効幅を超えた步の数と観測比較の旗「契約範囲外」(再展開しない)・棚卸し' }),
+  S('compose288', 'node tests/exp-w288c-compose.mjs', ['tests/out/compose-w288c.json'], 5, { secSource: 'w288c-branch', node: true,
+    volatilePaths: { 'tests/out/compose-w288c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第288便c: 診断コピー 🧩 と 🌚 のビット同一・共通評価器(中心 1 回・静止した中心だけなら u=0・A_spin の inline は場の契約とビット一致/'
+      + 'separate は丸めの差・単位 p=1/p=2)・回転核の候補(解析勾配の次数 2・面内の J と r で z だけ・双極子の力とトルク・比較器 —— 足さない)' }),
+  S('pairfuse288', 'node tests/exp-w288c-pairfuse.mjs', ['tests/out/pairfuse-w288c.json'], 300, { secSource: 'w288c-branch', node: true,
+    volatilePaths: { 'tests/out/pairfuse-w288c.json': META_RUN.concat(['/elapsedS', '/short/rows/*/wallSec', '/growth/rows/*/wallSec', '/growth/wallSec',
+      '/speed/growth/wallSec', '/speed/jeans/wallSec', '/jeans/rows/*/wallSec', '/jeans/wallSec']) },
+    note: '第288便c: pair 巡回の融合(非順序対の s・1/√s・s^{−p/2} を 1 回だけ作り両巡回で再利用・加速度確定後の第 2 巡回は残す)の受入 ——'
+      + ' 🌚💮🌰(融合)と 🪁(対照)の OFF/ON と基点のビット同一・🌰 の門の走行 3 本の OFF/ON の結果一致と壁時計・💮 の Jeans 走行 3 本は宣言値(W288C_FULL=1 で測り直す)' }),
 ];
 
 /**
