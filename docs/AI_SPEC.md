@@ -2826,3 +2826,18 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **回転核の候補** `tests/lib-w288c-rotlet.mjs`(純関数・**エンジン未接続**・既存の q 付き回転場に足さない —— 置換経路の比較器だけ): u=β J×r/s^{3/2}(β の単位 L/M —— G/c²)と解析勾配・双極子型の配向 U=C(r){J_i·J_j−3(J_i·r̂)(J_j·r̂)} の力とトルク。面内の J と面内の r では J×r は z を向く。
 - **🔁 の単位の訂正**: u=V=(2.3,0) 単位は L=8・T=4 で 1 単位 = 10 km/s → **23 km/s**(第280便c〜第287便d の記載はこの 10 倍の値で、換算の誤記 —— 値 2.3 と近点移動の結果は不変)。HUD の 1 行・🔁 の説明を訂正。
 - QA: **`behavior.bgRangeFlag`**・**`behavior.composeCenterOnce`**・**`behavior.pairLoopFused`**・**`behavior.rotletKernel`**・**`docs.mercuryUnits`**(root は SKIP)。正本 `bgrange-w288c.json`(段 `bgrange288`)・`compose-w288c.json`(段 `compose288`)・`pairfuse-w288c.json`(段 `pairfuse288`)。
+
+## 31. 第288便f の UI —— 「背景決定力 D₀」の次の静止背景相当 Wbg・「その他」の段ごとの畳み・0 件の軸の無効表示(原仮定者の裁定〔第78報〕⑨・第78報で閉じた AN89・統括の検証項目 R118・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(bitsame/sigsame 全本一致)。
+
+- **静止背景相当 Wbg**(パラメータタブ「引きずり・測地線」の「背景決定力 D₀」の**次**の行 `#wbgRow` —— 背景複素決定力の宣言欄 `#bgcPanel` はその直後):
+  - **読み取り専用**(入力欄なし・値は `output[aria-readonly]`)。値は `bgWbgOf(ph, cf, spinRead)` —— 場の契約(`jeansRowsVelocities` の Wbg)と**同じ関数**(式は 1 か所・切り出す前とビット同一)。
+  - 出所の規則: `physics.spaceMesh.D0` の宣言(中心の自転を読むトイ —— geoPN=3・lawVersion scalar・centerSpin read —— だけ)→ frameWeight pull の `D0pull` → `D0`。行の下に出所(「出所: spaceMesh.D0(宣言)」等)と換算の副表示(D₀ と同じ単位)。
+  - **背景相当の値であって kFrame=0 では力に入らない**(tip に明記)。背景複素決定力の宣言 W₀・A₀([M/L²] の別の量)とは別欄。値は描画ループが 15 フレームごと・D₀ 行の同期でも引き直す(ライブ値)。
+- **「その他」の段ごとの畳み**(§28 の 2 段 —— 宣言 / 分類バッジ): 段の見出し `.ppOtherSec` は開閉ボタン(`aria-expanded`・▾/▸ と隠した数は CSS —— 見出しの語は従来のまま)。
+  - 既定: 狭い画面(`innerWidth ≤ PP_OTHER_NARROW_PX` = 480)は 2 段とも畳んで開く・広い画面は開いて開く。開閉はセッション内だけ(`ppOtherSecOpen`)。
+  - **畳んでも含む(on)・除く(not)のチップは見える**(畳んだ段で隠すのは未選択のチップだけ)。要約行・行数・sig は変わらない。
+  - **0 件の軸は無効表示**(`disabled`・`aria-disabled`・`data-zero="1"` —— 淡色・点線の枠。行から消さない)。含む/除くにした 0 件の軸は押せる(解除できる)。
+  - 採寸(360×640): 開いた「その他」341 px(第287便e と同じ)→ 既定の畳んだ状態 131 px(選択 3 つで 191 px)。
+- QA: **`ui.paramWbgRow`**・**`ui.pickerOtherFold`**(360×640 —— isMobile・タッチ / PC 1280×800・root は SKIP)。既存の `ui.pickerOtherTriState`・`ui.pickerFilterFold` は畳まれた段を開いてから操作する(世代は `data-fold` の有無)・`ui.paramOrderDrag`・`ui.bgComplexPanel` は D₀ → Wbg → 背景複素決定力の欄の並び(世代は `buildWbgRow` の有無)。

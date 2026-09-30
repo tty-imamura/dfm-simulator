@@ -42,6 +42,7 @@
 //   node tools/regen-chain.mjs --audit [--lanes 4]  表の依存の完全性(入力の書き手 ⊆ after の閉包・書き手の全順序・循環)と、
 //       全段 regen の鎖の ready queue の模擬(順序違反・書込の重なり・予算超過 0 —— 第284便f)。
 //   node tools/regen-chain.mjs --self-test    dry-run の自己試験(QA `lint.regenChain` と同じ関数)。違反があれば 1。
+//   node tools/regen-chain.mjs --env          鎖を回す環境の版(Node・Chromium)を 1 行の JSON で(第288便f —— chainShell が $REGEN_LOG/env.json に書く)。
 //
 // 第287便f(原仮定者の裁定(第77報)AN69・統括の検証項目 R112):
 //   ・**済み印の契約 = 静的な部分(policy・code)+ 入力の安定 hash**(版 w287f-chaincontract-2 —— tests/lib-w281a-regentable.mjs の
@@ -53,6 +54,11 @@
 //     領域の閉包と生成領域の重なり・表の依存の循環)を足した。末尾に移しただけで依存が満たされるとは決めない(自己試験 (q) が型ごとに検出を確かめる)。
 //   ・html を書く段は今も各段が beta/index.html を直に書く。**一時出力を最後に集約する方式**(中断時に半分書いた html を完成扱いしない)は
 //     設計だけ(tests/README.md「再生成の鎖」)—— 本便は検査と契約まで。
+//
+// 第288便f(原仮定者の裁定(第78報)AN90・統括の検証項目 R118): **一時出力の集約を実装した**。鎖のランナーは REGEN_HTML_STAGE=$REGEN_LOG/html を
+//   入れ、書く段(obscompare → samplestatus)は領域の断片をそこへ置き(tests/lib-w288f-htmlstage.mjs)、集約段 htmlagg
+//   (tools/regen-html-aggregate.mjs)が 1 回だけ html を置き換える。`--audit` の html 検査に ⑦ 直書き・⑧ 集約段を、`--self-test` に (r)
+//   「中断 → 再開で html が 1 回だけ書かれる」を足した。`--env` は鎖を回した Node と Chromium の版(env.json)。
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -81,6 +87,24 @@ if (argv.includes('--digest')) {
   const lf = hArg('--lines', null);
   if (lf) fs.writeFileSync(path.resolve(lf), r.lines.join('\n') + (r.lines.length ? '\n' : ''));
   process.stdout.write(r.contract + '\n');
+  process.exit(0);
+}
+
+// 第288便f(原仮定者の裁定(第78報)AN90): 鎖を回した環境の版(Node・Chromium —— CI の 1228 と手元の 1194 で Math.pow 等が 1 ulp 違う切り分け用)。
+//   node tools/regen-chain.mjs --env   → 標準出力に 1 行の JSON(chainShell が $REGEN_LOG/env.json に書く)。REGEN_ENV_BROWSER=0 なら Chromium を起こさない
+if (argv.includes('--env')) {
+  const out = { tool: 'regen-chain --env', node: process.version, platform: process.platform + '/' + process.arch, chromium: null, when: new Date().toISOString() };
+  if (process.env.REGEN_ENV_BROWSER !== '0') {
+    try {
+      const { createRequire } = await import('node:module');
+      const req = createRequire(path.join(process.env.PLAYWRIGHT_CORE_DIR || ROOT, 'noop.js'));
+      let b = null;
+      try { b = await req('playwright').chromium.launch(); }
+      catch { b = await req('playwright-core').chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' }); }
+      out.chromium = b.version(); await b.close();
+    } catch (e) { out.chromiumError = String(e && e.message || e).slice(0, 160); }
+  } else out.chromium = 'skipped(REGEN_ENV_BROWSER=0)';
+  console.log(JSON.stringify(out));
   process.exit(0);
 }
 

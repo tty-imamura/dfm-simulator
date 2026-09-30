@@ -25,6 +25,7 @@ import { createRequire } from 'node:module';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp, stableInputs } from './lib-w281a-scope.mjs';
 import * as L from './lib-w285d-obscompare.mjs';
+import * as HS from './lib-w288f-htmlstage.mjs';
 
 // 領域 hash の宣言(第281便a): 較正母集団 37 本(退役の別は familyRole)と、行・差・絞り込み・描画の純関数と読み口 HP.obsCompare
 //   (器が読む HP.currentPreset・HP.sim も —— lint.regenScope ② の下限。ocOpen は他のパネルの開閉関数を呼ばない)。
@@ -35,7 +36,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = 'beta/index.html';
 const HTML = path.join(ROOT, TARGET);
 const OUT = 'tests/out/obscompare-w285d.json';
-const CODE = ['tests/exp-w285d-obscompare.mjs', 'tests/lib-w285d-obscompare.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+const CODE = ['tests/exp-w285d-obscompare.mjs', 'tests/lib-w285d-obscompare.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs', 'tests/lib-w288f-htmlstage.mjs'];
 const CHECK = process.argv.includes('--check');
 const t0 = Date.now();
 
@@ -49,13 +50,17 @@ const region = L.renderRegion(built);
 const sha = L.rowsSha256(built);
 
 // ---- ① html の生成領域
-const html0 = fs.readFileSync(HTML, 'utf8');
+// 第288便f(原仮定者の裁定(第78報)AN90): 鎖の中(REGEN_HTML_STAGE あり)は html を直に書かず一時出力の断片へ(集約段 htmlagg が 1 回だけ書く)。
+//   読むのは上流の断片を当てた写し(--check は自分の断片も当てた写し)。変数が無ければ従来どおり直に書く(tests/lib-w288f-htmlstage.mjs)
+const html0 = HS.readHtmlStaged(HTML, L.REGION, { inclusive: CHECK });
 const html1 = L.spliceRegion(html0, region);
 if (html1 === null) { console.error('html に生成領域 ' + L.REGION + ' が無い'); process.exit(1); }
 const htmlChanged = html1 !== html0;
+let VIEW = HTML;
 if (CHECK) {
   if (htmlChanged) { console.error('--check: html の生成領域 ' + L.REGION + ' が正本から作った表と違う(器を走らせ直すこと)'); process.exit(1); }
-} else if (htmlChanged) fs.writeFileSync(HTML, html1);
+  VIEW = HS.viewPathOf(HTML, html0, L.REGION + '-check');
+} else VIEW = HS.writeHtmlStaged(HTML, html0, html1, L.REGION).view;
 
 // ---- ② ページで確かめる
 const PW_DIR = process.env.PLAYWRIGHT_CORE_DIR || '/home/user/dfm-simulator';
@@ -67,7 +72,7 @@ catch { browser = await req('playwright-core').chromium.launch({ executablePath:
 const page = await browser.newPage();
 const errs = [];
 page.on('pageerror', (e) => errs.push(String(e.message || e)));
-await page.goto('file://' + HTML, { waitUntil: 'load' });
+await page.goto('file://' + VIEW, { waitUntil: 'load' });
 await page.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
 const got = await page.evaluate(() => {
   const O = HP.obsCompare;
@@ -106,7 +111,8 @@ const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第285便d', targ
   ruling: '原仮定者の裁定(第75報)⑦: 観測値と実行結果の一致度を分かり易く比較可能なグラフ系の表示を用意する',
   reading: '統括の検証項目 R100: 正本 calaudit-w249.json の量ごとの行を 1 行 1 量で描く(中心線=観測・±3σ 帯は σ のある量だけ・マーカー=実行値)。欠測は 0 に置換しない・帯内でも合格と書かない(合否は 3σ 門の正式判定のまま)・状態表とグラフの数字を二重管理しない',
   notClaim: ['観測一致を達成した', '較正を完了した', '判定が増えた', '帯の中なら合格'] });
-Object.assign(meta, scopeStamp(HTML, REGEN_SCOPE), stableInputs(ROOT, meta.inputs));
+Object.assign(meta, scopeStamp(VIEW, REGEN_SCOPE), stableInputs(ROOT, meta.inputs));
+HS.stampStagedTarget(meta, html1);   // 第288便f: 一時出力のときは記述した写し(集約が書く html)の sha を刻む
 const out = {
   meta,
   canon: { file: L.CAL_FILE, wave: (cal.meta || {}).wave || null, rows: built.counts.rows, presets: built.counts.presets, rowsSha256: sha, sigDigits: L.SIG_DIGITS },
