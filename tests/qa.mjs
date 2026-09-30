@@ -20293,7 +20293,38 @@ if (!FAST) {
       else {
         const T = LG.selfTest();
         if (!(T.ok && T.worstRel <= 1e-12)) bad.push('最小模型の単体試験 ' + JSON.stringify({ ok: T.ok, worst: T.worstRel }));
-        if (JSON.stringify(T) !== JSON.stringify(JG.minimal)) bad.push('最小模型の単体試験が正本と違う');
+        // 第287便 統合: CI(Node 24)と手元(Node 22)で Math.pow が 1 ulp 違うので、ビット一致ではなく tests/README §1 の許容幅で照合する。
+        // 出所: PR #288 の CI(run 36655771300・job 109699673538・Node 24)で preflight の behavior.growthMinimal が FAIL —— 手元(Node 22)と
+        // rows[].eqRel/relBisect/relDAccel(丸めの床 1e-16 台)や rStar の末尾 ulp が違い、JSON.stringify のビット一致が落ちた。器 lib-w287a-growth.mjs は変えない
+        // (正本の code hash を保つ)。鍵ごとの区分: exact(version/ok/restoring/outward/p/P)・analytic(rStar/rBisect/dAccel/dAccelClosed/ratio/closed/gamma: 相対 1e-12)・
+        // floor(worstRel/relBisect/eqRel/relDAccel/rel: 絶対 1e-12)・integrated(ampFirst/ampLast/ampRatio/relEnergyChange: 40000 步の積分 —— 相対 1e-6 か絶対 1e-10)。
+        const NEAR_KIND = { rStar: 'analytic', rBisect: 'analytic', dAccel: 'analytic', dAccelClosed: 'analytic', ratio: 'analytic', closed: 'analytic', gamma: 'analytic',
+          worstRel: 'floor', relBisect: 'floor', eqRel: 'floor', relDAccel: 'floor', rel: 'floor',
+          ampFirst: 'integrated', ampLast: 'integrated', ampRatio: 'integrated', relEnergyChange: 'integrated' };
+        const minimalNear = (a, b) => {
+          const badN = [];
+          const walk = (x, y, path, key) => {
+            if (typeof x === 'number' && typeof y === 'number') {
+              const kind = NEAR_KIND[key] || 'exact';
+              const d = Math.abs(x - y), m = Math.max(Math.abs(x), Math.abs(y));
+              const okN = kind === 'analytic' ? d <= 1e-12 * m : kind === 'floor' ? d <= 1e-12 : kind === 'integrated' ? (d <= 1e-6 * m || d <= 1e-10) : x === y;
+              if (!okN) badN.push({ path, a: x, b: y, kind });
+              return;
+            }
+            if (Array.isArray(x) || Array.isArray(y)) {
+              if (!Array.isArray(x) || !Array.isArray(y) || x.length !== y.length) { badN.push({ path, a: x, b: y, kind: 'shape' }); return; }
+              x.forEach((v, i) => walk(v, y[i], path + '/' + i, key)); return;
+            }
+            if (x && y && typeof x === 'object' && typeof y === 'object') {
+              for (const k of [...new Set(Object.keys(x).concat(Object.keys(y)))].sort()) walk(x[k], y[k], path + '/' + k, k); return;
+            }
+            if (x !== y) badN.push({ path, a: x, b: y, kind: 'exact' });
+          };
+          walk(a, b, '', '');
+          return { ok: badN.length === 0, worst: badN.slice(0, 5) };
+        };
+        const near = minimalNear(T, JG.minimal);
+        if (!near.ok) bad.push('最小模型の単体試験が正本と違う(許容幅の外): ' + near.worst.map((z) => `${z.path} ${z.a} ⇔ ${z.b}〔${z.kind}〕`).join(' , '));
         if (!(T.noDissipation.ampRatio > 0.9 && T.withDissipation.ampRatio < 0.1)) bad.push('散逸なしで振幅が残る/散逸ありで減る');
         if (!(LG.scalingExponent(2) === 1 && LG.growsOutward(1.6) && !LG.growsOutward(1.5))) bad.push('r*∝M^{2p−3}・p>3/2');
         cases.push(`r* の閉形式と二分法・釣り合いの残差・a_r′(r*)=−GM/r*³ の最大相対 ${T.worstRel.toExponential(1)}・M 倍 2 で r* 比 = 2^{2p−3}(p=1/1.5/2)・`
