@@ -9691,6 +9691,81 @@ const BUILTIN_PRESETS = [
     {type:"disk", particleRadius:7.1492e-9, n:20, cx:0,cy:-24, radius:3, mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:1.4, bulkVy:0, lightSweep:1}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false,
     spaceMesh:{mode:"mesh"}} },
+// ===== 第288便a(原仮定者の裁定(第78報)⑤・統括の検証項目 R113・AN76/AN77/AN78)=====
+// 🥜 fixedCaptureCopy —— **固定中心の合体の原理コピー**(🌰・💮 は 1 bit も変えない・較正母集団に入れない)。
+// 🌰 と**同じ初期状態**(台帳・塊 4 個・乱数種 20260929 をそのまま複製)から法則だけを変える: ① 中心を pinned(位置も速度も更新しない)
+// ② 捕獲は `fixedCapture`(版 w288a-fixcap-1 —— エネルギー優先の配分・J_pin/P_pin の別口座・熱の割合 h・物理上限 Ω_max と超過の口座 ——
+// `dfmFixedCaptureStep` の注釈)。R_I(合体後の慣性半径)=1.5 は R_drag・R_cap と同じ値を**別欄**に宣言(決断事項候補)・h=0・Ω_max=20
+// (エンジンの柵 40 の半分 —— **物理上限ではなく本便の宣言**)・超過は熱へ。逆行・真正面・R_I=0.01 の対照と離散の往復は器が同じ初期状態の
+// コピーから作る(tests/exp-w288a-fixcap.mjs)。**門(保持・半質量半径・軸比)は 🌰 と同じ値を測る前に器と PHYSICS〔第288便a〕に書いた**。
+{ id:"fixedCaptureCopy", name:"固定中心の合体の原理コピー(支配天体を固定して落ちてくる塊を合体させる)", emoji:"🥜",
+  group:"銀河の力学", scaleTier:"stellar", scaleExp:{L:16, T:12, M:35}, sampleClass:"principle", fidelity:"toy",
+  notClaim:["cluster","dm"],
+  obsCard:[
+    {q:"何を置いたか", model:"🌰 と同じ初期状態(中心 m=25・spin 12・本体半径 0.01 + 塊 4 個 × 21 体・中心から 24・接線 1.4 の順行)で、中心だけを pinned にした", obs:"—(原理サンプル —— 2D のアナロジー)"},
+    {q:"固定中心の合体(エネルギー優先)", model:"距離 < 1.5・束縛で合体。E_*=K_in+E_s,c+E_s,j+ΔU₃(K_in=½m_j|v_j|²)・E_s′=(1−h)E_*・ΔQ=hE_*・Ω′=s√(2E_s′/I′)・I′=½M′R_I²", obs:"—"},
+    {q:"ピンが持ち去る分(別の口座)", model:"J_pin=J_in−I′Ω′・P_pin=m_j v_j。エネルギーの行と運動量の行は別(固定中心は運動量と角運動量を保存しない)", obs:"—"},
+    {q:"逆行でも |Ω| は増え得る", model:"エネルギー優先では Ω′ の符号は中心の自転の符号(宣言)—— 角運動量で逆行が自転を減らす 🌰 とは違う。I′ が増えるので Ω が下がることもある", obs:"—"},
+    {q:"半径は別欄", model:"本体半径 0.01・引きずり核 R_drag 1.5・捕獲半径 R_cap 1.5・慣性半径 R_I 1.5(宣言)。物理上限 Ω_max=20 はエンジンの柵 40 とは別の宣言で、超過は熱の口座へ", obs:"—"},
+    {q:"門(測る前に宣言)", model:"保持率・半質量半径の変化・軸比(🌰・💮 と同じ閾値)を合体が止んだ後の窓で測る —— PHYSICS〔第288便a〕", obs:"—"},
+    {q:"言わないこと", model:"固定中心で閉鎖系になった/有限の中心スピンで支えた/合体で必ず Ω が増す/星団が落ち着いた", obs:"—"}],
+  descStruct:{
+    summary:"**固定中心の合体の原理コピー**(第288便a・原仮定者の裁定〔第78報〕⑤「支配天体との合体/離散では支配天体の位置を固定し、消える天体の運動エネルギー〔慣性移動とスピン〕を合体後のスピンへ加算してエネルギーを保存する」)。🌰 と**同じ初期状態**(💮 の台帳の写し: 星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg・G=6.6743・c=29979.2458・geoPN=3・kFrame=0・lawVersion \"scalar\"・centerSpin \"read\"・W_bg=0.15・R_drag=1.5・ε=3・中心 m=25・spin 12 + 塊 4 個 × 21 体・乱数種 20260929)から、**中心を pinned**(位置も速度も更新しない)にして、捕獲を `fixedCapture`(版 w288a-fixcap-1)に替えた 2 点だけが違う。合体は距離 < 1.5・対が束縛のとき、**エネルギー優先**で配分する: E_*=K_in+E_s,c+E_s,j+(U_before−U_after)−ΔE_self(K_in=½m_j|v_j−v_c|²・消える対ポテンシャルは内部結合の口座 E_self へ移すので回転へ二重に入らない・中心の質量増で周辺の全粒子とのポテンシャルが変わる分 ΔU₃ を含む)・E_* < 0 は拒否・E_s′=(1−h)E_*・ΔQ=hE_*・I′=½M′R_I²・Ω′=s√(2E_s′/I′)(s は中心の自転の符号 —— 0 なら持ち込み J の符号・それも 0 なら全部を熱へ)。宣言は R_I=1.5(本体半径 0.01・R_drag・R_cap と**別欄**)・h=0・物理上限 Ω_max=20(**エンジンの柵 40 とは別の宣言**)・超過は熱の口座へ。ピンが持ち去る角運動量 **J_pin**=J_in−I′Ω′ と運動量 **P_pin** は別の口座に記録する(固定中心は運動量と角運動量を保存しない —— エネルギーの行と運動量の行を同じ文にしない)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性 —— 中心は pinned なので当たらない)と固定中心の合体だけ。**言わないこと**: 固定中心で閉鎖系になった/有限の中心スピンで支えた/合体で必ず Ω が増す/星団が落ち着いた。",
+    observe:"実測(器 tests/exp-w288a-fixcap.mjs・正本 tests/out/fixcap-w288a.json): 順行・逆行・真正面の 3 対照 × 乱数種 3 と R_I=0.01 の対照で、帳簿の閉じ(M・E の残差・J_pin・P_pin・Q ≥ 0・クランプ 0)・合体が止んだ後の窓の保持率・半質量半径の変化・軸比・半径別の D_g(r) と符号つきの η_mesh(r)・F_r の各項・摂動後の復元・`centerSpin:\"read\"` の場が粒子へした仕事の帳簿の補償値 E_mesh を測る。🌰 の正本 growth-w287a.json と同じ初期状態の走行どうしで並べる。数は PHYSICS〔第288便a〕。",
+    brief:"🌰 と同じ初期状態から中心だけを固定し、落ちてくる塊を固定中心へエネルギー優先で合体させ(J_pin・P_pin は別の口座)、合体が止んだ後の形を宣言済みの門で測る原理コピー。較正対象外。",
+    control:"順行(宣言)に対し、器が同じ初期状態から逆行・真正面・慣性半径 R_I=0.01 の対照と、離散(逆写像)の往復を作る。比較の相手は 🌰(自由中心・w287a-capture-1)と 💮(中心 pinned・Jeans の初期分布)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
+  en:{name:"Fixed-centre merging principle copy (the dominant body is held fixed while infalling clumps merge into it)",
+    status:{purpose:"A pinned centre merges infalling clumps energy-first", state:"the merger energy ledger closes, J_pin and P_pin stay in separate accounts; gates not met", mismatch:null, outlook:null},
+    obsCard:[
+      {q:"What is placed", model:"the same initial state as 🌰 (centre m=25, spin 12, body 0.01 + 4 clumps x 21, 24 out, prograde 1.4) with only the centre pinned", obs:"- (a principle sample; a 2D analogy)"},
+      {q:"Fixed-centre merging (energy first)", model:"d < 1.5 and bound. E_*=K_in+E_s,c+E_s,j+dU3 (K_in=m_j|v_j|^2/2), E_s'=(1-h)E_*, dQ=hE_*, Omega'=s sqrt(2E_s'/I'), I'=M'R_I^2/2", obs:"-"},
+      {q:"What the pin carries away (separate accounts)", model:"J_pin=J_in-I'Omega', P_pin=m_j v_j; the energy line and the momentum line are separate (a pinned centre conserves neither momentum nor angular momentum)", obs:"-"},
+      {q:"Retrograde can raise |Omega|", model:"energy first keeps the sign of the centre's spin (declared), unlike 🌰 where a retrograde partner lowers the spin through angular momentum; Omega can also fall as I' grows", obs:"-"},
+      {q:"Radii in separate fields", model:"body 0.01, drag kernel R_drag 1.5, capture R_cap 1.5, inertia R_I 1.5 (declared). The physical cap Omega_max=20 is declared apart from the engine's fence 40; the excess goes to a heat account", obs:"-"},
+      {q:"Gates (declared first)", model:"retention, half-mass-radius change, axis ratio (the thresholds of 🌰 and 💮) after merging stops - PHYSICS (wave 288a)", obs:"-"},
+      {q:"Not claimed", model:"no closed system from the fixed centre, no support by a finite centre spin, no guaranteed spin-up, no settled cluster", obs:"-"}],
+    descStruct:{
+      summary:"A FIXED-CENTRE MERGING PRINCIPLE COPY (wave 288a, the originator's ruling in report 78, item 5: hold the dominant body fixed and add the kinetic energy of the vanishing body - bulk motion and spin - to the spin after merging). From THE SAME INITIAL STATE AS 🌰 (a copy of 💮's ledger: cluster units L0=1e16 m, T0=1e12 s, M0=1e35 kg, G=6.6743, c=29979.2458, geoPN=3, kFrame=0, lawVersion scalar, centerSpin read, W_bg=0.15, R_drag=1.5, eps=3, centre m=25 spin 12 + 4 clumps x 21, seed 20260929) only two things change: THE CENTRE IS PINNED and capture uses fixedCapture (version w288a-fixcap-1). A merger needs d < 1.5 and a bound pair and is allocated ENERGY FIRST: E_*=K_in+E_s,c+E_s,j+(U_before-U_after)-dE_self (K_in=m_j|v_j-v_c|^2/2; the vanishing pair potential moves to the internal binding account E_self so it is not counted twice; dU3, the change of the potential with every other particle as the centre's mass grows, is included); E_* < 0 is refused; E_s'=(1-h)E_*, dQ=hE_*, I'=M'R_I^2/2, Omega'=s sqrt(2E_s'/I') (s is the sign of the centre's spin; if zero the sign of the incoming J; if that is zero everything goes to heat). Declared: R_I=1.5 (a field separate from body 0.01, R_drag and R_cap), h=0, physical cap Omega_max=20 (DECLARED APART FROM THE ENGINE'S FENCE 40), excess to heat. The angular momentum J_pin=J_in-I'Omega' and the momentum P_pin carried away by the pin are booked in separate accounts (a pinned centre conserves neither; the energy line and the momentum line are never one sentence). Only gravity (E4), the geoPN=3 toy (the pinned centre receives none) and the fixed-centre merging act. NOT CLAIMED: a closed system from the fixed centre, support by a finite centre spin, a guaranteed spin-up, a settled cluster.",
+      observe:"Measured (harness tests/exp-w288a-fixcap.mjs, canonical tests/out/fixcap-w288a.json): prograde, retrograde and head-on controls x 3 seeds plus an R_I=0.01 control - ledger closure (M and E residuals, J_pin, P_pin, Q >= 0, no clamps), retention, half-mass-radius change and axis ratio after merging stops, D_g(r) and the signed eta_mesh(r) by radius, the F_r terms, recovery after a perturbation and the compensation account E_mesh of the work done on the particles by the centerSpin read field; runs from the same initial state are set beside 🌰's canonical growth-w287a.json. Numbers in PHYSICS (wave 288a).",
+      brief:"From 🌰's initial state with only the centre pinned, clumps merge energy-first into the fixed centre (J_pin and P_pin booked apart); the shape after merging stops is gated. Out of calibration scope.",
+      control:"Against the declared prograde run, the harness builds retrograde, head-on and R_I=0.01 controls and an eject round trip from the same initial state. Compare with 🌰 (free centre, w287a-capture-1) and 💮 (pinned centre, Jeans start). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
+  parameterAudit:{
+    observedInputs:["**無い。**"],
+    fixedConventions:["🌰 の初期状態の写し(💮 の台帳: 星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg・G=6.6743・c=29979.2458・geoPN=3・kFrame=0・lawVersion:\"scalar\"・centerSpin:\"read\"・W_bg=spaceMesh.D0=0.15・R_drag=spaceMesh.dragR=1.5・ε=3・frameWeight:\"share\"・塊 4 個・乱数種 20260929)",
+      "中心: m=25・spin 12・本体半径 0.01・**pinned**(固定中心 —— 位置も速度も更新しない)",
+      "fixedCapture: rCap 1.5・rInertia 1.5(=R_I —— 本体半径・R_drag・R_cap と別欄の宣言・決断事項候補)・h 0・omegaMax 20(物理上限の宣言 —— エンジンの柵 40 とは別)・overflowTo \"heat\"・spinSign \"center\"・contactMode:\"none\""],
+    fitted:["**無い。**"],
+    derived:["合体ごとの M′・K_in・E_*・E_s′・ΔQ・Ω′・J_pin・P_pin・E_self・超過の口座(帳簿 S.fixcap —— 器が記録)","T_dyn=2π√(D³/(G M_tot))(D=24 —— 器が記録)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","粒子 85 体(中心 1 + 84)","質量と位置・速度・自転は Float64(massPrecision・stateCarry・合体の宣言)","測定: dt=0.016・窓は合体が止んだ後 [1, 3] T_dyn"]},
+  activeParams:["G"],
+  // 第288便a: サンプルの状況(原稿 tests/data-w279a-samplestatus-src.json と同じ文 —— 生成領域 sample-status の行は再生成の鎖で入る)
+  status:{purpose:"固定した中心へ落ちてくる塊をエネルギー優先で合体させる原理コピー", objective:"unmet",
+    state:"合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達", calibration:"out-of-scope", mismatch:null, outlook:null,
+    evidence:["tests/out/fixcap-w288a.json"]},
+  fixedCapture:{version:"w288a-fixcap-1", center:0, rCap:1.5, rInertia:1.5, h:0, omegaMax:20, overflowTo:"heat", spinSign:"center"},
+  camera:{scale:40}, world:{boundary:"none",size:0}, seed:20260929,
+  physics:{G:6.6743, D0:0.15, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    contactMode:"none"/* 接触は固定中心の合体だけ(fixedCapture) */,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, dispMag:1, stateCarry:"double", massPrecision:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read", D0:0.15, dragR:1.5}},
+  bodies:[
+    // 固定中心(pinned —— 位置も速度も更新しない・m=25・spin 12・本体半径 0.01。合体で M と Ω が変わる・本体半径は変えない)
+    {type:"single", m:25, x:0,y:0, vx:0,vy:0, spin:12, pinned:true, radius:0.01},
+    // 塊 A(0°): 恒星 1 + DR 20・並進は接線 +1.4(順行)
+    {type:"disk", particleRadius:6.957e-8, n:1, cx:24,cy:0, radius:3, mMin:0.2125,mMax:0.2125, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:1.4},
+    {type:"disk", particleRadius:7.1492e-9, n:20, cx:24,cy:0, radius:3, mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:1.4, lightSweep:1},
+    // 塊 B(90°)
+    {type:"disk", particleRadius:6.957e-8, n:1, cx:0,cy:24, radius:3, mMin:0.2125,mMax:0.2125, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:-1.4, bulkVy:0},
+    {type:"disk", particleRadius:7.1492e-9, n:20, cx:0,cy:24, radius:3, mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:-1.4, bulkVy:0, lightSweep:1},
+    // 塊 C(180°)
+    {type:"disk", particleRadius:6.957e-8, n:1, cx:-24,cy:0, radius:3, mMin:0.2125,mMax:0.2125, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:-1.4},
+    {type:"disk", particleRadius:7.1492e-9, n:20, cx:-24,cy:0, radius:3, mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:0, bulkVy:-1.4, lightSweep:1},
+    // 塊 D(270°)
+    {type:"disk", particleRadius:6.957e-8, n:1, cx:0,cy:-24, radius:3, mMin:0.2125,mMax:0.2125, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:1.4, bulkVy:0},
+    {type:"disk", particleRadius:7.1492e-9, n:20, cx:0,cy:-24, radius:3, mMin:0.425,mMax:0.425, spinMin:0,spinMax:0, vMode:"random", vScale:1, direction:1, bulkVx:1.4, bulkVy:0, lightSweep:1}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false,
+    spaceMesh:{mode:"mesh"}} },
 // ===== 第274便d(第64報「銀河のアナロジーのゴール: **実在天体に先立ち安定サンプルを用意する**」)=====
 // 原仮定者(第64報):「時間経過で形状が安定成長する計算式を、現状の実装や既存の物理法則に捉われずに
 // 考案する」/「球状星団=構成天体の集団を安定化・中心に対して正規分布・3D で横から見ても正規分布なので
@@ -20309,6 +20384,10 @@ function validatePreset(obj){
   }
   // 第287便a(R107): centerCapture — 中心捕獲(最上位キー・宣言した本だけ)。受理できない宣言は拒否(静かに落とさない)
   if(p.centerCapture!==undefined){ const cc=centerCaptureCheck(p); if(!cc.ok) bad(cc.err); else p.centerCapture=cc.out; }
+  // 第288便a(R113): fixedCapture / fixedEject — 固定中心の合体・離散(最上位キー・宣言した本だけ)。受理できない宣言は拒否(静かに落とさない)
+  if(p.fixedCapture!==undefined || p.fixedEject!==undefined){ const fc=fixedCaptureCheck(p); if(!fc.ok) bad(fc.err);
+    else { const o=fc.out; p.fixedCapture={version:o.version, center:o.center, rCap:o.rCap, rInertia:o.rInertia, h:o.h, omegaMax:o.omegaMax, overflowTo:o.overflowTo, spinSign:o.spinSign};
+      if(o.eject) p.fixedEject=o.eject; } }
   // E14″ phaseChange — 創発相変化(最上位キー。fusion と同じ配置。第60便で創発一本に整理)。
   // 「相」は物理入力ではない: 結合予算 bondN(必須)を核に、引力・角度・減衰・熱伝導のすべてを
   // 「いまの結合状態(滑らかな配位数)」から導出する。**thermal:"tint" のときだけ有効**・
@@ -22248,6 +22327,7 @@ function makeSim(){
       else S.spinPrec="single"; }
     // 第287便a: centerCapture を宣言した宇宙は S.spin も Float64 へ(捕獲の J_s の帳簿を Float32 の丸めで崩さない —— 宣言した本だけ)
     if(preset.centerCapture!==undefined && centerCaptureCheck(preset).ok && centerCaptureCheck(preset).out){ S.spin=new Float64Array(P.length); S.spinPrec="double"; }
+    if(preset.fixedCapture!==undefined && fixedCaptureWantsDouble(preset)){ S.spin=new Float64Array(P.length); S.spinPrec="double"; }   // 第288便a: 同じ理由(宣言した本だけ)
     if(phys[STATE_CARRY_KEY]==="double"){
       S.ax=new Float64Array(P.length); S.ay=new Float64Array(P.length);
       S.x=new Float64Array(P.length); S.y=new Float64Array(P.length);
@@ -22484,6 +22564,10 @@ function makeSim(){
         nCand:0, nRefBound:0, nRefEnergy:0, nRefSpinCap:0, nCap:0, M:0, Eself:0, Q:0, dU3:0, eM:0, ePx:0, ePy:0, eL:0, eE:0, Jorb:0,
         log:[], logMax:4096, logTrim:0} : null;
       S.hasCenterCapture=!!S.capture; }
+    // 第288便a(R113): 固定中心の合体・離散の状態と帳簿(宣言が受理できないときは null —— 捕獲しない)
+    { const fc=(preset.fixedCapture!==undefined || preset.fixedEject!==undefined)? fixedCaptureCheck(preset) : null;
+      S.fixcap=(fc && fc.ok && fc.out)? fixedCaptureState(fc.out) : null;
+      S.hasFixedCapture=!!S.fixcap; }
     // E14″ 創発相変化(第60便で一本化)。最上位キー phaseChange:{bondN,…}(thermal:"tint" かつ
     // fusion なしのときだけ有効 — validatePreset も同条件で警告つき削除する。内蔵プリセットは
     // バリデータを通らないので、ここが最終的な門番になる: fusion/twall と同形)。
@@ -24388,6 +24472,7 @@ function makeSim(){
         if(S.echoFlipAt!==null) S._echo();
         if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
         if(S.hasCenterCapture) dfmCenterCaptureStep(S);   // 第287便a: 中心捕獲(宣言した本だけ —— 真偽値 1 つで素通り)
+        if(S.hasFixedCapture) dfmFixedCaptureStep(S);   // 第288便a: 固定中心の合体・離散(宣言した本だけ —— 真偽値 1 つで素通り)
         if(S.hasShed) S._shed();
         if(S.hasGalaxyTracer) _galTracerAdvance(S,dt);   // 第254便b: 物質線は外側の dt で 1 回だけ(第256便c: 非表示なら運ばない)
         return;
@@ -24449,6 +24534,7 @@ function makeSim(){
       // 第45便 45B(台帳4-68d): 分裂は融合の**後**(同一サブステップで新生対が再融合しないための第1の柵)
       if(S.fusion){ S._fuse(); if(S.fusion.fission) S._fission(); }
       if(S.hasCenterCapture) dfmCenterCaptureStep(S);   // 第287便a: 中心捕獲(融合・分裂と同じ位置・`S._core` の外 —— 未宣言は真偽値 1 つで素通り)
+      if(S.hasFixedCapture) dfmFixedCaptureStep(S);   // 第288便a: 固定中心の合体・離散(同じ位置・`S._core` の外 —— 未宣言は真偽値 1 つで素通り)
       // 第244便(第36報): envelopeShed はステップ末(融合・分裂の後)。未宣言はフラグ1つで素通り =
       // 1步あたりの追加コストは真偽値の読みだけ(S._core の中には 1 命令も足していない — 第208便の教訓)
       if(S.hasShed) S._shed();
@@ -32519,6 +32605,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   simB.fisN=sim.fisN; simB.fisLog=sim.fisLog? sim.fisLog.slice() : null; simB._fisN0=sim._fisN0;
   // 第287便a: 中心捕獲の状態と帳簿も A 側の現況へ(宣言の無い本では null のまま)
   simB.capture=sim.capture? Object.assign({}, sim.capture, {log:sim.capture.log.slice()}) : null; simB.hasCenterCapture=!!simB.capture;
+  simB.fixcap=sim.fixcap? Object.assign({}, sim.fixcap, {log:sim.fixcap.log.slice(), ejLog:sim.fixcap.ejLog.slice()}) : null; simB.hasFixedCapture=!!simB.fixcap;   // 第288便a
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
   // 第37便 C1(台帳4-70): 壁帳簿と伝熱境界も転写(build 済みなので twall は同値だが明示する)
@@ -34899,7 +34986,8 @@ function presetSig(p){
     // 第54便 54B: phaseChange(E14)と fusion も署名へ — これらだけが異なる2プリセットの
     // インポートが第36便の integrator 等と同型の誤重複スキップになるのを防ぐ
     phaseChange:q.phaseChange||null, fusion:q.fusion||null,
-    ...(q.centerCapture? {centerCapture:q.centerCapture} : null)   // 第287便a: 宣言した本だけ(他の本の署名は 1 字も変わらない)
+    ...(q.centerCapture? {centerCapture:q.centerCapture} : null),   // 第287便a: 宣言した本だけ(他の本の署名は 1 字も変わらない)
+    ...(q.fixedCapture? {fixedCapture:q.fixedCapture} : null), ...(q.fixedEject? {fixedEject:q.fixedEject} : null)   // 第288便a: 同じ(宣言した本だけ)
   });
 }
 // 第103便: 外部AIチャット返答からのJSON候補抽出(doImportText の寛容経路用)。
@@ -44567,6 +44655,260 @@ function dfmCenterCaptureStep(S){
   if(nDead){ S._compact(dead, S._capInto, n); C.i=c-nBefore; }
   return nDead;
 }
+// ===== 第288便a(原仮定者の裁定(第78報)⑤・統括の検証項目 R113・AN76/AN77/AN78): **固定中心の合体・離散** `dfmFixedCaptureStep(S)`(`S._core` の外) =====
+// 🌰 の中心捕獲(`dfmCenterCaptureStep`・w287a-capture-1 —— 自由中心・重心へ移す・J を運動量側で保存)とは**逆の契約**で、別の版キーに置く
+// (w287a-capture-1 と `centerCaptureCheck` は 1 字も変えない)。最上位キー `fixedCapture:{version, center, rCap, rInertia, h, omegaMax,
+// overflowTo, spinSign}` を宣言した宇宙だけが通る(未宣言は S.hasFixedCapture の真偽値 1 つで素通り = 既定経路 1 bit 不変)。
+//   ・**支配天体は pinned**(位置も速度も更新しない —— トイ加速度は既存の `if(pin[i]) continue` で当たらない)。自由中心はこの版では拒否。
+//   ・捕獲の条件は 🌰 と同じ形: 距離 d < rCap・対が束縛(½m_j|v_j−v_c|² − G m_c m_j/√(d²+ε²) < 0)。
+//   ・**エネルギー優先の配分**(中心と共に等速移動する宣言座標系 —— 慣性速度 v だけを使い、座標移送 u を混ぜない):
+//       K_in = ½ m_j |v_j − v_c|²(自由二体の μ は使わない)・E_s,c = ½ I_c Ω_c²(I_c = ½ M_c R_I²)・E_s,j = ½ I_j Ω_j²(I_j = ½ m_j R_j²)
+//       U_before − U_after = U_pair + ΔU₃(ΔU₃ = 周辺の全粒子と c・j の対 − 周辺と M′ の中心の対 —— **中心の質量増で他の全粒子との
+//       ポテンシャルが変わる分**)・ΔE_self = U_pair(消える対ポテンシャルは内部結合の口座 E_self へ —— 両者で相殺して回転へ二重に入れない)
+//       E_* = K_in + E_s,c + E_s,j + (U_before − U_after) − ΔE_self。**E_* < 0 は拒否**(自転の運動エネルギーを無から作らない)。
+//       E_s′ = (1−h)E_*・ΔQ = h E_*・I′ = ½ M′ R_I²(**R_I は本体半径・引きずり核・捕獲半径と別欄**)・Ω′ = s √(2E_s′/I′)。
+//       s は宣言した符号 spinSign:"center" = sign(Ω_c)(Ω_c = 0 なら持ち込み J_in の符号・J_in = 0 なら符号を選ばず h=1 —— 全部を熱へ)。
+//   ・**物理上限 Ω_max はエンジンの柵 ±40 とは別の宣言**(柵を越える値は受理しない)。|Ω′| > Ω_max の超過エネルギーは overflowTo の口座へ
+//     ("heat" = 超過の熱 Q_over・"precession" = 歳差の口座 E_prec〔帳簿だけ —— 軸の力学は本便では持たない〕・"eject" = 離散の待ち口座 E_pend)。
+//     **null なら拒否**(クランプで捨てない)。
+//   ・帳簿(捕獲ごとに 1 行・S.fixcap.log): M′・E(回転 + 並進 + ポテンシャル + 内部結合 + 熱 + 超過口座)の前後・**J_pin**(持ち込み
+//     J_in = I_cΩ_c + I_jΩ_j + m_j (r × (v_j − v_c)) と I′Ω′ の差 —— ピンが持ち去った分)・**P_pin**(固定近似の運動量残差 m_j v_j + M_c v_c − M′ v_c)・
+//     拘束仕事(中心の速度 × 拘束力 —— 固定座標系で 0 の列)。**「エネルギーが閉じた」と「運動量が閉じた」は別の行**。
+// `fixedEject:{version, mass, rInertiaAfter, rLaunch, direction:{posDeg, velDeg}, spinEject, radiusEject, omegaAfter, trigger}` は**離散**(逆写像):
+//   K_eject = E_before − E_spin,remaining − E_spin,eject − U_after − E_self,after − Q_after(E_before = E_s + E_pend + U_before + E_self + Q)。
+//   E_self,after = E_self − U_pair(c′, e)(捕獲の逆)・Q_after = Q(熱化分を再利用しない)。K < 0 なら放出しない(拒否の数を数える)。
+//   trigger は {atStep:N}(宣言した歩で 1 回 —— 残りの自転 |Ω| = omegaAfter)か "overflow"(overflowTo:"eject" の待ち口座 E_pend を使い切る ——
+//   残りの自転は捕獲で Ω_max のまま)。
+// **書かないこと**: 固定中心で閉鎖系になった(P_pin・J_pin は残る)/ 有限の中心スピンで支えた(`centerSpin:"read"` の場の仕事の供給は帳簿の
+// 補償値 E_mesh —— 本便は測って記録するだけ)/ 合体で必ず Ω が増す(I′ が増えれば Ω は下がる)。
+const FIXED_CAPTURE_VERSION="w288a-fixcap-1", FIXED_CAPTURE_OVERFLOW=["heat","precession","eject"], FIXED_CAPTURE_SPIN_SIGN=["center"],
+  FIXED_CAPTURE_RCAP_DEFAULT=1.5;
+// 受理(validatePreset と build の両方が読む —— 内蔵プリセットは受理器を通らないので build が最後の門番)。
+// 返り値 out = {version, center:0, rCap, rInertia, h, omegaMax, overflowTo, spinSign, eject:(null|{…})}。
+function fixedCaptureCheck(p){
+  const FC=p? p.fixedCapture : undefined, FE=p? p.fixedEject : undefined;
+  if(FC===undefined){
+    if(FE!==undefined) return {ok:false, err:"fixedEject は fixedCapture と組む(第288便a)"};
+    return {ok:true, out:null};
+  }
+  const num=(v)=>typeof v==="number" && Number.isFinite(v);
+  if(!FC || typeof FC!=="object" || Array.isArray(FC)) return {ok:false, err:"fixedCapture はオブジェクト(第288便a)"};
+  if(FC.version!==FIXED_CAPTURE_VERSION) return {ok:false, err:'fixedCapture.version は "'+FIXED_CAPTURE_VERSION+'"'};
+  if(p.centerCapture!==undefined) return {ok:false, err:"fixedCapture は centerCapture(自由中心・w287a-capture-1)と併用しない"};
+  if(FC.center!==0) return {ok:false, err:"fixedCapture.center は 0(bodies[0] の single が中心)"};
+  const b0=(p.bodies||[])[0];
+  if(!b0 || b0.type!=="single") return {ok:false, err:"fixedCapture: bodies[0] が single でない"};
+  if(b0.pinned!==true) return {ok:false, err:"fixedCapture: 中心は pinned(固定中心 —— 自由中心は centerCapture の契約でこの版では拒否)"};
+  const rCap=(FC.rCap===undefined)? FIXED_CAPTURE_RCAP_DEFAULT : FC.rCap;
+  if(!(num(rCap) && rCap>0)) return {ok:false, err:"fixedCapture.rCap は正の数値(捕獲半径)"};
+  if(!(num(FC.rInertia) && FC.rInertia>0)) return {ok:false, err:"fixedCapture.rInertia は宣言必須の正の数値(合体後の慣性半径 R_I —— 本体半径・引きずり核・捕獲半径と別欄)"};
+  if(!(num(FC.h) && FC.h>=0 && FC.h<=1)) return {ok:false, err:"fixedCapture.h は宣言必須(熱の割合 0≤h≤1)"};
+  if(!(num(FC.omegaMax) && FC.omegaMax>0 && FC.omegaMax<=CENTER_CAPTURE_SPIN_CAP)) return {ok:false, err:"fixedCapture.omegaMax は宣言必須(物理上限 0<Ω_max≤"+CENTER_CAPTURE_SPIN_CAP+" —— エンジンの柵を越える値は帳簿が閉じないので受理しない)"};
+  if(!("overflowTo" in FC) || !(FC.overflowTo===null || FIXED_CAPTURE_OVERFLOW.indexOf(FC.overflowTo)>=0)) return {ok:false, err:'fixedCapture.overflowTo は宣言必須("heat"|"precession"|"eject"|null —— null は超過を拒否)'};
+  const sg=(FC.spinSign===undefined)? FIXED_CAPTURE_SPIN_SIGN[0] : FC.spinSign;
+  if(FIXED_CAPTURE_SPIN_SIGN.indexOf(sg)<0) return {ok:false, err:'fixedCapture.spinSign は "center"(中心の自転の符号 —— 0 なら持ち込み J の符号・それも 0 なら全部を熱へ)'};
+  const ph=p.physics||{};
+  if(ph[CONTACT_MODE_KEY]!=="none") return {ok:false, err:'fixedCapture は physics.contactMode:"none" と組む(接触と融合は中心とだけ)'};
+  if(p.fusion!==undefined || p.phaseChange!==undefined || p.thermal==="tint") return {ok:false, err:'fixedCapture は fusion・phaseChange・thermal:"tint" と併用しない'};
+  let ej=null;
+  if(FE!==undefined){
+    if(!FE || typeof FE!=="object" || Array.isArray(FE)) return {ok:false, err:"fixedEject はオブジェクト(第288便a)"};
+    if(FE.version!==FIXED_CAPTURE_VERSION) return {ok:false, err:'fixedEject.version は "'+FIXED_CAPTURE_VERSION+'"'};
+    if(!(num(FE.mass) && FE.mass>0)) return {ok:false, err:"fixedEject.mass は正の数値"};
+    if(!(num(FE.rInertiaAfter) && FE.rInertiaAfter>0)) return {ok:false, err:"fixedEject.rInertiaAfter は正の数値(放出後の中心の慣性半径)"};
+    if(!(num(FE.rLaunch) && FE.rLaunch>rCap)) return {ok:false, err:"fixedEject.rLaunch は捕獲半径より大きい数値(放出の直後に捕獲し直さない)"};
+    const D=FE.direction;
+    if(!D || typeof D!=="object" || !num(D.posDeg) || !num(D.velDeg)) return {ok:false, err:"fixedEject.direction は {posDeg, velDeg}(置く方位と速度の向き・度)"};
+    if(!num(FE.spinEject)) return {ok:false, err:"fixedEject.spinEject は数値(放出体の自転)"};
+    if(!(num(FE.radiusEject) && FE.radiusEject>0)) return {ok:false, err:"fixedEject.radiusEject は正の数値(放出体の本体半径 = 慣性半径)"};
+    const T=FE.trigger;
+    let trig=null;
+    if(T==="overflow"){
+      if(FC.overflowTo!=="eject") return {ok:false, err:'fixedEject.trigger "overflow" は fixedCapture.overflowTo:"eject" と組む'};
+      if(FE.omegaAfter!==undefined && FE.omegaAfter!==null) return {ok:false, err:'fixedEject.trigger "overflow" では omegaAfter を宣言しない(残りの自転は Ω_max)'};
+      trig="overflow";
+    } else if(T && typeof T==="object" && Number.isInteger(T.atStep) && T.atStep>=1){
+      if(!(num(FE.omegaAfter) && FE.omegaAfter>=0 && FE.omegaAfter<=FC.omegaMax)) return {ok:false, err:"fixedEject.omegaAfter は 0 以上 Ω_max 以下(宣言した歩の放出の後の |Ω|)"};
+      trig={atStep:T.atStep};
+    } else return {ok:false, err:'fixedEject.trigger は {atStep:N}(N≥1 の整数)か "overflow"'};
+    ej={version:FIXED_CAPTURE_VERSION, mass:FE.mass, rInertiaAfter:FE.rInertiaAfter, rLaunch:FE.rLaunch, direction:{posDeg:D.posDeg, velDeg:D.velDeg},
+      spinEject:FE.spinEject, radiusEject:FE.radiusEject, omegaAfter:(trig==="overflow")? null : FE.omegaAfter, trigger:trig};
+  }
+  if(FC.overflowTo==="eject" && !(ej && ej.trigger==="overflow")) return {ok:false, err:'fixedCapture.overflowTo:"eject" は fixedEject.trigger:"overflow" と組む(受け皿の無い超過は拒否)'};
+  return {ok:true, out:{version:FIXED_CAPTURE_VERSION, center:0, rCap, rInertia:FC.rInertia, h:FC.h, omegaMax:FC.omegaMax, overflowTo:FC.overflowTo, spinSign:sg, eject:ej}};
+}
+// 状態と帳簿(build が作る —— 受理できない宣言では null)
+function fixedCaptureState(out){
+  return {version:out.version, i:out.center, rCap:out.rCap, rInertia:out.rInertia, h:out.h, omegaMax:out.omegaMax, overflowTo:out.overflowTo, spinSign:out.spinSign,
+    eject:out.eject, stepN:0,
+    nCand:0, nRefBound:0, nRefEnergy:0, nRefOverflow:0, nCap:0, nHeatAll:0, nOverflow:0, nEject:0, nRefEject:0,
+    M:0, Eself:0, Q:0, Qover:0, Eprec:0, Epend:0, dU3:0, Jpin:0, PpinX:0, PpinY:0, Wcon:0, eM:0, eE:0,
+    log:[], ejLog:[], logMax:4096, logTrim:0};
+}
+// Float64 の自転配列の宣言(捕獲の E_s′・J の帳簿を Float32 の丸めで崩さない —— 宣言した本だけ)
+function fixedCaptureWantsDouble(preset){ const fc=(preset && preset.fixedCapture!==undefined)? fixedCaptureCheck(preset) : null; return !!(fc && fc.ok && fc.out); }
+function dfmFixedCaptureStep(S){
+  const C=S.fixcap; if(!C) return 0;
+  const n=S.n, c=C.i;
+  if(!(c>=0 && c<n) || S.pinned[c]!==1){ C.stop="centerNotPinned"; return 0; }
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, spin=S.spin, R=S.R, m=S.m, p=S.params;
+  const G=p.G, eps2=p.softening*p.softening, rc2=C.rCap*C.rCap, Ri=C.rInertia;
+  let dead=null, nDead=0, nBefore=0;
+  for(let j=0;j<n;j++){
+    if(j===c || (dead && dead[j])) continue;
+    const dx=x[j]-x[c], dy=y[j]-y[c], d2=dx*dx+dy*dy;
+    if(!(d2<rc2)) continue;
+    const mc=m[c], mj=m[j];
+    if(!(mc>0 && mj>0)) continue;
+    const mn=mc+mj;
+    const rvx=vx[j]-vx[c], rvy=vy[j]-vy[c];
+    const Kin=0.5*mj*(rvx*rvx+rvy*rvy);
+    const Upair=-G*mc*mj/Math.sqrt(d2+eps2);
+    C.nCand++;
+    if(!(Kin+Upair<0)){ C.nRefBound++; continue; }
+    const sc=spin[c], sj=spin[j], Rj=R[j];
+    const Ic=0.5*mc*Ri*Ri, Ij=0.5*mj*Rj*Rj, In=0.5*mn*Ri*Ri;
+    const EsC=0.5*Ic*sc*sc, EsJ=0.5*Ij*sj*sj;
+    const Jorb=mj*(dx*rvy-dy*rvx), Jin=Ic*sc+Ij*sj+Jorb;
+    let u3a=0, u3b=0;
+    for(let k=0;k<n;k++){
+      if(k===c || k===j || (dead && dead[k])) continue;
+      const mk=m[k];
+      const ax=x[c]-x[k], ay=y[c]-y[k], bx=x[j]-x[k], by=y[j]-y[k], rck=Math.sqrt(ax*ax+ay*ay+eps2);
+      u3a+=-G*mc*mk/rck-G*mj*mk/Math.sqrt(bx*bx+by*by+eps2);
+      u3b+=-G*mn*mk/rck;
+    }
+    const dU3=u3a-u3b, dU=Upair+dU3, dEself=Upair;
+    const Estar=Kin+EsC+EsJ+dU-dEself;
+    if(!(Estar>=0)){ C.nRefEnergy++; continue; }
+    const s=(sc>0)? 1 : (sc<0)? -1 : (Jin>0)? 1 : (Jin<0)? -1 : 0;
+    const hEff=(s===0)? 1 : C.h;
+    let EsP=(1-hEff)*Estar;
+    const dQ=hEff*Estar;
+    const omRaw=(In>0)? s*Math.sqrt(2*EsP/In) : 0;
+    let ovf=0;
+    if(Math.abs(omRaw)>C.omegaMax){
+      if(C.overflowTo===null){ C.nRefOverflow++; continue; }
+      const Ecap=0.5*In*C.omegaMax*C.omegaMax; ovf=EsP-Ecap; EsP=Ecap;
+    }
+    const om=(ovf>0)? s*C.omegaMax : omRaw;
+    // ---- 捕獲前の量(帳簿の照合用)
+    const vxc=vx[c], vyc=vy[c], vxj=vx[j], vyj=vy[j];
+    const Px=mc*vxc+mj*vxj, Py=mc*vyc+mj*vyj;
+    const E0=0.5*mc*(vxc*vxc+vyc*vyc)+0.5*mj*(vxj*vxj+vyj*vyj)+EsC+EsJ+Upair+u3a;
+    // ---- 書き込み(中心の位置・速度は書かない —— pinned)
+    m[c]=mn; const mS=m[c];
+    { const mf=(p.massFloor>0)? p.massFloor : 0.01; S.mEff[c]=(Math.abs(mS)<mf)? mf : mS; }
+    spin[c]=om; const SP=spin[c];
+    const IS=0.5*mS*Ri*Ri, KsS=0.5*IS*SP*SP;
+    // ---- 周辺(合体後)と監査
+    let u3c=0;
+    for(let k=0;k<n;k++){
+      if(k===c || k===j || (dead && dead[k])) continue;
+      const ex=x[c]-x[k], ey=y[c]-y[k]; u3c+=-G*mS*m[k]/Math.sqrt(ex*ex+ey*ey+eps2);
+    }
+    const VX=vx[c], VY=vy[c];
+    const E1=0.5*mS*(VX*VX+VY*VY)+KsS+u3c+Upair+dQ+ovf;
+    const eM=mS-mn, eE=E1-E0;
+    const Jpin=Jin-IS*SP, PpinX=Px-mS*VX, PpinY=Py-mS*VY;
+    const Wcon=0;   // 拘束仕事 = 中心の速度 × 拘束力(pinned —— 速度は書かないので 0 の列)
+    C.M+=mj; C.Eself+=Upair; C.Q+=dQ; C.dU3+=(u3a-u3c); C.eM+=eM; C.eE+=eE; C.Jpin+=Jpin; C.PpinX+=PpinX; C.PpinY+=PpinY; C.Wcon+=Wcon;
+    if(ovf>0){ C.nOverflow++; if(C.overflowTo==="heat") C.Qover+=ovf; else if(C.overflowTo==="precession") C.Eprec+=ovf; else C.Epend+=ovf; }
+    if(s===0) C.nHeatAll++;
+    C.nCap++;
+    C.log.push({t:S.t, id:(S.linId? S.linId[j] : j), mC:mc, mJ:mj, d:Math.sqrt(d2), vC:[vxc,vyc], Kin, Upair, dU3:(u3a-u3c), dU3pre:dU3,
+      EsC, EsJ, Estar, s, h:hEff, EsP, dQ, ovf, ovfTo:(ovf>0)? C.overflowTo : null, omRaw, Ic, In:IS, spin0:sc, spin1:SP,
+      Jc:Ic*sc, Jj:Ij*sj, Jorb, Jin, Jpin, PpinX, PpinY, Wcon, eM, eE, E0, E1,
+      scE:Math.abs(E0)+Math.abs(Upair)+Kin+EsC+EsJ});
+    if(C.log.length>C.logMax){ C.log.shift(); C.logTrim++; }
+    if(!dead){ dead=new Uint8Array(n); S._fixInto=new Int32Array(n); }
+    dead[j]=1; S._fixInto[j]=c; nDead++;
+    if(j<c) nBefore++;
+  }
+  if(nDead){
+    // 第288便a: 倍精度の速度の繰り越し(stateCarry:"double" の carVx/carVy)も同じ順で詰める(S._compact は詰めない —— 🌰 の経路は変えない)
+    if(S.carVx){ let t=0; for(let i=0;i<n;i++){ if(dead[i]) continue; if(i!==t){ S.carVx[t]=S.carVx[i]; S.carVy[t]=S.carVy[i]; } t++; } }
+    S._compact(dead, S._fixInto, n); C.i=c-nBefore;
+  }
+  C.stepN++;
+  const E=C.eject;
+  if(E){
+    if(E.trigger==="overflow"){ if(C.Epend>0) dfmFixedEject(S, "overflow"); }
+    else if(E.trigger && C.stepN===E.trigger.atStep) dfmFixedEject(S, "atStep");
+  }
+  return nDead;
+}
+// 離散(逆写像)—— 中心から 1 体を放出する。why: "atStep"(宣言した歩)/ "overflow"(待ち口座 E_pend を使い切る)/ "direct"(器が直接呼ぶ)。
+// spec を渡せば宣言の代わりに使う(器の往復試験 —— 形は fixedEject の out と同じ)。返り値 1 = 放出した・0 = 放出しない。
+function dfmFixedEject(S, why, spec){
+  const C=S.fixcap; if(!C) return 0;
+  const E=spec || C.eject; if(!E) return 0;
+  const n=S.n, c=C.i;
+  if(!(c>=0 && c<n) || S.pinned[c]!==1){ C.nRefEject++; return 0; }
+  const p=S.params, G=p.G, eps2=p.softening*p.softening;
+  const M=S.m[c], me=E.mass, Mp=M-me;
+  if(!(Mp>0)){ C.nRefEject++; C.ejLog.push({t:S.t, why, refused:"mass"}); return 0; }
+  const Ri=C.rInertia, Ra=E.rInertiaAfter, s0=S.spin[c];
+  const I0=0.5*M*Ri*Ri, I1=0.5*Mp*Ra*Ra;
+  const sg=(s0>0)? 1 : (s0<0)? -1 : 0;
+  const useOvf=(why==="overflow");
+  const omA=useOvf? s0 : sg*E.omegaAfter;
+  if(!useOvf && sg===0 && E.omegaAfter>0){ C.nRefEject++; C.ejLog.push({t:S.t, why, refused:"sign"}); return 0; }
+  const Re=E.radiusEject, se=E.spinEject, Ie=0.5*me*Re*Re;
+  const EsB=0.5*I0*s0*s0, EsR=0.5*I1*omA*omA, EsE=0.5*Ie*se*se, Epend=useOvf? C.Epend : 0;
+  const cp=Math.cos(E.direction.posDeg*Math.PI/180), sp=Math.sin(E.direction.posDeg*Math.PI/180);
+  const cv=Math.cos(E.direction.velDeg*Math.PI/180), sv=Math.sin(E.direction.velDeg*Math.PI/180);
+  const xc=S.x[c], yc=S.y[c], xe=xc+E.rLaunch*cp, ye=yc+E.rLaunch*sp;
+  let Ub=0, Uao=0;
+  for(let k=0;k<n;k++){
+    if(k===c) continue;
+    const mk=S.m[k], ax=xc-S.x[k], ay=yc-S.y[k], bx=xe-S.x[k], by=ye-S.y[k], rck=Math.sqrt(ax*ax+ay*ay+eps2);
+    Ub+=-G*M*mk/rck; Uao+=-G*Mp*mk/rck-G*me*mk/Math.sqrt(bx*bx+by*by+eps2);
+  }
+  const Upe=-G*Mp*me/Math.sqrt(E.rLaunch*E.rLaunch+eps2);
+  const Ua=Uao+Upe, EselfB=C.Eself, EselfA=EselfB-Upe, Qb=C.Q+C.Qover, Qa=Qb;
+  const Ebefore=EsB+Epend+Ub+EselfB+Qb;
+  const K=Ebefore-EsR-EsE-Ua-EselfA-Qa;
+  if(!(K>=0)){ C.nRefEject++; C.ejLog.push({t:S.t, why, refused:"energy", K}); return 0; }
+  const v=Math.sqrt(2*K/me), vex=v*cv, vey=v*sv;
+  // ---- 放出体を足す(配列の確保長を伸ばす経路は分裂・shed と同じ _grow —— 新しい行は中心の行の写しに上書き)
+  const j=n, cap0=S.m.length;
+  S._grow(n+1); S._shedGrowExtra(S.m.length);
+  const cap=S.m.length;
+  if(S.carVx && S.carVx.length<cap){ const a=new Float64Array(cap); a.set(S.carVx); S.carVx=a; const b=new Float64Array(cap); b.set(S.carVy); S.carVy=b; }
+  for(const k of Object.keys(S)){
+    const a=S[k];
+    if(k==="pairD" || k.startsWith("lay") || !ArrayBuffer.isView(a) || a instanceof DataView || a.length!==cap) continue;
+    a[j]=a[c];
+  }
+  const m=S.m, rs=p.radiusScale;
+  const PxB=M*S.vx[c], PyB=M*S.vy[c], Jb=I0*s0;
+  m[j]=me; { const mf=(p.massFloor>0)? p.massFloor : 0.01; S.mEff[j]=(Math.abs(me)<mf)? mf : me; }
+  S.x[j]=xe; S.y[j]=ye; S.vx[j]=S.vx[c]+vex; S.vy[j]=S.vy[c]+vey; S.spin[j]=se; S.pinned[j]=0;
+  S.R[j]=Re; S.radOv[j]=(rs>0)? Re/rs : 0; S.rMulv[j]=1;
+  if(S.carVx){ S.carVx[j]=0; S.carVy[j]=0; }
+  if(S.linId){ S.linId[j]=S.linNext++; S.linN[j]=0; }
+  S.n=n+1;
+  m[c]=Mp; { const mf=(p.massFloor>0)? p.massFloor : 0.01; S.mEff[c]=(Math.abs(Mp)<mf)? mf : Mp; }
+  S.spin[c]=omA;
+  // ---- 監査(格納値で測り直す)
+  const mS=m[c], SP=S.spin[c], IS=0.5*mS*Ra*Ra, mJ=m[j], VXj=S.vx[j]-S.vx[c], VYj=S.vy[j]-S.vy[c];
+  let Uc=0;
+  for(let k=0;k<n;k++){ if(k===c) continue; const mk=m[k];
+    const ax=S.x[c]-S.x[k], ay=S.y[c]-S.y[k], bx=S.x[j]-S.x[k], by=S.y[j]-S.y[k];
+    Uc+=-G*mS*mk/Math.sqrt(ax*ax+ay*ay+eps2)-G*mJ*mk/Math.sqrt(bx*bx+by*by+eps2); }
+  const rx=S.x[j]-S.x[c], ry=S.y[j]-S.y[c], UpeS=-G*mS*mJ/Math.sqrt(rx*rx+ry*ry+eps2);
+  const Kst=0.5*mJ*(VXj*VXj+VYj*VYj), KsS=0.5*IS*SP*SP, KsE=0.5*(0.5*mJ*S.R[j]*S.R[j])*S.spin[j]*S.spin[j];
+  const E1=KsS+KsE+Kst+Uc+UpeS+(EselfB-UpeS)+Qa;
+  const eE=E1-Ebefore, eM=(mS+mJ)-M;
+  const Jorb=mJ*(rx*VYj-ry*VXj), Ja=IS*SP+0.5*mJ*S.R[j]*S.R[j]*S.spin[j]+Jorb;
+  const Jpin=Jb-Ja, PpinX=PxB-(mS*S.vx[c]+mJ*S.vx[j]), PpinY=PyB-(mS*S.vy[c]+mJ*S.vy[j]);
+  C.M-=me; C.Eself=EselfB-UpeS; C.Epend-=Epend; C.Jpin+=Jpin; C.PpinX+=PpinX; C.PpinY+=PpinY; C.eE+=eE; C.eM+=eM; C.nEject++;
+  C.ejLog.push({t:S.t, why, id:(S.linId? S.linId[j] : j), mE:mJ, M0:M, M1:mS, spin0:s0, spin1:SP, I0, I1:IS, EsB, EsR:KsS, EsE:KsE, Epend,
+    Ub, Ua:Uc+UpeS, Upair:UpeS, EselfB, EselfA:EselfB-UpeS, Q:Qa, K, Kst, v:Math.sqrt(VXj*VXj+VYj*VYj), Jb, Ja, Jorb, Jpin, PpinX, PpinY, eE, eM,
+    scE:Math.abs(Ebefore)+Math.abs(EsB)+Math.abs(Ub)+Math.abs(EselfB)+Math.abs(Qb)+Epend});
+  return 1;
+}
 // ===== 第282便d(原仮定者の裁定(第72報)⑥・統括の読み R81): **中心の自転を読む geoPN=3 のトイ** `dfmGeoToySpinStep` =====
 // 第281便b の実測: 🎋 の経路(`dfmGeoToyStep`)は源の omega を 0 で渡すので**中心の自転を読まない**
 // (中心 spin 1.2/0 の 2 走行が t=40 までビット一致)。本関数は `physics.spaceMesh.centerSpin:"read"` を
@@ -48193,6 +48535,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第282便d(第72報⑥・R81・AN17): 場の契約の読み手(表示・診断・力学が同じ場を読む入口)と、既存の読み手の宣言
   dfmFieldContract, dfmFieldContractOf, FIELD_CONTRACT_VERSION, SPACE_MESH_CENTER_SPIN,
   dfmCenterCaptureStep, centerCaptureCheck, CENTER_CAPTURE_VERSION,   // 第287便a
+  dfmFixedCaptureStep, dfmFixedEject, fixedCaptureCheck, FIXED_CAPTURE_VERSION,   // 第288便a
   // 第259便a: geoPN=3(トイの測地線モード)の積分器と、追従キックの**除去の段階**の値域。
   // トイは `S._core` の外(`_meshCoordForce` と同じ位置)に置き、`geoCoreDispatch` が
   // `_core` の呼び出しの間だけ p.geoPN を 0 にして dispatch から外す(`_core` は 1 命令も増えない)
