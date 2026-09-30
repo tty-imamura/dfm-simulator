@@ -61,7 +61,13 @@
 //       短い試走(QA behavior.psrF1-1534 と同じ同方向1周を 2 回 —— 既定 dt=0.016)で 1 公転 1,126,979 步を見積もってから
 //       22 公転 × 1,126,979 步 = 24,793,538 步(dt/2 は 49,587,076 步)を宣言した。規則(ORBIT_WINDOW_RULE の窓の式・余裕 2 公転)・
 //       T の規則・階級上限・preset 宣言・必要近点数・資源上限は変えていない(規則の版 w286f-ow1 のまま —— 適用する本が 1 本増えただけ)。
-export const STOP_RULE_VERSION = 'w287b-1';
+//     ・`w288b-1`(第288便b・原仮定者の裁定(第78報)④・統括の検証項目 R114)…… **現実較正の一本化**に合わせた:
+//       🧮 psrJ1757DFM・🩺 psrJ1946DFM は在位のまま geoPN 2→1・kFrame 1→0 へ移したので、軌道長の窓(規則 ORBIT_WINDOW_RULE・版 w286f-ow1 のまま)を
+//       **短い試走で宣言し直した**(同方向1周を 2 回・既定 dt=0.016): 🧮 1 公転 99,107 步(観測周期の 0.99997 倍)・🩺 42,386 步(1.00006 倍)×22 公転。
+//       ⚡ psrDoubleABDFM・🧶 psrB1534DFM は退役(判定器の母集団の外)—— 窓の宣言は `PRESET_ORBIT_WINDOW_RETIRED` へ移した(履歴・消していない)。
+//       基点との照合の宣言例外: 退役の本の行を `BASE_REPLAY_EXCEPTIONS_HISTORY` へ・在位移行した本の行を足した。T の規則・階級上限・preset 宣言 5 本・
+//       必要近点 20(📡 58)・資源上限 900 s は変えていない。
+export const STOP_RULE_VERSION = 'w288b-1';
 export const DT_BASE = 0.016;            // アプリ既定の刻み(beta/index.html の const DT)
 export const ORB_MAX_DEFAULT = 60;       // 直接法で数える上限公転数(第249便b の宣言)
 export const PERI_WINDOW_DEFAULT = 20;   // 第252便b の近点窓(19 区間)
@@ -116,6 +122,19 @@ export const TARGET_TIME_RULE = {
 // **軌道長の宣言**(AN51 —— 事前に決めた窓)。t=0 の接触要素の周期が実軌道の周期と大きく違う本(f=1・kFrame=1 で軌道が膨らむ本)は、
 // 実軌道の 1 公転の步数(基準刻み dt₀)と公転数をここに宣言する。**合わせるための値ではない**(近点を数える窓の長さ)。
 export const PRESET_ORBIT_WINDOW = {
+  // 第288便b(原仮定者の裁定(第78報)④): 🧮🩺 は在位のまま kFrame=0・geoPN=1 へ移した —— 短い試走(同方向1周を 2 回・既定 dt=0.016・
+  //   tests/exp-w288b-unify.mjs の移行表の本)で 1 公転の步数を見積もってから窓を宣言し直した(**実行中に門を変えない**)。
+  //   kFrame=0 では t=0 の接触要素の周期と実軌道の周期がほぼ一致する(観測周期の 0.99997 倍・1.00006 倍)ので、窓は規則どおり 22 公転。
+  psrJ1757DFM: { orbitStepsBase: 99107, orbits: 22, needPeriastra: 20,
+    source: '第288便b の短い試走(kFrame=0・geoPN=1・f=1): 同方向1周の 1周目 99,107 步 = 1585.712 単位(観測 1585.7669019168 単位の 0.99997 倍)・2周目 99,106 步・実測離心率 0.60582',
+    why: '第288便b(AN83): 在位移行で kFrame=0 になり実軌道が観測周期に戻った。規則の窓は 22 公転 × 99,107 步 = 2,180,354 步(dt/2 は 4,360,708 步)。近点が 20 に届かなければ未測定' },
+  psrJ1946DFM: { orbitStepsBase: 42386, orbits: 22, needPeriastra: 20,
+    source: '第288便b の短い試走(kFrame=0・geoPN=1・f=1): 同方向1周の 1周目 42,386 步 = 678.176 単位(観測 678.1367998656 単位の 1.00006 倍)・2周目 42,385 步・実測離心率 0.06383',
+    why: '第288便b(AN83): 在位移行で kFrame=0 になり実軌道が観測周期に戻った。規則の窓は 22 公転 × 42,386 步 = 932,492 步(dt/2 は 1,864,984 步)。近点が 20 に届かなければ未測定' },
+};
+// 第288便b: **退役した本の窓の宣言(履歴)**—— ⚡🧶 は判定器の母集団の外(stopRuleFor は引かない)。第285便f〜第287便b の宣言と、
+//   在位移行する前の 🧮🩺 の kFrame=1 の窓をそのまま残す(消していない —— 何を宣言していたかは資産である)。
+export const PRESET_ORBIT_WINDOW_RETIRED = {
   psrDoubleABDFM: { orbitStepsBase: 1187696, orbits: 22, needPeriastra: 20,
     source: 'QA behavior.psrF1 / docs/PHYSICS.md〔第284便b〕の実測: f=1・kFrame=1 の同方向1周の 1周目 190031.36 s = 1,187,696 步(dt₀=0.016)',
     why: '第285便f(AN51): ⚡ は f=1(観測質量)で同方向1周が観測周期の約 21.5 倍になり、t=0 の接触要素の 60 公転(3,312,950 步)では'
@@ -136,8 +155,7 @@ export const PRESET_ORBIT_WINDOW = {
   psrB1534DFM: { orbitStepsBase: 1126979, orbits: 22, needPeriastra: 20,
     source: 'QA behavior.psrF1-1534 / docs/PHYSICS.md〔第287便b〕の実測: f=1・kFrame=1 の同方向1周の 1周目 180316.64 s = 1,126,979 步(dt₀=0.016)',
     why: '第287便b(AN62): 🧶 は f=1(観測質量)で同方向1周が観測周期の約 4.96 倍になり、t=0 の接触要素の 60 公転(f=1 の観測質量のケプラー周期 227,198 步 × 60 = 13,631,880 步'
-      + ' —— 実軌道の約 12.1 公転。基点の f≈2 では 6,617,813 步)では近点 20 に届かない。規則の窓は 22 公転 × 1,126,979 步 = 24,793,538 步(dt/2 は 49,587,076 步)。近点が 20 に届かなければ未測定' },
-};
+      + ' —— 実軌道の約 12.1 公転。基点の f≈2 では 6,617,813 步)では近点 20 に届かない。規則の窓は 22 公転 × 1,126,979 步 = 24,793,538 步(dt/2 は 49,587,076 步)。近点が 20 に届かなければ未測定' },};
 /**
  * 第286便f(原仮定者の裁定(第76報)AN57): **軌道長の窓の規則**(PRESET_ORBIT_WINDOW の各行はこの規則から作る —— 行ごとに公転数を選ばない)。
  * orbits = needPeriastra + 2(必要近点に 2 公転の余裕)・orbitStepsBase = 短い試走で測った実軌道の 1 公転(同方向1周の 1周目)の dt₀ での步数。
@@ -147,7 +165,9 @@ export const ORBIT_WINDOW_RULE = {
   version: 'w286f-ow1', since: '第286便f(原仮定者の裁定(第76報)AN57)', margin: 2,
   rule: '窓 = 実軌道の 1 公転(同方向1周の 1周目・dt₀ での步数)×(必要近点 + 2)公転。短い試走で 1 公転を見積もってから宣言し、実行中に門を変えない',
   // 第287便b(AN62): 🧶 psrB1534DFM を足した(規則の式・余裕は同じ —— 版は w286f-ow1 のまま)
-  appliesTo: ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM'],
+  // 第288便b(第78報④): ⚡🧶 は退役(PRESET_ORBIT_WINDOW_RETIRED)・🧮🩺 は kFrame=0 の試走で宣言し直した(規則の式・余裕は同じ —— 版は w286f-ow1 のまま)
+  appliesTo: ['psrJ1757DFM', 'psrJ1946DFM'],
+  appliesToHistory: ['psrDoubleABDFM', 'psrJ1757DFM', 'psrJ1946DFM', 'psrB1534DFM'],
   says: '窓は近点を数える長さの宣言であって「この步数で収束する」「観測に合う」という主張ではない。近点が足りない段は未測定のまま(別定義の周期で代用しない)',
 };
 /** 規則どおりか(orbits = needPeriastra + margin・正の整数の步数)。 */
@@ -185,6 +205,8 @@ export const STOP_RULE_SPEC = {
   presetOrbitWindow: PRESET_ORBIT_WINDOW,
   // 第286便f(AN57): 軌道長の窓の規則(f=1 の本 3 本へ一般化)
   orbitWindowRule: ORBIT_WINDOW_RULE,
+  // 第288便b: 退役した本の窓(履歴)
+  presetOrbitWindowRetired: PRESET_ORBIT_WINDOW_RETIRED,
   needPeriastraDefault: PERI_WINDOW_DEFAULT,
   orbMaxDefault: ORB_MAX_DEFAULT,
   wallCeilingSec: WALL_CEILING_SEC_DEFAULT,
@@ -216,6 +238,9 @@ export const STOP_RULE_SPEC = {
     { version: 'w287b-1', wave: '第287便b(原仮定者の裁定(第77報)AN62)', presetMaxSteps: 5, presetOrbitWindow: 4,
       note: '**🧶 psrB1534DFM の f=1 に軌道長の窓の規則を当てた**(f=1 の本 4 本目 —— 22 公転 × 1,126,979 步 = 24,793,538 步・dt/2 49,587,076 步)。'
         + '規則の式(ORBIT_WINDOW_RULE w286f-ow1)・⚡🧮🩺 の窓・T の規則・階級上限・preset 宣言 5 本・必要近点 20(📡 58)・資源上限 900 s は変えていない。' },
+    { version: 'w288b-1', wave: '第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114)', presetMaxSteps: 5, presetOrbitWindow: 2, presetOrbitWindowRetired: 4,
+      note: '**現実較正の一本化**: 🧮🩺 を在位のまま kFrame=0・geoPN=1 へ移し、軌道長の窓を短い試走で宣言し直した(🧮 22 × 99,107 = 2,180,354 步・🩺 22 × 42,386 = 932,492 步)。'
+        + '⚡🧶 は退役(窓の宣言は PRESET_ORBIT_WINDOW_RETIRED —— 履歴)。規則の式(w286f-ow1)・T の規則・階級上限・preset 宣言 5 本・必要近点 20(📡 58)・資源上限 900 s は変えていない。' },
   ],
   says: '停止条件は**どこで止めるか**を機種に依らず決めるだけである —— '
     + '「停止条件を入れたので判定が確定した」「步数を宣言したので収束した」とは言わない。',
@@ -244,19 +269,14 @@ export const STOP_RULE_SPEC = {
 // 第284便b(第74報⑤・AN24′): ⚡ psrDoubleABDFM を f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う。
 // 第284便e(第74報 AN34): 💍 saturnRingReal の群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)。
 export const BASE_REPLAY_EXCEPTIONS = [
-  ...['alphaCenABDFM', 'siriusABDFM'].flatMap((id) => ['dt', 'dt/2'].map((tag) => ({ id, tag, since: 'w282a',
-    why: '第282便a(原仮定者の裁定(第72報)③)で f=1 に固定 —— 質量が観測値そのものになり 1 公転の步数が僅かに変わった(近点数 60 は同じ)' }))),
-  ...['dt', 'dt/2'].map((tag) => ({ id: 'psrDoubleABDFM', tag, since: 'w284b',
-    why: '第284便b(原仮定者の裁定(第74報)⑤・AN24′)で f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う(近点 3 個の停止規則は同じ)' })),
   // 第285便f(統括の検証項目〔較正走行の窓〕・TARGET_TIME_RULE): 階級上限で切れる 3 本の dt/2 は同じ物理時間 T(80,000,000 步)を走る —— 基点より長い
-  ...['earthMoonReal', 'earthMoonRealKF1', 'emAuditDFM'].map((id) => ({ id, tag: 'dt/2', since: 'w285f',
+  // 第288便b: 🌘🧲 は退役(判定器の母集団の外 —— 行は BASE_REPLAY_EXCEPTIONS_HISTORY へ)。🌙 だけ残す
+  ...['earthMoonReal'].map((id) => ({ id, tag: 'dt/2', since: 'w285f',
     why: '第285便f(TARGET_TIME_RULE): h/2 の步数上限を ceil(T/dt) = 80,000,000 步にした(h と同じ物理時間 —— 旧規約は h と同じ 40,000,000 步で近点 13 個)' })),
   // 第286便f(原仮定者の裁定(第76報)AN57): 🩺 psrJ1946DFM を f=1 に固定し、軌道長の窓(22 公転 × 1,416,055 步)を宣言 —— dt・dt/2 とも基点と走行長が違う
   ...['dt', 'dt/2'].map((tag) => ({ id: 'psrJ1946DFM', tag, since: 'w286f',
     why: '第286便f(原仮定者の裁定(第76報)AN57)で f=1 に固定し軌道長の窓を宣言 —— 質量が観測値そのものになり 1 公転の步数と走行長が基点と違う' })),
   // 第287便b(原仮定者の裁定(第77報)AN62): 🧶 psrB1534DFM を f=1 に固定し、軌道長の窓(22 公転 × 1,126,979 步)を宣言 —— dt・dt/2 とも基点と走行長が違う
-  ...['dt', 'dt/2'].map((tag) => ({ id: 'psrB1534DFM', tag, since: 'w287b',
-    why: '第287便b(原仮定者の裁定(第77報)AN62)で f=1 に固定し軌道長の窓を宣言 —— 質量が観測値そのものになり 1 公転の步数と走行長が基点と違う' })),
   // 第285便f(AN51): ⚡ の軌道長の窓(22 公転)—— dt・dt/2 とも基点と走行長が違う(第284便b の例外と同じ段 —— 理由を足す)
   // 第285便f(AN24′): 🧮 psrJ1757DFM を f=1 に固定 —— 質量が観測値そのものになり走行長が基点と違う
   ...['dt', 'dt/2'].map((tag) => ({ id: 'psrJ1757DFM', tag, since: 'w285f',
@@ -265,11 +285,25 @@ export const BASE_REPLAY_EXCEPTIONS = [
   // 第285便b(原仮定者の裁定(第75報)⑦・統括の検証項目 R97): kF0 の 1PN を EIH 型にした —— 自由な 1PN 源を持つ 📿 の軌道が僅かに変わり、60 近点までの步数が 8 步(dt)・19 步(dt/2)違う(近点数 60・步数上限は同じ)
   ...['dt', 'dt/2'].map((tag) => ({ id: 'psrB1534', tag, since: 'w285b',
     why: '第285便b(原仮定者の裁定(第75報)⑦・R97)の EIH 型 1PN で kF0 の軌道が僅かに変わり、60 近点までの步数が 8 步・19 步違う(近点数 60 と步数上限は同じ)' })),
+  // 第288便b(原仮定者の裁定(第78報)④・R114): **在位移行**(geoPN 2→1・kFrame 1→0 —— ⏰ は f=1)で基点と走行長・近点数が違う段。
+  //   短い試走(calaudit の --only 10 本・W249_OUT を正本の外へ)で基点 743ad9b の行と突き合わせ、**違った段だけ**を宣言する
+  //   (🌇🥔❄️💠🌊 は步数・近点数とも基点と同じだった —— 宣言しない。🧮🩺 は既存の例外〔w285f・w286f〕の段のまま —— 窓の宣言し直しで走行長がさらに変わる)
+  //   (鍵は裸の識別子で書く —— 器が文字列で名指しする内蔵 ID は領域の下限〔lint.regenScope〕に数えられるので、表の鍵は文字列にしない)
+  ...Object.entries({
+    solarInner: { tags: ['dt'], why: '第288便b で kFrame=0・geoPN=1 へ在位移行 —— 宣言した步数上限(866,426 步)で止まるのは同じだが、近点の本数が 9/5/3/2 → 9/4/5/3 に変わった' },
+    jupiterGalilean: { tags: ['dt', 'dt/2'], why: '第288便b で kFrame=0・geoPN=1 へ在位移行 —— 60 公転の窓で止まる步数が 1,627 步(dt)・3,255 步(dt/2)短くなった(近点 63/63/63/59 は同じ)' },
+    gw150914Merge4s: { tags: ['dt', 'dt/2'], why: '第288便b(AN80)で f=1(観測質量)・kFrame=0 へ在位移行 —— 3 公転に達する步数が 14,147 → 34,013 步(dt)に変わった(合体・放射の再評価は次便)' },
+  }).flatMap(([id, z]) => z.tags.map((tag) => ({ id, tag, since: 'w288b', why: z.why }))),
   { id: 'saturnRingReal', tag: 'dt', since: 'w284e',
     why: '第284便e(原仮定者の裁定(第74報)AN34)で群を試験粒子に署名 —— 環粒子の入場条件が変わり dt 段の走行長が基点と違う(dt/2 段は n>12 で走らない)' },
 ];
 // 旧例外の履歴(**削除していない** —— 何を例外にしていたかは資産である)。
 export const BASE_REPLAY_EXCEPTIONS_HISTORY = [
+  { version: 'w288b-1', base: '743ad9b', n: 10,
+    ids: ['alphaCenABDFM|dt', 'alphaCenABDFM|dt/2', 'siriusABDFM|dt', 'siriusABDFM|dt/2', 'psrDoubleABDFM|dt', 'psrDoubleABDFM|dt/2',
+      'earthMoonRealKF1|dt/2', 'emAuditDFM|dt/2', 'psrB1534DFM|dt', 'psrB1534DFM|dt/2'],
+    why: '第288便b(原仮定者の裁定(第78報)④)で ✴️💫⚡🌘🧲🧶 は退役した —— 判定器の母集団(sampleClass:"calibration" ∧ familyRole≠"retired")の外で走らないので、'
+      + '基点に対応する段が無い(差ではない)。宣言していた理由は各便(w282a・w284b・w285f・w287b)のとおり' },
   { version: 'w282a-1', base: '743ad9b', n: 2, ids: ['alphaCenABDFM|dt/4', 'siriusABDFM|dt/4'],
     why: '第282便a の f=1 で dt/4 の段も基点と違っていたが、第284便c(AN33)で dt/4 が常時の鎖から外れ、基点に対応する段が無くなった(差ではない)。' },
   { version: 'w271a-1', base: 'f6c19b4', n: 9,
