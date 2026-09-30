@@ -554,6 +554,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/spinprec-w288d.json': META_RUN.concat(['/elapsedS']) },
     note: '第288便d: 口座 E_spin/E_axis/E_prec/Q の恒等式・上限の連鎖(スピン → 傾き → 歳差 → スピン → 旗)・W_drive<0・θ=90° の分離・剛体対照・'
       + '熱 = ミクロのスピン・ロックの小模型(正逆・独立な初期位相・γ=0・K=0)・dfmCoreAxisStep が φ(t) を外から指定すること' }),
+  // ---- 第288便e(原仮定者の裁定(第78報)⑦・統括の検証項目 R117・AN79): 軸傾きと 90° BH —— 🛸(🌚 の軸を 90° に倒した原理コピー)の現行法則の実測
+  //   (J_z・符号つき η_mesh・🌚 の spin 0 とのビット一致)・歳差が担う面内の引きずりの候補(立体核・層数・Ω_p・換算式 —— 純関数)・比較器・
+  //   点粒子の自転軸の表示専用の宣言 spinAxis(受理・署名・📻 の状態のビット一致)。Node だけ・html だけを読む(他の正本は読まない)。
+  //   所要は第288便e の枝の実測 256 秒(Node 1 本・同じ容器で他の枝と並走)
+  S('tilt90288', 'node tests/exp-w288e-tilt90.mjs', ['tests/out/tilt90-w288e.json'], 256, { secSource: 'w288e-branch', node: true,
+    volatilePaths: { 'tests/out/tilt90-w288e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
+    note: '第288便e: 🛸 galaxyAnalogyBHTilt90 の宣言の照合・7 走行(T=48)の J_z/η_mesh/軸の状態/拘束の帳簿/状態の指紋・中心の自転の寄与(t=0 の η 差)・'
+      + '立体核の候補(1 層の対照・上下の打ち消し・z 微分・層数 1→32・Ω_p 0/宣言/2 倍・J_z,eff と s_eff)・場の契約の読み手との比較器・spinAxis の受理と署名' }),
 ];
 
 /**

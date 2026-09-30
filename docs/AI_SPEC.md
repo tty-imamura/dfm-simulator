@@ -1608,7 +1608,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
       書き戻す(**規定運動**。`J_z` と `|J⊥|` は触らないので傾き角 θ は宣言のまま)。
       実体は **`S._core` の外**の外部ステップ **`HP.dfmCoreAxisStep(S,dt)`**(`dfmGeoToyStep`・
       `dfmShapeToyStep` と同じ位置)で、宣言が 1 つも無ければ `S.hasCoreAxis=false` の真偽値 1 つで
-      素通りする(**未宣言は 1 bit 不変** —— 内蔵 128 本は 1 本も宣言していない)。
+      素通りする(**未宣言は 1 bit 不変** —— 第275便e の時点の内蔵 128 本は 1 本も宣言していない。第288便e から 🛸 の 1 本)。
     - **反作用の帳簿**: 面内成分を宣言どおり回すのに要る角力積は**面外**(x,y 軸まわり)なので 2D の
       `L_z` 帳簿には現れない。「**宣言した拘束**が持ち去った量」として **負号**で `S.axPrescLx`・
       `S.axPrescLy`(面外 L)・`S.axPrescE`(回転 E —— |J⊥| を保つ写像なので丸めの範囲)・
@@ -1626,6 +1626,21 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
       **「3D の自転軸を実装した」「歳差を再現した」とは書かない**(宣言した角速度で回しているだけである)。
     **実行時 LLM 向けの SYSTEM_PROMPT には載せていない** —— 既定 off の opt-in であり、
     `core.lightTrap` と同じく生成物に出す前に段を分ける(次便の判断)。
+    **第288便e から内蔵に 1 本だけ宣言がある**: 🛸 `galaxyAnalogyBHTilt90`(🌚 の軸 90° の原理コピー)の中心の例 ——
+    `{"type":"single","m":2500,"spin":0,"pinned":true,"radius":15,"core":{"mode":"differential","massFrac":0.3,"radius":7.5,"omega":16,"Kcs":0,"tilt":90,"axisMode":"prescribed","azimuthDeg":0,"precessionRate":0.12}}`
+    (|J_core|=½·750·7.5²·16=337500 = 🌚 の殻の角運動量 —— 向きだけを面内へ・歳差 0.12 は**宣言**)。**geoPN=3 のトイ(`spaceMesh.centerSpin:"read"`)が読む中心の自転は殻 spin だけ**なので、
+    この本の力学は 🌚 の中心 spin=0 とビット一致する(コアを立てても同じ —— 器 tests/exp-w288e-tilt90.mjs)。歳差が担う面内の引きずりは
+    候補の診断量(tests/lib-w288e-tilt90.mjs)で、場には足していない。**「コア V3」という処理は無い**(既存の `core.axisMode` を使う)。
+  - **`body.spinAxis`(第288便e・single 専用・**表示専用** —— SYSTEM_PROMPT には載せていない)**: 点粒子(親子コアを持たない NS 連星の星など)の
+    **公転面基準の自転軸**の宣言欄 `{"tiltDeg":公転面の法線からの角[度・0〜180・必須], "azimuthDeg":面内の方位[度・任意], "precessionRateDegPerYr":軸の歳差[deg/yr・任意],
+    "epoch":元期[文字列・任意], "source":出所[必須の非空文字列], "uncertainty":{"tiltDeg":σ か {plus,minus,level?}, "precessionRateDegPerYr":同}}`。
+    未知の鍵・非数・source の欠けは**欄だけを落として警告**(天体は残す)。single 以外は警告して無視。**物理・署名・セーブの力学に効かない**:
+    エンジンは `S.spinAxD`(表示の読み口)にだけ写し、`presetSig` は body から spinAxis を除いて署名する(`HP.spinAxisSigBodies`)。
+    読み口 `HP.spinAxisOf(S,i)`(粒子数が build 時から変わった宇宙では null)・定数 `HP.SPIN_AXIS_VERSION`(w288e-spinaxis-1)・
+    `HP.SPIN_AXIS_KEYS`・登録簿 `HP.SPIN_AXIS_BOOKS`(内蔵の宣言状況 —— 観測結果カードの派生行 1 行)。描画はコア軸と同じトグル・同じ正射影の橙の線
+    (方位が記録に無い宣言は 0 規約の破線・歳差率では描画の方位を回さない)。**観測記録に一次資料がある本だけ宣言する**: 内蔵は 📻 `psrDoubleAB` の B
+    (傾き 40.6±0.1° = SOL-912f7aa2・歳差 5.16 +0.32/−0.34 deg/yr = SOL-7e3303df)だけ。A は 95% 上限だけなので未宣言・📿 と 🎐⏰ は記録に行が無いので未宣言
+    (BH 連星の軸がすべて 90° と観測されているわけではない)。**生成 AI は観測値の無い天体にこの欄を書かない。**
   - **`notClaim:"lfbot"`(第265便d)**: 表示文 `nc_lfbot`(ja/en)は「実在の高速青色トランジェント
     (LFBOT・AT2018cow 等)の説明・再現・予測ではない」である。**実イベントへ σ を出さない**。
   - **`S._setBodyLayers(i, arr)` の有限性(第262便b)**: `m`・`r`・`J`・Σm を `Number.isFinite` と
