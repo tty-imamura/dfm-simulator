@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便b",
   "target": "beta/index.html",
-  "targetSha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
-  "generatedAt": "2026-09-29T21:51:34.568Z",
+  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+  "generatedAt": "2026-09-29T23:59:10.866Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263849,
-    "sha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
-    "mtime": "2026-09-29T21:06:41.859Z"
+    "bytes": 5263843,
+    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+    "mtime": "2026-09-29T23:21:23.931Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,15 +20,15 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887853,
-    "sha256": "ca1d0eed272e20a807a60c6e1f2308a6b1007e8209e5a9432421d10692a4dc8c",
-    "mtime": "2026-09-29T21:38:03.871Z"
+    "bytes": 2887889,
+    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
+    "mtime": "2026-09-29T23:47:20.387Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
     "bytes": 51015,
-    "sha256": "5397c8f1b76cc0bd11c23eb1b3cb3e600b605cbc8079191b466ac8f729faa29f",
-    "mtime": "2026-09-29T21:42:45.923Z"
+    "sha256": "49537af8dabbeb44d61af871bdcc1924eea159ea9535a3e4c5c8338cf746abf1",
+    "mtime": "2026-09-29T23:51:33.411Z"
    },
    {
     "file": "tests/data-w286b-clight.json",
@@ -114,7 +114,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "f906eb4d7a3503216cd0d6464769bd4e4b6639005cd378d0680aeda623fce5b4",
+    "stableSha256": "68a93bc1229c422225480a9cc73c890f5ae3b8c61d32b1c1c946a4648f55c51a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -142,7 +142,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "a6fcac33b3f9536da8e6b1ef3a63f8e5ca7992c7f325ee649abbc91efb029e49",
+    "stableSha256": "358c8201673afe464423d401fa8dacca2350cff7e4a6f17d4e74a050a55ef84c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -170,7 +170,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "fc42fabce40bc57e74ee554f096634766f7f48e8bfc6bb7909badbf0d9f28456",
+    "stableSha256": "a0a752a87c99835f7b13bb595c1a6f86b2766ee502bbd207e337622135e2ba4f",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -196,7 +196,7 @@
   "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
+ "nowSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
  "note": "判定はしない(正式判定は鎖の calaudit の 3σ 門)。比は λ_PN=1 と 0 の近点増分を GR の主次数(同じ走行の c・接触要素)で割った量 —— λ 増分の一致と λ=1 の実軌道の観測一致は別。Δϖ は deg/周(ω̇ deg/年ではない)。S._core は 1 命令も変えていない。",
  "P": {
   "cond": {
@@ -2402,13 +2402,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.063,
+   "wallSec": 0.064,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.15,
+   "wallSec": 0.125,
    "errors": 0
   }
  },
- "elapsedS": 517.561
+ "elapsedS": 447.781
 }

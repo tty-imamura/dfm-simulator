@@ -10,13 +10,13 @@
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "72a7a3e8134b7e05c135543c8115da556d9c851c18873522132d7ed0e6199d58",
+  "mergeKey": "2a7c08854df16084cba98655d408f1f4247f416e6cf3db26af064cdaef8b1f7b",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
+   "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
-   "obsSha256": "ca1d0eed272e20a807a60c6e1f2308a6b1007e8209e5a9432421d10692a4dc8c",
+   "obsSha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -45,7 +45,7 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-09-29T22:03:48.430Z",
+  "generatedAt": "2026-09-30T00:09:32.345Z",
   "pilot": false,
   "stage": "h",
   "dt": 0.016,
@@ -158,7 +158,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "ca1d0eed272e20a807a60c6e1f2308a6b1007e8209e5a9432421d10692a4dc8c"
+   "calauditSha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab"
   },
   "builtinUnchanged": {
    "m": [
@@ -186,25 +186,25 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
+  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263849,
-    "sha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
-    "mtime": "2026-09-29T21:06:41.859Z"
+    "bytes": 5263843,
+    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+    "mtime": "2026-09-29T23:21:23.931Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887853,
-    "sha256": "ca1d0eed272e20a807a60c6e1f2308a6b1007e8209e5a9432421d10692a4dc8c",
-    "mtime": "2026-09-29T21:38:03.871Z"
+    "bytes": 2887889,
+    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
+    "mtime": "2026-09-29T23:47:20.387Z"
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "bytes": 163728,
-    "sha256": "948177d66db3e5770aef217c357d62df8bb97706ac0e24a2e916843780b20c9e",
-    "mtime": "2026-09-29T21:59:36.171Z"
+    "bytes": 163727,
+    "sha256": "6baac9a0381486e4a46428d5bb69027ba00c79c2ee66def5a863a82fe499f4ba",
+    "mtime": "2026-09-30T00:05:50.731Z"
    }
   ],
   "code": [
@@ -282,7 +282,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "f906eb4d7a3503216cd0d6464769bd4e4b6639005cd378d0680aeda623fce5b4",
+    "stableSha256": "68a93bc1229c422225480a9cc73c890f5ae3b8c61d32b1c1c946a4648f55c51a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -310,7 +310,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "a6fcac33b3f9536da8e6b1ef3a63f8e5ca7992c7f325ee649abbc91efb029e49",
+    "stableSha256": "358c8201673afe464423d401fa8dacca2350cff7e4a6f17d4e74a050a55ef84c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -338,7 +338,7 @@
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "stableSha256": "b1865e0567d35ffe36b820d7b08f95cb91789417b1b381b997256762efc13af8",
+    "stableSha256": "7027bc8306a563e440f7d0c28130e4ca96596afa77f1b482efcd965fcb8910ec",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/columns/*/h/wallSec",
@@ -354,8 +354,8 @@
  },
  "epsilonSeries": {
   "from": "tests/out/charoneps-w276b.json",
-  "sha256": "948177d66db3e5770aef217c357d62df8bb97706ac0e24a2e916843780b20c9e",
-  "generatedAt": "2026-09-29T21:59:35.933Z",
+  "sha256": "6baac9a0381486e4a46428d5bb69027ba00c79c2ee66def5a863a82fe499f4ba",
+  "generatedAt": "2026-09-30T00:05:50.485Z",
   "rows": [
    {
     "id": "E_diag_e0.01",
@@ -1099,7 +1099,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 14.436,
+   "wallSec": 12.415,
    "rev2Sec": 551864.0607194003,
    "revN": 60,
    "residSec": 7.6219994003186,
@@ -1150,7 +1150,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694906,
-   "wallSec": 37.868,
+   "wallSec": 33.103,
    "rev2Sec": 551864.310768325,
    "revN": 60,
    "residSec": 7.872048325021751,
@@ -1201,7 +1201,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694899,
-   "wallSec": 19.235,
+   "wallSec": 17.635,
    "rev2Sec": 551864.0244726344,
    "revN": 60,
    "residSec": 7.585752634447999,
@@ -1252,7 +1252,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694909,
-   "wallSec": 19.528,
+   "wallSec": 16.661,
    "rev2Sec": 551864.3919198763,
    "revN": 60,
    "residSec": 7.953199876355939,
@@ -1303,7 +1303,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 19.693,
+   "wallSec": 17.465,
    "rev2Sec": 551864.0696640281,
    "revN": 60,
    "residSec": 7.630944028147496,
@@ -1354,7 +1354,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694901,
-   "wallSec": 19.498,
+   "wallSec": 17.726,
    "rev2Sec": 551864.0068656091,
    "revN": 60,
    "residSec": 7.568145609111525,
@@ -1405,7 +1405,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20695300,
-   "wallSec": 37.51,
+   "wallSec": 31.813,
    "rev2Sec": 551889.1192707308,
    "revN": 60,
    "residSec": 32.68055073078722,
@@ -1456,7 +1456,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 14.949,
+   "wallSec": 12.966,
    "rev2Sec": 551864.0607194003,
    "revN": 60,
    "residSec": 7.6219994003186,
@@ -1507,7 +1507,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20692453,
-   "wallSec": 19.559,
+   "wallSec": 17.033,
    "rev2Sec": 551805.6249430168,
    "revN": 60,
    "residSec": -50.813776983181015,
@@ -1558,7 +1558,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694659,
-   "wallSec": 19.714,
+   "wallSec": 17.671,
    "rev2Sec": 551858.2236921852,
    "revN": 60,
    "residSec": 1.7849721852689981,
@@ -1609,7 +1609,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694878,
-   "wallSec": 19.715,
+   "wallSec": 17.363,
    "rev2Sec": 551863.4770511088,
    "revN": 60,
    "residSec": 7.0383311088662595,

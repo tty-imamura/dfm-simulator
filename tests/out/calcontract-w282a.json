@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便a(原仮定者の裁定(第72報)②③⑤⑥・R77/R78 —— 較正契約の 3 系統と f=1 の棚卸し)",
   "target": "beta/index.html",
-  "targetSha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
-  "generatedAt": "2026-09-29T21:59:45.553Z",
+  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+  "generatedAt": "2026-09-30T00:06:07.162Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263849,
-    "sha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
-    "mtime": "2026-09-29T21:06:41.859Z"
+    "bytes": 5263843,
+    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+    "mtime": "2026-09-29T23:21:23.931Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887853,
-    "sha256": "ca1d0eed272e20a807a60c6e1f2308a6b1007e8209e5a9432421d10692a4dc8c",
-    "mtime": "2026-09-29T21:38:03.871Z"
+    "bytes": 2887889,
+    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
+    "mtime": "2026-09-29T23:47:20.387Z"
    }
   ],
   "code": [
@@ -4030,67 +4030,67 @@
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 19075,
+    "line": 19074,
     "text": "// **sampleClass:\"calibration\" では拒否**(現実較正の受理契約は内蔵のまま 0.01)",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 19079,
+    "line": 19078,
     "text": "bad('physics.softeningFloor は sampleClass:\"calibration\" では使えません(現実較正の ε 下限 '",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19108,
+    "line": 19107,
     "text": "bad('physics.kFrameApprox:\"'+p.physics[k]+'\" は sampleClass:\"calibration\" では使えません(サンプル限りと宣言した分数は現実較正に入れない — 較正で使えるのは \"space-mesh-effective\" だ",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19214,
+    "line": 19213,
     "text": "+(calib?'sampleClass:\"calibration\" で使えるのは \"space-mesh-effective\" だけ':'\"space-mesh-effective\" か \"sample-only\"')",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19228,
+    "line": 19227,
     "text": "//   (a) `sampleClass:\"calibration\"` では**拒否**(検証エラー)—— トイを現実較正に混ぜない",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 19239,
+    "line": 19238,
     "text": "//   **(a) は迂回しない** —— `sampleClass:\"calibration\"` では geoPN=3 も toyAllowDrag も拒否する。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 19246,
+    "line": 19245,
     "text": "bad('physics.geoPN=3(トイの測地線モード)は sampleClass:\"calibration\" では使えません(現実較正にトイを混ぜない)');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19282,
+    "line": 19281,
     "text": "bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19285,
+    "line": 19284,
     "text": "bad('physics.spaceMesh.centerSpin:\"read\"(geoPN=3 のトイが中心の自転を読む opt-in —— 第282便d)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19287,
+    "line": 19286,
     "text": "bad('physics.spaceMesh.toyClosure:\"iterate\"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19292,
+    "line": 19291,
     "text": "bad('physics.spaceMesh.diskSupport:\"band-pressure\"(帯平均の近似 variant)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19300,
+    "line": 19299,
     "text": "bad('physics.spaceMesh.law:\"mesh-v2\"(引きずりの完全置換の候補・最小代数実装)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 31805,
+    "line": 31804,
     "text": "//   calTarget … sampleClass:\"calibration\" の宣言(分類の「現実較正」DFM 版・kF0 版の両方)。**較正の対象であって合格ではない**",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    }
