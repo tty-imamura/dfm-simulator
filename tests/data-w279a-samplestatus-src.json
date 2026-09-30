@@ -17,12 +17,13 @@
    "emAuditNewton",
    "psrDoubleABCF",
    "psrJ1757CF",
-   "psrJ1946CF"
+   "psrJ1946CF",
+   "psrB1534CF"
   ],
-  "since": "第283便b・第284便b・第285便f・第286便f",
-  "ruling": "原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」と原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)」(AN35: 🌙 と実効 JSON 同一の ⭕ と、⚡ の f=1 署名と同時の 🪝 を含む)と原仮定者の裁定(第75報)AN51(CF は対応する f=1 と同時 —— 🧮 の f=1 と同時の 🪄)と原仮定者の裁定(第76報)AN57(🩺 の f=1 と同時の 🩹)",
-  "rulingShort": "原仮定者の裁定(第73報)④・(第74報)⑤・(第75報)AN51・(第76報)AN57",
-  "rule": "html の familyRole:\"retired\" と同じ集合(器が照合する)。一覧の群の集計から外し「退役」の別群として並べる。status(目的・状況・根拠)は退役の前のまま —— ゲートから外した/付け替えた試験の裏づけは凍結の写し tests/fixtures/retired-w283b.json・tests/fixtures/retired-w284b.json・tests/fixtures/retired-w285f.json・tests/fixtures/retired-w286f.json の履歴で行う"
+  "since": "第283便b・第284便b・第285便f・第286便f・第287便b",
+  "ruling": "原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」と原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)」(AN35: 🌙 と実効 JSON 同一の ⭕ と、⚡ の f=1 署名と同時の 🪝 を含む)と原仮定者の裁定(第75報)AN51(CF は対応する f=1 と同時 —— 🧮 の f=1 と同時の 🪄)と原仮定者の裁定(第76報)AN57(🩺 の f=1 と同時の 🩹)と原仮定者の裁定(第77報)AN62(🧶 の f=1 と同時の 🪤 —— CF 系列の最後の 1 本)",
+  "rulingShort": "原仮定者の裁定(第73報)④・(第74報)⑤・(第75報)AN51・(第76報)AN57・(第77報)AN62",
+  "rule": "html の familyRole:\"retired\" と同じ集合(器が照合する)。一覧の群の集計から外し「退役」の別群として並べる。status(目的・状況・根拠)は退役の前のまま —— ゲートから外した/付け替えた試験の裏づけは凍結の写し tests/fixtures/retired-w283b.json・tests/fixtures/retired-w284b.json・tests/fixtures/retired-w285f.json・tests/fixtures/retired-w286f.json・tests/fixtures/retired-w287b.json の履歴で行う"
  },
  "rows": {
   "projectile": {
@@ -246,6 +247,18 @@
    "en": {
     "purpose": "Globular-cluster analogy with a central DFM black hole and dark rotors",
     "state": "cluster units, one representative rate, four radii, rotating Jeans start; gates not met"
+   }
+  },
+  "clusterGrowthCopy": {
+   "purpose": "自由な中心が落ちてくる塊を中心とだけの捕獲で合体させる成長経路の原理コピー",
+   "objective": "unmet",
+   "state": "捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達",
+   "evidence": [
+    "tests/out/growth-w287a.json"
+   ],
+   "en": {
+    "purpose": "A free centre merges with infalling clumps by centre-only capture",
+    "state": "the capture ledger closes; the free centre drifts away from the clumps; gates not met"
    }
   },
   "shapeToyCluster": {
@@ -1643,7 +1656,7 @@
    }
   },
   "psrB1534DFM": {
-   "purpose": "⚡ の処方を B1534 へ当てる",
+   "purpose": "B1534 を観測質量(f=1)と kF1 で照合",
    "objective": "partial",
    "state": "照合の走行は台帳に記帳",
    "evidence": [
@@ -1651,7 +1664,7 @@
     "docs.calibration-verdict-sync"
    ],
    "en": {
-    "purpose": "Apply ⚡'s recipe to B1534",
+    "purpose": "Compare B1534 with the observed masses (f=1) under kF1",
     "state": "the comparison runs are in the ledger"
    }
   },

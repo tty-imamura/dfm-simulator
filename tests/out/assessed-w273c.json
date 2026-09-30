@@ -1,18 +1,18 @@
 {
- "when": "2026-09-29T05:27:35.637Z",
+ "when": "2026-09-30T00:16:40.119Z",
  "wave": "第273便c(第63報・AG24)",
  "harness": "tests/exp-w273c-assessedtable.mjs",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
+  "calauditSha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
   "canonicalTarget": "beta/index.html",
-  "canonicalTargetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "canonicalTargetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
   "canonicalWave": "第249便b",
-  "canonicalWhen": "2026-09-29T04:53:52.733Z"
+  "canonicalWhen": "2026-09-29T23:47:20.097Z"
  },
  "stamp": {
-  "inHtml": "020464032c816830ec355abf7bf662d81e8cc857ccf1fb59045467024c1cd105",
-  "inCanonicalNow": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "inHtml": "cea53a3b1ea76e256be4723845c71c0b2c1bfe1222a85623eebced4a3e5a5b94",
+  "inCanonicalNow": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
   "stampChanged": true,
   "valuesChanged": false,
   "rule": "**刻印は構造的に「現行 html の hash」にも「現行正本の刻印」にもできない** —— 刻印を html へ書けばその html の hash が動き、動いた html で判定器を回し直せば正本の刻印もまた動く(不動点が無い)。したがって刻印が言えるのは「**どの走行の正本から転記したか**」までである。鮮度の線は **① 表 ↔ 正本(1 行ずつ)** と **② 正本 ↔ 現行 html**(`lint.calauditMergeKeyHash` が見ている `meta.targetSha256` = 現行 html の SHA-256)の **2 段の鎖**で、この鎖は**エンジンだけが変わった場合も捕まえる**(html が動けば ② が落ちる)。**ページの実行時**は自分の hash を確かめられないので、渡された `targetSha256` の線だけが効く。"
@@ -40,7 +40,7 @@
   "psrJ1757CF": "12797269",
   "psrJ1946CF": "f8600f7c",
   "psrB1534": "f6792a1e",
-  "psrB1534DFM": "8f70083c",
+  "psrB1534DFM": "a2b0fbf6",
   "psrB1534CF": "84820b4",
   "saturnZonalD68": "13b08308"
  },
@@ -526,33 +526,33 @@
   "psrB1534DFM": [
    {
     "t": "B",
-    "k": "precession",
-    "n": "近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)",
-    "st": "h",
-    "v": 0.00411287234598,
-    "u": "deg/orbit",
-    "ns": 202385.00795,
-    "g": "数値未解決"
-   },
-   {
-    "t": "B",
     "k": "period",
-    "n": "公転周期(合わせていない・2 定義)",
+    "n": "公転周期(kFrame=1・観測質量 f=1 — 同方向1周)",
     "st": "h",
-    "v": 36216.5244758,
+    "v": 180154.395281,
     "u": "s",
-    "ns": 156456213.235,
+    "ns": 166438301663,
     "g": "数値未解決"
    },
    {
     "t": "B",
     "k": "ecc",
-    "n": "離心率(合わせていない)",
+    "n": "離心率(hold-out — 合わせていない)",
     "st": "h",
-    "v": 0.274006686888,
+    "v": 0.449209539414,
     "u": "-",
-    "ns": 1097.28962614,
+    "ns": 585106.798046,
     "g": "mapping-unresolved"
+   },
+   {
+    "t": "B",
+    "k": "precession",
+    "n": "近点移動(**hold-out** — 較正に使っていない)",
+    "st": "h",
+    "v": 0.00634605894132,
+    "u": "deg/orbit",
+    "ns": 84150.7477416,
+    "g": "数値未解決"
    }
   ],
   "psrB1534CF": [

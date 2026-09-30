@@ -2757,3 +2757,48 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - 背景鍵の読み口の監査(QA `preset.meshVelocity` の ⑦ と器 `tests/exp-w276a-d0audit2.mjs` の許可表)に `loadSave`・`loadSaveBgcAccept` を名指しで足した(宣言を受理器に通して置き直すだけ —— 力学の読み口は従来どおり `meshVelocityPrepare` だけ)。
   - 正当なセーブ(内蔵で背景を宣言する 🔁 `mercuryGeoToy3`・🌒 `charonGeoToy3` と宣言の無い本)は従来どおり開け、背景は受理器の正規化後の宣言が入る。セーブの取り込み(`{saves:[…]}` の JSON)は従来どおり保存一覧へ入れるだけで、検査は読込(`loadSave`)の時に行う。
 - QA: **`ui.pickerSeparators`**(360×640 —— isMobile・タッチ / PC 1280×800)・**`behavior.loadSaveBackgroundReject`**(root は SKIP)。既存の `ui.pickerFilterFold`・`ui.pickerOtherChips`・`ui.pickerGeoFilter` は判定を変えずに通る(採寸は畳みを開いてから)。
+
+## 26. 第287便c の宣言鍵 —— `physics.backgroundComplex.timeContract`(背景場の時間発展の契約・原仮定者の裁定〔第77報〕⑤・統括の検証項目 R109・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`physics.backgroundComplex`(§12・§20・§23)に**任意鍵 `timeContract`** を足した。**時間微分(`dWdt`・`dAdt`)が 0 でない背景を力学が読む本**(`physics.meshVelocity` の field:"backgroundComplex"・`lawVersion:"share-p1"` のトイ)では**宣言が必須**(無ければ validatePreset・セーブの受理器・build の準備のどれも拒否)。時間微分がすべて 0 の背景(静止・一様)は宣言なしで従来どおり(値は時間で動かず ∂ₜu=0)。
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `mode` | `"sources"` / `"taylor"` | sources: 源の台帳(`bgModel` "sources" の ledger / "distantSource" の遠方 1 源)の位置・速度・加速度を X+Vτ+½aτ²・V+aτ・a で動かし、評価点ごとに毎回 6 成分を p=2 の核で作り直す(本命)。taylor: 宣言の 6 成分を W(x,t)=W₀+∇W·dx+∂ₜW·τ・A も同様に一次で動かす(∇・∂ₜ は宣言値) |
+| `t0` | 有限数 | 展開の基準時刻 [T](走行の時刻 t と同じ時計 —— τ=t−t₀) |
+| `derivFrame` | `"frame"` | 宣言の ∂ₜ は凍結参照系の座標で固定した点の偏微分(comoving なら原点と一緒に動く点)。原点速度の移流分を別に足さない。慣性系の偏微分は ∂ₜ\|frame=∂ₜ\|慣性+V_O·∇ に直して書く |
+| `widthT` | 正の有限数 | 時間有効幅 [T]。\|τ\| がこれを超えた評価は範囲外として数える(値は消さない) |
+| `radiusR` | 正の有限数(taylor だけ) | 空間有効半径 [L](凍結参照系の原点のまわり)。sources では書かない |
+
+- **範囲の外**(taylor): 源の台帳があればその点・その時刻の値を源から作り直す(再展開 —— sources の値とビット一致)。台帳が無ければ一次のまま評価し、範囲外の回数を数える(`S.meshVelTimeOut`・`S.bgLawTimeOut`、再展開は `S.meshVelTimeReexp`・`S.bgLawTimeReexp`)。**閾値で背景を消さない**。
+- **拒否**: 知らない mode/鍵・t0 なし・derivFrame なし/"frame" 以外・widthT なし/0 以下・taylor で radiusR なし・sources で radiusR を書く・sources で台帳なし・`bgModel:null` と併用・配列。
+- **採らない形**: 速度 `v` へ ∂ₜu をそのまま足す修正(ẋ=v+u の u の時間変化と重複する)。1 源の場を taylor で動かすと勾配を凍結するので見かけのせん断 −τ ∂ₜu⊗∇W/W を作る(🌒 で周期 +1.37×10⁻³ s —— PHYSICS〔第287便c〕)。
+- **内蔵の宣言**: 🌒 `charonGeoToy3` の 1 本(`bgModel:"sources"` の太陽 1 源 + `mode:"sources"`・`widthT` 3.4×10⁵)。🔁 `mercuryGeoToy3` は時間微分 0 なので宣言しない。これに伴い `bgModel` を宣言する内蔵も 🌒 の 1 本になった(§20 の「内蔵はこの鍵を 1 本も宣言していない」は第285便c の時点の記述 —— QA `behavior.bgDerivatives` は第287便c の世代で 🌒 の 1 本を期待する)。
+- **セーブ**: `loadSaveBgcAccept` は法則版の経路の相互検査 `bgLawCrossCheck(bgc, Object.assign({},DEFAULT_PHYSICS,ph), preset.sampleClass)` も呼ぶ(経路の無い法則版・較正クラス・centerSpin 等との併用・時間の契約の欠けをセーブ経路でも拒否)。背景の欄(#bgcPanel)は `timeContract` を編集せず引き継ぐ(`BGC_KEEP`)。
+- **読み口(HP 公開)**: `bgcTimeCheck(decl)`・`bgTimeNeeded(canonical)`・`bgTimeCrossCheck(canonical, path)`・`bgTimePrepare(canonical)`・`bgTimeMomentsAt(B, T, dx, dy, tau)`・`bgTimeFromSources(T, dx, dy, tau)`・`loadSaveBgcAccept(save, preset)`・定数 `BGC_TIME_VERSION`(`"w287c-bgtime-1"`)・`BGC_TIME_MODES`・`BGC_TIME_KEYS`。
+- QA: **`behavior.bgTimeContract`**・**`behavior.loadSaveBgLaw`**・**`docs.bgTimeContract`**(root は SKIP)。器 `tests/exp-w287c-bgtime.mjs`(正本 `tests/out/bgtime-w287c.json`・段 `bgtime287`)・試験 `tests/exp-w287c-bgsave.mjs`。
+## 27. 第287便d の表示 —— BH 連星の家族の移管・線の軌跡の追従フレーム・ライブ比較の周期の定義(原仮定者の裁定〔第77報〕⑤・AN65/AN71/AN72・**表示と器だけ・SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・力学・内蔵の physics/bodies/camera/overlays は 1 bit も変えていない。
+
+- **群の移管**: 🎐🎻⏰⚛️(familyId `gw150914`)の `group` を「現実との照合・連星」へ(家族のまま —— group 文字列だけ)。カードに 1 行(side table `GROUP_CARD_NOTE` —— 「geoPN=0・較正母集団の門には入れない」・🎻 は f≈2 の履歴・⚛️ は原理サンプル)。AI が生成する本の群の語彙は不変。
+- **線の軌跡の追従フレーム**: side table `TRAIL_FRAME_DECL`(🔁 `mercuryGeoToy3` だけ `trail:"follow"`)。camera.follow の天体を原点にした相対位置で線を積んで描く(表示専用 —— 保存 JSON・presetSig・`sim.overlays` には書かない)。「表示」カテゴリのトグル「線の軌跡を追従フレームで」。🔁 だけ HUD に 1 行(相対近点は零試験済み・画面の流れは u=V)。**プリセットの鍵として宣言する経路は無い**(camera・overlays は presetSig に入るため)。
+- **ライブ比較の周期の定義**: `LIVE_COMPARE_SPEC` の周期の量に観測側の定義 `od`(revolution / periastron / null=未宣言)を宣言し、推定器の定義(`LC_EST_DEF` —— 正本の periodDef と同じ語)と並べて「定義: 今回=…・観測=…」を出す(違えば「別量」・観測側が未宣言なら何も足さない)。正本の行名と推定器の定義が食い違う ⚡🧮 は表示名を生成(`cond` —— 「近点間周期(kFrame=1・観測質量 f=1)」)。照合の鍵は正本の行名のまま。
+- 読み口(HP 公開): `HP.trailFrame`(`decl`・`mode`・`set`・`anchor`・`rec`・`bufs`)・`HP.groupCardNote`・`HP.liveCompare.labelOf`・`HP.liveCompare.estDef`。
+- QA: **`ui.gwGroupMove`**・**`ui.trailFollowFrame`**・**`ui.liveComparePeriodDef`**(root は SKIP)・docs/PHYSICS.md〔第287便d〕。
+## 28. 第287便e の UI —— 「その他」の三状態チップ・説明タブの分類バッジの軸・「較正対象」(原仮定者の裁定〔第77報〕⑥・第77報で閉じた AN66・統括の検証項目 R112 の UI 部分・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(全内蔵 142 本の 600 步の状態と presetSig が基点 f94ca580 とビット同一 —— bitsame 142/142・sigsame 142/142・`S._core` 35197 字)。隠しプルダウン `#presetSelect` には何も足していない。
+
+- **軸**(§22 の「その他」): 4 軸 → **15 軸**。「その他」の中を **2 段の見出し**(`.ppOtherSec` —— §25 のセパレータと同じ作法: 上辺の区切り線+太字の見出し・行の幅いっぱい。入れ物 `.ppOtherGrp` は `role="group"`・`aria-labelledby` が見出し・`display:contents`)で分けた。
+  - **宣言**(`sec:"decl"`): 従来の 4 軸(`obsCard`・`pinned`・`multi`・`testParticle`)+ **`calTarget` 較正対象**(`sampleClass:"calibration"` の宣言 —— 分類の「現実較正」DFM 版・kF0 版の両方)。tip に「較正の対象であって合格ではない —— 合否は較正監査の判定で、このチップは宣言を読むだけ」と書いた(AN66: 「較正合格」の意味にしない)。
+  - **分類バッジ(説明タブ)**(`sec:"badge"`): 説明タブのチップ列 `#classChips` の分類バッジ 10 個 —— `bdgCore` コア公理・`bdgExtension` 拡張則・`bdgBackground` 規定背景・`bdgSemantic` 意味論・`bdgComparison` 比較チャネル・`bdgDrive` 外部駆動・`bdgClosed` 閉鎖系・`bdgTint` 温度=T_int・`bdgStrongField` ⚠強場トイ領域・`bdgDrag` 引きずり。語は i18n の `bdg*`、tip は `bdg*Tip` をそのまま使う(新しい語は作らない)。
+  - **機械で引く**: 説明タブの判定を表 `PRESET_BADGE_AXES`(`key`=i18n の鍵・`g`=`#classChips` の `data-g`・`test(classifyPreset の戻り値, p)`)へまとめ、`renderHelp` のチップと「その他」の軸が**同じ表**を読む(`presetBadgeAxesOf(p,cls)`)。層は `classifyPreset().layers`、外部駆動は `external.rail|pin|bath|grav`、閉鎖系・温度・強場は `closed`・`tint`・`strongField`、引きずりだけは従来どおり `physics.kFrame>0` の宣言。説明タブの出る順・語・`data-g` は変えていない(全内蔵 142 本 × ja/en の `#classChips` が基点とテキスト・tip まで一致)。
+- **三状態**: 1 回タップ = **含む**(on)・2 回 = **除く**(NOT)・3 回 = 解除(off)。`data-state`(`on`/`not`/`off`)・`aria-pressed`(`true`/`mixed`/`false`)・`data-on="1"` は on のときだけ。視覚は on = 塗り(`--accFill` の下地に `--fg` の文字)・not = 「¬」の接頭(`::before`)+打消し線+橙(`--hot` の枠・`--hotText` の文字 —— 赤は台帳の「否」の色なので使わない)。キーボードは Space/Enter で同じ循環(チップを押して窓を組み直したあと、押したチップにフォーカスがあれば新しいチップへ戻す)。
+  - **意味は AND**: 含むチップをすべて満たし、除くチップをどれも満たさない本だけを出す(AND の中の否定 —— 含む∧除くの組も可。同じ軸の含む/除くは排他)。スケール・分類・E水準・geoPN・検索とも AND。「すべて」のチップで全部を解除。
+  - **状態の持ち方**: `ppOther` の要素は `"key"`(含む)か `"!key"`(除く)。並びは軸の表の順。`sig`(`ppSearch+…+ppOther.join(",")`)に「!」がそのまま入る。§22 の旧形(key だけの配列)はそのまま「含む」として読める。絞り込みはセッション内だけで URL・保存には載らない(後方互換の対象は画面内の状態だけ)。
+  - **件数は状態ごとに引き直す**: チップの「(n)」と `data-n` は、除くにしたチップでは**満たさない**本の数(そのチップだけを除くにしたときの行数)。`data-n-on`・`data-n-not` に両方を置く(表示しない —— 試験と説明の照合用)。要約行は「語」「¬語」を「 ∧ 」でつなぐ。
+  - 件数は窓を組み立てる間だけ `classifyPreset` の結果と件数を覚える(`ppWithClsCache` —— 1 回の `showPresetPicker`/`ppRender` の間だけ。窓を開く時間は基点と同程度)。
+- 件数(基点 f94ca580 の宣言で・一覧に出る本 120 のうち): コア公理 70・拡張則 44・規定背景 4・意味論 3・比較チャネル 0・外部駆動 53・閉鎖系 67・温度=T_int 20・⚠強場トイ領域 12・引きずり 56 / 較正対象 31(全内蔵では 37)。比較チャネル(FLRW 対照)は内蔵に該当が無く 0 件のチップになる(表から機械で引くので手で外さない)。
+- 例(AND と NOT): コア公理 含む ∧ 引きずり 除く = 39 本・較正対象 含む ∧ 引きずり 除く = 10 本・📇 含む ∧ ⚠強場 除く = 72 本。
+- QA: **`ui.pickerOtherTriState`**(360×640 —— isMobile・タッチ / PC 1280×800)・**`ui.pickerBadgeAxes`**(root は SKIP)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators` は世代切替(html の `function ppOtherStateOf(`)で軸 4 → 15・チップ数 1+15・2 回目のタップは「除く」に読み替える(旧 4 軸の独立の数え直しと AND の検査は不変)。`ui.pickerFilterFold` は判定を変えずに通る。

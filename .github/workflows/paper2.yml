@@ -4,17 +4,21 @@
 #       主数値照合ゲート p2fig8.caption を1件追加 — 21件 → 22件) ②再生成 JSON がコミット済み JSON と
 # データ一致(揮発キー generated/commit を除く)③英(pdflatex)・日(lualatex)を各2回
 # ビルドしエラー・未定義参照ゼロを assert。
+# 第287便f(原仮定者の裁定(第77報)AN67): ①② の図の再生成と照合だけを nightly.yml の job `paper2-figures` でも毎晩回す
+#   (TeX は nightly に載せない)。照合 ② は tools/p2fig-compare.mjs に移し、この yml と nightly が同じ器を呼ぶ。
 name: paper2
 on:
   push:
     paths:
       - "paper/**"
       - "tools/gen-figures2.mjs"
+      - "tools/p2fig-compare.mjs"
       - ".github/workflows/paper2.yml"
   pull_request:
     paths:
       - "paper/**"
       - "tools/gen-figures2.mjs"
+      - "tools/p2fig-compare.mjs"
       - ".github/workflows/paper2.yml"
 
 jobs:
@@ -33,18 +37,9 @@ jobs:
       - name: Regenerate figures (asserts 22 numeric gates)
         run: node tools/gen-figures2.mjs
       - name: Assert figure data matches committed JSONs (volatile keys excluded)
-        run: |
-          set -e
-          for f in paper/figures/p2fig*.json paper/figures/p2figs-gates.json; do
-            git show HEAD:"$f" | node -e '
-              const read=s=>{const o=JSON.parse(s);const strip=x=>{if(x&&typeof x==="object"){delete x.generated;delete x.commit;for(const k in x)strip(x[k]);}return x};return JSON.stringify(strip(o));};
-              const fs=require("fs");
-              let head="";process.stdin.on("data",d=>head+=d).on("end",()=>{
-                const now=fs.readFileSync(process.argv[1],"utf8");
-                if(read(head)!==read(now)){console.error("MISMATCH: "+process.argv[1]);process.exit(1);}
-              });' "$f"
-          done
-          echo "figure data: committed == regenerated"
+        # 第287便f(AN67): 照合の式は tools/p2fig-compare.mjs の 1 本(nightly.yml の paper2-figures job と同じ器)。
+        #   揮発キー = generated・commit・targetSha256・generatorSha256・chromiumVersion(図のメタの来歴 —— データの失効ではない)
+        run: node tools/p2fig-compare.mjs --ref HEAD
       - name: Install TeX Live
         run: |
           sudo apt-get update -qq

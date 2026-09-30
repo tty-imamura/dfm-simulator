@@ -20,8 +20,8 @@
 
 ## 集計
 
-- 家族 **21**・本 **81**(うち退役 15)・推定の列: 主系列 36・比較 17・診断 13・履歴 15。
-- 候補: 規則 A 4・規則 B 0・規則 C(要裁定)2・畳まない組 15。
+- 家族 **21**・本 **81**(うち退役 16)・推定の列: 主系列 35・比較 17・診断 13・履歴 16。
+- 候補: 規則 A 4・規則 B 0・規則 C(要裁定)1・畳まない組 14。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 履歴 | 候補 A/B/C | 畳まない組 |
 |---|---|---|---|---|---|---|---|---|
@@ -32,7 +32,7 @@
 | 二重パルサー J0737−3039(`psrDoubleAB`) | 6 | `psrDoubleABDFM` | 3 | 0 | 1 | 2 | 1/0/0 | 2 |
 | パルサー J1757−1854(`psrJ1757`) | 3 | `psrJ1757DFM` | 1 | 0 | 0 | 2 | 0/0/0 | 0 |
 | パルサー J1946+2052(`psrJ1946`) | 3 | `psrJ1946DFM` | 1 | 0 | 0 | 2 | 0/0/0 | 0 |
-| パルサー B1534+12(`psrB1534`) | 3 | `psrB1534` | 3 | 0 | 0 | 0 | 0/0/1 | 2 |
+| パルサー B1534+12(`psrB1534`) | 3 | `psrB1534` | 2 | 0 | 0 | 1 | 0/0/0 | 1 |
 | 重力波 GW150914(`gw150914`) | 4 | `gw150914DFM` | 3 | 1 | 0 | 0 | 0/0/1 | 2 |
 | ケンタウルス座 α 星 AB(`alphaCen`) | 2 | `alphaCenABDFM` | 2 | 0 | 0 | 0 | 0/0/0 | 1 |
 | シリウス AB(`sirius`) | 2 | `siriusABDFM` | 2 | 0 | 0 | 0 | 0/0/0 | 1 |
@@ -60,7 +60,7 @@
 
 **鍵ごとの差**(physics の同じ鍵 24):
 
-- `physics.backgroundComplex`: plutoCharonReal=— / plutoCharonDFM=— / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero=— / charonGeoToy3={"background":"declared","W0":5.699987574282822e-9,"A0":[0,2.7018851611140787e-9],"gradW":[-1.930092225608931e-15,0],"gradA":[0,0,-9.148945459956653e-16,0],"dWdt":0,"dAdt":[2.1683731460773505e-16,0],"note":"第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)","sources":[{"id":"sun","kind":"body","excludedExplicit":true}],"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}}
+- `physics.backgroundComplex`: plutoCharonReal=— / plutoCharonDFM=— / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero=— / charonGeoToy3={"background":"declared","W0":5.6999875742828215e-9,"A0":[0,2.701885161114078e-9],"gradW":[-1.93009222560893e-15,0],"gradA":[0,0,-9.14894545995665e-16,0],"dWdt":0,"dAdt":[2.16837314607735e-16,0],"note":"第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)","refPos":[0,0],"sources":[{"id":"sun","kind":"body","excludedExplicit":true}],"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"},"bgModel":"sources","ledger":[{"id":"sun","m":198849.99999999997,"x":-5906440.633928273,"y":0,"vx":0,"vy":0.4740159738776329,"ax":3.8041717070763564e-8,"ay":0}],"eps":0.05,"timeContract":{"mode":"sources","t0":0,"derivFrame":"frame","widthT":340000}}
 - `physics.geoPN`: plutoCharonReal=2 / plutoCharonDFM=1 / plutoCharonKF0Control=1 / plutoCharonDiagInput=1 / plutoCharonSyncZero=0 / charonGeoToy3=3
 - `physics.kFrame`: plutoCharonReal=1 / plutoCharonDFM=0 / plutoCharonKF0Control=0 / plutoCharonDiagInput=0 / plutoCharonSyncZero=0 / charonGeoToy3=0
 - `physics.massPrecision`: plutoCharonReal=— / plutoCharonDFM=double / plutoCharonKF0Control=double / plutoCharonDiagInput=double / plutoCharonSyncZero=double / charonGeoToy3=—
@@ -274,26 +274,25 @@
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 📿 | `psrB1534` | primary | 主系列(較正母集団) | 基準 | calibration・kf0 | ○ | 1 | 0 | 0.006 | 3.24204e-7 | 3.1652 | — | — | — | B1534 の観測入力を kF0 で確かめる | — |
-| 🧶 | `psrB1534DFM` | variant | 主系列(較正母集団) | 違う入力(質量) | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1652 | 1.9994854557873434(inertia-law-lin-v1) | — | — | ⚡ の処方を B1534 へ当てる | — |
-| 🪤 | `psrB1534CF` | variant | 主系列(較正母集団) | 違う入力(質量) | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1652 | 1.9994854557873434(inertia-law-lin-v1) | — | — | 凍結した κ を B1534 へ流す | — |
+| 🧶 | `psrB1534DFM` | variant | 主系列(較正母集団) | 同じ入力 | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1652 | 1(f-fixed-1) | — | — | B1534 を観測質量(f=1)と kF1 で照合 | — |
+| 🪤 | `psrB1534CF` | retired | 履歴(familyRole "retired") | 違う入力(質量) | calibration・dfm | ○ | 2 | 1 | 0.006 | 3.24204e-7 | 3.1652 | 1.9994854557873434(inertia-law-lin-v1) | — | — | 凍結した κ を B1534 へ流す | — |
 
-**鍵ごとの差**(physics の同じ鍵 28):
+**鍵ごとの差**(physics の同じ鍵 27):
 
 - `physics.compactForce`: psrB1534=— / psrB1534DFM=— / psrB1534CF={"model":"current","kappa":12.015360249506628,"chiGate":0.5,"rc":0}
+- `physics.coupleSink`: psrB1534=core / psrB1534DFM=reservoir / psrB1534CF=core
 - `physics.geoPN`: psrB1534=1 / psrB1534DFM=2 / psrB1534CF=2
 - `physics.kFrame`: psrB1534=0 / psrB1534DFM=1 / psrB1534CF=1
 - `massCalibration`: psrB1534=— / psrB1534DFM=(宣言あり) / psrB1534CF=(宣言あり)
 - `calVariant`: psrB1534=kf0 / psrB1534DFM=dfm / psrB1534CF=dfm
-- `familyRole`: psrB1534=primary / psrB1534DFM=variant / psrB1534CF=variant
-- `bodies(vs 基準)`: psrB1534=基準 / psrB1534DFM=違う入力(質量) / psrB1534CF=違う入力(質量)
+- `familyRole`: psrB1534=primary / psrB1534DFM=variant / psrB1534CF=retired
+- `bodies(vs 基準)`: psrB1534=基準 / psrB1534DFM=同じ入力 / psrB1534CF=違う入力(質量)
 
-**統廃合の候補**(実行ではない):
+**統廃合の候補**: 規則に当たる組は無い。
 
-| 規則 | 残す | 畳む | どう | 理由 |
-|---|---|---|---|---|
-| C | — | `psrB1534DFM` `psrB1534CF` | 要裁定(1 本 + 法則の切替に畳めるか) | 同じ bodies・同じ派生値 dfm・違うのは physics の compactForce |
+**畳まない組**: `psrB1534`・`psrB1534DFM`(較正の派生値 kf0 / dfm(観測版と DFM 版を 1 ID にしない)・bodies は同じ)
 
-**畳まない組**: `psrB1534`・`psrB1534DFM`(較正の派生値 kf0 / dfm(観測版と DFM 版を 1 ID にしない)) / `psrB1534`・`psrB1534CF`(較正の派生値 kf0 / dfm(観測版と DFM 版を 1 ID にしない))
+**履歴(退役)**: `psrB1534CF`
 
 ## 重力波 GW150914(`gw150914`・4 本)
 
@@ -597,7 +596,7 @@
 
 **履歴(退役)**: `darkrotor` `bhCore` `bhCoreTilt` `nebulaRotor` `nebulaShell` `nebulaBipolar` `starSeed`
 
-## 退役 15 本の棚卸し(統括の検証項目 R84)
+## 退役 16 本の棚卸し(統括の検証項目 R84)
 
 > 退役は**フラグ**である(`familyRole:"retired"`)。内蔵(BUILTIN_PRESETS)から消していない —— 旧セーブ・履歴の正本・過去の記録が ID で参照する。サンプル一覧に出さず、開いたときに「退役(履歴)」の 1 行を出す。物理・署名・保存 JSON は変えていない。
 
@@ -618,13 +617,15 @@
 | 🪝 | `psrDoubleABCF` | ○ | ○ | 8767377 | 8767377 |
 | 🪄 | `psrJ1757CF` | ○ | ○ | 12797269 | 12797269 |
 | 🩹 | `psrJ1946CF` | ○ | ○ | f8600f7c | f8600f7c |
+| 🪤 | `psrB1534CF` | ○ | ○ | 84820b4 | 84820b4 |
 
 - **ゲートから外した長走行**: `darkrotorMidNew`・`darkrotorMidOld`・`darkrotorLong`・`darkrotorMultiseed`(保存 QA の worker の所要の和 341.6 s)と、その結果を読む試験 `behavior.darkrotor`・`behavior.darkrotorLong`・`behavior.darkrotor-pitch`・`behavior.darkrotor-multiseed`。最後の保存 QA の値は凍結の写しの history に転記した(測り直していない)。
 - **機構の最小試験**(ゲートに残す 1 点ずつ): コアの交換(殻のスピン移送) = `claim.bhcore-selfdrive`(bhCore) / 傾斜(コア軸の横倒しで Jz が機械ゼロ・減光は保つ) = `behavior.templates229`(bhCoreTilt) / 減光(暗いコアと明るい外層のコントラスト) = `claim.nebularotor-contrast`(nebulaRotor) / パワーボール(圧縮と軸仕事の経路) = `claim.starseed-powerball`(starSeed)。
 - **第284便b の写し** `tests/fixtures/retired-w284b.json`(原仮定者の裁定(第74報)⑤・AN35): 退役 6 本(`galaxyMeshSpiralGeoToyLite` `psrDoubleABPN` `psrJ1757PN` `psrJ1946PN` `emAuditNewton` `psrDoubleABCF`)と、f=1 へ移した本の旧則(`psrDoubleABDFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.psrDoubleAB`・`behavior.w249a-pnResponse`・`behavior.compactForce`・`behavior.calibrationForecast`。
 - **第285便f の写し** `tests/fixtures/retired-w285f.json`(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(`psrJ1757CF`)と、f=1 へ移した本の旧則(`psrJ1757DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`・`behavior.w249a-pnResponse`・`behavior.jointCalProtocol`。
 - **第286便f の写し** `tests/fixtures/retired-w286f.json`(原仮定者の裁定(第76報)AN57): 退役 1 本(`psrJ1946CF`)と、f=1 へ移した本の旧則(`psrJ1946DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.w249a-pnResponse`・`docs.j1946adoptPublished`・`docs.j1946Adopted`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 60 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 12・道具 4・表の外 17。QA 本体の出現数: darkrotor 138・bhCore 44・nebulaRotor 15・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 13・galaxyMeshSpiralGeoToyLite 24・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 34・psrDoubleABCF 13・psrJ1757CF 19・psrJ1946CF 20。
+- **第287便b の写し** `tests/fixtures/retired-w287b.json`(原仮定者の裁定(第77報)AN62): 退役 1 本(`psrB1534CF`)と、f=1 へ移した本の旧則(`psrB1534DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 60 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 12・道具 4・表の外 17。QA 本体の出現数: darkrotor 138・bhCore 44・nebulaRotor 15・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 13・galaxyMeshSpiralGeoToyLite 24・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 34・psrDoubleABCF 13・psrJ1757CF 19・psrJ1946CF 20・psrB1534CF 18。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|
@@ -652,37 +653,37 @@
 | `tests/exp-ureq.mjs` | darkrotor | h283b-exp-ureq(history) | 履歴(再生成しない) |
 | `tests/exp-w248c.mjs` | darkrotor | — | 表の外(正本ではない) |
 | `tests/exp-w249a.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrJ1946CF | — | 表の外(正本ではない) |
-| `tests/exp-w249b-calaudit.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF | calaudit(current) dt3(current) kf0(current) | 現行の段 |
+| `tests/exp-w249b-calaudit.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | calaudit(current) dt3(current) kf0(current) | 現行の段 |
 | `tests/exp-w249c.mjs` | darkrotor | — | 表の外(正本ではない) |
 | `tests/exp-w250a.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrJ1946CF | — | 表の外(正本ではない) |
-| `tests/exp-w252a-boxbinary.mjs` | psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF | — | 表の外(正本ではない) |
-| `tests/exp-w252b-substep.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF | — | 表の外(正本ではない) |
+| `tests/exp-w252a-boxbinary.mjs` | psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 表の外(正本ではない) |
+| `tests/exp-w252b-substep.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 表の外(正本ではない) |
 | `tests/exp-w253b-a0sweep.mjs` | psrJ1946PN psrJ1946CF | — | 表の外(正本ではない) |
 | `tests/exp-w257c-mesh.mjs` | starSeed | — | 表の外(正本ではない) |
 | `tests/exp-w258e-jitprobe.mjs` | bhCore | — | 道具(正本を書かない) |
 | `tests/exp-w262b-migrate.mjs` | bhCoreTilt | h283b-exp-w262b-migrate(history) | 履歴(再生成しない) |
 | `tests/exp-w262c-v2delta.mjs` | psrJ1946PN psrJ1946CF | — | 表の外(正本ではない) |
 | `tests/exp-w263b-beui.mjs` | bhCore | — | 表の外(正本ではない) |
-| `tests/exp-w263c-obsintake.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF | obsintake(current) | 現行の段 |
+| `tests/exp-w263c-obsintake.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | obsintake(current) | 現行の段 |
 | `tests/exp-w264c-benums.mjs` | bhCore | — | 表の外(正本ではない) |
 | `tests/exp-w265d-lfbot.mjs` | bhCore | h283b-exp-w265d-lfbot(history) | 履歴(再生成しない) |
 | `tests/exp-w270c-j1946adopt.mjs` | psrJ1946PN psrJ1946CF | j1946adopt(history) | 履歴(再生成しない) |
 | `tests/exp-w272a-issues.mjs` | emAuditNewton | issues(current) | 現行の段 |
 | `tests/exp-w274c-galaxylite.mjs` | galaxyMeshSpiralGeoToyLite | galaxylite(current) | 現行の段 |
-| `tests/exp-w275b-d0audit.mjs` | galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF | d0audit(current) | 現行の段 |
+| `tests/exp-w275b-d0audit.mjs` | galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | d0audit(current) | 現行の段 |
 | `tests/exp-w275c-galaxyprof2.mjs` | galaxyMeshSpiralGeoToyLite | galaxyprof2(current) | 現行の段 |
-| `tests/exp-w276a-bgpredict.mjs` | galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF | bgpredict(current) | 現行の段 |
-| `tests/exp-w280a-mercury.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF | mercury(current) | 現行の段 |
-| `tests/exp-w280c-geo3.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF | geo3(current) | 現行の段 |
+| `tests/exp-w276a-bgpredict.mjs` | galaxyMeshSpiralGeoToyLite psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | bgpredict(current) | 現行の段 |
+| `tests/exp-w280a-mercury.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | mercury(current) | 現行の段 |
+| `tests/exp-w280c-geo3.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | geo3(current) | 現行の段 |
 | `tests/exp-w281b-galaxychain.mjs` | galaxyMeshSpiralGeoToyLite | galaxychain(current) | 現行の段 |
 | `tests/exp-w281c-rotorledger.mjs` | darkrotor | rotorledger(current) | 凍結の写しを読む |
 | `tests/exp-w281e-canvasskin.mjs` | bhCore | — | 道具(正本を書かない) |
-| `tests/exp-w282a-calcontract.mjs` | psrDoubleABPN psrDoubleABCF | calcontract(current) | 現行の段 |
-| `tests/exp-w282a-fmigration.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF | fmigration(history) | 履歴(再生成しない) |
-| `tests/exp-w282b-geo1.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF | geo1(history) | 履歴(再生成しない) |
+| `tests/exp-w282a-calcontract.mjs` | psrDoubleABPN psrDoubleABCF psrB1534CF | calcontract(current) | 現行の段 |
+| `tests/exp-w282a-fmigration.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | fmigration(history) | 履歴(再生成しない) |
+| `tests/exp-w282b-geo1.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN emAuditNewton psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | geo1(history) | 履歴(再生成しない) |
 | `tests/exp-w282d-analogy.mjs` | bhCore galaxyMeshSpiralGeoToyLite | analogy(current) | 凍結の写しを読む |
-| `tests/exp-w285d-obscompare.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF | obscompare(current) | 現行の段 |
-| `tests/lib-sigma-destinations.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF | — | 表の外(正本ではない) |
+| `tests/exp-w285d-obscompare.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | obscompare(current) | 現行の段 |
+| `tests/lib-sigma-destinations.mjs` | psrDoubleABPN psrJ1757PN psrJ1946PN psrDoubleABCF psrJ1757CF psrJ1946CF psrB1534CF | — | 表の外(正本ではない) |
 | `tests/lib-w270a-stoprule.mjs` | psrJ1946PN psrJ1946CF | — | 表の外(正本ではない) |
 | `tests/lib-w279a-samplestatus.mjs` | bhCore bhCoreTilt | — | 表の外(正本ではない) |
 | `tests/perf.mjs` | darkrotor bhCore nebulaRotor nebulaShell nebulaBipolar starSeed | — | 道具(正本を書かない) |

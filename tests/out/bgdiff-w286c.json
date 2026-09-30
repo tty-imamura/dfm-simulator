@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便c",
   "target": "beta/index.html",
-  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
-  "generatedAt": "2026-09-29T05:27:31.486Z",
+  "targetSha256": "cea53a3b1ea76e256be4723845c71c0b2c1bfe1222a85623eebced4a3e5a5b94",
+  "generatedAt": "2026-09-29T20:14:26.874Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5184678,
-    "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
-    "mtime": "2026-09-29T04:36:34.917Z"
+    "bytes": 5262734,
+    "sha256": "cea53a3b1ea76e256be4723845c71c0b2c1bfe1222a85623eebced4a3e5a5b94",
+    "mtime": "2026-09-29T18:56:48.778Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w286c-bgdiff.mjs",
-    "bytes": 31480,
-    "sha256": "c966b9c3010bd0f8c906dc0e5cd2c67347b24a7d383c83a842681c7f91d132f6",
-    "mtime": "2026-09-28T23:34:35.953Z"
+    "bytes": 32110,
+    "sha256": "f25837d828410f11bafecdd81a6b476551f4c6b8497745840c9807afd882ba27",
+    "mtime": "2026-09-29T18:03:32.760Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -39,8 +39,8 @@
     "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "91e62e7b76fc189d4b10b06529e46cfc6991a514f11a2c8e296ec4eb9a420ea4",
-  "harnessVersion": "w286c-bgdiff-1",
+  "codeSha256": "810f3ea491093972e1876254649b305381bf2a56f3e2c0f8293159f400ca4602",
+  "harnessVersion": "w287c-bgdiff-2",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第76報)と第76報で閉じた AN7′(解析微分と有限差分の照合)・AN47(share p=1 と複素 p=2 を法則版で分け、単位・有限領域・基準系を宣言してから接続)・AN56(台帳はプリセットの宣言の中・座標系は宣言必須)",
   "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
@@ -77,11 +77,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 837,
-   "segments": 759,
-   "closureShare": 0.3145
+   "names": 859,
+   "segments": 778,
+   "closureShare": 0.3152
   },
-  "scopeSha256": "ef700be4933170f92574a40f5acf53907557bf22ed028f453ecbdda6e5187905",
+  "scopeSha256": "9e594395d8bda9c4f83c75aa6bba80358c7d48f4847a92630eefa41ae537ac39",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -766,7 +766,7 @@
   }
  ],
  "census": {
-  "nPresets": 142,
+  "nPresets": 143,
   "declared": [],
   "p2BitSame": true
  },
@@ -799,7 +799,7 @@
    },
    "distantVsUniform": {
     "same": false,
-    "maxRel": 21.688521819597486
+    "maxRel": 21.671137377088936
    },
    "unwiredVsToyD0": {
     "same": true,
@@ -873,15 +873,15 @@
     "steps": 200,
     "vacuum": 0,
     "chi": [
-     0.814584874172926,
-     0.9800217325165407
+     0.8145846631869741,
+     0.9800199619240909
     ],
     "ledger": {
      "pSum": 0,
-     "pScale": 1.5091611139405872,
+     "pScale": 1.5091473953950765,
      "lSum": 0,
      "eSum": 0,
-     "toyE": -0.0679930754678504
+     "toyE": -0.06798365044997405
     },
     "wire": {
      "state": "applied",
@@ -982,8 +982,8 @@
     "n": 2000,
     "undef": 0,
     "bad": 0,
-    "work": 1.2626162730780236e-23,
-    "uMax": 2.334523505985751
+    "work": 3.309542735557892e-24,
+    "uMax": 2.410062239860202
    },
    "wire": {
     "state": "applied",
@@ -1047,5 +1047,5 @@
   ],
   "allSame": true
  },
- "elapsedS": 1.22
+ "elapsedS": 1.268
 }

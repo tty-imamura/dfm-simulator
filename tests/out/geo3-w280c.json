@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便c",
   "target": "beta/index.html",
-  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
-  "generatedAt": "2026-09-29T05:54:45.967Z",
+  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+  "generatedAt": "2026-09-30T00:30:41.187Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5184678,
-    "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
-    "mtime": "2026-09-29T05:36:14.025Z"
+    "bytes": 5263843,
+    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+    "mtime": "2026-09-30T00:16:40.595Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2854534,
-    "sha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
-    "mtime": "2026-09-29T04:53:53.017Z"
+    "bytes": 2887889,
+    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
+    "mtime": "2026-09-29T23:47:20.387Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "bytes": 142076,
-    "sha256": "07bb694ac724bf74aa01010b6b491fc058dd88e9be117c3a152f1db2777d7bf7",
-    "mtime": "2026-09-29T05:38:42.665Z"
+    "bytes": 142925,
+    "sha256": "af7c75822a768aa0aae6dc4041d651699962ee5fe96e9c33363740bbed9e8c79",
+    "mtime": "2026-09-30T00:18:47.931Z"
    }
   ],
   "code": [
@@ -40,9 +40,9 @@
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 345584,
-    "sha256": "dffcf674c44924d6506d1a3fca68fa0d97ce28bead1e322734fbb10e76599633",
-    "mtime": "2026-09-28T18:49:51.305Z"
+    "bytes": 348846,
+    "sha256": "9b5602019c7e479bd69492e29df3d19f8cc2514e48739774fc823b7e9e2f0574",
+    "mtime": "2026-09-29T17:55:53.112Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -51,12 +51,12 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "c42c753b5e6bbd5bc9a6be412912d19bed5fc33cefbea322e441ee7c83fb85af",
+  "codeSha256": "e4ed23f89b655569e3f449d8e1416a64aa6b7539af9eeab0fb78a82dafce457e",
   "harnessVersion": "w280c-geo3-1",
   "quick": false,
   "part": null,
   "extractor": "tests/exp-w249b-calaudit.mjs のページ側ヘルパ(__w249run —— 近点 検出器 A の方位の回帰)をソースから文字列で取り出して評価(写しを持たない)",
-  "extractorSha256": "049b79ce867100e4ba4ec770e94820cdc19b74f666cc00dd08588f89ae2a1d7c",
+  "extractorSha256": "fe0d74c774b6a2dcd3c2815b3897eff38a5153113b060b7421d333cc7feaa07e",
   "window": "正本 calaudit-w249.json の presets[].run(dt と dt/2 の步数・60 公転上限)",
   "runner": "Chromium(playwright —— 正式の判定器と同じ)",
   "notClaim": [
@@ -133,16 +133,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 837,
-   "segments": 759,
-   "closureShare": 0.3147
+   "names": 859,
+   "segments": 778,
+   "closureShare": 0.3153
   },
-  "scopeSha256": "38b04b8d04f2749c03fdd1c63adca4871eb9a51ef8a3e69a42b8d7aae90dd4ae",
+  "scopeSha256": "b665bb4576ddd356268c5f5c711ec9a9273f53dd7248497c068ce323b9aa0ee8",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "f5c83f5d6b2360b30fd578ac73f72ea066c321aac14b80b066eb31e36f87206e",
+    "stableSha256": "68a93bc1229c422225480a9cc73c890f5ae3b8c61d32b1c1c946a4648f55c51a",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -170,7 +170,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "11b16457c1fba534f610f7a14b2b0c28431e7eb0695669871fadaec81bb43b94",
+    "stableSha256": "358c8201673afe464423d401fa8dacca2350cff7e4a6f17d4e74a050a55ef84c",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -198,7 +198,7 @@
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "stableSha256": "82a968e44050205fdefa62ef3b17ed640bd9cac41ac17a48d1e3b7ac21d164c4",
+    "stableSha256": "95f5e427fa646be347607f7fc07aae71924e3becbd69421a5f89e8e8c9441e71",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -278,7 +278,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.576
+       "wallSec": 1.977
       },
       "dt/2": {
        "steps": 5700398,
@@ -311,7 +311,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.881
+       "wallSec": 3.554
       }
      }
     },
@@ -350,7 +350,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.591
+       "wallSec": 1.625
       },
       "dt/2": {
        "steps": 5700398,
@@ -383,7 +383,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.843
+       "wallSec": 3.525
       }
      }
     },
@@ -422,7 +422,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 1.976
+       "wallSec": 1.546
       },
       "dt/2": {
        "steps": 5700398,
@@ -455,7 +455,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.252
+       "wallSec": 2.873
       }
      }
     },
@@ -494,7 +494,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.188
+       "wallSec": 1.556
       },
       "dt/2": {
        "steps": 5700398,
@@ -527,7 +527,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.277
+       "wallSec": 2.987
       }
      }
     },
@@ -570,7 +570,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.106
+       "wallSec": 6.052
       },
       "dt/2": {
        "steps": 5700398,
@@ -607,7 +607,7 @@
          "stop": null
         }
        },
-       "wallSec": 16.965
+       "wallSec": 12.257
       }
      }
     },
@@ -650,7 +650,7 @@
          "stop": null
         }
        },
-       "wallSec": 12.692
+       "wallSec": 8.919
       },
       "dt/2": {
        "steps": 5700398,
@@ -687,7 +687,7 @@
          "stop": null
         }
        },
-       "wallSec": 25.148
+       "wallSec": 17.801
       }
      }
     },
@@ -730,7 +730,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.439
+       "wallSec": 5.128
       },
       "dt/2": {
        "steps": 5700398,
@@ -767,7 +767,7 @@
          "stop": null
         }
        },
-       "wallSec": 15.312
+       "wallSec": 10.812
       }
      }
     },
@@ -810,7 +810,7 @@
          "stop": null
         }
        },
-       "wallSec": 11.226
+       "wallSec": 7.289
       },
       "dt/2": {
        "steps": 5700398,
@@ -847,7 +847,7 @@
          "stop": null
         }
        },
-       "wallSec": 21.574
+       "wallSec": 14.813
       }
      }
     },
@@ -890,7 +890,7 @@
          "stop": null
         }
        },
-       "wallSec": 7.283
+       "wallSec": 4.707
       },
       "dt/2": {
        "steps": 5700398,
@@ -927,7 +927,7 @@
          "stop": null
         }
        },
-       "wallSec": 14.176
+       "wallSec": 10.391
       }
      }
     },
@@ -966,7 +966,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.093
+       "wallSec": 2.319
       },
       "dt/2": {
        "steps": 5700398,
@@ -999,7 +999,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.572
+       "wallSec": 4.719
       }
      }
     },
@@ -1038,7 +1038,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.218
+       "wallSec": 2.098
       },
       "dt/2": {
        "steps": 5700398,
@@ -1071,7 +1071,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.983
+       "wallSec": 4.346
       }
      }
     },
@@ -1114,7 +1114,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.758
+       "wallSec": 6.144
       },
       "dt/2": {
        "steps": 5700398,
@@ -1151,7 +1151,7 @@
          "stop": null
         }
        },
-       "wallSec": 18.049
+       "wallSec": 11.919
       }
      }
     }
@@ -1194,7 +1194,31 @@
     "dAdt": [
      2.1683731460773505e-16,
      0
-    ]
+    ],
+    "bgModel": "sources",
+    "ledger": [
+     {
+      "id": "sun",
+      "m": 198849.99999999997,
+      "x": -5906440.633928273,
+      "y": 0,
+      "vx": 0,
+      "vy": 0.4740159738776329,
+      "ax": 3.8041717070763564e-8,
+      "ay": 0
+     }
+    ],
+    "refPos": [
+     0,
+     0
+    ],
+    "eps": 0.05,
+    "timeContract": {
+     "mode": "sources",
+     "t0": 0,
+     "derivFrame": "frame",
+     "widthT": 340000
+    }
    },
    "uBackgroundMS": 4740.1597387763295,
    "unitsNote": "1 単位 = 10⁶ m / 10² s(速度 1 単位 = 10⁴ m/s)",
@@ -1248,7 +1272,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 18.596
+       "wallSec": 13.47
       },
       "dt/2": {
        "steps": 41388996,
@@ -1281,7 +1305,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 37.615
+       "wallSec": 25.172
       }
      }
     },
@@ -1320,7 +1344,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 15.306
+       "wallSec": 10.843
       },
       "dt/2": {
        "steps": 41388996,
@@ -1353,7 +1377,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 30.849
+       "wallSec": 21.451
       }
      }
     },
@@ -1392,7 +1416,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 15.324
+       "wallSec": 10.849
       },
       "dt/2": {
        "steps": 41388996,
@@ -1425,7 +1449,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 30.852
+       "wallSec": 22.595
       }
      }
     },
@@ -1439,27 +1463,27 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.003518057898208792,
-       "residDegA": 2.736035163562392e-7,
-       "slopeDegPerOrbitB": -0.0037366979120084225,
-       "nPeriB": 56,
-       "periMeanA20S": 551858.6685008166,
-       "rev2S": 551864.0613633066,
+       "slopeDegPerOrbitA": -0.0035177848747436034,
+       "residDegA": 0.000011805382574026115,
+       "slopeDegPerOrbitB": -0.0035302380703778526,
+       "nPeriB": 60,
+       "periMeanA20S": 551858.6681794107,
+       "rev2S": 551864.0613633194,
        "revN": 59,
-       "eProxy": 0.000013340793182668258,
+       "eProxy": 0.0000133409660903235,
        "diag": {
         "geoPN": 3,
         "hasGeo3": true,
         "hasGeo3PN": true,
         "hasGeoToy": false,
         "meshVelN": 20694498,
-        "meshVelUMax": 0.474015973877633,
-        "meshVelKickMax": 5.468372266843109e-25,
+        "meshVelUMax": 0.47418330254805113,
+        "meshVelKickMax": 2.734573932375958e-25,
         "meshVelBad": 0,
         "meshVelUndef": 0,
         "geo3PnN": 20694498,
-        "geo3PnKickMax": 5.561451492462712e-19,
-        "geo3PnDL": 3.7373516895233634e-19,
+        "geo3PnKickMax": 8.49740387007584e-19,
+        "geo3PnDL": 1.0715025399796257e-17,
         "geo3PinCarry": 0,
         "meshVelDeny": null,
         "geo3Init": {
@@ -1470,7 +1494,7 @@
          "stop": null
         }
        },
-       "wallSec": 84.149
+       "wallSec": 67.298
       },
       "dt/2": {
        "steps": 41388996,
@@ -1478,27 +1502,27 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.0036028947586164814,
-       "residDegA": 3.9774489041060697e-7,
-       "slopeDegPerOrbitB": -0.00515735498982393,
-       "nPeriB": 43,
-       "periMeanA20S": 551858.5382515101,
-       "rev2S": 551864.061256937,
+       "slopeDegPerOrbitA": -0.003604168176892116,
+       "residDegA": 0.000017970166090164072,
+       "slopeDegPerOrbitB": -0.00454469084727432,
+       "nPeriB": 33,
+       "periMeanA20S": 551858.5380163625,
+       "rev2S": 551864.061256898,
        "revN": 59,
-       "eProxy": 0.000010758864670161624,
+       "eProxy": 0.000010758864671883928,
        "diag": {
         "geoPN": 3,
         "hasGeo3": true,
         "hasGeo3PN": true,
         "hasGeoToy": false,
         "meshVelN": 41388996,
-        "meshVelUMax": 0.474015973877633,
-        "meshVelKickMax": 2.7341861333752287e-25,
+        "meshVelUMax": 0.4741833025478012,
+        "meshVelKickMax": 1.3672869772623506e-25,
         "meshVelBad": 0,
         "meshVelUndef": 0,
         "geo3PnN": 41388996,
-        "geo3PnKickMax": 2.7807062678113943e-19,
-        "geo3PnDL": 1.8686758759314647e-19,
+        "geo3PnKickMax": 4.248704943381116e-19,
+        "geo3PnDL": 1.0528001773996924e-17,
         "geo3PinCarry": 0,
         "meshVelDeny": null,
         "geo3Init": {
@@ -1509,7 +1533,7 @@
          "stop": null
         }
        },
-       "wallSec": 169.895
+       "wallSec": 129.094
       }
      }
     },
@@ -1523,27 +1547,27 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.005457552163985716,
-       "residDegA": 0.000007815133323460156,
-       "slopeDegPerOrbitB": -0.004762099864787431,
-       "nPeriB": 57,
-       "periMeanA20S": 551855.6976873948,
-       "rev2S": 551864.0619256331,
+       "slopeDegPerOrbitA": -0.005456201873975658,
+       "residDegA": 0.000011094155695785033,
+       "slopeDegPerOrbitB": -0.004555281418143726,
+       "nPeriB": 60,
+       "periMeanA20S": 551855.6980461903,
+       "rev2S": 551864.0619256826,
        "revN": 59,
-       "eProxy": 0.000013341440252405395,
+       "eProxy": 0.000013341440253221211,
        "diag": {
         "geoPN": 3,
         "hasGeo3": true,
         "hasGeo3PN": true,
         "hasGeoToy": false,
         "meshVelN": 20694498,
-        "meshVelUMax": 0.474015973877633,
-        "meshVelKickMax": 5.468372266270561e-25,
+        "meshVelUMax": 0.47418330254805113,
+        "meshVelKickMax": 2.7345738686394974e-25,
         "meshVelBad": 0,
         "meshVelUndef": 0,
         "geo3PnN": 20694498,
-        "geo3PnKickMax": 2.7305985002411234e-16,
-        "geo3PnDL": 6.425318715579278e-18,
+        "geo3PnKickMax": 2.730598500241111e-16,
+        "geo3PnDL": 6.425321888658327e-18,
         "geo3PinCarry": 0,
         "meshVelDeny": null,
         "geo3Init": {
@@ -1554,7 +1578,7 @@
          "stop": null
         }
        },
-       "wallSec": 57.974
+       "wallSec": 44.587
       },
       "dt/2": {
        "steps": 41388996,
@@ -1562,27 +1586,27 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.005541560327846791,
-       "residDegA": 0.00000427896282388216,
-       "slopeDegPerOrbitB": -0.006753600915886641,
-       "nPeriB": 48,
-       "periMeanA20S": 551855.5680254925,
-       "rev2S": 551864.0618196998,
+       "slopeDegPerOrbitA": -0.0055400660978545254,
+       "residDegA": 0.000028348763010580693,
+       "slopeDegPerOrbitB": -0.005957871225805945,
+       "nPeriB": 38,
+       "periMeanA20S": 551855.5685109838,
+       "rev2S": 551864.061819716,
        "revN": 59,
-       "eProxy": 0.000010759725641848455,
+       "eProxy": 0.000010759725647921812,
        "diag": {
         "geoPN": 3,
         "hasGeo3": true,
         "hasGeo3PN": true,
         "hasGeoToy": false,
         "meshVelN": 41388996,
-        "meshVelUMax": 0.474015973877633,
-        "meshVelKickMax": 2.734186133235344e-25,
+        "meshVelUMax": 0.4741833025478012,
+        "meshVelKickMax": 1.3672869757341988e-25,
         "meshVelBad": 0,
         "meshVelUndef": 0,
         "geo3PnN": 41388996,
-        "geo3PnKickMax": 1.3652873339424772e-16,
-        "geo3PnDL": 4.0088241621543516e-18,
+        "geo3PnKickMax": 1.3652873339424804e-16,
+        "geo3PnDL": 4.008826545452231e-18,
         "geo3PinCarry": 0,
         "meshVelDeny": null,
         "geo3Init": {
@@ -1593,7 +1617,7 @@
          "stop": null
         }
        },
-       "wallSec": 116.895
+       "wallSec": 86.795
       }
      }
     },
@@ -1607,22 +1631,22 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.0035180975422831186,
-       "residDegA": 3.845646536245622e-7,
-       "slopeDegPerOrbitB": -0.0037292024712490663,
+       "slopeDegPerOrbitA": -0.003517524948620315,
+       "residDegA": 0.000014755933123316724,
+       "slopeDegPerOrbitB": -0.0037503966115081397,
        "nPeriB": 57,
-       "periMeanA20S": 551858.66846624,
-       "rev2S": 551864.0613615374,
+       "periMeanA20S": 551858.668033502,
+       "rev2S": 551864.0613615286,
        "revN": 59,
-       "eProxy": 0.00001334079203182124,
+       "eProxy": 0.00001334079202955507,
        "diag": {
         "geoPN": 3,
         "hasGeo3": true,
         "hasGeo3PN": false,
         "hasGeoToy": false,
         "meshVelN": 20694498,
-        "meshVelUMax": 0.474015973877633,
-        "meshVelKickMax": 5.468372266878917e-25,
+        "meshVelUMax": 0.47418330254805113,
+        "meshVelKickMax": 2.7345739421133705e-25,
         "meshVelBad": 0,
         "meshVelUndef": 0,
         "geo3PnN": 0,
@@ -1638,7 +1662,7 @@
          "stop": null
         }
        },
-       "wallSec": 55.144
+       "wallSec": 41.216
       },
       "dt/2": {
        "steps": 41388996,
@@ -1646,22 +1670,22 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.00360291609667844,
-       "residDegA": 2.4117729706313755e-7,
-       "slopeDegPerOrbitB": -0.0047381011021193345,
-       "nPeriB": 44,
-       "periMeanA20S": 551858.5382877602,
-       "rev2S": 551864.0612553138,
+       "slopeDegPerOrbitA": -0.0036036562467694163,
+       "residDegA": 0.000013095171734220089,
+       "slopeDegPerOrbitB": -0.003781392355355954,
+       "nPeriB": 38,
+       "periMeanA20S": 551858.5381231214,
+       "rev2S": 551864.0612553199,
        "revN": 59,
-       "eProxy": 0.00001075886329513744,
+       "eProxy": 0.000010758863294774864,
        "diag": {
         "geoPN": 3,
         "hasGeo3": true,
         "hasGeo3PN": false,
         "hasGeoToy": false,
         "meshVelN": 41388996,
-        "meshVelUMax": 0.474015973877633,
-        "meshVelKickMax": 2.734186133375118e-25,
+        "meshVelUMax": 0.4741833025478012,
+        "meshVelKickMax": 1.3672869710749155e-25,
         "meshVelBad": 0,
         "meshVelUndef": 0,
         "geo3PnN": 0,
@@ -1677,7 +1701,7 @@
          "stop": null
         }
        },
-       "wallSec": 109.978
+       "wallSec": 82.136
       }
      }
     }
@@ -1727,16 +1751,16 @@
     "officialKf0ReproducedBit": true,
     "rev2": {
      "pn1PN": 0.0000013578683137893677,
-     "C1_minus_C0": 3.855675458908081e-7,
-     "C2_minus_C0": 0.0005627120845019817,
-     "C3_minus_C0n": -2.5727786123752594e-8,
+     "C1_minus_C0": 3.9837323129177094e-7,
+     "C2_minus_C0": 0.0005627615610137582,
+     "C3_minus_C0n": -3.457535058259964e-8,
      "roundoffControl_C0nV_minus_C0n": 0.000009556068107485771
     },
     "peri20": {
      "pn1PN": -0.000051498180255293846,
-     "C1_minus_C0": -0.0038442184450104833,
-     "C2_minus_C0": -2.974657640210353,
-     "C3_minus_C0n": -0.003930293140001595,
+     "C1_minus_C0": -0.004165624268352985,
+     "C2_minus_C0": -2.9742988446960226,
+     "C3_minus_C0n": -0.0043630312429741025,
      "roundoffControl_C0nV_minus_C0n": -0.043253525043837726
     }
    },
@@ -1745,16 +1769,16 @@
     "officialKf0ReproducedBit": null,
     "rev2": {
      "pn1PN": 0.0000012703239917755127,
-     "C1_minus_C0": -0.000008797738701105118,
-     "C2_minus_C0": 0.0005539651028811932,
-     "C3_minus_C0n": -0.000009150593541562557,
+     "C1_minus_C0": -0.000008836737833917141,
+     "C2_minus_C0": 0.0005539812846109271,
+     "C3_minus_C0n": -0.000009144539944827557,
      "roundoffControl_C0nV_minus_C0n": 0.000007211114279925823
     },
     "peri20": {
      "pn1PN": 0.00005490030162036419,
-     "C1_minus_C0": -0.13410412427037954,
-     "C2_minus_C0": -3.1043301419122145,
-     "C3_minus_C0n": -0.13401297386735678,
+     "C1_minus_C0": -0.13433927192818373,
+     "C2_minus_C0": -3.103844650555402,
+     "C3_minus_C0n": -0.13417761272285134,
      "roundoffControl_C0nV_minus_C0n": 0.001151173491962254
     }
    }
@@ -1778,11 +1802,11 @@
     "vMinusXdot": [
      [
       0,
-      -0.4740159738776329
+      -0.47401597387763283
      ],
      [
       0,
-      -0.474015973877633
+      -0.47401597387763295
      ]
     ]
    },
@@ -1815,7 +1839,7 @@
      "meaning": "xdot",
      "converted": true,
      "n": 2,
-     "minPivot": 0.015267249584693388,
+     "minPivot": 0.015267249584741793,
      "roundTripRel": 2.776538252149974e-14,
      "undef": 0,
      "stop": null
@@ -1823,11 +1847,11 @@
     "vMinusXdot": [
      [
       0,
-      -1.812521090287205
+      -1.8125210902802606
      ],
      [
       0,
-      1.81110350405397
+      1.811103504046937
      ]
     ]
    },
@@ -2042,5 +2066,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 958.458
+ "elapsedS": 706.627
 }

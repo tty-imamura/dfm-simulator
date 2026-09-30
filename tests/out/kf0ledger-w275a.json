@@ -3,38 +3,38 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
-  "generatedAt": "2026-09-29T05:37:56.126Z",
+  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+  "generatedAt": "2026-09-30T00:18:08.523Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
-    "bytes": 81120,
-    "sha256": "899f1e8e7b71fc5076e7fd90cefb481b728904699745704f0c4abec65d04f5db",
-    "mtime": "2026-09-29T05:37:53.509Z"
+    "bytes": 81661,
+    "sha256": "1bdffca282dc8a71e54997ac0341d637cd78e21147234fdfc092647889dde540",
+    "mtime": "2026-09-30T00:18:05.727Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2854534,
-    "sha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
-    "mtime": "2026-09-29T04:53:53.017Z"
+    "bytes": 2887889,
+    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
+    "mtime": "2026-09-29T23:47:20.387Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 160643,
-    "sha256": "aee394682f5cb33f2853523b39809983fc794ef5dde2f69f13855566e0c8788f",
-    "mtime": "2026-09-29T05:36:06.473Z"
+    "bytes": 160661,
+    "sha256": "ab924e018509d8b5fa156f900cb436097ea2a8bbdf87de75435aa3a6b7d083e9",
+    "mtime": "2026-09-30T00:16:31.203Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
-    "bytes": 13042,
-    "sha256": "036d62f45eae6a247b91860c23a530c9a80240e529d386afd7e498f829add85b",
-    "mtime": "2026-09-29T05:37:50.873Z"
+    "bytes": 12835,
+    "sha256": "d64bd1e70a31169b330ca4597baa4eced312971d8dbe27e1b385f817cec96711",
+    "mtime": "2026-09-30T00:18:03.171Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
-    "bytes": 223870,
-    "sha256": "a4d81a84e8f8bb5cac76474442c013197f245e311de99ad81ad563d77aa20fff",
-    "mtime": "2026-09-28T23:08:39.219Z"
+    "bytes": 223869,
+    "sha256": "233d910ac75f664fb7bf0e9820654afeb127c6a05cd7c5fa2a664b94573422e6",
+    "mtime": "2026-09-29T20:08:15.847Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -44,9 +44,9 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 125067,
-    "sha256": "d2b14c9f994a33234640b4c2550f64ee79570692c5e1fcecb2015ebc2d747d33",
-    "mtime": "2026-09-29T05:27:34.201Z"
+    "bytes": 125455,
+    "sha256": "8a166bb98f66aa3ad56c6025e45ad4d243b6efe6be0b21640cb95ac4867f1a32",
+    "mtime": "2026-09-30T00:06:08.159Z"
    }
   ],
   "code": [
@@ -165,8 +165,8 @@
   "nDiagnostic": 6,
   "kf1": {
    "run": {
-    "✓": 30,
-    "✗": 3,
+    "✓": 29,
+    "✗": 4,
     "未測定": 10
    },
    "structure": {
@@ -181,8 +181,8 @@
    },
    "extrapolated": {
     "✓": 0,
-    "✗": 3,
-    "未測定": 40
+    "✗": 2,
+    "未測定": 41
    },
    "observation": {
     "✓": 0,
@@ -243,7 +243,7 @@
    "psrB1534↔psrB1534DFM",
    "gw150914↔gw150914DFM"
   ],
-  "nPairsFSameOnly": 3,
+  "nPairsFSameOnly": 4,
   "pairsFSameOnly": [
    {
     "pair": "alphaCenAB↔alphaCenABDFM",
@@ -259,6 +259,12 @@
    },
    {
     "pair": "psrDoubleAB↔psrDoubleABDFM",
+    "differing": [
+     "bodiesSha256"
+    ]
+   },
+   {
+    "pair": "psrB1534↔psrB1534DFM",
     "differing": [
      "bodiesSha256"
     ]
@@ -592,8 +598,8 @@
    "emoji0": "📿",
    "emoji1": "🧶",
    "f0": 1,
-   "f1": 1.9994854557873434,
-   "fSame": false,
+   "f1": 1,
+   "fSame": true,
    "kOnly": false,
    "axisKeys": [
     "massFactor",
@@ -604,13 +610,12 @@
    ],
    "axisKnown": true,
    "axisDiffering": [
-    "massFactor",
     "bodiesSha256"
    ],
    "axisValues": {
     "massFactor": [
      1,
-     1.9994854557873434
+     1
     ],
     "D0eff": [
      3.24204e-7,
@@ -626,13 +631,13 @@
     ],
     "bodiesSha256": [
      "6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc",
-     "75e498092c87175162d6b4d3fc55bf7499ef361eb69ae1cad4d0f5fa81d43ff7"
+     "cc3a145d46e68f2139bb49522c9d05f70b93a54b8f5ef5a5887d89630205a26b"
     ]
    },
-   "fDeltaRel": 0.9994854557873434,
+   "fDeltaRel": 0,
    "kf1Observation": "未測定",
    "kf0Observation": "未測定",
-   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.9994854557873434 / bodiesSha256 6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc → 75e498092c87175162d6b4d3fc55bf7499ef361eb69ae1cad4d0f5fa81d43ff7。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。"
+   "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc → cc3a145d46e68f2139bb49522c9d05f70b93a54b8f5ef5a5887d89630205a26b。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。"
   },
   {
    "k0": "gw150914",
@@ -3146,9 +3151,8 @@
     "with": "psrB1534DFM",
     "side": "kF0",
     "kOnly": false,
-    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.9994854557873434 / bodiesSha256 6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc → 75e498092c87175162d6b4d3fc55bf7499ef361eb69ae1cad4d0f5fa81d43ff7。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc → cc3a145d46e68f2139bb49522c9d05f70b93a54b8f5ef5a5887d89630205a26b。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
     "axisDiffering": [
-     "massFactor",
      "bodiesSha256"
     ]
    }
@@ -3157,12 +3161,12 @@
    "scope": "calibration",
    "id": "psrB1534DFM",
    "emoji": "🧶",
-   "name": "PSR B1534+12(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた 4 例目",
+   "name": "PSR B1534+12(DFM版)— 観測質量(f=1)・kF1 の第 4 の中性子星連星",
    "declaredKFrame": 1,
-   "massFactor": 1.9994854557873434,
+   "massFactor": 1,
    "massFactorSource": "massCalibration.baseMass",
    "massFactorSourceKind": "declared-base",
-   "massFactorDeclared": 1.9994854557873434,
+   "massFactorDeclared": 1,
    "version": "dfm",
    "kf0Source": null,
    "kf0AppliedRows": [],
@@ -3199,19 +3203,19 @@
      "ngKeys": [],
      "nSigma": [
       {
-       "key": "psrB1534DFM|B|precession",
-       "nSigma": 202385.0079503328,
-       "status": "数値未解決"
-      },
-      {
        "key": "psrB1534DFM|B|period",
-       "nSigma": 156456213.23455492,
+       "nSigma": 166438301663.25488,
        "status": "数値未解決"
       },
       {
        "key": "psrB1534DFM|B|ecc",
-       "nSigma": 1097.289626142972,
+       "nSigma": 585106.7980461937,
        "status": "mapping-unresolved"
+      },
+      {
+       "key": "psrB1534DFM|B|precession",
+       "nSigma": 84150.74774158162,
+       "status": "数値未解決"
       }
      ]
     }
@@ -3236,9 +3240,8 @@
     "with": "psrB1534",
     "side": "kF1",
     "kOnly": false,
-    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: massFactor 1 → 1.9994854557873434 / bodiesSha256 6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc → 75e498092c87175162d6b4d3fc55bf7499ef361eb69ae1cad4d0f5fa81d43ff7。**独立な質量補正 f は別軸であり、f と k は別試験で振る**。",
+    "note": "**k のみの対照ではない** —— **k と一緒に動いている軸**: bodiesSha256 6d0ce4ac9cf50a8851901868e5e34bb89d968767460451ba66c913bcac7ad6cc → cc3a145d46e68f2139bb49522c9d05f70b93a54b8f5ef5a5887d89630205a26b。**独立な質量補正 f は別軸であり、f と k は別試験で振る**(第274便a は f が同じことだけを見て「k のみ」と分類していた〔R33〕)。",
     "axisDiffering": [
-     "massFactor",
      "bodiesSha256"
     ]
    }
@@ -4339,33 +4342,33 @@
    "emoji": "🧶",
    "name": "B1534+12 ω̇(lock 枝: kFrame=0・f=1・λ_PN=1)↔ 内蔵(kFrame=1・f≈2)",
    "declaredKFrame": 1,
-   "massFactor": 1.9994854557873434,
+   "massFactor": 0,
    "version": "diagnostic",
    "kf0Source": "nslockledger-w273c.json variants.lock(kFrame 0・f 1・λ_PN 1)",
    "kf1": {
     "present": true,
-    "run": "✓",
+    "run": "✗",
     "structure": "未測定",
     "numeric": "未測定",
-    "extrapolated": "✗",
+    "extrapolated": "未測定",
     "observation": "未測定",
     "runEvidence": {
      "source": "nslockledger-w273c.json#rows[].variants.builtin",
-     "resolved": true,
+     "resolved": false,
      "spec": {
       "builtin": true
      }
     },
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
-     "pObs": 1.0652075432299204,
+     "pObs": 0,
      "orderGuard": false,
      "why": "3 段は走っているが、**ε̂ と 0.3σ の予算は第273便c の器で評価していない** —— 次数ガードだけで「数値成立」とは書かない(未測定)。"
     },
     "extrapolatedEvidence": {
-     "omegaDotExt": 3.5617949687002683,
-     "ratioExt": 2.0286007992419752,
-     "nSigma": 200667.32985558535,
+     "omegaDotExt": 0,
+     "ratioExt": 0,
+     "nSigma": 0,
      "obs": {
       "value": 1.755789,
       "sigma": 0.000009,
@@ -4377,7 +4380,7 @@
      "why": "**外挿残差である**(ω̇ の Richardson 外挿値と観測値の σ 倍)。門ではない。"
     },
     "observationEvidence": {
-     "nSigma": 200667.32985558535,
+     "nSigma": 0,
      "obs": {
       "value": 1.755789,
       "sigma": 0.000009,
@@ -4452,14 +4455,14 @@
    },
    "kf0SameF": {
     "spec": {
-     "f": 1.9994854557873434,
+     "f": 1,
      "kFrame": 0,
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 8.234191431820161,
-    "nSigma": 1411301.5266537878,
-    "pObs": 1.9921234650511501,
+    "ratioExt": 0.9998546605534937,
+    "nSigma": -28.353933493541206,
+    "pObs": 1.999023630019853,
     "why": "**f 固定(較正値)で k だけ 0**にした列。これが「f 固定・k のみ」の対照である。"
    },
    "root": {
@@ -4812,7 +4815,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "7b6aeabace6672c44c49e5dfe2eb5ff7f84b62a19c584f0bea721eb92467e1c8",
+   "fileSha256": "c6e1d0b15f41593738de79b05643da4c284e6553731ede43c85d9c30397f8d8a",
    "citedValue": 551864.061362921,
    "citedCfg": {
     "kFrame": 0,
@@ -4820,7 +4823,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "783960c0cb1a9b759eda30b25d4fbf990cd50fe03370bcf658dc6b433fdff088",
+   "citedTargetSha256": "741860be8a89251abd10872b8ea5b212f2e16cd673d3ff72d0e75e474cc798ab",
    "thisRunValue": 551864.061362921,
    "relDiff": 0,
    "identical": true,

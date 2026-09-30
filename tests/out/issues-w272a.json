@@ -1,14 +1,14 @@
 {
- "when": "2026-09-29T05:37:55.605Z",
+ "when": "2026-09-30T00:16:39.389Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "85493c19f4a8cefbf0095913fe7d46e74ed7921acf5fe7ae7607400fbf5af6df",
-  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+  "calauditSha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
+  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "aee394682f5cb33f2853523b39809983fc794ef5dde2f69f13855566e0c8788f",
+  "charonSha256": "ab924e018509d8b5fa156f900cb436097ea2a8bbdf87de75435aa3a6b7d083e9",
   "nslock": "tests/out/nslock-w272c.json",
-  "nslockSha256": "127d51d952a16e2ad30089effa8a527e9dae4f449c52a727ce50be9061a7a760"
+  "nslockSha256": "94ca18278666e374805e4870e0c5e06f7e583b32cfffa2b78bc5f8e3499e671f"
  },
  "nPresets": 37,
  "nTheoryControl": 0,
@@ -1334,7 +1334,7 @@
   {
    "id": "psrB1534DFM",
    "emoji": "🧶",
-   "name": "PSR B1534+12(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた 4 例目",
+   "name": "PSR B1534+12(DFM版)— 観測質量(f=1)・kF1 の第 4 の中性子星連星",
    "version": "dfm",
    "theoryControl": false,
    "nQ": 8,
@@ -1366,11 +1366,11 @@
    },
    "stop": {
     "stoppedBy": "orbit-window(走り切った)",
-    "stepsRun": 6617813,
-    "maxSteps": 6617813,
+    "stepsRun": 24793538,
+    "maxSteps": 24793538,
     "maxStepsSource": "class(n<=3)",
     "needPeriastra": 20,
-    "minPeriastra": 29,
+    "minPeriastra": 23,
     "complete": true,
     "unmeasuredReason": null
    },
@@ -2228,14 +2228,14 @@
     {
      "id": "psrB1534DFM",
      "emoji": "🧶",
-     "kind": "precession",
-     "name": "近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)"
+     "kind": "period",
+     "name": "公転周期(kFrame=1・観測質量 f=1 — 同方向1周)"
     },
     {
      "id": "psrB1534DFM",
      "emoji": "🧶",
-     "kind": "period",
-     "name": "公転周期(合わせていない・2 定義)"
+     "kind": "precession",
+     "name": "近点移動(**hold-out** — 較正に使っていない)"
     },
     {
      "id": "psrB1534CF",
@@ -2340,7 +2340,7 @@
      "id": "psrB1534DFM",
      "emoji": "🧶",
      "kind": "ecc",
-     "name": "離心率(合わせていない)"
+     "name": "離心率(hold-out — 合わせていない)"
     }
    ]
   },
@@ -2393,7 +2393,7 @@
      "id": "psrB1534DFM",
      "emoji": "🧶",
      "kind": "period",
-     "name": "公転周期(合わせていない・2 定義)"
+     "name": "公転周期(kFrame=1・観測質量 f=1 — 同方向1周)"
     },
     {
      "id": "psrB1534CF",
@@ -2492,7 +2492,7 @@
      "id": "psrB1534DFM",
      "emoji": "🧶",
      "kind": "precession",
-     "name": "近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)"
+     "name": "近点移動(**hold-out** — 較正に使っていない)"
     },
     {
      "id": "psrB1534CF",
@@ -2531,7 +2531,7 @@
      "id": "psrB1534DFM",
      "emoji": "🧶",
      "kind": "precession",
-     "name": "近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)"
+     "name": "近点移動(**hold-out** — 較正に使っていない)"
     }
    ]
   },

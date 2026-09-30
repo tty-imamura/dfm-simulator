@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
-  "generatedAt": "2026-09-29T05:37:53.512Z",
+  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+  "generatedAt": "2026-09-30T00:18:05.730Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5184678,
-    "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
-    "mtime": "2026-09-29T05:36:14.025Z"
+    "bytes": 5263843,
+    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+    "mtime": "2026-09-30T00:16:40.595Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 142,
+ "nPresets": 143,
  "kFrameValues": [
   0,
   1
@@ -891,6 +891,27 @@
    "nBodyDecl": 3,
    "presetSigHash": "bcc05f3a",
    "bodiesSha256": "0a10121b47a115f18edbe03165b98e000f3a57913e3dc74cbf34b16d52644a48"
+  },
+  {
+   "id": "clusterGrowthCopy",
+   "emoji": "🌰",
+   "name": "成長経路の原理コピー(自由な中心が落ちてくる塊を捕獲する)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.15,
+   "D0pull": null,
+   "D0eff": 0.15,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 3,
+   "geoPN": 3,
+   "nBodyDecl": 9,
+   "presetSigHash": "89478a8b",
+   "bodiesSha256": "fa6dc5c51c7c47c8dbaed195ed22190e4048b9ba65555472d0d5882a2284e175"
   },
   {
    "id": "shapeToyCluster",
@@ -1855,7 +1876,7 @@
    "softening": 0.05,
    "geoPN": 3,
    "nBodyDecl": 2,
-   "presetSigHash": "59214c9a",
+   "presetSigHash": "497e238a",
    "bodiesSha256": "851739808ff8e7c966b5bab535436bb01d1b343c4643045fea834e41e6a836b7"
   },
   {
@@ -2260,12 +2281,12 @@
   {
    "id": "psrB1534DFM",
    "emoji": "🧶",
-   "name": "PSR B1534+12(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた 4 例目",
+   "name": "PSR B1534+12(DFM版)— 観測質量(f=1)・kF1 の第 4 の中性子星連星",
    "sampleClass": "calibration",
    "kFrame": 1,
    "kFrameApprox": null,
-   "massFactor": 1.9994854557873434,
-   "massCalibrationDeclared": true,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
    "D0": 0.006,
    "D0pull": 3.24204e-7,
    "D0eff": 3.24204e-7,
@@ -2275,8 +2296,8 @@
    "softening": 0.05,
    "geoPN": 2,
    "nBodyDecl": 2,
-   "presetSigHash": "8f70083c",
-   "bodiesSha256": "75e498092c87175162d6b4d3fc55bf7499ef361eb69ae1cad4d0f5fa81d43ff7"
+   "presetSigHash": "a2b0fbf6",
+   "bodiesSha256": "cc3a145d46e68f2139bb49522c9d05f70b93a54b8f5ef5a5887d89630205a26b"
   },
   {
    "id": "psrB1534CF",

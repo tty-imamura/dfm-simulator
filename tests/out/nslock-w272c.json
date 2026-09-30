@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "d0ec312925dab68158c3986699cc08d0c65802cd7f6efd93622747f5a9f3d3a7",
+  "targetSha256": "cea53a3b1ea76e256be4723845c71c0b2c1bfe1222a85623eebced4a3e5a5b94",
   "csvSha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-09-28T22:49:14.452Z",
+  "at": "2026-09-29T19:07:44.697Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -54,11 +54,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 836,
-   "segments": 758,
-   "closureShare": 0.3144
+   "names": 858,
+   "segments": 777,
+   "closureShare": 0.315
   },
-  "scopeSha256": "d6915e1c410667d789d560600a7c1d1d9c8c486198d6809c10b1356e6461e3eb",
+  "scopeSha256": "1d07dadbf8622842e6f8be9c9ea22accc273c55c204eaf3c374c5b84885d06f9",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -92,7 +92,7 @@
    }
   ],
   "codeSha256": "d9faf10f0abd529667e68b1b27965b8cbf92614d30a577756b6535a735b61ec7",
-  "spentSec": 650.8,
+  "spentSec": 776.4,
   "stages": 102
  },
  "builtinDeclared": [
@@ -173,8 +173,8 @@
    "geoPN": 2,
    "sampleClass": "calibration",
    "masses": [
-    5299.977112834566,
-    5349.676823194979
+    2650.6705,
+    2675.52675
    ],
    "spins": [
     0,
@@ -182,7 +182,7 @@
    ],
    "omegaOrbit": 0.0010247800090143226,
    "unitT": 10,
-   "ledgerFactor": 1.9994854557873434,
+   "ledgerFactor": null,
    "baseMass": [
     2650.6705,
     2675.52675
@@ -4852,7 +4852,7 @@
    "unitSec": 10,
    "csvBody": "PSR B1534+12",
    "solutionTag": "Fonseca2014-DDGR",
-   "ledgerFactor": 1.9994854557873434,
+   "ledgerFactor": 1,
    "ledgerFrom": "psrB1534DFM",
    "savedRoot": {
     "kStar": 0.9366303438690935,
@@ -4866,8 +4866,8 @@
     "geoPN": 2,
     "sampleClass": "calibration",
     "masses": [
-     5299.977112834566,
-     5349.676823194979
+     2650.6705,
+     2675.52675
     ],
     "spins": [
      0,
@@ -4875,7 +4875,7 @@
     ],
     "omegaOrbit": 0.0010247800090143226,
     "unitT": 10,
-    "ledgerFactor": 1.9994854557873434,
+    "ledgerFactor": null,
     "baseMass": [
      2650.6705,
      2675.52675
@@ -5023,7 +5023,7 @@
    "variants": [
     {
      "tag": "builtin",
-     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 f=1.999485456)",
+     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 fなし)",
      "spec": {
       "builtin": true
      },
@@ -5035,25 +5035,25 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4414258,
+       "steps": 21393335,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.275334518577725,
-       "P": 36216.52447576534,
-       "omegaDot": 3.5808473712196753,
+       "e": 0.4494796848008013,
+       "P": 180154.39528105222,
+       "omegaDot": 1.1118148114581017,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
-         5299.977112834566,
-         5349.676823194979
+         2650.6705,
+         2675.52675
         ],
         "hasCore": [
-         true,
-         true
+         false,
+         false
         ],
         "spins": [
          0,
@@ -5066,27 +5066,27 @@
        "dt": 0.008,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 8842686,
+       "stopped": "max-steps",
+       "nPeri": 18,
+       "steps": 40000000,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.27465065850450954,
-       "P": 36276.169858059686,
-       "omegaDot": 3.5709001862362895,
+       "e": 0.4493298983206867,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
-         5299.977112834566,
-         5349.676823194979
+         2650.6705,
+         2675.52675
         ],
         "hasCore": [
-         true,
-         true
+         false,
+         false
         ],
         "spins": [
          0,
@@ -5099,27 +5099,27 @@
        "dt": 0.004,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 17699546,
+       "stopped": "max-steps",
+       "nPeri": 9,
+       "steps": 40000000,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.27430947842472686,
-       "P": 36306.0026681203,
-       "omegaDot": 3.5661463877034003,
+       "e": 0.4492362949597033,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "calibration",
         "masses": [
-         5299.977112834566,
-         5349.676823194979
+         2650.6705,
+         2675.52675
         ],
         "hasCore": [
-         true,
-         true
+         false,
+         false
         ],
         "spins": [
          0,
@@ -5130,36 +5130,36 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9995105730036925,
-       "ext": 36335.855729745956,
-       "monotone": true,
-       "d1": -59.64538229434402,
-       "d2": -29.832810060615884,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "omegaDot": {
-       "p": 1.0652075432299204,
-       "ext": 3.5617949687002683,
-       "monotone": true,
-       "d1": 0.00994718498338587,
-       "d2": 0.004753798532889153,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 1.0031677452906143,
-       "ext": 0.27396979169345775,
+       "p": 0.678275172298156,
+       "ext": 0.449080347954217,
        "monotone": true,
-       "d1": 0.0006838600732154698,
-       "d2": 0.00034118007978267695,
+       "d1": 0.00014978648011459983,
+       "d2": 0.00009360336098340749,
        "note": null
       }
      },
-     "Pext": 36335.855729745956,
-     "omegaDotExt": 3.5617949687002683,
-     "eExt": 0.27396979169345775,
+     "Pext": null,
+     "omegaDotExt": null,
+     "eExt": 0.449080347954217,
      "resolved": {
-      "P": true,
-      "omegaDot": true,
+      "P": false,
+      "omegaDot": false,
       "e": true
      },
      "sigma": {
@@ -5169,30 +5169,30 @@
         "sigma": 8.64e-7,
         "recordId": "SOL-450a261d",
         "solutionId": null,
-        "modelExt": 36335.855729745956,
-        "modelH4": 36306.0026681203,
-        "sigmaTimesExt": -18341336.10513736,
-        "sigmaTimesH4": -52893490.764459044
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 1.755789,
         "sigma": 0.000009,
         "recordId": "SOL-033838b1",
         "solutionId": null,
-        "modelExt": 3.5617949687002683,
-        "modelH4": 3.5661463877034003,
-        "sigmaTimesExt": 200667.32985558535,
-        "sigmaTimesH4": 201150.82085593336
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.2736775,
         "sigma": 3e-7,
         "recordId": "SOL-ae4a0c44",
         "solutionId": null,
-        "modelExt": 0.27396979169345775,
-        "modelH4": 0.27430947842472686,
-        "sigmaTimesExt": 974.3056448591192,
-        "sigmaTimesH4": 2106.5947490894746
+        "modelExt": 0.449080347954217,
+        "modelH4": 0.4492362949597033,
+        "sigmaTimesExt": 584676.1598473899,
+        "sigmaTimesH4": 585195.983199011
        }
       },
       "solution": {
@@ -5201,18 +5201,18 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-9a098c54",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 36335.855729745956,
-        "modelH4": 36306.0026681203,
-        "sigmaTimesExt": -91706560.02572319,
-        "sigmaTimesH4": -264467333.3223316
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 1.755795,
         "sigma": null,
         "recordId": "SOL-adb67dcf",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 3.5617949687002683,
-        "modelH4": 3.5661463877034003,
+        "modelExt": null,
+        "modelH4": null,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -5221,10 +5221,10 @@
         "sigma": 4e-8,
         "recordId": "SOL-437b2220",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 0.27396979169345775,
-        "modelH4": 0.27430947842472686,
-        "sigmaTimesExt": 7309.7923364434655,
-        "sigmaTimesH4": 15801.96061817113
+        "modelExt": 0.449080347954217,
+        "modelH4": 0.4492362949597033,
+        "sigmaTimesExt": 4385073.698855424,
+        "sigmaTimesH4": 4388972.373992582
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -5232,11 +5232,11 @@
      "jointWithin3Sigma": {
       "ext": false,
       "h4": false,
-      "stateExt": "outside",
-      "stateH4": "outside",
+      "stateExt": "undecidable",
+      "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "outside",
-       "omegaDot": "outside",
+       "P": "undecidable",
+       "omegaDot": "undecidable",
        "e": "outside"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
@@ -5692,9 +5692,9 @@
     },
     {
      "tag": "kf0Ledger",
-     "what": "kFrame=0・f=台帳 1.999485456・λ_PN=1(k と f の分離)",
+     "what": "kFrame=0・f=台帳 1.000000000・λ_PN=1(k と f の分離)",
      "spec": {
-      "f": 1.9994854557873434,
+      "f": 1,
       "kFrame": 0,
       "lambdaPN": 1,
       "keepCore": false
@@ -5707,21 +5707,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 2150819,
+       "steps": 4430398,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6367521772113034,
-       "P": 17647.76547758672,
-       "omegaDot": 14.45474663486328,
+       "e": 0.2736765397940176,
+       "P": 36352.02104600162,
+       "omegaDot": 1.755456878199245,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5299.977112834566,
-         5349.676823194979
+         2650.6705,
+         2675.52675
         ],
         "hasCore": [
          false,
@@ -5740,21 +5740,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4301638,
+       "steps": 8860801,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6367518832567906,
-       "P": 17647.753868329994,
-       "omegaDot": 14.45680994153484,
+       "e": 0.27367652968461936,
+       "P": 36352.02056328193,
+       "omegaDot": 1.755514567477299,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5299.977112834566,
-         5349.676823194979
+         2650.6705,
+         2675.52675
         ],
         "hasCore": [
          false,
@@ -5773,21 +5773,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 8603275,
+       "steps": 17721606,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.6367517346060914,
-       "P": 17647.748063244842,
-       "omegaDot": 14.457328592110656,
+       "e": 0.27367652461137526,
+       "P": 36352.02032253659,
+       "omegaDot": 1.7555289995606818,
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5299.977112834566,
-         5349.676823194979
+         2650.6705,
+         2675.52675
         ],
         "hasCore": [
          false,
@@ -5802,33 +5802,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9998864733134645,
-       "ext": 17647.74225724597,
+       "p": 1.0036778274819838,
+       "ext": 36352.02008301403,
        "monotone": true,
-       "d1": 0.011609256725932937,
-       "d2": 0.005805085151223466,
+       "d1": 0.00048271968989865854,
+       "d2": 0.00024074533575912938,
        "note": null
       },
       "omegaDot": {
-       "p": 1.9921234650511501,
-       "ext": 14.45750273988409,
+       "p": 1.999023630019853,
+       "ext": 1.7555338145985582,
        "monotone": true,
-       "d1": -0.002063306671558962,
-       "d2": -0.0005186505758167925,
+       "d1": -0.00005768927805394064,
+       "d2": -0.000014432083382809324,
        "note": null
       },
       "e": {
-       "p": 0.9836666774474344,
-       "ext": 0.6367515825314154,
+       "p": 0.994716643420485,
+       "ext": 0.27367651950076805,
        "monotone": true,
-       "d1": 2.939545128421983e-7,
-       "d2": 1.4865069919434148e-7,
+       "d1": 1.0109398262958535e-8,
+       "d2": 5.073244102593577e-9,
        "note": null
       }
      },
-     "Pext": 17647.74225724597,
-     "omegaDotExt": 14.45750273988409,
-     "eExt": 0.6367515825314154,
+     "Pext": 36352.02008301403,
+     "omegaDotExt": 1.7555338145985582,
+     "eExt": 0.27367651950076805,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -5841,30 +5841,30 @@
         "sigma": 8.64e-7,
         "recordId": "SOL-450a261d",
         "solutionId": null,
-        "modelExt": 17647.74225724597,
-        "modelH4": 17647.748063244842,
-        "sigmaTimesExt": -21648102299.64679,
-        "sigmaTimesH4": -21648095579.740685
+        "modelExt": 36352.02008301403,
+        "modelH4": 36352.02032253659,
+        "sigmaTimesExt": 367406.1032833615,
+        "sigmaTimesH4": 367683.32846872066
        },
        "omegaDot": {
         "obs": 1.755789,
         "sigma": 0.000009,
         "recordId": "SOL-033838b1",
         "solutionId": null,
-        "modelExt": 14.45750273988409,
-        "modelH4": 14.457328592110656,
-        "sigmaTimesExt": 1411301.5266537878,
-        "sigmaTimesH4": 1411282.176901184
+        "modelExt": 1.7555338145985582,
+        "modelH4": 1.7555289995606818,
+        "sigmaTimesExt": -28.353933493541206,
+        "sigmaTimesH4": -28.888937702031825
        },
        "e": {
         "obs": 0.2736775,
         "sigma": 3e-7,
         "recordId": "SOL-ae4a0c44",
         "solutionId": null,
-        "modelExt": 0.6367515825314154,
-        "modelH4": 0.6367517346060914,
-        "sigmaTimesExt": 1210246.9417713846,
-        "sigmaTimesH4": 1210247.448686971
+        "modelExt": 0.27367651950076805,
+        "modelH4": 0.27367652461137526,
+        "sigmaTimesExt": -3.2683307732428446,
+        "sigmaTimesH4": -3.2512954158588534
        }
       },
       "solution": {
@@ -5873,18 +5873,18 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-9a098c54",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 17647.74225724597,
-        "modelH4": 17647.748063244842,
-        "sigmaTimesExt": -108240511377.73398,
-        "sigmaTimesH4": -108240477778.20346
+        "modelExt": 36352.02008301403,
+        "modelH4": 36352.02032253659,
+        "sigmaTimesExt": 1837151.0163803946,
+        "sigmaTimesH4": 1838537.1423071907
        },
        "omegaDot": {
         "obs": 1.755795,
         "sigma": null,
         "recordId": "SOL-adb67dcf",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 14.45750273988409,
-        "modelH4": 14.457328592110656,
+        "modelExt": 1.7555338145985582,
+        "modelH4": 1.7555289995606818,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -5893,10 +5893,10 @@
         "sigma": 4e-8,
         "recordId": "SOL-437b2220",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 0.6367515825314154,
-        "modelH4": 0.6367517346060914,
-        "sigmaTimesExt": 9076854.563285384,
-        "sigmaTimesH4": 9076858.365152283
+        "modelExt": 0.27367651950076805,
+        "modelH4": 0.27367652461137526,
+        "sigmaTimesExt": -22.012480799249445,
+        "sigmaTimesH4": -21.88471561886951
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -5916,9 +5916,9 @@
     },
     {
      "tag": "corr",
-     "what": "kFrame=1・f=台帳 1.999485456・λ_PN=1(既存補正を残した列)",
+     "what": "kFrame=1・f=台帳 1.000000000・λ_PN=1(既存補正を残した列)",
      "spec": {
-      "f": 1.9994854557873434,
+      "f": 1,
       "kFrame": 1,
       "lambdaPN": 1,
       "keepCore": false
@@ -5931,21 +5931,21 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4414258,
+       "steps": 21393335,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.2753345185775627,
-       "P": 36216.52447577021,
-       "omegaDot": 3.580847371910118,
+       "e": 0.4494796848008013,
+       "P": 180154.39528105222,
+       "omegaDot": 1.1118148114581017,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5299.977112834566,
-         5349.676823194979
+         2650.6705,
+         2675.52675
         ],
         "hasCore": [
          false,
@@ -5962,23 +5962,23 @@
        "dt": 0.008,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 8842686,
+       "stopped": "max-steps",
+       "nPeri": 18,
+       "steps": 40000000,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.27465065850466797,
-       "P": 36276.169858062785,
-       "omegaDot": 3.570900185879503,
+       "e": 0.4493298983206867,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5299.977112834566,
-         5349.676823194979
+         2650.6705,
+         2675.52675
         ],
         "hasCore": [
          false,
@@ -5995,23 +5995,23 @@
        "dt": 0.004,
        "ok": true,
        "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 17699546,
+       "stopped": "max-steps",
+       "nPeri": 9,
+       "steps": 40000000,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.2743094784244763,
-       "P": 36306.00266814112,
-       "omegaDot": 3.566146387892879,
+       "e": 0.4492362949597033,
+       "P": null,
+       "omegaDot": null,
        "used": {
         "kFrame": 1,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
         "masses": [
-         5299.977112834566,
-         5349.676823194979
+         2650.6705,
+         2675.52675
         ],
         "hasCore": [
          false,
@@ -6026,36 +6026,36 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9995105721041466,
-       "ext": 36335.85572982174,
-       "monotone": true,
-       "d1": -59.64538229257596,
-       "d2": -29.83281007833284,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "omegaDot": {
-       "p": 1.065207860897362,
-       "ext": 3.5617949712249533,
-       "monotone": true,
-       "d1": 0.009947186030615285,
-       "d2": 0.004753797986623898,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 1.0031677428844616,
-       "ext": 0.27396979169166935,
+       "p": 0.678275172298156,
+       "ext": 0.449080347954217,
        "monotone": true,
-       "d1": 0.0006838600728947264,
-       "d2": 0.0003411800801916831,
+       "d1": 0.00014978648011459983,
+       "d2": 0.00009360336098340749,
        "note": null
       }
      },
-     "Pext": 36335.85572982174,
-     "omegaDotExt": 3.5617949712249533,
-     "eExt": 0.27396979169166935,
+     "Pext": null,
+     "omegaDotExt": null,
+     "eExt": 0.449080347954217,
      "resolved": {
-      "P": true,
-      "omegaDot": true,
+      "P": false,
+      "omegaDot": false,
       "e": true
      },
      "sigma": {
@@ -6065,30 +6065,30 @@
         "sigma": 8.64e-7,
         "recordId": "SOL-450a261d",
         "solutionId": null,
-        "modelExt": 36335.85572982174,
-        "modelH4": 36306.00266814112,
-        "sigmaTimesExt": -18341336.017421648,
-        "sigmaTimesH4": -52893490.740365855
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 1.755789,
         "sigma": 0.000009,
         "recordId": "SOL-033838b1",
         "solutionId": null,
-        "modelExt": 3.5617949712249533,
-        "modelH4": 3.566146387892879,
-        "sigmaTimesExt": 200667.3301361059,
-        "sigmaTimesH4": 201150.82087698655
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.2736775,
         "sigma": 3e-7,
         "recordId": "SOL-ae4a0c44",
         "solutionId": null,
-        "modelExt": 0.27396979169166935,
-        "modelH4": 0.2743094784244763,
-        "sigmaTimesExt": 974.3056388977767,
-        "sigmaTimesH4": 2106.5947482542165
+        "modelExt": 0.449080347954217,
+        "modelH4": 0.4492362949597033,
+        "sigmaTimesExt": 584676.1598473899,
+        "sigmaTimesH4": 585195.983199011
        }
       },
       "solution": {
@@ -6097,18 +6097,18 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-9a098c54",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 36335.85572982174,
-        "modelH4": 36306.00266814112,
-        "sigmaTimesExt": -91706559.58714464,
-        "sigmaTimesH4": -264467333.20186567
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 1.755795,
         "sigma": null,
         "recordId": "SOL-adb67dcf",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 3.5617949712249533,
-        "modelH4": 3.566146387892879,
+        "modelExt": null,
+        "modelH4": null,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -6117,10 +6117,10 @@
         "sigma": 4e-8,
         "recordId": "SOL-437b2220",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 0.27396979169166935,
-        "modelH4": 0.2743094784244763,
-        "sigmaTimesExt": 7309.792291733396,
-        "sigmaTimesH4": 15801.960611906696
+        "modelExt": 0.449080347954217,
+        "modelH4": 0.4492362949597033,
+        "sigmaTimesExt": 4385073.698855424,
+        "sigmaTimesH4": 4388972.373992582
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -6128,11 +6128,11 @@
      "jointWithin3Sigma": {
       "ext": false,
       "h4": false,
-      "stateExt": "outside",
-      "stateH4": "outside",
+      "stateExt": "undecidable",
+      "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "outside",
-       "omegaDot": "outside",
+       "P": "undecidable",
+       "omegaDot": "undecidable",
        "e": "outside"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"

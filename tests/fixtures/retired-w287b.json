@@ -1,0 +1,798 @@
+{
+ "fixtureVersion": "w287b-retired-1",
+ "wave": "第287便b",
+ "ruling": "原仮定者の裁定(第77報)AN62",
+ "frozen": true,
+ "note": "退役 1 本(🪤)と 🧶 の旧則(f≈2)の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・履歴の正本の参照が残る)。履歴の値は基点の保存 QA の転記であって測り直していない。",
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "7159d9bad58616a505b51598547e70712ebba1806f2726059ea37ec65f8cf2e2",
+  "note": "第287便b の html(退役の宣言と 🧶 の f=1 を入れた後)"
+ },
+ "base": {
+  "rev": "f94ca58",
+  "commit": "f94ca58091d1f84adf75c6fdbd67a0e99f388b12",
+  "file": "beta/index.html",
+  "sha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d"
+ },
+ "ids": [
+  "psrB1534CF"
+ ],
+ "presets": {
+  "psrB1534CF": {
+   "emoji": "🪤",
+   "name": "PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ",
+   "familyId": "psrB1534",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "現実との照合・連星",
+   "sampleClass": "calibration",
+   "presetSigHash": "84820b4",
+   "presetSigSha256": "44e508da71ebf8244fef6f831514e5733742f0fcd12d6571034b9a4fd2b297e4",
+   "base": {
+    "rev": "f94ca58",
+    "presetSigHash": "84820b4",
+    "name": "PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ",
+    "sigSame": true
+   },
+   "raw": {
+    "id": "psrB1534CF",
+    "name": "PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ",
+    "emoji": "🪤",
+    "group": "現実との照合・連星",
+    "familyId": "psrB1534",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 6,
+     "T": 1,
+     "M": 27
+    },
+    "sampleClass": "calibration",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "obsCard": [
+     {
+      "q": "近点移動(**凍結 hold-out の本番**)",
+      "model": "+0.0020761°/周(dt=0.004)= 観測の **+2.65%**。dt を 0.016→0.008→0.004 と細かくしても +2.83%→+2.69%→+2.65% でほぼ動かない",
+      "obs": "+0.0020225°/周(ω̇=1.755789°/yr の換算)"
+     },
+     {
+      "q": "**残差 +2.65% の正体(第252便a)**",
+      "model": "Δϖ=A0+A_PN/2=0.0000568+0.0020193=**0.0020761°/周**(実測と 5 桁一致)。半分処方は 1PN しか触らないので A0(観測の +2.81%)が残る",
+      "obs": "—"
+     },
+     {
+      "q": "足した宣言は 1 個・**値は ⚡ と同一**",
+      "model": "compactForce={model:\"current\", kappa:12.015360249506628, chiGate:0.5, rc:0}。**本系を見て決めた係数は 1 つも無い**",
+      "obs": "—(bodies・massCalibration は 🧶 とビット同一)"
+     },
+     {
+      "q": "外した場合(A/B 対照)",
+      "model": "compactForce を外すと +0.0040959°/周(観測の +102.5%)— 足した 1 行が 2 倍を 1.03 倍まで詰める",
+      "obs": "—"
+     },
+     {
+      "q": "公転周期(合わせていない・2 定義)",
+      "model": "近点間 36328.48 秒(−0.064% — 判定・dt=0.004)・同方向1周も同水準(履歴)。既定 dt では 36306.10 秒(−0.125%)",
+      "obs": "36351.702644 s(Stairs et al. 2002)"
+     },
+     {
+      "q": "開発集合との差",
+      "model": "⚡ −0.020% / 🧮 −0.040% / 🩺 −0.143% に対し本系は **+2.65%** — 凍結 hold-out は開発集合より 1〜2 桁悪い",
+      "obs": "—(claim 窓は付けない)"
+     },
+     {
+      "q": "**現象論の候補であって完成ではない**",
+      "model": "作用原理・保存則は未導出。エネルギーは閉じず compactWorkE に外部仕事を記帳する",
+      "obs": "—"
+     },
+     {
+      "q": "健全性",
+      "model": "NaN 0・clampRN/SN/VN/AN すべて 0・実行時 χ=0.99949",
+      "obs": "—"
+     }
+    ],
+    "failureFirst": {
+     "fail": "**凍結 hold-out では 0.1% に入らない。残差 +2.65% は刻みを細かくしても消えない。** ①dt 0.016→0.008→0.004 で +2.83%→+2.69%→+2.65% と**ほぼ平ら**なので、これは離散化ではなく処方そのものの限界である。②内訳は**第252便a で同定し直した**: 近点移動を Δϖ≈A0+λ·A_PN と分けると、実測は **A0+A_PN/2 = 0.0000568+0.0020193 = 0.0020761°/周** と 5 桁一致する。つまり残差の実体は **A0(λ_PN=0 の非 1PN 基線・観測の +2.81%)** であって、半分処方は 1PN チャネルしか触らないのでこれを消せない(λ_PN=1/f 候補でも同じ)。**旧記述の「処方の +1.26% + 凍結の代価 +1.4%」は誤った分解である** — 凍結 κ(12.0154)と本系の閉形式解(12.0086)の差は 0.06% しかない。③**A0 が何で決まるかは未解決**: kFrame=0 にすると消え(引きずりチャネル)・D0pull の 2 乗で効く(×0.5 で 0.25 倍・×2 で 4.0 倍)が、**等質量度(|m₁−m₂|/M を 0〜0.1 に振っても ±7%)・coupleSink・cmGauge・softening のいずれでも説明できない**(第252便a §EQ/§DIAG)。④作用原理・保存則は未導出でエネルギーは閉じない。⑤半長径はケプラー派生値・質量は二重条件つきである。",
+     "pass": "**この系を 1 度も見ずに決めた 1 個の κ で、近点移動が観測の 2.025 倍から 1.027 倍へ入る。** 🧶 の宣言を 1 か所も動かさず compactForce を 1 行足すだけで、+0.0040959°/周(観測の +102.5%)が **+0.0020761°/周(+2.65%)** になる。**κ は ⚡ で凍結した数そのままで、本系での再 fit も再評価もしていない** — 凍結 hold-out として手続きが成立している。合わせていない周期は −0.064% で 🧶 と同水準を保つ(追加項が軌道の大きさをほとんど動かさないことの再確認)。そして**残差 +2.65% の内訳が量的に説明できる**ことが、次に何を測るべきかを 1 行で指している: 第252便a の分解では実測が **A0+A_PN/2 と 5 桁一致**し、残差の実体は **A0(λ_PN=0 の非 1PN 基線)**である — **A0 が何で決まるのか**が次の問いである。"
+    },
+    "descStruct": {
+     "summary": "**🧶 を複製して、⚡ で凍結した κ をそのまま宣言した第 4 の凍結 hold-out**(第251便a — 第43報 W1)。式もゲートも 🪝🪄🩹 と同一の **U_K=−κ·χ₁χ₂·(G m₁m₂/ρ)·(v₁·v₂)/c²** で(引きずり A8/E6′ と測地線1PN E12 は 🧶 の宣言のまま)、**この系を見て決めた係数は 1 つも無い**(κ=12.015360249506628 は ⚡ の値・f は一次則の 1 回評価)。開発集合 3 本が −0.02〜−0.14% に入るのに対し、本系の残差は **+2.65%** で、しかも刻みを細かくしても消えない。その内訳は第252便a で **Δϖ=A0+A_PN/2**(実測と 5 桁一致)と同定され、残差の実体が **A0(λ_PN=0 の非 1PN 基線)**であることまで分かっているので、**「合わない」ではなく「何がどれだけ足りないか」が数で言える**状態になっている。",
+     "observe": "実測(5 近点窓): **近点移動 +0.0020761°/周**(dt=0.004。観測換算 0.0020225°/周 の **+2.65%**)。刻み依存は dt 0.016→0.008→0.004 で +0.0020798→+0.0020769→+0.0020761(観測比 +2.83%→+2.69%→+2.65%)と**ほぼ平ら**で、残差は離散化起源ではない。compactForce を外すと +0.0040959°/周(観測の +102.5%)。合わせていない近点間周期は 36328.48 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.10 秒 = −0.125%)。帳簿の内訳(第252便a で同定し直した): **A0+A_PN/2 = 0.0000568+0.0020193 = 0.0020761°/周**が実測と 5 桁一致する — 残差の実体は **A0(λ_PN=0 の非 1PN 基線・観測の +2.81%)**であって、凍結 κ 12.0154 と本系の閉形式解 12.0086 の差は 0.06% にすぎない。NaN 0・安全クランプ 0・実行時 χ=0.99949。**周期は定義を宣言してから合否を言う**(裁定 I6)。",
+     "control": "ワンタップ対照A/B: B側 **compactForce なし** — +0.0040959°/周(2.025 倍)へ戻る。**🪝🪄🩹(開発集合 3 本)と本サンプル(凍結 hold-out)を並べて見る**のが本サンプルの使い方 — 同じ 1 個の κ で残差が −0.020% / −0.040% / −0.143% / **+2.65%** になり、開発集合と hold-out の差がそのまま見える。timeScale=1000 で1公転が実時間 約3.6秒・dispMag=1000(表示専用)。",
+     "brief": "凍結した κ を B1534 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.94%(5.8×10³σ)・数値未解決。"
+    },
+    "en": {
+     "name": "PSR B1534+12 (compact force, proposal K; FROZEN HOLD-OUT) — ⚡'s kappa on a fourth binary",
+     "obsCard": [
+      {
+       "q": "Periastron advance (THE FROZEN HOLD-OUT ITSELF)",
+       "model": "+0.0020761°/orbit at dt=0.004 = +2.65% of the observation; refining dt 0.016→0.008→0.004 gives +2.83%→+2.69%→+2.65%, i.e. barely moves",
+       "obs": "+0.0020225°/orbit (from omega_dot=1.755789°/yr)"
+      },
+      {
+       "q": "WHAT THE +2.65% RESIDUAL ACTUALLY IS (wave 252a)",
+       "model": "the advance equals A0 + A_PN/2 = 0.0000568 + 0.0020193 = 0.0020761°/orbit, matching the measurement to five digits. A halving prescription touches only the 1PN channel, so A0 (+2.81% of the observation) survives",
+       "obs": "—"
+      },
+      {
+       "q": "ONE DECLARATION, WITH ⚡'S VALUE",
+       "model": "compactForce={model:\"current\", kappa:12.015360249506628, chiGate:0.5, rc:0} — NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM",
+       "obs": "— (bodies and massCalibration are bit-identical to 🧶)"
+      },
+      {
+       "q": "With it removed (the A/B control)",
+       "model": "removing compactForce gives +0.0040959°/orbit (+102.5%): the one added line brings a factor of 2.025 down to 1.027",
+       "obs": "—"
+      },
+      {
+       "q": "Orbital period (never fitted; two definitions)",
+       "model": "periastron-to-periastron 36328.48 s (−0.064% — the verdict, dt=0.004); the same-direction revolution is at the same level (historical). At the default dt: 36306.10 s (−0.125%)",
+       "obs": "36351.702644 s (Stairs et al. 2002)"
+      },
+      {
+       "q": "Against the development set",
+       "model": "⚡ −0.020%, 🧮 −0.040%, 🩺 −0.143% — versus +2.65% here: THE FROZEN HOLD-OUT IS ONE TO TWO ORDERS OF MAGNITUDE WORSE",
+       "obs": "— (no claims window)"
+      },
+      {
+       "q": "A PHENOMENOLOGICAL CANDIDATE, NOT A FINISHED LAW",
+       "model": "no action principle and no conservation law; energy does not close and the external work is booked in compactWorkE",
+       "obs": "—"
+      },
+      {
+       "q": "Sanity",
+       "model": "zero NaN; clampRN/SN/VN/AN all zero; run-time chi=0.99949",
+       "obs": "—"
+      }
+     ],
+     "failureFirst": {
+      "fail": "THE FROZEN HOLD-OUT DOES NOT REACH 0.1%, AND THE +2.65% RESIDUAL DOES NOT GO AWAY WITH A FINER STEP. (1) Over dt 0.016→0.008→0.004 the residual is +2.83%→+2.69%→+2.65%, essentially FLAT: this is a limit of the prescription, not of the discretization. (2) THE BREAKDOWN WAS REDONE IN WAVE 252a: writing the advance as A0 + lambda*A_PN, the measurement equals A0 + A_PN/2 = 0.0000568 + 0.0020193 = 0.0020761°/orbit to five digits. The residual therefore IS A0 — the lambdaPN=0, non-1PN baseline, +2.81% of the observation — which a halving prescription cannot touch because it only scales the 1PN channel (the lambdaPN=1/f candidate is no different). THE EARLIER BREAKDOWN ('+1.26% from the prescription plus +1.4% as the price of freezing') WAS WRONG: the frozen kappa (12.0154) differs from this system's own closed form (12.0086) by only 0.06%. (3) WHAT SETS A0 IS UNSOLVED: it vanishes at kFrame=0 (so it is the dragging channel) and scales as D0pull squared (x0.5 gives 0.25, x2 gives 4.0), but NEITHER the degree of mass equality (sweeping |m1-m2|/M from 0 to 0.1 moves it by only 7%) NOR coupleSink, cmGauge or the softening accounts for it (wave 252a, sections EQ and DIAG). (4) No action principle, no conservation law, energy does not close. (5) The semi-major axis is Kepler-derived and the masses are doubly conditional.",
+      "pass": "ONE NUMBER, FIXED WITHOUT EVER LOOKING AT THIS SYSTEM, BRINGS THE ADVANCE FROM 2.025x THE OBSERVATION TO 1.027x. Without moving any of 🧶's declarations, one added line takes +0.0040959°/orbit (+102.5%) to +0.0020761°/orbit (+2.65%). THE kappa IS ⚡'S FROZEN NUMBER, neither re-fitted nor re-evaluated here, so the hold-out procedure is intact. The unfitted period stays at 🧶's level (−0.064%), reconfirming that the added term barely moves the size of the orbit. AND THE +2.65% RESIDUAL IS QUANTITATIVELY ACCOUNTED FOR: wave 252a's decomposition reproduces the measurement as A0 + A_PN/2 to five digits, so the residual IS A0 — the lambdaPN=0, non-1PN baseline — which points in one line at what to measure next: WHAT SETS A0."
+     },
+     "descStruct": {
+      "summary": "🧶 COPIED, WITH ⚡'S FROZEN kappa DECLARED UNCHANGED — THE FOURTH FROZEN HOLD-OUT (wave 251a, report 43 W1). Formula and gate are 🪝🪄🩹's: U_K = −kappa·chi₁chi₂·(G m₁m₂/rho)·(v₁·v₂)/c². NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM (kappa is ⚡'s number; f is the linear law evaluated once). Where the three development systems land at −0.02 to −0.14%, this one lands at +2.65%, and refining the step does not remove it. Because the breakdown is identified — wave 252a reproduces the measurement as A0 + A_PN/2 to five digits, so the residual IS A0, the lambdaPN=0 non-1PN baseline — the state of affairs is not 'it disagrees' but 'here is exactly how much is missing and why'.",
+      "observe": "Measured over a five-periastron window: PERIASTRON ADVANCE +0.0020761°/orbit at dt=0.004 = +2.65% of the converted observation 0.0020225°/orbit. Over dt 0.016→0.008→0.004 it is +0.0020798→+0.0020769→+0.0020761 (+2.83%→+2.69%→+2.65%), essentially FLAT, so the residual is not of discretization origin. Removing compactForce gives +0.0040959°/orbit (+102.5%). The unfitted periastron-to-periastron period is 36328.48 s (−0.064% of 36351.7026 s; 36306.10 s = −0.125% at the default step). The breakdown, redone in wave 252a: A0 + A_PN/2 = 0.0000568 + 0.0020193 = 0.0020761°/orbit matches the measurement to five digits, so the residual IS A0 (the lambdaPN=0 non-1PN baseline, +2.81% of the observation); the frozen kappa 12.0154 differs from this system's own closed form 12.0086 by only 0.06%. Zero NaN, zero clamps, run-time chi=0.99949. Periods are judged only after their definition has been declared (adjudication I6).",
+      "control": "One-tap A/B: side B has NO compactForce and the advance returns to +0.0040959°/orbit (2.025x). THE INTENDED USE IS TO PUT THE THREE DEVELOPMENT SYSTEMS (🪝🪄🩹) BESIDE THIS FROZEN HOLD-OUT: under one and the same kappa the residuals read −0.020% / −0.040% / −0.143% / +2.65%, and the gap between a development set and a hold-out is visible directly. With timeScale=1000 one orbit takes ~3.6 wall seconds; dispMag=1000 (display only).",
+      "brief": "Carry the frozen κ over to B1534. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.94% (5.8×10³σ); numerics unresolved."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "the same transcribed masses, Pb, e, radius proxy and pulsar spin as 📿🧶",
+       "the observed period 36351.702644 s, eccentricity 0.2736775 and periastron advance 1.755789°/yr (ALL compared against, none fitted)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10⁶ m / 10¹ s / 10²⁷ kg)",
+       "kFrame=1, geoPN=2, lambdaPN=1, pnAlpha=1.5, frameReaction:\"pairReduced\", coupleSink:\"core\", cmGauge:\"barycentric\", frameWeight:\"pull\", D0pull=3.24204e-7, framePrecision:\"double\" — all 🧶's",
+       "compactForce chiGate=0.5, rc=0 — identical to 🪝"
+      ],
+      "fitted": [
+       "NOTHING, AND NOTHING WAS EVEN EVALUATED HERE. kappa is ⚡'s frozen number and f is the linear law evaluated once on this system's own observables."
+      ],
+      "derived": [
+       "this system's own kappa would need to be about 12.166 to hit the observation (a 1.25% gap from the frozen value) — RECORDED, NOT USED",
+       "masses, positions, velocities, radii, cores and the pulsar's spinDipole: bit-identical to 🧶"
+      ],
+      "numerical": [
+       "softening ε=0.05",
+       "time multiplier timeScale=1000",
+       "display magnification dispMag=1000 (display only)",
+       "measurement dt 0.016 / 0.008 / 0.004 (five periastra, three-point parabola detector)"
+      ]
+     },
+     "description": "🧶 COPIED, WITH ⚡'S FROZEN kappa DECLARED UNCHANGED — THE FOURTH FROZEN HOLD-OUT (wave 251a, report 43 W1). Formula and gate are 🪝🪄🩹's: U_K = −kappa·chi₁chi₂·(G m₁m₂/rho)·(v₁·v₂)/c². NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM (kappa is ⚡'s number; f is the linear law evaluated once). Where the three development systems land at −0.02 to −0.14%, this one lands at +2.65%, and refining the step does not remove it. Because the breakdown is identified — wave 252a reproduces the measurement as A0 + A_PN/2 to five digits, so the residual IS A0, the lambdaPN=0 non-1PN baseline — the state of affairs is not 'it disagrees' but 'here is exactly how much is missing and why'.Measured over a five-periastron window: PERIASTRON ADVANCE +0.0020761°/orbit at dt=0.004 = +2.65% of the converted observation 0.0020225°/orbit. Over dt 0.016→0.008→0.004 it is +0.0020798→+0.0020769→+0.0020761 (+2.83%→+2.69%→+2.65%), essentially FLAT, so the residual is not of discretization origin. Removing compactForce gives +0.0040959°/orbit (+102.5%). The unfitted periastron-to-periastron period is 36328.48 s (−0.064% of 36351.7026 s; 36306.10 s = −0.125% at the default step). The breakdown, redone in wave 252a: A0 + A_PN/2 = 0.0000568 + 0.0020193 = 0.0020761°/orbit matches the measurement to five digits, so the residual IS A0 (the lambdaPN=0 non-1PN baseline, +2.81% of the observation); the frozen kappa 12.0154 differs from this system's own closed form 12.0086 by only 0.06%. Zero NaN, zero clamps, run-time chi=0.99949. Periods are judged only after their definition has been declared (adjudication I6).One-tap A/B: side B has NO compactForce and the advance returns to +0.0040959°/orbit (2.025x). THE INTENDED USE IS TO PUT THE THREE DEVELOPMENT SYSTEMS (🪝🪄🩹) BESIDE THIS FROZEN HOLD-OUT: under one and the same kappa the residuals read −0.020% / −0.040% / −0.143% / +2.65%, and the gap between a development set and a hold-out is visible directly. With timeScale=1000 one orbit takes ~3.6 wall seconds; dispMag=1000 (display only).",
+     "status": {
+      "purpose": "Carry the frozen κ over to B1534",
+      "state": "the comparison runs are in the ledger",
+      "mismatch": "apsidal advance +2.94% (5.8×10³σ)",
+      "outlook": "numerics unresolved"
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "📿🧶 と同じ転写質量・P_b・e・半径 proxy・パルサー自転",
+      "観測周期 36351.702644 s・離心率 0.2736775・近点移動 1.755789°/yr(**すべて照合先で、1 つも fit していない**)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁶m/10¹s/10²⁷kg)",
+      "kFrame=1・geoPN=2・lambdaPN=1・pnAlpha=1.5・frameReaction:\"pairReduced\"・coupleSink:\"core\"・cmGauge:\"barycentric\"・frameWeight:\"pull\"・D0pull=3.24204e-7・framePrecision:\"double\" — すべて 🧶 の宣言",
+      "compactForce の chiGate=0.5・rc=0 — 🪝 と同一"
+     ],
+     "fitted": [
+      "**無し。本系では評価すらしていない。** κ は ⚡ の凍結値・f は本系の観測量で一次則を 1 回評価した値"
+     ],
+     "derived": [
+      "本系で観測に当てるなら κ≈12.166 が要る(凍結値との差 1.25%)— **記録するだけで使わない**",
+      "質量・位置・速度・半径・コア・パルサーの spinDipole は 🧶 とビット同一"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.05",
+      "時間倍率 timeScale=1000",
+      "粒子表示倍率 dispMag=1000(表示専用)",
+      "測定 dt 0.016 / 0.008 / 0.004(5 近点・3 点放物線頂点の検出器)"
+     ]
+    },
+    "abBody": {
+     "label": {
+      "ja": "compactForce なし(🧶 の旧則 — 観測の 2.025 倍)",
+      "en": "no compactForce (🧶's old law — 2.025x the observation)"
+     },
+     "physicsPatch": {
+      "compactForce": null
+     }
+    },
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "camera": {
+     "scale": 1500
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 1,
+     "q": 3.1652,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.42582647410185e-7,
+     "cLight": 2997.92458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1000,
+     "dispMag": 1000,
+     "stateCarry": "double",
+     "framePrecision": "double",
+     "frameReaction": "pairReduced",
+     "coupleSink": "core",
+     "cmGauge": "barycentric",
+     "frameWeight": "pull",
+     "D0pull": 3.24204e-7,
+     "compactForce": {
+      "model": "current",
+      "kappa": 12.015360249506628,
+      "chiGate": 0.5,
+      "rc": 0
+     }
+    },
+    "massCalibration": {
+     "law": "inertia-law-lin-v1",
+     "fitDt": 0.016,
+     "baseMass": [
+      2650.6705,
+      2675.52675
+     ],
+     "factor": 1.9994854557873434,
+     "factorByBody": [
+      1.9994854557873434,
+      1.9994854557873434
+     ],
+     "chi": [
+      0.9994878669701724,
+      0.9994830670049496
+     ],
+     "factorQuad": 1.9989709117168069,
+     "chiQuad": [
+      0.999487735212365,
+      0.9994829340128814
+     ]
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "dragQ": 3.1651598740845848,
+      "m": 5299.977112834566,
+      "radius": 0.01175,
+      "x": -1460.6604505860685,
+      "y": 0,
+      "vx": 0,
+      "vy": -1.4968556297184559,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "pulse": {
+       "omega": 1657.8325348758801,
+       "source": "observed"
+      },
+      "spinDipole": {
+       "omega": 1657.8325348758801,
+       "radius": 0.01175,
+       "source": "observed"
+      },
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49987133084385105,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     },
+     {
+      "type": "single",
+      "dragQ": 3.164393384205086,
+      "m": 5349.676823194979,
+      "radius": 0.01175,
+      "x": 1447.0905838953768,
+      "y": 0,
+      "vx": 0,
+      "vy": 1.4829495016088456,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49987133084385105,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**🧶 を複製して、⚡ で凍結した κ をそのまま宣言した第 4 の凍結 hold-out**(第251便a — 第43報 W1)。式もゲートも 🪝🪄🩹 と同一の **U_K=−κ·χ₁χ₂·(G m₁m₂/ρ)·(v₁·v₂)/c²** で(引きずり A8/E6′ と測地線1PN E12 は 🧶 の宣言のまま)、**この系を見て決めた係数は 1 つも無い**(κ=12.015360249506628 は ⚡ の値・f は一次則の 1 回評価)。開発集合 3 本が −0.02〜−0.14% に入るのに対し、本系の残差は **+2.65%** で、しかも刻みを細かくしても消えない。その内訳は第252便a で **Δϖ=A0+A_PN/2**(実測と 5 桁一致)と同定され、残差の実体が **A0(λ_PN=0 の非 1PN 基線)**であることまで分かっているので、**「合わない」ではなく「何がどれだけ足りないか」が数で言える**状態になっている。実測(5 近点窓): **近点移動 +0.0020761°/周**(dt=0.004。観測換算 0.0020225°/周 の **+2.65%**)。刻み依存は dt 0.016→0.008→0.004 で +0.0020798→+0.0020769→+0.0020761(観測比 +2.83%→+2.69%→+2.65%)と**ほぼ平ら**で、残差は離散化起源ではない。compactForce を外すと +0.0040959°/周(観測の +102.5%)。合わせていない近点間周期は 36328.48 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.10 秒 = −0.125%)。帳簿の内訳(第252便a で同定し直した): **A0+A_PN/2 = 0.0000568+0.0020193 = 0.0020761°/周**が実測と 5 桁一致する — 残差の実体は **A0(λ_PN=0 の非 1PN 基線・観測の +2.81%)**であって、凍結 κ 12.0154 と本系の閉形式解 12.0086 の差は 0.06% にすぎない。NaN 0・安全クランプ 0・実行時 χ=0.99949。**周期は定義を宣言してから合否を言う**(裁定 I6)。ワンタップ対照A/B: B側 **compactForce なし** — +0.0040959°/周(2.025 倍)へ戻る。**🪝🪄🩹(開発集合 3 本)と本サンプル(凍結 hold-out)を並べて見る**のが本サンプルの使い方 — 同じ 1 個の κ で残差が −0.020% / −0.040% / −0.143% / **+2.65%** になり、開発集合と hold-out の差がそのまま見える。timeScale=1000 で1公転が実時間 約3.6秒・dispMag=1000(表示専用)。",
+    "status": {
+     "purpose": "凍結した κ を B1534 へ流す",
+     "objective": "partial",
+     "state": "照合の走行は台帳に記帳",
+     "calibration": "hold",
+     "mismatch": "近点移動 +2.94%(5.8×10³σ)",
+     "outlook": "数値未解決",
+     "evidence": [
+      "tests/out/calaudit-w249.json",
+      "docs.calibration-verdict-sync"
+     ]
+    }
+   }
+  }
+ },
+ "superseded": {
+  "psrB1534DFM": {
+   "emoji": "🧶",
+   "nameAtBase": "PSR B1534+12(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた 4 例目",
+   "nameNow": "PSR B1534+12(DFM版)— 観測質量(f=1)・kF1 の第 4 の中性子星連星",
+   "rev": "f94ca58",
+   "presetSigHash": "8f70083c",
+   "presetSigSha256": "003c71959a37ef744640f6c810a4bb0a72f3241e43974bede0afedf42f8c5f6f",
+   "presetSigHashNow": "a2b0fbf6",
+   "massCalibration": {
+    "law": "inertia-law-lin-v1",
+    "fitDt": 0.016,
+    "baseMass": [
+     2650.6705,
+     2675.52675
+    ],
+    "factor": 1.9994854557873434,
+    "factorByBody": [
+     1.9994854557873434,
+     1.9994854557873434
+    ],
+    "chi": [
+     0.9994878669701724,
+     0.9994830670049496
+    ],
+    "factorQuad": 1.9989709117168069,
+    "chiQuad": [
+     0.999487735212365,
+     0.9994829340128814
+    ]
+   },
+   "obsCardRows": [
+    "DFM 質量(条件つき較正 — 実在値の主張ではない)",
+    "近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)",
+    "公転周期(合わせていない・2 定義)",
+    "離心率(合わせていない)",
+    "**この系では係数を 1 つも決めていない**",
+    "**比 2.025 の内訳(第252便a で同定)**",
+    "自転は転写できない",
+    "健全性"
+   ],
+   "claims": [],
+   "raw": {
+    "id": "psrB1534DFM",
+    "name": "PSR B1534+12(DFM版・旧則 f≈2 — f=1 へ移行予定)— ⚡ の旧処方を当てた 4 例目",
+    "emoji": "🧶",
+    "group": "現実との照合・連星",
+    "familyId": "psrB1534",
+    "familyRole": "variant",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 6,
+     "T": 1,
+     "M": 27
+    },
+    "sampleClass": "calibration",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "calibrationForecast": {
+     "status": "convergence-incomplete",
+     "scope": "近点間 P",
+     "basis": "docs/CALIBRATION_VERDICT_v1.44.md §5.3・§5.6 / tests/out/richardson-w261c.json",
+     "declaredSig": "8f70083c",
+     "note": "3 量とも漸近域に居る(門 3)が、収束先へ外挿しても観測との差は 10⁷σ 台である。**漸近域に入ったことは 3σ に近づいたことではない。**",
+     "gate": {
+      "passed": 0,
+      "of": 5,
+      "failed": [
+       "(4) 独立推定が無い",
+       "(5) 距離が 3σ に遠い"
+      ]
+     }
+    },
+    "obsCard": [
+     {
+      "q": "DFM 質量(条件つき較正 — 実在値の主張ではない)",
+      "model": "f=1.9994855(⚡ と同じ一次則 f=1+k_F(αχ_A+βχ_B) を本系で**1 回評価**した値・fit ノブなし): 2.6647/2.6897 M☉。χ=0.99949/0.99948",
+      "obs": "—(kFrame=1 の計算式に条件づけられた較正値)"
+     },
+     {
+      "q": "近点移動(**hold-out の本題** — 2 倍超過が 4 例目でも出るか)",
+      "model": "〔比の別欄〕DFM/観測=**2.0258**(h/4・3段収束・窓20近点)。⚡ 2.0014・🧮 2.0020・🩺 2.0023 より 1.2% 大きい。**3σ 一致は主張しない**(ε_num が σ の 10³倍)",
+      "obs": "+0.0020225°/周(ω̇=1.755789(9)°/yr の換算・σ=9×10⁻⁶°/yr)"
+     },
+     {
+      "q": "公転周期(合わせていない・2 定義)",
+      "model": "近点間 36328.38 秒(−0.064% — 判定・dt=0.004)・同方向1周も同水準(履歴)。既定 dt では 36306.00 秒(−0.126%)",
+      "obs": "36351.702644 s(Stairs et al. 2002)"
+     },
+     {
+      "q": "離心率(合わせていない)",
+      "model": "実測 0.274054(転写比 +0.138%・dt=0.004)",
+      "obs": "0.2736775(転写)"
+     },
+     {
+      "q": "**この系では係数を 1 つも決めていない**",
+      "model": "f は一次則を 1 回評価しただけ(fit ではない)。κ も本系では解いていない(🪤 が ⚡ の凍結値を流す)",
+      "obs": "—(claim 窓は付けない)"
+     },
+     {
+      "q": "**比 2.025 の内訳(第252便a で同定)**",
+      "model": "Δϖ≈A0+λ·A_PN。A0(λ_PN=0 の基線)=+0.0000568°/周=観測の **+2.81%**・A_PN/観測=1.997。差の全部が A0 である",
+      "obs": "—(3 例の開発集合では A0 が数値床)"
+     },
+     {
+      "q": "自転は転写できない",
+      "model": "P_spin=37.9 ms → ω=1657.83/単位 は力学値域の外。読み取り専用の spinDipole/pulse にのみ載る",
+      "obs": "37.9 ms(有効数字 3 桁のみ)"
+     },
+     {
+      "q": "健全性",
+      "model": "NaN 0・clampRN/SN/VN/AN すべて 0",
+      "obs": "—"
+     }
+    ],
+    "failureFirst": {
+     "fail": "**4 例目でも近点移動は約 2 倍で、しかも比が 3 例と 1.3% 違う。** ①実測 +0.0040959°/周 は観測の +102.5% で、これは較正質量 f≈2 が E12 の 1PN チャネルへ入る第248便b の構造そのままである。②比が 2.025 であって 2.000 ではない原因は**第252便a で同定した**: Δϖ≈A0+λ·A_PN と分けると A_PN/観測=1.997 で 3 例と同じで、余分の全部が **A0(λ_PN=0 の非 1PN 基線)=+0.0000568°/周=観測の +2.81%** である(dt 0.004/0.001 で不変=離散化ではない)。**「ちょうど半分を打ち消す」型の処方(κ でも λ_PN=1/f でも)は 1PN チャネルしか触らないので A0 はそのまま残る**(旧記述の「+1.26% を残す」は比を丸ごと半分にした誤り — 正しくは A0+A_PN/2)。③合わせていない周期は −0.064%・離心率は +0.138% で、⚡🧮🩺(周期 0.01〜0.03%)より 1 桁悪い。④質量は GR 由来の条件つき値からさらに一次則で較正した二重条件つきである。⑤半長径はケプラー派生値である。",
+     "pass": "**⚡ の処方を 1 か所も変えずに、係数を 1 つも決めずに、周期と離心率が 0.1% 台で乗る。** 一次則を本系で 1 回評価しただけの f=1.9994855 を入れ、kFrame=1・pull 重み・D0pull=3.24204e-7 の宣言を ⚡ と同一にすると、合わせていない近点間周期は 36328.38 秒(観測の −0.064%)・離心率 0.274054(転写の +0.138%)。**近点移動が観測の約 2 倍になる構造が 4 例目でも再現する**ことが、第248便b の同定(較正質量 fM が 1PN へ入る)が系に依らない構造であることの追加証拠になる。"
+    },
+    "descStruct": {
+     "summary": "**予告(第284便b・原仮定者の裁定(第74報)⑤): この本は旧則(質量補正 f≈2 の条件つき較正)のままである。⚡ は f=1(観測質量)へ移った。本系も f=1 署名の便で移行する —— 以下の f≈2 に基づく判定と近点移動の比は旧則の履歴で、「質量を補正して周期に合わせる」処方を現行の根拠にはしない。** **📿(観測版)と同じ幾何・同じ観測入力の上で、計算式だけ kFrame=1 の DFM 側へ差し替えた版**(第251便a — 第 4 の凍結 hold-out)。⚡ の処方(kFrame=1 の引きずり A8/E6′+測地線1PN E12・pull 重み・D0pull=3.24204e-7・coupleSink:\"core\"・cmGauge・framePrecision:\"double\")をそのまま当て、質量は一次則 f=1+k_F(αχ_A+βχ_B) を**本系で 1 回評価**した f=1.9994855(fit ノブなし)。**この系を見て決めた係数は 1 つも無い**。見どころは「近点移動が観測の約 2 倍になる」構造が 4 例目でも出るか、そして**その比が 3 例の 2.000 と同じか**である — 実測は **2.025** で、1.3% だけ違う。",
+     "observe": "実測(5 近点窓・dt=0.004): **近点移動 +0.0040959°/周**(観測換算 0.0020225°/周 の **+102.5%** = 比 2.025)。既定 dt=0.016 では +0.0041003(+102.7%)。合わせていない側: 近点間周期 36328.38 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.00 秒 = −0.126%)・実測離心率 0.274054(転写の +0.138%)。NaN 0・安全クランプ 0。**比が 2.000 ではなく 2.025 であること**が本サンプルの中心的な測定で、第252便a の分解では**その差の全部が A0**(λ_PN=0 の基線 +0.0000568°/周 = 観測の +2.81%・dt 0.004 と 0.001 で不変)である。**周期は定義を宣言してから合否を言う**(裁定 I6)。",
+     "control": "ワンタップ対照A/B: B側 **kFrame=0** — 較正質量のままでは引力が過剰になり深い楕円へ落ちる(較正が kFrame=1 専用であることの機械対照)。📿(観測版)→本サンプル→🪤(CF 版)の順に見ると、「同じ観測・違う計算式・違う質量」と「足した力が 2 倍をどこまで直すか」が続けて読める。timeScale=1000 で1公転が実時間 約3.6秒・dispMag=1000(表示専用)。",
+     "brief": "⚡ の処方を B1534 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 2.0×10⁵σ(差の%は正本に無い)・数値未解決・写像未確定。"
+    },
+    "en": {
+     "name": "PSR B1534+12 (DFM build, old rule f≈2 — f=1 migration pending) — ⚡'s old recipe on a fourth binary",
+     "calibrationForecast": {
+      "scope": "periastron-to-periastron P",
+      "note": "All three quantities sit in the asymptotic regime (gate 3), yet extrapolating to the continuum limit still leaves a residual of order 1e7 sigma. REACHING THE ASYMPTOTIC REGIME IS NOT THE SAME AS APPROACHING 3 SIGMA."
+     },
+     "obsCard": [
+      {
+       "q": "DFM masses (a conditional calibration — NOT real-mass claims)",
+       "model": "f=1.9994855 (⚡'s linear law f=1+k_F(αχ_A+βχ_B) EVALUATED ONCE on this system; no fitted knob): 2.6647 / 2.6897 M_sun, chi=0.99949 / 0.99948",
+       "obs": "— (a calibration conditioned on the kFrame=1 formula)"
+      },
+      {
+       "q": "Periastron advance (THE POINT OF THE HOLD-OUT: does the factor of two reappear?)",
+       "model": "[RATIO — A SEPARATE FIELD] DFM/observed = 2.0258 (h/4, three-step converged, 20-periastron window), 1.2% above ⚡ 2.0014 / 🧮 2.0020 / 🩺 2.0023. NOT A CLAIM OF 3σ AGREEMENT (eps_num exceeds σ by ~10³)",
+       "obs": "+0.0020225°/orbit (from omega_dot=1.755789(9)°/yr; sigma 9e-6 °/yr)"
+      },
+      {
+       "q": "Orbital period (never fitted; two definitions)",
+       "model": "periastron-to-periastron 36328.38 s (−0.064% — the verdict, dt=0.004); the same-direction revolution is at the same level (historical). At the default dt: 36306.00 s (−0.126%)",
+       "obs": "36351.702644 s (Stairs et al. 2002)"
+      },
+      {
+       "q": "Eccentricity (never fitted)",
+       "model": "measured 0.274054 (+0.138% of the transcribed value, dt=0.004)",
+       "obs": "0.2736775 (transcribed)"
+      },
+      {
+       "q": "NO COEFFICIENT IS DETERMINED ON THIS SYSTEM",
+       "model": "f is the linear law evaluated once (not a fit), and kappa was not solved here either (🪤 receives ⚡'s frozen number)",
+       "obs": "— (no claims window)"
+      },
+      {
+       "q": "WHERE THE 2.025 COMES FROM (identified in wave 252a)",
+       "model": "write the advance as A0 + lambda*A_PN: A0 (the lambdaPN=0 baseline) is +0.0000568°/orbit = +2.81% of the observation, while A_PN/obs = 1.997. THE WHOLE EXCESS IS A0",
+       "obs": "— (A0 sits at the numerical floor on the three development systems)"
+      },
+      {
+       "q": "The spin cannot be transcribed",
+       "model": "P_spin=37.9 ms gives omega=1657.83/unit, outside the dynamic ranges; it rides only the read-only spinDipole/pulse channels",
+       "obs": "37.9 ms (three significant figures only)"
+      },
+      {
+       "q": "Sanity",
+       "model": "zero NaN; clampRN/SN/VN/AN all zero",
+       "obs": "—"
+      }
+     ],
+     "failureFirst": {
+      "fail": "THE ADVANCE IS AGAIN ABOUT TWICE THE OBSERVATION — AND THE RATIO DIFFERS FROM THE OTHER THREE BY 1.3%. (1) The measured +0.0040959°/orbit is +102.5% of the observation, exactly the wave-248b structure of the calibrated mass f≈2 entering E12's 1PN channel. (2) WHY THE RATIO IS 2.025 AND NOT 2.000 WAS IDENTIFIED IN WAVE 252a: splitting the advance as A0 + lambda*A_PN gives A_PN/obs = 1.997, the same as the three development systems, and ALL of the excess is A0 — the lambdaPN=0, non-1PN baseline, +0.0000568°/orbit = +2.81% of the observation, unchanged between dt=0.004 and dt=0.001 (so it is not discretization). ANY 'CANCEL EXACTLY HALF' PRESCRIPTION (kappa or lambdaPN=1/f) ONLY TOUCHES THE 1PN CHANNEL, SO A0 SURVIVES IT (the earlier wording '+1.26% remains' halved the whole ratio and was wrong; the correct value is A0 + A_PN/2). (3) The unfitted period (−0.064%) and eccentricity (+0.138%) are an order of magnitude worse than on ⚡🧮🩺 (0.01–0.03% in period). (4) The masses are doubly conditional: a linear-law calibration on top of GR-derived values. (5) The semi-major axis is Kepler-derived.",
+      "pass": "⚡'S RECIPE, UNCHANGED, WITH NO COEFFICIENT DETERMINED HERE, STILL LANDS THE PERIOD AND ECCENTRICITY AT THE 0.1% LEVEL. With f=1.9994855 (the linear law evaluated once on this system) and ⚡'s declarations (kFrame=1, pull weights, D0pull=3.24204e-7), the unfitted periastron-to-periastron period is 36328.38 s (−0.064%) and the eccentricity 0.274054 (+0.138%). THAT THE FACTOR-OF-TWO STRUCTURE REAPPEARS ON A FOURTH BINARY is additional evidence that the wave-248b identification (the calibrated mass fM entering the 1PN channel) is a structural property, not a per-system accident."
+     },
+     "descStruct": {
+      "summary": "NOTICE (wave 284b, the adjudicator's ruling, 74th report ⑤): THIS BUILD STILL RUNS THE OLD RULE (the conditional f≈2 mass correction). ⚡ has moved to f=1 (the observed masses) and this system will move in its own f=1 signature wave — the f≈2-based verdicts and apsidal-advance ratios below are the old rule's history, and the recipe of correcting the masses to match the period is not a current basis. THE SAME GEOMETRY AND THE SAME OBSERVED INPUTS AS 📿, WITH ONLY THE FORMULA SWITCHED TO THE kFrame=1 DFM SIDE (wave 251a — the fourth frozen hold-out). ⚡'s recipe is applied unchanged (pull weights, D0pull=3.24204e-7, coupleSink:\"core\", cmGauge, framePrecision:\"double\"), and the masses come from the linear law f=1+k_F(αχ_A+βχ_B) EVALUATED ONCE on this system: f=1.9994855, no fitted knob. NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM. What to watch is whether the 'advance is about twice the observation' structure reappears on a fourth binary and whether THE RATIO MATCHES the 2.000 of the other three — measured, it is 2.025, off by 1.3%.",
+      "observe": "Measured over a five-periastron window at dt=0.004: PERIASTRON ADVANCE +0.0040959°/orbit = +102.5% of the converted observation 0.0020225°/orbit, i.e. a ratio of 2.025. At the default dt=0.016 it is +0.0041003 (+102.7%). The unfitted side: periastron-to-periastron period 36328.38 s (−0.064% of 36351.7026 s; 36306.00 s = −0.126% at the default step) and measured eccentricity 0.274054 (+0.138%). Zero NaN, zero clamps. THAT THE RATIO IS 2.025 RATHER THAN 2.000 is the central measurement of this sample, and wave 252a's decomposition shows THE WHOLE DIFFERENCE IS A0 (the lambdaPN=0 baseline, +0.0000568°/orbit = +2.81% of the observation, unchanged from dt=0.004 to dt=0.001). Periods are judged only after their definition has been declared (adjudication I6).",
+      "control": "One-tap A/B: side B is kFrame=0 — at the calibrated masses gravity is excessive and the orbit plunges into a deep ellipse (the machine control that the calibration belongs to kFrame=1 only). Reading 📿 → this sample → 🪤 in order shows 'one observation, two formulas, two mass ledgers' followed by 'how far an added force repairs the factor of two'. With timeScale=1000 one orbit takes ~3.6 wall seconds; dispMag=1000 (display only).",
+      "brief": "Apply ⚡'s recipe to B1534. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance 2.0×10⁵σ (no % in the ledger); numerics unresolved; mapping unresolved."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "the same transcribed masses, Pb, e, radius proxy and pulsar spin as 📿",
+       "the observed period 36351.702644 s and eccentricity 0.2736775 (compared against, never fitted)",
+       "the observed periastron advance 1.755789°/yr = 0.0020225°/orbit (compared against, never fitted)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10⁶ m / 10¹ s / 10²⁷ kg)",
+       "kFrame=1, geoPN=2, lambdaPN=1, pnAlpha=1.5, frameReaction:\"pairReduced\", coupleSink:\"core\", cmGauge:\"barycentric\", frameWeight:\"pull\", D0pull=3.24204e-7, framePrecision:\"double\" — all ⚡'s",
+       "initial state = the apoapsis of the transcribed orbit, redistributed into the calibrated masses' barycentric frame (the wave-224 convention)"
+      ],
+      "fitted": [
+       "NOTHING. f is the linear law evaluated once on this system's own observables; no knob was turned and no coefficient was chosen by looking at this system."
+      ],
+      "derived": [
+       "f_A = f_B = 1.9994854557873434 (the self-consistent linear inertia law under the pull weight; the χ² fixed point 1.9989709117168069 is recorded as factorQuad)",
+       "masses 5299.977112834566 / 5349.676823194979 units = f x the observed masses",
+       "per-body dragQ 3.1651598740845848 / 3.164393384205086 (q_exact from the observed shell mass at the reference a=2282.957)"
+      ],
+      "numerical": [
+       "softening ε=0.05",
+       "time multiplier timeScale=1000",
+       "display magnification dispMag=1000 (display only)",
+       "measurement dt 0.016 / 0.008 / 0.004 (five periastra, three-point parabola detector)"
+      ]
+     },
+     "description": "NOTICE (wave 284b, the adjudicator's ruling, 74th report ⑤): THIS BUILD STILL RUNS THE OLD RULE (the conditional f≈2 mass correction). ⚡ has moved to f=1 (the observed masses) and this system will move in its own f=1 signature wave — the f≈2-based verdicts and apsidal-advance ratios below are the old rule's history, and the recipe of correcting the masses to match the period is not a current basis. THE SAME GEOMETRY AND THE SAME OBSERVED INPUTS AS 📿, WITH ONLY THE FORMULA SWITCHED TO THE kFrame=1 DFM SIDE (wave 251a — the fourth frozen hold-out). ⚡'s recipe is applied unchanged (pull weights, D0pull=3.24204e-7, coupleSink:\"core\", cmGauge, framePrecision:\"double\"), and the masses come from the linear law f=1+k_F(αχ_A+βχ_B) EVALUATED ONCE on this system: f=1.9994855, no fitted knob. NO COEFFICIENT WAS CHOSEN BY LOOKING AT THIS SYSTEM. What to watch is whether the 'advance is about twice the observation' structure reappears on a fourth binary and whether THE RATIO MATCHES the 2.000 of the other three — measured, it is 2.025, off by 1.3%.Measured over a five-periastron window at dt=0.004: PERIASTRON ADVANCE +0.0040959°/orbit = +102.5% of the converted observation 0.0020225°/orbit, i.e. a ratio of 2.025. At the default dt=0.016 it is +0.0041003 (+102.7%). The unfitted side: periastron-to-periastron period 36328.38 s (−0.064% of 36351.7026 s; 36306.00 s = −0.126% at the default step) and measured eccentricity 0.274054 (+0.138%). Zero NaN, zero clamps. THAT THE RATIO IS 2.025 RATHER THAN 2.000 is the central measurement of this sample, and wave 252a's decomposition shows THE WHOLE DIFFERENCE IS A0 (the lambdaPN=0 baseline, +0.0000568°/orbit = +2.81% of the observation, unchanged from dt=0.004 to dt=0.001). Periods are judged only after their definition has been declared (adjudication I6).One-tap A/B: side B is kFrame=0 — at the calibrated masses gravity is excessive and the orbit plunges into a deep ellipse (the machine control that the calibration belongs to kFrame=1 only). Reading 📿 → this sample → 🪤 in order shows 'one observation, two formulas, two mass ledgers' followed by 'how far an added force repairs the factor of two'. With timeScale=1000 one orbit takes ~3.6 wall seconds; dispMag=1000 (display only).",
+     "status": {
+      "purpose": "Apply ⚡'s recipe to B1534",
+      "state": "the comparison runs are in the ledger",
+      "mismatch": "apsidal advance 2.0×10⁵σ (no % in the ledger)",
+      "outlook": "numerics unresolved; mapping unresolved"
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "📿 と同じ転写質量・P_b・e・半径 proxy・パルサー自転",
+      "観測周期 36351.702644 s・離心率 0.2736775(照合先であって fit の対象ではない)",
+      "観測の近点移動 1.755789°/yr = 0.0020225°/周(照合先であって fit の対象ではない)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁶m/10¹s/10²⁷kg)",
+      "kFrame=1・geoPN=2・lambdaPN=1・pnAlpha=1.5・frameReaction:\"pairReduced\"・coupleSink:\"core\"・cmGauge:\"barycentric\"・frameWeight:\"pull\"・D0pull=3.24204e-7・framePrecision:\"double\" — すべて ⚡ の宣言",
+      "初期状態=転写軌道の遠点を較正質量の重心系へ再配分(第224便の規約)"
+     ],
+     "fitted": [
+      "**無し**。f は本系の観測量で一次則を 1 回評価した値で、**この系を見て決めた係数は 1 つも無い**"
+     ],
+     "derived": [
+      "f_A=f_B=1.9994854557873434(pull 重みでの一次則の自己無撞着解。χ² 則の 1.9989709117168069 は factorQuad に併記)",
+      "質量 5299.977112834566 / 5349.676823194979 単位(= f × 観測質量)",
+      "粒子別 dragQ 3.1651598740845848 / 3.164393384205086(参照 a=2282.957 での観測殻質量からの q_exact)"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.05",
+      "時間倍率 timeScale=1000",
+      "粒子表示倍率 dispMag=1000(表示専用)",
+      "測定 dt 0.016 / 0.008 / 0.004(5 近点・3 点放物線頂点の検出器)"
+     ]
+    },
+    "abBody": {
+     "label": {
+      "ja": "kFrame=0(観測版の計算式側 — 較正質量では深い楕円へ)",
+      "en": "kFrame=0 (the observation build's formula — the calibrated masses plunge)"
+     },
+     "physicsPatch": {
+      "kFrame": 0
+     }
+    },
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "camera": {
+     "scale": 1500
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 1,
+     "q": 3.1652,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.42582647410185e-7,
+     "cLight": 2997.92458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 2,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1000,
+     "dispMag": 1000,
+     "stateCarry": "double",
+     "framePrecision": "double",
+     "frameReaction": "pairReduced",
+     "coupleSink": "core",
+     "cmGauge": "barycentric",
+     "frameWeight": "pull",
+     "D0pull": 3.24204e-7
+    },
+    "massCalibration": {
+     "law": "inertia-law-lin-v1",
+     "fitDt": 0.016,
+     "baseMass": [
+      2650.6705,
+      2675.52675
+     ],
+     "factor": 1.9994854557873434,
+     "factorByBody": [
+      1.9994854557873434,
+      1.9994854557873434
+     ],
+     "chi": [
+      0.9994878669701724,
+      0.9994830670049496
+     ],
+     "factorQuad": 1.9989709117168069,
+     "chiQuad": [
+      0.999487735212365,
+      0.9994829340128814
+     ]
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "dragQ": 3.1651598740845848,
+      "m": 5299.977112834566,
+      "radius": 0.01175,
+      "x": -1460.6604505860685,
+      "y": 0,
+      "vx": 0,
+      "vy": -1.4968556297184559,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "pulse": {
+       "omega": 1657.8325348758801,
+       "source": "observed"
+      },
+      "spinDipole": {
+       "omega": 1657.8325348758801,
+       "radius": 0.01175,
+       "source": "observed"
+      },
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49987133084385105,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     },
+     {
+      "type": "single",
+      "dragQ": 3.164393384205086,
+      "m": 5349.676823194979,
+      "radius": 0.01175,
+      "x": 1447.0905838953768,
+      "y": 0,
+      "vx": 0,
+      "vy": 1.4829495016088456,
+      "spin": 0,
+      "pinned": false,
+      "pnSource": true,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.49987133084385105,
+       "radius": 0.01,
+       "omega": 0,
+       "Kcs": 0,
+       "inertiaScale": 1000000
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**予告(第284便b・原仮定者の裁定(第74報)⑤): この本は旧則(質量補正 f≈2 の条件つき較正)のままである。⚡ は f=1(観測質量)へ移った。本系も f=1 署名の便で移行する —— 以下の f≈2 に基づく判定と近点移動の比は旧則の履歴で、「質量を補正して周期に合わせる」処方を現行の根拠にはしない。** **📿(観測版)と同じ幾何・同じ観測入力の上で、計算式だけ kFrame=1 の DFM 側へ差し替えた版**(第251便a — 第 4 の凍結 hold-out)。⚡ の処方(kFrame=1 の引きずり A8/E6′+測地線1PN E12・pull 重み・D0pull=3.24204e-7・coupleSink:\"core\"・cmGauge・framePrecision:\"double\")をそのまま当て、質量は一次則 f=1+k_F(αχ_A+βχ_B) を**本系で 1 回評価**した f=1.9994855(fit ノブなし)。**この系を見て決めた係数は 1 つも無い**。見どころは「近点移動が観測の約 2 倍になる」構造が 4 例目でも出るか、そして**その比が 3 例の 2.000 と同じか**である — 実測は **2.025** で、1.3% だけ違う。実測(5 近点窓・dt=0.004): **近点移動 +0.0040959°/周**(観測換算 0.0020225°/周 の **+102.5%** = 比 2.025)。既定 dt=0.016 では +0.0041003(+102.7%)。合わせていない側: 近点間周期 36328.38 秒(観測 36351.7026 s の −0.064%。既定 dt では 36306.00 秒 = −0.126%)・実測離心率 0.274054(転写の +0.138%)。NaN 0・安全クランプ 0。**比が 2.000 ではなく 2.025 であること**が本サンプルの中心的な測定で、第252便a の分解では**その差の全部が A0**(λ_PN=0 の基線 +0.0000568°/周 = 観測の +2.81%・dt 0.004 と 0.001 で不変)である。**周期は定義を宣言してから合否を言う**(裁定 I6)。ワンタップ対照A/B: B側 **kFrame=0** — 較正質量のままでは引力が過剰になり深い楕円へ落ちる(較正が kFrame=1 専用であることの機械対照)。📿(観測版)→本サンプル→🪤(CF 版)の順に見ると、「同じ観測・違う計算式・違う質量」と「足した力が 2 倍をどこまで直すか」が続けて読める。timeScale=1000 で1公転が実時間 約3.6秒・dispMag=1000(表示専用)。",
+    "status": {
+     "purpose": "⚡ の処方を B1534 へ当てる",
+     "objective": "partial",
+     "state": "照合の走行は台帳に記帳",
+     "calibration": "hold",
+     "mismatch": "近点移動 2.0×10⁵σ(差の%は正本に無い)",
+     "outlook": "数値未解決・写像未確定",
+     "evidence": [
+      "tests/out/calaudit-w249.json",
+      "docs.calibration-verdict-sync"
+     ]
+    }
+   },
+   "why": "原仮定者の裁定(第77報)AN62: 旧則(一次則 f≈2 の条件つき較正・Kcs=0 の補正コア・偶力はコアへ)の宣言。**現行の根拠ではない**(履歴)"
+  }
+ },
+ "history": {
+  "qa": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "rev": "f94ca58",
+   "commit": "e9e8f56b6dd99c1f66909305fcf658881d9a7071",
+   "date": "2026-09-29T06:50:08.905Z",
+   "targetSha256": "caf21c147721d68a6fa3b9411643d46caa15b025453ed0520d7fc62f37d7ec3d",
+   "total": 947
+  },
+  "tests": [
+   {
+    "id": "lint.precisionUlp",
+    "pass": true,
+    "ms": 37,
+    "detail": "Float32 の最小刻みは対象質量付近で **0.00048828125(=2⁻¹¹)**(質量が [4096,8192) にあるため) / ⚡ は f=1 へ移った —— 記録の再現は凍結の写しの旧則の質量で行う / ⚡ ULP 0.00048828125・ΔP 5.398e-5 s = 215.5σ / 🧶 ULP 0.00048828125・ΔP 2.175e-4 s = 251.7σ / 🧮 は f=1 へ移った(第285便f)—— 記録の再現は凍結の写しの旧則の質量で行う / 🧮 ULP 0.00048828125・ΔP 1.762e-4 s = 40.8σ / 質量丸めは **診断**(isBound:false・isMeasured:false — 誤差上限でも Float64 実走の結果でもない) / 旧記録 ~0.0004 の探索版は ULP ではなく「丸めが倒れるまでの距離」を返していた(第260便d で訂正)"
+   },
+   {
+    "id": "behavior.nsThreeStage",
+    "pass": true,
+    "ms": 0,
+    "detail": "① 宣言: NS 4 系 ⚡double/🧮double/🩺double/🧶double(4 本とも double = 第255便d の p_obs 検定で新規宣言は 0 本)・native のまま残る kF1 宣言 61 本(うち現実較正 15 本)に NS 系は 0 本 / ② 決定性(⚡ 3.2 公転・窓 3 近点 ×2): 近点側候補 3=3/3=3・Δϖ=0.00980383・ビット同一=true / ③ 3 段(窓 20 近点・21.5 公転): **double** Q=[0.00958477, 0.00948451, 0.00946865] p_obs=2.661(>0) ε_num=1.161e-4 柵却下 A/B=[0,0,0]/[0,0,0](=0) / **native(宣言を外した対照)** Q=[0.00930811, 0.00946798, 0.00829348] p_obs=-2.877(<0 — 収束しない) ε_num=1.015e-3 柵却下 A/B=[0,1,3]/[1,1,2](dt を細かくするほど偽検出が増える)"
+   }
+  ]
+ }
+}
