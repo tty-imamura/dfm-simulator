@@ -357,7 +357,7 @@ if (IS_MAIN && process.argv[2] === '--presets') {
   const ring = { base: { rev: BASE_REV, file: CANON_IN, sha256: crypto.createHash('sha256').update(baseTxt).digest('hex'), targetSha256: CA0.meta ? CA0.meta.targetSha256 : null },
     after, table: CA1 ? ringTable(CA0, CA1) : null,
     note: CA1 ? null : '後の判定を得られなかった(正本がいまの html の世代でなく、PLAYWRIGHT_CORE_DIR も無い)' };
-  if (ring.table) for (const t of ring.table) console.log(`(E) ${t.emoji} ${t.id}: ${t.nQuantities} 量・値が変わった ${t.nChanged}・最大 |差| ${e3(t.maxAbsDiff)}・区分 ${t.verdictMoved}・門 ${t.gateMoved}・步数 ${t.run.before.steps}→${t.run.after.steps}`);
+  if (ring.table) for (const t of ring.table) if (t.missing) console.log(`(E) ${t.id}: 正本に無い(退役 —— 較正母集団の外・第288便b)`); else console.log(`(E) ${t.emoji} ${t.id}: ${t.nQuantities} 量・値が変わった ${t.nChanged}・最大 |差| ${e3(t.maxAbsDiff)}・区分 ${t.verdictMoved}・門 ${t.gateMoved}・步数 ${t.run.before.steps}→${t.run.after.steps}`);
   const CODE = ['tests/exp-w285a-contact.mjs', 'tests/exp-w284e-tpsign.mjs', 'tests/lib-w283c-calstages.mjs', 'tests/exp-w249b-calaudit.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第285便a', target: TARGET, code: CODE, inputs: [TARGET, CANON_IN] }), {
