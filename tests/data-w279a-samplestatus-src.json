@@ -236,6 +236,18 @@
     "state": "the centre-spin response is nonzero; the rotation curve is numbers only"
    }
   },
+  "galaxyAnalogyBHTilt90": {
+   "purpose": "🌚 の中心の自転軸を 90° に倒し歳差を宣言した写しで面内の引きずりを測る",
+   "objective": "partial",
+   "state": "現行法則は中心の殻 spin だけを読み 🌚 の spin 0 とビット一致・歳差の面内の引きずりは候補の診断量だけ",
+   "evidence": [
+    "tests/out/tilt90-w288e.json"
+   ],
+   "en": {
+    "purpose": "A copy of 🌚 with the central axis tipped 90° and a declared precession",
+    "state": "the current law reads only the shell spin (bit-identical to spin 0); precession drag is a candidate only"
+   }
+  },
   "clusterAnalogyBH": {
    "purpose": "中心 DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置いた球状星団アナロジー",
    "objective": "unmet",
@@ -2231,6 +2243,9 @@
    ],
    "preset.galaxyAnalogyBH": [
     "galaxyAnalogyBH"
+   ],
+   "behavior.tilt90Copy": [
+    "galaxyAnalogyBHTilt90"
    ],
    "preset.galaxyDB": [
     "galaxyDB"
