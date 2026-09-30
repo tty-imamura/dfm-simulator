@@ -1,0 +1,330 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第288便c",
+  "target": "beta/index.html",
+  "targetSha256": "4e40309fb47730ee4e8d229c3399c81008a3db6f4124bb9c065fb34a9e0ca434",
+  "generatedAt": "2026-09-30T21:25:53.798Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5289816,
+    "sha256": "4e40309fb47730ee4e8d229c3399c81008a3db6f4124bb9c065fb34a9e0ca434",
+    "mtime": "2026-09-30T21:07:03.087Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w288c-bgrange.mjs",
+    "bytes": 16433,
+    "sha256": "4f1ac18801726036894a4a92dba4b01959c7b5b56e52c031b0cd8b8b7d20f130",
+    "mtime": "2026-09-30T21:09:27.270Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-09-30T20:24:45.867Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-30T20:24:43.467Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-30T20:24:46.451Z"
+   }
+  ],
+  "codeSha256": "7d79f40dc652006d09e2929a0e5d7d86f5336223e0e0800557a3fcc3627921c7",
+  "harnessVersion": "w288c-bgrange-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第78報)⑧と第78報で閉じた AN86(有効幅を超えても再展開しない・超えた歩数を観測結果カードに出す・超えた走行を含む観測比較は「契約範囲外」)・統括の検証項目 R115",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "baseRev": "940dba52",
+  "notClaim": [
+   "複素場を接続した",
+   "観測と合った",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "HP.BGC_TIME_VERSION",
+    "HP.allPresets",
+    "HP.bgRangeCardInfo",
+    "HP.bgTimeMomentsAt",
+    "HP.bgTimePrepare",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validateBackgroundComplex",
+    "HP.validatePreset",
+    "T",
+    "bgTimeMomentsAt",
+    "cw"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 865,
+   "segments": 784,
+   "closureShare": 0.3155
+  },
+  "scopeSha256": "3e4eb47f7d25fbedf2fe150558ac1e8430b5c37ea59e5023b33155bba31340b6",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "cases": {
+  "widthT": 340000,
+  "radiusR": 100,
+  "contract": {
+   "mode": "taylor",
+   "t0": 0,
+   "widthT": 340000,
+   "radiusR": 100
+  },
+  "rows": [
+   {
+    "key": "timePlus",
+    "label": "τ=widthT+1(時間だけ超過)",
+    "dx": [
+     3,
+     -4
+    ],
+    "tau": 340001,
+    "counter": true,
+    "out": true,
+    "reexp": true,
+    "want": {
+     "out": true,
+     "reexp": true
+    },
+    "pass": true,
+    "sameAsSources": true,
+    "W": 5.6999807855475246e-9
+   },
+   {
+    "key": "timeMinus",
+    "label": "τ=−widthT−1(時間だけ超過・過去側)",
+    "dx": [
+     3,
+     -4
+    ],
+    "tau": -340001,
+    "counter": true,
+    "out": true,
+    "reexp": true,
+    "want": {
+     "out": true,
+     "reexp": true
+    },
+    "pass": true,
+    "sameAsSources": true,
+    "W": 5.699981206869754e-9
+   },
+   {
+    "key": "timeAndSpace",
+    "label": "空間と時間の両超過",
+    "dx": [
+     150,
+     0
+    ],
+    "tau": 340001,
+    "counter": true,
+    "out": true,
+    "reexp": true,
+    "want": {
+     "out": true,
+     "reexp": true
+    },
+    "pass": true,
+    "sameAsSources": true,
+    "W": 5.699697389369084e-9
+   },
+   {
+    "key": "spaceOnly",
+    "label": "空間だけの超過(対照 —— 源から再評価できる)",
+    "dx": [
+     150,
+     0
+    ],
+    "tau": 5,
+    "counter": false,
+    "out": false,
+    "reexp": true,
+    "want": {
+     "out": false,
+     "reexp": true
+    },
+    "pass": true,
+    "sameAsSources": true,
+    "W": 5.699698071477351e-9
+   },
+   {
+    "key": "inside",
+    "label": "範囲内(対照 —— 一次のまま)",
+    "dx": [
+     3,
+     -4
+    ],
+    "tau": 5,
+    "counter": false,
+    "out": false,
+    "reexp": false,
+    "want": {
+     "out": false,
+     "reexp": false
+    },
+    "pass": true,
+    "sameAsSources": null,
+    "W": 5.699981784006145e-9
+   }
+  ],
+  "counterPass": 3,
+  "counterN": 3,
+  "ok": true
+ },
+ "fingerprint": {
+  "ok": true,
+  "steps": 20000,
+  "dt": 0.016,
+  "sha256": "5aee79be4bc0dea29c0763fa8ee720aa8eb1c44841de6ce723cf1992d1476ac5",
+  "state": [
+   -1.9848547095027183,
+   -0.7576998132106275,
+   16.32479593808057,
+   6.224986482619074,
+   0.0008626825651273567,
+   -0.4762780846453311,
+   -0.007087486798146485,
+   -0.4554312933863204,
+   320.00000000002336
+  ],
+  "timeOut": 0,
+  "timeReexp": 0
+ },
+ "flags": {
+  "base": {
+   "ok": true,
+   "widthT": 340000,
+   "steps": 689831,
+   "tEnd": 11037.295999849593,
+   "timeOutSteps": 0,
+   "timeOutEvals": 0,
+   "timeReexp": 0,
+   "harnessCount": 0,
+   "countsAgree": true,
+   "contractRange": "範囲内",
+   "state": [
+    0.1907746668314645,
+    -0.000036242704991541405,
+    19.78677463916388,
+    0.0002931042948572885,
+    4.068481711196427e-8,
+    -0.47643699345904766,
+    -3.342516886538857e-7,
+    -0.4541257562573081
+   ]
+  },
+  "short": {
+   "ok": true,
+   "widthT": 3000,
+   "steps": 689831,
+   "tEnd": 11037.295999849593,
+   "timeOutSteps": 502332,
+   "timeOutEvals": 1004664,
+   "timeReexp": 0,
+   "harnessCount": 502332,
+   "countsAgree": true,
+   "contractRange": "契約範囲外",
+   "state": [
+    0.1907746668314645,
+    -0.000036242704991541405,
+    19.78677463916388,
+    0.0002931042948572885,
+    4.068481711196427e-8,
+    -0.47643699345904766,
+    -3.342516886538857e-7,
+    -0.4541257562573081
+   ]
+  },
+  "shortBitSameAsBase": true,
+  "observationFlags": [
+   {
+    "preset": "charonGeoToy3",
+    "run": "2 周(同方向)・宣言の widthT",
+    "contractRange": "範囲内",
+    "timeOutSteps": 0
+   },
+   {
+    "preset": "w288cCharonShortWidth(器の中だけの写し)",
+    "run": "2 周(同方向)・widthT=3000",
+    "contractRange": "契約範囲外",
+    "timeOutSteps": 502332
+   }
+  ],
+  "ok": true
+ },
+ "census": {
+  "nPresets": 144,
+  "timeContract": [
+   "charonGeoToy3"
+  ],
+  "cardRow": [
+   "charonGeoToy3"
+  ],
+  "version": "w288c-bgtime-2",
+  "ok": true
+ },
+ "htmlVersion": "w288c-bgtime-2",
+ "before": {
+  "rev": "940dba52",
+  "how": "枝の実測(W288C_BASE=beta/_w288_base.html で本器の baseProbe を子プロセスで走らせた値)",
+  "cases": [
+   {
+    "key": "timePlus",
+    "out": false,
+    "reexp": true
+   },
+   {
+    "key": "timeMinus",
+    "out": false,
+    "reexp": true
+   },
+   {
+    "key": "timeAndSpace",
+    "out": false,
+    "reexp": true
+   },
+   {
+    "key": "spaceOnly",
+    "out": false,
+    "reexp": true
+   },
+   {
+    "key": "inside",
+    "out": false,
+    "reexp": false
+   }
+  ],
+  "fingerprint": {
+   "steps": 20000,
+   "dt": 0.016,
+   "sha256": "5aee79be4bc0dea29c0763fa8ee720aa8eb1c44841de6ce723cf1992d1476ac5"
+  }
+ },
+ "beforeAfter": {
+  "counterBefore": 0,
+  "counterAfter": 3,
+  "controlsSame": true,
+  "charonBitSame": true
+ },
+ "elapsedS": 15.574
+}

@@ -1443,7 +1443,10 @@ ja: {
   // 第287便d(AN72): 線の軌跡の追従フレーム・🔁 の HUD 1 行
   tgTrailFollow:"線の軌跡を追従フレームで",
   tgTrailFollowDesc:"線の軌跡を、カメラ追従の既定の天体(camera.follow)から見た相対位置で積んで描く(表示専用 —— 力学・保存 JSON・署名は変わらない)。宣言した本(🔁)だけ既定 ON・他は世界座標のまま。切り替えると積んだ線は引き直す。",
-  hudTrailFollowNull:"相対近点は零試験済み(☄️ との差 10⁻¹² °/周の桁)・画面の流れは u=V(≈230 km/s)の一様な移送 —— 線の軌跡は太陽を原点にした追従フレーム",
+  hudTrailFollowNull:"相対近点は零試験済み(☄️ との差 10⁻¹² °/周の桁)・画面の流れは u=V(≈23 km/s)の一様な移送 —— 線の軌跡は太陽を原点にした追従フレーム",
+  // 第288便c(AN86): 背景の時間の契約を宣言した本(🌒)だけ観測結果カードに 1 行(表示専用 —— 署名・判定は変えない)
+  bgRangeRow:(n,w,mode)=>"⏱ 背景の時間の契約("+mode+"・有効幅 widthT="+w+"): 範囲外 "+n+" 歩"+(n>0? " —— この走行を含む観測比較は「契約範囲外」(再展開しない・判定は変えない)" : "(範囲内)"),
+  bgRangeTip:"背景の値を時間で動かす契約(timeContract)の有効幅 widthT を |t−t₀| が超えた歩数(第288便c・AN86)。超えても背景を作り直さず(再展開しない)、数えて印すだけ。超えた走行を含む観測比較は「契約範囲外」と読む —— 合否の判定は変えない。",
   // 第287便d(AN71): 群を移した BH 連星の家族のカードの 1 行(side table GROUP_CARD_NOTE)
   gcnCal:"BH 連星の家族(🎐⏰⚛️ —— 🎻 は第288便b で退役)は「現実較正」に置く(表示だけ —— 所属は合否を意味しない)。geoPN=0・較正母集団の門には入れない(σ 未接続)。",
   gcnPrinciple:"BH 連星の家族(🎐⏰⚛️ —— 🎻 は第288便b で退役)は「現実較正」に置く(表示だけ —— 所属は合否を意味しない)。本サンプルは原理サンプル —— geoPN=0・較正母集団の外。",
@@ -2410,7 +2413,9 @@ en: {
   lcDefLineShort:(m,o,rel)=>rel==="same"? "Def: now & obs both "+m : "Def: now "+m+", obs "+o+(rel==="differ"? " (differ)" : ""),
   tgTrailFollow:"Line trails in the follow frame",
   tgTrailFollowDesc:"Record and draw the line trails as positions relative to the default camera-follow body (camera.follow). Display only — the dynamics, the save JSON and the signature do not change. ON by default only where declared (🔁); elsewhere trails stay in world coordinates. Switching redraws the trails from scratch.",
-  hudTrailFollowNull:"Relative periapsis passed its null test (difference from ☄️ of order 10⁻¹² deg/orbit); the drift on screen is the uniform transport u=V (≈230 km/s) — line trails are in the follow frame centred on the Sun",
+  hudTrailFollowNull:"Relative periapsis passed its null test (difference from ☄️ of order 10⁻¹² deg/orbit); the drift on screen is the uniform transport u=V (≈23 km/s) — line trails are in the follow frame centred on the Sun",
+  bgRangeRow:(n,w,mode)=>"⏱ Background time contract ("+mode+", valid width widthT="+w+"): "+n+" steps out of range"+(n>0? " — any observation comparison that includes this run is OUTSIDE THE CONTRACT (not re-expanded; the verdict is unchanged)" : " (in range)"),
+  bgRangeTip:"Steps where |t−t₀| exceeded the valid width widthT of the time contract (timeContract) that moves the background value in time (wave 288c, AN86). Nothing is rebuilt (no re-expansion); the steps are only counted and flagged. Read any observation comparison that includes such a run as outside the contract — the pass/fail verdict is not changed.",
   gcnCal:"The binary-black-hole family (🎐⏰⚛️ — 🎻 retired in wave 288b) sits in \"Reality Calibration\" (display only — membership says nothing about pass or fail). geoPN=0; it does NOT enter the calibration-population gate (no σ connected).",
   gcnPrinciple:"The binary-black-hole family (🎐⏰⚛️ — 🎻 retired in wave 288b) sits in \"Reality Calibration\" (display only — membership says nothing about pass or fail). This is a principle sample — geoPN=0, outside the calibration population.",
   lcCardOff:"Turn on the \"Live comparison\" graph to measure this run (nothing is measured while it is OFF)",
@@ -5836,11 +5841,14 @@ function bgLawCrossCheck(bgc, ph, sampleClass){
 //   ・mode "taylor" … 宣言の 6 成分を基準時刻 t₀ のまわりの一次で動かす: W(x,t)=W₀+∇W·dx+∂ₜW·τ・A も同様(∇ と ∂ₜ は宣言値のまま)。
 //     空間有効半径 radiusR と時間有効幅 widthT を宣言する。範囲の外は、源の台帳があれば**源から再展開**(その点・その時刻の値を作り直す)、
 //     台帳が無ければ一次のまま評価して範囲外の回数を数える(**閾値で背景を消さない**)。
+//     第288便c(R115・AN86): 再展開しても**時間の超過は範囲外として返す**(同じ近似軌道を幅の外へ延ばしただけ —— 時間の有効性は回復しない)。
+//     空間だけの超過は源から再評価できるので範囲外に数えない。超えた歩数は `S.meshVelTimeOutSteps` に数え(再展開はしない)、
+//     超えた走行を含む観測比較は「契約範囲外」と印す(観測結果カードの 1 行 —— 判定は変えない)。
 //   ・derivFrame "frame" … 宣言の ∂ₜ は**宣言した凍結参照系の座標で固定した点**の偏微分(comoving なら原点と一緒に動く点)。
 //     dx は評価点 − 原点 O(t) なので、原点速度の移流分 V_O·∇ を別に足さない(二重計上しない)。慣性系の偏微分で書いた値は
 //     ∂ₜ|frame=∂ₜ|慣性+V_O·∇ に直してから書く。
 //   ・`v` へ ∂ₜu をそのまま足す修正は採らない(ẋ=v+u の u の時間変化と重複する)—— 変えるのは背景の値の時間発展だけ。
-const BGC_TIME_VERSION = "w287c-bgtime-1";
+const BGC_TIME_VERSION = "w288c-bgtime-2";   // 第288便c: 再展開の out 旗を時間の超過に揃えた(値は不変 —— 旗の意味だけ)
 const BGC_TIME_MODES = ["taylor","sources"];
 const BGC_TIME_DERIV_FRAMES = ["frame"];
 const BGC_TIME_KEYS = ["mode","t0","derivFrame","radiusR","widthT"];
@@ -5921,8 +5929,10 @@ function bgTimeMomentsAt(B, T, dx, dy, tau){
   }
   const outR=Math.hypot(dx,dy)>T.radiusR;
   if((outT || outR) && T.ledger){
+    // 第288便c(統括の検証項目 R115): 再展開は同じ X+Vτ+½aτ² の近似軌道を幅の外まで延ばしただけなので**時間の有効性は回復しない**
+    //   → out は時間の超過(outT)をそのまま返す(sources 経路と同じ規約)。空間だけの超過は源から再評価できるので out=false のまま
     const M=bgTimeFromSources(T, dx, dy, tau);
-    return M? {ok:true, bg:M, out:false, reexp:true} : {ok:false, why:"sources"};
+    return M? {ok:true, bg:M, out:outT, reexp:true} : {ok:false, why:"sources"};
   }
   return {ok:true, out:(outT || outR), reexp:false, bg:{W:B.W0+B.gradW[0]*dx+B.gradW[1]*dy+B.dWdt*tau,
     A:[B.A0[0]+B.gradA[0]*dx+B.gradA[1]*dy+B.dAdt[0]*tau, B.A0[1]+B.gradA[2]*dx+B.gradA[3]*dy+B.dAdt[1]*tau],
@@ -9509,6 +9519,85 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
     spaceMesh:{mode:"mesh"},
     galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
+// ===== 第288便c(原仮定者の裁定(第78報)⑧・第78報で閉じた AN84・統括の検証項目 R115): **背景と中心の合成の診断コピー 🧩**(principle・較正ではない)。
+// 🌚 galaxyAnalogyBH の physics・bodies・台帳を**そのまま写し**、違いは 2 つだけ:
+// ① **静止背景を明示**: `physics.spaceMesh.D0:1.5`(旧 W_bg=D₀=1.5 と同じ数 —— 第283便f の明示入力。WbgFrom は "declared")。
+//    力学は 🌚 とビット同一(器 tests/exp-w288c-compose.mjs が 300 步で照合 —— 同じ数を明示しただけ)。
+// ② 宣言 `bgCompose`(**表示と器だけ —— 力学・署名は読まない**): 共通評価器の版(tests/lib-w288c-compose.mjs・w288c-compose-1)・
+//    背景の欄(静止 W_bg=1.5・A_bg=0・核 p=1 —— W の単位は M/L)・中心の欄(body:0 を**台帳の 1 源として 1 回だけ**・局所の和から外す)・
+//    A_spin の構成(有限サイズの回転源 = E6′ の減衰形を中心だけ —— 静止した点源を足すだけでは自転の流れは出ない)。
+// share-p1(背景法則版)の規約(centerSpin・spaceMesh.D0・meshVelocity との併用の拒否)は**変えない** —— 本コピーは backgroundComplex を持たない。
+{ id:"galaxyAnalogyBHCompose", name:"銀河アナロジー — 背景と中心の合成の診断コピー(較正ではない)", emoji:"🧩",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["galaxy","dm"],
+  obsCard:[
+    {q:"何を替えたか", model:"🌚 の写し。静止背景 W_bg=1.5 を spaceMesh.D0 に明示(旧 W_bg=D₀ と同じ数)・中心(body:0)を台帳の 1 源と宣言(bgCompose —— 表示と器だけ)", obs:"—(診断コピー — 観測転写はしない)"},
+    {q:"力学は 🌚 と同じか", model:"300 步の全状態がビット同一(同じ数を明示しただけ —— 器 tests/exp-w288c-compose.mjs)", obs:"—"},
+    {q:"中心は 1 回だけ", model:"W=W_bg+Σw_j・A=A_bg+Σw_j v_j+A_spin。台帳が参照した中心は局所の和から外す(二重に足すと W が w_c だけ増える —— 採らない形の対照)", obs:"—"},
+    {q:"静止した中心だけでは回らない", model:"v_c=0 の中心点質量を足しただけなら A=w_c v_c=0 —— A_spin なしの u は 0(ビット)", obs:"—(自転の流れは A_spin を別に構成したときだけ)"},
+    {q:"A_spin の対照", model:"有限サイズの回転源(E6′ の減衰形・中心だけ)を源の添字の位置で足すと場の契約の u・∇u・∂ₜu とビット一致・最後にまとめて足すと差は丸めだけ", obs:"—"},
+    {q:"言わないこと", model:"複素場を接続した/中心の自転が銀河の回転を作った/平坦回転を再現した、とは書かない", obs:"—"}],
+  descStruct:{
+    summary:"**🌚 銀河アナロジーの診断コピー —— 静止背景を明示し、中心を背景の台帳の 1 源として 1 回だけ数える合成(AN84)の器**(第288便c・原仮定者の裁定〔第78報〕⑧・統括の検証項目 R115)。physics・bodies・台帳は 🌚 の写しで、違いは spaceMesh.D0:1.5(旧 W_bg=D₀ と同じ数の明示入力)と表示・器だけの宣言 bgCompose(共通評価器の版・背景の欄・中心の欄・A_spin の構成)の 2 つ。**力学は 🌚 とビット同一**。共通評価器(tests/lib-w288c-compose.mjs)は W=W_bg+Σw_j・A=A_bg+Σw_j v_j+A_spin・u=A/W を同じ核(p=1 —— W の単位は M/L)・同じ自己除外で作り、**中心は局所源として 1 回だけ**計上する(源の加速度は E4 の重力・A_spin は E6′ の自転項の減衰形)。**較正ではない**(sampleClass:\"principle\")。",
+    observe:"実測(器 tests/exp-w288c-compose.mjs・正本 tests/out/compose-w288c.json): 中心の計上回数は全評価点で 1(二重計上の対照は W が w_c だけ大きい)/静止した中心(v_c=0)と静止背景だけなら u は全評価点で 0(自転の流れは出ない)/A_spin を有限サイズの回転源として中心の添字の位置で足すと場の契約(dfmFieldContract)の u・∇u・∂ₜu とビット一致・まとめて足す形は丸めの差だけ(数は PHYSICS〔第288便c〕)。",
+    control:"比較の相手は 🌚(同じ配置・W_bg を D₀ から読む)。ワンタップ対照 A/B: B 側は中心の spin=0(🌚 と同じ)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
+  en:{name:"Galaxy analogy - composition diagnostic copy (background + centre; NOT a calibration)",
+    obsCard:[
+      {q:"What was changed", model:"A copy of 🌚. The static background W_bg=1.5 is declared in spaceMesh.D0 (the same number as the old W_bg=D0); the centre (body:0) is declared as one ledger source (bgCompose - display and harness only)", obs:"- (a diagnostic copy; nothing transcribed)"},
+      {q:"Same dynamics as 🌚?", model:"the full state after 300 steps is bit-identical (the same number is only made explicit - harness tests/exp-w288c-compose.mjs)", obs:"-"},
+      {q:"The centre counts once", model:"W=W_bg+sum w_j, A=A_bg+sum w_j v_j+A_spin. The centre referenced by the ledger is removed from the local sum (adding it twice raises W by w_c - the rejected form, kept as a control)", obs:"-"},
+      {q:"A resting centre alone does not rotate", model:"adding a point mass with v_c=0 gives A=w_c v_c=0 - without A_spin, u is 0 (bitwise)", obs:"- (a spin flow appears only when A_spin is built separately)"},
+      {q:"The A_spin control", model:"a finite-size rotating source (the E6-prime decay form, centre only) added at the source's index reproduces the field contract's u, grad u, d_t u bit for bit; adding it at the end differs by rounding only", obs:"-"},
+      {q:"Not claimed", model:"no complex field was connected, the centre's spin did not create the galaxy's rotation, no flat curve reproduced", obs:"-"}],
+    descStruct:{
+      summary:"A DIAGNOSTIC COPY OF THE 🌚 GALAXY ANALOGY - the harness for the composition that makes the static background explicit and counts the centre ONCE as one source of the background ledger (AN84) (wave 288c; the originator's ruling, report 78, item 8; the coordinator's check item R115). Physics, bodies and ledger are copied from 🌚; the two differences are spaceMesh.D0:1.5 (the same number as the old W_bg=D0, made explicit) and the display/harness-only declaration bgCompose (evaluator version, background field, centre field, how A_spin is built). THE DYNAMICS ARE BIT-IDENTICAL TO 🌚. The common evaluator (tests/lib-w288c-compose.mjs) builds W=W_bg+sum w_j, A=A_bg+sum w_j v_j+A_spin, u=A/W with the same kernel (p=1 - W in M/L) and the same self-exclusion, COUNTING THE CENTRE ONCE as a local source. NOT A CALIBRATION (sampleClass principle).",
+      observe:"Measured (harness tests/exp-w288c-compose.mjs, canonical tests/out/compose-w288c.json): the centre is counted once at every evaluation point (the double-count control has W larger by w_c); with a resting centre (v_c=0) and the static background only, u is 0 at every point (no spin flow); adding A_spin as a finite-size rotating source at the centre's index reproduces the field contract (dfmFieldContract) u, grad u and d_t u bit for bit, while adding it at the end differs by rounding only (numbers in PHYSICS, wave 288c).",
+      control:"The comparison partner is 🌚 (same configuration, W_bg read from D0). One-tap A/B: side B sets the centre's spin to 0 (as in 🌚). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測回転曲線も観測質量も 1 つも入力していない(原理サンプル・🌚 の写し)"],
+    fixedConventions:["🌚 の physics 宣言(geoPN=3・kFrame=0・lawVersion:\"scalar\"・inertia:false・η=1・D₀=1.5・ε=3・frameWeight:\"share\"・centerSpin:\"read\")+ spaceMesh.D0:1.5(静止背景の明示 —— 旧 W_bg と同じ数)",
+      "bgCompose(表示と器だけ): 共通評価器 w288c-compose-1・背景 W_bg=1.5・A_bg=0・核 p=1(W の単位 M/L)・中心 body:0 を台帳の 1 源として 1 回だけ・A_spin は有限サイズの回転源(E6′ の減衰形・中心だけ)",
+      "中心・恒星・DR の配置と乱数種は 🌚 と同じ(20260925)"],
+    fitted:["**無い。**"],
+    derived:["M_DR=40·M★=2125 単位(🌚 と同じ)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","照合: dt=0.016 で 300 步(🌚 とのビット同一)"]},
+  bgCompose:{version:"w288c-compose-1", harness:"tests/exp-w288c-compose.mjs",
+    background:{from:"spaceMesh.D0", W:1.5, A:[0,0], p:1, units:"M/L", static:true},
+    center:{ref:"body:0", once:true}, spin:{mode:"e6", centers:["body:0"], note:"A_spin は有限サイズの回転源(E6′ の減衰形 ω(d)=s(R/(R+d))^q を中心だけ)"}},
+  activeParams:["D0","G"],
+  validT:48,
+  abBody:{ label:{ja:"中心の spin=0(自転の寄与だけを外す)", en:"centre spin = 0 (only the spin contribution removed)"},
+    targets:[0], patch:{spin:0} },
+  massLedger:{version:"w282d-1", starBase:53.125, fStar:1, gas:0, core:2500, unitKg:1e34, mSunKg:1.9885e30,
+    mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:1,
+    currentTotalUnit:2553.125, currentTotalSun:12839451.84812673,
+    rotorScenarios:[
+      {mRotorSun:0.1, nRotor:10686447.070656272, mRotorUnit:212.49999999999997, totalUnit:2765.625, totalSun:13908096.555192357},
+      {mRotorSun:1, nRotor:10686447.070656272, mRotorUnit:2124.9999999999995, totalUnit:4678.125, totalSun:23525898.918782998},
+      {mRotorSun:10, nRotor:10686447.070656272, mRotorUnit:21249.999999999996, totalUnit:23803.124999999996, totalSun:119703922.55468944}],
+    darkRotor:{mRotorSun:1, nRep:40, mPerRepUnit:53.125, totalUnit:2125, inDynamics:true, lens:"excluded",
+      distribution:"恒星円盤と同じ指数円盤(半径 260・sersicRe 90)・初速は配置の実ポテンシャルの円運動解(宣言 —— 決断事項)"},
+    note:"条件付き台帳(第282便d・原仮定者の裁定〔第72報〕⑥)。⟨m_DR⟩=1 M☉ の行を**力学の質量要素として bodies に入れた**(代表粒子 40 体 × 53.125 = 2125 単位)。0.1/10 M☉ は比較の列で、bodies には入れていない。個数比 20 は宣言値で、浮遊惑星の観測(地球質量級)は恒星質量の暗い天体が恒星の 20 倍あることを示していない。f★=1。較正母集団に入れない。",
+    noteEn:"A conditional ledger (wave 282d, the originator's ruling in report 72, item 6). The <m_DR> = 1 Msun row IS PUT INTO THE BODIES AS A DYNAMICAL MASS COMPONENT (40 representative particles x 53.125 = 2125 units); 0.1 and 10 Msun are comparison columns not in the bodies. The count ratio 20 is a declared value; the observed free-floating planets (Earth-mass class) do not show 20 stellar-mass dark bodies per star. f_star = 1. Not in the calibration population."},
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260925,
+  physics:{contactMode:"none"/* 第285便a(原仮定者の裁定(第75報)④・R95): 多粒子の契約 —— 接触判定なし */, G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read", D0:1.5/* 第288便c: 静止背景の明示(旧 W_bg=D₀ と同じ数) */}},
+  bodies:[
+    // 中心 DFM 版 BH(🎋 と同じ値)
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:1.2, pinned:true, radius:15},
+    // 恒星: バルジ(Plummer)と指数円盤 —— 質量を 0.3125 に固定(M★=170×0.3125=53.125)
+    {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:90, profile:"plummer", plummerScale:26,
+     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0},
+    {type:"disk", rMul:1.2, n:80, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"enclosed", vScale:1, direction:1, bulkVx:0, bulkVy:0},
+    // 恒星質量ダークローターの代表粒子(N_rep=40・1 体 53.125・計 2125 —— 力学の質量要素。lightSweep 1 = 表示で暗い)
+    {type:"disk", rMul:1.2, n:40, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:53.125,mMax:53.125, spinMin:0,spinMax:0, vMode:"enclosed", vScale:1, direction:1, bulkVx:0, bulkVy:0, lightSweep:1}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
+    spaceMesh:{mode:"mesh"},
+    galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
 // ===== 第283便f(原仮定者の裁定(第72報)⑥「アナロジーは geoPN=3・中心にスケール調整した DFM 版ブラックホール・対象は
 // 球状星団 → 楕円 → 渦巻 → 棒渦巻・質量合わせは恒星質量ダークローター」の**第 1 段(球状星団)**・原仮定者の裁定(第73報)AN27・
 // 統括の検証項目 R81): **球状星団アナロジー**(principle・較正ではない)。🌚 の physics(geoPN=3・kFrame=0・scalar・η=1・
@@ -11909,7 +11998,7 @@ const BUILTIN_PRESETS = [
   notClaim:["solar_cal"],
   orbitObs:{center:0, orbiter:1, ghostAmp:1e5},
   obsCard:[
-    {q:"何を替えたか(法則だけ)", model:"☄️ の physics・bodies をビット同一で複製し geoPN=3・vMinusU へ。一様な u=V=(2.3,0)=230 km/s(診断値)を置く", obs:"—(零試験 — 観測転写はしない)"},
+    {q:"何を替えたか(法則だけ)", model:"☄️ の physics・bodies をビット同一で複製し geoPN=3・vMinusU へ。一様な u=V=(2.3,0)=23 km/s(診断値)を置く", obs:"—(零試験 — 観測転写はしない)"},
     {q:"(a) 近点移動 — u=V・pn:reference-1PN(v)", model:"2.2514654×10⁻⁵ °/周・☄️ との差 −2.81×10⁻¹²(59 近点・dt=0.016)", obs:"☄️ の正式値 2.2514657×10⁻⁵ °/周"},
     {q:"(a) dt/2 で同じ比較", model:"差 −7.08×10⁻¹¹ °/周(☄️ 自身の dt/2 は 2.3873189×10⁻⁵)", obs:"—(刻みの幅と比べる)"},
     {q:"pnVelocity:\"xdot\"(1PN が ẋ=v+u を読む)", model:"2.3561689×10⁻⁵ °/周・☄️ との差 +1.05×10⁻⁶ —— u=V が 1PN の入力に入る", obs:"—(事後採用しない — v と並べる)"},
@@ -11918,12 +12007,12 @@ const BUILTIN_PRESETS = [
     {q:"見た目と合格(第287便c)", model:"追従は太陽。相対近点の差は 10⁻¹² °/周の桁(零試験)。画面の流れは一様な u=V の移送で、合格とは書かない", obs:"—(背景は時間微分 0 —— 時間の契約の前後で 1 bit も変わらない)"},
     {q:"言わないこと", model:"43″ を再現した/較正した/1PN を DFM から導出した、とは書かない", obs:"—"}],
   descStruct:{
-    summary:"**☄️ mercuryReal の physics と bodies をビット同一で複製し、法則だけを geoPN=3 の速度分解(lawVersion:\"vMinusU\")へ替えた零試験**(第280便c・原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」)。移送 ẋ=v+u と正準項 v̇=a_space−Jᵀv を分けて当て(第279便c の外部ステップ)、**独立の遠心斥力は足さない**。背景は一様な u=V=(2.3,0)単位=230 km/s(**診断値** —— 観測の転写ではない。点源 1 個の mutual:0 の場は u が一様になる、という第279便c の結論を背景の宣言形で置いた)。1PN は pn:\"reference-1PN\"(E12 の試験粒子形 —— **比較用の外部理論項**で DFM から導出した項ではない)・pnVelocity:\"v\"。**較正ではない**(sampleClass:\"principle\")。",
+    summary:"**☄️ mercuryReal の physics と bodies をビット同一で複製し、法則だけを geoPN=3 の速度分解(lawVersion:\"vMinusU\")へ替えた零試験**(第280便c・原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」)。移送 ẋ=v+u と正準項 v̇=a_space−Jᵀv を分けて当て(第279便c の外部ステップ)、**独立の遠心斥力は足さない**。背景は一様な u=V=(2.3,0)単位=23 km/s(**診断値** —— 観測の転写ではない。点源 1 個の mutual:0 の場は u が一様になる、という第279便c の結論を背景の宣言形で置いた)。1PN は pn:\"reference-1PN\"(E12 の試験粒子形 —— **比較用の外部理論項**で DFM から導出した項ではない)・pnVelocity:\"v\"。**較正ではない**(sampleClass:\"principle\")。",
     observe:"実測(器 tests/exp-w280c-geo3.mjs・正式の判定器 calaudit のページ側ヘルパをソースから取り出した同じ抽出器・同じ窓 59 近点): 近点移動は 2.2514654×10⁻⁵ °/周で、☄️ 自身(同じ抽出器で測り直すと正本 2.2514656997711987×10⁻⁵ にビット一致)との差は −2.81×10⁻¹² °/周(dt=0.016)・−7.08×10⁻¹¹ °/周(dt/2)。1PN の寄与(λ_PN=1 と 0 の差)は 2.87151×10⁻⁵ °/周。pnVelocity:\"xdot\" にすると 2.3561689×10⁻⁵ °/周(差 +1.05×10⁻⁶)で、**u=V が 1PN の入力に入る**。pn:\"off\" は 1PN なし対照(geoPN=2・λ_PN=0)と差 −3.25×10⁻¹¹ °/周。太陽(pinned)は慣性速度 v=0 のまま位置だけ ẋ=u で運ばれる。",
     control:"ワンタップ対照 A/B: B 側は geoPN=2(☄️ と同じ統一測地線則 —— 速度分解の外部ステップは立たない)。**kFrame は動かさないこと**(vMinusU は kFrame=0 専用 —— E6′ の追従キック・geoPN=2 の v−u 輸送と座標変換を二重に当てない。kFrame>0 にすると入場条件が立たず「未作動」になる)。ステップ診断の HUD に「geoPN=3 / vMinusU / pn:reference-1PN(v)」と作動の步数が出る。"},
   en:{name:"Mercury — geoPN=3 contract null test (uniform coordinate change; NOT a calibration)",
     obsCard:[
-      {q:"What was swapped (the law only)", model:"☄️'s physics and bodies copied bit for bit, law swapped to geoPN=3 vMinusU. A uniform u=V=(2.3,0)=230 km/s (a diagnostic value)", obs:"- (a null test; nothing is transcribed)"},
+      {q:"What was swapped (the law only)", model:"☄️'s physics and bodies copied bit for bit, law swapped to geoPN=3 vMinusU. A uniform u=V=(2.3,0)=23 km/s (a diagnostic value)", obs:"- (a null test; nothing is transcribed)"},
       {q:"(a) Periapsis advance - u=V, pn reference-1PN (v)", model:"2.2514654×10⁻⁵ deg/orbit; difference from ☄️ −2.81×10⁻¹² (59 periapsides, dt=0.016)", obs:"☄️'s official 2.2514657e-5 deg/orbit"},
       {q:"(a) The same comparison at dt/2", model:"difference −7.08×10⁻¹¹ deg/orbit (☄️ itself at dt/2: 2.3873189×10⁻⁵)", obs:"- (compare with the step width)"},
       {q:"pnVelocity xdot (1PN reads xdot=v+u)", model:"2.3561689×10⁻⁵ deg/orbit; difference from ☄️ +1.05×10⁻⁶ - u=V enters the 1PN input", obs:"- (not adopted after the fact; listed beside v)"},
@@ -11932,7 +12021,7 @@ const BUILTIN_PRESETS = [
       {q:"What you see vs a pass (wave 287c)", model:"The camera follows the Sun. The relative periapsis difference is of order 10⁻¹² deg/orbit (a null test). The drift on screen is the transport by the uniform u=V; this is not called a pass", obs:"- (the background has zero time derivative - bit-identical across the time contract)"},
       {q:"What this does not claim", model:"NOT a reproduction of 43 arcsec, NOT a calibration, NOT a 1PN term derived from DFM", obs:"-"}],
     descStruct:{
-      summary:"A NULL TEST: ☄️ mercuryReal's physics and bodies are copied bit for bit and ONLY THE LAW is swapped for the geoPN=3 velocity decomposition (lawVersion vMinusU) (wave 280c; the originator's ruling, report 70: 'examine the periapsis-advance differences - proceed as geoPN=3'). The transport xdot=v+u and the canonical term vdot=a_space-J^T v are applied separately (wave 279c's external step) and NO SEPARATE CENTRIFUGAL REPULSION IS ADDED. The background is a uniform u=V=(2.3,0) units = 230 km/s (A DIAGNOSTIC VALUE, not a transcription; it puts wave 279c's result - one point source gives a uniform u under mutual:0 - in declared-background form). 1PN is pn reference-1PN (the E12 test-particle form - AN EXTERNAL REFERENCE TERM FOR COMPARISON, not derived from DFM) with pnVelocity v. NOT A CALIBRATION (sampleClass principle).",
+      summary:"A NULL TEST: ☄️ mercuryReal's physics and bodies are copied bit for bit and ONLY THE LAW is swapped for the geoPN=3 velocity decomposition (lawVersion vMinusU) (wave 280c; the originator's ruling, report 70: 'examine the periapsis-advance differences - proceed as geoPN=3'). The transport xdot=v+u and the canonical term vdot=a_space-J^T v are applied separately (wave 279c's external step) and NO SEPARATE CENTRIFUGAL REPULSION IS ADDED. The background is a uniform u=V=(2.3,0) units = 23 km/s (A DIAGNOSTIC VALUE, not a transcription; it puts wave 279c's result - one point source gives a uniform u under mutual:0 - in declared-background form). 1PN is pn reference-1PN (the E12 test-particle form - AN EXTERNAL REFERENCE TERM FOR COMPARISON, not derived from DFM) with pnVelocity v. NOT A CALIBRATION (sampleClass principle).",
       observe:"Measured (harness tests/exp-w280c-geo3.mjs, the same extractor lifted from the official calaudit page helpers, the same 59-periapsis window): the advance is 2.2514654×10⁻⁵ deg/orbit, differing from ☄️ itself (remeasured with the same extractor it reproduces the official 2.2514656997711987e-5 bit for bit) by −2.81×10⁻¹² deg/orbit at dt=0.016 and −7.08×10⁻¹¹ at dt/2. The 1PN contribution (lambda_PN 1 minus 0) is 2.87151×10⁻⁵ deg/orbit. With pnVelocity xdot it reads 2.3561689×10⁻⁵ (difference +1.05×10⁻⁶): u=V ENTERS THE 1PN INPUT. pn off differs from the no-1PN control (geoPN=2, lambda_PN=0) by −3.25×10⁻¹¹ deg/orbit. The pinned Sun keeps v=0 and is only carried by xdot=u.",
       control:"One-tap A/B: side B is geoPN=2 (☄️'s unified geodesic law - the velocity-decomposition step does not run). DO NOT MOVE kFrame (vMinusU is kFrame=0 only - it must not apply the coordinate change twice with the E6-prime following kick or the geoPN=2 v-u transport; with kFrame>0 the entry condition fails and the chip reads not acting). The step-diagnostics HUD prints 'geoPN=3 / vMinusU / pn:reference-1PN(v)' with the step counts."}},
   parameterAudit:{
@@ -11943,7 +12032,7 @@ const BUILTIN_PRESETS = [
     fitted:["**無い。**"],
     derived:["背景 W₀=1・A₀=W₀V(u=A/W=V —— W₀ の値そのものは u に効かない)"],
     numerical:["ソフトニング ε=0.05","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)",
-      "u=V=(2.3,0)単位=230 km/s は**診断値**(観測の転写ではない)"]},
+      "u=V=(2.3,0)単位=23 km/s は**診断値**(観測の転写ではない)"]},
   abBody:{ label:{ja:"geoPN=2(☄️ と同じ統一測地線則へ戻す — 速度分解を切る)", en:"geoPN=2 (back to ☄️'s unified geodesic law — the velocity decomposition off)"},
     physicsPatch:{geoPN:2} },
   activeParams:["geoPN","lambdaPN","cLight"],
@@ -22660,6 +22749,7 @@ function makeSim(){
     S.geoToyPx=0; S.geoToyPy=0; S.geoToyL=0; S.geoToyE=0; S.geoToyEmesh=0;
     S.geoToyMeshPx=0; S.geoToyMeshPy=0; S.geoToyMeshL=0;
     S.geoToyN=0; S.geoToyDv=0; S.geoToyChi=0; S.geoToyStop=null;
+    S.pairFuseSteps=0; S._pairFuse=null;   // 第288便c: pair 巡回の融合の読み口と一時配列(器の対照の旗 S.pairFuseOff は build で消さない)
     // 第274便c: 帯平均 variant(diskSupport:"band-pressure")の読み口と**外部熱浴の別欄**。
     // 未宣言なら常に 0/null(既定トイの帳簿 E_toy+E_mesh=0 はこの欄に触られない)
     S.geoToyBathPx=0; S.geoToyBathPy=0; S.geoToyBathL=0; S.geoToyBathE=0;
@@ -29014,6 +29104,25 @@ function lcCardSync(){
     el.textContent=lcCardText(S,x);
   });
 }
+// 第288便c(原仮定者の裁定(第78報)で閉じた AN86・統括の検証項目 R115): 背景の時間の契約の有効幅を超えた步の数(観測結果カードの 1 行)。
+//   **再展開しない・数えるだけ**。超えた走行を含む観測比較は「契約範囲外」と読む(判定は変えない)。sim の数を読むだけの表示関数
+function bgRangeCardInfo(){
+  const S=sim, mv=S? S.meshVel : null;
+  if(!(S && S.hasMeshVelocity===true && mv && mv.bg && mv.bg.time)) return null;
+  return {n:S.meshVelTimeOutSteps||0, widthT:mv.bg.time.widthT, mode:mv.bg.time.mode, outside:(S.meshVelTimeOutSteps||0)>0};
+}
+function bgRangeCardSync(){
+  if(typeof document==="undefined") return;
+  const els=document.querySelectorAll("#helpBody .bgRangeInline");
+  if(!els.length) return;
+  const x=bgRangeCardInfo();
+  els.forEach((el)=>bgRangeCardFill(el,x));
+}
+function bgRangeCardFill(el,x){
+  if(!x){ el.dataset.out="none"; el.textContent=""; return; }
+  el.dataset.out=x.outside? "outside" : "inside"; el.dataset.n=String(x.n);
+  el.textContent=T("bgRangeRow")(x.n, x.widthT, x.mode);
+}
 function lcCycleQ(){ const sp=currentPreset && LIVE_COMPARE_SPEC[currentPreset.id]; if(!sp) return;
   liveCmp.qi=(liveCmp.qi+1)%sp.q.length; liveCmp.snap=null; }
 function lcCycleScale(){ liveCmp.scale=LC_SCALES[(LC_SCALES.indexOf(liveCmp.scale)+1)%LC_SCALES.length]; liveCmp.snap=null; lcCardSync(); }
@@ -29208,7 +29317,7 @@ function drawBG(){
 let trailBuf=[];   // overlays.trail 用の蓄積ポリライン(v1.9 — 長周期の軌道形状を保持する)
 // ===== 第287便d(原仮定者の裁定(第77報)⑤「🔁 は見た目が不安定」・AN72): **線の軌跡の追従フレーム**(表示専用)=====
 // 線の軌跡は世界座標で積んでいた(recTrail が S.x・S.y をそのまま積む)。🔁 mercuryGeoToy3 は一様な u=V=(2.3,0)
-// (230 km/s)で系全体が x へ流れる(carryPin で固定の太陽も 1 step 0.0368 移送)ので、カメラが太陽を追っても
+// (23 km/s)で系全体が x へ流れる(carryPin で固定の太陽も 1 step 0.0368 移送)ので、カメラが太陽を追っても
 // 世界座標の線は画面上で伸びたらせんになる —— 相対近点の零試験(☄️ との差 −2.81×10⁻¹² °/周)とは別の、**表示の問題**。
 // 追従フレームは camera.follow の天体を原点にした相対位置で線を積む。**宣言は side table**(presetSig は camera・
 // overlays を見るので、プリセットの鍵には書かない)。宣言した本だけ既定 ON・他は従来どおり world。
@@ -31152,6 +31261,7 @@ function syncHud(){
   // 第273便d(R17): **空間メッシュチップの実行追従**(停止理由が走行中に変わったら書き換える)。
   // 描画側だけの 1 行で、力学にも `S._core` にも 1 バイトも触れない
   syncMeshChip();
+  bgRangeCardSync();   // 第288便c(AN86): 観測結果カードの「範囲外 N 歩」(行が無い本は 1 回の検索で素通り)
   // 第61便 61B(レビューP1「step/モデル時刻併記」): 步数 = t/dt(dt=0.016 固定)
   let txt=`t=${sim.t.toFixed(1)} (${Math.round(sim.t/0.016)}步)  N=${sim.n}  ${Math.round(fpsEMA)}fps`;
   // 第39便 39E(台帳4-75 E2): sim.t が validT(評価済み最大時間)を超えたときだけ警告を追記。
@@ -37812,6 +37922,10 @@ function renderHelp(){
       }
       if(lcSp){ for(const z of lcSp.q) if(!lcDone.has(z.n)) lcRow(z.n); }
       else lcRow(null);
+      // 第288便c(AN86): 背景の時間の契約を宣言した本(内蔵は 🌒 だけ)に「範囲外 N 歩」の 1 行(クラスに ocRow を付けない ——
+      //   宣言行の数え方は不変)。文は bgRangeCardSync が sim の数から書く(表示専用 —— 署名・判定は変えない)
+      { const x=bgRangeCardInfo(); if(x){ const d=document.createElement("div"); d.className="ffRow bgRangeInline"; d.title=T("bgRangeTip");
+        bgRangeCardFill(d,x); box.appendChild(d); } }
       // 第273便c(第63報・AG24): **正式判定値**(判定器の正本の転記)。obsCard の宣言行の**後ろ**に
       // 別の欄として出す(`ocRow` を付けない —— 宣言行の数え方を変えない)。
       // **署名が正本と違えば数を出さない**(理由だけ出す)。**このページでは何も測っていない**
@@ -44676,6 +44790,120 @@ function dfmCenterCaptureStep(S){
   if(nDead){ S._compact(dead, S._capInto, n); C.i=c-nBefore; }
   return nDead;
 }
+// ===== 第288便c(原仮定者の裁定(第78報)⑧「重力は総当たりで成立し精度も高い」・統括の検証項目 R115): **pair 巡回の融合** =====
+// `dfmGeoToySpinStep` の 2 巡回(① 源の加速度 = `dfmField` need:"gravity" / ② u・∇u・∂ₜu = `dfmFieldContract`)は、同じ対 (i,j) の
+// s=|x_i−x_j|²+ε² を 1 步に最大 4 回(①② × 両向き)作り、1/√s を 2 回・s^{−p/2} を 2 回評価し、呼び出しごとに源の配列と物件を組み立てていた
+// (場の格子は元から無い —— 重さは対の総当たりの係数と組み立て)。本関数は**非順序対ごとに 1 回だけ** s・1/√s・s^{−p/2} を作って両巡回で
+// 再利用する(x_i−x_j=−(x_j−x_i) は IEEE で厳密なので s は両向きでビット同じ)。**加速度が確定した後の第 2 巡回は残す**
+// (∂ₜA は源の加速度 a_j を読む —— 加速度が未確定のまま ∂ₜ を融合しない)。和の順序(j の添字順)・式・門は ①② と 1 字ずつ同じ。
+// **受入はビット同一**(器 tests/exp-w288c-pairfuse.mjs が 🌚💮🌰 の同一初期状態・同一刻みで融合 ON/OFF と基点を比べる —— QA behavior.pairLoopFused)。
+// ①② が null を返しうる入力(非有限・質量 ≤0・s≤0・R の無い回転源・W_bg/q の非有限)は**融合しない**(従来の巡回へ戻す —— 結果は定義から同じ)。
+// 一時配列は `S._pairFuse`(粒子数 n が変われば作り直す —— 値は毎步作り直すので、捕獲・削除・質量変更の後に古い値を読むことは無い)。
+// `S.pairFuseOff===true` で従来の 2 巡回に戻す(器の対照用 —— 保存・署名・表示に入らない)。**`S._core` には 1 命令も足していない**。
+const PAIR_FUSE_VERSION = "w288c-pairfuse-1";
+const PAIR_FUSE_NMAX = 4096;   // 三角配列 2 本(n(n−1)/2 × 8 B × 2)が 134 MB を超える n では融合しない(従来の巡回)
+// 門と ①(源の加速度)。返り値: null = 融合しない(従来の巡回) / {stop} = 従来の ① が止まる点 / 融合の状態(② が読む)
+function dfmSpinPairFuse(S, BD, pin, x, y, m, pw, eps, G, D0p, C){
+  const n=S.n;
+  if(S.pairFuseOff===true || n<2 || n>PAIR_FUSE_NMAX) return null;
+  if(!(Number.isFinite(G) && Number.isFinite(eps) && eps>=0 && Number.isFinite(pw) && pw>0 && Number.isFinite(D0p) && D0p>=0)) return null;
+  const Wbg=Number(C.Wbg), q=Number(C.q);
+  if(!(Number.isFinite(Wbg) && Wbg>=0) || !(Number.isFinite(q) && q>=0)) return null;
+  let nPin=0, m1=-1, bm1=-Infinity;
+  for(let i=0;i<n;i++){
+    const b=BD[i];
+    if(!(b.m>0 && Number.isFinite(b.m) && Number.isFinite(b.x) && Number.isFinite(b.y) && Number.isFinite(b.vx) && Number.isFinite(b.vy))) return null;
+    if(!Number.isFinite(b.spin) || b.omegaDot!==0) return null;
+    if(b.spin!==0 && !(b.R>0 && Number.isFinite(b.R))) return null;
+    if(b.pinned===true) nPin++;
+    if(b.m>bm1){ bm1=b.m; m1=i; }
+  }
+  let m2=-1, bm2=-Infinity;   // 最大質量の 1 体を除いた最初の最大(中心が自由な宇宙で i=m1 のときの「中心」—— 場の契約の isCenter と同じ規則)
+  for(let i=0;i<n;i++){ if(i===m1) continue; if(BD[i].m>bm2){ bm2=BD[i].m; m2=i; } }
+  let PF=S._pairFuse;
+  if(!PF || PF.n!==n){ const NP=n*(n-1)/2;
+    PF={n, version:PAIR_FUSE_VERSION, IV:new Float64Array(NP), AP:new Float64Array(NP), row:new Int32Array(n)}; S._pairFuse=PF; }
+  const IV=PF.IV, AP=PF.AP, row=PF.row, eps2=eps*eps, ph=-pw/2;
+  for(let i=0,o=0;i<n;i++){ row[i]=o-i-1; o+=n-1-i; }        // 非順序対 (i<j) の添字 = row[i]+j
+  for(let i=0;i<n;i++){
+    const xi=x[i], yi=y[i], pi=pin[i], ri=row[i];
+    for(let j=i+1;j<n;j++){
+      if(pi && pin[j]) continue;                                  // 両方 pinned の対はどちらの巡回も読まない
+      const dx=xi-x[j], dy=yi-y[j], s=dx*dx+dy*dy+eps2;
+      if(!(s>0) || !Number.isFinite(s)) return null;
+      IV[ri+j]=1/Math.sqrt(s); AP[ri+j]=Math.pow(s,ph);
+    }
+  }
+  // ① 源の加速度(`dfmField` need:"gravity" と同じ式・同じ順 —— D・∇D の和と非有限の門)。pinned は呼び出し側が規定運動を書く
+  for(let i=0;i<n;i++){
+    if(pin[i]) continue;
+    const px=x[i], py=y[i], ri=row[i];
+    let D=0, gDx=0, gDy=0;
+    for(let j=0;j<i;j++){
+      const mi=m[j], dx=px-x[j], dy=py-y[j], iv=IV[row[j]+i], iv3=iv*iv*iv;
+      D+=mi*iv; gDx-=mi*dx*iv3; gDy-=mi*dy*iv3;
+    }
+    for(let j=i+1;j<n;j++){
+      const mi=m[j], dx=px-x[j], dy=py-y[j], iv=IV[ri+j], iv3=iv*iv*iv;
+      D+=mi*iv; gDx-=mi*dx*iv3; gDy-=mi*dy*iv3;
+    }
+    if(!(Number.isFinite(D)&&Number.isFinite(gDx)&&Number.isFinite(gDy))) return {stop:"field"};
+    BD[i].ax=G*gDx; BD[i].ay=G*gDy;
+  }
+  return {PF, m1, m2, nPin, Wbg, q, eps2, pw};
+}
+// ② u・∇u・∂ₜu(`dfmFieldContract` の sources:"all"・velocity:"v"・spin:"e6"・spinSources:"center"・fit:"mean"・background:"static"・
+//   need:"uBt" と同じ式・同じ順)。源の加速度 a_j は ① の確定値。返り値 {u,gradU,dUdt,chi,nSpin} / null(従来の関数が null を返す点 —— 当てない)
+function dfmSpinPairField(FZ, BD, i){
+  const PF=FZ.PF, AP=PF.AP, row=PF.row, Wbg=FZ.Wbg, q=FZ.q, eps2=FZ.eps2, pw=FZ.pw, n=PF.n;
+  const b0=BD[i], px=b0.x, py=b0.y, ri=row[i];
+  const anyPin=(FZ.nPin-(b0.pinned===true? 1 : 0))>0, cK=(i===FZ.m1)? FZ.m2 : FZ.m1;
+  let W=0, gWx=0, gWy=0, Wd=0;
+  let Nx=0, Ny=0, g0=0, g1=0, g2=0, g3=0, Tx=0, Ty=0, nSpin=0;
+  for(let j=0;j<n;j++){
+    if(j===i) continue;
+    const b=BD[j];
+    const mi=b.m, vix=b.vx, viy=b.vy, aix=b.ax, aiy=b.ay;
+    if(!(Number.isFinite(aix)&&Number.isFinite(aiy))) return null;
+    const dx=px-b.x, dy=py-b.y, r2=dx*dx+dy*dy;
+    const A=AP[(j<i)? row[j]+i : ri+j];
+    const w=mi*A;
+    if(!Number.isFinite(w)) return null;
+    let om=0, omd=0, dOx=0, dOy=0, spinOn=false;
+    if(b.pinned===true || (!anyPin && j===cK)){
+      const s=b.spin, sd=b.omegaDot;
+      if(s!==0 || sd!==0){
+        const Ri=b.R;
+        const d=Math.sqrt(r2), tt=Ri/(Ri+d), gq=(q===2)? tt*tt : Math.pow(tt,q);
+        om=s*gq; omd=sd*gq;
+        if(d>0){ const k1=-q*om/((Ri+d)*d); dOx=k1*dx; dOy=k1*dy; }
+        spinOn=true; nSpin++;
+      }
+    }
+    W+=w;
+    const uix=vix-om*dy, uiy=viy+om*dx;
+    Nx+=w*uix; Ny+=w*uiy;
+    const sq=r2+eps2, kk=mi*(-pw*A/sq);
+    const wgx=kk*dx, wgy=kk*dy;
+    gWx+=wgx; gWy+=wgy;
+    g0+=uix*wgx;            g1+=uix*wgy-w*om;
+    g2+=uiy*wgx+w*om;       g3+=uiy*wgy;
+    if(spinOn){ g0+=w*(-dy*dOx); g1+=w*(-dy*dOy); g2+=w*(dx*dOx); g3+=w*(dx*dOy); }
+    const wdi=-(wgx*vix+wgy*viy);
+    let tix=aix-omd*dy+om*viy, tiy=aiy+omd*dx-om*vix;
+    if(spinOn){ const gv=dOx*vix+dOy*viy; tix+=gv*dy; tiy-=gv*dx; }
+    Wd+=wdi; Tx+=wdi*uix+w*tix; Ty+=wdi*uiy+w*tiy;
+  }
+  if(!(W>0) || !Number.isFinite(W)) return null;
+  const chi=W/(W+Wbg), den=Wbg+W;
+  const ux=Nx/den, uy=Ny/den;
+  const gradU=[(g0-ux*gWx)/den, (g1-ux*gWy)/den, (g2-uy*gWx)/den, (g3-uy*gWy)/den];
+  const dUdt=[(Tx-ux*Wd)/den, (Ty-uy*Wd)/den];
+  if(!Number.isFinite(ux) || !Number.isFinite(uy)) return null;
+  if(!gradU.every(Number.isFinite)) return null;
+  if(!dUdt.every(Number.isFinite)) return null;
+  return {u:[ux,uy], gradU, dUdt, chi, nSpin};
+}
 // ===== 第282便d(原仮定者の裁定(第72報)⑥・統括の読み R81): **中心の自転を読む geoPN=3 のトイ** `dfmGeoToySpinStep` =====
 // 第281便b の実測: 🎋 の経路(`dfmGeoToyStep`)は源の omega を 0 で渡すので**中心の自転を読まない**
 // (中心 spin 1.2/0 の 2 走行が t=40 までビット一致)。本関数は `physics.spaceMesh.centerSpin:"read"` を
@@ -44711,6 +44939,17 @@ function dfmGeoToySpinStep(S,dt,cf,law){
     if(anyPin) dRfree=-1; }
   for(let i=0;i<n;i++) BD.push({id:i, m:m[i], x:x[i], y:y[i], vx:vx[i], vy:vy[i], ax:0, ay:0,
     spin:S.spin[i], R:(dR!==null && (pin[i]===1 || i===dRfree))? dR : S.R[i], omegaDot:0, pinned:(pin[i]===1)});
+  // 第283便f(原仮定者の裁定(第72報)⑥・AN17): **W_bg の明示入力** —— `physics.spaceMesh.D0` を宣言した宇宙は
+  //   その値を W_bg に置き、出どころのラベルを "declared" にする(D₀ を流用しない)。宣言の無い本(🌚)は従来どおり
+  //   (第288便c: 融合の門が W_bg を読むので、源の加速度の前へ移した —— 値も式も同じ)
+  const wDecl=(cf.D0!==undefined && cf.D0!==null);
+  const C={ p:pw, eps, Wbg:wDecl? cf.D0 : D0p, WbgFrom:wDecl? "declared" : (frameWeightIsPull(p)? ((p.D0pull!==undefined)? "D0pull" : "D0") : "D0"),
+    sources:"all", velocity:"v", spin:"e6", spinSources:"center", q:p.q, fit:"mean", background:"static", need:"uBt",
+    excludeBodyId:0 };
+  // 第288便c(R115): 非順序対ごとに s・1/√s・s^{−p/2} を 1 回だけ作り両巡回で再利用する(null = 従来の巡回・ビット同一)
+  const FZ=dfmSpinPairFuse(S, BD, pin, x, y, m, pw, eps, G, D0p, C);
+  if(FZ && FZ.stop){ S.geoToyStop=FZ.stop; return null; }
+  S.pairFuseSteps=(S.pairFuseSteps||0)+(FZ? 1 : 0);   // 診断の読み口(融合した步の数 —— 表示にも署名にも入らない)
   // 源の加速度(既定のトイと同じ: pinned は規定運動〔静止・等速 0 / レールは 2 階微分〕・自由粒子は g=G∇D)
   for(let i=0;i<n;i++){
     if(pin[i]){
@@ -44723,25 +44962,25 @@ function dfmGeoToySpinStep(S,dt,cf,law){
       BD[i].ay=(he*he-om*om)*ey+2*he*om*ex;
       continue;
     }
+    if(FZ) continue;                                        // 第288便c: 融合した ① が書いた(同じ式・同じ順)
     const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:"gravity", G, eps, p:pw, D0:D0p,
       background:"static", energyContract:"toy"});
     if(!f){ S.geoToyStop="field"; return null; }
     BD[i].ax=f.gravity[0]; BD[i].ay=f.gravity[1];
   }
-  // 第283便f(原仮定者の裁定(第72報)⑥・AN17): **W_bg の明示入力** —— `physics.spaceMesh.D0` を宣言した宇宙は
-  //   その値を W_bg に置き、出どころのラベルを "declared" にする(D₀ を流用しない)。宣言の無い本(🌚)は従来どおり
-  const wDecl=(cf.D0!==undefined && cf.D0!==null);
-  const C={ p:pw, eps, Wbg:wDecl? cf.D0 : D0p, WbgFrom:wDecl? "declared" : (frameWeightIsPull(p)? ((p.D0pull!==undefined)? "D0pull" : "D0") : "D0"),
-    sources:"all", velocity:"v", spin:"e6", spinSources:"center", q:p.q, fit:"mean", background:"static", need:"uBt",
-    excludeBodyId:0 };
   const ACC=new Float64Array(2*n);
   let nOn=0, dvM=0, chiMax=0, spinSeen=0;
   for(let i=0;i<n;i++){
     if(pin[i]) continue;
-    C.excludeBodyId=i;
-    const f=dfmFieldContract(BD,x[i],y[i],C);
-    if(!f) continue;                                       // 旧経路と同じ(null は 0 で埋めない = 当てない)
-    if(f.spinIds.length>spinSeen) spinSeen=f.spinIds.length;
+    let f, nSp;
+    if(FZ){ f=dfmSpinPairField(FZ, BD, i); if(!f) continue; nSp=f.nSpin; }   // 第288便c: 加速度が確定した後の第 2 巡回(対の係数は再利用)
+    else {
+      C.excludeBodyId=i;
+      f=dfmFieldContract(BD,x[i],y[i],C);
+      if(!f) continue;                                       // 旧経路と同じ(null は 0 で埋めない = 当てない)
+      nSp=f.spinIds.length;
+    }
+    if(nSp>spinSeen) spinSeen=nSp;
     const chi=f.chi;
     if(chi>chiMax) chiMax=chi;
     const ubx=eta*f.u[0], uby=eta*f.u[1];
@@ -46882,6 +47121,7 @@ function meshVelocityPrepare(S){
   S.meshVelN=0; S.meshVelUndef=0; S.meshVelBad=0; S.meshVelUMax=0; S.meshVelKickMax=0;
   S.meshVelWork=0; S.meshVelChiMin=null; S.meshVelChiMax=null;
   S.meshVelTimeOut=0; S.meshVelTimeReexp=0;   // 第287便c: 時間の契約の範囲外・源からの再展開の回数
+  S.meshVelTimeOutSteps=0;                     // 第288便c(AN86): 範囲外の評価が 1 つでもあった步の数(表示と器の旗 —— 力学は読まない)
   // 第280便c: geoPN=3・vMinusU の読み口(未宣言は false/null のまま —— 既定経路は真偽値を読むだけ)
   S.hasGeo3=false; S.hasGeo3PN=false; S.geo3=null; S.geo3PnN=0; S.geo3PnKickMax=0; S.geo3PnDL=0;
   S.geo3PnUndef=0; S.geo3PinCarry=0;
@@ -47038,11 +47278,11 @@ function dfmMeshVelocityStep(S,dt){
     if(S.pinned && S.pinned[i] && !carryPin){ F[i]=null; continue; }      // 規定運動の粒子は受け取らない
     F[i]=dfmMeshVelocityFieldAt(S,i,src,O);
   }
-  let uMax=0, kMax=0, work=0, nUndef=0, nBad=0;
+  let uMax=0, kMax=0, work=0, nUndef=0, nBad=0, stepOut=false;
   for(let i=0;i<n;i++){
     const f=F[i];
     if(!f) continue;
-    if(f.timeOut) S.meshVelTimeOut++;
+    if(f.timeOut){ S.meshVelTimeOut++; stepOut=true; }
     if(f.timeReexp) S.meshVelTimeReexp++;
     if(!f.ok){ nBad++; continue; }
     if(f.defined!==true){
@@ -47071,6 +47311,7 @@ function dfmMeshVelocityStep(S,dt){
     }
   }
   S.meshVelN+=1; S.meshVelUndef+=nUndef; S.meshVelBad+=nBad; S.meshVelWork+=work;
+  if(stepOut) S.meshVelTimeOutSteps++;          // 第288便c(AN86): 範囲外の步(再展開しない —— 数えるだけ)
   if(uMax>S.meshVelUMax) S.meshVelUMax=uMax;
   if(kMax>S.meshVelKickMax) S.meshVelKickMax=kMax;
   return {n:1, uMax, kickMax:kMax, work, undef:nUndef, bad:nBad};
@@ -48358,6 +48599,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第287便c(R109): 背景場の時間発展の契約(受理器・要否・相互検査・準備・評価)とセーブの受理。QA behavior.bgTimeContract・behavior.loadSaveBgLaw が機械固定する
   bgcTimeCheck, bgTimeNeeded, bgTimeCrossCheck, bgTimePrepare, bgTimeMomentsAt, bgTimeFromSources, loadSaveBgcAccept,
   BGC_TIME_VERSION, BGC_TIME_MODES, BGC_TIME_KEYS,
+  // 第288便c(R115・AN86): 範囲外の步(観測結果カードの 1 行)と pair 巡回の融合の版・門。QA behavior.bgRangeFlag・behavior.pairLoopFused が機械固定する
+  bgRangeCardInfo, bgRangeCardSync, PAIR_FUSE_VERSION, PAIR_FUSE_NMAX, dfmSpinPairFuse, dfmSpinPairField,
   BGC_UNIFORM_DOMAINS, BGC_LEDGER_MAX, BGC_LEDGER_KEYS, BGC_MODEL_KEYS, BGC_MODEL_ONLY_KEYS, BGC_DERIV_STATUS,
   validateBgSources, validateBgFrame, bgBodyRefIndex, bgSourcesBodyCheck, BG_SOURCE_KINDS, BG_SOURCE_MAX,
   BG_SOURCE_ID_MAX, BG_FRAME_ROTATIONS, BG_FRAME_TRANSLATIONS, BG_FRAME_EPOCH_MAX, BG_FRAME_KEYS,

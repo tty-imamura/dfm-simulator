@@ -1,0 +1,448 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第288便c",
+  "target": "beta/index.html",
+  "targetSha256": "4e40309fb47730ee4e8d229c3399c81008a3db6f4124bb9c065fb34a9e0ca434",
+  "generatedAt": "2026-09-30T21:26:00.269Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5289816,
+    "sha256": "4e40309fb47730ee4e8d229c3399c81008a3db6f4124bb9c065fb34a9e0ca434",
+    "mtime": "2026-09-30T21:07:03.087Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w288c-compose.mjs",
+    "bytes": 18031,
+    "sha256": "5c920d6ebac9bab1e11a90d8540f84a0b3980ddf21b8ba6e769a974015e3e8e5",
+    "mtime": "2026-09-30T21:09:27.274Z"
+   },
+   {
+    "file": "tests/lib-w288c-compose.mjs",
+    "bytes": 8361,
+    "sha256": "1d067c5cf9e99989ef3586edbb0514551887a0315fed312c824aa6e7958dbd58",
+    "mtime": "2026-09-30T20:39:33.028Z"
+   },
+   {
+    "file": "tests/lib-w288c-rotlet.mjs",
+    "bytes": 5421,
+    "sha256": "4ed24703b609b1c87be7a2aa49039ea0cfa70e285ba6dfe4f788f36955899068",
+    "mtime": "2026-09-30T20:39:57.903Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-09-30T20:24:45.867Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-30T20:24:43.467Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-30T20:24:46.451Z"
+   }
+  ],
+  "codeSha256": "283fc5046200552572b5b9c2d9f102683db4d368597bc1c58a923baeafd3526b",
+  "harnessVersion": "w288c-compose-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第78報)⑧と第78報で閉じた AN84(背景の台帳に中心を 1 源として足す・中心は 1 回だけ・A_spin は別に構成)/AN85(complex-p2 は既定にしない)・統括の検証項目 R115",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "notClaim": [
+   "複素場を接続した",
+   "回転核で腕が出た",
+   "中心の自転が銀河の回転を作った",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "galaxyAnalogyBH",
+    "galaxyAnalogyBHCompose"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.allPresets",
+    "HP.dfmFieldContract",
+    "HP.dfmFieldContractOf",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.frameWeightPow",
+    "HP.sim",
+    "HP.validatePreset",
+    "cw",
+    "dfmFieldContract",
+    "sim",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 866,
+   "segments": 785,
+   "closureShare": 0.3161
+  },
+  "scopeSha256": "a9e4ab01637d0514e668f797930f4ba23cd3f47cb1183c6cc1762c0b1850d36c",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "copy": {
+  "steps": 300,
+  "dt": 0.016,
+  "bitSame": true,
+  "stop": [
+   null,
+   null
+  ],
+  "WbgCopy": 1.5,
+  "WbgFromCopy": "declared",
+  "WbgBase": 1.5,
+  "WbgFromBase": "D0",
+  "declaration": {
+   "version": "w288c-compose-1",
+   "harness": "tests/exp-w288c-compose.mjs",
+   "background": {
+    "from": "spaceMesh.D0",
+    "W": 1.5,
+    "A": [
+     0,
+     0
+    ],
+    "p": 1,
+    "units": "M/L",
+    "static": true
+   },
+   "center": {
+    "ref": "body:0",
+    "once": true
+   },
+   "spin": {
+    "mode": "e6",
+    "centers": [
+     "body:0"
+    ],
+    "note": "A_spin は有限サイズの回転源(E6′ の減衰形 ω(d)=s(R/(R+d))^q を中心だけ)"
+   }
+  },
+  "ok": true
+ },
+ "compose": {
+  "version": "w288c-compose-1",
+  "p": 1,
+  "eps": 3,
+  "Wbg": 1.5,
+  "q": 2,
+  "center": "body:0",
+  "nEval": 210,
+  "contractNull": 0,
+  "centerOnce": {
+   "all": true,
+   "doubleExcessRelMax": 2.63933587690089e-15
+  },
+  "inline": {
+   "bitSame": 210,
+   "of": 210
+  },
+  "separate": {
+   "bitSame": 0,
+   "of": 210,
+   "relMax": 2.5801682470959985e-15
+  },
+  "ring": [
+   {
+    "r": 20,
+    "uNone": [
+     0,
+     0
+    ],
+    "uNoneZero": true,
+    "uPhiE6": 4.355314964007664,
+    "W": 125.1170441085372
+   },
+   {
+    "r": 40,
+    "uNone": [
+     0,
+     0
+    ],
+    "uNoneZero": true,
+    "uPhiE6": 3.486340896235587,
+    "W": 63.82495686802853
+   },
+   {
+    "r": 80,
+    "uNone": [
+     0,
+     0
+    ],
+    "uNoneZero": true,
+    "uPhiE6": 2.283659207286396,
+    "W": 32.7280504909119
+   },
+   {
+    "r": 120,
+    "uNone": [
+     0,
+     0
+    ],
+    "uNoneZero": true,
+    "uPhiE6": 1.658340057460175,
+    "W": 22.32682596683589
+   },
+   {
+    "r": 240,
+    "uNone": [
+     0,
+     0
+    ],
+    "uNoneZero": true,
+    "uPhiE6": 0.8710926858186503,
+    "W": 11.91585295993835
+   },
+   {
+    "r": 480,
+    "uNone": [
+     0,
+     0
+    ],
+    "uNoneZero": true,
+    "uPhiE6": 0.4106547600480271,
+    "W": 6.708231611053052
+   }
+  ],
+  "units": {
+   "W_p1": 47.39066449847089,
+   "units_p1": "M/L",
+   "W_p2": 0.6522776965881273,
+   "units_p2": "M/L²",
+   "ratio": 72.65412376715855,
+   "mismatchRejected": true
+  },
+  "ok": true
+ },
+ "rotlet": {
+  "version": "w288c-rotlet-1",
+  "grads": [
+   {
+    "key": "jzInPlane",
+    "label": "J=ẑ Jz・r 面内",
+    "u": [
+     0.0490616008837183,
+     0.08946527219972161,
+     0
+    ],
+    "steps": [
+     {
+      "h": 0.08,
+      "err": 0.0009532267814725791,
+      "floor": 4.917098460590375e-13,
+      "belowFloor": false
+     },
+     {
+      "h": 0.04,
+      "err": 0.00023825580365491658,
+      "floor": 9.83419692118075e-13,
+      "belowFloor": false
+     },
+     {
+      "h": 0.02,
+      "err": 0.00005956076841522953,
+      "floor": 1.96683938423615e-12,
+      "belowFloor": false
+     }
+    ],
+    "order": [
+     2.00030812841013,
+     2.0000770851730856
+    ],
+    "inPlaneJandR": false,
+    "uInPlaneZero": null,
+    "uzOnly": null,
+    "ok": true
+   },
+   {
+    "key": "tilted",
+    "label": "J 傾き 60°・r 立体",
+    "u": [
+     -0.0576673009703351,
+     0.07361783102595972,
+     0.12515031274413152
+    ],
+    "steps": [
+     {
+      "h": 0.08,
+      "err": 0.0013356531147062354,
+      "floor": 3.876786903420756e-13,
+      "belowFloor": false
+     },
+     {
+      "h": 0.04,
+      "err": 0.0003338767513617668,
+      "floor": 7.753573806841512e-13,
+      "belowFloor": false
+     },
+     {
+      "h": 0.02,
+      "err": 0.00008346689201953044,
+      "floor": 1.5507147613683023e-12,
+      "belowFloor": false
+     }
+    ],
+    "order": [
+     2.000157827381631,
+     2.0000396818883783
+    ],
+    "inPlaneJandR": false,
+    "uInPlaneZero": null,
+    "uzOnly": null,
+    "ok": true
+   },
+   {
+    "key": "jInPlane",
+    "label": "J 面内(90° 倒れ)・r 面内",
+    "u": [
+     0,
+     0,
+     -0.15398481178104848
+    ],
+    "steps": [
+     {
+      "h": 0.08,
+      "err": 0.0020645587324408295,
+      "floor": 1.9293646150179665e-13,
+      "belowFloor": false
+     },
+     {
+      "h": 0.04,
+      "err": 0.0005157567023235354,
+      "floor": 3.858729230035933e-13,
+      "belowFloor": false
+     },
+     {
+      "h": 0.02,
+      "err": 0.00012891524186692106,
+      "floor": 7.717458460071866e-13,
+      "belowFloor": false
+     }
+    ],
+    "order": [
+     2.001070891447739,
+     2.0002678181811664
+    ],
+    "inPlaneJandR": true,
+    "uInPlaneZero": true,
+    "uzOnly": true,
+    "ok": true
+   }
+  ],
+  "dipole": {
+   "U": 0.055782665334969395,
+   "Fi": [
+    0.044211567028303415,
+    -0.028062555780357337,
+    0.04815031532087564
+   ],
+   "tauI": [
+    0.024597080777624302,
+    0.006808120572378156,
+    -0.0017569343412588774
+   ],
+   "tauJ": [
+    0.02316957162535145,
+    0.06335944468164832,
+    -0.001207892359615487
+   ],
+   "steps": [
+    {
+     "h": 0.001,
+     "forceErr": 4.450350082516548e-7,
+     "torqueErr": 1.6666686181639414e-7
+    },
+    {
+     "h": 0.0005,
+     "forceErr": 1.1125903203067803e-7,
+     "torqueErr": 4.1666894342241265e-8
+    },
+    {
+     "h": 0.00025,
+     "forceErr": 2.781444352579912e-8,
+     "torqueErr": 1.0415879852741268e-8
+    }
+   ],
+   "order": {
+    "force": [
+     1.9999963696555145,
+     2.00001631162851
+    ],
+    "torque": [
+     1.9999938060756752,
+     2.0001168600130224
+    ]
+   },
+   "newton3": true,
+   "angMomBalanceRel": 3.9556133257789224e-16,
+   "ok": true
+  },
+  "beta": {
+   "G": 0.8,
+   "c": 30,
+   "betaG": 0.0008888888888888889,
+   "unit": "L/M(J が M L² T⁻¹ なら u が L T⁻¹)"
+  },
+  "comparator": {
+   "J": 337500.0134110451,
+   "I": 281250,
+   "how": "J=½ m R² Ω ẑ(中心の本体半径 R・自転 Ω)・β=G/c²・点は中心の +x 側(u_φ=u_y)—— 足さない(置換経路の比較だけ)",
+   "rows": [
+    {
+     "r": 20,
+     "uSpinContract": 3.433908331389165,
+     "uRotlet": 0.7253812167470154,
+     "ratio": 0.21124070497641012
+    },
+    {
+     "r": 40,
+     "uSpinContract": 2.4056278370467266,
+     "uRotlet": 0.1859290272554873,
+     "ratio": 0.07728919012000768
+    },
+    {
+     "r": 80,
+     "uSpinContract": 1.3556466014832353,
+     "uRotlet": 0.04677629842804027,
+     "ratio": 0.03450478788266909
+    },
+    {
+     "r": 120,
+     "uSpinContract": 0.8138823746988352,
+     "uRotlet": 0.020813818158070804,
+     "ratio": 0.025573496619548546
+    },
+    {
+     "r": 240,
+     "uSpinContract": 0.4218295446112462,
+     "uRotlet": 0.005207113075495534,
+     "ratio": 0.012344116579824572
+    },
+    {
+     "r": 480,
+     "uSpinContract": 0.24139746064812753,
+     "uRotlet": 0.0013020070948502529,
+     "ratio": 0.005393623824188112
+    }
+   ]
+  },
+  "ok": true
+ },
+ "elapsedS": 3.707,
+ "ok": true
+}

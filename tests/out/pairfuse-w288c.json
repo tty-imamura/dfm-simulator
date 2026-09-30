@@ -1,0 +1,342 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第288便c",
+  "target": "beta/index.html",
+  "targetSha256": "4e40309fb47730ee4e8d229c3399c81008a3db6f4124bb9c065fb34a9e0ca434",
+  "generatedAt": "2026-09-30T21:25:26.647Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5289816,
+    "sha256": "4e40309fb47730ee4e8d229c3399c81008a3db6f4124bb9c065fb34a9e0ca434",
+    "mtime": "2026-09-30T21:07:03.087Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w288c-pairfuse.mjs",
+    "bytes": 17031,
+    "sha256": "16df45e9a74a04aacc5cd372fed57fc3a8bec20a174f39737651e5556407d548",
+    "mtime": "2026-09-30T21:20:27.274Z"
+   },
+   {
+    "file": "tests/exp-w287a-growth.mjs",
+    "bytes": 38980,
+    "sha256": "67d0047e04299918c765371db91c8b1f02dd4f394db83a2f0f0af6b20eab9c1f",
+    "mtime": "2026-09-30T20:24:40.039Z"
+   },
+   {
+    "file": "tests/lib-w287a-growth.mjs",
+    "bytes": 6124,
+    "sha256": "53e5bc1d6bd8d7645ec35035dfc1131d35d3ccd34cb3dc6e63dd093553f2f589",
+    "mtime": "2026-09-30T20:24:46.579Z"
+   },
+   {
+    "file": "tests/exp-w286a-cluster.mjs",
+    "bytes": 33707,
+    "sha256": "e632d5b08153f65bb6ce03c3055fcc4c83b4a4936f7d5fc4448be45658adfce1",
+    "mtime": "2026-09-30T20:24:39.823Z"
+   },
+   {
+    "file": "tests/exp-w283f-cluster.mjs",
+    "bytes": 32804,
+    "sha256": "661d6069c0228b669087a925b3d61736370b9f9f950ca866940d479fe844b302",
+    "mtime": "2026-09-30T20:24:37.063Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-09-30T20:24:45.867Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-30T20:24:43.467Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-30T20:24:46.451Z"
+   }
+  ],
+  "codeSha256": "b8323e0983e8723235a0050f776255b69baafddacd37cc7070d7052954e5a5f5",
+  "harnessVersion": "w288c-pairfuse-1",
+  "loadErrors": 0,
+  "fuseVersion": "w288c-pairfuse-1",
+  "ruling": "原仮定者の裁定(第78報)⑧(重力は総当たりで成立し精度も高い・場の数値計算は精度が低く重い)・統括の検証項目 R115(pair の距離・逆距離・重みを再利用・加速度確定後の第 2 巡回は残す・受入はビット同一)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "baseRev": "940dba52",
+  "notClaim": [
+   "格子を撤去して軽くなった",
+   "重力を格子へ移した",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "clusterAnalogyBH",
+    "clusterGrowthCopy",
+    "galaxyAnalogyBH",
+    "galaxyMeshSpiralGeoToy",
+    "gas"
+   ],
+   "roots": [
+    "$",
+    "CENTER_CAPTURE_VERSION",
+    "CONTACT_MODE_KEY",
+    "DT",
+    "HP.PAIR_FUSE_VERSION",
+    "HP.allPresets",
+    "HP.dfmCenterCaptureStep",
+    "HP.dfmField",
+    "HP.dfmFieldContract",
+    "HP.dfmFieldContractOf",
+    "HP.dfmFieldSnapshot",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.frameWeightIsPull",
+    "HP.frameWeightPow",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "centerCaptureCheck",
+    "ch",
+    "contactNoneOf",
+    "ctx",
+    "cw",
+    "dfmCenterCaptureStep",
+    "dfmField",
+    "dfmFieldContract",
+    "dfmGeoToySpinStep",
+    "dfmGeoToyStep",
+    "dfmSpinPairField",
+    "dfmSpinPairFuse",
+    "geoCoreDispatch",
+    "jeansRowsVelocities",
+    "jeansSigma2Profile",
+    "lensExcludedRows",
+    "rayHeavy",
+    "rayMassMin",
+    "sim",
+    "traceRay",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 867,
+   "segments": 786,
+   "closureShare": 0.3161
+  },
+  "scopeSha256": "d107bd06aa06dfef85cbc0b57499ddf16e4a408131bf3da2c22bec1e1e5e0b7d",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "short": {
+  "dt": 0.016,
+  "rows": [
+   {
+    "id": "galaxyAnalogyBH",
+    "emoji": "🌚",
+    "steps": 600,
+    "n": 211,
+    "fusedPath": true,
+    "fuseSteps": 600,
+    "fuseStepsOff": 0,
+    "sha": "a10d549cc5826d32af0d43f0227c18e8090ffe478d032ade220caa7a0d055e3e",
+    "bitSame": true,
+    "stop": null,
+    "nCap": null,
+    "wallSec": {
+     "off": 6.421441719,
+     "on": 2.78113435
+    }
+   },
+   {
+    "id": "clusterAnalogyBH",
+    "emoji": "💮",
+    "steps": 300,
+    "n": 526,
+    "fusedPath": true,
+    "fuseSteps": 300,
+    "fuseStepsOff": 0,
+    "sha": "594604fd72b984da10257d4153c1640a171aeca475a7f5278d3d1689cb055423",
+    "bitSame": true,
+    "stop": null,
+    "nCap": null,
+    "wallSec": {
+     "off": 18.487782053,
+     "on": 8.464011945
+    }
+   },
+   {
+    "id": "clusterGrowthCopy",
+    "emoji": "🌰",
+    "steps": 600,
+    "n": 84,
+    "fusedPath": true,
+    "fuseSteps": 600,
+    "fuseStepsOff": 0,
+    "sha": "4db1709495d5f078e27bc1655b36cb359950374c29d906002dbedbccce062f29",
+    "bitSame": true,
+    "stop": null,
+    "nCap": 1,
+    "wallSec": {
+     "off": 1.282621455,
+     "on": 0.454957656
+    }
+   },
+   {
+    "id": "galaxyMeshSpiralGeoToy",
+    "emoji": "🪁",
+    "steps": 300,
+    "n": 351,
+    "fusedPath": false,
+    "fuseSteps": 0,
+    "fuseStepsOff": 0,
+    "sha": "bb37d6af6493c869b638014db12d4011241fd3e230f8f4172861064afccd0642",
+    "bitSame": true,
+    "stop": null,
+    "nCap": null,
+    "wallSec": {
+     "off": 6.438317804,
+     "on": 6.604219393
+    }
+   }
+  ],
+  "ok": true
+ },
+ "before": {
+  "rev": "940dba52",
+  "how": "枝の実測(W288C_BASE=beta/_w288_base.html で --probe を子プロセスで走らせた値 —— 基点 html は CI に無いので宣言値で持つ)",
+  "sha": {
+   "galaxyAnalogyBH": "a10d549cc5826d32af0d43f0227c18e8090ffe478d032ade220caa7a0d055e3e",
+   "clusterAnalogyBH": "594604fd72b984da10257d4153c1640a171aeca475a7f5278d3d1689cb055423",
+   "clusterGrowthCopy": "4db1709495d5f078e27bc1655b36cb359950374c29d906002dbedbccce062f29",
+   "galaxyMeshSpiralGeoToy": "bb37d6af6493c869b638014db12d4011241fd3e230f8f4172861064afccd0642"
+  }
+ },
+ "baseSame": true,
+ "growth": {
+  "harness": "w287a-growth-1",
+  "rows": [
+   {
+    "key": "pro-seed0",
+    "steps": 9248,
+    "verdict": "未達",
+    "resultSha": "4b822c211dff5b55500988f7960ec5d53af46c909f5c2e71f79f940527ea017c",
+    "sameResult": true,
+    "wallSec": {
+     "off": 14.292,
+     "on": 6.44
+    }
+   },
+   {
+    "key": "pro-seed1",
+    "steps": 9248,
+    "verdict": "未達",
+    "resultSha": "be446ff4e41dd77841891da1ea7aa8f479c3cc4b468a0c57c4d8999adb31c461",
+    "sameResult": true,
+    "wallSec": {
+     "off": 14.251,
+     "on": 6.772
+    }
+   },
+   {
+    "key": "pro-seed2",
+    "steps": 8092,
+    "verdict": "未達",
+    "resultSha": "5a44f54fc1e91a3629a4415b3ee4fbce643d1b882c34801dafabbdf8155af033",
+    "sameResult": true,
+    "wallSec": {
+     "off": 18.925,
+     "on": 8.652
+    }
+   }
+  ],
+  "steps": 26588,
+  "wallSec": {
+   "off": 47.468,
+   "on": 21.863999999999997
+  },
+  "ok": true
+ },
+ "jeans": {
+  "how": "同じ乱数種の OFF と ON を同時に子プロセスで走らせた(同じ時間帯)(枝の実測 2026-09-30・他の枝の器と同じ機械を共有した時間帯)",
+  "measuredAt": "2026-09-30",
+  "rows": [
+   {
+    "key": "r20-v0.1-mc1/8.5-s12-seed0",
+    "steps": 7021,
+    "verdict": "未達",
+    "resultSha": "ed132d7b0357eaa113259d0cdab5bda9de7ba4550035b4dac20c25b488e34450",
+    "sameResult": true,
+    "wallSec": {
+     "off": 711.768,
+     "on": 435.823
+    },
+    "fuseSteps": 7021,
+    "fuseStepsOff": 0
+   },
+   {
+    "key": "r20-v0.1-mc1/8.5-s12-seed1",
+    "steps": 7081,
+    "verdict": "未達",
+    "resultSha": "ca04dc129ff896c1ee43ac9344b71c6aa98dc148f7231809039437d150056268",
+    "sameResult": true,
+    "wallSec": {
+     "off": 782.01,
+     "on": 496.571
+    },
+    "fuseSteps": 7081,
+    "fuseStepsOff": 0
+   },
+   {
+    "key": "r20-v0.1-mc1/8.5-s12-seed2",
+    "steps": 7009,
+    "verdict": "未達",
+    "resultSha": "d02a0df8f18165ef3a7ebd10f3cd99ae276d1ba5c25f8ddb8403b926b5c2410b",
+    "sameResult": true,
+    "wallSec": {
+     "off": 588.202,
+     "on": 301.439
+    },
+    "fuseSteps": 7009,
+    "fuseStepsOff": 0
+   }
+  ],
+  "steps": 21111,
+  "wallSec": {
+   "off": 2081.98,
+   "on": 1233.833
+  },
+  "ok": true
+ },
+ "speed": {
+  "growth": {
+   "steps": 26588,
+   "sameResult": true,
+   "wallSec": {
+    "off": 47.468,
+    "on": 21.863999999999997,
+    "ratioOffOn": 2.1710574460300043
+   }
+  },
+  "jeans": {
+   "steps": 21111,
+   "sameResult": true,
+   "wallSec": {
+    "off": 2081.98,
+    "on": 1233.833,
+    "ratioOffOn": 1.6874082635170238
+   }
+  },
+  "note": "壁時計は同じ機械・同じ時間帯の OFF/ON(機械の負荷で動く —— 鍵 wallSec は安定 hash の除外語彙)。改善率は同じ N・同じ門でだけ"
+ },
+ "elapsedS": 297.451,
+ "ok": true
+}
