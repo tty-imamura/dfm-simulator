@@ -26,6 +26,7 @@
 //   'w286a-branch' … 第286便a の枝で器を走らせた実測(正本の elapsedS —— jeans286 は Node だけ・clusterScan286 は子プロセス 2 本・他の 5 枝と同じ容器で並走)。
 //   'w287a-branch' … 第287便a の枝で器を走らせた実測(正本の elapsedS 157.9 —— Node だけ・子プロセス 2 本・負荷平均 1 未満の容器。他の 5 枝と並走した 1 回目は 559.1)。
 //   'w287c-branch' … 第287便c の枝で器を走らせた実測(正本の elapsedS 71.5〜109.2 —— Node だけ・geo3 の再走〔Chromium〕と同じ容器で並走)。
+//   'w288d-branch' … 第288便d の枝で器を走らせた実測(正本の elapsedS 0.5〜1 —— Node だけ・1 步もエンジンを走らせない・他の 5 枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -503,6 +504,13 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgtime-w287c.json': META_RUN.concat(['/elapsedS']) },
     note: '第287便c: 状態を固定して評価時刻だけ進めたとき u と ∂ₜu が一致するか(旧い契約の反例と新しい契約)・時間差分 h・h/2・h/4(次数 2・器の丸め床)・'
       + 'RHS の coordAccel・範囲の外の再展開・受理器・🌒 の周期の前後と η_bg・share-p1 の基準コピー' }),
+  // ---- 第288便d(原仮定者の裁定(第78報)⑥・統括の検証項目 R116): スピン・歳差・熱の口座(node 模型・**エンジン未接続**)——
+  //   上限の連鎖の時系列と閉形式・旗の負の対照・剛体対照(lib-w275e-powerball・lib-w276c-axiswork)・周波数ロックの正逆と γ=0 の非収束。
+  //   html は dfmCoreAxisStep・coreAxisState のソースと 🪩 bhCoreTilt の宣言を文字列で読むだけ(領域 3 名 + 1 本)。他の正本は読まない
+  S('spinprec288', 'node tests/exp-w288d-spinprec.mjs', ['tests/out/spinprec-w288d.json'], 1, { secSource: 'w288d-branch', node: true,
+    volatilePaths: { 'tests/out/spinprec-w288d.json': META_RUN.concat(['/elapsedS']) },
+    note: '第288便d: 口座 E_spin/E_axis/E_prec/Q の恒等式・上限の連鎖(スピン → 傾き → 歳差 → スピン → 旗)・W_drive<0・θ=90° の分離・剛体対照・'
+      + '熱 = ミクロのスピン・ロックの小模型(正逆・独立な初期位相・γ=0・K=0)・dfmCoreAxisStep が φ(t) を外から指定すること' }),
 ];
 
 /**

@@ -2267,7 +2267,10 @@ if (QA_CHANGED) {
       'tests/out/growth-w287a.json',
       // 第287便b(原仮定者の裁定(第77報)⑤・AN61・AN75・R110): kF0 写しの診断 1 行(制御二体の EIH / DFM 経路 κ→0⁺ の対反作用だけ —— 等質量の倍率)と
       //   DFM 版へ EIH を足すときの手順(target=beta/index.html —— Node だけ。inputs に pn1-w285b.json —— **pn1 を走らせ直したら本器も走らせ直す** —— 鎖の段 eihdiag287)
-      'tests/out/eihdiag-w287b.json'];
+      'tests/out/eihdiag-w287b.json',
+      // 第288便d(原仮定者の裁定(第78報)⑥・R116): スピン・歳差・熱の口座(上限の連鎖・旗の負の対照・剛体対照)と周波数ロックの小模型
+      //   (target=beta/index.html —— Node だけ・dfmCoreAxisStep/coreAxisState のソースと 🪩 の宣言を文字列で読むだけ・**エンジン未接続**・他の正本は読まない)
+      'tests/out/spinprec-w288d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -59379,6 +59382,136 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     + `${J && J.stage9 ? J.stage9.thetaRateAfterDegPerOrbit : '—'} / ⑥ 別系の零点は 90° から 0.1° 以内 —— `
     + `**観測材料 3.2°・40.6° を作らない**・合わせる係数探索はしていない・not_a_prediction`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+}
+
+// ---- 第288便d(原仮定者の裁定(第78報)⑥・統括の検証項目 R116): behavior.spinPrecAccounts / behavior.precLockToy ----
+// ----   器 tests/exp-w288d-spinprec.mjs・純関数 tests/lib-w288d-spinprec.mjs(版 w288d-spinprec-1)・正本 tests/out/spinprec-w288d.json。
+// ----   **エンジン未接続**(`S._core`・内蔵の物理は 1 bit も変えない)。**構成則の候補**であって DFM から導出した法則ではない。
+// ----   ① behavior.spinPrecAccounts …… 正本 = いまの純関数と html から作り直した値(数は相対 1e-12 か絶対 1e-12)・版と来歴・
+// ----      恒等式 Δ(E_spin+E_axis+E_prec+Q)=W_drive の最悪残差・閉形式(相対 1e-12)・**上限の連鎖の順序**(spinCap < axisFull < precCap < stretch)と
+// ----      各段の到達刻みが閉形式の時刻を含む・**旗の負の対照 3 本**(歳差が上限に到達した刻みで止める/歳差の上限 1e9/ブレーキが勝つ —— 旗なし)と
+// ----      旗の前は E_spin ≤ cap_spin・W_drive<0 は口座を越える分を拒否して記録・θ=90° の交差項 I_∥cosθ が機械ゼロ・|J|²/(2I) は球でだけ剛体式と一致・
+// ----      剛体対照(lib-w275e-powerball の駆動とジャイロだけ・lib-w276c-axiswork の移送)・熱 Q>0 で J_net=0・旧 Ω_prec=K a/|S| の |S| 従属・
+// ----      html の dfmCoreAxisStep が φ(t)=az+Ω_p t を外から指定する(前の方位に依らない)・🪩 の宣言 tilt 90°(J_z/|J| 機械ゼロ)。
+// ----   ② behavior.precLockToy …… γ=0 で既存 lockDerivs と同じ軌道・K>0 は Δφ→0・K<0 は Δφ→π(正逆の対照)・独立な初期位相 4 つから収束(γ>0)・
+// ----      同じ初期状態で γ=0 は振幅が減らない(収束しない)・K=0 は離調×時間で漂う・総 E の増加が床以下(dt と dt/2 で 4 次)・
+// ----      振り子の厳密周期と減衰率 γ/(2μ)・符号の規約(共通座標/局所軸)が食い違う配置がある。
+// ----   root(QA_TARGET=index.html)では SKIP(第288便d の器は beta の世代だけで刻む)。
+{
+  const has288d = TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, 'tests', 'lib-w288d-spinprec.mjs'))
+    && fs.existsSync(path.join(ROOT, 'tests', 'exp-w288d-spinprec.mjs'));
+  if (!has288d) {
+    console.log('SKIP behavior.spinPrecAccounts / behavior.precLockToy(第288便d 未適用 — ' + TARGET + ')');
+  } else {
+    let SP288 = null, EX288 = null, R288 = null, J288 = null, err288 = null;
+    try {
+      SP288 = await import('file://' + path.join(ROOT, 'tests', 'lib-w288d-spinprec.mjs'));
+      EX288 = await import('file://' + path.join(ROOT, 'tests', 'exp-w288d-spinprec.mjs'));
+      R288 = EX288.computeAll(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+    } catch (e) { err288 = String(e && e.stack || e).slice(0, 160); }
+    try { J288 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'spinprec-w288d.json'), 'utf8')); } catch (e) { J288 = null; }
+    const near288 = (a, b, where, out) => {
+      if (out.length > 4) return;
+      if (typeof a === 'number' && typeof b === 'number') {
+        if (!(a === b || Math.abs(a - b) <= Math.max(1e-12, 1e-12 * Math.max(Math.abs(a), Math.abs(b))))) out.push(where + ' ' + a + '≠' + b);
+        return;
+      }
+      if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(where + ' ' + JSON.stringify(a) + '≠' + JSON.stringify(b)); return; }
+      if (Array.isArray(a) !== Array.isArray(b)) { out.push(where + ' 型'); return; }
+      const ka = Object.keys(a).sort(), kb = Object.keys(b).sort();
+      if (JSON.stringify(ka) !== JSON.stringify(kb)) { out.push(where + ' 鍵 ' + ka.join(',') + '≠' + kb.join(',')); return; }
+      for (const k of ka) near288(a[k], b[k], where + '/' + k, out);
+    };
+    const diff288 = [];
+    if (R288 && J288) for (const k of Object.keys(R288)) near288(J288[k], R288[k], k, diff288);
+    // ---- ① behavior.spinPrecAccounts
+    {
+      const bad = [], cases = [];
+      if (err288) bad.push('器/純関数が読めない: ' + err288);
+      else if (!J288) bad.push('正本 spinprec-w288d.json が読めない');
+      else {
+        if (SP288.SPINPREC_VERSION !== 'w288d-spinprec-1') bad.push('lib の版が w288d-spinprec-1 でない: ' + SP288.SPINPREC_VERSION);
+        if (!J288.meta || J288.meta.provenanceVersion !== 'w272e-1' || J288.meta.harnessVersion !== EX288.HARNESS_VERSION || J288.meta.libVersion !== SP288.SPINPREC_VERSION) bad.push('来歴(w272e-1)/器・lib の版');
+        if (diff288.length) bad.push('正本 ≠ 作り直し: ' + diff288.slice(0, 3).join(' ; '));
+        const R = R288, C = R.chain;
+        if (!R.indexUnits.ok) bad.push('(A) 指標が単位で変わる');
+        cases.push(`(A) 指標の単位不変(SI/cgs): ${R.indexUnits.rows.map((r) => r.def + ' ' + r.relDiff.toExponential(1)).join('・')}`);
+        const wc = Math.max(...Object.values(C.worstClosedRel));
+        if (!(wc <= 1e-12)) bad.push('(B) 閉形式との差 ' + wc);
+        if (!(C.identity.worstResRel <= 1e-12)) bad.push('(B) 恒等式の残差 ' + C.identity.worstResRel);
+        if (!C.order) bad.push('(B) 連鎖の順序');
+        for (const k of ['spinCap', 'axisFull', 'precCap', 'stretch']) if (!C.events[k].containsClosed) bad.push('(B) ' + k + ' の到達刻みが閉形式を含まない');
+        if (C.flagBeforePrecCap || C.spinAboveCapBeforeFlag !== 0) bad.push('(B) 旗が歳差の上限の前に立った/旗の前にスピンが上限を超えた');
+        if (!C.end.stretchFlag || !(C.end.Eover > 0) || !(Math.abs(C.end.thetaDeg - 90) <= 1e-12)) bad.push('(B) 終状態(旗・超過量・θ=90°)');
+        cases.push(`(B) 連鎖: スピン上限 t=${C.events.spinCap.measured} → θ=90° t=${C.events.axisFull.measured} → 歳差上限 t=${C.events.precCap.measured} → 旗 t=${C.events.stretch.measured}`
+          + `(閉形式 ${C.closedTimes.tSpinCap}/${C.closedTimes.tAxisFull}/${C.closedTimes.tPrecCap})・閉形式との差 ${wc.toExponential(1)}・恒等式 ${C.identity.worstResAbs.toExponential(1)}`);
+        const fc = R.flagControls;
+        if (fc.some((r) => r.stretchFlag)) bad.push('(B) 旗の負の対照で旗が立った: ' + fc.filter((r) => r.stretchFlag).map((r) => r.id).join(','));
+        if (fc[0].events.precCap === null) bad.push('(B) 対照 stopAtPrecCap で歳差の上限に到達していない');
+        if (fc[2].events.spinCap !== null || !(fc[2].worstClosedRel <= 1e-12)) bad.push('(B) 対照 brakeWins(スピン上限に届かない・指数の閉形式)');
+        cases.push(`旗の負の対照 ${fc.map((r) => r.id + ' 旗 ' + r.stretchFlag).join('・')}`);
+        const B = R.chainBrake;
+        if (!B.order || !B.spinCap.containsClosed || !(B.worstPreCapRel <= 1e-12) || !(B.identity.worstResRel <= 1e-12) || B.flagBeforePrecCap) bad.push('(C) ブレーキつきの連鎖');
+        const N = R.negativeDrive;
+        if (!(N.worstClosedRel <= 1e-12) || !(N.refusedRel <= 1e-12) || !N.omegaMonotoneDown || N.omegaEnd !== 0 || !(N.identityResAbs <= 1e-12)) bad.push('(D) W_drive<0');
+        cases.push(`(C) ブレーキ γ=${B.gamma}: 張り付く前 ${B.worstPreCapRel.toExponential(1)}・順序 ${B.order} / (D) W<0: ω ${N.omega0}→${N.omegaEnd}・拒否 ${N.refused}(閉形式 ${N.refusedClosed})`);
+        const S = R.separation, c90 = S.cross.find((r) => r.thetaDeg === 90), c60 = S.cross.find((r) => r.thetaDeg === 60);
+        if (!(c90.crossRel <= 1e-15) || !(c60.crossRel > 0.4)) bad.push('(E) θ=90° の交差項');
+        if (S.states.some((s) => !(s.rigidRel <= 1e-12))) bad.push('(E) 剛体式 ≠ E_spin+E_prec');
+        const s90 = S.states.find((s) => s.thetaDeg === 90), s60 = S.states.find((s) => s.thetaDeg === 60);
+        if (!(s90.separableRel <= 1e-12) || !(s60.separableRel > 1e-3)) bad.push('(E) θ=90° だけ ψ̇ と φ̇ の項に分かれる');
+        const sph = S.jCompare.find((r) => r.id === 'sphere'), obl = S.jCompare.find((r) => r.id === 'oblate');
+        if (!(sph.relDiff <= 1e-12) || !(obl.relDiff > 1e-3)) bad.push('(E) |J|²/(2I) は球でだけ一致');
+        cases.push(`(E) 交差項 I_∥cosθ/I_∥: 90° ${c90.crossRel.toExponential(2)}・60° ${c60.crossRel.toFixed(3)} / |J|²/(2I) と剛体式: 球 ${sph.relDiff.toExponential(1)}・扁平 ${obl.relDiff.toExponential(2)}(足さない)`);
+        const Lg = R.legacy.rows;
+        if (!(Math.abs(Lg[1].legacyOmegaPrec * 2 - Lg[0].legacyOmegaPrec) <= 1e-15) || Lg.some((r) => r.accountPhiDot !== Lg[0].accountPhiDot)) bad.push('(F) 旧 Ω_prec の従属/口座の φ̇');
+        const G = R.rigid;
+        if (!(G.powerballDrive.worstRel <= 1e-12) || !(G.axiswork.worstRel <= 1e-12) || !(G.axiswork.worstHeatRel <= 1e-12)) bad.push('(G) 剛体対照');
+        if (G.powerballGyroOnly.accountEspinChange !== 0 || !(G.powerballGyroOnly.powerballSpinRelDrift <= 1e-12) || !(Math.abs(G.powerballGyroOnly.tauDotShat) <= 1e-15)) bad.push('(G) ジャイロトルクは供給源ではない');
+        if (G.axiswork.versions.powerball !== 'w275e-1' || G.axiswork.versions.axiswork !== 'w276c-2') bad.push('(G) 既存 lib の版');
+        cases.push(`(G) 剛体対照: powerball 駆動 ${G.powerballDrive.worstRel.toExponential(1)}・ジャイロだけ |S| ${G.powerballGyroOnly.powerballSpinRelDrift.toExponential(1)}(口座 ΔE ${G.powerballGyroOnly.accountEspinChange})・axiswork ${G.axiswork.worstRel.toExponential(1)}`);
+        const H = R.heat;
+        if (!(H.Q > 0) || H.Jnet !== 0 || H.JnetAfter !== 0 || !(H.QafterRel <= 1e-12)) bad.push('(H) 熱 = ミクロのスピン(Q>0・J_net=0)');
+        const X = R.html;
+        if (!X.ok || !(X.coreAxisStep.phiSpreadDeg <= 1e-9) || X.coreAxisStep.priors.some((p) => !(p.phiResidual <= 1e-12) || !(p.jPerpRel <= 1e-12))) bad.push('(J) dfmCoreAxisStep は φ(t) を外から指定する');
+        if (!X.bhCoreTilt.found || !X.bhCoreTilt.retired || X.bhCoreTilt.tilt !== 90 || X.bhCoreTilt.Kcs !== 0 || !(Math.abs(X.bhCoreTilt.state.JzOverJ) <= 1e-15)) bad.push('(J) 🪩 の宣言(退役・tilt 90・Kcs 0・J_z/|J| 機械ゼロ)');
+        cases.push(`(H) Q=${H.Q.toFixed(4)}・J_net=${H.Jnet} / (J) html: 前の方位 4 通りで出力の方位の広がり ${X.coreAxisStep.phiSpreadDeg}°・🪩 tilt ${X.bhCoreTilt.tilt}° の J_z/|J| ${X.bhCoreTilt.state.JzOverJ.toExponential(2)}`);
+      }
+      add('behavior.spinPrecAccounts', bad.length === 0,
+        `**スピン・歳差・熱の口座**(第288便d・原仮定者の裁定(第78報)⑥・統括の検証項目 R116・純関数 tests/lib-w288d-spinprec.mjs・正本 tests/out/spinprec-w288d.json・`
+        + `**エンジン未接続・構成則の候補**)/ ` + cases.join(' / ')
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.precLockToy
+    {
+      const bad = [], cases = [];
+      if (err288) bad.push('器/純関数が読めない: ' + err288);
+      else if (!J288) bad.push('正本 spinprec-w288d.json が読めない');
+      else {
+        if (diff288.some((z) => /^lock\//.test(z))) bad.push('正本 ≠ 作り直し(lock)');
+        const K = R288.lock, F = EX288.LOCK_FLOORS;
+        if (!(K.equivAxiswork.worstRel <= 1e-12)) bad.push('γ=0 で既存 lockDerivs と一致しない: ' + K.equivAxiswork.worstRel);
+        if (!(K.sign.pos.devFinal <= 1e-9) || K.sign.pos.center !== 0) bad.push('K>0 が Δφ=0 へ収束しない');
+        if (!(K.sign.neg.devFinal <= 1e-9) || !(Math.abs(K.sign.neg.center - Math.PI) <= 1e-15) || !K.sign.neg.movedAwayFromZero) bad.push('K<0 が Δφ=0 から離れて π へ行かない');
+        if (K.convergence.some((r) => !(r.devFinal <= 1e-9) || !(r.detuneFinal <= 1e-9) || !(r.worstEtotUp <= F.energyUp))) bad.push('独立な初期位相からの収束');
+        if (K.noDamping.some((r) => !(r.ampRatio >= 0.99) || !(r.lastAmp > 0.1) || r.Qend !== 0)) bad.push('γ=0 で収束した(または熱が出た)');
+        if (!(K.K0drift.relToPhase <= F.phaseRel)) bad.push('K=0 の漂いが離調×時間でない');
+        if (!(K.energy.dtWorstEtotUp <= F.energyUp) || !(K.energy.ratio > 12 && K.energy.ratio < 20) || !(K.energy.jsumDriftAbs <= 1e-12)) bad.push('総 E の増加/4 次/J の保存');
+        if (!(K.closed.pendulum.rel <= F.period) || !(K.closed.decay.rel <= F.decay)) bad.push('振り子の周期/減衰率の閉形式');
+        const sc = K.signConvention.rows;
+        if (!sc.some((r) => r.common !== 0 && r.local !== 0 && r.common !== r.local)) bad.push('共通座標と局所軸で符号が食い違う配置が無い');
+        cases.push(`γ=0 で既存 lockDerivs と ${K.equivAxiswork.worstRel.toExponential(1)} / 正逆: K>0 は |Δφ|→${K.sign.pos.devFinal.toExponential(1)}・K<0 は Δφ→${K.sign.neg.dphiFinalWrapped.toFixed(6)}`
+          + ` / 初期位相 ${K.convergence.map((r) => r.dphi0).join('・')} から収束(${K.convergence.map((r) => r.devFinal.toExponential(1)).join('・')})`
+          + ` / γ=0 は振幅比 ${K.noDamping.map((r) => r.ampRatio.toFixed(4)).join('・')}(収束しない)・K=0 は離調×時間で漂う`
+          + ` / 総 E の最悪増加 ${K.energy.dtWorstEtotUp.toExponential(2)}(dt/2 で ${K.energy.dtHalfWorstEtotUp.toExponential(2)}・比 ${K.energy.ratio.toFixed(1)})`
+          + ` / 振り子の周期 ${K.closed.pendulum.rel.toExponential(1)}・減衰率 ${K.closed.decay.rel.toExponential(1)}`
+          + ` / 符号の規約: ${sc.map((r) => r.id + ' 共通 ' + r.common + '・局所 ' + r.local).join(' ; ')}`);
+      }
+      add('behavior.precLockToy', bad.length === 0,
+        `**周波数ロックの小模型**(第288便d・U_lock=−K cos(φ_prec−φ_orb)・位相差のトルクと減衰 γ を歳差と軌道へ反対符号で・γ(Δω)² を熱へ・**符号は宣言**)/ `
+        + cases.join(' / ') + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 4).join(' , ')}` : ''));
+    }
+  }
 }
 
 // ---- 第276便e(原仮定者の裁定(第66報)(4) 後半「渦巻銀河に組み合わせ、棒渦巻銀河に発展させる」):
