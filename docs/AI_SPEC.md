@@ -2802,3 +2802,16 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - 件数(基点 f94ca580 の宣言で・一覧に出る本 120 のうち): コア公理 70・拡張則 44・規定背景 4・意味論 3・比較チャネル 0・外部駆動 53・閉鎖系 67・温度=T_int 20・⚠強場トイ領域 12・引きずり 56 / 較正対象 31(全内蔵では 37)。比較チャネル(FLRW 対照)は内蔵に該当が無く 0 件のチップになる(表から機械で引くので手で外さない)。
 - 例(AND と NOT): コア公理 含む ∧ 引きずり 除く = 39 本・較正対象 含む ∧ 引きずり 除く = 10 本・📇 含む ∧ ⚠強場 除く = 72 本。
 - QA: **`ui.pickerOtherTriState`**(360×640 —— isMobile・タッチ / PC 1280×800)・**`ui.pickerBadgeAxes`**(root は SKIP)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators` は世代切替(html の `function ppOtherStateOf(`)で軸 4 → 15・チップ数 1+15・2 回目のタップは「除く」に読み替える(旧 4 軸の独立の数え直しと AND の検査は不変)。`ui.pickerFilterFold` は判定を変えずに通る。
+## 29. 第288便b の一本化 —— 群「現実較正」とサブチップ・分類チップの語・退役 10 本と在位移行 10 本(原仮定者の裁定〔第78報〕④・AN80〜AN83・統括の検証項目 R114)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。変えたのは内蔵の宣言(退役の familyRole・在位移行の geoPN/kFrame・⏰ の f=1)と表示の表だけである。
+
+- **群**: 「現実との照合・太陽系」「現実との照合・連星」を **「現実較正」1 つ**へ(`GROUP_ORDER`・id `realityCal`・en "Reality Calibration"・絵文字 🎯)。内蔵の `group` 宣言 51 本を書き換えた。**旧 3 名(太陽系・連星・太陽系外)は `GROUP_ALIASES` で「現実較正」へ解決**する —— 保存や AI 生成のプリセットが旧名を宣言していても、そのまま新しい群の見出しに出る(宣言の文字列は書き換えない・旧 2 名の id `realitySolar`/`realityBeyond` は旧名の行に残る)。`presetSig` は group を見ない。
+- **サブチップ**: 「現実較正」の見出しの下に「すべて/太陽系/連星」(`#ppCalSub` —— §25 のセパレータの作法・`data-n` は選択肢の数・件数は一覧に出せる本を実行時に数える)。区分は **`calTargetOf(p)`**(`tests/exp-w282a-calcontract.mjs` の targetOf と同じ規則 —— id・familyId の宣言から: `psr*` → ns-binary・`gw150914*` → bh-binary・familyId alphaCen/sirius → stellar-binary・それ以外 → solar-system。**群の名前では分けない**)。状態 `ppCalSub` はセッション内だけ。**所属は合否を意味しない**(合否は較正監査の判定)。
+- **分類チップの語**: 派生値(既定 kFrame が 0 か否か —— 宣言・保存 JSON・署名に入らない)の表示を「現実較正」1 語へ。較正クラスで kFrame>0 が残る場合(退役の本・保存/AI 生成の旧宣言)だけ「引きずり近似(q)— 較正母集団の外」(en "Drag approx. (q) — outside the population")。鍵 `calibration:kf0`/`calibration:dfm` は内部の値のまま。観測との差のグラフの系列の語は「kFrame=0 / kFrame=1(履歴)」。
+- **退役 10 本**(🌘🧲🪨💿✴️💫⚡🧿🧶🎻 —— `familyRole:"retired"`・`RETIRED_PRESETS` の理由 ja/en と後継 see): サンプル一覧・検索・「この仲間」・隠し #presetSelect・AI 追加の基準候補に出ない(内蔵には残る —— 旧セーブ・旧 URL は読める)。凍結の写しは **`tests/fixtures/retired-w288b.json`**(対の kF0 側との宣言の差 `pairDiff` —— 「k だけが違う対」0 組)。既定の起動の本は 💿 から 💍 saturnRingReal へ。
+- **在位移行 10 本**(🌞🟠🌇🥔❄️💠🌊🧮🩺 は geoPN 2→1・kFrame 1→0 の 2 値だけ・⏰ は f≈2 → f=1〔🎐 の観測質量〕+kFrame 1→0): ID は不変。旧宣言は **`tests/fixtures/dfmcal-w288b.json`**。カードに在位移行の 1 行(side table `UNIFY_MIGRATED` → `#unifyNotice`・表示専用)。A/B の B 側は旧宣言(引きずり近似 q)。
+- **AI 追加の実在系カタログ**(`ASTRO_CATALOG`): 変種は出典のビット写しなので、出典が移行した 🌞(kf0 だけ・既定 kf0)と 🟠(kf1 = 出典の A/B の B 側・kf0 = 出典そのもの・既定 kf0)を付け替えた。語「DFM 版の規約」は「引きずり近似(q)の規約」へ。他の系の既定の変種と観測転写(`buildAstroFromRecords`)の既定 kFrame=1 は変えていない(決断事項)。
+- **契約**: `CAL_CONTRACT` 版 **w288b-1**(kf0 = 「現実較正」・dfm = 「引きずり近似(q)— 較正母集団の外」・`countVerdicts:false`・f1Books は在位の 🧮🩺⏰・legacy.twoSystems)。
+- 読み口: `calTargetOf(p)`・`calSubOf(p)`・`UNIFY_MIGRATED`・`unifyNoticeText(p)`(ページの大域 —— QA が読む)。
+- QA: **`preset.unifyTable`**・**`ui.calGroupUnified`**・**`docs.calVocab`**(root は SKIP)。器 `tests/exp-w288b-unify.mjs`(移行表 `tests/data-w288b-unify.json`)・`tests/exp-w288b-retiredfx.mjs`(凍結の写し 2 本)。docs/PHYSICS.md〔第288便b〕・docs/CALIBRATION_VERDICT_v1.44.md §5.38。

@@ -83,7 +83,7 @@ const P = await page.evaluate(() => {
   return HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => {
     const ph = p.physics || {};
     return { id: p.id, emoji: p.emoji || null, name: p.name || null, sampleClass: p.sampleClass || null,
-      group: p.group || null, scaleTier: p.scaleTier || null, familyId: p.familyId || null,
+      group: p.group || null, scaleTier: p.scaleTier || null, familyId: p.familyId || null, familyRole: p.familyRole || null,
       kFrame: ph.kFrame === undefined ? null : Number(ph.kFrame), geoPN: ph.geoPN === undefined ? null : Number(ph.geoPN),
       frameWeight: ph.frameWeight === undefined ? 'pull' : ph.frameWeight,
       lambdaPN: ph.lambdaPN === undefined ? 1 : Number(ph.lambdaPN),
@@ -107,14 +107,17 @@ const calRow = new Map((CAL.presets || []).map((z) => [z.id, z]));
 const vl = new Map(((CAL.verdictLedger || {}).rows || []).map((z) => [z.id, z]));
 
 // ---------------------------------------------------------------- 分類
+// 第288便b(原仮定者の裁定(第78報)④・R114): **群の名前を見ない**(群は「現実較正」1 つへ一本化した —— 旧版は /^現実との照合/ で太陽系を拾っていた)。
+//   id・familyId の宣言だけで分ける(html の calTargetOf と同じ規則 —— QA ui.calGroupUnified が両者の一致を見る)。
 function targetOf(p) {
   if (p.sampleClass !== 'calibration') return null;   // 対象(太陽系/恒星/NS/BH)は現実較正の本だけに付ける
   if (/^psr/.test(p.id)) return 'ns-binary';
-  if (/^gw150914/.test(p.id)) return 'bh-binary';
+  if (/^gw150914/.test(p.id) || p.familyId === 'gw150914') return 'bh-binary';
   if (p.familyId === 'alphaCen' || p.familyId === 'sirius') return 'stellar-binary';
-  if (p.sampleClass === 'calibration' && /^現実との照合/.test(p.group || '')) return 'solar-system';
-  return null;
+  return 'solar-system';
 }
+// 系統は **kFrame の宣言**で分ける(較正クラス: kFrame=0 → kf0〔現実較正〕・それ以外 → dfm〔引きずり近似(q)— 較正母集団の外〕)。
+// 群の名前で分けるのは較正クラスの外のアナロジーの受け皿だけ(下の 2 行 —— 較正の系統には効かない)
 function systemOf(p) {
   if (p.sampleClass === 'calibration') return p.kFrame === 0 ? 'kf0' : 'dfm';
   // 第287便d(原仮定者の裁定(第77報)AN71・R108): BH 連星の家族は group を「現実との照合・連星」へ移した(表示だけ)。
@@ -197,14 +200,18 @@ for (const id of presetCal) { const i = htmlText.indexOf('{ id:"' + id + '"'); i
   const j = htmlText.indexOf('sampleClass:"calibration"', i); presetDeclLines.add(htmlText.slice(0, j).split('\n').length); } }
 const sampleClassAudit = {
   htmlOccurrences: calLines.length, presets: presetCal.length, population: calPop.length,
-  presetsNotInPopulation: presetCal.filter((id) => calPop.indexOf(id) < 0),
+  // 第288便b(AN83): 母集団は sampleClass:"calibration" ∧ familyRole≠"retired"(calaudit が機械で数える)。退役の較正クラスは別欄
+  populationRule: 'sampleClass:"calibration" ∧ familyRole≠"retired"',
+  retiredCalibration: presetCal.filter((id) => (byId.get(id) || {}).familyRole === 'retired'),
+  presetsNotInPopulation: presetCal.filter((id) => calPop.indexOf(id) < 0 && (byId.get(id) || {}).familyRole !== 'retired'),
   populationNotPresets: calPop.filter((id) => presetCal.indexOf(id) < 0),
   nonPresetOccurrences: calLines.filter((z) => !presetDeclLines.has(z.line)).map((z) => Object.assign({}, z, {
     reason: /^\/\//.test(z.text) ? '検証器・受理契約のコメント(プリセットではない)' : '検証器の拒否文言(プリセットではない)' })),
   rule: '`sampleClass:"calibration"` の文字列は html に ' + calLines.length + ' 回出るが、**プリセットの宣言は '
     + presetCal.length + ' 本**で、残りは検証器のコメントと拒否文言である(ID を持たない)。旧母集団 '
-    + calPop.length + ' 本(calaudit の走行対象)とプリセットの宣言は ID の集合として一致する(差 '
-    + (presetCal.filter((id) => calPop.indexOf(id) < 0).length + calPop.filter((id) => presetCal.indexOf(id) < 0).length) + ' 本)。',
+    + calPop.length + ' 本(calaudit の走行対象 —— 第288便b から sampleClass:"calibration" ∧ familyRole≠"retired")と、退役を除くプリセットの宣言は ID の集合として一致する(差 '
+    + (presetCal.filter((id) => calPop.indexOf(id) < 0 && (byId.get(id) || {}).familyRole !== 'retired').length + calPop.filter((id) => presetCal.indexOf(id) < 0).length) + ' 本・退役の較正クラス '
+    + presetCal.filter((id) => (byId.get(id) || {}).familyRole === 'retired').length + ' 本は母集団の外)。',
 };
 
 // ---------------------------------------------------------------- 旧 4 値(履歴)と新集計(数えるだけ)
@@ -212,7 +219,7 @@ const FV = CAL.fourValues || {};
 const legacy = { label: '旧契約(第281便まで)の履歴', population: calPop.length,
   current: FV.current ? { counts: FV.current.counts, gate: FV.current.gate, commit: FV.current.commit } : null,
   history: (FV.history || []).map((h) => ({ wave: h.wave, commit: h.commit, counts: h.counts })),
-  rule: '旧 4 値は**旧契約の単一母集団(較正 37 本・kFrame を混ぜた 1 列)**の数である。新集計は系統ごとの別欄で、'
+  rule: '旧 4 値は**単一母集団**の数である(第287便までは較正 37 本・kFrame を混ぜた 1 列 —— 第288便b から一本化後の母集団 ' + calPop.length + ' 本)。新集計は系統ごとの別欄で、'
     + '旧 4 値を置き換えない(合否は 1 つも動かしていない)。' };
 const zero4 = () => ({ '合': 0, '量限定合': 0, '否': 0, '保留': 0 });
 const newTally = {};

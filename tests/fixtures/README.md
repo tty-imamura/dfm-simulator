@@ -92,3 +92,15 @@ vMode virial・既定の接触ばね —— は第284便a で 1 bit も変えて
 - `superseded.psrDoubleABDFM` … 基点 2a4af53 の ⚡ の定義(旧 massCalibration・旧 claims の窓と説明文の値・旧 obsCard の行名)。**現行の根拠ではない**(履歴)。
   QA `behavior.psrF1` が「初速・位置・dragQ は移行前とビット同一(比較用に固定)」をこの写しと照合し、`behavior.w249a-pnResponse` が 🪶 の複製元をこの写しへ付け替える。
 - `history.tests` … 付け替えた試験の**基点の保存 QA の値**(pass・detail・所要 —— 転記であって測り直していない)。
+
+## retired-w288b.json・dfmcal-w288b.json(第288便b —— 原仮定者の裁定(第78報)④・統括の検証項目 R114「現実較正の一本化」)
+
+**退役 10 本**(🌘🧲🪨💿✴️💫⚡🧿🧶🎻 —— DFM 版〔geoPN=2∧kFrame>0 と 🎻〕のうち対のある 7 組の DFM 側・🧿・🧲・🎻)の凍結資産と、
+**在位移行 10 本**(🌞🟠🌇🥔❄️💠🌊🧮🩺 は geoPN 2→1・kFrame 1→0・⏰ は f≈2 → f=1+kFrame 1→0)の**旧宣言**の凍結資産。
+**書き換えない**(器 `tests/exp-w288b-retiredfx.mjs` が 1 度だけ作る —— 既存があれば `--force` なしでは止まる)。対象の集合は移行表 `tests/data-w288b-unify.json`。
+
+- `retired-w288b.json` の `presets.<id>.raw` … 第288便b の html の定義そのもの・`presetSigHash`・基点 940dba52 の署名(退役は familyRole だけ —— 署名は基点と同じ)。
+  `presets.<id>.pairDiff` … 後継(kF0 側)との宣言の差(physics の鍵・bodies の欄・massCalibration)。**「k だけが違う対」は 0 組**(`kOnlyPairs` 0)。
+  QA `docs.retired` ④ が内蔵と 200 步の状態のビット一致を、`preset.unifyTable` ④ が署名と対の差を照合する。
+- `dfmcal-w288b.json` の `superseded.<id>.raw` … 基点 940dba52 の在位移行 10 本の定義(旧宣言 —— **現行の根拠ではない**)。`diffToNow` は移行後との差の鍵(9 本は physics.geoPN・physics.kFrame だけ)。
+  QA `preset.unifyTable` ④ が「旧宣言に移行後の 2 値だけを当てると内蔵と署名・200 步がビット一致」(9 本)と ⏰ の f=1 を照合する。

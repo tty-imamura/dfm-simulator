@@ -1,0 +1,1158 @@
+{
+ "version": "w288b-unify-1",
+ "wave": "第288便b",
+ "ruling": "原仮定者の裁定(第78報)④(AN80・AN81・AN82・AN83)・統括の検証項目 R114",
+ "frozen": true,
+ "rule": "sampleClass:\"calibration\" ∧ familyRole≠\"retired\" ∧ 既定 physics.kFrame>0(geoPN と kFrame の宣言で抽出 —— 名前の接尾辞は見ない)",
+ "says": "現実較正の合を目指す系統を 1 本にする裁定である(精度の主張ではない —— ☄️ の近日点は 5 区分で否のまま・EIH には Lense–Thirring も kFrame も無い)。退役は導線だけを外す(presetSig・物理・保存 JSON は不変・旧セーブは読める)。在位移行は宣言(geoPN・kFrame・⏰ は f)だけを変える(ID は不変)。",
+ "base": {
+  "rev": "940dba52",
+  "commit": "940dba52e035c73dd04fd6bbf14fbf5dc301bc62"
+ },
+ "counts": {
+  "extracted": 20,
+  "retire": 10,
+  "migrate": 10
+ },
+ "tally5Source": "tests/out/calaudit-w249.json @ 940dba52 の presets[].tally(合・窓・否・従・転・条)。後の欄は鎖(calaudit の再走)の後に統括が埋める",
+ "rows": [
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "action": "retire",
+   "successor": "earthMoonReal",
+   "successorEmoji": "🌙",
+   "reason": "対のある 7 組の DFM 側(🌙↔🌘)",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": null,
+    "D0": 0.006,
+    "q": 8.2358,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     0.59724,
+     0.007346
+    ]
+   },
+   "after": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": null,
+    "D0": 0.006,
+    "q": 8.2358,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     0.59724,
+     0.007346
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.1,
+    "q": 3,
+    "familyRole": "variant",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     0.59724,
+     0.007346
+    ]
+   },
+   "tally5Before": {
+    "合": 2,
+    "窓": 0,
+    "否": 1,
+    "従": 0,
+    "転": 3,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "emAuditDFM",
+   "emoji": "🧲",
+   "action": "retire",
+   "successor": "emAuditSolar",
+   "successorEmoji": "🔆",
+   "reason": "🔆 と bodies(二体/三体)・physics(kF1/kF0)が違う —— ただし 🧲 は 🌘 と物理・幾何が bit 一致の再宣言(機構判別 B は kFrame=1 の引きずりそのものが目的)で、kFrame=0 へ移すと 🌙 と同じ二体ニュートン(第284便b で ⭕ を 🌙 へ集約したのと同じ形)になり目的を失う。機構判別 C の 🔆 と 🌙 が在位",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 8.2358,
+    "familyRole": "variant",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     0.59724,
+     0.007346
+    ]
+   },
+   "after": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 8.2358,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     0.59724,
+     0.007346
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.1,
+    "q": 3,
+    "familyRole": "variant",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     1988.5,
+     0.0059724,
+     0.00007346
+    ]
+   },
+   "tally5Before": {
+    "合": 3,
+    "窓": 0,
+    "否": 1,
+    "従": 0,
+    "転": 1,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "mercuryRealKF1",
+   "emoji": "🪨",
+   "action": "retire",
+   "successor": "mercuryReal",
+   "successorEmoji": "☄️",
+   "reason": "対のある 7 組の DFM 側(☄️↔🪨)",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": null,
+    "D0": 0.006,
+    "q": 6.1471,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     1988.5,
+     0.00033011
+    ]
+   },
+   "after": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": null,
+    "D0": 0.006,
+    "q": 6.1471,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     1988.5,
+     0.00033011
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.1,
+    "q": 3,
+    "familyRole": "variant",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     1988.5,
+     0.00033011
+    ]
+   },
+   "tally5Before": {
+    "合": 0,
+    "窓": 0,
+    "否": 1,
+    "従": 0,
+    "転": 4,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "solarInner",
+   "emoji": "🌞",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "対の無い太陽系の入口 —— 在位のまま geoPN 2→1・kFrame 1→0",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 5.1,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     1988.5,
+     0.00033011,
+     0.0048675,
+     0.0059724,
+     0.00064171
+    ]
+   },
+   "after": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 5.1,
+    "familyRole": "primary",
+    "group": "現実較正",
+    "masses": [
+     1988.5,
+     0.00033011,
+     0.0048675,
+     0.0059724,
+     0.00064171
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 4,
+    "窓": 0,
+    "否": 1,
+    "従": 0,
+    "転": 9,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "jupiterGalilean",
+   "emoji": "🟠",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "対の無い太陽系の入口 —— 在位のまま geoPN 2→1・kFrame 1→0",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 12.0586,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     18.98,
+     0.000893,
+     0.00048,
+     0.00148,
+     0.001076
+    ]
+   },
+   "after": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 12.0586,
+    "familyRole": "primary",
+    "group": "現実較正",
+    "masses": [
+     18.98,
+     0.000893,
+     0.00048,
+     0.00148,
+     0.001076
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 8,
+    "窓": 0,
+    "否": 0,
+    "従": 0,
+    "転": 13,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "venusReal",
+   "emoji": "🌇",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "対の無い太陽系の入口 —— 在位のまま geoPN 2→1・kFrame 1→0",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 5.626,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     1988.5,
+     0.0048675
+    ]
+   },
+   "after": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 5.626,
+    "familyRole": "primary",
+    "group": "現実較正",
+    "masses": [
+     1988.5,
+     0.0048675
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 2,
+    "窓": 0,
+    "否": 1,
+    "従": 0,
+    "転": 3,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "marsMoonsReal",
+   "emoji": "🥔",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "対の無い太陽系の入口 —— 在位のまま geoPN 2→1・kFrame 1→0",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 19.5783,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     0.064171,
+     0.000001,
+     0.000001
+    ]
+   },
+   "after": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 19.5783,
+    "familyRole": "primary",
+    "group": "現実較正",
+    "masses": [
+     0.064171,
+     0.000001,
+     0.000001
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 4,
+    "窓": 0,
+    "否": 0,
+    "従": 0,
+    "転": 5,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "対の無い太陽系の入口 —— 在位のまま geoPN 2→1・kFrame 1→0",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 11.9386,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     0.001303,
+     0.0001586
+    ]
+   },
+   "after": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 11.9386,
+    "familyRole": "primary",
+    "group": "現実較正",
+    "masses": [
+     0.001303,
+     0.0001586
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 3,
+    "窓": 0,
+    "否": 0,
+    "従": 0,
+    "転": 4,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "uranusReal",
+   "emoji": "💠",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "対の無い太陽系の入口 —— 在位のまま geoPN 2→1・kFrame 1→0",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 13.792,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     8.6811,
+     0.0000066,
+     0.000129,
+     0.000122,
+     0.000342,
+     0.000288
+    ]
+   },
+   "after": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 13.792,
+    "familyRole": "primary",
+    "group": "現実較正",
+    "masses": [
+     8.6811,
+     0.0000066,
+     0.000129,
+     0.000122,
+     0.000342,
+     0.000288
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 7,
+    "窓": 0,
+    "否": 0,
+    "従": 0,
+    "転": 11,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "neptuneReal",
+   "emoji": "🌊",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "対の無い太陽系の入口 —— 在位のまま geoPN 2→1・kFrame 1→0",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 10.1893,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     1.02409,
+     0.000214
+    ]
+   },
+   "after": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.006,
+    "q": 10.1893,
+    "familyRole": "primary",
+    "group": "現実較正",
+    "masses": [
+     1.02409,
+     0.000214
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 2,
+    "窓": 0,
+    "否": 0,
+    "従": 0,
+    "転": 5,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "alphaCenABDFM",
+   "emoji": "✴️",
+   "action": "retire",
+   "successor": "alphaCenAB",
+   "successorEmoji": "✨",
+   "reason": "対のある 7 組の DFM 側(✨↔✴️)",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 4.6111,
+    "familyRole": "primary",
+    "group": "現実との照合・連星",
+    "masses": [
+     21.451938,
+     18.079442
+    ]
+   },
+   "after": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 4.6111,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     21.451938,
+     18.079442
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 4.6111,
+    "familyRole": "variant",
+    "group": "現実との照合・連星",
+    "masses": [
+     21.451938,
+     18.079442
+    ]
+   },
+   "tally5Before": {
+    "合": 1,
+    "窓": 2,
+    "否": 0,
+    "従": 0,
+    "転": 5,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "siriusABDFM",
+   "emoji": "💫",
+   "action": "retire",
+   "successor": "siriusAB",
+   "successorEmoji": "🌟",
+   "reason": "対のある 7 組の DFM 側(🌟↔💫)",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 4.6761,
+    "familyRole": "primary",
+    "group": "現実との照合・連星",
+    "masses": [
+     41.022755,
+     20.24293
+    ]
+   },
+   "after": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 4.6761,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     41.022755,
+     20.24293
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 4.6761,
+    "familyRole": "variant",
+    "group": "現実との照合・連星",
+    "masses": [
+     41.022755,
+     20.24293
+    ]
+   },
+   "tally5Before": {
+    "合": 0,
+    "窓": 2,
+    "否": 0,
+    "従": 0,
+    "転": 7,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "psrDoubleABDFM",
+   "emoji": "⚡",
+   "action": "retire",
+   "successor": "psrDoubleAB",
+   "successorEmoji": "📻",
+   "reason": "対のある 7 組の DFM 側(📻↔⚡)",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1789,
+    "familyRole": "primary",
+    "group": "現実との照合・連星",
+    "masses": [
+     2660.982861,
+     2483.370041
+    ]
+   },
+   "after": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1789,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     2660.982861,
+     2483.370041
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1789,
+    "familyRole": "variant",
+    "group": "現実との照合・連星",
+    "masses": [
+     2660.982861,
+     2483.370041
+    ]
+   },
+   "tally5Before": {
+    "合": 0,
+    "窓": 1,
+    "否": 0,
+    "従": 1,
+    "転": 8,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "psrDoubleABSpinCal",
+   "emoji": "🧿",
+   "action": "retire",
+   "successor": "psrDoubleAB",
+   "successorEmoji": "📻",
+   "reason": "f≈2 のスピン–スピン較正候補(履歴)—— f と λ を回した比較 variant で、kFrame=0 の後継は 📻",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1.999914,
+    "law": "spin-spin-cal-v1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1789,
+    "familyRole": "variant",
+    "group": "現実との照合・連星",
+    "masses": [
+     5321.736877473953,
+     4966.526512176474
+    ]
+   },
+   "after": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1.999914,
+    "law": "spin-spin-cal-v1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1789,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     5321.736877473953,
+     4966.526512176474
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1789,
+    "familyRole": "variant",
+    "group": "現実との照合・連星",
+    "masses": [
+     2660.982861,
+     2483.370041
+    ]
+   },
+   "tally5Before": {
+    "合": 0,
+    "窓": 0,
+    "否": 2,
+    "従": 0,
+    "転": 5,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "対の無い NS 連星(f=1)—— 在位のまま geoPN 2→1・kFrame 1→0(law \"f-fixed-1\" は宣言のまま)",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1726,
+    "familyRole": null,
+    "group": "現実との照合・連星",
+    "masses": [
+     2661.4084000000003,
+     2773.1621
+    ]
+   },
+   "after": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1726,
+    "familyRole": null,
+    "group": "現実較正",
+    "masses": [
+     2661.4084000000003,
+     2773.1621
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 0,
+    "窓": 0,
+    "否": 2,
+    "従": 1,
+    "転": 5,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "対の無い NS 連星(f=1)—— 在位のまま geoPN 2→1・kFrame 1→0(law \"f-fixed-1\" は宣言のまま)",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1856,
+    "familyRole": null,
+    "group": "現実との照合・連星",
+    "masses": [
+     2552.8363000000004,
+     2481.6479999999997
+    ]
+   },
+   "after": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1856,
+    "familyRole": null,
+    "group": "現実較正",
+    "masses": [
+     2552.8363000000004,
+     2481.6479999999997
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 0,
+    "窓": 0,
+    "否": 2,
+    "従": 1,
+    "転": 6,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "psrB1534DFM",
+   "emoji": "🧶",
+   "action": "retire",
+   "successor": "psrB1534",
+   "successorEmoji": "📿",
+   "reason": "対のある 7 組の DFM 側(📿↔🧶)",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1652,
+    "familyRole": "variant",
+    "group": "現実との照合・連星",
+    "masses": [
+     2650.6705,
+     2675.52675
+    ]
+   },
+   "after": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1652,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     2650.6705,
+     2675.52675
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.1652,
+    "familyRole": "primary",
+    "group": "現実との照合・連星",
+    "masses": [
+     2650.6705,
+     2675.52675
+    ]
+   },
+   "tally5Before": {
+    "合": 0,
+    "窓": 0,
+    "否": 2,
+    "従": 1,
+    "転": 5,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "gw150914DFM",
+   "emoji": "🎻",
+   "action": "retire",
+   "successor": "gw150914",
+   "successorEmoji": "🎐",
+   "reason": "🎐 の DFM 版(AN80)",
+   "before": {
+    "geoPN": 0,
+    "kFrame": 1,
+    "f": 1.9999999999889444,
+    "law": "inertia-law-lin-v1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.2552,
+    "familyRole": "primary",
+    "group": "現実との照合・連星",
+    "masses": [
+     1376.0212399923937,
+     1193.081999993405
+    ]
+   },
+   "after": {
+    "geoPN": 0,
+    "kFrame": 1,
+    "f": 1.9999999999889444,
+    "law": "inertia-law-lin-v1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.2552,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     1376.0212399923937,
+     1193.081999993405
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 0,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.2552,
+    "familyRole": "variant",
+    "group": "現実との照合・連星",
+    "masses": [
+     688.01062,
+     596.541
+    ]
+   },
+   "tally5Before": {
+    "合": 1,
+    "窓": 0,
+    "否": 0,
+    "従": 0,
+    "転": 8,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "action": "migrate",
+   "successor": null,
+   "successorEmoji": null,
+   "reason": "AN80: 合体・放射の目的を持つ本 —— f=1(観測質量 = 🎐 の m・law \"f-fixed-1\")+kFrame 1→0(geoPN=0 は 🎐 と同じ)。周波数・開始時刻・放射モデルの再評価は次便",
+   "before": {
+    "geoPN": 0,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.2552,
+    "familyRole": "variant",
+    "group": "現実との照合・連星",
+    "masses": [
+     1376.0212399923937,
+     1193.081999993405
+    ]
+   },
+   "after": {
+    "geoPN": 0,
+    "kFrame": 0,
+    "f": 1,
+    "law": "f-fixed-1",
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 3.2552,
+    "familyRole": "variant",
+    "group": "現実較正",
+    "masses": [
+     688.01062,
+     596.541
+    ]
+   },
+   "successorDecl": null,
+   "tally5Before": {
+    "合": 0,
+    "窓": 0,
+    "否": 0,
+    "従": 0,
+    "転": 11,
+    "条": 0
+   },
+   "tally5After": null
+  },
+  {
+   "id": "saturnRingRealKF1",
+   "emoji": "💿",
+   "action": "retire",
+   "successor": "saturnRingReal",
+   "successorEmoji": "💍",
+   "reason": "対のある 7 組の DFM 側(💍↔💿)",
+   "before": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 20.4932,
+    "familyRole": "primary",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     56.834,
+     0.00000375,
+     0.0000108,
+     0.0000617,
+     0.0001095,
+     0.0002306,
+     0.013452
+    ]
+   },
+   "after": {
+    "geoPN": 2,
+    "kFrame": 1,
+    "f": null,
+    "law": null,
+    "frameWeight": "pull",
+    "D0": 0.006,
+    "q": 20.4932,
+    "familyRole": "retired",
+    "group": "現実較正",
+    "masses": [
+     56.834,
+     0.00000375,
+     0.0000108,
+     0.0000617,
+     0.0001095,
+     0.0002306,
+     0.013452
+    ]
+   },
+   "successorDecl": {
+    "geoPN": 1,
+    "kFrame": 0,
+    "f": null,
+    "law": null,
+    "frameWeight": "share",
+    "D0": 0.1,
+    "q": 3,
+    "familyRole": "variant",
+    "group": "現実との照合・太陽系",
+    "masses": [
+     56.834,
+     0.00000375,
+     0.0000108,
+     0.0000617,
+     0.0001095,
+     0.0002306,
+     0.013452
+    ]
+   },
+   "tally5Before": {
+    "合": 0,
+    "窓": 0,
+    "否": 0,
+    "従": 0,
+    "転": 12,
+    "条": 0
+   },
+   "tally5After": null
+  }
+ ]
+}

@@ -285,18 +285,19 @@ const DT0 = 0.016;             // アプリ既定(index.html の const DT)
 // ---------------------------------------------------------------- サンプル別の対象宣言
 // 中心と周回体は**プリセットの宣言 body index**(ring は count 個へ展開されるので、走行前に
 // 宣言 index → 実行 index の対応表を機械的に作る)。ラベルは obsCard の q 欄との突き合わせに使う。
+// 第288便b(AN83): 母集団の規則(下の decls の抽出と同じ —— 出力 meta.populationRule に写す)
+const POPULATION_RULE = 'sampleClass:"calibration" ∧ familyRole≠"retired"';
 const CFG = {
+  // 第288便b(原仮定者の裁定(第78報)④・AN83): **退役した本を外した**(母集団は sampleClass:"calibration" ∧ familyRole≠"retired" —— 上の POPULATION_RULE)。
+  //   外した 18 本: earthMoonRealKF1・emAuditNewton・emAuditDFM・mercuryRealKF1・alphaCenABDFM・siriusABDFM・psrDoubleABDFM・psrDoubleABSpinCal・psrDoubleABPN・psrJ1757PN・psrJ1946PN・psrDoubleABCF・psrJ1757CF・psrJ1946CF・psrB1534DFM・psrB1534CF・gw150914DFM・saturnRingRealKF1(第283便b〜第288便b の退役 —— 旧宣言は基点の正本と tests/fixtures/retired-w28*.json に残る)。
+  //   在位移行した 10 本(🌞🟠🌇🥔❄️💠🌊🧮🩺⏰)は宣言が変わっただけで対象の天体は同じ(行はそのまま)
   earthMoonReal:      { c: 0, o: [[1, '月']] },
-  earthMoonRealKF1:   { c: 0, o: [[1, '月']] },
-  emAuditNewton:      { c: 0, o: [[1, '月']] },
-  emAuditDFM:         { c: 0, o: [[1, '月']] },
   emAuditSolar:       { c: 1, o: [[2, '月']] },
   qLockRadialAudit:   { c: 0, o: [[1, '最内'], [8, '参照点']] },
   qLockRadialAuditQ3: { c: 0, o: [[1, '最内'], [8, '参照点']] },
   // 第286便b(原仮定者の裁定(第76報)AN59・統括の検証項目 R104): ☄️ の**較正専用 ε**。`calPhysics` は較正行の宣言で、判定器の**写しにだけ**
   //   当てる(内蔵の本〔表示の本〕の softening 0.05 と既定 0.05 は変えない)。ε の変更は刻み dt の変更と別要因(前後は tests/out/pnsource-w286b.json)
   mercuryReal:        { c: 0, o: [[1, '水星']], calPhysics: { softening: 0.01 } },
-  mercuryRealKF1:     { c: 0, o: [[1, '水星']] },
   solarInner:         { c: 0, o: [[1, '水星'], [2, '金星'], [3, '地球'], [4, '火星']] },
   jupiterGalilean:    { c: 0, o: [[1, 'イオ'], [2, 'エウロパ'], [3, 'ガニメデ'], [4, 'カリスト']] },
   venusReal:          { c: 0, o: [[1, '金星']] },
@@ -305,33 +306,17 @@ const CFG = {
   uranusReal:         { c: 0, o: [[1, 'ミランダ'], [2, 'アリエル'], [3, 'ウンブリエル'], [4, 'チタニア'], [5, 'オベロン']] },
   neptuneReal:        { c: 0, o: [[1, 'トリトン']] },
   alphaCenAB:         { c: 0, o: [[1, 'B']] },
-  alphaCenABDFM:      { c: 0, o: [[1, 'B']] },
   siriusAB:           { c: 0, o: [[1, 'B']] },
-  siriusABDFM:        { c: 0, o: [[1, 'B']] },
   psrDoubleAB:        { c: 0, o: [[1, 'B']] },
-  psrDoubleABDFM:     { c: 0, o: [[1, 'B']] },
-  psrDoubleABSpinCal: { c: 0, o: [[1, 'B']] },
   psrJ1757DFM:        { c: 0, o: [[1, 'B']] },
   psrJ1946DFM:        { c: 0, o: [[1, 'B']] },
-  // 第249便a の λ_PN=1/f variant(⚡🧮🩺 と同じ器で測る — 近点移動は候補の応答そのものなので「従」にしない)
-  psrDoubleABPN:      { c: 0, o: [[1, 'B']] },
-  psrJ1757PN:         { c: 0, o: [[1, 'B']] },
-  psrJ1946PN:         { c: 0, o: [[1, 'B']] },
-  // 第251便a の compactForce variant(案K)と第 4 の凍結 hold-out PSR B1534+12(観測/DFM/CF の 3 版)
-  psrDoubleABCF:      { c: 0, o: [[1, 'B']] },
-  psrJ1757CF:         { c: 0, o: [[1, 'B']] },
-  psrJ1946CF:         { c: 0, o: [[1, 'B']] },
   psrB1534:           { c: 0, o: [[1, 'B']] },
-  psrB1534DFM:        { c: 0, o: [[1, 'B']] },
-  psrB1534CF:         { c: 0, o: [[1, 'B']] },
   gw150914:           { c: 0, o: [[1, 'B']] },
-  gw150914DFM:        { c: 0, o: [[1, 'B']] },
   gw150914Merge4s:    { c: 0, o: [[1, 'B']], orbMax: 3, note: '合体サンプル(外部放射オーバーレイ)— 3 公転で打ち切る' },
   saturnZonalD68:     { c: 0, o: [[1, 'D68']] },
   // 第284便e(原仮定者の裁定(第74報)AN34): 💍💿 の帯を試験粒子にして衛星の後ろへ移した(入場条件「末尾に連続」)ので、
   //   宣言 index を 4→1(ミマス)・9→6(タイタン)に付け替えた(対象の天体は同じ —— 実行 index の対応表は __w249map が作る)
   saturnRingReal:     { c: 0, o: [[1, 'ミマス'], [6, 'タイタン']], ringInner: 'C環内縁' },
-  saturnRingRealKF1:  { c: 0, o: [[1, 'ミマス'], [6, 'タイタン']], ringInner: 'C環内縁' },
 };
 
 // 第286便b: 較正行の宣言の表(CFG の calPhysics だけ —— 出力 JSON の calPhysics 欄にも同じものを書く)
@@ -462,7 +447,13 @@ const H8_HISTORY_W283C = {
 // 窓が足りない段は**換算しない**(短い窓へ置換しない = 未測定)。
 // **換算前の行(°/周)は `q.previousUnit` に温存する** —— σ 接続器の切断点 `unit-not-converted` は
 // 換算していない他の系(☄️🪨🌞 の水星)で**対照として残る**。
-const AD8_CONVERT = new Set(['saturnZonalD68']);
+// 第288便b(原仮定者の裁定(第78報)AN82): **近点移動は deg/yr(観測の単位)を正**とし、°/周は補助欄(`previousUnit`)に残す。
+//   換算は**模型自身の周期**(傾き fit と同じ近点集合の近点間周期 P_peri —— 観測周期を差し込んで周期誤差を隠さない)。
+//   単位を変えた行: 📻 psrDoubleAB・📿 psrB1534・🧮 psrJ1757DFM・🩺 psrJ1946DFM(NS 連星の在位の本 —— CSV の periastron_advance が deg/yr)。
+//   理由: 観測の一次表(ω̇)は deg/yr で、°/周への換算は周期を 1 つ選ぶ(⚡ では Kramer の ω̇ と Hu の P_b の別解をまたいだ —— 第258便d)。
+//   **単位を変えただけで合にしない** —— 換算した行の判定は門(3σ+ε_num)が決める(前後は鎖の再走で PHYSICS〔第288便b〕へ)。
+//   ☄️🌞 の水星(″/世紀の RL 勾配)は換算の対象外のまま(切断点 unit-not-converted の対照)
+const AD8_CONVERT = new Set(['saturnZonalD68', 'psrDoubleAB', 'psrB1534', 'psrJ1757DFM', 'psrJ1946DFM']);
 // 第283便c(R86 (iii)): **写像の宣言の指紋**(dt/4 の再利用規則 —— 否・保留の本で動いたら転記しない)。
 // 呼ばれるのは走行時(下の定数はすべて初期化済み)。CFG・行ごとの測定定義・離心タイミング連星・換算・従属量・理論対照・D68 の周期定義
 function mappingSigOf(id) {
@@ -1175,7 +1166,10 @@ console.error('[w284c] 法則の指紋(閉包): ' + (ENGINE_SHA ? ENGINE_SHA.sli
   + '・' + ENGINE_CLOSURE.names + ' 名・script の ' + ENGINE_CLOSURE.closureShare);
 
 // ---------------------------------------------------------------- サンプル一覧と宣言の読み出し
-decls = await pg.evaluate(() => HP.allPresets().filter((p) => p.sampleClass === 'calibration').map((p) => ({
+// 第288便b(原仮定者の裁定(第78報)④・AN83・統括の検証項目 R114): **母集団は一本化後の機械集計** ——
+//   sampleClass:"calibration" ∧ familyRole≠"retired"(較正クラスの本数 37 をそのまま母集団にしない。退役の本は内蔵に残るが判定器は走らせない)。
+//   第287便までは退役の較正クラス(🪶🪃🪀🪝🪄🩹🪤)も走らせていた —— その記録は基点の正本(履歴)と凍結の写しに残る
+decls = await pg.evaluate(() => HP.allPresets().filter((p) => p.sampleClass === 'calibration' && p.familyRole !== 'retired').map((p) => ({
   id: p.id, emoji: p.emoji || null, name: p.name || null,
   obsCard: p.obsCard || [], claims: (p.claims || []).map((c) => ({ id: c.id, role: c.role, metric: c.metric,
     expected: c.expected || null })),
@@ -1193,6 +1187,7 @@ console.error(`[w249b] 現実較正サンプル ${decls.length} 本 / 走行対�
 // ================================================================ 走行
 out = { meta: {
   wave: '第249便b', when: new Date().toISOString(), target: TARGET, dtBase: DT0,
+  populationRule: POPULATION_RULE,   // 第288便b(AN83)
   // 第272便a(第62報・R11): **対象 HTML の完全 hash と測定コードの hash**(`mergeKey` と同じ値)。
   targetSha256: TARGET_SHA, measurementCodeSha256: MEASUREMENT_CODE_SHA,
   measurementCodeFiles: MEASUREMENT_CODE_FILES,
