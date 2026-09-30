@@ -152,7 +152,12 @@ const EPS = [0.05, 0.02, 0.01];   // 格子の ε(第286便: 較正行の ε も
 // ---------------------------------------------------------------- 正式値の再現(同じ抽出器・同じ窓)
 const cal = JSON.parse(fs.readFileSync(path.join(ROOT, CANON_CAL), 'utf8'));
 const calRow = (id) => cal.presets.find((p) => p.id === id).quantities.find((q) => q.kind === 'precession');
-const CAL0 = calRow('mercuryReal'), CAL1 = calRow('mercuryRealKF1');
+// 第288便b(原仮定者の裁定(第78報)④): 🪨 mercuryRealKF1 は退役して較正母集団(calaudit)の外 —— 行が無ければ**履歴の正式値**(基点 940dba52 の calaudit-w249.json の行)を
+// 使って同じ抽出器でビット再現する(🪨 の物理は 1 bit も変わっていない —— 再現できなければ止める)。列 kF1 は「退役(履歴)の対照」であって現行の較正ではない
+const CAL1_HISTORY = { meas: 0.00002252587001128979, obs: 0.000028767774778449504, unit: 'deg/orbit', verdict: '否', retired: true,
+  from: 'tests/out/calaudit-w249.json@940dba52(第287便の正本 —— 🪨 は第288便b で退役・較正母集団の外)' };
+const calRowOpt = (id) => { const p = cal.presets.find((z) => z.id === id); return p ? p.quantities.find((q) => q.kind === 'precession') : null; };
+const CAL0 = calRow('mercuryReal'), CAL1 = calRowOpt('mercuryRealKF1') || CAL1_HISTORY;
 // 第286便(AN59): 判定器の較正行の宣言(calPhysics —— ☄️ の較正専用 ε)を正本から読み、再現の走行にだけ当てる(判定器と同じ窓口)
 const CAL_PHYS_ROWS = (cal.calPhysics && cal.calPhysics.rows) || {};
 const CAL_PHYS = CAL_PHYS_ROWS.mercuryReal || null;
@@ -164,7 +169,8 @@ const r01 = await run('mercuryRealKF1', 0.016);
 await E('window.__w249calPhys = {};');   // 再現のあとは外す(格子・1 表の ☄️ は本の宣言 ε のまま)
 const repro = {
   kF0: { formal: CAL0.meas, here: r00.slopeDegA, bitIdentical: r00.slopeDegA === CAL0.meas, nPeri: r00.nPeriA, softening: r00.state.softening },
-  kF1: { formal: CAL1.meas, here: r01.slopeDegA, bitIdentical: r01.slopeDegA === CAL1.meas, nPeri: r01.nPeriA, softening: r01.state.softening },
+  kF1: { formal: CAL1.meas, here: r01.slopeDegA, bitIdentical: r01.slopeDegA === CAL1.meas, nPeri: r01.nPeriA, softening: r01.state.softening,
+    retired: !!CAL1.retired, formalFrom: CAL1.retired ? CAL1.from : CANON_CAL },
   calPhysics: CAL_PHYS, epsFormal: EPS_FORMAL, epsPreset: EPS_PRESET,
   engine: ENGINE,
   note: '判定器の正本値(calaudit-w249.json)と、同じ抽出器のソースを本器(' + ENGINE + ')で評価した値のビット比較'
