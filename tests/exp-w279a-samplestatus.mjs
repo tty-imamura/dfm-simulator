@@ -36,6 +36,7 @@ import * as L from './lib-w279a-samplestatus.mjs';
 import { REGEN_STEPS } from './lib-w281a-regentable.mjs';
 import { readDeclaredScope } from './lib-w281a-scope.mjs';
 import { calStagesOf } from './lib-w283c-calstages.mjs';   // 第283便c: 段別の壁時計(二重加算の修正)
+import * as HS from './lib-w288f-htmlstage.mjs';   // 第288便f(AN90): 鎖の中は一時出力の断片へ(集約段 htmlagg が 1 回だけ書く)
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const HTML = path.join(ROOT, 'beta', 'index.html');
@@ -56,7 +57,7 @@ const RETIRED_FX5 = 'tests/fixtures/retired-w287b.json';
 const RETIRED_FXS = [RETIRED_FX, RETIRED_FX2, RETIRED_FX3, RETIRED_FX4, RETIRED_FX5].filter((f) => fs.existsSync(path.join(ROOT, f)));
 const OUT = 'tests/out/samplestatus-w279a.json';
 const MD = 'docs/SAMPLE_STATUS_v1.45.md';
-const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w283c-calstages.mjs'];
+const CODE = ['tests/exp-w279a-samplestatus.mjs', 'tests/lib-w279a-samplestatus.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w283c-calstages.mjs', 'tests/lib-w288f-htmlstage.mjs'];
 const CHECK = process.argv.includes('--check');
 
 const rd = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
@@ -75,16 +76,19 @@ if (built.errors.length) {
 const table = built.table;
 
 // ---- ① html の生成領域を書き換える
-const html0 = fs.readFileSync(HTML, 'utf8');
+// 第288便f(原仮定者の裁定(第78報)AN90): 読むのは上流の断片を当てた写し(--check は自分の断片も)—— REGEN_HTML_STAGE が無ければ html そのもの
+const html0 = HS.readHtmlStaged(HTML, L.REGION, { inclusive: CHECK });
 const meta = { version: L.STATUS_VERSION, generator: 'tests/exp-w279a-samplestatus.mjs', sources: [SRC, CAL, WIN] };
 const region = L.renderRegion(table, meta);
 const a = html0.indexOf(L.BEGIN), b = html0.indexOf(L.END);
 if (a < 0 || b < 0) { console.error('html に生成領域 sample-status が無い'); process.exit(1); }
 const html1 = html0.slice(0, a) + region + html0.slice(b + L.END.length);
 const htmlChanged = html1 !== html0;
+let VIEW = HTML;
 if (CHECK) {
   if (htmlChanged) { console.error('--check: html の生成領域が原稿+正本から作った表と違う'); process.exit(1); }
-} else fs.writeFileSync(HTML, html1);
+  VIEW = HS.viewPathOf(HTML, html0, L.REGION + '-check');
+} else VIEW = HS.writeHtmlStaged(HTML, html0, html1, L.REGION).view;
 
 // ---- ② ページで確かめる
 const PW_DIR = process.env.PLAYWRIGHT_CORE_DIR || '/home/user/dfm-simulator';
@@ -96,7 +100,7 @@ catch { browser = await req('playwright-core').chromium.launch({ executablePath:
 const page = await browser.newPage();
 const errs = [];
 page.on('pageerror', (e) => errs.push(String(e.message || e)));
-await page.goto('file://' + HTML, { waitUntil: 'load' });
+await page.goto('file://' + VIEW, { waitUntil: 'load' });
 await page.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
 const got = await page.evaluate(() => {
   const rows = [];
@@ -308,6 +312,7 @@ if (CHECK) {
   // md を書いた後に来歴を取り直す(inputs に md 自身の sha を刻む)
   canon.meta = Object.assign({}, canon.meta, provenanceMeta({ root: ROOT, wave: '第279便a', target: 'beta/index.html',
     code: CODE, inputs: [SRC, CAL, WIN, MD].concat(RETIRED_FXS) }));
+  HS.stampStagedTarget(canon.meta, html1);   // 第288便f: 一時出力のときは記述した写し(集約が書く html)の sha を刻む
   fs.writeFileSync(path.join(ROOT, OUT), JSON.stringify(canon, null, 1));
 }
 const maxJa = Math.max(...Object.values(table).map((t) => t.brief.length));

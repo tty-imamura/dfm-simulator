@@ -40,7 +40,7 @@ import * as L283 from './lib-w283a-geomode.mjs';
 import * as O from './lib-w285b-gr1pn.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 // 第281便a の規約: この器が読む html の領域(1 行の JSON —— `lint.regenScope` が機械の下限と照合する)
-const REGEN_SCOPE = {"presets":"all","roots":["DT","GEO_CORE_PN","GEO_MODE_VERSION","HP.allPresets","HP.coreState","HP.loadPreset","HP.sim","HP.validatePreset","PN1_CONTRACT","PN1_EIH_VERSION","RAY_ALPHA_MIN","obsCompareRows","dfmPN1Delta","dfmPN1EIHKick","geoCoreDispatch","geoModeOf","pnSource","presetSig","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["DT","GEO_CORE_PN","GEO_MODE_VERSION","HP.allPresets","HP.coreState","HP.loadPreset","HP.sim","HP.validatePreset","PN1_CONTRACT","PN1_EIH_VERSION","RAY_ALPHA_MIN","dfmPN1Delta","dfmPN1EIHKick","geoCoreDispatch","geoModeOf","pnSource","presetSig","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -305,12 +305,15 @@ const E = { rule: 'calaudit の __w249build(id, true) と同じ: 複製の kFram
 // (E) の行から nan と円軌道(近点が定まらない)を除き、λ=0 の近点移動(検出器 B)を value に置く。σ なし・正式判定なし
 // (status は「未判定」・stage は diagnostic)。tests/lib-w285d-obscompare.mjs の EXTRA_ROW_KEYS の欄だけを持つ
 // (段 obscompare が系列 "pn0" として描く —— 帯を描かない・合否を書かない)。
-const OBS_COMPARE_NOTE = '同じ初期条件・窓の λ=0。単独では観測適合を判定しない';
-const obsCompareRows = E.rows.filter((r) => !r.nan && !r.circular && Number.isFinite(r.lam0B)).map((r) => ({
+// 第288便f(原仮定者の裁定(第78報)AN90): 局所名と正本の鍵を lambda0Rows に改名した(旧名は html の関数名と同じ綴りで、領域の下限の自動導出が
+//   「器が html のその関数を読む」と数え、領域の宣言に観測対実行の生成領域が掛かっていた —— 器は html のその関数を 1 度も呼ばない。
+//   読み手 tests/lib-w285d-obscompare.mjs は新しい鍵を読み、無ければ旧い鍵を読む)
+const LAMBDA0_NOTE = '同じ初期条件・窓の λ=0。単独では観測適合を判定しない';
+const lambda0Rows = E.rows.filter((r) => !r.nan && !r.circular && Number.isFinite(r.lam0B)).map((r) => ({
   id: r.id, target: 'B', name: '近点移動(λ_PN=0 の対照・検出器 B・' + r.orbits + ' 周)', kind: 'precession',
   obs: (typeof r.obs === 'number') ? r.obs : null, value: r.lam0B, unit: 'deg/orbit', sigma: null,
-  status: '未判定', stage: 'diagnostic', lambdaPN: 0, note: OBS_COMPARE_NOTE }));
-log(`(E′) λ_PN=0 の対照行 ${obsCompareRows.length}(σ なし・正式判定なし)`);
+  status: '未判定', stage: 'diagnostic', lambdaPN: 0, note: LAMBDA0_NOTE }));
+log(`(E′) λ_PN=0 の対照行 ${lambda0Rows.length}(σ なし・正式判定なし)`);
 
 // ---------------------------------------------------------------- (F) 水星(R98)
 const F = { grid: [], note: 'mercuryReal(太陽は pinned —— 源 1 つ固定なので本便の変更で 1 bit も変わらない)・8 周・検出器 B' };
@@ -392,7 +395,7 @@ const out = {
   note: 'geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。'
     + 'S._core は 1 命令も変えていない(geoCoreDispatch が kF0 の役割に core=1 を渡し、差分 Δ を _core の前に当てる)。Σm·v は状態変数の和で、相対論的な全運動量ではない。',
   A, B: Bk, C: Cc, D: Dd, E, F, G: Gb,
-  obsCompareRows,   // 第286便b(R104): λ_PN=0 の対照(診断 —— σ なし・帯なし・正式判定なし)
+  lambda0Rows,   // 第286便b(R104): λ_PN=0 の対照(診断 —— σ なし・帯なし・正式判定なし)。第288便f で鍵を改名(旧鍵の読み手は lib が両方を読む)
   doNotWrite: ['λ_PN=1 で既に 1PN と合った', '不足は DFM の新現象', '観測一致を達成した', '較正を完了した', 'f=1 で合った', 'kF0 版が成立した', '精度を上げれば成立する', '新発見', 'RC を切った'],
   headless: { now: { wallSec: HN.ms / 1000, errors: HN.errors.length }, base: { wallSec: HB.ms / 1000, errors: HB.errors.length } }, elapsedS: null,
 };

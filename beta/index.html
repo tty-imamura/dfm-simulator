@@ -176,6 +176,18 @@
   #ppModal .ppChip[data-state="on"]{background:var(--accFill);border-color:var(--acc);color:var(--fg);}
   #ppModal .ppChip[data-state="not"]{border-color:var(--hot);color:var(--hotText);text-decoration:line-through;}
   #ppModal .ppChip[data-state="not"]::before{content:"¬";display:inline-block;margin-right:3px;font-weight:700;text-decoration:none;}
+  /* 第288便f(原仮定者の裁定(第78報)AN89「NOT の視覚と並びは現行で確定・0 件の軸は無効表示(隠さない)・狭い画面は段ごとの畳み
+     (選択中・除外中の条件は畳んでも見える)」): 段の見出し .ppOtherSec は**開閉ボタン**(aria-expanded・▾/▸ は ::before —— 語は
+     textContent に入れない)。畳んだ段(.ppOtherGrp[data-fold="1"])は**未選択(off)のチップだけ**を隠す —— 含む(on)・除く(not)の
+     チップは畳んでも見える。隠したチップの数は見出しの ::after(data-nhid)。件数 0 のチップ(未選択のとき)は disabled の無効表示で
+     行に残す(隠さない —— 淡色の文字〔--dim〕・点線の枠) */
+  #ppModal button.ppOtherSec{border-left:0;border-right:0;border-bottom:0;background:none;text-align:left;cursor:pointer;
+    font-family:inherit;line-height:inherit;}
+  #ppModal button.ppOtherSec::before{content:"▾ ";}
+  #ppModal .ppOtherGrp[data-fold="1"]>button.ppOtherSec::before{content:"▸ ";}
+  #ppModal button.ppOtherSec[data-nhid]:not([data-nhid=""])::after{content:"  "attr(data-nhid);font-weight:400;}
+  #ppModal .ppOtherGrp[data-fold="1"]>.ppChip:not([data-state="on"]):not([data-state="not"]){display:none;}
+  #ppModal .ppChip[data-zero="1"]:disabled{color:var(--dim);border-style:dashed;cursor:not-allowed;}   /* 透明度で薄めない(文字のコントラストは --dim の組 —— ui.contrast) */
   #ppList{overflow-y:auto;flex:1;margin-top:6px;border-top:1px solid var(--line);}
   /* 第147便(原仮定者指示): 一覧のグループ区切りを「見出し+罫線」のセパレータへ(表示専用)。
      見出し行そのものが上辺の区切り線を持つ。先頭の見出しだけは上辺の線を出さない。絞り込み・
@@ -532,6 +544,12 @@
   /* 第110便: 物理対応ロック中の κ 行 — 導出値のため編集不可(グレーアウト) */
   .prow.lockedRow input[type=range],.prow.lockedRow input.valIn{opacity:.42;}
   .prow.lockedRow label{opacity:.6;}
+  /* 第288便f(原仮定者の裁定(第78報)⑨): 「背景決定力 D₀」の次の読み取り専用の行(静止背景相当 Wbg)—— 値(右・数値欄と同じ幅・点線の枠)と、
+     その下の出所の行(右寄せ・淡色)・換算の副表示 */
+  .prow.wbgRow .wbgFrom{flex:1 0 100%;order:3;text-align:right;font-size:calc(11px*var(--uz,1));color:var(--dim);margin:-3px 0 0;}
+  .prow.wbgRow .convVal{order:4;}
+  .prow.wbgRow .wbgVal{flex:0 0 92px;width:92px;margin-left:auto;text-align:right;font-size:calc(12px*var(--uz,1));color:var(--fg);
+    font-variant-numeric:tabular-nums;padding:4px 6px;box-sizing:border-box;border:1px dashed var(--line);border-radius:var(--rS);}
   .btn{display:inline-block;border:1px solid var(--line);background:var(--panel);
     border-radius:var(--rL);padding:10px 14px;font-size:calc(13px*var(--uz,1));font-weight:600;touch-action:manipulation;}
   .btn:active{background:var(--press);}
@@ -1277,7 +1295,7 @@ ja: {
   // 第95便(原仮定者指示): カテゴリの説明(ⓘ)を全カテゴリに用意
   grpSpacetimeDesc:"時空の骨格を決める法則群 — 光速 c₀・重力 G・時空係数 κ(時計と光)・一様重力 g_x/g_y・物理対応ロック(κ=G/c₀²)。この宇宙の「舞台」を作るパラメータ。",
   grpSpinHeatDesc:"スピン=熱のセクター(A9〜A12系)— 圧力の正体であるスピン斥力 kRep・摩擦 muF・衝突減衰 γn・熱伝導 κs・放射冷却 η_rad・ウィーン定数 b_m・熱容量 C。熱・温度・光のスペクトルに関わる法則。",
-  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(モード番号)**: 0=測地線不用 / 1=kF0 版(1PN の測地線・kFrame=0 専用・第285便b から有限質量比の N 体 1PN〔EIH 型 —— 反作用は式に内在〕)/ 2=引きずり有り(DFM 版は kFrame=1)/ 3=空間メッシュ(排他)。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ(第283便a)。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。",
+  grpDragDesc:"決定フレームの引きずりと測地線(A4/A5/E3/E6′/E12)— 背景決定力 D₀・空間引きずり kFrame・減衰指数 q・測地線モード geoPN・1PN補正。「空間が物質と光を運ぶ」効果の法則群。**geoPN(モード番号)**: 0=測地線不用 / 1=kF0 版(1PN の測地線・kFrame=0 専用・第285便b から有限質量比の N 体 1PN〔EIH 型 —— 反作用は式に内在〕)/ 2=引きずり有り(DFM 版は kFrame=1)/ 3=空間メッシュ(排他)。0/1/2 の違いは λ_PN(1PN の有無)と kFrame の 2 フラグだけ(第283便a)。**追従比 χ の分母は D₀(share)/D0pull(pull)であって、q は χ に入らない**(q は引きずり核の距離減衰)。kFrame は E6′/E12 の追従の結合で、opt-in の座標変換慣性(physics.spaceMesh の inertia:coordinate)ではその追従を置換するので**実効強度は η_eff=kFrame×inertiaGain** になる。その慣性は**非頂点の粒子だけ**に当たるので、**2 体だけの系では作用対象が 0** で何も起こらない(読み口 S.meshCoordStop=noTargets)。**第288便f**: 「背景決定力 D₀」の次の行は**静止背景相当 Wbg**(読み取り専用 —— 場の契約に渡る背景の重み。出所は spaceMesh.D0 の宣言/D0pull/D₀。背景相当の値で kFrame=0 では力に入らない)。",
   grpLabBoxDesc:"箱境界のサンプル専用の実験条件 — 伝熱壁の壁温/壁レート(tint 箱のみ)と壁別の反発係数。箱を「ビーカーの壁」として外部環境を与える。箱境界のサンプルでのみ表示される。",
   grpSimDesc:"物理法則ではなく数値・離散化の設定 — ソフトニング ε・時間経過倍率(速回し)・摂動注入・ステップ診断・物理ベンチ。結果の頑健性を確かめる実験ノブでもある。",   /* 第254便c: ステップ診断・物理ベンチを追記(粒子表示倍率は表示カテゴリへ移動) */
   grpGraphDesc:"グラフウィンドウ(回転曲線・温度ヒストグラム・スペクトル・膨張・相変化・機構スペクトル・創発モニタ)の表示切替。表示のみ — OFF なら計測コストもゼロ。「初めから」ではリセットされない(第95便)。",
@@ -1307,6 +1325,15 @@ ja: {
      プリセット署名には入らない・力学には 1 bit も効かない) */
   geoToySaveNote:"※ 保存の非対称: いま走っている geoPN=3 は、保存 JSON に physics.spaceMesh.lawVersion "
     +"(scalar/local/complex)の宣言が無ければ、読み込み時に 2 へ丸められます(実行中の力学は変わりません)。",
+  /* 第288便f(原仮定者の裁定(第78報)⑨・R118): 「背景決定力 D₀」の次の読み取り専用の行 —— 静止背景相当 Wbg(式は bgWbgOf 1 か所) */
+  wbgLabel:"静止背景相当 Wbg",
+  wbgTip:"背景相当の値 — kFrame=0 では力に入らない・複素背景の宣言(D₀ の下のパネル・第283便)とは別欄。読み取り専用(値は物理の宣言から毎回引き直す)",
+  wbgDesc:"静止背景相当 Wbg — 複素決定力 u=A/W の背景の重み(χ=W/(W+Wbg))として場の契約に渡る値。出所は physics.spaceMesh.D0 の宣言"
+    +"(中心の自転を読むトイ〔geoPN=3・lawVersion scalar・centerSpin read〕だけ)→ frameWeight pull の D0pull → D₀ の順。単位は D₀ と同じ表示。"
+    +"**背景相当の値であって、kFrame=0 では力に入らない**(引きずりの経路が読まない)。背景複素決定力の宣言 W₀・A₀(下のパネル —— [M/L²] の別の量)とは別欄で、"
+    +"この行は読むだけ(編集は D₀・D0pull・spaceMesh.D0 の宣言で)。",
+  wbgFrom:(f)=>({"spaceMesh.D0":"出所: spaceMesh.D0(宣言)","D0pull":"出所: D0pull(pull)","D0":"出所: D₀"})[f]||("出所: "+f),
+  wbgReadOnly:"読み取り専用",
   /* 第283便d(原仮定者の裁定(第73報)⑥・R87): 「背景決定力 D₀」の直下の背景複素決定力 physics.backgroundComplex の宣言欄 */
   bgcLabel:"背景複素決定力 W₀・A₀(宣言)",
   bgcUndeclared:"未確定(未宣言)",
@@ -1908,6 +1935,10 @@ ja: {
   ppOther_calTarget:"較正対象",
   ppOther_calTargetTip:"sampleClass:\"calibration\" を宣言している本(分類の「現実較正」DFM 版・kF0 版の両方)。較正の対象であって合格ではない —— 合否は較正監査の判定で、このチップは宣言を読むだけ",
   ppOtherSecDecl:"宣言", ppOtherSecBadge:"分類バッジ(説明タブ)",
+  /* 第288便f(原仮定者の裁定(第78報)AN89): 段ごとの畳み・0 件の軸の無効表示 */
+  ppOtherSecHidden:(n)=>"(他 "+n+")", ppOtherSecFoldTip:(open)=>open? "この段を畳む(含む・除くにしたチップは畳んでも見える)" : "この段を開く",
+  ppOtherZeroTip:"一覧に出る本に該当が 0 件 —— 無効表示(隠さない)",
+  ppNoteOtherFold:"段の見出し(宣言・分類バッジ)を押すと段ごとに畳める(狭い画面では畳んだ状態で開く)。畳んでも「含む」「除く」にしたチップは見える。該当 0 件の軸は無効表示で残す",
   ppOtherState_on:"含む", ppOtherState_not:"除く(NOT)", ppOtherState_off:"未選択",
   ppOtherCycleTip:(st)=>"1 回タップ=含む・2 回=除く(NOT)・3 回=解除(Space/Enter でも同じ) —— いま: "+st,
   ppNoteOtherTri:"チップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除。含むチップをすべて満たし、除くチップをどれも満たさない本だけを出す(AND の中の否定)。件数は「除く」にしたチップでは満たさない本の数",
@@ -2247,7 +2278,7 @@ en: {
   // wave 95: category descriptions (ⓘ) for every category
   grpSpacetimeDesc:"The laws that set the stage of this universe — light speed c₀, gravity G, the spacetime coefficient κ (clocks & light), uniform gravity g_x/g_y, and the correspondence lock (κ=G/c₀²).",
   grpSpinHeatDesc:"The spin=heat sector (A9–A12) — spin repulsion kRep (the origin of pressure), friction muF, collision damping γn, conduction κs, radiative cooling η_rad, Wien constant b_m and heat capacity C. Everything about heat, temperature and spectra.",
-  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A MODE NUMBER): 0 = no geodesic / 1 = kF0 build (1PN geodesic, kFrame=0 only; from wave 285b the finite-mass-ratio N-body 1PN in EIH form, with the reaction built into the equations) / 2 = with dragging (the DFM build has kFrame=1) / 3 = space mesh (exclusive). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame (wave 283a). THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets).",
+  grpDragDesc:"Determinacy-frame dragging and geodesics (A4/A5/E3/E6′/E12) — background determinacy D₀, frame dragging kFrame, falloff q, geodesic mode geoPN and the 1PN correction. The laws by which space carries matter and light. GEOPN (A MODE NUMBER): 0 = no geodesic / 1 = kF0 build (1PN geodesic, kFrame=0 only; from wave 285b the finite-mass-ratio N-body 1PN in EIH form, with the reaction built into the equations) / 2 = with dragging (the DFM build has kFrame=1) / 3 = space mesh (exclusive). Modes 0/1/2 differ only in two flags, lambda_PN (1PN on/off) and kFrame (wave 283a). THE DENOMINATOR OF THE FOLLOW RATIO chi IS D0 (share) or D0pull (pull); q DOES NOT ENTER chi (q is the distance falloff of the dragging kernel). kFrame is the coupling of the E6-prime/E12 follow kick, and the opt-in coordinate inertia (physics.spaceMesh with inertia set to coordinate) REPLACES that kick, so its effective strength is eta_eff = kFrame x inertiaGain. That inertia is applied to NON-VERTEX particles only, so A TWO-BODY SYSTEM HAS ZERO TARGETS and nothing happens (read S.meshCoordStop = noTargets). Wave 288f: the row after 'Background determinacy D0' is the STATIC-BACKGROUND EQUIVALENT Wbg (read-only - the background weight handed to the field contract; source: the spaceMesh.D0 declaration / D0pull / D0. It is a background-equivalent value and does not enter the force when kFrame=0).",
   grpLabBoxDesc:"Experimental conditions specific to box-bounded samples — thermal-wall temperature/rate (tint boxes only) and per-wall restitution. The box acts as a beaker wall providing an external environment. Shown only for box-bounded samples.",
   grpSimDesc:"Numerical / discretization settings, not physical laws — softening ε, time multiplier (fast-forward), perturbation injection, step diagnostics and the physics bench. Also robustness-testing knobs.",   /* wave 254c */
   grpGraphDesc:"Toggles for graph windows (rotation curve, temperature histogram, spectrum, expansion, phase change, mechanism spectrum, emergence monitor). Display only — zero cost when OFF. Not reset by ⏮ Restart (wave 95).",
@@ -2276,6 +2307,15 @@ en: {
   /* Wave 263b (report 55, hypothesis 7): saving geoPN is asymmetric - one display-only line under the row */
   geoToySaveNote:"Note - saving is asymmetric: a geoPN of 3 running now is rounded down to 2 on load "
     +"unless the saved JSON declares physics.spaceMesh.lawVersion (scalar/local/complex). The dynamics running now do not change.",
+  /* Wave 288f (originator's ruling, report 78 (9), R118): read-only row next to "Background determinacy D0" - the static-background equivalent Wbg */
+  wbgLabel:"Static-background equiv. Wbg",
+  wbgTip:"A background-equivalent value - it does not enter the force when kFrame=0. A separate field from the complex-background declaration (the panel under D0, wave 283). Read-only (re-read from the physics declaration every time)",
+  wbgDesc:"Static-background equivalent Wbg - the background weight (chi=W/(W+Wbg)) handed to the field contract of the complex determinacy u=A/W. Source: the physics.spaceMesh.D0 declaration "
+    +"(only for the toys that read the centre's spin - geoPN=3, lawVersion scalar, centerSpin read) -> D0pull of frameWeight pull -> D0. Shown in the same unit as D0. "
+    +"IT IS A BACKGROUND-EQUIVALENT VALUE AND DOES NOT ENTER THE FORCE WHEN kFrame=0 (the drag path does not read it). It is a separate field from the background complex declaration W0/A0 (the panel below - a different quantity in M/L^2); "
+    +"this row only reads (edit D0, D0pull or the spaceMesh.D0 declaration instead).",
+  wbgFrom:(f)=>({"spaceMesh.D0":"from: spaceMesh.D0 (declared)","D0pull":"from: D0pull (pull)","D0":"from: D0"})[f]||("from: "+f),
+  wbgReadOnly:"read-only",
   /* Wave 283d (originator's ruling, report 73 (6), R87): declaration panel for physics.backgroundComplex right under the D0 row */
   bgcLabel:"Background complex determinacy W0 / A0 (declaration)",
   bgcUndeclared:"Undetermined (not declared)",
@@ -2856,6 +2896,10 @@ en: {
   ppOther_calTarget:"Calibration target",
   ppOther_calTargetTip:"samples declaring sampleClass:\"calibration\" (both the DFM and the kF0 variants of the class filter). A calibration target, not a pass - the verdict belongs to the calibration audit; this chip only reads the declaration",
   ppOtherSecDecl:"Declarations", ppOtherSecBadge:"Class badges (Description tab)",
+  /* Wave 288f (originator's ruling, report 78, AN89): per-section folding and disabled zero-count axes */
+  ppOtherSecHidden:(n)=>"(+"+n+" more)", ppOtherSecFoldTip:(open)=>open? "Fold this section (included/excluded chips stay visible)" : "Unfold this section",
+  ppOtherZeroTip:"No listed sample matches - shown disabled (not hidden)",
+  ppNoteOtherFold:"Tap a section heading (Declarations / Class badges) to fold that section (narrow screens open it folded). Included and excluded chips stay visible when folded. Axes with zero matches stay in the row, disabled",
   ppOtherState_on:"include", ppOtherState_not:"exclude (NOT)", ppOtherState_off:"not chosen",
   ppOtherCycleTip:(st)=>"1st tap = include, 2nd = exclude (NOT), 3rd = clear (Space/Enter too) - now: "+st,
   ppNoteOtherTri:"A chip cycles on each tap: include, exclude (NOT - shown with ¬ and a strike-through), clear. Only samples that satisfy every included chip and none of the excluded chips are listed (negation inside the AND). An excluded chip counts the samples that do not satisfy it",
@@ -6700,15 +6744,29 @@ function jeansSigma2Profile(r,Sig,g,aM,V){
   for(let k=0;k<=K;k++) s2[k]=(Sig[k]>0)? P[k]/Sig[k] : 0;
   return {ok:true, sigma2:s2, P};
 }
-function jeansRowsVelocities(P,rows,o){
-  const G=o.G, eps2=o.eps2, ph=o.phys||{}, K=JEANS_GRID_K, NAZ=JEANS_GRID_NAZ;
+// 第288便f(原仮定者の裁定(第78報)⑨・統括の検証項目 R118): **静止背景相当 Wbg** の式を 1 か所に切り出した(純関数・S を読まない)。
+//   jeansRowsVelocities(トイの場の契約の Wbg)とパラメータタブの読み取り専用の行(buildWbgRow)が**同じ関数**を呼ぶ —— 式を複製しない。
+//   値は切り出す前の式とビット同一(spaceMesh.D0 の宣言 → pull の D0pull → D0 の順)。背景相当の値であって、kFrame=0 では力に入らない。
+//   bgToyOf(ph) … トイの場を読むか(geoPN=3・lawVersion "scalar"・帯平均/mesh-v2 なし)と中心の自転を読むか(centerSpin "read")
+//   bgWbgOf(ph,cf,spinRead) … {Wbg, D0p, from}(from = "spaceMesh.D0" | "D0pull" | "D0" —— 出所のラベル。値は読まない)
+function bgToyOf(ph){
   const cf=ph[SPACE_MESH_KEY]||null;
   // トイの場を読むか(geoPN=3・lawVersion "scalar"・帯平均/mesh-v2 なし —— それ以外は ⟨a_mesh,r⟩=0 と宣言して記録)
   const toy=!!(cf && (ph.geoPN||0)>=3 && cf.lawVersion==="scalar" && cf.diskSupport===undefined && cf.law===undefined);
   const spinRead=!!(toy && cf.centerSpin===SPACE_MESH_CENTER_SPIN[1]);
+  return {cf, toy, spinRead};
+}
+function bgWbgOf(ph,cf,spinRead){
+  const pull=frameWeightIsPull(ph);
+  const D0p=pull? ((ph.D0pull!==undefined)? ph.D0pull : ph.D0) : ph.D0;
+  const decl=!!(spinRead && cf.D0!==undefined && cf.D0!==null);
+  return {Wbg:decl? cf.D0 : D0p, D0p, from:decl? "spaceMesh.D0" : ((pull && ph.D0pull!==undefined)? "D0pull" : "D0")};
+}
+function jeansRowsVelocities(P,rows,o){
+  const G=o.G, eps2=o.eps2, ph=o.phys||{}, K=JEANS_GRID_K, NAZ=JEANS_GRID_NAZ;
+  const {cf, toy, spinRead}=bgToyOf(ph);
   const eta=(toy && cf.toyGain!==undefined)? cf.toyGain : 1;
-  const D0p=frameWeightIsPull(ph)? ((ph.D0pull!==undefined)? ph.D0pull : ph.D0) : ph.D0;
-  const C=toy? { p:frameWeightPow(ph), eps:Math.sqrt(eps2), Wbg:(spinRead && cf.D0!==undefined && cf.D0!==null)? cf.D0 : D0p,
+  const C=toy? { p:frameWeightPow(ph), eps:Math.sqrt(eps2), Wbg:bgWbgOf(ph,cf,spinRead).Wbg,
     sources:"all", velocity:"v", spin:spinRead? "e6" : "none", spinSources:spinRead? "center" : undefined, q:spinRead? ph.q : undefined,
     fit:"mean", background:"static", need:"uB" } : null;
   const dR=(spinRead && cf.dragR!==undefined && cf.dragR!==null)? cf.dragR : null;
@@ -31311,6 +31369,7 @@ function loop(now){
       }
     }
   } else satRun=0;   // 第175便: 停止中・ドラッグ抑制中は「物理の飽和」ではないので連続数を戻す
+  if((frameCount%15)===0) wbgRowSync();   // 第288便f: 静止背景相当 Wbg の行(ライブ値 —— 行が無ければ何もしない)
   // 第175便 ④(a): 物理が予算を使い切っているフレームの描画間引き。物理の飽和が
   // DRAW_THIN_SAT フレーム以上続いている間だけ、**ユーザー起因の再描画要求(needsRender)が
   // 無いフレーム**を1つおきに間引く。描画を止めるのではなく毎フレーム→2フレームに1回へ
@@ -31840,6 +31899,23 @@ function ppOtherSetState(key,st){
 }
 // 1 回タップ=含む・2 回=除く(NOT)・3 回=解除(off → on → not → off)
 function ppOtherCycle(key){ const st=ppOtherStateOf(key); ppOtherSetState(key, st==="off"? "on" : (st==="on"? "not" : "off")); }
+// 第288便f(原仮定者の裁定(第78報)AN89): 「その他」の**段ごとの畳み**(宣言/分類バッジ)。開閉はセッション内のみ(ppOtherSecOpen —— 段 → true 開/false 畳)。
+//   未記入の段は画面幅で既定を決める(PP_OTHER_NARROW_PX 以下の狭い画面は畳む・広い画面は開く)。畳んだ段は未選択(off)のチップだけを隠し、
+//   含む(on)・除く(not)のチップは見える。件数 0 の軸(未選択のとき)は無効表示(disabled —— 行から消さない)
+const PP_OTHER_NARROW_PX=480;
+let ppOtherSecOpen={};
+function ppOtherSecIsOpen(sec){ return (ppOtherSecOpen[sec]!==undefined)? !!ppOtherSecOpen[sec] : !(innerWidth<=PP_OTHER_NARROW_PX); }
+function ppOtherSecSync(g){   // 段の入れ物 g の表示を開閉の状態へ合わせる(組み直さない —— チップの状態・フォーカスはそのまま)
+  const sec=g.dataset.sec, open=ppOtherSecIsOpen(sec), h=g.querySelector(":scope > .ppOtherSec");
+  const hid=open? 0 : [...g.querySelectorAll(":scope > .ppChip")].filter(c=>c.dataset.state!=="on" && c.dataset.state!=="not").length;
+  g.dataset.fold=open? "0" : "1"; g.dataset.nhid=String(hid);
+  if(h){ h.setAttribute("aria-expanded",open? "true" : "false"); h.dataset.nhid=hid? T("ppOtherSecHidden")(hid) : "";
+    h.title=T("ppOtherSecFoldTip")(open); }
+}
+function ppOtherSecToggle(sec){
+  ppOtherSecOpen[sec]=!ppOtherSecIsOpen(sec);
+  for(const g of document.querySelectorAll('#ppOtherRow .ppOtherGrp[data-sec="'+sec+'"]')) ppOtherSecSync(g);
+}
 function ppOtherLabel(a){ return a.bdg? T(a.key) : T("ppOther_"+a.key); }
 function ppOtherTip(a){ return a.bdg? T(a.key+"Tip") : T("ppOther_"+a.key+"Tip"); }
 // チップの件数: **いま一覧に出せる内蔵**(catalogHidden・退役を除く)のうち、その軸を満たす本の数(他の次元とは独立に数える
@@ -31992,7 +32068,7 @@ function ppNoteText(kind){
   }
   if(kind==="other"){   // 第285便e: 各軸の宣言と件数(一覧に出せる本 —— チップの件数と同じ数え方。実行時に数える)
     // 第287便e: 三状態の説明と 2 段(宣言・分類バッジ)。件数は「含む」の数(除くの数は一覧に出せる本からその数を引いたもの)
-    return T("ppNoteOtherHead")+"\n"+T("ppNoteOtherTri")
+    return T("ppNoteOtherHead")+"\n"+T("ppNoteOtherTri")+"\n"+T("ppNoteOtherFold")
       +PP_OTHER_SECS.map(([sec,tk])=>"\n【"+T(tk)+"】"+(sec==="badge"? " "+T("ppNoteOtherSecBadge") : "")+"\n"
         +PP_OTHER_AXES.filter(a=>a.sec===sec)
           .map(a=>"・"+ppOtherLabel(a)+"("+ppOtherCount(a.key)+") — "+ppOtherTip(a)).join("\n")).join("");
@@ -32079,8 +32155,11 @@ function ppChipsRow(host,dimLabel,opts,get,set,note,multi){
   let tgt=row;
   opts.forEach(([v,txt,n,tip])=>{
     if(v.charAt(0)==="§"){   // 第287便e: 段の見出し
+      // 第288便f(AN89): 見出しは段の開閉ボタン(語は textContent のまま —— ▾/▸ と隠した数は CSS の ::before/::after)
       const g=document.createElement("div"); g.className="ppOtherGrp"; g.setAttribute("role","group"); g.dataset.sec=v.slice(1);
-      const h=document.createElement("span"); h.className="ppOtherSec"; h.id="ppOtherSec_"+v.slice(1); h.textContent=txt;
+      const h=document.createElement("button"); h.type="button"; h.className="ppOtherSec"; h.id="ppOtherSec_"+v.slice(1); h.textContent=txt;
+      h.setAttribute("aria-controls","ppOtherRow");
+      h.addEventListener("click",()=>ppOtherSecToggle(g.dataset.sec));
       g.setAttribute("aria-labelledby",h.id);
       g.appendChild(h); row.appendChild(g); tgt=g; return;
     }
@@ -32090,6 +32169,9 @@ function ppChipsRow(host,dimLabel,opts,get,set,note,multi){
       c.appendChild(cn); c.dataset.n=String(n); }
     if(tip) c.title=tip;
     const st=(multi && multi.stateOf)? multi.stateOf(v) : null;
+    // 第288便f(AN89): 件数 0 の軸は**無効表示**(未選択のときだけ —— 含む・除くにしたチップは解除できるように押せるまま)
+    if(st && v!=="all" && n===0 && st==="off"){ c.disabled=true; c.dataset.zero="1"; c.setAttribute("aria-disabled","true");
+      c.title=(tip? tip+"\n" : "")+T("ppOtherZeroTip"); }
     const on=st? st==="on" : (multi? multi.isOn(v) : (get()===v));
     if(on) c.dataset.on="1";
     if(st){ c.dataset.state=st; c.setAttribute("aria-pressed",st==="on"? "true" : (st==="not"? "mixed" : "false")); }
@@ -32105,6 +32187,7 @@ function ppChipsRow(host,dimLabel,opts,get,set,note,multi){
       } });
     tgt.appendChild(c);
   });
+  for(const g of row.querySelectorAll(":scope > .ppOtherGrp")) ppOtherSecSync(g);   // 第288便f(AN89): 段の開閉(チップを入れた後)
   host.appendChild(row);
   if(note){
     const d=document.createElement("div"); d.className="ppNote"; d.id=note.id;
@@ -33629,6 +33712,46 @@ $("#ocPanel").addEventListener("click",(e)=>{ if(e.target===e.currentTarget) ocO
 const BGC_FIELDS=[   // [鍵, 成分数(0=スカラー), 単位の鍵]
   ["W0",0,"W0"],["A0",2,"A0"],["gradW",2,"gradW"],["gradA",4,"gradA"],["dWdt",0,"dWdt"],["dAdt",2,"dAdt"]];
 const BGC_KEEP=["sources","frame","refPos","lawVersion","lawUnits","lawDomainR","lawWZero","timeContract"];   // 第286便c: 法則版の鍵もこの欄では編集せず引き継ぐ(第287便c: 時間の契約も)
+// 第288便f(原仮定者の裁定(第78報)⑨「複素決定力の静止背景相当の Wbg を見えるようにする — パラメータタブの『背景決定力 D₀』の次に表示」・
+//   統括の検証項目 R118): **読み取り専用の行**。値と出所は bgWbgOf(jeansRowsVelocities の場の契約と**同じ関数** —— 式を複製しない)。
+//   背景相当の値であって kFrame=0 では力に入らない。複素背景の宣言(#bgcPanel —— 第283便 R87)とは別欄。表示だけ(params・presetSig・保存に
+//   1 bit も効かない)。値は宣言から毎回引き直す(wbgRowSync —— 描画ループが 15 フレームごとに呼ぶ・D₀ 行の同期でも呼ぶ)
+function wbgStateOf(S){
+  const ph=(S && S.params)||{};
+  const t=bgToyOf(ph), w=bgWbgOf(ph,t.cf,t.spinRead);
+  return {Wbg:w.Wbg, from:w.from, toy:t.toy, spinRead:t.spinRead};
+}
+function wbgRowSync(){
+  const row=document.getElementById("wbgRow");
+  if(!row) return;
+  const st=wbgStateOf(editSim());
+  const v=row.querySelector(".wbgVal"), f=row.querySelector(".wbgFrom"), c=row.querySelector(".convVal");
+  const vs=fmt(st.Wbg), fs=T("wbgFrom")(st.from);
+  if(row.dataset.wbg!==String(st.Wbg)) row.dataset.wbg=String(st.Wbg);
+  if(row.dataset.from!==st.from) row.dataset.from=st.from;
+  if(v && v.textContent!==vs) v.textContent=vs;
+  if(f && f.textContent!==fs) f.textContent=fs;
+  if(c){ const s0=(scaleDispOn? scaleConvStr("D0",st.Wbg) : null); const t0=s0||"";
+    if(c.textContent!==t0) c.textContent=t0; c.style.display=s0? "" : "none"; }
+}
+function buildWbgRow(parent){
+  const row=document.createElement("div"); row.className="prow wbgRow"; row.id="wbgRow"; row.dataset.readonly="1";
+  const lab=document.createElement("label"); lab.textContent=T("wbgLabel"); lab.className="tappable"; lab.title=T("wbgTip");
+  lab.addEventListener("click",()=>{
+    const open=row.nextElementSibling && row.nextElementSibling.classList
+      && row.nextElementSibling.classList.contains("pdesc") ? row.nextElementSibling : null;
+    if(open){ open.remove(); return; }
+    const d=document.createElement("div"); d.className="pdesc open"; d.dataset.key="Wbg"; d.textContent=T("wbgDesc");
+    row.after(d);
+  });
+  const f=document.createElement("span"); f.className="wbgFrom";
+  const v=document.createElement("output"); v.className="wbgVal"; v.id="wbgVal"; v.title=T("wbgTip")+"\n("+T("wbgReadOnly")+")";
+  v.setAttribute("aria-readonly","true"); v.setAttribute("aria-label",T("wbgLabel")+" ("+T("wbgReadOnly")+")");
+  const conv=document.createElement("span"); conv.className="convVal";
+  row.appendChild(lab); row.appendChild(f); row.appendChild(v); row.appendChild(conv); parent.appendChild(row);
+  wbgRowSync();
+  (paramRowSync.D0||(paramRowSync.D0=[])).push(wbgRowSync);   // D₀ 行の同期・換算表示の総なめでも引き直す
+}
 let _bgcOpen=false;   // 欄の開閉(buildParamRows の組み直しをまたいで保つ・永続しない)
 let _bgcLastErr=null; // 直近の拒否 {sim,pid,err}(組み直し後も同じ文を出す。宣言/未宣言に戻す/編集対象・サンプルの切替で消える)
 function bgcState(S){
@@ -34062,7 +34185,8 @@ function buildParamRows(){
     const dgDefs=catDefs("dg"); dgDefs.sort((a,b)=>(a.key==="geoPN"? 0:1)-(b.key==="geoPN"? 0:1));
     for(const def of dgDefs){ if(def.key==="q") g.appendChild(qlRow); mkParamRow(def,g);
       // 第283便d(原仮定者の裁定(第73報)⑥・R87): 「背景決定力 D₀」の**直下**に背景複素決定力の宣言欄
-      if(def.key==="D0") buildBgComplexPanel(g);
+      // 第288便f(原仮定者の裁定(第78報)⑨): D₀ の**次**の行に静止背景相当 Wbg(読み取り専用)—— 複素背景の欄はその直後
+      if(def.key==="D0"){ buildWbgRow(g); buildBgComplexPanel(g); }
       if(def.key==="geoPN"){ const nt=document.createElement("div"); nt.id="geoToySaveNote";
         nt.className="note"; nt.style.cssText="font-size:calc(10.5px*var(--uz,1));line-height:1.45;padding:0 4px 4px;";
         nt.textContent=T("geoToySaveNote"); g.appendChild(nt); } } }

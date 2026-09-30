@@ -13,7 +13,7 @@
 //   退役の別は**ページ側**が内蔵の宣言(`familyRole:"retired"`)から引く(同じ事実を 2 か所に持たない)。
 //
 // ■ 追加の系列(枝 b の診断正本)
-//   `tests/out/pn1-w285b.json` が**あり**、かつ `obsCompareRows`(本 lib の `EXTRA_ROW_KEYS` の欄を持つ行の配列)を
+//   `tests/out/pn1-w285b.json` が**あり**、かつ `lambda0Rows`(第288便f までの鍵名 obsCompareRows —— 本 lib の `EXTRA_ROW_KEYS` の欄を持つ行の配列)を
 //   持つときだけ、その行を系列 "pn0"(λ_PN=0 の対照 —— 診断)として足す。**無ければ何も描かない**(仮の数を置かない)。
 //
 // ■ しないこと: 走らせない・判定しない・html を書かない(書くのは器)。「合った」「判定が増えた」とは言わない。
@@ -28,7 +28,7 @@ export const SIG_DIGITS = 12;
 export const GATE_WORDS = ['合(3σ)', '否(3σ)', '数値未解決', 'mapping-unresolved', 'condition-mismatch', '未判定'];
 export const CAL_FILE = 'tests/out/calaudit-w249.json';
 export const EXTRA_FILE = 'tests/out/pn1-w285b.json';
-/** 枝 b の正本が `obsCompareRows` に持つべき欄(無い欄は null のまま)。 */
+/** 枝 b の正本が `lambda0Rows`(第288便f までの鍵名 obsCompareRows)に持つべき欄(無い欄は null のまま)。 */
 export const EXTRA_ROW_KEYS = ['id', 'target', 'name', 'kind', 'obs', 'value', 'unit', 'sigma', 'status', 'stage', 'lambdaPN', 'note'];
 
 const num = (x) => (typeof x === 'number' && Number.isFinite(x) ? Number(x.toPrecision(SIG_DIGITS)) : null);
@@ -66,8 +66,9 @@ export function buildRows(cal, extra) {
   }
   const ex = { file: EXTRA_FILE, present: !!extra, rows: 0, why: null };
   if (extra) {
-    const xr = Array.isArray(extra.obsCompareRows) ? extra.obsCompareRows : null;
-    if (!xr) ex.why = '`obsCompareRows` 欄が無い(描かない —— 仮の数を置かない)';
+    // 第288便f: 枝 b の正本の鍵は lambda0Rows(旧い正本の鍵 obsCompareRows も読む —— 鎖で pn1 が刻み直されるまで)
+    const xr = Array.isArray(extra.lambda0Rows) ? extra.lambda0Rows : (Array.isArray(extra.obsCompareRows) ? extra.obsCompareRows : null);
+    if (!xr) ex.why = '`lambda0Rows` 欄が無い(描かない —— 仮の数を置かない)';
     else {
       for (const x of xr) {
         const st = str(x.status);

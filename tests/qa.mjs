@@ -2428,6 +2428,8 @@ if (QA_CHANGED) {
       const ALWAYS = ['calaudit', 'dt3', 'kf0', 'solarsigma', 'stoprule', 'issues', 'assessed',
         'kf0ledger-old', 'kf0ledger', 'samplestatus', 'mercury',
         'd68three'];   // 第286便 統合(統括): 第268便a の 3 段(旧形式・meta なし → 毎回 regen)
+      // 第288便f(原仮定者の裁定(第78報)AN90): 集約段 htmlagg(一時出力の断片を 1 回だけ html へ —— 断片が無ければ何もしない)も常時群(表に段があるとき)
+      if (RT.REGEN_STEPS.some((z) => z.key === 'htmlagg')) ALWAYS.push('htmlagg');
       const tableAlways = RT.REGEN_STEPS.filter((z) => z.alwaysRun).map((z) => z.key).sort();
       if (JSON.stringify(tableAlways) !== JSON.stringify(ALWAYS.slice().sort())) bad.push('③ 常時群の集合が契約と違う: ' + tableAlways.join(','));
       const plan = RT.planRegen({ root: ROOT, html: HTML });
@@ -2844,13 +2846,16 @@ if (QA_CHANGED) {
     try {
       const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
       // 第287便f(AN69): 表の版 w287f-regentable-8(html を書く段の宣言 htmlRegions・families/obscompare/assessed/samplestatus の after・families の touches)
-      if (RT.REGEN_TABLE_VERSION !== 'w287f-regentable-8') bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION);
+      // 第288便f(AN90): 集約段 htmlagg のある表は版 w288f-regentable-9(一時出力の集約・自己試験 (r))—— 世代は表から機械で
+      const has288f = RT.REGEN_STEPS.some((z) => z.key === 'htmlagg');
+      const wantVer = has288f ? 'w288f-regentable-9' : 'w287f-regentable-8';
+      if (RT.REGEN_TABLE_VERSION !== wantVer) bad.push('表の版が契約と違う: ' + RT.REGEN_TABLE_VERSION + '(期待 ' + wantVer + ')');
       for (const f of ['tools/regen-chain.mjs', 'tools/calaudit-split.mjs', 'tools/qa-staged.mjs', 'tests/exp-w284f-splitcheck.mjs'])
         if (!fs.existsSync(path.join(ROOT, f))) bad.push(f + ' が無い');
       const plan = RT.planRegen({ root: ROOT, html: path.join(ROOT, 'beta', 'index.html') });
       const r = await RT.regenChainSelfTest({ root: ROOT, tmpDir: tmp, plan });
       globalThis.__W287F_CHAIN_SELFTEST = r;   // 第287便f: lint.regenStableHash が同じ結果を読む(部分実行で単独なら自分で走らせる)
-      for (const k of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'n', 'o', 'p', 'q']) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
+      for (const k of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'n', 'o', 'p', 'q'].concat(has288f ? ['r'] : [])) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
       // (o) 第286便f(再生成表の after 検査)の固定値: 宣言した読み 5 本(17 組)・静的な欠落 0・古い宣言 0・第285便の型と galaxydiag←sparc を検出
       if (r.o && !(r.o.missingAfter === 0 && r.o.stale.length === 0 && r.o.declaredDecl === 5 && r.o.declared === 17 && r.o.detect285 === true && r.o.detectSparc === true))
         bad.push('(o) 固定値: ' + JSON.stringify(r.o).slice(0, 200));
@@ -2896,7 +2901,10 @@ if (QA_CHANGED) {
       cases.push(`(p) 入力の安定 hash: stub の鎖 A ${r.p.runs.A.length} 段・B(k0 が時刻だけ書き直す)→ ${r.p.runs.B.join(',')}・C(html だけ)→ ${r.p.runs.C.join(',')}・`
         + `D(k0 が値を変える)→ ${r.p.runs.D.join(',')}・E(cal の cmd)→ ${r.p.runs.E.join(',')} / 旧版の契約(Merkle)なら html の変更で ${r.p.p1.htmlChange.length} 段・k0 の変更で ${r.p.p1.k0Change.join(',')}`);
       cases.push(`(q) html を書く段の検査: 書く段 ${r.q.now.writers.join(' → ')}・読む段 本文 ${r.q.now.reads.whole}/領域 ${r.q.now.reads.scope}/読まない ${r.q.now.reads.none}・`
-        + `壊した写しの検出 ${['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'].map((k) => k + ' ' + r.q[k]).join('・')}`);
+        + `壊した写しの検出 ${['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q6b', 'q7', 'q8', 'q9', 'q10'].filter((k) => k in r.q).map((k) => k + ' ' + r.q[k]).join('・')}`);
+      // (r) 第288便f(AN90): 一時出力の集約 —— 中断 → 再開で html が 1 回だけ書かれる(詳細は lint.chainAggregate)
+      if (r.r) cases.push(`(r) 集約: 回 1 rc ${r.r.runs.r1.rc}(html 不変 ${r.r.runs.r1.written === 0})・回 2 再開 rc ${r.r.runs.r2.rc}(走った ${r.r.runs.r2.ran.join(',')}・html を書いた回数 ${r.r.runs.r2.written})・`
+        + `回 3 済み(書いた回数 ${r.r.runs.r3.written} のまま)・別 html の断片を拒否 ${r.r.r4}・領域の外の書き込みを拒否 ${r.r.r5}・変数なしは直書き ${r.r.r6}`);
       cases.push(`(j) 分割の純関数 ${Object.keys(j).filter((z) => z !== 'ok').map((z) => z + ' ' + j[z].ok).join('・')}`);
       cases.push(`(k) 確認順の段: 鍵 ${k.tokens.join(',')} → 先に走る文 ${k.selected.join(',')}・長走行は本走行へ ${k.long.join(',')}`);
       // (n) 第285便f(原仮定者の裁定(第75報)AN53): html 全体を刻む段は samplestatus の後(上流と読む正本の書き手には足さない —— 循環 0)
@@ -2990,7 +2998,8 @@ if (QA_CHANGED) {
       cases.push(`④ 全段の鎖 ${rows.length} 段: html を入力に持たない ${noHtml.length}・本文全体 ${whole.length}・領域 hash ${scoped.length}・生成領域を除いた本文 ${strip.length}`);
       if (A.html) cases.push(`⑤ 書く段 ${A.html.writers.join(' → ')}・宣言した領域の読み ${A.html.declaredRegionReads.join(',') || 'なし'}・`
         + `書く段の上流で html 本文を読む段(常時群・刻印なし)${A.html.beforeAlways.length} 組・末尾の型への移行の残り ${A.html.tailBacklog.length} 段(AN53 で後ろへ回した段 —— 判定に使わない)`
-        + (r.q ? `・壊した写しの検出 ${['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'].filter((k) => r.q[k] === true).length}/7` : ''));
+        + (r.q ? (() => { const qs = ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q6b', 'q7', 'q8', 'q9', 'q10'].filter((k) => k in r.q);   // 第288便f: q6b・q8〜q10 を足した
+          return `・壊した写しの検出 ${qs.filter((k) => r.q[k] === true).length}/${qs.length}`; })() : ''));
     } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
     finally { if (tmp) fs.rmSync(tmp, { recursive: true, force: true }); }
     add('lint.regenStableHash', bad.length === 0,
@@ -2998,6 +3007,156 @@ if (QA_CHANGED) {
       + `上流が走り直しても**意味的出力が同じなら読み手の済み印は生きる**。html は読む段だけが読み方どおりに入れる。`
       + `**安定 hash の一致は読む入力の意味が同じことだけを意味する**(結果が正しいことの保証ではない)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第288便f(原仮定者の裁定(第78報)で閉じた AN90「通知は GitHub の失敗メール・一時出力の集約は 27 段の刻印の版上げと同じ便・Chromium の版を
+// ---- QA 結果 JSON の env に記録・pn1 の領域宣言から OBS_COMPARE_* を外すのは実際の読込依存が無いことを検査してから」・統括の検証項目 R118):
+// ---- 運用の 3 件(fs とこの走行の Chromium だけ —— 正本・html を書かない)。世代判定は html の `function bgWbgOf(`(第288便f)と beta 対象 ——
+// ---- root 等では 3 件とも自動 SKIP。
+// ----   lint.qaEnvVersions … ① tests/qa.mjs が結果 JSON の env に node・chromium(browser.version() —— 閉じる前に引く)を書く ② この走行の
+// ----     Chromium の版が「数字 4 つ」・Node の版が process.version ③ 保存物 qa-results-full-beta.json の env(chromium が無ければ前の世代 —— 次のフル走行で記録)
+// ----     ④ 再生成の鎖: tools/regen-chain.mjs --env(REGEN_ENV_BROWSER=0 で node の版を返す)と、鎖のシェルが $REGEN_LOG/env.json に書く行
+// ----     ⑤ tests/README.md §1 に「1 ulp の切り分けはこの欄で」(env.chromium)。**版は固定しない**(記録であって門ではない)
+// ----   lint.chainAggregate … 一時出力の集約: ① 表の集約段 htmlagg(常時群・単独・cmd tools/regen-html-aggregate.mjs・samplestatus の後)② --audit の
+// ----     html 検査 ok・⑦ 直書き 0・⑧ 集約段の検査 ok・断片の順序 = 書く段の全順序・html 全体を読む下流の段がすべて集約段の後 ③ 書く段の器
+// ----     (obscompare・samplestatus)が writeHtmlStaged を呼び beta の html を直に書かない ④ 鎖のシェルが REGEN_HTML_STAGE を $REGEN_LOG/html に置く
+// ----     ⑤ --self-test (r)(htmlAggregateProbe —— stub の鎖を bash で回す): 中断(rc 1)で html 不変 → 再開で html を 1 回だけ書く → もう一度でも書かない・
+// ----     別の html の断片を拒否・領域の外の書き込みを拒否・変数が無ければ直書き ⑥ tests/README.md に集約段の説明
+// ----   lint.pn1RegionDecl … pn1 の領域の宣言から観測対実行の生成領域(OBS_COMPARE_*)を外した根拠を機械で: ① 器の宣言 REGEN_SCOPE の roots に
+// ----     obsCompare*/OBS_COMPARE* が無い ② 器のコード(import の閉包と meta.code[])から引いた下限(deriveScope)にも無く、宣言が下限を覆う
+// ----     ③ 宣言の閉包(停止集合つき)が html の obs-compare 生成領域の文に重ならない・旧い宣言(roots に obsCompareRows)の閉包は重なる(感度)
+// ----     ④ HTML_REGION_READ_DECL に pn1 の行が無く、--audit の html 検査で pn1 の領域の読み・古い宣言が 0 ⑤ 正本 pn1-w285b.json の刻印の roots にも無く、
+// ----     行は新しい鍵 lambda0Rows(旧い鍵 obsCompareRows が無い)・lib の buildRows が新旧どちらの鍵でも同じ行を作る
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || !/function bgWbgOf\(/.test(html)) {
+    console.log('SKIP lint.qaEnvVersions / lint.chainAggregate / lint.pn1RegionDecl(対象に第288便f の運用の契約なし — root 等)');
+  } else {
+    const cp = await import('node:child_process');
+    const os = await import('node:os');
+    const RT = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-regentable.mjs'));
+    const README = fs.readFileSync(path.join(ROOT, 'tests', 'README.md'), 'utf8');
+    // ---- lint.qaEnvVersions
+    {
+      const bad = [], cases = [];
+      const qsrc = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+      const iv = qsrc.indexOf('chromiumVersion = browser.version()'), ic = qsrc.lastIndexOf('await browser.close();');
+      if (iv < 0 || ic < 0 || iv > ic) bad.push('① qa.mjs が browser.version() を閉じる前に引かない');
+      if (!/env: \{ node: process\.version, playwright: playwrightVersion, chromium: chromiumVersion,/.test(qsrc)) bad.push('① 結果 JSON の env に chromium が無い');
+      let v = null; try { v = browser.version(); } catch (e) { v = null; }
+      if (!/^\d+\.\d+\.\d+\.\d+$/.test(String(v))) bad.push('② この走行の Chromium の版が読めない: ' + v);
+      cases.push(`この走行 Node ${process.version}・Chromium ${v}`);
+      let saved = null; try { saved = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'qa-results-full-beta.json'), 'utf8')).env || null; } catch (e) { saved = null; }
+      if (saved && saved.chromium) { if (!/^\d+\.\d+\.\d+\.\d+$/.test(String(saved.chromium))) bad.push('③ 保存物の env.chromium の形が違う: ' + saved.chromium); cases.push(`保存物 Node ${saved.node}・Chromium ${saved.chromium}`); }
+      else cases.push(`保存物 ${saved ? 'Node ' + saved.node + '・Chromium の欄なし(前の世代 —— 次のフル走行で記録)' : 'なし'}`);
+      const ev = cp.spawnSync(process.execPath, [path.join(ROOT, 'tools', 'regen-chain.mjs'), '--env'], { encoding: 'utf8', env: Object.assign({}, process.env, { REGEN_ENV_BROWSER: '0' }) });
+      let ej = null; try { ej = JSON.parse(ev.stdout); } catch (e) { ej = null; }
+      if (!ej || ej.node !== process.version) bad.push('④ tools/regen-chain.mjs --env が node の版を返さない');
+      const all = { steps: RT.REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
+      const sh = RT.chainShell(RT.buildChain(all, { root: ROOT }), { lanes: 4 });
+      if (!/--env >"\$REGEN_LOG\/env\.json"/.test(sh)) bad.push('④ 鎖のシェルが $REGEN_LOG/env.json に版を書かない');
+      if (!/env\.chromium/.test(README) || !/1 ulp/.test(README)) bad.push('⑤ tests/README.md に env.chromium と 1 ulp の切り分けの説明が無い');
+      cases.push(`鎖 --env ${ej ? ej.node + '(Chromium ' + ej.chromium + ')' : '—'}・シェルが env.json を書く`);
+      add('lint.qaEnvVersions', bad.length === 0,
+        `**試験した環境の版の記録**(第288便f・AN90): ${cases.join(' / ')} —— 結果 JSON の env に node・chromium・playwright・platform を残す(**版は固定しない** —— `
+        + `CI の Chromium 1228 と手元の 1194 で Math.pow 等が 1 ulp 違った第286便の切り分けに使う記録であって門ではない)`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- lint.chainAggregate
+    {
+      const bad = [], cases = [];
+      let tmp = null;
+      try {
+        const HS = await import('file://' + path.join(ROOT, 'tests', 'lib-w288f-htmlstage.mjs'));
+        const agg = RT.REGEN_STEPS.find((z) => z.key === 'htmlagg');
+        if (!agg) bad.push('① 表に集約段 htmlagg が無い');
+        else {
+          if (!(agg.alwaysRun && agg.exclusive && agg.htmlAggregate && /tools\/regen-html-aggregate\.mjs/.test(agg.cmd) && (agg.after || []).includes('samplestatus')))
+            bad.push('① htmlagg の宣言(常時群・単独・cmd・after samplestatus)が契約と違う');
+          if (!fs.existsSync(path.join(ROOT, 'tools', 'regen-html-aggregate.mjs'))) bad.push('① tools/regen-html-aggregate.mjs が無い');
+        }
+        const A = RT.htmlTailAudit({ root: ROOT });
+        if (!A.ok) bad.push('② --audit の html 検査が ok でない: ' + JSON.stringify({ d: A.directWrite, s: A.stageOrder, m: A.aggMissing, a: A.aggregator && A.aggregator.bad }).slice(0, 200));
+        cases.push(`② 書く段 ${A.writers.join(' → ')} → 集約段 ${(A.aggregator && A.aggregator.steps || []).join(',')}・直書き ${A.directWrite.length}・断片の順序の違反 ${A.stageOrder.length}・集約段の後に無い本文読み ${A.aggMissing.length}`);
+        const wr = RT.REGEN_STEPS.filter((z) => (z.htmlRegions || []).length && z.htmlWriteMode !== 'check' && z.role !== 'history');
+        for (const w of wr) {
+          const h = (w.cmd.match(/tests\/exp-[\w-]+\.mjs/) || [])[0];
+          const t = h ? fs.readFileSync(path.join(ROOT, h), 'utf8') : '';
+          if (!/HS\.writeHtmlStaged\(HTML,/.test(t) || /fs\.writeFileSync\(HTML\b/.test(t) || !/HS\.readHtmlStaged\(HTML,/.test(t)) bad.push(`③ ${w.key} の器が一時出力の書き口を使わない(直書き)`);
+        }
+        const regs = wr.map((w) => w.htmlRegions[0]);
+        const ord = HS.HTML_STAGE_ORDER.filter((r) => regs.includes(r));
+        if (JSON.stringify(ord) !== JSON.stringify(regs.slice().sort((a, b) => HS.HTML_STAGE_ORDER.indexOf(a) - HS.HTML_STAGE_ORDER.indexOf(b)))) bad.push('③ 断片の順序');
+        cases.push(`③ 書く段の器 ${wr.map((w) => w.key).join('・')} は writeHtmlStaged(断片の順序 ${HS.HTML_STAGE_ORDER.join(' → ')}・版 ${HS.HTML_STAGE_VERSION})`);
+        const all = { steps: RT.REGEN_STEPS.map((z) => ({ key: z.key, status: z.role === 'history' ? 'history' : 'regen' })) };
+        const sh = RT.chainShell(RT.buildChain(all, { root: ROOT }), { lanes: 4 });
+        if (!/export REGEN_HTML_STAGE="\$\{REGEN_HTML_STAGE:-\$REGEN_LOG\/html\}"/.test(sh)) bad.push('④ 鎖のシェルが REGEN_HTML_STAGE を置かない');
+        tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w288f-agg-'));
+        const r = await RT.htmlAggregateProbe({ root: ROOT, tmpDir: tmp });
+        if (!r.ok) bad.push('⑤ (r) ' + JSON.stringify(r).slice(0, 220));
+        cases.push(`⑤ stub の鎖: 回 1 rc ${r.runs.r1.rc}・html 不変 ${r.runs.r1.sha === r.runs.r1.sha && r.runs.r1.written === 0}・断片 ${r.frag1} → 回 2 再開 rc ${r.runs.r2.rc}・走った ${r.runs.r2.ran.join(',')}・html を書いた回数 ${r.runs.r2.written}`
+          + ` → 回 3 走った ${r.runs.r3.ran.length} 段・書いた回数 ${r.runs.r3.written} のまま / 別 html の断片を拒否 ${r.r4}・領域の外の書き込みを拒否 ${r.r5}・変数なしは直書き ${r.r6}`);
+        if (!/集約段/.test(README) || !/htmlagg/.test(README) || !/REGEN_HTML_STAGE/.test(README)) bad.push('⑥ tests/README.md に集約段の説明が無い');
+      } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+      finally { if (tmp) fs.rmSync(tmp, { recursive: true, force: true }); }
+      add('lint.chainAggregate', bad.length === 0,
+        `**一時出力の集約**(第288便f・AN90・--self-test (r)): ${cases.join(' / ')} —— 鎖の中の書く段は beta の html を直に書かず断片を置き、集約段が **1 回だけ**書く`
+        + `(中断した鎖の半分だけ新しい html を完成扱いしない)。html 全体を刻む 27 段は集約段の後(刻印の方式は変えない)`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- lint.pn1RegionDecl
+    {
+      const bad = [], cases = [];
+      try {
+        const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+        const HX = path.join(ROOT, TARGET);
+        const OBS = /^(obsCompare|OBS_COMPARE)/;
+        const decl = SC.readDeclaredScope(fs.readFileSync(path.join(ROOT, 'tests', 'exp-w285b-pn1.mjs'), 'utf8'));
+        if (!decl) bad.push('① pn1 の REGEN_SCOPE が読めない');
+        else if (decl.roots.some((r) => OBS.test(r))) bad.push('① pn1 の宣言の roots に ' + decl.roots.filter((r) => OBS.test(r)).join(','));
+        let J = null; try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pn1-w285b.json'), 'utf8')); } catch (e) { J = null; }
+        const metaCode = ((J && J.meta && J.meta.code) || []).map((c) => c.file);
+        const der = SC.deriveScope(HX, SC.codeFilesOf(ROOT, 'tests/exp-w285b-pn1.mjs', metaCode));
+        if (der.roots.some((r) => OBS.test(r))) bad.push('② 器のコードから引いた下限に ' + der.roots.filter((r) => OBS.test(r)).join(','));
+        const cv = decl ? SC.coversDerived(HX, decl, der) : { ok: false, miss: ['宣言なし'] };
+        if (!cv.ok) bad.push('② 宣言が下限を覆わない: ' + cv.miss.slice(0, 3).join(','));
+        const src = html.slice(html.indexOf('<script>') + 8, html.lastIndexOf('</script>'));
+        const P = SC.parseTopLevel(src);
+        const a = src.indexOf('// >>> w275a-generated: obs-compare'), b = src.indexOf('// <<< w275a-generated: obs-compare');
+        const hits = (roots) => { const cl = SC.closureOf(P, roots, undefined, { hardStop: SC.SCOPE_STOP });
+          const segs = cl.segIdx.map((i) => P.segments[i]);
+          return { n: cl.functions.length, obs: cl.functions.filter((f) => OBS.test(f)), region: segs.filter((s) => (a <= s.start && s.start < b) || (s.start < a && s.end > b)).map((s) => s.names.join(',')) }; };
+        const now = decl ? hits(decl.roots) : { n: 0, obs: ['?'], region: ['?'] };
+        const old = decl ? hits(decl.roots.concat(['obsCompareRows'])) : { n: 0, obs: [], region: [] };
+        if (a < 0 || b < a) bad.push('③ html に obs-compare の生成領域が無い');
+        if (now.obs.length || now.region.length) bad.push('③ 宣言の閉包が観測対実行の領域に掛かる: ' + now.obs.concat(now.region).join(','));
+        if (!old.region.length) bad.push('③ 旧い宣言(obsCompareRows を roots に)の閉包が領域に重ならない(検査の感度が無い)');
+        cases.push(`①② 宣言の roots ${decl ? decl.roots.length : 0}・下限 ${der.roots.length} 名(obsCompare*/OBS_COMPARE* 0・宣言が下限を覆う ${cv.ok})`);
+        cases.push(`③ 宣言の閉包 ${now.n} 名・領域の文との重なり ${now.region.length} / 旧い宣言なら ${old.n} 名・重なり ${old.region.length}(${old.region.join('・')})`);
+        if (RT.HTML_REGION_READ_DECL.some((z) => z.key === 'pn1')) bad.push('④ HTML_REGION_READ_DECL に pn1 の行が残っている');
+        const A = RT.htmlTailAudit({ root: ROOT });
+        const pn1R = (A.declaredRegionReads || []).concat(A.scopeReadsRegion || [], A.staleRegionDecl || []).filter((z) => /^pn1→/.test(z));
+        if (pn1R.length) bad.push('④ --audit の html 検査に pn1 の領域の読みが出る: ' + pn1R.join(','));
+        cases.push(`④ 領域の読みの宣言 ${RT.HTML_REGION_READ_DECL.length} 行(pn1 なし)・--audit の pn1 の読み ${pn1R.length}`);
+        if (!J) bad.push('⑤ 正本 pn1-w285b.json が無い');
+        else {
+          const sr = (J.meta && J.meta.scope && J.meta.scope.roots) || [];
+          if (sr.some((r) => OBS.test(r))) bad.push('⑤ 正本の刻印の roots に obsCompare*(器を走らせ直すこと —— 鎖の pn1)');
+          if (!Array.isArray(J.lambda0Rows) || !J.lambda0Rows.length || J.obsCompareRows !== undefined) bad.push('⑤ 正本の行が新しい鍵 lambda0Rows でない');
+          const OC = await import('file://' + path.join(ROOT, 'tests', 'lib-w285d-obscompare.mjs'));
+          const CAL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+          const rows = J.lambda0Rows || [];
+          const x1 = OC.buildRows(CAL, { lambda0Rows: rows }), x2 = OC.buildRows(CAL, { obsCompareRows: rows });
+          if (JSON.stringify(x1.rows) !== JSON.stringify(x2.rows) || !(x1.extra && x1.extra.rows === rows.length)) bad.push('⑤ lib の buildRows が新旧の鍵で同じ行を作らない');
+          cases.push(`⑤ 正本の刻印の roots ${sr.length}(obsCompare* 0)・λ_PN=0 の対照 ${rows.length} 行(鍵 lambda0Rows・lib は新旧の鍵で同じ行)`);
+        }
+      } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+      add('lint.pn1RegionDecl', bad.length === 0,
+        `**pn1 の領域の宣言から OBS_COMPARE_* を外した根拠**(第288便f・AN90): ${cases.join(' / ')} —— 閉包が掛かっていたのは器の局所名(λ_PN=0 の対照行)が html の関数名と同じ綴りで、`
+        + `名前で数える下限の自動導出がそれを roots に入れていたから(器は html のその関数を呼ばない)。局所名と正本の鍵を lambda0Rows に改名して外した`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
   }
 }
 
@@ -5471,6 +5630,60 @@ if (!TARGET.startsWith('beta/')) {
     add('docs.tallySync', bad.length === 0,
       `**量の 5 区分の同期**(第287便b・原仮定者の裁定(第77報)AN62・R111): 正本 summary.tally ${T5 ? ['合', '窓', '否', '従', '転'].map((k) => k + ' ' + T5[k]).join('・') : '—'} / `
       + `生成元 = SAMPLE_STATUS の生成器の集計行(${gen})/ PHYSICS〔第286便f〕の見込みの数に注記・〔第287便b〕と CALIBRATION_VERDICT §5.37 は基点の値と生成元だけを書く(本文に現況を手で書かない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第288便f(原仮定者の裁定(第78報)AN90・統括の検証項目 R118「集計の記述で『否 26』が残る箇所は生成元 1 か所から」): docs.tallySource ----
+// ----   **量の 5 区分(合/窓/否/従/転)の固定数が、各便の節(履歴)の外に無い**ことを機械で照合する(fs のみ)。現況の数の生成元は
+// ----   SAMPLE_STATUS の生成器の集計行 1 か所(正本 calaudit の summary.tally の転記 —— docs.tallySync が値を照合する)。
+// ----     ① 走査する文書: docs/PHYSICS.md・docs/CALIBRATION_VERDICT_v1.44.md・docs/SAMPLE_STATUS_v1.45.md・tests/data-w279a-samplestatus-src.json(原稿)・
+// ----        docs/KF0_LEDGER_v1.45.md・docs/CALIBRATION_ISSUES_v1.45.md・docs/FAMILIES_v1.45.md・docs/AI_SPEC.md・tests/README.md
+// ----     ② 固定数の型: 「合 N・窓 N」「合 N / 窓 N」「否 N → N」「(合/窓/否/従/転 …)N/N/N/N/N」・「5 区分」の行の「否 N」
+// ----     ③ 履歴の判定: PHYSICS は直前の「〔第N便…」か「## 」見出し、CALIBRATION_VERDICT と他の文書は直前の「## 」「### 」見出しに第N便 → 履歴。
+// ----        SAMPLE_STATUS は生成器の集計行(summary.tally の転記)だけを許す。それ以外の出現は違反
+// ----     ④ CALIBRATION_VERDICT §0(結論)は現況の数を書かず生成元(SAMPLE_STATUS・summary.tally)を指す
+// ----   root は SKIP(正本 calaudit は beta 線)・第288便f より前の世代(html に bgWbgOf が無い)も SKIP。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || !/function bgWbgOf\(/.test(html)) {
+    console.log('SKIP docs.tallySource(量の 5 区分の生成元の照合は第288便f の beta 線 — root 等は対象外)');
+  } else {
+    const bad = [], cases = [];
+    const PAT = [/合\s*\**\s*\d+\s*\**\s*[・/／、,]\s*\**\s*窓\s*\**\s*\d+/, /合\s*\d+\s*\/\s*窓\s*\d+/, /否\s*\**\s*\d+\s*\**\s*→\s*\**\s*\d+/,
+      /合\/窓\/否\/従\/転[^\n]*\d+\/\d+\/\d+\/\d+\/\d+/, /5 区分[^\n]*否\s*\**\s*\d+/];
+    const WAVE = /第\s*\d+\s*(?:[〜~・]\s*\d+\s*)*便/;
+    const FILES = ['docs/PHYSICS.md', 'docs/CALIBRATION_VERDICT_v1.44.md', 'docs/SAMPLE_STATUS_v1.45.md', 'tests/data-w279a-samplestatus-src.json',
+      'docs/KF0_LEDGER_v1.45.md', 'docs/CALIBRATION_ISSUES_v1.45.md', 'docs/FAMILIES_v1.45.md', 'docs/AI_SPEC.md', 'tests/README.md'];
+    let nHit = 0, nHist = 0, nGen = 0;
+    for (const f of FILES) {
+      let t = null; try { t = fs.readFileSync(path.join(ROOT, f), 'utf8'); } catch (e) { t = null; }
+      if (t === null) { if (f !== 'docs/KF0_LEDGER_v1.45.md' && f !== 'docs/CALIBRATION_ISSUES_v1.45.md') bad.push('① 読めない: ' + f); continue; }
+      const L = t.split('\n');
+      let sec = '';
+      const isPhys = f === 'docs/PHYSICS.md';
+      L.forEach((l, i) => {
+        if (isPhys ? (/^〔第/.test(l) || /^## /.test(l)) : /^#{2,3} /.test(l)) sec = l;
+        if (!PAT.some((re) => re.test(l))) return;
+        nHit++;
+        if (f === 'docs/SAMPLE_STATUS_v1.45.md' && /量の 5 区分\(正本 `tests\/out\/calaudit-w249\.json` の summary\.tally の転記/.test(l)) { nGen++; return; }
+        if (WAVE.test(sec)) { nHist++; return; }
+        bad.push(`③ ${f}:${i + 1} 履歴の外に固定数(${l.trim().slice(0, 60)})`);
+      });
+    }
+    cases.push(`① ${FILES.length} 本・固定数の出現 ${nHit}(各便の節 = 履歴 ${nHist}・生成元の集計行 ${nGen}・履歴の外 ${nHit - nHist - nGen})`);
+    const V = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+    const i0 = V.indexOf('## 0. 結論'), i1 = V.indexOf('\n## 1.', i0);
+    const s0 = i0 >= 0 ? V.slice(i0, i1 > 0 ? i1 : undefined) : '';
+    if (!s0) bad.push('④ CALIBRATION_VERDICT に §0 が無い');
+    else if (!/現況の数は本文に書かない/.test(s0) || s0.indexOf('SAMPLE_STATUS') < 0 || s0.indexOf('summary.tally') < 0) bad.push('④ §0 が現況の生成元(SAMPLE_STATUS・summary.tally)を指していない');
+    const gsrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w279a-samplestatus.mjs'), 'utf8');
+    if (gsrc.indexOf('量の 5 区分(正本') < 0 || gsrc.indexOf('summary || {}).tally') < 0) bad.push('② 生成器が 5 区分の行を正本の summary.tally から書かない');
+    if (nGen > 1) bad.push('② SAMPLE_STATUS の集計行が 2 か所以上');
+    cases.push('④ CALIBRATION_VERDICT §0 は生成元を指す・生成元 = tests/exp-w279a-samplestatus.mjs の集計行 1 か所');
+    add('docs.tallySource', bad.length === 0,
+      `**量の 5 区分の固定数は履歴の外に書かない**(第288便f・AN90・R118): ${cases.join(' / ')} —— 現況は SAMPLE_STATUS の集計行(正本 summary.tally の転記)だけから出す。`
+      + `値の同期は docs.tallySync。各便の節に残る数はその便の時点の記録(履歴)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -39488,9 +39701,12 @@ if (!FAST) {
             const kids = [...dg.querySelector('.group').children];
             const lab = (el) => { const l = el.querySelector && el.querySelector('label'); return l ? l.textContent : ''; };
             const lk = (k) => paramLabel(PARAM_DEFS.find((z) => z.key === k));
-            const want = [(e) => lab(e).indexOf(lk('geoPN')) === 0, (e) => e.id === 'geoToySaveNote', (e) => lab(e).indexOf(lk('D0')) === 0,
-              (e) => e.id === 'bgcPanel', (e) => e.querySelector && !!e.querySelector('#qLockCb'), (e) => lab(e).indexOf(lk('q')) === 0,
-              (e) => lab(e).indexOf(lk('kFrame')) === 0, (e) => lab(e).indexOf(lk('lambdaPN')) === 0, (e) => lab(e).indexOf(lk('pnAlpha')) === 0];
+            // 第288便f(原仮定者の裁定(第78報)⑨): D₀ の**次**は静止背景相当 Wbg の読み取り専用の行(#wbgRow)—— 複素背景の欄はその直後(世代は buildWbgRow の有無)
+            const hasWbg = typeof buildWbgRow === 'function';
+            const want = [(e) => lab(e).indexOf(lk('geoPN')) === 0, (e) => e.id === 'geoToySaveNote', (e) => lab(e).indexOf(lk('D0')) === 0]
+              .concat(hasWbg ? [(e) => e.id === 'wbgRow'] : [])
+              .concat([(e) => e.id === 'bgcPanel', (e) => e.querySelector && !!e.querySelector('#qLockCb'), (e) => lab(e).indexOf(lk('q')) === 0,
+              (e) => lab(e).indexOf(lk('kFrame')) === 0, (e) => lab(e).indexOf(lk('lambdaPN')) === 0, (e) => lab(e).indexOf(lk('pnAlpha')) === 0]);
             const seq = kids.filter((e) => !(e.classList && e.classList.contains('pdesc')));
             const okSeq = seq.length === want.length && want.every((f, i) => f(seq[i]));
             if (!okSeq) o.bad.push(lg + ':' + id + ':' + seq.map((e) => e.id || lab(e).slice(0, 8)).join('>'));
@@ -39508,7 +39724,7 @@ if (!FAST) {
       await ctx.close();
     }
     add('ui.paramOrderDrag', po.every((r) => r.ok),
-      `「引きずり・測地線」の並び geoPN → 保存非対称の注記 → D₀ → 背景複素決定力の欄 → qLock → q → kFrame → λ_PN → α(先頭「${po[0].first}」)/ ` +
+      `「引きずり・測地線」の並び geoPN → 保存非対称の注記 → D₀ →(第288便f: 静止背景相当 Wbg の読み取り専用の行 →)背景複素決定力の欄 → qLock → q → kFrame → λ_PN → α(先頭「${po[0].first}」)/ ` +
       po.map((r) => `${r.vp}: ${r.rows.filter((z) => /true$/.test(z)).length}/${r.rows.length}(🎠☿🩻 × ja/en)・PARAM_DEFS の配列順は不変=${r.defsOk}` +
         `${r.bad.length ? '・NG ' + r.bad.slice(0, 3).join(' ; ') : ''}${r.errs.length ? '・JS ' + r.errs.join(' | ') : ''}`).join(' / ') + ' ・タブを開いても params/presetSig 不変');
   }
@@ -39624,7 +39840,9 @@ if (!FAST) {
       const s4 = await st();
       o.reopenOk = s4.open.join(',') === 'false,false,false,false,true' && /"other":true/.test(s4.mem || '') && s4.sels[4] === two.text;
       // 全部開いて画面内
-      await pg.evaluate(() => { ppOther = []; for (const d of document.querySelectorAll('#ppFolds > details.ppFold')) d.open = true; });
+      await pg.evaluate(() => { ppOther = []; for (const d of document.querySelectorAll('#ppFolds > details.ppFold')) d.open = true;
+        // 第288便f(AN89): 狭い画面で畳まれて開く「その他」の段も開く(組み直さない —— 開閉の記憶はそのまま)
+        if (typeof ppOtherSecToggle === 'function') for (const g of document.querySelectorAll('#ppOtherRow .ppOtherGrp[data-fold="1"]')) ppOtherSecToggle(g.dataset.sec); });
       await pg.waitForTimeout(60);
       const lay = await pg.evaluate(() => {
         const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
@@ -40072,6 +40290,12 @@ if (!FAST) {
       o.exp = exp;
       await pg.evaluate(() => showPresetPicker()); await pg.waitForTimeout(60);
       await tapOrClick('#ppFold_other > summary'); await pg.waitForTimeout(60);
+      // 第288便f(原仮定者の裁定(第78報)AN89): 狭い画面は「その他」の段が畳まれて開く —— 畳まれた段の見出しを実タップで開いてからチップを押す
+      //   (広い画面・第288便f より前の世代では data-fold が無いので何もしない)
+      for (const sec of ['decl', 'badge']) {
+        const folded = await pg.evaluate((s) => { const g = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="' + s + '"]'); return !!g && g.dataset.fold === '1'; }, sec);
+        if (folded) { await tapOrClick('#ppOtherSec_' + sec); await pg.waitForTimeout(40); }
+      }
       const st = (k) => pg.evaluate((k) => {
         const c = [...document.querySelectorAll('#ppOtherRow .ppChip')].find((x) => x.dataset.v === k);
         const cs = getComputedStyle(c);
@@ -40164,6 +40388,247 @@ if (!FAST) {
         `・AND/NOT ${o.and.map((x) => x.nm + ' ' + x.got + '=' + x.exp + '(<' + x.only + ')').join(' ')}=${o.andOk}` +
         `・畳んでも残る/開き直し=${o.foldOk}・「すべて」で解除=${o.clearOk}・旧形の配列は含む=${o.legacyOk}` +
         `・開いた「その他」${o.lay.h}px(箱 ${o.lay.boxW}px・チップと見出し ${o.lay.n} 個が箱の内側・見出しは幅いっぱいで段の上・横はみ出し ${o.lay.docX})=${o.layOk}` +
+        `・#presetSelect/presetSig/params 不変=${o.same}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
+  }
+}
+
+// ---- 第288便f(原仮定者の裁定(第78報)⑨「複素決定力の静止背景相当の Wbg を見えるようにする — パラメータタブの『背景決定力 D₀』の次に表示」・
+// ---- 第78報で閉じた AN89「NOT の視覚と並びは現行で確定・0 件の軸は無効表示(隠さない)・狭い画面は段ごとの畳み(選択中・除外中の条件は
+// ---- 畳んでも見える)」・統括の検証項目 R118): **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。世代判定は html の
+// ---- `function bgWbgOf(` —— root 等では 2 件とも自動 SKIP。
+// ----   ui.paramWbgRow … 360×640(isMobile・タッチ)と PC 1280×800 で、🌚 galaxyAnalogyBH・💮 clusterAnalogyBH・🔁 mercuryGeoToy3・🌒 charonGeoToy3・
+// ----     💍 saturnRingReal と、physics.D0pull を宣言した在位の本の先頭 2 本(機械で選ぶ)ごとに「引きずり・測地線」を開いて:
+// ----     ① 位置: #wbgRow の直前の兄弟(説明 .pdesc を除く)が D₀ 行・直後が #bgcPanel(1 行だけ)
+// ----     ② 読み取り専用: 行に input/select/textarea が無い・値の欄は output[aria-readonly=true]
+// ----     ③ 値: data-wbg が**この場で書き写した第287便までの jeansRowsVelocities の Wbg の式**(spaceMesh.D0 の宣言〔中心の自転を読むトイだけ〕→
+// ----        pull の D0pull → D₀)と Object.is で一致・出所 data-from も同じ規則・値の語 = fmt(Wbg)・bgWbgOf(bgToyOf) の戻りと一致 /
+// ----        jeansRowsVelocities の本文が bgWbgOf を呼び D0pull を持たない(式は 1 か所)
+// ----     ④ ライブ: 宣言の無い本(💍)で D₀ 行の数値欄を変えると data-wbg が新しい D₀・宣言の本(💮)では D₀ を変えても spaceMesh.D0 のまま /
+// ----        params を直に書き換えると描画ループで追随(1 s 以内)/ 元へ戻す
+// ----     ⑤ tip に「kFrame=0 では力に入らない」「別欄」・en の語・操作の後に presetSig と params(戻した後)が不変・JS エラー 0
+// ----   ui.pickerOtherFold … 360×640(isMobile・タッチ)と PC 1280×800 で「その他」を開いて:
+// ----     ① 既定: 狭い画面(≤ PP_OTHER_NARROW_PX)は 2 段とも畳んで開く・広い画面は開いて開く(aria-expanded)・見出しの語は T のまま(▾/▸ と隠した数は CSS)
+// ----     ② 畳んだ段は未選択のチップだけを隠す: 含む 2・除く 1 を選んだ状態で見えるチップ = 「すべて」+ 選んだ 3 つ・要約行は変わらない・行数 = 独立の数え直し・
+// ----        隠した数 data-nhid = 段の未選択のチップ数
+// ----     ③ 見出しの実タップで開く/畳む・キーボード(Enter)でも・組み直し(showPresetPicker(true))をまたいで開閉が残る
+// ----     ④ 0 件の軸: 一覧に出る本で満たす本が 0 の軸(独立の数え直し)= disabled・aria-disabled・data-zero の集合(行に残る —— 段を開けば見える)・
+// ----        0 件の軸を「含む」にした状態では押せる(解除できる)
+// ----     ⑤ 採寸: 360 px で畳んだ高さ < 開いた高さの 60%(第287便e の開いた「その他」は 341 px —— 畳んだ既定の高さを記録)・横はみ出し 0・
+// ----        #presetSelect・presetSig・params 不変・JS エラー 0
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/function bgWbgOf\(/.test(html)) {
+    console.log('SKIP ui.paramWbgRow / ui.pickerOtherFold(対象に第288便f の静止背景相当 Wbg の行・段ごとの畳みなし — root 等)');
+  } else {
+    const VPS = [{ name: 'Mobile-360x640', width: 360, height: 640, mobile: true }, { name: 'PC-1280x800', width: 1280, height: 800, mobile: false }];
+    const openPage = async (vp) => {
+      const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.mobile, hasTouch: vp.mobile });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      pg.on('dialog', (d) => d.accept());
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      await pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); } catch (_) {}
+        ppFold = {}; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = []; ppOtherSecOpen = {};
+        HP.loadPreset('saturn', false); });
+      return { ctx, pg, errs };
+    };
+    // ---- ui.paramWbgRow
+    const wr = [];
+    for (const vp of VPS) {
+      const { ctx, pg, errs } = await openPage(vp);
+      const r = await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+        const o = { rows: [], bad: [] };
+        // この場で書き写した第287便までの jeansRowsVelocities の Wbg の式(ページの bgWbgOf を使わない)
+        const oracle = (ph) => {
+          const cf = ph.spaceMesh || null;
+          const toy = !!(cf && (ph.geoPN || 0) >= 3 && cf.lawVersion === 'scalar' && cf.diskSupport === undefined && cf.law === undefined);
+          const spinRead = !!(toy && cf.centerSpin === 'read');
+          const fw = ph.frameWeight, pull = (fw === undefined || fw === 'pull' || fw === 'pull3' || fw === 'pull4');
+          const D0p = pull ? ((ph.D0pull !== undefined) ? ph.D0pull : ph.D0) : ph.D0;
+          const decl = spinRead && cf.D0 !== undefined && cf.D0 !== null;
+          return { Wbg: decl ? cf.D0 : D0p, from: decl ? 'spaceMesh.D0' : ((pull && ph.D0pull !== undefined) ? 'D0pull' : 'D0') };
+        };
+        const jsrc = String(jeansRowsVelocities);
+        o.oneFormula = jsrc.indexOf('bgWbgOf(') >= 0 && jsrc.indexOf('D0pull') < 0 && String(bgWbgOf).indexOf('D0pull') >= 0;
+        const pulls = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_') && p.familyRole !== 'retired'
+          && p.physics && p.physics.D0pull !== undefined).slice(0, 2).map((p) => p.id);
+        const ids = ['galaxyAnalogyBH', 'clusterAnalogyBH', 'mercuryGeoToy3', 'charonGeoToy3', 'saturnRingReal'].concat(pulls);
+        o.pulls = pulls;
+        const openDrag = async () => {
+          document.querySelector('nav#tabs button[data-tab="params"]').click(); await wait(60);
+          const dg = [...document.querySelectorAll('#paramRows details')].find((d) => d.querySelector('summary').textContent.indexOf(HP.T('grpDrag')) >= 0);
+          if (dg && !dg.open) { dg.open = true; await wait(30); }
+          return dg;
+        };
+        const d0lab = paramLabel(PARAM_DEFS.find((z) => z.key === 'D0'));
+        const lab = (el) => { const l = el && el.querySelector && el.querySelector('label'); return l ? l.textContent : ''; };
+        for (const id of ids) {
+          if (!HP.allPresets().some((p) => p.id === id)) { o.bad.push('no preset ' + id); continue; }
+          HP.loadPreset(id, false);
+          const sig0 = presetSig(HP.currentPreset());
+          const dg = await openDrag();
+          const row = document.getElementById('wbgRow');
+          if (!dg || !row) { o.bad.push(id + ':norow'); continue; }
+          const kids = [...dg.querySelector('.group').children].filter((e) => !(e.classList && e.classList.contains('pdesc')));
+          const i = kids.indexOf(row);
+          const posOk = i > 0 && lab(kids[i - 1]).indexOf(d0lab) === 0 && !!kids[i + 1] && kids[i + 1].id === 'bgcPanel'
+            && document.querySelectorAll('#wbgRow').length === 1;
+          const out = row.querySelector('output.wbgVal');
+          const roOk = row.querySelectorAll('input,select,textarea').length === 0 && !!out && out.getAttribute('aria-readonly') === 'true';
+          const ph = HP.sim.params, want = oracle(ph);
+          const t = bgToyOf(ph), w = bgWbgOf(ph, t.cf, t.spinRead);
+          const valOk = Object.is(Number(row.dataset.wbg), want.Wbg) && row.dataset.from === want.from && out.textContent === fmt(want.Wbg)
+            && Object.is(w.Wbg, want.Wbg) && w.from === want.from;
+          const tipOk = /kFrame=0 では力に入らない/.test(row.querySelector('label').title) && /別欄/.test(row.querySelector('label').title);
+          o.rows.push({ id, emoji: HP.currentPreset().emoji, wbg: row.dataset.wbg, from: row.dataset.from, posOk, roOk, valOk, tipOk,
+            sigSame: presetSig(HP.currentPreset()) === sig0 });
+        }
+        // ④ ライブ(💍 —— 宣言の無い本: D₀ 行の数値欄)
+        const live = {};
+        {
+          HP.loadPreset('saturnRingReal', false);
+          const par0 = JSON.stringify(HP.sim.params), sig0 = presetSig(HP.currentPreset());
+          const dg = await openDrag();
+          const kids = [...dg.querySelector('.group').children].filter((e) => !(e.classList && e.classList.contains('pdesc')));
+          const d0row = kids.find((e) => lab(e).indexOf(d0lab) === 0);
+          const num = d0row && d0row.querySelector('input.valIn');
+          const orig = HP.sim.params.D0;
+          if (num) { num.value = '0.37'; num.dispatchEvent(new Event('change', { bubbles: true })); await wait(30); }
+          live.ui = document.getElementById('wbgRow').dataset.wbg;
+          HP.sim.params.D0 = 0.21; await wait(1000);
+          live.loop = document.getElementById('wbgRow').dataset.wbg;
+          HP.sim.params.D0 = orig; if (num) { num.value = String(orig); num.dispatchEvent(new Event('change', { bubbles: true })); } await wait(400);
+          live.back = document.getElementById('wbgRow').dataset.wbg;
+          live.restored = JSON.stringify(HP.sim.params) === par0 && presetSig(HP.currentPreset()) === sig0;
+          live.ok = live.ui === '0.37' && live.loop === '0.21' && Object.is(Number(live.back), orig) && live.restored;
+        }
+        {   // 💮 —— spaceMesh.D0 を宣言した本では D₀ を変えても Wbg は宣言の値のまま
+          HP.loadPreset('clusterAnalogyBH', false);
+          const par0 = JSON.stringify(HP.sim.params);
+          await openDrag();
+          const w0 = document.getElementById('wbgRow').dataset.wbg, orig = HP.sim.params.D0;
+          HP.sim.params.D0 = orig * 3; await wait(1000);
+          live.decl = document.getElementById('wbgRow').dataset.wbg;
+          live.declFrom = document.getElementById('wbgRow').dataset.from;
+          HP.sim.params.D0 = orig; await wait(400);
+          live.declOk = live.decl === w0 && live.declFrom === 'spaceMesh.D0' && JSON.stringify(HP.sim.params) === par0;
+        }
+        HP.setLang('en'); HP.loadPreset('saturnRingReal', false); await openDrag();
+        const enRow = document.getElementById('wbgRow');
+        o.en = enRow ? enRow.querySelector('label').textContent + ' | ' + enRow.querySelector('.wbgFrom').textContent : '';
+        o.enOk = !!enRow && enRow.querySelector('label').textContent === HP.T('wbgLabel') && /does not enter the force when kFrame=0/.test(enRow.querySelector('label').title);
+        HP.setLang('ja');
+        o.live = live;
+        return o;
+      });
+      r.vp = vp.name; r.errs = errs.slice(0, 2);
+      r.ok = r.bad.length === 0 && r.oneFormula && r.rows.length >= 7 && r.rows.every((x) => x.posOk && x.roOk && x.valOk && x.tipOk && x.sigSame)
+        && r.live.ok && r.live.declOk && r.enOk && errs.length === 0;
+      wr.push(r);
+      await ctx.close();
+    }
+    add('ui.paramWbgRow', wr.every((r) => r.ok),
+      `**静止背景相当 Wbg**(D₀ の次の読み取り専用の行・式は bgWbgOf 1 か所 = jeansRowsVelocities が呼ぶ=${wr[0].oneFormula}): ` +
+      wr.map((r) => `${r.vp}: ` + r.rows.map((x) => `${x.emoji}${x.id} ${x.wbg}(${x.from})${x.posOk && x.roOk && x.valOk && x.tipOk && x.sigSame ? '' : '✗' + ['pos', 'ro', 'val', 'tip', 'sig'].filter((k, i) => ![x.posOk, x.roOk, x.valOk, x.tipOk, x.sigSame][i]).join(',')}`).join('・')
+        + ` / 位置 D₀→Wbg→#bgcPanel・読み取り専用・値 = 第287便までの式の書き写し(Object.is)・D0pull の本 ${r.pulls.join(',')}`
+        + ` / ライブ: 数値欄 ${r.live.ui}・描画ループ ${r.live.loop}・戻す ${r.live.back}=${r.live.ok}・💮 は D₀×3 でも ${r.live.decl}(${r.live.declFrom})=${r.live.declOk}`
+        + ` / en「${r.en}」=${r.enOk}${r.bad.length ? '・NG ' + r.bad.slice(0, 3).join(' ; ') : ''}${r.errs.length ? '・JS ' + r.errs.join(' | ') : ''}`).join(' / '));
+
+    // ---- ui.pickerOtherFold
+    const fo = [];
+    for (const vp of VPS) {
+      const { ctx, pg, errs } = await openPage(vp);
+      const tapOrClick = (sel) => (vp.mobile ? pg.tap(sel) : pg.click(sel));
+      const snap = () => pg.evaluate(() => ({ sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+        par: JSON.stringify(HP.sim.params), sel: [...document.querySelectorAll('#presetSelect option')].map((x) => x.value).join(',') }));
+      const s0 = await snap();
+      const st = () => pg.evaluate(() => {
+        const grp = (s) => document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="' + s + '"]');
+        const chips = [...document.querySelectorAll('#ppOtherRow .ppChip')];
+        const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
+        return { fold: ['decl', 'badge'].map((s) => grp(s) ? grp(s).dataset.fold : '?').join('/'),
+          aria: ['decl', 'badge'].map((s) => { const h = document.getElementById('ppOtherSec_' + s); return h ? h.getAttribute('aria-expanded') : '?'; }).join('/'),
+          secTxt: ['decl', 'badge'].map((s) => { const h = document.getElementById('ppOtherSec_' + s); return h ? h.textContent : ''; }),
+          nhid: ['decl', 'badge'].map((s) => grp(s) ? grp(s).dataset.nhid : '?').join('/'),
+          offIn: ['decl', 'badge'].map((s) => grp(s) ? [...grp(s).querySelectorAll('.ppChip')].filter((c) => c.dataset.state !== 'on' && c.dataset.state !== 'not').length : -1).join('/'),
+          vis: chips.filter((c) => c.checkVisibility()).map((c) => c.dataset.v).join(','),
+          states: chips.filter((c) => c.checkVisibility() && c.dataset.v !== 'all').map((c) => c.dataset.v + ':' + c.dataset.state).join(','),
+          h: Math.round(document.getElementById('ppFold_other').getBoundingClientRect().height),
+          rows: document.querySelectorAll('#ppList .ppRow').length, sum: document.querySelector('#ppFold_other > summary .ppFoldSel').textContent,
+          zeroDom: chips.filter((c) => c.dataset.zero === '1').map((c) => c.dataset.v + (c.disabled ? '' : '(押せる)') + (c.getAttribute('aria-disabled') === 'true' ? '' : '(aria なし)')).join(','),
+          inBox: chips.concat([...document.querySelectorAll('#ppOtherRow .ppOtherSec')]).filter((c) => c.checkVisibility())
+            .every((c) => { const q = c.getBoundingClientRect(); return q.left >= box.left - 0.5 && q.right <= box.right + 0.5; }),
+          docX: document.documentElement.scrollWidth - innerWidth };
+      });
+      const o = { vp: vp.name, bad: [] };
+      // 期待(独立の数え直し —— 一覧に出る本・ページの ppOtherTest)
+      o.exp = await pg.evaluate(() => {
+        const vis = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_') && !catalogHidden(p) && !retiredHidden(p));
+        const zero = PP_OTHER_AXES.filter((a) => !vis.some((p) => ppOtherTest(a.key, p))).map((a) => a.key);
+        const sel = vis.filter((p) => ppOtherTest('bdgCore', p) && !ppOtherTest('bdgDrag', p) && ppOtherTest('obsCard', p)).length;
+        return { narrow: innerWidth <= PP_OTHER_NARROW_PX, zero, sel,
+          sum: [HP.T('ppOther_obsCard'), HP.T('bdgCore'), '¬' + HP.T('bdgDrag')].join(' ∧ '), secs: [HP.T('ppOtherSecDecl'), HP.T('ppOtherSecBadge')] };
+      });
+      await pg.evaluate(() => { ppFold = { other: true }; showPresetPicker(); }); await pg.waitForTimeout(60);
+      const d0 = await st();
+      o.hDefault = d0.h;
+      const wantFold = o.exp.narrow ? '1/1' : '0/0';
+      o.defaultOk = d0.fold === wantFold && d0.aria === (o.exp.narrow ? 'false/false' : 'true/true') && d0.secTxt.join('|') === o.exp.secs.join('|')
+        && d0.nhid === (o.exp.narrow ? d0.offIn : '0/0') && (o.exp.narrow ? d0.vis === 'all' : true);
+      // ③ 実タップで開く/畳む
+      for (const s of ['decl', 'badge']) { await tapOrClick('#ppOtherSec_' + s); await pg.waitForTimeout(40); }
+      const d1 = await st();
+      for (const s of ['decl', 'badge']) { await tapOrClick('#ppOtherSec_' + s); await pg.waitForTimeout(40); }
+      const d2 = await st();
+      o.tapOk = d1.fold === (o.exp.narrow ? '0/0' : '1/1') && d2.fold === wantFold;
+      const hOpen = o.exp.narrow ? d1.h : d0.h, hFold = o.exp.narrow ? d0.h : d1.h;
+      o.hOpen = hOpen; o.hFold = hFold;
+      // キーボード(Enter)と組み直しをまたぐ記憶
+      await pg.focus('#ppOtherSec_badge'); await pg.keyboard.press('Enter'); await pg.waitForTimeout(40);
+      const k1 = await st();
+      await pg.evaluate(() => showPresetPicker(true)); await pg.waitForTimeout(40);
+      const k2 = await st();
+      o.kbOk = k1.fold.split('/')[1] !== d2.fold.split('/')[1] && k2.fold === k1.fold;
+      // ② 畳んだ段でも選んだチップは見える
+      await pg.evaluate(() => { ppOther = ['obsCard', 'bdgCore', '!bdgDrag']; ppOtherSecOpen = { decl: false, badge: false }; showPresetPicker(true); });
+      await pg.waitForTimeout(50);
+      const d3 = await st();
+      o.selOk = d3.fold === '1/1' && d3.vis === 'all,obsCard,bdgCore,bdgDrag' && d3.states === 'obsCard:on,bdgCore:on,bdgDrag:not'
+        && d3.sum === o.exp.sum && d3.rows === o.exp.sel && d3.nhid === d3.offIn;
+      o.hSel = d3.h;
+      // ④ 0 件の軸
+      await pg.evaluate(() => { ppOther = []; ppOtherSecOpen = { decl: true, badge: true }; showPresetPicker(true); });
+      await pg.waitForTimeout(50);
+      const d4 = await st();
+      const zeroVis = await pg.evaluate((zs) => zs.every((k) => { const c = [...document.querySelectorAll('#ppOtherRow .ppChip')].find((x) => x.dataset.v === k);
+        return !!c && c.checkVisibility() && c.disabled; }), o.exp.zero);
+      let zeroOnOk = true;
+      if (o.exp.zero.length) {
+        zeroOnOk = await pg.evaluate(async (k) => { ppOther = [k]; showPresetPicker(true); await new Promise((r) => setTimeout(r, 30));
+          const c = [...document.querySelectorAll('#ppOtherRow .ppChip')].find((x) => x.dataset.v === k);
+          const ok = !!c && !c.disabled && c.dataset.state === 'on';
+          c.click(); await new Promise((r) => setTimeout(r, 30));
+          const ok2 = ppOther.join(',') === '!' + k; ppOther = []; showPresetPicker(true); return ok && ok2; }, o.exp.zero[0]);
+      }
+      o.zero = d4.zeroDom;
+      o.zeroOk = d4.zeroDom === o.exp.zero.join(',') && zeroVis && zeroOnOk;
+      o.layOk = d4.inBox && d4.docX <= 0 && d3.inBox && d3.docX <= 0;
+      o.heightOk = o.exp.narrow ? (hFold < 0.6 * hOpen) : (d0.h === hOpen);
+      await pg.evaluate(() => { hidePresetPicker(); ppOther = []; ppOtherSecOpen = {}; try { localStorage.removeItem('hp_pick_fold'); } catch (_) {} ppFold = {}; });
+      const s1 = await snap();
+      o.same = s1.sig === s0.sig && s1.par === s0.par && s1.sel === s0.sel;
+      o.errs = errs.slice(0, 2);
+      o.ok = o.defaultOk && o.tapOk && o.kbOk && o.selOk && o.zeroOk && o.layOk && o.heightOk && o.same && errs.length === 0;
+      fo.push(o);
+      await ctx.close();
+    }
+    add('ui.pickerOtherFold', fo.every((o) => o.ok),
+      fo.map((o) => `${o.vp}: 既定 ${o.exp.narrow ? '畳む(狭い画面)' : '開く'}=${o.defaultOk}・見出しの実タップで開閉=${o.tapOk}・Enter と組み直しをまたぐ記憶=${o.kbOk}` +
+        `・畳んでも含む/除くは見える(📇∧コア公理∧¬引きずり ${o.exp.sel} 行・要約行不変)=${o.selOk}・0 件の軸 [${o.zero || 'なし'}] は無効表示で残る=${o.zeroOk}` +
+        `・「その他」の高さ 畳んだ ${o.hFold}px/開いた ${o.hOpen}px/選択 3 つで畳んだ ${o.hSel}px=${o.heightOk}・箱の内側・横はみ出し 0=${o.layOk}` +
         `・#presetSelect/presetSig/params 不変=${o.same}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
   }
 }
@@ -60947,6 +61412,10 @@ add('page.no-errors', pageErrors.length === 0, pageErrors.slice(0, 3).join(' | '
 if (w5Pool) await w5Pool.close();
 // 第251便b: 指紋ページの後片付け(キャッシュが 1 件も使われなくても採取は完了させる)
 if (fpPromise && fpDigests === null) fpDigests = await fpPromise;
+// 第288便f(原仮定者の裁定(第78報)AN90): 結果 JSON の env に**試験した Chromium の版**を残す(CI の 1228 と手元の 1194 で Math.pow 等が 1 ulp 違う ——
+//   同種の FAIL の切り分けはこの欄で。版は固定しない)。browser.version() は閉じる前に引く
+let chromiumVersion = 'unknown';
+try { chromiumVersion = browser.version() || 'unknown'; } catch {}
 await browser.close();
 
 // ---- 結果JSON(コミット固定の再現記録)----
@@ -60976,7 +61445,7 @@ const QA_OUT = JSON.stringify({
          attempt: process.env.GITHUB_RUN_ATTEMPT || null, sha: process.env.GITHUB_SHA || null,
          ref: process.env.GITHUB_REF || null, headRef: process.env.GITHUB_HEAD_REF || null,
          baseRef: process.env.GITHUB_BASE_REF || null },
-  env: { node: process.version, playwright: playwrightVersion, platform: `${process.platform}/${process.arch}` },
+  env: { node: process.version, playwright: playwrightVersion, chromium: chromiumVersion, platform: `${process.platform}/${process.arch}` },   // 第288便f: chromium
   total: results.length, failed: results.filter(r => !r.pass).length, pass,
   durationMs: results.reduce((a, r) => a + (r.ms || 0), 0),  // 第17便: 項目別 ms の合計
   // 第279便b: `ms`(直前の add() からの経過)は互換のため従来どおり。実際の壁時計は wallDurationMs、

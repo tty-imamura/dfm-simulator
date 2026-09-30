@@ -70,6 +70,7 @@
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha, stableValueSha, canonJson, parseTopLevel, closureOf, SCOPE_STOP, normalizeScope } from './lib-w281a-scope.mjs';
+import { HTML_STAGE_ORDER, HTML_STAGE_VERSION } from './lib-w288f-htmlstage.mjs';   // 第288便f(AN90): 集約段の断片の順序
 
 // ■ 第284便c(原仮定者の裁定(第74報)⑥・AN33・AN43・統括の検証項目 R93)
 //   ・常時の dt3 段を `--h4-exceptions --merge`(h/4 は例外の登録簿の本だけ)・kf0 段を `--kf0-h4-exceptions`(h/4 は登録簿の kf0 の本だけ)へ。
@@ -103,7 +104,18 @@ import { scopeHash, stableMatches, stableInputOk, STABLE_VERSION, stableJsonSha,
 //     families の領域が SAMPLE_STATUS を読む → after に samplestatus / meta を刻まない d68three・confirm4 が html の本文を読む → obscompare の after に。
 //     順序で直せない読み(pn1 の領域の閉包が OBS_COMPARE_* に掛かる —— obscompare が pn1 を読む)は `HTML_REGION_READ_DECL` に理由つきで宣言。
 //   ・families の `touches`(docs/FAMILIES_v1.45.md)を足した(outs の外に書くファイル —— 入力の並びから除く)。
-export const REGEN_TABLE_VERSION = 'w287f-regentable-8';
+// ■ 第288便f(原仮定者の裁定(第78報)AN90・統括の検証項目 R118): **一時出力の集約**(版 w288f-regentable-9)
+//   ・html を書く段(obscompare → samplestatus)は鎖の中(REGEN_HTML_STAGE —— chainShell が $REGEN_LOG/html を入れる)で html を直に書かず、
+//     領域 1 つぶんの断片を置く(tests/lib-w288f-htmlstage.mjs)。集約段 'htmlagg'(tools/regen-html-aggregate.mjs —— 常時群・単独)が
+//     samplestatus の後で**1 回だけ** beta/index.html を置き換える(断片が合わなければ何も書かずに rc 1)。中断した鎖の半分だけ新しい html を
+//     完成扱いしない。変数が無いとき(手で器を回すとき)は従来どおり直に書く。
+//   ・samplestatus の後に置いていた段(after に samplestatus —— AN53 の html 全体を刻む 27 段・families 等)は集約段の後へ(after に htmlagg)。
+//     集約段が書く段と読む段の間に入るので、27 段の刻印の方式(html 全体の sha)は変えずに「書いた後の html を読む」順序が保てる。
+//   ・`htmlTailAudit` に ⑦ 書く段の直書き(鎖で書く段は writeHtmlStaged を使う)・⑧ 集約段(1 段・常時群・全ての書く段の下流・html 全体を読む
+//     下流の段の上流・断片の順序 = 書く段の全順序)を足した。自己試験 (r) が「中断 → 再開で html が 1 回だけ書かれる」を stub の鎖で確かめる。
+//   ・chainShell は冒頭で $REGEN_LOG/env.json に Node と Chromium の版を記録する(AN90 —— 1 ulp の切り分け用・版は固定しない)。
+//   ・`HTML_REGION_READ_DECL` から pn1 → obs-compare を外した(AN90 —— 読込依存が無いことを lint.pn1RegionDecl・自己試験 (q6)(q6b) で機械検査してから)。
+export const REGEN_TABLE_VERSION = 'w288f-regentable-9';
 
 // ---- 第282便e: 安定 hash の除外 Pointer(実パスは 8b05232 の正本で確かめた —— `lint.stableHashPaths` が毎回照合)
 const META_RUN = ['/meta/generatedAt', '/meta/inputs/*/mtime', '/meta/code/*/mtime'];
@@ -327,6 +339,12 @@ export const REGEN_STEPS = [
     note: '第285便d: 正本の量ごとの行の転記(判定しない)。枝 b の診断正本 tests/out/pn1-w285b.json があれば obsCompareRows を λ_PN=0 の対照として足す(統合で b の段 pn1 を after に入れた —— 第285便の鎖 2 で pn1 の前に走り check-order が順序違反を出した)' }),
   S('samplestatus', 'node tests/exp-w279a-samplestatus.mjs && node tests/exp-w279a-samplestatus.mjs --check', ['tests/out/samplestatus-w279a.json'], 2, { alwaysRun: true, after: ['kf0', 'charonwin', 'obscompare', 'assessed'],
     exclusive: true, touches: ['beta/index.html', 'docs/SAMPLE_STATUS_v1.45.md'], htmlRegions: ['sample-status'] }),
+  // 第288便f(原仮定者の裁定(第78報)AN90・R118): **集約段**。書く段(obscompare → samplestatus)が $REGEN_HTML_STAGE に置いた断片を順に当て、
+  //   beta/index.html を 1 回だけ置き換える(断片が合わなければ書かずに rc 1)。常時群(断片が無ければ何もしない —— 所要 1 s 未満)。
+  //   html を書くので単独(exclusive)。html 全体を読む下流の段(after に samplestatus を持っていた段)は、この段の後に置く
+  S('htmlagg', 'node tools/regen-html-aggregate.mjs', [], 1, { alwaysRun: true, after: ['samplestatus'], secSource: 'w288f-branch',
+    exclusive: true, touches: ['beta/index.html'], htmlAggregate: true, htmlInput: 'whole',
+    note: '第288便f: 一時出力(領域の断片)の集約 —— 書く段の後・読む段の前で 1 回だけ html を書く' }),
   S('mercury', 'node tests/exp-w280a-mercury.mjs', ['tests/out/mercury-w280a.json'], 284, { secSource: 'w281a-chain', alwaysRun: true, after: ['kf0'] }),
   // ---- 第282便c の新しい正本(html だけを読む・他の正本を読まない —— 所要は器の elapsedS の実測)
   S('dragprofile', 'node tests/exp-w282c-dragprofile.mjs', ['tests/out/dragprofile-w282c.json'], 2, { secSource: 'w282c-run', node: true,
@@ -515,6 +533,8 @@ export const W285F_AFTER_SAMPLESTATUS = ['bh90', 'd0audit', 'qsplit', 'twobody',
   'meshnod0', 'kfgate', 'presetaxes', 'bgfield', 'd0audit2', 'bgpredict', 'selfinertia', 'slipaudit', 'bgbudget', 'bgcompose', 'sphereKernel',
   'galaxyprof', 'needmesh', 'kf0ledger-old', 'kf0ledger', 'galaxychain', 'rotorledger', 'strain'];
 for (const st of REGEN_STEPS) if (W285F_AFTER_SAMPLESTATUS.includes(st.key) && !(st.after || []).includes('samplestatus')) st.after = (st.after || []).concat(['samplestatus']);
+// 第288便f(AN90): samplestatus の後に置いた段(書いた後の html・一覧 md を読む)は、集約段 htmlagg の後へ(html は集約段が 1 回だけ書く)
+for (const st of REGEN_STEPS) if (st.key !== 'htmlagg' && (st.after || []).includes('samplestatus') && !(st.htmlRegions || []).length && !(st.after || []).includes('htmlagg')) st.after = st.after.concat(['htmlagg']);
 
 /**
  * 第285便f(AN53): html 全体を刻む現行の段(正本の meta から —— target が beta/index.html で scopeComplete の領域が無い)。
@@ -1514,9 +1534,11 @@ export function inputDigest(specs, o) {
  * 宣言が実態に合わなくなったら `staleRegionDecl`。**直し方は領域の宣言(器の REGEN_SCOPE の roots / 停止集合)の側**で、鎖の順序ではない。
  */
 export const HTML_REGION_READ_DECL = [
-  { key: 'pn1', region: 'obs-compare', kind: 'scope-closure-cycle',
-    why: 'pn1 の領域の閉包(最上位の文)が OBS_COMPARE_REASONS・OBS_COMPARE_SOURCES・OBS_COMPARE_ROWS に掛かる。obscompare は pn1 の正本を λ_PN=0 の対照として読む(pn1 が上流)ので下流へ置けない。'
-      + 'obscompare が行を書き換えると pn1 の領域 hash が変わり、次の計画で pn1 が 1 回余分に走る(pn1 の出力が同じなら行も同じで止まる)。直し方は pn1 の REGEN_SCOPE の側(統括の決断事項候補)' },
+  // 第288便f(原仮定者の裁定(第78報)AN90): 第287便f の宣言 { key:'pn1', region:'obs-compare', kind:'scope-closure-cycle' } を**外した**。
+  //   外す前に読込依存を機械で検査した(QA lint.pn1RegionDecl・自己試験 (q6)(q6b)): pn1 の器の領域の閉包が観測対実行の生成領域に掛かっていたのは、
+  //   器の局所名(λ_PN=0 の対照行)が html の関数 obsCompareRows と同じ綴りで、領域の下限の自動導出(deriveScope —— 名前で数える)が
+  //   それを roots に入れていたから(器は html のその関数を 1 度も呼ばない)。局所名と正本の鍵を lambda0Rows に改名し、roots から外すと
+  //   宣言の閉包・自動導出の下限のどちらも OBS_COMPARE_* に掛からない(閉包 877 → 869 名・生成領域との重なり 3 文 → 0)。
 ];
 
 const htmlAuditCache = new Map();
@@ -1555,7 +1577,10 @@ export function htmlTailAudit(o) {
   const chainWriters = writers.filter((z) => z.htmlWriteMode !== 'check');
   // ①
   const textsOf = new Map(cur.map((z) => [z.key, harnessClosureTexts(z, root, readText)]));
-  const writesHtml = (st) => { for (const [rel, t] of textsOf.get(st.key)) if (/writeFileSync\(\s*HTML\b/.test(t) && /index\.html/.test(t)) return rel; return null; };
+  // 第288便f(AN90): 書く段 = 器の本文が html を直に書く(writeFileSync(HTML …)+ index.html)か、一時出力の書き口 writeHtmlStaged(HTML …)を呼ぶ段
+  const writesHtml = (st) => { for (const [rel, t] of textsOf.get(st.key)) if ((/writeFileSync\(\s*HTML\b/.test(t) && /index\.html/.test(t)) || /\bwriteHtmlStaged\(\s*HTML\b/.test(t)) return rel; return null; };
+  const directWrites = (st) => { for (const [rel, t] of textsOf.get(st.key)) if (/writeFileSync\(\s*HTML\b/.test(t)) return rel; return null; };
+  const stagedWrites = (st) => [...textsOf.get(st.key).values()].some((t) => /\bwriteHtmlStaged\(\s*HTML\b/.test(t));
   const undeclared = [], staleDecl = [], checkMode = [];
   for (const st of cur) {
     const w = writesHtml(st);
@@ -1581,12 +1606,34 @@ export function htmlTailAudit(o) {
   // ④
   const afterMissing = [], beforeStale = [], beforeAlways = [], tail = new Set(), reads = { whole: 0, scope: 0, none: 0 };
   const scopeReaders = [];
+  // ⑧ 第288便f(AN90): 集約段(htmlAggregate)—— 1 段・常時群・単独・全ての書く段の下流。html 全体を読む段で書く段の下流にいるものは集約段の下流
+  const aggs = cur.filter((z) => z.htmlAggregate);
+  const agg = aggs.length === 1 ? aggs[0] : null;
+  const aggregator = { steps: aggs.map((z) => z.key), stageVersion: HTML_STAGE_VERSION, order: HTML_STAGE_ORDER.slice(), bad: [] };
+  if (aggs.length !== 1) aggregator.bad.push('集約段が ' + aggs.length + ' 段(1 段であること)');
+  if (agg) {
+    if (!agg.alwaysRun) aggregator.bad.push(agg.key + ' が常時群でない');
+    if (!agg.exclusive) aggregator.bad.push(agg.key + ' が単独(exclusive)でない');
+    if (!/\btools\/regen-html-aggregate\.mjs\b/.test(agg.cmd)) aggregator.bad.push(agg.key + ' の cmd が tools/regen-html-aggregate.mjs でない');
+    for (const w of writers) if (!U(agg.key).has(w.key)) aggregator.bad.push(w.key + ' が集約段の上流に無い');
+  }
+  // ⑦ 鎖で書く段(check でない)は一時出力の書き口を使う(直書きしない)
+  const directWrite = [];
+  for (const w of chainWriters) { const d = directWrites(w); if (d || !stagedWrites(w)) directWrite.push(w.key + (d ? '(直書き ' + d + ')' : '(writeHtmlStaged を呼ばない)')); }
+  // 断片の順序 = 書く段の全順序(上流の書く段の領域が HTML_STAGE_ORDER で先)
+  const stageOrder = [];
+  for (const w of writers) for (const r of w.htmlRegions) if (HTML_STAGE_ORDER.indexOf(r) < 0) stageOrder.push(w.key + ':' + r + '(HTML_STAGE_ORDER に無い)');
+  for (const a of writers) for (const b of writers) if (a !== b && U(b.key).has(a.key)) for (const ra of a.htmlRegions) for (const rb of b.htmlRegions)
+    if (HTML_STAGE_ORDER.indexOf(ra) >= 0 && HTML_STAGE_ORDER.indexOf(rb) >= 0 && HTML_STAGE_ORDER.indexOf(ra) > HTML_STAGE_ORDER.indexOf(rb)) stageOrder.push(ra + '>' + rb);
+  const aggMissing = [];
   for (const st of cur) {
     if (writers.includes(st)) continue;
     const h = htmlReadOf(st, { root, metaOf, readText });
     reads[h.kind] = (reads[h.kind] || 0) + 1;
     if (h.kind === 'scope') { scopeReaders.push([st, h]); continue; }
     if (h.kind !== 'whole') continue;
+    if (st.htmlAggregate) continue;
+    if (agg && chainWriters.some((w) => U(st.key).has(w.key)) && !U(st.key).has(agg.key)) aggMissing.push(st.key);
     for (const w of chainWriters) {
       if (U(st.key).has(w.key)) { tail.add(st.key); continue; }
       // 書き手の上流: 常時群は毎回刻み直す・meta を刻まない段は古くなる刻印が無い(情報)/ html 全体を刻む現行の段は書かれた後に刻印が古くなる
@@ -1630,9 +1677,12 @@ export function htmlTailAudit(o) {
     }
   }
   const staleRegionDecl = (opt.regionDecl || HTML_REGION_READ_DECL).filter((z) => !usedDecl.has(z.key + '|' + z.region)).map((z) => z.key + '→' + z.region);
+  aggregator.ok = aggregator.bad.length === 0;
   const ok = !cycles.length && !undeclared.length && !staleDecl.length && !checkMode.length && !regionMissing.length && !regionDup.length
-    && !writerUnordered.length && !afterMissing.length && !beforeStale.length && !scopeReadsRegion.length && !staleRegionDecl.length && !!P.parsed;
+    && !writerUnordered.length && !afterMissing.length && !beforeStale.length && !scopeReadsRegion.length && !staleRegionDecl.length && !!P.parsed
+    && !directWrite.length && !stageOrder.length && !aggMissing.length && aggregator.ok;
   return { ok, writers: writers.map((z) => z.key + '[' + z.htmlRegions.join(',') + (z.htmlWriteMode === 'check' ? '・check' : '') + ']'),
+    aggregator, directWrite, stageOrder, aggMissing,
     cycles, undeclared, staleDecl, checkMode, regionMissing, regionDup, writerUnordered, afterMissing, beforeStale,
     beforeAlways: [...new Set(beforeAlways)], scopeReadsRegion: [...new Set(scopeReadsRegion)], declaredRegionReads: [...new Set(declaredRegionReads)], staleRegionDecl, scopeChecked, reads,
     tailBacklog: [...tail].sort(), parsed: !!P.parsed };
@@ -1778,6 +1828,10 @@ export function chainShell(chain, o) {
   L.push('REGEN_TOOL=${REGEN_TOOL:-tools/regen-chain.mjs}   # 第287便f: 入力の安定 hash を引く器(--digest)');
   L.push('DONE="$REGEN_LOG/done"; ST="$REGEN_LOG/.st"; mkdir -p "$DONE" "$ST" || exit 2; rm -f "$ST"/*.rc');
   L.push('cd "$ROOT" || exit 2');
+  // 第288便f(原仮定者の裁定(第78報)AN90): html を書く段は一時出力の断片を $REGEN_HTML_STAGE へ(集約段 htmlagg が 1 回だけ html を書く)・
+  //   鎖を回した Node と Chromium の版を $REGEN_LOG/env.json に記録(1 ulp の切り分け用 —— 版は固定しない。REGEN_ENV_BROWSER=0 で Chromium を起こさない)
+  L.push('export REGEN_HTML_STAGE="${REGEN_HTML_STAGE:-$REGEN_LOG/html}"; mkdir -p "$REGEN_HTML_STAGE" || exit 2');
+  L.push('node "$REGEN_TOOL" --env >"$REGEN_LOG/env.json" 2>/dev/null || echo "{}" >"$REGEN_LOG/env.json"');
   const envNeed = new Map();
   for (const r of Object.values(chain.steps)) for (const m of String(r.cmd).matchAll(/\$([A-Z_][A-Z0-9_]*)/g)) {
     if (!envNeed.has(m[1])) envNeed.set(m[1], []);
@@ -2181,7 +2235,8 @@ export async function regenChainSelfTest(o) {
   //     samplestatus の上流(calaudit・dt3・kf0・charonwin)と読む正本の書き手には足していない(循環 0)
   {
     const N0 = tableDepsAudit({ root });
-    const strip = REGEN_STEPS.map((z) => Object.assign({}, z, W285F_AFTER_SAMPLESTATUS.includes(z.key) ? { after: (z.after || []).filter((k) => k !== 'samplestatus') } : {}));
+    // 第288便f: 足した after は samplestatus と集約段 htmlagg(samplestatus の下流)の 2 つ —— 両方を外した写しで検出を見る
+    const strip = REGEN_STEPS.map((z) => Object.assign({}, z, W285F_AFTER_SAMPLESTATUS.includes(z.key) ? { after: (z.after || []).filter((k) => k !== 'samplestatus' && k !== 'htmlagg') } : {}));
     const N1 = tableDepsAudit({ root, steps: strip });
     const up = samplestatusUpstream({ root });
     const whole = htmlWholeSteps({ root });
@@ -2272,7 +2327,9 @@ export async function regenChainSelfTest(o) {
       mk('r2', '', ['r1'], { outs: ['out/R2.json'], htmlInput: 'none' }),
       mk('hw', '', [], { outs: ['out/H.json'], htmlInput: 'whole' }),
       mk('hn', '', [], { outs: ['out/N.json'], htmlInput: 'none' })];
-    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log', REGEN_TOOL: root + '/tools/regen-chain.mjs', REGEN_HTML: 'page.html' });
+    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log', REGEN_TOOL: root + '/tools/regen-chain.mjs', REGEN_HTML: 'page.html',
+      REGEN_ENV_BROWSER: '0' });   // 第288便f: env.json の Chromium は起こさない(stub)
+    delete env.REGEN_HTML_STAGE;   // 第288便f: 外の鎖の一時出力を stub に持ち込まない
     const cnt = (k) => { try { return fs.readFileSync(tmp + '/cnt/' + k, 'utf8').split('\n').filter(Boolean).length; } catch { return 0; } };
     const K6 = ['cal', 'k0', 'r1', 'r2', 'hw', 'hn'];
     const runOnce = (x, name) => {
@@ -2310,7 +2367,8 @@ export async function regenChainSelfTest(o) {
   // (q) **html を書く段の検査が型ごとに検出する**(今の表の写しを 1 か所ずつ壊す —— 正本は書き換えない):
   //     q1 書く段の順序を外す → 全順序の欠け / q2 obscompare の領域の宣言を外す → 器の本文から宣言漏れ / q3 samplestatus の after に families
   //     → 循環 / q4 families の after から samplestatus を外す → 領域の閉包が sample-status に掛かる / q5 obscompare の after から d68three を外す
-  //     → after 欠落 / q6 領域の読みの宣言を空にする → pn1→obs-compare が違反に出る / q7 html から sample-status の印を消す → 領域の印の欠け
+  //     → after 欠落 / q6 領域の読みの宣言を空にする → pn1→obs-compare が違反に出る(第288便f: 旧い形の刻印を与えて)/ q6b 旧い宣言を今の pn1 に当てる →
+//     宣言が実態に合わない / q7 html から sample-status の印を消す → 領域の印の欠け
   {
     const Q0 = htmlTailAudit({ root });
     const edit = (key, f) => REGEN_STEPS.map((z) => (z.key === key ? f(Object.assign({}, z)) : z));
@@ -2318,20 +2376,124 @@ export async function regenChainSelfTest(o) {
     const q1 = htmlTailAudit({ root, steps: edit('samplestatus', (z) => Object.assign(z, { after: drop(z.after, 'assessed') })).map((z) => (z.key === 'assessed' ? Object.assign({}, z, { after: drop(z.after, 'obscompare') }) : z)) });
     const q2 = htmlTailAudit({ root, steps: edit('obscompare', (z) => { delete z.htmlRegions; return z; }) });
     const q3 = htmlTailAudit({ root, steps: edit('samplestatus', (z) => Object.assign(z, { after: (z.after || []).concat(['families']) })) });
-    const q4 = htmlTailAudit({ root, steps: edit('families', (z) => Object.assign(z, { after: drop(z.after, 'samplestatus') })) });
+    const q4 = htmlTailAudit({ root, steps: edit('families', (z) => Object.assign(z, { after: drop(drop(z.after, 'samplestatus'), 'htmlagg') })) });   // 第288便f: htmlagg も外す
     const q5 = htmlTailAudit({ root, steps: edit('obscompare', (z) => Object.assign(z, { after: drop(z.after, 'd68three') })) });
-    const q6 = htmlTailAudit({ root, regionDecl: [] });
+    // 第288便f: pn1 の宣言を外したので、q6 は「旧い形の刻印(roots に obsCompareRows)を持つ pn1」を metaOf で与え、宣言が空なら違反に出ることを、
+    //   q6b は「今の pn1 に旧い宣言を当てる」と宣言が実態に合わない(staleRegionDecl)ことを確かめる
+    const pn1Old = (f) => { const m = readMetaAt(root, f); if (f !== 'tests/out/pn1-w285b.json' || !m || !m.scope) return m;
+      return Object.assign({}, m, { scope: Object.assign({}, m.scope, { roots: (m.scope.roots || []).filter((z) => z !== 'obsCompareRows').concat(['obsCompareRows']) }) }); };
+    const q6 = htmlTailAudit({ root, regionDecl: [], metaOf: pn1Old });
+    const q6b = htmlTailAudit({ root, regionDecl: [{ key: 'pn1', region: 'obs-compare', kind: 'scope-closure-cycle', why: '旧い宣言(自己試験)' }] });
     let htmlNow = ''; try { htmlNow = fs.readFileSync(root + '/' + HTML_TARGET, 'utf8'); } catch { htmlNow = ''; }
     const q7 = htmlTailAudit({ root, htmlText: htmlNow.split(htmlGenBegin('sample-status')).join('// (印を消した写し)') });
+    // 第288便f(AN90): q8 html 全体を読む下流の段(bh90)の after から集約段を外す → 集約段の欠落 / q9 obscompare の器を直書きに戻した写し →
+    //   直書きの検出 / q10 集約段を表から外す → 集約段 0 段
+    const q8 = htmlTailAudit({ root, steps: edit('bh90', (z) => Object.assign(z, { after: drop(z.after, 'htmlagg') })) });
+    const rt9 = (rel) => { let t = null; try { t = fs.readFileSync(root + '/' + rel, 'utf8'); } catch { return null; }
+      return rel === 'tests/exp-w285d-obscompare.mjs' ? t.replace(/HS\.writeHtmlStaged\(HTML, html0, html1, L\.REGION\)\.view/, '(fs.writeFileSync(HTML, html1), HTML)') : t; };
+    const q9 = htmlTailAudit({ root, readText: rt9 });
+    const q10 = htmlTailAudit({ root, steps: REGEN_STEPS.filter((z) => z.key !== 'htmlagg') });
     const has = (arr, re) => (arr || []).some((z) => re.test(z));
-    res.q = { now: { ok: Q0.ok, writers: Q0.writers, reads: Q0.reads, tailBacklog: Q0.tailBacklog.length, declaredRegionReads: Q0.declaredRegionReads, beforeAlways: Q0.beforeAlways.length },
+    res.q = { now: { ok: Q0.ok, writers: Q0.writers, reads: Q0.reads, tailBacklog: Q0.tailBacklog.length, declaredRegionReads: Q0.declaredRegionReads, beforeAlways: Q0.beforeAlways.length,
+      aggregator: Q0.aggregator && Q0.aggregator.steps },
+      q8: has(q8.aggMissing, /^bh90$/), q9: has(q9.directWrite, /^obscompare\(直書き/), q10: !!q10.aggregator && q10.aggregator.bad.some((z) => /集約段が 0 段/.test(z)),
       q1: has(q1.writerUnordered, /assessed\|samplestatus|samplestatus\|assessed|obscompare\|assessed|assessed\|obscompare/), q2: has(q2.undeclared, /^obscompare\(/),
       q3: q3.cycles.some((k) => k === 'samplestatus' || k === 'families'), q4: has(q4.scopeReadsRegion, /^families→sample-status$/),
-      q5: has(q5.afterMissing, /^d68three\?obscompare/), q6: has(q6.scopeReadsRegion, /^pn1→obs-compare$/), q7: has(q7.regionMissing, /^samplestatus:sample-status\(html/) };
-    res.q.ok = Q0.ok && ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q7'].every((k) => res.q[k] === true);
+      q5: has(q5.afterMissing, /^d68three\?obscompare/), q6: has(q6.scopeReadsRegion, /^pn1→obs-compare$/), q6b: has(q6b.staleRegionDecl, /^pn1→obs-compare$/) && !has(q6b.scopeReadsRegion, /^pn1→/), q7: has(q7.regionMissing, /^samplestatus:sample-status\(html/) };
+    res.q.ok = Q0.ok && ['q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'q6b', 'q7', 'q8', 'q9', 'q10'].every((k) => res.q[k] === true);
   }
+  // (r) 第288便f(原仮定者の裁定(第78報)AN90): 一時出力の集約 —— 中断 → 再開で html が 1 回だけ書かれる(htmlAggregateProbe)
+  res.r = await htmlAggregateProbe({ root, tmpDir: o.tmpDir + '/r' });
   res.ok = Object.values(res).filter((z) => z && typeof z === 'object').every((z) => z.ok !== false);
   return res;
+}
+
+/**
+ * 第288便f(原仮定者の裁定(第78報)AN90)の自己試験 (r) —— 一時出力の集約(QA lint.chainAggregate も同じ関数を呼ぶ)。
+ * (r) 第288便f(原仮定者の裁定(第78報)AN90): **一時出力の集約 —— 中断 → 再開で html が 1 回だけ書かれる**(stub の鎖を実際に bash で回す)。
+ *     書く段 2 つ(w1 → w2 —— 領域 obs-compare・sample-status を tests/lib-w288f-htmlstage.mjs の書き口で書く)と集約段 agg
+ *     (tools/regen-html-aggregate.mjs)。回 1: w2 が rc 1 で止まる → html は 1 字も変わらない(w1 の断片だけが置き場にある)。
+ *     回 2(同じ REGEN_LOG で再開): w1 は済み・w2 と agg が走る → html が 1 回だけ書かれ(aggregate.log の written 1 行)両方の領域が新しい。
+ *     回 3(もう一度): 全段が済み → html は変わらない。加えて (r4) 別の html で作った断片(baseSha256 が違う)は集約が拒否し(rc 1)html を書かない・
+ *     (r5) 領域の外を書き換える書き込みは書き口が投げる・(r6) 変数が無いと従来どおり直に書く(同じ本文)。
+ * @param {{root:string, tmpDir:string}} o tmpDir は一時ディレクトリ(中に stub の鎖を置く)
+ */
+export async function htmlAggregateProbe(o) {
+  const root = String(o.root).replace(/\/$/, '');
+  fs.mkdirSync(o.tmpDir, { recursive: true });
+  {
+    const cp = await import('node:child_process');
+    const tmp = o.tmpDir;
+    fs.mkdirSync(tmp + '/cnt', { recursive: true });
+    const libUrl = 'file://' + root + '/tests/lib-w288f-htmlstage.mjs';
+    const page0 = '<html><script>\nconst A=0;\n// >>> w275a-generated: obs-compare\nconst OC=0;\n// <<< w275a-generated: obs-compare\nconst B=1;\n'
+      + '// >>> w275a-generated: sample-status\nconst SS=0;\n// <<< w275a-generated: sample-status\n</script></html>\n';
+    fs.writeFileSync(tmp + '/page.html', page0);
+    fs.writeFileSync(tmp + '/s.mjs', [
+      "import fs from 'node:fs';",
+      "const HS = await import(" + JSON.stringify(libUrl) + ");",
+      "const k = process.argv[2], region = process.argv[3], v = process.argv[4]; fs.appendFileSync('cnt/' + k, 'x\\n');",
+      "if (fs.existsSync('fail-' + k)) process.exit(1);",
+      "const HTML = 'page.html';",
+      "const prev = HS.readHtmlStaged(HTML, region);",
+      "const a = prev.indexOf(HS.stageBegin(region)), b = prev.indexOf(HS.stageEnd(region));",
+      "const next = prev.slice(0, a) + HS.stageBegin(region) + '\\n' + v + '\\n' + prev.slice(b);",
+      "HS.writeHtmlStaged(HTML, prev, next, region);",
+      "fs.mkdirSync('out', { recursive: true }); fs.writeFileSync('out/' + k + '.json', JSON.stringify({ meta: {}, v }));",
+    ].join('\n'));
+    const table = () => [
+      { key: 'w1', cmd: 'node s.mjs w1 obs-compare "const OC=1;"', outs: ['out/w1.json'], after: [], role: 'current', sec: 1, htmlInput: 'none' },
+      { key: 'w2', cmd: 'node s.mjs w2 sample-status "const SS=2;"', outs: ['out/w2.json'], after: ['w1'], role: 'current', sec: 1, htmlInput: 'none' },
+      { key: 'agg', cmd: 'node ' + root + '/tools/regen-html-aggregate.mjs --html page.html', outs: [], after: ['w2'], role: 'current', sec: 1, htmlInput: 'whole',
+        alwaysRun: true, exclusive: true, htmlAggregate: true }];
+    const env = Object.assign({}, process.env, { REGEN_ROOT: tmp, REGEN_LOG: tmp + '/log', REGEN_TOOL: root + '/tools/regen-chain.mjs', REGEN_HTML: 'page.html', REGEN_ENV_BROWSER: '0' });
+    delete env.REGEN_HTML_STAGE;
+    const cnt = (k) => { try { return fs.readFileSync(tmp + '/cnt/' + k, 'utf8').split('\n').filter(Boolean).length; } catch { return 0; } };
+    const shaT = (t) => crypto.createHash('sha256').update(t).digest('hex');
+    const htmlSha = () => shaT(fs.readFileSync(tmp + '/page.html', 'utf8'));
+    const aggLog = () => { try { return fs.readFileSync(tmp + '/log/html/aggregate.log', 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)); } catch { return []; } };
+    const runOnce = (name) => {
+      const stub = table();
+      const sd = tableDeps({ steps: stub });
+      const ch = buildChain({ steps: stub.map((z) => ({ key: z.key, status: 'regen' })) }, { steps: stub, deps: sd });
+      fs.writeFileSync(tmp + '/' + name + '.sh', chainShell(ch, { lanes: 2 }));
+      const before = { w1: cnt('w1'), w2: cnt('w2') };
+      const r = cp.spawnSync('bash', [tmp + '/' + name + '.sh'], { encoding: 'utf8', env, cwd: tmp });
+      return { rc: r.status, ran: ['w1', 'w2'].filter((k) => cnt(k) > before[k]), sha: htmlSha(), written: aggLog().filter((z) => z.written).length };
+    };
+    const sha0 = htmlSha();
+    fs.writeFileSync(tmp + '/fail-w2', '1');
+    const R1 = runOnce('r1');
+    const frag1 = fs.existsSync(tmp + '/log/html/obs-compare.frag.json');
+    fs.rmSync(tmp + '/fail-w2');
+    const R2 = runOnce('r2');
+    const html2 = fs.readFileSync(tmp + '/page.html', 'utf8');
+    const R3 = runOnce('r3');
+    const want = page0.replace('const OC=0;', 'const OC=1;').replace('const SS=0;', 'const SS=2;');
+    // (r4) 別の html で作った断片は拒否(何も書かない)
+    const H = await import('./lib-w288f-htmlstage.mjs');
+    const d4 = tmp + '/r4'; fs.mkdirSync(d4, { recursive: true });
+    fs.writeFileSync(d4 + '/page.html', page0);
+    const other = page0.replace('const A=0;', 'const A=9;');
+    const on = other.replace('const OC=0;', 'const OC=5;');
+    fs.writeFileSync(d4 + '/obs-compare.frag.json', JSON.stringify({ version: H.HTML_STAGE_VERSION, region: 'obs-compare', baseSha256: shaT(other), nextSha256: shaT(on),
+      body: on.slice(on.indexOf(H.stageBegin('obs-compare')), on.indexOf(H.stageEnd('obs-compare')) + H.stageEnd('obs-compare').length) }));
+    const r4 = cp.spawnSync(process.execPath, [root + '/tools/regen-html-aggregate.mjs', '--html', d4 + '/page.html', '--stage', d4], { encoding: 'utf8', env });
+    const r4ok = r4.status === 1 && fs.readFileSync(d4 + '/page.html', 'utf8') === page0;
+    // (r5) 領域の外を書き換える書き込みは投げる
+    let r5ok = false;
+    try { H.writeHtmlStaged(d4 + '/page.html', page0, page0.replace('const B=1;', 'const B=7;').replace('const SS=0;', 'const SS=3;'), 'sample-status', { REGEN_HTML_STAGE: d4 + '/s5' }); }
+    catch (e) { r5ok = /領域 sample-status の外/.test(String(e.message || e)); }
+    // (r6) 変数が無ければ直に書く
+    const p6 = d4 + '/p6.html'; fs.writeFileSync(p6, page0);
+    const n6 = page0.replace('const OC=0;', 'const OC=6;');
+    const w6 = H.writeHtmlStaged(p6, H.readHtmlStaged(p6, 'obs-compare', { env: {} }), n6, 'obs-compare', {});
+    const r6ok = w6.staged === false && fs.readFileSync(p6, 'utf8') === n6;
+    return { runs: { r1: R1, r2: R2, r3: R3 }, frag1, r4: r4ok, r5: r5ok, r6: r6ok,
+      ok: R1.rc !== 0 && R1.sha === sha0 && frag1 && JSON.stringify(R1.ran) === '["w1","w2"]' && R1.written === 0
+        && R2.rc === 0 && JSON.stringify(R2.ran) === '["w2"]' && R2.written === 1 && html2 === want && R2.sha === shaT(want)
+        && R3.rc === 0 && R3.ran.length === 0 && R3.written === 1 && R3.sha === R2.sha && r4ok && r5ok && r6ok };
+  }
 }
 
 export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessReads, staticAfterAudit, stampedDeclDrift, VOLATILE_DECL, volatileDeclFp, W285F_AFTER_SAMPLESTATUS, htmlWholeSteps, samplestatusUpstream, an43Probe, EXTERNAL_VOLATILE, V_CALAUDIT_META, STABLE_COMPANIONS, companionsOf,
@@ -2340,4 +2502,4 @@ export default { REGEN_TABLE_VERSION, REGEN_STEPS, STATIC_READ_DECL, harnessRead
   codeFilesOf, chainContracts, CHAIN_CONTRACT_VERSION, chainPriority, simulateReadyQueue, waveMakespan, checkTimeline, parseTimeline,
   W282_ORDER_FIXTURE, W283E_ADDED_AFTER, regenChainSelfTest,
   CHAIN_CONTRACT_HISTORY, SEMANTIC_RUN_META, HTML_TARGET, htmlGenBegin, htmlGenEnd, legacyChainContracts, htmlReadOf, HTML_READ_SCAN_SKIP, stripHtmlRegions,
-  depClosures, chainInputSpecs, semanticSha, inputDigest, HTML_REGION_READ_DECL, htmlTailAudit };
+  depClosures, chainInputSpecs, semanticSha, inputDigest, HTML_REGION_READ_DECL, htmlTailAudit, htmlAggregateProbe };
