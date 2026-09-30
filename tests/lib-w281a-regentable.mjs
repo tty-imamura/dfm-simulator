@@ -543,8 +543,10 @@ export const REGEN_STEPS = [
     note: '第288便c: 診断コピー 🧩 と 🌚 のビット同一・共通評価器(中心 1 回・静止した中心だけなら u=0・A_spin の inline は場の契約とビット一致/'
       + 'separate は丸めの差・単位 p=1/p=2)・回転核の候補(解析勾配の次数 2・面内の J と r で z だけ・双極子の力とトルク・比較器 —— 足さない)' }),
   S('pairfuse288', 'node tests/exp-w288c-pairfuse.mjs', ['tests/out/pairfuse-w288c.json'], 300, { secSource: 'w288c-branch', node: true,
-    volatilePaths: { 'tests/out/pairfuse-w288c.json': META_RUN.concat(['/elapsedS', '/short/rows/*/wallSec', '/growth/rows/*/wallSec', '/growth/wallSec',
-      '/speed/growth/wallSec', '/speed/jeans/wallSec', '/jeans/rows/*/wallSec', '/jeans/wallSec']) },
+    volatilePaths: { 'tests/out/pairfuse-w288c.json': META_RUN.concat(['/elapsedS',   // 統合(第288便): 壁時計は off/on の下の数の葉 wallSec(lint.stableHashPaths ② —— 最後の鍵は語彙・値は有限の数)
+      '/short/rows/*/off/wallSec', '/short/rows/*/on/wallSec', '/growth/rows/*/off/wallSec', '/growth/rows/*/on/wallSec', '/growth/off/wallSec', '/growth/on/wallSec',
+      '/speed/growth/off/wallSec', '/speed/growth/on/wallSec', '/speed/jeans/off/wallSec', '/speed/jeans/on/wallSec',
+      '/jeans/rows/*/off/wallSec', '/jeans/rows/*/on/wallSec', '/jeans/off/wallSec', '/jeans/on/wallSec']) },
     note: '第288便c: pair 巡回の融合(非順序対の s・1/√s・s^{−p/2} を 1 回だけ作り両巡回で再利用・加速度確定後の第 2 巡回は残す)の受入 ——'
       + ' 🌚💮🌰(融合)と 🪁(対照)の OFF/ON と基点のビット同一・🌰 の門の走行 3 本の OFF/ON の結果一致と壁時計・💮 の Jeans 走行 3 本は宣言値(W288C_FULL=1 で測り直す)' }),
   // ---- 第288便d(原仮定者の裁定(第78報)⑥・統括の検証項目 R116): スピン・歳差・熱の口座(node 模型・**エンジン未接続**)——

@@ -19909,8 +19909,8 @@ if (!FAST) {
         if (!rows.every((r) => r.fusedPath ? r.fuseSteps === r.steps && r.fuseStepsOff === 0 : r.fuseSteps === 0)) bad.push('融合した步の数');
         if (JP.baseSame !== true) bad.push('基点 940dba52 の指紋と一致しない');
         if (!(JP.growth && JP.growth.ok && JP.growth.rows.length === 3)) bad.push('🌰 の門の走行 3 本の結果の一致');
-        if (!(JP.speed && JP.speed.growth && JP.speed.growth.wallSec && JP.speed.growth.wallSec.off > 0 && JP.speed.growth.wallSec.on > 0)) bad.push('🌰 の壁時計の前後が無い');
-        if (!(JP.jeans && JP.jeans.ok && JP.jeans.rows.length === 3 && JP.speed.jeans && JP.speed.jeans.wallSec.off > 0)) bad.push('💮 の Jeans 走行 3 本の結果の一致/壁時計の前後が無い');
+        if (!(JP.speed && JP.speed.growth && JP.speed.growth.off && JP.speed.growth.off.wallSec > 0 && JP.speed.growth.on && JP.speed.growth.on.wallSec > 0)) bad.push('🌰 の壁時計の前後が無い');
+        if (!(JP.jeans && JP.jeans.ok && JP.jeans.rows.length === 3 && JP.speed.jeans && JP.speed.jeans.off && JP.speed.jeans.off.wallSec > 0)) bad.push('💮 の Jeans 走行 3 本の結果の一致/壁時計の前後が無い');
         if (!JP.ok) bad.push('正本の総合 ok');
         cases.push(`OFF/ON(と基点)のビット同一: ${rows.map((r) => r.emoji + ' n=' + r.n + '×' + r.steps + '步' + (r.fusedPath ? '' : '〔対照〕')).join('・')}`);
         cases.push(`🌰 門の走行 ${JP.growth.rows.length} 本(${JP.growth.steps} 步)の結果一致・💮 Jeans ${JP.jeans ? JP.jeans.rows.length : 0} 本(${JP.jeans ? JP.jeans.steps : 0} 步)の結果一致・壁時計の前後は正本(同じ N・同じ門)`);

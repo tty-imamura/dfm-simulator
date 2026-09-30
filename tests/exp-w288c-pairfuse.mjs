@@ -45,7 +45,7 @@ export const BEFORE_940 = { rev: '940dba52', how: '枝の実測(W288C_BASE=beta/
  * (C) 💮 の Jeans 初期値の走行 3 本の OFF/ON(枝の実測 —— W288C_FULL=1 で測り直す)。
  * 同じ乱数種の OFF と ON を**同時に**子プロセスで走らせた(同じ時間帯の負荷を両方が受ける)。resultSha = 壁時計を除いた結果の JSON の sha256。
  */
-export const JEANS_W288C = Object.freeze({"how": "同じ乱数種の OFF と ON を同時に子プロセスで走らせた(同じ時間帯)(枝の実測 2026-09-30・他の枝の器と同じ機械を共有した時間帯)", "measuredAt": "2026-09-30", "rows": [{"key": "r20-v0.1-mc1/8.5-s12-seed0", "steps": 7021, "verdict": "未達", "resultSha": "ed132d7b0357eaa113259d0cdab5bda9de7ba4550035b4dac20c25b488e34450", "sameResult": true, "wallSec": {"off": 711.768, "on": 435.823}, "fuseSteps": 7021, "fuseStepsOff": 0}, {"key": "r20-v0.1-mc1/8.5-s12-seed1", "steps": 7081, "verdict": "未達", "resultSha": "ca04dc129ff896c1ee43ac9344b71c6aa98dc148f7231809039437d150056268", "sameResult": true, "wallSec": {"off": 782.01, "on": 496.571}, "fuseSteps": 7081, "fuseStepsOff": 0}, {"key": "r20-v0.1-mc1/8.5-s12-seed2", "steps": 7009, "verdict": "未達", "resultSha": "d02a0df8f18165ef3a7ebd10f3cd99ae276d1ba5c25f8ddb8403b926b5c2410b", "sameResult": true, "wallSec": {"off": 588.202, "on": 301.439}, "fuseSteps": 7009, "fuseStepsOff": 0}], "steps": 21111, "wallSec": {"off": 2081.98, "on": 1233.833}, "ok": true});
+export const JEANS_W288C = Object.freeze({"how": "同じ乱数種の OFF と ON を同時に子プロセスで走らせた(同じ時間帯)(枝の実測 2026-09-30・他の枝の器と同じ機械を共有した時間帯)", "measuredAt": "2026-09-30", "rows": [{"key": "r20-v0.1-mc1/8.5-s12-seed0", "steps": 7021, "verdict": "未達", "resultSha": "ed132d7b0357eaa113259d0cdab5bda9de7ba4550035b4dac20c25b488e34450", "sameResult": true, "off": {"wallSec": 711.768}, "on": {"wallSec": 435.823}, "fuseSteps": 7021, "fuseStepsOff": 0}, {"key": "r20-v0.1-mc1/8.5-s12-seed1", "steps": 7081, "verdict": "未達", "resultSha": "ca04dc129ff896c1ee43ac9344b71c6aa98dc148f7231809039437d150056268", "sameResult": true, "off": {"wallSec": 782.01}, "on": {"wallSec": 496.571}, "fuseSteps": 7081, "fuseStepsOff": 0}, {"key": "r20-v0.1-mc1/8.5-s12-seed2", "steps": 7009, "verdict": "未達", "resultSha": "d02a0df8f18165ef3a7ebd10f3cd99ae276d1ba5c25f8ddb8403b926b5c2410b", "sameResult": true, "off": {"wallSec": 588.202}, "on": {"wallSec": 301.439}, "fuseSteps": 7009, "fuseStepsOff": 0}], "steps": 21111, "off": {"wallSec": 2081.98}, "on": {"wallSec": 1233.833}, "ok": true});
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const find = (HP, id) => HP.allPresets().find((q) => q.id === id);
 const sha = (s) => crypto.createHash('sha256').update(s).digest('hex');
@@ -74,7 +74,7 @@ export function shortRuns(HP) {
     const off = runShort(HP, spec, true), on = runShort(HP, spec, false);
     const bitSame = off.ok && on.ok && off.sha === on.sha && off.nCap === on.nCap && off.stop === on.stop;
     return { id: spec.id, emoji: spec.emoji, steps: spec.steps, n: on.n, fusedPath: spec.fused, fuseSteps: on.fuseSteps, fuseStepsOff: off.fuseSteps,
-      sha: on.sha, bitSame, stop: on.stop, nCap: on.nCap, wallSec: { off: off.wallSec, on: on.wallSec } };
+      sha: on.sha, bitSame, stop: on.stop, nCap: on.nCap, off: { wallSec: off.wallSec }, on: { wallSec: on.wallSec } };
   });
   return { dt: DT, rows, ok: rows.every((r) => r.bitSame && (r.fusedPath ? (r.fuseSteps === r.steps && r.fuseStepsOff === 0) : r.fuseSteps === 0)) };
 }
@@ -92,10 +92,10 @@ export async function growthRuns(HP) {
     HP.sim.pairFuseOff = true; const off = E287.runOne(HP, spec);
     HP.sim.pairFuseOff = false; const on = E287.runOne(HP, spec);
     const a = JSON.stringify(stripWall(off)), b = JSON.stringify(stripWall(on));
-    rows.push({ key: spec.key, steps: on.steps, verdict: on.gates.verdict, resultSha: sha(b), sameResult: a === b, wallSec: { off: off.wallSec, on: on.wallSec } });
+    rows.push({ key: spec.key, steps: on.steps, verdict: on.gates.verdict, resultSha: sha(b), sameResult: a === b, off: { wallSec: off.wallSec }, on: { wallSec: on.wallSec } });
   }
-  const tot = (k) => rows.reduce((s, r) => s + r.wallSec[k], 0);
-  return { harness: E287.HARNESS_VERSION, rows, steps: rows.reduce((s, r) => s + r.steps, 0), wallSec: { off: tot('off'), on: tot('on') }, ok: rows.every((r) => r.sameResult) };
+  const tot = (k) => rows.reduce((s, r) => s + r[k].wallSec, 0);
+  return { harness: E287.HARNESS_VERSION, rows, steps: rows.reduce((s, r) => s + r.steps, 0), off: { wallSec: tot('off') }, on: { wallSec: tot('on') }, ok: rows.every((r) => r.sameResult) };
 }
 /** (C) の子プロセス: `--jeans <添字> <off|on> <html>` —— 第286便a の runOne を 1 本走らせて {key, steps, verdict, resultSha, wallSec}。 */
 async function jeansChild(idx, mode, html) {
@@ -119,11 +119,11 @@ export async function jeansFull(html) {
   for (let i = 0; i < 3; i++) {
     const [off, on] = await Promise.all([child(['--jeans', String(i), 'off', html]), child(['--jeans', String(i), 'on', html])]);
     rows.push({ key: on.key, steps: on.steps, verdict: on.verdict, resultSha: on.resultSha, sameResult: off.resultSha === on.resultSha && off.steps === on.steps,
-      wallSec: { off: off.wallSec, on: on.wallSec }, fuseSteps: on.fuseSteps, fuseStepsOff: off.fuseSteps });
+      off: { wallSec: off.wallSec }, on: { wallSec: on.wallSec }, fuseSteps: on.fuseSteps, fuseStepsOff: off.fuseSteps });
     console.error(`(C) ${on.key}: 步 ${on.steps} ${on.verdict} 一致 ${rows[i].sameResult} 壁時計 OFF ${off.wallSec.toFixed(1)} s / ON ${on.wallSec.toFixed(1)} s`);
   }
-  const tot = (k) => rows.reduce((s, r) => s + r.wallSec[k], 0);
-  return { how: '同じ乱数種の OFF と ON を同時に子プロセスで走らせた(同じ時間帯)', rows, steps: rows.reduce((s, r) => s + r.steps, 0), wallSec: { off: tot('off'), on: tot('on') },
+  const tot = (k) => rows.reduce((s, r) => s + r[k].wallSec, 0);
+  return { how: '同じ乱数種の OFF と ON を同時に子プロセスで走らせた(同じ時間帯)', rows, steps: rows.reduce((s, r) => s + r.steps, 0), off: { wallSec: tot('off') }, on: { wallSec: tot('on') },
     ok: rows.every((r) => r.sameResult) };
 }
 /** PHYSICS〔第288便c〕の表の行(QA docs が照合する —— 壁時計は写さない)。 */
@@ -146,7 +146,7 @@ if (IS_MAIN && process.argv[2] === '--probe') {
   const t0 = Date.now();
   const { HP, errors } = loadHtmlMain(path.join(ROOT, TARGET));
   const short = shortRuns(HP);
-  for (const r of short.rows) console.log(`(A) ${r.emoji} ${r.id} n=${r.n} ${r.steps} 步: ビット同一 ${r.bitSame}・融合 ${r.fuseSteps}/${r.steps}・壁時計 OFF ${r.wallSec.off.toFixed(2)} s / ON ${r.wallSec.on.toFixed(2)} s`);
+  for (const r of short.rows) console.log(`(A) ${r.emoji} ${r.id} n=${r.n} ${r.steps} 步: ビット同一 ${r.bitSame}・融合 ${r.fuseSteps}/${r.steps}・壁時計 OFF ${r.off.wallSec.toFixed(2)} s / ON ${r.on.wallSec.toFixed(2)} s`);
   const before = clone(BEFORE_940);
   if (process.env.W288C_BASE) {
     const live = JSON.parse(execFileSync(process.execPath, [fileURLToPath(import.meta.url), '--probe', process.env.W288C_BASE], { cwd: ROOT, maxBuffer: 1 << 26 }).toString());
@@ -157,9 +157,9 @@ if (IS_MAIN && process.argv[2] === '--probe') {
   const baseSame = before.sha ? short.rows.every((r) => before.sha[r.id] === r.sha) : null;
   console.log(`(A) 基点との指紋の一致 ${baseSame}`);
   const growth = await growthRuns(HP);
-  for (const r of growth.rows) console.log(`(B) ${r.key}: 步 ${r.steps} ${r.verdict} 結果の一致 ${r.sameResult} 壁時計 OFF ${r.wallSec.off.toFixed(1)} / ON ${r.wallSec.on.toFixed(1)} s`);
+  for (const r of growth.rows) console.log(`(B) ${r.key}: 步 ${r.steps} ${r.verdict} 結果の一致 ${r.sameResult} 壁時計 OFF ${r.off.wallSec.toFixed(1)} / ON ${r.on.wallSec.toFixed(1)} s`);
   let jeans = JEANS_W288C ? clone(JEANS_W288C) : null;
-  if (process.env.W288C_FULL) { jeans = await jeansFull(TARGET); console.log('(C) ' + JSON.stringify(jeans.wallSec)); }
+  if (process.env.W288C_FULL) { jeans = await jeansFull(TARGET); console.log('(C) ' + JSON.stringify({ off: jeans.off, on: jeans.on })); }
   const CODE = ['tests/exp-w288c-pairfuse.mjs', 'tests/exp-w287a-growth.mjs', 'tests/lib-w287a-growth.mjs', 'tests/exp-w286a-cluster.mjs', 'tests/exp-w283f-cluster.mjs',
     'tests/lib-w280b-emgrid.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第288便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
@@ -167,10 +167,10 @@ if (IS_MAIN && process.argv[2] === '--probe') {
     ruling: '原仮定者の裁定(第78報)⑧(重力は総当たりで成立し精度も高い・場の数値計算は精度が低く重い)・統括の検証項目 R115(pair の距離・逆距離・重みを再利用・加速度確定後の第 2 巡回は残す・受入はビット同一)',
     engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)',
     baseRev: '940dba52', notClaim: ['格子を撤去して軽くなった', '重力を格子へ移した', '新発見'] });
-  // 比 OFF/ON は壁時計の欄の中に置く(欄ごと安定 hash の除外 —— volatilePaths)
-  const sp = (w) => ({ off: w.off, on: w.on, ratioOffOn: w.off / w.on });
-  const speed = { growth: { steps: growth.steps, sameResult: growth.ok, wallSec: sp(growth.wallSec) },
-    jeans: jeans ? { steps: jeans.steps, sameResult: jeans.ok, wallSec: sp(jeans.wallSec) } : null,
+  // 壁時計は off/on の下の数の葉 wallSec(安定 hash の除外 —— volatilePaths の最後の鍵は語彙 wallSec・値は有限の数)。比 OFF/ON は正本に書かない(壁時計から導く)
+  const sp = (w) => ({ off: { wallSec: w.off.wallSec }, on: { wallSec: w.on.wallSec } });
+  const speed = { growth: Object.assign({ steps: growth.steps, sameResult: growth.ok }, sp(growth)),
+    jeans: jeans ? Object.assign({ steps: jeans.steps, sameResult: jeans.ok }, sp(jeans)) : null,
     note: '壁時計は同じ機械・同じ時間帯の OFF/ON(機械の負荷で動く —— 鍵 wallSec は安定 hash の除外語彙)。改善率は同じ N・同じ門でだけ' };
   const out = { meta, short, before, baseSame, growth, jeans, speed, elapsedS: (Date.now() - t0) / 1000 };
   out.ok = short.ok && growth.ok && (!jeans || jeans.ok) && baseSame !== false;

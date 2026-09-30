@@ -3,55 +3,55 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便d",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T20:47:11.926Z",
+  "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
+  "generatedAt": "2026-09-30T22:10:28.077Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-30T20:24:33.675Z"
+    "bytes": 5397459,
+    "sha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
+    "mtime": "2026-09-30T21:53:18.591Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w288d-spinprec.mjs",
-    "bytes": 36451,
-    "sha256": "e5ba32aebc35f201f7948ecc44a9810a075fc06a1b5f8a7c9b2dac0034215002",
-    "mtime": "2026-09-30T20:45:17.723Z"
+    "bytes": 36500,
+    "sha256": "26c4458b34386f8d4db8e56e357bb9fd91dca0bbbaa4abf755c0cf0775acf43f",
+    "mtime": "2026-09-30T22:06:49.170Z"
    },
    {
     "file": "tests/lib-w288d-spinprec.mjs",
     "bytes": 23886,
     "sha256": "215140762b431fb82a6a0084ca7ee0587e603b0a2f2fc0b9152fea6982f89034",
-    "mtime": "2026-09-30T20:45:17.696Z"
+    "mtime": "2026-09-30T20:54:30.749Z"
    },
    {
     "file": "tests/lib-w275e-powerball.mjs",
     "bytes": 23684,
     "sha256": "dc402b1f38a78a66b34db6e6585a3d42f332800de781226141cd1c9398568fe6",
-    "mtime": "2026-09-30T20:24:43.751Z"
+    "mtime": "2026-09-21T12:31:34.089Z"
    },
    {
     "file": "tests/lib-w276c-axiswork.mjs",
     "bytes": 23751,
     "sha256": "142bd7f6678ad7eb2a4bb3d4c86bb925d2de397994f736e9cddf13462a85e738",
-    "mtime": "2026-09-30T20:24:44.691Z"
+    "mtime": "2026-09-22T06:22:45.326Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-30T20:24:43.467Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-09-30T20:24:46.443Z"
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "1a757f1976eac15ffdaa6ed9934dba67533afbc268f596e673d4a522fd8c2766",
+  "codeSha256": "1dd1c5d5b1b68951bc06b1e4e889baee9390be982185491536823cc9910961a6",
   "harnessVersion": "w288d-spinprec-h1",
   "libVersion": "w288d-spinprec-1",
   "ruling": "原仮定者の裁定(第78報)⑥・統括の検証項目 R116",
@@ -71,17 +71,21 @@
    ],
    "roots": [
     "$",
+    "DT",
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validatePreset",
     "coreAxisState",
     "dfmCoreAxisStep"
    ],
-   "core": false,
+   "core": true,
    "consts": [],
    "complete": true,
-   "names": 3,
-   "segments": 3,
-   "closureShare": 0.0011
+   "names": 888,
+   "segments": 802,
+   "closureShare": 0.3164
   },
-  "scopeSha256": "cc4962766da34a7bf09a2776f3e8a211c64a5a07505c493547abdba537ad3365",
+  "scopeSha256": "be0684a2d75dcbd08de25532ce3c2ec25fa2396141dd7e756a9fcdcd24927d8a",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1658,5 +1662,5 @@
    "note": "宣言を読むだけ(退役のまま・復活させない)。tilt=90° の J_z/|J| = cos 90° は機械ゼロ —— 2D の引きずりは z 射影しか読まない"
   }
  },
- "elapsedS": 1.293
+ "elapsedS": 0.411
 }

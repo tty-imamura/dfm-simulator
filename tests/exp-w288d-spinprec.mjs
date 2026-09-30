@@ -28,7 +28,7 @@ import * as AW from './lib-w276c-axiswork.mjs';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 // 第281便a の規約: **この器が読む html の領域**の宣言(1 行の JSON —— lint.regenScope が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":["bhCoreTilt"],"roots":["$","coreAxisState","dfmCoreAxisStep"],"core":false,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["bhCoreTilt"],"roots":["$","DT","HP.allPresets","HP.sim","HP.validatePreset","coreAxisState","dfmCoreAxisStep"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w288d-spinprec-h1';
