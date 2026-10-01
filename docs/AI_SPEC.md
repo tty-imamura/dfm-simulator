@@ -2853,6 +2853,7 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 | `trigger` | `{atStep:N}` / `"overflow"` | 宣言した歩で 1 回 / 超過の待ち口座 E_pend を使い切る |
 
 - 規則: K_eject = E_before − E_spin,remaining − E_spin,eject − U_after − E_self,after − Q_after(E_self,after = E_self − U_pair(c′,e)・Q_after = Q —— 熱化分を再利用しない)。**K < 0 なら放出しない**(拒否の数を数える)。v_eject = √(2K/m)。
+- **状態の引き継ぎ(第289便d・統括の検証項目 R122)**: 放出に成功すると中心の慣性半径の状態を `rInertiaAfter` へ引き継ぐ(`S.fixcap.rInertia` = R_a —— イベントの I′・E′ は元から R_a で計算し、次の離散・捕獲・監査が古い R_I を読まない)。⏮ と読込は宣言の `rInertia` から作り直す(動的な R_I と帳簿 `S.fixcap` は保存に入らない)。内部結合の口座 E_self は収支調整の口座で、自己束縛エネルギーではない(捕獲の無い宇宙の放出で正になり得る)。
 - **内蔵の宣言**: 🥜 `fixedCaptureCopy` の 1 本(`fixedCapture` だけ —— R_I 1.5・h 0・Ω_max 20・overflowTo "heat")。`fixedEject` を宣言する内蔵は無い(器が往復と 2 つのトリガを試す)。
 - **読み口(HP 公開)**: `dfmFixedCaptureStep(S)`・`dfmFixedEject(S, why, spec)`・`fixedCaptureCheck(p)`・定数 `FIXED_CAPTURE_VERSION`。純関数の配分器 `tests/lib-w288a-fixcap.mjs`(`allocate`・`ejectInverse`・`selfTest`)。
 - QA: **`behavior.fixedCaptureCopy`**・**`behavior.fixedCaptureAlloc`**・**`behavior.fixedCaptureContract`**(root は SKIP)。器 `tests/exp-w288a-fixcap.mjs`(正本 `tests/out/fixcap-w288a.json`・段 `fixcap288`)。

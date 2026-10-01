@@ -2279,7 +2279,10 @@ if (QA_CHANGED) {
       'tests/out/spinprec-w288d.json',
       // 第288便e(原仮定者の裁定(第78報)⑦・R117・AN79): 🛸(🌚 の軸を 90° に倒した原理コピー)の現行法則の実測・歳差が担う面内の引きずりの候補・
       //   spinAxis の受理と署名(target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 tilt90288)
-      'tests/out/tilt90-w288e.json'];
+      'tests/out/tilt90-w288e.json',
+      // 第289便d(原仮定者の裁定(第79報)で閉じた AN95/AN96/AN97・R122): 離散の後の慣性半径の状態引き継ぎの前後・fixcap の正本の離散の行の引き直し・
+      //   ΔE_self の口座・異方的剛体の E_rot(target=beta/index.html —— Node だけ。inputs に fixcap-w288a.json —— **fixcap288 を走らせ直したら本器も走らせ直す** —— 鎖の段 ejectstate289)
+      'tests/out/ejectstate-w289d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -2870,8 +2873,10 @@ if (QA_CHANGED) {
       for (const k of ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'n', 'o', 'p', 'q'].concat(has288f ? ['r'] : [])) if (!r[k] || r[k].ok !== true) bad.push(`(${k}) ` + JSON.stringify(r[k] || null).slice(0, 160));
       // (o) 第286便f(再生成表の after 検査)の固定値: 宣言した読み 5 本(17 組)・静的な欠落 0・古い宣言 0・第285便の型と galaxydiag←sparc を検出
       //   第288便a: 段 fixcap288 の器は exp-w287a-growth.mjs を import する(→ exp-w284a-cluster.mjs の imported-main の宣言が 1 組増えて 18 組 —— 表の段で切り替える)
+      //   第289便d: 段 ejectstate289 の器は exp-w288a-fixcap.mjs を import する(→ 同じ imported-main の宣言がもう 1 組 —— 19 組)
       const has288aRT = RT.REGEN_STEPS.some((z) => z.key === 'fixcap288');
-      if (r.o && !(r.o.missingAfter === 0 && r.o.stale.length === 0 && r.o.declaredDecl === 5 && r.o.declared === 17 + (has288aRT ? 1 : 0) && r.o.detect285 === true && r.o.detectSparc === true))
+      const has289dRT = RT.REGEN_STEPS.some((z) => z.key === 'ejectstate289');
+      if (r.o && !(r.o.missingAfter === 0 && r.o.stale.length === 0 && r.o.declaredDecl === 5 && r.o.declared === 17 + (has288aRT ? 1 : 0) + (has289dRT ? 1 : 0) && r.o.detect285 === true && r.o.detectSparc === true))
         bad.push('(o) 固定値: ' + JSON.stringify(r.o).slice(0, 200));
       const CS = await import('file://' + path.join(ROOT, 'tests', 'lib-w284f-calshard.mjs'));
       const j = CS.calShardSelfTest();
@@ -21363,6 +21368,162 @@ if (!FAST) {
       }
       add('behavior.fixedCaptureContract', bad.length === 0,
         `**固定中心の合体・離散の受理契約**(第288便a —— 別の版キー w288a-fixcap-1・🌰 の w287a-capture-1 は変えない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1i) 第289便d(原仮定者の裁定(第79報)で閉じた AN95/AN96/AN97・統括の検証項目 R122): **合体・離散の修正便**の 3 ブロック。**root では SKIP**
+// ----   (器 tests/exp-w289d-ejectstate.mjs・正本 tests/out/ejectstate-w289d.json・純関数 tests/lib-w288d-spinprec.mjs の rotEnergyAniso)。
+// ----   世代切替 has289d = html の `dfmFixedEject` に状態引き継ぎの 1 行 `C.rInertia=Ra;` があり、器がある。
+// ----   ① behavior.ejectStateCarry …… 離散の成功後に `S.fixcap.rInertia` が R_a になる(再現: 状態から読む I′・E′ = イベントの値)・2 回連続の離散で
+// ----      2 回目の「前」= 1 回目の「後」(ビット一致)・帳簿の格納残差 eE は 0(丸め)のまま・離散の後の捕獲が新しい R_I を読む・超過からの離散も同じ・
+// ----      ⏮(build)で宣言の R_I に戻る・基点 ae29b8a の宣言値(状態 27/13.5・イベントをまたぐ差 10.125)・fixcap の正本の離散の行は引き直しと一致・
+// ----      ΔE_self = ΣU_pair(合体はすべて負・和の順序も同じ)と捕獲の無い離散の E_self > 0・html の引き継ぎは dfmFixedEject の中の 1 行だけ。
+// ----   ② behavior.rotEnergyAniso …… J·I⁻¹J/2 の純関数が単一軸で |J|²/(2I) と相対 ≤1e-15・対称こまで剛体式と ≤1e-12(|J|²/(2I_∥) との残差は診断列)・
+// ----      球で残差 0・三軸の閉形式と座標回転の不変・正定値でない入力は NaN・html はこの関数を読まない(エンジン未接続)。
+// ----   ③ docs.fixcapAccounts …… PHYSICS〔第289便d〕に ΔE_self の意味(収支調整の口座)・E_mesh の文・h/Ω_max の位置づけ・E_rot の正本の文・表の行
+// ----      (器の docRows で正本から作り直す)・lib の JSDoc と AI_SPEC の文・禁止の言い回し。
+// ----   正本との照合は**許容幅つき**(相対 1e-12 か絶対 1e-12 —— CI の Node 24 と手元の Node 22 で Math の末尾 ulp が違い得る)。
+{
+  const html289d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has289d = TARGET.startsWith('beta/') && html289d.indexOf('function dfmFixedEject(') >= 0 && html289d.indexOf('C.rInertia=Ra;') >= 0
+    && fs.existsSync(path.join(ROOT, 'tests', 'exp-w289d-ejectstate.mjs'));
+  if (!has289d) {
+    console.log('SKIP behavior.ejectStateCarry / behavior.rotEnergyAniso / docs.fixcapAccounts(第289便d 未適用 — ' + TARGET + ')');
+  } else {
+    let ED = null, JD = null, JF = null, SPd = null, Hd = null, errD = null;
+    try {
+      ED = await import('file://' + path.join(ROOT, 'tests', 'exp-w289d-ejectstate.mjs'));
+      SPd = await import('file://' + path.join(ROOT, 'tests', 'lib-w288d-spinprec.mjs'));
+      JD = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'ejectstate-w289d.json'), 'utf8'));
+      JF = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'fixcap-w288a.json'), 'utf8'));
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      Hd = loadHtmlHeadless(path.join(ROOT, TARGET));
+    } catch (e) { errD = String(e && e.stack || e).slice(0, 160); }
+    const nearD = (a, b) => {
+      const out = [];
+      const walk = (x, y, p) => {
+        if (out.length > 4) return;
+        if (typeof x === 'number' && typeof y === 'number') { if (!(Object.is(x, y) || Math.abs(x - y) <= Math.max(1e-12, 1e-12 * Math.max(Math.abs(x), Math.abs(y))))) out.push(p + ' ' + x + '⇔' + y); return; }
+        if (Array.isArray(x) || Array.isArray(y)) { if (!Array.isArray(x) || !Array.isArray(y) || x.length !== y.length) { out.push(p + ' 形'); return; } x.forEach((v, i) => walk(v, y[i], p + '/' + i)); return; }
+        if (x && y && typeof x === 'object' && typeof y === 'object') { for (const k of [...new Set(Object.keys(x).concat(Object.keys(y)))].sort()) walk(x[k], y[k], p + '/' + k); return; }
+        if (x !== y) out.push(p + ' ' + JSON.stringify(x) + '⇔' + JSON.stringify(y));
+      };
+      walk(a, b, '');
+      return out;
+    };
+    // ---- ① behavior.ejectStateCarry
+    {
+      const bad = [], cases = [];
+      if (errD) bad.push('器/正本/headless が読めない: ' + errD);
+      else {
+        if (!JD.meta || JD.meta.provenanceVersion !== 'w272e-1' || JD.meta.harnessVersion !== ED.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+        if (JSON.stringify(JD.spec) !== JSON.stringify({ preset: ED.PRESET, reproEject: ED.REPRO_EJECT, secondEject: ED.SECOND_EJECT, captureBody: ED.CAPTURE_BODY, overflowCase: ED.OVERFLOW_CASE, rot: ED.ROT_SPEC })) bad.push('宣言(spec)が器と違う');
+        if (JSON.stringify(JD.before) !== JSON.stringify(ED.BEFORE_AE29)) bad.push('基点の宣言値が器の BEFORE_AE29 と違う');
+        let P = null;
+        try { P = ED.probe(Hd.HP); } catch (e) { bad.push('probe: ' + String(e).slice(0, 140)); }
+        if (P) {
+          const dn = nearD(P, JD.probe);
+          if (dn.length) bad.push('probe を引き直すと正本と違う ' + dn[0]);
+          const V = ED.verdictOf(P, null, ED.rotEnergy());
+          for (const [k, v] of Object.entries(V.checks)) if (v === false) bad.push('判定 ' + k);
+          if (!(P.repro.stateEqualsEvent && P.repro.state.rInertia === ED.REPRO_EJECT.rInertiaAfter && P.repro.state.I === P.repro.event.I1 && P.repro.state.E === P.repro.event.EsR)) bad.push('再現: 状態から読む I′・E′ がイベントと違う');
+          if (!(P.twice.continuityI && P.twice.continuityE && P.twice.dI === 0 && P.twice.dE === 0)) bad.push('2 回連続: イベントをまたいで連続でない');
+          if (!P.twice.eEeach.every((v) => Math.abs(v) <= 1e-12) || !P.twice.relEeach.every((v) => v <= 1e-12)) bad.push('2 回連続: 帳簿の格納残差 eE が 0(丸め)でない');
+          if (!P.captureAfter.readsNewRI) bad.push('離散の後の捕獲が古い R_I を読む');
+          if (!(P.overflow.stateEqualsEvent && P.overflow.state.rInertia === ED.OVERFLOW_CASE.rInertiaAfter)) bad.push('超過からの離散の引き継ぎ');
+          if (!(P.reset.backToDeclared && P.reset.afterReset.rInertia === 1.5)) bad.push('⏮ で宣言の R_I に戻らない');
+          const ba = ED.beforeAfterOf(ED.summaryOf(P));
+          const db = nearD(ba, JD.beforeAfter);
+          if (db.length) bad.push('前後の表を作り直すと正本と違う ' + db[0]);
+          const B = ED.BEFORE_AE29.summary;
+          if (!(B.repro.stateI === 27 && B.repro.stateE === 13.5 && B.repro.eventI === 6.75 && B.repro.eventE === 3.375 && B.twice.dE === 10.125)) bad.push('基点の宣言値(状態 27/13.5・イベント 6.75/3.375・またぐ差 10.125)');
+          if (!ba.eventSame) bad.push('イベントの値が基点と違う(引き継ぎの 1 行はイベントの値を変えない)');
+          cases.push(`再現(🥜 の中心だけ・R_a ${ED.REPRO_EJECT.rInertiaAfter}): 状態から読む I′ ${B.repro.stateI} → ${P.repro.state.I}・E′ ${B.repro.stateE} → ${P.repro.state.E}(イベント ${P.repro.event.I1}/${P.repro.event.EsR})`
+            + ` / 2 回連続: またぐ差 ${B.twice.dE} → ${P.twice.dE}・2 回目の K ${B.twice.K2.toFixed(4)} → ${P.twice.second.K.toFixed(4)}・eE ${P.twice.eEeach.map((v) => v.toExponential(1)).join('/')}`
+            + ` / 離散の後の捕獲 E_s,c ${B.capture.EsC} → ${P.captureAfter.row.EsC} / ⏮ の後の R_I ${P.reset.afterReset.rInertia}`);
+          try {
+            const F = ED.fixcapEjectRows(Hd.HP, JF);
+            if (!F.rows.every((r) => r.bitSame || r.worstRel <= 1e-9)) bad.push('fixcap の正本の離散の行を引き直すと違う ' + JSON.stringify(F.rows.map((r) => [r.key, r.nDiff, r.worstRel])));
+            if (!(JD.fixcapEjectRows.allBitSame === true && F.rInertiaAfterEqualsRInertia === true)) bad.push('fixcap の正本の離散の行(正本の記録)');
+            cases.push('fixcap の正本の離散の行: ' + F.rows.map((r) => r.key + ' ' + (r.bitSame ? 'ビット同一' : '差 ' + r.nDiff + '(最大相対 ' + r.worstRel.toExponential(1) + ')')).join('・') + '(どの事例も rInertiaAfter = rInertia)');
+          } catch (e) { bad.push('fixcap の行の引き直し: ' + String(e).slice(0, 140)); }
+          const G = ED.selfAccount(JF, P);
+          const dg = nearD(G, JD.selfAccount);
+          if (dg.length) bad.push('ΔE_self の口座を作り直すと正本と違う ' + dg[0]);
+          if (!G.runs.every((r) => r.nUpairNeg === r.nCap && r.nUpairPos === 0 && r.sumEqualsFinal)) bad.push('合体の ΔE_self = U_pair < 0・E_self = ΣU_pair でない走行がある');
+          if (!(G.ejectNoCapture.positive && G.ejectNoCapture.rel <= 1e-12)) bad.push('捕獲の無い離散の E_self(> 0・G M′ m_e/√(r²+ε²))');
+          if (!G.roundTrip.every((z) => Math.abs(z.EselfEnd) <= 1e-12)) bad.push('往復で E_self が 0 に戻らない');
+          cases.push(`ΔE_self: 合体 ${G.runs.reduce((s, r) => s + r.nCap, 0)} 回すべて U_pair<0・E_self = ΣU_pair(${G.runs.length} 走行)・捕獲の無い離散で E_self ${G.ejectNoCapture.Eself.toFixed(4)}(> 0 —— 口座が貸した記録)`);
+        }
+        // html: 引き継ぎは dfmFixedEject の中の 1 行だけ
+        const i0 = html289d.indexOf('function dfmFixedEject(');
+        const i1 = html289d.indexOf('\nfunction ', i0 + 10), i2 = html289d.indexOf('// ===== 第288便c', i0);
+        const body = (i0 >= 0) ? html289d.slice(i0, Math.min(...[i1, i2].filter((k) => k > i0))) : '';
+        if ((html289d.match(/C\.rInertia=Ra;/g) || []).length !== 1 || body.indexOf('C.rInertia=Ra;') < 0) bad.push('引き継ぎの 1 行が dfmFixedEject の中に 1 つでない');
+        if ((html289d.match(/\.rInertia=/g) || []).length !== 1) bad.push('rInertia を書く文が引き継ぎの 1 行の外にある');
+        if (body.indexOf('S.spin[c]=omA;\n  C.rInertia=Ra;') < 0) bad.push('引き継ぎの 1 行が S.spin[c]=omA の次にない');
+      }
+      add('behavior.ejectStateCarry', bad.length === 0,
+        `**離散の後の慣性半径の状態引き継ぎ**(第289便d・統括の検証項目 R122 —— 物理を変えたのは dfmFixedEject の成功後の 1 行だけ・内蔵で fixedEject を宣言した本は 0): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.rotEnergyAniso
+    {
+      const bad = [], cases = [];
+      if (errD) bad.push('器/正本/lib が読めない: ' + errD);
+      else {
+        const R = ED.rotEnergy();
+        const dn = nearD(R, JD.rotEnergy);
+        if (dn.length) bad.push('E_rot の試験を作り直すと正本と違う ' + dn[0]);
+        if (!R.ok) bad.push('判定 ok でない');
+        if (!(R.worstSingleRel <= 1e-15)) bad.push('単一軸で |J|²/(2I) と相対 ' + R.worstSingleRel);
+        if (!(R.top.relRigid <= 1e-12 && Math.abs(R.top.residual) > 1e-6)) bad.push('対称こま(剛体式との一致・診断列が 0 でない)');
+        if (!(R.sphere.relRigid <= 1e-12 && R.sphere.residual === 0)) bad.push('球で診断列 0');
+        if (!(R.triaxial.relClosed <= 1e-12 && R.triaxial.relFrame <= 1e-12 && R.triaxial.relAxisRotated <= 1e-12)) bad.push('三軸の閉形式・座標回転の不変');
+        if (!R.refuse.every((z) => z.isNaN)) bad.push('正定値でない入力を受け付けた');
+        if (SPd.rotEnergyAniso([2, 2, 2], [0, 0, 6]) !== 9 || SPd.rotEnergyAniso([[2, 0, 0], [0, 2, 0], [0, 0, 2]], [0, 0, 6]) !== 9) bad.push('½·6²/2 = 9 にならない');
+        if (SPd.SPINPREC_VERSION !== 'w288d-spinprec-1') bad.push('lib の版が変わった');
+        if (html289d.indexOf('rotEnergyAniso') >= 0) bad.push('html がこの純関数を読む(エンジン未接続のはず)');
+        cases.push(`単一軸 ${R.single.length} 例の |J|²/(2I) との最大相対 ${R.worstSingleRel.toExponential(2)}・対称こま(I_∥=1・I_⊥=0.75・θ=60°)の剛体式との相対 ${R.top.relRigid.toExponential(1)}・`
+          + `診断列(剛体式 − |J|²/(2I_∥))${R.top.residual.toFixed(6)}・球 ${R.sphere.residual}・三軸の閉形式 ${R.triaxial.closed.toFixed(6)}・座標回転 ${R.triaxial.relFrame.toExponential(1)}・拒否 ${R.refuse.length}`);
+      }
+      add('behavior.rotEnergyAniso', bad.length === 0,
+        `**異方的剛体の E_rot の口座**(第289便d・AN96 —— J·I⁻¹J/2・純関数 tests/lib-w288d-spinprec.mjs の rotEnergyAniso・**エンジン未接続**・エンジンの |J|²/(2I) は変えない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ docs.fixcapAccounts
+    {
+      const bad = [], cases = [];
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const pa = Pd.indexOf('〔第289便d — ');
+      const pEnds = (pa >= 0) ? [Pd.indexOf('\n〔第', pa + 10), Pd.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa) : [];
+      const psec = (pa >= 0) ? Pd.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined) : '';
+      if (!psec) bad.push('PHYSICS〔第289便d〕が無い');
+      else {
+        const MUST = ['収支調整の口座', 'E_mesh の補償口座を閉じただけでは、中心の回転エネルギーが実際に減ったことにはならない', 'h=0・Ω_max=20 は 🥜 のコピーの宣言値で物理上限ではない',
+          'overflowTo は熱を先行', '離散のトリガは逆写像のまま', 'E_rot の口座の正本は剛体式', 'J·I⁻¹J/2', 'エンジンの |J|²/(2I) は変えない', 'エンジンへ接続しない',
+          'χ=cJ/(GM²) を主', 'K>0 で Δφ→0・K<0 で Δφ→π', '符号だけでバグとは断定しない', 'bitsame **146/146**', 'sigsame **146/146**'];
+        for (const t of MUST) if (psec.indexOf(t) < 0) bad.push('PHYSICS〔第289便d〕に無い文: ' + t.slice(0, 40));
+        if (!errD && JD) {
+          const rows = ED.docRows(JD);
+          const miss = rows.beforeAfter.concat(rows.self, rows.rot).filter((t) => psec.indexOf(t) < 0);
+          if (miss.length) bad.push('PHYSICS の表に無い行 ' + miss.length + ' 件 ' + miss[0].slice(0, 60));
+          cases.push(`表の行 ${rows.beforeAfter.length + rows.self.length + rows.rot.length} 本(前後・ΔE_self・E_rot)が正本から作り直した値と一致`);
+        }
+        const body = psec.split('**言わないこと。**')[0].replace(/「[^」]*」/g, '');
+        for (const re of [/離散が物理的に正しくなった/, /口座を接続した/, /自己束縛エネルギーを実装した/, /引きずりが戻った/, /観測一致を達成/, /較正を完了/, /新発見/, /RC を切った/]) if (re.test(body)) bad.push('禁止の言い回し ' + re.source);
+        cases.push(`PHYSICS〔第289便d〕の必須の文 ${MUST.length} 本`);
+      }
+      const La = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w288a-fixcap.mjs'), 'utf8'), Ld = fs.readFileSync(path.join(ROOT, 'tests', 'lib-w288d-spinprec.mjs'), 'utf8');
+      for (const [nm, t, k] of [['lib-w288a', La, '収支調整の口座'], ['lib-w288a', La, 'AN95'], ['lib-w288a', La, '状態の引き継ぎ'], ['lib-w288d', Ld, 'AN96'], ['lib-w288d', Ld, 'AN97'],
+        ['lib-w288d', Ld, '**エンジンの |J|²/(2I) は変えない**'], ['lib-w288d', Ld, 'K>0(同向)で Δφ→0・K<0(逆向)で Δφ→π']]) if (t.indexOf(k) < 0) bad.push(nm + ' の JSDoc に無い: ' + k);
+      const As = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      if (!/第289便d[^\n]*rInertiaAfter[^\n]*S\.fixcap\.rInertia/.test(As)) bad.push('AI_SPEC に状態引き継ぎの 1 文が無い');
+      cases.push('lib の JSDoc(AN95/AN96/AN97・口座の意味)と AI_SPEC の状態引き継ぎの文');
+      add('docs.fixcapAccounts', bad.length === 0,
+        `**合体・離散の口座の文言**(第289便d・原仮定者の裁定(第79報)AN95/AN96/AN97 —— ΔE_self は収支調整の口座・h/Ω_max は宣言値・E_rot の正本は剛体式): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }

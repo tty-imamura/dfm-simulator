@@ -27,6 +27,7 @@
 //   'w287a-branch' … 第287便a の枝で器を走らせた実測(正本の elapsedS 157.9 —— Node だけ・子プロセス 2 本・負荷平均 1 未満の容器。他の 5 枝と並走した 1 回目は 559.1)。
 //   'w287c-branch' … 第287便c の枝で器を走らせた実測(正本の elapsedS 71.5〜109.2 —— Node だけ・geo3 の再走〔Chromium〕と同じ容器で並走)。
 //   'w288d-branch' … 第288便d の枝で器を走らせた実測(正本の elapsedS 0.5〜1 —— Node だけ・1 步もエンジンを走らせない・他の 5 枝と同じ容器で並走)。
+//   'w289d-branch' … 第289便d の枝で器を走らせた実測(正本の elapsedS 0.4 —— Node だけ・1 步もエンジンを積分しない・他の 5 枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -564,6 +565,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tilt90-w288e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第288便e: 🛸 galaxyAnalogyBHTilt90 の宣言の照合・7 走行(T=48)の J_z/η_mesh/軸の状態/拘束の帳簿/状態の指紋・中心の自転の寄与(t=0 の η 差)・'
       + '立体核の候補(1 層の対照・上下の打ち消し・z 微分・層数 1→32・Ω_p 0/宣言/2 倍・J_z,eff と s_eff)・場の契約の読み手との比較器・spinAxis の受理と署名' }),
+  // ---- 第289便d(原仮定者の裁定(第79報)で閉じた AN95/AN96/AN97・統括の検証項目 R122): 離散の後の慣性半径の状態引き継ぎ(再現・2 回連続の離散・
+  //   離散の後の捕獲・超過からの離散・⏮)・第288便a の正本の離散の行の引き直し・ΔE_self の口座の意味・異方的剛体の E_rot(lib-w288d の純関数 ——
+  //   エンジン未接続)。🥜 の正本 fixcap-w288a.json を**読むだけ**(after fixcap288)。Node だけ・1 步もエンジンを積分しない。
+  //   基点 html(W289D_BASE)は任意の照合 —— 無ければ宣言値 BEFORE_AE29
+  S('ejectstate289', 'node tests/exp-w289d-ejectstate.mjs', ['tests/out/ejectstate-w289d.json'], 1, { secSource: 'w289d-branch', node: true,
+    after: ['fixcap288'],
+    volatilePaths: { 'tests/out/ejectstate-w289d.json': META_RUN.concat(['/elapsedS']) },
+    note: '第289便d: dfmFixedEject の成功後に S.fixcap.rInertia を R_a へ引き継ぐ修正の前後(状態から読む I′・E′ = イベントの値・イベントをまたぐ連続・'
+      + '捕獲が新しい R_I を読む・⏮ で宣言へ)・fixcap の正本の離散の行(往復・超過・負の対照)のビット同一・ΔE_self = ΣU_pair の口座・rotEnergyAniso の単一軸/対称こま/三軸' }),
 ];
 
 /**

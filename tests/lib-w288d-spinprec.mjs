@@ -51,6 +51,19 @@
 //
 // ■ 言わないこと: 歳差の発見・潮汐ロックの成立・腕の渦伸長による生成の主張・「DFM から導出した」「エンジンに実装した」
 //   「実物のパワーボールの機構を証明した」「新発見」。
+//
+// ■ 第289便d(原仮定者の裁定(第79報)で閉じた AN95/AN96/AN97・統括の検証項目 R122)—— 文言の確定(版 w288d-spinprec-1 の関数・値は不変)
+//   ・**AN96 E_rot の口座の正本は剛体式** E_rot=½I_∥(ψ̇+φ̇cosθ)²+½I_⊥(θ̇²+φ̇²sin²θ)。単一軸(J=IΩ・I_∥=I_⊥ でなくても軸が主軸 1 本)なら
+//     |J|²/(2I) と同じ数・異方的剛体は J·I⁻¹J/2(純関数 `rotEnergyAniso` —— 主慣性モーメントの 3 成分か 3×3 の対称テンソル)。
+//     **エンジンの |J|²/(2I) は変えない**(この lib はエンジンへ接続しない)。両者が割れたら口座の残差(剛体式 − |J|²/(2I))を**診断列**に置く
+//     (どちらかに寄せて消さない・足さない)。
+//   ・**指標**: χ=cJ/(GM²)(INDEX_DEFS.kerr)を主・ΩR/c(surface)を補助とする。有限サイズ回転源の手前/反対の接線速度差は**補助列**
+//     (主の指標の代わりにしない)。σ_spin・σ_prec は宣言値で、エンジンの柵 ±40 とも 🥜 の Ω_max=20 とも別物 —— **どれも物理上限ではない**。
+//   ・**ロックの符号**: 共通座標の軸の向きで宣言する —— K>0(同向)で Δφ→0・K<0(逆向)で Δφ→π(`runLockToy` の center)。局所軸の規約の
+//     符号は `lockSign` の別列(食い違う配置がある)。
+//   ・**AN97 エンジンへ接続しない**。接続を検討するのは「供給なしで総 E が増えない門を、手前/反対の項を切ったとき現行とビット同一になる
+//     小模型で通してから」—— その小模型は本 lib には無い(未着手)。
+//   ・言わないこと(追加): 「口座を接続した」「離散が物理的に正しくなった」。
 import * as PB from './lib-w275e-powerball.mjs';
 import * as AW from './lib-w276c-axiswork.mjs';
 
@@ -103,6 +116,32 @@ export const crossCoupling = (Ipar, theta) => Ipar * Math.cos(theta);
 export function jSquaredOver2I(Ipar, Iperp, w3, phiDot, theta, thetaDot, I) {
   const a = Iperp * phiDot * Math.sin(theta), b = Iperp * (thetaDot || 0), c = Ipar * w3;
   return (a * a + b * b + c * c) / (2 * I);
+}
+/**
+ * 第289便d(AN96): **異方的剛体の回転エネルギー** E_rot = J·I⁻¹J / 2(純関数・**エンジン未接続**)。
+ * @param {number[]|number[][]} I 主慣性モーメント [I1, I2, I3](J は主軸の成分)か、3×3 の対称慣性テンソル(J は同じ座標の成分)
+ * @param {number[]} J 角運動量 [J1, J2, J3]
+ * @returns {number} ½ J·(I⁻¹J)。I が正定値でなければ NaN(受け付けない)。
+ * 単一軸(J が主軸 1 本に沿う)なら ½J_k²/I_k = |J|²/(2I) と同じ数(丸めの範囲)・対称こまでは剛体式 `rigidErot` と同じ数
+ * (J=(I_⊥φ̇sinθ, I_⊥θ̇, I_∥ω₃) —— 体軸成分)。エンジンの |J|²/(2I) は変えない(割れたら残差を診断列へ —— 足さない)。
+ */
+export function rotEnergyAniso(I, J) {
+  if (!Array.isArray(I) || !Array.isArray(J) || J.length !== 3) return NaN;
+  if (I.length === 3 && I.every((v) => typeof v === 'number')) {
+    if (!I.every((v) => v > 0 && Number.isFinite(v))) return NaN;
+    return 0.5 * (J[0] * J[0] / I[0] + J[1] * J[1] / I[1] + J[2] * J[2] / I[2]);
+  }
+  if (I.length !== 3 || !I.every((r) => Array.isArray(r) && r.length === 3)) return NaN;
+  const a = I[0][0], b = I[0][1], c = I[0][2], d = I[1][1], e = I[1][2], f = I[2][2];
+  if (I[1][0] !== b || I[2][0] !== c || I[2][1] !== e) return NaN;   // 対称でない
+  // 正定値(主小行列式がすべて正 —— Sylvester)
+  const m2 = a * d - b * b;
+  const det = a * (d * f - e * e) - b * (b * f - e * c) + c * (b * e - d * c);
+  if (!(a > 0 && m2 > 0 && det > 0)) return NaN;
+  // I⁻¹ = adj(I)/det(対称)
+  const A00 = d * f - e * e, A01 = c * e - b * f, A02 = b * e - c * d, A11 = a * f - c * c, A12 = b * c - a * e, A22 = a * d - b * b;
+  const x0 = (A00 * J[0] + A01 * J[1] + A02 * J[2]) / det, x1 = (A01 * J[0] + A11 * J[1] + A12 * J[2]) / det, x2 = (A02 * J[0] + A12 * J[1] + A22 * J[2]) / det;
+  return 0.5 * (J[0] * x0 + J[1] * x1 + J[2] * x2);
 }
 /** 旧模型の歳差率 Ω_prec = K a/|S|(`lib-w275e-powerball` の precessionRate をそのまま呼ぶ —— |S| に従属)。 */
 export const legacyPrecRate = (K, a, Smag) => PB.precessionRate(K, a, Smag);
@@ -349,7 +388,7 @@ export function pendulumPeriod(A, Omega0) {
   return 4 * (Math.PI / (2 * a)) / Omega0;
 }
 
-export default { SPINPREC_VERSION, SPINPREC_PREMISE, INDEX_DEFS, indexOf, capOf, rigidErot, crossCoupling, jSquaredOver2I,
+export default { SPINPREC_VERSION, SPINPREC_PREMISE, INDEX_DEFS, indexOf, capOf, rigidErot, crossCoupling, jSquaredOver2I, rotEnergyAniso,
   legacyPrecRate, makeAccounts, totalE, geometry, stepAccounts, cascade, runAccounts, closedForm, prng, microSpinHeat,
   LOCKTOY_LEN, lockToyDerivs, lockToyInvariants, wrapPi, lockSign, runLockToy, pendulumPeriod };
 // 既存の器との対照に使う名前(本 lib は AW を読むだけ —— 変えない)
