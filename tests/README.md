@@ -60,6 +60,14 @@
 ## 3. 統合直後の部分 QA
 
 `tools/post-merge-qa.sh`(使い方は `tools/README.md`)。フル QA・CI の代わりではない。
-第288便f から、③「前回失敗項」の次に **③′ 本便の新設ブロック**(`POST_MERGE_WAVE_IDS` —— 既定は第288便の contract 系 5 本:
-fixedCaptureContract・bgRangeFlag・spinAxisDecl・preset.unifyTable・ui.paramWbgRow)を回す。qa.mjs に無い id は「未統合」として数えるだけ
-(FAIL にしない)。④ の常設集合(統合直後の 9 本)は変えない。
+第288便f から、③「前回失敗項」の次に **③′ 本便の新設ブロック**(`POST_MERGE_WAVE_IDS`)を回す。qa.mjs に無い id は「未統合」として数えるだけ
+(FAIL にしない)。④ の常設集合(統合直後の 9 本)は変えない。既定は便ごとに差し替える —— 第289便f からは第289便の contract 系 6 本
+(docs.dfmAxiomTable・preset.condRowsRenamed・behavior.relDragKernel・behavior.ejectStateCarry・preset.layerAxisDecl・ui.pickerStatusAxes)。
+
+**部分実行(`tests/exp-w258c-qapart.mjs`)が運ばないもの(第289便f)**: qapart はブロックを切り出して一時ディレクトリで走らせるので、qa.mjs の
+冒頭近くで決める定数 `W284_PSR_F1`〜`W288B_CORE`(世代の固定値)と `__qaPreset` を運ばない。これらを読むブロック —— `coreV2*`・`shellSpinMassLaw`・
+`nsThreeStage`・`compactMeasures` —— は部分実行できない(固定値を変えたらフル QA で見る)。部分実行の結果に出ないことは PASS の意味ではない。
+
+**Node と Chromium の差の欄は null のまま(第289便f・原仮定者の裁定(第79報)AN102)**: 再導出比較で Node の値と Chromium の値が 1 ulp 程度違う量
+(CI の Chromium 1228 と手元の 1194 の Math.pow 等の差を含む)は、比較の欄を null のまま残し、**床(許容幅)を敷かない**。床は同種の
+FAIL の実測からだけ決める(差が出たことを理由に床を足さない)。

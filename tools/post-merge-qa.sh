@@ -6,7 +6,8 @@
 #   ① 静的受理   tests/qa-preflight.mjs(QA_TARGET=beta/index.html —— tier lint の文と全内蔵の受理・構築・1 歩。Chromium なし)
 #   ② 接続契約   node tools/regen-chain.mjs --audit と --self-test(再生成表の依存・html を書く段・済み印の契約 —— 枝ごとに足した段の接続)
 #   ③ 前回失敗項 --failed の id(無ければ tests/out/qa-results-full-beta.json の FAIL の id)を qapart で beta に
-#   ③′ 本便の新設ブロック(第288便f・原仮定者の裁定(第78報)AN90): POST_MERGE_WAVE_IDS(既定は第288便の contract 系 5 本)を qapart で beta に。
+#   ③′ 本便の新設ブロック(第288便f・原仮定者の裁定(第78報)AN90): POST_MERGE_WAVE_IDS(既定は本便〔第289便〕の contract 系 6 本 ——
+#                第289便f で第288便の 5 本から差し替え)を qapart で beta に。
 #                名前が qa.mjs の add('<名>' に無ければ末尾一致(add('<接頭>.<名>')で引く・どちらも無い名は「未統合」として数えるだけ(FAIL にしない)。
 #                統合直後の常設集合(④)は変えない
 #   ④ 常設集合   POST_MERGE_IDS を qapart(tests/exp-w258c-qapart.mjs —— 1 本の Chromium)で beta と root(QA_TARGET=index.html)に。
@@ -20,7 +21,7 @@
 #   tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--no-root] [--no-preflight]
 #   環境変数: PLAYWRIGHT_CORE_DIR(既定: /opt/node22/lib/node_modules/playwright があればそれ)・POST_MERGE_LOG(ログの置き場 ——
 #             既定 ${TMPDIR:-/tmp}/post-merge-qa-<時刻>)・POST_MERGE_IDS(常設集合を差し替える —— 既定は下の 9 本)・
-#             POST_MERGE_WAVE_IDS(③′ の本便の新設ブロック —— 既定は下の 5 本・空文字で飛ばす)
+#             POST_MERGE_WAVE_IDS(③′ の本便の新設ブロック —— 既定は下の 6 本・空文字で飛ばす)
 # 終了コード: 0 = ①〜④ がすべて通った / 1 = どれかが FAIL(⑤ は情報 —— 器が落ちたときだけ FAIL)/ 2 = 使い方の誤り
 # **書くもの**: ログだけ(tests/out/qa-preflight-beta.json は preflight の既定の保存物 —— .gitignore の対象)。正本・html は書かない。
 set -u
@@ -28,8 +29,10 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT" || exit 2
 DEFAULT_IDS="lint.regenScope behavior.rayLensExcluded ai.stabilize docs.fourValuesHistory docs.preset-table-sync docs.families ui.samplePicker lint.provenanceMeta ui.pickerSeparators"
 IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
-# 第288便f(AN90): ③′ 本便の新設ブロック(a〜e の contract 系・f の Wbg の行)。統合直後の常設集合(④)とは別
-DEFAULT_WAVE_IDS="fixedCaptureContract bgRangeFlag spinAxisDecl preset.unifyTable ui.paramWbgRow"
+# 第288便f(AN90): ③′ 本便の新設ブロック。統合直後の常設集合(④)とは別。
+# 第289便f: 本便の contract 系 6 本(a〜e の docs.dfmAxiomTable・preset.condRowsRenamed・behavior.relDragKernel・behavior.ejectStateCarry・
+#   preset.layerAxisDecl と f の ui.pickerStatusAxes)へ差し替えた(第288便の 5 本は ④ の後のフル QA で見る)。qa.mjs に無い名は「未統合」として数えるだけ
+DEFAULT_WAVE_IDS="docs.dfmAxiomTable preset.condRowsRenamed behavior.relDragKernel behavior.ejectStateCarry preset.layerAxisDecl ui.pickerStatusAxes"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

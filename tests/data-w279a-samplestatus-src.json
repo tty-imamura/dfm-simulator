@@ -237,74 +237,74 @@
   "galaxyAnalogyBH": {
    "purpose": "中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー",
    "objective": "partial",
-   "state": "中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い",
+   "state": "中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い・第79報の複素核は未走行(p=1 の q 付き場)",
    "evidence": [
     "tests/out/analogy-w282d.json"
    ],
    "en": {
-    "purpose": "A galaxy analogy with a central DFM black hole and stellar-mass dark rotors as mass",
-    "state": "the centre-spin response is nonzero; the rotation curve is numbers only"
+    "purpose": "Galaxy analogy: central DFM black hole, stellar-mass dark rotors",
+    "state": "spin response nonzero; the curve is numbers only; p=1 q-field, not the report-79 complex kernel"
    }
   },
   "galaxyAnalogyBHTilt90": {
-   "purpose": "🌚 の中心の自転軸を 90° に倒し歳差を宣言した写しで面内の引きずりを測る",
+   "purpose": "🌚 の中心の自転軸を 90° に倒し歳差を宣言した写し",
    "objective": "partial",
-   "state": "現行法則は中心の殻 spin だけを読み 🌚 の spin 0 とビット一致・歳差の面内の引きずりは候補の診断量だけ",
+   "state": "現行法則は殻 spin だけを読み 🌚 の spin 0 とビット一致・歳差の面内引きずりは候補の診断量・第79報の複素核は未走行(p=1 の q 付き場)",
    "evidence": [
     "tests/out/tilt90-w288e.json"
    ],
    "en": {
-    "purpose": "Copy of 🌚 with the axis tipped 90° and a declared precession",
-    "state": "the law reads only the shell spin (same as spin 0); precession drag is a candidate only"
+    "purpose": "🌚 copy, axis tipped 90°, declared precession",
+    "state": "only the shell spin is read (= spin 0); precession drag a candidate; p=1 q-field, not the report-79 complex kernel"
    }
   },
   "clusterAnalogyBH": {
-   "purpose": "中心 DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置いた球状星団アナロジー",
+   "purpose": "DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置く星団アナロジー",
    "objective": "unmet",
-   "state": "星団スケールの単位・同じ代表率・半径の 4 分離・わずかに回転する動径 Jeans の初期分布でも、宣言した形状の門で未達",
+   "state": "星団単位・同じ代表率・4 半径・回転 Jeans 初期分布でも形状の門で未達・第79報の複素核は未走行(p=1 の q 付き場)",
    "evidence": [
     "tests/out/cluster-w286a.json",
     "tests/out/jeans-w286a.json"
    ],
    "en": {
-    "purpose": "Globular-cluster analogy with a central DFM black hole and dark rotors",
-    "state": "cluster units, one representative rate, four radii, rotating Jeans start; gates not met"
+    "purpose": "Cluster analogy: central DFM black hole and dark rotors",
+    "state": "cluster units, 4 radii, rotating Jeans start; gates not met; p=1 q-field, not the report-79 complex kernel"
    }
   },
   "clusterGrowthCopy": {
    "purpose": "自由な中心が落ちてくる塊を中心とだけの捕獲で合体させる成長経路の原理コピー",
    "objective": "unmet",
-   "state": "捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達",
+   "state": "捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)",
    "evidence": [
     "tests/out/growth-w287a.json"
    ],
    "en": {
-    "purpose": "A free centre merges with infalling clumps by centre-only capture",
-    "state": "the capture ledger closes; the free centre drifts away from the clumps; gates not met"
+    "purpose": "Free centre merges infalling clumps by centre-only capture",
+    "state": "ledger closes; centre drifts off clumps; gates not met; p=1 q-field, not the report-79 complex kernel"
    }
   },
   "galaxyAnalogyBHCompose": {
-   "purpose": "🌚 の写しで静止背景を明示し中心を 1 回だけ数える合成の診断コピー",
+   "purpose": "🌚 の写しで静止背景を明示し中心を 1 回だけ数える診断コピー",
    "objective": "met",
-   "state": "🌚 とビット同一・中心 1 回・静止した中心だけなら u=0・A_spin は場の契約とビット一致",
+   "state": "🌚 とビット同一・中心 1 回・静止した中心だけなら u=0・A_spin は場の契約とビット一致・第79報の複素核は未走行(p=1 の q 付き場)",
    "evidence": [
     "tests/out/compose-w288c.json"
    ],
    "en": {
-    "purpose": "Diagnostic copy of 🌚: explicit static background, centre counted once",
-    "state": "bit-identical to 🌚; a resting centre alone gives u=0; A_spin matches the field contract"
+    "purpose": "🌚 copy: explicit static background, centre counted once",
+    "state": "bit-identical to 🌚; resting centre u=0; A_spin = contract; p=1 q-field, not the report-79 complex kernel"
    }
   },
   "fixedCaptureCopy": {
    "purpose": "固定した中心へ落ちてくる塊をエネルギー優先で合体させる原理コピー",
    "objective": "unmet",
-   "state": "合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達",
+   "state": "合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)",
    "evidence": [
     "tests/out/fixcap-w288a.json"
    ],
    "en": {
     "purpose": "A pinned centre merges infalling clumps energy-first",
-    "state": "the merger energy ledger closes, J_pin and P_pin stay in separate accounts; gates not met"
+    "state": "merger E ledger closes, J_pin/P_pin kept apart; gates not met; p=1 q-field, not the report-79 complex kernel"
    }
   },
   "shapeToyCluster": {
