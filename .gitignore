@@ -778,3 +778,7 @@ tests/out/regen-plan-w281a.json
 # 第288便e(原仮定者の裁定(第78報)⑦・統括の検証項目 R117・AN79): **軸傾きと 90° BH** の正本(tests/exp-w288e-tilt90.mjs —— 🛸 の現行法則の実測・
 #   歳差が担う面内の引きずりの候補・spinAxis の受理と署名)。QA behavior.tilt90Copy・behavior.spinAxisDecl が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/tilt90-w288e.json
+# 第289便d(原仮定者の裁定(第79報)で閉じた AN95/AN96/AN97・統括の検証項目 R122): **離散の後の慣性半径の状態引き継ぎ**の正本(tests/exp-w289d-ejectstate.mjs ——
+#   引き継ぎの前後・fixcap の正本の離散の行の引き直し・ΔE_self の口座・異方的剛体の E_rot)。QA behavior.ejectStateCarry・behavior.rotEnergyAniso・
+#   docs.fixcapAccounts が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/ejectstate-w289d.json

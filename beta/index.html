@@ -45293,6 +45293,7 @@ function dfmFixedEject(S, why, spec){
   S.n=n+1;
   m[c]=Mp; { const mf=(p.massFloor>0)? p.massFloor : 0.01; S.mEff[c]=(Math.abs(Mp)<mf)? mf : Mp; }
   S.spin[c]=omA;
+  C.rInertia=Ra;   // 第289便d(R122): 離散の後の中心の慣性半径 R_I を状態へ引き継ぐ(イベントの I′ と E′ は R_a で計算 —— 次の離散・捕獲・監査が古い R_I を読まない。⏮ は宣言の R_I へ戻る)
   // ---- 監査(格納値で測り直す)
   const mS=m[c], SP=S.spin[c], IS=0.5*mS*Ra*Ra, mJ=m[j], VXj=S.vx[j]-S.vx[c], VYj=S.vy[j]-S.vy[c];
   let Uc=0;
