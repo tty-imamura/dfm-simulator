@@ -3,28 +3,28 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便a(原仮定者の裁定(第72報)②③⑤⑥・R77/R78 —— 較正契約の 3 系統と f=1 の棚卸し)",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:06:07.162Z",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T05:06:57.521Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-29T23:21:23.931Z"
+    "bytes": 5356329,
+    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+    "mtime": "2026-10-01T04:18:52.243Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887889,
-    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
-    "mtime": "2026-09-29T23:47:20.387Z"
+    "bytes": 1831255,
+    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
+    "mtime": "2026-10-01T04:31:39.003Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w282a-calcontract.mjs",
-    "bytes": 21752,
-    "sha256": "c24ee8a81ed1816491714690a741cf1163b89e02c88bea376d5ac716fe2adb21",
-    "mtime": "2026-09-29T17:48:47.372Z"
+    "bytes": 23136,
+    "sha256": "6916c1aaec969161df7f2c6b2933a696c63aa4b44c796fcea9303bf653613dcd",
+    "mtime": "2026-09-30T21:41:10.963Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "38e7816e0bb9323c2215cd031dae571f88950bcd26f16c758d2cb296e0797dd8",
+  "codeSha256": "ab18e47783be43c2e93a17a7b29c548da58a78600c609d5f1826eda34f9acd65",
   "scope": {
    "version": "w286d-scope-4",
    "presets": "all",
@@ -60,14 +60,14 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 861,
-   "segments": 780,
-   "closureShare": 0.3175
+   "names": 890,
+   "segments": 804,
+   "closureShare": 0.3213
   },
-  "scopeSha256": "c4a23cc41b32eedb92242448df49746093e450fa9994c81639045aba410cb7f5",
+  "scopeSha256": "fb6d102997809a249fb1dfa5c6240265da6f1e895bfaa6b2e11ec858cfdec138",
   "scopeComplete": true,
   "tableVersion": "w282a-1",
-  "contractVersion": "w287b-1",
+  "contractVersion": "w288b-1",
   "doNotWrite": [
    "f=1 で合った",
    "kF0 版が成立した",
@@ -80,13 +80,13 @@
   "rule": "**数えるだけで合否を変えない**。f は `massCalibration` の有無ではなく**基準質量との数値比較**で出す(基準質量が無い本は「出典不明」)。旧 4 値は旧契約の履歴として別欄に残す。"
  },
  "contract": {
-  "version": "w287b-1",
-  "ruling": "原仮定者の裁定(第72報)②③⑤⑥・原仮定者の裁定(第73報)AN23・原仮定者の裁定(2026-09-26 追加)geoPN の整理・原仮定者の裁定(第76報)AN57(f=1 の本 3 本と窓の規則)・原仮定者の裁定(第77報)AN62(🧶 の f=1・f=1 の本 4 本)・AN75(kF0 の 1PN は EIH 型 —— 対反作用は立たない)",
+  "version": "w288b-1",
+  "ruling": "原仮定者の裁定(第72報)②③⑤⑥・原仮定者の裁定(第73報)AN23・原仮定者の裁定(2026-09-26 追加)geoPN の整理・原仮定者の裁定(第76報)AN57(f=1 の本 3 本と窓の規則)・原仮定者の裁定(第77報)AN62(🧶 の f=1・f=1 の本 4 本)・AN75(kF0 の 1PN は EIH 型 —— 対反作用は立たない)・原仮定者の裁定(第78報)④(現実較正の一本化 —— DFM 版の退役と在位移行・kFrame=1 は q を使った引きずりの近似・AN80〜AN83)",
   "systems": [
    {
     "key": "kf0",
-    "name": "現実較正 kF0",
-    "nameEn": "real calibration (kF0)",
+    "name": "現実較正",
+    "nameEn": "reality calibration",
     "defaults": {
      "f": 1,
      "kFrame": 0,
@@ -98,12 +98,18 @@
      "数値未解決",
      "写像未解決"
     ],
-    "rule": "宣言した観測量の合/否/数値未解決/写像未解決。現実較正の合を目指すのはこの系統だけ。kF0 版=geoPN=1(λ_PN=1・kFrame=0)。kF0 の 1PN は有限質量比の EIH 型で、反作用は EIH の式に内在する(別の対反作用は立たない —— 第285便b・AN75)。geoPN=2・kFrame=0 の旧宣言は互換入力として kF0 版と同じ処理で読む"
+    "rule": "宣言した観測量の合/否/数値未解決/写像未解決。現実較正の合を目指す系統はこの 1 本だけ(第288便b・原仮定者の裁定(第78報)④ —— 「現実較正の合を目指す系統を 1 本にする」裁定であって精度の主張ではない)。現実較正=geoPN=1(λ_PN=1・kFrame=0 —— BH 連星は族の換算整合則で geoPN=0・kFrame=0)。1PN は有限質量比の EIH 型で、反作用は EIH の式に内在する(別の対反作用は立たない —— 第285便b・AN75)。geoPN=2・kFrame=0 の旧宣言は互換入力として同じ処理で読む。母集団は sampleClass:\"calibration\" ∧ familyRole≠\"retired\"(判定器 calaudit が機械で数える —— 較正クラスの本数をそのまま母集団にしない)。近点移動の主単位は deg/yr(観測の単位)・°/周は補助欄・換算は模型自身の周期(AN82)",
+    "f1Books": [
+     "psrJ1757DFM",
+     "psrJ1946DFM",
+     "gw150914Merge4s"
+    ],
+    "f1BooksNote": "law \"f-fixed-1\" を宣言する在位の本(第288便b で 🧮🩺 は geoPN 2→1・kFrame 1→0、⏰ は f≈2 → f=1・kFrame 1→0 へ在位移行)。✨🌟📻📿🎐 は観測解の質量をそのまま置いた本(台帳なし)"
    },
    {
     "key": "dfm",
-    "name": "現実参照 DFM",
-    "nameEn": "real reference (DFM)",
+    "name": "引きずり近似(q)— 較正母集団の外",
+    "nameEn": "drag approximation (q) — outside the calibration population",
     "defaults": {
      "f": 1,
      "kFrame": 1,
@@ -114,14 +120,17 @@
      "調整中",
      "適用外"
     ],
-    "rule": "DFM 版=geoPN=2 かつ kFrame=1(geoPN=1 の DFM 版は無い)。観測値との大きな差異を無くす範囲。許容幅は系統ごとに事前宣言し(周期は相対残差・近点移動は絶対残差を別欄)、残差を併記する。許容幅は未裁定なので本版は語彙を当てない(数えるだけ)。f=1(観測質量・law \"f-fixed-1\")の DFM 版は ⚡ psrDoubleABDFM・🧮 psrJ1757DFM・🩺 psrJ1946DFM・🧶 psrB1534DFM の 4 本(第284便b・第285便f・第286便f・第287便b —— 観測に合わせて調整しない)。判定器の窓は「実軌道の 1 公転(同方向1周の 1周目)×(必要近点 + 2)公転」を短い試走で見積もってから事前に宣言し、実行中に門を変えない(近点が足りない段は未測定 —— 別定義の周期で代用しない)。DFM 版(geoPN=2 かつ kFrame>0)の 1PN に EIH の差分を足さない(対反作用との二重計上 —— AN61・AN75。足すなら対反作用を明示に切った置換差分の診断コピーだけ)",
-    "f1Books": [
-     "psrDoubleABDFM",
-     "psrJ1757DFM",
-     "psrJ1946DFM",
-     "psrB1534DFM"
-    ],
-    "orbitWindowRule": "実軌道 1 公転 ×(必要近点 + 2)公転(停止規則 w287b-1 の ORBIT_WINDOW_RULE)"
+    "rule": "kFrame=1 は q を使った引きずりの近似という扱い(第288便b・原仮定者の裁定(第78報)④)。**較正母集団の外**で、判定器は数えない(verdicts の語彙は旧契約の記録として残すが数えない)。旧 DFM 版=geoPN=2 かつ kFrame=1(geoPN=1 の DFM 版は無い)。内蔵の該当本(geoPN=2∧kFrame>0 の 18 本と 🎻⏰)は退役 10 本・在位移行 10 本(移行表 tests/data-w288b-unify.json)で、残るのは退役の本と保存/AI 生成の旧宣言。geoPN=2(kFrame>0)の 1PN に EIH の差分を足さない(対反作用との二重計上 —— AN61・AN75)。一本化で較正クラスから geoPN=2∧kFrame>0 が無くなったので、その EIH 診断コピーは開発キューから外した(AN81 —— tests/out/eihdiag-w287b.json は履歴)",
+    "countVerdicts": false,
+    "f1BooksHistory": {
+     "books": [
+      "psrDoubleABDFM",
+      "psrJ1757DFM",
+      "psrJ1946DFM",
+      "psrB1534DFM"
+     ],
+     "note": "第287便まで f=1(law \"f-fixed-1\")の DFM 版だった 4 本 —— ⚡🧶 は退役・🧮🩺 は在位移行(第288便b)"
+    }
    },
    {
     "key": "compare",
@@ -192,10 +201,18 @@
    "label": "旧契約(第281便まで)の 4 値",
    "counts": "0/2/2/33",
    "population": 37,
-   "note": "履歴として保存 —— 新集計は母集団・法則版・観測量を明記した別欄"
+   "note": "履歴として保存 —— 新集計は母集団・法則版・観測量を明記した別欄",
+   "twoSystems": {
+    "label": "第287便までの kF0/DFM 二系統",
+    "systems": [
+     "現実較正 kF0(geoPN=1・kFrame=0)",
+     "現実参照 DFM(geoPN=2・kFrame=1)"
+    ],
+    "note": "第258便c〜第287便は現実較正を kF0 版と DFM 版の 2 系統で並べていた(分類チップ「現実較正(DFM)/(kF0)」・群「現実との照合・太陽系/連星」)。第288便b で 1 系統へ一本化した(履歴)"
+   }
   }
  },
- "nPresets": 143,
+ "nPresets": 146,
  "rows": [
   {
    "id": "gclock",
@@ -1034,6 +1051,50 @@
    "oldRepresentative": null
   },
   {
+   "id": "galaxyAnalogyBHCompose",
+   "emoji": "🧩",
+   "sampleClass": "principle",
+   "oldPopulation": false,
+   "system": "analogy",
+   "target": null,
+   "kFrame": 0,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "lambdaPN": 1,
+   "fDeclared": null,
+   "law": null,
+   "fEffective": null,
+   "fRatios": null,
+   "fSource": "出典不明",
+   "fSourceKind": "unknown",
+   "lawVersion": "kF0・geoPN3・share・f=出典不明",
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90",
+   "emoji": "🛸",
+   "sampleClass": "principle",
+   "oldPopulation": false,
+   "system": "analogy",
+   "target": null,
+   "kFrame": 0,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "lambdaPN": 1,
+   "fDeclared": null,
+   "law": null,
+   "fEffective": null,
+   "fRatios": null,
+   "fSource": "出典不明",
+   "fSourceKind": "unknown",
+   "lawVersion": "kF0・geoPN3・share・f=出典不明",
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
+  },
+  {
    "id": "clusterAnalogyBH",
    "emoji": "💮",
    "sampleClass": "principle",
@@ -1058,6 +1119,28 @@
   {
    "id": "clusterGrowthCopy",
    "emoji": "🌰",
+   "sampleClass": "principle",
+   "oldPopulation": false,
+   "system": "analogy",
+   "target": null,
+   "kFrame": 0,
+   "geoPN": 3,
+   "frameWeight": "share",
+   "lambdaPN": 1,
+   "fDeclared": null,
+   "law": null,
+   "fEffective": null,
+   "fRatios": null,
+   "fSource": "出典不明",
+   "fSourceKind": "unknown",
+   "lawVersion": "kF0・geoPN3・share・f=出典不明",
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
+  },
+  {
+   "id": "fixedCaptureCopy",
+   "emoji": "🥜",
    "sampleClass": "principle",
    "oldPopulation": false,
    "system": "analogy",
@@ -1631,7 +1714,7 @@
    "id": "earthMoonRealKF1",
    "emoji": "🌘",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "solar-system",
    "kFrame": 1,
@@ -1649,7 +1732,7 @@
    "fSourceKind": "twin-unknown",
    "lawVersion": "kF1・geoPN2・pull・f=1",
    "observables": [],
-   "oldVerdict4": "保留",
+   "oldVerdict4": null,
    "oldRepresentative": null
   },
   {
@@ -1678,7 +1761,7 @@
    "id": "emAuditDFM",
    "emoji": "🧲",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "solar-system",
    "kFrame": 1,
@@ -1693,7 +1776,7 @@
    "fSourceKind": "unknown",
    "lawVersion": "kF1・geoPN2・share・f=出典不明",
    "observables": [],
-   "oldVerdict4": "保留",
+   "oldVerdict4": null,
    "oldRepresentative": null
   },
   {
@@ -1868,7 +1951,7 @@
    "id": "mercuryRealKF1",
    "emoji": "🪨",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "solar-system",
    "kFrame": 1,
@@ -1885,33 +1968,19 @@
    "fSource": "twin:mercuryReal(基準は出典不明(観測版の宣言質量))",
    "fSourceKind": "twin-unknown",
    "lawVersion": "kF1・geoPN2・pull・f=1",
-   "observables": [
-    {
-     "kind": "precession",
-     "target": "水星",
-     "status": "数値未解決",
-     "nSigma": 6219.469217900776,
-     "residualPct": -21.697558518970492,
-     "absResidual": -0.000006241904767159715,
-     "unit": "deg/orbit"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 6219.469217900776,
-    "residualPct": -21.697558518970492
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "solarInner",
    "emoji": "🌞",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "solar-system",
-   "kFrame": 1,
-   "geoPN": 2,
+   "kFrame": 0,
+   "geoPN": 1,
    "frameWeight": "share",
    "lambdaPN": 1,
    "fDeclared": null,
@@ -1920,7 +1989,7 @@
    "fRatios": null,
    "fSource": "出典不明",
    "fSourceKind": "unknown",
-   "lawVersion": "kF1・geoPN2・share・f=出典不明",
+   "lawVersion": "kF0・geoPN1・share・f=出典不明",
    "observables": [],
    "oldVerdict4": "保留",
    "oldRepresentative": null
@@ -1930,10 +1999,10 @@
    "emoji": "🟠",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "solar-system",
-   "kFrame": 1,
-   "geoPN": 2,
+   "kFrame": 0,
+   "geoPN": 1,
    "frameWeight": "share",
    "lambdaPN": 1,
    "fDeclared": null,
@@ -1942,8 +2011,54 @@
    "fRatios": null,
    "fSource": "出典不明",
    "fSourceKind": "unknown",
-   "lawVersion": "kF1・geoPN2・share・f=出典不明",
-   "observables": [],
+   "lawVersion": "kF0・geoPN1・share・f=出典不明",
+   "observables": [
+    {
+     "kind": "period",
+     "target": "イオ",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": 75.4848435925087,
+     "unit": "s"
+    },
+    {
+     "kind": "period",
+     "target": "エウロパ",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": 3.669000705878716,
+     "unit": "s"
+    },
+    {
+     "kind": "period",
+     "target": "ガニメデ",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": -65.76221943681594,
+     "unit": "s"
+    },
+    {
+     "kind": "period",
+     "target": "カリスト",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": -386.9930066235829,
+     "unit": "s"
+    },
+    {
+     "kind": "period",
+     "target": "イオ",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": null,
+     "unit": "s"
+    }
+   ],
    "oldVerdict4": "保留",
    "oldRepresentative": null
   },
@@ -1952,10 +2067,10 @@
    "emoji": "🌇",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "solar-system",
-   "kFrame": 1,
-   "geoPN": 2,
+   "kFrame": 0,
+   "geoPN": 1,
    "frameWeight": "share",
    "lambdaPN": 1,
    "fDeclared": null,
@@ -1964,8 +2079,18 @@
    "fRatios": null,
    "fSource": "出典不明",
    "fSourceKind": "unknown",
-   "lawVersion": "kF1・geoPN2・share・f=出典不明",
-   "observables": [],
+   "lawVersion": "kF0・geoPN1・share・f=出典不明",
+   "observables": [
+    {
+     "kind": "period",
+     "target": "金星",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": -277.7904355339706,
+     "unit": "s"
+    }
+   ],
    "oldVerdict4": "保留",
    "oldRepresentative": null
   },
@@ -1974,10 +2099,10 @@
    "emoji": "🥔",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "solar-system",
-   "kFrame": 1,
-   "geoPN": 2,
+   "kFrame": 0,
+   "geoPN": 1,
    "frameWeight": "share",
    "lambdaPN": 1,
    "fDeclared": null,
@@ -1986,8 +2111,27 @@
    "fRatios": null,
    "fSource": "出典不明",
    "fSourceKind": "unknown",
-   "lawVersion": "kF1・geoPN2・share・f=出典不明",
-   "observables": [],
+   "lawVersion": "kF0・geoPN1・share・f=出典不明",
+   "observables": [
+    {
+     "kind": "period",
+     "target": "フォボス",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": 12.980454876400472,
+     "unit": "s"
+    },
+    {
+     "kind": "period",
+     "target": "ダイモス",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": 41.009242686472135,
+     "unit": "s"
+    }
+   ],
    "oldVerdict4": "保留",
    "oldRepresentative": null
   },
@@ -1996,10 +2140,10 @@
    "emoji": "❄️",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "solar-system",
-   "kFrame": 1,
-   "geoPN": 2,
+   "kFrame": 0,
+   "geoPN": 1,
    "frameWeight": "share",
    "lambdaPN": 1,
    "fDeclared": null,
@@ -2010,40 +2154,40 @@
    ],
    "fSource": "MASS_BASIS observed-solution(自身が基準)",
    "fSourceKind": "self-observed",
-   "lawVersion": "kF1・geoPN2・share・f=1",
+   "lawVersion": "kF0・geoPN1・share・f=1",
    "observables": [
     {
      "kind": "period",
      "target": "カロン",
-     "status": "否(3σ)",
-     "nSigma": 294.0787173653838,
-     "residualPct": 0.001381272806879141,
-     "absResidual": 7.622520354110748,
-     "unit": "s"
-    },
-    {
-     "kind": "period",
-     "target": "カロン",
      "status": "数値未解決",
-     "nSigma": 52245.05105590966,
-     "residualPct": 0.24538840690346025,
-     "absResidual": 1354.1917233691784,
+     "nSigma": 294.08344602820256,
+     "residualPct": 0.001381272806879141,
+     "absResidual": 7.6226429210510105,
      "unit": "s"
     },
     {
      "kind": "period",
      "target": "カロン",
-     "status": "mapping-unresolved",
-     "nSigma": 170109.38090036093,
-     "residualPct": 0.7989822793703973,
-     "absResidual": 4409.235152937355,
+     "status": "condition-mismatch",
+     "nSigma": 294.08344602820256,
+     "residualPct": null,
+     "absResidual": 7.6226429210510105,
+     "unit": "s"
+    },
+    {
+     "kind": "period",
+     "target": "カロン",
+     "status": "condition-mismatch",
+     "nSigma": 86.17380536398505,
+     "residualPct": null,
+     "absResidual": 2.2336250350344926,
      "unit": "s"
     }
    ],
-   "oldVerdict4": "否",
+   "oldVerdict4": "保留",
    "oldRepresentative": {
     "kind": "period",
-    "nSigma": 294.0787173653838,
+    "nSigma": 294.08344602820256,
     "residualPct": 0.001381272806879141
    }
   },
@@ -2162,10 +2306,10 @@
    "emoji": "💠",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "solar-system",
-   "kFrame": 1,
-   "geoPN": 2,
+   "kFrame": 0,
+   "geoPN": 1,
    "frameWeight": "share",
    "lambdaPN": 1,
    "fDeclared": null,
@@ -2174,8 +2318,36 @@
    "fRatios": null,
    "fSource": "出典不明",
    "fSourceKind": "unknown",
-   "lawVersion": "kF1・geoPN2・share・f=出典不明",
-   "observables": [],
+   "lawVersion": "kF0・geoPN1・share・f=出典不明",
+   "observables": [
+    {
+     "kind": "period",
+     "target": "ミランダ",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": 83.55593476699141,
+     "unit": "s"
+    },
+    {
+     "kind": "period",
+     "target": "アリエル",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": -41.42959118221188,
+     "unit": "s"
+    },
+    {
+     "kind": "period",
+     "target": "ミランダ",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": 83.55593476699141,
+     "unit": "s"
+    }
+   ],
    "oldVerdict4": "保留",
    "oldRepresentative": null
   },
@@ -2184,10 +2356,10 @@
    "emoji": "🌊",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "solar-system",
-   "kFrame": 1,
-   "geoPN": 2,
+   "kFrame": 0,
+   "geoPN": 1,
    "frameWeight": "share",
    "lambdaPN": 1,
    "fDeclared": null,
@@ -2196,8 +2368,18 @@
    "fRatios": null,
    "fSource": "出典不明",
    "fSourceKind": "unknown",
-   "lawVersion": "kF1・geoPN2・share・f=出典不明",
-   "observables": [],
+   "lawVersion": "kF0・geoPN1・share・f=出典不明",
+   "observables": [
+    {
+     "kind": "period",
+     "target": "トリトン",
+     "status": "condition-mismatch",
+     "nSigma": null,
+     "residualPct": null,
+     "absResidual": 21.2967564407154,
+     "unit": "s"
+    }
+   ],
    "oldVerdict4": "保留",
    "oldRepresentative": null
   },
@@ -2252,7 +2434,7 @@
    "id": "alphaCenABDFM",
    "emoji": "✴️",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "stellar-binary",
    "kFrame": 1,
@@ -2269,32 +2451,9 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1",
-   "observables": [
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 25.050985780133345,
-     "residualPct": -0.5967362024805466,
-     "absResidual": -15020430.788247585,
-     "unit": "s"
-    },
-    {
-     "kind": "ecc",
-     "target": "B",
-     "status": "mapping-unresolved",
-     "nSigma": 6.232485130882963,
-     "residualPct": 0.17996665247895824,
-     "absResidual": 0.0009348727696324444,
-     "unit": "-"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "period",
-    "nSigma": 25.050985780133345,
-    "residualPct": -0.5967362024805466
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "siriusAB",
@@ -2347,7 +2506,7 @@
    "id": "siriusABDFM",
    "emoji": "💫",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "stellar-binary",
    "kFrame": 1,
@@ -2364,32 +2523,9 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1",
-   "observables": [
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 206.15726586023146,
-     "residualPct": -1.7684112064199045,
-     "absResidual": -27975062.692376614,
-     "unit": "s"
-    },
-    {
-     "kind": "ecc",
-     "target": "B",
-     "status": "mapping-unresolved",
-     "nSigma": 5.918438153401801,
-     "residualPct": 0.3702651443574222,
-     "absResidual": 0.0021898221167586662,
-     "unit": "-"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "period",
-    "nSigma": 206.15726586023146,
-    "residualPct": -1.7684112064199045
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrDoubleAB",
@@ -2434,10 +2570,10 @@
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 2188.5096961468366,
-     "residualPct": 0.16874964097143907,
-     "absResidual": 0.000007964983053851925,
-     "unit": "deg/orbit"
+     "nSigma": 862.4671268916674,
+     "residualPct": -0.06634628292264534,
+     "absResidual": -0.011212072649591676,
+     "unit": "deg/yr"
     }
    ],
    "oldVerdict4": "保留",
@@ -2451,7 +2587,7 @@
    "id": "psrDoubleABDFM",
    "emoji": "⚡",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -2468,23 +2604,9 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1",
-   "observables": [
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 715623849891.6362,
-     "residualPct": 2029.6112635835304,
-     "absResidual": 179306.71182884838,
-     "unit": "s"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "period",
-    "nSigma": 715623849891.6362,
-    "residualPct": 2029.6112635835304
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrDoubleABGeoToy",
@@ -2512,7 +2634,7 @@
    "id": "psrDoubleABSpinCal",
    "emoji": "🧿",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -2529,42 +2651,19 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1.999914",
-   "observables": [
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 33668.27796052971,
-     "residualPct": 2.5615799911927106,
-     "absResidual": 0.00012118724790393092,
-     "unit": "deg/orbit"
-    },
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 386513003.77636766,
-     "residualPct": -1.0962059832198274,
-     "absResidual": -96.84469822620667,
-     "unit": "s"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 33668.27796052971,
-    "residualPct": 2.5615799911927106
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrJ1757DFM",
    "emoji": "🧮",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "ns-binary",
-   "kFrame": 1,
-   "geoPN": 2,
+   "kFrame": 0,
+   "geoPN": 1,
    "frameWeight": "pull",
    "lambdaPN": 1,
    "fDeclared": 1,
@@ -2576,41 +2675,41 @@
    ],
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
-   "lawVersion": "kF1・geoPN2・pull・f=1",
+   "lawVersion": "kF0・geoPN1・pull・f=1",
    "observables": [
     {
      "kind": "period",
      "target": "B",
-     "status": "数値未解決",
-     "nSigma": 4217091220.4058146,
-     "residualPct": 114.88342990468689,
-     "absResidual": 18217.83407215312,
+     "status": "condition-mismatch",
+     "nSigma": 4200.334309121832,
+     "residualPct": null,
+     "absResidual": 0.018145444215406314,
      "unit": "s"
     },
     {
      "kind": "ecc",
      "target": "B",
-     "status": "mapping-unresolved",
-     "nSigma": 393585.5139527501,
-     "residualPct": -64.96802385166113,
-     "absResidual": -0.39358551395275004,
+     "status": "condition-mismatch",
+     "nSigma": 3.8957987477106215,
+     "residualPct": null,
+     "absResidual": 0.0000038957987477106215,
      "unit": "-"
     },
     {
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 11659.633769661994,
+     "nSigma": 33.25678181684388,
      "residualPct": null,
-     "absResidual": -0.002517985439715247,
-     "unit": "deg/orbit"
+     "absResidual": -0.006651356363368777,
+     "unit": "deg/yr"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
-    "kind": "period",
-    "nSigma": 4217091220.4058146,
-    "residualPct": 114.88342990468689
+    "kind": "precession",
+    "nSigma": 33.25678181684388,
+    "residualPct": null
    }
   },
   {
@@ -2618,10 +2717,10 @@
    "emoji": "🩺",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "ns-binary",
-   "kFrame": 1,
-   "geoPN": 2,
+   "kFrame": 0,
+   "geoPN": 1,
    "frameWeight": "pull",
    "lambdaPN": 1,
    "fDeclared": 1,
@@ -2633,48 +2732,48 @@
    ],
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
-   "lawVersion": "kF1・geoPN2・pull・f=1",
+   "lawVersion": "kF0・geoPN1・pull・f=1",
    "observables": [
     {
      "kind": "period",
      "target": "B",
-     "status": "数値未解決",
-     "nSigma": 124890140083.44145,
-     "residualPct": 3182.398626751391,
-     "absResidual": 215810.16206418682,
+     "status": "condition-mismatch",
+     "nSigma": 194333.10939647257,
+     "residualPct": null,
+     "absResidual": 0.3358076130371046,
      "unit": "s"
     },
     {
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 136.566343437054,
+     "nSigma": 58.31872695118534,
      "residualPct": null,
-     "absResidual": -0.0003853082787124689,
-     "unit": "deg/orbit"
+     "absResidual": -0.023327490780474136,
+     "unit": "deg/yr"
     },
     {
      "kind": "ecc",
      "target": "B",
      "status": "mapping-unresolved",
-     "nSigma": 1009087.3354873514,
-     "residualPct": 1264.5937630938529,
-     "absResidual": 0.8072698683898811,
+     "nSigma": 13.799984288700996,
+     "residualPct": -0.01729421572202774,
+     "absResidual": -0.000011039987430960796,
      "unit": "-"
     }
    ],
    "oldVerdict4": "保留",
    "oldRepresentative": {
-    "kind": "period",
-    "nSigma": 124890140083.44145,
-    "residualPct": 3182.398626751391
+    "kind": "precession",
+    "nSigma": 58.31872695118534,
+    "residualPct": null
    }
   },
   {
    "id": "psrDoubleABPN",
    "emoji": "🪶",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -2691,47 +2790,15 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1.9999423・λ_PN=0.5000144330801174",
-   "observables": [
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 44271.01377414476,
-     "residualPct": 3.36800676853461,
-     "absResidual": 0.0001593404002193724,
-     "unit": "deg/orbit"
-    },
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 388888313.03683215,
-     "residualPct": -1.1029426989263584,
-     "absResidual": -97.43985571450867,
-     "unit": "s"
-    },
-    {
-     "kind": "ecc",
-     "target": "B",
-     "status": "mapping-unresolved",
-     "nSigma": 4331.079820968191,
-     "residualPct": 0.23684079672782887,
-     "absResidual": 0.00020789183140647316,
-     "unit": "-"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 44271.01377414476,
-    "residualPct": 3.36800676853461
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrJ1757PN",
    "emoji": "🪃",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -2748,47 +2815,15 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1.9998957・λ_PN=0.5000260856666837",
-   "observables": [
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 898.8083773124665,
-     "residualPct": 1.6960274260039976,
-     "absResidual": 0.00008833758848341821,
-     "unit": "deg/orbit"
-    },
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 80969949.9418217,
-     "residualPct": -2.2058108497904696,
-     "absResidual": -349.79018374866973,
-     "unit": "s"
-    },
-    {
-     "kind": "ecc",
-     "target": "B",
-     "status": "mapping-unresolved",
-     "nSigma": 192.45716617810606,
-     "residualPct": 0.031768348476827725,
-     "absResidual": 0.00019245716617810604,
-     "unit": "-"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 898.8083773124665,
-    "residualPct": 1.6960274260039976
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrJ1946PN",
    "emoji": "🪀",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -2805,47 +2840,15 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1.9999655・λ_PN=0.5000086177580901",
-   "observables": [
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 4928.138114306089,
-     "residualPct": 7.534706876668832,
-     "absResidual": 0.00041760359393249336,
-     "unit": "deg/orbit"
-    },
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 55555426.69292924,
-     "residualPct": -1.4156402859188284,
-     "absResidual": -95.99977732538173,
-     "unit": "s"
-    },
-    {
-     "kind": "ecc",
-     "target": "B",
-     "status": "mapping-unresolved",
-     "nSigma": 309.3431545543243,
-     "residualPct": 0.3876705317248328,
-     "absResidual": 0.00024747452364345945,
-     "unit": "-"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 4928.138114306089,
-    "residualPct": 7.534706876668832
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrDoubleABCF",
    "emoji": "🪝",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -2862,38 +2865,15 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1.9999423・CF",
-   "observables": [
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 34248.90051570187,
-     "residualPct": 2.6056649199669457,
-     "absResidual": 0.00012327400736363622,
-     "unit": "deg/orbit"
-    },
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 387407410.77065396,
-     "residualPct": -1.0987426489697272,
-     "absResidual": -97.06880084269505,
-     "unit": "s"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 34248.90051570187,
-    "residualPct": 2.6056649199669457
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrJ1757CF",
    "emoji": "🪄",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -2910,38 +2890,15 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1.9998957・CF",
-   "observables": [
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 844.4880139561807,
-     "residualPct": 1.593548234726354,
-     "absResidual": 0.00008299995980572215,
-     "unit": "deg/orbit"
-    },
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 80920648.91400535,
-     "residualPct": -2.2044677744626324,
-     "absResidual": -349.57720330850316,
-     "unit": "s"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 844.4880139561807,
-    "residualPct": 1.593548234726354
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrJ1946CF",
    "emoji": "🩹",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -2958,41 +2915,9 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1.9999655・CF",
-   "observables": [
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 5416.040402984378,
-     "residualPct": 8.281122305988813,
-     "absResidual": 0.00045897292268712395,
-     "unit": "deg/orbit"
-    },
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 55343290.315360285,
-     "residualPct": -1.41023471494094,
-     "absResidual": -95.63320566494258,
-     "unit": "s"
-    },
-    {
-     "kind": "ecc",
-     "target": "B",
-     "status": "mapping-unresolved",
-     "nSigma": 276.3020695399979,
-     "residualPct": 0.3462632634284855,
-     "absResidual": 0.0002210416556319983,
-     "unit": "-"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 5416.040402984378,
-    "residualPct": 8.281122305988813
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrB1534",
@@ -3037,10 +2962,10 @@
      "kind": "precession",
      "target": "B",
      "status": "数値未解決",
-     "nSigma": 33.13990569645294,
-     "residualPct": -0.016987514539402948,
-     "absResidual": -3.435724815594246e-7,
-     "unit": "deg/orbit"
+     "nSigma": 36.91794033312669,
+     "residualPct": -0.018923769484723973,
+     "absResidual": -0.0003322614629981402,
+     "unit": "deg/yr"
     }
    ],
    "oldVerdict4": "保留",
@@ -3054,7 +2979,7 @@
    "id": "psrB1534DFM",
    "emoji": "🧶",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -3071,47 +2996,15 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1",
-   "observables": [
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 166438301663.25488,
-     "residualPct": 395.5872274961719,
-     "absResidual": 143802.6926370522,
-     "unit": "s"
-    },
-    {
-     "kind": "ecc",
-     "target": "B",
-     "status": "mapping-unresolved",
-     "nSigma": 585106.7980461937,
-     "residualPct": 64.13827933018172,
-     "absResidual": 0.1755320394138581,
-     "unit": "-"
-    },
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 84150.74774158162,
-     "residualPct": null,
-     "absResidual": 0.004323558941316738,
-     "unit": "deg/orbit"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "period",
-    "nSigma": 166438301663.25488,
-    "residualPct": 395.5872274961719
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "psrB1534CF",
    "emoji": "🪤",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "ns-binary",
    "kFrame": 1,
@@ -3128,32 +3021,9 @@
    "fSource": "massCalibration.baseMass",
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN2・pull・f=1.9994855・CF",
-   "observables": [
-    {
-     "kind": "precession",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 5756.0864034337765,
-     "residualPct": 2.9395795586590445,
-     "absResidual": 0.00005945299657387918,
-     "unit": "deg/orbit"
-    },
-    {
-     "kind": "period",
-     "target": "B",
-     "status": "数値未解決",
-     "nSigma": 156347014.7977939,
-     "residualPct": -0.3716024586473946,
-     "absResidual": -135.08382078529394,
-     "unit": "s"
-    }
-   ],
-   "oldVerdict4": "保留",
-   "oldRepresentative": {
-    "kind": "precession",
-    "nSigma": 5756.0864034337765,
-    "residualPct": 2.9395795586590445
-   }
+   "observables": [],
+   "oldVerdict4": null,
+   "oldRepresentative": null
   },
   {
    "id": "compactForceToy",
@@ -3249,7 +3119,7 @@
    "id": "gw150914DFM",
    "emoji": "🎻",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "bh-binary",
    "kFrame": 1,
@@ -3267,7 +3137,7 @@
    "fSourceKind": "declared-base",
    "lawVersion": "kF1・geoPN0・pull・f=2",
    "observables": [],
-   "oldVerdict4": "保留",
+   "oldVerdict4": null,
    "oldRepresentative": null
   },
   {
@@ -3275,22 +3145,22 @@
    "emoji": "⏰",
    "sampleClass": "calibration",
    "oldPopulation": true,
-   "system": "dfm",
+   "system": "kf0",
    "target": "bh-binary",
-   "kFrame": 1,
+   "kFrame": 0,
    "geoPN": 0,
    "frameWeight": "pull",
    "lambdaPN": 1,
-   "fDeclared": null,
-   "law": null,
-   "fEffective": 1.9999999999889444,
+   "fDeclared": 1,
+   "law": "f-fixed-1",
+   "fEffective": 1,
    "fRatios": [
-    1.9999999999889444,
-    1.9999999999889442
+    1,
+    1
    ],
-   "fSource": "twin:gw150914(観測解の質量)",
-   "fSourceKind": "twin-observed",
-   "lawVersion": "kF1・geoPN0・pull・f=2",
+   "fSource": "massCalibration.baseMass",
+   "fSourceKind": "declared-base",
+   "lawVersion": "kF0・geoPN0・pull・f=1",
    "observables": [],
    "oldVerdict4": "保留",
    "oldRepresentative": null
@@ -3630,7 +3500,7 @@
    "id": "saturnRingRealKF1",
    "emoji": "💿",
    "sampleClass": "calibration",
-   "oldPopulation": true,
+   "oldPopulation": false,
    "system": "dfm",
    "target": "solar-system",
    "kFrame": 1,
@@ -3653,7 +3523,7 @@
    "fSourceKind": "twin-unknown",
    "lawVersion": "kF1・geoPN2・pull・f=1",
    "observables": [],
-   "oldVerdict4": "保留",
+   "oldVerdict4": null,
    "oldRepresentative": null
   },
   {
@@ -3990,130 +3860,150 @@
  "sampleClassAudit": {
   "htmlOccurrences": 57,
   "presets": 37,
-  "population": 37,
+  "population": 20,
+  "populationRule": "sampleClass:\"calibration\" ∧ familyRole≠\"retired\"",
+  "retiredCalibration": [
+   "earthMoonRealKF1",
+   "emAuditDFM",
+   "mercuryRealKF1",
+   "alphaCenABDFM",
+   "siriusABDFM",
+   "psrDoubleABDFM",
+   "psrDoubleABSpinCal",
+   "psrDoubleABPN",
+   "psrJ1757PN",
+   "psrJ1946PN",
+   "psrDoubleABCF",
+   "psrJ1757CF",
+   "psrJ1946CF",
+   "psrB1534DFM",
+   "psrB1534CF",
+   "gw150914DFM",
+   "saturnRingRealKF1"
+  ],
   "presetsNotInPopulation": [],
   "populationNotPresets": [],
   "nonPresetOccurrences": [
    {
-    "line": 4837,
+    "line": 4748,
     "text": "//   ・`sampleClass:\"calibration\"` では**拒否**(下の geoPN 門と同じ場所で機械固定する)。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 4849,
+    "line": 4760,
     "text": "// **診断であって採用則ではない** —— 宣言すると警告を 1 行出し、`sampleClass:\"calibration\"` では拒否する。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 6003,
+    "line": 5919,
     "text": "// geoPN=3(トイの輸送)・spaceMesh の宣言(座標変換慣性/織り込み)・sampleClass:\"calibration\"・single 以外の天体。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 6045,
+    "line": 5961,
     "text": "return 'physics.meshVelocity は sampleClass:\"calibration\" では使えない(**検証仮説の構成則** —— 現実較正へ入れない)';",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 6279,
+    "line": 6195,
     "text": "//    **`sampleClass:\"calibration\"` では拒否**する(現実較正の受理契約は内蔵のまま)。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 7289,
+    "line": 7298,
     "text": "//   ② `sampleClass:\"calibration\"`(現実較正)で **0<kFrame<1 の分数**を書くときだけ、",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 7322,
+    "line": 7331,
     "text": "// (無ければ従来どおり 2 へ丸めて警告)。`sampleClass:\"calibration\"` では**拒否**する",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 19074,
+    "line": 19357,
     "text": "// **sampleClass:\"calibration\" では拒否**(現実較正の受理契約は内蔵のまま 0.01)",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 19078,
+    "line": 19361,
     "text": "bad('physics.softeningFloor は sampleClass:\"calibration\" では使えません(現実較正の ε 下限 '",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19107,
+    "line": 19390,
     "text": "bad('physics.kFrameApprox:\"'+p.physics[k]+'\" は sampleClass:\"calibration\" では使えません(サンプル限りと宣言した分数は現実較正に入れない — 較正で使えるのは \"space-mesh-effective\" だ",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19213,
+    "line": 19496,
     "text": "+(calib?'sampleClass:\"calibration\" で使えるのは \"space-mesh-effective\" だけ':'\"space-mesh-effective\" か \"sample-only\"')",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19227,
+    "line": 19510,
     "text": "//   (a) `sampleClass:\"calibration\"` では**拒否**(検証エラー)—— トイを現実較正に混ぜない",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 19238,
+    "line": 19521,
     "text": "//   **(a) は迂回しない** —— `sampleClass:\"calibration\"` では geoPN=3 も toyAllowDrag も拒否する。",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    },
    {
-    "line": 19245,
+    "line": 19528,
     "text": "bad('physics.geoPN=3(トイの測地線モード)は sampleClass:\"calibration\" では使えません(現実較正にトイを混ぜない)');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19281,
+    "line": 19564,
     "text": "bad('physics.spaceMesh.toyAllowDrag(geoPN=3 を kFrame>0 のまま許す診断キー)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19284,
+    "line": 19567,
     "text": "bad('physics.spaceMesh.centerSpin:\"read\"(geoPN=3 のトイが中心の自転を読む opt-in —— 第282便d)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19286,
+    "line": 19569,
     "text": "bad('physics.spaceMesh.toyClosure:\"iterate\"(源の加速度に自分のトイ項を戻す固定点反復の診断キー)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19291,
+    "line": 19574,
     "text": "bad('physics.spaceMesh.diskSupport:\"band-pressure\"(帯平均の近似 variant)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 19299,
+    "line": 19582,
     "text": "bad('physics.spaceMesh.law:\"mesh-v2\"(引きずりの完全置換の候補・最小代数実装)は sampleClass:\"calibration\" では使えません');",
     "reason": "検証器の拒否文言(プリセットではない)"
    },
    {
-    "line": 31804,
+    "line": 32187,
     "text": "//   calTarget … sampleClass:\"calibration\" の宣言(分類の「現実較正」DFM 版・kF0 版の両方)。**較正の対象であって合格ではない**",
     "reason": "検証器・受理契約のコメント(プリセットではない)"
    }
   ],
-  "rule": "`sampleClass:\"calibration\"` の文字列は html に 57 回出るが、**プリセットの宣言は 37 本**で、残りは検証器のコメントと拒否文言である(ID を持たない)。旧母集団 37 本(calaudit の走行対象)とプリセットの宣言は ID の集合として一致する(差 0 本)。"
+  "rule": "`sampleClass:\"calibration\"` の文字列は html に 57 回出るが、**プリセットの宣言は 37 本**で、残りは検証器のコメントと拒否文言である(ID を持たない)。旧母集団 20 本(calaudit の走行対象 —— 第288便b から sampleClass:\"calibration\" ∧ familyRole≠\"retired\")と、退役を除くプリセットの宣言は ID の集合として一致する(差 0 本・退役の較正クラス 17 本は母集団の外)。"
  },
  "legacyFourValues": {
   "label": "旧契約(第281便まで)の履歴",
-  "population": 37,
+  "population": 20,
   "current": {
    "counts": {
     "合": 0,
     "量限定合": 2,
-    "否": 2,
-    "保留": 33
+    "否": 1,
+    "保留": 17
    },
    "gate": {
     "合(3σ)": 2,
-    "否(3σ)": 2,
-    "数値未解決": 32,
-    "mapping-unresolved": 14,
-    "condition-mismatch": 0,
-    "未判定": 267
+    "否(3σ)": 1,
+    "数値未解決": 8,
+    "mapping-unresolved": 5,
+    "condition-mismatch": 17,
+    "未判定": 146
    },
    "commit": "第274便a(署名便)"
   },
@@ -4159,52 +4049,16 @@
     }
    }
   ],
-  "rule": "旧 4 値は**旧契約の単一母集団(較正 37 本・kFrame を混ぜた 1 列)**の数である。新集計は系統ごとの別欄で、旧 4 値を置き換えない(合否は 1 つも動かしていない)。"
+  "rule": "旧 4 値は**単一母集団**の数である(第287便までは較正 37 本・kFrame を混ぜた 1 列 —— 第288便b から一本化後の母集団 20 本)。新集計は系統ごとの別欄で、旧 4 値を置き換えない(合否は 1 つも動かしていない)。"
  },
  "newTally": {
   "kf0": {
    "system": "kf0",
-   "population": 10,
+   "population": 20,
    "ids": [
     "earthMoonReal",
     "emAuditSolar",
     "mercuryReal",
-    "alphaCenAB",
-    "siriusAB",
-    "psrDoubleAB",
-    "psrB1534",
-    "gw150914",
-    "saturnZonalD68",
-    "saturnRingReal"
-   ],
-   "oldPopulationMembers": 10,
-   "byTarget": {
-    "solar-system": 5,
-    "stellar-binary": 2,
-    "ns-binary": 2,
-    "bh-binary": 1
-   },
-   "lawVersions": {
-    "kF0・geoPN1・share・f=出典不明": 5,
-    "kF0・geoPN1・pull・f=1": 4,
-    "kF0・geoPN0・pull・f=1": 1
-   },
-   "observablesGated": 12,
-   "oldVerdict4": {
-    "合": 0,
-    "量限定合": 2,
-    "否": 1,
-    "保留": 7
-   },
-   "newVocabularyApplied": false
-  },
-  "dfm": {
-   "system": "dfm",
-   "population": 27,
-   "ids": [
-    "earthMoonRealKF1",
-    "emAuditDFM",
-    "mercuryRealKF1",
     "solarInner",
     "jupiterGalilean",
     "venusReal",
@@ -4212,12 +4066,50 @@
     "plutoCharonReal",
     "uranusReal",
     "neptuneReal",
+    "alphaCenAB",
+    "siriusAB",
+    "psrDoubleAB",
+    "psrJ1757DFM",
+    "psrJ1946DFM",
+    "psrB1534",
+    "gw150914",
+    "gw150914Merge4s",
+    "saturnZonalD68",
+    "saturnRingReal"
+   ],
+   "oldPopulationMembers": 20,
+   "byTarget": {
+    "solar-system": 12,
+    "stellar-binary": 2,
+    "ns-binary": 4,
+    "bh-binary": 2
+   },
+   "lawVersions": {
+    "kF0・geoPN1・share・f=出典不明": 11,
+    "kF0・geoPN1・share・f=1": 1,
+    "kF0・geoPN1・pull・f=1": 6,
+    "kF0・geoPN0・pull・f=1": 2
+   },
+   "observablesGated": 33,
+   "oldVerdict4": {
+    "合": 0,
+    "量限定合": 2,
+    "否": 1,
+    "保留": 17
+   },
+   "newVocabularyApplied": false
+  },
+  "dfm": {
+   "system": "dfm",
+   "population": 17,
+   "ids": [
+    "earthMoonRealKF1",
+    "emAuditDFM",
+    "mercuryRealKF1",
     "alphaCenABDFM",
     "siriusABDFM",
     "psrDoubleABDFM",
     "psrDoubleABSpinCal",
-    "psrJ1757DFM",
-    "psrJ1946DFM",
     "psrDoubleABPN",
     "psrJ1757PN",
     "psrJ1946PN",
@@ -4227,20 +4119,18 @@
     "psrB1534DFM",
     "psrB1534CF",
     "gw150914DFM",
-    "gw150914Merge4s",
     "saturnRingRealKF1"
    ],
-   "oldPopulationMembers": 27,
+   "oldPopulationMembers": 0,
    "byTarget": {
-    "solar-system": 11,
+    "solar-system": 4,
     "stellar-binary": 2,
-    "ns-binary": 12,
-    "bh-binary": 2
+    "ns-binary": 10,
+    "bh-binary": 1
    },
    "lawVersions": {
-    "kF1・geoPN2・pull・f=1": 9,
-    "kF1・geoPN2・share・f=出典不明": 7,
-    "kF1・geoPN2・share・f=1": 1,
+    "kF1・geoPN2・pull・f=1": 7,
+    "kF1・geoPN2・share・f=出典不明": 1,
     "kF1・geoPN2・pull・f=1.999914": 1,
     "kF1・geoPN2・pull・f=1.9999423・λ_PN=0.5000144330801174": 1,
     "kF1・geoPN2・pull・f=1.9998957・λ_PN=0.5000260856666837": 1,
@@ -4249,14 +4139,14 @@
     "kF1・geoPN2・pull・f=1.9998957・CF": 1,
     "kF1・geoPN2・pull・f=1.9999655・CF": 1,
     "kF1・geoPN2・pull・f=1.9994855・CF": 1,
-    "kF1・geoPN0・pull・f=2": 2
+    "kF1・geoPN0・pull・f=2": 1
    },
-   "observablesGated": 38,
+   "observablesGated": 0,
    "oldVerdict4": {
     "合": 0,
     "量限定合": 0,
-    "否": 1,
-    "保留": 26
+    "否": 0,
+    "保留": 0
    },
    "newVocabularyApplied": false,
    "note": "DFM 版の語彙(概略整合/調整中/適用外)は**許容幅が未裁定なので当てない**。行ごとの残差(周期は相対 %・近点移動は判定段の値 − 観測の絶対差)を observables に併記する。"
@@ -4280,7 +4170,7 @@
   },
   "analogy": {
    "system": "analogy",
-   "population": 32,
+   "population": 35,
    "ids": [
     "galaxy",
     "galaxyStd",
@@ -4298,8 +4188,11 @@
     "galaxyMeshSpiralGeoToy",
     "galaxyMeshSpiralGeoToyLite",
     "galaxyAnalogyBH",
+    "galaxyAnalogyBHCompose",
+    "galaxyAnalogyBHTilt90",
     "clusterAnalogyBH",
     "clusterGrowthCopy",
+    "fixedCaptureCopy",
     "shapeToyCluster",
     "shapeToyDisk",
     "shapeToyArm",
@@ -4317,13 +4210,13 @@
    ],
    "oldPopulationMembers": 0,
    "byTarget": {
-    "—": 32
+    "—": 35
    },
    "lawVersions": {
     "kF1・geoPN0・share・f=出典不明": 9,
     "kF1・geoPN2・share・f=出典不明": 1,
     "kF1・geoPN0・pull・f=出典不明": 3,
-    "kF0・geoPN3・share・f=出典不明": 5,
+    "kF0・geoPN3・share・f=出典不明": 8,
     "kF0・geoPN0・share・f=出典不明": 10,
     "kF0・geoPN0・pull・f=1": 1,
     "kF1・geoPN0・share・f=1.9934014": 1,
@@ -4769,35 +4662,6 @@
    "migrated": false
   },
   {
-   "id": "gw150914Merge4s",
-   "emoji": "⏰",
-   "system": "dfm",
-   "target": "bh-binary",
-   "law": null,
-   "fDeclared": null,
-   "fEffective": 1.9999999999889444,
-   "fRatios": [
-    1.9999999999889444,
-    1.9999999999889442
-   ],
-   "fSource": "twin:gw150914(観測解の質量)",
-   "fSourceKind": "twin-observed",
-   "ledgerMissingButEffective": true,
-   "hiddenCore": {
-    "kind": "f-derived",
-    "text": "(f−1)/f 由来(massFrac=0.4999999999972361)"
-   },
-   "lambdaPN": 1,
-   "lambdaIsInvF": false,
-   "cfDependsOnF": null,
-   "dimmingCancel": null,
-   "stage": {
-    "key": "next-bh",
-    "text": "第283便以降(BH 連星 —— 移行計画のみ。Merge4s は台帳が無く実質 2 倍)"
-   },
-   "migrated": false
-  },
-  {
    "id": "tuc47DFM",
    "emoji": "🫐",
    "system": "analogy",
@@ -5013,12 +4877,10 @@
   }
  ],
  "fSummary": {
-  "n": 20,
+  "n": 19,
   "declaredOff": 17,
-  "effectiveOff": 13,
-  "ledgerMissingButEffective": [
-   "gw150914Merge4s"
-  ],
+  "effectiveOff": 12,
+  "ledgerMissingButEffective": [],
   "unknownBase": [
    "supernovaCore",
    "whiteDwarfDFM",
@@ -5033,7 +4895,7 @@
   "byStage": {
    "w282a": 2,
    "next-ns": 8,
-   "next-bh": 2,
+   "next-bh": 1,
    "analogy": 2,
    "toy": 6
   }

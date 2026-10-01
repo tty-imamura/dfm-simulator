@@ -1608,7 +1608,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
       書き戻す(**規定運動**。`J_z` と `|J⊥|` は触らないので傾き角 θ は宣言のまま)。
       実体は **`S._core` の外**の外部ステップ **`HP.dfmCoreAxisStep(S,dt)`**(`dfmGeoToyStep`・
       `dfmShapeToyStep` と同じ位置)で、宣言が 1 つも無ければ `S.hasCoreAxis=false` の真偽値 1 つで
-      素通りする(**未宣言は 1 bit 不変** —— 内蔵 128 本は 1 本も宣言していない)。
+      素通りする(**未宣言は 1 bit 不変** —— 第275便e の時点の内蔵 128 本は 1 本も宣言していない。第288便e から 🛸 の 1 本)。
     - **反作用の帳簿**: 面内成分を宣言どおり回すのに要る角力積は**面外**(x,y 軸まわり)なので 2D の
       `L_z` 帳簿には現れない。「**宣言した拘束**が持ち去った量」として **負号**で `S.axPrescLx`・
       `S.axPrescLy`(面外 L)・`S.axPrescE`(回転 E —— |J⊥| を保つ写像なので丸めの範囲)・
@@ -1626,6 +1626,21 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
       **「3D の自転軸を実装した」「歳差を再現した」とは書かない**(宣言した角速度で回しているだけである)。
     **実行時 LLM 向けの SYSTEM_PROMPT には載せていない** —— 既定 off の opt-in であり、
     `core.lightTrap` と同じく生成物に出す前に段を分ける(次便の判断)。
+    **第288便e から内蔵に 1 本だけ宣言がある**: 🛸 `galaxyAnalogyBHTilt90`(🌚 の軸 90° の原理コピー)の中心の例 ——
+    `{"type":"single","m":2500,"spin":0,"pinned":true,"radius":15,"core":{"mode":"differential","massFrac":0.3,"radius":7.5,"omega":16,"Kcs":0,"tilt":90,"axisMode":"prescribed","azimuthDeg":0,"precessionRate":0.12}}`
+    (|J_core|=½·750·7.5²·16=337500 = 🌚 の殻の角運動量 —— 向きだけを面内へ・歳差 0.12 は**宣言**)。**geoPN=3 のトイ(`spaceMesh.centerSpin:"read"`)が読む中心の自転は殻 spin だけ**なので、
+    この本の力学は 🌚 の中心 spin=0 とビット一致する(コアを立てても同じ —— 器 tests/exp-w288e-tilt90.mjs)。歳差が担う面内の引きずりは
+    候補の診断量(tests/lib-w288e-tilt90.mjs)で、場には足していない。**「コア V3」という処理は無い**(既存の `core.axisMode` を使う)。
+  - **`body.spinAxis`(第288便e・single 専用・**表示専用** —— SYSTEM_PROMPT には載せていない)**: 点粒子(親子コアを持たない NS 連星の星など)の
+    **公転面基準の自転軸**の宣言欄 `{"tiltDeg":公転面の法線からの角[度・0〜180・必須], "azimuthDeg":面内の方位[度・任意], "precessionRateDegPerYr":軸の歳差[deg/yr・任意],
+    "epoch":元期[文字列・任意], "source":出所[必須の非空文字列], "uncertainty":{"tiltDeg":σ か {plus,minus,level?}, "precessionRateDegPerYr":同}}`。
+    未知の鍵・非数・source の欠けは**欄だけを落として警告**(天体は残す)。single 以外は警告して無視。**物理・署名・セーブの力学に効かない**:
+    エンジンは `S.spinAxD`(表示の読み口)にだけ写し、`presetSig` は body から spinAxis を除いて署名する(`HP.spinAxisSigBodies`)。
+    読み口 `HP.spinAxisOf(S,i)`(粒子数が build 時から変わった宇宙では null)・定数 `HP.SPIN_AXIS_VERSION`(w288e-spinaxis-1)・
+    `HP.SPIN_AXIS_KEYS`・登録簿 `HP.SPIN_AXIS_BOOKS`(内蔵の宣言状況 —— 観測結果カードの派生行 1 行)。描画はコア軸と同じトグル・同じ正射影の橙の線
+    (方位が記録に無い宣言は 0 規約の破線・歳差率では描画の方位を回さない)。**観測記録に一次資料がある本だけ宣言する**: 内蔵は 📻 `psrDoubleAB` の B
+    (傾き 40.6±0.1° = SOL-912f7aa2・歳差 5.16 +0.32/−0.34 deg/yr = SOL-7e3303df)だけ。A は 95% 上限だけなので未宣言・📿 と 🎐⏰ は記録に行が無いので未宣言
+    (BH 連星の軸がすべて 90° と観測されているわけではない)。**生成 AI は観測値の無い天体にこの欄を書かない。**
   - **`notClaim:"lfbot"`(第265便d)**: 表示文 `nc_lfbot`(ja/en)は「実在の高速青色トランジェント
     (LFBOT・AT2018cow 等)の説明・再現・予測ではない」である。**実イベントへ σ を出さない**。
   - **`S._setBodyLayers(i, arr)` の有限性(第262便b)**: `m`・`r`・`J`・Σm を `Number.isFinite` と
@@ -2771,11 +2786,12 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 | `radiusR` | 正の有限数(taylor だけ) | 空間有効半径 [L](凍結参照系の原点のまわり)。sources では書かない |
 
 - **範囲の外**(taylor): 源の台帳があればその点・その時刻の値を源から作り直す(再展開 —— sources の値とビット一致)。台帳が無ければ一次のまま評価し、範囲外の回数を数える(`S.meshVelTimeOut`・`S.bgLawTimeOut`、再展開は `S.meshVelTimeReexp`・`S.bgLawTimeReexp`)。**閾値で背景を消さない**。
+- **第288便c(統括の検証項目 R115・第78報で閉じた AN86)—— 範囲外の旗と「契約範囲外」**: 再展開は同じ X+Vτ+½aτ² の近似軌道を幅の外まで延ばしただけなので**時間の有効性は回復しない** → `bgTimeMomentsAt` は時間の超過(|τ|>widthT)を再展開しても `out:true` で返す(第287便c は `out:false, reexp:true` —— 反例 3 件〔widthT+1・−widthT−1・空間と時間の両超過〕が 0/3 → 3/3)。**空間だけの超過**は源から再評価できるので `out:false`(reexp:true)のまま。値は変えない(sources 経路と同じ値 —— 内蔵 🌒 はビット不変)。有効幅を超えた**歩数**を `S.meshVelTimeOutSteps` に数え(再展開しない —— 数えるだけ)、観測結果カードに「⏱ 背景の時間の契約(…・有効幅 widthT=…): 範囲外 N 歩」の 1 行(宣言した本だけ —— 内蔵は 🌒・`.ocRow` を付けない・署名の外)。N>0 の走行を含む観測比較は**「契約範囲外」**と読む(判定は変えない —— 器 `tests/exp-w288c-bgrange.mjs` が正本 `bgrange-w288c.json` に旗 `contractRange` を出すだけ)。版 `BGC_TIME_VERSION` は `"w288c-bgtime-2"`(旗の意味の変更 —— 値は不変)。読み口 `HP.bgRangeCardInfo()`・`HP.bgRangeCardSync()`。QA **`behavior.bgRangeFlag`**(root は SKIP)。
 - **拒否**: 知らない mode/鍵・t0 なし・derivFrame なし/"frame" 以外・widthT なし/0 以下・taylor で radiusR なし・sources で radiusR を書く・sources で台帳なし・`bgModel:null` と併用・配列。
 - **採らない形**: 速度 `v` へ ∂ₜu をそのまま足す修正(ẋ=v+u の u の時間変化と重複する)。1 源の場を taylor で動かすと勾配を凍結するので見かけのせん断 −τ ∂ₜu⊗∇W/W を作る(🌒 で周期 +1.37×10⁻³ s —— PHYSICS〔第287便c〕)。
 - **内蔵の宣言**: 🌒 `charonGeoToy3` の 1 本(`bgModel:"sources"` の太陽 1 源 + `mode:"sources"`・`widthT` 3.4×10⁵)。🔁 `mercuryGeoToy3` は時間微分 0 なので宣言しない。これに伴い `bgModel` を宣言する内蔵も 🌒 の 1 本になった(§20 の「内蔵はこの鍵を 1 本も宣言していない」は第285便c の時点の記述 —— QA `behavior.bgDerivatives` は第287便c の世代で 🌒 の 1 本を期待する)。
 - **セーブ**: `loadSaveBgcAccept` は法則版の経路の相互検査 `bgLawCrossCheck(bgc, Object.assign({},DEFAULT_PHYSICS,ph), preset.sampleClass)` も呼ぶ(経路の無い法則版・較正クラス・centerSpin 等との併用・時間の契約の欠けをセーブ経路でも拒否)。背景の欄(#bgcPanel)は `timeContract` を編集せず引き継ぐ(`BGC_KEEP`)。
-- **読み口(HP 公開)**: `bgcTimeCheck(decl)`・`bgTimeNeeded(canonical)`・`bgTimeCrossCheck(canonical, path)`・`bgTimePrepare(canonical)`・`bgTimeMomentsAt(B, T, dx, dy, tau)`・`bgTimeFromSources(T, dx, dy, tau)`・`loadSaveBgcAccept(save, preset)`・定数 `BGC_TIME_VERSION`(`"w287c-bgtime-1"`)・`BGC_TIME_MODES`・`BGC_TIME_KEYS`。
+- **読み口(HP 公開)**: `bgcTimeCheck(decl)`・`bgTimeNeeded(canonical)`・`bgTimeCrossCheck(canonical, path)`・`bgTimePrepare(canonical)`・`bgTimeMomentsAt(B, T, dx, dy, tau)`・`bgTimeFromSources(T, dx, dy, tau)`・`loadSaveBgcAccept(save, preset)`・定数 `BGC_TIME_VERSION`(`"w287c-bgtime-1"` → 第288便c で `"w288c-bgtime-2"`)・`BGC_TIME_MODES`・`BGC_TIME_KEYS`。
 - QA: **`behavior.bgTimeContract`**・**`behavior.loadSaveBgLaw`**・**`docs.bgTimeContract`**(root は SKIP)。器 `tests/exp-w287c-bgtime.mjs`(正本 `tests/out/bgtime-w287c.json`・段 `bgtime287`)・試験 `tests/exp-w287c-bgsave.mjs`。
 ## 27. 第287便d の表示 —— BH 連星の家族の移管・線の軌跡の追従フレーム・ライブ比較の周期の定義(原仮定者の裁定〔第77報〕⑤・AN65/AN71/AN72・**表示と器だけ・SYSTEM_PROMPT には載せない**)
 
@@ -2802,3 +2818,80 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - 件数(基点 f94ca580 の宣言で・一覧に出る本 120 のうち): コア公理 70・拡張則 44・規定背景 4・意味論 3・比較チャネル 0・外部駆動 53・閉鎖系 67・温度=T_int 20・⚠強場トイ領域 12・引きずり 56 / 較正対象 31(全内蔵では 37)。比較チャネル(FLRW 対照)は内蔵に該当が無く 0 件のチップになる(表から機械で引くので手で外さない)。
 - 例(AND と NOT): コア公理 含む ∧ 引きずり 除く = 39 本・較正対象 含む ∧ 引きずり 除く = 10 本・📇 含む ∧ ⚠強場 除く = 72 本。
 - QA: **`ui.pickerOtherTriState`**(360×640 —— isMobile・タッチ / PC 1280×800)・**`ui.pickerBadgeAxes`**(root は SKIP)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators` は世代切替(html の `function ppOtherStateOf(`)で軸 4 → 15・チップ数 1+15・2 回目のタップは「除く」に読み替える(旧 4 軸の独立の数え直しと AND の検査は不変)。`ui.pickerFilterFold` は判定を変えずに通る。
+## 29. 第288便a の宣言鍵 —— 固定中心の合体・離散 `fixedCapture`・`fixedEject`(原仮定者の裁定〔第78報〕⑤・第78報で閉じた AN76/AN77/AN78・統括の検証項目 R113・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。最上位の**任意鍵 2 つ**を足した(宣言した本だけが通る —— 未宣言は `S.hasFixedCapture` の真偽値 1 つで素通り・`S._core` の外)。第287便a の `centerCapture`(自由中心・版 `w287a-capture-1`)とは**逆の契約**で、別の版キー `w288a-fixcap-1` に置く(`centerCapture` とは併用しない)。
+
+`fixedCapture` —— 支配天体(bodies[0] の single・**pinned 必須**)への合体をエネルギー優先で配分する:
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `version` | `"w288a-fixcap-1"` | 版キー(`FIXED_CAPTURE_VERSION`) |
+| `center` | `0` | 中心 = bodies[0](pinned の single) |
+| `rCap` | 正の数(既定 1.5) | 捕獲半径(本体半径・引きずり核 R_drag・慣性半径と別欄) |
+| `rInertia` | 正の数(**必須**) | 合体後の慣性半径 R_I(I = ½ M R_I² —— 合体の前の中心の自転エネルギーもこの I で数える) |
+| `h` | 0〜1(**必須**) | 熱の割合(ΔQ = h E_*・E_s′ = (1−h) E_*) |
+| `omegaMax` | 0 < Ω_max ≤ 40(**必須**) | 物理上限(エンジンの数値柵 ±40 とは別の宣言 —— 柵を越える値は受理しない) |
+| `overflowTo` | `"heat"` / `"precession"` / `"eject"` / `null`(**必須**) | \|Ω′\| > Ω_max の超過エネルギーの口座(熱 Q_over・歳差 E_prec〔帳簿だけ〕・離散の待ち口座 E_pend)。null は超過する合体を拒否(クランプで捨てない) |
+| `spinSign` | `"center"`(既定) | Ω′ の符号 = 中心の自転の符号(0 なら持ち込み J の符号・それも 0 なら符号を選ばず全部を熱へ) |
+
+- 規則: 距離 < rCap・束縛(½m_j\|v_j−v_c\|² − G m_c m_j/√(d²+ε²) < 0)で合体。E_* = K_in + E_s,c + E_s,j + (U_before − U_after) − ΔE_self(K_in = ½m_j\|v_j−v_c\|²・ΔE_self = U_pair)・**E_* < 0 は拒否**・Ω′ = s√(2E_s′/I′)。
+- 帳簿(`S.fixcap`): M・E(回転 + 並進 + ポテンシャル + 内部結合 E_self + 熱 Q + 超過口座)の格納残差・**J_pin**(ピンが持ち去った角運動量)・**P_pin**(固定近似の運動量残差)・拘束仕事(0 の列)。**固定中心は運動量と角運動量を保存しない**(J_pin・P_pin は別の口座 —— エネルギーの行と運動量の行を同じ文にしない)。
+- 拒否: 自由中心(pinned でない)・`thermal:"tint"`・fusion・phaseChange・`centerCapture` との併用・contactMode が "none" でない・h/Ω_max/R_I/overflowTo の未宣言・Ω_max > 40・overflowTo:"eject" で `fixedEject.trigger:"overflow"` が無い。
+
+`fixedEject` —— 離散(逆写像)。`fixedCapture` と組む:
+
+| 鍵 | 値 | 意味 |
+|---|---|---|
+| `version` | `"w288a-fixcap-1"` | 版キー |
+| `mass` | 正の数 | 放出する質量 |
+| `rInertiaAfter` | 正の数 | 放出後の中心の慣性半径 |
+| `rLaunch` | rCap より大きい数 | 放出体を置く距離(直後に捕獲し直さない) |
+| `direction` | `{posDeg, velDeg}` | 置く方位と速度の向き(度) |
+| `spinEject`・`radiusEject` | 数・正の数 | 放出体の自転と本体半径(= 慣性半径) |
+| `omegaAfter` | 0〜Ω_max | 宣言した歩の放出の後の \|Ω\|(trigger "overflow" では書かない) |
+| `trigger` | `{atStep:N}` / `"overflow"` | 宣言した歩で 1 回 / 超過の待ち口座 E_pend を使い切る |
+
+- 規則: K_eject = E_before − E_spin,remaining − E_spin,eject − U_after − E_self,after − Q_after(E_self,after = E_self − U_pair(c′,e)・Q_after = Q —— 熱化分を再利用しない)。**K < 0 なら放出しない**(拒否の数を数える)。v_eject = √(2K/m)。
+- **内蔵の宣言**: 🥜 `fixedCaptureCopy` の 1 本(`fixedCapture` だけ —— R_I 1.5・h 0・Ω_max 20・overflowTo "heat")。`fixedEject` を宣言する内蔵は無い(器が往復と 2 つのトリガを試す)。
+- **読み口(HP 公開)**: `dfmFixedCaptureStep(S)`・`dfmFixedEject(S, why, spec)`・`fixedCaptureCheck(p)`・定数 `FIXED_CAPTURE_VERSION`。純関数の配分器 `tests/lib-w288a-fixcap.mjs`(`allocate`・`ejectInverse`・`selfTest`)。
+- QA: **`behavior.fixedCaptureCopy`**・**`behavior.fixedCaptureAlloc`**・**`behavior.fixedCaptureContract`**(root は SKIP)。器 `tests/exp-w288a-fixcap.mjs`(正本 `tests/out/fixcap-w288a.json`・段 `fixcap288`)。
+
+## 30. 第288便b の一本化 —— 群「現実較正」とサブチップ・分類チップの語・退役 10 本と在位移行 10 本(原仮定者の裁定〔第78報〕④・AN80〜AN83・統括の検証項目 R114)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。変えたのは内蔵の宣言(退役の familyRole・在位移行の geoPN/kFrame・⏰ の f=1)と表示の表だけである。
+
+- **群**: 「現実との照合・太陽系」「現実との照合・連星」を **「現実較正」1 つ**へ(`GROUP_ORDER`・id `realityCal`・en "Reality Calibration"・絵文字 🎯)。内蔵の `group` 宣言 51 本を書き換えた。**旧 3 名(太陽系・連星・太陽系外)は `GROUP_ALIASES` で「現実較正」へ解決**する —— 保存や AI 生成のプリセットが旧名を宣言していても、そのまま新しい群の見出しに出る(宣言の文字列は書き換えない・旧 2 名の id `realitySolar`/`realityBeyond` は旧名の行に残る)。`presetSig` は group を見ない。
+- **サブチップ**: 「現実較正」の見出しの下に「すべて/太陽系/連星」(`#ppCalSub` —— §25 のセパレータの作法・`data-n` は選択肢の数・件数は一覧に出せる本を実行時に数える)。区分は **`calTargetOf(p)`**(`tests/exp-w282a-calcontract.mjs` の targetOf と同じ規則 —— id・familyId の宣言から: `psr*` → ns-binary・`gw150914*` → bh-binary・familyId alphaCen/sirius → stellar-binary・それ以外 → solar-system。**群の名前では分けない**)。状態 `ppCalSub` はセッション内だけ。**所属は合否を意味しない**(合否は較正監査の判定)。
+- **分類チップの語**: 派生値(既定 kFrame が 0 か否か —— 宣言・保存 JSON・署名に入らない)の表示を「現実較正」1 語へ。較正クラスで kFrame>0 が残る場合(退役の本・保存/AI 生成の旧宣言)だけ「引きずり近似(q)— 較正母集団の外」(en "Drag approx. (q) — outside the population")。鍵 `calibration:kf0`/`calibration:dfm` は内部の値のまま。観測との差のグラフの系列の語は「kFrame=0 / kFrame=1(履歴)」。
+- **退役 10 本**(🌘🧲🪨💿✴️💫⚡🧿🧶🎻 —— `familyRole:"retired"`・`RETIRED_PRESETS` の理由 ja/en と後継 see): サンプル一覧・検索・「この仲間」・隠し #presetSelect・AI 追加の基準候補に出ない(内蔵には残る —— 旧セーブ・旧 URL は読める)。凍結の写しは **`tests/fixtures/retired-w288b.json`**(対の kF0 側との宣言の差 `pairDiff` —— 「k だけが違う対」0 組)。既定の起動の本は 💿 から 💍 saturnRingReal へ。
+- **在位移行 10 本**(🌞🟠🌇🥔❄️💠🌊🧮🩺 は geoPN 2→1・kFrame 1→0 の 2 値だけ・⏰ は f≈2 → f=1〔🎐 の観測質量〕+kFrame 1→0): ID は不変。旧宣言は **`tests/fixtures/dfmcal-w288b.json`**。カードに在位移行の 1 行(side table `UNIFY_MIGRATED` → `#unifyNotice`・表示専用)。A/B の B 側は旧宣言(引きずり近似 q)。
+- **AI 追加の実在系カタログ**(`ASTRO_CATALOG`): 変種は出典のビット写しなので、出典が移行した 🌞(kf0 だけ・既定 kf0)と 🟠(kf1 = 出典の A/B の B 側・kf0 = 出典そのもの・既定 kf0)を付け替えた。語「DFM 版の規約」は「引きずり近似(q)の規約」へ。他の系の既定の変種と観測転写(`buildAstroFromRecords`)の既定 kFrame=1 は変えていない(決断事項)。
+- **契約**: `CAL_CONTRACT` 版 **w288b-1**(kf0 = 「現実較正」・dfm = 「引きずり近似(q)— 較正母集団の外」・`countVerdicts:false`・f1Books は在位の 🧮🩺⏰・legacy.twoSystems)。
+- 読み口: `calTargetOf(p)`・`calSubOf(p)`・`UNIFY_MIGRATED`・`unifyNoticeText(p)`(ページの大域 —— QA が読む)。
+- QA: **`preset.unifyTable`**・**`ui.calGroupUnified`**・**`docs.calVocab`**(root は SKIP)。器 `tests/exp-w288b-unify.mjs`(移行表 `tests/data-w288b-unify.json`)・`tests/exp-w288b-retiredfx.mjs`(凍結の写し 2 本)。docs/PHYSICS.md〔第288便b〕・docs/CALIBRATION_VERDICT_v1.44.md §5.38。
+
+## 31. 第288便c —— 背景と中心の合成の診断コピー・pair 巡回の融合・回転核の候補・🔁 の単位の訂正(原仮定者の裁定〔第78報〕⑧・第78報で閉じた AN84/AN85/AN86・統括の検証項目 R115・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`S._core` は不変。
+
+- **診断コピー 🧩 `galaxyAnalogyBHCompose`**(principle・較正ではない): 🌚 の写しに `physics.spaceMesh.D0:1.5`(静止背景 W_bg の明示 —— 旧 W_bg=D₀ と同じ数・力学は 🌚 とビット同一)と**表示と器だけの宣言 `bgCompose`**(`{version:"w288c-compose-1", harness, background:{from, W, A, p, units, static}, center:{ref:"body:k", once:true}, spin:{mode, centers, note}}` —— presetSig・力学は読まない)。共通評価器 `tests/lib-w288c-compose.mjs`(純関数・エンジン未接続): W=W_bg+Σw_j・A=A_bg+Σw_j v_j+A_spin・u=A/W を同じ核(w=m·s^{−p/2})・同じ単位(背景の宣言の p と核の p が違えば拒否 —— p=1 の W は M/L・p=2 は M/L²)・同じ自己除外で作り、**台帳が参照した中心は局所の和に入れない(1 回だけ)**。静止した中心(v_c=0)を足すだけでは A=0 —— 自転の流れは A_spin(有限サイズの回転源)を別に構成したときだけ。share-p1 の規約(centerSpin・spaceMesh.D0・meshVelocity との併用の拒否)は**変えない**。AI が `bgCompose` を生成することは想定しない(器の宣言)。
+- **pair 巡回の融合**(`dfmGeoToySpinStep` —— centerSpin:"read" の本だけ): 非順序対ごとに s・1/√s・s^{−p/2} を 1 回だけ作り、源の加速度の巡回と u・∇u・∂ₜu の巡回で再利用する(加速度確定後の第 2 巡回は残す)。和の順序と式は従来と同じで**ビット同一**(器 `tests/exp-w288c-pairfuse.mjs`・正本 `pairfuse-w288c.json`)。版 `PAIR_FUSE_VERSION`(`"w288c-pairfuse-1"`)・上限 `PAIR_FUSE_NMAX`(4096 —— 超えると従来の巡回)。`S.pairFuseOff=true` は器の対照用の旗(保存・署名・表示に入らない)・診断の読み口 `S.pairFuseSteps`。場の格子は元から無い(格子の撤去ではない)。
+- **回転核の候補** `tests/lib-w288c-rotlet.mjs`(純関数・**エンジン未接続**・既存の q 付き回転場に足さない —— 置換経路の比較器だけ): u=β J×r/s^{3/2}(β の単位 L/M —— G/c²)と解析勾配・双極子型の配向 U=C(r){J_i·J_j−3(J_i·r̂)(J_j·r̂)} の力とトルク。面内の J と面内の r では J×r は z を向く。
+- **🔁 の単位の訂正**: u=V=(2.3,0) 単位は L=8・T=4 で 1 単位 = 10 km/s → **23 km/s**(第280便c〜第287便d の記載はこの 10 倍の値で、換算の誤記 —— 値 2.3 と近点移動の結果は不変)。HUD の 1 行・🔁 の説明を訂正。
+- QA: **`behavior.bgRangeFlag`**・**`behavior.composeCenterOnce`**・**`behavior.pairLoopFused`**・**`behavior.rotletKernel`**・**`docs.mercuryUnits`**(root は SKIP)。正本 `bgrange-w288c.json`(段 `bgrange288`)・`compose-w288c.json`(段 `compose288`)・`pairfuse-w288c.json`(段 `pairfuse288`)。
+
+## 32. 第288便f の UI —— 「背景決定力 D₀」の次の静止背景相当 Wbg・「その他」の段ごとの畳み・0 件の軸の無効表示(原仮定者の裁定〔第78報〕⑨・第78報で閉じた AN89・統括の検証項目 R118・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(bitsame/sigsame 全本一致)。
+
+- **静止背景相当 Wbg**(パラメータタブ「引きずり・測地線」の「背景決定力 D₀」の**次**の行 `#wbgRow` —— 背景複素決定力の宣言欄 `#bgcPanel` はその直後):
+  - **読み取り専用**(入力欄なし・値は `output[aria-readonly]`)。値は `bgWbgOf(ph, cf, spinRead)` —— 場の契約(`jeansRowsVelocities` の Wbg)と**同じ関数**(式は 1 か所・切り出す前とビット同一)。
+  - 出所の規則: `physics.spaceMesh.D0` の宣言(中心の自転を読むトイ —— geoPN=3・lawVersion scalar・centerSpin read —— だけ)→ frameWeight pull の `D0pull` → `D0`。行の下に出所(「出所: spaceMesh.D0(宣言)」等)と換算の副表示(D₀ と同じ単位)。
+  - **背景相当の値であって kFrame=0 では力に入らない**(tip に明記)。背景複素決定力の宣言 W₀・A₀([M/L²] の別の量)とは別欄。値は描画ループが 15 フレームごと・D₀ 行の同期でも引き直す(ライブ値)。
+- **「その他」の段ごとの畳み**(§28 の 2 段 —— 宣言 / 分類バッジ): 段の見出し `.ppOtherSec` は開閉ボタン(`aria-expanded`・▾/▸ と隠した数は CSS —— 見出しの語は従来のまま)。
+  - 既定: 狭い画面(`innerWidth ≤ PP_OTHER_NARROW_PX` = 480)は 2 段とも畳んで開く・広い画面は開いて開く。開閉はセッション内だけ(`ppOtherSecOpen`)。
+  - **畳んでも含む(on)・除く(not)のチップは見える**(畳んだ段で隠すのは未選択のチップだけ)。要約行・行数・sig は変わらない。
+  - **0 件の軸は無効表示**(`disabled`・`aria-disabled`・`data-zero="1"` —— 淡色・点線の枠。行から消さない)。含む/除くにした 0 件の軸は押せる(解除できる)。
+  - 採寸(360×640): 開いた「その他」341 px(第287便e と同じ)→ 既定の畳んだ状態 131 px(選択 3 つで 191 px)。
+- QA: **`ui.paramWbgRow`**・**`ui.pickerOtherFold`**(360×640 —— isMobile・タッチ / PC 1280×800・root は SKIP)。既存の `ui.pickerOtherTriState`・`ui.pickerFilterFold` は畳まれた段を開いてから操作する(世代は `data-fold` の有無)・`ui.paramOrderDrag`・`ui.bgComplexPanel` は D₀ → Wbg → 背景複素決定力の欄の並び(世代は `buildWbgRow` の有無)。

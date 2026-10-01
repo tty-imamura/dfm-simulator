@@ -336,25 +336,28 @@ if (IS_MAIN && process.argv[2] === '--presets') {
   const nowSha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
   let CA1 = null, after = null;
   try { const c = JSON.parse(fs.readFileSync(path.join(ROOT, CANON_IN), 'utf8'));
-    if (c.meta && c.meta.targetSha256 === nowSha && RING_IDS.every((id) => (c.presets || []).some((p) => p.id === id))) {
+    // 第288便b(原仮定者の裁定(第78報)④): 退役した本(💿 saturnRingRealKF1)は calaudit の母集団の外 —— 正本に無くてよい(表では missing:true・履歴の対照は基点の正本 CA0 だけ)
+    const retiredIds = new Set(RING_IDS.filter((id) => { const p = byId(HP, id); return !!(p && p.familyRole === 'retired'); }));
+    if (c.meta && c.meta.targetSha256 === nowSha && RING_IDS.every((id) => retiredIds.has(id) || (c.presets || []).some((p) => p.id === id))) {
       CA1 = c; after = { source: 'canon', file: CANON_IN, targetSha256: nowSha };
     }
   } catch { /* 読めなければ走らせる */ }
   if (!CA1 && process.env.PLAYWRIGHT_CORE_DIR) {
     const t2 = fs.mkdtempSync(path.join(os.tmpdir(), 'w285a-ring-'));
     const o = path.join(t2, 'calaudit.json'), d = path.join(t2, 'calaudit-diag.json');
-    const sp = spawnSync(process.execPath, [path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), '--only', RING_IDS.join(',')],
+    const liveIds = RING_IDS.filter((id) => { const p = byId(HP, id); return !(p && p.familyRole === 'retired'); });   // 第288便b: 退役した本は判定器の CFG にも無い
+    const sp = spawnSync(process.execPath, [path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), '--only', liveIds.join(',')],
       { cwd: ROOT, env: Object.assign({}, process.env, { W249_OUT: o, W249_DIAG_OUT: d, QA_TARGET: TARGET }), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
     if (sp.status !== 0) { console.error(sp.stderr.slice(-2000)); throw new Error('判定器が失敗した: ' + sp.status); }
     CA1 = JSON.parse(fs.readFileSync(o, 'utf8'));
     fs.rmSync(t2, { recursive: true, force: true });
-    after = { source: 'fresh-run', cmd: 'node tests/exp-w249b-calaudit.mjs --only ' + RING_IDS.join(',') + '(W249_OUT は一時ファイル)',
+    after = { source: 'fresh-run', cmd: 'node tests/exp-w249b-calaudit.mjs --only ' + liveIds.join(',') + '(W249_OUT は一時ファイル)',
       targetSha256: CA1.meta ? CA1.meta.targetSha256 : null, why: '正本 calaudit-w249.json がいまの html の世代でない(鎖の再生成の前)' };
   }
   const ring = { base: { rev: BASE_REV, file: CANON_IN, sha256: crypto.createHash('sha256').update(baseTxt).digest('hex'), targetSha256: CA0.meta ? CA0.meta.targetSha256 : null },
     after, table: CA1 ? ringTable(CA0, CA1) : null,
     note: CA1 ? null : '後の判定を得られなかった(正本がいまの html の世代でなく、PLAYWRIGHT_CORE_DIR も無い)' };
-  if (ring.table) for (const t of ring.table) console.log(`(E) ${t.emoji} ${t.id}: ${t.nQuantities} 量・値が変わった ${t.nChanged}・最大 |差| ${e3(t.maxAbsDiff)}・区分 ${t.verdictMoved}・門 ${t.gateMoved}・步数 ${t.run.before.steps}→${t.run.after.steps}`);
+  if (ring.table) for (const t of ring.table) if (t.missing) console.log(`(E) ${t.id}: 正本に無い(退役 —— 較正母集団の外・第288便b)`); else console.log(`(E) ${t.emoji} ${t.id}: ${t.nQuantities} 量・値が変わった ${t.nChanged}・最大 |差| ${e3(t.maxAbsDiff)}・区分 ${t.verdictMoved}・門 ${t.gateMoved}・步数 ${t.run.before.steps}→${t.run.after.steps}`);
   const CODE = ['tests/exp-w285a-contact.mjs', 'tests/exp-w284e-tpsign.mjs', 'tests/lib-w283c-calstages.mjs', 'tests/exp-w249b-calaudit.mjs', 'tests/lib-w280b-emgrid.mjs',
     'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   const meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第285便a', target: TARGET, code: CODE, inputs: [TARGET, CANON_IN] }), {

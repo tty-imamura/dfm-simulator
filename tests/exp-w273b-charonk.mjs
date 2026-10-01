@@ -234,6 +234,9 @@ const declarationInert = await page.evaluate((N) => {
     const p = JSON.parse(JSON.stringify(src));
     p.sampleClass = 'principle';          // 門を迂回するためではなく、**両方を同じ条件に置く**ため
     delete p.notClaim;
+    // 第288便g: ❄️ は第288便b で geoPN=1・kFrame=0 へ在位移行した。geoPN=1 は kFrame=0 専用(分数 k を拒否する)なので、
+    //   宣言鍵の検査は C3 系列と同じ**旧宣言 geoPN=2 の写し**で走らせる(検査の中身 —— 2 つの宣言値で状態がビット同一か —— は変えない)
+    p.physics.geoPN = 2;
     p.physics.kFrame = 0.05;
     if (key) p.physics.kFrameApprox = key;
     return p;

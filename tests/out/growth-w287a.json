@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便a",
   "target": "beta/index.html",
-  "targetSha256": "cea53a3b1ea76e256be4723845c71c0b2c1bfe1222a85623eebced4a3e5a5b94",
-  "generatedAt": "2026-09-29T20:15:13.168Z",
+  "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
+  "generatedAt": "2026-09-30T23:57:06.630Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5262734,
-    "sha256": "cea53a3b1ea76e256be4723845c71c0b2c1bfe1222a85623eebced4a3e5a5b94",
-    "mtime": "2026-09-29T18:56:48.778Z"
+    "bytes": 5397459,
+    "sha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
+    "mtime": "2026-09-30T21:53:18.591Z"
    }
   ],
   "code": [
@@ -24,7 +24,7 @@
     "file": "tests/lib-w287a-growth.mjs",
     "bytes": 6124,
     "sha256": "53e5bc1d6bd8d7645ec35035dfc1131d35d3ccd34cb3dc6e63dd093553f2f589",
-    "mtime": "2026-09-29T18:56:48.810Z"
+    "mtime": "2026-09-30T01:39:16.031Z"
    },
    {
     "file": "tests/exp-w286a-cluster.mjs",
@@ -143,11 +143,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 860,
-   "segments": 779,
-   "closureShare": 0.3157
+   "names": 889,
+   "segments": 803,
+   "closureShare": 0.3164
   },
-  "scopeSha256": "10093688d9ea7ee609f22de00850a6209ab7fd41d63c4f07251b2442e9f14dc1",
+  "scopeSha256": "b5d708f442cb88515b8e395558893c77735c3371482bb7b57cf6214ff58bbdf0",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1932,8 +1932,8 @@
     "tailMeanAbs": 0.044485377540646576,
     "restored": false
    },
-   "wallSec": 8.53,
-   "spentSec": 25.603
+   "wallSec": 6.664,
+   "spentSec": 17.939
   },
   {
    "key": "pro-seed1",
@@ -3204,8 +3204,8 @@
     "tailMeanAbs": 0.03247381796737653,
     "restored": false
    },
-   "wallSec": 8.709,
-   "spentSec": 25.551
+   "wallSec": 6.366,
+   "spentSec": 17.789
   },
   {
    "key": "pro-seed2",
@@ -4311,8 +4311,8 @@
     "tailMeanAbs": 0.1573876522343127,
     "restored": false
    },
-   "wallSec": 8.622,
-   "spentSec": 27.205
+   "wallSec": 6.23,
+   "spentSec": 17.704
   },
   {
    "key": "retro-seed0",
@@ -5450,8 +5450,8 @@
     "tailMeanAbs": 0.03154688204668693,
     "restored": false
    },
-   "wallSec": 8.368,
-   "spentSec": 23.879
+   "wallSec": 5.654,
+   "spentSec": 16.564
   },
   {
    "key": "retro-seed1",
@@ -6602,8 +6602,8 @@
     "tailMeanAbs": 0.02359946254238976,
     "restored": true
    },
-   "wallSec": 8.337,
-   "spentSec": 25.735
+   "wallSec": 5.652,
+   "spentSec": 16.464
   },
   {
    "key": "retro-seed2",
@@ -8312,8 +8312,8 @@
     "tailMeanAbs": 0.035020675601269036,
     "restored": false
    },
-   "wallSec": 15.81,
-   "spentSec": 39.636
+   "wallSec": 10.662,
+   "spentSec": 25.907
   },
   {
    "key": "head-seed0",
@@ -9586,8 +9586,8 @@
     "tailMeanAbs": 0.031909783563752236,
     "restored": false
    },
-   "wallSec": 8.969,
-   "spentSec": 25.636
+   "wallSec": 5.996,
+   "spentSec": 17.094
   },
   {
    "key": "head-seed1",
@@ -10813,8 +10813,8 @@
     "tailMeanAbs": 0.03311070649280923,
     "restored": false
    },
-   "wallSec": 9.485,
-   "spentSec": 27.128
+   "wallSec": 6.62,
+   "spentSec": 18.608
   },
   {
    "key": "head-seed2",
@@ -11910,8 +11910,8 @@
     "tailMeanAbs": 0.028245444946178144,
     "restored": false
    },
-   "wallSec": 8.987,
-   "spentSec": 26.246
+   "wallSec": 6.278,
+   "spentSec": 18.143
   }
  ],
  "radiusRun": {
@@ -13632,8 +13632,8 @@
    "tailMeanAbs": 0.03296121516296241,
    "restored": false
   },
-  "wallSec": 5.497,
-  "spentSec": 15.428
+  "wallSec": 3.889,
+  "spentSec": 10.677
  },
  "summary": {
   "nDeclared": 3,
@@ -13645,21 +13645,21 @@
    {
     "key": "pro-seed0",
     "steps": 9248,
-    "wallSec": 8.53,
+    "wallSec": 6.664,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed1",
     "steps": 9248,
-    "wallSec": 8.709,
+    "wallSec": 6.366,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed2",
     "steps": 8092,
-    "wallSec": 8.622,
+    "wallSec": 6.23,
     "verdict": "未達",
     "n0": 85
    }
@@ -13692,7 +13692,7 @@
   "growthSteps": 26588,
   "jeansSteps": 21111,
   "growthTotal": {
-   "wallSec": 25.860999999999997
+   "wallSec": 19.259999999999998
   },
   "jeansTotal": {
    "wallSec": 1781.887
@@ -13700,6 +13700,6 @@
   "growthPass": 0,
   "jeansPass": 0
  },
- "elapsedS": 124.225,
+ "elapsedS": 84.715,
  "verdict": "未達"
 }

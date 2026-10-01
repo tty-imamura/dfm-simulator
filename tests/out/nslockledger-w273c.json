@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第273便c(第63報・AH24)",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:18:03.172Z",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T05:32:29.319Z",
   "inputs": [
    {
     "file": "tests/out/nslock-w272c.json",
-    "bytes": 228342,
-    "sha256": "94ca18278666e374805e4870e0c5e06f7e583b32cfffa2b78bc5f8e3499e671f",
-    "mtime": "2026-09-29T19:20:41.190Z"
+    "bytes": 228101,
+    "sha256": "b338ed0ff3a033c6cd56e38ae1a695617571a0f4cac8c7dc837c65eb96b88483",
+    "mtime": "2026-09-30T23:30:30.987Z"
    }
   ],
   "code": [
@@ -31,7 +31,7 @@
  },
  "section": "NS 連星 4 系の lock 枝(kFrame=0・f=1・λ_PN=1)の記録",
  "sourceHarness": "w272c-nslock-1",
- "sourceAt": "2026-09-29T19:07:44.697Z",
+ "sourceAt": "2026-09-30T23:12:59.466Z",
  "metric": "近点間 P = 位相制限(1.5π)の最初の 20 近点(19 区間)の平均間隔。ω̇ = 採用近点の方位を実時刻に回帰した傾き(°/年)。e = 窓内の (r_max−r_min)/(r_max+r_min)(eProxy)。",
  "assessedStageRule": "**ω̇ は 3 段(h, h/2, h/4)の Richardson 外挿**(`omegaDotExt`)と**h/4 段の値**(`omegaDotH4`)を両方置く。外挿は観測次数 p が正で単調な列だけに作る(第273便c・AH30 —— 非正の次数から外挿は作らない)。",
  "declarationNote": "`pnAlpha`・`lambdaPN`・`geoPN`・`frameWeight` は**内蔵プリセットの宣言**であって実測ではない。**速度は E12 の主張域どおり u=0 の絶対値(座標速度)**で、正本は docs/PHYSICS.md の E12 節である(この器は宣言を読んだだけで、規約を作っていない)。",
@@ -159,10 +159,10 @@
     "source": "Cameron et al. (2018) MNRAS 475 L57 - The High Time Resolution Univers"
    },
    "declared": {
-    "kFrame": 1,
+    "kFrame": 0,
     "lambdaPN": 1,
     "pnAlpha": 1.5,
-    "geoPN": 2,
+    "geoPN": 1,
     "frameWeight": "pull",
     "massFactor": null
    },
@@ -171,12 +171,12 @@
      "spec": {
       "builtin": true
      },
-     "omegaDotExt": 2.477937660780722,
-     "omegaDotH4": 2.4807279379937364,
-     "ratioExt": 0.2390654852129475,
-     "ratioH4": 0.239334684469396,
-     "nSigmaExt": -39435.81169609639,
-     "pObs": 1.1289649840476064,
+     "omegaDotExt": 10.361556057827336,
+     "omegaDotH4": 10.3613611120462,
+     "ratioExt": 0.999658088954987,
+     "ratioH4": 0.9996392810533618,
+     "nSigmaExt": -17.719710863319804,
+     "pObs": 1.9970647324891095,
      "resolved": true
     },
     "lock": {
@@ -201,13 +201,13 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 13.871548749639379,
-     "omegaDotH4": 13.94117923948623,
-     "ratioExt": 1.3382937694416241,
-     "ratioH4": 1.345011552178583,
-     "nSigmaExt": 17532.243748196892,
-     "pObs": 1.0457035865581066,
-     "resolved": true
+     "omegaDotExt": null,
+     "omegaDotH4": null,
+     "ratioExt": null,
+     "ratioH4": null,
+     "nSigmaExt": null,
+     "pObs": null,
+     "resolved": false
     },
     "kf0Ledger": {
      "spec": {
@@ -231,13 +231,13 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 2.477937660780722,
-     "omegaDotH4": 2.4807279379937364,
-     "ratioExt": 0.2390654852129475,
-     "ratioH4": 0.239334684469396,
-     "nSigmaExt": -39435.81169609639,
-     "pObs": 1.1289649840476064,
-     "resolved": true
+     "omegaDotExt": null,
+     "omegaDotH4": null,
+     "ratioExt": null,
+     "ratioH4": null,
+     "nSigmaExt": null,
+     "pObs": null,
+     "resolved": false
     },
     "newton": {
      "spec": {
@@ -270,10 +270,10 @@
     "source": "Meng et al. (2025) A&A 704 A153 - The double neutron star PSR J1946+20"
    },
    "declared": {
-    "kFrame": 1,
+    "kFrame": 0,
     "lambdaPN": 1,
     "pnAlpha": 1.5,
-    "geoPN": 2,
+    "geoPN": 1,
     "frameWeight": "pull",
     "massFactor": null
    },
@@ -282,13 +282,13 @@
      "spec": {
       "builtin": true
      },
-     "omegaDotExt": null,
-     "omegaDotH4": null,
-     "ratioExt": null,
-     "ratioH4": null,
-     "nSigmaExt": null,
-     "pObs": null,
-     "resolved": false
+     "omegaDotExt": 25.77804082106481,
+     "omegaDotH4": 25.77745758648087,
+     "ratioExt": 0.9994568411997033,
+     "ratioH4": 0.9994342282401311,
+     "nSigmaExt": -35.02294733797484,
+     "pObs": 1.9988756536438648,
+     "resolved": true
     },
     "lock": {
      "spec": {
@@ -312,13 +312,13 @@
       "lambdaPN": 1,
       "keepCore": false
      },
-     "omegaDotExt": 23.887297453719764,
-     "omegaDotH4": 24.130241371898467,
-     "ratioExt": 0.9261496257071371,
-     "ratioH4": 0.9355689591133108,
-     "nSigmaExt": -4761.8813657005885,
-     "pObs": 1.1285064440391182,
-     "resolved": true
+     "omegaDotExt": null,
+     "omegaDotH4": null,
+     "ratioExt": null,
+     "ratioH4": null,
+     "nSigmaExt": null,
+     "pObs": null,
+     "resolved": false
     },
     "kf0Ledger": {
      "spec": {

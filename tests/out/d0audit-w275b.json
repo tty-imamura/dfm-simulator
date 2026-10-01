@@ -3,28 +3,28 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便b",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:17:36.828Z",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T05:31:58.115Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-30T00:16:40.595Z"
+    "bytes": 5356329,
+    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+    "mtime": "2026-10-01T04:18:52.243Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887889,
-    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
-    "mtime": "2026-09-29T23:47:20.387Z"
+    "bytes": 1831255,
+    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
+    "mtime": "2026-10-01T04:31:39.003Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w275b-d0audit.mjs",
-    "bytes": 23083,
-    "sha256": "dd4e4e5bf0b29f664d209997b9159d69b696303c0db7c1e53bc0521590d91560",
-    "mtime": "2026-09-20T17:43:15.898Z"
+    "bytes": 24283,
+    "sha256": "a84ea4247b3dd240466be1a970c1ad8225ecadd5e2f15cc6ea9c0831ca65fdb2",
+    "mtime": "2026-10-01T04:18:52.279Z"
    },
    {
     "file": "tests/lib-w275b-dsplit.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "37ef3106a97a66f113d0eff308043cac93789a2a10ef01d6de73446b4cb970aa",
+  "codeSha256": "69741d5bf1c3124338b7a43c8818c287b6a9cf689e2515353373891546ecda15",
   "harness": "tests/exp-w275b-d0audit.mjs",
   "harnessVersion": "w275b-d0audit-1",
   "dsplitVersion": "w275b-dsplit-1",
@@ -128,18 +128,19 @@
    "value": 19414166.4,
    "sigma": null,
    "unit": "s",
-   "name": "公転周期(kFrame=1・E6′-R)",
+   "name": "公転周期(kFrame=0 対照)",
    "sigmaNote": "CSV の sigma 列が空欄(**未記録**であって 0 ではない)",
    "method": "同方向1周(2周目 — obsCard の数え方)",
    "from": "tests/out/calaudit-w249.json"
   },
   "independentCheck": {
    "kF1": {
-    "calaudit": 19414266.578568343,
+    "calaudit": null,
     "name": "公転周期(kFrame=1・E6′-R)",
+    "noCounterpart": "第288便b の在位移行(🌇 kFrame 1→0)—— 判定器の正本に kFrame=1 で測った行は無い(「公転周期(kFrame=1・E6′-R)」は門 condition-mismatch)",
     "here": 19414266.578568343,
-    "absDiff": 0,
-    "bitSame": true
+    "absDiff": null,
+    "bitSame": null
    },
    "kF0": {
     "calaudit": 19413888.609564465,
@@ -225,7 +226,7 @@
   {
    "id": "earthMoonReal",
    "emoji": "🌙",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -269,7 +270,7 @@
   {
    "id": "earthMoonRealKF1",
    "emoji": "🌘",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -313,7 +314,7 @@
   {
    "id": "emAuditDFM",
    "emoji": "🧲",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -357,7 +358,7 @@
   {
    "id": "emAuditSolar",
    "emoji": "🔆",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -407,7 +408,7 @@
   {
    "id": "mercuryReal",
    "emoji": "☄️",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -457,7 +458,7 @@
   {
    "id": "mercuryRealKF1",
    "emoji": "🪨",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -507,7 +508,7 @@
   {
    "id": "solarInner",
    "emoji": "🌞",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -520,9 +521,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 6,
    "unitSI": 10000000000000000000,
@@ -557,7 +558,7 @@
   {
    "id": "jupiterGalilean",
    "emoji": "🟠",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 7,
@@ -570,9 +571,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 5,
    "unitSI": 10000000000000000000,
@@ -601,7 +602,7 @@
   {
    "id": "venusReal",
    "emoji": "🌇",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -614,9 +615,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 10000000000000000000,
@@ -651,7 +652,7 @@
   {
    "id": "marsMoonsReal",
    "emoji": "🥔",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -664,9 +665,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 3,
    "unitSI": 10000000000000000000,
@@ -695,7 +696,7 @@
   {
    "id": "plutoCharonReal",
    "emoji": "❄️",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -708,9 +709,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 10000000000000000000,
@@ -739,7 +740,7 @@
   {
    "id": "uranusReal",
    "emoji": "💠",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -752,9 +753,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 17,
    "unitSI": 10000000000000000000,
@@ -783,7 +784,7 @@
   {
    "id": "neptuneReal",
    "emoji": "🌊",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 7,
@@ -796,9 +797,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 10000000000000000000,
@@ -827,7 +828,7 @@
   {
    "id": "alphaCenAB",
    "emoji": "✨",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 10,
@@ -867,7 +868,7 @@
   {
    "id": "alphaCenABDFM",
    "emoji": "✴️",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 10,
@@ -907,7 +908,7 @@
   {
    "id": "siriusAB",
    "emoji": "🌟",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 10,
@@ -947,7 +948,7 @@
   {
    "id": "siriusABDFM",
    "emoji": "💫",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 10,
@@ -987,7 +988,7 @@
   {
    "id": "psrDoubleAB",
    "emoji": "📻",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1027,7 +1028,7 @@
   {
    "id": "psrDoubleABDFM",
    "emoji": "⚡",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1067,7 +1068,7 @@
   {
    "id": "psrDoubleABSpinCal",
    "emoji": "🧿",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1107,7 +1108,7 @@
   {
    "id": "psrJ1757DFM",
    "emoji": "🧮",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1120,9 +1121,9 @@
    "D0pull": 3.24204e-7,
    "d0Used": 3.24204e-7,
    "d0UsedKey": "physics.D0pull",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 1000000000000000,
@@ -1147,7 +1148,7 @@
   {
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1160,9 +1161,9 @@
    "D0pull": 3.24204e-7,
    "d0Used": 3.24204e-7,
    "d0UsedKey": "physics.D0pull",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 1000000000000000,
@@ -1187,7 +1188,7 @@
   {
    "id": "psrDoubleABPN",
    "emoji": "🪶",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1227,7 +1228,7 @@
   {
    "id": "psrJ1757PN",
    "emoji": "🪃",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1267,7 +1268,7 @@
   {
    "id": "psrJ1946PN",
    "emoji": "🪀",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1307,7 +1308,7 @@
   {
    "id": "psrDoubleABCF",
    "emoji": "🪝",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1347,7 +1348,7 @@
   {
    "id": "psrJ1757CF",
    "emoji": "🪄",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1387,7 +1388,7 @@
   {
    "id": "psrJ1946CF",
    "emoji": "🩹",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1427,7 +1428,7 @@
   {
    "id": "psrB1534",
    "emoji": "📿",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1467,7 +1468,7 @@
   {
    "id": "psrB1534DFM",
    "emoji": "🧶",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1507,7 +1508,7 @@
   {
    "id": "psrB1534CF",
    "emoji": "🪤",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1547,7 +1548,7 @@
   {
    "id": "gw150914",
    "emoji": "🎐",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "extragalactic",
    "scaleExp": {
     "L": 4,
@@ -1582,7 +1583,7 @@
   {
    "id": "gw150914DFM",
    "emoji": "🎻",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "extragalactic",
    "scaleExp": {
     "L": 4,
@@ -1617,7 +1618,7 @@
   {
    "id": "gw150914Merge4s",
    "emoji": "⏰",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "extragalactic",
    "scaleExp": {
     "L": 4,
@@ -1630,7 +1631,7 @@
    "D0pull": 3.24204e-13,
    "d0Used": 3.24204e-13,
    "d0UsedKey": "physics.D0pull",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
    "geoPN": 0,
    "D0Source": null,
@@ -1652,7 +1653,7 @@
   {
    "id": "saturnZonalD68",
    "emoji": "📡",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -1696,7 +1697,7 @@
   {
    "id": "saturnRingReal",
    "emoji": "💍",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -1740,7 +1741,7 @@
   {
    "id": "saturnRingRealKF1",
    "emoji": "💿",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -1964,7 +1965,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.392,
+     "wallSec": 0.615,
      "rev2Sec": 19413888.609564465,
      "residPct": -0.0014308646058270656,
      "sigma": null
@@ -2000,7 +2001,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.535,
+     "wallSec": 1.137,
      "rev2Sec": 19413888.581032414,
      "residPct": -0.0014310115709347201,
      "sigma": null
@@ -2036,7 +2037,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.867,
+     "wallSec": 1.913,
      "rev2Sec": 19413888.573797643,
      "residPct": -0.0014310488363555246,
      "sigma": null
@@ -2082,7 +2083,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.241,
+     "wallSec": 0.536,
      "rev2Sec": 19413888.609564465,
      "residPct": -0.0014308646058270656,
      "sigma": null
@@ -2118,7 +2119,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.39,
+     "wallSec": 0.92,
      "rev2Sec": 19413888.581032414,
      "residPct": -0.0014310115709347201,
      "sigma": null
@@ -2154,7 +2155,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.049,
+     "wallSec": 1.814,
      "rev2Sec": 19413888.573797643,
      "residPct": -0.0014310488363555246,
      "sigma": null
@@ -2200,7 +2201,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.242,
+     "wallSec": 0.456,
      "rev2Sec": 19413888.609564465,
      "residPct": -0.0014308646058270656,
      "sigma": null
@@ -2236,7 +2237,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.414,
+     "wallSec": 0.878,
      "rev2Sec": 19413888.581032414,
      "residPct": -0.0014310115709347201,
      "sigma": null
@@ -2272,7 +2273,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.896,
+     "wallSec": 1.833,
      "rev2Sec": 19413888.573797643,
      "residPct": -0.0014310488363555246,
      "sigma": null
@@ -2302,7 +2303,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.105,
+     "wallSec": 0.172,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2321,7 +2322,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.068,
+     "wallSec": 0.154,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2340,7 +2341,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.069,
+     "wallSec": 0.168,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2386,7 +2387,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.456,
+     "wallSec": 0.824,
      "rev2Sec": 19414266.578568343,
      "residPct": 0.0005160075703511187,
      "sigma": null
@@ -2422,7 +2423,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.714,
+     "wallSec": 1.402,
      "rev2Sec": 19414254.9209926,
      "residPct": 0.00045596082149142907,
      "sigma": null
@@ -2458,7 +2459,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.303,
+     "wallSec": 2.66,
      "rev2Sec": 19414249.618583623,
      "residPct": 0.000428648760447474,
      "sigma": null
@@ -2500,7 +2501,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.381,
+     "wallSec": 0.762,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2532,7 +2533,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.742,
+     "wallSec": 1.442,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2564,7 +2565,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.255,
+     "wallSec": 3.022,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2610,7 +2611,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.411,
+     "wallSec": 0.797,
      "rev2Sec": 19413890.993609134,
      "residPct": -0.0014185846829066122,
      "sigma": null
@@ -2646,7 +2647,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.684,
+     "wallSec": 1.578,
      "rev2Sec": 19413890.966572862,
      "residPct": -0.0014187239434415861,
      "sigma": null
@@ -2682,7 +2683,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.278,
+     "wallSec": 2.738,
      "rev2Sec": 19413890.960099775,
      "residPct": -0.001418757285520978,
      "sigma": null
@@ -2712,7 +2713,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.194,
+     "wallSec": 0.324,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2731,7 +2732,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.134,
+     "wallSec": 0.323,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2750,7 +2751,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.145,
+     "wallSec": 0.366,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null

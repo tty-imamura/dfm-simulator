@@ -1,0 +1,1666 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第288便d",
+  "target": "beta/index.html",
+  "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
+  "generatedAt": "2026-09-30T22:10:28.077Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5397459,
+    "sha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
+    "mtime": "2026-09-30T21:53:18.591Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w288d-spinprec.mjs",
+    "bytes": 36500,
+    "sha256": "26c4458b34386f8d4db8e56e357bb9fd91dca0bbbaa4abf755c0cf0775acf43f",
+    "mtime": "2026-09-30T22:06:49.170Z"
+   },
+   {
+    "file": "tests/lib-w288d-spinprec.mjs",
+    "bytes": 23886,
+    "sha256": "215140762b431fb82a6a0084ca7ee0587e603b0a2f2fc0b9152fea6982f89034",
+    "mtime": "2026-09-30T20:54:30.749Z"
+   },
+   {
+    "file": "tests/lib-w275e-powerball.mjs",
+    "bytes": 23684,
+    "sha256": "dc402b1f38a78a66b34db6e6585a3d42f332800de781226141cd1c9398568fe6",
+    "mtime": "2026-09-21T12:31:34.089Z"
+   },
+   {
+    "file": "tests/lib-w276c-axiswork.mjs",
+    "bytes": 23751,
+    "sha256": "142bd7f6678ad7eb2a4bb3d4c86bb925d2de397994f736e9cddf13462a85e738",
+    "mtime": "2026-09-22T06:22:45.326Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-09-18T17:14:55.948Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-09-28T21:48:12.641Z"
+   }
+  ],
+  "codeSha256": "1dd1c5d5b1b68951bc06b1e4e889baee9390be982185491536823cc9910961a6",
+  "harnessVersion": "w288d-spinprec-h1",
+  "libVersion": "w288d-spinprec-1",
+  "ruling": "原仮定者の裁定(第78報)⑥・統括の検証項目 R116",
+  "engine": "なし(node 模型 —— html は dfmCoreAxisStep・coreAxisState のソースと 🪩 の宣言を文字列で読むだけ)",
+  "notClaim": [
+   "歳差の発見",
+   "潮汐ロックの成立",
+   "腕の渦伸長による生成",
+   "DFM から導出した",
+   "エンジンに実装した",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "bhCoreTilt"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.allPresets",
+    "HP.sim",
+    "HP.validatePreset",
+    "coreAxisState",
+    "dfmCoreAxisStep"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 888,
+   "segments": 802,
+   "closureShare": 0.3164
+  },
+  "scopeSha256": "be0684a2d75dcbd08de25532ce3c2ec25fa2396141dd7e756a9fcdcd24927d8a",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "premise": {
+  "version": "w288d-spinprec-1",
+  "source": "原仮定者の裁定(第78報)⑥・統括の検証項目 R116",
+  "status": "構成則の候補(DFM から導出した法則ではない)。エンジン未接続の node 模型",
+  "energyCanon": "剛体式 E_rot=½I_∥(ψ̇+φ̇cosθ)²+½I_⊥(θ̇²+φ̇²sin²θ) を正本とし E_spin/E_prec/E_nut に分ける。|J|²/(2I) は球でだけ一致する比較値(足さない)",
+  "supply": "W_drive だけ(τ·ŝ=0 のジャイロトルクは供給源ではない)。W_drive<0 はスピン口座から・口座を越える分は拒否して記録",
+  "chain": "①スピン上限の超過→傾き(E_axis)②θ=90° 後の余剰→歳差(E_prec)③歳差上限の超過→スピンへ戻る④そのときだけ stretchFlag",
+  "heat": "熱 Q はランダムなミクロ回転のエネルギーの和(ネット J=0 でも Q>0)。符号付きスピンで代用しない",
+  "lockSign": "共通座標の軸が同向なら K>0・逆向なら K<0(宣言)。局所軸(互いを向く)の規約では符号が変わりうる",
+  "unchanged": [
+   "tests/lib-w275e-powerball.mjs(w275e-1)",
+   "tests/lib-w276c-axiswork.mjs(w276c-2)"
+  ],
+  "notClaim": [
+   "歳差の発見",
+   "潮汐ロックの成立",
+   "腕の渦伸長による生成",
+   "DFM からの導出",
+   "エンジンへの実装",
+   "実物のパワーボールの接触機構の証明",
+   "σ_spin・σ_prec・K_tilt・K・γ の実在天体での同定"
+  ]
+ },
+ "tolerances": {
+  "rel": 1e-12,
+  "lockFloors": {
+   "period": 1e-8,
+   "decay": 0.000001,
+   "energyUp": 1e-9,
+   "phaseRel": 1e-12
+  },
+  "engineFenceNotUsed": 40
+ },
+ "indexUnits": {
+  "omega": 276.79230428103904,
+  "rows": [
+   {
+    "def": "kerr",
+    "formula": "χ = c J/(G M²)・J = I ω",
+    "chiSI": 0.026916359317600558,
+    "chiCgs": 0.026916359317600558,
+    "relDiff": 0
+   },
+   {
+    "def": "surface",
+    "formula": "χ = Ω R / c",
+    "chiSI": 0.011079356944237964,
+    "chiCgs": 0.011079356944237964,
+    "relDiff": 0
+   },
+   {
+    "def": "breakup",
+    "formula": "χ = Ω / √(G M / R³)",
+    "chiSI": 0.02730457619699773,
+    "chiCgs": 0.02730457619699773,
+    "relDiff": 0
+   }
+  ],
+  "ok": true,
+  "note": "指標はどれも ω に線形(χ=ω/ω_ref)。値は比較の例で、どれを採るかは決断事項候補。エンジンの柵 ±40 は使っていない"
+ },
+ "chain": {
+  "decl": {
+   "Ipar": 1,
+   "Iperp": 0.75,
+   "omega0": 1,
+   "Ktilt": 1,
+   "sigmaSpin": 2,
+   "sigmaPrec": 1.5,
+   "omegaRefSpin": 1,
+   "omegaRefPrec": 1,
+   "P": 0.0625,
+   "dt": 0.015625,
+   "tEnd": 64,
+   "index": "ratio"
+  },
+  "caps": {
+   "capSpin": 2,
+   "capPrec": 0.84375,
+   "Ktilt": 1,
+   "how": "cap = ½I(σ ω_ref)²(指標 ratio・ω_ref=1)。θ=90° の傾きの口座の上限は K_tilt"
+  },
+  "closedTimes": {
+   "tSpinCap": 24,
+   "tAxisFull": 40,
+   "tPrecCap": 53.5
+  },
+  "events": {
+   "spinCap": {
+    "measured": 24,
+    "closed": 24,
+    "rule": "t_k − dt < t* ≤ t_k(到達)",
+    "containsClosed": true
+   },
+   "axisFull": {
+    "measured": 40,
+    "closed": 40,
+    "rule": "t_k − dt < t* ≤ t_k(到達)",
+    "containsClosed": true
+   },
+   "precCap": {
+    "measured": 53.5,
+    "closed": 53.5,
+    "rule": "t_k − dt < t* ≤ t_k(到達)",
+    "containsClosed": true
+   },
+   "stretch": {
+    "measured": 53.515625,
+    "closed": 53.5,
+    "rule": "t* < t_k ≤ t* + dt(超過)",
+    "containsClosed": true
+   }
+  },
+  "order": true,
+  "worstClosedRel": {
+   "Espin": 0,
+   "Eaxis": 0,
+   "Eprec": 0,
+   "theta": 1.9861237065351957e-16,
+   "phiDot": 0
+  },
+  "identity": {
+   "worstResAbs": 0,
+   "worstResRel": 0
+  },
+  "flagBeforePrecCap": false,
+  "spinAboveCapBeforeFlag": 0,
+  "flows": {
+   "spinToAxis": 1,
+   "spinToPrec": 221.671875,
+   "precToSpin": 220.828125
+  },
+  "end": {
+   "t": 64,
+   "Espin": 2.65625,
+   "Eaxis": 1,
+   "Eprec": 0.84375,
+   "Q": 0,
+   "Win": 4,
+   "Eover": 0.65625,
+   "thetaDeg": 90,
+   "phiDot": 1.5,
+   "omega3": 2.3048861143232218,
+   "psiDot": 2.3048861143232218,
+   "stretchFlag": true
+  },
+  "firstFlagT": 54,
+  "series": [
+   {
+    "t": 0,
+    "Espin": 0.5,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1,
+    "chiSpin": 1,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 1,
+    "Espin": 0.5625,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.0606601717798212,
+    "chiSpin": 1.0606601717798212,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 2,
+    "Espin": 0.625,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.118033988749895,
+    "chiSpin": 1.118033988749895,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 3,
+    "Espin": 0.6875,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.1726039399558574,
+    "chiSpin": 1.1726039399558574,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 4,
+    "Espin": 0.75,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.224744871391589,
+    "chiSpin": 1.224744871391589,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 5,
+    "Espin": 0.8125,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.2747548783981961,
+    "chiSpin": 1.2747548783981961,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 6,
+    "Espin": 0.875,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.3228756555322954,
+    "chiSpin": 1.3228756555322954,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 7,
+    "Espin": 0.9375,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.3693063937629153,
+    "chiSpin": 1.3693063937629153,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 8,
+    "Espin": 1,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.4142135623730951,
+    "chiSpin": 1.4142135623730951,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 9,
+    "Espin": 1.0625,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.4577379737113252,
+    "chiSpin": 1.4577379737113252,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 10,
+    "Espin": 1.125,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.5,
+    "chiSpin": 1.5,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 11,
+    "Espin": 1.1875,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.541103500742244,
+    "chiSpin": 1.541103500742244,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 12,
+    "Espin": 1.25,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.5811388300841898,
+    "chiSpin": 1.5811388300841898,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 13,
+    "Espin": 1.3125,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.620185174601965,
+    "chiSpin": 1.620185174601965,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 14,
+    "Espin": 1.375,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.6583123951777,
+    "chiSpin": 1.6583123951777,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 15,
+    "Espin": 1.4375,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.695582495781317,
+    "chiSpin": 1.695582495781317,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 16,
+    "Espin": 1.5,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.7320508075688772,
+    "chiSpin": 1.7320508075688772,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 17,
+    "Espin": 1.5625,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.7677669529663689,
+    "chiSpin": 1.7677669529663689,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 18,
+    "Espin": 1.625,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.8027756377319946,
+    "chiSpin": 1.8027756377319946,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 19,
+    "Espin": 1.6875,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.8371173070873836,
+    "chiSpin": 1.8371173070873836,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 20,
+    "Espin": 1.75,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.8708286933869707,
+    "chiSpin": 1.8708286933869707,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 21,
+    "Espin": 1.8125,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.9039432764659772,
+    "chiSpin": 1.9039432764659772,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 22,
+    "Espin": 1.875,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.9364916731037085,
+    "chiSpin": 1.9364916731037085,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 23,
+    "Espin": 1.9375,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 1.9685019685029528,
+    "chiSpin": 1.9685019685029528,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 24,
+    "Espin": 2,
+    "Eaxis": 0,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 0,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 25,
+    "Espin": 2,
+    "Eaxis": 0.0625,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 20.36413480631781,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 26,
+    "Espin": 2,
+    "Eaxis": 0.125,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 28.955024371859846,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 27,
+    "Espin": 2,
+    "Eaxis": 0.1875,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 35.65908769613876,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 28,
+    "Espin": 2,
+    "Eaxis": 0.25,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 41.40962210927086,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 29,
+    "Espin": 2,
+    "Eaxis": 0.3125,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 46.56746344221023,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 30,
+    "Espin": 2,
+    "Eaxis": 0.375,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 51.31781254651057,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 31,
+    "Espin": 2,
+    "Eaxis": 0.4375,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 55.771133672187425,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 32,
+    "Espin": 2,
+    "Eaxis": 0.5,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 60.00000000000001,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 33,
+    "Espin": 2,
+    "Eaxis": 0.5625,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 64.05552022763,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 34,
+    "Espin": 2,
+    "Eaxis": 0.625,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 67.97568716295785,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 35,
+    "Espin": 2,
+    "Eaxis": 0.6875,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 71.790043135717,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 36,
+    "Espin": 2,
+    "Eaxis": 0.75,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 75.52248781407008,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 37,
+    "Espin": 2,
+    "Eaxis": 0.8125,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 79.19307712513967,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 38,
+    "Espin": 2,
+    "Eaxis": 0.875,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 82.81924421854171,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 39,
+    "Espin": 2,
+    "Eaxis": 0.9375,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 86.41667830152804,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 40,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 0,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 41,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.0625,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 0.408248290463863,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0.408248290463863,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 42,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.125,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 0.5773502691896257,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0.5773502691896257,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 43,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.1875,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 0.7071067811865476,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0.7071067811865476,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 44,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.25,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 0.816496580927726,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0.816496580927726,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 45,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.3125,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 0.9128709291752769,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 0.9128709291752769,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 46,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 1,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 47,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.4375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.0801234497346435,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 1.0801234497346435,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 48,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.5,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.1547005383792515,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 1.1547005383792515,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 49,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.5625,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.224744871391589,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 1.224744871391589,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 50,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.625,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.2909944487358056,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 1.2909944487358056,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 51,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.6875,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.35400640077266,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 1.35400640077266,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 52,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.75,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.4142135623730951,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 1.4142135623730951,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 53,
+    "Espin": 2,
+    "Eaxis": 1,
+    "Eprec": 0.8125,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.4719601443879744,
+    "omega3": 2,
+    "chiSpin": 2,
+    "chiPrec": 1.4719601443879744,
+    "stretchFlag": false,
+    "Eover": 0
+   },
+   {
+    "t": 54,
+    "Espin": 2.03125,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.0155644370746373,
+    "chiSpin": 2.0155644370746373,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.03125
+   },
+   {
+    "t": 55,
+    "Espin": 2.09375,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.0463381929681126,
+    "chiSpin": 2.0463381929681126,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.09375
+   },
+   {
+    "t": 56,
+    "Espin": 2.15625,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.0766559657295187,
+    "chiSpin": 2.0766559657295187,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.15625
+   },
+   {
+    "t": 57,
+    "Espin": 2.21875,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.1065374432940898,
+    "chiSpin": 2.1065374432940898,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.21875
+   },
+   {
+    "t": 58,
+    "Espin": 2.28125,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.1360009363293826,
+    "chiSpin": 2.1360009363293826,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.28125
+   },
+   {
+    "t": 59,
+    "Espin": 2.34375,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.165063509461097,
+    "chiSpin": 2.165063509461097,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.34375
+   },
+   {
+    "t": 60,
+    "Espin": 2.40625,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.1937410968480306,
+    "chiSpin": 2.1937410968480306,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.40625
+   },
+   {
+    "t": 61,
+    "Espin": 2.46875,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.222048604328897,
+    "chiSpin": 2.222048604328897,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.46875
+   },
+   {
+    "t": 62,
+    "Espin": 2.53125,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.25,
+    "chiSpin": 2.25,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.53125
+   },
+   {
+    "t": 63,
+    "Espin": 2.59375,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.277608394786075,
+    "chiSpin": 2.277608394786075,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.59375
+   },
+   {
+    "t": 64,
+    "Espin": 2.65625,
+    "Eaxis": 1,
+    "Eprec": 0.84375,
+    "Q": 0,
+    "thetaDeg": 90,
+    "phiDot": 1.5,
+    "omega3": 2.3048861143232218,
+    "chiSpin": 2.3048861143232218,
+    "chiPrec": 1.5,
+    "stretchFlag": true,
+    "Eover": 0.65625
+   }
+  ]
+ },
+ "flagControls": [
+  {
+   "id": "stopAtPrecCap",
+   "tEnd": 53.5,
+   "stretchFlag": false,
+   "events": {
+    "spinCap": 24,
+    "axisFull": 40,
+    "precCap": 53.5,
+    "stretch": null
+   },
+   "Espin": 2,
+   "Eaxis": 1,
+   "Eprec": 0.84375,
+   "Q": 0,
+   "identityResAbs": 0,
+   "note": "歳差が上限に**到達**した刻みで止める(軸は 90°・歳差は上限ちょうど・超過はまだ)"
+  },
+  {
+   "id": "hugePrecCap",
+   "tEnd": 64,
+   "stretchFlag": false,
+   "events": {
+    "spinCap": 24,
+    "axisFull": 40,
+    "precCap": null,
+    "stretch": null
+   },
+   "Espin": 2,
+   "Eaxis": 1,
+   "Eprec": 1.5,
+   "Q": 0,
+   "identityResAbs": 0,
+   "note": "歳差の上限を 1e9 にする(余剰は歳差に溜まり続ける)"
+  },
+  {
+   "id": "brakeWins",
+   "tEnd": 64,
+   "stretchFlag": false,
+   "events": {
+    "spinCap": null,
+    "axisFull": null,
+    "precCap": null,
+    "stretch": null
+   },
+   "Espin": 1.2194283470163167,
+   "Eaxis": 0,
+   "Eprec": 0,
+   "Q": 3.2805716529836895,
+   "identityResAbs": 1.0658141036401503e-14,
+   "gamma": 0.025,
+   "Einf": 1.25,
+   "capSpin": 2,
+   "worstClosedRel": 7.502070741012195e-14,
+   "note": "ブレーキが供給に勝つ(E_∞ < cap_spin)"
+  }
+ ],
+ "chainBrake": {
+  "gamma": 0.00390625,
+  "Einf": 8,
+  "rateAfterCap": 0.046875,
+  "preCapSamples": 29,
+  "worstPreCapRel": 2.5494426219323126e-13,
+  "spinCap": {
+   "measured": 28.5625,
+   "closed": 28.562374568218843,
+   "rule": "t_k − dt < t* ≤ t_k(到達)",
+   "containsClosed": true
+  },
+  "axisFullT": 49.90625,
+  "precCapT": 67.90625,
+  "stretchT": 67.90625,
+  "order": true,
+  "identity": {
+   "worstResAbs": 0,
+   "worstResRel": 0
+  },
+  "flagBeforePrecCap": false,
+  "Q": 1.4735492285065686,
+  "Win": 6,
+  "note": "張り付いた後は「刻みの指数解 → 連鎖」の分割なので連続の閉形式と O(γ dt) 違う —— 照合は張り付く前の E_spin と到達刻み・順序・恒等式"
+ },
+ "negativeDrive": {
+  "omega0": 1.5,
+  "P": -0.0625,
+  "tEnd": 24,
+  "E0": 1.125,
+  "tZero": 18,
+  "EspinEnd": 0,
+  "omegaEnd": 0,
+  "Win": -1.125,
+  "refused": 0.375,
+  "refusedClosed": 0.375,
+  "refusedRel": 0,
+  "worstClosedRel": 0,
+  "identityResAbs": 0,
+  "omegaMonotoneDown": true,
+  "Q": 0,
+  "note": "W_drive<0 はスピン口座から(新しい項なし)。口座が 0 になった先は拒否して refused に残す(切り捨てて捨てない・向きの反転は扱わない)"
+ },
+ "separation": {
+  "cross": [
+   {
+    "thetaDeg": 0,
+    "cross": 1,
+    "crossRel": 1
+   },
+   {
+    "thetaDeg": 30,
+    "cross": 0.8660254037844387,
+    "crossRel": 0.8660254037844387
+   },
+   {
+    "thetaDeg": 60,
+    "cross": 0.5000000000000001,
+    "crossRel": 0.5000000000000001
+   },
+   {
+    "thetaDeg": 89,
+    "cross": 0.017452406437283376,
+    "crossRel": 0.017452406437283376
+   },
+   {
+    "thetaDeg": 90,
+    "cross": 6.123233995736766e-17,
+    "crossRel": 6.123233995736766e-17
+   }
+  ],
+  "states": [
+   {
+    "thetaDeg": 90,
+    "psiDot": 2,
+    "Erigid": 2.84375,
+    "EspinPlusEprec": 2.84375,
+    "rigidRel": 0,
+    "separableSum": 2.84375,
+    "separableRel": 0
+   },
+   {
+    "thetaDeg": 60,
+    "psiDot": 1.2499999999999998,
+    "Erigid": 2.6328125,
+    "EspinPlusEprec": 2.6328125,
+    "rigidRel": 0,
+    "separableSum": 1.6249999999999998,
+    "separableRel": 0.38278931750741846
+   }
+  ],
+  "jCompare": [
+   {
+    "id": "sphere",
+    "Ipar": 1,
+    "Iperp": 1,
+    "Erigid": 2.88875,
+    "J2over2I": 2.88875,
+    "relDiff": 0
+   },
+   {
+    "id": "oblate",
+    "Ipar": 1,
+    "Iperp": 0.75,
+    "Erigid": 2.6665625,
+    "J2over2I": 2.499921875,
+    "relDiff": 0.062492675495136485
+   }
+  ],
+  "decl": "正本は剛体式。|J|²/(2I) は球でだけ一致する比較値で、両方を足さない(二重計上しない)"
+ },
+ "legacy": {
+  "K": 1,
+  "a": 0.5,
+  "Eprec": 0.5,
+  "rows": [
+   {
+    "Smag": 2,
+    "legacyOmegaPrec": 0.25,
+    "accountPhiDot": 1.1547005383792515
+   },
+   {
+    "Smag": 4,
+    "legacyOmegaPrec": 0.125,
+    "accountPhiDot": 1.1547005383792515
+   },
+   {
+    "Smag": 8,
+    "legacyOmegaPrec": 0.0625,
+    "accountPhiDot": 1.1547005383792515
+   }
+  ],
+  "note": "旧模型(lib-w275e-powerball の precessionRate —— 変えていない)は |S| が倍になると半分。口座の φ̇ は E_prec だけで決まり |S| に従属しない"
+ },
+ "rigid": {
+  "powerballDrive": {
+   "D": 0.3,
+   "steps": 20000,
+   "dt": 0.001,
+   "EspinAccount": 32.00000000001186,
+   "ErotPowerball": 32.00000000003024,
+   "worstRel": 5.744724775684789e-13,
+   "powerballIdentityRel": 5.907939801201925e-13,
+   "Wdrv": 30.000000000011337
+  },
+  "powerballGyroOnly": {
+   "K": 1.5,
+   "steps": 20000,
+   "powerballSpinRelDrift": 2.886579864025407e-15,
+   "accountEspinChange": 0,
+   "tauDotShat": 0,
+   "note": "ジャイロトルクは供給源ではない(τ·ŝ=0)。powerball の |S| の漂いは RK4 の床"
+  },
+  "axiswork": {
+   "eta": 0.75,
+   "wStep": 0.001,
+   "steps": 5000,
+   "EspinAccount": 5.750000000000142,
+   "EspinAxiswork": 5.750000000000004,
+   "worstRel": 2.4355969065616282e-14,
+   "QAccount": 1.2499999999997513,
+   "heatAxiswork": 1.250000000000001,
+   "worstHeatRel": 1.99840144432528e-13,
+   "axisworkLedgerDrift": 8.881784197001252e-16,
+   "versions": {
+    "powerball": "w275e-1",
+    "axiswork": "w276c-2"
+   }
+  }
+ },
+ "heat": {
+  "N": 1000,
+  "Q": 4.353537633574326,
+  "Jnet": 0,
+  "signedSpinProxy": 0,
+  "added": 0.37,
+  "Qafter": 4.723537633574325,
+  "QafterRel": 1.8803246392853145e-16,
+  "JnetAfter": 0,
+  "note": "Q はミクロ回転のエネルギーの和(ネット J=0 でも Q>0)。符号付きスピンの和(=0)を Q の代わりにしない"
+ },
+ "lock": {
+  "decl": {
+   "mu": 0.8,
+   "Ip": 1,
+   "Io": 4,
+   "K": 1,
+   "gamma": 0.4,
+   "dt": 0.01,
+   "tEnd": 200
+  },
+  "equivAxiswork": {
+   "steps": 5000,
+   "worstRel": 0,
+   "note": "γ=0 の本模型は lib-w276c-axiswork の lockDerivs(φ・共役運動量)と同じ軌道(変数が ω か p かだけ)"
+  },
+  "sign": {
+   "pos": {
+    "devFinal": 2.8421709430404007e-13,
+    "center": 0,
+    "detuneFinal": 7.382983113757291e-13,
+    "dphiFinalWrapped": -2.8421709430404007e-13
+   },
+   "neg": {
+    "devFinal": 3.517186542012496e-13,
+    "center": 3.141592653589793,
+    "detuneFinal": 8.875122858853501e-13,
+    "dphiFinalWrapped": 3.1415926535894414,
+    "movedAwayFromZero": true
+   }
+  },
+  "convergence": [
+   {
+    "dphi0": 0.3,
+    "detune0": 0.05,
+    "devFinal": 2.842170943040401e-14,
+    "detuneFinal": 9.880984919163893e-14,
+    "circulations": 0,
+    "maxDev": 0.30322233983793867,
+    "worstEtotUp": 1.7680745756365468e-11,
+    "worstJsumAbs": 6.483702463810914e-14,
+    "Qend": 0.04566351089206938
+   },
+   {
+    "dphi0": 1.5,
+    "detune0": -0.08,
+    "devFinal": 0,
+    "detuneFinal": 1.3877787807814457e-14,
+    "circulations": 0,
+    "maxDev": 1.5,
+    "worstEtotUp": 2.7577895522767903e-10,
+    "worstJsumAbs": 3.4638958368304884e-14,
+    "Qend": 0.931822798608064
+   },
+   {
+    "dphi0": 2.8,
+    "detune0": 0.05,
+    "devFinal": 1.4210854715202004e-13,
+    "detuneFinal": 3.275157922644212e-13,
+    "circulations": 0,
+    "maxDev": 2.8028803732669387,
+    "worstEtotUp": 4.153029031783717e-10,
+    "worstJsumAbs": 8.526512829121202e-14,
+    "Qend": 1.9432223410839273
+   },
+   {
+    "dphi0": -2.2,
+    "detune0": -0.08,
+    "devFinal": 5.684341886080802e-14,
+    "detuneFinal": 1.2823075934420558e-13,
+    "circulations": 0,
+    "maxDev": 2.2030860763346745,
+    "worstEtotUp": 3.811249094098912e-10,
+    "worstJsumAbs": 3.552713678800501e-14,
+    "Qend": 1.591061117636465
+   }
+  ],
+  "noDamping": [
+   {
+    "dphi0": 0.3,
+    "detune0": 0.05,
+    "firstAmp": 0.30336556064640874,
+    "lastAmp": 0.30336553231643393,
+    "ampRatio": 0.9999999066144003,
+    "detuneFinal": 0.26006359822705893,
+    "devFinal": 0.19322677223007645,
+    "circulations": 0,
+    "worstEtotUp": 2.220446049250313e-15,
+    "Qend": 0
+   },
+   {
+    "dphi0": 1.5,
+    "detune0": -0.08,
+    "firstAmp": 1.5025661933227337,
+    "lastAmp": 1.5025661917285902,
+    "ampRatio": 0.9999999989390528,
+    "detuneFinal": 0.9579163033150881,
+    "devFinal": 1.1205151967330096,
+    "circulations": 0,
+    "worstEtotUp": 3.633360279309272e-11,
+    "Qend": 0
+   },
+   {
+    "dphi0": 2.8,
+    "detune0": 0.05,
+    "firstAmp": 2.8029978220880913,
+    "lastAmp": 2.802997817961568,
+    "ampRatio": 0.999999998527818,
+    "detuneFinal": 0.2699953718308298,
+    "devFinal": 2.723988721341186,
+    "circulations": 0,
+    "worstEtotUp": 1.198010579628317e-10,
+    "Qend": 0
+   },
+   {
+    "dphi0": -2.2,
+    "detune0": -0.08,
+    "firstAmp": 2.203169773915746,
+    "lastAmp": 2.2031672645748017,
+    "ampRatio": 0.9999988610315128,
+    "detuneFinal": 1.1967967423579557,
+    "devFinal": 1.5889294602267512,
+    "circulations": 0,
+    "worstEtotUp": 8.955058916626513e-11,
+    "Qend": 0
+   }
+  ],
+  "K0drift": {
+   "detune0": 0.001,
+   "tEnd": 200,
+   "dphiEnd": 0.4999999999614886,
+   "dphiClosed": 0.4999999999999631,
+   "relToPhase": 1.9189277487602554e-13,
+   "phaseScale": 200.49999999992457,
+   "note": "周期が近いだけでは自動でロックしない(K=0 なら Δφ は離調×時間で漂う)"
+  },
+  "energy": {
+   "dtWorstEtotUp": 4.153029031783717e-10,
+   "dtHalfWorstEtotUp": 2.6187940704858192e-11,
+   "ratio": 15.858555197558081,
+   "dtWorstEmechStepUp": 8.881784197001252e-16,
+   "floor": 1e-9,
+   "EmechStart": 3.4934723406686583,
+   "EmechEnd": 1.5502499999999135,
+   "Qend": 1.9432223410839273,
+   "jsumDriftAbs": 8.526512829121202e-14
+  },
+  "closed": {
+   "pendulum": {
+    "A": 0.5,
+    "Omega0": 1.118033988749895,
+    "Tmeasured": 5.708940660080065,
+    "Tclosed": 5.708940660037104,
+    "rel": 7.525247277770066e-12,
+    "crossings": 21,
+    "floor": 1e-8
+   },
+   "decay": {
+    "amplitude0": 0.001,
+    "gamma": 0.05,
+    "mu": 0.8,
+    "lambdaClosed": 0.03125,
+    "lambdaMeasured": 0.031250000192949996,
+    "rel": 6.174399880265469e-9,
+    "peaks": 14,
+    "periodDampedClosed": 5.622048326556021,
+    "periodDampedMeasured": 5.622048367647795,
+    "floor": 0.000001
+   }
+  },
+  "signConvention": {
+   "rows": [
+    {
+     "id": "同向(両軸 ẑ)・連結線 x̂",
+     "common": 1,
+     "local": 0,
+     "dot": 1,
+     "a1": 0,
+     "a2": 0
+    },
+    {
+     "id": "互いを向く(n1=x̂・n2=−x̂)",
+     "common": -1,
+     "local": 1,
+     "dot": -1,
+     "a1": 1,
+     "a2": 1
+    },
+    {
+     "id": "同じ向きで連結線上(n1=n2=x̂)",
+     "common": 1,
+     "local": -1,
+     "dot": 1,
+     "a1": 1,
+     "a2": -1
+    },
+    {
+     "id": "逆向(n1=ẑ・n2=−ẑ)",
+     "common": -1,
+     "local": 0,
+     "dot": -1,
+     "a1": 0,
+     "a2": 0
+    }
+   ],
+   "note": "符号は宣言(共通座標の軸の内積の符号 common か、相手を向く方向への射影の積の符号 local)。軸が連結線に垂直だと local は 0 で決まらない。既存物理が保証する普遍則ではない"
+  }
+ },
+ "html": {
+  "ok": true,
+  "coreAxisStep": {
+   "az": 0.4,
+   "omegaP": 0.03,
+   "t": 123.5,
+   "targetDeg": -124.80082509879705,
+   "priors": [
+    {
+     "jx0": 3,
+     "jy0": 0,
+     "phiPriorDeg": 0,
+     "phiOutDeg": -124.80082509879706,
+     "phiResidual": 4.440892098500626e-16,
+     "jPerpRel": 1.4802973661668753e-16,
+     "dE": 0,
+     "prescribed": true
+    },
+    {
+     "jx0": 0,
+     "jy0": 3,
+     "phiPriorDeg": 90,
+     "phiOutDeg": -124.80082509879706,
+     "phiResidual": 4.440892098500626e-16,
+     "jPerpRel": 1.4802973661668753e-16,
+     "dE": 0,
+     "prescribed": true
+    },
+    {
+     "jx0": -2.1,
+     "jy0": -2.1,
+     "phiPriorDeg": -135,
+     "phiOutDeg": -124.80082509879706,
+     "phiResidual": 4.440892098500626e-16,
+     "jPerpRel": 1.4953261511274046e-16,
+     "dE": 2.710505431213761e-20,
+     "prescribed": true
+    },
+    {
+     "jx0": 30,
+     "jy0": 40,
+     "phiPriorDeg": 53.13010235415598,
+     "phiOutDeg": -124.80082509879706,
+     "phiResidual": 4.440892098500626e-16,
+     "jPerpRel": 1.4210854715202004e-16,
+     "dE": 0,
+     "prescribed": true
+    }
+   ],
+   "phiSpreadDeg": 0,
+   "note": "φ(t)=az+Ω_p·t を外から指定する処理 —— 出力の方位は前の方位と |J⊥| に依らない(動的な歳差ではない)"
+  },
+  "bhCoreTilt": {
+   "found": true,
+   "retired": true,
+   "tilt": 90,
+   "Kcs": 0,
+   "state": {
+    "tiltDeg": 90,
+    "JzOverJ": 6.123233995736766e-17,
+    "projX": 1,
+    "declared": false,
+    "proxyOnly": true
+   },
+   "note": "宣言を読むだけ(退役のまま・復活させない)。tilt=90° の J_z/|J| = cos 90° は機械ゼロ —— 2D の引きずりは z 射影しか読まない"
+  }
+ },
+ "elapsedS": 0.411
+}

@@ -1,5 +1,5 @@
 {
- "when": "2026-09-30T00:06:03.368Z",
+ "when": "2026-10-01T05:07:00.710Z",
  "wave": "第263便c(第55報 W3)",
  "inputs": {
   "csv": "paper/data/solar-observations.csv",
@@ -100,72 +100,72 @@
  },
  "gateByTier": {
   "太陽系": {
-   "presets": 16,
-   "quantities": 139,
+   "presets": 12,
+   "quantities": 111,
    "status": {
-    "未判定": 133,
-    "数値未解決": 3,
-    "否(3σ)": 2,
-    "mapping-unresolved": 1
+    "未判定": 94,
+    "数値未解決": 2,
+    "condition-mismatch": 14,
+    "否(3σ)": 1
    },
    "sigmaFrom": {
-    "csv": 6,
+    "csv": 5,
     "obsCard": 0,
-    "none": 133
+    "none": 106
    },
-   "sigmaVerified": 6,
-   "sigmaUnverified": 45,
-   "noSigmaSource": 60
+   "sigmaVerified": 5,
+   "sigmaUnverified": 39,
+   "noSigmaSource": 46
   },
   "恒星": {
+   "presets": 2,
+   "quantities": 16,
+   "status": {
+    "合(3σ)": 2,
+    "mapping-unresolved": 2,
+    "未判定": 12
+   },
+   "sigmaFrom": {
+    "csv": 4,
+    "obsCard": 0,
+    "none": 12
+   },
+   "sigmaVerified": 4,
+   "sigmaUnverified": 0,
+   "noSigmaSource": 2
+  },
+  "NS": {
    "presets": 4,
    "quantities": 33,
    "status": {
-    "合(3σ)": 2,
-    "mapping-unresolved": 4,
-    "未判定": 25,
-    "数値未解決": 2
+    "数値未解決": 6,
+    "mapping-unresolved": 3,
+    "未判定": 21,
+    "condition-mismatch": 3
    },
    "sigmaFrom": {
-    "csv": 8,
+    "csv": 12,
     "obsCard": 0,
-    "none": 25
+    "none": 21
    },
-   "sigmaVerified": 8,
+   "sigmaVerified": 12,
    "sigmaUnverified": 0,
-   "noSigmaSource": 4
-  },
-  "NS": {
-   "presets": 14,
-   "quantities": 117,
-   "status": {
-    "数値未解決": 27,
-    "mapping-unresolved": 9,
-    "未判定": 81
-   },
-   "sigmaFrom": {
-    "csv": 36,
-    "obsCard": 0,
-    "none": 81
-   },
-   "sigmaVerified": 36,
-   "sigmaUnverified": 0,
-   "noSigmaSource": 6
+   "noSigmaSource": 0
   },
   "BH 以降": {
-   "presets": 3,
-   "quantities": 28,
+   "presets": 2,
+   "quantities": 19,
    "status": {
-    "未判定": 28
+    "未判定": 19
    },
    "sigmaFrom": {
     "csv": 0,
     "obsCard": 0,
-    "none": 28
+    "none": 19
    },
    "sigmaVerified": 0,
    "sigmaUnverified": 0,
-   "noSigmaSource": 10
+   "noSigmaSource": 7
   }
  },
  "presetsNoSigma": [],
@@ -219,7 +219,7 @@
    "unit": "s",
    "preset": "psrDoubleABDFM",
    "emoji": "⚡",
-   "meas": 188141.24655212637,
+   "meas": null,
    "rows": [
     {
      "rank": 0,
@@ -229,8 +229,8 @@
      "sigma": 2.5056e-7,
      "verified": true,
      "intakeRow": false,
-     "residual": 179306.71182884838,
-     "nSigma": 715623849891.6362
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 1,
@@ -240,8 +240,8 @@
      "sigma": 8.64e-8,
      "verified": true,
      "intakeRow": true,
-     "residual": 179306.71182883965,
-     "nSigma": 2075309164685.6438
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 2,
@@ -251,8 +251,8 @@
      "sigma": 2.5056e-7,
      "verified": true,
      "intakeRow": true,
-     "residual": 179306.7118288483,
-     "nSigma": 715623849891.6359
+     "residual": null,
+     "nSigma": null
     }
    ]
   },
@@ -305,7 +305,7 @@
    "unit": "1",
    "preset": "psrDoubleABDFM",
    "emoji": "⚡",
-   "meas": 0.8231459440920477,
+   "meas": null,
    "rows": [
     {
      "rank": 0,
@@ -315,8 +315,8 @@
      "sigma": 4.8e-8,
      "verified": true,
      "intakeRow": false,
-     "residual": 0.7353689080920477,
-     "nSigma": 15320185.585250994
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 1,
@@ -326,8 +326,8 @@
      "sigma": 6.1e-8,
      "verified": true,
      "intakeRow": true,
-     "residual": 0.7353689210920477,
-     "nSigma": 12055228.21462373
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 2,
@@ -337,8 +337,8 @@
      "sigma": 4.8e-8,
      "verified": true,
      "intakeRow": true,
-     "residual": 0.7353689080920477,
-     "nSigma": 15320185.585250994
+     "residual": null,
+     "nSigma": null
     }
    ]
   },
@@ -391,7 +391,7 @@
    "unit": "deg/yr",
    "preset": "psrDoubleABDFM",
    "emoji": "⚡",
-   "meas": 0.7440658120458695,
+   "meas": null,
    "rows": [
     {
      "rank": 0,
@@ -401,8 +401,8 @@
      "sigma": 0.000013,
      "verified": true,
      "intakeRow": false,
-     "residual": -16.15525718795413,
-     "nSigma": 1242712.0913810872
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 1,
@@ -412,8 +412,8 @@
      "sigma": 0.000013,
      "verified": true,
      "intakeRow": true,
-     "residual": -16.15525718795413,
-     "nSigma": 1242712.0913810872
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 2,
@@ -423,8 +423,8 @@
      "sigma": 0.000037,
      "verified": false,
      "intakeRow": true,
-     "residual": -16.155255187954133,
-     "nSigma": 436628.51859335497
+     "residual": null,
+     "nSigma": null
     }
    ]
   },
@@ -477,7 +477,7 @@
    "unit": "s",
    "preset": "psrB1534DFM",
    "emoji": "🧶",
-   "meas": 180154.39528105222,
+   "meas": null,
    "rows": [
     {
      "rank": 0,
@@ -487,8 +487,8 @@
      "sigma": 8.64e-7,
      "verified": true,
      "intakeRow": false,
-     "residual": 143802.6926369114,
-     "nSigma": 166438301663.09192
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 1,
@@ -498,8 +498,8 @@
      "sigma": 1.728e-7,
      "verified": false,
      "intakeRow": true,
-     "residual": 143802.69265790662,
-     "nSigma": 832191508436.9596
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 2,
@@ -509,8 +509,8 @@
      "sigma": 1.728e-7,
      "verified": true,
      "intakeRow": true,
-     "residual": 143802.6926577338,
-     "nSigma": 832191508435.9595
+     "residual": null,
+     "nSigma": null
     }
    ]
   },
@@ -563,7 +563,7 @@
    "unit": "1",
    "preset": "psrB1534DFM",
    "emoji": "🧶",
-   "meas": 0.4492095394138581,
+   "meas": null,
    "rows": [
     {
      "rank": 0,
@@ -573,8 +573,8 @@
      "sigma": 3e-7,
      "verified": true,
      "intakeRow": false,
-     "residual": 0.1755320394138581,
-     "nSigma": 585106.7980461937
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 1,
@@ -584,8 +584,8 @@
      "sigma": 7e-8,
      "verified": false,
      "intakeRow": true,
-     "residual": 0.1755320194138581,
-     "nSigma": 2507600.27734083
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 2,
@@ -595,8 +595,8 @@
      "sigma": 4e-8,
      "verified": true,
      "intakeRow": true,
-     "residual": 0.1755321394138581,
-     "nSigma": 4388303.485346452
+     "residual": null,
+     "nSigma": null
     }
    ]
   },
@@ -649,7 +649,7 @@
    "unit": "deg/yr",
    "preset": "psrB1534DFM",
    "emoji": "🧶",
-   "meas": 1.1118052372140421,
+   "meas": null,
    "rows": [
     {
      "rank": 0,
@@ -659,8 +659,8 @@
      "sigma": 0.000009,
      "verified": true,
      "intakeRow": false,
-     "residual": -0.6439837627859579,
-     "nSigma": 71553.751420662
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 1,
@@ -670,8 +670,8 @@
      "sigma": 0.0000019,
      "verified": true,
      "intakeRow": true,
-     "residual": -0.6439897627859579,
-     "nSigma": 338941.98041366204
+     "residual": null,
+     "nSigma": null
     },
     {
      "rank": 2,
@@ -681,7 +681,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": true,
-     "residual": -0.6439897627859579,
+     "residual": null,
      "nSigma": null
     }
    ]
@@ -692,7 +692,7 @@
    "unit": "s",
    "preset": "psrJ1757DFM",
    "emoji": "🧮",
-   "meas": 34075.50309132112,
+   "meas": 15857.687164612216,
    "rows": [
     {
      "rank": 0,
@@ -702,8 +702,8 @@
      "sigma": 0.00000432,
      "verified": true,
      "intakeRow": false,
-     "residual": 18217.83407215312,
-     "nSigma": 4217091220.4058146
+     "residual": 0.018145444215406314,
+     "nSigma": 4200.334309121832
     },
     {
      "rank": 1,
@@ -713,8 +713,8 @@
      "sigma": 0.00000432,
      "verified": true,
      "intakeRow": true,
-     "residual": 18217.83407215312,
-     "nSigma": 4217091220.4058146
+     "residual": 0.018145444215406314,
+     "nSigma": 4200.334309121832
     },
     {
      "rank": 2,
@@ -724,8 +724,8 @@
      "sigma": 1.728e-7,
      "verified": true,
      "intakeRow": true,
-     "residual": 18217.835126146725,
-     "nSigma": 105427286609.64539
+     "residual": 0.019199437816496356,
+     "nSigma": 111107.85773435391
     }
    ]
   },
@@ -735,7 +735,7 @@
    "unit": "1",
    "preset": "psrJ1757DFM",
    "emoji": "🧮",
-   "meas": 0.21222868604724993,
+   "meas": 0.6058180957987477,
    "rows": [
     {
      "rank": 0,
@@ -745,8 +745,8 @@
      "sigma": 0.000001,
      "verified": true,
      "intakeRow": false,
-     "residual": -0.39358551395275004,
-     "nSigma": 393585.5139527501
+     "residual": 0.0000038957987477106215,
+     "nSigma": 3.8957987477106215
     },
     {
      "rank": 1,
@@ -756,7 +756,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": false,
-     "residual": -0.3935883139527501,
+     "residual": 0.0000010957987476301057,
      "nSigma": null
     },
     {
@@ -767,8 +767,8 @@
      "sigma": 0.000001,
      "verified": true,
      "intakeRow": true,
-     "residual": -0.39358551395275004,
-     "nSigma": 393585.5139527501
+     "residual": 0.0000038957987477106215,
+     "nSigma": 3.8957987477106215
     },
     {
      "rank": 3,
@@ -778,8 +778,8 @@
      "sigma": 0.000002,
      "verified": true,
      "intakeRow": true,
-     "residual": -0.3935883139527501,
-     "nSigma": 196794.15697637506
+     "residual": 0.0000010957987476301057,
+     "nSigma": 0.5478993738150528
     }
    ]
   },
@@ -789,7 +789,7 @@
    "unit": "deg/yr",
    "preset": "psrJ1757DFM",
    "emoji": "🧮",
-   "meas": 2.492498405590896,
+   "meas": 10.358448643636597,
    "rows": [
     {
      "rank": 0,
@@ -799,8 +799,8 @@
      "sigma": 0.0002,
      "verified": true,
      "intakeRow": false,
-     "residual": -7.872601594409105,
-     "nSigma": 39363.00797204552
+     "residual": -0.0066513563634025274,
+     "nSigma": 33.25678181701264
     },
     {
      "rank": 1,
@@ -810,7 +810,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": false,
-     "residual": -7.872487594409105,
+     "residual": -0.00653735636340258,
      "nSigma": null
     },
     {
@@ -821,8 +821,8 @@
      "sigma": 0.0002,
      "verified": true,
      "intakeRow": true,
-     "residual": -7.872601594409105,
-     "nSigma": 39363.00797204552
+     "residual": -0.0066513563634025274,
+     "nSigma": 33.25678181701264
     },
     {
      "rank": 3,
@@ -832,8 +832,8 @@
      "sigma": 0.000008,
      "verified": true,
      "intakeRow": true,
-     "residual": -7.872487594409105,
-     "nSigma": 984060.9493011382
+     "residual": -0.00653735636340258,
+     "nSigma": 817.1695454253226
     }
    ]
   },
@@ -843,7 +843,7 @@
    "unit": "s",
    "preset": "psrJ1946DFM",
    "emoji": "🩺",
-   "meas": 222591.53006284282,
+   "meas": 6781.703806269037,
    "rows": [
     {
      "rank": 0,
@@ -853,8 +853,8 @@
      "sigma": 0.000864,
      "verified": true,
      "intakeRow": false,
-     "residual": 215810.16340684282,
-     "nSigma": 249780281.72088292
+     "residual": 0.33715026903701073,
+     "nSigma": 390.22021879283653
     },
     {
      "rank": 1,
@@ -864,8 +864,8 @@
      "sigma": 0.000001728,
      "verified": false,
      "intakeRow": false,
-     "residual": 215810.16206418682,
-     "nSigma": 124890140083.44145
+     "residual": 0.3358076130371046,
+     "nSigma": 194333.10939647257
     },
     {
      "rank": 2,
@@ -875,8 +875,8 @@
      "sigma": 0.000001728,
      "verified": true,
      "intakeRow": true,
-     "residual": 215810.16206418682,
-     "nSigma": 124890140083.44145
+     "residual": 0.3358076130371046,
+     "nSigma": 194333.10939647257
     },
     {
      "rank": 3,
@@ -886,8 +886,8 @@
      "sigma": 6.912e-7,
      "verified": true,
      "intakeRow": true,
-     "residual": 215810.16206505083,
-     "nSigma": 312225350209.8536
+     "residual": 0.3358084770370624,
+     "nSigma": 485834.0234911203
     }
    ]
   },
@@ -897,7 +897,7 @@
    "unit": "1",
    "preset": "psrJ1946DFM",
    "emoji": "🩺",
-   "meas": 0.8711061683898811,
+   "meas": 0.06382526001256904,
    "rows": [
     {
      "rank": 0,
@@ -907,8 +907,8 @@
      "sigma": 0.000009,
      "verified": true,
      "intakeRow": false,
-     "residual": 0.8072581683898811,
-     "nSigma": 89695.35204332012
+     "residual": -0.00002273998743096417,
+     "nSigma": 2.52666527010713
     },
     {
      "rank": 1,
@@ -918,7 +918,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": false,
-     "residual": 0.8072698683898811,
+     "residual": -0.000011039987430960796,
      "nSigma": null
     },
     {
@@ -929,8 +929,8 @@
      "sigma": 8e-7,
      "verified": false,
      "intakeRow": false,
-     "residual": 0.8072698683898811,
-     "nSigma": 1009087.3354873514
+     "residual": -0.000011039987430960796,
+     "nSigma": 13.799984288700996
     },
     {
      "rank": 3,
@@ -940,8 +940,8 @@
      "sigma": 8e-7,
      "verified": true,
      "intakeRow": true,
-     "residual": 0.8072698683898811,
-     "nSigma": 1009087.3354873514
+     "residual": -0.000011039987430960796,
+     "nSigma": 13.799984288700996
     },
     {
      "rank": 4,
@@ -951,8 +951,8 @@
      "sigma": 4e-7,
      "verified": true,
      "intakeRow": true,
-     "residual": 0.8072696683898811,
-     "nSigma": 2018174.1709747028
+     "residual": -0.000011239987430966547,
+     "nSigma": 28.09996857741637
     }
    ]
   },
@@ -962,7 +962,7 @@
    "unit": "deg/yr",
    "preset": "psrJ1946DFM",
    "emoji": "🩺",
-   "meas": 0.7332674671882907,
+   "meas": 25.768722509219003,
    "rows": [
     {
      "rank": 0,
@@ -972,8 +972,8 @@
      "sigma": 0.0004,
      "verified": true,
      "intakeRow": false,
-     "residual": -25.05878253281171,
-     "nSigma": 62646.956332029265
+     "residual": -0.023327490780996385,
+     "nSigma": 58.31872695249096
     },
     {
      "rank": 1,
@@ -983,7 +983,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": false,
-     "residual": -25.05878253281171,
+     "residual": -0.023327490780996385,
      "nSigma": null
     },
     {
@@ -994,8 +994,8 @@
      "sigma": 0.0004,
      "verified": true,
      "intakeRow": false,
-     "residual": -25.05878253281171,
-     "nSigma": 62646.956332029265
+     "residual": -0.023327490780996385,
+     "nSigma": 58.31872695249096
     },
     {
      "rank": 3,
@@ -1005,8 +1005,8 @@
      "sigma": 0.0004,
      "verified": true,
      "intakeRow": true,
-     "residual": -25.05878253281171,
-     "nSigma": 62646.956332029265
+     "residual": -0.023327490780996385,
+     "nSigma": 58.31872695249096
     },
     {
      "rank": 4,
@@ -1016,7 +1016,7 @@
      "sigma": null,
      "verified": false,
      "intakeRow": true,
-     "residual": -25.058554732811707,
+     "residual": -0.023099690780995275,
      "nSigma": null
     }
    ]
@@ -1501,54 +1501,6 @@
   },
   "rows": [
    {
-    "key": "Moon|orbital_period",
-    "body": "Moon",
-    "target": "月",
-    "quantity": "orbital_period",
-    "kind": "period",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌙",
-     "🌘",
-     "🧲",
-     "🔆"
-    ],
-    "nQuantities": 6,
-    "obsPresent": 6
-   },
-   {
-    "key": "Moon|periastron_advance",
-    "body": "Moon",
-    "target": "月",
-    "quantity": "periastron_advance",
-    "kind": "precession",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌙",
-     "🌘",
-     "🧲",
-     "🔆"
-    ],
-    "nQuantities": 5,
-    "obsPresent": 3
-   },
-   {
-    "key": "Moon|eccentricity",
-    "body": "Moon",
-    "target": "月",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "🌙",
-     "🌘",
-     "🧲",
-     "🔆"
-    ],
-    "nQuantities": 4,
-    "obsPresent": 2
-   },
-   {
     "key": "Venus|orbital_period",
     "body": "Venus",
     "target": "金星",
@@ -1561,36 +1513,6 @@
     ],
     "nQuantities": 4,
     "obsPresent": 3
-   },
-   {
-    "key": "Mercury|orbital_period",
-    "body": "Mercury",
-    "target": "水星",
-    "quantity": "orbital_period",
-    "kind": "period",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "☄️",
-     "🪨",
-     "🌞"
-    ],
-    "nQuantities": 3,
-    "obsPresent": 2
-   },
-   {
-    "key": "Mercury|eccentricity",
-    "body": "Mercury",
-    "target": "水星",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "☄️",
-     "🪨",
-     "🌞"
-    ],
-    "nQuantities": 3,
-    "obsPresent": 0
    },
    {
     "key": "Io|orbital_period",
@@ -1617,6 +1539,76 @@
     ],
     "nQuantities": 3,
     "obsPresent": 2
+   },
+   {
+    "key": "Moon|orbital_period",
+    "body": "Moon",
+    "target": "月",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌙",
+     "🔆"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 2
+   },
+   {
+    "key": "Moon|eccentricity",
+    "body": "Moon",
+    "target": "月",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌙",
+     "🔆"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 1
+   },
+   {
+    "key": "Moon|periastron_advance",
+    "body": "Moon",
+    "target": "月",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🌙",
+     "🔆"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 1
+   },
+   {
+    "key": "Mercury|orbital_period",
+    "body": "Mercury",
+    "target": "水星",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "☄️",
+     "🌞"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 2
+   },
+   {
+    "key": "Mercury|eccentricity",
+    "body": "Mercury",
+    "target": "水星",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "☄️",
+     "🌞"
+    ],
+    "nQuantities": 2,
+    "obsPresent": 0
    },
    {
     "key": "Venus|eccentricity",
@@ -1736,132 +1728,6 @@
     ],
     "nQuantities": 2,
     "obsPresent": 2
-   },
-   {
-    "key": "Saturn ring C inner edge|orbital_period",
-    "body": "Saturn ring C inner edge",
-    "target": "C環内縁",
-    "quantity": "orbital_period",
-    "kind": "period",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "💍",
-     "💿"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 1
-   },
-   {
-    "key": "Titan|orbital_period",
-    "body": "Titan",
-    "target": "タイタン",
-    "quantity": "orbital_period",
-    "kind": "period",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "💍",
-     "💿"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 1
-   },
-   {
-    "key": "Saturn ring C inner edge|eccentricity",
-    "body": "Saturn ring C inner edge",
-    "target": "C環内縁",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "💍",
-     "💿"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 0
-   },
-   {
-    "key": "Saturn ring C inner edge|periastron_advance",
-    "body": "Saturn ring C inner edge",
-    "target": "C環内縁",
-    "quantity": "periastron_advance",
-    "kind": "precession",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "💍",
-     "💿"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 1
-   },
-   {
-    "key": "Mimas|orbital_period",
-    "body": "Mimas",
-    "target": "ミマス",
-    "quantity": "orbital_period",
-    "kind": "period",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "💍",
-     "💿"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 0
-   },
-   {
-    "key": "Mimas|eccentricity",
-    "body": "Mimas",
-    "target": "ミマス",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "💍",
-     "💿"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 0
-   },
-   {
-    "key": "Mimas|periastron_advance",
-    "body": "Mimas",
-    "target": "ミマス",
-    "quantity": "periastron_advance",
-    "kind": "precession",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "💍",
-     "💿"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 0
-   },
-   {
-    "key": "Titan|eccentricity",
-    "body": "Titan",
-    "target": "タイタン",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "💍",
-     "💿"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 0
-   },
-   {
-    "key": "Titan|periastron_advance",
-    "body": "Titan",
-    "target": "タイタン",
-    "quantity": "periastron_advance",
-    "kind": "precession",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "💍",
-     "💿"
-    ],
-    "nQuantities": 2,
-    "obsPresent": 0
    },
    {
     "key": "Earth|orbital_period",
@@ -2366,6 +2232,123 @@
     "cut": "csv-sigma-empty",
     "presets": [
      "📡"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Saturn ring C inner edge|orbital_period",
+    "body": "Saturn ring C inner edge",
+    "target": "C環内縁",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💍"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "Titan|orbital_period",
+    "body": "Titan",
+    "target": "タイタン",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💍"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 1
+   },
+   {
+    "key": "Saturn ring C inner edge|eccentricity",
+    "body": "Saturn ring C inner edge",
+    "target": "C環内縁",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💍"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Saturn ring C inner edge|periastron_advance",
+    "body": "Saturn ring C inner edge",
+    "target": "C環内縁",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💍"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Mimas|orbital_period",
+    "body": "Mimas",
+    "target": "ミマス",
+    "quantity": "orbital_period",
+    "kind": "period",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💍"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Mimas|eccentricity",
+    "body": "Mimas",
+    "target": "ミマス",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💍"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Mimas|periastron_advance",
+    "body": "Mimas",
+    "target": "ミマス",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💍"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Titan|eccentricity",
+    "body": "Titan",
+    "target": "タイタン",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💍"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Titan|periastron_advance",
+    "body": "Titan",
+    "target": "タイタン",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "💍"
     ],
     "nQuantities": 1,
     "obsPresent": 0

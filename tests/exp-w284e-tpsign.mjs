@@ -148,10 +148,15 @@ if (IS_MAIN) {
     targetSha256: CA0.meta ? CA0.meta.targetSha256 : null, when: CA0.meta ? CA0.meta.when : null,
     note: '基点の正本は git show の一時読み(ファイルに書かない)' };
   const nowSha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+  // 第288便b: いまの html で familyRole:"retired" を宣言した本(文字列で読む —— エンジンは走らせない)
+  const RETIRED_NOW = (() => { const h = fs.readFileSync(path.join(ROOT, TARGET), 'utf8'); const out = new Set();
+    for (const id of SIGNED_IDS) { const i = h.indexOf('id:"' + id + '"'); if (i < 0) continue; const seg = h.slice(i, i + 4000); if (/familyRole:\s*"retired"/.test(seg)) out.add(id); }
+    return out; })();
   let CA1 = null, after = null;
   const tA = Date.now();   // 後の出所を得るまでの壁時計(正本を読むだけなら読み込みの時間 —— 機種依存)
   try { const c = JSON.parse(fs.readFileSync(path.join(ROOT, CANON_IN), 'utf8'));
-    if (c.meta && c.meta.targetSha256 === nowSha && SIGNED_IDS.every((id) => (c.presets || []).some((p) => p.id === id))) {
+    // 第288便b(原仮定者の裁定(第78報)④): 退役した本(💿 saturnRingRealKF1)は calaudit の母集団の外 —— 正本に無くてよい(表では missing:true・履歴の対照は基点の正本 CA0 だけ)
+    if (c.meta && c.meta.targetSha256 === nowSha && SIGNED_IDS.every((id) => RETIRED_NOW.has(id) || (c.presets || []).some((p) => p.id === id))) {
       CA1 = c; after = { source: 'canon', file: CANON_IN, targetSha256: nowSha, when: c.meta.when || null,
         canonFourValues: ((c.fourValues || {}).current || {}).counts || null, wallSec: (Date.now() - tA) / 1000 };
     }
@@ -160,18 +165,19 @@ if (IS_MAIN) {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'w284e-tpsign-'));
     const o = path.join(tmp, 'calaudit.json'), d = path.join(tmp, 'calaudit-diag.json');
     const t1 = Date.now();
-    const sp = spawnSync(process.execPath, [path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), '--only', SIGNED_IDS.join(',')],
+    const liveIds = SIGNED_IDS.filter((id) => !RETIRED_NOW.has(id));   // 第288便b: 退役した本は判定器の CFG にも無い
+    const sp = spawnSync(process.execPath, [path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), '--only', liveIds.join(',')],
       { cwd: ROOT, env: Object.assign({}, process.env, { W249_OUT: o, W249_DIAG_OUT: d, QA_TARGET: TARGET }), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
     if (sp.status !== 0) { console.error(sp.stderr.slice(-2000)); throw new Error('判定器が失敗した: ' + sp.status); }
     CA1 = JSON.parse(fs.readFileSync(o, 'utf8'));
     fs.rmSync(tmp, { recursive: true, force: true });
-    after = { source: 'fresh-run', cmd: 'node tests/exp-w249b-calaudit.mjs --only ' + SIGNED_IDS.join(',') + '(W249_OUT は一時ファイル)',
+    after = { source: 'fresh-run', cmd: 'node tests/exp-w249b-calaudit.mjs --only ' + liveIds.join(',') + '(W249_OUT は一時ファイル)',
       targetSha256: CA1.meta ? CA1.meta.targetSha256 : null, when: CA1.meta ? CA1.meta.when : null, wallSec: (Date.now() - t1) / 1000,
       why: '正本 calaudit-w249.json がいまの html の世代でない(鎖の再生成の前)', canonFourValues: null };
   }
   const table = buildTable(CA0, CA1);
   const nc = nextCalibration(table);
-  for (const p of table.presets) console.log(`${p.emoji} ${p.id}: ${p.nQuantities} 量・周期の最大 |相対差| ${e3(p.maxAbsRelDiffPeriod)}・近点移動の最大 |差| ${e3(p.maxAbsDiffPrecession)}°/周・`
+  for (const p of table.presets) if (p.missing) console.log(`${EMOJI[p.id] || ''} ${p.id}: 正本に無い(退役 —— 較正母集団の外・第288便b)`); else console.log(`${p.emoji} ${p.id}: ${p.nQuantities} 量・周期の最大 |相対差| ${e3(p.maxAbsRelDiffPeriod)}・近点移動の最大 |差| ${e3(p.maxAbsDiffPrecession)}°/周・`
     + `区分 ${p.verdictMoved}・門 ${p.gateMoved}・未判定 ${p.gateUndetermined}・近点 [${(p.run.before.periFound || []).join(',')}]→[${(p.run.after.periFound || []).join(',')}]・`
     + `壁時計 ${p.run.before.wallSec.toFixed(1)}→${p.run.after.wallSec.toFixed(1)} s・verdict4 ${p.verdict4.before}→${p.verdict4.after}`);
   console.log(docRows({ table, nextCalibration: nc }).four + '(' + after.source + ')');

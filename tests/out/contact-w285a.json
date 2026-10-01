@@ -3,34 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:06:02.332Z",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T05:05:45.352Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-29T23:21:23.931Z"
+    "bytes": 5356329,
+    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+    "mtime": "2026-10-01T04:18:52.243Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887889,
-    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
-    "mtime": "2026-09-29T23:47:20.387Z"
+    "bytes": 1831255,
+    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
+    "mtime": "2026-10-01T04:31:39.003Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w285a-contact.mjs",
-    "bytes": 32682,
-    "sha256": "8c6cc11c1fc000c92ff05a8c43a1f15d01abc7378fde56f32f70905422cf0167",
-    "mtime": "2026-09-28T00:59:07.248Z"
+    "bytes": 33358,
+    "sha256": "e7f59b0770151dae13b0b342ac26c1a245245b78c6ec3ed67dc6473c529ffdfc",
+    "mtime": "2026-09-30T23:54:17.910Z"
    },
    {
     "file": "tests/exp-w284e-tpsign.mjs",
-    "bytes": 15789,
-    "sha256": "5337814debc26fae956110b85f1afa82b8f16ece1e5e3d28f7a3bdbe4b90d3cf",
-    "mtime": "2026-09-27T10:21:02.582Z"
+    "bytes": 16757,
+    "sha256": "2f13ddc499000e61507312749a833ed63c0e53ad76329bcc6af2be5f53401fb6",
+    "mtime": "2026-09-30T23:54:17.909Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
@@ -40,9 +40,9 @@
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 348846,
-    "sha256": "9b5602019c7e479bd69492e29df3d19f8cc2514e48739774fc823b7e9e2f0574",
-    "mtime": "2026-09-29T17:55:53.112Z"
+    "bytes": 350253,
+    "sha256": "d1004a09ca68696dfd540e2b9316a13c21d48f77228c4752fb598ccc57b67041",
+    "mtime": "2026-09-30T21:41:10.962Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -69,7 +69,7 @@
     "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "b8bd0d4833e0660a59fcdd0370f8b2519e8a20dc00ad8cb798c15c3ead8ad16e",
+  "codeSha256": "27a24bbb4fe2b0f6ce81b59d2a3986f13021dd66c14bcff45172ee0a4373b345",
   "harnessVersion": "w285a-contact-1",
   "loadErrors": 0,
   "dt": 0.016,
@@ -123,16 +123,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 860,
-   "segments": 779,
-   "closureShare": 0.3153
+   "names": 890,
+   "segments": 804,
+   "closureShare": 0.319
   },
-  "scopeSha256": "90db9ce5f238ece7f20151bcd49229586945d95406310ce901182960179313a1",
+  "scopeSha256": "0fca1f8c91e3aaf51ff1be73b24f0267afbaabc7c368c8ca29f4df8309b58675",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "68a93bc1229c422225480a9cc73c890f5ae3b8c61d32b1c1c946a4648f55c51a",
+    "stableSha256": "105616e52a9a0219feffe6bf22fa77c6054bb19fe5e7afed324a743ce89a02ae",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "358c8201673afe464423d401fa8dacca2350cff7e4a6f17d4e74a050a55ef84c",
+    "stableSha256": "3578e3e1eeec1d7645e3603df996b1373f26d59df30f69a1e6e8a2bd807fa1e9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -536,7 +536,7 @@
  "oneStep": {
   "baseRev": "b92ffa1",
   "baseSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-  "n": 143,
+  "n": 146,
   "nBase": 142,
   "identical": 93,
   "differ": [
@@ -546,8 +546,11 @@
    "galaxyMeshSpiral",
    "galaxyMeshSpiralGeoToy",
    "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
    "clusterAnalogyBH",
    "clusterGrowthCopy",
+   "fixedCaptureCopy",
    "earthMoonReal",
    "earthMoonRealKF1",
    "emAuditNewton",
@@ -600,8 +603,11 @@
    "galaxyMeshSpiral",
    "galaxyMeshSpiralGeoToy",
    "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
    "clusterAnalogyBH",
    "clusterGrowthCopy",
+   "fixedCaptureCopy",
    "shapeToyCluster",
    "shapeToyDisk",
    "shapeToyArm",
@@ -1655,7 +1661,7 @@
   "after": {
    "source": "canon",
    "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128"
+   "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010"
   },
   "table": [
    {
@@ -1857,7 +1863,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 67.538,
+      "wallSec": 115.281,
       "tags": [
        "dt"
       ],
@@ -1867,245 +1873,10 @@
    },
    {
     "id": "saturnRingRealKF1",
-    "emoji": "💿",
-    "rows": [
-     {
-      "target": "C環内縁",
-      "kind": "precession",
-      "name": "環の近点移動(偏心軌道・kF1)",
-      "unit": "deg/orbit",
-      "missingAfter": false,
-      "before": 2.031138114433031,
-      "after": 2.031137923853314,
-      "absDiff": -1.9057971689662168e-7,
-      "relDiff": -9.382902892835519e-8,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": null,
-      "kind": "other",
-      "name": "随伴プロファイル(ω_drag/LT)",
-      "unit": null,
-      "missingAfter": false,
-      "before": null,
-      "after": null,
-      "absDiff": null,
-      "relDiff": null,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": null,
-      "kind": "other",
-      "name": "補正の共通性",
-      "unit": null,
-      "missingAfter": false,
-      "before": null,
-      "after": null,
-      "absDiff": null,
-      "relDiff": null,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": null,
-      "kind": "other",
-      "name": "環と衛星を分けるもの(第246便d)",
-      "unit": null,
-      "missingAfter": false,
-      "before": null,
-      "after": null,
-      "absDiff": null,
-      "relDiff": null,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "C環内縁",
-      "kind": "period",
-      "name": "実測(標準検出器): 公転周期(C環内縁)",
-      "unit": "s",
-      "missingAfter": false,
-      "before": 21719.348540431674,
-      "after": 21719.348541423875,
-      "absDiff": 9.922005119733512e-7,
-      "relDiff": 4.5682793391630484e-11,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "C環内縁",
-      "kind": "ecc",
-      "name": "実測(標準検出器): 離心率(C環内縁)",
-      "unit": "-",
-      "missingAfter": false,
-      "before": 0.00022904233671719362,
-      "after": 0.00022904233716185203,
-      "absDiff": 4.446584159906175e-13,
-      "relDiff": 1.9413808921258622e-9,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "ミマス",
-      "kind": "period",
-      "name": "実測(標準検出器): 公転周期(ミマス)",
-      "unit": "s",
-      "missingAfter": false,
-      "before": 81512.03262743763,
-      "after": 81512.03262927946,
-      "absDiff": 0.0000018418359104543924,
-      "relDiff": 2.2595877578869445e-11,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "ミマス",
-      "kind": "ecc",
-      "name": "実測(標準検出器): 離心率(ミマス)",
-      "unit": "-",
-      "missingAfter": false,
-      "before": 0.00005669684470132555,
-      "after": 0.000056696850861892174,
-      "absDiff": 6.160566624706636e-12,
-      "relDiff": 1.08658015400328e-7,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "ミマス",
-      "kind": "precession",
-      "name": "実測(標準検出器): 近点移動(ミマス)",
-      "unit": "deg/orbit",
-      "missingAfter": false,
-      "before": 23.48604551884022,
-      "after": 23.486040873675627,
-      "absDiff": -0.000004645164594307971,
-      "relDiff": -1.9778402415943868e-7,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "タイタン",
-      "kind": "period",
-      "name": "実測(標準検出器): 公転周期(タイタン)",
-      "unit": "s",
-      "missingAfter": false,
-      "before": 1377401.1327012395,
-      "after": 1377401.132701655,
-      "absDiff": 4.153698682785034e-7,
-      "relDiff": 3.0156056824486276e-13,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "タイタン",
-      "kind": "ecc",
-      "name": "実測(標準検出器): 離心率(タイタン)",
-      "unit": "-",
-      "missingAfter": false,
-      "before": 0.000006446121661225422,
-      "after": 0.000006446122824105594,
-      "absDiff": 1.1628801720325074e-12,
-      "relDiff": 1.8039997275066032e-7,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     },
-     {
-      "target": "タイタン",
-      "kind": "precession",
-      "name": "実測(標準検出器): 近点移動(タイタン)",
-      "unit": "deg/orbit",
-      "missingAfter": false,
-      "before": null,
-      "after": null,
-      "absDiff": null,
-      "relDiff": null,
-      "signFlip": false,
-      "verdictBefore": "転",
-      "verdictAfter": "転",
-      "gateBefore": "未判定",
-      "gateAfter": "未判定"
-     }
-    ],
-    "nQuantities": 12,
-    "nChanged": 8,
-    "maxAbsDiff": 0.000004645164594307971,
-    "verdictMoved": 0,
-    "gateMoved": 0,
-    "run": {
-     "before": {
-      "steps": 254730,
-      "n": 127,
-      "periFound": [
-       13,
-       2,
-       1
-      ],
-      "needPeriastra": 20,
-      "periastraOk": false,
-      "stoppedBy": "declared-max-steps",
-      "wallSec": 17.997,
-      "tags": [
-       "dt"
-      ],
-      "tp": null
-     },
-     "after": {
-      "steps": 254730,
-      "n": 127,
-      "periFound": [
-       13,
-       2,
-       1
-      ],
-      "needPeriastra": 20,
-      "periastraOk": false,
-      "stoppedBy": "declared-max-steps",
-      "wallSec": 17.313,
-      "tags": [
-       "dt"
-      ],
-      "tp": null
-     }
-    }
+    "missing": true
    }
   ],
   "note": null
  },
- "elapsedS": 209.659
+ "elapsedS": 318.19
 }

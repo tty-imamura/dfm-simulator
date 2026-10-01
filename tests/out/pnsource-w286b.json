@@ -3,32 +3,32 @@
   "provenanceVersion": "w272e-1",
   "wave": "第286便b",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-29T23:59:10.866Z",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T04:53:06.356Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-29T23:21:23.931Z"
+    "bytes": 5356329,
+    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+    "mtime": "2026-10-01T04:18:52.243Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 348846,
-    "sha256": "9b5602019c7e479bd69492e29df3d19f8cc2514e48739774fc823b7e9e2f0574",
-    "mtime": "2026-09-29T17:55:53.112Z"
+    "bytes": 350253,
+    "sha256": "d1004a09ca68696dfd540e2b9316a13c21d48f77228c4752fb598ccc57b67041",
+    "mtime": "2026-09-30T21:41:10.962Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887889,
-    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
-    "mtime": "2026-09-29T23:47:20.387Z"
+    "bytes": 1831255,
+    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
+    "mtime": "2026-10-01T04:31:39.003Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 51015,
-    "sha256": "49537af8dabbeb44d61af871bdcc1924eea159ea9535a3e4c5c8338cf746abf1",
-    "mtime": "2026-09-29T23:51:33.411Z"
+    "bytes": 50629,
+    "sha256": "06f335ef338e254ed803bdf792bdc0c16c5711fef01d8b77f381ebeee40db18d",
+    "mtime": "2026-10-01T04:39:31.647Z"
    },
    {
     "file": "tests/data-w286b-clight.json",
@@ -105,16 +105,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 860,
-   "segments": 779,
-   "closureShare": 0.3164
+   "names": 890,
+   "segments": 804,
+   "closureShare": 0.3203
   },
-  "scopeSha256": "9df7088143d7c5d9b9a554ebd374e4aab566a044a57b4c45000b5bbb06243d13",
+  "scopeSha256": "21e4557879dc89f22321f3f69d8dddd44c6b90915f893a453161aead51a3eba9",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "68a93bc1229c422225480a9cc73c890f5ae3b8c61d32b1c1c946a4648f55c51a",
+    "stableSha256": "105616e52a9a0219feffe6bf22fa77c6054bb19fe5e7afed324a743ce89a02ae",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -142,7 +142,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "358c8201673afe464423d401fa8dacca2350cff7e4a6f17d4e74a050a55ef84c",
+    "stableSha256": "3578e3e1eeec1d7645e3603df996b1373f26d59df30f69a1e6e8a2bd807fa1e9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -170,7 +170,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "a0a752a87c99835f7b13bb595c1a6f86b2766ee502bbd207e337622135e2ba4f",
+    "stableSha256": "18c0d3607a46b36c627ca2aec606a6f2eee0e08cce0d213b0c8a831608d2f223",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -196,7 +196,7 @@
   "sha256": "1ac3c760bba646b87b882936100c36e2b00d8774c97075819da4730ceb8037f5",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+ "nowSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
  "note": "判定はしない(正式判定は鎖の calaudit の 3σ 門)。比は λ_PN=1 と 0 の近点増分を GR の主次数(同じ走行の c・接触要素)で割った量 —— λ 増分の一致と λ=1 の実軌道の観測一致は別。Δϖ は deg/周(ω̇ deg/年ではない)。S._core は 1 命令も変えていない。",
  "P": {
   "cond": {
@@ -929,7 +929,7 @@
   "file": "tests/data-w286b-clight.json",
   "bad": [],
   "nReal": 58,
-  "nRetired": 8,
+  "nRetired": 18,
   "roundedLive": [],
   "roundedRetired": [
    "emAuditNewton"
@@ -1634,7 +1634,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 9.094964364947499e-13,
+    "maxPosMany": 7.65442625921209e-9,
     "sigSame": false,
     "nan": false
    },
@@ -1643,7 +1643,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 1.4211379459365244e-13,
+    "maxPosMany": 3.4651639882991904e-7,
     "sigSame": false,
     "nan": false
    },
@@ -1652,7 +1652,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 4.336808689942018e-19,
+    "maxPosMany": 0.0000011001704660121652,
     "sigSame": false,
     "nan": false
    },
@@ -1661,7 +1661,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 0,
+    "maxPosMany": 2.997438540899913e-9,
     "sigSame": false,
     "nan": false
    },
@@ -1670,7 +1670,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 0,
+    "maxPosMany": 3.4449826527183126e-9,
     "sigSame": false,
     "nan": false
    },
@@ -1724,7 +1724,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 5.049354855498186e-14,
+    "maxPosMany": 3.211972974511248e-8,
     "sigSame": false,
     "nan": false
    },
@@ -1733,7 +1733,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 0,
+    "maxPosMany": 6.914076389865079e-7,
     "sigSame": false,
     "nan": false
    },
@@ -1814,7 +1814,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 3.1832314736299268e-12,
+    "maxPosMany": 0.00026896606035107666,
     "sigSame": false,
     "nan": false
    },
@@ -1823,7 +1823,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 0.0019587810008954354,
+    "maxPosMany": 0.00011531970448801527,
     "sigSame": false,
     "nan": false
    },
@@ -1958,7 +1958,7 @@
     "declared": true,
     "bitSame1": false,
     "bitSameMany": false,
-    "maxPosMany": 1.261485337601957e-7,
+    "maxPosMany": 0.0003997462692554819,
     "sigSame": false,
     "nan": false
    },
@@ -2402,13 +2402,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.064,
+   "wallSec": 0.09,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.125,
+   "wallSec": 0.167,
    "errors": 0
   }
  },
- "elapsedS": 447.781
+ "elapsedS": 797.011
 }

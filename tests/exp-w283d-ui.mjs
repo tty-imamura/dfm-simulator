@@ -122,8 +122,10 @@ export const PANEL = async (opts) => {
   const pos = () => {
     const r = d0Row(), p = $('#bgcPanel');
     if (!r || !p) return null;
-    const a = r.getBoundingClientRect(), b = p.getBoundingClientRect();
-    return { next: r.nextElementSibling === p, gap: +(b.top - a.bottom).toFixed(1), dx: +(b.left - a.left).toFixed(1),
+    // 第288便f(原仮定者の裁定(第78報)⑨): D₀ の次の行は静止背景相当 Wbg(#wbgRow・読み取り専用)—— 欄はその直後(隙間は Wbg の行から測る)
+    const w = (r.nextElementSibling && r.nextElementSibling.id === 'wbgRow') ? r.nextElementSibling : null;
+    const a = r.getBoundingClientRect(), b = p.getBoundingClientRect(), a0 = (w || r).getBoundingClientRect();
+    return { next: (w || r).nextElementSibling === p, wbg: !!w, gap: +(b.top - a0.bottom).toFixed(1), dx: +(b.left - a.left).toFixed(1),
       w: +b.width.toFixed(1), rw: +a.width.toFixed(1), n: document.querySelectorAll('#bgcPanel').length,
       catLabel: (p.closest('details.catParams') && p.closest('details.catParams').querySelector('summary').firstChild.textContent) || null };
   };

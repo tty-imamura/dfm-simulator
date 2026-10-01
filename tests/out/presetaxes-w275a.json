@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:18:05.730Z",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T05:32:31.114Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-30T00:16:40.595Z"
+    "bytes": 5356329,
+    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+    "mtime": "2026-10-01T04:18:52.243Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 143,
+ "nPresets": 146,
  "kFrameValues": [
   0,
   1
@@ -54,17 +54,6 @@
    "ids": [
     "galaxyMeshSpiral",
     "galaxyMeshSpiralGeoToy"
-   ],
-   "kFrames": [
-    1,
-    0
-   ]
-  },
-  {
-   "axis": "1|0.006|11.9386|share|851739808ff8e7c966b5bab535436bb01d1b343c4643045fea834e41e6a836b7",
-   "ids": [
-    "plutoCharonReal",
-    "charonGeoToy3"
    ],
    "kFrames": [
     1,
@@ -872,6 +861,48 @@
    "bodiesSha256": "0fd23ceec55ae048f94907917f690556d083a1da30e191824216cf15f22ab2ad"
   },
   {
+   "id": "galaxyAnalogyBHCompose",
+   "emoji": "🧩",
+   "name": "銀河アナロジー — 背景と中心の合成の診断コピー(較正ではない)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 1.5,
+   "D0pull": null,
+   "D0eff": 1.5,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 3,
+   "geoPN": 3,
+   "nBodyDecl": 4,
+   "presetSigHash": "79dc07af",
+   "bodiesSha256": "0fd23ceec55ae048f94907917f690556d083a1da30e191824216cf15f22ab2ad"
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90",
+   "emoji": "🛸",
+   "name": "銀河アナロジー(中心 BH の軸 90°・宣言した歳差)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 1.5,
+   "D0pull": null,
+   "D0eff": 1.5,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 3,
+   "geoPN": 3,
+   "nBodyDecl": 4,
+   "presetSigHash": "cc75dabe",
+   "bodiesSha256": "238531f27ebdda062ff3fd354530d63e3d980c8f2af89027b45313dfc5bcdb1e"
+  },
+  {
    "id": "clusterAnalogyBH",
    "emoji": "💮",
    "name": "球状星団アナロジー(中心 DFM 版 BH+恒星質量 DR)",
@@ -912,6 +943,27 @@
    "nBodyDecl": 9,
    "presetSigHash": "89478a8b",
    "bodiesSha256": "fa6dc5c51c7c47c8dbaed195ed22190e4048b9ba65555472d0d5882a2284e175"
+  },
+  {
+   "id": "fixedCaptureCopy",
+   "emoji": "🥜",
+   "name": "固定中心の合体の原理コピー(支配天体を固定して落ちてくる塊を合体させる)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.15,
+   "D0pull": null,
+   "D0eff": 0.15,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 3,
+   "geoPN": 3,
+   "nBodyDecl": 9,
+   "presetSigHash": "8deb97ed",
+   "bodiesSha256": "8d021853072ffdc3088b3cdc2d6df931c95514c7959ebc4ce49b19a34bdd7873"
   },
   {
    "id": "shapeToyCluster",
@@ -1674,7 +1726,7 @@
    "emoji": "🌞",
    "name": "太陽系 — 内惑星(実単位)",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -1685,9 +1737,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 6,
-   "presetSigHash": "8c4f1094",
+   "presetSigHash": "c3a06766",
    "bodiesSha256": "88ed72cdbbb8e9d1a498e72d8d21eece1a9d85739760edb72f4075f75a5f8c25"
   },
   {
@@ -1695,7 +1747,7 @@
    "emoji": "🟠",
    "name": "木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -1706,9 +1758,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 5,
-   "presetSigHash": "166819e",
+   "presetSigHash": "b0a24648",
    "bodiesSha256": "142f6884cc8ccc78b93eec2c05fb4e31b3f48a9ca9a73471bec99c16c027f265"
   },
   {
@@ -1716,7 +1768,7 @@
    "emoji": "🌇",
    "name": "太陽と金星(実単位)— 自由中心の二体転写",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -1727,9 +1779,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 2,
-   "presetSigHash": "b18292f5",
+   "presetSigHash": "5d53c9a3",
    "bodiesSha256": "f114564408cfe5475072475a22ab91dc6766dc8fe3caf972ee02bec92e8d7ccd"
   },
   {
@@ -1737,7 +1789,7 @@
    "emoji": "🥔",
    "name": "火星とフォボス・ダイモス(実単位)— テスト粒子転写",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -1748,9 +1800,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 3,
-   "presetSigHash": "b874be9d",
+   "presetSigHash": "5a1141ff",
    "bodiesSha256": "adf6c99cf9ae6cf99c6c652dd710584feeb077d36a9a6dd4437fb83979b096b1"
   },
   {
@@ -1758,7 +1810,7 @@
    "emoji": "❄️",
    "name": "冥王星とカロン(実単位)— 重心が外にある二体",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -1769,9 +1821,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 2,
-   "presetSigHash": "1988ec4a",
+   "presetSigHash": "a859d010",
    "bodiesSha256": "851739808ff8e7c966b5bab535436bb01d1b343c4643045fea834e41e6a836b7"
   },
   {
@@ -1798,7 +1850,7 @@
   {
    "id": "plutoCharonKF0Control",
    "emoji": "🌨️",
-   "name": "冥王星とカロン(同一観測解)— kF0 対照(引きずり則なし)",
+   "name": "冥王星とカロン(同一観測解)— geoPN=1 の対照(引きずり則なし)",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1819,7 +1871,7 @@
   {
    "id": "plutoCharonDiagInput",
    "emoji": "🥶",
-   "name": "冥王星とカロン(入力を整えた二体)— 観測入力 kF0 対照",
+   "name": "冥王星とカロン(入力を整えた二体)— 観測入力の geoPN=1 の対照",
    "sampleClass": "principle",
    "kFrame": 0,
    "kFrameApprox": null,
@@ -1884,7 +1936,7 @@
    "emoji": "💠",
    "name": "天王星の環と主要5衛星(実単位)",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -1895,9 +1947,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 17,
-   "presetSigHash": "686a7e45",
+   "presetSigHash": "e326be1",
    "bodiesSha256": "096827743b6eb70c7df752e08678e27b41f92c6432afb120010794f8effb53f1"
   },
   {
@@ -1905,7 +1957,7 @@
    "emoji": "🌊",
    "name": "海王星とトリトン(実単位)— 逆行衛星の二体",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -1916,9 +1968,9 @@
    "frameWeight": "share",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 2,
-   "presetSigHash": "1d113710",
+   "presetSigHash": "5165b6ee",
    "bodiesSha256": "77d2f4dd043ce0ccd36342c05050e9eb473a33c2c95e9d407102282221abb006"
   },
   {
@@ -2024,7 +2076,7 @@
    "geoPN": 1,
    "nBodyDecl": 2,
    "presetSigHash": "4216236d",
-   "bodiesSha256": "66a468318b94d424e8a088abb2bf9f39879fe297f0fcf9773b52cfa5a4984f1a"
+   "bodiesSha256": "dd4c3f365b24e78ec0847182d4a2a0368517ddb2f14ea045c7a72f31d9567c0a"
   },
   {
    "id": "psrDoubleABDFM",
@@ -2092,9 +2144,9 @@
   {
    "id": "psrJ1757DFM",
    "emoji": "🧮",
-   "name": "PSR J1757−1854(DFM版)— 観測質量(f=1)・kF1 の中性子星連星2例目",
+   "name": "PSR J1757−1854(実単位)— 観測質量(f=1)の中性子星連星2例目",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -2105,17 +2157,17 @@
    "frameWeight": "pull",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 2,
-   "presetSigHash": "ba812a15",
+   "presetSigHash": "c1b02ef7",
    "bodiesSha256": "9c56cb8253cf3fb9c57dbe6ce99164591a2b90ae35ab7ad5943b6bce23eebabc"
   },
   {
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "name": "PSR J1946+2052(DFM版)— 観測質量(f=1)・kF1 の銀河系で最短周期の中性子星連星",
+   "name": "PSR J1946+2052(実単位)— 観測質量(f=1)の銀河系で最短周期の中性子星連星",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -2126,9 +2178,9 @@
    "frameWeight": "pull",
    "frameWeightDeclared": true,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "nBodyDecl": 2,
-   "presetSigHash": "3890aecf",
+   "presetSigHash": "d802a205",
    "bodiesSha256": "002311ff9533b410e17c235b5af2970cd51cc983f275a075fce67d4642c7276d"
   },
   {
@@ -2430,7 +2482,7 @@
    "emoji": "⏰",
    "name": "GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant",
    "sampleClass": "calibration",
-   "kFrame": 1,
+   "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
    "massCalibrationDeclared": false,
@@ -2443,8 +2495,8 @@
    "softening": 0.05,
    "geoPN": 0,
    "nBodyDecl": 2,
-   "presetSigHash": "64db5b49",
-   "bodiesSha256": "32f86d6b544ba5018f70a24f9b28716e99dea67ef9aca959b7ef7a6be7ab77e4"
+   "presetSigHash": "c047af64",
+   "bodiesSha256": "caf53826f6de9bcf9c2102877da33f5b366bd4272fb28b65b9d9ccd9af5aa8c1"
   },
   {
    "id": "gw150914SpinDipole",
