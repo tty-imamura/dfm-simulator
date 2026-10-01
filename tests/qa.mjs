@@ -11455,6 +11455,10 @@ const W284_CORE = (W284_PSR_F1 ? 2 : 0) + (W285_J1757_F1 ? 2 : 0) + (W286_J1946_
 // 第288便e(原仮定者の裁定(第78報)⑦・R117): 🛸 galaxyAnalogyBHTilt90(🌚 の軸 90° の原理コピー)の中心コア 1 件(differential・tilt 90・axisMode prescribed)が入った世代は
 //   コア宣言の数え方に +1(置換の可否は各ブロックの実測の区分へ —— 🛸 の世代だけ)
 const W288E_CORE = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"galaxyAnalogyBHTilt90"') >= 0 ? 1 : 0; } catch (e) { return 0; } })();
+// 第288便b(原仮定者の裁定(第78報)①・統括のゲート 2): 在位移行の世代 = html の UNIFY_MIGRATED に ⏰ gw150914Merge4s(f=1・kFrame=0・**補正コア 2 件を外した**)。
+//   コア宣言の数え方・置換可の数に −2(🧮🩺 は kFrame 1→0・🧿 は退役 —— 各ブロックの宣言の読みも同じ切替)
+const W288B_MIG = (() => { try { return /^const UNIFY_MIGRATED=\{[^\n]*\bgw150914Merge4s:/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')); } catch (e) { return false; } })();
+const W288B_CORE = W288B_MIG ? -2 : 0;
 
 // ---- 0b3) 第52便(ChatGPT R-02 提案): release.no-beta-identifiers — ルート対象時、
 // ----      リリース識別子の残存・取り違えを一括機械検査する。
@@ -24407,7 +24411,8 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
         nsInNative: kf1NativeCal.filter((p) => ids.indexOf(p.id) >= 0).length,
         nativeCalIds: kf1NativeCal.map((p) => p.emoji + p.id) };
     }, NS4);
-    const declOk = decl.ns.every((z) => z.fp === 'double' && z.kFrame === 1) && decl.nsInNative === 0;
+    // 第288便b: 在位移行の世代では 🧮🩺 が kFrame=0(geoPN=1 の一本化)—— 宣言 double は変わらない
+    const declOk = decl.ns.every((z) => z.fp === 'double' && (z.kFrame === 1 || (W288B_MIG && z.kFrame === 0 && (z.id === 'psrJ1757DFM' || z.id === 'psrJ1946DFM')))) && decl.nsInNative === 0;
 
     // ② 決定性(QA_FAST でも走る — ⚡ を 6.5 公転・20 近点に満たない窓で 2 回)
     const P_U_AB = 883.4534723278;
@@ -26671,7 +26676,7 @@ await w5bRun('compactMeasures', true); async function W5B_compactMeasures(page, 
       && m.rows.find((x) => x.id === 'compact').ok.visible
       && !m.rows.find((x) => x.id === 'compact').ok.bhBound
       && m.rows.find((x) => x.id === 'compact').ok.solarSafe
-      && s.warn === 0 && s.lam === 1e11 && s.fp === 'double' && s.role === 'variant'           // 🧿
+      && s.warn === 0 && s.lam === 1e11 && s.fp === 'double' && (s.role === 'variant' || (W288B_MIG && s.role === 'retired'))   // 🧿(第288便b: 退役 → 📻)
       && s.fam === 'psr' && s.cls === 'calibration' && s.fid === 'real' && s.nc
       && s.massOk && s.fitted === 2 && s.fittedDecl && s.noKnobless
       && s.primarySpinUntouched && s.primaryFrameDouble,
@@ -33556,7 +33561,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     // コア宣言は 76 件・needsResolve 14 件のまま(🎋 は core を 1 件も宣言しない)—— 世代で切り替える。
     const has265 = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'lfbotTrap'));
     const has274c = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'galaxyMeshSpiralGeoToyLite'));
-    const exp6 = has274c ? { n: 125, core: 76 - W284_CORE + W288E_CORE, res: 14 }   // 第284便b: ⚡ の補正コア 2 件を外した
+    const exp6 = has274c ? { n: 125, core: 76 - W284_CORE + W288E_CORE + W288B_CORE, res: 14 }   // 第284便b: ⚡ の補正コア 2 件を外した
       : (has265 ? { n: 124, core: 76, res: 14 } : { n: 122, core: 75, res: 13 });
     // 第274便d: 形状トイ 3 本は core 宣言を持たない(core/res は不変・n だけ増える)
     exp6.n += (mg.rep.nShapeToy || 0);
@@ -33571,7 +33576,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'clusterGrowthCopy'))) ? 1 : 0;   // 第287便a: 🌰 成長経路の原理コピー(💮 の写し・core 宣言なし)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'fixedCaptureCopy'))) ? 1 : 0;   // 第288便a: 🥜 固定中心の合体の原理コピー(🌰 の写し・core 宣言なし)   // 第287便a: 🌰 成長経路の原理コピー(💮 の写し・core 宣言なし)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     exp6.n += W288E_CORE;   // 第288便e: 🛸(🌚 の軸 90° の原理コピー —— **core 宣言 1 件**・移行可・置換可)
-    const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61 - W284_CORE + W288E_CORE
+    const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61 - W284_CORE + W288E_CORE + W288B_CORE
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
     const m7 = !mg.fin.inf.ok && mg.fin.inf.why === 'layerNotFinite' && mg.fin.inf.m === 1000
@@ -33820,8 +33825,8 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
     // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
-    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) + (rp.rep.has288c ? 1 : 0) + (rp.rep.has288a ? 1 : 0) + W288E_CORE && rp.rep.nCore === 76 - W284_CORE + W288E_CORE
-      && rp.rep.tot.canReplace === 31 - W284_CORE + W288E_CORE && rp.rep.tot.cannot === 45   // 第284便b: ⚡ の 2 件(置換可)が消えた
+    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) + (rp.rep.has288c ? 1 : 0) + (rp.rep.has288a ? 1 : 0) + W288E_CORE && rp.rep.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE
+      && rp.rep.tot.canReplace === 31 - W284_CORE + W288E_CORE + W288B_CORE && rp.rep.tot.cannot === 45   // 第288便b: ⏰ の補正コア 2 件(置換可)が消えた   // 第284便b: ⚡ の 2 件(置換可)が消えた
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
       && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
       && rp.rep.byAxis.tilt === 15 && rp.rep.byAxis.saveRestore === 15;
@@ -34342,7 +34347,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
       && zt.range.zetaRt === 4 && zt.range.layQ === 1 && zt.range.zetaAfterEdit === 4
       && zt.range.rAfterEdit === 3 && zt.range.zetaClamped === 1e6
       && zt.vBad.hasLayers && zt.vBad.key === false && zt.vBad.warn >= 1;
-    const z5 = zt.rep.nCore === 76 - W284_CORE + W288E_CORE && zt.rep.zetaReason === 0 && zt.rep.can === 31 - W284_CORE + W288E_CORE && zt.rep.cannot === 45;   // 第284便b: ⚡ の補正コア 2 件 // 第265便d の 🐮(コア宣言 +1・migrationRejected)で 75→76・44→45
+    const z5 = zt.rep.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE && zt.rep.zetaReason === 0 && zt.rep.can === 31 - W284_CORE + W288E_CORE + W288B_CORE && zt.rep.cannot === 45;   // 第288便b: ⏰ の 2 件   // 第284便b: ⚡ の補正コア 2 件 // 第265便d の 🐮(コア宣言 +1・migrationRejected)で 75→76・44→45
     add('behavior.layerInertiaScale', z1 && z2 && z3 && z4 && z5,
       `① **移行計画が ζ を層へ運ぶ**: ζ=4 の計画で layers[0].inertiaScale=${zt.plan.zeta4}`
       + `(I_c=${zt.plan.Ic4}・J_z=${zt.plan.Jz4})・ζ=1 では鍵を作らない(${zt.plan.zeta1Key})=${z1} / `
@@ -35042,7 +35047,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
       return O;
     }, 600);
     // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
-    const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 - W284_CORE + W288E_CORE   // 第284便b: ⚡ の補正コア 2 件
+    const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE   // 第284便b: ⚡ の補正コア 2 件
       && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0) + (lw.builtins.has287a ? 1 : 0) + (lw.builtins.has288c ? 1 : 0) + (lw.builtins.has288a ? 1 : 0) + W288E_CORE;   // 第288便e: 🛸(core 宣言 1 件)
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
@@ -35050,7 +35055,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     const s3 = lw.totalSame.q[0] === lw.totalSame.q[1] && lw.totalSame.d === 0
       && lw.totalSame.key[0] === false && lw.totalSame.key[1] === false;
     const s4 = lw.tally.asIs.shellReason === 29 && lw.tally.forced.shellReason === 0
-      && lw.tally.asIs.can === 31 - W284_CORE + W288E_CORE && lw.tally.forced.can === 57 - W284_CORE + W288E_CORE;
+      && lw.tally.asIs.can === 31 - W284_CORE + W288E_CORE + W288B_CORE && lw.tally.forced.can === 57 - W284_CORE + W288E_CORE + W288B_CORE;   // 第288便b: ⏰ の 2 件(置換可)が消えた
     add('behavior.shellSpinMassLaw', s1 && s2 && s3 && s4,
       `① **内蔵 ${lw.builtins.nPresets} 本のコア宣言 ${lw.builtins.nCore} 件のうち shellSpinMass を`
       + `宣言しているのは ${lw.builtins.nDeclared} 件**(= 既定 Q は変わっていない)=${s1} / `
