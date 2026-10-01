@@ -22210,9 +22210,10 @@ if (!FAST) {
     const shaNow = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
     if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, M, shaNow)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
     const fc = (J.factors || {}).formalCheck || {};
-    // 第288便g(統括の裁定): 第288便b の在位移行後は ❄️ main が h・h/2 の 2 段(正本の formal.stages === 2)—— その世代の正式値は 2 段で、
+    // 第288便g(統括の裁定): 第288便b の在位移行後は ❄️ main が h・h/2 の 2 段(正本の meta.formal.stages === 2)—— その世代の正式値は 2 段で、
     //   h/4 は「未走行(在位移行後・h/4 例外の経路は裁定待ち)」の印(bitSame null・notRun)を求める。3 段の世代の期待は変えない
-    const two288 = !!(J.formal && J.formal.stages === 2);
+    const FM = (J.meta || {}).formal || J.formal || {};   // 器は meta.formal に置く(第280便d の器の構造)
+    const two288 = FM.stages === 2;
     for (const s of ['h', 'h2', 'h4']) {
       if (two288 && s === 'h4') { if (!fc.h4 || fc.h4.bitSame !== null || !/未走行/.test(String(fc.h4.notRun || ''))) bad.push('②第288便b の世代で h4 に「未走行」の印が無い'); continue; }
       if (!fc[s] || fc[s].bitSame !== true) bad.push(`②正式の値(${s})を 1 bit 再現していない`);

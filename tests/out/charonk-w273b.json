@@ -7,13 +7,13 @@
   "measureVersion": "w273b-charonpage-1",
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "c83f556cb69734514c4fb9fd5aafb4345f5cf24798c937e1e410776968c4ad91",
+  "mergeKey": "0b4e140ec9a5729b37a1a210f4ec7fe5bee6a454aee1db80dbb08ddec7886f5f",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
+   "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-   "obsSha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da",
+   "obsSha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -126,7 +126,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da"
+   "calauditSha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b"
   },
   "secondsPerUnit": 100,
   "separationAtT0": 19.596,
@@ -146,28 +146,28 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
-  "generatedAt": "2026-10-01T00:33:22.492Z",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T04:53:39.119Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5392651,
-    "sha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
-    "mtime": "2026-10-01T00:00:43.763Z"
+    "bytes": 5356329,
+    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+    "mtime": "2026-10-01T04:18:52.243Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1831274,
-    "sha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da",
-    "mtime": "2026-10-01T00:11:52.131Z"
+    "bytes": 1831255,
+    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
+    "mtime": "2026-10-01T04:31:39.003Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w273b-charonk.mjs",
-    "bytes": 21852,
-    "sha256": "d042fcbe7bc834d6041eb56c231905745129e1719a6602d13d1daca602bb0d1d",
-    "mtime": "2026-09-25T06:28:51.039Z"
+    "bytes": 22221,
+    "sha256": "560e0346cb6cf831f4f6dbf5d5c7468d24cbd56302d09790559eb9eb418e195b",
+    "mtime": "2026-10-01T04:18:52.279Z"
    },
    {
     "file": "tests/lib-w273b-charonpage.mjs",
@@ -194,7 +194,7 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "dbb79a227d78abd15699f2a7526182b3aabd1e72a3dfbe5774d47551a81f9d76",
+  "codeSha256": "9496d99fe0298479f35ad7d71e62761c129e095b42f44b9c564dcd87688c5f09",
   "scope": {
    "version": "w286d-scope-4",
    "presets": [
@@ -224,14 +224,14 @@
    "complete": true,
    "names": 895,
    "segments": 809,
-   "closureShare": 0.3175
+   "closureShare": 0.3201
   },
   "scopeSha256": "5496d4b68f78908fe4f2b8717886ae8849fdc3b6f253dcc137aea0a78a00b490",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "47b356d443cf9a63e2bbb4f4f3bb03def68435ee3f6c0eea7d808c81d7196034",
+    "stableSha256": "105616e52a9a0219feffe6bf22fa77c6054bb19fe5e7afed324a743ce89a02ae",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -259,7 +259,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "1df5cda26b6fe193453151af6927e00e5eb10864172cd4856924cd04720aa728",
+    "stableSha256": "3578e3e1eeec1d7645e3603df996b1373f26d59df30f69a1e6e8a2bd807fa1e9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -307,7 +307,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 25.923,
+    "wallSec": 26.259,
     "kFrame": 0,
     "f": 1,
     "softening": 0.05,
@@ -382,7 +382,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.554,
+    "wallSec": 39.499,
     "kFrame": 0.1,
     "f": 1.0002390844283853,
     "softening": 0.05,
@@ -455,7 +455,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.731,
+    "wallSec": 40.498,
     "kFrame": 0.05,
     "f": 1.000119528013179,
     "softening": 0.05,
@@ -528,7 +528,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.825,
+    "wallSec": 39.332,
     "kFrame": 0.025,
     "f": 1.0000597604569648,
     "softening": 0.05,
@@ -601,7 +601,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.183,
+    "wallSec": 38.64,
     "kFrame": 0.0125,
     "f": 1.0000298793411548,
     "softening": 0.05,
@@ -674,7 +674,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.221,
+    "wallSec": 39.356,
     "kFrame": 0.00625,
     "f": 1.0000149394487554,
     "softening": 0.05,
@@ -747,7 +747,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.922,
+    "wallSec": 39.936,
     "kFrame": 0.003125,
     "f": 1.0000074696689234,
     "softening": 0.05,
@@ -820,7 +820,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 40.031,
+    "wallSec": 40.661,
     "kFrame": 0.004687500000000001,
     "f": 1.0000112045449756,
     "softening": 0.05,
@@ -893,7 +893,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 40.306,
+    "wallSec": 41.385,
     "kFrame": 0.0054687500000000005,
     "f": 1.0000130719933995,
     "softening": 0.05,
@@ -966,7 +966,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.289,
+    "wallSec": 41.645,
     "kFrame": 0.005859375,
     "f": 1.000014005720211,
     "softening": 0.05,
@@ -1039,7 +1039,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.608,
+    "wallSec": 41.28,
     "kFrame": 0.005664062500000001,
     "f": 1.0000135388565885,
     "softening": 0.05,
@@ -1112,7 +1112,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 40.381,
+    "wallSec": 40.769,
     "kFrame": 0.00576171875,
     "f": 1.0000137722883455,
     "softening": 0.05,
@@ -1185,7 +1185,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.369,
+    "wallSec": 40.951,
     "kFrame": 0.005810546875,
     "f": 1.0000138890042647,
     "softening": 0.05,
@@ -1258,7 +1258,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 38.641,
+    "wallSec": 41.272,
     "kFrame": 0.0058349609375,
     "f": 1.0000139473622345,
     "softening": 0.05,
@@ -1331,7 +1331,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.22,
+    "wallSec": 41.286,
     "kFrame": 0.00584716796875,
     "f": 1.000013976541222,
     "softening": 0.05,
@@ -1404,7 +1404,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.362,
+    "wallSec": 40.161,
     "kFrame": 0.005853271484375,
     "f": 1.0000139911307162,
     "softening": 0.05,
@@ -1489,7 +1489,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 38.961,
+    "wallSec": 39.814,
     "kFrame": 0.005853271484375,
     "f": 1.0000139911307162,
     "softening": 0.05,
@@ -1562,7 +1562,7 @@
     },
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 76.978,
+    "wallSec": 81.8,
     "kFrame": 0.005853271484375,
     "f": 1.0000139911307162,
     "softening": 0.05,
@@ -1635,7 +1635,7 @@
     },
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 154.832,
+    "wallSec": 161.009,
     "kFrame": 0.005853271484375,
     "f": 1.0000139911307162,
     "softening": 0.05,
@@ -1731,7 +1731,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 26.774,
+    "wallSec": 29.897,
     "kFrame": 0,
     "f": 1,
     "softening": 0.05,
@@ -1806,7 +1806,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.366,
+    "wallSec": 40.679,
     "kFrame": 0.00625,
     "f": 1,
     "softening": 0.05,
@@ -1879,7 +1879,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 40.121,
+    "wallSec": 40.268,
     "kFrame": 0.0125,
     "f": 1,
     "softening": 0.05,
@@ -1952,7 +1952,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 40.43,
+    "wallSec": 40.338,
     "kFrame": 0.025,
     "f": 1,
     "softening": 0.05,
@@ -2025,7 +2025,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 38.698,
+    "wallSec": 41.737,
     "kFrame": 0.05,
     "f": 1,
     "softening": 0.05,
@@ -2098,7 +2098,7 @@
     },
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 39.444,
+    "wallSec": 40.503,
     "kFrame": 0.1,
     "f": 1,
     "softening": 0.05,
@@ -2177,7 +2177,7 @@
    },
    "dt": 0.016,
    "stepsRequested": 20700000,
-   "wallSec": 38.639,
+   "wallSec": 40.448,
    "kFrame": 0.005853271484375,
    "f": 1.0000139911307162,
    "softening": 0.05,
@@ -2250,7 +2250,7 @@
    },
    "dt": 0.016,
    "stepsRequested": 20700000,
-   "wallSec": 38.966,
+   "wallSec": 41.194,
    "kFrame": 0.005853271484375,
    "f": 1.0000139911307162,
    "softening": 0.025,
@@ -2323,7 +2323,7 @@
    },
    "dt": 0.016,
    "stepsRequested": 20700000,
-   "wallSec": 38.66,
+   "wallSec": 40.892,
    "kFrame": 0.005853271484375,
    "f": 1.0000139911307162,
    "softening": 0.0125,
@@ -2387,19 +2387,29 @@
   }
  ],
  "declarationInert": {
-  "ok": false,
-  "a": {
-   "ok": false,
-   "errors": [
-    "physics.geoPN=1 は kFrame=0 専用です(kFrame=0.05)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
-   ]
+  "ok": true,
+  "steps": 200000,
+  "n": 2,
+  "stateBitIdentical": true,
+  "maxAbsDiff": 0,
+  "kFrameBoth": [
+   0.05,
+   0.05
+  ],
+  "approxInParams": [
+   "space-mesh-effective",
+   "sample-only"
+  ],
+  "presetSigDiffers": true,
+  "declared": [
+   "space-mesh-effective",
+   "sample-only"
+  ],
+  "undeclared": {
+   "kFrame": 0,
+   "snapped": true
   },
-  "b": {
-   "ok": false,
-   "errors": [
-    "physics.geoPN=1 は kFrame=0 専用です(kFrame=0.05)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
-   ]
-  }
+  "note": "2 つの宣言値で状態がビット同一で presetSig だけが変わる = **宣言専用キー**(署名は宣言値を区別する)。 宣言なしの分数は第275便a の既定契約で {0,1} へ丸められる(undeclared 欄・情報)"
  },
  "pageErrors": []
 }

@@ -3,28 +3,28 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便b",
   "target": "beta/index.html",
-  "targetSha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
-  "generatedAt": "2026-10-01T01:13:24.827Z",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T05:31:58.115Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5355884,
-    "sha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
-    "mtime": "2026-10-01T01:11:58.303Z"
+    "bytes": 5356329,
+    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+    "mtime": "2026-10-01T04:18:52.243Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1831274,
-    "sha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da",
-    "mtime": "2026-10-01T00:11:52.131Z"
+    "bytes": 1831255,
+    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
+    "mtime": "2026-10-01T04:31:39.003Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w275b-d0audit.mjs",
-    "bytes": 23083,
-    "sha256": "dd4e4e5bf0b29f664d209997b9159d69b696303c0db7c1e53bc0521590d91560",
-    "mtime": "2026-09-20T17:43:15.898Z"
+    "bytes": 24283,
+    "sha256": "a84ea4247b3dd240466be1a970c1ad8225ecadd5e2f15cc6ea9c0831ca65fdb2",
+    "mtime": "2026-10-01T04:18:52.279Z"
    },
    {
     "file": "tests/lib-w275b-dsplit.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-09-18T17:14:55.948Z"
    }
   ],
-  "codeSha256": "37ef3106a97a66f113d0eff308043cac93789a2a10ef01d6de73446b4cb970aa",
+  "codeSha256": "69741d5bf1c3124338b7a43c8818c287b6a9cf689e2515353373891546ecda15",
   "harness": "tests/exp-w275b-d0audit.mjs",
   "harnessVersion": "w275b-d0audit-1",
   "dsplitVersion": "w275b-dsplit-1",
@@ -125,9 +125,32 @@
    }
   ],
   "observation": {
-   "error": "TypeError: Cannot read properties of undefined (reading 'obs')"
+   "value": 19414166.4,
+   "sigma": null,
+   "unit": "s",
+   "name": "公転周期(kFrame=0 対照)",
+   "sigmaNote": "CSV の sigma 列が空欄(**未記録**であって 0 ではない)",
+   "method": "同方向1周(2周目 — obsCard の数え方)",
+   "from": "tests/out/calaudit-w249.json"
   },
-  "independentCheck": null,
+  "independentCheck": {
+   "kF1": {
+    "calaudit": null,
+    "name": "公転周期(kFrame=1・E6′-R)",
+    "noCounterpart": "第288便b の在位移行(🌇 kFrame 1→0)—— 判定器の正本に kFrame=1 で測った行は無い(「公転周期(kFrame=1・E6′-R)」は門 condition-mismatch)",
+    "here": 19414266.578568343,
+    "absDiff": null,
+    "bitSame": null
+   },
+   "kF0": {
+    "calaudit": 19413888.609564465,
+    "name": "公転周期(kFrame=0 対照)",
+    "here": 19413888.609564465,
+    "absDiff": 0,
+    "bitSame": true
+   },
+   "note": "同じ数が別の器から出たことだけを意味する(**観測と合ったことではない**)"
+  },
   "secondsPerUnit": 10000,
   "notClaim": [
    "D₀ を較正した",
@@ -1942,9 +1965,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.559,
+     "wallSec": 0.615,
      "rev2Sec": 19413888.609564465,
-     "residPct": null,
+     "residPct": -0.0014308646058270656,
      "sigma": null
     },
     "h2": {
@@ -1978,9 +2001,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.97,
+     "wallSec": 1.137,
      "rev2Sec": 19413888.581032414,
-     "residPct": null,
+     "residPct": -0.0014310115709347201,
      "sigma": null
     },
     "h4": {
@@ -2014,9 +2037,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.676,
+     "wallSec": 1.913,
      "rev2Sec": 19413888.573797643,
-     "residPct": null,
+     "residPct": -0.0014310488363555246,
      "sigma": null
     }
    }
@@ -2060,9 +2083,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.445,
+     "wallSec": 0.536,
      "rev2Sec": 19413888.609564465,
-     "residPct": null,
+     "residPct": -0.0014308646058270656,
      "sigma": null
     },
     "h2": {
@@ -2096,9 +2119,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.924,
+     "wallSec": 0.92,
      "rev2Sec": 19413888.581032414,
-     "residPct": null,
+     "residPct": -0.0014310115709347201,
      "sigma": null
     },
     "h4": {
@@ -2132,9 +2155,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.864,
+     "wallSec": 1.814,
      "rev2Sec": 19413888.573797643,
-     "residPct": null,
+     "residPct": -0.0014310488363555246,
      "sigma": null
     }
    }
@@ -2178,9 +2201,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.444,
+     "wallSec": 0.456,
      "rev2Sec": 19413888.609564465,
-     "residPct": null,
+     "residPct": -0.0014308646058270656,
      "sigma": null
     },
     "h2": {
@@ -2214,9 +2237,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.877,
+     "wallSec": 0.878,
      "rev2Sec": 19413888.581032414,
-     "residPct": null,
+     "residPct": -0.0014310115709347201,
      "sigma": null
     },
     "h4": {
@@ -2250,9 +2273,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.858,
+     "wallSec": 1.833,
      "rev2Sec": 19413888.573797643,
-     "residPct": null,
+     "residPct": -0.0014310488363555246,
      "sigma": null
     }
    }
@@ -2280,7 +2303,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.2,
+     "wallSec": 0.172,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2299,7 +2322,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.206,
+     "wallSec": 0.154,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2318,7 +2341,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.192,
+     "wallSec": 0.168,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2334,33 +2357,111 @@
    },
    "stages": {
     "h": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     "single": false,
+     "steps": 364017,
+     "dt": 0.016,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.4092507287041,
+      1941.4266578568345,
+      1941.42807731512
      ],
-     "wallSec": 0.004,
-     "rev2Sec": null,
-     "residPct": null,
+     "revN": 3,
+     "rMin": 1074.5053876500065,
+     "rMax": 1089.6733923971772,
+     "eProxy": 0.007008665313149407,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0.006,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.824,
+     "rev2Sec": 19414266.578568343,
+     "residPct": 0.0005160075703511187,
      "sigma": null
     },
     "h2": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     "single": false,
+     "steps": 728034,
+     "dt": 0.008,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.416867143288,
+      1941.4254920992603,
+      1941.4261707465416
      ],
-     "wallSec": 0.003,
-     "rev2Sec": null,
-     "residPct": null,
+     "revN": 3,
+     "rMin": 1074.5054269124657,
+     "rMax": 1089.6726127488091,
+     "eProxy": 0.007008289317415522,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0.006,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 1.402,
+     "rev2Sec": 19414254.9209926,
+     "residPct": 0.00045596082149142907,
      "sigma": null
     },
     "h4": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     "single": false,
+     "steps": 1456068,
+     "dt": 0.004,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.4206583131652,
+      1941.4249618583624,
+      1941.425254031566
      ],
-     "wallSec": 0.003,
-     "rev2Sec": null,
-     "residPct": null,
+     "revN": 3,
+     "rMin": 1074.5054367281134,
+     "rMax": 1089.6722640968742,
+     "eProxy": 0.0070081247778216935,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0.006,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 2.66,
+     "rev2Sec": 19414249.618583623,
+     "residPct": 0.000428648760447474,
      "sigma": null
     }
    }
@@ -2374,31 +2475,97 @@
    },
    "stages": {
     "h": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
-     ],
-     "wallSec": 0.005,
+     "single": false,
+     "steps": 400000,
+     "dt": 0.016,
+     "n": 2,
+     "stop": "steps",
+     "nan": false,
+     "rev": [],
+     "revN": 0,
+     "rMin": 1074.5054385389844,
+     "rMax": 9887.784925971213,
+     "eProxy": 0.8039633319661672,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.762,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
     },
     "h2": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
-     ],
-     "wallSec": 0.002,
+     "single": false,
+     "steps": 800000,
+     "dt": 0.008,
+     "n": 2,
+     "stop": "steps",
+     "nan": false,
+     "rev": [],
+     "revN": 0,
+     "rMin": 1074.5054396347462,
+     "rMax": 9887.559210811625,
+     "eProxy": 0.8039592952791074,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 1.442,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
     },
     "h4": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
-     ],
-     "wallSec": 0.002,
+     "single": false,
+     "steps": 1600000,
+     "dt": 0.004,
+     "n": 2,
+     "stop": "steps",
+     "nan": false,
+     "rev": [],
+     "revN": 0,
+     "rMin": 1074.5054399086864,
+     "rMax": 9889.64896758581,
+     "eProxy": 0.8039966603946743,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 0,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 3.022,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2414,33 +2581,111 @@
    },
    "stages": {
     "h": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     "single": false,
+     "steps": 364010,
+     "dt": 0.016,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3730995153996,
+      1941.3890993609134,
+      1941.3890992035977
      ],
-     "wallSec": 0.002,
-     "rev2Sec": null,
-     "residPct": null,
+     "revN": 3,
+     "rMin": 1074.5053873083589,
+     "rMax": 1089.6548454104272,
+     "eProxy": 0.007000155475103819,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 78.80031324358178,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 0.797,
+     "rev2Sec": 19413890.993609134,
+     "residPct": -0.0014185846829066122,
      "sigma": null
     },
     "h2": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     "single": false,
+     "steps": 728020,
+     "dt": 0.008,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3810967373365,
+      1941.3890966572862,
+      1941.389096581056
      ],
-     "wallSec": 0.002,
-     "rev2Sec": null,
-     "residPct": null,
+     "revN": 3,
+     "rMin": 1074.505426788778,
+     "rMax": 1089.654803786784,
+     "eProxy": 0.0070001180060391775,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 78.80031324358178,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 1.578,
+     "rev2Sec": 19413890.966572862,
+     "residPct": -0.0014187239434415861,
      "sigma": null
     },
     "h4": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     "single": false,
+     "steps": 1456041,
+     "dt": 0.004,
+     "n": 2,
+     "stop": "orbMax",
+     "nan": false,
+     "rev": [
+      1941.3850960498348,
+      1941.3890960099775,
+      1941.3890959718233
      ],
-     "wallSec": 0.002,
-     "rev2Sec": null,
-     "residPct": null,
+     "revN": 3,
+     "rMin": 1074.5054366787733,
+     "rMax": 1089.6547933831912,
+     "eProxy": 0.007000108630581439,
+     "clamp": {
+      "V": 0,
+      "S": 0,
+      "H": 0,
+      "A": 0,
+      "R": 0,
+      "T": 0
+     },
+     "cfgApplied": {
+      "D0": 78.80031324358178,
+      "kFrame": 1,
+      "softening": 0.05,
+      "frameWeight": "share",
+      "nBodies": 2
+     },
+     "wallSec": 2.738,
+     "rev2Sec": 19413890.960099775,
+     "residPct": -0.001418757285520978,
      "sigma": null
     }
    }
@@ -2455,31 +2700,58 @@
    },
    "stages": {
     "h": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
-     ],
-     "wallSec": 0.001,
+     "single": true,
+     "steps": 200000,
+     "dt": 0.016,
+     "n": 1,
+     "drift": 11285.369200876914,
+     "speed": 3.526677875273317,
+     "nan": false,
+     "stop": "singleBody",
+     "cfgApplied": {
+      "D0": 80.65093207339432,
+      "kFrame": 1,
+      "softening": 0.05
+     },
+     "wallSec": 0.324,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
     },
     "h2": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
-     ],
-     "wallSec": 0.004,
+     "single": true,
+     "steps": 200000,
+     "dt": 0.008,
+     "n": 1,
+     "drift": 5642.684600438457,
+     "speed": 3.526677875273317,
+     "nan": false,
+     "stop": "singleBody",
+     "cfgApplied": {
+      "D0": 80.65093207339432,
+      "kFrame": 1,
+      "softening": 0.05
+     },
+     "wallSec": 0.323,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
     },
     "h4": {
-     "error": "validate",
-     "errors": [
-      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
-     ],
-     "wallSec": 0.007,
+     "single": true,
+     "steps": 200000,
+     "dt": 0.004,
+     "n": 1,
+     "drift": 2821.3423002192285,
+     "speed": 3.526677875273317,
+     "nan": false,
+     "stop": "singleBody",
+     "cfgApplied": {
+      "D0": 80.65093207339432,
+      "kFrame": 1,
+      "softening": 0.05
+     },
+     "wallSec": 0.366,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
