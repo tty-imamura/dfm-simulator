@@ -258,6 +258,18 @@
     "state": "only the shell spin is read (= spin 0); precession drag a candidate; p=1 q-field, not the report-79 complex kernel"
    }
   },
+  "galaxyAnalogyBHTilt90Layers": {
+   "purpose": "🛸 の中心を親子コアの層に置き直し、層の軸が力に入るかと 🛸 との差の出どころを測る",
+   "objective": "met",
+   "state": "層の軸を変えても全步ビット一致・🛸 とは層の近傍重力の步から食い違い、それを外すと一致",
+   "evidence": [
+    "tests/out/tilt90layers-w289e.json"
+   ],
+   "en": {
+    "purpose": "Copy of 🛸 with the centre re-placed as parent-child core layers",
+    "state": "layer-axis changes stay bit-identical; it departs from 🛸 only via near-field layer gravity"
+   }
+  },
   "clusterAnalogyBH": {
    "purpose": "DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置く星団アナロジー",
    "objective": "unmet",
@@ -2280,6 +2292,9 @@
    ],
    "behavior.tilt90Copy": [
     "galaxyAnalogyBHTilt90"
+   ],
+   "behavior.tilt90LayersCopy": [
+    "galaxyAnalogyBHTilt90Layers"
    ],
    "preset.galaxyDB": [
     "galaxyDB"

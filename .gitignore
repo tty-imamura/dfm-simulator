@@ -793,3 +793,7 @@ tests/out/regen-plan-w281a.json
 # 第289便b(原仮定者の裁定(第79報)③で閉じた AN100・統括の検証項目 R120): **契約範囲外の評価器**を内蔵の走行に掛けた正本(tests/exp-w289b-contractrange.mjs ——
 #   🌒 の 2 周・有効幅を縮めた写し・geoPN=3 の 🔁🩻)。QA behavior.contractRangeEval が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**判定ではない**
 !tests/out/contractrange-w289b.json
+# 第289便e(原仮定者の裁定(第79報)AN105/AN106・統括の検証項目 R123): **親子コア便**の正本(tests/exp-w289e-tilt90layers.mjs —— 🪆 の宣言の照合・
+#   步ごとの指紋の照合〔層の軸の対照・層の差分を外した対照〕・変換の往復・層の軸の宣言欄の受理)。QA behavior.tilt90LayersCopy・preset.layerAxisDecl が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/tilt90layers-w289e.json

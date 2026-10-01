@@ -1459,6 +1459,17 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **数値として持つ(宣言・表示・保存・復元・融合の合算・正準形)だけ**で、**力へは 1 バイトも
     接続していない**。0 は正準形に出ない(既定経路の署名は不変)。値域は ±10¹²。
     **「層 J をベクトル化した」とは書かない** —— 数値として保持し、回転場は z 射影で読む、の 2 点である。
+  - **`body.layers[].tilt` / `body.layers[].azimuthDeg` / `body.layers[].precessionRate`(省略可・第289便e —— 層の軸の宣言欄)**:
+    `tilt` は公転面の法線からの角[度・0〜180]・`azimuthDeg` は面内の方位[度]・`precessionRate` は歳差角速度の宣言(コア V2 の
+    `core.precessionRate` と同じ単位・値域 [−100,100])。**正準状態は J ベクトル (Jx, Jy, J=J_z)** で、傾きと方位は **J から導く値**
+    (θ=acos(J_z/|J|)・φ=atan2(J_y,J_x) —— `HP.layerAxisFromJ(Jz,Jx,Jy)`)。宣言の角度は J ベクトルと 10⁻⁶ 度以内で一致するときだけ残り
+    (食い違いは警告して角度だけを落とす・J は残す)、**0 と未宣言は正準形に出ない**(既定経路の署名は不変)。状態は宣言ビットと歳差の宣言値だけ
+    (`S.layAx`・`S.layPR`)で、保存は角度を J から導き直して出す。融合では軸は **J ベクトルの和から導く**(質量荷重平均ではない)・
+    歳差は全員が同じ値を宣言したときだけ残る。読み口 `HP.layerAxisState(S,i)`(表示の方位 φ₀+Ω_p·t と 2D 投影 —— 層の J は回さない)・
+    定数 `HP.LAYER_AXIS_KEYS`・`HP.LAYER_AXIS_VERSION`(w289e-layeraxis-1)・`HP.LAYER_AXIS_TOL_DEG`。
+    **契約: 層は J の z 射影だけを読む**(tilt・方位・歳差は数値として載り、表示と移行の往復に使う。力・減光・熱には入らない)。
+    回転場の源(下の所有者規約)と `S._layerForce` は層の軸を 1 字も読まない。**「層が V2 を置き換えた」「歳差を接続した」とは書かない。**
+    **「コア V3」という処理は無い** —— 親子コアは `body.layers` である(原仮定者の裁定(第79報)AN105/AN106)。
   - **回転場の源の所有者規約(第264便c — `spinDipoleMoment` / `HP.dfmLayerDipoleMoment(i,S)`)**:
     スピン双極子モーメント Q_i(`physics.spinSpin` の源・対ポテンシャル `U_SS` の源)は
     **コア V2 があれば V2・無ければ層**から取る(**二重計上を構造的に防ぐ**)。
@@ -1502,6 +1513,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     `massFrac=1`(裸コア終端)は **1 層**になる(観測半径は層に載らず `observedRadius` に残る)。
     **第262便b から本関数は `HP.coreV2MigrationPlan` の薄い包み**である(返り値の鍵は従来どおり・
     `plan` に計画全体が入る)。
+    **第289便e: 軸を層へ運ぶ** —— `core.axisMode:"prescribed"` の方位を面内成分に置き(方位 0 では従来とビット同一)、コア層に
+    `tilt`(層の J ベクトルから導いた傾き)・`azimuthDeg`・`precessionRate`(既定 "spin" は殻 spin の値)を載せる(0 は鍵を作らない)。
+    実行状態形は主変数 coreJx/coreJy と歳差 coreAxOm をそのまま渡す(|J| と J_z から復元すると符号と方位が落ちる)。
+    層へ置き直すと**近傍の重力が変わる**(Σ層 m=body.m の質量分布 —— 🪆 は 🛸 と步 39 から食い違う)。
   - **`HP.coreV2MigrationPlan(body)`(第262便b — 移行計画)**: `body={m, radius|R, spin?, core:{…}}` から
     **根 = コア・層1 = 外殻**の層配列に加えて、**慣性と角運動量の分解**を返す純関数(`S` も内蔵プリセットも
     1 バイトも書かない)。ζ=`inertiaScale`・θ=`tilt`(度)として
@@ -1631,6 +1646,10 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     (|J_core|=½·750·7.5²·16=337500 = 🌚 の殻の角運動量 —— 向きだけを面内へ・歳差 0.12 は**宣言**)。**geoPN=3 のトイ(`spaceMesh.centerSpin:"read"`)が読む中心の自転は殻 spin だけ**なので、
     この本の力学は 🌚 の中心 spin=0 とビット一致する(コアを立てても同じ —— 器 tests/exp-w288e-tilt90.mjs)。歳差が担う面内の引きずりは
     候補の診断量(tests/lib-w288e-tilt90.mjs)で、場には足していない。**「コア V3」という処理は無い**(既存の `core.axisMode` を使う)。
+    **第289便e の層版の診断コピー**: 🪆 `galaxyAnalogyBHTilt90Layers` は 🛸 の中心のコア V2 を親子コアの 2 層
+    `[{"role":"core","m":750,"r":7.5,"J":0,"Jx":337500,"tilt":90,"precessionRate":0.12},{"role":"shell","m":1750,"r":15,"J":0}]` に置き換えた写し
+    (コア V2 は持たない・`HP.coreV2ToLayers` と同じ層)。層の軸を変えても全步ビット一致(層は J の z 射影だけを読む)・🛸 とは最初の層の近傍キックの步から
+    食い違う(器 tests/exp-w289e-tilt90layers.mjs)。生成 AI は観測値の無い天体に層の軸を書かない。
   - **`body.spinAxis`(第288便e・single 専用・**表示専用** —— SYSTEM_PROMPT には載せていない)**: 点粒子(親子コアを持たない NS 連星の星など)の
     **公転面基準の自転軸**の宣言欄 `{"tiltDeg":公転面の法線からの角[度・0〜180・必須], "azimuthDeg":面内の方位[度・任意], "precessionRateDegPerYr":軸の歳差[deg/yr・任意],
     "epoch":元期[文字列・任意], "source":出所[必須の非空文字列], "uncertainty":{"tiltDeg":σ か {plus,minus,level?}, "precessionRateDegPerYr":同}}`。

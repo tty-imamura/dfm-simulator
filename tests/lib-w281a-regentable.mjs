@@ -603,6 +603,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/contractrange-w289b.json': META_RUN.concat(['/elapsedS']) },
     note: '第289便b: 背景の時間の契約の範囲外の步(S.meshVelTimeOutSteps)を評価器(lib-w289b-contractrange —— calaudit と同じ 1 本)に通す:'
       + ' 🌒 の 2 周は範囲内・有効幅 3000 の写しは契約範囲外で保留(軌道はビット同一)・🔁🩻 は 2 周で範囲外の步 0(宣言なし)・timeContract の宣言は 🌒 だけ' }),
+  // ---- 第289便e(原仮定者の裁定(第79報)AN105/AN106・統括の検証項目 R123): 親子コア便 —— 🪆(🛸 の中心を親子コアの層に置き直した診断コピー)の
+  //   宣言の照合(🛸 の写し・HP.coreV2ToLayers と同じ層)・11 走行(T=48)の步ごとの指紋の照合(層の軸の対照 6 本・層の差分 S._layerForce を器の中だけで
+  //   外した対照)・最初の層の近傍キックの步・変換の往復(JSON 形と実行状態形)・層の軸の宣言欄の受理。Node だけ・html だけを読む(他の正本は読まない)。
+  //   🛸 の実測の段 tilt90288 の後に置く(同じ 🛸🌚 を読む —— 並べて読む表の順)。所要は第289便e の枝の実測 135 秒(Node 1 本・同じ容器で他の枝と並走)
+  S('tilt90layers289', 'node tests/exp-w289e-tilt90layers.mjs', ['tests/out/tilt90layers-w289e.json'], 135, { secSource: 'w289e-branch', node: true, after: ['tilt90288'],
+    volatilePaths: { 'tests/out/tilt90layers-w289e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
+    note: '第289便e: 🪆 の宣言の照合・11 走行の步ごとの指紋(層の軸 0/90°・方位・歳差 0/2 倍・層の J の有無は全步一致/🛸 とは最初の層の近傍キックの步から食い違い・'
+      + '差分を外すと 🛸 と全步一致)・変換の往復(t=0/24)・融合の合算規約・層の軸の宣言欄の受理' }),
 ];
 
 /**

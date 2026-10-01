@@ -1,0 +1,1570 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第289便e",
+  "target": "beta/index.html",
+  "targetSha256": "2d75de49f07f0db59409dffa9a3c2d0b6a79a0bdbca91bb6eb8872098bb7f71d",
+  "generatedAt": "2026-10-01T18:51:31.967Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5390232,
+    "sha256": "2d75de49f07f0db59409dffa9a3c2d0b6a79a0bdbca91bb6eb8872098bb7f71d",
+    "mtime": "2026-10-01T18:49:46.932Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w289e-tilt90layers.mjs",
+    "bytes": 21475,
+    "sha256": "992ae3cb09bfe0d0f4c0064a5480f79511bd647474ef321f92ff7864747bf504",
+    "mtime": "2026-10-01T18:49:28.294Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-01T18:04:39.168Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-01T18:04:38.956Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-01T18:04:34.344Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-01T18:04:40.016Z"
+   }
+  ],
+  "codeSha256": "884999b5458072d0fd6de437cb0090890ff03d9491917b3a1026ec309bd19e20",
+  "harnessVersion": "w289e-tilt90layers-1",
+  "layerAxisVersion": "w289e-layeraxis-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第79報)AN105/AN106: 「コア V3」は無い(親子コア=body.layers)・🛸 の層版は専用の診断コピー 1 本で・層は「z だけを読む」を契約に書く・読み手は変えない・コア V2 は廃止しない",
+  "reading": "統括の検証項目 R123(層の軸の宣言欄・J ベクトルが正準状態で角度は導出値・コア V2 → 層の変換が軸を運ぶ・🛸 の層版の診断コピーの実測)",
+  "dt": 0.016,
+  "steps": 3000,
+  "notClaim": [
+   "層が V2 を置き換えた",
+   "引きずりが戻った",
+   "歳差を接続した",
+   "コア V3",
+   "観測一致を達成した",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "galaxyAnalogyBH",
+    "galaxyAnalogyBHTilt90",
+    "galaxyAnalogyBHTilt90Layers"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.LAYER_AXIS_VERSION",
+    "HP.allPresets",
+    "HP.coreAxisState",
+    "HP.coreV2MigrationPlan",
+    "HP.coreV2ToLayers",
+    "HP.dfmLayerDipoleMoment",
+    "HP.dfmLayerMerge",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.dfmSpinDipoleMoment",
+    "HP.layerAxisFromJ",
+    "HP.layerAxisState",
+    "HP.sim",
+    "HP.validatePreset",
+    "T"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 894,
+   "segments": 808,
+   "closureShare": 0.3201
+  },
+  "scopeSha256": "48f2141bc6dd71bfa2e40438b9fd39207bb8a8e35e4afed1006eca3f178914c0",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "preset": "galaxyAnalogyBHTilt90Layers",
+ "v2copy": "galaxyAnalogyBHTilt90",
+ "ref": "galaxyAnalogyBH",
+ "runSpecs": [
+  {
+   "key": "tilt90",
+   "base": "galaxyAnalogyBHTilt90",
+   "note": "🛸(コア V2 の軸 90°・Ω_p 宣言)"
+  },
+  {
+   "key": "spin0",
+   "base": "galaxyAnalogyBH",
+   "spin": 0,
+   "note": "🌚 の中心 spin=0(第288便e の照合の相手)"
+  },
+  {
+   "key": "upright",
+   "base": "galaxyAnalogyBH",
+   "note": "🌚(軸が立った中心・殻 spin 1.2)"
+  },
+  {
+   "key": "layers",
+   "base": "galaxyAnalogyBHTilt90Layers",
+   "note": "🪆(層の軸 90°・Ω_p 宣言)"
+  },
+  {
+   "key": "layers-noLF",
+   "base": "galaxyAnalogyBHTilt90Layers",
+   "noLF": true,
+   "note": "🪆 の層の差分 S._layerForce を器の中だけで外した対照"
+  },
+  {
+   "key": "layers-tilt0",
+   "base": "galaxyAnalogyBHTilt90Layers",
+   "core": {
+    "J": 337500
+   },
+   "note": "🪆 の層の J を z に立てた対照(|J| は同じ・軸の宣言なし)"
+  },
+  {
+   "key": "layers-noJ",
+   "base": "galaxyAnalogyBHTilt90Layers",
+   "core": {},
+   "shell": {},
+   "note": "🪆 の層の J と軸の宣言を外した対照(m・r だけ)"
+  },
+  {
+   "key": "layers-om0",
+   "base": "galaxyAnalogyBHTilt90Layers",
+   "core": {
+    "J": 0,
+    "Jx": 337500,
+    "tilt": 90
+   },
+   "note": "🪆 の歳差 0(宣言を外す)"
+  },
+  {
+   "key": "layers-om2x",
+   "base": "galaxyAnalogyBHTilt90Layers",
+   "core": {
+    "J": 0,
+    "Jx": 337500,
+    "tilt": 90,
+    "precessionRate": 0.24
+   },
+   "note": "🪆 の歳差 2 倍"
+  },
+  {
+   "key": "layers-az90",
+   "base": "galaxyAnalogyBHTilt90Layers",
+   "core": {
+    "J": 0,
+    "Jy": 337500,
+    "tilt": 90,
+    "azimuthDeg": 90,
+    "precessionRate": 0.12
+   },
+   "note": "🪆 の方位 90°(J を面内 y へ)"
+  },
+  {
+   "key": "layers-shell-noLF",
+   "base": "galaxyAnalogyBHTilt90Layers",
+   "spin": 1.2,
+   "noLF": true,
+   "note": "🪆 に殻 spin 1.2 を戻した A/B の B 側(層の差分を外した対照)"
+  }
+ ],
+ "samePairs": [
+  [
+   "tilt90",
+   "spin0"
+  ],
+  [
+   "layers-noLF",
+   "tilt90"
+  ],
+  [
+   "layers-tilt0",
+   "layers"
+  ],
+  [
+   "layers-noJ",
+   "layers"
+  ],
+  [
+   "layers-om0",
+   "layers"
+  ],
+  [
+   "layers-om2x",
+   "layers"
+  ],
+  [
+   "layers-az90",
+   "layers"
+  ],
+  [
+   "layers-shell-noLF",
+   "upright"
+  ],
+  [
+   "layers",
+   "tilt90"
+  ]
+ ],
+ "sampleAt": [
+  0,
+  1500,
+  3000
+ ],
+ "rLayerOut": 15,
+ "declaration": {
+  "allSame": true,
+  "diffs": [],
+  "bodyDiff": [],
+  "hasCoreV2": false,
+  "layers": [
+   {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 337500,
+    "tilt": 90,
+    "precessionRate": 0.12
+   },
+   {
+    "role": "shell",
+    "m": 1750,
+    "r": 15,
+    "J": 0
+   }
+  ],
+  "conv": [
+   {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 2.0665914735611584e-11,
+    "Jx": 337500,
+    "tilt": 90,
+    "precessionRate": 0.12
+   },
+   {
+    "role": "shell",
+    "m": 1750,
+    "r": 15,
+    "J": 0
+   }
+  ],
+  "convOk": true,
+  "convDiff": [],
+  "dJz": 2.0665914735611584e-11,
+  "dJzRel": 6.123233995736766e-17,
+  "Jmag": 337500,
+  "sumM": 2500,
+  "bodyM": 2500,
+  "sampleClass": "principle",
+  "pinned": true,
+  "valid": true,
+  "warnings": [],
+  "canonLayers": [
+   {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 337500,
+    "tilt": 90,
+    "precessionRate": 0.12
+   },
+   {
+    "role": "shell",
+    "m": 1750,
+    "r": 15,
+    "J": 0
+   }
+  ],
+  "abBody": {
+   "label": {
+    "ja": "中心の殻 spin=1.2 を戻す(🌚 と同じ z の自転)",
+    "en": "put back the centre shell spin 1.2 (the same z spin as 🌚)"
+   },
+   "targets": [
+    0
+   ],
+   "patch": {
+    "spin": 1.2
+   }
+  }
+ },
+ "runs": [
+  {
+   "key": "tilt90",
+   "spec": {
+    "key": "tilt90",
+    "base": "galaxyAnalogyBHTilt90",
+    "note": "🛸(コア V2 の軸 90°・Ω_p 宣言)"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "85a91c444db1aaa4419b145124ba6910",
+     "shellSpin": 0,
+     "coreV2": true,
+     "Q": 2.0665914735611584e-11,
+     "layer": null,
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "cfdb0adadbaacbb4da963d5e6b1b5ada",
+     "shellSpin": 0,
+     "coreV2": true,
+     "Q": 2.0665914735611584e-11,
+     "layer": null,
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "04377ee0dcdae222e96e03d6fc8c20d1",
+     "shellSpin": 0,
+     "coreV2": true,
+     "Q": 2.0665914735611584e-11,
+     "layer": null,
+     "axis": null,
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": null,
+   "kickSteps": 0,
+   "insideSteps": 58530,
+   "insideMax": 29,
+   "wallSec": 9.124
+  },
+  {
+   "key": "spin0",
+   "spec": {
+    "key": "spin0",
+    "base": "galaxyAnalogyBH",
+    "spin": 0,
+    "note": "🌚 の中心 spin=0(第288便e の照合の相手)"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "85a91c444db1aaa4419b145124ba6910",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": null,
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "cfdb0adadbaacbb4da963d5e6b1b5ada",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": null,
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "04377ee0dcdae222e96e03d6fc8c20d1",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": null,
+     "axis": null,
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": null,
+   "kickSteps": 0,
+   "insideSteps": 58530,
+   "insideMax": 29,
+   "wallSec": 7.733
+  },
+  {
+   "key": "upright",
+   "spec": {
+    "key": "upright",
+    "base": "galaxyAnalogyBH",
+    "note": "🌚(軸が立った中心・殻 spin 1.2)"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "b069dc10d394c0080ea69fb90ccba037",
+     "shellSpin": 1.2000000476837158,
+     "coreV2": false,
+     "Q": 337500.0134110451,
+     "layer": null,
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "712eb1eabcf934cfb2cc441c54b3d126",
+     "shellSpin": 1.2000000476837158,
+     "coreV2": false,
+     "Q": 337500.0134110451,
+     "layer": null,
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "7dd961dbdf298485320d429bac53ee1e",
+     "shellSpin": 1.2000000476837158,
+     "coreV2": false,
+     "Q": 337500.0134110451,
+     "layer": null,
+     "axis": null,
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": null,
+   "kickSteps": 0,
+   "insideSteps": 64885,
+   "insideMax": 31,
+   "wallSec": 8.177
+  },
+  {
+   "key": "layers",
+   "spec": {
+    "key": "layers",
+    "base": "galaxyAnalogyBHTilt90Layers",
+    "note": "🪆(層の軸 90°・Ω_p 宣言)"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "85a91c444db1aaa4419b145124ba6910",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 0,
+      "declared": 5
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "9afa34d9dd6149525d7141023a87f68e",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 165.01184499767112,
+      "declared": 5
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "712823e545d7b4970423175b663341a9",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 330.0236899953301,
+      "declared": 5
+     },
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": 39,
+   "kickSteps": 2962,
+   "insideSteps": 61069,
+   "insideMax": 34,
+   "wallSec": 8.116
+  },
+  {
+   "key": "layers-noLF",
+   "spec": {
+    "key": "layers-noLF",
+    "base": "galaxyAnalogyBHTilt90Layers",
+    "noLF": true,
+    "note": "🪆 の層の差分 S._layerForce を器の中だけで外した対照"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "85a91c444db1aaa4419b145124ba6910",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 0,
+      "declared": 5
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "cfdb0adadbaacbb4da963d5e6b1b5ada",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 165.01184499767112,
+      "declared": 5
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "04377ee0dcdae222e96e03d6fc8c20d1",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 330.0236899953301,
+      "declared": 5
+     },
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": null,
+   "kickSteps": 0,
+   "insideSteps": 58530,
+   "insideMax": 29,
+   "wallSec": 8.241
+  },
+  {
+   "key": "layers-tilt0",
+   "spec": {
+    "key": "layers-tilt0",
+    "base": "galaxyAnalogyBHTilt90Layers",
+    "core": {
+     "J": 337500
+    },
+    "note": "🪆 の層の J を z に立てた対照(|J| は同じ・軸の宣言なし)"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "85a91c444db1aaa4419b145124ba6910",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 337500,
+     "layer": {
+      "J": 337500,
+      "Jx": 0,
+      "Jy": 0,
+      "Q": 337500
+     },
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "9afa34d9dd6149525d7141023a87f68e",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 337500,
+     "layer": {
+      "J": 337500,
+      "Jx": 0,
+      "Jy": 0,
+      "Q": 337500
+     },
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "712823e545d7b4970423175b663341a9",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 337500,
+     "layer": {
+      "J": 337500,
+      "Jx": 0,
+      "Jy": 0,
+      "Q": 337500
+     },
+     "axis": null,
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": 39,
+   "kickSteps": 2962,
+   "insideSteps": 61069,
+   "insideMax": 34,
+   "wallSec": 8.351
+  },
+  {
+   "key": "layers-noJ",
+   "spec": {
+    "key": "layers-noJ",
+    "base": "galaxyAnalogyBHTilt90Layers",
+    "core": {},
+    "shell": {},
+    "note": "🪆 の層の J と軸の宣言を外した対照(m・r だけ)"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "85a91c444db1aaa4419b145124ba6910",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 0,
+      "Jy": 0,
+      "Q": null
+     },
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "9afa34d9dd6149525d7141023a87f68e",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 0,
+      "Jy": 0,
+      "Q": null
+     },
+     "axis": null,
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "712823e545d7b4970423175b663341a9",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 0,
+      "Jy": 0,
+      "Q": null
+     },
+     "axis": null,
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": 39,
+   "kickSteps": 2962,
+   "insideSteps": 61069,
+   "insideMax": 34,
+   "wallSec": 8.167
+  },
+  {
+   "key": "layers-om0",
+   "spec": {
+    "key": "layers-om0",
+    "base": "galaxyAnalogyBHTilt90Layers",
+    "core": {
+     "J": 0,
+     "Jx": 337500,
+     "tilt": 90
+    },
+    "note": "🪆 の歳差 0(宣言を外す)"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "85a91c444db1aaa4419b145124ba6910",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": null,
+      "phiDisplayDeg": 0,
+      "declared": 1
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "9afa34d9dd6149525d7141023a87f68e",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": null,
+      "phiDisplayDeg": 0,
+      "declared": 1
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "712823e545d7b4970423175b663341a9",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": null,
+      "phiDisplayDeg": 0,
+      "declared": 1
+     },
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": 39,
+   "kickSteps": 2962,
+   "insideSteps": 61069,
+   "insideMax": 34,
+   "wallSec": 8.653
+  },
+  {
+   "key": "layers-om2x",
+   "spec": {
+    "key": "layers-om2x",
+    "base": "galaxyAnalogyBHTilt90Layers",
+    "core": {
+     "J": 0,
+     "Jx": 337500,
+     "tilt": 90,
+     "precessionRate": 0.24
+    },
+    "note": "🪆 の歳差 2 倍"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "85a91c444db1aaa4419b145124ba6910",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.24,
+      "phiDisplayDeg": 0,
+      "declared": 5
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "9afa34d9dd6149525d7141023a87f68e",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.24,
+      "phiDisplayDeg": 330.02368999534224,
+      "declared": 5
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "712823e545d7b4970423175b663341a9",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.24,
+      "phiDisplayDeg": 660.0473799906601,
+      "declared": 5
+     },
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": 39,
+   "kickSteps": 2962,
+   "insideSteps": 61069,
+   "insideMax": 34,
+   "wallSec": 8.182
+  },
+  {
+   "key": "layers-az90",
+   "spec": {
+    "key": "layers-az90",
+    "base": "galaxyAnalogyBHTilt90Layers",
+    "core": {
+     "J": 0,
+     "Jy": 337500,
+     "tilt": 90,
+     "azimuthDeg": 90,
+     "precessionRate": 0.12
+    },
+    "note": "🪆 の方位 90°(J を面内 y へ)"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "85a91c444db1aaa4419b145124ba6910",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 0,
+      "Jy": 337500,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 90,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 90,
+      "declared": 7
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "9afa34d9dd6149525d7141023a87f68e",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 0,
+      "Jy": 337500,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 90,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 255.01184499767112,
+      "declared": 7
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "712823e545d7b4970423175b663341a9",
+     "shellSpin": 0,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 0,
+      "Jy": 337500,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 90,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 420.0236899953301,
+      "declared": 7
+     },
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": 39,
+   "kickSteps": 2962,
+   "insideSteps": 61069,
+   "insideMax": 34,
+   "wallSec": 8.173
+  },
+  {
+   "key": "layers-shell-noLF",
+   "spec": {
+    "key": "layers-shell-noLF",
+    "base": "galaxyAnalogyBHTilt90Layers",
+    "spin": 1.2,
+    "noLF": true,
+    "note": "🪆 に殻 spin 1.2 を戻した A/B の B 側(層の差分を外した対照)"
+   },
+   "warnings": [],
+   "samples": [
+    {
+     "t": 0,
+     "nan": 0,
+     "n": 211,
+     "hash": "b069dc10d394c0080ea69fb90ccba037",
+     "shellSpin": 1.2000000476837158,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 0,
+      "declared": 5
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 23.99999999999913,
+     "nan": 0,
+     "n": 211,
+     "hash": "712eb1eabcf934cfb2cc441c54b3d126",
+     "shellSpin": 1.2000000476837158,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 165.01184499767112,
+      "declared": 5
+     },
+     "toyEclose": 0
+    },
+    {
+     "t": 47.99999999999649,
+     "nan": 0,
+     "n": 211,
+     "hash": "7dd961dbdf298485320d429bac53ee1e",
+     "shellSpin": 1.2000000476837158,
+     "coreV2": false,
+     "Q": 0,
+     "layer": {
+      "J": 0,
+      "Jx": 337500,
+      "Jy": 0,
+      "Q": 0
+     },
+     "axis": {
+      "tiltDeg": 90,
+      "azimuthDeg": 0,
+      "precessionRate": 0.12,
+      "phiDisplayDeg": 330.0236899953301,
+      "declared": 5
+     },
+     "toyEclose": 0
+    }
+   ],
+   "firstKick": null,
+   "kickSteps": 0,
+   "insideSteps": 64885,
+   "insideMax": 31,
+   "wallSec": 8.191
+  }
+ ],
+ "same": [
+  {
+   "a": "tilt90",
+   "b": "spin0",
+   "same": true,
+   "firstDiffStep": null,
+   "firstDiffT": null
+  },
+  {
+   "a": "layers-noLF",
+   "b": "tilt90",
+   "same": true,
+   "firstDiffStep": null,
+   "firstDiffT": null
+  },
+  {
+   "a": "layers-tilt0",
+   "b": "layers",
+   "same": true,
+   "firstDiffStep": null,
+   "firstDiffT": null
+  },
+  {
+   "a": "layers-noJ",
+   "b": "layers",
+   "same": true,
+   "firstDiffStep": null,
+   "firstDiffT": null
+  },
+  {
+   "a": "layers-om0",
+   "b": "layers",
+   "same": true,
+   "firstDiffStep": null,
+   "firstDiffT": null
+  },
+  {
+   "a": "layers-om2x",
+   "b": "layers",
+   "same": true,
+   "firstDiffStep": null,
+   "firstDiffT": null
+  },
+  {
+   "a": "layers-az90",
+   "b": "layers",
+   "same": true,
+   "firstDiffStep": null,
+   "firstDiffT": null
+  },
+  {
+   "a": "layers-shell-noLF",
+   "b": "upright",
+   "same": true,
+   "firstDiffStep": null,
+   "firstDiffT": null
+  },
+  {
+   "a": "layers",
+   "b": "tilt90",
+   "same": false,
+   "firstDiffStep": 39,
+   "firstDiffT": 0.624
+  }
+ ],
+ "posDiff": {
+  "T24": {
+   "maxAbs": 97.48963073331618,
+   "rms": 30.71467749889016,
+   "n": 210
+  },
+  "T48": {
+   "maxAbs": 154.70591933544532,
+   "rms": 41.25067896474946,
+   "n": 210
+  }
+ },
+ "conversion": {
+  "json": [
+   {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 2.0665914735611584e-11,
+    "Jx": 337500,
+    "tilt": 90,
+    "precessionRate": 0.12
+   },
+   {
+    "role": "shell",
+    "m": 1750,
+    "r": 15,
+    "J": 0
+   }
+  ],
+  "jsonWarnings": [
+   "canReplaceV2:false",
+   "layerJIsDeclarationOnly",
+   "tiltNotCarried"
+  ],
+  "t0": {
+   "steps": 0,
+   "t": 0,
+   "v2": {
+    "tiltDeg": 90,
+    "azimuthDeg": 0,
+    "precessionRate": 0.12
+   },
+   "planOk": true,
+   "planLayers": [
+    {
+     "role": "core",
+     "m": 750.0000298023224,
+     "r": 7.5,
+     "J": 2.0665914735611584e-11,
+     "Jx": 337500,
+     "tilt": 90,
+     "precessionRate": 0.12
+    },
+    {
+     "role": "shell",
+     "m": 1749.9999701976776,
+     "r": 15,
+     "J": 0
+    }
+   ],
+   "setOk": true,
+   "back": [
+    {
+     "role": "core",
+     "m": 750.0000298023224,
+     "r": 7.5,
+     "J": 2.0665914735611584e-11,
+     "Jx": 337500,
+     "tilt": 90,
+     "precessionRate": 0.12
+    },
+    {
+     "role": "shell",
+     "m": 1749.9999701976776,
+     "r": 15,
+     "J": 0
+    }
+   ],
+   "layerAxis": {
+    "tiltDeg": 90,
+    "azimuthDeg": 0,
+    "precessionRate": 0.12
+   },
+   "reaccept": true,
+   "reWarn": [],
+   "dAzDeg": 0
+  },
+  "t24": {
+   "steps": 1500,
+   "t": 23.99999999999913,
+   "v2": {
+    "tiltDeg": 90,
+    "azimuthDeg": 165.01184499767112,
+    "precessionRate": 0.12
+   },
+   "planOk": true,
+   "planLayers": [
+    {
+     "role": "core",
+     "m": 750.0000298023224,
+     "r": 7.5,
+     "J": 2.0665914735611584e-11,
+     "Jx": -326018.01793430926,
+     "Jy": 87284.03051065945,
+     "tilt": 90,
+     "azimuthDeg": 165.01184499767112,
+     "precessionRate": 0.12
+    },
+    {
+     "role": "shell",
+     "m": 1749.9999701976776,
+     "r": 15,
+     "J": 0
+    }
+   ],
+   "setOk": true,
+   "back": [
+    {
+     "role": "core",
+     "m": 750.0000298023224,
+     "r": 7.5,
+     "J": 2.0665914735611584e-11,
+     "Jx": -326018.01793430926,
+     "Jy": 87284.03051065945,
+     "tilt": 90,
+     "azimuthDeg": 165.01184499767112,
+     "precessionRate": 0.12
+    },
+    {
+     "role": "shell",
+     "m": 1749.9999701976776,
+     "r": 15,
+     "J": 0
+    }
+   ],
+   "layerAxis": {
+    "tiltDeg": 90,
+    "azimuthDeg": 165.01184499767112,
+    "precessionRate": 0.12
+   },
+   "reaccept": true,
+   "reWarn": [],
+   "dAzDeg": 0
+  },
+  "merge": {
+   "sameRate": {
+    "role": "core",
+    "m": 2,
+    "r": 2.23606797749979,
+    "J": 0,
+    "Q": 0,
+    "Jx": 10,
+    "Jy": 10,
+    "decl": 7,
+    "inertiaScale": 1,
+    "zetaRepresentable": false,
+    "ax": 5,
+    "precessionRate": 0.1,
+    "derivedTiltDeg": 90,
+    "derivedAzimuthDeg": 45
+   },
+   "diffRate": {
+    "role": "core",
+    "m": 2,
+    "r": 2.23606797749979,
+    "J": 0,
+    "Q": 0,
+    "Jx": 10,
+    "Jy": 10,
+    "decl": 7,
+    "inertiaScale": 1,
+    "zetaRepresentable": false,
+    "ax": 1,
+    "derivedTiltDeg": 90,
+    "derivedAzimuthDeg": 45
+   },
+   "oneSided": {
+    "role": "core",
+    "m": 2,
+    "r": 2.23606797749979,
+    "J": 10,
+    "Q": 10,
+    "Jx": 10,
+    "Jy": 0,
+    "decl": 3,
+    "inertiaScale": 1,
+    "zetaRepresentable": true,
+    "ax": 1,
+    "derivedTiltDeg": 45.00000000000001,
+    "derivedAzimuthDeg": 0
+   },
+   "undeclared": {
+    "role": "core",
+    "m": 2,
+    "r": 2.23606797749979,
+    "J": 3,
+    "Q": 3,
+    "Jx": 0,
+    "Jy": 0,
+    "decl": 1,
+    "inertiaScale": 1,
+    "zetaRepresentable": true,
+    "derivedTiltDeg": 0,
+    "derivedAzimuthDeg": null
+   }
+  }
+ },
+ "accept": {
+  "good": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 337500,
+    "tilt": 90,
+    "precessionRate": 0.12
+   },
+   "nLayers": 2,
+   "warns": 0
+  },
+  "goodAz": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 0,
+    "Jy": 337500,
+    "tilt": 90,
+    "azimuthDeg": 90
+   },
+   "nLayers": 2,
+   "warns": 0
+  },
+  "tiltMismatch": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 337500
+   },
+   "nLayers": 2,
+   "warns": 1
+  },
+  "azMismatch": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 337500,
+    "tilt": 90
+   },
+   "nLayers": 2,
+   "warns": 1
+  },
+  "tiltNoJ": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5
+   },
+   "nLayers": 2,
+   "warns": 1
+  },
+  "tiltRange": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 337500
+   },
+   "nLayers": 2,
+   "warns": 1
+  },
+  "tiltNaN": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 337500
+   },
+   "nLayers": 2,
+   "warns": 1
+  },
+  "rateClamp": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 337500,
+    "precessionRate": 100
+   },
+   "nLayers": 2,
+   "warns": 1
+  },
+  "zeros": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 337500
+   },
+   "nLayers": 2,
+   "warns": 0
+  },
+  "az360": {
+   "ok": true,
+   "kept": {
+    "role": "core",
+    "m": 750,
+    "r": 7.5,
+    "J": 0,
+    "Jx": 337500,
+    "tilt": 90,
+    "azimuthDeg": 360
+   },
+   "nLayers": 2,
+   "warns": 0
+  }
+ },
+ "elapsedS": 95.911,
+ "docRows": {
+  "runs": [
+   "| tilt90 | — | 58530 | — | 0 | 0 |",
+   "| spin0 | — | 58530 | — | 0 | 0 |",
+   "| upright | — | 64885 | — | 0 | 0 |",
+   "| layers | 39 | 61069 | 90.000° / 0.000° / 330.024° | 0 | 0 |",
+   "| layers-noLF | — | 58530 | 90.000° / 0.000° / 330.024° | 0 | 0 |",
+   "| layers-tilt0 | 39 | 61069 | — | 0 | 0 |",
+   "| layers-noJ | 39 | 61069 | — | 0 | 0 |",
+   "| layers-om0 | 39 | 61069 | 90.000° / 0.000° / 0.000° | 0 | 0 |",
+   "| layers-om2x | 39 | 61069 | 90.000° / 0.000° / 660.047° | 0 | 0 |",
+   "| layers-az90 | 39 | 61069 | 90.000° / 90.000° / 420.024° | 0 | 0 |",
+   "| layers-shell-noLF | — | 64885 | 90.000° / 0.000° / 330.024° | 0 | 0 |"
+  ],
+  "same": [
+   "| tilt90 | spin0 | 一致 | — |",
+   "| layers-noLF | tilt90 | 一致 | — |",
+   "| layers-tilt0 | layers | 一致 | — |",
+   "| layers-noJ | layers | 一致 | — |",
+   "| layers-om0 | layers | 一致 | — |",
+   "| layers-om2x | layers | 一致 | — |",
+   "| layers-az90 | layers | 一致 | — |",
+   "| layers-shell-noLF | upright | 一致 | — |",
+   "| layers | tilt90 | 食い違う | 39(t=0.624) |"
+  ],
+  "pos": "| 🪆 − 🛸 | 9.75e+1 / 3.07e+1 | 1.55e+2 / 4.13e+1 |"
+ }
+}

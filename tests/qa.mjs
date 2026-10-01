@@ -2291,7 +2291,10 @@ if (QA_CHANGED) {
       'tests/out/reldrag-w289c.json', 'tests/out/nearfar-w289c.json',
       // 第289便b(原仮定者の裁定(第79報)③で閉じた AN100・R120): 契約範囲外の評価器を 🌒・縮めた写し・geoPN=3 の 🔁🩻 の走行に掛けた記録
       //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 contractrange289)
-      'tests/out/contractrange-w289b.json'];
+      'tests/out/contractrange-w289b.json',
+      // 第289便e(原仮定者の裁定(第79報)AN105/AN106・R123): 🪆(🛸 の中心を親子コアの層に置き直した診断コピー)の宣言の照合・步ごとの指紋の照合
+      //   (層の軸の対照・層の差分を外した対照)・変換の往復・層の軸の宣言欄の受理(target=beta/index.html —— Node だけ・html だけを読む —— 鎖の段 tilt90layers289)
+      'tests/out/tilt90layers-w289e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -11469,6 +11472,9 @@ const W284_CORE = (W284_PSR_F1 ? 2 : 0) + (W285_J1757_F1 ? 2 : 0) + (W286_J1946_
 // 第288便e(原仮定者の裁定(第78報)⑦・R117): 🛸 galaxyAnalogyBHTilt90(🌚 の軸 90° の原理コピー)の中心コア 1 件(differential・tilt 90・axisMode prescribed)が入った世代は
 //   コア宣言の数え方に +1(置換の可否は各ブロックの実測の区分へ —— 🛸 の世代だけ)
 const W288E_CORE = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"galaxyAnalogyBHTilt90"') >= 0 ? 1 : 0; } catch (e) { return 0; } })();
+// 第289便e(原仮定者の裁定(第79報)AN105/AN106・R123): 🪆 galaxyAnalogyBHTilt90Layers(🛸 の中心を親子コアの層に置き直した診断コピー —— **core 宣言なし**・
+//   layers 宣言 1 件・pinned 中心 1 個・centerSpin:"read"・overlays.spaceMesh mesh・geoPN=3)が入った世代は内蔵の本数に +1(コア宣言の数は動かない)
+const W289E_LAY = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0 ? 1 : 0; } catch (e) { return 0; } })();
 // 第288便b(原仮定者の裁定(第78報)①・統括のゲート 2): 在位移行の世代 = html の UNIFY_MIGRATED に ⏰ gw150914Merge4s(f=1・kFrame=0・**補正コア 2 件を外した**)。
 //   コア宣言の数え方・置換可の数に −2(🧮🩺 は kFrame 1→0・🧿 は退役 —— 各ブロックの宣言の読みも同じ切替)
 const W288B_MIG = (() => { try { return /^const UNIFY_MIGRATED=\{[^\n]*\bgw150914Merge4s:/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')); } catch (e) { return false; } })();
@@ -18528,7 +18534,9 @@ if (!FAST) {
       // 第283便f: 💮 clusterAnalogyBH も darkRotor つきの台帳を宣言する —— 3 本(内蔵の並び順)
       // 第288便g: 🧩 galaxyAnalogyBHCompose(第288便c)と 🛸 galaxyAnalogyBHTilt90(第288便e)は 🌚 の写しなので 🌚 の台帳を持つ(内蔵の並び順で 🌚 の直後)
       const has288cML = htmlSrc.indexOf('id:"galaxyAnalogyBHCompose"') >= 0, has288eML = htmlSrc.indexOf('id:"galaxyAnalogyBHTilt90"') >= 0;
-      const wantDecl = has283fML ? ['galaxyAnalogyBH'].concat(has288cML ? ['galaxyAnalogyBHCompose'] : [], has288eML ? ['galaxyAnalogyBHTilt90'] : [], ['clusterAnalogyBH', 'ngc3198DFM']).join(',')
+      // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し)も 🌚 の台帳を持つ(内蔵の並び順で 🛸 の直後)
+      const has289eML = htmlSrc.indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0;
+      const wantDecl = has283fML ? ['galaxyAnalogyBH'].concat(has288cML ? ['galaxyAnalogyBHCompose'] : [], has288eML ? ['galaxyAnalogyBHTilt90'] : [], has289eML ? ['galaxyAnalogyBHTilt90Layers'] : [], ['clusterAnalogyBH', 'ngc3198DFM']).join(',')
         : (has282dML ? 'galaxyAnalogyBH,ngc3198DFM' : 'ngc3198DFM');
       if (r.declared.join(',') !== wantDecl) bad.push('③ 宣言する内蔵が ' + wantDecl + ' でない: ' + r.declared.join(','));
       const j = r.rej;
@@ -18572,6 +18580,7 @@ if (!FAST) {
   const has288aCS = htmlSrc282d.indexOf('id:"fixedCaptureCopy"') >= 0;   // 第288便a: 🥜 fixedCaptureCopy(🌰 と同じ初期状態・中心 pinned)も centerSpin:"read" を宣言   // 第287便a: 🌰 clusterGrowthCopy(💮 の台帳の写し)も centerSpin:"read" を宣言
   const has288cCS = htmlSrc282d.indexOf('id:"galaxyAnalogyBHCompose"') >= 0;   // 第288便c: 🧩(🌚 の合成の診断コピー)も centerSpin:"read" を宣言
   const has288eCS = htmlSrc282d.indexOf('id:"galaxyAnalogyBHTilt90"') >= 0;   // 第288便e: 🛸 galaxyAnalogyBHTilt90(🌚 の写し)も centerSpin:"read" を宣言
+  const has289eCS = htmlSrc282d.indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0;   // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し)も centerSpin:"read" を宣言
   // 第283便f(原仮定者の裁定(第73報)AN27・AN37): rayHeavy が massLedger.darkRotor.lens:"excluded" を読む世代では、
   //   🌚 の DR 代表粒子は光線の源から外れる(重い天体 0/40・DR の質量を 0 にした写しと光線がビット一致)
   const has283fLens = htmlSrc282d.indexOf('function lensExcludedRows(') >= 0;
@@ -18677,7 +18686,7 @@ if (!FAST) {
         if (r.stops.some((z) => z !== null)) bad.push('停止理由 ' + r.stops.join(','));
         if (!(r.rejBogus && r.rejLocal && r.rejCal && r.okRead)) bad.push('検証器(bogus/local/calibration の拒否・read の受理)');
         // 第283便f: 💮 clusterAnalogyBH も centerSpin:"read" を宣言する(世代で切り替える)
-        const wantCS = ['galaxyAnalogyBH'].concat(has288cCS ? ['galaxyAnalogyBHCompose'] : [], has288eCS ? ['galaxyAnalogyBHTilt90'] : [], has283fCS ? ['clusterAnalogyBH'] : [], has287aCS ? ['clusterGrowthCopy'] : [], has288aCS ? ['fixedCaptureCopy'] : []).join(',');   // 第287便a: 🌰 も宣言・第288便a: 🥜・第288便c: 🧩・第288便e: 🛸(世代で切り替える・内蔵の並び順)
+        const wantCS = ['galaxyAnalogyBH'].concat(has288cCS ? ['galaxyAnalogyBHCompose'] : [], has288eCS ? ['galaxyAnalogyBHTilt90'] : [], has289eCS ? ['galaxyAnalogyBHTilt90Layers'] : [], has283fCS ? ['clusterAnalogyBH'] : [], has287aCS ? ['clusterGrowthCopy'] : [], has288aCS ? ['fixedCaptureCopy'] : []).join(',');   // 第287便a: 🌰 も宣言・第288便a: 🥜・第288便c: 🧩・第288便e: 🛸(世代で切り替える・内蔵の並び順)
         if (r.decl.join(',') !== wantCS) bad.push('centerSpin を宣言する内蔵が ' + wantCS + ' でない: ' + r.decl.join(','));
         if (!r.canonOff) bad.push('既定 off が正準形に出ている');
         const R = J.spinResponse.response;
@@ -20367,7 +20376,8 @@ if (!FAST) {
         const canonHas288a = R.survey.some((z) => z.id === 'fixedCaptureCopy');
         // 第288便g: 🛸 galaxyAnalogyBHTilt90(第288便e・🌚 の写し)も基点に無い(正本を鎖で刻み直した後に survey に入る —— 🧩 の直後)
         const has288eRL = R.survey.some((z) => z.id === 'galaxyAnalogyBHTilt90');
-        const wantNews = (has288cRL ? ['galaxyAnalogyBHCompose'] : []).concat(has288eRL ? ['galaxyAnalogyBHTilt90'] : [], ['clusterAnalogyBH'], has287aRL ? ['clusterGrowthCopy'] : [], (has288aRL && canonHas288a) ? ['fixedCaptureCopy'] : []);
+        const has289eRL = R.survey.some((z) => z.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の写し)も基点に無い(正本を鎖で刻み直した後に survey に入る —— 🛸 の直後)
+        const wantNews = (has288cRL ? ['galaxyAnalogyBHCompose'] : []).concat(has288eRL ? ['galaxyAnalogyBHTilt90'] : [], has289eRL ? ['galaxyAnalogyBHTilt90Layers'] : [], ['clusterAnalogyBH'], has287aRL ? ['clusterGrowthCopy'] : [], (has288aRL && canonHas288a) ? ['fixedCaptureCopy'] : []);
         if (news.join(',') !== wantNews.join(',')) bad.push('基点に無い本 ' + news.join(','));
         if (has288aRL && !canonHas288a) cases.push('🥜 は正本 cluster-w283f.json より後に入った本(段 clusterAnalogy の再走で入る)');
         const c = R.cluster;
@@ -20467,7 +20477,9 @@ if (!FAST) {
         OTHER285.add('fixedCaptureCopy');   // 第288便a: 🥜(🌰 と同じ初期状態・中心 pinned —— 基点 b92ffa1 には無い本)
         // 第288便g: 第288便の a・c・e が 🥜🧩🛸 を足した(内蔵 146 本 —— 基点 b92ffa1 には無い本。🧩🛸 は宣言の側・🥜 は上の集合)
         const has288n = ['fixedCaptureCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90'].every((id) => html285.indexOf('id:"' + id + '"') >= 0);
-        const nBuiltin285 = [142, 143].concat(has288n ? [146] : []);
+        // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し・contactMode none —— 宣言の側)を足した世代は 147 本
+        const has289n = has288n && html285.indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0;
+        const nBuiltin285 = [142, 143].concat(has288n ? [146] : [], has289n ? [147] : []);
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
         if (!(nBuiltin285.includes(O.n) && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
@@ -20537,7 +20549,8 @@ if (!FAST) {
         for (const k of r.kept) if (!(k.present && (k.mode === undefined || k.mode === 'normal') && k.flag === false)) bad.push(k.id + ': normal のまま残す本が none を宣言');
         // 第288便g: 🧩 galaxyAnalogyBHCompose(第288便c)・🛸 galaxyAnalogyBHTilt90(第288便e)は 🌚 galaxyAnalogyBH の写し(診断・原理コピー)なので
         //   🌚 と同じ契約(contactMode "none"・中心 pinned)を持つ —— 写し元が適用表にあるときだけ表の外の none を許す(器の適用表は変えない)
-        const COPY288 = { galaxyAnalogyBHCompose: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90: 'galaxyAnalogyBH' };
+        // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し —— 🌚 の写しの写し)も同じ契約(none・中心 pinned)を持つ
+        const COPY288 = { galaxyAnalogyBHCompose: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90Layers: 'galaxyAnalogyBH' };
         const copies = r.nDeclNone.filter((id) => COPY288[id] && EC.APPLIED.some((a) => a.id === COPY288[id]));
         const extra = r.nDeclNone.filter((id) => !EC.APPLIED.some((a) => a.id === id) && !copies.includes(id));
         if (extra.length) bad.push('適用表の外で none を宣言した本 ' + extra.join(','));
@@ -20805,6 +20818,204 @@ if (!FAST) {
       }
       add('behavior.clusterAnalogyW286', bad.length === 0,
         `**💮 の星団スケールの走査**(第286便a・原仮定者の裁定(第76報)⑤・R103 —— 門は測る前に宣言・語は形状達成/未達だけ): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1i) 第289便e(原仮定者の裁定(第79報)AN105/AN106「コア V3 は無い —— 親子コア=body.layers」・統括の検証項目 R123): **親子コア便**の 3 ブロック。
+// ----   **root では SKIP**(器 tests/exp-w289e-tilt90layers.mjs・正本 tests/out/tilt90layers-w289e.json)。
+// ----   世代切替 has289e = html に `const LAYER_AXIS_VERSION` と 🪆 galaxyAnalogyBHTilt90Layers の宣言がある。
+// ----   ① preset.layerAxisDecl …… 層の軸の宣言欄(tilt・azimuthDeg・precessionRate): 受理の場合分け(いまの html で引き直して正本と一致)・
+// ----      0 は正準形に出ない・軸の鍵を持つ内蔵は 🪆 だけ・層を宣言する内蔵は 🧅🪆 の 2 本・往復(build → bodyLayersOf → 再受理で同じ)・
+// ----      編集で J を動かしても角度は J から導き直される(食い違わない)・非有限の軸は書く前に拒否・融合の合算規約(軸は J ベクトルの和・歳差は全員同値のときだけ)・
+// ----      移行計画が 🛸 の軸を層へ運ぶ(JSON 形と実行状態形)。
+// ----   ② behavior.tilt90LayersCopy …… 🪆 が 🛸 の写し(違いは中心の自転の置き場だけ・コア V2 なし・層は HP.coreV2ToLayers と同じ)・正本の照合の表
+// ----      (層の軸の対照は全步ビット一致・🛸 とは最初の層の近傍キックの步から食い違う・差分を外した対照は 🛸 と全步一致)・いまの html で 60 步を走らせ直して
+// ----      同じ型・PHYSICS〔第289便e〕に表の行・語の禁止(否定の文の外)・「コア V3」の語が無い・絵文字 🪆 が唯一・層の軸の投影線は 🪆 だけに描く。
+// ----   ③ docs.layerReadsZ …… 契約文「層は J の z 射影だけを読む」が AI_SPEC の親子コア節・PHYSICS〔第289便e〕・html の宣言欄の注記にある・
+// ----      読み手(S._core・S._layerForce・layerDipoleMoment)が層の軸の状態(layAx/layPR)を 1 字も読まない。
+{
+  const html289e = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has289e = TARGET.startsWith('beta/') && html289e.indexOf('const LAYER_AXIS_VERSION') >= 0 && html289e.indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0;
+  if (!has289e) {
+    console.log('SKIP preset.layerAxisDecl / behavior.tilt90LayersCopy / docs.layerReadsZ(第289便e 未適用 — ' + TARGET + ')');
+  } else {
+    const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const pa = Pd.indexOf('〔第289便e — ');
+    const pEnds = (pa >= 0) ? [Pd.indexOf('\n〔第', pa + 10), Pd.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa) : [];
+    const psec = (pa >= 0) ? Pd.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined) : '';
+    const NG = [/層が V2 を置き換えた/, /引きずりが戻った/, /歳差を接続した/, /歳差を発見した/, /観測一致を達成/, /較正を完了/, /新発見/, /RC を切った/, /layers replaced V2/i, /dragging restored/i, /precession connected/i];
+    const NEG = /言わない|書かない|とは書かない|not claimed|NOT CLAIMED|Not claimed|did not replace|no dragging restored|no precession connected/;
+    const ngOutside = (txt) => { const out = []; for (const seg0 of txt.split(/[。\n"]|\. /)) { const seg = seg0.replace(/「[^」]*」/g, ''); if (NEG.test(seg)) continue; for (const re of NG) if (re.test(seg)) out.push(re.source + ' 〔' + seg.slice(0, 40) + '〕'); } return out; };
+    let E = null, J = null, errE = null, H = null, errH = null;
+    try { E = await import('file://' + path.join(ROOT, 'tests', 'exp-w289e-tilt90layers.mjs'));
+      J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'tilt90layers-w289e.json'), 'utf8')); }
+    catch (e) { errE = String(e && e.stack || e).slice(0, 160); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { errH = String(e).slice(0, 140); }
+    const near = (a, b, tol, abs = 0) => { if (typeof a === 'number' && typeof b === 'number') return a === b || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b), 1e-300) || Math.abs(a - b) <= Math.max(abs, 1e-300);
+      if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((x, i) => near(x, b[i], tol, abs));
+      if (a && b && typeof a === 'object' && typeof b === 'object') { const ka = Object.keys(a).sort(), kb = Object.keys(b).sort(); return JSON.stringify(ka) === JSON.stringify(kb) && ka.every((k) => near(a[k], b[k], tol, abs)); }
+      return a === b; };
+    const clone289 = (o) => JSON.parse(JSON.stringify(o));
+    // ---- ① preset.layerAxisDecl
+    {
+      const bad = [], cases = [];
+      if (errE || errH) bad.push('器/正本/headless が読めない: ' + (errE || errH));
+      else {
+        const HP = H.HP;
+        if (HP.LAYER_AXIS_VERSION !== 'w289e-layeraxis-1' || JSON.stringify(HP.LAYER_AXIS_KEYS) !== JSON.stringify(['tilt', 'azimuthDeg', 'precessionRate']) || HP.LAYER_AXIS_TOL_DEG !== 1e-6) bad.push('版・鍵・許容差');
+        try {
+          const A = E.acceptCheck(HP);
+          if (!near(A, J.accept, 0)) bad.push('受理の照合を引き直すと正本と違う —— 器を走らせ直すこと');
+          if (!(A.good.kept && A.good.kept.tilt === 90 && A.good.kept.precessionRate === 0.12 && A.good.kept.azimuthDeg === undefined && A.good.warns === 0)) bad.push('一致する宣言が通らない(方位 0 は出さない)');
+          if (!(A.goodAz.kept && A.goodAz.kept.azimuthDeg === 90 && A.goodAz.warns === 0)) bad.push('方位 90° の宣言');
+          if (!(A.tiltMismatch.kept && A.tiltMismatch.kept.tilt === undefined && A.tiltMismatch.kept.Jx === 337500 && A.tiltMismatch.warns === 1)) bad.push('傾きの食い違いで角度だけを落とさない(J は残す)');
+          if (!(A.azMismatch.kept && A.azMismatch.kept.azimuthDeg === undefined && A.azMismatch.kept.tilt === 90 && A.azMismatch.warns === 1)) bad.push('方位の食い違い');
+          if (!(A.tiltNoJ.kept && A.tiltNoJ.kept.tilt === undefined && A.tiltNoJ.warns === 1)) bad.push('J の無い層の傾き');
+          if (!(A.tiltRange.kept.tilt === undefined && A.tiltNaN.kept.tilt === undefined && A.tiltRange.warns === 1 && A.tiltNaN.warns === 1)) bad.push('値域外/非数の傾き');
+          if (!(A.rateClamp.kept.precessionRate === 100 && A.rateClamp.warns === 1)) bad.push('歳差の値域の丸め');
+          if (!(A.zeros.kept && !('tilt' in A.zeros.kept) && !('azimuthDeg' in A.zeros.kept) && !('precessionRate' in A.zeros.kept) && A.zeros.warns === 0)) bad.push('0 が正準形に出た');
+          cases.push('受理 10 事例(一致・方位 90°・傾き/方位の食い違い・J の無い層・値域外・非数・歳差の丸め・0・方位 360°)');
+        } catch (e) { bad.push('受理の照合: ' + String(e).slice(0, 140)); }
+        // 内蔵: 軸の鍵を持つ層は 🪆 だけ・層を宣言する内蔵は 🧅🪆 の 2 本(並びは内蔵の並び順)
+        const P = HP.allPresets();
+        const withLay = P.filter((p) => (p.bodies || []).some((b) => b && b.layers)).map((p) => p.id);
+        const withAx = P.filter((p) => (p.bodies || []).some((b) => b && Array.isArray(b.layers) && b.layers.some((L) => HP.LAYER_AXIS_KEYS.some((k) => L[k] !== undefined)))).map((p) => p.id);
+        if (JSON.stringify(withAx) !== JSON.stringify(['galaxyAnalogyBHTilt90Layers'])) bad.push('軸の鍵を持つ内蔵 ' + JSON.stringify(withAx));
+        if (JSON.stringify(withLay.slice().sort()) !== JSON.stringify(['galaxyAnalogyBHTilt90Layers', 'layeredCoreDFM'])) bad.push('層を宣言する内蔵 ' + JSON.stringify(withLay));
+        // 往復と編集(実行状態)
+        try {
+          const p = clone289(P.find((q) => q.id === 'galaxyAnalogyBHTilt90Layers'));
+          const v = HP.validatePreset(p); HP.sim.build(v.preset); const S = HP.sim;
+          const L0 = S.bodyLayersOf(0);
+          if (JSON.stringify(L0) !== JSON.stringify(v.preset.bodies[0].layers)) bad.push('build → bodyLayersOf が正準形と違う');
+          const p2 = clone289(p); p2.bodies[0].layers = L0; const v2 = HP.validatePreset(p2);
+          if (!(v2.ok && JSON.stringify(v2.preset.bodies[0].layers) === JSON.stringify(L0))) bad.push('読み戻しの再受理が同じでない');
+          const ax0 = HP.layerAxisState(S, 0);
+          if (!(ax0 && ax0.tiltDeg === 90 && ax0.azimuthDeg === 0 && ax0.precessionRate === 0.12 && ax0.declared === 5 && ax0.readsZOnly === true)) bad.push('layerAxisState ' + JSON.stringify(ax0));
+          if (HP.dfmLayerDipoleMoment(0, S) !== 0) bad.push('層の回転場の源(z 射影)が 0 でない');
+          const e1 = S.applyLayerEdit(0, 1, { r: 16 });
+          const L1 = S.bodyLayersOf(0);
+          if (!(e1.ok && L1[0].tilt === 90 && L1[0].precessionRate === 0.12 && L1[1].r === 16)) bad.push('別の層の編集で軸の宣言が落ちた');
+          const e2 = S.applyLayerEdit(0, 0, { J: 337500, Jx: 0 });
+          const L2 = S.bodyLayersOf(0);
+          if (!(e2.ok && L2[0].tilt === undefined && L2[0].precessionRate === 0.12 && HP.layerAxisState(S, 0).tiltDeg === 0)) bad.push('J を z へ動かす編集で角度が J から導き直されない ' + JSON.stringify(L2[0]));
+          const e3 = S._setBodyLayers(0, [{ role: 'core', m: 750, r: 7.5, J: 0, Jx: 1, tilt: Infinity }, { role: 'shell', m: 1750, r: 15 }]);
+          if (!(e3.ok === false && e3.reason === 'layerNotFinite' && S.bodyLayersOf(0)[0].J === 337500)) bad.push('非有限の軸を書く前に拒否しない');
+          cases.push(`往復: build → bodyLayersOf → 再受理で同じ・別の層の編集で軸の宣言が残る・J を z へ動かす編集で傾きは J から 0 に導き直される(歳差の宣言は残る)・非有限の軸は ${e3.reason}`);
+        } catch (e) { bad.push('往復: ' + String(e).slice(0, 140)); }
+        // 融合の合算規約と移行計画(正本と照合)
+        try {
+          const C = E.conversionCheck(HP);
+          if (!near(C, J.conversion, 1e-12)) bad.push('変換の往復を引き直すと正本と違う —— 器を走らせ直すこと');
+          const M = C.merge;
+          if (!(M.sameRate.ax === 5 && M.sameRate.precessionRate === 0.1 && M.sameRate.derivedTiltDeg === 90 && Math.abs(M.sameRate.derivedAzimuthDeg - 45) < 1e-12)) bad.push('同じ歳差の融合(軸は J ベクトルの和)');
+          if (!(M.diffRate.ax === 1 && M.diffRate.precessionRate === undefined && M.oneSided.ax === 1 && M.oneSided.precessionRate === undefined)) bad.push('食い違う/片側だけの歳差は落とす');
+          if (!(M.undeclared.ax === undefined && !('precessionRate' in M.undeclared))) bad.push('宣言の無い層の融合に鍵が足された');
+          const c0 = (C.json || [])[0] || {};
+          if (!(c0.tilt === 90 && c0.precessionRate === 0.12 && c0.Jx === 337500 && c0.azimuthDeg === undefined)) bad.push('JSON 形の移行計画が 🛸 の軸を運ばない ' + JSON.stringify(c0));
+          if (!(C.t24.planOk && C.t24.setOk && C.t24.reaccept && Math.abs(C.t24.dAzDeg) <= 1e-9 && C.t24.layerAxis.precessionRate === 0.12 && Math.abs(C.t24.layerAxis.tiltDeg - 90) <= 1e-9)) bad.push('実行状態形の移行計画(t=24)の軸');
+          cases.push(`融合: 同じ歳差 → 軸は J の和(方位 ${M.sameRate.derivedAzimuthDeg}°)・食い違い/片側は歳差を落とす / 移行計画: JSON 形 tilt ${c0.tilt}・Ω_p ${c0.precessionRate}・t=24 の V2 方位 ${C.t24.v2.azimuthDeg.toFixed(3)}° → 層 ${C.t24.layerAxis.azimuthDeg.toFixed(3)}°`);
+        } catch (e) { bad.push('変換の往復: ' + String(e).slice(0, 140)); }
+      }
+      add('preset.layerAxisDecl', bad.length === 0,
+        `**層の軸の宣言欄**(第289便e・原仮定者の裁定(第79報)AN105・R123 —— J ベクトルが正準状態・傾きと方位は J から導く値・0 は正準形に出ない・力には入らない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.tilt90LayersCopy
+    {
+      const bad = [], cases = [];
+      if (errE || errH) bad.push('器/正本/headless が読めない: ' + (errE || errH));
+      else {
+        const HP = H.HP;
+        if (!J.meta || J.meta.provenanceVersion !== 'w272e-1' || J.meta.harnessVersion !== E.HARNESS_VERSION || J.meta.layerAxisVersion !== HP.LAYER_AXIS_VERSION) bad.push('来歴(w272e-1)/器・宣言欄の版');
+        if (JSON.stringify(J.runSpecs) !== JSON.stringify(E.RUNS) || JSON.stringify(J.samePairs) !== JSON.stringify(E.SAME_PAIRS) || JSON.stringify(J.sampleAt) !== JSON.stringify(E.SAMPLE_AT)) bad.push('走行・照合の宣言 ≠ 器');
+        if (JSON.stringify(J.runs.map((r) => r.key)) !== JSON.stringify(E.RUNS.map((r) => r.key))) bad.push('走行の並び');
+        try { const D = E.declarationCheck(HP); if (!near(D, J.declaration, 0)) bad.push('宣言の照合が正本と違う —— 器を走らせ直すこと');
+          if (!(D.allSame && !D.hasCoreV2 && D.convOk && D.convDiff.length === 0 && D.dJzRel <= 1e-15 && D.valid && D.warnings.length === 0 && D.sumM === D.bodyM && D.pinned && D.sampleClass === 'principle')) bad.push('宣言(🛸 の写し・コア V2 なし・層は変換と同じ)' + JSON.stringify({ a: D.allSame, v2: D.hasCoreV2, c: D.convDiff, d: D.diffs, b: D.bodyDiff }));
+        } catch (e) { bad.push('宣言の照合: ' + String(e).slice(0, 140)); }
+        const sm = Object.fromEntries(J.same.map((z) => [z.a + '|' + z.b, z]));
+        const byK = Object.fromEntries(J.runs.map((r) => [r.key, r]));
+        for (const k of ['tilt90|spin0', 'layers-noLF|tilt90', 'layers-tilt0|layers', 'layers-noJ|layers', 'layers-om0|layers', 'layers-om2x|layers', 'layers-az90|layers', 'layers-shell-noLF|upright'])
+          if (!(sm[k] && sm[k].same)) bad.push('全步ビット一致でない ' + k);
+        const lt = sm['layers|tilt90'];
+        if (!(lt && !lt.same && lt.firstDiffStep === byK.layers.firstKick && byK.layers.firstKick > 0)) bad.push('🪆 と 🛸 の最初の食い違いが最初の層の近傍キックの步でない ' + JSON.stringify(lt));
+        if (!(byK['layers-noLF'].firstKick === null && byK.tilt90.firstKick === null && byK.tilt90.insideSteps === byK['layers-noLF'].insideSteps)) bad.push('差分を外した対照の層キック/内側の粒子-步');
+        for (const r of J.runs) if (r.samples.some((s) => s.nan !== 0 || s.toyEclose !== 0)) bad.push(r.key + ': NaN か E_toy+E_mesh ≠ 0');
+        const zl = byK.layers.samples[byK.layers.samples.length - 1];
+        if (!(zl.axis && zl.axis.tiltDeg === 90 && zl.axis.azimuthDeg === 0 && zl.layer && zl.layer.Jx === 337500 && zl.layer.J === 0 && zl.coreV2 === false && zl.Q === 0)) bad.push('🪆 の層の J ベクトルが回った/V2 がある/源が 0 でない');
+        // いまの html で 60 步(最初の食い違いの步 39 を含む窓)を走らせ直して同じ型
+        try {
+          const run60 = (spec) => { const p = clone289(HP.allPresets().find((q) => q.id === spec.base));
+            if (spec.core) p.bodies[0].layers[0] = Object.assign({ role: 'core', m: 750, r: 7.5 }, spec.core);
+            const v = HP.validatePreset(p); HP.sim.build(v.preset); const S = HP.sim; const o = S._layerForce; if (spec.noLF) S._layerForce = function () {};
+            const hs = []; try { for (let k = 1; k <= 60; k++) { S.step(E.DT); let h = 0x811c9dc5; for (const key of ['x', 'y', 'vx', 'vy', 'spin']) { const A = S[key]; for (let i = 0; i < S.n; i++) { const f = new Float64Array([A[i]]), u = new Uint8Array(f.buffer); for (let b = 0; b < 8; b++) { h ^= u[b]; h = Math.imul(h, 0x01000193) >>> 0; } } } hs.push(h); } }
+            finally { S._layerForce = o; } return hs; };
+          const a = run60({ base: 'galaxyAnalogyBHTilt90Layers' }), b = run60({ base: 'galaxyAnalogyBHTilt90' }), c = run60({ base: 'galaxyAnalogyBHTilt90Layers', noLF: true }),
+            d = run60({ base: 'galaxyAnalogyBHTilt90Layers', core: { J: 337500 } });
+          const first = a.findIndex((h, k) => h !== b[k]) + 1;
+          if (first !== byK.layers.firstKick) bad.push('いまの html の 60 步で最初に食い違う步 ' + first + ' ≠ 正本 ' + byK.layers.firstKick);
+          if (c.some((h, k) => h !== b[k])) bad.push('いまの html の 60 步: 差分を外した対照が 🛸 と一致しない');
+          if (d.some((h, k) => h !== a[k])) bad.push('いまの html の 60 步: J を z に立てた対照が 🪆 と一致しない');
+          cases.push(`いまの html の 60 步: 🪆 と 🛸 は步 ${first} から食い違い・差分を外すと 🛸 と一致・J を z に立てても 🪆 と一致`);
+        } catch (e) { bad.push('60 步の走り直し: ' + String(e).slice(0, 140)); }
+        // 名前・説明の語
+        const i0 = html289e.indexOf('{ id:"galaxyAnalogyBHTilt90Layers"');
+        const i1 = Math.min(...['\n{ id:', '\n// ====='].map((k) => html289e.indexOf(k, i0 + 10)).filter((k) => k > i0));
+        const blk = (i0 >= 0) ? html289e.slice(i0, Number.isFinite(i1) ? i1 : undefined) : '';
+        if (!blk) bad.push('🪆 の宣言が読めない');
+        const ngB = ngOutside(blk); if (ngB.length) bad.push('🪆 の名前・説明に(否定の文の外)' + ngB.slice(0, 2).join(' / '));
+        if (/コア V3|Core V3|コアV3/.test(blk)) bad.push('「コア V3」の語');
+        if ((html289e.match(/emoji:"🪆"/g) || []).length !== 1) bad.push('emoji 🪆 が唯一でない');
+        if (!psec) bad.push('PHYSICS〔第289便e〕が無い');
+        else {
+          const rows = E.docRows(J);
+          const miss = rows.runs.concat(rows.same, [rows.pos]).filter((t) => psec.indexOf(t) < 0);
+          if (miss.length) bad.push('PHYSICS の表に無い行 ' + miss.length + ' 件 ' + miss[0].slice(0, 60));
+          const ngP = ngOutside(psec.split('**書かないこと。**')[0]); if (ngP.length) bad.push('PHYSICS〔第289便e〕に(否定の文の外)' + ngP.slice(0, 2).join(' / '));
+        }
+        cases.push(`🪆 は 🛸 の写し(コア V2 なし・層 = HP.coreV2ToLayers・J_z の差 ${J.declaration.dJzRel.toExponential(2)}·|J|)・層の軸の対照 6 本は全步一致・`
+          + `🛸 とは步 ${lt && lt.firstDiffStep}(t=${lt && lt.firstDiffT})から食い違う = 最初の層の近傍キック・差分を外すと 🛸 と全步一致・T=48 の位置差 最大 ${J.posDiff.T48.maxAbs.toFixed(1)}・rms ${J.posDiff.T48.rms.toFixed(1)}`);
+      }
+      // 表示: 層の軸の投影線は 🪆 だけに描く(トグル OFF で描かない・🛸 は V2 の線・🧅 は描かない)
+      try {
+        const r = await page.evaluate(() => {
+          const o = {}; const show0 = HP.coreAxisShow(); HP.setCoreAxisShow(true);
+          const cnt = (id) => { HP.loadPreset(id, false); const a = HP.layerAxisGlyphCount(); render(); return HP.layerAxisGlyphCount() - a; };
+          o.lay = cnt('galaxyAnalogyBHTilt90Layers'); o.tilt = cnt('galaxyAnalogyBHTilt90'); o.onion = cnt('layeredCoreDFM');
+          HP.setCoreAxisShow(false); o.off = cnt('galaxyAnalogyBHTilt90Layers'); HP.setCoreAxisShow(show0);
+          return o; });
+        if (!(r.lay >= 1 && r.tilt === 0 && r.onion === 0 && r.off === 0)) bad.push('層の軸の投影線 ' + JSON.stringify(r));
+        cases.push(`層の軸の投影線: 🪆 ${r.lay}・🛸 ${r.tilt}・🧅 ${r.onion}・OFF ${r.off}`);
+      } catch (e) { bad.push('投影線の確認: ' + String(e).slice(0, 120)); }
+      add('behavior.tilt90LayersCopy', bad.length === 0,
+        `**🛸 の層版の診断コピー 🪆**(第289便e・原仮定者の裁定(第79報)AN105・R123 —— 層は J の z 射影だけを読む・🛸 との差は層の近傍重力だけ): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ docs.layerReadsZ
+    {
+      const bad = [], cases = [];
+      const CONTRACT = '層は J の z 射影だけを読む';
+      const ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      const aiAt = ai.indexOf(CONTRACT);
+      if (aiAt < 0) bad.push('AI_SPEC に契約文が無い');
+      else if (!/body\.layers\[\]\.tilt/.test(ai) || !/precessionRate/.test(ai.slice(aiAt - 3000, aiAt + 3000))) bad.push('AI_SPEC の契約文の近くに層の軸の鍵の説明が無い');
+      if (!psec || psec.indexOf(CONTRACT) < 0) bad.push('PHYSICS〔第289便e〕に契約文が無い');
+      if (html289e.indexOf('**契約: ' + CONTRACT + '**') < 0) bad.push('html の宣言欄の注記に契約文が無い');
+      if (errH) bad.push('headless が読めない: ' + errH);
+      else {
+        const HP = H.HP;
+        if (/layAx|layPR/.test(HP.sim._core.toString())) bad.push('S._core が層の軸の状態を読む');
+        if (/layAx|layPR|layJx|layJy/.test(HP.sim._layerForce.toString())) bad.push('S._layerForce が層の軸を読む');
+        const fd = html289e.slice(html289e.indexOf('function layerDipoleMoment('), html289e.indexOf('function spinDipoleMoment('));
+        if (!fd || /layAx|layPR/.test(fd)) bad.push('layerDipoleMoment が層の軸の状態を読む');
+        cases.push('S._core・S._layerForce・layerDipoleMoment は layAx/layPR を 1 字も読まない(回転場の源は z 射影・所有者規約は不変)');
+      }
+      cases.push(`契約文「${CONTRACT}」: AI_SPEC・PHYSICS〔第289便e〕・html の注記`);
+      add('docs.layerReadsZ', bad.length === 0,
+        `**層は z だけを読む契約**(第289便e・原仮定者の裁定(第79報)AN105・R123 —— 軸・歳差は数値として載り表示と移行の往復に使う・力・減光・熱に入らない): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
@@ -31170,7 +31381,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         has288c: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHCompose'),   // 第288便c: 🧩 合成の診断コピー(🌚 の写し・pinned 中心 1 個)
         has288a: HP.allPresets().some((q) => q.id === 'fixedCaptureCopy'),   // 第288便a: 🥜 固定中心の合体の原理コピー(pinned 中心 1 個 → live にも入る)
         has287a: HP.allPresets().some((q) => q.id === 'clusterGrowthCopy'),
-        has288e: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90') };   // 第288便e: 🛸(pinned 中心 1 個・centerSpin:"read")   // 第287便a: 🌰 成長経路の原理コピー(中心を pinned しない → pinned 0)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+        has288e: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90'),
+        has289e: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90Layers') };   // 第289便e: 🪆(pinned 中心 1 個・centerSpin:"read" —— 🛸 の写し)   // 第288便e: 🛸(pinned 中心 1 個・centerSpin:"read")   // 第287便a: 🌰 成長経路の原理コピー(中心を pinned しない → pinned 0)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     });
     // 自由源の期待値: 試験粒子が受けるトイ Δv = η·a_src·dt(a_src は**源が受けている重力加速度**)
     const relFree = r.dvFree
@@ -31189,7 +31401,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       // **世代で切り替える**(root は 🎋 を持たないので 2 本のまま)。
       // 第282便d: 🌚 galaxyAnalogyBH(pinned 中心 1 個)が加わって 3 → 4 本(世代で切り替える)。
       // 第283便f: 💮 clusterAnalogyBH(pinned 中心 1 個)が加わって 4 → 5 本(世代で切り替える)。
-      builtinRoster: r.hits.length === (r.has274c ? 3 : 2) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0)
+      builtinRoster: r.hits.length === (r.has274c ? 3 : 2) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0)
         && (!r.has287a || r.hits.indexOf('clusterGrowthCopy:0') >= 0)
         && (!r.has288c || r.hits.indexOf('galaxyAnalogyBHCompose:1') >= 0)   // 第288便c: 🧩(pinned 中心 1 個 —— live にも入る)   // 第287便a: 🌰 は自由な中心(pinned 0)・live(pinned の 1 步走行)には入らない
         && r.hits.indexOf('galaxyMeshSpiralGeoToy:1') >= 0 && r.hits.indexOf('psrDoubleABGeoToy:0') >= 0
@@ -31197,9 +31409,10 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         && (!r.has282d || r.hits.indexOf('galaxyAnalogyBH:1') >= 0)
         && (!r.has283f || r.hits.indexOf('clusterAnalogyBH:1') >= 0)
         && (!r.has288a || r.hits.indexOf('fixedCaptureCopy:1') >= 0)   // 第288便a: 🥜 は固定中心(pinned 1)
-        && (!r.has288e || r.hits.indexOf('galaxyAnalogyBHTilt90:1') >= 0),   // 第288便e: 🛸(pinned 中心 1 個)
+        && (!r.has288e || r.hits.indexOf('galaxyAnalogyBHTilt90:1') >= 0)   // 第288便e: 🛸(pinned 中心 1 個)
+        && (!r.has289e || r.hits.indexOf('galaxyAnalogyBHTilt90Layers:1') >= 0),   // 第289便e: 🪆(pinned 中心 1 個)
       // 第265便b: pinned を持つ本ではトイが**実際に走る**(停止せず・対象数=非 pinned 粒子数)
-      builtinLive: r.live.length === (r.has274c ? 2 : 1) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) && r.live.every((z) => !z.err && z.geoPN === 3
+      builtinLive: r.live.length === (r.has274c ? 2 : 1) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) && r.live.every((z) => !z.err && z.geoPN === 3
         && z.stop === null && z.N === z.nFree && z.nPin === 1 && !z.nan) };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     add('behavior.geoToyPinned', bad.length === 0,
@@ -33786,7 +33999,10 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
       && Math.abs(bl.engineKcs.ratio - 0.502) < 0.01
       && bl.torque.precessJcKept < 1e-12 && bl.torque.precessDE < 1e-12
       && Math.abs(bl.torque.tiltDE - 0.75) < 1e-12 && bl.torque.tiltJcKept < 1e-12
-      && bl.builtins.length === 1 && bl.builtins[0] === 'layeredCoreDFM';
+      // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers も layers を宣言(1 → 2 本 —— 世代は対象 html の宣言で読む。qapart でも走るように定数を使わない)
+      && bl.builtins.length === 1 + (fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0 ? 1 : 0)
+      && bl.builtins.indexOf('layeredCoreDFM') >= 0
+      && (fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"galaxyAnalogyBHTilt90Layers"') < 0 || bl.builtins.indexOf('galaxyAnalogyBHTilt90Layers') >= 0);
     // 第260便b ⑧〜⑫
     // 第261便b: 重ならない対も ΔF を受ける(farPair=1・farDa が純関数と一致)/
     // 完全に重なった対は対称性で力 0(layerStop は立たない)
@@ -34050,6 +34266,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'clusterGrowthCopy'))) ? 1 : 0;   // 第287便a: 🌰 成長経路の原理コピー(💮 の写し・core 宣言なし)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'fixedCaptureCopy'))) ? 1 : 0;   // 第288便a: 🥜 固定中心の合体の原理コピー(🌰 の写し・core 宣言なし)   // 第287便a: 🌰 成長経路の原理コピー(💮 の写し・core 宣言なし)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     exp6.n += W288E_CORE;   // 第288便e: 🛸(🌚 の軸 90° の原理コピー —— **core 宣言 1 件**・移行可・置換可)
+    exp6.n += W289E_LAY;   // 第289便e: 🪆(🛸 の層版の診断コピー —— **core 宣言なし**・layers だけ。コア宣言の数は動かない)
     const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61 - W284_CORE + W288E_CORE + W288B_CORE
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
@@ -34299,7 +34516,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
     // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
-    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) + (rp.rep.has288c ? 1 : 0) + (rp.rep.has288a ? 1 : 0) + W288E_CORE && rp.rep.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE
+    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) + (rp.rep.has288c ? 1 : 0) + (rp.rep.has288a ? 1 : 0) + W288E_CORE + W289E_LAY && rp.rep.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE
       && rp.rep.tot.canReplace === 31 - W284_CORE + W288E_CORE + W288B_CORE && rp.rep.tot.cannot === 45   // 第288便b: ⏰ の補正コア 2 件(置換可)が消えた   // 第284便b: ⚡ の 2 件(置換可)が消えた
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
       && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
@@ -35522,7 +35739,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     }, 600);
     // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
     const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE   // 第284便b: ⚡ の補正コア 2 件
-      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0) + (lw.builtins.has287a ? 1 : 0) + (lw.builtins.has288c ? 1 : 0) + (lw.builtins.has288a ? 1 : 0) + W288E_CORE;   // 第288便e: 🛸(core 宣言 1 件)
+      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0) + (lw.builtins.has287a ? 1 : 0) + (lw.builtins.has288c ? 1 : 0) + (lw.builtins.has288a ? 1 : 0) + W288E_CORE + W289E_LAY;   // 第288便e: 🛸(core 宣言 1 件)・第289便e: 🪆(core 宣言なし)
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
       && lw.match.total.dQ !== 0 && lw.match.total.d600 > 0 && lw.match.total.law === 'total';
@@ -56789,7 +57006,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const has288cMesh = HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHCompose');   // 第288便c: 🧩 も overlays.spaceMesh{mode:"mesh"}(🌚 の写し)
       const has288aMesh = HP.allPresets().some((q) => q.id === 'fixedCaptureCopy');   // 第288便a: 🥜 も overlays.spaceMesh{mode:"mesh"}(🌰 の写し・9 → 10 本)   // 第287便a: 🌰 も overlays.spaceMesh{mode:"mesh"}(💮 の写し・8 → 9 本)
       const has288eMesh = HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90');   // 第288便e: 🛸 も overlays.spaceMesh{mode:"mesh"}(🌚 の写し・+1)
-      o.declOk = decl.length === (hasLite ? 5 : (hasGeoCopy ? 4 : 3)) + (has282dMesh ? 1 : 0) + (has283fMesh ? 1 : 0) + (has287aMesh ? 1 : 0) + (has288cMesh ? 1 : 0) + (has288aMesh ? 1 : 0) + (has288eMesh ? 1 : 0) && decl.every((z) => /"mode":"mesh"/.test(z));
+      const has289eMesh = HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆 も overlays.spaceMesh{mode:"mesh"}(🛸 の写し・+1)
+      o.declOk = decl.length === (hasLite ? 5 : (hasGeoCopy ? 4 : 3)) + (has282dMesh ? 1 : 0) + (has283fMesh ? 1 : 0) + (has287aMesh ? 1 : 0) + (has288cMesh ? 1 : 0) + (has288aMesh ? 1 : 0) + (has288eMesh ? 1 : 0) + (has289eMesh ? 1 : 0) && decl.every((z) => /"mode":"mesh"/.test(z));
       // ⑨ 1 フレームの描画時間
       const bench = (fn, n) => { fn(); let best = Infinity;
         for (let r2 = 0; r2 < 3; r2++) { const t0 = performance.now();
@@ -59126,12 +59344,13 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has288a = ps.some((p) => p.id === 'fixedCaptureCopy');   // 第288便a: 🥜(geoPN=3・scalar・🌰 の写し)が 10 件目
       o.has287a = ps.some((p) => p.id === 'clusterGrowthCopy');   // 第287便a: 🌰(geoPN=3・scalar・💮 の写し)が 9 件目   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
       o.has288e = ps.some((p) => p.id === 'galaxyAnalogyBHTilt90');   // 第288便e: 🛸(🌚 の軸 90° の原理コピー)で +1
+      o.has289e = ps.some((p) => p.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の層版の診断コピー)で +1
       o.geo3Rows = o.rows.filter((x) => x[2] === 'geo3').map((x) => x[0]).sort();
       HP.setLang('ja'); HP.loadPreset('saturn', false);
       return o;
     });
     add('ui.meshChipState',
-      r.noComplexChip && r.complexDecl.length === 0 && r.rows.length === (r.has274c ? 4 : 3) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0)
+      r.noComplexChip && r.complexDecl.length === 0 && r.rows.length === (r.has274c ? 4 : 3) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0)
       && (!r.has280c || JSON.stringify(r.geo3Rows) === JSON.stringify(['charonGeoToy3', 'mercuryGeoToy3']))
       && r.declaredOnly.length === 1 && r.denyKey === 'stopped' && r.denyReason === 'kFrame'
       && /メッシュ未作動: kFrame>0 と重なる/.test(String(r.denyLabel))
@@ -59322,6 +59541,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has288a = HP.allPresets().some((z) => z.id === 'fixedCaptureCopy');   // 第288便a: 🥜(固定中心の合体の原理コピー)で +1
       o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰(成長経路の原理コピー)で +1   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
       o.has288e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90');   // 第288便e: 🛸(🌚 の軸 90° の原理コピー)で +1
+      o.has289e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の層版の診断コピー)で +1
       // ⑥ 群の説明(ja/en)があり、「観測一致版ではない」を言う
       o.noteJa = (I18N.ja.groupNotes || {})[G] || '';
       o.noteEn = (I18N.en.groupNotes || {})[G] || '';
@@ -59333,7 +59553,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       r.exact && r.n === (r.has287d ? 7 : 11) && r.gid === 'realAnalogy' && r.psrToy === r.beyondName
       && r.lfbot === r.celName && r.cross.length === 0 && r.calN === 37
       && r.sigSame && r.sigNoGroup
-      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) && r.beyondN === (r.has288b ? 51 : (r.has287d ? 23 : 19))
+      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) && r.beyondN === (r.has288b ? 51 : (r.has287d ? 23 : 19))
       && r.noteOk && r.enName === 'Real-object Analogies',
       `**新グループ「実在天体のアナロジー」**(id=${r.gid}・en=${r.enName}): ${r.n} 本=${JSON.stringify(r.members)} / `
       + `🩻 psrDoubleABGeoToy は psr family に残す=${r.psrToy}・🐮 lfbotTrap は入れない=${r.lfbot} / `
@@ -59596,6 +59816,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has288a = HP.allPresets().some((z) => z.id === 'fixedCaptureCopy');   // 第288便a: 🥜(固定中心の合体の原理コピー)で +1
       o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰(成長経路の原理コピー)で +1   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
       o.has288e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90');   // 第288便e: 🛸(🌚 の軸 90° の原理コピー)で +1
+      o.has289e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の層版の診断コピー)で +1
       // ④ **presetSig は group を見ない**: 移した 5 本の署名に群名が出ない
       o.sigNoGroup = WANT.every((id) => presetSig(ps.find((q) => q.id === id)).indexOf(G) < 0);
       // ⑤ 群の説明(ja/en)があり、表示順では「天体の機構」の直後に出る
@@ -59610,7 +59831,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     add('preset.clocksGravity',
       r.exact && r.n === 5 && r.gid === 'clocksGravity' && r.enName === 'Clocks & Gravity'
       && r.restOk && r.cross.length === 0 && r.grcalOk && r.calN === 37
-      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0)
+      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0)
       && r.sigNoGroup && r.noteOk && r.posOk,
       `**新グループ「時計と重力」**(第273便a・AH6。id=${r.gid}・en=${r.enName}): ${r.n} 本=`
       + `${JSON.stringify(r.members)} / 「運動と時空」に残る=${JSON.stringify(r.rest)}=${r.restOk} / `
@@ -63527,7 +63748,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (J) {
         const JR = new Map(((J.derive || {}).rows || []).map((z) => [z.id, z]));
         let nCmp = 0, nAdded = 0;
-        const addedAfterCanon = ['clusterGrowthCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'fixedCaptureCopy'];   // 第288便g: 🛸(第288便e)も履歴の正本の後に入った本   // 第288便c: 🧩 も同じ扱い   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
+        const addedAfterCanon = ['clusterGrowthCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'fixedCaptureCopy', 'galaxyAnalogyBHTilt90Layers'];   // 第289便e: 🪆 も履歴の正本の後に入った本   // 第288便g: 🛸(第288便e)も履歴の正本の後に入った本   // 第288便c: 🧩 も同じ扱い   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
         // 第288便b(原仮定者の裁定(第78報)④): 在位移行した 10 本は正本(履歴)の後に宣言が動いた —— 正本の行は移行表の「前」、ページの行は「後」の導出と照合する
         let MIGT = null; try { MIGT = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w288b-unify.json'), 'utf8')); } catch (e) { MIGT = null; }
         const migRows = new Map(((MIGT || {}).rows || []).filter((x) => x.action === 'migrate').map((x) => [x.id, x]));
