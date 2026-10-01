@@ -119,6 +119,9 @@ await page.evaluate((W) => {
     if (cfg.dropSun) p.bodies = p.bodies.slice(1);              // 第 1 天体(太陽)を置かない
     if (cfg.D0 !== undefined) p.physics.D0 = cfg.D0;
     if (cfg.kFrame !== undefined) p.physics.kFrame = cfg.kFrame;
+    // 第288便g: 🌇 は第288便b で geoPN=1・kFrame=0 へ在位移行した。geoPN=1 は kFrame=0 専用なので、kFrame>0 の列は
+    //   **旧宣言 geoPN=2 の写し**で走らせる(D₀ が力に入るのは kFrame>0 の列だけ —— kF1 列が D₀ の感度を測る列である)
+    if (p.physics.kFrame > 0 && p.physics.geoPN === 1) p.physics.geoPN = 2;
     if (cfg.D0Source) p.physics.D0Source = cfg.D0Source;
     return p;
   };
@@ -291,13 +294,20 @@ try {
   const ca = JSON.parse(fs.readFileSync(CALAUDIT, 'utf8'));
   const pv = ca.presets.find((p) => p.id === SPLIT_PRESET);
   const rowK1 = pv.quantities.find((q) => q.kind === 'period' && q.version === 'dfm'
-    && Number.isFinite(q.obs) && q.obs > 0);
+    && Number.isFinite(q.obs) && q.obs > 0) || null;
   const rowK0 = pv.quantities.find((q) => q.kind === 'period' && q !== rowK1
     && Number.isFinite(q.obs) && q.obs > 0 && /kFrame=0/.test(String(q.name)));
-  OBS = { value: rowK1.obs, sigma: rowK1.obsErr, unit: rowK1.unit, name: rowK1.name,
-    sigmaNote: rowK1.sigmaNote || null, method: rowK1.method,
+  // 第288便g: 第288便b の在位移行後(🌇 は kFrame=0)は、判定器の正本に **kFrame=1 で測った行が無い**(「kFrame=1」と名乗る行は
+  //   kFrame=0 の走行の値を持つ条件不一致の行)。観測値は kFrame=0 の行から引き、kF1 の独立照合は「相手なし」と理由つきで残す
+  const rowObs = rowK1 || rowK0;
+  OBS = { value: rowObs.obs, sigma: rowObs.obsErr, unit: rowObs.unit, name: rowObs.name,
+    sigmaNote: rowObs.sigmaNote || null, method: rowObs.method,
     from: 'tests/out/calaudit-w249.json' };
-  XCHECK = { kF1: { calaudit: rowK1.meas, name: rowK1.name },
+  const k1Named = rowK1 ? null : pv.quantities.find((q) => q.kind === 'period' && /kFrame=1/.test(String(q.name))) || null;
+  XCHECK = { kF1: rowK1 ? { calaudit: rowK1.meas, name: rowK1.name }
+    : { calaudit: null, name: k1Named ? k1Named.name : null,
+      noCounterpart: '第288便b の在位移行(🌇 kFrame 1→0)—— 判定器の正本に kFrame=1 で測った行は無い'
+        + (k1Named ? '(「' + k1Named.name + '」は門 ' + ((k1Named.gate || {}).status || '—') + ')' : '') },
     kF0: rowK0 ? { calaudit: rowK0.meas, name: rowK0.name } : null };
 } catch (e) { OBS = { error: String(e) }; }
 const SEC = 1e4;                                     // 🌇 の scaleExp.T=4 → 1 時間単位 = 10⁴ s

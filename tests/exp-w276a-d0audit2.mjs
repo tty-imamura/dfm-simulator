@@ -103,6 +103,9 @@ const SITE_CLASS = {
     why: '値を力学へ渡さない(宣言の有無を見るだけ)' },
   'updateBodyEdit :: updateBodyEdit': { use: '表示(編集画面の背景決定力)', replaceable: 'n/a',
     why: '画面に出すだけ' },
+  // 第288便g(第288便f の読み口の宣言): パラメータタブの読み取り専用の行 —— 値と出所は bgWbgOf から受け取って画面に出すだけ
+  'buildWbgRow :: buildWbgRow': { use: '表示(パラメータタブの静止背景相当 Wbg の読み取り専用の行)', replaceable: 'n/a',
+    why: '画面に出すだけ(値は bgWbgOf の返り値 —— 式を持たない)' },
   'fieldKeyOf :: fieldKeyOf': { use: 'メッシュキャッシュの鍵(場の再描画判定)', replaceable: 'n/a',
     why: '鍵の文字列に混ぜるだけ(値として使わない)' },
   'rayKeyOf :: rayKeyOf': { use: 'メッシュキャッシュの鍵(光線の再計算判定)', replaceable: 'n/a',
@@ -146,6 +149,9 @@ const SITE_CLASS = {
   'dfmFieldContractOf :: dfmFieldContractOf': { use: '場の契約の読み出し(診断が力学と同じ契約 p・W_bg を読む)', replaceable: 'candidate', why: 'χ の分母(契約に写すだけ)' },
   'dfmFieldContract :: isStatic': { use: '場の契約(静的な源の判定 —— D0 は契約の鍵名で渡すだけ)', replaceable: 'candidate', why: '同じ分母(鍵名の受け渡し)' },
   'dfmGeoToySpinStep :: dfmGeoToySpinStep': { use: 'geoPN=3 トイの中心自転の 1 步(centerSpin:"read")', replaceable: 'candidate', why: 'χ の分母' },
+  // 第288便g(第288便c の読み口の宣言): dfmGeoToySpinStep の 2 巡回の pair 融合(D0p を引数で受け、非順序対ごとに 1 回だけ作る —— ビット同一)
+  'dfmSpinPairFuse :: dfmSpinPairFuse': { use: 'geoPN=3 トイの中心自転の 1 步の pair 巡回の融合(D0p を引数で受ける)', replaceable: 'candidate',
+    why: 'χ の分母(dfmGeoToySpinStep と同じ式・同じ門)' },
   'dfmMeshBlend :: dfmMeshBlend': { use: '複素場と背景の混合', replaceable: 'candidate', why: '背景の重み' },
   'dfmMeshBlend :: rd4': { use: '複素場と背景の混合(内部)', replaceable: 'candidate', why: '背景の重み' },
   'dfmGalaxyMeshField :: dfmGalaxyMeshField': { use: '複素場(銀河メッシュ)', replaceable: 'candidate', why: 'χ の分母' },
@@ -167,6 +173,9 @@ const SITE_CLASS = {
   'dfmGeoScalarPrepared :: dfmGeoScalarPrepared': { use: 'geoPN=3 トイ(準備済み経路)', replaceable: 'candidate', why: 'χ の分母' },
   // 第286便a の統合(統括): Jeans 平衡の初速生成(vMode:"jeans" を宣言した本だけ —— 💮)は W_bg=D₀ を σ² の分母に読む(宣言した読み口)
   'jeansRowsVelocities :: jeansRowsVelocities': { use: '初速(Jeans 平衡 —— W_bg=D₀ を σ² の分母に・vMode:"jeans" の本だけ)', replaceable: 'candidate', why: 'χ の分母' },
+  // 第288便g(第288便f の読み口の宣言): jeansRowsVelocities の場の契約の W_bg の式を 1 か所に切り出した純関数(値はビット同一)
+  'bgWbgOf :: bgWbgOf': { use: '場の契約の W_bg(spaceMesh.D0 の宣言 → pull の D0pull → D0 の順に選ぶ純関数 —— jeansRowsVelocities とパラメータ行が呼ぶ)', replaceable: 'candidate',
+    why: 'χ の分母(jeansRowsVelocities と同じ式の切り出し)' },
   'dfmDominance :: dfmDominance': { use: '診断(支配度 —— χ の偏り)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmDominance :: stat': { use: '診断(支配度の統計)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmBinaryChi :: dfmBinaryChi': { use: '二体の χ(質量補正 f の材料)', replaceable: 'candidate', why: 'χ の分母' },
