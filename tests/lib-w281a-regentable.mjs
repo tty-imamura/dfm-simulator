@@ -27,6 +27,7 @@
 //   'w287a-branch' … 第287便a の枝で器を走らせた実測(正本の elapsedS 157.9 —— Node だけ・子プロセス 2 本・負荷平均 1 未満の容器。他の 5 枝と並走した 1 回目は 559.1)。
 //   'w287c-branch' … 第287便c の枝で器を走らせた実測(正本の elapsedS 71.5〜109.2 —— Node だけ・geo3 の再走〔Chromium〕と同じ容器で並走)。
 //   'w288d-branch' … 第288便d の枝で器を走らせた実測(正本の elapsedS 0.5〜1 —— Node だけ・1 步もエンジンを走らせない・他の 5 枝と同じ容器で並走)。
+//   'w289c-branch' … 第289便c の枝で器を走らせた実測(正本の elapsedS —— reldrag289 は Node の純関数だけ〔0.3 秒〕・nearfar289 は Node の headless〔1.1 秒〕・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -564,6 +565,17 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tilt90-w288e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第288便e: 🛸 galaxyAnalogyBHTilt90 の宣言の照合・7 走行(T=48)の J_z/η_mesh/軸の状態/拘束の帳簿/状態の指紋・中心の自転の寄与(t=0 の η 差)・'
       + '立体核の候補(1 層の対照・上下の打ち消し・z 微分・層数 1→32・Ω_p 0/宣言/2 倍・J_z,eff と s_eff)・場の契約の読み手との比較器・spinAxis の受理と署名' }),
+  // ---- 第289便c(原仮定者の裁定(第79報)⑤・第79報で閉じた AN98/AN99・統括の検証項目 R121): 複素核便 —— 純関数と比較器だけ(**エンジン未接続**)。
+  //   reldrag289 は html を読まない(target = 純関数 tests/lib-w289c-reldrag.mjs —— 領域の宣言なし)。nearfar289 は html を読み(領域 REGEN_SCOPE)、
+  //   第288便c の正本 compose-w288c.json の r=20 の 2 値を再現の照合に読む(inputs に載る —— compose288 の後)
+  S('reldrag289', 'node tests/exp-w289c-reldrag.mjs', ['tests/out/reldrag-w289c.json'], 1, { secSource: 'w289c-branch', node: true,
+    volatilePaths: { 'tests/out/reldrag-w289c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第289便c: 相対移動 r⁻³ 核(前ステップ参照)の不変性 6 項と一致点の拒否・2 体の漸化式(a=0.2/0.5/0.8 の収束・振動・発散)と dt を半分にした対照・'
+      + '対策 3 案(実装しない)・3 環の連鎖の対照(全結合/媒介を切る/直接を切る)・環数 3→6・代表粒子の数' }),
+  S('nearfar289', 'node tests/exp-w289c-nearfar.mjs', ['tests/out/nearfar-w289c.json'], 2, { secSource: 'w289c-branch', node: true, after: ['compose288'],
+    volatilePaths: { 'tests/out/nearfar-w289c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第289便c: 有限サイズ回転源の手前/反対の核(d≤R の拒否・遠方の冪 −4 と rotlet 型 −2)・🧩 の r=20 で第288便c の 3.43/0.725 を再現してから並べる・'
+      + '門(🧩 の 0/150/300 步の全自由粒子で C=0 なら既存の u とビット同一・C≠0 で動く・状態不変)' }),
 ];
 
 /**

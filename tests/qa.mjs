@@ -2279,7 +2279,10 @@ if (QA_CHANGED) {
       'tests/out/spinprec-w288d.json',
       // 第288便e(原仮定者の裁定(第78報)⑦・R117・AN79): 🛸(🌚 の軸を 90° に倒した原理コピー)の現行法則の実測・歳差が担う面内の引きずりの候補・
       //   spinAxis の受理と署名(target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 tilt90288)
-      'tests/out/tilt90-w288e.json'];
+      'tests/out/tilt90-w288e.json',
+      // 第289便c(原仮定者の裁定(第79報)⑤・AN98/AN99・R121): 相対移動 r⁻³ 核と環の連鎖の対照(target = 純関数 tests/lib-w289c-reldrag.mjs —— html を読まない)・
+      //   有限サイズ回転源の手前/反対と門(target=beta/index.html —— Node だけ・inputs に compose-w288c.json —— 鎖の段 nearfar289 は compose288 の後)
+      'tests/out/reldrag-w289c.json', 'tests/out/nearfar-w289c.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -20978,6 +20981,161 @@ if (!FAST) {
       } catch (e) { bad.push('360 px の確認に失敗: ' + String(e).slice(0, 100)); }
       add('ui.spinAxisGlyph', bad.length === 0,
         `**自転軸の宣言の投影線**(第288便e —— 表示専用・コア軸と同じトグル「宣言した粒子だけ ON」・同じ正射影): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1i) 第289便c(原仮定者の裁定(第79報)⑤「DFM の整理と修正」の複素決定力場の項・第79報で閉じた AN98/AN99・統括の検証項目 R121): **複素核便**の 3 ブロック。
+// ----   **root では SKIP**(beta 線の器と正本 —— html は変えていない)。純関数 tests/lib-w289c-reldrag.mjs・lib-w289c-nearfar.mjs・
+// ----   器 tests/exp-w289c-reldrag.mjs・exp-w289c-nearfar.mjs・正本 tests/out/reldrag-w289c.json・nearfar-w289c.json。**エンジン未接続**(html に核の関数が無いことを見る)。
+// ----   ① behavior.relDragKernel …… 相対移動 r⁻³ 核の不変性 6 項(共通並進・等速で 0・自己除外・2 倍で 1/8・質量加重の作用反作用・1 体で 0)と一致点の拒否・
+// ----      2 体の前ステップ参照(a=0.2 収束/0.5 振動/0.8 発散・固定点 v_rel/(1+2a)・上界 = 2a・閉じた漸化式との差)・dt を半分にしても発散が消えない対照・
+// ----      対策 3 案は表だけ —— いまの Node で作り直して正本と照合・PHYSICS〔第289便c〕の表の行。
+// ----   ② behavior.nearFarKernel …… 手前/反対の単体(d≤R の拒否・閉じた式・向き・面内の軸で z だけ・C=0 の門が −0 を保つ)・遠方の冪(−4 が床の中・rotlet −2 との差)・
+// ----      🧩 の r=20 で第288便c の 3.43/0.725 の再現・門(0/150/300 步の全自由粒子で C=0 なら既存の u とビット同一・C≠0 で動く・状態不変)を作り直して正本と照合・PHYSICS の行。
+// ----   ③ behavior.chainRings …… 3 環の連鎖の対照(媒介を切った差が正本にある —— 更新 2 で初めて現れる・同速で u=0)・環数 3→6・代表粒子の数を作り直して照合・
+// ----      PHYSICS〔第289便c〕の行と「書かないこと」の外に禁止語が無い・CHANGELOG の記載・AI_SPEC は変えない。
+{
+  const has289c = TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, 'tests', 'lib-w289c-reldrag.mjs')) && fs.existsSync(path.join(ROOT, 'tests', 'lib-w289c-nearfar.mjs'));
+  if (!has289c) {
+    console.log('SKIP behavior.relDragKernel / behavior.nearFarKernel / behavior.chainRings(第289便c 未適用 — ' + TARGET + ')');
+  } else {
+    const html289c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    let LRD = null, LNF = null, ERD = null, ENF = null, LRT = null, HP9 = null, err289c = null;
+    try {
+      LRD = await import('file://' + path.join(ROOT, 'tests', 'lib-w289c-reldrag.mjs'));
+      LNF = await import('file://' + path.join(ROOT, 'tests', 'lib-w289c-nearfar.mjs'));
+      ERD = await import('file://' + path.join(ROOT, 'tests', 'exp-w289c-reldrag.mjs'));
+      ENF = await import('file://' + path.join(ROOT, 'tests', 'exp-w289c-nearfar.mjs'));
+      LRT = await import('file://' + path.join(ROOT, 'tests', 'lib-w288c-rotlet.mjs'));
+      // loadHtmlMain は html を**この process の大域**で実行する(2 度目は const の再宣言で落ちる)—— 前のブロックが同じ TARGET を読んでいればその HP を使う
+      if (globalThis.HP && typeof globalThis.HP.dfmFieldContract === 'function' && typeof globalThis.HP.PAIR_FUSE_VERSION === 'string'
+        && html289c.indexOf('"' + globalThis.HP.PAIR_FUSE_VERSION + '"') >= 0) HP9 = globalThis.HP;
+      else {
+        const { loadHtmlMain: loadMain289 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
+        HP9 = loadMain289(path.join(ROOT, TARGET)).HP;
+      }
+    } catch (e) { err289c = String(e && e.stack || e).slice(0, 160); }
+    const readJ9 = (f) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', f), 'utf8')); } catch (e) { return null; } };
+    const JRD = readJ9('reldrag-w289c.json'), JNF = readJ9('nearfar-w289c.json'), JCP = readJ9('compose-w288c.json');
+    const Pd289 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const pa289 = Pd289.indexOf('〔第289便c — ');
+    const pEnd289 = (pa289 >= 0) ? [Pd289.indexOf('\n〔第', pa289 + 10), Pd289.indexOf('\n## 7. 論文', pa289)].filter((k) => k > pa289) : [];
+    const psec289 = (pa289 >= 0) ? Pd289.slice(pa289, pEnd289.length ? Math.min(...pEnd289) : undefined) : '';
+    // 照合(量の性質で許容を分ける —— tests/README §1): 解析量は相対 1e-12・本来 0 の残差(rel・relMax・sum・lastChange・幅)は絶対 1e-12・
+    //   真偽値・整数・文字列は一致。ビット一致の判定は同じ実行の中で作り直した真偽値と数だけを見る
+    const near289 = (a, b, where, out) => {
+      if (out.length > 4) return;
+      if (typeof a === 'number' && typeof b === 'number') {
+        const RES = /(rel|Rel|relMax|RelMax|sum|lastChange|Spread)(\/\d+)?$/.test(where);
+        if (!(a === b || (RES ? Math.abs(a - b) <= 1e-12 : Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b))))) out.push(where + ' ' + a + '≠' + b);
+        return;
+      }
+      if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(where + ' ' + String(a).slice(0, 30) + '≠' + String(b).slice(0, 30)); return; }
+      if (Array.isArray(a) !== Array.isArray(b) || (Array.isArray(a) && a.length !== b.length)) { out.push(where + ' 形が違う'); return; }
+      for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) near289(a[k], b[k], where + '/' + k, out);
+    };
+    const docMiss289 = (rows) => rows.filter((r) => psec289.indexOf(r) < 0);
+    const engineFree289 = !/function relDragAt\(|function nearFarAt\(|RELDRAG_VERSION|NEARFAR_VERSION|w289c-reldrag|w289c-nearfar/.test(html289c);
+    // ---- ① behavior.relDragKernel
+    {
+      const bad = [], cases = [];
+      if (err289c) bad.push('器/html が読めない: ' + err289c);
+      else if (!JRD) bad.push('正本 reldrag-w289c.json が読めない');
+      else {
+        const I = LRD.invariants(), rows = LRD.STAB.couplings.map((a) => LRD.twoBody(a)), dt = LRD.dtRefine(0.8), diff = [];
+        near289(JRD.invariants, I, 'invariants', diff); near289(JRD.stability.rows, rows, 'stability/rows', diff); near289(JRD.stability.dt, dt, 'stability/dt', diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 3).join(' ; '));
+        for (const k of ['translation', 'uniform', 'selfExcluded', 'decay', 'actionReaction', 'single', 'coincident']) if (!(I[k] && I[k].ok)) bad.push('不変性 ' + k);
+        const want = { 0.2: 'converge', 0.5: 'oscillate', 0.8: 'diverge' };
+        for (const r of rows) {
+          if (r.regime !== want[r.a]) bad.push(`a=${r.a} の判定 ${r.regime}`);
+          if (!(Math.abs(r.spectralBound - r.twoA) <= 1e-12)) bad.push(`a=${r.a} の上界 ${r.spectralBound} ≠ 2a`);
+          if (!(r.closedRelMax <= 1e-12)) bad.push(`a=${r.a} の漸化式との差 ${r.closedRelMax}`);
+          if (!(Math.abs(r.fixedPoint - LRD.STAB.vRel / (1 + 2 * r.a)) <= 1e-15)) bad.push(`a=${r.a} の固定点`);
+        }
+        const r2 = rows.find((r) => r.a === 0.2), r8 = rows.find((r) => r.a === 0.8);
+        if (!(r2 && r2.devRatio < 1e-6 && r8 && r8.devRatio > 1e3)) bad.push('収束と発散の比');
+        if (!(dt.divergesBoth && dt.worseWithSmallerDt)) bad.push('dt を半分にしても発散が消えない対照');
+        if (!(Array.isArray(JRD.stability.remedies) && JRD.stability.remedies.length === 3)) bad.push('対策 3 案の表');
+        if (!engineFree289) bad.push('html に核がある(エンジン未接続のはず)');
+        if (JRD.ok !== true) bad.push('正本の ok');
+        cases.push(`不変性 6 項(並進 ${I.translation.relMax}・等速 0・自己除外 結合 n−1・2 倍で 1/8〔ε=0 ビット〕・Σm u の相対 ${I.actionReaction.rel.toExponential(1)}・1 体 0)+一致点の拒否`);
+        cases.push(`2 体: ${rows.map((r) => `a=${r.a}〔${r.regime}・固定点 ${r.fixedPoint.toFixed(4)}・ずれ比 ${r.devRatio.toExponential(2)}〕`).join('・')}・dt 0.016→0.008 で ${dt.rows[0].growth.toExponential(2)}→${dt.rows[1].growth.toExponential(2)}・html に核なし`);
+        const miss = docMiss289(ERD.docRows(JRD).stab);
+        if (!psec289) bad.push('PHYSICS〔第289便c — 〕が無い');
+        else if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行');
+      }
+      add('behavior.relDragKernel', bad.length === 0,
+        `**相対移動 r⁻³ 核(前ステップ参照)**(第289便c・統括の検証項目 R121 —— 純関数・エンジン未接続・既存の q 付き場・u=A/W・E6′ に足さない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.nearFarKernel
+    {
+      const bad = [], cases = [];
+      if (err289c) bad.push('器/html が読めない: ' + err289c);
+      else if (!JNF) bad.push('正本 nearfar-w289c.json が読めない');
+      else {
+        const st = LNF.selfTest(), pw = LNF.powerTable(LRT.rotletU), pr = ENF.profiles(HP9, JCP), g = ENF.gate(HP9), diff = [];
+        near289(JNF.selfTest, st, 'selfTest', diff); near289(JNF.power, pw, 'power', diff); near289(JNF.profiles, pr, 'profiles', diff); near289(JNF.gate, g, 'gate', diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 3).join(' ; '));
+        if (!st.ok) bad.push('単体: ' + Object.entries(st.checks).filter(([, v]) => !v).map(([k]) => k).join(','));
+        if (!st.checks.insideRejected || !pr.insideRejected) bad.push('d≤R の拒否');
+        if (!pw.ok) bad.push('遠方の冪が床の外');
+        if (!pw.rows.every((z) => z.nearFar.fit - z.rotlet.fit < -1.5)) bad.push('rotlet との冪の差');
+        if (!(pr.reproduce && pr.reproduce.ok)) bad.push('r=20 の再現(第288便c の 3.43/0.725)');
+        if (!g.ok) bad.push('門(C=0 でビット同一・C≠0 で動く・状態不変)');
+        if (!engineFree289) bad.push('html に核がある(エンジン未接続のはず)');
+        if (JNF.ok !== true) bad.push('正本の ok');
+        cases.push(`単体 ${Object.keys(st.checks).length} 項(d≤R の拒否・閉じた式・向き J×r・面内の軸で z だけ・Ω=0・C=0 の門が −0 を保つ)`);
+        cases.push(`遠方の冪(10R〜100R): 手前/反対 ${pw.rows.map((z) => z.nearFar.fit.toFixed(4)).join('/')}・rotlet ${pw.rows.map((z) => z.rotlet.fit.toFixed(4)).join('/')}(床 ${pw.floor.fit})`);
+        cases.push(`r=20 の再現 場の契約 ${pr.reproduce ? pr.reproduce.now.uSpinContract.toFixed(4) : '—'}・rotlet ${pr.reproduce ? pr.reproduce.now.uRotlet.toFixed(4) : '—'}・手前/反対/C ${pr.ring[0].uNearFarPerC.toFixed(2)}・🧩 の冪 ${pr.slopes.contract.toFixed(3)}/${pr.slopes.rotlet.toFixed(3)}/${pr.slopes.nearFar.toFixed(3)}`);
+        cases.push(`門: ${g.rows.map((z) => `${z.step} 步 ${z.sameNearFar}/${z.sameRelDrag}/${z.nEval}`).join('・')}(C=0 でビット同一)・C=${g.probeGain} で動く・状態不変・html に核なし`);
+        const R = ENF.docRows(JNF), miss = docMiss289(R.power.concat(R.ring, R.gate));
+        if (!psec289) bad.push('PHYSICS〔第289便c — 〕が無い');
+        else if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行');
+      }
+      add('behavior.nearFarKernel', bad.length === 0,
+        `**有限サイズ回転源の手前/反対**(第289便c・AN98/AN99・統括の検証項目 R121 —— 純関数・エンジン未接続・C は宣言しない・C≠0 を星団の門に合わせない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ behavior.chainRings
+    {
+      const bad = [], cases = [];
+      if (err289c) bad.push('器/html が読めない: ' + err289c);
+      else if (!JRD) bad.push('正本 reldrag-w289c.json が読めない');
+      else {
+        const C = LRD.chain3(), RS = LRD.ringsScan(), RP = LRD.representation(), diff = [];
+        near289(JRD.chain, C, 'chain', diff); near289(JRD.rings, RS, 'rings', diff); near289(JRD.representation, RP, 'representation', diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 3).join(' ; '));
+        const md = JRD.chain && JRD.chain.mediated;
+        if (!(md && md.firstUpdate === 2 && typeof md.atWindow === 'number' && md.atWindow !== 0)) bad.push('媒介を切った差が正本に無い(更新 2 で初めて現れる)');
+        if (!(JRD.chain.runs && ['full', 'cutMediation', 'cutDirect'].every((k) => JRD.chain.runs[k] && JRD.chain.runs[k].free && JRD.chain.runs[k].all))) bad.push('3 通りの結合の E/L の欄');
+        if (C.sameVelocityZero !== true) bad.push('同速で u=0 でない');
+        if (!(RS.length === 4 && RS.map((z) => z.nRings).join(',') === '3,4,5,6' && RS.every((z) => z.spectralBound < 1))) bad.push('環数 3→6 の表');
+        if (!(RP.length === 3 && RP[2].outerMaxDegree > RP[0].outerMaxDegree)) bad.push('代表粒子の数の表');
+        cases.push(`媒介の寄与は更新 ${md ? md.firstUpdate : '—'} で初めて現れ窓末 ${md ? md.atWindow.toExponential(2) : '—'}(外縁の ${md ? (100 * md.shareOfOuter).toFixed(1) : '—'}%)・同速で u=0・環数 3→6 の上界 ${RS.map((z) => z.spectralBound.toFixed(3)).join('/')}・代表 16/4/1 の外縁の最大次数 ${RP.map((z) => z.outerMaxDegree.toFixed(4)).join('/')}`);
+        const R = ERD.docRows(JRD), miss = docMiss289(R.chain.concat(R.rings, R.rep));
+        if (!psec289) bad.push('PHYSICS〔第289便c — 〕が無い');
+        else {
+          if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行');
+          const cut = psec289.indexOf('**書かないこと。**'), body = cut >= 0 ? psec289.slice(0, cut) : psec289;
+          const FORBID = ['回転引きずりが創発した', '連鎖で円盤ができた', '複素場を接続した', '新しい法則を実装した', '1PN と同等が証明された', '観測一致を達成した', '新発見', 'RC を切った'];
+          const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
+          if (hit.length) bad.push('PHYSICS〔第289便c〕の本文に禁止語: ' + hit.join(','));
+          if (cut < 0) bad.push('PHYSICS〔第289便c〕に「書かないこと」が無い');
+          for (const w of ['提案する作用素', 'G だけを掛けても u の次元にならない', 'L³/M', 'M/(L·T)']) if (psec289.indexOf(w) < 0) bad.push('PHYSICS〔第289便c〕に「' + w + '」が無い');
+          cases.push(`PHYSICS〔第289便c〕の行・単位の表・「提案する作用素」・禁止語 0(${FORBID.length} 語)`);
+        }
+        const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+        if (CL.indexOf('第289便c') < 0) bad.push('CHANGELOG に第289便c が無い');
+        const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        if (AS.indexOf('第289便c') >= 0) bad.push('AI_SPEC に第289便c がある(変えない)');
+        cases.push('CHANGELOG の記載・AI_SPEC は不変');
+      }
+      add('behavior.chainRings', bad.length === 0,
+        `**3 環の連鎖の対照**(第289便c・統括の検証項目 R121 —— 相対移動核・位置固定・中心の環は規定運動。「連鎖で円盤ができた」とは書かない): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
