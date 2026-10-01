@@ -1,0 +1,196 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第289便b",
+  "target": "beta/index.html",
+  "targetSha256": "44908eeca45d804e48659a50f588e772d442e38a86b0e16ed0c46570d2483a49",
+  "generatedAt": "2026-10-01T18:44:22.372Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5363235,
+    "sha256": "44908eeca45d804e48659a50f588e772d442e38a86b0e16ed0c46570d2483a49",
+    "mtime": "2026-10-01T18:42:56.452Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w289b-contractrange.mjs",
+    "bytes": 9894,
+    "sha256": "cd95135a89efe898eecaf75c04beb18a248c86f12f9ed6ff47d951ccad622ea4",
+    "mtime": "2026-10-01T18:40:41.800Z"
+   },
+   {
+    "file": "tests/lib-w289b-contractrange.mjs",
+    "bytes": 5107,
+    "sha256": "0a077089a91377d1cf104e03d8ac384492ec8bc3d728f029a7d9ac41aea7e227",
+    "mtime": "2026-10-01T18:14:36.172Z"
+   },
+   {
+    "file": "tests/exp-w288c-bgrange.mjs",
+    "bytes": 16433,
+    "sha256": "4f1ac18801726036894a4a92dba4b01959c7b5b56e52c031b0cd8b8b7d20f130",
+    "mtime": "2026-10-01T18:04:32.040Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-01T18:04:39.164Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-01T18:04:34.344Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-01T18:04:40.012Z"
+   }
+  ],
+  "codeSha256": "c8f9fa4c8e1d181540b2af7411d366138a28d292d373e5f0f94900325c0c6c4a",
+  "harnessVersion": "w289b-contractrange-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第79報)③で閉じた AN100(第288便c の旗「契約範囲外」を観測比較の評価器へ接続 —— 合否の数字は変えない・5 区分の「条」とは別の欄・過去の正本を遡って無効にしない)・統括の検証項目 R120",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "notClaim": [
+   "契約範囲外を除いたら合った",
+   "複素場を接続した",
+   "観測と合った",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "DT",
+    "HP.BGC_TIME_VERSION",
+    "HP.allPresets",
+    "HP.bgRangeCardInfo",
+    "HP.bgTimeMomentsAt",
+    "HP.bgTimePrepare",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.sim",
+    "HP.validateBackgroundComplex",
+    "HP.validatePreset",
+    "T",
+    "bgTimeMomentsAt",
+    "cw"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 887,
+   "segments": 801,
+   "closureShare": 0.3183
+  },
+  "scopeSha256": "a84335b0bf56963cc9bec68266a0495c4d52e3d93bfc84100753dac1e197011d",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "version": "w289b-cr1",
+ "rule": "走行ごとに、背景の時間の契約(timeContract)の有効幅 widthT を |t−t₀| が超えた步の数(S.meshVelTimeOutSteps)を読む。宣言が無ければ「宣言なし」・宣言があって 0 步なら「範囲内」・1 步でも超えたら「契約範囲外」。観測比較は、使った走行のどれか 1 本でも「契約範囲外」なら「保留(契約範囲外)」—— 門の状態・5 区分・残差は変えない(別の欄)。過去の正本は遡って無効にしない。",
+ "A": {
+  "preset": "charonGeoToy3",
+  "emoji": "🌒",
+  "run": "2 周(同方向)・宣言の widthT",
+  "widthT": 340000,
+  "steps": 689831,
+  "tEnd": 11037.295999849593,
+  "timeOutSteps": 0,
+  "ok": true,
+  "comparison": {
+   "status": "範囲内",
+   "held": false,
+   "runStatus": "範囲内"
+  }
+ },
+ "B": {
+  "preset": "w288cCharonShortWidth(器の中だけの写し)",
+  "emoji": "🌒",
+  "run": "2 周(同方向)・widthT=3000",
+  "widthT": 3000,
+  "steps": 689831,
+  "tEnd": 11037.295999849593,
+  "timeOutSteps": 502332,
+  "ok": true,
+  "comparison": {
+   "status": "契約範囲外",
+   "held": true,
+   "display": "保留(契約範囲外)",
+   "timeOutSteps": 502332,
+   "runStatus": "契約範囲外"
+  },
+  "stateBitSameAsA": true
+ },
+ "C": [
+  {
+   "id": "mercuryGeoToy3",
+   "emoji": "🔁",
+   "geoPN": 3,
+   "ok": true,
+   "steps": 95007,
+   "tEnd": 1520.1120000014334,
+   "revs": 2.0000094825932333,
+   "declaredInPreset": false,
+   "nan": false,
+   "declared": false,
+   "timeOutSteps": 0,
+   "widthT": null,
+   "hasMeshVelocity": true,
+   "counter": 0,
+   "comparison": {
+    "status": "宣言なし",
+    "held": false,
+    "runStatus": "宣言なし"
+   }
+  },
+  {
+   "id": "psrDoubleABGeoToy",
+   "emoji": "🩻",
+   "geoPN": 3,
+   "ok": true,
+   "steps": 67548,
+   "tEnd": 1080.7679999993356,
+   "revs": 2.000012458781754,
+   "declaredInPreset": false,
+   "nan": false,
+   "declared": false,
+   "timeOutSteps": 0,
+   "widthT": null,
+   "hasMeshVelocity": false,
+   "counter": 0,
+   "comparison": {
+    "status": "宣言なし",
+    "held": false,
+    "runStatus": "宣言なし"
+   }
+  }
+ ],
+ "D": {
+  "nPresets": 146,
+  "timeContract": [
+   "charonGeoToy3"
+  ],
+  "geoPN3": [
+   "galaxyMeshSpiralGeoToy",
+   "galaxyMeshSpiralGeoToyLite",
+   "galaxyAnalogyBH",
+   "galaxyAnalogyBHCompose",
+   "galaxyAnalogyBHTilt90",
+   "clusterAnalogyBH",
+   "clusterGrowthCopy",
+   "fixedCaptureCopy",
+   "mercuryGeoToy3",
+   "charonGeoToy3",
+   "psrDoubleABGeoToy"
+  ]
+ },
+ "ok": true,
+ "elapsedS": 5.624
+}

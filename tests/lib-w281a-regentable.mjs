@@ -30,6 +30,7 @@
 //   'w289d-branch' … 第289便d の枝で器を走らせた実測(正本の elapsedS 0.4 —— Node だけ・1 步もエンジンを積分しない・他の 5 枝と同じ容器で並走)。
 //   'w289a-branch' … 第289便a の枝で器を走らせた実測(正本の elapsedS 1.3〜1.6 —— Node だけ・エンジンは固定した 3 体で 1 步と光線 2 本だけ・他の 5 枝と同じ容器で並走)。
 //   'w289c-branch' … 第289便c の枝で器を走らせた実測(正本の elapsedS —— reldrag289 は Node の純関数だけ〔0.3 秒〕・nearfar289 は Node の headless〔1.1 秒〕・他の枝と同じ容器で並走)。
+//   'w289b-branch' … 第289便b の枝で器を走らせた実測(正本の elapsedS 9.1 —— Node だけ・他の 5 枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -595,6 +596,13 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/nearfar-w289c.json': META_RUN.concat(['/elapsedS']) },
     note: '第289便c: 有限サイズ回転源の手前/反対の核(d≤R の拒否・遠方の冪 −4 と rotlet 型 −2)・🧩 の r=20 で第288便c の 3.43/0.725 を再現してから並べる・'
       + '門(🧩 の 0/150/300 步の全自由粒子で C=0 なら既存の u とビット同一・C≠0 で動く・状態不変)' }),
+  // ---- 第289便b(原仮定者の裁定(第79報)③で閉じた AN100・統括の検証項目 R120): **契約範囲外の評価器**を内蔵の走行に掛ける ——
+  //   🌒 の 2 周(宣言の widthT —— 範囲内)・有効幅を縮めた器の中の写し(契約範囲外 → 保留)・geoPN=3 の 🔁🩻 の 2 周(範囲外の步 0 —— 宣言なし)・
+  //   timeContract の棚卸し。Node だけ・html だけを読む(他の正本は読まない —— calaudit の後に置かない)。判定器の行の属性 contractRange は calaudit の段が書く
+  S('contractrange289', 'node tests/exp-w289b-contractrange.mjs', ['tests/out/contractrange-w289b.json'], 10, { secSource: 'w289b-branch', node: true,
+    volatilePaths: { 'tests/out/contractrange-w289b.json': META_RUN.concat(['/elapsedS']) },
+    note: '第289便b: 背景の時間の契約の範囲外の步(S.meshVelTimeOutSteps)を評価器(lib-w289b-contractrange —— calaudit と同じ 1 本)に通す:'
+      + ' 🌒 の 2 周は範囲内・有効幅 3000 の写しは契約範囲外で保留(軌道はビット同一)・🔁🩻 は 2 周で範囲外の步 0(宣言なし)・timeContract の宣言は 🌒 だけ' }),
 ];
 
 /**

@@ -82,6 +82,10 @@ import { GATE, VERDICT_CONDITION, VERDICTS6, YEAR_SEC, enforceAllConditions, rea
   // 第259便d(第51報 W4): 証拠付き予測の**記録器**(枠だけ — 中身は空で出荷する)
   emptyEvidenceRegistry, recordEvidence, applyEvidenceRegistry,
   validatePredictionEvidence } from './lib-w258d-evidence.mjs';
+// 第289便b(原仮定者の裁定(第79報)で閉じた AN100・統括の検証項目 R120): **契約範囲外の評価器**(純関数)。走行ごとの「範囲外の步」
+//   (S.meshVelTimeOutSteps —— 第288便c の旗)を行の属性 `contractRange` へ写す。門・5 区分・残差は変えない(別の欄の保留)
+import { CONTRACT_RANGE_VERSION, CR, CR_HELD, CR_RULE, timeContractDeclared, evalComparison, rowAttr as crRowAttr, tallyRows as crTallyRows }
+  from './lib-w289b-contractrange.mjs';
 // 第264便d(第56報 W4・統括の裁定 X6/X7/⑥): `sigma_primary` の印の**厳密読み**(語境界+凡例除外+先頭一致)・
 // `verified_by` の規約読み・`sigma_kind`(informational な尺度)を **1 本の純関数**にまとめた。
 // 門・σ 接続器・会計器の 3 器が**同じ 1 本**を読む(読み方が器ごとに違わないようにする)。
@@ -159,7 +163,13 @@ const MEASUREMENT_CODE_FILES = [
   'tests/lib-w281a-scope.mjs',
   'tests/lib-w279b-headless.mjs',
   'tests/lib-w284f-calshard.mjs',
+  'tests/lib-w289b-contractrange.mjs',   // 第289便b(AN100): 契約範囲外の評価器
 ].sort();
+// 第289便b(原仮定者の裁定(第79報)で閉じた AN104・統括の検証項目 R120): **宣言し直した行の表**(旧行名 → 新行名・条件欄)。判定には使わない ——
+//   行の要求条件は obsCard の条件欄 cond(declaredCondition)が決める。この表は正本の行へ**旧行名の履歴**(redeclaredFrom)を写すためだけに読む
+const CONDROWS_FILE = 'tests/data-w289b-condrows.json';
+const CONDROWS = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, CONDROWS_FILE), 'utf8')); } catch (e) { return null; } })();
+const CONDROWS_BY_NEW = new Map(((CONDROWS && CONDROWS.rows) || []).map((r) => [r.id + '\u0000' + r.qAfter, r]));
 const MEASUREMENT_CODE_SHA = crypto.createHash('sha256').update(
   MEASUREMENT_CODE_FILES.map((p) => p + ':' + sha256Of(path.join(ROOT, p))).join('\n')
 ).digest('hex');
@@ -1355,6 +1365,7 @@ for (const job of jobs) {
 
   // 第283便c(R86 (iii)): dt/4 の転記・閾値規則の記録(本ごと)
   let h4Reuse = null, h4Skip = null;
+  const crRows = [];   // 第289便b(AN100): 段ごとの背景の時間の契約の範囲外の步
   const h4Key = id + (KF0 ? ':kf0' : '');
   // 第284便c: dt/2 の転記(同一便の再走)の記録(本ごと)と、h の段の契約の写し(h2 の契約に入れる)
   let h2Reuse = null, hStage = null, h2Stable = null;   // 第287便b: h2Stable = 便をまたぐ dt/2 の安定 hash(H2_CROSS_RULE)
@@ -1439,6 +1450,11 @@ for (const job of jobs) {
     const r = await pg.evaluate(({ id, dt, maxSteps, targets, orbMax, G, kf0, wc }) =>
       window.__w249run(id, dt, maxSteps, targets, orbMax, G, kf0, wc), { id, dt: lv.dt, maxSteps, targets, orbMax, G, kf0: KF0, wc: WALL_CEILING_SEC });
     r.dt = lv.dt; r.tag = lv.tag; r.rateStepsPerSec = Math.round(rate); r.wallSec = (Date.now() - t0) / 1000;
+    // 第289便b(AN100): 走行の直後に**背景の時間の契約の範囲外の步**を読む(抽出器 `__w249run` の本文は変えない —— 別の evaluate。
+    //   走行の記録 r にも足さない —— dt/2・dt/4 の転記の署名〔rawRunSig〕を動かさないため、preset の記録の別欄に置く)
+    crRows.push(Object.assign({ tag: lv.tag }, await pg.evaluate(() => { const S = HP.sim, mv = S ? S.meshVel : null;
+      const tc = (S && S.hasMeshVelocity === true && mv && mv.bg && mv.bg.time) ? mv.bg.time : null;
+      return { declared: !!tc, timeOutSteps: tc ? (S.meshVelTimeOutSteps || 0) : 0, widthT: tc ? tc.widthT : null }; })));
     r.stepsPerOrbit0 = stepsPerOrbit.map((s) => Number.isFinite(s) ? Math.round(s) : null);
     // 第257便d: **計算時間の予算**を数値の性質と混ぜずに記録する(機種依存の欄)。
     // budgetSec = この段に与えた秒数 / wallSec = 実際に掛かった秒数 /
@@ -1480,7 +1496,8 @@ for (const job of jobs) {
   }
   out.presets.push({ decl: d, cfg: { center: cfg.c, orbiters: cfg.o, ringInner: cfg.ringInner || null,
     note: cfg.note || null }, runs: rows, toSec, G, c, heavy, kf0Diagnostic: KF0 || false,
-    h4Reuse, h4Skip, h2Reuse, tpCopy: TP_COPY ? (b0.tp || { on: false }) : null });
+    h4Reuse, h4Skip, h2Reuse, tpCopy: TP_COPY ? (b0.tp || { on: false }) : null,
+    contractRangeRuns: crRows });   // 第289便b(AN100): 走らせた段ごとの範囲外の步(転記した段は走っていないので載らない —— 下で宣言から補う)
 }
 // 第284便f: 分割の産物を書いて終わる(Float32 質量の記録・判定・書き出しは合流の 1 プロセスが直列と同じ経路で行う)
 if (SHARD.dump) {
@@ -2227,6 +2244,15 @@ for (const P of (REGATE ? [] : out.presets)) {
     return q;
   };
 
+  // 第289便b(原仮定者の裁定(第79報)で閉じた AN104・R120): obsCard の行の**条件欄** `cond:{kFrame,geoPN}` を行へ `declaredCondition` として写す
+  //   (lib-w258d-evidence の readRequiredContext がこれを先に読む —— 行名・model・obs の文面は読まない)。宣言し直した行には旧行名の履歴を足す
+  const condOf = (row, suffix) => {
+    const c = row && row.cond;
+    if (!(c && typeof c === 'object' && (c.kFrame === 0 || c.kFrame === 1))) return {};
+    const t = CONDROWS_BY_NEW.get(d.id + '\u0000' + row.q) || null;
+    return { declaredCondition: { kFrame: c.kFrame, ...(c.geoPN !== undefined ? { geoPN: c.geoPN } : {}) },
+      ...(t ? { redeclaredFrom: { name: t.qBefore + suffix, table: CONDROWS.version, wave: CONDROWS.wave } } : {}) };
+  };
   // ---- obsCard の行を 1 行ずつ照合
   const covered = new Set();
   let prevObsVals = null;
@@ -2245,6 +2271,7 @@ for (const P of (REGATE ? [] : out.presets)) {
 
     if (!kind) {
       quantities.push({ name: row.q, kind: 'other', version, target: null,
+        ...condOf(row, ''),   // 第289便b(AN104): 行の条件欄(宣言だけ —— 宣言行は隔離の対象外)
         model: row.model.slice(0, 110), obs: row.obs.slice(0, 110), obsErr: null, meas: null,
         unit: null, residualPct: null, verdict: VER.TR, method: 'declaration', standard: false,
         note: '合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)' });
@@ -2265,6 +2292,7 @@ for (const P of (REGATE ? [] : out.presets)) {
       const ov = obsVals ? obsVals[Math.min(i, obsVals.length - 1)] : null;
       const mv = modVals ? modVals[Math.min(i, modVals.length - 1)] : null;
       const q = { name: row.q + (assign.length > 1 ? `(${t.label})` : ''), kind, version,
+        ...condOf(row, assign.length > 1 ? `(${t.label})` : ''),   // 第289便b(AN104): 行の条件欄 → 要求条件(名前と条件を分ける)
         target: t.label, declaredModel: row.model.slice(0, 110), declaredObs: row.obs.slice(0, 110),
         model: null, obs: null, obsErr: null, meas: null, unit: null,
         residualPct: null, modelResidualPct: null, verdict: null, method: null, note: null,
@@ -2777,6 +2805,15 @@ for (const P of (REGATE ? [] : out.presets)) {
   const tally = {}; for (const v of VERDICTS6) tally[v] = 0;
   for (const q of quantities) tally[q.verdict] = (tally[q.verdict] || 0) + 1;
 
+  // 第289便b(原仮定者の裁定(第79報)で閉じた AN100・R120): **契約範囲外の評価器**。この本の比較に使った段(走らせた段の記録 +
+  //   転記した段は宣言から)の範囲外の步を 1 つの状態にし、全行へ属性 `contractRange` として写す。**門・5 区分・残差は読まない・変えない**
+  //   (保留は別の欄)。範囲外の步は走行の性質なので、行ごとではなく本ごとの走行の集合で決まる(同じ走行の行は同じ状態)
+  const crDecl = timeContractDeclared(d.physics);
+  const crRunsAll = P.runs.map((z) => { const m = (P.contractRangeRuns || []).find((x) => x.tag === z.tag) || null;
+    return m ? m : { tag: z.tag, declared: crDecl, timeOutSteps: crDecl ? null : 0, reused: true }; });
+  const crEval = evalComparison(crRunsAll);
+  for (const q of quantities) q.contractRange = crRowAttr(crEval);
+
   report.push({ id: d.id, emoji: d.emoji, name: d.name, version,
     // 第274便a: **kF0 診断コピーの記録である**という印。この印が立った記録は下で `report` から
     // 抜き取られ、**正本の 37 本にも 314 量にも数えられない**(値は条件不一致 8 行へ配るだけ)。
@@ -2803,6 +2840,8 @@ for (const P of (REGATE ? [] : out.presets)) {
       ...(P.h2Reuse ? { h2Reuse: P.h2Reuse } : {}),   // 第284便c: dt/2 の転記(同一便の再走)の記録
       ...(P.runs.some((z) => z.deadlineHit) ? { deadlineHit: P.runs.filter((z) => z.deadlineHit).map((z) => z.tag) } : {}) },
     ...(P.tpCopy ? { tpCopy: P.tpCopy } : {}),
+    contractRange: { version: CONTRACT_RANGE_VERSION, declared: crDecl, status: crEval.status, held: crEval.held,
+      runs: crEval.runs },   // 第289便b(AN100)
     correlates, quantities, tally, notes });
 }
 
@@ -3542,6 +3581,38 @@ out.predictionEvidenceRegistry = {
 
 // ---------------------------------------------------------------- 第258便d(W4): 3 つの新しい欄
 // (a) 条件不一致の一覧(隔離した行と、捨てていない元の証拠)
+// 第289便b(原仮定者の裁定(第79報)で閉じた AN104・R120): **条件欄で宣言し直した行**の一覧(旧行名・要求条件の出所・判定)。
+//   判定は上の門と 5 区分がそのまま決める(この欄は写しだけ —— 「条が消えて合った」とは書かない)
+{
+  const rows = [];
+  for (const p of merged) for (const q of (p.quantities || [])) {
+    if (!q.redeclaredFrom) continue;
+    rows.push({ id: p.id, emoji: p.emoji || null, target: q.target || null, kind: q.kind, name: q.name, formerName: q.redeclaredFrom.name,
+      required: q.requiredContext ? { kFrame: q.requiredContext.kFrame, source: q.requiredContext.source } : null,
+      measuredKFrame: q.measurementContext ? q.measurementContext.kFrame : null, conditionMatch: q.conditionMatch !== false,
+      verdict: q.verdict, gate: (q.gate && q.gate.status) || null, residualPct: Number.isFinite(q.residualPct) ? q.residualPct : null });
+  }
+  const t = {}; for (const v of VERDICTS6) t[v] = 0; for (const r of rows) t[r.verdict] = (t[r.verdict] || 0) + 1;
+  out.condRowsRedeclared = { version: CONDROWS ? CONDROWS.version : null, table: CONDROWS_FILE, wave: '第289便b',
+    ruling: '原仮定者の裁定(第79報)で閉じた AN104・統括の検証項目 R120',
+    tableRows: CONDROWS ? CONDROWS.counts : null, n: rows.length, tally: t, rows,
+    rule: 'obsCard の条件欄 cond:{kFrame,geoPN} が行の要求条件(行名・model・obs の文面は読まない)。旧行名は redeclaredFrom に残す。'
+      + '観測値・σ・出典・窓は 1 字も変えていない —— 判定は門と 5 区分の機械集計のまま。',
+    notClaim: ['条が消えて合った', '観測一致を達成した', '較正を完了した'] };
+}
+// 第289便b(原仮定者の裁定(第79報)で閉じた AN100・R120): **契約範囲外の評価器**の集計(行の属性 contractRange)。
+//   保留(契約範囲外)は門・5 区分の外の別の欄 —— 合否の数字は変えない・過去の正本は遡って無効にしない
+{
+  const all = merged.flatMap((p) => (p.quantities || []).map((q) => ({ key: p.id + '|' + (q.target || '') + '|' + q.name, contractRange: q.contractRange || null })));
+  const tl = crTallyRows(all);
+  out.contractRange = { version: CONTRACT_RANGE_VERSION, wave: '第289便b', ruling: '原仮定者の裁定(第79報)で閉じた AN100・統括の検証項目 R120',
+    rule: CR_RULE, heldWord: CR_HELD, nRows: all.length, byStatus: tl.byStatus, nHeld: tl.nHeld, held: tl.held,
+    presets: merged.map((p) => ({ id: p.id, emoji: p.emoji || null, status: p.contractRange ? p.contractRange.status : CR.UNKNOWN,
+      declared: p.contractRange ? p.contractRange.declared : null })),
+    note: '母集団(sampleClass:"calibration" ∧ familyRole≠"retired")に背景の時間の契約を宣言した本は無い —— 全行が「宣言なし」になるのは'
+      + '評価器が動いていないのではなく、範囲外の步を持ちうる走行が母集団に無いことの記録である。契約を宣言した本(🌒 —— 原理の診断コピー)の'
+      + '走行は第289便b の器(exp-w289b-contractrange —— 鎖の段 contractrange289)が同じ評価器で読む。' };
+}
 out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
   rule: '行が明記している条件(現行の宣言は kFrame だけ)と、その行に割り当てられている測定値の'
     + '走行条件が違うとき、判定を `条`(condition-mismatch)にして隔離する。**宣言である**'

@@ -61,6 +61,9 @@ export function buildRows(cal, extra) {
         mp: Number.isFinite(sr.minPeriastra) ? sr.minPeriastra : null,
         pk: typeof sr.periastraOk === 'boolean' ? sr.periastraOk : null,
         cv, so: idx(sources, str(src)), sr: 'calaudit',
+        // 第289便b(原仮定者の裁定(第79報)で閉じた AN100・R120): **契約範囲外の評価器**で保留の行だけ cr:1(正本の行の属性 contractRange.held)。
+        //   保留でない行には欄を足さない(行の並びと rowsSha256 は保留が 0 なら 1 文字も変わらない)。門の語 g はそのまま
+        ...((q.contractRange && q.contractRange.held === true) ? { cr: 1 } : {}),
       });
     }
   }

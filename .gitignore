@@ -790,3 +790,6 @@ tests/out/regen-plan-w281a.json
 #   QA behavior.relDragKernel・behavior.nearFarKernel・behavior.chainRings が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/reldrag-w289c.json
 !tests/out/nearfar-w289c.json
+# 第289便b(原仮定者の裁定(第79報)③で閉じた AN100・統括の検証項目 R120): **契約範囲外の評価器**を内蔵の走行に掛けた正本(tests/exp-w289b-contractrange.mjs ——
+#   🌒 の 2 周・有効幅を縮めた写し・geoPN=3 の 🔁🩻)。QA behavior.contractRangeEval が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**判定ではない**
+!tests/out/contractrange-w289b.json

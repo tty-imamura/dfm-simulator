@@ -2288,7 +2288,10 @@ if (QA_CHANGED) {
       'tests/out/weakfield-w289a.json',
       // 第289便c(原仮定者の裁定(第79報)⑤・AN98/AN99・R121): 相対移動 r⁻³ 核と環の連鎖の対照(target = 純関数 tests/lib-w289c-reldrag.mjs —— html を読まない)・
       //   有限サイズ回転源の手前/反対と門(target=beta/index.html —— Node だけ・inputs に compose-w288c.json —— 鎖の段 nearfar289 は compose288 の後)
-      'tests/out/reldrag-w289c.json', 'tests/out/nearfar-w289c.json'];
+      'tests/out/reldrag-w289c.json', 'tests/out/nearfar-w289c.json',
+      // 第289便b(原仮定者の裁定(第79報)③で閉じた AN100・R120): 契約範囲外の評価器を 🌒・縮めた写し・geoPN=3 の 🔁🩻 の走行に掛けた記録
+      //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 contractrange289)
+      'tests/out/contractrange-w289b.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -51984,7 +51987,20 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     //   条件不一致として残る —— **本便の既知の状態**(行名・宣言は直さない・扱いは決断事項)。期待: 17 行すべてが要求 kFrame=1・
     //   測定 kFrame=0・在位移行の本の行で、旧 8 行の系(🟠🌇🥔❄️🌊)を含む
     const has288bM = !!(j.meta && j.meta.populationRule);
-    if (has288bM) {
+    // 第289便b(原仮定者の裁定(第79報)で閉じた AN104・統括の検証項目 R120): 世代切替 has289b = 正本の condRowsRedeclared(鎖の calaudit が
+    //   obsCard の条件欄 cond を読んだ世代)。「kFrame=1…」と名乗っていた 17 行は条件欄で kFrame=0・geoPN=1 の行として宣言し直したので
+    //   条件不一致は 0 行 —— 17 行は condRowsRedeclared に旧行名つきで並び、判定は合/窓/否/従/転のどれか(門は機械集計のまま)
+    const has289bM = !!(j.condRowsRedeclared && Array.isArray(j.condRowsRedeclared.rows));
+    if (has289bM) {
+      const src = (j.conditionMismatch && Array.isArray(j.conditionMismatch.rows)) ? j.conditionMismatch.rows : [];
+      if (src.length !== 0 || nCond !== 0) bad.push(`⑥第289便b の世代で条件不一致が 0 行でない(行 ${src.length}・門 ${nCond})`);
+      const cr = j.condRowsRedeclared.rows;
+      if (cr.length !== 17) bad.push(`⑥第289便b の世代で宣言し直した行が 17 行でない(${cr.length})`);
+      const offR = cr.filter((z) => !(z.required && z.required.kFrame === 0 && z.required.source === 'obsCard-cond' && z.measuredKFrame === 0
+        && z.conditionMatch === true && ['合', '窓', '否', '従', '転'].includes(z.verdict) && z.formerName));
+      if (offR.length) bad.push(`⑥宣言し直した行に条件欄・判定・旧行名の揃わない行: ${offR.map((z) => z.id + '/' + z.target).join(',')}`);
+      var condSrcIds = (((j.kf0Runs || {}).registry) || []).map((z) => z.id);
+    } else if (has288bM) {
       const MIG = ['solarInner', 'jupiterGalilean', 'venusReal', 'marsMoonsReal', 'plutoCharonReal', 'uranusReal', 'neptuneReal', 'psrJ1757DFM', 'psrJ1946DFM', 'gw150914Merge4s'];
       const src = (j.conditionMismatch && Array.isArray(j.conditionMismatch.rows)) ? j.conditionMismatch.rows : [];
       if (src.length !== 17 || nCond !== 17) bad.push(`⑥第288便b の世代で条件不一致が 17 行でない(行 ${src.length}・門 ${nCond})`);
@@ -62854,6 +62870,212 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   }
 }
 
+// ---- 第289便b(原仮定者の裁定(第79報)③で閉じた AN104・統括の検証項目 R120): preset.condRowsRenamed ----
+// ----   在位移行(第288便b)した本の obsCard で「kFrame=1…」を名乗り、判定器が要求条件 kFrame=1 と読んでいた行(obsCard 12 行 → 判定の 17 行)を
+// ----   **値不変**で kFrame=0・geoPN=1 の行として宣言し直したことを機械で固定する(表 tests/data-w289b-condrows.json):
+// ----     ① 表の 12 行: 現行の内蔵の行名が qAfter(行名を変えない 2 行は qBefore のまま)・行名(ja/en)に「kFrame=1」が無い・
+// ----        model/obs(ja/en)が**凍結の写し**(tests/fixtures/dfmcal-w288b.json の raw.obsCard —— 旧宣言)と 1 字も違わない・条件欄 cond={kFrame:0,geoPN:1} が
+// ----        本の physics(kFrame・geoPN)と一致。
+// ----     ② 母集団(calibration ∧ 非退役)の判定行(公転/周期/離心率/近点の行)で、行名が kFrame=1 を名乗り条件欄の無い行は 0。
+// ----     ③ 純関数: 条件欄があれば行名・文面より先に読む(source:"obsCard-cond")・条件欄の無い行は第258便d からの文面の読みのまま。
+// ----     ④ 正本の世代: condRowsRedeclared があれば 17 行が旧行名つき・新行名が表どおり・条件不一致 0。無ければ(鎖の前)条件不一致 17 行の行名が表の旧行名と一致。
+// ----   root は SKIP(第289便b の beta 線)。
+{
+  const html289 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || !/function bgRangeHeldMark\(/.test(html289)) {
+    console.log('SKIP preset.condRowsRenamed(第289便b の beta 線 — root 等は対象外)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const TB = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w289b-condrows.json'), 'utf8'));
+      const FX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'dfmcal-w288b.json'), 'utf8'));
+      const KF1 = /kFrame\s*[=＝]\s*1/;
+      const ids = [...new Set(TB.rows.map((r) => r.id))];
+      const cur = await page.evaluate((ids) => {
+        const out = {};
+        for (const p of HP.allPresets()) if (ids.includes(p.id)) out[p.id] = { ja: p.obsCard, en: (p.en || {}).obsCard, kF: p.physics.kFrame, geo: p.physics.geoPN };
+        const pop = HP.allPresets().filter((p) => p.sampleClass === 'calibration' && p.familyRole !== 'retired')
+          .map((p) => ({ id: p.id, rows: (p.obsCard || []).map((r) => ({ q: r.q, cond: r.cond || null })) }));
+        return { out, pop };
+      }, ids);
+      if (TB.rows.length !== 12 || TB.quantities.length !== 17) bad.push(`表の行数 ${TB.rows.length}/${TB.quantities.length}(12/17 でない)`);
+      let nVal = 0, nRen = 0;
+      for (const r of TB.rows) {
+        const c = cur.out[r.id];
+        if (!c) { bad.push('① 内蔵に無い ' + r.id); continue; }
+        const j = c.ja[r.row], e = c.en[r.row];
+        const fr = FX.superseded[r.id].raw.obsCard[r.row], fe = FX.superseded[r.id].raw.en.obsCard[r.row];
+        if (!j || j.q !== r.qAfter) bad.push(`① ${r.id}[${r.row}] の行名が表の qAfter でない`);
+        if (!e || e.q !== r.enAfter) bad.push(`① ${r.id}[${r.row}] の en 行名が表の enAfter でない`);
+        if (j && KF1.test(j.q)) bad.push(`① ${r.id}[${r.row}] の行名が kFrame=1 を名乗る`);
+        if (e && KF1.test(e.q)) bad.push(`① ${r.id}[${r.row}] の en 行名が kFrame=1 を名乗る`);
+        if (!(fr && fe && fr.q === r.qBefore && fe.q === r.enBefore)) bad.push(`① ${r.id}[${r.row}] の旧行名が凍結の写しと違う`);
+        if (j && fr && j.model === fr.model && j.obs === fr.obs && e && fe && e.model === fe.model && e.obs === fe.obs) nVal++;
+        else bad.push(`① ${r.id}[${r.row}] の model/obs が凍結の写しと違う(値は 1 字も変えない)`);
+        if (!(j && j.cond && j.cond.kFrame === 0 && j.cond.geoPN === 1 && Object.keys(j.cond).length === 2)) bad.push(`① ${r.id}[${r.row}] の条件欄が {kFrame:0,geoPN:1} でない`);
+        if (!(c.kF === 0 && c.geo === 1)) bad.push(`① ${r.id} の physics が kFrame=0・geoPN=1 でない`);
+        if (r.nameChanged) nRen++;
+      }
+      cases.push(`① 表 ${TB.rows.length} 行(行名を変えた ${nRen}・条件欄だけ ${TB.rows.length - nRen})—— model/obs が凍結の写しと同値 ${nVal}/${TB.rows.length}・条件欄 {kFrame:0,geoPN:1}`);
+      // ②
+      const JUDGED = /自転|パルス|離心率|(^|[(（\s])e=|近点移動|近日点前進|近点回転|歳差|近点前進|アプシ|公転周期|恒星月|公転|周期/;
+      const off = [];
+      for (const p of cur.pop) for (const r of p.rows) if (JUDGED.test(r.q) && KF1.test(r.q) && !r.cond) off.push(p.id + ':' + r.q.slice(0, 24));
+      if (off.length) bad.push('② 母集団に kFrame=1 を名乗る判定行(条件欄なし): ' + off.slice(0, 3).join(' , '));
+      cases.push(`② 母集団 ${cur.pop.length} 本の判定行で kFrame=1 を名乗り条件欄の無い行 ${off.length}`);
+      // ③
+      const EV = await import('file://' + path.join(ROOT, 'tests', 'lib-w258d-evidence.mjs'));
+      const a = EV.readRequiredContext({ name: '公転周期(kFrame=1)', declaredCondition: { kFrame: 0, geoPN: 1 } }, 1);
+      const b = EV.readRequiredContext({ name: '公転周期(kFrame=1)' }, 0);
+      const c0 = EV.readRequiredContext({ name: '公転周期' }, 0);
+      if (!(a.kFrame === 0 && a.source === 'obsCard-cond' && a.geoPN === 1)) bad.push('③ 条件欄が先に読まれない ' + JSON.stringify(a));
+      if (!(b.kFrame === 1 && b.source === 'obsCard-row' && c0.kFrame === 0 && c0.source === 'preset-physics')) bad.push('③ 条件欄の無い行の読みが変わった');
+      cases.push('③ 条件欄 → source:obsCard-cond(行名の kFrame=1 は読まない)・条件欄の無い行は文面/physics の読みのまま');
+      // ④
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      if (J.condRowsRedeclared && Array.isArray(J.condRowsRedeclared.rows)) {
+        const R = J.condRowsRedeclared.rows;
+        const want = new Map(TB.quantities.map((z) => [z.id + '|' + z.target + '|' + z.nameAfter, z]));
+        let nOk = 0;
+        for (const z of R) { const w = want.get(z.id + '|' + z.target + '|' + z.name); if (w && w.nameBefore === z.formerName) nOk++; }
+        if (R.length !== 17 || nOk !== 17) bad.push(`④ 正本の宣言し直した行 ${R.length} 行・表と一致 ${nOk}(17 でない)`);
+        if ((J.conditionMismatch || {}).n !== 0) bad.push('④ 正本に条件不一致が残る ' + (J.conditionMismatch || {}).n);
+        cases.push(`④ 正本(鎖の後): 宣言し直した ${R.length} 行が旧行名つき・5 区分 ${JSON.stringify(J.condRowsRedeclared.tally)}・条件不一致 ${(J.conditionMismatch || {}).n}`);
+      } else {
+        const rows = (J.conditionMismatch && J.conditionMismatch.rows) || [];
+        const before = new Set(TB.quantities.map((z) => z.id + '|' + z.target + '|' + z.nameBefore));
+        const nB = rows.filter((z) => before.has(z.id + '|' + z.target + '|' + z.name)).length;
+        if (rows.length !== 17 || nB !== 17) bad.push(`④ 鎖の前の正本の条件不一致 ${rows.length} 行・表の旧行名と一致 ${nB}(17 でない)`);
+        cases.push(`④ 正本は鎖の前(condRowsRedeclared なし): 条件不一致 ${rows.length} 行がすべて表の旧行名 —— 鎖の calaudit で行が変わる`);
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 160)); }
+    add('preset.condRowsRenamed', bad.length === 0,
+      `**条件不一致 17 行の宣言し直し**(第289便b・原仮定者の裁定(第79報)で閉じた AN104・統括の検証項目 R120): ${cases.join(' / ')} —— `
+      + '観測値・σ・出典・窓は 1 字も変えていない(凍結の写しと同値)。判定は鎖の calaudit の機械集計(「条が消えて合った」とは書かない)'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第289便b(原仮定者の裁定(第79報)③で閉じた AN100・統括の検証項目 R120): behavior.contractRangeEval ----
+// ----   第288便c の旗(背景の時間の契約の範囲外の步)を**観測比較の評価器**(tests/lib-w289b-contractrange.mjs)へ繋いだことを固定する:
+// ----     ① 純関数: 走行の状態(宣言なし/範囲内/契約範囲外)・比較は走行のどれか 1 本でも範囲外なら保留(契約範囲外)・行の属性は門/5 区分を持たない。
+// ----     ② 正本 tests/out/contractrange-w289b.json: 🌒 の 2 周は範囲内(保留なし)・有効幅を縮めた写しは契約範囲外で保留(軌道はビット同一)・
+// ----        geoPN=3 の 🔁🩻 は 2 周で範囲外の步 0(宣言なし)・timeContract を宣言する内蔵は 🌒 だけ。
+// ----     ③ 生成器: obscompare/assessed は保留の行だけ cr:1(保留が無ければ行は 1 文字も変わらない)。
+// ----     ④ 判定器の正本(鎖の後): 全行に contractRange・集計 out.contractRange の保留数が行と合う(鎖の前は記録なし —— 遡って無効にしない)。
+// ----     ⑤ ページ: 🌒 の範囲外の数を立てると観測結果カードの比較行に「保留(契約範囲外)」の印・数を 0 に戻すと外れる・宣言行の数は不変。
+// ----   root は SKIP。
+{
+  const html289 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || !/function bgRangeHeldMark\(/.test(html289)) {
+    console.log('SKIP behavior.contractRangeEval(第289便b の beta 線 — root 等は対象外)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const CRL = await import('file://' + path.join(ROOT, 'tests', 'lib-w289b-contractrange.mjs'));
+      const W = CRL.CR;
+      // ①
+      const e1 = CRL.evalComparison([{ tag: 'dt', declared: false, timeOutSteps: 0 }, { tag: 'dt/2', declared: false, timeOutSteps: 0 }]);
+      const e2 = CRL.evalComparison([{ tag: 'dt', declared: true, timeOutSteps: 0 }, { tag: 'dt/2', declared: true, timeOutSteps: 0 }]);
+      const e3 = CRL.evalComparison([{ tag: 'dt', declared: true, timeOutSteps: 0 }, { tag: 'dt/2', declared: true, timeOutSteps: 3 }]);
+      const e4 = CRL.evalComparison([]);
+      const ra = CRL.rowAttr(e3);
+      if (!(e1.status === W.NONE && !e1.held && e2.status === W.IN && !e2.held && e3.status === W.OUT && e3.held && e3.timeOutSteps === 3 && e4.status === W.UNKNOWN && !e4.held))
+        bad.push('① 評価器の状態 ' + [e1.status, e2.status, e3.status, e4.status].join('/'));
+      if (!(ra.held === true && ra.display === CRL.CR_HELD && !('gate' in ra) && !('verdict' in ra) && !('status' in ra && ra.status !== W.OUT))) bad.push('① 行の属性の形 ' + JSON.stringify(ra));
+      cases.push(`① 評価器 ${CRL.CONTRACT_RANGE_VERSION}: 宣言なし/範囲内/契約範囲外(1 段でも範囲外 → ${CRL.CR_HELD})・行の属性は門と 5 区分を持たない`);
+      // ②
+      const JC = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'contractrange-w289b.json'), 'utf8'));
+      if (!JC.meta || JC.meta.provenanceVersion !== 'w272e-1' || JC.version !== CRL.CONTRACT_RANGE_VERSION) bad.push('② 来歴/版');
+      if (JC.ok !== true) bad.push('② 正本の ok が true でない');
+      if (!(JC.A && JC.A.timeOutSteps === 0 && JC.A.comparison.status === W.IN && JC.A.comparison.held === false)) bad.push('② 🌒 の 2 周が範囲内でない');
+      if (!(JC.B && JC.B.timeOutSteps > 0 && JC.B.comparison.held === true && JC.B.stateBitSameAsA === true)) bad.push('② 縮めた写しが保留でない/軌道が違う');
+      const ctl = (JC.C || []).map((r) => r.id).sort().join(',');
+      if (ctl !== 'mercuryGeoToy3,psrDoubleABGeoToy' || !(JC.C || []).every((r) => r.ok && r.counter === 0 && r.comparison.held === false)) bad.push('② geoPN=3 の対照 ' + ctl);
+      if (JSON.stringify((JC.D || {}).timeContract) !== '["charonGeoToy3"]') bad.push('② timeContract の棚卸し');
+      cases.push(`② 🌒 ${JC.A.run}: 範囲外 ${JC.A.timeOutSteps} 步 → ${JC.A.comparison.status} / ${JC.B.run}: ${JC.B.timeOutSteps} 步 → ${JC.B.comparison.status}・${JC.B.comparison.display}(軌道ビット同一)/ `
+        + (JC.C || []).map((r) => `${r.emoji} ${r.revs.toFixed(2)} 周・範囲外 ${r.counter} 步(${r.comparison.status})`).join('・'));
+      // ③
+      const OC = await import('file://' + path.join(ROOT, 'tests', 'lib-w285d-obscompare.mjs'));
+      const mk = (held) => ({ presets: [{ id: 'x', emoji: null, run: {}, quantities: [
+        { name: 'a', kind: 'period', target: 't', obs: 1, unit: 's', gate: { status: '未判定', assessedValue: 1 }, contractRange: { status: held ? W.OUT : W.NONE, held } },
+        { name: 'b', kind: 'period', target: 't', obs: 2, unit: 's', gate: { status: '未判定', assessedValue: 2 } }] }] });
+      const r0 = OC.buildRows(mk(false), null), r1 = OC.buildRows(mk(true), null);
+      const plain = OC.buildRows({ presets: [{ id: 'x', emoji: null, run: {}, quantities: mk(false).presets[0].quantities.map((q) => { const z = Object.assign({}, q); delete z.contractRange; return z; }) }] }, null);
+      if (!(r1.rows[0].cr === 1 && !('cr' in r1.rows[1]) && !('cr' in r0.rows[0]) && OC.rowsSha256(r0) === OC.rowsSha256(plain))) bad.push('③ obscompare の cr の付け方');
+      const asrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w273c-assessedtable.mjs'), 'utf8');
+      if (asrc.indexOf("q.contractRange.held === true) ? { cr: 1 }") < 0 || asrc.indexOf("(r.cr === 1 ? ',cr:1' : '')") < 0) bad.push('③ assessed の生成器が保留の行だけ cr:1 を書かない');
+      cases.push('③ 生成器: 保留の行だけ cr:1(保留 0 なら obscompare の rowsSha256 は不変)');
+      // ④
+      const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
+      if (J.contractRange) {
+        let nRows = 0, nHeld = 0, nMiss = 0;
+        for (const p of (J.presets || [])) for (const q of (p.quantities || [])) { nRows++; if (!q.contractRange) nMiss++; else if (q.contractRange.held === true) nHeld++; }
+        if (nMiss) bad.push(`④ 正本に contractRange の無い行 ${nMiss}`);
+        if (J.contractRange.nHeld !== nHeld || J.contractRange.nRows !== nRows) bad.push('④ 集計が行と合わない');
+        cases.push(`④ 判定器の正本: ${nRows} 行すべてに contractRange・保留 ${nHeld}(${JSON.stringify(J.contractRange.byStatus)})`);
+      } else cases.push('④ 判定器の正本は鎖の前(contractRange の欄なし —— 過去の正本は遡って無効にしない・鎖の calaudit が書く)');
+      // ⑤
+      const pg = await browser.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      const live = await pg.evaluate(() => {
+        const rows = () => [...document.querySelectorAll('#helpBody .ocRow')];
+        HP.loadPreset('charonGeoToy3', false);
+        const o = { n: rows().length, decl: (HP.currentPreset().obsCard || []).length, m0: rows().filter((r) => r.querySelector('.crHeld')).length };
+        HP.sim.meshVelTimeOutSteps = 5; HP.bgRangeHeldMark(HP.bgRangeCardInfo());
+        o.m1 = rows().filter((r) => r.querySelector('.crHeld') && r.dataset.cr === 'outside').length; o.t1 = (rows()[0] || {}).textContent || '';
+        HP.sim.meshVelTimeOutSteps = 0; HP.bgRangeHeldMark(HP.bgRangeCardInfo());
+        o.m2 = rows().filter((r) => r.querySelector('.crHeld')).length; o.n2 = rows().length;
+        HP.loadPreset('mercuryGeoToy3', false); HP.bgRangeHeldMark(HP.bgRangeCardInfo()); o.merc = rows().filter((r) => r.querySelector('.crHeld')).length;
+        return o;
+      });
+      await pg.close();
+      if (!(live.n === live.decl && live.m0 === 0 && live.m1 === live.n && live.n > 0 && /保留\(契約範囲外/.test(live.t1) && live.m2 === 0 && live.n2 === live.n && live.merc === 0))
+        bad.push('⑤ ページの印 ' + JSON.stringify(live).slice(0, 160));
+      if (errs.length) bad.push('⑤ JS エラー ' + errs.slice(0, 2).join(' | '));
+      cases.push(`⑤ ページ: 🌒 の比較行 ${live.n} 行に範囲外の步を立てると印 ${live.m1} 行・0 に戻すと ${live.m2}・🔁 は ${live.merc}`);
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 160)); }
+    add('behavior.contractRangeEval', bad.length === 0,
+      `**契約範囲外の評価器**(第289便b・原仮定者の裁定(第79報)で閉じた AN100・統括の検証項目 R120): ${cases.join(' / ')} —— `
+      + '範囲外の步を含む走行の観測比較は「保留(契約範囲外)」で、門・5 区分・残差は変えない(条とは別の欄)。過去の正本は遡って無効にしない'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第289便b(原仮定者の裁定(第79報)③で閉じた AN94・統括の検証項目 R120): docs.gwWindowDecl ----
+// ----   ⏰ gw150914Merge4s の「約 4 秒」を**窓の宣言**として書いたことを固定する: 名前(ja/en)に窓の宣言・descStruct の summary(ja/en)に
+// ----   「窓の宣言」「geoPN=0」「未宣言」(f_ref=20 Hz は候補)・旧い根拠の語「モデル換算目標」が summary に無い・一本化の注記に「GW の 2 本は geoPN=0 のまま」・
+// ----   PHYSICS〔第289便b〕の書かないことに「4 s は観測値」。⏰ の physics は geoPN=0・kFrame=0 のまま(物理は変えない)。root は SKIP。
+{
+  const html289 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || !/function bgRangeHeldMark\(/.test(html289)) {
+    console.log('SKIP docs.gwWindowDecl(第289便b の beta 線 — root 等は対象外)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const g = await page.evaluate(() => { const p = HP.allPresets().find((q) => q.id === 'gw150914Merge4s');
+        return { name: p.name, en: (p.en || {}).name, s: p.descStruct.summary, se: ((p.en || {}).descStruct || {}).summary, kF: p.physics.kFrame, geo: p.physics.geoPN }; });
+      if (!/窓の宣言/.test(g.name) || !/window/.test(g.en || '')) bad.push('名前に窓の宣言が無い');
+      if (!(/窓の宣言/.test(g.s) && /geoPN=0/.test(g.s) && /未宣言/.test(g.s) && /f_ref=20 Hz/.test(g.s) && /観測の印刷値ではない/.test(g.s))) bad.push('ja の summary に窓の宣言・geoPN=0・未宣言・f_ref の候補が無い');
+      if (!(/WINDOW DECLARATION/.test(g.se || '') && /geoPN=0/.test(g.se || '') && /UNDECLARED/.test(g.se || ''))) bad.push('en の summary に窓の宣言・geoPN=0・未宣言が無い');
+      if (/モデル換算目標/.test(g.s) || /MODEL CONVERSION TARGET/.test(g.se || '')) bad.push('summary に旧い根拠の語(モデル換算目標)が残る');
+      if (!(g.kF === 0 && g.geo === 0)) bad.push('⏰ の physics が geoPN=0・kFrame=0 でない');
+      if (html289.indexOf('unifyGwNote:"GW の 2 本(🎐⏰)は geoPN=0 のまま') < 0) bad.push('一本化の注記に GW の 2 本の geoPN=0 が無い');
+      const PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const i0 = PH.indexOf('〔第289便b'), sec = i0 >= 0 ? PH.slice(i0, i0 + 20000) : '';
+      if (!sec) bad.push('PHYSICS〔第289便b〕が無い');
+      else if (!/4 s は観測値/.test(sec) || !/条が消えて合った/.test(sec)) bad.push('PHYSICS〔第289便b〕の書かないことが無い');
+      cases.push(`⏰ 名前「${g.name}」・summary に窓の宣言/geoPN=0/未宣言・physics geoPN=${g.geo}・kFrame=${g.kF}(不変)・一本化の注記・PHYSICS の書かないこと`);
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 160)); }
+    add('docs.gwWindowDecl', bad.length === 0,
+      `**⏰ の「約 4 秒」は窓の宣言**(第289便b・原仮定者の裁定(第79報)で閉じた AN94・統括の検証項目 R120 —— 観測の印刷値ではない・f_ref=20 Hz は候補で未宣言・確認依頼 第 8 回): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
 // ---- 第288便b(原仮定者の裁定(第78報)④・R114): docs.calVocab ----
 // ----   「kF0 版」「DFM 版」の呼称が較正の文脈(UI の i18n・在位の較正クラスのタイトル・CAL_CONTRACT の系統名・AI_SPEC の群と分類)に残らない。
 // ----   **アナロジーの名前は除外**(「DFM 版ブラックホール」「中心 DFM 版 BH」—— 銀河・星団のアナロジーの語)。説明文の本体に残る履歴の言及は
@@ -62947,7 +63169,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       //   kFrame=0 へ在位移行したので kF0 の対照は配られない(配布 0)・本体の correlates.kFrame は 0(宣言そのものが移った)・正本は 20 本・
       //   「kFrame=1」と名乗る行の条件不一致 17 行は本便の既知の状態(行名・宣言は直さない)。❄️ の独立照合は自身の kFrame=0 の行と列 C1
       const has288b = !!((J.meta || {}).populationRule);
-      const wantApplied = has288b ? 0 : 8, wantCond = has288b ? 17 : 0, wantCorrK = has288b ? 0 : 1, wantN = has288b ? 20 : 37;
+      // 第289便b(AN104・R120): 世代切替 has289b = 正本の condRowsRedeclared —— 17 行は条件欄で kFrame=0 の行へ宣言し直したので条件不一致 0
+      const has289b = !!(J.condRowsRedeclared && Array.isArray(J.condRowsRedeclared.rows));
+      const wantApplied = has288b ? 0 : 8, wantCond = has289b ? 0 : (has288b ? 17 : 0), wantCorrK = has288b ? 0 : 1, wantN = has288b ? 20 : 37;
       if (!K) bad.push('① 正本に kf0Runs が無い(--kf0-runs を通していない走行)');
       else {
         if (K.on !== true) bad.push('① kf0Runs.on が true でない');
@@ -62957,7 +63181,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (nApplied !== wantApplied) bad.push(`② 配った行が ${wantApplied} 行でない(${nApplied})`);
         condAfter = (J.conditionMismatch || {}).n;
         if (condAfter !== wantCond) bad.push(`③ condition-mismatch が ${wantCond} 行でない(${condAfter})`);
-        cases.push(has288b ? `第288便b の世代: 配布 ${nApplied} 行(登録簿の 5 本は自身が kFrame=0)/ 条件不一致 ${condAfter} 行(「kFrame=1」と名乗る行 —— 既知の状態)`
+        cases.push(has289b ? `第289便b の世代: 配布 ${nApplied} 行(登録簿の 5 本は自身が kFrame=0)/ 条件不一致 ${condAfter} 行(17 行は条件欄で kFrame=0 の行へ宣言し直した —— condRowsRedeclared ${J.condRowsRedeclared.n} 行)`
+          : has288b ? `第288便b の世代: 配布 ${nApplied} 行(登録簿の 5 本は自身が kFrame=0)/ 条件不一致 ${condAfter} 行(「kFrame=1」と名乗る行 —— 既知の状態)`
           : `配布 ${nApplied} 行 / 解消 ${8 - (condAfter || 0)} 行 / 未解消 ${condAfter} 行`);
         // ④ 証拠と印
         const ids = new Set((K.registry || []).map((z) => z.id));
