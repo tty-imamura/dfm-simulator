@@ -1,0 +1,593 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第289便a",
+  "target": "beta/index.html",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T18:25:21.070Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5356329,
+    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+    "mtime": "2026-10-01T18:04:28.624Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w289a-weakfield.mjs",
+    "bytes": 14507,
+    "sha256": "39cfa96c5904b5dad2ecf6e53d71f3fe484d13b8cc74b8be09020eecd57e701b",
+    "mtime": "2026-10-01T18:25:17.830Z"
+   },
+   {
+    "file": "tests/lib-w289a-weakfield.mjs",
+    "bytes": 15203,
+    "sha256": "69319a54cf4a183062339d571aa0e7bcaa51182295e8fcca891bb0984c3a5f47",
+    "mtime": "2026-10-01T18:12:53.789Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-01T18:04:39.168Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-01T18:04:38.960Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-01T18:04:34.336Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-01T18:04:40.016Z"
+   }
+  ],
+  "codeSha256": "2ae0ec70a63fd6289029114a13aef176c94cb3e87cd1cc931db5fc39ac0541e0",
+  "harnessVersion": "w289a-weakfield-h1",
+  "libVersion": "w289a-weakfield-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第79報)⑤: DFM について整理と修正を行なった。これを元に現状の実装を精査する(精査であって法則の差し替えではない)",
+  "reading": "統括の検証項目 R119(整理の各文と現行実装の対応表・時計/光の弱場係数の検査・相対移動 r⁻³ 核の限定模型・読みの固定 —— 物理不変・html の法則は 1 文字も変えない)",
+  "floor": 0.000001,
+  "strength": 1e-7,
+  "notClaim": [
+   "反比例則を実装した",
+   "1PN と同等が証明された",
+   "観測一致を再現した",
+   "観測一致を達成した",
+   "新しい法則を実装した",
+   "複素場を接続した",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "$",
+    "HP.allPresets",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.frameWeightOf",
+    "HP.frameWeightPow",
+    "HP.grSI",
+    "HP.sim",
+    "HP.validatePreset",
+    "LAWS",
+    "T",
+    "ch",
+    "dfmPN1Delta",
+    "photonStep",
+    "rayField",
+    "rayHeavy",
+    "traceRay"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 890,
+   "segments": 804,
+   "closureShare": 0.319
+  },
+  "scopeSha256": "8227786350335ea7a7ce2dba93764d667f38bb1ef71e7b6d54be41a2c32c4152",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "laws": [
+  {
+   "key": "e7r",
+   "label": "(i) 現行 E7R/E8R(N = e^{−ψ}・n = e^{2ψ}・ψ = κW)",
+   "implemented": true,
+   "expected": {
+    "clock": 1,
+    "deflection": 4,
+    "shapiro": 2,
+    "gamma": 1
+   }
+  },
+  {
+   "key": "inverse",
+   "label": "(ii) 文字どおりの反比例(時計 D_ref/D・座標の光の速さ c₀ D_ref/D・G D_ref = c₀²)",
+   "implemented": false,
+   "expected": {
+    "clock": 1,
+    "deflection": 2,
+    "shapiro": 1,
+    "gamma": 0
+   }
+  },
+  {
+   "key": "inverseA",
+   "label": "(iii) 第 3 案: 反比例の時計 + 独立の空間尺度 A = D/D_ref(n = A/N)",
+   "implemented": false,
+   "expected": {
+    "clock": 1,
+    "deflection": 4,
+    "shapiro": 2,
+    "gamma": 1
+   }
+  }
+ ],
+ "units": {
+  "G": 1,
+  "c0": 1,
+  "b": 1
+ },
+ "shapiroPath": {
+  "L1": 10000,
+  "L2": 84300
+ },
+ "rayPath": {
+  "X": 200,
+  "ds": 0.02
+ },
+ "coeffs": [
+  {
+   "key": "e7r",
+   "label": "(i) 現行 E7R/E8R(N = e^{−ψ}・n = e^{2ψ}・ψ = κW)",
+   "implemented": true,
+   "expected": {
+    "clock": 1,
+    "deflection": 4,
+    "shapiro": 2,
+    "gamma": 1
+   },
+   "clock": 0.9999999500000016,
+   "deflectionBorn": 4.000000000000019,
+   "deflectionRay": 4.000001252637469,
+   "rayCore": 3.9999512535749497,
+   "rayTail": 0.00004999906251952905,
+   "raySteps": 20000,
+   "shapiro": 2.0000000286386306,
+   "shapiroLambda": 21.9387718796212,
+   "gammaFromDeflection": 1.0000000000000093,
+   "relClock": 4.999999836385882e-8,
+   "relBorn": 4.6629367034256575e-15,
+   "relRay": 3.131593673266764e-7,
+   "relShapiro": 1.43193152890575e-8,
+   "withinFloor": true
+  },
+  {
+   "key": "inverse",
+   "label": "(ii) 文字どおりの反比例(時計 D_ref/D・座標の光の速さ c₀ D_ref/D・G D_ref = c₀²)",
+   "implemented": false,
+   "expected": {
+    "clock": 1,
+    "deflection": 2,
+    "shapiro": 1,
+    "gamma": 0
+   },
+   "clock": 0.9999999000000099,
+   "deflectionBorn": 1.9999998429203778,
+   "deflectionRay": 2.0000001560796234,
+   "rayCore": 1.999975156548372,
+   "rayTail": 0.000024999531251431364,
+   "raySteps": 20000,
+   "shapiro": 0.9999999999998725,
+   "shapiroLambda": 21.9387718796212,
+   "gammaFromDeflection": -7.85398110991764e-8,
+   "relClock": 9.99999900663795e-8,
+   "relBorn": 7.85398110991764e-8,
+   "relRay": 7.803981172394003e-8,
+   "relShapiro": 1.2745360322696797e-13,
+   "withinFloor": true
+  },
+  {
+   "key": "inverseA",
+   "label": "(iii) 第 3 案: 反比例の時計 + 独立の空間尺度 A = D/D_ref(n = A/N)",
+   "implemented": false,
+   "expected": {
+    "clock": 1,
+    "deflection": 4,
+    "shapiro": 2,
+    "gamma": 1
+   },
+   "clock": 0.9999999000000099,
+   "deflectionBorn": 3.9999996858407556,
+   "deflectionRay": 4.000000938477968,
+   "rayCore": 3.999950939415465,
+   "rayTail": 0.00004999906250286273,
+   "raySteps": 20000,
+   "shapiro": 2.0000000143193484,
+   "shapiroLambda": 21.9387718796212,
+   "gammaFromDeflection": 0.9999998429203778,
+   "relClock": 9.99999900663795e-8,
+   "relBorn": 7.85398110991764e-8,
+   "relRay": 2.3461949205660915e-7,
+   "relShapiro": 7.1596741868518166e-9,
+   "withinFloor": true
+  }
+ ],
+ "kernelDecl": {
+  "a": [
+   0.0001,
+   0.001,
+   0.01
+  ],
+  "r": {
+   "GMc2": 0.0001,
+   "rRef": 1,
+   "radii": [
+    0.5,
+    1,
+    2,
+    4,
+    8
+   ]
+  }
+ },
+ "kernel": {
+  "sweep": [
+   {
+    "a": 0.0001,
+    "dw": 0.0009425958588478167,
+    "analytic": 0.0009425956258321542,
+    "approx3pia": 0.0009424777960769379,
+    "nPeri": 11,
+    "perOrbit": 20000,
+    "K": 10,
+    "rel": 2.4720639068534826e-7,
+    "hDrift": 3.508129355732651e-14,
+    "xv0": 0.001
+   },
+   {
+    "a": 0.001,
+    "dw": 0.009436581384819398,
+    "analytic": 0.009436578995247323,
+    "approx3pia": 0.00942477796076938,
+    "nPeri": 11,
+    "perOrbit": 20000,
+    "K": 10,
+    "rel": 2.5322440220529105e-7,
+    "hDrift": 3.284618254135517e-14,
+    "xv0": 0.001
+   },
+   {
+    "a": 0.01,
+    "dw": 0.09544628136395517,
+    "analytic": 0.09544625391922947,
+    "approx3pia": 0.0942477796076938,
+    "nPeri": 11,
+    "perOrbit": 20000,
+    "K": 10,
+    "rel": 2.875411508931625e-7,
+    "hDrift": 4.0432503080817924e-14,
+    "xv0": 0.001
+   }
+  ],
+  "kFit": 0.0002,
+  "radial": [
+   {
+    "r0": 0.5,
+    "a": 0.0016,
+    "dw": 0.015109890151671301,
+    "analytic": 0.015109886285491017,
+    "rel": 2.558709053698498e-7,
+    "gr": 0.0037699111843077517,
+    "ratio": 4.008022845356726,
+    "ratioAnalytic": 4.008021819820555,
+    "powerLawRef": 4
+   },
+   {
+    "r0": 1,
+    "a": 0.0002,
+    "dw": 0.001885427465367684,
+    "analytic": 0.0018854269913275614,
+    "rel": 2.514232185373826e-7,
+    "gr": 0.0018849555921538759,
+    "ratio": 1.0002503365149673,
+    "ratioAnalytic": 1.0002500850288716,
+    "powerLawRef": 1
+   },
+   {
+    "r0": 2,
+    "a": 0.000025,
+    "dw": 0.00023562687082367972,
+    "analytic": 0.0002356268124406358,
+    "rel": 2.477775908382995e-7,
+    "gr": 0.0009424777960769379,
+    "ratio": 0.25000787477909414,
+    "ratioAnalytic": 0.2500078128327606,
+    "powerLawRef": 0.25
+   },
+   {
+    "r0": 4,
+    "a": 0.000003125,
+    "dw": 0.000029452554587194868,
+    "analytic": 0.00002945254617642201,
+    "rel": 2.8557031394479284e-7,
+    "gr": 0.00047123889803846896,
+    "ratio": 0.06250026198981254,
+    "ratioAnalytic": 0.0625002441415982,
+    "powerLawRef": 0.0625
+   },
+   {
+    "r0": 8,
+    "a": 3.90625e-7,
+    "dw": 0.000003681555739376563,
+    "analytic": 0.0000036815556883463905,
+    "rel": 1.3861035054563084e-8,
+    "gr": 0.00023561944901923448,
+    "ratio": 0.015625007845069802,
+    "ratioAnalytic": 0.015625007628491023,
+    "powerLawRef": 0.015625
+   }
+  ]
+ },
+ "selfTest": {
+  "ok": true,
+  "checks": {
+   "smallA": true,
+   "newtonZero": true,
+   "simpson": true,
+   "e7rLinear": true
+  }
+ },
+ "engineDecl": {
+  "base": "gclock",
+  "kappa": 0.0001,
+  "M": 1000,
+  "eps": 0.5,
+  "cLight": 100,
+  "clocks": [
+   [
+    50,
+    0
+   ],
+   [
+    0,
+    200
+   ]
+  ],
+  "clockMass": 1e-9,
+  "rays": [
+   10000,
+   20000
+  ],
+  "X": 1000000,
+  "dl": 10,
+  "f32Gate": 2.384185791015625e-7,
+  "rayGate": 0.0001
+ },
+ "engine": {
+  "heavy": true,
+  "heavyClock": false,
+  "warnings": [
+   "bodies[1].m を値域に修正",
+   "bodies[2].m を値域に修正"
+  ],
+  "clocks": [
+   {
+    "i": 1,
+    "r": 50,
+    "W": 19.99900007984445,
+    "psi": 0.001999900007984445,
+    "rate": 0.9980021119117737,
+    "expect": 0.9980020984595694,
+    "rel": 1.3479134253202574e-8,
+    "sumWf32": 19.999048233032227,
+    "mClock": 9.999999974752427e-7
+   },
+   {
+    "i": 2,
+    "r": 200,
+    "W": 4.99998437992394,
+    "psi": 0.000499998437992394,
+    "rate": 0.9995000958442688,
+    "expect": 0.9995001265403961,
+    "rel": 3.0711479137579545e-8,
+    "sumWf32": 5.000032901763916,
+    "mClock": 9.999999974752427e-7
+   }
+  ],
+  "rays": [
+   {
+    "b": 10000,
+    "alpha": 0.000039999248733975095,
+    "born": 0.0000399980000499875,
+    "rel": 0.00003121866058397593,
+    "coeff": 3.9999248733975095,
+    "coeffFinite": 4.000124874642336,
+    "end": "maxSteps",
+    "steps": 200000,
+    "secondOrderRef": 0.00002945243112740431,
+    "wallSec": 0.031
+   },
+   {
+    "b": 20000,
+    "alpha": 0.000019996311351191793,
+    "born": 0.00001999600118710014,
+    "rel": 0.000015511305923032737,
+    "coeff": 3.9992622702383582,
+    "coeffFinite": 4.000062045223692,
+    "end": "maxSteps",
+    "steps": 200000,
+    "secondOrderRef": 0.000014726215563702155,
+    "wallSec": 0.023
+   }
+  ],
+  "clocksOk": true,
+  "raysOk": true
+ },
+ "source": {
+  "tokens": {
+   "tauUpdate": [
+    {
+     "t": "const psi=denom*S.params.kappaT;",
+     "found": true
+    },
+    {
+     "t": "const N=Math.exp(-psi), A=Math.exp(psi);",
+     "found": true
+    },
+    {
+     "t": "const denom=S.params.D0+WB+S.sumW[i];",
+     "found": true
+    }
+   ],
+   "traceRay": [
+    {
+     "t": "kU=2*p.kappaT",
+     "found": true
+    },
+    {
+     "t": "const neff=Math.exp(kU*Wtot);",
+     "found": true
+    },
+    {
+     "t": "const Wtot=D0+WB+wSum",
+     "found": true
+    }
+   ],
+   "photonStep": [
+    {
+     "t": "const neff=Math.exp(O.kU*Wtot);",
+     "found": true
+    },
+    {
+     "t": "const Wtot=O.D0+O.WB+_RF.w",
+     "found": true
+    }
+   ]
+  },
+  "allFound": true,
+  "eihReadsSpin": false,
+  "eihLen": 2167,
+  "framePowDefault": 2,
+  "framePowShare": 1,
+  "framePowPull": 2,
+  "frameDefault": "pull"
+ },
+ "census": {
+  "n": 146,
+  "tally": {
+   "active:default(pull)": 4,
+   "active:pull": 14,
+   "active:share": 102,
+   "retired:default(pull)": 2,
+   "retired:pull": 14,
+   "retired:share": 10
+  },
+  "analogies": [
+   {
+    "id": "galaxyAnalogyBH",
+    "present": true,
+    "emoji": "🌚",
+    "sampleClass": "principle",
+    "frameWeight": "share",
+    "pow": 1,
+    "geoPN": 3,
+    "kFrame": 0,
+    "lawVersion": "scalar",
+    "centerSpin": "read",
+    "bgcLaw": null
+   },
+   {
+    "id": "galaxyAnalogyBHCompose",
+    "present": true,
+    "emoji": "🧩",
+    "sampleClass": "principle",
+    "frameWeight": "share",
+    "pow": 1,
+    "geoPN": 3,
+    "kFrame": 0,
+    "lawVersion": "scalar",
+    "centerSpin": "read",
+    "bgcLaw": null
+   },
+   {
+    "id": "galaxyAnalogyBHTilt90",
+    "present": true,
+    "emoji": "🛸",
+    "sampleClass": "principle",
+    "frameWeight": "share",
+    "pow": 1,
+    "geoPN": 3,
+    "kFrame": 0,
+    "lawVersion": "scalar",
+    "centerSpin": "read",
+    "bgcLaw": null
+   },
+   {
+    "id": "clusterAnalogyBH",
+    "present": true,
+    "emoji": "💮",
+    "sampleClass": "principle",
+    "frameWeight": "share",
+    "pow": 1,
+    "geoPN": 3,
+    "kFrame": 0,
+    "lawVersion": "scalar",
+    "centerSpin": "read",
+    "bgcLaw": null
+   },
+   {
+    "id": "clusterGrowthCopy",
+    "present": true,
+    "emoji": "🌰",
+    "sampleClass": "principle",
+    "frameWeight": "share",
+    "pow": 1,
+    "geoPN": 3,
+    "kFrame": 0,
+    "lawVersion": "scalar",
+    "centerSpin": "read",
+    "bgcLaw": null
+   },
+   {
+    "id": "fixedCaptureCopy",
+    "present": true,
+    "emoji": "🥜",
+    "sampleClass": "principle",
+    "frameWeight": "share",
+    "pow": 1,
+    "geoPN": 3,
+    "kFrame": 0,
+    "lawVersion": "scalar",
+    "centerSpin": "read",
+    "bgcLaw": null
+   }
+  ],
+  "analogiesShareP1": true,
+  "analogiesNoComplexP2": true
+ },
+ "record": {
+  "gpsGravity": 45.71595424064002,
+  "gpsMotion": -7.2125289601089,
+  "gpsNet": 38.503425280531125,
+  "gpsGroundRotation": 0.10393175161592366,
+  "gpsSatSpeed": 3873.669949362054,
+  "deflectionArcsec": 1.7508763014726416,
+  "shapiroMicros": 280.9977454260266
+ },
+ "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
+ "elapsedS": 1.556
+}

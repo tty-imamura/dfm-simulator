@@ -27,6 +27,7 @@
 //   'w287a-branch' … 第287便a の枝で器を走らせた実測(正本の elapsedS 157.9 —— Node だけ・子プロセス 2 本・負荷平均 1 未満の容器。他の 5 枝と並走した 1 回目は 559.1)。
 //   'w287c-branch' … 第287便c の枝で器を走らせた実測(正本の elapsedS 71.5〜109.2 —— Node だけ・geo3 の再走〔Chromium〕と同じ容器で並走)。
 //   'w288d-branch' … 第288便d の枝で器を走らせた実測(正本の elapsedS 0.5〜1 —— Node だけ・1 步もエンジンを走らせない・他の 5 枝と同じ容器で並走)。
+//   'w289a-branch' … 第289便a の枝で器を走らせた実測(正本の elapsedS 1.3〜1.6 —— Node だけ・エンジンは固定した 3 体で 1 步と光線 2 本だけ・他の 5 枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -564,6 +565,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tilt90-w288e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第288便e: 🛸 galaxyAnalogyBHTilt90 の宣言の照合・7 走行(T=48)の J_z/η_mesh/軸の状態/拘束の帳簿/状態の指紋・中心の自転の寄与(t=0 の η 差)・'
       + '立体核の候補(1 層の対照・上下の打ち消し・z 微分・層数 1→32・Ω_p 0/宣言/2 倍・J_z,eff と s_eff)・場の契約の読み手との比較器・spinAxis の受理と署名' }),
+  // ---- 第289便a(原仮定者の裁定(第79報)⑤・統括の検証項目 R119): 理論照合便 —— 時計・光の弱場係数(現行 E7R/E8R・文字どおりの反比例・第 3 案〔実装しない〕)の
+  //   一次係数・相対移動 r⁻³ 核の限定模型(Δϖ の解析と RK4・r 依存)・現行実装の実測(gclock の写しで tauUpdate と traceRay を 1 回ずつ)・
+  //   式の綴りの読み・枠の重みの棚卸し(全プリセット —— presets "all")・🛰 の式レベル出力 HP.grSI の引用。Node だけ・html だけを読む(他の正本は読まない)。
+  //   所要は第289便a の枝の実測(正本の elapsedS 1.3〜1.6 秒 —— Node 1 本・同じ容器で他の枝と並走)
+  S('weakfield289', 'node tests/exp-w289a-weakfield.mjs', ['tests/out/weakfield-w289a.json'], 2, { secSource: 'w289a-branch', node: true,
+    volatilePaths: { 'tests/out/weakfield-w289a.json': META_RUN.concat(['/elapsedS', '/engine/rays/*/wallSec']) },
+    note: '第289便a: 弱場の一次係数(静止時計の率・光偏向〔直線経路の求積と光線方程式の RK4〕・シャピロ)を 3 案で解析と相対 1e-6・'
+      + 'r⁻³ 核の近点移動の解析 2π(√((1+a)/(1−2a))−1) と RK4・GR との r 依存の比・現行 tauUpdate/traceRay の実測(Float32 の 2 ulp・相対 1e-4)・式の綴り・枠の重みの棚卸し' }),
 ];
 
 /**
