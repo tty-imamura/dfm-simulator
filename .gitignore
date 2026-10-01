@@ -778,3 +778,7 @@ tests/out/regen-plan-w281a.json
 # 第288便e(原仮定者の裁定(第78報)⑦・統括の検証項目 R117・AN79): **軸傾きと 90° BH** の正本(tests/exp-w288e-tilt90.mjs —— 🛸 の現行法則の実測・
 #   歳差が担う面内の引きずりの候補・spinAxis の受理と署名)。QA behavior.tilt90Copy・behavior.spinAxisDecl が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/tilt90-w288e.json
+# 第289便e(原仮定者の裁定(第79報)AN105/AN106・統括の検証項目 R123): **親子コア便**の正本(tests/exp-w289e-tilt90layers.mjs —— 🪆 の宣言の照合・
+#   步ごとの指紋の照合〔層の軸の対照・層の差分を外した対照〕・変換の往復・層の軸の宣言欄の受理)。QA behavior.tilt90LayersCopy・preset.layerAxisDecl が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/tilt90layers-w289e.json

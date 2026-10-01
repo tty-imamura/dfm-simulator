@@ -564,6 +564,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tilt90-w288e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第288便e: 🛸 galaxyAnalogyBHTilt90 の宣言の照合・7 走行(T=48)の J_z/η_mesh/軸の状態/拘束の帳簿/状態の指紋・中心の自転の寄与(t=0 の η 差)・'
       + '立体核の候補(1 層の対照・上下の打ち消し・z 微分・層数 1→32・Ω_p 0/宣言/2 倍・J_z,eff と s_eff)・場の契約の読み手との比較器・spinAxis の受理と署名' }),
+  // ---- 第289便e(原仮定者の裁定(第79報)AN105/AN106・統括の検証項目 R123): 親子コア便 —— 🪆(🛸 の中心を親子コアの層に置き直した診断コピー)の
+  //   宣言の照合(🛸 の写し・HP.coreV2ToLayers と同じ層)・11 走行(T=48)の步ごとの指紋の照合(層の軸の対照 6 本・層の差分 S._layerForce を器の中だけで
+  //   外した対照)・最初の層の近傍キックの步・変換の往復(JSON 形と実行状態形)・層の軸の宣言欄の受理。Node だけ・html だけを読む(他の正本は読まない)。
+  //   🛸 の実測の段 tilt90288 の後に置く(同じ 🛸🌚 を読む —— 並べて読む表の順)。所要は第289便e の枝の実測 135 秒(Node 1 本・同じ容器で他の枝と並走)
+  S('tilt90layers289', 'node tests/exp-w289e-tilt90layers.mjs', ['tests/out/tilt90layers-w289e.json'], 135, { secSource: 'w289e-branch', node: true, after: ['tilt90288'],
+    volatilePaths: { 'tests/out/tilt90layers-w289e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
+    note: '第289便e: 🪆 の宣言の照合・11 走行の步ごとの指紋(層の軸 0/90°・方位・歳差 0/2 倍・層の J の有無は全步一致/🛸 とは最初の層の近傍キックの步から食い違い・'
+      + '差分を外すと 🛸 と全步一致)・変換の往復(t=0/24)・融合の合算規約・層の軸の宣言欄の受理' }),
 ];
 
 /**

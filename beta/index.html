@@ -1279,7 +1279,7 @@ ja: {
   tgDragPauseDesc:"画面のドラッグ・ピンチ・ホイール操作をしている間だけ物理計算を一時停止し、その1フレームぶんの計算時間をまるごと操作の追従に回す(既定 ON・共通設定・永続)。粒子の多いサンプルほど効く。▶/⏸ のポーズ状態とは別の内部的な抑制なので、指を離せば元の再生状態へそのまま戻る(ボタン表示は変わらない)。物理の式・結果は一切変わらない — 止まっている間ステップを進めないだけ。OFF にすると操作中も計算を続けるが、ドラッグの追従は1フレームぶん(重いサンプルでは数百ms)遅れる。",
   // 第175便(レビュー第5巡 P0): step 会計の繰越化 — 診断1行と簡易ベンチ(開発者向け)
   tgCoreAxis:"コア軸の投影線を表示(宣言した粒子だけ)",
-  tgCoreAxisDesc:"親子コア(コア V2)のうち **core.axisMode:\"prescribed\" を宣言した粒子**だけ、コア回転軸の 2D 投影線を描く(**既定は「宣言した粒子だけ ON」** —— トグル自体は ON だが、宣言の無い粒子には何も描かない。内蔵サンプルで宣言しているのは第288便e の原理コピー 🛸 の中心コアだけなので、他の本は実質 OFF と同じ見え方になる。永続・表示専用)。3D 単位軸 e=(sinθcosφ, sinθsinφ, cosθ) を公転面へ正射影した (sinθcosφ, sinθsinφ) を線分にし、+J 側の端に丸を置く。傾き角 θ(core.tilt)が小さいほど線は短く(軸が画面手前を向く)、90° で最長になり、宣言した歳差角速度 core.precessionRate で方位 φ が回る。**3D 表示ではない** —— 面外成分 cosθ は線の長さにしか現れず、エンジンの力学が読むのは従来どおり z 射影 J_z だけである。宣言の無い粒子には何も描かないので、内蔵サンプルの画面は 1 ピクセルも変わらない。物理・セーブ・署名には一切効かない。**第288便e**: 同じトグルで、点粒子の自転軸の表示専用の宣言 **body.spinAxis**(公転面の法線からの傾き tiltDeg・方位 azimuthDeg・歳差率 deg/yr・出所)も同じ正射影で描く(橙の線。方位が記録に無い宣言は 0 規約の破線・歳差率では方位を回さない)。内蔵で宣言しているのは 📻 の B(観測記録の傾き 40.6°)だけで、他の本の画面は変わらない。",
+  tgCoreAxisDesc:"親子コア(コア V2)のうち **core.axisMode:\"prescribed\" を宣言した粒子**だけ、コア回転軸の 2D 投影線を描く(**既定は「宣言した粒子だけ ON」** —— トグル自体は ON だが、宣言の無い粒子には何も描かない。内蔵サンプルで宣言しているのは第288便e の原理コピー 🛸 の中心コアだけなので、他の本は実質 OFF と同じ見え方になる。永続・表示専用)。3D 単位軸 e=(sinθcosφ, sinθsinφ, cosθ) を公転面へ正射影した (sinθcosφ, sinθsinφ) を線分にし、+J 側の端に丸を置く。傾き角 θ(core.tilt)が小さいほど線は短く(軸が画面手前を向く)、90° で最長になり、宣言した歳差角速度 core.precessionRate で方位 φ が回る。**3D 表示ではない** —— 面外成分 cosθ は線の長さにしか現れず、エンジンの力学が読むのは従来どおり z 射影 J_z だけである。宣言の無い粒子には何も描かないので、内蔵サンプルの画面は 1 ピクセルも変わらない。物理・セーブ・署名には一切効かない。**第288便e**: 同じトグルで、点粒子の自転軸の表示専用の宣言 **body.spinAxis**(公転面の法線からの傾き tiltDeg・方位 azimuthDeg・歳差率 deg/yr・出所)も同じ正射影で描く(橙の線。方位が記録に無い宣言は 0 規約の破線・歳差率では方位を回さない)。内蔵で宣言しているのは 📻 の B(観測記録の傾き 40.6°)だけで、他の本の画面は変わらない。**第289便e**: 同じトグルで、親子コアの**層の軸の宣言**(body.layers[] の tilt・azimuthDeg・precessionRate —— 軸は層の J ベクトルから導く)も同じ見た目の線で描く(表示の方位は宣言した歳差で回るが、層の J は回さない)。内蔵で宣言しているのは 🪆 の中心だけ。層は J の z 射影だけを読み、軸は力に入らない。",
   saCardHead:"自転軸の宣言(表示専用)",
   saDeclared:"宣言あり",
   saUndeclared:"未宣言",
@@ -1626,6 +1626,8 @@ ja: {
   beLyNumOm:(om,th)=>`ω=${om} / θ=${th}°`,
   beLyNumJ:(jm,jz)=>`|J|=${jm} / Jz=${jz}`,
   beLyNumJ2:(jx,jy)=>`Jx=${jx} / Jy=${jy}`,
+  beLyNumAxSuf:(ph,om)=>` / φ=${ph}° / Ω_p=${om}`,
+  beLyNumAxTip:"φ=層(または V2)の J ベクトルの面内方位・Ω_p=宣言した歳差角速度(表示だけ —— 層は J の z 射影だけを読み、軸・歳差は力・減光・熱に入らない)",   /* 第289便e: 軸の宣言がある粒子だけ(層は J の z 射影だけを読む) */
   // 第271便c(R5・AF17): **ζ_eff は補完しない**。一意で有限正のときだけ数を出し、そうでなければ
   // 「—」+理由を出す(0 や 1.0 で埋めない)。J・Q・ζ を同じ行に並べて、何が宣言されているかを見せる
   beLyNumZeff:(ze,why,jz,q,z)=>`ζ_eff=${ze}${why} / J=${jz}・Q=${q}・ζ=${z}`,
@@ -2271,7 +2273,7 @@ en: {
   tgDragPauseDesc:"While you drag, pinch or wheel-zoom the view, physics stepping is paused so that the whole frame budget goes into following your finger or mouse (default ON, General, persisted). The heavier the sample, the more it helps. This is an internal suppression, separate from the ▶/⏸ pause state: release the pointer and playback resumes exactly as before, and the button never changes. The physics equations and results are untouched — steps simply are not taken while it is held. Turn it OFF to keep computing during input, at the cost of one physics frame (hundreds of ms on heavy samples) of lag in the drag.",
   // wave 175 (5th review round, P0): carried-over step accounting — one-line diagnostics and a quick bench (developer-facing)
   tgCoreAxis:"Show the core axis projection (declared bodies only)",
-  tgCoreAxisDesc:"Draws the 2D projection of the core rotation axis, but ONLY for particles that declare core.axisMode:\"prescribed\" (the default is 'on for declared bodies only': the toggle itself is on, but nothing is drawn for bodies without the declaration, and among the built-ins only the central core of the wave-288e principle copy 🛸 declares it, so every other sample looks the same as off; persisted, display only). The 3D unit axis e = (sin(theta)cos(phi), sin(theta)sin(phi), cos(theta)) is orthogonally projected onto the orbital plane, giving the segment (sin(theta)cos(phi), sin(theta)sin(phi)), with a dot at the +J end. The smaller the tilt angle theta (core.tilt), the shorter the line (the axis points towards the viewer); it is longest at 90 degrees, and the azimuth phi turns at the declared core.precessionRate. THIS IS NOT A 3D VIEW - the out-of-plane component cos(theta) shows up only in the length of the line, and the dynamics still read the z projection J_z alone. Nothing is drawn for particles without the declaration, so the built-in samples look pixel-identical. Physics, saves and signatures are untouched. WAVE 288e: the same toggle also draws the display-only spin-axis declaration of point particles, body.spinAxis (tilt from the orbit normal tiltDeg, azimuthDeg, precession rate in deg/yr, source), with the same projection (orange line; a declaration without a recorded azimuth is drawn dashed by the 0 convention, and the precession rate does not turn the drawn azimuth). Among the built-ins only B of 📻 declares it (the recorded tilt of 40.6 degrees); every other sample looks unchanged.",
+  tgCoreAxisDesc:"Draws the 2D projection of the core rotation axis, but ONLY for particles that declare core.axisMode:\"prescribed\" (the default is 'on for declared bodies only': the toggle itself is on, but nothing is drawn for bodies without the declaration, and among the built-ins only the central core of the wave-288e principle copy 🛸 declares it, so every other sample looks the same as off; persisted, display only). The 3D unit axis e = (sin(theta)cos(phi), sin(theta)sin(phi), cos(theta)) is orthogonally projected onto the orbital plane, giving the segment (sin(theta)cos(phi), sin(theta)sin(phi)), with a dot at the +J end. The smaller the tilt angle theta (core.tilt), the shorter the line (the axis points towards the viewer); it is longest at 90 degrees, and the azimuth phi turns at the declared core.precessionRate. THIS IS NOT A 3D VIEW - the out-of-plane component cos(theta) shows up only in the length of the line, and the dynamics still read the z projection J_z alone. Nothing is drawn for particles without the declaration, so the built-in samples look pixel-identical. Physics, saves and signatures are untouched. WAVE 288e: the same toggle also draws the display-only spin-axis declaration of point particles, body.spinAxis (tilt from the orbit normal tiltDeg, azimuthDeg, precession rate in deg/yr, source), with the same projection (orange line; a declaration without a recorded azimuth is drawn dashed by the 0 convention, and the precession rate does not turn the drawn azimuth). Among the built-ins only B of 📻 declares it (the recorded tilt of 40.6 degrees); every other sample looks unchanged. WAVE 289e: the same toggle also draws the parent-child core LAYER AXIS declaration (tilt, azimuthDeg, precessionRate in body.layers[] - the axis is derived from the layer J vector) with the same look (the drawn azimuth turns at the declared precession, but the layer J is not rotated). Among the built-ins only the centre of 🪆 declares it. Layers read only the z projection of J; the axis enters no force.",
   saCardHead:"Spin-axis declaration (display only)",
   saDeclared:"declared",
   saUndeclared:"undeclared",
@@ -2601,6 +2603,8 @@ en: {
   beLyNumOm:(om,th)=>`omega=${om} / theta=${th} deg`,
   beLyNumJ:(jm,jz)=>`|J|=${jm} / Jz=${jz}`,
   beLyNumJ2:(jx,jy)=>`Jx=${jx} / Jy=${jy}`,
+  beLyNumAxSuf:(ph,om)=>` / phi=${ph} deg / Omega_p=${om}`,
+  beLyNumAxTip:"phi = in-plane azimuth of the J vector of the layer (or Core V2); Omega_p = declared precession rate (display only - layers read only the z projection of J; the axis and precession enter no force, dimming or heat)",   /* wave 289e: only for bodies with an axis declaration (layers read only the z projection of J) */
   // wave 271c (R5 / AF17): zeta_eff is NEVER filled in with 0 or 1 — when it cannot be represented
   // the row prints "n/a" plus the reason, next to J, Q and zeta
   beLyNumZeff:(ze,why,jz,q,z)=>`zeta_eff=${ze}${why} / J=${jz}, Q=${q}, zeta=${z}`,
@@ -6352,6 +6356,33 @@ const BODY_LAYER_MTOL = 1e-6;      // Σ層 m と body.m の相対許容差(超�
 const BODY_LAYER_JCAP = 1e12;      // 第261便b: 層の宣言 J の値域(表示・保存のみ — 力へは未接続)
 const BODY_LAYER_RMIN = 1e-6;      // 第261便b: 編集パネルから置ける層半径の下限
 const BODY_LAYER_KEY = "layers";
+// ===== 第289便e(原仮定者の裁定(第79報)AN105/AN106・統括の検証項目 R123): **層の軸の宣言欄** =====
+// `body.layers[]` に **tilt**(公転面の法線からの角[度・0〜180])・**azimuthDeg**(面内の方位[度])・
+// **precessionRate**(歳差角速度の宣言 —— コア V2 の core.precessionRate と同じ単位・値域)を、既存の
+// J/Jx/Jy/Q/inertiaScale と並べて置く。**正準状態は J ベクトル (J_x, J_y, J_z=J)** で、傾きと方位は
+// **J から導く値**である(状態に角度を持たない —— 角度と J を独立に更新して食い違わせない)。
+//   ・宣言の tilt/azimuthDeg は、J ベクトルから導いた値と LAYER_AXIS_TOL_DEG 以内で一致するときだけ受理する
+//     (食い違いは警告して角度だけを落とす —— J は残す)。0 や未宣言は正準形に出さない(既定経路の署名は 1 bit 不変)。
+//   ・状態は宣言ビット S.layAx(1=tilt・2=azimuthDeg・4=precessionRate)と歳差の宣言値 S.layPR だけ。
+//     保存(bodyLayersOf)は宣言ビットのある角度を **J ベクトルから導き直して**出す。
+//   ・融合: 軸は **J ベクトルの和から導出**(質量荷重平均ではない・宣言ビットは和集合)。歳差は合成する層が
+//     **全員同じ値を宣言したときだけ**残す(食い違い・片側だけの宣言は落とす —— 平均で作らない)。
+// **契約: 層は J の z 射影だけを読む**(tilt・方位・歳差は数値として載り、表示と移行の往復に使う。
+// 力・減光・熱には入らない)。回転場の源(layerDipoleMoment)と所有者規約「V2 があれば V2」は 1 文字も変えていない。
+// **書かないこと**: 「層が V2 を置き換えた」「引きずりが戻った」「歳差を接続した」。
+const LAYER_AXIS_KEYS = ["tilt","azimuthDeg","precessionRate"];
+const LAYER_AXIS_TOL_DEG = 1e-6;    // 宣言の角度と J ベクトルから導いた角度の許容差[度]
+const LAYER_AXIS_VERSION = "w289e-layeraxis-1";
+// 層の J ベクトルから軸を導く**純関数**(状態を書かない)。tilt=acos(J_z/|J|)・方位=atan2(J_y,J_x)。
+// |J|=0 なら軸は無い(tiltDeg:null)・面内成分が 0 なら方位は無い(azimuthDeg:null)
+function layerAxisFromJ(Jz, Jx, Jy){
+  const jz=Number.isFinite(Number(Jz))? Number(Jz) : 0, jx=Number.isFinite(Number(Jx))? Number(Jx) : 0,
+    jy=Number.isFinite(Number(Jy))? Number(Jy) : 0;
+  const Jm=Math.hypot(jz,jx,jy), Jp=Math.hypot(jx,jy);
+  return { Jmag:Jm, Jperp:Jp, Jz:jz, Jx:jx, Jy:jy,
+    tiltDeg:(Jm>0)? Math.acos(Math.max(-1,Math.min(1,jz/Jm)))*180/Math.PI : null,
+    azimuthDeg:(Jp>0)? Math.atan2(jy,jx)*180/Math.PI : null };
+}
 // 融合の層合成則(**本便の既定**)。"role"=同 role を合算(m は和・r は √(r_i²+r_j²) ——
 // 殻の R′=√(R_i²+R_j²)・コア v2 の R_c′ と**同型の既存則**)/ "add"=小さい方の層を層として追加。
 // **"role" を採る理由**: 層数が role の数で上から押さえられ、繰り返しの融合でも
@@ -9654,6 +9685,79 @@ const BUILTIN_PRESETS = [
     // 中心 DFM 版 BH: 殻 spin 0・自転の角運動量はコアに(傾き 90°・方位 0・宣言した歳差 0.12)
     {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, radius:15,
      core:{mode:"differential", massFrac:0.3, radius:7.5, omega:16, Kcs:0, tilt:90, axisMode:"prescribed", azimuthDeg:0, precessionRate:0.12}},
+    {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:90, profile:"plummer", plummerScale:26,
+     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0},
+    {type:"disk", rMul:1.2, n:80, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"enclosed", vScale:1, direction:1, bulkVx:0, bulkVy:0},
+    {type:"disk", rMul:1.2, n:40, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
+     mMin:53.125,mMax:53.125, spinMin:0,spinMax:0, vMode:"enclosed", vScale:1, direction:1, bulkVx:0, bulkVy:0, lightSweep:1}],
+  overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false,
+    spaceMesh:{mode:"mesh"},
+    galaxyField:{unSource:"disk",unFit:"affine",slipThreshold:0.9,bg:"static"}} },
+// ===== 第289便e(原仮定者の裁定(第79報)AN105/AN106「コア V3 は無い —— 親子コア=body.layers」・統括の検証項目 R123): **🛸 の層版の診断コピー**
+// (principle・較正ではない・較正母集団に入れない)。🛸 galaxyAnalogyBHTilt90 の physics・幾何・乱数種・台帳を 1 bit も変えずに写し、
+// 中心のコア V2 {differential・massFrac 0.3・半径 7.5・Ω 16・tilt 90・axisMode "prescribed"・方位 0・歳差 0.12} を
+// **親子コアの層**(HP.coreV2ToLayers の変換と同じ 2 層: コア層 m=0.3·2500=750・r=7.5・J ベクトル (J_x,J_y,J_z)=(337500,0,0)・
+// tilt 90・歳差 0.12 の宣言 + 殻層 m=1750・r=15)に置き換えた。**コア V2 は持たない**(V2 は消していない —— 🛸 はそのまま)。
+// **層は J の z 射影だけを読む**: 軸の宣言(tilt・方位・歳差)は数値として載り、表示と移行の往復に使うだけで、力・減光・熱には入らない。
+// 層は**質量分布**でもある(Σ層 m=body.m・殻定理の差分 `S._layerForce` が r<15 の粒子に当たる)ので、🛸 との差はその近傍重力だけで出る
+// (器 tests/exp-w289e-tilt90layers.mjs が実測 —— 「コア V3」は作らない・読み手〔z 射影・所有者規約〕は変えない)。
+{ id:"galaxyAnalogyBHTilt90Layers", name:"銀河アナロジー(中心 BH の軸 90°・親子コアの層)", emoji:"🪆",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  notClaim:["galaxy","dm"],
+  obsCard:[
+    {q:"何を置いたか", model:"🛸 の写し。中心のコア V2 を親子コアの 2 層(コア m=750・r=7.5・J=(337500,0,0)・傾き 90°・歳差 0.12 の宣言/殻 m=1750・r=15)に置き換え、V2 は持たない", obs:"—(原理サンプル —— 観測転写はしない)"},
+    {q:"層の軸は力に入るか(実測)", model:"層の軸(傾き 0/90°・方位 0/90°・歳差 0/0.12/0.24)を変えても層の J を外しても T=48 まで全步ビット一致 —— 層は J の z 射影だけを読む", obs:"—"},
+    {q:"🛸 との差(実測)", model:"🛸 とは步 39(t=0.624)から食い違う = 最初の層の近傍キック(r<15・殻定理の差分)の步。器の中で差分を外すと T=48 まで 🛸 と一致", obs:"—"},
+    {q:"変換の往復", model:"HP.coreV2ToLayers(🛸 の中心)と同じ 2 層(J_z だけ 0 を宣言)。走行中の 🛸 からの移行も t=24 の方位 165.01° と歳差 0.12 を運ぶ", obs:"—"},
+    {q:"言わないこと", model:"層が V2 を置き換えた/引きずりが戻った/歳差を接続した、とは書かない", obs:"—"}],
+  descStruct:{
+    summary:"**🛸 の中心を親子コアの層に置き直した診断コピー**(第289便e・原仮定者の裁定〔第79報〕AN105/AN106・統括の検証項目 R123)。🛸 を書き換えずに写し、中心 DFM 版 BH のコア V2(傾き 90°・方位 0・宣言した歳差 Ω_p=0.12)だけを、変換 HP.coreV2ToLayers と同じ 2 層(コア層 m=750・r=7.5・J ベクトル (J_x,J_y,J_z)=(337500,0,0)・tilt 90・precessionRate 0.12/殻層 m=1750・r=15)に置き換えた。**コア V2 は持たない**(🛸 のコア V2 はそのまま残る —— V2 は消していない)。**契約: 層は J の z 射影だけを読む** —— 層の軸(傾き・方位・歳差)は数値として載り、表示(コア軸の投影線と同じ見た目)と移行の往復に使うだけで、力・減光・熱には入らない。働くのは 🛸 と同じ重力(E4)と geoPN=3 のトイ(中心の殻 spin だけを読む)で、2D の空間引きずりは kFrame=0 で切ってある。ただし層は**質量分布**でもあるので、半径 15 の内側に入った粒子には殻定理の差分(S._layerForce)が当たり、🛸 とはそこで食い違う。**言わないこと**: 層が V2 を置き換えた/引きずりが戻った/歳差を接続した。",
+    observe:"実測(器 tests/exp-w289e-tilt90layers.mjs・正本 tests/out/tilt90layers-w289e.json・dt=0.016・T=48・步ごとの状態の指紋): 層の軸を変えた対照(J を z に立てる・層の J と軸の宣言を外す・歳差 0/2 倍・方位 90°)は、すべて 3000 步の全步でこの本とビット一致する —— 層は J の z 射影だけを読み、軸・歳差は力に入らない(この構成では geoPN=3 のトイが中心の殻 spin だけを読むので、J_z も力に入らない)。🛸 とは步 39(t=0.624)から食い違い、これは半径 15 の内側に最初の粒子が入って層の近傍キック(殻定理の差分 S._layerForce)が当たった步と同じである。器の中だけで S._layerForce を外した対照は T=48 まで 🛸(=🌚 の中心 spin 0)と全步ビット一致する。差の大きさは T=24 で位置差の最大 97.5・rms 30.7、T=48 で最大 154.7・rms 41.3(層の近傍キックは 3000 步のうち 2962 步に入る)。殻 spin 1.2 を戻した B 側も、差分を外すと 🌚 と全步ビット一致する。層の J ベクトルは回らず、表示の方位だけが φ₀+Ω_p·t で回る(T=48 で 330.0°)。",
+    control:"ワンタップ対照A/B: B 側は**中心の殻 spin=1.2 を戻す**(🌚 と同じ z の自転 —— 層の横倒しの軸はそのまま)。比較の相手は 🛸(同じ軸をコア V2 で持つ写し)と 🌚(軸が立った中心)。共通設定「コア軸の投影線を表示」で中心の層の軸の 2D 投影(面内に倒れた最長の線)が宣言した歳差で回るのが見える(表示だけ —— 層の J は回さない)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"},
+  en:{name:"Galaxy analogy (central BH axis at 90°, parent-child core layers)",
+    obsCard:[
+      {q:"What is placed", model:"copy of 🛸; centre Core V2 -> 2 layers: core m=750, r=7.5, J=(337500,0,0), tilt 90, rate 0.12; shell m=1750, r=15", obs:"- (a principle sample; nothing transcribed)"},
+      {q:"Does the layer axis enter the force (measured)", model:"layer axis changed (tilt 0/90, azimuth 0/90, rate 0/0.12/0.24) or layer J dropped: bit-identical every step to T=48", obs:"-"},
+      {q:"Difference from 🛸 (measured)", model:"departs from 🛸 at step 39 (t=0.624) = first near-field layer kick (r<15); kick removed in harness: identical to T=48", obs:"-"},
+      {q:"Conversion round trip", model:"= HP.coreV2ToLayers(🛸 centre), J_z declared 0; migrating a running 🛸 at t=24 carries azimuth 165.01 deg, rate 0.12", obs:"-"},
+      {q:"Not claimed", model:"layers did not replace V2, no dragging restored, no precession connected", obs:"-"}],
+    descStruct:{
+      summary:"A DIAGNOSTIC COPY OF 🛸 WITH THE CENTRE RE-PLACED AS PARENT-CHILD CORE LAYERS (wave 289e, the originator's ruling in report 79, AN105/AN106, the coordinator's check item R123). 🛸 is copied untouched and only the central DFM black hole's Core V2 (tilt 90 degrees, azimuth 0, declared precession Omega_p=0.12) is replaced by the same two layers that HP.coreV2ToLayers produces (core layer m=750, r=7.5, J vector (J_x,J_y,J_z)=(337500,0,0), tilt 90, precessionRate 0.12; shell layer m=1750, r=15). NO CORE V2 IS KEPT (🛸's Core V2 stays as it is - V2 is not removed). CONTRACT: LAYERS READ ONLY THE Z PROJECTION OF J - the layer axis (tilt, azimuth, precession) is carried as numbers and used for display (the same look as the core-axis projection) and for the migration round trip; it enters no force, dimming or heat. Gravity (E4) and the geoPN=3 toy (which reads only the centre's shell spin) act as in 🛸, and the 2D frame dragging is off with kFrame=0. The layers are also a MASS DISTRIBUTION, however, so particles inside radius 15 receive the shell-theorem difference (S._layerForce), and that is where this copy departs from 🛸. NOT CLAIMED: layers replaced V2, dragging restored, precession connected.",
+      observe:"Measured (harness tests/exp-w289e-tilt90layers.mjs, canonical tests/out/tilt90layers-w289e.json, dt=0.016, T=48, a state fingerprint at every step): every control that changes the layer axis (J moved to z, layer J and axis declarations removed, precession 0 / 2x, azimuth 90 degrees) is bit-identical to this sample at all 3000 steps - layers read only the z projection of J, and the axis and precession enter no force (in this setup the geoPN=3 toy reads only the centre's shell spin, so even J_z enters no force). It departs from 🛸 at step 39 (t=0.624), the same step at which the first particle comes inside radius 15 and the near-field layer kick (the shell-theorem difference S._layerForce) is applied. A control that removes S._layerForce inside the harness only is bit-identical to 🛸 (= 🌚 with centre spin 0) at every step up to T=48. The size of the difference: maximum position difference 97.5 and rms 30.7 at T=24, maximum 154.7 and rms 41.3 at T=48 (the near-field layer kick acts on 2962 of the 3000 steps). Side B with the shell spin 1.2 put back is also bit-identical to 🌚 at every step once the difference is removed. The layer's J vector does not turn; only the displayed azimuth turns as phi0+Omega_p*t (330.0 degrees at T=48).",
+      control:"One-tap A/B: side B PUTS BACK THE CENTRE'S SHELL SPIN 1.2 (the same z spin as 🌚 - the layer's tipped axis stays). The comparison partners are 🛸 (the same axis held by a Core V2) and 🌚 (the upright centre). With the common setting 'Show the core axis projection' the 2D projection of the central layer's axis (the longest line, lying in plane) turns with the declared precession (display only - the layer's J is not rotated). DO NOT MOVE kFrame (the geoPN=3 entry condition)."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測回転曲線も観測質量も軸の観測も 1 つも入力していない(原理サンプル・🛸 の写し)"],
+    fixedConventions:["🛸 の physics・幾何・乱数種 20260925・massLedger をそのまま(geoPN=3・kFrame=0・lawVersion:\"scalar\"・inertia:false・η=1・D₀=1.5・ε=3・frameWeight:\"share\"・centerSpin:\"read\")",
+      "中心: pinned m=2500・R=15・殻 spin 0 + layers [コア m=750・r=7.5・J 0・Jx 337500・tilt 90・precessionRate 0.12/殻 m=1750・r=15・J 0](コア V2 なし)",
+      "層の値は HP.coreV2ToLayers(🛸 の中心のコア V2)と同じ(J_z は 0 を宣言 —— V2 の J_z は cos90° の丸め 2.07×10⁻¹¹)"],
+    fitted:["**無い。**"],
+    derived:["|J|=337500(🛸 のコアと同じ)・傾き 90°=acos(J_z/|J|)・方位 0=atan2(J_y,J_x)(状態は J ベクトル —— 角度は導出値)"],
+    numerical:["ソフトニング ε=3","時間倍率 timeScale=3","歳差 Ω_p=0.12(宣言・表示だけ —— DFM から導出した値ではない)","測定: dt=0.016 で 3000 步(T=48)"]},
+  activeParams:["D0","G"],
+  validT:48,
+  abBody:{ label:{ja:"中心の殻 spin=1.2 を戻す(🌚 と同じ z の自転)", en:"put back the centre shell spin 1.2 (the same z spin as 🌚)"},
+    targets:[0], patch:{spin:1.2} },
+  massLedger:{version:"w282d-1", starBase:53.125, fStar:1, gas:0, core:2500, unitKg:1e34, mSunKg:1.9885e30,
+    mStarSun:0.5, nRatio:20, rotorInFStar:false, defaultScenario:1,
+    currentTotalUnit:2553.125, currentTotalSun:12839451.84812673,
+    rotorScenarios:[
+      {mRotorSun:0.1, nRotor:10686447.070656272, mRotorUnit:212.49999999999997, totalUnit:2765.625, totalSun:13908096.555192357},
+      {mRotorSun:1, nRotor:10686447.070656272, mRotorUnit:2124.9999999999995, totalUnit:4678.125, totalSun:23525898.918782998},
+      {mRotorSun:10, nRotor:10686447.070656272, mRotorUnit:21249.999999999996, totalUnit:23803.124999999996, totalSun:119703922.55468944}],
+    darkRotor:{mRotorSun:1, nRep:40, mPerRepUnit:53.125, totalUnit:2125, inDynamics:true, lens:"excluded",
+      distribution:"恒星円盤と同じ指数円盤(半径 260・sersicRe 90)・初速は配置の実ポテンシャルの円運動解(宣言 —— 決断事項)"},
+    note:"条件付き台帳(第282便d・原仮定者の裁定〔第72報〕⑥)。⟨m_DR⟩=1 M☉ の行を**力学の質量要素として bodies に入れた**(代表粒子 40 体 × 53.125 = 2125 単位)。0.1/10 M☉ は比較の列で、bodies には入れていない。個数比 20 は宣言値で、浮遊惑星の観測(地球質量級)は恒星質量の暗い天体が恒星の 20 倍あることを示していない。f★=1。較正母集団に入れない。",
+    noteEn:"A conditional ledger (wave 282d, the originator's ruling in report 72, item 6). The <m_DR> = 1 Msun row IS PUT INTO THE BODIES AS A DYNAMICAL MASS COMPONENT (40 representative particles x 53.125 = 2125 units); 0.1 and 10 Msun are comparison columns not in the bodies. The count ratio 20 is a declared value; the observed free-floating planets (Earth-mass class) do not show 20 stellar-mass dark bodies per star. f_star = 1. Not in the calibration population."},
+  camera:{scale:400}, world:{boundary:"none",size:0}, seed:20260925,
+  physics:{contactMode:"none", G:0.8, D0:1.5, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.02,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:3, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:3, timeScale:3, stateCarry:"double", frameWeight:"share",
+    spaceMesh:{mode:"vertex", gravity:false, inertia:false, lawVersion:"scalar", centerSpin:"read"}},
+  bodies:[
+    // 中心 DFM 版 BH: 殻 spin 0・コア V2 なし・自転の角運動量は親子コアのコア層の J ベクトルに(傾き 90°・方位 0・宣言した歳差 0.12)
+    {type:"single", m:2500, x:0,y:0, vx:0,vy:0, spin:0, pinned:true, radius:15,
+     layers:[{role:"core", m:750, r:7.5, J:0, Jx:337500, tilt:90, precessionRate:0.12},{role:"shell", m:1750, r:15, J:0}]},
     {type:"disk", rMul:1.2, n:90, cx:0,cy:0, radius:90, profile:"plummer", plummerScale:26,
      mMin:0.3125,mMax:0.3125, spinMin:0,spinMax:0, vMode:"random", vScale:6, direction:1, bulkVx:0, bulkVy:0},
     {type:"disk", rMul:1.2, n:80, cx:0,cy:0, radius:260, profile:"exponential", sersicRe:90,
@@ -19905,7 +20009,39 @@ function validatePreset(obj){
             return null; }
           o2.Q=L.Q;
         }
-        for(const k2 of Object.keys(L)) if(["role","m","r","J","Jx","Jy","inertiaScale","Q"].indexOf(k2)<0)
+        // 第289便e(AN105・R123): **層の軸の宣言欄**。正準状態は J ベクトル(J/Jx/Jy)で、tilt・方位は J から導く値 ——
+        // 宣言の角度は J ベクトルと LAYER_AXIS_TOL_DEG 以内で一致するときだけ残す(食い違いは警告して角度だけを落とす・J は残す)。
+        // 0 や未宣言は正準形に出さない(既定経路の署名は 1 bit 不変)。**力・減光・熱には入らない**(層は J の z 射影だけを読む)
+        if(L.tilt!==undefined || L.azimuthDeg!==undefined || L.precessionRate!==undefined){
+          const ax=layerAxisFromJ(o2.J, o2.Jx, o2.Jy);
+          if(L.tilt!==undefined){
+            if(!isNum(L.tilt) || !(L.tilt>=0 && L.tilt<=180)) warnings.push(atk+".tilt は 0〜180 の数値(度)が必要 — tilt を無視します");
+            else if(ax.tiltDeg===null){ if(L.tilt!==0) warnings.push(atk+".tilt は J ベクトル(J/Jx/Jy)が 0 でない層だけ(軸は J から導きます)— tilt を無視します"); }
+            else if(!(Math.abs(L.tilt-ax.tiltDeg)<=LAYER_AXIS_TOL_DEG))
+              warnings.push(atk+".tilt="+L.tilt+" が J ベクトルの傾き "+ax.tiltDeg+" と一致しません(正準状態は J)— tilt を無視します");
+            else if(L.tilt!==0) o2.tilt=L.tilt;
+          }
+          if(L.azimuthDeg!==undefined){
+            if(!isNum(L.azimuthDeg)) warnings.push(atk+".azimuthDeg は数値(度)が必要 — azimuthDeg を無視します");
+            else if(ax.azimuthDeg===null){ if(L.azimuthDeg!==0) warnings.push(atk+".azimuthDeg は面内成分(Jx/Jy)が 0 でない層だけ(方位は J から導きます)— azimuthDeg を無視します"); }
+            else {
+              const dAz=((((L.azimuthDeg-ax.azimuthDeg)%360)+540)%360)-180;
+              if(!(Math.abs(dAz)<=LAYER_AXIS_TOL_DEG))
+                warnings.push(atk+".azimuthDeg="+L.azimuthDeg+" が J ベクトルの方位 "+ax.azimuthDeg+" と一致しません(正準状態は J)— azimuthDeg を無視します");
+              else if(L.azimuthDeg!==0) o2.azimuthDeg=L.azimuthDeg;
+            }
+          }
+          if(L.precessionRate!==undefined){
+            if(!isNum(L.precessionRate)) warnings.push(atk+".precessionRate は数値が必要 — precessionRate を無視します");
+            else if(ax.tiltDeg===null){ if(L.precessionRate!==0) warnings.push(atk+".precessionRate は J ベクトルが 0 でない層だけ(回す軸が無い)— precessionRate を無視します"); }
+            else if(L.precessionRate!==0){
+              const pr=clamp(L.precessionRate, CORE_AXIS_RATE_CLAMP[0], CORE_AXIS_RATE_CLAMP[1]);
+              if(pr!==L.precessionRate) warnings.push(atk+".precessionRate を値域["+CORE_AXIS_RATE_CLAMP.join(",")+"]に修正");
+              o2.precessionRate=pr;
+            }
+          }
+        }
+        for(const k2 of Object.keys(L)) if(["role","m","r","J","Jx","Jy","inertiaScale","Q","tilt","azimuthDeg","precessionRate"].indexOf(k2)<0)
           warnings.push(atk+" の未知キー("+String(k2).slice(0,20)+")— 無視");
         out.push(o2);
       }
@@ -22128,6 +22264,9 @@ function makeSim(){
     // 合成は **J′=ΣJ・Q′=ΣQ**。ζ_eff=J′/Q′ は **J′≠0 かつ同符号のときだけの診断値**であって
     // 状態の正本にしない(Q′/J′ でもない)。宣言ビット layJD に **8=Q** を足す(値 0 と未指定を分ける)
     S.layQ=new Float64Array(n*BODY_LAYER_MAX);
+    // 第289便e(R123): 層の軸の**宣言ビット** layAx(1=tilt・2=azimuthDeg・4=precessionRate)と歳差の宣言値 layPR。
+    // 角度の値は持たない(J ベクトルから導く)。**力・減光・熱のどの経路も読まない**(表示・保存・融合・移行だけ)
+    S.layAx=new Uint8Array(n*BODY_LAYER_MAX); S.layPR=new Float64Array(n*BODY_LAYER_MAX);
     S.hasBodyLayers=false; S.layerN=0; S.layerStop=null; S.layerPairN=0; S.layerStopN=0;
     S.layerHalt=null; S.layerDF=0;   // 第261便b(検証仮説 (6)): 実停止の理由と最後の |ΔF| 合計
     S.shellGas=new Uint8Array(n);   // 第229便: shell:"gas" 宣言(意味論は検証器の Kcs=0 強制+表示)
@@ -22599,7 +22738,10 @@ function makeSim(){
           S.layIS[b0+k]=(L.inertiaScale!==undefined && L.inertiaScale>0)? L.inertiaScale : 1;
           // 第270便d(AD1): **Q の初期化は読み込みで 1 度だけ**。宣言があればその値(0 も値)、
           // 無ければ **Q=J/ζ**(ζJ ではない)。以後 Q は J と独立に保存される
-          S.layQ[b0+k]=(L.Q!==undefined)? L.Q : (S.layJ[b0+k]/S.layIS[b0+k]); }
+          S.layQ[b0+k]=(L.Q!==undefined)? L.Q : (S.layJ[b0+k]/S.layIS[b0+k]);
+          // 第289便e: 軸の宣言ビットと歳差の宣言値(検証器が J ベクトルとの一致を確かめた宣言だけが来る。値の角度は持たない)
+          S.layAx[b0+k]=((L.tilt!==undefined)?1:0)|((L.azimuthDeg!==undefined)?2:0)|((L.precessionRate!==undefined)?4:0);
+          S.layPR[b0+k]=(L.precessionRate!==undefined)? L.precessionRate : 0; }
         S.layN[i]=nl; S.hasBodyLayers=true;
       }
       S.shellGas[i]=(o.shell==="gas")?1:0;   // 第229便: 殻の相
@@ -23278,6 +23420,13 @@ function makeSim(){
       // (既定経路 124 本の正準形・署名は 1 bit も動かない)
       if(S.layQ){ const zq=(S.layIS && S.layIS[b0+q]>0)? S.layIS[b0+q] : 1;
         if((dq&8) || !Object.is(S.layQ[b0+q], S.layJ[b0+q]/zq)) o.Q=S.layQ[b0+q]; }
+      // 第289便e(R123): 層の軸は**宣言ビットがあるときだけ**出す。角度は J ベクトルから**導き直す**(状態に角度を持たない ——
+      // 融合・編集で J が動いても角度が食い違わない)。0 は出さない(宣言の無い層は 1 文字も増えない = 既定経路の署名不変)
+      const da=S.layAx? S.layAx[b0+q] : 0;
+      if(da){ const ax=layerAxisFromJ(S.layJ[b0+q], S.layJx[b0+q], S.layJy[b0+q]);
+        if((da&1) && ax.tiltDeg!==null && ax.tiltDeg!==0) o.tilt=ax.tiltDeg;
+        if((da&2) && ax.azimuthDeg!==null && ax.azimuthDeg!==0) o.azimuthDeg=ax.azimuthDeg;
+        if((da&4) && ax.tiltDeg!==null && S.layPR[b0+q]!==0) o.precessionRate=S.layPR[b0+q]; }
       out.push(o);
     }
     return out;
@@ -23307,6 +23456,8 @@ function makeSim(){
         return {ok:false, reason:"layerInertiaScaleNotPositive", at:q};
       // 第270便d(AD1): 独立の Q も同じ原子的な有限性検査(1 bit も書く前に落とす)
       if(L.Q!==undefined && L.Q!==null && !Number.isFinite(L.Q)) return {ok:false, reason:"layerNotFinite", at:q};
+      // 第289便e: 層の軸の宣言(tilt・azimuthDeg・precessionRate)も同じ原子的な有限性検査(値の角度は状態に書かない —— 宣言ビットだけ)
+      for(const ka of LAYER_AXIS_KEYS) if(L[ka]!==undefined && L[ka]!==null && !Number.isFinite(L[ka])) return {ok:false, reason:"layerNotFinite", at:q};
       // 第271便c(R2): Q を clamp で切らない代わりに、**未宣言の層で導く Q=J/ζ が有限でない構成**も
       // 1 bit 書く前に落とす(ζ が非正規化数のときだけ起きる — 黙って Infinity を状態にしない)
       if(!(L.Q!==undefined && L.Q!==null && Number.isFinite(L.Q))
@@ -23335,7 +23486,12 @@ function makeSim(){
         |(qDec?8:0)) : 0;   // 第270便d: 8=Q の宣言ビット
       S.layIS[b0+q]=(L && Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1;
       // 第270便d(AD1・"derive"/"declared"): Q は宣言があればその値、無ければ **Q=J/ζ** を 1 度導出
-      S.layQ[b0+q]=qDec? L.Q : (S.layJ[b0+q]/S.layIS[b0+q]); }
+      S.layQ[b0+q]=qDec? L.Q : (S.layJ[b0+q]/S.layIS[b0+q]);
+      // 第289便e: 軸の宣言ビット(0 は宣言にしない —— 正準形と同じ規約)と歳差の宣言値(コア V2 の値域で丸める)。
+      // 角度の値は書かない(読み戻しは J ベクトルから導く)ので、J だけを動かす編集でも角度と J は食い違わない
+      const fz=(v)=>(v!==undefined && v!==null && Number.isFinite(v) && v!==0);
+      S.layAx[b0+q]=L? ((fz(L.tilt)?1:0)|(fz(L.azimuthDeg)?2:0)|(fz(L.precessionRate)?4:0)) : 0;
+      S.layPR[b0+q]=(L && fz(L.precessionRate))? clamp(L.precessionRate, CORE_AXIS_RATE_CLAMP[0], CORE_AXIS_RATE_CLAMP[1]) : 0; }
     S.layN[i]=arr.length;
     if(arr.length>0) S.m[i]=sum;          // Σm 契約(層が主・根が従)
     let any=false; for(let k=0;k<S.n;k++) if(S.layN[k]>0){ any=true; break; }
@@ -23350,7 +23506,8 @@ function makeSim(){
     // 別の欄(r など)を 1 つ触っただけで「未宣言」が「明示ゼロ」に化けた(🧅 のように J を
     // 書いていない層を編集すると回転場の源が従来式から層側へ移った)。宣言は宣言のまま運ぶ
     const next=cur.map((L)=>({role:L.role, m:L.m, r:L.r, J:L.J, Jx:L.Jx, Jy:L.Jy,
-      inertiaScale:L.inertiaScale, Q:L.Q}));   // 第264便c: 面内成分 / 第265便c: ζ / 第270便d: 独立の Q
+      inertiaScale:L.inertiaScale, Q:L.Q,
+      tilt:L.tilt, azimuthDeg:L.azimuthDeg, precessionRate:L.precessionRate}));   // 第264便c: 面内成分 / 第265便c: ζ / 第270便d: 独立の Q / 第289便e: 軸の宣言(ビットとして運ぶ)
     if(cfg===null || cfg===undefined){
       if(k<0) return S._setBodyLayers(i, []);               // 層宣言ごと外す
       if(!(k<next.length)) return {ok:false, reason:"noSuchLayer"};
@@ -25016,7 +25173,8 @@ function makeSim(){
           const LM=BODY_LAYER_MAX, rd=(k0)=>{ const a=[], b1=k0*LM;
             for(let q=0;q<S.layN[k0];q++) a.push({role:BODY_LAYER_ROLES[S.layRl[b1+q]]||"", m:S.layM[b1+q], r:S.layR[b1+q],
               J:S.layJ[b1+q], Jx:S.layJx[b1+q], Jy:S.layJy[b1+q], Q:S.layQ? S.layQ[b1+q] : undefined,
-              decl:S.layJD? S.layJD[b1+q] : 0, inertiaScale:S.layIS? S.layIS[b1+q] : 1});   // 第264便c: 面内成分 / 第265便c: 宣言と ζ / 第270便d: 独立の Q
+              decl:S.layJD? S.layJD[b1+q] : 0, inertiaScale:S.layIS? S.layIS[b1+q] : 1,   // 第264便c: 面内成分 / 第265便c: 宣言と ζ / 第270便d: 独立の Q
+              ax:S.layAx? S.layAx[b1+q] : 0, precessionRate:S.layPR? S.layPR[b1+q] : 0});   // 第289便e: 軸の宣言ビットと歳差の宣言値
             return a; };
           const mg=dfmLayerMerge(rd(i), rd(j), LAYER_MERGE_RULE);
           const b1=i*LM; let sumL=0;
@@ -25030,6 +25188,8 @@ function makeSim(){
             S.layIS[b1+q]=(L && Number.isFinite(L.inertiaScale) && L.inertiaScale>0)? L.inertiaScale : 1;
             // 第270便d(AD1・"sum"): **Q′=ΣQ をそのまま状態へ書く**(ζ′ から作り直さない)
             S.layQ[b1+q]=(L && Number.isFinite(L.Q))? L.Q : 0;
+            // 第289便e: 軸は J ベクトルの和から導く(宣言ビットは和集合)・歳差は全員が同じ値を宣言したときだけ残る(dfmLayerMerge)
+            if(S.layAx){ const a=L? ((Number(L.ax)||0)&7) : 0; S.layAx[b1+q]=a; S.layPR[b1+q]=(a&4)? L.precessionRate : 0; }
             if(L) sumL+=L.m; }
           S.layN[i]=Math.min(mg.length,LM);
           S.layN[j]=0;
@@ -25118,7 +25278,8 @@ function makeSim(){
         for(let q=0;q<LM;q++){ S.layM[t*LM+q]=S.layM[s0*LM+q]; S.layR[t*LM+q]=S.layR[s0*LM+q]; S.layRl[t*LM+q]=S.layRl[s0*LM+q];
           S.layJ[t*LM+q]=S.layJ[s0*LM+q]; S.layJx[t*LM+q]=S.layJx[s0*LM+q]; S.layJy[t*LM+q]=S.layJy[s0*LM+q];
           S.layJD[t*LM+q]=S.layJD[s0*LM+q]; S.layIS[t*LM+q]=S.layIS[s0*LM+q];
-          S.layQ[t*LM+q]=S.layQ[s0*LM+q]; } } }   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ / 第270便d: 独立の Q
+          S.layQ[t*LM+q]=S.layQ[s0*LM+q];
+          if(S.layAx){ S.layAx[t*LM+q]=S.layAx[s0*LM+q]; S.layPR[t*LM+q]=S.layPR[s0*LM+q]; } } } }   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ / 第270便d: 独立の Q / 第289便e: 軸の宣言
     // 旧 index → 新 index の写像(消えた粒子は融合先へ写す)
     const nm=new Int32Array(n).fill(-1);
     for(let t=0;t<k;t++) nm[keep[t]]=t;
@@ -25167,7 +25328,7 @@ function makeSim(){
       S.linId[i]=-1; S.linN[i]=0; }   // alloc と同じ既定値(+コアv2・第80便/第100便/第208便: ζ=1)
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)は別に伸ばす
     if(S.layM){ const LM=BODY_LAYER_MAX;
-      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS","layQ"]){ const a=S[key];   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ / 第270便d: 独立の Q
+      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS","layQ","layAx","layPR"]){ const a=S[key];   // 第264便c: 面内成分 / 第265便c: 宣言ビットと ζ / 第270便d: 独立の Q / 第289便e: 軸の宣言
         if(!a) continue;
         const b=new a.constructor(nc*LM); b.set(a); S[key]=b; }
       // 第265便c: 伸ばした先の ζ は既定 1(Float64Array の 0 のままだと J/ζ が定義できない)
@@ -27558,6 +27719,7 @@ function setStepDiag(v){ stepDiagOn=!!v;
 // 物理・セーブ・署名には一切効かない。
 let coreAxisShow=true;
 let spinAxisGlyphN=0;   // 第288便e: 点粒子の自転軸の宣言(spinAxis)を描いた回数の累計(表示の検査用 —— 力学に効かない)
+let layerAxisGlyphN=0;   // 第289便e: 層の軸の宣言を描いた回数の累計(表示の検査用 —— 力学に効かない)
 try{ const _ca=localStorage.getItem("hp_core_axis"); if(_ca!==null) coreAxisShow=(_ca==="1"); }catch(_){}
 function setCoreAxisShow(v){ coreAxisShow=!!v;
   try{ localStorage.setItem("hp_core_axis",coreAxisShow?"1":"0"); }catch(_){}
@@ -30958,6 +31120,23 @@ function render(){
         ctx.beginPath(); ctx.arc(sx,sy,rl,0,7); ctx.stroke();
         ctx.globalAlpha=1; ctx.lineWidth=1;
       }
+      // 第289便e(R123・AN105): **層の軸の 2D 投影線**(コア V2 の prescribed と同じ見た目・同じトグル・**表示専用**)。
+      // 軸の宣言ビットを持つ層だけに描く(内蔵では 🪆 の中心だけ)。方位は φ₀+Ω_p·t の**表示**で、層の J は回さない
+      if(coreAxisShow && sim.layAx){
+        const la=layerAxisState(sim,i);
+        if(la){
+          const st2=Math.hypot(la.projX,la.projY), fy2=flipY?-1:1;
+          const La=Math.max(rr*0.5, Math.min(la.r*dm*z, rr*0.92)*1.6)*st2;
+          if(La>1.5){
+            const ph2=la.phiDisplayDeg*Math.PI/180, ux=Math.cos(ph2)*La, uy=fy2*Math.sin(ph2)*La;
+            ctx.strokeStyle="rgba(120,220,255,0.9)"; ctx.lineWidth=Math.max(1.2,rr*0.09);
+            ctx.beginPath(); ctx.moveTo(sx-ux,sy-uy); ctx.lineTo(sx+ux,sy+uy); ctx.stroke();
+            ctx.fillStyle="rgba(120,220,255,0.95)";
+            ctx.beginPath(); ctx.arc(sx+ux,sy+uy,Math.max(1.5,rr*0.11),0,7); ctx.fill();
+            ctx.lineWidth=1; layerAxisGlyphN++;
+          }
+        }
+      }
     }
     // 第288便e(第78報⑦・R117): **点粒子の自転軸の宣言**(body.spinAxis)の 2D 投影線(表示専用)。コア軸と同じトグル・同じ正射影
     // (sinθcosφ, sinθsinφ)・+側の丸。点粒子は画面で小さいので長さは max(12px, 1.6·rr)·sinθ。方位が記録に無い宣言は 0 規約の**破線**。
@@ -32914,7 +33093,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
     // 第259便b: 親子コアの同心層(ストライド BODY_LAYER_MAX)と宣言フラグ
     simB.hasBodyLayers=sim.hasBodyLayers;
     if(sim.layM && simB.layM){ const LM=BODY_LAYER_MAX, cnt=Math.min(sim.n*LM, simB.layM.length);
-      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS","layQ"])   // 第264便c / 第265便c: 宣言ビットと ζ / 第270便d: 独立の Q
+      for(const key of ["layM","layR","layRl","layJ","layJx","layJy","layJD","layIS","layQ","layAx","layPR"])   // 第264便c / 第265便c: 宣言ビットと ζ / 第270便d: 独立の Q / 第289便e: 軸の宣言
         if(sim[key] && simB[key]) simB[key].set(sim[key].subarray(0,cnt)); }
     simB.hasCoreV2=sim.hasCoreV2; simB.hasLSwAuto=sim.hasLSwAuto; simB._rsUsed=sim._rsUsed;
     simB.hasShellLaw=sim.hasShellLaw;   // 第265便c: 殻項の質量則の宣言フラグ
@@ -33145,7 +33324,7 @@ let ckSnap=null;
 const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU","pinned",
   "mEff","rotAc","lSw","radOv","rMulv","lSwAuto",   // 第81便: コアv1 配列は廃止
   "pulseOm","pulsePh","shellGas","ssQov","ssDec","layN","layM","layR","layRl","layJ","layJx","layJy",   // 第226便: パルス時計チャネル / 第229便: 殻の相 / 第246便: 観測 Q の転写 / 第247便a: 宣言フラグ
-  "layJD","layIS","layQ",   // 第265便c: 層の宣言ビット・層の ζ / 第270便d: 層の独立 Q
+  "layJD","layIS","layQ","layAx","layPR",   // 第265便c: 層の宣言ビット・層の ζ / 第270便d: 層の独立 Q / 第289便e: 層の軸の宣言ビットと歳差の宣言値
   "coreMd","coreMF","RcV","coreJ","coreKcs","coreKal","coreBR","coreBF","coreBJ0","coreBJr","dragQ","dragQT","coreDQ","coreDQT","corePump","coreCtr",
   "coreEint","coreSrc","coreOm0","coreIS","coreJm","coreJx","coreJy","coreSSM",   // 第80便/第208便 ζ/第210便 |J| 容量/第227便 面内/第265便c 殻項の質量則
       "coreAxM","coreAxAz","coreAxOm",   // 第275便e: コア軸の宣言モード(prescribed・方位・歳差角速度)
@@ -38585,7 +38764,11 @@ function beCorePlanNow(S, i){
       Jz:S.coreJ[i], Jmag:S.coreJm? S.coreJm[i] : Math.abs(S.coreJ[i]),
       // 第264便c: 面内成分は**主変数そのまま**(coreJx/coreJy)を渡す — |J| と J_z からの復元では
       // 符号と方位が落ちる。層には数値として載り、回転場の源は従来どおり z 成分だけを読む
-      Jx:S.coreJx? S.coreJx[i] : 0, Jy:S.coreJy? S.coreJy[i] : 0 } });
+      Jx:S.coreJx? S.coreJx[i] : 0, Jy:S.coreJy? S.coreJy[i] : 0,
+      // 第289便e(R123): 宣言モード prescribed の歳差は**状態の値**(coreAxOm —— "spin" 既定も build で数値になっている)を渡す。
+      // 方位は coreJx/coreJy から導くので渡さない(いまの方位がそのまま層の J ベクトルに載る)
+      axisMode:(S.coreAxM && S.coreAxM[i])? "prescribed" : undefined,
+      precessionRate:(S.coreAxM && S.coreAxM[i])? S.coreAxOm[i] : undefined } });
 }
 // 第264便c(第56報「親子コアで、軸の傾きなどの、『選択粒子の編集』のコアV2で確認できた数値を、
 // 確認出来る様にする」): 層モードの**読み取り専用の数値行**を埋める。**表示専用**で、物理配列にも
@@ -38635,7 +38818,13 @@ function beLayNumsFill(S, i, arr){
   $("#beLyNumSrc").textContent=T("beLyNumSrc")(owner, fmt(q), lawSuf);
   $("#beLyNumOm").textContent=T("beLyNumOm")(fmt(om), fmt(th));
   $("#beLyNumJ").textContent=T("beLyNumJ")(fmt(Jm), fmt(Jz));
-  $("#beLyNumJ2").textContent=T("beLyNumJ2")(fmt(Jx), fmt(Jy));
+  // 第289便e(R123): **軸の宣言がある粒子だけ**方位 φ と歳差 Ω_p を同じ行の末尾に足す(V2 の prescribed は状態の方位と
+  // coreAxOm・層は J ベクトルの方位と宣言値)。宣言の無い粒子(🧅・🪩 等)の行は 1 文字も変わらない。**表示専用**
+  let axSuf="";
+  if(md && md!==4){ if(S.coreAxM && S.coreAxM[i] && Jm>0) axSuf=T("beLyNumAxSuf")(fmt(Math.atan2(Jy,Jx)*180/Math.PI), fmt(S.coreAxOm[i])); }
+  else { const la=layerAxisState(S,i);
+    if(la) axSuf=T("beLyNumAxSuf")((la.azimuthDeg===null)? NA : fmt(la.azimuthDeg), (la.precessionRate===null)? NA : fmt(la.precessionRate)); }
+  $("#beLyNumJ2").textContent=T("beLyNumJ2")(fmt(Jx), fmt(Jy))+axSuf;
   // 第271便c(R5・AF17): **ζ_eff の分類行**。ζ_eff=J/Q は診断値なので、一意で有限正のときだけ数を
   // 出し、そうでなければ「—」+理由を出す(**0 や 1.0 で補完しない**)。J・Q・ζ を並べて、
   // 何が宣言されていて何が導出なのかを同じ行で読めるようにする。**表示専用**(1 bit も書かない)
@@ -38651,6 +38840,7 @@ function beLayNumsFill(S, i, arr){
   for(const id of ["#beLyNumSrc","#beLyNumOm","#beLyNumJ","#beLyNumJ2","#beLyNumZ","#beLyNumE","#beLyNumM","#beLyNumM2"])
     $(id).title=$(id).textContent;
   $("#beLyNumZ").title+=" / "+T("beLyNumZeffTip");   // 第271便c: ζ_eff が診断値であることは常に読める
+  if(axSuf) $("#beLyNumJ2").title+=" / "+T("beLyNumAxTip");   // 第289便e: 軸の宣言は表示だけ
   // 第265便c: 法則と ζ は**既定でも**ツールチップから読める(行の高さは増やさない)
   $("#beLyNumSrc").title+=" / "+T("beLyNumLawTip")(law);
   $("#beLyNumE").title+=" / "+T("beLyNumZetaTip")(fmt(zeta));
@@ -46255,6 +46445,26 @@ function coreAxisState(S,i){
     projX:Math.sin(tilt)*Math.cos(phi), projY:Math.sin(tilt)*Math.sin(phi),
     proxyOnly:true, note:"2D 投影(3D 実装ではない — 力学が読むのは J_z だけ)" };
 }
+// 第289便e(R123・AN105): **層の軸の読み取り専用の状態**(表示・QA・器が読む。物理は 1 bit も動かさない)。
+// 粒子 i の層のうち**軸の宣言ビットを持つ最内の層**(無ければ null)について、J ベクトルから傾き θ=acos(J_z/|J|)・
+// 方位 φ₀=atan2(J_y,J_x) を導き、**表示の方位** φ(t)=φ₀+Ω_p·t(Ω_p は宣言値)と 2D 投影 (sinθcosφ, sinθsinφ) を返す。
+// **層の J は回さない**(歳差は表示の宣言 —— コア V2 の prescribed のように状態を書き戻さない。力・減光・熱には入らない)
+function layerAxisState(S,i){
+  if(!S || !(i>=0 && i<S.n) || !S.layN || !(S.layN[i]>0) || !S.layAx) return null;
+  const LM=BODY_LAYER_MAX, b0=i*LM;
+  for(let q=0;q<S.layN[i];q++){
+    const d=S.layAx[b0+q]; if(!d) continue;
+    const ax=layerAxisFromJ(S.layJ[b0+q], S.layJx[b0+q], S.layJy[b0+q]);
+    if(ax.tiltDeg===null) continue;
+    const pr=(d&4)? S.layPR[b0+q] : 0;
+    const th=ax.tiltDeg*Math.PI/180, ph0=(ax.azimuthDeg===null)? 0 : ax.azimuthDeg*Math.PI/180, ph=ph0+pr*(S.t||0);
+    return { layer:q, role:BODY_LAYER_ROLES[S.layRl[b0+q]]||null, declared:d, tiltDeg:ax.tiltDeg, azimuthDeg:ax.azimuthDeg,
+      precessionRate:(d&4)? pr : null, phiDisplayDeg:ph*180/Math.PI, Jz:ax.Jz, Jx:ax.Jx, Jy:ax.Jy, Jmag:ax.Jmag,
+      projX:Math.sin(th)*Math.cos(ph), projY:Math.sin(th)*Math.sin(ph), r:S.layR[b0+q],
+      readsZOnly:true, note:"表示専用(層は J の z 射影だけを読む —— 軸・歳差は力・減光・熱に入らない)" };
+  }
+  return null;
+}
 // ===== 第277便b(原仮定者の裁定(第67報)(1)): **相対すべりの引きずり則** `dfmRelativeDragStep(S,dt)` =====
 //
 // ■ 何をするか(1 行で)
@@ -48311,6 +48521,19 @@ function dfmLayerMerge(la, lb, rule){
     return (za===zb)? za : 1; };
   const zRep=(jn,qn)=>{ if(!(jn!==0 && qn!==0)) return false;
     const z=jn/qn; return Number.isFinite(z) && z>0; };
+  // 第289便e(R123): **層の軸の宣言**。入力は実行状態の `ax`(1=tilt・2=azimuthDeg・4=precessionRate)か、純関数として
+  // 使うときの鍵の有無(0 は宣言にしない)。**軸の値は持たない** —— 合成後の軸は J ベクトルの和(J′=ΣJ・Jx′=ΣJx・Jy′=ΣJy)から
+  // 導く(質量荷重平均ではない)。宣言ビットの tilt/方位は和集合・歳差は**全員が同じ値を宣言したときだけ**残す(平均で作らない)。
+  // 宣言の無い層どうしでは出力に鍵を 1 つも足さない(既定経路の返り値は 1 文字も変わらない)
+  const axOf=(L)=>{ if(L.ax!==undefined) return (Number(L.ax)||0)&7;
+    const nz=(v)=>(Number.isFinite(Number(v)) && Number(v)!==0);
+    return (nz(L.tilt)?1:0)|(nz(L.azimuthDeg)?2:0)|(nz(L.precessionRate)?4:0); };
+  const axPut=(o,L)=>{ const a=axOf(L); if(a){ o.ax=a; if(a&4) o.precessionRate=Number(L.precessionRate); } return o; };
+  const axMerge=(u,v)=>{ const a1=u.ax||0, a2=v.ax||0;
+    if(!a1 && !a2) return;
+    let a=(a1|a2)&3;
+    if((a1&4) && (a2&4) && Object.is(u.precessionRate, v.precessionRate)) a|=4;
+    if(a){ u.ax=a; if(!(a&4)) delete u.precessionRate; } else { delete u.ax; delete u.precessionRate; } };
   let out=[];
   if(RL==="role"){
     const map=new Map();
@@ -48325,17 +48548,18 @@ function dfmLayerMerge(la, lb, rule){
         const jn=cur.J+jl, qn=cur.Q+ql;   // 第270便d: J′=ΣJ・Q′=ΣQ(和が正本)
         cur.inertiaScale=zMerge(jn, qn, cur.inertiaScale, z);
         cur.zetaRepresentable=zRep(jn, qn);
-        cur.J=jn; cur.Q=qn; cur.Jx+=jx; cur.Jy+=jy; cur.decl|=dc; }
-      else map.set(k,{role:k, m:Number(L.m), r:Number(L.r), J:jl, Q:ql, Jx:jx, Jy:jy, decl:dc,
-        inertiaScale:z, zetaRepresentable:zRep(jl, ql)});
+        cur.J=jn; cur.Q=qn; cur.Jx+=jx; cur.Jy+=jy; cur.decl|=dc;
+        axMerge(cur, axPut({}, L)); }   // 第289便e: 軸は J ベクトルの和から導く(宣言の合成だけ)
+      else map.set(k,axPut({role:k, m:Number(L.m), r:Number(L.r), J:jl, Q:ql, Jx:jx, Jy:jy, decl:dc,
+        inertiaScale:z, zetaRepresentable:zRep(jl, ql)}, L));
     }
     out=Array.from(map.values());
   } else {
-    out=A.concat(B).map(L=>({role:String(L.role||""), m:Number(L.m), r:Number(L.r),
+    out=A.concat(B).map(L=>axPut({role:String(L.role||""), m:Number(L.m), r:Number(L.r),
       J:(Number.isFinite(Number(L.J))? Number(L.J) : 0), Q:qOf(L),
       Jx:(Number.isFinite(Number(L.Jx))? Number(L.Jx) : 0), Jy:(Number.isFinite(Number(L.Jy))? Number(L.Jy) : 0),
       decl:dclOf(L), inertiaScale:zOf(L),
-      zetaRepresentable:zRep(Number.isFinite(Number(L.J))? Number(L.J) : 0, qOf(L))}));
+      zetaRepresentable:zRep(Number.isFinite(Number(L.J))? Number(L.J) : 0, qOf(L))}, L));   // 第289便e: 軸の宣言
   }
   out.sort((u,v)=>u.r-v.r);
   // 同一半径・上限超過は**内側から**畳む(非重複・昇順・層数 ≤ BODY_LAYER_MAX の不変量を保つ)。
@@ -48355,6 +48579,7 @@ function dfmLayerMerge(la, lb, rule){
       out[k].J=jn; out[k].Q=qn;
       out[k].Jx=(out[k].Jx||0)+(out[k-1].Jx||0); out[k].Jy=(out[k].Jy||0)+(out[k-1].Jy||0);   // 第264便c
       out[k].decl=(out[k].decl||0)|(out[k-1].decl||0);   // 第265便c: 宣言は和集合
+      axMerge(out[k], out[k-1]);   // 第289便e
       out.splice(k-1,1); k--; }
   }
   while(out.length>BODY_LAYER_MAX){
@@ -48366,6 +48591,7 @@ function dfmLayerMerge(la, lb, rule){
     out[1].J=jn; out[1].Q=qn;
     out[1].Jx=(out[1].Jx||0)+(out[0].Jx||0); out[1].Jy=(out[1].Jy||0)+(out[0].Jy||0);   // 第264便c
     out[1].decl=(out[1].decl||0)|(out[0].decl||0);   // 第265便c
+    axMerge(out[1], out[0]);   // 第289便e
     out.splice(0,1); }
   return out;
 }
@@ -48471,7 +48697,12 @@ function coreV2MigrationPlan(body){
   // 運ぶのは数値だけで、**力へは接続しない**(歳差・Kalign・熱は層に無い)。警告 `tiltNotCarried`
   // は据え置き —— 意味は「**面内成分の力学**は運ばれない」である(数値は運ぶ)
   const jyRaw=Number(c.Jy), jxRaw=Number(c.Jx);
-  const Jx2=Number.isFinite(jxRaw)? jxRaw : Jx, Jy2=Number.isFinite(jyRaw)? jyRaw : 0;
+  // 第289便e(R123・AN105): **軸を層へ運ぶ**。JSON 形で core.axisMode:"prescribed" を宣言したコアは、build と**同じ式**で
+  // 面内成分を宣言の方位 az へ置く(J_x=|J⊥|cos az・J_y=|J⊥|sin az —— 方位 0 では |J⊥|·1・|J⊥|·0 なので従来とビット同一)。
+  // 実行状態形は主変数 coreJx/coreJy をそのまま使う(|J| と J_z から復元すると符号と方位が落ちる —— 第264便c と同じ往復)
+  const presc=(c.axisMode==="prescribed");
+  const azJ=(presc && Number.isFinite(Number(c.azimuthDeg)))? Number(c.azimuthDeg)*Math.PI/180 : 0;
+  const Jx2=Number.isFinite(jxRaw)? jxRaw : (presc? Jx*Math.cos(azJ) : Jx), Jy2=Number.isFinite(jyRaw)? jyRaw : (presc? Jx*Math.sin(azJ) : 0);
   const core0={role:"core", m:Mc, r:Rc, J:Jz};
   if(Jx2!==0) core0.Jx=Jx2;
   if(Jy2!==0) core0.Jy=Jy2;
@@ -48479,6 +48710,21 @@ function coreV2MigrationPlan(body){
   // これを運ばないと (V2 のみ) と (層のみ) の Q が J_z(1−1/ζ) だけずれる(〔第264便c〕§2 の 3 行目)。
   // **ζ=1 のときは鍵を作らない**(正準形・署名は 1 bit も動かない)
   if(zeta!==1) core0.inertiaScale=zeta;
+  // 第289便e(R123): コア層に**軸の宣言**を載せる(tilt・azimuthDeg・precessionRate —— 0 は鍵を作らない)。角度は**層の J ベクトル
+  // そのものから導く**(宣言 JSON の tilt/azimuthDeg と許容差内で一致すればその値を採る —— 正準状態は J)。歳差は
+  // axisMode:"prescribed" のときだけ(既定 "spin" は build と同じく殻 spin の値)。**層は J の z 射影だけを読む**ので、
+  // これらは数値として載り、表示と移行の往復に使うだけである(力・減光・熱には入らない)
+  { const ax0=layerAxisFromJ(Jz, Jx2, Jy2);
+    const near=(d,v)=>(Number.isFinite(Number(d)) && v!==null && Math.abs(Number(d)-v)<=LAYER_AXIS_TOL_DEG);
+    if(ax0.tiltDeg!==null){
+      const tl=near(c.tilt, ax0.tiltDeg)? Number(c.tilt) : ax0.tiltDeg;
+      if(tl!==0) core0.tilt=tl;
+      if(ax0.azimuthDeg!==null){
+        const azD=(presc && c.azimuthDeg!==undefined && near(c.azimuthDeg, ax0.azimuthDeg))? Number(c.azimuthDeg) : ax0.azimuthDeg;
+        if(azD!==0) core0.azimuthDeg=azD; }
+      if(presc){
+        const prRaw=(c.precessionRate===undefined || c.precessionRate===CORE_AXIS_RATE_DEFAULT)? Number(b.spin) : Number(c.precessionRate);
+        if(Number.isFinite(prRaw) && prRaw!==0) core0.precessionRate=Math.max(CORE_AXIS_RATE_CLAMP[0], Math.min(CORE_AXIS_RATE_CLAMP[1], prRaw)); } } }
   const layers=(Ms>0)? [core0, {role:"shell", m:Ms, r:R, J:Js}] : [core0];
   const warnings=["canReplaceV2:false","layerJIsDeclarationOnly"];
   if(Math.abs(Jx)>0 || Jx2!==0 || Jy2!==0) warnings.push("tiltNotCarried");   // 第264便c: 意味は「面内成分の力学は運ばれない」
@@ -48497,6 +48743,7 @@ function coreV2MigrationPlan(body){
     note:"far field identical (sum of layer masses = body.m); the near field changes" };
 }
 // **移行レポート**(検証仮説 (3)): プリセット 1 本の可否の表だけを返す —— **変換しない**。
+// 第289便e: body.core を持たない本(層だけの 🪆 など)は nCore に入らない —— 層の軸の宣言はこの表の数を動かさない。
 // 分類は convertible(2 層)/ naked(massFrac=1 の 1 層)/ cavity / needsResolve(m・R が
 // JSON に書かれていない = build が導く)/ rejected。`counts` と `rows` の両方を返す。
 function coreV2MigrateReport(preset){
@@ -48532,6 +48779,9 @@ function coreV2MigrateReport(preset){
 //   (2) `tilt` —— 面内成分が層に**数値として**載るか(第264便c で載るようになった)。
 //       ただし**傾きの力学**(Kalign の整列トルク・歳差)は層に無いので、`Kalign>0` は不可
 //       (理由 `tiltDynamicsNotCarried`)。回転場の射影は V2 と同じ z 成分である。
+//       第289便e(R123): 層に軸の宣言欄(tilt・azimuthDeg・precessionRate)が入り、移行計画が軸を**数値として**運ぶように
+//       なったが、この軸の意味は「**層が傾きを力学で再現できるか**」なので判定は変えない(数は不変 —— 意味の注記だけ)。
+//       層は J の z 射影だけを読み、軸の宣言は表示と移行の往復に使うだけである。
 //   (3) `KcsThermal` —— コア–殻の熱結合 K_cs。層は熱結合を持たない(`Kcs>0` は不可・`KcsNotCarried`)。
 //   (4) `activePumpContract` —— `mode:"active"`・`pump`・`contract`・`burst`・`shed`・`rTarget`・
 //       `sourceRate`・`internalEnergy` は層に無い(`coreDynamicsNotCarried`)。
@@ -48614,6 +48864,7 @@ function coreV2ToLayers(core, body){
     core:{ mode:c.mode, massFrac:c.massFrac, radius:(c.radius!==undefined? c.radius : c.Rc),
       omega:c.omega, tilt:c.tilt, inertiaScale:c.inertiaScale, shellSpinMass:c.shellSpinMass,   // 第265便c
       Kcs:c.Kcs, pump:c.pump, contract:c.contract,
+      axisMode:c.axisMode, azimuthDeg:c.azimuthDeg, precessionRate:c.precessionRate,   // 第289便e: 軸の宣言を層へ運ぶ
       Jz:(c.Jz!==undefined? c.Jz : c.J), Jmag:c.Jmag, Jx:c.Jx, Jy:c.Jy } });   // 第264便c: 面内成分
   if(!pl.ok) return { ok:false, reason:pl.reason };
   return { ok:true, layers:pl.layers, mode:pl.mode, Mc:pl.Mc, Ms:pl.Ms, Rc:pl.Rc, R:pl.R,
@@ -49204,6 +49455,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   cloneSimStateNow:()=>cloneSimState(),
   BODY_LAYER_ROLES, BODY_LAYER_MAX, BODY_LAYER_KEY, LAYER_MERGE_RULE, LAYER_MERGE_RTOL,
   BODY_LAYER_JCAP, BODY_LAYER_RMIN,
+  LAYER_AXIS_KEYS, LAYER_AXIS_TOL_DEG, LAYER_AXIS_VERSION, layerAxisFromJ, layerAxisState,   // 第289便e: 層の軸の宣言欄(J ベクトルが正準状態・角度は導出値・表示専用)
   // 第254便b(第46報「銀河の空間メッシュ」): **銀河は 1 つの大域相似メッシュに乗らない**(差動回転)ので、
   // 局所の場 dfmGalaxyMeshField(加算形 W・χ=W/(W+D₀)・u=χu_n+(1−χ)u_bg・∇u に (u_n−u_bg)⊗∇χ を含む)と
   // 物質線 dfmGalaxyTracer*(RK4・dF/dt=(∇u)F・原子的停止)で表す。u_n は**エンジンの粒子速度の局所平均**で、
@@ -49521,6 +49773,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   stepDiag:()=>stepDiagOn, setStepDiag, stepDiagText,
   coreAxisShow:()=>coreAxisShow, setCoreAxisShow,   // 第275便e: コア軸の投影線(表示専用)
   spinAxisGlyphCount:()=>spinAxisGlyphN,   // 第288便e: spinAxis の投影線を描いた回数の累計(表示の検査用)
+  layerAxisGlyphCount:()=>layerAxisGlyphN,   // 第289便e: 層の軸の投影線を描いた回数の累計(表示の検査用)
   // 第177便 P1-1: 対ループカーネルの開発フック(既定 OFF・判定へ無影響)と観測口。
   // setKernelForceGeneric(true) で全宇宙が generic を通る = QA kernel.bitident の対照側。
   // kernelInfo() は直近サブステップで実際に選ばれたカーネル種別を返す(観測専用)。
