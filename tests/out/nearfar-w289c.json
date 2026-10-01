@@ -1,0 +1,427 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第289便c",
+  "target": "beta/index.html",
+  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "generatedAt": "2026-10-01T18:18:43.816Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5356329,
+    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+    "mtime": "2026-10-01T18:04:28.616Z"
+   },
+   {
+    "file": "tests/out/compose-w288c.json",
+    "bytes": 9585,
+    "sha256": "d3f8e5069d9fb250c512e1f852668ecf7b8f227ff6deab1b93337fe0815812b7",
+    "mtime": "2026-10-01T18:04:27.700Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w289c-nearfar.mjs",
+    "bytes": 15485,
+    "sha256": "79f8aad090a4219ae5f71656cf3e231d4eec698a8bbddd71ee819545af3e0d39",
+    "mtime": "2026-10-01T18:14:21.768Z"
+   },
+   {
+    "file": "tests/lib-w289c-nearfar.mjs",
+    "bytes": 9129,
+    "sha256": "c1481eb0c6be168ac1100eca8ebcc045d378ab3de6e1f76e5be4911d5980eeca",
+    "mtime": "2026-10-01T18:12:39.185Z"
+   },
+   {
+    "file": "tests/lib-w289c-reldrag.mjs",
+    "bytes": 19167,
+    "sha256": "5e2553a088de6e8ee8e5f75985b5d052374a8d64adf3c7d9f388f414b17643ad",
+    "mtime": "2026-10-01T18:11:49.793Z"
+   },
+   {
+    "file": "tests/lib-w288c-rotlet.mjs",
+    "bytes": 5421,
+    "sha256": "4ed24703b609b1c87be7a2aa49039ea0cfa70e285ba6dfe4f788f36955899068",
+    "mtime": "2026-10-01T18:04:40.372Z"
+   },
+   {
+    "file": "tests/lib-w288c-compose.mjs",
+    "bytes": 8361,
+    "sha256": "1d067c5cf9e99989ef3586edbb0514551887a0315fed312c824aa6e7958dbd58",
+    "mtime": "2026-10-01T18:04:40.372Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-01T18:04:39.168Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-01T18:04:34.340Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-01T18:04:40.012Z"
+   }
+  ],
+  "codeSha256": "54e3506ba2916838a3ffd7bafb7548e65c3016efa6a2df10530016140e85be0e",
+  "harnessVersion": "w289c-nearfar-1",
+  "libVersion": "w289c-nearfar-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第79報)⑤ DFM の整理と修正(高密度表面の手前/反対の逆転で回転引きずり・背景複素決定力は微分で消える)・第79報で閉じた AN98(面内の引きずりの主候補は有限サイズ回転源の手前/反対)/AN99(純関数と比較器だけ・門は C=0 で既存 u とビット同一)",
+  "reading": "統括の検証項目 R121(エンジン未接続・既存の q 付き場・u=A/W・E6′ に足さない・C≠0 を星団の門が通るように調整しない)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "notClaim": [
+   "回転引きずりが創発した",
+   "連鎖で円盤ができた",
+   "複素場を接続した",
+   "新しい法則を実装した",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "galaxyAnalogyBHCompose"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.allPresets",
+    "HP.dfmFieldContract",
+    "HP.dfmFieldContractOf",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.frameWeightPow",
+    "HP.sim",
+    "HP.validatePreset",
+    "cw",
+    "dfmFieldContract",
+    "sim",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 888,
+   "segments": 802,
+   "closureShare": 0.3192
+  },
+  "scopeSha256": "2a518bfadc2f4c3d1b0b14760e060ba8b2301138e07f2a543a7e4d4f8e72f10f",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/compose-w288c.json",
+    "stableSha256": "42f9bbb505a32ed4a6bf9314d57a6c538832ba3248ad31ac32aa0f45d18e2d44",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/elapsedS",
+     "/meta/code/*/mtime",
+     "/meta/generatedAt",
+     "/meta/inputs/*/mtime"
+    ]
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "selfTest": {
+  "version": "w289c-nearfar-1",
+  "ok": true,
+  "checks": {
+   "insideRejected": true,
+   "closedForm": true,
+   "direction": true,
+   "inPlaneAxisZOnly": true,
+   "omega0": true,
+   "gateKeepsSignedZero": true,
+   "naiveAddLoses": true
+  }
+ },
+ "power": {
+  "R": 1,
+  "radii": [
+   10,
+   12.589254117941673,
+   15.848931924611136,
+   19.952623149688797,
+   25.118864315095802,
+   31.6227766016838,
+   39.81071705534973,
+   50.11872336272723,
+   63.095734448019336,
+   79.43282347242817,
+   100.00000000000001
+  ],
+  "floor": {
+   "fit": 0.05,
+   "local100": 0.001
+  },
+  "rows": [
+   {
+    "eps": 0,
+    "nearFar": {
+     "fit": -4.0119483308461525,
+     "local10": -4.053805291971905,
+     "local100": -4.000846814475858
+    },
+    "rotlet": {
+     "fit": -2,
+     "local10": -2.0000000000000004,
+     "local100": -2.000000000000001
+    }
+   },
+   {
+    "eps": 0.1,
+    "nearFar": {
+     "fit": -4.011947665684247,
+     "local10": -4.053800592347646,
+     "local100": -4.000846805819859
+    },
+    "rotlet": {
+     "fit": -1.9999464207684265,
+     "local10": -1.9997596098199588,
+     "local100": -1.9999961897666363
+    }
+   }
+  ],
+  "ok": true
+ },
+ "profiles": {
+  "center": {
+   "idx": 0,
+   "m": 2500,
+   "R": 15,
+   "Omega": 1.2000000476837158,
+   "eps": 3,
+   "J": 337500.0134110451,
+   "betaG": 0.0008888888888888889
+  },
+  "ring": [
+   {
+    "r": 20,
+    "uSpinContract": 3.433908331389165,
+    "uRotlet": 0.7253812167470154,
+    "uNearFarPerC": 295.0037411522584,
+    "nearFarOk": true,
+    "norm": {
+     "contract": 1,
+     "rotlet": 1,
+     "nearFar": 1
+    }
+   },
+   {
+    "r": 40,
+    "uSpinContract": 2.4056278370467266,
+    "uRotlet": 0.1859290272554873,
+    "uNearFarPerC": 2.604602606343168,
+    "nearFarOk": true,
+    "norm": {
+     "contract": 0.70055097716413,
+     "rotlet": 0.25631905398555704,
+     "nearFar": 0.008829049408559437
+    }
+   },
+   {
+    "r": 80,
+    "uSpinContract": 1.3556466014832353,
+    "uRotlet": 0.04677629842804027,
+    "uNearFarPerC": 0.11135957251946473,
+    "nearFarOk": true,
+    "norm": {
+     "contract": 0.39478240845608636,
+     "rotlet": 0.06448512499097976,
+     "nearFar": 0.0003774852891170266
+    }
+   },
+   {
+    "r": 120,
+    "uSpinContract": 0.8138823746988352,
+    "uRotlet": 0.020813818158070804,
+    "uNearFarPerC": 0.020582091998058747,
+    "nearFarOk": true,
+    "norm": {
+     "contract": 0.2370134249826012,
+     "rotlet": 0.02869362712672756,
+     "nearFar": 0.0000697689185827506
+    }
+   },
+   {
+    "r": 240,
+    "uSpinContract": 0.4218295446112462,
+    "uRotlet": 0.005207113075495534,
+    "uNearFarPerC": 0.0012367240643008726,
+    "nearFarOk": true,
+    "norm": {
+     "contract": 0.12284240110760261,
+     "rotlet": 0.007178450386194066,
+     "nearFar": 0.0000041922317983844486
+    }
+   },
+   {
+    "r": 480,
+    "uSpinContract": 0.24139746064812753,
+    "uRotlet": 0.0013020070948502529,
+    "uNearFarPerC": 0.00007654277361762818,
+    "nearFarOk": true,
+    "norm": {
+     "contract": 0.07029816679773504,
+     "rotlet": 0.0017949280527129255,
+     "nearFar": 2.594637387263596e-7
+    }
+   }
+  ],
+  "far": [
+   {
+    "r": 150,
+    "uSpinContract": 0.6256870330433028,
+    "uRotlet": 0.01332533786096884,
+    "uNearFarPerC": 0.00827222398336706
+   },
+   {
+    "r": 188.8388117691251,
+    "uSpinContract": 0.5665527852394245,
+    "uRotlet": 0.008409581074330338,
+    "uNearFarPerC": 0.003252711278670863
+   },
+   {
+    "r": 237.73397886916703,
+    "uSpinContract": 0.4251820633548909,
+    "uRotlet": 0.005306828156036448,
+    "uNearFarPerC": 0.0012848764771915728
+   },
+   {
+    "r": 299.28934724533195,
+    "uSpinContract": 0.3777259368739654,
+    "uRotlet": 0.00334867733925663,
+    "uNearFarPerC": 0.0005090136271815337
+   },
+   {
+    "r": 376.782964726437,
+    "uSpinContract": 0.3077004066554855,
+    "uRotlet": 0.0021129900722527514,
+    "uNearFarPerC": 0.00020201587876551153
+   },
+   {
+    "r": 474.34164902525697,
+    "uSpinContract": 0.244384549599129,
+    "uRotlet": 0.0013332533903118741,
+    "uNearFarPerC": 0.00008026718996103625
+   },
+   {
+    "r": 597.1607558302459,
+    "uSpinContract": 0.19125899695532422,
+    "uRotlet": 0.0008412446451660624,
+    "uNearFarPerC": 0.00003191563927682997
+   },
+   {
+    "r": 751.7808504409085,
+    "uSpinContract": 0.14785233783492258,
+    "uRotlet": 0.0005307969029368079,
+    "uNearFarPerC": 0.000012695984032115322
+   },
+   {
+    "r": 946.43601672029,
+    "uSpinContract": 0.11296132061065403,
+    "uRotlet": 0.0003349131565808357,
+    "uNearFarPerC": 0.000005051887246516507
+   },
+   {
+    "r": 1191.4923520864227,
+    "uSpinContract": 0.08528138384799024,
+    "uRotlet": 0.0002113170912319137,
+    "uNearFarPerC": 0.0000020105711334072637
+   },
+   {
+    "r": 1500.0000000000002,
+    "uSpinContract": 0.06359110862047933,
+    "uRotlet": 0.00013333253863549214,
+    "uNearFarPerC": 8.002667416640559e-7
+   }
+  ],
+  "slopes": {
+   "range": [
+    150,
+    1500.0000000000002
+   ],
+   "contract": -1.0002261174709153,
+   "rotlet": -1.9997857086809896,
+   "nearFar": -4.011943009567494
+  },
+  "reproduce": {
+   "ref": {
+    "uSpinContract": 3.433908331389165,
+    "uRotlet": 0.7253812167470154
+   },
+   "now": {
+    "uSpinContract": 3.433908331389165,
+    "uRotlet": 0.7253812167470154
+   },
+   "relContract": 0,
+   "relRotlet": 0,
+   "ok": true
+  },
+  "insideRejected": true,
+  "note": "手前/反対の u は利得 C あたり(C [L³/M] は宣言しない —— 減衰の形と冪だけを並べる・どれが正しいとも言わない)"
+ },
+ "gate": {
+  "copy": "galaxyAnalogyBHCompose",
+  "dt": 0.016,
+  "steps": [
+   0,
+   150,
+   300
+  ],
+  "probeGain": 0.001,
+  "rows": [
+   {
+    "step": 0,
+    "t": 0,
+    "nEval": 210,
+    "contractNull": 0,
+    "sameNearFar": 210,
+    "sameRelDrag": 210,
+    "sameCompose": 210,
+    "insideRejected": 0,
+    "movedNearFarAtProbe": 210,
+    "movedRelDragAtProbe": 210,
+    "relDragBound": 1.8039076155383782,
+    "stateUnchanged": true
+   },
+   {
+    "step": 150,
+    "t": 2.4000000000000017,
+    "nEval": 210,
+    "contractNull": 0,
+    "sameNearFar": 210,
+    "sameRelDrag": 210,
+    "sameCompose": 210,
+    "insideRejected": 23,
+    "movedNearFarAtProbe": 187,
+    "movedRelDragAtProbe": 210,
+    "relDragBound": 59.69790576328762,
+    "stateUnchanged": true
+   },
+   {
+    "step": 300,
+    "t": 4.800000000000003,
+    "nEval": 210,
+    "contractNull": 0,
+    "sameNearFar": 210,
+    "sameRelDrag": 210,
+    "sameCompose": 210,
+    "insideRejected": 25,
+    "movedNearFarAtProbe": 185,
+    "movedRelDragAtProbe": 210,
+    "relDragBound": 33.99941988430529,
+    "stateUnchanged": true
+   }
+  ],
+  "ok": true,
+  "how": "既存の u = HP.dfmFieldContract(toy の宣言・excludeBodyId=i)。候補は C=1 で評価し addCandidate(u, du, C) に通す —— C=0 は u をそのまま写す"
+ },
+ "ok": true,
+ "elapsedS": 1.34
+}

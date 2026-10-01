@@ -785,3 +785,8 @@ tests/out/regen-plan-w281a.json
 # 第289便a(原仮定者の裁定(第79報)⑤・統括の検証項目 R119): **理論照合便**の正本(tests/exp-w289a-weakfield.mjs —— 時計・光の弱場係数の 3 案・
 #   相対移動 r⁻³ 核の限定模型・現行 tauUpdate/traceRay の実測・式の綴りと枠の重みの棚卸し)。QA behavior.weakfieldCoeff が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/weakfield-w289a.json
+# 第289便c(原仮定者の裁定(第79報)⑤・AN98/AN99・統括の検証項目 R121): **複素核便**の正本(tests/exp-w289c-reldrag.mjs —— 相対移動 r⁻³ 核の不変性・
+#   前ステップ参照の安定性・3 環の連鎖の対照 / tests/exp-w289c-nearfar.mjs —— 有限サイズ回転源の手前/反対・遠方の冪・C=0 の門)。
+#   QA behavior.relDragKernel・behavior.nearFarKernel・behavior.chainRings が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/reldrag-w289c.json
+!tests/out/nearfar-w289c.json
