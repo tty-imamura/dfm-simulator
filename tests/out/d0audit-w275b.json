@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便b",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:17:36.828Z",
+  "targetSha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
+  "generatedAt": "2026-10-01T01:13:24.827Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-30T00:16:40.595Z"
+    "bytes": 5355884,
+    "sha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
+    "mtime": "2026-10-01T01:11:58.303Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887889,
-    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
-    "mtime": "2026-09-29T23:47:20.387Z"
+    "bytes": 1831274,
+    "sha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da",
+    "mtime": "2026-10-01T00:11:52.131Z"
    }
   ],
   "code": [
@@ -125,31 +125,9 @@
    }
   ],
   "observation": {
-   "value": 19414166.4,
-   "sigma": null,
-   "unit": "s",
-   "name": "公転周期(kFrame=1・E6′-R)",
-   "sigmaNote": "CSV の sigma 列が空欄(**未記録**であって 0 ではない)",
-   "method": "同方向1周(2周目 — obsCard の数え方)",
-   "from": "tests/out/calaudit-w249.json"
+   "error": "TypeError: Cannot read properties of undefined (reading 'obs')"
   },
-  "independentCheck": {
-   "kF1": {
-    "calaudit": 19414266.578568343,
-    "name": "公転周期(kFrame=1・E6′-R)",
-    "here": 19414266.578568343,
-    "absDiff": 0,
-    "bitSame": true
-   },
-   "kF0": {
-    "calaudit": 19413888.609564465,
-    "name": "公転周期(kFrame=0 対照)",
-    "here": 19413888.609564465,
-    "absDiff": 0,
-    "bitSame": true
-   },
-   "note": "同じ数が別の器から出たことだけを意味する(**観測と合ったことではない**)"
-  },
+  "independentCheck": null,
   "secondsPerUnit": 10000,
   "notClaim": [
    "D₀ を較正した",
@@ -225,7 +203,7 @@
   {
    "id": "earthMoonReal",
    "emoji": "🌙",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -269,7 +247,7 @@
   {
    "id": "earthMoonRealKF1",
    "emoji": "🌘",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -313,7 +291,7 @@
   {
    "id": "emAuditDFM",
    "emoji": "🧲",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -357,7 +335,7 @@
   {
    "id": "emAuditSolar",
    "emoji": "🔆",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -407,7 +385,7 @@
   {
    "id": "mercuryReal",
    "emoji": "☄️",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -457,7 +435,7 @@
   {
    "id": "mercuryRealKF1",
    "emoji": "🪨",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -507,7 +485,7 @@
   {
    "id": "solarInner",
    "emoji": "🌞",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -520,9 +498,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 6,
    "unitSI": 10000000000000000000,
@@ -557,7 +535,7 @@
   {
    "id": "jupiterGalilean",
    "emoji": "🟠",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 7,
@@ -570,9 +548,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 5,
    "unitSI": 10000000000000000000,
@@ -601,7 +579,7 @@
   {
    "id": "venusReal",
    "emoji": "🌇",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 8,
@@ -614,9 +592,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 10000000000000000000,
@@ -651,7 +629,7 @@
   {
    "id": "marsMoonsReal",
    "emoji": "🥔",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -664,9 +642,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 3,
    "unitSI": 10000000000000000000,
@@ -695,7 +673,7 @@
   {
    "id": "plutoCharonReal",
    "emoji": "❄️",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -708,9 +686,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 10000000000000000000,
@@ -739,7 +717,7 @@
   {
    "id": "uranusReal",
    "emoji": "💠",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -752,9 +730,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 17,
    "unitSI": 10000000000000000000,
@@ -783,7 +761,7 @@
   {
    "id": "neptuneReal",
    "emoji": "🌊",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 7,
@@ -796,9 +774,9 @@
    "D0pull": null,
    "d0Used": 0.006,
    "d0UsedKey": "physics.D0",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 10000000000000000000,
@@ -827,7 +805,7 @@
   {
    "id": "alphaCenAB",
    "emoji": "✨",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 10,
@@ -867,7 +845,7 @@
   {
    "id": "alphaCenABDFM",
    "emoji": "✴️",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 10,
@@ -907,7 +885,7 @@
   {
    "id": "siriusAB",
    "emoji": "🌟",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 10,
@@ -947,7 +925,7 @@
   {
    "id": "siriusABDFM",
    "emoji": "💫",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 10,
@@ -987,7 +965,7 @@
   {
    "id": "psrDoubleAB",
    "emoji": "📻",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1027,7 +1005,7 @@
   {
    "id": "psrDoubleABDFM",
    "emoji": "⚡",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1067,7 +1045,7 @@
   {
    "id": "psrDoubleABSpinCal",
    "emoji": "🧿",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1107,7 +1085,7 @@
   {
    "id": "psrJ1757DFM",
    "emoji": "🧮",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1120,9 +1098,9 @@
    "D0pull": 3.24204e-7,
    "d0Used": 3.24204e-7,
    "d0UsedKey": "physics.D0pull",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 1000000000000000,
@@ -1147,7 +1125,7 @@
   {
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1160,9 +1138,9 @@
    "D0pull": 3.24204e-7,
    "d0Used": 3.24204e-7,
    "d0UsedKey": "physics.D0pull",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
-   "geoPN": 2,
+   "geoPN": 1,
    "D0Source": null,
    "nBodies": 2,
    "unitSI": 1000000000000000,
@@ -1187,7 +1165,7 @@
   {
    "id": "psrDoubleABPN",
    "emoji": "🪶",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1227,7 +1205,7 @@
   {
    "id": "psrJ1757PN",
    "emoji": "🪃",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1267,7 +1245,7 @@
   {
    "id": "psrJ1946PN",
    "emoji": "🪀",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1307,7 +1285,7 @@
   {
    "id": "psrDoubleABCF",
    "emoji": "🪝",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1347,7 +1325,7 @@
   {
    "id": "psrJ1757CF",
    "emoji": "🪄",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1387,7 +1365,7 @@
   {
    "id": "psrJ1946CF",
    "emoji": "🩹",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1427,7 +1405,7 @@
   {
    "id": "psrB1534",
    "emoji": "📿",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1467,7 +1445,7 @@
   {
    "id": "psrB1534DFM",
    "emoji": "🧶",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1507,7 +1485,7 @@
   {
    "id": "psrB1534CF",
    "emoji": "🪤",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "galactic",
    "scaleExp": {
     "L": 6,
@@ -1547,7 +1525,7 @@
   {
    "id": "gw150914",
    "emoji": "🎐",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "extragalactic",
    "scaleExp": {
     "L": 4,
@@ -1582,7 +1560,7 @@
   {
    "id": "gw150914DFM",
    "emoji": "🎻",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "extragalactic",
    "scaleExp": {
     "L": 4,
@@ -1617,7 +1595,7 @@
   {
    "id": "gw150914Merge4s",
    "emoji": "⏰",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "site": "extragalactic",
    "scaleExp": {
     "L": 4,
@@ -1630,7 +1608,7 @@
    "D0pull": 3.24204e-13,
    "d0Used": 3.24204e-13,
    "d0UsedKey": "physics.D0pull",
-   "kFrame": 1,
+   "kFrame": 0,
    "softening": 0.05,
    "geoPN": 0,
    "D0Source": null,
@@ -1652,7 +1630,7 @@
   {
    "id": "saturnZonalD68",
    "emoji": "📡",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -1696,7 +1674,7 @@
   {
    "id": "saturnRingReal",
    "emoji": "💍",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -1740,7 +1718,7 @@
   {
    "id": "saturnRingRealKF1",
    "emoji": "💿",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "site": "solar-system",
    "scaleExp": {
     "L": 6,
@@ -1964,9 +1942,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.392,
+     "wallSec": 0.559,
      "rev2Sec": 19413888.609564465,
-     "residPct": -0.0014308646058270656,
+     "residPct": null,
      "sigma": null
     },
     "h2": {
@@ -2000,9 +1978,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.535,
+     "wallSec": 0.97,
      "rev2Sec": 19413888.581032414,
-     "residPct": -0.0014310115709347201,
+     "residPct": null,
      "sigma": null
     },
     "h4": {
@@ -2036,9 +2014,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.867,
+     "wallSec": 1.676,
      "rev2Sec": 19413888.573797643,
-     "residPct": -0.0014310488363555246,
+     "residPct": null,
      "sigma": null
     }
    }
@@ -2082,9 +2060,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.241,
+     "wallSec": 0.445,
      "rev2Sec": 19413888.609564465,
-     "residPct": -0.0014308646058270656,
+     "residPct": null,
      "sigma": null
     },
     "h2": {
@@ -2118,9 +2096,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.39,
+     "wallSec": 0.924,
      "rev2Sec": 19413888.581032414,
-     "residPct": -0.0014310115709347201,
+     "residPct": null,
      "sigma": null
     },
     "h4": {
@@ -2154,9 +2132,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.049,
+     "wallSec": 1.864,
      "rev2Sec": 19413888.573797643,
-     "residPct": -0.0014310488363555246,
+     "residPct": null,
      "sigma": null
     }
    }
@@ -2200,9 +2178,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.242,
+     "wallSec": 0.444,
      "rev2Sec": 19413888.609564465,
-     "residPct": -0.0014308646058270656,
+     "residPct": null,
      "sigma": null
     },
     "h2": {
@@ -2236,9 +2214,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.414,
+     "wallSec": 0.877,
      "rev2Sec": 19413888.581032414,
-     "residPct": -0.0014310115709347201,
+     "residPct": null,
      "sigma": null
     },
     "h4": {
@@ -2272,9 +2250,9 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.896,
+     "wallSec": 1.858,
      "rev2Sec": 19413888.573797643,
-     "residPct": -0.0014310488363555246,
+     "residPct": null,
      "sigma": null
     }
    }
@@ -2302,7 +2280,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.105,
+     "wallSec": 0.2,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2321,7 +2299,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.068,
+     "wallSec": 0.206,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2340,7 +2318,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.069,
+     "wallSec": 0.192,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2356,111 +2334,33 @@
    },
    "stages": {
     "h": {
-     "single": false,
-     "steps": 364017,
-     "dt": 0.016,
-     "n": 2,
-     "stop": "orbMax",
-     "nan": false,
-     "rev": [
-      1941.4092507287041,
-      1941.4266578568345,
-      1941.42807731512
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
      ],
-     "revN": 3,
-     "rMin": 1074.5053876500065,
-     "rMax": 1089.6733923971772,
-     "eProxy": 0.007008665313149407,
-     "clamp": {
-      "V": 0,
-      "S": 0,
-      "H": 0,
-      "A": 0,
-      "R": 0,
-      "T": 0
-     },
-     "cfgApplied": {
-      "D0": 0.006,
-      "kFrame": 1,
-      "softening": 0.05,
-      "frameWeight": "share",
-      "nBodies": 2
-     },
-     "wallSec": 0.456,
-     "rev2Sec": 19414266.578568343,
-     "residPct": 0.0005160075703511187,
+     "wallSec": 0.004,
+     "rev2Sec": null,
+     "residPct": null,
      "sigma": null
     },
     "h2": {
-     "single": false,
-     "steps": 728034,
-     "dt": 0.008,
-     "n": 2,
-     "stop": "orbMax",
-     "nan": false,
-     "rev": [
-      1941.416867143288,
-      1941.4254920992603,
-      1941.4261707465416
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
      ],
-     "revN": 3,
-     "rMin": 1074.5054269124657,
-     "rMax": 1089.6726127488091,
-     "eProxy": 0.007008289317415522,
-     "clamp": {
-      "V": 0,
-      "S": 0,
-      "H": 0,
-      "A": 0,
-      "R": 0,
-      "T": 0
-     },
-     "cfgApplied": {
-      "D0": 0.006,
-      "kFrame": 1,
-      "softening": 0.05,
-      "frameWeight": "share",
-      "nBodies": 2
-     },
-     "wallSec": 0.714,
-     "rev2Sec": 19414254.9209926,
-     "residPct": 0.00045596082149142907,
+     "wallSec": 0.003,
+     "rev2Sec": null,
+     "residPct": null,
      "sigma": null
     },
     "h4": {
-     "single": false,
-     "steps": 1456068,
-     "dt": 0.004,
-     "n": 2,
-     "stop": "orbMax",
-     "nan": false,
-     "rev": [
-      1941.4206583131652,
-      1941.4249618583624,
-      1941.425254031566
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
      ],
-     "revN": 3,
-     "rMin": 1074.5054367281134,
-     "rMax": 1089.6722640968742,
-     "eProxy": 0.0070081247778216935,
-     "clamp": {
-      "V": 0,
-      "S": 0,
-      "H": 0,
-      "A": 0,
-      "R": 0,
-      "T": 0
-     },
-     "cfgApplied": {
-      "D0": 0.006,
-      "kFrame": 1,
-      "softening": 0.05,
-      "frameWeight": "share",
-      "nBodies": 2
-     },
-     "wallSec": 1.303,
-     "rev2Sec": 19414249.618583623,
-     "residPct": 0.000428648760447474,
+     "wallSec": 0.003,
+     "rev2Sec": null,
+     "residPct": null,
      "sigma": null
     }
    }
@@ -2474,97 +2374,31 @@
    },
    "stages": {
     "h": {
-     "single": false,
-     "steps": 400000,
-     "dt": 0.016,
-     "n": 2,
-     "stop": "steps",
-     "nan": false,
-     "rev": [],
-     "revN": 0,
-     "rMin": 1074.5054385389844,
-     "rMax": 9887.784925971213,
-     "eProxy": 0.8039633319661672,
-     "clamp": {
-      "V": 0,
-      "S": 0,
-      "H": 0,
-      "A": 0,
-      "R": 0,
-      "T": 0
-     },
-     "cfgApplied": {
-      "D0": 0,
-      "kFrame": 1,
-      "softening": 0.05,
-      "frameWeight": "share",
-      "nBodies": 2
-     },
-     "wallSec": 0.381,
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     ],
+     "wallSec": 0.005,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
     },
     "h2": {
-     "single": false,
-     "steps": 800000,
-     "dt": 0.008,
-     "n": 2,
-     "stop": "steps",
-     "nan": false,
-     "rev": [],
-     "revN": 0,
-     "rMin": 1074.5054396347462,
-     "rMax": 9887.559210811625,
-     "eProxy": 0.8039592952791074,
-     "clamp": {
-      "V": 0,
-      "S": 0,
-      "H": 0,
-      "A": 0,
-      "R": 0,
-      "T": 0
-     },
-     "cfgApplied": {
-      "D0": 0,
-      "kFrame": 1,
-      "softening": 0.05,
-      "frameWeight": "share",
-      "nBodies": 2
-     },
-     "wallSec": 0.742,
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     ],
+     "wallSec": 0.002,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
     },
     "h4": {
-     "single": false,
-     "steps": 1600000,
-     "dt": 0.004,
-     "n": 2,
-     "stop": "steps",
-     "nan": false,
-     "rev": [],
-     "revN": 0,
-     "rMin": 1074.5054399086864,
-     "rMax": 9889.64896758581,
-     "eProxy": 0.8039966603946743,
-     "clamp": {
-      "V": 0,
-      "S": 0,
-      "H": 0,
-      "A": 0,
-      "R": 0,
-      "T": 0
-     },
-     "cfgApplied": {
-      "D0": 0,
-      "kFrame": 1,
-      "softening": 0.05,
-      "frameWeight": "share",
-      "nBodies": 2
-     },
-     "wallSec": 1.255,
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     ],
+     "wallSec": 0.002,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2580,111 +2414,33 @@
    },
    "stages": {
     "h": {
-     "single": false,
-     "steps": 364010,
-     "dt": 0.016,
-     "n": 2,
-     "stop": "orbMax",
-     "nan": false,
-     "rev": [
-      1941.3730995153996,
-      1941.3890993609134,
-      1941.3890992035977
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
      ],
-     "revN": 3,
-     "rMin": 1074.5053873083589,
-     "rMax": 1089.6548454104272,
-     "eProxy": 0.007000155475103819,
-     "clamp": {
-      "V": 0,
-      "S": 0,
-      "H": 0,
-      "A": 0,
-      "R": 0,
-      "T": 0
-     },
-     "cfgApplied": {
-      "D0": 78.80031324358178,
-      "kFrame": 1,
-      "softening": 0.05,
-      "frameWeight": "share",
-      "nBodies": 2
-     },
-     "wallSec": 0.411,
-     "rev2Sec": 19413890.993609134,
-     "residPct": -0.0014185846829066122,
+     "wallSec": 0.002,
+     "rev2Sec": null,
+     "residPct": null,
      "sigma": null
     },
     "h2": {
-     "single": false,
-     "steps": 728020,
-     "dt": 0.008,
-     "n": 2,
-     "stop": "orbMax",
-     "nan": false,
-     "rev": [
-      1941.3810967373365,
-      1941.3890966572862,
-      1941.389096581056
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
      ],
-     "revN": 3,
-     "rMin": 1074.505426788778,
-     "rMax": 1089.654803786784,
-     "eProxy": 0.0070001180060391775,
-     "clamp": {
-      "V": 0,
-      "S": 0,
-      "H": 0,
-      "A": 0,
-      "R": 0,
-      "T": 0
-     },
-     "cfgApplied": {
-      "D0": 78.80031324358178,
-      "kFrame": 1,
-      "softening": 0.05,
-      "frameWeight": "share",
-      "nBodies": 2
-     },
-     "wallSec": 0.684,
-     "rev2Sec": 19413890.966572862,
-     "residPct": -0.0014187239434415861,
+     "wallSec": 0.002,
+     "rev2Sec": null,
+     "residPct": null,
      "sigma": null
     },
     "h4": {
-     "single": false,
-     "steps": 1456041,
-     "dt": 0.004,
-     "n": 2,
-     "stop": "orbMax",
-     "nan": false,
-     "rev": [
-      1941.3850960498348,
-      1941.3890960099775,
-      1941.3890959718233
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
      ],
-     "revN": 3,
-     "rMin": 1074.5054366787733,
-     "rMax": 1089.6547933831912,
-     "eProxy": 0.007000108630581439,
-     "clamp": {
-      "V": 0,
-      "S": 0,
-      "H": 0,
-      "A": 0,
-      "R": 0,
-      "T": 0
-     },
-     "cfgApplied": {
-      "D0": 78.80031324358178,
-      "kFrame": 1,
-      "softening": 0.05,
-      "frameWeight": "share",
-      "nBodies": 2
-     },
-     "wallSec": 1.278,
-     "rev2Sec": 19413890.960099775,
-     "residPct": -0.001418757285520978,
+     "wallSec": 0.002,
+     "rev2Sec": null,
+     "residPct": null,
      "sigma": null
     }
    }
@@ -2699,58 +2455,31 @@
    },
    "stages": {
     "h": {
-     "single": true,
-     "steps": 200000,
-     "dt": 0.016,
-     "n": 1,
-     "drift": 11285.369200876914,
-     "speed": 3.526677875273317,
-     "nan": false,
-     "stop": "singleBody",
-     "cfgApplied": {
-      "D0": 80.65093207339432,
-      "kFrame": 1,
-      "softening": 0.05
-     },
-     "wallSec": 0.194,
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     ],
+     "wallSec": 0.001,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
     },
     "h2": {
-     "single": true,
-     "steps": 200000,
-     "dt": 0.008,
-     "n": 1,
-     "drift": 5642.684600438457,
-     "speed": 3.526677875273317,
-     "nan": false,
-     "stop": "singleBody",
-     "cfgApplied": {
-      "D0": 80.65093207339432,
-      "kFrame": 1,
-      "softening": 0.05
-     },
-     "wallSec": 0.134,
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     ],
+     "wallSec": 0.004,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
     },
     "h4": {
-     "single": true,
-     "steps": 200000,
-     "dt": 0.004,
-     "n": 1,
-     "drift": 2821.3423002192285,
-     "speed": 3.526677875273317,
-     "nan": false,
-     "stop": "singleBody",
-     "cfgApplied": {
-      "D0": 80.65093207339432,
-      "kFrame": 1,
-      "softening": 0.05
-     },
-     "wallSec": 0.145,
+     "error": "validate",
+     "errors": [
+      "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+     ],
+     "wallSec": 0.007,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null

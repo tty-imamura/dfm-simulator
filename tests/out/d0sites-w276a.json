@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便a",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:17:51.605Z",
+  "targetSha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
+  "generatedAt": "2026-10-01T01:13:57.232Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-30T00:16:40.595Z"
+    "bytes": 5355884,
+    "sha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
+    "mtime": "2026-10-01T01:11:58.303Z"
    }
   ],
   "code": [
@@ -38,7 +38,7 @@
    "D0",
    "frameWeightPow"
   ],
-  "scriptLineOffset": 1130,
+  "scriptLineOffset": 1148,
   "ruling": "第66報 (1): 「背景決定力 D₀」と別途「背景複素決定力」を用意する。引きずり減衰 q の算出や計算など**影響箇所を精査する**",
   "method": "inline script からコメント・文字列・正規表現リテラルを潰した写しを作り、識別子の出現を機械抽出して最上位関数(波括弧の深さ)で束ねる。**用途と置換可否だけが宣言表**である",
   "notClaim": [
@@ -58,14 +58,19 @@
   "ok": true
  },
  "sites": {
-  "total": 568,
-  "groups": 71,
+  "total": 581,
+  "groups": 74,
   "byReplaceable": {
    "n/a": 13,
    "candidate": 52,
+   "unclassified": 3,
    "forbidden": 6
   },
-  "unclassified": [],
+  "unclassified": [
+   "bgWbgOf :: bgWbgOf",
+   "dfmSpinPairFuse :: dfmSpinPairFuse",
+   "buildWbgRow :: buildWbgRow"
+  ],
   "forbidden": [
    "traceRay :: traceRay",
    "dfmFrameAt :: dfmFrameAt",
@@ -79,231 +84,236 @@
     "key": "(top-level) :: -",
     "topFn": "(top-level)",
     "innerDef": null,
-    "n": 230,
+    "n": 235,
     "tokens": {
-     "D0": 192,
+     "D0": 197,
      "D0pull": 37,
      "frameWeightPow": 1
     },
     "lines": [
-     3115,
-     3129,
-     4455,
-     4549,
-     7031,
-     7170,
-     7315,
-     7406,
-     7434,
-     7550,
-     7634,
-     7732,
-     7771,
-     7813,
-     7841,
-     7868,
-     7895,
-     7921,
-     7946,
-     7972,
-     8009,
-     8061,
-     8114,
-     8184,
-     8232,
-     8285,
-     8330,
-     8370,
-     8470,
-     8540,
-     8588,
-     8645,
-     8721,
-     8807,
-     8842,
-     8893,
-     8945,
-     9054,
-     9096,
-     9138,
-     9219,
-     9266,
-     9348,
-     9411,
-     9487,
-     9601,
-     9605,
-     9672,
-     9676,
-     9747,
-     9800,
-     9854,
-     9920,
+     3174,
+     3188,
+     4366,
+     4460,
+     7040,
+     7179,
+     7324,
+     7415,
+     7443,
+     7559,
+     7643,
+     7741,
+     7780,
+     7822,
+     7850,
+     7877,
+     7904,
+     7930,
+     7955,
+     7981,
+     8018,
+     8070,
+     8123,
+     8193,
+     8241,
+     8294,
+     8339,
+     8379,
+     8479,
+     8549,
+     8597,
+     8654,
+     8730,
+     8816,
+     8851,
+     8902,
+     8954,
+     9063,
+     9105,
+     9147,
+     9228,
+     9275,
+     9357,
+     9420,
+     9496,
+     9575,
+     9578,
+     9649,
+     9762,
+     9766,
+     9833,
+     9837,
+     9908,
+     9912,
      9983,
-     10046,
-     10076,
-     10100,
-     10123,
-     10170,
-     10204,
-     10225,
-     10264,
-     10318,
-     10342,
-     10388,
-     10419,
-     10450,
-     10516,
-     10558,
-     10602,
-     10661,
-     10720,
-     10778,
-     10840,
-     10875,
-     10944,
-     10982,
-     11064,
-     11100,
-     11160,
-     11207,
-     11323,
-     11392,
-     11590,
-     11725,
-     11771,
-     11875,
-     11940,
-     12051,
-     12164,
-     12349,
-     12472,
-     12578,
-     12690,
-     12817,
-     12906,
-     12992,
+     10036,
+     10090,
+     10156,
+     10219,
+     10282,
+     10312,
+     10336,
+     10359,
+     10406,
+     10440,
+     10461,
+     10500,
+     10554,
+     10578,
+     10624,
+     10655,
+     10686,
+     10752,
+     10794,
+     10838,
+     10897,
+     10956,
+     11014,
+     11077,
+     11112,
+     11182,
+     11220,
+     11302,
+     11338,
+     11399,
+     11446,
+     11562,
+     11631,
+     11829,
+     11964,
+     12010,
+     12115,
+     12180,
+     12292,
+     12407,
+     12594,
+     12719,
+     12827,
+     12941,
      13068,
-     13135,
-     13269,
-     13409,
-     13545,
-     13548,
-     13695,
-     13698,
-     13861,
-     13864,
-     14026,
-     14029,
-     14191,
-     14194,
-     14348,
-     14351,
-     14476,
-     14583,
-     14587,
-     14720,
-     14724,
-     14856,
-     14860,
-     14974,
-     14979,
-     15074,
-     15079,
-     15173,
-     15178,
-     15289,
-     15293,
-     15382,
-     15386,
-     15477,
-     15481,
-     15578,
-     15582,
-     15682,
-     15686,
-     15777,
-     15781,
-     15865,
-     15869,
-     15950,
+     13157,
+     13243,
+     13319,
+     13386,
+     13522,
+     13664,
+     13801,
+     13804,
+     13952,
+     13955,
+     14119,
+     14122,
+     14285,
+     14288,
+     14451,
+     14454,
+     14613,
+     14616,
+     14741,
+     14849,
+     14853,
+     14988,
+     14992,
+     15126,
+     15130,
+     15244,
+     15249,
+     15344,
+     15349,
+     15443,
+     15448,
+     15559,
+     15563,
+     15652,
+     15656,
+     15747,
+     15751,
+     15848,
+     15852,
      15953,
      15957,
-     16051,
-     16055,
-     16201,
-     16204,
-     16347,
-     16350,
-     16449,
-     16452,
-     16543,
-     16546,
-     16593,
-     16637,
-     16677,
-     16736,
-     16785,
-     16823,
-     16861,
-     16908,
-     16963,
-     17085,
-     17160,
-     17209,
-     17301,
-     17428,
-     17477,
-     17501,
-     17525,
-     17591,
-     17621,
-     17665,
-     17719,
-     17766,
-     17809,
-     17851,
-     17910,
-     17964,
-     18010,
-     18067,
-     18114,
-     35219,
-     35235,
-     35237,
-     35253,
-     35255,
-     35275,
-     35277,
-     35318,
-     35321,
-     35349,
-     38599,
-     38641,
-     38677,
-     38694,
-     38722,
-     38773,
-     38810,
-     38839,
-     38861,
-     38864,
-     38874,
-     38884,
-     38887,
-     38898,
-     38922,
-     38988,
-     39028,
-     39057,
-     39083,
+     16048,
+     16052,
+     16136,
+     16140,
+     16221,
+     16224,
+     16228,
+     16322,
+     16326,
+     16473,
+     16476,
+     16620,
+     16623,
+     16729,
+     16732,
+     16821,
+     16824,
+     16871,
+     16915,
+     16955,
+     17014,
+     17063,
+     17101,
+     17139,
+     17186,
+     17241,
+     17363,
+     17438,
+     17487,
+     17580,
+     17708,
+     17757,
+     17781,
+     17805,
+     17871,
+     17901,
+     17945,
+     17999,
+     18046,
+     18089,
+     18131,
+     18190,
+     18244,
+     18290,
+     18347,
+     18394,
+     35690,
+     35706,
+     35708,
+     35724,
+     35726,
+     35747,
+     35749,
+     35790,
+     35793,
+     35821,
+     39088,
      39130,
-     39155,
-     39187,
-     39234,
+     39166,
+     39183,
+     39211,
+     39262,
      39299,
-     39337,
-     48063
+     39328,
+     39350,
+     39353,
+     39363,
+     39373,
+     39376,
+     39387,
+     39411,
+     39477,
+     39517,
+     39546,
+     39572,
+     39619,
+     39644,
+     39676,
+     39723,
+     39788,
+     39826,
+     48933
     ],
     "evidence": [
      "G:\"Gravity G\", D0:\"Background determinacy D₀\", kFrame:\"Frame dragging kFrame\",",
@@ -329,13 +339,13 @@
      "frameWeightPow": 1
     },
     "lines": [
-     40526,
-     40527,
-     40528,
-     40529,
-     40541,
-     40550,
-     40625
+     41015,
+     41016,
+     41017,
+     41018,
+     41030,
+     41039,
+     41114
     ],
     "evidence": [
      "let D0=o.D0;",
@@ -354,24 +364,25 @@
     "key": "dfmGeoToySpinStep :: dfmGeoToySpinStep",
     "topFn": "dfmGeoToySpinStep",
     "innerDef": "dfmGeoToySpinStep",
-    "n": 13,
+    "n": 14,
     "tokens": {
      "frameWeightPow": 1,
-     "D0p": 3,
+     "D0p": 4,
      "D0pull": 3,
      "D0": 6
     },
     "lines": [
-     44590,
-     44592,
-     44617,
-     44624,
-     44625
+     45447,
+     45449,
+     45465,
+     45466,
+     45470,
+     45486
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
      "const D0p=frameWeightIsPull(p)? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
-     "const f=dfmField(BD,x[i],y[i],{excludeBodyId:i, need:\"gravity\", G, eps, p:pw, D0:D0p,"
+     "const wDecl=(cf.D0!==undefined && cf.D0!==null);"
     ],
     "hasPullFallback": true,
     "readsD0Member": true,
@@ -392,11 +403,11 @@
      "D0pull": 2
     },
     "lines": [
-     23529,
-     23534,
-     23537,
-     23538,
-     23587
+     23833,
+     23838,
+     23841,
+     23842,
+     23891
     ],
     "evidence": [
      "const pw=frameWeightPow(p), pull=frameWeightIsPull(p);   // 第262便d: share は p=1 をそのまま返す(番兵 0 は廃止)",
@@ -422,12 +433,12 @@
      "D0": 7
     },
     "lines": [
-     24061,
-     24067,
-     24082,
-     24123,
-     24124,
-     24147
+     24365,
+     24371,
+     24386,
+     24427,
+     24428,
+     24451
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -453,11 +464,11 @@
      "D0pull": 2
     },
     "lines": [
-     40769,
-     40773,
-     40774,
-     40775,
-     40776
+     41258,
+     41262,
+     41263,
+     41264,
+     41265
     ],
     "evidence": [
      "const p=(o.p===undefined)? (p0? (frameWeightIsPull(p0)? frameWeightPow(p0) : GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);",
@@ -483,11 +494,11 @@
      "D0pull": 2
     },
     "lines": [
-     41364,
-     41368,
-     41369,
-     41370,
-     41371
+     41853,
+     41857,
+     41858,
+     41859,
+     41860
     ],
     "evidence": [
      "const p=(o.p===undefined)? (p0? (frameWeightIsPull(p0)? frameWeightPow(p0) : GALMESH_P_DEFAULT) : GALMESH_P_DEFAULT) : Number(o.p);",
@@ -503,31 +514,32 @@
     "classified": true
    },
    {
-    "key": "jeansRowsVelocities :: jeansRowsVelocities",
-    "topFn": "jeansRowsVelocities",
-    "innerDef": "jeansRowsVelocities",
-    "n": 10,
+    "key": "bgWbgOf :: bgWbgOf",
+    "topFn": "bgWbgOf",
+    "innerDef": "bgWbgOf",
+    "n": 11,
     "tokens": {
-     "D0p": 2,
-     "D0pull": 2,
-     "D0": 5,
-     "frameWeightPow": 1
+     "D0p": 3,
+     "D0pull": 3,
+     "D0": 5
     },
     "lines": [
-     6710,
-     6711
+     6712,
+     6713,
+     6714
     ],
     "evidence": [
-     "const D0p=frameWeightIsPull(ph)? ((ph.D0pull!==undefined)? ph.D0pull : ph.D0) : ph.D0;",
-     "const C=toy? { p:frameWeightPow(ph), eps:Math.sqrt(eps2), Wbg:(spinRead && cf.D0!==undefined && cf.D0!==null)? cf.D0 : D0p,"
+     "const D0p=pull? ((ph.D0pull!==undefined)? ph.D0pull : ph.D0) : ph.D0;",
+     "const decl=!!(spinRead && cf.D0!==undefined && cf.D0!==null);",
+     "return {Wbg:decl? cf.D0 : D0p, D0p, from:decl? \"spaceMesh.D0\" : ((pull && ph.D0pull!==undefined)? \"D0pull\" : \"D0\")};"
     ],
     "hasPullFallback": true,
     "readsD0Member": true,
     "objectKeyOnly": false,
-    "use": "初速(Jeans 平衡 —— W_bg=D₀ を σ² の分母に・vMode:\"jeans\" の本だけ)",
-    "replaceable": "candidate",
-    "why": "χ の分母",
-    "classified": true
+    "use": null,
+    "replaceable": null,
+    "why": null,
+    "classified": false
    },
    {
     "key": "dfmGalaxyMeshField :: g",
@@ -538,11 +550,11 @@
      "D0": 10
     },
     "lines": [
-     40890,
-     40891,
-     40892,
-     40941,
-     40942
+     41379,
+     41380,
+     41381,
+     41430,
+     41431
     ],
     "evidence": [
      "const chi=(D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0);",
@@ -566,11 +578,11 @@
      "D0": 10
     },
     "lines": [
-     43056,
-     43057,
-     43058,
-     43097,
-     43106
+     43545,
+     43546,
+     43547,
+     43586,
+     43595
     ],
     "evidence": [
      "let Nx=D0*ubg[0], Ny=D0*ubg[1];",
@@ -596,11 +608,11 @@
      "frameWeightPow": 2
     },
     "lines": [
-     43726,
-     43727,
-     43731,
-     43740,
-     43741
+     44215,
+     44216,
+     44220,
+     44229,
+     44230
     ],
     "evidence": [
      "const D0u=pull? ((p.D0pull!==undefined)? p.D0pull : p.D0) : p.D0;",
@@ -627,10 +639,10 @@
      "D0": 4
     },
     "lines": [
-     45875,
-     45876,
-     45881,
-     45883
+     46743,
+     46744,
+     46749,
+     46751
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -656,9 +668,9 @@
      "D0pull": 2
     },
     "lines": [
-     30166,
-     30167,
-     30178
+     30491,
+     30492,
+     30503
     ],
     "evidence": [
      "const p=S.params, pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps;",
@@ -685,10 +697,10 @@
      "D0": 2
     },
     "lines": [
-     44001,
-     44002,
-     44006,
-     44104
+     44490,
+     44491,
+     44495,
+     44593
     ],
     "evidence": [
      "const pw=frameWeightPow(p), eps=p.softening, G=p.G;",
@@ -715,9 +727,9 @@
      "D0": 3
     },
     "lines": [
-     44213,
-     44215,
-     44249
+     44702,
+     44704,
+     44738
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -742,9 +754,9 @@
      "D0pull": 2
     },
     "lines": [
-     27863,
-     27864,
-     27901
+     28170,
+     28171,
+     28208
     ],
     "evidence": [
      "const p=S.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;",
@@ -771,9 +783,9 @@
      "D0": 2
     },
     "lines": [
-     29494,
-     29495,
-     29500
+     29819,
+     29820,
+     29825
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -798,9 +810,9 @@
      "D0pull": 2
     },
     "lines": [
-     40450,
-     40451,
-     40456
+     40939,
+     40940,
+     40945
     ],
     "evidence": [
      "const p=T.params, kU=2*p.kappaT, eps=p.softening, eps2=eps*eps, q=p.q, c0=p.cLight, D0=p.D0, kF=p.kFrame;",
@@ -824,11 +836,11 @@
      "D0": 7
     },
     "lines": [
-     43238,
-     43241,
-     43243,
-     43300,
-     43323
+     43727,
+     43730,
+     43732,
+     43789,
+     43812
     ],
     "evidence": [
      "const D0=(o.D0===undefined)? 0 : Number(o.D0);",
@@ -854,9 +866,9 @@
      "D0pull": 2
     },
     "lines": [
-     43508,
-     43509,
-     43510
+     43997,
+     43998,
+     43999
     ],
     "evidence": [
      "const pw=frameWeightPow(p);",
@@ -883,9 +895,9 @@
      "D0": 2
     },
     "lines": [
-     44689,
-     44690,
-     44744
+     45557,
+     45558,
+     45612
     ],
     "evidence": [
      "const pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps;",
@@ -909,10 +921,10 @@
      "D0": 6
     },
     "lines": [
-     4983,
-     5014,
-     5015,
-     5016
+     4894,
+     4925,
+     4926,
+     4927
     ],
     "evidence": [
      "|| dSup!==SPACE_MESH_DISK_SUPPORT[0] || capE!==null || a.D0!==undefined)",
@@ -937,8 +949,8 @@
      "D0": 4
     },
     "lines": [
-     27780,
-     27781
+     28087,
+     28088
     ],
     "evidence": [
      "D0u:frameWeightIsPull(pp)? ((pp.D0pull!==undefined)? pp.D0pull : pp.D0) : pp.D0,   // 第241便(第242便: 既定 pull・一般指数。第252便a: D0pull の意味統一 — 未宣言=D₀ へフォールバック/明示値はその値〔0 を含む〕)",
@@ -961,11 +973,11 @@
      "D0": 6
     },
     "lines": [
-     40688,
-     40689,
-     40690,
-     40692,
-     40694
+     41177,
+     41178,
+     41179,
+     41181,
+     41183
     ],
     "evidence": [
      "const A=Number(o.A), D0=Number(o.D0), p=Number(o.p), s=Number(o.s);",
@@ -989,8 +1001,8 @@
      "D0": 6
     },
     "lines": [
-     43771,
-     43772
+     44260,
+     44261
     ],
     "evidence": [
      "const D0=(o.D0===undefined || o.D0===null)? 0 : Number(o.D0);",
@@ -1013,8 +1025,8 @@
      "D0": 6
     },
     "lines": [
-     47978,
-     47989
+     48848,
+     48859
     ],
     "evidence": [
      "const m0=dfmSpaceMeshState(anchor,T,(o.D0!==undefined)? {D0:o.D0} : undefined);",
@@ -1040,7 +1052,7 @@
      "D0": 1
     },
     "lines": [
-     23412
+     23716
     ],
     "evidence": [
      "const pw=frameWeightPow(p), D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;"
@@ -1063,8 +1075,8 @@
      "D0p": 1
     },
     "lines": [
-     23671,
-     23676
+     23975,
+     23980
     ],
     "evidence": [
      "const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);",
@@ -1088,8 +1100,8 @@
      "D0p": 1
     },
     "lines": [
-     23825,
-     23829
+     24129,
+     24133
     ],
     "evidence": [
      "const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);",
@@ -1114,8 +1126,8 @@
      "D0": 1
     },
     "lines": [
-     27502,
-     27505
+     27809,
+     27812
     ],
     "evidence": [
      "const pull=(fw===undefined)||(fw===\"pull\")||(fw===\"pull3\")||(fw===\"pull4\"), D0p=(p.D0pull!==undefined)? p.D0pull : p.D0;   // 第252便a: 意味統一(未宣言=D₀ / 明示値はその値。0 も真の 0)",
@@ -1138,8 +1150,8 @@
      "D0": 5
     },
     "lines": [
-     39585,
-     39594
+     40074,
+     40083
     ],
     "evidence": [
      "function dfmBinaryChi(mA,mB,a,D0,eps,p){",
@@ -1162,9 +1174,9 @@
      "D0": 5
     },
     "lines": [
-     43025,
-     43038,
-     43039
+     43514,
+     43527,
+     43528
     ],
     "evidence": [
      "const D0=(o.D0===undefined)? 0 : Number(o.D0);",
@@ -1189,9 +1201,9 @@
      "D0p": 1
     },
     "lines": [
-     25373,
-     25474,
-     25475
+     25679,
+     25780,
+     25781
     ],
     "evidence": [
      "muF=p.muF, gammaN=p.gammaN, kappaS=p.kappaS, D0=p.D0, kFrame=p.kFrame,",
@@ -1215,8 +1227,8 @@
      "D0": 4
     },
     "lines": [
-     39572,
-     39573
+     40061,
+     40062
     ],
     "evidence": [
      "const D0=(o.D0>=0)? +o.D0 : 2, C=(o.shell===\"gas\")? ((o.gasCoh!==undefined)? +o.gasCoh : 1) : 1;",
@@ -1239,8 +1251,8 @@
      "D0": 4
     },
     "lines": [
-     39603,
-     39607
+     40092,
+     40096
     ],
     "evidence": [
      "const M=Number(o.M), h=Math.max(0,Number(o.h)), eps=(o.eps>0)? Number(o.eps) : 0, D0=(o.D0>=0)? Number(o.D0) : 0;",
@@ -1263,8 +1275,8 @@
      "D0": 4
     },
     "lines": [
-     39637,
-     39641
+     40126,
+     40130
     ],
     "evidence": [
      "const M=Number(o.M), D0=(o.D0>=0)? Number(o.D0) : 0, v=Number(o.v), bound=Number(o.bound);",
@@ -1287,8 +1299,8 @@
      "D0": 4
     },
     "lines": [
-     41442,
-     41460
+     41931,
+     41949
     ],
     "evidence": [
      "nd.chi=(D0===Infinity)? 0 : ((W+D0>0)? W/(W+D0) : 0);",
@@ -1311,8 +1323,8 @@
      "D0": 4
     },
     "lines": [
-     41897,
-     41898
+     42386,
+     42387
     ],
     "evidence": [
      "const D0=Number((o.D0===undefined)? 0 : o.D0);",
@@ -1335,8 +1347,8 @@
      "D0": 4
     },
     "lines": [
-     41984,
-     41999
+     42473,
+     42488
     ],
     "evidence": [
      "const p=ch.decl.p, D0=ch.decl.D0, eps2=ch.decl.eps*ch.decl.eps, hp=p/2, tauD=ch.decl.tauDrag;",
@@ -1359,8 +1371,8 @@
      "D0": 4
     },
     "lines": [
-     45729,
-     45760
+     46597,
+     46628
     ],
     "evidence": [
      "p:(qo.p===undefined)?1:Number(qo.p), D0:(qo.D0===undefined)?0:Number(qo.D0),",
@@ -1384,8 +1396,8 @@
      "D0p": 1
     },
     "lines": [
-     45993,
-     45999
+     46861,
+     46867
     ],
     "evidence": [
      "const eps=p.softening, eps2=eps*eps, G=p.G, q=p.q, kFrame=p.kFrame, D0=p.D0;",
@@ -1409,8 +1421,8 @@
      "D0p": 1
     },
     "lines": [
-     26737,
-     26742
+     27043,
+     27048
     ],
     "evidence": [
      "const denom=S.params.D0+WB+S.sumW[i];",
@@ -1433,7 +1445,7 @@
      "D0p": 3
     },
     "lines": [
-     39615
+     40104
     ],
     "evidence": [
      "const M=Number(o.M), d=Number(o.d), D0p=(o.D0p>=0)? Number(o.D0p) : 0, eps=(o.eps>0)? Number(o.eps) : 0, p=(o.p>0)? Number(o.p) : 2;"
@@ -1456,8 +1468,8 @@
      "D0": 1
     },
     "lines": [
-     44306,
-     44321
+     44795,
+     44810
     ],
     "evidence": [
      "const den=D0p+WB+fl.Wpull;",
@@ -1472,6 +1484,30 @@
     "classified": true
    },
    {
+    "key": "dfmSpinPairFuse :: dfmSpinPairFuse",
+    "topFn": "dfmSpinPairFuse",
+    "innerDef": "dfmSpinPairFuse",
+    "n": 3,
+    "tokens": {
+     "D0p": 3
+    },
+    "lines": [
+     45326,
+     45329
+    ],
+    "evidence": [
+     "function dfmSpinPairFuse(S, BD, pin, x, y, m, pw, eps, G, D0p, C){",
+     "if(!(Number.isFinite(G) && Number.isFinite(eps) && eps>=0 && Number.isFinite(pw) && pw>0 && Number.isFinite(D0p) && D0p>=0)) return null;"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": null,
+    "replaceable": null,
+    "why": null,
+    "classified": false
+   },
+   {
     "key": "meshV2Weights :: meshV2Weights",
     "topFn": "meshV2Weights",
     "innerDef": "meshV2Weights",
@@ -1480,8 +1516,8 @@
      "D0": 3
     },
     "lines": [
-     45646,
-     45656
+     46514,
+     46524
     ],
     "evidence": [
      "const n=mm.length, eps2=o.eps*o.eps, pw=o.p, D0=o.D0, eta=o.eta;",
@@ -1504,7 +1540,7 @@
      "D0": 3
     },
     "lines": [
-     48007
+     48877
     ],
     "evidence": [
      "const m1=dfmSpaceMeshState(a,T,(tr.D0!==null)? {D0:tr.D0} : undefined);"
@@ -1526,7 +1562,7 @@
      "D0p": 2
     },
     "lines": [
-     23437
+     23741
     ],
     "evidence": [
      "const di=D0p+Wt[i], dj=D0p+Wt[j];"
@@ -1548,8 +1584,8 @@
      "D0": 2
     },
     "lines": [
-     27419,
-     27429
+     27726,
+     27736
     ],
     "evidence": [
      "const key=camX+\",\"+camY+\",\"+camScale+\",\"+cw+\",\"+hgt+\",\"+S.params.D0+\",\"+S.params.softening+",
@@ -1564,6 +1600,28 @@
     "classified": true
    },
    {
+    "key": "buildWbgRow :: buildWbgRow",
+    "topFn": "buildWbgRow",
+    "innerDef": "buildWbgRow",
+    "n": 2,
+    "tokens": {
+     "D0": 2
+    },
+    "lines": [
+     34097
+    ],
+    "evidence": [
+     "(paramRowSync.D0||(paramRowSync.D0=[])).push(wbgRowSync);   // D₀ 行の同期・換算表示の総なめでも引き直す"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": true,
+    "objectKeyOnly": false,
+    "use": null,
+    "replaceable": null,
+    "why": null,
+    "classified": false
+   },
+   {
     "key": "obsMakeSys :: csSpin",
     "topFn": "obsMakeSys",
     "innerDef": "csSpin",
@@ -1573,7 +1631,7 @@
      "D0pull": 1
     },
     "lines": [
-     35822
+     36294
     ],
     "evidence": [
      "const phO={G:G, D0:0.006, D0pull:3.24204e8/Math.pow(10, sc.M-2*sc.L), kFrame:1, q:q, softening:0.05, timeScale:timeScale, dispMag:dispMag};   // 第242便: pull 既定の背景 D0pull=3.24204×10⁸ kg/m²(🌘🪨 と共通)を単位",
@@ -1596,8 +1654,8 @@
      "D0": 2
     },
     "lines": [
-     39648,
-     39652
+     40137,
+     40141
     ],
     "evidence": [
      "function dfmBinaryMassFactor(mAobs,mBobs,a,D0,eps,kFrame,p){",
@@ -1620,8 +1678,8 @@
      "D0": 2
     },
     "lines": [
-     39668,
-     39672
+     40157,
+     40161
     ],
     "evidence": [
      "function dfmBinaryMassFactorLinear(mAobs,mBobs,a,D0,eps,kFrame,p){",
@@ -1644,8 +1702,8 @@
      "D0": 2
     },
     "lines": [
-     43797,
-     43822
+     44286,
+     44311
     ],
     "evidence": [
      "const den=D0+W;",
@@ -1669,8 +1727,8 @@
      "D0": 1
     },
     "lines": [
-     44386,
-     44402
+     44875,
+     44891
     ],
     "evidence": [
      "const pw=frameWeightPow(p), eps=p.softening, eps2=eps*eps, G=p.G;",
@@ -1693,7 +1751,7 @@
      "frameWeightPow": 1
     },
     "lines": [
-     5804
+     5715
     ],
     "evidence": [
      "if(frameWeightPow(ph)!==1) return W+' は frameWeight:\"share\"(p=1)の本だけ(局所の核と背景の核を同じ p にする)';"
@@ -1715,7 +1773,7 @@
      "frameWeightPow": 1
     },
     "lines": [
-     6545
+     6540
     ],
     "evidence": [
      "function frameWeightPow(p){ const v=p[FRAME_WEIGHT_KEY]; return (v===undefined)? 2 : (v===\"pull\")? 2 : (v===\"pull3\")? 3 : (v===\"pull4\")? 4 : 1; }"
@@ -1729,6 +1787,28 @@
     "classified": true
    },
    {
+    "key": "jeansRowsVelocities :: jeansRowsVelocities",
+    "topFn": "jeansRowsVelocities",
+    "innerDef": "jeansRowsVelocities",
+    "n": 1,
+    "tokens": {
+     "frameWeightPow": 1
+    },
+    "lines": [
+     6720
+    ],
+    "evidence": [
+     "const C=toy? { p:frameWeightPow(ph), eps:Math.sqrt(eps2), Wbg:bgWbgOf(ph,cf,spinRead).Wbg,"
+    ],
+    "hasPullFallback": false,
+    "readsD0Member": false,
+    "objectKeyOnly": false,
+    "use": "初速(Jeans 平衡 —— W_bg=D₀ を σ² の分母に・vMode:\"jeans\" の本だけ)",
+    "replaceable": "candidate",
+    "why": "χ の分母",
+    "classified": true
+   },
+   {
     "key": "makeSim :: S._weaveSpread",
     "topFn": "makeSim",
     "innerDef": "S._weaveSpread",
@@ -1737,7 +1817,7 @@
      "D0": 1
     },
     "lines": [
-     23757
+     24061
     ],
     "evidence": [
      "const bgW=p.D0+WB, sumW=S.sumW, eps=p.softening, eps2=eps*eps;"
@@ -1759,7 +1839,7 @@
      "D0": 1
     },
     "lines": [
-     26798
+     27104
     ],
     "evidence": [
      "let w=S.params.D0; const eps=S.params.softening;"
@@ -1781,7 +1861,7 @@
      "D0": 1
     },
     "lines": [
-     27373
+     27680
     ],
     "evidence": [
      "return camX+\",\"+camY+\",\"+camScale+\",\"+cw+\",\"+ch+\",\"+sim.params.D0+\",\"+sim.params.softening+"
@@ -1803,7 +1883,7 @@
      "D0": 1
     },
     "lines": [
-     27448
+     27755
     ],
     "evidence": [
      "let wmax=sim.params.D0+0.001;"
@@ -1825,7 +1905,7 @@
      "frameWeightPow": 1
     },
     "lines": [
-     27807
+     28114
     ],
     "evidence": [
      "const rPl=frameWeightIsPull(pp), rPw=frameWeightPow(pp);   // 第241便(第242便: 既定 pull・一般指数)/第262便d: pull 判定は isPull・指数は pow(share も 1)"
@@ -1847,7 +1927,7 @@
      "D0": 1
     },
     "lines": [
-     27842
+     28149
     ],
     "evidence": [
      "const Wtot=O.D0+O.WB+_RF.w, Wu=O.D0u+O.WB+_RF.wu;   // 第240便: 随伴の分母は W′(既定は W と同値)/第241便: pull は D0pull"
@@ -1869,7 +1949,7 @@
      "D0": 1
     },
     "lines": [
-     27933
+     28240
     ],
     "evidence": [
      "sim.params.kappaT+\",\"+sim.params.cLight+\",\"+sim.params.D0+\",\"+sim.params.q+\",\"+"
@@ -1891,7 +1971,7 @@
      "D0pull": 1
     },
     "lines": [
-     32352
+     32778
     ],
     "evidence": [
      "if(!(s.physics.D0pull>0) && /DFM$|RealKF1$/.test(String(s.presetId||\"\"))) setTimeout(()=>notify(T(\"fwNoD0pull\"),8000),1200);"
@@ -1913,7 +1993,7 @@
      "D0": 1
     },
     "lines": [
-     38249
+     38738
     ],
     "evidence": [
      "const bgW=p.D0+((S.box && S.boxA)? S.boxA.W : 0);   // tauUpdate と同じ「箱の決定力を足す」書き方"
@@ -1935,7 +2015,7 @@
      "D0": 1
     },
     "lines": [
-     39552
+     40041
     ],
     "evidence": [
      "function chiMassFactors(mA, mB, sep, D0, eps, C){"
@@ -1957,7 +2037,7 @@
      "D0": 1
     },
     "lines": [
-     39554
+     40043
     ],
     "evidence": [
      "const chi=(w)=>w/((D0||0)+w);"
@@ -1979,7 +2059,7 @@
      "D0p": 1
     },
     "lines": [
-     39619
+     40108
     ],
     "evidence": [
      "const w=M*wf(d), chi=w/(D0p+W+w), v=(o.v!==undefined)? Number(o.v) : 0, c=(o.c>0)? Number(o.c) : 0, res=(1-chi)*v;"
@@ -2001,7 +2081,7 @@
      "D0": 1
     },
     "lines": [
-     41942
+     42431
     ],
     "evidence": [
      "bond, kScale:kSc, gammaScale:gSc, D0, p, eps, drive:drv },"
@@ -2023,7 +2103,7 @@
      "D0": 1
     },
     "lines": [
-     42754
+     43243
     ],
     "evidence": [
      "function dfmMeshBlend(node,background,W,gradW,D0,Wdot){"
@@ -2045,7 +2125,7 @@
      "D0": 1
     },
     "lines": [
-     42768
+     43257
     ],
     "evidence": [
      "const Wv=Number(W), D=Number(D0), Wd=(Wdot===undefined || Wdot===null)? 0 : Number(Wdot);"
@@ -2067,7 +2147,7 @@
      "D0": 1
     },
     "lines": [
-     43628
+     44117
     ],
     "evidence": [
      "const g=dfmGalaxyMeshField(list,px,py,{p:pw, eps, D0:Wbg, unSource:srcM, unFit:\"affine\", bg:\"static\","

@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "cea53a3b1ea76e256be4723845c71c0b2c1bfe1222a85623eebced4a3e5a5b94",
+  "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
   "csvSha256": "1408757d47f818e266abe753d221caf0ab722d0f026f41827a782e639202e45a",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-09-29T19:07:44.697Z",
+  "at": "2026-09-30T23:12:59.466Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -54,11 +54,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 858,
-   "segments": 777,
-   "closureShare": 0.315
+   "names": 887,
+   "segments": 801,
+   "closureShare": 0.3157
   },
-  "scopeSha256": "1d07dadbf8622842e6f8be9c9ea22accc273c55c204eaf3c374c5b84885d06f9",
+  "scopeSha256": "f7d8b16d7757ab514fef25d0de55b6f13edd16a6f334cd83a52ab8db39a19192",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -92,7 +92,7 @@
    }
   ],
   "codeSha256": "d9faf10f0abd529667e68b1b27965b8cbf92614d30a577756b6535a735b61ec7",
-  "spentSec": 776.4,
+  "spentSec": 1051.4,
   "stages": 102
  },
  "builtinDeclared": [
@@ -122,9 +122,9 @@
   {
    "id": "psrJ1757DFM",
    "emoji": "🧮",
-   "kFrame": 1,
+   "kFrame": 0,
    "lambdaPN": 1,
-   "geoPN": 2,
+   "geoPN": 1,
    "sampleClass": "calibration",
    "masses": [
     2661.4084000000003,
@@ -145,9 +145,9 @@
   {
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "kFrame": 1,
+   "kFrame": 0,
    "lambdaPN": 1,
-   "geoPN": 2,
+   "geoPN": 1,
    "sampleClass": "calibration",
    "masses": [
     2552.8363000000004,
@@ -1821,9 +1821,9 @@
    "builtin": {
     "id": "psrJ1757DFM",
     "emoji": "🧮",
-    "kFrame": 1,
+    "kFrame": 0,
     "lambdaPN": 1,
-    "geoPN": 2,
+    "geoPN": 1,
     "sampleClass": "calibration",
     "masses": [
      2661.4084000000003,
@@ -1983,7 +1983,7 @@
    "variants": [
     {
      "tag": "builtin",
-     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 fなし)",
+     "what": "内蔵そのまま(kFrame=0・λ_PN=1・台帳 fなし)",
      "spec": {
       "builtin": true
      },
@@ -1995,17 +1995,17 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4153288,
+       "steps": 1932653,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.21367938821064694,
-       "P": 34075.50309132112,
-       "omegaDot": 2.4912836878358453,
+       "e": 0.6058184486986372,
+       "P": 15857.687164612216,
+       "omegaDot": 10.358449591742735,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          2661.4084000000003,
@@ -2028,17 +2028,17 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 8319470,
+       "steps": 3865308,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.2129324013777101,
-       "P": 34129.78168251833,
-       "omegaDot": 2.484040046803925,
+       "e": 0.605818266842618,
+       "P": 15857.68115787314,
+       "omegaDot": 10.36077785961516,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          2661.4084000000003,
@@ -2061,17 +2061,17 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 16651838,
+       "steps": 7730616,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.21255974118261778,
-       "P": 34156.92641625467,
-       "omegaDot": 2.4807279379937364,
+       "e": 0.6058181745679905,
+       "P": 15857.678154145504,
+       "omegaDot": 10.3613611120462,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          2661.4084000000003,
@@ -2090,33 +2090,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9997109435516245,
-       "ext": 34184.08203062609,
+       "p": 0.9998279951217836,
+       "ext": 15857.675149701503,
        "monotone": true,
-       "d1": -54.27859119720961,
-       "d2": -27.144733736335183,
+       "d1": 0.00600673907683813,
+       "d2": 0.0030037276355869835,
        "note": null
       },
       "omegaDot": {
-       "p": 1.1289649840476064,
-       "ext": 2.477937660780722,
+       "p": 1.9970647324891095,
+       "ext": 10.361556057827336,
        "monotone": true,
-       "d1": 0.007243641031920323,
-       "d2": 0.0033121088101886187,
+       "d1": -0.002328267872425016,
+       "d2": -0.0005832524310402931,
        "note": null
       },
       "e": {
-       "p": 1.0032220841078483,
-       "ext": 0.21218874001153912,
+       "p": 0.9787907647287448,
+       "ext": 0.605818079519156,
        "monotone": true,
-       "d1": 0.0007469868329368357,
-       "d2": 0.00037266019509232806,
+       "d1": 1.8185601924347594e-7,
+       "d2": 9.22746274945041e-8,
        "note": null
       }
      },
-     "Pext": 34184.08203062609,
-     "omegaDotExt": 2.477937660780722,
-     "eExt": 0.21218874001153912,
+     "Pext": 15857.675149701503,
+     "omegaDotExt": 10.361556057827336,
+     "eExt": 0.605818079519156,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -2129,30 +2129,30 @@
         "sigma": 0.00000432,
         "recordId": "SOL-7cc2400b",
         "solutionId": null,
-        "modelExt": 34184.08203062609,
-        "modelH4": 34156.92641625467,
-        "sigmaTimesExt": 4242225234.133816,
-        "sigmaTimesH4": 4235939212.28858
+        "modelExt": 15857.675149701503,
+        "modelH4": 15857.678154145504,
+        "sigmaTimesExt": 1419.1049773318,
+        "sigmaTimesH4": 2114.5781256900927
        },
        "omegaDot": {
         "obs": 10.3651,
         "sigma": 0.0002,
         "recordId": "SOL-f141dc30",
         "solutionId": null,
-        "modelExt": 2.477937660780722,
-        "modelH4": 2.4807279379937364,
-        "sigmaTimesExt": -39435.81169609639,
-        "sigmaTimesH4": -39421.86031003132
+        "modelExt": 10.361556057827336,
+        "modelH4": 10.3613611120462,
+        "sigmaTimesExt": -17.719710863319804,
+        "sigmaTimesH4": -18.694439768998095
        },
        "e": {
         "obs": 0.6058142,
         "sigma": 0.000001,
         "recordId": "SOL-251ef664",
         "solutionId": null,
-        "modelExt": 0.21218874001153912,
-        "modelH4": 0.21255974118261778,
-        "sigmaTimesExt": -393625.4599884609,
-        "sigmaTimesH4": -393254.4588173822
+        "modelExt": 0.605818079519156,
+        "modelH4": 0.6058181745679905,
+        "sigmaTimesExt": 3.8795191560359044,
+        "sigmaTimesH4": 3.974567990505662
        }
       },
       "solution": {
@@ -2161,30 +2161,30 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-73e1ba36",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 34184.08203062609,
-        "modelH4": 34156.92641625467,
-        "sigmaTimesExt": 106055636952.84541,
-        "sigmaTimesH4": 105898486406.71452
+        "modelExt": 15857.675149701503,
+        "modelH4": 15857.678154145504,
+        "sigmaTimesExt": 41577.12443960311,
+        "sigmaTimesH4": 58963.95314856043
        },
        "omegaDot": {
         "obs": 10.364986,
         "sigma": 0.000008,
         "recordId": "SOL-4d073b22",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 2.477937660780722,
-        "modelH4": 2.4807279379937364,
-        "sigmaTimesExt": -985881.0424024098,
-        "sigmaTimesH4": -985532.2577507831
+        "modelExt": 10.361556057827336,
+        "modelH4": 10.3613611120462,
+        "sigmaTimesExt": -428.7427715830017,
+        "sigmaTimesH4": -453.110994224959
        },
        "e": {
         "obs": 0.605817,
         "sigma": 0.000002,
         "recordId": "SOL-8d0fec54",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 0.21218874001153912,
-        "modelH4": 0.21255974118261778,
-        "sigmaTimesExt": -196814.1299942305,
-        "sigmaTimesH4": -196628.62940869114
+        "modelExt": 0.605818079519156,
+        "modelH4": 0.6058181745679905,
+        "sigmaTimesExt": 0.5397595779776942,
+        "sigmaTimesH4": 0.587283995212573
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -2229,7 +2229,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2661.4084000000003,
@@ -2262,7 +2262,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2661.4084000000003,
@@ -2295,7 +2295,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2661.4084000000003,
@@ -2439,136 +2439,91 @@
       {
        "div": 1,
        "dt": 0.016,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 2158930,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.5498776084412031,
-       "P": 17707.569484854143,
-       "omegaDot": 14.16828851072002,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         4632.552551708412,
-         4827.075454731433
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=0.740871852668369)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 2,
        "dt": 0.008,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 4349015,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.5485553727222404,
-       "P": 17838.737707786673,
-       "omegaDot": 14.015292044860695,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         4632.552551708412,
-         4827.075454731433
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=0.740871852668369)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 4,
        "dt": 0.004,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 8729348,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.5478988427279093,
-       "P": 17904.665546609773,
-       "omegaDot": 13.94117923948623,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         4632.552551708412,
-         4827.075454731433
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=0.740871852668369)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       }
      ],
      "richardson": {
       "P": {
-       "p": 0.9924585578539241,
-       "ext": 17971.288084033742,
-       "monotone": true,
-       "d1": -131.16822293253063,
-       "d2": -65.92783882309959,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "omegaDot": {
-       "p": 1.0457035865581066,
-       "ext": 13.871548749639379,
-       "monotone": true,
-       "d1": 0.15299646585932436,
-       "d2": 0.0741128053744653,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 1.0100465644585246,
-       "ext": 0.5472513619905387,
-       "monotone": true,
-       "d1": 0.0013222357189627276,
-       "d2": 0.0006565299943310787,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       }
      },
-     "Pext": 17971.288084033742,
-     "omegaDotExt": 13.871548749639379,
-     "eExt": 0.5472513619905387,
+     "Pext": null,
+     "omegaDotExt": null,
+     "eExt": null,
      "resolved": {
-      "P": true,
-      "omegaDot": true,
-      "e": true
+      "P": false,
+      "omegaDot": false,
+      "e": false
      },
      "sigma": {
       "adopted": {
@@ -2577,30 +2532,30 @@
         "sigma": 0.00000432,
         "recordId": "SOL-7cc2400b",
         "solutionId": null,
-        "modelExt": 17971.288084033742,
-        "modelH4": 17904.665546609773,
-        "sigmaTimesExt": 489263672.42262524,
-        "sigmaTimesH4": 473841788.75966936
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 10.3651,
         "sigma": 0.0002,
         "recordId": "SOL-f141dc30",
         "solutionId": null,
-        "modelExt": 13.871548749639379,
-        "modelH4": 13.94117923948623,
-        "sigmaTimesExt": 17532.243748196892,
-        "sigmaTimesH4": 17880.39619743115
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.6058142,
         "sigma": 0.000001,
         "recordId": "SOL-251ef664",
         "solutionId": null,
-        "modelExt": 0.5472513619905387,
-        "modelH4": 0.5478988427279093,
-        "sigmaTimesExt": -58562.83800946127,
-        "sigmaTimesH4": -57915.35727209063
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        }
       },
       "solution": {
@@ -2609,30 +2564,30 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-73e1ba36",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 17971.288084033742,
-        "modelH4": 17904.665546609773,
-        "sigmaTimesExt": 12231597910.065638,
-        "sigmaTimesH4": 11846050818.491741
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 10.364986,
         "sigma": 0.000008,
         "recordId": "SOL-4d073b22",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 13.871548749639379,
-        "modelH4": 13.94117923948623,
-        "sigmaTimesExt": 438320.34370492236,
-        "sigmaTimesH4": 447024.15493577876
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.605817,
         "sigma": 0.000002,
         "recordId": "SOL-8d0fec54",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 0.5472513619905387,
-        "modelH4": 0.5478988427279093,
-        "sigmaTimesExt": -29282.819004730678,
-        "sigmaTimesH4": -28959.078636045357
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -2640,12 +2595,12 @@
      "jointWithin3Sigma": {
       "ext": false,
       "h4": false,
-      "stateExt": "outside",
-      "stateH4": "outside",
+      "stateExt": "undecidable",
+      "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "outside",
-       "omegaDot": "outside",
-       "e": "outside"
+       "P": "undecidable",
+       "omegaDot": "undecidable",
+       "e": "undecidable"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
      }
@@ -2677,7 +2632,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2661.4084000000003,
@@ -2710,7 +2665,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2661.4084000000003,
@@ -2743,7 +2698,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2661.4084000000003,
@@ -2887,136 +2842,91 @@
       {
        "div": 1,
        "dt": 0.016,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 4153288,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.21367938821064694,
-       "P": 34075.50309132112,
-       "omegaDot": 2.4912836878358453,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         2661.4084000000003,
-         2773.1621
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 2,
        "dt": 0.008,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 8319470,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.2129324013777101,
-       "P": 34129.78168251833,
-       "omegaDot": 2.484040046803925,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         2661.4084000000003,
-         2773.1621
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 4,
        "dt": 0.004,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 16651838,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.21255974118261778,
-       "P": 34156.92641625467,
-       "omegaDot": 2.4807279379937364,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         2661.4084000000003,
-         2773.1621
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       }
      ],
      "richardson": {
       "P": {
-       "p": 0.9997109435516245,
-       "ext": 34184.08203062609,
-       "monotone": true,
-       "d1": -54.27859119720961,
-       "d2": -27.144733736335183,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "omegaDot": {
-       "p": 1.1289649840476064,
-       "ext": 2.477937660780722,
-       "monotone": true,
-       "d1": 0.007243641031920323,
-       "d2": 0.0033121088101886187,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 1.0032220841078483,
-       "ext": 0.21218874001153912,
-       "monotone": true,
-       "d1": 0.0007469868329368357,
-       "d2": 0.00037266019509232806,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       }
      },
-     "Pext": 34184.08203062609,
-     "omegaDotExt": 2.477937660780722,
-     "eExt": 0.21218874001153912,
+     "Pext": null,
+     "omegaDotExt": null,
+     "eExt": null,
      "resolved": {
-      "P": true,
-      "omegaDot": true,
-      "e": true
+      "P": false,
+      "omegaDot": false,
+      "e": false
      },
      "sigma": {
       "adopted": {
@@ -3025,30 +2935,30 @@
         "sigma": 0.00000432,
         "recordId": "SOL-7cc2400b",
         "solutionId": null,
-        "modelExt": 34184.08203062609,
-        "modelH4": 34156.92641625467,
-        "sigmaTimesExt": 4242225234.133816,
-        "sigmaTimesH4": 4235939212.28858
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 10.3651,
         "sigma": 0.0002,
         "recordId": "SOL-f141dc30",
         "solutionId": null,
-        "modelExt": 2.477937660780722,
-        "modelH4": 2.4807279379937364,
-        "sigmaTimesExt": -39435.81169609639,
-        "sigmaTimesH4": -39421.86031003132
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.6058142,
         "sigma": 0.000001,
         "recordId": "SOL-251ef664",
         "solutionId": null,
-        "modelExt": 0.21218874001153912,
-        "modelH4": 0.21255974118261778,
-        "sigmaTimesExt": -393625.4599884609,
-        "sigmaTimesH4": -393254.4588173822
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        }
       },
       "solution": {
@@ -3057,30 +2967,30 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-73e1ba36",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 34184.08203062609,
-        "modelH4": 34156.92641625467,
-        "sigmaTimesExt": 106055636952.84541,
-        "sigmaTimesH4": 105898486406.71452
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 10.364986,
         "sigma": 0.000008,
         "recordId": "SOL-4d073b22",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 2.477937660780722,
-        "modelH4": 2.4807279379937364,
-        "sigmaTimesExt": -985881.0424024098,
-        "sigmaTimesH4": -985532.2577507831
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.605817,
         "sigma": 0.000002,
         "recordId": "SOL-8d0fec54",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 0.21218874001153912,
-        "modelH4": 0.21255974118261778,
-        "sigmaTimesExt": -196814.1299942305,
-        "sigmaTimesH4": -196628.62940869114
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -3088,12 +2998,12 @@
      "jointWithin3Sigma": {
       "ext": false,
       "h4": false,
-      "stateExt": "outside",
-      "stateH4": "outside",
+      "stateExt": "undecidable",
+      "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "outside",
-       "omegaDot": "outside",
-       "e": "outside"
+       "P": "undecidable",
+       "omegaDot": "undecidable",
+       "e": "undecidable"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
      }
@@ -3125,7 +3035,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2661.4084000000003,
@@ -3158,7 +3068,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2661.4084000000003,
@@ -3191,7 +3101,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2661.4084000000003,
@@ -3341,9 +3251,9 @@
    "builtin": {
     "id": "psrJ1946DFM",
     "emoji": "🩺",
-    "kFrame": 1,
+    "kFrame": 0,
     "lambdaPN": 1,
-    "geoPN": 2,
+    "geoPN": 1,
     "sampleClass": "calibration",
     "masses": [
      2552.8363000000004,
@@ -3503,7 +3413,7 @@
    "variants": [
     {
      "tag": "builtin",
-     "what": "内蔵そのまま(kFrame=1・λ_PN=1・台帳 fなし)",
+     "what": "内蔵そのまま(kFrame=0・λ_PN=1・台帳 fなし)",
      "spec": {
       "builtin": true
      },
@@ -3513,19 +3423,19 @@
        "dt": 0.016,
        "ok": true,
        "errors": null,
-       "stopped": "escape",
-       "nPeri": 1,
-       "steps": 166209,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 826504,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.7777780218266961,
-       "P": null,
-       "omegaDot": null,
+       "e": 0.06382543228988873,
+       "P": 6781.703806269037,
+       "omegaDot": 25.768723601562844,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          2552.8363000000004,
@@ -3546,19 +3456,19 @@
        "dt": 0.008,
        "ok": true,
        "errors": null,
-       "stopped": "escape",
-       "nPeri": 1,
-       "steps": 332382,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 1653024,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.7777779961964649,
-       "P": null,
-       "omegaDot": null,
+       "e": 0.06382532207469208,
+       "P": 6781.702896389575,
+       "omegaDot": 25.77570970016711,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          2552.8363000000004,
@@ -3579,19 +3489,19 @@
        "dt": 0.004,
        "ok": true,
        "errors": null,
-       "stopped": "escape",
-       "nPeri": 1,
-       "steps": 664727,
+       "stopped": "window",
+       "nPeri": 20,
+       "steps": 3306064,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.7777778011870725,
-       "P": null,
-       "omegaDot": null,
+       "e": 0.06382527224023707,
+       "P": 6781.702450843108,
+       "omegaDot": 25.77745758648087,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "calibration",
         "masses": [
          2552.8363000000004,
@@ -3610,37 +3520,37 @@
      ],
      "richardson": {
       "P": {
-       "p": null,
-       "ext": null,
-       "monotone": null,
-       "d1": null,
-       "d2": null,
-       "note": "3 段が揃っていない"
+       "p": 1.0300995343349717,
+       "ext": 6781.702023323082,
+       "monotone": true,
+       "d1": 0.0009098794625970186,
+       "d2": 0.00044554646683536703,
+       "note": null
       },
       "omegaDot": {
-       "p": null,
-       "ext": null,
-       "monotone": null,
-       "d1": null,
-       "d2": null,
-       "note": "3 段が揃っていない"
+       "p": 1.9988756536438648,
+       "ext": 25.77804082106481,
+       "monotone": true,
+       "d1": -0.006986098604265578,
+       "d2": -0.0017478863137618816,
+       "note": null
       },
       "e": {
-       "p": -2.9276252159601546,
-       "ext": null,
-       "monotone": false,
-       "d1": 2.563023115964569e-8,
-       "d2": 1.9500939241190451e-7,
-       "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+       "p": 1.1451077025101895,
+       "ext": 0.06382523111002174,
+       "monotone": true,
+       "d1": 1.1021519664977664e-7,
+       "d2": 4.983445500705841e-8,
+       "note": null
       }
      },
-     "Pext": null,
-     "omegaDotExt": null,
-     "eExt": null,
+     "Pext": 6781.702023323082,
+     "omegaDotExt": 25.77804082106481,
+     "eExt": 0.06382523111002174,
      "resolved": {
-      "P": false,
-      "omegaDot": false,
-      "e": false
+      "P": true,
+      "omegaDot": true,
+      "e": true
      },
      "sigma": {
       "adopted": {
@@ -3649,30 +3559,30 @@
         "sigma": 0.000864,
         "recordId": "SOL-cb34a1f4",
         "solutionId": null,
-        "modelExt": null,
-        "modelH4": null,
-        "sigmaTimesExt": null,
-        "sigmaTimesH4": null
+        "modelExt": 6781.702023323082,
+        "modelH4": 6781.702450843108,
+        "sigmaTimesExt": 388.1566239377426,
+        "sigmaTimesH4": 388.6514387819194
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-f5d43612",
         "solutionId": null,
-        "modelExt": null,
-        "modelH4": null,
-        "sigmaTimesExt": null,
-        "sigmaTimesH4": null
+        "modelExt": 25.77804082106481,
+        "modelH4": 25.77745758648087,
+        "sigmaTimesExt": -35.02294733797484,
+        "sigmaTimesH4": -36.48103379782164
        },
        "e": {
         "obs": 0.063848,
         "sigma": 0.000009,
         "recordId": "SOL-efbb5491",
         "solutionId": null,
-        "modelExt": null,
-        "modelH4": 0.7777778011870725,
-        "sigmaTimesExt": null,
-        "sigmaTimesH4": 79325.53346523027
+        "modelExt": 0.06382523111002174,
+        "modelH4": 0.06382527224023707,
+        "sigmaTimesExt": -2.529876664251566,
+        "sigmaTimesH4": -2.525306640325921
        }
       },
       "solution": {
@@ -3681,30 +3591,30 @@
         "sigma": 0.000001728,
         "recordId": "SOL-dd4b7894",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": null,
-        "modelH4": null,
-        "sigmaTimesExt": null,
-        "sigmaTimesH4": null
+        "modelExt": 6781.702023323082,
+        "modelH4": 6781.702450843108,
+        "sigmaTimesExt": 193301.31196892564,
+        "sigmaTimesH4": 193548.71939101402
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-4d53d566",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": null,
-        "modelH4": null,
-        "sigmaTimesExt": null,
-        "sigmaTimesH4": null
+        "modelExt": 25.77804082106481,
+        "modelH4": 25.77745758648087,
+        "sigmaTimesExt": -35.02294733797484,
+        "sigmaTimesH4": -36.48103379782164
        },
        "e": {
         "obs": 0.0638363,
         "sigma": 8e-7,
         "recordId": "SOL-ae8d8ac9",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": null,
-        "modelH4": 0.7777778011870725,
-        "sigmaTimesExt": null,
-        "sigmaTimesH4": 892426.8764838408
+        "modelExt": 0.06382523111002174,
+        "modelH4": 0.06382527224023707,
+        "sigmaTimesExt": -13.836112472825901,
+        "sigmaTimesH4": -13.78469970366239
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -3712,12 +3622,12 @@
      "jointWithin3Sigma": {
       "ext": false,
       "h4": false,
-      "stateExt": "undecidable",
-      "stateH4": "undecidable",
+      "stateExt": "outside",
+      "stateH4": "outside",
       "perQuantityExt": {
-       "P": "undecidable",
-       "omegaDot": "undecidable",
-       "e": "undecidable"
+       "P": "outside",
+       "omegaDot": "outside",
+       "e": "within"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
      }
@@ -3749,7 +3659,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2552.8363000000004,
@@ -3782,7 +3692,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2552.8363000000004,
@@ -3815,7 +3725,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2552.8363000000004,
@@ -3959,136 +3869,91 @@
       {
        "div": 1,
        "dt": 0.016,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 1184387,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.13508789576934163,
-       "P": 9973.772351417541,
-       "omegaDot": 25.04857120970901,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         4230.696816355636,
-         4112.719759161732
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=0.6572657522175487)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 2,
        "dt": 0.008,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 2380009,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.1323923876113495,
-       "P": 10021.084712841799,
-       "omegaDot": 24.418451288647205,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         4230.696816355636,
-         4112.719759161732
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=0.6572657522175487)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       },
       {
        "div": 4,
        "dt": 0.004,
-       "ok": true,
-       "errors": null,
-       "stopped": "window",
-       "nPeri": 20,
-       "steps": 4771256,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.13105394899107423,
-       "P": 10044.746444071705,
-       "omegaDot": 24.130241371898467,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         4230.696816355636,
-         4112.719759161732
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=0.6572657522175487)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
+       "P": null,
+       "omegaDot": null,
+       "used": null
       }
      ],
      "richardson": {
       "P": {
-       "p": 0.9996615360154609,
-       "ext": 10068.419281547724,
-       "monotone": true,
-       "d1": -47.31236142425769,
-       "d2": -23.661731229905854,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "omegaDot": {
-       "p": 1.1285064440391182,
-       "ext": 23.887297453719764,
-       "monotone": true,
-       "d1": 0.6301199210618051,
-       "d2": 0.2882099167487375,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       },
       "e": {
-       "p": 1.0100062962569107,
-       "ext": 0.12973388550835965,
-       "monotone": true,
-       "d1": 0.0026955081579921325,
-       "d2": 0.001338438620275273,
-       "note": null
+       "p": null,
+       "ext": null,
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       }
      },
-     "Pext": 10068.419281547724,
-     "omegaDotExt": 23.887297453719764,
-     "eExt": 0.12973388550835965,
+     "Pext": null,
+     "omegaDotExt": null,
+     "eExt": null,
      "resolved": {
-      "P": true,
-      "omegaDot": true,
-      "e": true
+      "P": false,
+      "omegaDot": false,
+      "e": false
      },
      "sigma": {
       "adopted": {
@@ -4097,30 +3962,30 @@
         "sigma": 0.000864,
         "recordId": "SOL-cb34a1f4",
         "solutionId": null,
-        "modelExt": 10068.419281547724,
-        "modelH4": 10044.746444071705,
-        "sigmaTimesExt": 3804459.0573469023,
-        "sigmaTimesH4": 3777059.9398978064
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-f5d43612",
         "solutionId": null,
-        "modelExt": 23.887297453719764,
-        "modelH4": 24.130241371898467,
-        "sigmaTimesExt": -4761.8813657005885,
-        "sigmaTimesH4": -4154.521570253831
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.063848,
         "sigma": 0.000009,
         "recordId": "SOL-efbb5491",
         "solutionId": null,
-        "modelExt": 0.12973388550835965,
-        "modelH4": 0.13105394899107423,
-        "sigmaTimesExt": 7320.653945373294,
-        "sigmaTimesH4": 7467.327665674914
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        }
       },
       "solution": {
@@ -4129,30 +3994,30 @@
         "sigma": 0.000001728,
         "recordId": "SOL-dd4b7894",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 10068.419281547724,
-        "modelH4": 10044.746444071705,
-        "sigmaTimesExt": 1902228751.6734512,
-        "sigmaTimesH4": 1888529192.9489033
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-4d53d566",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 23.887297453719764,
-        "modelH4": 24.130241371898467,
-        "sigmaTimesExt": -4761.8813657005885,
-        "sigmaTimesH4": -4154.521570253831
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        },
        "e": {
         "obs": 0.0638363,
         "sigma": 8e-7,
         "recordId": "SOL-ae8d8ac9",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 0.12973388550835965,
-        "modelH4": 0.13105394899107423,
-        "sigmaTimesExt": 82371.98188544957,
-        "sigmaTimesH4": 84022.06123884278
+        "modelExt": null,
+        "modelH4": null,
+        "sigmaTimesExt": null,
+        "sigmaTimesH4": null
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -4160,12 +4025,12 @@
      "jointWithin3Sigma": {
       "ext": false,
       "h4": false,
-      "stateExt": "outside",
-      "stateH4": "outside",
+      "stateExt": "undecidable",
+      "stateH4": "undecidable",
       "perQuantityExt": {
-       "P": "outside",
-       "omegaDot": "outside",
-       "e": "outside"
+       "P": "undecidable",
+       "omegaDot": "undecidable",
+       "e": "undecidable"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
      }
@@ -4197,7 +4062,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2552.8363000000004,
@@ -4230,7 +4095,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2552.8363000000004,
@@ -4263,7 +4128,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 1,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2552.8363000000004,
@@ -4407,101 +4272,56 @@
       {
        "div": 1,
        "dt": 0.016,
-       "ok": true,
-       "errors": null,
-       "stopped": "escape",
-       "nPeri": 1,
-       "steps": 166209,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.7777780218266961,
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
        "P": null,
        "omegaDot": null,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         2552.8363000000004,
-         2481.6479999999997
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "used": null
       },
       {
        "div": 2,
        "dt": 0.008,
-       "ok": true,
-       "errors": null,
-       "stopped": "escape",
-       "nPeri": 1,
-       "steps": 332382,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.7777779961964649,
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
        "P": null,
        "omegaDot": null,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         2552.8363000000004,
-         2481.6479999999997
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "used": null
       },
       {
        "div": 4,
        "dt": 0.004,
-       "ok": true,
-       "errors": null,
-       "stopped": "escape",
-       "nPeri": 1,
-       "steps": 664727,
-       "unwrapFailed": false,
-       "clamp": 0,
-       "nan": false,
-       "e": 0.7777778011870725,
+       "ok": false,
+       "errors": [
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
+       ],
+       "stopped": null,
+       "nPeri": null,
+       "steps": null,
+       "unwrapFailed": null,
+       "clamp": null,
+       "nan": null,
+       "e": null,
        "P": null,
        "omegaDot": null,
-       "used": {
-        "kFrame": 1,
-        "lambdaPN": 1,
-        "geoPN": 2,
-        "sampleClass": "principle",
-        "masses": [
-         2552.8363000000004,
-         2481.6479999999997
-        ],
-        "hasCore": [
-         false,
-         false
-        ],
-        "spins": [
-         0,
-         0
-        ]
-       }
+       "used": null
       }
      ],
      "richardson": {
@@ -4522,12 +4342,12 @@
        "note": "3 段が揃っていない"
       },
       "e": {
-       "p": -2.9276252159601546,
+       "p": null,
        "ext": null,
-       "monotone": false,
-       "d1": 2.563023115964569e-8,
-       "d2": 1.9500939241190451e-7,
-       "note": "**見かけの次数が正でない**(h/2→h/4 の差が h→h/2 の差より大きい)—— 漸近域に居ないので外挿しない"
+       "monotone": null,
+       "d1": null,
+       "d2": null,
+       "note": "3 段が揃っていない"
       }
      },
      "Pext": null,
@@ -4566,9 +4386,9 @@
         "recordId": "SOL-efbb5491",
         "solutionId": null,
         "modelExt": null,
-        "modelH4": 0.7777778011870725,
+        "modelH4": null,
         "sigmaTimesExt": null,
-        "sigmaTimesH4": 79325.53346523027
+        "sigmaTimesH4": null
        }
       },
       "solution": {
@@ -4598,9 +4418,9 @@
         "recordId": "SOL-ae8d8ac9",
         "solutionId": "Meng2025-DDFWHE",
         "modelExt": null,
-        "modelH4": 0.7777778011870725,
+        "modelH4": null,
         "sigmaTimesExt": null,
-        "sigmaTimesH4": 892426.8764838408
+        "sigmaTimesH4": null
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -4645,7 +4465,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2552.8363000000004,
@@ -4678,7 +4498,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2552.8363000000004,
@@ -4711,7 +4531,7 @@
        "used": {
         "kFrame": 0,
         "lambdaPN": 0,
-        "geoPN": 2,
+        "geoPN": 1,
         "sampleClass": "principle",
         "masses": [
          2552.8363000000004,
@@ -7109,7 +6929,7 @@
        "dt": 0.016,
        "ok": false,
        "errors": [
-        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
        ],
        "stopped": null,
        "nPeri": null,
@@ -7127,7 +6947,7 @@
        "dt": 0.008,
        "ok": false,
        "errors": [
-        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
        ],
        "stopped": null,
        "nPeri": null,
@@ -7145,7 +6965,7 @@
        "dt": 0.004,
        "ok": false,
        "errors": [
-        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
        ],
        "stopped": null,
        "nPeri": null,
@@ -8178,7 +7998,7 @@
        "dt": 0.016,
        "ok": false,
        "errors": [
-        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
        ],
        "stopped": null,
        "nPeri": null,
@@ -8196,7 +8016,7 @@
        "dt": 0.008,
        "ok": false,
        "errors": [
-        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
        ],
        "stopped": null,
        "nPeri": null,
@@ -8214,7 +8034,7 @@
        "dt": 0.004,
        "ok": false,
        "errors": [
-        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(DFM 版 —— geoPN=1 の DFM 版は無い)"
+        "physics.geoPN=1 は kFrame=0 専用です(kFrame=1)—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)"
        ],
        "stopped": null,
        "nPeri": null,

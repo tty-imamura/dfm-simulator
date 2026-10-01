@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報 (1)・kFrame 二値の既定契約)",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:18:04.618Z",
+  "targetSha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
+  "generatedAt": "2026-10-01T01:14:05.594Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-30T00:16:40.595Z"
+    "bytes": 5355884,
+    "sha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
+    "mtime": "2026-10-01T01:11:58.303Z"
    }
   ],
   "code": [
@@ -38,7 +38,7 @@
   ]
  },
  "builtins": {
-  "n": 143,
+  "n": 146,
   "kFrameValues": [
    0,
    1
@@ -222,7 +222,7 @@
    "warn": 0,
    "kFrameWarn": 0,
    "snapped": null,
-   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(sampleClass:\"calibration\" で使えるのは \"space-mesh-effective\" だけ — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(sampleClass:\"calibration\" で使えるのは \"space-mesh-effective\" だけ — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)",
    "sig": null
   },
   "calib-sme-0.5": {
@@ -358,7 +358,7 @@
    }
   ],
   "_builtinRevalidate": {
-   "checked": 143,
+   "checked": 146,
    "problems": []
   }
  },
@@ -370,7 +370,7 @@
    "warn": 0,
    "kFrameWarn": 0,
    "snapped": null,
-   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)",
    "sig": null
   },
   "principle-0.2": {
@@ -380,7 +380,7 @@
    "warn": 0,
    "kFrameWarn": 0,
    "snapped": null,
-   "err": "physics.kFrame に分数(0.2)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "err": "physics.kFrame に分数(0.2)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)",
    "sig": null
   },
   "principle-0.7": {
@@ -390,7 +390,7 @@
    "warn": 0,
    "kFrameWarn": 0,
    "snapped": null,
-   "err": "physics.kFrame に分数(0.7)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "err": "physics.kFrame に分数(0.7)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)",
    "sig": null
   },
   "noclass-0.2": {
@@ -400,7 +400,7 @@
    "warn": 0,
    "kFrameWarn": 0,
    "snapped": null,
-   "err": "physics.kFrame に分数(0.2)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "err": "physics.kFrame に分数(0.2)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)",
    "sig": null
   },
   "noclass-0.999": {
@@ -410,7 +410,7 @@
    "warn": 0,
    "kFrameWarn": 0,
    "snapped": null,
-   "err": "physics.kFrame に分数(0.999)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "err": "physics.kFrame に分数(0.999)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)",
    "sig": null
   },
   "noclass-0.001": {
@@ -420,7 +420,7 @@
    "warn": 0,
    "kFrameWarn": 0,
    "snapped": null,
-   "err": "physics.kFrame に分数(0.001)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "err": "physics.kFrame に分数(0.001)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)",
    "sig": null
   },
   "declared-sme-principle": {
@@ -450,7 +450,7 @@
    "warn": 1,
    "kFrameWarn": 1,
    "snapped": null,
-   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)",
    "sig": null
   },
   "calib-plain-0.5": {
@@ -460,7 +460,7 @@
    "warn": 0,
    "kFrameWarn": 0,
    "snapped": null,
-   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(sampleClass:\"calibration\" で使えるのは \"space-mesh-effective\" だけ — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)",
+   "err": "physics.kFrame に分数(0.5)を書くには physics.kFrameApprox の宣言が必要です(sampleClass:\"calibration\" で使えるのは \"space-mesh-effective\" だけ — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)",
    "sig": null
   },
   "calib-sme-0.5": {
@@ -596,7 +596,7 @@
    }
   ],
   "_builtinRevalidate": {
-   "checked": 143,
+   "checked": 146,
    "problems": []
   }
  },
@@ -668,7 +668,7 @@
      "notes"
     ],
     "err": [
-     "physics.kFrame に分数(0.2)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は kF0 版の 0 か DFM 版の 1 の二値で、分数はサンプル限りの例外です)"
+     "physics.kFrame に分数(0.2)を書くには physics.kFrameApprox の宣言が必要です(\"space-mesh-effective\" か \"sample-only\" — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)"
     ]
    },
    "decl": {
@@ -726,8 +726,11 @@
   "galaxyMeshSpiralGeoToy": "2c6c96a8",
   "galaxyMeshSpiralGeoToyLite": "9f910293",
   "galaxyAnalogyBH": "2a6ae845",
+  "galaxyAnalogyBHCompose": "79dc07af",
+  "galaxyAnalogyBHTilt90": "cc75dabe",
   "clusterAnalogyBH": "bcc05f3a",
   "clusterGrowthCopy": "89478a8b",
+  "fixedCaptureCopy": "8deb97ed",
   "shapeToyCluster": "38156713",
   "shapeToyDisk": "b5673bea",
   "shapeToyArm": "ffbcf715",
@@ -764,18 +767,18 @@
   "mercuryReal": "504f66ef",
   "mercuryGeoToy3": "cb798520",
   "mercuryRealKF1": "fe64ef84",
-  "solarInner": "8c4f1094",
-  "jupiterGalilean": "166819e",
-  "venusReal": "b18292f5",
-  "marsMoonsReal": "b874be9d",
-  "plutoCharonReal": "1988ec4a",
+  "solarInner": "c3a06766",
+  "jupiterGalilean": "b0a24648",
+  "venusReal": "5d53c9a3",
+  "marsMoonsReal": "5a1141ff",
+  "plutoCharonReal": "a859d010",
   "plutoCharonDFM": "fb8ad6e3",
   "plutoCharonKF0Control": "9b837bbb",
   "plutoCharonDiagInput": "9842c8c3",
   "plutoCharonSyncZero": "2bb0ba92",
   "charonGeoToy3": "497e238a",
-  "uranusReal": "686a7e45",
-  "neptuneReal": "1d113710",
+  "uranusReal": "e326be1",
+  "neptuneReal": "5165b6ee",
   "alphaCenAB": "919fda5b",
   "alphaCenABDFM": "c9ab6811",
   "siriusAB": "1b87793c",
@@ -784,8 +787,8 @@
   "psrDoubleABDFM": "c9e48e89",
   "psrDoubleABGeoToy": "d002fc29",
   "psrDoubleABSpinCal": "3bc44312",
-  "psrJ1757DFM": "ba812a15",
-  "psrJ1946DFM": "3890aecf",
+  "psrJ1757DFM": "c1b02ef7",
+  "psrJ1946DFM": "d802a205",
   "psrDoubleABPN": "c794a498",
   "psrJ1757PN": "7132210b",
   "psrJ1946PN": "cc595e3c",
@@ -800,7 +803,7 @@
   "spaceMeshBinaryToy": "47bc93c0",
   "gw150914": "40c218be",
   "gw150914DFM": "58ee1620",
-  "gw150914Merge4s": "64db5b49",
+  "gw150914Merge4s": "c047af64",
   "gw150914SpinDipole": "4ae20686",
   "tuc47": "c766c1ab",
   "tuc47DFM": "e917080e",

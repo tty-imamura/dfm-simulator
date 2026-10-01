@@ -10,13 +10,13 @@
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "2a7c08854df16084cba98655d408f1f4247f416e6cf3db26af064cdaef8b1f7b",
+  "mergeKey": "17a77d1ee63b80b1ac7d0bdfa3baa1300aa5de0180b44a21d48cb32d431c2e5e",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+   "targetSha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
-   "obsSha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
+   "obsSha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -45,7 +45,7 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-09-30T00:09:32.345Z",
+  "generatedAt": "2026-10-01T00:55:44.387Z",
   "pilot": false,
   "stage": "h",
   "dt": 0.016,
@@ -158,7 +158,7 @@
    "recordId": "SOL-25d4320f",
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab"
+   "calauditSha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da"
   },
   "builtinUnchanged": {
    "m": [
@@ -186,25 +186,25 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
+  "targetSha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-29T23:21:23.931Z"
+    "bytes": 5392651,
+    "sha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
+    "mtime": "2026-10-01T00:00:43.763Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887889,
-    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
-    "mtime": "2026-09-29T23:47:20.387Z"
+    "bytes": 1831274,
+    "sha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da",
+    "mtime": "2026-10-01T00:11:52.131Z"
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "bytes": 163727,
-    "sha256": "6baac9a0381486e4a46428d5bb69027ba00c79c2ee66def5a863a82fe499f4ba",
-    "mtime": "2026-09-30T00:05:50.731Z"
+    "bytes": 163976,
+    "sha256": "7d514b83489279938ee9e5c8835adafd75dc25d6452047cc0921436271d236f8",
+    "mtime": "2026-10-01T00:48:48.543Z"
    }
   ],
   "code": [
@@ -273,16 +273,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 865,
-   "segments": 784,
-   "closureShare": 0.3161
+   "names": 893,
+   "segments": 807,
+   "closureShare": 0.3171
   },
-  "scopeSha256": "7cda4db0f28a03dd9e9935345e14728f66e6421bc75bd1ce31985488cbbbf166",
+  "scopeSha256": "be64f1b0984bb4236ea85ff0796d56d4f9ac671559e24337e0f93b7c1cd98809",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "68a93bc1229c422225480a9cc73c890f5ae3b8c61d32b1c1c946a4648f55c51a",
+    "stableSha256": "47b356d443cf9a63e2bbb4f4f3bb03def68435ee3f6c0eea7d808c81d7196034",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -310,7 +310,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "358c8201673afe464423d401fa8dacca2350cff7e4a6f17d4e74a050a55ef84c",
+    "stableSha256": "1df5cda26b6fe193453151af6927e00e5eb10864172cd4856924cd04720aa728",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -338,7 +338,7 @@
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "stableSha256": "7027bc8306a563e440f7d0c28130e4ca96596afa77f1b482efcd965fcb8910ec",
+    "stableSha256": "2d79311679cc42dc803924326697a296d8d31651b92089c68b5019038f0d2886",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/columns/*/h/wallSec",
@@ -354,8 +354,8 @@
  },
  "epsilonSeries": {
   "from": "tests/out/charoneps-w276b.json",
-  "sha256": "6baac9a0381486e4a46428d5bb69027ba00c79c2ee66def5a863a82fe499f4ba",
-  "generatedAt": "2026-09-30T00:05:50.485Z",
+  "sha256": "7d514b83489279938ee9e5c8835adafd75dc25d6452047cc0921436271d236f8",
+  "generatedAt": "2026-10-01T00:48:48.354Z",
   "rows": [
    {
     "id": "E_diag_e0.01",
@@ -680,9 +680,7 @@
    },
    "relSum": 1.85306175561327e-8,
    "relSeparation": 0,
-   "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
-   ]
+   "warnings": []
   },
   "periodEffect": {
    "declaredKepler": {
@@ -873,7 +871,6 @@
      }
     ],
     "warnings": [
-     "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」",
      "bodies[2].m を値域に修正",
      "bodies[2].radius を値域に修正",
      "bodies[3].m を値域に修正",
@@ -1099,7 +1096,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 12.415,
+   "wallSec": 25.537,
    "rev2Sec": 551864.0607194003,
    "revN": 60,
    "residSec": 7.6219994003186,
@@ -1120,7 +1117,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 1.7351976662602808e-13,
@@ -1150,7 +1147,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694906,
-   "wallSec": 33.103,
+   "wallSec": 60.658,
    "rev2Sec": 551864.310768325,
    "revN": 60,
    "residSec": 7.872048325021751,
@@ -1171,7 +1168,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 1.1892493491676194e-13,
@@ -1201,7 +1198,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694899,
-   "wallSec": 17.635,
+   "wallSec": 33.025,
    "rev2Sec": 551864.0244726344,
    "revN": 60,
    "residSec": 7.585752634447999,
@@ -1222,7 +1219,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 1.006771504737921e-13,
@@ -1252,7 +1249,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694909,
-   "wallSec": 16.661,
+   "wallSec": 33.086,
    "rev2Sec": 551864.3919198763,
    "revN": 60,
    "residSec": 7.953199876355939,
@@ -1273,7 +1270,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 1.0663973031824215e-13,
@@ -1303,7 +1300,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 17.465,
+   "wallSec": 33.323,
    "rev2Sec": 551864.0696640281,
    "revN": 60,
    "residSec": 7.630944028147496,
@@ -1324,7 +1321,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 3.5589499830446884e-13,
@@ -1354,7 +1351,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694901,
-   "wallSec": 17.726,
+   "wallSec": 32.622,
    "rev2Sec": 551864.0068656091,
    "revN": 60,
    "residSec": 7.568145609111525,
@@ -1375,7 +1372,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 1.1206060649167892e-14,
@@ -1405,7 +1402,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20695300,
-   "wallSec": 31.813,
+   "wallSec": 61.131,
    "rev2Sec": 551889.1192707308,
    "revN": 60,
    "residSec": 32.68055073078722,
@@ -1426,7 +1423,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 9.117647867457047e-14,
@@ -1456,7 +1453,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 12.966,
+   "wallSec": 25.515,
    "rev2Sec": 551864.0607194003,
    "revN": 60,
    "residSec": 7.6219994003186,
@@ -1477,7 +1474,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 1.7351976662602808e-13,
@@ -1507,7 +1504,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20692453,
-   "wallSec": 17.033,
+   "wallSec": 32.53,
    "rev2Sec": 551805.6249430168,
    "revN": 60,
    "residSec": -50.813776983181015,
@@ -1528,7 +1525,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 1.690466367159626e-13,
@@ -1558,7 +1555,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694659,
-   "wallSec": 17.671,
+   "wallSec": 32.542,
    "rev2Sec": 551858.2236921852,
    "revN": 60,
    "residSec": 1.7849721852689981,
@@ -1579,7 +1576,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 6.205335285864047e-13,
@@ -1609,7 +1606,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694878,
-   "wallSec": 17.363,
+   "wallSec": 33.191,
    "rev2Sec": 551863.4770511088,
    "revN": 60,
    "residSec": 7.0383311088662595,
@@ -1630,7 +1627,7 @@
     "geoToyOverlay": null
    },
    "warnings": [
-    "physics.geoPN=2・kFrame=0 は互換入力です —— kF0 版(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
    ],
    "ledger": {
     "Lrel": 2.504137975654013e-13,

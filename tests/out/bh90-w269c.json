@@ -3,8 +3,8 @@
   "provenanceVersion": "w272e-1",
   "wave": "第269便c(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:17:35.755Z",
+  "targetSha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
+  "generatedAt": "2026-10-01T01:13:26.510Z",
   "code": [
    {
     "file": "tests/exp-w269c-bh90.mjs",
@@ -32,15 +32,15 @@
    }
   ],
   "codeSha256": "51ef943e085aa1ee37842f6be0cc239a4644eeb72101df018afd8add8026994c",
-  "measuredAt": "2026-09-30T00:17:35.755Z",
+  "measuredAt": "2026-10-01T01:13:26.510Z",
   "codeVersion": "tests/exp-w269c-bh90.mjs 第269便c",
   "declarationVersion": "compare-v1 / 第59報「完成=比較サンプル v1」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-30T00:16:40.595Z"
+    "bytes": 5355884,
+    "sha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
+    "mtime": "2026-10-01T01:11:58.303Z"
    },
    {
     "file": "paper/data/solar-observations.csv",
@@ -71,7 +71,7 @@
    "**観測量が得られないときは `not-measurable`(値 null)** —— 0 や最後の値で補わない。",
    "**「完成」は比較サンプル v1 である。観測一致は別段階で、現時点で未達である。**"
   ],
-  "spentSec": 10.9
+  "spentSec": 25.1
  },
  "declaration": {
   "systemKind": "bh-binary",
@@ -187,7 +187,7 @@
      "T": -3,
      "M": 29
     },
-    "kFrame": 1,
+    "kFrame": 0,
     "geoPN": 0,
     "petersGW": true,
     "petersScale": 0.1313,
@@ -199,14 +199,14 @@
     ],
     "bodies": [
      {
-      "m": 1376.0212399923937,
+      "m": 688.01062,
       "radius": 10.218554,
-      "coreMassFrac": 0.4999999999972361
+      "coreMassFrac": null
      },
      {
-      "m": 1193.081999993405,
+      "m": 596.541,
       "radius": 8.8600181,
-      "coreMassFrac": 0.4999999999972361
+      "coreMassFrac": null
      }
     ]
    }
@@ -1672,53 +1672,47 @@
      "short": {
       "steps": 15000,
       "stopped": "time",
-      "separationEnd": 183.30945551143404,
+      "separationEnd": 186.9673164216298,
       "merged": false,
       "nan": false,
       "clamp": 0
      },
      "period": {
-      "steps": 168505,
+      "steps": 217024,
       "stopped": "minima",
       "nMinima": 20,
-      "rawCross": 179,
-      "periodSec": 0.1368943157894737,
-      "periodFirstHalfSec": 0.16070755555555555,
-      "periodSecondHalfSec": 0.11294222222222224,
-      "periodDrift": -0.03487620427268548,
+      "rawCross": 20,
+      "periodSec": 0.17776168421052635,
+      "periodFirstHalfSec": 0.17979555555555557,
+      "periodSecondHalfSec": 0.17572622222222223,
+      "periodDrift": -0.0022891980156283563,
       "nan": false,
       "clamp": 0
      },
      "merge": {
-      "steps": 200629,
-      "stopped": "merged",
+      "steps": 500000,
+      "stopped": "time",
       "capSimTime": 8000,
-      "separationEnd": 13.357011292296026,
-      "merged": true,
-      "fusN": 1,
-      "nBodies": 1,
-      "contactSec": 3.2093600000094993,
-      "mergeSec": 3.2100800000095027,
-      "lagSec": 0.0007200000000034379,
-      "remnant": {
-       "m": 2569.103271484375,
-       "coreMF": 0.5,
-       "radius": 13.52474594116211,
-       "spin": 0.00038935363409109414,
-       "coreOmega": null
-      },
-      "radE": 452557.3003135902,
-      "radL": 1495084.6873053622,
+      "separationEnd": 167.4015190739553,
+      "merged": false,
+      "fusN": 0,
+      "nBodies": 2,
+      "contactSec": null,
+      "mergeSec": null,
+      "lagSec": null,
+      "remnant": null,
+      "radE": 550.3127902901106,
+      "radL": 14816.075954850065,
       "nan": false,
       "clamp": 0
      },
      "bodyMassUnits": [
-      1376.021240234375,
-      1193.08203125
+      688.0106201171875,
+      596.541015625
      ],
      "bodyCoreMF": [
-      0.5,
-      0.5
+      0,
+      0
      ],
      "errors": null
     },
@@ -1728,53 +1722,47 @@
      "short": {
       "steps": 30000,
       "stopped": "time",
-      "separationEnd": 183.9357381035958,
+      "separationEnd": 186.9927135217164,
       "merged": false,
       "nan": false,
       "clamp": 0
      },
      "period": {
-      "steps": 349729,
+      "steps": 434054,
       "stopped": "minima",
       "nMinima": 20,
-      "rawCross": 197,
-      "periodSec": 0.14224168421052633,
-      "periodFirstHalfSec": 0.16319822222222224,
-      "periodSecondHalfSec": 0.12116977777777778,
-      "periodDrift": -0.029536426405997504,
+      "rawCross": 20,
+      "periodSec": 0.17776168421052635,
+      "periodFirstHalfSec": 0.17979555555555557,
+      "periodSecondHalfSec": 0.17572711111111114,
+      "periodDrift": -0.002288703122402105,
       "nan": false,
       "clamp": 0
      },
      "merge": {
-      "steps": 444005,
-      "stopped": "merged",
+      "steps": 1000000,
+      "stopped": "time",
       "capSimTime": 8000,
-      "separationEnd": 13.411453033769684,
-      "merged": true,
-      "fusN": 1,
-      "nBodies": 1,
-      "contactSec": 3.551343999971317,
-      "mergeSec": 3.5520479999713004,
-      "lagSec": 0.0007039999999833526,
-      "remnant": {
-       "m": 2569.103271484375,
-       "coreMF": 0.5,
-       "radius": 13.52474594116211,
-       "spin": 0.0000012038037766615162,
-       "coreOmega": null
-      },
-      "radE": 460589.6309041405,
-      "radL": 1560936.8060529698,
+      "separationEnd": 167.41204650377077,
+      "merged": false,
+      "fusN": 0,
+      "nBodies": 2,
+      "contactSec": null,
+      "mergeSec": null,
+      "lagSec": null,
+      "remnant": null,
+      "radE": 550.310140296001,
+      "radL": 14816.03203882213,
       "nan": false,
       "clamp": 0
      },
      "bodyMassUnits": [
-      1376.021240234375,
-      1193.08203125
+      688.0106201171875,
+      596.541015625
      ],
      "bodyCoreMF": [
-      0.5,
-      0.5
+      0,
+      0
      ],
      "errors": null
     },
@@ -1784,53 +1772,47 @@
      "short": {
       "steps": 60000,
       "stopped": "time",
-      "separationEnd": 184.25110944356507,
+      "separationEnd": 187.00542110036466,
       "merged": false,
       "nan": false,
       "clamp": 0
      },
      "period": {
-      "steps": 712114,
+      "steps": 868115,
       "stopped": "minima",
       "nMinima": 20,
-      "rawCross": 231,
-      "periodSec": 0.14490189473684212,
-      "periodFirstHalfSec": 0.16444533333333333,
-      "periodSecondHalfSec": 0.125256,
-      "periodDrift": -0.027036822400677018,
+      "rawCross": 20,
+      "periodSec": 0.17776168421052635,
+      "periodFirstHalfSec": 0.17979555555555557,
+      "periodSecondHalfSec": 0.17572711111111114,
+      "periodDrift": -0.002288703122402105,
       "nan": false,
       "clamp": 0
      },
      "merge": {
-      "steps": 938273,
-      "stopped": "merged",
+      "steps": 2000000,
+      "stopped": "time",
       "capSimTime": 8000,
-      "separationEnd": 13.361418899055552,
-      "merged": true,
-      "fusN": 1,
-      "nBodies": 1,
-      "contactSec": 3.752363999938916,
-      "mergeSec": 3.753095999938899,
-      "lagSec": 0.0007319999999826905,
-      "remnant": {
-       "m": 2569.103271484375,
-       "coreMF": 0.5,
-       "radius": 13.52474594116211,
-       "spin": 3.625094446846333e-9,
-       "coreOmega": null
-      },
-      "radE": 467596.29652775626,
-      "radL": 1597773.8782479903,
+      "separationEnd": 167.41735965812333,
+      "merged": false,
+      "fusN": 0,
+      "nBodies": 2,
+      "contactSec": null,
+      "mergeSec": null,
+      "lagSec": null,
+      "remnant": null,
+      "radE": 550.3087584880486,
+      "radL": 14816.008983865904,
       "nan": false,
       "clamp": 0
      },
      "bodyMassUnits": [
-      1376.021240234375,
-      1193.08203125
+      688.0106201171875,
+      596.541015625
      ],
      "bodyCoreMF": [
-      0.5,
-      0.5
+      0,
+      0
      ],
      "errors": null
     }
@@ -1842,7 +1824,7 @@
       "value": 34.6,
       "unit": "M_sun",
       "window": "t=0(初期条件 —— 走行に依存しない)",
-      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "extractor": "宣言された body の m",
       "stages": {
        "h": 34.6,
        "h2": 34.6,
@@ -1869,15 +1851,12 @@
      "state": "inside-interval",
      "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。**相関した派生量の区間内を独立証拠に数えない**(第270便e・統括の読み (F)): `chirp_mass`・`total_mass`・`mass_ratio` は**同じ 2 つの転写質量から作った関数**であり、`component_mass` A/B と**独立ではない**。したがって「区間内の行が n 件」は**n 件の証拠ではなく、1 組の転写の言い換えである**。",
      "diagnostics": {
-      "layerTotalMsun": [
-       69.19999999961748,
-       59.999999999668326
-      ],
+      "layerTotalMsun": null,
       "shellMsun": [
        34.6,
        30
       ],
-      "twoLayer": true,
+      "twoLayer": false,
       "offsetInWidths": 0,
       "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
      }
@@ -1888,7 +1867,7 @@
       "value": 30,
       "unit": "M_sun",
       "window": "t=0(初期条件 —— 走行に依存しない)",
-      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "extractor": "宣言された body の m",
       "stages": {
        "h": 30,
        "h2": 30,
@@ -1915,15 +1894,12 @@
      "state": "inside-interval",
      "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。**相関した派生量の区間内を独立証拠に数えない**(第270便e・統括の読み (F)): `chirp_mass`・`total_mass`・`mass_ratio` は**同じ 2 つの転写質量から作った関数**であり、`component_mass` A/B と**独立ではない**。したがって「区間内の行が n 件」は**n 件の証拠ではなく、1 組の転写の言い換えである**。",
      "diagnostics": {
-      "layerTotalMsun": [
-       69.19999999961748,
-       59.999999999668326
-      ],
+      "layerTotalMsun": null,
       "shellMsun": [
        34.6,
        30
       ],
-      "twoLayer": true,
+      "twoLayer": false,
       "offsetInWidths": 0,
       "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。"
      }
@@ -1934,7 +1910,7 @@
       "value": 28.033150493997724,
       "unit": "M_sun",
       "window": "t=0(初期条件 —— 走行に依存しない)",
-      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "extractor": "宣言された body の m",
       "stages": {
        "h": 28.033150493997724,
        "h2": 28.033150493997724,
@@ -1961,15 +1937,12 @@
      "state": "inside-interval",
      "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。**相関した派生量の区間内を独立証拠に数えない**(第270便e・統括の読み (F)): `chirp_mass`・`total_mass`・`mass_ratio` は**同じ 2 つの転写質量から作った関数**であり、`component_mass` A/B と**独立ではない**。したがって「区間内の行が n 件」は**n 件の証拠ではなく、1 組の転写の言い換えである**。",
      "diagnostics": {
-      "layerTotalMsun": [
-       69.19999999961748,
-       59.999999999668326
-      ],
+      "layerTotalMsun": null,
       "shellMsun": [
        34.6,
        30
       ],
-      "twoLayer": true,
+      "twoLayer": false,
       "offsetInWidths": 0,
       "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。",
       "derivedFrom": [
@@ -1985,7 +1958,7 @@
       "value": 64.6,
       "unit": "M_sun",
       "window": "t=0(初期条件 —— 走行に依存しない)",
-      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "extractor": "宣言された body の m",
       "stages": {
        "h": 64.6,
        "h2": 64.6,
@@ -2012,15 +1985,12 @@
      "state": "inside-interval",
      "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。**相関した派生量の区間内を独立証拠に数えない**(第270便e・統括の読み (F)): `chirp_mass`・`total_mass`・`mass_ratio` は**同じ 2 つの転写質量から作った関数**であり、`component_mass` A/B と**独立ではない**。したがって「区間内の行が n 件」は**n 件の証拠ではなく、1 組の転写の言い換えである**。",
      "diagnostics": {
-      "layerTotalMsun": [
-       69.19999999961748,
-       59.999999999668326
-      ],
+      "layerTotalMsun": null,
       "shellMsun": [
        34.6,
        30
       ],
-      "twoLayer": true,
+      "twoLayer": false,
       "offsetInWidths": 0,
       "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。",
       "derivedFrom": [
@@ -2036,7 +2006,7 @@
       "value": 0.8670520231213873,
       "unit": "1",
       "window": "t=0(初期条件 —— 走行に依存しない)",
-      "extractor": "宣言された**殻質量** m(1−massFrac)(二層の総質量ではない)",
+      "extractor": "宣言された body の m",
       "stages": {
        "h": 0.8670520231213873,
        "h2": 0.8670520231213873,
@@ -2063,15 +2033,12 @@
      "state": "inside-interval",
      "reason": "公表区間の内側(**合格とは言わない**) —— **転写の確認であって独立検証ではない**(この質量は CSV から手で置いた入力である)。**相関した派生量の区間内を独立証拠に数えない**(第270便e・統括の読み (F)): `chirp_mass`・`total_mass`・`mass_ratio` は**同じ 2 つの転写質量から作った関数**であり、`component_mass` A/B と**独立ではない**。したがって「区間内の行が n 件」は**n 件の証拠ではなく、1 組の転写の言い換えである**。",
      "diagnostics": {
-      "layerTotalMsun": [
-       69.19999999961748,
-       59.999999999668326
-      ],
+      "layerTotalMsun": null,
       "shellMsun": [
        34.6,
        30
       ],
-      "twoLayer": true,
+      "twoLayer": false,
       "offsetInWidths": 0,
       "stepIndependent": "**刻みに依らない**(初期条件の量なので h/h2/h4 は同値である)。",
       "derivedFrom": [
@@ -2084,17 +2051,17 @@
     {
      "quantity": "orbital_period",
      "sim": {
-      "value": 0.1368943157894737,
+      "value": 0.17776168421052635,
       "unit": "s",
       "window": "周期窓(極小 20 個)",
       "extractor": "separation-minima-v1",
       "stages": {
-       "h": 0.1368943157894737,
-       "h2": 0.14224168421052633,
-       "h4": 0.14490189473684212
+       "h": 0.17776168421052635,
+       "h2": 0.17776168421052635,
+       "h4": 0.17776168421052635
       },
-      "order": 1.0072886548000148,
-      "extrapolated": 0.1475354281284534
+      "order": null,
+      "extrapolated": null
      },
      "obs": {
       "value": 0.181818,
@@ -2111,9 +2078,9 @@
      "reason": "CSV の 0.181818 s は **f_GW,det=10 Hz からの派生参照値**であって独立観測量ではない(区間も持たない)—— 区間比較の対象外。並置は転写の確認にとどめる。",
      "diagnostics": {
       "relDiffPercentByStage": [
-       -24.708051023840493,
-       -21.766995451205975,
-       -20.303878198615035
+       -2.230975915186427,
+       -2.230975915186427,
+       -2.230975915186427
       ]
      }
     },
@@ -2122,8 +2089,8 @@
      "sim": {
       "value": null,
       "unit": "M_sun",
-      "window": "合体(融合)時刻までの走行",
-      "extractor": "融合後に残った 1 体の質量(**総質量**と**殻質量**の 2 通りが取れる)",
+      "window": "周期窓(極小 20 個・上限 t=8000)",
+      "extractor": "合体検出(S.n<2)・上限 t=8000(=8 s)—— **合体していない**",
       "stages": {
        "h": null,
        "h2": null,
@@ -2147,111 +2114,20 @@
       "asymmetric": true,
       "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
      },
-     "state": "mapping-unresolved",
-     "reason": "**観測 final_mass が器のどの層に対応するかが未宣言である。** 🎻⏰ は質量較正 f≈2 の二層で、**初期の殻質量が転写した観測質量**という宣言を持つ(massFrac=(f−1)/f)。しかし**融合後の remnant について殻/核の対応則は宣言されていない**ので、総質量と殻質量のどちらを観測 remnant に当てるかが決まらない。**数値の不一致ではなく対応の未宣言である。**(どちらも数値としては下の diagnostics に出す —— **片方を選んで状態を付けない**)",
-     "diagnostics": {
-      "merged": true,
-      "remnantTotalMsunByStage": [
-       129.20000158334673,
-       129.20000158334673,
-       129.20000158334673
-      ],
-      "remnantShellMsunByStage": [
-       64.60000079167337,
-       64.60000079167337,
-       64.60000079167337
-      ],
-      "remnantCoreMassFracByStage": [
-       0.5,
-       0.5,
-       0.5
-      ],
-      "ifTotal": {
-       "value": 129.20000158334673,
-       "wouldBe": "outside-interval"
-      },
-      "ifShell": {
-       "value": 64.60000079167337,
-       "wouldBe": "inside-interval"
-      },
-      "requiredDerivation": {
-       "status": "declared-not-derived",
-       "items": [
-        "**GW の final_mass は遠方場で定義された重力質量**(漸近質量・Bondi/ADM 的な量)である。器の remnant は**融合後の 1 体の慣性質量**(運動方程式に入る m)であって、同じ量だとは宣言していない。**まず「器のどの量が遠方場の重力質量に当たるか」を導く必要がある。**",
-        "**放射損失の帳簿**: 観測の final_mass は初期総質量から**放射された分だけ減っている**。器の合体は**外部 Peters 放射オーバーレイ**(用量 a=0.1313 の合わせ込み)で駆動されており、**放射した分を質量から引く経路は宣言されていない**(m は融合で足し合わされるだけである)。したがって**総質量と観測 final_mass の差を「放射損失」と読むこともできない**。",
-        "**二層の対応**: 🎻⏰ は f≈2 の二層で、**初期の殻質量が転写した観測質量**という宣言を持つ(massFrac=(f−1)/f)。しかし**融合後の remnant について殻/核の対応則は未宣言**である。",
-        "**慣性と重力の関係**: DFM は質量を「軌道から計算式で出る量」として扱う線なので、**慣性質量・重力質量・遠方場の質量の 3 つが一致するかは宣言事項**であって自明ではない。"
-       ],
-       "rule": "**総質量と殻質量の両方を出し、区間内になる方を選ばない。** 上の 4 つが導かれるまで状態は `mapping-unresolved` のままにする。"
-      },
-      "note": "**この 2 つの「もし〜なら」は状態ではない**(対応が決まるまで判定しない)。**区間内に入る方を選んで状態を付けることはしない**(第270便e・AE10)。合体は **外部 Peters 放射オーバーレイ**(用量 a=0.1313 の合わせ込み)が駆動したもので、**DFM 由来の合体ではない**。"
-     }
-    },
-    {
-     "quantity": "merger_time",
-     "sim": {
-      "value": 3.753095999938899,
-      "unit": "s",
-      "window": "合体窓(上限 t=8000)",
-      "extractor": "融合(S.n<2)の時刻",
-      "stages": {
-       "h": 3.2100800000095027,
-       "h2": 3.5520479999713004,
-       "h4": 3.753095999938899
-      },
-      "order": 0.7663213453947672,
-      "extrapolated": 4.039927523446104
-     },
-     "obs": {
-      "value": 4,
-      "unit": "s",
-      "lower": null,
-      "upper": null,
-      "confidence": null,
-      "frame": "source frame",
-      "source": "10 Hz 基準状態からの Peters 換算(⏰ の obsCard の宣言)",
-      "role": "**モデル換算目標**(検出器が 4 秒全体を直接測った値ではない)—— 区間を持たない",
-      "verifiedMark": "n/a"
-     },
      "state": "not-applicable",
-     "reason": "**「約 4.0 秒」は観測の 90% 区間ではなくモデル換算目標である**ので区間比較の対象外。しかも合体は**用量 a=0.1313 を 4 秒へ寄せた合わせ込み**で駆動されており、**この一致は fit の再現であって独立検証ではない**。",
+     "reason": "**`merged:false`** —— この走行は窓の中で合体に達していない。**終端の 2 体総質量を remnant に代入しない。**",
      "diagnostics": {
-      "note": "3 段は単調(見かけの次数 0.766)で外挿は 4.039928 s —— **外挿値を実走値と混同しない**。"
-     }
-    },
-    {
-     "quantity": "post_contact_lag",
-     "sim": {
-      "value": 0.0007319999999826905,
-      "unit": "s",
-      "window": "合体窓(上限 t=8000)",
-      "extractor": "接触(r ≤ R₀+R₁)から融合までの時間",
-      "stages": {
-       "h": 0.0007200000000034379,
-       "h2": 0.0007039999999833526,
-       "h4": 0.0007319999999826905
-      },
-      "order": null,
-      "extrapolated": null
-     },
-     "obs": null,
-     "state": "numerically-unresolved",
-     "reason": "**3 段(dt=0.016/0.008/0.004)で収束していない** —— 差が縮まず(見かけの次数が正でないので外挿しない)、遅延は ~0.7 ms の水準に留まるが**この刻み集合では数値的に未解決である**。観測側に対応する量も無い。",
-     "diagnostics": {
-      "lagSecByStage": [
-       0.0007200000000034379,
-       0.0007039999999833526,
-       0.0007319999999826905
+      "merged": false,
+      "stoppedByStage": [
+       "time",
+       "time",
+       "time"
       ],
-      "richardson": {
-       "p": null,
-       "ext": null,
-       "monotone": false,
-       "d1": 0.000016000000020085343,
-       "d2": -0.000027999999999337908,
-       "sameSign": false,
-       "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
-      }
+      "separationEndByStage": [
+       167.4015190739553,
+       167.41204650377077,
+       167.41735965812333
+      ]
      }
     },
     {
@@ -2259,8 +2135,8 @@
      "sim": {
       "value": null,
       "unit": "1",
-      "window": "合体(融合)時刻までの走行",
-      "extractor": "—(**この器には remnant の Kerr χ を測る抽出器が無い**)",
+      "window": "周期窓(極小 20 個・上限 t=8000)",
+      "extractor": "—",
       "stages": {
        "h": null,
        "h2": null,
@@ -2284,24 +2160,10 @@
       "asymmetric": false,
       "note": "**非対称 90% 区間を対称 1σ に換算しない。** lower/upper と confidence をそのまま運ぶ。 **周辺区間の AND を同時 90% 領域と呼ばない。** 各行は 1 量の周辺区間の内/外だけを言う。"
      },
-     "state": "not-measurable",
-     "reason": "**remnant の無次元スピン χ=cJ/(Gm²) を測る抽出器が無い。** 器が持つのは融合後の body の角速度と宣言半径だけで、J を作るには慣性モーメント則と地平線半径の対応を宣言する必要がある(未宣言)。**0 や最後の値で補わない。**",
+     "state": "not-applicable",
+     "reason": "**`merged:false`** —— remnant が存在しない。",
      "diagnostics": {
-      "rawSpinByStage": [
-       0.00038935363409109414,
-       0.0000012038037766615162,
-       3.625094446846333e-9
-      ],
-      "rawRadiusByStage": [
-       13.52474594116211,
-       13.52474594116211,
-       13.52474594116211
-      ],
-      "coreOmegaByStage": [
-       null,
-       null,
-       null
-      ]
+      "merged": false
      }
     },
     {
@@ -2409,81 +2271,80 @@
    ],
    "richardson": {
     "separationEnd": {
-     "p": 0.9897622209156216,
-     "ext": 184.57100485221508,
+     "p": 0.9989746155919061,
+     "ext": 187.01814676191822,
      "monotone": true,
-     "d1": -0.6262825921617718,
-     "d2": -0.3153713399692606,
+     "d1": -0.02539710008662155,
+     "d2": -0.012707578648246454,
      "note": null
     },
     "periodSec": {
-     "p": 1.0072886548000148,
-     "ext": 0.1475354281284534,
-     "monotone": true,
-     "d1": -0.0053473684210526284,
-     "d2": -0.0026602105263157927,
-     "note": null
+     "p": null,
+     "ext": null,
+     "monotone": null,
+     "d1": 0,
+     "d2": 0,
+     "note": "2 段目と 3 段目の差が 0"
     },
     "periodDrift": {
-     "p": 1.0950801704756405,
-     "ext": -0.02483694996737256,
-     "monotone": true,
-     "d1": -0.005339777866687975,
-     "d2": -0.002499604005320486,
-     "note": null
+     "p": null,
+     "ext": null,
+     "monotone": null,
+     "d1": -4.948932262513993e-7,
+     "d2": 0,
+     "note": "2 段目と 3 段目の差が 0"
     },
     "mergeSec": {
-     "p": 0.7663213453947672,
-     "ext": 4.039927523446104,
-     "monotone": true,
-     "d1": -0.3419679999617977,
-     "d2": -0.20104799996759848,
-     "note": null
+     "p": null,
+     "ext": null,
+     "monotone": null,
+     "d1": null,
+     "d2": null,
+     "note": "3 段が揃っていない"
     },
     "lagSec": {
      "p": null,
      "ext": null,
-     "monotone": false,
-     "d1": 0.000016000000020085343,
-     "d2": -0.000027999999999337908,
-     "sameSign": false,
-     "note": "**差の符号が反転している**(h→h/2 と h/2→h/4 で向きが違う)—— 単調に収束していないので外挿しない"
+     "monotone": null,
+     "d1": null,
+     "d2": null,
+     "note": "3 段が揃っていない"
     }
    },
    "stateTally": {
     "comparable": 0,
     "inside-interval": 5,
     "outside-interval": 0,
-    "numerically-unresolved": 1,
-    "mapping-unresolved": 1,
-    "not-measurable": 4,
-    "not-applicable": 2
+    "numerically-unresolved": 0,
+    "mapping-unresolved": 0,
+    "not-measurable": 3,
+    "not-applicable": 3
    },
    "numericalDiagnostics": {
     "separationEndByStage": [
-     183.30945551143404,
-     183.9357381035958,
-     184.25110944356507
+     186.9673164216298,
+     186.9927135217164,
+     187.00542110036466
     ],
     "periodSecByStage": [
-     0.1368943157894737,
-     0.14224168421052633,
-     0.14490189473684212
+     0.17776168421052635,
+     0.17776168421052635,
+     0.17776168421052635
     ],
     "periodDriftByStage": [
-     -0.03487620427268548,
-     -0.029536426405997504,
-     -0.027036822400677018
+     -0.0022891980156283563,
+     -0.002288703122402105,
+     -0.002288703122402105
     ],
     "mergeSecByStage": [
-     3.2100800000095027,
-     3.5520479999713004,
-     3.753095999938899
+     null,
+     null,
+     null
     ],
     "lagSecByStage": [
-     0.0007200000000034379,
-     0.0007039999999833526,
-     0.0007319999999826905
+     null,
+     null,
+     null
     ],
     "clampByStage": [
      0,
@@ -2506,9 +2367,9 @@
      false
     ],
     "fusNByStage": [
-     1,
-     1,
-     1
+     0,
+     0,
+     0
     ],
     "driftReading": "**周期ドリフトは有限刻みの縮みであって物理的放射ではない。** 刻みを半分にするたび大きさがほぼ半分になり(見かけの次数 ≈1)、外挿は 0 の側へ向かう —— この器の 🎻 には放射チャネルが無い(petersGW 未宣言)ので、**周期が縮んで見えるのは積分誤差である**。",
     "lastStage": 4
@@ -2521,10 +2382,10 @@
    "comparable": 0,
    "inside-interval": 15,
    "outside-interval": 0,
-   "numerically-unresolved": 1,
-   "mapping-unresolved": 1,
-   "not-measurable": 10,
-   "not-applicable": 8
+   "numerically-unresolved": 0,
+   "mapping-unresolved": 0,
+   "not-measurable": 9,
+   "not-applicable": 9
   },
   "independentVerification": "**0 件**。区間内に入った質量系の行はすべて**転写の確認**であり、**独立検証には数えない**(初期質量は CSV から手で置いた入力である)。",
   "insideIntervalRows": {

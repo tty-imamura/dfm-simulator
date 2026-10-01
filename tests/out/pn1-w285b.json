@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便b",
   "target": "beta/index.html",
-  "targetSha256": "246eb124c1e32aa7d085645ed5ea24966a3d777e8bf4c76037f0ee855be69806",
-  "generatedAt": "2026-09-30T21:24:15.103Z",
+  "targetSha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
+  "generatedAt": "2026-10-01T00:19:47.443Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5276884,
-    "sha256": "246eb124c1e32aa7d085645ed5ea24966a3d777e8bf4c76037f0ee855be69806",
-    "mtime": "2026-09-30T21:07:54.507Z"
+    "bytes": 5392651,
+    "sha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
+    "mtime": "2026-10-01T00:00:43.763Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 348846,
-    "sha256": "9b5602019c7e479bd69492e29df3d19f8cc2514e48739774fc823b7e9e2f0574",
-    "mtime": "2026-09-30T20:24:30.899Z"
+    "bytes": 350253,
+    "sha256": "d1004a09ca68696dfd540e2b9316a13c21d48f77228c4752fb598ccc57b67041",
+    "mtime": "2026-09-30T21:41:10.962Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887889,
-    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
-    "mtime": "2026-09-30T20:24:47.527Z"
+    "bytes": 1831274,
+    "sha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da",
+    "mtime": "2026-10-01T00:11:52.131Z"
    }
   ],
   "code": [
@@ -30,55 +30,55 @@
     "file": "tests/exp-w285b-pn1.mjs",
     "bytes": 37023,
     "sha256": "a51fc0868d0973c5024a76012265fbf57087621899ea4cfd4fd5bc6ad464de38",
-    "mtime": "2026-09-30T20:52:50.983Z"
+    "mtime": "2026-09-30T21:46:30.343Z"
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
     "bytes": 19379,
     "sha256": "b20018afa5df7c5fd3dbceaac111507faf52e5be7ec6c708bdb4a6d3a3031332",
-    "mtime": "2026-09-30T20:24:46.571Z"
+    "mtime": "2026-09-28T00:59:08.154Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
     "bytes": 19581,
     "sha256": "b58a324fdfcd66c83f9f64540fe0235a204f1892574905675013e9b256a05c1a",
-    "mtime": "2026-09-30T20:24:46.563Z"
+    "mtime": "2026-09-25T23:55:41.021Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
     "bytes": 5394,
     "sha256": "720a78b1243add6a208a29df1896e052cc32f10315ef0957d87471685dbe5ec3",
-    "mtime": "2026-09-30T20:24:46.087Z"
+    "mtime": "2026-09-24T09:35:25.390Z"
    },
    {
     "file": "tests/lib-w283a-geomode.mjs",
     "bytes": 8878,
     "sha256": "f90c47a27a7a9a2746b29e6f6edc5f54e47d21b0516bc97e62f8d1f5ae37d647",
-    "mtime": "2026-09-30T20:24:46.571Z"
+    "mtime": "2026-09-26T17:44:54.707Z"
    },
    {
     "file": "tests/lib-w280a-mercury.mjs",
     "bytes": 9761,
     "sha256": "b8dd3b76544fd2ec4a17f026025b805b02672e50012e600c42e82bab44ee5f75",
-    "mtime": "2026-09-30T20:24:45.859Z"
+    "mtime": "2026-09-28T20:02:19.366Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-09-30T20:24:45.803Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-30T20:24:43.467Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-09-30T20:24:46.447Z"
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
   "codeSha256": "98f7610a84157470ddb1d69fcfec807114b5e608fac141763185fe97159a41ed",
@@ -108,16 +108,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 869,
-   "segments": 788,
-   "closureShare": 0.3158
+   "names": 891,
+   "segments": 805,
+   "closureShare": 0.3168
   },
-  "scopeSha256": "b9f47c2b584efd76b139cda50e58ab278499bed7b6a55d2ee514221109560bf0",
+  "scopeSha256": "2aa377cb8ece03b1770089ed5ea91894aa5f17d1aae084ee051dded8693d807a",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "68a93bc1229c422225480a9cc73c890f5ae3b8c61d32b1c1c946a4648f55c51a",
+    "stableSha256": "47b356d443cf9a63e2bbb4f4f3bb03def68435ee3f6c0eea7d808c81d7196034",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -145,7 +145,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "358c8201673afe464423d401fa8dacca2350cff7e4a6f17d4e74a050a55ef84c",
+    "stableSha256": "1df5cda26b6fe193453151af6927e00e5eb10864172cd4856924cd04720aa728",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -207,7 +207,7 @@
   "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "246eb124c1e32aa7d085645ed5ea24966a3d777e8bf4c76037f0ee855be69806",
+ "nowSha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
  "note": "geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。S._core は 1 命令も変えていない(geoCoreDispatch が kF0 の役割に core=1 を渡し、差分 Δ を _core の前に当てる)。Σm·v は状態変数の和で、相対論的な全運動量ではない。",
  "A": {
   "cond": {
@@ -803,11 +803,11 @@
     "ratioNow": 0.9999923465470393,
     "ratioBase": 0.16741474827103703,
     "periodRelNow": 0.00003079270179062732,
-    "obs": 0.00472,
-    "obsFrom": "psrDoubleAB",
-    "residNow": 0.001687458122230295,
-    "residBase": -0.8328253892739425,
-    "residLam0": -1.0006292775422194,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
     "nPeri": 8,
     "nan": false,
     "clamp": 0
@@ -893,11 +893,11 @@
     "ratioNow": 1.0000105005255153,
     "ratioBase": 0.6609900909811973,
     "periodRelNow": 0.00001003423112666546,
-    "obs": 0.0052085,
-    "obsFrom": "psrJ1757DFM",
-    "residNow": -0.0006491892958624468,
-    "residBase": -0.3396727913062458,
-    "residLam0": -1.0006691066573496,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
     "nPeri": 8,
     "nan": false,
     "clamp": 0
@@ -923,11 +923,11 @@
     "ratioNow": 0.999990103582493,
     "ratioBase": 0.6589582557684147,
     "periodRelNow": 0.00003802415089682043,
-    "obs": 0.0055424,
-    "obsFrom": "psrJ1946DFM",
-    "residNow": -0.0008525107055033515,
-    "residBase": -0.3418768381984296,
-    "residLam0": -1.0008205628380338,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
     "nPeri": 8,
     "nan": false,
     "clamp": 0
@@ -953,11 +953,11 @@
     "ratioNow": 0.999999265897786,
     "ratioBase": 0.6642333140082473,
     "periodRelNow": 0.000008746609762022572,
-    "obs": 0.0020225,
-    "obsFrom": "psrB1534DFM",
-    "residNow": -0.00016984911486046027,
-    "residBase": -0.3359439602539493,
-    "residLam0": -1.0001934154025895,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
     "nPeri": 8,
     "nan": false,
     "clamp": 0
@@ -1103,11 +1103,11 @@
     "ratioNow": 0.9999923465470393,
     "ratioBase": 0.16741474827103703,
     "periodRelNow": 0.00003079270179062732,
-    "obs": 0.00472,
-    "obsFrom": "psrDoubleAB",
-    "residNow": 0.001687458122230295,
-    "residBase": -0.8328253892739425,
-    "residLam0": -1.0006292775422194,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
     "nPeri": 8,
     "nan": false,
     "clamp": 0
@@ -1133,11 +1133,11 @@
     "ratioNow": 0.999999265897786,
     "ratioBase": 0.16644875134105347,
     "periodRelNow": 0.000008746609762022572,
-    "obs": 0.0020225,
-    "obsFrom": "psrB1534DFM",
-    "residNow": -0.00016984911486046027,
-    "residBase": -0.8337406192890036,
-    "residLam0": -1.0001934154025895,
+    "obs": null,
+    "obsFrom": null,
+    "residNow": null,
+    "residBase": null,
+    "residLam0": null,
     "nPeri": 8,
     "nan": false,
     "clamp": 0
@@ -1375,56 +1375,56 @@
    },
    {
     "id": "solarInner",
-    "geoPN": 2,
-    "kFrame": 1,
-    "pn1": null,
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 9.322473009111436e-12,
+    "maxPos128": 1.254340188296694e-7,
     "sigSame": false,
     "nan": false
    },
    {
     "id": "jupiterGalilean",
-    "geoPN": 2,
-    "kFrame": 1,
-    "pn1": null,
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 2.1111136473841475e-12,
+    "maxPos128": 0.000005671687848021546,
     "sigSame": false,
     "nan": false
    },
    {
     "id": "venusReal",
-    "geoPN": 2,
-    "kFrame": 1,
-    "pn1": null,
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 2.7284854063610815e-12,
+    "maxPos128": 0.00001802982006698118,
     "sigSame": false,
     "nan": false
    },
    {
     "id": "marsMoonsReal",
-    "geoPN": 2,
-    "kFrame": 1,
-    "pn1": null,
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 3.553147333202946e-15,
+    "maxPos128": 4.933740549681504e-8,
     "sigSame": false,
     "nan": false
    },
    {
     "id": "plutoCharonReal",
-    "geoPN": 2,
-    "kFrame": 1,
-    "pn1": null,
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0,
+    "maxPos128": 5.645282407832827e-8,
     "sigSame": false,
     "nan": false
    },
@@ -1463,23 +1463,23 @@
    },
    {
     "id": "uranusReal",
-    "geoPN": 2,
-    "kFrame": 1,
-    "pn1": null,
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 6.331410250466394e-13,
+    "maxPos128": 5.261791499879267e-7,
     "sigSame": false,
     "nan": false
    },
    {
     "id": "neptuneReal",
-    "geoPN": 2,
-    "kFrame": 1,
-    "pn1": null,
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 2.1316571191421636e-14,
+    "maxPos128": 0.000011330710775494923,
     "sigSame": false,
     "nan": false
    },
@@ -1562,23 +1562,23 @@
    },
    {
     "id": "psrJ1757DFM",
-    "geoPN": 2,
-    "kFrame": 1,
-    "pn1": null,
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0.004372388637340757,
+    "maxPos128": 0.00006886613496135986,
     "sigSame": false,
     "nan": false
    },
    {
     "id": "psrJ1946DFM",
-    "geoPN": 2,
-    "kFrame": 1,
-    "pn1": null,
+    "geoPN": 1,
+    "kFrame": 0,
+    "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0.02995836137020367,
+    "maxPos128": 0.00046234573412527106,
     "sigSame": false,
     "nan": false
    },
@@ -1870,7 +1870,7 @@
    "saturnRingRealKF1"
   ],
   "scope": "geoPN 1/2 の内蔵(46 本)—— 0・3 は geoCoreDispatch の変わらない行を通る",
-  "nAll": 143,
+  "nAll": 146,
   "n": 46,
   "bitSame128": 7,
   "sigSame": 9,
@@ -1881,12 +1881,21 @@
    "earthMoonDiagOne",
    "mercury",
    "mercuryReal",
+   "solarInner",
+   "jupiterGalilean",
+   "venusReal",
+   "marsMoonsReal",
+   "plutoCharonReal",
    "plutoCharonDFM",
    "plutoCharonKF0Control",
    "plutoCharonDiagInput",
+   "uranusReal",
+   "neptuneReal",
    "alphaCenAB",
    "siriusAB",
    "psrDoubleAB",
+   "psrJ1757DFM",
+   "psrJ1946DFM",
    "psrB1534",
    "saturnZonalD68",
    "saturnD68Consistent",
@@ -1904,19 +1913,10 @@
    "qLockRadialAudit",
    "qLockRadialAuditQ3",
    "mercuryRealKF1",
-   "solarInner",
-   "jupiterGalilean",
-   "venusReal",
-   "marsMoonsReal",
-   "plutoCharonReal",
-   "uranusReal",
-   "neptuneReal",
    "alphaCenABDFM",
    "siriusABDFM",
    "psrDoubleABDFM",
    "psrDoubleABSpinCal",
-   "psrJ1757DFM",
-   "psrJ1946DFM",
    "psrB1534DFM",
    "psrB1534CF",
    "saturnRingRealKF1"
@@ -1928,7 +1928,7 @@
    "target": "B",
    "name": "近点移動(λ_PN=0 の対照・検出器 B・8 周)",
    "kind": "precession",
-   "obs": 0.00472,
+   "obs": null,
    "value": -0.00000297018999927541,
    "unit": "deg/orbit",
    "sigma": null,
@@ -1970,7 +1970,7 @@
    "target": "B",
    "name": "近点移動(λ_PN=0 の対照・検出器 B・8 周)",
    "kind": "precession",
-   "obs": 0.0052085,
+   "obs": null,
    "value": -0.0000034850420248056427,
    "unit": "deg/orbit",
    "sigma": null,
@@ -1984,7 +1984,7 @@
    "target": "B",
    "name": "近点移動(λ_PN=0 の対照・検出器 B・8 周)",
    "kind": "precession",
-   "obs": 0.0055424,
+   "obs": null,
    "value": -0.0000045478874735186475,
    "unit": "deg/orbit",
    "sigma": null,
@@ -1998,7 +1998,7 @@
    "target": "B",
    "name": "近点移動(λ_PN=0 の対照・検出器 B・8 周)",
    "kind": "precession",
-   "obs": 0.0020225,
+   "obs": null,
    "value": -3.9118265173709386e-7,
    "unit": "deg/orbit",
    "sigma": null,
@@ -2054,7 +2054,7 @@
    "target": "B",
    "name": "近点移動(λ_PN=0 の対照・検出器 B・8 周)",
    "kind": "precession",
-   "obs": 0.00472,
+   "obs": null,
    "value": -0.00000297018999927541,
    "unit": "deg/orbit",
    "sigma": null,
@@ -2068,7 +2068,7 @@
    "target": "B",
    "name": "近点移動(λ_PN=0 の対照・検出器 B・8 周)",
    "kind": "precession",
-   "obs": 0.0020225,
+   "obs": null,
    "value": -3.9118265173709386e-7,
    "unit": "deg/orbit",
    "sigma": null,
@@ -2091,13 +2091,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.094,
+   "wallSec": 0.136,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.383,
+   "wallSec": 0.196,
    "errors": 0
   }
  },
- "elapsedS": 511.544
+ "elapsedS": 456.325
 }

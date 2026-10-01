@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便b",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:05:59.159Z",
+  "targetSha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
+  "generatedAt": "2026-10-01T00:46:33.714Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5263843,
-    "sha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-    "mtime": "2026-09-29T23:21:23.931Z"
+    "bytes": 5392651,
+    "sha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
+    "mtime": "2026-10-01T00:00:43.763Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 348846,
-    "sha256": "9b5602019c7e479bd69492e29df3d19f8cc2514e48739774fc823b7e9e2f0574",
-    "mtime": "2026-09-29T17:55:53.112Z"
+    "bytes": 350253,
+    "sha256": "d1004a09ca68696dfd540e2b9316a13c21d48f77228c4752fb598ccc57b67041",
+    "mtime": "2026-09-30T21:41:10.962Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 51015,
-    "sha256": "49537af8dabbeb44d61af871bdcc1924eea159ea9535a3e4c5c8338cf746abf1",
-    "mtime": "2026-09-29T23:51:33.411Z"
+    "bytes": 50630,
+    "sha256": "b8d73e7325fa33a47f00086b85dace2782ab4a9f6e641150552a052efd4eba00",
+    "mtime": "2026-10-01T00:19:47.563Z"
    }
   ],
   "code": [
@@ -84,16 +84,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 859,
-   "segments": 778,
-   "closureShare": 0.315
+   "names": 888,
+   "segments": 802,
+   "closureShare": 0.3161
   },
-  "scopeSha256": "c44c1e7f713a27ec876dc56e47c9fdb62d8f01634986bb34a89ff904148cdfa9",
+  "scopeSha256": "e96f035dee02f30cb835f09e856765cadfe6c780f8321602fcee96994ace939d",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "a0a752a87c99835f7b13bb595c1a6f86b2766ee502bbd207e337622135e2ba4f",
+    "stableSha256": "9e451e117be7a0cceaeb627464c4f01410d8a0f6c8a32bc02a1bf5d0a80cd0ee",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -346,8 +346,8 @@
   "新発見"
  ],
  "headless": {
-  "wallSec": 0.062,
+  "wallSec": 0.09,
   "errors": 0
  },
- "elapsedS": 5.936
+ "elapsedS": 10.877
 }

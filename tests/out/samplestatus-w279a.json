@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "f6ffeac0acd7f1e47fd84250da6faa53f2fb99437db0d480befa5f3b7e7ad128",
-  "generatedAt": "2026-09-30T00:16:41.739Z",
+  "targetSha256": "06eeab1eb74ef619a529cdd8dc2513445e409a4cb6e792b05c7f314971c37a6b",
+  "generatedAt": "2026-10-01T01:39:10.507Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 75593,
-    "sha256": "7a3c5c3ab266941ada4dcc84e87c92570d408a1ddb958883b6af4c1f18f21d64",
-    "mtime": "2026-09-29T18:56:48.806Z"
+    "bytes": 77907,
+    "sha256": "c9a9fa20a0088d436f37b0d42cf9ae543243724ccfd5346049acbe0f46ae04e4",
+    "mtime": "2026-10-01T01:11:20.627Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 2887889,
-    "sha256": "de0fee5b78e29366d4a4bda33021323616198a9a09036f201a327cc339e62cab",
-    "mtime": "2026-09-29T23:47:20.387Z"
+    "bytes": 1831274,
+    "sha256": "4aaa7215854f3e7c3110d17829142131b546a0f5c8a140d98cb081d152a169da",
+    "mtime": "2026-10-01T00:11:52.131Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90724,
-    "sha256": "1221959d093cc9fd95f8c421fdc62e7cfe7541f097b8be70452d32bf492f4132",
-    "mtime": "2026-09-29T19:07:35.558Z"
+    "bytes": 90743,
+    "sha256": "a2eb852638df69c8ea6be7d76b10273a76367b02a5c1297675579fc3c680a766",
+    "mtime": "2026-09-30T22:18:25.115Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 116456,
-    "sha256": "9d422fe81e4d2bb75bf414b015418ff31e0225247a660091766817b7dd7ecd9e",
-    "mtime": "2026-09-30T00:16:41.723Z"
+    "bytes": 121587,
+    "sha256": "5af3e8ed95bf2f198525ab7c7a032049165f2d75a6be3002a77411a8fe7c2770",
+    "mtime": "2026-10-01T01:39:10.475Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -73,9 +73,9 @@
   "code": [
    {
     "file": "tests/exp-w279a-samplestatus.mjs",
-    "bytes": 29747,
-    "sha256": "4fa07e4593226a387a8b5fe4499404940dce9bcdcc4a171900b1df5796100d64",
-    "mtime": "2026-09-29T17:55:53.115Z"
+    "bytes": 30756,
+    "sha256": "ab734a626e6573c39a12391eafd02016ecb844459174620ce61736e421b2dd43",
+    "mtime": "2026-09-30T21:46:30.339Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
@@ -94,36 +94,42 @@
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
     "mtime": "2026-09-29T17:55:53.119Z"
+   },
+   {
+    "file": "tests/lib-w288f-htmlstage.mjs",
+    "bytes": 10343,
+    "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
+    "mtime": "2026-09-30T21:46:30.347Z"
    }
   ],
-  "codeSha256": "d87246084a1f6fbbb8295ec98eb9cae02a56c4a23428ebeab0931ef5122dae56",
+  "codeSha256": "5faa328c2868684e6fe24c1ab0212a56595194a5fb8ead02d9f168eb17cb11a0",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "01b86410ed1c11bc78e4e675f5f0a9b39b34ac51",
-   "date": "2026-09-29T23:13:15.392Z",
-   "pass": 949
+   "commit": "930a55f19eea833adc5f9a9e155e132eea6206c1",
+   "date": "2026-09-30T01:14:12.988Z",
+   "pass": 964
   }
  },
  "tally": {
   "objective": {
-   "met": 81,
-   "partial": 55,
-   "unmet": 7,
+   "met": 82,
+   "partial": 56,
+   "unmet": 8,
    "n/a": 0
   },
   "calibration": {
    "pass": 0,
    "pass-limited": 2,
-   "fail": 2,
-   "hold": 33,
+   "fail": 1,
+   "hold": 17,
    "hold-definition": 2,
-   "out-of-scope": 104
+   "out-of-scope": 124
   },
   "four": {
    "合": 0,
    "量限定合": 2,
-   "否": 2,
-   "保留": 33
+   "否": 1,
+   "保留": 17
   },
   "byGroup": [
    {
@@ -134,7 +140,7 @@
    {
     "group": "銀河の力学",
     "icon": "🌌",
-    "n": 19
+    "n": 22
    },
    {
     "group": "天体の機構",
@@ -167,14 +173,9 @@
     "n": 3
    },
    {
-    "group": "現実との照合・太陽系",
-    "icon": "☀️",
-    "n": 27
-   },
-   {
-    "group": "現実との照合・連星",
-    "icon": "⭐",
-    "n": 16
+    "group": "現実較正",
+    "icon": "🎯",
+    "n": 33
    },
    {
     "group": "実在天体のアナロジー",
@@ -197,10 +198,10 @@
     "n": 0
    }
   ],
-  "n": 143,
+  "n": 146,
   "predictionEligible": 0,
   "retired": {
-   "n": 16,
+   "n": 26,
    "ids": [
     "darkrotor",
     "nebulaRotor",
@@ -209,14 +210,24 @@
     "bhCore",
     "bhCoreTilt",
     "galaxyMeshSpiralGeoToyLite",
+    "earthMoonRealKF1",
     "emAuditNewton",
+    "emAuditDFM",
+    "mercuryRealKF1",
+    "alphaCenABDFM",
+    "siriusABDFM",
+    "psrDoubleABDFM",
+    "psrDoubleABSpinCal",
     "psrDoubleABPN",
     "psrJ1757PN",
     "psrJ1946PN",
     "psrDoubleABCF",
     "psrJ1757CF",
     "psrJ1946CF",
+    "psrB1534DFM",
     "psrB1534CF",
+    "gw150914DFM",
+    "saturnRingRealKF1",
     "starSeed"
    ],
    "historyEvidence": [
@@ -349,28 +360,34 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 11315,
+     "ms": 9353,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 11084,
+       "ms": 9170,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 206,
+       "ms": 160,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 25,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -503,6 +520,12 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
@@ -512,13 +535,13 @@
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 40,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 10,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
@@ -662,22 +685,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 86,
+     "ms": 159,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 65,
+       "ms": 118,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 21,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -809,22 +838,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 102,
+     "ms": 183,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 65,
+       "ms": 118,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 37,
+       "ms": 65,
        "pass": true,
        "via": "targetIds"
       }
@@ -956,22 +991,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 87,
+     "ms": 143,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 65,
+       "ms": 118,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 22,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -1102,6 +1143,12 @@
      {
       "key": "bgtime287",
       "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
       "share": "all",
       "always": false
      }
@@ -1252,40 +1299,46 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 1102,
+     "ms": 938,
      "tests": [
       {
-       "id": "echo.leapfrog-return",
-       "ms": 537,
-       "pass": true,
-       "via": "claims+targetIds"
-      },
-      {
        "id": "echo.hud",
-       "ms": 354,
+       "ms": 384,
        "pass": true,
        "via": "targetIds"
       },
       {
+       "id": "echo.leapfrog-return",
+       "ms": 368,
+       "pass": true,
+       "via": "claims+targetIds"
+      },
+      {
        "id": "shot.regress-echo",
-       "ms": 147,
+       "ms": 127,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 54,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 10,
+       "ms": 3,
        "pass": true,
        "via": "targetIds"
       }
@@ -1417,16 +1470,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 134,
+     "ms": 120,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 134,
+       "ms": 120,
        "pass": true,
        "via": "targetIds"
       }
@@ -1558,16 +1617,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 174,
+     "ms": 159,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 174,
+       "ms": 159,
        "pass": true,
        "via": "targetIds"
       }
@@ -1699,16 +1764,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 257,
+     "ms": 245,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 257,
+       "ms": 245,
        "pass": true,
        "via": "targetIds"
       }
@@ -1840,22 +1911,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 353,
+     "ms": 289,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 253,
+       "ms": 213,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 100,
+       "ms": 76,
        "pass": true,
        "via": "targetIds"
       }
@@ -1987,22 +2064,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 307,
+     "ms": 438,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 269,
+       "ms": 409,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 38,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -2134,16 +2217,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 132,
+     "ms": 115,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 132,
+       "ms": 115,
        "pass": true,
        "via": "targetIds"
       }
@@ -2275,28 +2364,34 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 177,
+     "ms": 162,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 120,
+       "ms": 112,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 34,
+       "ms": 29,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 23,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -2428,24 +2523,30 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 181,
+     "ms": 179,
      "tests": [
       {
-       "id": "preset.probeH",
-       "ms": 95,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "behavior.probeH",
-       "ms": 86,
+       "ms": 109,
        "pass": true,
        "via": "claims+targetIds"
+      },
+      {
+       "id": "preset.probeH",
+       "ms": 70,
+       "pass": true,
+       "via": "targetIds"
       }
      ]
     }
@@ -2575,40 +2676,46 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2005,
+     "ms": 1756,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1030,
+       "ms": 922,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 444,
+       "ms": 393,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 279,
+       "ms": 234,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 225,
+       "ms": 191,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 15,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -2740,22 +2847,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3404,
+     "ms": 3253,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 3403,
+       "ms": 3253,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.cosmicweb",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -2911,22 +3024,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 9295,
+     "ms": 7883,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 5616,
+       "ms": 4761,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 3679,
+       "ms": 3122,
        "pass": true,
        "via": "targetIds"
       },
@@ -3064,22 +3183,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 58479,
+     "ms": 51922,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 54856,
+       "ms": 48475,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 3623,
+       "ms": 3447,
        "pass": true,
        "via": "targetIds"
       }
@@ -3211,22 +3336,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 146622,
+     "ms": 128931,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 140934,
+       "ms": 123835,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 5688,
+       "ms": 5096,
        "pass": true,
        "via": "targetIds"
       }
@@ -3358,22 +3489,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2967,
+     "ms": 2879,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 2967,
+       "ms": 2878,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxydb-contrast",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -3505,34 +3642,40 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7064,
+     "ms": 6576,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 3590,
+       "ms": 3435,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3376,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "darkrotor.uphi",
-       "ms": 63,
+       "ms": 3076,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 35,
+       "ms": 40,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "darkrotor.uphi",
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -3664,22 +3807,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 833,
+     "ms": 741,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 730,
+       "ms": 672,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 103,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       }
@@ -3811,22 +3960,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3630,
+     "ms": 3426,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 3398,
+       "ms": 3202,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 232,
+       "ms": 224,
        "pass": true,
        "via": "targetIds"
       }
@@ -3958,22 +4113,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3385,
+     "ms": 2825,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 2983,
+       "ms": 2531,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 402,
+       "ms": 294,
        "pass": true,
        "via": "targetIds"
       }
@@ -4105,28 +4266,34 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 14253,
+     "ms": 13445,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 10071,
+       "ms": 9462,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 4013,
+       "ms": 3774,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 169,
+       "ms": 209,
        "pass": true,
        "via": "targetIds"
       }
@@ -4258,16 +4425,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2812,
+     "ms": 2664,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 2812,
+       "ms": 2664,
        "pass": true,
        "via": "targetIds"
       },
@@ -4411,16 +4584,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "spinprec288",
+      "sec": 1,
+      "share": 1,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2739,
+     "ms": 2395,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 2739,
+       "ms": 2395,
        "pass": true,
        "via": "targetIds"
       }
@@ -4552,22 +4737,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4997,
+     "ms": 4479,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 4474,
+       "ms": 4099,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 523,
+       "ms": 380,
        "pass": true,
        "via": "targetIds"
       }
@@ -4699,22 +4890,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 21155,
+     "ms": 19859,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 19694,
+       "ms": 18459,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1461,
+       "ms": 1400,
        "pass": true,
        "via": "targetIds"
       },
@@ -4853,16 +5050,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5287,
+     "ms": 4805,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 5287,
+       "ms": 4805,
        "pass": true,
        "via": "targetIds"
       }
@@ -4995,16 +5198,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4882,
+     "ms": 4444,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 4882,
+       "ms": 4444,
        "pass": true,
        "via": "targetIds"
       }
@@ -5137,16 +5346,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4463,
+     "ms": 3993,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 4463,
+       "ms": 3993,
        "pass": true,
        "via": "targetIds"
       }
@@ -5278,16 +5493,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1165,
+     "ms": 907,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1165,
+       "ms": 907,
        "pass": true,
        "via": "targetIds"
       },
@@ -5437,16 +5658,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3230,
+     "ms": 3099,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3230,
+       "ms": 3099,
        "pass": true,
        "via": "targetIds"
       },
@@ -5591,16 +5818,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairfuse288",
+      "sec": 300,
+      "share": 5,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6102,
+     "ms": 5387,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 6102,
+       "ms": 5387,
        "pass": true,
        "via": "targetIds"
       }
@@ -5738,16 +5977,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1638,
+     "ms": 1260,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1638,
+       "ms": 1260,
        "pass": true,
        "via": "targetIds"
       }
@@ -5881,6 +6126,12 @@
       "always": false
      },
      {
+      "key": "fixcap288",
+      "sec": 175,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "bgdiff286",
       "sec": 3,
       "share": "all",
@@ -5891,20 +6142,336 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose288",
+      "sec": 5,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "pairfuse288",
+      "sec": 300,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "tilt90288",
+      "sec": 256,
+      "share": 3,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2892,
+     "ms": 2241,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 2892,
+       "ms": 2241,
        "pass": true,
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "galaxyAnalogyBHCompose",
+   "emoji": "🧩",
+   "name": "銀河アナロジー — 背景と中心の合成の診断コピー(較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🌚 の写しで静止背景を明示し中心を 1 回だけ数える合成の診断コピー",
+    "objective": "met",
+    "state": "🌚 とビット同一・中心 1 回・静止した中心だけなら u=0・A_spin は場の契約とビット一致",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/compose-w288c.json"
+    ],
+    "en": {
+     "purpose": "Diagnostic copy of 🌚: explicit static background, centre counted once",
+     "state": "bit-identical to 🌚; a resting centre alone gives u=0; A_spin matches the field contract",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Diagnostic copy of 🌚: explicit static background, centre counted once. Met: bit-identical to 🌚; a resting centre alone gives u=0; A_spin matches the field contract. Out of calibration scope."
+    },
+    "brief": "🌚 の写しで静止背景を明示し中心を 1 回だけ数える合成の診断コピー。達・🌚 とビット同一・中心 1 回・静止した中心だけなら u=0・A_spin は場の契約とビット一致。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose288",
+      "sec": 5,
+      "share": 2,
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90",
+   "emoji": "🛸",
+   "name": "銀河アナロジー(中心 BH の軸 90°・宣言した歳差)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🌚 の中心の自転軸を 90° に倒し歳差を宣言した写しで面内の引きずりを測る",
+    "objective": "partial",
+    "state": "現行法則は中心の殻 spin だけを読み 🌚 の spin 0 とビット一致・歳差の面内の引きずりは候補の診断量だけ",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/tilt90-w288e.json"
+    ],
+    "en": {
+     "purpose": "Copy of 🌚 with the axis tipped 90° and a declared precession",
+     "state": "the law reads only the shell spin (same as spin 0); precession drag is a candidate only",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Copy of 🌚 with the axis tipped 90° and a declared precession. Partial: the law reads only the shell spin (same as spin 0); precession drag is a candidate only. Out of calibration scope."
+    },
+    "brief": "🌚 の中心の自転軸を 90° に倒し歳差を宣言した写しで面内の引きずりを測る。部分・現行法則は中心の殻 spin だけを読み 🌚 の spin 0 とビット一致・歳差の面内の引きずりは候補の診断量だけ。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tilt90288",
+      "sec": 256,
+      "share": 3,
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -6029,6 +6596,12 @@
       "always": false
      },
      {
+      "key": "fixcap288",
+      "sec": 175,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "bgdiff286",
       "sec": 3,
       "share": "all",
@@ -6038,6 +6611,18 @@
       "key": "bgtime287",
       "sec": 110,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairfuse288",
+      "sec": 300,
+      "share": 5,
       "always": false
      }
     ],
@@ -6169,6 +6754,12 @@
       "always": false
      },
      {
+      "key": "fixcap288",
+      "sec": 175,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "bgdiff286",
       "sec": 3,
       "share": "all",
@@ -6177,6 +6768,164 @@
      {
       "key": "bgtime287",
       "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairfuse288",
+      "sec": 300,
+      "share": 5,
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": false,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "fixedCaptureCopy",
+   "emoji": "🥜",
+   "name": "固定中心の合体の原理コピー(支配天体を固定して落ちてくる塊を合体させる)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "固定した中心へ落ちてくる塊をエネルギー優先で合体させる原理コピー",
+    "objective": "unmet",
+    "state": "合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/fixcap-w288a.json"
+    ],
+    "en": {
+     "purpose": "A pinned centre merges infalling clumps energy-first",
+     "state": "the merger energy ledger closes, J_pin and P_pin stay in separate accounts; gates not met",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "A pinned centre merges infalling clumps energy-first. Unmet: the merger energy ledger closes, J_pin and P_pin stay in separate accounts; gates not met. Out of calibration scope."
+    },
+    "brief": "固定した中心へ落ちてくる塊をエネルギー優先で合体させる原理コピー。未達・合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "fixcap288",
+      "sec": 175,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
       "share": "all",
       "always": false
      }
@@ -6326,16 +7075,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 850,
+     "ms": 862,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 850,
+       "ms": 862,
        "pass": true,
        "via": "targetIds"
       }
@@ -6474,16 +7229,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1169,
+     "ms": 1043,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1169,
+       "ms": 1043,
        "pass": true,
        "via": "targetIds"
       }
@@ -6622,16 +7383,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 524,
+     "ms": 389,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 524,
+       "ms": 389,
        "pass": true,
        "via": "targetIds"
       }
@@ -6770,16 +7537,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 828,
+     "ms": 877,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 828,
+       "ms": 877,
        "pass": true,
        "via": "targetIds"
       }
@@ -6918,16 +7691,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1258,
+     "ms": 1148,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1258,
+       "ms": 1148,
        "pass": true,
        "via": "targetIds"
       }
@@ -7066,16 +7845,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 463,
+     "ms": 342,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 463,
+       "ms": 342,
        "pass": true,
        "via": "targetIds"
       }
@@ -7208,22 +7993,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 202,
+     "ms": 181,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 166,
+       "ms": 159,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 36,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -7355,16 +8146,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 17,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 17,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       },
@@ -7502,22 +8299,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 72,
+     "ms": 42,
      "tests": [
       {
        "id": "behavior.blens",
-       "ms": 41,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.blens",
-       "ms": 31,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -7649,22 +8452,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 327,
+     "ms": 283,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 298,
+       "ms": 258,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 29,
+       "ms": 25,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -7810,6 +8619,12 @@
       "always": false
      },
      {
+      "key": "fixcap288",
+      "sec": 175,
+      "share": 5,
+      "always": false
+     },
+     {
       "key": "bgdiff286",
       "sec": 3,
       "share": "all",
@@ -7820,28 +8635,40 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pairfuse288",
+      "sec": 300,
+      "share": 5,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 25603,
+     "ms": 22485,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 21855,
+       "ms": 19267,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2011,
+       "ms": 1744,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 1737,
+       "ms": 1474,
        "pass": true,
        "via": "targetIds"
       }
@@ -7973,28 +8800,34 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 13316,
+     "ms": 11798,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 10389,
+       "ms": 9425,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 1897,
+       "ms": 1451,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1030,
+       "ms": 922,
        "pass": true,
        "via": "targetIds"
       }
@@ -8126,34 +8959,40 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 806,
+     "ms": 825,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 565,
+       "ms": 671,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 201,
+       "ms": 97,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 26,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 14,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       }
@@ -8285,16 +9124,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 759,
+     "ms": 736,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 759,
+       "ms": 736,
        "pass": true,
        "via": "targetIds"
       }
@@ -8426,22 +9271,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 12,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 11,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "new.coolrace",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -8573,28 +9424,34 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3287,
+     "ms": 2953,
      "tests": [
       {
-       "id": "shot.regress-convection",
-       "ms": 1782,
+       "id": "preset.convection",
+       "ms": 1512,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.convection",
-       "ms": 1486,
+       "id": "shot.regress-convection",
+       "ms": 1428,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 19,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       },
@@ -8732,16 +9589,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2123,
+     "ms": 1682,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2123,
+       "ms": 1682,
        "pass": true,
        "via": "targetIds"
       },
@@ -8879,16 +9742,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1499,
+     "ms": 1121,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1499,
+       "ms": 1121,
        "pass": true,
        "via": "targetIds"
       },
@@ -9026,16 +9895,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 755,
+     "ms": 640,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 755,
+       "ms": 640,
        "pass": true,
        "via": "targetIds"
       },
@@ -9179,16 +10054,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1379,
+     "ms": 1447,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 1379,
+       "ms": 1447,
        "pass": true,
        "via": "targetIds"
       },
@@ -9332,16 +10213,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 791,
+     "ms": 706,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 791,
+       "ms": 706,
        "pass": true,
        "via": "targetIds"
       },
@@ -9486,16 +10373,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1115,
+     "ms": 902,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1115,
+       "ms": 902,
        "pass": true,
        "via": "targetIds"
       },
@@ -9639,28 +10532,34 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 733,
+     "ms": 525,
      "tests": [
       {
-       "id": "preset.earthMoon",
-       "ms": 314,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "behavior.earthMoon",
-       "ms": 291,
+       "ms": 239,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
+       "id": "preset.earthMoon",
+       "ms": 152,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
        "id": "shot.regress-earthMoon",
-       "ms": 128,
+       "ms": 134,
        "pass": true,
        "via": "targetIds"
       }
@@ -9792,22 +10691,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1179,
+     "ms": 937,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 992,
+       "ms": 921,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 187,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -9819,7 +10724,7 @@
    "id": "earthMoonReal",
    "emoji": "🌙",
    "name": "地球と月(実単位)— 恒星月 27.32日",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "実単位の地球と月を kF0 で照合する",
@@ -9851,17 +10756,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 81.94200000000001,
+     "wallSec": 146.809,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 29.449,
+       "wallSec": 48.822,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 52.493,
+       "wallSec": 97.987,
        "reused": false,
        "reusedBy": null
       }
@@ -9972,16 +10877,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 30,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -9993,15 +10904,15 @@
    "id": "earthMoonRealKF1",
    "emoji": "🌘",
    "name": "地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "月の周期と近点回転を kF1 で照合する",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳・🧲 との差は重みと初速の両方",
-    "calibration": "hold",
-    "mismatch": "近点移動 +12.7%(σ なし)",
-    "outlook": "σ 未接続",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync",
@@ -10010,37 +10921,17 @@
     "en": {
      "purpose": "Compare the Moon's period and apsidal rotation with kF1",
      "state": "the comparison runs are in the ledger; 🧲 gap: weight + speed",
-     "mismatch": "apsidal advance +12.7% (no σ)",
-     "outlook": "no σ connected",
-     "brief": "Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger; 🧲 gap: weight + speed. Calibration: hold — apsidal advance +12.7% (no σ); no σ connected."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger; 🧲 gap: weight + speed. Out of calibration scope."
     },
-    "brief": "月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳・🧲 との差は重みと初速の両方。較正は保留・近点移動 +12.7%(σ なし)・σ 未接続。"
+    "brief": "月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳・🧲 との差は重みと初速の両方。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[1]",
-    "mismatch": "presets[].quantities(目安判定 否/窓・写像確定・|差%| 最大)",
-    "lastDiffInSigma": null,
-    "missing": [
-     "σ 未接続"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 124.03299999999999,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 42.927,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 81.106,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -10177,16 +11068,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 50,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 50,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -10198,7 +11095,7 @@
    "id": "emAuditNewton",
    "emoji": "⭕",
    "name": "地球と月・機構判別A(二体ニュートン)— 閉じた楕円",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "純二体では月の近点回転が出ないことを示す",
@@ -10330,22 +11227,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 36,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 35,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -10357,15 +11260,15 @@
    "id": "emAuditDFM",
    "emoji": "🧲",
    "name": "地球と月・機構判別B(二体DFM較正)— 8.85年を別機構で",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "月の較正窓の一致が長期に続くかを調べる",
     "objective": "met",
     "state": "長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速",
-    "calibration": "hold",
-    "mismatch": "近点移動 +23.1%(σ なし)",
-    "outlook": "σ 未接続",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "behavior.emAudit",
      "tests/out/calaudit-w249.json",
@@ -10374,37 +11277,17 @@
     "en": {
      "purpose": "Check whether the lunar calibration-window agreement lasts",
      "state": "detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed",
-     "mismatch": "apsidal advance +23.1% (no σ)",
-     "outlook": "no σ connected",
-     "brief": "Check whether the lunar calibration-window agreement lasts. Met: detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed. Calibration: hold — apsidal advance +23.1% (no σ); no σ connected."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Check whether the lunar calibration-window agreement lasts. Met: detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed. Out of calibration scope."
     },
-    "brief": "月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速。較正は保留・近点移動 +23.1%(σ なし)・σ 未接続。"
+    "brief": "月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[2]",
-    "mismatch": "presets[].quantities(目安判定 否/窓・写像確定・|差%| 最大)",
-    "lastDiffInSigma": null,
-    "missing": [
-     "σ 未接続"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 108.511,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 36.866,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 71.645,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -10523,22 +11406,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 45,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 44,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -10550,7 +11439,7 @@
    "id": "emAuditSolar",
    "emoji": "🔆",
    "name": "地球と月・機構判別C(太陽+地球+月の三体)— 較正なしの太陽摂動",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "太陽摂動だけで月の近点回転を出す",
@@ -10573,7 +11462,7 @@
     "brief": "太陽摂動だけで月の近点回転を出す。部分・向きは前進・年数は記録のみ。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[3]",
+    "row": "verdictLedger.rows[1]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -10582,17 +11471,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.5389999999999997,
+     "wallSec": 4.537,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.821,
+       "wallSec": 1.463,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.718,
+       "wallSec": 3.074,
        "reused": false,
        "reusedBy": null
       }
@@ -10703,22 +11592,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 29,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 28,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -10730,7 +11625,7 @@
    "id": "earthMoonDiagOne",
    "emoji": "🌓",
    "name": "地球と月(表裏核の診断)— 同じ初期状態・経路だけ置換",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断",
@@ -10863,16 +11758,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 67,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 57,
+       "ms": 67,
        "pass": true,
        "via": "targetIds"
       }
@@ -10884,7 +11785,7 @@
    "id": "qLockRadialAudit",
    "emoji": "📶",
    "name": "qLock 半径方向監査 — 参照点は LT 級・その外では r⁻³ を捨てる",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "qLock が参照軌道の外で崩れるかを監査する",
@@ -11016,22 +11917,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 952,
+     "ms": 488,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 852,
+       "ms": 436,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 100,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -11043,7 +11950,7 @@
    "id": "qLockRadialAuditQ3",
    "emoji": "📐",
    "name": "qLock 半径方向監査・対照(q=3)— r⁻³ 則そのものの物差し",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "q=3 の対照で r⁻³ 則の物差しを示す",
@@ -11175,22 +12082,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 943,
+     "ms": 480,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 852,
+       "ms": 436,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 91,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -11328,22 +12241,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 400,
+     "ms": 328,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 368,
+       "ms": 313,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 32,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -11355,7 +12274,7 @@
    "id": "mercuryReal",
    "emoji": "☄️",
    "name": "水星(実単位)— 近日点前進(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "水星の近日点前進を kF0 で照合する",
@@ -11379,7 +12298,7 @@
     "brief": "水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −6.91%(2.0×10³σ)・数値未解決。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[4]",
+    "row": "verdictLedger.rows[2]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 1353.650322719815,
     "missing": [
@@ -11388,17 +12307,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.067,
+     "wallSec": 10.134,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.656,
+       "wallSec": 3.35,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.411,
+       "wallSec": 6.784,
        "reused": false,
        "reusedBy": null
       }
@@ -11521,16 +12440,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 41,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 41,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -11542,7 +12467,7 @@
    "id": "mercuryGeoToy3",
    "emoji": "🔁",
    "name": "水星 — geoPN=3 契約の零試験(一様な座標変換・較正ではない)",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる",
@@ -11668,16 +12593,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 55,
+     "ms": 46,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 55,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -11689,15 +12620,15 @@
    "id": "mercuryRealKF1",
    "emoji": "🪨",
    "name": "水星(実単位・kFrame=1)— 共通補正(43.0″/世紀は RL 勾配・600 公転・λ_PN 差引き)",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "水星の近日点前進を kF1 で照合する",
     "objective": "partial",
     "state": "☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり",
-    "calibration": "hold",
-    "mismatch": "近点移動 −21.7%(6.2×10³σ)",
-    "outlook": "数値未解決",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "tests/out/mercury-w280a.json",
@@ -11706,37 +12637,17 @@
     "en": {
      "purpose": "Compare Mercury's perihelion advance with kF1",
      "state": "the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag",
-     "mismatch": "apsidal advance −21.7% (6.2×10³σ)",
-     "outlook": "numerics unresolved",
-     "brief": "Compare Mercury's perihelion advance with kF1. Partial: the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag. Calibration: hold — apsidal advance −21.7% (6.2×10³σ); numerics unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare Mercury's perihelion advance with kF1. Partial: the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag. Out of calibration scope."
     },
-    "brief": "水星の近日点前進を kF1 で照合する。部分・☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり。較正は保留・近点移動 −21.7%(6.2×10³σ)・数値未解決。"
+    "brief": "水星の近日点前進を kF1 で照合する。部分・☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[5]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 1353.9711418569952,
-    "missing": [
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 8.001999999999999,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 2.518,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 5.484,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -11843,16 +12754,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 42,
+     "ms": 35,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 42,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -11864,7 +12781,7 @@
    "id": "solarInner",
    "emoji": "🌞",
    "name": "太陽系 — 内惑星(実単位)",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "内惑星 4 つの周期を実単位で照合する",
@@ -11889,7 +12806,7 @@
     "brief": "内惑星 4 つの周期を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[6]",
+    "row": "verdictLedger.rows[3]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -11898,11 +12815,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 28.946,
+     "wallSec": 42.793,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 28.946,
+       "wallSec": 42.793,
        "reused": false,
        "reusedBy": null
       }
@@ -12013,16 +12930,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1358,
+     "ms": 1201,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1139,
+       "ms": 982,
        "pass": true,
        "via": "claims+targetIds"
       },
@@ -12040,7 +12963,7 @@
    "id": "jupiterGalilean",
    "emoji": "🟠",
    "name": "木星とガリレオ衛星(実単位)— 規則を再フィットしない hold-out",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "木星 4 衛星へ規則を再 fit せず当てる",
@@ -12063,26 +12986,27 @@
     "brief": "木星 4 衛星へ規則を再 fit せず当てる。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[7]",
+    "row": "verdictLedger.rows[4]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
+     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 37.61,
+     "wallSec": 47.814,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 12.634,
+       "wallSec": 15.92,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 24.976,
+       "wallSec": 31.894,
        "reused": false,
        "reusedBy": null
       }
@@ -12205,22 +13129,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 370,
+     "ms": 413,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 292,
+       "ms": 339,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 78,
+       "ms": 74,
        "pass": true,
        "via": "targetIds"
       }
@@ -12232,7 +13162,7 @@
    "id": "venusReal",
    "emoji": "🌇",
    "name": "太陽と金星(実単位)— 自由中心の二体転写",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "自由中心の太陽–金星を実単位で照合する",
@@ -12255,26 +13185,27 @@
     "brief": "自由中心の太陽–金星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[8]",
+    "row": "verdictLedger.rows[5]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
+     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 20.927,
+     "wallSec": 27.659,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.178,
+       "wallSec": 9.066,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 13.749,
+       "wallSec": 18.593,
        "reused": false,
        "reusedBy": null
       }
@@ -12433,22 +13364,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3049,
+     "ms": 2862,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 3009,
+       "ms": 2826,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 40,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -12460,7 +13397,7 @@
    "id": "marsMoonsReal",
    "emoji": "🥔",
    "name": "火星とフォボス・ダイモス(実単位)— テスト粒子転写",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "火星の 2 衛星を実単位で照合する",
@@ -12483,26 +13420,27 @@
     "brief": "火星の 2 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[9]",
+    "row": "verdictLedger.rows[6]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
+     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 13.855999999999998,
+     "wallSec": 18.820999999999998,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.704,
+       "wallSec": 6.281,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.152,
+       "wallSec": 12.54,
        "reused": false,
        "reusedBy": null
       }
@@ -12625,16 +13563,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 36,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 36,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       },
@@ -12652,15 +13596,15 @@
    "id": "plutoCharonReal",
    "emoji": "❄️",
    "name": "冥王星とカロン(実単位)— 重心が外にある二体",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "旧入力の冥王星–カロンを照合する",
     "objective": "unmet",
     "state": "代表量が門の外・残差を要因の鎖で分解",
-    "calibration": "fail",
+    "calibration": "hold",
     "mismatch": "周期 +0.00138%(294σ)",
-    "outlook": "刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定",
+    "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
      "behavior.plutoCharonReal",
@@ -12670,33 +13614,33 @@
      "purpose": "Pluto–Charon from older inputs",
      "state": "outside the gate; residual traced",
      "mismatch": "period +0.00138% (294σ)",
-     "outlook": "step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved",
-     "brief": "Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Calibration: fail — period +0.00138% (294σ); step Δ 1×10⁻³σ (not step-limited); numerics unresolved; mapping unresolved."
+     "outlook": "numerics unresolved",
+     "brief": "Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Calibration: hold — period +0.00138% (294σ); numerics unresolved."
     },
-    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正は否・周期 +0.00138%(294σ)・刻み間差 1×10⁻³σ・刻みでは縮まない・数値未解決・写像未確定。"
+    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正は保留・周期 +0.00138%(294σ)・数値未解決。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[10]",
+    "row": "verdictLedger.rows[7]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.0009791911895858285,
+    "lastDiffInSigma": 0.0037494716291994225,
     "missing": [
-     "写像未確定",
+     "条件不一致",
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 59.655,
+     "wallSec": 79.18799999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 19.972,
+       "wallSec": 26.519,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 39.683,
+       "wallSec": 52.669,
        "reused": false,
        "reusedBy": null
       }
@@ -12885,16 +13829,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 36,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 36,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       },
@@ -12912,7 +13862,7 @@
    "id": "plutoCharonDFM",
    "emoji": "⛄",
    "name": "冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "同一観測解の二体に零条件つき引きずり則を載せる",
@@ -13056,22 +14006,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 7546,
+     "ms": 6552,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 7474,
+       "ms": 6478,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 72,
+       "ms": 74,
        "pass": true,
        "via": "targetIds"
       }
@@ -13082,8 +14038,8 @@
   {
    "id": "plutoCharonKF0Control",
    "emoji": "🌨️",
-   "name": "冥王星とカロン(同一観測解)— kF0 対照(引きずり則なし)",
-   "group": "現実との照合・太陽系",
+   "name": "冥王星とカロン(同一観測解)— geoPN=1 の対照(引きずり則なし)",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "⛄ と同じ入力で則だけを外した kF0 対照",
@@ -13226,16 +14182,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 40,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 40,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -13246,8 +14208,8 @@
   {
    "id": "plutoCharonDiagInput",
    "emoji": "🥶",
-   "name": "冥王星とカロン(入力を整えた二体)— 観測入力 kF0 対照",
-   "group": "現実との照合・太陽系",
+   "name": "冥王星とカロン(入力を整えた二体)— 観測入力の geoPN=1 の対照",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "❄️ の入力の丸めと軟化を外した kF0 診断コピー",
@@ -13373,16 +14335,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 34,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -13394,7 +14362,7 @@
    "id": "plutoCharonSyncZero",
    "emoji": "☃️",
    "name": "冥王星とカロン(厳密同期円)— 相対すべり則の零試験",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "厳密同期円で相対すべり則の零条件を走行中も試す",
@@ -13520,16 +14488,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 26,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -13541,7 +14515,7 @@
    "id": "charonGeoToy3",
    "emoji": "🌒",
    "name": "冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない)",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる",
@@ -13667,16 +14641,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 41,
+     "ms": 49,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 41,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       }
@@ -13688,7 +14668,7 @@
    "id": "uranusReal",
    "emoji": "💠",
    "name": "天王星の環と主要5衛星(実単位)",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "天王星の環と 5 衛星を実単位で照合する",
@@ -13713,20 +14693,21 @@
     "brief": "天王星の環と 5 衛星を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[11]",
+    "row": "verdictLedger.rows[8]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
+     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 34.855,
+     "wallSec": 52.73,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 34.855,
+       "wallSec": 52.73,
        "reused": false,
        "reusedBy": null
       }
@@ -13837,16 +14818,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 151,
+     "ms": 150,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 150,
+       "ms": 149,
        "pass": true,
        "via": "targetIds"
       },
@@ -13864,7 +14851,7 @@
    "id": "neptuneReal",
    "emoji": "🌊",
    "name": "海王星とトリトン(実単位)— 逆行衛星の二体",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "逆行衛星トリトンを実単位で照合する",
@@ -13887,26 +14874,27 @@
     "brief": "逆行衛星トリトンを実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[12]",
+    "row": "verdictLedger.rows[9]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
+     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.291,
+     "wallSec": 7.188000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.809,
+       "wallSec": 2.43,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.482,
+       "wallSec": 4.758,
        "reused": false,
        "reusedBy": null
       }
@@ -14065,16 +15053,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 28,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 28,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       },
@@ -14092,7 +15086,7 @@
    "id": "alphaCenAB",
    "emoji": "✨",
    "name": "αケンタウリAB(実単位)— 恒星連星の二体",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "α Cen AB を kF0 で照合する",
@@ -14115,7 +15109,7 @@
     "brief": "α Cen AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[13]",
+    "row": "verdictLedger.rows[10]",
     "mismatch": null,
     "lastDiffInSigma": 0.0000023396795135692717,
     "missing": [
@@ -14124,30 +15118,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.484,
+     "wallSec": 13.424,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.484,
+       "wallSec": 13.424,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.84,
+       "wallSec": 27.184,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 33.82,
+       "wallSec": 52.7,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 48.66,
-     "reusedH2Sec": 14.84,
-     "reusedH4Sec": 33.81999999999999
+     "reusedSec": 79.884,
+     "reusedH2Sec": 27.184,
+     "reusedH4Sec": 52.7
     },
     "regenSteps": [
      {
@@ -14299,22 +15293,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2358,
+     "ms": 2469,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 2328,
+       "ms": 2431,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 30,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -14326,15 +15326,15 @@
    "id": "alphaCenABDFM",
    "emoji": "✴️",
    "name": "αケンタウリAB(DFM版)— pull 重み・観測質量のまま kF1",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "観測質量のまま kF1 を α Cen へ当てる",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "周期 −0.597%(25.1σ)",
-    "outlook": "数値未解決・写像未確定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -14342,38 +15342,17 @@
     "en": {
      "purpose": "Apply kF1 to α Cen with the observed masses",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period −0.597% (25.1σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Apply kF1 to α Cen with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −0.597% (25.1σ); numerics unresolved; mapping unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Apply kF1 to α Cen with the observed masses. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "観測質量のまま kF1 を α Cen へ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −0.597%(25.1σ)・数値未解決・写像未確定。"
+    "brief": "観測質量のまま kF1 を α Cen へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[14]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.009583361818833274,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 33.575,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 11.133,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 22.442,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -14498,22 +15477,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2375,
+     "ms": 2480,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 2328,
+       "ms": 2431,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 47,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       }
@@ -14525,7 +15510,7 @@
    "id": "siriusAB",
    "emoji": "🌟",
    "name": "シリウスAB(実単位)— 白色矮星との連星",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "シリウス AB を kF0 で照合する",
@@ -14548,7 +15533,7 @@
     "brief": "シリウス AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[15]",
+    "row": "verdictLedger.rows[11]",
     "mismatch": null,
     "lastDiffInSigma": 0.000027352535753897184,
     "missing": [
@@ -14557,30 +15542,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.162,
+     "wallSec": 8.001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.162,
+       "wallSec": 8.001,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 8.397,
+       "wallSec": 16.164,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 22.887,
+       "wallSec": 31.661,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 31.284,
-     "reusedH2Sec": 8.397,
-     "reusedH4Sec": 22.887
+     "reusedSec": 47.825,
+     "reusedH2Sec": 16.164,
+     "reusedH4Sec": 31.661
     },
     "regenSteps": [
      {
@@ -14732,22 +15717,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2316,
+     "ms": 2195,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2282,
+       "ms": 2147,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 34,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -14759,15 +15750,15 @@
    "id": "siriusABDFM",
    "emoji": "💫",
    "name": "シリウスAB(DFM版)— pull 重み・観測質量のまま kF1",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "観測質量のまま kF1 をシリウスへ当てる",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "周期 −1.77%(206σ)",
-    "outlook": "数値未解決・写像未確定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -14775,38 +15766,17 @@
     "en": {
      "purpose": "Apply kF1 to Sirius with the observed masses",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period −1.77% (206σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Apply kF1 to Sirius with the observed masses. Partial: the comparison runs are in the ledger. Calibration: hold — period −1.77% (206σ); numerics unresolved; mapping unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Apply kF1 to Sirius with the observed masses. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "観測質量のまま kF1 をシリウスへ当てる。部分・照合の走行は台帳に記帳。較正は保留・周期 −1.77%(206σ)・数値未解決・写像未確定。"
+    "brief": "観測質量のまま kF1 をシリウスへ当てる。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[16]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.1575233089871086,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 21.328,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 7.087,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 14.241,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -14931,22 +15901,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2329,
+     "ms": 2184,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2282,
+       "ms": 2147,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 47,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -14958,7 +15934,7 @@
    "id": "psrDoubleAB",
    "emoji": "📻",
    "name": "二重パルサー J0737−3039A/B(実単位)— 2.45時間の中性子星連星",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "二重パルサーを kF0 で照合する",
@@ -14981,7 +15957,7 @@
     "brief": "二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00307%(1.1×10⁶σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[17]",
+    "row": "verdictLedger.rows[12]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 3140.7591208077497,
     "missing": [
@@ -14991,17 +15967,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.17,
+     "wallSec": 13.722000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.532,
+       "wallSec": 4.488,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.638,
+       "wallSec": 9.234,
        "reused": false,
        "reusedBy": null
       }
@@ -15130,16 +16106,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tilt90288",
+      "sec": 256,
+      "share": 3,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 29,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 28,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       },
@@ -15157,15 +16145,15 @@
    "id": "psrDoubleABDFM",
    "emoji": "⚡",
    "name": "二重パルサー J0737−3039A/B(DFM版)— 観測質量(f=1)・kF1",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "二重パルサーを観測質量(f=1)と kF1 で照合",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "周期 +2.0×10³%(7.2×10¹¹σ)",
-    "outlook": "数値未解決",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -15173,37 +16161,17 @@
     "en": {
      "purpose": "Compare the double pulsar with the observed masses (f=1) under kF1",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period +2.0×10³% (7.2×10¹¹σ)",
-     "outlook": "numerics unresolved",
-     "brief": "Compare the double pulsar with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Calibration: hold — period +2.0×10³% (7.2×10¹¹σ); numerics unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare the double pulsar with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "二重パルサーを観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +2.0×10³%(7.2×10¹¹σ)・数値未解決。"
+    "brief": "二重パルサーを観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[18]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 3965004021.2854877,
-    "missing": [
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 88.816,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 29.46,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 59.356,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -15364,22 +16332,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6466,
+     "ms": 5883,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 6357,
+       "ms": 5833,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 109,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -15391,7 +16365,7 @@
    "id": "psrDoubleABGeoToy",
    "emoji": "🩻",
    "name": "二重パルサー J0737−3039A/B — geoPN=3 診断(f=1・較正候補ではない)",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "観測質量のまま geoPN=3 則を当てる診断",
@@ -15512,16 +16486,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 84,
+     "ms": 70,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 84,
+       "ms": 70,
        "pass": true,
        "via": "targetIds"
       }
@@ -15533,15 +16513,15 @@
    "id": "psrDoubleABSpinCal",
    "emoji": "🧿",
    "name": "二重パルサー J0737−3039A/B(スピン–スピン較正候補)— f と λ を回した比較 variant",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "f と λ を回した較正候補を比べる",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "近点移動 +2.56%(3.4×10⁴σ)",
-    "outlook": "数値未解決",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -15549,37 +16529,17 @@
     "en": {
      "purpose": "Compare a calibration candidate with f and λ turned",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +2.56% (3.4×10⁴σ)",
-     "outlook": "numerics unresolved",
-     "brief": "Compare a calibration candidate with f and λ turned. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.56% (3.4×10⁴σ); numerics unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare a calibration candidate with f and λ turned. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "f と λ を回した較正候補を比べる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.56%(3.4×10⁴σ)・数値未解決。"
+    "brief": "f と λ を回した較正候補を比べる。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[19]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 29933.625407092673,
-    "missing": [
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 6.2219999999999995,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 1.948,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 4.274,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -15692,16 +16652,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 86,
+     "ms": 74,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 86,
+       "ms": 74,
        "pass": true,
        "via": "targetIds"
       }
@@ -15712,51 +16678,51 @@
   {
    "id": "psrJ1757DFM",
    "emoji": "🧮",
-   "name": "PSR J1757−1854(DFM版)— 観測質量(f=1)・kF1 の中性子星連星2例目",
-   "group": "現実との照合・連星",
+   "name": "PSR J1757−1854(実単位)— 観測質量(f=1)の中性子星連星2例目",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
-    "purpose": "J1757 を観測質量(f=1)と kF1 で照合",
+    "purpose": "J1757 を観測質量(f=1)・geoPN=1 で照合",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "周期 +115%(4.2×10⁹σ)",
-    "outlook": "数値未解決・写像未確定",
+    "mismatch": "近点移動 33.3σ(差の%は正本に無い)",
+    "outlook": "数値未解決",
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
     ],
     "en": {
-     "purpose": "Compare J1757 with the observed masses (f=1) under kF1",
+     "purpose": "Compare J1757 with the observed masses (f=1, geoPN=1)",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period +115% (4.2×10⁹σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Compare J1757 with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Calibration: hold — period +115% (4.2×10⁹σ); numerics unresolved; mapping unresolved."
+     "mismatch": "apsidal advance 33.3σ (no % in the ledger)",
+     "outlook": "numerics unresolved",
+     "brief": "Compare J1757 with the observed masses (f=1, geoPN=1). Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance 33.3σ (no % in the ledger); numerics unresolved."
     },
-    "brief": "J1757 を観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +115%(4.2×10⁹σ)・数値未解決・写像未確定。"
+    "brief": "J1757 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・近点移動 33.3σ(差の%は正本に無い)・数値未解決。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[20]",
+    "row": "verdictLedger.rows[13]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 12564488.703057779,
+    "lastDiffInSigma": 11.643708677775422,
     "missing": [
-     "写像未確定",
+     "条件不一致",
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 16.152,
+     "wallSec": 9.362,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.434,
+       "wallSec": 3.216,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 10.718,
+       "wallSec": 6.146,
        "reused": false,
        "reusedBy": null
       }
@@ -15921,16 +16887,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 44,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 44,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -15941,51 +16913,52 @@
   {
    "id": "psrJ1946DFM",
    "emoji": "🩺",
-   "name": "PSR J1946+2052(DFM版)— 観測質量(f=1)・kF1 の銀河系で最短周期の中性子星連星",
-   "group": "現実との照合・連星",
+   "name": "PSR J1946+2052(実単位)— 観測質量(f=1)の銀河系で最短周期の中性子星連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
-    "purpose": "J1946 を観測質量(f=1)と kF1 で照合",
+    "purpose": "J1946 を観測質量(f=1)・geoPN=1 で照合",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "周期 +3.2×10³%(1.2×10¹¹σ)",
+    "mismatch": "近点移動 58.3σ(差の%は正本に無い)",
     "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
     ],
     "en": {
-     "purpose": "Compare J1946 with the observed masses (f=1) under kF1",
-     "state": "the comparison runs are in the ledger",
-     "mismatch": "period +3.2×10³% (1.2×10¹¹σ)",
+     "purpose": "J1946 at the observed masses (f=1, geoPN=1)",
+     "state": "the runs are in the ledger",
+     "mismatch": "apsidal advance 58.3σ (no % in the ledger)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Compare J1946 with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Calibration: hold — period +3.2×10³% (1.2×10¹¹σ); numerics unresolved; mapping unresolved."
+     "brief": "J1946 at the observed masses (f=1, geoPN=1). Partial: the runs are in the ledger. Calibration: hold — apsidal advance 58.3σ (no % in the ledger); numerics unresolved; mapping unresolved."
     },
-    "brief": "J1946 を観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +3.2×10³%(1.2×10¹¹σ)・数値未解決・写像未確定。"
+    "brief": "J1946 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・近点移動 58.3σ(差の%は正本に無い)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[21]",
+    "row": "verdictLedger.rows[14]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 1205286414.035931,
+    "lastDiffInSigma": 17.46661039920383,
     "missing": [
+     "条件不一致",
      "写像未確定",
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 105.674,
+     "wallSec": 4.015000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 34.632,
+       "wallSec": 1.374,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 71.042,
+       "wallSec": 2.641,
        "reused": false,
        "reusedBy": null
       }
@@ -16150,16 +17123,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 20,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -16171,15 +17150,15 @@
    "id": "psrDoubleABPN",
    "emoji": "🪶",
    "name": "二重パルサー J0737−3039A/B(旧則・履歴: NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "旧則(履歴)の 1PN の強さを 1/f で戻す応答候補",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "近点移動 +3.37%(4.4×10⁴σ)",
-    "outlook": "数値未解決・写像未確定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -16187,38 +17166,17 @@
     "en": {
      "purpose": "Old rule (history): 1PN scaled back by 1/f",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +3.37% (4.4×10⁴σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Old rule (history): 1PN scaled back by 1/f. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +3.37% (4.4×10⁴σ); numerics unresolved; mapping unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Old rule (history): 1PN scaled back by 1/f. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "旧則(履歴)の 1PN の強さを 1/f で戻す応答候補。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +3.37%(4.4×10⁴σ)・数値未解決・写像未確定。"
+    "brief": "旧則(履歴)の 1PN の強さを 1/f で戻す応答候補。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[22]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 35757.30909422181,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 6.093,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 2.103,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 3.99,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -16331,16 +17289,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 24,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -16352,15 +17316,15 @@
    "id": "psrJ1757PN",
    "emoji": "🪃",
    "name": "PSR J1757−1854(旧則・履歴: NS 応答候補 λ_PN=1/f)— ⚡ の旧処方に 1/f を足して当てた 2 例目",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "旧則(履歴)の 1/f の応答候補を J1757 へ当てる",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "近点移動 +1.70%(899σ)",
-    "outlook": "数値未解決・写像未確定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -16368,38 +17332,17 @@
     "en": {
      "purpose": "Old rule (history): the 1/f candidate applied to J1757",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +1.70% (899σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Old rule (history): the 1/f candidate applied to J1757. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +1.70% (899σ); numerics unresolved; mapping unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Old rule (history): the 1/f candidate applied to J1757. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "旧則(履歴)の 1/f の応答候補を J1757 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +1.70%(899σ)・数値未解決・写像未確定。"
+    "brief": "旧則(履歴)の 1/f の応答候補を J1757 へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[23]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 470.7740571325283,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 15.482000000000001,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 5.275,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 10.207,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -16512,16 +17455,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 29,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -16533,15 +17482,15 @@
    "id": "psrJ1946PN",
    "emoji": "🪀",
    "name": "PSR J1946+2052(旧則・履歴: NS 応答候補 λ_PN=1/f)— ⚡ の旧処方に 1/f を足して当てた 3 例目",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "旧則(履歴)の 1/f の応答候補を J1946 へ当てる",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "近点移動 +7.53%(4.9×10³σ)",
-    "outlook": "数値未解決・写像未確定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -16549,38 +17498,17 @@
     "en": {
      "purpose": "Old rule (history): the 1/f candidate applied to J1946",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +7.53% (4.9×10³σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Old rule (history): the 1/f candidate applied to J1946. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +7.53% (4.9×10³σ); numerics unresolved; mapping unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Old rule (history): the 1/f candidate applied to J1946. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "旧則(履歴)の 1/f の応答候補を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +7.53%(4.9×10³σ)・数値未解決・写像未確定。"
+    "brief": "旧則(履歴)の 1/f の応答候補を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[24]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 3571.8193568954807,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 4.202999999999999,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 1.387,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 2.816,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -16693,16 +17621,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 29,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -16714,15 +17648,15 @@
    "id": "psrDoubleABCF",
    "emoji": "🪝",
    "name": "二重パルサー J0737−3039A/B(コンパクト力 案K)— χ ゲート付き質量電流結合",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "速度依存の追加力(案K)を試す",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "近点移動 +2.61%(3.4×10⁴σ)",
-    "outlook": "数値未解決",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -16730,37 +17664,17 @@
     "en": {
      "purpose": "Try a velocity-dependent extra force (plan K)",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +2.61% (3.4×10⁴σ)",
-     "outlook": "numerics unresolved",
-     "brief": "Try a velocity-dependent extra force (plan K). Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.61% (3.4×10⁴σ); numerics unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Try a velocity-dependent extra force (plan K). Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "速度依存の追加力(案K)を試す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.61%(3.4×10⁴σ)・数値未解決。"
+    "brief": "速度依存の追加力(案K)を試す。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[25]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 24869.166784874637,
-    "missing": [
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 7.702,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 2.637,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 5.065,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -16873,16 +17787,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 89,
+     "ms": 78,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 89,
+       "ms": 78,
        "pass": true,
        "via": "targetIds"
       }
@@ -16894,15 +17814,15 @@
    "id": "psrJ1757CF",
    "emoji": "🪄",
    "name": "PSR J1757−1854(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 2 例目",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "凍結した κ を J1757 へ流す",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "近点移動 +1.59%(844σ)",
-    "outlook": "数値未解決",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -16910,37 +17830,17 @@
     "en": {
      "purpose": "Carry the frozen κ over to J1757",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +1.59% (844σ)",
-     "outlook": "numerics unresolved",
-     "brief": "Carry the frozen κ over to J1757. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +1.59% (844σ); numerics unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Carry the frozen κ over to J1757. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "凍結した κ を J1757 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +1.59%(844σ)・数値未解決。"
+    "brief": "凍結した κ を J1757 へ流す。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[26]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 470.4161780321083,
-    "missing": [
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 20.966,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 6.119,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 14.847,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -17053,16 +17953,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 51,
+     "ms": 54,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 51,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -17074,15 +17980,15 @@
    "id": "psrJ1946CF",
    "emoji": "🩹",
    "name": "PSR J1946+2052(コンパクト力 案K)— ⚡ で凍結した κ をそのまま流した 3 例目",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "凍結した κ を J1946 へ流す",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "近点移動 +8.28%(5.4×10³σ)",
-    "outlook": "数値未解決・写像未確定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -17090,38 +17996,17 @@
     "en": {
      "purpose": "Carry the frozen κ over to J1946",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +8.28% (5.4×10³σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Carry the frozen κ over to J1946. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +8.28% (5.4×10³σ); numerics unresolved; mapping unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Carry the frozen κ over to J1946. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "凍結した κ を J1946 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +8.28%(5.4×10³σ)・数値未解決・写像未確定。"
+    "brief": "凍結した κ を J1946 へ流す。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[27]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 4034.4958046034385,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 6.616999999999999,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 2.182,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 4.435,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -17234,16 +18119,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 55,
+     "ms": 46,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 55,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -17255,7 +18146,7 @@
    "id": "psrB1534",
    "emoji": "📿",
    "name": "PSR B1534+12(実単位・観測版)— 第 4 の凍結 hold-out の入力確認",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "B1534 の観測入力を kF0 で確かめる",
@@ -17278,7 +18169,7 @@
     "brief": "B1534 の観測入力を kF0 で確かめる。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000876%(3.7×10⁵σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[28]",
+    "row": "verdictLedger.rows[15]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 558.7033447901141,
     "missing": [
@@ -17288,17 +18179,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 37.378,
+     "wallSec": 66.891,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 12.287,
+       "wallSec": 21.638,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 25.091,
+       "wallSec": 45.253,
        "reused": false,
        "reusedBy": null
       }
@@ -17415,16 +18306,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 30,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -17436,15 +18333,15 @@
    "id": "psrB1534DFM",
    "emoji": "🧶",
    "name": "PSR B1534+12(DFM版)— 観測質量(f=1)・kF1 の第 4 の中性子星連星",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "B1534 を観測質量(f=1)と kF1 で照合",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "周期 +396%(1.7×10¹¹σ)",
-    "outlook": "数値未解決・写像未確定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -17452,38 +18349,17 @@
     "en": {
      "purpose": "Compare B1534 with the observed masses (f=1) under kF1",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "period +396% (1.7×10¹¹σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Compare B1534 with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Calibration: hold — period +396% (1.7×10¹¹σ); numerics unresolved; mapping unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Compare B1534 with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "B1534 を観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +396%(1.7×10¹¹σ)・数値未解決・写像未確定。"
+    "brief": "B1534 を観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[29]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 99640793.46051827,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 88.084,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 29.658,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 58.426,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -17644,16 +18520,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 54,
+     "ms": 44,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 54,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -17665,15 +18547,15 @@
    "id": "psrB1534CF",
    "emoji": "🪤",
    "name": "PSR B1534+12(コンパクト力 案K・凍結 hold-out)— ⚡ の κ を 4 例目へ",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "凍結した κ を B1534 へ流す",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "近点移動 +2.94%(5.8×10³σ)",
-    "outlook": "数値未解決",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -17681,37 +18563,17 @@
     "en": {
      "purpose": "Carry the frozen κ over to B1534",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance +2.94% (5.8×10³σ)",
-     "outlook": "numerics unresolved",
-     "brief": "Carry the frozen κ over to B1534. Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance +2.94% (5.8×10³σ); numerics unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Carry the frozen κ over to B1534. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "凍結した κ を B1534 へ流す。部分・照合の走行は台帳に記帳。較正は保留・近点移動 +2.94%(5.8×10³σ)・数値未解決。"
+    "brief": "凍結した κ を B1534 へ流す。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[30]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 336.62356004116816,
-    "missing": [
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 35.900000000000006,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 11.646,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 24.254,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -17824,16 +18686,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 55,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 55,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -17963,6 +18831,12 @@
      {
       "key": "bgtime287",
       "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
       "share": "all",
       "always": false
      }
@@ -18106,16 +18980,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 66,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 46,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       }
@@ -18247,16 +19127,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 75,
+     "ms": 62,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 75,
+       "ms": 62,
        "pass": true,
        "via": "targetIds"
       }
@@ -18268,7 +19154,7 @@
    "id": "gw150914",
    "emoji": "🎐",
    "name": "GW150914(実単位)— 連星ブラックホールの基準状態",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "GW150914 の合体前の基準状態を転写する",
@@ -18291,7 +19177,7 @@
     "brief": "GW150914 の合体前の基準状態を転写する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[31]",
+    "row": "verdictLedger.rows[16]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -18300,17 +19186,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.302,
+     "wallSec": 2.393,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.379,
+       "wallSec": 0.8,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.923,
+       "wallSec": 1.593,
        "reused": false,
        "reusedBy": null
       }
@@ -18415,22 +19301,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2928,
+     "ms": 2632,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 2890,
+       "ms": 2598,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 38,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -18442,15 +19334,15 @@
    "id": "gw150914DFM",
    "emoji": "🎻",
    "name": "GW150914(DFM版)— pull 重み・kF1 質量較正(f≈2)",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "GW150914 を kF1 と質量補正で回す",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
+    "calibration": "out-of-scope",
     "mismatch": null,
-    "outlook": "σ 未接続",
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -18459,36 +19351,16 @@
      "purpose": "Run GW150914 with kF1 and a mass factor",
      "state": "the comparison runs are in the ledger",
      "mismatch": null,
-     "outlook": "no σ connected",
-     "brief": "Run GW150914 with kF1 and a mass factor. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
+     "outlook": null,
+     "brief": "Run GW150914 with kF1 and a mass factor. Partial: the comparison runs are in the ledger. Out of calibration scope."
     },
-    "brief": "GW150914 を kF1 と質量補正で回す。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
+    "brief": "GW150914 を kF1 と質量補正で回す。部分・照合の走行は台帳に記帳。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[32]",
-    "mismatch": null,
-    "lastDiffInSigma": null,
-    "missing": [
-     "σ 未接続"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 0.8859999999999999,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 0.315,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 0.571,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -18613,22 +19485,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2932,
+     "ms": 2649,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 2890,
+       "ms": 2598,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 42,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       }
@@ -18640,7 +19518,7 @@
    "id": "gw150914Merge4s",
    "emoji": "⏰",
    "name": "GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "放射の向きと量を宣言して約 4 秒の合体を回す",
@@ -18663,7 +19541,7 @@
     "brief": "放射の向きと量を宣言して約 4 秒の合体を回す。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[33]",
+    "row": "verdictLedger.rows[17]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -18672,17 +19550,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.097,
+     "wallSec": 0.22699999999999998,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.041,
+       "wallSec": 0.107,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.056,
+       "wallSec": 0.12,
        "reused": false,
        "reusedBy": null
       }
@@ -18787,16 +19665,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 57,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -18808,7 +19692,7 @@
    "id": "gw150914SpinDipole",
    "emoji": "⚛️",
    "name": "BH 合体直前のスピン双極子 — λ=1 の届く場所(原理)",
-   "group": "現実との照合・連星",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "合体直前で λ=1 のスピン双極子の強さを測る",
@@ -18928,16 +19812,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 25,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -19075,22 +19965,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2654,
+     "ms": 2778,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 2653,
+       "ms": 2778,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -19228,16 +20124,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4928,
+     "ms": 4495,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 4928,
+       "ms": 4495,
        "pass": true,
        "via": "targetIds"
       }
@@ -19381,22 +20283,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4252,
+     "ms": 3982,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 4252,
+       "ms": 3981,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.ngc3198",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -19546,16 +20454,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9353,
+     "ms": 8615,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 9353,
+       "ms": 8615,
        "pass": true,
        "via": "targetIds"
       }
@@ -19687,16 +20601,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 13,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 19,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -19828,16 +20748,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 8,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 15,
+       "ms": 8,
        "pass": true,
        "via": "targetIds"
       }
@@ -19967,6 +20893,12 @@
      {
       "key": "bgtime287",
       "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
       "share": "all",
       "always": false
      }
@@ -20116,22 +21048,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 4472,
+     "ms": 4131,
      "tests": [
       {
        "id": "preset.saturn",
-       "ms": 2310,
+       "ms": 2089,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-saturn",
-       "ms": 2162,
+       "ms": 2042,
        "pass": true,
        "via": "targetIds"
       },
@@ -20281,28 +21219,34 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4348,
+     "ms": 4001,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2382,
+       "ms": 2253,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 1946,
+       "ms": 1732,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 20,
+       "ms": 16,
        "pass": true,
        "via": "claims"
       },
@@ -20320,7 +21264,7 @@
    "id": "saturnZonalD68",
    "emoji": "📡",
    "name": "土星の近点移動(実単位・D68 — 帯状重力の照合)",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "帯状重力係数で D68 の近点移動を照合する",
@@ -20343,7 +21287,7 @@
     "brief": "帯状重力係数で D68 の近点移動を照合する。未達・代表量が門の外。較正は否・近点移動 −0.306%(14.6σ)・刻み間差 4×10⁻³σ・刻みでは縮まない。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[34]",
+    "row": "verdictLedger.rows[18]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 0.0039920897014408185,
     "missing": [
@@ -20352,30 +21296,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.26,
+     "wallSec": 5.408,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.26,
+       "wallSec": 5.408,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.401,
+       "wallSec": 10.752,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 14.559,
+       "wallSec": 20.827,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 20.96,
-     "reusedH2Sec": 6.401,
-     "reusedH4Sec": 14.559000000000001
+     "reusedSec": 31.579,
+     "reusedH2Sec": 10.752,
+     "reusedH4Sec": 20.826999999999998
     },
     "regenSteps": [
      {
@@ -20491,28 +21435,34 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5803,
+     "ms": 5244,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 5742,
+       "ms": 5189,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 36,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 21,
+       "ms": 18,
        "pass": true,
        "via": "claims"
       },
@@ -20530,7 +21480,7 @@
    "id": "saturnD68Consistent",
    "emoji": "🧷",
    "name": "土星 D68 の近点移動 — 整合した初速の診断コピー(e*=0.001)",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "📡 の差を同じ窓で初速の幾何と他の要因に分ける",
@@ -20650,16 +21600,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 26,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -20671,7 +21627,7 @@
    "id": "saturnD68ObsOrbit",
    "emoji": "📎",
    "name": "土星 D68 の近点移動 — 観測定義の軌道の診断コピー(ae=25 km)",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "principle",
    "status": {
     "purpose": "観測の a と ae の定義で置いた D68 の近点移動を測る",
@@ -20791,6 +21747,12 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
@@ -20812,7 +21774,7 @@
    "id": "saturnRingReal",
    "emoji": "💍",
    "name": "土星の環(実単位)— 見えないのが正しい",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "実単位の土星の環を kF0 で照合する",
@@ -20837,7 +21799,7 @@
     "brief": "実単位の土星の環を kF0 で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
-    "row": "verdictLedger.rows[35]",
+    "row": "verdictLedger.rows[19]",
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
@@ -20846,11 +21808,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 67.538,
+     "wallSec": 115.606,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 67.538,
+       "wallSec": 115.606,
        "reused": false,
        "reusedBy": null
       }
@@ -20967,22 +21929,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 178,
+     "ms": 153,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 146,
+       "ms": 118,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 32,
+       "ms": 35,
        "pass": true,
        "via": "claims"
       }
@@ -20994,15 +21962,15 @@
    "id": "saturnRingRealKF1",
    "emoji": "💿",
    "name": "土星の環(実単位・kFrame=1)— 表面随伴と自動算出q",
-   "group": "現実との照合・太陽系",
+   "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
     "purpose": "土星の環を kF1 と自動算出 q で照合する",
     "objective": "partial",
     "state": "照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)",
-    "calibration": "hold",
+    "calibration": "out-of-scope",
     "mismatch": null,
-    "outlook": "σ 未接続",
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync",
@@ -21013,30 +21981,16 @@
      "purpose": "Compare Saturn's rings with kF1 and the automatic q",
      "state": "runs in the ledger (groups as test particles; signing before/after recorded per quantity)",
      "mismatch": null,
-     "outlook": "no σ connected",
-     "brief": "Compare Saturn's rings with kF1 and the automatic q. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."
+     "outlook": null,
+     "brief": "Compare Saturn's rings with kF1 and the automatic q. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Out of calibration scope."
     },
-    "brief": "土星の環を kF1 と自動算出 q で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
+    "brief": "土星の環を kF1 と自動算出 q で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[36]",
-    "mismatch": null,
-    "lastDiffInSigma": null,
-    "missing": [
-     "σ 未接続"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 17.313,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 17.313,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -21143,16 +22097,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 262,
+     "ms": 248,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 262,
+       "ms": 248,
        "pass": true,
        "via": "targetIds"
       }
@@ -21284,22 +22244,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 1691,
+     "ms": 1653,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 1593,
+       "ms": 1562,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 98,
+       "ms": 91,
        "pass": true,
        "via": "targetIds"
       },
@@ -21444,22 +22410,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 159,
+     "ms": 119,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 134,
+       "ms": 104,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 25,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -21591,16 +22563,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 732,
+     "ms": 724,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 732,
+       "ms": 724,
        "pass": true,
        "via": "targetIds"
       },
@@ -21738,28 +22716,34 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1656,
+     "ms": 1339,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 943,
+       "ms": 696,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 712,
+       "ms": 643,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.spinup",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -21891,16 +22875,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 214,
+     "ms": 173,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 214,
+       "ms": 173,
        "pass": true,
        "via": "targetIds"
       }
@@ -22032,16 +23022,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 138,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 138,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -22173,16 +23169,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 87,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 87,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -22314,16 +23316,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 133,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 133,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -22455,16 +23463,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11,
+     "ms": 8,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 11,
+       "ms": 8,
        "pass": true,
        "via": "targetIds"
       }
@@ -22596,22 +23610,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 200,
+     "ms": 186,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 111,
+       "ms": 96,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 89,
+       "ms": 90,
        "pass": true,
        "via": "targetIds"
       }
@@ -22743,16 +23763,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 10,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 19,
+       "ms": 10,
        "pass": true,
        "via": "targetIds"
       }
@@ -22884,16 +23910,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 21,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -23025,22 +24057,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 166,
+     "ms": 180,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 133,
+       "ms": 158,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 33,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -23172,16 +24210,22 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 14,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       }
@@ -23313,22 +24357,28 @@
       "sec": 110,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 114,
+     "ms": 45,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 97,
+       "ms": 30,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 17,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -23340,29 +24390,29 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 98,
-  "regenSecSum": 25494,
-  "alwaysSec": 5194,
+  "regenSteps": 105,
+  "regenSecSum": 26244,
+  "alwaysSec": 5195,
   "undeclaredSteps": 45,
   "undeclaredSec": 1883,
   "qaTotal": 965,
-  "qaDurationMs": 2534110,
+  "qaDurationMs": 2387009,
   "reuse": {
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 29.638
+    "sec": 54.1
    },
    "h4": {
     "n": 3,
-    "sec": 71.266
+    "sec": 105.188
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
   "qaAttribution": {
    "version": "w283e-1",
    "rule": "claims の testId + 原稿の qaTargets(明示)",
-   "unattributed": 2
+   "unattributed": 4
   }
  }
 }
