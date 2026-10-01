@@ -254,8 +254,8 @@
     "tests/out/tilt90-w288e.json"
    ],
    "en": {
-    "purpose": "A copy of 🌚 with the central axis tipped 90° and a declared precession",
-    "state": "the current law reads only the shell spin (bit-identical to spin 0); precession drag is a candidate only"
+    "purpose": "Copy of 🌚 with the axis tipped 90° and a declared precession",
+    "state": "the law reads only the shell spin (same as spin 0); precession drag is a candidate only"
    }
   },
   "clusterAnalogyBH": {
@@ -291,8 +291,8 @@
     "tests/out/compose-w288c.json"
    ],
    "en": {
-    "purpose": "A diagnostic copy of 🌚: explicit static background, centre counted once",
-    "state": "bit-identical to 🌚; centre once; a resting centre alone gives u=0; A_spin matches the field contract"
+    "purpose": "Diagnostic copy of 🌚: explicit static background, centre counted once",
+    "state": "bit-identical to 🌚; a resting centre alone gives u=0; A_spin matches the field contract"
    }
   },
   "fixedCaptureCopy": {
@@ -1585,7 +1585,7 @@
    }
   },
   "psrJ1757DFM": {
-   "purpose": "J1757 を観測質量(f=1)と kF1 で照合",
+   "purpose": "J1757 を観測質量(f=1)・geoPN=1 で照合",
    "objective": "partial",
    "state": "照合の走行は台帳に記帳",
    "evidence": [
@@ -1593,12 +1593,12 @@
     "docs.calibration-verdict-sync"
    ],
    "en": {
-    "purpose": "Compare J1757 with the observed masses (f=1) under kF1",
+    "purpose": "Compare J1757 with the observed masses (f=1, geoPN=1)",
     "state": "the comparison runs are in the ledger"
    }
   },
   "psrJ1946DFM": {
-   "purpose": "J1946 を観測質量(f=1)と kF1 で照合",
+   "purpose": "J1946 を観測質量(f=1)・geoPN=1 で照合",
    "objective": "partial",
    "state": "照合の走行は台帳に記帳",
    "evidence": [
@@ -1606,8 +1606,8 @@
     "docs.calibration-verdict-sync"
    ],
    "en": {
-    "purpose": "Compare J1946 with the observed masses (f=1) under kF1",
-    "state": "the comparison runs are in the ledger"
+    "purpose": "J1946 at the observed masses (f=1, geoPN=1)",
+    "state": "the runs are in the ledger"
    }
   },
   "psrDoubleABPN": {
