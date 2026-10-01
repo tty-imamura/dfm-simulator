@@ -778,3 +778,6 @@ tests/out/regen-plan-w281a.json
 # 第288便e(原仮定者の裁定(第78報)⑦・統括の検証項目 R117・AN79): **軸傾きと 90° BH** の正本(tests/exp-w288e-tilt90.mjs —— 🛸 の現行法則の実測・
 #   歳差が担う面内の引きずりの候補・spinAxis の受理と署名)。QA behavior.tilt90Copy・behavior.spinAxisDecl が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/tilt90-w288e.json
+# 第289便b(原仮定者の裁定(第79報)③で閉じた AN100・統括の検証項目 R120): **契約範囲外の評価器**を内蔵の走行に掛けた正本(tests/exp-w289b-contractrange.mjs ——
+#   🌒 の 2 周・有効幅を縮めた写し・geoPN=3 の 🔁🩻)。QA behavior.contractRangeEval が読み、lint.provenanceMeta が来歴を固定するのでコミットする。**判定ではない**
+!tests/out/contractrange-w289b.json

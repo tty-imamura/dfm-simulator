@@ -68,7 +68,9 @@ for (const p of (cal.presets || [])) {
     if (!Number.isFinite(v)) continue;
     rows.push({ t: q.target || null, k: q.kind || null, n: String(q.name || ''),
       st: g.assessedStage || 'h', v: num(v), u: q.unit || null,
-      ns: Number.isFinite(g.nSigma) ? num(g.nSigma) : null, g: g.status || null });
+      ns: Number.isFinite(g.nSigma) ? num(g.nSigma) : null, g: g.status || null,
+      // 第289便b(AN100・R120): 契約範囲外の評価器で保留の行だけ cr:1(保留が 0 なら表は 1 文字も変わらない —— 門の語 g はそのまま)
+      ...((q.contractRange && q.contractRange.held === true) ? { cr: 1 } : {}) });
   }
   if (rows.length) table[p.id] = rows;
 }
@@ -108,7 +110,7 @@ lines.push('const ASSESSED_VALUES={');
 ids.forEach((id, i) => {
   lines.push('  ' + j(id) + ':[' + table[id].map((r) =>
     '{t:' + j(r.t) + ',k:' + j(r.k) + ',n:' + j(r.n) + ',st:' + j(r.st)
-    + ',v:' + j(r.v) + ',u:' + j(r.u) + ',ns:' + j(r.ns) + ',g:' + j(r.g) + '}').join(',')
+    + ',v:' + j(r.v) + ',u:' + j(r.u) + ',ns:' + j(r.ns) + ',g:' + j(r.g) + (r.cr === 1 ? ',cr:1' : '') + '}').join(',')
     + ']' + (i === ids.length - 1 ? '' : ','));
 });
 lines.push('};');

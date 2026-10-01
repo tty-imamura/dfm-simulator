@@ -2895,3 +2895,11 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - **0 件の軸は無効表示**(`disabled`・`aria-disabled`・`data-zero="1"` —— 淡色・点線の枠。行から消さない)。含む/除くにした 0 件の軸は押せる(解除できる)。
   - 採寸(360×640): 開いた「その他」341 px(第287便e と同じ)→ 既定の畳んだ状態 131 px(選択 3 つで 191 px)。
 - QA: **`ui.paramWbgRow`**・**`ui.pickerOtherFold`**(360×640 —— isMobile・タッチ / PC 1280×800・root は SKIP)。既存の `ui.pickerOtherTriState`・`ui.pickerFilterFold` は畳まれた段を開いてから操作する(世代は `data-fold` の有無)・`ui.paramOrderDrag`・`ui.bgComplexPanel` は D₀ → Wbg → 背景複素決定力の欄の並び(世代は `buildWbgRow` の有無)。
+
+## 33. 第289便b —— obsCard の行の**条件欄** `cond`・契約範囲外の評価器・⏰ の窓の宣言(原仮定者の裁定〔第79報〕③で閉じた AN104/AN100/AN94・統括の検証項目 R120・**SYSTEM_PROMPT には載せない**)
+
+- **obsCard の行の条件欄 `cond:{kFrame, geoPN}`**(内蔵の宣言): 行が要求する走行条件。判定器(`tests/exp-w249b-calaudit.mjs`)は行へ `declaredCondition` として写し、`tests/lib-w258d-evidence.mjs` の `readRequiredContext` は**条件欄を行名・model・obs の文面より先に読む**(`source:"obsCard-cond"`)。条件欄の無い行は従来どおり文面の `kFrame=N` を読む(後方互換)。**行名の文字列で判定を動かさない** —— 名前と条件を分ける。
+  - 内蔵で条件欄を持つのは在位移行した本の 12 行(`cond:{kFrame:0, geoPN:1}` —— 表 `tests/data-w289b-condrows.json`)。行名・model・obs の文字列の制約(≤120 字・≤8 行)は不変。
+  - **受理器 `validatePreset` は従来どおり `{q, model, obs}` だけを残す** —— AI 生成・保存 JSON の obsCard 行に `cond` を書いても落とされる(本便は受理器を変えていない)。AI が条件を伝えたいときは従来どおり行名で書く(判定器は文面を読む)。
+- **契約範囲外の評価器**(`tests/lib-w289b-contractrange.mjs`): 背景の時間の契約(`physics.backgroundComplex.timeContract`)を宣言した本の走行が有効幅を 1 步でも超えたら、その走行を含む観測比較は「保留(契約範囲外)」。**判定(門・5 区分)は変えない**(行の属性 `contractRange` —— 別の欄)。プリセットの鍵は増えていない。
+- **⏰ gw150914Merge4s の「約 4 秒」は窓の宣言**(合体直前の基準時間窓の宣言値 —— 観測の印刷値ではない・起点の f_ref=20 Hz は候補で未宣言)。physics は不変(geoPN=0・kFrame=0・f=1)。

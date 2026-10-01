@@ -41,7 +41,17 @@ export const VERDICTS6 = ['合', '窓', '否', '従', '転', VERDICT_CONDITION];
 // 行の文面から**その行が要求している条件**を読む(宣言である — 閾値による自動判定ではない)。
 // 現行の宣言は kFrame だけ: 「kFrame=0 対照」「kFrame=1(…)での周期」のように行が明記している。
 const KF_RE = /kFrame\s*[=＝]\s*([01])/;
+// 第289便b(原仮定者の裁定(第79報)で閉じた AN104・統括の検証項目 R120): **名前と条件を分ける**。obsCard の行が条件欄
+//   `cond:{kFrame,geoPN}` を宣言していれば(判定器が `declaredCondition` として行へ写す)、**それが行の要求条件**であり、行名・
+//   model・obs の文面は読まない(source:"obsCard-cond")。条件欄の無い行は第258便d からの文面の読み(下の KF_RE)のまま ——
+//   条件欄の無い行の結果は 1 文字も変わらない。条件欄の値は**宣言**であって、行名の文字列置換で判定を動かす経路ではない。
 export function readRequiredContext(row, fallbackKFrame) {
+  const dc = row && row.declaredCondition;
+  if (dc && typeof dc === 'object' && (dc.kFrame === 0 || dc.kFrame === 1)) {
+    return { kFrame: dc.kFrame, source: 'obsCard-cond',
+      evidence: 'cond:' + JSON.stringify({ kFrame: dc.kFrame, ...(dc.geoPN !== undefined ? { geoPN: dc.geoPN } : {}) }),
+      ...(dc.geoPN !== undefined ? { geoPN: dc.geoPN } : {}) };
+  }
   const texts = [row && row.name, row && row.declaredObs, row && row.declaredModel];
   for (const t of texts) {
     if (typeof t !== 'string') continue;

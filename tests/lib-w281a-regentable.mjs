@@ -27,6 +27,7 @@
 //   'w287a-branch' … 第287便a の枝で器を走らせた実測(正本の elapsedS 157.9 —— Node だけ・子プロセス 2 本・負荷平均 1 未満の容器。他の 5 枝と並走した 1 回目は 559.1)。
 //   'w287c-branch' … 第287便c の枝で器を走らせた実測(正本の elapsedS 71.5〜109.2 —— Node だけ・geo3 の再走〔Chromium〕と同じ容器で並走)。
 //   'w288d-branch' … 第288便d の枝で器を走らせた実測(正本の elapsedS 0.5〜1 —— Node だけ・1 步もエンジンを走らせない・他の 5 枝と同じ容器で並走)。
+//   'w289b-branch' … 第289便b の枝で器を走らせた実測(正本の elapsedS 9.1 —— Node だけ・他の 5 枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -564,6 +565,13 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tilt90-w288e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第288便e: 🛸 galaxyAnalogyBHTilt90 の宣言の照合・7 走行(T=48)の J_z/η_mesh/軸の状態/拘束の帳簿/状態の指紋・中心の自転の寄与(t=0 の η 差)・'
       + '立体核の候補(1 層の対照・上下の打ち消し・z 微分・層数 1→32・Ω_p 0/宣言/2 倍・J_z,eff と s_eff)・場の契約の読み手との比較器・spinAxis の受理と署名' }),
+  // ---- 第289便b(原仮定者の裁定(第79報)③で閉じた AN100・統括の検証項目 R120): **契約範囲外の評価器**を内蔵の走行に掛ける ——
+  //   🌒 の 2 周(宣言の widthT —— 範囲内)・有効幅を縮めた器の中の写し(契約範囲外 → 保留)・geoPN=3 の 🔁🩻 の 2 周(範囲外の步 0 —— 宣言なし)・
+  //   timeContract の棚卸し。Node だけ・html だけを読む(他の正本は読まない —— calaudit の後に置かない)。判定器の行の属性 contractRange は calaudit の段が書く
+  S('contractrange289', 'node tests/exp-w289b-contractrange.mjs', ['tests/out/contractrange-w289b.json'], 10, { secSource: 'w289b-branch', node: true,
+    volatilePaths: { 'tests/out/contractrange-w289b.json': META_RUN.concat(['/elapsedS']) },
+    note: '第289便b: 背景の時間の契約の範囲外の步(S.meshVelTimeOutSteps)を評価器(lib-w289b-contractrange —— calaudit と同じ 1 本)に通す:'
+      + ' 🌒 の 2 周は範囲内・有効幅 3000 の写しは契約範囲外で保留(軌道はビット同一)・🔁🩻 は 2 周で範囲外の步 0(宣言なし)・timeContract の宣言は 🌒 だけ' }),
 ];
 
 /**
