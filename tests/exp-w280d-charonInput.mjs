@@ -73,9 +73,30 @@ try {
   const ca = JSON.parse(fs.readFileSync(CALAUDIT, 'utf8'));
   const pc = ca.presets.find((p) => p.id === 'plutoCharonReal');
   const row = pc.quantities.find((q) => q.kind === 'period' && q.version === 'obs');
-  FORMAL = { from: 'tests/out/calaudit-w249.json', sha256: sha(fs.readFileSync(CALAUDIT)), row: row.name,
-    h: row.dtStages.dt, h2: row.dtStages.dtHalf, h4: row.dtStages.dtQuarter, gate: row.gate.status,
-    nSigma: row.gate.nSigma, residual: row.gate.residual };
+  if (row.dtStages) {
+    FORMAL = { from: 'tests/out/calaudit-w249.json', sha256: sha(fs.readFileSync(CALAUDIT)), row: row.name, stages: 3,
+      h: row.dtStages.dt, h2: row.dtStages.dtHalf, h4: row.dtStages.dtQuarter, gate: row.gate.status,
+      nSigma: row.gate.nSigma, residual: row.gate.residual };
+  } else {
+    // 第288便g(統括の裁定): 第288便b の在位移行後、❄️ main は自身の kFrame=0 の行で **h・h/2 の 2 段**(dtStages を持たない)。
+    //   これを**その世代の正式値**として読む(旧 kF0 対照の h/h2/h4 を「正式の 3 段」とは呼ばない)。h は行の 2 周目(revSec[1])、
+    //   h/2 は同じ判定器の dt/2 の生の走行(calaudit-w249-diag.json の h2Store —— 正本と同じ targetSha256 の記録だけ)の 2 周目 × toSec。
+    //   h/4 は**未走行**(在位移行後・h/4 例外の経路は裁定待ち)—— 値を作らない
+    const DIAG = path.join(path.dirname(CALAUDIT), 'calaudit-w249-diag.json');
+    let h2 = null, h2From = null;
+    try {
+      const dg = JSON.parse(fs.readFileSync(DIAG, 'utf8'));
+      const en = ((dg.h2Store || {}).entries || {}).plutoCharonReal || null;
+      const tg = en && en.run && (en.run.targets || [])[0];
+      if (en && en.targetSha256 === (ca.meta || {}).targetSha256 && tg && Array.isArray(tg.revP) && tg.revP.length > 1) {
+        h2 = tg.revP[1] * en.contract.units.toSec; h2From = 'tests/out/calaudit-w249-diag.json h2Store.entries.plutoCharonReal(revP[1]×toSec)';
+      }
+    } catch (e) { h2 = null; }
+    FORMAL = { from: 'tests/out/calaudit-w249.json', sha256: sha(fs.readFileSync(CALAUDIT)), row: row.name, stages: 2,
+      h: row.detail.revSec[1], h2, h2From, h4: null,
+      h4Note: '未走行(第288便b の在位移行後・h/4 例外の経路は裁定待ち)',
+      gate: row.gate.status, assessedStage: row.gate.assessedStage, nSigma: row.gate.nSigma, residual: row.gate.residual };
+  }
 } catch (e) { FORMAL = { error: String(e) }; }
 
 // ================================================================ ブラウザ(1 本)
@@ -194,8 +215,9 @@ if (want('B')) {
   }
   // 照合: 正式の値を 1 bit 再現したか
   factors.formalCheck = {};
-  for (const s of STAGE_KEYS) factors.formalCheck[s] = { formal: FORMAL[s], measured: byKey.base.stages[s].p2,
-    bitSame: Object.is(FORMAL[s], byKey.base.stages[s].p2) };
+  for (const s of STAGE_KEYS) factors.formalCheck[s] = (FORMAL[s] === null && s === 'h4' && FORMAL.h4Note)
+    ? { formal: null, measured: byKey.base.stages[s].p2, bitSame: null, notRun: FORMAL.h4Note }   // 第288便g: 正式の段が無い(2 段の世代)
+    : { formal: FORMAL[s], measured: byKey.base.stages[s].p2, bitSame: Object.is(FORMAL[s], byKey.base.stages[s].p2) };
   // ---- 鎖: 入力の丸め → 軟化 → 質量の精度 → 積分器(**この順に 1 つずつ足す**)
   const chainDefs = [
     { key: 'c0', step: '出発点 ❄️ kF0(旧入力: a=19596 km・質量×G=6.674・ε=50 km・Float32 質量・semi)', cfg: base },

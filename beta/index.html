@@ -1451,7 +1451,7 @@ ja: {
   ovLiveCompare:"ライブ比較",
   lcProv:"暫定値・正式な合否判定なし",
   lcSt:{measuring:"計測中", provisional:"暫定", mapping:"量対応未確認", unsupported:"未対応", nonfinite:"非有限", aliasing:"標本が粗い(計測停止)", off:"停止(グラフ OFF)", ab:"A/B 比較中は未対応"},
-  lcWhy:{nearCircular:"円に近い軌道 —— 近点を測らない"},
+  lcWhy:{nearCircular:"円に近い軌道 —— 近点を測らない", precDegYr:"近点移動の正本は deg/yr(AN82)—— deg/yr の推定器は次便"},
   lcNone:"ライブ計測未対応(この本は量の宣言が無い)",
   lcNoneSub:"観測との差の一覧は説明タブの 📊",
   lcEst:{rev:"推定器: 同方向1周(2周目からの平均)", peri:"推定器: 近点間周期(検出器A・最初の20近点)", eProxy:"推定器: 半径比 eProxy(周ごと)", prec:"推定器: 近点移動(近点番号への直線fit)", aps:"推定器: 360°/|Δϖ|×近点間周期", none:"—"},
@@ -2439,7 +2439,7 @@ en: {
   ovLiveCompare:"Live comparison",
   lcProv:"Provisional — no formal pass/fail verdict",
   lcSt:{measuring:"measuring", provisional:"provisional", mapping:"quantity mapping unconfirmed", unsupported:"not supported", nonfinite:"non-finite", aliasing:"sampling too coarse (stopped)", off:"stopped (graph OFF)", ab:"not supported during A/B"},
-  lcWhy:{nearCircular:"near-circular orbit — periastra are not measured"},
+  lcWhy:{nearCircular:"near-circular orbit — periastra are not measured", precDegYr:"the periastron-advance row is in deg/yr (AN82) — a deg/yr estimator comes in a later wave"},
   lcNone:"Live measurement not supported (no declaration for this sample)",
   lcNoneSub:"The full list is 📊 in the Description tab",
   lcEst:{rev:"Estimator: same-direction lap (mean from lap 2)", peri:"Estimator: periastron-to-periastron period (detector A, first 20 periastra)", eProxy:"Estimator: radius-ratio eProxy (per lap)", prec:"Estimator: periastron shift (linear fit vs periastron number)", aps:"Estimator: 360°/|Δϖ| × periastron period", none:"—"},
@@ -29089,12 +29089,13 @@ const LIVE_COMPARE_SPEC={
   alphaCenAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev", od:null}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
   siriusAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev", od:null}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
   psrDoubleAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"peri", od:"periastron"}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"},
-    {n:"近点前進(1PN — 合わせない照合)", est:"prec"}]},
+    // 第288便g(統括の裁定): 近点移動の正本は deg/yr(第288便b・AN82)—— deg/orbit の推定器 prec で並べない(行名は変えない・AN88)
+    {n:"近点前進(1PN — 合わせない照合)", est:null, why:"precDegYr"}]},
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): ⚡ psrDoubleABDFM は退役 —— 後継の行は 📻 psrDoubleAB(上の 3 量。A/B 未対応・最低近点数・帯なしの扱いは現行のまま)
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 🧮 は在位移行(geoPN=1・kFrame=0)—— 行の名前は正本の行名のまま(判定器の再走で行が変わる)・条件の句だけ移行後の宣言へ
   psrJ1757DFM:{c:0, o:1, q:[{n:"公転周期(kFrame=1・観測質量 f=1 — 同方向1周)", est:"peri", od:"periastron",
     cond:{ja:"kFrame=0・観測質量 f=1", en:"kFrame=0, observed masses f=1"}},
-    {n:"離心率(hold-out — 合わせていない)", est:"eProxy"}, {n:"近点移動(**hold-out** — 較正に使っていない)", est:"prec"}]},
+    {n:"離心率(hold-out — 合わせていない)", est:"eProxy"}, {n:"近点移動(**hold-out** — 較正に使っていない)", est:null, why:"precDegYr"}]},   // 第288便g: 📻 と同じ(正本は deg/yr・AN82)
 };
 // 第287便d: 推定器 → 今回の周期の定義(正本 calaudit の periodDef と同じ語)。周期の推定器でなければ null
 const LC_EST_DEF={rev:"revolution", peri:"periastron"};

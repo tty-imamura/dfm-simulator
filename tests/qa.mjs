@@ -22210,7 +22210,13 @@ if (!FAST) {
     const shaNow = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
     if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, M, shaNow)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
     const fc = (J.factors || {}).formalCheck || {};
-    for (const s of ['h', 'h2', 'h4']) if (!fc[s] || fc[s].bitSame !== true) bad.push(`②正式の値(${s})を 1 bit 再現していない`);
+    // 第288便g(統括の裁定): 第288便b の在位移行後は ❄️ main が h・h/2 の 2 段(正本の formal.stages === 2)—— その世代の正式値は 2 段で、
+    //   h/4 は「未走行(在位移行後・h/4 例外の経路は裁定待ち)」の印(bitSame null・notRun)を求める。3 段の世代の期待は変えない
+    const two288 = !!(J.formal && J.formal.stages === 2);
+    for (const s of ['h', 'h2', 'h4']) {
+      if (two288 && s === 'h4') { if (!fc.h4 || fc.h4.bitSame !== null || !/未走行/.test(String(fc.h4.notRun || ''))) bad.push('②第288便b の世代で h4 に「未走行」の印が無い'); continue; }
+      if (!fc[s] || fc[s].bitSame !== true) bad.push(`②正式の値(${s})を 1 bit 再現していない`);
+    }
     let md = '';
     try { md = fs.readFileSync(path.join(ROOT, 'docs/CALIBRATION_VERDICT_v1.44.md'), 'utf8'); } catch (e) { md = ''; }
     const s533 = (md.match(/### 5\.33 [\s\S]*?(?=\n### 5\.\d|\n## |$)/) || [''])[0];
@@ -22254,7 +22260,7 @@ if (!FAST) {
       }
     const c0 = chain[0] ? chain[0].stages.h4 : {};
     add('docs.charonInput', bad.length === 0,
-      `**❄️ の否の要因**(第280便d・R68): 正式の値を 1 bit 再現(h/h2/h4=${['h', 'h2', 'h4'].map((s) => fc[s] && fc[s].bitSame).join('/')})/ `
+      `**❄️ の否の要因**(第280便d・R68): 正式の値を 1 bit 再現(h/h2/h4=${['h', 'h2', 'h4'].map((s) => fc[s] && fc[s].bitSame).join('/')}${two288 ? ' —— 第288便b の世代は正式 2 段・h4 は未走行' : ''})/ `
       + `鎖 ${chain.map((c) => c.key + ' ' + sgn(c.stages.h4.resid, 3)).join(' → ')} s(Buie 比・dt 0.004)/ `
       + `終点と閉じた式(PLU060 の同じ解の二体 P − Buie ${Number.isFinite(cf) ? sgn(cf, 4) : '—'} s)の差 ${Number.isFinite(tail - cf) ? (tail - cf).toExponential(2) : '—'} s / `
       + `Buie の a・P が含意する GM ${Number.isFinite(au.gmBuieImplied) ? au.gmBuieImplied.toFixed(3) : '—'} km³/s²(PLU060 975.4±0.5 と ${Number.isFinite(au.gmGapInPluSigma) ? au.gmGapInPluSigma.toFixed(2) : '—'}σ_GM)/ `
