@@ -2282,7 +2282,10 @@ if (QA_CHANGED) {
       'tests/out/tilt90-w288e.json',
       // 第289便d(原仮定者の裁定(第79報)で閉じた AN95/AN96/AN97・R122): 離散の後の慣性半径の状態引き継ぎの前後・fixcap の正本の離散の行の引き直し・
       //   ΔE_self の口座・異方的剛体の E_rot(target=beta/index.html —— Node だけ。inputs に fixcap-w288a.json —— **fixcap288 を走らせ直したら本器も走らせ直す** —— 鎖の段 ejectstate289)
-      'tests/out/ejectstate-w289d.json'];
+      'tests/out/ejectstate-w289d.json',
+      // 第289便a(原仮定者の裁定(第79報)⑤・R119): 時計・光の弱場係数(3 案の一次係数)・相対移動 r⁻³ 核の限定模型・現行 tauUpdate/traceRay の実測・
+      //   式の綴りと枠の重みの棚卸し(target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 weakfield289)
+      'tests/out/weakfield-w289a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -20983,6 +20986,155 @@ if (!FAST) {
       } catch (e) { bad.push('360 px の確認に失敗: ' + String(e).slice(0, 100)); }
       add('ui.spinAxisGlyph', bad.length === 0,
         `**自転軸の宣言の投影線**(第288便e —— 表示専用・コア軸と同じトグル「宣言した粒子だけ ON」・同じ正射影): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1i) 第289便a(原仮定者の裁定(第79報)⑤「DFM について整理と修正を行なった。これを元に現状の実装を精査する」・統括の検証項目 R119):
+// ----   **理論照合便**の 2 ブロック。**root では SKIP**(器 tests/exp-w289a-weakfield.mjs・純関数 tests/lib-w289a-weakfield.mjs・
+// ----   正本 tests/out/weakfield-w289a.json)。html の法則は 1 文字も変えていない便なので、世代切替 has289a は器と正本と PHYSICS〔第289便a〕の有無で見る。
+// ----   ① docs.dfmAxiomTable …… PHYSICS〔第289便a〕の対応表: 16 行以上・各行に判定語(一致/定性だけ一致/関数形が違う/未接続〔契約〕/未実装)・
+// ----      「時間」「光」の「反比例」の行に E7R/E8R の式(e^{−ψ}・e^{2ψ})・「複素」の意味の 1 文・禁止の言い回しが「書かないこと」の外に無い・
+// ----      THEORY_SYNTHESIS のポインタ・CHANGELOG の 1 行。
+// ----   ② behavior.weakfieldCoeff …… 正本の一次係数(現行 E7R/E8R 4・2・1/文字どおりの反比例 2・1・1/第 3 案 4・2・1)が解析と床(10⁻⁶)内・
+// ----      純関数で作り直して相対 10⁻¹²(求積と光線方程式の RK4 —— 条件の良い O(1) の量)・r⁻³ 核の解析列の作り直し(10⁻¹²)と RK4 の床・
+// ----      現行の実測(tauUpdate は Float32 の 2 ulp・traceRay は相対 10⁻⁴)が門の中・式の綴りを今の html で引き直す・EIH の本文に spin が無い・
+// ----      枠の重みの棚卸しを今の html で作り直して一致・本節の表の行・html に本便の純関数が無い(エンジン未接続)。
+{
+  const has289a = TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, 'tests', 'exp-w289a-weakfield.mjs')) && fs.existsSync(path.join(ROOT, 'tests', 'out', 'weakfield-w289a.json'));
+  if (!has289a) {
+    console.log('SKIP docs.dfmAxiomTable / behavior.weakfieldCoeff(第289便a 未適用 — ' + TARGET + ')');
+  } else {
+    const html289a = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const pa = Pd.indexOf('〔第289便a — ');
+    const pEnds = (pa >= 0) ? [Pd.indexOf('\n〔第', pa + 10), Pd.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa) : [];
+    const psec = (pa >= 0) ? Pd.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined) : '';
+    let E = null, LW = null, J = null, errE = null;
+    try { E = await import('file://' + path.join(ROOT, 'tests', 'exp-w289a-weakfield.mjs')); LW = await import('file://' + path.join(ROOT, 'tests', 'lib-w289a-weakfield.mjs'));
+      J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'weakfield-w289a.json'), 'utf8')); }
+    catch (e) { errE = String(e && e.stack || e).slice(0, 160); }
+    // 数の近さ(tests/README §1: 解析量は相対 1e-12)
+    const near = (a, b, tol) => { if (typeof a === 'number' && typeof b === 'number') return a === b || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b), 1e-300);
+      if (Array.isArray(a) && Array.isArray(b)) return a.length === b.length && a.every((x, i) => near(x, b[i], tol));
+      if (a && b && typeof a === 'object' && typeof b === 'object') { const ka = Object.keys(a).sort(), kb = Object.keys(b).sort(); return JSON.stringify(ka) === JSON.stringify(kb) && ka.every((k) => near(a[k], b[k], tol)); }
+      return a === b; };
+    // ---- ① docs.dfmAxiomTable
+    {
+      const bad = [], cases = [];
+      if (!psec) bad.push('PHYSICS〔第289便a — 〕が無い');
+      else {
+        const t0 = psec.indexOf('**① 対応表**'), t1 = psec.indexOf('**「複素」の意味');
+        const tbl = (t0 >= 0 && t1 > t0) ? psec.slice(t0, t1) : '';
+        if (!tbl) bad.push('対応表(① 対応表 〜「複素」の意味)が読めない');
+        const rows = tbl.split('\n').filter((l) => /^\| \d+ \|/.test(l)).map((l) => l.split(/(?<!\\)\|/).slice(1, -1).map((c) => c.trim()));
+        const JUDGE = ['一致', '定性だけ一致', '関数形が違う', '未接続〔契約〕', '未実装'];
+        if (rows.length < 16) bad.push(`対応表の行が ${rows.length} 行(16 行以上)`);
+        const nums = rows.map((r) => Number(r[0]));
+        if (!nums.every((v, i) => v === i + 1)) bad.push('行番号が 1 から連番でない');
+        const noJudge = rows.filter((r) => r.length !== 5 || !JUDGE.some((w) => r[3].indexOf(w) >= 0));
+        if (noJudge.length) bad.push('判定語の無い行 ' + noJudge.map((r) => r[0]).join(','));
+        const tally = Object.fromEntries(JUDGE.map((w) => [w, rows.filter((r) => r[3].indexOf('**' + w + '**') >= 0).length]));
+        const inv = (k) => rows.find((r) => /反比例/.test(r[1]) && new RegExp(k).test(r[1]));
+        const rT = inv('時間'), rL = inv('光');
+        if (!(rT && /e\^\{−ψ\}/.test(rT[2]) && /E7R/.test(rT[2]) && /指数/.test(rT[2]))) bad.push('「時間 … 反比例」の行に E7R の式 e^{−ψ} が無い');
+        if (!(rL && /e\^\{2ψ\}/.test(rL[2]) && /E8R/.test(rL[2]))) bad.push('「光 … 反比例」の行に E8R の式 e^{2ψ} が無い');
+        if (!(rT && /定性だけ一致/.test(rT[3]) && rL && /定性だけ一致/.test(rL[3]))) bad.push('「反比例」の 2 行の判定が「定性だけ一致」でない');
+        for (const [k, re] of [['回転の引きずり(手前/反対)', /手前と反対/], ['自己項', /ゼロ距離/], ['月 8.85 年', /8\.85/], ['複素 m/r²', /m\/r²/], ['1PN', /1PN/], ['箱宇宙', /箱宇宙/]])
+          if (!rows.some((r) => re.test(r[1]))) bad.push('対応表に ' + k + ' の行が無い');
+        if (!/\*\*「複素」の意味\(1 文\)\*\*/.test(psec) || psec.indexOf('実数の 2D ベクトル場') < 0 || psec.indexOf('位相を持つ量ではない') < 0) bad.push('「複素」の意味の 1 文が無い');
+        const cut = psec.indexOf('**書かないこと。**'), body = cut >= 0 ? psec.slice(0, cut) : psec;
+        if (cut < 0) bad.push('「書かないこと」が無い');
+        const FORBID = ['反比例則を実装した', '1PN と同等が証明された', '観測一致を再現した', '観測一致を達成した', '較正を完了した', '複素場を接続した', '新しい法則を実装した',
+          '回転引きずりが創発した', '連鎖で円盤ができた', '層が V2 を置き換えた', '引きずりが戻った', '歳差を発見した', '新発見', 'RC を切った', 'Chromium の版を固定した'];
+        const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
+        if (hit.length) bad.push('本文(書かないことの外)に禁止の言い回し: ' + hit.join(','));
+        const TS = fs.readFileSync(path.join(ROOT, 'docs', 'THEORY_SYNTHESIS.md'), 'utf8');
+        if (!/第79報の整理への対応\(第289便a\)[^\n]*`docs\/PHYSICS\.md`〔第289便a〕/.test(TS)) bad.push('THEORY_SYNTHESIS に〔第289便a〕へのポインタが無い');
+        const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+        if ((CL.match(/^- \*\*第289便a\(/mg) || []).length !== 1) bad.push('CHANGELOG の第289便a の行が 1 行でない');
+        cases.push(`対応表 ${rows.length} 行(判定 ${JUDGE.map((w) => w + ' ' + tally[w]).join('・')} —— 1 行に 2 語の行がある)・「反比例」の 2 行に e^{−ψ}/e^{2ψ}・「複素」の意味の 1 文・禁止の言い回し ${FORBID.length} 語は本文に 0・THEORY_SYNTHESIS のポインタ・CHANGELOG 1 行`);
+      }
+      add('docs.dfmAxiomTable', bad.length === 0,
+        `**第79報の整理と現行実装の対応表**(第289便a・原仮定者の裁定(第79報)⑤・R119 —— 精査であって法則の差し替えではない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.weakfieldCoeff
+    {
+      const bad = [], cases = [];
+      if (errE) bad.push('器/正本が読めない: ' + errE);
+      else {
+        if (!J.meta || J.meta.provenanceVersion !== 'w272e-1' || J.meta.harnessVersion !== E.HARNESS_VERSION || J.meta.libVersion !== LW.WEAKFIELD_LIB_VERSION) bad.push('来歴(w272e-1)/器・lib の版');
+        if (J.meta && (J.meta.floor !== LW.FLOOR || J.meta.strength !== LW.STRENGTH)) bad.push('床・強さの宣言 ≠ lib');
+        // 一次係数: 純関数で作り直す(相対 1e-12)・解析と床内
+        const T = LW.coeffTable();
+        if (!near(T, J.coeffs, 1e-12)) bad.push('一次係数の表を作り直すと正本と違う —— 器を走らせ直すこと');
+        const by = Object.fromEntries(J.coeffs.map((r) => [r.key, r]));
+        const want = { e7r: [1, 4, 2], inverse: [1, 2, 1], inverseA: [1, 4, 2] };
+        for (const [k, [c, d, s]] of Object.entries(want)) {
+          const r = by[k];
+          if (!r) { bad.push('係数の行が無い ' + k); continue; }
+          const ok = Math.abs(r.clock / c - 1) <= LW.FLOOR && Math.abs(r.deflectionBorn / d - 1) <= LW.FLOOR && Math.abs(r.deflectionRay / d - 1) <= LW.FLOOR && Math.abs(r.shapiro / s - 1) <= LW.FLOOR;
+          if (!ok || !r.withinFloor) bad.push(`${k} の係数が解析(時計 ${c}・偏向 ${d}・シャピロ ${s})の床の外`);
+        }
+        if (!(by.e7r && by.inverse && Math.abs(by.inverse.deflectionBorn / by.e7r.deflectionBorn - 0.5) <= LW.FLOOR && Math.abs(by.inverse.shapiro / by.e7r.shapiro - 0.5) <= LW.FLOOR)) bad.push('反比例の偏向・シャピロが現行の半分でない');
+        if (!(by.e7r && by.e7r.implemented === true && by.inverse && by.inverse.implemented === false && by.inverseA && by.inverseA.implemented === false)) bad.push('実装の印(現行だけ true)');
+        // r⁻³ 核: 解析列の作り直し(1e-12)と RK4 の床
+        for (const s of J.kernel.sweep) {
+          if (!near(s.analytic, LW.kernelPrecessionAnalytic(s.a), 1e-12) || !near(s.approx3pia, 3 * Math.PI * s.a, 1e-12)) bad.push('Δϖ の解析列 a=' + s.a);
+          if (!(Math.abs(s.dw - s.analytic) <= LW.FLOOR * Math.abs(s.analytic))) bad.push('Δϖ の RK4 が床の外 a=' + s.a);
+        }
+        if (JSON.stringify(J.kernel.sweep.map((s) => s.a)) !== JSON.stringify(LW.KERNEL_A)) bad.push('a の掃引の宣言 ≠ lib');
+        const kf = 2 * LW.KERNEL_R.GMc2 * LW.KERNEL_R.rRef * LW.KERNEL_R.rRef;
+        if (!near(J.kernel.kFit, kf, 1e-12)) bad.push('基準半径で合わせた k');
+        for (const s of J.kernel.radial) {
+          const a = kf / (s.r0 * s.r0 * s.r0), gr = LW.grPrecession(LW.KERNEL_R.GMc2, s.r0);
+          if (!near(s.a, a, 1e-12) || !near(s.gr, gr, 1e-12) || !near(s.ratioAnalytic, LW.kernelPrecessionAnalytic(a) / gr, 1e-12)) bad.push('r 依存の解析列 r0=' + s.r0);
+          if (!(Math.abs(s.ratio / s.ratioAnalytic - 1) <= LW.FLOOR)) bad.push('r 依存の RK4 が床の外 r0=' + s.r0);
+        }
+        const rr = J.kernel.radial;
+        for (let i = 0; i + 1 < rr.length; i++) { const q = rr[i].ratio / rr[i + 1].ratio; if (!(rr[i + 1].r0 === 2 * rr[i].r0 && q > 3.9 && q < 4.1)) bad.push(`核/GR の比が半径 2 倍で 1/4 にならない(${rr[i].r0}→${rr[i + 1].r0}: ${q})`); }
+        const ST = LW.selfTest();
+        if (!(ST.ok && J.selfTest.ok)) bad.push('単体試験 ' + JSON.stringify(ST.checks));
+        // 現行の実測(門は器の宣言)
+        if (!near(J.engineDecl, JSON.parse(JSON.stringify(E.ENGINE)), 0)) bad.push('実測の宣言 ≠ 器');
+        if (!(J.engine.clocksOk && J.engine.clocks.length === E.ENGINE.clocks.length && J.engine.clocks.every((c) => c.rel <= E.ENGINE.f32Gate))) bad.push('tauUpdate の率が e^{−κW} と Float32 の 2 ulp の外');
+        if (!(J.engine.raysOk && J.engine.heavy === true && J.engine.rays.length === E.ENGINE.rays.length && J.engine.rays.every((z) => z.rel <= E.ENGINE.rayGate && Math.abs(z.coeffFinite / 4 - 1) <= E.ENGINE.rayGate))) bad.push('traceRay の偏向の係数が 4 の門の外');
+        // 式の綴り(今の html で引き直す)・EIH はスピンを読まない
+        const miss = [];
+        for (const list of Object.values(E.SOURCE_TOKENS)) for (const t of list) if (html289a.indexOf(t) < 0) miss.push(t);
+        if (miss.length || !J.source.allFound) bad.push('式の綴りが html に無い: ' + miss.slice(0, 2).join(' / '));
+        const e0 = html289a.indexOf('function dfmPN1Delta('), e1 = html289a.indexOf('function dfmPN1EIHKick(');
+        if (!(e0 >= 0 && e1 > e0) || /spin/i.test(html289a.slice(e0, e1)) || J.source.eihReadsSpin !== false) bad.push('dfmPN1Delta の本文に spin の語');
+        if (!(J.source.framePowDefault === 2 && J.source.framePowShare === 1 && J.source.frameDefault === 'pull')) bad.push('枠の重みの既定(pull = 2)と share(= 1)');
+        // 枠の重みの棚卸し(今の html で作り直す)
+        try {
+          const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+          const H = loadHtmlHeadless(path.join(ROOT, TARGET));
+          const C = E.frameCensus(H.HP);
+          if (!near(C, J.census, 0)) bad.push('枠の重みの棚卸しを作り直すと正本と違う —— 器を走らせ直すこと');
+          if (!(C.analogiesShareP1 && C.analogiesNoComplexP2)) bad.push('アナロジー 6 本が share p=1 でない/複素 p=2 を宣言している');
+          const nAll = Object.values(C.tally).reduce((s, v) => s + v, 0);
+          if (nAll !== H.HP.allPresets().length) bad.push('棚卸しの合計 ≠ 内蔵の本数');
+          cases.push(`枠の重みの棚卸し ${nAll} 本 ${JSON.stringify(C.tally)}・アナロジー 6 本は share(p=1)`);
+        } catch (e) { bad.push('headless: ' + String(e).slice(0, 120)); }
+        // 本節の表の行・エンジン未接続
+        if (!psec) bad.push('PHYSICS〔第289便a〕が無い');
+        else {
+          const R = E.docRows(J);
+          const missRows = [].concat(R.coeff, R.kernelA, R.kernelR, R.engineClock, R.engineRay, R.analogy).filter((t) => psec.indexOf(t) < 0);
+          if (missRows.length) bad.push('PHYSICS の表に無い行 ' + missRows.length + ' 件 ' + missRows[0].slice(0, 60));
+        }
+        for (const k of ['kernelOrbitPrecession', 'bornDeflectionCoeff', 'rayDeflectionCoeff', 'shapiroCoeff', 'WEAKFIELD_LIB_VERSION']) if (html289a.indexOf(k) >= 0) bad.push('本便の純関数の名前が html にある: ' + k);
+        const e7 = by.e7r || {}, iv = by.inverse || {};
+        cases.push(`現行 E7R/E8R 時計 ${(e7.clock || 0).toFixed(7)}・偏向 ${(e7.deflectionBorn || 0).toFixed(7)}/${(e7.deflectionRay || 0).toFixed(7)}・シャピロ ${(e7.shapiro || 0).toFixed(7)} / `
+          + `反比例 ${(iv.clock || 0).toFixed(7)}・${(iv.deflectionBorn || 0).toFixed(7)}/${(iv.deflectionRay || 0).toFixed(7)}・${(iv.shapiro || 0).toFixed(7)}(床 ${LW.FLOOR})`);
+        cases.push(`r⁻³ 核 Δϖ の RK4/解析 相対 ≤ ${Math.max(...J.kernel.sweep.map((s) => s.rel)).toExponential(2)}・核/GR ${J.kernel.radial.map((s) => s.ratio.toFixed(4)).join('/')}(r₀ ${J.kernel.radial.map((s) => s.r0).join('/')})`);
+        cases.push(`現行の実測: tauUpdate 相対 ${J.engine.clocks.map((c) => c.rel.toExponential(2)).join('/')}(門 2^−22)・traceRay 係数 ${J.engine.rays.map((z) => z.coeffFinite.toFixed(5)).join('/')}`);
+      }
+      add('behavior.weakfieldCoeff', bad.length === 0,
+        `**時計・光の弱場係数と r⁻³ 核の限定模型**(第289便a・原仮定者の裁定(第79報)⑤・R119 —— html の式は変えていない・🛰 の記録は再測しない): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
