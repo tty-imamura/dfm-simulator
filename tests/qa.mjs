@@ -21399,7 +21399,8 @@ if (!FAST) {
     const near289 = (a, b, where, out) => {
       if (out.length > 4) return;
       if (typeof a === 'number' && typeof b === 'number') {
-        const RES = /(rel|Rel|relMax|RelMax|sum|lastChange|Spread)(\/\d+)?$/.test(where);
+        // 残差の鍵(…rel / rel… / sum / lastChange / Spread)は絶対 1e-12 —— relContract/relRotlet のような rel 始まりの鍵も残差(CI の別環境で 0 と 2.6e-16 が出た)
+        const RES = /(rel|Rel|relMax|RelMax|sum|lastChange|Spread)(\/\d+)?$|\/rel[A-Z]\w*$/.test(where);
         if (!(a === b || (RES ? Math.abs(a - b) <= 1e-12 : Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b))))) out.push(where + ' ' + a + '≠' + b);
         return;
       }
