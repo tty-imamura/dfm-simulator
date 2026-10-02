@@ -213,6 +213,17 @@
     margin-right:-3px;}
   .ppGroupHead .ppGroupCount{margin-left:auto;font-weight:400;}   /* 第279便d: opacity .8 を外した(4.25:1 → 5.91:1) */
   .ppGroupBody[hidden]{display:none!important;}
+  /* 第290便f(原仮定者の裁定〔第80報〕⑦・統括の検証項目 R130): **区画の見出し**(DFM 本体/DFM の外のアナロジー/現実較正と照合)。
+     群の見出し(.ppGroupHead)の上に置く**表示専用の行**で、開閉ボタンではない(押せない・data-n を持たない —— 第286便e のセパレータの
+     data-n は絞り込みの次元のもの)。上辺の太い区切り線+小さめの太字。直後の群の見出しは区切り線を重ねない */
+  .ppScopeHead{display:flex;align-items:baseline;gap:8px;min-width:0;overflow-wrap:anywhere;
+    font-size:calc(10.5px*var(--uz,1));font-weight:700;color:var(--accText);letter-spacing:.02em;
+    margin:14px 0 0;padding:6px 2px 0;border-top:2px solid var(--line,#2a3242);}
+  .ppScopeHead:first-child{margin-top:2px;padding-top:0;border-top:0;}
+  .ppScopeHead .ppScopeCount{margin-left:auto;font-weight:400;color:var(--dim);}
+  .ppScopeHead + .ppGroupHead{margin-top:2px;border-top:0;padding-top:4px;}
+  .ppScopeEnd{height:0;margin:14px 0 0;border-top:2px solid var(--line,#2a3242);}
+  .ppScopeEnd + .ppGroupHead{margin-top:2px;border-top:0;padding-top:4px;}
   /* 第147便: E水準フィルタの運用注記(件数は実行時導出 — 手打ちしない)
      第149便(原仮定者指示): グループ/スケール/分類/E水準の4種とも**次元見出しのタップで開閉**する
      畳み込みにした。既定は閉。改行を活かすため white-space:pre-line */
@@ -1994,8 +2005,19 @@ ja: {
     // 第272便d(第62報「ダークローターは『減光』の検証用という位置付けにとどめる」): 群の達成条件を書く
     "自転と減光":"**自転状態による減光を確認する実験群**。表示輝度・脱出光・吸収・放射エネルギーを比較する。**銀河の不足質量や観測ブラックホールの再現を、この群の達成条件に含めない**(暗さを「隠れた質量の証拠」として読まない — 暗さと質量は別々に測る)。実在のダークマターについての主張ではない。",
     "箱宇宙の実験":"箱そのものを宇宙に見立てた系の実験(並進・回転・膨張・呼吸・光の赤方偏移)。正本は docs/BOX_UNIVERSE.md。",
+    // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130): 新群(区画は DFM の外のアナロジー)
+    "腕と渦伸長(軸力)":"軸力(physics.axisForce)の外部オーバーレイで、円盤の恒星を軸へ集める棒・外側の 2 本腕・棒の到達長を見る 3 本(🥢🎏🎚️ —— 第290便f で「銀河の力学」から移した)。**DFM の公理の帰結ではない**(仮定の物理法則のアナロジー)。ナビエ・ストークスの渦伸長は示唆にとどまる。較正なし・claim 窓なし。",
     "AI生成":"AI追加で作ったサンプル(この端末のローカル保存)。",
     "保存一覧":"「保存」で残した状態(この端末のローカル保存)。"},
+  // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130): 一覧の**区画の見出し**(GROUP_SCOPE —— 表示専用)と説明・ヘルプの 1 行
+  ppScope_main:"DFM 本体(重力決定力・慣性決定力の仮定)",
+  ppScope_outside:"DFM の外のアナロジー(仮定の物理法則・別論文)",
+  ppScope_cal:"現実較正と照合",
+  ppScope_mainTip:"DFM の仮定(重力決定力・慣性決定力)の中で走るサンプルの群。仮定の物理の中の整合性を見るもので、現実の宇宙が DFM であるとは主張しない。区画は表示専用(物理・保存 JSON には効かない)。",
+  ppScope_outsideTip:"DFM の公理の帰結ではない、仮定の物理法則のアナロジー(スピンと熱・自転と減光・腕と渦伸長〔軸力〕)。アプリには含めるが、論文は DFM 本体とは別。区画は表示専用(群の名前・物理・保存 JSON は変えない)。",
+  ppScope_calTip:"実在の天体・連星の観測値への較正と、その照合・監査の群。所属は合否を意味しない(合否は較正監査の判定)。区画は表示専用。",
+  ppNoteScopeHead:"第290便f(原仮定者の裁定〔第80報〕⑦)で、群を 3 つの区画に分けた —— 「DFM 本体(重力決定力・慣性決定力の仮定)」「DFM の外のアナロジー(仮定の物理法則・別論文 —— スピンと熱・自転と減光・腕と渦伸長〔軸力〕)」「現実較正と照合」。区画の見出しは押せない表示行で、件数はいま並ぶ行の数(退役の本は数えない)。群の名前は変えていない。",
+  helpPickerScope:"「サンプルを選ぶ」の一覧は 3 つの区画に分かれる(第290便f): DFM 本体(重力決定力・慣性決定力の仮定)/ DFM の外のアナロジー(スピンと熱・自転と減光・腕と渦伸長〔軸力〕—— 仮定の物理法則・論文は別)/ 現実較正と照合。区画は表示専用で、物理・保存 JSON には効かない。軸力の棒と腕の 3 本(🥢🎏🎚️)は新群「腕と渦伸長(軸力)」へ移した。「その他」の段「状況(説明タブ)」は既定で畳む(含む・除くにしたチップは畳んでも見える)。",
   ppNoteScaleHead:"スケールは各サンプルの代表単位(scaleTier)を示す表示・分類専用のタグで、換算表示とスライダーの目盛に使う。scaleExp 宣言のあるサンプルは距離指数から最近傍ティアを導出する(第120便)。各ティアのアンカー(実行時導出 — 距離/時間/質量):",
   ppNoteScaleUnit:"1単位",
   ppNoteClassHead:"分類は P3 サンプル分類(sampleClass)の宣言専用タグで、物理には一切影響しない。",
@@ -2965,8 +2987,19 @@ en: {
     "銀河の力学":"The subject is dynamics and structure on galactic scales: rotation curves, galaxy mergers, collapse of self-gravitating clouds.",
     "自転と減光":"EXPERIMENTS THAT CHECK DIMMING BY ROTATION STATE: they compare displayed brightness, escaping light, absorption and radiated energy. REPRODUCING A GALAXY'S MISSING MASS OR AN OBSERVED BLACK HOLE IS NOT PART OF THIS GROUP'S SUCCESS CRITERIA — darkness is never read as evidence of hidden mass; darkness and mass are measured separately. Not a claim about real dark matter.",
     "箱宇宙の実験":"Experiments in which the box itself stands for a universe (translation, rotation, expansion, breathing, redshift of light). The reference document is docs/BOX_UNIVERSE.md.",
+    // wave 290f: new group (in the "Analogies outside DFM" section)
+    "腕と渦伸長(軸力)":"Three samples (🥢🎏🎚️ — moved out of \"Galactic Dynamics\" in wave 290f) that use the axis force (physics.axisForce), an external overlay, to gather disk stars onto a bar, raise two outer arms and set the reach of the bar. NOT A CONSEQUENCE OF THE DFM AXIOMS (an analogy under a hypothetical physical law). Navier–Stokes vortex stretching is only suggested. No calibration, no claim window.",
     "AI生成":"Samples created with the AI-add tab (stored locally on this device).",
     "保存一覧":"States kept with \"Save\" (stored locally on this device)."},
+  // wave 290f: list section headings (GROUP_SCOPE — display only), the note and one help line
+  ppScope_main:"DFM proper (gravitational- and inertial-determinacy hypotheses)",
+  ppScope_outside:"Analogies outside DFM (hypothetical laws, separate paper)",
+  ppScope_cal:"Reality calibration & checks",
+  ppScope_mainTip:"Samples that run inside the DFM hypotheses (gravitational determinacy, inertial determinacy). They test consistency within the hypothetical physics; they do not claim that the real universe is DFM. Sections are display only (no effect on physics or saved JSON).",
+  ppScope_outsideTip:"Analogies under hypothetical physical laws that are not consequences of the DFM axioms (Spin & Heat, Spin & Dimming, Arms & Vortex Stretching (Axis Force)). They stay in the app, but the paper is separate from DFM proper. Sections are display only (group names, physics and saved JSON are unchanged).",
+  ppScope_calTip:"Calibration against observed real bodies and binaries, and the checks and audits of that calibration. Membership says nothing about pass or fail (the verdict belongs to the calibration audit). Sections are display only.",
+  ppNoteScopeHead:"Wave 290f (the adjudicator's ruling, 80th report ⑦) split the groups into three sections: \"DFM proper (gravitational- and inertial-determinacy hypotheses)\", \"Analogies outside DFM (hypothetical laws, separate paper — Spin & Heat, Spin & Dimming, Arms & Vortex Stretching (Axis Force))\" and \"Reality calibration & checks\". A section heading is a non-interactive display row; its count is the number of rows listed now (retired samples are not counted). No group was renamed.",
+  helpPickerScope:"The \"Choose a sample\" list is split into three sections (wave 290f): DFM proper (gravitational- and inertial-determinacy hypotheses) / Analogies outside DFM (Spin & Heat, Spin & Dimming, Arms & Vortex Stretching (Axis Force) — hypothetical laws, separate paper) / Reality calibration & checks. Sections are display only and never touch the physics or saved JSON. The three axis-force bar-and-arm samples (🥢🎏🎚️) moved to the new group \"Arms & Vortex Stretching (Axis Force)\". The \"Status (Description tab)\" section of \"Other\" is folded by default (chips set to include or exclude stay visible when folded).",
   ppNoteScaleHead:"Scale is a display/classification tag naming each sample's representative units (scaleTier); it drives the unit conversion and the slider ticks. Samples that declare scaleExp derive their tier from the length exponent (wave 120). Anchors per tier (derived at runtime — length / time / mass):",
   ppNoteScaleUnit:"1 unit",
   ppNoteClassHead:"Class is the declaration-only P3 sample classification (sampleClass); it never touches the physics.",
@@ -3192,7 +3225,7 @@ en: {
   // 第151便(原仮定者指示): 新グループ「ローターの物語」(en: Rotor Stories)を銀河の物語の直後へ新設
   // 第273便a(原仮定者の裁定〔第63報〕AH5 改名・AH6 分割): 新名の en を新設し、**旧名の行も残す**
   // (旧名を宣言した保存/AI 生成プリセットが旧名のまま来ても英語表示が落ちない)
-  groups:{"運動と時空":"Motion & Spacetime","銀河の力学":"Galactic Dynamics","天体の機構":"Celestial Mechanisms","時計と重力":"Clocks & Gravity","光の伝播":"Light Propagation","スピンと熱":"Spin & Heat","箱宇宙の実験":"Box-Universe Experiments","自転と減光":"Spin & Dimming","現実較正":"Reality Calibration","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・連星":"Reality Checks — Binaries","実在天体のアナロジー":"Real-object Analogies",
+  groups:{"運動と時空":"Motion & Spacetime","銀河の力学":"Galactic Dynamics","天体の機構":"Celestial Mechanisms","時計と重力":"Clocks & Gravity","光の伝播":"Light Propagation","スピンと熱":"Spin & Heat","箱宇宙の実験":"Box-Universe Experiments","自転と減光":"Spin & Dimming","現実較正":"Reality Calibration","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・連星":"Reality Checks — Binaries","実在天体のアナロジー":"Real-object Analogies","腕と渦伸長(軸力)":"Arms & Vortex Stretching (Axis Force)",
     "空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合・太陽系外":"Reality Checks — Beyond the Solar System",
     "シミュレーション":"Simulation","現実との照合":"Reality Checks","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{dispMag:"Particle display magnification",   // 第254便c: 英訳が欠けていた(ja「粒子表示倍率」のまま出ていた)
@@ -9094,7 +9127,9 @@ const BUILTIN_PRESETS = [
 // 乱数消費が同じなので、速度だけが違う — QA/ハーネスで機械確認する)。
 // **claim 窓(regression window)は 1 つも張らない**(較正していないから — 第248便c と同じ方針)。
 // **ダークローターは入れない**(安定門〔受入条件 6 項目〕を通っていない — docs/PHYSICS.md〔第249便c〕)。
-{ id:"axisBarStill", name:"回転ゼロの棒 — 軸に集まる恒星", emoji:"🥢", group:"銀河の力学",
+// 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130): 3 本の group を「銀河の力学」→ 新群「腕と渦伸長(軸力)」(区画は DFM の外のアナロジー
+// —— axisForce は外部オーバーレイで DFM の公理の帰結ではない)。表示・分類だけで physics・claims・presetSig は 1 bit も変えない
+{ id:"axisBarStill", name:"回転ゼロの棒 — 軸に集まる恒星", emoji:"🥢", group:"腕と渦伸長(軸力)",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
   obsCard:[
@@ -9136,7 +9171,7 @@ const BUILTIN_PRESETS = [
      omega:0, vNoise:0, bulkVx:0, bulkVy:0, pinned:false}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
 
-{ id:"axisBarArms", name:"内側の棒と外側の2本腕 — 回転する円盤", emoji:"🎏", group:"銀河の力学",
+{ id:"axisBarArms", name:"内側の棒と外側の2本腕 — 回転する円盤", emoji:"🎏", group:"腕と渦伸長(軸力)",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
   obsCard:[
@@ -9178,7 +9213,7 @@ const BUILTIN_PRESETS = [
      omega:0, vNoise:0, bulkVx:0, bulkVy:0, pinned:false}],
   overlays:{rotationCurve:true,tempHistogram:false,field:false,trail:false,monitor:false} },
 
-{ id:"axisBarReach", name:"棒の到達長 R_b — 外縁までは届かない", emoji:"🎚️", group:"銀河の力学",
+{ id:"axisBarReach", name:"棒の到達長 R_b — 外縁までは届かない", emoji:"🎚️", group:"腕と渦伸長(軸力)",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
   obsCard:[
@@ -31996,9 +32031,27 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 //   実在天体のアナロジー)。**0 本の予約名 3 つ**(法則の実験室・シミュレーション・現実との照合 —
 //   AH19)は表の末尾に残す(orderedGroups() が実在する群だけを拾うので表示には出ない)。
 //   保存 id は不変で、新群だけ clocksGravity を足した(GROUP_IDS は**旧名と新名の両方**を同じ id へ)。
-const GROUP_ORDER=["運動と時空","銀河の力学","天体の機構","時計と重力","光の伝播","スピンと熱",
-  "箱宇宙の実験","自転と減光","現実較正","実在天体のアナロジー",   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 太陽系/連星の 2 群を「現実較正」1 つへ(見出しの下にサブチップ)
+// 第290便f(原仮定者の裁定(第80報)⑦「DFM とは範囲が異なるアナロジーサンプルはアプリに含めるがサンプル群を明確に分ける」・統括の検証項目 R130):
+//   群を **3 つの区画**(GROUP_SCOPE —— DFM 本体/DFM の外のアナロジー/現実較正と照合)に分け、表を区画の順(本体 → 外 → 較正)に並べ直した。
+//   **群の改名はしない**(「スピンと熱」「自転と減光」の名は不変 —— 区画で分ける)。新群「腕と渦伸長(軸力)」(axisBar 3 本 🥢🎏🎚️ を
+//   「銀河の力学」から移した —— `physics.axisForce` の外部オーバーレイで DFM の公理の帰結ではない)を外の区画の末尾に置く。
+//   表示・分類専用 —— BUILTIN_PRESETS の配列・physics・claims・presetSig・保存 JSON は 1 bit も変えない。予約名 3 つ(AH19)は末尾のまま
+const GROUP_ORDER=["運動と時空","銀河の力学","天体の機構","時計と重力","光の伝播",
+  "箱宇宙の実験","実在天体のアナロジー",
+  "スピンと熱","自転と減光","腕と渦伸長(軸力)",
+  "現実較正",   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 太陽系/連星の 2 群を「現実較正」1 つへ(見出しの下にサブチップ)
   "法則の実験室","シミュレーション","現実との照合"];
+// 第290便f: 群 → 区画の対応表(**表示専用の 1 か所** —— 一覧の区画の見出しと QA ui.pickerScope はここだけを読む)。
+//   main = DFM 本体(重力決定力・慣性決定力の仮定)/ outside = DFM の外のアナロジー(仮定の物理法則・別論文)/ cal = 現実較正と照合。
+//   鍵は gCanon で正規化した群名(旧名は GROUP_ALIASES で解決)。表に無い群(AI 生成の独自 group 等)は main。
+//   「実在天体のアナロジー」は DFM の式で走る実在天体の模型なので main(決断事項候補)
+const GROUP_SCOPES=["main","outside","cal"];
+const GROUP_SCOPE={"運動と時空":"main","銀河の力学":"main","天体の機構":"main","時計と重力":"main","光の伝播":"main",
+  "箱宇宙の実験":"main","実在天体のアナロジー":"main",
+  "スピンと熱":"outside","自転と減光":"outside","腕と渦伸長(軸力)":"outside",
+  "現実較正":"cal","現実との照合":"cal",
+  "法則の実験室":"main","シミュレーション":"main"};
+function gScope(g){ return GROUP_SCOPE[gCanon(g)] || "main"; }
 // 第273便a: 旧グループ名 → 新グループ名(AH5/AH6)。**旧名の文字列は捨てない** —— 宣言側
 // (保存/AI 生成プリセットの group)はそのままで、表示・並び・見出し・説明の入口だけを正規化する。
 // これで旧名を持つプリセットが新しい群の見出しに出る(GROUP_IDS も両名を同じ id へ持つ)
@@ -32019,6 +32072,7 @@ function gCanon(g){ const k=(g==null)? "内蔵" : String(g); return GROUP_ALIASE
 const GROUP_ICONS={"運動と時空":"🧭","銀河の力学":"🌌","天体の機構":"🪐","時計と重力":"⏱️",
   "光の伝播":"💡","スピンと熱":"🌡️","箱宇宙の実験":"📦","自転と減光":"🌗",
   "現実較正":"🎯","実在天体のアナロジー":"🔭",   // 第288便b: 旧 2 群(☀️⭐)を 1 つへ —— 較正の対象(太陽系/連星)を狙う群
+  "腕と渦伸長(軸力)":"🌀",   // 第290便f: 新群(axisBar 3 本)
   "法則の実験室":"⚗️","シミュレーション":"🖥️","現実との照合":"📏"};
 function gIcon(g){ return GROUP_ICONS[gCanon(g)] || ""; }
 // 第273便a(AH7 候補・表示のみ): **グループ内**のファミリー表示順位。BUILTIN_PRESETS の配列は
@@ -32030,7 +32084,10 @@ function orderedGroups(){
   const seen=[];
   BUILTIN_PRESETS.forEach(p=>{ const g=gCanon(p.group); if(!seen.includes(g)) seen.push(g); });
   const head=GROUP_ORDER.filter(g=>seen.includes(g));
-  return head.concat(seen.filter(g=>!head.includes(g)));
+  // 第290便f: 区画の順(本体 → 外 → 較正)で安定に並べる —— 表に無い群も自分の区画(既定 main)の末尾へ入り、区画は一続きになる
+  const all=head.concat(seen.filter(g=>!head.includes(g)));
+  const rk=(g)=>GROUP_SCOPES.indexOf(gScope(g));
+  return all.map((g,i)=>[g,i]).sort((a,b)=>(rk(a[0])-rk(b[0]))||(a[1]-b[1])).map(x=>x[0]);
 }
 // 表示順に並べた内蔵プリセット(グループ内の順序は配列順のまま。
 // GROUP_FAMILY_RANK がある群だけ、ファミリー単位の安定ソートを重ねる — 第273便a AH7)
@@ -32295,6 +32352,7 @@ const GROUP_IDS={"熱の実験室":"heat", "空間と時間":"spacetime", "光�
   "自転と減光":"rotor", "現実との照合・連星":"realityBeyond", "時計と重力":"clocksGravity",
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 新群「現実較正」の id(旧 2 群の id は旧名の行に残す —— 開閉の記憶は新群では既定〔畳む〕から)
   "現実較正":"realityCal",
+  "腕と渦伸長(軸力)":"armsVortex",   // 第290便f: 新群の id(既存 id は 1 つも変えない —— 新群は既定〔畳む〕から)
   "AI生成":"aiGenerated", "保存一覧":"saves", "内蔵":"builtin"};
 const _GROUP_ID_SET=new Set(Object.values(GROUP_IDS));
 function groupIdOf(g){
@@ -32472,7 +32530,14 @@ function ppOtherCycle(key){ const st=ppOtherStateOf(key); ppOtherSetState(key, s
 //   含む(on)・除く(not)のチップは見える。件数 0 の軸(未選択のとき)は無効表示(disabled —— 行から消さない)
 const PP_OTHER_NARROW_PX=480;
 let ppOtherSecOpen={};
-function ppOtherSecIsOpen(sec){ return (ppOtherSecOpen[sec]!==undefined)? !!ppOtherSecOpen[sec] : !(innerWidth<=PP_OTHER_NARROW_PX); }
+// 第290便f(第80報で閉じた AN114「既定は畳む(選択中は見える)・『見込み』軸は足さない」): 3 段目「状況(説明タブ)」は**画面幅によらず既定で畳む**
+// (第289便f までは広い画面で開いていた)。含む・除くにしたチップは畳んでも見える(ppOtherSecSync の既存の規約)。開閉はセッション内のみ(従来どおり)
+const PP_OTHER_SEC_FOLDED=["status"];
+function ppOtherSecIsOpen(sec){
+  if(ppOtherSecOpen[sec]!==undefined) return !!ppOtherSecOpen[sec];
+  if(PP_OTHER_SEC_FOLDED.indexOf(sec)>=0) return false;
+  return !(innerWidth<=PP_OTHER_NARROW_PX);
+}
 function ppOtherSecSync(g){   // 段の入れ物 g の表示を開閉の状態へ合わせる(組み直さない —— チップの状態・フォーカスはそのまま)
   const sec=g.dataset.sec, open=ppOtherSecIsOpen(sec), h=g.querySelector(":scope > .ppOtherSec");
   const hid=open? 0 : [...g.querySelectorAll(":scope > .ppChip")].filter(c=>c.dataset.state!=="on" && c.dataset.state!=="not").length;
@@ -32565,6 +32630,19 @@ function ppRender(){
   };
   let curGroup=null, head=null, nInGroup=0;
   const closeGroup=()=>{ if(head) head.cnt.textContent=String(nInGroup); nInGroup=0; };
+  // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130): **区画の見出し**(GROUP_SCOPE —— 本体/外のアナロジー/較正と照合)。
+  // 群の見出しの上に、区画が変わるところで 1 行だけ置く(押せない表示行・data-n を持たない —— 件数は data-books)。件数はこの区画に
+  // いま並ぶ行の数で、**退役の本は数えない**(読み込み中の退役の本は行に残るが区画の数には入れない)。絞り込みで行が 0 の区画は見出しも出ない
+  let curScope=null, scopeHead=null, nInScope=0;
+  const closeScope=()=>{ if(scopeHead){ scopeHead.cnt.textContent=String(nInScope); scopeHead.h.dataset.books=String(nInScope); } nInScope=0; };
+  const mkScope=(sc)=>{
+    const h=document.createElement("div"); h.className="ppScopeHead"; h.id="ppScope_"+sc; h.dataset.scope=sc;
+    h.setAttribute("role","heading"); h.setAttribute("aria-level","3"); h.title=T("ppScope_"+sc+"Tip");
+    const nm=document.createElement("span"); nm.className="ppScopeName"; nm.textContent=T("ppScope_"+sc);
+    const cnt=document.createElement("span"); cnt.className="ppScopeCount";
+    h.appendChild(nm); h.appendChild(cnt); list.appendChild(h);
+    return {h,cnt};
+  };
   const attrFiltered=(ppScale!=="all"||ppClass!=="all"||ppE!=="all"||ppGeo!=="all"||ppOther.length>0);   // 第285便e: 「その他」も属性の絞り込み
   familyGroupedBuiltins().forEach(p=>{
     const g=gCanon(p.group);
@@ -32573,10 +32651,13 @@ function ppRender(){
     if(!ppMatch(p)) return;
     if(!showAllSamples && p.familyId && p.familyRole==="variant"
       && !(currentPreset&&p.id===currentPreset.id) && !ppSearch && !attrFiltered) return;
-    if(g!==curGroup){ closeGroup(); curGroup=g; head=mkHead(g,gName(g));
+    if(g!==curGroup){ closeGroup();
+      { const sc=gScope(g); if(sc!==curScope){ closeScope(); curScope=sc; scopeHead=mkScope(sc); } }   // 第290便f: 区画の見出し
+      curGroup=g; head=mkHead(g,gName(g));
       if(g===CAL_GROUP) ppCalSubRow(head.d); }   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 見出しの下のサブチップ(太陽系/連星)
     if(g===CAL_GROUP && ppCalSub!=="all" && calSubOf(p)!==ppCalSub) return;   // サブチップの絞り込み(見出しは残す —— 解除できるように)
     nInGroup++;
+    if(!retiredOf(p)) nInScope++;   // 第290便f: 退役の本は区画に数えない
     let label=(p.emoji||"")+" "+pName(p);
     if(p.familyId&&p.familyRole==="variant") label="└ "+label;
     { const vl=familyVariantLabel(p); if(vl) label+="〔"+vl+"〕"; }   // 第280便d: 役割名(表示専用)
@@ -32585,15 +32666,18 @@ function ppRender(){
       sampleClassLabel(p)].filter(Boolean).join(" ");   // 第258便c: 較正は DFM / kF0 を出す
     mkRow(label,tags,!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id));
   });
-  closeGroup();
+  closeGroup(); closeScope();
   const customs=getCustomPresets();
+  const saves=getSaves();
+  // 第290便f: この端末の群(AI生成・保存一覧)は区画の外 —— 最後の区画と見た目で分ける区切り線(見出しの語なし・data-n なし)
+  if(scopeHead && !attrFiltered && (customs.length || saves.length)){
+    const e=document.createElement("div"); e.className="ppScopeEnd"; e.setAttribute("role","separator"); list.appendChild(e); }
   if(customs.length && !attrFiltered){
     head=mkHead("AI生成",gName("AI生成")); nInGroup=0;
     customs.forEach(p=>{ if(ppSearch&&!ppMatch(p)) return; nInGroup++;
       mkRow("🤖 "+(p.emoji||"")+" "+pName(p),"",!!(currentPreset&&currentPreset.id===p.id),()=>pick(p.id)); });
     closeGroup();
   }
-  const saves=getSaves();
   if(saves.length && !attrFiltered){
     head=mkHead("保存一覧",gName("保存一覧")); nInGroup=0;
     saves.forEach((s,idx)=>{ const nm=s.name||T("untitled");
@@ -32633,7 +32717,7 @@ function ppNoteText(kind){
     const gs=orderedGroups().slice();
     if(getCustomPresets().length) gs.push("AI生成");
     if(getSaves().length) gs.push("保存一覧");
-    return T("ppNoteGroupHead")+"\n"
+    return T("ppNoteGroupHead")+"\n"+T("ppNoteScopeHead")+"\n"   // 第290便f: 区画の説明
       +gs.filter(g=>nt[g]).map(g=>"・"+gName(g)+" — "+nt[g]).join("\n");
   }
   if(kind==="scale"){
@@ -38686,12 +38770,14 @@ function buildAbout(){
   // 第88便 EXT-01: 初見ガイドの再表示導線
   { const fb=document.createElement("button"); fb.type="button"; fb.id="btnFvAgain";
     fb.textContent=T("fvAgain"); fb.addEventListener("click",showFirstVisit); el.appendChild(fb); }
+  // 第290便f(原仮定者の裁定〔第80報〕④): 「この宇宙の法則(要約)」を「操作」の上へ
+  mk("h4",T("helpLaws"));
+  mk("p",T("helpLawsBody"));
   mk("h4",T("helpOps"));
   mk("p",T("helpOpsBody"));
   mk("p",T("helpObsCompare"));   // 第285便d
   mk("p",T("helpLiveCompare"));   // 第286便d
-  mk("h4",T("helpLaws"));
-  mk("p",T("helpLawsBody"));
+  mk("p",T("helpPickerScope"));   // 第290便f: 一覧の区画・新群・「状況」の段の既定の畳み
 }
 // 第28便(第24次レビュー): キーボード・フォーカス対応(Enter/Space で開閉・Escape で閉じる)
 function aboutToggle(show){

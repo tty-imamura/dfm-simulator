@@ -20,6 +20,11 @@
 | 差分由来の量(中心差分の誤差・その比の次数) | `steps[].err`・`errGradU`・`order` | **器が宣言する丸め床**(同種の FAIL が出た試験から実測で決めた床だけ —— 例: 誤差は相対 1e-4 か絶対 1e-10 の緩い方・次数は絶対 1e-3) |
 | 残差(本来 0 の量の丸め) | `rel*`・`work`・`maxRel` | **絶対の床**(例: 1e-12) |
 
+- **残差の鍵は絶対 1e-12 で比べる。鍵名は末尾 `rel`/`…Rel` だけでなく `rel` 始まり(`relContract`・`relRotlet` 等)も残差として拾う**(第289便の教訓 ——
+  `rel` 始まりの鍵を相対 1e-12 で比べて CI の 1 ulp の差で落ちた)。
+- **退役(`familyRole:"retired"`)した id を期待に持つ器と QA は、世代切替 `has290b`(第290便b の退役の印の有無)で分岐する**。退役 id の合否を新しい本へ写さず、
+  旧世代(root 等)の期待値は緩めない。
+
 - 床は**同種の FAIL が CI で実際に出た試験**にだけ、器の注釈に出所(CI の実行・実測値)を書いて置く。出ていない試験の 1e-12 は緩めない。
 - 門(判定の閾値 —— 例: 次数の門 [1.8, 2.2]・誤差の門)は照合の許容とは別に判定する。照合の床で門を広げない。
 - Chromium の版は固定しない。手元のゲートは CI の代わりにしない(CI が最終裁定者)。
@@ -62,7 +67,9 @@
 `tools/post-merge-qa.sh`(使い方は `tools/README.md`)。フル QA・CI の代わりではない。
 第288便f から、③「前回失敗項」の次に **③′ 本便の新設ブロック**(`POST_MERGE_WAVE_IDS`)を回す。qa.mjs に無い id は「未統合」として数えるだけ
 (FAIL にしない)。④ の常設集合(統合直後の 9 本)は変えない。既定は便ごとに差し替える —— 第289便f からは第289便の contract 系 6 本
-(docs.dfmAxiomTable・preset.condRowsRenamed・behavior.relDragKernel・behavior.ejectStateCarry・preset.layerAxisDecl・ui.pickerStatusAxes)。
+(docs.dfmAxiomTable・preset.condRowsRenamed・behavior.relDragKernel・behavior.ejectStateCarry・preset.layerAxisDecl・ui.pickerStatusAxes)、
+第290便f からは第290便の新設 11 本(docs.terminologyInertial・docs.claimScope・preset.retired290b・docs.d68FactorRow・behavior.inertialDragGate・
+preset.inertialDragPair・behavior.ckFixcapRestore・preset.shapeToySpiral・behavior.spiralGeometry・ui.aboutOrder・ui.pickerScope)。
 
 **部分実行(`tests/exp-w258c-qapart.mjs`)が運ばないもの(第289便f)**: qapart はブロックを切り出して一時ディレクトリで走らせるので、qa.mjs の
 冒頭近くで決める定数 `W284_PSR_F1`〜`W288B_CORE`(世代の固定値)と `__qaPreset` を運ばない。これらを読むブロック —— `coreV2*`・`shellSpinMassLaw`・

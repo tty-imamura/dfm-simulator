@@ -13,8 +13,9 @@ tools/post-merge-qa.sh [--base beta/_wNNN_base.html] [--failed "id id …"] [--n
 1. 静的受理 — `tests/qa-preflight.mjs`(beta・Chromium なし)
 2. 接続契約 — `node tools/regen-chain.mjs --audit` と `--self-test`
 3. 前回失敗項 — `--failed` の id(無ければ `tests/out/qa-results-full-beta.json` の FAIL)を qapart で
-3′. 本便の新設ブロック(第288便f)— `POST_MERGE_WAVE_IDS`(既定は第289便の 6 本: docs.dfmAxiomTable・preset.condRowsRenamed・
-   behavior.relDragKernel・behavior.ejectStateCarry・preset.layerAxisDecl・ui.pickerStatusAxes —— 第289便f で第288便の 5 本から差し替え。
+3′. 本便の新設ブロック(第288便f)— `POST_MERGE_WAVE_IDS`(既定は第290便の 11 本: docs.terminologyInertial・docs.claimScope・
+   preset.retired290b・docs.d68FactorRow・behavior.inertialDragGate・preset.inertialDragPair・behavior.ckFixcapRestore・preset.shapeToySpiral・
+   behavior.spiralGeometry・ui.aboutOrder・ui.pickerScope —— 第290便f で第289便の 6 本から差し替え。
    名前は完全一致か末尾一致で qa.mjs の id へ。無い名は「未統合」として数えるだけ)を qapart で beta に
 4. 常設集合 — `lint.regenScope`・`behavior.rayLensExcluded`・`ai.stabilize`・`docs.fourValuesHistory`・`docs.preset-table-sync`・
    `docs.families`・`ui.samplePicker`・`lint.provenanceMeta`・`ui.pickerSeparators` を qapart で beta と root(root では beta 線の新設ブロックは SKIP)

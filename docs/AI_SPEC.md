@@ -2937,3 +2937,19 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **Wbg の説明の限定**(AN103): 「kFrame=0 では力に入らない」は広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで spaceMesh.D0 1.5→4.5 の 1 步で自由粒子の vx の最大差 7.44e-4)→「現実較正の geoPN=1・kFrame=0 の軌道力には入らない。geoPN=3 の場と Jeans 初速(vMode:"jeans")では kFrame=0 でも読む」(ja/en の tip と説明)。Wbg は A/B へ写さない。
 - **アナロジーの説明 1 行**(AN110): 🌚🧩🛸💮🌰🥜 の `descStruct.summary`(ja/en)に「第289便の時点では第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では走っていない(share p=1 の q 付き場・連鎖は仮説)」の 1 文。状況の原稿(tests/data-w279a-samplestatus-src.json)の状況の末尾に要旨(概要は ja 120・en 200 字の上限内 —— 既存の文を削って入れた)。生成領域の概要は鎖の samplestatus が書く(手で走らせない)。
 - QA: **`ui.pickerStatusAxes`**・**`lint.wbgConvUnits`**・**`docs.analogyKernelNote`**・`ui.paramWbgRow`(換算と文言の項・🧩 の読みの実測)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators`・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`・`ui.pickerOtherFold` の固定値(軸 15→25・段 2→3・チップと見出し 18→29)は世代切替 has289f(html の `const PP_OTHER_STATUS_AXES=`)。root は SKIP。
+
+## 35. 第290便f の UI —— 「このアプリについて」の並び・サンプル一覧の区画(DFM 本体/DFM の外のアナロジー/現実較正と照合)・新群「腕と渦伸長(軸力)」・「状況」の段の既定の畳み(原仮定者の裁定〔第80報〕④⑦・第80報で閉じた AN114・統括の検証項目 R130・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学は 1 bit も変えていない(bitsame/sigsame 147/147)。
+
+- **区画**(表示専用の表 `GROUP_SCOPE` —— 鍵は `gCanon` で正規化した群名・値は `GROUP_SCOPES` = main/outside/cal・純関数 `gScope(g)` は表に無い群を main):
+  - main「DFM 本体(重力決定力・慣性決定力の仮定)」= 運動と時空・銀河の力学・天体の機構・時計と重力・光の伝播・箱宇宙の実験・実在天体のアナロジー(予約名の法則の実験室・シミュレーションも main)
+  - outside「DFM の外のアナロジー(仮定の物理法則・別論文)」= スピンと熱・自転と減光・腕と渦伸長(軸力)
+  - cal「現実較正と照合」= 現実較正(旧 3 名は `GROUP_ALIASES` で解決)・現実との照合(予約名)
+  - `GROUP_ORDER` は区画の順(本体 → 外 → 較正)に並べ、`orderedGroups()` は区画の順位で安定に並べる(表に無い群も自分の区画の末尾へ入り、区画は一続き)。隠し `#presetSelect` の optgroup も同じ順。
+  - 一覧(`#ppList`)では区画が変わるところに見出し行 `.ppScopeHead`(`data-scope`・`role="heading"`・押せない・**data-n を持たない** —— data-n は絞り込みの次元のもの)を 1 行置く。件数 `data-books` = その区画に並ぶ行のうち退役の印の無い行の数(読み込み中の退役の本は行に残るが数えない)。絞り込みで行が 0 の区画は見出しも出ない。AI 生成・保存一覧の群は区画の外(区切り線 `.ppScopeEnd` の後)。
+  - 群の**改名はしない**(「スピンと熱」「自転と減光」の宣言文字列・保存 id は不変)。AI が書く `group` は従来どおり任意の文字列で、区画は表示側で引く(AI 生成の群は区画の外に出る)。
+- **新群「腕と渦伸長(軸力)」**(en Arms & Vortex Stretching (Axis Force)・保存 id `armsVortex`・絵文字 🌀): axisBar 3 本(🥢 axisBarStill・🎏 axisBarArms・🎚️ axisBarReach)の `group` を「銀河の力学」から移した。群の説明は「physics.axisForce の外部オーバーレイ —— DFM の公理の帰結ではない・ナビエ・ストークスの渦伸長は示唆」。
+- **「このアプリについて」**: `buildAbout` の順序だけを aboutBody → 初見ガイドのボタン → この宇宙の法則(要約)→ 操作(操作の本文・観測との差・ライブ比較・一覧の区画の 1 行 `helpPickerScope`)にした。既存の文は不変。
+- **「その他」の段「状況(説明タブ)」の既定**(AN114): 表 `PP_OTHER_SEC_FOLDED`(= status)の段は画面幅によらず既定で畳む(§32 の段の畳みの規約 —— 含む/除くのチップは畳んでも見える・開閉はセッション内のみ)。「見込み」軸は足さない。
+- QA: **`ui.aboutOrder`**・**`ui.pickerScope`**。既存の固定値は世代切替 has290f(html の `const GROUP_SCOPE=` / `const PP_OTHER_SEC_FOLDED=`): `groups.reorder`(候補 9 つ目)・`ui.groupOrderPaper`(表・並び・id)・`ui.groupIcons`(13 → 14 群)・`ui.pickerOtherFold`(広い画面の既定 decl/badge 開・status 畳)。root は SKIP。

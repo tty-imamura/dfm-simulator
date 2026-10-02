@@ -40317,7 +40317,9 @@ if (!FAST) {
     await ctxG.close();
     // 第288便b(原仮定者の裁定(第78報)④): 「現実との照合・太陽系」「現実との照合・連星」を「現実較正」1 つへ —— 表は 14 → 13 群(世代で切り替える)
     const has288bIc = await page.evaluate(() => typeof UNIFY_MIGRATED !== 'undefined');
-    const nIc = has288bIc ? 13 : 14;
+    // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130 —— 世代切替 has290f = GROUP_SCOPE の有無): 新群「腕と渦伸長(軸力)」🌀 で 13 → 14 群
+    const has290fIc = await page.evaluate(() => typeof GROUP_SCOPE !== 'undefined');
+    const nIc = has288bIc ? (has290fIc ? 14 : 13) : 14;
     const gOk = rg.n === nIc && rg.inOrder === nIc && rg.dup === 0 && rg.empty === 0
       && rg.aliasBad.length === 0 && rg.unknown === '' && rg.nullIcon === ''
       && rg.leaked === 0 && rg.leakedV === 0
@@ -42024,6 +42026,9 @@ if (!FAST) {
     //   ui.pickerOtherFold … 段は 3 つ(decl/badge/status)—— 段の並びの文字列と既定の畳み・見出しの語だけを切り替える(判定は不変)。
     const has289fW = /function wbgConvStr\(/.test(html);
     const SECS = /const PP_OTHER_STATUS_AXES=/.test(html) ? ['decl', 'badge', 'status'] : ['decl', 'badge'];
+    // 第290便f(第80報で閉じた AN114「既定は畳む(選択中は見える)」—— 世代切替 has290f = html の `const PP_OTHER_SEC_FOLDED=`):
+    //   「状況(説明タブ)」の段は**画面幅によらず**既定で畳む(広い画面の既定は decl/badge 開・status 畳)。判定の強さは不変 —— 期待の段ごとの既定だけを切り替える
+    const FOLDED290 = /const PP_OTHER_SEC_FOLDED=/.test(html) ? ['status'] : [];
     const VPS = [{ name: 'Mobile-360x640', width: 360, height: 640, mobile: true }, { name: 'PC-1280x800', width: 1280, height: 800, mobile: false }];
     const openPage = async (vp) => {
       const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.mobile, hasTouch: vp.mobile });
@@ -42216,15 +42221,20 @@ if (!FAST) {
       const d0 = await st();
       o.hDefault = d0.h;
       const all = (v) => SECS.map(() => v).join('/');   // 第289便f: 段の数(2 → 3)に合わせた '1/1(/1)'
-      const wantFold = o.exp.narrow ? all('1') : all('0');
-      o.defaultOk = d0.fold === wantFold && d0.aria === (o.exp.narrow ? all('false') : all('true')) && d0.secTxt.join('|') === o.exp.secs.join('|')
-        && d0.nhid === (o.exp.narrow ? d0.offIn : all('0')) && (o.exp.narrow ? d0.vis === 'all' : true);
+      // 第290便f: 段ごとの既定(狭い画面は全段畳む・広い画面は FOLDED290 の段だけ畳む)
+      const fold0 = SECS.map((s) => o.exp.narrow || FOLDED290.indexOf(s) >= 0);
+      const wantFold = fold0.map((f) => (f ? '1' : '0')).join('/');
+      const wantFoldT = fold0.map((f) => (f ? '0' : '1')).join('/');   // 全段を 1 回ずつ押した後
+      const offIn0 = d0.offIn.split('/');
+      o.defaultOk = d0.fold === wantFold && d0.aria === fold0.map((f) => (f ? 'false' : 'true')).join('/') && d0.secTxt.join('|') === o.exp.secs.join('|')
+        && d0.nhid === fold0.map((f, i) => (f ? offIn0[i] : '0')).join('/') && (o.exp.narrow ? d0.vis === 'all' : true);
+      o.fold0 = wantFold;
       // ③ 実タップで開く/畳む
       for (const s of SECS) { await tapOrClick('#ppOtherSec_' + s); await pg.waitForTimeout(40); }
       const d1 = await st();
       for (const s of SECS) { await tapOrClick('#ppOtherSec_' + s); await pg.waitForTimeout(40); }
       const d2 = await st();
-      o.tapOk = d1.fold === (o.exp.narrow ? all('0') : all('1')) && d2.fold === wantFold;
+      o.tapOk = d1.fold === wantFoldT && d2.fold === wantFold;
       const hOpen = o.exp.narrow ? d1.h : d0.h, hFold = o.exp.narrow ? d0.h : d1.h;
       o.hOpen = hOpen; o.hFold = hFold;
       // キーボード(Enter)と組み直しをまたぐ記憶
@@ -42267,7 +42277,7 @@ if (!FAST) {
       await ctx.close();
     }
     add('ui.pickerOtherFold', fo.every((o) => o.ok),
-      fo.map((o) => `${o.vp}: 既定 ${o.exp.narrow ? '畳む(狭い画面)' : '開く'}=${o.defaultOk}・見出しの実タップで開閉=${o.tapOk}・Enter と組み直しをまたぐ記憶=${o.kbOk}` +
+      fo.map((o) => `${o.vp}: 既定 ${o.exp.narrow ? '畳む(狭い画面)' : (FOLDED290.length ? '開く(「状況」の段は畳む —— AN114)' : '開く')} [${o.fold0}]=${o.defaultOk}・見出しの実タップで開閉=${o.tapOk}・Enter と組み直しをまたぐ記憶=${o.kbOk}` +
         `・畳んでも含む/除くは見える(📇∧コア公理∧¬引きずり ${o.exp.sel} 行・要約行不変)=${o.selOk}・0 件の軸 [${o.zero || 'なし'}] は無効表示で残る=${o.zeroOk}` +
         `・「その他」の高さ 畳んだ ${o.hFold}px/開いた ${o.hOpen}px/選択 3 つで畳んだ ${o.hSel}px=${o.heightOk}・箱の内側・横はみ出し 0=${o.layOk}` +
         `・#presetSelect/presetSig/params 不変=${o.same}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
@@ -42442,6 +42452,207 @@ if (!FAST) {
         `・AND 部分∧保留 ${o.andRes[0]}=${o.andExp.partialHold}・達∧¬較正対象外 ${o.andRes[1]}=${o.andExp.metNotOos}=${o.andOk}` +
         `・畳んでも含む/除くは見える=${o.foldOk}(既定 ${o.foldedAtStart ? '畳む' : '開く'})・ⓘ=${o.noteOk}・見出し=${o.secOk}・en [${o.en.sec}: ${o.en.labels.join('|')}]=${o.enOk}` +
         `・#presetSelect/presetSig/params 不変=${o.same}${o.bad.length ? '・NG ' + o.bad.slice(0, 4).join(' ') : ''}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
+  }
+}
+
+// ---- 第290便f(原仮定者の裁定(第80報)④⑦・第80報で閉じた AN114・統括の検証項目 R130): **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。
+// ----   ui.aboutOrder … 「このアプリについて」の DOM の h4 の順が「この宇宙の法則(要約)」→「操作」(ja/en)・法則の本文(helpLawsBody)が法則の見出しの
+// ----     直後・初見ガイドのボタンが法則の見出しより前・操作の節に 観測との差/ライブ比較/一覧の区画(helpPickerScope)の段落・i18n の文は T の語のまま
+// ----     (語の書き換えなし)。世代判定は html の `mk("p",T("helpPickerScope"))` —— root 等は SKIP。
+// ----   ui.pickerScope … 一覧(#ppList)の**区画の見出し 3 つ**(DFM 本体 → DFM の外のアナロジー → 現実較正と照合): ① 区画の表 GROUP_SCOPE = この場で
+// ----     書いた対応表(スピンと熱・自転と減光・腕と渦伸長(軸力)→ 外・現実較正/現実との照合 → 較正・残りは本体)・GROUP_ORDER の全群が表にある・群の名前は
+// ----     改名していない(「スピンと熱」「自転と減光」を宣言する本がある)/ ② axisBar 3 本(🥢🎏🎚️)の group = 新群「腕と渦伸長(軸力)」・新群の員 = その 3 本・
+// ----     「銀河の力学」に axisBar は残らない・新群の id armsVortex・en 名・絵文字 🌀・群の説明(ja/en)に「DFM の公理の帰結ではない」と physics.axisForce /
+// ----     ③ DOM: 区画の見出しは 3 つでこの順・語 = T(ppScope_*)・押せない表示行(button でない・role=heading)・**data-n を持たない**・各群の見出しは
+// ----     自分の区画の見出しの下(群の名前 → gScope の照合 = この場の表)・区画は一続き(同じ区画の見出しは 1 回)/ 件数 data-books = その区画に並ぶ行のうち
+// ----     退役の印の無い行の数 = この場の宣言からの数え直し(catalog 非表示・退役・既定で隠す variant を除く)/ 退役の本を読み込むと行に残るが区画の数に
+// ----     入らない / 「すべて表示」でも件数一致 / 検索「🥢」で区画の見出しは外の 1 つだけ(件数 1)/ ④ 360×640 で見出しが箱の内側・文書の横はみ出し 0 /
+// ----     en の語 / 隠し #presetSelect の optgroup の並び = 区画の順 / presetSig・params 不変 / JS エラー 0。root 等(GROUP_SCOPE なし)は SKIP。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/mk\("p",T\("helpPickerScope"\)\)/.test(html)) {
+    console.log('SKIP ui.aboutOrder(対象に第290便f の「このアプリについて」の並び替えなし — root 等)');
+  } else {
+    const ab = [];
+    for (const lang of ['ja', 'en']) {
+      const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      const o = await pg.evaluate(async (lang) => {
+        HP.setLang(lang);
+        await new Promise((r) => setTimeout(r, 30));
+        document.getElementById('appTitle').click();
+        await new Promise((r) => setTimeout(r, 30));
+        const el = document.getElementById('aboutBody');
+        const kids = [...el.children];
+        const h4 = kids.filter((e) => e.tagName === 'H4').map((e) => e.textContent);
+        const idx = (txt, tag) => kids.findIndex((e) => e.tagName === tag && e.textContent === txt);
+        const iLaws = idx(HP.T('helpLaws'), 'H4'), iOps = idx(HP.T('helpOps'), 'H4');
+        const iLawsBody = idx(HP.T('helpLawsBody'), 'P'), iOpsBody = idx(HP.T('helpOpsBody'), 'P');
+        const iFv = kids.findIndex((e) => e.id === 'btnFvAgain');
+        const iAbout = idx(HP.T('aboutBody'), 'P');
+        const iObs = idx(HP.T('helpObsCompare'), 'P'), iLive = idx(HP.T('helpLiveCompare'), 'P'), iScope = idx(HP.T('helpPickerScope'), 'P');
+        const shown = document.getElementById('aboutPanel').style.display === 'block';
+        const head = (k) => HP.T(k).split(lang === 'ja' ? '(' : ' (')[0];
+        const r = { lang, h4, iAbout, iFv, iLaws, iLawsBody, iOps, iOpsBody, iObs, iLive, iScope, shown,
+          scopeWords: ['ppScope_main', 'ppScope_outside', 'ppScope_cal'].every((k) => HP.T('helpPickerScope').indexOf(head(k)) >= 0) };
+        r.ok = shown && h4.length === 2 && h4[0] === HP.T('helpLaws') && h4[1] === HP.T('helpOps')
+          && iAbout === 0 && iFv === 1 && iLaws === 2 && iLawsBody === 3 && iOps === 4 && iOpsBody === 5
+          && iObs === 6 && iLive === 7 && iScope === 8 && kids.length === 9 && r.scopeWords;
+        document.getElementById('aboutClose').click();
+        return r;
+      }, lang);
+      o.errs = errs.slice(0, 2); o.ok = o.ok && errs.length === 0;
+      ab.push(o);
+      await ctx.close();
+    }
+    add('ui.aboutOrder', ab.every((o) => o.ok),
+      ab.map((o) => `${o.lang}: 見出しの順 [${o.h4.join(' → ')}]・本文の位置 aboutBody ${o.iAbout}/初見ガイド ${o.iFv}/法則 h4 ${o.iLaws}・本文 ${o.iLawsBody}/操作 h4 ${o.iOps}・本文 ${o.iOpsBody}`
+        + `・観測との差 ${o.iObs}・ライブ比較 ${o.iLive}・一覧の区画 ${o.iScope}・区画の語=${o.scopeWords}=${o.ok}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / ')
+      + ' —— 原仮定者の裁定(第80報)④「この宇宙の法則(要約)を操作の上へ」(i18n の文は不変・順序だけ)');
+  }
+}
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/const GROUP_SCOPE=/.test(html)) {
+    console.log('SKIP ui.pickerScope(対象に第290便f の区画の表 GROUP_SCOPE なし — root 等)');
+  } else {
+    // この場で書いた対応表(GROUP_SCOPE を写さない)
+    const OUT = ['スピンと熱', '自転と減光', '腕と渦伸長(軸力)'], CAL = ['現実較正', '現実との照合'];
+    const AXB = ['axisBarStill', 'axisBarArms', 'axisBarReach'];
+    const ctx = await browser.newContext({ viewport: { width: 360, height: 640 }, isMobile: true, hasTouch: true });
+    const pg = await ctx.newPage();
+    const errs = [];
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    pg.on('dialog', (d) => d.accept());
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+    const snap = () => pg.evaluate(() => ({ sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+      par: JSON.stringify(HP.sim.params) }));
+    await pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
+      setShowAllSamples(false); HP.loadPreset('saturn', false); });
+    const s0 = await snap();
+    const r = await pg.evaluate(async ([OUT, CAL, AXB]) => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const o = { bad: [] };
+      const expScope = (g) => (OUT.indexOf(g) >= 0 ? 'outside' : (CAL.indexOf(g) >= 0 ? 'cal' : 'main'));
+      const ps = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      // ① 表
+      o.scopes = GROUP_SCOPES.join('/');
+      o.tableOk = o.scopes === 'main/outside/cal' && GROUP_ORDER.every((g) => GROUP_SCOPE[g] === expScope(g))
+        && Object.keys(GROUP_SCOPE).every((g) => GROUP_SCOPE[g] === expScope(g)) && gScope('架空のグループ') === 'main'
+        && gScope('熱の実験室') === 'outside' && gScope('ローターの物語') === 'outside' && gScope('現実との照合・連星') === 'cal';
+      o.notRenamed = ['スピンと熱', '自転と減光'].every((g) => GROUP_ORDER.indexOf(g) >= 0 && ps.some((p) => p.group === g));
+      // ② 新群と axisBar
+      const NG = '腕と渦伸長(軸力)';
+      o.axb = AXB.map((id) => { const p = ps.find((q) => q.id === id); return p ? p.emoji + ':' + p.group : id + ':なし'; });
+      o.newMembers = ps.filter((p) => gCanon(p.group) === NG).map((p) => p.id);
+      o.galaxyAxb = ps.filter((p) => gCanon(p.group) === '銀河の力学' && AXB.indexOf(p.id) >= 0).length;
+      const nj = (I18N.ja.groupNotes || {})[NG] || '', ne = (I18N.en.groupNotes || {})[NG] || '';
+      o.newOk = AXB.every((id) => (ps.find((q) => q.id === id) || {}).group === NG)
+        && JSON.stringify(o.newMembers.slice().sort()) === JSON.stringify(AXB.slice().sort()) && o.galaxyAxb === 0
+        && groupIdOf(NG) === 'armsVortex' && I18N.en.groups[NG] === 'Arms & Vortex Stretching (Axis Force)' && gIcon(NG) === '🌀'
+        && /DFM の公理の帰結ではない/.test(nj) && /physics\.axisForce/.test(nj) && /NOT A CONSEQUENCE OF THE DFM AXIOMS/.test(ne) && /physics\.axisForce/.test(ne)
+        && GROUP_ORDER.indexOf(NG) >= 0;
+      // ③ DOM
+      const nameToGroup = (name) => orderedGroups().find((g) => gName(g) === name) || null;
+      const read = () => {
+        const list = document.getElementById('ppList');
+        const out = { heads: [], seq: [], rowsBy: {}, retBy: {}, groupBad: [], dataN: 0, btn: 0, role: 0 };
+        let sc = null;
+        for (const e of list.children) {
+          if (e.classList.contains('ppScopeHead')) {
+            sc = e.dataset.scope; out.heads.push({ sc, name: e.querySelector('.ppScopeName').textContent, books: +e.dataset.books,
+              cnt: e.querySelector('.ppScopeCount').textContent });
+            if (e.hasAttribute('data-n')) out.dataN++;
+            if (e.tagName === 'BUTTON') out.btn++;
+            if (e.getAttribute('role') === 'heading') out.role++;
+            out.rowsBy[sc] = 0; out.retBy[sc] = 0;
+          } else if (e.classList.contains('ppScopeEnd')) { sc = null;
+          } else if (e.classList.contains('ppGroupHead')) {
+            const name = e.querySelector('span:not([class])').textContent;
+            const g = nameToGroup(name);
+            if (sc && (!g || gScope(g) !== sc || expScope(g) !== sc)) out.groupBad.push(name + '@' + sc);
+            out.seq.push(sc);
+          } else if (e.classList.contains('ppGroupBody') && sc) {
+            for (const row of e.querySelectorAll('.ppRow')) { out.rowsBy[sc]++; if (row.textContent.indexOf('〔' + HP.T('retiredTag') + '〕') >= 0) out.retBy[sc]++; }
+          }
+        }
+        return out;
+      };
+      // 宣言からの数え直し(一覧に出す本 —— catalog 非表示・退役・既定で隠す variant を除く)
+      const expCount = (showAll) => { const c = { main: 0, outside: 0, cal: 0 };
+        for (const p of BUILTIN_PRESETS) {
+          if (catalogHidden(p) || p.familyRole === 'retired') continue;
+          if (!showAll && p.familyId && p.familyRole === 'variant' && !(HP.currentPreset() && HP.currentPreset().id === p.id)) continue;
+          c[expScope(gCanon(p.group))]++;
+        }
+        return c; };
+      const judge = (d, exp, label) => {
+        const ok = d.heads.map((h) => h.sc).join('/') === 'main/outside/cal' && d.heads.every((h) => h.name === HP.T('ppScope_' + h.sc))
+          && d.dataN === 0 && d.btn === 0 && d.role === 3 && d.groupBad.length === 0
+          && d.heads.every((h) => h.books === d.rowsBy[h.sc] - d.retBy[h.sc] && h.cnt === String(h.books) && h.books === exp[h.sc]);
+        if (!ok) o.bad.push(label + ':' + JSON.stringify({ heads: d.heads, rows: d.rowsBy, ret: d.retBy, exp, gb: d.groupBad, dataN: d.dataN, btn: d.btn, role: d.role }));
+        return ok;
+      };
+      showPresetPicker(); await wait(60);
+      const d0 = read();
+      o.counts = d0.heads.map((h) => h.sc + ' ' + h.books).join('・');
+      o.domOk = judge(d0, expCount(false), 'default');
+      // 連続性: seq の区画は main… → outside… → cal…(戻らない)
+      const rk = (s) => ['main', 'outside', 'cal'].indexOf(s);
+      o.contig = d0.seq.every((s, i) => i === 0 || rk(s) >= rk(d0.seq[i - 1]));
+      // 隠し #presetSelect の optgroup の並び = 区画の順
+      const og = [...document.querySelectorAll('#presetSelect optgroup')].map((x) => nameToGroup(x.label)).filter(Boolean);
+      o.selOk = og.length >= 3 && og.every((g, i) => i === 0 || rk(gScope(g)) >= rk(gScope(og[i - 1])));
+      // 「すべて表示」
+      hidePresetPicker(); setShowAllSamples(true); showPresetPicker(true); await wait(60);
+      o.allOk = judge(read(), expCount(true), 'showAll');
+      hidePresetPicker(); setShowAllSamples(false);
+      // 退役の本を読み込む(行に残るが区画の数に入らない)—— 退役の id は宣言から引く(固定しない)
+      const ret = BUILTIN_PRESETS.find((p) => p.familyRole === 'retired' && !catalogHidden(p));
+      o.retId = ret ? ret.id : null;
+      if (ret) {
+        HP.loadPreset(ret.id, false); await wait(40);
+        showPresetPicker(true); await wait(60);
+        const d2 = read();
+        const sc = expScope(gCanon(ret.group));
+        o.retScope = sc; o.retRows = d2.retBy[sc];
+        o.retOk = judge(d2, expCount(false), 'retired') && d2.retBy[sc] === 1;
+        hidePresetPicker(); HP.loadPreset('saturn', false); await wait(40);
+      } else o.retOk = true;
+      // 検索「🥢」→ 外の区画の見出しだけ(件数 1)
+      ppSearch = '🥢'; showPresetPicker(true); await wait(60);
+      const d3 = read();
+      o.searchOk = d3.heads.length === 1 && d3.heads[0].sc === 'outside' && d3.heads[0].books === 1;
+      ppSearch = ''; ppFilterSig = null; showPresetPicker(true); await wait(60);
+      // 箱の内側・横はみ出し 0
+      const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
+      o.layOk = [...document.querySelectorAll('#ppList .ppScopeHead')].every((e) => { const q = e.getBoundingClientRect(); return q.left >= box.left - 0.5 && q.right <= box.right + 0.5 && q.height > 0; })
+        && document.documentElement.scrollWidth - innerWidth <= 0;
+      // en
+      hidePresetPicker(); HP.setLang('en'); showPresetPicker(); await wait(60);
+      const d4 = read();
+      o.enNames = d4.heads.map((h) => h.name);
+      o.enOk = d4.heads.length === 3 && d4.heads.every((h) => h.name === I18N.en['ppScope_' + h.sc]) && /^DFM proper/.test(o.enNames[0]) && /^Analogies outside DFM/.test(o.enNames[1]);
+      hidePresetPicker(); HP.setLang('ja'); try { localStorage.removeItem('hp_pick_open'); } catch (_) {} ppOpen = {};
+      return o;
+    }, [OUT, CAL, AXB]);
+    const s1 = await snap();
+    r.same = s1.sig === s0.sig && s1.par === s0.par;
+    r.ok = r.tableOk && r.notRenamed && r.newOk && r.domOk && r.contig && r.selOk && r.allOk && r.retOk && r.searchOk && r.layOk && r.enOk && r.same && errs.length === 0;
+    add('ui.pickerScope', r.ok,
+      `**区画 3 つ**(原仮定者の裁定(第80報)⑦・R130 —— 表示専用): 表 GROUP_SCOPE = この場の対応表(外 = スピンと熱・自転と減光・腕と渦伸長(軸力)/ 較正 = 現実較正・現実との照合 / 残り本体)=${r.tableOk}`
+      + `・群は改名しない=${r.notRenamed} / 新群「腕と渦伸長(軸力)」(armsVortex・🌀・en・説明に「DFM の公理の帰結ではない」)= [${r.axb.join(' ')}]・員 ${r.newMembers.length}・銀河の力学に残る axisBar ${r.galaxyAxb}=${r.newOk}`
+      + ` / 360×640: 見出し 本体 → 外 → 較正・語 = T・表示行(role=heading・button でない・data-n なし)・群はその区画の下=${r.domOk}(${r.counts} —— 退役を除く宣言からの数え直しと一致)・区画は一続き=${r.contig}`
+      + `・隠し #presetSelect の optgroup も区画順=${r.selOk}・すべて表示=${r.allOk}・退役の本 ${r.retId || 'なし'} を読み込む → 行 ${r.retRows === undefined ? '-' : r.retRows}・区画の数に入らない=${r.retOk}`
+      + `・検索「🥢」→ 外の区画だけ=${r.searchOk}・箱の内側/横はみ出し 0=${r.layOk}・en [${(r.enNames || []).join(' | ')}]=${r.enOk}・presetSig/params 不変=${r.same}`
+      + `${r.bad.length ? '・NG ' + r.bad.slice(0, 3).join(' ; ') : ''}${errs.length ? '・JS ' + errs.slice(0, 2).join(' | ') : ''}`);
+    await ctx.close();
   }
 }
 
@@ -43195,7 +43406,13 @@ if (!FAST) {
       const wantW288 = hasBox2
         ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', 'スピンと熱',
            '箱宇宙の実験', '自転と減光', '現実較正', '実在天体のアナロジー'] : null;
-      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288].filter(Boolean);
+      // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130): 群を 3 つの区画(本体 → DFM の外のアナロジー → 現実較正と照合)の順に並べ、
+      //   新群「腕と渦伸長(軸力)」(axisBar 3 本)を外の区画の末尾に置いた —— 候補を追加して世代ごとに**厳密一致**で判定する(候補数=9 —— 弱体化なし)
+      const w290 = HP.allPresets().some(p => p.group === '腕と渦伸長(軸力)');
+      const wantW290 = (hasBox2 && w290)
+        ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験', '実在天体のアナロジー',
+           'スピンと熱', '自転と減光', '腕と渦伸長(軸力)', '現実較正'] : null;
+      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, wantW290].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
@@ -43206,6 +43423,7 @@ if (!FAST) {
       res.wave272 = !!wantW272 && hit === wantW272;
       res.wave273 = !!wantW273 && hit === wantW273;
       res.wave288 = !!wantW288 && hit === wantW288;
+      res.wave290 = !!wantW290 && hit === wantW290;
       // 第149便: グループ跨ぎファミリーの分割(表示専用)。天体の物語側の 🌍🌕 / 🪐🎯 は
       // それぞれ earthmoonToy / saturnToy として自グループ内で完結し、☿ は単独(familyId なし)。
       // 現実との照合側の既存ファミリー(mercury / earthmoon / saturn)は id 名ごと不変。
@@ -43524,7 +43742,7 @@ if (!FAST) {
       return res;
     });
     add('groups.reorder', r.groupsOk,
-      `optgroups=${JSON.stringify(r.groups)}(${r.wave288 ? '第288便b 「現実較正」1 つ(原仮定者の裁定(第78報)④)' : r.wave273 ? '第273便a 改名+分割(原仮定者の列挙順・新グループ「時計と重力」)'
+      `optgroups=${JSON.stringify(r.groups)}(${r.wave290 ? '第290便f 区画の順(本体 → DFM の外のアナロジー → 現実較正と照合)+新群「腕と渦伸長(軸力)」(原仮定者の裁定(第80報)⑦)' : r.wave288 ? '第288便b 「現実較正」1 つ(原仮定者の裁定(第78報)④)' : r.wave273 ? '第273便a 改名+分割(原仮定者の列挙順・新グループ「時計と重力」)'
         : (r.wave272 ? '第272便d 論文順(+新グループ「実在天体のアナロジー」)'
         : (r.wave220 ? '第220便 再編順(「現実との照合」を太陽系/太陽系外へ分割)'
         : (r.wave151 ? '第151便 再編順(銀河の物語の直後へ「ローターの物語」を新設)'
@@ -59582,9 +59800,14 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // 第288便b(原仮定者の裁定(第78報)④): 「現実との照合・太陽系」「現実との照合・連星」→「現実較正」1 つ(世代で切り替える —— 旧世代の期待値は緩めない)
       o.w288 = GROUP_ORDER.indexOf('現実較正') >= 0;
       const R2 = o.w288 ? ['現実較正'] : ['現実との照合・太陽系', '現実との照合・連星'];
+      // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130 —— 世代切替 has290f = GROUP_SCOPE の有無): 区画の順(本体 → DFM の外のアナロジー →
+      //   現実較正と照合)に並べ替え、新群「腕と渦伸長(軸力)」(id armsVortex)を外の区画の末尾へ。旧世代の期待値は 1 文字も緩めない
+      o.w290 = (typeof GROUP_SCOPE !== 'undefined');
+      const SEEN290 = ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験', '実在天体のアナロジー',
+        'スピンと熱', '自転と減光', '腕と渦伸長(軸力)', '現実較正'];
       // ① GROUP_ORDER そのもの(第272便d=論文順 / 第273便a=原仮定者の列挙順+末尾に予約名 3)
       o.order = GROUP_ORDER.slice();
-      o.orderOk = JSON.stringify(o.order) === JSON.stringify(o.w273
+      o.orderOk = JSON.stringify(o.order) === JSON.stringify(o.w290 ? [...SEEN290, '法則の実験室', 'シミュレーション', '現実との照合'] : o.w273
         ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', 'スピンと熱',
           '箱宇宙の実験', '自転と減光', ...R2,
           '実在天体のアナロジー', '法則の実験室', 'シミュレーション', '現実との照合']
@@ -59593,7 +59816,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
           '現実との照合・太陽系外', '実在天体のアナロジー', 'シミュレーション', '現実との照合']);
       // ② 実際に出る並び(存在する群だけ)
       o.seen = orderedGroups();
-      o.seenOk = JSON.stringify(o.seen) === JSON.stringify(o.w273
+      o.seenOk = JSON.stringify(o.seen) === JSON.stringify(o.w290 ? SEEN290 : o.w273
         ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', 'スピンと熱',
           '箱宇宙の実験', '自転と減光', ...R2,
           '実在天体のアナロジー']
@@ -59631,7 +59854,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         orderedBuiltins().filter((p) => (p.group || '内蔵') === g).map((p) => p.emoji).join('')]);
       // ⑤ **保存 id は維持**(開閉の記憶が飛ばない)+ 新群だけ id を足した
       o.ids = o.seen.map((g) => groupIdOf(g));
-      o.idsOk = JSON.stringify(o.ids) === JSON.stringify(o.w273
+      o.idsOk = JSON.stringify(o.ids) === JSON.stringify(o.w290
+        ? ['spacetime', 'galaxy', 'celestial', 'clocksGravity', 'light', 'boxUniverse', 'realAnalogy', 'heat', 'rotor', 'armsVortex', 'realityCal']
+        : o.w273
         ? ['spacetime', 'galaxy', 'celestial', 'clocksGravity', 'light',
           'heat', 'boxUniverse', 'rotor', ...(o.w288 ? ['realityCal'] : ['realitySolar', 'realityBeyond']), 'realAnalogy']
         : ['spacetime', 'galaxy', 'celestial', 'light',
