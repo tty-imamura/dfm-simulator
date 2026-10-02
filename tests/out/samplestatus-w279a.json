@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-  "generatedAt": "2026-10-01T05:30:10.696Z",
+  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "generatedAt": "2026-10-01T23:31:05.810Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 77907,
-    "sha256": "c9a9fa20a0088d436f37b0d42cf9ae543243724ccfd5346049acbe0f46ae04e4",
-    "mtime": "2026-10-01T01:11:20.627Z"
+    "bytes": 78845,
+    "sha256": "66add42c2b724fb19ce94612f94b9f3a91227bd4a8c625a600cdbca176bebc5d",
+    "mtime": "2026-10-01T19:06:18.080Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1831255,
-    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
-    "mtime": "2026-10-01T04:31:39.003Z"
+    "bytes": 1824134,
+    "sha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
+    "mtime": "2026-10-01T22:11:22.009Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90743,
-    "sha256": "a2eb852638df69c8ea6be7d76b10273a76367b02a5c1297675579fc3c680a766",
-    "mtime": "2026-09-30T22:18:25.115Z"
+    "bytes": 90712,
+    "sha256": "1cdd00f101aeaed5749405e6da96fb7fb3c7165deb682327e3874f46611fb431",
+    "mtime": "2026-10-01T19:24:25.204Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 121586,
-    "sha256": "880fc401bd7767016e83294747c4616cae7734e05ca5fb3823bafeb6ca820554",
-    "mtime": "2026-10-01T05:30:10.663Z"
+    "bytes": 130542,
+    "sha256": "75f2826073c14d9079822a4e437ca8e6c48a816d7df7c45787968adfcda46535",
+    "mtime": "2026-10-01T23:31:05.793Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -105,14 +105,14 @@
   "codeSha256": "5faa328c2868684e6fe24c1ab0212a56595194a5fb8ead02d9f168eb17cb11a0",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "930a55f19eea833adc5f9a9e155e132eea6206c1",
-   "date": "2026-09-30T01:14:12.988Z",
-   "pass": 964
+   "commit": "020b725f462f34709057a7aa39f004ab5dd8051a",
+   "date": "2026-10-01T23:30:39.628Z",
+   "pass": 997
   }
  },
  "tally": {
   "objective": {
-   "met": 82,
+   "met": 83,
    "partial": 56,
    "unmet": 8,
    "n/a": 0
@@ -123,7 +123,7 @@
    "fail": 1,
    "hold": 17,
    "hold-definition": 2,
-   "out-of-scope": 124
+   "out-of-scope": 125
   },
   "four": {
    "合": 0,
@@ -140,7 +140,7 @@
    {
     "group": "銀河の力学",
     "icon": "🌌",
-    "n": 22
+    "n": 23
    },
    {
     "group": "天体の機構",
@@ -198,7 +198,7 @@
     "n": 0
    }
   ],
-  "n": 146,
+  "n": 147,
   "predictionEligible": 0,
   "retired": {
    "n": 26,
@@ -366,28 +366,40 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 9353,
+     "ms": 14485,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 9170,
+       "ms": 13996,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 160,
+       "ms": 460,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 23,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -526,22 +538,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 50,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 33,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 17,
+       "ms": 11,
        "pass": true,
        "via": "targetIds"
       },
@@ -691,22 +715,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 159,
+     "ms": 210,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 118,
+       "ms": 131,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 41,
+       "ms": 79,
        "pass": true,
        "via": "targetIds"
       }
@@ -844,22 +880,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 183,
+     "ms": 163,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 118,
+       "ms": 131,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 65,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -997,22 +1045,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 143,
+     "ms": 170,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 118,
+       "ms": 131,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 25,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -1151,16 +1211,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 16,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 16,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       },
@@ -1305,34 +1377,46 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 938,
+     "ms": 987,
      "tests": [
       {
-       "id": "echo.hud",
-       "ms": 384,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "echo.leapfrog-return",
-       "ms": 368,
+       "ms": 495,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
+       "id": "echo.hud",
+       "ms": 309,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
        "id": "shot.regress-echo",
-       "ms": 127,
+       "ms": 124,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 55,
+       "ms": 56,
        "pass": true,
        "via": "targetIds"
       },
@@ -1476,16 +1560,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 120,
+     "ms": 154,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 120,
+       "ms": 154,
        "pass": true,
        "via": "targetIds"
       }
@@ -1623,16 +1719,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 159,
+     "ms": 198,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 159,
+       "ms": 198,
        "pass": true,
        "via": "targetIds"
       }
@@ -1770,16 +1878,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 245,
+     "ms": 266,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 245,
+       "ms": 266,
        "pass": true,
        "via": "targetIds"
       }
@@ -1917,22 +2037,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 289,
+     "ms": 447,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 213,
+       "ms": 348,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 76,
+       "ms": 99,
        "pass": true,
        "via": "targetIds"
       }
@@ -2070,22 +2202,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 438,
+     "ms": 565,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 409,
+       "ms": 524,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 29,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -2223,16 +2367,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 115,
+     "ms": 113,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 115,
+       "ms": 113,
        "pass": true,
        "via": "targetIds"
       }
@@ -2370,28 +2526,40 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 162,
+     "ms": 177,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 112,
+       "ms": 128,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 29,
+       "ms": 32,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 21,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -2529,22 +2697,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 179,
+     "ms": 207,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 109,
+       "ms": 110,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 70,
+       "ms": 97,
        "pass": true,
        "via": "targetIds"
       }
@@ -2682,40 +2862,52 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 1756,
+     "ms": 2137,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 922,
+       "ms": 1128,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 393,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "shot.regress-freebox",
-       "ms": 234,
+       "ms": 406,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 191,
+       "ms": 310,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "shot.regress-freebox",
+       "ms": 271,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 12,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -2853,16 +3045,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3253,
+     "ms": 4012,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 3253,
+       "ms": 4012,
        "pass": true,
        "via": "targetIds"
       },
@@ -3030,28 +3234,40 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 7883,
+     "ms": 9912,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 4761,
+       "ms": 5721,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 3122,
+       "ms": 4190,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -3189,22 +3405,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 51922,
+     "ms": 70249,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 48475,
+       "ms": 65976,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 3447,
+       "ms": 4273,
        "pass": true,
        "via": "targetIds"
       }
@@ -3342,22 +3570,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 128931,
+     "ms": 167853,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 123835,
+       "ms": 161698,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 5096,
+       "ms": 6155,
        "pass": true,
        "via": "targetIds"
       }
@@ -3495,16 +3735,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2879,
+     "ms": 3236,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 2878,
+       "ms": 3235,
        "pass": true,
        "via": "targetIds"
       },
@@ -3648,34 +3900,46 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6576,
+     "ms": 7919,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 3435,
+       "ms": 3942,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3076,
+       "ms": 3922,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 40,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 25,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -3813,22 +4077,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 741,
+     "ms": 939,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 672,
+       "ms": 830,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 69,
+       "ms": 109,
        "pass": true,
        "via": "targetIds"
       }
@@ -3966,22 +4242,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3426,
+     "ms": 4119,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 3202,
+       "ms": 3868,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 224,
+       "ms": 251,
        "pass": true,
        "via": "targetIds"
       }
@@ -4119,22 +4407,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2825,
+     "ms": 3510,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 2531,
+       "ms": 3101,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 294,
+       "ms": 409,
        "pass": true,
        "via": "targetIds"
       }
@@ -4272,28 +4572,40 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 13445,
+     "ms": 17221,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 9462,
+       "ms": 12492,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 3774,
+       "ms": 4575,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 209,
+       "ms": 154,
        "pass": true,
        "via": "targetIds"
       }
@@ -4431,16 +4743,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2664,
+     "ms": 3400,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 2664,
+       "ms": 3400,
        "pass": true,
        "via": "targetIds"
       },
@@ -4596,16 +4920,28 @@
       "sec": 1,
       "share": 1,
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2395,
+     "ms": 3061,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 2395,
+       "ms": 3061,
        "pass": true,
        "via": "targetIds"
       }
@@ -4743,22 +5079,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4479,
+     "ms": 5151,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 4099,
+       "ms": 4630,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 380,
+       "ms": 521,
        "pass": true,
        "via": "targetIds"
       }
@@ -4896,22 +5244,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 19859,
+     "ms": 25434,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 18459,
+       "ms": 23743,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1400,
+       "ms": 1691,
        "pass": true,
        "via": "targetIds"
       },
@@ -5056,16 +5416,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4805,
+     "ms": 6172,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 4805,
+       "ms": 6172,
        "pass": true,
        "via": "targetIds"
       }
@@ -5204,16 +5576,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4444,
+     "ms": 5313,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 4444,
+       "ms": 5313,
        "pass": true,
        "via": "targetIds"
       }
@@ -5352,16 +5736,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3993,
+     "ms": 5449,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 3993,
+       "ms": 5449,
        "pass": true,
        "via": "targetIds"
       }
@@ -5499,16 +5895,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 907,
+     "ms": 1382,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 907,
+       "ms": 1382,
        "pass": true,
        "via": "targetIds"
       },
@@ -5664,22 +6072,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3099,
+     "ms": 3367,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3099,
+       "ms": 3366,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.galaxyMesh",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -5830,16 +6250,28 @@
       "sec": 300,
       "share": 5,
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5387,
+     "ms": 7131,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 5387,
+       "ms": 7131,
        "pass": true,
        "via": "targetIds"
       }
@@ -5983,16 +6415,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1260,
+     "ms": 1859,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1260,
+       "ms": 1859,
        "pass": true,
        "via": "targetIds"
       }
@@ -6009,7 +6453,7 @@
    "status": {
     "purpose": "中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー",
     "objective": "partial",
-    "state": "中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い",
+    "state": "中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い・第79報の複素核は未走行(p=1 の q 付き場)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -6017,13 +6461,13 @@
      "tests/out/analogy-w282d.json"
     ],
     "en": {
-     "purpose": "A galaxy analogy with a central DFM black hole and stellar-mass dark rotors as mass",
-     "state": "the centre-spin response is nonzero; the rotation curve is numbers only",
+     "purpose": "Galaxy analogy: central DFM black hole, stellar-mass dark rotors",
+     "state": "spin response nonzero; the curve is numbers only; p=1 q-field, not the report-79 complex kernel",
      "mismatch": null,
      "outlook": null,
-     "brief": "A galaxy analogy with a central DFM black hole and stellar-mass dark rotors as mass. Partial: the centre-spin response is nonzero; the rotation curve is numbers only. Out of calibration scope."
+     "brief": "Galaxy analogy: central DFM black hole, stellar-mass dark rotors. Partial: spin response nonzero; the curve is numbers only; p=1 q-field, not the report-79 complex kernel. Out of calibration scope."
     },
-    "brief": "中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー。部分・中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い。較正対象外。"
+    "brief": "中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー。部分・中心の自転への応答は 0 でない・回転曲線は数だけで形の門は無い・第79報の複素核は未走行(p=1 の q 付き場)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -6166,16 +6610,40 @@
       "sec": 256,
       "share": 3,
       "always": false
+     },
+     {
+      "key": "ejectstate289",
+      "sec": 1,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tilt90layers289",
+      "sec": 135,
+      "share": 3,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2241,
+     "ms": 1789,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 2241,
+       "ms": 1789,
        "pass": true,
        "via": "targetIds"
       }
@@ -6190,9 +6658,9 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "🌚 の写しで静止背景を明示し中心を 1 回だけ数える合成の診断コピー",
+    "purpose": "🌚 の写しで静止背景を明示し中心を 1 回だけ数える診断コピー",
     "objective": "met",
-    "state": "🌚 とビット同一・中心 1 回・静止した中心だけなら u=0・A_spin は場の契約とビット一致",
+    "state": "🌚 とビット同一・中心 1 回・静止した中心だけなら u=0・A_spin は場の契約とビット一致・第79報の複素核は未走行(p=1 の q 付き場)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -6200,13 +6668,13 @@
      "tests/out/compose-w288c.json"
     ],
     "en": {
-     "purpose": "Diagnostic copy of 🌚: explicit static background, centre counted once",
-     "state": "bit-identical to 🌚; a resting centre alone gives u=0; A_spin matches the field contract",
+     "purpose": "🌚 copy: explicit static background, centre counted once",
+     "state": "bit-identical to 🌚; resting centre u=0; A_spin = contract; p=1 q-field, not the report-79 complex kernel",
      "mismatch": null,
      "outlook": null,
-     "brief": "Diagnostic copy of 🌚: explicit static background, centre counted once. Met: bit-identical to 🌚; a resting centre alone gives u=0; A_spin matches the field contract. Out of calibration scope."
+     "brief": "🌚 copy: explicit static background, centre counted once. Met: bit-identical to 🌚; resting centre u=0; A_spin = contract; p=1 q-field, not the report-79 complex kernel. Out of calibration scope."
     },
-    "brief": "🌚 の写しで静止背景を明示し中心を 1 回だけ数える合成の診断コピー。達・🌚 とビット同一・中心 1 回・静止した中心だけなら u=0・A_spin は場の契約とビット一致。較正対象外。"
+    "brief": "🌚 の写しで静止背景を明示し中心を 1 回だけ数える診断コピー。達・🌚 とビット同一・中心 1 回・静止した中心だけなら u=0・A_spin は場の契約とビット一致・第79報の複素核は未走行(p=1 の q 付き場)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -6319,6 +6787,24 @@
       "sec": 5,
       "share": 2,
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "nearfar289",
+      "sec": 2,
+      "share": 1,
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
@@ -6336,9 +6822,9 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "🌚 の中心の自転軸を 90° に倒し歳差を宣言した写しで面内の引きずりを測る",
+    "purpose": "🌚 の中心の自転軸を 90° に倒し歳差を宣言した写し",
     "objective": "partial",
-    "state": "現行法則は中心の殻 spin だけを読み 🌚 の spin 0 とビット一致・歳差の面内の引きずりは候補の診断量だけ",
+    "state": "現行法則は殻 spin だけを読み 🌚 の spin 0 とビット一致・歳差の面内引きずりは候補の診断量・第79報の複素核は未走行(p=1 の q 付き場)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -6346,13 +6832,13 @@
      "tests/out/tilt90-w288e.json"
     ],
     "en": {
-     "purpose": "Copy of 🌚 with the axis tipped 90° and a declared precession",
-     "state": "the law reads only the shell spin (same as spin 0); precession drag is a candidate only",
+     "purpose": "🌚 copy, axis tipped 90°, declared precession",
+     "state": "only the shell spin is read (= spin 0); precession drag a candidate; p=1 q-field, not the report-79 complex kernel",
      "mismatch": null,
      "outlook": null,
-     "brief": "Copy of 🌚 with the axis tipped 90° and a declared precession. Partial: the law reads only the shell spin (same as spin 0); precession drag is a candidate only. Out of calibration scope."
+     "brief": "🌚 copy, axis tipped 90°, declared precession. Partial: only the shell spin is read (= spin 0); precession drag a candidate; p=1 q-field, not the report-79 complex kernel. Out of calibration scope."
     },
-    "brief": "🌚 の中心の自転軸を 90° に倒し歳差を宣言した写しで面内の引きずりを測る。部分・現行法則は中心の殻 spin だけを読み 🌚 の spin 0 とビット一致・歳差の面内の引きずりは候補の診断量だけ。較正対象外。"
+    "brief": "🌚 の中心の自転軸を 90° に倒し歳差を宣言した写し。部分・現行法則は殻 spin だけを読み 🌚 の spin 0 とビット一致・歳差の面内引きずりは候補の診断量・第79報の複素核は未走行(p=1 の q 付き場)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -6465,13 +6951,203 @@
       "sec": 256,
       "share": 3,
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tilt90layers289",
+      "sec": 135,
+      "share": 3,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
-     "n": 0,
-     "ms": 0,
-     "tests": []
+     "n": 1,
+     "ms": 71,
+     "tests": [
+      {
+       "id": "behavior.tilt90Copy",
+       "ms": 71,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "galaxyAnalogyBHTilt90Layers",
+   "emoji": "🪆",
+   "name": "銀河アナロジー(中心 BH の軸 90°・親子コアの層)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🛸 の中心を親子コアの層に置き直し、層の軸が力に入るかと 🛸 との差の出どころを測る",
+    "objective": "met",
+    "state": "層の軸を変えても全步ビット一致・🛸 とは層の近傍重力の步から食い違い、それを外すと一致",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/tilt90layers-w289e.json"
+    ],
+    "en": {
+     "purpose": "Copy of 🛸 with the centre re-placed as parent-child core layers",
+     "state": "layer-axis changes stay bit-identical; it departs from 🛸 only via near-field layer gravity",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Copy of 🛸 with the centre re-placed as parent-child core layers. Met: layer-axis changes stay bit-identical; it departs from 🛸 only via near-field layer gravity. Out of calibration scope."
+    },
+    "brief": "🛸 の中心を親子コアの層に置き直し、層の軸が力に入るかと 🛸 との差の出どころを測る。達・層の軸を変えても全步ビット一致・🛸 とは層の近傍重力の步から食い違い、それを外すと一致。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tilt90layers289",
+      "sec": 135,
+      "share": 3,
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 9990,
+     "tests": [
+      {
+       "id": "behavior.tilt90LayersCopy",
+       "ms": 9990,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
     }
    }
   },
@@ -6482,9 +7158,9 @@
    "group": "銀河の力学",
    "sampleClass": "principle",
    "status": {
-    "purpose": "中心 DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置いた球状星団アナロジー",
+    "purpose": "DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置く星団アナロジー",
     "objective": "unmet",
-    "state": "星団スケールの単位・同じ代表率・半径の 4 分離・わずかに回転する動径 Jeans の初期分布でも、宣言した形状の門で未達",
+    "state": "星団単位・同じ代表率・4 半径・回転 Jeans 初期分布でも形状の門で未達・第79報の複素核は未走行(p=1 の q 付き場)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -6493,13 +7169,13 @@
      "tests/out/jeans-w286a.json"
     ],
     "en": {
-     "purpose": "Globular-cluster analogy with a central DFM black hole and dark rotors",
-     "state": "cluster units, one representative rate, four radii, rotating Jeans start; gates not met",
+     "purpose": "Cluster analogy: central DFM black hole and dark rotors",
+     "state": "cluster units, 4 radii, rotating Jeans start; gates not met; p=1 q-field, not the report-79 complex kernel",
      "mismatch": null,
      "outlook": null,
-     "brief": "Globular-cluster analogy with a central DFM black hole and dark rotors. Unmet: cluster units, one representative rate, four radii, rotating Jeans start; gates not met. Out of calibration scope."
+     "brief": "Cluster analogy: central DFM black hole and dark rotors. Unmet: cluster units, 4 radii, rotating Jeans start; gates not met; p=1 q-field, not the report-79 complex kernel. Out of calibration scope."
     },
-    "brief": "中心 DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置いた球状星団アナロジー。未達・星団スケールの単位・同じ代表率・半径の 4 分離・わずかに回転する動径 Jeans の初期分布でも、宣言した形状の門で未達。較正対象外。"
+    "brief": "DFM 版 BH と恒星質量 DR を同じ Plummer 分布に置く星団アナロジー。未達・星団単位・同じ代表率・4 半径・回転 Jeans 初期分布でも形状の門で未達・第79報の複素核は未走行(p=1 の q 付き場)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -6623,6 +7299,24 @@
       "key": "pairfuse288",
       "sec": 300,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "ejectstate289",
+      "sec": 1,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
       "always": false
      }
     ],
@@ -6643,7 +7337,7 @@
    "status": {
     "purpose": "自由な中心が落ちてくる塊を中心とだけの捕獲で合体させる成長経路の原理コピー",
     "objective": "unmet",
-    "state": "捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達",
+    "state": "捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -6651,13 +7345,13 @@
      "tests/out/growth-w287a.json"
     ],
     "en": {
-     "purpose": "A free centre merges with infalling clumps by centre-only capture",
-     "state": "the capture ledger closes; the free centre drifts away from the clumps; gates not met",
+     "purpose": "Free centre merges infalling clumps by centre-only capture",
+     "state": "ledger closes; centre drifts off clumps; gates not met; p=1 q-field, not the report-79 complex kernel",
      "mismatch": null,
      "outlook": null,
-     "brief": "A free centre merges with infalling clumps by centre-only capture. Unmet: the capture ledger closes; the free centre drifts away from the clumps; gates not met. Out of calibration scope."
+     "brief": "Free centre merges infalling clumps by centre-only capture. Unmet: ledger closes; centre drifts off clumps; gates not met; p=1 q-field, not the report-79 complex kernel. Out of calibration scope."
     },
-    "brief": "自由な中心が落ちてくる塊を中心とだけの捕獲で合体させる成長経路の原理コピー。未達・捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達。較正対象外。"
+    "brief": "自由な中心が落ちてくる塊を中心とだけの捕獲で合体させる成長経路の原理コピー。未達・捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -6782,6 +7476,24 @@
       "sec": 300,
       "share": 5,
       "always": false
+     },
+     {
+      "key": "ejectstate289",
+      "sec": 1,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
@@ -6801,7 +7513,7 @@
    "status": {
     "purpose": "固定した中心へ落ちてくる塊をエネルギー優先で合体させる原理コピー",
     "objective": "unmet",
-    "state": "合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達",
+    "state": "合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -6810,12 +7522,12 @@
     ],
     "en": {
      "purpose": "A pinned centre merges infalling clumps energy-first",
-     "state": "the merger energy ledger closes, J_pin and P_pin stay in separate accounts; gates not met",
+     "state": "merger E ledger closes, J_pin/P_pin kept apart; gates not met; p=1 q-field, not the report-79 complex kernel",
      "mismatch": null,
      "outlook": null,
-     "brief": "A pinned centre merges infalling clumps energy-first. Unmet: the merger energy ledger closes, J_pin and P_pin stay in separate accounts; gates not met. Out of calibration scope."
+     "brief": "A pinned centre merges infalling clumps energy-first. Unmet: merger E ledger closes, J_pin/P_pin kept apart; gates not met; p=1 q-field, not the report-79 complex kernel. Out of calibration scope."
     },
-    "brief": "固定した中心へ落ちてくる塊をエネルギー優先で合体させる原理コピー。未達・合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達。較正対象外。"
+    "brief": "固定した中心へ落ちてくる塊をエネルギー優先で合体させる原理コピー。未達・合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -6926,6 +7638,24 @@
      {
       "key": "bgrange288",
       "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "ejectstate289",
+      "sec": 1,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
       "share": "all",
       "always": false
      }
@@ -7081,16 +7811,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 862,
+     "ms": 989,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 862,
+       "ms": 989,
        "pass": true,
        "via": "targetIds"
       }
@@ -7235,16 +7977,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1043,
+     "ms": 1376,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1043,
+       "ms": 1376,
        "pass": true,
        "via": "targetIds"
       }
@@ -7389,16 +8143,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 389,
+     "ms": 538,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 389,
+       "ms": 538,
        "pass": true,
        "via": "targetIds"
       }
@@ -7543,16 +8309,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 877,
+     "ms": 1063,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 877,
+       "ms": 1063,
        "pass": true,
        "via": "targetIds"
       }
@@ -7697,16 +8475,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1148,
+     "ms": 1363,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1148,
+       "ms": 1363,
        "pass": true,
        "via": "targetIds"
       }
@@ -7851,16 +8641,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 342,
+     "ms": 484,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 342,
+       "ms": 484,
        "pass": true,
        "via": "targetIds"
       }
@@ -7999,22 +8801,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 181,
+     "ms": 180,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 159,
+       "ms": 152,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 22,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -8152,16 +8966,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 15,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 15,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       },
@@ -8305,22 +9131,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 42,
+     "ms": 54,
      "tests": [
       {
        "id": "behavior.blens",
-       "ms": 24,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.blens",
-       "ms": 18,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -8458,22 +9296,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 283,
+     "ms": 310,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 258,
+       "ms": 276,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 25,
+       "ms": 34,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -8647,28 +9497,46 @@
       "sec": 300,
       "share": 5,
       "always": false
+     },
+     {
+      "key": "ejectstate289",
+      "sec": 1,
+      "share": 5,
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 22485,
+     "ms": 29355,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 19267,
+       "ms": 25026,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 1744,
+       "ms": 2231,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 1474,
+       "ms": 2098,
        "pass": true,
        "via": "targetIds"
       }
@@ -8806,28 +9674,40 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 11798,
+     "ms": 15426,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 9425,
+       "ms": 12281,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 1451,
+       "ms": 2017,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 922,
+       "ms": 1128,
        "pass": true,
        "via": "targetIds"
       }
@@ -8965,34 +9845,46 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 825,
+     "ms": 946,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 671,
+       "ms": 800,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 97,
+       "ms": 114,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 46,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 11,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -9130,16 +10022,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 736,
+     "ms": 992,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 736,
+       "ms": 992,
        "pass": true,
        "via": "targetIds"
       }
@@ -9277,16 +10181,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 23,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 23,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       },
@@ -9430,28 +10346,40 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 2953,
+     "ms": 3647,
      "tests": [
       {
-       "id": "preset.convection",
-       "ms": 1512,
+       "id": "shot.regress-convection",
+       "ms": 1885,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "shot.regress-convection",
-       "ms": 1428,
+       "id": "preset.convection",
+       "ms": 1748,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 13,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       },
@@ -9595,16 +10523,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1682,
+     "ms": 2658,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 1682,
+       "ms": 2658,
        "pass": true,
        "via": "targetIds"
       },
@@ -9748,16 +10688,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1121,
+     "ms": 1603,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1121,
+       "ms": 1603,
        "pass": true,
        "via": "targetIds"
       },
@@ -9901,16 +10853,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 640,
+     "ms": 792,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 640,
+       "ms": 792,
        "pass": true,
        "via": "targetIds"
       },
@@ -10060,16 +11024,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1447,
+     "ms": 2112,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 1447,
+       "ms": 2112,
        "pass": true,
        "via": "targetIds"
       },
@@ -10219,16 +11195,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 706,
+     "ms": 836,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 706,
+       "ms": 836,
        "pass": true,
        "via": "targetIds"
       },
@@ -10379,16 +11367,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 902,
+     "ms": 1163,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 902,
+       "ms": 1163,
        "pass": true,
        "via": "targetIds"
       },
@@ -10538,28 +11538,40 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 525,
+     "ms": 749,
      "tests": [
       {
-       "id": "behavior.earthMoon",
-       "ms": 239,
-       "pass": true,
-       "via": "claims+targetIds"
-      },
-      {
        "id": "preset.earthMoon",
-       "ms": 152,
+       "ms": 331,
        "pass": true,
        "via": "targetIds"
       },
       {
+       "id": "behavior.earthMoon",
+       "ms": 303,
+       "pass": true,
+       "via": "claims+targetIds"
+      },
+      {
        "id": "shot.regress-earthMoon",
-       "ms": 134,
+       "ms": 115,
        "pass": true,
        "via": "targetIds"
       }
@@ -10697,22 +11709,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 937,
+     "ms": 1374,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 921,
+       "ms": 1222,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 16,
+       "ms": 152,
        "pass": true,
        "via": "targetIds"
       }
@@ -10756,17 +11780,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 149.65,
+     "wallSec": 86.105,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 49.639,
+       "wallSec": 29.124,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 100.011,
+       "wallSec": 56.981,
        "reused": false,
        "reusedBy": null
       }
@@ -10883,16 +11907,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 36,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 36,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -11074,16 +12110,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 47,
+     "ms": 80,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 47,
+       "ms": 80,
        "pass": true,
        "via": "targetIds"
       }
@@ -11233,22 +12281,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 26,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 26,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims"
       }
@@ -11412,22 +12472,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 33,
+     "ms": 58,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 33,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims"
       }
@@ -11471,17 +12543,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.41,
+     "wallSec": 2.75,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.511,
+       "wallSec": 0.915,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.899,
+       "wallSec": 1.835,
        "reused": false,
        "reusedBy": null
       }
@@ -11598,6 +12670,18 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
@@ -11607,13 +12691,13 @@
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 19,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims"
       }
@@ -11764,16 +12848,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 67,
+     "ms": 80,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 67,
+       "ms": 80,
        "pass": true,
        "via": "targetIds"
       }
@@ -11923,22 +13019,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 488,
+     "ms": 903,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 436,
+       "ms": 830,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 52,
+       "ms": 73,
        "pass": true,
        "via": "targetIds"
       }
@@ -12088,22 +13196,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 480,
+     "ms": 884,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 436,
+       "ms": 830,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 44,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -12247,22 +13367,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 328,
+     "ms": 467,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 313,
+       "ms": 442,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 15,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -12307,17 +13439,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.01,
+     "wallSec": 5.948,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.326,
+       "wallSec": 2.008,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.684,
+       "wallSec": 3.94,
        "reused": false,
        "reusedBy": null
       }
@@ -12446,16 +13578,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 35,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 35,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -12599,16 +13743,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 64,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 46,
+       "ms": 64,
        "pass": true,
        "via": "targetIds"
       }
@@ -12760,16 +13916,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 35,
+     "ms": 45,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 35,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -12815,11 +13983,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 45.239,
+     "wallSec": 27.797,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 45.239,
+       "wallSec": 27.797,
        "reused": false,
        "reusedBy": null
       }
@@ -12936,22 +14104,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1201,
+     "ms": 1611,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 982,
+       "ms": 1359,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 219,
+       "ms": 252,
        "pass": true,
        "via": "targetIds"
       }
@@ -12990,23 +14170,22 @@
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
-     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 49.332,
+     "wallSec": 30.036,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 16.269,
+       "wallSec": 9.699,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 33.063,
+       "wallSec": 20.337,
        "reused": false,
        "reusedBy": null
       }
@@ -13135,22 +14314,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 413,
+     "ms": 491,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 339,
+       "ms": 436,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 74,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -13189,23 +14380,22 @@
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
-     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 27.283,
+     "wallSec": 16.602,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 9.39,
+       "wallSec": 5.851,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 17.893,
+       "wallSec": 10.751,
        "reused": false,
        "reusedBy": null
       }
@@ -13370,22 +14560,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2862,
+     "ms": 3744,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 2826,
+       "ms": 3711,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 36,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -13424,23 +14626,22 @@
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
-     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 19.338,
+     "wallSec": 11.562,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.433,
+       "wallSec": 3.852,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.905,
+       "wallSec": 7.71,
        "reused": false,
        "reusedBy": null
       }
@@ -13569,16 +14770,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 38,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 38,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       },
@@ -13604,7 +14817,7 @@
     "state": "代表量が門の外・残差を要因の鎖で分解",
     "calibration": "hold",
     "mismatch": "周期 +0.00138%(294σ)",
-    "outlook": "数値未解決",
+    "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
      "behavior.plutoCharonReal",
@@ -13614,33 +14827,33 @@
      "purpose": "Pluto–Charon from older inputs",
      "state": "outside the gate; residual traced",
      "mismatch": "period +0.00138% (294σ)",
-     "outlook": "numerics unresolved",
-     "brief": "Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Calibration: hold — period +0.00138% (294σ); numerics unresolved."
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Calibration: hold — period +0.00138% (294σ); numerics unresolved; mapping unresolved."
     },
-    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正は保留・周期 +0.00138%(294σ)・数値未解決。"
+    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正は保留・周期 +0.00138%(294σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[7]",
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 0.0037494716291994225,
     "missing": [
-     "条件不一致",
+     "写像未確定",
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 78.701,
+     "wallSec": 47.202,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 26.31,
+       "wallSec": 15.489,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 52.391,
+       "wallSec": 31.713,
        "reused": false,
        "reusedBy": null
       }
@@ -13835,16 +15048,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 25,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 25,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
@@ -14012,22 +15237,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 6552,
+     "ms": 9076,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 6478,
+       "ms": 9007,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 74,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       }
@@ -14188,16 +15425,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 31,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -14341,16 +15590,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 38,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -14494,16 +15755,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 29,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -14647,16 +15920,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 49,
+     "ms": 46,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 49,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -14697,17 +15982,16 @@
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
-     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 53.683,
+     "wallSec": 33.976,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 53.683,
+       "wallSec": 33.976,
        "reused": false,
        "reusedBy": null
       }
@@ -14824,22 +16108,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 150,
+     "ms": 148,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 149,
+       "ms": 148,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.uranusReal",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -14878,23 +16174,22 @@
     "mismatch": null,
     "lastDiffInSigma": null,
     "missing": [
-     "条件不一致",
      "σ 未接続"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.404,
+     "wallSec": 4.2219999999999995,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.383,
+       "wallSec": 1.342,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.021,
+       "wallSec": 2.88,
        "reused": false,
        "reusedBy": null
       }
@@ -15059,16 +16354,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 20,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 20,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -15118,30 +16425,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 13.546,
+     "wallSec": 7.891,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 13.546,
+       "wallSec": 7.891,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 27.939,
+       "wallSec": 16.034,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 52.7,
+       "wallSec": 33.167,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 80.63900000000001,
-     "reusedH2Sec": 27.939,
-     "reusedH4Sec": 52.70000000000001
+     "reusedSec": 49.201,
+     "reusedH2Sec": 16.034,
+     "reusedH4Sec": 33.167
     },
     "regenSteps": [
      {
@@ -15299,22 +16606,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2469,
+     "ms": 3268,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 2431,
+       "ms": 3223,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 38,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -15483,22 +16802,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2480,
+     "ms": 3297,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 2431,
+       "ms": 3223,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 49,
+       "ms": 74,
        "pass": true,
        "via": "targetIds"
       }
@@ -15542,30 +16873,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.8,
+     "wallSec": 4.824,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.8,
+       "wallSec": 4.824,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 16.843,
+       "wallSec": 9.645,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 31.661,
+       "wallSec": 19.113,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 48.504000000000005,
-     "reusedH2Sec": 16.843,
-     "reusedH4Sec": 31.661000000000005
+     "reusedSec": 28.758,
+     "reusedH2Sec": 9.645,
+     "reusedH4Sec": 19.113
     },
     "regenSteps": [
      {
@@ -15723,22 +17054,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2195,
+     "ms": 2914,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2147,
+       "ms": 2852,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 48,
+       "ms": 62,
        "pass": true,
        "via": "targetIds"
       }
@@ -15907,22 +17250,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2184,
+     "ms": 2893,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2147,
+       "ms": 2852,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 37,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -15967,17 +17322,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 14.805,
+     "wallSec": 8.08,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.968,
+       "wallSec": 2.612,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.837,
+       "wallSec": 5.468,
        "reused": false,
        "reusedBy": null
       }
@@ -16118,16 +17473,28 @@
       "sec": 256,
       "share": 3,
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 42,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 41,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       },
@@ -16338,22 +17705,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5883,
+     "ms": 7943,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 5833,
+       "ms": 7849,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 50,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       }
@@ -16492,16 +17871,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 70,
+     "ms": 106,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 70,
+       "ms": 106,
        "pass": true,
        "via": "targetIds"
       }
@@ -16658,16 +18049,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 74,
+     "ms": 76,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 74,
+       "ms": 76,
        "pass": true,
        "via": "targetIds"
       }
@@ -16686,8 +18089,8 @@
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "近点移動 33.3σ(差の%は正本に無い)",
-    "outlook": "数値未解決",
+    "mismatch": "周期 +0.000114%(4.2×10³σ)",
+    "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
      "docs.calibration-verdict-sync"
@@ -16695,34 +18098,34 @@
     "en": {
      "purpose": "Compare J1757 with the observed masses (f=1, geoPN=1)",
      "state": "the comparison runs are in the ledger",
-     "mismatch": "apsidal advance 33.3σ (no % in the ledger)",
-     "outlook": "numerics unresolved",
-     "brief": "Compare J1757 with the observed masses (f=1, geoPN=1). Partial: the comparison runs are in the ledger. Calibration: hold — apsidal advance 33.3σ (no % in the ledger); numerics unresolved."
+     "mismatch": "period +0.000114% (4.2×10³σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Compare J1757 with the observed masses (f=1, geoPN=1). Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000114% (4.2×10³σ); numerics unresolved; mapping unresolved."
     },
-    "brief": "J1757 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・近点移動 33.3σ(差の%は正本に無い)・数値未解決。"
+    "brief": "J1757 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000114%(4.2×10³σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[13]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 11.643708677775422,
+    "lastDiffInSigma": 1390.4488603791967,
     "missing": [
-     "条件不一致",
+     "写像未確定",
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.659,
+     "wallSec": 5.1,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.196,
+       "wallSec": 1.777,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.463,
+       "wallSec": 3.323,
        "reused": false,
        "reusedBy": null
       }
@@ -16893,16 +18296,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 50,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 50,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -16921,7 +18336,7 @@
     "objective": "partial",
     "state": "照合の走行は台帳に記帳",
     "calibration": "hold",
-    "mismatch": "近点移動 58.3σ(差の%は正本に無い)",
+    "mismatch": "周期 +0.00495%(1.9×10⁵σ)",
     "outlook": "数値未解決・写像未確定",
     "evidence": [
      "tests/out/calaudit-w249.json",
@@ -16930,35 +18345,34 @@
     "en": {
      "purpose": "J1946 at the observed masses (f=1, geoPN=1)",
      "state": "the runs are in the ledger",
-     "mismatch": "apsidal advance 58.3σ (no % in the ledger)",
+     "mismatch": "period +0.00495% (1.9×10⁵σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "J1946 at the observed masses (f=1, geoPN=1). Partial: the runs are in the ledger. Calibration: hold — apsidal advance 58.3σ (no % in the ledger); numerics unresolved; mapping unresolved."
+     "brief": "J1946 at the observed masses (f=1, geoPN=1). Partial: the runs are in the ledger. Calibration: hold — period +0.00495% (1.9×10⁵σ); numerics unresolved; mapping unresolved."
     },
-    "brief": "J1946 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・近点移動 58.3σ(差の%は正本に無い)・数値未解決・写像未確定。"
+    "brief": "J1946 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00495%(1.9×10⁵σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
     "row": "verdictLedger.rows[14]",
     "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 17.46661039920383,
+    "lastDiffInSigma": 526.5506149288302,
     "missing": [
-     "条件不一致",
      "写像未確定",
      "数値精度"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.259,
+     "wallSec": 2.414,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.389,
+       "wallSec": 0.939,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.87,
+       "wallSec": 1.475,
        "reused": false,
        "reusedBy": null
       }
@@ -17129,16 +18543,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 36,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 36,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -17295,16 +18721,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 75,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 30,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       }
@@ -17461,16 +18899,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 36,
+     "ms": 54,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 36,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -17627,16 +19077,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 32,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 32,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -17793,16 +19255,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 78,
+     "ms": 107,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 78,
+       "ms": 107,
        "pass": true,
        "via": "targetIds"
       }
@@ -17959,16 +19433,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 54,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 54,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -18125,16 +19611,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 46,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -18179,17 +19677,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 68.239,
+     "wallSec": 37.405,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 23.311,
+       "wallSec": 12.688,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 44.928,
+       "wallSec": 24.717,
        "reused": false,
        "reusedBy": null
       }
@@ -18312,16 +19810,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 33,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 33,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -18526,16 +20036,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 44,
+     "ms": 88,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 44,
+       "ms": 88,
        "pass": true,
        "via": "targetIds"
       }
@@ -18692,16 +20214,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 55,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 52,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -18839,16 +20373,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 31,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 30,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -18986,16 +20532,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 66,
+     "ms": 61,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 66,
+       "ms": 61,
        "pass": true,
        "via": "targetIds"
       }
@@ -19133,16 +20691,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 62,
+     "ms": 73,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 62,
+       "ms": 73,
        "pass": true,
        "via": "targetIds"
       }
@@ -19186,17 +20756,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.3329999999999997,
+     "wallSec": 1.34,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.814,
+       "wallSec": 0.454,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.519,
+       "wallSec": 0.886,
        "reused": false,
        "reusedBy": null
       }
@@ -19307,22 +20877,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2632,
+     "ms": 3331,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 2598,
+       "ms": 3283,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 34,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -19491,22 +21073,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2649,
+     "ms": 3330,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 2598,
+       "ms": 3283,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 51,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -19517,7 +21111,7 @@
   {
    "id": "gw150914Merge4s",
    "emoji": "⏰",
-   "name": "GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant",
+   "name": "GW150914 の合体(約4秒の窓の宣言)— 放射の方向と用量の較正 variant",
    "group": "現実較正",
    "sampleClass": "calibration",
    "status": {
@@ -19550,17 +21144,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.244,
+     "wallSec": 0.145,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.097,
+       "wallSec": 0.072,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.147,
+       "wallSec": 0.073,
        "reused": false,
        "reusedBy": null
       }
@@ -19671,16 +21265,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 37,
+     "ms": 72,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 37,
+       "ms": 72,
        "pass": true,
        "via": "targetIds"
       }
@@ -19818,16 +21424,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 27,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       }
@@ -19971,16 +21589,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2778,
+     "ms": 3408,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 2778,
+       "ms": 3408,
        "pass": true,
        "via": "targetIds"
       },
@@ -20130,16 +21760,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 4495,
+     "ms": 5892,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 4495,
+       "ms": 5892,
        "pass": true,
        "via": "targetIds"
       }
@@ -20289,22 +21931,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3982,
+     "ms": 5122,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 3981,
+       "ms": 5122,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.ngc3198",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -20460,16 +22114,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 8615,
+     "ms": 11475,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 8615,
+       "ms": 11475,
        "pass": true,
        "via": "targetIds"
       }
@@ -20607,16 +22273,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 13,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -20754,16 +22432,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 8,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 8,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -20901,16 +22591,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 365,
+     "ms": 487,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 365,
+       "ms": 487,
        "pass": true,
        "via": "targetIds"
       }
@@ -21054,36 +22756,48 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 4131,
+     "ms": 4933,
      "tests": [
       {
        "id": "preset.saturn",
-       "ms": 2089,
+       "ms": 2598,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-saturn",
-       "ms": 2042,
+       "ms": 2334,
        "pass": true,
        "via": "targetIds"
+      },
+      {
+       "id": "behavior.saturnExp",
+       "ms": 1,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "behavior.saturn",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
-      },
-      {
-       "id": "behavior.saturnExp",
-       "ms": 0,
-       "pass": true,
-       "via": "claims"
       },
       {
        "id": "behavior.saturn-kframe-control",
@@ -21225,22 +22939,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4001,
+     "ms": 4705,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2253,
+       "ms": 2501,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 1732,
+       "ms": 2188,
        "pass": true,
        "via": "targetIds"
       },
@@ -21296,30 +23022,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.415,
+     "wallSec": 3.267,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.415,
+       "wallSec": 3.267,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 10.846,
+       "wallSec": 6.475,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 20.827,
+       "wallSec": 14.781,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 31.673000000000002,
-     "reusedH2Sec": 10.846,
-     "reusedH4Sec": 20.827
+     "reusedSec": 21.256,
+     "reusedH2Sec": 6.475,
+     "reusedH4Sec": 14.781
     },
     "regenSteps": [
      {
@@ -21441,34 +23167,46 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 5244,
+     "ms": 6617,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 5189,
+       "ms": 6553,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 33,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 18,
+       "ms": 20,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "zonal.d68-preset",
-       "ms": 4,
+       "ms": 3,
        "pass": true,
        "via": "claims"
       }
@@ -21606,16 +23344,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 15,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -21753,16 +23503,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 22,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -21808,11 +23570,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 115.281,
+     "wallSec": 70.793,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 115.281,
+       "wallSec": 70.793,
        "reused": false,
        "reusedBy": null
       }
@@ -21935,22 +23697,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 153,
+     "ms": 191,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 118,
+       "ms": 166,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 35,
+       "ms": 25,
        "pass": true,
        "via": "claims"
       }
@@ -22103,16 +23877,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 248,
+     "ms": 295,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 248,
+       "ms": 295,
        "pass": true,
        "via": "targetIds"
       }
@@ -22250,22 +24036,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 1653,
+     "ms": 2249,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 1562,
+       "ms": 2198,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 91,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       },
@@ -22416,22 +24214,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 119,
+     "ms": 124,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 104,
+       "ms": 108,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 15,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -22569,16 +24379,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 724,
+     "ms": 853,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 724,
+       "ms": 853,
        "pass": true,
        "via": "targetIds"
       },
@@ -22722,22 +24544,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1339,
+     "ms": 1819,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 696,
+       "ms": 966,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 643,
+       "ms": 853,
        "pass": true,
        "via": "targetIds"
       },
@@ -22881,16 +24715,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 173,
+     "ms": 230,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 173,
+       "ms": 230,
        "pass": true,
        "via": "targetIds"
       }
@@ -23028,16 +24874,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 138,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 38,
+       "ms": 138,
        "pass": true,
        "via": "targetIds"
       }
@@ -23175,16 +25033,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 15,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       }
@@ -23322,16 +25192,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 17,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -23469,16 +25351,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 8,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 8,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -23616,22 +25510,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 186,
+     "ms": 220,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 96,
+       "ms": 145,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 90,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       }
@@ -23769,16 +25675,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 10,
+     "ms": 13,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 10,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -23916,16 +25834,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 12,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 12,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -24063,22 +25993,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 180,
+     "ms": 179,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 158,
+       "ms": 152,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 22,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -24216,16 +26158,28 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 12,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 12,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -24363,22 +26317,34 @@
       "sec": 12,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 45,
+     "ms": 90,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 30,
+       "ms": 61,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 15,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -24390,22 +26356,22 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 105,
-  "regenSecSum": 26244,
+  "regenSteps": 111,
+  "regenSecSum": 26395,
   "alwaysSec": 5195,
-  "undeclaredSteps": 45,
-  "undeclaredSec": 1883,
-  "qaTotal": 965,
-  "qaDurationMs": 2387009,
+  "undeclaredSteps": 46,
+  "undeclaredSec": 1884,
+  "qaTotal": 1008,
+  "qaDurationMs": 1773283,
   "reuse": {
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 55.628
+    "sec": 32.153999999999996
    },
    "h4": {
     "n": 3,
-    "sec": 105.188
+    "sec": 67.061
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },

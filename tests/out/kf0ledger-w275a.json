@@ -3,38 +3,38 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-  "generatedAt": "2026-10-01T05:32:36.039Z",
+  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "generatedAt": "2026-10-01T23:32:57.780Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
-    "bytes": 83214,
-    "sha256": "83433047bc56696f72b862fb794f3dc4e9c07973fc4306a6576b86ed37c27f1d",
-    "mtime": "2026-10-01T05:32:31.111Z"
+    "bytes": 83798,
+    "sha256": "94885d4553f544a33f2bd5002504e96a1fe9663207b4908ed6b493ffd2001f45",
+    "mtime": "2026-10-01T23:32:56.117Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1831255,
-    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
-    "mtime": "2026-10-01T04:31:39.003Z"
+    "bytes": 1824134,
+    "sha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
+    "mtime": "2026-10-01T22:11:22.009Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 160729,
-    "sha256": "8423d1522eae6ac7179d00211ddacac27de39dcfc641928747b46364d54170c3",
-    "mtime": "2026-10-01T05:29:53.435Z"
+    "bytes": 160720,
+    "sha256": "00d1cfdfcbcd356f3d794b9c2a4a52413d4d3739514435d624e8636c786efd2e",
+    "mtime": "2026-10-01T22:45:27.185Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 12670,
-    "sha256": "fbbebd5065009e4dc4666e3e0d8959791e20f8495ff548b5ced883fe7a25bde4",
-    "mtime": "2026-10-01T05:32:29.315Z"
+    "sha256": "b90b29aa37afd24e896598f3316ca840b2bc8460ef6adab9771acb7d0c45571c",
+    "mtime": "2026-10-01T23:32:54.469Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223870,
-    "sha256": "aa000c4afc87dca75b6f29d010f9b0648730563d3447ee810d98522fef538236",
-    "mtime": "2026-09-30T23:40:07.279Z"
+    "sha256": "d5e13cc86382d950c9a59df90ec9bf75f61a1cdc6797d5a6c09c547bbfd52996",
+    "mtime": "2026-10-01T20:05:37.277Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -44,9 +44,9 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 122744,
-    "sha256": "c4ee5524a5da0c0b767cb92a62458163c879fd1e1e0d15416ee7947ccf5a893c",
-    "mtime": "2026-10-01T05:06:59.667Z"
+    "bytes": 120925,
+    "sha256": "915300999645d8106b27b36782af49f1da2a1d8b90d8a81ee5b3b27c8c42ef06",
+    "mtime": "2026-10-01T22:33:11.437Z"
    }
   ],
   "code": [
@@ -589,8 +589,7 @@
     "nQuantities": 17,
     "nWithSigma": 0,
     "gateByStatus": {
-     "未判定": 12,
-     "condition-mismatch": 5
+     "未判定": 17
     },
     "numericEvidence": {
      "convergedKeys": [],
@@ -652,8 +651,7 @@
     "nQuantities": 5,
     "nWithSigma": 0,
     "gateByStatus": {
-     "condition-mismatch": 1,
-     "未判定": 4
+     "未判定": 5
     },
     "numericEvidence": {
      "convergedKeys": [],
@@ -715,8 +713,7 @@
     "nQuantities": 8,
     "nWithSigma": 0,
     "gateByStatus": {
-     "condition-mismatch": 2,
-     "未判定": 6
+     "未判定": 8
     },
     "numericEvidence": {
      "convergedKeys": [],
@@ -778,8 +775,8 @@
     "nQuantities": 5,
     "nWithSigma": 3,
     "gateByStatus": {
-     "数値未解決": 1,
-     "condition-mismatch": 2,
+     "数値未解決": 2,
+     "mapping-unresolved": 1,
      "未判定": 2
     },
     "numericEvidence": {
@@ -799,12 +796,12 @@
       {
        "key": "plutoCharonReal|カロン|period",
        "nSigma": 294.08344602820256,
-       "status": "condition-mismatch"
+       "status": "数値未解決"
       },
       {
        "key": "plutoCharonReal|カロン|period",
        "nSigma": 86.17380536398505,
-       "status": "condition-mismatch"
+       "status": "mapping-unresolved"
       }
      ]
     }
@@ -858,8 +855,7 @@
     "nQuantities": 17,
     "nWithSigma": 0,
     "gateByStatus": {
-     "condition-mismatch": 3,
-     "未判定": 14
+     "未判定": 17
     },
     "numericEvidence": {
      "convergedKeys": [],
@@ -921,8 +917,7 @@
     "nQuantities": 6,
     "nWithSigma": 0,
     "gateByStatus": {
-     "未判定": 5,
-     "condition-mismatch": 1
+     "未判定": 6
     },
     "numericEvidence": {
      "convergedKeys": [],
@@ -1256,9 +1251,9 @@
     "nQuantities": 4,
     "nWithSigma": 3,
     "gateByStatus": {
-     "condition-mismatch": 2,
-     "未判定": 1,
-     "数値未解決": 1
+     "数値未解決": 2,
+     "mapping-unresolved": 1,
+     "未判定": 1
     },
     "numericEvidence": {
      "convergedKeys": [],
@@ -1272,12 +1267,12 @@
       {
        "key": "psrJ1757DFM|B|period",
        "nSigma": 4200.334309121832,
-       "status": "condition-mismatch"
+       "status": "数値未解決"
       },
       {
        "key": "psrJ1757DFM|B|ecc",
        "nSigma": 3.8957987477106215,
-       "status": "condition-mismatch"
+       "status": "mapping-unresolved"
       },
       {
        "key": "psrJ1757DFM|B|precession",
@@ -1336,9 +1331,8 @@
     "nQuantities": 4,
     "nWithSigma": 3,
     "gateByStatus": {
-     "condition-mismatch": 1,
+     "数値未解決": 2,
      "未判定": 1,
-     "数値未解決": 1,
      "mapping-unresolved": 1
     },
     "numericEvidence": {
@@ -1353,7 +1347,7 @@
       {
        "key": "psrJ1946DFM|B|period",
        "nSigma": 194333.10939647257,
-       "status": "condition-mismatch"
+       "status": "数値未解決"
       },
       {
        "key": "psrJ1946DFM|B|precession",
@@ -1522,7 +1516,7 @@
    "scope": "calibration",
    "id": "gw150914Merge4s",
    "emoji": "⏰",
-   "name": "GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant",
+   "name": "GW150914 の合体(約4秒の窓の宣言)— 放射の方向と用量の較正 variant",
    "declaredKFrame": 0,
    "massFactor": 1,
    "massFactorSource": "massCalibration.baseMass",
@@ -2637,7 +2631,7 @@
   ],
   "nApplied": 0,
   "applied": [],
-  "conditionMismatchAfter": 17,
+  "conditionMismatchAfter": 0,
   "charonCitation": {
    "id": "plutoCharonReal",
    "target": "カロン",
@@ -2646,7 +2640,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "ed0cbc1da1f23b1209091fef5072cf29bcb3efabbf093383927010df1c869f82",
+   "fileSha256": "5ec824c4eca3259f3109948b9666c272ba2393d511045edf542b21404e28e7ed",
    "citedValue": 551864.061362921,
    "citedCfg": {
     "kFrame": 0,
@@ -2654,7 +2648,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "20440de9cadd246b354a265933f0b6496df701300fcf0a612e8c2dc8aa0a4378",
+   "citedTargetSha256": "826e709e7934a49a8392d3d926fd271482d1fc18672be1d222cc1de89a701e0a",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,

@@ -106,6 +106,9 @@ const SITE_CLASS = {
   // 第288便g(第288便f の読み口の宣言): パラメータタブの読み取り専用の行 —— 値と出所は bgWbgOf から受け取って画面に出すだけ
   'buildWbgRow :: buildWbgRow': { use: '表示(パラメータタブの静止背景相当 Wbg の読み取り専用の行)', replaceable: 'n/a',
     why: '画面に出すだけ(値は bgWbgOf の返り値 —— 式を持たない)' },
+  // 第289便f(統括の統合: Wbg 行の状態を 1 か所で作る読み口 —— 値と出所と p を bgWbgOf/frameWeightPow から受け取るだけ)
+  'wbgStateOf :: wbgStateOf': { use: '表示(パラメータタブの Wbg 行の状態 {Wbg, from, toy, spinRead, p} を bgWbgOf と frameWeightPow から組む)', replaceable: 'n/a',
+    why: '画面に出すだけ(式を持たない —— 換算 wbgConvStr の入力)' },
   'fieldKeyOf :: fieldKeyOf': { use: 'メッシュキャッシュの鍵(場の再描画判定)', replaceable: 'n/a',
     why: '鍵の文字列に混ぜるだけ(値として使わない)' },
   'rayKeyOf :: rayKeyOf': { use: 'メッシュキャッシュの鍵(光線の再計算判定)', replaceable: 'n/a',

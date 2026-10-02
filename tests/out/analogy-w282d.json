@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便d",
   "target": "beta/index.html",
-  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-  "generatedAt": "2026-10-01T05:33:20.886Z",
+  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "generatedAt": "2026-10-01T23:33:12.384Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5356329,
-    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-    "mtime": "2026-10-01T04:18:52.243Z"
+    "bytes": 5410574,
+    "sha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+    "mtime": "2026-10-01T22:00:20.957Z"
    },
    {
     "file": "tests/out/galaxychain-w281b.json",
     "bytes": 254774,
-    "sha256": "9a6fd963bcf62ca1f2411bfc812bb94e871754254988da0b82008d8841cc7507",
-    "mtime": "2026-10-01T05:31:56.263Z"
+    "sha256": "ee1680fc2dac7af70f7a82948ca9267b2acf6b8113e53b8dded7d0ff58417264",
+    "mtime": "2026-10-01T23:32:15.313Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -159,16 +159,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 891,
-   "segments": 805,
-   "closureShare": 0.3198
+   "names": 893,
+   "segments": 807,
+   "closureShare": 0.3195
   },
-  "scopeSha256": "54d79f29e102f197959e58e227eeda11edb8e16a7b9d3bd2121ae30d93f6c270",
+  "scopeSha256": "61ecfe3b7d89a776bbfadb36096c8f2c450f6906c793826a94575ce833b8dde6",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/galaxychain-w281b.json",
-    "stableSha256": "f10916d4d45b57405610f4302808293a70819e9cd7f218519baf4dc2b93f7ce6",
+    "stableSha256": "e10f49791c19f2a774186418b7554fda6f217ba91894fb44029117adf4c190da",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/meta/code/*/mtime",
@@ -934,7 +934,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 5.5784,
+    "msPerStep": 3.8,
     "recs": [
      {
       "t": 0,
@@ -1179,7 +1179,7 @@
      "inertia": false,
      "lawVersion": "scalar"
     },
-    "msPerStep": 5.3912,
+    "msPerStep": 3.5708,
     "recs": [
      {
       "t": 0,
@@ -1426,7 +1426,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 2.776,
+    "msPerStep": 1.9664,
     "recs": [
      {
       "t": 0,
@@ -1673,7 +1673,7 @@
      "lawVersion": "scalar",
      "centerSpin": "read"
     },
-    "msPerStep": 2.8624,
+    "msPerStep": 2.0512,
     "recs": [
      {
       "t": 0,
@@ -2868,7 +2868,7 @@
     "spin": 1.2000000476837158,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 4.4013333333333335,
+    "msPerStep": 2.859,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -2933,7 +2933,7 @@
     "spin": 0,
     "T": 47.99999999999649,
     "steps": 3000,
-    "msPerStep": 4.397,
+    "msPerStep": 2.6973333333333334,
     "nan": 0,
     "Rref": 235.90953622330474,
     "diskN": 80,
@@ -3107,5 +3107,5 @@
    "source": "未取得"
   }
  ],
- "elapsedSec": 69.753
+ "elapsedSec": 46.779
 }

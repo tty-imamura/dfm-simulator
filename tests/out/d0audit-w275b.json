@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便b",
   "target": "beta/index.html",
-  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-  "generatedAt": "2026-10-01T05:31:58.115Z",
+  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "generatedAt": "2026-10-01T23:32:22.402Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5356329,
-    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-    "mtime": "2026-10-01T04:18:52.243Z"
+    "bytes": 5410574,
+    "sha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+    "mtime": "2026-10-01T22:00:20.957Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1831255,
-    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
-    "mtime": "2026-10-01T04:31:39.003Z"
+    "bytes": 1824134,
+    "sha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
+    "mtime": "2026-10-01T22:11:22.009Z"
    }
   ],
   "code": [
@@ -136,8 +136,8 @@
   "independentCheck": {
    "kF1": {
     "calaudit": null,
-    "name": "公転周期(kFrame=1・E6′-R)",
-    "noCounterpart": "第288便b の在位移行(🌇 kFrame 1→0)—— 判定器の正本に kFrame=1 で測った行は無い(「公転周期(kFrame=1・E6′-R)」は門 condition-mismatch)",
+    "name": null,
+    "noCounterpart": "第288便b の在位移行(🌇 kFrame 1→0)—— 判定器の正本に kFrame=1 で測った行は無い",
     "here": 19414266.578568343,
     "absDiff": null,
     "bitSame": null
@@ -1965,7 +1965,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.615,
+     "wallSec": 0.39,
      "rev2Sec": 19413888.609564465,
      "residPct": -0.0014308646058270656,
      "sigma": null
@@ -2001,7 +2001,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.137,
+     "wallSec": 0.721,
      "rev2Sec": 19413888.581032414,
      "residPct": -0.0014310115709347201,
      "sigma": null
@@ -2037,7 +2037,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.913,
+     "wallSec": 1.266,
      "rev2Sec": 19413888.573797643,
      "residPct": -0.0014310488363555246,
      "sigma": null
@@ -2083,7 +2083,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.536,
+     "wallSec": 0.313,
      "rev2Sec": 19413888.609564465,
      "residPct": -0.0014308646058270656,
      "sigma": null
@@ -2119,7 +2119,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.92,
+     "wallSec": 0.595,
      "rev2Sec": 19413888.581032414,
      "residPct": -0.0014310115709347201,
      "sigma": null
@@ -2155,7 +2155,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.814,
+     "wallSec": 1.162,
      "rev2Sec": 19413888.573797643,
      "residPct": -0.0014310488363555246,
      "sigma": null
@@ -2201,7 +2201,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.456,
+     "wallSec": 0.298,
      "rev2Sec": 19413888.609564465,
      "residPct": -0.0014308646058270656,
      "sigma": null
@@ -2237,7 +2237,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.878,
+     "wallSec": 0.597,
      "rev2Sec": 19413888.581032414,
      "residPct": -0.0014310115709347201,
      "sigma": null
@@ -2273,7 +2273,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.833,
+     "wallSec": 1.512,
      "rev2Sec": 19413888.573797643,
      "residPct": -0.0014310488363555246,
      "sigma": null
@@ -2303,7 +2303,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.172,
+     "wallSec": 0.115,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2322,7 +2322,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.154,
+     "wallSec": 0.107,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2341,7 +2341,7 @@
       "kFrame": 0,
       "softening": 0.05
      },
-     "wallSec": 0.168,
+     "wallSec": 0.106,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2387,7 +2387,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.824,
+     "wallSec": 0.658,
      "rev2Sec": 19414266.578568343,
      "residPct": 0.0005160075703511187,
      "sigma": null
@@ -2423,7 +2423,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.402,
+     "wallSec": 0.953,
      "rev2Sec": 19414254.9209926,
      "residPct": 0.00045596082149142907,
      "sigma": null
@@ -2459,7 +2459,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 2.66,
+     "wallSec": 2.189,
      "rev2Sec": 19414249.618583623,
      "residPct": 0.000428648760447474,
      "sigma": null
@@ -2501,7 +2501,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.762,
+     "wallSec": 0.496,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2533,7 +2533,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.442,
+     "wallSec": 1.031,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2565,7 +2565,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 3.022,
+     "wallSec": 1.99,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2611,7 +2611,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 0.797,
+     "wallSec": 0.478,
      "rev2Sec": 19413890.993609134,
      "residPct": -0.0014185846829066122,
      "sigma": null
@@ -2647,7 +2647,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 1.578,
+     "wallSec": 0.957,
      "rev2Sec": 19413890.966572862,
      "residPct": -0.0014187239434415861,
      "sigma": null
@@ -2683,7 +2683,7 @@
       "frameWeight": "share",
       "nBodies": 2
      },
-     "wallSec": 2.738,
+     "wallSec": 1.988,
      "rev2Sec": 19413890.960099775,
      "residPct": -0.001418757285520978,
      "sigma": null
@@ -2713,7 +2713,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.324,
+     "wallSec": 0.226,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2732,7 +2732,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.323,
+     "wallSec": 0.311,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null
@@ -2751,7 +2751,7 @@
       "kFrame": 1,
       "softening": 0.05
      },
-     "wallSec": 0.366,
+     "wallSec": 0.255,
      "rev2Sec": null,
      "residPct": null,
      "sigma": null

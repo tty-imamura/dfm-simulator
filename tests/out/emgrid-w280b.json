@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便b",
   "target": "beta/index.html",
-  "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-  "generatedAt": "2026-09-30T23:27:43.615Z",
+  "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+  "generatedAt": "2026-10-01T19:59:58.337Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5397459,
-    "sha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-    "mtime": "2026-09-30T21:53:18.591Z"
+    "bytes": 5408061,
+    "sha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+    "mtime": "2026-10-01T19:06:18.044Z"
    }
   ],
   "code": [
@@ -141,11 +141,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 891,
-   "segments": 805,
-   "closureShare": 0.3166
+   "names": 893,
+   "segments": 807,
+   "closureShare": 0.3193
   },
-  "scopeSha256": "a78fa86355c1c64d8c5b71705e503be43227d8092ceba37ebcfb1095202243cd",
+  "scopeSha256": "ee15da67deffae26b2ddc40059eaea9b9c0c3c8da399988a70171f494726916d",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -161,8 +161,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 161.845,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 115.544,
    "run": {
     "ok": true,
     "warnings": [],
@@ -257,8 +257,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.008,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 321.824,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 223.74,
    "run": {
     "ok": true,
     "warnings": [],
@@ -353,8 +353,8 @@
    "label": "重み pull → share",
    "axis": "weight",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 132.398,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 92.176,
    "run": {
     "ok": true,
     "warnings": [],
@@ -449,8 +449,8 @@
    "label": "初速 🌘 → 🧲(0.201%)",
    "axis": "initialVelocity",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 165.129,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 110.606,
    "run": {
     "ok": true,
     "warnings": [],
@@ -545,8 +545,8 @@
    "label": "🧲 そのまま(share + 🧲 の初速)",
    "axis": "weight+initialVelocity",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 131.352,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 91.285,
    "run": {
     "ok": true,
     "warnings": [],
@@ -641,8 +641,8 @@
    "label": "q 8.2358 → q_fb(表裏核の振幅と参照距離で同じ単一べき)",
    "axis": "q",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 160.556,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 111.197,
    "run": {
     "ok": true,
     "warnings": [],
@@ -737,8 +737,8 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 122.062,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 87.443,
    "run": {
     "ok": true,
     "warnings": [
@@ -835,8 +835,8 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.008,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 246.172,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 180.305,
    "run": {
     "ok": true,
     "warnings": [
@@ -933,8 +933,8 @@
    "label": "法則 kF0 + meshVelocity explicit(点源)・v=ẋ−u(0)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 232.111,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 182.374,
    "run": {
     "ok": true,
     "warnings": [
@@ -1046,8 +1046,8 @@
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 349.773,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 251.175,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1157,8 +1157,8 @@
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.008,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 711.942,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 499.779,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1268,8 +1268,8 @@
    "label": "初速の意味 v=ẋ(変換なし)・表裏核",
    "axis": "initialVelocityMeaning",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 339.438,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 252.471,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1379,8 +1379,8 @@
    "label": "🔆 太陽+地球+月(kF0・geoPN=0)",
    "axis": "reference",
    "dt": 0.016,
-   "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-   "wallS": 1.754,
+   "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+   "wallS": 1.038,
    "run": {
     "ok": true,
     "warnings": [],

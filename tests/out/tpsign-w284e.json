@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第284便e",
   "target": "beta/index.html",
-  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-  "generatedAt": "2026-10-01T05:06:15.891Z",
+  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "generatedAt": "2026-10-01T22:32:37.860Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5356329,
-    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-    "mtime": "2026-10-01T04:18:52.243Z"
+    "bytes": 5410574,
+    "sha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+    "mtime": "2026-10-01T22:00:20.957Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1831255,
-    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
-    "mtime": "2026-10-01T04:31:39.003Z"
+    "bytes": 1824134,
+    "sha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
+    "mtime": "2026-10-01T22:11:22.009Z"
    }
   ],
   "code": [
@@ -34,9 +34,9 @@
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 350253,
-    "sha256": "d1004a09ca68696dfd540e2b9316a13c21d48f77228c4752fb598ccc57b67041",
-    "mtime": "2026-09-30T21:41:10.962Z"
+    "bytes": 357930,
+    "sha256": "a3d337181a2ea7bb43453ef756ad0ce45d14179e023854dcba58769a50c84033",
+    "mtime": "2026-10-01T18:55:10.088Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -51,7 +51,7 @@
     "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "072c44c4ae62eb391ebd5ac294dd8cf0c4ad1ab5b2dbed0085a7fd3fae87df5b",
+  "codeSha256": "0a620ec1c91654c962d3cdbb308cfea2e6b97c02ff0e9cb842923c820b66cf00",
   "harnessVersion": "w284e-tpsign-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第74報)AN34: 重い 4 本は試験粒子契約を宣言して署名(量ごとの前後を記録・全 54 量は未判定のまま・「区分が動かない」を受理の根拠にしない・💍 の C 環内縁は環粒子そのもの=前後を明記)",
@@ -90,16 +90,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 887,
-   "segments": 801,
-   "closureShare": 0.3186
+   "names": 889,
+   "segments": 803,
+   "closureShare": 0.3183
   },
-  "scopeSha256": "6ac640ec828d223b5806d3fe04bfac8830348fc7fd5d03f077d79be4f09e6d8c",
+  "scopeSha256": "a7692e4986a1bbed98516c2c9931bad53cd36cff668d16e68b57cde93d5f2efb",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "105616e52a9a0219feffe6bf22fa77c6054bb19fe5e7afed324a743ce89a02ae",
+    "stableSha256": "44d227df9e538db11e1cf79469ee5fa1c5544eb0b875f5b7c48d3b92d7853946",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -127,7 +127,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "3578e3e1eeec1d7645e3603df996b1373f26d59df30f69a1e6e8a2bd807fa1e9",
+    "stableSha256": "bf48f951553a00d5c884b16d8fc7981f9f0f5b9ca6251fe1b9ae968df26ca4ed",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -167,15 +167,15 @@
  "after": {
   "source": "canon",
   "file": "tests/out/calaudit-w249.json",
-  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-  "when": "2026-10-01T04:31:38.687Z",
+  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "when": "2026-10-01T22:11:21.772Z",
   "canonFourValues": {
    "合": 0,
    "量限定合": 2,
    "否": 1,
    "保留": 17
   },
-  "wallSec": 0.025
+  "wallSec": 0.015
  },
  "signed": {
   "solarInner": {
@@ -476,7 +476,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 45.239,
+      "wallSec": 27.797,
       "tags": [
        "dt"
       ],
@@ -493,32 +493,32 @@
       "kind": "period",
       "name": "公転周期(ミランダ/アリエル・kFrame=1・周回実測)(ミランダ)",
       "unit": "s",
-      "missingAfter": false,
+      "missingAfter": true,
       "before": 122209.47905699206,
-      "after": 122208.17695438536,
-      "absDiff": -1.3021026066999184,
-      "relDiff": -0.000010654677662873323,
+      "after": null,
+      "absDiff": null,
+      "relDiff": null,
       "signFlip": false,
       "verdictBefore": "合",
-      "verdictAfter": "条",
+      "verdictAfter": null,
       "gateBefore": "未判定",
-      "gateAfter": "condition-mismatch"
+      "gateAfter": null
      },
      {
       "target": "アリエル",
       "kind": "period",
       "name": "公転周期(ミランダ/アリエル・kFrame=1・周回実測)(アリエル)",
       "unit": "s",
-      "missingAfter": false,
+      "missingAfter": true,
       "before": 217720.28333595072,
-      "after": 217719.3316007439,
-      "absDiff": -0.9517352068214677,
-      "relDiff": -0.000004371366747455973,
+      "after": null,
+      "absDiff": null,
+      "relDiff": null,
       "signFlip": false,
       "verdictBefore": "合",
-      "verdictAfter": "条",
+      "verdictAfter": null,
       "gateBefore": "未判定",
-      "gateAfter": "condition-mismatch"
+      "gateAfter": null
      },
      {
       "target": "ウンブリエル",
@@ -580,9 +580,9 @@
       "relDiff": -0.000010654677662873323,
       "signFlip": false,
       "verdictBefore": "合",
-      "verdictAfter": "条",
+      "verdictAfter": "合",
       "gateBefore": "未判定",
-      "gateAfter": "condition-mismatch"
+      "gateAfter": "未判定"
      },
      {
       "target": "ミランダ",
@@ -783,9 +783,9 @@
     "signFlips": [
      "実測(標準検出器): 近点移動(チタニア)"
     ],
-    "verdictMoved": 3,
-    "gateMoved": 3,
-    "gateUndetermined": 15,
+    "verdictMoved": 0,
+    "gateMoved": 0,
+    "gateUndetermined": 16,
     "verdict4": {
      "before": "保留",
      "after": "保留"
@@ -823,7 +823,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 53.683,
+      "wallSec": 33.976,
       "tags": [
        "dt"
       ],
@@ -1038,7 +1038,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 115.281,
+      "wallSec": 70.793,
       "tags": [
        "dt"
       ],
@@ -1052,9 +1052,9 @@
    }
   ],
   "nQuantities": 42,
-  "gateUndeterminedAll": 39,
-  "verdictMovedAll": 3,
-  "gateMovedAll": 3,
+  "gateUndeterminedAll": 40,
+  "verdictMovedAll": 0,
+  "gateMovedAll": 0,
   "fourValues": {
    "before": {
     "合": 0,
@@ -1266,5 +1266,5 @@
    "decideNext": "必要な窓(近点数)と誤差予算"
   }
  ],
- "elapsedS": 0.183
+ "elapsedS": 0.131
 }

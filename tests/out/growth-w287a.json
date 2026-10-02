@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便a",
   "target": "beta/index.html",
-  "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-  "generatedAt": "2026-09-30T23:57:06.630Z",
+  "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+  "generatedAt": "2026-10-01T20:13:07.073Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5397459,
-    "sha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-    "mtime": "2026-09-30T21:53:18.591Z"
+    "bytes": 5408061,
+    "sha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+    "mtime": "2026-10-01T19:06:18.044Z"
    }
   ],
   "code": [
@@ -143,11 +143,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 889,
-   "segments": 803,
-   "closureShare": 0.3164
+   "names": 891,
+   "segments": 805,
+   "closureShare": 0.319
   },
-  "scopeSha256": "b5d708f442cb88515b8e395558893c77735c3371482bb7b57cf6214ff58bbdf0",
+  "scopeSha256": "e2d77a7dfd89cb5c03b6b2fc347564170d9da98c56d3651b17851bd306c5fb9c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1932,8 +1932,8 @@
     "tailMeanAbs": 0.044485377540646576,
     "restored": false
    },
-   "wallSec": 6.664,
-   "spentSec": 17.939
+   "wallSec": 3.804,
+   "spentSec": 10.764
   },
   {
    "key": "pro-seed1",
@@ -3204,8 +3204,8 @@
     "tailMeanAbs": 0.03247381796737653,
     "restored": false
    },
-   "wallSec": 6.366,
-   "spentSec": 17.789
+   "wallSec": 3.906,
+   "spentSec": 10.915
   },
   {
    "key": "pro-seed2",
@@ -4311,8 +4311,8 @@
     "tailMeanAbs": 0.1573876522343127,
     "restored": false
    },
-   "wallSec": 6.23,
-   "spentSec": 17.704
+   "wallSec": 3.604,
+   "spentSec": 10.791
   },
   {
    "key": "retro-seed0",
@@ -5450,8 +5450,8 @@
     "tailMeanAbs": 0.03154688204668693,
     "restored": false
    },
-   "wallSec": 5.654,
-   "spentSec": 16.564
+   "wallSec": 3.368,
+   "spentSec": 10.039
   },
   {
    "key": "retro-seed1",
@@ -6602,8 +6602,8 @@
     "tailMeanAbs": 0.02359946254238976,
     "restored": true
    },
-   "wallSec": 5.652,
-   "spentSec": 16.464
+   "wallSec": 3.495,
+   "spentSec": 10.736
   },
   {
    "key": "retro-seed2",
@@ -8312,8 +8312,8 @@
     "tailMeanAbs": 0.035020675601269036,
     "restored": false
    },
-   "wallSec": 10.662,
-   "spentSec": 25.907
+   "wallSec": 6.54,
+   "spentSec": 16.506
   },
   {
    "key": "head-seed0",
@@ -9586,8 +9586,8 @@
     "tailMeanAbs": 0.031909783563752236,
     "restored": false
    },
-   "wallSec": 5.996,
-   "spentSec": 17.094
+   "wallSec": 3.907,
+   "spentSec": 11.015
   },
   {
    "key": "head-seed1",
@@ -10813,8 +10813,8 @@
     "tailMeanAbs": 0.03311070649280923,
     "restored": false
    },
-   "wallSec": 6.62,
-   "spentSec": 18.608
+   "wallSec": 4.081,
+   "spentSec": 11.81
   },
   {
    "key": "head-seed2",
@@ -11910,8 +11910,8 @@
     "tailMeanAbs": 0.028245444946178144,
     "restored": false
    },
-   "wallSec": 6.278,
-   "spentSec": 18.143
+   "wallSec": 3.911,
+   "spentSec": 11.659
   }
  ],
  "radiusRun": {
@@ -13632,8 +13632,8 @@
    "tailMeanAbs": 0.03296121516296241,
    "restored": false
   },
-  "wallSec": 3.889,
-  "spentSec": 10.677
+  "wallSec": 2.397,
+  "spentSec": 6.85
  },
  "summary": {
   "nDeclared": 3,
@@ -13645,21 +13645,21 @@
    {
     "key": "pro-seed0",
     "steps": 9248,
-    "wallSec": 6.664,
+    "wallSec": 3.804,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed1",
     "steps": 9248,
-    "wallSec": 6.366,
+    "wallSec": 3.906,
     "verdict": "未達",
     "n0": 85
    },
    {
     "key": "pro-seed2",
     "steps": 8092,
-    "wallSec": 6.23,
+    "wallSec": 3.604,
     "verdict": "未達",
     "n0": 85
    }
@@ -13692,7 +13692,7 @@
   "growthSteps": 26588,
   "jeansSteps": 21111,
   "growthTotal": {
-   "wallSec": 19.259999999999998
+   "wallSec": 11.314
   },
   "jeansTotal": {
    "wallSec": 1781.887
@@ -13700,6 +13700,6 @@
   "growthPass": 0,
   "jeansPass": 0
  },
- "elapsedS": 84.715,
+ "elapsedS": 54.288,
  "verdict": "未達"
 }

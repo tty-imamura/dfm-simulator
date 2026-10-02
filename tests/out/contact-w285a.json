@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-  "generatedAt": "2026-10-01T05:05:45.352Z",
+  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "generatedAt": "2026-10-01T22:32:13.494Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5356329,
-    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-    "mtime": "2026-10-01T04:18:52.243Z"
+    "bytes": 5410574,
+    "sha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+    "mtime": "2026-10-01T22:00:20.957Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1831255,
-    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
-    "mtime": "2026-10-01T04:31:39.003Z"
+    "bytes": 1824134,
+    "sha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
+    "mtime": "2026-10-01T22:11:22.009Z"
    }
   ],
   "code": [
@@ -40,9 +40,9 @@
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
-    "bytes": 350253,
-    "sha256": "d1004a09ca68696dfd540e2b9316a13c21d48f77228c4752fb598ccc57b67041",
-    "mtime": "2026-09-30T21:41:10.962Z"
+    "bytes": 357930,
+    "sha256": "a3d337181a2ea7bb43453ef756ad0ce45d14179e023854dcba58769a50c84033",
+    "mtime": "2026-10-01T18:55:10.088Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
@@ -69,7 +69,7 @@
     "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
-  "codeSha256": "27a24bbb4fe2b0f6ce81b59d2a3986f13021dd66c14bcff45172ee0a4373b345",
+  "codeSha256": "20d0e9831ec44525d705d69738e56071bd2739f1192aba0ee77a33d3eb9d1bfd",
   "harnessVersion": "w285a-contact-1",
   "loadErrors": 0,
   "dt": 0.016,
@@ -123,16 +123,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 890,
-   "segments": 804,
-   "closureShare": 0.319
+   "names": 892,
+   "segments": 806,
+   "closureShare": 0.3188
   },
-  "scopeSha256": "0fca1f8c91e3aaf51ff1be73b24f0267afbaabc7c368c8ca29f4df8309b58675",
+  "scopeSha256": "972d07e476bd621b94c48687a8f8ba97db8347f6fc4b2681eaa22b887224700d",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "105616e52a9a0219feffe6bf22fa77c6054bb19fe5e7afed324a743ce89a02ae",
+    "stableSha256": "44d227df9e538db11e1cf79469ee5fa1c5544eb0b875f5b7c48d3b92d7853946",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "3578e3e1eeec1d7645e3603df996b1373f26d59df30f69a1e6e8a2bd807fa1e9",
+    "stableSha256": "bf48f951553a00d5c884b16d8fc7981f9f0f5b9ca6251fe1b9ae968df26ca4ed",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -536,7 +536,7 @@
  "oneStep": {
   "baseRev": "b92ffa1",
   "baseSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
-  "n": 146,
+  "n": 147,
   "nBase": 142,
   "identical": 93,
   "differ": [
@@ -548,6 +548,7 @@
    "galaxyAnalogyBH",
    "galaxyAnalogyBHCompose",
    "galaxyAnalogyBHTilt90",
+   "galaxyAnalogyBHTilt90Layers",
    "clusterAnalogyBH",
    "clusterGrowthCopy",
    "fixedCaptureCopy",
@@ -605,6 +606,7 @@
    "galaxyAnalogyBH",
    "galaxyAnalogyBHCompose",
    "galaxyAnalogyBHTilt90",
+   "galaxyAnalogyBHTilt90Layers",
    "clusterAnalogyBH",
    "clusterGrowthCopy",
    "fixedCaptureCopy",
@@ -1661,7 +1663,7 @@
   "after": {
    "source": "canon",
    "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010"
+   "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a"
   },
   "table": [
    {
@@ -1863,7 +1865,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 115.281,
+      "wallSec": 70.793,
       "tags": [
        "dt"
       ],
@@ -1878,5 +1880,5 @@
   ],
   "note": null
  },
- "elapsedS": 318.19
+ "elapsedS": 196.857
 }

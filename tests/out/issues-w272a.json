@@ -1,14 +1,14 @@
 {
- "when": "2026-10-01T05:30:07.560Z",
+ "when": "2026-10-01T22:45:37.166Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
-  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
+  "calauditSha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
+  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "8423d1522eae6ac7179d00211ddacac27de39dcfc641928747b46364d54170c3",
+  "charonSha256": "00d1cfdfcbcd356f3d794b9c2a4a52413d4d3739514435d624e8636c786efd2e",
   "nslock": "tests/out/nslock-w272c.json",
-  "nslockSha256": "b338ed0ff3a033c6cd56e38ae1a695617571a0f4cac8c7dc837c65eb96b88483"
+  "nslockSha256": "6e4861cfd46532c01972a5a993814e5e0924f7a519ca81bcfec1fde9fd15a6ba"
  },
  "nPresets": 20,
  "nTheoryControl": 0,
@@ -26,10 +26,10 @@
  "gate": {
   "合(3σ)": 2,
   "否(3σ)": 1,
-  "数値未解決": 8,
-  "mapping-unresolved": 5,
-  "condition-mismatch": 17,
-  "未判定": 146
+  "数値未解決": 11,
+  "mapping-unresolved": 7,
+  "condition-mismatch": 0,
+  "未判定": 158
  },
  "rows": [
   {
@@ -222,7 +222,6 @@
    "nQ": 21,
    "verdict4": "保留",
    "missing": [
-    "条件不一致",
     "σ 未接続"
    ],
    "gate": {
@@ -230,17 +229,15 @@
     "ng": 0,
     "num": 0,
     "map": 0,
-    "cond": 5,
-    "na": 16
+    "cond": 0,
+    "na": 21
    },
    "reasons": {
     "num": {},
     "map": {},
-    "cond": {
-     "kFrame 条件の対照走行が無い": 5
-    },
+    "cond": {},
     "na": {
-     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 12,
+     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 17,
      "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 4
     }
    },
@@ -269,7 +266,6 @@
    "nQ": 6,
    "verdict4": "保留",
    "missing": [
-    "条件不一致",
     "σ 未接続"
    ],
    "gate": {
@@ -277,17 +273,15 @@
     "ng": 0,
     "num": 0,
     "map": 0,
-    "cond": 1,
-    "na": 5
+    "cond": 0,
+    "na": 6
    },
    "reasons": {
     "num": {},
     "map": {},
-    "cond": {
-     "kFrame 条件の対照走行が無い": 1
-    },
+    "cond": {},
     "na": {
-     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 4,
+     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 5,
      "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 1
     }
    },
@@ -316,7 +310,6 @@
    "nQ": 9,
    "verdict4": "保留",
    "missing": [
-    "条件不一致",
     "σ 未接続"
    ],
    "gate": {
@@ -324,17 +317,15 @@
     "ng": 0,
     "num": 0,
     "map": 0,
-    "cond": 2,
-    "na": 7
+    "cond": 0,
+    "na": 9
    },
    "reasons": {
     "num": {},
     "map": {},
-    "cond": {
-     "kFrame 条件の対照走行が無い": 2
-    },
+    "cond": {},
     "na": {
-     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 6,
+     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 8,
      "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 1
     }
    },
@@ -363,25 +354,25 @@
    "nQ": 7,
    "verdict4": "保留",
    "missing": [
-    "条件不一致",
+    "写像未確定",
     "数値精度"
    ],
    "gate": {
     "ok": 0,
     "ng": 0,
-    "num": 1,
-    "map": 0,
-    "cond": 2,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
     "na": 4
    },
    "reasons": {
     "num": {
-     "dt 3 段が走っていない(2 段は感度診断)": 1
+     "dt 3 段が走っていない(2 段は感度診断)": 2
     },
-    "map": {},
-    "cond": {
-     "kFrame 条件の対照走行が無い": 2
+    "map": {
+     "円に近い系の近点間周期である(この preset の転写は e=0.0・実測 eProxy ≈1.2×10⁻³)。近点方位が縮退しているので、観測側の「公転周期」(two-body Keplerian fit の P)と、ここで測る近点間平均間隔が同じ測定量であることは確定していない。数値が足りないのではない —— 観測量対応が未確定である。": 1
     },
+    "cond": {},
     "na": {
      "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 2,
      "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 2
@@ -413,7 +404,6 @@
    "nQ": 18,
    "verdict4": "保留",
    "missing": [
-    "条件不一致",
     "σ 未接続"
    ],
    "gate": {
@@ -421,17 +411,15 @@
     "ng": 0,
     "num": 0,
     "map": 0,
-    "cond": 3,
-    "na": 15
+    "cond": 0,
+    "na": 18
    },
    "reasons": {
     "num": {},
     "map": {},
-    "cond": {
-     "kFrame 条件の対照走行が無い": 3
-    },
+    "cond": {},
     "na": {
-     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 13,
+     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 16,
      "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 1,
      "実測が無い(窓不足・未走行)(門の文面: 観測誤差(σ)または有限の実測が無い)": 1
     }
@@ -461,7 +449,6 @@
    "nQ": 7,
    "verdict4": "保留",
    "missing": [
-    "条件不一致",
     "σ 未接続"
    ],
    "gate": {
@@ -469,17 +456,15 @@
     "ng": 0,
     "num": 0,
     "map": 0,
-    "cond": 1,
-    "na": 6
+    "cond": 0,
+    "na": 7
    },
    "reasons": {
     "num": {},
     "map": {},
-    "cond": {
-     "kFrame 条件の対照走行が無い": 1
-    },
+    "cond": {},
     "na": {
-     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 4,
+     "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 5,
      "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 2
     }
    },
@@ -640,25 +625,25 @@
    "nQ": 8,
    "verdict4": "保留",
    "missing": [
-    "条件不一致",
+    "写像未確定",
     "数値精度"
    ],
    "gate": {
     "ok": 0,
     "ng": 0,
-    "num": 1,
-    "map": 0,
-    "cond": 2,
+    "num": 2,
+    "map": 1,
+    "cond": 0,
     "na": 5
    },
    "reasons": {
     "num": {
-     "dt 3 段が走っていない(2 段は感度診断)": 1
+     "dt 3 段が走っていない(2 段は感度診断)": 2
     },
-    "map": {},
-    "cond": {
-     "kFrame 条件の対照走行が無い": 2
+    "map": {
+     "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
     },
+    "cond": {},
     "na": {
      "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 5
     }
@@ -685,28 +670,25 @@
    "nQ": 9,
    "verdict4": "保留",
    "missing": [
-    "条件不一致",
     "写像未確定",
     "数値精度"
    ],
    "gate": {
     "ok": 0,
     "ng": 0,
-    "num": 1,
+    "num": 2,
     "map": 1,
-    "cond": 1,
+    "cond": 0,
     "na": 6
    },
    "reasons": {
     "num": {
-     "dt 3 段が走っていない(2 段は感度診断)": 1
+     "dt 3 段が走っていない(2 段は感度診断)": 2
     },
     "map": {
      "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 1
     },
-    "cond": {
-     "kFrame 条件の対照走行が無い": 1
-    },
+    "cond": {},
     "na": {
      "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 6
     }
@@ -814,7 +796,7 @@
   {
    "id": "gw150914Merge4s",
    "emoji": "⏰",
-   "name": "GW150914 の合体(約4秒)— 放射の方向と用量の較正 variant",
+   "name": "GW150914 の合体(約4秒の窓の宣言)— 放射の方向と用量の較正 variant",
    "version": "obs",
    "theoryControl": false,
    "nQ": 11,
@@ -947,7 +929,7 @@
    "key": "sigma-missing",
    "title": "σ・測定値が足りない",
    "what": "観測 σ が CSV に無い(空欄)・判定量に σ の宛先が無い・実測が窓不足で取れない。**門へ入っていない**ので合否が言えない。",
-   "n": 146,
+   "n": 158,
    "presets": 20,
    "rows": [
     {
@@ -1139,6 +1121,36 @@
     {
      "id": "jupiterGalilean",
      "emoji": "🟠",
+     "kind": "period",
+     "name": "周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(イオ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(エウロパ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ガニメデ)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(カリスト)"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "kind": "period",
+     "name": "20イオ公転窓の軌道保持〔一本化後の宣言で再測・model 欄は旧宣言の記録〕"
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
      "kind": "other",
      "name": "フレーム回転の内訳"
     },
@@ -1212,6 +1224,12 @@
      "id": "venusReal",
      "emoji": "🌇",
      "kind": "period",
+     "name": "公転周期(旧 E6′-R の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕"
+    },
+    {
+     "id": "venusReal",
+     "emoji": "🌇",
+     "kind": "period",
      "name": "公転周期(kFrame=0 対照)"
     },
     {
@@ -1242,6 +1260,18 @@
      "id": "marsMoonsReal",
      "emoji": "🥔",
      "kind": "period",
+     "name": "公転周期(フォボス/ダイモス)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(フォボス)"
+    },
+    {
+     "id": "marsMoonsReal",
+     "emoji": "🥔",
+     "kind": "period",
+     "name": "公転周期(フォボス/ダイモス)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ダイモス)"
+    },
+    {
+     "id": "marsMoonsReal",
+     "emoji": "🥔",
+     "kind": "period",
      "name": "半径振れ幅(2ダイモス公転窓)"
     },
     {
@@ -1261,54 +1291,6 @@
      "emoji": "🥔",
      "kind": "ecc",
      "name": "実測(標準検出器): 離心率(フォボス)"
-    },
-    {
-     "id": "marsMoonsReal",
-     "emoji": "🥔",
-     "kind": "precession",
-     "name": "実測(標準検出器): 近点移動(フォボス)"
-    },
-    {
-     "id": "marsMoonsReal",
-     "emoji": "🥔",
-     "kind": "ecc",
-     "name": "実測(標準検出器): 離心率(ダイモス)"
-    },
-    {
-     "id": "marsMoonsReal",
-     "emoji": "🥔",
-     "kind": "precession",
-     "name": "実測(標準検出器): 近点移動(ダイモス)"
-    },
-    {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
-     "kind": "other",
-     "name": "共通重心の位置"
-    },
-    {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
-     "kind": "other",
-     "name": "半径振れ幅"
-    },
-    {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
-     "kind": "ecc",
-     "name": "実測(標準検出器): 離心率(カロン)"
-    },
-    {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
-     "kind": "precession",
-     "name": "実測(標準検出器): 近点移動(カロン)"
-    },
-    {
-     "id": "uranusReal",
-     "emoji": "💠",
-     "kind": "period",
-     "name": "公転周期(ウンブリエル/チタニア/オベロン・転写診断)(ウンブリエル)"
     }
    ]
   },
@@ -1316,7 +1298,7 @@
    "key": "numeric",
    "title": "数値(収束が確認できない)",
    "what": "3 段(条件つきで 4 段)・次数ガード |p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ のどれかを満たさない。**「合わない」ではなく「まだ言えない」**である。",
-   "n": 8,
+   "n": 11,
    "presets": 6,
    "rows": [
     {
@@ -1330,6 +1312,12 @@
      "emoji": "❄️",
      "kind": "period",
      "name": "公転周期(kFrame=0 対照・同方向1周)"
+    },
+    {
+     "id": "plutoCharonReal",
+     "emoji": "❄️",
+     "kind": "period",
+     "name": "公転周期(旧 E6′-R の行)同方向1周〔一本化後の宣言で再測・model 欄は旧宣言の記録〕"
     },
     {
      "id": "psrDoubleAB",
@@ -1346,8 +1334,20 @@
     {
      "id": "psrJ1757DFM",
      "emoji": "🧮",
+     "kind": "period",
+     "name": "公転周期(観測質量 f=1 — 同方向1周)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕"
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
      "kind": "precession",
      "name": "近点移動(**hold-out** — 較正に使っていない)"
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "kind": "period",
+     "name": "公転周期(観測質量 f=1 — 同方向1周)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕"
     },
     {
      "id": "psrJ1946DFM",
@@ -1373,9 +1373,15 @@
    "key": "mapping",
    "title": "観測量対応が未確定",
    "what": "シミュレータが測る量と、観測解が定義している量が**同じ測定量だと確定していない**(e_T ⇄ eProxy・円に近い系の近点間周期 ⇄ two-body Keplerian の P など)。",
-   "n": 5,
-   "presets": 5,
+   "n": 7,
+   "presets": 7,
    "rows": [
+    {
+     "id": "plutoCharonReal",
+     "emoji": "❄️",
+     "kind": "period",
+     "name": "公転周期 近点間(第250便d)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕"
+    },
     {
      "id": "alphaCenAB",
      "emoji": "✨",
@@ -1395,6 +1401,12 @@
      "name": "実測離心率(1公転の半径比振れ幅)"
     },
     {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "kind": "ecc",
+     "name": "離心率(hold-out — 合わせていない)"
+    },
+    {
      "id": "psrJ1946DFM",
      "emoji": "🩺",
      "kind": "ecc",
@@ -1411,113 +1423,10 @@
   {
    "key": "condition",
    "title": "条件違い(対照走行が無い)",
-   "what": "行が要求する条件(kFrame=0 対照など)と、配られている測定値の条件が違う。**合っていないのではなく、条件が違う**。**第274便a(`--kf0-runs`)で 0 行へ kFrame=0 の対照走行を配った**ので、この区分は 17 件である。**区分が空になったことは「合った」ではない** —— その行は門の 3σ の算術へ移っただけである(そこでの結果は別の区分に出る)。",
-   "n": 17,
-   "presets": 8,
-   "rows": [
-    {
-     "id": "jupiterGalilean",
-     "emoji": "🟠",
-     "kind": "period",
-     "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(イオ)"
-    },
-    {
-     "id": "jupiterGalilean",
-     "emoji": "🟠",
-     "kind": "period",
-     "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(エウロパ)"
-    },
-    {
-     "id": "jupiterGalilean",
-     "emoji": "🟠",
-     "kind": "period",
-     "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(ガニメデ)"
-    },
-    {
-     "id": "jupiterGalilean",
-     "emoji": "🟠",
-     "kind": "period",
-     "name": "kFrame=1(D₀=0.006・q_exact=12.0586)での周期(カリスト)"
-    },
-    {
-     "id": "jupiterGalilean",
-     "emoji": "🟠",
-     "kind": "period",
-     "name": "20イオ公転窓の軌道保持(kFrame=1)"
-    },
-    {
-     "id": "venusReal",
-     "emoji": "🌇",
-     "kind": "period",
-     "name": "公転周期(kFrame=1・E6′-R)"
-    },
-    {
-     "id": "marsMoonsReal",
-     "emoji": "🥔",
-     "kind": "period",
-     "name": "公転周期(フォボス/ダイモス・kFrame=1)(フォボス)"
-    },
-    {
-     "id": "marsMoonsReal",
-     "emoji": "🥔",
-     "kind": "period",
-     "name": "公転周期(フォボス/ダイモス・kFrame=1)(ダイモス)"
-    },
-    {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
-     "kind": "period",
-     "name": "公転周期(kFrame=1・E6′-R)同方向1周"
-    },
-    {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
-     "kind": "period",
-     "name": "公転周期(kFrame=1)近点間(第250便d)"
-    },
-    {
-     "id": "uranusReal",
-     "emoji": "💠",
-     "kind": "period",
-     "name": "公転周期(ミランダ/アリエル・kFrame=1・周回実測)(ミランダ)"
-    },
-    {
-     "id": "uranusReal",
-     "emoji": "💠",
-     "kind": "period",
-     "name": "公転周期(ミランダ/アリエル・kFrame=1・周回実測)(アリエル)"
-    },
-    {
-     "id": "uranusReal",
-     "emoji": "💠",
-     "kind": "period",
-     "name": "環11帯(88粒)の半径保持(2ミランダ公転窓)"
-    },
-    {
-     "id": "neptuneReal",
-     "emoji": "🌊",
-     "kind": "period",
-     "name": "公転周期(kFrame=1・E6′-R)"
-    },
-    {
-     "id": "psrJ1757DFM",
-     "emoji": "🧮",
-     "kind": "period",
-     "name": "公転周期(kFrame=1・観測質量 f=1 — 同方向1周)"
-    },
-    {
-     "id": "psrJ1757DFM",
-     "emoji": "🧮",
-     "kind": "ecc",
-     "name": "離心率(hold-out — 合わせていない)"
-    },
-    {
-     "id": "psrJ1946DFM",
-     "emoji": "🩺",
-     "kind": "period",
-     "name": "公転周期(kFrame=1・観測質量 f=1 — 同方向1周)"
-    }
-   ]
+   "what": "行が要求する条件(kFrame=0 対照など)と、配られている測定値の条件が違う。**合っていないのではなく、条件が違う**。**第274便a(`--kf0-runs`)で 0 行へ kFrame=0 の対照走行を配った**ので、この区分は 0 件である。**区分が空になったことは「合った」ではない** —— その行は門の 3σ の算術へ移っただけである(そこでの結果は別の区分に出る)。",
+   "n": 0,
+   "presets": 0,
+   "rows": []
   },
   {
    "key": "center-bookkeeping",
@@ -1954,17 +1863,16 @@
  ],
  "reasonAgg": {
   "num": {
-   "dt 3 段が走っていない(2 段は感度診断)": 8
+   "dt 3 段が走っていない(2 段は感度診断)": 11
   },
   "map": {
+   "円に近い系の近点間周期である(この preset の転写は e=0.0・実測 eProxy ≈1.2×10⁻³)。近点方位が縮退しているので、観測側の「公転周期」(two-body Keplerian fit の P)と、ここで測る近点間平均間隔が同じ測定量であることは確定していない。数値が足りないのではない —— 観測量対応が未確定である。": 1,
    "軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない": 2,
-   "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 3
+   "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 4
   },
-  "cond": {
-   "kFrame 条件の対照走行が無い": 17
-  },
+  "cond": {},
   "na": {
-   "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 81,
+   "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 93,
    "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 61,
    "実測が無い(窓不足・未走行)(門の文面: 観測誤差(σ)または有限の実測が無い)": 4
   }
@@ -1975,7 +1883,7 @@
    "title": "対照条件の走行を配った(第274便a)",
    "measured": "数値未解決",
    "ref": "tests/out/calaudit-w249.json(kf0Runs — 診断コピーの kFrame=0 走行)",
-   "text": "第273便a まで、「kFrame=0 対照」の行には **kFrame=1 の走行の数**が配られていた(プリセットの physics は 1 つなので、1 回の走行から 2 つの条件の行へ同じ数が配られていた)。第274便a で `--kf0-runs` を入れ、`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を同じ停止条件・同じ近点窓・同じ抽出器で走らせ、**0 行**へ配った(配ったあとの `condition-mismatch` は **17 件**)。**条件が揃ったことは「合った」ことではない** —— 門はここから 3σ の算術を見にいく。"
+   "text": "第273便a まで、「kFrame=0 対照」の行には **kFrame=1 の走行の数**が配られていた(プリセットの physics は 1 つなので、1 回の走行から 2 つの条件の行へ同じ数が配られていた)。第274便a で `--kf0-runs` を入れ、`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を同じ停止条件・同じ近点窓・同じ抽出器で走らせ、**0 行**へ配った(配ったあとの `condition-mismatch` は **0 件**)。**条件が揃ったことは「合った」ことではない** —— 門はここから 3σ の算術を見にいく。"
   },
   {
    "key": "period-def",
@@ -2055,7 +1963,7 @@
   }
  ],
  "naCensus": {
-  "total": 146,
+  "total": 158,
   "byKind": {
    "declaration-row": {
     "n": 61,
@@ -2070,7 +1978,7 @@
     "presets": 0
    },
    "sigma-missing": {
-    "n": 81,
+    "n": 93,
     "presets": 16
    }
   },
@@ -2113,7 +2021,7 @@
   "declaredRows": 34,
   "bySourceRow": 1,
   "bySourceKind": 33,
-  "gateMappingUnresolved": 5,
+  "gateMappingUnresolved": 7,
   "periastronRows": [
    {
     "id": "plutoCharonReal",

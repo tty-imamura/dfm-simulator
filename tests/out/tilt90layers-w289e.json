@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便e",
   "target": "beta/index.html",
-  "targetSha256": "2d75de49f07f0db59409dffa9a3c2d0b6a79a0bdbca91bb6eb8872098bb7f71d",
-  "generatedAt": "2026-10-01T18:51:31.967Z",
+  "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+  "generatedAt": "2026-10-01T20:11:32.955Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5390232,
-    "sha256": "2d75de49f07f0db59409dffa9a3c2d0b6a79a0bdbca91bb6eb8872098bb7f71d",
-    "mtime": "2026-10-01T18:49:46.932Z"
+    "bytes": 5408061,
+    "sha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+    "mtime": "2026-10-01T19:06:18.044Z"
    }
   ],
   "code": [
@@ -18,31 +18,31 @@
     "file": "tests/exp-w289e-tilt90layers.mjs",
     "bytes": 21475,
     "sha256": "992ae3cb09bfe0d0f4c0064a5480f79511bd647474ef321f92ff7864747bf504",
-    "mtime": "2026-10-01T18:49:28.294Z"
+    "mtime": "2026-10-01T19:06:18.080Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-01T18:04:39.168Z"
+    "mtime": "2026-09-24T08:51:12.597Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-01T18:04:38.956Z"
+    "mtime": "2026-09-23T22:41:00.738Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-01T18:04:34.344Z"
+    "mtime": "2026-09-18T17:14:55.948Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-01T18:04:40.016Z"
+    "mtime": "2026-09-28T21:48:12.641Z"
    }
   ],
   "codeSha256": "884999b5458072d0fd6de437cb0090890ff03d9491917b3a1026ec309bd19e20",
@@ -89,11 +89,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 894,
-   "segments": 808,
-   "closureShare": 0.3201
+   "names": 892,
+   "segments": 806,
+   "closureShare": 0.319
   },
-  "scopeSha256": "48f2141bc6dd71bfa2e40438b9fd39207bb8a8e35e4afed1006eca3f178914c0",
+  "scopeSha256": "69fb13bd642b2558569ee975af01a43d229125115f1715d0fe29941c3d66d496",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -360,7 +360,7 @@
    "kickSteps": 0,
    "insideSteps": 58530,
    "insideMax": 29,
-   "wallSec": 9.124
+   "wallSec": 9.339
   },
   {
    "key": "spin0",
@@ -413,7 +413,7 @@
    "kickSteps": 0,
    "insideSteps": 58530,
    "insideMax": 29,
-   "wallSec": 7.733
+   "wallSec": 8.13
   },
   {
    "key": "upright",
@@ -465,7 +465,7 @@
    "kickSteps": 0,
    "insideSteps": 64885,
    "insideMax": 31,
-   "wallSec": 8.177
+   "wallSec": 9.731
   },
   {
    "key": "layers",
@@ -550,7 +550,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 8.116
+   "wallSec": 8.976
   },
   {
    "key": "layers-noLF",
@@ -636,7 +636,7 @@
    "kickSteps": 0,
    "insideSteps": 58530,
    "insideMax": 29,
-   "wallSec": 8.241
+   "wallSec": 8.438
   },
   {
    "key": "layers-tilt0",
@@ -706,7 +706,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 8.351
+   "wallSec": 8.843
   },
   {
    "key": "layers-noJ",
@@ -775,7 +775,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 8.167
+   "wallSec": 8.559
   },
   {
    "key": "layers-om0",
@@ -865,7 +865,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 8.653
+   "wallSec": 9.572
   },
   {
    "key": "layers-om2x",
@@ -956,7 +956,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 8.182
+   "wallSec": 9.516
   },
   {
    "key": "layers-az90",
@@ -1048,7 +1048,7 @@
    "kickSteps": 2962,
    "insideSteps": 61069,
    "insideMax": 34,
-   "wallSec": 8.173
+   "wallSec": 9.045
   },
   {
    "key": "layers-shell-noLF",
@@ -1135,7 +1135,7 @@
    "kickSteps": 0,
    "insideSteps": 64885,
    "insideMax": 31,
-   "wallSec": 8.191
+   "wallSec": 9.346
   }
  ],
  "same": [
@@ -1539,7 +1539,7 @@
    "warns": 0
   }
  },
- "elapsedS": 95.911,
+ "elapsedS": 105.003,
  "docRows": {
   "runs": [
    "| tilt90 | — | 58530 | — | 0 | 0 |",

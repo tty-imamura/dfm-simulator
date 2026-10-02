@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便d",
   "target": "beta/index.html",
-  "targetSha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-  "generatedAt": "2026-10-01T05:30:03.861Z",
+  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "generatedAt": "2026-10-01T22:45:34.565Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1831255,
-    "sha256": "68d0e2b4023868daf2a7ac9c0c0e34fa1dc469c62ee8abf1d30a3e81d86fa60b",
-    "mtime": "2026-10-01T04:31:39.003Z"
+    "bytes": 1824134,
+    "sha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
+    "mtime": "2026-10-01T22:11:22.009Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
     "bytes": 50629,
-    "sha256": "06f335ef338e254ed803bdf792bdc0c16c5711fef01d8b77f381ebeee40db18d",
-    "mtime": "2026-10-01T04:39:31.647Z"
+    "sha256": "5d61731d450b2ee5aadcea1656347b47dbfde1d3e5aa572816969f07d56737a1",
+    "mtime": "2026-10-01T22:16:10.973Z"
    },
    {
     "file": "beta/index.html",
-    "bytes": 5356329,
-    "sha256": "c71564642a1d646900edfe09fde13ee46f62dc537fb0da2a7c3b3834a0392010",
-    "mtime": "2026-10-01T04:18:52.243Z"
+    "bytes": 5410574,
+    "sha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+    "mtime": "2026-10-01T22:00:20.957Z"
    }
   ],
   "code": [
@@ -34,9 +34,9 @@
    },
    {
     "file": "tests/lib-w285d-obscompare.mjs",
-    "bytes": 9274,
-    "sha256": "ddc9db38e4d4d11c5c7f45a9458e46626accefac54489957ad400b8c8c93b0c3",
-    "mtime": "2026-09-30T21:46:30.347Z"
+    "bytes": 9703,
+    "sha256": "f6ceb9b002a1a7580fe1724cbcda2a0acbd7b35ddef9d5068ba394ccd608c920",
+    "mtime": "2026-10-01T18:55:10.092Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
@@ -57,7 +57,7 @@
     "mtime": "2026-09-30T21:46:30.347Z"
    }
   ],
-  "codeSha256": "a36d70dba3eba53769454302be00ea8f5bb326a52eea3e7a6b8d70b377d934a3",
+  "codeSha256": "84b1f53e44e60c6e4829a96f8441a2c611b6531ee58d43fbbda88124dc1cd85e",
   "version": "w285d-1",
   "generator": "tests/exp-w285d-obscompare.mjs",
   "region": "obs-compare",
@@ -129,16 +129,16 @@
    "core": false,
    "consts": [],
    "complete": true,
-   "names": 905,
-   "segments": 819,
-   "closureShare": 0.333
+   "names": 907,
+   "segments": 821,
+   "closureShare": 0.3327
   },
-  "scopeSha256": "4e71e0d1840210eff20ecfd0733068eb9337d46c27332fe4bec8f90129e0264a",
+  "scopeSha256": "684136380eebff6bb2eedf3440479585fe07b3f9e77506ae3fbf2a4de7271096",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "105616e52a9a0219feffe6bf22fa77c6054bb19fe5e7afed324a743ce89a02ae",
+    "stableSha256": "44d227df9e538db11e1cf79469ee5fa1c5544eb0b875f5b7c48d3b92d7853946",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -166,7 +166,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "3578e3e1eeec1d7645e3603df996b1373f26d59df30f69a1e6e8a2bd807fa1e9",
+    "stableSha256": "bf48f951553a00d5c884b16d8fc7981f9f0f5b9ca6251fe1b9ae968df26ca4ed",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -194,7 +194,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "18c0d3607a46b36c627ca2aec606a6f2eee0e08cce0d213b0c8a831608d2f223",
+    "stableSha256": "6d40a44ef1cb8d465c5d1016e5bf40d6f786ea47d25e3685533e8383658d9741",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -212,7 +212,7 @@
   "wave": "第249便b",
   "rows": 190,
   "presets": 20,
-  "rowsSha256": "693868c10b53ccaf2c9b22521e48b58c143665d7149ddf83353f9ce5b3d1fb15",
+  "rowsSha256": "9fea2260e28e35a9bcaac36831411d91ffe03ffce053c0184d748bb6b8136963",
   "sigDigits": 12
  },
  "counts": {
@@ -224,10 +224,10 @@
   "gate": {
    "合(3σ)": 2,
    "否(3σ)": 1,
-   "数値未解決": 8,
-   "mapping-unresolved": 5,
-   "condition-mismatch": 17,
-   "未判定": 146
+   "数値未解決": 11,
+   "mapping-unresolved": 7,
+   "condition-mismatch": 0,
+   "未判定": 158
   }
  },
  "extra": {
@@ -258,5 +258,5 @@
   "較正した",
   "帯の中なら合格"
  ],
- "elapsedS": 3.305
+ "elapsedS": 2.273
 }

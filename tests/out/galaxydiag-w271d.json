@@ -3,8 +3,8 @@
   "provenanceVersion": "w272e-1",
   "wave": "第271便d(来歴は第272便e で共通化)",
   "target": "beta/index.html",
-  "targetSha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-  "generatedAt": "2026-09-30T23:32:22.724Z",
+  "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+  "generatedAt": "2026-10-01T20:00:22.996Z",
   "code": [
    {
     "file": "tests/exp-w271d-galaxydiag.mjs",
@@ -32,15 +32,15 @@
    }
   ],
   "codeSha256": "80fc495d523aba5379cd830e455c579c6da1a31ee86d2109f50fc31858b133e5",
-  "measuredAt": "2026-09-30T23:32:22.725Z",
+  "measuredAt": "2026-10-01T20:00:22.996Z",
   "codeVersion": "tests/exp-w271d-galaxydiag.mjs 第271便d",
   "declarationVersion": "compare-v1 / 第61報「提示された指摘を参考に改善/決断事項は概ね同意」",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5397459,
-    "sha256": "fac9bb93efef60b65d462adbf8f8d9a9ce8e72bdcc39538593d59ca3977991ae",
-    "mtime": "2026-09-30T21:53:18.591Z"
+    "bytes": 5408061,
+    "sha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+    "mtime": "2026-10-01T19:06:18.044Z"
    },
    {
     "file": "paper/data/cluster-galaxy-observations.csv",
@@ -94,15 +94,15 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 887,
-   "segments": 801,
-   "closureShare": 0.3157
+   "names": 889,
+   "segments": 803,
+   "closureShare": 0.3184
   },
-  "scopeSha256": "3d703239897e6cabfefc3bf8c2e54a996fb58fc71e3a60b09b6d688b473f2a18",
+  "scopeSha256": "615e7f901b769242495ac724b0aac51528ff20ee33b2faa1434cc4b524a3bd9c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1",
-  "spentSec": 464.5
+  "spentSec": 314.2
  },
  "declaration": {
   "what": "**銀河の器の診断 3 本**(AF5 準定常窓 variant・AF7 clampSN の切り分け・AF19 N/seed 系列)。**主判定窓 T=40 は動かさない**(準定常窓は別 variant)。**clamp の上限 ±40 は変えない**(本器は**数えるだけ**である)。**観測残差を見て窓・帯・seed を選ばない。**",
