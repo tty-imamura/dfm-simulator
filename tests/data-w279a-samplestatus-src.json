@@ -28,12 +28,19 @@
    "psrDoubleABDFM",
    "psrB1534DFM",
    "psrDoubleABSpinCal",
-   "gw150914DFM"
+   "gw150914DFM",
+   "tuc47DFM",
+   "supernovaProgDFM",
+   "clusterGrowthCopy",
+   "fixedCaptureCopy",
+   "plutoCharonReal",
+   "plutoCharonDFM",
+   "plutoCharonSyncZero"
   ],
-  "since": "第283便b・第284便b・第285便f・第286便f・第287便b・第288便b",
-  "ruling": "原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」と原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)」(AN35: 🌙 と実効 JSON 同一の ⭕ と、⚡ の f=1 署名と同時の 🪝 を含む)と原仮定者の裁定(第75報)AN51(CF は対応する f=1 と同時 —— 🧮 の f=1 と同時の 🪄)と原仮定者の裁定(第76報)AN57(🩺 の f=1 と同時の 🩹)と原仮定者の裁定(第77報)AN62(🧶 の f=1 と同時の 🪤 —— CF 系列の最後の 1 本)と原仮定者の裁定(第78報)④(現実較正の一本化 —— DFM 版〔geoPN=2∧kFrame>0 と 🎻〕のうち対のある 7 組の DFM 側・🧿・🧲・🎻 の 10 本。kFrame=1 は q を使った引きずりの近似 —— 較正母集団の外)",
-  "rulingShort": "原仮定者の裁定(第73報)④・(第74報)⑤・(第75報)AN51・(第76報)AN57・(第77報)AN62・(第78報)④",
-  "rule": "html の familyRole:\"retired\" と同じ集合(器が照合する)。一覧の群の集計から外し「退役」の別群として並べる。status(目的・状況・根拠)は退役の前のまま —— ゲートから外した/付け替えた試験の裏づけは凍結の写し tests/fixtures/retired-w283b.json・tests/fixtures/retired-w284b.json・tests/fixtures/retired-w285f.json・tests/fixtures/retired-w286f.json・tests/fixtures/retired-w287b.json・tests/fixtures/retired-w288b.json の履歴で行う"
+  "since": "第283便b・第284便b・第285便f・第286便f・第287便b・第288便b・第290便b",
+  "ruling": "原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」と原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)」(AN35: 🌙 と実効 JSON 同一の ⭕ と、⚡ の f=1 署名と同時の 🪝 を含む)と原仮定者の裁定(第75報)AN51(CF は対応する f=1 と同時 —— 🧮 の f=1 と同時の 🪄)と原仮定者の裁定(第76報)AN57(🩺 の f=1 と同時の 🩹)と原仮定者の裁定(第77報)AN62(🧶 の f=1 と同時の 🪤 —— CF 系列の最後の 1 本)と原仮定者の裁定(第78報)④(現実較正の一本化 —— DFM 版〔geoPN=2∧kFrame>0 と 🎻〕のうち対のある 7 組の DFM 側・🧿・🧲・🎻 の 10 本。kFrame=1 は q を使った引きずりの近似 —— 較正母集団の外)と原仮定者の裁定(第80報)⑤(サンプルの整理 —— 🫐〔f≈2 版〕・🌹〔f=2〕・🌰🥜〔初期配置〕・❄️〔🥶 に集約〕・⛄☃️〔引きずり側の更新に伴う旧 pairSlip の診断の整理〕の 7 本)",
+  "rulingShort": "原仮定者の裁定(第73報)④・(第74報)⑤・(第75報)AN51・(第76報)AN57・(第77報)AN62・(第78報)④・(第80報)⑤",
+  "rule": "html の familyRole:\"retired\" と同じ集合(器が照合する)。一覧の群の集計から外し「退役」の別群として並べる。status(目的・状況・根拠)は退役の前のまま —— ゲートから外した/付け替えた試験の裏づけは凍結の写し tests/fixtures/retired-w283b.json・tests/fixtures/retired-w284b.json・tests/fixtures/retired-w285f.json・tests/fixtures/retired-w286f.json・tests/fixtures/retired-w287b.json・tests/fixtures/retired-w288b.json・tests/fixtures/retired-w290b.json の履歴で行う"
  },
  "rows": {
   "projectile": {
@@ -1362,15 +1369,16 @@
    }
   },
   "plutoCharonDiagInput": {
-   "purpose": "❄️ の入力の丸めと軟化を外した kF0 診断コピー",
-   "objective": "met",
-   "state": "要因の鎖と同一定義の表を記帳",
+   "purpose": "冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)",
+   "objective": "partial",
+   "state": "入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める",
    "evidence": [
+    "tests/out/calaudit-w249.json",
     "tests/out/charoninput-w280d.json"
    ],
    "en": {
-    "purpose": "kF0 copy of ❄️ with rounding and softening removed",
-    "state": "factor chain and same-definition table recorded"
+    "purpose": "Compare Pluto–Charon with inputs from one observed solution (the successor entry of ❄️)",
+    "state": "the residual after cleaning the inputs is recorded as a definition gap; the calibration verdict comes from the canonical output"
    }
   },
   "plutoCharonSyncZero": {

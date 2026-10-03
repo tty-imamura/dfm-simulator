@@ -69,6 +69,7 @@ export const SIGMA_TARGET_BODY = {
   'saturnRingRealKF1|C環内縁': 'Saturn ring C inner edge',
   'marsMoonsReal|フォボス': 'Phobos', 'marsMoonsReal|ダイモス': 'Deimos',
   'plutoCharonReal|カロン': 'Charon',
+  'plutoCharonDiagInput|カロン': 'Charon',   // 第290便b(原仮定者の裁定(第80報)⑤): ❄️ の後継の入口(同じ CSV 行 —— Buie 2012 の P)。❄️ の行は履歴として残す
   'uranusReal|ミランダ': 'Miranda', 'uranusReal|アリエル': 'Ariel',
   'uranusReal|ウンブリエル': 'Umbriel', 'uranusReal|チタニア': 'Titania', 'uranusReal|オベロン': 'Oberon',
   'neptuneReal|トリトン': 'Triton',

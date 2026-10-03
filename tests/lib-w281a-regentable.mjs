@@ -216,7 +216,8 @@ export const REGEN_STEPS = [
     note: '第284便c: h/4 は例外の登録簿の本だけ(--h4-exceptions)・同一契約の h4 は転記・h/2 は同一便の再走で転記。旧 --dt3-registry(登録表の全本)は明示診断 --dt4-registry' }),
   S('kf0', 'node tools/calaudit-split.mjs --k 2 --harness tests/exp-w249b-calaudit.mjs -- --kf0-runs --kf0-only --kf0-h4-exceptions --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge', ['tests/out/kf0-w259d.json'], 171, { alwaysRun: true, after: ['dt3'], secSource: 'w284c-run',
     merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'], workers: 2,   // 第284便f: プリセット 2 分割(統合時に c の旗と合成)
-    note: '第284便c: kF0 の診断コピーの h/4 は例外の登録簿の kf0 の本(plutoCharonReal)だけ(--kf0-h4-exceptions)。5 本すべての h/4 は明示診断 --kf0-dt3' }),
+    note: '第284便c: kF0 の診断コピーの h/4 は例外の登録簿の kf0 の本(plutoCharonReal)だけ(--kf0-h4-exceptions)。5 本すべての h/4 は明示診断 --kf0-dt3。'
+      + '第290便b: ❄️ は退役して母集団の外 —— `--only` に名前が残っても job にならない(引数は分割の同一性の実測記録 tests/data-w284f-calsplit.json と同じに保つ)' }),
   S('solarsigma', 'node tests/exp-w262d-solarsigma.mjs', ['tests/out/solarsigma-w262d.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   // 第286便 統合(統括): 📡 D68 の 3 段(第268便a・h/h2/h4・T=10698.816)。QA docs.threeStageD68 ⑥ / docs.d68Decomp が calaudit の門の値・
   //   d68-w280e の再現とビットで突き合わせる正本なのに表に無く、cLight 真値化(第286便b)で 1e-9 動いた値が古いまま残った → 常時群に

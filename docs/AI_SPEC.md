@@ -2937,3 +2937,23 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **Wbg の説明の限定**(AN103): 「kFrame=0 では力に入らない」は広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで spaceMesh.D0 1.5→4.5 の 1 步で自由粒子の vx の最大差 7.44e-4)→「現実較正の geoPN=1・kFrame=0 の軌道力には入らない。geoPN=3 の場と Jeans 初速(vMode:"jeans")では kFrame=0 でも読む」(ja/en の tip と説明)。Wbg は A/B へ写さない。
 - **アナロジーの説明 1 行**(AN110): 🌚🧩🛸💮🌰🥜 の `descStruct.summary`(ja/en)に「第289便の時点では第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では走っていない(share p=1 の q 付き場・連鎖は仮説)」の 1 文。状況の原稿(tests/data-w279a-samplestatus-src.json)の状況の末尾に要旨(概要は ja 120・en 200 字の上限内 —— 既存の文を削って入れた)。生成領域の概要は鎖の samplestatus が書く(手で走らせない)。
 - QA: **`ui.pickerStatusAxes`**・**`lint.wbgConvUnits`**・**`docs.analogyKernelNote`**・`ui.paramWbgRow`(換算と文言の項・🧩 の読みの実測)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators`・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`・`ui.pickerOtherFold` の固定値(軸 15→25・段 2→3・チップと見出し 18→29)は世代切替 has289f(html の `const PP_OTHER_STATUS_AXES=`)。root は SKIP。
+
+## 35. 第290便b —— 退役 7 本・🥶 の較正分類・家族の表(原仮定者の裁定〔第80報〕⑤・統括の検証項目 R126・**宣言だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON の物理・力学は 1 bit も変えていない(`familyId`・`familyRole`・`sampleClass` は署名の外の宣言 —— bitsame 147/147)。
+
+- **退役 7 本**(§16 の `familyRole:"retired"`・理由と代わりの本は `RETIRED_PRESETS`・凍結の写し `tests/fixtures/retired-w290b.json`): 🫐 `tuc47DFM`(→ 🍇)・🌹 `supernovaProgDFM`(→ 🥀)・🌰 `clusterGrowthCopy`・🥜 `fixedCaptureCopy`(→ 🧩/🌚)・❄️ `plutoCharonReal`・⛄ `plutoCharonDFM`・☃️ `plutoCharonSyncZero`(→ 🥶)。AI 追加の基準候補・サンプル一覧には出ない(読み込み中の本だけは残る —— §16 の規約のまま)。
+- **🥶 `plutoCharonDiagInput`** を `sampleClass:"calibration"` へ(較正母集団 `sampleClass:"calibration" ∧ familyRole≠"retired"` に入る —— 合否と本数は判定器の正本が決める)。**❄️ の 4 値は 🥶 の結果ではない。**
+- **家族の表**(`familyId` → 基準 primary / 在位の枝 variant / 退役):
+
+| familyId | primary | variant | retired |
+|---|---|---|---|
+| `pluto` | 🥶 | 🌨️・🌒 | ❄️・⛄・☃️ |
+| `tuc47` | 🍇 | — | 🫐 |
+| `supernova` | 🥀 | 🎇(群をまたぐ —— 家族は群をまたいでよい) | 🌹 |
+| `shapeToy` | 🔮 | 🥏・🧵 | — |
+| `shapeToyCore` | 🎱 | 📀・🧹 | — |
+| `axisBar` | 🥢 | 🎏・🎚️ | — |
+
+- **📡 `saturnZonalD68` の obsCard に 1 行**(「否の要因(第280便e の診断・履歴)」・obs「—」): 値は正本 `tests/out/d68-w280e.json` の転記。係数 C・初速・bodies は不変。
+- QA: **`preset.retired290b`**・**`docs.d68FactorRow`**(root は SKIP)。
