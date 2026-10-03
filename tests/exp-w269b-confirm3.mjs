@@ -49,6 +49,8 @@ const ACK_TAG = 'acknowledged_by=原仮定者 2026-09-17';
 
 // 第270便b(第60報 W2・AE2): **列位置でなくヘッダ名で読む**(`record_id` の列追加で壊れない)。
 import { parseCsvLine, headerIndex } from './lib-w270b-obscsv.mjs';
+// 第290便g(R131): 後の回(confirmation_round > 3)の印を全部除く 1 本
+import { laterRoundsVerified } from './lib-w290g-rounds.mjs';
 function loadCsv(rel) {
   const rows = [];
   const lines = fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n');
@@ -463,17 +465,18 @@ if (after.solar.sameMarkAs !== SAME_MARK.length)
   bad.push(`same_mark_as= を持つ行が ${after.solar.sameMarkAs}(宣言は ${SAME_MARK.length})`);
 // 第270便b(第 4 回)で `unverified` → `verified` になった併置行 260/262/263 の 3 行は、
 // **この便(第 3 回)の増分ではない**ので分けて数える(**便を跨いで固定値を黙って増やさない**)。
-const round4NewVerified = CSV[SOLAR_F].filter((r) =>
-  /(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(r.note)
-  && /(?:^|[^A-Za-z0-9_])previous_mark=unverified\b/.test(r.note)
-  && readSigmaMark(r.note).verified).length;
-// 第278便a(第 5 回)で verified になった行(`confirmation_round=5`・新規行を含む)も同じ理由で分けて数える。
-const round5NewVerified = CSV[SOLAR_F].filter((r) =>
-  /(?:^|[^A-Za-z0-9_])confirmation_round=5\b/.test(r.note)
-  && readSigmaMark(r.note).verified).length;
-if (after.solar.verified - BEFORE.solar.verified - round4NewVerified - round5NewVerified !== VERIFIED_NEW.length)
+// 第290便g(R131・第278便の教訓の恒久策): **自分の回(第 3 回)より大きい回で上がった印を全部除く**
+//   (旧い書き方は第 4 回・第 5 回を名指ししていた)。回ごとの規則は tests/lib-w290g-rounds.mjs の表 ——
+//   第 4 回は previous_mark=unverified の行・第 5 回は verified の行で、旧い書き方と同じ数になる。
+const LATER = laterRoundsVerified(CSV[SOLAR_F], 3, (note) => readSigmaMark(note).verified);
+const round4NewVerified = LATER.byRound[4] || 0;
+const round5NewVerified = LATER.byRound[5] || 0;
+after.solar.laterRoundsVerified = LATER.total;
+after.solar.laterRoundsByRound = LATER.byRound;
+if (after.solar.verified - BEFORE.solar.verified - LATER.total !== VERIFIED_NEW.length)
   bad.push(`太陽系の verified の増分が ${after.solar.verified - BEFORE.solar.verified}`
-    + `(宣言は ${VERIFIED_NEW.length} + 第 4 回の ${round4NewVerified} + 第 5 回の ${round5NewVerified} —— 同印写しは印を動かさない)`);
+    + `(宣言は ${VERIFIED_NEW.length} + 後の回の ${LATER.total} ${JSON.stringify(LATER.byRound)}`
+    + `(第 4 回 ${round4NewVerified}・第 5 回 ${round5NewVerified})—— 同印写しは印を動かさない)`);
 if (after.cluster.verified !== BEFORE.cluster.verified)
   bad.push(`星団/銀河の verified が動いた(${BEFORE.cluster.verified} → ${after.cluster.verified})`);
 // **外部確認印だけで verified になっている行は 1 つも無い**(Z11)

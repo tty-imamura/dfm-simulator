@@ -1059,7 +1059,10 @@ if (QA_CHANGED) {
     c.push(cur); return c; };
   let header = '', legacy = 0, legacySigma = 0, intakeB = 0, intakeBSigma = 0, verified = 0;
   let sparcChecked = 0;   // 第269便b: SPARC 10 点の外部照合印(**verified にしない**)
-  const bodies = new Set(), widths = new Set();
+  // 第290便g(R131): 確認依頼 第 7 回の候補行(`intake_round=confirmation-request-7`)は**別の区分**で数える
+  //   (既存 108 行にも intake B にも入れない)。sigma は全行空欄・body は NGC 0036 が**候補行だけ**に増える。
+  let intake290 = 0, intake290Sigma = 0;
+  const bodies = new Set(), widths = new Set(), bodies290Only = new Set(), bodiesOther = new Set();
   try {
     const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
     const lines = fs.readFileSync(F, 'utf8').split('\n');
@@ -1070,9 +1073,14 @@ if (QA_CHANGED) {
       widths.add(c.length);
       bodies.add(c[0]);
       const isB = /intake_row=2026-09-16/.test(c[7] || '');
+      const is290 = /intake_round=confirmation-request-\d+/.test(c[7] || '') && /intake_row=2026-10-02/.test(c[7] || '');
       const hasSigma = (c[8] || '').trim() !== '';
-      if (isB) { intakeB++; if (hasSigma) intakeBSigma++; }
-      else { legacy++; if (hasSigma) legacySigma++; }
+      if (is290) { intake290++; if (hasSigma) intake290Sigma++; bodies290Only.add(c[0]); }
+      else {
+        bodiesOther.add(c[0]);
+        if (isB) { intakeB++; if (hasSigma) intakeBSigma++; }
+        else { legacy++; if (hasSigma) legacySigma++; }
+      }
       // ⑥ 第269便b(統括の読み (C)): **SPARC 公式 MassModels 表(43 点)との外部照合**を
       //   NGC 3198 の候補 10 点に注記した。**外部照合は印を 1 bit も上げない** ——
       //   この 10 行は `unverified` のままで X7 の `verified_by=` は空である。
@@ -1109,7 +1117,7 @@ if (QA_CHANGED) {
     //   (`tests/lib-sigma-destinations.mjs`)。文字列検索は**コメント中の body 名**にも当たるし、
     //   **値ではなく鍵**に書かれた名前にも当たる —— 表の**値**を見れば曖昧さが無い。
     const DEST = await import('file://' + path.join(ROOT, 'tests', 'lib-sigma-destinations.mjs'));
-    for (const b of ['47 Tuc', 'NGC 3198']) if (DEST.isWiredBody(b))
+    for (const b of ['47 Tuc', 'NGC 3198', 'NGC 0036']) if (DEST.isWiredBody(b))
       bad.push(`⑤門の宛先表に ${b} が入っている(星団・銀河は門に接続しない約束である)`);
   } catch (e) { bad.push('CSV が読めない: ' + String(e).slice(0, 80)); }
   // 第270便b(AE2): **ヘッダ末尾に `record_id` を足した**(`sigma` はその 1 つ手前に移った)。
@@ -1121,9 +1129,13 @@ if (QA_CHANGED) {
   if (legacy !== 108) bad.push(`②既存行が 108 でない(${legacy})`);
   if (legacySigma !== 0) bad.push(`②既存行に σ が入っている(${legacySigma} 行 —— 既存は空のままにする)`);
   if (intakeBSigma === 0) bad.push('③intake B の行に σ が 1 つも入っていない');
-  const bodyList = [...bodies].sort();
+  // 第290便g: ④ は**候補行以外の行**の body で見る(候補行で増えた body は NGC 0036 だけ —— 記録であって門ではない)
+  const bodyList = [...bodiesOther].sort();
   if (!(bodyList.length === 2 && bodyList.includes('47 Tuc') && bodyList.includes('NGC 3198')))
     bad.push(`④body が 2 つ(47 Tuc / NGC 3198)でない: ${bodyList.join(' , ')}`);
+  const new290 = [...bodies290Only].filter((b) => !bodiesOther.has(b)).sort();
+  if (new290.join(',') !== 'NGC 0036') bad.push(`④第 7 回の候補行で増えた body が NGC 0036 だけでない: ${new290.join(' , ')}`);
+  if (intake290Sigma !== 0) bad.push(`④第 7 回の候補行に σ が入っている(${intake290Sigma} 行 —— 候補行の sigma は空欄)`);
   if (verified !== 6) bad.push(`⑤verified の印がある行が 6 でない(${verified} 行 —— 第267便a で `
     + `原仮定者が第 2 回の確認記録で答えた 47 Tuc の 6 量だけが verified である)`);
   if (sparcChecked !== 10) bad.push(`⑥SPARC の外部照合印を持つ行が ${sparcChecked}`
@@ -1140,6 +1152,7 @@ if (QA_CHANGED) {
     + `残りは \`unverified\` のまま / **印が \`verified\` であることは門に繋がっていることではない** ——`
     + `門の宛先表(\`tests/lib-sigma-destinations.mjs\`)に \`47 Tuc\` も \`NGC 3198\` も 1 行も無い`
     + `(**星団・銀河は門に接続していない**。第268便a で**器のソース文字列検索から宣言表の読み取りへ**変えた)/ `
+    + `第290便g: 確認依頼 第 7 回の候補行 ${intake290} 行(sigma 空欄 —— 増えた body は NGC 0036 だけ・門の宛先表に無い)/ `
     + `⑥ 第269便b: NGC 3198 の候補 **${sparcChecked} 点**に SPARC 公式 MassModels 表`
     + `(この銀河は 43 点)との**外部照合の注記**が入った —— **印は 1 行も上がっていない**`
     + `(\`unverified\` のまま・X7 の \`verified_by=\` は空)。e_Vobs は傾斜の系統誤差を含まないので`
@@ -1643,10 +1656,15 @@ if (QA_CHANGED) {
       bad.push(`⑥本便後の X7 警告が 0 でない(${((cen.after || {}).solar || {}).x7Warn})`);
     // 第278便a: 第 5 回(`confirmation_round=5`)で verified になった行(器が `after.solar.round5Verified` に数える・
     //   旧世代の正本には無いので 0)はこの便の増分ではない
+    // 第290便g(R131・第278便の教訓の恒久策): **第 4 回より大きい回を全部**引く —— 器が `after.solar.laterRoundsVerified`
+    //   (tests/lib-w290g-rounds.mjs —— 第 5 回以降の全部)に数える。旧世代の正本(この欄が無い)は `round5Verified` へ戻る
+    const later290 = (((cen.after || {}).solar || {}).laterRoundsVerified !== undefined)
+      ? ((cen.after || {}).solar || {}).laterRoundsVerified
+      : (((cen.after || {}).solar || {}).round5Verified || 0);
     if (((cen.after || {}).solar || {}).verified
       - ((cen.before || {}).solar || {}).verified
-      - (((cen.after || {}).solar || {}).round5Verified || 0) !== EXPECT['verified-new'])
-      bad.push('⑥太陽系の verified の増分が 3 でない(X7 欄を埋めた 6 行と第 5 回で上がった行は印を動かさない)');
+      - later290 !== EXPECT['verified-new'])
+      bad.push('⑥太陽系の verified の増分が 3 でない(X7 欄を埋めた 6 行と第 5 回以降の後の回で上がった行は印を動かさない)');
     if ((cen.externalOnlyVerified || []).length)
       bad.push('⑥外部確認印だけで verified になっている行がある');
     // ⑦ AE7(171〜173 の中立表現)
@@ -3699,7 +3717,10 @@ if (QA_CHANGED) {
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化・原仮定者の裁定(第78報)④)。切断点 106/26/3/4 → 86/19/2/4・太陽系 4 値 否 2/保留 14 → 否 1/保留 11 は
     //   退役 🌘🧲🪨💿 の行が母集団の外へ出た(unit-not-converted の 1 減は 🪨)のと、❄️ が kFrame=0 へ在位移行して「否」の行が条件不一致(条 17 の 1 つ)になったため —— 判定の変化ではない
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-    const EXPECT = { csvRows: 601, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
+    // 第290便g(R131): 確認依頼 第 7/8 回の候補行(太陽系 —— 器 tests/exp-w290g-intake8.mjs の宣言表から数える)を足した
+    const I290c = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
+    const n290c = I290c.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
+    const EXPECT = { csvRows: 601 + n290c, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
       cut: has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
       four: has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null, nLater = 0, nRaised = 0;
@@ -3809,7 +3830,10 @@ if (QA_CHANGED) {
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化・原仮定者の裁定(第78報)④)。切断点 106/26/3/4 → 86/19/2/4・太陽系 4 値 否 2/保留 14 → 否 1/保留 11 は
     //   退役 🌘🧲🪨💿 の行が母集団の外へ出た(unit-not-converted の 1 減は 🪨)のと、❄️ が kFrame=0 へ在位移行して「否」の行が条件不一致(条 17 の 1 つ)になったため —— 判定の変化ではない
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-    const EXPECT = { csvRows: 601, newRows: 21, newWithSigma: 10, newVerified: 10, confirmed: 42, raised: 9,
+    // 第290便g(R131): 確認依頼 第 7/8 回の候補行(太陽系 42 行 —— 器 tests/exp-w290g-intake8.mjs の宣言表から数える)を足した
+    const I290 = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
+    const n290 = I290.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
+    const EXPECT = { csvRows: 601 + n290, newRows: 21, newWithSigma: 10, newVerified: 10, confirmed: 42, raised: 9,
       cut: has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
       four: has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nRows = 0, nNew = 0, nNewSig = 0, nNewVer = 0, nConf = 0, nRaised = 0, cut = null, four = null;
@@ -3893,6 +3917,124 @@ if (QA_CHANGED) {
       + `③ **sigma 列へ上げた既存行 ${nRaised} 行**(2of2 かつ verified の定義名の量だけ —— 判定量ではない)/ `
       + `④ **切断点 ${cut ? Object.values(cut).join('/') : '—'} と太陽系 4 値 ${four ? JSON.stringify(four) : '—'} は動いていない** / `
       + `⑤ 判定量名の行を宛先天体へ 1 行も足していない / ⑥ §5.28 に件数・禁止語なし / ⑦ 会計器と台帳の器が現行 CSV と一致`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第290便g(統括の検証項目 R131): docs.intake8 ----
+// ----   **確認依頼 第 7 回・第 8 回の回答の転写**(候補行・印なし)を機械で固定する。器 tests/exp-w290g-intake8.mjs の
+// ----   点検(`checkIntake8` —— CSV を書かない)を import して走らせ、次の 8 つを見る:
+// ----     ① 候補行の数(ファイル別・kind 別・回別)が宣言どおり(太陽系 42 / 過渡天体 30 / 星団・銀河 15 = 87)。
+// ----     ② **既存行は 1 字も書き換えていない**(各 CSV の先頭が基点 f03bf5a のバイト列と SHA-256 で一致)・
+// ----        **冪等**(末尾が器の作る候補行とバイトで一致 —— もう一度 --write しても 1 バイトも変わらない)。
+// ----     ③ 量名はすべて `_candidate`・印はすべて `unverified`(確認者欄なし)・**sigma 列は全行空欄**
+// ----        (90% 区間の行は `ci90=` と `sigma_kind=ci90`・非対称は `interval_plus/minus`)・上限/下限の行は value 空。
+// ----     ④ **門に入らない**: 量名が門の量(orbital_period / eccentricity / periastron_advance)に当たる行 0・
+// ----        宣言(judgement-sources.json)が指す行 0・門の鍵の「最初の行」が動いた鍵 0・宛先表の body 0・
+// ----        較正の器は過渡天体/星団銀河の CSV を開かない・**正本 calaudit-w249.json と solarsigma-w262d.json に
+// ----        候補行の record_id が 1 つも現れない**(門は sigma 空欄と kind を読まない —— 鍵で外れる)。
+// ----     ⑤ 書誌の混入 0(J1757−1854 の発見論文は Cameron 2018 sly003)・AB3(74490 km)は転写していない。
+// ----     ⑥ docs/CALIBRATION_ISSUES_v1.45.md の §7 に同じ数がある(生成器 tests/exp-w272a-issues.mjs が器の点検から作る)。
+// ----     ⑦ **確認記録の器の恒久策**(tests/lib-w290g-rounds.mjs): 自分の回より大きい回を**全部**除く ——
+// ----        合成の第 6 回の行が第 2・3・4 回の器では除かれ第 6 回では除かれない・3 器の正本の `laterRoundsVerified` が
+// ----        現行 CSV から lib で数え直した数と一致する。
+// ----     ⑧ 候補行の note に公開してはならない語(外部名と、出典の経路を表す語 —— 検出語は base64 で持ち平文で置かない)が無い。
+// ----   **書かないこと**: 「観測と合った」「較正した」「確認した」「verified にした」。root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.intake8(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const EXPECT = { total: 87,
+      byFile: { 'paper/data/solar-observations.csv': 42, 'paper/data/transient-observations.csv': 30,
+        'paper/data/cluster-galaxy-observations.csv': 15 },
+      byKind: { 'model-derived': 42, observed: 24, 'ephemeris-fit': 7, 'analysis-window': 5, 'observed-count': 4,
+        'upper-limit': 3, 'lower-limit': 1, 'derived-in-record': 1 },
+      byRound: { 7: 58, 8: 29 }, ci90: 11, upper: 3, lower: 1 };
+    let r = null, laterOk = null, mdOk = null;
+    try {
+      const I8 = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
+      r = I8.checkIntake8(ROOT);
+      for (const v of r.violations) bad.push('器: ' + v);
+      // ①
+      if (r.tally.total !== EXPECT.total) bad.push(`①候補行が ${r.tally.total}(${EXPECT.total} のはず)`);
+      for (const [f, n] of Object.entries(EXPECT.byFile))
+        if ((r.tally.byFile[f] || 0) !== n) bad.push(`①${f} の候補行が ${r.tally.byFile[f]}(${n} のはず)`);
+      const kinds = Object.keys(r.tally.byKind).sort().join(',');
+      if (kinds !== Object.keys(EXPECT.byKind).sort().join(',')) bad.push(`①kind の集合が ${kinds}`);
+      for (const [k, n] of Object.entries(EXPECT.byKind))
+        if ((r.tally.byKind[k] || 0) !== n) bad.push(`①kind ${k} が ${r.tally.byKind[k]}(${n} のはず)`);
+      for (const [k, n] of Object.entries(EXPECT.byRound))
+        if ((r.tally.byRound[k] || 0) !== n) bad.push(`①第 ${k} 回が ${r.tally.byRound[k]}(${n} のはず)`);
+      if (r.tally.ci90Rows !== EXPECT.ci90) bad.push(`③ci90 の行が ${r.tally.ci90Rows}(${EXPECT.ci90} のはず)`);
+      if (r.tally.upperLimitRows !== EXPECT.upper || r.tally.lowerLimitRows !== EXPECT.lower)
+        bad.push(`③上限/下限の行が ${r.tally.upperLimitRows}/${r.tally.lowerLimitRows}`);
+      // ②
+      for (const f of Object.keys(EXPECT.byFile)) {
+        const x = r.files[f] || {};
+        if (!x.headOk) bad.push(`②${f} の既存行が動いた(先頭の SHA-256 が基点と違う)`);
+        if (x.state !== 'written') bad.push(`②${f} の末尾が器の候補行と一致しない(${x.state})`);
+      }
+      // ④ 正本(calaudit・solarsigma)に候補行の record_id が現れない
+      const ids = new Set(Object.values(r.files).flatMap((x) => x.ids || []));
+      for (const rel of ['tests/out/calaudit-w249.json', 'tests/out/solarsigma-w262d.json']) {
+        const txt = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+        const hits = [...ids].filter((id) => txt.indexOf('"' + id + '"') >= 0);
+        if (hits.length) bad.push(`④${rel} に候補行の record_id が ${hits.length} 件ある(${hits.slice(0, 3).join(',')})`);
+      }
+      // ⑤
+      if (r.bib.some((b) => b.hits.length)) bad.push('⑤書誌の混入がある');
+      if (!r.notTranscribed.includes('AB3')) bad.push('⑤AB3 が「転写しない」表に無い');
+      const L = (await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs')))
+        .loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const fresh = L.rows.filter((x) => ids.has(x.recordId));
+      if (fresh.some((x) => /74490/.test(x.rawValue + ' ' + x.note))) bad.push('⑤AB3(74490 km)が候補行にある');
+      // ⑥ 生成された docs の節
+      const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_ISSUES_v1.45.md'), 'utf8');
+      const i7 = md.indexOf('## 7. 確認依頼 第 7/8 回の intake');
+      mdOk = i7 >= 0 && md.indexOf('| **計** | **' + r.tally.total + '** |', i7) >= 0;
+      if (!mdOk) bad.push('⑥CALIBRATION_ISSUES §7 に候補行の数が無い(node tests/exp-w272a-issues.mjs を回すと入る)');
+      if (i7 >= 0 && md.indexOf(I8.intakeSectionMd(ROOT).trim()) < 0) bad.push('⑥§7 が器の点検から作った文と違う');
+      // ⑦ 恒久策
+      const RD = await import('file://' + path.join(ROOT, 'tests', 'lib-w290g-rounds.mjs'));
+      const fx = [{ note: 'sigma_primary=verified; confirmation_round=6' }, { note: 'sigma_primary=verified; confirmation_round=6; same_mark_as=X' },
+        { note: 'sigma_primary=unverified; confirmation_round=7' }, { note: 'sigma_primary=verified; confirmation_round=2' }];
+      const isV = (n) => /sigma_primary=verified/.test(n);
+      const got = [2, 3, 4, 6].map((k) => RD.laterRoundsVerified(fx, k, isV).total).join(',');
+      if (got !== '1,1,1,0') bad.push(`⑦合成の第 6 回の行の除き方が ${got}(1,1,1,0 のはず)`);
+      const SM = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+      laterOk = true;
+      for (const [rel, own] of [['tests/out/confirm2-w267a.json', 2], ['tests/out/confirm3-w269b.json', 3], ['tests/out/confirm4-w270b.json', 4]]) {
+        const J = JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+        const n = ((((J.census || {}).after || {}).solar) || {}).laterRoundsVerified;
+        const want = RD.laterRoundsVerified(L.rows, own, (note) => SM.readSigmaMark(note).verified).total;
+        if (n !== want) { laterOk = false; bad.push(`⑦${rel} の laterRoundsVerified が ${n}(lib で数え直すと ${want})`); }
+        if ((J.violations || []).length) bad.push(`⑦${rel} の器が違反を出している`);
+      }
+      // ⑧ 公開してはならない語
+      const NAMES = Buffer.from('Q2hhdEdQVCxHcm9rLEdlbWluaSxDb2RleA==', 'base64').toString('utf8').split(',');
+      const ROUTE = Buffer.from('5re75LuYLOengeS/oSzns7vntbEscmV2aWV3', 'base64').toString('utf8').split(',');
+      const all = [];
+      for (const f of Object.keys(EXPECT.byFile))
+        for (const x of (await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'))).loadObsCsv(path.join(ROOT, f)).rows)
+          if (ids.has(x.recordId)) all.push(x);
+      for (const x of all) {
+        const t = [x.source, x.note, x.url].join(' ');
+        if (NAMES.some((nm) => t.indexOf(nm) >= 0) || ROUTE.some((w) => t.toLowerCase().indexOf(w) >= 0))
+          bad.push(`⑧${x.file}:${x.ln} に公開してはならない語がある`);
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 120)); }
+    add('docs.intake8', bad.length === 0,
+      `**確認依頼 第 7/8 回の回答の転写**(第290便g・器 tests/exp-w290g-intake8.mjs): `
+      + `① 候補行 **${r ? r.tally.total : '—'} 行**(${r ? Object.entries(r.tally.byFile).map(([f, n]) => f.replace('paper/data/', '').replace('-observations.csv', '') + ' ' + n).join(' / ') : '—'})`
+      + `・kind ${r ? JSON.stringify(r.tally.byKind) : '—'}・回 ${r ? JSON.stringify(r.tally.byRound) : '—'} / `
+      + `② **既存行は 1 字も書き換えていない**(先頭が基点 f03bf5a と SHA-256 一致)・**冪等**(末尾が器の候補行とバイト一致) / `
+      + `③ 量名は全行 \`_candidate\`・印は全行 \`unverified\`・**sigma 列は全行空欄**(90% 区間 ${r ? r.tally.ci90Rows : '—'} 行は \`ci90=\`・`
+      + `上限 ${r ? r.tally.upperLimitRows : '—'}/下限 ${r ? r.tally.lowerLimitRows : '—'} 行は value 空) / `
+      + `④ **門に入らない** —— 門の量に当たる行 ${r ? r.gate.candidateKeysInGate : '—'}・宣言が指す行 ${r ? r.gate.declarationsPointing : '—'}・`
+      + `「最初の行」が動いた鍵 ${r ? r.gate.firstRowChanged.length : '—'}・正本 calaudit/solarsigma に候補行の record_id 0 / `
+      + `⑤ 書誌の混入 0・AB3 は転写しない / ⑥ CALIBRATION_ISSUES §7 ${mdOk ? 'あり' : '—'} / `
+      + `⑦ 確認記録の器は**自分の回より大きい回を全部除く**(lib-w290g-rounds・3 器の数と一致 ${laterOk}) / ⑧ 公開してはならない語 0`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }

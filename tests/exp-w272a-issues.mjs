@@ -36,6 +36,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
+// 第290便g(R131): §7 確認依頼 第 7/8 回の intake(候補行・印なし)—— 数は器の点検(CSV の実体)から数える
+import { intakeSectionMd } from './exp-w290g-intake8.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CAL = path.join(ROOT, 'tests', 'out', 'calaudit-w249.json');
@@ -559,6 +561,8 @@ if (mapDecl) {
   md.push('**正本 JSON に `mappingDeclarations` が無い**(判定器を第273便c 版で走らせ直すこと)。');
 }
 md.push('');
+// 第290便g(R131): §7 —— 候補行の数・kind・書誌の点検・転写しなかったもの(tests/exp-w290g-intake8.mjs の checkIntake8)
+md.push(intakeSectionMd(ROOT));
 md.push('---');
 md.push('');
 md.push('生成器: `tests/exp-w272a-issues.mjs`(第272便a・第273便c で R19 の 6 点を訂正)。'

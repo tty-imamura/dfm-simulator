@@ -168,6 +168,39 @@
 
 **実測 eProxy < 0.01 の対象の数え上げ**である(閾値は数え上げの範囲であって、宣言の自動判定ではない)。近点間行を持たない対象には**何も宣言しない** —— 判定量が同方向 1 周だからである。 **「e が小さいから一括で mapping-unresolved」とはしない** ——🌇 金星・💠 天王星衛星・🟠 ガリレオ衛星の判定量は**同方向 1 周**であって近点間ではないので、宣言する行が無い。
 
+## 7. 確認依頼 第 7/8 回の intake(候補行・印なし —— 第290便g)
+
+確認依頼 第 7 回・第 8 回の回答を **3 つの観測 CSV の末尾に候補行として**転写した(器 `tests/exp-w290g-intake8.mjs`・QA `docs.intake8`)。**既存行は 1 字も書き換えていない**(各ファイルの先頭のバイト列が基点 f03bf5a と SHA-256 で一致)。**印 `verified` は 1 行も付けていない** —— 印を上げるのは原仮定者の照合だけである。
+
+| ファイル | 候補行 |
+|---|---:|
+| `paper/data/solar-observations.csv` | 42 |
+| `paper/data/transient-observations.csv` | 30 |
+| `paper/data/cluster-galaxy-observations.csv` | 15 |
+| **計** | **87** |
+
+- kind の内訳: `model-derived` 42 / `observed` 24 / `ephemeris-fit` 7 / `analysis-window` 5 / `observed-count` 4 / `upper-limit` 3 / `derived-in-record` 1 / `lower-limit` 1(第 8 回 29 行・第 7 回 58 行)。
+- **sigma 列は全行空欄**。90% 区間の 11 行は `ci90=` に置いた(σ に換算しない)。対称の ± は一次資料の 1σ かどうかを回答の要約から確かめていないので `sigma_candidate_unconfirmed=` に置いた。非対称の区間は `interval_plus=` / `interval_minus=` のまま(対称化しない)。2 解・4 解は解ごとに別行(平均しない)。
+- 上限の行 3・下限の行 1 は value を空にした(限界値を「値」として読ませない)。
+- **門に入らない**: 量名はすべて `_candidate`(門が読む量 `orbital_period`・`eccentricity`・`periastron_advance` に当たる行 0)・`paper/data/judgement-sources.json` の宣言が指す行 0・門の鍵の「最初の行」が動いた鍵 0・較正の器が過渡天体/星団銀河の CSV を読む行 無し。
+
+**書誌の訂正**(既存行への混入を点検した —— **混入 0 件**):
+
+- PSR J1757−1854 の発見論文 = Cameron et al. 2018 MNRAS Letters 475 L57–L61(10.1093/mnrasl/sly003・arXiv:1711.07697) —— 既存行に誤った書誌は無い
+- Fonseca, Stairs & Thorsett 2014 の時間解は Table 3(DD / DDGR) —— 既存行に誤った書誌は無い
+- Orosz et al. 2011 ApJ 742 84 は Cyg X-1 の論文 —— 既存行に誤った書誌は無い
+- De et al. 2026 Science 391 689 は刊行版(DOI 10.1126/science.adt4853) —— 既存行に誤った書誌は無い
+
+**転写しなかったもの**(未決のまま・数値を推測で埋めない):
+
+- AB3 土星 C 環内縁 74490 km —— French 1993 Icarus 103 163 の原表に未到達(未決のまま)
+- B2 月の a/P/e の ±1σ —— 資料に列が無い
+- B1 冥王星の小衛星の P(Showalter & Hamilton 2015 Nature 522 45 Extended Data Table 1) —— 回答の要約に数値が無い(著者別刷の転写 —— 数値を推測で埋めない)
+- B3 Cameron 2023 Table 4 / Singha 2026 arXiv:2606.23926 Table 2 —— 回答の要約に数値が無い(Singha 2026 はプレプリント・誌巻頁未確定)
+- B11 Kramer 2021 PRX 11 041050 Table IV / Meng 2025 A&A 704 A153 Table 1(DDFWHE/DDGR の 2 列) —— 回答の要約に数値が無い(書誌だけ)
+
+**書かないこと**: 「観測と合った」「較正した」「確認した」「verified にした」。候補行は**記録**であって判定ではない。
+
 ---
 
 生成器: `tests/exp-w272a-issues.mjs`(第272便a・第273便c で R19 の 6 点を訂正)。QA `docs.issuesSync` が、この文書の件数が正本 JSON と一致することを機械固定する。

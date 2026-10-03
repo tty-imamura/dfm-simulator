@@ -43,6 +43,8 @@ import { fileURLToPath } from 'node:url';
 import { readSigmaMark, readVerifiedBy, readValueChecked } from './lib-w264d-sigmamark.mjs';
 // 第270便b(AE2): CSV は**列位置でなくヘッダ名**で読む(`record_id` の列追加で壊れない)。
 import { loadObsCsv } from './lib-w270b-obscsv.mjs';
+// 第290便g(R131): 後の回(confirmation_round > 4)の印を全部除く 1 本
+import { laterRoundsVerified } from './lib-w290g-rounds.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'tests', 'out', 'confirm4-w270b.json');
@@ -252,13 +254,17 @@ if (after.solar.round4 !== DECLARED_ROUND4)
 if (after.solar.round4Verified !== after.solar.round4)
   bad.push(`第 4 回の行のうち verified が ${after.solar.round4Verified}(全行のはず)`);
 // 第278便a(第 5 回)で verified になった行(`confirmation_round=5`・新規行を含む)はこの便の増分ではないので分けて数える。
-const round5NewVerified = CSV[SOLAR_F].filter((r) =>
-  /(?:^|[^A-Za-z0-9_])confirmation_round=5\b/.test(r.note)
-  && readSigmaMark(r.note).verified).length;
-after.solar.round5Verified = round5NewVerified;   // 第278便a: QA `docs.confirm4-sync` ⑥ が同じ数を引く
-if (after.solar.verified - BEFORE.solar.verified - round5NewVerified !== VERIFIED_NEW.length)
+// 第290便g(R131・第278便の教訓の恒久策): **自分の回(第 4 回)より大きい回で上がった印を全部除く**
+//   (旧い書き方は第 5 回だけを名指ししていた)。回ごとの規則は tests/lib-w290g-rounds.mjs の表。
+//   `round5Verified` は旧世代の QA が読む欄として残し、QA `docs.confirm4-sync` ⑥ は `laterRoundsVerified` を引く。
+const LATER = laterRoundsVerified(CSV[SOLAR_F], 4, (note) => readSigmaMark(note).verified);
+const round5NewVerified = LATER.byRound[5] || 0;
+after.solar.round5Verified = round5NewVerified;   // 第278便a: 旧世代の QA `docs.confirm4-sync` ⑥ が同じ数を引く
+after.solar.laterRoundsVerified = LATER.total;    // 第290便g: 後の回の全部(第 5 回以降)
+after.solar.laterRoundsByRound = LATER.byRound;
+if (after.solar.verified - BEFORE.solar.verified - LATER.total !== VERIFIED_NEW.length)
   bad.push(`太陽系の verified の増分が ${after.solar.verified - BEFORE.solar.verified}`
-    + `(宣言は ${VERIFIED_NEW.length} + 第 5 回の ${round5NewVerified} —— X7 欄を埋めただけの 6 行は印を動かさない)`);
+    + `(宣言は ${VERIFIED_NEW.length} + 後の回の ${LATER.total} ${JSON.stringify(LATER.byRound)} —— X7 欄を埋めただけの 6 行は印を動かさない)`);
 if (after.solar.x7Warn !== 0) bad.push(`X7 警告が ${after.solar.x7Warn} 行残っている(0 のはず)`);
 for (const k of ['cluster', 'transient']) {
   if (after[k].verified !== BEFORE[k].verified)

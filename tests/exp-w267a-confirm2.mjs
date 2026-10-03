@@ -46,6 +46,8 @@ const NOT_FOUND_TAG = 'confirmation_2=not-found-by-author';
 
 // 第270便b(第60報 W2・AE2): **列位置でなくヘッダ名で読む**(`record_id` の列追加で壊れない)。
 import { parseCsvLine, headerIndex } from './lib-w270b-obscsv.mjs';
+// 第290便g(R131): 後の回(confirmation_round > 2)の印を全部除く 1 本
+import { laterRoundsVerified } from './lib-w290g-rounds.mjs';
 function loadCsv(rel) {
   const rows = [];
   const lines = fs.readFileSync(path.join(ROOT, rel), 'utf8').split('\n');
@@ -371,36 +373,17 @@ if (round2Total !== CONFIRM2.length)
 // (`confirmation_round=3` —— 第269便b)で `unverified` → `verified` になった行は、第267便a の
 // 宣言表とは別の回の結果である。便を跨いで固定値が黙って増えるのを防ぐため、**回で分ける**
 // (第 3 回の突き合わせは `tests/exp-w269b-confirm3.mjs` が数える)。
-let round3Verified = 0;
-for (const r of CSV[SOLAR_F]) {
-  if (!/(?:^|[^A-Za-z0-9_])confirmation_round=3\b/.test(r.note)) continue;
-  if (!readSigmaMark(r.note).verified) continue;
-  // 第 2 回で既に verified だった行(同印写しの 114/115/125)は増分に入っていないので除く
-  if (/(?:^|[^A-Za-z0-9_])same_mark_as=/.test(r.note)) continue;
-  round3Verified++;
-}
-// 第270便b: **第 4 回の確認記録**(`confirmation_round=4` —— Cameron 2018 Table 2 の併置行
-// 260/262/263)で `unverified` → `verified` になった行も、同じ理由でこの増分に数えない。
-// 印が動いた行だけを数えるので、X7 の 3 欄を埋めただけの 6 行(`previous_mark=` を持たない)は入らない。
-let round4Verified = 0;
-for (const r of CSV[SOLAR_F]) {
-  if (!/(?:^|[^A-Za-z0-9_])confirmation_round=4\b/.test(r.note)) continue;
-  if (!/(?:^|[^A-Za-z0-9_])previous_mark=unverified\b/.test(r.note)) continue;
-  if (!readSigmaMark(r.note).verified) continue;
-  round4Verified++;
-}
-// 第278便a: **第 5 回の確認記録**(`confirmation_round=5` —— 確認依頼 第 5 回の回答・新規行を含む)で
-// verified になった行も、同じ理由でこの増分に数えない(第 5 回の突き合わせは `docs.intakeD` が数える)。
-let round5Verified = 0;
-for (const r of CSV[SOLAR_F]) {
-  if (!/(?:^|[^A-Za-z0-9_])confirmation_round=5\b/.test(r.note)) continue;
-  if (!readSigmaMark(r.note).verified) continue;
-  round5Verified++;
-}
-if (after.solar.verified - round3Verified - round4Verified - round5Verified - BEFORE.solar.verified
+// 第290便g(R131・第278便の教訓の恒久策): **自分の回(第 2 回)より大きい回で上がった印を全部除く**。
+//   旧い書き方は第 3・4・5 回を 1 本ずつ名指ししていた(新しい回が来るたびに固定値が黙って食い違う)。
+//   回ごとの規則(第 3 回: same_mark_as= なし / 第 4 回: previous_mark=unverified / 第 5 回: verified /
+//   第 6 回以降: 既定規則)は tests/lib-w290g-rounds.mjs の表にある —— 第 3〜5 回の数は旧い書き方と同じ。
+const LATER = laterRoundsVerified(CSV[SOLAR_F], 2, (note) => readSigmaMark(note).verified);
+if (after.solar.verified - LATER.total - BEFORE.solar.verified
   !== CONFIRM2.filter((d) => d.file === SOLAR_F).length - 5)
   bad.push('太陽系 CSV の verified の増分が宣言と合わない(既に verified だった 5 行と'
-    + `第 3 回で上がった ${round3Verified} 行・第 4 回で上がった ${round4Verified} 行・第 5 回で上がった ${round5Verified} 行を除く)`);
+    + `後の回で上がった ${LATER.total} 行 ${JSON.stringify(LATER.byRound)} を除く)`);
+after.solar.laterRoundsVerified = LATER.total;
+after.solar.laterRoundsByRound = LATER.byRound;
 // **外部確認印だけで verified になっている行は 1 つも無い**(Z11 —— 第266便a と同じ検査)
 const externalOnlyVerified = [];
 for (const f of [SOLAR_F, CLUSTER_F, TRANSIENT_F]) for (const r of CSV[f]) {
