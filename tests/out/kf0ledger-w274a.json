@@ -4,19 +4,19 @@
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
   "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-  "generatedAt": "2026-10-03T03:51:43.879Z",
+  "generatedAt": "2026-10-03T06:21:30.268Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1814050,
-    "sha256": "8fdf343de914e7f0643e13a074cece2ef9c7e2bdd8b686d51c1ce3a00d1ad36d",
-    "mtime": "2026-10-03T02:58:29.234Z"
+    "bytes": 1814041,
+    "sha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
+    "mtime": "2026-10-03T05:31:51.242Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 156749,
-    "sha256": "f336613a49f85b575ba23c8d923fd4044401ce260fddd54e8a9a1a8f43fa63b9",
-    "mtime": "2026-10-03T03:46:22.578Z"
+    "bytes": 160794,
+    "sha256": "6b0c74062c9da3c23c11aaa6d22929c3262b55c307624aa75488ebbc13fb1151",
+    "mtime": "2026-10-03T06:19:59.054Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
@@ -39,8 +39,8 @@
    {
     "file": "tests/out/calcontract-w282a.json",
     "bytes": 122083,
-    "sha256": "b49e8f25a6a84e1766cc6b4569aa313743904b7e87e5fd2284e8bd3b7192d402",
-    "mtime": "2026-10-03T03:26:36.094Z"
+    "sha256": "85633a5203b4e1d5adbaffd3da813d5a034786faa794b20e188aa6ffea55491e",
+    "mtime": "2026-10-03T06:00:18.550Z"
    }
   ],
   "code": [
@@ -120,8 +120,8 @@
     "未測定": 25
    },
    "observation": {
-    "✓": 1,
-    "✗": 2,
+    "✓": 0,
+    "✗": 3,
     "未測定": 23
    }
   },
@@ -137,13 +137,13 @@
     "未測定": 25
    },
    "numeric": {
-    "✓": 3,
-    "✗": 1,
+    "✓": 4,
+    "✗": 0,
     "未測定": 22
    },
    "observation": {
-    "✓": 3,
-    "✗": 5,
+    "✓": 2,
+    "✗": 6,
     "未測定": 18
    }
   },
@@ -160,20 +160,19 @@
   "pairsKOnly": [],
   "pairsNotKOnly": [],
   "observationDecided": {
-   "kf1Ok": [
-    "plutoCharonReal@charon-w272b"
-   ],
+   "kf1Ok": [],
    "kf1Ng": [
+    "plutoCharonReal@charon-w272b",
     "psrJ1757DFM@nslock-lock",
     "psrJ1946DFM@nslock-lock"
    ],
    "kf0Ok": [
     "alphaCenAB",
-    "siriusAB",
-    "plutoCharonReal@charon-w272b"
+    "siriusAB"
    ],
    "kf0Ng": [
     "saturnZonalD68",
+    "plutoCharonReal@charon-w272b",
     "psrDoubleABDFM@nslock-lock",
     "psrJ1757DFM@nslock-lock",
     "psrJ1946DFM@nslock-lock",
@@ -1580,7 +1579,7 @@
     "run": "✓",
     "structure": "未測定",
     "numeric": "✗",
-    "observation": "✓",
+    "observation": "✗",
     "runEvidence": {
      "source": "charon-w272b.json#columns.C0.h",
      "nan": false,
@@ -1597,13 +1596,13 @@
      ],
      "pObs": 0.1327195649510854,
      "epsHat": 2.5544613963412197,
-     "epsHatSigma": 0,
+     "epsHatSigma": 98.55175140205324,
      "assessedStage": "h4",
      "orderEstimable": true
     },
     "observationEvidence": {
-     "nSigma": 0,
-     "residPct": 0,
+     "nSigma": 52264.95869311394,
+     "residPct": 0.24548191056131952,
      "cfg": {
       "kFrame": 1,
       "f": 1,
@@ -1620,8 +1619,8 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✗",
-    "observation": "✓",
+    "numeric": "✓",
+    "observation": "✗",
     "runEvidence": {
      "source": "charon-w272b.json#columns.C1.h",
      "nan": false,
@@ -1638,13 +1637,13 @@
      ],
      "pObs": 1.9370248248263864,
      "epsHat": 0.000008971111532098443,
-     "epsHatSigma": 0,
+     "epsHatSigma": 0.00034610769799762515,
      "assessedStage": "h4",
      "orderEstimable": true
     },
     "observationEvidence": {
-     "nSigma": 0,
-     "residPct": 0,
+     "nSigma": 294.0787173653838,
+     "residPct": 0.001381250596947053,
      "cfg": {
       "kFrame": 0,
       "f": 1,
@@ -1668,22 +1667,22 @@
       "column": "S_e0.05_k0",
       "softening": 0.05,
       "rev2Sec": 551864.061362921,
-      "residPctRev": 0
+      "residPctRev": 0.001381272806879141
      },
      {
       "column": "S_e0.025_k0",
       "softening": 0.025,
       "rev2Sec": 551855.9777986223,
-      "residPctRev": 0
+      "residPctRev": -0.0000835219715314297
      },
      {
       "column": "S_e0.0125_k0",
       "softening": 0.0125,
       "rev2Sec": 551853.9568779507,
-      "residPctRev": 0
+      "residPctRev": -0.00044972602929805553
      }
     ],
-    "signFlip": false,
+    "signFlip": true,
     "why": "**kF0 の残差は softening ε に依存し、ε を 0.05 → 0.025 で符号が反転する**。ε は観測量ではないので、この符号は物理の符号ではない。"
    },
    "label": null,
@@ -2340,7 +2339,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "b9dcf0ab20ec0131465db17f256adc284f5e2d2683bda884fb5df377905abf5a",
+   "fileSha256": "f336613a49f85b575ba23c8d923fd4044401ce260fddd54e8a9a1a8f43fa63b9",
    "citedValue": 551864.061362921,
    "citedCfg": {
     "kFrame": 0,
@@ -2348,7 +2347,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+   "citedTargetSha256": "c281d6e7049938aa49c03a4fa0443cfa84e3a35b9e54190f7a7a8d07e1c883ab",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,

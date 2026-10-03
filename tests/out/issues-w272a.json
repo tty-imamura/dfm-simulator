@@ -1,12 +1,12 @@
 {
- "when": "2026-10-03T03:46:27.196Z",
+ "when": "2026-10-03T06:20:10.260Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "8fdf343de914e7f0643e13a074cece2ef9c7e2bdd8b686d51c1ce3a00d1ad36d",
-  "targetSha256": "c281d6e7049938aa49c03a4fa0443cfa84e3a35b9e54190f7a7a8d07e1c883ab",
+  "calauditSha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
+  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "f336613a49f85b575ba23c8d923fd4044401ce260fddd54e8a9a1a8f43fa63b9",
+  "charonSha256": "6b0c74062c9da3c23c11aaa6d22929c3262b55c307624aa75488ebbc13fb1151",
   "nslock": "tests/out/nslock-w272c.json",
   "nslockSha256": "c41ae18c7088838ec4283ada37ccef4443445a78f9a312b084466baa943fc02b"
  },
@@ -1892,10 +1892,10 @@
   {
    "key": "softening",
    "title": "softening の効き(実測・第272便b の S 系列)",
-   "measured": 0,
+   "measured": 389.8335250899739,
    "unit": "σ",
    "ref": "tests/out/charon-w272b.json(列 S_e0.05/0.025/0.0125 × kF0/kF1)",
-   "text": "softening ε を 0.05 → 0.025 → 0.0125 と半分にすると、同方向 1 周の周期はkF0 で 551864.061363 s(—σ) → 551855.977799 s(—σ) → 551853.956878 s(—σ)、kF1 で 553210.630443 s(—σ) → 553202.441337 s(—σ) → 553200.379493 s(—σ) と動く。 **「0.1% 台の差に効くかどうか未測定」ではない** —— **σ 倍で数百の幅を動かし、kF0 側では符号も反転する**(+294.08σ → −17.78σ → −95.75σ)。a/R は `correlates.aOverR` = — である。**「softening を小さくすれば合う」とは書かない**(ε=0.025 の −17.78σ も 3σ の外である)。"
+   "text": "softening ε を 0.05 → 0.025 → 0.0125 と半分にすると、同方向 1 周の周期はkF0 で 551864.061363 s(294.083σ) → 551855.977799 s(-17.7825σ) → 551853.956878 s(-95.7501σ)、kF1 で 553210.630443 s(52245.1σ) → 553202.441337 s(51929.1σ) → 553200.379493 s(51849.6σ) と動く。 **「0.1% 台の差に効くかどうか未測定」ではない** —— **σ 倍で数百の幅を動かし、kF0 側では符号も反転する**(+294.08σ → −17.78σ → −95.75σ)。a/R は `correlates.aOverR` = — である。**「softening を小さくすれば合う」とは書かない**(ε=0.025 の −17.78σ も 3σ の外である)。"
   },
   {
    "key": "f-approx",
@@ -1914,10 +1914,10 @@
   {
    "key": "geopn",
    "title": "geoPN=3(空間メッシュ)の実測と受理条件",
-   "measured": 0,
+   "measured": 62026.419602517744,
    "unit": "σ",
    "ref": "tests/out/charon-w272b.json(列 C6_scalar / C6_local / C6_complex)",
-   "text": "geoPN=3 で測ると何が動くかは**第272便b が測っている**: scalar 553224.927236 s(—σ) / local 551617.202440 s(—σ) / complex 551864.061362 s(—σ・停止 complexNotVelocity)(同条件の geoPN=2 対照 C1 は 551864.061363 s)。 **`complex` は数が 1 bit も動かない** —— 実行情報の `geoToyStop` が `complexNotVelocity` で、**意図された未接続**である(第273便c・AH23。「複素決定力場が作動した」とは書かない)。**受理条件(何をもって採るか)は宣言されていない**ので、この 3 列はどれも**判定へ繋いでいない**。"
+   "text": "geoPN=3 で測ると何が動くかは**第272便b が測っている**: scalar 553224.927236 s(52796.6σ) / local 551617.202440 s(-9229.79σ) / complex 551864.061362 s(294.083σ・停止 complexNotVelocity)(同条件の geoPN=2 対照 C1 は 551864.061363 s)。 **`complex` は数が 1 bit も動かない** —— 実行情報の `geoToyStop` が `complexNotVelocity` で、**意図された未接続**である(第273便c・AH23。「複素決定力場が作動した」とは書かない)。**受理条件(何をもって採るか)は宣言されていない**ので、この 3 列はどれも**判定へ繋いでいない**。"
   }
  ],
  "naKinds": [
@@ -2198,9 +2198,9 @@
    "softening": 0.05,
    "kFrame": 0,
    "rev2Sec": 551864.061362921,
-   "sigmaRev": null,
+   "sigmaRev": 294.08344602820256,
    "periASec": 551858.672345035,
-   "sigmaPeriA": null,
+   "sigmaPeriA": 86.17380536398505,
    "eProxy": 0.000013340793190107562
   },
   {
@@ -2208,9 +2208,9 @@
    "softening": 0.025,
    "kFrame": 0,
    "rev2Sec": 551855.9777986223,
-   "sigmaRev": null,
+   "sigmaRev": -17.78246055717902,
    "periASec": 551854.6303861653,
-   "sigmaPeriA": null,
+   "sigmaPeriA": -69.76596584233145,
    "eProxy": 0.000009425366343056189
   },
   {
@@ -2218,9 +2218,9 @@
    "softening": 0.0125,
    "kFrame": 0,
    "rev2Sec": 551853.9568779507,
-   "sigmaRev": null,
+   "sigmaRev": -95.75007906177133,
    "periASec": 551853.6210528486,
-   "sigmaPeriA": null,
+   "sigmaPeriA": -108.70629441881277,
    "eProxy": 0.000009127730385793166
   },
   {
@@ -2228,9 +2228,9 @@
    "softening": 0.05,
    "kFrame": 1,
    "rev2Sec": 553210.6304433692,
-   "sigmaRev": null,
+   "sigmaRev": 52245.05105590966,
    "periASec": 556265.6738729373,
-   "sigmaPeriA": null,
+   "sigmaPeriA": 170109.38090036093,
    "eProxy": 0.0024138162207497146
   },
   {
@@ -2238,9 +2238,9 @@
    "softening": 0.025,
    "kFrame": 1,
    "rev2Sec": 553202.4413371885,
-   "sigmaRev": null,
+   "sigmaRev": 51929.11331745743,
    "periASec": 556270.7350739426,
-   "sigmaPeriA": null,
+   "sigmaPeriA": 170304.64328482246,
    "eProxy": 0.0024094382443997126
   },
   {
@@ -2248,9 +2248,9 @@
    "softening": 0.0125,
    "kFrame": 1,
    "rev2Sec": 553200.3794932122,
-   "sigmaRev": null,
+   "sigmaRev": 51849.566867755966,
    "periASec": 556272.3135818808,
-   "sigmaPeriA": null,
+   "sigmaPeriA": 170365.54251083286,
    "eProxy": 0.002408054134230636
   }
  ],
@@ -2259,7 +2259,7 @@
    "id": "C6_scalar",
    "law": "scalar",
    "rev2Sec": 553224.9272364771,
-   "sigmaRev": null,
+   "sigmaRev": 52796.62486408833,
    "geoToyStop": null,
    "hasGeoToy": true
   },
@@ -2267,7 +2267,7 @@
    "id": "C6_local",
    "law": "local",
    "rev2Sec": 551617.2024403799,
-   "sigmaRev": null,
+   "sigmaRev": -9229.794738429418,
    "geoToyStop": null,
    "hasGeoToy": true
   },
@@ -2275,7 +2275,7 @@
    "id": "C6_complex",
    "law": "complex",
    "rev2Sec": 551864.0613615632,
-   "sigmaRev": null,
+   "sigmaRev": 294.08339364130774,
    "geoToyStop": "complexNotVelocity",
    "hasGeoToy": true
   }
