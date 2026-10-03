@@ -1,5 +1,7 @@
 # Paper 6 (outline, v0.1 — wave 248): *Calibration, Numerical Controls, and Limits of a Dragging-Field Toy Model*
 
+Terminology (wave 290a): the field formerly called "complex determinacy (field)" is now called **inertial determinacy (field)**; wave records below keep their original wording, and machine keys such as `lawVersion:"complex"` are not renamed.
+
 Status: **outline only** (no manuscript yet). Language of the manuscript: EN + JA, same build pipeline as papers 1–5 once a `.tex` exists.
 Scope: the negative results and numerical controls accumulated in waves 220–248 on the DFM simulator. This paper makes **no positive
 claim** about real gravitomagnetism; it records what a 2D dragging-field toy model can and cannot reproduce, and how each verdict was fixed.

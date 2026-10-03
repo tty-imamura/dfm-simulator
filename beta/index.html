@@ -1344,21 +1344,21 @@ ja: {
   /* 第289便f(原仮定者の裁定(第79報)・AN103「Wbg は A/B へ写さない・単位と説明は直す」・統括の検証項目 R124): 「kFrame=0 では力に入らない」は
      広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで Wbg 1.5→4.5 の 1 步で vx の最大差 7.4e-4)。
      現実較正の geoPN=1・kFrame=0 の軌道力に限定し、単位は採用した核の M/L^p(wbgConvStr)と書く */
-  wbgTip:"背景相当の値 — 現実較正の geoPN=1・kFrame=0 の軌道力には入らない(geoPN=3 の場と Jeans 初速〔vMode:\"jeans\"〕では kFrame=0 でも読む)。単位は採用した核の M/L^p。複素背景の宣言(D₀ の下のパネル・第283便)とは別欄。読み取り専用(値は物理の宣言から毎回引き直す)",
-  wbgDesc:"静止背景相当 Wbg — 複素決定力 u=A/W の背景の重み(χ=W/(W+Wbg))として場の契約に渡る値。出所は physics.spaceMesh.D0 の宣言"
+  wbgTip:"背景相当の値 — 現実較正の geoPN=1・kFrame=0 の軌道力には入らない(geoPN=3 の場と Jeans 初速〔vMode:\"jeans\"〕では kFrame=0 でも読む)。単位は採用した核の M/L^p。背景慣性決定力の宣言(D₀ の下のパネル・第283便)とは別欄。読み取り専用(値は物理の宣言から毎回引き直す)",
+  wbgDesc:"静止背景相当 Wbg — 慣性決定力 u=A/W の背景の重み(χ=W/(W+Wbg))として場の契約に渡る値。出所は physics.spaceMesh.D0 の宣言"
     +"(中心の自転を読むトイ〔geoPN=3・lawVersion scalar・centerSpin read〕だけ)→ frameWeight pull の D0pull → D₀ の順。"
     +"単位は採用した核の M/L^p(frameWeight の冪 p —— share は p=1 で M/L・pull は p=2 で M/L²・pull3/pull4 は M/L³・M/L⁴。換算表示もこの p で引く)。"
     +"**背景相当の値であって、現実較正の geoPN=1・kFrame=0 の軌道力には入らない**(引きずりの経路が読まない)。ただし geoPN=3 の場(トイ)と "
-    +"Jeans 初速(vMode:\"jeans\")では kFrame=0 でも読む(場の契約の χ=W/(W+Wbg))。背景複素決定力の宣言 W₀・A₀(下のパネル —— [M/L²] の別の量)とは別欄で、"
+    +"Jeans 初速(vMode:\"jeans\")では kFrame=0 でも読む(場の契約の χ=W/(W+Wbg))。背景慣性決定力の宣言 W₀・A₀(下のパネル —— [M/L²] の別の量)とは別欄で、"
     +"この行は読むだけ(編集は D₀・D0pull・spaceMesh.D0 の宣言で)。",
   wbgFrom:(f)=>({"spaceMesh.D0":"出所: spaceMesh.D0(宣言)","D0pull":"出所: D0pull(pull)","D0":"出所: D₀"})[f]||("出所: "+f),
   wbgReadOnly:"読み取り専用",
-  /* 第283便d(原仮定者の裁定(第73報)⑥・R87): 「背景決定力 D₀」の直下の背景複素決定力 physics.backgroundComplex の宣言欄 */
-  bgcLabel:"背景複素決定力 W₀・A₀(宣言)",
+  /* 第283便d(原仮定者の裁定(第73報)⑥・R87): 「背景決定力 D₀」の直下の背景慣性決定力 physics.backgroundComplex の宣言欄 */
+  bgcLabel:"背景慣性決定力 W₀・A₀(宣言)",
   bgcUndeclared:"未確定(未宣言)",
   bgcDeclared:(b)=>"宣言済み: "+b,
   bgcInvalid:"受理されない宣言",
-  bgcDesc:"physics.backgroundComplex — 空間メッシュ(複素決定力場)の背景。D₀(スカラー・[M/L] — 距離に反比例する決定力の総和)とは別の鍵で、"
+  bgcDesc:"physics.backgroundComplex — 空間メッシュ(慣性決定力場)の背景。D₀(スカラー・[M/L] — 距離に反比例する重力決定力の総和)とは別の鍵で、"
     +"重み W₀ は [M/L²](w=m/(r²+ε²) の総和)・分子 A₀=Σw·u は [M/(L·T)] の向きつき量なので、W₀ に D₀ の値を流用しない。"
     +"値域: W₀≥0(W₀=0 なら他の成分もすべて 0)・A0/gradW/dAdt は 2 成分・gradA は 4 成分 [∂ₓAx,∂_yAx,∂ₓAy,∂_yAy]・dWdt は 1 つ(いずれも有限数)。"
     +"background が \"zero\" のときだけ成分の省略を許し(=ゼロと宣言)、それ以外は全成分を明示する。\"declared\" は note に出所が要る。"
@@ -1377,7 +1377,7 @@ ja: {
   bgcKeep:(k)=>"※ "+k+" は既存の宣言のまま引き継ぎます(この欄では編集しません)",
   bgcApply:"宣言する",
   bgcClear:"未宣言に戻す",
-  bgcApplied:"背景複素決定力を宣言しました(受理器を通過)",
+  bgcApplied:"背景慣性決定力を宣言しました(受理器を通過)",
   /* 第284便e(原仮定者の裁定(第74報)④・R91): 「この運動経路に適用中/未接続」の状態チップ(表示だけ) */
   bgcWireApplied:"この運動経路に適用中",
   bgcWireUnwired:"未接続(この運動経路は読まない)",
@@ -1541,9 +1541,9 @@ ja: {
   bdgMB_srcModel:"推定モデル",
   bdgMB_srcConv:"換算",
   bdgMB_none:"—",
-  // ===== 第272便d: **空間メッシュ/複素決定力場チップ**(**宣言と作動状態を分ける**) =====
+  // ===== 第272便d: **空間メッシュ/慣性決定力場チップ**(**宣言と作動状態を分ける**) =====
   // 画面の選択値だけを根拠にしない —— 実行情報(S.hasGeoToy / S.geoToyDeny / S.geoToyStop /
-  // S.geoToyOverlay / 閉包の収束)を読んでから状態を決める。**geoPN=3 だけでは「複素決定力場」と出さない**
+  // S.geoToyOverlay / 閉包の収束)を読んでから状態を決める。**geoPN=3 だけでは「慣性決定力場」と出さない**
   /* 第273便d(AH23): `bdgMesh_complex`(「複素決定力場・実験」)は**撤去した**。complex は
      積分器へ接続していない(意図された未接続)ので、作動中の語としては 1 度も出せない */
   bdgMesh_law:(v)=>"空間メッシュ: "+v+"・実験",
@@ -1561,7 +1561,7 @@ ja: {
   bdgMeshStop_complexNotVelocity:'lawVersion:"complex" は積分器へ接続していない(**意図された未接続** —— A=Σmᵢvᵢ/(rᵢ²+ε²)^{p/2} は速度ではないので、正規化を宣言しない限り慣性の場に置けない)',
   bdgMeshStop_noTargets:"当てる対象の粒子が 1 つも無い",
   bdgMesh_closureUnconverged:"源の閉包が未収束の步がある",
-  bdgMeshTip:"**空間メッシュの宣言と、いま走っている状態**を分けて出すチップである。**「複素決定力場」とは 1 度も書かない**(第273便d)—— `lawVersion:\"complex\"` は積分器へ接続していない(**意図された未接続**)からである。**geoPN=3 であることも根拠にしない**(lawVersion は scalar / local / complex の 3 つがあり、法則版 `law:\"mesh-v2\"` も別にある。選択と作動も別である)。入場条件が立たない步では値を 3 のまま保って力学は geoPN=2 と同じで走るので、その場合は「メッシュ未作動: 理由」と出す。**これは表示だけの読み口**で、較正クラスの受理条件は 1 つも変えていない(第272便d)。**第273便d(統括の検証項目 R17)**: 実行中は**走っている宣言**(`S.params.spaceMesh`)を先に読み、`geoToyDeny` か `geoToyStop` が立っている步は「作動中」と書かない。停止理由が走行中に変わったらチップだけが追従する(説明パネル全体は作り直さない)。`lawVersion:\"complex\"` は**積分器へ接続していない**(**意図された未接続** —— AH23)ので、最初のキックの前でも作動中にはしない。`toyAllowDrag` の重畳は**明示した実験 variant** であって汎用の係数ではない(重畳の実測比は〔第263便a〕の 1 構成の値である)",
+  bdgMeshTip:"**空間メッシュの宣言と、いま走っている状態**を分けて出すチップである。**「慣性決定力場」とは 1 度も書かない**(第273便d)—— `lawVersion:\"complex\"` は積分器へ接続していない(**意図された未接続**)からである。**geoPN=3 であることも根拠にしない**(lawVersion は scalar / local / complex の 3 つがあり、法則版 `law:\"mesh-v2\"` も別にある。選択と作動も別である)。入場条件が立たない步では値を 3 のまま保って力学は geoPN=2 と同じで走るので、その場合は「メッシュ未作動: 理由」と出す。**これは表示だけの読み口**で、較正クラスの受理条件は 1 つも変えていない(第272便d)。**第273便d(統括の検証項目 R17)**: 実行中は**走っている宣言**(`S.params.spaceMesh`)を先に読み、`geoToyDeny` か `geoToyStop` が立っている步は「作動中」と書かない。停止理由が走行中に変わったらチップだけが追従する(説明パネル全体は作り直さない)。`lawVersion:\"complex\"` は**積分器へ接続していない**(**意図された未接続** —— AH23)ので、最初のキックの前でも作動中にはしない。`toyAllowDrag` の重畳は**明示した実験 variant** であって汎用の係数ではない(重畳の実測比は〔第263便a〕の 1 構成の値である)",
   // 第82便B: E水準タグ(創発の水準の宣言 — sampleClass と同方針の宣言専用メタ・自動判定しない)
   bdgE_E0:"E0 規定", bdgE_E0Tip:"創発の主張をしないサンプル(構造・運動が初期条件や外部規定でほぼ決まっている)。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
   bdgE_E1:"E1 外部駆動下の自己組織化", bdgE_E1Tip:"外部から駆動(伝熱壁・規定レール・pinned など)されている系で、局所則から構造・秩序が自発的に生じる。E水準は宣言専用のメタで、物理には一切影響しない(第82便)",
@@ -1772,7 +1772,7 @@ ja: {
   ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
   presetMissing:"元プリセットが見つからないため読込を中止しました(β専用サンプルのセーブを旧版で開いた可能性 — 対応する版で読み込んでください)",
   geoPN1SaveKF0:"このセーブは geoPN=1・kFrame≠0 — geoPN=1 は kFrame=0 専用(第283便a)なので kFrame=0 として読みました(旧 geoPN=1 では kFrame は物質の力学に入っていません)。引きずりを入れるなら geoPN=2・kFrame=1",
-  saveBgcReject:(e)=>"このセーブの physics.backgroundComplex(背景複素決定力・bgModel を含む)は受理器を通らないため読込を中止しました(警告だけで走らせない —— 第286便e): "+e,
+  saveBgcReject:(e)=>"このセーブの physics.backgroundComplex(背景慣性決定力・bgModel を含む)は受理器を通らないため読込を中止しました(警告だけで走らせない —— 第286便e): "+e,
   contactModeSaveDrop:"このセーブの physics.contactMode は読めない値か、融合・相変化の本での \"none\" です — 受理器と同じ規則で宣言を外して読みました(接触判定は既存挙動 \"normal\")(第285便a)",
   fwUndeclared:"このセーブは frameWeight 未宣言 — 第242便以降の既定 pull(重力の引き m/d²)で走ります。旧来の挙動に戻すには physics.frameWeight:\"share\" を宣言してください",
   fwNoD0pull:"注意: D0pull 未宣言の kFrame=1 の旧セーブ(引きずり近似 q)は pull では周期が数十% ずれます — 第242便の再較正版サンプル(退役の本も読み込めます)から読み直してください",
@@ -1883,7 +1883,7 @@ ja: {
   helpTheory:"この現象の法則(自動抽出)",
   helpTheoryNote:"※ 正確な定義と導出は docs/PHYSICS.md / docs/DERIVATIONS.md を参照。",
   aboutTitle:"このアプリについて",   // 第27便: タイトルタップの説明パネル
-  aboutBody:"DFM Lab は、仮定の物理法則「決定力場モデル(DFM)」の帰結をその場で走らせて観察する実験室です。サンプルを選び、パラメータを変えて、重力・時間・光・熱のふるまいを比較できます。現実の物理の代替ではなく、明示した仮定から何が導かれるかを見る教育用のトイモデルです(詳細は docs/PHYSICS.md)。",
+  aboutBody:"DFM Lab は、仮定の物理法則「決定力場モデル(DFM)」の帰結をその場で走らせて観察する実験室です。サンプルを選び、パラメータを変えて、重力・時間・光・熱のふるまいを比較できます。現実の物理の代替ではなく、明示した仮定から何が導かれるかを見る教育用のトイモデルです(詳細は docs/PHYSICS.md)。DFM は現実の宇宙を主張しません —— 主張するのは、宣言した仮定の内部で保存・対称性・関数形の帰結が互いに矛盾しないことです。観測との突合(較正)はその検査であり、「合」は仮定と転写が窓に入ったことであって、宇宙がそう成り立っていることの主張ではありません。",
   // 第88便(v1.39-b1 スプリント1)EXT-01: 初見ガイド(3枚カード — 表示専用)
   fvTitle:"DFM Lab へようこそ",
   fvCard1Head:"❶ DFM とは",
@@ -2032,7 +2032,7 @@ ja: {
   helpOps:"操作",
   helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブと、ヘッダーと同じ高さのシミュレーション画面を残した高さ — 第281便e でどのタブでも同じ高さに固定)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します。✕・検索欄で文字があるときの Esc・削除して空にしたときは、検索文字列を消したあと検索欄のフォーカスを外します(モバイルではキーボードが閉じます。IME の変換中は何もしません。検索欄が空のときや検索欄の外での Esc はウィンドウを閉じます — 第284便d)。絞り込みには「geoPN」(0 測地線不用 / 1 観測再現(1PN・kF0) / 2 引きずり有り / 3 空間メッシュ)があり、スケール・分類・E水準・検索と同時に効きます(第284便d)。絞り込みはそれぞれ畳めて、畳んだ状態でも選んだチップの語が見えます。「その他」のチップ(📇 観測結果カードあり・固定(pinned)あり・多粒子(群あり)・試験粒子契約あり)は複数選べて、選んだものをすべて満たす本だけが出ます(第285便e)。絞り込みは次元ごと(スケール・分類・E水準・geoPN・その他)に見出しつきの区切り線で分かれ、開くと見出しの下にチップが並びます(第286便e)。「その他」のチップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除の三状態で、「宣言」(📇 観測結果カード・固定・多粒子・試験粒子契約・較正対象)と「分類バッジ」(説明タブのコア公理・拡張則・規定背景・意味論・比較チャネル・外部駆動・閉鎖系・温度=T_int・⚠強場トイ領域・引きずり)の 2 段に分かれます。「較正対象」は較正の対象という意味で、合格ではありません(第287便e)。3 段目の「状況(説明タブ)」は概要の下の状態チップと同じ語(目的 達・部分・未達・対象外/較正 合・量限定合・否・保留・判定保留(量定義不一致)・較正対象外)で絞り込めます —— 宣言の転記で、この画面では何も測りません。パラメータタブの静止背景相当 Wbg の換算は採用した核の M/L^p です(第289便f)。「パラメータ」タブの「引きずり・測地線」は「測地線モード geoPN」の行が先頭です(第284便d)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘⭕🧲🔆🌓)は一覧の入口を 🌙 の 1 つにまとめました(第280便b の入口は 🌘 —— 第288便b の現実較正の一本化で 🌘🧲 は退役)—— 残りは「すべて表示」か説明タブの「他の仲間」から開きます(サンプルの ID は 1 つも変えていません)。群「現実較正」(第288便b で「現実との照合・太陽系/連星」を 1 つにまとめた)の見出しの下のサブチップ「太陽系/連星」で絞り込めます —— 所属は合否を意味しません(合否は較正監査の判定)。分類チップの「現実較正」は kFrame=0 の本、「引きずり近似(q)— 較正母集団の外」は kFrame=1(q を使った引きずりの近似)の本です。「共通設定」の「スキン」で画面の配色をダーク(既定)/ライトから選べます —— ライトでもシミュレーション画面は暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)で、表示のみです(第281便e)。「共通設定」の「コア軸の投影線を表示」は、点粒子の自転軸の表示専用の宣言(spinAxis —— 公転面の法線からの傾き・観測記録に一次資料がある本だけ。内蔵では 📻 の B)も同じ正射影の橙の線で描きます(方位が記録に無いものは破線・物理と署名には効かない・第288便e)。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
-  helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力=質量÷距離。決定力の勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
+  helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力(重力決定力)=質量÷距離。その勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。慣性と引きずりを担う場は慣性決定力(旧称: 複素決定力)と呼ぶ。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
   ovSpec:"放射ピーク λ=b_m/T", ovSpecNone:"放射なし(T≈0)", ovSpecHot:"短λ=高温", ovSpecCold:"長λ=低温",
   ovSpecTrans:"透過後(赤化)",   // 第82便 A: 光学輸送 — 源スペクトル×e^{−τ(λ)} の読み口
@@ -2358,21 +2358,21 @@ en: {
   wbgLabel:"Static-background equiv. Wbg",
   /* Wave 289f (the originator's ruling, report 79; AN103; the coordinator's check item R124): "does not enter the force when kFrame=0" was too broad
      (🧩 reads Wbg at geoPN=3, kFrame=0). Limited to the orbital force of the reality calibration (geoPN=1, kFrame=0); unit M/L^p of the adopted kernel */
-  wbgTip:"A background-equivalent value - it does not enter the orbital force of the reality calibration (geoPN=1, kFrame=0); the geoPN=3 field and the Jeans start (vMode:\"jeans\") read it even when kFrame=0. Unit: M/L^p of the adopted kernel. A separate field from the complex-background declaration (the panel under D0, wave 283). Read-only (re-read from the physics declaration every time)",
-  wbgDesc:"Static-background equivalent Wbg - the background weight (chi=W/(W+Wbg)) handed to the field contract of the complex determinacy u=A/W. Source: the physics.spaceMesh.D0 declaration "
+  wbgTip:"A background-equivalent value - it does not enter the orbital force of the reality calibration (geoPN=1, kFrame=0); the geoPN=3 field and the Jeans start (vMode:\"jeans\") read it even when kFrame=0. Unit: M/L^p of the adopted kernel. A separate field from the background inertial-determinacy declaration (the panel under D0, wave 283). Read-only (re-read from the physics declaration every time)",
+  wbgDesc:"Static-background equivalent Wbg - the background weight (chi=W/(W+Wbg)) handed to the field contract of the inertial determinacy u=A/W. Source: the physics.spaceMesh.D0 declaration "
     +"(only for the toys that read the centre's spin - geoPN=3, lawVersion scalar, centerSpin read) -> D0pull of frameWeight pull -> D0. "
     +"Unit: M/L^p of the adopted kernel (the frameWeight power p - share is p=1, M/L; pull is p=2, M/L^2; pull3/pull4 are M/L^3 and M/L^4; the scale conversion uses this p too). "
     +"IT IS A BACKGROUND-EQUIVALENT VALUE AND DOES NOT ENTER THE ORBITAL FORCE OF THE REALITY CALIBRATION (geoPN=1, kFrame=0) - the drag path does not read it. "
-    +"The geoPN=3 field (toy) and the Jeans start (vMode:\"jeans\") do read it even when kFrame=0 (chi=W/(W+Wbg) of the field contract). It is a separate field from the background complex declaration W0/A0 (the panel below - a different quantity in M/L^2); "
+    +"The geoPN=3 field (toy) and the Jeans start (vMode:\"jeans\") do read it even when kFrame=0 (chi=W/(W+Wbg) of the field contract). It is a separate field from the background inertial-determinacy declaration W0/A0 (the panel below - a different quantity in M/L^2); "
     +"this row only reads (edit D0, D0pull or the spaceMesh.D0 declaration instead).",
   wbgFrom:(f)=>({"spaceMesh.D0":"from: spaceMesh.D0 (declared)","D0pull":"from: D0pull (pull)","D0":"from: D0"})[f]||("from: "+f),
   wbgReadOnly:"read-only",
   /* Wave 283d (originator's ruling, report 73 (6), R87): declaration panel for physics.backgroundComplex right under the D0 row */
-  bgcLabel:"Background complex determinacy W0 / A0 (declaration)",
+  bgcLabel:"Background inertial determinacy W0 / A0 (declaration)",
   bgcUndeclared:"Undetermined (not declared)",
   bgcDeclared:(b)=>"Declared: "+b,
   bgcInvalid:"Declaration not accepted",
-  bgcDesc:"physics.backgroundComplex - the background of the space mesh (complex determinacy field). It is a SEPARATE KEY from D0 (a scalar in [M/L], the sum of determinacy falling off as 1/distance): "
+  bgcDesc:"physics.backgroundComplex - the background of the space mesh (inertial determinacy field). It is a SEPARATE KEY from D0 (a scalar in [M/L], the sum of gravitational determinacy falling off as 1/distance): "
     +"the weight W0 is in [M/L^2] (a sum of w=m/(r^2+eps^2)) and the numerator A0=sum w*u is a directed quantity in [M/(L*T)], so DO NOT REUSE THE D0 VALUE FOR W0. "
     +"Ranges: W0>=0 (if W0=0 every other component must be 0); A0/gradW/dAdt have 2 components, gradA has 4 [dAx/dx, dAx/dy, dAy/dx, dAy/dy], dWdt is one number (all finite). "
     +"Components may be omitted only with background \"zero\" (a declaration of zero); otherwise every component must be written, and \"declared\" needs its source in note. "
@@ -2391,7 +2391,7 @@ en: {
   bgcKeep:(k)=>"Note: "+k+" are carried over from the existing declaration (not edited here)",
   bgcApply:"Declare",
   bgcClear:"Back to undeclared",
-  bgcApplied:"Background complex determinacy declared (accepted by the validator)",
+  bgcApplied:"Background inertial determinacy declared (accepted by the validator)",
   /* Wave 284e (originator's ruling, report 74 (4), R91): "applied to this motion path / not wired" status chip (display only) */
   bgcWireApplied:"Applied to this motion path",
   bgcWireUnwired:"Not wired (this motion path does not read it)",
@@ -2544,7 +2544,7 @@ en: {
   bdgMB_srcModel:"Inference model",
   bdgMB_srcConv:"Conversion",
   bdgMB_none:"-",
-  // ===== Wave 272d: the SPACE MESH / COMPLEX DETERMINACY FIELD chip - declaration and running state apart =====
+  // ===== Wave 272d: the SPACE MESH / INERTIAL DETERMINACY FIELD chip - declaration and running state apart =====
   /* Wave 273d (AH23): bdgMesh_complex ("Complex determinacy field") WAS REMOVED - complex is not
      wired into the integrator (an intended non-connection), so it can never be printed as acting */
   bdgMesh_law:(v)=>"Space mesh: " + v + " - experimental",
@@ -2561,7 +2561,7 @@ en: {
   bdgMeshStop_complexNotVelocity:'lawVersion:"complex" is not wired into the integrator (AN INTENDED NON-CONNECTION - A = SUM m_i v_i /(r_i^2+eps^2)^{p/2} IS NOT A VELOCITY, so it cannot be put in the inertia field unless a normalisation is declared)',
   bdgMeshStop_noTargets:"there is no particle to act on",
   bdgMesh_closureUnconverged:"some steps left the source closure unconverged",
-  bdgMeshTip:"This chip keeps THE DECLARATION and THE STATE ACTUALLY RUNNING apart. IT NEVER PRINTS \"COMPLEX DETERMINACY FIELD\" AT ALL (wave 273d) - lawVersion:\"complex\" is not wired into the integrator (an intended non-connection). GEOPN=3 ON ITS OWN IS NEVER A REASON TO CALL THE MESH ACTING EITHER (lawVersion has three values, scalar / local / complex, the law version law:\"mesh-v2\" is a separate thing again, and selecting is not the same as acting). On a step where the entry conditions do not hold, the value stays 3 while the dynamics run exactly as geoPN=2, and the chip reads \"Mesh not acting: <reason>\". THIS IS A READ-OUT ONLY: not one acceptance condition of the calibration class was changed (wave 272d). WAVE 273d (verification item R17): while a universe is running, the RUNNING declaration (S.params.spaceMesh) is read first, and a step on which geoToyDeny or geoToyStop is raised is never written as acting; when the stop reason changes mid-run only the chip follows (the explanation panel is not rebuilt). lawVersion:\"complex\" IS NOT WIRED INTO THE INTEGRATOR (AN INTENDED NON-CONNECTION - AH23), so it is not shown as acting even before the first kick. The toyAllowDrag overlay is AN EXPLICITLY DECLARED EXPERIMENT VARIANT, not a general-purpose coefficient (the measured superposition ratio belongs to the one configuration in wave 263a)",
+  bdgMeshTip:"This chip keeps THE DECLARATION and THE STATE ACTUALLY RUNNING apart. IT NEVER PRINTS \"INERTIAL DETERMINACY FIELD\" AT ALL (wave 273d) - lawVersion:\"complex\" is not wired into the integrator (an intended non-connection). GEOPN=3 ON ITS OWN IS NEVER A REASON TO CALL THE MESH ACTING EITHER (lawVersion has three values, scalar / local / complex, the law version law:\"mesh-v2\" is a separate thing again, and selecting is not the same as acting). On a step where the entry conditions do not hold, the value stays 3 while the dynamics run exactly as geoPN=2, and the chip reads \"Mesh not acting: <reason>\". THIS IS A READ-OUT ONLY: not one acceptance condition of the calibration class was changed (wave 272d). WAVE 273d (verification item R17): while a universe is running, the RUNNING declaration (S.params.spaceMesh) is read first, and a step on which geoToyDeny or geoToyStop is raised is never written as acting; when the stop reason changes mid-run only the chip follows (the explanation panel is not rebuilt). lawVersion:\"complex\" IS NOT WIRED INTO THE INTEGRATOR (AN INTENDED NON-CONNECTION - AH23), so it is not shown as acting even before the first kick. The toyAllowDrag overlay is AN EXPLICITLY DECLARED EXPERIMENT VARIANT, not a general-purpose coefficient (the measured superposition ratio belongs to the one configuration in wave 263a)",
   bdgE_E0:"E0 Prescribed", bdgE_E0Tip:"A sample that makes no emergence claim: its structure and motion are essentially fixed by the initial conditions or by external prescription. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
   bdgE_E1:"E1 Driven self-organization", bdgE_E1Tip:"Structure/order arises spontaneously from local rules, but the system is externally driven (thermal walls, prescribed rails, pinned bodies…). The E level is declaration-only metadata and never touches the physics (dispatch 82)",
   bdgE_E2:"E2 Closed-system emergence", bdgE_E2Tip:"Structure is generated from local rules alone with no external drive (closed system) — the target shape is not embedded in the initial conditions. The E level is declaration-only metadata and never touches the physics (dispatch 82)",
@@ -2773,7 +2773,7 @@ en: {
   ioNoteSum:"Import",   // 第36便 B4
   presetMissing:"Original preset not found — load aborted (this save may come from a newer/beta build; open it there instead)",
   geoPN1SaveKF0:"This save has geoPN=1 with kFrame≠0 — geoPN=1 takes kFrame=0 only (wave 283a), so it was read with kFrame=0 (under the old geoPN=1 kFrame never entered the dynamics of matter). For dragging use geoPN=2 with kFrame=1",
-  saveBgcReject:(e)=>"This save's physics.backgroundComplex (background complex determinacy, including bgModel) does not pass the validator, so the load was aborted (it is not run with a mere warning - wave 286e): "+e,
+  saveBgcReject:(e)=>"This save's physics.backgroundComplex (background inertial determinacy, including bgModel) does not pass the validator, so the load was aborted (it is not run with a mere warning - wave 286e): "+e,
   contactModeSaveDrop:"This save's physics.contactMode is not readable, or is \"none\" on a sample with fusion or phase change — by the same rule as the validator the declaration was dropped (contact is the existing \"normal\" behaviour) (wave 285a)",
   fwUndeclared:"This save declares no frameWeight — it runs under the wave-242 default pull (gravitational pull m/d²). Declare physics.frameWeight:\"share\" to restore the old behaviour",
   fwNoD0pull:"Caution: an older kFrame=1 save (the drag approximation with q) without D0pull drifts by tens of percent in period under pull — reload it from the wave-242 recalibrated sample (retired samples still load)",
@@ -2878,7 +2878,7 @@ en: {
   helpTheory:"Laws behind this scene (auto-extracted)",
   helpTheoryNote:"※ Precise definitions and derivations: docs/PHYSICS.md / docs/DERIVATIONS.md.",
   aboutTitle:"About this app",
-  aboutBody:"DFM Lab is a laboratory for running and observing the consequences of a hypothetical physics — the Determinacy Field Model (DFM). Pick a sample, change parameters, and compare how gravity, time, light and heat behave. It is an educational toy model that shows what follows from explicit assumptions — not a replacement for real physics (details: docs/PHYSICS.md).",
+  aboutBody:"DFM Lab is a laboratory for running and observing the consequences of a hypothetical physics — the Determinacy Field Model (DFM). Pick a sample, change parameters, and compare how gravity, time, light and heat behave. It is an educational toy model that shows what follows from explicit assumptions — not a replacement for real physics (details: docs/PHYSICS.md). DFM makes no claim about the real universe - what it claims is that, inside the declared assumptions, the consequences of conservation, symmetry and functional form do not contradict one another. Comparison with observation (calibration) is a test of that: a \"match\" means the assumptions and their transcription landed inside the window, not that the universe works this way.",
   // 第88便(v1.39-b1 sprint 1)EXT-01: first-visit guide (3 cards — display only)
   fvTitle:"Welcome to DFM Lab",
   fvCard1Head:"❶ What is DFM?",
@@ -3014,7 +3014,7 @@ en: {
   helpOps:"Controls",
   helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, leaving a strip of the simulation view as tall as the header (wave 281e: the same height on every tab), turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search. After clearing with ✕, with Esc while the box holds text, or by deleting the text down to empty, the search box loses focus (on mobile the keyboard closes; nothing happens during IME composition; Esc with an empty box or outside the box closes the window - wave 284d). The filters include \"geoPN\" (0 no geodesic / 1 observed (1PN, kF0) / 2 with dragging / 3 space mesh), applied together with scale, class, E-level and search (wave 284d). Each filter folds, and a folded filter still shows the chosen chip; the \"Other\" chips (📇 has observation card, has pinned body, many particles (group), test-particle contract) can be combined and list only samples that satisfy all of them (wave 285e). The filters are separated per dimension (scale, class, E-level, geoPN, other) by a line with a heading, and an opened filter lists its chips under that heading (wave 286e). The \"Other\" chips have three states - 1st tap include, 2nd exclude (NOT, shown with ¬ and a strike-through), 3rd clear - and are split into \"Declarations\" (📇 observation card, pinned, many particles, test-particle contract, calibration target) and \"Class badges\" (the Description tab's core axioms, extension, prescribed background, semantics, comparison channel, external drive, closed system, temperature = T_int, ⚠strong-field toy, dragging). \"Calibration target\" means a sample under calibration, not a pass (wave 287e). A third section, \"Status (Description tab)\", filters by the same words as the status chips under the brief (goal met / partial / unmet / n/a; calibration pass / limited pass / fail / hold / hold (definitions differ) / out of calibration scope) - a transcription, nothing is measured on this screen; the read-only static-background equivalent Wbg in the Parameters tab is converted with M/L^p of the adopted kernel (wave 289f). In the Parameters tab, \"Dragging & Geodesics\" now starts with the geodesic mode geoPN row (wave 284d). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘⭕🧲🔆🌓) now share one entry in the list, 🌙 (the wave-280b entry was 🌘; the wave-288b reality-calibration unification retired 🌘🧲) — open the others with \"Show all\" or from \"family\" in the Description tab (no sample ID was changed). The \"Reality Calibration\" group (wave 288b merged \"Reality Checks — Solar System / Binaries\" into it) has sub-chips under its heading (Solar system / Binaries) — membership says nothing about pass or fail (the verdict belongs to the calibration audit). The class chip \"Reality calibration\" marks kFrame=0 samples; \"Drag approx. (q) — outside the population\" marks kFrame=1 samples (a drag approximation using q). \"Skin\" in General switches the colour scheme between Dark (default) and Light; the simulation view keeps its dark background in both (body temperature and ray wavelength colours are drawn for a dark background) - display only (wave 281e). The common setting \"Show the core axis projection\" also draws the display-only spin-axis declaration of point particles (spinAxis — the tilt from the orbit normal, declared only where the observation record has a primary source; among the built-ins, B of 📻) as an orange line with the same projection (dashed where no azimuth is recorded; it affects neither physics nor signatures — wave 288e).",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
-  helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
+  helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy (gravitational determinacy) = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). The field behind inertia and dragging is called the inertial determinacy (formerly: complex determinacy). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
   ovSpec:"Radiation peak λ=b_m/T", ovSpecNone:"No radiation (T≈0)", ovSpecHot:"short λ = hot", ovSpecCold:"long λ = cold",
   ovSpecTrans:"transmitted (reddened)",   // 82nd flight A: optical transport — source spectrum x e^{-tau(lambda)}
@@ -3258,7 +3258,7 @@ en: {
     cHeat:"Heat-capacity coefficient, active only in the internal-temperature mode (samples with thermal:\"tint\"). A particle's heat energy is E=C·m·T_int, so a dissipated ΔE raises it by ΔT_int=ΔE/(C·m) (A9′/E9). Larger C means the same dissipation heats less. It does nothing in the default spin-as-heat mode (thermal omitted).",
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
     gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Beaker-tag samples (♨️🧪) default to 0.031 (≈9.8 m/s² converted — wave 98: the beaker tag inherited the old everyday calibration); the everyday tag (⚾) uses the real value 9.8 (9.8 m/s² as-is). Set 0 for weightlessness.",
-    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 - with kFrame=0 it is routed to the same EIH-type 1PN path as geoPN=1 by the kF0 contract (lambda_PN=1 and kFrame=0, wave 285b on) - this is NOT the v−u equation reducing to geoPN=1 at u=0; the 400-step states agreed for 6 samples (wave 286c measurement), but the two are not asserted to be the same law. 0 = legacy. AT 3, A SEPARATE TOY PATH (wave 259a, the complex determinacy field) that is EXCLUSIVE with E6-prime, 1PN and the coordinate inertia — no double application. Declaring 3 in a sample JSON requires physics.spaceMesh.lawVersion (scalar/local/complex); a JSON without that declaration is still rounded down to 2 on load, and it is rejected outright for the reality-calibration class (sampleClass:calibration). WAVE 262a: A VALUE OF 3 SET FROM THIS ROW (the UI) IS NO LONGER REWRITTEN TO 2 - samples that declare no lawVersion use the runtime default scalar, and when the entry conditions cannot hold (kFrame>0, or the space-mesh inertia/weave is on) the value stays 3, one warning line is shown, and the dynamics run exactly as geoPN=2 (geoToy:denied in the step accounting). WAVE 263a: MIND THE SAVE ASYMMETRY - setting 3 from this row is still rounded down to 2 on load unless the saved JSON declares physics.spaceMesh.lawVersion (THE RUNNING VALUE AND THE SAVEABLE DECLARATION ARE DIFFERENT THINGS). And a sample that declares physics.spaceMesh.toyAllowDrag:true keeps the toy running with kFrame>0, SO THE E6-PRIME FOLLOWING KICK AND THE TOY ACT IN THE SAME STEP (a diagnostic configuration that may double-count; the HUD shows overlay:drag; rejected for sampleClass:calibration). WAVE 280c: a 3 that declares physics.spaceMesh.lawVersion vMinusU IS NOT THE TOY but the velocity-decomposition contract (xdot=v+u, vdot=a_space-J^T v - the transport path physics.meshVelocity, the 1PN switch pn, the velocity read by 1PN pnVelocity and the meaning of the initial velocity velocityMeaning are declared separately; kFrame=0 only).",
+    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 - with kFrame=0 it is routed to the same EIH-type 1PN path as geoPN=1 by the kF0 contract (lambda_PN=1 and kFrame=0, wave 285b on) - this is NOT the v−u equation reducing to geoPN=1 at u=0; the 400-step states agreed for 6 samples (wave 286c measurement), but the two are not asserted to be the same law. 0 = legacy. AT 3, A SEPARATE TOY PATH (wave 259a, the inertial determinacy field) that is EXCLUSIVE with E6-prime, 1PN and the coordinate inertia — no double application. Declaring 3 in a sample JSON requires physics.spaceMesh.lawVersion (scalar/local/complex); a JSON without that declaration is still rounded down to 2 on load, and it is rejected outright for the reality-calibration class (sampleClass:calibration). WAVE 262a: A VALUE OF 3 SET FROM THIS ROW (the UI) IS NO LONGER REWRITTEN TO 2 - samples that declare no lawVersion use the runtime default scalar, and when the entry conditions cannot hold (kFrame>0, or the space-mesh inertia/weave is on) the value stays 3, one warning line is shown, and the dynamics run exactly as geoPN=2 (geoToy:denied in the step accounting). WAVE 263a: MIND THE SAVE ASYMMETRY - setting 3 from this row is still rounded down to 2 on load unless the saved JSON declares physics.spaceMesh.lawVersion (THE RUNNING VALUE AND THE SAVEABLE DECLARATION ARE DIFFERENT THINGS). And a sample that declares physics.spaceMesh.toyAllowDrag:true keeps the toy running with kFrame>0, SO THE E6-PRIME FOLLOWING KICK AND THE TOY ACT IN THE SAME STEP (a diagnostic configuration that may double-count; the HUD shows overlay:drag; rejected for sampleClass:calibration). WAVE 280c: a 3 that declares physics.spaceMesh.lawVersion vMinusU IS NOT THE TOY but the velocity-decomposition contract (xdot=v+u, vdot=a_space-J^T v - the transport path physics.meshVelocity, the 1PN switch pn, the velocity read by 1PN pnVelocity and the meaning of the initial velocity velocityMeaning are declared separately; kFrame=0 only).",
     lambdaPN:"Strength of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2), continuous on 0–1 (integer restriction removed in wave 110). The 1PN acceleration scales as λ_PN/c₀², so the 1PN strength can be calibrated with c₀ held fixed. At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
     radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
@@ -4311,9 +4311,9 @@ function descFoldStatusOf(p){
   if(t.length>DESC_FOLD_STATUS_CAP) t=t.slice(0,DESC_FOLD_STATUS_CAP-1)+"…";
   return {text:t, src, word, cap:DESC_FOLD_STATUS_CAP};
 }
-// ===== 第272便d: **空間メッシュ/複素決定力場**の状態(**宣言と作動を分ける**)=====
+// ===== 第272便d: **空間メッシュ/慣性決定力場**の状態(**宣言と作動を分ける**)=====
 // 画面の選択値だけを根拠にしない —— 実行情報(S.hasGeoToy / S.geoToyDeny / S.geoToyStop /
-// S.geoToyOverlay)を読む。**geoPN=3 であることだけでは「複素決定力場」と出さない**(R16)。
+// S.geoToyOverlay)を読む。**geoPN=3 であることだけでは「慣性決定力場」と出さない**(R16)。
 function meshChipState(p,S){
   if(!p) return null;
   const ph=p.physics||{}, decl=(ph[SPACE_MESH_KEY]&&typeof ph[SPACE_MESH_KEY]==="object")?ph[SPACE_MESH_KEY]:null;
@@ -4681,7 +4681,7 @@ const SPACE_MESH_LIGHT = ["background","mesh"];
 //                 (純関数 `HP.dfmMeshWeaveBlend` が正本)。geoPN<2 では停止理由 "geoPN" で素通りする。
 const SPACE_MESH_WEAVE = ["off","pair","pairFull","pairPN","pairPNFull"];
 // ===== 第280便c(原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」・統括の読み R65) =====
-// **geoPN=3 の契約**: 複素決定力(座標変換)の研究系列を geoPN=3 にまとめる。**番号の切替を同条件比較にしない**ため、
+// **geoPN=3 の契約**: 慣性決定力(座標変換)の研究系列を geoPN=3 にまとめる。**番号の切替を同条件比較にしない**ため、
 // 次の 5 つを**独立に宣言**する(どれも既定経路には 1 文字も入らない):
 //   ・法則名   `physics.spaceMesh.lawVersion:"vMinusU"`(第279便c の速度分解 ẋ=v+u・v̇=a_space−Jᵀv。
 //              トイの場の法則 scalar/local/complex〔DFM_FIELD_LAWS〕とは別の値で、`dfmGeoToyStep` は読まない)
@@ -5102,7 +5102,7 @@ const SHAPE_TOY_CLAMPS = { omega0:[1e-6,100], gamma:[1e-6,100], sigma:[1e-6,1e6]
 //     であり、**保存量は h = ½|v|² + ½K⊥r⊥² + ½K∥r∥²**(H=Σm_i h_i)。K⊥>0・K∥>0 が閉じた正の H の
 //     条件で、**満たさない宣言は受理しない**(門)。
 // **これは新しい構成仮説であって、現行 DFM から一意に導出された法則ではない**(R44 の字義)。
-// **中心スピンがメッシュ(複素決定力場の重み W)を通して集団の形を変える**という**検証可能な仮説**を
+// **中心スピンがメッシュ(慣性決定力場の重み W)を通して集団の形を変える**という**検証可能な仮説**を
 // 宣言として置き、その帰結(形・厚み・逆行率・帳簿・スピン依存)を測る、という立て方である。
 // **中心は `center:"pinned"` のまま = 外部支持版**である(反作用は帳簿に記帳するだけで、中心には
 // 1 バイトも書き戻さない。中心の自由化は次便)。**重力を二重に足さない**: 粒子間重力 E4 は既定 G の
@@ -5141,7 +5141,7 @@ function validateCoreField(a){
     return {ok:false, err:"physics.shapeToy.coreField の alpha/beta は有限数(必須 — Φ の異方係数)"};
   const W0=num("W0",null), temp=num("temp",null);
   if(W0===null || temp===null)
-    return {ok:false, err:"physics.shapeToy.coreField の W0(背景複素決定力の重み)/temp(等温定常の温度)は有限の非負数(必須)"};
+    return {ok:false, err:"physics.shapeToy.coreField の W0(背景慣性決定力の重み)/temp(等温定常の温度)は有限の非負数(必須)"};
   const omegaP=num("omegaP",0);
   if(omegaP===null) return {ok:false, err:"physics.shapeToy.coreField.omegaP は有限数"};
   const ax=a.axis;
@@ -5250,7 +5250,7 @@ function validateShapeToy(a){
 //   ・銀河サンプルでは**銀河自身を含めない**/その他は出所を名指しする … "declared"(note 必須)
 // D₀ は「**分解して置いていない源の決定力の総和**」D_bg(x*) = Σ_{j∉分解集合} m_j/√(r_j²+ε²) であり、
 // **距離に反比例する**(単位は 質量/長さ)。したがって**距離の二乗に反比例する空間メッシュ
-// (複素決定力場・need:"mesh")には使わない** —— これは裁定の後段そのものである。
+// (慣性決定力場・need:"mesh")には使わない** —— これは裁定の後段そのものである。
 // **この鍵は宣言専用**(表示・監査用)で、**エンジンのどの経路からも読まれない**:
 // D₀ の値そのものは従来どおり `physics.D0` / `physics.D0pull` が持ち、本鍵は「その値が
 // どの背景を数えた総和なのか」を書くだけである。**未宣言は 1 bit も変わらない**
@@ -5281,12 +5281,12 @@ function validateD0Source(a){
     return {ok:false, err:'physics.D0Source.background:"declared" は note に背景の出所を書くこと(出所を名指ししない宣言は受理しない)'};
   return {ok:true, d0Source:out};
 }
-// ===== 第276便a(原仮定者の裁定〔第66報〕(1)): physics.backgroundComplex — **背景複素決定力**の宣言 =====
+// ===== 第276便a(原仮定者の裁定〔第66報〕(1)): physics.backgroundComplex — **背景慣性決定力**の宣言 =====
 // 裁定の字義は「**『背景決定力 D₀』と別途『背景複素決定力』を用意する**。『引きずり減衰 q』の算出や
 // 計算など影響箇所を精査する。両者はサンプルによって変動するがシチュエーションで決まるので
 // 事前予測が可能」である。
 // **なぜ別鍵か(単位が違う)**: スカラーの D₀ は「距離に反比例する決定力の総和」 D_bg=Σ m/√(r²+ε²) で
-// 単位は **[M/L]**(第275便b)。複素決定力場(空間メッシュ・need:"mesh")の重みは w=m/(r²+ε²) なので
+// 単位は **[M/L]**(第275便b)。慣性決定力場(空間メッシュ・need:"mesh")の重みは w=m/(r²+ε²) なので
 // 背景の重み **W₀ は [M/L²]**、その分子 **A₀=Σ w_i u_i は [M/(L·T)]・向きつき**である。
 // **同じ 1 つの数を両方に使えない**し、**W₀ と A₀ を同じ数にもしない**(反対向きに動く源は分子で
 // 相殺しても正の重みは残る)。座標変換の加速度には値だけでなく
@@ -5715,7 +5715,7 @@ function bgcDerivation(decl){
 //                    u=(A_local+A_bg)/(W_local+W_bg)(局所は同じ p=1 の核・自己を除く)に替え、∇u=(∇A−u⊗∇W)/W・∂ₜu=(∂ₜA−u∂ₜW)/W を
 //                    分母ごと微分して当てる(`dfmGeoToyBgLawStep`)。**この経路は D₀ を読まない**(背景は W_bg だけ —— D₀ は別量で、
 //                    W₀ に係数を掛けて D₀ を作らない)。spaceMesh.D0 との併用は拒否(背景を二重に数えない)。
-//   ・"complex-p2" … p=2(複素決定力の字義)。W [M/L²]・A [M/(L·T)](BG_COMPLEX_UNITS)。**経路は physics.meshVelocity**
+//   ・"complex-p2" … p=2(慣性決定力の字義)。W [M/L²]・A [M/(L·T)](BG_COMPLEX_UNITS)。**経路は physics.meshVelocity**
 //                    (field:"backgroundComplex" —— 第279便c の dfmBlendComplexMoments。局所も p=2)。宣言は要件を足すだけで、式は変えない。
 // 宣言に要るもの(AN56 —— 台帳はプリセットの宣言の中・座標系は宣言必須・黙って A₀=0 にしない):
 //   lawUnits(法則版の単位表と完全一致)・lawDomainR(有限領域の半径 [L] —— 凍結参照系の原点のまわりで背景の一次の値を使う範囲)・
@@ -5740,7 +5740,7 @@ function bgcLawCheck(a){
   }
   const lv=a.lawVersion;
   if(BGC_LAW_VERSIONS.indexOf(lv)<0)
-    return {ok:false, err:W+'.lawVersion は "share-p1"(p=1 の share 経路 —— geoPN=3 のトイ)か "complex-p2"(p=2 の複素経路 —— physics.meshVelocity)'};
+    return {ok:false, err:W+'.lawVersion は "share-p1"(p=1 の share 経路 —— geoPN=3 のトイ)か "complex-p2"(p=2 の慣性決定力の経路 —— physics.meshVelocity)'};
   const U=BGC_LAW_UNITS[lv], lu=a.lawUnits;
   if(!lu || typeof lu!=="object" || Array.isArray(lu))
     return {ok:false, err:W+'.lawVersion:"'+lv+'" は lawUnits(単位の宣言 '+JSON.stringify(U)+')を書く —— 単位を宣言しない背景は接続しない'};
@@ -5897,7 +5897,7 @@ function bgTimeMomentsAt(B, T, dx, dy, tau){
     A:[B.A0[0]+B.gradA[0]*dx+B.gradA[1]*dy+B.dAdt[0]*tau, B.A0[1]+B.gradA[2]*dx+B.gradA[3]*dy+B.dAdt[1]*tau],
     gradW:B.gradW.slice(), gradA:B.gradA.slice(), dWdt:B.dWdt, dAdt:B.dAdt.slice()}};
 }
-// p 乗の核の複素モーメント(自己を含めない和 —— 呼び出し側が i を除いた並びを渡す)。p=2 は dfmComplexMomentsOf と同じ式。
+// p 乗の核の慣性決定力モーメント(自己を含めない和 —— 呼び出し側が i を除いた並びを渡す)。p=2 は dfmComplexMomentsOf と同じ式。
 //   w=m·s^{−p/2}・∇w=−p·m·s^{−p/2−1}(x−xⱼ)・∂ₜw=−∇w·vⱼ・A=Σw vⱼ・∇A=Σ vⱼ⊗∇w・∂ₜA=Σ(∂ₜw vⱼ + w aⱼ)
 function dfmComplexMomentsP(list, px, py, eps2, p){
   if(!Array.isArray(list) || !isNum(p) || !(p>0)) return null;
@@ -5965,13 +5965,13 @@ function bgLawPrepare(S){
   if(tm) S.bgLaw.time=tm;
   return true;
 }
-// ===== 第279便c(統括の読み R62・R63 ⑤): physics.meshVelocity — **複素決定力による座標変換(空間による引きずり)**の opt-in =====
+// ===== 第279便c(統括の読み R62・R63 ⑤): physics.meshVelocity — **慣性決定力による座標変換(空間による引きずり)**の opt-in =====
 // 形: {law:"vMinusU", field:"backgroundComplex"|"explicit", mutual:0|1, frame:{…}, external?:["body:<n>",…]}
 //   ・law "vMinusU" … 構成則候補 L/m=|ẋ−u|²/2−Φ から ẋ=v+u・v̇=a_space−Jᵀv(J=∂u/∂x)。
 //     **`vx,vy` は慣性速度 v(=ẋ−u)として扱う**(宣言した本だけ —— 既定経路の意味は変えない)。
 //   ・field "backgroundComplex" … 外部の場は `physics.backgroundComplex`(sources と frame の宣言が必須)。
 //     field "explicit" … 外部の場は `external` に挙げた明示天体(背景鍵は読まない)。
-//   ・mutual … **相対作用の引きずり(自己以外の明示天体の複素場による座標変換)の強さの端点 0/1 だけ**。
+//   ・mutual … **相対作用の引きずり(自己以外の明示天体の慣性決定力場による座標変換)の強さの端点 0/1 だけ**。
 //     1: u は「自分以外のすべての明示天体 + 外部の場」の合成(W=W_loc+W_ext・A=A_loc+A_ext・u=A/W)。
 //     0: u は外部の場だけ(相互の引きずりは入れない)。**分数は拒否**(分数 k を法則にしない契約)。
 //   ・frame … u と v を測る参照系の宣言(field "backgroundComplex" では backgroundComplex.frame と同一であること)。
@@ -6056,9 +6056,9 @@ function meshVelocityCrossCheck(mv, bgc, ph, bodies, sampleClass){
 }
 // ===== 第280便b(原仮定者の裁定〔第70報〕・統括の読み R69): physics.qLock —— 引きずり核の宣言(opt-in) =====
 // 形: {kernel:"frontBack", epsC:数値≥0, nodes?:8|16|32|64}
-//   ・kernel "frontBack" … 球体の表裏を積分した複素モーメント(`dfmSphereKernelMomentsOf`)を、
+//   ・kernel "frontBack" … 球体の表裏を積分した慣性決定力モーメント(`dfmSphereKernelMomentsOf`)を、
 //     `physics.meshVelocity` の外部の場(field:"explicit" の external)に使う。**q は使わない**(核に指数は無い)。
-//   ・epsC … 複素場の正則化 ε_c(重力の ε_g とは別に宣言する)。0 のときは球の内部・表面の点を拒否する。
+//   ・epsC … 慣性決定力場の正則化 ε_c(重力の ε_g とは別に宣言する)。0 のときは球の内部・表面の点を拒否する。
 //   ・nodes … 半径の求積の区間あたりの点数(既定 16)。
 // 天体側の宣言 `bodies[].densityClass:"solid"|"gas"|"star"|"compact"`(+ 任意の `densityProfile`・`rotationProfile`)は
 // **同じ積分則への物理入力**(ρ(r) と Ω(r))であって、クラスごとの経験 q ではない。
@@ -6083,7 +6083,7 @@ function validateQLockKernel(a){
   for(const k of Object.keys(a)) if(QLOCK_KERNEL_KEYS.indexOf(k)<0)
     return {ok:false, err:"physics.qLock に知らない鍵 "+k+" がある(kernel/epsC/nodes のみ)"};
   if(QLOCK_KERNELS.indexOf(a.kernel)<0) return {ok:false, err:'physics.qLock.kernel は "frontBack" のみ'};
-  if(!isNum(a.epsC) || a.epsC<0) return {ok:false, err:"physics.qLock.epsC は 0 以上の有限数(複素場の正則化 ε_c —— 重力の ε とは別に宣言する)"};
+  if(!isNum(a.epsC) || a.epsC<0) return {ok:false, err:"physics.qLock.epsC は 0 以上の有限数(慣性決定力場の正則化 ε_c —— 重力の ε とは別に宣言する)"};
   const nd=(a.nodes===undefined)? 16 : a.nodes;
   if(QLOCK_KERNEL_NODES.indexOf(nd)<0) return {ok:false, err:"physics.qLock.nodes は 8/16/32/64"};
   return {ok:true, qLock:{kernel:a.kernel, epsC:a.epsC, nodes:nd}};
@@ -7247,7 +7247,7 @@ const PARAM_DEFS = [
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-10, hi:10, step:0.005, cat:"st", group:"法則の実験室",   /* 第79便: 同上。第94便: ⚾の g_y=9.8(実値化)がスライダー内に収まるよう CLAMPS と同じ±10へ拡大(第56便 kRep と同じ方針) */
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 第98便: 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:3, step:1,    cat:"dg", group:"法則の実験室",
-   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では kF0 の役割(λ_PN=1 ∧ kFrame=0)として geoPN=1 と同じ EIH 型の 1PN の経路へ送られる(第285便b 以降 —— v−u 則の式を u=0 に還元した結果ではなく kF0 の契約による。400 步の状態は 6 本で一致したが〔第286便c の実測〕、法則として同一とは断言しない)。0=従来(legacy)。**3=トイ(複素決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。**第263便a**: **保存の非対称**に注意 —— この行で 3 にしても、保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ読み込み時に 2 へ丸められる(**実行中の値と、保存できる宣言は別物である**)。また physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag と出る。sampleClass:calibration では拒否する)。**第280便c**: physics.spaceMesh.lawVersion:\"vMinusU\" を宣言した 3 は**トイではなく速度分解の契約**(ẋ=v+u・v̇=a_space−Jᵀv —— 輸送経路 physics.meshVelocity・1PN の有無 pn・1PN が読む速度 pnVelocity・初期速度の意味 velocityMeaning を別々に宣言する。kFrame=0 専用)。"},
+   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では kF0 の役割(λ_PN=1 ∧ kFrame=0)として geoPN=1 と同じ EIH 型の 1PN の経路へ送られる(第285便b 以降 —— v−u 則の式を u=0 に還元した結果ではなく kF0 の契約による。400 步の状態は 6 本で一致したが〔第286便c の実測〕、法則として同一とは断言しない)。0=従来(legacy)。**3=トイ(慣性決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。**第263便a**: **保存の非対称**に注意 —— この行で 3 にしても、保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ読み込み時に 2 へ丸められる(**実行中の値と、保存できる宣言は別物である**)。また physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag と出る。sampleClass:calibration では拒否する)。**第280便c**: physics.spaceMesh.lawVersion:\"vMinusU\" を宣言した 3 は**トイではなく速度分解の契約**(ẋ=v+u・v̇=a_space−Jᵀv —— 輸送経路 physics.meshVelocity・1PN の有無 pn・1PN が読む速度 pnVelocity・初期速度の意味 velocityMeaning を別々に宣言する。kFrame=0 専用)。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。**第275便a(原仮定者の裁定〔第65報〕)**: サンプル JSON の既定は **0 か 1 の二値**である —— 分数の補正はそのサンプル限りで予測に使えないので、0<kFrame<1 を JSON に書くには `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)の宣言が要る。宣言が無い分数は読み込み時に**最寄りの 0/1 へ丸めて警告 1 行**(k<0.5→0・k≥0.5→1)。**現実較正クラス(sampleClass:calibration)では丸めず拒否**し、使える宣言は「space-mesh-effective」だけである。**このスライダー(UI)で動かした値は丸めない**(保存 JSON にしたときに初めて門が効く — 第263便a と同じ保存の非対称)。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
@@ -7428,7 +7428,7 @@ const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], m
   // 上限を 3 へ。**3 は宣言だけでは通らない** —— `physics.spaceMesh.lawVersion` の宣言が要る
   // (無ければ従来どおり 2 へ丸めて警告)。`sampleClass:"calibration"` では**拒否**する
   // 第260便a: 行末コメントの drift を直した(値域は 3 になったのに「v1.20: E12…」のままだった)
-  geoPN:[0,3], lambdaPN:[0,1], pnAlpha:[0,2],   // 第259便a: 3=複素場トイ。0/1/2 は不変。較正は 3 を拒否
+  geoPN:[0,3], lambdaPN:[0,1], pnAlpha:[0,2],   // 第259便a: 3=慣性決定力場トイ。0/1/2 は不変。較正は 3 を拒否
   dispMag:[1,1000],   // 第118便(原仮定者指示): 粒子表示倍率(表示専用 — 力学・接触判定には一切入らない)
   softening:[0.01,20], timeScale:[0.001,1000] };
   // 第97便: 時間倍率 0.1〜16 → 0.01〜100 / 第118便(原仮定者指示): G 0〜1e6・時間経過倍率
@@ -9628,7 +9628,7 @@ const BUILTIN_PRESETS = [
     {q:"中心は 1 回だけ", model:"W=W_bg+Σw_j・A=A_bg+Σw_j v_j+A_spin。台帳が参照した中心は局所の和から外す(二重に足すと W が w_c だけ増える —— 採らない形の対照)", obs:"—"},
     {q:"静止した中心だけでは回らない", model:"v_c=0 の中心点質量を足しただけなら A=w_c v_c=0 —— A_spin なしの u は 0(ビット)", obs:"—(自転の流れは A_spin を別に構成したときだけ)"},
     {q:"A_spin の対照", model:"有限サイズの回転源(E6′ の減衰形・中心だけ)を源の添字の位置で足すと場の契約の u・∇u・∂ₜu とビット一致・最後にまとめて足すと差は丸めだけ", obs:"—"},
-    {q:"言わないこと", model:"複素場を接続した/中心の自転が銀河の回転を作った/平坦回転を再現した、とは書かない", obs:"—"}],
+    {q:"言わないこと", model:"慣性決定力場を接続した/中心の自転が銀河の回転を作った/平坦回転を再現した、とは書かない", obs:"—"}],
   descStruct:{
     summary:"**🌚 銀河アナロジーの診断コピー —— 静止背景を明示し、中心を背景の台帳の 1 源として 1 回だけ数える合成(AN84)の器**(第288便c・原仮定者の裁定〔第78報〕⑧・統括の検証項目 R115)。physics・bodies・台帳は 🌚 の写しで、違いは spaceMesh.D0:1.5(旧 W_bg=D₀ と同じ数の明示入力)と表示・器だけの宣言 bgCompose(共通評価器の版・背景の欄・中心の欄・A_spin の構成)の 2 つ。**力学は 🌚 とビット同一**。共通評価器(tests/lib-w288c-compose.mjs)は W=W_bg+Σw_j・A=A_bg+Σw_j v_j+A_spin・u=A/W を同じ核(p=1 —— W の単位は M/L)・同じ自己除外で作り、**中心は局所源として 1 回だけ**計上する(源の加速度は E4 の重力・A_spin は E6′ の自転項の減衰形)。**較正ではない**(sampleClass:\"principle\")。第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では、第289便の時点ではこの本は走っていない(走っているのは share p=1 の q 付き場で、連鎖は仮説)。",
     observe:"実測(器 tests/exp-w288c-compose.mjs・正本 tests/out/compose-w288c.json): 中心の計上回数は全評価点で 1(二重計上の対照は W が w_c だけ大きい)/静止した中心(v_c=0)と静止背景だけなら u は全評価点で 0(自転の流れは出ない)/A_spin を有限サイズの回転源として中心の添字の位置で足すと場の契約(dfmFieldContract)の u・∇u・∂ₜu とビット一致・まとめて足す形は丸めの差だけ(数は PHYSICS〔第288便c〕)。",
@@ -9640,7 +9640,7 @@ const BUILTIN_PRESETS = [
       {q:"The centre counts once", model:"W=W_bg+sum w_j, A=A_bg+sum w_j v_j+A_spin. The centre referenced by the ledger is removed from the local sum (adding it twice raises W by w_c - the rejected form, kept as a control)", obs:"-"},
       {q:"A resting centre alone does not rotate", model:"adding a point mass with v_c=0 gives A=w_c v_c=0 - without A_spin, u is 0 (bitwise)", obs:"- (a spin flow appears only when A_spin is built separately)"},
       {q:"The A_spin control", model:"a finite-size rotating source (the E6-prime decay form, centre only) added at the source's index reproduces the field contract's u, grad u, d_t u bit for bit; adding it at the end differs by rounding only", obs:"-"},
-      {q:"Not claimed", model:"no complex field was connected, the centre's spin did not create the galaxy's rotation, no flat curve reproduced", obs:"-"}],
+      {q:"Not claimed", model:"no inertial determinacy field was connected, the centre's spin did not create the galaxy's rotation, no flat curve reproduced", obs:"-"}],
     descStruct:{
       summary:"A DIAGNOSTIC COPY OF THE 🌚 GALAXY ANALOGY - the harness for the composition that makes the static background explicit and counts the centre ONCE as one source of the background ledger (AN84) (wave 288c; the originator's ruling, report 78, item 8; the coordinator's check item R115). Physics, bodies and ledger are copied from 🌚; the two differences are spaceMesh.D0:1.5 (the same number as the old W_bg=D0, made explicit) and the display/harness-only declaration bgCompose (evaluator version, background field, centre field, how A_spin is built). THE DYNAMICS ARE BIT-IDENTICAL TO 🌚. The common evaluator (tests/lib-w288c-compose.mjs) builds W=W_bg+sum w_j, A=A_bg+sum w_j v_j+A_spin, u=A/W with the same kernel (p=1 - W in M/L) and the same self-exclusion, COUNTING THE CENTRE ONCE as a local source. NOT A CALIBRATION (sampleClass principle). As of wave 289 this sample does not run on the complex kernel of the report-79 restatement (DFM restatement and corrections: relative motion x m/r^2, near/far side); it runs on the share p=1 field with q, and the chain is a hypothesis.",
       observe:"Measured (harness tests/exp-w288c-compose.mjs, canonical tests/out/compose-w288c.json): the centre is counted once at every evaluation point (the double-count control has W larger by w_c); with a resting centre (v_c=0) and the static background only, u is 0 at every point (no spin flow); adding A_spin as a finite-size rotating source at the centre's index reproduces the field contract (dfmFieldContract) u, grad u and d_t u bit for bit, while adding it at the end differs by rounding only (numbers in PHYSICS, wave 288c).",
@@ -10292,7 +10292,7 @@ const BUILTIN_PRESETS = [
     {q:"ω Cen は参照であって入力ではない", model:"観測された中心質量を 1 つも入力していない。参照: Noyola+2008 / van der Marel & Anderson 2010 / Häberle+2024", obs:"—(参照のみ)"},
     {q:"言わないこと", model:"**星団を較正した/中心 BH を実装した/銀河が安定した**とは書かない。宣言した構成仮説の帰結を測っただけである", obs:"—"}],
   descStruct:{
-    summary:"**🔮 球状星団トイの中心天体つき版を、規定運動から「中心スピンに依存する力学」へ替えた本**(第276便d・原仮定者の裁定(第66報)(4)「各粒子を中心天体のスピンに影響を受けた DFM に準拠する法則で制御する様に調整する」)。第275便d までの本は `coupling:\"prescribed\"` の**規定運動**で、G を 0→8 にしても中心スピンを 0→1 にしても 600 步の状態がビット同一だった(= 中心スピンの影響を受けた力学ではなかった)。本便は法則そのものを宣言で切り替える: `law:\"coreField\"` では、粒子は**同じ速度場 u=ω_m(s×r) を読むラグランジアン** L=½m|v−u|²−mΦ の流れで進む(Φ=½κ₀r²+½ω_m²{αr⊥²+βr∥²}・κ₀=G·M_c/r_c³・W_c=M_c/r_c²・**ω_m=W_c/(W_c+W₀)·ω_c**)。物理速度で書くと v̇=2ω_m(s×v)−K⊥r⊥−K∥r∥ で、**保存量は h=½|v|²+½K⊥r⊥²+½K∥r∥²**(K⊥=κ₀+(α−1)ω_m²>0・K∥=κ₀+βω_m²>0 が受理の門)。**この追加ポテンシャルは新しい構成仮説であって、現行 DFM から一意に導出された法則ではない** —— 「中心スピンがメッシュ(複素決定力場の重み W)を通して集団の形を変える」という**検証可能な仮説**を宣言し、その帰結だけを測る立て方である。**中心は `center:\"pinned\"` のままの外部支持版**で、反作用(P/L/E)は帳簿へ負号で記帳するだけ、**閉じた系ではない**。交換・散逸は共回転する速度への厳密 OU(`exchange.mode:\"rotating-bath\"`)で、**供給は有限のコア熱容量から出て、尽きれば止まる**。**これは較正ではない**: 観測された星団の密度・速度分散・中心質量を 1 つも入力していない(ω Cen の IMBH は参照であって入力ではない)。**言わないこと**: 星団を較正した・中心ブラックホールを実装した・銀河が安定した・腕が創発した。",
+    summary:"**🔮 球状星団トイの中心天体つき版を、規定運動から「中心スピンに依存する力学」へ替えた本**(第276便d・原仮定者の裁定(第66報)(4)「各粒子を中心天体のスピンに影響を受けた DFM に準拠する法則で制御する様に調整する」)。第275便d までの本は `coupling:\"prescribed\"` の**規定運動**で、G を 0→8 にしても中心スピンを 0→1 にしても 600 步の状態がビット同一だった(= 中心スピンの影響を受けた力学ではなかった)。本便は法則そのものを宣言で切り替える: `law:\"coreField\"` では、粒子は**同じ速度場 u=ω_m(s×r) を読むラグランジアン** L=½m|v−u|²−mΦ の流れで進む(Φ=½κ₀r²+½ω_m²{αr⊥²+βr∥²}・κ₀=G·M_c/r_c³・W_c=M_c/r_c²・**ω_m=W_c/(W_c+W₀)·ω_c**)。物理速度で書くと v̇=2ω_m(s×v)−K⊥r⊥−K∥r∥ で、**保存量は h=½|v|²+½K⊥r⊥²+½K∥r∥²**(K⊥=κ₀+(α−1)ω_m²>0・K∥=κ₀+βω_m²>0 が受理の門)。**この追加ポテンシャルは新しい構成仮説であって、現行 DFM から一意に導出された法則ではない** —— 「中心スピンがメッシュ(慣性決定力場の重み W)を通して集団の形を変える」という**検証可能な仮説**を宣言し、その帰結だけを測る立て方である。**中心は `center:\"pinned\"` のままの外部支持版**で、反作用(P/L/E)は帳簿へ負号で記帳するだけ、**閉じた系ではない**。交換・散逸は共回転する速度への厳密 OU(`exchange.mode:\"rotating-bath\"`)で、**供給は有限のコア熱容量から出て、尽きれば止まる**。**これは較正ではない**: 観測された星団の密度・速度分散・中心質量を 1 つも入力していない(ω Cen の IMBH は参照であって入力ではない)。**言わないこと**: 星団を較正した・中心ブラックホールを実装した・銀河が安定した・腕が創発した。",
     observe:"中心天体のまわりで等温定常(exp{−m(K⊥r⊥²+K∥r∥²)/2T})を保ったまま揺れる。**中心スピンを 0 にすると力が消えて散る**(G=0 では κ₀=0 なので、束ねているのは中心スピンだけである)。数は docs/PHYSICS.md〔第276便d〕の表(器 tests/exp-w276d-corefield.mjs)。",
     control:"**パラメータ行に Core 力学のノブは無い**(宣言は physics.shapeToy.law と coreField)。中心天体の**スピン**が ω_m の入力なので、そこを変えると形と指紋が変わる。G を上げると中心重力が E4 と κ₀ で二重になるため、中心が engine 質量を持ったままの G≠0 は**門で止まる**。"},
   en:{name:"Globular-cluster toy with a central object - a CONSTRUCTIVE HYPOTHESIS in which the central spin binds it (NOT a calibration)",
@@ -11768,7 +11768,7 @@ const BUILTIN_PRESETS = [
     fail:"**表裏核には c² の抑制が無い**: 地球の自転が月の位置に作る移送の角速度は、現行の q_exact=8.2358 の核(=レンズ=サーリング級)の 約 3.56×10¹⁰ 倍になる。旧 q に合わせて振幅を縮める操作(再 fit)は**していない** —— 弱場振幅をどう置くかは**導出できていない**(決断事項)。",
     pass:"🌘 と同じ初期状態から**経路だけ**を置き換えた診断コピーで、同じ抽出器・同じ窓で並べられる(PHYSICS〔第280便b〕の 1 表)。表裏核は遠方で W→M/r²・A_φ→IΩ/r³ に一致し(相対誤差は r⁻² で縮む)、密度クラスは同じ積分則への物理入力(ρ・Ω)として入る。"},
   descStruct:{
-    summary:"🌘 earthMoonRealKF1 と**同じ初期状態**(実質量・実半径・自転・座標速度)の地球と月で、引きずりを **kFrame=1 の E6′(q_exact)から、球体の表裏を積分した複素モーメント(表裏核)による座標変換** ẋ=v+u へ置き換えた診断コピー(第280便b)。地球は densityClass:\"solid\"(2 層 — 形の例示)。",
+    summary:"🌘 earthMoonRealKF1 と**同じ初期状態**(実質量・実半径・自転・座標速度)の地球と月で、引きずりを **kFrame=1 の E6′(q_exact)から、球体の表裏を積分した慣性決定力モーメント(表裏核)による座標変換** ẋ=v+u へ置き換えた診断コピー(第280便b)。地球は densityClass:\"solid\"(2 層 — 形の例示)。",
     observe:"月の近点移動は 27 公転窓で 1.072×10⁻³ °/周(近点回転の周期 2.57×10⁴ 年)で、🌘(2.7322 °/周)の約 1/2500 —— 地球の自転が作る表裏核の移送 u_φ=2.830 m/s(公転速度の 0.26%)があっても近点はほとんど回らない。恒星月は 27.950 日(🌘 より 2.3% 長い)—— 外部の場を地球だけにした mutual:0 では月が地球の並進ごと運ばれ、相対加速度から月自身の質量の寄与が抜ける。判定は門の外(principle の診断コピー)。",
     control:"ワンタップの対照は同じファミリーの 🌘(kFrame=1・q_exact)と ⭕(kFrame=0・引きずりなし)である。**vx,vy は慣性速度 v=ẋ−u(0)**(月の座標速度を 🌘 に揃えた)。**q は使わない**・**c² の抑制は入っていない**。1PN(geoPN=1)は慣性速度 v を読む(第279便c と同じ —— どちらの速度を読むべきかは導出できていない)。"},
   en:{name:"Earth & Moon (front–back kernel diagnostic) — same initial state, only the route replaced",
@@ -11780,7 +11780,7 @@ const BUILTIN_PRESETS = [
       fail:"THE FRONT–BACK KERNEL HAS NO c² SUPPRESSION: the angular velocity of the transport that the Earth's spin produces at the Moon is about 3.56e10 times that of the current q_exact=8.2358 kernel (Lense–Thirring class). The amplitude is NOT shrunk to match the old q (no refit) — how to set the weak-field amplitude is NOT DERIVED (a decision item).",
       pass:"A diagnostic copy that replaces ONLY THE ROUTE from 🌘's initial state, so it can be listed with the same extractor and the same window (PHYSICS [wave 280b] table). Far away the kernel matches W→M/r² and A_φ→IΩ/r³ (the relative error shrinks as r⁻²); the density class enters as physical input (ρ, Ω) to one integration rule."},
     descStruct:{
-      summary:"The Earth and Moon in THE SAME INITIAL STATE as 🌘 earthMoonRealKF1 (real masses, radii, spins, coordinate velocities), with the dragging replaced FROM kFrame=1 E6′ (q_exact) TO A COORDINATE TRANSFORMATION ẋ=v+u BUILT FROM THE COMPLEX MOMENTS INTEGRATED OVER THE FRONT AND BACK OF THE SPHERE (the front–back kernel) — a diagnostic copy (wave 280b). The Earth is densityClass:\"solid\" (two layers — an illustrative shape).",
+      summary:"The Earth and Moon in THE SAME INITIAL STATE as 🌘 earthMoonRealKF1 (real masses, radii, spins, coordinate velocities), with the dragging replaced FROM kFrame=1 E6′ (q_exact) TO A COORDINATE TRANSFORMATION ẋ=v+u BUILT FROM THE INERTIAL-DETERMINACY MOMENTS INTEGRATED OVER THE FRONT AND BACK OF THE SPHERE (the front–back kernel) — a diagnostic copy (wave 280b). The Earth is densityClass:\"solid\" (two layers — an illustrative shape).",
       observe:"The Moon's apsidal advance over the 27-orbit window is 1.072e-3 deg/orbit (apsidal period 2.57e4 yr), about 1/2500 of 🌘 (2.7322 deg/orbit): even with the front–back transport u_φ = 2.830 m/s from the Earth's spin (0.26% of the orbital speed) the apse barely turns. The sidereal month is 27.950 d (2.3% longer than 🌘): with mutual:0 and the Earth as the only external field, the Moon is carried along with the Earth's translation and its own mass drops out of the relative pull. Outside the gates (a principle diagnostic copy).",
       control:"The one-tap controls are 🌘 (kFrame=1, q_exact) and ⭕ (kFrame=0, no dragging) in the same family. vx,vy ARE THE INERTIAL VELOCITY v=ẋ−u(0) (the Moon's coordinate velocity matches 🌘). NO q IS USED and THERE IS NO c² SUPPRESSION. The 1PN term (geoPN=1) reads the inertial velocity v (as in wave 279c — which velocity it should read is not derived)."},
     parameterAudit:{
@@ -11790,7 +11790,7 @@ const BUILTIN_PRESETS = [
         "geoPN=1, λ_PN=1, pnα=1.5 (reads the inertial velocity v)","stateCarry:\"double\", massFloor=1e-6"],
       fitted:[],
       derived:["the Moon's inertial velocity v=ẋ−u(0) (ẋ = 🌘's declared value)","κ=G/c₀²=7.4258e-9"],
-      numerical:["softening ε=0.1 (gravity) — ε_c=0 for the complex field (a separate declaration)","timeScale=100","dispMag=10 (display only)"]}},
+      numerical:["softening ε=0.1 (gravity) — ε_c=0 for the inertial determinacy field (a separate declaration)","timeScale=100","dispMag=10 (display only)"]}},
   parameterAudit:{
     observedInputs:["🌘 と同じ実値(地球 5.9724×10²⁴kg・6.38×10⁶m・23.93時間/月 7.346×10²²kg・1.74×10⁶m)","実 G=6.674・c₀=29979.2458"],
     fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","kFrame=0 + physics.meshVelocity {law:\"vMinusU\", field:\"explicit\", mutual:0, external:[地球]}",
@@ -11798,7 +11798,7 @@ const BUILTIN_PRESETS = [
       "geoPN=1・λ_PN=1・pnα=1.5(慣性速度 v を読む)","stateCarry:\"double\"・massFloor=1e-6"],
     fitted:[],
     derived:["月の慣性速度 v=ẋ−u(0)(ẋ は 🌘 の宣言値)","κ=G/c₀²=7.4258×10⁻⁹"],
-    numerical:["ソフトニング ε=0.1(重力)— 複素場は ε_c=0(別の宣言)","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
+    numerical:["ソフトニング ε=0.1(重力)— 慣性決定力場は ε_c=0(別の宣言)","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["dispMag"],
   camera:{scale:450}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.006, kFrame:0, q:8.2358, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
@@ -19466,7 +19466,7 @@ function validatePreset(obj){
         if(dsv.d0Source!==null) ph[k]=dsv.d0Source;
         continue;
       }
-      // 第276便a(第66報 (1)): backgroundComplex — **背景複素決定力**の宣言専用オブジェクト鍵。
+      // 第276便a(第66報 (1)): backgroundComplex — **背景慣性決定力**の宣言専用オブジェクト鍵。
       // 「D₀(スカラー・[M/L])とは別の量」である W₀([M/L²])・A₀([M/(L·T)])とその微分を持つだけで、
       // **既定経路の力学・光学・帳簿からは読まれない**(既定は無し=ph へ入れない=署名不変)。第279便c: 読むのは
       // `physics.meshVelocity` を宣言した本の外部ステップの準備 `meshVelocityPrepare` だけ。sources/frame(任意鍵)もここで検証する
@@ -19493,7 +19493,7 @@ function validatePreset(obj){
         if(qkv.qLock!==null) ph[k]=qkv.qLock;
         continue;
       }
-      // 第279便c(R62・R63 ⑤): meshVelocity — **複素決定力による座標変換**(ẋ=v+u・v̇=a−Jᵀv)の opt-in。
+      // 第279便c(R62・R63 ⑤): meshVelocity — **慣性決定力による座標変換**(ẋ=v+u・v̇=a−Jᵀv)の opt-in。
       // null/未宣言は「なし」へ正規化する(宣言と未宣言で署名が 1 文字も変わらない)。相互検査は bodies の確定後
       if(k===MESH_VEL_KEY){
         const mvv=validateMeshVelocity(p.physics[k]);
@@ -23292,7 +23292,7 @@ function makeSim(){
     S.relDrag=__rd; S.hasRelativeDrag=!!__rd;
     S.relDragHeat=0; S.relDragPos=0; S.relDragKickMax=0; S.relDragTorqueMax=0;
     S.relDragSlipMax=0; S.relDragResL=0; S.relDragN=0;
-    // 第279便c(R63 ⑤): meshVelocity(複素決定力による座標変換)の有無フラグ。**未宣言は背景鍵に触れずに false**
+    // 第279便c(R63 ⑤): meshVelocity(慣性決定力による座標変換)の有無フラグ。**未宣言は背景鍵に触れずに false**
     meshVelocityPrepare(S);
     bgLawPrepare(S);   // 第286便c: 背景の法則版(share-p1 —— 宣言した本だけ S.bgLaw を張る。未宣言は null)
     if(!S.hasCoreField){ S.coreFieldStop=null; S.coreFieldN=0; }
@@ -33082,7 +33082,7 @@ function loadSave(s, selValue){
   // フォールバックして保存済み physics を適用していた — 別サンプルに別調整が載る誤読の温床。
   // beta 専用サンプル〔melt/freeze 等〕のセーブを root で開くケースが典型)
   if(!pre){ notify(T("presetMissing"),4500); return false; }
-  // 第286便e(AN40 残り): 背景複素決定力の宣言が受理器を通らないセーブは**警告だけで走らせず拒否**する(loadPreset より前)
+  // 第286便e(AN40 残り): 背景慣性決定力の宣言が受理器を通らないセーブは**警告だけで走らせず拒否**する(loadPreset より前)
   const bga=loadSaveBgcAccept(s, pre);
   if(!bga.ok){
     notify(T("saveBgcReject")(bga.err),9000);
@@ -33098,7 +33098,7 @@ function loadSave(s, selValue){
     delete s.physics.Kt;
   }
   sim.params=fastParams(Object.assign({},DEFAULT_PHYSICS,s.physics)); sim.updateRadii();   // 第250便e
-  // 第286便e: 背景複素決定力は受理器の正規化後の宣言で置き直す(null=明示の未宣言は鍵を外す。欠落は保存どおり鍵なし)
+  // 第286便e: 背景慣性決定力は受理器の正規化後の宣言で置き直す(null=明示の未宣言は鍵を外す。欠落は保存どおり鍵なし)
   if(bga.present) sim.params[BG_COMPLEX_KEY]=(bga.backgroundComplex===null)? undefined : bga.backgroundComplex;
   // 第283便a(原仮定者の裁定(2026-09-26 追加)): 旧セーブの geoPN=1・kFrame≠0(旧 ⭐ など)は kFrame=0 として読む(通知 1 行)。
   // 旧 geoPN=1 では E6′ と輸送の門が閉じていたので、この読み替えで変わるのは 1PN の反作用の返し(AN23)だけである
@@ -34395,7 +34395,7 @@ const BGC_KEEP=["sources","frame","refPos","lawVersion","lawUnits","lawDomainR",
 // 第288便f(原仮定者の裁定(第78報)⑨「複素決定力の静止背景相当の Wbg を見えるようにする — パラメータタブの『背景決定力 D₀』の次に表示」・
 //   統括の検証項目 R118): **読み取り専用の行**。値と出所は bgWbgOf(jeansRowsVelocities の場の契約と**同じ関数** —— 式を複製しない)。
 //   背景相当の値であって現実較正の geoPN=1・kFrame=0 の軌道力には入らない(第289便f: geoPN=3 の場と Jeans 初速は kFrame=0 でも読む —— 旧文
-//   「kFrame=0 では力に入らない」は広すぎた)。複素背景の宣言(#bgcPanel —— 第283便 R87)とは別欄。表示だけ(params・presetSig・保存に
+//   「kFrame=0 では力に入らない」は広すぎた)。背景慣性決定力の宣言(#bgcPanel —— 第283便 R87)とは別欄。表示だけ(params・presetSig・保存に
 //   1 bit も効かない)。値は宣言から毎回引き直す(wbgRowSync —— 描画ループが 15 フレームごとに呼ぶ・D₀ 行の同期でも呼ぶ)
 function wbgStateOf(S){
   const ph=(S && S.params)||{};
@@ -34863,12 +34863,12 @@ function buildParamRows(){
     // **表示専用の 1 行**を常設する(実行中の 3 は、lawVersion の宣言が無い保存 JSON では
     // 読み込み時に 2 へ丸められる)。プリセット署名にも力学にも 1 bit も効かない
     // 第284便d(原仮定者の裁定(第74報)⑦「『測地線モード geoPN』を『引きずり・測地線』の先頭に移動」): geoPN 行(と直下の
-    // 保存非対称の注記)をカテゴリの**先頭**へ —— D₀・背景複素決定力の欄・qLock・q より前。並びだけで、PARAM_DEFS の
+    // 保存非対称の注記)をカテゴリの**先頭**へ —— D₀・背景慣性決定力の欄・qLock・q より前。並びだけで、PARAM_DEFS の
     // 配列順・値・受理・presetSig は 1 bit も変えない(並べ替えはこの描画ループの中だけ)
     const dgDefs=catDefs("dg"); dgDefs.sort((a,b)=>(a.key==="geoPN"? 0:1)-(b.key==="geoPN"? 0:1));
     for(const def of dgDefs){ if(def.key==="q") g.appendChild(qlRow); mkParamRow(def,g);
-      // 第283便d(原仮定者の裁定(第73報)⑥・R87): 「背景決定力 D₀」の**直下**に背景複素決定力の宣言欄
-      // 第288便f(原仮定者の裁定(第78報)⑨): D₀ の**次**の行に静止背景相当 Wbg(読み取り専用)—— 複素背景の欄はその直後
+      // 第283便d(原仮定者の裁定(第73報)⑥・R87): 「背景決定力 D₀」の**直下**に背景慣性決定力の宣言欄
+      // 第288便f(原仮定者の裁定(第78報)⑨): D₀ の**次**の行に静止背景相当 Wbg(読み取り専用)—— 背景慣性決定力の欄はその直後
       if(def.key==="D0"){ buildWbgRow(g); buildBgComplexPanel(g); }
       if(def.key==="geoPN"){ const nt=document.createElement("div"); nt.id="geoToySaveNote";
         nt.className="note"; nt.style.cssText="font-size:calc(10.5px*var(--uz,1));line-height:1.45;padding:0 4px 4px;";
@@ -38273,7 +38273,7 @@ function renderHelp(){
       addChip("massbasis-"+mb.kind, label, tip);
     }
   }
-  // 第272便d(第62報): **空間メッシュ/複素決定力場チップ**(宣言と作動状態を分ける)。
+  // 第272便d(第62報): **空間メッシュ/慣性決定力場チップ**(宣言と作動状態を分ける)。
   // 実行情報を読むので、いま走っている状態が「未作動」ならその理由を出す。
   // 第273便d(R17): **実行中に停止理由が変われば、このチップだけが追従する**。差し替え位置を
   // 固定するために、チップ列の中に**表示に影響しない容れ物**(`display:contents`)を 1 つ置く
@@ -43948,7 +43948,7 @@ function dfmLocalMeshField(sources,px,py,opts){
   return { u:[ux,uy], gradU, dUdt, chi:W/den, W, gradW:[gWx,gWy], dWdt:Wd, nIn, D0, R:R0,
     RdotUsed:rdOn, support:supOn };   // 第259便a: Ṙ 項が入ったか(ゼロ埋めして「時間微分が完全」と言わないための読み口)
 }
-// ===== 第259便a(第51報): **複素決定力場の器** —— 純関数 `HP.dfmComplexDeterminacy` =====
+// ===== 第259便a(第51報): **慣性決定力場(旧称: 複素決定力場)の器** —— 純関数 `HP.dfmComplexDeterminacy` =====
 // 原仮定者(第51報):「空間メッシュとは複素決定力場である、と仮定する。その場合、慣性は複素決定力場の
 // 作用である」「重力は、質量に比例して距離に反比例する決定力による、決定力場の勾配ベクトルによる加速で
 // ある」「慣性力は、質点の移動で発生し、質量に比例して距離の二乗に反比例するベクトルによる、空間メッシュの
@@ -47619,14 +47619,14 @@ function geo3InitVelocity(S){
     declared:free.map((i)=>[declX[i],declY[i]]), inertial:free.map((i)=>[S.vx[i],S.vy[i]])};
   return S.geo3Init;
 }
-// ===== 第279便c(原仮定者の裁定〔第69報〕・統括の読み R62・R63): **複素決定力の 2 経路**と、背景の**閾値なし合成** =====
+// ===== 第279便c(原仮定者の裁定〔第69報〕・統括の読み R62・R63): **慣性決定力の 2 経路**と、背景の**閾値なし合成** =====
 //
 // ■ 2 経路を混ぜない(第69報「厳密には空間に対する加速と空間による引きずり(座標変換)は区別する」)
 //   (i) **空間に対する加速** a_space … スカラー決定力の勾配 = 重力。`S._core` が当てる(本便は 1 命令も触らない)。
-//   (ii) **空間による引きずり** … 複素決定力による座標変換。位置の移送 ẋ = v + u(u=A/W はメッシュ速度)。
-//   **慣性は複素決定力の自己作用(ゼロ距離)**として書く —— 位置更新 x←x+vΔt(`selfDrift` と同値の写像)が
+//   (ii) **空間による引きずり** … 慣性決定力による座標変換。位置の移送 ẋ = v + u(u=A/W はメッシュ速度)。
+//   **慣性は慣性決定力の自己作用(ゼロ距離)**として書く —— 位置更新 x←x+vΔt(`selfDrift` と同値の写像)が
 //   その表現であり、**自己項を外部平均の分母へ足さない**。慣性質量や p=mv を「導出した」とはしない。
-//   相対作用の引きずりは「**自己以外の複素場による座標変換**」として (ii) に載る(`mutual` 0/1 はその強さの端点)。
+//   相対作用の引きずりは「**自己以外の慣性決定力場による座標変換**」として (ii) に載る(`mutual` 0/1 はその強さの端点)。
 //   散逸(相対すべり `relativeDrag` の熱)は**別の物理チャネル**で、座標変換とは別に記帳する。
 //
 // ■ 構成則の候補(**統括が設定した検証仮説** —— 現行 DFM から一意に導出された法則ではない)
@@ -47640,7 +47640,7 @@ function geo3InitVelocity(S){
 //   **欠けた微分を 0 で補完しない**(欠落・非有限は拒否)。重み 0 の成分に非ゼロの分子・微分を置かない。
 //
 // 純関数 3 つ(**力学からは `dfmMeshVelocityStep` だけが呼ぶ** —— 未宣言の宇宙では 1 度も呼ばれない):
-//   dfmComplexMomentsOf(list,px,py,eps2) … 明示した源の複素決定力の和(W・A・∇W・∇A・∂ₜW・∂ₜA)。p=2(w=m/(r²+ε²))。
+//   dfmComplexMomentsOf(list,px,py,eps2) … 明示した源の慣性決定力の和(W・A・∇W・∇A・∂ₜW・∂ₜA)。p=2(w=m/(r²+ε²))。
 //   dfmBlendComplexMoments(local,background) … 上の合成。local は `selfExcluded:true` の宣言が要る。
 //   dfmMeshVelocityRHS(field,v,aSpace) … positionRate / vRate / coordAccel を**別々に**返す。
 const MESH_MOMENT_KEYS = ["W","A","gradW","gradA","dWdt","dAdt"];
@@ -47747,7 +47747,7 @@ function dfmMeshVelocityRHS(field, v, aSpace){
     coordAccel:[aSpace[0]+du[0]+Ju0+(Jv0-JTv0), aSpace[1]+du[1]+Ju1+(Jv1-JTv1)],
     transport:[u[0],u[1]], canonical:[-JTv0,-JTv1]};
 }
-// ===== 第280便b(原仮定者の裁定〔第70報〕・統括の読み R69): **表裏核** —— 球体の表側と裏側を積分した複素モーメント =====
+// ===== 第280便b(原仮定者の裁定〔第70報〕・統括の読み R69): **表裏核** —— 球体の表側と裏側を積分した慣性決定力モーメント =====
 // 裁定「引きずり減衰 q の算出を見直す。天体は球体なので、表側の引きずり(座標変換)と裏側の引きずり(座標変換)は
 // 逆転している。手前側の方が距離が近いので、その差分が残る。潮汐力に良く似ている。…天体の密度分布にも影響を受けるので、
 // 固体惑星・気体惑星・恒星・コンパクト天体で算出方法を分ける」への**構成則の候補**(統括が設定した検証仮説 ——
@@ -47761,7 +47761,7 @@ function dfmMeshVelocityRHS(field, v, aSpace){
 //     A_φ(r)= (2π/r) ∫ρ(s) Ω(s) s² K(t) ds,  K(t)=atanh(t)/t − 1
 //   (無次元: M=R=Ω_表面=1。A_φ は φ̂=ẑ×r̂ 方向 —— 表側と裏側の Ω×ξ は向きが逆で、近い側の重みが大きいぶんだけ残る)。
 //   遠方では W→M/r²・A_φ→L/r³(L=∫ρ(Ω×ξ)×… = 角運動量 —— 剛体なら IΩ)。**c² の抑制は入っていない**。
-//   ε_c は複素場の正則化で、重力の軟化 ε_g と同じと仮定しない(別に宣言する)。**ε_c=0 の内部と表面は拒否**
+//   ε_c は慣性決定力場の正則化で、重力の軟化 ε_g と同じと仮定しない(別に宣言する)。**ε_c=0 の内部と表面は拒否**
 //   (中心 r=0 では対称性で A_spin=0 —— 「ゼロ距離の作用」は自己慣性の別契約であって、外部場の球積分へ移植しない)。
 // ■ 密度クラス: **同じ積分則**に ρ(r) と Ω(r) の物理入力を変えて与える(クラスごとの経験 q は配らない)。
 //   solid … 2 層(核の半径比 coreFrac・核/マントルの密度比 coreRatio)/ gas … ρ∝(1−s²)^β(中心集中)/
@@ -49467,7 +49467,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // D₀/D0pull を読まない」を、器が**同じ関数を呼んで**実測できるようにするための口である
   qLockCalc,
   // 第259便a(第51報): **共通場 API**(重力 g=G∇D と慣性の u を**同じ源集合・同じ背景**から)と
-  // **複素決定力場の器**(Φ=Σm/r・**A=Σ m v/(r²+ε²)^{p/2} の重ね合わせ** —— 正規化平均とは別物・
+  // **慣性決定力場の器**(Φ=Σm/r・**A=Σ m v/(r²+ε²)^{p/2} の重ね合わせ** —— 正規化平均とは別物・
   // 単位も別物)。**どちらも純関数で、力へは 1 バイトも接続しない**。
   // QA behavior.dfmField が g=G∇D の一致・Ṙ 補正・負質量拒否・A の線形性を機械固定する
   dfmField, dfmComplexDeterminacy, DFM_FIELD_LAWS, DFM_FIELD_BG, DFM_FIELD_ENERGY, DFM_FIELD_NEED,
@@ -49509,11 +49509,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第275便b(第65報 (2)): D₀ の**背景の出所**の宣言鍵(**宣言専用** — エンジンは 1 箇所も読まない)。
   // QA preset.d0source-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
   validateD0Source, D0_SOURCE_KEY, D0_BACKGROUNDS, D0_SOURCE_NOTE_MAX,
-  // 第276便a(第66報 (1)): **背景複素決定力**の宣言鍵(**宣言専用** — 既定経路は 1 箇所も読まない。第279便c: meshVelocity を宣言した本の外部ステップだけが読む)。
+  // 第276便a(第66報 (1)): **背景慣性決定力**の宣言鍵(**宣言専用** — 既定経路は 1 箇所も読まない。第279便c: meshVelocity を宣言した本の外部ステップだけが読む)。
   // W₀([M/L²])・A₀([M/(L·T)])とその空間/時間微分を D₀([M/L])とは**別の鍵**で持つ。
   // QA preset.backgroundComplex-declared が「受理契約」「未宣言の 1 bit 不変」「内蔵の宣言 0 本」を機械固定する
   validateBackgroundComplex, BG_COMPLEX_KEY, BG_COMPLEX_BACKGROUNDS, BG_COMPLEX_NOTE_MAX, BG_COMPLEX_UNITS,
-  // 第283便d(R87): 背景複素決定力の宣言欄の読み口/書き口(UI と同じ関数)と、空間メッシュの線の固定スタイル表
+  // 第283便d(R87): 背景慣性決定力の宣言欄の読み口/書き口(UI と同じ関数)と、空間メッシュの線の固定スタイル表
   bgcState:(S)=>bgcState(S||editSim()), bgcApply:(S,c)=>bgcApply(S||editSim(),c),
   bgcWireState:(S)=>bgcWireState(S||editSim()),   // 第284便e(R91): この運動経路に適用中/未接続(表示だけ)
   spaceMeshLineStyle:()=>JSON.parse(JSON.stringify(SPACE_MESH_LINE_STYLE)),
@@ -49544,7 +49544,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   MESH_VEL_KEYS, MESH_VEL_EXTERNAL_MAX, MESH_VEL_STEP_VERSION, MESH_MOMENT_KEYS,
   dfmComplexMomentsOf, dfmBlendComplexMoments, dfmMeshVelocityRHS, dfmMeshVelocityStep, dfmMeshVelocityFieldAt,
   meshVelocityPrepare, meshVelocityOrigin, meshVelocityOriginNow,
-  // 第280便b(第70報・R69): **表裏核**(球体の表裏を積分した複素モーメント)と密度クラスの宣言、`physics.qLock.kernel`。
+  // 第280便b(第70報・R69): **表裏核**(球体の表裏を積分した慣性決定力モーメント)と密度クラスの宣言、`physics.qLock.kernel`。
   // QA preset.qlockKernel・docs.sphereKernel・docs.emgrid-sync が機械固定する
   validateQLockKernel, validateSphereBody, qLockKernelCrossCheck, sphereDeclOf, QLOCK_KERNEL_KEY, QLOCK_KERNELS,
   QLOCK_KERNEL_KEYS, QLOCK_KERNEL_NODES, SPHERE_KERNEL_VERSION, DENSITY_CLASSES, DENSITY_PROFILE_KEYS,

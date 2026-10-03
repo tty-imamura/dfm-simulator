@@ -21357,6 +21357,153 @@ if (!FAST) {
   }
 }
 
+// ---- 8c1i′) 第290便a(原仮定者の裁定(第80報)⑥⑦・統括の検証項目 R125): **用語と主張範囲便**の 2 ブロック。**root では SKIP**
+// ----   (html は表示文・説明文・コメントだけを変えた便 —— 物理は 1 bit も変えていない)。世代切替 has290a は PHYSICS〔第290便a〕の有無。
+// ----   ① docs.terminologyInertial …… 「複素決定力」→「慣性決定力」(英 inertial determinacy)の置換が**許可リスト方式**で済んでいる:
+// ----      html の「複素決定力」/"complex determinacy" は 旧称の注記・原仮定者の裁定の引用(「…」)・数学の注(U=u_x+i·u_y)・撤去したラベルの履歴
+// ----      (bdgMesh_complex)の外に 0 / i18n の同じ鍵に「慣性決定力」(ja)と "inertial determinacy"(en)が対で入る / PHYSICS の冒頭(§1 の前)・
+// ----      AI_SPEC の現行節(§1〜§6 と第290便a の節)・README に旧称の注記の外の旧語が 0 / 機械鍵(`lawVersion:"complex"`・backgroundComplex・
+// ----      complex-p2・share-p1・dfmComplexDeterminacy・dfmComplexMomentsOf・wbgStateOf・bdgMesh*・complexNotVelocity)の出現数が基点 f03bf5a 以上
+// ----      (改名で減らない —— 他の便が使い所を足すのは妨げない)/ PHYSICS〔第290便a〕の用語の表・第80報の引用・対応表 20 行(判定語)・GR の注記 3 点・
+// ----      DFM 外のアナロジー 3 題と共通の 3 条・禁止の言い回しが「書かないこと」の外に無い・CHANGELOG の 1 行・THEORY_SYNTHESIS のポインタ。
+// ----   ② docs.claimScope …… 主張範囲の 2 行(現実の宇宙を主張しない・仮定の内部で帰結が矛盾しない・「合」は窓に入ったことで宇宙の成立の主張ではない)が
+// ----      PHYSICS の冒頭(§1 の前の連続 2 行)・aboutBody の ja/en・README の冒頭(「使い方」の前)にある。
+{
+  const Pd290 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const has290a = TARGET.startsWith('beta/') && Pd290.indexOf('〔第290便a — ') >= 0;
+  if (!has290a) {
+    console.log('SKIP docs.terminologyInertial / docs.claimScope(第290便a 未適用 — ' + TARGET + ')');
+  } else {
+    const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const AIS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+    const RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+    // 旧語の出現を 1 つずつ許可リストで分類する(行単位の文脈)
+    const lineAt = (t, i) => { const a = t.lastIndexOf('\n', i) + 1, b = t.indexOf('\n', i); return [a, b < 0 ? t.length : b]; };
+    // 引用は複数行にまたがる(閉じ括弧が次の行)—— 開き「は 400 字以内・閉じ」は 600 字以内・帰属(裁定/原仮定者/第N報)は開き「の行頭から旧語まで
+    const inQuote = (t, i) => { const o = t.lastIndexOf('「', i), c = t.lastIndexOf('」', i), e = t.indexOf('」', i);
+      return o >= 0 && o > c && i - o < 400 && e >= 0 && e - i < 600 && /裁定|原仮定者|第\d+報/.test(t.slice(t.lastIndexOf('\n', o) + 1, i)); };
+    const classify = (t, re, rules) => { const out = { bad: [], tally: {} }; let m; re.lastIndex = 0;
+      while ((m = re.exec(t))) { const [a, b] = lineAt(t, m.index), line = t.slice(a, b), pre = t.slice(Math.max(a, m.index - 12), m.index);
+        const hit = rules.find(([, f]) => f(pre, line, m.index, a, b));
+        if (hit) out.tally[hit[0]] = (out.tally[hit[0]] || 0) + 1;
+        else out.bad.push(`${t.slice(0, m.index).split('\n').length}行: ${line.trim().slice(0, 50)}`); }
+      return out; };
+    const OLD = /旧称: (背景)?$/;
+    // ---- ① docs.terminologyInertial
+    {
+      const bad = [], cases = [];
+      const jaR = classify(html, /複素決定力/g, [['旧称', (pre) => OLD.test(pre)],
+        ['裁定の引用', (pre, line, i) => inQuote(html, i)],
+        ['数学の注', (pre, line) => line.indexOf('U=u_x+i·u_y') >= 0], ['撤去したラベルの履歴', (pre, line) => line.indexOf('bdgMesh_complex') >= 0]]);
+      const enR = classify(html, /complex determinacy/gi, [['旧称', (pre) => /formerly: $/.test(pre)], ['撤去したラベルの履歴', (pre, line) => line.indexOf('bdgMesh_complex') >= 0]]);
+      if (jaR.bad.length) bad.push('html の「複素決定力」が許可リストの外に ' + jaR.bad.length + ' 件(' + jaR.bad.slice(0, 3).join(' / ') + ')');
+      if (enR.bad.length) bad.push('html の "complex determinacy" が許可リストの外に ' + enR.bad.length + ' 件(' + enR.bad.slice(0, 3).join(' / ') + ')');
+      if (!(jaR.tally['旧称'] >= 1 && enR.tally['旧称'] >= 1)) bad.push('旧称の注記(ja「旧称: 複素決定力」・en "formerly: complex determinacy")が無い');
+      // i18n の ja/en の対(同じ鍵)
+      const i0 = html.indexOf('const I18N = {'), iEn = html.indexOf('\nen: {', i0), iEnd = html.indexOf('\n};', iEn);
+      const chunks = (s) => { const o = {}; s = s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/mg, '');
+        for (const part of s.split(/\n {2}(?=[A-Za-z_$][\w$]*\s*:)/).slice(1)) { const k = part.match(/^([A-Za-z_$][\w$]*)\s*:/); if (k) o[k[1]] = part; } return o; };
+      if (!(i0 >= 0 && iEn > i0 && iEnd > iEn)) bad.push('I18N の ja/en の境界が読めない');
+      else {
+        const JA = chunks(html.slice(i0, iEn)), EN = chunks(html.slice(iEn, iEnd));
+        const jaK = Object.keys(JA).filter((k) => JA[k].indexOf('慣性決定力') >= 0), enK = Object.keys(EN).filter((k) => /inertial[- ]determinacy/i.test(EN[k]));
+        // en の paramDescs(パラメータの説明)の ja 側は I18N ではなく PARAM_DEFS の desc にある(geoPN の「3=トイ(慣性決定力場)」)
+        const pdPair = enK.includes('paramDescs') && html.indexOf('**3=トイ(慣性決定力場)**') >= 0 && /the inertial determinacy field\)/.test(EN.paramDescs || '');
+        const onlyJa = jaK.filter((k) => !enK.includes(k)), onlyEn = enK.filter((k) => !jaK.includes(k) && !(k === 'paramDescs' && pdPair));
+        if (jaK.length < 8) bad.push(`i18n で「慣性決定力」を持つ鍵が ${jaK.length} 件(8 件以上)`);
+        if (onlyJa.length || onlyEn.length) bad.push('ja/en の対が崩れている: ja だけ ' + onlyJa.join(',') + ' / en だけ ' + onlyEn.join(','));
+        const g = (JA.helpLawsBody || '').indexOf('重力決定力') >= 0 && /gravitational determinacy/.test(EN.helpLawsBody || '');
+        if (!g) bad.push('法則の要約(helpLawsBody)に「重力決定力」/"gravitational determinacy" の併記が無い');
+        cases.push(`i18n の対 ${jaK.length} 鍵(${jaK.join('・')})${pdPair ? '+ パラメータの説明 geoPN(PARAM_DEFS/paramDescs)' : ''}・法則の要約に重力決定力の併記`);
+      }
+      // 文書: PHYSICS の冒頭・AI_SPEC の現行節・README
+      const head = Pd290.slice(0, Pd290.indexOf('\n## 1. 元の仮定'));
+      const a7 = AIS.indexOf('\n## 7. 天体再現ゲート表テンプレ'), s290 = AIS.search(/\n## \d+\. 第290便a /);
+      const s290e = s290 >= 0 ? AIS.indexOf('\n## ', s290 + 5) : -1;
+      const aiCur = (a7 > 0 ? AIS.slice(0, a7) : '') + (s290 >= 0 ? AIS.slice(s290, s290e > 0 ? s290e : undefined) : '');
+      if (s290 < 0) bad.push('AI_SPEC に第290便a の節が無い');
+      for (const [nm, t] of [['PHYSICS の冒頭', head], ['AI_SPEC の現行節', aiCur], ['README', RM]]) {
+        const r = classify(t, /複素決定力/g, [['旧称', (pre) => OLD.test(pre)]]);
+        if (r.bad.length) bad.push(nm + ' に旧称の注記の外の「複素決定力」' + r.bad.length + ' 件(' + r.bad[0] + ')');
+        if (t.indexOf('慣性決定力') < 0) bad.push(nm + ' に「慣性決定力」が無い');
+      }
+      if (head.indexOf('重力決定力') < 0) bad.push('PHYSICS の冒頭に「重力決定力」が無い');
+      // 機械鍵: 基点 f03bf5a の出現数以上(改名で減らない)
+      const KEYS = { 'lawVersion:"complex"': [/lawVersion:\\?"complex\\?"|lawVersion === 'complex'|lawVersion===\\?"complex\\?"/g, 9], backgroundComplex: [/backgroundComplex/g, 124],
+        'complex-p2': [/complex-p2/g, 14], 'share-p1': [/share-p1/g, 26], dfmComplexDeterminacy: [/dfmComplexDeterminacy/g, 4], dfmComplexMomentsOf: [/dfmComplexMomentsOf/g, 14],
+        wbgStateOf: [/\bwbgStateOf\b/g, 2], 'bdgMesh*': [/\bbdgMesh[A-Za-z_]*/g, 41], complexNotVelocity: [/complexNotVelocity/g, 8], '"complex"': [/\\?"complex\\?"/g, 18] };
+      const kc = Object.fromEntries(Object.entries(KEYS).map(([k, [re]]) => [k, (html.match(re) || []).length]));
+      const lost = Object.keys(KEYS).filter((k) => kc[k] < KEYS[k][1]);
+      if (lost.length) bad.push('機械鍵の出現数が基点より減った(改名の疑い): ' + lost.map((k) => `${k} ${kc[k]}<${KEYS[k][1]}`).join(','));
+      cases.push('機械鍵 ' + Object.keys(KEYS).map((k) => `${k} ${kc[k]}`).join('・') + '(基点以上)');
+      // PHYSICS〔第290便a〕
+      const pa = Pd290.indexOf('〔第290便a — ');
+      const pEnds = [Pd290.indexOf('\n〔第', pa + 10), Pd290.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa);
+      const psec = Pd290.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined);
+      if (!/\| \*\*慣性決定力\(場\)\*\* \| 複素決定力\(場\) \|/.test(psec)) bad.push('〔第290便a〕の用語の表に「慣性決定力(場)| 旧称」の行が無い');
+      if (psec.indexOf('**④ 原仮定者の裁定(第80報)— DFM の更新版**(引用・改変しない)') < 0 || psec.indexOf('重力・時間・光は現状と全く変わり無し') < 0
+        || psec.indexOf('引きずりの計算が新しくなる・実装精度は大変重要') < 0) bad.push('〔第290便a〕に第80報の DFM 更新版の引用が無い');
+      const t0 = psec.indexOf('**⑤ 対応表の更新**'), t1 = psec.indexOf('**⑥ GR に対する位置付け**');
+      const rows = (t0 >= 0 && t1 > t0 ? psec.slice(t0, t1) : '').split('\n').filter((l) => /^\| \d+ \|/.test(l)).map((l) => l.split(/(?<!\\)\|/).slice(1, -1).map((c) => c.trim()));
+      const J290 = ['一致', '定性だけ一致', '関数形が違う', '未接続〔契約〕', '未実装', '実装中', '推定のまま', '検証目標', '読みの固定'];
+      if (rows.length !== 20 || !rows.every((r, i) => Number(r[0]) === i + 1 && r.length === 5 && J290.some((w) => r[3].indexOf('**' + w) >= 0)))
+        bad.push(`〔第290便a〕の対応表が 20 行・連番・各行に判定語(太字)でない(${rows.length} 行)`);
+      else {
+        const by = (n) => rows[n - 1][3];
+        if (!(/実装中/.test(by(12)) && /実装中/.test(by(13)) && /実装中/.test(by(14)) && /relativeDrag\.law:"inertial"/.test(rows[11][4]))) bad.push('行 12〜14 が「新経路で実装中」(relativeDrag.law:"inertial")でない');
+        if (!(/\*\*未実装\*\*/.test(by(15)) && /\*\*未実装\*\*/.test(by(18)))) bad.push('行 15・18 が「未実装」でない');
+        if (!(/\*\*検証目標\*\*/.test(by(17)) && /半径依存が違う/.test(by(17)))) bad.push('行 17(1PN)が「検証目標」と半径依存の注でない');
+        if (!(/\*\*推定のまま\*\*/.test(by(20)) && /\*\*推定のまま\*\*/.test(by(10)) && /AN117/.test(by(10)))) bad.push('行 10・20 が「推定のまま」でない');
+        if (!/自己項を計算しない/.test(by(19))) bad.push('行 19 が「自己項を計算しない」の読みでない');
+        if (![1, 2, 3, 4, 5, 6, 7, 9].every((n) => /\*\*(定性だけ)?一致\*\*/.test(by(n)))) bad.push('重力・時間・光の行(1〜7・9)が一致/定性だけ一致のままでない');
+        if (!(/E7R/.test(by(3)) && /AN108/.test(by(3)) && /E8R/.test(by(4)))) bad.push('行 3・4 に E7R/E8R と AN108 が無い');
+        cases.push(`〔第290便a〕対応表 20 行(実装中 ${rows.filter((r) => /実装中/.test(r[3])).length}・未実装 ${rows.filter((r) => /\*\*未実装\*\*/.test(r[3])).length}・推定のまま ${rows.filter((r) => /推定のまま/.test(r[3])).length}・検証目標 1・読みの固定 1)`);
+      }
+      const gr = psec.slice(psec.indexOf('**⑥ GR に対する位置付け**'), psec.indexOf('**⑦ DFM 外のアナロジー'));
+      if (!(/差分は速度差ではなく空間距離/.test(gr) && /光だけを基準にする理論ではない/.test(gr) && /同じ観測量/.test(gr) && /動機/.test(gr) && /数学的同値や優劣の根拠ではない/.test(gr))) bad.push('GR の位置付けへの統括注記 3 点が無い');
+      const an = psec.slice(psec.indexOf('**⑦ DFM 外のアナロジー'), psec.indexOf('**⑧ QA'));
+      for (const w of ['DFM の論文では示唆にとどめ、別論文で扱う', '重力決定力・慣性決定力の式へ吸収しない', '質量項として銀河の力学へ黙って足さない', 'スピンと三態', '自転による減光', '腕の渦伸長',
+        '未同定の一時的/欠落光源の候補', '中間赤外源の存続', '惑星質量範囲の質量関数の推定', '一意に決めない', '渦伸長の項 (ω·∇)u は 0', 'physics.axisForce'])
+        if (an.indexOf(w) < 0) bad.push('DFM 外のアナロジーの節に「' + w + '」が無い');
+      const cut = psec.indexOf('**書かないこと。**'), body = cut >= 0 ? psec.slice(0, cut) : psec;
+      if (cut < 0) bad.push('〔第290便a〕に「書かないこと」が無い');
+      const FORBID = ['現実の宇宙は DFM である', '観測一致を達成した', '較正を完了した', '1PN と同等が証明された', '回転引きずりが創発した', '連鎖で円盤ができた',
+        '慣性決定力場を接続した', '新しい法則が正しい', '渦巻が創発した', '新発見', 'RC を切った'];
+      const hitF = FORBID.filter((w) => body.indexOf(w) >= 0);
+      if (hitF.length) bad.push('〔第290便a〕の本文(書かないことの外)に禁止の言い回し: ' + hitF.join(','));
+      const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+      if ((CL.match(/^- \*\*第290便a\(/mg) || []).length !== 1) bad.push('CHANGELOG の第290便a の行が 1 行でない');
+      const TS = fs.readFileSync(path.join(ROOT, 'docs', 'THEORY_SYNTHESIS.md'), 'utf8');
+      if (!/用語と主張の範囲\(第290便a\)[^\n]*`docs\/PHYSICS\.md`〔第290便a〕/.test(TS)) bad.push('THEORY_SYNTHESIS に〔第290便a〕へのポインタが無い');
+      cases.unshift(`html の旧語は許可リストの内だけ(ja ${JSON.stringify(jaR.tally)}・en ${JSON.stringify(enR.tally)})・PHYSICS 冒頭/AI_SPEC 現行節/README は旧称の注記だけ`);
+      add('docs.terminologyInertial', bad.length === 0,
+        `**用語「慣性決定力」(旧称: 複素決定力)**(第290便a・原仮定者の裁定(第80報)⑥・R125 —— 表示と文書の語だけ・機械鍵は改名しない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② docs.claimScope
+    {
+      const bad = [], cases = [];
+      const head = Pd290.slice(0, Pd290.indexOf('\n## 1. 元の仮定'));
+      const hl = head.split('\n'), k = hl.findIndex((l) => l.startsWith('**主張の範囲(第290便a'));
+      const JA_W = ['現実の宇宙を主張し', '保存・対称性・関数形の帰結が互いに矛盾しない', '観測との突合(較正)はその検査', '「合」は仮定と転写', '窓に入った'];
+      if (k < 0 || !hl[k + 1] || !hl[k + 1].startsWith('観測との突合')) bad.push('PHYSICS の冒頭に主張範囲の連続 2 行が無い');
+      else if (!JA_W.every((w) => (hl[k] + hl[k + 1]).indexOf(w) >= 0)) bad.push('PHYSICS の冒頭の 2 行に要素が欠ける');
+      const i0 = html.indexOf('const I18N = {'), iEn = html.indexOf('\nen: {', i0);
+      const abJa = (html.slice(i0, iEn).match(/\n {2}aboutBody:"([^\n]*)",/) || [])[1] || '';
+      const abEn = (html.slice(iEn).match(/\n {2}aboutBody:"([^\n]*)",/) || [])[1] || '';
+      if (!JA_W.every((w) => abJa.indexOf(w) >= 0)) bad.push('aboutBody(ja)に主張範囲の 2 文が無い');
+      const EN_W = ['makes no claim about the real universe', 'conservation, symmetry and functional form do not contradict', 'Comparison with observation (calibration) is a test', 'inside the window', 'not that the universe works this way'];
+      if (!EN_W.every((w) => abEn.indexOf(w) >= 0)) bad.push('aboutBody(en)に主張範囲の 2 文が無い');
+      const rmHead = RM.slice(0, RM.indexOf('\n## 使い方'));
+      if (!JA_W.every((w) => rmHead.indexOf(w) >= 0)) bad.push('README の冒頭に主張範囲の 2 行が無い');
+      cases.push('PHYSICS の冒頭(§1 の前の連続 2 行)・aboutBody ja/en・README の冒頭に同じ趣旨の 2 行(現実の宇宙は主張しない・仮定の内部で帰結が矛盾しない・「合」は窓に入ったこと)');
+      add('docs.claimScope', bad.length === 0,
+        `**主張の範囲の 2 行**(第290便a・原仮定者の裁定(第80報)⑥): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
 // ---- 8c1i) 第289便c(原仮定者の裁定(第79報)⑤「DFM の整理と修正」の複素決定力場の項・第79報で閉じた AN98/AN99・統括の検証項目 R121): **複素核便**の 3 ブロック。
 // ----   **root では SKIP**(beta 線の器と正本 —— html は変えていない)。純関数 tests/lib-w289c-reldrag.mjs・lib-w289c-nearfar.mjs・
 // ----   器 tests/exp-w289c-reldrag.mjs・exp-w289c-nearfar.mjs・正本 tests/out/reldrag-w289c.json・nearfar-w289c.json。**エンジン未接続**(html に核の関数が無いことを見る)。

@@ -251,7 +251,7 @@ export function panelGate(o, T) {
   return { ok: bad.length === 0, bad };
 }
 export const PANEL_TEXT = { undeclaredJa: '未確定(未宣言)', declaredJa: '宣言済み: galactic', undeclaredEn: 'Undetermined (not declared)',
-  labelEn: 'Background complex determinacy W0 / A0 (declaration)' };
+  labelEn: 'Background inertial determinacy W0 / A0 (declaration)' };   // 第290便a: 表示の語を慣性決定力へ(鍵 backgroundComplex は不変)
 export const PANEL_PRESET = 'galaxyMeshSpiral';
 
 /** 判定: D₀ 3 値で線の α の集合が同じ・画素から逆算した実効 α の p95 の差 ≤ tolA・線の画素の輝度 p95 の差 ≤ tolL・

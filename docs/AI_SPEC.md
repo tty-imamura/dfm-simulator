@@ -2937,8 +2937,18 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **Wbg の説明の限定**(AN103): 「kFrame=0 では力に入らない」は広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで spaceMesh.D0 1.5→4.5 の 1 步で自由粒子の vx の最大差 7.44e-4)→「現実較正の geoPN=1・kFrame=0 の軌道力には入らない。geoPN=3 の場と Jeans 初速(vMode:"jeans")では kFrame=0 でも読む」(ja/en の tip と説明)。Wbg は A/B へ写さない。
 - **アナロジーの説明 1 行**(AN110): 🌚🧩🛸💮🌰🥜 の `descStruct.summary`(ja/en)に「第289便の時点では第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では走っていない(share p=1 の q 付き場・連鎖は仮説)」の 1 文。状況の原稿(tests/data-w279a-samplestatus-src.json)の状況の末尾に要旨(概要は ja 120・en 200 字の上限内 —— 既存の文を削って入れた)。生成領域の概要は鎖の samplestatus が書く(手で走らせない)。
 - QA: **`ui.pickerStatusAxes`**・**`lint.wbgConvUnits`**・**`docs.analogyKernelNote`**・`ui.paramWbgRow`(換算と文言の項・🧩 の読みの実測)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators`・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`・`ui.pickerOtherFold` の固定値(軸 15→25・段 2→3・チップと見出し 18→29)は世代切替 has289f(html の `const PP_OTHER_STATUS_AXES=`)。root は SKIP。
+## 35. 第290便a —— 用語「慣性決定力」・主張の範囲・DFM 外のアナロジー(原仮定者の裁定(第80報)⑥⑦・統括の検証項目 R125・**表示と文書だけ**・**SYSTEM_PROMPT の鍵は不変**)
 
-## 35. 第290便f の UI —— 「このアプリについて」の並び・サンプル一覧の区画(DFM 本体/DFM の外のアナロジー/現実較正と照合)・新群「腕と渦伸長(軸力)」・「状況」の段の既定の畳み(原仮定者の裁定〔第80報〕④⑦・第80報で閉じた AN114・統括の検証項目 R130・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+AI が生成するプリセットの鍵は 1 つも増やしていない・変えていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(bitsame/sigsame 147/147)。
+
+- **用語(本書の現行の語)**: 重力・時間・光を担うスカラー場 W(質量に比例し距離に反比例する決定力の総和)は**決定力(場)**、慣性力と引きずりを担う「相対移動ベクトル × m/r²」のベクトル場は**慣性決定力(場)**(旧称: 複素決定力(場))。両者を対比するときは前者を**重力決定力(場)**と書く。英語の表示は determinacy (field) / gravitational determinacy (field) / inertial determinacy (field)。背景の量は「背景決定力 D₀」(表示名は変えない)と「背景慣性決定力 W₀・A₀」(英語 background inertial determinacy)。**§7 以降の過去便の記録は原文の語のまま**(過去の記録を書き換えない)。
+- **機械鍵は改名しない**: `physics.spaceMesh.lawVersion` の値 `"complex"`・`physics.backgroundComplex`(と `lawVersion` の値 `"complex-p2"`/`"share-p1"`)・`HP.dfmComplexDeterminacy`・`dfmComplexMomentsOf`・`wbgStateOf`・`bdgMesh*` の i18n 鍵・停止理由 `complexNotVelocity`・QA のブロック名・正本と保存 JSON の鍵。生成 AI が JSON に書く鍵と値は従来どおりである。
+- **SYSTEM_PROMPT の語**: 生成仕様の本文(§5 と §6.3 の逐語ブロック —— アプリの SYSTEM_PROMPT と同一)には旧語が元から無い。本便でプロンプトは 1 バイトも変えていない(プロンプトの鍵も不変)。
+- **主張の範囲**(本書・PHYSICS 冒頭・README 冒頭・アプリの「このアプリについて」と同じ趣旨): DFM は現実の宇宙を主張しない。DFM が主張するのは、宣言した仮定の内部で、保存・対称性・関数形の帰結が互いに矛盾しないことである。観測との突合(較正)はその検査であって、「合」は仮定と転写(観測量への写像)が窓に入ったことを意味し、宇宙がそう成り立っていることの主張ではない。生成 AI の出力(説明文・claims)もこの範囲を越えて書かない。
+- **DFM 外のアナロジー**(第80報⑦ —— アプリには仮定の物理法則として含めるが、**サンプル群を明確に分ける**): ① スピンと三態(群「スピンと熱」)② 自転による減光 = ダークマターハローの類推(群「自転と減光」—— 関連観測 VASCO・M31-2014-DS1・浮遊惑星・LFBOT は着想の背景に限る)③ 腕の渦伸長(`physics.axisForce` の外部オーバーレイ 🥢🎏🎚️ —— 真の 2D 非圧縮流では渦伸長の項は 0)。3 題とも **DFM の論文では示唆にとどめ別論文で扱う**・**重力決定力・慣性決定力の式へ吸収しない**・**質量項として銀河の力学へ黙って足さない**。詳細は `docs/PHYSICS.md`〔第290便a〕⑦。
+- QA: **`docs.terminologyInertial`**・**`docs.claimScope`**(root は SKIP)。
+
+## 36. 第290便f の UI —— 「このアプリについて」の並び・サンプル一覧の区画(DFM 本体/DFM の外のアナロジー/現実較正と照合)・新群「腕と渦伸長(軸力)」・「状況」の段の既定の畳み(原仮定者の裁定〔第80報〕④⑦・第80報で閉じた AN114・統括の検証項目 R130・**表示だけ**・**SYSTEM_PROMPT には載せない**)
 
 AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学は 1 bit も変えていない(bitsame/sigsame 147/147)。
 
