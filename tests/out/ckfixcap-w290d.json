@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-  "generatedAt": "2026-10-03T02:37:44.894Z",
+  "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
+  "generatedAt": "2026-10-03T22:12:19.214Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5526365,
-    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-    "mtime": "2026-10-03T00:48:50.355Z"
+    "bytes": 5623059,
+    "sha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
+    "mtime": "2026-10-03T22:09:12.645Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290d-ckfixcap.mjs",
-    "bytes": 42599,
-    "sha256": "1f136f7504341524d095a7ff0f47afe6ec21b1777d39ba430d4bd3d95fb1742d",
-    "mtime": "2026-10-03T01:07:15.086Z"
+    "bytes": 43525,
+    "sha256": "d21ea96f83db7b3ec290e20a5f08961dfcc8ad77a09cc1347364e88c7e20757e",
+    "mtime": "2026-10-03T18:51:40.583Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-10-02T23:11:02.956Z"
    }
   ],
-  "codeSha256": "f15a3dffbe0942d6d73b19ebeff51d70440a497d1801f71f591002461890edf8",
+  "codeSha256": "071fef82f792edf55adeed1f1c6fdf60d6a89d2eb52eb906af1a5a0a5d7a2bce",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 917,
-   "segments": 831,
-   "closureShare": 0.3218
+   "names": 952,
+   "segments": 863,
+   "closureShare": 0.324
   },
-  "scopeSha256": "aa7ceade48300ffcd48f915742a1e4351b41c2e6dc1d1f1a9f9896b9e60789ab",
+  "scopeSha256": "2978f38bb8d863429b25c012f10c398f3d8b5157b29e0224d4eb92a4415516d4",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -663,9 +663,9 @@
   },
   "inventory": {
    "code": {
-    "loadSave": "42505ad0de1472508f9c8764c2cc76245a66aae7fa4d5c9a340d8b5fd18cbfe4",
+    "loadSave": "bf4a15590443f757cf6517ec4de90b9d07ff36d592f386f10fc06daa026bdab2",
     "loadSaveBgcAccept": "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45",
-    "saveHandler": "b60176edcf47be88ce3ef24dca634a8573013e102ca93d5c2ae2f59ddd7e222d"
+    "saveHandler": "0622c8087631a8ec197581008118d31ab9466551ebebcfc667362550ad8ae0c9"
    },
    "saveCodeSameAsBase": true,
    "saveKeys": [
@@ -673,6 +673,8 @@
     "comment",
     "graphOverlays",
     "kappaT",
+    "lawResolved",
+    "modePolicy",
     "name",
     "phaseParams",
     "physLock",
@@ -689,6 +691,8 @@
    "loadKeys": [
     "cameraScale",
     "graphOverlays",
+    "lawResolved",
+    "modePolicy",
     "name",
     "phaseParams",
     "physLock",
@@ -2693,5 +2697,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.363
+ "elapsedS": 0.387
 }
