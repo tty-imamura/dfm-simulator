@@ -133,7 +133,7 @@ Exactly one preset that follows the specification above. Even when approximating
 
 ## PHYSICAL CONSISTENCY (OUTPUT B)
 - Match the magnitude style, the key density and the value ranges of "# EXAMPLE".
-- For a phenomenon (convection, frame dragging, a rotor, a lens, …) accuracy is much higher with the closest built-in sample as the "base sample"; if none was given you may say so in one short sentence at the end of "description" — never add prose outside the JSON.
+- For a phenomenon (convection, frame dragging, an optical-camouflage dwarf, a lens, …) accuracy is much higher with the closest built-in sample as the "base sample"; if none was given you may say so in one short sentence at the end of "description" — never add prose outside the JSON.
 - Keep the particle count modest: prefer under 200 (hard cap 600).
 - Thermal experiments: heaters and coolers are pinned particles (high spin = heater, spin 0 = cooler); gravityY gives the uniform field.
 - Never claim real-body accuracy in "description" — an approximated real system is a toy model.
@@ -354,10 +354,10 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 - ring/disk/box には省略可の bulkVx,bulkVy(母集団の並進速度)を指定できる。移動する天体(vx,vyを持つ single)の周りに円盤・環を置くときは、必ず同じ値を bulkVx,bulkVy に与えて核と一体で動かすこと。
 - ring/disk/box には省略可の particleRadius(個々の粒子の半径 — 群の配置の半径 radius・rIn/rOut・w/h とは別の欄。正の値・長さの値域 0〜5000。宣言すると rMul は半径に使わない)を指定できる。環・星団・銀河のように粒子数を減らして近似した多粒子の系では physics.contactMode:"none"(接触判定なし — 接触ばね・減衰・摩擦をすべて止める。粒子同士の接触が現実より多くなるため)と中心天体の pinned:true を宣言する。粒子同士の衝突・合体や銀河同士の衝突を見せる系は contactMode:"normal"(既定と同じ)にし、中心の固定を外す。
 - single には省略可の zonal(扁平中心天体の帯状重力補正 E13)を指定できる: {"refR":基準半径,"calib":1,"J":{"2":0.0163,"4":-0.0009}}。偶数次 J2〜J12 のみ・|J|≤0.1・refR:1〜5000・calib:0〜2。中心の大質量 pinned 粒子に付けると周回粒子の楕円軌道の近点が前進する(内側ほど速い差動近点移動 — 画面左上に実測/解析の近点移動が表示される)。土星なら J2≈0.0163。要望が扁平天体・歳差・近点移動のときだけ使う高度な属性で、通常のプリセットでは指定しない。
-- single/ring/disk には省略可の core(コアv2 — 中心コアの独立サブシステム)を指定できる: {"mode":"rigid"|"differential"|"active"|"cavity","massFrac":0.01〜0.95,"radius":0.01〜200,"omega":−50〜50,"Kcs":0〜10,"pump":0〜5,"contract":0〜0.2,"sourceRate":0〜100,"voidFraction":0.01〜1}。m は総質量のままで、massFrac=Mc/m・radius=コア半径 R_c(絶対値)・omega=初期コア角速度 Ω_c(角運動量 J=½·Mc·R_c²·Ω として保持され、以後 J が主変数)。差動分だけが ω += (Mc/m)·(Ω_c−s)·(R_c/(R_c+d))^q として追加の空間引きずりに効く。mode: rigid=殻と剛体回転(差動なし)・differential=独立回転・active=differential+sourceRate で内部エネルギー注入・cavity=空洞(massFrac の代わりに voidFraction。引きずりの符号が反転)。Kcs はコア⇄殻のトルク結合(緩和率)・contract は収縮率(J 保存で Ω 上昇)・pump はパワーボール係数。要望がコア/深部回転・空洞天体・2層天体・ダークローターのときだけ使う高度な属性。
+- single/ring/disk には省略可の core(コアv2 — 中心コアの独立サブシステム)を指定できる: {"mode":"rigid"|"differential"|"active"|"cavity","massFrac":0.01〜0.95,"radius":0.01〜200,"omega":−50〜50,"Kcs":0〜10,"pump":0〜5,"contract":0〜0.2,"sourceRate":0〜100,"voidFraction":0.01〜1}。m は総質量のままで、massFrac=Mc/m・radius=コア半径 R_c(絶対値)・omega=初期コア角速度 Ω_c(角運動量 J=½·Mc·R_c²·Ω として保持され、以後 J が主変数)。差動分だけが ω += (Mc/m)·(Ω_c−s)·(R_c/(R_c+d))^q として追加の空間引きずりに効く。mode: rigid=殻と剛体回転(差動なし)・differential=独立回転・active=differential+sourceRate で内部エネルギー注入・cavity=空洞(massFrac の代わりに voidFraction。引きずりの符号が反転)。Kcs はコア⇄殻のトルク結合(緩和率)・contract は収縮率(J 保存で Ω 上昇)・pump はパワーボール係数。要望がコア/深部回転・空洞天体・2層天体・光学迷彩矮星のときだけ使う高度な属性。
 - core.shed(省略可・第244便/第246便): コアの回転が限界を超えたら**殻の一部をガス粒へ割って放出する**保存的な質量放出。{"omegaCrit":発火する|Ω_c|,"frac":放出する殻質量の比(0〜0.6],"n":粒数(4〜128・偶数),"rLaunch":放出半径(親半径R単位),"jFrac":コアJの移送比0〜1,"once":true/false,"rInner":最内層の半径(親半径R単位・既定=rLaunch),"layers":層数1〜8(既定1・n は layers×偶数へ正規化),"cooldown":再発火までの最短時間(once:false のときだけ効く)}。layers≧2 なら粒は rInner·R〜rLaunch·R の等間隔の層に置かれる(元の半径の円周だけでなくコアとの間にも配置される)。once:false は「Ω が再び omegaCrit を超えたら再発火」= 外殻が徐々に剥がれる。質量・運動量・角運動量・エネルギーは帳簿込みで閉じ、収支が負なら発火しない。core.burst(省略可・第234便): {"rate":放出率,"frac":放出する|J|の総比率} でコアの回転エネルギーを気体殻へ保存的に注入する(爆発)。要望が質量放出・恒星風・超新星・白色矮星/中性子星のときだけ使う高度な属性。
 - core.rTarget / core.bindLedger / core.shed.bare(省略可・第247便c — コア収縮の終端と裸コア終端): "rTarget":収縮の終端半径(0〜200・既定0=無制限 — contract は到達で止まる)。"bindLedger":"pairU" は「点粒子に自己重力エネルギーは無い」ことの宣言で、結合Eの状態関数 U_bind=−a·G·Mc²/R_c("bindA"=a・0〜10・既定0.6)を記録専用で持ち、各ステップの収縮に avail=ΔU_bind−ΔE_rot<0 ならその収縮を行わない予算門が掛かる。core.shed の "bare":true と "bareBelow":しきい値(≤1 はコア質量比・>1 は絶対質量・既定0.01)は、殻質量がしきい値を下回ったら次の発火で残りの殻を全部出して Mc=M(massFrac=1)の終端状態にする(保存契約「残骸>コア」の唯一の例外・1粒子1回だけ)。いずれも opt-in で未宣言なら従来と1bit不変。要望が「コアの収縮がどこで止まるか」「回転が速すぎて縮めない核」「白色矮星/中性子星が最後に裸のコアになる」のときだけ使う高度な属性。
-- single には省略可の radius(半径の明示指定 0.01〜100。未指定は radiusScale·rMul·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/ダークローター・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。disk/ring にも群共通の lightSweep(数値か "auto")を指定できる(恒星集団の減光実験用)。
+- single には省略可の radius(半径の明示指定 0.01〜100。未指定は radiusScale·rMul·√|m|)・lightSweep(減光 0〜1 — 高速スピンコアが自星の光を外に出さない: 観測温度が0になり見掛けは冷たい。放射冷却も(1−lS)倍)を指定できる。要望がダークマター/光学迷彩矮星・見えない天体・拡がった天体のときだけ使う高度な属性で、通常のプリセットでは指定しない。disk/ring にも群共通の lightSweep(数値か "auto")を指定できる(恒星集団の減光実験用)。
 - single には省略可の railOmega(±2・pinned時のみ): 円レール駆動の角速度。railCx/railCy でレール中心を指定(既定は原点)。
 
 # 例
@@ -565,7 +565,7 @@ mass・semi_major_axis・orbital_period について複数出典が 1% を超え
 
 ## 物理の一貫性(出力B)
 - 「# 例」の桁感・キー密度・値域に合わせてください。
-- 現象系(対流・空間引きずり・ローター・レンズなど)は、利用者が近い内蔵サンプルを「ベースのサンプル」に選ぶと精度が大きく上がります。ベース未指定のときは、その旨を description の末尾に短く1文だけ書いてかまいません — **JSON の外に文章を足さないでください**。
+- 現象系(対流・空間引きずり・光学迷彩矮星・レンズなど)は、利用者が近い内蔵サンプルを「ベースのサンプル」に選ぶと精度が大きく上がります。ベース未指定のときは、その旨を description の末尾に短く1文だけ書いてかまいません — **JSON の外に文章を足さないでください**。
 - 粒子総数は控えめに。現象が要求しない限り 200 未満を推奨します(上限は600)。
 - 熱の実験では、ヒーター(pinned・高スピン)と冷却板(pinned・スピン0)を明示的に置き、一様場は gravityY で作ります。
 - description で実在天体の精度を主張しないでください(近似した実在系はトイモデルであって定量再現ではありません)。
@@ -788,7 +788,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 
 天体再現計画(連星〜棒渦巻 — 論文4)の各段階サンプルは、**測る前に**次のゲート一式を宣言して
 従う。観測再現版(宣言的解析ハロー `physics.halo` つき — uniform/nfw/burkert)と DFM 版
-(ハローなし・ダークローター)は同じ表で対で評価する:
+(ハローなし・光学迷彩矮星)は同じ表で対で評価する:
 
 | ゲート | 合格条件(宣言してから測る) |
 |---|---|
@@ -2652,16 +2652,16 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 
 ## 15. 第281便c の宣言鍵 —— `massLedger`(条件付き質量台帳・**表示専用**・原仮定者の裁定〔第71報〕・統括の検証項目 R74・**SYSTEM_PROMPT には載せない**)
 
-浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度のダークローターへ当てはめたときの銀河の質量を、⟨m_DR⟩ ごとの**仮定のシナリオの表**として宣言するだけの鍵である。
+浮遊惑星の個数比(恒星の約 20 倍 —— 個数の推定)を恒星質量程度の光学迷彩矮星へ当てはめたときの銀河の質量を、⟨m_DR⟩ ごとの**仮定のシナリオの表**として宣言するだけの鍵である。
 **`SYSTEM_PROMPT` の逐語ブロックには載せていない**(AI 生成には開放していない —— §5 の逐語ブロックは 1 バイトも変わっていない)。
 build・力学・光線・`presetSig`・保存 JSON の物理は**この鍵を読まない**(宣言した 🛞 の `presetSigHash` は基点と同じ 1a98b3d3)。
 
 - **正準形**: `massLedger:{version:"w281c-1", starBase, fStar, gas, core, unitKg, mSunKg, mStarSun, nRatio, rotorInFStar:false, defaultScenario, currentTotalUnit, currentTotalSun, rotorScenarios:[{mRotorSun, nRotor, mRotorUnit, totalUnit, totalSun}], note?, noteEn?}`。
   - `starBase` … 恒星の基準質量 M★(単位 —— f★ を掛ける前)・`fStar` … 恒星の補正 f★(1<f≤3 —— `massCalibration.factorUniform` と同じ値)・`gas`・`core` … 気体・中心核(単位・0 以上)。
-  - `unitKg`・`mSunKg` … 1 単位の kg と M☉ の kg・`mStarSun` … 平均恒星質量 ⟨m★⟩(M☉・宣言)・`nRatio` … ダークローター数 / 恒星数(個数比)。
+  - `unitKg`・`mSunKg` … 1 単位の kg と M☉ の kg・`mStarSun` … 平均恒星質量 ⟨m★⟩(M☉・宣言)・`nRatio` … 光学迷彩矮星数 / 恒星数(個数比)。
   - `rotorScenarios` … 1〜6 行。N_DR=nRatio·M★/⟨m★⟩・M_DR=N_DR·⟨m_DR⟩・**M_gal=f★M★+M_gas+M_core+M_DR**。
   - `defaultScenario` … `"none"`(**追加 0 = 現状** —— 既定)かシナリオの `mRotorSun`。不正値は警告つきで `"none"` へ。
-- **二重加算の拒否**: `rotorInFStar` は **false だけ**を受理(f★ は恒星の見掛け質量の補正で、ダークローターには掛けない —— 別集団として 1 回だけ足す)。
+- **二重加算の拒否**: `rotorInFStar` は **false だけ**を受理(f★ は恒星の見掛け質量の補正で、光学迷彩矮星には掛けない —— 別集団として 1 回だけ足す)。
   各行の `totalUnit` が `fStar·starBase+gas+core+mRotorUnit` と相対 1e-9 で一致しない台帳、`currentTotalUnit` が `fStar·starBase+gas+core` と一致しない台帳は**落とす**(警告つき)。知らない鍵は警告つきで無視。
 - **純関数(HP 公開)**: `validateMassLedger(ml)`(`{ok, value, warnings}`)・`MASS_LEDGER_VERSION`(`"w281c-1"`)・`MASS_LEDGER_KEYS`。値は `tests/lib-w281c-rotorledger.mjs` が作る。
 - **内蔵の宣言**: **1 本**(🛞 `ngc3198DFM` —— 観測結果カードに「条件付き質量台帳」の 1 行)。較正母集団には入れない。
@@ -2954,7 +2954,7 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   - 三状態(含む/除く/解除)・AND・件数(一覧に出る本から実行時に数える —— 退役・非表示の本は数えない)・0 件の値は無効表示(隠さない)・段の畳み(狭い画面は畳んで開く・含む/除くは畳んでも見える)は §28・§32 の規約のまま。
 - **静止背景相当 Wbg の換算**(§32 の `#wbgRow`): 単位は採用した核の M/L^p(p = `frameWeightPow` —— share 1・pull 2・pull3 3・pull4 4)。換算は純関数 `wbgConvStr({Wbg, p}, ef)` = Wbg × 10^(eM − p·x) と p ごとの単位の綴り(kg/m・kg/m²・kg/m³・kg/m⁴)。旧は常に D₀ の M/L で換算していた(pull p=2 の本で単位がずれていた)—— share p=1 の本の表示は 1 文字も変わらない。行に `data-p`。値の計算 `bgWbgOf` は不変。ε(ソフトニング)は換算に含めない(決断事項候補)。
 - **Wbg の説明の限定**(AN103): 「kFrame=0 では力に入らない」は広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで spaceMesh.D0 1.5→4.5 の 1 步で自由粒子の vx の最大差 7.44e-4)→「現実較正の geoPN=1・kFrame=0 の軌道力には入らない。geoPN=3 の場と Jeans 初速(vMode:"jeans")では kFrame=0 でも読む」(ja/en の tip と説明)。Wbg は A/B へ写さない。
-- **アナロジーの説明 1 行**(AN110): 🌚🧩🛸💮🌰🥜 の `descStruct.summary`(ja/en)に「第289便の時点では第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では走っていない(share p=1 の q 付き場・連鎖は仮説)」の 1 文。状況の原稿(tests/data-w279a-samplestatus-src.json)の状況の末尾に要旨(概要は ja 120・en 200 字の上限内 —— 既存の文を削って入れた)。生成領域の概要は鎖の samplestatus が書く(手で走らせない)。
+- **アナロジーの説明 1 行**(AN110): 🌚🧩🛸💮🌰🥜 の `descStruct.summary`(ja/en)に「第289便の時点では第79報の整理(DFM の整理と修正)の慣性決定力の核(相対移動×m/r²・手前/反対)では走っていない(share p=1 の q 付き場・連鎖は仮説)」の 1 文。状況の原稿(tests/data-w279a-samplestatus-src.json)の状況の末尾に要旨(概要は ja 120・en 200 字の上限内 —— 既存の文を削って入れた)。生成領域の概要は鎖の samplestatus が書く(手で走らせない)。
 - QA: **`ui.pickerStatusAxes`**・**`lint.wbgConvUnits`**・**`docs.analogyKernelNote`**・`ui.paramWbgRow`(換算と文言の項・🧩 の読みの実測)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators`・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`・`ui.pickerOtherFold` の固定値(軸 15→25・段 2→3・チップと見出し 18→29)は世代切替 has289f(html の `const PP_OTHER_STATUS_AXES=`)。root は SKIP。
 ## 35. 第290便a —— 用語「慣性決定力」・主張の範囲・DFM 外のアナロジー(原仮定者の裁定(第80報)⑥⑦・統括の検証項目 R125・**表示と文書だけ**・**SYSTEM_PROMPT の鍵は不変**)
 
@@ -3019,3 +3019,14 @@ shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", omega0,
 - 腕の中心線 r(s)=rMin+(rMax−rMin)s・φ_k(s)=φ₀+2πk/nArm+cot(p)·ln(r/r0)+Ω_p t(s は宣言の密度で固定)・横断と面外にだけ 2 階 OU。全体は剛体パターン回転 Ω_p(差動回転なし)。
 - 内蔵: 🍭 `shapeToySpiral`(中心なし)・🎢 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
 - 読み取り専用: `HP.shapeToySpiralState(S)`・`HP.shapeToySpiralCentreline(sp,k,s)`・`HP.validateShapeToySpiral`。器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json。QA: `preset.shapeToySpiral`・`behavior.spiralGeometry`・`docs.spiralRef`。
+
+## 39. 第291便a —— 用語「光学迷彩矮星」(旧称: ダークローター)と「慣性決定力の核」(原仮定者の裁定(第81報)④・第80報で起票した AN142・統括の検証項目 R132・**表示と文書だけ**・**SYSTEM_PROMPT の鍵は不変**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない・変えていない。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(bitsame/sigsame 150/150)。
+
+- **用語(本書の現行の語)**: 光学迷彩矮星とは、この模型で、自転に関連する減光機構(自光の掻き出しと外来光線の掃き出し)により光学的に暗く見えるコンパクト天体に付けた造語である。観測上確立した天体分類(矮星・褐色矮星・白色矮星)やダークマターの同定を意味しない。質量・物理半径は各サンプルの宣言に従う。英語の表示は optical-camouflage dwarf(形容詞形は optical-camouflage-dwarf)。主張の範囲は変えない(実在のダークマターについての主張ではない)。
+- **機械鍵は改名しない**: `darkrotor`・`rotorSolo`・`selfRotor`・`nebulaRotor`・`massLedger.darkRotor`・`haloDimming`・QA の `behavior.darkrotor-pitch`・根拠表のファイル名 `docs/dark-rotor-evidence.md`・略号 DR(`M_DR`・`⟨m_DR⟩`)。生成 AI が JSON に書く鍵と値は従来どおりである。
+- **SYSTEM_PROMPT の語**: 生成仕様の本文(§5 の逐語ブロック —— アプリの SYSTEM_PROMPT と同一)の `core` と `lightSweep` の説明 2 か所、出力の使い分け節(ja/en)の現象系の例 1 か所を「光学迷彩矮星」/ "an optical-camouflage dwarf" に直した(逐語収載は QA `prompt.spec-sync` が照合する)。鍵・値域・few-shot の JSON は 1 バイトも変えていない。
+- **第79報の語「複素核」**: 現行の語「慣性決定力の核」へ(§34 のアナロジーの説明 1 行と、アプリのアナロジー 6 本の説明・状況の原稿)。機械鍵 `complex`・`complex-p2`・`dfmComplexDeterminacy` は不変。
+- 過去の原仮定者の裁定の引用は原文の語のまま残し、直後に〔現 光学迷彩矮星〕を添える。§7 以降の過去便の記録の語は本便で現行の語へ直した(引用を除く)。
+- QA: **`docs.terminologyOpticalCamouflage`**(root は SKIP)。

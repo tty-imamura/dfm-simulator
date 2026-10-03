@@ -18629,7 +18629,7 @@ if (!FAST) {
   }
 }
 
-// ---- 8c1b) 第281便c(原仮定者の裁定(第71報)「浮遊惑星の質量算出根拠を調べ、ダークローターを恒星質量程度に調整して当てはめ、
+// ---- 8c1b) 第281便c(原仮定者の裁定(第71報)「浮遊惑星の質量算出根拠を調べ、ダークローター〔現 光学迷彩矮星〕を恒星質量程度に調整して当てはめ、
 // ----   DFM 版銀河の質量に計上する」・統括の検証項目 R74): **条件付き質量台帳**の 2 ブロック。**root(宣言の無い世代)では SKIP**。
 // ----   ① docs.rotorLedger …… 正本 tests/out/rotorledger-w281c.json(来歴 w272e-1)を、いまの html の 🛞 の bodies から
 // ----      純関数 tests/lib-w281c-rotorledger.mjs で引き直した値と**相対 1e-12** で照合し(JSON 文字列一致にしない —— Node 22/24)、
@@ -18698,7 +18698,7 @@ if (!FAST) {
         for (const s of ['https://www.nasa.gov/missions/roman-space-telescope/new-study-reveals-nasas-roman-could-find-400-earth-mass-rogue-planets/',
           '2303.08279', '2303.08280', '2507.13794', '未取得(番号のみ)']) if (psec.indexOf(s) < 0) bad.push('出典の記載 ' + s.slice(0, 30));
         const body = psec.split('**言わないこと。**')[0];
-        const NG = [/観測一致/, /観測と一致/, /ダークローター[^。\n]{0,15}(検出|発見)/, /浮遊惑星を(検出|発見)した/, /較正した/, /較正を完了/, /新発見/, /創発/, /η\s*を測った/];
+        const NG = [/観測一致/, /観測と一致/, /(ダークローター|光学迷彩矮星)[^。\n]{0,15}(検出|発見)/, /浮遊惑星を(検出|発見)した/, /較正した/, /較正を完了/, /新発見/, /創発/, /η\s*を測った/];
         for (const re of NG) if (re.test(body)) bad.push('禁止の言い回し ' + re.source);
         if (!/二重加算しない/.test(body) || !/別集団/.test(body)) bad.push('二重加算の脚注');
         sum = `現状 ${led.current.totalUnit.toFixed(3)} 単位(${LR.fmtSci(led.current.totalSun)} M☉)→ A/B/C `
@@ -19743,7 +19743,7 @@ if (!FAST) {
   }
 }
 
-// ---- 8c1c‴) 第286便c(原仮定者の裁定(第76報)④・第76報で閉じた AN7′/AN47/AN56・統括の検証項目 R106): **ダークローターの根拠表と背景の法則版・
+// ---- 8c1c‴) 第286便c(原仮定者の裁定(第76報)④・第76報で閉じた AN7′/AN47/AN56・統括の検証項目 R106): **光学迷彩矮星の根拠表と背景の法則版・
 // ----   解析微分の照合・旧い較正方針の文言**の 4 ブロック。**root では SKIP**(世代判定は html の `function dfmGeoToyBgLawStep(`)。
 // ----   器 tests/exp-w286c-bgdiff.mjs・正本 tests/out/bgdiff-w286c.json・根拠表 docs/dark-rotor-evidence.md。
 // ----   ① behavior.bgLawVersion …… 受理器の事例(期待どおり・冪等)・内蔵の宣言 0 本・経路の相互検査(経路の無い法則版を拒否)・既定は未接続・
@@ -19778,7 +19778,7 @@ if (!FAST) {
     const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
     const pa = Pd.indexOf('〔第286便c — '), pb = (pa >= 0) ? Pd.indexOf('\n〔第', pa + 10) : -1;
     const psec = (pa >= 0) ? Pd.slice(pa, pb > pa ? pb : Pd.indexOf('\n## 7. 論文', pa)) : '';
-    const FORBID = ['ダークローターを検出した', '検出した', '観測された', 'ハローの代わり', 'チェレンコフ放射', 'VASCO が恒星質量 DR を検出した',
+    const FORBID = ['ダークローターを検出した', '光学迷彩矮星を検出した', '検出した', '観測された', 'ハローの代わり', 'チェレンコフ放射', 'VASCO が恒星質量 DR を検出した',
       'MOA の浮遊惑星がハローの代わり', 'AT2023fhn はチェレンコフ放射', '法則版で成立した', 'W₀・A₀ から微分が出る', '観測一致を達成した', '較正を完了した',
       '帯内=合格', '安定平衡版', '新発見', 'RC を切った', '判定が増えた'];
     // ---- ① behavior.bgLawVersion
@@ -19909,7 +19909,7 @@ if (!FAST) {
       const hit = FORBID.filter((w) => stripQ(E).indexOf(w) >= 0 || stripQ(psec).indexOf(w) >= 0);
       if (hit.length) bad.push('禁止語: ' + hit.join(','));
       if (!psec) bad.push('PHYSICS〔第286便c — 〕が無い');
-      for (const w of ['ダークローター(第76報)', 'χ=cJ/(GM²)', 'VASCO', 'M31-2014-DS1', 'MOA-9y-5919', 'AT2023fhn', '同じ物体の証明ではない']) if (psec.indexOf(w) < 0) bad.push('PHYSICS に「' + w + '」が無い');
+      for (const w of ['光学迷彩矮星(第76報)', 'χ=cJ/(GM²)', 'VASCO', 'M31-2014-DS1', 'MOA-9y-5919', 'AT2023fhn', '同じ物体の証明ではない']) if (psec.indexOf(w) < 0) bad.push('PHYSICS に「' + w + '」が無い');
       cases.push(`根拠表の節 ${HEADS.length}・4 件・出典 ${REFS.length}・要の文・禁止語 0(根拠表と PHYSICS〔第286便c〕)`);
       // CSV の 9 行(門に接続しない)
       try {
@@ -19922,7 +19922,7 @@ if (!FAST) {
         cases.push(`CSV の行 ${rows.length}(${bodies.join('・')})—— 全行 gate=not-connected・sigma_primary=unverified`);
       } catch (e) { bad.push('CSV が読めない: ' + String(e).slice(0, 60)); }
       add('docs.darkRotorEvidence', bad.length === 0,
-        `**ダークローターの根拠表**(第286便c・原仮定者の裁定(第76報)④・R106 —— 着想と超 Kerr の定義 χ=cJ/(GM²)・宇宙検閲は仮説・4 件を一次資料で言えること/言えないことに分ける・`
+        `**光学迷彩矮星の根拠表**(第286便c・原仮定者の裁定(第76報)④・R106 —— 着想と超 Kerr の定義 χ=cJ/(GM²)・宇宙検閲は仮説・4 件を一次資料で言えること/言えないことに分ける・`
         + `MOA の標準レンズ式・E_res の帳簿と 🐮 の対応・力学の DR と光学のトイは別): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
@@ -21754,7 +21754,96 @@ if (!FAST) {
   }
 }
 
-// ---- 8c1i) 第289便c(原仮定者の裁定(第79報)⑤「DFM の整理と修正」の複素決定力場の項・第79報で閉じた AN98/AN99・統括の検証項目 R121): **複素核便**の 3 ブロック。
+// ---- 8c1i″) 第291便a(原仮定者の裁定(第81報)④・第80報で起票した AN142・統括の検証項目 R132): **用語便**。**root では SKIP**
+// ----   (html は表示文・説明文・コメントだけを変えた便 —— 物理は 1 bit も変えていない)。世代切替 has291a は PHYSICS の冒頭の〔第291便a〕の用語の段の有無。
+// ----   docs.terminologyOpticalCamouflage …… 「ダークローター」→「光学迷彩矮星」(英 optical-camouflage dwarf)・第79報の語「複素核」→「慣性決定力の核」:
+// ----     ① html・PHYSICS・README・AI_SPEC・根拠表・BH 設計書・状況の原稿に「ダークローター」が残るのは 2 つの形だけ —— 原仮定者の裁定の引用の中で
+// ----        直後に〔現 光学迷彩矮星〕を添えた形/定義の箇所の旧称の注記「旧称: ダークローター」。英語の dark rotor(dark-rotor)は 0
+// ----        (ファイル名 dark-rotor-evidence.md は除く)。html の生成領域 sample-status は原稿から鎖で作る(古ければ「鎖待ち」で FAIL —— 手で直さない)。
+// ----     ② 定義の 1 文(ja 3 文・en 3 文)が 🕶️🕳️ の descStruct.summary の冒頭と PHYSICS・README・AI_SPEC にある・防御線
+// ----        (「ダークマターの同定を意味しない」・群「自転と減光」の「実在のダークマターについての主張ではない」)が残る。
+// ----     ③ 機械鍵と ID は改名しない —— darkrotor の出現数が基点 cf2da0a と同じ・rotorSolo/selfRotor/nebulaRotor/darkRotor/haloDimming/
+// ----        darkrotor-pitch/rotorInFStar は基点以上・3 本の表示名(ja/en)が新しい語・SYSTEM_PROMPT に旧語が無い。
+// ----     ④ 「複素核」は 0(「」で括った語の言及だけ可)—— html(生成領域を含む)・原稿・PHYSICS・AI_SPEC・README。CHANGELOG の 1 行。
+{
+  const Pd291 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const has291a = TARGET.startsWith('beta/') && Pd291.indexOf('**用語(第291便a・') >= 0;
+  if (!has291a) {
+    console.log('SKIP docs.terminologyOpticalCamouflage(第291便a 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    const rd = (...p) => fs.readFileSync(path.join(ROOT, ...p), 'utf8');
+    const html = rd(TARGET), RM = rd('README.md'), AIS = rd('docs', 'AI_SPEC.md');
+    const EV = rd('docs', 'dark-rotor-evidence.md'), BHD = rd('docs', 'BH_DESIGN_v1.45.md'), SRC = rd('tests', 'data-w279a-samplestatus-src.json');
+    const OLD = 'ダークローター', NOW = '〔現 光学迷彩矮星〕';
+    const R0 = '// >>> w275a-generated: sample-status\n', R1 = '// <<< w275a-generated: sample-status\n';
+    const r0 = html.indexOf(R0), r1 = html.indexOf(R1, r0);
+    if (!(r0 >= 0 && r1 > r0)) bad.push('生成領域 sample-status の印が無い');
+    const region = r0 >= 0 && r1 > r0 ? html.slice(r0, r1) : '';
+    const body = r0 >= 0 && r1 > r0 ? html.slice(0, r0) + html.slice(r1) : html;
+    // 裁定の引用か(開き「が 400 字以内・閉じ」が 600 字以内・開き「の行頭から旧語までに帰属〔裁定/原仮定者/第N報〕)
+    const inQuote = (t, i) => { const o = t.lastIndexOf('「', i), c = t.lastIndexOf('」', i), e = t.indexOf('」', i);
+      return o >= 0 && o > c && i - o < 400 && e >= 0 && e - i < 600 && /裁定|原仮定者|第\d+報/.test(t.slice(t.lastIndexOf('\n', o) + 1, i)); };
+    const scan = (t) => { const o = { quote: 0, oldName: 0, bad: [] }; let i = -1;
+      while ((i = t.indexOf(OLD, i + 1)) >= 0) {
+        if (t.startsWith(NOW, i + OLD.length) && inQuote(t, i)) o.quote++;
+        else if (/旧称: $/.test(t.slice(Math.max(0, i - 4), i))) o.oldName++;
+        else o.bad.push(`${t.slice(0, i).split('\n').length}行: ${t.slice(Math.max(0, i - 20), i + 20).replace(/\n/g, ' ')}`);
+      }
+      return o; };
+    const EN_OLD = /dark[ -]rotor(?!-evidence)/gi;
+    const tally = {};
+    for (const [nm, t] of [['html', body], ['PHYSICS', Pd291], ['README', RM], ['AI_SPEC', AIS], ['根拠表', EV], ['BH 設計書', BHD], ['状況の原稿', SRC]]) {
+      const s = scan(t);
+      tally[nm] = `引用 ${s.quote}・旧称 ${s.oldName}`;
+      if (s.bad.length) bad.push(`${nm} に引用/旧称の外の「${OLD}」${s.bad.length} 件(${s.bad.slice(0, 2).join(' / ')})`);
+      const en = (t.match(EN_OLD) || []).length;
+      if (en) bad.push(`${nm} に英語の旧語 dark rotor が ${en} 件`);
+    }
+    if (scan(body).oldName > 2) bad.push('html の旧称の注記が 3 件以上(定義の箇所 🕶️🕳️ の 2 件だけ)');
+    if (region.indexOf(OLD) >= 0 || EN_OLD.test(region) || region.indexOf('複素核') >= 0)
+      bad.push('生成領域 sample-status に旧語が残る(鎖の samplestatus の再走待ち —— 手で直さない)');
+    EN_OLD.lastIndex = 0;
+    cases.push('旧語は引用〔現 光学迷彩矮星〕と旧称の注記だけ(' + Object.entries(tally).map(([k, v]) => `${k} ${v}`).join('・') + ')・英語の旧語 0');
+    // ② 定義の 1 文と防御線
+    const DEF_JA = ['光学迷彩矮星とは、この模型で、自転に関連する減光機構(自光の掻き出しと外来光線の掃き出し)により光学的に暗く見えるコンパクト天体に付けた造語である。',
+      '観測上確立した天体分類(矮星・褐色矮星・白色矮星)やダークマターの同定を意味しない。', '質量・物理半径は各サンプルの宣言に従う。'].join('');
+    const DEF_EN = 'An optical-camouflage dwarf is a term coined in this model for a compact body that looks optically dark because of spin-related dimming mechanisms '
+      + '(sweeping out its own light and sweeping away incoming rays). It does not denote an established observational class (dwarf, brown dwarf or white dwarf), '
+      + 'nor an identification of dark matter. Mass and physical radius follow each sample\'s declaration.';
+    const nJa = body.split('summary:"' + DEF_JA).length - 1, nEn = body.split('summary:"' + DEF_EN).length - 1;
+    if (nJa !== 2 || nEn !== 2) bad.push(`🕶️🕳️ の summary の冒頭の定義 ja ${nJa}・en ${nEn}(各 2)`);
+    for (const [nm, t] of [['PHYSICS', Pd291], ['README', RM], ['AI_SPEC', AIS]]) if (t.indexOf(DEF_JA) < 0) bad.push(nm + ' に定義の 1 文が無い');
+    if (body.indexOf('実在のダークマターについての主張ではない') < 0) bad.push('群「自転と減光」の防御線が無い');
+    cases.push(`定義の 1 文(ja/en)が 🕶️🕳️ の summary の冒頭に ${nJa}/${nEn}・PHYSICS・README・AI_SPEC にあり、防御線は残る`);
+    // ③ 機械鍵・ID・表示名・SYSTEM_PROMPT
+    const KEYS = { darkrotor: [21, 'eq'], rotorSolo: [20], selfRotor: [17], nebulaRotor: [7], darkRotor: [40], haloDimming: [1], 'darkrotor-pitch': [5], rotorInFStar: [12] };
+    const kc = Object.fromEntries(Object.keys(KEYS).map((k) => [k, html.split(k).length - 1]));
+    const lost = Object.keys(KEYS).filter((k) => KEYS[k][1] === 'eq' ? kc[k] !== KEYS[k][0] : kc[k] < KEYS[k][0]);
+    if (lost.length) bad.push('機械鍵の出現数が基点と違う(改名の疑い): ' + lost.map((k) => `${k} ${kc[k]}/${KEYS[k][0]}`).join(','));
+    const NAMES = [[/\{ id:"darkrotor", name:"光学迷彩矮星の銀河"/, /en:\{name:"Optical-Camouflage-Dwarf Galaxy"/],
+      [/\{ id:"rotorSolo", name:"光学迷彩矮星\(単体\)"/, /en:\{name:"Optical-Camouflage Dwarf \(Single Body\)"/],
+      [/\{ id:"selfRotor", name:"自己形成光学迷彩矮星 — /, /en:\{name:"Self-Assembling Optical-Camouflage Dwarf — /]];
+    NAMES.forEach(([a, b], k) => { if (!a.test(html) || !b.test(html)) bad.push('表示名が新しい語でない ' + ['🕶️', '🕳️', '🥚'][k]); });
+    const sp = (html.match(/const SYSTEM_PROMPT = `([\s\S]*?)`;/) || [])[1] || '';
+    if (!sp || sp.indexOf(OLD) >= 0 || sp.indexOf('光学迷彩矮星') < 0) bad.push('SYSTEM_PROMPT の語が新しい語でない');
+    cases.push('機械鍵 ' + Object.keys(KEYS).map((k) => `${k} ${kc[k]}`).join('・') + '(darkrotor は基点と同数・他は基点以上)・表示名 3 本・SYSTEM_PROMPT');
+    // ④ 「複素核」
+    for (const [nm, t] of [['html', html], ['状況の原稿', SRC], ['PHYSICS', Pd291], ['AI_SPEC', AIS], ['README', RM]]) {
+      let i = -1, n = 0; while ((i = t.indexOf('複素核', i + 1)) >= 0) if (!(t[i - 1] === '「' && (t[i + 3] === '」' || t.startsWith('便」', i + 3)))) n++;
+      if (n) bad.push(`${nm} に「複素核」${n} 件(言及の「」の外)`);
+    }
+    if (html.split('慣性決定力の核(相対移動×m/r²・手前/反対)').length - 1 !== 6) bad.push('アナロジー 6 本の説明の「慣性決定力の核」が 6 でない');
+    const CL = rd('CHANGELOG.md');
+    if ((CL.match(/^- \*\*第291便a\(/mg) || []).length !== 1) bad.push('CHANGELOG の第291便a の行が 1 行でない');
+    cases.push('「複素核」は言及の「」の外に 0(html・原稿・PHYSICS・AI_SPEC・README)・アナロジー 6 本の説明は「慣性決定力の核」・CHANGELOG の 1 行');
+    add('docs.terminologyOpticalCamouflage', bad.length === 0,
+      `**用語「光学迷彩矮星」(旧称: ダークローター)と「慣性決定力の核」**(第291便a・原仮定者の裁定(第81報)④・AN142・R132 —— 表示と文書の語だけ・ID と機械鍵は改名しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 8c1i) 第289便c(原仮定者の裁定(第79報)⑤「DFM の整理と修正」の複素決定力場の項・第79報で閉じた AN98/AN99・統括の検証項目 R121): **相対移動の核の便**(旧称「複素核便」)の 3 ブロック。
 // ----   **root では SKIP**(beta 線の器と正本 —— html は変えていない)。純関数 tests/lib-w289c-reldrag.mjs・lib-w289c-nearfar.mjs・
 // ----   器 tests/exp-w289c-reldrag.mjs・exp-w289c-nearfar.mjs・正本 tests/out/reldrag-w289c.json・nearfar-w289c.json。**エンジン未接続**(html に核の関数が無いことを見る)。
 // ----   ① behavior.relDragKernel …… 相対移動 r⁻³ 核の不変性 6 項(共通並進・等速で 0・自己除外・2 倍で 1/8・質量加重の作用反作用・1 体で 0)と一致点の拒否・
@@ -40533,7 +40622,7 @@ if (!FAST) {
   }
 }
 
-// ---- 第283便b(原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」・統括の検証項目 R84): docs.retired ----
+// ---- 第283便b(原仮定者の裁定(第73報)④「ダークローター〔現 光学迷彩矮星〕関連の一部は不用なので廃止の方向」・統括の検証項目 R84): docs.retired ----
 // ----   **退役**(familyRole:"retired")の契約を固定する。退役は**フラグ**であって削除ではない:
 // ----     ① 7 本(🕶️⚫🌑🐚⏳🌱🪩)が内蔵に残り familyRole が "retired"・全内蔵の familyRole が語彙 FAMILY_ROLES の中。
 // ----     ② サンプル一覧(選択ウィンドウ)に出ない —— 既定・「すべて表示」・ID の検索のどれでも 0 行。
@@ -43668,7 +43757,7 @@ if (!FAST) {
 }
 
 // ---- 第289便f(第79報で閉じた AN110・統括の検証項目 R124): docs.analogyKernelNote … アナロジーの原理サンプル 6 本(🌚🧩🛸💮🌰🥜)の説明に
-// ----   「第289便の時点では第79報の整理の複素核(相対移動×m/r²・手前/反対)では走っていない(share p=1 の q 付き場・連鎖は仮説)」の趣旨が
+// ----   「第289便の時点では第79報の整理の慣性決定力の核(相対移動×m/r²・手前/反対)では走っていない(share p=1 の q 付き場・連鎖は仮説)」の趣旨が
 // ----   **ja 1 文・en 1 文**ある:
 // ----     ① descStruct.summary(ja/en)に文がちょうど 1 回 / 6 本の physics が実際に share(p=1)・q 付き・kFrame=0・geoPN=3(文の裏づけ —— 宣言を読む)
 // ----     ② 原稿 tests/data-w279a-samplestatus-src.json の状況(ja/en)の末尾に要旨・概要(composeBrief)が上限内(ja 120・en 200)
@@ -43680,9 +43769,10 @@ if (!FAST) {
     console.log('SKIP docs.analogyKernelNote(対象に第289便f の説明の 1 文なし — root 等)');
   } else {
     const IDS = ['galaxyAnalogyBH', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'clusterAnalogyBH', 'clusterGrowthCopy', 'fixedCaptureCopy'];
-    const JA = '第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では、第289便の時点ではこの本は走っていない(走っているのは share p=1 の q 付き場で、連鎖は仮説)。';
-    const EN = 'As of wave 289 this sample does not run on the complex kernel of the report-79 restatement (DFM restatement and corrections: relative motion x m/r^2, near/far side); it runs on the share p=1 field with q, and the chain is a hypothesis.';
-    const G = '・第79報の複素核は未走行(p=1 の q 付き場)', GE = '; p=1 q-field, not the report-79 complex kernel';
+    const JA = '第79報の整理(DFM の整理と修正)の慣性決定力の核(相対移動×m/r²・手前/反対)では、第289便の時点ではこの本は走っていない(走っているのは share p=1 の q 付き場で、連鎖は仮説)。';
+    const EN = 'As of wave 289 this sample does not run on the inertial-determinacy kernel of the report-79 restatement (DFM restatement and corrections: relative motion x m/r^2, near/far side); it runs on the share p=1 field with q, and the chain is a hypothesis.';
+    // 第291便a(AN142・R132): 「複素核」→「慣性決定力の核」(状況の要旨は字数の上限 ja 120 のため「第79報の」を省いた)
+    const G = '・慣性決定力の核は未走行(p=1 の q 付き場)', GE = '; p=1 q-field, not the report-79 inertial kernel';
     const NO = /接続した|創発|引きずりが戻った|connected the complex|emerged/;
     const bad = [];
     const LS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
@@ -51967,7 +52057,7 @@ if (hasSwAutoCb) {
 // 🕳️rotorSolo(原仮定者指示)/ 🕸️cosmicweb(台帳4-68。🌋agnjet・☀️starcore は第245便で廃止)。
 // 対象(root)に該当プリセットが無い場合は各ブロック冒頭で SKIP する(beta 先行の段階導入)。
 
-// ---- 7z12) D1: behavior.rotorSolo — ダークローター単体。「暗さ」の②自光の掻出(lightSweep="auto"
+// ---- 7z12) D1: behavior.rotorSolo — 光学迷彩矮星単体。「暗さ」の②自光の掻出(lightSweep="auto"
 // ----      の実効値)と ③外来光線の掃き出し が別機構であることを、同一プリセット上の
 // ----      スピン用量反応で機械固定する(DERIVATIONS §17 の分解表をサンプル1件に落とし込んだもの)。
 // ----      光線の判定は tests/exp-darkrotor.mjs 実験A / tests/exp-darkness.mjs と同一
@@ -52391,7 +52481,7 @@ if (hasSwAutoCb) {
   }
 }
 
-// ---- 82B) 第82便B(創発の推進): behavior.selfrotor — 🥚selfRotor(自己形成ダークローター)。
+// ---- 82B) 第82便B(創発の推進): behavior.selfrotor — 🥚selfRotor(自己形成光学迷彩矮星)。
 // ----   「目標形状を初期条件に埋め込まず、局所則から構造が生成される」ことをノックアウト対照
 // ----   つきで機械固定する。本則(9000步=validT)+対照2本(融合オフ / コア種なし)を走らせ、
 // ----   claims の5窓(最大天体の質量比・J_core の継承個数・中心と周囲の実効減光・
