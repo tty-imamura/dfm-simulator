@@ -1,10 +1,10 @@
 {
- "when": "2026-10-01T22:11:22.417Z",
+ "when": "2026-10-03T01:21:28.237Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
-  "calauditWhen": "2026-10-01T22:11:21.772Z"
+  "calauditWhen": "2026-10-03T01:20:56.548Z"
  },
  "gate": {
   "nSigma": 3,
@@ -44,7 +44,7 @@
   "note": "**宣言表であって自動判定ではない**。CSV に行が無い対象は null を明示する(推測で当てない)"
  },
  "csvSummary": {
-  "rows": 433,
+  "rows": 460,
   "bodies": 73,
   "rowsWithSigma": 133,
   "sigmaBodies": [
@@ -538,127 +538,6 @@
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    },
    {
-    "id": "plutoCharonReal",
-    "emoji": "❄️",
-    "target": "カロン",
-    "kind": "period",
-    "meas": 551864.061362921,
-    "key": "Charon|orbital_period",
-    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
-    "declaredValue": 551856.43872,
-    "declaredSigma": 0.02592,
-    "applied": true,
-    "fallbackReason": null,
-    "appliedToJudgement": true,
-    "appliedSince": "第270便a(AD5)",
-    "previousRow": {
-     "value": 551854.08,
-     "sigma": null,
-     "unit": "s",
-     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
-     "primaryVerified": false
-    },
-    "valueDelta": 2.3587200000183657,
-    "residual": 7.6226429210510105,
-    "nSigma": 294.08344602820256,
-    "assessedStage": "h",
-    "primaryVerified": true,
-    "guards": {
-     "ok": false,
-     "missing": [
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": true,
-     "convergenceOk": false,
-     "verdict": "保留(数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(数値収束が未確認)",
-    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   },
-   {
-    "id": "plutoCharonReal",
-    "emoji": "❄️",
-    "target": "カロン",
-    "kind": "period",
-    "meas": 551864.061362921,
-    "key": "Charon|orbital_period",
-    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
-    "declaredValue": 551856.43872,
-    "declaredSigma": 0.02592,
-    "applied": true,
-    "fallbackReason": null,
-    "appliedToJudgement": true,
-    "appliedSince": "第270便a(AD5)",
-    "previousRow": {
-     "value": 551854.08,
-     "sigma": null,
-     "unit": "s",
-     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
-     "primaryVerified": false
-    },
-    "valueDelta": 2.3587200000183657,
-    "residual": 7.6226429210510105,
-    "nSigma": 294.08344602820256,
-    "assessedStage": "h",
-    "primaryVerified": true,
-    "guards": {
-     "ok": false,
-     "missing": [
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": true,
-     "convergenceOk": false,
-     "verdict": "保留(数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(数値収束が未確認)",
-    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   },
-   {
-    "id": "plutoCharonReal",
-    "emoji": "❄️",
-    "target": "カロン",
-    "kind": "period",
-    "meas": 551858.672345035,
-    "key": "Charon|orbital_period",
-    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
-    "declaredValue": 551856.43872,
-    "declaredSigma": 0.02592,
-    "applied": true,
-    "fallbackReason": null,
-    "appliedToJudgement": true,
-    "appliedSince": "第270便a(AD5)",
-    "previousRow": {
-     "value": 551854.08,
-     "sigma": null,
-     "unit": "s",
-     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
-     "primaryVerified": false
-    },
-    "valueDelta": 2.3587200000183657,
-    "residual": 2.2336250350344926,
-    "nSigma": 86.17380536398505,
-    "assessedStage": "h",
-    "primaryVerified": true,
-    "guards": {
-     "ok": false,
-     "missing": [
-      "観測量対応が未確定",
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": false,
-     "convergenceOk": false,
-     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
-    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   },
-   {
     "id": "uranusReal",
     "emoji": "💠",
     "target": "ミランダ",
@@ -902,13 +781,13 @@
   "note": "**「宣言後の初判定」は 4 値の横に置く**(上書きしない)。σ の無い宣言は行選択を決めるだけで、門へは 1 bit も入らない。"
  },
  "cutTally": {
-  "csv-sigma-empty": 86,
-  "kind-not-gated": 19,
+  "csv-sigma-empty": 84,
+  "kind-not-gated": 18,
   "unit-not-converted": 2,
-  "connected": 4
+  "connected": 1
  },
  "fourTally": {
-  "保留": 11,
+  "保留": 10,
   "否": 1
  },
  "presets": [
@@ -1023,16 +902,7 @@
   {
    "id": "plutoCharonReal",
    "emoji": "❄️",
-   "nQuantities": 7,
-   "nGatable": 5,
-   "nCondMismatch": 0,
-   "nSigmaConnected": 3,
-   "cuts": {
-    "connected": 3,
-    "kind-not-gated": 2,
-    "csv-sigma-empty": 2
-   },
-   "four": "保留"
+   "missing": true
   },
   {
    "id": "uranusReal",
@@ -1063,14 +933,14 @@
   {
    "id": "saturnZonalD68",
    "emoji": "📡",
-   "nQuantities": 5,
+   "nQuantities": 6,
    "nGatable": 4,
    "nCondMismatch": 0,
    "nSigmaConnected": 1,
    "cuts": {
     "connected": 1,
     "csv-sigma-empty": 3,
-    "kind-not-gated": 1
+    "kind-not-gated": 2
    },
    "four": "否"
   },
@@ -3580,386 +3450,6 @@
    "declaredFirst": null
   },
   {
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "name": "公転周期(kFrame=0 対照・同方向1周)",
-   "kind": "period",
-   "target": "カロン",
-   "unit": "s",
-   "obs": 551856.43872,
-   "meas": 551864.061362921,
-   "sigmaCard": null,
-   "csvBody": "Charon",
-   "csvQuantity": "orbital_period",
-   "csvRow": {
-    "value": 551856.43872,
-    "unit": "s",
-    "sigma": 0.02592,
-    "primaryVerified": true
-   },
-   "declaredApplied": true,
-   "csvRowLegacy": {
-    "value": 551854.08,
-    "unit": "s",
-    "sigma": null,
-    "primaryVerified": false,
-    "source": "NASA NSSDC Pluto Fact Sheet (archived)"
-   },
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": null,
-   "condMismatch": false,
-   "sigma": 0.02592,
-   "residual": 7.6226429210510105,
-   "nSigma": 294.08344602820256,
-   "numOk": true,
-   "gateStatusBefore": "数値未解決",
-   "verdict": "保留(数値収束が未確認)",
-   "guards": {
-    "ok": false,
-    "missing": [
-     "数値収束が未確認"
-    ],
-    "definitionDeclared": true,
-    "mappingResolved": true,
-    "convergenceOk": false,
-    "verdict": "保留(数値収束が未確認)",
-    "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-   },
-   "unitConvertedFirst": null,
-   "declaredFirst": {
-    "key": "Charon|orbital_period",
-    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
-    "declaredValue": 551856.43872,
-    "declaredSigma": 0.02592,
-    "applied": true,
-    "fallbackReason": null,
-    "appliedToJudgement": true,
-    "appliedSince": "第270便a(AD5)",
-    "previousRow": {
-     "value": 551854.08,
-     "sigma": null,
-     "unit": "s",
-     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
-     "primaryVerified": false
-    },
-    "valueDelta": 2.3587200000183657,
-    "residual": 7.6226429210510105,
-    "nSigma": 294.08344602820256,
-    "assessedStage": "h",
-    "primaryVerified": true,
-    "guards": {
-     "ok": false,
-     "missing": [
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": true,
-     "convergenceOk": false,
-     "verdict": "保留(数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(数値収束が未確認)",
-    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
-  },
-  {
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "name": "公転周期(旧 E6′-R の行)同方向1周〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
-   "kind": "period",
-   "target": "カロン",
-   "unit": "s",
-   "obs": 551856.43872,
-   "meas": 551864.061362921,
-   "sigmaCard": null,
-   "csvBody": "Charon",
-   "csvQuantity": "orbital_period",
-   "csvRow": {
-    "value": 551856.43872,
-    "unit": "s",
-    "sigma": 0.02592,
-    "primaryVerified": true
-   },
-   "declaredApplied": true,
-   "csvRowLegacy": {
-    "value": 551854.08,
-    "unit": "s",
-    "sigma": null,
-    "primaryVerified": false,
-    "source": "NASA NSSDC Pluto Fact Sheet (archived)"
-   },
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": null,
-   "condMismatch": false,
-   "sigma": 0.02592,
-   "residual": 7.6226429210510105,
-   "nSigma": 294.08344602820256,
-   "numOk": true,
-   "gateStatusBefore": "数値未解決",
-   "verdict": "保留(数値収束が未確認)",
-   "guards": {
-    "ok": false,
-    "missing": [
-     "数値収束が未確認"
-    ],
-    "definitionDeclared": true,
-    "mappingResolved": true,
-    "convergenceOk": false,
-    "verdict": "保留(数値収束が未確認)",
-    "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-   },
-   "unitConvertedFirst": null,
-   "declaredFirst": {
-    "key": "Charon|orbital_period",
-    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
-    "declaredValue": 551856.43872,
-    "declaredSigma": 0.02592,
-    "applied": true,
-    "fallbackReason": null,
-    "appliedToJudgement": true,
-    "appliedSince": "第270便a(AD5)",
-    "previousRow": {
-     "value": 551854.08,
-     "sigma": null,
-     "unit": "s",
-     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
-     "primaryVerified": false
-    },
-    "valueDelta": 2.3587200000183657,
-    "residual": 7.6226429210510105,
-    "nSigma": 294.08344602820256,
-    "assessedStage": "h",
-    "primaryVerified": true,
-    "guards": {
-     "ok": false,
-     "missing": [
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": true,
-     "convergenceOk": false,
-     "verdict": "保留(数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(数値収束が未確認)",
-    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
-  },
-  {
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "name": "公転周期 近点間(第250便d)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
-   "kind": "period",
-   "target": "カロン",
-   "unit": "s",
-   "obs": 551856.43872,
-   "meas": 551858.672345035,
-   "sigmaCard": null,
-   "csvBody": "Charon",
-   "csvQuantity": "orbital_period",
-   "csvRow": {
-    "value": 551856.43872,
-    "unit": "s",
-    "sigma": 0.02592,
-    "primaryVerified": true
-   },
-   "declaredApplied": true,
-   "csvRowLegacy": {
-    "value": 551854.08,
-    "unit": "s",
-    "sigma": null,
-    "primaryVerified": false,
-    "source": "NASA NSSDC Pluto Fact Sheet (archived)"
-   },
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": null,
-   "condMismatch": false,
-   "sigma": 0.02592,
-   "residual": 2.2336250350344926,
-   "nSigma": 86.17380536398505,
-   "numOk": true,
-   "gateStatusBefore": "mapping-unresolved",
-   "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
-   "guards": {
-    "ok": false,
-    "missing": [
-     "観測量対応が未確定",
-     "数値収束が未確認"
-    ],
-    "definitionDeclared": true,
-    "mappingResolved": false,
-    "convergenceOk": false,
-    "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
-    "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-   },
-   "unitConvertedFirst": null,
-   "declaredFirst": {
-    "key": "Charon|orbital_period",
-    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
-    "declaredValue": 551856.43872,
-    "declaredSigma": 0.02592,
-    "applied": true,
-    "fallbackReason": null,
-    "appliedToJudgement": true,
-    "appliedSince": "第270便a(AD5)",
-    "previousRow": {
-     "value": 551854.08,
-     "sigma": null,
-     "unit": "s",
-     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
-     "primaryVerified": false
-    },
-    "valueDelta": 2.3587200000183657,
-    "residual": 2.2336250350344926,
-    "nSigma": 86.17380536398505,
-    "assessedStage": "h",
-    "primaryVerified": true,
-    "guards": {
-     "ok": false,
-     "missing": [
-      "観測量対応が未確定",
-      "数値収束が未確認"
-     ],
-     "definitionDeclared": true,
-     "mappingResolved": false,
-     "convergenceOk": false,
-     "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
-     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
-    },
-    "verdict": "保留(観測量対応が未確定/数値収束が未確認)",
-    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
-  },
-  {
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "name": "共通重心の位置",
-   "kind": "other",
-   "target": null,
-   "unit": null,
-   "obs": null,
-   "meas": null,
-   "sigmaCard": null,
-   "csvBody": null,
-   "csvQuantity": null,
-   "csvRow": null,
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "kind-not-gated",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null
-  },
-  {
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "name": "半径振れ幅",
-   "kind": "other",
-   "target": null,
-   "unit": null,
-   "obs": null,
-   "meas": null,
-   "sigmaCard": null,
-   "csvBody": null,
-   "csvQuantity": null,
-   "csvRow": null,
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "kind-not-gated",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "門外(来歴の欄)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null
-  },
-  {
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "name": "実測(標準検出器): 離心率(カロン)",
-   "kind": "ecc",
-   "target": "カロン",
-   "unit": "-",
-   "obs": null,
-   "meas": 0.000013340793013251904,
-   "sigmaCard": null,
-   "csvBody": "Charon",
-   "csvQuantity": "eccentricity",
-   "csvRow": {
-    "value": 0,
-    "unit": "1",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null
-  },
-  {
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "name": "実測(標準検出器): 近点移動(カロン)",
-   "kind": "precession",
-   "target": "カロン",
-   "unit": "deg/orbit",
-   "obs": null,
-   "meas": -0.0035154897985681033,
-   "sigmaCard": null,
-   "csvBody": "Charon",
-   "csvQuantity": "periastron_advance",
-   "csvRow": {
-    "value": 0,
-    "unit": "deg/yr",
-    "sigma": null,
-    "primaryVerified": false
-   },
-   "declaredApplied": false,
-   "csvRowLegacy": null,
-   "ad8Converted": false,
-   "previousUnit": null,
-   "cut": "csv-sigma-empty",
-   "condMismatch": false,
-   "sigma": null,
-   "residual": null,
-   "nSigma": null,
-   "numOk": null,
-   "gateStatusBefore": "未判定",
-   "verdict": "保留(σ 未登録)",
-   "guards": null,
-   "unitConvertedFirst": null,
-   "declaredFirst": null
-  },
-  {
    "id": "uranusReal",
    "emoji": "💠",
    "name": "公転周期(ミランダ/アリエル・周回実測)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ミランダ)",
@@ -5191,6 +4681,35 @@
   {
    "id": "saturnZonalD68",
    "emoji": "📡",
+   "name": "否の要因(第280便e の診断・履歴)",
+   "kind": "other",
+   "target": null,
+   "unit": null,
+   "obs": null,
+   "meas": null,
+   "sigmaCard": null,
+   "csvBody": null,
+   "csvQuantity": null,
+   "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "kind-not-gated",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
    "name": "実測(標準検出器): 離心率(D68)",
    "kind": "ecc",
    "target": "D68",
@@ -6023,32 +5542,6 @@
    "obsPresent": 0
   },
   {
-   "key": "Charon|eccentricity",
-   "body": "Charon",
-   "target": "カロン",
-   "quantity": "eccentricity",
-   "kind": "ecc",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "❄️"
-   ],
-   "nQuantities": 1,
-   "obsPresent": 0
-  },
-  {
-   "key": "Charon|periastron_advance",
-   "body": "Charon",
-   "target": "カロン",
-   "quantity": "periastron_advance",
-   "kind": "precession",
-   "cut": "csv-sigma-empty",
-   "presets": [
-    "❄️"
-   ],
-   "nQuantities": 1,
-   "obsPresent": 0
-  },
-  {
    "key": "Ariel|orbital_period",
    "body": "Ariel",
    "target": "アリエル",
@@ -6460,10 +5953,10 @@
   ]
  },
  "conclusion": {
-  "connected": 4,
+  "connected": 1,
   "unverified": 0,
-  "missingForJudgement": 65,
-  "note": "**接続後に判定が出た量がある**(表を読むこと)。第270便a(AD5/AD8)で σ が門へ届いた行は 4 件で、そのうち 3σ の合否が出たのは 1 件である。**残りは「保留」である**(数値収束・写像・σ 未登録)—— 保留は否定ではない。**合否が出たことは較正が進んだことではない** —— 出た合否の中身は 4 値の表を読むこと。",
+  "missingForJudgement": 63,
+  "note": "**接続後に判定が出た量がある**(表を読むこと)。第270便a(AD5/AD8)で σ が門へ届いた行は 1 件で、そのうち 3σ の合否が出たのは 1 件である。**残りは「保留」である**(数値収束・写像・σ 未登録)—— 保留は否定ではない。**合否が出たことは較正が進んだことではない** —— 出た合否の中身は 4 値の表を読むこと。",
   "doNotWrite": [
    "太陽系の現実較正を完了した",
    "σ を繋いだので合格した",
