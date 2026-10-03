@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-  "generatedAt": "2026-10-03T06:20:58.740Z",
+  "targetSha256": "0e33bd32af2b0f11c0a45485f9b7fd85db2992e2de915dd05577225245c8a8aa",
+  "generatedAt": "2026-10-03T23:13:40.679Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5529715,
-    "sha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-    "mtime": "2026-10-03T03:49:52.710Z"
+    "bytes": 5632782,
+    "sha256": "0e33bd32af2b0f11c0a45485f9b7fd85db2992e2de915dd05577225245c8a8aa",
+    "mtime": "2026-10-03T23:12:05.149Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1814041,
-    "sha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
-    "mtime": "2026-10-03T05:31:51.242Z"
+    "bytes": 1814913,
+    "sha256": "212279e541485ff204966ddf619fd1fbfa59789ef6158a46ea4b7296a63a5391",
+    "mtime": "2026-10-03T22:22:04.961Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -50,17 +50,17 @@
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 83801,
-    "sha256": "49680827a751620c6fe11dce1dfb3216495e4e593f8aa12de29b72a09eeb5b66",
-    "mtime": "2026-10-03T06:20:58.690Z"
+    "bytes": 83826,
+    "sha256": "dc8db6bac6cffc38991a75a99f016d8bde4c2a14645f1e0ce1e6466b36afe10c",
+    "mtime": "2026-10-03T23:13:40.629Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w283b-families.mjs",
-    "bytes": 40123,
-    "sha256": "b8f5585c87ee1d7fe06c782f9aa9d78c023a167b353b72cf865e1715676075ad",
-    "mtime": "2026-10-03T00:49:33.994Z"
+    "bytes": 40148,
+    "sha256": "884d4a70768114b8d110574de1be692d4475b3327753cc3a6fad4aba7d35ea97",
+    "mtime": "2026-10-03T18:41:45.087Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -76,9 +76,9 @@
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
-    "bytes": 23807,
-    "sha256": "90091abbf1b678d6763d5f0a520c43a5eef18c6320506d3a09b1ec90e04dc1b6",
-    "mtime": "2026-10-02T23:11:02.948Z"
+    "bytes": 26899,
+    "sha256": "7dbafff1bd489a344482e50f59b9527d6739a17438680846edc887aec172887c",
+    "mtime": "2026-10-03T18:52:15.620Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 233874,
-    "sha256": "d9d2a62f6f25cec1f56ad283959516eb72070220f7bfa3522f67989f9ff3f592",
-    "mtime": "2026-10-03T00:49:33.992Z"
+    "bytes": 236693,
+    "sha256": "62ac8696d1e4245a7a11a6c4dc458de091626deb4a9c9329489138a2d0696428",
+    "mtime": "2026-10-03T19:20:22.715Z"
    }
   ],
-  "codeSha256": "2b880d5ab65b6ea536c2e75bf0506754618195a619f8e064334b13bd09c38074",
+  "codeSha256": "72cdedd0474da360be01abc0eaa79bdd5ccd58f21ce5e0028cd9fd9b17b3284c",
   "harnessVersion": "w283b-families-1",
   "scope": {
    "version": "w286d-scope-4",
@@ -116,16 +116,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 921,
-   "segments": 835,
-   "closureShare": 0.3472
+   "names": 956,
+   "segments": 867,
+   "closureShare": 0.3505
   },
-  "scopeSha256": "d820bce5e92cb8c9f7332de07dc3c6bb84eba99b9fffefdc59b7e0c79b685657",
+  "scopeSha256": "4977c5f3ae0742d23d15a77313090c9fc375155fdd98bcb6386a91aefd085b8d",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "0f76358598e8fa8bc01abef3a1f2a4a254bf636e61952a66464e8d559b95f699",
+    "stableSha256": "875aeb28089a7343d411c0e20595ef5123956a47b512f77a2868d1bb535b671e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "2d64ef59b19c6e7e247a93196f22434be980eaf86c0c229f5f47e9a032021411",
+    "stableSha256": "4635df1b9054230d3b779a789d35c6a074cd51f1fa3c19b23516580004af3274",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -227,7 +227,7 @@
    "畳まない組: 較正の派生値が kF0 版と DFM 版で違う組(観測版と DFM 版を 1 ID にしない)"
   ]
  },
- "ruling": "原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター関連の一部は廃止の方向",
+ "ruling": "原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向",
  "reading": "統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)",
  "notClaim": [
   "統合した",
@@ -244,11 +244,11 @@
  "counts": {
   "families": 23,
   "members": 87,
-  "retiredMembers": 31,
+  "retiredMembers": 32,
   "role": {
    "主系列": 27,
-   "診断": 10,
-   "履歴": 31,
+   "履歴": 32,
+   "診断": 9,
    "比較": 19
   },
   "cand": {
@@ -307,8 +307,8 @@
      "emoji": "🌨️",
      "name": "冥王星とカロン(同一観測解)— geoPN=1 の対照(引きずり則なし)",
      "familyId": "pluto",
-     "familyRole": "variant",
-     "retired": false,
+     "familyRole": "retired",
+     "retired": true,
      "sampleClass": "principle",
      "catalog": null,
      "group": "現実較正",
@@ -328,8 +328,8 @@
      "gates": [],
      "presetSigHash": "9b837bbb",
      "accepted": true,
-     "roleEst": "診断",
-     "roleWhy": "principle・「対照」",
+     "roleEst": "履歴",
+     "roleWhy": "familyRole \"retired\"",
      "vsRef": {
       "bodies": {
        "count": true,
@@ -751,7 +751,7 @@
      "key": "familyRole",
      "values": {
       "plutoCharonDiagInput": "primary",
-      "plutoCharonKF0Control": "variant",
+      "plutoCharonKF0Control": "retired",
       "charonGeoToy3": "variant",
       "plutoCharonReal": "retired",
       "plutoCharonDFM": "retired",
@@ -785,6 +785,7 @@
    "candidates": [],
    "keepApart": [],
    "history": [
+    "plutoCharonKF0Control",
     "plutoCharonReal",
     "plutoCharonDFM",
     "plutoCharonSyncZero"
@@ -4105,7 +4106,7 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": "vertex",
-     "purpose": "中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー",
+     "purpose": "中心 DFM 版 BH と恒星質量光学迷彩矮星を力学の質量要素に置いた銀河アナロジー",
      "gates": [],
      "presetSigHash": "2a6ae845",
      "accepted": true,
@@ -6492,7 +6493,7 @@
   },
   {
    "key": "rotor",
-   "ja": "ダークローター(退役の文脈)",
+   "ja": "光学迷彩矮星(退役の文脈)",
    "ref": "rotorSolo",
    "ids": [
     "rotorSolo",
@@ -6510,7 +6511,7 @@
     {
      "id": "rotorSolo",
      "emoji": "🕳️",
-     "name": "ダークローター(単体)",
+     "name": "光学迷彩矮星(単体)",
      "familyId": "darkcenter",
      "familyRole": "primary",
      "retired": false,
@@ -6529,7 +6530,7 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "単体ローターの掻き出しと減光を測る",
+     "purpose": "単体の光学迷彩矮星の掻き出しと減光を測る",
      "gates": [
       "behavior.rotorSolo"
      ],
@@ -6596,7 +6597,7 @@
     {
      "id": "selfRotor",
      "emoji": "🥚",
-     "name": "自己形成ダークローター — 種から育つ暗い中心",
+     "name": "自己形成光学迷彩矮星 — 種から育つ暗い中心",
      "familyId": "rotorform",
      "familyRole": "primary",
      "retired": false,
@@ -6658,7 +6659,7 @@
     {
      "id": "darkrotor",
      "emoji": "🕶️",
-     "name": "ダークローターの銀河",
+     "name": "光学迷彩矮星の銀河",
      "familyId": "darkcenter",
      "familyRole": "retired",
      "retired": true,
@@ -6677,7 +6678,7 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "暗いローターが作る腕の強さと減光を測る",
+     "purpose": "暗い光学迷彩矮星が作る腕の強さと減光を測る",
      "gates": [
       "behavior.darkrotor-multiseed",
       "behavior.darkrotor-pitch",
@@ -7446,6 +7447,7 @@
    "mercuryRealKF1",
    "plutoCharonReal",
    "plutoCharonDFM",
+   "plutoCharonKF0Control",
    "plutoCharonSyncZero",
    "alphaCenABDFM",
    "siriusABDFM",
@@ -8545,9 +8547,9 @@
    }
   ],
   "qaRefs": {
-   "darkrotor": 138,
+   "darkrotor": 144,
    "bhCore": 44,
-   "nebulaRotor": 15,
+   "nebulaRotor": 17,
    "nebulaShell": 14,
    "nebulaBipolar": 21,
    "starSeed": 15,
@@ -8586,6 +8588,7 @@
    "nebulaRotor",
    "nebulaShell",
    "plutoCharonDFM",
+   "plutoCharonKF0Control",
    "plutoCharonReal",
    "plutoCharonSyncZero",
    "psrB1534CF",
@@ -8606,5 +8609,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.735
+ "elapsedS": 0.645
 }
