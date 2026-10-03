@@ -2253,6 +2253,9 @@ ja: {
   // 「再生1秒 ≈ 宇宙の何秒か」(公称60fps: 1秒 = SUBSTEPS·DT·60·倍率 単位 = ×10^eT 秒)を併記。
   // 第96便(原仮定者指示): 倍率は「時間倍率×フッターの簡易倍率」を1フレーム上限(24步=12倍)で
   // クランプした**実際に計算で使う実効値**を表示する(呼び出し側 tsEff)
+  // 第291便b(R133): 「GR 1PN 準拠」の表示(実行条件で判定 —— 表示だけ・実行は禁止しない)
+  pn1GRLine:(c)=>`GR 1PN 準拠(実行条件): ${c.ok? "条件内" : "条件外 — "+c.reasons.join("・")}(源 ${c.nSources}/${c.nMass}・ε=${c.softening})`,
+  pn1GRTip:"EIH 経路(geoPN=1∧kFrame=0)・λ_PN=1・pnα=1.5・全質量源・固定の天体なし・他の引きずり/外力なし・軟化 ε の宣言 —— 条件から外れても実行は止めない(表示だけ)。ε は Plummer 軟化で、点質量の 1PN と O(ε²/r²) で違う",
   hudScale:(x,eT,eM,t,ts)=>`スケール換算 長さ1=10^${Math.round(x*10)/10}m 時間1=10^${Math.round(eT*10)/10}s 質量1=10^${Math.round(eM*10)/10}kg t≈${fmtSecs(t*Math.pow(10,eT))}(実効倍率${sciFmt(ts)}: 再生1s≈${fmtSecs(SUBSTEPS*DT*60*ts*Math.pow(10,eT))})`,   /* 第118便: 時間表示も単位変換(fmtSecs) */
   // 第74便: AI追加のスケール別雛形
   // 第103便: スケール雛形(aiTpl*)のキー群は撤去(第74便UIの撤去に伴う)
@@ -3216,6 +3219,9 @@ en: {
   scaleExpMDesc:"The mass exponent log₁₀(kg per mass-unit) used by the converted display. Display only — no effect on physics. Loading a sample overwrites it with the scale-tag default (everyday: 0.0)",
   // wave 130: the eC (c₀ display-calibration) slider was retired, so its label/description keys
   // are removed here too (ja/en together). Light-speed conversion is fixed to the per-tier x−eT
+  // wave 291b (R133): the "GR 1PN conformance" display (judged from the run conditions — display only, the run is never refused)
+  pn1GRLine:(c)=>`GR 1PN conformance (run conditions): ${c.ok? "within" : "outside — "+c.reasons.join(", ")} (sources ${c.nSources}/${c.nMass}, eps=${c.softening})`,
+  pn1GRTip:"EIH path (geoPN=1 with kFrame=0), lambda_PN=1, pnAlpha=1.5, every massive body a source, no pinned body, no other dragging or external force, the declared softening eps — leaving the conditions never stops the run (display only). eps is Plummer softening, which differs from point-mass 1PN at O(eps^2/r^2)",
   hudScale:(x,eT,eM,t,ts)=>`scale conv: len1=10^${Math.round(x*10)/10}m time1=10^${Math.round(eT*10)/10}s mass1=10^${Math.round(eM*10)/10}kg t≈${fmtSecsEn(t*Math.pow(10,eT))} (effective rate ${sciFmt(ts)}: 1s of playback≈${fmtSecsEn(SUBSTEPS*DT*60*ts*Math.pow(10,eT))})`,
   // 第103便: スケール雛形(aiTpl*)のキー群は撤去(第74便UIの撤去に伴う)
   // wave 147: group rename (display only) — 銀河→銀河の物語 / 光→光の物語, plus the new
@@ -7075,6 +7081,41 @@ function lensExcludedRows(preset){
 // しきい値は c² に比例するため、ティア別実c値(☀️=3e4)では太陽級の質量でも閾値に届かない —
 // 観測較正プリセットが弱場の 1PN 源を宣言できる opt-in(既定=従来閾値・bit 不変)
 function pnSource(S, i){ return !!(S.pnOv && S.pnOv[i]) || S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
+// 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133): 上の pnSource は**実効の 1PN 源**(下の pnOv のビット 2 =
+// 軌道の全質量源の埋め込みを含む)。qLock の中心探索だけは従来の「宣言 pnSource:true か半径門」の意味で読む(pnSourceDeclared)。
+function pnSourceDeclared(S, i){ return !!(S.pnOv && (S.pnOv[i]&1)) || S.mEff[i] >= pnMassMin(S.params, S.R[i]); }
+// ===== 第291便b(原仮定者の裁定(第81報)⑤「geoPN=1 は GR の 1PN に揃える・観測値をそのまま使えるようにする」・R133) =====
+// **精査の結論**: EIH 型の 1PN 加速度(`dfmPN1Delta`・`_core` の試験粒子形)の式に天体半径は入っていない。半径が入っていたのは
+// **源の選別**だけ —— `pnMassMin(p,R)=(RAY_ALPHA_MIN/4)·max(R,ε)·c²/G` は**光線描画の偏向角の省略基準**(RAY_ALPHA_MIN=0.02 rad)の
+// 写しで、GR の 1PN の存在条件ではない。この門のため、源の宣言(pnSource:true)を持たない軽い天体(🥶 のカロン等)は
+// 1PN の場を作らず「受けるだけ」になっていた。
+// **本便の契約(軌道の EIH 経路 = kF0: geoPN=1 ∧ kFrame=0 と互換入力 geoPN=2 ∧ kFrame=0)**: 1PN の源は**全質量源**
+// (`pnOrbitalSource` —— 有限の正の有効質量 ∧ 受理された試験粒子でない ∧ `pnSource:false` の明示で除外していない)。
+// `S._core` は 1 命令も変えない: `_core`・特別化カーネル・試験粒子経路・`dfmPN1Delta` はどれも源を `pnOv[j] || m≥pnK·max(R,ε)` で読むので、
+// kF0 の間だけ `S.pnOv` のビット 2 を全質量源で埋める(`pnOrbitalSync` —— build の最後と geoCoreDispatch の入口)。kF0 を離れたら
+// ビット 2 を消して宣言(ビット 1)だけに戻す。**光線描画の門(rayMassMin・rayHeavy・光線キャッシュ鍵)は不変**。
+// geoPN=2 ∧ kFrame>0(q 近似)と geoPN=3 の `dfmGeo3PNKick` は kF0 でないので源集合は従来のまま(本便では変えない)。
+// 限定: `pnSource:false` は**半径門より軽い天体**の除外だけに効く —— 門を超える天体は `_core` の閾値が源として読む(`_core` を変えない)。
+function pnOrbitalSource(S, i){
+  const me=S.mEff[i];
+  if(!(me>0) || !isFinite(me)) return false;                                // 有限の正の有効質量
+  if(S.hasTestParticle===true && S.tpFlag && S.tpFlag[i]===1) return false;   // 受理された試験粒子は受けるだけ(第283便c の契約)
+  if(S.pnOff && S.pnOff[i]===1) return false;                                // pnSource:false の明示
+  return true;
+}
+// kF0 の判定(geoCoreDispatchBody と同じ 2 フラグ: 0<geoPN<3 ∧ kFrame≤0)
+function pnOrbitalKF0(p){ const g=p.geoPN; return (g>0 && g<3 && !(p.kFrame>0)); }
+// S.pnOv のビット 2 を kF0 なら全質量源で埋め、kF0 でなければ消す(ビット 1 = 宣言 pnSource:true は触らない)。戻り値 = 源の数(kF0 以外は −1)
+function pnOrbitalSync(S){
+  const ov=S.pnOv, n=S.n; if(!ov) return -1;
+  if(pnOrbitalKF0(S.params)){
+    let k=0;
+    for(let i=0;i<n;i++){ const s=pnOrbitalSource(S,i); ov[i]=(ov[i]&1)|(s?2:0); if(s) k++; }
+    S._pnOrb=1; return k;
+  }
+  if(S._pnOrb===1){ for(let i=0;i<n;i++) ov[i]&=1; S._pnOrb=0; }
+  return -1;
+}
 
 // 第74便: 5段階スケール(scaleTier)— UI分類・表示換算専用のメタデータ。
 // **物理エンジンには一切使わない**(ChatGPT レビュー §8「スケールを物理入力にしない」採択 —
@@ -13533,7 +13574,7 @@ const BUILTIN_PRESETS = [
 { id:"plutoCharonKF0Control", name:"冥王星とカロン(同一観測解)— geoPN=1 の対照(引きずり則なし)", emoji:"🌨️", group:"現実較正",   // 第288便b(原仮定者の裁定(第78報)④「kF0 版の名称もタイトルから削る」): 表示名だけ(ID は不変・presetSig は name を見ない)
   // 第280便d(原仮定者の裁定(第70報)「まとめても良い」): familyRole を "control" → "variant"(**表示専用** ——
   // presetSig は familyRole を見ない)。入口は ❄️ の 1 つにまとめ(第290便b で入口は 🥶 へ —— ❄️ は退役・履歴)、役割名は FAMILY_VARIANT_LABEL が出す。ID は削除しない
-  familyId:"pluto", familyRole:"variant",
+  familyId:"pluto", familyRole:"retired",   // 第291便b(原仮定者の裁定(第81報)③ —— 第80報の提案 AN124 に「概ね同意」): 退役(内蔵に残す・ID・物理・保存 JSON は不変)。旧: variant
   scaleTier:"planetary",
   scaleExp:{L:5, T:1, M:24},
   integrator:"leapfrog",   // 第278便b: ⛄ と同じ積分器(対照は 1 か所 — relativeDrag の有無 — だけが違う)
@@ -13632,7 +13673,7 @@ const BUILTIN_PRESETS = [
   notClaim:["solar_cal"],
   obsCard:[
     {q:"同方向1周(第2周)— 3 刻み", model:"551863.659899 / .659853 / .659841 s(dt 0.16/0.08/0.04)・第5周 551863.659842 s", obs:"—(入力を整えた二体の kF0 —— 門ではない)"},
-    {q:"Buie 2012 二体 P との差(比較値)", model:"+7.221 s・+278.6σ(門ではない —— 入力は PLU060 の解・目標は Buie の二体当てはめ)", obs:"551856.43872±0.02592 s"},
+    {q:"Buie 2012 二体 P との差(比較値)", model:"551863.655525 s(閉じた式)—— **保留(数値未解決+写像未解決)**: 現在の GM と a から得るニュートン二体周期は比較値より +7.216805 s(+278.426σ)長く、走行の残差(正本 calaudit のこの行)のほぼ全体を占める。刻みの細分化だけで消えるとは見込まない。1PN の源集合の是正(第291便b —— カロンも 1PN 源)でこの差は消えない(1PN の寄与は 10⁻⁷ s の桁)。閉じた式は器 charonInput の closedFormPeriod・closedFormResidual(門ではない —— 入力は PLU060 の解・目標は Buie の二体当てはめ)", obs:"551856.43872±0.02592 s"},
     {q:"PLU060 400年平均 P との差(σ なし)", model:"+7.765 s(暦の平均 a からケプラーの式で作る P は暦の平均 P より長い)", obs:"551855.8944 s"},
     {q:"❄️ の否の要因の鎖(第2周・dt 0.004)", model:"出発 +7.622 s → 入力の丸め +17.975 → 軟化 1km +7.201 → double +7.221 → leapfrog +7.221 s", obs:"—(Buie 比・§5.33)"},
     {q:"残る差の由来(閉じた式)", model:"PLU060 の同じ解の二体 P − Buie = +7.217 s。Buie の a・P が含意する GM は 972.030 km³/s²", obs:"975.4±0.5 km³/s²(PLU060)"},
@@ -13647,7 +13688,7 @@ const BUILTIN_PRESETS = [
   en:{name:"Pluto and Charon (cleaned two-body inputs) — the observed-input geoPN=1 control",
     obsCard:[
       {q:"Same-direction revolution (rev 2) — three steps", model:"551863.659899 / .659853 / .659841 s (dt 0.16/0.08/0.04); revolution 5: 551863.659842 s", obs:"— (kF0 two-body with cleaned inputs — not a gate)"},
-      {q:"Difference from the Buie 2012 two-body P (comparison)", model:"+7.221 s, +278.6 sigma (not a gate — the input is the PLU060 solution, the target is Buie's two-body fit)", obs:"551856.43872 +/- 0.02592 s"},
+      {q:"Difference from the Buie 2012 two-body P (comparison)", model:"551863.655525 s (closed form) — HOLD (NUMERICS UNRESOLVED + MAPPING UNRESOLVED): the Newtonian two-body period from the current GM and a is +7.216805 s (+278.426 sigma) longer than the comparison value and accounts for almost all of the run residual (this row of the calaudit canonical output). Refining the step alone is not expected to remove it. Correcting the 1PN source set (wave 291b — Charon is a 1PN source too) does not remove it (the 1PN contribution is of order 1e-7 s). The closed form is closedFormPeriod and closedFormResidual of the charonInput harness (not a gate — the input is the PLU060 solution, the target is Buie's two-body fit)", obs:"551856.43872 +/- 0.02592 s"},
       {q:"Difference from the PLU060 400-year mean P (no sigma)", model:"+7.765 s (Kepler's law applied to the ephemeris mean a gives a longer P than the ephemeris mean P)", obs:"551855.8944 s"},
       {q:"Chain of factors behind the snowflake sample's FAIL (rev 2, dt 0.004)", model:"start +7.622 s -> input rounding +17.975 -> softening 1 km +7.201 -> double +7.221 -> leapfrog +7.221 s", obs:"— (vs Buie, section 5.33)"},
       {q:"Where the remaining gap comes from (closed form)", model:"two-body P of the same PLU060 solution minus Buie = +7.217 s; Buie's a and P imply GM = 972.030 km^3/s^2", obs:"975.4 +/- 0.5 km^3/s^2 (PLU060)"},
@@ -20609,9 +20650,12 @@ function validatePreset(obj){
         // 第113便: pnSource=true — 1PN 源の明示宣言(偏向角しきい値 m≥pnK·max(R,ε) の上書き。
         // しきい値は c² に比例するため、ティア別実c値の観測較正では太陽級でも届かない — opt-in で解決。
         // true 以外は削除+警告(既定=従来閾値・書かないプリセットは 1 bit も不変)
+        // 第291便b(R133): pnSource:false も受理する —— kF0(軌道の EIH 経路)の全質量源から**明示で外す**宣言(既定は源)。
+        // 半径門を超える天体は `_core` の閾値が源として読むので、除外が効くのは門より軽い天体だけ(pnOrbitalSource の注記)
         if(b.pnSource!==undefined){
           if(b.pnSource===true) o.pnSource=true;
-          else warnings.push(at+".pnSource は true のみ受理 — 削除します");
+          else if(b.pnSource===false) o.pnSource=false;
+          else warnings.push(at+".pnSource は true か false のみ受理 — 削除します");
         }
         // 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv)): testParticle=true — **試験粒子契約**(既定 off)。
         // 宣言した粒子は力を受けるが**源にならない**(重力・決定力 W・フレーム u・1PN の反作用・E6′ 反作用の相手から外す)。
@@ -22857,6 +22901,7 @@ function makeSim(){
           // 第81便: コアv1(coreMR/coreSR/coreRR)は廃止 — コアは o.core(v2)だけが運ぶ
           lightSweep:(b.lightSweep===undefined?0:b.lightSweep),
           pnSrc:(b.pnSource===true?1:0),   // 第113便: 1PN源の明示フラグ(opt-in・既定0)
+          pnOff:(b.pnSource===false?1:0),  // 第291便b: kF0 の全質量源から明示で外す(既定0)
           radius:(b.radius===undefined?0:b.radius),
           rMul:(b.rMul===undefined?1:b.rMul),   // 第36便 C1: 粒子ごとの半径倍率(既定1)
           tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
@@ -23140,9 +23185,11 @@ function makeSim(){
     else { S.Tint=null; S.dQi=null; S.arep=null; S.arepD=null; S.duT=null; }
     S.zonal=null;   // E13(第11次裁定): 帯状重力属性を持つ中心天体(v1.29: AI生成・インポートにも開放)
     S.periDet=null; // 近点検出器は再構築でリセット(第11次裁定 保留分)
+    S.pnOff=null; S._pnOrb=0;   // 第291便b: pnSource:false の明示(宣言した本だけ確保)・kF0 の全質量源の埋め込みの印
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       S.pnOv[i]=o.pnSrc?1:0;   // 第113便: 1PN源の明示フラグ(single の pnSource:true)
+      if(o.pnOff){ if(!S.pnOff || S.pnOff.length!==P.length) S.pnOff=new Uint8Array(P.length); S.pnOff[i]=1; }   // 第291便b: pnSource:false(宣言が無ければ null のまま)
       // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
       // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
       const lsw=o.lightSweep;
@@ -23559,6 +23606,7 @@ function makeSim(){
     S.clampTN=0;
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
     testParticlePrepare(S);   // 第283便c: build の最後にも張り直す(build の途中の updateRadii は積分器・融合・相の宣言より前に走る)
+    pnOrbitalSync(S);         // 第291便b(R133): kF0 なら S.pnOv のビット 2 を全質量源で埋める(試験粒子契約の後 —— 受理された試験粒子は除く)
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
     const rs=S.params.radiusScale;
@@ -32250,6 +32298,8 @@ function syncHud(){
   // 1文字も増えない)。「要求→実行(+繰越)・ms/步・trim率・fps・実効倍率(要求倍率)・
   // 累積破棄」を1行にまとめる — レビューの切り分けがこの1行のスクリーンショットで済む
   if(stepDiagOn) txt+=`\n${stepDiagText()}`;
+  // 第291便b(R133): kF0(geoPN=1∧kFrame=0 と互換入力)の宇宙だけ「GR 1PN 準拠(実行条件)」を 1 行(表示だけ —— 他の宇宙では 1 文字も増えない)
+  if(pnOrbitalKF0(sim.params) && (sim.params.lambdaPN!==undefined? sim.params.lambdaPN : 1)>0){ const gc=pn1GRConformance(sim); if(gc) txt+=`\n${T("pn1GRLine")(gc)}`; }
   $("#hud").textContent=txt;
 }
 
@@ -32574,6 +32624,9 @@ const RETIRED_PRESETS={
   plutoCharonReal:{ja:"旧入力(丸めた a・4 桁の G・ε=50 km・Float32 の質量)の版で、入力を整えた 🥶 に現行の入口を集約した(第290便b)—— ❄️ の 4 値は 🥶 の結果ではない", en:"the build with the older inputs (rounded a, a four-digit G, epsilon 50 km, Float32 masses); the current entry point is the cleaned-input 🥶 (wave 290b) — ❄️'s four values are not 🥶's results", see:["plutoCharonDiagInput"]},
   plutoCharonDFM:{ja:"旧 pairSlip(相対すべり則)の診断で、引きずり則の更新(第290便c の新経路)に伴い整理(第290便b)で退役した", en:"the diagnostic of the old pairSlip (relative-slip law), retired in the clean-up (wave 290b) along with the update of the drag law (the new path of wave 290c)", see:["plutoCharonDiagInput"]},
   plutoCharonSyncZero:{ja:"旧 pairSlip の厳密同期円の零試験で、引きずり則の更新(第290便c の新経路)に伴い整理(第290便b)で退役した", en:"the exact synchronous-circle zero test of the old pairSlip, retired in the clean-up (wave 290b) along with the update of the drag law (the new path of wave 290c)", see:["plutoCharonDiagInput"]},
+  // 第291便b(原仮定者の裁定(第81報)③・統括の検証項目 R133): 🌨️ を退役(内蔵に残す・ID・物理・保存 JSON は不変)。⛄ の対照として作った本で、
+  //   ⛄ が退役(第290便b)して対照の目的が消えた。代わりに見る本は 🥶。凍結の写しは tests/fixtures/retired-w291b.json
+  plutoCharonKF0Control:{ja:"⛄ plutoCharonDFM の対照(引きずり則なし)として作った本で、⛄ の退役(第290便b)で対照の目的が消えた —— 第291便b で退役。冥王星とカロンの入口は 🥶", en:"built as the control (no dragging law) of ⛄ plutoCharonDFM; with ⛄ retired (wave 290b) its purpose as a control is gone — retired in wave 291b. The Pluto–Charon entry point is 🥶", see:["plutoCharonDiagInput"]},
 };
 function retiredOf(p){ return !!(p && p.familyRole==="retired"); }
 // 一覧から外す(読み込み中の本だけは選択の保持のため出す —— variant と同じ流儀)
@@ -34210,7 +34263,7 @@ applyPanelWide();
 let qLockOn=false;
 function qLockCalc(S){
   let src=-1;
-  for(let i=0;i<S.n;i++) if(pnSource(S,i)){ src=i; break; }
+  for(let i=0;i<S.n;i++) if(pnSourceDeclared(S,i)){ src=i; break; }   // 第291便b: 宣言か半径門(軌道の全質量源の埋め込みは読まない)
   if(src<0){ let mM=-Infinity; for(let i=0;i<S.n;i++) if(S.m[i]>mM && S.R[i]>0){ mM=S.m[i]; src=i; } }
   if(src<0) return null;
   const R=S.R[src], M=S.m[src], G=S.params.G, c=S.params.cLight;
@@ -38941,6 +38994,13 @@ function renderHelp(){
           r0.title=T("bdgCF_"+cb.status+"Tip")+"\n"+T("cfTipTail");
           box.appendChild(r0);
         }
+      }
+      // 第291便b(R133): kF0 の本だけ「GR 1PN 準拠(実行条件)」を派生行 1 行で(**クラスに ocRow を付けない** —— 宣言行の数え方は不変)。
+      // 読込中の sim の実行条件を読む(表示だけ)
+      if(sim && sim.params && pnOrbitalKF0(sim.params)){
+        const gc=pn1GRConformance(sim);
+        if(gc){ const rg=document.createElement("div"); rg.className="ffRow pn1GRRow"; rg.dataset.ok=gc.ok? "1" : "0";
+          rg.textContent="🧭 "+T("pn1GRLine")(gc); rg.title=T("pn1GRTip"); box.appendChild(rg); }
       }
       // 第288便e(第78報⑦・R117): 自転軸の宣言状況(SPIN_AXIS_BOOKS に行のある本だけ)を派生行 1 行で。**クラスに ocRow を付けない**
       // (宣言行の数え方は不変)。宣言の無い本は「未宣言」とその理由(観測記録に行が無い)を書く
@@ -48298,10 +48358,14 @@ function dfmTestParticleStep(S,dt,T,n0,n){
 // (gr-qc/0209089 §III)の調和座標の 1PN 相対加速度に一致し、近点移動は ν に依らず GR と同じ(器 tests/exp-w285b-pn1.mjs・
 // 参照実装 tests/lib-w285b-gr1pn.mjs)。**保存量は 1PN の量**(EIH のエネルギー・運動量 Σ∂L/∂v)であって Σm·v ではない。
 // **DFM から導出した項ではない**(kF0 対照 —— 標準理論の 1PN と照合する物差し)。geoPN=2 ∧ kFrame>0(DFM 版)は変えない。
-const PN1_EIH_VERSION="w285b-eih-1";
+// 第291便b(原仮定者の裁定(第81報)⑤・R133): 版を w291b-eih-2 へ —— **式は 1 文字も変えず源集合だけ**を「全質量源」にした
+// (半径門 pnMassMin は光線描画の省略基準で GR の 1PN の存在条件ではない —— pnOrbitalSource の注記)。上の「和は 1PN 源
+// (pnSource と同じ条件)だけ」の pnSource は、kF0 では `S.pnOv` のビット 2 を含む実効の源(= 全質量源)である。
+const PN1_EIH_VERSION="w291b-eih-2";
 const PN1_CONTRACT={version:PN1_EIH_VERSION, law:"PPN N-body 1PN (EIH at pnAlpha=1.5)", ppn:{beta:1, gamma:"pnAlpha-0.5"},
   coordinates:"harmonic", time:"coordinate time t (the simulation time)", role:"kF0 (lambdaPN=1 and kFrame=0: geoPN=1, and the compat input geoPN=2 with kFrame=0)",
-  sources:"sums run over 1PN sources only (pnSource: declared pnSource or m >= pnK*max(R,eps)); non-sources only receive",
+  sources:"EIH core: all finite-mass bodies are sources; active test particles only receive; the optical-angle/radius cutoff is for ray drawing only",
+  sourceExclusion:"pnSource:false excludes a body lighter than the ray-drawing cutoff (a heavier body stays a source through the unchanged _core threshold)",
   pinned:"pinned receivers receive nothing; a pinned source has g_b=0", softening:"Plummer, same as _core (1/r -> 1/sqrt(r^2+eps^2))",
   scale:"lambdaPN multiplies the whole 1PN term", conserved:"1PN energy and momentum (sum of dL/dv), not the Newtonian sum of m*v",
   split:"_core adds the test-particle form (core=1, no reaction); dfmPN1EIHKick adds Delta = EIH - test-particle form before _core",
@@ -48318,8 +48382,10 @@ function dfmPN1Delta(S,DX,DY){
   const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.mEff, R=S.R, pin=S.pinned, pnOv=S.pnOv;
   let T=S._pn1; if(!T || T.nAl<n) T=S._pn1={nAl:n, src:new Int32Array(n), phi:new Float64Array(n), gx:new Float64Array(n), gy:new Float64Array(n)};
   const src=T.src, phi=T.phi, gxA=T.gx, gyA=T.gy;
+  // 源の判定は `_core` と同じ式(kF0 では pnOv のビット 2 = 全質量源 —— 第291便b の pnOrbitalSync)
   let ns=0; for(let i=0;i<n;i++) if(pnOv[i] || m[i]>=pnK*Math.max(R[i],eps)) src[ns++]=i;
   if(ns===0) return 0;
+  if(ns>8) return dfmPN1DeltaWide(S,DX,DY);   // 第291便b: 源が多い宇宙(全質量源)は同じ式・同じ加算順の詰め替え版(結果はビット同一)
   for(let i=0;i<n;i++){   // Φ_i(源だけの和)と源のニュートン加速度 g_i(源だけの和・固定は 0)
     let ph=0, gx=0, gy=0;
     for(let k=0;k<ns;k++){ const j=src[k]; if(j===i) continue;
@@ -48346,6 +48412,53 @@ function dfmPN1Delta(S,DX,DY){
   }
   return nAny;
 }
+// 第291便b(R133): `dfmPN1Delta` の**源が多いとき**(ns>8 —— kF0 の全質量源で ⭐ の円盤・A/B の kFrame=0 側の銀河など)の詰め替え版。
+// 式・各和の加算の順・各項の演算の順は `dfmPN1Delta` と 1 文字も違わない(W=1/√(d²+ε²) は (i,j) と (j,i) で同じビットなので 1 対 1 回だけ作って控え、
+// 源の位置・速度・Gm・cVb·v_b²・Φ_b・g_b を源の番号順の詰めた配列へ写すだけ)—— 結果はビット同一(器 tests/exp-w291b-pnsources.mjs の照合と前後)。
+function dfmPN1DeltaWide(S,DX,DY){
+  const p=S.params, n=S.n, G=p.G, c=p.cLight;
+  const invC2=(p.lambdaPN!==undefined? p.lambdaPN : 1)/(c*c);
+  for(let i=0;i<n;i++){ DX[i]=0; DY[i]=0; }
+  if(!(n>=2) || !(invC2>0) || !(G>0)) return 0;
+  const pnA=(p.pnAlpha!==undefined? p.pnAlpha : 1.5), gam=pnA-0.5, cA=1+2*pnA;
+  const cVb=1+gam, cV2=1+2*gam, cAb=(3+4*gam)/2;
+  const pnK=(RAY_ALPHA_MIN/4)*(c*c)/G, eps=p.softening, eps2=eps*eps;
+  const x=S.x, y=S.y, vx=S.vx, vy=S.vy, m=S.mEff, R=S.R, pin=S.pinned, pnOv=S.pnOv;
+  let T=S._pn1W; if(!T || T.nAl<n) T=S._pn1W={nAl:n, src:new Int32Array(n), sk:new Int32Array(n), phi:new Float64Array(n), gx:new Float64Array(n), gy:new Float64Array(n),
+    sx:new Float64Array(n), sy:new Float64Array(n), svx:new Float64Array(n), svy:new Float64Array(n), sgm:new Float64Array(n), svb:new Float64Array(n), W:null};
+  const src=T.src, sk=T.sk, phi=T.phi, gxA=T.gx, gyA=T.gy;
+  let ns=0; for(let i=0;i<n;i++){ if(pnOv[i] || m[i]>=pnK*Math.max(R[i],eps)){ sk[i]=ns; src[ns++]=i; } else sk[i]=-1; }
+  if(ns===0) return 0;
+  if(!T.W || T.W.length<n*ns) T.W=new Float64Array(n*ns);
+  const WC=T.W, SX=T.sx, SY=T.sy, SVX=T.svx, SVY=T.svy, SGM=T.sgm, SVB=T.svb;
+  for(let k=0;k<ns;k++){ const j=src[k]; SX[k]=x[j]; SY[k]=y[j]; SVX[k]=vx[j]; SVY[k]=vy[j]; SGM[k]=G*m[j]; SVB[k]=cVb*(vx[j]*vx[j]+vy[j]*vy[j]); }
+  for(let i=0;i<n;i++){
+    let ph=0, gx=0, gy=0; const ki=sk[i], row=i*ns, xi=x[i], yi=y[i];
+    for(let k=0;k<ns;k++){ if(k===ki) continue;
+      const dx=xi-SX[k], dy=yi-SY[k], W=(ki>k)? WC[src[k]*ns+ki] : 1/Math.sqrt(dx*dx+dy*dy+eps2), Gm=SGM[k], f=Gm*W*W*W;
+      WC[row+k]=W;
+      ph+=Gm*W; gx-=f*dx; gy-=f*dy; }
+    phi[i]=ph; gxA[i]=pin[i]? 0 : gx; gyA[i]=pin[i]? 0 : gy;
+  }
+  const PB=T.pb||(T.pb=new Float64Array(T.nAl)), GBX=T.gbx||(T.gbx=new Float64Array(T.nAl)), GBY=T.gby||(T.gby=new Float64Array(T.nAl));
+  for(let k=0;k<ns;k++){ const j=src[k]; PB[k]=phi[j]; GBX[k]=gxA[j]; GBY[k]=gyA[j]; }
+  let nAny=0;
+  for(let a=0;a<n;a++){
+    if(pin[a]) continue;
+    const vax=vx[a], vay=vy[a], phA=phi[a], row=a*ns, ka=sk[a], xa=x[a], ya=y[a];
+    let sx=0, sy=0;
+    for(let k=0;k<ns;k++){ if(k===ka) continue;
+      const dx=xa-SX[k], dy=ya-SY[k], W=WC[row+k], Gm=SGM[k], q=Gm*W*W*W;
+      const vbx=SVX[k], vby=SVY[k], gbx=GBX[k], gby=GBY[k];
+      const dva=dx*vax+dy*vay, dvb=dx*vbx+dy*vby;
+      const s=SVB[k] - 2*cVb*(vax*vbx+vay*vby) - 1.5*dvb*dvb*W*W - cA*(phA-Gm*W) - PB[k] - 0.5*(dx*gbx+dy*gby);
+      sx+=s*(-q*dx) + q*(-cA*dva*vbx - cV2*dvb*(vax-vbx)) + cAb*Gm*W*gbx;
+      sy+=s*(-q*dy) + q*(-cA*dva*vby - cV2*dvb*(vay-vby)) + cAb*Gm*W*gby;
+    }
+    if(sx!==0 || sy!==0){ DX[a]=invC2*sx; DY[a]=invC2*sy; nAny++; }
+  }
+  return nAny;
+}
 // Δ を h だけ速度へ当てる(stateCarry:"double" は `_core` と同じ補償和)。Δ が 0 の受け手には 1 bit も触らない。
 function dfmPN1EIHKick(S,h){
   const n=S.n;
@@ -48361,6 +48474,37 @@ function dfmPN1EIHKick(S,h){
     } else { vx[i]+=kx; vy[i]+=ky; }
   }
   return 1;
+}
+// ===== 第291便b(R133): 「GR 1PN 準拠」の表示条件 —— **モード番号ではなく実行条件**で判定する(表示だけ) =====
+// 条件: EIH 経路(kF0)・λ_PN=1・pnAlpha=1.5(γ=1)・全質量源(有限の正の質量はすべて実効の 1PN 源)・kFrame=0・固定の天体なし・
+// 他の引きずり/外力なし(相対すべり則・一様外場・ハロー・スピン結合・軸力・コンパクト力・空間メッシュ・帯状重力・
+// 引きずりフック・GW 放射・接触の物質定数)・軟化 ε の宣言(Plummer の ε は点質量 1PN からのずれ O(ε²/r²) として**宣言を返す**)。
+// **条件から外れても実行は禁止しない**(判定は表示だけ —— 力学・保存 JSON・presetSig は 1 bit も変えない)。
+function pn1GRConformance(S){
+  if(!S || !S.params) return null;
+  const p=S.params, why=[];
+  if(!pnOrbitalKF0(p)) why.push("notKF0");
+  if(!((p.lambdaPN!==undefined? p.lambdaPN : 1)===1)) why.push("lambdaPN");
+  if(!((p.pnAlpha!==undefined? p.pnAlpha : 1.5)===1.5)) why.push("pnAlpha");
+  if(p.kFrame!==0) why.push("kFrame");
+  if(!(p.G>0) || !(p.cLight>0)) why.push("Gc");
+  let nMass=0, nSrc=0;
+  for(let i=0;i<S.n;i++){   // 有限の正の質量(受理された試験粒子を除く)が全部、実効の 1PN 源か
+    const me=S.mEff[i];
+    if(!(me>0) || !isFinite(me) || (S.hasTestParticle===true && S.tpFlag && S.tpFlag[i]===1)) continue;
+    nMass++; if(pnSource(S,i)) nSrc++;
+  }
+  if(S.pnOff && S.pnOff.some((v,i)=>v===1 && i<S.n)) why.push("pnSourceFalse");
+  if(nSrc<nMass) why.push("sources");
+  let anyPin=false; for(let i=0;i<S.n;i++) if(S.pinned[i]){ anyPin=true; break; }
+  if(anyPin) why.push("pinned");   // 固定の天体は拘束(EIH の自由な N 体ではない —— 試験粒子の極限の近似)
+  const ext=[["relativeDrag",S.hasRelativeDrag],["gravityXY",(p.gravityX||0)!==0 || (p.gravityY||0)!==0],["halo",!!p.halo],
+    ["spinSpin",S.hasSpinSpin],["axisForce",S.hasAxisForce],["compactForce",S.hasCompactForce],["spaceMesh",S.hasSpaceMesh||S.hasCoordInertia||S.hasMeshVelocity],
+    ["zonal",!!S.zonal],["dragHook",S._hookOn===1],["petersGW",p.petersGW===true],
+    ["contact",S.contactNone!==true && ((p.kRep>0)||(p.muF>0)||(p.gammaN>0)||(p.kappaS>0))]];
+  for(const [k,on] of ext) if(on) why.push(k);
+  return {ok:why.length===0, reasons:why, nMass, nSources:nSrc, softening:p.softening, version:PN1_EIH_VERSION,
+    note:"display only — the run is never refused; softening is Plummer (point-mass 1PN differs at O(eps^2/r^2))"};
 }
 // 第259便a: **geoPN=3 の dispatch 除外**(`S._core` には 1 命令も足さない)。
 // `S._core` は入口で `const n=S.n, p=S.params;` と読むだけなので、**`_core` を呼んでいる間だけ**
@@ -48388,6 +48532,8 @@ function dfmPN1EIHKick(S,h){
 // (`dfmPN1EIHKick` —— semi は dt・leapfrog は各パスの前に dt/2。第280便c の `dfmGeo3PNKick` と同じ相)。反作用は EIH 型の式に内在する
 // ので別途「返す」処理は無い。**`S._core` は 1 命令も変えない**。固定源 1 つ(☿・☄️・📡・💍・V18)は Δ が厳密に 0 なので 1 bit も変わらない。
 // geoPN=1 ∧ kFrame>0(受理器を通らない不整合)は従来どおり 2(v−u 則)・geoPN=2 ∧ kFrame>0(DFM 版)と 0・3 は 1 命令も変わらない。
+// 第291便b(R133): kF0 の 1PN 源は全質量源(`pnOrbitalSync` が `S.pnOv` のビット 2 を埋める)—— 受け手も源になるので、上の「固定源 1 つは Δ が
+// 厳密に 0」は受け手が `pnSource:false` を明示した宇宙だけの話になった(固定源の位置の Φ_b に受け手の場が入る —— EIH の項そのもの)。
 function geoCoreDispatch(S,dt,mode){
   if(S.contactNone===true){
     const p=S.params, gN=p.gammaN, mF=p.muF;
@@ -48399,6 +48545,7 @@ function geoCoreDispatch(S,dt,mode){
 }
 function geoCoreDispatchBody(S,dt,mode){
   const p=S.params, g=p.geoPN, kf0=(g>0 && g<3 && !(p.kFrame>0));   // 第285便b: kF0 の役割(2 フラグ: λ_PN=1・kFrame=0)
+  if(kf0 || S._pnOrb===1) pnOrbitalSync(S);   // 第291便b(R133): kF0 の 1PN 源 = 全質量源(S.pnOv のビット 2)。kF0 を離れたら宣言だけに戻す
   if(S.hasTestParticle){   // 第283便c: 試験粒子契約(未宣言は真偽値 1 つで素通り)
     if(!kf0){ dfmTestParticleCore(S,dt,mode); return; }
     dfmPN1EIHKick(S,(mode===0)? dt : dt*0.5); p.geoPN=GEO_CORE_PN[1]; try{ dfmTestParticleCore(S,dt,mode); } finally{ p.geoPN=g; } return; }
@@ -50706,6 +50853,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   obsBodyId, obsRangeCheck, obsDemoteSats, obsScaleFromL, obsScaleRel, OBS_M_MIN, OBS_R_MIN,
   // 第45便 45A(台帳4-48): 光線源/1PN源の偏向角しきい値(QA ray.alpha-threshold の機能判定子も兼ねる)
   RAY_ALPHA_MIN, rayMassMin, rayHeavy, pnMassMin, pnSource, rayKeyOf,
+  pnSourceDeclared, pnOrbitalSource, pnOrbitalKF0, pnOrbitalSync, pn1GRConformance,   // 第291便b(R133)
   // 第82便 A(光学輸送): 透過率の 1 本の式・基準波長・核の台係数・直近の光学的深さ統計。
   // すべて観測層(表示・診断)— QA / 実験ハーネスが表示と同じ量を読むための公開フック
   opticsTransmit:(tauRef,lam,lamRef,p)=>opticsTransmit(p||sim.params,tauRef,lam,lamRef),

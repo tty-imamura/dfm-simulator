@@ -55,7 +55,16 @@ export function definitionMixAudit() {
   const aBuieFromPluGM = Math.cbrt(gmPlu * 1e9 * BUIE_2012.periodSec * BUIE_2012.periodSec / (4 * Math.PI * Math.PI)) / 1e3;
   const oldGM = (OLD_INPUT.mPlutoKg + OLD_INPUT.mCharonKg) * OLD_INPUT.G_SI / 1e9;
   const s = BUIE_2012.sigmaSec, P0 = BUIE_2012.periodSec;
+  // 第291便b(原仮定者の裁定(第81報)⑤「観測値をそのまま使えるようにする」・R133): 🥶 の残差の分解を**機械で**出す欄。
+  //   現在の GM(Table 8 の和)と a(Table 10 の 400 年平均)から閉じた式で得るニュートン二体周期と、判定行の比較値(Buie 2012)との差。
+  //   GM の ±σ を独立 1σ と読んだ周期の不確かさ(δP/P = ½·δGM/GM)は**正式 σ に採用しない**(相関・水準が未確認)—— 欄として並べるだけ。
+  const closedFormPeriod = pPluAWithPluGM;
+  const closedFormResidual = { sec: pPluAWithPluGM - P0, sigma: (pPluAWithPluGM - P0) / s, sigmaSec: s,
+    comparedWith: 'Buie 2012 二体 P(判定行の比較値)', inputs: 'GM = Brozović & Jacobson 2024 Table 8(冥王星+カロン)・a = 同 Table 10 の 400 年平均' };
+  const closedFormGMSigmaReading = { periodSec: 0.5 * (gmPluSigma / gmPlu) * pPluAWithPluGM, adopted: false,
+    note: 'GM の ±σ を独立 1σ と読んだときの周期の幅(δP = ½·P·δGM/GM)—— 相関・水準が未確認なので正式 σ に採用しない' };
   return {
+    closedFormPeriod, closedFormResidual, closedFormGMSigmaReading,
     gmPlu060: gmPlu, gmPlu060Sigma: gmPluSigma,
     gmBuieImplied: gmBuie, gmBuieImpliedSigmaFromA: gmBuieSigmaFromA,
     gmGapKm3s2: gmPlu - gmBuie, gmGapInPluSigma: (gmPlu - gmBuie) / gmPluSigma,

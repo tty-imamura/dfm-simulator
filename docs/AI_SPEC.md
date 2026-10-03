@@ -3019,3 +3019,11 @@ shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", omega0,
 - 腕の中心線 r(s)=rMin+(rMax−rMin)s・φ_k(s)=φ₀+2πk/nArm+cot(p)·ln(r/r0)+Ω_p t(s は宣言の密度で固定)・横断と面外にだけ 2 階 OU。全体は剛体パターン回転 Ω_p(差動回転なし)。
 - 内蔵: 🍭 `shapeToySpiral`(中心なし)・🎢 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
 - 読み取り専用: `HP.shapeToySpiralState(S)`・`HP.shapeToySpiralCentreline(sp,k,s)`・`HP.validateShapeToySpiral`。器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json。QA: `preset.shapeToySpiral`・`behavior.spiralGeometry`・`docs.spiralRef`。
+
+## 39. 第291便b —— kF0 の 1PN の源集合(全質量源・`pnSource:false`)と 🌨️ の退役(原仮定者の裁定〔第81報〕⑤③・統括の検証項目 R133・**SYSTEM_PROMPT には載せない**)
+
+- **1PN 源の既定**(kF0 = `physics.geoPN:1` ∧ `kFrame:0`、互換入力 `geoPN:2` ∧ `kFrame:0`): **有限の正の質量を持つ天体はすべて 1PN 源**(EIH の全質量源)。半径に比例する門 `pnMassMin`(光線描画の偏向角の省略基準 RAY_ALPHA_MIN=0.02 rad)は kF0 の軌道では源を選ばない。受理された試験粒子(`testParticle:true` —— 第283便c の契約)は受けるだけ。
+- **body の `pnSource`**: `true`(従来どおり —— kF0 以外の経路〔geoPN=2 ∧ kFrame>0・geoPN=3 の reference-1PN〕で半径門を上書きして源にする)/ **`false`(本便で受理 —— kF0 の全質量源から明示で外す)**。`false` が効くのは半径門より軽い天体だけ(門を超える天体は源のまま)。それ以外の値は警告つきで削除。書かなければ既定(kF0 では源)。
+- **表示だけ**: HUD の 1 行と説明タブの観測結果カードの派生行「GR 1PN 準拠(実行条件)」(`HP.pn1GRConformance(S)` —— EIH・λ_PN=1・pnAlpha=1.5・全質量源・kFrame=0・固定の天体なし・他の引きずり/外力なし・軟化 ε の宣言)。条件から外れても実行は止めない。
+- 読み取り: `HP.pnOrbitalSource(S,i)`・`HP.pnOrbitalKF0(p)`・`HP.pnSourceDeclared(S,i)`(宣言か半径門の旧い意味)・`HP.pnSource(S,i)`(実効の 1PN 源)。契約 `PN1_CONTRACT` の版 `w291b-eih-2`(式は不変)。
+- **退役 1 本**: 🌨️ `plutoCharonKF0Control`(⛄ の対照として作った本 —— ⛄ の退役で目的が消えた・代わりは 🥶。凍結の写し `tests/fixtures/retired-w291b.json`)。家族 `pluto` の在位の variant は 🌒 だけになり、退役は ❄️・⛄・☃️・🌨️。

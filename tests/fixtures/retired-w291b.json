@@ -1,0 +1,373 @@
+{
+ "fixtureVersion": "w291b-retired-1",
+ "note": "退役 1 本(🌨️ plutoCharonKF0Control —— 原仮定者の裁定(第81報)③で確定した第80報の提案 AN124)の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・履歴の正本の参照が残る)。declChanges は基点と現行の宣言(sampleClass・familyId・familyRole・obsCard の行数)の差。presetSig は基点と同じ(宣言の欄は署名の外)。🌨️ は sampleClass:\"principle\" —— 較正母集団(calibration ∧ 退役でない)の数は変わらない。",
+ "ids": [
+  "plutoCharonKF0Control"
+ ],
+ "presets": {
+  "plutoCharonKF0Control": {
+   "emoji": "🌨️",
+   "name": "冥王星とカロン(同一観測解)— geoPN=1 の対照(引きずり則なし)",
+   "familyId": "pluto",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "principle",
+   "presetSigHash": "9b837bbb",
+   "presetSigSha256": "3c7443bb311830d1da2facd1c00cd8859896639bb4e7f1b329c3efba867984da",
+   "base": {
+    "rev": "cf2da0a",
+    "presetSigHash": "9b837bbb",
+    "name": "冥王星とカロン(同一観測解)— geoPN=1 の対照(引きずり則なし)",
+    "sigSame": true
+   },
+   "successor": "plutoCharonDiagInput",
+   "reason": "⛄ の対照(引きずり則なし)として作った本で、⛄ の退役(第290便b)で対照の目的が消えた(代わりに 🥶)",
+   "retiredNotice": {
+    "ja": "⛄ plutoCharonDFM の対照(引きずり則なし)として作った本で、⛄ の退役(第290便b)で対照の目的が消えた —— 第291便b で退役。冥王星とカロンの入口は 🥶",
+    "en": "built as the control (no dragging law) of ⛄ plutoCharonDFM; with ⛄ retired (wave 290b) its purpose as a control is gone — retired in wave 291b. The Pluto–Charon entry point is 🥶",
+    "see": [
+     "plutoCharonDiagInput"
+    ]
+   },
+   "pairDiff": {
+    "successor": "plutoCharonDiagInput",
+    "successorEmoji": "🥶",
+    "diff": {
+     "bodies[0].x": [
+      -21.31721225635357,
+      -21.315466069304904
+     ],
+     "bodies[0].vx": [
+      3.3746189324353684e-7,
+      0
+     ],
+     "bodies[0].vy": [
+      -0.0024266847512964917,
+      -0.0024268498546968042
+     ],
+     "bodies[1].x": [
+      174.65648081478,
+      174.6421739306951
+     ],
+     "bodies[1].vx": [
+      -0.0000027648974910141987,
+      0
+     ],
+     "bodies[1].vy": [
+      0.019882347354401884,
+      0.019883700081884368
+     ]
+    },
+    "n": 6,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 6
+    }
+   },
+   "raw": {
+    "id": "plutoCharonKF0Control",
+    "name": "冥王星とカロン(同一観測解)— geoPN=1 の対照(引きずり則なし)",
+    "emoji": "🌨️",
+    "group": "現実較正",
+    "familyId": "pluto",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 5,
+     "T": 1,
+     "M": 24
+    },
+    "integrator": "leapfrog",
+    "sampleClass": "principle",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "obsCard": [
+     {
+      "q": "欄(1) 暦の再現 — PLU060 400年平均 P との差(σ なし)",
+      "model": "第2周 551886.664 s(dt 0.04・3段が 1×10⁻¹⁰ 相対で一致)・+30.770 s・+55.76 ppm",
+      "obs": "551855.8944 s(PLU060 400年平均 — 合否は出さない)"
+     },
+     {
+      "q": "欄(2) 観測検定(Buie 2012 二体 P)",
+      "model": "**判定保留(量定義不一致)** — 比較値 +30.225 s・+1166.1σ(門ではない)",
+      "obs": "551856.43872±0.02592 s(二体ケプラー当てはめ)"
+     },
+     {
+      "q": "⛄ DFM 版との差(則の寄与)",
+      "model": "第2周 −1.373 s・第6周 −1.678 s(同じ leapfrog・dt 0.04)",
+      "obs": "—(同一入力・同一刻みの A/B。**この差だけが則の寄与**である)"
+     },
+     {
+      "q": "帳簿(運動量・J_z・E)",
+      "model": "P 1.1×10⁻¹⁶・J_z 3.4×10⁻¹⁴・E 7.0×10⁻¹⁴(dt 0.04・3公転)。自転は 1 bit も動かない",
+      "obs": "—(則が無いので自転への反トルクは存在しない)"
+     },
+     {
+      "q": "共通重心の位置",
+      "model": "冥王星中心から 21.317 単位=2132km=1.79 冥王星半径(表面の外)",
+      "obs": "—(GM 比 0.122052 からの導出)"
+     }
+    ],
+    "failureFirst": {
+     "fail": "**観測検定欄は「判定保留(量定義不一致)」である** —— 入力は同一暦 PLU060 の状態なので、Buie 2012 の二体 P の σ では判定しない(統括の検証項目 R53)。比較値として書けば第 2 周 551886.664 s は Buie に対して +30.225 s・+1166.1σ(**門ではない**)。**暦の再現欄**(σ なし・合否なし)では PLU060 の 400 年平均 P に対して **+30.770 s(+55.76 ppm)** —— 則の無い対照でも、同じ暦の入力から同じ暦の周期を 56 ppm 外している。⛄ との差は第 2 周で −1.373 s しかない —— **つまり差の本体は引きずり則ではなく、入力(6 体の暦を 2 体へ切り落とすこと・どの P を目標に取るか)と数値設定である**。**残差がゼロになる ε・a・f を探索して採用してはいない。**",
+     "pass": "**対照として意味のある最小の差**になっている: ⛄ と 1 か所(physics.relativeDrag の有無)だけが違い、質量・初期状態・刻み・ε・倍精度宣言・積分器(leapfrog)はすべて同一である(bodies は 1 bit 同じ)。則が無いので自転は宣言値のまま 1 bit も動かず、3 段の第 2 周は 551886.664176 / …130 / …119 s(刻み半減差 12 μs)で、第 2〜第 6 周は 1 μs 未満で同じ値を保つ(**則が無い側は定常**)。帳簿は運動量 1.1×10⁻¹⁶・J_z 3.4×10⁻¹⁴・E 7.0×10⁻¹⁴ で閉じる。フィットはゼロ。"
+    },
+    "descStruct": {
+     "summary": "**⛄ plutoCharonDFM と同一の入力**(Brozović & Jacobson 2024 Table 8 の GM から作った質量・JPL Horizons PLU060/DE440 元期 JD 2452600.5 の状態の軌道面射影・相互同期の宣言 ω=2π/551855.8944s)を、**精密単位**(1単位=10⁵m/10s/10²⁴kg)へ置いた **kF0 対照**(第277便b)。違うのは 1 か所だけ —— **physics.relativeDrag を宣言していない**。したがって働いているのは重力(E4)+測地線1PN(E12)だけで、kFrame=0 なので核の E6′ 運動引きずりも使わない。**2 本の差がそのまま新しい則の寄与**である。数値設定は ⛄ と同一(ε=0.01 単位=1km・massPrecision:\"double\"・stateCarry:\"double\"・geoPN=2・frameReaction:\"pairReduced\"・frameWeight:\"share\"・q=11.9386・D₀=0.006)で、**bodies は ⛄ と 1 bit 同じ**である。",
+     "observe": "**観測検定欄は「判定保留(量定義不一致)」**(統括の検証項目 R53)—— 比較値は第 2 周(dt 0.04)551886.664 s で Buie 2012(551856.43872±0.02592 s)に対して +30.225 s・+1166.1σ(門ではない)。**欄 (1) 暦の再現**(σ なし・合否なし): PLU060 400 年平均 P に対して +30.770 s(+55.76 ppm)・Horizons osculating PR 元期 A に対して +35.987 s。第278便b で積分器を ⛄ と同じ leapfrog にした: 3 段(dt=0.16/0.08/0.04)の第 2 周は 551886.664176 / 551886.664130 / 551886.664119 s(旧 semi は 551886.6663 / 551886.6652 / 551886.6646 s)で、第 2〜第 6 周は 1 μs 未満で同じ値である(**則の無い側は定常**)。⛄ との差は第 2 周で −1.373 s・第 6 周で −1.678 s で、**この差だけが則の寄与**である。則が無いので自転は宣言値 ω=1.1385554×10⁻⁴ のまま 1 bit も動かず、帳簿は運動量相対 1.1×10⁻¹⁶・J_z 相対 3.4×10⁻¹⁴・E 相対 7.0×10⁻¹⁴ で閉じる(dt 0.04・3 公転)。NaN ゼロ・クランプ 0・同一構成2回実行はビット同一(QA behavior.plutoCharonDFM が 2 本まとめて固定する)。",
+     "control": "ワンタップの対になるのは ⛄ plutoCharonDFM である(同じ入力に `relativeDrag:{law:\"pairSlip\",kappa:1,integration:\"midpoint\"}` を足しただけ・積分器は 2 本とも leapfrog)。**対照の使い方**: 2 本を同じ刻みで走らせて周期・接触要素・帳簿を並べる —— 差が出なければ「同期状態では引きずり補正が消える」という零条件がその配置で効いている、という**測った事実**が 1 行増える(「合った」ではない)。⛄ 側で κ=0 を宣言しても同じ周期になる(用量 0 の否定対照)。粒子表示は実半径のまま(dispMag=1)。",
+     "brief": "⛄ と同じ入力で則だけを外した kF0 対照。達・則なしで定常・⛄ との差 1.37 s を記帳。較正は判定保留(量定義不一致)・比較値 +30.2 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"
+    },
+    "en": {
+     "name": "Pluto and Charon (Same Observed Solution) — the geoPN=1 control with no dragging law",
+     "obsCard": [
+      {
+       "q": "Column 1, almanac reproduction — difference from the PLU060 400-year mean P (no sigma)",
+       "model": "revolution 2: 551886.664 s (dt 0.04; the three steps agree to 1e-10 relative), +30.770 s, +55.76 ppm",
+       "obs": "551855.8944 s (PLU060 400-year mean — no pass/fail is issued)"
+      },
+      {
+       "q": "Column 2, observational test (Buie 2012 two-body P)",
+       "model": "VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH) — comparison value +30.225 s, +1166.1 sigma (not a gate)",
+       "obs": "551856.43872 +/- 0.02592 s (two-body Kepler fit)"
+      },
+      {
+       "q": "Difference against the DFM build (the law's contribution)",
+       "model": "-1.373 s at revolution 2, -1.678 s at revolution 6 (same leapfrog, dt 0.04)",
+       "obs": "— (same inputs, same step: THIS DIFFERENCE IS THE WHOLE CONTRIBUTION OF THE LAW)"
+      },
+      {
+       "q": "Ledgers (momentum, J_z, E)",
+       "model": "P 1.1e-16, J_z 3.4e-14, E 7.0e-14 (dt 0.04, three orbits); the spins do not move a bit",
+       "obs": "— (with no law there is no reaction torque on the spins)"
+      },
+      {
+       "q": "The barycentre",
+       "model": "21.317 units = 2132 km = 1.79 Pluto radii from Pluto's centre",
+       "obs": "— (derived from the GM ratio 0.122052)"
+      }
+     ],
+     "failureFirst": {
+      "fail": "THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\": the inputs are one ephemeris's (PLU060) state, so the Buie 2012 two-body sigma is not used to judge it (check item R53). As a comparison value, revolution 2, 551886.664 s, is +30.225 s and +1166.1 sigma from Buie (NOT A GATE). In THE ALMANAC-REPRODUCTION COLUMN (no sigma, no pass/fail) it is +30.770 s (+55.76 ppm) from the PLU060 400-year mean — even the control without the law misses the same ephemeris's period by 56 ppm from the same ephemeris's input. The difference against the DFM build is only -1.373 s at revolution 2 — SO THE BULK OF THE DIFFERENCE IS NOT THE DRAGGING LAW BUT THE INPUTS (truncating a six-body ephemeris to two bodies, and which period is taken as the target) AND THE NUMERICAL SETTINGS. NO epsilon, a OR f WAS SEARCHED FOR TO ZERO THE RESIDUAL.",
+      "pass": "It is the SMALLEST MEANINGFUL DIFFERENCE for a control: exactly one thing (the presence of physics.relativeDrag) separates it from the DFM build; masses, initial state, step, epsilon, precision declarations and the integrator (leapfrog) are identical (the bodies are bit-identical). With no law the spins hold their declared values without moving a bit; revolution 2 over the three steps is 551886.664176 / ...130 / ...119 s (halving difference 12 microseconds), and revolutions 2 to 6 hold the same value to better than 1 microsecond (THE SIDE WITHOUT THE LAW IS STEADY). The ledgers close at 1.1e-16 (momentum), 3.4e-14 (J_z) and 7.0e-14 (energy) relative. Zero fits."
+     },
+     "descStruct": {
+      "summary": "THE SAME INPUTS AS plutoCharonDFM (masses from the Table 8 GM of Brozovic & Jacobson 2024, the orbital-plane projection of the JD 2452600.5 JPL Horizons PLU060/DE440 state, the declared mutual synchronism omega = 2 pi / 551855.8944 s), placed in PRECISION UNITS (1 unit = 1e5 m / 10 s / 1e24 kg) as THE kF0 CONTROL (wave 277b). Exactly one thing differs: PHYSICS.relativeDrag IS NOT DECLARED. So only gravity (E4) and the geodesic 1PN term (E12) act, and kFrame=0 keeps the core's E6' motion dragging out as well. THE DIFFERENCE BETWEEN THE TWO SAMPLES IS THE NEW LAW'S CONTRIBUTION. Every other setting matches the DFM build (epsilon = 0.01 unit = 1 km, massPrecision:\"double\", stateCarry:\"double\", geoPN=2, frameReaction:\"pairReduced\", frameWeight:\"share\", q=11.9386, D0=0.006), and THE BODIES ARE BIT-IDENTICAL.",
+      "observe": "THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\" (check item R53): the comparison value is revolution 2 (dt 0.04), 551886.664 s, +30.225 s and +1166.1 sigma from Buie 2012 (551856.43872 +/- 0.02592 s) — not a gate. COLUMN 1, ALMANAC REPRODUCTION (no sigma, no pass/fail): +30.770 s (+55.76 ppm) from the PLU060 400-year mean, +35.987 s from the Horizons osculating PR at epoch A. In wave 278b the integrator became leapfrog, as in the DFM build: revolution 2 over the three steps (dt = 0.16 / 0.08 / 0.04) is 551886.664176 / 551886.664130 / 551886.664119 s (the old semi values were 551886.6663 / 551886.6652 / 551886.6646 s), and revolutions 2 to 6 hold the same value to better than 1 microsecond (THE SIDE WITHOUT THE LAW IS STEADY). The difference against the DFM build is -1.373 s at revolution 2 and -1.678 s at revolution 6, AND THAT DIFFERENCE IS THE WHOLE CONTRIBUTION OF THE LAW. With no law the spins hold their declared omega = 1.1385554e-4 without moving a bit, and the ledgers close at 1.1e-16 (momentum), 3.4e-14 (J_z) and 7.0e-14 (energy) relative (dt 0.04, three orbits). Zero NaN, zero clamps; two runs are bit-identical (QA behavior.plutoCharonDFM fixes both samples together).",
+      "control": "Its one-tap counterpart is plutoCharonDFM (the same inputs plus relativeDrag:{law:\"pairSlip\",kappa:1,integration:\"midpoint\"}; both samples use leapfrog). HOW TO USE THE CONTROL: run both at the same step and line up the periods, the osculating elements and the ledgers. If no difference appears, that is ONE MEASURED FACT more — the zero condition (\"the dragging correction vanishes in a synchronous state\") is acting in that configuration — and NOT a statement that anything \"agrees\". Declaring kappa=0 on the DFM side gives the same period (a zero-dose negative control). Bodies are drawn at real radii (dispMag=1).",
+      "brief": "kF0 control: ⛄'s inputs without the law. Met: steady; the 1.37 s gap to ⛄ is recorded. Calibration: hold (definitions differ) — comparison +30.2 s vs Buie 2012; not gated until definitions match."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "the built-in G=6.674 (unchanged) and c0=29979.2458",
+       "GM of Pluto and Charon from Brozovic & Jacobson (2024) AJ 167 256 Table 8",
+       "the JD 2452600.5 TDB state vectors of JPL Horizons PLU060/DE440 (centre = Pluto system barycentre, ICRF)",
+       "the declared mutual synchronism omega = 2 pi / 551855.8944 s",
+       "the observed period 551856.43872 +/- 0.02592 s (Buie 2012 — COMPARED AGAINST, NOT FITTED TO)",
+       "the radii 1188 km and 606 km (carried over from the existing record)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 1e5 m / 10 s / 1e24 kg)",
+       "kFrame=0 AND no relativeDrag — the control side carries no dragging term at all",
+       "frameReaction:\"pairReduced\" (E6'-R), frameWeight:\"share\"",
+       "kRep=muF=gammaN=kappaS=0 / geoPN=2, lambdaPN=1, pnAlpha=1.5 / stateCarry:\"double\", massPrecision:\"double\"",
+       "two-body barycentric (both bodies free)",
+       "2D (the ecliptic-frame retrograde sign is not transcribed)"
+      ],
+      "fitted": [
+       "D0=0.006 (the shared value, used as is — zero fits in this system)"
+      ],
+      "derived": [
+       "the masses 1.3025172e22 kg and 1.5897513e21 kg (GM/G)",
+       "the projected 2D state",
+       "q=11.9386 (q_exact evaluated once at a=195.974)",
+       "kappa_T=G/c0^2=7.4258e-9",
+       "camera.scale=210, timeScale=1000, dispMag=1"
+      ],
+      "numerical": [
+       "softening epsilon=0.01 unit = 1 km",
+       "time multiplier timeScale=1000",
+       "display magnification dispMag=1 (display only)",
+       "three step sizes dt=0.16/0.08/0.04",
+       "integrator:\"leapfrog\" (wave 278b — the same as the DFM build)"
+      ]
+     },
+     "description": "THE SAME INPUTS AS plutoCharonDFM (masses from the Table 8 GM of Brozovic & Jacobson 2024, the orbital-plane projection of the JD 2452600.5 JPL Horizons PLU060/DE440 state, the declared mutual synchronism omega = 2 pi / 551855.8944 s), placed in PRECISION UNITS (1 unit = 1e5 m / 10 s / 1e24 kg) as THE kF0 CONTROL (wave 277b). Exactly one thing differs: PHYSICS.relativeDrag IS NOT DECLARED. So only gravity (E4) and the geodesic 1PN term (E12) act, and kFrame=0 keeps the core's E6' motion dragging out as well. THE DIFFERENCE BETWEEN THE TWO SAMPLES IS THE NEW LAW'S CONTRIBUTION. Every other setting matches the DFM build (epsilon = 0.01 unit = 1 km, massPrecision:\"double\", stateCarry:\"double\", geoPN=2, frameReaction:\"pairReduced\", frameWeight:\"share\", q=11.9386, D0=0.006), and THE BODIES ARE BIT-IDENTICAL.THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\" (check item R53): the comparison value is revolution 2 (dt 0.04), 551886.664 s, +30.225 s and +1166.1 sigma from Buie 2012 (551856.43872 +/- 0.02592 s) — not a gate. COLUMN 1, ALMANAC REPRODUCTION (no sigma, no pass/fail): +30.770 s (+55.76 ppm) from the PLU060 400-year mean, +35.987 s from the Horizons osculating PR at epoch A. In wave 278b the integrator became leapfrog, as in the DFM build: revolution 2 over the three steps (dt = 0.16 / 0.08 / 0.04) is 551886.664176 / 551886.664130 / 551886.664119 s (the old semi values were 551886.6663 / 551886.6652 / 551886.6646 s), and revolutions 2 to 6 hold the same value to better than 1 microsecond (THE SIDE WITHOUT THE LAW IS STEADY). The difference against the DFM build is -1.373 s at revolution 2 and -1.678 s at revolution 6, AND THAT DIFFERENCE IS THE WHOLE CONTRIBUTION OF THE LAW. With no law the spins hold their declared omega = 1.1385554e-4 without moving a bit, and the ledgers close at 1.1e-16 (momentum), 3.4e-14 (J_z) and 7.0e-14 (energy) relative (dt 0.04, three orbits). Zero NaN, zero clamps; two runs are bit-identical (QA behavior.plutoCharonDFM fixes both samples together).Its one-tap counterpart is plutoCharonDFM (the same inputs plus relativeDrag:{law:\"pairSlip\",kappa:1,integration:\"midpoint\"}; both samples use leapfrog). HOW TO USE THE CONTROL: run both at the same step and line up the periods, the osculating elements and the ledgers. If no difference appears, that is ONE MEASURED FACT more — the zero condition (\"the dragging correction vanishes in a synchronous state\") is acting in that configuration — and NOT a statement that anything \"agrees\". Declaring kappa=0 on the DFM side gives the same period (a zero-dose negative control). Bodies are drawn at real radii (dispMag=1).",
+     "status": {
+      "purpose": "kF0 control: ⛄'s inputs without the law",
+      "state": "steady; the 1.37 s gap to ⛄ is recorded",
+      "mismatch": "comparison +30.2 s vs Buie 2012",
+      "outlook": "not gated until definitions match"
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "内蔵 G=6.674(変えていない)・c₀=29979.2458",
+      "冥王星・カロンの GM(Brozović & Jacobson 2024 AJ 167 256 Table 8)",
+      "JPL Horizons PLU060/DE440 の元期 JD 2452600.5 TDB の状態ベクトル(中心=冥王星系重心・ICRF)",
+      "相互同期の宣言 ω=2π/551855.8944s",
+      "観測周期 551856.43872±0.02592 s(Buie 2012 — 照合先)",
+      "半径 1188km・606km(既存レコードからの引き継ぎ)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁵m/10s/10²⁴kg)",
+      "kFrame=0 かつ relativeDrag なし — **対照側は引きずり項を 1 つも持たない**",
+      "frameReaction:\"pairReduced\"(E6′-R)・frameWeight:\"share\"",
+      "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"・massPrecision:\"double\"",
+      "二体重心系(両天体とも自由)",
+      "2D(黄道基準の逆行符号は転写しない)"
+     ],
+     "fitted": [
+      "D₀=0.006(共有値の流用 — 本系でのフィットはゼロ)"
+     ],
+     "derived": [
+      "質量 1.3025172×10²²kg・1.5897513×10²¹kg(GM/G)",
+      "射影した 2D 初期状態",
+      "q=11.9386(q_exact を a=195.974 で1回評価した直値)",
+      "κ=G/c₀²=7.4258×10⁻⁹",
+      "camera.scale=210・timeScale=1000・dispMag=1"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.01 単位=1km",
+      "時間倍率 timeScale=1000",
+      "粒子表示倍率 dispMag=1(表示専用)",
+      "刻み 3 段 dt=0.16/0.08/0.04",
+      "integrator:\"leapfrog\"(第278便b — ⛄ と同じ)"
+     ]
+    },
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "camera": {
+     "scale": 210
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 0,
+     "q": 11.9386,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 1,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.01,
+     "timeScale": 1000,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "massPrecision": "double",
+     "frameReaction": "pairReduced",
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 0.013025172310458496,
+      "radius": 11.88,
+      "x": -21.31721225635357,
+      "y": 0,
+      "vx": 3.3746189324353684e-7,
+      "vy": -0.0024266847512964917,
+      "spin": 0.00011385554400956285,
+      "pinned": false,
+      "pnSource": true
+     },
+     {
+      "type": "single",
+      "m": 0.0015897512735990414,
+      "radius": 6.06,
+      "x": 174.65648081478,
+      "y": 0,
+      "vx": -0.0000027648974910141987,
+      "vy": 0.019882347354401884,
+      "spin": 0.00011385554400956285,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**⛄ plutoCharonDFM と同一の入力**(Brozović & Jacobson 2024 Table 8 の GM から作った質量・JPL Horizons PLU060/DE440 元期 JD 2452600.5 の状態の軌道面射影・相互同期の宣言 ω=2π/551855.8944s)を、**精密単位**(1単位=10⁵m/10s/10²⁴kg)へ置いた **kF0 対照**(第277便b)。違うのは 1 か所だけ —— **physics.relativeDrag を宣言していない**。したがって働いているのは重力(E4)+測地線1PN(E12)だけで、kFrame=0 なので核の E6′ 運動引きずりも使わない。**2 本の差がそのまま新しい則の寄与**である。数値設定は ⛄ と同一(ε=0.01 単位=1km・massPrecision:\"double\"・stateCarry:\"double\"・geoPN=2・frameReaction:\"pairReduced\"・frameWeight:\"share\"・q=11.9386・D₀=0.006)で、**bodies は ⛄ と 1 bit 同じ**である。**観測検定欄は「判定保留(量定義不一致)」**(統括の検証項目 R53)—— 比較値は第 2 周(dt 0.04)551886.664 s で Buie 2012(551856.43872±0.02592 s)に対して +30.225 s・+1166.1σ(門ではない)。**欄 (1) 暦の再現**(σ なし・合否なし): PLU060 400 年平均 P に対して +30.770 s(+55.76 ppm)・Horizons osculating PR 元期 A に対して +35.987 s。第278便b で積分器を ⛄ と同じ leapfrog にした: 3 段(dt=0.16/0.08/0.04)の第 2 周は 551886.664176 / 551886.664130 / 551886.664119 s(旧 semi は 551886.6663 / 551886.6652 / 551886.6646 s)で、第 2〜第 6 周は 1 μs 未満で同じ値である(**則の無い側は定常**)。⛄ との差は第 2 周で −1.373 s・第 6 周で −1.678 s で、**この差だけが則の寄与**である。則が無いので自転は宣言値 ω=1.1385554×10⁻⁴ のまま 1 bit も動かず、帳簿は運動量相対 1.1×10⁻¹⁶・J_z 相対 3.4×10⁻¹⁴・E 相対 7.0×10⁻¹⁴ で閉じる(dt 0.04・3 公転)。NaN ゼロ・クランプ 0・同一構成2回実行はビット同一(QA behavior.plutoCharonDFM が 2 本まとめて固定する)。ワンタップの対になるのは ⛄ plutoCharonDFM である(同じ入力に `relativeDrag:{law:\"pairSlip\",kappa:1,integration:\"midpoint\"}` を足しただけ・積分器は 2 本とも leapfrog)。**対照の使い方**: 2 本を同じ刻みで走らせて周期・接触要素・帳簿を並べる —— 差が出なければ「同期状態では引きずり補正が消える」という零条件がその配置で効いている、という**測った事実**が 1 行増える(「合った」ではない)。⛄ 側で κ=0 を宣言しても同じ周期になる(用量 0 の否定対照)。粒子表示は実半径のまま(dispMag=1)。",
+    "status": {
+     "purpose": "⛄ と同じ入力で則だけを外した kF0 対照",
+     "objective": "met",
+     "state": "則なしで定常・⛄ との差 1.37 s を記帳",
+     "calibration": "hold-definition",
+     "mismatch": "比較値 +30.2 s(Buie 2012 比・門ではない)",
+     "outlook": "量の定義が揃うまで門に入れない",
+     "evidence": [
+      "docs.charonTwoColumns",
+      "behavior.plutoCharonDFM",
+      "tests/out/charonwin-w278b.json"
+     ]
+    }
+   }
+  }
+ },
+ "declChanges": [
+  {
+   "id": "plutoCharonKF0Control",
+   "emoji": "🌨️",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "9b837bbb",
+   "physicsSame": true,
+   "bodiesSame": true
+  }
+ ],
+ "wave": "第291便b",
+ "ruling": "原仮定者の裁定(第81報)③・統括の検証項目 R133",
+ "frozen": true,
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "02d87232a16e067875f4df5449cd9d6eb58a88480d3030d19b8a8ff2624a343b",
+  "note": "第291便b の html(🌨️ の退役の宣言を入れた後)"
+ },
+ "base": {
+  "rev": "cf2da0a",
+  "commit": "cf2da0abad85850563c5a4ff62317646df53a710",
+  "file": "beta/index.html",
+  "sha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96"
+ },
+ "history": {
+  "qa": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "rev": "cf2da0a",
+   "commit": "34c45c62aae42465f08df7223675285c1562f33d",
+   "date": "2026-10-03T07:23:36.796Z",
+   "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+   "total": 1025
+  },
+  "tests": []
+ }
+}

@@ -226,7 +226,8 @@ export function analyticRatio(law, nu, gamma = 1) {
 
 /** html の `GEO_MODE_VERSION`(第285便b —— core 表 [0,1,2]・kF0 の 1PN を EIH 型へ)と `PN1_EIH_VERSION` */
 export const HTML_GEO_MODE_VERSION_W285B = 'w285b-geomode-2';
-export const HTML_PN1_EIH_VERSION = 'w285b-eih-1';
+// 第291便b(R133): html の PN1_EIH_VERSION は w291b-eih-2(式は不変・kF0 の源集合を全質量源へ)—— 正本 pn1-w285b.json は鎖の再生成で追いつく
+export const HTML_PN1_EIH_VERSION = 'w291b-eih-2';
 /** 第285便b の core 表(geoPN 0/1/2 → `S._core` へ渡す番号)。kF0〔λ_PN=1∧kFrame=0〕は 1 + EIH の差分・DFM〔kFrame>0〕は 2 */
 export const CORE_TABLE_W285B = [0, 1, 2];
 

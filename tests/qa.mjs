@@ -2304,6 +2304,9 @@ if (QA_CHANGED) {
       // 第290便d(原仮定者の裁定(第80報)②・R128): チェックポイントの保存/復元が固定中心の状態を運ぶ修正の回帰と再開保存の棚卸し
       //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 ckfixcap290)
       'tests/out/ckfixcap-w290d.json',
+      // 第291便b(原仮定者の裁定(第81報)⑤・R133): kF0 の 1PN の源集合(全質量源)—— 源の表・前後・参照 EIH の照合・半径回帰・🥶 の残差の分解
+      //   (target=beta/index.html —— Node だけ・html と lib だけを読む・他の正本は読まない —— 鎖の段 pnsources291)
+      'tests/out/pnsources-w291b.json',
       // 第289便a(原仮定者の裁定(第79報)⑤・R119): 時計・光の弱場係数(3 案の一次係数)・相対移動 r⁻³ 核の限定模型・現行 tauUpdate/traceRay の実測・
       //   式の綴りと枠の重みの棚卸し(target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 weakfield289)
       'tests/out/weakfield-w289a.json',
@@ -3733,12 +3736,17 @@ if (QA_CHANGED) {
     //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
     //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
     const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    // 第291便b(原仮定者の裁定(第81報)⑤・R133): 世代切替 has291bSS = 正本 solarsigma-w262d.json の行に 🥶 plutoCharonDiagInput がある(σ 接続器の太陽系の一覧に 🥶 を足した ——
+    //   鎖の再生成の後)。切断点 84/18/2/1 → 86/24/2/2・太陽系 4 値 否 1/保留 10 → 否 1/保留 11: 🥶 の 9 行(公転周期 1 行が connected〔Buie 2012 の σ 0.025920 s・
+    //   比較量は二体ケプラー当てはめの P —— 判定は「数値収束が未確認」の保留〕・離心率/近点移動 2 行が csv-sigma-empty・宣言の欄 6 行が kind-not-gated)と 🥶 の保留 1 本が入った。
+    //   **接続数が増えたことと合否の改善を同一視しない**
+    const has291bSS = (() => { try { const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8')); return (S.rows || []).some((z) => z.id === 'plutoCharonDiagInput'); } catch (e) { return false; } })();
     // 第290便g(R131): 確認依頼 第 7/8 回の候補行(太陽系 —— 器 tests/exp-w290g-intake8.mjs の宣言表から数える)を足した
     const I290c = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
     const n290c = I290c.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
     const EXPECT = { csvRows: 601 + n290c, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
-      cut: has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
-      four: has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
+      cut: has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 24, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      four: has291bSS ? { 否: 1, 保留: 11 } : has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null, nLater = 0, nRaised = 0;
     try {
       const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
@@ -3853,12 +3861,17 @@ if (QA_CHANGED) {
     //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
     //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
     const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    // 第291便b(原仮定者の裁定(第81報)⑤・R133): 世代切替 has291bSS = 正本 solarsigma-w262d.json の行に 🥶 plutoCharonDiagInput がある(σ 接続器の太陽系の一覧に 🥶 を足した ——
+    //   鎖の再生成の後)。切断点 84/18/2/1 → 86/24/2/2・太陽系 4 値 否 1/保留 10 → 否 1/保留 11: 🥶 の 9 行(公転周期 1 行が connected〔Buie 2012 の σ 0.025920 s・
+    //   比較量は二体ケプラー当てはめの P —— 判定は「数値収束が未確認」の保留〕・離心率/近点移動 2 行が csv-sigma-empty・宣言の欄 6 行が kind-not-gated)と 🥶 の保留 1 本が入った。
+    //   **接続数が増えたことと合否の改善を同一視しない**
+    const has291bSS = (() => { try { const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8')); return (S.rows || []).some((z) => z.id === 'plutoCharonDiagInput'); } catch (e) { return false; } })();
     // 第290便g(R131): 確認依頼 第 7/8 回の候補行(太陽系 42 行 —— 器 tests/exp-w290g-intake8.mjs の宣言表から数える)を足した
     const I290 = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
     const n290 = I290.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
     const EXPECT = { csvRows: 601 + n290, newRows: 21, newWithSigma: 10, newVerified: 10, confirmed: 42, raised: 9,
-      cut: has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
-      four: has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
+      cut: has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 24, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      four: has291bSS ? { 否: 1, 保留: 11 } : has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nRows = 0, nNew = 0, nNewSig = 0, nNewVer = 0, nConf = 0, nRaised = 0, cut = null, four = null;
     try {
       const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
@@ -4240,8 +4253,13 @@ if (QA_CHANGED) {
       //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
       //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
       const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
-      const EC = has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
-      const EF = has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 };
+      // 第291便b(原仮定者の裁定(第81報)⑤・R133): 世代切替 has291bSS = 正本 solarsigma-w262d.json の行に 🥶 plutoCharonDiagInput がある(σ 接続器の太陽系の一覧に 🥶 を足した ——
+      //   鎖の再生成の後)。切断点 84/18/2/1 → 86/24/2/2・太陽系 4 値 否 1/保留 10 → 否 1/保留 11: 🥶 の 9 行(公転周期 1 行が connected〔Buie 2012 の σ 0.025920 s・
+      //   比較量は二体ケプラー当てはめの P —— 判定は「数値収束が未確認」の保留〕・離心率/近点移動 2 行が csv-sigma-empty・宣言の欄 6 行が kind-not-gated)と 🥶 の保留 1 本が入った。
+      //   **接続数が増えたことと合否の改善を同一視しない**
+      const has291bSS = (() => { try { const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8')); return (S.rows || []).some((z) => z.id === 'plutoCharonDiagInput'); } catch (e) { return false; } })();
+      const EC = has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 24, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
+      const EF = has291bSS ? { 否: 1, 保留: 11 } : has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 };
       for (const [k, v] of Object.entries(EC)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
       if (four['否'] !== EF['否'] || four['保留'] !== EF['保留']) bad.push(`④太陽系 4 値が 否 ${EF['否']}・保留 ${EF['保留']} でない(${JSON.stringify(four)})`);
       // ⑥ CALIBRATION_VERDICT §5.31
@@ -5119,14 +5137,19 @@ if (QA_CHANGED) {
     //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
     //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
     const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
-    if (connected !== (has290b ? 1 : 4)) bad.push(`σ が門へ届いた量が ${has290b ? 1 : 4} でない(${connected})—— AD8(📡)${has290b ? '(❄️ の退役でカロン 3 は σ 接続器の対象外)' : '+AD5(カロン 3)'}の宛先`);
+    // 第291便b(原仮定者の裁定(第81報)⑤・R133): 世代切替 has291bSS = 正本 solarsigma-w262d.json の行に 🥶 plutoCharonDiagInput がある(σ 接続器の太陽系の一覧に 🥶 を足した ——
+    //   鎖の再生成の後)。切断点 84/18/2/1 → 86/24/2/2・太陽系 4 値 否 1/保留 10 → 否 1/保留 11: 🥶 の 9 行(公転周期 1 行が connected〔Buie 2012 の σ 0.025920 s・
+    //   比較量は二体ケプラー当てはめの P —— 判定は「数値収束が未確認」の保留〕・離心率/近点移動 2 行が csv-sigma-empty・宣言の欄 6 行が kind-not-gated)と 🥶 の保留 1 本が入った。
+    //   **接続数が増えたことと合否の改善を同一視しない**
+    const has291bSS = (() => { try { const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8')); return (S.rows || []).some((z) => z.id === 'plutoCharonDiagInput'); } catch (e) { return false; } })();
+    if (connected !== (has291bSS ? 2 : has290b ? 1 : 4)) bad.push(`σ が門へ届いた量が ${has291bSS ? 2 : has290b ? 1 : 4} でない(${connected})—— AD8(📡)${has291bSS ? '+🥶 のカロン P 1(第291便b —— 判定は数値収束が未確認の保留)' : has290b ? '(❄️ の退役でカロン 3 は σ 接続器の対象外)' : '+AD5(カロン 3)'}の宛先`);
     const ft = J.fourTally || {};
     // 第274便a(第64報): kF0 対照走行を配った世代では ❄️ の対照行が門へ入り 否 2/保留 14(旧世代は 否 1/保留 15)
     const kf0GenS = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return !!(C.kf0Runs && C.kf0Runs.on === true); } catch (e) { return false; } })();
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化)。退役 🌘🧲🪨💿 が母集団の外へ出て太陽系は 12 本、
     //   ❄️ は自身が kFrame=0 へ在位移行したので kF0 の対照行は無く、❄️ の行は条件不一致(条 17)の保留 —— 否 1(📡)/保留 11
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-    const wantNg = has288b ? 1 : kf0GenS ? 2 : 1, wantHold = has290b ? 10 : has288b ? 11 : kf0GenS ? 14 : 15;
+    const wantNg = has288b ? 1 : kf0GenS ? 2 : 1, wantHold = has291bSS ? 11 : has290b ? 10 : has288b ? 11 : kf0GenS ? 14 : 15;
     if ((ft['否'] || 0) !== wantNg || (ft['保留'] || 0) !== wantHold)
       bad.push(`太陽系の 4 値が 否 ${wantNg}/保留 ${wantHold} でない(${JSON.stringify(ft)})—— ガードを通ったのは 📡 の 1 件${has290b ? 'だけ(第290便b の世代 —— ❄️ は退役して σ 接続器の対象外)' : has288b ? 'だけ(第288便b の世代 —— ❄️ は条件不一致の保留)' : kf0GenS ? '+❄️ の kF0 対照行' : 'だけ'}のはず`);
   } catch (e) { bad.push('ガードが読めない: ' + String(e).slice(0, 90)); }
@@ -5190,7 +5213,12 @@ if (QA_CHANGED) {
     //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
     //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
     const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
-    const wantHoldU = has290b ? 10 : has288b ? 11 : kf0GenU ? 14 : 15, wantNgU = has288b ? 1 : kf0GenU ? 2 : 1;
+    // 第291便b(原仮定者の裁定(第81報)⑤・R133): 世代切替 has291bSS = 正本 solarsigma-w262d.json の行に 🥶 plutoCharonDiagInput がある(σ 接続器の太陽系の一覧に 🥶 を足した ——
+    //   鎖の再生成の後)。切断点 84/18/2/1 → 86/24/2/2・太陽系 4 値 否 1/保留 10 → 否 1/保留 11: 🥶 の 9 行(公転周期 1 行が connected〔Buie 2012 の σ 0.025920 s・
+    //   比較量は二体ケプラー当てはめの P —— 判定は「数値収束が未確認」の保留〕・離心率/近点移動 2 行が csv-sigma-empty・宣言の欄 6 行が kind-not-gated)と 🥶 の保留 1 本が入った。
+    //   **接続数が増えたことと合否の改善を同一視しない**
+    const has291bSS = (() => { try { const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8')); return (S.rows || []).some((z) => z.id === 'plutoCharonDiagInput'); } catch (e) { return false; } })();
+    const wantHoldU = has291bSS ? 11 : has290b ? 10 : has288b ? 11 : kf0GenU ? 14 : 15, wantNgU = has288b ? 1 : kf0GenU ? 2 : 1;
     if ((J.fourTally || {})['保留'] !== wantHoldU)
       bad.push(`①太陽系 4 値の保留が ${wantHoldU} でない(${(J.fourTally || {})['保留']})`);
     if ((J.fourTally || {})['否'] !== wantNgU)
@@ -16104,8 +16132,13 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
       bodies: [{ type: 'single', m: 5, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true, pnSource: true }] });
     return !!(v.ok && v.preset.physics.cLight === 30000 && v.preset.bodies[0].pnSource === true);
   });
+  // 第291便b(原仮定者の裁定(第81報)⑤・R133): 世代切替 has291bPN = html に `pnOrbitalSource`(kF0 の 1PN 源 = 全質量源)がある。
+  //   **固定値を変えた**: 本ブロックの宇宙は geoPN=1・kFrame=0(kF0)なので、宣言の無い中心(m=5 < 半径門)も 1PN 源になる ——
+  //   旧「既定=閾値未満で λ 無関係(bit 一致)」は **pnSource:false の明示**へ移す(除外の宣言で λ 無関係)・既定(宣言なし)は
+  //   pnSource:true と 1 bit 同じ軌道(どちらも源)・pnSource() の正本は既定で true・明示 false で false
+  const has291bPN = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0;
   if (gen113) {
-    const r = await page.evaluate(() => {
+    const r = await page.evaluate((has291bPN) => {
       const res = {};
       // ① 新値域: 域内保持(☀️実c値 3e4・実G physLock の Kt=1.349e8)・域外はクランプ・
       //   pnSource は true 以外を警告つき削除
@@ -16129,29 +16162,37 @@ await w5bRun('pressure', true); async function W5B_pressure(page, add, fpRun, co
       res.badFlagDropped = v2.ok && !('pnSource' in v2.preset.bodies[0]);
       // ② フラグの力学: 閾値未満の中心(m=5 < pnK·max(R,ε)=4.5×2.24≈10)は既定では 1PN 源に
       //   ならない(λ1/λ0 が一致)。pnSource:true で λ1 の軌道が変わる
-      const mk = (flag, lam) => ({ id: 'qa113', seed: 1, camera: { scale: 100 },
+      const mk = (flag, lam) => ({ id: 'qa113', seed: 1, camera: { scale: 100 },   // flag: true / false(第291便b: 明示の除外)/ 未宣言
         world: { boundary: 'none', size: 0 },
         physics: { G: 1, D0: 2, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, Kt: 900,
           cLight: 30, bM: 1, etaRad: 0, pRad: 4, gravityX: 0, gravityY: 0, geoPN: 1, lambdaPN: lam,
           pnAlpha: 1.5, radiusScale: 1, softening: 2, timeScale: 1 },
         bodies: [Object.assign({ type: 'single', m: 5, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: true },
-                   flag ? { pnSource: true } : {}),
+                   flag === true ? { pnSource: true } : (flag === 'off' ? { pnSource: false } : {})),
                  { type: 'single', m: 0.05, x: 40, y: 0, vx: 0, vy: Math.sqrt(5 / 40), spin: 0, pinned: false }] });
       const run = (flag, lam) => { const S = HP.sim; S.build(mk(flag, lam));
         for (let k = 0; k < 800; k++) S.step(0.016); return S.x[1] + ',' + S.y[1] + ',' + S.vx[1]; };
       const offL1 = run(false, 1), offL0 = run(false, 0), onL1 = run(true, 1);
-      res.defaultInert = offL1 === offL0;   // フラグ無し=閾値未満: λ は無関係(bit 一致)
-      res.flagActive = onL1 !== offL1;      // フラグ有り: 1PN が働き軌道が変わる
+      if (!has291bPN) {
+        res.defaultInert = offL1 === offL0;   // フラグ無し=閾値未満: λ は無関係(bit 一致)
+        res.flagActive = onL1 !== offL1;      // フラグ有り: 1PN が働き軌道が変わる
+      } else {
+        // 第291便b: kF0 では既定(宣言なし)も源 —— 明示 false だけが λ 無関係(bit 一致)・既定は true と 1 bit 同じ・λ で動く
+        const xL1 = run('off', 1), xL0 = run('off', 0);
+        res.defaultInert = xL1 === xL0;
+        res.flagActive = onL1 !== offL0 && onL1 === offL1 && offL1 !== offL0;
+      }
       // ③ pnSource() 関数(判定の正本)もフラグを見る
       const S = HP.sim; S.build(mk(true, 1)); res.fnOn = HP.pnSource(S, 0) === true;
-      S.build(mk(false, 1)); res.fnOff = HP.pnSource(S, 0) === false;
+      S.build(mk(has291bPN ? 'off' : false, 1)); res.fnOff = HP.pnSource(S, 0) === false;
       HP.loadPreset('galaxy', false);
       return res;
-    });
+    }, has291bPN);
     add('pn.source-flag', r.kept && r.clamped && r.badFlagDropped && r.defaultInert && r.flagActive
       && r.fnOn && r.fnOff,
       `新値域保持(c=3e4・Kt=1.35e8)=${r.kept} クランプ(2e6→1e6/2e9→1e9)=${r.clamped} 不正フラグ削除=${r.badFlagDropped} / ` +
-      `既定=閾値未満でλ無関係(bit一致)=${r.defaultInert} フラグで1PN発現=${r.flagActive} pnSource()正本=on:${r.fnOn}/off:${r.fnOff}`);
+      (has291bPN ? `第291便b(kF0 は全質量源): 明示 pnSource:false でλ無関係(bit一致)=${r.defaultInert} 既定=true と同軌道でλで動く=${r.flagActive} pnSource()正本=on:${r.fnOn}/明示false:${r.fnOff}`
+        : `既定=閾値未満でλ無関係(bit一致)=${r.defaultInert} フラグで1PN発現=${r.flagActive} pnSource()正本=on:${r.fnOn}/off:${r.fnOff}`));
   } else {
     console.log('SKIP pn.source-flag(対象に第113便 未適用 — root 等)');
   }
@@ -23327,6 +23368,8 @@ if (!FAST) {
     //   ⛄ plutoCharonDFM は退役(familyRole:"retired")—— 宣言の検査は役割の語だけを受け替え(退役の印は鎖の後の世代でだけ受ける・root〔v1.44.0〕の variant はそのまま)、
     //   物理(単位・κ・kFrame・D₀・精度・則・bodies)の検査は変えない
     const has290bPD = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    // 第291便b(原仮定者の裁定(第81報)③・R133): 世代切替 has291bPD = html の RETIRED_PRESETS に 🌨️ plutoCharonKF0Control の行がある(html の世代)
+    const has291bPD = /^\s+plutoCharonKF0Control:\{ja:/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
     const kOk = (z) => Math.abs(z.kap - z.G / (z.c * z.c)) < 1e-18;
     const declOk = !!d && !!c && d.L === 5 && d.T === 1 && d.M === 24 && c.L === 5 && c.T === 1 && c.M === 24
       && d.G === 6.674 && d.c === C4_286B && kOk(d) && kOk(c)
@@ -23338,7 +23381,8 @@ if (!FAST) {
       && d.spF64 === true && c.spF64 === false      // 則を宣言した側だけ自転が Float64
       && d.eps === 0.01 && c.eps === 0.01
       && d.cls === 'principle' && c.cls === 'principle' && d.fid === 'real' && c.fid === 'real'   // 統括(第277便 統合): 診断コピー(AM5 で昇格を裁定)
-      && d.fam === 'pluto' && c.fam === 'pluto' && (d.role === 'variant' || (has290bPD && d.role === 'retired')) && c.role === (c.has280d ? 'variant' : 'control')   // 第290便b: ⛄ は退役(familyRole:"retired" —— 内蔵に残す・物理の検査はそのまま)
+      && d.fam === 'pluto' && c.fam === 'pluto' && (d.role === 'variant' || (has290bPD && d.role === 'retired'))
+      && (c.role === (c.has280d ? 'variant' : 'control') || (has291bPD && c.role === 'retired'))   // 第290便b: ⛄ は退役・第291便b: 🌨️ も退役(familyRole:"retired" —— 内蔵に残す・物理の検査はそのまま)
       && d.bodies === c.bodies;                     // **2 本の bodies は 1 bit 同じ**
     const z = r.zeroProbe, ng = r.negProbe;
     const zeroOk = !!z && !z.err && z.slipI === 0 && z.slipJ === 0 && z.kickMag === 0
@@ -24011,7 +24055,9 @@ if (!FAST) {
       //   在位の variant は 🌨️🌒(「この仲間」と入口の (+n) は在位の variant だけを数える)
       o.has290b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal;
       const ENTRY = o.has290b ? 'plutoCharonDiagInput' : 'plutoCharonReal';
-      const RET290 = ['plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero'];
+      // 第291便b(原仮定者の裁定(第81報)③・R133): RETIRED_PRESETS に 🌨️ の行がある世代は 🌨️ も退役(在位の variant は 🌒 だけ)
+      o.has291b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonKF0Control;
+      const RET290 = ['plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero'].concat(o.has291b ? ['plutoCharonKF0Control'] : []);
       const VAR = IDS.filter((id) => id !== ENTRY && !(o.has290b && RET290.includes(id)));
       o.entry = ENTRY;
       o.nVar = VAR.length;
@@ -24045,7 +24091,7 @@ if (!FAST) {
       return o;
     });
     add('ui.charonFamily', r.idsOk && r.rolesOk && r.labelsOk && r.words && r.entryOk && r.rowOk && r.sigBlind,
-      `family pluto=${r.ids.join(',')}(ID は 1 本も消していない=${r.idsOk})/ 役割 ${r.has290b ? '🥶 primary・在位の ' + r.nVar + ' 本 variant・❄️⛄☃️ retired(第290便b)' : '❄️ primary・他 ' + r.nVar + ' 本 variant'}=${r.rolesOk} / `
+      `family pluto=${r.ids.join(',')}(ID は 1 本も消していない=${r.idsOk})/ 役割 ${r.has290b ? '🥶 primary・在位の ' + r.nVar + ' 本 variant・❄️⛄☃️' + (r.has291b ? '🌨️' : '') + ' retired(第290便b' + (r.has291b ? '・第291便b' : '') + ')' : '❄️ primary・他 ' + r.nVar + ' 本 variant'}=${r.rolesOk} / `
       + `役割名 ja/en=${r.labelsOk}・3 語(観測入力 kF0 対照/相対すべりモデル/厳密同期円の零試験)=${r.words} / `
       + `**入口 1 つ**: 「すべて表示」OFF で見える冥王星系 ${JSON.stringify(r.visible)}・「${r.snowLabel}」=${r.entryOk} / `
       + `${r.has290b ? '🥶' : '❄️'} の「この仲間」 ${JSON.stringify(r.links)}=${r.rowOk} / presetSig は familyRole を見ない=${r.sigBlind}`);
@@ -40614,8 +40660,17 @@ if (!FAST) {
       try { FX9 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w290b.json'), 'utf8')); }
       catch (e) { bad.push('第290便b の凍結の写しが読めない'); }
     }
-    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290);
-    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}) };
+    // 第291便b(原仮定者の裁定(第81報)③・R133): 🌨️ plutoCharonKF0Control を退役(**34 本** —— 世代切替 has291b = RETIRED_PRESETS に 🌨️ の行)。
+    //   写しは tests/fixtures/retired-w291b.json(器 tests/exp-w291b-retiredfx.mjs —— 後継 🥶 との対の差 pairDiff)
+    const has291b = await page.evaluate(() => typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonKF0Control);
+    const IDS291 = has291b ? ['plutoCharonKF0Control'] : [];
+    let FX10 = null;
+    if (has291b) {
+      try { FX10 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w291b.json'), 'utf8')); }
+      catch (e) { bad.push('第291便b の凍結の写しが読めない'); }
+    }
+    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290).concat(IDS291);
+    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}, (FX10 || {}).presets || {}) };
     const r = await page.evaluate(async (a) => {
       const { IDS, FX } = a;
       const o = {};
@@ -40740,6 +40795,10 @@ if (!FAST) {
         if (!dc || JSON.stringify((dc.change || {}).sampleClass) !== JSON.stringify(['principle', 'calibration']) || dc.presetSigSame !== true)
           bad.push('⑤写しに 🥶 の較正昇格(principle → calibration・署名不変)の前後が無い');
       }
+      if (has291b) {   // 第291便b: 退役 1 本(🌨️)の写し(後継 🥶 との対の差・基点 cf2da0a と署名同じ)
+        if (!FX10 || FX10.fixtureVersion !== 'w291b-retired-1' || IDS291.some((id) => !FX10.presets[id] || !FX10.presets[id].raw || FX10.presets[id].base.sigSame !== true))
+          bad.push('⑤第291便b の退役の写し(1 本・基点 cf2da0a と署名同じ)が揃わない');
+      }
       if (has287b) {   // 第287便b: 🧶 の旧則の写しと付け替えた試験の保存 QA
         const hist7 = FX7 ? ((FX7.history || {}).tests || []) : [];
         if (!hist7.length || !hist7.every((t) => t.pass)) bad.push('⑤第287便b の写しの history が PASS でない');
@@ -40776,6 +40835,7 @@ if (!FAST) {
       // 第287便b: 同じ流儀で 🪤 の世代を判る(正本の tally.retired が 16 なら第287便の世代・15 なら第286便の世代〔鎖の samplestatus の段で 16 本へ〕)
       const nRetSS = SSJ.tally && SSJ.tally.retired ? SSJ.tally.retired.n : null;
       const nSS = ssGen286 ? IDS.length
+        : (has291b && nRetSS === IDS.length - IDS291.length) ? IDS.length - IDS291.length   // 第291便b: 正本が第290便の世代(33 本 —— 鎖の samplestatus の段で 34 本へ)
         : (has290b && nRetSS === IDS.length - IDS290.length) ? IDS.length - IDS290.length   // 第290便b: 正本が第288便の世代(26 本 —— 鎖の samplestatus の段で 33 本へ)
         : (has288b && nRetSS === IDS.length - IDS288.length) ? IDS.length - IDS288.length   // 第288便b: 正本が第287便の世代(16 本)
         : (has287b && nRetSS === IDS.length - IDS287.length) ? IDS.length - IDS287.length
@@ -40788,7 +40848,7 @@ if (!FAST) {
       if (has286f && !ssGen286) console.log(`NOTE docs.retired ⑦: 状態表の正本は前の世代(退役 ${nSS} 本)—— 鎖の samplestatus の段で ${IDS.length} 本の世代へ(第286便f・第287便b)`);
     } catch (e) { bad.push('⑥⑦読めない: ' + String(e).slice(0, 80)); }
     add('docs.retired', bad.length === 0,
-      `**退役**(第283便b・原仮定者の裁定(第73報)④・R84${has284b ? ' + 第284便b・原仮定者の裁定(第74報)⑤・AN35・AN41' : ''}${has285f ? ' + 第285便f・原仮定者の裁定(第75報)AN51・AN24′' : ''}${has286f ? ' + 第286便f・原仮定者の裁定(第76報)AN57' : ''}${has287b ? ' + 第287便b・原仮定者の裁定(第77報)AN62' : ''}${has288b ? ' + 第288便b・原仮定者の裁定(第78報)④(現実較正の一本化 10 本)' : ''}${has290b ? ' + 第290便b・原仮定者の裁定(第80報)⑤(サンプルの整理 7 本)' : ''}): 🕶️⚫🌑🐚⏳🌱🪩${has284b ? '+🎋🪶🪃🪀⭕🪝' : ''}${has285f ? '+🪄' : ''}${has286f ? '+🩹' : ''}${has287b ? '+🪤' : ''} の ${IDS.length} 本は内蔵に残り familyRole "retired"(語彙 ${r.vocab ? r.vocab.join('/') : '—'})` +
+      `**退役**(第283便b・原仮定者の裁定(第73報)④・R84${has284b ? ' + 第284便b・原仮定者の裁定(第74報)⑤・AN35・AN41' : ''}${has285f ? ' + 第285便f・原仮定者の裁定(第75報)AN51・AN24′' : ''}${has286f ? ' + 第286便f・原仮定者の裁定(第76報)AN57' : ''}${has287b ? ' + 第287便b・原仮定者の裁定(第77報)AN62' : ''}${has288b ? ' + 第288便b・原仮定者の裁定(第78報)④(現実較正の一本化 10 本)' : ''}${has290b ? ' + 第290便b・原仮定者の裁定(第80報)⑤(サンプルの整理 7 本)' : ''}${has291b ? ' + 第291便b・原仮定者の裁定(第81報)③(🌨️)' : ''}): 🕶️⚫🌑🐚⏳🌱🪩${has284b ? '+🎋🪶🪃🪀⭕🪝' : ''}${has285f ? '+🪄' : ''}${has286f ? '+🩹' : ''}${has287b ? '+🪤' : ''} の ${IDS.length} 本は内蔵に残り familyRole "retired"(語彙 ${r.vocab ? r.vocab.join('/') : '—'})` +
       (has284b && r.selRetired ? ` / AN41: 隠し #presetSelect の退役 ${r.selRetired.length} 本・AI 追加の基準候補の退役 ${r.aiRetired.length} 本(読み込み中/選択中の本だけ残る=${r.aiCurKept === 'emAuditNewton' && r.selCurKept.length === 1})` : '') +
       ` / 一覧に出ない(既定 ${r.hitDefault}・すべて表示 ${r.hitShowAll}・ID 検索 ${r.hitSearch} 行)` +
       ` / 開ける: 読込で置き換えない=${(r.open || []).every((z) => z.cur === z.id)}・「退役(履歴)」の 1 行=${(r.open || []).every((z) => z.notice)}(en ${r.enNotice})・読み込み中の 1 本だけ一覧に残る=${r.curListed === 1}・「この仲間」に退役 ${r.famRetiredLinks} 本` +
@@ -49598,7 +49658,8 @@ if (hasEchoFlipAt) {
             { type: 'single', m: 0.01, x: 47.664, y: 0, vx: 0, vy: 1.94787, spin: 0, pinned: false }] });
         const S = HP.sim;
         for (let k = 0; k < 2000; k++) S.step(0.016);
-        return { x: S.x[1], y: S.y[1], src: HP.pnSource(S, 0), R: S.R[0],
+        // 第291便b(R133): 半径門の判定は宣言か門の意味(pnSourceDeclared)で読む —— kF0 の軌道の源は全質量源(門は光線描画の省略基準)
+        return { x: S.x[1], y: S.y[1], src: (HP.pnSourceDeclared || HP.pnSource)(S, 0), R: S.R[0],
           mThr: HP.pnMassMin(S.params, S.R[0]) };
       };
       const pnUp = pnRun(1.0001, 1), pnUp0 = pnRun(1.0001, 0);
@@ -49628,6 +49689,7 @@ if (hasEchoFlipAt) {
         lock, cache: { changed: kOut !== k0, restored: kBack === k0, n0, nOut } };
     });
     const eq = (a, b) => Math.abs(a - b) <= 1e-9 * Math.max(1, Math.abs(b));
+    const has291bRA = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0;   // 第291便b(R133)
     const chk = {
       set: r.bad.length === 0,
       upHeavy: r.up.heavy, upBend: Math.abs(r.up.bend) > 1e-4, upKey: r.up.nSrc === 1,
@@ -49637,7 +49699,8 @@ if (hasEchoFlipAt) {
       // R は Float32 格納なので、実装値は「同じ R で組み直した式」と一致するかで見る
       pnThr: eq(r.pn.thrGot, (r.A / 4) * 1600 * Math.max(r.pn.R, 0.5)),
       pnSrcUp: r.pn.srcUp, pnSrcDn: !r.pn.srcDn,
-      pnUp: r.pn.dUp > 1e-3, pnDn: r.pn.dDn === 0,
+      // 第291便b(R133): **固定値を変えた** —— kF0(geoPN=1∧kFrame=0)の軌道では門の直下も 1PN 源(全質量源)なので λ_PN で動く(旧: 厳密 0)
+      pnUp: r.pn.dUp > 1e-3, pnDn: has291bRA ? r.pn.dDn > 1e-3 : r.pn.dDn === 0,
       lockRay: eq(r.lock.got, r.lock.want), lockPn: eq(r.lock.pnGot, r.lock.want),
       lockKt: r.lock.Kt === 3600, lockBend: r.lock.bendsStill,
       keyChanged: r.cache.changed, keyRestored: r.cache.restored,
@@ -50147,6 +50210,9 @@ await w5bRun('mechspecZeroCost', true); async function W5B_mechspecZeroCost(page
     const hasC30mb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'mercury').physics.cLight === 30);
     if (hasC30mb) {
       MB.mercury = 'd1d8ded061f300eaea678e1a1176fa097b38a202b79397d6bae67787bc75bc77';
+      // 第291便b(原仮定者の裁定(第81報)⑤・R133): kF0 の 1PN 源は全質量源 —— ☿ の惑星も源になり(固定の太陽の位置の Φ_b に惑星の場が入る)
+      //   300 步の状態が動いた(意図した物理変更)。世代切替 = html に pnOrbitalSource(基点 cf2da0a の値は上の d1d8ded0…)
+      if (fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0) MB.mercury = 'a211099dfa6d047b563f25f114cf94bcd2f87e48830152cd3ca590feef3e4a51';
       const galRolledMb = await page.evaluate(() => HP.allPresets().find((q) => q.id === 'galaxy').physics.G === 0.8);
       // 第216便: rMul 撤去世代(🌌 中心の rMul 宣言なし)は再採取基準(gen-w216d — tint.zero-cost と同値。
       // 🌌 は thermal=spin で Tint 連結なしのため両テストのハッシュは同一)
@@ -65309,7 +65375,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           return { B: rr.targets[0].B.slopeDeg, nB: rr.targets[0].B.nPeri, osc, c, nan: rr.nan }; };
         const bin = U.map((z) => ({ q: z.q, one: run(z.p1), zero: run(z.p0) }));
         // ④ 固定源 1 つ: 2000 步のどの步でも Δ≡0
-        HP.loadPreset('mercuryReal', false);
+        // 第291便b(R133): kF0 の 1PN 源は全質量源 —— ☄️ の水星も源になるので、試験粒子極限は**水星に pnSource:false を明示した写し**で見る
+        //   (html に pnOrbitalSource がある世代だけ。宣言の無い ☄️ そのものは Δ が 0 でない —— 水星の場の Φ_b が太陽の位置に入る)
+        if (typeof pnOrbitalSource === 'function') {
+          const mc = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'mercuryReal'))); mc.bodies[1].pnSource = false;
+          const vm = HP.validatePreset(mc); HP.sim.build(vm.preset);
+        } else HP.loadPreset('mercuryReal', false);
         const S = HP.sim, DX = new Float64Array(S.n), DY = new Float64Array(S.n);
         let nonZero = 0; for (let k = 0; k < 2000; k++) { if (dfmPN1Delta(S, DX, DY) !== 0) nonZero++; S.step(0.016); }
         // ⑤ 自由な源 3 の Δ と状態
@@ -65331,7 +65402,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (!y || !(Math.abs(y.ratioNowB - z.ratio) <= 1e-9)) bad.push(`③ 正本の q=${z.q} の比 ${y && y.ratioNowB} ⇔ ページ ${z.ratio}`); }
         cases.push('正本の行と一致'); } else bad.push('③ 正本 tests/out/pn1-w285b.json が無い');
       if (r.nonZero !== 0) bad.push(`④ ☄️ で Δ が 0 でない步が ${r.nonZero}`);
-      cases.push(`☄️(固定源 1 つ)2000 步で Δ≡0`);
+      cases.push(`☄️(固定源 1 つ${fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0 ? '・第291便b: 水星に pnSource:false を明示した写し' : ''})2000 步で Δ≡0`);
       const st = r.st, bodies = st.m.map((m, i) => ({ m, x: st.x[i], y: st.y[i], vx: st.vx[i], vy: st.vy[i] })), o = { G: 1, c: st.c, eps: st.eps };
       const full = O.eihAccel(bodies, o), tf = O.testFormSum(bodies, o);
       let d = 0, s = 0; for (let i = 0; i < bodies.length; i++) { d = Math.max(d, Math.hypot(tf[i].ax + st.DX[i] - full[i].pnx, tf[i].ay + st.DY[i] - full[i].pny)); s = Math.max(s, Math.hypot(full[i].pnx, full[i].pny)); }
@@ -65407,6 +65478,166 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     add('docs.pn1', bad.length === 0,
       `**kF0 1PN 対照の文書**(第285便b・原仮定者の裁定(第75報)⑦・R97/R98): ${cases.join(' / ')} —— 旧 kF0 則の相対二体への還元(1−10ν/3)・`
       + `EIH 型への修正・制御二体・λ_PN=0 の対照・水星の ε/dt の分解を PHYSICS〔第285便b〕が正本の数で持つ`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第291便b(原仮定者の裁定(第81報)⑤「geoPN=1 は GR の 1PN に揃える・観測値をそのまま使えるようにする」・統括の検証項目 R133): behavior.pn1Sources ----
+// ----   **kF0 の 1PN 源 = 全質量源**(半径門 pnMassMin は光線描画の省略基準 —— GR の 1PN の存在条件ではない)をこのページで固定する:
+// ----     ① 🥶 plutoCharonDiagInput でカロンも 1PN 源(`pnSource`)—— 宣言/半径門の意味(`pnSourceDeclared`)ではカロンは源でなかった
+// ----     ② 半径だけを変えた回帰(G=1・c=100・m=1,2・r=10・R=0.001 と 1・1 步 dt=1e−5): 更新後の速度がビットで同じ
+// ----     ③ 参照実装(tests/lib-w285b-gr1pn.mjs の `eihAccel`)との照合: 🥶 の初期状態・宣言の無い 3 体(半径 10)で html の Δ + 試験粒子形が相対 1e−12
+// ----     ④ `pnSource:false` の明示で除外できる(3 体目)—— 照合は除外した源の集合で 1e−12・表示条件の理由に pnSourceFalse
+// ----     ⑤ kF0 を離れると(kFrame=1 で 1 步)源は宣言だけに戻り、kFrame=0 へ戻すと全質量源に戻る(`S.pnOv` のビット 2 —— `S._core` は不変)
+// ----     ⑥ 光線の門は不変: 🥶・⭐ の全天体で `rayHeavy` が `m ≥ rayMassMin` の式のまま(1PN の源の埋め込みを読まない)
+// ----     ⑦ `PN1_CONTRACT` の版 w291b-eih-2・sources の文(全質量源・試験粒子は受けるだけ・光学角/半径の門は描画用)
+// ----   **root は SKIP**(`pnOrbitalSource` が無い世代)。
+{
+  const has291bPS = TARGET.startsWith('beta/') && fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0;
+  if (!has291bPS) {
+    console.log('SKIP behavior.pn1Sources(対象に pnOrbitalSource が無い: ' + TARGET + ' — 第291便b の kF0 の源集合は beta 線)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const O = await import('file://' + path.join(ROOT, 'tests', 'lib-w285b-gr1pn.mjs'));
+      const phys = (o) => Object.assign({ G: 1, cLight: 30, softening: 0.05, softeningFloor: 1e-9, kFrame: 0, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, etaRad: 0,
+        lambdaPN: 1, pnAlpha: 1.5, stateCarry: 'double', frameWeight: 'share', timeScale: 1, massFloor: 1e-9, geoPN: 1 }, o || {});
+      const uni = (id, bodies, ph) => ({ id, name: id, description: 'd', sampleClass: 'principle', world: { boundary: 'none', size: 0 }, camera: { scale: 20 },
+        physics: phys(ph), bodies: bodies.map((b) => Object.assign({ type: 'single', spin: 0, radius: 0.1, pinned: false }, b)) });
+      const three = uni('qa_w291b_3', [{ m: 30, x: 0, y: 0, vx: 0.1, vy: -0.2, radius: 10 }, { m: 10, x: 28, y: 3, vx: -0.2, vy: 0.6, radius: 10 },
+        { m: 5, x: -25, y: 26, vx: 0.5, vy: 0.3, radius: 10 }]);
+      const threeOff = JSON.parse(JSON.stringify(three)); threeOff.bodies[2].pnSource = false;
+      const rad = (R) => uni('qa_w291b_r', [{ m: 1, x: -20 / 3, y: 0, vx: 0, vy: -0.25, radius: R }, { m: 2, x: 10 / 3, y: 0, vx: 0, vy: 0.125, radius: R }],
+        { cLight: 100, softening: 0.01, softeningFloor: 0.01, massFloor: 1e-6 });
+      const r = await page.evaluate(({ three, threeOff, radA, radB }) => {
+        const st = (S) => { const n = S.n, DX = new Float64Array(n), DY = new Float64Array(n); dfmPN1Delta(S, DX, DY);
+          return { DX: Array.from(DX), DY: Array.from(DY), m: Array.from(S.mEff.subarray(0, n)), x: Array.from(S.x.subarray(0, n)), y: Array.from(S.y.subarray(0, n)),
+            vx: Array.from(S.vx.subarray(0, n)), vy: Array.from(S.vy.subarray(0, n)), src: [...Array(n).keys()].map((i) => pnSource(S, i)),
+            eps: S.params.softening, c: S.params.cLight, G: S.params.G }; };
+        const build = (p) => { const v = HP.validatePreset(JSON.parse(JSON.stringify(p))); HP.sim.build(v.preset); return HP.sim; };
+        const o = {};
+        HP.loadPreset('plutoCharonDiagInput', false);
+        let S = HP.sim;
+        o.charon = { src: [0, 1].map((i) => pnSource(S, i)), decl: [0, 1].map((i) => HP.pnSourceDeclared(S, i)), st: st(S) };
+        // ⑤ kF0 を離れる/戻る
+        S.params.kFrame = 1; S.step(DT); o.leave = [0, 1].map((i) => pnSource(S, i));
+        S.params.kFrame = 0; S.step(DT); o.back = [0, 1].map((i) => pnSource(S, i));
+        // ⑥ 光線の門
+        const rayOk = (S) => { for (let i = 0; i < S.n; i++) if (HP.rayHeavy(S, i) !== (S.m[i] >= HP.rayMassMin(S.params, S.R[i]))) return false; return true; };
+        HP.loadPreset('plutoCharonDiagInput', false); o.rayCharon = rayOk(HP.sim);
+        HP.loadPreset('binary', false); o.rayBinary = rayOk(HP.sim);
+        // ② 半径回帰
+        const one = (p) => { const S = build(p); S.step(1e-5); return { vx: [S.vx[0], S.vx[1]], vy: [S.vy[0], S.vy[1]] }; };
+        const a = one(radA), b = one(radB);
+        o.radSame = [0, 1].every((i) => Object.is(a.vx[i], b.vx[i]) && Object.is(a.vy[i], b.vy[i]));
+        // ③④
+        o.three = st(build(three));
+        S = build(threeOff); o.threeOff = st(S); o.confOff = pn1GRConformance(S);
+        o.contract = JSON.parse(JSON.stringify(PN1_CONTRACT));
+        HP.loadPreset('saturn', false);
+        return o;
+      }, { three, threeOff, radA: rad(0.001), radB: rad(1) });
+      const relOf = (s) => { const bodies = s.m.map((m, i) => ({ m, x: s.x[i], y: s.y[i], vx: s.vx[i], vy: s.vy[i], source: s.src[i] })), oo = { G: s.G, c: s.c, eps: s.eps };
+        const full = O.eihAccel(bodies, oo), tf = O.testFormSum(bodies, oo); let d = 0, q = 0;
+        for (let i = 0; i < bodies.length; i++) { d = Math.max(d, Math.hypot(tf[i].ax + s.DX[i] - full[i].pnx, tf[i].ay + s.DY[i] - full[i].pny)); q = Math.max(q, Math.hypot(full[i].pnx, full[i].pny)); }
+        return q > 0 ? d / q : d; };
+      // ①
+      if (!(r.charon.src[0] === true && r.charon.src[1] === true)) bad.push(`① 🥶 の源 ${r.charon.src}(期待 両方)`);
+      if (r.charon.decl[1] !== false) bad.push('① 🥶 のカロンが宣言/半径門の意味でも源になっている(門の意味が変わった)');
+      cases.push(`🥶 の源 冥王星・カロン(宣言/半径門の意味では ${r.charon.decl.map((z) => z ? '源' : '−').join('・')})`);
+      // ②
+      if (!r.radSame) bad.push('② 半径 0.001 と 1 で 1 步後の速度がビットで違う');
+      cases.push('半径回帰 R=0.001/1 の 1 步後の速度がビット一致=' + r.radSame);
+      // ③④
+      const rc = relOf(r.charon.st), r3 = relOf(r.three), r3o = relOf(r.threeOff);
+      if (!(rc <= 1e-12 && r3 <= 1e-12 && r3o <= 1e-12)) bad.push(`③④ 参照 EIH との相対差 🥶 ${rc}・3 体 ${r3}・除外 ${r3o}`);
+      if (r.three.src.filter(Boolean).length !== 3) bad.push('③ 宣言の無い 3 体の源が 3 でない');
+      if (r.threeOff.src.join(',') !== 'true,true,false') bad.push('④ pnSource:false の 3 体目が源から外れていない ' + r.threeOff.src);
+      if (!(r.confOff && r.confOff.ok === false && r.confOff.reasons.includes('pnSourceFalse'))) bad.push('④ 表示条件の理由に pnSourceFalse が無い');
+      cases.push(`参照 EIH との相対差 🥶 ${rc.toExponential(2)}・3 体 ${r3.toExponential(2)}・除外 ${r3o.toExponential(2)}(≤1e−12)`);
+      // ⑤
+      if (!(r.leave.join(',') === 'true,false' && r.back.join(',') === 'true,true')) bad.push(`⑤ kF0 を離れる/戻る ${r.leave} / ${r.back}`);
+      cases.push(`kFrame=1 で源 ${r.leave.map((z) => z ? '源' : '−').join('・')} → kFrame=0 で ${r.back.map((z) => z ? '源' : '−').join('・')}`);
+      // ⑥
+      if (!(r.rayCharon && r.rayBinary)) bad.push('⑥ 光線の門が rayMassMin の式と違う');
+      cases.push('光線の門は rayMassMin の式のまま(🥶・⭐)');
+      // ⑦
+      if (!(r.contract.version === 'w291b-eih-2' && /all finite-mass bodies are sources/.test(r.contract.sources) && /ray drawing only/.test(r.contract.sources)))
+        bad.push('⑦ PN1_CONTRACT の版・sources の文が違う: ' + r.contract.version);
+      cases.push('契約 ' + r.contract.version);
+    } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 160)); }
+    add('behavior.pn1Sources', bad.length === 0,
+      `**kF0 の 1PN 源 = 全質量源**(第291便b・原仮定者の裁定(第81報)⑤・R133): ${cases.join(' / ')} —— EIH の式に半径は入っていない。`
+      + `半径門(RAY_ALPHA_MIN=0.02 rad)は光線描画の省略基準で、kF0 の軌道では源を選ばない(\`S._core\` は 1 命令も変えていない)`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第291便b(原仮定者の裁定(第81報)⑤・R133): docs.pn1Contract ----
+// ----   正本 tests/out/pnsources-w291b.json(器 tests/exp-w291b-pnsources.mjs)と文書を突き合わせる(fs のみ):
+// ----     ① 来歴(w272e-1・対象 html の sha か領域一致)・器の版・正本の html の PN1_EIH_VERSION が w291b-eih-2
+// ----     ② 前後(基点 cf2da0a): 差のある本はすべて「1PN の源が増えた本」(源が増えていない差 0)・署名は全本同じ・
+// ----        参照 EIH との照合 ≤1e−12・☄️(水星 pnSource:false)で Δ≡0・半径回帰がビット一致・🥶 のカロンが源
+// ----     ③ 🥶 の閉じた式(closedFormPeriod・closedFormResidual)が lib の definitionMixAudit() と同値で、1PN の源集合の是正の桁(periodScaleSec)が
+// ----        閉じた式の差の 1e−3 未満(この差は消えない —— 判定ではない)
+// ----     ④ PHYSICS〔第291便b〕が「## 7.」の前にあり、裁定・R133・語と数を持ち、差のある本の ID をすべて表に持つ・書かない語 0
+// ----     ⑤ AI_SPEC に pnSource:false・CALIBRATION_VERDICT の 🥶 の行と html の 🥶 の obsCard(ja/en)に保留の語と閉じた式の差
+// ----   **root は SKIP**。
+{
+  let JP = null;
+  try { JP = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsources-w291b.json'), 'utf8')); } catch (e) { JP = null; }
+  const htmlP = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!TARGET.startsWith('beta/') || htmlP.indexOf('function pnOrbitalSource(') < 0) {
+    console.log('SKIP docs.pn1Contract(beta 対象でないか pnOrbitalSource が無い: ' + TARGET + ' — 第291便b の正本は beta 線)');
+  } else {
+    const bad = [], cases = [];
+    try {
+      if (!JP) throw new Error('正本 tests/out/pnsources-w291b.json が無い');
+      const E = await import('file://' + path.join(ROOT, 'tests', 'exp-w291b-pnsources.mjs'));
+      const CI = await import('file://' + path.join(ROOT, 'tests', 'lib-w280d-charoninput.mjs'));
+      const SC = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+      const M = JP.meta || {};
+      const sha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, TARGET))).digest('hex');
+      if (M.provenanceVersion !== 'w272e-1' || M.harnessVersion !== E.HARNESS_VERSION) bad.push('① 来歴・器の版');
+      if (!SC.provTargetOk(ROOT, M, sha)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を再走する)');
+      if (JP.htmlPn1Version !== 'w291b-eih-2') bad.push('① 正本の html の PN1_EIH_VERSION ' + JP.htmlPn1Version);
+      cases.push('来歴・版');
+      const V = JP.verdict || {};
+      for (const k of ['changedOnlyWhereSourcesIncreased', 'sigAllSame', 'oracle1e12', 'mercuryDeltaZero', 'radiusIndependent', 'charonIsSource', 'pn1BelowResidual'])
+        if (V[k] !== true) bad.push('② 正本の ' + k + ' が true でない');
+      cases.push(`前後 ${JP.B.bitSame}/${JP.A.n}(差 ${JP.B.changed.length} 本 —— すべて源が増えた本・署名 ${JP.B.sigSame}/${JP.A.n})・照合 ${Number(JP.C.summary.maxRel).toExponential(2)}`);
+      const au = CI.definitionMixAudit();
+      if (!(Math.abs(JP.E.closedFormPeriod - au.closedFormPeriod) <= 1e-12 * au.closedFormPeriod && Math.abs(JP.E.closedFormResidual.sec - au.closedFormResidual.sec) <= 1e-12))
+        bad.push('③ 正本の閉じた式が lib と違う');
+      if (!(JP.E.periodScaleSec < 1e-3 * Math.abs(au.closedFormResidual.sec))) bad.push('③ 1PN の源集合の是正の桁が閉じた式の差の 1e−3 未満でない');
+      cases.push(`🥶 閉じた式 +${au.closedFormResidual.sec.toFixed(6)} s(${au.closedFormResidual.sigma.toFixed(3)}σ)・1PN の源集合の是正の桁 ${Number(JP.E.periodScaleSec).toExponential(2)} s`);
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const i0 = P.indexOf('\n〔第291便b — '), i7 = P.indexOf('\n## 7. ');
+      if (i0 < 0 || !(i7 > i0)) bad.push('④ PHYSICS〔第291便b〕が「## 7.」の前に無い');
+      else {
+        const i1 = (() => { const z = [P.indexOf('\n〔第', i0 + 5), P.indexOf('\n## ', i0 + 5)].filter((q) => q >= 0); return z.length ? Math.min(...z) : P.length; })();
+        const sec = P.slice(i0, i1);
+        const need = ['原仮定者の裁定(第81報)', '統括の検証項目 R133', 'EIH', 'RAY_ALPHA_MIN', '全質量源', 'pnSource:false', 'J₂', '1.5PN', '7.216805', 'w291b-eih-2'];
+        for (const w of need) if (sec.indexOf(w) < 0) bad.push('④ PHYSICS〔第291便b〕に ' + w + ' が無い');
+        for (const id of JP.B.changed) if (sec.indexOf('`' + id + '`') < 0) bad.push('④ PHYSICS〔第291便b〕の差の表に ' + id + ' が無い');
+        const secNoQuote = sec.replace(/「[^」]*」/g, '');
+        for (const w of E.DO_NOT_WRITE) if (secNoQuote.indexOf(w) >= 0) bad.push('④ PHYSICS〔第291便b〕に書かない語 ' + w);
+        cases.push(`PHYSICS〔第291便b〕の語 ${need.length}・差の表 ${JP.B.changed.length} 本`);
+      }
+      const AI = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      if (AI.indexOf('pnSource:false') < 0) bad.push('⑤ AI_SPEC に pnSource:false が無い');
+      const CV = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      const cvRow = CV.split('\n').find((l) => l.indexOf('plutoCharonDiagInput') >= 0 && l.indexOf('保留(数値未解決+写像未解決)') >= 0);
+      if (!cvRow || cvRow.indexOf('7.216805') < 0) bad.push('⑤ CALIBRATION_VERDICT の 🥶 の行に保留の語と閉じた式の差が無い');
+      const s0 = htmlP.indexOf('{ id:"plutoCharonDiagInput"'), s1 = htmlP.indexOf('\n{ id:', s0 + 10);
+      const seg = s0 >= 0 ? htmlP.slice(s0, s1 > s0 ? s1 : undefined) : '';
+      if (seg.indexOf('**保留(数値未解決+写像未解決)**') < 0 || seg.indexOf('HOLD (NUMERICS UNRESOLVED + MAPPING UNRESOLVED)') < 0 || (seg.match(/7\.216805/g) || []).length < 2)
+        bad.push('⑤ html の 🥶 の obsCard(ja/en)に保留の語と閉じた式の差が無い');
+      cases.push('AI_SPEC・VERDICT・🥶 の obsCard');
+    } catch (e) { bad.push(String(e).slice(0, 160)); }
+    add('docs.pn1Contract', bad.length === 0,
+      `**kF0 の 1PN の源集合の文書**(第291便b・原仮定者の裁定(第81報)⑤・R133): ${cases.join(' / ')} —— 質点 1PN を採るのは天体の大きさの効果(J₂・潮汐・スピン結合)を`
+      + `評価して省いたからではない・1.5PN は足さない`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
