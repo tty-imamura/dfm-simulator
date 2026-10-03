@@ -29643,6 +29643,43 @@ a=0.5(2a=1)は境界で、幾何がわずかに動くので上界は 1 の直下
 
 **書かないこと**: 「渦巻が創発した」「銀河を較正した」「腕が力学的に安定した」「平坦回転曲線」「中心が腕を束ねる」「観測一致を達成した」とは書かない。🍭🎢 は**宣言した形の参照模型**で、腕の形は計算から出てきた模様ではない。ピッチ角 20° は宣言値で、観測のピッチ角(NGC 3198 の 16〜24° など)は入力していない。
 
+〔第291便b — GR 1PN 便(kF0 の 1PN の源集合を「全質量源」へ・🥶 の残差の分解・🌨️ の退役・σ 接続器へ 🥶)(**式は 1 文字も変えていない**・`S._core` 35197 字のまま —— 変わるのは kF0 の EIH 経路の源集合だけで、前後の差は 1PN の源が増えた本だけ)〕
+
+**出典**: 原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする。現状は半径に関連する項が入っている(恒星は質量が中心に偏り、冥王星とカロンは潮汐ロックしているので多くの場合半径は無視できる)」・同 ③(第80報の提案 AN124 に「概ね同意」—— 🌨️ の退役)。統括の検証項目 R133。
+
+**① 精査の結論**: kF0 の 1PN(PPN の N 体 1PN —— pnAlpha=1.5 で EIH・第285便b)の加速度の式(html の `dfmPN1Delta` と `_core` の試験粒子形・参照実装 `tests/lib-w285b-gr1pn.mjs` の `eihAccel`)には**天体半径は入っていない**。半径が入っていたのは**源の選別**だけ —— `pnMassMin(p,R)=(RAY_ALPHA_MIN/4)·max(R,ε)·c²/G`(`pnSource` と、`_core`・特別化カーネル・試験粒子経路・`dfmPN1Delta`・`dfmGeo3PNKick` の写し)。RAY_ALPHA_MIN=0.02 rad は**光線描画の偏向角の省略基準**(第47便注記)であって、GR の 1PN の存在条件ではない。この門のため、源の宣言(`pnSource:true`)を持たない軽い天体は 1PN の場を作らず「受けるだけ」だった(🥶 ではカロンが源でなかった)。
+
+**② 源集合の契約(版 `w291b-eih-2`)**: 軌道の EIH 経路(kF0 = geoPN=1 ∧ kFrame=0 と互換入力 geoPN=2 ∧ kFrame=0)の 1PN 源は**全質量源** —— 純関数 `pnOrbitalSource(S,i)` = 有限の正の有効質量 ∧ 受理された試験粒子(第283便c の契約)でない ∧ `pnSource:false` の明示で除外していない。`S._core` は 1 命令も変えない: `_core`・特別化カーネル・試験粒子経路・`dfmPN1Delta` はどれも源を `pnOv[j] || m≥pnK·max(R,ε)` で読むので、kF0 の間だけ `S.pnOv` の**ビット 2** を全質量源で埋める(`pnOrbitalSync` —— build の最後と `geoCoreDispatch` の入口。kF0 を離れたらビット 2 を消し、宣言のビット 1 だけに戻す)。`PN1_CONTRACT.sources` は「EIH core: all finite-mass bodies are sources; active test particles only receive; the optical-angle/radius cutoff is for ray drawing only」。**光線描画の門(`rayMassMin`・`rayHeavy`・光線キャッシュ鍵)は不変**・geoPN=2 ∧ kFrame>0(q 近似)と geoPN=3 の `dfmGeo3PNKick` の源集合も本便では変えない(決断事項)。受理器は `pnSource:false` を受理する(旧: true 以外は削除)。**限定**: `pnSource:false` は半径門より軽い天体の除外にだけ効く —— 門を超える天体は `_core` の閾値が源として読む(`_core` を変えない)。qLock の中心探索は従来の意味(`pnSourceDeclared` —— 宣言か半径門)のまま。
+
+**③ 前後(基点 cf2da0a・内蔵 150 本)**: bitsame(600 步)の差は **21 本** —— すべて kF0 で 1PN の源が増えた本である(源の数 基点 → 現行)。署名(presetSig)は 150/150 同じ。G=0・λ_PN=0・kF0 でない本は 1 bit も変わらない。
+
+| ID | 源 | | ID | 源 |
+|---|---|---|---|---|
+| 🌙 `earthMoonReal` | 1 → 2 | | 🥶 `plutoCharonDiagInput` | 1 → 2 |
+| ⭕ `emAuditNewton`(退役) | 1 → 2 | | 💠 `uranusReal` | 1 → 6(環は試験粒子) |
+| 🔆 `emAuditSolar` | 2 → 3 | | 🌊 `neptuneReal` | 1 → 2 |
+| 🌓 `earthMoonDiagOne` | 1 → 2 | | 📡 `saturnZonalD68` | 1 → 11 |
+| ☿ `mercury` | 1 → 2 | | 🧷 `saturnD68Consistent` | 1 → 2 |
+| ☄️ `mercuryReal` | 1 → 2 | | 📎 `saturnD68ObsOrbit` | 1 → 2(24 步では 1 ulp 未満・600 步で差) |
+| 🌞 `solarInner` | 1 → 5(環は試験粒子) | | 💍 `saturnRingReal` | 1 → 7(環は試験粒子) |
+| 🟠 `jupiterGalilean` | 1 → 5 | | ⭐ `binary` | 2 → 242 |
+| 🌇 `venusReal` | 1 → 2 | | ❄️ `plutoCharonReal`(退役) | 1 → 2 |
+| 🥔 `marsMoonsReal` | 1 → 3 | | ⛄ `plutoCharonDFM`(退役) | 1 → 2 |
+| 🌨️ `plutoCharonKF0Control`(本便で退役) | 1 → 2 | | | |
+
+固定源 1 つの本(☿・☄️・📡・💍 等)は第285便b では Δ≡0 だったが、受け手が源になると固定源の位置の Φ_b に受け手の場が入るので Δ は 0 でなくなる(EIH の項そのもの)。試験粒子極限の検査(QA behavior.pn1Binary ④)は水星に `pnSource:false` を明示した写しで行う。**所要**: ⭐ は 242 体がすべて源になり EIH の差分が O(n²) で当たるので、手元の Chromium の A/B 負荷(jitprobe)で 1.32 → 3.26 ms/步(×2.46 —— 他の kF0 の本は 1.3〜1.6 倍)。jitprobe の既定 4 本では `galaxyGeo2` の A/B の B 側(`kFrame:0` —— 互換入力 geoPN=2∧kFrame=0 なので kF0)が 381 体の全質量源になり ×1.41(門 ≤1.5×・bhCore ×1.01・galaxyMeshSpiral ×1.04・gw150914DFM ×0.97 —— `_core` の JIT 崖ではなく源が増えた分の演算)。源が 8 を超える宇宙は `dfmPN1Delta` の詰め替え版 `dfmPN1DeltaWide`(同じ式・同じ加算順 —— 結果はビット同一・galaxyGeo2 の B 側で 4.97 → 3.46 ms/回)を通る。
+
+**④ 照合と回帰**(器 `tests/exp-w291b-pnsources.mjs`・正本 `tests/out/pnsources-w291b.json`): 全源が有効の同じ状態で html の Δ + 試験粒子形と参照 `eihAccel` の最大相対残差 **1.39×10⁻¹⁶**(最大絶対 3.03×10⁻²⁰ —— 🥶・宣言の無い 3 体〔基点では源 0〕・3 体目に `pnSource:false`)。☄️ の水星に `pnSource:false` を明示した写しで Δ≡0。**半径だけを変えた回帰**(G=1・c=100・m=1,2・r=10・R=0.001 と 1・1 步 dt=10⁻⁵): 更新後の速度が**ビットで同じ**(基点では源が 2/0 に分かれ |Δv|=2.16×10⁻¹¹)。
+
+**⑤ 🥶 の残差の分解(観測値をそのまま使える入力へ)**: 閉じた式の算術(器 `tests/lib-w280d-charoninput.mjs` の `definitionMixAudit()` に足した欄 `closedFormPeriod`・`closedFormResidual`): GM 合計 975.4 km³/s²(Brozović & Jacobson 2024 Table 8)・a=19,595.764 km(同 Table 10 の 400 年平均)→ ニュートン二体周期 **551,863.655525 s**、判定行の比較値 Buie 2012 の 551,856.438720 s(σ 0.025920 s)との差 **+7.216805 s(+278.426σ)**。走行の残差(正本 calaudit の 🥶 の周期の行)はこの差とほぼ同じで、差の残りは軟化 1 km とケプラー初速の分(第280便d の鎖)。**刻みの細分化だけで消えるとは見込まない。** 1PN の源集合の是正(カロンも源)の寄与は初期状態の |δa|/|a_N|=3.01×10⁻¹³ の P 倍で **1.66×10⁻⁷ s**(解析の目安 P·GM/(c²a)=3.06×10⁻⁷ s)—— **10⁻⁷ s の桁で、閉じた式の差は消えない**。GM の ±0.4/±0.3 km³/s² を独立 1σ と読むと周期の幅は約 141 s(`closedFormGMSigmaReading`)だが**正式 σ に採用しない**(相関・水準が未確認)。G は 6.674 のまま(GM を正準にして質量を再換算しないかぎり G だけは動かさない —— 決断事項)。🥶 の obsCard の比較の行と CALIBRATION_VERDICT の 🥶 の行を「保留(数値未解決+写像未解決)」の文にした(走行の値は鎖の正本が更新する)。
+
+**⑥ 質点 1PN を採る理由の限定**: 「恒星は質量が中心に偏る/冥王星とカロンは潮汐ロックしている」は**質点 1PN を採る理由**であって、天体の大きさの効果(J₂・潮汐・スピン結合)を評価して省いたのではない。1.5PN(スピン軌道)も足さない。
+
+**⑦ 「GR 1PN 準拠」の表示(実行条件で判定)**: `pn1GRConformance(S)` —— EIH 経路・λ_PN=1・pnAlpha=1.5・全質量源・kFrame=0・固定の天体なし・他の引きずり/外力なし(相対すべり則・一様外場・ハロー・スピン結合・軸力・コンパクト力・空間メッシュ・帯状重力・引きずりフック・GW 放射・接触)と軟化 ε の宣言(Plummer 軟化は点質量 1PN と O(ε²/r²) で違う)。条件から外れても**実行は禁止しない**(表示だけ —— HUD の 1 行と説明タブの観測結果カードの派生行)。内蔵の kF0 の本のうち条件内は 13 本(🌙⭕🌇❄️🌨️🥶🌊✨🌟📻🧮🩺📿)・条件外の理由の度数は pinned 11・zonal 3・spaceMesh 1・relativeDrag 1・contact 1。**条件内は観測一致の主張ではない。**
+
+**⑧ 🌨️ の退役・σ 接続器**: 🌨️ `plutoCharonKF0Control` は ⛄ の対照として作った本で、⛄ の退役(第290便b)で目的が消えた —— `familyRole:"retired"`・`RETIRED_PRESETS` に理由(代わりは 🥶)・凍結の写し `tests/fixtures/retired-w291b.json`(器 `tests/exp-w291b-retiredfx.mjs`・基点 cf2da0a と署名同じ)。🌨️ は `sampleClass:"principle"` なので**較正母集団(calibration ∧ 退役でない)は 20 本のまま**・kf0 段の `--only` にも 🌨️ は無い。σ 接続器 `tests/exp-w262d-solarsigma.mjs` の太陽系の一覧に 🥶 を足した(σ の来歴 Buie 2012・0.025920 s と比較量〔二体ケプラー当てはめの P〕を行の欄 `sigmaProvenance` に明示)—— 現行の calaudit 正本で試算すると切断点 84/18/2/1 → 86/24/2/2・太陽系 4 値 保留 10 → 11(🥶 の周期の行は connected だが判定は「数値収束が未確認」の保留)。**接続数が増えたことと合否の改善を同一視しない**(正式の値は鎖の正本が決める)。
+
+**⑨ QA**: 新設 `behavior.pn1Sources`(🥶 でカロンが源・半径回帰・参照 EIH の照合・`pnSource:false`・kF0 を離れる/戻る・光線の門・契約の版)・`docs.pn1Contract`(正本・閉じた式・本節・AI_SPEC・VERDICT・🥶 の obsCard)。**固定値を変えた**(世代切替): `pn.source-flag`・`ray.alpha-threshold`・`behavior.pn1Binary` ④(has291bPN/RA —— html に `pnOrbitalSource`)・`behavior.plutoCharonDFM`・`ui.charonFamily`・`docs.retired`(🌨️ の退役 —— html の RETIRED_PRESETS)・σ 接続器を読む 5 か所(has291bSS —— 正本 solarsigma に 🥶 の行)。html の `PN1_EIH_VERSION` を上げたので、正本 pn1-w285b・eihdiag-w287b・calaudit 以下は鎖の再生成で追いつく。
 〔第291便c — 測地線モード便(モード=主な用途の分類・走る法則は宣言から解決・制限はセーブ時の警告だけ・保存の版 `modePolicy:"w291c-1"`)(**内蔵 150 本の走行は 1 bit 不変** —— bitsame/sigsame **150/150**・`S._core` 35197 字のまま)〕
 
 出典: 原仮定者の裁定(第81報)⑥「測地線モードの整理 —— モードが違ってもセーブ時の警告以外の制限を無くす」・統括の検証項目 R134。geoPN は**アプリのモード番号**(標準理論の 2PN・3PN ではない)。
