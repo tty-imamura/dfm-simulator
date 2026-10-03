@@ -1,0 +1,1279 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第290便e",
+  "target": "beta/index.html",
+  "targetSha256": "ee214e4c4be9a05e6028199ed4afc4a718fa9252a314622989f2dc1e995336ba",
+  "generatedAt": "2026-10-03T00:29:53.037Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5470513,
+    "sha256": "ee214e4c4be9a05e6028199ed4afc4a718fa9252a314622989f2dc1e995336ba",
+    "mtime": "2026-10-03T00:23:56.687Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w290e-spiral.mjs",
+    "bytes": 38327,
+    "sha256": "bda376c9894f2bce2622ccb031ecb9468af42b529318144119baa542af3c4987",
+    "mtime": "2026-10-03T00:08:50.858Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-02T23:31:20.572Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-02T23:31:20.536Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-02T23:31:20.612Z"
+   }
+  ],
+  "codeSha256": "ccc24a773109173a549dcd798f3c552481970631acae975bd0c9d7b2e71a7513",
+  "harnessVersion": "w290e-spiral-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第80報)⑤ 渦巻銀河の参照模型 2 本(shapeToyDisk+shapeToyArm/shapeToyDiskCore+shapeToyArmCore)",
+  "reading": "統括の検証項目 R129(新設 2 本だけ —— 既存の本は 1 bit 不変・S._core 不変・既存 3 shape の経路は不変・観測のピッチ角/軸比を入力しない・門は作る前に宣言)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "notClaim": [
+   "渦巻が創発した",
+   "銀河を較正した",
+   "腕が力学的に安定した",
+   "平坦回転曲線",
+   "中心が腕を束ねる",
+   "観測一致"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "shapeToyArm",
+    "shapeToyArmCore",
+    "shapeToyDisk",
+    "shapeToyDiskCore",
+    "shapeToySpiral",
+    "shapeToySpiralCore"
+   ],
+   "roots": [
+    "$",
+    "DT",
+    "HP.allPresets",
+    "HP.ckRestoreOne",
+    "HP.ckSnapOne",
+    "HP.cloneSimStateNow",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.loadPreset",
+    "HP.shapeToySpiralCentreline",
+    "HP.shapeToySpiralState",
+    "HP.sim",
+    "HP.validatePreset",
+    "cw"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 904,
+   "segments": 818,
+   "closureShare": 0.3218
+  },
+  "scopeSha256": "c8e7ed3e0ec7ab81d4abb878a5c9ad91cd465a6814d2cc1e113b411d213732dc",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "declarations": [
+  {
+   "id": "shapeToySpiral",
+   "emoji": "🍭",
+   "name": "渦巻の参照模型 — 円盤+対数螺旋の腕(宣言した形・較正ではない)",
+   "familyId": "shapeToy",
+   "familyRole": "variant",
+   "law": "ou",
+   "spiral": {
+    "nArm": 2,
+    "pitchDeg": 20,
+    "rMin": 24,
+    "rMax": 144,
+    "r0": 24,
+    "phi0Deg": 0,
+    "armWidth": 7.2,
+    "armSigmaZ": 4.8,
+    "armOmega0": 0.12,
+    "armGamma": 0.24,
+    "omegaP": 0.05,
+    "massRatio": 2,
+    "nDisk": 300,
+    "nArmParticles": 150,
+    "density": "uniform-s"
+   },
+   "disk": {
+    "sigma": 44,
+    "sigmaZ": 14,
+    "omega0": 0.01,
+    "gamma": 0.02
+   },
+   "coreField": null,
+   "centre": null,
+   "seed": 20260919
+  },
+  {
+   "id": "shapeToySpiralCore",
+   "emoji": "🎢",
+   "name": "中心つき渦巻の幾何参照 — Core 力学の円盤+規定運動の腕(較正ではない)",
+   "familyId": "shapeToyCore",
+   "familyRole": "variant",
+   "law": "coreField",
+   "spiral": {
+    "nArm": 2,
+    "pitchDeg": 20,
+    "rMin": 24,
+    "rMax": 144,
+    "r0": 24,
+    "phi0Deg": 0,
+    "armWidth": 7.2,
+    "armSigmaZ": 7.2,
+    "armOmega0": 0.12,
+    "armGamma": 0.24,
+    "omegaP": 0.14,
+    "massRatio": 2,
+    "nDisk": 300,
+    "nArmParticles": 150,
+    "density": "uniform-s"
+   },
+   "disk": {
+    "sigma": 44,
+    "sigmaZ": 14,
+    "omega0": 0.01,
+    "gamma": 0.02
+   },
+   "coreField": {
+    "coreRc": 160,
+    "coreMass": 10,
+    "alpha": 1.05,
+    "beta": 7.8,
+    "axis": [
+     0,
+     0,
+     1
+    ],
+    "W0": 0.0044921875,
+    "temp": 3.624,
+    "omegaP": 0.14,
+    "init": "thermal",
+    "centreGravity": "phi",
+    "exchange": {
+     "mode": "rotating-bath",
+     "rate": 0.02,
+     "capacity": 20000
+    }
+   },
+   "centre": {
+    "m": 10,
+    "radius": 5,
+    "spin": 1,
+    "pinned": true
+   },
+   "seed": 20260920
+  }
+ ],
+ "compose": {
+  "lastShapeWins": "arm",
+  "hessianSum": [
+   [
+    1.0608,
+    0,
+    0
+   ],
+   [
+    0,
+    3.05,
+    0
+   ],
+   [
+    0,
+    0,
+    9.8
+   ]
+  ],
+  "hessianSumOffDiagMax": 0,
+  "hessianConstant": true,
+  "straightArmPitch": {
+   "tlsDeg": 89.2318452394,
+   "olsDeg": 89.3123640425,
+   "n": 3144,
+   "ran": true
+  },
+  "note": "鍵を重ねた JSON は最後の shape だけが残る。二次形式の和のヘッセ行列は定数(対角・主軸は座標軸の直線)で、曲がった腕の中心線を定義しない。直線の腕に同じ回帰を当てるとピッチ角は 90° 付近(渦巻ではない)"
+ },
+ "gate1": {
+  "rows": [
+   {
+    "id": "shapeToySpiral",
+    "n": 450,
+    "pinned": 0,
+    "nDisk": 300,
+    "nArm": 150,
+    "declNDisk": 300,
+    "declNArm": 150,
+    "perArm": [
+     75,
+     75
+    ],
+    "unassignedOrDuplicate": 0,
+    "massDisk": 180.000007153,
+    "massArm": 90.0000035763,
+    "massRatio": 2,
+    "declMassRatio": 2,
+    "massRatioRel": 0,
+    "stop": null,
+    "ok": true
+   },
+   {
+    "id": "shapeToySpiralCore",
+    "n": 451,
+    "pinned": 1,
+    "nDisk": 300,
+    "nArm": 150,
+    "declNDisk": 300,
+    "declNArm": 150,
+    "perArm": [
+     75,
+     75
+    ],
+    "unassignedOrDuplicate": 0,
+    "massDisk": 180.000007153,
+    "massArm": 90.0000035763,
+    "massRatio": 2,
+    "declMassRatio": 2,
+    "massRatioRel": 0,
+    "stop": null,
+    "ok": true
+   }
+  ],
+  "stops": [
+   {
+    "label": "nDisk を 2 減らす(数の不一致)",
+    "accepted": true,
+    "stop": "split",
+    "moved": 0
+   },
+   {
+    "label": "massRatio を 2→2.5(質量の不一致)",
+    "accepted": true,
+    "stop": "mass",
+    "moved": 0
+   },
+   {
+    "label": "pitchDeg=0",
+    "accepted": false,
+    "error": "physics.shapeToy.spiral.pitchDeg は 0<|p|<90 の有限数(度 —— 宣言値)"
+   },
+   {
+    "label": "pitchDeg=90",
+    "accepted": false,
+    "error": "physics.shapeToy.spiral.pitchDeg は 0<|p|<90 の有限数(度 —— 宣言値)"
+   },
+   {
+    "label": "rMin=0",
+    "accepted": false,
+    "error": "physics.shapeToy.spiral の rMin/rMax は 0<rMin<rMax の有限数(必須)"
+   },
+   {
+    "label": "nArmParticles を nArm の倍数でなく",
+    "accepted": false,
+    "error": "physics.shapeToy.spiral.nArmParticles は nArm の倍数(各腕に同じ数を置く)"
+   },
+   {
+    "label": "massRatio 欠落",
+    "accepted": false,
+    "error": "physics.shapeToy.spiral.massRatio(円盤/腕の質量比)は両成分があるとき必須の正数"
+   },
+   {
+    "label": "coupling:\"feedback\"",
+    "accepted": false,
+    "error": "physics.shapeToy.shape:\"spiral\" は coupling:\"prescribed\" のみ(feedback は OU 法則の診断)"
+   },
+   {
+    "label": "tauGrow>0",
+    "accepted": false,
+    "error": "physics.shapeToy.shape:\"spiral\" は tauGrow=0(参照模型は成長しない —— s は宣言の密度で固定)"
+   },
+   {
+    "label": "spiral を shape:\"disk\" に置く",
+    "accepted": false,
+    "error": "physics.shapeToy.spiral は shape:\"spiral\" 専用"
+   },
+   {
+    "label": "spiral の宣言なし",
+    "accepted": false,
+    "error": "physics.shapeToy.spiral は shape:\"spiral\" では必須のオブジェクト({nArm,pitchDeg,rMin,rMax,armWidth,…})"
+   },
+   {
+    "label": "🎢 の coreField の軸を (1,0,0)",
+    "accepted": false,
+    "error": "physics.shapeToy.shape:\"spiral\" の law:\"coreField\" は軸を円盤の法線 ±(0,0,1) に取る(円盤成分の Core 力学)"
+   }
+  ],
+  "ok": true
+ },
+ "base": {
+  "spiral": {
+   "disk": {
+    "sigmaR": 41.56037506165756,
+    "sigmaZ": 13.8110845569285,
+    "axisRatio": 0.3323137612795564
+   },
+   "arm": {
+    "transverseRms": 7.212651320300632,
+    "transverseRmsState": 7.212651326885851,
+    "thicknessRms": 4.816510820864395,
+    "tangentMaxAbs": 0.000005452735559074995,
+    "tangentMaxUlpF32": 0.5849198487475841,
+    "transverseVsStateMaxAbs": 0.00000756967357951055
+   },
+   "pitch": {
+    "n": 3150,
+    "slopeTls": 2.662789969860428,
+    "slopeOls": 2.494978738574958,
+    "tlsDeg": 20.58346462036866,
+    "olsDeg": 21.841160664831005
+   },
+   "ledger": {
+    "E": 160.17253805256237,
+    "bathE": -160.17253805256237,
+    "sumZero": 0,
+    "dK": 160.17253805256246,
+    "dKvsBookedRel": 4.495267907828692e-17,
+    "supE": 2563.3837709106433,
+    "detE": -2403.2112067577505,
+    "supplyRate": 0.03797605586534286,
+    "supEArm": 2311.365993642456,
+    "supplyRateArm": 0.10272737749522026,
+    "coreE": 0,
+    "coreReacE": 0
+   },
+   "stop": null,
+   "coreStop": null,
+   "nPrescribed": 450,
+   "nCore": 0,
+   "nan": false,
+   "samples": 21,
+   "fp": {
+    "all": "eec29332",
+    "arm": "f95bbdc4",
+    "disk": "9160cb63"
+   }
+  },
+  "core": {
+   "disk": {
+    "sigmaR": 43.69809652902068,
+    "sigmaZ": 11.387578905237012,
+    "axisRatio": 0.26059668062828134
+   },
+   "arm": {
+    "transverseRms": 7.142809377360479,
+    "transverseRmsState": 7.142809371408623,
+    "thicknessRms": 7.094598831127304,
+    "tangentMaxAbs": 0.00000718553423517676,
+    "tangentMaxUlpF32": 0.5920943224974137,
+    "transverseVsStateMaxAbs": 0.000007399786193129643
+   },
+   "pitch": {
+    "n": 3150,
+    "slopeTls": 2.6817928246773897,
+    "slopeOls": 2.511021604739164,
+    "tlsDeg": 20.449724959770332,
+    "olsDeg": 21.714637069247026
+   },
+   "ledger": {
+    "E": 119.58462738908283,
+    "bathE": -119.58462738908283,
+    "sumZero": 0,
+    "dK": 119.58462738908202,
+    "dKvsBookedRel": 1.0861161075164146e-16,
+    "supE": 2241.529985140683,
+    "detE": -2121.9449727346114,
+    "supplyRate": 0.09962355489514146,
+    "supEArm": 2241.529985140683,
+    "supplyRateArm": 0.09962355489514146,
+    "coreE": -24.858060453524594,
+    "coreReacE": 24.858060453524594
+   },
+   "stop": null,
+   "coreStop": null,
+   "nPrescribed": 150,
+   "nCore": 300,
+   "nan": false,
+   "samples": 21,
+   "fp": {
+    "all": "a2c7b770",
+    "arm": "a8f0e26b",
+    "disk": "e5ce8966"
+   }
+  }
+ },
+ "gate2": {
+  "ref": {
+   "disk": {
+    "samples": 21,
+    "sigmaR": 41.5603750617,
+    "sigmaZ": 13.8110845569,
+    "axisRatio": 0.33231376128,
+    "nan": false,
+    "fp": "9160cb63"
+   },
+   "arm": {
+    "samples": 21,
+    "transverseRms": 7.2357426067,
+    "thicknessRms": 4.70828691563,
+    "nan": false,
+    "fp": "138beaa2"
+   },
+   "diskCore": {
+    "samples": 21,
+    "sigmaR": 44.4295332928,
+    "sigmaZ": 11.5788955044,
+    "axisRatio": 0.260612584608,
+    "nan": false,
+    "fp": "9714ae50"
+   },
+   "armCore": {
+    "samples": 21,
+    "transverseRms": 7.66809656789,
+    "thicknessRms": 7.68199374006,
+    "nan": false,
+    "fp": "9dcc220b"
+   }
+  },
+  "rows": [
+   {
+    "label": "🍭 円盤の軸比 σ_z/σ_R ↔ 🥏",
+    "spiral": 0.33231376128,
+    "single": 0.33231376128,
+    "rel": 0,
+    "ok": true
+   },
+   {
+    "label": "🍭 腕の横断 RMS ↔ 🧵 の軸に垂直な面内 RMS",
+    "spiral": 7.2126513203,
+    "single": 7.2357426067,
+    "rel": 0.00319128079229,
+    "ok": true
+   },
+   {
+    "label": "🍭 腕の厚さ RMS ↔ 🧵 の面外 RMS",
+    "spiral": 4.81651082086,
+    "single": 4.70828691563,
+    "rel": 0.0229858347993,
+    "ok": true
+   },
+   {
+    "label": "🎢 円盤の軸比 σ_z/σ_R ↔ 📀",
+    "spiral": 0.260596680628,
+    "single": 0.260612584608,
+    "rel": 0.0000610253711409,
+    "ok": true
+   },
+   {
+    "label": "🎢 腕の横断 RMS ↔ 🧹 の軸に垂直な面内 RMS",
+    "spiral": 7.14280937736,
+    "single": 7.66809656789,
+    "rel": 0.068502944098,
+    "ok": true
+   },
+   {
+    "label": "🎢 腕の厚さ RMS ↔ 🧹 の面外 RMS",
+    "spiral": 7.09459883113,
+    "single": 7.68199374006,
+    "rel": 0.0764638619619,
+    "ok": true
+   }
+  ],
+  "diskOnlyBitSame": [
+   {
+    "id": "shapeToySpiral",
+    "ref": "shapeToyDisk",
+    "fpCopy": "9160cb63",
+    "fpRef": "9160cb63",
+    "same": true
+   },
+   {
+    "id": "shapeToySpiralCore",
+    "ref": "shapeToyDiskCore",
+    "fpCopy": "9714ae50",
+    "fpRef": "9714ae50",
+    "same": true
+   }
+  ],
+  "spiralDiskComponentBitSameAsDisk": true,
+  "ok": true
+ },
+ "gate3": {
+  "rows": [
+   {
+    "label": "🍭",
+    "declDeg": 20,
+    "tlsDeg": 20.5834646204,
+    "olsDeg": 21.8411606648,
+    "n": 3150,
+    "diffDeg": 0.583464620369,
+    "ok": true,
+    "tangentMaxAbs": 0.000005452735559074995,
+    "tangentMaxUlpF32": 0.584919848748,
+    "tangentOk": true
+   },
+   {
+    "label": "🎢",
+    "declDeg": 20,
+    "tlsDeg": 20.4497249598,
+    "olsDeg": 21.7146370692,
+    "n": 3150,
+    "diffDeg": 0.44972495977,
+    "ok": true,
+    "tangentMaxAbs": 0.00000718553423517676,
+    "tangentMaxUlpF32": 0.592094322497,
+    "tangentOk": true
+   }
+  ],
+  "ok": true
+ },
+ "gate4": {
+  "spiral": {
+   "base": {
+    "axisRatio": 0.33231376128,
+    "transverseRms": 7.2126513203,
+    "thicknessRms": 4.81651082086,
+    "pitchTlsDeg": 20.5834646204,
+    "supplyRate": 0.0379760558653,
+    "supplyRateArm": 0.102727377495
+   },
+   "variants": [
+    {
+     "label": "N(144 個)",
+     "n": 144,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.376466158089,
+      "transverseRms": 7.51180752538,
+      "thicknessRms": 4.98496515825,
+      "pitchTlsDeg": 20.4461342407,
+      "supplyRate": 0.0375995284395,
+      "supplyRateArm": 0.106303655186
+     },
+     "diff": {
+      "axisRatio": 0.132863582417,
+      "transverseRms": 0.0414765932517,
+      "thicknessRms": 0.0349743504473,
+      "pitchDeg": 0.137330379638,
+      "supplyRate": 0.00991486391367,
+      "supplyRateArm": 0.0348132871533
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 4.14901027593e-16,
+     "stop": null,
+     "ok": false
+    },
+    {
+     "label": "2N(288 個)",
+     "n": 288,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.36313426143,
+      "transverseRms": 7.77828668678,
+      "thicknessRms": 4.78159480289,
+      "pitchTlsDeg": 20.5778280813,
+      "supplyRate": 0.0351275747197,
+      "supplyRateArm": 0.0985220817817
+     },
+     "diff": {
+      "axisRatio": 0.0927451816371,
+      "transverseRms": 0.0784226689139,
+      "thicknessRms": 0.00724923482468,
+      "pitchDeg": 0.00563653902942,
+      "supplyRate": 0.0750072929039,
+      "supplyRateArm": 0.0409364651963
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 5.42403897083e-16,
+     "stop": null,
+     "ok": true
+    },
+    {
+     "label": "4N(576 個)",
+     "n": 576,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.371597775646,
+      "transverseRms": 7.55632319295,
+      "thicknessRms": 4.67782491331,
+      "pitchTlsDeg": 20.738891035,
+      "supplyRate": 0.0378603315624,
+      "supplyRateArm": 0.102282157374
+     },
+     "diff": {
+      "axisRatio": 0.118213625026,
+      "transverseRms": 0.0476484800651,
+      "thicknessRms": 0.028793853624,
+      "pitchDeg": 0.155426414607,
+      "supplyRate": 0.00304729652276,
+      "supplyRateArm": 0.0043339967589
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 9.26289851943e-16,
+     "stop": null,
+     "ok": false
+    },
+    {
+     "label": "seed+1",
+     "n": 450,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.334523739394,
+      "transverseRms": 7.14280940203,
+      "thicknessRms": 4.72973255408,
+      "pitchTlsDeg": 20.4497249324,
+      "supplyRate": 0.0359349302199,
+      "supplyRateArm": 0.0991487478679
+     },
+     "diff": {
+      "axisRatio": 0.0066502756503,
+      "transverseRms": 0.00968325171584,
+      "thicknessRms": 0.0180168321025,
+      "pitchDeg": 0.133739687958,
+      "supplyRate": 0.0537476996724,
+      "supplyRateArm": 0.0348361820829
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 4.48678979688e-16,
+     "stop": null,
+     "ok": true
+    },
+    {
+     "label": "seed+2",
+     "n": 450,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.353652007179,
+      "transverseRms": 7.52614301559,
+      "thicknessRms": 4.93513250069,
+      "pitchTlsDeg": 20.7422462829,
+      "supplyRate": 0.035637226172,
+      "supplyRateArm": 0.096122372709
+     },
+     "diff": {
+      "axisRatio": 0.0642111413538,
+      "transverseRms": 0.0434641411826,
+      "thicknessRms": 0.0246281352294,
+      "pitchDeg": 0.158781662547,
+      "supplyRate": 0.061586956309,
+      "supplyRateArm": 0.0642964411952
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 1.02399273908e-15,
+     "stop": null,
+     "ok": true
+    },
+    {
+     "label": "h/2",
+     "n": 450,
+     "dt": 0.125,
+     "idx": {
+      "axisRatio": 0.326983589706,
+      "transverseRms": 6.99504133635,
+      "thicknessRms": 4.7791542754,
+      "pitchTlsDeg": 20.3110771694,
+      "supplyRate": 0.0377074400454,
+      "supplyRateArm": 0.103893631449
+     },
+     "diff": {
+      "axisRatio": 0.0160395752283,
+      "transverseRms": 0.03017059529,
+      "thicknessRms": 0.00775593512586,
+      "pitchDeg": 0.272387450923,
+      "supplyRate": 0.00707329431083,
+      "supplyRateArm": 0.0113529030111
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 1.09258357729e-15,
+     "stop": null,
+     "ok": true
+    },
+    {
+     "label": "h/4",
+     "n": 450,
+     "dt": 0.0625,
+     "idx": {
+      "axisRatio": 0.337610160487,
+      "transverseRms": 7.1875029448,
+      "thicknessRms": 4.73063719192,
+      "pitchTlsDeg": 19.8336304427,
+      "supplyRate": 0.0379357194362,
+      "supplyRateArm": 0.103180168531
+     },
+     "diff": {
+      "axisRatio": 0.0159379472795,
+      "transverseRms": 0.00348670334656,
+      "thicknessRms": 0.0178290119419,
+      "pitchDeg": 0.74983417768,
+      "supplyRate": 0.00106215424896,
+      "supplyRateArm": 0.00440769585087
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 5.65116800396e-16,
+     "stop": null,
+     "ok": true
+    }
+   ]
+  },
+  "core": {
+   "base": {
+    "axisRatio": 0.260596680628,
+    "transverseRms": 7.14280937736,
+    "thicknessRms": 7.09459883113,
+    "pitchTlsDeg": 20.4497249598,
+    "supplyRate": 0.0996235548951,
+    "supplyRateArm": 0.0996235548951
+   },
+   "variants": [
+    {
+     "label": "N(144 個)",
+     "n": 144,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.227300523209,
+      "transverseRms": 7.32429567816,
+      "thicknessRms": 7.45129292797,
+      "pitchTlsDeg": 19.4770426577,
+      "supplyRate": 0.118759561453,
+      "supplyRateArm": 0.118759561453
+     },
+     "diff": {
+      "axisRatio": 0.12776892376,
+      "transverseRms": 0.0254082520208,
+      "thicknessRms": 0.050276852199,
+      "pitchDeg": 0.972682302113,
+      "supplyRate": 0.192083153203,
+      "supplyRateArm": 0.192083153203
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 1.89847531722e-16,
+     "stop": null,
+     "ok": false
+    },
+    {
+     "label": "2N(288 個)",
+     "n": 288,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.254852331486,
+      "transverseRms": 7.60313513554,
+      "thicknessRms": 7.01676809415,
+      "pitchTlsDeg": 20.1003697856,
+      "supplyRate": 0.11384862315,
+      "supplyRateArm": 0.11384862315
+     },
+     "diff": {
+      "axisRatio": 0.0220430633592,
+      "transverseRms": 0.0644460371068,
+      "thicknessRms": 0.0109704211377,
+      "pitchDeg": 0.349355174171,
+      "supplyRate": 0.142788201748,
+      "supplyRateArm": 0.142788201748
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 1.07323138162e-16,
+     "stop": null,
+     "ok": true
+    },
+    {
+     "label": "4N(576 個)",
+     "n": 576,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.247274768549,
+      "transverseRms": 7.21057481005,
+      "thicknessRms": 7.1283103365,
+      "pitchTlsDeg": 20.4504631644,
+      "supplyRate": 0.101087975113,
+      "supplyRateArm": 0.101087975113
+     },
+     "diff": {
+      "axisRatio": 0.0511208049436,
+      "transverseRms": 0.00948722401955,
+      "thicknessRms": 0.00475171411074,
+      "pitchDeg": 0.000738204606602,
+      "supplyRate": 0.0146995378669,
+      "supplyRateArm": 0.0146995378669
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 1.06844451313e-16,
+     "stop": null,
+     "ok": true
+    },
+    {
+     "label": "seed+1",
+     "n": 450,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.244546113361,
+      "transverseRms": 7.5261430161,
+      "thicknessRms": 7.40269875104,
+      "pitchTlsDeg": 20.7422462845,
+      "supplyRate": 0.0910410097743,
+      "supplyRateArm": 0.0910410097743
+     },
+     "diff": {
+      "axisRatio": 0.0615916028887,
+      "transverseRms": 0.0536670683041,
+      "thicknessRms": 0.0434273913505,
+      "pitchDeg": 0.292521324698,
+      "supplyRate": 0.0861497577543,
+      "supplyRateArm": 0.0861497577543
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 1.82674342785e-16,
+     "stop": null,
+     "ok": true
+    },
+    {
+     "label": "seed+2",
+     "n": 450,
+     "dt": 0.25,
+     "idx": {
+      "axisRatio": 0.250285504005,
+      "transverseRms": 7.31115705527,
+      "thicknessRms": 7.13256537761,
+      "pitchTlsDeg": 20.7130043999,
+      "supplyRate": 0.116836799337,
+      "supplyRateArm": 0.116836799337
+     },
+     "diff": {
+      "axisRatio": 0.0395675670082,
+      "transverseRms": 0.0235688325163,
+      "thicknessRms": 0.00535147192785,
+      "pitchDeg": 0.263279440168,
+      "supplyRate": 0.172782877097,
+      "supplyRateArm": 0.172782877097
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 1.80132980607e-16,
+     "stop": null,
+     "ok": true
+    },
+    {
+     "label": "h/2",
+     "n": 450,
+     "dt": 0.125,
+     "idx": {
+      "axisRatio": 0.244522796859,
+      "transverseRms": 7.19538832059,
+      "thicknessRms": 7.06998732913,
+      "pitchTlsDeg": 20.8170170014,
+      "supplyRate": 0.0954205101707,
+      "supplyRateArm": 0.0954205101707
+     },
+     "diff": {
+      "axisRatio": 0.0616810764071,
+      "transverseRms": 0.00736110127709,
+      "thicknessRms": 0.00346904773342,
+      "pitchDeg": 0.367292041665,
+      "supplyRate": 0.0421892666732,
+      "supplyRateArm": 0.0421892666732
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 3.10846429082e-16,
+     "stop": null,
+     "ok": true
+    },
+    {
+     "label": "h/4",
+     "n": 450,
+     "dt": 0.0625,
+     "idx": {
+      "axisRatio": 0.23503922188,
+      "transverseRms": 7.04297113679,
+      "thicknessRms": 7.06323807947,
+      "pitchTlsDeg": 21.0521135595,
+      "supplyRate": 0.108206274939,
+      "supplyRateArm": 0.108206274939
+     },
+     "diff": {
+      "axisRatio": 0.098072848384,
+      "transverseRms": 0.0139774471498,
+      "thicknessRms": 0.00442036997528,
+      "pitchDeg": 0.602388599697,
+      "supplyRate": 0.0861515135966,
+      "supplyRateArm": 0.0861515135966
+     },
+     "ledgerSumZero": 0,
+     "dKvsBookedRel": 3.4858709327e-16,
+     "stop": null,
+     "ok": true
+    }
+   ]
+  },
+  "refDisk": {
+   "disk": {
+    "id": "shapeToyDisk",
+    "base": {
+     "n": 300,
+     "axisRatio": 0.33231376128,
+     "sigmaR": 41.5603750617,
+     "sigmaZ": 13.8110845569
+    },
+    "variants": [
+     {
+      "label": "N",
+      "nDisk": 96,
+      "axisRatio": 0.376466158089,
+      "sigmaR": 40.2903866632,
+      "sigmaZ": 15.167967075,
+      "diff": 0.132863582417
+     },
+     {
+      "label": "2N",
+      "nDisk": 192,
+      "axisRatio": 0.36313426143,
+      "sigmaR": 38.0064091373,
+      "sigmaZ": 13.8014293117,
+      "diff": 0.0927451816371
+     },
+     {
+      "label": "4N",
+      "nDisk": 384,
+      "axisRatio": 0.371597775646,
+      "sigmaR": 38.233855432,
+      "sigmaZ": 14.2076156329,
+      "diff": 0.118213625026
+     },
+     {
+      "label": "seed+1",
+      "nDisk": 300,
+      "axisRatio": 0.334523739394,
+      "sigmaR": 41.1454791352,
+      "sigmaZ": 13.7641395395,
+      "diff": 0.0066502756503
+     },
+     {
+      "label": "seed+2",
+      "nDisk": 300,
+      "axisRatio": 0.353652007179,
+      "sigmaR": 41.3351801994,
+      "sigmaZ": 14.6182694446,
+      "diff": 0.0642111413538
+     }
+    ]
+   },
+   "diskCore": {
+    "id": "shapeToyDiskCore",
+    "base": {
+     "n": 300,
+     "axisRatio": 0.260612584608,
+     "sigmaR": 44.4295332928,
+     "sigmaZ": 11.5788955044
+    },
+    "variants": [
+     {
+      "label": "N",
+      "nDisk": 96,
+      "axisRatio": 0.245304551363,
+      "sigmaR": 45.7256454339,
+      "sigmaZ": 11.216708939,
+      "diff": 0.0587386571049
+     },
+     {
+      "label": "2N",
+      "nDisk": 192,
+      "axisRatio": 0.234893834637,
+      "sigmaR": 47.4878237042,
+      "sigmaZ": 11.1545970085,
+      "diff": 0.0986857561374
+     },
+     {
+      "label": "4N",
+      "nDisk": 384,
+      "axisRatio": 0.253393526989,
+      "sigmaR": 43.5534786124,
+      "sigmaZ": 11.0361695582,
+      "diff": 0.0277003416013
+     },
+     {
+      "label": "seed+1",
+      "nDisk": 300,
+      "axisRatio": 0.246346682541,
+      "sigmaR": 44.5068452092,
+      "sigmaZ": 10.9641136677,
+      "diff": 0.0547398817599
+     },
+     {
+      "label": "seed+2",
+      "nDisk": 300,
+      "axisRatio": 0.251324353524,
+      "sigmaR": 44.2715284678,
+      "sigmaZ": 11.1265132717,
+      "diff": 0.0356399945065
+     }
+    ]
+   }
+  },
+  "note": "形状指標(軸比・横断・厚さ・ピッチ角)は門(CRIT.convRel・convPitchDeg)・供給収支(粒子 1 個・単位時間あたりの供給 E)は差を記録するだけ(門にしない)。帳簿の恒等式(粒子が受けた E + 熱浴の E = 0・規定運動の成分の ΔK = 記帳した E)は門",
+  "ok": false
+ },
+ "gate5": {
+  "rows": [
+   {
+    "id": "shapeToySpiral",
+    "omegaP": 0,
+    "tlsDeg": 20.5834646337,
+    "olsDeg": 21.8411606841,
+    "diffDeg": 0.583464633748,
+    "ok": true
+   },
+   {
+    "id": "shapeToySpiralCore",
+    "omegaP": 0,
+    "tlsDeg": 20.4497249505,
+    "olsDeg": 21.7146370491,
+    "diffDeg": 0.449724950505,
+    "ok": true
+   }
+  ],
+  "ok": true,
+  "note": "Ω_p=0 でも腕の曲がりは残る —— 幾何の宣言の帰結(渦伸長の証拠ではない)"
+ },
+ "gate6": {
+  "spiralG": [
+   {
+    "G": 0,
+    "fp": "eec29332",
+    "stop": null
+   },
+   {
+    "G": 0.8,
+    "fp": "eec29332",
+    "stop": null
+   },
+   {
+    "G": 8,
+    "fp": "eec29332",
+    "stop": null
+   }
+  ],
+  "coreG": [
+   {
+    "G": 0,
+    "fpArm": "a8f0e26b",
+    "fpDisk": "e5ce8966",
+    "coreStop": null
+   },
+   {
+    "G": 0.8,
+    "fpArm": "a8f0e26b",
+    "fpDisk": "35d8d9cf",
+    "coreStop": "gravityDouble"
+   },
+   {
+    "G": 8,
+    "fpArm": "a8f0e26b",
+    "fpDisk": "2cd5da94",
+    "coreStop": "gravityDouble"
+   }
+  ],
+  "spinZero": {
+   "coreStop": "kPerp",
+   "coreN": 0,
+   "diskVelocityMaxChange": 0,
+   "fpArm": "a8f0e26b",
+   "fpArmSpin1": "a8f0e26b",
+   "armSame": true
+  },
+  "diskCoreSpinZeroStop": "kPerp",
+  "armIndependentOfDiskSigma": {
+   "fpArmSigma44": "f95bbdc4",
+   "fpArmSigma30": "f95bbdc4",
+   "same": true
+  },
+  "ok": true
+ },
+ "gate7": {
+  "rows": {
+   "spiral": {
+    "id": "shapeToySpiral",
+    "canonRoundTrip": true,
+    "resetSameInit": true,
+    "resetSameRun": true,
+    "checkpoint": {
+     "restoredStateSame": true,
+     "continuationSame": false
+    },
+    "ab": [
+     {
+      "at": 0,
+      "copiedSame": true,
+      "after200Same": true
+     },
+     {
+      "at": 50,
+      "copiedSame": true,
+      "after200Same": false
+     }
+    ]
+   },
+   "core": {
+    "id": "shapeToySpiralCore",
+    "canonRoundTrip": true,
+    "resetSameInit": true,
+    "resetSameRun": true,
+    "checkpoint": {
+     "restoredStateSame": true,
+     "continuationSame": false
+    },
+    "ab": [
+     {
+      "at": 0,
+      "copiedSame": true,
+      "after200Same": true
+     },
+     {
+      "at": 50,
+      "copiedSame": true,
+      "after200Same": false
+     }
+    ]
+   },
+   "disk": {
+    "id": "shapeToyDisk",
+    "canonRoundTrip": null,
+    "resetSameInit": true,
+    "resetSameRun": true,
+    "checkpoint": {
+     "restoredStateSame": true,
+     "continuationSame": false
+    },
+    "ab": [
+     {
+      "at": 0,
+      "copiedSame": true,
+      "after200Same": true
+     },
+     {
+      "at": 50,
+      "copiedSame": true,
+      "after200Same": false
+     }
+    ]
+   }
+  },
+  "timing": {
+   "rows": [
+    {
+     "label": "🍭 N",
+     "n": 144,
+     "steps": 200,
+     "wallSec": 0.072068841,
+     "rateStepsPerSec": 2775.1244119494027
+    },
+    {
+     "label": "🍭 2N",
+     "n": 288,
+     "steps": 200,
+     "wallSec": 0.263344149,
+     "rateStepsPerSec": 759.4624781278128
+    },
+    {
+     "label": "🍭 4N",
+     "n": 576,
+     "steps": 200,
+     "wallSec": 0.987268851,
+     "rateStepsPerSec": 202.57906425126342
+    },
+    {
+     "label": "🍭 内蔵(450)",
+     "n": 450,
+     "steps": 200,
+     "wallSec": 0.582779472,
+     "rateStepsPerSec": 343.1829870630721
+    },
+    {
+     "label": "🎢 N",
+     "n": 145,
+     "steps": 200,
+     "wallSec": 0.069257362,
+     "rateStepsPerSec": 2887.779641390326
+    },
+    {
+     "label": "🎢 2N",
+     "n": 289,
+     "steps": 200,
+     "wallSec": 0.257973418,
+     "rateStepsPerSec": 775.273675677701
+    },
+    {
+     "label": "🎢 4N",
+     "n": 577,
+     "steps": 200,
+     "wallSec": 0.965191114,
+     "rateStepsPerSec": 207.2128484183289
+    },
+    {
+     "label": "🎢 内蔵(451)",
+     "n": 451,
+     "steps": 200,
+     "wallSec": 0.608904196,
+     "rateStepsPerSec": 328.4588960198264
+    },
+    {
+     "label": "🥏",
+     "n": 300,
+     "steps": 200,
+     "wallSec": 0.274137127,
+     "rateStepsPerSec": 729.5618882005721
+    },
+    {
+     "label": "📀",
+     "n": 301,
+     "steps": 200,
+     "wallSec": 0.29077984,
+     "rateStepsPerSec": 687.8055920245365
+    }
+   ],
+   "note": "Node headless の壁時計(揮発値)。iPhone の実機は統括が後で測る"
+  },
+  "checkpointNote": "ckSnapOne/ckRestoreOne は形状トイの潜在(🥏 の yLat 等・渦巻の sp*)を運ばない —— 復元後の継続は保存側と一致しない(既存の 🥏 と同じ)。A/B 複製も潜在を写さない(t>0 の複製は B 側が build 時の潜在から続く)。どちらも第290便d の「再開保存の棚卸し」の対象(本便は CK_* と cloneSimState を変えない)",
+  "ok": true,
+  "okNote": "門 ⑦ の合否は 宣言の往復・⏮ の作り直し・t=0 の A/B 複製 で判定する。チェックポイントと t>0 の A/B は記録(既存の形状トイと同じ制約)"
+ },
+ "gates": {
+  "g1": true,
+  "g2": true,
+  "g3": true,
+  "g4": false,
+  "g5": true,
+  "g6": true,
+  "g7": true
+ },
+ "criteria": {
+  "shapeRel": 0.1,
+  "pitchDeg": 1,
+  "convRel": 0.1,
+  "convPitchDeg": 1,
+  "ledgerRel": 1e-9,
+  "tangentUlp": 4
+ },
+ "position": {
+  "spiral": "参照模型 = 宣言した渦巻の形を保つ基準(将来の慣性決定力の連鎖〔第290便c の経路〕と比べる物差し)。腕の幾何は宣言であり、計算から出てきた模様ではない",
+  "core": "中心つき幾何参照 —— 中心(📀 と同じ)は円盤成分だけを Core 力学で束ね、腕成分は規定運動。腕の中心線への復元 Φ_arm=½k_arm d⊥² の追加構成則は本便では実装していない(「中心が腕を束ねる」とは書かない)",
+  "kArmImplemented": false
+ },
+ "ok": false,
+ "elapsedS": 104.079
+}

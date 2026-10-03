@@ -76,10 +76,11 @@ export const FAMILIES = [
   { key: 'tuc47', ja: '球状星団 47 Tuc', ref: 'tuc47', ids: ['tuc47', 'tuc47DFM'] },   // 第290便b: 基準を 🫐 → 🍇(🫐 は退役)
   { key: 'ngc3198', ja: '渦巻銀河 NGC 3198', ref: 'ngc3198DFM', ids: ['ngc3198DFM', 'ngc3198'] },
   // 第290便b: 形の玩具を 2 家族に分割(中心なし / 中心天体つき)・棒と腕を新しい家族に・超新星は基準を 🌹 → 🥀(🌹 は退役・🎇 を機構の枝として追加 —— 家族は群をまたいでよい)
+  // 第290便e(原仮定者の裁定(第80報)⑤): 渦巻の参照模型 🍭 shapeToySpiral・🎢 shapeToySpiralCore をそれぞれの家族の末尾へ(統合で第290便b の 2 家族と合わせた)
   { key: 'shapeToy', ja: '形の玩具(中心なし)', ref: 'shapeToyCluster',
-    ids: ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm'] },
+    ids: ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm', 'shapeToySpiral'] },
   { key: 'shapeToyCore', ja: '形の玩具(中心天体つき)', ref: 'shapeToyClusterCore',
-    ids: ['shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore'] },
+    ids: ['shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore', 'shapeToySpiralCore'] },
   { key: 'axisBar', ja: '棒と腕(軸力・DFM の外)', ref: 'axisBarStill', ids: ['axisBarStill', 'axisBarArms', 'axisBarReach'] },
   { key: 'supernova', ja: '超新星', ref: 'supernovaProg', ids: ['supernovaProg', 'supernovaCore', 'supernovaProgDFM'] },
   { key: 'whiteDwarf', ja: '白色矮星', ref: 'whiteDwarfDFM', ids: ['whiteDwarfDFM', 'whiteDwarfBareDFM'] },

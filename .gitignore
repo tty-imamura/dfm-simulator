@@ -805,3 +805,7 @@ tests/out/regen-plan-w281a.json
 #   門 b〜f〔gain:0 のビット同一・固定配置で純関数とビット同一・Δt 不変性・2 体の前ステップ参照・自己項/並進/1 体/一致点/復元〕と診断本 🐌 の Δϖ・上界・帳簿)。
 #   QA behavior.inertialDragGate・preset.inertialDragPair が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/inertial-w290c.json
+# 第290便e(原仮定者の裁定(第80報)⑤・統括の検証項目 R129): **渦巻参照便**の正本(tests/exp-w290e-spiral.mjs —— 🍭 shapeToySpiral・🎢 shapeToySpiralCore の
+#   門 ①〜⑦〔成分・単独の本との比・ピッチ角の直交回帰・N/seed/刻み・Ω_p=0・G と中心スピンの不変性・往復と所要〕)。QA preset.shapeToySpiral・
+#   behavior.spiralGeometry が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/spiral-w290e.json

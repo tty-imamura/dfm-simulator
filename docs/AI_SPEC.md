@@ -3002,3 +3002,20 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 
 - **📡 `saturnZonalD68` の obsCard に 1 行**(「否の要因(第280便e の診断・履歴)」・obs「—」): 値は正本 `tests/out/d68-w280e.json` の転記。係数 C・初速・bodies は不変。
 - QA: **`preset.retired290b`**・**`docs.d68FactorRow`**(root は SKIP)。
+
+## 38. 第290便e の宣言鍵 —— `physics.shapeToy.shape:"spiral"`(渦巻の参照模型・原仮定者の裁定〔第80報〕⑤・統括の検証項目 R129・**SYSTEM_PROMPT には載せない**)
+
+形状トイ `physics.shapeToy` の shape に 4 つ目の値 `"spiral"` を足した(既存の `"cluster"`/`"disk"`/`"arm"` の受理と経路は 1 文字も変えていない —— 内蔵 147 本の presetSig・保存 JSON・力学は 1 bit も動かない)。宣言は**数値だけ**で導出値を持たない:
+
+```
+shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", omega0, gamma, sigma, sigmaZ, sigma0, tauGrow:0,
+  center:"fixed"|"pinned", cx, cy, [law:"coreField", coreField:{…, axis:[0,0,±1]}],
+  spiral:{nArm, pitchDeg, rMin, rMax, r0, phi0Deg, armWidth, armSigmaZ, armOmega0, armGamma, omegaP,
+          massRatio, nDisk, nArmParticles, density:"uniform-s"}}
+```
+
+- 受理条件: 0<|pitchDeg|<90(負は逆巻き)・0<rMin<rMax・r0>0・nArm は 1〜8 の整数・nArmParticles は nArm の倍数・nDisk+nArmParticles≥1・両成分があるときだけ massRatio(円盤/腕)が必須の正数・coupling は `"prescribed"` のみ・tauGrow=0・`spiral` は shape:"spiral" 専用・`law:"coreField"` と組むときは軸を円盤の法線 ±(0,0,1) に限る。
+- 成分: pinned でない粒子を index 順に先頭 nDisk 個 = 円盤成分・続く nArmParticles 個 = 腕成分(重複所属なし)。数と質量比が走行時と合わなければ走らない(`S.spiralStop`)。
+- 腕の中心線 r(s)=rMin+(rMax−rMin)s・φ_k(s)=φ₀+2πk/nArm+cot(p)·ln(r/r0)+Ω_p t(s は宣言の密度で固定)・横断と面外にだけ 2 階 OU。全体は剛体パターン回転 Ω_p(差動回転なし)。
+- 内蔵: 🍭 `shapeToySpiral`(中心なし)・🎢 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
+- 読み取り専用: `HP.shapeToySpiralState(S)`・`HP.shapeToySpiralCentreline(sp,k,s)`・`HP.validateShapeToySpiral`。器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json。QA: `preset.shapeToySpiral`・`behavior.spiralGeometry`・`docs.spiralRef`。

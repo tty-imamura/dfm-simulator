@@ -5079,7 +5079,7 @@ function validateLedger(a){
 // **`supply` は必須**である: 供給(熱浴)の出所を名指ししない宣言は受理しない(帳簿に負号を
 // 書くだけで「閉じた」と書かないための門)。値域は**入力契約**であって物理法則ではない。
 const SHAPE_TOY_KEY = "shapeToy";
-const SHAPE_TOY_SHAPES = ["cluster","disk","arm"];      // 球状星団トイ / 腕なし回転円盤トイ / 腕単体トイ
+const SHAPE_TOY_SHAPES = ["cluster","disk","arm","spiral"];      // 球状星団トイ / 腕なし回転円盤トイ / 腕単体トイ / 渦巻の参照模型(第290便e)
 const SHAPE_TOY_CENTERS = ["fixed","pinned"];
 const SHAPE_TOY_COUPLINGS = ["prescribed","feedback"];   // 潜在を正本にする / 毎步 x,v から作り直す
 const SHAPE_TOY_SUPPLY = "external-bath";               // 供給の出所の**必須宣言**(閉じたとは書かない)
@@ -5174,12 +5174,73 @@ function validateCoreField(a){
     axis:[ax[0]/an, ax[1]/an, ax[2]/an], W0, temp, omegaP, init, centreGravity,
     exchange:{mode, rate, capacity} }};
 }
+// ===== 第290便e(原仮定者の裁定(第80報)⑤・統括の検証項目 R129): shape:"spiral" —— **渦巻の参照模型** =====
+// 裁定の字義:「shapeToyDisk と shapeToyArm を合わせて渦巻き銀河の参照模型/shapeToyDiskCore と shapeToyArmCore を
+// 合わせて中心天体つき渦巻き銀河の参照模型」。**現行の 2 系列はそのままでは合成できない**: `shapeToy.shape` は 1 つで
+// (JSON の鍵を重ねると最後の shape が勝つ)、disk は剛体回転の線形写像 A=R(θ)·diag(σ_R,σ_R,σ_z)・arm は直線軸で Ω を
+// 持たない。**円盤+直線の腕を剛体回転させても渦巻にはならない**(曲がった腕は定義されない)。Core 系列の 2 つの二次形式
+// (📀 は軸 (0,0,1)・🧹 は (1,0,0))を足しても同じである。したがって**腕の幾何(ピッチ角)を宣言する**新しい shape を置く。
+// 宣言の正準形(**数値だけ・導出値は 1 つも持たない**):
+//   spiral:{nArm, pitchDeg, rMin, rMax, r0, phi0Deg, armWidth, armSigmaZ, armOmega0, armGamma, omegaP,
+//           massRatio, nDisk, nArmParticles, density:"uniform-s"}
+//   ・成分は 2 つ(**重複所属なし**): pinned でない粒子を index 順に、先頭 nDisk 個 = **円盤成分**・続く nArmParticles 個 =
+//     **腕成分**。数の総和と質量比 massRatio(=円盤/腕)が走行時の粒子と一致しない宣言は走らせない(止まる —— 門 ①)。
+//   ・腕の中心線(パターン座標): r(s)=r_min+(r_max−r_min)s・φ_k(s)=φ₀+2πk/N_arm+cot(p)·ln(r(s)/r₀)(0<|p|<90°・r_min>0)。
+//     s は**宣言の密度で固定**(density:"uniform-s" —— 腕 k の q 番目の粒子は s=(q+½)/M・伸長なし)。
+//   ・θ(t)=Ω_p t の**剛体パターン回転**(形を保つ参照運動 —— 差動回転・巻き込みは作らない)。
+//   ・**観測のピッチ角・軸比は入力しない**(宣言値)。
+const SHAPE_TOY_SPIRAL_DENSITIES = ["uniform-s"];
+const SHAPE_TOY_SPIRAL_NARM_MAX = 8;
+function validateShapeToySpiral(a){
+  if(a===null || a===undefined || typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:'physics.shapeToy.spiral は shape:"spiral" では必須のオブジェクト({nArm,pitchDeg,rMin,rMax,armWidth,…})'};
+  const fin=(k,def)=>{ const v=(a[k]===undefined)? def : a[k]; return isNum(v)? v : null; };
+  const nArm=fin("nArm",2);
+  if(nArm===null || !Number.isInteger(nArm) || nArm<1 || nArm>SHAPE_TOY_SPIRAL_NARM_MAX)
+    return {ok:false, err:"physics.shapeToy.spiral.nArm は 1〜"+SHAPE_TOY_SPIRAL_NARM_MAX+" の整数"};
+  const pitchDeg=fin("pitchDeg",null);
+  if(pitchDeg===null || !(Math.abs(pitchDeg)>0 && Math.abs(pitchDeg)<90))
+    return {ok:false, err:"physics.shapeToy.spiral.pitchDeg は 0<|p|<90 の有限数(度 —— 宣言値)"};
+  const rMin=fin("rMin",null), rMax=fin("rMax",null);
+  if(rMin===null || rMax===null || !(rMin>0) || !(rMax>rMin) || rMax>1e6)
+    return {ok:false, err:"physics.shapeToy.spiral の rMin/rMax は 0<rMin<rMax の有限数(必須)"};
+  const r0=fin("r0",rMin), phi0Deg=fin("phi0Deg",0);
+  if(r0===null || !(r0>0) || phi0Deg===null || Math.abs(phi0Deg)>360)
+    return {ok:false, err:"physics.shapeToy.spiral の r0(>0)/phi0Deg(|φ₀|≤360)は有限数"};
+  const pos=(k)=>{ const v=fin(k,null); return (v!==null && v>0 && v<=1e6)? v : null; };
+  const armWidth=pos("armWidth"), armSigmaZ=pos("armSigmaZ"), armOmega0=pos("armOmega0"), armGamma=pos("armGamma");
+  if(armWidth===null || armSigmaZ===null || armOmega0===null || armGamma===null || armOmega0>100 || armGamma>100)
+    return {ok:false, err:"physics.shapeToy.spiral の armWidth/armSigmaZ/armOmega0/armGamma は有限の正数(必須 —— 腕成分の横断・面外の 2 階 OU)"};
+  const omegaP=fin("omegaP",0);
+  if(omegaP===null || Math.abs(omegaP)>100)
+    return {ok:false, err:"physics.shapeToy.spiral.omegaP は有限数(剛体パターン回転の角速度)"};
+  const nDisk=fin("nDisk",null), nArmParticles=fin("nArmParticles",null);
+  if(nDisk===null || nArmParticles===null || !Number.isInteger(nDisk) || !Number.isInteger(nArmParticles)
+     || nDisk<0 || nArmParticles<0 || nDisk+nArmParticles<1 || nDisk>1e6 || nArmParticles>1e6)
+    return {ok:false, err:"physics.shapeToy.spiral の nDisk/nArmParticles は非負の整数(和 ≥1 —— 成分の分割)"};
+  if(nArmParticles%nArm!==0)
+    return {ok:false, err:"physics.shapeToy.spiral.nArmParticles は nArm の倍数(各腕に同じ数を置く)"};
+  // 質量比(円盤/腕)は**両方の成分があるときだけ**宣言する(片方が 0 なら比は定義されない —— null)
+  let massRatio=null;
+  if(nDisk>0 && nArmParticles>0){
+    massRatio=fin("massRatio",null);
+    if(massRatio===null || !(massRatio>0) || massRatio>1e9)
+      return {ok:false, err:"physics.shapeToy.spiral.massRatio(円盤/腕の質量比)は両成分があるとき必須の正数"};
+  } else if(a.massRatio!==undefined && a.massRatio!==null){
+    return {ok:false, err:"physics.shapeToy.spiral.massRatio は両成分(nDisk>0 かつ nArmParticles>0)があるときだけ宣言する"};
+  }
+  const density=(a.density===undefined)? SHAPE_TOY_SPIRAL_DENSITIES[0] : a.density;
+  if(SHAPE_TOY_SPIRAL_DENSITIES.indexOf(density)<0)
+    return {ok:false, err:'physics.shapeToy.spiral.density は "uniform-s" のみ(s を宣言の密度で固定 —— 伸長なし)'};
+  return {ok:true, spiral:{nArm, pitchDeg, rMin, rMax, r0, phi0Deg, armWidth, armSigmaZ, armOmega0, armGamma,
+    omegaP, massRatio, nDisk, nArmParticles, density}};
+}
 function validateShapeToy(a){
   if(a===null || a===undefined) return {ok:true, shapeToy:null};
   if(typeof a!=="object" || Array.isArray(a))
     return {ok:false, err:"physics.shapeToy はオブジェクト({shape,supply,omega0,gamma,sigma,…})か null"};
   if(SHAPE_TOY_SHAPES.indexOf(a.shape)<0)
-    return {ok:false, err:'physics.shapeToy.shape は "cluster"/"disk"/"arm" のみ'};
+    return {ok:false, err:'physics.shapeToy.shape は "cluster"/"disk"/"arm"/"spiral" のみ'};
   if(a.supply!==SHAPE_TOY_SUPPLY)
     return {ok:false, err:'physics.shapeToy.supply は "external-bath" の明示宣言が必須(供給の出所 — 閉じた系ではない)'};
   const num=(k,def)=>{
@@ -5239,6 +5300,22 @@ function validateShapeToy(a){
     out.law=law; out.coreField=cv.coreField;
   } else if(a.coreField!==undefined && a.coreField!==null){
     return {ok:false, err:'physics.shapeToy.coreField は law:"coreField" 専用'};
+  }
+  // 第290便e(R129): **渦巻の参照模型**(shape:"spiral")の宣言。腕の幾何は spiral に、円盤成分は既存の鍵
+  // (omega0/gamma/sigma/sigmaZ —— 🥏 と同じ)に置く。成長(τ)・feedback・omegaSpin・armLength は持たない。
+  // law:"coreField" と組むときは**円盤成分だけ**が Core 力学で走る(軸は円盤の法線 ±(0,0,1) に限る)
+  if(a.shape===SHAPE_TOY_SHAPES[3]){
+    if(out.coupling!==SHAPE_TOY_COUPLINGS[0])
+      return {ok:false, err:'physics.shapeToy.shape:"spiral" は coupling:"prescribed" のみ(feedback は OU 法則の診断)'};
+    if(out.tauGrow!==0)
+      return {ok:false, err:'physics.shapeToy.shape:"spiral" は tauGrow=0(参照模型は成長しない —— s は宣言の密度で固定)'};
+    if(out.law===SHAPE_TOY_LAWS[1] && Math.abs(out.coreField.axis[2])!==1)
+      return {ok:false, err:'physics.shapeToy.shape:"spiral" の law:"coreField" は軸を円盤の法線 ±(0,0,1) に取る(円盤成分の Core 力学)'};
+    const sv=validateShapeToySpiral(a.spiral===undefined? null : a.spiral);
+    if(!sv.ok) return {ok:false, err:sv.err};
+    out.spiral=sv.spiral;
+  } else if(a.spiral!==undefined && a.spiral!==null){
+    return {ok:false, err:'physics.shapeToy.spiral は shape:"spiral" 専用'};
   }
   return {ok:true, shapeToy:out};
 }
@@ -10329,6 +10406,71 @@ const BUILTIN_PRESETS = [
      mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vScale:0, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
+// ===== 第290便e(原仮定者の裁定(第80報)⑤・統括の検証項目 R129): **渦巻の参照模型**(🥏+🧵)=====
+// 裁定の字義:「shapeToyDisk と shapeToyArm を合わせて渦巻き銀河の参照模型」。現行の 2 本は shape が 1 つなので鍵を重ねても
+// 合成できず(最後の shape が勝つ)、円盤+直線の腕を剛体回転させても渦巻にはならない —— **腕の幾何(ピッチ角)を宣言する**
+// 新しい shape:"spiral" を置いた(`validateShapeToySpiral`・`dfmShapeToySpiralStep`)。**参照模型 = 宣言した渦巻の形を保つ基準**
+// (将来の慣性決定力の連鎖〔第290便c の経路〕と比べる物差し)であって、腕の形が計算から出てきたサンプルではない。
+{ id:"shapeToySpiral", name:"渦巻の参照模型 — 円盤+対数螺旋の腕(宣言した形・較正ではない)", emoji:"🍭",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  familyId:"shapeToy", familyRole:"variant",   // 第290便e: 🔮🥏🧵 の家族(中心なし)の変種(表示専用 —— presetSig は familyRole を見ない)
+  notClaim:["galaxy","dm","cluster"],
+  obsCard:[
+    {q:"何を置いたか", model:"🥏 の円盤(σ_R=44・σ_z=14・Ω_p=0.05)と、🧵 の横断幅 7.2・厚さ 4.8 を継いだ**対数螺旋の 2 本腕**(ピッチ角 20° の宣言)。`physics.shapeToy.shape:\"spiral\"`", obs:"—(原理サンプル)"},
+    {q:"なぜ新しい shape か", model:"🥏 と 🧵 は shape が 1 つで**合成できない**(鍵を重ねると最後の shape が勝つ)。円盤+直線の腕を剛体回転させても渦巻にはならないので、**腕の幾何を宣言した**", obs:"—"},
+    {q:"腕の中心線", model:"r(s)=24+120s・φ_k=2πk/2+cot(20°)·ln(r/24)+Ω_p t。横断(局所法線)と面外にだけ 🧵 と同じ 2 階 OU。**s は宣言の密度で固定**(伸長なし)", obs:"—"},
+    {q:"回転は剛体パターン", model:"Ω_p=0.05 で円盤と腕が一緒に回る(形を保つ参照運動)。差動回転・巻き込みは作らない。**Ω_p=0 でも曲線形状は残る**", obs:"—"},
+    {q:"較正ではない", model:"観測された渦巻銀河のピッチ角・軸比・腕の幅を**1 つも入力していない**。ピッチ角 20° は宣言値", obs:"—"},
+    {q:"重力で保ったのではない", model:"両成分とも**規定運動**。G=0 で走り、G を上げても 600 步の状態は 1 bit も変わらない(器で実測)", obs:"—"},
+    {q:"供給は外部熱浴", model:"復元・減衰・供給の 3 作用のうち供給は外部熱浴。P/L/E の厳密な負を記帳する(**閉じていない**)", obs:"—"},
+    {q:"言わないこと", model:"「渦巻が創発した」「銀河を較正した」「腕が力学的に安定した」「平坦回転曲線」とは書かない。**宣言した形の参照模型**である", obs:"—"}],
+  descStruct:{
+    summary:"**渦巻の参照模型**(第290便e・原仮定者の裁定(第80報)⑤「shapeToyDisk と shapeToyArm を合わせて渦巻き銀河の参照模型」・重力 E4・引きずり E6′ はこの経路の状態を決めない)。🥏 と 🧵 は `shapeToy.shape` が 1 つなので**そのままでは合成できない**(JSON の鍵を重ねると最後の shape が勝つ)。円盤は剛体回転の線形写像 A=R(θ)·diag(σ_R,σ_R,σ_z)、腕は直線軸で Ω を持たず、**円盤+直線の腕を剛体回転させても渦巻にはならない**。そこで**腕の幾何(ピッチ角)を宣言する** shape:\"spiral\" を置いた。粒子は**円盤成分**(300 個・🥏 と同じ写像と 2 階 OU —— 腕成分を外した写しは 🥏 とビット同一)と**腕成分**(150 個・2 本)に分かれ、重複所属は無い(質量比 円盤/腕=2 を宣言)。腕の中心線は対数螺旋 r(s)=r_min+(r_max−r_min)s・φ_k(s)=φ₀+2πk/N+cot(p)·ln(r/r₀)+Ω_p t(p=20°・r=24〜144)で、**横断(局所法線)と面外にだけ** 🧵 と同じ 2 階 OU(ω₀=0.12・γ=0.24・厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ)を当てる。s は宣言の密度で固定(伸長なし)。物理座標は x=c+R(θ)[C(s)+nN̂(s)]・v=ċ+Ω_p ẑ×(x−c)+ṅR(θ)N̂(s)(写像の時間微分)。**剛体パターン回転 Ω_p は形を保つ参照運動**で、差動回転(巻き込み)は作らない。**これは参照模型である**: 宣言した渦巻の形を保つ基準であり、将来の慣性決定力の連鎖(第290便c の経路)の結果と比べる物差しとして置く。**腕の形は宣言であって、計算から出てきた模様ではない**。**これは較正ではない**: 観測のピッチ角・軸比は 1 つも入力していない。供給は外部熱浴で、粒子が受け取った P/L/E の厳密な負を帳簿へ記帳する(**閉じた系ではない**)。**言わないこと**: 渦巻が創発した・銀河を較正した・腕が力学的に安定した・平坦回転曲線。",
+    observe:"円盤は σ_R=44・面外 σ_z=14 の正規分布で、2 本の腕は宣言した対数螺旋の中心線の両側に横断 7.2・厚さ 4.8 の正規分布で並ぶ。全体が Ω_p=0.05 で剛体回転する(形は変わらない)。ピッチ角は φ−Ω_p t と ln r の回帰で測る(見た目で判定しない)。数は docs/PHYSICS.md〔第290便e〕の表(器 tests/exp-w290e-spiral.mjs)。",
+    control:"**パラメータ行に形状トイのノブは無い**(宣言は physics.shapeToy.spiral)。重力 G を上げても状態は 1 bit も動かない(規定運動)。ピッチ角・腕の数・半径の範囲は宣言を変える —— Ω_p を 0 にしても腕の曲がりは残る(幾何の宣言だから)。"},
+  en:{name:"Spiral reference model — disc + logarithmic-spiral arms (a declared shape, NOT a calibration)",
+    obsCard:[
+      {q:"What is placed here", model:"The 🥏 disc (sigma_R = 44, sigma_z = 14, Omega_p = 0.05) plus TWO LOGARITHMIC-SPIRAL ARMS that inherit the 🧵 transverse width 7.2 and thickness 4.8 (declared pitch angle 20 deg). physics.shapeToy.shape = spiral", obs:"- (principle sample)"},
+      {q:"Why a new shape", model:"🥏 and 🧵 carry a single shape each, so they CANNOT BE COMBINED (stacking the keys lets the last shape win). A disc plus a straight arm in rigid rotation is not a spiral, so THE ARM GEOMETRY IS DECLARED", obs:"-"},
+      {q:"Arm centreline", model:"r(s) = 24 + 120 s, phi_k = 2 pi k/2 + cot(20 deg) ln(r/24) + Omega_p t. The 🧵 second-order OU acts only on the transverse (local normal) and out-of-plane directions. s IS FIXED BY THE DECLARED DENSITY (no stretching)", obs:"-"},
+      {q:"Rigid pattern rotation", model:"Disc and arms turn together at Omega_p = 0.05 (a shape-keeping reference motion). No differential rotation or winding is made. THE CURVED SHAPE REMAINS AT Omega_p = 0", obs:"-"},
+      {q:"This is not a calibration", model:"NOT ONE observed pitch angle, axis ratio or arm width of a spiral galaxy is fed in. The 20 deg pitch is a declared value", obs:"-"},
+      {q:"Gravity did not hold it", model:"Both components are PRESCRIBED motion. It runs at G = 0, and raising G leaves the 600-step state bit-unchanged (measured by the harness)", obs:"-"},
+      {q:"The supply is an external bath", model:"Of the three declared actions the supply is an external bath: the exact negative of the P/L/E is booked. THE SYSTEM IS NOT CLOSED", obs:"-"},
+      {q:"What this does not claim", model:"NOT 'a spiral emerged', NOT a calibrated galaxy, NOT 'the arms are dynamically stable', NOT a flat rotation curve. It is a reference model of a DECLARED shape", obs:"-"}],
+    descStruct:{
+      summary:"A SPIRAL REFERENCE MODEL (wave 290e, report 80 item 5: 'combine shapeToyDisk and shapeToyArm into a spiral-galaxy reference model'; gravity E4 and drag E6′ do not set the state of this path). 🥏 and 🧵 carry a single shapeToy.shape each, so THEY CANNOT BE COMBINED AS THEY ARE (stacking the JSON keys lets the last shape win). The disc is the rigid linear map A = R(theta) diag(sigma_R, sigma_R, sigma_z) and the arm is a straight axis without Omega, and A DISC PLUS A STRAIGHT ARM IN RIGID ROTATION IS NOT A SPIRAL. A new shape = spiral therefore DECLARES THE ARM GEOMETRY (pitch angle). The particles split into a DISC COMPONENT (300, the same map and second-order OU as 🥏 - a copy without the arm component is bit-identical to 🥏) and an ARM COMPONENT (150 on two arms), with no shared membership (declared mass ratio disc/arm = 2). Each arm centreline is the logarithmic spiral r(s) = r_min + (r_max - r_min) s, phi_k(s) = phi0 + 2 pi k/N + cot(p) ln(r/r0) + Omega_p t (p = 20 deg, r = 24 to 144), and the 🧵 second-order OU (omega0 = 0.12, gamma = 0.24, exact discretisation F = exp(Bh), Q_h = C - F C F^T) acts ONLY on the transverse (local normal) and out-of-plane directions; s is fixed by the declared density (no stretching). The physical coordinates are x = c + R(theta)[C(s) + n N(s)] and v = c-dot + Omega_p z x (x - c) + n-dot R(theta) N(s) (the time derivative of the map). THE RIGID PATTERN ROTATION Omega_p IS A SHAPE-KEEPING REFERENCE MOTION; no differential rotation (winding) is made. THIS IS A REFERENCE MODEL: a yardstick that keeps the declared spiral shape, placed to be compared with the future inertial-determinacy chain (the wave-290c path). THE ARM SHAPE IS A DECLARATION, NOT A PATTERN THAT CAME OUT OF THE COMPUTATION. THIS IS NOT A CALIBRATION: no observed pitch angle or axis ratio is fed in. The supply is an external bath; the exact negative of the P/L/E handed to the particles is booked (THE SYSTEM IS NOT CLOSED). WHAT THIS DOES NOT CLAIM: an emergent spiral, a calibrated galaxy, dynamically stable arms, or a flat rotation curve.",
+      observe:"The disc is normal with sigma_R = 44 and sigma_z = 14 out of plane, and the two arms lie along the declared logarithmic-spiral centrelines with a normal transverse spread of 7.2 and thickness 4.8. Everything turns rigidly at Omega_p = 0.05 (the shape does not change). The pitch angle is measured by regressing phi - Omega_p t against ln r (not by eye). The numbers live in docs/PHYSICS.md, wave 290e (harness tests/exp-w290e-spiral.mjs).",
+      control:"THERE IS NO SLIDER FOR THE SHAPE TOY (it is declared in physics.shapeToy.spiral). Raising G changes nothing (prescribed motion). Pitch angle, number of arms and radial range are changed in the declaration - setting Omega_p to 0 keeps the arms curved (because the geometry is declared)."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測された渦巻銀河のピッチ角・軸比・腕の幅・回転を 1 つも入力していない(原理サンプル)"],
+    fixedConventions:["円盤成分 300 個: 🥏 と同じ A=R(θ)·diag(σ_R,σ_R,σ_z)・σ_R=44・σ_z=14・ω₀=0.01・γ=0.02(臨界)",
+      "腕成分 150 個(2 本 × 75): 対数螺旋の中心線 p=20°・r=24〜144・r₀=24・φ₀=0・横断 7.2・面外 4.8(🧵 の値)・ω₀=0.12・γ=0.24(臨界)",
+      "θ=Ω_p t・Ω_p=0.05(🥏 と同じ —— 剛体パターン回転)","質量比 円盤/腕=2(宣言 —— 走行時の粒子と一致しなければ止まる)",
+      "s は宣言の密度で固定(density:\"uniform-s\" —— 伸長なし)","coupling:\"prescribed\"・supply:\"external-bath\"","G=0(重力を切ってある)","cLight=30(組込みプリセットの規約)"],
+    fitted:["**無い。**"],
+    derived:["円盤の軸比 σ_z/σ_R=0.318(宣言値の比)","腕の横断 RMS=7.2・面外 4.8(OU の定常解)","ピッチ角は宣言 20° の幾何(回帰で測る —— 器)",
+      "回転は**剛体パターン回転だけ**(線形写像 —— 平坦回転曲線は出ない。否定結果)"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ",
+      "測定: dt=0.25・seed 20260919(器 tests/exp-w290e-spiral.mjs)"]},
+  activeParams:["G","softening"],
+  validT:200,
+  camera:{scale:230}, world:{boundary:"none",size:0}, seed:20260919,
+  physics:{contactMode:"none", G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed",
+      omega0:0.01, gamma:0.02, sigma:44, sigmaZ:14, sigma0:44, tauGrow:0, center:"fixed", cx:0, cy:0,
+      spiral:{nArm:2, pitchDeg:20, rMin:24, rMax:144, r0:24, phi0Deg:0, armWidth:7.2, armSigmaZ:4.8,
+        armOmega0:0.12, armGamma:0.24, omegaP:0.05, massRatio:2, nDisk:300, nArmParticles:150, density:"uniform-s"}}},
+  bodies:[
+    {type:"disk", rMul:1.4, n:300, cx:0,cy:0, radius:88,
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0.05, direction:1, bulkVx:0, bulkVy:0},
+    // 腕成分(数と質量だけを使う —— 見える配置は build の直後に宣言の渦巻の上へ書き出す)
+    {type:"disk", rMul:1.4, n:150, cx:0,cy:0, radius:144,
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0, direction:1, bulkVx:0, bulkVy:0}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
+
 // ===== 第275便d(第65報 (4)(5)(6)「中心天体を配置した版も用意」): **形状トイの中心天体つき参照版 3 本** =====
 // 原仮定者(第65報): 🔮「中心天体を配置した版も用意。粒子が初期配置に対して発散しているので星団配置に
 // 安定収束させる。オメガ星団の IMBH 観測を参考」/ 🥏「中心天体版も用意。軌道が入り乱れて銀河ディスクに
@@ -10527,6 +10669,77 @@ const BUILTIN_PRESETS = [
     {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:1, pinned:true},
     {type:"box", rMul:1.4, n:180, cx:0,cy:0, w:240, h:25,
      mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vScale:0, bulkVx:0, bulkVy:0}],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
+
+// ===== 第290便e(原仮定者の裁定(第80報)⑤・R129): **中心つき渦巻の幾何参照**(📀+🧹)=====
+// 裁定の字義:「shapeToyDiskCore と shapeToyArmCore を合わせて中心天体つき渦巻き銀河の参照模型」。Core 系列の 2 つの二次形式
+// (📀 は軸 (0,0,1)・🧹 は (1,0,0))を足しても曲がった腕は定義されない。**円盤成分は 📀 と同じ Core 力学**(中心スピンが ω_m を
+// 通して束ねる)で、**腕成分は規定運動**(🍭 と同じ対数螺旋の幾何)。腕の中心線への復元 Φ_arm=½k_arm d⊥² の構成則は
+// **本便では実装していない** —— 「中心つき幾何参照(中心は置くが腕は規定運動)」と名乗る(「中心が腕を束ねる」とは書かない)。
+{ id:"shapeToySpiralCore", name:"中心つき渦巻の幾何参照 — Core 力学の円盤+規定運動の腕(較正ではない)", emoji:"🎢",
+  group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
+  familyId:"shapeToyCore", familyRole:"variant",   // 第290便e: 🎱📀🧹 の家族(中心天体つき)の変種(表示専用 —— presetSig は familyRole を見ない)
+  notClaim:["galaxy","dm","cluster","bh"],
+  obsCard:[
+    {q:"何を置いたか", model:"📀 と同じ中心天体(m=10・spin=1・pinned)と Core 力学の円盤成分(`law:\"coreField\"`・軸=円盤の法線)に、🍭 と同じ対数螺旋の 2 本腕(ピッチ角 20° の宣言)を**規定運動**で載せた本", obs:"—(原理サンプル)"},
+    {q:"中心つき幾何参照", model:"中心スピンが束ねるのは**円盤成分だけ**。腕成分は宣言の幾何を規定運動で保つ(中心は腕の中心線の原点になるだけ)。腕の中心線への復元 k_arm の構成則は**本便では実装していない**", obs:"—"},
+    {q:"なぜ合成できないか", model:"📀(軸 (0,0,1))と 🧹(軸 (1,0,0))の二次形式を足しても曲がった腕は定義されない。腕の幾何を宣言した", obs:"—"},
+    {q:"中心スピン 0", model:"📀 と同じ契約: ω_c=0 なら ω_m=0・K⊥=κ₀=0 の門で**円盤成分の力が消える**(腕成分は規定運動なので変わらない)", obs:"—"},
+    {q:"回転", model:"円盤は共回転熱浴 Ω_p=0.14(📀 と同じ)、腕のパターンも同じ Ω_p=0.14 で剛体回転する。差動回転・巻き込みは作らない", obs:"—"},
+    {q:"較正ではない", model:"観測された渦巻銀河のピッチ角・軸比・中心質量を**1 つも入力していない**", obs:"—"},
+    {q:"外部支持・外部熱浴", model:"中心は pinned の外部支持版(反作用は記帳するだけ)・腕の供給は外部熱浴。**閉じた系ではない**", obs:"—"},
+    {q:"言わないこと", model:"「渦巻が創発した」「中心が腕を束ねる」「銀河を較正した」「腕が力学的に安定した」「平坦回転曲線」とは書かない", obs:"—"}],
+  descStruct:{
+    summary:"**中心天体つき渦巻の幾何参照**(第290便e・原仮定者の裁定(第80報)⑤「shapeToyDiskCore と shapeToyArmCore を合わせて中心天体つき渦巻き銀河の参照模型」)。Core 系列の 2 本は `law:\"coreField\"` の二次形式(📀 は軸 (0,0,1)・🧹 は (1,0,0))で、**2 つを足しても曲がった腕は定義されない**。そこで 🍭 と同じ shape:\"spiral\" で腕の幾何(ピッチ角 20°・r=24〜144・2 本)を宣言し、粒子を**円盤成分**(300 個)と**腕成分**(150 個)に分けた(重複所属なし・質量比 円盤/腕=2)。**円盤成分は 📀 と同じ Core 力学**: L=½m|v−u|²−mΦ・u=ω_m(s×r)・Φ=½κ₀r²+½ω_m²{αr⊥²+βr∥²}・軸 s=円盤の法線・共回転熱浴 Ω_p=0.14(式は 📀 と同じ —— 腕成分を外した写しは 📀 とビット同一)。**腕成分は規定運動**(🍭 と同じ対数螺旋の中心線・横断と面外にだけ 2 階 OU・幅は 🧹 の軸のまわりの定常幅 σ⊥=7.2 を横断と面外の両方に継ぐ・パターンは Ω_p=0.14 で剛体回転)で、中心天体は腕の中心線の原点になるだけである。**位置づけ —— 中心つき幾何参照**: 腕の中心線への復元 Φ_arm=½k_arm d⊥² の追加構成則は**本便では実装していない**ので、「中心が腕を束ねる」とは書かない。中心スピン 0 なら 📀 と同じく K⊥=κ₀=0 の門で円盤成分の力が消え、腕成分は変わらない(腕は中心スピンに依存しない —— 器で実測)。**この追加ポテンシャル(円盤成分の Φ)は新しい構成仮説であって、現行 DFM から一意に導出された法則ではない**。中心は pinned のままの**外部支持版**で、反作用は帳簿へ負号で記帳するだけ・腕の供給は外部熱浴(**閉じた系ではない**)。**これは較正ではない**: 観測された銀河のピッチ角・軸比・中心質量を 1 つも入力していない。中心の重力は Φ の κ₀ 項として 1 度だけ入り(G=0 の本では κ₀=0)、粒子間の重力 E4 は既定の G で別に効く(centreGravity が二重加算を拒否する)。**言わないこと**: 渦巻が創発した・中心が腕を束ねる・銀河を較正した・腕が力学的に安定した・平坦回転曲線。",
+    observe:"円盤成分は 📀 と同じく薄い(σ_z/σ_R は β の宣言の帰結)回転円盤へ緩和し、2 本の腕は宣言した対数螺旋の上に横断 7.2・厚さ 7.2(🧹 の軸のまわりの定常幅 σ⊥ を継ぐ)で並んで Ω_p=0.14 で回る。ピッチ角は φ−Ω_p t と ln r の回帰で測る。数は docs/PHYSICS.md〔第290便e〕の表(器 tests/exp-w290e-spiral.mjs)。",
+    control:"**パラメータ行に Core 力学・形状トイのノブは無い**(宣言は physics.shapeToy の law・coreField・spiral)。中心天体の**スピン**を 0 にすると円盤成分の力が消える(腕は変わらない)。G を上げると中心重力が E4 と κ₀ で二重になるため、中心が engine 質量を持ったままの G≠0 は**門で止まる**(円盤成分)。"},
+  en:{name:"Geometric spiral reference with a centre - core-law disc + prescribed arms (NOT a calibration)",
+    obsCard:[
+      {q:"What is placed here", model:"The 📀 central object (m = 10, spin = 1, pinned) and its core-law disc component (law = coreField, axis = disc normal), carrying the two logarithmic-spiral arms of 🍭 (declared pitch 20 deg) as PRESCRIBED MOTION", obs:"- (principle sample)"},
+      {q:"A geometric reference with a centre", model:"The central spin binds ONLY THE DISC COMPONENT. The arms keep the declared geometry by prescribed motion (the centre is only the origin of the centrelines). A restoring law k_arm toward the arm centreline is NOT IMPLEMENTED IN THIS WAVE", obs:"-"},
+      {q:"Why they cannot be combined", model:"Adding the quadratic forms of 📀 (axis (0,0,1)) and 🧹 (axis (1,0,0)) does not define a curved arm, so the arm geometry is declared", obs:"-"},
+      {q:"Central spin 0", model:"The same contract as 📀: omega_c = 0 gives omega_m = 0 and K_perp = k0 = 0, so THE DISC FORCE VANISHES at the gate (the prescribed arms do not change)", obs:"-"},
+      {q:"Rotation", model:"The disc has the co-rotating bath Omega_p = 0.14 (as 📀) and the arm pattern turns rigidly at the same Omega_p = 0.14. No differential rotation or winding is made", obs:"-"},
+      {q:"This is not a calibration", model:"NOT ONE observed pitch angle, axis ratio or central mass of a spiral galaxy is fed in", obs:"-"},
+      {q:"External support, external bath", model:"The centre is the pinned externally supported version (the reaction is only booked) and the arm supply is an external bath. THE SYSTEM IS NOT CLOSED", obs:"-"},
+      {q:"What this does not claim", model:"NOT 'a spiral emerged', NOT 'the centre binds the arms', NOT a calibrated galaxy, NOT 'the arms are dynamically stable', NOT a flat rotation curve", obs:"-"}],
+    descStruct:{
+      summary:"A GEOMETRIC SPIRAL REFERENCE WITH A CENTRAL OBJECT (wave 290e, report 80 item 5: 'combine shapeToyDiskCore and shapeToyArmCore into a spiral-galaxy reference model with a central object'). The two core-law samples are quadratic forms of law = coreField (📀 with axis (0,0,1), 🧹 with (1,0,0)), and ADDING THE TWO DOES NOT DEFINE A CURVED ARM. The same shape = spiral as 🍭 therefore declares the arm geometry (pitch 20 deg, r = 24 to 144, two arms), and the particles split into a DISC COMPONENT (300) and an ARM COMPONENT (150) with no shared membership (mass ratio disc/arm = 2). THE DISC COMPONENT RUNS THE SAME CORE LAW AS 📀: L = m|v - u|^2/2 - m Phi, u = omega_m (s x r), Phi = k0 r^2/2 + omega_m^2 (alpha r_perp^2 + beta r_par^2)/2, axis s = disc normal, co-rotating bath Omega_p = 0.14 (the formulas are those of 📀 - a copy without the arm component is bit-identical to 📀). THE ARM COMPONENT IS PRESCRIBED MOTION (the logarithmic-spiral centrelines of 🍭, second-order OU only on the transverse and out-of-plane directions with the 🧹 stationary width sigma_perp = 7.2 inherited in both, the pattern turning rigidly at Omega_p = 0.14), and the central object is only the origin of the centrelines. POSITION - A GEOMETRIC REFERENCE WITH A CENTRE: the additional constructive law Phi_arm = k_arm d_perp^2/2 toward the arm centreline is NOT IMPLEMENTED IN THIS WAVE, so binding of the arms by the centre is NOT CLAIMED. With central spin 0 the disc force vanishes at the K_perp = k0 = 0 gate exactly as for 📀, and the arms do not change (they do not depend on the central spin - measured by the harness). THE ADDED POTENTIAL OF THE DISC COMPONENT IS A NEW CONSTRUCTIVE HYPOTHESIS and is not uniquely derived from the current DFM. The centre stays pinned (an EXTERNALLY SUPPORTED VERSION whose reaction is only booked) and the arm supply is an external bath - THE SYSTEM IS NOT CLOSED. THIS IS NOT A CALIBRATION: no observed pitch angle, axis ratio or central mass is fed in. The central gravity enters once through the k0 term of Phi (k0 = 0 at G = 0), and the pairwise gravity E4 acts separately with the default G (centreGravity refuses double counting). WHAT THIS DOES NOT CLAIM: an emergent spiral, a centre that binds the arms, a calibrated galaxy, dynamically stable arms, or a flat rotation curve.",
+      observe:"The disc component relaxes to the thin rotating disc of 📀 (sigma_z/sigma_R is a consequence of the declared beta), and the two arms lie along the declared logarithmic spirals with a transverse spread of 7.2 and thickness 7.2 (inheriting the 🧹 stationary width sigma_perp about its axis), turning at Omega_p = 0.14. The pitch angle is measured by regressing phi - Omega_p t against ln r. The numbers live in docs/PHYSICS.md, wave 290e (harness tests/exp-w290e-spiral.mjs).",
+      control:"THERE IS NO SLIDER FOR THE CORE LAW OR THE SHAPE TOY (declared in physics.shapeToy law, coreField and spiral). Setting the SPIN of the central object to 0 removes the disc force (the arms do not change). Raising G while the centre still carries engine mass would count the central gravity twice in E4 and k0, so that combination IS STOPPED BY A GATE (disc component)."}},
+  parameterAudit:{
+    observedInputs:["**無い。** 観測された渦巻銀河のピッチ角・軸比・回転曲線・中心質量を 1 つも入力していない"],
+    fixedConventions:["中心天体 m=10・radius=5・**spin=1**・pinned(スピンが ω_m の入力・位置は固定 = **外部支持**)",
+      "円盤成分 300 個: 📀 と同じ `law:\"coreField\"`・軸 s=(0,0,1)・r_c=160・M_c=10・α=1.05・β=7.8・W₀=0.0044921875・T=3.624・Ω_p=0.14・交換 rotating-bath(γ=0.02・有限容量 20000)",
+      "腕成分 150 個(2 本 × 75): 🍭 と同じ対数螺旋 p=20°・r=24〜144・横断 7.2・面外 7.2(🧹 の軸のまわりの定常幅 σ⊥ —— 横断と面外が等しい)・ω₀=0.12・γ=0.24・**規定運動**",
+      "腕のパターン回転 Ω_p=0.14(円盤の共回転熱浴と同じ宣言値)","質量比 円盤/腕=2(宣言)",
+      "**腕の中心線への復元 k_arm は実装していない**(中心つき幾何参照)","G=0(重力を切ってある — κ₀=0)","cLight=30(組込みプリセットの規約)"],
+    fitted:["**無い。**"],
+    derived:["円盤成分の導出値は 📀 と同じ(ω_m=W_c/(W_c+W₀)·ω_c・σ_z/σ_R=√(K_eff/K∥))","腕の横断 RMS=7.2・面外 7.2(OU の定常解)",
+      "中心スピン 0 で円盤成分の力が消える(K⊥=κ₀=0 の門 —— 📀 と同じ契約)","平均流は**剛体回転**(則が線形 — 否定結果)"],
+    numerical:["ソフトニング ε=2","時間倍率 timeScale=3","円盤成分は**厳密伝播子**(λ± の 2 モード + 調和)・腕成分は厳密離散化 F=e^{Bh}",
+      "測定: dt=0.25・seed 20260920(器 tests/exp-w290e-spiral.mjs)"]},
+  activeParams:["G","softening"],
+  validT:200,
+  camera:{scale:230}, world:{boundary:"none",size:0}, seed:20260920,
+  physics:{contactMode:"none", G:0, D0:2, kFrame:0, q:2, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:0.016666666666666666,
+    cLight:30, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, geoPN:0, lambdaPN:1, pnAlpha:1.5,
+    radiusScale:1, softening:2, timeScale:3, frameWeight:"share",
+    contactK:0, contactCap:0,
+    shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", law:"coreField",
+      omega0:0.01, gamma:0.02, sigma:44, sigmaZ:14, sigma0:44, tauGrow:0, center:"pinned", cx:0, cy:0,
+      coreField:{coreRc:160, coreMass:10, alpha:1.05, beta:7.8, axis:[0,0,1], W0:0.0044921875,
+        temp:3.624, omegaP:0.14, init:"thermal", centreGravity:"phi",
+        exchange:{mode:"rotating-bath", rate:0.02, capacity:20000}},
+      spiral:{nArm:2, pitchDeg:20, rMin:24, rMax:144, r0:24, phi0Deg:0, armWidth:7.2, armSigmaZ:7.2,
+        armOmega0:0.12, armGamma:0.24, omegaP:0.14, massRatio:2, nDisk:300, nArmParticles:150, density:"uniform-s"}}},
+  bodies:[
+    {type:"single", m:10, radius:5, x:0, y:0, vx:0, vy:0, spin:1, pinned:true},
+    {type:"disk", rMul:1.4, n:300, cx:0,cy:0, radius:88,
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0.05, direction:1, bulkVx:0, bulkVy:0},
+    // 腕成分(数と質量だけを使う —— 見える配置は build の直後に宣言の渦巻の上へ書き出す)
+    {type:"disk", rMul:1.4, n:150, cx:0,cy:0, radius:144,
+     mMin:0.6,mMax:0.6, spinMin:0,spinMax:0, vMode:"rigid", vScale:0, direction:1, bulkVx:0, bulkVy:0}],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
 // ===== グループ: 光の伝播(第147便で「光」→「光の物語」・第273便a で現在名へ — 表示・分類専用)=====
@@ -23230,11 +23443,21 @@ function makeSim(){
     S.coreFieldKappa0=0; S.coreFieldWc=0; S.coreFieldKEff=0; S.coreFieldRMax=null; S.coreFieldDriftDx=0;
     S.coreFieldUnbooked="external-support-of-pinned-centre";
     S.yLat=null; S.wLat=null; S.zLat=null; S.wzLat=null; S.uLat=null; S._stG=null; S._stRng=null;
+    // 第290便e(R129): **渦巻の参照模型**の自前の状態と帳簿(**宣言が無ければどの欄も 1 度も書かれない**)
+    S.spComp=null; S.spA1=null; S.spA2=null; S.spB1=null; S.spB2=null; S.spZ=null; S.spWz=null; S._spRng=null; S._spG=null;
+    S.spK=null; S.spS=null; S.spCx=null; S.spCy=null; S.spNx=null; S.spNy=null;
+    S.spiralPx=0; S.spiralPy=0; S.spiralL=0; S.spiralE=0;
+    S.spiralBathPx=0; S.spiralBathPy=0; S.spiralBathL=0; S.spiralBathE=0;
+    S.spiralSupPx=0; S.spiralSupPy=0; S.spiralSupL=0; S.spiralSupE=0; S.spiralDetE=0; S.spiralSupEArm=0;
+    S.spiralN=0; S.spiralArmN=0; S.spiralCoreN=0; S.spiralStop=null; S.spiralDx=0; S.spiralTheta=0;
+    S.spiralNDisk=0; S.spiralNArm=0; S.spiralNExtra=0; S.spiralMassDisk=0; S.spiralMassArm=0; S.spiralMassRatio=null;
+    S.spiralUnbooked="potential-of-prescribed-remap";
     S._stSeed=(((isNum(preset.seed)? (preset.seed>>>0) : (hashStr(preset.id||preset.name||"p")+7))+0x274d)>>>0);
     // **潜在の初期化はここ**(このリセット塊は `S.updateRadii()` より後に走るので、updateRadii 側の
     // 初期化だけでは null に戻ってしまう)。**重力が 1 步も当たる前の配置**が初期値になる
     if(S.hasShapeToy) shapeToyInitLatent(S);
     if(S.hasCoreField) coreFieldInitState(S);   // 第276便d: Core 力学の初期条件(等温定常から引く)
+    if(S.hasSpiral) shapeToySpiralInit(S);       // 第290便e: 渦巻の参照模型(成分の割り当て・潜在・腕成分の初期配置)
     // 第280便c: geoPN=3・vMinusU の**初期速度の意味**(velocityMeaning:"xdot" は v=ẋ−u(0) へ **build で 1 度だけ**変換)。
     // 未宣言の宇宙は真偽値 1 つで素通り(S.geo3Init は null)
     if(S.hasGeo3) geo3InitVelocity(S); else S.geo3Init=null;
@@ -23432,6 +23655,10 @@ function makeSim(){
     const __cfLaw=!!(__st && __st.law===SHAPE_TOY_LAWS[1]);
     S.hasShapeToy=!!__st && !__cfLaw; S.shapeToy=__st||null;
     S.hasCoreField=__cfLaw;
+    // 第290便e(R129): **渦巻の参照模型**(shape:"spiral")は既存 2 経路(dfmShapeToyStep・dfmCoreFieldStep)を 1 度も通らず、
+    // 専用の外部ステップ `dfmShapeToySpiralStep` だけが走る(law:"coreField" の円盤成分もその中 —— 既存経路は 1 文字も変えない)
+    S.hasSpiral=!!(__st && __st.shape===SHAPE_TOY_SHAPES[3]);
+    if(S.hasSpiral){ S.hasShapeToy=false; S.hasCoreField=false; }
     // 第277便b(第67報 (1)): 相対すべりの引きずり則(physics.relativeDrag)の有無フラグも同じ場所で張る。
     // **build は宣言を検証器で正規化してから読む**(第274便の教訓 — 生の preset を build しても
     // pairs/spins の既定が埋まる)。不正な宣言は未宣言扱い = 外部ステップに 1 度も入らない
@@ -23455,6 +23682,8 @@ function makeSim(){
     // 潜在は **build の直後の 1 度だけ**作る(`S.yLat` が無いときだけ = 実行中の再呼び出しでは作り直さない)。
     // ここで作ると**重力が 1 步も当たる前の配置**が初期値になる(1 步目の後に作ると G で初期値が変わる)
     else if(!S.yLat) shapeToyInitLatent(S);
+    if(!S.hasSpiral){ S.spiralStop=null; S.spiralN=0; }   // 第290便e: 渦巻の参照模型(初期化は build の直後の 1 度だけ)
+    else if(!S.spComp) shapeToySpiralInit(S);
     // 第258便e: S._core が読む**唯一の真偽値**。実キックの控え(第258便a)と仕事の記録(第258便b)の
     // どちらかを宣言した宇宙だけ 1 になり、_core の 4 か所は dragHookKick/dragHookApply を呼ぶ。
     // 両方未宣言(= 内蔵プリセットは全本)では 0 で、_core は 1 命令も余分に走らない(JIT 崖)
@@ -25100,6 +25329,7 @@ function makeSim(){
       if(S.hasGeoToy) dfmGeoToyStep(S,dt);           // 第259便a: geoPN=3 のトイ積分器(同じ位置)
       if(S.hasShapeToy) dfmShapeToyStep(S,dt);      // 第274便d: 形状トイ(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasCoreField) dfmCoreFieldStep(S,dt);    // 第276便d: Core 力学(同じ位置・未宣言は真偽値 1 つ)
+      if(S.hasSpiral) dfmShapeToySpiralStep(S,dt);   // 第290便e: 渦巻の参照模型(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);      // 第275便e: コア軸の prescribed(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasRelativeDrag) dfmRelativeDragStep(S,(S.relDrag.integration==="midpoint")? dt*0.5 : dt);   // 第277便b(第278便b: 中点法は後半歩)
       if(S.hasMeshVelocity) dfmMeshVelocityStep(S,dt);   // 第279便c: 座標変換 ẋ=v+u・v̇=−Jᵀv(位置更新の外・未宣言は真偽値 1 つ)
@@ -25121,6 +25351,7 @@ function makeSim(){
       if(S.hasGeoToy) dfmGeoToyStep(S,dt);              // 第259便a: geoPN=3 のトイ積分器
       if(S.hasShapeToy) dfmShapeToyStep(S,dt);          // 第274便d: 形状トイ(同じ位置)
       if(S.hasCoreField) dfmCoreFieldStep(S,dt);        // 第276便d: Core 力学(同じ位置)
+      if(S.hasSpiral) dfmShapeToySpiralStep(S,dt);     // 第290便e: 渦巻の参照模型(同じ位置)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);          // 第275便e: コア軸の prescribed(同じ位置)
       if(S.hasRelativeDrag) dfmRelativeDragStep(S,dt);   // 第277便b: 相対すべりの引きずり則(同じ位置)
       if(S.hasMeshVelocity) dfmMeshVelocityStep(S,dt);   // 第279便c: 座標変換(同じ位置・未宣言は真偽値 1 つ)
@@ -46746,6 +46977,362 @@ function dfmCoreFieldStep(S,dt){
     rMaxOverRc:S.coreFieldRMax, supply:(supplyOn? "on" : "off"), ext:[extPx,extPy,extE],
     unbooked:"external-support-of-pinned-centre" };
 }
+// ===== 第290便e(原仮定者の裁定(第80報)⑤・統括の検証項目 R129): **渦巻の参照模型** `dfmShapeToySpiralStep(S,dt)` =====
+//
+// ■ 何をするか(1 行で)
+//   `physics.shapeToy.shape:"spiral"` を宣言した宇宙で、粒子を**円盤成分**と**腕成分**に分け(重複所属なし)、
+//   宣言した渦巻の形(ピッチ角・腕の数・半径の範囲・横断幅・厚さ)を**保つ基準**として走らせる。
+//   **これは参照模型である**(将来の慣性決定力の連鎖〔第290便c の経路〕の結果と比べる物差し)。
+//   **腕の幾何は宣言であり、計算から出てきた模様ではない**。
+//
+// ■ 則
+//   **円盤成分**(law 未宣言 = 規定運動): 🥏 と同じ写像 A(t)=R(θ(t))·diag(σ_R,σ_R,σ_z)・θ=Ω_p t と同じ 2 階 OU
+//     (厳密離散化 F=e^{Bh}・Q_h=C−FCFᵀ —— `shapeToyDisc`)。**式も乱数の順序も 🥏 と同じ**(腕成分 0 本の写しは 🥏 とビット同一)。
+//   **円盤成分**(law:"coreField"): 📀 と同じ Core 力学(L=½m|v−u|²−mΦ・u=ω_m(s×r)・共回転熱浴 Ω_p)。
+//     **既存の `dfmCoreFieldStep` は 1 文字も変えない** —— 同じ式の写しを円盤成分の粒子にだけ当てる
+//     (`shapeToySpiralCoreDisk`。腕成分 0 本の写しは 📀 とビット同一 —— 器が照合する)。
+//   **腕成分**(どちらの law でも規定運動): N_arm 本の対数螺旋の中心線(パターン座標)
+//     r(s)=r_min+(r_max−r_min)s、 φ_k(s)=φ₀+2πk/N_arm+cot(p)·ln(r(s)/r₀)
+//     に対し、**横断(局所法線 N̂)と面外(厚さ)にだけ** 🧵 と同じ 2 階 OU(復元・減衰・供給)を当てる。
+//     s は**宣言の密度で固定**(伸長なし)。物理座標は
+//       x = c + R(θ)·[C(s) + n N̂(s)]、 n = w_arm·a(a は横断の潜在)、 z = σ_z,arm·ζ(面外の潜在 —— 力には使わない)
+//       v = ċ + Ω_p ẑ×(x−c) + ṅ R(θ)N̂(s)   (**写像の時間微分**。s が固定なのでヤコビアンの s 項は 0)
+//   **剛体パターン回転 Ω_p は形を保つ参照運動**であって、差動回転(巻き込み)は作らない。
+//   **Ω_p=0 でも曲線形状は残る**(幾何参照の契約 —— 渦伸長の証拠ではない)。
+//
+// ■ 帳簿(🔮🥏🧵 と同じ流儀): 規定運動の成分が粒子へ渡した Δp・ΔL・ΔK の**厳密な負**を `S.spiralBath*` と
+//   `S.resPx/resPy/resL` へ同じ步のうちに記帳する(**閉じた系ではない**・供給は外部熱浴)。Core 力学の円盤成分は
+//   `S.coreField*` の帳簿(反作用は外部支持)へ 📀 と同じ式で記帳する。
+//   **記帳していない量**: 規定写像の位置変化に対応する ΔU(`S.spiralUnbooked` に名前だけ置く)。
+//
+// ■ 中心天体つき版(law:"coreField")の位置づけ —— **中心つき幾何参照**
+//   中心は 📀 と同じ pinned の外部支持版で、中心スピンが ω_m を通して**円盤成分だけ**を束ねる(中心スピン 0 なら
+//   K⊥=κ₀=0 の門で円盤の力が消える —— 📀 と同じ契約)。**腕成分は規定運動のまま**で、中心は腕の中心線の原点に
+//   なるだけである(腕の中心線への復元 Φ_arm=½k_arm d⊥² の構成則は**本便では実装していない** ——
+//   「中心が腕を束ねる」とは書かない)。
+//
+// ■ 未宣言は 1 bit 不変: `S.hasSpiral!==true` で 1 行目から戻る(`S._core`・既存 3 shape の経路には 1 命令も足していない)。
+function shapeToySpiralCentre(S,cf){
+  if(cf.center===SHAPE_TOY_CENTERS[1]){
+    for(let i=0;i<S.n;i++) if(S.pinned[i]) return {k:i, cx:S.x[i], cy:S.y[i], cvx:S.vx[i], cvy:S.vy[i]};
+    return null;
+  }
+  return {k:-1, cx:cf.cx, cy:cf.cy, cvx:0, cvy:0};
+}
+// **腕成分の乱数は別の流れ**(`S._spRng`・seed は形状トイの seed から決定的に作る)。円盤成分は 🥏/📀 と同じ `S._stRng` を
+// 同じ順序で引くので、腕成分を外した写しは 🥏/📀 とビット同一になり、**腕成分の状態は円盤側の経路(中心スピン・G の門)に
+// 1 bit も依存しない**(器が照合する)。
+function shapeToySpiralGauss(S){
+  if(S._spG!==null && S._spG!==undefined){ const g=S._spG; S._spG=null; return g; }
+  if(!S._spRng) S._spRng=mulberry32((((S._stSeed||0x274d)^0x290e)>>>0));
+  let u=0,v=0,s2=0;
+  do{ u=2*S._spRng()-1; v=2*S._spRng()-1; s2=u*u+v*v; } while(!(s2>0 && s2<1));
+  const f=Math.sqrt(-2*Math.log(s2)/s2);
+  S._spG=v*f; return u*f;
+}
+// 腕の中心線(**パターン座標** —— θ=0 の向き)の純関数。s∈[0,1]・腕 k → 点 C・単位接線 T・単位法線 N=ẑ×T。
+//   T = |sin p| r̂ + sgn(p) cos p φ̂(dC/dr ∝ r̂ + cot p φ̂ を正規化)・N = |sin p| φ̂ − sgn(p) cos p r̂
+function shapeToySpiralCentreline(sp,k,s){
+  const p=sp.pitchDeg*Math.PI/180, cotp=Math.cos(p)/Math.sin(p);
+  const r=sp.rMin+(sp.rMax-sp.rMin)*s;
+  const psi=sp.phi0Deg*Math.PI/180+2*Math.PI*k/sp.nArm+cotp*Math.log(r/sp.r0);
+  const rx=Math.cos(psi), ry=Math.sin(psi), fx=-ry, fy=rx;
+  const sa=Math.abs(Math.sin(p)), sc=(p>0? 1 : -1)*Math.cos(p);
+  return {r, psi, Cx:r*rx, Cy:r*ry, Tx:sa*rx+sc*fx, Ty:sa*ry+sc*fy, Nx:sa*fx-sc*rx, Ny:sa*fy-sc*ry};
+}
+// 腕成分の 1 粒子の物理座標(潜在 → 物理)。(ct,st) は θ=Ω_p t の余弦・正弦、(cx,cy,cvx,cvy) は中心。純関数。
+function shapeToySpiralArmMap(sp,Cx,Cy,Nx,Ny,a,b,ct,st,cx,cy,cvx,cvy){
+  const nn=sp.armWidth*a, nd=sp.armWidth*b;
+  const PX=Cx+nn*Nx, PY=Cy+nn*Ny;
+  const RX=ct*PX-st*PY, RY=st*PX+ct*PY;
+  const om=sp.omegaP;
+  return {x:cx+RX, y:cy+RY, vx:cvx-om*RY+nd*(ct*Nx-st*Ny), vy:cvy+om*RX+nd*(st*Nx+ct*Ny)};
+}
+// **初期化**(build の直後に 1 度だけ —— 🔮🥏🧵 の `shapeToyInitLatent` と同じ位置)。
+//   成分の割り当て(門 ①)・円盤成分の潜在(🥏 と同じく**プリセットの配置**を A(0)⁻¹ で写す。law:"coreField" は
+//   📀 と同じ `coreFieldInitState` が等温定常から引く)・腕成分の潜在(**定常分布から撒き**、中心線の上へ書き出す ——
+//   腕成分の bodies は**数と質量だけ**を使い、見える配置は宣言の渦巻になる)。
+function shapeToySpiralInit(S){
+  const cf=S.params[SHAPE_TOY_KEY];
+  if(!cf || !cf.spiral) return false;
+  const sp=cf.spiral, n=S.n;
+  if(!(n>=1)) return false;
+  const C=shapeToySpiralCentre(S,cf);
+  if(!C){ S.spiralStop="center"; return false; }
+  // ---- 門 ①: 成分の割り当て(pinned でない粒子を index 順に —— 重複所属なし)と数・質量の総和
+  const comp=new Uint8Array(n);
+  let nd=0, na=0, nx=0, mD=0, mA=0;
+  for(let i=0;i<n;i++){
+    if(S.pinned[i]) continue;
+    if(nd<sp.nDisk){ comp[i]=1; nd++; mD+=S.mEff[i]; }
+    else if(na<sp.nArmParticles){ comp[i]=2; na++; mA+=S.mEff[i]; }
+    else nx++;
+  }
+  S.spiralNDisk=nd; S.spiralNArm=na; S.spiralNExtra=nx; S.spiralMassDisk=mD; S.spiralMassArm=mA;
+  S.spiralMassRatio=(mA>0)? mD/mA : null;
+  if(nd!==sp.nDisk || na!==sp.nArmParticles || nx!==0){ S.spiralStop="split"; return false; }
+  if(sp.massRatio!==null && !(Math.abs(S.spiralMassRatio/sp.massRatio-1)<=1e-6)){ S.spiralStop="mass"; return false; }
+  if(!S._stRng) S._stRng=mulberry32((S._stSeed||0x274d)>>>0);
+  const core=(cf.law===SHAPE_TOY_LAWS[1]);
+  // law:"coreField" の円盤成分は 📀 と同じ初期条件(既存の関数をそのまま呼ぶ —— 腕成分の分は下で上書きする)。
+  // 中心スピン 0 などで Core 力学の門が閉じているときは初期化しない(円盤成分は力を受けない —— 📀 と同じ契約)
+  if(core) coreFieldInitState(S);
+  S.spComp=comp;
+  S.spA1=new Float64Array(n); S.spA2=new Float64Array(n); S.spB1=new Float64Array(n); S.spB2=new Float64Array(n);
+  S.spZ=new Float64Array(n); S.spWz=new Float64Array(n);
+  S.spK=new Int32Array(n); S.spS=new Float64Array(n);
+  S.spCx=new Float64Array(n); S.spCy=new Float64Array(n); S.spNx=new Float64Array(n); S.spNy=new Float64Array(n);
+  const th=sp.omegaP*S.t, ct=Math.cos(th), st=Math.sin(th);
+  const sR=cf.sigma*1, sRd=cf.sigma*0, om=sp.omegaP;   // 🥏 の枠と同じ式(成長なし fac=1・facDot=0)
+  const M=sp.nArmParticles/sp.nArm;
+  let j=0;
+  for(let i=0;i<n;i++){
+    if(comp[i]===1){
+      if(core) continue;                                   // 円盤成分の状態は coreFieldInitState が持つ
+      // 🥏(shapeToyInitLatent)と同じ式・同じ乱数の順序
+      const dx=S.x[i]-C.cx, dy=S.y[i]-C.cy, rvx=S.vx[i]-C.cvx, rvy=S.vy[i]-C.cvy;
+      const p1= ct*dx+st*dy, p2=-st*dx+ct*dy;
+      const q1= ct*rvx+st*rvy, q2=-st*rvx+ct*rvy;
+      const a1=p1/sR, a2=p2/sR;
+      S.spA1[i]=a1; S.spA2[i]=a2;
+      S.spB1[i]=(q1-sRd*a1+sR*om*a2)/sR;
+      S.spB2[i]=(q2-sRd*a2-sR*om*a1)/sR;
+      S.spZ[i]=shapeToyGauss(S); S.spWz[i]=cf.omega0*shapeToyGauss(S);
+    } else if(comp[i]===2){
+      const k=j%sp.nArm, q=Math.floor(j/sp.nArm), s=(q+0.5)/M;
+      const L=shapeToySpiralCentreline(sp,k,s);
+      S.spK[i]=k; S.spS[i]=s; S.spCx[i]=L.Cx; S.spCy[i]=L.Cy; S.spNx[i]=L.Nx; S.spNy[i]=L.Ny;
+      // 横断・面外の潜在は**定常分布**(Cov(a)=1・Cov(b)=ω₀²)から撒く
+      S.spA1[i]=shapeToySpiralGauss(S); S.spB1[i]=sp.armOmega0*shapeToySpiralGauss(S);
+      S.spZ[i]=shapeToySpiralGauss(S); S.spWz[i]=sp.armOmega0*shapeToySpiralGauss(S);
+      const w=shapeToySpiralArmMap(sp,L.Cx,L.Cy,L.Nx,L.Ny,S.spA1[i],S.spB1[i],ct,st,C.cx,C.cy,C.cvx,C.cvy);
+      S.x[i]=w.x; S.y[i]=w.y; S.vx[i]=w.vx; S.vy[i]=w.vy;   // **初期条件**(腕成分は宣言の渦巻の上から始める)
+      j++;
+    }
+  }
+  S.spiralStop=null;
+  return true;
+}
+// **円盤成分の Core 力学**(law:"coreField")。`dfmCoreFieldStep` と**同じ式の写し**で、違うのは
+// 「対象を円盤成分(S.spComp[i]===1)に限る」ことだけである(既存の関数は 1 文字も変えない)。
+function shapeToySpiralCoreDisk(S,dt){
+  const cf=S.params[SHAPE_TOY_KEY];
+  S.coreFieldN=0;
+  const cfd=cf.coreField, n=S.n;
+  const k=coreFieldCentre(S);
+  if(k<0){ S.coreFieldStop="centre"; return null; }
+  if(cfd.centreGravity!==CORE_FIELD_GRAVITIES[1] && S.params.G!==0 && S.mEff[k]!==0){
+    S.coreFieldStop="gravityDouble"; return null;
+  }
+  const omegaC=S.spin[k];
+  const P=coreFieldParams(cfd, S.params.G, omegaC);
+  if(P.gate){ S.coreFieldStop=P.gate; return null; }
+  if(!S.cfX || S.cfX.length!==n){
+    if(!coreFieldInitState(S)){ S.coreFieldStop="init"; return null; }
+  }
+  const F=coreFieldFlow(P.kPerp,P.kPar,P.omegaM,dt);
+  if(!Number.isFinite(F.aR) || !Number.isFinite(F.dR)){ S.coreFieldStop="flow"; return null; }
+  const B=coreFieldBasis(cfd.axis), e1=B.e1, e2=B.e2, s=B.s;
+  const cx=S.x[k], cy=S.y[k];
+  const ex=cfd.exchange, bath=(ex.mode===CORE_FIELD_EXCHANGES[1] && ex.rate>0);
+  const eg=bath? Math.exp(-ex.rate*dt) : 1;
+  const supplyOn=bath && !(S.coreFieldBathE>=S.coreFieldBathCap);
+  const noise=supplyOn? Math.sqrt(Math.max(0,1-eg*eg)) : 0;
+  if(bath && !supplyOn && S.coreFieldSupplyStop===null) S.coreFieldSupplyStop="capacity";
+  let spx=0, spy=0, spz=0, slz=0, slx=0, sly=0, se=0;
+  let wField=0, wBath=0, sumU=0, sumK=0, rMax=0, driftDx=0, nOn=0, stop=null;
+  let extPx=0, extPy=0, extE=0;
+  const comp=S.spComp;
+  for(let i=0;i<n;i++){
+    if(comp[i]!==1) continue;                          // **円盤成分だけ**(写しで違うのはこの 1 行)
+    const mi=S.mEff[i];
+    if(!(mi>0)) continue;
+    const x0=S.x[i], y0=S.y[i];
+    const dvx=S.vx[i]-S.cfVxS[i], dvy=S.vy[i]-S.cfVyS[i];
+    const vx=S.cfVx[i]+dvx, vy=S.cfVy[i]+dvy, vz=S.cfVz[i];
+    extPx+=mi*dvx; extPy+=mi*dvy;
+    extE +=0.5*mi*((vx*vx+vy*vy)-(S.cfVx[i]*S.cfVx[i]+S.cfVy[i]*S.cfVy[i]));
+    const rx=S.cfX[i]-cx, ry=S.cfY[i]-cy, rz=S.cfZ[i];
+    if(!(Number.isFinite(rx)&&Number.isFinite(ry)&&Number.isFinite(rz)
+        &&Number.isFinite(vx)&&Number.isFinite(vy)&&Number.isFinite(vz))){ stop="nonfinite"; continue; }
+    const dd=Math.hypot(x0-S.cfX[i], y0-S.cfY[i]); if(dd>driftDx) driftDx=dd;
+    const p1=rx*e1[0]+ry*e1[1]+rz*e1[2], p2=rx*e2[0]+ry*e2[1]+rz*e2[2], pz=rx*s[0]+ry*s[1]+rz*s[2];
+    const q1=vx*e1[0]+vy*e1[1]+vz*e1[2], q2=vx*e2[0]+vy*e2[1]+vz*e2[2], qz=vx*s[0]+vy*s[1]+vz*s[2];
+    const k0=0.5*mi*(vx*vx+vy*vy+vz*vz)+0.5*mi*(P.kPerp*(p1*p1+p2*p2)+P.kPar*pz*pz);
+    const P1=F.aR*p1-F.aI*p2 + F.bR*q1-F.bI*q2;
+    const P2=F.aI*p1+F.aR*p2 + F.bI*q1+F.bR*q2;
+    const Q1=F.cR*p1-F.cI*p2 + F.dR*q1-F.dI*q2;
+    const Q2=F.cI*p1+F.cR*p2 + F.dI*q1+F.dR*q2;
+    const PZ=F.cP*pz+F.sP*qz, QZ=-P.kPar*F.sP*pz+F.cP*qz;
+    const nrx=P1*e1[0]+P2*e2[0]+PZ*s[0], nry=P1*e1[1]+P2*e2[1]+PZ*s[1], nrz=P1*e1[2]+P2*e2[2]+PZ*s[2];
+    let nvx=Q1*e1[0]+Q2*e2[0]+QZ*s[0], nvy=Q1*e1[1]+Q2*e2[1]+QZ*s[1], nvz=Q1*e1[2]+Q2*e2[2]+QZ*s[2];
+    const kFlow=0.5*mi*(nvx*nvx+nvy*nvy+nvz*nvz)
+      +0.5*mi*(P.kPerp*(P1*P1+P2*P2)+P.kPar*PZ*PZ);
+    wField+=kFlow-k0;
+    let dBath=0;
+    if(bath){
+      const ub1=cfd.omegaP*(s[1]*nrz-s[2]*nry), ub2=cfd.omegaP*(s[2]*nrx-s[0]*nrz),
+            ub3=cfd.omegaP*(s[0]*nry-s[1]*nrx);
+      const w1=nvx-ub1, w2=nvy-ub2, w3=nvz-ub3;
+      const sV=Math.sqrt(P.varVel/mi)*noise;
+      const b1=eg*w1+sV*shapeToyGauss(S), b2=eg*w2+sV*shapeToyGauss(S), b3=eg*w3+sV*shapeToyGauss(S);
+      const kb0=0.5*mi*(nvx*nvx+nvy*nvy+nvz*nvz);
+      nvx=ub1+b1; nvy=ub2+b2; nvz=ub3+b3;
+      dBath=0.5*mi*(nvx*nvx+nvy*nvy+nvz*nvz)-kb0;
+      wBath+=dBath;
+    }
+    if(!(Number.isFinite(nrx)&&Number.isFinite(nry)&&Number.isFinite(nrz)
+        &&Number.isFinite(nvx)&&Number.isFinite(nvy)&&Number.isFinite(nvz))){ stop="nonfinite"; continue; }
+    S.cfX[i]=cx+nrx; S.cfY[i]=cy+nry; S.cfZ[i]=nrz;
+    S.cfVx[i]=nvx; S.cfVy[i]=nvy; S.cfVz[i]=nvz;
+    S.x[i]=S.cfX[i]; S.y[i]=S.cfY[i]; S.vx[i]=S.cfVx[i]; S.vy[i]=S.cfVy[i];
+    S.cfVxS[i]=S.vx[i]; S.cfVyS[i]=S.vy[i];
+    const xs=S.x[i], ys=S.y[i], vxs=S.vx[i], vys=S.vy[i], vzs=S.cfVz[i], zs=S.cfZ[i];
+    spx+=mi*(vxs-vx); spy+=mi*(vys-vy); spz+=mi*(vzs-vz);
+    slz+=mi*((xs*vys-ys*vxs)-(x0*vy-y0*vx));
+    slx+=mi*((ys*vzs-zs*vys)-(y0*vz-rz*vy));
+    sly+=mi*((zs*vxs-xs*vzs)-(rz*vx-x0*vz));
+    se +=0.5*mi*((vxs*vxs+vys*vys+vzs*vzs)-(vx*vx+vy*vy+vz*vz));
+    const rr=Math.hypot(nrx,nry,nrz); if(rr>rMax) rMax=rr;
+    sumU+=0.5*mi*(P.kPerp*(P1*P1+P2*P2)+P.kPar*PZ*PZ);
+    sumK+=0.5*mi*(nvx*nvx+nvy*nvy+nvz*nvz);
+    nOn++;
+  }
+  S.coreFieldStop=stop? stop : (nOn? null : "noTargets");
+  S.coreFieldN=nOn; S.coreFieldOmegaM=P.omegaM; S.coreFieldKPerp=P.kPerp; S.coreFieldKPar=P.kPar;
+  S.coreFieldKappa0=P.kappa0; S.coreFieldWc=P.Wc; S.coreFieldOmegaC=omegaC; S.coreFieldKEff=P.kEff;
+  S.coreFieldRMax=(cfd.coreRc>0)? rMax/cfd.coreRc : null;
+  S.coreFieldDriftDx=driftDx;
+  if(!nOn) return null;
+  S.coreFieldU=sumU; S.coreFieldK=sumK; S.coreFieldH=sumK+sumU;
+  if(S.coreFieldH0===null) S.coreFieldH0=S.coreFieldH;
+  S.coreFieldPx+=spx; S.coreFieldPy+=spy; S.coreFieldPz+=spz;
+  S.coreFieldLz+=slz; S.coreFieldLx+=slx; S.coreFieldLy+=sly; S.coreFieldE+=se;
+  S.coreFieldReacPx-=spx; S.coreFieldReacPy-=spy; S.coreFieldReacPz-=spz;
+  S.coreFieldReacLz-=slz; S.coreFieldReacLx-=slx; S.coreFieldReacLy-=sly; S.coreFieldReacE-=se;
+  S.resPx-=spx; S.resPy-=spy; S.resL-=slz;
+  S.coreFieldWork+=wField; S.coreFieldBathE+=wBath; S.coreFieldHeat-=wBath;
+  S.coreFieldExtPx+=extPx; S.coreFieldExtPy+=extPy; S.coreFieldExtE+=extE;
+  return { n:nOn, dP:[spx,spy,spz], dE:se, field:wField, bath:wBath, H:S.coreFieldH, omegaM:P.omegaM };
+}
+function dfmShapeToySpiralStep(S,dt){
+  if(!S || S.hasSpiral!==true) return null;
+  const cf=S.params[SHAPE_TOY_KEY];
+  S.spiralN=0; S.spiralDx=0;
+  if(!cf || !cf.spiral){ S.spiralStop="declaration"; return null; }
+  if(!Number.isFinite(dt) || !(dt>0)){ S.spiralStop="dt"; return null; }
+  const n=S.n, X=S.x, Y=S.y, VX=S.vx, VY=S.vy, mEff=S.mEff;
+  if(!(n>=1)){ S.spiralStop="n"; return null; }
+  if(!S._stRng) S._stRng=mulberry32((S._stSeed||0x274d)>>>0);
+  if(!S.spComp || S.spComp.length!==n){
+    if(!shapeToySpiralInit(S)){ if(!S.spiralStop) S.spiralStop="init"; return null; }
+  }
+  const sp=cf.spiral, comp=S.spComp;
+  const C=shapeToySpiralCentre(S,cf);
+  if(!C){ S.spiralStop="center"; return null; }
+  const core=(cf.law===SHAPE_TOY_LAWS[1]);
+  // (1) 円盤成分の Core 力学(law:"coreField" のときだけ —— 📀 と同じ式・同じ乱数の順序)
+  const coreRes=core? shapeToySpiralCoreDisk(S,dt) : null;
+  S.spiralCoreN=core? S.coreFieldN : 0;
+  // (2) 規定運動の成分(円盤成分〔law 未宣言〕と腕成分)。時刻は**步の終端** S.t(🥏 と同じ)
+  const t1=S.t, th=sp.omegaP*t1, ct=Math.cos(th), st=Math.sin(th);
+  const cx=C.cx, cy=C.cy, cvx=C.cvx, cvy=C.cvy;
+  const sR=cf.sigma*1, sRd=cf.sigma*0, om=sp.omegaP;
+  const D=core? null : shapeToyDisc(cf.omega0,cf.gamma,dt);
+  const DA=shapeToyDisc(sp.armOmega0,sp.armGamma,dt);
+  if((D && (!Number.isFinite(D.F11) || !Number.isFinite(D.l11))) || !Number.isFinite(DA.F11) || !Number.isFinite(DA.l11)){
+    S.spiralStop="disc"; return null; }
+  let spx=0, spy=0, sl=0, se=0, supPx=0, supPy=0, supL=0, supE=0, detE=0, supEArm=0;
+  let nOn=0, nArmOn=0, dxM=0, stop=null;
+  for(let i=0;i<n;i++){
+    const c=comp[i];
+    if(c===0 || (c===1 && core)) continue;
+    const x0=X[i], y0=Y[i], vx0=VX[i], vy0=VY[i];
+    let xd,yd,vxd,vyd, xn,yn,vxn,vyn;
+    if(c===1){
+      // ---- 円盤成分(🥏 と同じ式・同じ乱数の順序)
+      const a1=S.spA1[i], a2=S.spA2[i], b1=S.spB1[i], b2=S.spB2[i], z=S.spZ[i], wz=S.spWz[i];
+      if(!(Number.isFinite(a1)&&Number.isFinite(a2)&&Number.isFinite(b1)&&Number.isFinite(b2)
+          &&Number.isFinite(z)&&Number.isFinite(wz))){ stop="nonfinite"; continue; }
+      const A1d=D.F11*a1+D.F12*b1, B1d=D.F21*a1+D.F22*b1;
+      const A2d=D.F11*a2+D.F12*b2, B2d=D.F21*a2+D.F22*b2;
+      const Azd=D.F11*z +D.F12*wz, Bzd=D.F21*z +D.F22*wz;
+      const n1=shapeToyGauss(S), n2=shapeToyGauss(S);
+      const n3=shapeToyGauss(S), n4=shapeToyGauss(S);
+      const n5=shapeToyGauss(S), n6=shapeToyGauss(S);
+      const x1=D.l11*n1, x2=D.l21*n1+D.l22*n2;
+      const x3=D.l11*n3, x4=D.l21*n3+D.l22*n4;
+      const x5=D.l11*n5, x6=D.l21*n5+D.l22*n6;
+      const A1=A1d+x1, B1=B1d+x2, A2=A2d+x3, B2=B2d+x4;
+      const e1d=sRd*A1d-sR*om*A2d+sR*B1d, e2d=sRd*A2d+sR*om*A1d+sR*B2d;
+      const e1n=sRd*A1 -sR*om*A2 +sR*B1,  e2n=sRd*A2 +sR*om*A1 +sR*B2;
+      xd=cx+sR*(ct*A1d-st*A2d); yd=cy+sR*(st*A1d+ct*A2d);
+      xn=cx+sR*(ct*A1 -st*A2 ); yn=cy+sR*(st*A1 +ct*A2 );
+      vxd=cvx+ct*e1d-st*e2d; vyd=cvy+st*e1d+ct*e2d;
+      vxn=cvx+ct*e1n-st*e2n; vyn=cvy+st*e1n+ct*e2n;
+      if(!(Number.isFinite(xn)&&Number.isFinite(yn)&&Number.isFinite(vxn)&&Number.isFinite(vyn))){
+        stop="nonfinite"; continue;
+      }
+      S.spA1[i]=A1; S.spA2[i]=A2; S.spB1[i]=B1; S.spB2[i]=B2;
+      S.spZ[i]=Azd+x5; S.spWz[i]=Bzd+x6;
+    } else {
+      // ---- 腕成分(横断 a と面外 ζ にだけ 🧵 と同じ 2 階 OU。s は固定)
+      const a=S.spA1[i], b=S.spB1[i], z=S.spZ[i], wz=S.spWz[i];
+      if(!(Number.isFinite(a)&&Number.isFinite(b)&&Number.isFinite(z)&&Number.isFinite(wz))){ stop="nonfinite"; continue; }
+      const Ad=DA.F11*a+DA.F12*b, Bd=DA.F21*a+DA.F22*b;
+      const Azd=DA.F11*z+DA.F12*wz, Bzd=DA.F21*z+DA.F22*wz;
+      const n1=shapeToySpiralGauss(S), n2=shapeToySpiralGauss(S);
+      const n3=shapeToySpiralGauss(S), n4=shapeToySpiralGauss(S);
+      const A=Ad+DA.l11*n1, Bv=Bd+DA.l21*n1+DA.l22*n2;
+      const Cxi=S.spCx[i], Cyi=S.spCy[i], Nxi=S.spNx[i], Nyi=S.spNy[i];
+      const wd=shapeToySpiralArmMap(sp,Cxi,Cyi,Nxi,Nyi,Ad,Bd,ct,st,cx,cy,cvx,cvy);
+      const wn=shapeToySpiralArmMap(sp,Cxi,Cyi,Nxi,Nyi,A,Bv,ct,st,cx,cy,cvx,cvy);
+      xd=wd.x; yd=wd.y; vxd=wd.vx; vyd=wd.vy; xn=wn.x; yn=wn.y; vxn=wn.vx; vyn=wn.vy;
+      if(!(Number.isFinite(xn)&&Number.isFinite(yn)&&Number.isFinite(vxn)&&Number.isFinite(vyn))){
+        stop="nonfinite"; continue;
+      }
+      S.spA1[i]=A; S.spB1[i]=Bv;
+      S.spZ[i]=Azd+DA.l11*n3; S.spWz[i]=Bzd+DA.l21*n3+DA.l22*n4;
+      supEArm+=0.5*mEff[i]*((vxn*vxn+vyn*vyn)-(vxd*vxd+vyd*vyd));   // 腕成分だけの供給(診断 —— 成分ごとの収支)
+      nArmOn++;
+    }
+    // ---- 書き込み(**規定運動**であって力ではない)と、格納後の値での記帳(🔮🥏🧵 と同じ)
+    X[i]=xn; Y[i]=yn; VX[i]=vxn; VY[i]=vyn;
+    const xs=X[i], ys=Y[i], vxs=VX[i], vys=VY[i];
+    const mi=mEff[i];
+    spx+=mi*(vxs-vx0); spy+=mi*(vys-vy0);
+    sl +=mi*((xs*vys-ys*vxs)-(x0*vy0-y0*vx0));
+    se +=0.5*mi*((vxs*vxs+vys*vys)-(vx0*vx0+vy0*vy0));
+    detE+=0.5*mi*((vxd*vxd+vyd*vyd)-(vx0*vx0+vy0*vy0));
+    supE+=0.5*mi*((vxn*vxn+vyn*vyn)-(vxd*vxd+vyd*vyd));
+    supPx+=mi*(vxn-vxd); supPy+=mi*(vyn-vyd);
+    supL +=mi*((xn*vyn-yn*vxn)-(xd*vyd-yd*vxd));
+    const dd=Math.hypot(xs-x0,ys-y0); if(dd>dxM) dxM=dd;
+    nOn++;
+  }
+  S.spiralStop=stop? stop : ((nOn || S.spiralCoreN)? null : "noTargets");
+  S.spiralN=nOn; S.spiralArmN=nArmOn; S.spiralDx=dxM; S.spiralTheta=th;
+  if(!nOn) return coreRes? { n:0, core:coreRes, theta:th } : null;
+  S.spiralPx+=spx; S.spiralPy+=spy; S.spiralL+=sl; S.spiralE+=se;
+  S.spiralBathPx-=spx; S.spiralBathPy-=spy; S.spiralBathL-=sl; S.spiralBathE-=se;
+  S.resPx-=spx; S.resPy-=spy; S.resL-=sl;
+  S.spiralSupPx+=supPx; S.spiralSupPy+=supPy; S.spiralSupL+=supL; S.spiralSupE+=supE; S.spiralDetE+=detE; S.spiralSupEArm+=supEArm;
+  return { n:nOn, arm:nArmOn, dP:[spx,spy], dL:sl, dE:se, supply:[supPx,supPy,supL,supE], det:detE,
+    theta:th, core:coreRes, law:(core? SHAPE_TOY_LAWS[1] : SHAPE_TOY_LAWS[0]) };
+}
+// 第290便e: **読み取り専用の状態**(器・QA が読む。物理は 1 bit も動かさない)。成分・腕の番号・s・面外 z・横断 n(潜在×幅)
+function shapeToySpiralState(S){
+  if(!S || S.hasSpiral!==true || !S.spComp) return null;
+  const cf=S.params[SHAPE_TOY_KEY], sp=cf.spiral, core=(cf.law===SHAPE_TOY_LAWS[1]), n=S.n;
+  const comp=Array.from(S.spComp), z=new Array(n).fill(null), tr=new Array(n).fill(null);
+  for(let i=0;i<n;i++){
+    if(comp[i]===1) z[i]=core? (S.cfZ? S.cfZ[i] : null) : cf.sigmaZ*S.spZ[i];
+    else if(comp[i]===2){ z[i]=sp.armSigmaZ*S.spZ[i]; tr[i]=sp.armWidth*S.spA1[i]; }
+  }
+  return { comp, arm:Array.from(S.spK), s:Array.from(S.spS), z, transverse:tr, theta:sp.omegaP*S.t,
+    law:(core? SHAPE_TOY_LAWS[1] : SHAPE_TOY_LAWS[0]), nDisk:S.spiralNDisk, nArm:S.spiralNArm,
+    massDisk:S.spiralMassDisk, massArm:S.spiralMassArm, massRatio:S.spiralMassRatio, stop:S.spiralStop };
+}
 // ===== 第275便e(第65報 (7)「2D だが公転面に対する自転軸の傾き角・傾きの方向・歳差角速度を
 // 再現する。親子コア構造限定でよい」): **コア軸の prescribed ステップ** `dfmCoreAxisStep(S,dt)` =====
 //
@@ -47542,7 +48129,7 @@ function testParticlePrepare(S){
   if(p[FRAME_REACTION_KEY]==="pairReduced" || p[CM_GAUGE_KEY]==="barycentric") return deny("reaction");
   if(S._hookOn===1) return deny("hook");
   if(S.hasSpinSpin || S.hasAxisForce || S.hasCompactForce || S.hasBodyLayers || S.hasSpaceMesh || S.hasPairWeave
-     || S.hasCoordInertia || S.hasGeoToy || S.hasShapeToy || S.hasCoreField || S.hasCoreAxis || S.hasRelativeDrag
+     || S.hasCoordInertia || S.hasGeoToy || S.hasShapeToy || S.hasCoreField || S.hasSpiral || S.hasCoreAxis || S.hasRelativeDrag
      || S.hasMeshVelocity || S.hasMeshReservoir || S.hasShed || S.hasLightTrap || S.meshTransport
      || S.params[PERI_SUB_KEY] || p.petersGW===true || S.echoFlipAt!==null) return deny("external");
   if(S._phSched) return deny("photon");
@@ -49846,6 +50433,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 導出値 `coreFieldParams`・**厳密伝播子** `coreFieldFlow`・基底・初期条件・外部ステップ。
   dfmCoreFieldStep, coreFieldParams, coreFieldFlow, coreFieldBasis, coreFieldInitState,
   validateCoreField, SHAPE_TOY_LAWS, CORE_FIELD_EXCHANGES, CORE_FIELD_INITS, CORE_FIELD_CLAMPS,
+  // 第290便e(R129): **渦巻の参照模型**(shape:"spiral")の外部ステップ・初期化・中心線の純関数・読み取り専用の状態・宣言の検証器
+  dfmShapeToySpiralStep, shapeToySpiralInit, shapeToySpiralCentreline, shapeToySpiralArmMap, shapeToySpiralState, shapeToySpiralGauss,
+  validateShapeToySpiral, SHAPE_TOY_SPIRAL_DENSITIES, SHAPE_TOY_SPIRAL_NARM_MAX,
   CORE_FIELD_GRAVITIES,
   SHAPE_TOY_KEY, SHAPE_TOY_SHAPES, SHAPE_TOY_CENTERS, SHAPE_TOY_COUPLINGS, SHAPE_TOY_SUPPLY, SHAPE_TOY_CLAMPS,
   // 第275便b(第65報 (2)): D₀ の**背景の出所**の宣言鍵(**宣言専用** — エンジンは 1 箇所も読まない)。

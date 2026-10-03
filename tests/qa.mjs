@@ -2318,7 +2318,10 @@ if (QA_CHANGED) {
       'tests/out/tilt90layers-w289e.json',
       // 第290便c(原仮定者の裁定(第80報)⑥・R127): 法則版 relativeDrag.law:"inertial" の門 b〜f と診断本 🐌 の Δϖ・上界・帳簿
       //   (target=beta/index.html —— Node の headless だけ・html だけを読む・他の正本は読まない —— 鎖の段 inertial290)
-      'tests/out/inertial-w290c.json'];
+      'tests/out/inertial-w290c.json',
+      // 第290便e(原仮定者の裁定(第80報)⑤・R129): 渦巻の参照模型 2 本(🍭 shapeToySpiral・🎢 shapeToySpiralCore)の門 ①〜⑦
+      //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 spiral290 は shapetoy・corefield の後)
+      'tests/out/spiral-w290e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -20654,9 +20657,11 @@ if (!FAST) {
         // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し・contactMode none —— 宣言の側)を足した世代は 147 本
         const has289n = has288n && html285.indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0;
         // 第290便c: 🐌 inertialDragPair(慣性引きずりの診断本 —— 宣言した本だけの別経路で 1 步が変わる。基点 b92ffa1 には無い本)を足した世代は 148 本
-        const has290n = has289n && html285.indexOf('id:"inertialDragPair"') >= 0;
-        if (has290n) OTHER285.add('inertialDragPair');
-        const nBuiltin285 = [142, 143].concat(has288n ? [146] : [], has289n ? [147] : [], has290n ? [148] : []);
+        // 第290便e: 🍭 shapeToySpiral・🎢 shapeToySpiralCore(渦巻の参照模型 —— contactMode none・宣言の側)を足した世代は +2(c と合わせて 150 本・統合で両方の世代を数える)
+        const has290c285 = has289n && html285.indexOf('id:"inertialDragPair"') >= 0;
+        if (has290c285) OTHER285.add('inertialDragPair');
+        const has290e285 = has289n && html285.indexOf('id:"shapeToySpiral"') >= 0 && html285.indexOf('id:"shapeToySpiralCore"') >= 0;
+        const nBuiltin285 = [142, 143].concat(has288n ? [146] : [], has289n ? [147] : [], (has290c285 && !has290e285) ? [148] : [], (has290e285 && !has290c285) ? [149] : [], (has290c285 && has290e285) ? [150] : []);
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
         if (!(nBuiltin285.includes(O.n) && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
@@ -20727,11 +20732,14 @@ if (!FAST) {
         // 第288便g: 🧩 galaxyAnalogyBHCompose(第288便c)・🛸 galaxyAnalogyBHTilt90(第288便e)は 🌚 galaxyAnalogyBH の写し(診断・原理コピー)なので
         //   🌚 と同じ契約(contactMode "none"・中心 pinned)を持つ —— 写し元が適用表にあるときだけ表の外の none を許す(器の適用表は変えない)
         // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し —— 🌚 の写しの写し)も同じ契約(none・中心 pinned)を持つ
-        const COPY288 = { galaxyAnalogyBHCompose: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90Layers: 'galaxyAnalogyBH' };
+        // 第290便e: 🍭 shapeToySpiral・🎢 shapeToySpiralCore(渦巻の参照模型)は 🥏 shapeToyDisk/📀 shapeToyDiskCore の円盤成分をそのまま持つ本なので
+        //   写し元と同じ契約(contactMode "none"・🍭 は中心なし・🎢 は中心 pinned)を持つ —— 器の適用表は変えない(同じ扱い)
+        const COPY288 = { galaxyAnalogyBHCompose: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90Layers: 'galaxyAnalogyBH',
+          shapeToySpiral: 'shapeToyDisk', shapeToySpiralCore: 'shapeToyDiskCore' };
         const copies = r.nDeclNone.filter((id) => COPY288[id] && EC.APPLIED.some((a) => a.id === COPY288[id]));
         const extra = r.nDeclNone.filter((id) => !EC.APPLIED.some((a) => a.id === id) && !copies.includes(id));
         if (extra.length) bad.push('適用表の外で none を宣言した本 ' + extra.join(','));
-        if (copies.length) cases.push(`🌚 の写し ${copies.join(',')} は写し元と同じ契約(none)を持つ`);
+        if (copies.length) cases.push(`写しの本 ${copies.join(',')} は写し元(🌚・🥏・📀)と同じ契約(none)を持つ`);
         for (const z of r.capture) if (!(z.ok && z.mode === 'none')) bad.push(z.id + ': centerCapture/fixedCapture の宣言が受理器を通らない');
         cases.push(`適用表 ${r.applied.length} 本が契約を宣言(none ${EC.APPLIED.filter((a) => EC.declOf(a) === 'none').length}・normal の明示 ${EC.APPLIED.filter((a) => EC.declOf(a) === 'normal').map((a) => a.emoji).join('')}・中心固定 ${EC.APPLIED.filter((a) => a.center === 'pinned').length}・中心なし ${EC.APPLIED.filter((a) => a.center === 'none').length}・土星だけ固定 ${EC.APPLIED.filter((a) => a.center === 'saturn').length})・`
           + `normal のまま ${r.kept.length} 本(${EC.NORMAL_KEPT.map((k) => k.emoji).join('')} —— 衝突・合体・散逸が本題)・宣言は適用表の外に無い`
@@ -22666,6 +22674,214 @@ if (!FAST) {
     add('behavior.ckFixcapRestore', bad.length === 0,
       `**チェックポイントの保存/復元が固定中心の状態を運ぶ**(第290便d・統括の検証項目 R128 —— 走行の物理は不変・保存 JSON の形式は不変・粒子数が変わった後の復元は UI が拒否のまま): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 8c1i) 第290便e(原仮定者の裁定(第80報)⑤「shapeToyDisk と shapeToyArm を合わせて渦巻き銀河の参照模型/shapeToyDiskCore と shapeToyArmCore を
+// ----   合わせて中心天体つき渦巻き銀河の参照模型」・統括の検証項目 R129): **渦巻参照便**の 3 ブロック。**root では SKIP**
+// ----   (器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json)。世代切替 has290e = html に `function dfmShapeToySpiralStep(` と
+// ----   🍭 shapeToySpiral・🎢 shapeToySpiralCore の宣言がある。
+// ----   ① preset.shapeToySpiral …… shape:"spiral" の受理条件(0<|p|<90・r_min>0・nArmParticles は nArm の倍数・両成分なら massRatio 必須・
+// ----      prescribed のみ・tauGrow=0・spiral は shape:"spiral" 専用・coreField の軸は円盤の法線)・2 本の宣言の値・絵文字が唯一・
+// ----      門 ①②③ の正本の照合(いまの html で成分の割り当てを引き直して正本の行と同じ・正本の ①②③ が真)。
+// ----   ② behavior.spiralGeometry …… いまの html で 🍭 を 600 步走らせ直してピッチ角(直交回帰)・横断/厚さ/軸比が正本と同じ(相対 1e-9)・
+// ----      Ω_p=0 でも曲線形状が残る(宣言 ±1°)・G=0/8 で 600 步の状態が 1 bit 不変・🎢 の中心スピン 0 で円盤成分の力が消え腕は 1 bit 不変。
+// ----   ③ docs.spiralRef …… 説明に「参照模型」「創発ではない」「較正ではない」(ja/en)・概要原稿(ja 120・en 200 字)・PHYSICS〔第290便e〕の
+// ----      合成できない理由・式・2 本の表・門の表・Core 版の位置づけ(k_arm 未実装 —— 中心つき幾何参照)・書かないこと(否定の文の外に禁止の言い方が無い)・
+// ----      AI_SPEC の shape spiral の宣言・CHANGELOG の 1 行・FAMILIES に 2 id。
+{
+  const html290e = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has290e = TARGET.startsWith('beta/') && html290e.indexOf('function dfmShapeToySpiralStep(') >= 0
+    && html290e.indexOf('id:"shapeToySpiral"') >= 0 && html290e.indexOf('id:"shapeToySpiralCore"') >= 0;
+  if (!has290e) {
+    console.log('SKIP preset.shapeToySpiral / behavior.spiralGeometry / docs.spiralRef(第290便e 未適用 — ' + TARGET + ')');
+  } else {
+    let E = null, J = null, errE = null, H = null, errH = null;
+    try { E = await import('file://' + path.join(ROOT, 'tests', 'exp-w290e-spiral.mjs'));
+      J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'spiral-w290e.json'), 'utf8')); }
+    catch (e) { errE = String(e && e.stack || e).slice(0, 160); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { errH = String(e).slice(0, 140); }
+    const relEq = (a, b, tol) => typeof a === 'number' && typeof b === 'number' && (a === b || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b)));
+    // ---- ① preset.shapeToySpiral
+    {
+      const bad = [];
+      const cases = [];
+      if (errE || !E || !J) bad.push('器/正本が読めない: ' + errE);
+      else if (errH || !H || !H.HP) bad.push('html が headless で読めない: ' + errH);
+      else {
+        const HP = H.HP;
+        const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        // 受理条件
+        const rej = (label, mut, id) => { const p = P(id || 'shapeToySpiral'); mut(p); const v = HP.validatePreset(p); if (v.ok) bad.push('受理してしまう: ' + label); };
+        rej('pitchDeg=0', (p) => { p.physics.shapeToy.spiral.pitchDeg = 0; });
+        rej('pitchDeg=90', (p) => { p.physics.shapeToy.spiral.pitchDeg = 90; });
+        rej('pitchDeg=-90', (p) => { p.physics.shapeToy.spiral.pitchDeg = -90; });
+        rej('rMin=0', (p) => { p.physics.shapeToy.spiral.rMin = 0; });
+        rej('rMax≤rMin', (p) => { p.physics.shapeToy.spiral.rMax = 24; });
+        rej('nArmParticles を nArm の倍数でなく', (p) => { p.physics.shapeToy.spiral.nArmParticles = 151; });
+        rej('両成分で massRatio 欠落', (p) => { delete p.physics.shapeToy.spiral.massRatio; });
+        rej('coupling feedback', (p) => { p.physics.shapeToy.coupling = 'feedback'; });
+        rej('tauGrow>0', (p) => { p.physics.shapeToy.tauGrow = 10; p.physics.shapeToy.sigma0 = 30; });
+        rej('spiral を shape:"disk" に', (p) => { p.physics.shapeToy.shape = 'disk'; p.physics.shapeToy.omegaSpin = 0.05; });
+        rej('shape:"spiral" で spiral 欠落', (p) => { delete p.physics.shapeToy.spiral; });
+        rej('density が uniform-s 以外', (p) => { p.physics.shapeToy.spiral.density = 'stretch'; });
+        rej('🎢 の軸 (1,0,0)', (p) => { p.physics.shapeToy.coreField.axis = [1, 0, 0]; }, 'shapeToySpiralCore');
+        { const p = P('shapeToySpiral'); p.physics.shapeToy.spiral.pitchDeg = -20; if (!HP.validatePreset(p).ok) bad.push('負のピッチ角(逆巻き)を拒否した'); }
+        if (HP.SHAPE_TOY_SHAPES.join(',') !== 'cluster,disk,arm,spiral') bad.push('SHAPE_TOY_SHAPES ' + HP.SHAPE_TOY_SHAPES.join(','));
+        cases.push('受理条件 14 件(0<|p|<90・r_min>0・r_max>r_min・腕ごと同数・両成分の massRatio・prescribed のみ・τ=0・spiral 専用・density・🎢 の軸・逆巻きは受理)');
+        // 2 本の宣言
+        const all = HP.allPresets();
+        const want = { shapeToySpiral: { emoji: '🍭', famId: 'shapeToy', law: undefined, armWidth: 7.2, armSigmaZ: 4.8, omegaP: 0.05, centre: false, seed: 20260919 },
+          shapeToySpiralCore: { emoji: '🎢', famId: 'shapeToyCore', law: 'coreField', armWidth: 7.2, armSigmaZ: 7.2, omegaP: 0.14, centre: true, seed: 20260920 } };
+        for (const [id, w] of Object.entries(want)) {
+          const p = all.find((q) => q.id === id);
+          if (!p) { bad.push(id + ' が無い'); continue; }
+          const st = p.physics.shapeToy, sp = st.spiral;
+          if (p.emoji !== w.emoji || all.filter((q) => q.emoji === w.emoji).length !== 1) bad.push(id + ' の絵文字 ' + p.emoji + ' が唯一でない/違う');
+          if (p.sampleClass !== 'principle' || p.fidelity !== 'toy' || p.group !== '銀河の力学' || p.familyId !== w.famId || p.familyRole !== 'variant') bad.push(id + ' の分類 ' + [p.sampleClass, p.fidelity, p.group, p.familyId, p.familyRole].join('/'));
+          if (p.physics.G !== 0 || st.shape !== 'spiral' || st.coupling !== 'prescribed' || st.supply !== 'external-bath' || st.law !== w.law) bad.push(id + ' の宣言 ' + JSON.stringify([p.physics.G, st.shape, st.coupling, st.law]));
+          if (!(sp.nArm === 2 && sp.pitchDeg === 20 && sp.rMin === 24 && sp.rMax === 144 && sp.r0 === 24 && sp.phi0Deg === 0 && sp.armWidth === w.armWidth && sp.armSigmaZ === w.armSigmaZ
+            && sp.armOmega0 === 0.12 && sp.armGamma === 0.24 && sp.omegaP === w.omegaP && sp.massRatio === 2 && sp.nDisk === 300 && sp.nArmParticles === 150 && sp.density === 'uniform-s'))
+            bad.push(id + ' の spiral ' + JSON.stringify(sp).slice(0, 160));
+          if (!(st.sigma === 44 && st.sigmaZ === 14 && st.omega0 === 0.01 && st.gamma === 0.02 && st.tauGrow === 0)) bad.push(id + ' の円盤成分の宣言');
+          if (w.centre !== (p.bodies[0].type === 'single' && p.bodies[0].pinned === true && p.bodies[0].spin === 1 && p.bodies[0].m === 10)) bad.push(id + ' の中心');
+          if (p.seed !== w.seed) bad.push(id + ' の seed');
+          if (!(Array.isArray(p.notClaim) && p.notClaim.includes('galaxy') && p.notClaim.includes('dm'))) bad.push(id + ' の notClaim');
+          // 門 ①: いまの html で成分の割り当てを引き直す
+          const v = HP.validatePreset(P(id)); HP.sim.build(v.preset);
+          const S = HP.sim, ss = HP.shapeToySpiralState(S);
+          let nD = 0, nA = 0, odd = 0; for (let i = 0; i < S.n; i++) { const c = ss.comp[i]; if (S.pinned[i]) { if (c !== 0) odd++; } else if (c === 1) nD++; else if (c === 2) nA++; else odd++; }
+          const row = ((J.gate1 || {}).rows || []).find((z) => z.id === id);
+          if (!row || row.nDisk !== nD || row.nArm !== nA || row.unassignedOrDuplicate !== odd || !relEq(row.massRatio, ss.massRatio, 1e-9) || !row.ok) bad.push(id + ' の門 ① が正本と違う ' + JSON.stringify([nD, nA, odd, ss.massRatio, row && row.massRatio]));
+          cases.push(`${p.emoji}${id}: p=${sp.pitchDeg}°・r=${sp.rMin}〜${sp.rMax}・腕 ${sp.nArm} 本・横断 ${sp.armWidth}・厚さ ${sp.armSigmaZ}・Ω_p=${sp.omegaP}・円盤 ${nD}/腕 ${nA}・質量比 ${ss.massRatio}${w.law ? '・law ' + w.law : ''}`);
+        }
+        // 正本の門 ①②③
+        if (!(J.meta && J.meta.harnessVersion === E.HARNESS_VERSION)) bad.push('正本の器の版 ' + (J.meta && J.meta.harnessVersion));
+        if (!(J.gates && J.gates.g1 === true && J.gates.g2 === true && J.gates.g3 === true)) bad.push('正本の門 ①②③ ' + JSON.stringify(J.gates));
+        if (!(J.gates && Object.keys(J.gates).length === 7 && Object.values(J.gates).every((z) => typeof z === 'boolean')) || J.ok !== Object.values(J.gates || {}).every(Boolean)) bad.push('正本の門の真偽値と ok が食い違う');
+        if (JSON.stringify(J.criteria) !== JSON.stringify(E.CRIT)) bad.push('正本の門の宣言 ≠ 器の CRIT');
+        const g2 = J.gate2 || {};
+        if (!((g2.diskOnlyBitSame || []).length === 2 && g2.diskOnlyBitSame.every((z) => z.same) && g2.spiralDiskComponentBitSameAsDisk === true)) bad.push('② 腕成分を外した写しが 🥏/📀 とビット同一でない');
+        cases.push(`正本: 門 ${Object.entries(J.gates || {}).map(([k, z]) => k + (z ? '✓' : '✗')).join(' ')}(④ の未達は正本に残す —— 許容は広げない)・② ${(g2.rows || []).map((z) => z.rel).join('/')}・③ ${((J.gate3 || {}).rows || []).map((z) => z.tlsDeg + '°').join('/')}`);
+      }
+      add('preset.shapeToySpiral', bad.length === 0,
+        `**渦巻の参照模型 2 本**(第290便e・原仮定者の裁定(第80報)⑤・統括の検証項目 R129): ${cases.join(' / ')} —— 腕の幾何(ピッチ角)は**宣言**であり、`
+        + `観測のピッチ角・軸比は入力していない`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.spiralGeometry
+    {
+      const bad = [];
+      const cases = [];
+      // 走行は loadHtmlMain(この process の大域 —— vm の別コンテキストより速い)で行う。2 度目は const の再宣言で落ちるので、
+      //   前のブロックが同じ TARGET を読んでいればその HP を使う(渦巻の外部ステップを持つ HP だけ)
+      let HPg = null, errG = null;
+      try {
+        if (globalThis.HP && typeof globalThis.HP.dfmShapeToySpiralStep === 'function') HPg = globalThis.HP;
+        else { const { loadHtmlMain: loadMain290 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs')); HPg = loadMain290(path.join(ROOT, TARGET)).HP; }
+      } catch (e) { errG = String(e && e.stack || e).slice(0, 160); }
+      if (errE || !E || !J || errG || !HPg) bad.push('器/正本/html が読めない: ' + (errE || errG));
+      else {
+        const HP = HPg;
+        const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        const m = E.measureSpiral(HP, P('shapeToySpiral'));
+        const b = J.base.spiral;
+        for (const [k, a, z] of [['ピッチ角', m.pitch.tlsDeg, b.pitch.tlsDeg], ['横断 RMS', m.arm.transverseRms, b.arm.transverseRms], ['厚さ RMS', m.arm.thicknessRms, b.arm.thicknessRms], ['軸比', m.disk.axisRatio, b.disk.axisRatio]])
+          if (!relEq(a, z, 1e-9)) bad.push(`${k} ${a} ≠ 正本 ${z}`);
+        if (!(Math.abs(m.pitch.tlsDeg - 20) <= E.CRIT.pitchDeg)) bad.push('ピッチ角 ' + m.pitch.tlsDeg + '° が宣言 20°±' + E.CRIT.pitchDeg + ' の外');
+        if (!(m.arm.tangentMaxUlpF32 <= E.CRIT.tangentUlp)) bad.push('腕成分の接線方向の残差 ' + m.arm.tangentMaxUlpF32 + ' ulp');
+        if (m.ledger.sumZero !== 0 || !(m.ledger.dKvsBookedRel <= E.CRIT.ledgerRel)) bad.push('帳簿 ' + JSON.stringify([m.ledger.sumZero, m.ledger.dKvsBookedRel]));
+        cases.push(`🍭 600 步: ピッチ角 ${m.pitch.tlsDeg.toFixed(3)}°(直交回帰 —— 最小二乗 ${m.pitch.olsDeg.toFixed(3)}°)・横断 ${m.arm.transverseRms.toFixed(3)}・厚さ ${m.arm.thicknessRms.toFixed(3)}・軸比 ${m.disk.axisRatio.toFixed(4)}(正本と相対 1e-9)・接線残差 ${m.arm.tangentMaxUlpF32.toFixed(2)} ulp(Float32 の格納)`);
+        // Ω_p=0
+        const p0 = P('shapeToySpiral'); p0.physics.shapeToy.spiral.omegaP = 0;
+        const m0 = E.measureSpiral(HP, p0);
+        if (!(Math.abs(m0.pitch.tlsDeg - 20) <= E.CRIT.pitchDeg)) bad.push('Ω_p=0 のピッチ角 ' + m0.pitch.tlsDeg);
+        cases.push(`Ω_p=0: ${m0.pitch.tlsDeg.toFixed(3)}°(曲線は残る —— 幾何の宣言の帰結であって渦伸長の証拠ではない)`);
+        // G の不変性(🍭)
+        const fpG = (G) => { const p = P('shapeToySpiral'); p.physics.G = G; return E.measureSpiral(HP, p).fp.all; };
+        const f0 = m.fp.all, f8 = fpG(8);
+        if (f0 !== f8) bad.push('G=8 で 🍭 の 600 步の状態が変わった');
+        // 🎢 の中心スピン 0
+        const pc = P('shapeToySpiralCore'); const mc = E.measureSpiral(HP, pc);
+        const pz = P('shapeToySpiralCore'); pz.bodies[0].spin = 0; const mz = E.measureSpiral(HP, pz);
+        if (!(mz.coreStop === 'kPerp' && mz.nCore === 0 && mz.fp.arm === mc.fp.arm && mc.coreStop === null)) bad.push('🎢 の中心スピン 0 ' + JSON.stringify([mz.coreStop, mz.nCore, mz.fp.arm, mc.fp.arm, mc.coreStop]));
+        if (!(Math.abs(mc.pitch.tlsDeg - 20) <= E.CRIT.pitchDeg)) bad.push('🎢 のピッチ角 ' + mc.pitch.tlsDeg);
+        cases.push(`G=0/8 で 🍭 の指紋 ${f0}/${f8}・🎢 のピッチ角 ${mc.pitch.tlsDeg.toFixed(3)}°・中心スピン 0 → Core 力学の門 ${mz.coreStop}・円盤成分 ${mz.nCore} 個・腕成分の指紋 ${mz.fp.arm}=${mc.fp.arm}`);
+        // 正本の ④⑤⑥⑦ の形
+        if (!(J.gate5 && J.gate5.ok === true && J.gate6 && J.gate6.ok === true && J.gate7 && J.gate7.ok === true)) bad.push('正本の門 ⑤⑥⑦ ' + JSON.stringify([J.gate5 && J.gate5.ok, J.gate6 && J.gate6.ok, J.gate7 && J.gate7.ok]));
+        const g4 = J.gate4 || {};
+        if (!(g4.spiral && g4.core && (g4.spiral.variants || []).length === 7 && (g4.core.variants || []).length === 7 && g4.refDisk && g4.refDisk.disk)) bad.push('正本の門 ④ の行が無い');
+        else {
+          const worst = Math.max(...g4.spiral.variants.concat(g4.core.variants).map((z) => z.diff.axisRatio));
+          if (g4.ok !== g4.spiral.variants.concat(g4.core.variants).every((z) => z.ok)) bad.push('④ の ok と行が食い違う');
+          // 🍭 の円盤成分は 🥏 とビット同一なので、N 系列の軸比は 🥏 自身の N 系列と一致する(門 ④ の未達は 🥏 から受け継いだもの)
+          const same = g4.spiral.variants.filter((z) => /^N|^2N|^4N/.test(z.label)).every((z, k) => relEq(z.idx.axisRatio, g4.refDisk.disk.variants[k].axisRatio, 1e-9));
+          if (!same) bad.push('④ の 🍭 の N 系列の軸比が 🥏 の N 系列と一致しない');
+          cases.push(`④(正本): ok ${g4.ok}・軸比の最大差 ${worst.toFixed(3)}(門 ${E.CRIT.convRel} —— 未達は記録のまま)・🍭 の N 系列の軸比は 🥏 自身と一致 ${same}`);
+        }
+      }
+      add('behavior.spiralGeometry', bad.length === 0,
+        `**渦巻の参照模型の幾何**(第290便e・R129): ${cases.join(' / ')} —— ピッチ角は φ−Ω_p t と ln r の直交回帰で測る(見た目で判定しない)。`
+        + `**規定運動の参照模型**であり、腕の形が計算から出てきたのではない`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ docs.spiralRef
+    {
+      const bad = [];
+      const cases = [];
+      try {
+        const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+        const pa = Pd.indexOf('〔第290便e — ');
+        const pEnds = (pa >= 0) ? [Pd.indexOf('\n〔第', pa + 10), Pd.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa) : [];
+        const psec = (pa >= 0) ? Pd.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined) : '';
+        if (!psec) bad.push('PHYSICS〔第290便e〕が無い');
+        for (const w of ['合成できない', '最後の shape が勝つ', 'cot(p)', 'shapeToySpiral', 'shapeToySpiralCore', '中心つき幾何参照', 'k_arm', '門', 'spiral-w290e.json', '書かないこと', '直交回帰'])
+          if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第290便e〕に「' + w + '」が無い');
+        const NG = [/渦巻が創発した/, /銀河を較正した/, /腕が力学的に安定した/, /中心が腕を束ねる/, /観測一致を達成/, /較正を完了/, /新発見/, /spiral emerged/i, /centre binds the arms/i];
+        const NEG = /言わない|書かない|とは書かない|ではない|しない|not claim|NOT CLAIM|does not claim|NOT '|NOT a|NOT 'the/;
+        const ngOutside = (txt) => { const out = []; for (const seg0 of String(txt).split(/[。\n"]|\. /)) { const seg = seg0.replace(/「[^」]*」/g, ''); if (NEG.test(seg)) continue; for (const re of NG) if (re.test(seg)) out.push(re.source + ' 〔' + seg.slice(0, 40) + '〕'); } return out; };
+        const hitsP = ngOutside(psec); if (hitsP.length) bad.push('PHYSICS〔第290便e〕の禁止の言い方: ' + hitsP.slice(0, 2).join(' / '));
+        if (!/平坦回転曲線/.test(psec)) bad.push('PHYSICS〔第290便e〕の書かないことに「平坦回転曲線」が無い');
+        cases.push(`PHYSICS〔第290便e〕${psec.length} 字(合成できない理由・式・2 本の表・門の表・中心つき幾何参照・書かないこと)`);
+        const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        if (H && H.HP) {
+          for (const id of ['shapeToySpiral', 'shapeToySpiralCore']) {
+            const p = H.HP.allPresets().find((q) => q.id === id);
+            const sj = p.descStruct.summary, se = p.en.descStruct.summary;
+            if (!(sj.indexOf('参照') >= 0 && sj.indexOf('較正ではない') >= 0 && /計算から出てきた模様ではない|創発ではない|渦巻が創発した・/.test(sj))) bad.push(id + ' の ja 概要に「参照・較正ではない・創発ではない」が無い');
+            if (!(/REFERENCE/.test(se) && /NOT A CALIBRATION/.test(se) && /emergent spiral|NOT A PATTERN THAT CAME OUT/.test(se))) bad.push(id + ' の en 概要に REFERENCE/NOT A CALIBRATION/創発の否定が無い');
+            if (sj.length > 3000 || se.length > 3000) bad.push(id + ' の概要が 3000 字を超える');
+            const hits = ngOutside(sj + '。' + p.descStruct.observe + '。' + se); if (hits.length) bad.push(id + ' の説明の禁止の言い方: ' + hits.slice(0, 2).join(' / '));
+            if (id === 'shapeToySpiralCore' && !(sj.indexOf('中心つき幾何参照') >= 0 && sj.indexOf('実装していない') >= 0 && /NOT IMPLEMENTED/.test(se))) bad.push('🎢 の概要に「中心つき幾何参照・k_arm 未実装」が無い');
+          }
+        }
+        const SSL = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
+        const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
+        for (const id of ['shapeToySpiral', 'shapeToySpiralCore']) {
+          const r = src.rows[id];
+          if (!r) { bad.push('概要原稿に ' + id + ' が無い'); continue; }
+          const st = { purpose: r.purpose, objective: r.objective, state: r.state, calibration: 'out-of-scope', mismatch: null, outlook: null, en: { purpose: r.en.purpose, state: r.en.state, mismatch: null, outlook: null } };
+          const ja = SSL.composeBrief(st, 'ja'), en = SSL.composeBrief(st, 'en');
+          if (ja.length > SSL.BRIEF_CAP.ja || en.length > SSL.BRIEF_CAP.en) bad.push(`${id} の概要 ${ja.length}/${en.length} 字が上限を超える`);
+          if (!/参照/.test(r.purpose) || !/創発ではない/.test(r.purpose) || !/emergen/.test(r.en.purpose)) bad.push(id + ' の概要原稿に「参照・創発ではない」が無い');
+          cases.push(`${id} の概要 ja ${ja.length}/120・en ${en.length}/200 字`);
+        }
+        const ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        if (!(ai.indexOf('shape:"spiral"') >= 0 && ai.indexOf('pitchDeg') >= 0 && ai.indexOf('nArmParticles') >= 0)) bad.push('AI_SPEC に shape:"spiral" の宣言が無い');
+        const ch = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+        if (!/第290便e/.test(ch)) bad.push('CHANGELOG に第290便e の行が無い');
+        const FM = await import('file://' + path.join(ROOT, 'tests', 'exp-w283b-families.mjs'));
+        const fs1 = FM.FAMILIES.find((F) => F.key === 'shapeToy'), fs2 = FM.FAMILIES.find((F) => F.key === 'shapeToyCore');
+        if (!(fs1 && fs1.ids[fs1.ids.length - 1] === 'shapeToySpiral' && fs2 && fs2.ids[fs2.ids.length - 1] === 'shapeToySpiralCore')) bad.push('FAMILIES の shapeToy/shapeToyCore の末尾に 2 id が無い');
+        cases.push('AI_SPEC・CHANGELOG・FAMILIES(shapeToy 末尾 🍭・shapeToyCore 末尾 🎢)');
+        void html;
+      } catch (e) { bad.push('文書が読めない: ' + String(e).slice(0, 140)); }
+      add('docs.spiralRef', bad.length === 0,
+        `**渦巻の参照模型の文書**(第290便e・R129): ${cases.join(' / ')} —— 「参照模型・創発ではない・較正ではない」を説明・概要・PHYSICS に書き、`
+        + `「渦巻が創発した」「銀河を較正した」「腕が力学的に安定した」「中心が腕を束ねる」は否定の文の外に書かない`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
   }
 }
 
@@ -61275,7 +61491,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           run: run(g0, 600), runG: run(g8, 600) };
       }
       // 宣言している内蔵の本数(この本数だけのはず)
-      const nDecl = all.filter((z) => z.physics && z.physics.shapeToy).map((z) => z.id);
+      // 第290便e: 渦巻の参照模型(shape:"spiral" —— 🍭🎢)はこの 6 本の契約の外(preset.shapeToySpiral が見る)
+      const nDecl = all.filter((z) => z.physics && z.physics.shapeToy && z.physics.shapeToy.shape !== 'spiral').map((z) => z.id);
       // ⑨ 第275便d: 中心天体の質量は対象粒子に効かない(pinned・G=0・規定運動)
       const centreMass = {};
       if (w275d) {
@@ -61290,7 +61507,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // ⑪⑫ 第276便d: **スピン依存**と**重力の扱い**(法則が作った差であることを両側で見る)
       const spinDep = {};
       if (w276d) {
-        for (const id of all.filter((z) => z.physics && z.physics.shapeToy).map((z) => z.id)) {
+        for (const id of all.filter((z) => z.physics && z.physics.shapeToy && z.physics.shapeToy.shape !== 'spiral').map((z) => z.id)) {   // 第290便e: 🍭🎢 は除く
           const p = all.find((z) => z.id === id);
           const hasPin = (p.bodies[0] && p.bodies[0].pinned === true);
           const mk = (spin, phys, cfPatch) => {
