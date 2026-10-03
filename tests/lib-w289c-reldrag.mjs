@@ -20,7 +20,10 @@
 //     緩和時間)は**実装しない**(表に置く —— 決断事項)。clamp で「安定化」しない。
 //   ・「回転引きずりが創発した」「連鎖で円盤ができた」「複素場を接続した」とは書かない。
 //   ・冪は `**`/Math.pow を使わず積で書く(実行環境で Math.pow が 1 ulp 違っても表が変わらない —— tests/README §1)。
-export const RELDRAG_VERSION = 'w289c-reldrag-1';
+//   ・第290便c(原仮定者の裁定(第80報)⑥・統括の検証項目 R127): 対策表の暗黙解・緩和時間の行を訂正した(I+L は質量の重みで対称化すると
+//     正定値 —— L 自身は対称でない/陽的緩和の条件は dt/τ<1 では不足)。反例(λ=1.6・α=0.9 → 倍率 −1.34)と Σm x×u≠0 の 2 体例を試験に足した(版 2)。
+//     この核の**エンジンの経路**は physics.relativeDrag.law:"inertial"(宣言した本だけ —— 第290便c の器 tests/exp-w290c-inertial.mjs が門で照合)。
+export const RELDRAG_VERSION = 'w289c-reldrag-2';
 
 const fin = Number.isFinite;
 
@@ -165,14 +168,43 @@ export function dtRefine(a, P = STAB) {
   return { a, T, rows, divergesBoth: rows.every((z) => z.growth > 1), worseWithSmallerDt: rows[1].growth > rows[0].growth };
 }
 
-/** 対策 3 案(**実装しない** —— 決断事項の表)。 */
+/** 対策 3 案(**実装しない** —— 決断事項の表)。第290便c で implicit と relaxation の行を訂正(PHYSICS〔第289便c〕の表の同じ 2 行と同文 —— QA lint.relDragRemedies)。 */
 export const REMEDIES = Object.freeze([
   Object.freeze({ key: 'historyInterval', ja: '履歴の時間間隔を物理量にする(前ステップ参照を「時間 τ_D 前の移動速度」と定義し、dt に依らない遅れにする)',
     needs: 'τ_D の由来(C_d=G τ_D² の τ_D と同じ尺度か)・dt が τ_D を割り切らないときの補間', fixes: '刻みの選び方で結合の回数が変わる問題' }),
   Object.freeze({ key: 'implicit', ja: '(I+L)V = v の暗黙解(同じステップの V で閉じる —— 前ステップ参照をやめる)',
-    needs: 'n×n の連立(または反復解法)・毎ステップの線形解', fixes: '2a>1 の発散(I+L は正定値なので常に解ける)' }),
+    needs: 'n×n の連立(または反復解法)・毎ステップの線形解',
+    fixes: '暗黙解は正の質量・gain≥0・対称結合で一意(質量重みで対称化して解く)— 前ステップ遅延則とは別の法則' }),
   Object.freeze({ key: 'relaxation', ja: '緩和時間(V を目標 v+u(V) へ dt/τ の割合だけ寄せる)',
-    needs: 'τ の宣言・dt/τ<1 の条件', fixes: '一度に全量を入れ替えることによる振動' })]);
+    needs: '陽的緩和は τ>0・0<dt/τ<2/(1+λ_max(L))・十分条件は 2/(1+spectralBound) 未満(dt/τ<1 だけでは不足: λ=1.6・α=0.9 で倍率 −1.34)',
+    fixes: '一度に全量を入れ替えることによる振動(条件の中でだけ)' })]);
+
+/**
+ * 第290便c: 陽的緩和 V ← V + α(v + u(V) − V)(α = dt/τ)の固有モード倍率。L の固有値 λ のモードで u = −λV なので
+ * 斉次部の倍率は 1 − α(1+λ)。|倍率| < 1 ⇔ 0 < α < 2/(1+λ)。λ ≤ λ_max(L) ≤ spectralBound なので α < 2/(1+spectralBound) は十分条件。
+ */
+export function relaxationMultiplier(lambda, alpha) { return 1 - alpha * (1 + lambda); }
+/** 反例: λ=1.6・α=0.9(dt/τ<1 を満たす)で倍率 −1.34(|·|>1 —— 発散)。条件 2/(1+λ)=0.769… を超えている。 */
+export function relaxationCounterexample() {
+  const lambda = 1.6, alpha = 0.9, mult = relaxationMultiplier(lambda, alpha), limit = 2 / (1 + lambda);
+  // 2 体(等質量)で確かめる: 相対モードの λ = 2a(a = C_d m k)。a = 0.8 で λ = 1.6・相対速度の斉次部を 3 回の反復で追う
+  const a = 0.8, steps = 3, seq = [1];
+  for (let n = 0; n < steps; n++) seq.push(seq[n] + alpha * (-2 * a * seq[n] - seq[n]));   // v=0(斉次部)
+  const ratioPerStep = seq[1] / seq[0];
+  return { lambda, alpha, multiplier: mult, limit, alphaBelowOne: alpha < 1, unstable: Math.abs(mult) > 1, seq, ratioPerStep,
+    ok: alpha < 1 && Math.abs(mult) > 1 && Math.abs(mult - (-1.34)) <= 1e-12 && Math.abs(ratioPerStep - mult) <= 1e-12 };
+}
+/**
+ * 第290便c: 対称核で Σ m u = 0 だが Σ m x×u ≠ 0 の 2 体例(m=1/1・y=±0.5・V=∓1(x 向き)・C_d=0.2・ε=0 → Σm x×u = −0.4)。
+ * 「座標変換だから保存則を満たす」とは言えないことの数の例。
+ */
+export function angularExample() {
+  const r = relDragAt({ m: [1, 1], x: [0, 0], y: [0.5, -0.5], prevMove: [[-1, 0], [1, 0]], gain: 0.2, eps: 0 });
+  let px = 0, py = 0, jz = 0;
+  const X = [0, 0], Y = [0.5, -0.5], M = [1, 1];
+  r.u.forEach((z, i) => { px += M[i] * z[0]; py += M[i] * z[1]; jz += M[i] * (X[i] * z[1] - Y[i] * z[0]); });
+  return { u: r.u, sumMu: [px, py], sumMxU: jz, ok: r.ok && px === 0 && py === 0 && Math.abs(jz - (-0.4)) <= 1e-15 };
+}
 
 // ================= ③ 環の連鎖の対照(1 の核・位置固定・中心の環だけ規定運動) =================
 export const CHAIN = Object.freeze({ nPerRing: 16, spacing: 10, mRing: 16, eps: 2, omegaC: 0.5, gain: 4, window: 40 });
@@ -272,6 +304,7 @@ export function representation(P = CHAIN) {
 
 export function computeAll() {
   return { version: RELDRAG_VERSION, invariants: invariants(),
-    stability: { decl: STAB, rows: STAB.couplings.map((a) => twoBody(a)), dt: dtRefine(0.8), remedies: REMEDIES },
+    stability: { decl: STAB, rows: STAB.couplings.map((a) => twoBody(a)), dt: dtRefine(0.8), remedies: REMEDIES,
+      relaxationCounterexample: relaxationCounterexample(), angularExample: angularExample() },
     chain: chain3(), rings: ringsScan(), representation: representation() };
 }

@@ -3,39 +3,39 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便c",
   "target": "tests/lib-w289c-reldrag.mjs",
-  "targetSha256": "5e2553a088de6e8ee8e5f75985b5d052374a8d64adf3c7d9f388f414b17643ad",
-  "generatedAt": "2026-10-01T18:18:40.637Z",
+  "targetSha256": "1bdfb99cf6821bd450a8a3993456685c742c9593ca600b5f541b99cff0b5f983",
+  "generatedAt": "2026-10-03T00:13:25.699Z",
   "inputs": [
    {
     "file": "tests/lib-w289c-reldrag.mjs",
-    "bytes": 19167,
-    "sha256": "5e2553a088de6e8ee8e5f75985b5d052374a8d64adf3c7d9f388f414b17643ad",
-    "mtime": "2026-10-01T18:11:49.793Z"
+    "bytes": 22223,
+    "sha256": "1bdfb99cf6821bd450a8a3993456685c742c9593ca600b5f541b99cff0b5f983",
+    "mtime": "2026-10-02T23:45:54.586Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w289c-reldrag.mjs",
-    "bytes": 6855,
-    "sha256": "93453d59d30ef5af9ca7eb395d0a1de87058040e37139dce01996d6e7e102129",
-    "mtime": "2026-10-01T18:15:30.962Z"
+    "bytes": 7347,
+    "sha256": "2742b1b9d989f45d9212c475bda0b3b76bfad23571537fed436de320a19360a1",
+    "mtime": "2026-10-02T23:46:03.428Z"
    },
    {
     "file": "tests/lib-w289c-reldrag.mjs",
-    "bytes": 19167,
-    "sha256": "5e2553a088de6e8ee8e5f75985b5d052374a8d64adf3c7d9f388f414b17643ad",
-    "mtime": "2026-10-01T18:11:49.793Z"
+    "bytes": 22223,
+    "sha256": "1bdfb99cf6821bd450a8a3993456685c742c9593ca600b5f541b99cff0b5f983",
+    "mtime": "2026-10-02T23:45:54.586Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-01T18:04:34.340Z"
+    "mtime": "2026-10-02T23:31:20.484Z"
    }
   ],
-  "codeSha256": "dbe4e6d8950be38fb1b9a7c7c6ababc473154297543bf9c110a56f492922d875",
+  "codeSha256": "f2db63738953a884601c5a3af7572f5e00e50eb26209de18904b9298161b51fa",
   "harnessVersion": "w289c-reldrag-1",
-  "libVersion": "w289c-reldrag-1",
+  "libVersion": "w289c-reldrag-2",
   "ruling": "原仮定者の裁定(第79報)⑤ DFM の整理と修正(複素決定力場 = 相対移動ベクトル×m/r²・その微分 m/r³ が並進引きずり・引きずりベクトルは毎フレームリセット)・第79報で閉じた AN98/AN99",
   "reading": "統括の検証項目 R121(純関数と比較器だけ・エンジン未接続・既存の q 付き場・u=A/W・E6′ に足さない)",
   "engine": "Node の純関数だけ(html を読まない)",
@@ -47,7 +47,7 @@
    "新発見"
   ]
  },
- "version": "w289c-reldrag-1",
+ "version": "w289c-reldrag-2",
  "invariants": {
   "translation": {
    "W": [
@@ -302,15 +302,49 @@
     "key": "implicit",
     "ja": "(I+L)V = v の暗黙解(同じステップの V で閉じる —— 前ステップ参照をやめる)",
     "needs": "n×n の連立(または反復解法)・毎ステップの線形解",
-    "fixes": "2a>1 の発散(I+L は正定値なので常に解ける)"
+    "fixes": "暗黙解は正の質量・gain≥0・対称結合で一意(質量重みで対称化して解く)— 前ステップ遅延則とは別の法則"
    },
    {
     "key": "relaxation",
     "ja": "緩和時間(V を目標 v+u(V) へ dt/τ の割合だけ寄せる)",
-    "needs": "τ の宣言・dt/τ<1 の条件",
-    "fixes": "一度に全量を入れ替えることによる振動"
+    "needs": "陽的緩和は τ>0・0<dt/τ<2/(1+λ_max(L))・十分条件は 2/(1+spectralBound) 未満(dt/τ<1 だけでは不足: λ=1.6・α=0.9 で倍率 −1.34)",
+    "fixes": "一度に全量を入れ替えることによる振動(条件の中でだけ)"
    }
-  ]
+  ],
+  "relaxationCounterexample": {
+   "lambda": 1.6,
+   "alpha": 0.9,
+   "multiplier": -1.3400000000000003,
+   "limit": 0.7692307692307692,
+   "alphaBelowOne": true,
+   "unstable": true,
+   "seq": [
+    1,
+    -1.3400000000000003,
+    1.7956000000000008,
+    -2.4061040000000014
+   ],
+   "ratioPerStep": -1.3400000000000003,
+   "ok": true
+  },
+  "angularExample": {
+   "u": [
+    [
+     0.4,
+     0
+    ],
+    [
+     -0.4,
+     0
+    ]
+   ],
+   "sumMu": [
+    0,
+    0
+   ],
+   "sumMxU": -0.4,
+   "ok": true
+  }
  },
  "chain": {
   "decl": {
@@ -892,5 +926,5 @@
   }
  ],
  "ok": true,
- "elapsedS": 0.089
+ "elapsedS": 0.1
 }

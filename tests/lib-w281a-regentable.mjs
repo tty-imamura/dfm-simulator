@@ -31,6 +31,7 @@
 //   'w289a-branch' … 第289便a の枝で器を走らせた実測(正本の elapsedS 1.3〜1.6 —— Node だけ・エンジンは固定した 3 体で 1 步と光線 2 本だけ・他の 5 枝と同じ容器で並走)。
 //   'w289c-branch' … 第289便c の枝で器を走らせた実測(正本の elapsedS —— reldrag289 は Node の純関数だけ〔0.3 秒〕・nearfar289 は Node の headless〔1.1 秒〕・他の枝と同じ容器で並走)。
 //   'w289b-branch' … 第289便b の枝で器を走らせた実測(正本の elapsedS 9.1 —— Node だけ・他の 5 枝と同じ容器で並走)。
+//   'w290c-branch' … 第290便c の枝で器を走らせた実測(正本の elapsedS 4.2 —— Node の headless だけ・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -611,6 +612,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tilt90layers-w289e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第289便e: 🪆 の宣言の照合・11 走行の步ごとの指紋(層の軸 0/90°・方位・歳差 0/2 倍・層の J の有無は全步一致/🛸 とは最初の層の近傍キックの步から食い違い・'
       + '差分を外すと 🛸 と全步一致)・変換の往復(t=0/24)・融合の合算規約・層の軸の宣言欄の受理' }),
+  // ---- 第290便c(原仮定者の裁定(第80報)⑥・統括の検証項目 R127): 慣性引きずり便 —— 法則版 physics.relativeDrag.law:"inertial"(宣言した本だけの別経路)の
+  //   門 b〜f(gain:0 と宣言なしの全標本ビット同一・固定配置で第289便c の純関数とビット同一・Δt 不変性・2 体の前ステップ参照の収束/振動/発散と上界・
+  //   自己項/共通並進/1 体/一致点/チェックポイントの復元と複製)と診断本 🐌 の Δϖ(gain 3 点・限定模型)・上界・帳簿・dt 半分。
+  //   Node の headless(html だけを読む —— 他の正本は読まない)。純関数 tests/lib-w289c-reldrag.mjs を code[] に持つので reldrag289 の後に置く(並べて読む表の順)
+  S('inertial290', 'node tests/exp-w290c-inertial.mjs', ['tests/out/inertial-w290c.json'], 4, { secSource: 'w290c-branch', node: true, after: ['reldrag289'],
+    volatilePaths: { 'tests/out/inertial-w290c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第290便c: 法則版 inertial の門(gain:0 のビット同一 4 本・固定配置で relDragAt とビット同一・Δt 不変・2 体 a=0.2/0.5/0.8 の収束/振動/発散と上界 ≥1 の步・'
+      + '自己項 0・並進不変・1 体・一致点の拒否・復元/複製)と 🐌 の近点移動(gain 0.4/0.8/1.6・限定模型 ẋ=v/(1+a) の RK4)・帳簿(外部支持の仕事)・dt 半分' }),
 ];
 
 /**
