@@ -2937,3 +2937,20 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **Wbg の説明の限定**(AN103): 「kFrame=0 では力に入らない」は広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで spaceMesh.D0 1.5→4.5 の 1 步で自由粒子の vx の最大差 7.44e-4)→「現実較正の geoPN=1・kFrame=0 の軌道力には入らない。geoPN=3 の場と Jeans 初速(vMode:"jeans")では kFrame=0 でも読む」(ja/en の tip と説明)。Wbg は A/B へ写さない。
 - **アナロジーの説明 1 行**(AN110): 🌚🧩🛸💮🌰🥜 の `descStruct.summary`(ja/en)に「第289便の時点では第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では走っていない(share p=1 の q 付き場・連鎖は仮説)」の 1 文。状況の原稿(tests/data-w279a-samplestatus-src.json)の状況の末尾に要旨(概要は ja 120・en 200 字の上限内 —— 既存の文を削って入れた)。生成領域の概要は鎖の samplestatus が書く(手で走らせない)。
 - QA: **`ui.pickerStatusAxes`**・**`lint.wbgConvUnits`**・**`docs.analogyKernelNote`**・`ui.paramWbgRow`(換算と文言の項・🧩 の読みの実測)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators`・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`・`ui.pickerOtherFold` の固定値(軸 15→25・段 2→3・チップと見出し 18→29)は世代切替 has289f(html の `const PP_OTHER_STATUS_AXES=`)。root は SKIP。
+
+## 35. 第290便e の宣言鍵 —— `physics.shapeToy.shape:"spiral"`(渦巻の参照模型・原仮定者の裁定〔第80報〕⑤・統括の検証項目 R129・**SYSTEM_PROMPT には載せない**)
+
+形状トイ `physics.shapeToy` の shape に 4 つ目の値 `"spiral"` を足した(既存の `"cluster"`/`"disk"`/`"arm"` の受理と経路は 1 文字も変えていない —— 内蔵 147 本の presetSig・保存 JSON・力学は 1 bit も動かない)。宣言は**数値だけ**で導出値を持たない:
+
+```
+shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", omega0, gamma, sigma, sigmaZ, sigma0, tauGrow:0,
+  center:"fixed"|"pinned", cx, cy, [law:"coreField", coreField:{…, axis:[0,0,±1]}],
+  spiral:{nArm, pitchDeg, rMin, rMax, r0, phi0Deg, armWidth, armSigmaZ, armOmega0, armGamma, omegaP,
+          massRatio, nDisk, nArmParticles, density:"uniform-s"}}
+```
+
+- 受理条件: 0<|pitchDeg|<90(負は逆巻き)・0<rMin<rMax・r0>0・nArm は 1〜8 の整数・nArmParticles は nArm の倍数・nDisk+nArmParticles≥1・両成分があるときだけ massRatio(円盤/腕)が必須の正数・coupling は `"prescribed"` のみ・tauGrow=0・`spiral` は shape:"spiral" 専用・`law:"coreField"` と組むときは軸を円盤の法線 ±(0,0,1) に限る。
+- 成分: pinned でない粒子を index 順に先頭 nDisk 個 = 円盤成分・続く nArmParticles 個 = 腕成分(重複所属なし)。数と質量比が走行時と合わなければ走らない(`S.spiralStop`)。
+- 腕の中心線 r(s)=rMin+(rMax−rMin)s・φ_k(s)=φ₀+2πk/nArm+cot(p)·ln(r/r0)+Ω_p t(s は宣言の密度で固定)・横断と面外にだけ 2 階 OU。全体は剛体パターン回転 Ω_p(差動回転なし)。
+- 内蔵: 🍭 `shapeToySpiral`(中心なし)・🐌 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
+- 読み取り専用: `HP.shapeToySpiralState(S)`・`HP.shapeToySpiralCentreline(sp,k,s)`・`HP.validateShapeToySpiral`。器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json。QA: `preset.shapeToySpiral`・`behavior.spiralGeometry`・`docs.spiralRef`。

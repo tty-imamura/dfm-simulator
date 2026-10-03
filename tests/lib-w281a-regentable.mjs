@@ -31,6 +31,7 @@
 //   'w289a-branch' … 第289便a の枝で器を走らせた実測(正本の elapsedS 1.3〜1.6 —— Node だけ・エンジンは固定した 3 体で 1 步と光線 2 本だけ・他の 5 枝と同じ容器で並走)。
 //   'w289c-branch' … 第289便c の枝で器を走らせた実測(正本の elapsedS —— reldrag289 は Node の純関数だけ〔0.3 秒〕・nearfar289 は Node の headless〔1.1 秒〕・他の枝と同じ容器で並走)。
 //   'w289b-branch' … 第289便b の枝で器を走らせた実測(正本の elapsedS 9.1 —— Node だけ・他の 5 枝と同じ容器で並走)。
+//   'w290e-branch' … 第290便e の枝で器を 1 回走らせた実測(正本の elapsedS 170.6 —— Node の headless 1 本・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -611,6 +612,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tilt90layers-w289e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第289便e: 🪆 の宣言の照合・11 走行の步ごとの指紋(層の軸 0/90°・方位・歳差 0/2 倍・層の J の有無は全步一致/🛸 とは最初の層の近傍キックの步から食い違い・'
       + '差分を外すと 🛸 と全步一致)・変換の往復(t=0/24)・融合の合算規約・層の軸の宣言欄の受理' }),
+  // ---- 第290便e(原仮定者の裁定(第80報)⑤・統括の検証項目 R129): 渦巻の参照模型 2 本(🍭 shapeToySpiral・🐌 shapeToySpiralCore)の門 ①〜⑦ ——
+  //   成分の割り当て・単独の本(🥏🧵📀🧹)の同じ窓の値との比・ピッチ角の直交回帰・N/2N/4N/seed/刻み・Ω_p=0・G/中心スピンの不変性・往復と所要。
+  //   Node だけ・html だけを読む(他の正本は読まない)。形状トイ(shapetoy)と Core 力学(corefield)の段の後に置く(同じ 🥏🧵📀🧹 を並べて読む表の順)。
+  //   所要は第290便e の枝の実測 171 秒(Node 1 本・同じ容器で他の枝と並走)
+  S('spiral290', 'node tests/exp-w290e-spiral.mjs', ['tests/out/spiral-w290e.json'], 171, { secSource: 'w290e-branch', node: true, after: ['shapetoy', 'corefield'],
+    volatilePaths: { 'tests/out/spiral-w290e.json': META_RUN.concat(['/elapsedS', '/gate7/timing/rows/*/wallSec', '/gate7/timing/rows/*/rateStepsPerSec']) },
+    note: '第290便e: 🍭🐌 の宣言(shape:"spiral")・成分の数/質量/重複所属・軸比/横断/厚さを 🥏🧵📀🧹 と比べる・ピッチ角(φ−Ω_p t と ln r の直交回帰)・'
+      + 'N/2N/4N・seed・刻み・Ω_p=0・G と中心スピンに対する腕成分の不変性・宣言の往復・⏮・チェックポイント・A/B・1 步の所要' }),
 ];
 
 /**
