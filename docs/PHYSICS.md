@@ -29643,6 +29643,39 @@ a=0.5(2a=1)は境界で、幾何がわずかに動くので上界は 1 の直下
 
 **書かないこと**: 「渦巻が創発した」「銀河を較正した」「腕が力学的に安定した」「平坦回転曲線」「中心が腕を束ねる」「観測一致を達成した」とは書かない。🍭🎢 は**宣言した形の参照模型**で、腕の形は計算から出てきた模様ではない。ピッチ角 20° は宣言値で、観測のピッチ角(NGC 3198 の 16〜24° など)は入力していない。
 
+〔第291便c — 測地線モード便(モード=主な用途の分類・走る法則は宣言から解決・制限はセーブ時の警告だけ・保存の版 `modePolicy:"w291c-1"`)(**内蔵 150 本の走行は 1 bit 不変** —— bitsame/sigsame **150/150**・`S._core` 35197 字のまま)〕
+
+出典: 原仮定者の裁定(第81報)⑥「測地線モードの整理 —— モードが違ってもセーブ時の警告以外の制限を無くす」・統括の検証項目 R134。geoPN は**アプリのモード番号**(標準理論の 2PN・3PN ではない)。
+
+**何を変えたか**: `geoPN` を「主な用途」の分類に改め、**走る法則は宣言から解決する**(`geoModeOf(...).law` —— 解決の表は下。`geoCoreDispatchBody` は同じ表で dispatch し、別モードへ黙ってフォールバックしない)。受理器 `validatePreset` から次の**拒否・丸め**を撤去し、警告にした: (i) geoPN=1 ∧ kFrame≠0 の拒否 → 警告(GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)/ (ii) geoPN=3 ∧ `sampleClass:"calibration"` の拒否 → 警告 / (iii) 旧法則版の宣言の無い geoPN=3 の 2 への丸め → 撤去(3 のまま受理・測地線 ON の基底で走る —— 旧来の丸めと同じ数値)/ (iv) 旧法則版の内部整合(トイ ∧ kFrame>0〔toyAllowDrag なし〕・トイ ∧ spaceMesh.inertia/weave・vMinusU ∧ kFrame>0)は二重計上の防止として残し、**拒否ではなく「宣言が矛盾している」の警告+旧法則版を無効化して走る**(無効化は `S.updateRadii` の入場条件の門 —— `S.geoToyDeny` と同じ式。宣言の値は書き換えない)。**変えなかったもの**: 分数 kFrame の丸め(第65報・第275便a —— kFrame の値域の契約でモードの制限ではない)・数値型と有限性と配列長の形式検査・vMinusU の輸送経路 `physics.meshVelocity` の欠落の拒否(契約の欠落)・spaceMesh の診断鍵の calibration での拒否(toyAllowDrag・centerSpin read・toyClosure iterate・band-pressure・mesh-v2)・1PN の源集合(`pnMassMin` 系)・E4・E6′・E7R・E8R・E2 の q 核・u=A/W・pairSlip・inertial の式。
+
+**測地線の ON/OFF と基底**: geoPN≥1 は ON。geoPN=0 は新しい宣言鍵 `physics.geodesic:true` のときだけ ON(既定は無し=署名不変 —— `lambdaPN>0` だけでは ON と判定しない。geoPN=0 にも既定 1 がある)。ON ∧ kFrame=0 → `eih-kf0`(`_core` に 1 + EIH の差分 —— 第285便b の kF0 の役割)/ ON ∧ kFrame>0 → `vMinusU-q`(`_core` に 2 —— v−u 則)。geoPN=3 は旧法則版 `physics.spaceMesh.lawVersion`(scalar/local/complex/vMinusU)が入場条件を満たせば `legacy-spaceMesh:<lawVersion>`(数値は従来どおり)、旧法則版が走らず `physics.relativeDrag.law:"inertial"` を宣言していれば `inertial-drag`(第290便c の経路 —— どの geoPN でも走るので dispatch に式は足していない)、どちらでもなければ測地線 ON の基底。OFF は `newton`(kFrame>0 なら E6′ の追従キックが別に立つ —— `drag` 欄)。
+
+**モードの表**(`geoModeTable()` の行を `geoModeTableRow` の書式で転記 —— QA `docs.geoModeTable` が転記一致を照合する。列: geoPN | 宣言 | 主な用途 | 標準構成か(kFrame=0 / kFrame=1)| 走る法則(kFrame=0)| 走る法則(kFrame=1)| セーブ時の警告(kFrame=0)| セーブ時の警告(kFrame=1)):
+
+| geoPN | 宣言 | 主な用途 | 標準(kF0 / kF1) | 法則(kFrame=0) | 法則(kFrame=1) | 警告(kFrame=0) | 警告(kFrame=1) |
+|---|---|---|---|---|---|---|---|
+| 0 | — | proof | ○ / ○ | `newton` | `newton` | — | — |
+| 0 | geodesic:true | proof | — / — | `eih-kf0` | `vMinusU-q` | geo0Geodesic | geo0Geodesic |
+| 1 | — | calibration | ○ / — | `eih-kf0` | `vMinusU-q` | — | geo1KFrame |
+| 2 | — | dragApprox | — / ○ | `eih-kf0` | `vMinusU-q` | geo2KFrame | — |
+| 3 | — | inertialDrag | — / — | `eih-kf0` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 3 | relativeDrag.law:inertial | inertialDrag | ○ / ○ | `inertial-drag` | `inertial-drag` | — | — |
+| 3 | spaceMesh.lawVersion:scalar | inertialDrag | — / — | `legacy-spaceMesh:scalar` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 3 | spaceMesh.lawVersion:vMinusU+meshVelocity | inertialDrag | — / — | `legacy-spaceMesh:vMinusU` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+
+主な用途: proof = 主に原理実証用 / calibration = 主に現実較正用・GR 1PN 準拠 / dragApprox = 主に引きずり近似用(q で近似)/ inertialDrag = 主に引きずり用(慣性決定力で引きずり計算)。geoPN=3 の旧法則版の行の kFrame=1 は「宣言が矛盾」で旧法則版を無効化した結果(toyAllowDrag:true を宣言したトイだけは kFrame>0 でも走る —— 二重計上の可能性がある診断構成)。
+
+**セーブ時の警告**(純関数 `modeSaveWarnings({geoPN,kFrame,geodesic,relativeDrag,spaceMesh,meshVelocity})` → `[{code,message}]`): geoPN=0 ∧ 測地線 ON → geo0Geodesic / geoPN=1 ∧ kFrame≠0 → geo1KFrame / geoPN=2 ∧ kFrame≠1 → geo2KFrame / geoPN=3 ∧ 慣性決定力の引きずり未宣言 → geo3NoInertial(文は「旧法則版 <lawVersion> で走っています」「旧法則版は入場条件で無効」「引きずりの法則は何も走っていません」を書き分ける —— 3 の条件は統括の追加で、原仮定者の裁定(第81報)は 3 のモード固有の条件を指定していない)。`#btnSave` の成功通知に警告を含める(保存は止めない・確認ボタンも強制補正も無し)。
+
+**保存の版**: `#btnSave` は `item.modePolicy="w291c-1"` と `item.lawResolved=geoModeOf(sim.params).law`(情報 —— 読込で照合だけに使い、物理には使わない)を書く。読込 `loadSave` は `modePolicy` の無い旧セーブの geoPN=1 ∧ kFrame≠0 を**従来どおり kFrame=0 として読む**(第283便a の挙動・通知 1 行は残す)。`modePolicy:"w291c-1"` 以後の保存は**値を保持**して読み、`lawResolved` といま解決した法則が違えば情報を 1 行出す。エクスポート(バックアップ)は保存の項目をそのまま運ぶので同じ鍵を持つ。
+
+**旧法則版の扱い**: geoPN=3 の内蔵 12 本(scalar 9・vMinusU 2・local 1)は旧法則版の宣言どおり走る(数値不変)。第262便a の「lawVersion 未宣言の 3 でも実行時の既定 scalar でトイが走る」は撤去した(法則の解決は宣言から —— パラメータ行で 3 にしただけでは旧法則版は走らず、測地線の法則で走り、HUD に `law:` を出す。値は 3 のまま保存・再読込される)。パラメータ行の直下の注記は保存の非対称の文から主な用途の分類の文へ替えた(旧文は残し鍵だけ替えた)。
+
+**実測**(このページ・器): 内蔵 150 本の `geoModeOf(...).law` の分布 = newton 92・eih-kf0 27・vMinusU-q 19・legacy-spaceMesh:scalar 9・legacy-spaceMesh:vMinusU 2・legacy-spaceMesh:local 1(第285便b の欄 core・mode からの導出と全本一致)/ 全本を build した走行中の dispatch の法則(`geoLawOfSim(S)`)= 宣言の解決(150/150)/ 受理器は内蔵に新しい警告を 1 本も出さない / 未宣言の 3 は geoPN=2 と 2 体 200 步ビット同一(kFrame 0・1)/ geoPN=0 ∧ geodesic:true は geoPN=1(kFrame=0)・geoPN=2(kFrame=1)と 200 步ビット同一 / bitsame 150/150・sigsame 150/150(基点 cf2da0a)・JIT 探針 ×0.96〜×1.17(門 ≤1.5×)。
+
+**書かないこと**: 「GR 1PN と同等が証明された」「geoPN=3 が GR と同値」「新しい法則が正しい」「観測一致を達成した」。モードの番号は用途の分類であって、どの法則が正しいかの主張ではない。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
