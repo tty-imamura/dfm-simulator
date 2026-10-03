@@ -50,6 +50,7 @@ if (IS_MAIN) {
   console.log(`(A) 不変性: 並進 ${I.translation.ok}(${f3(I.translation.relMax)})・等速 0 ${I.uniform.ok}・自己除外 ${I.selfExcluded.ok}・1/8 ${I.decay.ok}・作用反作用 ${f3(I.actionReaction.rel)}・1 体 ${I.single.ok}・一致点 ${I.coincident.ok} → ${I.ok}`);
   for (const r of R.stability.rows) console.log(`(B) a=${r.a}(2a=${r.twoA}): 固定点 ${f4(r.fixedPoint)}・20 更新のずれ比 ${f3(r.devRatio)}(閉じた式 ${f3(r.expectedRatio)})・${r.regime}・漸化式との差 ${f3(r.closedRelMax)}`);
   console.log(`(B) dt: ${JSON.stringify(R.stability.dt.rows.map((z) => [z.dt, z.steps, f3(z.growth)]))}`);
+  console.log(`(B) 第290便c の訂正: 陽的緩和 λ=1.6・α=0.9 の倍率 ${R.stability.relaxationCounterexample.multiplier.toFixed(4)}(条件 α<${R.stability.relaxationCounterexample.limit.toFixed(4)})・2 体の Σm x×u ${R.stability.angularExample.sumMxU}(Σm u ${JSON.stringify(R.stability.angularExample.sumMu)})`);
   for (const k of Object.keys(R.chain.runs)) { const z = R.chain.runs[k]; console.log(`(C) ${k}: 外縁 u_φ ${f4(z.outerUPhi[40])}・最初の更新 ${z.firstOuterNonzero}・99% ${z.updatesTo99}・上界 ${f4(z.spectralBound)}`); }
   console.log(`(C) 媒介: 最初の更新 ${R.chain.mediated.firstUpdate}・窓末 ${f3(R.chain.mediated.atWindow)}(外縁の ${(100 * R.chain.mediated.shareOfOuter).toFixed(2)}%)・同速 0 ${R.chain.sameVelocityZero}`);
   for (const s of R.rings) console.log(`(C) 環 ${s.nRings}: u_φ ${s.rows.map((z) => f4(z.uPhi)).join('/')}・上界 ${f4(s.spectralBound)}・臨界 C_d ${f4(s.criticalGain)}`);
@@ -61,7 +62,8 @@ if (IS_MAIN) {
     engine: 'Node の純関数だけ(html を読まない)',
     notClaim: ['回転引きずりが創発した', '連鎖で円盤ができた', '複素場を接続した', '新しい法則を実装した', '新発見'] });
   const ok = I.ok && R.stability.rows.every((r) => r.closedRelMax <= 1e-12) && R.stability.dt.divergesBoth && R.chain.sameVelocityZero
-    && R.chain.mediated.firstUpdate === 2;
+    && R.chain.mediated.firstUpdate === 2
+    && R.stability.relaxationCounterexample.ok && R.stability.angularExample.ok;   // 第290便c: 対策表の訂正の 2 例(陽的緩和の反例・Σm x×u≠0)
   const out = { meta, ...R, ok, elapsedS: (Date.now() - t0) / 1000 };
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
   fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 1) + '\n');

@@ -1059,7 +1059,10 @@ if (QA_CHANGED) {
     c.push(cur); return c; };
   let header = '', legacy = 0, legacySigma = 0, intakeB = 0, intakeBSigma = 0, verified = 0;
   let sparcChecked = 0;   // 第269便b: SPARC 10 点の外部照合印(**verified にしない**)
-  const bodies = new Set(), widths = new Set();
+  // 第290便g(R131): 確認依頼 第 7 回の候補行(`intake_round=confirmation-request-7`)は**別の区分**で数える
+  //   (既存 108 行にも intake B にも入れない)。sigma は全行空欄・body は NGC 0036 が**候補行だけ**に増える。
+  let intake290 = 0, intake290Sigma = 0;
+  const bodies = new Set(), widths = new Set(), bodies290Only = new Set(), bodiesOther = new Set();
   try {
     const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
     const lines = fs.readFileSync(F, 'utf8').split('\n');
@@ -1070,9 +1073,14 @@ if (QA_CHANGED) {
       widths.add(c.length);
       bodies.add(c[0]);
       const isB = /intake_row=2026-09-16/.test(c[7] || '');
+      const is290 = /intake_round=confirmation-request-\d+/.test(c[7] || '') && /intake_row=2026-10-02/.test(c[7] || '');
       const hasSigma = (c[8] || '').trim() !== '';
-      if (isB) { intakeB++; if (hasSigma) intakeBSigma++; }
-      else { legacy++; if (hasSigma) legacySigma++; }
+      if (is290) { intake290++; if (hasSigma) intake290Sigma++; bodies290Only.add(c[0]); }
+      else {
+        bodiesOther.add(c[0]);
+        if (isB) { intakeB++; if (hasSigma) intakeBSigma++; }
+        else { legacy++; if (hasSigma) legacySigma++; }
+      }
       // ⑥ 第269便b(統括の読み (C)): **SPARC 公式 MassModels 表(43 点)との外部照合**を
       //   NGC 3198 の候補 10 点に注記した。**外部照合は印を 1 bit も上げない** ——
       //   この 10 行は `unverified` のままで X7 の `verified_by=` は空である。
@@ -1109,7 +1117,7 @@ if (QA_CHANGED) {
     //   (`tests/lib-sigma-destinations.mjs`)。文字列検索は**コメント中の body 名**にも当たるし、
     //   **値ではなく鍵**に書かれた名前にも当たる —— 表の**値**を見れば曖昧さが無い。
     const DEST = await import('file://' + path.join(ROOT, 'tests', 'lib-sigma-destinations.mjs'));
-    for (const b of ['47 Tuc', 'NGC 3198']) if (DEST.isWiredBody(b))
+    for (const b of ['47 Tuc', 'NGC 3198', 'NGC 0036']) if (DEST.isWiredBody(b))
       bad.push(`⑤門の宛先表に ${b} が入っている(星団・銀河は門に接続しない約束である)`);
   } catch (e) { bad.push('CSV が読めない: ' + String(e).slice(0, 80)); }
   // 第270便b(AE2): **ヘッダ末尾に `record_id` を足した**(`sigma` はその 1 つ手前に移った)。
@@ -1121,9 +1129,13 @@ if (QA_CHANGED) {
   if (legacy !== 108) bad.push(`②既存行が 108 でない(${legacy})`);
   if (legacySigma !== 0) bad.push(`②既存行に σ が入っている(${legacySigma} 行 —— 既存は空のままにする)`);
   if (intakeBSigma === 0) bad.push('③intake B の行に σ が 1 つも入っていない');
-  const bodyList = [...bodies].sort();
+  // 第290便g: ④ は**候補行以外の行**の body で見る(候補行で増えた body は NGC 0036 だけ —— 記録であって門ではない)
+  const bodyList = [...bodiesOther].sort();
   if (!(bodyList.length === 2 && bodyList.includes('47 Tuc') && bodyList.includes('NGC 3198')))
     bad.push(`④body が 2 つ(47 Tuc / NGC 3198)でない: ${bodyList.join(' , ')}`);
+  const new290 = [...bodies290Only].filter((b) => !bodiesOther.has(b)).sort();
+  if (new290.join(',') !== 'NGC 0036') bad.push(`④第 7 回の候補行で増えた body が NGC 0036 だけでない: ${new290.join(' , ')}`);
+  if (intake290Sigma !== 0) bad.push(`④第 7 回の候補行に σ が入っている(${intake290Sigma} 行 —— 候補行の sigma は空欄)`);
   if (verified !== 6) bad.push(`⑤verified の印がある行が 6 でない(${verified} 行 —— 第267便a で `
     + `原仮定者が第 2 回の確認記録で答えた 47 Tuc の 6 量だけが verified である)`);
   if (sparcChecked !== 10) bad.push(`⑥SPARC の外部照合印を持つ行が ${sparcChecked}`
@@ -1140,6 +1152,7 @@ if (QA_CHANGED) {
     + `残りは \`unverified\` のまま / **印が \`verified\` であることは門に繋がっていることではない** ——`
     + `門の宛先表(\`tests/lib-sigma-destinations.mjs\`)に \`47 Tuc\` も \`NGC 3198\` も 1 行も無い`
     + `(**星団・銀河は門に接続していない**。第268便a で**器のソース文字列検索から宣言表の読み取りへ**変えた)/ `
+    + `第290便g: 確認依頼 第 7 回の候補行 ${intake290} 行(sigma 空欄 —— 増えた body は NGC 0036 だけ・門の宛先表に無い)/ `
     + `⑥ 第269便b: NGC 3198 の候補 **${sparcChecked} 点**に SPARC 公式 MassModels 表`
     + `(この銀河は 43 点)との**外部照合の注記**が入った —— **印は 1 行も上がっていない**`
     + `(\`unverified\` のまま・X7 の \`verified_by=\` は空)。e_Vobs は傾斜の系統誤差を含まないので`
@@ -1643,10 +1656,15 @@ if (QA_CHANGED) {
       bad.push(`⑥本便後の X7 警告が 0 でない(${((cen.after || {}).solar || {}).x7Warn})`);
     // 第278便a: 第 5 回(`confirmation_round=5`)で verified になった行(器が `after.solar.round5Verified` に数える・
     //   旧世代の正本には無いので 0)はこの便の増分ではない
+    // 第290便g(R131・第278便の教訓の恒久策): **第 4 回より大きい回を全部**引く —— 器が `after.solar.laterRoundsVerified`
+    //   (tests/lib-w290g-rounds.mjs —— 第 5 回以降の全部)に数える。旧世代の正本(この欄が無い)は `round5Verified` へ戻る
+    const later290 = (((cen.after || {}).solar || {}).laterRoundsVerified !== undefined)
+      ? ((cen.after || {}).solar || {}).laterRoundsVerified
+      : (((cen.after || {}).solar || {}).round5Verified || 0);
     if (((cen.after || {}).solar || {}).verified
       - ((cen.before || {}).solar || {}).verified
-      - (((cen.after || {}).solar || {}).round5Verified || 0) !== EXPECT['verified-new'])
-      bad.push('⑥太陽系の verified の増分が 3 でない(X7 欄を埋めた 6 行と第 5 回で上がった行は印を動かさない)');
+      - later290 !== EXPECT['verified-new'])
+      bad.push('⑥太陽系の verified の増分が 3 でない(X7 欄を埋めた 6 行と第 5 回以降の後の回で上がった行は印を動かさない)');
     if ((cen.externalOnlyVerified || []).length)
       bad.push('⑥外部確認印だけで verified になっている行がある');
     // ⑦ AE7(171〜173 の中立表現)
@@ -2283,6 +2301,9 @@ if (QA_CHANGED) {
       // 第289便d(原仮定者の裁定(第79報)で閉じた AN95/AN96/AN97・R122): 離散の後の慣性半径の状態引き継ぎの前後・fixcap の正本の離散の行の引き直し・
       //   ΔE_self の口座・異方的剛体の E_rot(target=beta/index.html —— Node だけ。inputs に fixcap-w288a.json —— **fixcap288 を走らせ直したら本器も走らせ直す** —— 鎖の段 ejectstate289)
       'tests/out/ejectstate-w289d.json',
+      // 第290便d(原仮定者の裁定(第80報)②・R128): チェックポイントの保存/復元が固定中心の状態を運ぶ修正の回帰と再開保存の棚卸し
+      //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 ckfixcap290)
+      'tests/out/ckfixcap-w290d.json',
       // 第289便a(原仮定者の裁定(第79報)⑤・R119): 時計・光の弱場係数(3 案の一次係数)・相対移動 r⁻³ 核の限定模型・現行 tauUpdate/traceRay の実測・
       //   式の綴りと枠の重みの棚卸し(target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 weakfield289)
       'tests/out/weakfield-w289a.json',
@@ -2294,7 +2315,13 @@ if (QA_CHANGED) {
       'tests/out/contractrange-w289b.json',
       // 第289便e(原仮定者の裁定(第79報)AN105/AN106・R123): 🪆(🛸 の中心を親子コアの層に置き直した診断コピー)の宣言の照合・步ごとの指紋の照合
       //   (層の軸の対照・層の差分を外した対照)・変換の往復・層の軸の宣言欄の受理(target=beta/index.html —— Node だけ・html だけを読む —— 鎖の段 tilt90layers289)
-      'tests/out/tilt90layers-w289e.json'];
+      'tests/out/tilt90layers-w289e.json',
+      // 第290便c(原仮定者の裁定(第80報)⑥・R127): 法則版 relativeDrag.law:"inertial" の門 b〜f と診断本 🐌 の Δϖ・上界・帳簿
+      //   (target=beta/index.html —— Node の headless だけ・html だけを読む・他の正本は読まない —— 鎖の段 inertial290)
+      'tests/out/inertial-w290c.json',
+      // 第290便e(原仮定者の裁定(第80報)⑤・R129): 渦巻の参照模型 2 本(🍭 shapeToySpiral・🎢 shapeToySpiralCore)の門 ①〜⑦
+      //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 spiral290 は shapetoy・corefield の後)
+      'tests/out/spiral-w290e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -3699,9 +3726,19 @@ if (QA_CHANGED) {
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化・原仮定者の裁定(第78報)④)。切断点 106/26/3/4 → 86/19/2/4・太陽系 4 値 否 2/保留 14 → 否 1/保留 11 は
     //   退役 🌘🧲🪨💿 の行が母集団の外へ出た(unit-not-converted の 1 減は 🪨)のと、❄️ が kFrame=0 へ在位移行して「否」の行が条件不一致(条 17 の 1 つ)になったため —— 判定の変化ではない
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-    const EXPECT = { csvRows: 601, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
-      cut: has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
-      four: has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+    //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+    //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+    //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+    //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+    const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    // 第290便g(R131): 確認依頼 第 7/8 回の候補行(太陽系 —— 器 tests/exp-w290g-intake8.mjs の宣言表から数える)を足した
+    const I290c = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
+    const n290c = I290c.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
+    const EXPECT = { csvRows: 601 + n290c, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
+      cut: has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      four: has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null, nLater = 0, nRaised = 0;
     try {
       const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
@@ -3809,9 +3846,19 @@ if (QA_CHANGED) {
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化・原仮定者の裁定(第78報)④)。切断点 106/26/3/4 → 86/19/2/4・太陽系 4 値 否 2/保留 14 → 否 1/保留 11 は
     //   退役 🌘🧲🪨💿 の行が母集団の外へ出た(unit-not-converted の 1 減は 🪨)のと、❄️ が kFrame=0 へ在位移行して「否」の行が条件不一致(条 17 の 1 つ)になったため —— 判定の変化ではない
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-    const EXPECT = { csvRows: 601, newRows: 21, newWithSigma: 10, newVerified: 10, confirmed: 42, raised: 9,
-      cut: has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
-      four: has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+    //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+    //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+    //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+    //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+    const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    // 第290便g(R131): 確認依頼 第 7/8 回の候補行(太陽系 42 行 —— 器 tests/exp-w290g-intake8.mjs の宣言表から数える)を足した
+    const I290 = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
+    const n290 = I290.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
+    const EXPECT = { csvRows: 601 + n290, newRows: 21, newWithSigma: 10, newVerified: 10, confirmed: 42, raised: 9,
+      cut: has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      four: has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nRows = 0, nNew = 0, nNewSig = 0, nNewVer = 0, nConf = 0, nRaised = 0, cut = null, four = null;
     try {
       const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
@@ -3893,6 +3940,124 @@ if (QA_CHANGED) {
       + `③ **sigma 列へ上げた既存行 ${nRaised} 行**(2of2 かつ verified の定義名の量だけ —— 判定量ではない)/ `
       + `④ **切断点 ${cut ? Object.values(cut).join('/') : '—'} と太陽系 4 値 ${four ? JSON.stringify(four) : '—'} は動いていない** / `
       + `⑤ 判定量名の行を宛先天体へ 1 行も足していない / ⑥ §5.28 に件数・禁止語なし / ⑦ 会計器と台帳の器が現行 CSV と一致`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第290便g(統括の検証項目 R131): docs.intake8 ----
+// ----   **確認依頼 第 7 回・第 8 回の回答の転写**(候補行・印なし)を機械で固定する。器 tests/exp-w290g-intake8.mjs の
+// ----   点検(`checkIntake8` —— CSV を書かない)を import して走らせ、次の 8 つを見る:
+// ----     ① 候補行の数(ファイル別・kind 別・回別)が宣言どおり(太陽系 42 / 過渡天体 30 / 星団・銀河 15 = 87)。
+// ----     ② **既存行は 1 字も書き換えていない**(各 CSV の先頭が基点 f03bf5a のバイト列と SHA-256 で一致)・
+// ----        **冪等**(末尾が器の作る候補行とバイトで一致 —— もう一度 --write しても 1 バイトも変わらない)。
+// ----     ③ 量名はすべて `_candidate`・印はすべて `unverified`(確認者欄なし)・**sigma 列は全行空欄**
+// ----        (90% 区間の行は `ci90=` と `sigma_kind=ci90`・非対称は `interval_plus/minus`)・上限/下限の行は value 空。
+// ----     ④ **門に入らない**: 量名が門の量(orbital_period / eccentricity / periastron_advance)に当たる行 0・
+// ----        宣言(judgement-sources.json)が指す行 0・門の鍵の「最初の行」が動いた鍵 0・宛先表の body 0・
+// ----        較正の器は過渡天体/星団銀河の CSV を開かない・**正本 calaudit-w249.json と solarsigma-w262d.json に
+// ----        候補行の record_id が 1 つも現れない**(門は sigma 空欄と kind を読まない —— 鍵で外れる)。
+// ----     ⑤ 書誌の混入 0(J1757−1854 の発見論文は Cameron 2018 sly003)・AB3(74490 km)は転写していない。
+// ----     ⑥ docs/CALIBRATION_ISSUES_v1.45.md の §7 に同じ数がある(生成器 tests/exp-w272a-issues.mjs が器の点検から作る)。
+// ----     ⑦ **確認記録の器の恒久策**(tests/lib-w290g-rounds.mjs): 自分の回より大きい回を**全部**除く ——
+// ----        合成の第 6 回の行が第 2・3・4 回の器では除かれ第 6 回では除かれない・3 器の正本の `laterRoundsVerified` が
+// ----        現行 CSV から lib で数え直した数と一致する。
+// ----     ⑧ 候補行の note に公開してはならない語(外部名と、出典の経路を表す語 —— 検出語は base64 で持ち平文で置かない)が無い。
+// ----   **書かないこと**: 「観測と合った」「較正した」「確認した」「verified にした」。root は SKIP。
+{
+  if (!TARGET.startsWith('beta/')) {
+    console.log('SKIP docs.intake8(beta 対象でない: ' + TARGET + ')');
+  } else {
+    const bad = [];
+    const EXPECT = { total: 87,
+      byFile: { 'paper/data/solar-observations.csv': 42, 'paper/data/transient-observations.csv': 30,
+        'paper/data/cluster-galaxy-observations.csv': 15 },
+      byKind: { 'model-derived': 42, observed: 24, 'ephemeris-fit': 7, 'analysis-window': 5, 'observed-count': 4,
+        'upper-limit': 3, 'lower-limit': 1, 'derived-in-record': 1 },
+      byRound: { 7: 58, 8: 29 }, ci90: 11, upper: 3, lower: 1 };
+    let r = null, laterOk = null, mdOk = null;
+    try {
+      const I8 = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
+      r = I8.checkIntake8(ROOT);
+      for (const v of r.violations) bad.push('器: ' + v);
+      // ①
+      if (r.tally.total !== EXPECT.total) bad.push(`①候補行が ${r.tally.total}(${EXPECT.total} のはず)`);
+      for (const [f, n] of Object.entries(EXPECT.byFile))
+        if ((r.tally.byFile[f] || 0) !== n) bad.push(`①${f} の候補行が ${r.tally.byFile[f]}(${n} のはず)`);
+      const kinds = Object.keys(r.tally.byKind).sort().join(',');
+      if (kinds !== Object.keys(EXPECT.byKind).sort().join(',')) bad.push(`①kind の集合が ${kinds}`);
+      for (const [k, n] of Object.entries(EXPECT.byKind))
+        if ((r.tally.byKind[k] || 0) !== n) bad.push(`①kind ${k} が ${r.tally.byKind[k]}(${n} のはず)`);
+      for (const [k, n] of Object.entries(EXPECT.byRound))
+        if ((r.tally.byRound[k] || 0) !== n) bad.push(`①第 ${k} 回が ${r.tally.byRound[k]}(${n} のはず)`);
+      if (r.tally.ci90Rows !== EXPECT.ci90) bad.push(`③ci90 の行が ${r.tally.ci90Rows}(${EXPECT.ci90} のはず)`);
+      if (r.tally.upperLimitRows !== EXPECT.upper || r.tally.lowerLimitRows !== EXPECT.lower)
+        bad.push(`③上限/下限の行が ${r.tally.upperLimitRows}/${r.tally.lowerLimitRows}`);
+      // ②
+      for (const f of Object.keys(EXPECT.byFile)) {
+        const x = r.files[f] || {};
+        if (!x.headOk) bad.push(`②${f} の既存行が動いた(先頭の SHA-256 が基点と違う)`);
+        if (x.state !== 'written') bad.push(`②${f} の末尾が器の候補行と一致しない(${x.state})`);
+      }
+      // ④ 正本(calaudit・solarsigma)に候補行の record_id が現れない
+      const ids = new Set(Object.values(r.files).flatMap((x) => x.ids || []));
+      for (const rel of ['tests/out/calaudit-w249.json', 'tests/out/solarsigma-w262d.json']) {
+        const txt = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+        const hits = [...ids].filter((id) => txt.indexOf('"' + id + '"') >= 0);
+        if (hits.length) bad.push(`④${rel} に候補行の record_id が ${hits.length} 件ある(${hits.slice(0, 3).join(',')})`);
+      }
+      // ⑤
+      if (r.bib.some((b) => b.hits.length)) bad.push('⑤書誌の混入がある');
+      if (!r.notTranscribed.includes('AB3')) bad.push('⑤AB3 が「転写しない」表に無い');
+      const L = (await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs')))
+        .loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'));
+      const fresh = L.rows.filter((x) => ids.has(x.recordId));
+      if (fresh.some((x) => /74490/.test(x.rawValue + ' ' + x.note))) bad.push('⑤AB3(74490 km)が候補行にある');
+      // ⑥ 生成された docs の節
+      const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_ISSUES_v1.45.md'), 'utf8');
+      const i7 = md.indexOf('## 7. 確認依頼 第 7/8 回の intake');
+      mdOk = i7 >= 0 && md.indexOf('| **計** | **' + r.tally.total + '** |', i7) >= 0;
+      if (!mdOk) bad.push('⑥CALIBRATION_ISSUES §7 に候補行の数が無い(node tests/exp-w272a-issues.mjs を回すと入る)');
+      if (i7 >= 0 && md.indexOf(I8.intakeSectionMd(ROOT).trim()) < 0) bad.push('⑥§7 が器の点検から作った文と違う');
+      // ⑦ 恒久策
+      const RD = await import('file://' + path.join(ROOT, 'tests', 'lib-w290g-rounds.mjs'));
+      const fx = [{ note: 'sigma_primary=verified; confirmation_round=6' }, { note: 'sigma_primary=verified; confirmation_round=6; same_mark_as=X' },
+        { note: 'sigma_primary=unverified; confirmation_round=7' }, { note: 'sigma_primary=verified; confirmation_round=2' }];
+      const isV = (n) => /sigma_primary=verified/.test(n);
+      const got = [2, 3, 4, 6].map((k) => RD.laterRoundsVerified(fx, k, isV).total).join(',');
+      if (got !== '1,1,1,0') bad.push(`⑦合成の第 6 回の行の除き方が ${got}(1,1,1,0 のはず)`);
+      const SM = await import('file://' + path.join(ROOT, 'tests', 'lib-w264d-sigmamark.mjs'));
+      laterOk = true;
+      for (const [rel, own] of [['tests/out/confirm2-w267a.json', 2], ['tests/out/confirm3-w269b.json', 3], ['tests/out/confirm4-w270b.json', 4]]) {
+        const J = JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+        const n = ((((J.census || {}).after || {}).solar) || {}).laterRoundsVerified;
+        const want = RD.laterRoundsVerified(L.rows, own, (note) => SM.readSigmaMark(note).verified).total;
+        if (n !== want) { laterOk = false; bad.push(`⑦${rel} の laterRoundsVerified が ${n}(lib で数え直すと ${want})`); }
+        if ((J.violations || []).length) bad.push(`⑦${rel} の器が違反を出している`);
+      }
+      // ⑧ 公開してはならない語
+      const NAMES = Buffer.from('Q2hhdEdQVCxHcm9rLEdlbWluaSxDb2RleA==', 'base64').toString('utf8').split(',');
+      const ROUTE = Buffer.from('5re75LuYLOengeS/oSzns7vntbEscmV2aWV3', 'base64').toString('utf8').split(',');
+      const all = [];
+      for (const f of Object.keys(EXPECT.byFile))
+        for (const x of (await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'))).loadObsCsv(path.join(ROOT, f)).rows)
+          if (ids.has(x.recordId)) all.push(x);
+      for (const x of all) {
+        const t = [x.source, x.note, x.url].join(' ');
+        if (NAMES.some((nm) => t.indexOf(nm) >= 0) || ROUTE.some((w) => t.toLowerCase().indexOf(w) >= 0))
+          bad.push(`⑧${x.file}:${x.ln} に公開してはならない語がある`);
+      }
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 120)); }
+    add('docs.intake8', bad.length === 0,
+      `**確認依頼 第 7/8 回の回答の転写**(第290便g・器 tests/exp-w290g-intake8.mjs): `
+      + `① 候補行 **${r ? r.tally.total : '—'} 行**(${r ? Object.entries(r.tally.byFile).map(([f, n]) => f.replace('paper/data/', '').replace('-observations.csv', '') + ' ' + n).join(' / ') : '—'})`
+      + `・kind ${r ? JSON.stringify(r.tally.byKind) : '—'}・回 ${r ? JSON.stringify(r.tally.byRound) : '—'} / `
+      + `② **既存行は 1 字も書き換えていない**(先頭が基点 f03bf5a と SHA-256 一致)・**冪等**(末尾が器の候補行とバイト一致) / `
+      + `③ 量名は全行 \`_candidate\`・印は全行 \`unverified\`・**sigma 列は全行空欄**(90% 区間 ${r ? r.tally.ci90Rows : '—'} 行は \`ci90=\`・`
+      + `上限 ${r ? r.tally.upperLimitRows : '—'}/下限 ${r ? r.tally.lowerLimitRows : '—'} 行は value 空) / `
+      + `④ **門に入らない** —— 門の量に当たる行 ${r ? r.gate.candidateKeysInGate : '—'}・宣言が指す行 ${r ? r.gate.declarationsPointing : '—'}・`
+      + `「最初の行」が動いた鍵 ${r ? r.gate.firstRowChanged.length : '—'}・正本 calaudit/solarsigma に候補行の record_id 0 / `
+      + `⑤ 書誌の混入 0・AB3 は転写しない / ⑥ CALIBRATION_ISSUES §7 ${mdOk ? 'あり' : '—'} / `
+      + `⑦ 確認記録の器は**自分の回より大きい回を全部除く**(lib-w290g-rounds・3 器の数と一致 ${laterOk}) / ⑧ 公開してはならない語 0`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -4068,8 +4233,15 @@ if (QA_CHANGED) {
       // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化・原仮定者の裁定(第78報)④)。切断点 106/26/3/4 → 86/19/2/4・太陽系 4 値 否 2/保留 14 → 否 1/保留 11 は
       //   退役 🌘🧲🪨💿 の行が母集団の外へ出た(unit-not-converted の 1 減は 🪨)のと、❄️ が kFrame=0 へ在位移行して「否」の行が条件不一致(条 17 の 1 つ)になったため —— 判定の変化ではない
       const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-      const EC = has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
-      const EF = has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 };
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+      //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+      //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+      //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+      //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+      //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+      const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+      const EC = has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
+      const EF = has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 };
       for (const [k, v] of Object.entries(EC)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
       if (four['否'] !== EF['否'] || four['保留'] !== EF['保留']) bad.push(`④太陽系 4 値が 否 ${EF['否']}・保留 ${EF['保留']} でない(${JSON.stringify(four)})`);
       // ⑥ CALIBRATION_VERDICT §5.31
@@ -4581,14 +4753,21 @@ if (QA_CHANGED) {
   try {
     const M = await import('file://' + path.join(ROOT, 'tests', 'lib-sigma-destinations.mjs'));
     const ser = (o) => Object.keys(o).sort().map((k) => k + '=' + o[k]).join(';');
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 —— 退役した ❄️ の入口を引き継いだ 🥶 の行 `plutoCharonDiagInput|カロン` を
+    //   **1 行だけ**足した(値は ❄️ の行と同じ 'Charon' —— 同じ CSV 行)。その 1 行を除いた 3 表が基点 fa7cd6c の凍結値と一致することを見る
+    //   (足した行以外は 1 文字も変えていない)。件数は target だけ +1(wired は同じ天体なので不変)
+    const ADD290 = 'plutoCharonDiagInput|カロン';
+    const has290 = Object.prototype.hasOwnProperty.call(M.SIGMA_TARGET_BODY, ADD290);
+    const tgtBase = Object.assign({}, M.SIGMA_TARGET_BODY); delete tgtBase[ADD290];
     const all = ['BODY|' + ser(M.SIGMA_BODY), 'QUANT|' + ser(M.SIGMA_QUANT),
-      'TARGET|' + ser(M.SIGMA_TARGET_BODY)].join('\n');
+      'TARGET|' + ser(tgtBase)].join('\n');
     fp = crypto.createHash('sha256').update(all).digest('hex');
     n = { body: Object.keys(M.SIGMA_BODY).length, quant: Object.keys(M.SIGMA_QUANT).length,
       target: Object.keys(M.SIGMA_TARGET_BODY).length, wired: M.wiredBodies().length };
-    if (fp !== FROZEN.sha256) bad.push(`①3 表の正規化 SHA-256 が基点と違う(${fp.slice(0, 12)}…)`);
+    if (fp !== FROZEN.sha256) bad.push(`①3 表の正規化 SHA-256 が基点と違う(${fp.slice(0, 12)}…${has290 ? ' —— 第290便b の 1 行を除いて' : ''})`);
+    if (has290 && M.SIGMA_TARGET_BODY[ADD290] !== M.SIGMA_TARGET_BODY['plutoCharonReal|カロン']) bad.push('①第290便b の 🥶 の行の宛先が ❄️ の行と違う');
     for (const k of ['body', 'quant', 'target', 'wired'])
-      if (n[k] !== FROZEN[k]) bad.push(`①${k} の件数が ${FROZEN[k]} でない(${n[k]})`);
+      if (n[k] !== FROZEN[k] + (has290 && k === 'target' ? 1 : 0)) bad.push(`①${k} の件数が ${FROZEN[k] + (has290 && k === 'target' ? 1 : 0)} でない(${n[k]})`);
     // ③ 星団・銀河・BH 連星は宛先に無い(**値**を見る)
     for (const b of ['47 Tuc', 'NGC 3198', 'GW150914 A', 'GW150914 B'])
       if (M.isWiredBody(b)) bad.push(`③${b} が門の宛先表に入っている(接続しない約束である)`);
@@ -4933,23 +5112,30 @@ if (QA_CHANGED) {
     // 第270便(統括の統合・AD5/AD8 後): 門へ σ が届いた量は **4 件**(📡 D68 の換算後判定 1・カロン P の宣言行 3)。
     //   ガードの効きは 4 値で見る —— 届いた 4 件のうち **否(3σ)へ進んだのは 📡 の 1 件だけ**で、カロン 3 件は
     //   条件不一致/数値収束未確認の**保留**に留まる(第268便a の時点では届いた量 0 だった)。
-    if (connected !== 4) bad.push(`σ が門へ届いた量が 4 でない(${connected})—— AD8(📡)+AD5(カロン 3)の宛先`);
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+    //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+    //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+    //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+    //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+    const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    if (connected !== (has290b ? 1 : 4)) bad.push(`σ が門へ届いた量が ${has290b ? 1 : 4} でない(${connected})—— AD8(📡)${has290b ? '(❄️ の退役でカロン 3 は σ 接続器の対象外)' : '+AD5(カロン 3)'}の宛先`);
     const ft = J.fourTally || {};
     // 第274便a(第64報): kF0 対照走行を配った世代では ❄️ の対照行が門へ入り 否 2/保留 14(旧世代は 否 1/保留 15)
     const kf0GenS = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return !!(C.kf0Runs && C.kf0Runs.on === true); } catch (e) { return false; } })();
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化)。退役 🌘🧲🪨💿 が母集団の外へ出て太陽系は 12 本、
     //   ❄️ は自身が kFrame=0 へ在位移行したので kF0 の対照行は無く、❄️ の行は条件不一致(条 17)の保留 —— 否 1(📡)/保留 11
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-    const wantNg = has288b ? 1 : kf0GenS ? 2 : 1, wantHold = has288b ? 11 : kf0GenS ? 14 : 15;
+    const wantNg = has288b ? 1 : kf0GenS ? 2 : 1, wantHold = has290b ? 10 : has288b ? 11 : kf0GenS ? 14 : 15;
     if ((ft['否'] || 0) !== wantNg || (ft['保留'] || 0) !== wantHold)
-      bad.push(`太陽系の 4 値が 否 ${wantNg}/保留 ${wantHold} でない(${JSON.stringify(ft)})—— ガードを通ったのは 📡 の 1 件${has288b ? 'だけ(第288便b の世代 —— ❄️ は条件不一致の保留)' : kf0GenS ? '+❄️ の kF0 対照行' : 'だけ'}のはず`);
+      bad.push(`太陽系の 4 値が 否 ${wantNg}/保留 ${wantHold} でない(${JSON.stringify(ft)})—— ガードを通ったのは 📡 の 1 件${has290b ? 'だけ(第290便b の世代 —— ❄️ は退役して σ 接続器の対象外)' : has288b ? 'だけ(第288便b の世代 —— ❄️ は条件不一致の保留)' : kf0GenS ? '+❄️ の kF0 対照行' : 'だけ'}のはず`);
   } catch (e) { bad.push('ガードが読めない: ' + String(e).slice(0, 90)); }
   add('behavior.solarsigmaGuards', bad.length === 0,
     `**σ 接続器の必須ガード**(第268便a・統括の読み (B)・tests/lib-w268a-judgement.mjs): `
     + `4 ケース ${cases.join(' / ')} —— \`definitionDeclared\` ∧ \`mappingResolved\` ∧ `
     + `\`convergence.ok\` の**どれか 1 つでも欠けたら判定しない**(合とも否とも言わない)/ `
-    + `実体(第270便・AD5/AD8 後): 門へ σ が届いた量は **${connected} 件**(📡 1・カロン P 3)・切断点 \`unit-not-converted\` は `
-    + `**${cut} 件**(対照として温存)—— **ガードを通って否(3σ)へ進んだのは 📡 の 1 件だけ・カロン 3 件は保留**(保留は否定ではない)`
+    + `実体(第270便・AD5/AD8 後): 門へ σ が届いた量は **${connected} 件**(${connected === 1 ? '📡 1 —— 第290便b で ❄️ が退役してカロン P 3 は σ 接続器の対象外' : '📡 1・カロン P 3'})・切断点 \`unit-not-converted\` は `
+    + `**${cut} 件**(対照として温存)—— **ガードを通って否(3σ)へ進んだのは 📡 の 1 件だけ${connected === 1 ? '' : '・カロン 3 件は保留'}**(保留は否定ではない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -4997,7 +5183,14 @@ if (QA_CHANGED) {
       bad.push('①直前の便の太陽系 4 値が 否 1/保留 15 でない');
     // 第274便a(第64報): kF0 対照走行を配った世代では 否 2/保留 14(❄️ の対照行が門へ入った)・旧世代は 否 1/保留 15
     const kf0GenU = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return !!(C.kf0Runs && C.kf0Runs.on === true); } catch (e) { return false; } })();
-    const wantHoldU = has288b ? 11 : kf0GenU ? 14 : 15, wantNgU = has288b ? 1 : kf0GenU ? 2 : 1;
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+    //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+    //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+    //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+    //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+    const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    const wantHoldU = has290b ? 10 : has288b ? 11 : kf0GenU ? 14 : 15, wantNgU = has288b ? 1 : kf0GenU ? 2 : 1;
     if ((J.fourTally || {})['保留'] !== wantHoldU)
       bad.push(`①太陽系 4 値の保留が ${wantHoldU} でない(${(J.fourTally || {})['保留']})`);
     if ((J.fourTally || {})['否'] !== wantNgU)
@@ -5406,7 +5599,16 @@ if (QA_CHANGED) {
         bad.push(`②カロンの σ が宣言行(0.02592)でない(${charon.q.obsSigmaCsv})`);
       if (charon.q.obs !== 551856.43872)
         bad.push(`②カロンの中心値が宣言行(551856.43872)でない(${charon.q.obs})`);
-      if (!charon.jsq.previous || charon.jsq.previous.obs !== 551854.08)
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+      //   旧参照値 551854.08 s(NSSDC)が previous に温存されていたのは ❄️ の行の性質 —— ❄️ は obsCard にその値を持っていた。🥶 の行の previous は
+      //   旧経路の公式行(NSSDC・σ なし)を記録するが、🥶 の obsCard は旧経路で中心値を持たなかったので previous.obs は null である(値を作らない)。
+      //   ❄️ の 551854.08 は第289便までの正本(f03bf5a の calaudit-w249.json)の履歴にある
+      const has290b = !(C.presets || []).some((p) => p.id === 'plutoCharonReal') && (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput');
+      if (has290b) {
+        const pv = charon.jsq.previous || null, por = (pv && pv.officialRow) || {};
+        if (!pv || pv.obs !== null || por.quantity !== 'orbital_period' || por.sigma !== null || !/NSSDC/.test(String(por.source || '')))
+          bad.push('②🥶 のカロンの previous が旧経路の公式行(NSSDC・σ なし・中心値 null)を記録していない');
+      } else if (!charon.jsq.previous || charon.jsq.previous.obs !== 551854.08)
         bad.push('②カロンの旧参照値(551854.08 s)が previous に温存されていない');
     }
     const lim = (C.sigmaRegate || {});
@@ -5423,7 +5625,7 @@ if (QA_CHANGED) {
     + `測定定義)を同時に切り替えた** / 宣言 ${nDecl} 件・適用 ${nApplied} 件 / `
     + `カロン: 中心値 ${charon ? charon.q.obs : '—'} s・σ ${charon ? charon.q.obsSigmaCsv : '—'} s が`
     + `**同じ宣言行(Buie 2012)から**来ていて、旧参照値 `
-    + `${charon && charon.jsq.previous ? charon.jsq.previous.obs : '—'} s は \`previous\` に温存 / `
+    + `${charon && charon.jsq.previous ? (charon.jsq.previous.obs === null ? 'なし(🥶 の旧経路は中心値を持たない —— 公式行 NSSDC・σ なしを記録・❄️ の 551854.08 は第289便までの履歴)' : charon.jsq.previous.obs + ' s') : '—'} は \`previous\` に温存 / `
     + `**宣言の解決失敗は throw**(旧行へ黙って戻らない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
@@ -5944,7 +6146,16 @@ if (!TARGET.startsWith('beta/')) {
       if (charon.sigmaPrimaryVerified !== true) bad.push('②カロンの verified 状態が切り替わっていない');
       if (charon.gate.status !== '数値未解決')
         bad.push(`②カロンの門が「数値未解決」でない(${charon.gate.status})—— 3 段登録は無いはず`);
-      if (charon.judgementSource.previous.obs !== 551854.08)
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+      //   旧参照値 551854.08 s(NSSDC)が previous に温存されていたのは ❄️ の行の性質 —— ❄️ は obsCard にその値を持っていた。🥶 の行の previous は
+      //   旧経路の公式行(NSSDC・σ なし)を記録するが、🥶 の obsCard は旧経路で中心値を持たなかったので previous.obs は null である(値を作らない)。
+      //   ❄️ の 551854.08 は第289便までの正本(f03bf5a の calaudit-w249.json)の履歴にある
+      const has290b = !(C.presets || []).some((p) => p.id === 'plutoCharonReal') && (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput');
+      if (has290b) {
+        const pv = charon.judgementSource.previous || {}, por = pv.officialRow || {};
+        if (pv.obs !== null || por.quantity !== 'orbital_period' || por.sigma !== null || !/NSSDC/.test(String(por.source || '')))
+          bad.push('④🥶 のカロンの previous が旧経路の公式行(NSSDC・σ なし・中心値 null)を記録していない');
+      } else if (charon.judgementSource.previous.obs !== 551854.08)
         bad.push('④カロンの旧中心値(551854.08)が温存されていない');
     }
     if (!venus) bad.push('③金星 e の適用行が無い');
@@ -5963,7 +6174,7 @@ if (!TARGET.startsWith('beta/')) {
   add('behavior.declaredApplied', bad.length === 0,
     `**採用観測解の宣言を正式経路へ**(第270便a・AD5・署名便): 宣言 2 件を`
     + `**中心値・σ・単位・解 ID・verified 状態・測定定義の 6 つ同時**で切り替えた(適用 ${nApplied} 行)/ `
-    + `**カロン P**: ${charon ? charon.judgementSource.previous.obs : '—'} s(NSSDC・σ なし)→ `
+    + `**カロン P**: ${charon ? (charon.judgementSource.previous.obs === null ? '中心値なし(🥶 の旧経路 —— 公式行は' : charon.judgementSource.previous.obs + ' s(') : '—'}NSSDC・σ なし)→ `
     + `**${charon ? charon.obs : '—'} s ± ${charon ? charon.obsSigmaCsv : '—'}**(Buie 2012・verified)—— `
     + `門は **${charon ? charon.gate.status : '—'}**(3 段登録が無いので**保留**であって合でも否でもない)/ `
     + `**金星 e**: シミュレータ自身の宣言値 → **${venus ? venus.obs : '—'}**(JPL SSD 要素表)—— `
@@ -6422,12 +6633,21 @@ if (!TARGET.startsWith('beta/')) {
     // 第284便c(原仮定者の裁定(第74報)⑥・AN33): 常時の鎖では**例外登録簿の本だけ**が h/4 を走らせる(❄️ は kF0 の対照だけが登録簿にある)。
     //   その正本(`threeStageRegistry.chainPolicy` あり)では ❄️ の main は 2 段(h・h/2)・3 段の判定行は kF0 の対照の行にある。登録表は明示診断の入口として残る
     const H4X = !!((C.threeStageRegistry || {}).chainPolicy);
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290bC = 正本の母集団に ❄️ が無く 🥶 がある(鎖の再生成の後)。❄️ は退役して走らない ——
+    //   登録表の ❄️ の行は履歴(present:false)・入口を引き継いだ 🥶 の行がある。❄️ の 3 段の記録は基点 f03bf5a の正本と凍結の写し retired-w290b.json に残る
+    const has290bC = !(C.presets || []).some((p) => p.id === 'plutoCharonReal') && (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput');
+    const reg290 = ((C.threeStageRegistry || {}).rows || []).find((z) => z.id === 'plutoCharonDiagInput') || null;
     if (!reg) bad.push('①THREE_STAGE_REGISTRY に plutoCharonReal が無い');
+    else if (has290bC) {
+      if (reg.present !== false) bad.push('①第290便b の世代で退役した ❄️ が正本で走っている');
+      if (!reg290 || reg290.present !== true) bad.push('①第290便b の世代で 🥶 の登録の行が無い / 走っていない');
+      st.push('❄️ は退役(履歴)・🥶 が入口(登録 ' + (reg290 ? reg290.registeredBy : '—') + ')');
+    }
     else if (!H4X && reg.hasQuarter !== true) bad.push('①❄️ が 3 段(dt/4)で走っていない');
     else if (H4X && reg.hasQuarter !== false) bad.push('①第284便c の鎖の正本では ❄️ の main は h/4 を走らせない(hasQuarter が false でない)');
     const P = (C.presets || []).find((z) => z.id === 'plutoCharonReal') || null;
-    if (!P) bad.push('①走行 JSON に ❄️ が無い');
-    else {
+    if (!P && !has290bC) bad.push('①走行 JSON に ❄️ が無い');
+    else if (P) {
       const stages = ((P.run || {}).stopRuleStages || []);
       // 第272便a(AG1): 条件つき h/8 を足したので **4 段**だった。第283便c(原仮定者の裁定(第73報)⑤)で dt/8 を常時から外したので **3 段**(明示診断で h/8 を足せば 4 段)。
       if (H4X ? stages.length !== 2 : (stages.length !== 3 && stages.length !== 4)) bad.push(`②${H4X ? '2 段(第284便c の鎖)' : '3 段(明示診断なら 4 段)'}の停止条件の記録が無い(${stages.length} 段)`);
@@ -6705,15 +6925,18 @@ if (!TARGET.startsWith('beta/')) {
     //   なので宣言 4 行のうち当たるのは ❄️📡 の 2 行。❄️ は kFrame=0 へ在位移行し、「kFrame=1」と名乗る行は条件不一致(条 17 の 1 つ)——
     //   門 condition-mismatch は**この世代の既知の状態**として受理する(行名・宣言は本便で直さない)
     const has288b = (C.meta || {}).populationRule ? true : false;
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290bC = 正本の母集団に ❄️ が無く 🥶 がある(鎖の再生成の後)。❄️ は退役して母集団の外 ——
+    //   宣言 4 行のうち当たるのは 📡 の 1 行だけ(❄️ の近点間の行と mapping 未確定の宣言は履歴 —— 🥶 の obsCard に近点間の行は無い)
+    const has290bC = !(C.presets || []).some((p) => p.id === 'plutoCharonReal') && (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput');
     if (!pc) bad.push('①正本に periodContract が無い');
     else {
       nRows = pc.matchedRows || 0;
       if (pc.declaredRows !== 4) bad.push(`①宣言が 4 行でない(${pc.declaredRows})`);
-      const wantMatched = has288b ? 2 : pc.declaredRows;
+      const wantMatched = has290bC ? 1 : has288b ? 2 : pc.declaredRows;
       if (nRows !== wantMatched)
-        bad.push(`①宣言 ${pc.declaredRows} 行のうち量に当たったのは ${nRows} 行(期待 ${wantMatched}${has288b ? ' —— 退役 🌘🧲 を除く' : ''})`);
-      if (has288b && JSON.stringify((pc.rows || []).map((r) => r.id).sort()) !== JSON.stringify(['plutoCharonReal', 'saturnZonalD68']))
-        bad.push(`①第288便b の世代で当たった行が ❄️📡 でない(${(pc.rows || []).map((r) => r.id).join(',')})`);
+        bad.push(`①宣言 ${pc.declaredRows} 行のうち量に当たったのは ${nRows} 行(期待 ${wantMatched}${has290bC ? ' —— 退役 🌘🧲❄️ を除く' : has288b ? ' —— 退役 🌘🧲 を除く' : ''})`);
+      if (has288b && JSON.stringify((pc.rows || []).map((r) => r.id).sort()) !== JSON.stringify(has290bC ? ['saturnZonalD68'] : ['plutoCharonReal', 'saturnZonalD68']))
+        bad.push(`①第288便b の世代で当たった行が ${has290bC ? '📡' : '❄️📡'} でない(${(pc.rows || []).map((r) => r.id).join(',')})`);
       for (const r of (pc.rows || [])) {
         if (r.declaredDef !== r.appliedDef)
           bad.push(`②${r.id} の定義が宣言と違う(宣言 ${r.declaredDef} / 実際 ${r.appliedDef})`);
@@ -6733,7 +6956,7 @@ if (!TARGET.startsWith('beta/')) {
             bad.push(`⑤${r.id} の門が mapping-unresolved でない(${r.gateStatus})`);
         }
       }
-      if (mapRows !== 1) bad.push(`⑤mapping 未確定を宣言した行が 1 行でない(${mapRows})`);
+      if (mapRows !== (has290bC ? 0 : 1)) bad.push(`⑤mapping 未確定を宣言した行が ${has290bC ? '0 行(❄️ の退役 —— 宣言は履歴)' : '1 行'}でない(${mapRows})`);
     }
     const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
     if (!/### 5\.18 /.test(md)) bad.push('⑥§5.18 が無い');
@@ -8492,17 +8715,21 @@ if (!TARGET.startsWith('beta/')) {
       cases.push(`履歴 ${Object.keys(WANT_H).length} 系列 ${Object.values(seenH).reduce((a, b) => a + b, 0)} 列(再生成しない)`);
       const CA = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
       const pc = CA.presets.find((p) => p.id === 'plutoCharonReal');
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 —— 正本の母集団に ❄️ が無い(退役 —— 鎖の再生成の後)なら、公開測定を再現する列の照合は
+      //   基点 f03bf5a までの記録で閉じた(器 charon-w272b の正本は ❄️ の履歴として残る)。列の照合だけを飛ばし、⑥ 以降は同じに見る
+      const has290bC = !pc && (CA.presets || []).some((p) => p.id === 'plutoCharonDiagInput');
       // 第274便a: kF0 対照を配った行(`kf0Applied`)は **kFrame=0 の走行**なので、
       //   C0(kFrame=1)の再現先にはならない —— 外して kFrame=1 の行と突き合わせる。
-      const row = pc.quantities.find((q) => q.kind === 'period' && !q.kf0Applied
-        && q.detail && Array.isArray(q.detail.revSec));
-      const want = row.detail.revSec[1];
+      const row = pc ? pc.quantities.find((q) => q.kind === 'period' && !q.kf0Applied
+        && q.detail && Array.isArray(q.detail.revSec)) : null;
+      const want = row ? row.detail.revSec[1] : null;
       // 第288便g: 世代切替 has288b = calaudit 正本の meta.populationRule(第288便b の一本化)。❄️ は geoPN=1・kFrame=0 へ在位移行したので、
       //   公開測定(calaudit の ❄️ main)は kFrame=0 の走行 —— 器の C0 は cfg を明示した**旧宣言(kFrame=1・geoPN=2)の写し**で対照になり、
       //   公開測定を再現する列は kFrame=0 の C1 である(器も正本も古くない —— 突き合わせる列が世代で移った)。C0 は旧宣言の値として記録する
       const has288b = !!((CA.meta || {}).populationRule);
       const rep = has288b ? c1 : c0, repId = has288b ? 'C1' : 'C0';
       if (!rep) bad.push(`⑤ ${repId} の走行が無い`);
+      else if (has290bC) cases.push(`${repId} = ${rep.rev2Sec.toFixed(4)} s(❄️ は第290便b で退役 —— 正本 calaudit の母集団の外なので公開測定との照合は履歴)`);
       else if (has288b && !(rep.cfg && rep.cfg.kFrame === 0 && rep.cfg.f === 1)) bad.push(`⑤ ${repId} が kFrame=0・f=1 の列でない(${JSON.stringify(rep.cfg)})`);
       else if (!(Math.abs(rep.rev2Sec - want) / want <= 1e-12))
         bad.push(`⑤ ${repId} が公開測定を再現しない(${rep.rev2Sec} 対 ${want})`);
@@ -8826,11 +9053,15 @@ if (!TARGET.startsWith('beta/')) {
       if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
       else cases.push('html の SHA-256 一致');
       const rows = J.audit || [], S = J.auditSummary || {};
-      if (rows.length !== 39) bad.push(`② 監査の行数が 39(較正 37 + 🪁🎋)でない(${rows.length})`);
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput があり ❄️ plutoCharonReal が無い(鎖の再生成の後)。
+      //   🥶 が sampleClass:"calibration" へ入ったので監査の行(sampleClass:"calibration" の全本 —— 退役の ❄️ も宣言は残るので行は残る)は 39(較正 37 + 🪁🎋)→ 40(較正 38 + 🪁🎋)
+      const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+      const wantRows290 = has290b ? 40 : 39, wantCal290 = has290b ? 38 : 37;
+      if (rows.length !== wantRows290) bad.push(`② 監査の行数が ${wantRows290}(較正 ${wantCal290} + 🪁🎋)でない(${rows.length})`);
       const byRule = rows.reduce((o, a) => { const k = a.rule || 'undetermined'; o[k] = (o[k] || 0) + 1; return o; }, {});
       if (JSON.stringify(byRule) !== JSON.stringify(S.byRule))
         bad.push('② 規則の内訳が集計と一致しない');
-      cases.push(`39 行・規則の内訳 ${JSON.stringify(byRule)}`);
+      cases.push(`${rows.length} 行・規則の内訳 ${JSON.stringify(byRule)}`);
       const asm = J.meta.assumptions || [];
       if (!asm.length) bad.push('③ 仮定の一覧が無い');
       for (const a of asm) if (!a.from) bad.push(`③ 仮定 ${a.key} に出典が無い`);
@@ -9013,10 +9244,14 @@ if (!TARGET.startsWith('beta/')) {
       if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
       else cases.push('html の SHA-256 一致');
       const rows = J.rows || [], S = J.summary || {};
-      if (rows.length !== 39) bad.push(`② 行数が 39(較正 37 + 🪁🎋)でない(${rows.length})`);
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput があり ❄️ plutoCharonReal が無い(鎖の再生成の後)。
+      //   🥶 が sampleClass:"calibration" へ入ったので監査の行(sampleClass:"calibration" の全本 —— 退役の ❄️ も宣言は残るので行は残る)は 39(較正 37 + 🪁🎋)→ 40(較正 38 + 🪁🎋)
+      const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+      const wantRows290 = has290b ? 40 : 39, wantCal290 = has290b ? 38 : 37;
+      if (rows.length !== wantRows290) bad.push(`② 行数が ${wantRows290}(較正 ${wantCal290} + 🪁🎋)でない(${rows.length})`);
       const byRule = rows.reduce((o, a) => { const k = a.rule || 'undetermined'; o[k] = (o[k] || 0) + 1; return o; }, {});
       if (JSON.stringify(byRule) !== JSON.stringify(S.byRule)) bad.push('② 規則の内訳が集計と一致しない');
-      cases.push(`39 行・規則の内訳 ${JSON.stringify(byRule)}・予測できた ${S.predicted} 行`);
+      cases.push(`${rows.length} 行・規則の内訳 ${JSON.stringify(byRule)}・予測できた ${S.predicted} 行`);
       const asm = J.meta.assumptions || [];
       if (!asm.length) bad.push('③ 仮定の一覧が無い');
       for (const a of asm) if (!a.from) bad.push(`③ 仮定 ${a.key} に出典が無い`);
@@ -11475,6 +11710,9 @@ const W288E_CORE = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET)
 // 第289便e(原仮定者の裁定(第79報)AN105/AN106・R123): 🪆 galaxyAnalogyBHTilt90Layers(🛸 の中心を親子コアの層に置き直した診断コピー —— **core 宣言なし**・
 //   layers 宣言 1 件・pinned 中心 1 個・centerSpin:"read"・overlays.spaceMesh mesh・geoPN=3)が入った世代は内蔵の本数に +1(コア宣言の数は動かない)
 const W289E_LAY = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0 ? 1 : 0; } catch (e) { return 0; } })();
+// 第290便c(原仮定者の裁定(第80報)⑥・R127): 🐌 inertialDragPair(慣性引きずり〔法則版 relativeDrag.law:"inertial"〕の診断本 —— **core・layers・pinned・spaceMesh の宣言なし**)
+//   が入った世代は内蔵の本数に +1(コア宣言の数・pinned の数・メッシュの数は動かない)
+const W290C_INE = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"inertialDragPair"') >= 0 ? 1 : 0; } catch (e) { return 0; } })();
 // 第288便b(原仮定者の裁定(第78報)①・統括のゲート 2): 在位移行の世代 = html の UNIFY_MIGRATED に ⏰ gw150914Merge4s(f=1・kFrame=0・**補正コア 2 件を外した**)。
 //   コア宣言の数え方・置換可の数に −2(🧮🩺 は kFrame 1→0・🧿 は退役 —— 各ブロックの宣言の読みも同じ切替)
 const W288B_MIG = (() => { try { return /^const UNIFY_MIGRATED=\{[^\n]*\bgw150914Merge4s:/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')); } catch (e) { return false; } })();
@@ -20377,7 +20615,11 @@ if (!FAST) {
         // 第288便g: 🛸 galaxyAnalogyBHTilt90(第288便e・🌚 の写し)も基点に無い(正本を鎖で刻み直した後に survey に入る —— 🧩 の直後)
         const has288eRL = R.survey.some((z) => z.id === 'galaxyAnalogyBHTilt90');
         const has289eRL = R.survey.some((z) => z.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の写し)も基点に無い(正本を鎖で刻み直した後に survey に入る —— 🛸 の直後)
-        const wantNews = (has288cRL ? ['galaxyAnalogyBHCompose'] : []).concat(has288eRL ? ['galaxyAnalogyBHTilt90'] : [], has289eRL ? ['galaxyAnalogyBHTilt90Layers'] : [], ['clusterAnalogyBH'], has287aRL ? ['clusterGrowthCopy'] : [], (has288aRL && canonHas288a) ? ['fixedCaptureCopy'] : []);
+        // 第290便(統括の統合): 第290便e の 🍭 shapeToySpiral・🎢 shapeToySpiralCore と第290便c の 🐌 inertialDragPair も基点に無い(正本を鎖で刻み直した後に survey に入る —— news の末尾にこの順)
+        const has290eRL = R.survey.some((z) => z.id === 'shapeToySpiral'), has290eCRL = R.survey.some((z) => z.id === 'shapeToySpiralCore');
+        const has290cRL = R.survey.some((z) => z.id === 'inertialDragPair');
+        const wantNews = (has288cRL ? ['galaxyAnalogyBHCompose'] : []).concat(has288eRL ? ['galaxyAnalogyBHTilt90'] : [], has289eRL ? ['galaxyAnalogyBHTilt90Layers'] : [], ['clusterAnalogyBH'], has287aRL ? ['clusterGrowthCopy'] : [], (has288aRL && canonHas288a) ? ['fixedCaptureCopy'] : [],
+          has290eRL ? ['shapeToySpiral'] : [], has290eCRL ? ['shapeToySpiralCore'] : [], has290cRL ? ['inertialDragPair'] : []);
         if (news.join(',') !== wantNews.join(',')) bad.push('基点に無い本 ' + news.join(','));
         if (has288aRL && !canonHas288a) cases.push('🥜 は正本 cluster-w283f.json より後に入った本(段 clusterAnalogy の再走で入る)');
         const c = R.cluster;
@@ -20479,7 +20721,12 @@ if (!FAST) {
         const has288n = ['fixedCaptureCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90'].every((id) => html285.indexOf('id:"' + id + '"') >= 0);
         // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し・contactMode none —— 宣言の側)を足した世代は 147 本
         const has289n = has288n && html285.indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0;
-        const nBuiltin285 = [142, 143].concat(has288n ? [146] : [], has289n ? [147] : []);
+        // 第290便c: 🐌 inertialDragPair(慣性引きずりの診断本 —— 宣言した本だけの別経路で 1 步が変わる。基点 b92ffa1 には無い本)を足した世代は 148 本
+        // 第290便e: 🍭 shapeToySpiral・🎢 shapeToySpiralCore(渦巻の参照模型 —— contactMode none・宣言の側)を足した世代は +2(c と合わせて 150 本・統合で両方の世代を数える)
+        const has290c285 = has289n && html285.indexOf('id:"inertialDragPair"') >= 0;
+        if (has290c285) OTHER285.add('inertialDragPair');
+        const has290e285 = has289n && html285.indexOf('id:"shapeToySpiral"') >= 0 && html285.indexOf('id:"shapeToySpiralCore"') >= 0;
+        const nBuiltin285 = [142, 143].concat(has288n ? [146] : [], has289n ? [147] : [], (has290c285 && !has290e285) ? [148] : [], (has290e285 && !has290c285) ? [149] : [], (has290c285 && has290e285) ? [150] : []);
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
         if (!(nBuiltin285.includes(O.n) && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
@@ -20550,11 +20797,14 @@ if (!FAST) {
         // 第288便g: 🧩 galaxyAnalogyBHCompose(第288便c)・🛸 galaxyAnalogyBHTilt90(第288便e)は 🌚 galaxyAnalogyBH の写し(診断・原理コピー)なので
         //   🌚 と同じ契約(contactMode "none"・中心 pinned)を持つ —— 写し元が適用表にあるときだけ表の外の none を許す(器の適用表は変えない)
         // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し —— 🌚 の写しの写し)も同じ契約(none・中心 pinned)を持つ
-        const COPY288 = { galaxyAnalogyBHCompose: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90Layers: 'galaxyAnalogyBH' };
+        // 第290便e: 🍭 shapeToySpiral・🎢 shapeToySpiralCore(渦巻の参照模型)は 🥏 shapeToyDisk/📀 shapeToyDiskCore の円盤成分をそのまま持つ本なので
+        //   写し元と同じ契約(contactMode "none"・🍭 は中心なし・🎢 は中心 pinned)を持つ —— 器の適用表は変えない(同じ扱い)
+        const COPY288 = { galaxyAnalogyBHCompose: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90Layers: 'galaxyAnalogyBH',
+          shapeToySpiral: 'shapeToyDisk', shapeToySpiralCore: 'shapeToyDiskCore' };
         const copies = r.nDeclNone.filter((id) => COPY288[id] && EC.APPLIED.some((a) => a.id === COPY288[id]));
         const extra = r.nDeclNone.filter((id) => !EC.APPLIED.some((a) => a.id === id) && !copies.includes(id));
         if (extra.length) bad.push('適用表の外で none を宣言した本 ' + extra.join(','));
-        if (copies.length) cases.push(`🌚 の写し ${copies.join(',')} は写し元と同じ契約(none)を持つ`);
+        if (copies.length) cases.push(`写しの本 ${copies.join(',')} は写し元(🌚・🥏・📀)と同じ契約(none)を持つ`);
         for (const z of r.capture) if (!(z.ok && z.mode === 'none')) bad.push(z.id + ': centerCapture/fixedCapture の宣言が受理器を通らない');
         cases.push(`適用表 ${r.applied.length} 本が契約を宣言(none ${EC.APPLIED.filter((a) => EC.declOf(a) === 'none').length}・normal の明示 ${EC.APPLIED.filter((a) => EC.declOf(a) === 'normal').map((a) => a.emoji).join('')}・中心固定 ${EC.APPLIED.filter((a) => a.center === 'pinned').length}・中心なし ${EC.APPLIED.filter((a) => a.center === 'none').length}・土星だけ固定 ${EC.APPLIED.filter((a) => a.center === 'saturn').length})・`
           + `normal のまま ${r.kept.length} 本(${EC.NORMAL_KEPT.map((k) => k.emoji).join('')} —— 衝突・合体・散逸が本題)・宣言は適用表の外に無い`
@@ -21357,6 +21607,153 @@ if (!FAST) {
   }
 }
 
+// ---- 8c1i′) 第290便a(原仮定者の裁定(第80報)⑥⑦・統括の検証項目 R125): **用語と主張範囲便**の 2 ブロック。**root では SKIP**
+// ----   (html は表示文・説明文・コメントだけを変えた便 —— 物理は 1 bit も変えていない)。世代切替 has290a は PHYSICS〔第290便a〕の有無。
+// ----   ① docs.terminologyInertial …… 「複素決定力」→「慣性決定力」(英 inertial determinacy)の置換が**許可リスト方式**で済んでいる:
+// ----      html の「複素決定力」/"complex determinacy" は 旧称の注記・原仮定者の裁定の引用(「…」)・数学の注(U=u_x+i·u_y)・撤去したラベルの履歴
+// ----      (bdgMesh_complex)の外に 0 / i18n の同じ鍵に「慣性決定力」(ja)と "inertial determinacy"(en)が対で入る / PHYSICS の冒頭(§1 の前)・
+// ----      AI_SPEC の現行節(§1〜§6 と第290便a の節)・README に旧称の注記の外の旧語が 0 / 機械鍵(`lawVersion:"complex"`・backgroundComplex・
+// ----      complex-p2・share-p1・dfmComplexDeterminacy・dfmComplexMomentsOf・wbgStateOf・bdgMesh*・complexNotVelocity)の出現数が基点 f03bf5a 以上
+// ----      (改名で減らない —— 他の便が使い所を足すのは妨げない)/ PHYSICS〔第290便a〕の用語の表・第80報の引用・対応表 20 行(判定語)・GR の注記 3 点・
+// ----      DFM 外のアナロジー 3 題と共通の 3 条・禁止の言い回しが「書かないこと」の外に無い・CHANGELOG の 1 行・THEORY_SYNTHESIS のポインタ。
+// ----   ② docs.claimScope …… 主張範囲の 2 行(現実の宇宙を主張しない・仮定の内部で帰結が矛盾しない・「合」は窓に入ったことで宇宙の成立の主張ではない)が
+// ----      PHYSICS の冒頭(§1 の前の連続 2 行)・aboutBody の ja/en・README の冒頭(「使い方」の前)にある。
+{
+  const Pd290 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+  const has290a = TARGET.startsWith('beta/') && Pd290.indexOf('〔第290便a — ') >= 0;
+  if (!has290a) {
+    console.log('SKIP docs.terminologyInertial / docs.claimScope(第290便a 未適用 — ' + TARGET + ')');
+  } else {
+    const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+    const AIS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+    const RM = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+    // 旧語の出現を 1 つずつ許可リストで分類する(行単位の文脈)
+    const lineAt = (t, i) => { const a = t.lastIndexOf('\n', i) + 1, b = t.indexOf('\n', i); return [a, b < 0 ? t.length : b]; };
+    // 引用は複数行にまたがる(閉じ括弧が次の行)—— 開き「は 400 字以内・閉じ」は 600 字以内・帰属(裁定/原仮定者/第N報)は開き「の行頭から旧語まで
+    const inQuote = (t, i) => { const o = t.lastIndexOf('「', i), c = t.lastIndexOf('」', i), e = t.indexOf('」', i);
+      return o >= 0 && o > c && i - o < 400 && e >= 0 && e - i < 600 && /裁定|原仮定者|第\d+報/.test(t.slice(t.lastIndexOf('\n', o) + 1, i)); };
+    const classify = (t, re, rules) => { const out = { bad: [], tally: {} }; let m; re.lastIndex = 0;
+      while ((m = re.exec(t))) { const [a, b] = lineAt(t, m.index), line = t.slice(a, b), pre = t.slice(Math.max(a, m.index - 12), m.index);
+        const hit = rules.find(([, f]) => f(pre, line, m.index, a, b));
+        if (hit) out.tally[hit[0]] = (out.tally[hit[0]] || 0) + 1;
+        else out.bad.push(`${t.slice(0, m.index).split('\n').length}行: ${line.trim().slice(0, 50)}`); }
+      return out; };
+    const OLD = /旧称: (背景)?$/;
+    // ---- ① docs.terminologyInertial
+    {
+      const bad = [], cases = [];
+      const jaR = classify(html, /複素決定力/g, [['旧称', (pre) => OLD.test(pre)],
+        ['裁定の引用', (pre, line, i) => inQuote(html, i)],
+        ['数学の注', (pre, line) => line.indexOf('U=u_x+i·u_y') >= 0], ['撤去したラベルの履歴', (pre, line) => line.indexOf('bdgMesh_complex') >= 0]]);
+      const enR = classify(html, /complex determinacy/gi, [['旧称', (pre) => /formerly: $/.test(pre)], ['撤去したラベルの履歴', (pre, line) => line.indexOf('bdgMesh_complex') >= 0]]);
+      if (jaR.bad.length) bad.push('html の「複素決定力」が許可リストの外に ' + jaR.bad.length + ' 件(' + jaR.bad.slice(0, 3).join(' / ') + ')');
+      if (enR.bad.length) bad.push('html の "complex determinacy" が許可リストの外に ' + enR.bad.length + ' 件(' + enR.bad.slice(0, 3).join(' / ') + ')');
+      if (!(jaR.tally['旧称'] >= 1 && enR.tally['旧称'] >= 1)) bad.push('旧称の注記(ja「旧称: 複素決定力」・en "formerly: complex determinacy")が無い');
+      // i18n の ja/en の対(同じ鍵)
+      const i0 = html.indexOf('const I18N = {'), iEn = html.indexOf('\nen: {', i0), iEnd = html.indexOf('\n};', iEn);
+      const chunks = (s) => { const o = {}; s = s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/mg, '');
+        for (const part of s.split(/\n {2}(?=[A-Za-z_$][\w$]*\s*:)/).slice(1)) { const k = part.match(/^([A-Za-z_$][\w$]*)\s*:/); if (k) o[k[1]] = part; } return o; };
+      if (!(i0 >= 0 && iEn > i0 && iEnd > iEn)) bad.push('I18N の ja/en の境界が読めない');
+      else {
+        const JA = chunks(html.slice(i0, iEn)), EN = chunks(html.slice(iEn, iEnd));
+        const jaK = Object.keys(JA).filter((k) => JA[k].indexOf('慣性決定力') >= 0), enK = Object.keys(EN).filter((k) => /inertial[- ]determinacy/i.test(EN[k]));
+        // en の paramDescs(パラメータの説明)の ja 側は I18N ではなく PARAM_DEFS の desc にある(geoPN の「3=トイ(慣性決定力場)」)
+        const pdPair = enK.includes('paramDescs') && html.indexOf('**3=トイ(慣性決定力場)**') >= 0 && /the inertial determinacy field\)/.test(EN.paramDescs || '');
+        const onlyJa = jaK.filter((k) => !enK.includes(k)), onlyEn = enK.filter((k) => !jaK.includes(k) && !(k === 'paramDescs' && pdPair));
+        if (jaK.length < 8) bad.push(`i18n で「慣性決定力」を持つ鍵が ${jaK.length} 件(8 件以上)`);
+        if (onlyJa.length || onlyEn.length) bad.push('ja/en の対が崩れている: ja だけ ' + onlyJa.join(',') + ' / en だけ ' + onlyEn.join(','));
+        const g = (JA.helpLawsBody || '').indexOf('重力決定力') >= 0 && /gravitational determinacy/.test(EN.helpLawsBody || '');
+        if (!g) bad.push('法則の要約(helpLawsBody)に「重力決定力」/"gravitational determinacy" の併記が無い');
+        cases.push(`i18n の対 ${jaK.length} 鍵(${jaK.join('・')})${pdPair ? '+ パラメータの説明 geoPN(PARAM_DEFS/paramDescs)' : ''}・法則の要約に重力決定力の併記`);
+      }
+      // 文書: PHYSICS の冒頭・AI_SPEC の現行節・README
+      const head = Pd290.slice(0, Pd290.indexOf('\n## 1. 元の仮定'));
+      const a7 = AIS.indexOf('\n## 7. 天体再現ゲート表テンプレ'), s290 = AIS.search(/\n## \d+\. 第290便a /);
+      const s290e = s290 >= 0 ? AIS.indexOf('\n## ', s290 + 5) : -1;
+      const aiCur = (a7 > 0 ? AIS.slice(0, a7) : '') + (s290 >= 0 ? AIS.slice(s290, s290e > 0 ? s290e : undefined) : '');
+      if (s290 < 0) bad.push('AI_SPEC に第290便a の節が無い');
+      for (const [nm, t] of [['PHYSICS の冒頭', head], ['AI_SPEC の現行節', aiCur], ['README', RM]]) {
+        const r = classify(t, /複素決定力/g, [['旧称', (pre) => OLD.test(pre)]]);
+        if (r.bad.length) bad.push(nm + ' に旧称の注記の外の「複素決定力」' + r.bad.length + ' 件(' + r.bad[0] + ')');
+        if (t.indexOf('慣性決定力') < 0) bad.push(nm + ' に「慣性決定力」が無い');
+      }
+      if (head.indexOf('重力決定力') < 0) bad.push('PHYSICS の冒頭に「重力決定力」が無い');
+      // 機械鍵: 基点 f03bf5a の出現数以上(改名で減らない)
+      const KEYS = { 'lawVersion:"complex"': [/lawVersion:\\?"complex\\?"|lawVersion === 'complex'|lawVersion===\\?"complex\\?"/g, 9], backgroundComplex: [/backgroundComplex/g, 124],
+        'complex-p2': [/complex-p2/g, 14], 'share-p1': [/share-p1/g, 26], dfmComplexDeterminacy: [/dfmComplexDeterminacy/g, 4], dfmComplexMomentsOf: [/dfmComplexMomentsOf/g, 14],
+        wbgStateOf: [/\bwbgStateOf\b/g, 2], 'bdgMesh*': [/\bbdgMesh[A-Za-z_]*/g, 41], complexNotVelocity: [/complexNotVelocity/g, 8], '"complex"': [/\\?"complex\\?"/g, 18] };
+      const kc = Object.fromEntries(Object.entries(KEYS).map(([k, [re]]) => [k, (html.match(re) || []).length]));
+      const lost = Object.keys(KEYS).filter((k) => kc[k] < KEYS[k][1]);
+      if (lost.length) bad.push('機械鍵の出現数が基点より減った(改名の疑い): ' + lost.map((k) => `${k} ${kc[k]}<${KEYS[k][1]}`).join(','));
+      cases.push('機械鍵 ' + Object.keys(KEYS).map((k) => `${k} ${kc[k]}`).join('・') + '(基点以上)');
+      // PHYSICS〔第290便a〕
+      const pa = Pd290.indexOf('〔第290便a — ');
+      const pEnds = [Pd290.indexOf('\n〔第', pa + 10), Pd290.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa);
+      const psec = Pd290.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined);
+      if (!/\| \*\*慣性決定力\(場\)\*\* \| 複素決定力\(場\) \|/.test(psec)) bad.push('〔第290便a〕の用語の表に「慣性決定力(場)| 旧称」の行が無い');
+      if (psec.indexOf('**④ 原仮定者の裁定(第80報)— DFM の更新版**(引用・改変しない)') < 0 || psec.indexOf('重力・時間・光は現状と全く変わり無し') < 0
+        || psec.indexOf('引きずりの計算が新しくなる・実装精度は大変重要') < 0) bad.push('〔第290便a〕に第80報の DFM 更新版の引用が無い');
+      const t0 = psec.indexOf('**⑤ 対応表の更新**'), t1 = psec.indexOf('**⑥ GR に対する位置付け**');
+      const rows = (t0 >= 0 && t1 > t0 ? psec.slice(t0, t1) : '').split('\n').filter((l) => /^\| \d+ \|/.test(l)).map((l) => l.split(/(?<!\\)\|/).slice(1, -1).map((c) => c.trim()));
+      const J290 = ['一致', '定性だけ一致', '関数形が違う', '未接続〔契約〕', '未実装', '実装中', '推定のまま', '検証目標', '読みの固定'];
+      if (rows.length !== 20 || !rows.every((r, i) => Number(r[0]) === i + 1 && r.length === 5 && J290.some((w) => r[3].indexOf('**' + w) >= 0)))
+        bad.push(`〔第290便a〕の対応表が 20 行・連番・各行に判定語(太字)でない(${rows.length} 行)`);
+      else {
+        const by = (n) => rows[n - 1][3];
+        if (!(/実装中/.test(by(12)) && /実装中/.test(by(13)) && /実装中/.test(by(14)) && /relativeDrag\.law:"inertial"/.test(rows[11][4]))) bad.push('行 12〜14 が「新経路で実装中」(relativeDrag.law:"inertial")でない');
+        if (!(/\*\*未実装\*\*/.test(by(15)) && /\*\*未実装\*\*/.test(by(18)))) bad.push('行 15・18 が「未実装」でない');
+        if (!(/\*\*検証目標\*\*/.test(by(17)) && /半径依存が違う/.test(by(17)))) bad.push('行 17(1PN)が「検証目標」と半径依存の注でない');
+        if (!(/\*\*推定のまま\*\*/.test(by(20)) && /\*\*推定のまま\*\*/.test(by(10)) && /AN117/.test(by(10)))) bad.push('行 10・20 が「推定のまま」でない');
+        if (!/自己項を計算しない/.test(by(19))) bad.push('行 19 が「自己項を計算しない」の読みでない');
+        if (![1, 2, 3, 4, 5, 6, 7, 9].every((n) => /\*\*(定性だけ)?一致\*\*/.test(by(n)))) bad.push('重力・時間・光の行(1〜7・9)が一致/定性だけ一致のままでない');
+        if (!(/E7R/.test(by(3)) && /AN108/.test(by(3)) && /E8R/.test(by(4)))) bad.push('行 3・4 に E7R/E8R と AN108 が無い');
+        cases.push(`〔第290便a〕対応表 20 行(実装中 ${rows.filter((r) => /実装中/.test(r[3])).length}・未実装 ${rows.filter((r) => /\*\*未実装\*\*/.test(r[3])).length}・推定のまま ${rows.filter((r) => /推定のまま/.test(r[3])).length}・検証目標 1・読みの固定 1)`);
+      }
+      const gr = psec.slice(psec.indexOf('**⑥ GR に対する位置付け**'), psec.indexOf('**⑦ DFM 外のアナロジー'));
+      if (!(/差分は速度差ではなく空間距離/.test(gr) && /光だけを基準にする理論ではない/.test(gr) && /同じ観測量/.test(gr) && /動機/.test(gr) && /数学的同値や優劣の根拠ではない/.test(gr))) bad.push('GR の位置付けへの統括注記 3 点が無い');
+      const an = psec.slice(psec.indexOf('**⑦ DFM 外のアナロジー'), psec.indexOf('**⑧ QA'));
+      for (const w of ['DFM の論文では示唆にとどめ、別論文で扱う', '重力決定力・慣性決定力の式へ吸収しない', '質量項として銀河の力学へ黙って足さない', 'スピンと三態', '自転による減光', '腕の渦伸長',
+        '未同定の一時的/欠落光源の候補', '中間赤外源の存続', '惑星質量範囲の質量関数の推定', '一意に決めない', '渦伸長の項 (ω·∇)u は 0', 'physics.axisForce'])
+        if (an.indexOf(w) < 0) bad.push('DFM 外のアナロジーの節に「' + w + '」が無い');
+      const cut = psec.indexOf('**書かないこと。**'), body = cut >= 0 ? psec.slice(0, cut) : psec;
+      if (cut < 0) bad.push('〔第290便a〕に「書かないこと」が無い');
+      const FORBID = ['現実の宇宙は DFM である', '観測一致を達成した', '較正を完了した', '1PN と同等が証明された', '回転引きずりが創発した', '連鎖で円盤ができた',
+        '慣性決定力場を接続した', '新しい法則が正しい', '渦巻が創発した', '新発見', 'RC を切った'];
+      const hitF = FORBID.filter((w) => body.indexOf(w) >= 0);
+      if (hitF.length) bad.push('〔第290便a〕の本文(書かないことの外)に禁止の言い回し: ' + hitF.join(','));
+      const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+      if ((CL.match(/^- \*\*第290便a\(/mg) || []).length !== 1) bad.push('CHANGELOG の第290便a の行が 1 行でない');
+      const TS = fs.readFileSync(path.join(ROOT, 'docs', 'THEORY_SYNTHESIS.md'), 'utf8');
+      if (!/用語と主張の範囲\(第290便a\)[^\n]*`docs\/PHYSICS\.md`〔第290便a〕/.test(TS)) bad.push('THEORY_SYNTHESIS に〔第290便a〕へのポインタが無い');
+      cases.unshift(`html の旧語は許可リストの内だけ(ja ${JSON.stringify(jaR.tally)}・en ${JSON.stringify(enR.tally)})・PHYSICS 冒頭/AI_SPEC 現行節/README は旧称の注記だけ`);
+      add('docs.terminologyInertial', bad.length === 0,
+        `**用語「慣性決定力」(旧称: 複素決定力)**(第290便a・原仮定者の裁定(第80報)⑥・R125 —— 表示と文書の語だけ・機械鍵は改名しない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② docs.claimScope
+    {
+      const bad = [], cases = [];
+      const head = Pd290.slice(0, Pd290.indexOf('\n## 1. 元の仮定'));
+      const hl = head.split('\n'), k = hl.findIndex((l) => l.startsWith('**主張の範囲(第290便a'));
+      const JA_W = ['現実の宇宙を主張し', '保存・対称性・関数形の帰結が互いに矛盾しない', '観測との突合(較正)はその検査', '「合」は仮定と転写', '窓に入った'];
+      if (k < 0 || !hl[k + 1] || !hl[k + 1].startsWith('観測との突合')) bad.push('PHYSICS の冒頭に主張範囲の連続 2 行が無い');
+      else if (!JA_W.every((w) => (hl[k] + hl[k + 1]).indexOf(w) >= 0)) bad.push('PHYSICS の冒頭の 2 行に要素が欠ける');
+      const i0 = html.indexOf('const I18N = {'), iEn = html.indexOf('\nen: {', i0);
+      const abJa = (html.slice(i0, iEn).match(/\n {2}aboutBody:"([^\n]*)",/) || [])[1] || '';
+      const abEn = (html.slice(iEn).match(/\n {2}aboutBody:"([^\n]*)",/) || [])[1] || '';
+      if (!JA_W.every((w) => abJa.indexOf(w) >= 0)) bad.push('aboutBody(ja)に主張範囲の 2 文が無い');
+      const EN_W = ['makes no claim about the real universe', 'conservation, symmetry and functional form do not contradict', 'Comparison with observation (calibration) is a test', 'inside the window', 'not that the universe works this way'];
+      if (!EN_W.every((w) => abEn.indexOf(w) >= 0)) bad.push('aboutBody(en)に主張範囲の 2 文が無い');
+      const rmHead = RM.slice(0, RM.indexOf('\n## 使い方'));
+      if (!JA_W.every((w) => rmHead.indexOf(w) >= 0)) bad.push('README の冒頭に主張範囲の 2 行が無い');
+      cases.push('PHYSICS の冒頭(§1 の前の連続 2 行)・aboutBody ja/en・README の冒頭に同じ趣旨の 2 行(現実の宇宙は主張しない・仮定の内部で帰結が矛盾しない・「合」は窓に入ったこと)');
+      add('docs.claimScope', bad.length === 0,
+        `**主張の範囲の 2 行**(第290便a・原仮定者の裁定(第80報)⑥): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
 // ---- 8c1i) 第289便c(原仮定者の裁定(第79報)⑤「DFM の整理と修正」の複素決定力場の項・第79報で閉じた AN98/AN99・統括の検証項目 R121): **複素核便**の 3 ブロック。
 // ----   **root では SKIP**(beta 線の器と正本 —— html は変えていない)。純関数 tests/lib-w289c-reldrag.mjs・lib-w289c-nearfar.mjs・
 // ----   器 tests/exp-w289c-reldrag.mjs・exp-w289c-nearfar.mjs・正本 tests/out/reldrag-w289c.json・nearfar-w289c.json。**エンジン未接続**(html に核の関数が無いことを見る)。
@@ -21508,6 +21905,194 @@ if (!FAST) {
       }
       add('behavior.chainRings', bad.length === 0,
         `**3 環の連鎖の対照**(第289便c・統括の検証項目 R121 —— 相対移動核・位置固定・中心の環は規定運動。「連鎖で円盤ができた」とは書かない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1j) 第290便c(原仮定者の裁定(第80報)⑥「引きずりの計算が新しくなる・この計算の実装精度は大変重要」・統括の検証項目 R127): **慣性引きずり便**の 3 ブロック。
+// ----   **root では SKIP**(beta 線の法則版・器・正本)。世代切替 has290c = html に `function dfmInertialDragStep(` と 🐌 inertialDragPair の宣言がある。
+// ----   器 tests/exp-w290c-inertial.mjs・純関数 tests/lib-w290c-inertial.mjs(限定模型)・tests/lib-w289c-reldrag.mjs(核・対策表)・正本 tests/out/inertial-w290c.json・reldrag-w289c.json。
+// ----   ① behavior.inertialDragGate …… 門 a〜f: (a) 宣言の無い内蔵は経路に入らない(履歴の配列が張られない・状態の読み口が null —— 基点とのビット同一は
+// ----      器 exp-w258c-bitsame/exp-w272d-sigsame で示す)(b) gain:0 と宣言なしの全標本ビット同一(c) 固定配置で純関数 relDragAt とビット同一
+// ----      (d) Δt 不変(e) 2 体の前ステップ参照の収束/振動/発散と上界 ≥1 の步(発散は clamp しない)(f) 自己項 0・並進不変・1 体・一致点の拒否・復元/複製
+// ----      —— いまの html で作り直して正本と照合・PHYSICS〔第290便c〕の表の行。
+// ----   ② preset.inertialDragPair …… 宣言の受理(pairSlip 専用の鍵・負の gain・未知の鍵・history・空の pairs の拒否/正準形)・🐌 の宣言と B 側(gain:0)・
+// ----      較正母集団の外・診断(Δϖ の gain 3 点と限定模型・上界・帳簿・dt 半分)を作り直して正本と照合・PHYSICS の行・CHANGELOG・AI_SPEC の「既定は宣言しない」。
+// ----   ③ lint.relDragRemedies …… 第289便c の対策表(REMEDIES)の暗黙解・緩和時間の 2 行が PHYSICS〔第289便c〕の表と同文・正本 reldrag-w289c.json の remedies が
+// ----      REMEDIES と同じ・旧文(「I+L は正定値なので常に解ける」「dt/τ<1 の条件」)が残っていない・反例(λ=1.6・α=0.9 → −1.34)と Σm x×u=−0.4 の 2 例。
+{
+  const html290c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has290c = TARGET.startsWith('beta/') && html290c.indexOf('function dfmInertialDragStep(') >= 0 && html290c.indexOf('id:"inertialDragPair"') >= 0;
+  if (!has290c) {
+    console.log('SKIP behavior.inertialDragGate / preset.inertialDragPair / lint.relDragRemedies(第290便c 未適用 — ' + TARGET + ')');
+  } else {
+    let E290 = null, L290 = null, RD290 = null, HP290 = null, err290 = null;
+    try {
+      E290 = await import('file://' + path.join(ROOT, 'tests', 'exp-w290c-inertial.mjs'));
+      L290 = await import('file://' + path.join(ROOT, 'tests', 'lib-w290c-inertial.mjs'));
+      RD290 = await import('file://' + path.join(ROOT, 'tests', 'lib-w289c-reldrag.mjs'));
+      // loadHtmlMain は html を**この process の大域**で実行する(2 度目は const の再宣言で落ちる)—— 前のブロックが同じ TARGET を読んでいればその HP を使う
+      if (globalThis.HP && typeof globalThis.HP.dfmInertialDragStep === 'function' && typeof globalThis.HP.REL_DRAG_INERTIAL_VERSION === 'string'
+        && html290c.indexOf('"' + globalThis.HP.REL_DRAG_INERTIAL_VERSION + '"') >= 0 && typeof globalThis.HP.PAIR_FUSE_VERSION === 'string'
+        && html290c.indexOf('"' + globalThis.HP.PAIR_FUSE_VERSION + '"') >= 0) HP290 = globalThis.HP;
+      else if (globalThis.HP && typeof globalThis.HP.dfmFieldContract === 'function') throw new Error('大域の HP が別の html の版(同じ process で 2 度読めない)');
+      else {
+        const { loadHtmlMain: loadMain290 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
+        HP290 = loadMain290(path.join(ROOT, TARGET)).HP;
+      }
+    } catch (e) { err290 = String(e && e.stack || e).slice(0, 160); }
+    const readJ290 = (f) => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', f), 'utf8')); } catch (e) { return null; } };
+    const JIN = readJ290('inertial-w290c.json'), JRD290 = readJ290('reldrag-w289c.json');
+    const Pd290 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const secOf290 = (head) => { const a = Pd290.indexOf(head); if (a < 0) return '';
+      const ends = [Pd290.indexOf('\n〔第', a + 10), Pd290.indexOf('\n## 7. 論文', a)].filter((k) => k > a); return Pd290.slice(a, ends.length ? Math.min(...ends) : undefined); };
+    const psec290 = secOf290('〔第290便c — '), psec289c = secOf290('〔第289便c — ');
+    // 照合(tests/README §1): 解析量は相対 1e-12・残差の鍵(…rel / rel… / Rel… / sum / closure… / dP・sumMu・dL)は絶対 1e-12・真偽値・整数・文字列は一致
+    const near290 = (a, b, where, out) => {
+      if (out.length > 4) return;
+      if (typeof a === 'number' && typeof b === 'number') {
+        const RES = /(rel|Rel|relMax|RelMax|sum|Spread)(\/\d+)?$|\/rel[A-Z]\w*$|\/(closure\w*|dP|sumMu|sumMxU|dL|dLbooked|closureAtPeri)(\/\d+)?$/.test(where);
+        if (!(a === b || (RES ? Math.abs(a - b) <= 1e-12 : Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b))))) out.push(where + ' ' + a + '≠' + b);
+        return;
+      }
+      if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(where + ' ' + String(a).slice(0, 30) + '≠' + String(b).slice(0, 30)); return; }
+      if (Array.isArray(a) !== Array.isArray(b) || (Array.isArray(a) && a.length !== b.length)) { out.push(where + ' 形が違う'); return; }
+      for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) near290(a[k], b[k], where + '/' + k, out);
+    };
+    const docMiss290 = (rows) => rows.filter((r) => psec290.indexOf(r) < 0);
+    // ---- ① behavior.inertialDragGate
+    {
+      const bad = [], cases = [];
+      if (err290) bad.push('器/html が読めない: ' + err290);
+      else if (!JIN) bad.push('正本 inertial-w290c.json が読めない');
+      else {
+        if (!(JIN.meta && JIN.meta.provenanceVersion === 'w272e-1' && JIN.meta.harnessVersion === E290.HARNESS_VERSION && JIN.meta.engineVersion === HP290.REL_DRAG_INERTIAL_VERSION)) bad.push('来歴(w272e-1)/器・経路の版');
+        // (a) 宣言の無い内蔵は経路に入らない(build 直後に履歴の配列が無い・読み口 null)—— 宣言は 🐌 の 1 本だけ
+        const decl = HP290.allPresets().filter((q) => q.physics && q.physics.relativeDrag && q.physics.relativeDrag.law === 'inertial').map((q) => q.id);
+        if (JSON.stringify(decl) !== JSON.stringify([E290.DIAG_ID])) bad.push('(a) inertial を宣言する内蔵が 🐌 だけでない: ' + decl.join(','));
+        let nUndecl = 0, nLeak = 0;
+        for (const q of HP290.allPresets()) {
+          if (decl.includes(q.id) || q.familyRole === 'retired') continue;
+          if (!(q.bodies && q.bodies.length <= 40)) continue;   // 重い本は飛ばす(build だけの確認 —— 全本の基点ビット同一は器 bitsame が受け持つ)
+          const v = HP290.validatePreset(JSON.parse(JSON.stringify(q))); if (!v.ok) continue;
+          HP290.sim.build(v.preset); nUndecl++;
+          if (HP290.sim.rdPrevX || HP290.inertialDragState(HP290.sim) !== null) nLeak++;
+        }
+        if (nLeak) bad.push(`(a) 宣言の無い本 ${nLeak} 本に履歴の配列/読み口がある`);
+        cases.push(`(a) inertial の宣言は 🐌 だけ・宣言の無い ${nUndecl} 本(粒子 40 以下)は build で履歴を張らない(基点とのビット同一 147/147 は器 bitsame/sigsame)`);
+        const G = { gateB: E290.gateB(HP290), gateC: E290.gateC(HP290), gateD: E290.gateD(HP290), gateE: E290.gateE(HP290), gateF: E290.gateF(HP290) }, diff = [];
+        for (const k of Object.keys(G)) near290(JIN[k], G[k], k, diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 3).join(' ; '));
+        for (const k of Object.keys(G)) if (G[k].ok !== true) bad.push('門 ' + k + ' が ok でない');
+        const B = G.gateB, C = G.gateC, D = G.gateD, EE = G.gateE, F = G.gateF;
+        cases.push(`(b) gain:0 = 宣言なし ${B.rows.map((r) => `${r.id} ${r.same}/${r.values}`).join('・')}(自転の配列は Float32 のまま)`);
+        cases.push(`(c) 固定配置 5 体(pinned 2)で u・次数が relDragAt とビット同一=${C.uSameFree && C.degSame}・pinned は u=0・x+u·dt・v 不変=${C.vUnchanged}・上界 ${C.bound.toFixed(6)}`);
+        cases.push(`(d) Δt 1/64→1/128 でビット同一=${D.rows[0].bitSame}・0.016→0.008 で相対 ${D.rows[1].relMax.toExponential(1)}`);
+        cases.push(`(e) 2 体 ${EE.rows.map((r) => `a=${r.a}〔上界 ${r.boundMax.toFixed(4)}・≥1 の步 ${r.boundOverSteps}/${r.steps}・${r.regime}〕`).join('・')}・dt 半分で発散は消えない(${EE.dt.rows.map((z) => z.growth.toExponential(2)).join('→')})`);
+        cases.push(`(f) 1 体 u=0・並進 ${F.translation.relMax}・ε=0 有限・一致点 ${F.coincident.reject}・復元/複製 ${F.checkpoint.restoreSame}/${F.checkpoint.cloneSame}(stateCarry:"double" の既存の欠落は宣言の有無に依らない —— 記録だけ)`);
+        if (!(EE.rows.find((r) => r.a === 0.8).boundOverSteps > 0 && EE.rows.find((r) => r.a === 0.8).regime === 'diverge')) bad.push('(e) 発散が発散として残っていない');
+        const R = E290.docRows(JIN), miss = docMiss290(R.gateB.concat(R.gateE));
+        if (!psec290) bad.push('PHYSICS〔第290便c — 〕が無い');
+        else if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行');
+        if (JIN.ok !== true) bad.push('正本の ok');
+      }
+      add('behavior.inertialDragGate', bad.length === 0,
+        `**慣性引きずり(法則版 relativeDrag.law:"inertial")の門 a〜f**(第290便c・統括の検証項目 R127 —— 宣言した本だけの別経路・S._core の外・既存の q 付き場・u=A/W・E6′・pairSlip に足さない・発散を clamp しない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② preset.inertialDragPair
+    {
+      const bad = [], cases = [];
+      if (err290) bad.push('器/html が読めない: ' + err290);
+      else if (!JIN) bad.push('正本 inertial-w290c.json が読めない');
+      else {
+        const V = HP290.validateRelativeDrag;
+        const acc = V({ law: 'inertial', gain: 0 }), acc2 = V({ law: 'inertial', gain: 0.5, eps: 0.1, pairs: [[1, 0]], history: 'positions' });
+        if (!(acc.ok && JSON.stringify(acc.relativeDrag) === JSON.stringify({ law: 'inertial', gain: 0, pairs: 'all', history: 'positions' }))) bad.push('gain:0 の正準形');
+        if (!(acc2.ok && JSON.stringify(acc2.relativeDrag) === JSON.stringify({ law: 'inertial', gain: 0.5, eps: 0.1, pairs: [[0, 1]], history: 'positions' }))) bad.push('eps・pairs の正準形');
+        const rej = [{ law: 'inertial', gain: 1, kappa: 0.5 }, { law: 'inertial', gain: 1, spins: 'declared' }, { law: 'inertial', gain: 1, W0: 1 }, { law: 'inertial', gain: 1, integration: 'midpoint' },
+          { law: 'inertial', gain: -0.1 }, { law: 'inertial' }, { law: 'inertial', gain: 1, foo: 1 }, { law: 'inertial', gain: 1, history: 'velocities' }, { law: 'inertial', gain: 1, pairs: [] },
+          { law: 'inertial', gain: 1, pairs: [[0, 1], [1, 0]] }, { law: 'inertial', gain: 1, eps: -1 }, { law: 'other', gain: 1 }];
+        const nRej = rej.filter((a) => !V(a).ok).length;
+        if (nRej !== rej.length) bad.push(`拒否 ${nRej}/${rej.length}`);
+        const ps = V({ law: 'pairSlip', kappa: 1 });
+        if (!(ps.ok && ps.relativeDrag.law === 'pairSlip' && ps.relativeDrag.kappa === 1)) bad.push('pairSlip の受理が変わった');
+        if (JSON.stringify(HP290.REL_DRAG_LAWS) !== JSON.stringify(['pairSlip', 'inertial'])) bad.push('REL_DRAG_LAWS ' + JSON.stringify(HP290.REL_DRAG_LAWS));
+        cases.push(`受理: gain:0 は正準形に残る(用量 0 の否定対照)・pairs は小さい方を先に・拒否 ${nRej}/${rej.length}(pairSlip 専用の鍵 4・負の gain・gain なし・未知の鍵・history・空/重複の pairs・負の eps・未知の law)・REL_DRAG_LAWS ${HP290.REL_DRAG_LAWS.length}`);
+        const p = HP290.allPresets().find((q) => q.id === E290.DIAG_ID);
+        const vp = p && HP290.validatePreset(JSON.parse(JSON.stringify(p)));
+        if (!p) bad.push('🐌 が無い');
+        else {
+          if (!(p.emoji === '🐌' && p.sampleClass === 'principle' && p.fidelity === 'toy' && p.physics.kFrame === 0 && p.physics.geoPN === 0)) bad.push('🐌 の分類・kFrame・geoPN');
+          if (JSON.stringify(p.physics.relativeDrag) !== JSON.stringify({ law: 'inertial', gain: 0.8, pairs: 'all', history: 'positions' })) bad.push('🐌 の宣言');
+          if (HP290.allPresets().filter((q) => q.emoji === '🐌').length !== 1) bad.push('🐌 の絵文字が重複');
+          if (!(vp && vp.ok && (vp.warnings || []).length === 0)) bad.push('🐌 の受理に警告: ' + JSON.stringify(vp && vp.warnings).slice(0, 120));
+          const ab = vp && vp.preset && vp.preset.abBody;
+          if (!(ab && ab.physicsPatch && JSON.stringify(ab.physicsPatch.relativeDrag) === JSON.stringify({ law: 'inertial', gain: 0, pairs: 'all', history: 'positions' }))) bad.push('B 側(gain:0)の physicsPatch');
+          const sum = (p.descStruct && p.descStruct.summary) || '';
+          if (!(sum.length <= 3000 && /宣言した本だけ/.test(sum) && /gain=0 で既定経路とビット同一/.test(sum) && /較正ではない/.test(sum) && sum.indexOf('回転引きずり(手前/反対)と連鎖は未実装') >= 0)) bad.push('説明文の要件(宣言した本だけ・gain=0 でビット同一・未実装・較正ではない)');
+          const NG = [/1PN と同等が証明/, /回転引きずりが創発した/, /連鎖で円盤ができた/, /慣性決定力場を接続した/, /観測一致を達成/, /較正を完了/, /新発見/, /安定化した/, /普遍定数である/];
+          const txt = JSON.stringify([p.name, p.descStruct, p.en]);
+          const hit = NG.filter((re) => re.test(txt));
+          if (hit.length) bad.push('説明文に禁止の言い回し: ' + hit.map(String).join(','));
+        }
+        cases.push(`🐌: principle・toy・kFrame=0・geoPN=0・宣言 {inertial, gain 0.8}・受理の警告 0・B 側は同じ宣言の gain:0・絵文字は 1 本だけ・説明文の要件と禁止の言い回し 0`);
+        const D = E290.diagnostic(HP290), diff = [];
+        near290(JIN.diag, D, 'diag', diff); near290(JIN.selfTest, L290.selfTest(), 'selfTest', diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 3).join(' ; '));
+        if (!D.ok) bad.push('診断の ok(近点 6 個・上界 ≥1 の步 0・限定模型と相対 1e-2・dt 半分で相対 1e-2・ΔL の帳簿 1e-12)');
+        if (!(D.rows.length === 3 && D.rows.every((r, k) => k === 0 || r.dwNet > D.rows[k - 1].dwNet))) bad.push('Δϖ が gain とともに増えない');
+        cases.push(`Δϖ/周 ${D.rows.map((r) => `gain ${r.gain}: ${r.dwNet.toFixed(6)}(限定模型との差 ${r.diffModel.toExponential(1)}・3πa ${r.approx3pia.toFixed(6)})`).join('・')}・dt 半分で相対 ${D.dtHalf.relChange.toExponential(1)}・上界最大 ${Math.max(...D.rows.map((r) => r.boundMax)).toFixed(4)}`);
+        const R = E290.docRows(JIN), miss = docMiss290(R.diag.concat(R.ledger));
+        if (!psec290) bad.push('PHYSICS〔第290便c — 〕が無い');
+        else {
+          if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行');
+          const cut = psec290.indexOf('**書かないこと。**'), body = cut >= 0 ? psec290.slice(0, cut) : psec290;
+          const FORBID = ['回転引きずりが創発した', '連鎖で円盤ができた', '慣性決定力場を接続した(既定で)', '1PN と同等が証明された', '観測一致を達成した', '新しい法則が正しい', '新発見', 'RC を切った', '安定化した'];
+          const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
+          if (hit.length) bad.push('PHYSICS〔第290便c〕の本文に禁止語: ' + hit.join(','));
+          if (cut < 0) bad.push('PHYSICS〔第290便c〕に「書かないこと」が無い');
+          for (const w of ['(i)', '(ii)', '(iii)', '(iv)', '(v)', '(vi)', '(vii)', '(viii)', 'L³/M', 'G だけでは速度の次元にならない', 'x += u·dt', '外部支持の仕事']) if (psec290.indexOf(w) < 0) bad.push('PHYSICS〔第290便c〕に「' + w + '」が無い');
+          cases.push(`PHYSICS〔第290便c〕の契約 (i)〜(viii)・単位 C_d [L³/M]・表の行・禁止語 0(${FORBID.length} 語)`);
+        }
+        const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+        if (CL.indexOf('第290便c') < 0) bad.push('CHANGELOG に第290便c が無い');
+        const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        const ai = AS.indexOf('law:"inertial"');
+        if (!(ai >= 0 && /既定は宣言しない/.test(AS.slice(ai, ai + 3000)))) bad.push('AI_SPEC に法則版 inertial と「既定は宣言しない」が無い');
+        if (HP290.SYSTEM_PROMPT && /inertial/.test(HP290.SYSTEM_PROMPT)) bad.push('SYSTEM_PROMPT に inertial がある(AI 生成には開放しない)');
+        cases.push('CHANGELOG・AI_SPEC(既定は宣言しない)・SYSTEM_PROMPT に載せない');
+      }
+      add('preset.inertialDragPair', bad.length === 0,
+        `**🐌 慣性引きずりの 2 体**(第290便c・統括の検証項目 R127 —— 診断本・較正ではない・C_d は安定条件を満たす宣言値で観測・1PN・月 8.85 年に合わせない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ lint.relDragRemedies
+    {
+      const bad = [], cases = [];
+      if (err290) bad.push('器が読めない: ' + err290);
+      else if (!JRD290) bad.push('正本 reldrag-w289c.json が読めない');
+      else {
+        const REM = RD290.REMEDIES, pick = (k) => REM.find((z) => z.key === k);
+        const im = pick('implicit'), rx = pick('relaxation');
+        if (!(im && rx)) bad.push('REMEDIES に implicit/relaxation が無い');
+        else {
+          if (!/質量重みで対称化/.test(im.fixes) || !/前ステップ遅延則とは別の法則/.test(im.fixes)) bad.push('implicit の訂正文');
+          if (!/2\/\(1\+λ_max\(L\)\)/.test(rx.needs) || !/2\/\(1\+spectralBound\)/.test(rx.needs) || !/λ=1\.6・α=0\.9/.test(rx.needs)) bad.push('relaxation の訂正文');
+          for (const z of [im, rx]) if (psec289c.indexOf(`| ${z.needs} | ${z.fixes} |`) < 0) bad.push('PHYSICS〔第289便c〕の表に ' + z.key + ' の行(要るもの・直すもの)が同文で無い');
+          for (const old of ['I+L は正定値なので常に解ける', '2a>1 の発散(I+L は正定値)', 'τ の宣言・dt/τ<1 |', "τ の宣言・dt/τ<1 の条件"]) if (psec289c.indexOf(old) >= 0) bad.push('PHYSICS〔第289便c〕に旧文「' + old + '」が残る');
+          if (JSON.stringify(JRD290.stability && JRD290.stability.remedies) !== JSON.stringify(REM)) bad.push('正本 reldrag-w289c.json の remedies ≠ REMEDIES(鎖の段 reldrag289 で作り直す)');
+          const ce = RD290.relaxationCounterexample(), ae = RD290.angularExample(), diff = [];
+          near290(JRD290.stability.relaxationCounterexample, ce, 'relaxationCounterexample', diff); near290(JRD290.stability.angularExample, ae, 'angularExample', diff);
+          if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 2).join(' ; '));
+          if (!(ce.ok && ae.ok)) bad.push('反例/2 体例の ok');
+          cases.push(`REMEDIES(版 ${RD290.RELDRAG_VERSION})の implicit・relaxation の 2 行 = PHYSICS〔第289便c〕の表の 2 行(同文)・正本の remedies も同じ・旧文 0`);
+          cases.push(`陽的緩和の反例 λ=${ce.lambda}・α=${ce.alpha}(dt/τ<1)で倍率 ${ce.multiplier.toFixed(2)}(条件 α<${ce.limit.toFixed(4)})・2 体の Σm u=${JSON.stringify(ae.sumMu)}・Σm x×u=${ae.sumMxU}`);
+        }
+      }
+      add('lint.relDragRemedies', bad.length === 0,
+        `**対策表の訂正**(第290便c・統括の検証項目 R127 —— 第289便c の対策 3 案の暗黙解・緩和時間の行。実装はしない): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
@@ -22054,6 +22639,317 @@ if (!FAST) {
   }
 }
 
+// ---- 8c1j) 第290便d(原仮定者の裁定(第80報)②「指摘を参考に改善」・統括の検証項目 R128): **チェックポイント便**の 1 ブロック。**root では SKIP**
+// ----   (器 tests/exp-w290d-ckfixcap.mjs・正本 tests/out/ckfixcap-w290d.json)。世代切替 has290d = html に固定中心の深い写し
+// ----   `function cloneFixedCaptureState(` があり、器がある。
+// ----   behavior.ckFixcapRestore …… ckSnapOne/ckRestoreOne が S.fixcap(R_I・stepN・捕獲/離散の回数・口座・ログ)を深い写しで保存/復元する:
+// ----      再現(保存 → 2 步 → 器が R_I=0.75 → 復元で stepN 0・R_I 1.5 —— 基点 f03bf5a は 2・0.75)・超過の捕獲 + 離散の保存/復元/再走/2 度目の復元と
+// ----      保存側の不変・宣言した歩の離散の時刻(基点は 1 步早い)・2 回連続の離散の後の I′/E′・A/B の写しの不変(A = 新 B = 旧 B・基点と同じ指紋)と
+// ----      B 側の保存/復元・棚卸しの表(保存 JSON の鍵・チェックポイント/A/B/build)・html の 3 か所が同じ 1 本の写しを使う・粒子数の不一致で
+// ----      復元を拒否する UI の 1 行と保存/読込の実装(loadSave・受理・保存の handler の指紋)が基点のまま・PHYSICS〔第290便d〕の表と文。
+// ----   正本との照合は**許容幅つき**(相対 1e-12 か絶対 1e-12 —— CI の Node 24 と手元の Node 22 で Math の末尾 ulp が違い得る)。
+// ----   A/B の指紋(sha256 の文字列)は正本の中で基点の宣言値と比べる(引き直しの照合からは外す)。
+{
+  const html290d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has290d = TARGET.startsWith('beta/') && html290d.indexOf('function cloneFixedCaptureState(') >= 0
+    && fs.existsSync(path.join(ROOT, 'tests', 'exp-w290d-ckfixcap.mjs'));
+  if (!has290d) {
+    console.log('SKIP behavior.ckFixcapRestore(第290便d 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let EC = null, JC = null, Hc = null, errC = null;
+    try {
+      EC = await import('file://' + path.join(ROOT, 'tests', 'exp-w290d-ckfixcap.mjs'));
+      JC = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'ckfixcap-w290d.json'), 'utf8'));
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      Hc = loadHtmlHeadless(path.join(ROOT, TARGET));
+      Hc.htmlText = html290d;
+    } catch (e) { errC = String(e && e.stack || e).slice(0, 160); }
+    const nearC = (a, b) => {
+      const out = [];
+      const walk = (x, y, p) => {
+        if (out.length > 4) return;
+        if (typeof x === 'number' && typeof y === 'number') { if (!(Object.is(x, y) || Math.abs(x - y) <= Math.max(1e-12, 1e-12 * Math.max(Math.abs(x), Math.abs(y))))) out.push(p + ' ' + x + '⇔' + y); return; }
+        if (Array.isArray(x) || Array.isArray(y)) { if (!Array.isArray(x) || !Array.isArray(y) || x.length !== y.length) { out.push(p + ' 形'); return; } x.forEach((v, i) => walk(v, y[i], p + '/' + i)); return; }
+        if (x && y && typeof x === 'object' && typeof y === 'object') { for (const k of [...new Set(Object.keys(x).concat(Object.keys(y)))].sort()) walk(x[k], y[k], p + '/' + k); return; }
+        if (x !== y) out.push(p + ' ' + JSON.stringify(x) + '⇔' + JSON.stringify(y));
+      };
+      walk(a, b, '');
+      return out;
+    };
+    const noPrint = (o) => { const z = JSON.parse(JSON.stringify(o)); if (z.ab) delete z.ab.abPrint; return z; };
+    if (errC) bad.push('器/正本/headless が読めない: ' + errC);
+    else {
+      if (!JC.meta || JC.meta.provenanceVersion !== 'w272e-1' || JC.meta.harnessVersion !== EC.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+      if (JSON.stringify(JC.spec.spec) !== JSON.stringify(EC.SPEC) || JSON.stringify(JC.spec.overflowCase) !== JSON.stringify(EC.OVERFLOW_CASE)
+        || JSON.stringify(JC.spec.reproEject) !== JSON.stringify(EC.REPRO_EJECT) || JSON.stringify(JC.spec.fixtures) !== JSON.stringify(EC.INVENTORY_FIXTURES)) bad.push('宣言(spec)が器と違う');
+      if (JSON.stringify(JC.before) !== JSON.stringify(EC.BEFORE_F03)) bad.push('基点の宣言値が器の BEFORE_F03 と違う');
+      let P = null;
+      try { P = EC.probe(Hc); } catch (e) { bad.push('probe: ' + String(e).slice(0, 140)); }
+      if (P) {
+        const dn = nearC(noPrint(P), noPrint(JC.probe));
+        if (dn.length) bad.push('probe を引き直すと正本と違う ' + dn[0]);
+        const V = EC.verdictOf(P);
+        for (const [k, v] of Object.entries(V.checks)) if (v !== true) bad.push('判定 ' + k);
+        const ds = nearC(noPrint(EC.summaryOf(P)), noPrint(JC.summary));
+        if (ds.length) bad.push('要約を作り直すと正本と違う ' + ds[0]);
+        const B = EC.BEFORE_F03.summary, N = EC.summaryOf(P);
+        if (!(B.repro.restoredStepN === 2 && B.repro.restoredRI === 0.75 && N.repro.restoredStepN === 0 && N.repro.restoredRI === 1.5)) bad.push('再現の前後(基点 stepN 2・R_I 0.75 → 0・1.5)');
+        if (!(B.overflow.restoredBitSame === false && B.overflow.snapHasFixcap === false && N.overflow.restoredBitSame && N.overflow.rerunBitSame && N.overflow.twiceBitSame)) bad.push('超過の捕獲 + 離散の前後');
+        if (!(B.atStep.sameEjectTime === false && B.atStep.tTest < B.atStep.tRef && N.atStep.sameEjectTime && N.atStep.stateBitSame)) bad.push('宣言した歩の離散の時刻の前後');
+        if (!(B.twice.restoredBitSame === false && N.twice.restoredBitSame)) bad.push('2 回連続の離散の後の I′/E′ の前後');
+        if (!(JC.abSameAsBase === true && JC.summary.ab.abPrint === JC.before.summary.ab.abPrint && B.ab.aEqualsNewB && N.ab.aEqualsNewB && N.ab.legacyBEqualsNewB)) bad.push('A/B の結果が基点と同じでない');
+        if (!(B.ab.logRowShared === true && N.ab.logRowShared === false)) bad.push('A/B の写しのログの行の共有(基点 共有 → 独立)');
+        const fxC = P.inventory.fixtures.find((z) => z.cat === 'fixcap');
+        if (!(fxC && fxC.nSame && fxC.rerunBitSame === true && !(fxC.diffByCat.fixcap || []).length)) bad.push('棚卸しの器具(🥜 の写し)の往復');
+        if (!(P.inventory.saveCarriesState === false && P.inventory.saveCodeSameAsBase === true)) bad.push('保存 JSON の形式/保存・読込の実装が基点と違う(第290便c の受理 loadSaveInertialAccept を足した統合後の指紋とも違う)');
+        cases.push(`再現(🥜 の中心だけ): 復元後の stepN ${B.repro.restoredStepN} → ${N.repro.restoredStepN}・R_I ${B.repro.restoredRI} → ${N.repro.restoredRI}`
+          + ` / 超過の捕獲 + 離散(${P.overflow.steps} 步・n ${P.overflow.n0} のまま): 復元 ${B.overflow.restoredBitSame ? '一致' : '不一致'} → ${N.overflow.restoredBitSame ? '一致' : '不一致'}・再走 ${N.overflow.rerunBitSame ? 'ビット一致' : '不一致'}(系譜 id は別)`
+          + ` / atStep ${EC.SPEC.atStep}: 放出の時刻 ${B.atStep.tTest} → ${N.atStep.tTest}(参照 ${N.atStep.tRef})`
+          + ` / 2 回連続の離散の後: I′ ${B.twice.restoredI} → ${N.twice.restoredI} / A/B: A = 新 B = 旧 B・指紋 ${JC.summary.ab.abPrint.slice(0, 8)}…(基点と同じ)`);
+        cases.push('棚卸し: ' + P.inventory.table.map((r) => r.key + ' ' + r.checkpoint).join('・') + '・保存 JSON は設定だけ(' + P.inventory.saveKeys.length + ' 鍵)');
+      }
+      // html: 同じ 1 本の写しを 3 か所で使う・旧い浅い写しが無い・UI の拒否の 1 行・チェックポイントの配列名
+      const src = html290d;
+      for (const t of ['fixcap:S.fixcap? cloneFixedCaptureState(S.fixcap) : null}', 'if("fixcap" in o){ S.fixcap=o.fixcap? cloneFixedCaptureState(o.fixcap) : null; S.hasFixedCapture=!!S.fixcap; }',
+        'simB.fixcap=sim.fixcap? cloneFixedCaptureState(sim.fixcap) : null; simB.hasFixedCapture=!!simB.fixcap;',
+        'if(ckSnap.a.n!==sim.n || (!!ab)!==(!!ckSnap.b) || (ab && ckSnap.b.n!==ab.simB.n)){ notify(T("ckMismatch")); return; }', '"carVx","carVy",'])
+        if (src.indexOf(t) < 0) bad.push('html に無い: ' + t.slice(0, 60));
+      if (src.indexOf('Object.assign({}, sim.fixcap') >= 0) bad.push('A/B の旧い浅い写しが残っている');
+      if ((src.match(/cloneFixedCaptureState\(/g) || []).length !== 5) bad.push('cloneFixedCaptureState( の出現が定義 1 + 再帰 1 + 使用 3 でない');
+      // PHYSICS〔第290便d〕
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const pa = Pd.indexOf('〔第290便d — ');
+      const pEnds = (pa >= 0) ? [Pd.indexOf('\n〔第', pa + 10), Pd.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa) : [];
+      const psec = (pa >= 0) ? Pd.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined) : '';
+      if (!psec) bad.push('PHYSICS〔第290便d〕が無い');
+      else {
+        const MUST = ['cloneFixedCaptureState', '保存 JSON は設定だけ', '粒子数が変わった後の復元は拒否', '決断事項候補', 'bitsame **147/147**', 'sigsame **147/147**', '系譜'];
+        for (const t of MUST) if (psec.indexOf(t) < 0) bad.push('PHYSICS〔第290便d〕に無い文: ' + t);
+        if (JC && EC && !errC) {
+          const rows = EC.docRows(JC);
+          const miss = rows.beforeAfter.concat(rows.inventory).filter((t) => psec.indexOf(t) < 0);
+          if (miss.length) bad.push('PHYSICS の表に無い行 ' + miss.length + ' 件 ' + miss[0].slice(0, 60));
+          cases.push(`PHYSICS の表の行 ${rows.beforeAfter.length + rows.inventory.length} 本が正本から作り直した値と一致`);
+        }
+        const body = psec.split('**言わないこと。**')[0].replace(/「[^」]*」/g, '');
+        for (const re of [/再開保存を完成/, /可変粒子数のチェックポイント/, /観測一致を達成/, /較正を完了/, /新発見/, /RC を切った/]) if (re.test(body)) bad.push('禁止の言い回し ' + re.source);
+      }
+    }
+    add('behavior.ckFixcapRestore', bad.length === 0,
+      `**チェックポイントの保存/復元が固定中心の状態を運ぶ**(第290便d・統括の検証項目 R128 —— 走行の物理は不変・保存 JSON の形式は不変・粒子数が変わった後の復元は UI が拒否のまま): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 8c1i) 第290便e(原仮定者の裁定(第80報)⑤「shapeToyDisk と shapeToyArm を合わせて渦巻き銀河の参照模型/shapeToyDiskCore と shapeToyArmCore を
+// ----   合わせて中心天体つき渦巻き銀河の参照模型」・統括の検証項目 R129): **渦巻参照便**の 3 ブロック。**root では SKIP**
+// ----   (器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json)。世代切替 has290e = html に `function dfmShapeToySpiralStep(` と
+// ----   🍭 shapeToySpiral・🎢 shapeToySpiralCore の宣言がある。
+// ----   ① preset.shapeToySpiral …… shape:"spiral" の受理条件(0<|p|<90・r_min>0・nArmParticles は nArm の倍数・両成分なら massRatio 必須・
+// ----      prescribed のみ・tauGrow=0・spiral は shape:"spiral" 専用・coreField の軸は円盤の法線)・2 本の宣言の値・絵文字が唯一・
+// ----      門 ①②③ の正本の照合(いまの html で成分の割り当てを引き直して正本の行と同じ・正本の ①②③ が真)。
+// ----   ② behavior.spiralGeometry …… いまの html で 🍭 を 600 步走らせ直してピッチ角(直交回帰)・横断/厚さ/軸比が正本と同じ(相対 1e-9)・
+// ----      Ω_p=0 でも曲線形状が残る(宣言 ±1°)・G=0/8 で 600 步の状態が 1 bit 不変・🎢 の中心スピン 0 で円盤成分の力が消え腕は 1 bit 不変。
+// ----   ③ docs.spiralRef …… 説明に「参照模型」「創発ではない」「較正ではない」(ja/en)・概要原稿(ja 120・en 200 字)・PHYSICS〔第290便e〕の
+// ----      合成できない理由・式・2 本の表・門の表・Core 版の位置づけ(k_arm 未実装 —— 中心つき幾何参照)・書かないこと(否定の文の外に禁止の言い方が無い)・
+// ----      AI_SPEC の shape spiral の宣言・CHANGELOG の 1 行・FAMILIES に 2 id。
+{
+  const html290e = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has290e = TARGET.startsWith('beta/') && html290e.indexOf('function dfmShapeToySpiralStep(') >= 0
+    && html290e.indexOf('id:"shapeToySpiral"') >= 0 && html290e.indexOf('id:"shapeToySpiralCore"') >= 0;
+  if (!has290e) {
+    console.log('SKIP preset.shapeToySpiral / behavior.spiralGeometry / docs.spiralRef(第290便e 未適用 — ' + TARGET + ')');
+  } else {
+    let E = null, J = null, errE = null, H = null, errH = null;
+    try { E = await import('file://' + path.join(ROOT, 'tests', 'exp-w290e-spiral.mjs'));
+      J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'spiral-w290e.json'), 'utf8')); }
+    catch (e) { errE = String(e && e.stack || e).slice(0, 160); }
+    try { const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs')); H = loadHtmlHeadless(path.join(ROOT, TARGET)); }
+    catch (e) { errH = String(e).slice(0, 140); }
+    const relEq = (a, b, tol) => typeof a === 'number' && typeof b === 'number' && (a === b || Math.abs(a - b) <= tol * Math.max(Math.abs(a), Math.abs(b)));
+    // ---- ① preset.shapeToySpiral
+    {
+      const bad = [];
+      const cases = [];
+      if (errE || !E || !J) bad.push('器/正本が読めない: ' + errE);
+      else if (errH || !H || !H.HP) bad.push('html が headless で読めない: ' + errH);
+      else {
+        const HP = H.HP;
+        const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        // 受理条件
+        const rej = (label, mut, id) => { const p = P(id || 'shapeToySpiral'); mut(p); const v = HP.validatePreset(p); if (v.ok) bad.push('受理してしまう: ' + label); };
+        rej('pitchDeg=0', (p) => { p.physics.shapeToy.spiral.pitchDeg = 0; });
+        rej('pitchDeg=90', (p) => { p.physics.shapeToy.spiral.pitchDeg = 90; });
+        rej('pitchDeg=-90', (p) => { p.physics.shapeToy.spiral.pitchDeg = -90; });
+        rej('rMin=0', (p) => { p.physics.shapeToy.spiral.rMin = 0; });
+        rej('rMax≤rMin', (p) => { p.physics.shapeToy.spiral.rMax = 24; });
+        rej('nArmParticles を nArm の倍数でなく', (p) => { p.physics.shapeToy.spiral.nArmParticles = 151; });
+        rej('両成分で massRatio 欠落', (p) => { delete p.physics.shapeToy.spiral.massRatio; });
+        rej('coupling feedback', (p) => { p.physics.shapeToy.coupling = 'feedback'; });
+        rej('tauGrow>0', (p) => { p.physics.shapeToy.tauGrow = 10; p.physics.shapeToy.sigma0 = 30; });
+        rej('spiral を shape:"disk" に', (p) => { p.physics.shapeToy.shape = 'disk'; p.physics.shapeToy.omegaSpin = 0.05; });
+        rej('shape:"spiral" で spiral 欠落', (p) => { delete p.physics.shapeToy.spiral; });
+        rej('density が uniform-s 以外', (p) => { p.physics.shapeToy.spiral.density = 'stretch'; });
+        rej('🎢 の軸 (1,0,0)', (p) => { p.physics.shapeToy.coreField.axis = [1, 0, 0]; }, 'shapeToySpiralCore');
+        { const p = P('shapeToySpiral'); p.physics.shapeToy.spiral.pitchDeg = -20; if (!HP.validatePreset(p).ok) bad.push('負のピッチ角(逆巻き)を拒否した'); }
+        if (HP.SHAPE_TOY_SHAPES.join(',') !== 'cluster,disk,arm,spiral') bad.push('SHAPE_TOY_SHAPES ' + HP.SHAPE_TOY_SHAPES.join(','));
+        cases.push('受理条件 14 件(0<|p|<90・r_min>0・r_max>r_min・腕ごと同数・両成分の massRatio・prescribed のみ・τ=0・spiral 専用・density・🎢 の軸・逆巻きは受理)');
+        // 2 本の宣言
+        const all = HP.allPresets();
+        const want = { shapeToySpiral: { emoji: '🍭', famId: 'shapeToy', law: undefined, armWidth: 7.2, armSigmaZ: 4.8, omegaP: 0.05, centre: false, seed: 20260919 },
+          shapeToySpiralCore: { emoji: '🎢', famId: 'shapeToyCore', law: 'coreField', armWidth: 7.2, armSigmaZ: 7.2, omegaP: 0.14, centre: true, seed: 20260920 } };
+        for (const [id, w] of Object.entries(want)) {
+          const p = all.find((q) => q.id === id);
+          if (!p) { bad.push(id + ' が無い'); continue; }
+          const st = p.physics.shapeToy, sp = st.spiral;
+          if (p.emoji !== w.emoji || all.filter((q) => q.emoji === w.emoji).length !== 1) bad.push(id + ' の絵文字 ' + p.emoji + ' が唯一でない/違う');
+          if (p.sampleClass !== 'principle' || p.fidelity !== 'toy' || p.group !== '銀河の力学' || p.familyId !== w.famId || p.familyRole !== 'variant') bad.push(id + ' の分類 ' + [p.sampleClass, p.fidelity, p.group, p.familyId, p.familyRole].join('/'));
+          if (p.physics.G !== 0 || st.shape !== 'spiral' || st.coupling !== 'prescribed' || st.supply !== 'external-bath' || st.law !== w.law) bad.push(id + ' の宣言 ' + JSON.stringify([p.physics.G, st.shape, st.coupling, st.law]));
+          if (!(sp.nArm === 2 && sp.pitchDeg === 20 && sp.rMin === 24 && sp.rMax === 144 && sp.r0 === 24 && sp.phi0Deg === 0 && sp.armWidth === w.armWidth && sp.armSigmaZ === w.armSigmaZ
+            && sp.armOmega0 === 0.12 && sp.armGamma === 0.24 && sp.omegaP === w.omegaP && sp.massRatio === 2 && sp.nDisk === 300 && sp.nArmParticles === 150 && sp.density === 'uniform-s'))
+            bad.push(id + ' の spiral ' + JSON.stringify(sp).slice(0, 160));
+          if (!(st.sigma === 44 && st.sigmaZ === 14 && st.omega0 === 0.01 && st.gamma === 0.02 && st.tauGrow === 0)) bad.push(id + ' の円盤成分の宣言');
+          if (w.centre !== (p.bodies[0].type === 'single' && p.bodies[0].pinned === true && p.bodies[0].spin === 1 && p.bodies[0].m === 10)) bad.push(id + ' の中心');
+          if (p.seed !== w.seed) bad.push(id + ' の seed');
+          if (!(Array.isArray(p.notClaim) && p.notClaim.includes('galaxy') && p.notClaim.includes('dm'))) bad.push(id + ' の notClaim');
+          // 門 ①: いまの html で成分の割り当てを引き直す
+          const v = HP.validatePreset(P(id)); HP.sim.build(v.preset);
+          const S = HP.sim, ss = HP.shapeToySpiralState(S);
+          let nD = 0, nA = 0, odd = 0; for (let i = 0; i < S.n; i++) { const c = ss.comp[i]; if (S.pinned[i]) { if (c !== 0) odd++; } else if (c === 1) nD++; else if (c === 2) nA++; else odd++; }
+          const row = ((J.gate1 || {}).rows || []).find((z) => z.id === id);
+          if (!row || row.nDisk !== nD || row.nArm !== nA || row.unassignedOrDuplicate !== odd || !relEq(row.massRatio, ss.massRatio, 1e-9) || !row.ok) bad.push(id + ' の門 ① が正本と違う ' + JSON.stringify([nD, nA, odd, ss.massRatio, row && row.massRatio]));
+          cases.push(`${p.emoji}${id}: p=${sp.pitchDeg}°・r=${sp.rMin}〜${sp.rMax}・腕 ${sp.nArm} 本・横断 ${sp.armWidth}・厚さ ${sp.armSigmaZ}・Ω_p=${sp.omegaP}・円盤 ${nD}/腕 ${nA}・質量比 ${ss.massRatio}${w.law ? '・law ' + w.law : ''}`);
+        }
+        // 正本の門 ①②③
+        if (!(J.meta && J.meta.harnessVersion === E.HARNESS_VERSION)) bad.push('正本の器の版 ' + (J.meta && J.meta.harnessVersion));
+        if (!(J.gates && J.gates.g1 === true && J.gates.g2 === true && J.gates.g3 === true)) bad.push('正本の門 ①②③ ' + JSON.stringify(J.gates));
+        if (!(J.gates && Object.keys(J.gates).length === 7 && Object.values(J.gates).every((z) => typeof z === 'boolean')) || J.ok !== Object.values(J.gates || {}).every(Boolean)) bad.push('正本の門の真偽値と ok が食い違う');
+        if (JSON.stringify(J.criteria) !== JSON.stringify(E.CRIT)) bad.push('正本の門の宣言 ≠ 器の CRIT');
+        const g2 = J.gate2 || {};
+        if (!((g2.diskOnlyBitSame || []).length === 2 && g2.diskOnlyBitSame.every((z) => z.same) && g2.spiralDiskComponentBitSameAsDisk === true)) bad.push('② 腕成分を外した写しが 🥏/📀 とビット同一でない');
+        cases.push(`正本: 門 ${Object.entries(J.gates || {}).map(([k, z]) => k + (z ? '✓' : '✗')).join(' ')}(④ の未達は正本に残す —— 許容は広げない)・② ${(g2.rows || []).map((z) => z.rel).join('/')}・③ ${((J.gate3 || {}).rows || []).map((z) => z.tlsDeg + '°').join('/')}`);
+      }
+      add('preset.shapeToySpiral', bad.length === 0,
+        `**渦巻の参照模型 2 本**(第290便e・原仮定者の裁定(第80報)⑤・統括の検証項目 R129): ${cases.join(' / ')} —— 腕の幾何(ピッチ角)は**宣言**であり、`
+        + `観測のピッチ角・軸比は入力していない`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.spiralGeometry
+    {
+      const bad = [];
+      const cases = [];
+      // 走行は loadHtmlMain(この process の大域 —— vm の別コンテキストより速い)で行う。2 度目は const の再宣言で落ちるので、
+      //   前のブロックが同じ TARGET を読んでいればその HP を使う(渦巻の外部ステップを持つ HP だけ)
+      let HPg = null, errG = null;
+      try {
+        if (globalThis.HP && typeof globalThis.HP.dfmShapeToySpiralStep === 'function') HPg = globalThis.HP;
+        else { const { loadHtmlMain: loadMain290 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs')); HPg = loadMain290(path.join(ROOT, TARGET)).HP; }
+      } catch (e) { errG = String(e && e.stack || e).slice(0, 160); }
+      if (errE || !E || !J || errG || !HPg) bad.push('器/正本/html が読めない: ' + (errE || errG));
+      else {
+        const HP = HPg;
+        const P = (id) => JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === id)));
+        const m = E.measureSpiral(HP, P('shapeToySpiral'));
+        const b = J.base.spiral;
+        for (const [k, a, z] of [['ピッチ角', m.pitch.tlsDeg, b.pitch.tlsDeg], ['横断 RMS', m.arm.transverseRms, b.arm.transverseRms], ['厚さ RMS', m.arm.thicknessRms, b.arm.thicknessRms], ['軸比', m.disk.axisRatio, b.disk.axisRatio]])
+          if (!relEq(a, z, 1e-9)) bad.push(`${k} ${a} ≠ 正本 ${z}`);
+        if (!(Math.abs(m.pitch.tlsDeg - 20) <= E.CRIT.pitchDeg)) bad.push('ピッチ角 ' + m.pitch.tlsDeg + '° が宣言 20°±' + E.CRIT.pitchDeg + ' の外');
+        if (!(m.arm.tangentMaxUlpF32 <= E.CRIT.tangentUlp)) bad.push('腕成分の接線方向の残差 ' + m.arm.tangentMaxUlpF32 + ' ulp');
+        if (m.ledger.sumZero !== 0 || !(m.ledger.dKvsBookedRel <= E.CRIT.ledgerRel)) bad.push('帳簿 ' + JSON.stringify([m.ledger.sumZero, m.ledger.dKvsBookedRel]));
+        cases.push(`🍭 600 步: ピッチ角 ${m.pitch.tlsDeg.toFixed(3)}°(直交回帰 —— 最小二乗 ${m.pitch.olsDeg.toFixed(3)}°)・横断 ${m.arm.transverseRms.toFixed(3)}・厚さ ${m.arm.thicknessRms.toFixed(3)}・軸比 ${m.disk.axisRatio.toFixed(4)}(正本と相対 1e-9)・接線残差 ${m.arm.tangentMaxUlpF32.toFixed(2)} ulp(Float32 の格納)`);
+        // Ω_p=0
+        const p0 = P('shapeToySpiral'); p0.physics.shapeToy.spiral.omegaP = 0;
+        const m0 = E.measureSpiral(HP, p0);
+        if (!(Math.abs(m0.pitch.tlsDeg - 20) <= E.CRIT.pitchDeg)) bad.push('Ω_p=0 のピッチ角 ' + m0.pitch.tlsDeg);
+        cases.push(`Ω_p=0: ${m0.pitch.tlsDeg.toFixed(3)}°(曲線は残る —— 幾何の宣言の帰結であって渦伸長の証拠ではない)`);
+        // G の不変性(🍭)
+        const fpG = (G) => { const p = P('shapeToySpiral'); p.physics.G = G; return E.measureSpiral(HP, p).fp.all; };
+        const f0 = m.fp.all, f8 = fpG(8);
+        if (f0 !== f8) bad.push('G=8 で 🍭 の 600 步の状態が変わった');
+        // 🎢 の中心スピン 0
+        const pc = P('shapeToySpiralCore'); const mc = E.measureSpiral(HP, pc);
+        const pz = P('shapeToySpiralCore'); pz.bodies[0].spin = 0; const mz = E.measureSpiral(HP, pz);
+        if (!(mz.coreStop === 'kPerp' && mz.nCore === 0 && mz.fp.arm === mc.fp.arm && mc.coreStop === null)) bad.push('🎢 の中心スピン 0 ' + JSON.stringify([mz.coreStop, mz.nCore, mz.fp.arm, mc.fp.arm, mc.coreStop]));
+        if (!(Math.abs(mc.pitch.tlsDeg - 20) <= E.CRIT.pitchDeg)) bad.push('🎢 のピッチ角 ' + mc.pitch.tlsDeg);
+        cases.push(`G=0/8 で 🍭 の指紋 ${f0}/${f8}・🎢 のピッチ角 ${mc.pitch.tlsDeg.toFixed(3)}°・中心スピン 0 → Core 力学の門 ${mz.coreStop}・円盤成分 ${mz.nCore} 個・腕成分の指紋 ${mz.fp.arm}=${mc.fp.arm}`);
+        // 正本の ④⑤⑥⑦ の形
+        if (!(J.gate5 && J.gate5.ok === true && J.gate6 && J.gate6.ok === true && J.gate7 && J.gate7.ok === true)) bad.push('正本の門 ⑤⑥⑦ ' + JSON.stringify([J.gate5 && J.gate5.ok, J.gate6 && J.gate6.ok, J.gate7 && J.gate7.ok]));
+        const g4 = J.gate4 || {};
+        if (!(g4.spiral && g4.core && (g4.spiral.variants || []).length === 7 && (g4.core.variants || []).length === 7 && g4.refDisk && g4.refDisk.disk)) bad.push('正本の門 ④ の行が無い');
+        else {
+          const worst = Math.max(...g4.spiral.variants.concat(g4.core.variants).map((z) => z.diff.axisRatio));
+          if (g4.ok !== g4.spiral.variants.concat(g4.core.variants).every((z) => z.ok)) bad.push('④ の ok と行が食い違う');
+          // 🍭 の円盤成分は 🥏 とビット同一なので、N 系列の軸比は 🥏 自身の N 系列と一致する(門 ④ の未達は 🥏 から受け継いだもの)
+          const same = g4.spiral.variants.filter((z) => /^N|^2N|^4N/.test(z.label)).every((z, k) => relEq(z.idx.axisRatio, g4.refDisk.disk.variants[k].axisRatio, 1e-9));
+          if (!same) bad.push('④ の 🍭 の N 系列の軸比が 🥏 の N 系列と一致しない');
+          cases.push(`④(正本): ok ${g4.ok}・軸比の最大差 ${worst.toFixed(3)}(門 ${E.CRIT.convRel} —— 未達は記録のまま)・🍭 の N 系列の軸比は 🥏 自身と一致 ${same}`);
+        }
+      }
+      add('behavior.spiralGeometry', bad.length === 0,
+        `**渦巻の参照模型の幾何**(第290便e・R129): ${cases.join(' / ')} —— ピッチ角は φ−Ω_p t と ln r の直交回帰で測る(見た目で判定しない)。`
+        + `**規定運動の参照模型**であり、腕の形が計算から出てきたのではない`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ docs.spiralRef
+    {
+      const bad = [];
+      const cases = [];
+      try {
+        const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+        const pa = Pd.indexOf('〔第290便e — ');
+        const pEnds = (pa >= 0) ? [Pd.indexOf('\n〔第', pa + 10), Pd.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa) : [];
+        const psec = (pa >= 0) ? Pd.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined) : '';
+        if (!psec) bad.push('PHYSICS〔第290便e〕が無い');
+        for (const w of ['合成できない', '最後の shape が勝つ', 'cot(p)', 'shapeToySpiral', 'shapeToySpiralCore', '中心つき幾何参照', 'k_arm', '門', 'spiral-w290e.json', '書かないこと', '直交回帰'])
+          if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第290便e〕に「' + w + '」が無い');
+        const NG = [/渦巻が創発した/, /銀河を較正した/, /腕が力学的に安定した/, /中心が腕を束ねる/, /観測一致を達成/, /較正を完了/, /新発見/, /spiral emerged/i, /centre binds the arms/i];
+        const NEG = /言わない|書かない|とは書かない|ではない|しない|not claim|NOT CLAIM|does not claim|NOT '|NOT a|NOT 'the/;
+        const ngOutside = (txt) => { const out = []; for (const seg0 of String(txt).split(/[。\n"]|\. /)) { const seg = seg0.replace(/「[^」]*」/g, ''); if (NEG.test(seg)) continue; for (const re of NG) if (re.test(seg)) out.push(re.source + ' 〔' + seg.slice(0, 40) + '〕'); } return out; };
+        const hitsP = ngOutside(psec); if (hitsP.length) bad.push('PHYSICS〔第290便e〕の禁止の言い方: ' + hitsP.slice(0, 2).join(' / '));
+        if (!/平坦回転曲線/.test(psec)) bad.push('PHYSICS〔第290便e〕の書かないことに「平坦回転曲線」が無い');
+        cases.push(`PHYSICS〔第290便e〕${psec.length} 字(合成できない理由・式・2 本の表・門の表・中心つき幾何参照・書かないこと)`);
+        const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+        if (H && H.HP) {
+          for (const id of ['shapeToySpiral', 'shapeToySpiralCore']) {
+            const p = H.HP.allPresets().find((q) => q.id === id);
+            const sj = p.descStruct.summary, se = p.en.descStruct.summary;
+            if (!(sj.indexOf('参照') >= 0 && sj.indexOf('較正ではない') >= 0 && /計算から出てきた模様ではない|創発ではない|渦巻が創発した・/.test(sj))) bad.push(id + ' の ja 概要に「参照・較正ではない・創発ではない」が無い');
+            if (!(/REFERENCE/.test(se) && /NOT A CALIBRATION/.test(se) && /emergent spiral|NOT A PATTERN THAT CAME OUT/.test(se))) bad.push(id + ' の en 概要に REFERENCE/NOT A CALIBRATION/創発の否定が無い');
+            if (sj.length > 3000 || se.length > 3000) bad.push(id + ' の概要が 3000 字を超える');
+            const hits = ngOutside(sj + '。' + p.descStruct.observe + '。' + se); if (hits.length) bad.push(id + ' の説明の禁止の言い方: ' + hits.slice(0, 2).join(' / '));
+            if (id === 'shapeToySpiralCore' && !(sj.indexOf('中心つき幾何参照') >= 0 && sj.indexOf('実装していない') >= 0 && /NOT IMPLEMENTED/.test(se))) bad.push('🎢 の概要に「中心つき幾何参照・k_arm 未実装」が無い');
+          }
+        }
+        const SSL = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
+        const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
+        for (const id of ['shapeToySpiral', 'shapeToySpiralCore']) {
+          const r = src.rows[id];
+          if (!r) { bad.push('概要原稿に ' + id + ' が無い'); continue; }
+          const st = { purpose: r.purpose, objective: r.objective, state: r.state, calibration: 'out-of-scope', mismatch: null, outlook: null, en: { purpose: r.en.purpose, state: r.en.state, mismatch: null, outlook: null } };
+          const ja = SSL.composeBrief(st, 'ja'), en = SSL.composeBrief(st, 'en');
+          if (ja.length > SSL.BRIEF_CAP.ja || en.length > SSL.BRIEF_CAP.en) bad.push(`${id} の概要 ${ja.length}/${en.length} 字が上限を超える`);
+          if (!/参照/.test(r.purpose) || !/創発ではない/.test(r.purpose) || !/emergen/.test(r.en.purpose)) bad.push(id + ' の概要原稿に「参照・創発ではない」が無い');
+          cases.push(`${id} の概要 ja ${ja.length}/120・en ${en.length}/200 字`);
+        }
+        const ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        if (!(ai.indexOf('shape:"spiral"') >= 0 && ai.indexOf('pitchDeg') >= 0 && ai.indexOf('nArmParticles') >= 0)) bad.push('AI_SPEC に shape:"spiral" の宣言が無い');
+        const ch = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+        if (!/第290便e/.test(ch)) bad.push('CHANGELOG に第290便e の行が無い');
+        const FM = await import('file://' + path.join(ROOT, 'tests', 'exp-w283b-families.mjs'));
+        const fs1 = FM.FAMILIES.find((F) => F.key === 'shapeToy'), fs2 = FM.FAMILIES.find((F) => F.key === 'shapeToyCore');
+        if (!(fs1 && fs1.ids[fs1.ids.length - 1] === 'shapeToySpiral' && fs2 && fs2.ids[fs2.ids.length - 1] === 'shapeToySpiralCore')) bad.push('FAMILIES の shapeToy/shapeToyCore の末尾に 2 id が無い');
+        cases.push('AI_SPEC・CHANGELOG・FAMILIES(shapeToy 末尾 🍭・shapeToyCore 末尾 🎢)');
+        void html;
+      } catch (e) { bad.push('文書が読めない: ' + String(e).slice(0, 140)); }
+      add('docs.spiralRef', bad.length === 0,
+        `**渦巻の参照模型の文書**(第290便e・R129): ${cases.join(' / ')} —— 「参照模型・創発ではない・較正ではない」を説明・概要・PHYSICS に書き、`
+        + `「渦巻が創発した」「銀河を較正した」「腕が力学的に安定した」「中心が腕を束ねる」は否定の文の外に書かない`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
 // ---- 8c2) 第131便(原仮定者指示「🌞 をスケール換算込みの実較正へ」): behavior.solarInner ----
 // ----   🌞solarInner を ☄️🪨 と同じ指数系(1単位=10⁸m/10⁴s/10²⁷kg)の実単位へ移した世代でのみ実行。
 // ----   固定するのは①初速較正係数が 1.000(実ケプラー速度そのまま)であること=2水星周窓の
@@ -22427,6 +23323,10 @@ if (!FAST) {
       return out;
     }, {});
     const d = r.dfm, c = r.ctl;
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290bPD = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   ⛄ plutoCharonDFM は退役(familyRole:"retired")—— 宣言の検査は役割の語だけを受け替え(退役の印は鎖の後の世代でだけ受ける・root〔v1.44.0〕の variant はそのまま)、
+    //   物理(単位・κ・kFrame・D₀・精度・則・bodies)の検査は変えない
+    const has290bPD = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
     const kOk = (z) => Math.abs(z.kap - z.G / (z.c * z.c)) < 1e-18;
     const declOk = !!d && !!c && d.L === 5 && d.T === 1 && d.M === 24 && c.L === 5 && c.T === 1 && c.M === 24
       && d.G === 6.674 && d.c === C4_286B && kOk(d) && kOk(c)
@@ -22438,7 +23338,7 @@ if (!FAST) {
       && d.spF64 === true && c.spF64 === false      // 則を宣言した側だけ自転が Float64
       && d.eps === 0.01 && c.eps === 0.01
       && d.cls === 'principle' && c.cls === 'principle' && d.fid === 'real' && c.fid === 'real'   // 統括(第277便 統合): 診断コピー(AM5 で昇格を裁定)
-      && d.fam === 'pluto' && c.fam === 'pluto' && d.role === 'variant' && c.role === (c.has280d ? 'variant' : 'control')
+      && d.fam === 'pluto' && c.fam === 'pluto' && (d.role === 'variant' || (has290bPD && d.role === 'retired')) && c.role === (c.has280d ? 'variant' : 'control')   // 第290便b: ⛄ は退役(familyRole:"retired" —— 内蔵に残す・物理の検査はそのまま)
       && d.bodies === c.bodies;                     // **2 本の bodies は 1 bit 同じ**
     const z = r.zeroProbe, ng = r.negProbe;
     const zeroOk = !!z && !z.err && z.slipI === 0 && z.slipJ === 0 && z.kickMag === 0
@@ -22618,17 +23518,18 @@ if (!FAST) {
       o.has280d = HP.allPresets().some((z) => z.id === 'plutoCharonSyncZero');   // 第280便d: 🥶☃️ も double を宣言(2→4)
       o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰 も double を宣言(💮 の写し・4→5)
       o.has288a = HP.allPresets().some((z) => z.id === 'fixedCaptureCopy');   // 第288便a: 🥜 も double を宣言(🌰 の写し・5→6)
+      o.has290c = HP.allPresets().some((z) => z.id === 'inertialDragPair');   // 第290便c: 🐌 も double を宣言(新法則版 relativeDrag.law:"inertial" の診断本・6→7)
       o.nSoftFloor = HP.allPresets().filter((z) => z.physics && z.physics.softeningFloor !== undefined).length;
       o.nMfs = HP.allPresets().filter((z) => z.physics && z.physics.massFloorScaled !== undefined).length;
       HP.loadPreset('saturn', false);
       return o;
     });
     add('preset.massPrecision',
-      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2) + (r.has287a ? 1 : 0) + (r.has288a ? 1 : 0),
+      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2) + (r.has287a ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has290c ? 1 : 0),
       `不正値は警告つき削除=${r.badDropped} / 既定 "single" は正準形に出ない(署名同一)=${r.singleNotCanonical} / `
       + `"double" は正準形と署名に入る=${r.doubleCanonical} / build で S.m・S.mEff が Float64Array=${r.f64} / `
       + `**未宣言の本は Float32 のまま**(❄️ で確認・自転も Float32)=${r.f32Default} / `
-      + `内蔵の宣言 ${r.nMassPrec} 本(第277便b の ⛄🌨️${r.has280d ? '・第280便d の 🥶☃️' : ''}${r.has287a ? '・第287便a の 🌰' : ''}${r.has288a ? '・第288便a の 🥜' : ''})`);
+      + `内蔵の宣言 ${r.nMassPrec} 本(第277便b の ⛄🌨️${r.has280d ? '・第280便d の 🥶☃️' : ''}${r.has287a ? '・第287便a の 🌰' : ''}${r.has288a ? '・第288便a の 🥜' : ''}${r.has290c ? '・第290便c の 🐌' : ''})`);
     add('preset.softeningFloor',
       r.calibRejected && r.diagAccepted && r.floorClamped && r.defaultClamp && r.floorEqualDropped
       && r.mfsDeclared && r.mfsFalseDropped && r.nSoftFloor === 0 && r.nMfs === 0,
@@ -23068,7 +23969,10 @@ if (!FAST) {
         off: { P2: off.P2, nan: off.nan }, finBitSame: on.fin.every((z, i) => Object.is(z, off.fin[i])) };
     });
     const d = r.decl, f = r.first;
-    const declOk = d.cls === 'principle' && d.fam === 'pluto' && d.role === 'variant' && d.geoPN === 0 && d.kF === 0
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290bSZ = 正本 calaudit の母集団に 🥶 があり ❄️ が無い(鎖の再生成の後)。☃️ は退役(familyRole:"retired" —— 内蔵に残す)。
+    //   役割の語だけを受け替え、零条件と走行の検査はそのまま
+    const has290bSZ = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    const declOk = d.cls === 'principle' && d.fam === 'pluto' && (d.role === 'variant' || (has290bSZ && d.role === 'retired')) && d.geoPN === 0 && d.kF === 0
       && d.integ === 'leapfrog' && d.mp === 'double' && d.eps === 0.01 && d.rd === 'pairSlip/1/midpoint/declared'
       && d.massSame && d.sepSame && d.spinEq;
     const firstOk = f.slipI === 0 && f.slipJ === 0 && f.kick === 0 && f.tI === 0 && f.tJ === 0 && f.dE === 0
@@ -23077,7 +23981,7 @@ if (!FAST) {
     const runOk = Number.isFinite(dP2) && Math.abs(dP2) <= 1e-7 && r.on.heat >= 0 && r.on.heat <= 1e-28
       && r.on.kick <= 1e-20 && !r.on.nan && !r.off.nan && r.finBitSame === false;
     add('behavior.charonSyncZero', declOk && firstOk && runOk,
-      `宣言=${declOk}(principle・pluto の variant・pairSlip κ=1 中点法・geoPN 0・leapfrog・⛄ と質量/離角が 1 bit 同じ)/ `
+      `宣言=${declOk}(principle・pluto の ${d.role === 'retired' ? 'retired(第290便b で退役)' : 'variant'}・pairSlip κ=1 中点法・geoPN 0・leapfrog・⛄ と質量/離角が 1 bit 同じ)/ `
       + `**初期 1 歩**: すべり ${f.slipI}/${f.slipJ}・キック ${f.kick}・トルク ${f.tI}/${f.tJ}・ΔE ${f.dE}・熱 ${f.heat}・状態 1 bit 不変=${f.bitSame} / `
       + `**走行中(dt 0.16・3 周)**: 熱 ${r.on.heat.toExponential(2)}(非負・丸め級)・キック最大 ${r.on.kick.toExponential(2)}・`
       + `ΔE>0 の步 ${r.on.pos} / 則を外した対との第 2 周の差 ${Number.isFinite(dP2) ? dP2.toExponential(2) : '—'} s / `
@@ -23103,12 +24007,20 @@ if (!FAST) {
       const IDS = ['plutoCharonReal', 'plutoCharonDFM', 'plutoCharonKF0Control', 'plutoCharonDiagInput', 'plutoCharonSyncZero'];
       // 第280便c: 🌒 charonGeoToy3(geoPN=3 契約の診断コピー)も family pluto の variant(世代で切り替え)
       if (HP.allPresets().some((q) => q.id === 'charonGeoToy3')) IDS.push('charonGeoToy3');
-      o.nVar = IDS.length - 1;
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = RETIRED_PRESETS に ❄️ の行。入口は 🥶(primary)・❄️⛄☃️ は退役(家族に残る)・
+      //   在位の variant は 🌨️🌒(「この仲間」と入口の (+n) は在位の variant だけを数える)
+      o.has290b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal;
+      const ENTRY = o.has290b ? 'plutoCharonDiagInput' : 'plutoCharonReal';
+      const RET290 = ['plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero'];
+      const VAR = IDS.filter((id) => id !== ENTRY && !(o.has290b && RET290.includes(id)));
+      o.entry = ENTRY;
+      o.nVar = VAR.length;
       const fam = HP.allPresets().filter((p) => p.familyId === 'pluto');
       o.ids = fam.map((p) => p.id).sort();
       o.idsOk = IDS.slice().sort().join(',') === o.ids.join(',');
       o.roles = Object.fromEntries(fam.map((p) => [p.id, p.familyRole]));
-      o.rolesOk = o.roles.plutoCharonReal === 'primary' && IDS.slice(1).every((id) => o.roles[id] === 'variant');
+      o.rolesOk = o.roles[ENTRY] === 'primary' && VAR.every((id) => o.roles[id] === 'variant')
+        && (!o.has290b || RET290.every((id) => o.roles[id] === 'retired'));
       o.labelsOk = IDS.every((id) => FAMILY_VARIANT_LABEL[id] && FAMILY_VARIANT_LABEL[id].ja && FAMILY_VARIANT_LABEL[id].en);
       // 第288便b(原仮定者の裁定(第78報)④「kF0 版の名称もタイトルから削る」): 役割名の「観測入力 kF0 対照」→「観測入力の geoPN=1 の対照」(世代で切り替える)
       const w288 = typeof UNIFY_MIGRATED !== 'undefined';
@@ -23118,10 +24030,10 @@ if (!FAST) {
       setShowAllSamples(false); rebuildPresetSelect();
       const opts = [...document.querySelectorAll('#presetSelect option')];
       o.visible = IDS.filter((id) => opts.some((x) => x.value === id));
-      const snow = opts.find((x) => x.value === 'plutoCharonReal');
+      const snow = opts.find((x) => x.value === ENTRY);
       o.snowLabel = snow ? snow.textContent : '';
-      o.entryOk = o.visible.length === 1 && o.visible[0] === 'plutoCharonReal' && new RegExp('\\(\\+' + o.nVar + '\\)$').test(o.snowLabel);
-      HP.loadPreset('plutoCharonReal', false);
+      o.entryOk = o.visible.length === 1 && o.visible[0] === ENTRY && new RegExp('\\(\\+' + o.nVar + '\\)$').test(o.snowLabel);
+      HP.loadPreset(ENTRY, false);
       { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
       const links = [...document.querySelectorAll('#familyRow .familyLink')];
       o.links = links.map((b) => b.dataset.variant || '');
@@ -23133,10 +24045,10 @@ if (!FAST) {
       return o;
     });
     add('ui.charonFamily', r.idsOk && r.rolesOk && r.labelsOk && r.words && r.entryOk && r.rowOk && r.sigBlind,
-      `family pluto=${r.ids.join(',')}(ID は 1 本も消していない=${r.idsOk})/ 役割 ❄️ primary・他 ${r.nVar} 本 variant=${r.rolesOk} / `
+      `family pluto=${r.ids.join(',')}(ID は 1 本も消していない=${r.idsOk})/ 役割 ${r.has290b ? '🥶 primary・在位の ' + r.nVar + ' 本 variant・❄️⛄☃️ retired(第290便b)' : '❄️ primary・他 ' + r.nVar + ' 本 variant'}=${r.rolesOk} / `
       + `役割名 ja/en=${r.labelsOk}・3 語(観測入力 kF0 対照/相対すべりモデル/厳密同期円の零試験)=${r.words} / `
       + `**入口 1 つ**: 「すべて表示」OFF で見える冥王星系 ${JSON.stringify(r.visible)}・「${r.snowLabel}」=${r.entryOk} / `
-      + `❄️ の「この仲間」 ${JSON.stringify(r.links)}=${r.rowOk} / presetSig は familyRole を見ない=${r.sigBlind}`);
+      + `${r.has290b ? '🥶' : '❄️'} の「この仲間」 ${JSON.stringify(r.links)}=${r.rowOk} / presetSig は familyRole を見ない=${r.sigBlind}`);
   }
 }
 
@@ -23989,7 +24901,17 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       || /intake_row=2026-09-22/.test(r.note || '')   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
       || /intake_row=2026-09-23/.test(r.note || '');  // 第278便a: 確認依頼 第 5 回・取得依頼 D の転写行(ビルダーへ渡さない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
-    const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r));
+    // 第290便g(R131): 確認依頼 第 7/8 回の回答を**候補行**(量名が `_candidate` で終わる・sigma 列は空・印なし)として CSV の末尾に足した。
+    //   候補行は**記録ではない**(判定にもビルダーにも入らない)ので、J0737 の行数とビルダーへ渡す行から外す。外した数は器
+    //   tests/exp-w290g-intake8.mjs の宣言表 CANDIDATES の J0737 の行数と照合する(本体 beta/index.html は 1 bit も変えていない)
+    const CAND290 = (r) => /_candidate$/.test(r.quantity || '') && !String(r.sigma == null ? '' : r.sigma).trim()
+      && !/(?:^|[^A-Za-z0-9_])sigma_primary=verified(?![A-Za-z])/.test(r.note || '')
+      && /(?:^|[^A-Za-z0-9_])intake_round=confirmation-request-[78](?![0-9])/.test(r.note || '');
+    const csvCand290 = csvParsed.filter((r) => !INTAKE_ROW(r) && CAND290(r)).length;
+    let csvCand290Decl = 0;
+    try { csvCand290Decl = (await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'))).CANDIDATES
+      .filter((d) => d.file === 'paper/data/solar-observations.csv' && /^PSR J0737-3039/.test(d.body)).length; } catch (e) { csvCand290Decl = 0; }
+    const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r) && !CAND290(r));
     const csvRows = csvAll.filter((r) => !BUILDER_SKIP.has(r.quantity)).map((r) => {
       const o = Object.assign({}, r); delete o.sigma; return o;
     });
@@ -24415,7 +25337,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
           x !== null && x >= 0.09 && x <= 0.13 && Math.abs(x - dm.decPct) <= 0.01)
         && dm.ctrl.dtHalf !== null && dm.ctrl.dtHalf / dm.decPct >= 0.35 && dm.ctrl.dtHalf / dm.decPct <= 0.65)));
     const has285bPS = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
-    add('behavior.psrDoubleAB', csvAll.length === 10 && csvRows.length === 9
+    add('behavior.psrDoubleAB', csvAll.length === 10 && csvRows.length === 9 && csvCand290 === csvCand290Decl
       && !!csvOmegaDot && Object.is(csvOmegaDot.value, 16.899323) && csvOmegaDot.unit === 'deg/yr'
       && Number(csvOmegaDot.sigma) === 1.3e-5
       && declOk && !ps.kf0.nan && !ps.kf1.nan && !ps.pr0.nan && !ps.pr1.nan
@@ -24440,7 +25362,8 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       + `kF0(採用側・1.05公転): ${t0s === null ? '—' : t0s.toFixed(2) + ' s'}(観測 8834.53・宣言 8835.04)・実測離心率 ${ps.kf0.ecc.toFixed(6)}(転写 0.087777)・重心 ${ps.kf0.comMax.toExponential(1)}・殻 spin=0 保持 |s|max=${ps.kf0.sMax}(=0 — 第223便 resL 記帳)・否定対照(宣言除去→${has285bPS ? 'スピン |s|max=' + ps.kf0ns.sMax.toFixed(2) + '〔0 —— 第285便b: EIH 型は偶力をスピンへ移さない〕' : '有界振動 |s|max=' + ps.kf0ns.sMax.toFixed(2) + '〔20〜40〕'}・軌道ビット不変=${ps.orbitBitEq}) / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・殻 |s|max=${ps.kf1.sMax}(=0 — 記帳化で飽和解消) / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
-      + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本・2026-09-14 intake の併置行 ${csvIntakeN} 本は渡さない)・`
+      + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本・2026-09-14 intake の併置行 ${csvIntakeN} 本は渡さない`
+      + `${csvCand290 || csvCand290Decl ? '・第290便g の候補行 ' + csvCand290 + ' 本〔宣言表 ' + csvCand290Decl + ' 本〕は記録でないので数えず渡さない' : ''})・`
       + `ω̇ 行=${csvOmegaDot ? csvOmegaDot.value + ' ' + csvOmegaDot.unit + '(σ=' + csvOmegaDot.sigma + ')' : '**無し**'} / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
       + (dm.f1 ? '⚡ DFM版: 第284便b で f=1(観測質量)へ移した —— 宣言と走行の検査は behavior.psrF1(旧則 f≈2 の最後の保存 QA の値は tests/fixtures/retired-w284b.json の history)' : `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
@@ -25174,8 +26097,19 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
 {
   const hasGw = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'gw150914'));
   if (hasGw) {
-    const gwCsv = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8')
-      .split('\n').filter((l) => l.startsWith('GW150914')).length;
+    // 第290便g(R131): 確認依頼 第 7/8 回の回答を**候補行**(量名が `_candidate` で終わる・sigma 列は空・印なし)として CSV の末尾に足した。
+    //   候補行は**記録ではない**ので行数から外す(外した数は器 tests/exp-w290g-intake8.mjs の宣言表 CANDIDATES の GW150914 の行数と照合)。
+    //   第266便a 以前からある候補行(mass_ratio_candidate・2026-09-16)は従来どおり 17 行の内に数える
+    const gwOB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    const gwRowsAll = gwOB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv')).rows.filter((r) => /^GW150914/.test(r.body || ''));
+    const gwCand290 = (r) => /_candidate$/.test(r.quantity || '') && r.sigma === null
+      && !/(?:^|[^A-Za-z0-9_])sigma_primary=verified(?![A-Za-z])/.test(r.note || '')
+      && /(?:^|[^A-Za-z0-9_])intake_round=confirmation-request-[78](?![0-9])/.test(r.note || '');
+    const gwCandN = gwRowsAll.filter(gwCand290).length;
+    let gwCandDecl = 0;
+    try { gwCandDecl = (await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'))).CANDIDATES
+      .filter((d) => d.file === 'paper/data/solar-observations.csv' && /^GW150914/.test(d.body)).length; } catch (e) { gwCandDecl = 0; }
+    const gwCsv = gwRowsAll.length - gwCandN;
     const gw = await page.evaluate(({ FAST }) => {
       const P_OBS = 181.818;   // 基準周期 0.181818 s / 10⁻³
       const p = HP.allPresets().find((q) => q.id === 'gw150914');
@@ -25354,7 +26288,7 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
       && (gw.fourS === null || ([gw.fourS, gw.fourSHalf].every((x) => !x.nan
         && x.bodyCount === 2 && x.fusionEnabled === false && x.fusionCount === 0
         && x.rmin > x.contactRadius * 5)));   // 4秒後も接触・合体しないという現状の機械固定
-    add('behavior.gw150914', gwCsv === 17 && declOk && obsOk && ctrlOk && dfmOk,
+    add('behavior.gw150914', gwCsv === 17 && gwCandN === gwCandDecl && declOk && obsOk && ctrlOk && dfmOk,
       `宣言=${declOk}(fidelity=real・**L4/T−3/M29=第223便 L−T=7 合体連星族(c₀=30)**・κ=G/c₀²・`
       + `**kF0+geoPN=0(換算整合則 — 転写した a・P はニュートン換算派生値)**・spin=0×2〔上限値のみ〕・`
       + `半径=Schwarzschild 換算 proxy・coupleSink reservoir・cmGauge・🎻=🎐×解析慣性則 f=${gw.d.w242 ? '2.0000000〔第245便 一次則・χ² 則との差は 11 桁目〕' : '1.99804〔share〕'}〔台帳込みビット照合・再配分再計算一致・記帳のみ二層〕・スナップショット宣言) / `
@@ -25370,7 +26304,7 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
       + (gw.fourS ? `4秒窓: dt=.016/.008 の最小分離 ${gw.fourS.rmin.toFixed(2)}/${gw.fourSHalf.rmin.toFixed(2)}(接触 ${gw.fourS.contactRadius.toFixed(2)})・2体のまま・fusion無効・` : `4秒窓: QA_FAST では省略・`)
       + (gw.petersObs ? `petersGW(第227便 — 外部物理opt-in): 観測質量 ${gw.petersObs.tMerge === null ? '—' : (gw.petersObs.tMerge / 1000).toFixed(3) + ' s'}(窓3〜5)・DFM ${gw.petersDfm.tMerge === null ? '—' : (gw.petersDfm.tMerge / 1000).toFixed(3) + ' s'}(窓0.3〜0.8 — t∝1/f³)・帳簿L ${gw.petersObs.lRel.toExponential(1)}/${gw.petersDfm.lRel.toExponential(1)}・` : `petersGW: QA_FAST では省略・`)
       + `否定対照(kF0×f→深い楕円 rmin=${gw.kf0f.rmin.toFixed(1)}・1周目 ${gw.kf0f.rev1 === null ? '—' : (gw.kf0f.rev1 / 1000).toFixed(4) + ' s'})・(ゲージ除去→歩行 ${gw.noG.comMax.toFixed(3)})・(sink=core→P 比 ${gw.sinkCore.p2 === null || dm.p2 === null ? '—' : (gw.sinkCore.p2 / dm.p2).toFixed(3)}〔0.4〜0.7 — 受け皿裁定・第224便〕)・`
-      + `帳簿 L ${dm.lRel.toExponential(1)}/P ${dm.pRel.toExponential(1)}・決定性=${gw.dfmDet} / CSV ${gwCsv}行(第266便a: 既存の kg 行 7 行 + **M☉ 単位の source-frame 行 10 行**〔90% 区間は note の \`sigma_kind=ci90\`・sigma 列は空〕)`);
+      + `帳簿 L ${dm.lRel.toExponential(1)}/P ${dm.pRel.toExponential(1)}・決定性=${gw.dfmDet} / CSV ${gwCsv}行(第266便a: 既存の kg 行 7 行 + **M☉ 単位の source-frame 行 10 行**〔90% 区間は note の \`sigma_kind=ci90\`・sigma 列は空〕${gwCandN || gwCandDecl ? '・第290便g の候補行 ' + gwCandN + ' 行〔宣言表 ' + gwCandDecl + ' 行〕は記録でないので数えない' : ''})`);
   } else {
     console.log('SKIP behavior.gw150914(対象に第223便の 🎐 なし — root 等)');
   }
@@ -34268,6 +35202,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     exp6.n += (await page.evaluate(() => HP.allPresets().some((q) => q.id === 'fixedCaptureCopy'))) ? 1 : 0;   // 第288便a: 🥜 固定中心の合体の原理コピー(🌰 の写し・core 宣言なし)   // 第287便a: 🌰 成長経路の原理コピー(💮 の写し・core 宣言なし)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     exp6.n += W288E_CORE;   // 第288便e: 🛸(🌚 の軸 90° の原理コピー —— **core 宣言 1 件**・移行可・置換可)
     exp6.n += W289E_LAY;   // 第289便e: 🪆(🛸 の層版の診断コピー —— **core 宣言なし**・layers だけ。コア宣言の数は動かない)
+    exp6.n += W290C_INE;   // 第290便c: 🐌(慣性引きずりの診断本 —— core 宣言なし)
     const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61 - W284_CORE + W288E_CORE + W288B_CORE
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
@@ -34517,7 +35452,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
     // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
-    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) + (rp.rep.has288c ? 1 : 0) + (rp.rep.has288a ? 1 : 0) + W288E_CORE + W289E_LAY && rp.rep.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE
+    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) + (rp.rep.has288c ? 1 : 0) + (rp.rep.has288a ? 1 : 0) + W288E_CORE + W289E_LAY + W290C_INE && rp.rep.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE
       && rp.rep.tot.canReplace === 31 - W284_CORE + W288E_CORE + W288B_CORE && rp.rep.tot.cannot === 45   // 第288便b: ⏰ の補正コア 2 件(置換可)が消えた   // 第284便b: ⚡ の 2 件(置換可)が消えた
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
       && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
@@ -35740,7 +36675,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     }, 600);
     // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
     const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE   // 第284便b: ⚡ の補正コア 2 件
-      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0) + (lw.builtins.has287a ? 1 : 0) + (lw.builtins.has288c ? 1 : 0) + (lw.builtins.has288a ? 1 : 0) + W288E_CORE + W289E_LAY;   // 第288便e: 🛸(core 宣言 1 件)・第289便e: 🪆(core 宣言なし)
+      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0) + (lw.builtins.has287a ? 1 : 0) + (lw.builtins.has288c ? 1 : 0) + (lw.builtins.has288a ? 1 : 0) + W288E_CORE + W289E_LAY + W290C_INE;   // 第288便e: 🛸(core 宣言 1 件)・第289便e: 🪆(core 宣言なし)
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
       && lw.match.total.dQ !== 0 && lw.match.total.d600 > 0 && lw.match.total.law === 'total';
@@ -39670,8 +40605,17 @@ if (!FAST) {
       try { FX8D = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'dfmcal-w288b.json'), 'utf8')); }
       catch (e) { bad.push('第288便b の旧宣言の写しが読めない'); }
     }
-    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288);
-    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}) };
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): **サンプルの整理**で 7 本を退役(**33 本** —— 世代切替 has290b = RETIRED_PRESETS に ❄️ の行)。
+    //   写しは tests/fixtures/retired-w290b.json(後継との対の差 pairDiff・宣言を動かした本の前後 declChanges)
+    const has290b = await page.evaluate(() => typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal);
+    const IDS290 = has290b ? ['tuc47DFM', 'supernovaProgDFM', 'clusterGrowthCopy', 'fixedCaptureCopy', 'plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero'] : [];
+    let FX9 = null;
+    if (has290b) {
+      try { FX9 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w290b.json'), 'utf8')); }
+      catch (e) { bad.push('第290便b の凍結の写しが読めない'); }
+    }
+    const IDS = IDS283.concat(IDS284).concat(IDS285).concat(IDS286).concat(IDS287).concat(IDS288).concat(IDS290);
+    const FXP = { presets: Object.assign({}, (FX || {}).presets || {}, (FX4 || {}).presets || {}, (FX5 || {}).presets || {}, (FX6 || {}).presets || {}, (FX7 || {}).presets || {}, (FX8 || {}).presets || {}, (FX9 || {}).presets || {}) };
     const r = await page.evaluate(async (a) => {
       const { IDS, FX } = a;
       const o = {};
@@ -39788,6 +40732,14 @@ if (!FAST) {
         if (!FX8D || MIG.some((id) => !(FX8D.superseded[id] && FX8D.superseded[id].raw && FX8D.superseded[id].raw.physics.kFrame === 1)))
           bad.push('⑤写しに在位移行 10 本の旧宣言(kFrame=1)が無い');
       }
+      if (has290b) {   // 第290便b: 退役 7 本の写し(後継との対の差)・宣言を動かした本の前後(🥶 の較正昇格)・付け替えた試験の保存 QA
+        const hist9 = FX9 ? ((FX9.history || {}).tests || []) : [];
+        if (hist9.some((t) => !t.pass)) bad.push('⑤第290便b の写しの history に PASS でない試験');
+        if (!FX9 || IDS290.some((id) => !FX9.presets[id] || !FX9.presets[id].raw || FX9.presets[id].base.sigSame !== true)) bad.push('⑤第290便b の退役の写し(7 本・基点と署名同じ)が揃わない');
+        const dc = FX9 ? (FX9.declChanges || []).find((z) => z.id === 'plutoCharonDiagInput') : null;
+        if (!dc || JSON.stringify((dc.change || {}).sampleClass) !== JSON.stringify(['principle', 'calibration']) || dc.presetSigSame !== true)
+          bad.push('⑤写しに 🥶 の較正昇格(principle → calibration・署名不変)の前後が無い');
+      }
       if (has287b) {   // 第287便b: 🧶 の旧則の写しと付け替えた試験の保存 QA
         const hist7 = FX7 ? ((FX7.history || {}).tests || []) : [];
         if (!hist7.length || !hist7.every((t) => t.pass)) bad.push('⑤第287便b の写しの history が PASS でない');
@@ -39824,6 +40776,7 @@ if (!FAST) {
       // 第287便b: 同じ流儀で 🪤 の世代を判る(正本の tally.retired が 16 なら第287便の世代・15 なら第286便の世代〔鎖の samplestatus の段で 16 本へ〕)
       const nRetSS = SSJ.tally && SSJ.tally.retired ? SSJ.tally.retired.n : null;
       const nSS = ssGen286 ? IDS.length
+        : (has290b && nRetSS === IDS.length - IDS290.length) ? IDS.length - IDS290.length   // 第290便b: 正本が第288便の世代(26 本 —— 鎖の samplestatus の段で 33 本へ)
         : (has288b && nRetSS === IDS.length - IDS288.length) ? IDS.length - IDS288.length   // 第288便b: 正本が第287便の世代(16 本)
         : (has287b && nRetSS === IDS.length - IDS287.length) ? IDS.length - IDS287.length
         : (has286f && ssGen285 && nRetSS === IDS.length - IDS286.length - IDS287.length) ? IDS.length - IDS286.length - IDS287.length
@@ -39835,7 +40788,7 @@ if (!FAST) {
       if (has286f && !ssGen286) console.log(`NOTE docs.retired ⑦: 状態表の正本は前の世代(退役 ${nSS} 本)—— 鎖の samplestatus の段で ${IDS.length} 本の世代へ(第286便f・第287便b)`);
     } catch (e) { bad.push('⑥⑦読めない: ' + String(e).slice(0, 80)); }
     add('docs.retired', bad.length === 0,
-      `**退役**(第283便b・原仮定者の裁定(第73報)④・R84${has284b ? ' + 第284便b・原仮定者の裁定(第74報)⑤・AN35・AN41' : ''}${has285f ? ' + 第285便f・原仮定者の裁定(第75報)AN51・AN24′' : ''}${has286f ? ' + 第286便f・原仮定者の裁定(第76報)AN57' : ''}${has287b ? ' + 第287便b・原仮定者の裁定(第77報)AN62' : ''}${has288b ? ' + 第288便b・原仮定者の裁定(第78報)④(現実較正の一本化 10 本)' : ''}): 🕶️⚫🌑🐚⏳🌱🪩${has284b ? '+🎋🪶🪃🪀⭕🪝' : ''}${has285f ? '+🪄' : ''}${has286f ? '+🩹' : ''}${has287b ? '+🪤' : ''} の ${IDS.length} 本は内蔵に残り familyRole "retired"(語彙 ${r.vocab ? r.vocab.join('/') : '—'})` +
+      `**退役**(第283便b・原仮定者の裁定(第73報)④・R84${has284b ? ' + 第284便b・原仮定者の裁定(第74報)⑤・AN35・AN41' : ''}${has285f ? ' + 第285便f・原仮定者の裁定(第75報)AN51・AN24′' : ''}${has286f ? ' + 第286便f・原仮定者の裁定(第76報)AN57' : ''}${has287b ? ' + 第287便b・原仮定者の裁定(第77報)AN62' : ''}${has288b ? ' + 第288便b・原仮定者の裁定(第78報)④(現実較正の一本化 10 本)' : ''}${has290b ? ' + 第290便b・原仮定者の裁定(第80報)⑤(サンプルの整理 7 本)' : ''}): 🕶️⚫🌑🐚⏳🌱🪩${has284b ? '+🎋🪶🪃🪀⭕🪝' : ''}${has285f ? '+🪄' : ''}${has286f ? '+🩹' : ''}${has287b ? '+🪤' : ''} の ${IDS.length} 本は内蔵に残り familyRole "retired"(語彙 ${r.vocab ? r.vocab.join('/') : '—'})` +
       (has284b && r.selRetired ? ` / AN41: 隠し #presetSelect の退役 ${r.selRetired.length} 本・AI 追加の基準候補の退役 ${r.aiRetired.length} 本(読み込み中/選択中の本だけ残る=${r.aiCurKept === 'emAuditNewton' && r.selCurKept.length === 1})` : '') +
       ` / 一覧に出ない(既定 ${r.hitDefault}・すべて表示 ${r.hitShowAll}・ID 検索 ${r.hitSearch} 行)` +
       ` / 開ける: 読込で置き換えない=${(r.open || []).every((z) => z.cur === z.id)}・「退役(履歴)」の 1 行=${(r.open || []).every((z) => z.notice)}(en ${r.enNotice})・読み込み中の 1 本だけ一覧に残る=${r.curListed === 1}・「この仲間」に退役 ${r.famRetiredLinks} 本` +
@@ -40317,7 +41270,9 @@ if (!FAST) {
     await ctxG.close();
     // 第288便b(原仮定者の裁定(第78報)④): 「現実との照合・太陽系」「現実との照合・連星」を「現実較正」1 つへ —— 表は 14 → 13 群(世代で切り替える)
     const has288bIc = await page.evaluate(() => typeof UNIFY_MIGRATED !== 'undefined');
-    const nIc = has288bIc ? 13 : 14;
+    // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130 —— 世代切替 has290f = GROUP_SCOPE の有無): 新群「腕と渦伸長(軸力)」🌀 で 13 → 14 群
+    const has290fIc = await page.evaluate(() => typeof GROUP_SCOPE !== 'undefined');
+    const nIc = has288bIc ? (has290fIc ? 14 : 13) : 14;
     const gOk = rg.n === nIc && rg.inOrder === nIc && rg.dup === 0 && rg.empty === 0
       && rg.aliasBad.length === 0 && rg.unknown === '' && rg.nullIcon === ''
       && rg.leaked === 0 && rg.leakedV === 0
@@ -42024,6 +42979,9 @@ if (!FAST) {
     //   ui.pickerOtherFold … 段は 3 つ(decl/badge/status)—— 段の並びの文字列と既定の畳み・見出しの語だけを切り替える(判定は不変)。
     const has289fW = /function wbgConvStr\(/.test(html);
     const SECS = /const PP_OTHER_STATUS_AXES=/.test(html) ? ['decl', 'badge', 'status'] : ['decl', 'badge'];
+    // 第290便f(第80報で閉じた AN114「既定は畳む(選択中は見える)」—— 世代切替 has290f = html の `const PP_OTHER_SEC_FOLDED=`):
+    //   「状況(説明タブ)」の段は**画面幅によらず**既定で畳む(広い画面の既定は decl/badge 開・status 畳)。判定の強さは不変 —— 期待の段ごとの既定だけを切り替える
+    const FOLDED290 = /const PP_OTHER_SEC_FOLDED=/.test(html) ? ['status'] : [];
     const VPS = [{ name: 'Mobile-360x640', width: 360, height: 640, mobile: true }, { name: 'PC-1280x800', width: 1280, height: 800, mobile: false }];
     const openPage = async (vp) => {
       const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.mobile, hasTouch: vp.mobile });
@@ -42216,15 +43174,20 @@ if (!FAST) {
       const d0 = await st();
       o.hDefault = d0.h;
       const all = (v) => SECS.map(() => v).join('/');   // 第289便f: 段の数(2 → 3)に合わせた '1/1(/1)'
-      const wantFold = o.exp.narrow ? all('1') : all('0');
-      o.defaultOk = d0.fold === wantFold && d0.aria === (o.exp.narrow ? all('false') : all('true')) && d0.secTxt.join('|') === o.exp.secs.join('|')
-        && d0.nhid === (o.exp.narrow ? d0.offIn : all('0')) && (o.exp.narrow ? d0.vis === 'all' : true);
+      // 第290便f: 段ごとの既定(狭い画面は全段畳む・広い画面は FOLDED290 の段だけ畳む)
+      const fold0 = SECS.map((s) => o.exp.narrow || FOLDED290.indexOf(s) >= 0);
+      const wantFold = fold0.map((f) => (f ? '1' : '0')).join('/');
+      const wantFoldT = fold0.map((f) => (f ? '0' : '1')).join('/');   // 全段を 1 回ずつ押した後
+      const offIn0 = d0.offIn.split('/');
+      o.defaultOk = d0.fold === wantFold && d0.aria === fold0.map((f) => (f ? 'false' : 'true')).join('/') && d0.secTxt.join('|') === o.exp.secs.join('|')
+        && d0.nhid === fold0.map((f, i) => (f ? offIn0[i] : '0')).join('/') && (o.exp.narrow ? d0.vis === 'all' : true);
+      o.fold0 = wantFold;
       // ③ 実タップで開く/畳む
       for (const s of SECS) { await tapOrClick('#ppOtherSec_' + s); await pg.waitForTimeout(40); }
       const d1 = await st();
       for (const s of SECS) { await tapOrClick('#ppOtherSec_' + s); await pg.waitForTimeout(40); }
       const d2 = await st();
-      o.tapOk = d1.fold === (o.exp.narrow ? all('0') : all('1')) && d2.fold === wantFold;
+      o.tapOk = d1.fold === wantFoldT && d2.fold === wantFold;
       const hOpen = o.exp.narrow ? d1.h : d0.h, hFold = o.exp.narrow ? d0.h : d1.h;
       o.hOpen = hOpen; o.hFold = hFold;
       // キーボード(Enter)と組み直しをまたぐ記憶
@@ -42267,7 +43230,7 @@ if (!FAST) {
       await ctx.close();
     }
     add('ui.pickerOtherFold', fo.every((o) => o.ok),
-      fo.map((o) => `${o.vp}: 既定 ${o.exp.narrow ? '畳む(狭い画面)' : '開く'}=${o.defaultOk}・見出しの実タップで開閉=${o.tapOk}・Enter と組み直しをまたぐ記憶=${o.kbOk}` +
+      fo.map((o) => `${o.vp}: 既定 ${o.exp.narrow ? '畳む(狭い画面)' : (FOLDED290.length ? '開く(「状況」の段は畳む —— AN114)' : '開く')} [${o.fold0}]=${o.defaultOk}・見出しの実タップで開閉=${o.tapOk}・Enter と組み直しをまたぐ記憶=${o.kbOk}` +
         `・畳んでも含む/除くは見える(📇∧コア公理∧¬引きずり ${o.exp.sel} 行・要約行不変)=${o.selOk}・0 件の軸 [${o.zero || 'なし'}] は無効表示で残る=${o.zeroOk}` +
         `・「その他」の高さ 畳んだ ${o.hFold}px/開いた ${o.hOpen}px/選択 3 つで畳んだ ${o.hSel}px=${o.heightOk}・箱の内側・横はみ出し 0=${o.layOk}` +
         `・#presetSelect/presetSig/params 不変=${o.same}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
@@ -42442,6 +43405,207 @@ if (!FAST) {
         `・AND 部分∧保留 ${o.andRes[0]}=${o.andExp.partialHold}・達∧¬較正対象外 ${o.andRes[1]}=${o.andExp.metNotOos}=${o.andOk}` +
         `・畳んでも含む/除くは見える=${o.foldOk}(既定 ${o.foldedAtStart ? '畳む' : '開く'})・ⓘ=${o.noteOk}・見出し=${o.secOk}・en [${o.en.sec}: ${o.en.labels.join('|')}]=${o.enOk}` +
         `・#presetSelect/presetSig/params 不変=${o.same}${o.bad.length ? '・NG ' + o.bad.slice(0, 4).join(' ') : ''}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
+  }
+}
+
+// ---- 第290便f(原仮定者の裁定(第80報)④⑦・第80報で閉じた AN114・統括の検証項目 R130): **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。
+// ----   ui.aboutOrder … 「このアプリについて」の DOM の h4 の順が「この宇宙の法則(要約)」→「操作」(ja/en)・法則の本文(helpLawsBody)が法則の見出しの
+// ----     直後・初見ガイドのボタンが法則の見出しより前・操作の節に 観測との差/ライブ比較/一覧の区画(helpPickerScope)の段落・i18n の文は T の語のまま
+// ----     (語の書き換えなし)。世代判定は html の `mk("p",T("helpPickerScope"))` —— root 等は SKIP。
+// ----   ui.pickerScope … 一覧(#ppList)の**区画の見出し 3 つ**(DFM 本体 → DFM の外のアナロジー → 現実較正と照合): ① 区画の表 GROUP_SCOPE = この場で
+// ----     書いた対応表(スピンと熱・自転と減光・腕と渦伸長(軸力)→ 外・現実較正/現実との照合 → 較正・残りは本体)・GROUP_ORDER の全群が表にある・群の名前は
+// ----     改名していない(「スピンと熱」「自転と減光」を宣言する本がある)/ ② axisBar 3 本(🥢🎏🎚️)の group = 新群「腕と渦伸長(軸力)」・新群の員 = その 3 本・
+// ----     「銀河の力学」に axisBar は残らない・新群の id armsVortex・en 名・絵文字 🌀・群の説明(ja/en)に「DFM の公理の帰結ではない」と physics.axisForce /
+// ----     ③ DOM: 区画の見出しは 3 つでこの順・語 = T(ppScope_*)・押せない表示行(button でない・role=heading)・**data-n を持たない**・各群の見出しは
+// ----     自分の区画の見出しの下(群の名前 → gScope の照合 = この場の表)・区画は一続き(同じ区画の見出しは 1 回)/ 件数 data-books = その区画に並ぶ行のうち
+// ----     退役の印の無い行の数 = この場の宣言からの数え直し(catalog 非表示・退役・既定で隠す variant を除く)/ 退役の本を読み込むと行に残るが区画の数に
+// ----     入らない / 「すべて表示」でも件数一致 / 検索「🥢」で区画の見出しは外の 1 つだけ(件数 1)/ ④ 360×640 で見出しが箱の内側・文書の横はみ出し 0 /
+// ----     en の語 / 隠し #presetSelect の optgroup の並び = 区画の順 / presetSig・params 不変 / JS エラー 0。root 等(GROUP_SCOPE なし)は SKIP。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/mk\("p",T\("helpPickerScope"\)\)/.test(html)) {
+    console.log('SKIP ui.aboutOrder(対象に第290便f の「このアプリについて」の並び替えなし — root 等)');
+  } else {
+    const ab = [];
+    for (const lang of ['ja', 'en']) {
+      const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      const o = await pg.evaluate(async (lang) => {
+        HP.setLang(lang);
+        await new Promise((r) => setTimeout(r, 30));
+        document.getElementById('appTitle').click();
+        await new Promise((r) => setTimeout(r, 30));
+        const el = document.getElementById('aboutBody');
+        const kids = [...el.children];
+        const h4 = kids.filter((e) => e.tagName === 'H4').map((e) => e.textContent);
+        const idx = (txt, tag) => kids.findIndex((e) => e.tagName === tag && e.textContent === txt);
+        const iLaws = idx(HP.T('helpLaws'), 'H4'), iOps = idx(HP.T('helpOps'), 'H4');
+        const iLawsBody = idx(HP.T('helpLawsBody'), 'P'), iOpsBody = idx(HP.T('helpOpsBody'), 'P');
+        const iFv = kids.findIndex((e) => e.id === 'btnFvAgain');
+        const iAbout = idx(HP.T('aboutBody'), 'P');
+        const iObs = idx(HP.T('helpObsCompare'), 'P'), iLive = idx(HP.T('helpLiveCompare'), 'P'), iScope = idx(HP.T('helpPickerScope'), 'P');
+        const shown = document.getElementById('aboutPanel').style.display === 'block';
+        const head = (k) => HP.T(k).split(lang === 'ja' ? '(' : ' (')[0];
+        const r = { lang, h4, iAbout, iFv, iLaws, iLawsBody, iOps, iOpsBody, iObs, iLive, iScope, shown,
+          scopeWords: ['ppScope_main', 'ppScope_outside', 'ppScope_cal'].every((k) => HP.T('helpPickerScope').indexOf(head(k)) >= 0) };
+        r.ok = shown && h4.length === 2 && h4[0] === HP.T('helpLaws') && h4[1] === HP.T('helpOps')
+          && iAbout === 0 && iFv === 1 && iLaws === 2 && iLawsBody === 3 && iOps === 4 && iOpsBody === 5
+          && iObs === 6 && iLive === 7 && iScope === 8 && kids.length === 9 && r.scopeWords;
+        document.getElementById('aboutClose').click();
+        return r;
+      }, lang);
+      o.errs = errs.slice(0, 2); o.ok = o.ok && errs.length === 0;
+      ab.push(o);
+      await ctx.close();
+    }
+    add('ui.aboutOrder', ab.every((o) => o.ok),
+      ab.map((o) => `${o.lang}: 見出しの順 [${o.h4.join(' → ')}]・本文の位置 aboutBody ${o.iAbout}/初見ガイド ${o.iFv}/法則 h4 ${o.iLaws}・本文 ${o.iLawsBody}/操作 h4 ${o.iOps}・本文 ${o.iOpsBody}`
+        + `・観測との差 ${o.iObs}・ライブ比較 ${o.iLive}・一覧の区画 ${o.iScope}・区画の語=${o.scopeWords}=${o.ok}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / ')
+      + ' —— 原仮定者の裁定(第80報)④「この宇宙の法則(要約)を操作の上へ」(i18n の文は不変・順序だけ)');
+  }
+}
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/const GROUP_SCOPE=/.test(html)) {
+    console.log('SKIP ui.pickerScope(対象に第290便f の区画の表 GROUP_SCOPE なし — root 等)');
+  } else {
+    // この場で書いた対応表(GROUP_SCOPE を写さない)
+    const OUT = ['スピンと熱', '自転と減光', '腕と渦伸長(軸力)'], CAL = ['現実較正', '現実との照合'];
+    const AXB = ['axisBarStill', 'axisBarArms', 'axisBarReach'];
+    const ctx = await browser.newContext({ viewport: { width: 360, height: 640 }, isMobile: true, hasTouch: true });
+    const pg = await ctx.newPage();
+    const errs = [];
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    pg.on('dialog', (d) => d.accept());
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+    const snap = () => pg.evaluate(() => ({ sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+      par: JSON.stringify(HP.sim.params) }));
+    await pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
+      setShowAllSamples(false); HP.loadPreset('saturn', false); });
+    const s0 = await snap();
+    const r = await pg.evaluate(async ([OUT, CAL, AXB]) => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const o = { bad: [] };
+      const expScope = (g) => (OUT.indexOf(g) >= 0 ? 'outside' : (CAL.indexOf(g) >= 0 ? 'cal' : 'main'));
+      const ps = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      // ① 表
+      o.scopes = GROUP_SCOPES.join('/');
+      o.tableOk = o.scopes === 'main/outside/cal' && GROUP_ORDER.every((g) => GROUP_SCOPE[g] === expScope(g))
+        && Object.keys(GROUP_SCOPE).every((g) => GROUP_SCOPE[g] === expScope(g)) && gScope('架空のグループ') === 'main'
+        && gScope('熱の実験室') === 'outside' && gScope('ローターの物語') === 'outside' && gScope('現実との照合・連星') === 'cal';
+      o.notRenamed = ['スピンと熱', '自転と減光'].every((g) => GROUP_ORDER.indexOf(g) >= 0 && ps.some((p) => p.group === g));
+      // ② 新群と axisBar
+      const NG = '腕と渦伸長(軸力)';
+      o.axb = AXB.map((id) => { const p = ps.find((q) => q.id === id); return p ? p.emoji + ':' + p.group : id + ':なし'; });
+      o.newMembers = ps.filter((p) => gCanon(p.group) === NG).map((p) => p.id);
+      o.galaxyAxb = ps.filter((p) => gCanon(p.group) === '銀河の力学' && AXB.indexOf(p.id) >= 0).length;
+      const nj = (I18N.ja.groupNotes || {})[NG] || '', ne = (I18N.en.groupNotes || {})[NG] || '';
+      o.newOk = AXB.every((id) => (ps.find((q) => q.id === id) || {}).group === NG)
+        && JSON.stringify(o.newMembers.slice().sort()) === JSON.stringify(AXB.slice().sort()) && o.galaxyAxb === 0
+        && groupIdOf(NG) === 'armsVortex' && I18N.en.groups[NG] === 'Arms & Vortex Stretching (Axis Force)' && gIcon(NG) === '🌀'
+        && /DFM の公理の帰結ではない/.test(nj) && /physics\.axisForce/.test(nj) && /NOT A CONSEQUENCE OF THE DFM AXIOMS/.test(ne) && /physics\.axisForce/.test(ne)
+        && GROUP_ORDER.indexOf(NG) >= 0;
+      // ③ DOM
+      const nameToGroup = (name) => orderedGroups().find((g) => gName(g) === name) || null;
+      const read = () => {
+        const list = document.getElementById('ppList');
+        const out = { heads: [], seq: [], rowsBy: {}, retBy: {}, groupBad: [], dataN: 0, btn: 0, role: 0 };
+        let sc = null;
+        for (const e of list.children) {
+          if (e.classList.contains('ppScopeHead')) {
+            sc = e.dataset.scope; out.heads.push({ sc, name: e.querySelector('.ppScopeName').textContent, books: +e.dataset.books,
+              cnt: e.querySelector('.ppScopeCount').textContent });
+            if (e.hasAttribute('data-n')) out.dataN++;
+            if (e.tagName === 'BUTTON') out.btn++;
+            if (e.getAttribute('role') === 'heading') out.role++;
+            out.rowsBy[sc] = 0; out.retBy[sc] = 0;
+          } else if (e.classList.contains('ppScopeEnd')) { sc = null;
+          } else if (e.classList.contains('ppGroupHead')) {
+            const name = e.querySelector('span:not([class])').textContent;
+            const g = nameToGroup(name);
+            if (sc && (!g || gScope(g) !== sc || expScope(g) !== sc)) out.groupBad.push(name + '@' + sc);
+            out.seq.push(sc);
+          } else if (e.classList.contains('ppGroupBody') && sc) {
+            for (const row of e.querySelectorAll('.ppRow')) { out.rowsBy[sc]++; if (row.textContent.indexOf('〔' + HP.T('retiredTag') + '〕') >= 0) out.retBy[sc]++; }
+          }
+        }
+        return out;
+      };
+      // 宣言からの数え直し(一覧に出す本 —— catalog 非表示・退役・既定で隠す variant を除く)
+      const expCount = (showAll) => { const c = { main: 0, outside: 0, cal: 0 };
+        for (const p of BUILTIN_PRESETS) {
+          if (catalogHidden(p) || p.familyRole === 'retired') continue;
+          if (!showAll && p.familyId && p.familyRole === 'variant' && !(HP.currentPreset() && HP.currentPreset().id === p.id)) continue;
+          c[expScope(gCanon(p.group))]++;
+        }
+        return c; };
+      const judge = (d, exp, label) => {
+        const ok = d.heads.map((h) => h.sc).join('/') === 'main/outside/cal' && d.heads.every((h) => h.name === HP.T('ppScope_' + h.sc))
+          && d.dataN === 0 && d.btn === 0 && d.role === 3 && d.groupBad.length === 0
+          && d.heads.every((h) => h.books === d.rowsBy[h.sc] - d.retBy[h.sc] && h.cnt === String(h.books) && h.books === exp[h.sc]);
+        if (!ok) o.bad.push(label + ':' + JSON.stringify({ heads: d.heads, rows: d.rowsBy, ret: d.retBy, exp, gb: d.groupBad, dataN: d.dataN, btn: d.btn, role: d.role }));
+        return ok;
+      };
+      showPresetPicker(); await wait(60);
+      const d0 = read();
+      o.counts = d0.heads.map((h) => h.sc + ' ' + h.books).join('・');
+      o.domOk = judge(d0, expCount(false), 'default');
+      // 連続性: seq の区画は main… → outside… → cal…(戻らない)
+      const rk = (s) => ['main', 'outside', 'cal'].indexOf(s);
+      o.contig = d0.seq.every((s, i) => i === 0 || rk(s) >= rk(d0.seq[i - 1]));
+      // 隠し #presetSelect の optgroup の並び = 区画の順
+      const og = [...document.querySelectorAll('#presetSelect optgroup')].map((x) => nameToGroup(x.label)).filter(Boolean);
+      o.selOk = og.length >= 3 && og.every((g, i) => i === 0 || rk(gScope(g)) >= rk(gScope(og[i - 1])));
+      // 「すべて表示」
+      hidePresetPicker(); setShowAllSamples(true); showPresetPicker(true); await wait(60);
+      o.allOk = judge(read(), expCount(true), 'showAll');
+      hidePresetPicker(); setShowAllSamples(false);
+      // 退役の本を読み込む(行に残るが区画の数に入らない)—— 退役の id は宣言から引く(固定しない)
+      const ret = BUILTIN_PRESETS.find((p) => p.familyRole === 'retired' && !catalogHidden(p));
+      o.retId = ret ? ret.id : null;
+      if (ret) {
+        HP.loadPreset(ret.id, false); await wait(40);
+        showPresetPicker(true); await wait(60);
+        const d2 = read();
+        const sc = expScope(gCanon(ret.group));
+        o.retScope = sc; o.retRows = d2.retBy[sc];
+        o.retOk = judge(d2, expCount(false), 'retired') && d2.retBy[sc] === 1;
+        hidePresetPicker(); HP.loadPreset('saturn', false); await wait(40);
+      } else o.retOk = true;
+      // 検索「🥢」→ 外の区画の見出しだけ(件数 1)
+      ppSearch = '🥢'; showPresetPicker(true); await wait(60);
+      const d3 = read();
+      o.searchOk = d3.heads.length === 1 && d3.heads[0].sc === 'outside' && d3.heads[0].books === 1;
+      ppSearch = ''; ppFilterSig = null; showPresetPicker(true); await wait(60);
+      // 箱の内側・横はみ出し 0
+      const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
+      o.layOk = [...document.querySelectorAll('#ppList .ppScopeHead')].every((e) => { const q = e.getBoundingClientRect(); return q.left >= box.left - 0.5 && q.right <= box.right + 0.5 && q.height > 0; })
+        && document.documentElement.scrollWidth - innerWidth <= 0;
+      // en
+      hidePresetPicker(); HP.setLang('en'); showPresetPicker(); await wait(60);
+      const d4 = read();
+      o.enNames = d4.heads.map((h) => h.name);
+      o.enOk = d4.heads.length === 3 && d4.heads.every((h) => h.name === I18N.en['ppScope_' + h.sc]) && /^DFM proper/.test(o.enNames[0]) && /^Analogies outside DFM/.test(o.enNames[1]);
+      hidePresetPicker(); HP.setLang('ja'); try { localStorage.removeItem('hp_pick_open'); } catch (_) {} ppOpen = {};
+      return o;
+    }, [OUT, CAL, AXB]);
+    const s1 = await snap();
+    r.same = s1.sig === s0.sig && s1.par === s0.par;
+    r.ok = r.tableOk && r.notRenamed && r.newOk && r.domOk && r.contig && r.selOk && r.allOk && r.retOk && r.searchOk && r.layOk && r.enOk && r.same && errs.length === 0;
+    add('ui.pickerScope', r.ok,
+      `**区画 3 つ**(原仮定者の裁定(第80報)⑦・R130 —— 表示専用): 表 GROUP_SCOPE = この場の対応表(外 = スピンと熱・自転と減光・腕と渦伸長(軸力)/ 較正 = 現実較正・現実との照合 / 残り本体)=${r.tableOk}`
+      + `・群は改名しない=${r.notRenamed} / 新群「腕と渦伸長(軸力)」(armsVortex・🌀・en・説明に「DFM の公理の帰結ではない」)= [${r.axb.join(' ')}]・員 ${r.newMembers.length}・銀河の力学に残る axisBar ${r.galaxyAxb}=${r.newOk}`
+      + ` / 360×640: 見出し 本体 → 外 → 較正・語 = T・表示行(role=heading・button でない・data-n なし)・群はその区画の下=${r.domOk}(${r.counts} —— 退役を除く宣言からの数え直しと一致)・区画は一続き=${r.contig}`
+      + `・隠し #presetSelect の optgroup も区画順=${r.selOk}・すべて表示=${r.allOk}・退役の本 ${r.retId || 'なし'} を読み込む → 行 ${r.retRows === undefined ? '-' : r.retRows}・区画の数に入らない=${r.retOk}`
+      + `・検索「🥢」→ 外の区画だけ=${r.searchOk}・箱の内側/横はみ出し 0=${r.layOk}・en [${(r.enNames || []).join(' | ')}]=${r.enOk}・presetSig/params 不変=${r.same}`
+      + `${r.bad.length ? '・NG ' + r.bad.slice(0, 3).join(' ; ') : ''}${errs.length ? '・JS ' + errs.slice(0, 2).join(' | ') : ''}`);
+    await ctx.close();
   }
 }
 
@@ -43195,7 +44359,13 @@ if (!FAST) {
       const wantW288 = hasBox2
         ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', 'スピンと熱',
            '箱宇宙の実験', '自転と減光', '現実較正', '実在天体のアナロジー'] : null;
-      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288].filter(Boolean);
+      // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130): 群を 3 つの区画(本体 → DFM の外のアナロジー → 現実較正と照合)の順に並べ、
+      //   新群「腕と渦伸長(軸力)」(axisBar 3 本)を外の区画の末尾に置いた —— 候補を追加して世代ごとに**厳密一致**で判定する(候補数=9 —— 弱体化なし)
+      const w290 = HP.allPresets().some(p => p.group === '腕と渦伸長(軸力)');
+      const wantW290 = (hasBox2 && w290)
+        ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験', '実在天体のアナロジー',
+           'スピンと熱', '自転と減光', '腕と渦伸長(軸力)', '現実較正'] : null;
+      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, wantW290].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
@@ -43206,6 +44376,7 @@ if (!FAST) {
       res.wave272 = !!wantW272 && hit === wantW272;
       res.wave273 = !!wantW273 && hit === wantW273;
       res.wave288 = !!wantW288 && hit === wantW288;
+      res.wave290 = !!wantW290 && hit === wantW290;
       // 第149便: グループ跨ぎファミリーの分割(表示専用)。天体の物語側の 🌍🌕 / 🪐🎯 は
       // それぞれ earthmoonToy / saturnToy として自グループ内で完結し、☿ は単独(familyId なし)。
       // 現実との照合側の既存ファミリー(mercury / earthmoon / saturn)は id 名ごと不変。
@@ -43239,6 +44410,9 @@ if (!FAST) {
       for (const id of ['darkrotor', 'rotorSolo', 'bhCore', 'massLadder', 'nebulaRotor', 'nebulaShell',
         'nebulaBipolar', 'selfRotor', 'starSeed', 'counterring', 'merger']) res.fam151[id] = famOf(id);
       res.w283b = HP.allPresets().some((p) => p.id === 'darkrotor' && p.familyRole === 'retired');   // 第283便b: 退役の世代
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 w290b = RETIRED_PRESETS に ❄️ の行。家族 supernova は 🥀(実在天体のアナロジー)と
+      //   🎇(天体の機構 —— 群は変えない)を**宣言して**またぐ(「家族は群をまたいでよい」)。跨ぎを許すのは宣言したこの 1 家族だけ
+      res.w290b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal;
       // 第151便: 全ファミリーのグループ集合(単一であること = family-invariant)
       res.famGroups = fids.map((f) => [f, [...new Set(HP.allPresets()
         .filter((p) => p.familyId === f).map((p) => p.group || '内蔵'))].sort()]).sort();
@@ -43524,7 +44698,7 @@ if (!FAST) {
       return res;
     });
     add('groups.reorder', r.groupsOk,
-      `optgroups=${JSON.stringify(r.groups)}(${r.wave288 ? '第288便b 「現実較正」1 つ(原仮定者の裁定(第78報)④)' : r.wave273 ? '第273便a 改名+分割(原仮定者の列挙順・新グループ「時計と重力」)'
+      `optgroups=${JSON.stringify(r.groups)}(${r.wave290 ? '第290便f 区画の順(本体 → DFM の外のアナロジー → 現実較正と照合)+新群「腕と渦伸長(軸力)」(原仮定者の裁定(第80報)⑦)' : r.wave288 ? '第288便b 「現実較正」1 つ(原仮定者の裁定(第78報)④)' : r.wave273 ? '第273便a 改名+分割(原仮定者の列挙順・新グループ「時計と重力」)'
         : (r.wave272 ? '第272便d 論文順(+新グループ「実在天体のアナロジー」)'
         : (r.wave220 ? '第220便 再編順(「現実との照合」を太陽系/太陽系外へ分割)'
         : (r.wave151 ? '第151便 再編順(銀河の物語の直後へ「ローターの物語」を新設)'
@@ -43546,13 +44720,13 @@ if (!FAST) {
         && eq(r.fam.saturnRingRealKF1, ['saturn', 'primary', r.w220Gen ? '現実との照合・太陽系' : '現実との照合'])
         // 跨ぐファミリーは第82便からの collide / rotorform だけ・全ファミリーに primary がちょうど1本。
         // 第151便を適用した世代ではその2件も解消済みなので期待は0件(世代で切り替え — 弱体化なし)
-        && eq(r.crossGroupFams, r.w151Gen ? [] : ['collide', 'rotorform']) && r.famPrimaryBad.length === 0;
+        && eq(r.crossGroupFams, r.w151Gen ? (r.w290b ? ['supernova'] : []) : ['collide', 'rotorform']) && r.famPrimaryBad.length === 0;
       add('groups.family-split', !r.w149Gen || split,
         r.w149Gen
           ? `🌍🌕=earthmoonToy・🪐🎯=saturnToy・☿=単独=${split} / 現実との照合側の primary=`
             + `${JSON.stringify([r.fam.mercuryRealKF1, r.fam.earthMoonRealKF1, r.fam.saturnRingRealKF1])} / `
             + `グループを跨ぐファミリー=${JSON.stringify(r.crossGroupFams)}`
-            + `(期待=${r.w151Gen ? '0件(第151便で collide/rotorform の跨ぎも解消)'
+            + `(期待=${r.w151Gen ? (r.w290b ? 'supernova の 1 件だけ(第290便b の宣言した跨ぎ —— 🥀 と 🎇)' : '0件(第151便で collide/rotorform の跨ぎも解消)')
               : '第82便からの collide / rotorform のみ'})/ `
             + `primary が1本でないファミリー=${JSON.stringify(r.famPrimaryBad)}(0件)`
           : 'SKIP(第149便 未適用 — 対象にグループ「現実との照合」なし)');
@@ -43565,7 +44739,7 @@ if (!FAST) {
     // 第151便 未適用の対象(root 等・グループ「ローターの物語」なし)は自動 SKIP(第149便と同じ流儀)
     {
       const eq = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-      const multi = (r.famGroups || []).filter((x) => x[1].length !== 1);
+      const multi = (r.famGroups || []).filter((x) => x[1].length !== 1 && !(r.w290b && x[0] === 'supernova'));   // 第290便b: 宣言した跨ぎ(supernova)だけは除く
       const ROTOR = r.gn ? r.gn.rotor : 'ローターの物語';   // 第273便a: 世代ごとの群名
       const CEL2 = r.gn ? r.gn.cel : '天体の物語';
       const GAL2 = r.gn ? r.gn.gal : '銀河の物語';
@@ -52213,7 +53387,12 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const src = (j.conditionMismatch && Array.isArray(j.conditionMismatch.rows)) ? j.conditionMismatch.rows : [];
       if (src.length !== 0 || nCond !== 0) bad.push(`⑥第289便b の世代で条件不一致が 0 行でない(行 ${src.length}・門 ${nCond})`);
       const cr = j.condRowsRedeclared.rows;
-      if (cr.length !== 17) bad.push(`⑥第289便b の世代で宣言し直した行が 17 行でない(${cr.length})`);
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 退役した ❄️ の 2 行は母集団の外へ出る —— 期待の行数は**表(tests/data-w289b-condrows.json)の量のうち
+      //   正本の母集団に居る本の行**から数える(手で書かない)。第289便b の世代(❄️ 在位)は 17・第290便b の鎖の後は 15
+      let wantCr = 17;
+      try { const TBc = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w289b-condrows.json'), 'utf8'));
+        const popC = new Set((j.presets || []).map((p) => p.id)); wantCr = TBc.quantities.filter((z) => popC.has(z.id)).length; } catch (e) { wantCr = 17; }
+      if (cr.length !== wantCr) bad.push(`⑥第289便b の世代で宣言し直した行が ${wantCr} 行(表の量のうち母集団の本)でない(${cr.length})`);
       const offR = cr.filter((z) => !(z.required && z.required.kFrame === 0 && z.required.source === 'obsCard-cond' && z.measuredKFrame === 0
         && z.conditionMatch === true && ['合', '窓', '否', '従', '転'].includes(z.verdict) && z.formerName));
       if (offR.length) bad.push(`⑥宣言し直した行に条件欄・判定・旧行名の揃わない行: ${offR.map((z) => z.id + '/' + z.target).join(',')}`);
@@ -52391,6 +53570,13 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       //   (印があるのに JSON にある・印が無いのに JSON に無い、はどちらも落とす)。正本は 1 つなので root の走行でも同じ規則
       const has288bV = !!((j.meta || {}).populationRule);
       const RET_MARK = '退役(第288便b・較正母集団の外)';
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 退役の印に「退役(第290便b・較正母集団の外)」(❄️)を足した。世代切替 has290bC = 正本の母集団に
+      //   ❄️ が無く 🥶 がある(鎖の後)。鎖の前は ❄️ が正本にまだ居るので、第290便b の印の行が JSON にあっても落とさない(鎖待ち)。
+      //   🥶 の行の判定欄は**鎖の後に verdictLedger から記入する**(鎖の前は「(鎖の後に記入 —— 第290便b)」—— 鎖の後もこのままなら落とす)
+      const RET_MARK290 = '退役(第290便b・較正母集団の外)', PEND290 = '(鎖の後に記入 —— 第290便b)';
+      const has290bC = !byId.has('plutoCharonReal') && byId.has('plutoCharonDiagInput');
+      const skip290 = !marks.some((x) => x[1] === 'plutoCharonDiagInput');
+      let wait290 = 0, pend290 = 0;   // 鎖待ちの ❄️ の行(正本にまだ居る)・判定の記入待ちの 🥶 の行(正本にまだ無い)
       const bad = [], seen = [], retiredRows = [];
       for (const line of md.split('\n')) {
         const m = line.match(/^\|\s*`(\w+)`\s*\|/);
@@ -52398,17 +53584,29 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         const cells = line.split('|').map((s) => s.trim());
         // cells[0] は空・cells[1]=ID・cells[2]=絵文字・cells[3]=版・cells[4]=判定
         const id = m[1], v = cells[4];
+        // 第290便b: 🥶 を内蔵に持たない旧世代の html(root —— 第280便d より前)では 🥶 の行を台帳の外として数えない
+        if (id === 'plutoCharonDiagInput' && skip290) continue;
         seen.push(id);
-        if (V4.indexOf(v) < 0) bad.push(`②4 値の外: ${id}→${String(v).slice(0, 12)}`);
         const led = byId.get(id);
-        const retMark = has288bV && String(cells[3]).indexOf(RET_MARK) >= 0;
+        if (id === 'plutoCharonDiagInput' && v === PEND290) {   // 第290便b: 🥶 の判定は鎖の後に記入
+          if (led) bad.push(`③鎖の後の正本に 🥶 の行がある —— 判定欄を verdictLedger から記入すること(${led.verdict4})`);
+          else pend290++;
+          continue;
+        }
+        if (V4.indexOf(v) < 0) bad.push(`②4 値の外: ${id}→${String(v).slice(0, 12)}`);
+        const ret290 = has288bV && String(cells[3]).indexOf(RET_MARK290) >= 0;
+        const retMark = has288bV && (String(cells[3]).indexOf(RET_MARK) >= 0 || ret290);
         if (retMark) retiredRows.push(id);
         if (!led) { if (!retMark) bad.push(`③JSON の台帳に無い: ${id}`); }
+        else if (ret290 && !has290bC) wait290++;   // 第290便b: 鎖の前(❄️ は正本にまだ居る)—— 鎖待ち
         else if (retMark) bad.push(`③退役の印があるのに JSON の台帳にある: ${id}`);
         else if (led.verdict4 !== v) bad.push(`③判定が JSON と食い違う: ${id} 文書=${v} JSON=${led.verdict4}`);
       }
-      if (has288bV && seen.length - retiredRows.length !== byId.size)
-        bad.push(`③印の無い行 ${seen.length - retiredRows.length} が JSON の台帳 ${byId.size} 本と合わない`);
+      // 第290便b: 鎖の前は ❄️(第290便b の印)が正本に居て 🥶 が居ない —— 印の無い行(🥶 を含む)と正本の本数は 1 出 1 入で同じに数える
+      const nLed = byId.size - (skip290 && byId.has('plutoCharonDiagInput') ? 1 : 0);
+      const nRows = seen.length - retiredRows.length + wait290 - pend290;
+      if (has288bV && nRows !== nLed)
+        bad.push(`③印の無い行 ${nRows}(鎖待ち ❄️ ${wait290}・記入待ち 🥶 ${pend290} を勘定)が JSON の台帳 ${nLed} 本と合わない`);
       const miss = calIds.filter((x) => seen.indexOf(x) < 0);
       const extra = seen.filter((x) => calIds.indexOf(x) < 0);
       const dup = seen.filter((x, i) => seen.indexOf(x) !== i);
@@ -53801,8 +54999,19 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // 「見出しテキスト+先頭以外の見出しの上辺境界」だけで示す。判定は同じ強さで新仕様へ追随
       // (見出しが2つ以上・先頭以外は上辺罫線あり・見出しテキストは非空・::after の擬似要素は無い)
       const heads0 = [...document.querySelectorAll('#ppList .ppGroupHead')];
+      // 第290便f(原仮定者の裁定(第80報)⑦・R130): 区画の見出し(.ppScopeHead —— 表示専用の行・data-n なし)と区画の終わり(.ppScopeEnd)を群の見出しの上に置いた。
+      //   区画が変わる所では区切り線を区画の行が持ち、直後の群の見出しは線を重ねない(CSS `.ppScopeHead + .ppGroupHead{border-top:0}`)——
+      //   その群の見出しは「直前の区画の行に上辺罫線がある」ことで区切りを確かめる(線は増えていない・::after の擬似要素が無いことは区画の行にも求める)
+      const sepAbove = (h) => {
+        if (parseFloat(getComputedStyle(h).borderTopWidth) > 0) return true;
+        const pv = h.previousElementSibling;
+        return !!pv && (pv.classList.contains('ppScopeHead') || pv.classList.contains('ppScopeEnd'))
+          && (pv === pv.parentElement.firstElementChild || parseFloat(getComputedStyle(pv).borderTopWidth) > 0);
+      };
+      const scopeRows0 = [...document.querySelectorAll('#ppList .ppScopeHead, #ppList .ppScopeEnd')];
       const grpSepOk = heads0.length >= 2
-        && heads0.slice(1).every((h) => parseFloat(getComputedStyle(h).borderTopWidth) > 0)
+        && heads0.slice(1).every(sepAbove)
+        && scopeRows0.every((h) => { const a = getComputedStyle(h, '::after'); return a.content === 'none' && !(parseFloat(a.height) > 0); })
         && heads0.every((h) => {
           const a = getComputedStyle(h, '::after');
           return h.textContent.trim().length > 0
@@ -58849,6 +60058,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
           if (cs.length && !cs.every((e) => e.dataset.status === 'none' && e.textContent.includes(HP.T('lcNone')))) o.none.push(p.id + '(カード)');
           o.nAll = (o.nAll || 0) + 1;
         }
+        // 第290便b(原仮定者の裁定(第80報)⑤・R126): 鎖の前の世代 = html に埋め込んだ正本の行にまだ退役した ❄️ の行がある(🥶 の行は鎖の calaudit 以下の
+        //   再生成で入る)。その世代に限って 🥶 の行の「1 対 1 で引けない」を鎖待ちとして数える(鎖の後は ❄️ の行が無くなり、従来どおり違反)
+        o.preChain290 = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal && !!L.rowOf('plutoCharonReal', '公転周期(kFrame=0 対照・同方向1周)');
         // ⑤ 非有限
         HP.loadPreset('psrDoubleAB', false); HP.sim.overlays.liveCompare = true; L.reset('on'); L.stepN(100);
         L.feed(L.meter(), HP.sim.t + 1, NaN, 0, 0, 0);
@@ -58860,6 +60072,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       for (const x of tab.rows) {
         const tag = `${x.id}「${x.n.slice(0, 12)}」`;
         if (!x.has || x.retired) bad.push(`④${tag}: 内蔵に無い/退役の本`);
+        if (!x.row && tab.preChain290 && x.id === 'plutoCharonDiagInput') { console.log(`NOTE ui.liveCompare ④${tag}: 鎖の前の世代(正本の行は鎖の calaudit 以下の再生成で入る —— 第290便b)`); continue; }
         if (!x.row) { bad.push(`④${tag}: 正本の行に 1 対 1 で引けない`); continue; }
         if (x.o === null) bad.push(`④${tag}: 観測値の無い行`);
         if (x.est && x.u !== x.wantU) bad.push(`④${tag}: 単位 ${x.u} ≠ 推定器 ${x.est} の ${x.wantU}`);
@@ -58985,6 +60198,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         o.retiredDfm = !!(o.w288 && typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.gw150914DFM);
         o.anaJa = (I18N.ja.groupNotes || {})['実在天体のアナロジー'] || '';
         o.calN = ps.filter((p) => p.sampleClass === 'calibration').length;
+        // 第290便b(原仮定者の裁定(第80報)⑤): 世代切替 w290b = RETIRED_PRESETS に ❄️ の行 —— 🥶 の較正分類への昇格で較正クラスは +1(退役は sampleClass を変えない)
+        o.w290b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal;
         // presetSig は group を見ない(4 本の署名が group の書き換えで 1 文字も変わらない)
         o.sigSame = GW4.every((id) => { const p = ps.find((q) => q.id === id); const c = JSON.parse(JSON.stringify(p));
           c.group = '実在天体のアナロジー'; return presetSig(c) === presetSig(p); });
@@ -59007,7 +60222,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const NOTE_IDS = W288 ? GW4.filter((id) => id !== 'gw150914DFM') : GW4;   // 第288便b: 🎻 は退役(カードは退役の 1 行)
       if (JSON.stringify(r.noteKeys) !== JSON.stringify(NOTE_IDS.slice().sort())) bad.push('③カードの 1 行の宣言が家族 ' + NOTE_IDS.length + ' 本だけでない: ' + r.noteKeys.join(','));
       if (W288 && !r.retiredDfm) bad.push('③🎻 が退役の表に無い');
-      if (r.calN !== 37) bad.push(`②較正クラスの本数 ${r.calN}(37 のまま)`);
+      if (r.calN !== 37 + (r.w290b ? 1 : 0)) bad.push(`②較正クラスの本数 ${r.calN}(${r.w290b ? '38 —— 第290便b の 🥶 の昇格で +1' : '37 のまま'})`);
       if (!r.sigSame) bad.push('②presetSig が group で変わる');
       // ③ カードの 1 行(ja/en)
       for (const id of ['gw150914', 'gw150914DFM', 'gw150914Merge4s'].filter((z) => !(W288 && z === 'gw150914DFM'))) {
@@ -59518,6 +60733,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         .map((p) => p.group || '内蔵')).size > 1);
       // ③ **較正 37 本の母集団は不変**(group は sampleClass に触らない)
       o.calN = ps.filter((p) => p.sampleClass === 'calibration').length;
+      // 第290便b(原仮定者の裁定(第80報)⑤): 世代切替 w290b —— 🥶 の較正分類への昇格で +1・家族 supernova は 🥀(実在天体のアナロジー)と
+      //   🎇(天体の機構)を**宣言して**またぐ(「家族は群をまたいでよい」—— 跨ぎを許すのはこの 1 家族だけ)
+      o.w290b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal;
       // ④ **presetSig は group を見ない**: group を書き換えた複製の署名が 1 文字も変わらない
       o.sigSame = WANT0.every((id) => { const p = ps.find((q) => q.id === id);
         const c = JSON.parse(JSON.stringify(p)); c.group = '別のグループ';
@@ -59543,6 +60761,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰(成長経路の原理コピー)で +1   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
       o.has288e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90');   // 第288便e: 🛸(🌚 の軸 90° の原理コピー)で +1
       o.has289e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の層版の診断コピー)で +1
+      o.has290c = HP.allPresets().some((z) => z.id === 'inertialDragPair');   // 第290便c: 🐌(慣性引きずりの診断本)で +1
       // ⑥ 群の説明(ja/en)があり、「観測一致版ではない」を言う
       o.noteJa = (I18N.ja.groupNotes || {})[G] || '';
       o.noteEn = (I18N.en.groupNotes || {})[G] || '';
@@ -59552,13 +60771,13 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     });
     add('preset.groupAnalogies',
       r.exact && r.n === (r.has287d ? 7 : 11) && r.gid === 'realAnalogy' && r.psrToy === r.beyondName
-      && r.lfbot === r.celName && r.cross.length === 0 && r.calN === 37
+      && r.lfbot === r.celName && JSON.stringify(r.cross) === JSON.stringify(r.w290b ? ['supernova'] : []) && r.calN === 37 + (r.w290b ? 1 : 0)
       && r.sigSame && r.sigNoGroup
-      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) && r.beyondN === (r.has288b ? 51 : (r.has287d ? 23 : 19))
+      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) + (r.has290c ? 1 : 0) && r.beyondN === (r.has288b ? 51 : (r.has287d ? 23 : 19))
       && r.noteOk && r.enName === 'Real-object Analogies',
       `**新グループ「実在天体のアナロジー」**(id=${r.gid}・en=${r.enName}): ${r.n} 本=${JSON.stringify(r.members)} / `
       + `🩻 psrDoubleABGeoToy は psr family に残す=${r.psrToy}・🐮 lfbotTrap は入れない=${r.lfbot} / `
-      + `グループを跨ぐファミリー=${JSON.stringify(r.cross)}(0 件)/ **較正の母集団は不変** ${r.calN} 本 / `
+      + `グループを跨ぐファミリー=${JSON.stringify(r.cross)}(${r.w290b ? '第290便b の宣言した跨ぎ supernova だけ' : '0 件'})/ **較正の母集団は不変** ${r.calN} 本${r.w290b ? '(第290便b の 🥶 の昇格で +1)' : ''} / `
       + `**presetSig は group を見ない**=${r.sigSame && r.sigNoGroup}(group を書き換えた複製の署名が同一)/ `
       + `内蔵 ${r.total} 本・群別 ${JSON.stringify(r.counts)}(移動元「${r.beyondName}」は 30→${r.beyondN}${r.has288b ? '〔第288便b で太陽系 28・連星 23 を「現実較正」1 つへ = 51〕' : (r.has287d ? '〔第287便d で BH 連星の家族 4 本が戻り 19→23〕' : '')})/ `
       + `群の説明 ja/en=${r.noteOk}(**観測一致版ではない**と明記)`);
@@ -59582,9 +60801,14 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // 第288便b(原仮定者の裁定(第78報)④): 「現実との照合・太陽系」「現実との照合・連星」→「現実較正」1 つ(世代で切り替える —— 旧世代の期待値は緩めない)
       o.w288 = GROUP_ORDER.indexOf('現実較正') >= 0;
       const R2 = o.w288 ? ['現実較正'] : ['現実との照合・太陽系', '現実との照合・連星'];
+      // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130 —— 世代切替 has290f = GROUP_SCOPE の有無): 区画の順(本体 → DFM の外のアナロジー →
+      //   現実較正と照合)に並べ替え、新群「腕と渦伸長(軸力)」(id armsVortex)を外の区画の末尾へ。旧世代の期待値は 1 文字も緩めない
+      o.w290 = (typeof GROUP_SCOPE !== 'undefined');
+      const SEEN290 = ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験', '実在天体のアナロジー',
+        'スピンと熱', '自転と減光', '腕と渦伸長(軸力)', '現実較正'];
       // ① GROUP_ORDER そのもの(第272便d=論文順 / 第273便a=原仮定者の列挙順+末尾に予約名 3)
       o.order = GROUP_ORDER.slice();
-      o.orderOk = JSON.stringify(o.order) === JSON.stringify(o.w273
+      o.orderOk = JSON.stringify(o.order) === JSON.stringify(o.w290 ? [...SEEN290, '法則の実験室', 'シミュレーション', '現実との照合'] : o.w273
         ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', 'スピンと熱',
           '箱宇宙の実験', '自転と減光', ...R2,
           '実在天体のアナロジー', '法則の実験室', 'シミュレーション', '現実との照合']
@@ -59593,7 +60817,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
           '現実との照合・太陽系外', '実在天体のアナロジー', 'シミュレーション', '現実との照合']);
       // ② 実際に出る並び(存在する群だけ)
       o.seen = orderedGroups();
-      o.seenOk = JSON.stringify(o.seen) === JSON.stringify(o.w273
+      o.seenOk = JSON.stringify(o.seen) === JSON.stringify(o.w290 ? SEEN290 : o.w273
         ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', 'スピンと熱',
           '箱宇宙の実験', '自転と減光', ...R2,
           '実在天体のアナロジー']
@@ -59631,7 +60855,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         orderedBuiltins().filter((p) => (p.group || '内蔵') === g).map((p) => p.emoji).join('')]);
       // ⑤ **保存 id は維持**(開閉の記憶が飛ばない)+ 新群だけ id を足した
       o.ids = o.seen.map((g) => groupIdOf(g));
-      o.idsOk = JSON.stringify(o.ids) === JSON.stringify(o.w273
+      o.idsOk = JSON.stringify(o.ids) === JSON.stringify(o.w290
+        ? ['spacetime', 'galaxy', 'celestial', 'clocksGravity', 'light', 'boxUniverse', 'realAnalogy', 'heat', 'rotor', 'armsVortex', 'realityCal']
+        : o.w273
         ? ['spacetime', 'galaxy', 'celestial', 'clocksGravity', 'light',
           'heat', 'boxUniverse', 'rotor', ...(o.w288 ? ['realityCal'] : ['realitySolar', 'realityBeyond']), 'realAnalogy']
         : ['spacetime', 'galaxy', 'celestial', 'light',
@@ -59792,8 +61018,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.enName = I18N.en.groups[G];
       // ① 「運動と時空」に残るのは 5 本(⚾⏪🪗🫂🪟)
       o.rest = ps.filter((p) => p.group === '運動と時空').map((p) => p.id);
+      //    第290便c: 🐌 inertialDragPair(慣性引きずりの診断本)が 🪗 の直後に入った世代は 6 本(世代で切り替える)
       o.restOk = JSON.stringify(o.rest) === JSON.stringify(['projectile', 'echo',
-        'compactForceToy', 'boxBinaryToy', 'spaceMeshBinaryToy']);
+        'compactForceToy'].concat(ps.some((p) => p.id === 'inertialDragPair') ? ['inertialDragPair'] : [], ['boxBinaryToy', 'spaceMeshBinaryToy']));
       // ② **ファミリーを分断していない**: grcal family 4 本が全部新群にいる+跨ぎは 0 件
       const fids = [...new Set(ps.filter((p) => p.familyId).map((p) => p.familyId))];
       o.cross = fids.filter((f) => new Set(ps.filter((p) => p.familyId === f)
@@ -59802,6 +61029,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.grcalOk = o.grcal.length === 4 && o.grcal.every((x) => x[1] === G);
       // ③ **較正 37 本の母集団は不変**・内蔵は 124 本(第274便c で 🎋 が入って 125 本 —— 世代で切り替える)
       o.calN = ps.filter((p) => p.sampleClass === 'calibration').length;
+      o.w290b = typeof RETIRED_PRESETS !== 'undefined' && !!RETIRED_PRESETS.plutoCharonReal;   // 第290便b: 🥶 の昇格で較正クラス +1・家族 supernova の宣言した跨ぎ
       o.total = ps.length;
       o.has274c = ps.some((p) => p.id === 'galaxyMeshSpiralGeoToyLite');
       o.nShapeToy = HP.allPresets().filter((z) => z.physics && z.physics.shapeToy).length;   // 第274便d: 形状トイの本数(総数の世代切り替え)
@@ -59818,6 +61046,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰(成長経路の原理コピー)で +1   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
       o.has288e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90');   // 第288便e: 🛸(🌚 の軸 90° の原理コピー)で +1
       o.has289e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の層版の診断コピー)で +1
+      o.has290c = HP.allPresets().some((z) => z.id === 'inertialDragPair');   // 第290便c: 🐌(慣性引きずりの診断本)で +1
       // ④ **presetSig は group を見ない**: 移した 5 本の署名に群名が出ない
       o.sigNoGroup = WANT.every((id) => presetSig(ps.find((q) => q.id === id)).indexOf(G) < 0);
       // ⑤ 群の説明(ja/en)があり、表示順では「天体の機構」の直後に出る
@@ -59831,8 +61060,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     });
     add('preset.clocksGravity',
       r.exact && r.n === 5 && r.gid === 'clocksGravity' && r.enName === 'Clocks & Gravity'
-      && r.restOk && r.cross.length === 0 && r.grcalOk && r.calN === 37
-      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0)
+      && r.restOk && JSON.stringify(r.cross) === JSON.stringify(r.w290b ? ['supernova'] : []) && r.grcalOk && r.calN === 37 + (r.w290b ? 1 : 0)
+      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) + (r.has290c ? 1 : 0)
       && r.sigNoGroup && r.noteOk && r.posOk,
       `**新グループ「時計と重力」**(第273便a・AH6。id=${r.gid}・en=${r.enName}): ${r.n} 本=`
       + `${JSON.stringify(r.members)} / 「運動と時空」に残る=${JSON.stringify(r.rest)}=${r.restOk} / `
@@ -60368,7 +61597,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           run: run(g0, 600), runG: run(g8, 600) };
       }
       // 宣言している内蔵の本数(この本数だけのはず)
-      const nDecl = all.filter((z) => z.physics && z.physics.shapeToy).map((z) => z.id);
+      // 第290便e: 渦巻の参照模型(shape:"spiral" —— 🍭🎢)はこの 6 本の契約の外(preset.shapeToySpiral が見る)
+      const nDecl = all.filter((z) => z.physics && z.physics.shapeToy && z.physics.shapeToy.shape !== 'spiral').map((z) => z.id);
       // ⑨ 第275便d: 中心天体の質量は対象粒子に効かない(pinned・G=0・規定運動)
       const centreMass = {};
       if (w275d) {
@@ -60383,7 +61613,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // ⑪⑫ 第276便d: **スピン依存**と**重力の扱い**(法則が作った差であることを両側で見る)
       const spinDep = {};
       if (w276d) {
-        for (const id of all.filter((z) => z.physics && z.physics.shapeToy).map((z) => z.id)) {
+        for (const id of all.filter((z) => z.physics && z.physics.shapeToy && z.physics.shapeToy.shape !== 'spiral').map((z) => z.id)) {   // 第290便e: 🍭🎢 は除く
           const p = all.find((z) => z.id === id);
           const hasPin = (p.bodies[0] && p.bodies[0].pinned === true);
           const mk = (spin, phys, cfPatch) => {
@@ -62900,6 +64130,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       r = await page.evaluate(({ TB, FXR, FXD }) => {
         const o = { rowBad: [], fx: [], mig: [] };
         const ps = HP.allPresets(), byId = new Map(ps.map((p) => [p.id, p]));
+        // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = RETIRED_PRESETS に ❄️ の行。在位移行した ❄️ は第290便b で退役した ——
+        //   移行の宣言(geoPN・kFrame・f・law)は表の「後」のまま、familyRole だけが後の便で "retired" へ動いた(表の行の照合から familyRole だけ外す)
+        const R290 = (typeof RETIRED_PRESETS !== 'undefined' && RETIRED_PRESETS.plutoCharonReal) ? new Set(['plutoCharonReal']) : new Set();
+        o.has290b = R290.size > 0;
+        o.retiredDecl = (typeof RETIRED_PRESETS !== 'undefined') ? Object.keys(RETIRED_PRESETS).length : null;
         const kfOf = (p) => (p.physics && typeof p.physics.kFrame === 'number') ? p.physics.kFrame : DEFAULT_PHYSICS.kFrame;
         const fOf = (p) => { const mc = p.massCalibration; if (!mc) return null; return mc.f ?? mc.factor ?? mc.factorUniform ?? null; };
         const decl = (p) => ({ geoPN: p.physics.geoPN, kFrame: p.physics.kFrame, f: fOf(p), law: p.massCalibration ? (p.massCalibration.law || null) : null,
@@ -62908,7 +64143,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           const p = byId.get(row.id);
           if (!p) { o.rowBad.push(row.id + ': 内蔵に無い'); continue; }
           const d = decl(p);
-          for (const k of ['geoPN', 'kFrame', 'f', 'law', 'familyRole']) if (!Object.is(d[k], row.after[k])) o.rowBad.push(`${row.id}.${k}: 表 ${row.after[k]} / 内蔵 ${d[k]}`);
+          for (const k of ['geoPN', 'kFrame', 'f', 'law', 'familyRole']) if (!(k === 'familyRole' && R290.has(row.id) && d[k] === 'retired') && !Object.is(d[k], row.after[k])) o.rowBad.push(`${row.id}.${k}: 表 ${row.after[k]} / 内蔵 ${d[k]}`);
           if (row.action === 'retire') {
             if (p.familyRole !== 'retired') o.rowBad.push(row.id + ': 退役でない');
             for (const k of ['geoPN', 'kFrame', 'f', 'law']) if (!Object.is(d[k], row.before[k])) o.rowBad.push(`${row.id}.${k}: 退役なのに宣言が動いた`);
@@ -62919,7 +64154,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
             if (row.successor && !(s && s.familyRole !== 'retired' && s.sampleClass === 'calibration' && kfOf(s) === 0)) o.rowBad.push(row.id + ': 後継 ' + row.successor + ' が在位の現実較正(kFrame=0)でない');
             if (/精度が高い/.test(e ? e.ja : '')) o.rowBad.push(row.id + ': 退役の理由に「精度が高い」');
           } else {
-            if (p.familyRole === 'retired') o.rowBad.push(row.id + ': 在位移行なのに退役');
+            if (p.familyRole === 'retired' && !R290.has(row.id)) o.rowBad.push(row.id + ': 在位移行なのに退役');
             if (kfOf(p) !== 0) o.rowBad.push(row.id + ': kFrame が 0 でない');
             const wantG = row.before.geoPN === 2 ? 1 : row.before.geoPN;
             if (p.physics.geoPN !== wantG) o.rowBad.push(row.id + ': geoPN ' + p.physics.geoPN + '(期待 ' + wantG + ')');
@@ -62976,7 +64211,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (TB.counts.retire !== 10 || TB.counts.migrate !== 10 || TB.rows.length !== 20) bad.push(`①表の本数 退役 ${TB.counts.retire}・移行 ${TB.counts.migrate}`);
         if (r.popKf.length || r.popG2.length || r.popKfAny) bad.push(`②母集団に kFrame>0 ${r.popKf.join(',')}・geoPN=2∧kFrame>0 ${r.popG2.join(',')}`);
         if (JSON.stringify(r.migKeys) !== JSON.stringify(r.migRows)) bad.push('②UNIFY_MIGRATED と表の移行の集合が違う');
-        if (r.pop !== 20 || r.retired !== 26) bad.push(`②母集団 ${r.pop}(期待 20)・退役 ${r.retired}(期待 26)`);
+        // 第290便b: 母集団の数は**正本 calaudit-w249.json の verdictLedger から数える**(手で書かない —— docs.tallySource の規約)・退役の数は RETIRED_PRESETS の行数と照合
+        //   (第288便b の世代は 20/26 —— 第290便b は ❄️ 出・🥶 入で母集団の数は再集計が決め、退役は 33)
+        let popCanon = null;
+        try { popCanon = ((JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).verdictLedger || {}).rows || []).length; } catch (e) { popCanon = null; }
+        const wantPop = r.has290b ? popCanon : 20, wantRet = r.has290b ? r.retiredDecl : 26;
+        if (r.pop !== wantPop || r.retired !== wantRet) bad.push(`②母集団 ${r.pop}(期待 ${wantPop}${r.has290b ? ' —— 正本の verdictLedger の本数' : ''})・退役 ${r.retired}(期待 ${wantRet}${r.has290b ? ' —— RETIRED_PRESETS の行数' : ''})`);
         for (const z of r.fx) if (!z.sig || !(z.pair > 0) || z.kOnly !== false) bad.push(`④退役の写し ${z.id}: 署名 ${z.sig}・対の差 ${z.pair}・k だけ ${z.kOnly}`);
         for (const z of r.mig) {
           if (z.missing) { bad.push('④旧宣言の写しに ' + z.id + ' が無い'); continue; }
@@ -62994,6 +64234,161 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + ` / 退役の写し: 署名一致・対の差あり(「k だけが違う対」0 組)${r && r.fx ? r.fx.filter((z) => z.sig && z.pair > 0 && z.kOnly === false).length : '—'}/10`
       + ` / 在位移行: 旧宣言に 2 値(geoPN・kFrame)だけを当てると内蔵と署名・200 步がビット一致 ${nMig9}/9・⏰ は f=1(🎐 の観測質量・コアなし・ω 再評価)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): preset.retired290b / docs.d68FactorRow ----
+// ----   **サンプルの整理**(退役 7 本・🥶 の較正昇格・家族 5 組の基準と ids)と **📡 D68 への診断の転記**(値不変)を機械固定する。
+// ----   世代切替 has290b = html の RETIRED_PRESETS に ❄️ plutoCharonReal の行がある。root(旧世代)は SKIP。
+// ----   preset.retired290b:
+// ----     ① 7 本(🫐🌹🌰🥜❄️⛄☃️)が内蔵に残り familyRole:"retired"・RETIRED_PRESETS に理由(ja/en)と see(在位の内蔵の本)
+// ----     ② 凍結の写し tests/fixtures/retired-w290b.json: 7 本の presetSigHash = 内蔵・基点 f03bf5a と同じ署名・physics/bodies が内蔵と同値
+// ----     ③ 🥶 plutoCharonDiagInput が sampleClass:"calibration"・familyRole:"primary"(写しの declChanges に前後 principle → calibration・署名不変)
+// ----     ④ 家族 5 組の基準と ids(器 tests/exp-w283b-families.mjs の FAMILIES): pluto ref 🥶・tuc47 ref 🍇・supernova ref 🥀(🎇 を含む)・
+// ----        shapeToy(🔮🥏🧵 が先頭)/ shapeToyCore(🎱📀🧹 が先頭)/ axisBar(🥢🎏🎚️)—— html の familyId/familyRole と一致・家族ごとに primary が 1 本で ref と同じ
+// ----     ⑤ 原稿 tests/data-w279a-samplestatus-src.json の retired.ids = html の退役の集合・PHYSICS〔第290便b〕節(書かない語なし)
+// ----   docs.d68FactorRow:
+// ----     ① 📡 の obsCard に「否の要因(第280便e の診断・履歴)」の行(obs「—」)があり、model の +42.66 / +42.23 deg/yr が正本 tests/out/d68-w280e.json の
+// ----        h/4 の差(整合初速コピー − 現行 11 体)と initialGeometryDegPerYear を小数 2 桁に丸めた値と一致・en にも同じ数の行
+// ----     ② 📡 の係数 C(zonalCalib)・初速・bodies は基点と同値(写しの declChanges の physicsSame/bodiesSame と presetSigHash の一致 —— 否は否のまま)
+// ----     ③ PHYSICS〔第290便b〕に h/4 の 4 本の値(現行 11 体・🧷・📎・C=1)が正本から並ぶ
+{
+  const html290 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has290b = TARGET.startsWith('beta/') && /^\s+plutoCharonReal:\{ja:"旧入力/m.test(html290);
+  if (!has290b) {
+    console.log('SKIP preset.retired290b / docs.d68FactorRow(第290便b の整理の前の世代 — ' + TARGET + ')');
+  } else {
+    const IDS290 = ['tuc47DFM', 'supernovaProgDFM', 'clusterGrowthCopy', 'fixedCaptureCopy', 'plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero'];
+    const bad = [], badD = [], cases = [], casesD = [];
+    let FX = null, FAM = null, D68 = null, SSRC = null, PH = '';
+    try { FX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'retired-w290b.json'), 'utf8')); } catch (e) { bad.push('②凍結の写しが読めない'); }
+    try { FAM = (await import('file://' + path.join(ROOT, 'tests', 'exp-w283b-families.mjs'))).FAMILIES; } catch (e) { bad.push('④家族の宣言が読めない: ' + String(e).slice(0, 60)); }
+    try { D68 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'd68-w280e.json'), 'utf8')); } catch (e) { badD.push('①正本 d68-w280e.json が読めない'); }
+    try { SSRC = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8')); } catch (e) { bad.push('⑤原稿が読めない'); }
+    try { PH = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8'); } catch (e) { PH = ''; }
+    const r = await page.evaluate(({ IDS290, FAMW }) => {
+      const o = { ret: [], fam: {}, d68: null };
+      const ps = HP.allPresets(), byId = new Map(ps.map((p) => [p.id, p]));
+      for (const id of IDS290) {
+        const p = byId.get(id), e = (typeof RETIRED_PRESETS !== 'undefined') ? RETIRED_PRESETS[id] : null;
+        o.ret.push({ id, has: !!p, role: p ? p.familyRole || null : null, sig: p ? presetSigHash(p) : null,
+          phys: p ? JSON.stringify(p.physics) : null, bodies: p ? JSON.stringify(p.bodies) : null,
+          why: !!(e && e.ja && e.en), see: e && Array.isArray(e.see) ? e.see.map((s) => { const q = byId.get(s); return s + ':' + (q ? (q.familyRole === 'retired' ? 'retired' : 'ok') : 'missing'); }) : [] });
+      }
+      const di = byId.get('plutoCharonDiagInput');
+      o.diag = di ? { sampleClass: di.sampleClass || null, familyId: di.familyId || null, familyRole: di.familyRole || null } : null;
+      for (const F of FAMW) {
+        const mem = ps.filter((p) => p.familyId === F.key).map((p) => ({ id: p.id, role: p.familyRole || null }));
+        o.fam[F.key] = { mem, primaries: mem.filter((z) => z.role === 'primary').map((z) => z.id) };
+      }
+      o.retiredAll = ps.filter((p) => p.familyRole === 'retired').map((p) => p.id).sort();
+      const d = byId.get('saturnZonalD68');
+      o.d68 = d ? { sig: presetSigHash(d), rows: (d.obsCard || []).map((z) => ({ q: z.q, model: z.model, obs: z.obs })),
+        en: ((d.en || {}).obsCard || []).map((z) => ({ q: z.q, model: z.model, obs: z.obs })) } : null;
+      return o;
+    }, { IDS290, FAMW: (FAM || []).filter((F) => ['pluto', 'tuc47', 'supernova', 'shapeToy', 'shapeToyCore', 'axisBar'].includes(F.key)).map((F) => ({ key: F.key })) })
+      .catch((e) => ({ err: String(e).slice(0, 200) }));
+    if (r.err) bad.push('ページ: ' + r.err);
+    else {
+      // ①
+      for (const z of r.ret) {
+        if (!z.has || z.role !== 'retired') bad.push(`①${z.id}: 内蔵 ${z.has}・familyRole ${z.role}`);
+        if (!z.why) bad.push(`①${z.id}: RETIRED_PRESETS の理由(ja/en)が無い`);
+        if (!z.see.length || z.see.some((t) => !/:ok$/.test(t))) bad.push(`①${z.id}: see が在位の内蔵の本でない(${z.see.join(',')})`);
+      }
+      cases.push(`退役 ${r.ret.filter((z) => z.role === 'retired').length}/7(理由と see ${r.ret.filter((z) => z.why && z.see.length && z.see.every((t) => /:ok$/.test(t))).length}/7)`);
+      // ②
+      if (FX) {
+        let nFx = 0;
+        for (const z of r.ret) {
+          const f = (FX.presets || {})[z.id];
+          if (!f) { bad.push('②写しに ' + z.id + ' が無い'); continue; }
+          const ok = f.presetSigHash === z.sig && f.base && f.base.sigSame === true && JSON.stringify(f.raw.physics) === z.phys && JSON.stringify(f.raw.bodies) === z.bodies;
+          if (!ok) bad.push(`②${z.id}: 署名 ${f.presetSigHash}/${z.sig}・基点と同じ ${f.base && f.base.sigSame}・physics/bodies 同値 ${JSON.stringify(f.raw.physics) === z.phys}/${JSON.stringify(f.raw.bodies) === z.bodies}`);
+          else nFx++;
+        }
+        if (FX.fixtureVersion !== 'w290b-retired-1' || FX.frozen !== true || !FX.base || FX.base.rev !== 'f03bf5a') bad.push('②写しの版・凍結・基点の欄');
+        cases.push(`凍結の写し ${nFx}/7(署名 = 内蔵 = 基点 f03bf5a・physics/bodies 同値)`);
+      }
+      // ③
+      const dc = FX ? (FX.declChanges || []).find((z) => z.id === 'plutoCharonDiagInput') : null;
+      if (!(r.diag && r.diag.sampleClass === 'calibration' && r.diag.familyId === 'pluto' && r.diag.familyRole === 'primary')) bad.push('③🥶 が calibration/pluto/primary でない ' + JSON.stringify(r.diag));
+      if (!dc || JSON.stringify((dc.change || {}).sampleClass) !== JSON.stringify(['principle', 'calibration']) || JSON.stringify((dc.change || {}).familyRole) !== JSON.stringify(['variant', 'primary'])
+        || dc.presetSigSame !== true || dc.physicsSame !== true || dc.bodiesSame !== true) bad.push('③写しの declChanges に 🥶 の前後(principle → calibration・variant → primary・署名/physics/bodies 不変)が無い');
+      cases.push('🥶 = calibration・pluto の primary(署名・physics・bodies は基点のまま)');
+      // ④
+      if (FAM) {
+        const F = Object.fromEntries(FAM.map((z) => [z.key, z]));
+        const WANT = { pluto: { ref: 'plutoCharonDiagInput', head: ['plutoCharonDiagInput'] }, tuc47: { ref: 'tuc47', head: ['tuc47', 'tuc47DFM'] },
+          supernova: { ref: 'supernovaProg', head: ['supernovaProg', 'supernovaCore', 'supernovaProgDFM'] },
+          shapeToy: { ref: 'shapeToyCluster', head: ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm'] },
+          shapeToyCore: { ref: 'shapeToyClusterCore', head: ['shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore'] },
+          axisBar: { ref: 'axisBarStill', head: ['axisBarStill', 'axisBarArms', 'axisBarReach'] } };
+        for (const [k, w] of Object.entries(WANT)) {
+          const d = F[k], h = r.fam[k] || { mem: [], primaries: [] };
+          if (!d) { bad.push('④家族 ' + k + ' の宣言が無い'); continue; }
+          if (d.ref !== w.ref) bad.push(`④${k} の基準 ${d.ref}(期待 ${w.ref})`);
+          if (JSON.stringify(d.ids.slice(0, w.head.length)) !== JSON.stringify(w.head)) bad.push(`④${k} の ids の先頭 ${d.ids.slice(0, w.head.length).join(',')}`);
+          if (JSON.stringify(h.primaries) !== JSON.stringify([w.ref])) bad.push(`④${k}: html の primary ${h.primaries.join(',') || 'なし'}(期待 ${w.ref})`);
+          const htmlIds = h.mem.map((z) => z.id).sort(), declIds = d.ids.slice().sort();
+          if (JSON.stringify(htmlIds) !== JSON.stringify(declIds)) bad.push(`④${k}: html の familyId の集合 ${htmlIds.join(',')} ≠ 宣言 ${declIds.join(',')}`);
+        }
+        cases.push('家族 5 組+pluto の基準と ids: ' + Object.keys(WANT).map((k) => k + '(' + ((F[k] || {}).ids || []).length + ')').join('・'));
+      }
+      // ⑤
+      if (SSRC) {
+        const want = SSRC.retired.ids.slice().sort();
+        if (JSON.stringify(want) !== JSON.stringify(r.retiredAll)) bad.push(`⑤原稿の retired.ids ${want.length} 本 ≠ html の退役 ${r.retiredAll.length} 本`);
+        if (!IDS290.every((id) => SSRC.retired.ids.includes(id)) || String(SSRC.retired.rule).indexOf('retired-w290b.json') < 0) bad.push('⑤原稿に第290便b の 7 本・写しの名前が無い');
+        cases.push(`原稿の退役 ${want.length} 本 = html の退役`);
+      }
+      const a = PH.indexOf('〔第290便b — '), b = a >= 0 ? PH.indexOf('\n## 7. ', a) : -1;
+      const sec = a >= 0 ? PH.slice(a, b > a ? b : undefined) : '';
+      if (!sec) bad.push('⑤PHYSICS〔第290便b〕節が無い');
+      else {
+        const F290 = ['🥶 が合', '母集団は 20 のまま', 'D68 の否を直した', '観測一致を達成した', '較正を完了した', '新発見'];
+        const hit = F290.filter((w) => sec.replace(/「[^」]*」/g, '').indexOf(w) >= 0);
+        if (hit.length) bad.push('⑤PHYSICS〔第290便b〕の書かない語: ' + hit.join(','));
+        for (const id of IDS290) if (sec.indexOf('`' + id + '`') < 0) bad.push('⑤PHYSICS〔第290便b〕の退役の表に ' + id + ' が無い');
+      }
+      // ---- docs.d68FactorRow
+      if (D68 && r.d68) {
+        const st = (key) => { const e = (D68.engine || []).find((z) => z.key === key); return e ? (e.stages || []).find((z) => z.tag === 'h/4') : null; };
+        const f11 = st('formal11'), cons = st('consistent'), obsO = st('obsOrbit'), c1 = st('consistentC1');
+        const gap = (cons && f11) ? (cons.degPerYear - f11.degPerYear) : NaN, init = (D68.engineDecomp || {}).initialGeometryDegPerYear;
+        const sgn = (v) => (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(2);
+        const row = r.d68.rows.find((z) => z.q === '否の要因(第280便e の診断・履歴)');
+        if (!row) badD.push('①📡 の obsCard に要因の行が無い');
+        else {
+          if (row.obs !== '—') badD.push('①要因の行の obs が「—」でない');
+          if (!Number.isFinite(gap) || row.model.indexOf(sgn(gap).replace('−', '-').replace(/^\+/, '+') + ' deg/yr') < 0) badD.push(`①同じ窓の差 ${sgn(gap)} deg/yr が model に無い`);
+          if (!Number.isFinite(init) || row.model.indexOf('初速が ' + sgn(init)) < 0) badD.push(`①初速の差 ${sgn(init)} が model に無い`);
+          for (const w of ['1PN', '引きずり', 'AB3']) if (row.model.indexOf(w) < 0) badD.push('①要因の行に「' + w + '」が無い');
+        }
+        const rowEn = r.d68.en.find((z) => /What drives the FAIL/.test(z.q));
+        if (!rowEn || rowEn.obs !== '—' || rowEn.model.indexOf(sgn(gap) + ' deg/yr') < 0 || rowEn.model.indexOf(sgn(init)) < 0) badD.push('①en の要因の行が無い / 数が違う');
+        if (r.d68.rows.length !== r.d68.en.length) badD.push(`①ja/en の行数 ${r.d68.rows.length}/${r.d68.en.length}`);
+        casesD.push(`要因の行: 同じ窓の差 ${sgn(gap)} deg/yr・初速 ${sgn(init)}(正本 d68-w280e の h/4 から丸め 2 桁)`);
+        // ②
+        const dc68 = FX ? (FX.declChanges || []).find((z) => z.id === 'saturnZonalD68') : null;
+        if (!dc68 || dc68.presetSigHash !== r.d68.sig || dc68.presetSigSame !== true || dc68.physicsSame !== true || dc68.bodiesSame !== true
+          || JSON.stringify((dc68.change || {}).obsCardRows) !== JSON.stringify([r.d68.rows.length - 1, r.d68.rows.length]))
+          badD.push('②📡 の係数 C・初速・bodies が基点と同値でない(写しの declChanges と照合)');
+        else casesD.push(`C・初速・bodies は基点と同値(署名 ${r.d68.sig}・行 ${r.d68.rows.length - 1} → ${r.d68.rows.length})`);
+        // ③
+        const fmt = (z) => z ? z.degPerDay.toFixed(3) : null;
+        const sig = (z) => z ? (z.nSigma >= 0 ? '+' : '−') + Math.abs(z.nSigma).toFixed(z === cons ? 3 : 2) + 'σ' : null;
+        if (sec) for (const z of [f11, cons, obsO, c1]) if (!z || sec.indexOf(fmt(z)) < 0) badD.push('③PHYSICS〔第290便b〕に h/4 の値 ' + fmt(z) + ' が無い');
+        casesD.push('h/4: 現行 ' + fmt(f11) + '°/日(' + sig(f11) + ')・🧷 ' + fmt(cons) + '・📎 ' + fmt(obsO) + '・C=1 ' + fmt(c1));
+      }
+    }
+    add('preset.retired290b', bad.length === 0,
+      `**サンプルの整理**(第290便b・原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ${cases.join(' / ')} —— 退役はフラグ(内蔵に残す・ID・物理・保存 JSON は不変)。`
+      + '❄️ の 4 値は 🥶 の結果ではない(🥶 の合否は鎖の正本が決める)'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+    add('docs.d68FactorRow', badD.length === 0,
+      `**📡 D68 への診断の転記**(第290便b・第80報⑤「反映」の第 1 段): ${casesD.join(' / ')} —— 値は正本からの転記・係数 C・初速・bodies は動かさない(否は否のまま)`
+      + (badD.length ? ` / **違反 ${badD.length} 件**: ${badD.slice(0, 6).join(' , ')}` : ''));
   }
 }
 
@@ -63160,7 +64555,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const want = new Map(TB.quantities.map((z) => [z.id + '|' + z.target + '|' + z.nameAfter, z]));
         let nOk = 0;
         for (const z of R) { const w = want.get(z.id + '|' + z.target + '|' + z.name); if (w && w.nameBefore === z.formerName) nOk++; }
-        if (R.length !== 17 || nOk !== 17) bad.push(`④ 正本の宣言し直した行 ${R.length} 行・表と一致 ${nOk}(17 でない)`);
+        // 第290便b(原仮定者の裁定(第80報)⑤): 退役した ❄️ の 2 行は母集団の外 —— 期待は表の量のうち正本の母集団に居る本の行(手で書かない)
+        const popR = new Set((J.presets || []).map((p) => p.id)), wantR = TB.quantities.filter((z) => popR.has(z.id)).length;
+        if (R.length !== wantR || nOk !== wantR) bad.push(`④ 正本の宣言し直した行 ${R.length} 行・表と一致 ${nOk}(表の量のうち母集団の本 ${wantR} でない)`);
         if ((J.conditionMismatch || {}).n !== 0) bad.push('④ 正本に条件不一致が残る ' + (J.conditionMismatch || {}).n);
         cases.push(`④ 正本(鎖の後): 宣言し直した ${R.length} 行が旧行名つき・5 区分 ${JSON.stringify(J.condRowsRedeclared.tally)}・条件不一致 ${(J.conditionMismatch || {}).n}`);
       } else {
@@ -63450,7 +64847,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
             const row = pc && (pc.quantities || []).find((q) => q.kind === 'period' && q.gate && q.gate.status !== 'condition-mismatch' && q.detail && Array.isArray(q.detail.revSec));
             if (row) citeRel = (row.detail.revSec[1] - C.citedValue) / C.citedValue;
           }
+          // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290bC = 正本の母集団に ❄️ が無く 🥶 がある(鎖の再生成の後)。❄️ は退役して走らない ——
+          //   独立照合(列 C1)は第288便〜第289便の正本で閉じた履歴。🥶 の独立照合の正本(charoninput-w280d)は刻み dt=0.16(1.6 s)で、判定器の基準刻み
+          //   dt₀=0.016(🥶 の単位で 0.16 s)と違う —— 同じ刻みの独立の列は無い(決断事項)。引用先の値が読めることだけを見る
+          const has290bC = !(J.presets || []).some((p) => p.id === 'plutoCharonReal') && (J.presets || []).some((p) => p.id === 'plutoCharonDiagInput');
           if (!Number.isFinite(C.citedValue)) bad.push('⑦ 引用先(charon-w272b の列 C1)の値が読めない');
+          else if (has290bC) cases.push('❄️ は第290便b で退役(独立照合は履歴 —— 🥶 に同じ刻みの独立の列は無い)');
           else if (!(Number.isFinite(citeRel) && Math.abs(citeRel) <= 1e-12))
             bad.push(`⑦ ❄️ の kF0 走行が独立正本と一致しない(相対差 ${citeRel})`);
           else cases.push('❄️ は独立正本(charon-w272b 列 C1)と相対 1e−12 以内で一致');
@@ -63749,7 +65151,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (J) {
         const JR = new Map(((J.derive || {}).rows || []).map((z) => [z.id, z]));
         let nCmp = 0, nAdded = 0;
-        const addedAfterCanon = ['clusterGrowthCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'fixedCaptureCopy', 'galaxyAnalogyBHTilt90Layers'];   // 第289便e: 🪆 も履歴の正本の後に入った本   // 第288便g: 🛸(第288便e)も履歴の正本の後に入った本   // 第288便c: 🧩 も同じ扱い   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
+        // 第290便(統括の統合): 第290便e の 🍭 shapeToySpiral・🎢 shapeToySpiralCore と第290便c の 🐌 inertialDragPair も履歴の正本の後に入った本(段 geomode は role:'history' —— 再生成しない)
+        const addedAfterCanon = ['clusterGrowthCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'fixedCaptureCopy', 'galaxyAnalogyBHTilt90Layers', 'shapeToySpiral', 'shapeToySpiralCore', 'inertialDragPair'];   // 第289便e: 🪆 も履歴の正本の後に入った本   // 第288便g: 🛸(第288便e)も履歴の正本の後に入った本   // 第288便c: 🧩 も同じ扱い   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
         // 第288便b(原仮定者の裁定(第78報)④): 在位移行した 10 本は正本(履歴)の後に宣言が動いた —— 正本の行は移行表の「前」、ページの行は「後」の導出と照合する
         let MIGT = null; try { MIGT = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w288b-unify.json'), 'utf8')); } catch (e) { MIGT = null; }
         const migRows = new Map(((MIGT || {}).rows || []).filter((x) => x.action === 'migrate').map((x) => [x.id, x]));

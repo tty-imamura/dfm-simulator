@@ -47,7 +47,7 @@ import { withProvenance } from './lib-w272e-provenance.mjs';
 //   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
 //   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":["plutoCharonReal"],"roots":["$","HP.allPresets","HP.dfmBinaryChi","HP.dfmBinaryMassFactor","HP.dfmBinaryMassFactorLinear","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","frameWeightPow","isNum","presetSig","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["plutoCharonReal","plutoCharonDiagInput"],"roots":["$","HP.allPresets","HP.dfmBinaryChi","HP.dfmBinaryMassFactor","HP.dfmBinaryMassFactorLinear","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","frameWeightPow","isNum","presetSig","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -82,10 +82,12 @@ const libSha256 = sha(fs.readFileSync(path.join(ROOT, 'tests', 'lib-w272b-pairlo
 let OBS = null;
 try {
   const ca = JSON.parse(fs.readFileSync(CALAUDIT, 'utf8'));
-  const pc = ca.presets.find((p) => p.id === 'plutoCharonReal');
+  // 第290便b(原仮定者の裁定(第80報)⑤): ❄️ plutoCharonReal は退役して較正母集団の外 —— 観測行は同じ量(Charon|orbital_period・同じ record_id)を
+  //   宣言する 🥶 plutoCharonDiagInput の行から引く(❄️ の行が正本に残っていればそれを優先 —— 値は同一)。走らせる本(❄️ の JSON の複製)は変えない。
+  const pc = ca.presets.find((p) => p.id === 'plutoCharonReal') || ca.presets.find((p) => p.id === 'plutoCharonDiagInput');
   const row = pc.quantities.find((q) => q.kind === 'period' && q.adopted && q.adopted.value > 0);
   OBS = { value: row.adopted.value, sigma: row.adopted.sigma, unit: row.adopted.unit,
-    key: row.adopted.key, recordId: row.adopted.recordId, source: row.adopted.source,
+    key: row.adopted.key, recordId: row.adopted.recordId, source: row.adopted.source, obsRowPreset: pc.id,
     from: 'tests/out/calaudit-w249.json', calauditSha256: sha(fs.readFileSync(CALAUDIT)) };
 } catch (e) { OBS = { error: String(e) }; }
 if (!OBS || !(OBS.sigma > 0)) { console.error('観測行が引けない: ' + JSON.stringify(OBS)); process.exit(2); }

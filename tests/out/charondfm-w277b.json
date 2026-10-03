@@ -24,14 +24,14 @@
   },
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
-  "generatedAt": "2026-10-01T20:12:43.702Z",
+  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+  "generatedAt": "2026-10-03T02:29:55.714Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5408061,
-    "sha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
-    "mtime": "2026-10-01T19:06:18.044Z"
+    "bytes": 5526365,
+    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+    "mtime": "2026-10-03T00:48:50.355Z"
    }
   ],
   "code": [
@@ -39,19 +39,19 @@
     "file": "tests/exp-w277b-charondfm.mjs",
     "bytes": 48984,
     "sha256": "43badace7feff3fd7c454e830436c4aaa52edd5218c7fb1d17f6f4b2a2820984",
-    "mtime": "2026-09-25T06:28:51.041Z"
+    "mtime": "2026-10-02T23:11:02.900Z"
    },
    {
     "file": "tests/lib-w277b-charondfm.mjs",
     "bytes": 12728,
     "sha256": "4e9be37415c45969b4a4904fedd5bf791ee37efb82e6a2c80295c57bf95d205b",
-    "mtime": "2026-09-22T06:21:54.659Z"
+    "mtime": "2026-10-02T23:11:02.948Z"
    },
    {
     "file": "tests/lib-w278b-midpoint.mjs",
     "bytes": 5687,
     "sha256": "99d9c1dd77de20ef67f653ea74fdeed653e209aee15f53c9a0ad56671c54d7ea",
-    "mtime": "2026-09-23T11:03:31.996Z"
+    "mtime": "2026-10-02T23:11:02.948Z"
    }
   ],
   "codeSha256": "8d4c32e331d0657507190ecf6b26a46098210c82e8e5227a7c3237d999a2dc4b",
@@ -84,11 +84,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 894,
-   "segments": 808,
-   "closureShare": 0.32
+   "names": 918,
+   "segments": 832,
+   "closureShare": 0.3224
   },
-  "scopeSha256": "a0ce9898ac52304690e2f3fb1d77f1d7e6178ca678516e43e4756f30df1466cb",
+  "scopeSha256": "51671ecae86a71e04425fd53ec756d1beb49ae4bc5e38c0757804161654126f4",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -2984,7 +2984,7 @@
      },
      "ok": false,
      "out": null,
-     "err": "physics.relativeDrag.law は \"pairSlip\" のみ"
+     "err": "physics.relativeDrag.law は \"pairSlip\" か \"inertial\"(第290便c)のみ"
     },
     {
      "input": {

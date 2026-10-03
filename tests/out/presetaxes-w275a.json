@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
-  "generatedAt": "2026-10-01T23:32:56.121Z",
+  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+  "generatedAt": "2026-10-03T03:51:40.738Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5410574,
-    "sha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
-    "mtime": "2026-10-01T22:00:20.957Z"
+    "bytes": 5529715,
+    "sha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+    "mtime": "2026-10-03T03:49:52.710Z"
    }
   ],
   "code": [
@@ -18,13 +18,13 @@
     "file": "tests/exp-w275a-presetaxes.mjs",
     "bytes": 6278,
     "sha256": "663d7b481c38f3e3b78c67d273e5a35c8da6484ed0c40b20732c096ddedac71d",
-    "mtime": "2026-09-20T17:32:23.348Z"
+    "mtime": "2026-10-02T23:11:02.896Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    }
   ],
   "codeSha256": "05ee87040a77aa72146ec46d8c220cad3ed01d59813e78054346064ff81efb92",
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 147,
+ "nPresets": 150,
  "kFrameValues": [
   0,
   1
@@ -1050,6 +1050,27 @@
    "bodiesSha256": "1e608803af76bdb457fdbf9e2789c49f15957b95d244dcb514b19130ae75b2f3"
   },
   {
+   "id": "shapeToySpiral",
+   "emoji": "🍭",
+   "name": "渦巻の参照模型 — 円盤+対数螺旋の腕(宣言した形・較正ではない)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 2,
+   "D0pull": null,
+   "D0eff": 2,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 2,
+   "geoPN": 0,
+   "nBodyDecl": 2,
+   "presetSigHash": "79d7026e",
+   "bodiesSha256": "56aaee6dff2cacd959a9c72ff40ed1b5336c81062679111b57d96d1fb4b35287"
+  },
+  {
    "id": "shapeToyClusterCore",
    "emoji": "🎱",
    "name": "球状星団トイ(中心天体つき)— 中心スピンが束ねる構成仮説(較正ではない)",
@@ -1111,6 +1132,27 @@
    "nBodyDecl": 2,
    "presetSigHash": "76132401",
    "bodiesSha256": "e7a6668e692c047d3e2caca0561783bbc1d4700b04dfc8b8b6f5f510b0cade67"
+  },
+  {
+   "id": "shapeToySpiralCore",
+   "emoji": "🎢",
+   "name": "中心つき渦巻の幾何参照 — Core 力学の円盤+規定運動の腕(較正ではない)",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 2,
+   "D0pull": null,
+   "D0eff": 2,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 2,
+   "geoPN": 0,
+   "nBodyDecl": 3,
+   "presetSigHash": "4639ec41",
+   "bodiesSha256": "c90fda442e46f9f82e030c0b05f8a014db249e0563c259f3a9ad03d75b94c2ec"
   },
   {
    "id": "lensing",
@@ -1893,7 +1935,7 @@
    "id": "plutoCharonDiagInput",
    "emoji": "🥶",
    "name": "冥王星とカロン(入力を整えた二体)— 観測入力の geoPN=1 の対照",
-   "sampleClass": "principle",
+   "sampleClass": "calibration",
    "kFrame": 0,
    "kFrameApprox": null,
    "massFactor": 1,
@@ -2413,6 +2455,27 @@
    "nBodyDecl": 2,
    "presetSigHash": "f326237e",
    "bodiesSha256": "7d7b3dca0cb2ef0f6981c72a9a8836654845bab00c6d1d7a14c3ff1b57553cdb"
+  },
+  {
+   "id": "inertialDragPair",
+   "emoji": "🐌",
+   "name": "慣性引きずりの 2 体 — 座標の差分で動かす並進引きずり",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 2,
+   "D0pull": null,
+   "D0eff": 2,
+   "q": 2,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.05,
+   "geoPN": 0,
+   "nBodyDecl": 2,
+   "presetSigHash": "80390719",
+   "bodiesSha256": "9738fb3120ea587cf718dfacd5161c334dfe3262b7ca50fcb9dd58382cbf4ac2"
   },
   {
    "id": "boxBinaryToy",

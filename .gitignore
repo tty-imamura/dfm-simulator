@@ -782,6 +782,10 @@ tests/out/regen-plan-w281a.json
 #   引き継ぎの前後・fixcap の正本の離散の行の引き直し・ΔE_self の口座・異方的剛体の E_rot)。QA behavior.ejectStateCarry・behavior.rotEnergyAniso・
 #   docs.fixcapAccounts が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/ejectstate-w289d.json
+# 第290便d(原仮定者の裁定(第80報)②・統括の検証項目 R128): **チェックポイントの保存/復元が固定中心の状態を運ぶ修正**の正本(tests/exp-w290d-ckfixcap.mjs ——
+#   修正の前後・超過の捕獲 + 離散の保存/復元/再走・宣言した歩の離散の時刻・A/B の写しの不変・再開保存の棚卸し)。QA behavior.ckFixcapRestore が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/ckfixcap-w290d.json
 # 第289便a(原仮定者の裁定(第79報)⑤・統括の検証項目 R119): **理論照合便**の正本(tests/exp-w289a-weakfield.mjs —— 時計・光の弱場係数の 3 案・
 #   相対移動 r⁻³ 核の限定模型・現行 tauUpdate/traceRay の実測・式の綴りと枠の重みの棚卸し)。QA behavior.weakfieldCoeff が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/weakfield-w289a.json
@@ -797,3 +801,11 @@ tests/out/regen-plan-w281a.json
 #   步ごとの指紋の照合〔層の軸の対照・層の差分を外した対照〕・変換の往復・層の軸の宣言欄の受理)。QA behavior.tilt90LayersCopy・preset.layerAxisDecl が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/tilt90layers-w289e.json
+# 第290便c(原仮定者の裁定(第80報)⑥・統括の検証項目 R127): **慣性引きずり便**の正本(tests/exp-w290c-inertial.mjs —— 法則版 relativeDrag.law:"inertial" の
+#   門 b〜f〔gain:0 のビット同一・固定配置で純関数とビット同一・Δt 不変性・2 体の前ステップ参照・自己項/並進/1 体/一致点/復元〕と診断本 🐌 の Δϖ・上界・帳簿)。
+#   QA behavior.inertialDragGate・preset.inertialDragPair が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/inertial-w290c.json
+# 第290便e(原仮定者の裁定(第80報)⑤・統括の検証項目 R129): **渦巻参照便**の正本(tests/exp-w290e-spiral.mjs —— 🍭 shapeToySpiral・🎢 shapeToySpiralCore の
+#   門 ①〜⑦〔成分・単独の本との比・ピッチ角の直交回帰・N/seed/刻み・Ω_p=0・G と中心スピンの不変性・往復と所要〕)。QA preset.shapeToySpiral・
+#   behavior.spiralGeometry が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/spiral-w290e.json

@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便a",
   "target": "beta/index.html",
-  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
-  "generatedAt": "2026-10-01T23:31:08.334Z",
+  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+  "generatedAt": "2026-10-03T03:49:54.037Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5410574,
-    "sha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
-    "mtime": "2026-10-01T22:00:20.957Z"
+    "bytes": 5529715,
+    "sha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+    "mtime": "2026-10-03T03:49:52.710Z"
    }
   ],
   "code": [
@@ -18,19 +18,19 @@
     "file": "tests/exp-w276a-bgpredict.mjs",
     "bytes": 20569,
     "sha256": "281ec8b6a803efd0adb2ff461df684313535a6323ff00a43d3b6b94c007766b9",
-    "mtime": "2026-09-21T12:40:00.564Z"
+    "mtime": "2026-10-02T23:11:02.900Z"
    },
    {
     "file": "tests/lib-w275b-dsplit.mjs",
     "bytes": 10918,
     "sha256": "0320d33c45339e747b2095a3fa57cffc22b77800afb878f561210588bccc9440",
-    "mtime": "2026-09-20T17:43:15.901Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    }
   ],
   "codeSha256": "aadd81e40f242a45f612fe8e64915d075cf226f9569ec2bd160db7838f0e43ae",
@@ -1701,6 +1701,40 @@
    "gSiRatio": 0.9999550514660713
   },
   {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "group": "現実較正",
+   "site": null,
+   "rule": null,
+   "ruleWhy": "所在が宣言されていない",
+   "scaleExp": {
+    "L": 5,
+    "T": 1,
+    "M": 24
+   },
+   "frameWeight": "share",
+   "framePow": 1,
+   "placesSun": false,
+   "D0": 0.006,
+   "D0pull": null,
+   "d0Used": 0.006,
+   "d0UsedKey": "physics.D0",
+   "backgroundComplexDeclared": null,
+   "D0SourceDeclared": null,
+   "heliocentricBody": null,
+   "distanceM": null,
+   "predictedSI": null,
+   "predictedUnits": null,
+   "ratioD0": null,
+   "ruleValueInUnits": null,
+   "spreadUnits": 195.95764,
+   "spreadM": 19595764,
+   "uniformApproxRelError": null,
+   "uniformApproxRelErrorD0": null,
+   "gSiFromPreset": 6.674e-11,
+   "gSiRatio": 0.9999550514660713
+  },
+  {
    "id": "uranusReal",
    "emoji": "💠",
    "group": "現実較正",
@@ -3184,15 +3218,15 @@
   }
  ],
  "summary": {
-  "rows": 39,
+  "rows": 40,
   "byRule": {
-   "undetermined": 5,
+   "undetermined": 6,
    "heliocentric": 11,
    "solar-excluded": 5,
    "galactic": 18
   },
   "byFramePow": {
-   "p1": 15,
+   "p1": 16,
    "p2": 24
   },
   "predicted": 29,
@@ -3204,7 +3238,7 @@
    "max": 0.006509118314257769
   },
   "gSiRatioRange": {
-   "n": 37,
+   "n": 38,
    "min": 0.9999550514660713,
    "max": 0.9999550514660713
   }

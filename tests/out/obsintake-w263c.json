@@ -1,5 +1,5 @@
 {
- "when": "2026-10-01T22:33:12.219Z",
+ "when": "2026-10-03T06:00:19.390Z",
  "wave": "第263便c(第55報 W3)",
  "inputs": {
   "csv": "paper/data/solar-observations.csv",
@@ -27,11 +27,11 @@
    "プリセット・builder・本体 JSON は変えない(署名不変)",
    "非対称・非 1σ の区間は sigma 列へ入れない(note に sigma_asymmetric= で残す)"
   ],
-  "csvRows": 601,
+  "csvRows": 643,
   "addedRows": 174,
   "sigmaAddedToExistingRows": 24,
-  "candidateRows": 93,
-  "solutionRows": 131,
+  "candidateRows": 135,
+  "solutionRows": 146,
   "rowsWithSigma": 218,
   "sigmaVerified": 80,
   "sigmaUnverified": 138
@@ -65,15 +65,15 @@
    "solutions": []
   },
   "NS": {
-   "rows": 179,
-   "keys": 89,
+   "rows": 209,
+   "keys": 109,
    "withSigma": 122,
    "verified": 34,
    "unverified": 88,
    "intakeRows": 111,
    "sigmaAddedAtIntake": 10,
-   "candidateRows": 4,
-   "solutionRows": 105,
+   "candidateRows": 34,
+   "solutionRows": 120,
    "solutions": [
     "Kramer2021-DDS",
     "Hu2022-DDS",
@@ -82,40 +82,46 @@
     "Cameron2018-DDH",
     "Singha2026-DDH",
     "Meng2025-DDFWHE",
-    "Meng2025-DDGR"
+    "Meng2025-DDGR",
+    "Breton2008",
+    "Stairs2004-delta25",
+    "Stairs2004-delta155",
+    "Cameron2023-delta132",
+    "Cameron2023-delta46",
+    "Cameron2023-delta128",
+    "Cameron2023-delta52"
    ]
   },
   "BH 以降": {
-   "rows": 17,
-   "keys": 17,
+   "rows": 29,
+   "keys": 24,
    "withSigma": 0,
    "verified": 0,
    "unverified": 0,
    "intakeRows": 0,
    "sigmaAddedAtIntake": 0,
-   "candidateRows": 1,
+   "candidateRows": 13,
    "solutionRows": 0,
    "solutions": []
   }
  },
  "gateByTier": {
   "太陽系": {
-   "presets": 12,
-   "quantities": 111,
+   "presets": 11,
+   "quantities": 105,
    "status": {
-    "未判定": 106,
-    "数値未解決": 3,
-    "mapping-unresolved": 1,
+    "未判定": 103,
+    "数値未解決": 1,
     "否(3σ)": 1
    },
    "sigmaFrom": {
-    "csv": 5,
+    "csv": 2,
     "obsCard": 0,
-    "none": 106
+    "none": 103
    },
-   "sigmaVerified": 5,
+   "sigmaVerified": 2,
    "sigmaUnverified": 39,
-   "noSigmaSource": 46
+   "noSigmaSource": 44
   },
   "恒星": {
    "presets": 2,
@@ -1494,9 +1500,9 @@
   ]
  },
  "missingA": {
-  "n": 65,
+  "n": 63,
   "byCut": {
-   "csv-sigma-empty": 65
+   "csv-sigma-empty": 63
   },
   "rows": [
    {
@@ -1958,32 +1964,6 @@
     "cut": "csv-sigma-empty",
     "presets": [
      "🥔"
-    ],
-    "nQuantities": 1,
-    "obsPresent": 0
-   },
-   {
-    "key": "Charon|eccentricity",
-    "body": "Charon",
-    "target": "カロン",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "❄️"
-    ],
-    "nQuantities": 1,
-    "obsPresent": 0
-   },
-   {
-    "key": "Charon|periastron_advance",
-    "body": "Charon",
-    "target": "カロン",
-    "quantity": "periastron_advance",
-    "kind": "precession",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "❄️"
     ],
     "nQuantities": 1,
     "obsPresent": 0

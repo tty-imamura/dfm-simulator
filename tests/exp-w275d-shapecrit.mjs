@@ -366,9 +366,13 @@ for (const [id, patch, body, note] of CAND) {
 // 第276便d の器 `tests/exp-w276d-corefield.mjs` が測り、正本は `tests/out/corefield-w276d.json` である。
 const ALL_DECL = await page.evaluate(() => HP.allPresets()
   .filter((z) => z.physics && z.physics.shapeToy)
-  .map((z) => ({ id: z.id, law: z.physics.shapeToy.law || 'prescribed' })));
+  .map((z) => ({ id: z.id, law: z.physics.shapeToy.law || 'prescribed', shape: z.physics.shapeToy.shape })));
 const EXCLUDED = ALL_DECL.filter((z) => z.law === 'coreField').map((z) => z.id);
-const IDS = ALL_DECL.filter((z) => z.law !== 'coreField').map((z) => z.id);
+// 第290便e(原仮定者の裁定(第80報)⑤): shape:"spiral"(渦巻の参照模型 🍭🎢)は円盤成分+腕成分の合成で潜在の形が違う ——
+//   この器(1 成分の OU 法則の量)の対象外。除外した id は `excludedSpiral` に残す(**黙って落とさない**)。
+//   渦巻の門は第290便e の器 tests/exp-w290e-spiral.mjs が測り、正本は tests/out/spiral-w290e.json である。
+const EXCLUDED_SPIRAL = ALL_DECL.filter((z) => z.shape === 'spiral').map((z) => z.id);
+const IDS = ALL_DECL.filter((z) => z.law !== 'coreField' && z.shape !== 'spiral').map((z) => z.id);
 const builtins = [];
 for (const id of IDS) {
   builtins.push(await retry('builtin:' + id, () => runCase(id, null, '内蔵の宣言そのもの', {})));
@@ -473,6 +477,7 @@ const summary = {
   gravityBitSame: gravity.every((r) => r.same),
   centerMassInert: centerMass.every((r) => r.massSame),
   excludedCoreField: EXCLUDED,
+  excludedSpiral: EXCLUDED_SPIRAL,
   rigidRotationOnly: builtins.filter((r) => r.shape === 'disk')
     .map((r) => ({ id: r.id, omegaSpread: r.curveShapeEnd && r.curveShapeEnd.omegaSpread,
       vtSpread: r.curveShapeEnd && r.curveShapeEnd.vtSpread })),
@@ -491,6 +496,7 @@ const out = {
     + '中心天体版の中心は `center:"pinned"` の**位置固定の参照**であって、**動的モデルではない**。',
   criteria: CRIT, run: RUN,
   excludedCoreField: EXCLUDED,
+  excludedSpiral: EXCLUDED_SPIRAL,
   excludedNote: '第276便d で `physics.shapeToy.law:"coreField"` を宣言した本は**この器の対象外**である'
     + '(この器は OU 法則〔規定運動〕の量を測る作りで、Core 力学の完成門は tests/exp-w276d-corefield.mjs が測る)。',
   candidates, builtins, recovery, gravityControl: gravity, centerMass,

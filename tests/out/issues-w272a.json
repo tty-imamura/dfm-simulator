@@ -1,14 +1,14 @@
 {
- "when": "2026-10-01T22:45:37.166Z",
+ "when": "2026-10-03T06:20:10.260Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
-  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "calauditSha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
+  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "00d1cfdfcbcd356f3d794b9c2a4a52413d4d3739514435d624e8636c786efd2e",
+  "charonSha256": "6b0c74062c9da3c23c11aaa6d22929c3262b55c307624aa75488ebbc13fb1151",
   "nslock": "tests/out/nslock-w272c.json",
-  "nslockSha256": "6e4861cfd46532c01972a5a993814e5e0924f7a519ca81bcfec1fde9fd15a6ba"
+  "nslockSha256": "c41ae18c7088838ec4283ada37ccef4443445a78f9a312b084466baa943fc02b"
  },
  "nPresets": 20,
  "nTheoryControl": 0,
@@ -26,10 +26,10 @@
  "gate": {
   "合(3σ)": 2,
   "否(3σ)": 1,
-  "数値未解決": 11,
-  "mapping-unresolved": 7,
+  "数値未解決": 10,
+  "mapping-unresolved": 6,
   "condition-mismatch": 0,
-  "未判定": 158
+  "未判定": 163
  },
  "rows": [
   {
@@ -346,54 +346,47 @@
    "sigmaConnected": 0
   },
   {
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "name": "冥王星とカロン(実単位)— 重心が外にある二体",
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "冥王星とカロン(入力を整えた二体)— 観測入力の geoPN=1 の対照",
    "version": "obs",
    "theoryControl": false,
-   "nQ": 7,
+   "nQ": 9,
    "verdict4": "保留",
    "missing": [
-    "写像未確定",
     "数値精度"
    ],
    "gate": {
     "ok": 0,
     "ng": 0,
-    "num": 2,
-    "map": 1,
+    "num": 1,
+    "map": 0,
     "cond": 0,
-    "na": 4
+    "na": 8
    },
    "reasons": {
     "num": {
-     "dt 3 段が走っていない(2 段は感度診断)": 2
+     "dt 3 段が走っていない(2 段は感度診断)": 1
     },
-    "map": {
-     "円に近い系の近点間周期である(この preset の転写は e=0.0・実測 eProxy ≈1.2×10⁻³)。近点方位が縮退しているので、観測側の「公転周期」(two-body Keplerian fit の P)と、ここで測る近点間平均間隔が同じ測定量であることは確定していない。数値が足りないのではない —— 観測量対応が未確定である。": 1
-    },
+    "map": {},
     "cond": {},
     "na": {
-     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 2,
+     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 6,
      "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 2
     }
    },
    "stop": {
     "stoppedBy": "declared-max-steps",
-    "stepsRun": 20694498,
-    "maxSteps": 20694498,
-    "maxStepsSource": "preset",
+    "stepsRun": 40000000,
+    "maxSteps": 40000000,
+    "maxStepsSource": "class(n<=3)",
     "needPeriastra": 20,
-    "minPeriastra": 59,
-    "complete": true,
-    "unmeasuredReason": null
+    "minPeriastra": 11,
+    "complete": false,
+    "unmeasuredReason": "max-steps"
    },
-   "solarCuts": {
-    "connected": 3,
-    "kind-not-gated": 2,
-    "csv-sigma-empty": 2
-   },
-   "sigmaConnected": 3
+   "solarCuts": null,
+   "sigmaConnected": 1
   },
   {
    "id": "uranusReal",
@@ -840,10 +833,10 @@
    "name": "土星の近点移動(実単位・D68 — 帯状重力の照合)",
    "version": "obs",
    "theoryControl": false,
-   "nQ": 5,
+   "nQ": 6,
    "verdict4": "否",
    "missing": [
-    "(門に入った量 1: 合 0・否 1 — 残り 4 量は σ が無い)"
+    "(門に入った量 1: 合 0・否 1 — 残り 5 量は σ が無い)"
    ],
    "gate": {
     "ok": 0,
@@ -851,7 +844,7 @@
     "num": 0,
     "map": 0,
     "cond": 0,
-    "na": 4
+    "na": 5
    },
    "reasons": {
     "num": {},
@@ -859,7 +852,7 @@
     "cond": {},
     "na": {
      "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 3,
-     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 1
+     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 2
     }
    },
    "stop": {
@@ -875,7 +868,7 @@
    "solarCuts": {
     "connected": 1,
     "csv-sigma-empty": 3,
-    "kind-not-gated": 1
+    "kind-not-gated": 2
    },
    "sigmaConnected": 1
   },
@@ -929,7 +922,7 @@
    "key": "sigma-missing",
    "title": "σ・測定値が足りない",
    "what": "観測 σ が CSV に無い(空欄)・判定量に σ の宛先が無い・実測が窓不足で取れない。**門へ入っていない**ので合否が言えない。",
-   "n": 158,
+   "n": 163,
    "presets": 20,
    "rows": [
     {
@@ -1298,7 +1291,7 @@
    "key": "numeric",
    "title": "数値(収束が確認できない)",
    "what": "3 段(条件つきで 4 段)・次数ガード |p−2|≤0.5・窓充足・抽出健全・ε̂ と最終段差 ≤0.3σ のどれかを満たさない。**「合わない」ではなく「まだ言えない」**である。",
-   "n": 11,
+   "n": 10,
    "presets": 6,
    "rows": [
     {
@@ -1308,16 +1301,10 @@
      "name": "近日点前進(推定器つき宣言 — 第250便d)"
     },
     {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
      "kind": "period",
-     "name": "公転周期(kFrame=0 対照・同方向1周)"
-    },
-    {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
-     "kind": "period",
-     "name": "公転周期(旧 E6′-R の行)同方向1周〔一本化後の宣言で再測・model 欄は旧宣言の記録〕"
+     "name": "実測(標準検出器): 公転周期(カロン)"
     },
     {
      "id": "psrDoubleAB",
@@ -1373,15 +1360,9 @@
    "key": "mapping",
    "title": "観測量対応が未確定",
    "what": "シミュレータが測る量と、観測解が定義している量が**同じ測定量だと確定していない**(e_T ⇄ eProxy・円に近い系の近点間周期 ⇄ two-body Keplerian の P など)。",
-   "n": 7,
-   "presets": 7,
+   "n": 6,
+   "presets": 6,
    "rows": [
-    {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
-     "kind": "period",
-     "name": "公転周期 近点間(第250便d)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕"
-    },
     {
      "id": "alphaCenAB",
      "emoji": "✨",
@@ -1495,7 +1476,7 @@
    "key": "display",
    "title": "表示(合否の対象でない宣言行)",
    "what": "規約・帳簿・単位族・受け皿など、obsCard に並んでいるが**合否の対象ではない**行。",
-   "n": 61,
+   "n": 66,
    "presets": 20,
    "rows": [
     {
@@ -1577,16 +1558,40 @@
      "name": "テスト粒子降格"
     },
     {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
      "kind": "other",
-     "name": "共通重心の位置"
+     "name": "同方向1周(第2周)— 3 刻み"
     },
     {
-     "id": "plutoCharonReal",
-     "emoji": "❄️",
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
      "kind": "other",
-     "name": "半径振れ幅"
+     "name": "Buie 2012 二体 P との差(比較値)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "PLU060 400年平均 P との差(σ なし)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "❄️ の否の要因の鎖(第2周・dt 0.004)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "残る差の由来(閉じた式)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "⛄🌨️ との差(同じ定義・第5周)"
     },
     {
      "id": "uranusReal",
@@ -1833,47 +1838,22 @@
      "emoji": "⏰",
      "kind": "other",
      "name": "スピン–スピン(λ=1・χ=0.7 宣言)"
-    },
-    {
-     "id": "gw150914Merge4s",
-     "emoji": "⏰",
-     "kind": "other",
-     "name": "帳簿・安全(dt=0.002)"
-    },
-    {
-     "id": "gw150914Merge4s",
-     "emoji": "⏰",
-     "kind": "other",
-     "name": "再現しないもの"
-    },
-    {
-     "id": "gw150914Merge4s",
-     "emoji": "⏰",
-     "kind": "other",
-     "name": "何を仮定したか(まとめ)"
-    },
-    {
-     "id": "saturnZonalD68",
-     "emoji": "📡",
-     "kind": "other",
-     "name": "解析式(J一次永年理論)への fit"
     }
    ]
   }
  ],
  "reasonAgg": {
   "num": {
-   "dt 3 段が走っていない(2 段は感度診断)": 11
+   "dt 3 段が走っていない(2 段は感度診断)": 10
   },
   "map": {
-   "円に近い系の近点間周期である(この preset の転写は e=0.0・実測 eProxy ≈1.2×10⁻³)。近点方位が縮退しているので、観測側の「公転周期」(two-body Keplerian fit の P)と、ここで測る近点間平均間隔が同じ測定量であることは確定していない。数値が足りないのではない —— 観測量対応が未確定である。": 1,
    "軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない": 2,
    "タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない": 4
   },
   "cond": {},
   "na": {
    "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 93,
-   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 61,
+   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 66,
    "実測が無い(窓不足・未走行)(門の文面: 観測誤差(σ)または有限の実測が無い)": 4
   }
  },
@@ -1881,20 +1861,20 @@
   {
    "key": "control",
    "title": "対照条件の走行を配った(第274便a)",
-   "measured": "数値未解決",
+   "measured": null,
    "ref": "tests/out/calaudit-w249.json(kf0Runs — 診断コピーの kFrame=0 走行)",
    "text": "第273便a まで、「kFrame=0 対照」の行には **kFrame=1 の走行の数**が配られていた(プリセットの physics は 1 つなので、1 回の走行から 2 つの条件の行へ同じ数が配られていた)。第274便a で `--kf0-runs` を入れ、`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**を同じ停止条件・同じ近点窓・同じ抽出器で走らせ、**0 行**へ配った(配ったあとの `condition-mismatch` は **0 件**)。**条件が揃ったことは「合った」ことではない** —— 門はここから 3σ の算術を見にいく。"
   },
   {
    "key": "period-def",
    "title": "周期の定義が行ごとに違う",
-   "measured": "periastron",
+   "measured": null,
    "text": "第271便a まで、3 行(kF0 対照・同方向 1 周・近点間)が**同じ 1 つの数**を配られていた。第272便a(R10)で「近点間」の行は近点検出器 A の値を全段で配るようにした。"
   },
   {
    "key": "circular-orbit",
    "title": "円に近い軌道の近点",
-   "measured": 0.000013340793013251904,
+   "measured": null,
    "text": "転写された離心率は e=0.0、実測 eProxy は上の値である。近点方位が縮退しているので、**近点間平均間隔と観測側の two-body Keplerian の P が同じ測定量である保証が無い**(第272便a・R10 で `mapping-unresolved` を宣言した)。"
   },
   {
@@ -1915,12 +1895,12 @@
    "measured": 389.8335250899739,
    "unit": "σ",
    "ref": "tests/out/charon-w272b.json(列 S_e0.05/0.025/0.0125 × kF0/kF1)",
-   "text": "softening ε を 0.05 → 0.025 → 0.0125 と半分にすると、同方向 1 周の周期はkF0 で 551864.061363 s(294.083σ) → 551855.977799 s(-17.7825σ) → 551853.956878 s(-95.7501σ)、kF1 で 553210.630443 s(52245.1σ) → 553202.441337 s(51929.1σ) → 553200.379493 s(51849.6σ) と動く。 **「0.1% 台の差に効くかどうか未測定」ではない** —— **σ 倍で数百の幅を動かし、kF0 側では符号も反転する**(+294.08σ → −17.78σ → −95.75σ)。a/R は `correlates.aOverR` = 16.4951 である。**「softening を小さくすれば合う」とは書かない**(ε=0.025 の −17.78σ も 3σ の外である)。"
+   "text": "softening ε を 0.05 → 0.025 → 0.0125 と半分にすると、同方向 1 周の周期はkF0 で 551864.061363 s(294.083σ) → 551855.977799 s(-17.7825σ) → 551853.956878 s(-95.7501σ)、kF1 で 553210.630443 s(52245.1σ) → 553202.441337 s(51929.1σ) → 553200.379493 s(51849.6σ) と動く。 **「0.1% 台の差に効くかどうか未測定」ではない** —— **σ 倍で数百の幅を動かし、kF0 側では符号も反転する**(+294.08σ → −17.78σ → −95.75σ)。a/R は `correlates.aOverR` = — である。**「softening を小さくすれば合う」とは書かない**(ε=0.025 の −17.78σ も 3σ の外である)。"
   },
   {
    "key": "f-approx",
    "title": "f≈1+kFrame の近似が当てはまらない",
-   "measured": 0.1020862167899712,
+   "measured": null,
    "text": "χ(上の値 = `correlates.chi`)は χ≈1 の極限から遠い。**f≈1+k は χ≈1 の極限の形**なので、この系では当てはまらない。**この χ は一次則の χ_A / χ_B とは別の量である**(第273便c・R19-6): `correlates.chi` は棚卸しが系ごとに 1 つ持つ相関量で、第272便b の `declaredSystems[].chiA / chiB` は**天体ごと**の量(❄️ では 0.00134709 と 0.0109607)である。**混ぜて読まない**。"
   },
   {
@@ -1963,10 +1943,10 @@
   }
  ],
  "naCensus": {
-  "total": 158,
+  "total": 163,
   "byKind": {
    "declaration-row": {
-    "n": 61,
+    "n": 66,
     "presets": 20
    },
    "no-measurement": {
@@ -1987,9 +1967,9 @@
  "d68": {
   "ok": 0,
   "ng": 1,
-  "nQ": 5,
+  "nQ": 6,
   "withSigma": 1,
-  "missing": "(門に入った量 1: 合 0・否 1 — 残り 4 量は σ が無い)",
+  "missing": "(門に入った量 1: 合 0・否 1 — 残り 5 量は σ が無い)",
   "revSec": 17865.94983177155,
   "periSec": 18224.85822532271,
   "definitions": [
@@ -2018,10 +1998,10 @@
   "note": "**観測側(Cassini の解析)が「D68 の周期」と呼んでいるものがこの 3 つのどれかは、本便では照合していない。** したがって **σ は 1 つも接続しない** ——接続すれば、どの定義とも分からない数と観測を比べることになる。**「D68 が合/否」とは書かない**(📡 の門の否(3σ)は**近点移動の行**であり、この 3 つの周期定義とは別の量である)。"
  },
  "mappingDeclarations": {
-  "declaredRows": 34,
-  "bySourceRow": 1,
+  "declaredRows": 33,
+  "bySourceRow": 0,
   "bySourceKind": 33,
-  "gateMappingUnresolved": 7,
+  "gateMappingUnresolved": 6,
   "periastronRows": [
    {
     "id": "plutoCharonReal",
@@ -2130,12 +2110,12 @@
     "declared": false
    },
    {
-    "id": "plutoCharonReal",
-    "emoji": "❄️",
+    "id": "plutoCharonDiagInput",
+    "emoji": "🥶",
     "target": "カロン",
-    "eProxy": 0.000013340793013251904,
-    "hasPeriastronRow": true,
-    "declared": true
+    "eProxy": 3.908281493305368e-9,
+    "hasPeriastronRow": false,
+    "declared": false
    },
    {
     "id": "uranusReal",
@@ -2383,10 +2363,10 @@
   }
  ],
  "solarCutTally": {
-  "csv-sigma-empty": 86,
-  "kind-not-gated": 19,
+  "csv-sigma-empty": 84,
+  "kind-not-gated": 18,
   "unit-not-converted": 2,
-  "connected": 4
+  "connected": 1
  },
  "doNotWrite": [
   "問題を解決した",

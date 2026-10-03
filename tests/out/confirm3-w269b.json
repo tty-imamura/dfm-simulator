@@ -1,5 +1,5 @@
 {
- "when": "2026-10-01T22:33:12.914Z",
+ "when": "2026-10-03T06:00:20.177Z",
  "wave": "第269便b(第59報・W2)",
  "base": "main 4945764",
  "provenance": "原仮定者が提供した観測レコードの確認記録(2026-09-17・第 3 回)。一次資料は各行の source/url にある。**器は印を上げない** —— 上げるのは原仮定者の照合である。",
@@ -747,16 +747,21 @@
   },
   "after": {
    "solar": {
-    "rows": 601,
+    "rows": 643,
     "verified": 109,
     "verifiedBy": 109,
     "x7Warn": 0,
     "round3": 10,
     "round3Verified": 10,
-    "sameMarkAs": 5
+    "sameMarkAs": 5,
+    "laterRoundsVerified": 55,
+    "laterRoundsByRound": {
+     "4": 3,
+     "5": 52
+    }
    },
    "cluster": {
-    "rows": 154,
+    "rows": 169,
     "verified": 6,
     "verifiedBy": 6,
     "x7Warn": 0,
@@ -772,20 +777,20 @@
    "byStatus": {
     "合(3σ)": 2,
     "否(3σ)": 1,
-    "数値未解決": 11,
-    "mapping-unresolved": 7,
+    "数値未解決": 10,
+    "mapping-unresolved": 6,
     "condition-mismatch": 0,
-    "未判定": 158
+    "未判定": 163
    },
-   "withSigma": 21,
-   "sourceVerified": 21,
+   "withSigma": 19,
+   "sourceVerified": 19,
    "sigmaRegate": {
     "checked": 0,
     "changed": 0,
     "verifiedFlips": 0
    },
    "sigmaMarkAudit": {
-    "rows": 601,
+    "rows": 643,
     "legacyVerified": 111,
     "strictVerified": 109,
     "legendRows": 17,
@@ -794,13 +799,13 @@
   },
   "solarsigma": {
    "cutTally": {
-    "csv-sigma-empty": 86,
-    "kind-not-gated": 19,
+    "csv-sigma-empty": 84,
+    "kind-not-gated": 18,
     "unit-not-converted": 2,
-    "connected": 4
+    "connected": 1
    },
    "fourTally": {
-    "保留": 11,
+    "保留": 10,
     "否": 1
    }
   },

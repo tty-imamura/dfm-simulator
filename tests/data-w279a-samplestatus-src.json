@@ -28,12 +28,19 @@
    "psrDoubleABDFM",
    "psrB1534DFM",
    "psrDoubleABSpinCal",
-   "gw150914DFM"
+   "gw150914DFM",
+   "tuc47DFM",
+   "supernovaProgDFM",
+   "clusterGrowthCopy",
+   "fixedCaptureCopy",
+   "plutoCharonReal",
+   "plutoCharonDFM",
+   "plutoCharonSyncZero"
   ],
-  "since": "第283便b・第284便b・第285便f・第286便f・第287便b・第288便b",
-  "ruling": "原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」と原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)」(AN35: 🌙 と実効 JSON 同一の ⭕ と、⚡ の f=1 署名と同時の 🪝 を含む)と原仮定者の裁定(第75報)AN51(CF は対応する f=1 と同時 —— 🧮 の f=1 と同時の 🪄)と原仮定者の裁定(第76報)AN57(🩺 の f=1 と同時の 🩹)と原仮定者の裁定(第77報)AN62(🧶 の f=1 と同時の 🪤 —— CF 系列の最後の 1 本)と原仮定者の裁定(第78報)④(現実較正の一本化 —— DFM 版〔geoPN=2∧kFrame>0 と 🎻〕のうち対のある 7 組の DFM 側・🧿・🧲・🎻 の 10 本。kFrame=1 は q を使った引きずりの近似 —— 較正母集団の外)",
-  "rulingShort": "原仮定者の裁定(第73報)④・(第74報)⑤・(第75報)AN51・(第76報)AN57・(第77報)AN62・(第78報)④",
-  "rule": "html の familyRole:\"retired\" と同じ集合(器が照合する)。一覧の群の集計から外し「退役」の別群として並べる。status(目的・状況・根拠)は退役の前のまま —— ゲートから外した/付け替えた試験の裏づけは凍結の写し tests/fixtures/retired-w283b.json・tests/fixtures/retired-w284b.json・tests/fixtures/retired-w285f.json・tests/fixtures/retired-w286f.json・tests/fixtures/retired-w287b.json・tests/fixtures/retired-w288b.json の履歴で行う"
+  "since": "第283便b・第284便b・第285便f・第286便f・第287便b・第288便b・第290便b",
+  "ruling": "原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」と原仮定者の裁定(第74報)⑤「不用なサンプルを廃止する(galaxyMeshSpiralGeoToyLite・psrDoubleABPN・psrJ1757PN・psrJ1946PN)」(AN35: 🌙 と実効 JSON 同一の ⭕ と、⚡ の f=1 署名と同時の 🪝 を含む)と原仮定者の裁定(第75報)AN51(CF は対応する f=1 と同時 —— 🧮 の f=1 と同時の 🪄)と原仮定者の裁定(第76報)AN57(🩺 の f=1 と同時の 🩹)と原仮定者の裁定(第77報)AN62(🧶 の f=1 と同時の 🪤 —— CF 系列の最後の 1 本)と原仮定者の裁定(第78報)④(現実較正の一本化 —— DFM 版〔geoPN=2∧kFrame>0 と 🎻〕のうち対のある 7 組の DFM 側・🧿・🧲・🎻 の 10 本。kFrame=1 は q を使った引きずりの近似 —— 較正母集団の外)と原仮定者の裁定(第80報)⑤(サンプルの整理 —— 🫐〔f≈2 版〕・🌹〔f=2〕・🌰🥜〔初期配置〕・❄️〔🥶 に集約〕・⛄☃️〔引きずり側の更新に伴う旧 pairSlip の診断の整理〕の 7 本)",
+  "rulingShort": "原仮定者の裁定(第73報)④・(第74報)⑤・(第75報)AN51・(第76報)AN57・(第77報)AN62・(第78報)④・(第80報)⑤",
+  "rule": "html の familyRole:\"retired\" と同じ集合(器が照合する)。一覧の群の集計から外し「退役」の別群として並べる。status(目的・状況・根拠)は退役の前のまま —— ゲートから外した/付け替えた試験の裏づけは凍結の写し tests/fixtures/retired-w283b.json・tests/fixtures/retired-w284b.json・tests/fixtures/retired-w285f.json・tests/fixtures/retired-w286f.json・tests/fixtures/retired-w287b.json・tests/fixtures/retired-w288b.json・tests/fixtures/retired-w290b.json の履歴で行う"
  },
  "rows": {
   "projectile": {
@@ -72,6 +79,18 @@
    "en": {
     "purpose": "Compare which way three candidate extra forces turn the apsides",
     "state": "force signs and consistency are checked in the pure functions and the engine"
+   }
+  },
+  "inertialDragPair": {
+   "purpose": "法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る",
+   "objective": "met",
+   "state": "gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装",
+   "evidence": [
+    "tests/out/inertial-w290c.json"
+   ],
+   "en": {
+    "purpose": "Run inertial-law dragging only where declared; measure apsidal advance",
+    "state": "gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain"
    }
   },
   "boxBinaryToy": {
@@ -395,6 +414,30 @@
    "en": {
     "purpose": "Make a bar along the in-plane spin axis",
     "state": "passes the core-law gate (RMS bias 0.0060)"
+   }
+  },
+  "shapeToySpiral": {
+   "purpose": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(創発ではない)",
+   "objective": "partial",
+   "state": "門 ①②③⑤⑥⑦ 通過(ピッチ角 20.58°)・④ は円盤の軸比の N 依存が ±10% 超(🥏 と同じ)",
+   "evidence": [
+    "tests/out/spiral-w290e.json"
+   ],
+   "en": {
+    "purpose": "Reference model keeping a declared two-arm spiral on the 🥏 disc (not emergent)",
+    "state": "gates 1-3, 5-7 pass (pitch 20.58 deg); gate 4 misses (disc axis ratio vs N, as 🥏)"
+   }
+  },
+  "shapeToySpiralCore": {
+   "purpose": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(創発ではない)",
+   "objective": "partial",
+   "state": "門 ①②③⑤⑥⑦ 通過(ピッチ角 20.45°)・k_arm は未実装・④ は円盤の軸比の N 依存が ±10% 超",
+   "evidence": [
+    "tests/out/spiral-w290e.json"
+   ],
+   "en": {
+    "purpose": "Centred geometric reference: 📀 core-law disc, prescribed spiral arms (no emergence)",
+    "state": "gates 1-3, 5-7 pass (pitch 20.45 deg); no k_arm; gate 4 misses (disc vs N)"
    }
   },
   "earthMoon": {
@@ -1362,15 +1405,16 @@
    }
   },
   "plutoCharonDiagInput": {
-   "purpose": "❄️ の入力の丸めと軟化を外した kF0 診断コピー",
-   "objective": "met",
-   "state": "要因の鎖と同一定義の表を記帳",
+   "purpose": "冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)",
+   "objective": "partial",
+   "state": "入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める",
    "evidence": [
+    "tests/out/calaudit-w249.json",
     "tests/out/charoninput-w280d.json"
    ],
    "en": {
-    "purpose": "kF0 copy of ❄️ with rounding and softening removed",
-    "state": "factor chain and same-definition table recorded"
+    "purpose": "Pluto–Charon from one observed solution (❄️'s successor)",
+    "state": "verdict from the canonical output; residual is a definition gap"
    }
   },
   "plutoCharonSyncZero": {
@@ -2215,6 +2259,12 @@
    "preset.compactForceToy": [
     "compactForceToy"
    ],
+   "behavior.inertialDragGate": [
+    "inertialDragPair"
+   ],
+   "preset.inertialDragPair": [
+    "inertialDragPair"
+   ],
    "preset.conduction": [
     "conduction"
    ],
@@ -2526,6 +2576,18 @@
    ],
    "preset.shapeToyDiskCore": [
     "shapeToyDiskCore"
+   ],
+   "preset.shapeToySpiral": [
+    "shapeToySpiral",
+    "shapeToySpiralCore"
+   ],
+   "behavior.spiralGeometry": [
+    "shapeToySpiral",
+    "shapeToySpiralCore"
+   ],
+   "docs.spiralRef": [
+    "shapeToySpiral",
+    "shapeToySpiralCore"
    ],
    "preset.siriusAB": [
     "siriusAB"

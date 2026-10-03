@@ -2437,7 +2437,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 ### 10.1 `physics.relativeDrag` —— 相対すべりの零条件を持つ引きずり則
 
 - **正準形**: `{law:"pairSlip", kappa:<0〜1>, pairs:"all"|[[i,j],…], spins:"declared"[, integration:"midpoint"]}`。
-  - `law` は **`"pairSlip"` のみ**(他は致命拒否)。
+  - `law` は **`"pairSlip"` か `"inertial"`**(他は致命拒否)。`"inertial"` の正準形と契約は下の §10.1.1(第290便c)。
   - `kappa` は **0〜1 の有限数**。**`kappa:0` は「宣言したが用量 0」として正準形に残す**
     (= 否定対照の宣言。署名は未宣言と別になる)。
   - `pairs` は省略・`null`・`"all"` が「全対」。配列で書くときは **0 以上の相異なる整数 2 つの配列の配列**で、
@@ -2469,6 +2469,25 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - QA: **`behavior.relativeDragLaw`**(純関数の零条件・否定対照・保存・NS 延長の否定対照)/
   **`behavior.relativeDragMidpoint`**(第278便b: 最小対照で陽的の熱 −0.24505 を再現し中点法は +1.92×10⁻⁶・9 条件で熱非負・零条件・拒否 3 系統)/
   **`behavior.plutoCharonDFM`**(エンジンの零条件・対照との差・帳簿・決定性)。
+
+#### 10.1.1 法則版 `law:"inertial"` —— 慣性引きずり(第290便c・原仮定者の裁定〔第80報〕⑥・**SYSTEM_PROMPT には載せない**)
+
+- **既定は宣言しない。** 「AIでシミュレーション追加」の生成器(`SYSTEM_PROMPT`)にはこの鍵を載せていない —— 生成した JSON が
+  `physics.relativeDrag` を勝手に宣言しないこと(宣言は人が書いた本だけ。内蔵の宣言は診断本 🐌 `inertialDragPair` の **1 本**)。
+  宣言の無い本は経路に入らず、`presetSig`・エクスポート JSON・600 步の状態は 1 bit も変わらない。
+- **正準形**: `{law:"inertial", gain:<C_d ≥0>[, eps:<ε ≥0>], pairs:"all"|[[i,j],…], history:"positions"}`。
+  - `gain` は C_d [L³/M](0 以上の有限数)。**`gain:0` は「宣言したが用量 0」の否定対照として正準形に残す**(署名は未宣言と別・走行は未宣言とビット同一)。
+  - `eps` は核の軟化 ε(0 以上・未宣言は `physics.softening` —— 正準形に出さない)。
+  - `pairs` は pairSlip と同じ受理(`"all"`・省略・`null` が全対/配列は 0 以上の相異なる整数 2 つ・重複と空配列は致命拒否)。
+  - `history` は `"positions"` だけ(省略可・正準形には出す —— 移動ベクトルは座標の差分から作る)。
+  - **`kappa`・`spins`・`W0`・`integration` は pairSlip 専用**で、`law:"inertial"` で与えたら致命拒否。その他の未知の鍵も致命拒否。
+- **契約**(式は docs/PHYSICS.md〔第290便c〕): 移動ベクトル V=(前回の標本との座標の差分)/Δt・u_i=C_d Σ_{j≠i} m_j r/(r²+ε²)² (V_j−V_i)・
+  **位置だけを x+=u·dt で動かす**(v へ足さない・u は毎物理ステップ作り直す・自己項は計算しない・pinned は受け取らない・最初の步と粒子が変わった步は u=0)・
+  各步のスペクトル上界 2·max deg を数える(**clamp しない** —— 上界 ≥1 の步は発散として記録)。既存の q 付き場・u=A/W・E6′・pairSlip には足さない。
+- **副作用(宣言した本だけ)**: 座標の履歴 `rdPrevX/rdPrevY/rdPrevT`(チェックポイントと A/B の複製が運ぶ)と帳簿の欄(`inertialDragWork` —— 外部支持の仕事・`inertialDragDL`・上界の数)。
+  pairSlip と違い自転の配列は Float32 のまま(自転を読まない)。
+- **A/B**: `abBody.physicsPatch.relativeDrag` は `law:"inertial"` の宣言か `null` だけを受ける(B 側で用量 0 の否定対照を作る —— 🐌 のワンタップ)。
+- QA: **`behavior.inertialDragGate`**(門 a〜f)/ **`preset.inertialDragPair`**(受理と拒否・🐌・診断)/ **`lint.relDragRemedies`**(対策表の訂正)。
 
 ### 10.2 `physics.massPrecision` —— 質量配列の倍精度化(opt-in)
 
@@ -2937,3 +2956,66 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **Wbg の説明の限定**(AN103): 「kFrame=0 では力に入らない」は広すぎた(🧩 は geoPN=3・kFrame=0 で Wbg を読む —— 初期配置が同じコピーで spaceMesh.D0 1.5→4.5 の 1 步で自由粒子の vx の最大差 7.44e-4)→「現実較正の geoPN=1・kFrame=0 の軌道力には入らない。geoPN=3 の場と Jeans 初速(vMode:"jeans")では kFrame=0 でも読む」(ja/en の tip と説明)。Wbg は A/B へ写さない。
 - **アナロジーの説明 1 行**(AN110): 🌚🧩🛸💮🌰🥜 の `descStruct.summary`(ja/en)に「第289便の時点では第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では走っていない(share p=1 の q 付き場・連鎖は仮説)」の 1 文。状況の原稿(tests/data-w279a-samplestatus-src.json)の状況の末尾に要旨(概要は ja 120・en 200 字の上限内 —— 既存の文を削って入れた)。生成領域の概要は鎖の samplestatus が書く(手で走らせない)。
 - QA: **`ui.pickerStatusAxes`**・**`lint.wbgConvUnits`**・**`docs.analogyKernelNote`**・`ui.paramWbgRow`(換算と文言の項・🧩 の読みの実測)。既存の `ui.pickerOtherChips`・`ui.pickerSeparators`・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`・`ui.pickerOtherFold` の固定値(軸 15→25・段 2→3・チップと見出し 18→29)は世代切替 has289f(html の `const PP_OTHER_STATUS_AXES=`)。root は SKIP。
+## 35. 第290便a —— 用語「慣性決定力」・主張の範囲・DFM 外のアナロジー(原仮定者の裁定(第80報)⑥⑦・統括の検証項目 R125・**表示と文書だけ**・**SYSTEM_PROMPT の鍵は不変**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない・変えていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学・内蔵の宣言は 1 bit も変えていない(bitsame/sigsame 147/147)。
+
+- **用語(本書の現行の語)**: 重力・時間・光を担うスカラー場 W(質量に比例し距離に反比例する決定力の総和)は**決定力(場)**、慣性力と引きずりを担う「相対移動ベクトル × m/r²」のベクトル場は**慣性決定力(場)**(旧称: 複素決定力(場))。両者を対比するときは前者を**重力決定力(場)**と書く。英語の表示は determinacy (field) / gravitational determinacy (field) / inertial determinacy (field)。背景の量は「背景決定力 D₀」(表示名は変えない)と「背景慣性決定力 W₀・A₀」(英語 background inertial determinacy)。**§7 以降の過去便の記録は原文の語のまま**(過去の記録を書き換えない)。
+- **機械鍵は改名しない**: `physics.spaceMesh.lawVersion` の値 `"complex"`・`physics.backgroundComplex`(と `lawVersion` の値 `"complex-p2"`/`"share-p1"`)・`HP.dfmComplexDeterminacy`・`dfmComplexMomentsOf`・`wbgStateOf`・`bdgMesh*` の i18n 鍵・停止理由 `complexNotVelocity`・QA のブロック名・正本と保存 JSON の鍵。生成 AI が JSON に書く鍵と値は従来どおりである。
+- **SYSTEM_PROMPT の語**: 生成仕様の本文(§5 と §6.3 の逐語ブロック —— アプリの SYSTEM_PROMPT と同一)には旧語が元から無い。本便でプロンプトは 1 バイトも変えていない(プロンプトの鍵も不変)。
+- **主張の範囲**(本書・PHYSICS 冒頭・README 冒頭・アプリの「このアプリについて」と同じ趣旨): DFM は現実の宇宙を主張しない。DFM が主張するのは、宣言した仮定の内部で、保存・対称性・関数形の帰結が互いに矛盾しないことである。観測との突合(較正)はその検査であって、「合」は仮定と転写(観測量への写像)が窓に入ったことを意味し、宇宙がそう成り立っていることの主張ではない。生成 AI の出力(説明文・claims)もこの範囲を越えて書かない。
+- **DFM 外のアナロジー**(第80報⑦ —— アプリには仮定の物理法則として含めるが、**サンプル群を明確に分ける**): ① スピンと三態(群「スピンと熱」)② 自転による減光 = ダークマターハローの類推(群「自転と減光」—— 関連観測 VASCO・M31-2014-DS1・浮遊惑星・LFBOT は着想の背景に限る)③ 腕の渦伸長(`physics.axisForce` の外部オーバーレイ 🥢🎏🎚️ —— 真の 2D 非圧縮流では渦伸長の項は 0)。3 題とも **DFM の論文では示唆にとどめ別論文で扱う**・**重力決定力・慣性決定力の式へ吸収しない**・**質量項として銀河の力学へ黙って足さない**。詳細は `docs/PHYSICS.md`〔第290便a〕⑦。
+- QA: **`docs.terminologyInertial`**・**`docs.claimScope`**(root は SKIP)。
+
+## 36. 第290便f の UI —— 「このアプリについて」の並び・サンプル一覧の区画(DFM 本体/DFM の外のアナロジー/現実較正と照合)・新群「腕と渦伸長(軸力)」・「状況」の段の既定の畳み(原仮定者の裁定〔第80報〕④⑦・第80報で閉じた AN114・統括の検証項目 R130・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON・力学は 1 bit も変えていない(bitsame/sigsame 147/147)。
+
+- **区画**(表示専用の表 `GROUP_SCOPE` —— 鍵は `gCanon` で正規化した群名・値は `GROUP_SCOPES` = main/outside/cal・純関数 `gScope(g)` は表に無い群を main):
+  - main「DFM 本体(重力決定力・慣性決定力の仮定)」= 運動と時空・銀河の力学・天体の機構・時計と重力・光の伝播・箱宇宙の実験・実在天体のアナロジー(予約名の法則の実験室・シミュレーションも main)
+  - outside「DFM の外のアナロジー(仮定の物理法則・別論文)」= スピンと熱・自転と減光・腕と渦伸長(軸力)
+  - cal「現実較正と照合」= 現実較正(旧 3 名は `GROUP_ALIASES` で解決)・現実との照合(予約名)
+  - `GROUP_ORDER` は区画の順(本体 → 外 → 較正)に並べ、`orderedGroups()` は区画の順位で安定に並べる(表に無い群も自分の区画の末尾へ入り、区画は一続き)。隠し `#presetSelect` の optgroup も同じ順。
+  - 一覧(`#ppList`)では区画が変わるところに見出し行 `.ppScopeHead`(`data-scope`・`role="heading"`・押せない・**data-n を持たない** —— data-n は絞り込みの次元のもの)を 1 行置く。件数 `data-books` = その区画に並ぶ行のうち退役の印の無い行の数(読み込み中の退役の本は行に残るが数えない)。絞り込みで行が 0 の区画は見出しも出ない。AI 生成・保存一覧の群は区画の外(区切り線 `.ppScopeEnd` の後)。
+  - 群の**改名はしない**(「スピンと熱」「自転と減光」の宣言文字列・保存 id は不変)。AI が書く `group` は従来どおり任意の文字列で、区画は表示側で引く(AI 生成の群は区画の外に出る)。
+- **新群「腕と渦伸長(軸力)」**(en Arms & Vortex Stretching (Axis Force)・保存 id `armsVortex`・絵文字 🌀): axisBar 3 本(🥢 axisBarStill・🎏 axisBarArms・🎚️ axisBarReach)の `group` を「銀河の力学」から移した。群の説明は「physics.axisForce の外部オーバーレイ —— DFM の公理の帰結ではない・ナビエ・ストークスの渦伸長は示唆」。
+- **「このアプリについて」**: `buildAbout` の順序だけを aboutBody → 初見ガイドのボタン → この宇宙の法則(要約)→ 操作(操作の本文・観測との差・ライブ比較・一覧の区画の 1 行 `helpPickerScope`)にした。既存の文は不変。
+- **「その他」の段「状況(説明タブ)」の既定**(AN114): 表 `PP_OTHER_SEC_FOLDED`(= status)の段は画面幅によらず既定で畳む(§32 の段の畳みの規約 —— 含む/除くのチップは畳んでも見える・開閉はセッション内のみ)。「見込み」軸は足さない。
+- QA: **`ui.aboutOrder`**・**`ui.pickerScope`**。既存の固定値は世代切替 has290f(html の `const GROUP_SCOPE=` / `const PP_OTHER_SEC_FOLDED=`): `groups.reorder`(候補 9 つ目)・`ui.groupOrderPaper`(表・並び・id)・`ui.groupIcons`(13 → 14 群)・`ui.pickerOtherFold`(広い画面の既定 decl/badge 開・status 畳)。root は SKIP。
+
+## 37. 第290便b —— 退役 7 本・🥶 の較正分類・家族の表(原仮定者の裁定〔第80報〕⑤・統括の検証項目 R126・**宣言だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON の物理・力学は 1 bit も変えていない(`familyId`・`familyRole`・`sampleClass` は署名の外の宣言 —— bitsame 147/147)。
+
+- **退役 7 本**(§16 の `familyRole:"retired"`・理由と代わりの本は `RETIRED_PRESETS`・凍結の写し `tests/fixtures/retired-w290b.json`): 🫐 `tuc47DFM`(→ 🍇)・🌹 `supernovaProgDFM`(→ 🥀)・🌰 `clusterGrowthCopy`・🥜 `fixedCaptureCopy`(→ 🧩/🌚)・❄️ `plutoCharonReal`・⛄ `plutoCharonDFM`・☃️ `plutoCharonSyncZero`(→ 🥶)。AI 追加の基準候補・サンプル一覧には出ない(読み込み中の本だけは残る —— §16 の規約のまま)。
+- **🥶 `plutoCharonDiagInput`** を `sampleClass:"calibration"` へ(較正母集団 `sampleClass:"calibration" ∧ familyRole≠"retired"` に入る —— 合否と本数は判定器の正本が決める)。**❄️ の 4 値は 🥶 の結果ではない。**
+- **家族の表**(`familyId` → 基準 primary / 在位の枝 variant / 退役):
+
+| familyId | primary | variant | retired |
+|---|---|---|---|
+| `pluto` | 🥶 | 🌨️・🌒 | ❄️・⛄・☃️ |
+| `tuc47` | 🍇 | — | 🫐 |
+| `supernova` | 🥀 | 🎇(群をまたぐ —— 家族は群をまたいでよい) | 🌹 |
+| `shapeToy` | 🔮 | 🥏・🧵 | — |
+| `shapeToyCore` | 🎱 | 📀・🧹 | — |
+| `axisBar` | 🥢 | 🎏・🎚️ | — |
+
+- **📡 `saturnZonalD68` の obsCard に 1 行**(「否の要因(第280便e の診断・履歴)」・obs「—」): 値は正本 `tests/out/d68-w280e.json` の転記。係数 C・初速・bodies は不変。
+- QA: **`preset.retired290b`**・**`docs.d68FactorRow`**(root は SKIP)。
+
+## 38. 第290便e の宣言鍵 —— `physics.shapeToy.shape:"spiral"`(渦巻の参照模型・原仮定者の裁定〔第80報〕⑤・統括の検証項目 R129・**SYSTEM_PROMPT には載せない**)
+
+形状トイ `physics.shapeToy` の shape に 4 つ目の値 `"spiral"` を足した(既存の `"cluster"`/`"disk"`/`"arm"` の受理と経路は 1 文字も変えていない —— 内蔵 147 本の presetSig・保存 JSON・力学は 1 bit も動かない)。宣言は**数値だけ**で導出値を持たない:
+
+```
+shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", omega0, gamma, sigma, sigmaZ, sigma0, tauGrow:0,
+  center:"fixed"|"pinned", cx, cy, [law:"coreField", coreField:{…, axis:[0,0,±1]}],
+  spiral:{nArm, pitchDeg, rMin, rMax, r0, phi0Deg, armWidth, armSigmaZ, armOmega0, armGamma, omegaP,
+          massRatio, nDisk, nArmParticles, density:"uniform-s"}}
+```
+
+- 受理条件: 0<|pitchDeg|<90(負は逆巻き)・0<rMin<rMax・r0>0・nArm は 1〜8 の整数・nArmParticles は nArm の倍数・nDisk+nArmParticles≥1・両成分があるときだけ massRatio(円盤/腕)が必須の正数・coupling は `"prescribed"` のみ・tauGrow=0・`spiral` は shape:"spiral" 専用・`law:"coreField"` と組むときは軸を円盤の法線 ±(0,0,1) に限る。
+- 成分: pinned でない粒子を index 順に先頭 nDisk 個 = 円盤成分・続く nArmParticles 個 = 腕成分(重複所属なし)。数と質量比が走行時と合わなければ走らない(`S.spiralStop`)。
+- 腕の中心線 r(s)=rMin+(rMax−rMin)s・φ_k(s)=φ₀+2πk/nArm+cot(p)·ln(r/r0)+Ω_p t(s は宣言の密度で固定)・横断と面外にだけ 2 階 OU。全体は剛体パターン回転 Ω_p(差動回転なし)。
+- 内蔵: 🍭 `shapeToySpiral`(中心なし)・🎢 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
+- 読み取り専用: `HP.shapeToySpiralState(S)`・`HP.shapeToySpiralCentreline(sp,k,s)`・`HP.validateShapeToySpiral`。器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json。QA: `preset.shapeToySpiral`・`behavior.spiralGeometry`・`docs.spiralRef`。

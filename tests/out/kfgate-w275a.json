@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報 (1)・kFrame 二値の既定契約)",
   "target": "beta/index.html",
-  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
-  "generatedAt": "2026-10-01T23:32:56.028Z",
+  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+  "generatedAt": "2026-10-03T03:51:39.448Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5410574,
-    "sha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
-    "mtime": "2026-10-01T22:00:20.957Z"
+    "bytes": 5529715,
+    "sha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+    "mtime": "2026-10-03T03:49:52.710Z"
    }
   ],
   "code": [
@@ -18,13 +18,13 @@
     "file": "tests/exp-w275a-kfgate.mjs",
     "bytes": 12158,
     "sha256": "f0b70c7c1a98a53b403e2fe5d713aed71fd87be7fc5cd1b7c5176eac35940a36",
-    "mtime": "2026-09-20T17:32:23.347Z"
+    "mtime": "2026-10-02T23:11:02.896Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    }
   ],
   "codeSha256": "87971f05a0fc218186ef8b3121d616af88978f8ae3d274427a7bf91ee8ee3908",
@@ -38,13 +38,13 @@
   ]
  },
  "builtins": {
-  "n": 147,
+  "n": 150,
   "kFrameValues": [
    0,
    1
   ],
   "kFrameFractionIds": [],
-  "calibration": 37,
+  "calibration": 38,
   "declaredIds": []
  },
  "contract": {
@@ -358,7 +358,7 @@
    }
   ],
   "_builtinRevalidate": {
-   "checked": 147,
+   "checked": 150,
    "problems": []
   }
  },
@@ -596,7 +596,7 @@
    }
   ],
   "_builtinRevalidate": {
-   "checked": 147,
+   "checked": 150,
    "problems": []
   }
  },
@@ -735,9 +735,11 @@
   "shapeToyCluster": "38156713",
   "shapeToyDisk": "b5673bea",
   "shapeToyArm": "ffbcf715",
+  "shapeToySpiral": "79d7026e",
   "shapeToyClusterCore": "e5fffafa",
   "shapeToyDiskCore": "762ea0c6",
   "shapeToyArmCore": "76132401",
+  "shapeToySpiralCore": "4639ec41",
   "lensing": "f17d333f",
   "spinlens": "f32dcfa7",
   "blens": "4a552d58",
@@ -800,6 +802,7 @@
   "psrB1534DFM": "a2b0fbf6",
   "psrB1534CF": "84820b4",
   "compactForceToy": "f326237e",
+  "inertialDragPair": "80390719",
   "boxBinaryToy": "748f4c8d",
   "spaceMeshBinaryToy": "47bc93c0",
   "gw150914": "40c218be",

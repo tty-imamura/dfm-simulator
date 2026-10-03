@@ -1,28 +1,28 @@
 {
- "when": "2026-10-01T22:45:38.106Z",
+ "when": "2026-10-03T06:20:11.145Z",
  "wave": "第273便c(第63報・AG24)",
  "harness": "tests/exp-w273c-assessedtable.mjs",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
+  "calauditSha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
   "canonicalTarget": "beta/index.html",
-  "canonicalTargetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "canonicalTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
   "canonicalWave": "第249便b",
-  "canonicalWhen": "2026-10-01T22:11:21.772Z"
+  "canonicalWhen": "2026-10-03T05:31:50.993Z"
  },
  "stamp": {
-  "inHtml": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
-  "inCanonicalNow": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+  "inHtml": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+  "inCanonicalNow": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
   "stampChanged": true,
   "valuesChanged": false,
   "rule": "**刻印は構造的に「現行 html の hash」にも「現行正本の刻印」にもできない** —— 刻印を html へ書けばその html の hash が動き、動いた html で判定器を回し直せば正本の刻印もまた動く(不動点が無い)。したがって刻印が言えるのは「**どの走行の正本から転記したか**」までである。鮮度の線は **① 表 ↔ 正本(1 行ずつ)** と **② 正本 ↔ 現行 html**(`lint.calauditMergeKeyHash` が見ている `meta.targetSha256` = 現行 html の SHA-256)の **2 段の鎖**で、この鎖は**エンジンだけが変わった場合も捕まえる**(html が動けば ② が落ちる)。**ページの実行時**は自分の hash を確かめられないので、渡された `targetSha256` の線だけが効く。"
  },
  "sigDigits": 12,
  "presets": 9,
- "rows": 21,
+ "rows": 19,
  "sig": {
   "mercuryReal": "504f66ef",
-  "plutoCharonReal": "a859d010",
+  "plutoCharonDiagInput": "9842c8c3",
   "alphaCenAB": "919fda5b",
   "siriusAB": "1b87793c",
   "psrDoubleAB": "4216236d",
@@ -44,36 +44,16 @@
     "g": "数値未解決"
    }
   ],
-  "plutoCharonReal": [
+  "plutoCharonDiagInput": [
    {
     "t": "カロン",
     "k": "period",
-    "n": "公転周期(kFrame=0 対照・同方向1周)",
+    "n": "実測(標準検出器): 公転周期(カロン)",
     "st": "h",
-    "v": 551864.061363,
+    "v": 551863.659828,
     "u": "s",
-    "ns": 294.083446028,
+    "ns": 278.592123895,
     "g": "数値未解決"
-   },
-   {
-    "t": "カロン",
-    "k": "period",
-    "n": "公転周期(旧 E6′-R の行)同方向1周〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
-    "st": "h",
-    "v": 551864.061363,
-    "u": "s",
-    "ns": 294.083446028,
-    "g": "数値未解決"
-   },
-   {
-    "t": "カロン",
-    "k": "period",
-    "n": "公転周期 近点間(第250便d)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
-    "st": "h",
-    "v": 551858.672345,
-    "u": "s",
-    "ns": 86.173805364,
-    "g": "mapping-unresolved"
    }
   ],
   "alphaCenAB": [

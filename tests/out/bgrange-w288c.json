@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
-  "generatedAt": "2026-10-01T20:12:09.674Z",
+  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+  "generatedAt": "2026-10-03T02:32:57.503Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5408061,
-    "sha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
-    "mtime": "2026-10-01T19:06:18.044Z"
+    "bytes": 5526365,
+    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+    "mtime": "2026-10-03T00:48:50.355Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w288c-bgrange.mjs",
     "bytes": 16433,
     "sha256": "4f1ac18801726036894a4a92dba4b01959c7b5b56e52c031b0cd8b8b7d20f130",
-    "mtime": "2026-09-30T21:44:35.486Z"
+    "mtime": "2026-10-02T23:11:02.924Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-24T08:51:12.597Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-09-28T21:48:12.641Z"
+    "mtime": "2026-10-02T23:11:02.956Z"
    }
   ],
   "codeSha256": "7d79f40dc652006d09e2929a0e5d7d86f5336223e0e0800557a3fcc3627921c7",
@@ -72,11 +72,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 889,
-   "segments": 803,
-   "closureShare": 0.3184
+   "names": 913,
+   "segments": 827,
+   "closureShare": 0.3208
   },
-  "scopeSha256": "6f4117a54e5e62900f99769d48da71e76e5ecd7cc6fb00093867b28e8d58a854",
+  "scopeSha256": "de568023304ce9df433d50c93665f0bc413d2ade516ac3fd291fa45c8a8fa538",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -273,7 +273,7 @@
   "ok": true
  },
  "census": {
-  "nPresets": 147,
+  "nPresets": 150,
   "timeContract": [
    "charonGeoToy3"
   ],
@@ -326,5 +326,5 @@
   "controlsSame": true,
   "charonBitSame": true
  },
- "elapsedS": 8.227
+ "elapsedS": 5.419
 }

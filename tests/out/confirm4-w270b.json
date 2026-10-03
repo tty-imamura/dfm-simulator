@@ -1,5 +1,5 @@
 {
- "when": "2026-10-01T22:11:23.079Z",
+ "when": "2026-10-03T05:31:52.334Z",
  "wave": "第270便b(第60報・W2)",
  "base": "main f6c19b4",
  "provenance": "原仮定者が提供した観測レコードの確認記録(2026-09-18・第 4 回)。一次資料は各行の source/url にある。**器は印を上げない** —— 上げるのは原仮定者の照合である。",
@@ -310,32 +310,36 @@
   },
   "after": {
    "solar": {
-    "rows": 601,
+    "rows": 643,
     "verified": 109,
     "verifiedBy": 109,
     "x7Warn": 0,
     "round4": 9,
     "round4Verified": 9,
-    "withRecordId": 601,
-    "round5Verified": 52
+    "withRecordId": 643,
+    "round5Verified": 52,
+    "laterRoundsVerified": 52,
+    "laterRoundsByRound": {
+     "5": 52
+    }
    },
    "cluster": {
-    "rows": 154,
+    "rows": 169,
     "verified": 6,
     "verifiedBy": 6,
     "x7Warn": 0,
     "round4": 0,
     "round4Verified": 0,
-    "withRecordId": 154
+    "withRecordId": 169
    },
    "transient": {
-    "rows": 36,
+    "rows": 66,
     "verified": 0,
     "verifiedBy": 0,
     "x7Warn": 0,
     "round4": 0,
     "round4Verified": 0,
-    "withRecordId": 36
+    "withRecordId": 66
    }
   },
   "externalOnlyVerified": []
@@ -462,13 +466,13 @@
    "byStatus": {
     "合(3σ)": 2,
     "否(3σ)": 1,
-    "数値未解決": 11,
-    "mapping-unresolved": 7,
+    "数値未解決": 10,
+    "mapping-unresolved": 6,
     "condition-mismatch": 0,
-    "未判定": 158
+    "未判定": 163
    },
-   "withSigma": 21,
-   "sourceVerified": 21,
+   "withSigma": 19,
+   "sourceVerified": 19,
    "sigmaRegate": {
     "checked": 0,
     "changed": 0,
@@ -477,13 +481,13 @@
   },
   "solarsigma": {
    "cutTally": {
-    "csv-sigma-empty": 86,
-    "kind-not-gated": 19,
+    "csv-sigma-empty": 84,
+    "kind-not-gated": 18,
     "unit-not-converted": 2,
-    "connected": 4
+    "connected": 1
    },
    "fourTally": {
-    "保留": 11,
+    "保留": 10,
     "否": 1
    }
   },

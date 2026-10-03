@@ -1,0 +1,780 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第290便c",
+  "target": "beta/index.html",
+  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+  "generatedAt": "2026-10-03T02:33:31.131Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5526365,
+    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+    "mtime": "2026-10-03T00:48:50.355Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w290c-inertial.mjs",
+    "bytes": 29291,
+    "sha256": "9c0562346fd0b0c64ab116f84a8130ece06475a12c513775c7d5e2b2738f2775",
+    "mtime": "2026-10-03T01:07:06.791Z"
+   },
+   {
+    "file": "tests/lib-w290c-inertial.mjs",
+    "bytes": 6142,
+    "sha256": "0029d77a92a8dfba36c3abb8545ed1d711a31a045afe4ffb0754cf0e8adb15bd",
+    "mtime": "2026-10-03T00:39:54.809Z"
+   },
+   {
+    "file": "tests/lib-w289c-reldrag.mjs",
+    "bytes": 22223,
+    "sha256": "1bdfb99cf6821bd450a8a3993456685c742c9593ca600b5f541b99cff0b5f983",
+    "mtime": "2026-10-03T00:39:54.807Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-02T23:11:02.952Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-02T23:11:02.944Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-02T23:11:02.956Z"
+   }
+  ],
+  "codeSha256": "8b0b73e196526f0a931c7f88e65a578d53332c7472b699f7d7358c106ce95cf2",
+  "harnessVersion": "w290c-inertial-1",
+  "libVersion": "w290c-inertial-lib-1",
+  "engineVersion": "w290c-inertial-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第80報)⑥ DFM の更新(引きずりの計算が新しくなる —— 相対移動ベクトル=前回座標との差分・m/r³ の並進引きずり・引きずりベクトルは毎ステップリセット・自己項=慣性速度・この計算の実装精度は大変重要)",
+  "reading": "統括の検証項目 R127(宣言した本だけの別経路・既存 147 本は 1 bit 不変・既存の q 付き場・u=A/W・E6′・pairSlip に足さない・発散を clamp しない)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "gateA": "宣言なしの本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す(基点 html が要るので本正本に載せない)",
+  "notClaim": [
+   "1PN と同等が証明された",
+   "回転引きずりが創発した",
+   "連鎖で円盤ができた",
+   "慣性決定力場を接続した(既定で)",
+   "安定化した",
+   "新しい法則が正しい",
+   "観測一致を達成した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "boxBinaryToy",
+    "compactForceToy",
+    "earthMoonFree",
+    "inertialDragPair"
+   ],
+   "roots": [
+    "$",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.allPresets",
+    "HP.ckRestoreOne",
+    "HP.ckSnapOne",
+    "HP.cloneSimStateNow",
+    "HP.dfmInertialDragStep",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDragEpoch",
+    "HP.inertialDragState",
+    "HP.loadPreset",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "cw",
+    "sim",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 918,
+   "segments": 832,
+   "closureShare": 0.3224
+  },
+  "scopeSha256": "0cb8cefcde801347a3c6ae205a94817421114139a42a81ca9ccd28276f021d4e",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "selfTest": {
+  "ok": true,
+  "checks": {
+   "smallA": true,
+   "newtonZero": true,
+   "analytic": true,
+   "kernelFar": true
+  }
+ },
+ "gateB": {
+  "decl": {
+   "steps": 600,
+   "every": 100,
+   "dt": 0.016
+  },
+  "rows": [
+   {
+    "id": "inertialDragPair",
+    "samples": 7,
+    "values": 84,
+    "same": 84,
+    "allSame": true,
+    "firstDiff": null,
+    "spinPrecUndeclared": "Float32Array",
+    "spinPrecGain0": "Float32Array",
+    "gain0Steps": 599,
+    "gain0NoHistory": 1,
+    "gain0UMax": 0
+   },
+   {
+    "id": "earthMoonFree",
+    "samples": 7,
+    "values": 84,
+    "same": 84,
+    "allSame": true,
+    "firstDiff": null,
+    "spinPrecUndeclared": "Float32Array",
+    "spinPrecGain0": "Float32Array",
+    "gain0Steps": 599,
+    "gain0NoHistory": 1,
+    "gain0UMax": 0
+   },
+   {
+    "id": "compactForceToy",
+    "samples": 7,
+    "values": 84,
+    "same": 84,
+    "allSame": true,
+    "firstDiff": null,
+    "spinPrecUndeclared": "Float32Array",
+    "spinPrecGain0": "Float32Array",
+    "gain0Steps": 599,
+    "gain0NoHistory": 1,
+    "gain0UMax": 0
+   },
+   {
+    "id": "boxBinaryToy",
+    "samples": 7,
+    "values": 84,
+    "same": 84,
+    "allSame": true,
+    "firstDiff": null,
+    "spinPrecUndeclared": "Float32Array",
+    "spinPrecGain0": "Float32Array",
+    "gain0Steps": 599,
+    "gain0NoHistory": 1,
+    "gain0UMax": 0
+   }
+  ],
+  "ok": true
+ },
+ "gateC": {
+  "decl": {
+   "m": [
+    1,
+    2.5,
+    0.75,
+    4,
+    1.5
+   ],
+   "x": [
+    0,
+    3,
+    -2.5,
+    1.25,
+    6
+   ],
+   "y": [
+    0,
+    1,
+    2,
+    -4,
+    -1.5
+   ],
+   "V": [
+    [
+     0.5,
+     -0.25
+    ],
+    [
+     1.75,
+     0.5
+    ],
+    [
+     -1,
+     0.75
+    ],
+    [
+     0.25,
+     1.25
+    ],
+    [
+     -0.5,
+     -1.5
+    ]
+   ],
+   "gain": 0.75,
+   "eps": 0.5,
+   "pinned": [
+    1,
+    4
+   ],
+   "t": 8
+  },
+  "dt": 0.015625,
+  "Vexact": true,
+  "uSameFree": true,
+  "degSame": true,
+  "pinnedZero": true,
+  "pinnedStill": true,
+  "positionsXplusUdt": true,
+  "vUnchanged": true,
+  "bound": 0.23417754310741154,
+  "libBoundAll": 0.23417754310741154,
+  "boundSameFree": true,
+  "u": [
+   [
+    0.03144262830112702,
+    0.1122305586529786
+   ],
+   [
+    0,
+    0
+   ],
+   [
+    0.0729201438951465,
+    -0.023467018944172913
+   ],
+   [
+    0.013735628097221217,
+    -0.0445998251816076
+   ],
+   [
+    0,
+    0
+   ]
+  ],
+  "hist": true,
+  "ok": true
+ },
+ "gateD": {
+  "rows": [
+   {
+    "dts": [
+     0.015625,
+     0.0078125
+    ],
+    "bitSame": true,
+    "relMax": 0,
+    "Vrel": 0
+   },
+   {
+    "dts": [
+     0.016,
+     0.008
+    ],
+    "bitSame": false,
+    "relMax": 1.1623501384931841e-14,
+    "Vrel": 1.522591576628786e-14
+   }
+  ],
+  "ok": true
+ },
+ "gateE": {
+  "decl": {
+   "m": 1,
+   "r": 4,
+   "eps": 0.5,
+   "vRel": 1,
+   "dt": 0.000001,
+   "updates": 20,
+   "couplings": [
+    0.2,
+    0.5,
+    0.8
+   ]
+  },
+  "rows": [
+   {
+    "a": 0.2,
+    "twoA": 0.4,
+    "gain": 13.203125,
+    "libBound": 0.4,
+    "boundMax": 0.3999999999999633,
+    "boundMin": 0.3999999999903554,
+    "boundRelToLib": 9.18709552877317e-14,
+    "boundOverSteps": 0,
+    "steps": 22,
+    "seqFirst": 1,
+    "seqLast": 0.7142857174317901,
+    "libLast": 0.7142857174271761,
+    "recurrenceRelMax": 4.6140868903421506e-12,
+    "devRatio": 1.1011265454996533e-8,
+    "libDevRatio": 1.0995116150880335e-8,
+    "regime": "converge",
+    "libRegime": "converge",
+    "uMax": 0.14285714348291353,
+    "noHistory": 1
+   },
+   {
+    "a": 0.5,
+    "twoA": 1,
+    "gain": 33.0078125,
+    "libBound": 1,
+    "boundMax": 0.9999999999999082,
+    "boundMin": 0.9999999999867769,
+    "boundRelToLib": 9.181544413650045e-14,
+    "boundOverSteps": 0,
+    "steps": 22,
+    "seqFirst": 1,
+    "seqLast": 0.9999999999536273,
+    "libLast": 1,
+    "recurrenceRelMax": 4.6373359796278435e-11,
+    "devRatio": 0.9999999999072546,
+    "libDevRatio": 1,
+    "regime": "oscillate",
+    "libRegime": "oscillate",
+    "uMax": 0.4999999999702021,
+    "noHistory": 1
+   },
+   {
+    "a": 0.8,
+    "twoA": 1.6,
+    "gain": 52.8125,
+    "libBound": 1.6,
+    "boundMax": 1.599999999999973,
+    "boundMin": 1.5999969080035472,
+    "boundRelToLib": 1.6930901125533637e-14,
+    "boundOverSteps": 22,
+    "steps": 22,
+    "seqFirst": 1,
+    "seqLast": 7439.918963737254,
+    "libLast": 7439.928120705419,
+    "recurrenceRelMax": 0.000001230787181920073,
+    "devRatio": 12089.243316073036,
+    "libDevRatio": 12089.258196146306,
+    "regime": "diverge",
+    "libRegime": "diverge",
+    "uMax": 5951.92366888828,
+    "noHistory": 1
+   }
+  ],
+  "dt": {
+   "decl": {
+    "a": 0.8,
+    "vRel": 0.0001,
+    "T": 0.00002,
+    "dts": [
+     0.000001,
+     5e-7
+    ]
+   },
+   "rows": [
+    {
+     "dt": 0.000001,
+     "updates": 20,
+     "growth": 12089.25819614615,
+     "boundOverSteps": 22,
+     "boundMax": 1.6
+    },
+    {
+     "dt": 5e-7,
+     "updates": 40,
+     "growth": 146150097.85068148,
+     "boundOverSteps": 42,
+     "boundMax": 1.6
+    }
+   ]
+  },
+  "ok": true,
+  "note": "G=0・等質量・離角 4(y 方向)・相対速度 v_rel を x 方向(離角に垂直 —— 幾何の変化は 2 次)。a=0.5(2a=1)は境界: 幾何がわずかに動くので上界は 1 の直下(boundMin〜boundMax)"
+ },
+ "gateF": {
+  "single": {
+   "uMax": 0,
+   "degMax": 0,
+   "sameAsUndeclared": true,
+   "ok": true
+  },
+  "translation": {
+   "W": [
+    0.375,
+    -2.125
+   ],
+   "bitSame": true,
+   "relMax": 0,
+   "ok": true
+  },
+  "eps0": {
+   "finite": true,
+   "hist": true,
+   "ok": true
+  },
+  "coincident": {
+   "reject": "coincident",
+   "unmoved": true,
+   "ok": true
+  },
+  "checkpoint": {
+   "restoreSame": true,
+   "cloneSame": true,
+   "values": 15,
+   "inertialSteps": 599,
+   "noHistory": 1,
+   "stateCarry": "legacy(🐌 の写し —— stateCarry を外す)",
+   "ok": true,
+   "undeclaredLegacy": {
+    "restoreSame": true,
+    "cloneSame": true
+   },
+   "stateCarryDouble": {
+    "declared": {
+     "restoreSame": true,
+     "cloneSame": false
+    },
+    "undeclared": {
+     "restoreSame": true,
+     "cloneSame": false
+    },
+    "note": "基点からある既存の欠落(宣言の有無に依らない)—— 門に使わない"
+   }
+  },
+  "ok": true
+ },
+ "diag": {
+  "decl": {
+   "id": "inertialDragPair",
+   "M": 11,
+   "r0": 20,
+   "eps": 0.05,
+   "vc": 0.7416198487095663,
+   "gainDeclared": 0.8,
+   "K": 5,
+   "dt": 0.016,
+   "dtHalf": 0.008
+  },
+  "model0": {
+   "dw": -0.000058902561631768435
+  },
+  "runs": [
+   {
+    "gain": 0,
+    "dt": 0.016,
+    "steps": 60887,
+    "t": 974.1919999991808,
+    "nPeri": 6,
+    "dw": -0.00005945544306040773,
+    "period": 169.47199999983303,
+    "boundMax": 0,
+    "boundOverSteps": 0,
+    "noHistory": 1,
+    "reject": 0,
+    "uMax": 0,
+    "ledger": {
+     "dE": -0.0000014838734107014417,
+     "work": 0,
+     "closureEnd": -0.0000014838734107014417,
+     "closureMax": 0.000002878689817353841,
+     "dEMaxAbs": 0.000002878689817353841,
+     "closureAtPeri": [
+      -0.0000014843073215531355,
+      -0.0000014842205384169027,
+      -0.0000014841337594995174,
+      -0.000001484046977251463,
+      -0.0000014839601952254533,
+      -0.0000014838734107014417
+     ],
+     "dL": -6.927791673660977e-14,
+     "dLbooked": 0,
+     "closureL": -6.927791673660977e-14,
+     "dP": [
+      8.673617379884035e-19,
+      3.8163916471489756e-17
+     ],
+     "sumMu": [
+      0,
+      0
+     ],
+     "sumMxU": 0
+    }
+   },
+   {
+    "gain": 0.4,
+    "dt": 0.016,
+    "steps": 60808,
+    "t": 972.9279999991837,
+    "nPeri": 6,
+    "dw": 0.005136023958122848,
+    "period": 169.51679999983372,
+    "boundMax": 0.0010311088698408116,
+    "boundOverSteps": 0,
+    "noHistory": 1,
+    "reject": 0,
+    "uMax": 0.00038604541287600157,
+    "ledger": {
+     "dE": 0.0000013872367832235,
+     "work": -7.755911697604478e-8,
+     "closureEnd": 0.0000014647959001995448,
+     "closureMax": 0.0000026399713184688256,
+     "dEMaxAbs": 0.000004290123620659392,
+     "closureAtPeri": [
+      -0.0000011098934152992124,
+      -5.947671295469803e-7,
+      -7.964087159195721e-8,
+      4.345436172836781e-7,
+      9.49669774527595e-7,
+      0.0000014647959001995448
+     ],
+     "dL": 8.748611790565519e-8,
+     "dLbooked": 8.748627679050601e-8,
+     "closureL": -1.5888485081510591e-13,
+     "dP": [
+      8.673617379884035e-19,
+      2.0816681711721685e-17
+     ],
+     "sumMu": [
+      5.421010862427522e-20,
+      -3.3881317890172014e-21
+     ],
+     "sumMxU": -0.0076424690907708264
+    }
+   },
+   {
+    "gain": 0.8,
+    "dt": 0.016,
+    "steps": 60730,
+    "t": 971.6799999991866,
+    "nPeri": 6,
+    "dw": 0.010355942117861616,
+    "period": 169.5647999998344,
+    "boundMax": 0.002065940033323901,
+    "boundOverSteps": 0,
+    "noHistory": 1,
+    "reject": 0,
+    "uMax": 0.0007735096351225174,
+    "ledger": {
+     "dE": 0.000004609963105861592,
+     "work": 1.8098936072075134e-7,
+     "closureEnd": 0.000004428973745140841,
+     "closureMax": 0.000005171328608208348,
+     "dEMaxAbs": 0.000006341775026313945,
+     "closureAtPeri": [
+      -7.421726769957226e-7,
+      2.92256982586947e-7,
+      0.0000013266864290345515,
+      0.000002360115862742873,
+      0.00000339454491715685,
+      0.000004428973745140841
+     ],
+     "dL": 3.5085226457454155e-7,
+     "dLbooked": 3.508520753215864e-7,
+     "closureL": 1.89252955163893e-13,
+     "dP": [
+      -1.1015494072452725e-16,
+      2.0816681711721685e-17
+     ],
+     "sumMu": [
+      0,
+      0
+     ],
+     "sumMxU": -0.015303823450620655
+    }
+   },
+   {
+    "gain": 1.6,
+    "dt": 0.016,
+    "steps": 60578,
+    "t": 969.2479999991923,
+    "nPeri": 6,
+    "dw": 0.020869931622309323,
+    "period": 169.6575999998357,
+    "boundMax": 0.004148002738005843,
+    "boundOverSteps": 0,
+    "noHistory": 1,
+    "reject": 0,
+    "uMax": 0.0015532965057103423,
+    "ledger": {
+     "dE": 0.000012225032632318111,
+     "work": 0.000001820908034910751,
+     "closureEnd": 0.00001040412459740736,
+     "closureMax": 0.000010429115154086954,
+     "dEMaxAbs": 0.000012367115848122001,
+     "closureAtPeri": [
+      -2.3703999652013863e-8,
+      0.000002061188104252043,
+      0.000004147205441173973,
+      0.000006233221691437363,
+      0.000008319236856124679,
+      0.00001040412459740736
+     ],
+     "dL": 0.0000014108459076567215,
+     "dLbooked": 0.0000014108460221184035,
+     "closureL": -1.1446168207418235e-13,
+     "dP": [
+      8.673617379884035e-19,
+      5.551115123125783e-17
+     ],
+     "sumMu": [
+      2.168404344971009e-19,
+      2.710505431213761e-20
+     ],
+     "sumMxU": -0.030691973273708727
+    }
+   }
+  ],
+  "rows": [
+   {
+    "gain": 0.4,
+    "a": 0.0005499931250644526,
+    "dwEngine": 0.005136023958122848,
+    "dwControl": -0.00005945544306040773,
+    "dwNet": 0.005195479401183256,
+    "dwModel": 0.005136540738497786,
+    "dwModelNet": 0.005195443300129554,
+    "diffModel": 3.61010537019979e-8,
+    "relDiffModel": 0.0000069485993045285815,
+    "analytic": 0.005187130073874445,
+    "approx3pia": 0.00518356308368213,
+    "relToAnalytic": 0.0016096236627771915,
+    "boundMax": 0.0010311088698408116
+   },
+   {
+    "gain": 0.8,
+    "a": 0.0010999862501289053,
+    "dwEngine": 0.010355942117861616,
+    "dwControl": -0.00005945544306040773,
+    "dwNet": 0.010415397560922024,
+    "dwModel": 0.010356422938059495,
+    "dwModelNet": 0.010415325499691264,
+    "diffModel": 7.20612307603119e-8,
+    "relDiffModel": 0.000006918768958535955,
+    "analytic": 0.010381407493801594,
+    "approx3pia": 0.01036712616736426,
+    "relToAnalytic": 0.003274128979208695,
+    "boundMax": 0.002065940033323901
+   },
+   {
+    "gain": 1.6,
+    "a": 0.0021999725002578106,
+    "dwEngine": 0.020869931622309323,
+    "dwControl": -0.00005945544306040773,
+    "dwNet": 0.02092938706536973,
+    "dwModel": 0.0208703454953989,
+    "dwModelNet": 0.02092924805703067,
+    "diffModel": 1.3900833906177468e-7,
+    "relDiffModel": 0.000006641821946158177,
+    "analytic": 0.02079148486930768,
+    "approx3pia": 0.02073425233472852,
+    "relToAnalytic": 0.0066326285461997736,
+    "boundMax": 0.004148002738005843
+   }
+  ],
+  "half": [
+   {
+    "gain": 0,
+    "dt": 0.008,
+    "steps": 121827,
+    "t": 974.6160000017412,
+    "nPeri": 6,
+    "dw": -0.00005904078824858772,
+    "period": 169.47200000035363,
+    "boundMax": 0,
+    "boundOverSteps": 0,
+    "noHistory": 1,
+    "reject": 0,
+    "uMax": 0,
+    "ledger": {
+     "dE": -7.417848232327273e-7,
+     "work": 0,
+     "closureEnd": -7.417848232327273e-7,
+     "closureMax": 0.0000014613525557427565,
+     "dEMaxAbs": 0.0000014613525557427565,
+     "closureAtPeri": [
+      -7.419019711907282e-7,
+      -7.418785461510424e-7,
+      -7.418551118409944e-7,
+      -7.41831685857619e-7,
+      -7.418082596521991e-7,
+      -7.417848232327273e-7
+     ],
+     "dL": 1.474376176702208e-13,
+     "dLbooked": 0,
+     "closureL": 1.474376176702208e-13,
+     "dP": [
+      -1.1015494072452725e-16,
+      2.7755575615628914e-17
+     ],
+     "sumMu": [
+      0,
+      0
+     ],
+     "sumMxU": 0
+    }
+   },
+   {
+    "gain": 0.8,
+    "dt": 0.008,
+    "steps": 121519,
+    "t": 972.1520000017294,
+    "nPeri": 6,
+    "dw": 0.010356298210135506,
+    "period": 169.56480000035097,
+    "boundMax": 0.002066843607933298,
+    "boundOverSteps": 0,
+    "noHistory": 1,
+    "reject": 0,
+    "uMax": 0.0007739710183969525,
+    "ledger": {
+     "dE": 0.000005429630964060017,
+     "work": 0.000003213326186107812,
+     "closureEnd": 0.000002216304777952205,
+     "closureMax": 0.000002585713117064792,
+     "dEMaxAbs": 0.00000557247254723281,
+     "closureAtPeri": [
+      -3.6920428694853236e-7,
+      1.4774549114693336e-7,
+      6.649487987869795e-7,
+      0.0000011818984655687093,
+      0.0000016991016382750246,
+      0.000002216304777952205
+     ],
+     "dL": 1.7551945674654235e-7,
+     "dLbooked": 1.7551925174271031e-7,
+     "closureL": 2.0500383203247532e-13,
+     "dP": [
+      8.673617379884035e-19,
+      3.469446951953614e-17
+     ],
+     "sumMu": [
+      0,
+      0
+     ],
+     "sumMxU": -0.015310667250113551
+    }
+   }
+  ],
+  "dtHalf": {
+   "gain": 0.8,
+   "dwNetFull": 0.010415397560922024,
+   "dwNetHalf": 0.010415338998384094,
+   "relChange": -0.0000056226886767964,
+   "diffModelFull": 7.20612307603119e-8,
+   "diffModelHalf": 1.349869283018279e-8,
+   "ratio": 0.1873225406749126
+  },
+  "ok": true
+ },
+ "ok": true,
+ "elapsedS": 3.082
+}

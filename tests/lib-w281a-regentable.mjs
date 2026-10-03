@@ -31,6 +31,8 @@
 //   'w289a-branch' … 第289便a の枝で器を走らせた実測(正本の elapsedS 1.3〜1.6 —— Node だけ・エンジンは固定した 3 体で 1 步と光線 2 本だけ・他の 5 枝と同じ容器で並走)。
 //   'w289c-branch' … 第289便c の枝で器を走らせた実測(正本の elapsedS —— reldrag289 は Node の純関数だけ〔0.3 秒〕・nearfar289 は Node の headless〔1.1 秒〕・他の枝と同じ容器で並走)。
 //   'w289b-branch' … 第289便b の枝で器を走らせた実測(正本の elapsedS 9.1 —— Node だけ・他の 5 枝と同じ容器で並走)。
+//   'w290c-branch' … 第290便c の枝で器を走らせた実測(正本の elapsedS 4.2 —— Node の headless だけ・Chromium なし・他の枝と同じ容器で並走)。
+//   'w290e-branch' … 第290便e の枝で器を 1 回走らせた実測(正本の elapsedS 170.6 —— Node の headless 1 本・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -216,7 +218,8 @@ export const REGEN_STEPS = [
     note: '第284便c: h/4 は例外の登録簿の本だけ(--h4-exceptions)・同一契約の h4 は転記・h/2 は同一便の再走で転記。旧 --dt3-registry(登録表の全本)は明示診断 --dt4-registry' }),
   S('kf0', 'node tools/calaudit-split.mjs --k 2 --harness tests/exp-w249b-calaudit.mjs -- --kf0-runs --kf0-only --kf0-h4-exceptions --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge', ['tests/out/kf0-w259d.json'], 171, { alwaysRun: true, after: ['dt3'], secSource: 'w284c-run',
     merges: ['tests/out/calaudit-w249.json', 'tests/out/calaudit-w249-diag.json'], workers: 2,   // 第284便f: プリセット 2 分割(統合時に c の旗と合成)
-    note: '第284便c: kF0 の診断コピーの h/4 は例外の登録簿の kf0 の本(plutoCharonReal)だけ(--kf0-h4-exceptions)。5 本すべての h/4 は明示診断 --kf0-dt3' }),
+    note: '第284便c: kF0 の診断コピーの h/4 は例外の登録簿の kf0 の本(plutoCharonReal)だけ(--kf0-h4-exceptions)。5 本すべての h/4 は明示診断 --kf0-dt3。'
+      + '第290便b: ❄️ は退役して母集団の外 —— `--only` に名前が残っても job にならない(引数は分割の同一性の実測記録 tests/data-w284f-calsplit.json と同じに保つ)' }),
   S('solarsigma', 'node tests/exp-w262d-solarsigma.mjs', ['tests/out/solarsigma-w262d.json'], 0, { alwaysRun: true, after: ['kf0'] }),
   // 第286便 統合(統括): 📡 D68 の 3 段(第268便a・h/h2/h4・T=10698.816)。QA docs.threeStageD68 ⑥ / docs.d68Decomp が calaudit の門の値・
   //   d68-w280e の再現とビットで突き合わせる正本なのに表に無く、cLight 真値化(第286便b)で 1e-9 動いた値が古いまま残った → 常時群に
@@ -577,6 +580,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/ejectstate-w289d.json': META_RUN.concat(['/elapsedS']) },
     note: '第289便d: dfmFixedEject の成功後に S.fixcap.rInertia を R_a へ引き継ぐ修正の前後(状態から読む I′・E′ = イベントの値・イベントをまたぐ連続・'
       + '捕獲が新しい R_I を読む・⏮ で宣言へ)・fixcap の正本の離散の行(往復・超過・負の対照)のビット同一・ΔE_self = ΣU_pair の口座・rotEnergyAniso の単一軸/対称こま/三軸' }),
+  // ---- 第290便d(原仮定者の裁定(第80報)②・統括の検証項目 R128): チェックポイントの保存/復元が固定中心の状態 S.fixcap を運ぶ修正の回帰
+  //   (再現・超過の捕獲 + 離散の保存/復元/再走・宣言した歩の離散の時刻・2 回連続の離散の後の I′/E′・A/B の写しの不変と B 側の保存/復元)と
+  //   再開保存(保存 JSON → loadSave)の棚卸し(表だけ —— 実装しない)。Node だけ・html だけを読む(他の正本は読まない)。
+  //   第289便d の離散の器の後に並べる(同じ 🥜 の写しの宣言を使う —— 読む正本は無い)。基点 html(W290D_BASE)は任意の照合 —— 無ければ宣言値 BEFORE_F03
+  S('ckfixcap290', 'node tests/exp-w290d-ckfixcap.mjs', ['tests/out/ckfixcap-w290d.json'], 2, { secSource: 'w290d-branch', node: true,
+    after: ['ejectstate289'],
+    volatilePaths: { 'tests/out/ckfixcap-w290d.json': META_RUN.concat(['/elapsedS']) },
+    note: '第290便d: ckSnapOne/ckRestoreOne が S.fixcap(R_I・stepN・回数・口座・ログ)を深い写しで保存/復元する修正の前後(基点 f03bf5a の宣言値)・'
+      + '超過の捕獲 + 離散の再走のビット一致(系譜 id は別に数える)・atStep の時刻・A/B の写しの不変・保存 JSON/チェックポイント/A/B 複製/build の棚卸し' }),
   // ---- 第289便a(原仮定者の裁定(第79報)⑤・統括の検証項目 R119): 理論照合便 —— 時計・光の弱場係数(現行 E7R/E8R・文字どおりの反比例・第 3 案〔実装しない〕)の
   //   一次係数・相対移動 r⁻³ 核の限定模型(Δϖ の解析と RK4・r 依存)・現行実装の実測(gclock の写しで tauUpdate と traceRay を 1 回ずつ)・
   //   式の綴りの読み・枠の重みの棚卸し(全プリセット —— presets "all")・🛰 の式レベル出力 HP.grSI の引用。Node だけ・html だけを読む(他の正本は読まない)。
@@ -611,6 +623,22 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tilt90layers-w289e.json': META_RUN.concat(['/elapsedS', '/runs/*/wallSec']) },
     note: '第289便e: 🪆 の宣言の照合・11 走行の步ごとの指紋(層の軸 0/90°・方位・歳差 0/2 倍・層の J の有無は全步一致/🛸 とは最初の層の近傍キックの步から食い違い・'
       + '差分を外すと 🛸 と全步一致)・変換の往復(t=0/24)・融合の合算規約・層の軸の宣言欄の受理' }),
+  // ---- 第290便c(原仮定者の裁定(第80報)⑥・統括の検証項目 R127): 慣性引きずり便 —— 法則版 physics.relativeDrag.law:"inertial"(宣言した本だけの別経路)の
+  //   門 b〜f(gain:0 と宣言なしの全標本ビット同一・固定配置で第289便c の純関数とビット同一・Δt 不変性・2 体の前ステップ参照の収束/振動/発散と上界・
+  //   自己項/共通並進/1 体/一致点/チェックポイントの復元と複製)と診断本 🐌 の Δϖ(gain 3 点・限定模型)・上界・帳簿・dt 半分。
+  //   Node の headless(html だけを読む —— 他の正本は読まない)。純関数 tests/lib-w289c-reldrag.mjs を code[] に持つので reldrag289 の後に置く(並べて読む表の順)
+  S('inertial290', 'node tests/exp-w290c-inertial.mjs', ['tests/out/inertial-w290c.json'], 4, { secSource: 'w290c-branch', node: true, after: ['reldrag289'],
+    volatilePaths: { 'tests/out/inertial-w290c.json': META_RUN.concat(['/elapsedS']) },
+    note: '第290便c: 法則版 inertial の門(gain:0 のビット同一 4 本・固定配置で relDragAt とビット同一・Δt 不変・2 体 a=0.2/0.5/0.8 の収束/振動/発散と上界 ≥1 の步・'
+      + '自己項 0・並進不変・1 体・一致点の拒否・復元/複製)と 🐌 の近点移動(gain 0.4/0.8/1.6・限定模型 ẋ=v/(1+a) の RK4)・帳簿(外部支持の仕事)・dt 半分' }),
+  // ---- 第290便e(原仮定者の裁定(第80報)⑤・統括の検証項目 R129): 渦巻の参照模型 2 本(🍭 shapeToySpiral・🎢 shapeToySpiralCore)の門 ①〜⑦ ——
+  //   成分の割り当て・単独の本(🥏🧵📀🧹)の同じ窓の値との比・ピッチ角の直交回帰・N/2N/4N/seed/刻み・Ω_p=0・G/中心スピンの不変性・往復と所要。
+  //   Node だけ・html だけを読む(他の正本は読まない)。形状トイ(shapetoy)と Core 力学(corefield)の段の後に置く(同じ 🥏🧵📀🧹 を並べて読む表の順)。
+  //   所要は第290便e の枝の実測 171 秒(Node 1 本・同じ容器で他の枝と並走)
+  S('spiral290', 'node tests/exp-w290e-spiral.mjs', ['tests/out/spiral-w290e.json'], 171, { secSource: 'w290e-branch', node: true, after: ['shapetoy', 'corefield'],
+    volatilePaths: { 'tests/out/spiral-w290e.json': META_RUN.concat(['/elapsedS', '/gate7/timing/rows/*/wallSec', '/gate7/timing/rows/*/rateStepsPerSec']) },
+    note: '第290便e: 🍭🎢 の宣言(shape:"spiral")・成分の数/質量/重複所属・軸比/横断/厚さを 🥏🧵📀🧹 と比べる・ピッチ角(φ−Ω_p t と ln r の直交回帰)・'
+      + 'N/2N/4N・seed・刻み・Ω_p=0・G と中心スピンに対する腕成分の不変性・宣言の往復・⏮・チェックポイント・A/B・1 步の所要' }),
 ];
 
 /**

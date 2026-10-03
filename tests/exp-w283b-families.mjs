@@ -54,8 +54,9 @@ const retiredFixtures = (root) => [RETIRED_FX, RETIRED_FX2, RETIRED_FX3, RETIRED
 
 /** 家族の宣言(並びは表の並び・ref は差を測る基準の本 —— 入口〔primary〕か、較正母集団の代表)。 */
 export const FAMILIES = [
-  { key: 'pluto', ja: '冥王星–カロン', ref: 'plutoCharonReal',
-    ids: ['plutoCharonReal', 'plutoCharonDFM', 'plutoCharonKF0Control', 'plutoCharonDiagInput', 'plutoCharonSyncZero', 'charonGeoToy3'] },
+  // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): 基準を ❄️ → 🥶(❄️⛄☃️ は退役・履歴として家族に残す)
+  { key: 'pluto', ja: '冥王星–カロン', ref: 'plutoCharonDiagInput',
+    ids: ['plutoCharonDiagInput', 'plutoCharonKF0Control', 'charonGeoToy3', 'plutoCharonReal', 'plutoCharonDFM', 'plutoCharonSyncZero'] },
   { key: 'earthmoon', ja: '地球–月(現実との照合)', ref: 'earthMoonRealKF1',
     ids: ['earthMoonRealKF1', 'earthMoonReal', 'emAuditNewton', 'emAuditDFM', 'emAuditSolar', 'earthMoonDiagOne'] },
   { key: 'mercury', ja: '水星(現実との照合)', ref: 'mercuryRealKF1', ids: ['mercuryRealKF1', 'mercuryReal', 'mercuryGeoToy3'] },
@@ -72,11 +73,16 @@ export const FAMILIES = [
   { key: 'galaxyMesh', ja: '銀河回転(空間メッシュ・アナロジー)', ref: 'galaxyMeshSpiral',
     ids: ['galaxyMeshSpiral', 'galaxyMeshSpiralGeoToy', 'galaxyMeshSpiralGeoToyLite', 'galaxyAnalogyBH'] },
   { key: 'galaxyrot', ja: '銀河の回転曲線 4 本', ref: 'galaxy', ids: ['galaxy', 'galaxyStd', 'galaxyGeo2', 'galaxyDB'] },
-  { key: 'tuc47', ja: '球状星団 47 Tuc', ref: 'tuc47DFM', ids: ['tuc47DFM', 'tuc47'] },
+  { key: 'tuc47', ja: '球状星団 47 Tuc', ref: 'tuc47', ids: ['tuc47', 'tuc47DFM'] },   // 第290便b: 基準を 🫐 → 🍇(🫐 は退役)
   { key: 'ngc3198', ja: '渦巻銀河 NGC 3198', ref: 'ngc3198DFM', ids: ['ngc3198DFM', 'ngc3198'] },
-  { key: 'shapeToy', ja: '形の玩具 6 本', ref: 'shapeToyCluster',
-    ids: ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm', 'shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore'] },
-  { key: 'supernova', ja: '超新星の親星', ref: 'supernovaProgDFM', ids: ['supernovaProgDFM', 'supernovaProg'] },
+  // 第290便b: 形の玩具を 2 家族に分割(中心なし / 中心天体つき)・棒と腕を新しい家族に・超新星は基準を 🌹 → 🥀(🌹 は退役・🎇 を機構の枝として追加 —— 家族は群をまたいでよい)
+  // 第290便e(原仮定者の裁定(第80報)⑤): 渦巻の参照模型 🍭 shapeToySpiral・🎢 shapeToySpiralCore をそれぞれの家族の末尾へ(統合で第290便b の 2 家族と合わせた)
+  { key: 'shapeToy', ja: '形の玩具(中心なし)', ref: 'shapeToyCluster',
+    ids: ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm', 'shapeToySpiral'] },
+  { key: 'shapeToyCore', ja: '形の玩具(中心天体つき)', ref: 'shapeToyClusterCore',
+    ids: ['shapeToyClusterCore', 'shapeToyDiskCore', 'shapeToyArmCore', 'shapeToySpiralCore'] },
+  { key: 'axisBar', ja: '棒と腕(軸力・DFM の外)', ref: 'axisBarStill', ids: ['axisBarStill', 'axisBarArms', 'axisBarReach'] },
+  { key: 'supernova', ja: '超新星', ref: 'supernovaProg', ids: ['supernovaProg', 'supernovaCore', 'supernovaProgDFM'] },
   { key: 'whiteDwarf', ja: '白色矮星', ref: 'whiteDwarfDFM', ids: ['whiteDwarfDFM', 'whiteDwarfBareDFM'] },
   { key: 'saturnToy', ja: '土星(天体の機構)', ref: 'saturn', ids: ['saturn', 'saturnLayered'] },
   { key: 'grcal', ja: '時計と重力(GR の較正)', ref: 'grcal', ids: ['grcal', 'grcalGps', 'grcalLight', 'grcalShapiro'] },

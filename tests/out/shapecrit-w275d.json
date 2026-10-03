@@ -3,37 +3,37 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便d(第65報・安定サンプル 2)",
   "target": "beta/index.html",
-  "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
-  "generatedAt": "2026-10-01T20:12:48.247Z",
+  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+  "generatedAt": "2026-10-03T02:32:19.198Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5408061,
-    "sha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
-    "mtime": "2026-10-01T19:06:18.044Z"
+    "bytes": 5526365,
+    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+    "mtime": "2026-10-03T00:48:50.355Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w275d-shapecrit.mjs",
-    "bytes": 31271,
-    "sha256": "bea712a4abbb6f2a1965f374e59230774dca5a5ef579eb970a5fa36aa86b320a",
-    "mtime": "2026-09-25T06:28:51.040Z"
+    "bytes": 31914,
+    "sha256": "f014f41c2c572fced44e2ee0cd548783b4570ec7188a34e600ead21ba5b8dd2f",
+    "mtime": "2026-10-03T02:30:02.002Z"
    },
    {
     "file": "tests/lib-w275d-shapecrit.mjs",
     "bytes": 6370,
     "sha256": "22ce5e97fd6c839e4853f2e837846fd076454d6ff266d5a51474cdba2565acdd",
-    "mtime": "2026-09-20T17:55:26.533Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    }
   ],
-  "codeSha256": "338e8805a763320d1cea381b5c73610f375775566239bbd1ed7c6c5da9084bed",
+  "codeSha256": "a782a701e85bac61ae64f53bd61add6a7fef519b3b9d450601e9924bcc875051",
   "scope": {
    "version": "w286d-scope-4",
    "presets": "all",
@@ -53,11 +53,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 889,
-   "segments": 803,
-   "closureShare": 0.3184
+   "names": 913,
+   "segments": 827,
+   "closureShare": 0.3208
   },
-  "scopeSha256": "b6934ce483b7a9ccd454d229b9357109960f062ccf63246d1fb19bca675e1132",
+  "scopeSha256": "2ca9d6c7dfab51f39ddbe58ea0bb2a8fc72f92444d0752123a7947d5df70f235",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -86,7 +86,12 @@
  "excludedCoreField": [
   "shapeToyClusterCore",
   "shapeToyDiskCore",
-  "shapeToyArmCore"
+  "shapeToyArmCore",
+  "shapeToySpiralCore"
+ ],
+ "excludedSpiral": [
+  "shapeToySpiral",
+  "shapeToySpiralCore"
  ],
  "excludedNote": "第276便d で `physics.shapeToy.law:\"coreField\"` を宣言した本は**この器の対象外**である(この器は OU 法則〔規定運動〕の量を測る作りで、Core 力学の完成門は tests/exp-w276d-corefield.mjs が測る)。",
  "candidates": [
@@ -7365,7 +7370,12 @@
   "excludedCoreField": [
    "shapeToyClusterCore",
    "shapeToyDiskCore",
-   "shapeToyArmCore"
+   "shapeToyArmCore",
+   "shapeToySpiralCore"
+  ],
+  "excludedSpiral": [
+   "shapeToySpiral",
+   "shapeToySpiralCore"
   ],
   "rigidRotationOnly": [
    {

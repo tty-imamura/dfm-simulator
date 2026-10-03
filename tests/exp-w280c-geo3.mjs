@@ -37,7 +37,7 @@ import { GEO3_HARNESS_VERSION, uniformBackground, makeGeo3Copy, extractCalauditP
 //   引き直した値と一致)」で通す。`lint.regenScope` が「宣言 ⊇ 器のコードから機械で引いた下限
 //   (HP.*・html の最上位名・内蔵プリセット id)」を照合する。**1 行の JSON**(lint が読む)。
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
-const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","charonGeoToy3","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercury","mercuryGeoToy3","mercuryReal","neptuneReal","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.dfmComplexMomentsOf","HP.geo3HudText","HP.geo3InitVelocity","HP.loadPreset","HP.meshChipLabel","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","cv","dfmComplexMomentsOf","isNum","loadSave","presetSig","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["alphaCenAB","alphaCenABDFM","charonGeoToy3","earthMoonRealKF1","emAuditDFM","emAuditNewton","gw150914DFM","jupiterGalilean","marsMoonsReal","mercury","mercuryGeoToy3","mercuryReal","neptuneReal","plutoCharonDiagInput","plutoCharonReal","psrB1534","psrB1534CF","psrB1534DFM","psrDoubleAB","psrDoubleABCF","psrDoubleABDFM","psrDoubleABPN","psrDoubleABSpinCal","psrJ1757CF","psrJ1757DFM","psrJ1757PN","psrJ1946CF","psrJ1946DFM","psrJ1946PN","qLockRadialAudit","qLockRadialAuditQ3","saturnZonalD68","siriusAB","siriusABDFM","venusReal"],"roots":["$","HP.allPresets","HP.coreState","HP.dfmComplexMomentsOf","HP.geo3HudText","HP.geo3InitVelocity","HP.loadPreset","HP.meshChipLabel","HP.sim","HP.validatePreset","T","applyQLock","ch","clamp","ctx","cv","dfmComplexMomentsOf","isNum","loadSave","presetSig","scaleExpT","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TARGET = process.env.QA_TARGET || 'beta/index.html';
@@ -100,7 +100,15 @@ const presetOf = (id) => pg.evaluate((i) => { const p = HP.allPresets().find((q)
 /* ── 正本の窓 ── */
 const CAL = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8'));
 const calRow = (id, kf0) => CAL.presets.find((p) => p.id === id && !!p.kf0Diagnostic === !!kf0);
-const windowOf = (id) => { const p = calRow(id, false); return { dt: p.run.dt, steps: p.run.steps, dtHalf: p.run.dtHalf ? p.run.dtHalf.dt : null,
+// 第290便b(原仮定者の裁定(第80報)⑤): ❄️ plutoCharonReal は退役して較正母集団の外 —— calaudit に行が無いときは、❄️ が母集団にいた最後の
+//   正本(第289便・tests/out/geo3-w280c.json@f03bf5a の cases.charon)の窓と kF0 の公転周期を**履歴**として使う(単位は ❄️ の 10⁶ m/10² s のまま。
+//   🥶 の行は精密単位で dt の意味が 10 倍違うので流用しない)。出力には windowFrom:'history' を書く。
+const CHARON_HISTORY_W289 = Object.freeze({ window: { dt: 0.016, steps: 20694498, dtHalf: 0.008, stepsHalf: 41388996 },
+  officialKf0: { period: { name: '公転周期(kFrame=0 対照・同方向1周)', meas: 551864.061362921,
+    rev: [551862.4613629306, 551864.061362921, 551864.0613629194, 551864.0613627129, 551864.0613627231, 551864.0613628624] } } });
+const windowOf = (id) => { const p = calRow(id, false);
+  if (!p && id === 'plutoCharonReal') return Object.assign({}, CHARON_HISTORY_W289.window, { windowFrom: 'history(geo3-w280c@f03bf5a —— ❄️ は第290便b で退役)' });
+  return { dt: p.run.dt, steps: p.run.steps, dtHalf: p.run.dtHalf ? p.run.dtHalf.dt : null,
   stepsHalf: p.run.dtHalf ? p.run.dtHalf.steps : null }; };
 const precOf = (id, kf0) => { const p = calRow(id, kf0); if (!p) return null; const q = p.quantities.find((z) => z.kind === 'precession');
   return q ? { meas: q.meas, detectorA: q.detail ? q.detail.detectorA : null } : null; };
@@ -238,6 +246,7 @@ if (!PART || PART === 'charon') {
   const dd = (a, b, tag, k) => { const x = rows[a].runs[tag], y = rows[b].runs[tag]; return (x && y && Number.isFinite(x[k]) && Number.isFinite(y[k])) ? x[k] - y[k] : null; };
   // ❄️ の kF0 の値は正本の**既定行**の周期量「公転周期(kFrame=0 対照・同方向1周)」(kf0 診断行ではない)
   const offP = (() => { const p = calRow('plutoCharonReal', false); const q = p && p.quantities.find((z) => z.kind === 'period' && /kFrame=0/.test(z.name));
+    if (!p) return Object.assign({}, CHARON_HISTORY_W289.officialKf0.period, { from: 'history(geo3-w280c@f03bf5a —— ❄️ は第290便b で退役)' });   // 第290便b
     return q ? { name: q.name, meas: q.meas, rev: q.detail ? q.detail.revSec : null } : {}; })();
   out.cases.charon = { base: 'plutoCharonReal', window: W, background: charonBg, uBackgroundMS: charonBg.A0[1] / charonBg.W0 * 1e4,
     unitsNote: '1 単位 = 10⁶ m / 10² s(速度 1 単位 = 10⁴ m/s)', officialKf0: { period: offP }, rows };
