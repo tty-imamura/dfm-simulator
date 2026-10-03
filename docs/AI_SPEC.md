@@ -342,7 +342,7 @@ This is the app's `SYSTEM_PROMPT`, carried here word for word.
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数・geoPN=1 は kFrame=0 専用), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数・主な用途の分類 —— 1=主に現実較正・GR 1PN〔標準 kFrame=0〕/2=主に引きずり近似 q〔標準 kFrame=1〕。標準と違う kFrame も受理し、保存時に警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -1174,6 +1174,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
     **読み口 0** の機械監査・純関数との一致)/ **`docs.bgEquivalence`**(明示天体 ↔ 局所背景展開の一致試験)/
     **`docs.comovingAdvection`**(fieldTime + 移流 = advected)。
 - **geoPN=3(トイの測地線モード・第259便a)**: `CLAMPS.geoPN` の上限が 3 になったが、**3 は宣言だけでは通らない**。
+  - **第291便c で受理条件を改めた(§39)**: 下の (a)(b)(c)(d) の拒否・丸めは**警告**になった(3 のまま受理・旧法則版の矛盾は旧法則版を無効化して走る)。以下は第259便a〜第263便b の記録である。
   - **受理条件**: (a) `sampleClass:"calibration"` では**拒否**、(b) `physics.spaceMesh.lawVersion` の宣言が無ければ
     **従来どおり 2 へ丸めて警告**、(c) `kFrame>0` は拒否、(d) `spaceMesh.inertia`・`weave` との併用は拒否(**重複適用禁止**)。
   - **第263便a — 明示キー `physics.spaceMesh.toyAllowDrag`(true/false・既定 false)**: 受理条件 **(c) だけ**を開ける
@@ -3019,3 +3020,12 @@ shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", omega0,
 - 腕の中心線 r(s)=rMin+(rMax−rMin)s・φ_k(s)=φ₀+2πk/nArm+cot(p)·ln(r/r0)+Ω_p t(s は宣言の密度で固定)・横断と面外にだけ 2 階 OU。全体は剛体パターン回転 Ω_p(差動回転なし)。
 - 内蔵: 🍭 `shapeToySpiral`(中心なし)・🎢 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
 - 読み取り専用: `HP.shapeToySpiralState(S)`・`HP.shapeToySpiralCentreline(sp,k,s)`・`HP.validateShapeToySpiral`。器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json。QA: `preset.shapeToySpiral`・`behavior.spiralGeometry`・`docs.spiralRef`。
+
+## 39. 第291便c —— 測地線モード = 主な用途の分類・走る法則は宣言から解決・制限はセーブ時の警告だけ(原仮定者の裁定〔第81報〕⑥・統括の検証項目 R134)
+
+- **geoPN は主な用途の分類**: 0=主に原理実証用 / 1=主に現実較正用・GR 1PN 準拠(標準 kFrame=0)/ 2=主に引きずり近似用・q で近似(標準 kFrame=1)/ 3=主に引きずり用・慣性決定力で計算(標準は `physics.relativeDrag.law:"inertial"` の宣言)。**モードが違っても受理器は組を拒否しない・値を丸めない**(分数 kFrame の第65報の丸めは kFrame の値域の契約なので不変)。
+- **走る法則は宣言から**(`geoModeOf(physics).law`): 測地線 ON ∧ kFrame=0 → `eih-kf0` / ON ∧ kFrame>0 → `vMinusU-q` / OFF → `newton` / geoPN=3 で旧法則版 `physics.spaceMesh.lawVersion` が入場条件を満たす → `legacy-spaceMesh:<lawVersion>` / 旧法則版が走らず inertial を宣言 → `inertial-drag`。測地線は geoPN≥1 で ON、geoPN=0 は **新しい宣言鍵 `physics.geodesic:true`** のときだけ ON(true だけを正準形に置く —— 既定は無し=署名不変)。
+- **旧法則版の矛盾**(トイ ∧ kFrame>0〔toyAllowDrag なし〕・トイ ∧ spaceMesh.inertia/weave・vMinusU ∧ kFrame>0)は拒否せず「宣言が矛盾しています」の警告 1 行で受理し、旧法則版を無効化して測地線の基底で走る(宣言は書き換えない)。vMinusU の輸送経路 `physics.meshVelocity` の欠落は従来どおり拒否(契約の欠落)。旧法則版の宣言の無い 3 は 3 のまま受理して測地線の基底で走る(旧来の 2 への丸めと同じ数値)。
+- **セーブ時の警告**(`modeSaveWarnings`): geoPN=0∧測地線 ON / geoPN=1∧kFrame≠0 / geoPN=2∧kFrame≠1 / geoPN=3∧慣性決定力の引きずり未宣言。保存は止めない(成功通知に含める)。保存は `modePolicy:"w291c-1"` と `lawResolved` を持ち、`modePolicy` の無い旧セーブの geoPN=1∧kFrame≠0 は従来どおり kFrame=0 として読む。
+- **AI 生成**: SYSTEM_PROMPT の geoPN の値域の説明を「主な用途の分類」に替えた(値域 0〜2 の案内は不変 —— 3 と `physics.geodesic` は SYSTEM_PROMPT には載せない)。
+- QA: `behavior.geoModeResolve`・`preset.modeNoRestriction`・`behavior.modeSaveWarnings`・`behavior.loadSaveModePolicy`・`docs.geoModeTable`(root は SKIP)。

@@ -1772,6 +1772,20 @@ ja: {
   ioNoteSum:"インポート",   // 第36便 B4(原仮定者指示): 折畳み見出し
   presetMissing:"元プリセットが見つからないため読込を中止しました(β専用サンプルのセーブを旧版で開いた可能性 — 対応する版で読み込んでください)",
   geoPN1SaveKF0:"このセーブは geoPN=1・kFrame≠0 — geoPN=1 は kFrame=0 専用(第283便a)なので kFrame=0 として読みました(旧 geoPN=1 では kFrame は物質の力学に入っていません)。引きずりを入れるなら geoPN=2・kFrame=1",
+  /* 第291便c(原仮定者の裁定(第81報)⑥・R134): 測地線モードは「主な用途」の分類 —— 制限はセーブ時の警告だけ(保存も走行も止めない) */
+  modeWarn_geo0Geodesic:(law)=>"geoPN=0(主に原理実証用)で測地線を有効にした設定を保存します(physics.geodesic:true —— 走る法則 "+law+")",
+  modeWarn_geo1KFrame:(kf,law)=>"geoPN=1(主に現実較正用・GR 1PN 準拠)で kFrame="+kf+" —— GR 1PN に引きずりを重ねた実験設定です(標準は kFrame=0・走る法則 "+law+")",
+  modeWarn_geo2KFrame:(kf,law)=>"geoPN=2(主に引きずり近似用・q で近似)で kFrame="+kf+" —— q 近似の標準強度(kFrame=1)と異なります(走る法則 "+law+")",
+  modeWarn_geo3NoInertial:(legacy,runs,law)=>"geoPN=3(主に引きずり用・慣性決定力で計算)で慣性決定力の引きずり(physics.relativeDrag.law:\"inertial\")が未宣言です("
+    +(legacy!==null && runs? "旧法則版 "+legacy+" で走っています" : (legacy!==null? "旧法則版 "+legacy+" は入場条件で無効 —— 引きずりの法則は何も走っていません(測地線 "+law+")"
+      : "引きずりの法則は何も走っていません(測地線 "+law+")"))+")",
+  modeWarnHead:"⚠ 主な用途と違う組み合わせ(保存は済みました・走行は変えません): ",
+  modeLawMismatch:(saved,now)=>"このセーブを保存したときの法則は "+saved+"、いま走る法則は "+now+" です(宣言は保存どおり —— 解決の版が違う可能性。情報のみ)",
+  geo3Undeclared:(law)=>"測地線モード geoPN=3: 旧法則版(physics.spaceMesh.lawVersion)も慣性決定力の引きずり(physics.relativeDrag.law:\"inertial\")も未宣言です —— 測地線の法則("+law+")で走ります。値は 3 のまま保存・再読込されます",
+  modeSaveNote:"※ geoPN は主な用途の分類です(0 原理実証/1 観測値の再現・GR 1PN/2 引きずり近似 q/3 慣性決定力の引きずり)。値は保存どおりに読み込み、走る法則は宣言(physics.spaceMesh.lawVersion・physics.relativeDrag・physics.geodesic)から決まります。用途と違う組み合わせは保存時に警告します。",
+  ppGeoUse0:"主に原理実証用(測地線は physics.geodesic:true で使える)", ppGeoUse1:"主に現実較正用・GR 1PN 準拠(標準 kFrame=0)",
+  ppGeoUse2:"主に引きずり近似用・q で近似(標準 kFrame=1)", ppGeoUse3:"主に引きずり用・慣性決定力で計算(旧法則版 spaceMesh も宣言どおり走る)",
+  bdgMeshStop_undeclared:"旧法則版の宣言なし(physics.spaceMesh.lawVersion)—— 測地線の法則で走っている",
   saveBgcReject:(e)=>"このセーブの physics.backgroundComplex(背景慣性決定力・bgModel を含む)は受理器を通らないため読込を中止しました(警告だけで走らせない —— 第286便e): "+e,
   contactModeSaveDrop:"このセーブの physics.contactMode は読めない値か、融合・相変化の本での \"none\" です — 受理器と同じ規則で宣言を外して読みました(接触判定は既存挙動 \"normal\")(第285便a)",
   fwUndeclared:"このセーブは frameWeight 未宣言 — 第242便以降の既定 pull(重力の引き m/d²)で走ります。旧来の挙動に戻すには physics.frameWeight:\"share\" を宣言してください",
@@ -2773,6 +2787,20 @@ en: {
   ioNoteSum:"Import",   // 第36便 B4
   presetMissing:"Original preset not found — load aborted (this save may come from a newer/beta build; open it there instead)",
   geoPN1SaveKF0:"This save has geoPN=1 with kFrame≠0 — geoPN=1 takes kFrame=0 only (wave 283a), so it was read with kFrame=0 (under the old geoPN=1 kFrame never entered the dynamics of matter). For dragging use geoPN=2 with kFrame=1",
+  /* Wave 291c (originator's ruling, report 81 (6), R134): the geodesic mode classifies the main use - the only restriction is a warning on save */
+  modeWarn_geo0Geodesic:(law)=>"Saving geoPN=0 (mainly for proof of principle) with the geodesic switched on (physics.geodesic:true - law run: "+law+")",
+  modeWarn_geo1KFrame:(kf,law)=>"geoPN=1 (mainly for reality calibration, GR 1PN) with kFrame="+kf+" - an experimental setup that layers dragging on GR 1PN (standard is kFrame=0; law run: "+law+")",
+  modeWarn_geo2KFrame:(kf,law)=>"geoPN=2 (mainly for the dragging approximation with q) with kFrame="+kf+" - differs from the standard strength of the q approximation (kFrame=1; law run: "+law+")",
+  modeWarn_geo3NoInertial:(legacy,runs,law)=>"geoPN=3 (mainly for dragging computed from the inertial determinacy) has no inertial-determinacy drag declared (physics.relativeDrag.law:\"inertial\") ("
+    +(legacy!==null && runs? "it runs the legacy law "+legacy : (legacy!==null? "the legacy law "+legacy+" is disabled by its entry conditions - no drag law is running (geodesic "+law+")"
+      : "no drag law is running (geodesic "+law+")"))+")",
+  modeWarnHead:"⚠ Combination outside the main use (saved; the run is unchanged): ",
+  modeLawMismatch:(saved,now)=>"This save recorded the law "+saved+" but the law resolved now is "+now+" (declarations are as saved - the resolution version may differ; information only)",
+  geo3Undeclared:(law)=>"Geodesic mode geoPN=3: neither a legacy law (physics.spaceMesh.lawVersion) nor the inertial-determinacy drag (physics.relativeDrag.law:\"inertial\") is declared - it runs the geodesic law ("+law+"). The value stays 3 on save and reload",
+  modeSaveNote:"Note - geoPN classifies the main use (0 proof of principle / 1 reproducing observed values, GR 1PN / 2 dragging approximation with q / 3 dragging from the inertial determinacy). Values load as saved; the law that runs is resolved from the declarations (physics.spaceMesh.lawVersion, physics.relativeDrag, physics.geodesic). Combinations outside the main use raise a warning on save.",
+  ppGeoUse0:"mainly proof of principle (the geodesic is available with physics.geodesic:true)", ppGeoUse1:"mainly reality calibration, GR 1PN (standard kFrame=0)",
+  ppGeoUse2:"mainly the dragging approximation with q (standard kFrame=1)", ppGeoUse3:"mainly dragging from the inertial determinacy (a declared legacy spaceMesh law still runs as declared)",
+  bdgMeshStop_undeclared:"no legacy law declared (physics.spaceMesh.lawVersion) - running the geodesic law",
   saveBgcReject:(e)=>"This save's physics.backgroundComplex (background inertial determinacy, including bgModel) does not pass the validator, so the load was aborted (it is not run with a mere warning - wave 286e): "+e,
   contactModeSaveDrop:"This save's physics.contactMode is not readable, or is \"none\" on a sample with fusion or phase change — by the same rule as the validator the declaration was dropped (contact is the existing \"normal\" behaviour) (wave 285a)",
   fwUndeclared:"This save declares no frameWeight — it runs under the wave-242 default pull (gravitational pull m/d²). Declare physics.frameWeight:\"share\" to restore the old behaviour",
@@ -3258,7 +3286,7 @@ en: {
     cHeat:"Heat-capacity coefficient, active only in the internal-temperature mode (samples with thermal:\"tint\"). A particle's heat energy is E=C·m·T_int, so a dissipated ΔE raises it by ΔT_int=ΔE/(C·m) (A9′/E9). Larger C means the same dissipation heats less. It does nothing in the default spin-as-heat mode (thermal omitted).",
     gravityX:"Uniform external gravity acting horizontally across the whole scene (v1.17). It does not contribute to determinacy W, so it builds a 'ground lab' without distorting clocks, light or dragging. Momentum exchange is ledgered.",
     gravityY:"Uniform external gravity acting vertically (+y is down on screen). The 'downward gravity' of ⚾ free fall, ♨️ convection and 🧪 buoyancy. Beaker-tag samples (♨️🧪) default to 0.031 (≈9.8 m/s² converted — wave 98: the beaker tag inherited the old everyday calibration); the everyday tag (⚾) uses the real value 9.8 (9.8 m/s² as-is). Set 0 for weightlessness.",
-    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 - with kFrame=0 it is routed to the same EIH-type 1PN path as geoPN=1 by the kF0 contract (lambda_PN=1 and kFrame=0, wave 285b on) - this is NOT the v−u equation reducing to geoPN=1 at u=0; the 400-step states agreed for 6 samples (wave 286c measurement), but the two are not asserted to be the same law. 0 = legacy. AT 3, A SEPARATE TOY PATH (wave 259a, the inertial determinacy field) that is EXCLUSIVE with E6-prime, 1PN and the coordinate inertia — no double application. Declaring 3 in a sample JSON requires physics.spaceMesh.lawVersion (scalar/local/complex); a JSON without that declaration is still rounded down to 2 on load, and it is rejected outright for the reality-calibration class (sampleClass:calibration). WAVE 262a: A VALUE OF 3 SET FROM THIS ROW (the UI) IS NO LONGER REWRITTEN TO 2 - samples that declare no lawVersion use the runtime default scalar, and when the entry conditions cannot hold (kFrame>0, or the space-mesh inertia/weave is on) the value stays 3, one warning line is shown, and the dynamics run exactly as geoPN=2 (geoToy:denied in the step accounting). WAVE 263a: MIND THE SAVE ASYMMETRY - setting 3 from this row is still rounded down to 2 on load unless the saved JSON declares physics.spaceMesh.lawVersion (THE RUNNING VALUE AND THE SAVEABLE DECLARATION ARE DIFFERENT THINGS). And a sample that declares physics.spaceMesh.toyAllowDrag:true keeps the toy running with kFrame>0, SO THE E6-PRIME FOLLOWING KICK AND THE TOY ACT IN THE SAME STEP (a diagnostic configuration that may double-count; the HUD shows overlay:drag; rejected for sampleClass:calibration). WAVE 280c: a 3 that declares physics.spaceMesh.lawVersion vMinusU IS NOT THE TOY but the velocity-decomposition contract (xdot=v+u, vdot=a_space-J^T v - the transport path physics.meshVelocity, the 1PN switch pn, the velocity read by 1PN pnVelocity and the meaning of the initial velocity velocityMeaning are declared separately; kFrame=0 only).",
+    geoPN:"The v2.0 geodesic mode (E12). At 1, matter's motion is derived by an action principle from the same ψ=W·κ that slows clocks, enabling the 1PN correction (☿); E6′ dragging on matter is disabled (no double counting). At 2, the unified v−u geodesic law (stage 2): frame transport, vorticity Coriolis (the true face of dragging) and 1PN all follow from one equation derived with u≠0 - with kFrame=0 it is routed to the same EIH-type 1PN path as geoPN=1 by the kF0 contract (lambda_PN=1 and kFrame=0, wave 285b on) - this is NOT the v−u equation reducing to geoPN=1 at u=0; the 400-step states agreed for 6 samples (wave 286c measurement), but the two are not asserted to be the same law. 0 = legacy. WAVE 291c (the originator's ruling, report 81 (6)) - geoPN CLASSIFIES THE MAIN USE, AND THE ONLY RESTRICTION ACROSS MODES IS A WARNING ON SAVE: 0 = mainly proof of principle (declaring physics.geodesic:true switches the geodesic 1PN on too - warned on save) / 1 = mainly reality calibration, GR 1PN (any kFrame other than 0 is warned on save - kFrame>0 runs the v−u law as an experimental setup that layers dragging on GR 1PN) / 2 = mainly the dragging approximation with q (any kFrame other than 1 is warned on save) / 3 = mainly dragging computed from the inertial determinacy (warned on save when physics.relativeDrag.law:\"inertial\" is not declared). THE LAW THAT RUNS IS RESOLVED FROM THE DECLARATIONS (geodesic on with kFrame=0 -> the EIH-type 1PN, kFrame>0 -> the v−u law; a 3 that declares a legacy law physics.spaceMesh.lawVersion (scalar/local/complex/vMinusU) runs that legacy law - numbers unchanged; scalar/local/complex are the wave-259a toy (the inertial determinacy field)). Values are saved and reloaded as they are (a 3 without a legacy declaration stays 3 - it runs the geodesic law and the HUD shows law:). The internal consistency of the legacy laws stays (the toy needs kFrame=0 and excludes the space-mesh inertia/weave; vMinusU needs kFrame=0), but a contradictory declaration is no longer rejected: it is warned and the legacy law is disabled (geoToy:denied in the step accounting). Only a sample that declares physics.spaceMesh.toyAllowDrag:true keeps the toy running with kFrame>0, SO THE E6-PRIME FOLLOWING KICK AND THE TOY ACT IN THE SAME STEP (a diagnostic configuration that may double-count; the HUD shows overlay:drag). A 3 that declares vMinusU IS NOT THE TOY but the velocity-decomposition contract (xdot=v+u, vdot=a_space-J^T v - the transport path physics.meshVelocity, the 1PN switch pn, the velocity read by 1PN pnVelocity and the meaning of the initial velocity velocityMeaning are declared separately).",
     lambdaPN:"Strength of the 1PN correction in geodesic mode (geoPN≥1 — also gates the a₁ₚₙ(w) term of geoPN=2), continuous on 0–1 (integer restriction removed in wave 110). The 1PN acceleration scales as λ_PN/c₀², so the 1PN strength can be calibrated with c₀ held fixed. At 0 you recover Newtonian gravity and the ellipse closes — the A/B control for ☿ Mercury.",
     pnAlpha:"Breakdown of the 1PN correction (E12). 1.5 = full (GR's β=γ=1 — the full 42.98″/century of Mercury), 0.5 = time-rate only (advance drops to 1/3). Machine-verified in V18–V20.",
     radiusScale:"Global scale of the particle radius R=radiusScale·rMul·√m (default 1). Affects contact size and the moment of inertia I=½mR² (the I in temperature T=Is²). Per-body variation lives in the body key rMul; this knob scales every particle relatively. A discretization setting, not a law of physics.",
@@ -3802,12 +3830,14 @@ const CAL_CONTRACT={"version":"w288b-1","ruling":"原仮定者の裁定(第72報
 // 受理器を通らない経路(UI のつまみ・build 直呼び)で geoPN=1 のまま kFrame>0 にした状態は、同じ 2 フラグ(λ_PN=1・kFrame>0)
 // として geoPN=2 と同じ処理で走る(`consistent:false` —— ラベルだけが食い違う)。physics.lambdaPN は 1PN 項の**係数**
 // (0〜1)で、ここで言う λ_PN(有無)とは別の欄である(`lambdaPNCoef`)。
+// 第291便c(原仮定者の裁定(第81報)⑥・R134): 上の「受理器は geoPN=1 に kFrame=0 を要求する」は撤去した —— geoPN は主な用途の分類で、
+// geoPN=1 ∧ kFrame>0 は受理して警告(GR 1PN に引きずりを重ねた実験設定 —— 上の core 2 の経路)。解決の表は geoLawResolveInto(下)
 const GEO_MODE_VERSION="w285b-geomode-2";   // 第285便b: core 表 [0,2,2]→[0,1,2]・kF0 の 1PN を EIH 型へ(欄 pn1)
 // 第285便b(原仮定者の裁定(第75報)⑦・R97): **kF0 の役割(λ_PN=1 ∧ kFrame=0)は `_core` へ 1 を渡す**(試験粒子形の 1PN・反作用は返さない)
 // + `_core` の前の差分 Δ=EIH−試験粒子形(`dfmPN1EIHKick`)。上の 4 行の読み替え: kF0 では geo=真・geo2=偽 —— E6′・輸送 3 項・u 減算・
 // 対反作用は立たない(反作用は EIH 型の式に内在する)。geoPN=2 ∧ kFrame>0(DFM 版)は従来どおり 2・geoPN=1 ∧ kFrame>0(不整合)も 2。
 const GEO_CORE_PN=[0,1,2];   // geoPN 0/1/2 → `S._core` へ渡す番号(λ_PN=0→0・kF0〔λ_PN=1∧kFrame=0〕→1 + EIH の差分・DFM〔λ_PN=1∧kFrame>0〕→2)。3 は geoCoreDispatch が入場で決める
-const GEO_MODE_ROLE=["noGeodesic","kF0","dfm","spaceMesh"];   // 0=測地線不用 / 1=現実較正(kF0)/ 2=引きずり有り(kFrame=1 は q を使った引きずりの近似 —— 第288便b。kFrame=0 は互換入力) / 3=空間メッシュ(役割の鍵は内部の値)
+const GEO_MODE_ROLE=["noGeodesic","kF0","dfm","spaceMesh"];   // 第291便c: 表示名は主な用途(GEO_MODE_PURPOSE・i18n ppGeoUse0〜3)—— 役割の鍵は内部の値のまま // 0=測地線不用 / 1=現実較正(kF0)/ 2=引きずり有り(kFrame=1 は q を使った引きずりの近似 —— 第288便b。kFrame=0 は互換入力) / 3=空間メッシュ(役割の鍵は内部の値)
 function geoModeOf(ph){
   const g=(ph && typeof ph.geoPN==="number" && isFinite(ph.geoPN))? ph.geoPN : 0;
   const mode=(g>=3)?3:((g>=2)?2:((g>0)?1:0));   // _core の閾値(>0・>=2)と geoCoreDispatch の >=3 と同じ
@@ -3823,7 +3853,108 @@ function geoModeOf(ph){
   if(mode===1 && kF>0) out.core=2;                                     // 第285便b: 不整合の組は v−u 則(2)で走る(geoCoreDispatch と同じ)
   if(mode===2 && kF===0){ out.role="kF0"; out.compat="geoPN2-kF0"; out.core=GEO_CORE_PN[1]; }  // 旧宣言(互換入力): kF0 版と同じ処理(ビット同一)
   out.pn1=(out.core===GEO_CORE_PN[1] && mode!==0)? "eih" : null;       // 第285便b: kF0 の 1PN は EIH 型(PN1_EIH_VERSION)
+  geoLawResolveInto(out, ph, kF);   // 第291便c: 主な用途・走る法則の解決(下)
   return out;
+}
+// ===== 第291便c(原仮定者の裁定(第81報)⑥・統括の検証項目 R134): **geoPN は「主な用途」の分類**・**走る法則は宣言から解決する** =====
+// 制限はセーブ時の警告だけ(`modeSaveWarnings`)。受理器は geoPN と kFrame の組を拒否しない・値を丸めない(分数 kFrame の第65報の丸めは
+// kFrame の値域の契約なので残す)。解決の表(`geoModeOf(...).law` —— 走った法則の名前。`geoCoreDispatchBody` は同じ表で dispatch する):
+//   測地線(1PN)の ON/OFF: geoPN≥1 は ON。geoPN=0 は `physics.geodesic:true` を宣言したときだけ ON(既定は無し=署名不変)
+//   1PN の基底: ON ∧ kFrame=0 → "eih-kf0"(`_core` に 1 + EIH の差分)/ ON ∧ kFrame>0 → "vMinusU-q"(`_core` に 2 —— v−u 則)
+//   geoPN=3: 旧法則版(physics.spaceMesh.lawVersion = scalar/local/complex/vMinusU)の宣言が入場条件を満たせば
+//     "legacy-spaceMesh:<lawVersion>"(従来どおり —— 数値不変)。宣言が無ければ・入場条件で無効化されたら測地線 ON の基底。
+//     旧法則版が走らず physics.relativeDrag.law:"inertial" が宣言されていれば "inertial-drag"(第290便c の経路 —— どの geoPN でも走る)
+//   それ以外(geoPN=0 で測地線 OFF): "newton"(kFrame>0 なら E6′ の追従キックが別に立つ —— `drag` 欄)
+// **geoModeOf は宣言から決まる(S を読まない)**。旧法則版の入場条件は `S.updateRadii` の門と同じ式(kFrame・toyAllowDrag・inertia・weave)を
+// ここでも評価する。vMinusU の外部ステップの前提(meshVelocity の受理など)は宣言の有無だけを見る(細目の拒否理由は S.meshVelDeny)
+const GEO_MODE_PURPOSE=["proof","calibration","dragApprox","inertialDrag"];   // 0=主に原理実証 / 1=主に現実較正(GR 1PN)/ 2=主に引きずり近似(q)/ 3=主に引きずり(慣性決定力)
+const MODE_POLICY_VERSION="w291c-1";   // 保存の版(#btnSave が item.modePolicy に書く —— 読込で旧セーブの kFrame の読み替えを分ける)
+const GEO_LAWS=["newton","eih-kf0","vMinusU-q","inertial-drag"];   // 旧法則版は "legacy-spaceMesh:<lawVersion>"
+function geoLegacyDeclOf(ph){   // geoPN=3 の旧法則版の宣言(lawVersion)と、入場条件(S.updateRadii の門と同じ式)を満たすか
+  const sm=(ph && ph.spaceMesh && typeof ph.spaceMesh==="object")? ph.spaceMesh : null;
+  if(!sm || sm.lawVersion===undefined) return null;
+  const kFpos=(ph.kFrame>0), tad=(sm.toyAllowDrag===true);
+  const ok=(!kFpos || tad) && !(sm.inertia!==false) && !(sm.weave!==undefined);   // S.updateRadii の okToy と同じ式
+  let off=ok? null : (kFpos? "kFrame" : "meshChannel");                              // S.geoToyDeny と同じ語
+  if(!off && sm.lawVersion==="vMinusU"){
+    if(kFpos) off="kFrame";
+    else if(!ph.meshVelocity) off="meshVelocity";
+  }
+  return {lawVersion:sm.lawVersion, runs:!off, off};
+}
+function geoLawResolveInto(out, ph, kF){
+  const mode=out.mode, kFpos=(kF>0);
+  const rd=ph && ph.relativeDrag;
+  out.purpose=GEO_MODE_PURPOSE[mode];
+  out.modePolicy=MODE_POLICY_VERSION;
+  out.inertialDrag=!!(rd && typeof rd==="object" && rd.law==="inertial");
+  out.legacyLaw=null; out.legacyOff=null;
+  let geodesic=(mode===1 || mode===2);
+  if(mode===0) geodesic=!!(ph && ph.geodesic===true);
+  let law=null;
+  if(mode===3){
+    const L=geoLegacyDeclOf(ph);
+    if(L){ out.legacyLaw=L.lawVersion; out.legacyOff=L.off; }
+    if(L && L.runs){ geodesic=false; law="legacy-spaceMesh:"+L.lawVersion; }
+    else geodesic=true;
+  }
+  out.geodesic=geodesic;
+  out.basis=geodesic? (kFpos? GEO_LAWS[2] : GEO_LAWS[1]) : null;
+  if(!law) law=(mode===3 && out.inertialDrag)? GEO_LAWS[3] : (geodesic? out.basis : GEO_LAWS[0]);
+  out.law=law;
+  out.drag=kFpos? (geodesic? "q" : "E6′") : null;   // 引きずりの経路(測地線 ON は v−u 輸送 3 項の q・OFF は E6′ の追従キック)
+  // 測地線 ON に解決した 0・3 の core / λ_PN / pn1(geoPN 1・2 の欄は第285便b のまま —— 内蔵の導出表は 1 bit も変わらない)
+  if((mode===0 || mode===3) && geodesic){
+    out.core=kFpos? GEO_CORE_PN[2] : GEO_CORE_PN[1];
+    out.lambdaPN=1;
+    out.pn1=(out.core===GEO_CORE_PN[1])? "eih" : null;
+  }
+  // 標準構成(主な用途どおりの組 —— 外れるとセーブ時に警告。走行は止めない)
+  out.standard=(mode===0)? !geodesic : (mode===1)? (kF===0) : (mode===2)? (kF===1) : out.inertialDrag;
+  return out;
+}
+// 第291便c(R134): **セーブ時の警告**(純関数 —— 入力を変えない・保存も走行も止めない。#btnSave の成功通知に含める)。
+// 入力 {geoPN,kFrame,geodesic,relativeDrag,spaceMesh,meshVelocity}(sim.params をそのまま渡してよい —— 読むのはこの鍵だけ)。
+// kFrame が数でなければ既定(DEFAULT_PHYSICS.kFrame)で読む(受理器が埋める値と同じ)。戻り値 [{code,message}](無ければ [])
+//   geoPN=0 ∧ 測地線 ON(geodesic:true)/ geoPN=1 ∧ kFrame≠0 / geoPN=2 ∧ kFrame≠1 / geoPN=3 ∧ 慣性決定力(relativeDrag.law:"inertial")未宣言
+// (3 の条件は統括の追加 —— 原仮定者の裁定(第81報)は 3 のモード固有の条件を指定していない)
+const MODE_SAVE_WARN_CODES=["geo0Geodesic","geo1KFrame","geo2KFrame","geo3NoInertial"];
+function modeSaveWarnings(a){
+  const src=(a && typeof a==="object")? a : {};
+  const kF=(typeof src.kFrame==="number" && isFinite(src.kFrame))? src.kFrame : DEFAULT_PHYSICS.kFrame;
+  const ph={geoPN:src.geoPN, kFrame:kF, geodesic:src.geodesic, relativeDrag:src.relativeDrag,
+    spaceMesh:src.spaceMesh, meshVelocity:src.meshVelocity, lambdaPN:src.lambdaPN};
+  const g=geoModeOf(ph), out=[];
+  if(g.mode===0 && g.geodesic) out.push({code:MODE_SAVE_WARN_CODES[0], message:T("modeWarn_geo0Geodesic")(g.law)});
+  if(g.mode===1 && kF!==0) out.push({code:MODE_SAVE_WARN_CODES[1], message:T("modeWarn_geo1KFrame")(kF, g.law)});
+  if(g.mode===2 && kF!==1) out.push({code:MODE_SAVE_WARN_CODES[2], message:T("modeWarn_geo2KFrame")(kF, g.law)});
+  if(g.mode===3 && !g.inertialDrag)
+    out.push({code:MODE_SAVE_WARN_CODES[3], message:T("modeWarn_geo3NoInertial")(g.legacyLaw, g.legacyLaw!==null && g.legacyOff===null, g.law)});
+  return out;
+}
+// 第291便c(R134): **モードの表**(PHYSICS〔第291便c〕の表の正本 —— QA docs.geoModeTable が行を転記一致で照合する)。
+// 行 = geoPN × 宣言。列 = 主な用途・標準構成か(kFrame=0/1)・解決した法則(kFrame=0/1)・セーブ時の警告の code(kFrame=0/1)。数はここで作らない
+const GEO_MODE_TABLE_CASES=[
+  {geoPN:0, decl:"—", ph:{}},
+  {geoPN:0, decl:"geodesic:true", ph:{geodesic:true}},
+  {geoPN:1, decl:"—", ph:{}},
+  {geoPN:2, decl:"—", ph:{}},
+  {geoPN:3, decl:"—", ph:{}},
+  {geoPN:3, decl:"relativeDrag.law:inertial", ph:{relativeDrag:{law:"inertial"}}},
+  {geoPN:3, decl:"spaceMesh.lawVersion:scalar", ph:{spaceMesh:{lawVersion:"scalar", inertia:false}}},
+  {geoPN:3, decl:"spaceMesh.lawVersion:vMinusU+meshVelocity", ph:{spaceMesh:{lawVersion:"vMinusU", inertia:false}, meshVelocity:{law:"vMinusU"}}}];
+function geoModeTable(){
+  return GEO_MODE_TABLE_CASES.map((c)=>{
+    const at=(kf)=>Object.assign({geoPN:c.geoPN, kFrame:kf}, c.ph);
+    const g0=geoModeOf(at(0)), g1=geoModeOf(at(1));
+    const w=(kf)=>modeSaveWarnings(at(kf)).map((z)=>z.code).join("+")||"—";
+    return {geoPN:c.geoPN, decl:c.decl, purpose:g0.purpose, standard0:g0.standard, standard1:g1.standard,
+      law0:g0.law, law1:g1.law, warn0:w(0), warn1:w(1)};
+  });
+}
+function geoModeTableRow(r){   // PHYSICS の表の 1 行(書式の正本 —— QA と文書が同じ関数で作る)
+  return "| "+r.geoPN+" | "+r.decl+" | "+r.purpose+" | "+(r.standard0?"○":"—")+" / "+(r.standard1?"○":"—")
+    +" | `"+r.law0+"` | `"+r.law1+"` | "+r.warn0+" | "+r.warn1+" |";
 }
 // ===== 第273便c(第63報・統括の検証項目 AG24): **正式判定値の side table** =====
 // 判定器の正本(`tests/out/calaudit-w249.json`)が出した **判定段の値**(`gate.assessedValue`)・
@@ -7377,7 +7508,7 @@ const PARAM_DEFS = [
   {key:"gravityY",label:"一様重力 g_y",      mode:"lin", lo:-10, hi:10, step:0.005, cat:"st", group:"法則の実験室",   /* 第79便: 同上。第94便: ⚾の g_y=9.8(実値化)がスライダー内に収まるよう CLAMPS と同じ±10へ拡大(第56便 kRep と同じ方針) */
    desc:"画面全体に働く縦方向の一様な外部重力場(+yは画面下向き)。⚾自由落下・♨️対流・🧪浮力の「下向きの重力」はこれ。ビーカータグ(♨️🧪)は 0.031(換算 ≈9.8 m/s² — 第98便: 旧日常較正を引き継ぎ)、日常タグ(⚾)は実値 9.8(そのまま 9.8 m/s²)を既定とする。0にすると無重力になる。"},
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:3, step:1,    cat:"dg", group:"法則の実験室",
-   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では kF0 の役割(λ_PN=1 ∧ kFrame=0)として geoPN=1 と同じ EIH 型の 1PN の経路へ送られる(第285便b 以降 —— v−u 則の式を u=0 に還元した結果ではなく kF0 の契約による。400 步の状態は 6 本で一致したが〔第286便c の実測〕、法則として同一とは断言しない)。0=従来(legacy)。**3=トイ(慣性決定力場)**: 第259便a で足した**トイモデル専用**の別処理で、E6′・1PN・座標変換慣性のどれとも**排他**(重複適用を禁止する)。サンプル JSON で 3 を宣言するには physics.spaceMesh.lawVersion(scalar/local/complex)が要り、宣言の無い JSON は読み込み時に従来どおり 2 へ丸める。「現実較正」分類(sampleClass:calibration)の JSON では拒否する。**第262便a**: **この行(UI)で 3 にした値はもう 2 へ書き換えない** —— lawVersion の宣言が無いサンプルでは実行時の既定 scalar を使い、kFrame>0 や空間メッシュの慣性/織り込みと重なって入場条件が立たないときは、値を 3 のまま保ったうえで警告を 1 行出し、力学は geoPN=2 と同じで走る(ステップ会計の geoToy:denied)。**第263便a**: **保存の非対称**に注意 —— この行で 3 にしても、保存 JSON に physics.spaceMesh.lawVersion の宣言が無ければ読み込み時に 2 へ丸められる(**実行中の値と、保存できる宣言は別物である**)。また physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag と出る。sampleClass:calibration では拒否する)。**第280便c**: physics.spaceMesh.lawVersion:\"vMinusU\" を宣言した 3 は**トイではなく速度分解の契約**(ẋ=v+u・v̇=a_space−Jᵀv —— 輸送経路 physics.meshVelocity・1PN の有無 pn・1PN が読む速度 pnVelocity・初期速度の意味 velocityMeaning を別々に宣言する。kFrame=0 専用)。"},
+   desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では kF0 の役割(λ_PN=1 ∧ kFrame=0)として geoPN=1 と同じ EIH 型の 1PN の経路へ送られる(第285便b 以降 —— v−u 則の式を u=0 に還元した結果ではなく kF0 の契約による。400 步の状態は 6 本で一致したが〔第286便c の実測〕、法則として同一とは断言しない)。0=従来(legacy)。**第291便c(原仮定者の裁定(第81報)⑥)— geoPN は「主な用途」の分類で、モードが違っても制限はセーブ時の警告だけ**: 0=主に原理実証用(physics.geodesic:true を宣言すると測地線〔1PN〕も使える —— 保存時に警告)/ 1=主に現実較正用・GR 1PN 準拠(kFrame=0 以外は保存時に警告 —— kFrame>0 は GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)/ 2=主に引きずり近似用・q で近似(kFrame=1 以外は保存時に警告)/ 3=主に引きずり用・慣性決定力で計算(physics.relativeDrag.law:\"inertial\" が未宣言なら保存時に警告)。**走る法則は宣言から決まる**(測地線 ON ∧ kFrame=0 → EIH 型の 1PN・kFrame>0 → v−u 則・3 で旧法則版 physics.spaceMesh.lawVersion〔scalar/local/complex/vMinusU〕を宣言していればその旧法則版 —— 数値は従来どおり。scalar/local/complex は第259便a の **3=トイ(慣性決定力場)**)。値は保存どおりに保存・再読込される(旧法則版の宣言が無い 3 も 3 のまま —— 測地線の法則で走り、HUD に law: を出す)。旧法則版の内部整合(トイは kFrame=0・spaceMesh の inertia/weave と排他・vMinusU は kFrame=0)は残すが、矛盾した宣言は拒否せず警告して旧法則版を無効化する(ステップ会計の geoToy:denied)。physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag)。vMinusU を宣言した 3 は**トイではなく速度分解の契約**(ẋ=v+u・v̇=a_space−Jᵀv —— 輸送経路 physics.meshVelocity・1PN の有無 pn・1PN が読む速度 pnVelocity・初期速度の意味 velocityMeaning を別々に宣言する)。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
    desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。**第275便a(原仮定者の裁定〔第65報〕)**: サンプル JSON の既定は **0 か 1 の二値**である —— 分数の補正はそのサンプル限りで予測に使えないので、0<kFrame<1 を JSON に書くには `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)の宣言が要る。宣言が無い分数は読み込み時に**最寄りの 0/1 へ丸めて警告 1 行**(k<0.5→0・k≥0.5→1)。**現実較正クラス(sampleClass:calibration)では丸めず拒否**し、使える宣言は「space-mesh-effective」だけである。**このスライダー(UI)で動かした値は丸めない**(保存 JSON にしたときに初めて門が効く — 第263便a と同じ保存の非対称)。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
@@ -7530,6 +7661,7 @@ function valToSliderPos(def,v){
 //      エンジンに無い。`S._core` には 1 命令も足していない)。
 // **内蔵 124 本の kFrame の値は 1 本も変えていない**(本便は契約を開けただけ)。
 const KFRAME_APPROX_KEY = "kFrameApprox";
+const GEODESIC_KEY = "geodesic";   // 第291便c(R134): geoPN=0 で測地線(1PN)を有効にする宣言(true だけ —— 既定は無し=署名不変)
 // 第275便a(原仮定者の裁定〔第65報〕(1)「kFrame の分数補正はサンプル限りで予測に使えない →
 //   例外を除き kFrame は kF0 版の 0 か DFM 版の 1 に限定する」): **二値が既定**の契約へ進める。
 //   宣言値は 2 つになった:
@@ -19923,6 +20055,13 @@ function validatePreset(obj){
         else ph[k]=p.physics[k];
         continue;
       }
+      // 第291便c(原仮定者の裁定(第81報)⑥・R134): physics.geodesic —— geoPN=0 で測地線(1PN)を有効にする宣言。
+      // true だけを ph へ入れる(false・未宣言は鍵を置かない=署名不変)。geoPN≥1 は宣言にかかわらず測地線 ON
+      if(k===GEODESIC_KEY){
+        if(p.physics[k]===true) ph[k]=true;
+        else if(p.physics[k]!==false) warnings.push('physics.geodesic は true/false のみ — 削除します');
+        continue;
+      }
       // 第247便a: framePrecision も同じ流儀(既定 "single" は ph へ入れない=署名不変)
       if(k===FRAME_PRECISION_KEY){
         if(FRAME_PRECISIONS.indexOf(p.physics[k])<0) warnings.push('physics.framePrecision は "single"/"double" のみ — 既定(single)に修正');
@@ -19999,9 +20138,9 @@ function validatePreset(obj){
   //   裁定「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」「DFM 版=geoPN=2 かつ
   //   kFrame=1(geoPN=1 の DFM 版は無い)」。geoPN=1 に kFrame≠0 を書いた入力は**拒否**する(下の分数の丸めより前 ——
   //   丸めた値〔kFrameSnapped〕を返して通すことはしない)。geoPN=0 の kFrame は**書き換えない**(kFrame=1 のトイがある)。
-  if(geoModeOf(ph).mode===1 && ph.kFrame!==0)
-    bad('physics.geoPN=1 は kFrame=0 専用です(kFrame='+ph.kFrame+')—— 原仮定者の裁定(2026-09-26 追加)「1=観測値をそのまま再現する本'
-      +'(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」。引きずりを入れるなら geoPN=2・kFrame=1(q を使った引きずりの近似 —— 較正母集団の外。geoPN=1 に kFrame>0 は無い)');
+  // ===== 第291便c(原仮定者の裁定(第81報)⑥・統括の検証項目 R134): **上の拒否を撤去**(モードは主な用途の分類 —— 制限はセーブ時の警告だけ) =====
+  //   geoPN=1 ∧ kFrame≠0 は**受理して警告 1 行**(GR 1PN に引きずりを重ねた実験設定として v−u 則で走る —— geoModeOf の law "vMinusU-q")。
+  //   分数 kFrame は geoPN=1 でも下の第65報の丸め(kFrame の値域の契約 —— モードの制限ではない)を通る。警告は丸めた後の値で出す(下)
   // ===== 第273便b(第63報 AH1): kFrame の受理契約(二層) =====
   //   ① 全クラス共通: 有限な [0,1](非数は上の CLAMPS 経路が致命拒否・域外は警告つきクランプ)。
   //   ② 現実較正クラスだけ: **0<kFrame<1 の分数には宣言鍵が要る**。
@@ -20018,7 +20157,8 @@ function validatePreset(obj){
   //   **内蔵の kFrame の値は 1 本も変えていない**(内蔵の集合は {0,1} なのでこの門に 1 本も当たらない)。
   //   **力学には 1 バイトも接続しない** —— `S._core` には 1 命令も足していない。
   // 第283便a: geoPN=1 の分数は上で拒否済み —— 丸め(kFrameSnapped)へは進めない
-  if(ph.kFrame>0 && ph.kFrame<1 && geoModeOf(ph).mode!==1){
+  // 第291便c: 拒否を撤去したので geoPN=1 の分数も他のモードと同じ丸めを通る(第65報の契約は変えない)
+  if(ph.kFrame>0 && ph.kFrame<1){
     const dec = ph[KFRAME_APPROX_KEY];
     const calib = (p.sampleClass==="calibration");
     const allowed = calib ? KFRAME_APPROXES_CALIBRATION : KFRAME_APPROXES;
@@ -20053,30 +20193,47 @@ function validatePreset(obj){
   //   **(a) は迂回しない** —— `sampleClass:"calibration"` では geoPN=3 も toyAllowDrag も拒否する。
   //   受理しても **E6′ とトイは同じ步で重なる**(二重計上の可能性)ので警告 1 行を必ず出す。
   //   **これは法則の宣言ではなく診断の構成である**(Negative Claim 27 を維持する)。
+  // 第291便c(R134): 下の (a)(b)(c)(d) は**拒否・丸めではなく警告**に改めた(モードは主な用途の分類)。
+  //   (a) calibration ∧ geoPN=3 → 警告(現実較正の主な用途は geoPN=1)
+  //   (b) 旧法則版(lawVersion)の宣言が無い 3 → **3 のまま**受理(2 へ丸めない)。測地線 ON の法則(kFrame で基底を選ぶ —— 旧来の 2 への丸めと同じ数値)で走る。
+  //       慣性決定力の引きずり(relativeDrag.law:"inertial")も無ければ「未宣言」の警告(あれば law "inertial-drag")
+  //   (c)(d) 旧法則版の内部整合(二重計上の防止)は残すが、**拒否ではなく「宣言が矛盾している」の警告**+**旧法則版を無効化して走る**
+  //       (無効化は `S.updateRadii` の入場条件の門 —— geoToyDeny と同じ式。宣言の値は書き換えない=保存どおりに読み直せる)。
+  //       vMinusU の輸送経路 physics.meshVelocity の欠落は契約の欠落なので従来どおり拒否する(モードの制限ではない)
   if(ph.geoPN>=3){
     const sm3=ph[SPACE_MESH_KEY];
     const tad3=!!(sm3 && sm3.toyAllowDrag===true);
+    const gm3=geoModeOf(ph);
     if(p.sampleClass==="calibration")
-      bad('physics.geoPN=3(トイの測地線モード)は sampleClass:"calibration" では使えません(現実較正にトイを混ぜない)');
-    else if(!sm3 || sm3.lawVersion===undefined){
-      warnings.push('physics.geoPN=3 は physics.spaceMesh.lawVersion("scalar"/"local"/"complex")の宣言が要る — 従来どおり 2 へ丸めた');
-      ph.geoPN=2;
+      warnings.push('physics.geoPN=3(主に慣性決定力の引きずり用)を sampleClass:"calibration" で使います —— 現実較正の主な用途は geoPN=1(GR 1PN・kFrame=0)。走る法則 '+gm3.law);
+    if(!sm3 || sm3.lawVersion===undefined){
+      if(!gm3.inertialDrag)
+        warnings.push('physics.geoPN=3: 旧法則版(physics.spaceMesh.lawVersion "scalar"/"local"/"complex"/"vMinusU")も慣性決定力の引きずり(physics.relativeDrag.law:"inertial")も未宣言 —— '
+          +'3 のまま受理し、測地線の法則 '+gm3.law+' で走ります(旧来の「2 へ丸め」と同じ数値・値は書き換えない)');
     }
-    // 第280便c(R65): **vMinusU(速度分解)は kFrame=0 専用**・**輸送経路 physics.meshVelocity の宣言が必須**。
-    // (toyAllowDrag は validateSpaceMesh が vMinusU と排他にしてあるので、ここで kFrame>0 を迂回する道は無い)
-    else if(sm3.lawVersion===GEO3_LAW && ph.kFrame>0)
-      bad('physics.geoPN=3・spaceMesh.lawVersion:"vMinusU" は kFrame=0 専用です(E6′ の追従キック・geoPN=2 の v−u 輸送と座標変換を二重に当てない)');
-    else if(sm3.lawVersion===GEO3_LAW && !ph[MESH_VEL_KEY])
+    else if(sm3.lawVersion===GEO3_LAW && !ph[MESH_VEL_KEY] && !(ph.kFrame>0))
       bad('physics.geoPN=3・spaceMesh.lawVersion:"vMinusU" は physics.meshVelocity(輸送経路 {law:"vMinusU",field,mutual,frame})の宣言が要る');
+    else if(sm3.lawVersion===GEO3_LAW && ph.kFrame>0)
+      warnings.push('physics.geoPN=3・spaceMesh.lawVersion:"vMinusU" と kFrame='+ph.kFrame+' は宣言が矛盾しています(vMinusU は kFrame=0 で E6′ の追従キック・v−u 輸送と座標変換を二重に当てない)'
+        +' —— 旧法則版 vMinusU を無効化し、測地線の法則 '+gm3.law+' で走ります');
     else if(ph.kFrame>0 && !tad3)
-      bad("physics.geoPN=3(トイ)は kFrame=0 専用です(E6′/E12 の追従を置換するので、追従の結合が立っていてはならない)。診断で重ねるなら physics.spaceMesh.toyAllowDrag:true を明示してください");
+      warnings.push('physics.geoPN=3・旧法則版 '+sm3.lawVersion+' と kFrame='+ph.kFrame+' は宣言が矛盾しています(トイは E6′/E12 の追従を置換する —— 重ねるなら physics.spaceMesh.toyAllowDrag:true)'
+        +' —— 旧法則版を無効化し、測地線の法則 '+gm3.law+' で走ります');
     else if(ph.kFrame>0)
       warnings.push('physics.spaceMesh.toyAllowDrag:true — geoPN=3 を kFrame>0(='+ph.kFrame+')のまま走らせます。**E6′ の追従キックとトイが同じ步で重なる**(二重計上の可能性がある診断構成)。較正則ではありません');
     else if(sm3.inertia!==false)
-      bad('physics.geoPN=3(トイ)は physics.spaceMesh.inertia と排他です(重複適用禁止 — inertia は false にしてください)');
+      warnings.push('physics.geoPN=3・旧法則版 '+sm3.lawVersion+' と physics.spaceMesh.inertia は宣言が矛盾しています(重複適用禁止)'
+        +' —— 旧法則版を無効化し(inertia の経路は宣言どおり)、測地線の法則 '+gm3.law+' で走ります');
     else if(sm3.weave!==undefined)
-      bad('physics.geoPN=3(トイ)は physics.spaceMesh.weave と排他です(重複適用禁止)');
+      warnings.push('physics.geoPN=3・旧法則版 '+sm3.lawVersion+' と physics.spaceMesh.weave は宣言が矛盾しています(重複適用禁止)'
+        +' —— 旧法則版を無効化し(weave の経路は宣言どおり)、測地線の法則 '+gm3.law+' で走ります');
   }
+  // 第291便c(R134): geoPN=1 ∧ kFrame≠0 は受理して警告 1 行(丸めの後の値 —— 上の拒否の撤去)
+  if(geoModeOf(ph).mode===1 && ph.kFrame!==0)
+    warnings.push('physics.geoPN=1(主に現実較正用・GR 1PN 準拠)に kFrame='+ph.kFrame+' —— geoPN=1 の主な用途は現実較正(kFrame=0)。kFrame≠0 は GR 1PN に引きずりを重ねた実験設定として走ります(走る法則 '+geoModeOf(ph).law+')');
+  // 第291便c: geoPN≥1 の physics.geodesic:false は効かない(geoPN≥1 は測地線 ON)—— 宣言だけが残らないように知らせる
+  if(p.physics && p.physics[GEODESIC_KEY]===false && ph.geoPN>0)
+    warnings.push('physics.geodesic:false は geoPN≥1 では効きません(geoPN≥1 は測地線 ON —— 測地線を切るなら geoPN=0)');
   // ===== 第283便a: **geoPN=2・kFrame=0 は互換入力**(kF0 版として解釈 —— geoPN=1 と力学はビット同一)=====
   //   値は書き換えない(presetSig・保存 JSON は 1 bit も変わらない)。機械可読の記録 `geoCompat` を返し、**内蔵の同じ宣言**
   //   (geoPN=2・kFrame=0 のまま署名便での移行を待つ内蔵)でない入力には警告を 1 行出す。
@@ -20118,7 +20275,8 @@ function validatePreset(obj){
       bad('physics.spaceMesh.law:"mesh-v2" は toyAllowDrag(E6′ と重ねる診断キー)と排他です');
   }
   // 第240便: contact は ∇u 勾配(geoPN=2)と両立しない(フレーム重み w′ の勾配を持たない)→ interior へ落とす
-  if(ph[DRAG_REF_KEY]===DRAG_CONTACT && ph.geoPN===2){ warnings.push('physics.dragRef:"contact" は geoPN=2 と併用不可 — "interior" に修正'); ph[DRAG_REF_KEY]="interior"; }
+  // 第291便c: geoPN=2 以外でも v−u 則(core 2)に解決する組(geoPN=1∧kFrame>0・旧法則版の走らない 3・geodesic:true の 0)は同じ扱い
+  if(ph[DRAG_REF_KEY]===DRAG_CONTACT && (ph.geoPN===2 || geoModeOf(ph).core===GEO_CORE_PN[2])){ warnings.push('physics.dragRef:"contact" は geoPN=2 と併用不可 — "interior" に修正'); ph[DRAG_REF_KEY]="interior"; }
   // 第242便: contact(接触=完全引きずり)は share のフレーム重みで定義した opt-in — 既定 pull と併用しない(合成は裁定事項)
   if(ph[DRAG_REF_KEY]===DRAG_CONTACT && frameWeightIsPull(ph)){ warnings.push('physics.dragRef:"contact" は frameWeight:"share" 専用(第242便)— "share" に修正'); ph[FRAME_WEIGHT_KEY]="share"; }
   p.physics=ph;
@@ -23635,10 +23793,17 @@ function makeSim(){
       S.geoToyDeny=okToy? null : (__kf? "kFrame" : "meshChannel");
       if(!okToy) S.geoToyStop="denied";
       S.geoToyOverlay=(okToy && __tad && __kf)? "drag" : null;
-    } else { S.geoToyDeny=null; S.geoToyOverlay=null; }
+      // 第291便c(原仮定者の裁定(第81報)⑥・R134): **旧法則版(spaceMesh.lawVersion)の宣言が無い 3 はトイを走らせない**
+      // (法則の解決は宣言から —— geoModeOf の law。第262便a の「未宣言でも実行時の既定 scalar で走る」を撤去)。
+      // 値は 3 のまま保ち、geoCoreDispatchBody が測地線 ON の基底(kFrame=0 → EIH・kFrame>0 → v−u)で走らせる
+      S.geo3Undeclared=!(__sm && __sm.lawVersion!==undefined);
+      if(S.geo3Undeclared && okToy) S.geoToyStop="undeclared";
+    } else { S.geoToyDeny=null; S.geoToyOverlay=null; S.geo3Undeclared=false; }
+    // 第291便c(R134): geoPN=0 で測地線を有効にする宣言(physics.geodesic:true)の読み口(未宣言は false —— dispatch は真偽値 1 つ)
+    S.geodesicDecl=(S.params.geodesic===true);
     // 第280便c: **lawVersion:"vMinusU" はトイ積分器を通らない**(速度分解の外部ステップ dfmMeshVelocityStep へ
     // dispatch する —— 下の meshVelocityPrepare が S.hasGeo3 を立てる)。入場条件の門(denied)は共通のまま
-    S.hasGeoToy=(S.params.geoPN>=3 && !S.geoToyDeny && !(__sm && __sm.lawVersion===GEO3_LAW));
+    S.hasGeoToy=(S.params.geoPN>=3 && !S.geoToyDeny && !S.geo3Undeclared && !(__sm && __sm.lawVersion===GEO3_LAW));
     // 第252便b: 近点サブステップ(physics.periSubsteps)の有無フラグと発火しきい値も同じ場所で張る。
     // validatePeriSubsteps が n<=1 を null へ正規化しているので、キーの有無だけで判定できる
     // 第258便b: 引きずりの仕事の記録(physics.ledger.dragWork)の有無フラグも同じ場所で張る。
@@ -24585,7 +24750,7 @@ function makeSim(){
     if(!(kF>0)){ S.spaceMeshWeaveStop="kFrame"; return; }
     // legacy E6′(geoPN=0)の帯だけに織る。geoPN=1 は物質への E6′ が無効・geoPN=2 は輸送 3 項で
     // Δv が Δu だけでは決まらないので、**黙って別の式にせず停止理由を残して素通りする**
-    if((p.geoPN||0)>=1){ S.spaceMeshWeaveStop="geoPN"; return; }
+    if((p.geoPN||0)>=1 || p.geodesic===true){ S.spaceMeshWeaveStop="geoPN"; return; }   // 第291便c: geoPN=0 ∧ geodesic:true も E6′ が立たない
     const A=spaceMeshAnchorOf(S);
     if(!A){ S.spaceMeshWeaveStop=S._smAncErr||"capture"; return; }
     const M=dfmSpaceMeshState(A,S,(cf.D0!==undefined)? {D0:cf.D0} : undefined);
@@ -28212,6 +28377,7 @@ function stepDiagText(){
   const g3t=geo3HudText(sim);
   if(g3t) out+="  "+g3t;
   else if(sim && sim.params && sim.params.geoPN>=3) out+="  geoToy:"+(sim.geoToyStop||"on")+" N="+sim.geoToyN
+    +(!sim.hasGeoToy? " law:"+geoModeOf(sim.params).law : "")   // 第291便c: トイが走らない 3 は実際に走った法則を出す
     +(sim.geoToyOverlay? (" overlay:"+sim.geoToyOverlay+"(kF="+fmt(sim.params.kFrame)+" 二重計上の可能性)") : "")
     // 第264便b: 源の閉包(既定 "gravity" は 1 文字も出さない)。"iterate" は**反復数と相対残差**を必ず出す
     +((sim.geoToyClosure==="iterate")? (" closure:iterate it="+sim.geoToyIters
@@ -33143,7 +33309,7 @@ function ppNoteText(kind){
   if(kind==="geo"){   // 第284便d: 件数は実行時に数える(手打ちしない)
     const bs=allPresets().filter(p=>!String(p.id).startsWith("custom_")).map(ppGeoBucketOf);
     return T("ppNoteGeoHead")+"\n"
-      +[0,1,2,3].map(k=>"・"+T("ppGeo"+k)+"("+bs.filter(b=>b===k).length+")").join("\n")
+      +[0,1,2,3].map(k=>"・"+T("ppGeo"+k)+"("+bs.filter(b=>b===k).length+")— "+T("ppGeoUse"+k)).join("\n")   // 第291便c: 主な用途(制限はセーブ時の警告だけ)
       +"\n・"+T("ppNoteGeoCompat");
   }
   if(kind==="other"){   // 第285便e: 各軸の宣言と件数(一覧に出せる本 —— チップの件数と同じ数え方。実行時に数える)
@@ -33529,7 +33695,13 @@ function loadSave(s, selValue){
     if(rdi.relativeDrag && rdi.relativeDrag.law==="inertial") inertialDragInit(sim); else if(sim.rdPrevX) inertialDragClear(sim); }
   // 第283便a(原仮定者の裁定(2026-09-26 追加)): 旧セーブの geoPN=1・kFrame≠0(旧 ⭐ など)は kFrame=0 として読む(通知 1 行)。
   // 旧 geoPN=1 では E6′ と輸送の門が閉じていたので、この読み替えで変わるのは 1PN の反作用の返し(AN23)だけである
-  { const gmS=geoModeOf(sim.params); if(gmS.mode===1 && !gmS.consistent){ sim.params.kFrame=0; notify(T("geoPN1SaveKF0"),6000); } }
+  // 第291便c(原仮定者の裁定(第81報)⑥・R134): **読み替えを保存の版で分ける**。`modePolicy:"w291c-1"` の無い旧セーブは従来どおり kFrame=0 として読む
+  // (第283便a からの挙動を変えない・通知 1 行は残す)。`modePolicy:"w291c-1"` 以後の保存は**値を保持**して読む(geoPN=1 ∧ kFrame≠0 は
+  // GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)。保存した法則(lawResolved —— 情報)といま解決した法則が違えば 1 行知らせる(物理には使わない)
+  const modeNew=(s.modePolicy===MODE_POLICY_VERSION);
+  if(!modeNew){ const gmS=geoModeOf(sim.params); if(gmS.mode===1 && !gmS.consistent){ sim.params.kFrame=0; notify(T("geoPN1SaveKF0"),6000); } }
+  else if(typeof s.lawResolved==="string"){ const lawNow=geoModeOf(sim.params).law;
+    if(lawNow!==s.lawResolved) setTimeout(()=>notify(T("modeLawMismatch")(s.lawResolved, lawNow),7000),1500); }
   // 第285便a(R95): contactMode は "normal"/"none" のみ。融合・相変化の本に "none" は載せない(受理器と同じ規則 —— 外したら通知 1 行)
   { const cm=sim.params[CONTACT_MODE_KEY];
     if(cm!==undefined && (CONTACT_MODES.indexOf(cm)<0 || (cm==="none" && (sim.fusion || sim.phase)))){
@@ -35174,13 +35346,15 @@ function buildParamRows(){
         // 第262便a: **3 はもう 2 へ書き換えない**。入場条件が立たなかったとき(S.geoToyDeny)と
         // 立ったときの**変化のときだけ** 1 行知らせる(スライダーを動かすたびに出さない)
         else if(key==="geoPN" || key==="kFrame"){
-          const dy0=S.geoToyDeny, gt0=S.hasGeoToy, ov0=S.geoToyOverlay;
+          const dy0=S.geoToyDeny, gt0=S.hasGeoToy, ov0=S.geoToyOverlay, un0=(S.geo3Undeclared===true && dy0===null);
           S.updateRadii();
           if(S===sim && S.params.geoPN>=3){
             if(S.geoToyDeny && S.geoToyDeny!==dy0) notify(T("geoToyDenied")(S.geoToyDeny),5000);
             // 第263便a: **重畳(toyAllowDrag)へ入った/kFrame が動いた**ときも 1 行知らせる
             else if(S.geoToyOverlay && (S.geoToyOverlay!==ov0 || !gt0)) notify(T("geoToyOverlayOn")(fmt(S.params.kFrame)),6000);
             else if(S.hasGeoToy && !gt0) notify(T("geoToyOn"),4000);
+            // 第291便c(R134): 旧法則版の宣言が無い 3 —— トイは走らず測地線の法則で走ることを 1 行知らせる(変化のときだけ)
+            else if(S.geo3Undeclared===true && !S.geoToyDeny && !un0) notify(T("geo3Undeclared")(geoModeOf(S.params).law),6000);
           }
         }
       }
@@ -35314,7 +35488,7 @@ function buildParamRows(){
       if(def.key==="D0"){ buildWbgRow(g); buildBgComplexPanel(g); }
       if(def.key==="geoPN"){ const nt=document.createElement("div"); nt.id="geoToySaveNote";
         nt.className="note"; nt.style.cssText="font-size:calc(10.5px*var(--uz,1));line-height:1.45;padding:0 4px 4px;";
-        nt.textContent=T("geoToySaveNote"); g.appendChild(nt); } } }
+        nt.textContent=T("modeSaveNote"); g.appendChild(nt); } } }   // 第291便c: 保存の非対称は解消(値は保存どおり)—— 注記は主な用途の分類へ(旧鍵 geoToySaveNote の文は残す)
   { const g=mkCat(T("grpSpinHeat"),T("grpSpinHeatDesc"));  for(const def of catDefs("sh")) mkParamRow(def,g); }
   // 実験箱: 伝熱壁4面(天井/左/右/底)+壁別反発係数。
   // 第95便(原仮定者指示): 編集対象が無いとき(箱境界でも伝熱壁でもない)はカテゴリごと出さない
@@ -36006,13 +36180,20 @@ $("#btnSave").addEventListener("click",()=>{
   if(physLock) item.physLock=true;
   if(qLockOn) item.qLock=true;   // 第124便: qLock もセーブ保存
   item.kappaT=sim.params.kappaT;   // 第124便: κ を編集正準としてセーブに明示(第128便: params が κ 正準なので直代入。読込は physics.Kt / kappaT どちらでも可)
+  // 第291便c(原仮定者の裁定(第81報)⑥・R134): 保存の版と、解決した法則(情報 —— 読込で照合に使い物理には使わない)。
+  // 主な用途と違う組み合わせは**警告だけ**(保存は止めない・確認ボタンも強制補正も無し)—— 成功通知に含める
+  item.modePolicy=MODE_POLICY_VERSION;
+  item.lawResolved=geoModeOf(sim.params).law;
+  const modeW=modeSaveWarnings(sim.params);
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
   updateSaveNameDefault();   // v1.19: 次のデフォルト名(連番が進む)を再セット
   setParamsDirty(false);  // v1.17: 保存済み → バックアップ対象に含まれる
   rebuildPresetSelect(currentPreset.id);  // v1.17: プルダウンの保存一覧カテゴリを更新
-  renderSaves(); notify(T("savedAs")(name));
+  renderSaves();
+  if(modeW.length) notify(T("savedAs")(name)+" "+T("modeWarnHead")+modeW.map((w)=>w.message).join(" / "),9000);
+  else notify(T("savedAs")(name));
 });
 function renderSaves(){
   const host=$("#saveList"); host.textContent="";
@@ -36354,7 +36535,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数・geoPN=1 は kFrame=0 専用), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数・主な用途の分類 —— 1=主に現実較正・GR 1PN〔標準 kFrame=0〕/2=主に引きずり近似 q〔標準 kFrame=1〕。標準と違う kFrame も受理し、保存時に警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -48118,7 +48299,7 @@ function testParticlePrepare(S){
   if(n0<1) return deny("noSource");
   const p=S.params;
   if(S.integrator!=="semi") return deny("integrator");
-  if((p.geoPN||0)>=3) return deny("geoPN3");
+  if((p.geoPN||0)>=3 && p[SPACE_MESH_KEY] && p[SPACE_MESH_KEY].lawVersion!==undefined) return deny("geoPN3");   // 第291便c: 旧法則版を宣言した 3 だけ(未宣言の 3 は測地線 ON の基底で走る —— 旧来の 2 への丸めと同じ)
   if(p.kRep!==0 || p.muF!==0 || p.gammaN!==0 || p.kappaS!==0 || p.etaRad!==0) return deny("material");
   if(S.thermal==="tint" || S.phase || S.fusion) return deny("thermal");
   if(S.hasCoreV2) return deny("coreV2");
@@ -48397,17 +48578,36 @@ function geoCoreDispatch(S,dt,mode){
   }
   geoCoreDispatchBody(S,dt,mode);
 }
+// 第291便c(原仮定者の裁定(第81報)⑥・R134): **走る法則は宣言から解決する**(geoModeOf の law と同じ表 —— 別モードへ黙ってフォールバックしない)。
+// 実効の番号 ge: 旧法則版が走る 3(S.hasGeoToy ∨ S.hasGeo3)は 3 のまま(従来どおり `_core` へ 0)・**旧法則版が走らない 3**(未宣言・入場条件で
+// 無効化)は測地線 ON → 2・**geoPN=0 ∧ physics.geodesic:true**(S.geodesicDecl)も測地線 ON → 2。測地線 ON の基底は kFrame で選ぶ
+// (kFrame=0 → kF0 の役割〔`_core` へ 1 + EIH の差分〕・kFrame>0 → v−u 則〔`_core` へ 2〕)。geoPN 0〜2 で宣言の無い本は ge=g なので
+// 従来と 1 命令も違わない(読むのは真偽値 1 つと比較)。旧法則版の走らない 3 ∧ kFrame>0 は従来どおり 2・kFrame=0 は旧来の「2 へ丸め」と同じ EIH。
 function geoCoreDispatchBody(S,dt,mode){
-  const p=S.params, g=p.geoPN, kf0=(g>0 && g<3 && !(p.kFrame>0));   // 第285便b: kF0 の役割(2 フラグ: λ_PN=1・kFrame=0)
+  const p=S.params, g=p.geoPN;
+  const ge=(g>=3)? ((S.hasGeoToy || S.hasGeo3)? g : 2) : ((!(g>0) && S.geodesicDecl===true)? 2 : g);
+  const kf0=(ge>0 && ge<3 && !(p.kFrame>0));   // 第285便b: kF0 の役割(2 フラグ: λ_PN=1・kFrame=0)
   if(S.hasTestParticle){   // 第283便c: 試験粒子契約(未宣言は真偽値 1 つで素通り)
-    if(!kf0){ dfmTestParticleCore(S,dt,mode); return; }
+    if(!kf0){ if(ge===g){ dfmTestParticleCore(S,dt,mode); return; }
+      p.geoPN=ge; try{ dfmTestParticleCore(S,dt,mode); } finally{ p.geoPN=g; } return; }
     dfmPN1EIHKick(S,(mode===0)? dt : dt*0.5); p.geoPN=GEO_CORE_PN[1]; try{ dfmTestParticleCore(S,dt,mode); } finally{ p.geoPN=g; } return; }
-  if(g>=3){
+  if(ge>=3){
     if(S.hasGeo3PN) dfmGeo3PNKick(S,(mode===0)? dt : dt*0.5);
-    p.geoPN=(S.hasGeoToy || S.hasGeo3)?0:2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
+    p.geoPN=0; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
   else if(kf0){ dfmPN1EIHKick(S,(mode===0)? dt : dt*0.5); p.geoPN=GEO_CORE_PN[1]; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }
-  else if(g>0 && g<2){ p.geoPN=2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }   // geoPN=1 ∧ kFrame>0(不整合)—— 従来どおり
+  else if((ge>0 && ge<2) || ge!==g){ p.geoPN=2; try{ S._core(dt,mode); } finally{ p.geoPN=g; } }   // geoPN=1 ∧ kFrame>0 と測地線 ON に解決した 0・3(kFrame>0)—— v−u 則
   else S._core(dt,mode);
+}
+// 第291便c(R134): **実際に dispatch している法則**(S の旗から —— geoCoreDispatchBody と同じ ge の式。読み取りだけ・力学は読まない)。
+// QA behavior.geoModeResolve が `geoModeOf(S.params).law` と突き合わせる(宣言の解決と走行の dispatch が同じ表であることの裏づけ)
+function geoLawOfSim(S){
+  if(!S || !S.params) return null;
+  const p=S.params, g=p.geoPN;
+  if(g>=3 && (S.hasGeoToy || S.hasGeo3)){ const sm=p[SPACE_MESH_KEY]; return "legacy-spaceMesh:"+(sm && sm.lawVersion); }
+  const ge=(g>=3)? 2 : ((!(g>0) && S.geodesicDecl===true)? 2 : g);
+  if(g>=3 && S.hasRelativeDrag===true && S.relDrag && S.relDrag.law==="inertial") return GEO_LAWS[3];
+  if(!(ge>0)) return GEO_LAWS[0];
+  return (p.kFrame>0)? GEO_LAWS[2] : GEO_LAWS[1];
 }
 // ===== 第280便c: geoPN=3・vMinusU の**天体ごとのメッシュ速度 u**(步の頭の状態で評価・未定義の点は null) =====
 // `dfmMeshVelocityFieldAt`(第279便c の合成)をそのまま使う —— 写しを持たない。pnVelocity:"xdot" の 1PN と
