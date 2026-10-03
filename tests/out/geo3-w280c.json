@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便c",
   "target": "beta/index.html",
-  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-  "generatedAt": "2026-10-03T06:39:55.820Z",
+  "targetSha256": "0e33bd32af2b0f11c0a45485f9b7fd85db2992e2de915dd05577225245c8a8aa",
+  "generatedAt": "2026-10-03T23:34:47.090Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5529715,
-    "sha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-    "mtime": "2026-10-03T03:49:52.710Z"
+    "bytes": 5632782,
+    "sha256": "0e33bd32af2b0f11c0a45485f9b7fd85db2992e2de915dd05577225245c8a8aa",
+    "mtime": "2026-10-03T23:12:05.149Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1814041,
-    "sha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
-    "mtime": "2026-10-03T05:31:51.242Z"
+    "bytes": 1814913,
+    "sha256": "212279e541485ff204966ddf619fd1fbfa59789ef6158a46ea4b7296a63a5391",
+    "mtime": "2026-10-03T22:22:04.961Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "bytes": 142964,
-    "sha256": "5169ef7cd2029fc7d9a4b29da8c72a7e54003b6a376c1179a66b15b72eb68f70",
-    "mtime": "2026-10-03T03:52:50.890Z"
+    "bytes": 142899,
+    "sha256": "62223f7db7fdcbd309f618651566ef6dd33b35f9e8ff3ab9ba40ed9b5b274763",
+    "mtime": "2026-10-03T23:15:14.217Z"
    }
   ],
   "code": [
@@ -134,16 +134,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 915,
-   "segments": 829,
-   "closureShare": 0.3211
+   "names": 950,
+   "segments": 861,
+   "closureShare": 0.323
   },
-  "scopeSha256": "f841995b73471cf8f8c846b57e177b41a82fb8c669b2e7e4617e1ba0967c9f30",
+  "scopeSha256": "9006349145eed8bdd95aeb02700687be8c5a38e106e54afb1d08f40bda7352a9",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "0f76358598e8fa8bc01abef3a1f2a4a254bf636e61952a66464e8d559b95f699",
+    "stableSha256": "875aeb28089a7343d411c0e20595ef5123956a47b512f77a2868d1bb535b671e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -171,7 +171,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "2d64ef59b19c6e7e247a93196f22434be980eaf86c0c229f5f47e9a032021411",
+    "stableSha256": "4635df1b9054230d3b779a789d35c6a074cd51f1fa3c19b23516580004af3274",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -199,7 +199,7 @@
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "stableSha256": "77ab01d5c8d3a034d59768b84e0c6a652e5220c6b9e983356572d3edac061ade",
+    "stableSha256": "65a2497c903178ae202d430d82d907eb1157536542258feedb16e234d78b3d2d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -227,19 +227,19 @@
    "unitsNote": "1 単位 = 10⁸ m / 10⁴ s(V=2.3 単位 = 230 km/s・診断値)",
    "official": {
     "precession": {
-     "meas": 0.000026767880691402648,
-     "detectorA": 0.000026767880691402648
+     "meas": 0.000026767879778500166,
+     "detectorA": 0.000026767879778500166
     },
     "period": {
-     "meas": 7600536.544253665,
-     "periASec": 7600536.920388453,
+     "meas": 7600536.544253635,
+     "periASec": 7600536.920389044,
      "rev": [
-      7600376.542949295,
-      7600536.544253665,
-      7600536.545557432,
-      7600536.546860344,
-      7600536.548164328,
-      7600536.54946797
+      7600376.54294932,
+      7600536.544253635,
+      7600536.54555765,
+      7600536.546860812,
+      7600536.548164837,
+      7600536.549468152
      ]
     }
    },
@@ -254,14 +254,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.000026767880691402648,
-       "residDegA": 3.046420565846203e-11,
-       "slopeDegPerOrbitB": 0.000026767872802097475,
+       "slopeDegPerOrbitA": 0.000026767879778500166,
+       "residDegA": 3.04714915900305e-11,
+       "slopeDegPerOrbitB": 0.00002676787343840486,
        "nPeriB": 60,
-       "periMeanA20S": 7600536.920388453,
-       "rev2S": 7600536.544253665,
+       "periMeanA20S": 7600536.920389044,
+       "rev2S": 7600536.544253635,
        "revN": 59,
-       "eProxy": 0.2056309543788649,
+       "eProxy": 0.20563095437894247,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -279,7 +279,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.092
+       "wallSec": 3.23
       },
       "dt/2": {
        "steps": 5700398,
@@ -287,14 +287,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.00002812641402049349,
-       "residDegA": 5.7858035073395585e-12,
-       "slopeDegPerOrbitB": 0.000028126412285307058,
+       "slopeDegPerOrbitA": 0.00002812641272236615,
+       "residDegA": 6.086074958911694e-12,
+       "slopeDegPerOrbitB": 0.00002812641089619617,
        "nPeriB": 60,
-       "periMeanA20S": 7600536.779875308,
-       "rev2S": 7600536.391112233,
+       "periMeanA20S": 7600536.779874967,
+       "rev2S": 7600536.391112111,
        "revN": 59,
-       "eProxy": 0.2056309281239873,
+       "eProxy": 0.2056309281239909,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -312,7 +312,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.88
+       "wallSec": 6.15
       }
      }
     },
@@ -326,14 +326,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.00002255442906814079,
-       "residDegA": 3.0614880836197124e-11,
-       "slopeDegPerOrbitB": 0.000022554420815409453,
+       "slopeDegPerOrbitA": 0.000022554428091244007,
+       "residDegA": 3.0496911224134395e-11,
+       "slopeDegPerOrbitB": 0.000022554419695635282,
        "nPeriB": 60,
-       "periMeanA20S": 7600537.0831630295,
-       "rev2S": 7600536.76438746,
+       "periMeanA20S": 7600537.083162865,
+       "rev2S": 7600536.764387186,
        "revN": 59,
-       "eProxy": 0.20563096867929098,
+       "eProxy": 0.20563096867939362,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -351,7 +351,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.999
+       "wallSec": 3.024
       },
       "dt/2": {
        "steps": 5700398,
@@ -359,14 +359,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.00002391296119037718,
-       "residDegA": 5.935838792280245e-12,
-       "slopeDegPerOrbitB": 0.000023912957018837073,
+       "slopeDegPerOrbitA": 0.00002391296022866611,
+       "residDegA": 6.281085378095935e-12,
+       "slopeDegPerOrbitB": 0.000023912957705009922,
        "nPeriB": 60,
-       "periMeanA20S": 7600536.942649555,
-       "rev2S": 7600536.611246041,
+       "periMeanA20S": 7600536.94264954,
+       "rev2S": 7600536.611246233,
        "revN": 59,
-       "eProxy": 0.20563094244148838,
+       "eProxy": 0.20563094244149616,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -384,7 +384,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.898
+       "wallSec": 6.087
       }
      }
     },
@@ -423,7 +423,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.475
+       "wallSec": 2.421
       },
       "dt/2": {
        "steps": 5700398,
@@ -456,7 +456,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.81
+       "wallSec": 4.914
       }
      }
     },
@@ -495,7 +495,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.492
+       "wallSec": 2.543
       },
       "dt/2": {
        "steps": 5700398,
@@ -528,7 +528,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.754
+       "wallSec": 5.09
       }
      }
     },
@@ -571,7 +571,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.912
+       "wallSec": 9.512
       },
       "dt/2": {
        "steps": 5700398,
@@ -608,7 +608,7 @@
          "stop": null
         }
        },
-       "wallSec": 19.485
+       "wallSec": 19.059
       }
      }
     },
@@ -651,7 +651,7 @@
          "stop": null
         }
        },
-       "wallSec": 15.547
+       "wallSec": 15.191
       },
       "dt/2": {
        "steps": 5700398,
@@ -688,7 +688,7 @@
          "stop": null
         }
        },
-       "wallSec": 29.748
+       "wallSec": 30.129
       }
      }
     },
@@ -731,7 +731,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.167
+       "wallSec": 8.992
       },
       "dt/2": {
        "steps": 5700398,
@@ -768,7 +768,7 @@
          "stop": null
         }
        },
-       "wallSec": 17.75
+       "wallSec": 17.653
       }
      }
     },
@@ -811,7 +811,7 @@
          "stop": null
         }
        },
-       "wallSec": 13.157
+       "wallSec": 13.05
       },
       "dt/2": {
        "steps": 5700398,
@@ -848,7 +848,7 @@
          "stop": null
         }
        },
-       "wallSec": 25.876
+       "wallSec": 25.856
       }
      }
     },
@@ -891,7 +891,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.252
+       "wallSec": 8.305
       },
       "dt/2": {
        "steps": 5700398,
@@ -928,7 +928,7 @@
          "stop": null
         }
        },
-       "wallSec": 16.663
+       "wallSec": 16.808
       }
      }
     },
@@ -942,14 +942,14 @@
        "nan": false,
        "clamp": 2759677,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.00002255507787381877,
-       "residDegA": 4.8137222917561484e-8,
-       "slopeDegPerOrbitB": 0.000022555704311887685,
+       "slopeDegPerOrbitA": 0.000022583066569415843,
+       "residDegA": 4.495742365550405e-8,
+       "slopeDegPerOrbitB": 0.000022583609902171512,
        "nPeriB": 60,
-       "periMeanA20S": 7600537.06866444,
-       "rev2S": 7600536.765336001,
+       "periMeanA20S": 7600537.06944164,
+       "rev2S": 7600536.765335506,
        "revN": 59,
-       "eProxy": 0.20563096859970217,
+       "eProxy": 0.2056309686194091,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -967,7 +967,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.822
+       "wallSec": 4.36
       },
       "dt/2": {
        "steps": 5700398,
@@ -975,14 +975,14 @@
        "nan": false,
        "clamp": 5519365,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.0000239136099061094,
-       "residDegA": 4.814100316032116e-8,
-       "slopeDegPerOrbitB": 0.000023914242952343968,
+       "slopeDegPerOrbitA": 0.000024376377052800002,
+       "residDegA": 4.558606466045497e-9,
+       "slopeDegPerOrbitB": 0.000024375604902994596,
        "nPeriB": 60,
-       "periMeanA20S": 7600536.928151552,
-       "rev2S": 7600536.612195195,
+       "periMeanA20S": 7600536.941037363,
+       "rev2S": 7600536.6121913735,
        "revN": 59,
-       "eProxy": 0.20563094234503446,
+       "eProxy": 0.20563094266330417,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -1000,7 +1000,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 7.878
+       "wallSec": 8.467
       }
      }
     },
@@ -1014,14 +1014,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.000022573241035803403,
-       "residDegA": 3.055270439392592e-11,
-       "slopeDegPerOrbitB": 0.000022573231804531698,
+       "slopeDegPerOrbitA": 0.000022573239609744015,
+       "residDegA": 3.0426016582921673e-11,
+       "slopeDegPerOrbitB": 0.000022573231261028687,
        "nPeriB": 60,
-       "periMeanA20S": 7600537.083758417,
-       "rev2S": 7600536.764726796,
+       "periMeanA20S": 7600537.083758612,
+       "rev2S": 7600536.764726829,
        "revN": 59,
-       "eProxy": 0.2056309686924462,
+       "eProxy": 0.2056309686926848,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -1039,7 +1039,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.773
+       "wallSec": 3.917
       },
       "dt/2": {
        "steps": 5700398,
@@ -1047,14 +1047,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": 0.00002393177253714911,
-       "residDegA": 8.639649733394046e-12,
-       "slopeDegPerOrbitB": 0.000023931769650710048,
+       "slopeDegPerOrbitA": 0.000023931772248811968,
+       "residDegA": 6.172433096151196e-12,
+       "slopeDegPerOrbitB": 0.000023931770082549576,
        "nPeriB": 60,
-       "periMeanA20S": 7600536.943245483,
-       "rev2S": 7600536.611585318,
+       "periMeanA20S": 7600536.943243597,
+       "rev2S": 7600536.611585401,
        "revN": 59,
-       "eProxy": 0.20563094245438468,
+       "eProxy": 0.2056309424542712,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -1072,7 +1072,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 7.442
+       "wallSec": 7.863
       }
      }
     },
@@ -1115,7 +1115,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.759
+       "wallSec": 10.447
       },
       "dt/2": {
        "steps": 5700398,
@@ -1152,7 +1152,7 @@
          "stop": null
         }
        },
-       "wallSec": 21.047
+       "wallSec": 21.041
       }
      }
     }
@@ -1250,14 +1250,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.0035154897985681033,
-       "residDegA": 1.6628620228057996e-7,
-       "slopeDegPerOrbitB": -0.0036965521184065203,
-       "nPeriB": 58,
-       "periMeanA20S": 551858.672345035,
-       "rev2S": 551864.061362921,
+       "slopeDegPerOrbitA": -0.0035154386066040197,
+       "residDegA": 1.621587330803885e-7,
+       "slopeDegPerOrbitB": -0.003989802280212897,
+       "nPeriB": 55,
+       "periMeanA20S": 551858.672442767,
+       "rev2S": 551864.0613634228,
        "revN": 59,
-       "eProxy": 0.000013340793190107562,
+       "eProxy": 0.00001334079382100545,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -1275,7 +1275,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 22.182
+       "wallSec": 24.899
       },
       "dt/2": {
        "steps": 41388996,
@@ -1283,14 +1283,14 @@
        "nan": false,
        "clamp": 0,
        "nPeriA": 59,
-       "slopeDegPerOrbitA": -0.003515411260724855,
-       "residDegA": 2.6323431877811385e-7,
-       "slopeDegPerOrbitB": -0.0047911412294828004,
-       "nPeriB": 45,
-       "periMeanA20S": 551858.6723556344,
-       "rev2S": 551864.0612657347,
+       "slopeDegPerOrbitA": -0.0035154240447686546,
+       "residDegA": 3.1473051738829005e-7,
+       "slopeDegPerOrbitB": -0.004419779974523411,
+       "nPeriB": 48,
+       "periMeanA20S": 551858.672345459,
+       "rev2S": 551864.0612662266,
        "revN": 59,
-       "eProxy": 0.000010758874143781048,
+       "eProxy": 0.000010758874993782422,
        "diag": {
         "geoPN": 1,
         "hasGeo3": false,
@@ -1308,7 +1308,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 44.75
+       "wallSec": 49.907
       }
      }
     },
@@ -1347,7 +1347,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 18.402
+       "wallSec": 18.575
       },
       "dt/2": {
        "steps": 41388996,
@@ -1380,7 +1380,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 35.912
+       "wallSec": 37.666
       }
      }
     },
@@ -1419,7 +1419,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 17.989
+       "wallSec": 18.909
       },
       "dt/2": {
        "steps": 41388996,
@@ -1452,7 +1452,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 35.785
+       "wallSec": 37.263
       }
      }
     },
@@ -1497,7 +1497,7 @@
          "stop": null
         }
        },
-       "wallSec": 105.373
+       "wallSec": 106.25
       },
       "dt/2": {
        "steps": 41388996,
@@ -1536,7 +1536,7 @@
          "stop": null
         }
        },
-       "wallSec": 212.307
+       "wallSec": 214.816
       }
      }
     },
@@ -1581,7 +1581,7 @@
          "stop": null
         }
        },
-       "wallSec": 68.819
+       "wallSec": 70.473
       },
       "dt/2": {
        "steps": 41388996,
@@ -1620,7 +1620,7 @@
          "stop": null
         }
        },
-       "wallSec": 137.08
+       "wallSec": 141.607
       }
      }
     },
@@ -1665,7 +1665,7 @@
          "stop": null
         }
        },
-       "wallSec": 64.128
+       "wallSec": 64.98
       },
       "dt/2": {
        "steps": 41388996,
@@ -1704,7 +1704,7 @@
          "stop": null
         }
        },
-       "wallSec": 127.987
+       "wallSec": 128.242
       }
      }
     }
@@ -1717,16 +1717,16 @@
     "tag": "dt",
     "officialReproducedBit": true,
     "diffBase": "M0p",
-    "pn1PNContribution": 0.000028754825526339046,
-    "a_M1_minus_M0": -9.40132642416637e-14,
-    "a_M2_minus_M0": 1.7422152174433655e-11,
-    "a_M3_minus_M0": 0.0000010484882048365198,
+    "pn1PNContribution": 0.000028754824549442263,
+    "a_M1_minus_M0": 8.828835184910167e-13,
+    "a_M2_minus_M0": 1.8399048957166335e-11,
+    "a_M3_minus_M0": 0.0000010484891817333025,
     "a_M1x_minus_M1": 0,
-    "a_M2e_minus_M0s": -1.3732636179941758e-10,
-    "thirdBodyStatic_M0s_minus_M0": 1.8811967662613158e-8,
-    "thirdBodyFree_M0e_minus_M0": 6.488056779790962e-10,
-    "M0_minus_M0p": 0.000004213451623261858,
-    "stepWidthM0": 0.00000135853212223639,
+    "a_M2e_minus_M0s": -1.359003024115177e-10,
+    "thirdBodyStatic_M0s_minus_M0": 1.881151850000799e-8,
+    "thirdBodyFree_M0e_minus_M0": 2.863847817183594e-8,
+    "M0_minus_M0p": 0.000004213451687256159,
+    "stepWidthM0": 0.0000013585321374221017,
     "b_M4_minus_M0n": -3.248482531893206e-11,
     "roundoffControl_M0nX_minus_M0n": -6.823880459277249e-12
    },
@@ -1734,16 +1734,16 @@
     "tag": "dt/2",
     "officialReproducedBit": null,
     "diffBase": "M0p",
-    "pn1PNContribution": 0.000028754819381143186,
-    "a_M1_minus_M0": 1.5637379493496292e-13,
-    "a_M2_minus_M0": 1.0999993850632685e-11,
-    "a_M3_minus_M0": 0.0000010647528571929337,
+    "pn1PNContribution": 0.000028754818419432115,
+    "a_M1_minus_M0": 1.1180848659571828e-12,
+    "a_M2_minus_M0": 1.1961704921654905e-11,
+    "a_M3_minus_M0": 0.0000010647538189040047,
     "a_M1x_minus_M1": 0,
-    "a_M2e_minus_M0s": -2.4511191437404404e-10,
-    "thirdBodyStatic_M0s_minus_M0": 1.8811346771931625e-8,
-    "thirdBodyFree_M0e_minus_M0": 6.487157322212773e-10,
-    "M0_minus_M0p": 0.000004213452830116308,
-    "stepWidthM0": 0.00000135853212223639,
+    "a_M2e_minus_M0s": -2.448235772301694e-10,
+    "thirdBodyStatic_M0s_minus_M0": 1.8812020145858772e-8,
+    "thirdBodyFree_M0e_minus_M0": 4.6341682413389274e-7,
+    "M0_minus_M0p": 0.00000421345249370004,
+    "stepWidthM0": 0.0000013585321374221017,
     "b_M4_minus_M0n": 5.916305935879483e-11,
     "roundoffControl_M0nX_minus_M0n": 2.5530269998599766e-11
    }
@@ -1751,18 +1751,18 @@
   "charon": [
    {
     "tag": "dt",
-    "officialKf0ReproducedBit": true,
+    "officialKf0ReproducedBit": false,
     "rev2": {
-     "pn1PN": 0.0000013578683137893677,
-     "C1_minus_C0": 3.9837323129177094e-7,
-     "C2_minus_C0": 0.0005627615610137582,
+     "pn1PN": 0.0000018596183508634567,
+     "C1_minus_C0": -1.0337680578231812e-7,
+     "C2_minus_C0": 0.0005622598109766841,
      "C3_minus_C0n": -3.457535058259964e-8,
      "roundoffControl_C0nV_minus_C0n": 0.000009556068107485771
     },
     "peri20": {
-     "pn1PN": -0.000051498180255293846,
-     "C1_minus_C0": -0.004165624268352985,
-     "C2_minus_C0": -2.9742988446960226,
+     "pn1PN": 0.00004623376298695803,
+     "C1_minus_C0": -0.004263356211595237,
+     "C2_minus_C0": -2.974396576639265,
      "C3_minus_C0n": -0.0043630312429741025,
      "roundoffControl_C0nV_minus_C0n": -0.043253525043837726
     }
@@ -1771,16 +1771,16 @@
     "tag": "dt/2",
     "officialKf0ReproducedBit": null,
     "rev2": {
-     "pn1PN": 0.0000012703239917755127,
-     "C1_minus_C0": -0.000008836737833917141,
-     "C2_minus_C0": 0.0005539812846109271,
+     "pn1PN": 0.0000017621787264943123,
+     "C1_minus_C0": -0.00000932859256863594,
+     "C2_minus_C0": 0.0005534894298762083,
      "C3_minus_C0n": -0.000009144539944827557,
      "roundoffControl_C0nV_minus_C0n": 0.000007211114279925823
     },
     "peri20": {
-     "pn1PN": 0.00005490030162036419,
-     "C1_minus_C0": -0.13433927192818373,
-     "C2_minus_C0": -3.103844650555402,
+     "pn1PN": 0.000044724904000759125,
+     "C1_minus_C0": -0.13432909653056413,
+     "C2_minus_C0": -3.1038344751577824,
      "C3_minus_C0n": -0.13417761272285134,
      "roundoffControl_C0nV_minus_C0n": 0.001151173491962254
     }
@@ -1918,22 +1918,22 @@
   },
   "d_doubleCounting": {
    "ok": true,
-   "kFrame1": "physics.geoPN=3・spaceMesh.lawVersion:\"vMinusU\" は kFrame=0 専用です(E6′ の追従キック・geoPN=2 の v−u 輸送と座標変換を二重に当てない) | physics.meshVelocity は kFrame=0 専用(E6′ の追従キック・geoPN=2",
-   "kFrameDefault": "physics.geoPN=3・spaceMesh.lawVersion:\"vMinusU\" は kFrame=0 専用です(E6′ の追従キック・geoPN=2 の v−u 輸送と座標変換を二重に当てない) | physics.meshVelocity は kFrame=0 専用(E6′ の追従キック・geoPN=2",
-   "toyAllowDrag": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他",
-   "toyGain": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他",
-   "inertiaCoordinate": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない)",
-   "gravityChannel": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない)",
-   "weave": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない)",
-   "meshV2": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他",
+   "kFrame1": "physics.meshVelocity は kFrame=0 専用(E6′ の追従キック・geoPN=2 の v−u 輸送は kFrame>0 で立つ —— 座標変換を二重に当てない)",
+   "kFrameDefault": "physics.meshVelocity は kFrame=0 専用(E6′ の追従キック・geoPN=2 の v−u 輸送は kFrame>0 で立つ —— 座標変換を二重に当てない)",
+   "toyAllowDrag": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他 | physics.meshVelocity は geoPN=3 のトイ(sc",
+   "toyGain": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他 | physics.meshVelocity は geoPN=3 のトイ(sc",
+   "inertiaCoordinate": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない) | physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排",
+   "gravityChannel": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない) | physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排",
+   "weave": "physics.spaceMesh.lawVersion:\"vMinusU\" は gravity/inertia/weave/reservoir のチャネルと排他(座標変換を二重に当てない) | physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排",
+   "meshV2": "physics.spaceMesh.lawVersion:\"vMinusU\" はトイ専用の鍵(toyGain/toyAllowDrag/toyClosure/law/diskSupport/meshEnergyCapacity/D0)と排他 | physics.meshVelocity は geoPN=3 のトイ(sc",
    "noMeshVelocity": "physics.geoPN=3・spaceMesh.lawVersion:\"vMinusU\" は physics.meshVelocity(輸送経路 {law:\"vMinusU\",field,mutual,frame})の宣言が要る",
    "geoPN2WithVMinusU": "physics.spaceMesh.lawVersion:\"vMinusU\" は physics.geoPN=3 専用です(geoPN≤2 の座標変換は physics.meshVelocity 単独の互換経路 —— 第279便c) | physics.meshVelocity は physics.spaceMesh(",
    "toyLawWithMeshVelocity": "physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排他 —— geoPN=3 で使えるのは spaceMesh.lawVersion:\"vMinusU\" の輸送経路としてだけ",
-   "calibration": "physics.geoPN=3(トイの測地線モード)は sampleClass:\"calibration\" では使えません(現実較正にトイを混ぜない) | physics.meshVelocity は sampleClass:\"calibration\" では使えない(**検証仮説の構成則** —— 現実較正へ入れない)",
-   "pnRefNoVelocity": "physics.spaceMesh.pn:\"reference-1PN\" は pnVelocity:\"xdot\"|\"v\" の宣言が要る(既定を置かない —— 1PN が座標速度 ẋ と慣性速度 v のどちらを読むかは導出できていない)",
-   "pnOffWithVelocity": "physics.spaceMesh.pnVelocity は pn:\"reference-1PN\" のときだけ(1PN を切った宣言に読む速度は無い)",
-   "noVelocityMeaning": "physics.spaceMesh.lawVersion:\"vMinusU\" は velocityMeaning:\"xdot\"|\"v\" の宣言が要る(bodies の vx,vy が観測の座標速度 ẋ か慣性速度 v か)",
-   "pnBad": "physics.spaceMesh.pn は \"off\"/\"reference-1PN\"(reference-1PN は比較用の外部理論項 —— DFM から導出した項ではない)",
+   "calibration": "physics.meshVelocity は sampleClass:\"calibration\" では使えない(**検証仮説の構成則** —— 現実較正へ入れない)",
+   "pnRefNoVelocity": "physics.spaceMesh.pn:\"reference-1PN\" は pnVelocity:\"xdot\"|\"v\" の宣言が要る(既定を置かない —— 1PN が座標速度 ẋ と慣性速度 v のどちらを読むかは導出できていない) | physics.meshVelocity は geoPN=3 のトイ(scala",
+   "pnOffWithVelocity": "physics.spaceMesh.pnVelocity は pn:\"reference-1PN\" のときだけ(1PN を切った宣言に読む速度は無い) | physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排他 —— geoPN=3 で使えるのは ",
+   "noVelocityMeaning": "physics.spaceMesh.lawVersion:\"vMinusU\" は velocityMeaning:\"xdot\"|\"v\" の宣言が要る(bodies の vx,vy が観測の座標速度 ẋ か慣性速度 v か) | physics.meshVelocity は geoPN=3 のトイ(scalar/loca",
+   "pnBad": "physics.spaceMesh.pn は \"off\"/\"reference-1PN\"(reference-1PN は比較用の外部理論項 —— DFM から導出した項ではない) | physics.meshVelocity は geoPN=3 のトイ(scalar/local/complex の輸送)と排他 —— g",
    "pnKeysWithoutVMinusU": "physics.spaceMesh の pn/pnVelocity/velocityMeaning は lawVersion:\"vMinusU\"(geoPN=3 の速度分解)専用",
    "runtimeKFrame": {
     "before": {
@@ -2069,5 +2069,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 1145.368
+ "elapsedS": 1169.686
 }
