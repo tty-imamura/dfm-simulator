@@ -1,5 +1,5 @@
 {
- "when": "2026-10-01T22:04:44.304Z",
+ "when": "2026-10-03T00:04:26.639Z",
  "wave": "第266便a(第57報 追加・W1)",
  "intake": {
   "date": "2026-09-16",
@@ -147,7 +147,7 @@
   "verifiedRowsInCsv": 109,
   "markCensus": {
    "(印なし)": 128,
-   "unverified": 364,
+   "unverified": 406,
    "verified": 109
   },
   "verifiedRows": [
@@ -2621,7 +2621,7 @@
  "transcription": {
   "solar": {
    "file": "paper/data/solar-observations.csv",
-   "rowsTotal": 601,
+   "rowsTotal": 643,
    "intakeB": 14,
    "withSigma": 0,
    "emptyValue": 0,
@@ -2645,7 +2645,7 @@
   },
   "cluster": {
    "file": "paper/data/cluster-galaxy-observations.csv",
-   "rowsTotal": 154,
+   "rowsTotal": 169,
    "intakeB": 46,
    "withSigma": 18,
    "emptyValue": 0,
@@ -2668,7 +2668,7 @@
   },
   "transient": {
    "file": "paper/data/transient-observations.csv",
-   "rowsTotal": 36,
+   "rowsTotal": 66,
    "intakeB": 27,
    "withSigma": 3,
    "emptyValue": 6,
@@ -2690,18 +2690,23 @@
  },
  "clusterSigma": {
   "header": "body,quantity,value,unit,source,url,retrieved,note,sigma,record_id,solution_id",
-  "rows": 154,
+  "rows": 169,
   "legacyRows": 108,
   "legacyWithSigma": 0,
-  "intakeBWithSigma": 18
+  "intakeBWithSigma": 18,
+  "requestCandidateRows": 15,
+  "requestCandidateWithSigma": 0
  },
  "transientGate": {
-  "rows": 36,
-  "notConnected": 36,
+  "rows": 66,
+  "notConnected": 66,
   "bodies": [
    "AT2018cow",
    "AT2022tsd",
    "AT2023fhn",
+   "Cyg X-1",
+   "GRS 1915+105",
+   "GW150914 signal",
    "M31-2014-DS1",
    "MOA-9y-5919",
    "MOA-II-FFP",

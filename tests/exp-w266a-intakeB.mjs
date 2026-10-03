@@ -76,6 +76,8 @@ const tag = (note, key) => {
 };
 const has = (note, key) => new RegExp('(?:^|[^A-Za-z0-9_])' + key + '=').test(note || '');
 const isIntakeB = (r) => new RegExp('intake_row=' + INTAKE).test(r.note);
+// 第290便g(R131): 確認依頼 第 7/8 回の回答の候補行(tests/exp-w290g-intake8.mjs が足す —— 既存行でも intake B でもない)
+const isRequestCandidate = (r) => /(?:^|[^A-Za-z0-9_])intake_round=confirmation-request-\d+/.test(r.note);
 
 // ================================================================ ① 確認記録の 4 分類
 // **宣言表**。`ln` は本便の時点での `paper/data/solar-observations.csv` の行番号で、
@@ -345,9 +347,12 @@ const transcription = { solar: census(SOLAR, 'paper/data/solar-observations.csv'
 // 星団 CSV は本便で **sigma 列**を得た。既存 108 行は空のままであることを数える。
 const clusterSigma = { header: fs.readFileSync(path.join(ROOT, 'paper/data/cluster-galaxy-observations.csv'),
   'utf8').split('\n')[0],
-  rows: CLUSTER.length, legacyRows: CLUSTER.filter((r) => !isIntakeB(r)).length,
-  legacyWithSigma: CLUSTER.filter((r) => !isIntakeB(r) && r.sigma !== null).length,
-  intakeBWithSigma: CLUSTER.filter((r) => isIntakeB(r) && r.sigma !== null).length };
+  rows: CLUSTER.length, legacyRows: CLUSTER.filter((r) => !isIntakeB(r) && !isRequestCandidate(r)).length,
+  legacyWithSigma: CLUSTER.filter((r) => !isIntakeB(r) && !isRequestCandidate(r) && r.sigma !== null).length,
+  intakeBWithSigma: CLUSTER.filter((r) => isIntakeB(r) && r.sigma !== null).length,
+  // 第290便g(R131): 確認依頼の回答の候補行(`intake_round=confirmation-request-<N>`)は既存行に数えない(別に数える・sigma は空欄)
+  requestCandidateRows: CLUSTER.filter((r) => isRequestCandidate(r)).length,
+  requestCandidateWithSigma: CLUSTER.filter((r) => isRequestCandidate(r) && r.sigma !== null).length };
 // LFBOT の記録 CSV は**門に繋がっていない**ことを数える(全行に `gate=not-connected`)。
 const transientGate = { rows: TRANSIENT.length,
   notConnected: TRANSIENT.filter((r) => /(?:^|[^A-Za-z0-9_])gate=not-connected\b/.test(r.note)).length,
@@ -356,6 +361,7 @@ const transientGate = { rows: TRANSIENT.length,
 
 const bad = [...confirmBad, ...correctionsBad.map((s) => '訂正が入っていない: ' + s)];
 if (clusterSigma.legacyWithSigma !== 0) bad.push('既存の星団行に σ が入っている');
+if (clusterSigma.requestCandidateWithSigma !== 0) bad.push('確認依頼の候補行(星団)に σ が入っている(候補行の sigma は空欄)');
 if (transientGate.notConnected !== transientGate.rows) bad.push('LFBOT の記録行に gate=not-connected が無いものがある');
 if (transientGate.inSolarCsv !== 0) bad.push('LFBOT の天体が判定側の CSV にも居る');
 
