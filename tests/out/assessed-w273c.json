@@ -1,19 +1,19 @@
 {
- "when": "2026-10-03T06:20:11.145Z",
+ "when": "2026-10-03T22:09:14.103Z",
  "wave": "第273便c(第63報・AG24)",
  "harness": "tests/exp-w273c-assessedtable.mjs",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
+  "calauditSha256": "d50e629f3bf7e68a00325eb3f1ef3d099420d509e6b64d307185ce74b51bd93b",
   "canonicalTarget": "beta/index.html",
-  "canonicalTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+  "canonicalTargetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
   "canonicalWave": "第249便b",
-  "canonicalWhen": "2026-10-03T05:31:50.993Z"
+  "canonicalWhen": "2026-10-03T20:48:50.343Z"
  },
  "stamp": {
-  "inHtml": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-  "inCanonicalNow": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-  "stampChanged": true,
+  "inHtml": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+  "inCanonicalNow": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+  "stampChanged": false,
   "valuesChanged": false,
   "rule": "**刻印は構造的に「現行 html の hash」にも「現行正本の刻印」にもできない** —— 刻印を html へ書けばその html の hash が動き、動いた html で判定器を回し直せば正本の刻印もまた動く(不動点が無い)。したがって刻印が言えるのは「**どの走行の正本から転記したか**」までである。鮮度の線は **① 表 ↔ 正本(1 行ずつ)** と **② 正本 ↔ 現行 html**(`lint.calauditMergeKeyHash` が見ている `meta.targetSha256` = 現行 html の SHA-256)の **2 段の鎖**で、この鎖は**エンジンだけが変わった場合も捕まえる**(html が動けば ② が落ちる)。**ページの実行時**は自分の hash を確かめられないので、渡された `targetSha256` の線だけが効く。"
  },
@@ -38,9 +38,9 @@
     "k": "precession",
     "n": "近日点前進(推定器つき宣言 — 第250便d)",
     "st": "h",
-    "v": 0.0000267678806914,
+    "v": 0.0000267678797785,
     "u": "deg/orbit",
-    "ns": 1979.37294382,
+    "ns": 1979.37385345,
     "g": "数値未解決"
    }
   ],
@@ -52,7 +52,7 @@
     "st": "h",
     "v": 551863.659828,
     "u": "s",
-    "ns": 278.592123895,
+    "ns": 278.592142426,
     "g": "数値未解決"
    }
   ],
@@ -236,7 +236,7 @@
     "st": "h4",
     "v": 13925.5845975,
     "u": "deg/yr",
-    "ns": 14.6034060713,
+    "ns": 14.6034060735,
     "g": "否(3σ)"
    }
   ]

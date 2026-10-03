@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-  "generatedAt": "2026-10-03T02:33:49.497Z",
+  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+  "generatedAt": "2026-10-03T21:43:06.528Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5526365,
-    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-    "mtime": "2026-10-03T00:48:50.355Z"
+    "bytes": 5623059,
+    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+    "mtime": "2026-10-03T19:22:31.703Z"
    }
   ],
   "code": [
@@ -92,11 +92,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 916,
-   "segments": 830,
-   "closureShare": 0.3213
+   "names": 951,
+   "segments": 862,
+   "closureShare": 0.3236
   },
-  "scopeSha256": "2367e8a23275ae4bde725dc8046de58a1d7673f633ec8fa037a5455438dec191",
+  "scopeSha256": "11d200b6bfb1d32b059e0474be1f69051d8518a9dc950d6d4870fe87b1d0976c",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -419,7 +419,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.033
+    "wallSec": 0.05
    },
    {
     "b": 20000,
@@ -431,7 +431,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.000014726215563702155,
-    "wallSec": 0.023
+    "wallSec": 0.053
    }
   ],
   "clocksOk": true,
@@ -480,7 +480,7 @@
   },
   "allFound": true,
   "eihReadsSpin": false,
-  "eihLen": 2167,
+  "eihLen": 2340,
   "framePowDefault": 2,
   "framePowShare": 1,
   "framePowPull": 2,
@@ -491,10 +491,10 @@
   "tally": {
    "active:default(pull)": 4,
    "active:pull": 14,
-   "active:share": 99,
+   "active:share": 98,
    "retired:default(pull)": 2,
    "retired:pull": 14,
-   "retired:share": 17
+   "retired:share": 18
   },
   "analogies": [
    {
@@ -589,5 +589,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 1.735
+ "elapsedS": 2.093
 }

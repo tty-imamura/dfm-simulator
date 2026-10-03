@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便d",
   "target": "beta/index.html",
-  "targetSha256": "26d7bd13049582f1c54483857d3f9c58325d29b8a0cc87dfb7b5c76da871613b",
-  "generatedAt": "2026-10-03T18:46:28.650Z",
+  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+  "generatedAt": "2026-10-03T21:43:00.914Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5558473,
-    "sha256": "26d7bd13049582f1c54483857d3f9c58325d29b8a0cc87dfb7b5c76da871613b",
-    "mtime": "2026-10-03T18:45:50.239Z"
+    "bytes": 5623059,
+    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+    "mtime": "2026-10-03T19:22:31.703Z"
    }
   ],
   "code": [
@@ -18,25 +18,25 @@
     "file": "tests/exp-w291d-bgaudit.mjs",
     "bytes": 25335,
     "sha256": "d09ecb21f252ca4c569b5771e7a0ca5a5b211dc462b2085e00d0d645d1690cd9",
-    "mtime": "2026-10-03T18:32:05.884Z"
+    "mtime": "2026-10-03T18:54:39.773Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-03T18:08:04.231Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-03T18:08:04.227Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-03T18:08:04.235Z"
+    "mtime": "2026-10-02T23:11:02.956Z"
    }
   ],
   "codeSha256": "5af6b62333e1a23b28c6d7f0b67037cbfe2a028099240406344167988b9a6284",
@@ -100,11 +100,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 938,
-   "segments": 849,
-   "closureShare": 0.3235
+   "names": 951,
+   "segments": 862,
+   "closureShare": 0.324
   },
-  "scopeSha256": "b84131c7b68882e99243ec7b68f1097ffc28a33765b9c7854e614f9444914e8d",
+  "scopeSha256": "3fefc526003eb8166a0749ef9923fd978e59e483acff42cb80dd4c29567162ac",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -804,5 +804,5 @@
   "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
  ],
  "ok": true,
- "elapsedS": 2.751
+ "elapsedS": 2.434
 }

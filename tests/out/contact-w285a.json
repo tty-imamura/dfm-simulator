@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便a",
   "target": "beta/index.html",
-  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-  "generatedAt": "2026-10-03T05:59:22.513Z",
+  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+  "generatedAt": "2026-10-03T21:39:20.641Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5529715,
-    "sha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-    "mtime": "2026-10-03T03:49:52.710Z"
+    "bytes": 5623059,
+    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+    "mtime": "2026-10-03T19:22:31.703Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1814041,
-    "sha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
-    "mtime": "2026-10-03T05:31:51.242Z"
+    "bytes": 1812868,
+    "sha256": "d50e629f3bf7e68a00325eb3f1ef3d099420d509e6b64d307185ce74b51bd93b",
+    "mtime": "2026-10-03T20:48:50.582Z"
    }
   ],
   "code": [
@@ -123,16 +123,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 916,
-   "segments": 830,
-   "closureShare": 0.3211
+   "names": 951,
+   "segments": 862,
+   "closureShare": 0.3236
   },
-  "scopeSha256": "92739961e23e3d2140e5f21bb886595a4d52d5ccb1b75c665a324920f2cb8012",
+  "scopeSha256": "5b24bc62fc435ff36ee7d8b72f7e42121af233233f56c50885697bc9cf47df2f",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "0f76358598e8fa8bc01abef3a1f2a4a254bf636e61952a66464e8d559b95f699",
+    "stableSha256": "5fe31026b2e19e01eed1b49a4358bae18893a8169985c5fa747850d5c2707014",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -160,7 +160,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "2d64ef59b19c6e7e247a93196f22434be980eaf86c0c229f5f47e9a032021411",
+    "stableSha256": "9f9cea6d0b92bf4228398de7a36c70ce0ad522a4ae8cf541333681de904b99e9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -538,7 +538,7 @@
   "baseSha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
   "n": 150,
   "nBase": 142,
-  "identical": 93,
+  "identical": 92,
   "differ": [
    "galaxy",
    "galaxyStd",
@@ -562,6 +562,7 @@
    "earthMoonDiagOne",
    "qLockRadialAudit",
    "qLockRadialAuditQ3",
+   "mercury",
    "mercuryReal",
    "mercuryGeoToy3",
    "mercuryRealKF1",
@@ -1467,8 +1468,8 @@
    "n": 127,
    "steps": 1500,
    "before": {
-    "hash": "dac17449",
-    "dynHash": "7edf31fc",
+    "hash": "650be474",
+    "dynHash": "d65d773d",
     "t0": {
      "rHalf": 1221.928082990157,
      "vtOuter": 0.5571572578428776,
@@ -1478,16 +1479,16 @@
     },
     "end": {
      "rHalf": 1221.9278969582879,
-     "vtOuter": 0.557157326614881,
-     "sigma": 1.8929999150842416,
+     "vtOuter": 0.5571573266148814,
+     "sigma": 1.892999915084144,
      "overlapPairs": 0,
      "radE": 0
     },
     "contactMode": null
    },
    "after": {
-    "hash": "628414a9",
-    "dynHash": "c36e391c",
+    "hash": "5ec21d1d",
+    "dynHash": "cc5f5978",
     "t0": {
      "rHalf": 1221.928082990157,
      "vtOuter": 0.5571572578428776,
@@ -1497,8 +1498,8 @@
     },
     "end": {
      "rHalf": 1221.9278969582879,
-     "vtOuter": 0.557157326614881,
-     "sigma": 1.892999915079873,
+     "vtOuter": 0.5571573266148813,
+     "sigma": 1.892999915079776,
      "overlapPairs": 0,
      "radE": 0
     },
@@ -1668,7 +1669,7 @@
   "after": {
    "source": "canon",
    "file": "tests/out/calaudit-w249.json",
-   "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96"
+   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
   },
   "table": [
    {
@@ -1682,9 +1683,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 20823.780331545262,
-      "after": 20823.780332526785,
-      "absDiff": 9.81523044174537e-7,
-      "relDiff": 4.713471946722661e-11,
+      "after": 20823.780332546252,
+      "absDiff": 0.0000010009898687712848,
+      "relDiff": 4.8069555711501533e-11,
       "signFlip": false,
       "verdictBefore": "合",
       "verdictAfter": "合",
@@ -1698,9 +1699,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 1378015.700291505,
-      "after": 1378015.7002953242,
-      "absDiff": 0.0000038191210478544235,
-      "relDiff": 2.7714641038171973e-12,
+      "after": 1378015.7002955412,
+      "absDiff": 0.00000403611920773983,
+      "relDiff": 2.928935575179608e-12,
       "signFlip": false,
       "verdictBefore": "合",
       "verdictAfter": "合",
@@ -1730,9 +1731,9 @@
       "unit": "-",
       "missingAfter": false,
       "before": 0.00023818254483150725,
-      "after": 0.00023818254527633315,
-      "absDiff": 4.448258981212122e-13,
-      "relDiff": 1.8675839509393375e-9,
+      "after": 0.00023818254535527662,
+      "absDiff": 5.23769368805313e-13,
+      "relDiff": 2.1990249922631097e-9,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1746,9 +1747,9 @@
       "unit": "deg/orbit",
       "missingAfter": false,
       "before": 0.22848126507759803,
-      "after": 0.22848124801368808,
-      "absDiff": -1.7063909951708922e-8,
-      "relDiff": -7.468406631026656e-8,
+      "after": 0.22848124274733334,
+      "absDiff": -2.2330264692893564e-8,
+      "relDiff": -9.77334604888048e-8,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1762,9 +1763,9 @@
       "unit": "s",
       "missingAfter": false,
       "before": 81511.71770572502,
-      "after": 81511.71770726173,
-      "absDiff": 0.0000015367113519459963,
-      "relDiff": 1.8852643462794607e-11,
+      "after": 81511.71770736402,
+      "absDiff": 0.0000016389967640861869,
+      "relDiff": 2.010749877708774e-11,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1778,9 +1779,9 @@
       "unit": "-",
       "missingAfter": false,
       "before": 0.00007132830355015766,
-      "after": 0.00007132830720406437,
-      "absDiff": 3.65390671278748e-12,
-      "relDiff": 5.122660333871636e-8,
+      "after": 0.00007132830740083434,
+      "absDiff": 3.8506766812706e-12,
+      "relDiff": 5.39852553560709e-8,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1794,9 +1795,9 @@
       "unit": "deg/orbit",
       "missingAfter": false,
       "before": 21.91988308948662,
-      "after": 21.919882991209658,
-      "absDiff": -9.827696345610093e-8,
-      "relDiff": -4.483462026457489e-9,
+      "after": 21.919882979585363,
+      "absDiff": -1.0990125787202487e-7,
+      "relDiff": -5.0137702570474264e-9,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1810,9 +1811,9 @@
       "unit": "-",
       "missingAfter": false,
       "before": 0.000018452523648559504,
-      "after": 0.000018452524110840894,
-      "absDiff": 4.62281390467903e-13,
-      "relDiff": 2.505247516666865e-8,
+      "after": 0.000018452524143960533,
+      "absDiff": 4.954010292268496e-13,
+      "relDiff": 2.6847332032305677e-8,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1826,9 +1827,9 @@
       "unit": "deg/orbit",
       "missingAfter": false,
       "before": -0.1745155881834425,
-      "after": -0.17451565327016122,
-      "absDiff": -6.508671870908422e-8,
-      "relDiff": -3.7295647561676926e-7,
+      "after": -0.17451562674617316,
+      "absDiff": -3.856273064761773e-8,
+      "relDiff": -2.2097012105922832e-7,
       "signFlip": false,
       "verdictBefore": "転",
       "verdictAfter": "転",
@@ -1838,7 +1839,7 @@
     ],
     "nQuantities": 10,
     "nChanged": 9,
-    "maxAbsDiff": 0.0000038191210478544235,
+    "maxAbsDiff": 0.00000403611920773983,
     "verdictMoved": 0,
     "gateMoved": 0,
     "run": {
@@ -1870,7 +1871,7 @@
       "needPeriastra": 20,
       "periastraOk": false,
       "stoppedBy": "declared-max-steps",
-      "wallSec": 88.348,
+      "wallSec": 138.688,
       "tags": [
        "dt"
       ],
@@ -1885,5 +1886,5 @@
   ],
   "note": null
  },
- "elapsedS": 235.311
+ "elapsedS": 253.308
 }

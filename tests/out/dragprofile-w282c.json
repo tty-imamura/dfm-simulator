@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第282便c",
   "target": "beta/index.html",
-  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-  "generatedAt": "2026-10-03T02:33:44.621Z",
+  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+  "generatedAt": "2026-10-03T21:43:05.142Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5526365,
-    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-    "mtime": "2026-10-03T00:48:50.355Z"
+    "bytes": 5623059,
+    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+    "mtime": "2026-10-03T19:22:31.703Z"
    }
   ],
   "code": [
@@ -117,11 +117,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 914,
-   "segments": 828,
-   "closureShare": 0.3211
+   "names": 949,
+   "segments": 860,
+   "closureShare": 0.3234
   },
-  "scopeSha256": "e4193b8a7a9eb22636f35c0ffc08f0d7a8dd6adc49f899f2fec726c323c8e346",
+  "scopeSha256": "d7e24cc4b9a9d3b976743b05ed9ff56d8a1ed1a0f0ad53a9a696e8a02644b958",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -288,9 +288,30 @@
     "id": "alphaCenABDFM",
     "emoji": "✴️",
     "geoPN": 1,
-    "rejected": true,
-    "kFrame0Ok": true,
-    "reason": "geoPN=1 は kFrame=0 専用(受理器が kFrame=1 を拒否 —— 第283便a)"
+    "kF1DragQ2vs8": {
+     "bitSame": false,
+     "maxAbs": {
+      "pos": 1.0533995897787918e-10,
+      "vel": 8.014100494335707e-11,
+      "spin": 0
+     },
+     "sha": [
+      "74deb63f2a852e6d",
+      "abf271f9b35b3104"
+     ]
+    },
+    "kFrame0vs1": {
+     "bitSame": false,
+     "maxAbs": {
+      "pos": 1.1900277741005993e-7,
+      "vel": 1.162135779822146e-7,
+      "spin": 0
+     },
+     "sha": [
+      "c5833571a49f8b33",
+      "abf271f9b35b3104"
+     ]
+    }
    },
    {
     "id": "alphaCenABDFM",
@@ -325,9 +346,30 @@
     "id": "psrDoubleABDFM",
     "emoji": "⚡",
     "geoPN": 1,
-    "rejected": true,
-    "kFrame0Ok": true,
-    "reason": "geoPN=1 は kFrame=0 専用(受理器が kFrame=1 を拒否 —— 第283便a)"
+    "kF1DragQ2vs8": {
+     "bitSame": true,
+     "maxAbs": {
+      "pos": 0,
+      "vel": 0,
+      "spin": 0
+     },
+     "sha": [
+      "9f6e63db1c459c93",
+      "9f6e63db1c459c93"
+     ]
+    },
+    "kFrame0vs1": {
+     "bitSame": false,
+     "maxAbs": {
+      "pos": 0.02037092945818131,
+      "vel": 0.01989244076836407,
+      "spin": 0
+     },
+     "sha": [
+      "faf5b6bd9e9761c1",
+      "9f6e63db1c459c93"
+     ]
+    }
    },
    {
     "id": "psrDoubleABDFM",
@@ -362,9 +404,30 @@
     "id": "earthMoonRealKF1",
     "emoji": "🌘",
     "geoPN": 1,
-    "rejected": true,
-    "kFrame0Ok": true,
-    "reason": "geoPN=1 は kFrame=0 専用(受理器が kFrame=1 を拒否 —— 第283便a)"
+    "kF1DragQ2vs8": {
+     "bitSame": false,
+     "maxAbs": {
+      "pos": 1.0081708978759707e-7,
+      "vel": 9.845391723410678e-8,
+      "spin": 0
+     },
+     "sha": [
+      "bef224d2a6591cea",
+      "ff2954789b0b62b9"
+     ]
+    },
+    "kFrame0vs1": {
+     "bitSame": false,
+     "maxAbs": {
+      "pos": 1.040522850104253e-7,
+      "vel": 1.0161426404044442e-7,
+      "spin": 0
+     },
+     "sha": [
+      "099ce0b3b33c7c9f",
+      "1b9d2bda03ce1808"
+     ]
+    }
    },
    {
     "id": "earthMoonRealKF1",
@@ -386,11 +449,11 @@
      "bitSame": false,
      "maxAbs": {
       "pos": 1.040522850104253e-7,
-      "vel": 1.0161426406747706e-7,
+      "vel": 1.0161426404044442e-7,
       "spin": 0
      },
      "sha": [
-      "6bc1ce3bfe24376d",
+      "099ce0b3b33c7c9f",
       "1b9d2bda03ce1808"
      ]
     }
@@ -3258,7 +3321,7 @@
   "引きずり消失を確認した",
   "新発見"
  ],
- "headlessMs": 72,
+ "headlessMs": 82,
  "headlessErrors": 0,
- "elapsedS": 1.132
+ "elapsedS": 1.302
 }
