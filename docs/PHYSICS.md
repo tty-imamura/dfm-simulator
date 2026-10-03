@@ -29391,6 +29391,60 @@ r 依存: GM/c² = 10⁻⁴ とし、基準半径 r_ref = 1 で 3πk = 6πGM/c²
 **⑨ 決断事項候補。** ① 機械鍵の改名の時期(別便 —— 保存 JSON の互換層・QA・正本の鍵と同時に)/ ② 「重力決定力」を表示名に出す範囲(現状は法則の要約と背景慣性決定力の欄の説明の 2 か所の併記だけ —— 「背景決定力 D₀」・決定力マップにも名乗らせるか)/ ③ DFM 外のアナロジーの別論文の体裁(題・範囲・DFM 論文からの参照の仕方)/ ④ 1PN の検証目標の試験設計(質量比・半径・離心率・スピンの横断 —— 試験粒子の弱場の外へ)/ ⑤ 第79報の語「複素核」の 18 か所(説明 6・状況の生成領域 12)を現行の語へ直す時期(状況の原稿と QA の固定文を同時に・鎖の samplestatus で生成)。
 
 **書かないこと。** 「現実の宇宙は DFM である」「観測一致を達成した」「較正を完了した」「1PN と同等が証明された」「回転引きずりが創発した」「連鎖で円盤ができた」「慣性決定力場を接続した(既定で)」「新しい法則が正しい」「渦巻が創発した」「新発見」「RC を切った」。本節は語と文書と主張の範囲だけである。
+〔第290便b — 整理と較正便(退役 7 本・🥶 の較正分類への昇格・家族の基準の移動と 4 組のファミリー化・📡 D68 への診断の転記・退役 id を期待に持つ器と QA の世代切替)(**物理・初期値・bodies は 1 bit も変えていない** —— bitsame 147/147・presetSig は 147 本とも基点と同じ)〕
+
+原仮定者の裁定(第80報)⑤「サンプルの整理」の実装(統括の検証項目 R126)。**変えたのは宣言の欄(`familyRole`・`sampleClass`・`familyId`)・📡 の obsCard の 1 行・退役の理由の side table `RETIRED_PRESETS`・説明文の誘導の語だけ**で、physics・bodies・保存 JSON の物理・`S._core` は基点 f03bf5a のままである。退役は**フラグ**であって削除ではない(ID は内蔵に残り、保存やこれまでの記録からそのまま開ける)。
+
+**① 退役 7 本(`familyRole:"retired"`・凍結の写し `tests/fixtures/retired-w290b.json` —— 器 `tests/exp-w290b-retiredfx.mjs`)。**
+
+| 本 | ID | 理由 | 代わりに見る本 |
+|---|---|---|---|
+| 🫐 | `tuc47DFM` | 🍇 tuc47 に質量補正 f≈1.993 を掛けた版 | 🍇 |
+| 🌹 | `supernovaProgDFM` | 質量台帳 f=2 の版 | 🥀(🎇) |
+| 🌰 | `clusterGrowthCopy` | 初期配置が不適切(門 0/3 の結果は正本と本書の第287便a の節に履歴として残す) | 🧩・🌚 |
+| 🥜 | `fixedCaptureCopy` | 🌰 と同じ初期配置で不適切(門 0/3 の結果は正本と本書の第288便a の節に履歴として残す) | 🧩・🌚 |
+| ❄️ | `plutoCharonReal` | 旧入力の版 —— 入力を整えた 🥶 に現行の入口を集約 | 🥶 |
+| ⛄ | `plutoCharonDFM` | 引きずり則の更新(第290便c の新経路)に伴い旧 pairSlip の診断を整理 | 🥶 |
+| ☃️ | `plutoCharonSyncZero` | 同じく旧 pairSlip の厳密同期円の零試験を整理 | 🥶 |
+
+- 退役の一行(`retiredNotice`)の出典を「第73報〜第80報」へ。🌨️ `plutoCharonKF0Control`(⛄ の対照だった本)は**退役しない**(決断事項候補)。🌒 `charonGeoToy3` の操作文に「複製元の ❄️ は退役(履歴)—— 入力の対照は 🥶、本サンプルは geoPN=3 の診断」を足した(bodies は ❄️ の写しのまま)。🍇・🥀 の説明の「DFM 版 🫐/🌹」には「(退役・履歴)」を添えた。
+- **❄️ の 4 値(+294σ・数値未解決・写像未確定)は 🥶 の結果ではない。** ❄️ の行は基点 f03bf5a の正本と凍結の写しに履歴として残る。
+
+**② 🥶 `plutoCharonDiagInput` の較正分類への昇格。** `sampleClass:"principle"` → `"calibration"`・家族 `pluto` の `familyRole:"variant"` → `"primary"`(1 出 1 入 —— 母集団の本数は鎖の calaudit の再集計が数える)。判定器 `tests/exp-w249b-calaudit.mjs` の CFG に ❄️ と**同じ量定義**(対象カロン〔bodies の 1〕・同方向 1 周の 2 周目・Buie 2012 の P)で登録し、σ の宛先 `tests/lib-sigma-destinations.mjs` に `plutoCharonDiagInput|カロン → Charon` を足した。3 段の登録表には履歴の ❄️ の行の隣に 🥶 の行を足した(**登録は合格の宣言ではない**)。🥶 の 1 単位時間は 10 s(❄️ は 100 s)なので 1 公転は基準刻みで 3,449,148 步 —— h/8 の 60 公転は 1,655,591,040 步で階級上限を超える(未走行と計算して書いた)。kF0 対照の `--only` の既定一覧には ❄️ の名前を残した(母集団の外なので job にならず走らない —— 引数の文字列は分割と直列の同一性の実測記録 `tests/data-w284f-calsplit.json` と同じに保つ。🥶 は宣言が kFrame=0 なので対照の走行は要らない)。ライブ比較の宣言 `LIVE_COMPARE_SPEC` の ❄️ の行は 🥶 の標準検出器の行(同方向 1 周)へ移した。🥶 の obsCard の行(観測値・σ・出典・窓)は 1 字も変えていない。
+
+- **短い試走**(判定器を `--fast --only plutoCharonDiagInput` で h 段だけ・出力は正本の外 —— 正本と html は変えていない): 試走の器の数え上げは較正母集団 20 本(本数の確定は鎖の正本)・走行 1 本・步数上限 40,000,000 步で 11 公転(2 周目は入る)。🥶 の周期の行は 551863.660 s(観測 551856.43872±0.02592 s・残差 +0.00131%)で 5 区分のうち「合」(±1% の目安 —— σ の門ではない)・門は「数値未解決」(h の 1 段)。他の 8 行は「転」。**🥶 の合否は鎖の正本(calaudit 以下の再生成)が決める** —— この試走の数を判定として転記しない。
+
+**③ 家族(器 `tests/exp-w283b-families.mjs` の `FAMILIES` と html の `familyId`/`familyRole`)。** 一覧 `docs/FAMILIES_v1.45.md` と正本 `tests/out/families-w283b.json` は鎖の段 families が生成する(手で直していない)。
+
+| 家族 | 基準(primary) | 在位の枝(variant) | 退役(履歴) | 前 |
+|---|---|---|---|---|
+| `pluto` 冥王星–カロン | 🥶 | 🌨️・🌒 | ❄️・⛄・☃️ | 基準 ❄️ |
+| `tuc47` 球状星団 47 Tuc | 🍇 | — | 🫐 | 基準 🫐 |
+| `supernova` 超新星 | 🥀 | 🎇(群は「天体の機構」のまま —— 家族は群をまたいでよい) | 🌹 | 基準 🌹・familyId なし |
+| `shapeToy` 形の玩具(中心なし) | 🔮 | 🥏・🧵 | — | 6 本で 1 家族・familyId なし |
+| `shapeToyCore` 形の玩具(中心天体つき) | 🎱 | 📀・🧹 | — | 同上 |
+| `axisBar` 棒と腕(軸力・DFM の外) | 🥢 | 🎏・🎚️ | — | 新規 |
+
+**④ 📡 `saturnZonalD68` への診断の転記(第80報「診断結果を 📡 に反映した後に退役」の「反映」の第 1 段 —— 値不変)。** obsCard に要因の 1 行(q「否の要因(第280便e の診断・履歴)」・obs「—」)を足した。数は正本 `tests/out/d68-w280e.json` の判定段 h/4 から読んだ(同じ窓の差 = 整合初速コピー − 現行 11 体 = +42.66 deg/yr・そのうち初速の寄与 `engineDecomp.initialGeometryDegPerYear` = +42.23 deg/yr)。h/4 の 4 本(観測 38.243±0.008 deg/day):
+
+| 列 | deg/day | σ |
+|---|---:|---:|
+| 現行 11 体(📡 そのもの) | 38.126 | −14.60σ |
+| 整合初速コピー 🧷(e*=0.001・ε=0.01・既存 C) | 38.243 | −0.004σ |
+| 観測軌道コピー 📎(r=a∓ae・ε=0.01・既存 C) | 38.243 | −0.014σ |
+| 整合初速・C=1(fit なし) | 38.231 | −1.45σ |
+
+**📡 の係数 C・初速・bodies は動かしていない(否は否のまま)。** 差の主因は初速・軌道幾何の宣言で、1PN や引きずりの寄与ではない(正本の分解: 1PN +0.011・軟化 +0.54・他の粒子 +0.11 deg/yr)。a と ae と ϖ̇ の同一元期は未確認(AB3 未決)。🧷📎 は在位のまま —— 📡 の退役は観測幾何を採用して再較正した後(採用する幾何は決断事項)。
+
+**⑤ 退役 id を期待に持つ器と QA(機械列挙 —— `grep plutoCharonReal|tuc47DFM|supernovaProgDFM|clusterGrowthCopy|fixedCaptureCopy|plutoCharonDFM|plutoCharonSyncZero tests/*.mjs tools/*.mjs`)。** 基点で 58 ファイル(qa.mjs 172 行)。
+
+- **直した(走行対象・母集団・期待値)**: 判定器 calaudit(CFG・3 段/h8 の登録表・❄️ の登録に履歴の注記)・再生成表 `tests/lib-w281a-regentable.mjs`(段 kf0 の注記 —— 引数は不変)・領域の宣言 `REGEN_SCOPE` に 🥶(観測比較 `tests/exp-w285d-obscompare.mjs`・水星 `tests/exp-w280a-mercury.mjs`・geoPN=3 `tests/exp-w280c-geo3.mjs`・f の移行 `tests/exp-w282a-fmigration.mjs` —— 較正母集団を読む器の下限)・σ の宛先・家族の宣言・状況一覧の原稿 `tests/data-w279a-samplestatus-src.json`(退役の集合に 7 本・🥶 の目的と状況)。
+- **そのまま(退役の文脈)**: 退役の本を ID で読み込む診断・履歴の器(🌰🥜 の捕獲・合体・放出の器・❄️⛄☃️ のカロン系列・背景の器)—— 退役の本は内蔵に残り読み込めるので走りは変わらない。判定器の正本から ❄️ を引く器は「無ければ null」で読む(例: 課題一覧の器)。
+- **QA の世代切替**(has290b = `RETIRED_PRESETS` に ❄️ の行・has290bC = 正本の母集団に ❄️ が無く 🥶 がある〔鎖の後〕): `behavior.charonRegistered`・`docs.periodContractRows`(当たる行 2 → 1)・`docs.charonSeries`・`ui.charonFamily`(入口 ❄️ → 🥶)・`docs.retired`(26 → 33)・`groups.family-split`・`groups.family-invariant`(宣言した跨ぎ supernova だけ許す)・`behavior.calauditMapping` と `preset.condRowsRenamed`(宣言し直した行の期待を表の量のうち母集団の本から数える —— 17 → 15 は鎖の後)・`preset.unifyTable`(母集団の数は正本 verdictLedger の本数・退役は `RETIRED_PRESETS` の行数 —— 手で書かない)・`lint.kf0RunsCondition`。
+- 新設 QA: `preset.retired290b`・`docs.d68FactorRow`(root は SKIP)。
+
+**書かないこと。** 「🥶 が合」「母集団は 20 のまま」「D68 の否を直した」「❄️ の値を 🥶 へ移した」「観測一致を達成した」「較正を完了した」「新発見」「RC を切った」。
+
 〔第290便d — チェックポイント便(固定中心 `S.fixcap` の保存/復元の欠落の修正・回帰器・再開保存の棚卸し)(**走行の物理は 1 bit も変えていない** —— 内蔵 147 本は bitsame **147/147**・sigsame **147/147**・`S._core` 35197 字で不変)〕
 
 **起点**: 原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正・統括の検証項目 R128。器 tests/exp-w290d-ckfixcap.mjs(正本 tests/out/ckfixcap-w290d.json —— Node の headless で html の本文をそのまま実行し、`ckSnapOne`/`ckRestoreOne`/`cloneSimStateNow` を直接呼ぶ。UI のボタンは押さない)。**変えた範囲**: チェックポイントの保存/復元(`ckSnapOne`・`ckRestoreOne`・`CK_ARRS`)と A/B の複製(`cloneSimState`)の固定中心の写しだけ。走行(`sim.step`)・`S._core`・保存 JSON の形式・`loadSave` の実装・粒子数の契約は変えていない。基点 f03bf5a の html と 600 步の指紋が bitsame **147/147**(差分 ID なし)・署名が sigsame **147/147**(差分 ID なし)・A/B の JIT 崖の門(jitprobe)は 4 本とも基点比 0.94〜1.06 倍(tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs・tests/exp-w258e-jitprobe.mjs —— 枝の実測)。**RC は切らない。**
@@ -29440,7 +29494,6 @@ r 依存: GM/c² = 10⁻⁴ とし、基準半径 r_ref = 1 で 3πk = 6πGM/c²
 **⑤ 決断事項候補。** ① 再開保存(保存 JSON)に固定中心・動的 R_I・口座・引きずりの履歴を含めるか(保存形式の版を上げる —— いまは設定だけ)/ ② チェックポイントの名簿に 🌰 の中心捕獲・空間メッシュの錨・形状トイの潜在・系譜を足すか(形状トイは再走が一致しない)/ ③ ΔE_self を物理量(構造則の宣言)にする時期(〔第289便d〕⑤ ① の継続)。
 
 **言わないこと。** 「再開保存を完成した」(保存 JSON は設定だけのまま)/「可変粒子数のチェックポイント」(粒子数が変わった後の復元は UI が拒否のまま)/「走行の物理を直した」(直したのは保存/復元の写し)/「観測一致を達成した」/「新発見」/「RC を切った」。
-
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、

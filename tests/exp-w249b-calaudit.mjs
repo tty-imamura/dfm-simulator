@@ -63,6 +63,8 @@
 //     ②′ **kFrame=0 の対照走行**(第274便a・第64報)を条件不一致 8 行へ配る(第284便c: h/4 は例外の登録簿の kf0 の本だけ):
 //          PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-h4-exceptions \
 //            --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge
+//          (第290便b: ❄️ plutoCharonReal は退役 —— 母集団〔decls〕の外なので `--only` に名前が残っても job にならない〔走らない〕。
+//           引数の文字列は分割と直列の同一性の実測記録 tests/data-w284f-calsplit.json の calArgs と同じに保つ —— 記録は測り直さない)
 //          (`--kf0-dt3` は 5 本すべてに h/4 を足す明示診断)
 //          (`--kf0-only` は**既定経路を 1 本も測り直さない**。配布は **--merge のあと**なので
 //           既存 JSON 側の 8 行に届き、配る前の門は `kf0Applied.replaced.gate` に残る)
@@ -301,6 +303,9 @@ const CFG = {
   // 第288便b(原仮定者の裁定(第78報)④・AN83): **退役した本を外した**(母集団は sampleClass:"calibration" ∧ familyRole≠"retired" —— 上の POPULATION_RULE)。
   //   外した 18 本: earthMoonRealKF1・emAuditNewton・emAuditDFM・mercuryRealKF1・alphaCenABDFM・siriusABDFM・psrDoubleABDFM・psrDoubleABSpinCal・psrDoubleABPN・psrJ1757PN・psrJ1946PN・psrDoubleABCF・psrJ1757CF・psrJ1946CF・psrB1534DFM・psrB1534CF・gw150914DFM・saturnRingRealKF1(第283便b〜第288便b の退役 —— 旧宣言は基点の正本と tests/fixtures/retired-w28*.json に残る)。
   //   在位移行した 10 本(🌞🟠🌇🥔❄️💠🌊🧮🩺⏰)は宣言が変わっただけで対象の天体は同じ(行はそのまま)
+  // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ❄️ plutoCharonReal を退役(履歴 —— 旧宣言は基点 f03bf5a の正本と tests/fixtures/retired-w290b.json)。
+  //   入口を 🥶 plutoCharonDiagInput(sampleClass:"calibration" へ昇格)に集約し、**同じ量定義**(対象カロン・同方向 1 周の 2 周目)で登録した。
+  //   ❄️ の 4 値(+294σ・数値未解決・写像未確定)は 🥶 の結果ではない —— 🥶 の合否は鎖の正本が決める(1 出 1 入 —— 母集団の数は再集計で数える)
   earthMoonReal:      { c: 0, o: [[1, '月']] },
   emAuditSolar:       { c: 1, o: [[2, '月']] },
   qLockRadialAudit:   { c: 0, o: [[1, '最内'], [8, '参照点']] },
@@ -312,7 +317,7 @@ const CFG = {
   jupiterGalilean:    { c: 0, o: [[1, 'イオ'], [2, 'エウロパ'], [3, 'ガニメデ'], [4, 'カリスト']] },
   venusReal:          { c: 0, o: [[1, '金星']] },
   marsMoonsReal:      { c: 0, o: [[1, 'フォボス'], [2, 'ダイモス']] },
-  plutoCharonReal:    { c: 0, o: [[1, 'カロン']] },
+  plutoCharonDiagInput: { c: 0, o: [[1, 'カロン']] },   // 第290便b: ❄️ の後継の入口(1=カロン —— bodies の並びは ❄️ と同じ 0=冥王星・1=カロン)
   uranusReal:         { c: 0, o: [[1, 'ミランダ'], [2, 'アリエル'], [3, 'ウンブリエル'], [4, 'チタニア'], [5, 'オベロン']] },
   neptuneReal:        { c: 0, o: [[1, 'トリトン']] },
   alphaCenAB:         { c: 0, o: [[1, 'B']] },
@@ -368,6 +373,12 @@ const THREE_STAGE_REGISTRY = [
   // **後ろ 2 段は階級上限 40e6 を超える**ので `PRESET_MAX_STEPS` に 60 公転ぶんを宣言した(AF3)。
   { id: 'plutoCharonReal', since: '第271便a(AF2)',
     why: 'AD5 で採用した Buie 2012 の P(551856.43872±0.02592 s)を同じ停止・周期抽出契約で 3 段測る' },
+  // 第290便b(原仮定者の裁定(第80報)⑤・R126): ❄️ は退役(上の行は履歴 —— 母集団の外なので走らない)。入口を引き継いだ 🥶 を**同じ量定義**で登録する
+  //   (対象カロン・同方向 1 周の 2 周目・同じ CSV 行)。🥶 の 1 単位時間は 10 s(❄️ は 100 s)なので基準刻み dt₀=0.016 の 1 公転は 3,449,148 步
+  //   (❄️ の 10 倍)—— 步数上限は階級(n≤3 → 40e6・h 段で約 11 公転 —— 2 周目は全段で入る)。常時の鎖で h/4 を走らせるかは
+  //   例外の登録簿(H4_EXCEPTIONS)の裁定で、本便では足さない(明示診断 `--dt4-registry` で 3 段)。**登録は合格の宣言ではない**
+  { id: 'plutoCharonDiagInput', since: '第290便b(R126)',
+    why: '❄️ の入口の引き継ぎ —— Buie 2012 の P(551856.43872±0.02592 s)を同じ停止・周期抽出契約で測る(❄️ の 4 値は 🥶 の結果ではない)' },
 ];
 const THREE_STAGE_IDS = new Set(THREE_STAGE_REGISTRY.map((z) => z.id));
 // ---------------------------------------------------------------- 第272便a(第62報・AG1)
@@ -425,6 +436,10 @@ const H8_CONDITIONAL_REGISTRY = [
     why: '🩻 公転周期の 3 段 p=0.9995。h/8 は 52,942,504 步で階級上限を超える(未走行)。' },
   { id: 'psrB1534CF', run: false, stepsH8: 52942504, h8Blocked: 'class-max-steps',
     why: '🫧 公転周期の 3 段 p=0.9995。h/8 は 52,942,504 步で階級上限を超える(未走行)。' },
+  // 第290便b(R126): ❄️ の入口を引き継いだ 🥶(❄️ の行は履歴)。60 公転ぶんの h/8 は步数を計算して書く(未走行 —— 推測で埋めない)
+  { id: 'plutoCharonDiagInput', run: false, stepsH8: 1655591040, h8Blocked: 'class-max-steps',
+    why: '🥶 の 1 公転は dt₀ で 3,449,148 步(1 単位時間 10 s —— ❄️ の 10 倍)。60 公転ぶんの h/8 は 1,655,591,040 步で階級上限 '
+      + '40,000,000 を超える(未走行・preset 宣言は足さない —— 3 段の次数は走らせて測る)。' },
 ];
 const H8_ORDER_OFFSET = 0.5;   // AG1 ①: |p−2| > 0.5 の量だけ h/8 へ昇格させる
 const H8_RULE = {
@@ -509,6 +524,8 @@ const KF0_RUN_REGISTRY = [
   { id: 'marsMoonsReal', emoji: '🥔', rows: 1,
     why: '「kFrame=0 対照との周期差」1 行(**観測欄が「—」の差の行**である —— '
       + '対照条件で測っても照合できる観測値は無い。差そのものは `kf0Runs.rows[].diffPct` に出す)' },
+  // 第290便b(原仮定者の裁定(第80報)⑤・R126): ❄️ は退役(履歴)—— 母集団(decls)の外なので下の jobs の組み立てで飛ばされ、走らない。
+  //   入口を引き継いだ 🥶 は宣言が kFrame=0 なので kF0 の対照走行は要らない(登録しない)
   { id: 'plutoCharonReal', emoji: '❄️', rows: 1,
     why: '「公転周期(kFrame=0 対照・同方向1周)」1 行。**独立の刻印つき正本**'
       + '(tests/out/charon-w272b.json の列 C1)があるので、走行値との一致も突き合わせる' },
@@ -517,6 +534,7 @@ const KF0_RUN_REGISTRY = [
 const KF0_RUN_IDS = new Set(KF0_RUN_REGISTRY.map((z) => z.id));
 // ❄️ の独立照合先(第272便b の正本・列 C1 = kFrame 0・f 1・geoPN 2・softening 0.05)。
 // **引用は走行の代わりではない**(本便は走らせたうえで、hash を留めて値を突き合わせる)。
+// 第290便b: ❄️ の退役で kF0 走行の値は無くなる(thisRunValue は null —— 独立照合は基点 f03bf5a までの正本の履歴)
 const KF0_CHARON_CITE = { id: 'plutoCharonReal', target: 'カロン',
   file: 'tests/out/charon-w272b.json', column: 'C1', stage: 'h', field: 'rev2Sec',
   why: '第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。'
@@ -574,6 +592,8 @@ const ECC_TIMING_BINARY = new Set([
 //   ・将来の `observableId`(行の機械 ID)は**決断事項**であって本便では作らない。
 // **これは合否の宣言ではない** —— どの数を判定へ配るかの宣言である。
 const ROW_MEASUREMENT_DEF = [
+  // 第290便b(原仮定者の裁定(第80報)⑤): ❄️ は退役(履歴)—— 母集団の外なのでこの行は量に当たらない(宣言は履歴として残す)。
+  //   🥶 の obsCard に「近点間」と名乗る行は無い(行は 1 字も変えない)ので、🥶 の宣言は足さない
   { id: 'plutoCharonReal', match: '近点間(第250便d)', def: 'periastron',
     since: '第272便a(R10)',
     why: '行名が「近点間」と名乗っているのに同方向 1 周の値(553210.634 s)を配られていた。'
@@ -3956,6 +3976,7 @@ out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
       + '—— 常時の鎖は step2 だけで、h/8 は判断に要るときだけ手で走らせる)',
     step2c: 'PLAYWRIGHT_CORE_DIR=… node tests/exp-w249b-calaudit.mjs --kf0-runs --kf0-only --kf0-h4-exceptions'
       + ' --only jupiterGalilean,venusReal,marsMoonsReal,plutoCharonReal,neptuneReal --merge'
+      + '(第290便b: 退役した ❄️ は母集団の外なので名前が残っても走らない —— 引数は分割の同一性の実測記録と同じに保つ)'
       + '(第274便a・第64報: 条件不一致 8 行の **kFrame=0 対照走行**を診断コピーで測り、その行へ配る。'
       + '`--kf0-only` は**既定経路を 1 本も測り直さない** —— 3 段・4 段登録系の段を落とさず、'
       + '配る前の門を `kf0Applied.replaced.gate` に残すための経路である。'

@@ -57,6 +57,8 @@ const CASES = [
   { id: 'marsMoonsReal', emoji: '🥔', c: 0, nRev: 2,
     row: 'kFrame=0 対照との周期差',
     targets: [[1, 'フォボス'], [2, 'ダイモス']], unit: 'day', kind: 'periodDiff', rows: 1 },
+  // 第290便b(原仮定者の裁定(第80報)⑤): ❄️ は退役(履歴 —— ID はロードできるので器は走る)。入口を引き継いだ 🥶 は宣言が kFrame=0 で、
+  //   この器の「kFrame=0 の対照」は要らない(🥶 の行は calaudit の正本が決める —— ❄️ の値を 🥶 へ転記しない)
   { id: 'plutoCharonReal', emoji: '❄️', c: 0, nRev: 2,
     row: '公転周期(kFrame=0 対照・同方向1周)',
     targets: [[1, 'カロン']], unit: 'day', kind: 'period', rows: 1 },

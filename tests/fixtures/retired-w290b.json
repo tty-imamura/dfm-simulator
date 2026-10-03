@@ -1,0 +1,2850 @@
+{
+ "fixtureVersion": "w290b-retired-1",
+ "note": "退役 7 本(🫐🌹🌰🥜❄️⛄☃️ —— 原仮定者の裁定(第80報)⑤のサンプルの整理)の凍結資産(書き換えない)。退役の本は BUILTIN_PRESETS から消していない(旧セーブ・旧 URL・履歴の正本の参照が残る)。declChanges は基点と現行の宣言(sampleClass・familyId・familyRole・obsCard の行数)の差 —— 🥶 の較正昇格(principle → calibration・variant → primary)・家族の基準の移動と追加・📡 の要因の 1 行。presetSig はどの本も基点と同じ(宣言の欄は署名の外)。**❄️ の 4 値は 🥶 の結果ではない**(❄️ の行は履歴 —— 🥶 の合否は鎖の正本が決める)。",
+ "ids": [
+  "tuc47DFM",
+  "supernovaProgDFM",
+  "clusterGrowthCopy",
+  "fixedCaptureCopy",
+  "plutoCharonReal",
+  "plutoCharonDFM",
+  "plutoCharonSyncZero"
+ ],
+ "presets": {
+  "tuc47DFM": {
+   "emoji": "🫐",
+   "name": "球状星団 47 Tuc(DFM版)— χ-law 平均場の質量 hold-out",
+   "familyId": "tuc47",
+   "familyRole": "retired",
+   "familyRoleAtBase": "primary",
+   "group": "実在天体のアナロジー",
+   "groupAtBase": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "presetSigHash": "e917080e",
+   "presetSigSha256": "14a09b36fdc5e730549d40d1660091c1082e06eb6df3a7961fba95c72947337e",
+   "base": {
+    "rev": "f03bf5a",
+    "presetSigHash": "e917080e",
+    "name": "球状星団 47 Tuc(DFM版)— χ-law 平均場の質量 hold-out",
+    "sigSame": true
+   },
+   "successor": "tuc47",
+   "reason": "🍇 の質量補正 f≈1.993 の版(代わりに 🍇)",
+   "retiredNotice": {
+    "ja": "🍇 tuc47 に質量補正 f≈1.993 を掛けた版で、整理(第290便b)で退役した —— 星団の転写は 🍇 が持つ",
+    "en": "the build of 🍇 tuc47 with the f≈1.993 mass correction, retired in the clean-up (wave 290b) — 🍇 carries the cluster transcription",
+    "see": [
+     "tuc47"
+    ]
+   },
+   "pairDiff": {
+    "successor": "tuc47",
+    "successorEmoji": "🍇",
+    "diff": {
+     "physics.kFrame": [
+      1,
+      0
+     ],
+     "bodies[0].mMin": [
+      0.1470133497888785,
+      0.07375
+     ],
+     "bodies[0].mMax": [
+      0.1470133497888785,
+      0.07375
+     ],
+     "massCalibration": [
+      {
+       "law": "chi-law-v1-meanfield",
+       "f": 1.9934013530695391
+      },
+      null
+     ]
+    },
+    "n": 4,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 2
+    }
+   },
+   "raw": {
+    "id": "tuc47DFM",
+    "name": "球状星団 47 Tuc(DFM版)— χ-law 平均場の質量 hold-out",
+    "emoji": "🫐",
+    "group": "実在天体のアナロジー",
+    "familyId": "tuc47",
+    "familyRole": "retired",
+    "scaleTier": "stellar",
+    "scaleExp": {
+     "L": 16,
+     "T": 12,
+     "M": 35
+    },
+    "sampleClass": "principle",
+    "notClaim": [
+     "cal",
+     "dm"
+    ],
+    "obsCard": [
+     {
+      "q": "質量較正(連星契約の星団側 — 第28報)",
+      "model": "平均場 χ̄=0.99670(自己無撞着・全対 W)→ **f=C·2χ̄=1.99340(C=1 ゼロフィット)** を全恒星粒に一様適用・lightSweep=(f−1)/f=0.4983 で見掛け質量=観測側",
+      "obs": "—(f は法則の出力・fit ノブは C=1 のまま動かさない)"
+     },
+     {
+      "q": "平衡初期化(第235便)",
+      "model": "vMode=virial: 配置の実ポテンシャル W=−297.8 から ⟨v²⟩=−W/M(2K=−W)→ σ₀=1.915=√f×観測換算(ビリアル定理の帰結)",
+      "obs": "—(🍇 は観測 σ₀ の転写のまま — DFM 版は観測 σ を先置きしない)"
+     },
+     {
+      "q": "σ の対応(v1a: not-applicable)",
+      "model": "旧診断の面内分散 proxy 21.1 km/s と観測の中心視線分散 12.4 km/s の比 1.70。方向・開口・重みの対応が未確定で v1a では not-applicable。旧測定は履歴",
+      "obs": "σ₀=12.4 km/s(CSV — 中心1D視線分散・N-body fit)"
+     },
+     {
+      "q": "kF1/kF0 が画面で分かれる(f=2)",
+      "model": "半光 12.97(kF1)vs 11.81(kF0)— 引きずりは崩壊を緩める(virial 初期化でも分離。旧 random 初期化では 12.59 vs 9.02)",
+      "obs": "—"
+     },
+     {
+      "q": "中心 IMBH(設計判断: 置かない)",
+      "model": "3σ 上限 578 M☉=0.0115 単位はマクロ粒(0.147)の 0.078 倍 — N=240 の解像度では力学粒子として置けない(排他帯が配置のビット同一も壊す)。宣言のみ",
+      "obs": "IMBH は検出ではなく 3σ 上限 578 M☉"
+     }
+    ],
+    "descStruct": {
+     "summary": "**🍇 の対になる DFM 版 — 連星4本で閉じた χ-law の質量補正(f≈2)を星団に適用する hold-out**(第230便・第28報)。粒子・配置は 🍇 と**ビット同一**(seed 2509719581 を共有 — 第230便で無効キー rngSeed を修正)。**平均場 χ̄=W/(D₀+W) の全対実測は 0.99670(飽和)— 連星と同じ極限で f=C·2χ̄=1.99340(C=1・ゼロフィット)**を全恒星粒に一様に掛け、lightSweep=(f−1)/f を宣言して見掛け質量を観測側に戻す(測光相殺 — 第227便の flux 則)。粒子別の暗い核は作らない・不足分を中心1個に積まない(点質量散乱で σ が壊れる — レビュー実測)。中心 IMBH は**設計判断で置かない**(3σ 上限 578 M☉ はマクロ粒の 0.078 倍 — N=240 の解像度未満)。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 σ の先置きではなく、配置の実ポテンシャルのビリアル平衡解(vMode=virial — 第235便)**: ⟨v²⟩=−W/M から σ₀=1.915(=√f×観測換算 — ビリアル定理 σ²∝GM/R の帰結)。**結果(正直な記録): 旧診断の「σ hold-out ×1.70 不成立」は、比較としては成立していない** — 5交差の面内分散 proxy 21.1 km/s と観測の中心視線分散 12.4 km/s の比 1.70 は、**方向(視線 vs 面内)・開口・重みの対応が未確定**なので、比較サンプル v1a では **not-applicable**(数値の不一致ではなく対応の未宣言 — 第270便e・AE13)。**旧測定は履歴として保持する**(質量2倍で面内分散が √2 倍になるのは構造的な帰結・引きずりの寄与は −5%)。**f=2 で kF1/kF0 が画面で分かれる**: 引きずりは崩壊を緩め、半光 12.97 vs 11.81。χ-law の適用域が近接連星に限る可能性の記録(🎻 の e 不成立と同じ流儀 — fit で隠さない)。",
+     "observe": "実測(5交差・dt=0.016・virial 初期化 σ₀ 1.915): **kF1(採用構成)**: σ 1.915→**2.107**(**面内分散 proxy** 21.1 km/s。観測の中心視線分散 12.4 km/s との比 1.70 は**方向・開口・重みの対応が未確定**で v1a では not-applicable — 旧測定は履歴)・半光 13.02→12.97(ほぼ不変=平衡に近い)・束縛 91%(実行時総質量で判定)・NaN 0。**kF0 対照(同一 f)**: σ→2.227・半光→**11.81** — σ比 kF1/kF0=0.95 で、引きずりは σ を上げず崩壊を緩める側に効く。生成 t=0 の**位置**は 🍇 と全粒ビット同一(virial は速度だけを決める — QA が機械固定)。旧 random 初期化(観測 σ の先置き)では σ 1.157→2.446(×1.97)・半光 12.59/9.02 だった(第230便の記録)。massCalibration 台帳と mMin=0.07375×f・lightSweep=(f−1)/f の整合も QA 照合。",
+     "control": "🍇(kF0・f=1 — 重力 E4 のみの観測転写)と対で見る。kFrame を 0 に切ると同じ f=2 の崩壊対照(半光 11.8)。",
+     "brief": "連星の質量補正を星団へ当てる hold-out。部分・面内の分散は観測の中心 1D と別の量。較正対象外。"
+    },
+    "en": {
+     "name": "47 Tuc (DFM build) — the mean-field χ-law mass hold-out",
+     "descStruct": {
+      "summary": "THE DFM COUNTERPART of 🍇 — the mass correction the four binaries closed (f≈2, χ-law) applied to a cluster as a HOLD-OUT (wave 230, report 28). Particles and placement are BIT-IDENTICAL to 🍇 (shared seed 2509719581 — wave 230 fixed the dead rngSeed key). The all-pairs MEAN-FIELD χ̄=W/(D₀+W) measures 0.99670 (saturated) — the same limit as the binaries — so f=C·2χ̄=1.99340 (C=1, zero fit) is applied uniformly to every stellar particle, with lightSweep=(f−1)/f declared to return the apparent mass to the observed side (the wave-227 flux rule). No per-particle dark cores; the excess is NOT piled onto one center (point-mass scattering breaks σ — measured in review). The central IMBH is BY DESIGN NOT PLACED (the 3σ upper limit 578 M☉ is 0.078 of one macro particle — below the N=240 resolution). Gravity (E4) + frame dragging (A8/E6′) act. THE INITIAL VELOCITIES ARE NOT THE OBSERVED σ PLACED IN ADVANCE but the virial equilibrium of the placed potential (vMode=virial, wave 235): ⟨v²⟩=−W/M gives σ₀=1.915 (=√f × the observed conversion — a consequence of the virial theorem σ²∝GM/R). RESULT (honest record): the old sigma hold-out claim (fails, ×1.70) DOES NOT STAND AS A COMPARISON — the in-plane dispersion proxy reads 21.1 km/s against the observed CENTRAL LINE-OF-SIGHT dispersion of 12.4 km/s, and the correspondence in direction (line of sight vs in-plane), aperture and weighting is UNDECLARED, so in the v1a comparison sample this is NOT-APPLICABLE (an unresolved mapping, not a numerical disagreement — wave 270e, AE13). The old measurement is KEPT AS HISTORY (doubling the mass raises the in-plane dispersion by √2 structurally; dragging contributes −5%). f=2 makes kF1/kF0 visibly split: dragging softens the collapse (half-light 12.97 vs 11.81). A record that the χ-law's domain may be near binaries — not hidden by fitting (the same honesty as 🎻's e).",
+      "observe": "Measured (5 crossings, dt=0.016, virial start σ₀ 1.915): kF1 (the adopted build): σ 1.915→2.107 (an IN-PLANE dispersion proxy of 21.1 km/s; the ratio 1.70 against the observed central line-of-sight 12.4 km/s is NOT-APPLICABLE in v1a — direction, aperture and weighting are undeclared; the old measurement is kept as history); half-light 13.02→12.97 (nearly unchanged = close to equilibrium); bound 91% (runtime total mass); zero NaN. kF0 control (same f): σ→2.227, half-light→11.81 — ratio 0.95: dragging does not raise σ, it softens the collapse. The t=0 POSITIONS are bit-identical to 🍇 for every particle (virial sets only the velocities — QA-fixed). The old random start (the observed σ placed in advance) gave σ 1.157→2.446 (×1.97) and half-light 12.59/9.02 (the wave-230 record). The massCalibration ledger, mMin=0.07375×f and lightSweep=(f−1)/f are QA-checked for consistency.",
+      "control": "Pair with 🍇 (kF0, f=1). Switching kFrame to 0 gives the same-f collapse control (half-light 11.8).",
+      "brief": "Hold-out applying the binaries' mass factor to a cluster. Partial: the in-plane dispersion is a different quantity from the observed central 1D value. Out of calibration scope."
+     },
+     "description": "THE DFM COUNTERPART of 🍇 — the mass correction the four binaries closed (f≈2, χ-law) applied to a cluster as a HOLD-OUT (wave 230, report 28). Particles and placement are BIT-IDENTICAL to 🍇 (shared seed 2509719581 — wave 230 fixed the dead rngSeed key). The all-pairs MEAN-FIELD χ̄=W/(D₀+W) measures 0.99670 (saturated) — the same limit as the binaries — so f=C·2χ̄=1.99340 (C=1, zero fit) is applied uniformly to every stellar particle, with lightSweep=(f−1)/f declared to return the apparent mass to the observed side (the wave-227 flux rule). No per-particle dark cores; the excess is NOT piled onto one center (point-mass scattering breaks σ — measured in review). The central IMBH is BY DESIGN NOT PLACED (the 3σ upper limit 578 M☉ is 0.078 of one macro particle — below the N=240 resolution). Gravity (E4) + frame dragging (A8/E6′) act. THE INITIAL VELOCITIES ARE NOT THE OBSERVED σ PLACED IN ADVANCE but the virial equilibrium of the placed potential (vMode=virial, wave 235): ⟨v²⟩=−W/M gives σ₀=1.915 (=√f × the observed conversion — a consequence of the virial theorem σ²∝GM/R). RESULT (honest record): the old sigma hold-out claim (fails, ×1.70) DOES NOT STAND AS A COMPARISON — the in-plane dispersion proxy reads 21.1 km/s against the observed CENTRAL LINE-OF-SIGHT dispersion of 12.4 km/s, and the correspondence in direction (line of sight vs in-plane), aperture and weighting is UNDECLARED, so in the v1a comparison sample this is NOT-APPLICABLE (an unresolved mapping, not a numerical disagreement — wave 270e, AE13). The old measurement is KEPT AS HISTORY (doubling the mass raises the in-plane dispersion by √2 structurally; dragging contributes −5%). f=2 makes kF1/kF0 visibly split: dragging softens the collapse (half-light 12.97 vs 11.81). A record that the χ-law's domain may be near binaries — not hidden by fitting (the same honesty as 🎻's e).Measured (5 crossings, dt=0.016, virial start σ₀ 1.915): kF1 (the adopted build): σ 1.915→2.107 (an IN-PLANE dispersion proxy of 21.1 km/s; the ratio 1.70 against the observed central line-of-sight 12.4 km/s is NOT-APPLICABLE in v1a — direction, aperture and weighting are undeclared; the old measurement is kept as history); half-light 13.02→12.97 (nearly unchanged = close to equilibrium); bound 91% (runtime total mass); zero NaN. kF0 control (same f): σ→2.227, half-light→11.81 — ratio 0.95: dragging does not raise σ, it softens the collapse. The t=0 POSITIONS are bit-identical to 🍇 for every particle (virial sets only the velocities — QA-fixed). The old random start (the observed σ placed in advance) gave σ 1.157→2.446 (×1.97) and half-light 12.59/9.02 (the wave-230 record). The massCalibration ledger, mMin=0.07375×f and lightSweep=(f−1)/f are QA-checked for consistency.Pair with 🍇 (kF0, f=1). Switching kFrame to 0 gives the same-f collapse control (half-light 11.8).",
+     "status": {
+      "purpose": "Hold-out applying the binaries' mass factor to a cluster",
+      "state": "the in-plane dispersion is a different quantity from the observed central 1D value",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "🍇 と同一(CSV 転写)"
+     ],
+     "fixedConventions": [
+      "🍇 と同一の配置(seed 2509719581 共有 — t=0 位置ビット同一)+kFrame=1(E6′-R)。f は全恒星粒に一様・中心 IMBH は置かない(578 M☉ 上限=解像度未満の設計判断)・粒子別核なし",
+      "初期速度=配置の実ポテンシャルのビリアル平衡解(vMode virial・vScale 1 — 第235便。観測 σ を先置きしない)"
+     ],
+     "fitted": [
+      "なし(C=1 のゼロフィット)—— **fit ノブが 0 であることが記録**であり、σ の比 1.70 は fit の結果ではない。**旧表現「σ hold-out ×1.70 不成立」は履歴**(この欄の言い換え前の文)。"
+     ],
+     "derived": [
+      "平均場 chiMean=0.9967006765347696(自己無撞着・全対 W)",
+      "f=C·2χ̄=1.9934013530695391(C=1)— mMin=0.07375×f=0.1470133497888785",
+      "lightSweep=(f−1)/f=0.498344877482826(測光相殺 — 見掛け質量=観測側)",
+      "virial 初期化: W=−297.76・M=35.28 → ⟨v²⟩=8.44・σ₀=1.915(=√f×観測換算)",
+      "σ の対応: **面内 1 成分分散 proxy** 2.107(21.1 km/s) と**観測の中心 1D 視線分散** 1.240(12.4 km/s) の比 1.70 —— **面内 proxy と中央視線分散の対応は未宣言**(方向・開口・重み)なので、比較サンプル **v1a では `not-applicable`**(数値の不一致ではなく対応の未宣言)。**旧測定は履歴**: 旧 random 初期化(観測 σ の先置き)は 2.446(×1.97)だった。",
+      "kF1/kF0 の分離(f=2): 半光 12.97 vs 11.81・σ 2.107 vs 2.227"
+     ],
+     "numerical": [
+      "🍇 と同一(dt=0.016・5交差=3125步)"
+     ]
+    },
+    "massCalibration": {
+     "law": "chi-law-v1-meanfield",
+     "C": 1,
+     "meanChi": 0.9967006765347696,
+     "factorUniform": 1.9934013530695391
+    },
+    "activeParams": [
+     "kFrame",
+     "G",
+     "softening"
+    ],
+    "seed": 2509719581,
+    "camera": {
+     "scale": 60
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.5,
+     "timeScale": 50,
+     "dispMag": 1,
+     "frameReaction": "pairReduced",
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "disk",
+      "n": 240,
+      "cx": 0,
+      "cy": 0,
+      "radius": 419,
+      "profile": "plummer",
+      "plummerScale": 12.34,
+      "mMin": 0.1470133497888785,
+      "mMax": 0.1470133497888785,
+      "lightSweep": 0.498344877482826,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "virial",
+      "vScale": 1,
+      "direction": 1,
+      "rMul": 0.4
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": false
+    },
+    "description": "**🍇 の対になる DFM 版 — 連星4本で閉じた χ-law の質量補正(f≈2)を星団に適用する hold-out**(第230便・第28報)。粒子・配置は 🍇 と**ビット同一**(seed 2509719581 を共有 — 第230便で無効キー rngSeed を修正)。**平均場 χ̄=W/(D₀+W) の全対実測は 0.99670(飽和)— 連星と同じ極限で f=C·2χ̄=1.99340(C=1・ゼロフィット)**を全恒星粒に一様に掛け、lightSweep=(f−1)/f を宣言して見掛け質量を観測側に戻す(測光相殺 — 第227便の flux 則)。粒子別の暗い核は作らない・不足分を中心1個に積まない(点質量散乱で σ が壊れる — レビュー実測)。中心 IMBH は**設計判断で置かない**(3σ 上限 578 M☉ はマクロ粒の 0.078 倍 — N=240 の解像度未満)。働くのは重力(E4)+空間引きずり(A8/E6′)。**初期速度は観測 σ の先置きではなく、配置の実ポテンシャルのビリアル平衡解(vMode=virial — 第235便)**: ⟨v²⟩=−W/M から σ₀=1.915(=√f×観測換算 — ビリアル定理 σ²∝GM/R の帰結)。**結果(正直な記録): 旧診断の「σ hold-out ×1.70 不成立」は、比較としては成立していない** — 5交差の面内分散 proxy 21.1 km/s と観測の中心視線分散 12.4 km/s の比 1.70 は、**方向(視線 vs 面内)・開口・重みの対応が未確定**なので、比較サンプル v1a では **not-applicable**(数値の不一致ではなく対応の未宣言 — 第270便e・AE13)。**旧測定は履歴として保持する**(質量2倍で面内分散が √2 倍になるのは構造的な帰結・引きずりの寄与は −5%)。**f=2 で kF1/kF0 が画面で分かれる**: 引きずりは崩壊を緩め、半光 12.97 vs 11.81。χ-law の適用域が近接連星に限る可能性の記録(🎻 の e 不成立と同じ流儀 — fit で隠さない)。実測(5交差・dt=0.016・virial 初期化 σ₀ 1.915): **kF1(採用構成)**: σ 1.915→**2.107**(**面内分散 proxy** 21.1 km/s。観測の中心視線分散 12.4 km/s との比 1.70 は**方向・開口・重みの対応が未確定**で v1a では not-applicable — 旧測定は履歴)・半光 13.02→12.97(ほぼ不変=平衡に近い)・束縛 91%(実行時総質量で判定)・NaN 0。**kF0 対照(同一 f)**: σ→2.227・半光→**11.81** — σ比 kF1/kF0=0.95 で、引きずりは σ を上げず崩壊を緩める側に効く。生成 t=0 の**位置**は 🍇 と全粒ビット同一(virial は速度だけを決める — QA が機械固定)。旧 random 初期化(観測 σ の先置き)では σ 1.157→2.446(×1.97)・半光 12.59/9.02 だった(第230便の記録)。massCalibration 台帳と mMin=0.07375×f・lightSweep=(f−1)/f の整合も QA 照合。🍇(kF0・f=1 — 重力 E4 のみの観測転写)と対で見る。kFrame を 0 に切ると同じ f=2 の崩壊対照(半光 11.8)。",
+    "status": {
+     "purpose": "連星の質量補正を星団へ当てる hold-out",
+     "objective": "partial",
+     "state": "面内の分散は観測の中心 1D と別の量",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "behavior.tuc47"
+     ]
+    }
+   }
+  },
+  "supernovaProgDFM": {
+   "emoji": "🌹",
+   "name": "超新星前駆星(DFM版)— 質量台帳 f=2・光球半径=コアの引きずり外縁",
+   "familyId": "supernova",
+   "familyRole": "retired",
+   "familyRoleAtBase": null,
+   "group": "実在天体のアナロジー",
+   "groupAtBase": "実在天体のアナロジー",
+   "sampleClass": "principle",
+   "presetSigHash": "9cbb7932",
+   "presetSigSha256": "90b92d549a4a2b962f9eac439260332ba90c6e6cf38e6020190c910585903b48",
+   "base": {
+    "rev": "f03bf5a",
+    "presetSigHash": "9cbb7932",
+    "name": "超新星前駆星(DFM版)— 質量台帳 f=2・光球半径=コアの引きずり外縁",
+    "sigSame": true
+   },
+   "successor": "supernovaProg",
+   "reason": "質量台帳 f=2 の版(代わりに 🥀)",
+   "retiredNotice": {
+    "ja": "質量台帳 f=2 の版で、整理(第290便b)で退役した —— ベテルギウスの転写は 🥀 が持つ",
+    "en": "the build with the f=2 mass ledger, retired in the clean-up (wave 290b) — 🥀 carries the Betelgeuse transcription",
+    "see": [
+     "supernovaProg",
+     "supernovaCore"
+    ]
+   },
+   "pairDiff": {
+    "successor": "supernovaProg",
+    "successorEmoji": "🥀",
+    "diff": {
+     "physics.coupleSink": [
+      "reservoir",
+      "core"
+     ],
+     "physics.kFrame": [
+      1,
+      0
+     ],
+     "bodies[0].m": [
+      705.918,
+      352.959
+     ],
+     "bodies[0].core": [
+      {
+       "mode": "differential",
+       "massFrac": 0.5,
+       "radius": 10.6303,
+       "omega": 0.1953545025834873,
+       "Kcs": 0
+      },
+      {
+       "mode": "differential",
+       "massFrac": 0.07887323943661971,
+       "radius": 26.57575,
+       "omega": 0,
+       "Kcs": 0
+      }
+     ],
+     "massCalibration": [
+      {
+       "law": "chi-law-v1-transfer",
+       "f": 2
+      },
+      null
+     ]
+    },
+    "n": 5,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 2
+    }
+   },
+   "raw": {
+    "id": "supernovaProgDFM",
+    "name": "超新星前駆星(DFM版)— 質量台帳 f=2・光球半径=コアの引きずり外縁",
+    "emoji": "🌹",
+    "group": "実在天体のアナロジー",
+    "familyId": "supernova",
+    "familyRole": "retired",
+    "scaleTier": "stellar",
+    "scaleExp": {
+     "L": 10,
+     "T": 6,
+     "M": 29
+    },
+    "sampleClass": "principle",
+    "notClaim": [
+     "cal",
+     "toy"
+    ],
+    "obsCard": [
+     {
+      "q": "質量台帳 f=2",
+      "model": "705.918 単位=殻 352.959(観測転写)+コア 352.959(massFrac 0.5)",
+      "obs": "M_obs=17.75 M☉(Joyce 一組)— DFM 総質量 35.5 M☉ は実在主張ではない"
+     },
+     {
+      "q": "光球半径=R_drag",
+      "model": "53.1515 単位(転写値そのまま)— コア Ω=0.19535 を R_drag=R から逆算(β_solid)",
+      "obs": "R=764 R☉(3σ・モデル依存)— 半径の仮定を式にした派生値"
+     },
+     {
+      "q": "コア半径・自転",
+      "model": "Rc=R/5=10.6303・殻 Ω=5.531×10⁻³(sin i=1 代理)・Kcs=0・kFrame=1",
+      "obs": "—(前駆星コアの直接観測なし — 宣言のみ)"
+     },
+     {
+      "q": "較正の性質",
+      "model": "f=2 は連星契約の規約転写(chi-law-v1-transfer・C=1)・β_solid は 🍊(第245便で廃止)で較正(hold-out)",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**🥀 の DFM 対 — 質量台帳 f=2 の超新星前駆星**(第233便 — 第29報①③)。🥀 の転写幾何(光球 53.15・自転 sin i=1 代理・単体静止)はそのままに、**総質量を 705.918=2×352.959** とし、殻=観測値 352.959・コア=余り 352.959(massFrac 0.5・Rc=R/5)に置く(dfmStarMassLedger — 連星契約 f≈2 の規約転写・massCalibration law:\"chi-law-v1-transfer\")。**コア Ω=0.1953545 は「恒星の半径=コアの引きずりの影響範囲」の仮定から逆算**した派生値: β_solid(🍊〔第245便で廃止〕で較正)を用い、引きずり強度 D(r)=ω_c r/√(GM/r)(A8 の差動コア項)が β を切る外縁 R_drag が光球半径 53.1515 に一致する Ω を求めた(観測値ではない — β の hold-out 第1号)。1.4 M☉ の器は 🥀 の比較マーカーで、こちらのコアは DFM の重いコア。kFrame=1(単体なので力学は静止のまま — 引きずりの相手がいない・働くのは重力 E4 のみ)。測光は殻質量分岐(lightSweep=0 & コアあり → T_obs は殻質量 352.959 で)。超新星(コアが中性子星まで成長しスピンで外殻を吹き飛ばす)は第234便 spinBurst の宣言。",
+     "observe": "実測(500步): 単体静止をビット保持(x=vx=0)・m 705.918・massFrac 0.5・R 53.1515・警告 0・NaN 0。R_drag 診断=53.1515(定義により再現 — 予測ではない)。T_obs は殻質量 352.959 で計算される(🥀 も同じ分岐で 352.959×(1−0.0789))。QA behavior.starStructure が機械固定。",
+     "control": "🥀(観測転写)・🎇(原理)・🦀(爆発後)と読む。core.omega を上げると R_drag 診断が Ω² で伸びる(赤色巨星化の診断 — 旧 🍂〔第245便で廃止〕と同じ式)。",
+     "brief": "質量台帳 f=2 の前駆星を比べる。達・台帳 f=2 と光球半径の逆算を確認。較正対象外。"
+    },
+    "en": {
+     "name": "Supernova Progenitor (DFM) — Mass Ledger f=2, Photosphere = the Core's Drag Edge",
+     "descStruct": {
+      "summary": "THE DFM COUNTERPART OF 🥀 — a supernova progenitor under the mass ledger f=2 (wave 233). The 🥀 transcription geometry (photosphere 53.15, sin i=1 spin proxy, solo body at rest) is kept, but the TOTAL MASS IS 705.918 = 2×352.959: shell = the observed 352.959, core = the remainder 352.959 (massFrac 0.5, Rc=R/5) — dfmStarMassLedger, the binary contract f≈2 transferred by convention (massCalibration law chi-law-v1-transfer). THE CORE Ω=0.1953545 IS DERIVED FROM THE ASSUMPTION 'STELLAR RADIUS = THE REACH OF THE CORE'S DRAGGING': with β_solid (calibrated on 🍊, retired in wave 245), the Ω at which the drag edge R_drag — where D(r)=ω_c r/√(GM/r) (the A8 differential-core term) crosses β — equals the photospheric radius 53.1515 (not an observation — the first hold-out of β). The 1.4 Msun vessel is 🥀's comparison marker; this core is the DFM heavy core. kFrame=1 (a solo body, so the dynamics stay at rest — nothing to drag; only gravity E4 acts). Photometry uses the shell-mass branch (lightSweep=0 with a core → T_obs from the shell mass 352.959). The supernova itself (the core growing to a neutron star and blowing off the envelope by spin) is declared for wave 234 (spinBurst).",
+      "observe": "Measured (500 steps): rest held to the bit (x=vx=0); m 705.918, massFrac 0.5, R 53.1515; zero warnings, zero NaN. R_drag diagnostic = 53.1515 (reproduced by definition — not a prediction). T_obs is computed from the shell mass 352.959 (🥀 takes the same branch: 352.959×(1−0.0789)). QA behavior.starStructure machine-fixes it.",
+      "control": "Read with 🥀 (transcription), 🎇 (principle) and 🦀 (after). Raising core.omega stretches the R_drag diagnostic as Ω² (the red-giant diagnostic — the same formula as the retired 🍂).",
+      "brief": "Compare a progenitor with an f=2 mass ledger. Met: the f=2 ledger and the photosphere back-calculation are checked. Out of calibration scope."
+     },
+     "description": "THE DFM COUNTERPART OF 🥀 — a supernova progenitor under the mass ledger f=2 (wave 233). The 🥀 transcription geometry (photosphere 53.15, sin i=1 spin proxy, solo body at rest) is kept, but the TOTAL MASS IS 705.918 = 2×352.959: shell = the observed 352.959, core = the remainder 352.959 (massFrac 0.5, Rc=R/5) — dfmStarMassLedger, the binary contract f≈2 transferred by convention (massCalibration law chi-law-v1-transfer). THE CORE Ω=0.1953545 IS DERIVED FROM THE ASSUMPTION 'STELLAR RADIUS = THE REACH OF THE CORE'S DRAGGING': with β_solid (calibrated on 🍊, retired in wave 245), the Ω at which the drag edge R_drag — where D(r)=ω_c r/√(GM/r) (the A8 differential-core term) crosses β — equals the photospheric radius 53.1515 (not an observation — the first hold-out of β). The 1.4 Msun vessel is 🥀's comparison marker; this core is the DFM heavy core. kFrame=1 (a solo body, so the dynamics stay at rest — nothing to drag; only gravity E4 acts). Photometry uses the shell-mass branch (lightSweep=0 with a core → T_obs from the shell mass 352.959). The supernova itself (the core growing to a neutron star and blowing off the envelope by spin) is declared for wave 234 (spinBurst).Measured (500 steps): rest held to the bit (x=vx=0); m 705.918, massFrac 0.5, R 53.1515; zero warnings, zero NaN. R_drag diagnostic = 53.1515 (reproduced by definition — not a prediction). T_obs is computed from the shell mass 352.959 (🥀 takes the same branch: 352.959×(1−0.0789)). QA behavior.starStructure machine-fixes it.Read with 🥀 (transcription), 🎇 (principle) and 🦀 (after). Raising core.omega stretches the R_drag diagnostic as Ω² (the red-giant diagnostic — the same formula as the retired 🍂).",
+     "status": {
+      "purpose": "Compare a progenitor with an f=2 mass ledger",
+      "state": "the f=2 ledger and the photosphere back-calculation are checked",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "Joyce et al. (2020) 一組: M=17.75 M☉(範囲中央)・R=764 R☉(🥀 と同一の転写)",
+      "Kervella et al. (2018): P_rot/sin i=36 年(代理 sin i=1)"
+     ],
+     "fixedConventions": [
+      "恒星族 L10/T6/M29・単体・kFrame=1(相手なし)",
+      "f=2 規約転写(chi-law-v1-transfer・C=1)・殻=観測値・コア=余り(massFrac 0.5)・Rc=R/5・Kcs=0・lightSweep=0"
+     ],
+     "fitted": [
+      "なし(β_solid は 🍊〔第245便で廃止〕で較正 — 本サンプルでは hold-out)"
+     ],
+     "derived": [
+      "m=705.918(=2×352.959)・shell 352.959・core 352.959(dfmStarMassLedger)",
+      "Ω_core=0.1953545025834873(R_drag=53.1515 の逆算 — dfmCoreDragRadius・β_solid・G=6.674・q=2)"
+     ],
+     "numerical": [
+      "dt=0.016・静止系(数値誤差の入り口なし)"
+     ]
+    },
+    "activeParams": [
+     "G",
+     "kFrame",
+     "softening"
+    ],
+    "massCalibration": {
+     "law": "chi-law-v1-transfer",
+     "C": 1,
+     "factorUniform": 2
+    },
+    "seed": 20260901,
+    "camera": {
+     "scale": 150
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 1,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 1,
+     "timeScale": 100,
+     "coupleSink": "reservoir",
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 705.918,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0.00553071981492008,
+      "pinned": false,
+      "radius": 53.1515,
+      "shell": "solid",
+      "lightSweep": 0,
+      "core": {
+       "mode": "differential",
+       "massFrac": 0.5,
+       "radius": 10.6303,
+       "omega": 0.1953545025834873,
+       "Kcs": 0
+      }
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "monitor": true
+    },
+    "description": "**🥀 の DFM 対 — 質量台帳 f=2 の超新星前駆星**(第233便 — 第29報①③)。🥀 の転写幾何(光球 53.15・自転 sin i=1 代理・単体静止)はそのままに、**総質量を 705.918=2×352.959** とし、殻=観測値 352.959・コア=余り 352.959(massFrac 0.5・Rc=R/5)に置く(dfmStarMassLedger — 連星契約 f≈2 の規約転写・massCalibration law:\"chi-law-v1-transfer\")。**コア Ω=0.1953545 は「恒星の半径=コアの引きずりの影響範囲」の仮定から逆算**した派生値: β_solid(🍊〔第245便で廃止〕で較正)を用い、引きずり強度 D(r)=ω_c r/√(GM/r)(A8 の差動コア項)が β を切る外縁 R_drag が光球半径 53.1515 に一致する Ω を求めた(観測値ではない — β の hold-out 第1号)。1.4 M☉ の器は 🥀 の比較マーカーで、こちらのコアは DFM の重いコア。kFrame=1(単体なので力学は静止のまま — 引きずりの相手がいない・働くのは重力 E4 のみ)。測光は殻質量分岐(lightSweep=0 & コアあり → T_obs は殻質量 352.959 で)。超新星(コアが中性子星まで成長しスピンで外殻を吹き飛ばす)は第234便 spinBurst の宣言。実測(500步): 単体静止をビット保持(x=vx=0)・m 705.918・massFrac 0.5・R 53.1515・警告 0・NaN 0。R_drag 診断=53.1515(定義により再現 — 予測ではない)。T_obs は殻質量 352.959 で計算される(🥀 も同じ分岐で 352.959×(1−0.0789))。QA behavior.starStructure が機械固定。🥀(観測転写)・🎇(原理)・🦀(爆発後)と読む。core.omega を上げると R_drag 診断が Ω² で伸びる(赤色巨星化の診断 — 旧 🍂〔第245便で廃止〕と同じ式)。",
+    "status": {
+     "purpose": "質量台帳 f=2 の前駆星を比べる",
+     "objective": "met",
+     "state": "台帳 f=2 と光球半径の逆算を確認",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "behavior.dfm-star-structure"
+     ]
+    }
+   }
+  },
+  "clusterGrowthCopy": {
+   "emoji": "🌰",
+   "name": "成長経路の原理コピー(自由な中心が落ちてくる塊を捕獲する)",
+   "familyId": null,
+   "familyRole": "retired",
+   "familyRoleAtBase": null,
+   "group": "銀河の力学",
+   "groupAtBase": "銀河の力学",
+   "sampleClass": "principle",
+   "presetSigHash": "89478a8b",
+   "presetSigSha256": "92d16e34cbf863a9c2912ac27f3701c94e207359068eded55989c3a6083dc132",
+   "base": {
+    "rev": "f03bf5a",
+    "presetSigHash": "89478a8b",
+    "name": "成長経路の原理コピー(自由な中心が落ちてくる塊を捕獲する)",
+    "sigSame": true
+   },
+   "successor": null,
+   "reason": "初期配置が不適切(門 0/3 の結果は正本と PHYSICS に履歴として残す・代わりに 🧩/🌚)",
+   "retiredNotice": {
+    "ja": "初期配置が不適切だった(門 0/3 の結果は正本と PHYSICS に履歴として残す)—— 整理(第290便b)で退役。背景と中心の合成は 🧩、中心 DFM BH のアナロジーは 🌚 で見られる",
+    "en": "its initial configuration was unsuitable (the 0/3 gate result stays as history in the canonical output and PHYSICS) — retired in the clean-up (wave 290b); the background-and-centre composition is seen in 🧩 and the centre DFM BH analogy in 🌚",
+    "see": [
+     "galaxyAnalogyBHCompose",
+     "galaxyAnalogyBH"
+    ]
+   },
+   "pairDiff": null,
+   "raw": {
+    "id": "clusterGrowthCopy",
+    "name": "成長経路の原理コピー(自由な中心が落ちてくる塊を捕獲する)",
+    "emoji": "🌰",
+    "familyRole": "retired",
+    "group": "銀河の力学",
+    "scaleTier": "stellar",
+    "scaleExp": {
+     "L": 16,
+     "T": 12,
+     "M": 35
+    },
+    "sampleClass": "principle",
+    "fidelity": "toy",
+    "notClaim": [
+     "cluster",
+     "dm"
+    ],
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "自由な中心(m=25・spin 12・本体半径 0.01)+ 塊 4 個(各 恒星 1 + DR 20・💮 と同じ代表率)を中心から 24 に置き、接線 1.4 の順行で落とす",
+      "obs": "—(原理サンプル —— 2D のアナロジー)"
+     },
+     {
+      "q": "中心捕獲(接触と融合は中心とだけ)",
+      "model": "距離 < 1.5・束縛・供給 Q ≥ 0・|Ω′| ≤ 40 で捕獲。帳簿 1 行: M′・P′・J_s′=J_s,c+J_s,j+μ r×v_rel−J_esc−J_rad・Ω′=J_s′/I′・E_self・Q",
+      "obs": "—"
+     },
+     {
+      "q": "Ω′ は必ず増えるわけではない",
+      "model": "逆行の相手は J_s を減らし、I′=½M′R′² は M′ とともに増える。供給の足りない捕獲は行わない(拒否の数を記録)",
+      "obs": "—"
+     },
+     {
+      "q": "単位(💮 の台帳の写し)",
+      "model": "L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg —— G=6.6743・c=29979.2458・W_bg=0.15・R_drag=1.5・ε=3",
+      "obs": "—"
+     },
+     {
+      "q": "門(測る前に宣言)",
+      "model": "保持率・半質量半径の変化・軸比(💮 と同じ閾値)を合体が止んだ後の窓で測る。合体の回数は門にしない —— PHYSICS〔第287便a〕",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "星団が落ち着いた/合体で自転が増えて斥力になった/中心の引きずりが支配的になった",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**成長経路の原理コピー**(第287便a・原仮定者の裁定〔第77報〕④「銀河の成長を考える」)。💮 を書き換えずに、💮 の台帳の写し(星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg・G=6.6743・c=29979.2458・geoPN=3・kFrame=0・lawVersion \"scalar\"・centerSpin \"read\"・W_bg=0.15・R_drag=1.5・ε=3・恒星と DR の代表粒子 0.2125/0.425)で、**中心を pinned しない**(自由中心)・**接触と融合は中心とだけ**(`centerCapture` —— 恒星どうし・DR どうしは contactMode \"none\" のまま)・**N は小さく**(中心 1 + 塊 4 個 × 21 体)の 3 点だけを変えた。塊は中心から 24 の 4 方向から接線 1.4 で順行に落ちる。捕獲は 4 条件(距離 < 1.5・対が束縛・エネルギーの供給 Q ≥ 0・|Ω′| ≤ エンジンの安全上限 40)で、捕獲のたびに 1 行の帳簿(M′・P′・J_s′=J_s,c+J_s,j+μ r×v_rel−J_escaped−J_radiation・I′=½M′R′²・Ω′=J_s′/I′・自己束縛 E_self・熱 Q)を付ける。**Ω′ は必ず増えるわけではない**(逆行の相手は J_s を減らす)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性)と中心捕獲だけ。**言わないこと**: 星団が落ち着いた/合体で自転が増えて斥力になった/中心の引きずりが支配的になった。第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では、第289便の時点ではこの本は走っていない(走っているのは share p=1 の q 付き場で、連鎖は仮説)。",
+     "observe": "実測(器 tests/exp-w287a-growth.mjs・正本 tests/out/growth-w287a.json —— 結果は 9 走行とも未達: 自由な中心がトイの加速度で塊から離れる): 順行・逆行・真正面の 3 対照 × 乱数種 3 で、捕獲の帳簿の閉じ(P・J・E の残差・Q ≥ 0・クランプ 0)・合体が止んだ後の窓の保持率・半質量半径の変化・軸比・半径別の D_g(r)=|a_g,core|/(|a_g,core|+|a_g,group|) と符号つきの η_mesh(r)=a_mesh,r/|a_g,r|・F_r の各項・摂動後の復元を測る。負の対照 2 つ(無自転・真正面で J を作らない/逆行でスピンが減り得る)と半径の対照(同じ初期状態から中心の本体半径だけを変える)も同じ正本に。数は PHYSICS〔第287便a〕。",
+     "brief": "自由な中心が落ちてくる塊を中心とだけの捕獲で合体させる成長経路の原理コピー。未達・捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)。較正対象外。",
+     "control": "順行(宣言)に対し、器が同じ初期状態から逆行・真正面・中心の本体半径だけを変えた対照を作る。比較の相手は 💮(同じ単位の台帳・中心 pinned・Jeans の初期分布)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"
+    },
+    "en": {
+     "name": "Growth-path principle copy (a free centre captures infalling clumps)",
+     "status": {
+      "purpose": "Free centre merges infalling clumps by centre-only capture",
+      "state": "ledger closes; centre drifts off clumps; gates not met; p=1 q-field, not the report-79 complex kernel",
+      "mismatch": null,
+      "outlook": null
+     },
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "free centre (m=25, spin 12, body 0.01) + 4 clumps (1 star + 20 dark rotors each) placed 24 out, dropped prograde at 1.4",
+       "obs": "- (a principle sample; a 2D analogy)"
+      },
+      {
+       "q": "Centre capture (contact and merging only with the centre)",
+       "model": "d < 1.5, bound, Q >= 0, |Omega'| <= 40; one ledger line: M', P', J_s'=J_s,c+J_s,j+mu r x v_rel-J_esc-J_rad, E_self, Q",
+       "obs": "-"
+      },
+      {
+       "q": "Omega' need not grow",
+       "model": "a retrograde partner lowers J_s and I' grows with M'; captures without an energy supply are refused and counted",
+       "obs": "-"
+      },
+      {
+       "q": "Units (a copy of 💮's ledger)",
+       "model": "L0=1e16 m, T0=1e12 s, M0=1e35 kg: G=6.6743, c=29979.2458, W_bg=0.15, R_drag=1.5, eps=3",
+       "obs": "-"
+      },
+      {
+       "q": "Gates (declared first)",
+       "model": "retention, half-mass-radius change, axis ratio (💮's thresholds) after merging stops; merger counts are no gate",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "no settled cluster, no spin-up turning into repulsion, no centre-drag dominance",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "A GROWTH-PATH PRINCIPLE COPY (wave 287a, the originator's ruling in report 77, item 4). Without touching 💮, it copies 💮's ledger (cluster units L0=1e16 m, T0=1e12 s, M0=1e35 kg, G=6.6743, c=29979.2458, geoPN=3, kFrame=0, lawVersion scalar, centerSpin read, W_bg=0.15, R_drag=1.5, eps=3, star and dark-rotor particles 0.2125/0.425) and changes three things: THE CENTRE IS NOT PINNED; CONTACT AND MERGING HAPPEN ONLY WITH THE CENTRE (centerCapture; stars and dark rotors keep contactMode none among themselves); N IS SMALL (a centre + 4 clumps x 21). The clumps start 24 from the centre in 4 directions and fall prograde with tangential speed 1.4. A capture needs distance < 1.5, a bound pair, an energy supply Q >= 0 and |Omega'| within the engine's safety cap 40, and each capture writes one ledger line (M', P', J_s'=J_s,c+J_s,j+mu r x v_rel-J_escaped-J_radiation, I'=M'R'^2/2, Omega'=J_s'/I', self-binding E_self, heat Q). OMEGA' NEED NOT GROW (a retrograde partner lowers J_s). Only gravity (E4), the geoPN=3 toy (coordinate inertia) and the centre capture act. NOT CLAIMED: a settled cluster, spin-up turning into repulsion, centre-drag dominance. As of wave 289 this sample does not run on the complex kernel of the report-79 restatement (DFM restatement and corrections: relative motion x m/r^2, near/far side); it runs on the share p=1 field with q, and the chain is a hypothesis.",
+      "observe": "Measured (harness tests/exp-w287a-growth.mjs, canonical tests/out/growth-w287a.json; all 9 runs miss the gates as the free centre drifts away from the clumps under the toy acceleration): prograde, retrograde and head-on controls x 3 seeds - ledger closure (P, J, E residuals, Q >= 0, no clamps), retention, half-mass-radius change and axis ratio in the window after merging stops, D_g(r)=|a_g,core|/(|a_g,core|+|a_g,group|) and the signed eta_mesh(r)=a_mesh,r/|a_g,r| by radius, the terms of F_r and recovery after a perturbation. Two negative controls (no spin and head-on makes no J; retrograde capture can lower the spin) and a radius control (only the centre's body radius changed from the same initial state) are in the same canonical. Numbers in PHYSICS (wave 287a).",
+      "brief": "Free centre merges infalling clumps by centre-only capture. Unmet: ledger closes; centre drifts off clumps; gates not met; p=1 q-field, not the report-79 complex kernel. Out of calibration scope.",
+      "control": "Against the declared prograde run, the harness builds retrograde, head-on and body-radius-only controls from the same initial state. Compare with 💮 (the same unit ledger, a pinned centre, a Jeans start). DO NOT MOVE kFrame (the geoPN=3 entry condition)."
+     },
+     "description": "A GROWTH-PATH PRINCIPLE COPY (wave 287a, the originator's ruling in report 77, item 4). Without touching 💮, it copies 💮's ledger (cluster units L0=1e16 m, T0=1e12 s, M0=1e35 kg, G=6.6743, c=29979.2458, geoPN=3, kFrame=0, lawVersion scalar, centerSpin read, W_bg=0.15, R_drag=1.5, eps=3, star and dark-rotor particles 0.2125/0.425) and changes three things: THE CENTRE IS NOT PINNED; CONTACT AND MERGING HAPPEN ONLY WITH THE CENTRE (centerCapture; stars and dark rotors keep contactMode none among themselves); N IS SMALL (a centre + 4 clumps x 21). The clumps start 24 from the centre in 4 directions and fall prograde with tangential speed 1.4. A capture needs distance < 1.5, a bound pair, an energy supply Q >= 0 and |Omega'| within the engine's safety cap 40, and each capture writes one ledger line (M', P', J_s'=J_s,c+J_s,j+mu r x v_rel-J_escaped-J_radiation, I'=M'R'^2/2, Omega'=J_s'/I', self-binding E_self, heat Q). OMEGA' NEED NOT GROW (a retrograde partner lowers J_s). Only gravity (E4), the geoPN=3 toy (coordinate inertia) and the centre capture act. NOT CLAIMED: a settled cluster, spin-up turning into repulsion, centre-drag dominance. As of wave 289 this sample does not run on the complex kernel of the report-79 restatement (DFM restatement and corrections: relative motion x m/r^2, near/far side); it runs on the share p=1 field with q, and the chain is a hypothesis.Measured (harness tests/exp-w287a-growth.mjs, canonical tests/out/growth-w287a.json; all 9 runs miss the gates as the free centre drifts away from the clumps under the toy acceleration): prograde, retrograde and head-on controls x 3 seeds - ledger closure (P, J, E residuals, Q >= 0, no clamps), retention, half-mass-radius change and axis ratio in the window after merging stops, D_g(r)=|a_g,core|/(|a_g,core|+|a_g,group|) and the signed eta_mesh(r)=a_mesh,r/|a_g,r| by radius, the terms of F_r and recovery after a perturbation. Two negative controls (no spin and head-on makes no J; retrograde capture can lower the spin) and a radius control (only the centre's body radius changed from the same initial state) are in the same canonical. Numbers in PHYSICS (wave 287a).Against the declared prograde run, the harness builds retrograde, head-on and body-radius-only controls from the same initial state. Compare with 💮 (the same unit ledger, a pinned centre, a Jeans start). DO NOT MOVE kFrame (the geoPN=3 entry condition)."
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "**無い。**"
+     ],
+     "fixedConventions": [
+      "💮 の台帳の写し: 星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg(G=6.6743・c=29979.2458)・geoPN=3・kFrame=0・lawVersion:\"scalar\"・centerSpin:\"read\"・W_bg=spaceMesh.D0=0.15・R_drag=spaceMesh.dragR=1.5・ε=3・frameWeight:\"share\"",
+      "中心: m=25・spin 12・本体半径 0.01・**pinned しない**(自由中心 —— dragR は場の契約の「中心」〔pinned が無ければ最大質量の 1 体〕に掛かる)",
+      "塊 4 個: 中心から 24 の 0°/90°/180°/270°・半径 3 の一様円盤・恒星 1 × 0.2125 + DR 20 × 0.425(💮 と同じ代表率・個数比 20)・内部の速度 vMode random(vScale 1)・並進は接線 1.4(順行)",
+      "centerCapture: rCap 1.5(=R_drag の値を宣言 —— 決断事項候補)・inertia \"body\"(I=½MR²・R′=√(R_c²+R_j²))・|Ω′| はエンジンの安全上限 40 以下(超える捕獲は行わない)・contactMode:\"none\"・乱数種 20260929"
+     ],
+     "fitted": [
+      "**無い。**"
+     ],
+     "derived": [
+      "捕獲ごとの M′・P′・J_s′・I′・Ω′・E_self・Q(帳簿 S.capture —— 器が記録)",
+      "T_dyn=2π√(D³/(G M_tot))(D=24 —— 器が記録)"
+     ],
+     "numerical": [
+      "ソフトニング ε=3",
+      "時間倍率 timeScale=3",
+      "粒子 85 体(中心 1 + 84)",
+      "質量と位置・速度・自転は Float64(massPrecision・stateCarry・捕獲の宣言)",
+      "測定: dt=0.016・窓は合体が止んだ後 [1, 3] T_dyn"
+     ]
+    },
+    "activeParams": [
+     "G"
+    ],
+    "status": {
+     "purpose": "自由な中心が落ちてくる塊を中心とだけの捕獲で合体させる成長経路の原理コピー",
+     "objective": "unmet",
+     "state": "捕獲の帳簿は閉じたが、自由な中心がトイの加速度で塊から離れ、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/growth-w287a.json"
+     ]
+    },
+    "centerCapture": {
+     "version": "w287a-capture-1",
+     "center": 0,
+     "rCap": 1.5,
+     "inertia": "body"
+    },
+    "camera": {
+     "scale": 40
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20260929,
+    "physics": {
+     "G": 6.6743,
+     "D0": 0.15,
+     "kFrame": 0,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.02,
+     "contactMode": "none",
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 3,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 3,
+     "timeScale": 3,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "massPrecision": "double",
+     "frameWeight": "share",
+     "spaceMesh": {
+      "mode": "vertex",
+      "gravity": false,
+      "inertia": false,
+      "lawVersion": "scalar",
+      "centerSpin": "read",
+      "D0": 0.15,
+      "dragR": 1.5
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 25,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 12,
+      "pinned": false,
+      "radius": 0.01
+     },
+     {
+      "type": "disk",
+      "particleRadius": 6.957e-8,
+      "n": 1,
+      "cx": 24,
+      "cy": 0,
+      "radius": 3,
+      "mMin": 0.2125,
+      "mMax": 0.2125,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": 1.4
+     },
+     {
+      "type": "disk",
+      "particleRadius": 7.1492e-9,
+      "n": 20,
+      "cx": 24,
+      "cy": 0,
+      "radius": 3,
+      "mMin": 0.425,
+      "mMax": 0.425,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": 1.4,
+      "lightSweep": 1
+     },
+     {
+      "type": "disk",
+      "particleRadius": 6.957e-8,
+      "n": 1,
+      "cx": 0,
+      "cy": 24,
+      "radius": 3,
+      "mMin": 0.2125,
+      "mMax": 0.2125,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": -1.4,
+      "bulkVy": 0
+     },
+     {
+      "type": "disk",
+      "particleRadius": 7.1492e-9,
+      "n": 20,
+      "cx": 0,
+      "cy": 24,
+      "radius": 3,
+      "mMin": 0.425,
+      "mMax": 0.425,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": -1.4,
+      "bulkVy": 0,
+      "lightSweep": 1
+     },
+     {
+      "type": "disk",
+      "particleRadius": 6.957e-8,
+      "n": 1,
+      "cx": -24,
+      "cy": 0,
+      "radius": 3,
+      "mMin": 0.2125,
+      "mMax": 0.2125,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": -1.4
+     },
+     {
+      "type": "disk",
+      "particleRadius": 7.1492e-9,
+      "n": 20,
+      "cx": -24,
+      "cy": 0,
+      "radius": 3,
+      "mMin": 0.425,
+      "mMax": 0.425,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": -1.4,
+      "lightSweep": 1
+     },
+     {
+      "type": "disk",
+      "particleRadius": 6.957e-8,
+      "n": 1,
+      "cx": 0,
+      "cy": -24,
+      "radius": 3,
+      "mMin": 0.2125,
+      "mMax": 0.2125,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 1.4,
+      "bulkVy": 0
+     },
+     {
+      "type": "disk",
+      "particleRadius": 7.1492e-9,
+      "n": 20,
+      "cx": 0,
+      "cy": -24,
+      "radius": 3,
+      "mMin": 0.425,
+      "mMax": 0.425,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 1.4,
+      "bulkVy": 0,
+      "lightSweep": 1
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": false,
+     "monitor": false,
+     "spaceMesh": {
+      "mode": "mesh"
+     }
+    },
+    "description": "**成長経路の原理コピー**(第287便a・原仮定者の裁定〔第77報〕④「銀河の成長を考える」)。💮 を書き換えずに、💮 の台帳の写し(星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg・G=6.6743・c=29979.2458・geoPN=3・kFrame=0・lawVersion \"scalar\"・centerSpin \"read\"・W_bg=0.15・R_drag=1.5・ε=3・恒星と DR の代表粒子 0.2125/0.425)で、**中心を pinned しない**(自由中心)・**接触と融合は中心とだけ**(`centerCapture` —— 恒星どうし・DR どうしは contactMode \"none\" のまま)・**N は小さく**(中心 1 + 塊 4 個 × 21 体)の 3 点だけを変えた。塊は中心から 24 の 4 方向から接線 1.4 で順行に落ちる。捕獲は 4 条件(距離 < 1.5・対が束縛・エネルギーの供給 Q ≥ 0・|Ω′| ≤ エンジンの安全上限 40)で、捕獲のたびに 1 行の帳簿(M′・P′・J_s′=J_s,c+J_s,j+μ r×v_rel−J_escaped−J_radiation・I′=½M′R′²・Ω′=J_s′/I′・自己束縛 E_self・熱 Q)を付ける。**Ω′ は必ず増えるわけではない**(逆行の相手は J_s を減らす)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性)と中心捕獲だけ。**言わないこと**: 星団が落ち着いた/合体で自転が増えて斥力になった/中心の引きずりが支配的になった。第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では、第289便の時点ではこの本は走っていない(走っているのは share p=1 の q 付き場で、連鎖は仮説)。実測(器 tests/exp-w287a-growth.mjs・正本 tests/out/growth-w287a.json —— 結果は 9 走行とも未達: 自由な中心がトイの加速度で塊から離れる): 順行・逆行・真正面の 3 対照 × 乱数種 3 で、捕獲の帳簿の閉じ(P・J・E の残差・Q ≥ 0・クランプ 0)・合体が止んだ後の窓の保持率・半質量半径の変化・軸比・半径別の D_g(r)=|a_g,core|/(|a_g,core|+|a_g,group|) と符号つきの η_mesh(r)=a_mesh,r/|a_g,r|・F_r の各項・摂動後の復元を測る。負の対照 2 つ(無自転・真正面で J を作らない/逆行でスピンが減り得る)と半径の対照(同じ初期状態から中心の本体半径だけを変える)も同じ正本に。数は PHYSICS〔第287便a〕。順行(宣言)に対し、器が同じ初期状態から逆行・真正面・中心の本体半径だけを変えた対照を作る。比較の相手は 💮(同じ単位の台帳・中心 pinned・Jeans の初期分布)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"
+   }
+  },
+  "fixedCaptureCopy": {
+   "emoji": "🥜",
+   "name": "固定中心の合体の原理コピー(支配天体を固定して落ちてくる塊を合体させる)",
+   "familyId": null,
+   "familyRole": "retired",
+   "familyRoleAtBase": null,
+   "group": "銀河の力学",
+   "groupAtBase": "銀河の力学",
+   "sampleClass": "principle",
+   "presetSigHash": "8deb97ed",
+   "presetSigSha256": "b5c6005852dec2cb5e4ea196a041f102b9ddbe74b9187d5157c3f43e8c0c1455",
+   "base": {
+    "rev": "f03bf5a",
+    "presetSigHash": "8deb97ed",
+    "name": "固定中心の合体の原理コピー(支配天体を固定して落ちてくる塊を合体させる)",
+    "sigSame": true
+   },
+   "successor": null,
+   "reason": "🌰 と同じ初期配置で不適切(門 0/3 の結果は正本と PHYSICS に履歴として残す・代わりに 🧩/🌚)",
+   "retiredNotice": {
+    "ja": "🌰 と同じ初期配置で不適切だった(門 0/3 の結果は正本と PHYSICS に履歴として残す)—— 整理(第290便b)で退役。代わりに 🧩・🌚",
+    "en": "it shared 🌰's unsuitable initial configuration (the 0/3 gate result stays as history in the canonical output and PHYSICS) — retired in the clean-up (wave 290b); see 🧩 and 🌚 instead",
+    "see": [
+     "galaxyAnalogyBHCompose",
+     "galaxyAnalogyBH"
+    ]
+   },
+   "pairDiff": null,
+   "raw": {
+    "id": "fixedCaptureCopy",
+    "name": "固定中心の合体の原理コピー(支配天体を固定して落ちてくる塊を合体させる)",
+    "emoji": "🥜",
+    "familyRole": "retired",
+    "group": "銀河の力学",
+    "scaleTier": "stellar",
+    "scaleExp": {
+     "L": 16,
+     "T": 12,
+     "M": 35
+    },
+    "sampleClass": "principle",
+    "fidelity": "toy",
+    "notClaim": [
+     "cluster",
+     "dm"
+    ],
+    "obsCard": [
+     {
+      "q": "何を置いたか",
+      "model": "🌰 と同じ初期状態(中心 m=25・spin 12・本体半径 0.01 + 塊 4 個 × 21 体・中心から 24・接線 1.4 の順行)で、中心だけを pinned にした",
+      "obs": "—(原理サンプル —— 2D のアナロジー)"
+     },
+     {
+      "q": "固定中心の合体(エネルギー優先)",
+      "model": "距離 < 1.5・束縛で合体。E_*=K_in+E_s,c+E_s,j+ΔU₃(K_in=½m_j|v_j|²)・E_s′=(1−h)E_*・ΔQ=hE_*・Ω′=s√(2E_s′/I′)・I′=½M′R_I²",
+      "obs": "—"
+     },
+     {
+      "q": "ピンが持ち去る分(別の口座)",
+      "model": "J_pin=J_in−I′Ω′・P_pin=m_j v_j。エネルギーの行と運動量の行は別(固定中心は運動量と角運動量を保存しない)",
+      "obs": "—"
+     },
+     {
+      "q": "逆行でも |Ω| は増え得る",
+      "model": "エネルギー優先では Ω′ の符号は中心の自転の符号(宣言)—— 角運動量で逆行が自転を減らす 🌰 とは違う。I′ が増えるので Ω が下がることもある",
+      "obs": "—"
+     },
+     {
+      "q": "半径は別欄",
+      "model": "本体半径 0.01・引きずり核 R_drag 1.5・捕獲半径 R_cap 1.5・慣性半径 R_I 1.5(宣言)。物理上限 Ω_max=20 はエンジンの柵 40 とは別の宣言で、超過は熱の口座へ",
+      "obs": "—"
+     },
+     {
+      "q": "門(測る前に宣言)",
+      "model": "保持率・半質量半径の変化・軸比(🌰・💮 と同じ閾値)を合体が止んだ後の窓で測る —— PHYSICS〔第288便a〕",
+      "obs": "—"
+     },
+     {
+      "q": "言わないこと",
+      "model": "固定中心で閉鎖系になった/有限の中心スピンで支えた/合体で必ず Ω が増す/星団が落ち着いた",
+      "obs": "—"
+     }
+    ],
+    "descStruct": {
+     "summary": "**固定中心の合体の原理コピー**(第288便a・原仮定者の裁定〔第78報〕⑤「支配天体との合体/離散では支配天体の位置を固定し、消える天体の運動エネルギー〔慣性移動とスピン〕を合体後のスピンへ加算してエネルギーを保存する」)。🌰 と**同じ初期状態**(💮 の台帳の写し: 星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg・G=6.6743・c=29979.2458・geoPN=3・kFrame=0・lawVersion \"scalar\"・centerSpin \"read\"・W_bg=0.15・R_drag=1.5・ε=3・中心 m=25・spin 12 + 塊 4 個 × 21 体・乱数種 20260929)から、**中心を pinned**(位置も速度も更新しない)にして、捕獲を `fixedCapture`(版 w288a-fixcap-1)に替えた 2 点だけが違う。合体は距離 < 1.5・対が束縛のとき、**エネルギー優先**で配分する: E_*=K_in+E_s,c+E_s,j+(U_before−U_after)−ΔE_self(K_in=½m_j|v_j−v_c|²・消える対ポテンシャルは内部結合の口座 E_self へ移すので回転へ二重に入らない・中心の質量増で周辺の全粒子とのポテンシャルが変わる分 ΔU₃ を含む)・E_* < 0 は拒否・E_s′=(1−h)E_*・ΔQ=hE_*・I′=½M′R_I²・Ω′=s√(2E_s′/I′)(s は中心の自転の符号 —— 0 なら持ち込み J の符号・それも 0 なら全部を熱へ)。宣言は R_I=1.5(本体半径 0.01・R_drag・R_cap と**別欄**)・h=0・物理上限 Ω_max=20(**エンジンの柵 40 とは別の宣言**)・超過は熱の口座へ。ピンが持ち去る角運動量 **J_pin**=J_in−I′Ω′ と運動量 **P_pin** は別の口座に記録する(固定中心は運動量と角運動量を保存しない —— エネルギーの行と運動量の行を同じ文にしない)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性 —— 中心は pinned なので当たらない)と固定中心の合体だけ。**言わないこと**: 固定中心で閉鎖系になった/有限の中心スピンで支えた/合体で必ず Ω が増す/星団が落ち着いた。第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では、第289便の時点ではこの本は走っていない(走っているのは share p=1 の q 付き場で、連鎖は仮説)。",
+     "observe": "実測(器 tests/exp-w288a-fixcap.mjs・正本 tests/out/fixcap-w288a.json): 順行・逆行・真正面の 3 対照 × 乱数種 3 と R_I=0.01 の対照で、帳簿の閉じ(M・E の残差・J_pin・P_pin・Q ≥ 0・クランプ 0)・合体が止んだ後の窓の保持率・半質量半径の変化・軸比・半径別の D_g(r) と符号つきの η_mesh(r)・F_r の各項・摂動後の復元・`centerSpin:\"read\"` の場が粒子へした仕事の帳簿の補償値 E_mesh を測る。🌰 の正本 growth-w287a.json と同じ初期状態の走行どうしで並べる。数は PHYSICS〔第288便a〕。",
+     "brief": "固定した中心へ落ちてくる塊をエネルギー優先で合体させる原理コピー。未達・合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)。較正対象外。",
+     "control": "順行(宣言)に対し、器が同じ初期状態から逆行・真正面・慣性半径 R_I=0.01 の対照と、離散(逆写像)の往復を作る。比較の相手は 🌰(自由中心・w287a-capture-1)と 💮(中心 pinned・Jeans の初期分布)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"
+    },
+    "en": {
+     "name": "Fixed-centre merging principle copy (the dominant body is held fixed while infalling clumps merge into it)",
+     "status": {
+      "purpose": "A pinned centre merges infalling clumps energy-first",
+      "state": "merger E ledger closes, J_pin/P_pin kept apart; gates not met; p=1 q-field, not the report-79 complex kernel",
+      "mismatch": null,
+      "outlook": null
+     },
+     "obsCard": [
+      {
+       "q": "What is placed",
+       "model": "the same initial state as 🌰 (centre m=25, spin 12, body 0.01 + 4 clumps x 21, 24 out, prograde 1.4) with only the centre pinned",
+       "obs": "- (a principle sample; a 2D analogy)"
+      },
+      {
+       "q": "Fixed-centre merging (energy first)",
+       "model": "d < 1.5 and bound. E_*=K_in+E_s,c+E_s,j+dU3 (K_in=m_j|v_j|^2/2), E_s'=(1-h)E_*, dQ=hE_*, Omega'=s sqrt(2E_s'/I'), I'=M'R_I^2/2",
+       "obs": "-"
+      },
+      {
+       "q": "What the pin carries away (separate accounts)",
+       "model": "J_pin=J_in-I'Omega', P_pin=m_j v_j; the energy line and the momentum line are separate (a pinned centre conserves neither momentum nor angular momentum)",
+       "obs": "-"
+      },
+      {
+       "q": "Retrograde can raise |Omega|",
+       "model": "energy first keeps the sign of the centre's spin (declared), unlike 🌰 where a retrograde partner lowers the spin through angular momentum; Omega can also fall as I' grows",
+       "obs": "-"
+      },
+      {
+       "q": "Radii in separate fields",
+       "model": "body 0.01, drag kernel R_drag 1.5, capture R_cap 1.5, inertia R_I 1.5 (declared). The physical cap Omega_max=20 is declared apart from the engine's fence 40; the excess goes to a heat account",
+       "obs": "-"
+      },
+      {
+       "q": "Gates (declared first)",
+       "model": "retention, half-mass-radius change, axis ratio (the thresholds of 🌰 and 💮) after merging stops - PHYSICS (wave 288a)",
+       "obs": "-"
+      },
+      {
+       "q": "Not claimed",
+       "model": "no closed system from the fixed centre, no support by a finite centre spin, no guaranteed spin-up, no settled cluster",
+       "obs": "-"
+      }
+     ],
+     "descStruct": {
+      "summary": "A FIXED-CENTRE MERGING PRINCIPLE COPY (wave 288a, the originator's ruling in report 78, item 5: hold the dominant body fixed and add the kinetic energy of the vanishing body - bulk motion and spin - to the spin after merging). From THE SAME INITIAL STATE AS 🌰 (a copy of 💮's ledger: cluster units L0=1e16 m, T0=1e12 s, M0=1e35 kg, G=6.6743, c=29979.2458, geoPN=3, kFrame=0, lawVersion scalar, centerSpin read, W_bg=0.15, R_drag=1.5, eps=3, centre m=25 spin 12 + 4 clumps x 21, seed 20260929) only two things change: THE CENTRE IS PINNED and capture uses fixedCapture (version w288a-fixcap-1). A merger needs d < 1.5 and a bound pair and is allocated ENERGY FIRST: E_*=K_in+E_s,c+E_s,j+(U_before-U_after)-dE_self (K_in=m_j|v_j-v_c|^2/2; the vanishing pair potential moves to the internal binding account E_self so it is not counted twice; dU3, the change of the potential with every other particle as the centre's mass grows, is included); E_* < 0 is refused; E_s'=(1-h)E_*, dQ=hE_*, I'=M'R_I^2/2, Omega'=s sqrt(2E_s'/I') (s is the sign of the centre's spin; if zero the sign of the incoming J; if that is zero everything goes to heat). Declared: R_I=1.5 (a field separate from body 0.01, R_drag and R_cap), h=0, physical cap Omega_max=20 (DECLARED APART FROM THE ENGINE'S FENCE 40), excess to heat. The angular momentum J_pin=J_in-I'Omega' and the momentum P_pin carried away by the pin are booked in separate accounts (a pinned centre conserves neither; the energy line and the momentum line are never one sentence). Only gravity (E4), the geoPN=3 toy (the pinned centre receives none) and the fixed-centre merging act. NOT CLAIMED: a closed system from the fixed centre, support by a finite centre spin, a guaranteed spin-up, a settled cluster. As of wave 289 this sample does not run on the complex kernel of the report-79 restatement (DFM restatement and corrections: relative motion x m/r^2, near/far side); it runs on the share p=1 field with q, and the chain is a hypothesis.",
+      "observe": "Measured (harness tests/exp-w288a-fixcap.mjs, canonical tests/out/fixcap-w288a.json): prograde, retrograde and head-on controls x 3 seeds plus an R_I=0.01 control - ledger closure (M and E residuals, J_pin, P_pin, Q >= 0, no clamps), retention, half-mass-radius change and axis ratio after merging stops, D_g(r) and the signed eta_mesh(r) by radius, the F_r terms, recovery after a perturbation and the compensation account E_mesh of the work done on the particles by the centerSpin read field; runs from the same initial state are set beside 🌰's canonical growth-w287a.json. Numbers in PHYSICS (wave 288a).",
+      "brief": "A pinned centre merges infalling clumps energy-first. Unmet: merger E ledger closes, J_pin/P_pin kept apart; gates not met; p=1 q-field, not the report-79 complex kernel. Out of calibration scope.",
+      "control": "Against the declared prograde run, the harness builds retrograde, head-on and R_I=0.01 controls and an eject round trip from the same initial state. Compare with 🌰 (free centre, w287a-capture-1) and 💮 (pinned centre, Jeans start). DO NOT MOVE kFrame (the geoPN=3 entry condition)."
+     },
+     "description": "A FIXED-CENTRE MERGING PRINCIPLE COPY (wave 288a, the originator's ruling in report 78, item 5: hold the dominant body fixed and add the kinetic energy of the vanishing body - bulk motion and spin - to the spin after merging). From THE SAME INITIAL STATE AS 🌰 (a copy of 💮's ledger: cluster units L0=1e16 m, T0=1e12 s, M0=1e35 kg, G=6.6743, c=29979.2458, geoPN=3, kFrame=0, lawVersion scalar, centerSpin read, W_bg=0.15, R_drag=1.5, eps=3, centre m=25 spin 12 + 4 clumps x 21, seed 20260929) only two things change: THE CENTRE IS PINNED and capture uses fixedCapture (version w288a-fixcap-1). A merger needs d < 1.5 and a bound pair and is allocated ENERGY FIRST: E_*=K_in+E_s,c+E_s,j+(U_before-U_after)-dE_self (K_in=m_j|v_j-v_c|^2/2; the vanishing pair potential moves to the internal binding account E_self so it is not counted twice; dU3, the change of the potential with every other particle as the centre's mass grows, is included); E_* < 0 is refused; E_s'=(1-h)E_*, dQ=hE_*, I'=M'R_I^2/2, Omega'=s sqrt(2E_s'/I') (s is the sign of the centre's spin; if zero the sign of the incoming J; if that is zero everything goes to heat). Declared: R_I=1.5 (a field separate from body 0.01, R_drag and R_cap), h=0, physical cap Omega_max=20 (DECLARED APART FROM THE ENGINE'S FENCE 40), excess to heat. The angular momentum J_pin=J_in-I'Omega' and the momentum P_pin carried away by the pin are booked in separate accounts (a pinned centre conserves neither; the energy line and the momentum line are never one sentence). Only gravity (E4), the geoPN=3 toy (the pinned centre receives none) and the fixed-centre merging act. NOT CLAIMED: a closed system from the fixed centre, support by a finite centre spin, a guaranteed spin-up, a settled cluster. As of wave 289 this sample does not run on the complex kernel of the report-79 restatement (DFM restatement and corrections: relative motion x m/r^2, near/far side); it runs on the share p=1 field with q, and the chain is a hypothesis.Measured (harness tests/exp-w288a-fixcap.mjs, canonical tests/out/fixcap-w288a.json): prograde, retrograde and head-on controls x 3 seeds plus an R_I=0.01 control - ledger closure (M and E residuals, J_pin, P_pin, Q >= 0, no clamps), retention, half-mass-radius change and axis ratio after merging stops, D_g(r) and the signed eta_mesh(r) by radius, the F_r terms, recovery after a perturbation and the compensation account E_mesh of the work done on the particles by the centerSpin read field; runs from the same initial state are set beside 🌰's canonical growth-w287a.json. Numbers in PHYSICS (wave 288a).Against the declared prograde run, the harness builds retrograde, head-on and R_I=0.01 controls and an eject round trip from the same initial state. Compare with 🌰 (free centre, w287a-capture-1) and 💮 (pinned centre, Jeans start). DO NOT MOVE kFrame (the geoPN=3 entry condition)."
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "**無い。**"
+     ],
+     "fixedConventions": [
+      "🌰 の初期状態の写し(💮 の台帳: 星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg・G=6.6743・c=29979.2458・geoPN=3・kFrame=0・lawVersion:\"scalar\"・centerSpin:\"read\"・W_bg=spaceMesh.D0=0.15・R_drag=spaceMesh.dragR=1.5・ε=3・frameWeight:\"share\"・塊 4 個・乱数種 20260929)",
+      "中心: m=25・spin 12・本体半径 0.01・**pinned**(固定中心 —— 位置も速度も更新しない)",
+      "fixedCapture: rCap 1.5・rInertia 1.5(=R_I —— 本体半径・R_drag・R_cap と別欄の宣言・決断事項候補)・h 0・omegaMax 20(物理上限の宣言 —— エンジンの柵 40 とは別)・overflowTo \"heat\"・spinSign \"center\"・contactMode:\"none\""
+     ],
+     "fitted": [
+      "**無い。**"
+     ],
+     "derived": [
+      "合体ごとの M′・K_in・E_*・E_s′・ΔQ・Ω′・J_pin・P_pin・E_self・超過の口座(帳簿 S.fixcap —— 器が記録)",
+      "T_dyn=2π√(D³/(G M_tot))(D=24 —— 器が記録)"
+     ],
+     "numerical": [
+      "ソフトニング ε=3",
+      "時間倍率 timeScale=3",
+      "粒子 85 体(中心 1 + 84)",
+      "質量と位置・速度・自転は Float64(massPrecision・stateCarry・合体の宣言)",
+      "測定: dt=0.016・窓は合体が止んだ後 [1, 3] T_dyn"
+     ]
+    },
+    "activeParams": [
+     "G"
+    ],
+    "status": {
+     "purpose": "固定した中心へ落ちてくる塊をエネルギー優先で合体させる原理コピー",
+     "objective": "unmet",
+     "state": "合体の E の帳簿は閉じ、ピンが持ち去る J と P は別口座に残るが、3 対照とも宣言した門で未達・第79報の複素核は未走行(p=1 の q 付き場)",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/fixcap-w288a.json"
+     ]
+    },
+    "fixedCapture": {
+     "version": "w288a-fixcap-1",
+     "center": 0,
+     "rCap": 1.5,
+     "rInertia": 1.5,
+     "h": 0,
+     "omegaMax": 20,
+     "overflowTo": "heat",
+     "spinSign": "center"
+    },
+    "camera": {
+     "scale": 40
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "seed": 20260929,
+    "physics": {
+     "G": 6.6743,
+     "D0": 0.15,
+     "kFrame": 0,
+     "q": 2,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 0.02,
+     "contactMode": "none",
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "geoPN": 3,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 3,
+     "timeScale": 3,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "massPrecision": "double",
+     "frameWeight": "share",
+     "spaceMesh": {
+      "mode": "vertex",
+      "gravity": false,
+      "inertia": false,
+      "lawVersion": "scalar",
+      "centerSpin": "read",
+      "D0": 0.15,
+      "dragR": 1.5
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 25,
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 12,
+      "pinned": true,
+      "radius": 0.01
+     },
+     {
+      "type": "disk",
+      "particleRadius": 6.957e-8,
+      "n": 1,
+      "cx": 24,
+      "cy": 0,
+      "radius": 3,
+      "mMin": 0.2125,
+      "mMax": 0.2125,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": 1.4
+     },
+     {
+      "type": "disk",
+      "particleRadius": 7.1492e-9,
+      "n": 20,
+      "cx": 24,
+      "cy": 0,
+      "radius": 3,
+      "mMin": 0.425,
+      "mMax": 0.425,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": 1.4,
+      "lightSweep": 1
+     },
+     {
+      "type": "disk",
+      "particleRadius": 6.957e-8,
+      "n": 1,
+      "cx": 0,
+      "cy": 24,
+      "radius": 3,
+      "mMin": 0.2125,
+      "mMax": 0.2125,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": -1.4,
+      "bulkVy": 0
+     },
+     {
+      "type": "disk",
+      "particleRadius": 7.1492e-9,
+      "n": 20,
+      "cx": 0,
+      "cy": 24,
+      "radius": 3,
+      "mMin": 0.425,
+      "mMax": 0.425,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": -1.4,
+      "bulkVy": 0,
+      "lightSweep": 1
+     },
+     {
+      "type": "disk",
+      "particleRadius": 6.957e-8,
+      "n": 1,
+      "cx": -24,
+      "cy": 0,
+      "radius": 3,
+      "mMin": 0.2125,
+      "mMax": 0.2125,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": -1.4
+     },
+     {
+      "type": "disk",
+      "particleRadius": 7.1492e-9,
+      "n": 20,
+      "cx": -24,
+      "cy": 0,
+      "radius": 3,
+      "mMin": 0.425,
+      "mMax": 0.425,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 0,
+      "bulkVy": -1.4,
+      "lightSweep": 1
+     },
+     {
+      "type": "disk",
+      "particleRadius": 6.957e-8,
+      "n": 1,
+      "cx": 0,
+      "cy": -24,
+      "radius": 3,
+      "mMin": 0.2125,
+      "mMax": 0.2125,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 1.4,
+      "bulkVy": 0
+     },
+     {
+      "type": "disk",
+      "particleRadius": 7.1492e-9,
+      "n": 20,
+      "cx": 0,
+      "cy": -24,
+      "radius": 3,
+      "mMin": 0.425,
+      "mMax": 0.425,
+      "spinMin": 0,
+      "spinMax": 0,
+      "vMode": "random",
+      "vScale": 1,
+      "direction": 1,
+      "bulkVx": 1.4,
+      "bulkVy": 0,
+      "lightSweep": 1
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": false,
+     "monitor": false,
+     "spaceMesh": {
+      "mode": "mesh"
+     }
+    },
+    "description": "**固定中心の合体の原理コピー**(第288便a・原仮定者の裁定〔第78報〕⑤「支配天体との合体/離散では支配天体の位置を固定し、消える天体の運動エネルギー〔慣性移動とスピン〕を合体後のスピンへ加算してエネルギーを保存する」)。🌰 と**同じ初期状態**(💮 の台帳の写し: 星団スケール L₀=10¹⁶ m・T₀=10¹² s・M₀=10³⁵ kg・G=6.6743・c=29979.2458・geoPN=3・kFrame=0・lawVersion \"scalar\"・centerSpin \"read\"・W_bg=0.15・R_drag=1.5・ε=3・中心 m=25・spin 12 + 塊 4 個 × 21 体・乱数種 20260929)から、**中心を pinned**(位置も速度も更新しない)にして、捕獲を `fixedCapture`(版 w288a-fixcap-1)に替えた 2 点だけが違う。合体は距離 < 1.5・対が束縛のとき、**エネルギー優先**で配分する: E_*=K_in+E_s,c+E_s,j+(U_before−U_after)−ΔE_self(K_in=½m_j|v_j−v_c|²・消える対ポテンシャルは内部結合の口座 E_self へ移すので回転へ二重に入らない・中心の質量増で周辺の全粒子とのポテンシャルが変わる分 ΔU₃ を含む)・E_* < 0 は拒否・E_s′=(1−h)E_*・ΔQ=hE_*・I′=½M′R_I²・Ω′=s√(2E_s′/I′)(s は中心の自転の符号 —— 0 なら持ち込み J の符号・それも 0 なら全部を熱へ)。宣言は R_I=1.5(本体半径 0.01・R_drag・R_cap と**別欄**)・h=0・物理上限 Ω_max=20(**エンジンの柵 40 とは別の宣言**)・超過は熱の口座へ。ピンが持ち去る角運動量 **J_pin**=J_in−I′Ω′ と運動量 **P_pin** は別の口座に記録する(固定中心は運動量と角運動量を保存しない —— エネルギーの行と運動量の行を同じ文にしない)。働くのは重力(E4)と geoPN=3 のトイ(座標慣性 —— 中心は pinned なので当たらない)と固定中心の合体だけ。**言わないこと**: 固定中心で閉鎖系になった/有限の中心スピンで支えた/合体で必ず Ω が増す/星団が落ち着いた。第79報の整理(DFM の整理と修正)の複素核(相対移動×m/r²・手前/反対)では、第289便の時点ではこの本は走っていない(走っているのは share p=1 の q 付き場で、連鎖は仮説)。実測(器 tests/exp-w288a-fixcap.mjs・正本 tests/out/fixcap-w288a.json): 順行・逆行・真正面の 3 対照 × 乱数種 3 と R_I=0.01 の対照で、帳簿の閉じ(M・E の残差・J_pin・P_pin・Q ≥ 0・クランプ 0)・合体が止んだ後の窓の保持率・半質量半径の変化・軸比・半径別の D_g(r) と符号つきの η_mesh(r)・F_r の各項・摂動後の復元・`centerSpin:\"read\"` の場が粒子へした仕事の帳簿の補償値 E_mesh を測る。🌰 の正本 growth-w287a.json と同じ初期状態の走行どうしで並べる。数は PHYSICS〔第288便a〕。順行(宣言)に対し、器が同じ初期状態から逆行・真正面・慣性半径 R_I=0.01 の対照と、離散(逆写像)の往復を作る。比較の相手は 🌰(自由中心・w287a-capture-1)と 💮(中心 pinned・Jeans の初期分布)。**kFrame は動かさないこと**(geoPN=3 の入場条件)。"
+   }
+  },
+  "plutoCharonReal": {
+   "emoji": "❄️",
+   "name": "冥王星とカロン(実単位)— 重心が外にある二体",
+   "familyId": "pluto",
+   "familyRole": "retired",
+   "familyRoleAtBase": "primary",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "calibration",
+   "presetSigHash": "a859d010",
+   "presetSigSha256": "76730820c1397aaffe4cae33e5491cfa8e9782a36918464997ab16830bc57296",
+   "base": {
+    "rev": "f03bf5a",
+    "presetSigHash": "a859d010",
+    "name": "冥王星とカロン(実単位)— 重心が外にある二体",
+    "sigSame": true
+   },
+   "successor": "plutoCharonDiagInput",
+   "reason": "入力を整えた 🥶 に現行の入口を集約(❄️ の 4 値は 🥶 の結果ではない)",
+   "retiredNotice": {
+    "ja": "旧入力(丸めた a・4 桁の G・ε=50 km・Float32 の質量)の版で、入力を整えた 🥶 に現行の入口を集約した(第290便b)—— ❄️ の 4 値は 🥶 の結果ではない",
+    "en": "the build with the older inputs (rounded a, a four-digit G, epsilon 50 km, Float32 masses); the current entry point is the cleaned-input 🥶 (wave 290b) — ❄️'s four values are not 🥶's results",
+    "see": [
+     "plutoCharonDiagInput"
+    ]
+   },
+   "pairDiff": {
+    "successor": "plutoCharonDiagInput",
+    "successorEmoji": "🥶",
+    "diff": {
+     "physics.massPrecision": [
+      null,
+      "double"
+     ],
+     "physics.softening": [
+      0.05,
+      0.01
+     ],
+     "bodies[0].m": [
+      0.001303,
+      0.013025172310458496
+     ],
+     "bodies[0].radius": [
+      1.188,
+      11.88
+     ],
+     "bodies[0].x": [
+      -2.126385878489327,
+      -21.315466069304904
+     ],
+     "bodies[0].vy": [
+      -0.002421019578680394,
+      -0.0024268498546968042
+     ],
+     "bodies[0].spin": [
+      0.00113855918,
+      0.00011385554400956285
+     ],
+     "bodies[1].m": [
+      0.0001586,
+      0.0015897512735990414
+     ],
+     "bodies[1].radius": [
+      0.606,
+      6.06
+     ],
+     "bodies[1].x": [
+      17.469614121510673,
+      174.6421739306951
+     ],
+     "bodies[1].vy": [
+      0.01989021759785973,
+      0.019883700081884368
+     ],
+     "bodies[1].spin": [
+      0.00113855918,
+      0.00011385554400956285
+     ]
+    },
+    "n": 12,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 10
+    }
+   },
+   "raw": {
+    "id": "plutoCharonReal",
+    "name": "冥王星とカロン(実単位)— 重心が外にある二体",
+    "emoji": "❄️",
+    "group": "現実較正",
+    "familyId": "pluto",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 6,
+     "T": 2,
+     "M": 25
+    },
+    "sampleClass": "calibration",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "obsCard": [
+     {
+      "q": "公転周期(kFrame=0 対照・同方向1周)",
+      "model": "6.3874 日=551864.061 s・+0.001381%・+294.08σ — 正式判定は 否(3σ)(観測 551856.43872±0.02592 s)",
+      "obs": "6.3872 日"
+     },
+     {
+      "q": "公転周期(旧 E6′-R の行)同方向1周〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
+      "model": "6.40293 日=553211.256 s・+0.246%・+52269.18σ(門は 数値未解決)— 引きずり項が観測可能量を作る初の実在転写",
+      "obs": "同上",
+      "cond": {
+       "kFrame": 0,
+       "geoPN": 1
+      }
+     },
+     {
+      "q": "公転周期 近点間(第250便d)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",
+      "model": "実測 6.43719 日(+0.783%)",
+      "obs": "同上(e=0 転写の円軌道 — 近点間は観測の定義に対応しない。門は mapping-unresolved で合否を出さない)",
+      "cond": {
+       "kFrame": 0,
+       "geoPN": 1
+      }
+     },
+     {
+      "q": "共通重心の位置",
+      "model": "冥王星中心から 1.79 冥王星半径(表面の外)",
+      "obs": "—(実質量比 0.122 からの導出)"
+     },
+     {
+      "q": "半径振れ幅",
+      "model": "kFrame=1 で 0.245%・kFrame=0 で 0.0027%(e=0 転写)",
+      "obs": "e=0.0(転写)"
+     }
+    ],
+    "failureFirst": {
+     "fail": "雛形規約の kFrame=1 は、この系では観測との一致を**悪化**させる — 公転周期が 6.40293 日(観測比 +0.246%・+52269.18σ)と、kFrame=0 の 6.3874 日(+0.001381%・+294.08σ)より2桁大きくずれる(**第276便b: どちらも 3σ の外である** —— kF0 側を「合っている」と読んではならない)。kFrame=1 の E6′ 運動引きずりが公転周期を押し上げるためである(**第254便d 訂正**: 旧文の「χ=W/(D₀+W)≈0.92 の近接連星では引きずりが薄まらず」という**因果説明は撤回する** — 現行核 frameWeight:\"share\"・D₀=0.006・ε=0.05・初期間隔 19.596 で再計算した並進 χ は**冥王星 0.001347093246・カロン 0.010960689483**で、0.92 はどの定義からも再現できない。**同じ核で 🌊 は χ_トリトン=0.827920・🌇 は χ_金星=0.996768 と再現する**ので、❄️ だけ 2 桁小さい χ で超過が最大 —— χ の大小と超過の大小は**逆向き**で、系列の因果は成り立たない。周期超過 +0.246% は A/B で得られた実測値としてそのまま残す)。診断許容 ±1% の内側なのでフィットで消さずに宣言する — 引きずり項と実観測の張力はこの規模の系から始まる(引きずりを「見えない」とだけ言ってきた実較正ファミリーで、初めて見える側に出た系)。",
+     "pass": "転写そのもの(kFrame=0)は同方向 1 周 551864.061 s(観測 551856.43872±0.02592 s)まで来るが、**正式判定は +294.08σ・否(3σ)**である(**第276便b 訂正** —— 旧文「+0.002% で写し」は日へ丸めた比で、合格を意味しない)。e=0 の転写どおり半径振れ幅 0.0027% の円軌道は保つ。質量比 0.122(太陽系最大級)から共通重心は冥王星表面の外(中心から 1.79 冥王星半径)に出て、二体が互いに振り回し合う実在の姿がそのまま見える。自由中心の反作用則は frameReaction:\"pairReduced\"(E6′-R — 🌇 で固定した標準)。フィットはゼロ。"
+    },
+    "descStruct": {
+     "summary": "冥王星(実質量 1.303×10²²kg・実半径 1,188km・実自転 6.3872日〔潮汐固定〕)とカロン(1.586×10²¹kg・606km・同期自転)を、1単位=10⁶m/10²s/10²⁵kg のスケール指数で置いた**二体重心系**の観測転写サンプル(第184便)。出典はコミット済み出典表 paper/data/solar-observations.csv(NASA NSSDC Pluto Fact Sheet のアーカイブ版から 2026-08-23 取得の観測レコードを転写)。実質量比 0.122 は太陽系最大級で、**共通重心が冥王星表面の外(中心から 1.79 冥王星半径)にある** — 二体が互いに振り回し合う姿がそのまま見える。軌道は a=19,596km・e=0(出典の宣言値)・両天体とも自由(pinned なし)・反作用則は frameReaction:\"pairReduced\"(E6′-R — 自由中心の標準・第184便)。黄道北基準では自転・公転とも逆行の系だが、2D 理想化では系平面基準の相対幾何(同期・同方向の潮汐固定)を保存する — 自転だけを負符号で写すと相対幾何が壊れるため採らない(宣言)。q=11.9386 は q_exact を a=19.596 で1回評価した直値。",
+     "observe": "kFrame=0 の対照では 6.3874 日(=551864.061 s)で、**正式判定は +0.001381%・+294.08σ・否(3σ)**(観測 551856.43872±0.02592 s・Buie 2012)である —— **第276便b 訂正**: 旧記載「観測 6.3872 日・+0.002% と観測周期をそのまま写す」は**撤回する**(日へ丸めた数どうしの比で、σ 判定とは別量だった)。**この残差 +7.62 s は観測 σ だけの強い反証ではなく、丸めた入力と数値設定を含む模型の残差である** —— 要因(softening ε・a の丸め ±0.5 km・GM の精度・状態配列が Float32 であること・小衛星・太陽・周期の定義)の感度は第276便b が分解した(docs/CALIBRATION_VERDICT_v1.44.md §5.24・tests/out/charonfactors-w276b.json)。**観測一致は達成していない。** e=0 の転写どおり半径振れ幅 0.0027% の円軌道は保つ。雛形規約の kFrame=1 では実測 6.40293 日(+0.246%)・半径振れ幅 0.245% — **E6′ の運動引きずりが公転周期を +0.25% 押し上げる**(**第254便d 訂正**: 旧記載の「χ=W/(D₀+W)≈0.92 の近接連星では」は撤回。現行核〔frameWeight:\"share\"・D₀=0.006・ε=0.05・初期間隔 19.596〕の並進 χ は**冥王星 0.001347093246・カロン 0.010960689483**、pull 重み〔第242便の既定〕なら 6.883104×10⁻⁵・5.652101×10⁻⁴。0.92 は再現できない。周期超過 +0.246% は A/B の実測値として不変)。実較正ファミリーで引きずり項が観測可能量(0.1% 超)を作った初の実在転写であり、診断許容 ±1% 内なのでフィットで消さずに宣言する(Failure First — 「実スケールでは引きずりが効かない」はこの質量比・この近さでは成り立たない)。重心変位は kFrame=1 で 1.5公転あたり最大 0.18 単位(a の 0.9%)・kFrame=0 では機械ゼロ(PN 項の運動量非対称 — 観測量は相対座標で測る)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.plutoCharonReal)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
+     "control": "ワンタップ対照A/B: B側 kFrame=0 — 周期 +0.246%→+0.001381% の差がそのまま E6′ 引きずり項の寄与である(**どちらも 3σ の外**・第276便b)(同一初期条件・同一步幅)。トレイルを点けると冥王星が重心のまわりに描く小円(半径 2.13 単位)が見える。physics.frameReaction を削除(=legacy)する実験は 🌇 ほど破壊的ではない(質量比が近く反作用の受け皿が双方にあるため)が、自由中心の標準は E6′-R。粒子表示は実半径のまま(dispMag=1 — カロンは 0.61 単位)。timeScale=1000 で画面1秒≈18.5時間。(第237便: 双方が潮汐固定なので自転の対照は作れない — 自転は公転のコピー。)",
+     "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正は保留・周期 +0.00138%(294σ)・数値未解決・写像未確定。"
+    },
+    "en": {
+     "name": "Pluto and Charon (Real Units) — the barycentre outside the primary",
+     "obsCard": [
+      {
+       "q": "Orbital period (kFrame=0 control, same-direction revolution)",
+       "model": "6.3874 d = 551864.061 s, +0.001381%, +294.08 sigma — the formal verdict is FAIL (3 sigma); observed 551856.43872 +/- 0.02592 s",
+       "obs": "6.3872 d"
+      },
+      {
+       "q": "Orbital period (old E6′-R row) — same-direction revolution [re-measured as unified; model = old record]",
+       "model": "6.40293 d = 553211.256 s, +0.246%, +52269.18 sigma (gate: numerically unresolved) — the first real transcription where the dragging term is observable",
+       "obs": "same"
+      },
+      {
+       "q": "Orbital period — periapsis to periapsis (wave 250d) [re-measured as unified; model = old record]",
+       "model": "6.43719 d (+0.783%)",
+       "obs": "same (e=0 transcribed, circular — this definition does not correspond to the observed one; the gate stays mapping-unresolved and issues no pass/fail)"
+      },
+      {
+       "q": "The barycentre",
+       "model": "1.79 Pluto radii from Pluto's centre (outside the surface)",
+       "obs": "— (derived from the real 0.122 mass ratio)"
+      },
+      {
+       "q": "Radius wobble",
+       "model": "0.245% at kFrame=1, 0.0027% at kFrame=0 (e=0 transcribed)",
+       "obs": "e=0.0 (transcribed)"
+      }
+     ],
+     "failureFirst": {
+      "fail": "The template's kFrame=1 makes the agreement WORSE here: the orbital period comes out at 6.40293 d (+0.246%, +52269.18 sigma), two orders of magnitude further off than the kFrame=0 control's 6.3874 d (+0.001381%, +294.08 sigma) — WAVE 276b: BOTH SIT OUTSIDE 3 SIGMA, so the kFrame=0 side must not be read as agreement. The kFrame=1 E6′ motion dragging lifts the period. (WAVE 254d CORRECTION: the old text's causal claim — “in a close binary with χ=W/(D₀+W)≈0.92 the dragging is not diluted” — IS RETRACTED. Recomputed on the current core (frameWeight:\"share\", D₀=0.006, ε=0.05, initial separation 19.596) the translational χ is 0.001347093246 for Pluto and 0.010960689483 for Charon; 0.92 is not reproducible from any definition. The same core does reproduce 🌊 (χ_Triton=0.827920) and 🌇 (χ_Venus=0.996768), so ❄️ has the SMALLEST χ of the three and the LARGEST excess — the ordering runs the other way and the causal series does not hold. The +0.246% excess itself is an A/B measurement and stands.) It sits inside the ±1% diagnostic tolerance and is DECLARED, not fitted away — the tension between the dragging term and real observations starts at systems of this scale (the first member of the real-calibration family where the dragging shows up instead of hiding).",
+      "pass": "The transcription itself (kFrame=0) reaches 551864.061 s for a same-direction revolution (observed 551856.43872 +/- 0.02592 s), but THE FORMAL VERDICT IS +294.08 sigma, FAIL (3 sigma) (WAVE 276b CORRECTION — the old “to +0.002%” compared day-rounded numbers and does not mean a pass). It keeps the e=0 circular orbit to a 0.0027% wobble. From the real 0.122 mass ratio — the largest in the solar system — the barycentre sits outside Pluto's surface (1.79 Pluto radii from its centre), and the two bodies visibly swing each other around. The free-centre reaction rule is frameReaction:\"pairReduced\" (E6′-R — the standard fixed on 🌇). Zero fits."
+     },
+     "descStruct": {
+      "summary": "Pluto (real mass 1.303×10²² kg, real radius 1,188 km, real 6.3872-day rotation, tidally locked) and Charon (1.586×10²¹ kg, 606 km, synchronous), placed with scale exponents of 1 unit = 10⁶ m / 10² s / 10²⁵ kg as a TWO-BODY BARYCENTRIC transcription (wave 184). Sources: the committed table paper/data/solar-observations.csv (observation records transcribed 2026-08-23 from the archived NASA NSSDC Pluto Fact Sheet). The real mass ratio 0.122 — the largest in the solar system — puts the BARYCENTRE OUTSIDE PLUTO'S SURFACE (1.79 Pluto radii from its centre), so the mutual swing is directly visible. Orbit: a=19,596 km, e=0 (the source's declared value); both bodies free (not pinned); reaction rule frameReaction:\"pairReduced\" (E6′-R — the free-centre standard, wave 184). Against the ecliptic north the system is retrograde in both spin and orbit, but the 2D idealization preserves the RELATIVE geometry (the co-rotating tidal lock) — transcribing only the spins as negative would break that geometry, so it is not done (declared). q=11.9386 is q_exact evaluated once at a=19.596.",
+      "observe": "The kFrame=0 control gives 6.3874 d = 551864.061 s, and THE FORMAL VERDICT IS +0.001381%, +294.08 sigma, FAIL (3 sigma) against the observed 551856.43872 +/- 0.02592 s (Buie 2012). WAVE 276b CORRECTION: the old wording “reproduces the observed 6.3872 d to +0.002%” IS RETRACTED — it compared numbers rounded to days, which is a different quantity from the sigma verdict. THE +7.62 s RESIDUAL IS NOT A STRONG REFUTATION FROM THE OBSERVATIONAL SIGMA ALONE: it is the residual of a model that contains rounded inputs and numerical settings. Wave 276b broke the factors out (softening epsilon, the +/-0.5 km rounding of a, the GM precision, the Float32 state arrays, the small moons, the Sun, the period definition) in docs/CALIBRATION_VERDICT_v1.44.md 5.24 and tests/out/charonfactors-w276b.json. AGREEMENT WITH OBSERVATION HAS NOT BEEN ACHIEVED. The transcribed e=0 circle is kept to a 0.0027% wobble. Under the template's kFrame=1 the measured period is 6.40293 d (+0.246%) with a 0.245% wobble — E6′ MOTION DRAGGING LIFTS THE ORBITAL PERIOD BY +0.25%. (WAVE 254d CORRECTION: the old “in a close binary with χ=W/(D₀+W)≈0.92” is retracted; on the current core the translational χ is 0.001347093246 (Pluto) and 0.010960689483 (Charon), or 6.883104e-5 / 5.652101e-4 under the wave-242 default pull weight. The +0.246% excess is unchanged.) This is the first real transcription in the calibration family where the dragging term produces an observable (>0.1%) quantity; it sits inside the ±1% diagnostic tolerance and is declared, not fitted away (Failure First — \"dragging is invisible at real scale\" stops holding at this mass ratio and separation). The barycentre moves by up to 0.18 units (0.9% of a) per 1.5 orbits at kFrame=1 and is machine-zero at kFrame=0 (the PN terms are not momentum-symmetric — observations are taken in relative coordinates). Zero NaN; two runs are bit-identical (QA behavior.plutoCharonReal). Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
+      "control": "One-tap A/B: side B is kFrame=0 — the +0.246%→+0.001381% period difference IS the E6′ dragging contribution (both sides sit outside 3 sigma, wave 276b) (same initial condition, same step). Switch trails on to see the small circle (radius 2.13 units) Pluto draws around the barycentre. Deleting physics.frameReaction (=legacy) is less destructive here than in 🌇 (the comparable masses give the reaction a reservoir on both sides), but E6′-R is the free-centre standard. Bodies are drawn at real radii (dispMag=1 — Charon is 0.61 units). With timeScale=1000 one on-screen second ≈ 18.5 hours.",
+      "brief": "Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Calibration: hold — period +0.00138% (294σ); numerics unresolved; mapping unresolved."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "real G=6.674",
+       "real c₀=29979.2458",
+       "Pluto's real mass, radius and rotation (6.3872 d, tidally locked)",
+       "Charon's real mass, radius and synchronous rotation",
+       "Charon's real semi-major axis 19,596 km and e=0.0 (the source's declared value)",
+       "the observed period 6.3872 d (compared against, NOT fitted to — paper/data/solar-observations.csv, archived NSSDC fact sheet)",
+       "the real Kepler speeds (calibration factor 1.000 — no multiplier)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 10⁶ m / 10² s / 10²⁵ kg)",
+       "kFrame=0, geoPN=1 (reality calibration — migrated in place in wave 288b from the old kFrame=1, geoPN=2 declaration [the drag approximation with q]; D₀ and q do not enter the force at kFrame=0)",
+       "frameReaction:\"pairReduced\" (E6′-R — the free-centre reaction rule, wave 184)",
+       "kRep=muF=γN=κ_S=0 / geoPN=2, λ_PN=1, pnα=1.5 / stateCarry:\"double\"",
+       "two-body barycentric (both bodies free), perihelion-aligned",
+       "2D — the relative geometry of the tidal lock is preserved; the ecliptic-frame retrograde sign is not transcribed (declared)"
+      ],
+      "fitted": [
+       "D₀=0.006 (the shared value fixed on 🌘, used as is — zero fits in this system; speed calibration 1.000)"
+      ],
+      "derived": [
+       "q=11.9386 (the qLock exact-agreement form q_exact evaluated once at a=19.596)",
+       "κ=G/c₀²=7.4258×10⁻⁹",
+       "camera.scale=23, timeScale=1000, dispMag=1 (derived from the stated rules)",
+       "the barycentre at 1.79 Pluto radii (from the transcribed masses and a)"
+      ],
+      "numerical": [
+       "softening ε=0.05",
+       "time multiplier timeScale=1000",
+       "display magnification dispMag=1 (display only)"
+      ]
+     },
+     "description": "Pluto (real mass 1.303×10²² kg, real radius 1,188 km, real 6.3872-day rotation, tidally locked) and Charon (1.586×10²¹ kg, 606 km, synchronous), placed with scale exponents of 1 unit = 10⁶ m / 10² s / 10²⁵ kg as a TWO-BODY BARYCENTRIC transcription (wave 184). Sources: the committed table paper/data/solar-observations.csv (observation records transcribed 2026-08-23 from the archived NASA NSSDC Pluto Fact Sheet). The real mass ratio 0.122 — the largest in the solar system — puts the BARYCENTRE OUTSIDE PLUTO'S SURFACE (1.79 Pluto radii from its centre), so the mutual swing is directly visible. Orbit: a=19,596 km, e=0 (the source's declared value); both bodies free (not pinned); reaction rule frameReaction:\"pairReduced\" (E6′-R — the free-centre standard, wave 184). Against the ecliptic north the system is retrograde in both spin and orbit, but the 2D idealization preserves the RELATIVE geometry (the co-rotating tidal lock) — transcribing only the spins as negative would break that geometry, so it is not done (declared). q=11.9386 is q_exact evaluated once at a=19.596.The kFrame=0 control gives 6.3874 d = 551864.061 s, and THE FORMAL VERDICT IS +0.001381%, +294.08 sigma, FAIL (3 sigma) against the observed 551856.43872 +/- 0.02592 s (Buie 2012). WAVE 276b CORRECTION: the old wording “reproduces the observed 6.3872 d to +0.002%” IS RETRACTED — it compared numbers rounded to days, which is a different quantity from the sigma verdict. THE +7.62 s RESIDUAL IS NOT A STRONG REFUTATION FROM THE OBSERVATIONAL SIGMA ALONE: it is the residual of a model that contains rounded inputs and numerical settings. Wave 276b broke the factors out (softening epsilon, the +/-0.5 km rounding of a, the GM precision, the Float32 state arrays, the small moons, the Sun, the period definition) in docs/CALIBRATION_VERDICT_v1.44.md 5.24 and tests/out/charonfactors-w276b.json. AGREEMENT WITH OBSERVATION HAS NOT BEEN ACHIEVED. The transcribed e=0 circle is kept to a 0.0027% wobble. Under the template's kFrame=1 the measured period is 6.40293 d (+0.246%) with a 0.245% wobble — E6′ MOTION DRAGGING LIFTS THE ORBITAL PERIOD BY +0.25%. (WAVE 254d CORRECTION: the old “in a close binary with χ=W/(D₀+W)≈0.92” is retracted; on the current core the translational χ is 0.001347093246 (Pluto) and 0.010960689483 (Charon), or 6.883104e-5 / 5.652101e-4 under the wave-242 default pull weight. The +0.246% excess is unchanged.) This is the first real transcription in the calibration family where the dragging term produces an observable (>0.1%) quantity; it sits inside the ±1% diagnostic tolerance and is declared, not fitted away (Failure First — \"dragging is invisible at real scale\" stops holding at this mass ratio and separation). The barycentre moves by up to 0.18 units (0.9% of a) per 1.5 orbits at kFrame=1 and is machine-zero at kFrame=0 (the PN terms are not momentum-symmetric — observations are taken in relative coordinates). Zero NaN; two runs are bit-identical (QA behavior.plutoCharonReal). Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.One-tap A/B: side B is kFrame=0 — the +0.246%→+0.001381% period difference IS the E6′ dragging contribution (both sides sit outside 3 sigma, wave 276b) (same initial condition, same step). Switch trails on to see the small circle (radius 2.13 units) Pluto draws around the barycentre. Deleting physics.frameReaction (=legacy) is less destructive here than in 🌇 (the comparable masses give the reaction a reservoir on both sides), but E6′-R is the free-centre standard. Bodies are drawn at real radii (dispMag=1 — Charon is 0.61 units). With timeScale=1000 one on-screen second ≈ 18.5 hours.",
+     "status": {
+      "purpose": "Pluto–Charon from older inputs",
+      "state": "outside the gate; residual traced",
+      "mismatch": "period +0.00138% (294σ)",
+      "outlook": "numerics unresolved; mapping unresolved"
+     }
+    },
+    "abBody": {
+     "label": {
+      "ja": "kFrame=1・geoPN=2(引きずり近似 q —— 第288便b まで既定だった旧宣言)",
+      "en": "kFrame=1, geoPN=2 (the drag approximation with q — the default declaration until wave 288b)"
+     },
+     "physicsPatch": {
+      "kFrame": 1,
+      "geoPN": 2
+     }
+    },
+    "claims": [
+     {
+      "id": "plutoCharonReal.period-kf0",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "role": "input_check",
+      "metric": "charonPeriodKF0Days",
+      "chain": {
+       "ax": [
+        "A4",
+        "A6"
+       ],
+       "eq": [
+        "E4"
+       ],
+       "note": "観測入力(実軌道長半径・実質量2つ・実 G)+実ケプラー初速の転写が観測周期 6.3872 日を写せていることの検証(kFrame=0)。",
+       "noteEn": "A check that the transcription (real a, both real masses, real G, real Kepler speed) reproduces the observed 6.3872 d at kFrame=0."
+      },
+      "roleNote": "観測入力の検証 — 較正ノブはゼロ。",
+      "roleNoteEn": "Input check — zero calibration knobs.",
+      "expected": {
+       "min": 6.37,
+       "max": 6.4
+      },
+      "descPattern": "kFrame=0 の対照では (\\d+\\.\\d+) 日",
+      "testId": "behavior.plutoCharonReal"
+     },
+     {
+      "id": "plutoCharonReal.drag-period-kf1",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "role": "retrospective_check",
+      "metric": "charonPeriodKF1Days",
+      "chain": {
+       "ax": [
+        "A4",
+        "A5"
+       ],
+       "eq": [
+        "E4",
+        "E6′"
+       ],
+       "note": "雛形規約 kFrame=1 の運動引きずりが公転周期を +0.246% 押し上げることの定量。フィットで消さずに宣言する — 引きずり項と実観測の張力の最初の実在数値。",
+       "noteEn": "Quantifies that the template's kFrame=1 motion dragging lifts the period by +0.246%. Declared, not fitted away — the first real-system number for the tension between the dragging term and observation."
+      },
+      "roleNote": "回顧的確認 — 較正ノブはゼロ。観測との不一致(+0.246%)を含めてそのまま宣言する項目である。",
+      "roleNoteEn": "Retrospective check — zero calibration knobs. The item declares the disagreement (+0.246%) as is.",
+      "expected": {
+       "min": 6.39,
+       "max": 6.42
+      },
+      "descPattern": "kFrame=1 では実測 (\\d+\\.\\d+) 日",
+      "testId": "behavior.plutoCharonReal"
+     },
+     {
+      "id": "plutoCharonReal.barycenter-outside",
+      "kind": "semantic",
+      "prov": "derived",
+      "role": "retrospective_check",
+      "metric": "barycenterOverPlutoRadius",
+      "chain": {
+       "ax": [
+        "A6"
+       ],
+       "eq": [
+        "E4"
+       ],
+       "note": "転写した実質量比 0.122 と a=19.596 から、共通重心が冥王星中心から 1.79 冥王星半径(表面の外)に出ることの導出値。観測ではなく転写値の帰結。",
+       "noteEn": "Derived from the transcribed 0.122 mass ratio and a=19.596: the barycentre sits 1.79 Pluto radii from the centre — outside the surface. A consequence of transcription, not an observation."
+      },
+      "roleNote": "回顧的確認(導出)— 転写値の帰結であって独立な予言ではない。",
+      "roleNoteEn": "Retrospective check (derived) — a consequence of the transcription, not an independent prediction.",
+      "expected": {
+       "min": 1.7,
+       "max": 1.9
+      },
+      "descPattern": "中心から (\\d+\\.\\d+) 冥王星半径",
+      "testId": "behavior.plutoCharonReal"
+     }
+    ],
+    "parameterAudit": {
+     "observedInputs": [
+      "実 G=6.674",
+      "実 c₀=29979.2458",
+      "冥王星の実質量・実半径・実自転(6.3872日・潮汐固定)",
+      "カロンの実質量・実半径・同期自転",
+      "カロンの実軌道長半径 19,596km と e=0.0(出典の宣言値)",
+      "観測周期 6.3872 日(**照合先であって fit の対象ではない** — paper/data/solar-observations.csv・NSSDC アーカイブ)",
+      "実ケプラー初速(較正係数 1.000 — 掛け算なし)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)",
+      "kFrame=0・geoPN=1(現実較正 —— 第288便b で旧宣言 kFrame=1・geoPN=2〔引きずり近似 q〕から在位移行。D₀・q は kFrame=0 では力に入らない)",
+      "frameReaction:\"pairReduced\"(E6′-R — 自由中心の反作用則・第184便)",
+      "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"",
+      "二体重心系(両天体とも自由)・近点整列",
+      "2D・潮汐固定の相対幾何を保存(黄道基準の逆行符号は転写しない — 宣言)"
+     ],
+     "fitted": [
+      "D₀=0.006(🌘 で決めた共有値の流用 — 本系でのフィットはゼロ。初速較正 1.000)"
+     ],
+     "derived": [
+      "q=11.9386(qLock 厳密一致式 q_exact を a=19.596 で1回評価した直値)",
+      "κ=G/c₀²=7.4258×10⁻⁹",
+      "camera.scale=23・timeScale=1000・dispMag=1(規約から決定的に算出)",
+      "共通重心の位置 1.79 冥王星半径(転写した質量比と a からの導出)"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.05",
+      "時間倍率 timeScale=1000",
+      "粒子表示倍率 dispMag=1(表示専用)"
+     ]
+    },
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "camera": {
+     "scale": 23
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 0,
+     "q": 11.9386,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 1,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.05,
+     "timeScale": 1000,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "frameReaction": "pairReduced",
+     "frameWeight": "share"
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 0.001303,
+      "radius": 1.188,
+      "x": -2.126385878489327,
+      "y": 0,
+      "vx": 0,
+      "vy": -0.002421019578680394,
+      "spin": 0.00113855918,
+      "pinned": false,
+      "pnSource": true
+     },
+     {
+      "type": "single",
+      "m": 0.0001586,
+      "radius": 0.606,
+      "x": 17.469614121510673,
+      "y": 0,
+      "vx": 0,
+      "vy": 0.01989021759785973,
+      "spin": 0.00113855918,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "冥王星(実質量 1.303×10²²kg・実半径 1,188km・実自転 6.3872日〔潮汐固定〕)とカロン(1.586×10²¹kg・606km・同期自転)を、1単位=10⁶m/10²s/10²⁵kg のスケール指数で置いた**二体重心系**の観測転写サンプル(第184便)。出典はコミット済み出典表 paper/data/solar-observations.csv(NASA NSSDC Pluto Fact Sheet のアーカイブ版から 2026-08-23 取得の観測レコードを転写)。実質量比 0.122 は太陽系最大級で、**共通重心が冥王星表面の外(中心から 1.79 冥王星半径)にある** — 二体が互いに振り回し合う姿がそのまま見える。軌道は a=19,596km・e=0(出典の宣言値)・両天体とも自由(pinned なし)・反作用則は frameReaction:\"pairReduced\"(E6′-R — 自由中心の標準・第184便)。黄道北基準では自転・公転とも逆行の系だが、2D 理想化では系平面基準の相対幾何(同期・同方向の潮汐固定)を保存する — 自転だけを負符号で写すと相対幾何が壊れるため採らない(宣言)。q=11.9386 は q_exact を a=19.596 で1回評価した直値。kFrame=0 の対照では 6.3874 日(=551864.061 s)で、**正式判定は +0.001381%・+294.08σ・否(3σ)**(観測 551856.43872±0.02592 s・Buie 2012)である —— **第276便b 訂正**: 旧記載「観測 6.3872 日・+0.002% と観測周期をそのまま写す」は**撤回する**(日へ丸めた数どうしの比で、σ 判定とは別量だった)。**この残差 +7.62 s は観測 σ だけの強い反証ではなく、丸めた入力と数値設定を含む模型の残差である** —— 要因(softening ε・a の丸め ±0.5 km・GM の精度・状態配列が Float32 であること・小衛星・太陽・周期の定義)の感度は第276便b が分解した(docs/CALIBRATION_VERDICT_v1.44.md §5.24・tests/out/charonfactors-w276b.json)。**観測一致は達成していない。** e=0 の転写どおり半径振れ幅 0.0027% の円軌道は保つ。雛形規約の kFrame=1 では実測 6.40293 日(+0.246%)・半径振れ幅 0.245% — **E6′ の運動引きずりが公転周期を +0.25% 押し上げる**(**第254便d 訂正**: 旧記載の「χ=W/(D₀+W)≈0.92 の近接連星では」は撤回。現行核〔frameWeight:\"share\"・D₀=0.006・ε=0.05・初期間隔 19.596〕の並進 χ は**冥王星 0.001347093246・カロン 0.010960689483**、pull 重み〔第242便の既定〕なら 6.883104×10⁻⁵・5.652101×10⁻⁴。0.92 は再現できない。周期超過 +0.246% は A/B の実測値として不変)。実較正ファミリーで引きずり項が観測可能量(0.1% 超)を作った初の実在転写であり、診断許容 ±1% 内なのでフィットで消さずに宣言する(Failure First — 「実スケールでは引きずりが効かない」はこの質量比・この近さでは成り立たない)。重心変位は kFrame=1 で 1.5公転あたり最大 0.18 単位(a の 0.9%)・kFrame=0 では機械ゼロ(PN 項の運動量非対称 — 観測量は相対座標で測る)。NaN ゼロ・同一構成2回実行はビット同一(QA behavior.plutoCharonReal)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。ワンタップ対照A/B: B側 kFrame=0 — 周期 +0.246%→+0.001381% の差がそのまま E6′ 引きずり項の寄与である(**どちらも 3σ の外**・第276便b)(同一初期条件・同一步幅)。トレイルを点けると冥王星が重心のまわりに描く小円(半径 2.13 単位)が見える。physics.frameReaction を削除(=legacy)する実験は 🌇 ほど破壊的ではない(質量比が近く反作用の受け皿が双方にあるため)が、自由中心の標準は E6′-R。粒子表示は実半径のまま(dispMag=1 — カロンは 0.61 単位)。timeScale=1000 で画面1秒≈18.5時間。(第237便: 双方が潮汐固定なので自転の対照は作れない — 自転は公転のコピー。)",
+    "status": {
+     "purpose": "旧入力の冥王星–カロンを照合する",
+     "objective": "unmet",
+     "state": "代表量が門の外・残差を要因の鎖で分解",
+     "calibration": "hold",
+     "mismatch": "周期 +0.00138%(294σ)",
+     "outlook": "数値未解決・写像未確定",
+     "evidence": [
+      "tests/out/calaudit-w249.json",
+      "behavior.plutoCharonReal",
+      "tests/out/charoninput-w280d.json"
+     ]
+    }
+   }
+  },
+  "plutoCharonDFM": {
+   "emoji": "⛄",
+   "name": "冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版",
+   "familyId": "pluto",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "principle",
+   "presetSigHash": "fb8ad6e3",
+   "presetSigSha256": "66a2eb2ce4b432c2616c83af12e8dd835d003d3516d426818cd388014e9cd341",
+   "base": {
+    "rev": "f03bf5a",
+    "presetSigHash": "fb8ad6e3",
+    "name": "冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版",
+    "sigSame": true
+   },
+   "successor": "plutoCharonDiagInput",
+   "reason": "引きずり則の更新(第290便c の新経路)に伴い旧 pairSlip の診断を整理(代わりに 🥶)",
+   "retiredNotice": {
+    "ja": "旧 pairSlip(相対すべり則)の診断で、引きずり則の更新(第290便c の新経路)に伴い整理(第290便b)で退役した",
+    "en": "the diagnostic of the old pairSlip (relative-slip law), retired in the clean-up (wave 290b) along with the update of the drag law (the new path of wave 290c)",
+    "see": [
+     "plutoCharonDiagInput"
+    ]
+   },
+   "pairDiff": {
+    "successor": "plutoCharonDiagInput",
+    "successorEmoji": "🥶",
+    "diff": {
+     "physics.relativeDrag": [
+      {
+       "law": "pairSlip",
+       "kappa": 1,
+       "pairs": "all",
+       "spins": "declared",
+       "integration": "midpoint"
+      },
+      null
+     ],
+     "bodies[0].x": [
+      -21.31721225635357,
+      -21.315466069304904
+     ],
+     "bodies[0].vx": [
+      3.3746189324353684e-7,
+      0
+     ],
+     "bodies[0].vy": [
+      -0.0024266847512964917,
+      -0.0024268498546968042
+     ],
+     "bodies[1].x": [
+      174.65648081478,
+      174.6421739306951
+     ],
+     "bodies[1].vx": [
+      -0.0000027648974910141987,
+      0
+     ],
+     "bodies[1].vy": [
+      0.019882347354401884,
+      0.019883700081884368
+     ]
+    },
+    "n": 7,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 6
+    }
+   },
+   "raw": {
+    "id": "plutoCharonDFM",
+    "name": "冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版",
+    "emoji": "⛄",
+    "group": "現実較正",
+    "familyId": "pluto",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 5,
+     "T": 1,
+     "M": 24
+    },
+    "integrator": "leapfrog",
+    "sampleClass": "principle",
+    "fidelity": "real",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "obsCard": [
+     {
+      "q": "欄(1) 暦の再現 — PLU060 400年平均 P との差(σ なし)",
+      "model": "第2周 551888.037 s(dt 0.04)・+32.143 s・+58.24 ppm — 合否は出さない",
+      "obs": "551855.8944 s(PLU060 400年平均 — 表示桁・400年の散らばりは σ ではない)"
+     },
+     {
+      "q": "欄(1) 暦の再現 — Horizons osculating PR との差(σ なし)",
+      "model": "元期A 比 +37.360 s(+67.70 ppm)・元期B 比 +34.967 s(+63.36 ppm)",
+      "obs": "551850.6774 / 551853.0700 s(接触要素の瞬時値・重心基準)"
+     },
+     {
+      "q": "欄(2) 観測検定(Buie 2012 二体 P)",
+      "model": "**判定保留(量定義不一致)** — 比較値 +31.598 s・+1219.1σ(門ではない)",
+      "obs": "551856.43872±0.02592 s(二体ケプラー当てはめ・元期 JDT 2452600.5)"
+     },
+     {
+      "q": "Buie 二体再現(転写・積分器の試験 — 独立の検証ではない)",
+      "model": "551856.439804 s(dt 0.04)— 差 +1.084 ms のうち軟化 ε=1km が +1.080 ms・残り +3.9 μs",
+      "obs": "GM=4π²a³/P²(a=19573km・P=551856.43872 s)で回した円軌道の二体"
+     },
+     {
+      "q": "数値法(陰的中点法 + leapfrog の対称分割)",
+      "model": "第2周 551888.037107 / …058 / …046 s(dt 0.16/0.08/0.04)・刻み半減差 12 μs(比 4.0)",
+      "obs": "—(旧構成 semi+陽的は 1 次収束・半減差 5.29 s — 履歴値は台帳 §5.29)"
+     },
+     {
+      "q": "時間窓(第2〜第6周)— 定常周期と呼べるか",
+      "model": "第3周 +0.302 s・第4周 +0.003 s・第5→6周 +0.2 μs — **第2周の値は過渡を含む**",
+      "obs": "—(すべり 4.8×10⁻⁶→4×10⁻¹⁴・e 1.5×10⁻⁴→3.9×10⁻⁹ へ減衰)"
+     },
+     {
+      "q": "則の寄与(🌨️ kF0 対照との差・同じ leapfrog)",
+      "model": "第2周 +1.373 s・第6周 +1.678 s(dt 0.04)",
+      "obs": "—(同一入力・同一刻みの A/B)"
+     },
+     {
+      "q": "零条件・帳簿",
+      "model": "零条件でキック・トルク・熱は厳密に 0/熱は全步非負・J_z 4.6×10⁻¹²・P 2.1×10⁻¹²(dt 0.04・3周)",
+      "obs": "—(J_z は軌道+自転 I=½mR²+resL+radL の読み口)"
+     }
+    ],
+    "failureFirst": {
+     "fail": "**観測検定欄は「判定保留(量定義不一致)」である** —— 本サンプルの入力は同一暦 PLU060 の状態であり、目標を Buie 2012 の二体 P(σ 26 ms)に取ると**量の定義が一致しない**(統括の検証項目 R53)。比較値として書けば、第 2 周(dt 0.04)551888.037 s は Buie に対して +31.598 s・+1219.1σ である(**門ではない** —— 4 値の母集団外)。**暦の再現欄**(σ なし・合否なし)では、PLU060 の 400 年平均 P に対して **+32.143 s(+58.24 ppm)**、Horizons osculating PR 元期 A に対して +37.360 s(+67.70 ppm)である —— 同じ暦の入力から、同じ暦の周期を 58 ppm 外している。正直に書くべきことが 3 つある: ① **第 2 周は定常周期ではない** —— 第 3 周は第 2 周より +0.302 s、第 4 周はさらに +0.003 s 長く、第 5 周以降でようやく周ごとの変化が刻み半減差より小さくなる(すべりと離心率が減衰する過渡を含む)。② 元期 A の 2 体切り出しの接触要素 a=19596.309km・e=1.4923×10⁻⁴ は Table 10 の 400 年平均と +0.545km ずれる(6 体の暦を 2 体へ切り落としたぶん)。③ 旧構成(semi+陽的インパルス)は刻みに 1 次でしか収束せず(dt 0.16 で 551866.888 s)、粗い刻みでは熱が負になりうる経路だった。**残差がゼロになる ε・a・f・κ を探索して採用してはいない**(第276便b の禁止をそのまま継ぐ)。",
+     "pass": "**数値法は刻みに収束している**: ⛄ は integrator:\"leapfrog\"+relativeDrag.integration:\"midpoint\"(散逸半歩→重力→散逸半歩の対称分割)で、3 段の第 2 周が 551888.037107 / 551888.037058 / 551888.037046 s(刻み半減差 49→12 μs・比 4.0)。中点法の散逸は ΔE=−A|s̄_i|²−B|s̄_j|²≤0 が厳密で、無次元の最小対照(G=1・R=0.01・h=0.01)では陽的経路の熱 −0.245 に対して +1.92×10⁻⁶ になる。零条件(相互同期した円軌道)ではキック・トルク・熱が厳密に 0。**Buie 二体再現**(転写・積分器の試験 —— 独立の検証ではない)は、軟化を入れた解析値に対して +3.9 μs で P を再現する。フィットはゼロ(D₀=0.006 は共有値の流用・q=11.9386 は q_exact を a=195.974 で 1 回評価した直値)。"
+    },
+    "descStruct": {
+     "summary": "**同一観測解の冥王星–カロン**を**精密単位**(1単位=10⁵m/10s/10²⁴kg)へ置いた **DFM 版**(第277便b)。質量は **GM/G** で作る —— Brozović & Jacobson 2024 AJ 167 256 Table 8 の GM(冥王星 869.3±0.4・カロン 106.1±0.3 km³/s²)を**内蔵 G=6.674 のまま**割って 1.3025172×10²²kg・1.5897513×10²¹kg(GM 比 0.122052)。初期状態は **JPL Horizons PLU060/DE440**(中心=冥王星系重心・ICRF/J2000・km, km/s・TDB)の元期 JD 2452600.5 の相対状態を**軌道面へ射影**した 2D である —— 基底は ê₁=r/|r|・ê₃=r×v/|r×v|・ê₂=ê₃×ê₁ で、位置と速度を**同じ回転**で射影する(z を捨てない。2 体では面外成分は恒等的に 0 で、面外が効くのは小衛星〔最大 ≈274km〕だが本サンプルには入れない)。得られる離角は 19597.369km・相対速度 223.0903m/s(動径成分 −0.0310m/s)で、共通重心は冥王星中心から 21.317 単位=2132km=1.79 冥王星半径(表面の外)に出る。自転は**相互同期の宣言** ω=2π/551855.8944s(PLU060 の 400 年平均)。働いているのは重力(E4)+測地線1PN(E12)+**本便の引きずり則**である。**kFrame=0 なので核の E6′ 運動引きずりは使わない** —— 代わりに宣言 physics.relativeDrag:{law:\"pairSlip\",kappa:1} が `S._core` の**外**の外部ステップを開け、対ごとの**相対すべり** s_i=v−ω_i×r・s_j=v−ω_j×r が 0 でないときだけ運動量インパルスと自転トルクを当てる(**相互同期した円軌道では 1 バイトも動かない**)。**この則は統括が設定した検証仮説であって、現行 DFM から一意に導出された法則ではない。** 数値設定は ε=0.01 単位=1km・physics.massPrecision:\"double\"・stateCarry:\"double\"・geoPN=2・frameReaction:\"pairReduced\"・frameWeight:\"share\"(**則を宣言した宇宙では自転配列も Float64 になる** —— 1 步の ΔJ/I が Float32 の ULP 3 個ぶんしかなく、10⁶ 步で帳簿が壊れることを実測したため)。**dt の意味が ❄️ と違う**: 時間単位が 10s なので、同じ物理刻みを取るには dt を ❄️ の 10 倍にする(本サンプルの 3 段は dt=0.16/0.08/0.04 = 1.6/0.8/0.4 s)。",
+     "observe": "**観測検定欄は「判定保留(量定義不一致)」**(統括の検証項目 R53・AM16 の 2 欄)—— 入力も目標も同一暦 PLU060 の量なので、Buie 2012 の二体 P の σ(26 ms)では判定しない。**「較正が済んだ」とも「観測と一致した」とも書かない。** 比較値は第 2 周(dt 0.04)551888.037 s で Buie に対して +31.598 s・+1219.1σ(門ではない)。**欄 (1) 暦の再現**(σ なし・合否なし): PLU060 400 年平均 P に対して +32.143 s(+58.24 ppm)・Horizons osculating PR 元期 A/B に対して +37.360 / +34.967 s。**数値法**(第278便b): leapfrog + 陰的中点法の対称分割で 3 段の第 2 周は 551888.037107 / 551888.037058 / 551888.037046 s(dt 0.16/0.08/0.04 —— 刻み半減差 12 μs)。旧構成(semi+陽的)は 551866.888 / 551877.462 / 551882.750 s と 1 次でしか収束せず、1 次外挿 551888.037 s が今回の値と一致する。**時間窓**: 第 3 周は +0.302 s、第 4 周は +0.003 s 長く、第 5→6 周の変化は 0.2 μs —— **第 2 周の値は過渡を含む**(すべり 4.8×10⁻⁶→4×10⁻¹⁴・離心率 1.5×10⁻⁴→3.9×10⁻⁹ へ減衰する)。**則の寄与**(🌨️ との差・同じ leapfrog・dt 0.04): 第 2 周の則の寄与は **+1.373 s**、第 6 周で +1.678 s。**Buie 二体再現**(転写・積分器の試験 —— 独立の検証ではない): Buie の a=19573km・P から GM=4π²a³/P² を作って二体を回すと 551856.439804 s(Buie +1.084 ms のうち軟化 ε=1km が +1.080 ms)。**零条件**(相互同期した円軌道)ではキック・トルク・熱が厳密に 0、熱は全步非負(Q̇<0 の步 0)。帳簿は dt 0.04・3 周で J_z 4.6×10⁻¹²・運動量 2.1×10⁻¹²・|ΔE+熱| 9.6×10⁻¹²(J_z はリザーバ・放射を足した読み口)。**則の感度**: 宣言自転 0.9Ω/1.1Ω で第 2 周は 548867.792 / 554918.337 s —— この DFM 版が成り立っているのは系が相互同期しているからである。ε 1→10km で +0.448 s、massPrecision を single に戻すと +0.0245 s。NaN ゼロ・クランプ 0・同一構成2回実行はビット同一(QA behavior.plutoCharonDFM)。**周期は定義を宣言してから比べる**(裁定 I6): 本サンプルが測るのは**同方向1周**である。",
+     "control": "ワンタップの対照は**別サンプル** 🌨️ plutoCharonKF0Control である(同じ入力・同じ刻み・`relativeDrag` だけが無い)。**κ=0 を宣言すると同方向1周は対照と同じ 551886.664 s になる**(leapfrog・dt 0.16)(用量 0 の否定対照 — 宣言は署名に残る)。トレイルを点けると冥王星が重心のまわりに描く小円(半径 21.3 単位)が見える。粒子表示は実半径のまま(dispMag=1 — カロンは 6.06 単位)。**timeScale=1000 は上限**で、時間単位が 10s なので画面の進み方は ❄️ の 1/10 である。**小衛星を足すときは `pairs` で対を絞る**(中点法は単一対だけを受理する — 多対は陽的経路): `pairs:\"all\"` のまま慣性モーメントの小さい試験粒子級の小衛星を入れると、反トルクの受け皿が小さすぎて自転が暴走する(記録された否定対照)。",
+     "brief": "同一観測解の二体に零条件つき引きずり則を載せる。部分・中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来。較正は判定保留(量定義不一致)・比較値 +31.6 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"
+    },
+    "en": {
+     "name": "Pluto and Charon (Same Observed Solution) — the DFM build with a zero condition on relative slip",
+     "obsCard": [
+      {
+       "q": "Column 1, almanac reproduction — difference from the PLU060 400-year mean P (no sigma)",
+       "model": "revolution 2: 551888.037 s (dt 0.04), +32.143 s, +58.24 ppm — no pass/fail is issued",
+       "obs": "551855.8944 s (PLU060 400-year mean — display digits and the 400-year scatter are not a sigma)"
+      },
+      {
+       "q": "Column 1, almanac reproduction — difference from the Horizons osculating PR (no sigma)",
+       "model": "+37.360 s (+67.70 ppm) against epoch A, +34.967 s (+63.36 ppm) against epoch B",
+       "obs": "551850.6774 / 551853.0700 s (instantaneous osculating values, barycentric)"
+      },
+      {
+       "q": "Column 2, observational test (Buie 2012 two-body P)",
+       "model": "VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH) — comparison value +31.598 s, +1219.1 sigma (not a gate)",
+       "obs": "551856.43872 +/- 0.02592 s (two-body Kepler fit, epoch JDT 2452600.5)"
+      },
+      {
+       "q": "Buie two-body reproduction (a transcription and integrator test — NOT an independent check)",
+       "model": "551856.439804 s (dt 0.04): of the +1.084 ms, softening (1 km) accounts for +1.080 ms; the rest is +3.9 microseconds",
+       "obs": "a circular two-body run with GM = 4 pi^2 a^3 / P^2 (a = 19573 km, P = 551856.43872 s)"
+      },
+      {
+       "q": "Numerical method (implicit midpoint + symmetric leapfrog splitting)",
+       "model": "revolution 2: 551888.037107 / ...058 / ...046 s (dt 0.16/0.08/0.04); step-halving difference 12 microseconds (ratio 4.0)",
+       "obs": "— (the old semi + explicit build converged at first order, halving difference 5.29 s — history in ledger section 5.29)"
+      },
+      {
+       "q": "Time window (revolutions 2 to 6) — can it be called a steady period?",
+       "model": "rev 3 +0.302 s, rev 4 +0.003 s, rev 5 to 6 +0.2 microseconds — THE REVOLUTION-2 VALUE CONTAINS A TRANSIENT",
+       "obs": "— (slip decays from 4.8e-6 to 4e-14 and e from 1.5e-4 to 3.9e-9)"
+      },
+      {
+       "q": "The law's contribution (difference against the kF0 control, same leapfrog)",
+       "model": "+1.373 s at revolution 2, +1.678 s at revolution 6 (dt 0.04)",
+       "obs": "— (same inputs, same step: an A/B)"
+      },
+      {
+       "q": "Zero condition and ledgers",
+       "model": "kick, torque and heat EXACTLY zero on the zero condition; heat non-negative at every step; J_z 4.6e-12, P 2.1e-12 (dt 0.04, three orbits)",
+       "obs": "— (J_z read as orbital + spin I=mR^2/2 + resL + radL)"
+      }
+     ],
+     "failureFirst": {
+      "fail": "THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\": the inputs are the state of one ephemeris (PLU060), so taking the Buie 2012 two-body period (sigma 26 ms) as the target MISMATCHES THE DEFINITION OF THE QUANTITY (the integrator's check item R53). As a comparison value, revolution 2 (dt 0.04), 551888.037 s, is +31.598 s and +1219.1 sigma from Buie — NOT A GATE (outside the four-value population). In THE ALMANAC-REPRODUCTION COLUMN (no sigma, no pass/fail) it is +32.143 s (+58.24 ppm) from the PLU060 400-year mean and +37.360 s (+67.70 ppm) from the Horizons osculating PR at epoch A — the same ephemeris's input misses the same ephemeris's period by 58 ppm. Three honest records: (1) REVOLUTION 2 IS NOT A STEADY PERIOD — revolution 3 is +0.302 s longer, revolution 4 another +0.003 s, and only from revolution 5 does the change per revolution fall below the step-halving difference (a transient in which the slip and the eccentricity decay). (2) The two-body osculating elements of the epoch-A cut (a=19596.309 km, e=1.4923e-4) differ from the Table 10 means by +0.545 km (the cost of truncating a six-body ephemeris to two bodies). (3) The old build (semi + explicit impulse) converged only at first order (551866.888 s at dt 0.16) and was a path on which the heat can go negative at coarse steps. NO epsilon, a, f OR kappa WAS SEARCHED FOR TO ZERO THE RESIDUAL.",
+      "pass": "THE NUMERICAL METHOD CONVERGES IN THE STEP: the sample declares integrator:\"leapfrog\" + relativeDrag.integration:\"midpoint\" (dissipative half step, gravity, dissipative half step), and revolution 2 over the three steps is 551888.037107 / 551888.037058 / 551888.037046 s (halving differences 49 then 12 microseconds, ratio 4.0). The midpoint dissipation satisfies dE = -A|s_i|^2 - B|s_j|^2 <= 0 exactly (midpoint slips); on the dimensionless minimal control (G=1, R=0.01, h=0.01) the explicit path's heat of -0.245 becomes +1.92e-6. On the zero condition the kick, torque and heat are exactly zero. The BUIE TWO-BODY REPRODUCTION (a transcription and integrator test, not an independent check) reproduces P to +3.9 microseconds against the softened analytic value. Zero fits (D0=0.006 is the shared value; q=11.9386 is q_exact evaluated once)."
+     },
+     "descStruct": {
+      "summary": "PLUTO AND CHARON FROM ONE OBSERVED SOLUTION, placed in PRECISION UNITS (1 unit = 1e5 m / 10 s / 1e24 kg) as the DFM BUILD (wave 277b). The masses are built as GM/G: the Table 8 values of Brozovic & Jacobson (2024) AJ 167 256 (Pluto 869.3 +/- 0.4, Charon 106.1 +/- 0.3 km^3/s^2) divided by THE BUILT-IN G=6.674, giving 1.3025172e22 kg and 1.5897513e21 kg (GM ratio 0.122052). The initial state is the JD 2452600.5 relative state of JPL Horizons PLU060/DE440 (centre = Pluto system barycentre, ICRF/J2000, km and km/s, TDB) PROJECTED ONTO THE ORBITAL PLANE: the basis is e1=r/|r|, e3=r x v/|r x v|, e2=e3 x e1, and position and velocity are projected by THE SAME ROTATION (z is not discarded; for a pair the out-of-plane part is identically zero, and out-of-plane matters only for the small moons, up to about 274 km, which are not in this sample). The separation is 19597.369 km at a relative speed of 223.0903 m/s (radial component -0.0310 m/s). The spins are DECLARED SYNCHRONOUS at omega = 2 pi / 551855.8944 s (the PLU060 400-year mean). Gravity (E4), the geodesic 1PN term (E12) and THIS WAVE'S DRAGGING LAW act. kFrame=0, SO THE CORE'S E6' MOTION DRAGGING IS NOT USED: instead the declaration physics.relativeDrag:{law:\"pairSlip\",kappa:1} opens an external step OUTSIDE S._core that applies a momentum impulse and a spin torque only while the pair's RELATIVE SLIP s_i=v-omega_i x r, s_j=v-omega_j x r is non-zero (ON A MUTUALLY SYNCHRONOUS CIRCULAR ORBIT IT MOVES NOTHING). THIS LAW IS A VERIFICATION HYPOTHESIS SET BY THE INTEGRATOR, NOT A LAW UNIQUELY DERIVED FROM THE CURRENT DFM. Numerical settings: epsilon = 0.01 unit = 1 km, physics.massPrecision:\"double\", stateCarry:\"double\", geoPN=2, frameReaction:\"pairReduced\", frameWeight:\"share\" (DECLARING THE LAW ALSO MAKES THE SPIN ARRAY Float64, because one step's dJ/I is only about three Float32 ULPs and the ledger was measured to break over a million steps). THE MEANING OF dt DIFFERS FROM THE 1e6 m / 100 s SAMPLES: the time unit is 10 s, so the same physical step needs ten times the dt (the three stages here are dt = 0.16 / 0.08 / 0.04 = 1.6 / 0.8 / 0.4 s).",
+      "observe": "THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\" (the integrator's check item R53, the two columns of AM16): input and target are both quantities of one ephemeris (PLU060), so the Buie 2012 two-body sigma (26 ms) is not used to judge it. NEITHER \"the calibration is done\" NOR \"it agrees with observation\" IS WRITTEN HERE. The comparison value is revolution 2 (dt 0.04), 551888.037 s: +31.598 s and +1219.1 sigma from Buie (not a gate). COLUMN 1, ALMANAC REPRODUCTION (no sigma, no pass/fail): +32.143 s (+58.24 ppm) from the PLU060 400-year mean, +37.360 / +34.967 s from the Horizons osculating PR at epochs A/B. NUMERICAL METHOD (wave 278b): with leapfrog and the implicit-midpoint symmetric splitting, revolution 2 over the three steps is 551888.037107 / 551888.037058 / 551888.037046 s (dt 0.16/0.08/0.04, halving difference 12 microseconds); the old build (semi + explicit) gave 551866.888 / 551877.462 / 551882.750 s, first-order only, and its first-order extrapolation 551888.037 s matches the new value. TIME WINDOW: revolution 3 is +0.302 s longer, revolution 4 +0.003 s, and the change from 5 to 6 is 0.2 microseconds — THE REVOLUTION-2 VALUE CONTAINS A TRANSIENT (the slip decays from 4.8e-6 to 4e-14 and the eccentricity from 1.5e-4 to 3.9e-9). THE LAW'S CONTRIBUTION (difference against the control, same leapfrog, dt 0.04) is +1.373 s at revolution 2 and +1.678 s at revolution 6. BUIE TWO-BODY REPRODUCTION (a transcription and integrator test, not an independent check): building GM = 4 pi^2 a^3 / P^2 from Buie's a = 19573 km and P and running the pair gives 551856.439804 s (of the +1.084 ms, softening at 1 km accounts for +1.080 ms). On the zero condition the kick, torque and heat are exactly zero; the heat is non-negative at every step. Ledgers at dt 0.04 over three orbits: J_z 4.6e-12, momentum 2.1e-12, |dE+heat| 9.6e-12 (J_z read with the reservoir and radiation terms added). SENSITIVITY: declaring the spins at 0.9 or 1.1 Omega moves revolution 2 to 548867.792 / 554918.337 s — THIS DFM BUILD ONLY HOLDS BECAUSE THE SYSTEM IS MUTUALLY SYNCHRONOUS. Epsilon 1 to 10 km moves it by +0.448 s; reverting massPrecision to single by +0.0245 s. Zero NaN, zero clamps; two runs are bit-identical (QA behavior.plutoCharonDFM). PERIODS ARE COMPARED ONLY AFTER THEIR DEFINITION IS DECLARED (adjudication I6): this sample measures a SAME-DIRECTION REVOLUTION.",
+      "control": "The one-tap control is A SEPARATE SAMPLE, plutoCharonKF0Control (same inputs, same step, only relativeDrag removed). DECLARING kappa=0 reproduces the control's same-direction revolution exactly, 551886.664 s (leapfrog, dt 0.16) (a zero-dose negative control — the declaration still shows in the signature). Switch trails on to see the small circle (radius 21.3 units) Pluto draws around the barycentre. Bodies are drawn at real radii (dispMag=1 — Charon is 6.06 units). timeScale=1000 is the cap; with a 10 s time unit the screen advances one tenth as fast as in the 1e6 m / 100 s samples. WHEN ADDING THE SMALL MOONS, NARROW THE PAIRS (the midpoint method accepts a single pair only; several pairs take the explicit path): leaving pairs:\"all\" while adding test-particle-grade moons spins them up without bound, because their moment of inertia is far too small to absorb the reaction torque (a recorded negative control).",
+      "brief": "One observed solution, zero-slip drag law. Partial: midpoint converges; law term via sync. Calibration: hold (definitions differ) — comparison +31.6 s vs Buie 2012; not gated until definitions match."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "the built-in G=6.674 (unchanged) and c0=29979.2458",
+       "GM of Pluto and Charon from Brozovic & Jacobson (2024) AJ 167 256 Table 8 (869.3 +/- 0.4 and 106.1 +/- 0.3 km^3/s^2)",
+       "the JD 2452600.5 TDB state vectors of JPL Horizons PLU060/DE440 (centre = Pluto system barycentre, ICRF)",
+       "the declared mutual synchronism omega = 2 pi / 551855.8944 s (the PLU060 400-year mean)",
+       "the observed period 551856.43872 +/- 0.02592 s (Buie 2012 — COMPARED AGAINST, NOT FITTED TO)",
+       "the radii 1188 km and 606 km (carried over from the existing record: the 2024 solution publishes no radii)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 1e5 m / 10 s / 1e24 kg — precision units)",
+       "kFrame=0 (the core's E6' path is not used; the dragging enters through relativeDrag instead)",
+       "frameReaction:\"pairReduced\" (E6'-R), frameWeight:\"share\"",
+       "kRep=muF=gammaN=kappaS=0 / geoPN=2, lambdaPN=1, pnAlpha=1.5 / stateCarry:\"double\", massPrecision:\"double\"",
+       "two-body barycentric (both bodies free); the small moons are measured separately in a diagnostic copy",
+       "2D — the relative geometry of the mutual lock is preserved; the ecliptic-frame retrograde sign is not transcribed (declared)",
+       "the moment of inertia is the engine's I=mR^2/2 (the same conversion totals() uses) — not a 3D sphere's 2/5"
+      ],
+      "fitted": [
+       "D0=0.006 (the shared value fixed on the earth-moon sample, used as is — zero fits in this system)"
+      ],
+      "derived": [
+       "the masses 1.3025172e22 kg and 1.5897513e21 kg (GM/G)",
+       "the projected 2D state (the orbital-plane basis applied to the Horizons relative state)",
+       "q=11.9386 (q_exact evaluated once at a=195.974)",
+       "kappa_T=G/c0^2=7.4258e-9",
+       "camera.scale=210, timeScale=1000, dispMag=1"
+      ],
+      "numerical": [
+       "softening epsilon=0.01 unit = 1 km",
+       "time multiplier timeScale=1000",
+       "display magnification dispMag=1 (display only)",
+       "three step sizes dt=0.16/0.08/0.04 (= 1.6/0.8/0.4 s)",
+       "integrator:\"leapfrog\" + relativeDrag.integration:\"midpoint\" (wave 278b — symmetric splitting of the dissipation)"
+      ]
+     },
+     "description": "PLUTO AND CHARON FROM ONE OBSERVED SOLUTION, placed in PRECISION UNITS (1 unit = 1e5 m / 10 s / 1e24 kg) as the DFM BUILD (wave 277b). The masses are built as GM/G: the Table 8 values of Brozovic & Jacobson (2024) AJ 167 256 (Pluto 869.3 +/- 0.4, Charon 106.1 +/- 0.3 km^3/s^2) divided by THE BUILT-IN G=6.674, giving 1.3025172e22 kg and 1.5897513e21 kg (GM ratio 0.122052). The initial state is the JD 2452600.5 relative state of JPL Horizons PLU060/DE440 (centre = Pluto system barycentre, ICRF/J2000, km and km/s, TDB) PROJECTED ONTO THE ORBITAL PLANE: the basis is e1=r/|r|, e3=r x v/|r x v|, e2=e3 x e1, and position and velocity are projected by THE SAME ROTATION (z is not discarded; for a pair the out-of-plane part is identically zero, and out-of-plane matters only for the small moons, up to about 274 km, which are not in this sample). The separation is 19597.369 km at a relative speed of 223.0903 m/s (radial component -0.0310 m/s). The spins are DECLARED SYNCHRONOUS at omega = 2 pi / 551855.8944 s (the PLU060 400-year mean). Gravity (E4), the geodesic 1PN term (E12) and THIS WAVE'S DRAGGING LAW act. kFrame=0, SO THE CORE'S E6' MOTION DRAGGING IS NOT USED: instead the declaration physics.relativeDrag:{law:\"pairSlip\",kappa:1} opens an external step OUTSIDE S._core that applies a momentum impulse and a spin torque only while the pair's RELATIVE SLIP s_i=v-omega_i x r, s_j=v-omega_j x r is non-zero (ON A MUTUALLY SYNCHRONOUS CIRCULAR ORBIT IT MOVES NOTHING). THIS LAW IS A VERIFICATION HYPOTHESIS SET BY THE INTEGRATOR, NOT A LAW UNIQUELY DERIVED FROM THE CURRENT DFM. Numerical settings: epsilon = 0.01 unit = 1 km, physics.massPrecision:\"double\", stateCarry:\"double\", geoPN=2, frameReaction:\"pairReduced\", frameWeight:\"share\" (DECLARING THE LAW ALSO MAKES THE SPIN ARRAY Float64, because one step's dJ/I is only about three Float32 ULPs and the ledger was measured to break over a million steps). THE MEANING OF dt DIFFERS FROM THE 1e6 m / 100 s SAMPLES: the time unit is 10 s, so the same physical step needs ten times the dt (the three stages here are dt = 0.16 / 0.08 / 0.04 = 1.6 / 0.8 / 0.4 s).THE OBSERVATIONAL-TEST COLUMN READS \"VERDICT WITHHELD (QUANTITY-DEFINITION MISMATCH)\" (the integrator's check item R53, the two columns of AM16): input and target are both quantities of one ephemeris (PLU060), so the Buie 2012 two-body sigma (26 ms) is not used to judge it. NEITHER \"the calibration is done\" NOR \"it agrees with observation\" IS WRITTEN HERE. The comparison value is revolution 2 (dt 0.04), 551888.037 s: +31.598 s and +1219.1 sigma from Buie (not a gate). COLUMN 1, ALMANAC REPRODUCTION (no sigma, no pass/fail): +32.143 s (+58.24 ppm) from the PLU060 400-year mean, +37.360 / +34.967 s from the Horizons osculating PR at epochs A/B. NUMERICAL METHOD (wave 278b): with leapfrog and the implicit-midpoint symmetric splitting, revolution 2 over the three steps is 551888.037107 / 551888.037058 / 551888.037046 s (dt 0.16/0.08/0.04, halving difference 12 microseconds); the old build (semi + explicit) gave 551866.888 / 551877.462 / 551882.750 s, first-order only, and its first-order extrapolation 551888.037 s matches the new value. TIME WINDOW: revolution 3 is +0.302 s longer, revolution 4 +0.003 s, and the change from 5 to 6 is 0.2 microseconds — THE REVOLUTION-2 VALUE CONTAINS A TRANSIENT (the slip decays from 4.8e-6 to 4e-14 and the eccentricity from 1.5e-4 to 3.9e-9). THE LAW'S CONTRIBUTION (difference against the control, same leapfrog, dt 0.04) is +1.373 s at revolution 2 and +1.678 s at revolution 6. BUIE TWO-BODY REPRODUCTION (a transcription and integrator test, not an independent check): building GM = 4 pi^2 a^3 / P^2 from Buie's a = 19573 km and P and running the pair gives 551856.439804 s (of the +1.084 ms, softening at 1 km accounts for +1.080 ms). On the zero condition the kick, torque and heat are exactly zero; the heat is non-negative at every step. Ledgers at dt 0.04 over three orbits: J_z 4.6e-12, momentum 2.1e-12, |dE+heat| 9.6e-12 (J_z read with the reservoir and radiation terms added). SENSITIVITY: declaring the spins at 0.9 or 1.1 Omega moves revolution 2 to 548867.792 / 554918.337 s — THIS DFM BUILD ONLY HOLDS BECAUSE THE SYSTEM IS MUTUALLY SYNCHRONOUS. Epsilon 1 to 10 km moves it by +0.448 s; reverting massPrecision to single by +0.0245 s. Zero NaN, zero clamps; two runs are bit-identical (QA behavior.plutoCharonDFM). PERIODS ARE COMPARED ONLY AFTER THEIR DEFINITION IS DECLARED (adjudication I6): this sample measures a SAME-DIRECTION REVOLUTION.The one-tap control is A SEPARATE SAMPLE, plutoCharonKF0Control (same inputs, same step, only relativeDrag removed). DECLARING kappa=0 reproduces the control's same-direction revolution exactly, 551886.664 s (leapfrog, dt 0.16) (a zero-dose negative control — the declaration still shows in the signature). Switch trails on to see the small circle (radius 21.3 units) Pluto draws around the barycentre. Bodies are drawn at real radii (dispMag=1 — Charon is 6.06 units). timeScale=1000 is the cap; with a 10 s time unit the screen advances one tenth as fast as in the 1e6 m / 100 s samples. WHEN ADDING THE SMALL MOONS, NARROW THE PAIRS (the midpoint method accepts a single pair only; several pairs take the explicit path): leaving pairs:\"all\" while adding test-particle-grade moons spins them up without bound, because their moment of inertia is far too small to absorb the reaction torque (a recorded negative control).",
+     "status": {
+      "purpose": "One observed solution, zero-slip drag law",
+      "state": "midpoint converges; law term via sync",
+      "mismatch": "comparison +31.6 s vs Buie 2012",
+      "outlook": "not gated until definitions match"
+     }
+    },
+    "claims": [
+     {
+      "id": "plutoCharonDFM.law-contribution",
+      "kind": "fixed-seed",
+      "prov": "simulated",
+      "role": "retrospective_check",
+      "metric": "pairSlipPeriodContributionSec",
+      "chain": {
+       "ax": [
+        "A8"
+       ],
+       "eq": [
+        "E4",
+        "E6′"
+       ],
+       "note": "相対すべりの引きずり則が公転周期へ足す量(kF0 対照との差・同じ leapfrog・dt 0.04 の第 2 周 —— 第278便b で中点法へ移した後も 1 次外挿の旧値 +1.373 s と一致する)。**フィットで消さずに宣言する** —— 第 6 周では +1.678 s へ動く(過渡を含む)。",
+       "noteEn": "How much the relative-slip dragging law adds to the orbital period (the difference against the kF0 control, same leapfrog, revolution 2 at dt 0.04 — after the wave-278b move to the midpoint method it still matches the old first-order extrapolation, +1.373 s). DECLARED, NOT FITTED AWAY: it moves to +1.678 s by revolution 6 (a transient)."
+      },
+      "roleNote": "回顧的確認 — 較正ノブはゼロ。中点法で刻み半減差 12 μs まで収束した第 2 周の値で宣言する(時間窓では過渡を含む)。",
+      "roleNoteEn": "Retrospective check — zero calibration knobs. Declared from the revolution-2 value, converged to a 12-microsecond halving difference with the midpoint method (the time window shows it contains a transient).",
+      "expected": {
+       "min": 0.5,
+       "max": 2.5
+      },
+      "descPattern": "第 2 周の則の寄与は \\*\\*\\+(1\\.\\d+) s",
+      "testId": "behavior.plutoCharonDFM"
+     },
+     {
+      "id": "plutoCharonDFM.barycenter-outside",
+      "kind": "semantic",
+      "prov": "derived",
+      "role": "retrospective_check",
+      "metric": "barycenterOverPlutoRadius",
+      "chain": {
+       "ax": [
+        "A6"
+       ],
+       "eq": [
+        "E4"
+       ],
+       "note": "2024 年の暦解の GM 比 0.122052 と離角 195.974 単位から、共通重心が冥王星中心から 1.79 冥王星半径(表面の外)に出ることの導出値。観測ではなく転写値の帰結である。",
+       "noteEn": "Derived from the 2024 solution's GM ratio 0.122052 and the 195.974-unit separation: the barycentre sits 1.79 Pluto radii from the centre, outside the surface. A consequence of the transcription, not an observation."
+      },
+      "roleNote": "回顧的確認(導出)— 転写値の帰結であって独立な予言ではない。",
+      "roleNoteEn": "Retrospective check (derived) — a consequence of the transcription, not an independent prediction.",
+      "expected": {
+       "min": 1.7,
+       "max": 1.9
+      },
+      "descPattern": "=(1\\.79) 冥王星半径",
+      "testId": "behavior.plutoCharonDFM"
+     }
+    ],
+    "parameterAudit": {
+     "observedInputs": [
+      "内蔵 G=6.674(変えていない)・c₀=29979.2458",
+      "冥王星・カロンの GM(Brozović & Jacobson 2024 AJ 167 256 Table 8 — 869.3±0.4・106.1±0.3 km³/s²)",
+      "JPL Horizons PLU060/DE440 の元期 JD 2452600.5 TDB の状態ベクトル(中心=冥王星系重心・ICRF)",
+      "相互同期の宣言 ω=2π/551855.8944s(PLU060 の 400 年平均)",
+      "観測周期 551856.43872±0.02592 s(Buie 2012 — **照合先であって fit の対象ではない**)",
+      "半径 1188km・606km(既存レコードからの引き継ぎ — 2024 年の解は半径を公表していない)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁵m/10s/10²⁴kg — **精密単位**)",
+      "kFrame=0(核の E6′ 経路は使わない — 引きずりは relativeDrag から入る)",
+      "frameReaction:\"pairReduced\"(E6′-R)・frameWeight:\"share\"",
+      "kRep=muF=γN=κ_S=0 / geoPN=2・λ_PN=1・pnα=1.5 / stateCarry:\"double\"・massPrecision:\"double\"",
+      "二体重心系(両天体とも自由)・小衛星は診断コピーで別に測る",
+      "2D・相互ロックの相対幾何を保存(黄道基準の逆行符号は転写しない — 宣言)",
+      "慣性モーメントはエンジン規約の I=½mR²(totals() と同じ換算 — 3D 球の 2/5 ではない)"
+     ],
+     "fitted": [
+      "D₀=0.006(🌘 で決めた共有値の流用 — 本系でのフィットはゼロ)"
+     ],
+     "derived": [
+      "質量 1.3025172×10²²kg・1.5897513×10²¹kg(GM/G)",
+      "射影した 2D 初期状態(Horizons の相対状態に軌道面基底を当てたもの)",
+      "q=11.9386(q_exact を a=195.974 で1回評価した直値)",
+      "κ=G/c₀²=7.4258×10⁻⁹",
+      "camera.scale=210・timeScale=1000・dispMag=1"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.01 単位=1km",
+      "時間倍率 timeScale=1000",
+      "粒子表示倍率 dispMag=1(表示専用)",
+      "刻み 3 段 dt=0.16/0.08/0.04(=1.6/0.8/0.4 s)",
+      "integrator:\"leapfrog\"+relativeDrag.integration:\"midpoint\"(第278便b — 散逸の対称分割)"
+     ]
+    },
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "camera": {
+     "scale": 210
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 0,
+     "q": 11.9386,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 1,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.01,
+     "timeScale": 1000,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "massPrecision": "double",
+     "frameReaction": "pairReduced",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "pairSlip",
+      "kappa": 1,
+      "pairs": "all",
+      "spins": "declared",
+      "integration": "midpoint"
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 0.013025172310458496,
+      "radius": 11.88,
+      "x": -21.31721225635357,
+      "y": 0,
+      "vx": 3.3746189324353684e-7,
+      "vy": -0.0024266847512964917,
+      "spin": 0.00011385554400956285,
+      "pinned": false,
+      "pnSource": true
+     },
+     {
+      "type": "single",
+      "m": 0.0015897512735990414,
+      "radius": 6.06,
+      "x": 174.65648081478,
+      "y": 0,
+      "vx": -0.0000027648974910141987,
+      "vy": 0.019882347354401884,
+      "spin": 0.00011385554400956285,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**同一観測解の冥王星–カロン**を**精密単位**(1単位=10⁵m/10s/10²⁴kg)へ置いた **DFM 版**(第277便b)。質量は **GM/G** で作る —— Brozović & Jacobson 2024 AJ 167 256 Table 8 の GM(冥王星 869.3±0.4・カロン 106.1±0.3 km³/s²)を**内蔵 G=6.674 のまま**割って 1.3025172×10²²kg・1.5897513×10²¹kg(GM 比 0.122052)。初期状態は **JPL Horizons PLU060/DE440**(中心=冥王星系重心・ICRF/J2000・km, km/s・TDB)の元期 JD 2452600.5 の相対状態を**軌道面へ射影**した 2D である —— 基底は ê₁=r/|r|・ê₃=r×v/|r×v|・ê₂=ê₃×ê₁ で、位置と速度を**同じ回転**で射影する(z を捨てない。2 体では面外成分は恒等的に 0 で、面外が効くのは小衛星〔最大 ≈274km〕だが本サンプルには入れない)。得られる離角は 19597.369km・相対速度 223.0903m/s(動径成分 −0.0310m/s)で、共通重心は冥王星中心から 21.317 単位=2132km=1.79 冥王星半径(表面の外)に出る。自転は**相互同期の宣言** ω=2π/551855.8944s(PLU060 の 400 年平均)。働いているのは重力(E4)+測地線1PN(E12)+**本便の引きずり則**である。**kFrame=0 なので核の E6′ 運動引きずりは使わない** —— 代わりに宣言 physics.relativeDrag:{law:\"pairSlip\",kappa:1} が `S._core` の**外**の外部ステップを開け、対ごとの**相対すべり** s_i=v−ω_i×r・s_j=v−ω_j×r が 0 でないときだけ運動量インパルスと自転トルクを当てる(**相互同期した円軌道では 1 バイトも動かない**)。**この則は統括が設定した検証仮説であって、現行 DFM から一意に導出された法則ではない。** 数値設定は ε=0.01 単位=1km・physics.massPrecision:\"double\"・stateCarry:\"double\"・geoPN=2・frameReaction:\"pairReduced\"・frameWeight:\"share\"(**則を宣言した宇宙では自転配列も Float64 になる** —— 1 步の ΔJ/I が Float32 の ULP 3 個ぶんしかなく、10⁶ 步で帳簿が壊れることを実測したため)。**dt の意味が ❄️ と違う**: 時間単位が 10s なので、同じ物理刻みを取るには dt を ❄️ の 10 倍にする(本サンプルの 3 段は dt=0.16/0.08/0.04 = 1.6/0.8/0.4 s)。**観測検定欄は「判定保留(量定義不一致)」**(統括の検証項目 R53・AM16 の 2 欄)—— 入力も目標も同一暦 PLU060 の量なので、Buie 2012 の二体 P の σ(26 ms)では判定しない。**「較正が済んだ」とも「観測と一致した」とも書かない。** 比較値は第 2 周(dt 0.04)551888.037 s で Buie に対して +31.598 s・+1219.1σ(門ではない)。**欄 (1) 暦の再現**(σ なし・合否なし): PLU060 400 年平均 P に対して +32.143 s(+58.24 ppm)・Horizons osculating PR 元期 A/B に対して +37.360 / +34.967 s。**数値法**(第278便b): leapfrog + 陰的中点法の対称分割で 3 段の第 2 周は 551888.037107 / 551888.037058 / 551888.037046 s(dt 0.16/0.08/0.04 —— 刻み半減差 12 μs)。旧構成(semi+陽的)は 551866.888 / 551877.462 / 551882.750 s と 1 次でしか収束せず、1 次外挿 551888.037 s が今回の値と一致する。**時間窓**: 第 3 周は +0.302 s、第 4 周は +0.003 s 長く、第 5→6 周の変化は 0.2 μs —— **第 2 周の値は過渡を含む**(すべり 4.8×10⁻⁶→4×10⁻¹⁴・離心率 1.5×10⁻⁴→3.9×10⁻⁹ へ減衰する)。**則の寄与**(🌨️ との差・同じ leapfrog・dt 0.04): 第 2 周の則の寄与は **+1.373 s**、第 6 周で +1.678 s。**Buie 二体再現**(転写・積分器の試験 —— 独立の検証ではない): Buie の a=19573km・P から GM=4π²a³/P² を作って二体を回すと 551856.439804 s(Buie +1.084 ms のうち軟化 ε=1km が +1.080 ms)。**零条件**(相互同期した円軌道)ではキック・トルク・熱が厳密に 0、熱は全步非負(Q̇<0 の步 0)。帳簿は dt 0.04・3 周で J_z 4.6×10⁻¹²・運動量 2.1×10⁻¹²・|ΔE+熱| 9.6×10⁻¹²(J_z はリザーバ・放射を足した読み口)。**則の感度**: 宣言自転 0.9Ω/1.1Ω で第 2 周は 548867.792 / 554918.337 s —— この DFM 版が成り立っているのは系が相互同期しているからである。ε 1→10km で +0.448 s、massPrecision を single に戻すと +0.0245 s。NaN ゼロ・クランプ 0・同一構成2回実行はビット同一(QA behavior.plutoCharonDFM)。**周期は定義を宣言してから比べる**(裁定 I6): 本サンプルが測るのは**同方向1周**である。ワンタップの対照は**別サンプル** 🌨️ plutoCharonKF0Control である(同じ入力・同じ刻み・`relativeDrag` だけが無い)。**κ=0 を宣言すると同方向1周は対照と同じ 551886.664 s になる**(leapfrog・dt 0.16)(用量 0 の否定対照 — 宣言は署名に残る)。トレイルを点けると冥王星が重心のまわりに描く小円(半径 21.3 単位)が見える。粒子表示は実半径のまま(dispMag=1 — カロンは 6.06 単位)。**timeScale=1000 は上限**で、時間単位が 10s なので画面の進み方は ❄️ の 1/10 である。**小衛星を足すときは `pairs` で対を絞る**(中点法は単一対だけを受理する — 多対は陽的経路): `pairs:\"all\"` のまま慣性モーメントの小さい試験粒子級の小衛星を入れると、反トルクの受け皿が小さすぎて自転が暴走する(記録された否定対照)。",
+    "status": {
+     "purpose": "同一観測解の二体に零条件つき引きずり則を載せる",
+     "objective": "partial",
+     "state": "中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来",
+     "calibration": "hold-definition",
+     "mismatch": "比較値 +31.6 s(Buie 2012 比・門ではない)",
+     "outlook": "量の定義が揃うまで門に入れない",
+     "evidence": [
+      "docs.charonTwoColumns",
+      "behavior.plutoCharonDFM",
+      "tests/out/charonwin-w278b.json",
+      "tests/out/charoninput-w280d.json"
+     ]
+    }
+   }
+  },
+  "plutoCharonSyncZero": {
+   "emoji": "☃️",
+   "name": "冥王星とカロン(厳密同期円)— 相対すべり則の零試験",
+   "familyId": "pluto",
+   "familyRole": "retired",
+   "familyRoleAtBase": "variant",
+   "group": "現実較正",
+   "groupAtBase": "現実較正",
+   "sampleClass": "principle",
+   "presetSigHash": "2bb0ba92",
+   "presetSigSha256": "f2adc8ad583a172cbacbfa770959491fce174f9595174a416d12eadcbe32ddc7",
+   "base": {
+    "rev": "f03bf5a",
+    "presetSigHash": "2bb0ba92",
+    "name": "冥王星とカロン(厳密同期円)— 相対すべり則の零試験",
+    "sigSame": true
+   },
+   "successor": "plutoCharonDiagInput",
+   "reason": "引きずり則の更新(第290便c の新経路)に伴い旧 pairSlip の零試験を整理(代わりに 🥶)",
+   "retiredNotice": {
+    "ja": "旧 pairSlip の厳密同期円の零試験で、引きずり則の更新(第290便c の新経路)に伴い整理(第290便b)で退役した",
+    "en": "the exact synchronous-circle zero test of the old pairSlip, retired in the clean-up (wave 290b) along with the update of the drag law (the new path of wave 290c)",
+    "see": [
+     "plutoCharonDiagInput"
+    ]
+   },
+   "pairDiff": {
+    "successor": "plutoCharonDiagInput",
+    "successorEmoji": "🥶",
+    "diff": {
+     "physics.geoPN": [
+      0,
+      1
+     ],
+     "physics.relativeDrag": [
+      {
+       "law": "pairSlip",
+       "kappa": 1,
+       "pairs": "all",
+       "spins": "declared",
+       "integration": "midpoint"
+      },
+      null
+     ],
+     "bodies[0].x": [
+      -21.31721225635357,
+      -21.315466069304904
+     ],
+     "bodies[0].vy": [
+      -0.002426750450824057,
+      -0.0024268498546968042
+     ],
+     "bodies[0].spin": [
+      0.00011383995344422988,
+      0.00011385554400956285
+     ],
+     "bodies[1].x": [
+      174.65648081478,
+      174.6421739306951
+     ],
+     "bodies[1].vy": [
+      0.019882885644687584,
+      0.019883700081884368
+     ],
+     "bodies[1].spin": [
+      0.00011383995344422988,
+      0.00011385554400956285
+     ]
+    },
+    "n": 8,
+    "named": {
+     "D0": null,
+     "q": null,
+     "bodies": 6
+    }
+   },
+   "raw": {
+    "id": "plutoCharonSyncZero",
+    "name": "冥王星とカロン(厳密同期円)— 相対すべり則の零試験",
+    "emoji": "☃️",
+    "group": "現実較正",
+    "familyId": "pluto",
+    "familyRole": "retired",
+    "scaleTier": "planetary",
+    "scaleExp": {
+     "L": 5,
+     "T": 1,
+     "M": 24
+    },
+    "integrator": "leapfrog",
+    "sampleClass": "principle",
+    "fidelity": "toy",
+    "notClaim": [
+     "solar_cal"
+    ],
+    "obsCard": [
+     {
+      "q": "初期 1 歩の零条件",
+      "model": "すべり・キック・自転トルク・ΔE が 0 そのもの・状態は 1 bit も動かない(読み口と步の両方)",
+      "obs": "—(s=v−ω×r=0 の配置)"
+     },
+     {
+      "q": "走行中の則の作用(dt 0.16・3 周)",
+      "model": "熱 4.1×10⁻³² ・キック最大 3.4×10⁻²³・すべり最大 2.5×10⁻¹⁵(丸め級)",
+      "obs": "—(則が 0 でないのは丸めのすべり)"
+     },
+     {
+      "q": "則を外した対との周期差",
+      "model": "第2周 +1.3×10⁻⁹ s・第3周 +1.9×10⁻⁹ s(dt 0.16)—— 終状態は 1 bit 同じではない",
+      "obs": "—(同じ入力・同じ刻みの A/B)"
+     },
+     {
+      "q": "同方向1周(第2周)",
+      "model": "551931.4719 s(dt 0.16)",
+      "obs": "—(試験配置の周期 —— 観測と比べない)"
+     },
+     {
+      "q": "速度の作り方で変わること",
+      "model": "連続の円速度にすると差は +2.0×10⁻⁷ s(離散の離心率 O(dt²) に則が作用)",
+      "obs": "—(§5.33.3)"
+     }
+    ],
+    "failureFirst": {
+     "fail": "**「零条件なら則のない kF0 と 1 bit 同じ」は走行中には成り立たない。** 初期 1 歩は厳密に 0 だが、刻みを進めると丸め(ULP)で相対すべり 2.5×10⁻¹⁵ 単位が生まれ、則はそれに作用して自転の最下位ビットを動かす(熱 4.1×10⁻³²・ΔE>0 の步 58 回)。則を外した対との周期差は第 2 周 +1.3×10⁻⁹ s で、終状態は 1 bit 同じにならない。速度を連続の円速度で作ると、離散の軌道が持つ O(dt²) の離心率に則が作用して差は +2.0×10⁻⁷ s になる。1PN を入れると(geoPN 2)−3.1×10⁻⁸ s。",
+     "pass": "**零条件そのものは厳密に効いている**: ⛄ と同じ質量・同じ離角(元期 A の |r|)で、速度を leapfrog KDK の離散相対平衡(刻み 0.16・軟化 1km の重力で 1 步ごとに同じ半径へ戻る接線速度)に、両体の自転を v_t/a にすると、読み口と步のすべり・キック・トルク・ΔE は 0 そのもので、状態は 1 bit も動かない。走行中の熱は丸め級(非負)で、周期への影響は 10⁻⁹ s 級である。"
+    },
+    "descStruct": {
+     "summary": "**相対すべり則(pairSlip)の零条件を、走行中も含めて試す診断コピー**(第280便d・原仮定者の裁定(第70報)「互いに潮汐ロックで引きずりが消えると、観測値版と変わらない想定」)。質量と離角は ⛄ plutoCharonDFM と 1 bit 同じで、状態だけを**厳密同期円**に作り直した: 速度は leapfrog の KDK が 1 步ごとに同じ半径へ戻す接線速度 v_t=√(ga−g²dt²/4)(g=GMa/(a²+ε²)^{3/2}・dt=0.16・ε=1km)、両体の自転は ω=v_t/a(**瞬間の公転角速度と同期** —— すべり s=v−ω×r が 0)。則は ⛄ と同じ(κ=1・中点法)で、1PN は切った(geoPN 0 —— 1PN は軟化重力の円を相対平衡から外すため)。働いているのは重力(E4)と相対すべり則だけで、kFrame=0 なので核の E6′ 運動引きずりは使わない。",
+     "observe": "初期状態では読み口 relativeDragProbe と步 dfmRelativeDragStep のすべり・キック・自転トルク・ΔE が **0 そのもの**で、状態は 1 bit も動かない。走行中(dt 0.16・3 周)は丸めで相対すべり最大 2.5×10⁻¹⁵ 単位が生まれ、則はそれに作用する —— 熱 4.1×10⁻³²(非負)・キック最大 3.4×10⁻²³・ΔE>0 と記帳した步 58 回。**則を外した対(kF0)との周期差は第 2 周 +1.3×10⁻⁹ s・第 3 周 +1.9×10⁻⁹ s** で、終状態は 1 bit 同じではない。同方向1周(第 2 周)は 551931.4719 s(試験配置の周期 —— 観測と比べない)。速度を連続の円速度にした場合は +2.0×10⁻⁷ s、1PN を入れた場合は −3.1×10⁻⁸ s、刻み 0.04 で走らせると第 2 周は −1.6×10⁻⁵ s(速度を 0.16 で作ったための過渡 —— 第 3 周は −4.7×10⁻¹⁰ s)。",
+     "control": "対になるのは同じ宣言から physics.relativeDrag を外した構成(器と QA の中だけで作る)。**⛄ の実入力(元期 A)では零条件が成り立たない**: 離心率 1.49×10⁻⁴ と動径速度があり、宣言の自転は 400 年平均の同期(瞬間同期ではない)なので、則は自転と軌道の間で角運動量を動かし続ける(⛄ と 🌨️ の差 +1.678 s の由来 —— §5.33.3)。粒子表示は実半径のまま(dispMag=1)。",
+     "brief": "厳密同期円で相対すべり則の零条件を走行中も試す。部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る。較正対象外。"
+    },
+    "en": {
+     "name": "Pluto and Charon (exact synchronous circle) — a zero test of the relative-slip law",
+     "obsCard": [
+      {
+       "q": "Zero condition on the first step",
+       "model": "slip, kick, spin torque and dE are exactly zero and the state does not move a bit (probe and step)",
+       "obs": "— (a configuration with s = v - omega x r = 0)"
+      },
+      {
+       "q": "The law while running (dt 0.16, three orbits)",
+       "model": "heat 4.1e-32, largest kick 3.4e-23, largest slip 2.5e-15 (rounding level)",
+       "obs": "— (the law acts only on rounding slip)"
+      },
+      {
+       "q": "Period difference against the same set-up without the law",
+       "model": "+1.3e-9 s at revolution 2, +1.9e-9 s at revolution 3 (dt 0.16) — the final state is not bit-identical",
+       "obs": "— (same inputs, same step)"
+      },
+      {
+       "q": "Same-direction revolution (rev 2)",
+       "model": "551931.4719 s (dt 0.16)",
+       "obs": "— (the period of a test configuration — not compared with observation)"
+      },
+      {
+       "q": "What the velocity construction changes",
+       "model": "with the continuous circular speed the difference is +2.0e-7 s (the law acts on the O(dt^2) eccentricity of the discrete orbit)",
+       "obs": "— (section 5.33.3)"
+      }
+     ],
+     "failureFirst": {
+      "fail": "\"UNDER THE ZERO CONDITION IT IS BIT-IDENTICAL TO THE kF0 RUN\" DOES NOT HOLD WHILE RUNNING. The first step is exactly zero, but stepping on, rounding (ULPs) creates a relative slip of 2.5e-15 units, the law acts on it and moves the last bits of the spins (heat 4.1e-32, 58 steps booked with dE > 0). The period difference against the same set-up without the law is +1.3e-9 s at revolution 2, and the final states are not bit-identical. Building the velocity from the continuous circular speed instead lets the law act on the O(dt^2) eccentricity of the discrete orbit: +2.0e-7 s. With 1PN on (geoPN 2): -3.1e-8 s.",
+      "pass": "THE ZERO CONDITION ITSELF ACTS EXACTLY: with the DFM build's masses and separation (the epoch-A |r|), a velocity at the discrete relative equilibrium of leapfrog KDK (the tangential speed that returns to the same radius every step at dt 0.16 with the 1 km softened gravity) and both spins at v_t/a, the probe and the step give slip, kick, torque and dE of exactly zero and the state does not move a bit. The heat while running stays at rounding level (non-negative) and the period effect is of order 1e-9 s."
+     },
+     "descStruct": {
+      "summary": "A DIAGNOSTIC COPY THAT TESTS THE ZERO CONDITION OF THE RELATIVE-SLIP LAW (pairSlip), INCLUDING WHILE RUNNING (wave 280d, the originator's ruling (report 70): with mutual tidal locking the dragging vanishes and the result should equal the observed-value build). Masses and separation are bit-identical to plutoCharonDFM; only the state is rebuilt as an EXACT SYNCHRONOUS CIRCLE: the velocity is the tangential speed v_t = sqrt(g a - g^2 dt^2 / 4) (g = G M a / (a^2 + eps^2)^(3/2), dt = 0.16, eps = 1 km) that leapfrog KDK returns to the same radius every step, and both spins are omega = v_t / a (SYNCHRONOUS WITH THE INSTANTANEOUS ORBITAL RATE — the slip s = v - omega x r is zero). The law is the DFM build's (kappa = 1, midpoint), and 1PN is off (geoPN 0 — 1PN moves the softened circle off relative equilibrium). Only gravity (E4) and the relative-slip law act; kFrame=0 keeps the core's E6' motion dragging out.",
+      "observe": "In the initial state the probe relativeDragProbe and the step dfmRelativeDragStep give slip, kick, spin torque and dE of EXACTLY ZERO, and the state does not move a bit. While running (dt 0.16, three orbits) rounding creates a relative slip of at most 2.5e-15 units and the law acts on it — heat 4.1e-32 (non-negative), largest kick 3.4e-23, 58 steps booked with dE > 0. THE PERIOD DIFFERENCE AGAINST THE SAME SET-UP WITHOUT THE LAW (kF0) IS +1.3e-9 s AT REVOLUTION 2 AND +1.9e-9 s AT REVOLUTION 3, and the final states are not bit-identical. Revolution 2 is 551931.4719 s (the period of a test configuration — not compared with observation). With the continuous circular speed the difference is +2.0e-7 s, with 1PN on -3.1e-8 s, and at dt 0.04 revolution 2 differs by -1.6e-5 s (a transient because the velocity was built for 0.16; revolution 3 is -4.7e-10 s).",
+      "control": "Its counterpart is the same declaration with physics.relativeDrag removed (built only inside the harness and the QA). THE ZERO CONDITION DOES NOT HOLD FOR THE DFM BUILD'S REAL INPUT (epoch A): there is an eccentricity of 1.49e-4 and a radial velocity, and the declared spin is the 400-year-mean synchronism (not the instantaneous one), so the law keeps moving angular momentum between the spins and the orbit (the origin of the +1.678 s between the DFM build and its control — section 5.33.3). Bodies are drawn at real radii (dispMag=1).",
+      "brief": "Test the zero-slip condition on an exact synchronous circle. Partial: first step exactly zero; rounding-level heat while running. Out of calibration scope."
+     },
+     "parameterAudit": {
+      "observedInputs": [
+       "the built-in G=6.674 (unchanged) and c0=29979.2458",
+       "the masses of the DFM build (GM of Brozovic & Jacobson 2024 Table 8 divided by G)",
+       "the separation of the DFM build (the epoch-A |r| of JPL Horizons PLU060/DE440)"
+      ],
+      "fixedConventions": [
+       "per-sample scale exponents (1 unit = 1e5 m / 10 s / 1e24 kg)",
+       "relativeDrag:{law:\"pairSlip\",kappa:1,pairs:\"all\",spins:\"declared\",integration:\"midpoint\"} (the DFM build's law)",
+       "kFrame=0 / geoPN=0 (1PN off for the zero test)",
+       "two-body barycentric, exact synchronous circle",
+       "stateCarry:\"double\", massPrecision:\"double\""
+      ],
+      "fitted": [
+       "none"
+      ],
+      "derived": [
+       "the tangential speed of the leapfrog KDK discrete relative equilibrium at dt=0.16 and eps=1 km",
+       "the spins omega = v_t / a (both bodies)",
+       "camera.scale=210, timeScale=1000, dispMag=1"
+      ],
+      "numerical": [
+       "softening epsilon=0.01 unit = 1 km",
+       "step dt=0.16 (the velocity is built for it)",
+       "integrator:\"leapfrog\"",
+       "display magnification dispMag=1 (display only)"
+      ]
+     },
+     "description": "A DIAGNOSTIC COPY THAT TESTS THE ZERO CONDITION OF THE RELATIVE-SLIP LAW (pairSlip), INCLUDING WHILE RUNNING (wave 280d, the originator's ruling (report 70): with mutual tidal locking the dragging vanishes and the result should equal the observed-value build). Masses and separation are bit-identical to plutoCharonDFM; only the state is rebuilt as an EXACT SYNCHRONOUS CIRCLE: the velocity is the tangential speed v_t = sqrt(g a - g^2 dt^2 / 4) (g = G M a / (a^2 + eps^2)^(3/2), dt = 0.16, eps = 1 km) that leapfrog KDK returns to the same radius every step, and both spins are omega = v_t / a (SYNCHRONOUS WITH THE INSTANTANEOUS ORBITAL RATE — the slip s = v - omega x r is zero). The law is the DFM build's (kappa = 1, midpoint), and 1PN is off (geoPN 0 — 1PN moves the softened circle off relative equilibrium). Only gravity (E4) and the relative-slip law act; kFrame=0 keeps the core's E6' motion dragging out.In the initial state the probe relativeDragProbe and the step dfmRelativeDragStep give slip, kick, spin torque and dE of EXACTLY ZERO, and the state does not move a bit. While running (dt 0.16, three orbits) rounding creates a relative slip of at most 2.5e-15 units and the law acts on it — heat 4.1e-32 (non-negative), largest kick 3.4e-23, 58 steps booked with dE > 0. THE PERIOD DIFFERENCE AGAINST THE SAME SET-UP WITHOUT THE LAW (kF0) IS +1.3e-9 s AT REVOLUTION 2 AND +1.9e-9 s AT REVOLUTION 3, and the final states are not bit-identical. Revolution 2 is 551931.4719 s (the period of a test configuration — not compared with observation). With the continuous circular speed the difference is +2.0e-7 s, with 1PN on -3.1e-8 s, and at dt 0.04 revolution 2 differs by -1.6e-5 s (a transient because the velocity was built for 0.16; revolution 3 is -4.7e-10 s).Its counterpart is the same declaration with physics.relativeDrag removed (built only inside the harness and the QA). THE ZERO CONDITION DOES NOT HOLD FOR THE DFM BUILD'S REAL INPUT (epoch A): there is an eccentricity of 1.49e-4 and a radial velocity, and the declared spin is the 400-year-mean synchronism (not the instantaneous one), so the law keeps moving angular momentum between the spins and the orbit (the origin of the +1.678 s between the DFM build and its control — section 5.33.3). Bodies are drawn at real radii (dispMag=1).",
+     "status": {
+      "purpose": "Test the zero-slip condition on an exact synchronous circle",
+      "state": "first step exactly zero; rounding-level heat while running",
+      "mismatch": null,
+      "outlook": null
+     }
+    },
+    "parameterAudit": {
+     "observedInputs": [
+      "内蔵 G=6.674(変えていない)・c₀=29979.2458",
+      "⛄ の質量(Brozović & Jacobson 2024 Table 8 の GM/G)",
+      "⛄ の離角(JPL Horizons PLU060/DE440 元期 A の |r|)"
+     ],
+     "fixedConventions": [
+      "サンプル別スケール指数(1単位=10⁵m/10s/10²⁴kg)",
+      "relativeDrag:{law:\"pairSlip\",kappa:1,pairs:\"all\",spins:\"declared\",integration:\"midpoint\"}(⛄ と同じ則)",
+      "kFrame=0 / geoPN=0(零試験のため 1PN を切る)",
+      "二体重心系・厳密同期円",
+      "stateCarry:\"double\"・massPrecision:\"double\""
+     ],
+     "fitted": [
+      "なし"
+     ],
+     "derived": [
+      "leapfrog KDK の離散相対平衡の接線速度(dt=0.16・ε=1km)",
+      "自転 ω=v_t/a(両体)",
+      "camera.scale=210・timeScale=1000・dispMag=1"
+     ],
+     "numerical": [
+      "ソフトニング ε=0.01 単位=1km",
+      "刻み dt=0.16(速度はこの刻みで作った)",
+      "integrator:\"leapfrog\"",
+      "粒子表示倍率 dispMag=1(表示専用)"
+     ]
+    },
+    "activeParams": [
+     "kFrame",
+     "q",
+     "D0"
+    ],
+    "camera": {
+     "scale": 210
+    },
+    "world": {
+     "boundary": "none",
+     "size": 0
+    },
+    "physics": {
+     "G": 6.674,
+     "D0": 0.006,
+     "kFrame": 0,
+     "q": 11.9386,
+     "kRep": 0,
+     "muF": 0,
+     "gammaN": 0,
+     "kappaS": 0,
+     "kappaT": 7.425826474101849e-9,
+     "cLight": 29979.2458,
+     "bM": 1,
+     "etaRad": 0,
+     "pRad": 4,
+     "gravityX": 0,
+     "gravityY": 0,
+     "massFloor": 0.000001,
+     "geoPN": 0,
+     "lambdaPN": 1,
+     "pnAlpha": 1.5,
+     "radiusScale": 1,
+     "softening": 0.01,
+     "timeScale": 1000,
+     "dispMag": 1,
+     "stateCarry": "double",
+     "massPrecision": "double",
+     "frameReaction": "pairReduced",
+     "frameWeight": "share",
+     "relativeDrag": {
+      "law": "pairSlip",
+      "kappa": 1,
+      "pairs": "all",
+      "spins": "declared",
+      "integration": "midpoint"
+     }
+    },
+    "bodies": [
+     {
+      "type": "single",
+      "m": 0.013025172310458496,
+      "radius": 11.88,
+      "x": -21.31721225635357,
+      "y": 0,
+      "vx": 0,
+      "vy": -0.002426750450824057,
+      "spin": 0.00011383995344422988,
+      "pinned": false,
+      "pnSource": true
+     },
+     {
+      "type": "single",
+      "m": 0.0015897512735990414,
+      "radius": 6.06,
+      "x": 174.65648081478,
+      "y": 0,
+      "vx": 0,
+      "vy": 0.019882885644687584,
+      "spin": 0.00011383995344422988,
+      "pinned": false
+     }
+    ],
+    "overlays": {
+     "rotationCurve": false,
+     "tempHistogram": false,
+     "field": false,
+     "trail": true
+    },
+    "description": "**相対すべり則(pairSlip)の零条件を、走行中も含めて試す診断コピー**(第280便d・原仮定者の裁定(第70報)「互いに潮汐ロックで引きずりが消えると、観測値版と変わらない想定」)。質量と離角は ⛄ plutoCharonDFM と 1 bit 同じで、状態だけを**厳密同期円**に作り直した: 速度は leapfrog の KDK が 1 步ごとに同じ半径へ戻す接線速度 v_t=√(ga−g²dt²/4)(g=GMa/(a²+ε²)^{3/2}・dt=0.16・ε=1km)、両体の自転は ω=v_t/a(**瞬間の公転角速度と同期** —— すべり s=v−ω×r が 0)。則は ⛄ と同じ(κ=1・中点法)で、1PN は切った(geoPN 0 —— 1PN は軟化重力の円を相対平衡から外すため)。働いているのは重力(E4)と相対すべり則だけで、kFrame=0 なので核の E6′ 運動引きずりは使わない。初期状態では読み口 relativeDragProbe と步 dfmRelativeDragStep のすべり・キック・自転トルク・ΔE が **0 そのもの**で、状態は 1 bit も動かない。走行中(dt 0.16・3 周)は丸めで相対すべり最大 2.5×10⁻¹⁵ 単位が生まれ、則はそれに作用する —— 熱 4.1×10⁻³²(非負)・キック最大 3.4×10⁻²³・ΔE>0 と記帳した步 58 回。**則を外した対(kF0)との周期差は第 2 周 +1.3×10⁻⁹ s・第 3 周 +1.9×10⁻⁹ s** で、終状態は 1 bit 同じではない。同方向1周(第 2 周)は 551931.4719 s(試験配置の周期 —— 観測と比べない)。速度を連続の円速度にした場合は +2.0×10⁻⁷ s、1PN を入れた場合は −3.1×10⁻⁸ s、刻み 0.04 で走らせると第 2 周は −1.6×10⁻⁵ s(速度を 0.16 で作ったための過渡 —— 第 3 周は −4.7×10⁻¹⁰ s)。対になるのは同じ宣言から physics.relativeDrag を外した構成(器と QA の中だけで作る)。**⛄ の実入力(元期 A)では零条件が成り立たない**: 離心率 1.49×10⁻⁴ と動径速度があり、宣言の自転は 400 年平均の同期(瞬間同期ではない)なので、則は自転と軌道の間で角運動量を動かし続ける(⛄ と 🌨️ の差 +1.678 s の由来 —— §5.33.3)。粒子表示は実半径のまま(dispMag=1)。",
+    "status": {
+     "purpose": "厳密同期円で相対すべり則の零条件を走行中も試す",
+     "objective": "partial",
+     "state": "初期 1 歩は厳密に 0・走行中は丸め級の熱が残る",
+     "calibration": "out-of-scope",
+     "mismatch": null,
+     "outlook": null,
+     "evidence": [
+      "tests/out/charoninput-w280d.json"
+     ]
+    }
+   }
+  }
+ },
+ "declChanges": [
+  {
+   "id": "axisBarStill",
+   "emoji": "🥢",
+   "change": {
+    "familyId": [
+     null,
+     "axisBar"
+    ],
+    "familyRole": [
+     null,
+     "primary"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "8514dc2e",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "axisBarArms",
+   "emoji": "🎏",
+   "change": {
+    "familyId": [
+     null,
+     "axisBar"
+    ],
+    "familyRole": [
+     null,
+     "variant"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "358725a5",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "axisBarReach",
+   "emoji": "🎚️",
+   "change": {
+    "familyId": [
+     null,
+     "axisBar"
+    ],
+    "familyRole": [
+     null,
+     "variant"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "6b4c4863",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "clusterGrowthCopy",
+   "emoji": "🌰",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "89478a8b",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "fixedCaptureCopy",
+   "emoji": "🥜",
+   "change": {
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "8deb97ed",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "shapeToyCluster",
+   "emoji": "🔮",
+   "change": {
+    "familyId": [
+     null,
+     "shapeToy"
+    ],
+    "familyRole": [
+     null,
+     "primary"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "38156713",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "shapeToyDisk",
+   "emoji": "🥏",
+   "change": {
+    "familyId": [
+     null,
+     "shapeToy"
+    ],
+    "familyRole": [
+     null,
+     "variant"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "b5673bea",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "shapeToyArm",
+   "emoji": "🧵",
+   "change": {
+    "familyId": [
+     null,
+     "shapeToy"
+    ],
+    "familyRole": [
+     null,
+     "variant"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "ffbcf715",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "shapeToyClusterCore",
+   "emoji": "🎱",
+   "change": {
+    "familyId": [
+     null,
+     "shapeToyCore"
+    ],
+    "familyRole": [
+     null,
+     "primary"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "e5fffafa",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "shapeToyDiskCore",
+   "emoji": "📀",
+   "change": {
+    "familyId": [
+     null,
+     "shapeToyCore"
+    ],
+    "familyRole": [
+     null,
+     "variant"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "762ea0c6",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "shapeToyArmCore",
+   "emoji": "🧹",
+   "change": {
+    "familyId": [
+     null,
+     "shapeToyCore"
+    ],
+    "familyRole": [
+     null,
+     "variant"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "76132401",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "plutoCharonReal",
+   "emoji": "❄️",
+   "change": {
+    "familyRole": [
+     "primary",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "a859d010",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "plutoCharonDFM",
+   "emoji": "⛄",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "fb8ad6e3",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "change": {
+    "sampleClass": [
+     "principle",
+     "calibration"
+    ],
+    "familyRole": [
+     "variant",
+     "primary"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "9842c8c3",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "plutoCharonSyncZero",
+   "emoji": "☃️",
+   "change": {
+    "familyRole": [
+     "variant",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "2bb0ba92",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "tuc47",
+   "emoji": "🍇",
+   "change": {
+    "familyRole": [
+     "variant",
+     "primary"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "c766c1ab",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "tuc47DFM",
+   "emoji": "🫐",
+   "change": {
+    "familyRole": [
+     "primary",
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "e917080e",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "supernovaProg",
+   "emoji": "🥀",
+   "change": {
+    "familyId": [
+     null,
+     "supernova"
+    ],
+    "familyRole": [
+     null,
+     "primary"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "31910bb1",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "supernovaProgDFM",
+   "emoji": "🌹",
+   "change": {
+    "familyId": [
+     null,
+     "supernova"
+    ],
+    "familyRole": [
+     null,
+     "retired"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "9cbb7932",
+   "physicsSame": true,
+   "bodiesSame": true
+  },
+  {
+   "id": "saturnZonalD68",
+   "emoji": "📡",
+   "change": {
+    "obsCardRows": [
+     4,
+     5
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "13b08308",
+   "physicsSame": true,
+   "bodiesSame": true,
+   "obsCardAdded": [
+    {
+     "q": "否の要因(第280便e の診断・履歴)",
+     "model": "同じ窓の差 +42.66 deg/yr のうち初速が +42.23 — 初速・軌道幾何の宣言の問題で 1PN や引きずりの問題ではない。a と ae と ϖ̇ の同一元期は未確認(AB3 未決)",
+     "obs": "—"
+    }
+   ]
+  },
+  {
+   "id": "supernovaCore",
+   "emoji": "🎇",
+   "change": {
+    "familyId": [
+     null,
+     "supernova"
+    ],
+    "familyRole": [
+     null,
+     "variant"
+    ]
+   },
+   "presetSigSame": true,
+   "presetSigHash": "d7ce45a3",
+   "physicsSame": true,
+   "bodiesSame": true
+  }
+ ],
+ "wave": "第290便b",
+ "ruling": "原仮定者の裁定(第80報)⑤・統括の検証項目 R126",
+ "frozen": true,
+ "source": {
+  "file": "beta/index.html",
+  "sha256": "d93f72d77e3deb6b0441f24c9d98b689a6273aa015e741edd1e97a84c9089d94",
+  "note": "第290便b の html(退役の宣言・🥶 の昇格・家族の宣言・📡 の要因の行を入れた後)"
+ },
+ "base": {
+  "rev": "f03bf5a",
+  "commit": "f03bf5a124ecd58f01529bc25f59a4adc70db702",
+  "file": "beta/index.html",
+  "sha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a"
+ },
+ "history": {
+  "qa": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "rev": "f03bf5a",
+   "commit": "020b725f462f34709057a7aa39f004ab5dd8051a",
+   "date": "2026-10-02T00:28:05.392Z",
+   "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
+   "total": 1008
+  },
+  "tests": []
+ }
+}

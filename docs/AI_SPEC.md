@@ -2963,3 +2963,23 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 - **「このアプリについて」**: `buildAbout` の順序だけを aboutBody → 初見ガイドのボタン → この宇宙の法則(要約)→ 操作(操作の本文・観測との差・ライブ比較・一覧の区画の 1 行 `helpPickerScope`)にした。既存の文は不変。
 - **「その他」の段「状況(説明タブ)」の既定**(AN114): 表 `PP_OTHER_SEC_FOLDED`(= status)の段は画面幅によらず既定で畳む(§32 の段の畳みの規約 —— 含む/除くのチップは畳んでも見える・開閉はセッション内のみ)。「見込み」軸は足さない。
 - QA: **`ui.aboutOrder`**・**`ui.pickerScope`**。既存の固定値は世代切替 has290f(html の `const GROUP_SCOPE=` / `const PP_OTHER_SEC_FOLDED=`): `groups.reorder`(候補 9 つ目)・`ui.groupOrderPaper`(表・並び・id)・`ui.groupIcons`(13 → 14 群)・`ui.pickerOtherFold`(広い画面の既定 decl/badge 開・status 畳)。root は SKIP。
+
+## 37. 第290便b —— 退役 7 本・🥶 の較正分類・家族の表(原仮定者の裁定〔第80報〕⑤・統括の検証項目 R126・**宣言だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`presetSig`・保存 JSON の物理・力学は 1 bit も変えていない(`familyId`・`familyRole`・`sampleClass` は署名の外の宣言 —— bitsame 147/147)。
+
+- **退役 7 本**(§16 の `familyRole:"retired"`・理由と代わりの本は `RETIRED_PRESETS`・凍結の写し `tests/fixtures/retired-w290b.json`): 🫐 `tuc47DFM`(→ 🍇)・🌹 `supernovaProgDFM`(→ 🥀)・🌰 `clusterGrowthCopy`・🥜 `fixedCaptureCopy`(→ 🧩/🌚)・❄️ `plutoCharonReal`・⛄ `plutoCharonDFM`・☃️ `plutoCharonSyncZero`(→ 🥶)。AI 追加の基準候補・サンプル一覧には出ない(読み込み中の本だけは残る —— §16 の規約のまま)。
+- **🥶 `plutoCharonDiagInput`** を `sampleClass:"calibration"` へ(較正母集団 `sampleClass:"calibration" ∧ familyRole≠"retired"` に入る —— 合否と本数は判定器の正本が決める)。**❄️ の 4 値は 🥶 の結果ではない。**
+- **家族の表**(`familyId` → 基準 primary / 在位の枝 variant / 退役):
+
+| familyId | primary | variant | retired |
+|---|---|---|---|
+| `pluto` | 🥶 | 🌨️・🌒 | ❄️・⛄・☃️ |
+| `tuc47` | 🍇 | — | 🫐 |
+| `supernova` | 🥀 | 🎇(群をまたぐ —— 家族は群をまたいでよい) | 🌹 |
+| `shapeToy` | 🔮 | 🥏・🧵 | — |
+| `shapeToyCore` | 🎱 | 📀・🧹 | — |
+| `axisBar` | 🥢 | 🎏・🎚️ | — |
+
+- **📡 `saturnZonalD68` の obsCard に 1 行**(「否の要因(第280便e の診断・履歴)」・obs「—」): 値は正本 `tests/out/d68-w280e.json` の転記。係数 C・初速・bodies は不変。
+- QA: **`preset.retired290b`**・**`docs.d68FactorRow`**(root は SKIP)。

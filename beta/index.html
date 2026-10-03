@@ -1280,7 +1280,7 @@ ja: {
   familyRowLabel:"この仲間:",
   // 第283便b(原仮定者の裁定(第73報)④・R84): **退役(履歴)**の 1 行と一覧の印(表示専用)
   retiredTag:"退役(履歴)",
-  retiredNotice:(why,see)=>"🗄️ 退役(履歴)— このサンプルは原仮定者の裁定(第73報〜第78報)で退役した。ID・物理・保存 JSON は変えていないので、保存やこれまでの記録からはこのまま開ける(サンプル一覧には出ない・自動で別の本へ置き換えない)。"+(why? "理由: "+why+"。" : "")+(see? "代わりに見る本: "+see : ""),
+  retiredNotice:(why,see)=>"🗄️ 退役(履歴)— このサンプルは原仮定者の裁定(第73報〜第80報)で退役した。ID・物理・保存 JSON は変えていないので、保存やこれまでの記録からはこのまま開ける(サンプル一覧には出ない・自動で別の本へ置き換えない)。"+(why? "理由: "+why+"。" : "")+(see? "代わりに見る本: "+see : ""),
   // 第81便C(原仮定者指示): サンプルに依らないアプリ全体設定を集約する「共通設定」カテゴリ(表示の直後)
   grpCommon:"共通設定",
   tgFlipY:"上下反転",
@@ -2297,7 +2297,7 @@ en: {
   familyRowLabel:"Family:",
   // 283rd delivery, branch b: the "retired (history)" line and the list mark (display only)
   retiredTag:"retired (history)",
-  retiredNotice:(why,see)=>"🗄️ Retired (history) — this sample was retired by the originator's rulings (reports 73–78). Its ID, physics and saved JSON are unchanged, so it still opens from saves and past records (it is not listed in the sample picker and is never swapped for another sample automatically). "+(why? "Reason: "+why+". " : "")+(see? "See instead: "+see : ""),
+  retiredNotice:(why,see)=>"🗄️ Retired (history) — this sample was retired by the originator's rulings (reports 73–80). Its ID, physics and saved JSON are unchanged, so it still opens from saves and past records (it is not listed in the sample picker and is never swapped for another sample automatically). "+(why? "Reason: "+why+". " : "")+(see? "See instead: "+see : ""),
   // 81st delivery, track C: "General" category (right after Display) for app-wide, sample-independent settings
   grpCommon:"General",
   tgFlipY:"Flip vertically",
@@ -9132,6 +9132,7 @@ const BUILTIN_PRESETS = [
 { id:"axisBarStill", name:"回転ゼロの棒 — 軸に集まる恒星", emoji:"🥢", group:"腕と渦伸長(軸力)",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
+  familyId:"axisBar", familyRole:"primary",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): 新しい家族「棒と腕(軸力・DFM の外)」(表示専用 —— presetSig・物理・保存 JSON は不変)
   obsCard:[
     {q:"何を試したか", model:"**配置則ではなく力**で棒を作る。physics.axisForce(案A)を宣言した軸対称円盤に、回転を与えずに走らせる", obs:"—(原理サンプル — 観測転写はしない)"},
     {q:"式", model:"Φ_A=−A·exp(−d²/R_b²)·(u²−v²)/(d²+r_c²)(u=e·d・v=e⊥·d・e=軸)。A=300・R_b=120・r_c=6・軸は x 方向で固定", obs:"—"},
@@ -9174,6 +9175,7 @@ const BUILTIN_PRESETS = [
 { id:"axisBarArms", name:"内側の棒と外側の2本腕 — 回転する円盤", emoji:"🎏", group:"腕と渦伸長(軸力)",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
+  familyId:"axisBar", familyRole:"variant",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): 新しい家族「棒と腕(軸力・DFM の外)」(表示専用 —— presetSig・物理・保存 JSON は不変)
   obsCard:[
     {q:"🥢 との違い", model:"**円盤に回転支持を与えた**(恒星の初期位置・質量は 🥢 と 1 体ずつ同一)。軸力は弱く A=15・R_b=110・軸の回転 Ω_b=0.04", obs:"—(原理サンプル — 観測転写はしない)"},
     {q:"何が出るか", model:"内側は棒(位相 ψ がほぼ一定)、外へ行くほど巻き込む **後行の 2 本腕**。3000步で A₂ 帯平均 0.560・ピッチ角 42.6°・後行(保持 100%)", obs:"—"},
@@ -9216,6 +9218,7 @@ const BUILTIN_PRESETS = [
 { id:"axisBarReach", name:"棒の到達長 R_b — 外縁までは届かない", emoji:"🎚️", group:"腕と渦伸長(軸力)",
   scaleTier:"galactic", sampleClass:"principle",
   notClaim:["galaxy","dm"],
+  familyId:"axisBar", familyRole:"variant",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): 新しい家族「棒と腕(軸力・DFM の外)」(表示専用 —— presetSig・物理・保存 JSON は不変)
   obsCard:[
     {q:"🥢 との違い", model:"**R_b だけを半分にした**(120 → 60)。A=300・r_c=6・回転ゼロ・恒星の初期位置と質量は 🥢 と 1 体ずつ同一", obs:"—(原理サンプル — 観測転写はしない)"},
     {q:"何が変わるか", model:"棒が短くなる。500步の棒の長さは **80**(🥢 は 140)— **棒の長さは R_b で決まる**(実測 L≈0.9〜1.5·R_b)", obs:"—"},
@@ -9959,6 +9962,7 @@ const BUILTIN_PRESETS = [
 // 同じ初期状態のコピーから作る(tests/exp-w287a-growth.mjs)。**門(保持・半質量半径・軸比)は測る前に器と PHYSICS〔第287便a〕に書いた**。
 // E6′ を重ねない(toyAllowDrag を使わない)・f も観測質量への合わせ込みもしない。
 { id:"clusterGrowthCopy", name:"成長経路の原理コピー(自由な中心が落ちてくる塊を捕獲する)", emoji:"🌰",
+  familyRole:"retired",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): **退役(履歴)** —— 初期配置が不適切(門 0/3 の結果は正本と PHYSICS に履歴として残す)。familyId は持たない(単独の本の退役)。表示専用 —— presetSig は familyRole を見ない
   group:"銀河の力学", scaleTier:"stellar", scaleExp:{L:16, T:12, M:35}, sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","dm"],
   obsCard:[
@@ -10033,6 +10037,7 @@ const BUILTIN_PRESETS = [
 // (エンジンの柵 40 の半分 —— **物理上限ではなく本便の宣言**)・超過は熱へ。逆行・真正面・R_I=0.01 の対照と離散の往復は器が同じ初期状態の
 // コピーから作る(tests/exp-w288a-fixcap.mjs)。**門(保持・半質量半径・軸比)は 🌰 と同じ値を測る前に器と PHYSICS〔第288便a〕に書いた**。
 { id:"fixedCaptureCopy", name:"固定中心の合体の原理コピー(支配天体を固定して落ちてくる塊を合体させる)", emoji:"🥜",
+  familyRole:"retired",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): **退役(履歴)** —— 🌰 と同じ初期配置で不適切(門 0/3 の結果は正本と PHYSICS に履歴として残す)。familyId は持たない。表示専用 —— presetSig は familyRole を見ない
   group:"銀河の力学", scaleTier:"stellar", scaleExp:{L:16, T:12, M:35}, sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","dm"],
   obsCard:[
@@ -10111,6 +10116,7 @@ const BUILTIN_PRESETS = [
 // **重力から形が出たのでもない**(対象粒子は規定運動で、G を上げても状態は 1 bit も動かない)。
 // 渦巻・棒は本便では実装していない(腕を回転円盤に乗せる段は次便)。
 { id:"shapeToyCluster", name:"球状星団トイ — 3D 正規分布の参照モデル(較正ではない)", emoji:"🔮",
+  familyId:"shapeToy", familyRole:"primary",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ファミリー化 —— 中心なしの形の玩具(表示専用 —— presetSig・物理・保存 JSON は不変)
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","galaxy","dm"],
   obsCard:[
@@ -10164,6 +10170,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
 { id:"shapeToyDisk", name:"腕なし回転円盤トイ — 扁平は σ_z の宣言(較正ではない)", emoji:"🥏",
+  familyId:"shapeToy", familyRole:"variant",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ファミリー化 —— 中心なしの形の玩具(表示専用 —— presetSig・物理・保存 JSON は不変)
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["galaxy","dm","cluster"],
   obsCard:[
@@ -10218,6 +10225,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
 { id:"shapeToyArm", name:"腕単体トイ — 腕の軸に対して正規分布(較正ではない)", emoji:"🧵",
+  familyId:"shapeToy", familyRole:"variant",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ファミリー化 —— 中心なしの形の玩具(表示専用 —— presetSig・物理・保存 JSON は不変)
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["galaxy","dm","cluster"],
   obsCard:[
@@ -10280,6 +10288,7 @@ const BUILTIN_PRESETS = [
 // 中心天体の質量は対象粒子の状態を 1 bit も変えない(器で実測 —— m を 10→100→1000 と変えても 600 步の
 // 指紋が同じ)。**観測された中心天体の質量は 1 つも入力していない**(ω Cen の IMBH は**参照**であって入力ではない)。
 { id:"shapeToyClusterCore", name:"球状星団トイ(中心天体つき)— 中心スピンが束ねる構成仮説(較正ではない)", emoji:"🎱",
+  familyId:"shapeToyCore", familyRole:"primary",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ファミリー化 —— 中心天体つきの形の玩具(表示専用 —— presetSig・物理・保存 JSON は不変)
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","galaxy","dm","bh"],
   obsCard:[
@@ -10342,6 +10351,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
 { id:"shapeToyDiskCore", name:"腕なし回転円盤トイ(中心天体つき)— 薄さも回転も中心スピンの帰結(較正ではない)", emoji:"📀",
+  familyId:"shapeToyCore", familyRole:"variant",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ファミリー化 —— 中心天体つきの形の玩具(表示専用 —— presetSig・物理・保存 JSON は不変)
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","galaxy","dm","bh"],
   obsCard:[
@@ -10406,6 +10416,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false,monitor:false} },
 
 { id:"shapeToyArmCore", name:"棒トイ(中心天体つき)— 面内の自転軸に沿って伸びる(較正ではない)", emoji:"🧹",
+  familyId:"shapeToyCore", familyRole:"variant",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ファミリー化 —— 中心天体つきの形の玩具(表示専用 —— presetSig・物理・保存 JSON は不変)
   group:"銀河の力学", scaleTier:"galactic", sampleClass:"principle", fidelity:"toy",
   notClaim:["cluster","galaxy","dm","bh"],
   obsCard:[
@@ -13013,7 +13024,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"plutoCharonReal", name:"冥王星とカロン(実単位)— 重心が外にある二体", emoji:"❄️", group:"現実較正",
-  familyId:"pluto", familyRole:"primary",
+  familyId:"pluto", familyRole:"retired",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): **退役(履歴)** —— 入力を整えた 🥶 に現行の入口を集約(❄️ の 4 値は 🥶 の結果ではない)。表示専用 —— presetSig は familyRole を見ない・ID・物理・保存 JSON は不変
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 1単位=10⁶m/10²s/10²⁵kg(規約 L−T=4・M+2T−3L=11 — 🥔🌘💿 と同族)
   sampleClass:"calibration",
@@ -13134,7 +13145,7 @@ const BUILTIN_PRESETS = [
 // 規約 L−T=4・M+2T−3L=11 を満たす)で、速度単位・c₀=3×10⁴・κ=G/c₀²・D₀ の 1 単位(10¹⁹kg/m)は
 // ❄️ と同値、**dt の意味だけが 10 倍細かい**(同じ物理刻みには 10 倍の dt が要る)。
 { id:"plutoCharonDFM", name:"冥王星とカロン(同一観測解)— 相対すべりの零条件を持つ DFM 版", emoji:"⛄", group:"現実較正",
-  familyId:"pluto", familyRole:"variant",
+  familyId:"pluto", familyRole:"retired",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): **退役(履歴)** —— 引きずり則の更新(第290便c の新経路)に伴い旧 pairSlip の診断を整理。代わりに 🥶(表示専用)
   scaleTier:"planetary",
   scaleExp:{L:5, T:1, M:24},   // 1単位=10⁵m/10s/10²⁴kg(規約 L−T=4・M+2T−3L=11 — **精密単位**)
   integrator:"leapfrog",   // 第278便b(R54): KDK + 引きずり則の散逸を前後の半歩に分ける対称分割(physics.relativeDrag.integration:"midpoint")
@@ -13255,7 +13266,7 @@ const BUILTIN_PRESETS = [
 
 { id:"plutoCharonKF0Control", name:"冥王星とカロン(同一観測解)— geoPN=1 の対照(引きずり則なし)", emoji:"🌨️", group:"現実較正",   // 第288便b(原仮定者の裁定(第78報)④「kF0 版の名称もタイトルから削る」): 表示名だけ(ID は不変・presetSig は name を見ない)
   // 第280便d(原仮定者の裁定(第70報)「まとめても良い」): familyRole を "control" → "variant"(**表示専用** ——
-  // presetSig は familyRole を見ない)。入口は ❄️ の 1 つにまとめ、役割名は FAMILY_VARIANT_LABEL が出す。ID は削除しない
+  // presetSig は familyRole を見ない)。入口は ❄️ の 1 つにまとめ(第290便b で入口は 🥶 へ —— ❄️ は退役・履歴)、役割名は FAMILY_VARIANT_LABEL が出す。ID は削除しない
   familyId:"pluto", familyRole:"variant",
   scaleTier:"planetary",
   scaleExp:{L:5, T:1, M:24},
@@ -13346,11 +13357,11 @@ const BUILTIN_PRESETS = [
 // (sampleClass:"principle"・判定器 exp-w249b-calaudit の CFG に登録しない)。数値は器
 // tests/exp-w280d-charonInput.mjs の正本 tests/out/charoninput-w280d.json の実測(台帳 §5.33)。
 { id:"plutoCharonDiagInput", name:"冥王星とカロン(入力を整えた二体)— 観測入力の geoPN=1 の対照", emoji:"🥶", group:"現実較正",   // 第288便b(第78報④): 表示名から「kF0」を外した(ID は不変)
-  familyId:"pluto", familyRole:"variant",
+  familyId:"pluto", familyRole:"primary",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): 家族 pluto の入口を ❄️ → 🥶(❄️ は退役・履歴)
   scaleTier:"planetary",
   scaleExp:{L:5, T:1, M:24},   // 1単位=10⁵m/10s/10²⁴kg(⛄🌨️ と同じ精密単位 —— ε=0.01 単位が 1 km)
   integrator:"leapfrog",   // ⛄🌨️ と同じ積分器(❄️ の semi との差は第 2 周で −4×10⁻⁶ s —— §5.33)
-  sampleClass:"principle",   // 第280便d: 診断コピー — 較正母集団 37 本・4 値・門の署名は不変
+  sampleClass:"calibration",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): **較正分類へ昇格**(❄️ の退役と 1 出 1 入 —— 母集団の数は calaudit の再集計が決める)。旧: 第280便d の診断コピー(principle)
   fidelity:"real",   // 観測解の GM(Brozović & Jacobson 2024 Table 8)と暦の 400 年平均 a(同 Table 10)の転写
   notClaim:["solar_cal"],
   obsCard:[
@@ -13427,7 +13438,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
 { id:"plutoCharonSyncZero", name:"冥王星とカロン(厳密同期円)— 相対すべり則の零試験", emoji:"☃️", group:"現実較正",
-  familyId:"pluto", familyRole:"variant",
+  familyId:"pluto", familyRole:"retired",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): **退役(履歴)** —— 引きずり則の更新(第290便c の新経路)に伴い旧 pairSlip の零試験を整理。代わりに 🥶(表示専用)
   scaleTier:"planetary",
   scaleExp:{L:5, T:1, M:24},
   integrator:"leapfrog",   // ⛄ と同じ(散逸半歩 → 重力 KDK → 散逸半歩の対称分割)
@@ -13509,7 +13520,7 @@ const BUILTIN_PRESETS = [
 // `mutual:0` で置き、bodies の vx,vy は**観測の座標速度 ẋ** と読む(`velocityMeaning:"xdot"` —— build で v=ẋ−u(0)
 // へ変換する)。1PN は `pn:"reference-1PN"`・`pnVelocity:"v"`(ẋ を読む版は器で並べる)。**❄️ 本体は 1 bit も動かない。**
 { id:"charonGeoToy3", name:"冥王星とカロン — geoPN=3 契約の診断コピー(太陽の背景・mutual:0・較正ではない)", emoji:"🌒", group:"現実較正",
-  familyId:"pluto", familyRole:"variant",   // 仲間のメインは ❄️(primary)。本サンプルは法則の契約を確かめる診断の枝
+  familyId:"pluto", familyRole:"variant",   // 第290便b: 仲間のメインは 🥶(primary・入力の対照)。本サンプルは geoPN=3 の診断の枝(❄️ は退役・履歴 —— bodies は ❄️ の写しのまま)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // ❄️ と同じ単位系(1単位=10⁶m/10²s/10²⁵kg)
   sampleClass:"principle",
@@ -13527,7 +13538,7 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"**❄️ plutoCharonReal の physics と bodies を複製し(kFrame=0)、法則だけを geoPN=3 の速度分解(lawVersion:\"vMinusU\")へ替えた診断コピー**(第280便c・原仮定者の裁定〔第70報〕「近点移動の差分を精査する — geoPN=3 として進める」)。外部の場は第279便c の器と同じ**太陽の背景**(点質量を t=0・対の重心で評価した comoving の値 —— u=A/W は y 向き 4740 m/s)を mutual:0 で置く。bodies の vx,vy は**観測の座標速度 ẋ**(velocityMeaning:\"xdot\")として読み、build で慣性速度 v=ẋ−u(0) へ変換する。1PN は pn:\"reference-1PN\"(E12 の試験粒子形 —— **比較用の外部理論項**で DFM から導出した項ではない)・pnVelocity:\"v\"。働いているのは重力(E4)と速度分解の移送だけで、kFrame=0 なので核の E6′ 運動引きずりは使わない。**較正ではない**(sampleClass:\"principle\"・❄️ の判定行ではない)。",
     observe:"実測(器 tests/exp-w280c-geo3.mjs・正式の判定器と同じ抽出器・同じ窓 20694498 步): 周期(同方向 1 周・2 周目)は 551864.0619249 s で、kF0 の診断コピー(geoPN=2・λ_PN=1 —— 同じ抽出器で測り直すと正本の kF0 行にビット一致)との差は +5.62×10⁻⁴ s(dt=0.016)/ +5.53×10⁻⁴ s(dt/2)。pnVelocity:\"xdot\" では差 +6.98×10⁻⁹ s / −9.22×10⁻⁶ s、pn:\"off\" と 1PN なし対照(λ_PN=0)の差は −2.57×10⁻⁸ s / −9.15×10⁻⁶ s。1PN 項そのものの大きさ(λ_PN=1 と 0 の差)は +1.73×10⁻⁶ s。mutual:0 の外部点源 1 つは u が一様(J=0)なので、移送は両天体に等しく正準項は 0 である(第279便c)。",
-    control:"ワンタップ対照 A/B: B 側は geoPN=2(❄️ の kF0 と同じ —— 速度分解の外部ステップは立たない。**ただし bodies は ẋ→v の変換を受けたまま**なので、B は ❄️ の kF0 そのものではない)。**kFrame は動かさないこと**(vMinusU は kFrame=0 専用)。ステップ診断の HUD に「geoPN=3 / vMinusU / pn:reference-1PN(v) v0:xdot」と作動の步数が出る。"},
+    control:"ワンタップ対照 A/B: B 側は geoPN=2(❄️ の kF0 と同じ —— 速度分解の外部ステップは立たない。**ただし bodies は ẋ→v の変換を受けたまま**なので、B は ❄️ の kF0 そのものではない)。**kFrame は動かさないこと**(vMinusU は kFrame=0 専用)。ステップ診断の HUD に「geoPN=3 / vMinusU / pn:reference-1PN(v) v0:xdot」と作動の步数が出る。複製元の ❄️ は退役(履歴)—— 入力の対照は 🥶、本サンプルは geoPN=3 の診断(第290便b)。"},
   en:{name:"Pluto and Charon — geoPN=3 contract diagnostic copy (solar background, mutual 0; NOT a calibration)",
     obsCard:[
       {q:"What was swapped (the law only)", model:"❄️'s physics and bodies copied, kFrame=0, law swapped to geoPN=3 vMinusU. The solar background (wave 279c's values, u=4740 m/s) under mutual 0", obs:"- (a diagnostic copy; not ❄️'s verdict row)"},
@@ -13542,7 +13553,7 @@ const BUILTIN_PRESETS = [
     descStruct:{
       summary:"A DIAGNOSTIC COPY: ❄️ plutoCharonReal's physics and bodies are copied (kFrame=0) and ONLY THE LAW is swapped for the geoPN=3 velocity decomposition (lawVersion vMinusU) (wave 280c; the originator's ruling, report 70: 'examine the periapsis-advance differences - proceed as geoPN=3'). The external field is THE SAME SOLAR BACKGROUND as wave 279c's harness (the point mass evaluated at t=0 at the pair's barycentre, comoving - u=A/W is 4740 m/s along y), under mutual 0. The bodies' vx, vy are read as OBSERVED COORDINATE VELOCITIES xdot (velocityMeaning xdot) and converted at build to the inertial velocity v=xdot-u(0). 1PN is pn reference-1PN (AN EXTERNAL REFERENCE TERM FOR COMPARISON, not derived from DFM) with pnVelocity v. NOT A CALIBRATION (sampleClass principle; not ❄️'s verdict row).",
       observe:"Measured (harness tests/exp-w280c-geo3.mjs, the same extractor as the official judge, the same 20694498-step window): the period (same-direction revolution 2) is 551864.0619249 s, differing from the kF0 diagnostic copy (geoPN=2, lambda_PN=1 - remeasured with the same extractor it reproduces the official kF0 row bit for bit) by +5.62×10⁻⁴ s at dt=0.016 and +5.53×10⁻⁴ s at dt/2. With pnVelocity xdot the difference is +6.98×10⁻⁹ s / −9.22×10⁻⁶ s; pn off against the no-1PN control (lambda_PN=0) differs by −2.57×10⁻⁸ s / −9.15×10⁻⁶ s. The 1PN term itself (lambda_PN 1 minus 0) is +1.73×10⁻⁶ s. One external point source under mutual 0 gives a uniform u (J=0), so the transport is equal for both bodies and the canonical term vanishes (wave 279c).",
-      control:"One-tap A/B: side B is geoPN=2 (the same as ❄️'s kF0 - the velocity-decomposition step does not run; BUT THE BODIES KEEP THE xdot-to-v CONVERSION, so B is not ❄️'s kF0 itself). DO NOT MOVE kFrame (vMinusU is kFrame=0 only). The step-diagnostics HUD prints 'geoPN=3 / vMinusU / pn:reference-1PN(v) v0:xdot' with the step counts."}},
+      control:"One-tap A/B: side B is geoPN=2 (the same as ❄️'s kF0 - the velocity-decomposition step does not run; BUT THE BODIES KEEP THE xdot-to-v CONVERSION, so B is not ❄️'s kF0 itself). DO NOT MOVE kFrame (vMinusU is kFrame=0 only). The step-diagnostics HUD prints 'geoPN=3 / vMinusU / pn:reference-1PN(v) v0:xdot' with the step counts. The source ❄️ is retired (history); the input control is 🥶 and this sample is the geoPN=3 diagnostic (wave 290b)."}},
   parameterAudit:{
     observedInputs:["❄️ の転写をそのまま(質量・半径・自転・a=1.9596×10⁷m・e=0・重心系配分)",
       "太陽の背景は第279便c の器の値(太陽の点質量・距離は事前予測表 bgpredict-w276a)"],
@@ -17013,7 +17024,7 @@ const BUILTIN_PRESETS = [
 // 済み — QA gen.profile)。v1 は「形の転写+実測の記録」であり fidelity:"real"(較正級)への
 // 昇格は較正が閉じてから(宣言)。
 { id:"tuc47", name:"球状星団 47 Tuc(観測転写)— Plummer 形の第一号", emoji:"🍇", group:"実在天体のアナロジー",
-  familyId:"tuc47", familyRole:"variant",
+  familyId:"tuc47", familyRole:"primary",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): 🫐 の退役で家族の入口へ(表示専用 —— presetSig・物理・保存 JSON は不変)
   scaleTier:"stellar",
   scaleExp:{L:16, T:12, M:35},   // 第228便: 星団族(1単位=10¹⁶m≈0.324pc/10¹²s/10³⁵kg — 標準規約 L−T=4・c₀=3×10⁴)
   sampleClass:"principle",
@@ -17027,11 +17038,11 @@ const BUILTIN_PRESETS = [
   descStruct:{
     summary:"**球状星団の現実転写・第一号**(第228便 — 第27報裁定GO)。paper/data/cluster-galaxy-observations.csv(第226便・Baumgardt V2 系)の 47 Tuc を、**投影面密度の逆関数サンプリング生成器**(第228便新設)で置く。プロファイルは **Plummer a=4.00 pc の直接転写**(投影半光半径 — CSV の第1基準)。King 生成器も実装済みだが、CSV が警告する定義の罠(Spitzer r_c=0.59 pc × Webb r_t=135.78 pc を King 1962 式に混用すると半光半径が5倍化する — 実測)を避け、v1 は Plummer を採る。**速度は規約転写**: 等方・速さ一様 [0, √6σ₀)(⟨v²⟩=2σ₀² — 2成分の観測分散への転写規約。fit ノブではない)。単位は星団族 L16/T12/M35(1単位=0.324 pc・c₀=3×10⁴ の標準規約 L−T=4・G=6.674)。**v1 の主張は「形の転写と実測の記録」だけ**: 2D 力学の面内 σ を 3D の視線 σ と同一視しない・N=240 の 2D 自己重力は5交差で緩和収縮する(半光 13.0→10.5 — 記録)・回転(v/σ₀=0.47)と IMBH(上限 578 M☉)は置かない・fidelity:\"real\"(較正級)への昇格は較正が閉じてから(すべて宣言)。DFM 版 🫐 が対になる。",
     observe:"実測(5交差時間 t=50・dt=0.016・seed 固定): 投影半光半径 13.0→10.5 単位(緩和収縮 — N=240 の 2D 自己重力の記録)・面内 σ(1成分相当)1.16→1.77・**束縛率 93%**・NaN 0。同構成2回はビット同一(QA behavior.tuc47)。生成器の統計(QA gen.profile): Plummer の中央値=a・King の CDF 単調性・Sérsic n=1 の半光=Re・seed 決定性。",
-    control:"働いているのは重力(E4)だけ(kFrame=0 — 観測安定則の流儀)。DFM 版 🫐 と切り替えて空間引きずり(A8/E6′)の効果を見る(同一配置の σ 比は実現ゆらぎ内 — 実測)。"},
+    control:"働いているのは重力(E4)だけ(kFrame=0 — 観測安定則の流儀)。DFM 版 🫐(退役・履歴)と切り替えて空間引きずり(A8/E6′)の効果を見る(同一配置の σ 比は実現ゆらぎ内 — 実測)。"},
   en:{ name:"Globular Cluster 47 Tuc (transcription) — first Plummer shape", descStruct:{
     summary:"FIRST REAL-CLUSTER TRANSCRIPTION (wave 228 — adjudicated GO). 47 Tuc from paper/data/cluster-galaxy-observations.csv (Baumgardt V2 line), placed by the new inverse-CDF surface-density generators. Profile: PLUMMER WITH a = THE PROJECTED HALF-LIGHT RADIUS 4.00 pc transcribed directly. The King generator exists too, but v1 avoids the definition trap the CSV warns about (mixing Spitzer r_c with the Webb r_t in King's 1962 formula inflates the half-light radius fivefold — measured). VELOCITIES ARE A DECLARED CONVENTION, not a fit: isotropic, uniform speeds in [0, √6σ₀) so ⟨v²⟩=2σ₀² transcribes the two-component dispersion. Units: cluster family L16/T12/M35 (1 unit=0.324 pc; the standard L−T=4 convention, c₀=3×10⁴, G=6.674). v1 CLAIMS ONLY THE SHAPE TRANSCRIPTION AND MEASURED RECORDS: the in-plane 2D σ is never equated with the 3D line-of-sight σ; the N=240 2D self-gravity relaxes and contracts over 5 crossings (half-light 13.0→10.5 — recorded); rotation and the IMBH are not placed; promotion to fidelity:\"real\" waits until a calibration closes (all declared). The DFM build 🫐 is the counterpart.",
     observe:"Measured (5 crossings, t=50, dt=0.016, fixed seed): projected half-light 13.0→10.5 units (relaxation contraction — the recorded N=240 2D self-gravity behaviour); in-plane σ 1.16→1.77; BOUND FRACTION 93%; zero NaN; bit-identical rebuilds (QA behavior.tuc47). Generator statistics are machine-fixed by QA gen.profile.",
-    control:"kFrame stays 0. Switch to the DFM build 🫐 — the same-placement σ ratio sits inside realization scatter (measured)."}},
+    control:"kFrame stays 0. Switch to the DFM build 🫐 (retired, history) — the same-placement σ ratio sits inside realization scatter (measured)."}},
   parameterAudit:{
     observedInputs:["投影半光半径 4.00 pc → Plummer a=12.34 単位(直接転写)","σ₀=12.4 km/s → 1.24 単位(速度規約の入力)","総質量 8.90×10⁵ M☉ → 17.7 単位","潮汐半径 135.78 pc → 生成円盤の外縁 419 単位(Webb 定義 — King の r_t とは混用しない)"],
     fixedConventions:["星団族 L16/T12/M35(標準規約 L−T=4・c₀=3×10⁴・G=6.674・κ=G/c₀²)","速度規約: 等方・速さ一様 [0,√6σ₀)(⟨v²⟩=2σ₀²)","N=240 への縮約(等質量 m=0.0737)","kFrame=0・回転/IMBH は v1 で置かない(宣言)"],
@@ -17050,7 +17061,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:false} },
 
 { id:"tuc47DFM", name:"球状星団 47 Tuc(DFM版)— χ-law 平均場の質量 hold-out", emoji:"🫐", group:"実在天体のアナロジー",
-  familyId:"tuc47", familyRole:"primary",
+  familyId:"tuc47", familyRole:"retired",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): **退役(履歴)** —— 質量補正 f≈1.993 の版。代わりに 🍇(表示専用 —— presetSig は familyRole を見ない・ID・物理・保存 JSON は不変)
   scaleTier:"stellar",
   scaleExp:{L:16, T:12, M:35},
   sampleClass:"principle",
@@ -17206,6 +17217,7 @@ const BUILTIN_PRESETS = [
 // モデル依存値は note に宣言)。前駆星と残骸は6桁違う時空スケールなので別族(宣言)。爆発の
 // 瞬間そのものはどの族でも解像しない — 原理は 🎇 が、前後の観測状態はこの2本が担当する。
 { id:"supernovaProg", name:"超新星前駆星 — ベテルギウス(観測転写)", emoji:"🥀", group:"実在天体のアナロジー",
+  familyId:"supernova", familyRole:"primary",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ファミリー化 —— 🌹 の退役で家族の入口(表示専用)
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},   // 恒星族(1単位=10¹⁰m/10⁶s/10²⁹kg — ✨ と同族・標準規約 L−T=4・c₀=3×10⁴)
   sampleClass:"principle",
@@ -17217,11 +17229,11 @@ const BUILTIN_PRESETS = [
     {q:"二層核(コア=残存質量の見立て)", model:"massFrac=0.0789(=1.4 M☉/17.75 — かにパルサー fiducial の器)・Rc=R/2 規約・Ω=0", obs:"—(前駆星コアの直接観測なし — 宣言のみ)"},
     {q:"転写しないもの(宣言)", model:"光度(距離 197pc 系 — Joyce 168.1pc と混用不可)・質量放出 3.1×10⁻⁶ M☉/yr・脈動・爆発", obs:"CSV に note 込みで収載(較正には距離を選んでから)"}],
   descStruct:{
-    summary:"**超新星前駆星の観測転写 — ベテルギウス(α Ori)**(第231便・第28報)。🎇(見立て — 高速コアが外殻を吹き飛ばす原理)の**観測対の「前」側**。CSV(supernova-observations.csv)の **Joyce et al. (2020) 一組整合セット**(質量 17.75 M☉ 中央値・光球半径 764 R☉・距離 168.1 pc — 同一モデル解)を恒星族 L10/T6/M29 で置く。自転は P_rot/sin i=36 年の **sin i=1 代理値**(💫 A と同じ宣言規約)。二層核はコア質量比 0.0789=**1.4 M☉(別天体であるかにパルサーの fiducial)を比較マーカーとして置く宣言** — ベテルギウスの将来コア質量の観測・予測でも、🥀→🦀 の同一個体進化でもない(第233便で明記)。DFM 版の重いコア(f=2)は対の 🌹 supernovaProgDFM が担う。働くのは重力(E4)のみ(単体・kFrame=0)。光度は距離 197 pc 系の値で Joyce 距離と混用できないため転写しない(CSV note の警告を継承)。爆発・脈動・質量放出はモデル化しない。",
+    summary:"**超新星前駆星の観測転写 — ベテルギウス(α Ori)**(第231便・第28報)。🎇(見立て — 高速コアが外殻を吹き飛ばす原理)の**観測対の「前」側**。CSV(supernova-observations.csv)の **Joyce et al. (2020) 一組整合セット**(質量 17.75 M☉ 中央値・光球半径 764 R☉・距離 168.1 pc — 同一モデル解)を恒星族 L10/T6/M29 で置く。自転は P_rot/sin i=36 年の **sin i=1 代理値**(💫 A と同じ宣言規約)。二層核はコア質量比 0.0789=**1.4 M☉(別天体であるかにパルサーの fiducial)を比較マーカーとして置く宣言** — ベテルギウスの将来コア質量の観測・予測でも、🥀→🦀 の同一個体進化でもない(第233便で明記)。DFM 版の重いコア(f=2)は対の 🌹 supernovaProgDFM(退役・履歴)が担っていた。働くのは重力(E4)のみ(単体・kFrame=0)。光度は距離 197 pc 系の値で Joyce 距離と混用できないため転写しない(CSV note の警告を継承)。爆発・脈動・質量放出はモデル化しない。",
     observe:"実測(500步): 単体静止をビット保持(x=vx=0)・半径 53.15・自転 5.531×10⁻³・コア質量比 0.0789 が転写どおり格納・NaN 0。動く絵ではなく**観測状態の台帳**(🎐 GW150914 基準状態と同じ役割)— 🎇 の初期条件(コア Ω を上げると何が起きるか)と 🦀(爆発後)への橋。QA behavior.supernovaObs が転写値を機械固定。",
     control:"🎇(原理 — コア Ω 用量反応)・🦀(爆発後 — かに星雲)と3点で読む。コア Ω を編集して回すと 🎇 の筋書きをこの転写質量で試せる(その時点で principle 実験になる — 宣言)。"},
   en:{ name:"Supernova Progenitor — Betelgeuse (transcribed)", descStruct:{
-    summary:"THE OBSERVED 'BEFORE' STATE of a supernova — Betelgeuse (α Ori), wave 231. The observation-side counterpart of 🎇 (the analogy where a fast core blows off the envelope). The Joyce et al. (2020) SELF-CONSISTENT SET from the CSV (median mass 17.75 Msun, photospheric radius 764 Rsun, distance 168.1 pc — one model solution) is placed in the stellar family L10/T6/M29. Rotation is the sin i=1 PROXY of P_rot/sin i=36 yr (the same declared convention as 💫 A). The two-layer nucleus declares core massFrac 0.0789 = 1.4 Msun — the fiducial of a DIFFERENT object (the Crab pulsar) placed as a comparison marker: neither an observation/prediction of Betelgeuse's future core nor a 🥀→🦀 same-object evolution (made explicit in wave 233). The DFM heavy core (f=2) lives in the counterpart 🌹 supernovaProgDFM. Only gravity (E4) acts (solo body, kFrame=0). The luminosity is NOT transcribed (it rides the 197 pc distance and cannot be mixed with the Joyce 168.1 pc — the CSV note's warning inherited). No explosion, pulsation or mass loss is modelled.",
+    summary:"THE OBSERVED 'BEFORE' STATE of a supernova — Betelgeuse (α Ori), wave 231. The observation-side counterpart of 🎇 (the analogy where a fast core blows off the envelope). The Joyce et al. (2020) SELF-CONSISTENT SET from the CSV (median mass 17.75 Msun, photospheric radius 764 Rsun, distance 168.1 pc — one model solution) is placed in the stellar family L10/T6/M29. Rotation is the sin i=1 PROXY of P_rot/sin i=36 yr (the same declared convention as 💫 A). The two-layer nucleus declares core massFrac 0.0789 = 1.4 Msun — the fiducial of a DIFFERENT object (the Crab pulsar) placed as a comparison marker: neither an observation/prediction of Betelgeuse's future core nor a 🥀→🦀 same-object evolution (made explicit in wave 233). The DFM heavy core (f=2) lived in the counterpart 🌹 supernovaProgDFM (retired, history). Only gravity (E4) acts (solo body, kFrame=0). The luminosity is NOT transcribed (it rides the 197 pc distance and cannot be mixed with the Joyce 168.1 pc — the CSV note's warning inherited). No explosion, pulsation or mass loss is modelled.",
     observe:"Measured (500 steps): rest held to the bit (x=vx=0); radius 53.15, spin 5.531e-3 and core massFrac 0.0789 stored as transcribed; zero NaN. Not a moving picture but a LEDGER OF THE OBSERVED STATE (the same role as 🎐 for GW150914) — a bridge to 🎇 (what happens when the core Ω rises) and 🦀 (after the explosion). QA behavior.supernovaObs machine-fixes the transcription.",
     control:"Read as a triptych with 🎇 (principle) and 🦀 (after). Editing the core Ω onto this transcribed mass runs the 🎇 story here (which then becomes a principle experiment — declared)."}},
   parameterAudit:{
@@ -17244,6 +17256,7 @@ const BUILTIN_PRESETS = [
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 
 { id:"supernovaProgDFM", name:"超新星前駆星(DFM版)— 質量台帳 f=2・光球半径=コアの引きずり外縁", emoji:"🌹", group:"実在天体のアナロジー",
+  familyId:"supernova", familyRole:"retired",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): **退役(履歴)** —— 質量台帳 f=2 の版。代わりに 🥀(表示専用 —— presetSig は familyRole を見ない・ID・物理・保存 JSON は不変)
   scaleTier:"stellar",
   scaleExp:{L:10, T:6, M:29},
   sampleClass:"principle",
@@ -17451,7 +17464,10 @@ const BUILTIN_PRESETS = [
     {q:"D68 リングレットの近点移動(推定器つき宣言 — 第250便d)", model:"38.108°/日(estimator=RL-gradient・window=60公転・dt=0.016。°/日 への換算は第250便c で訂正 — 数値は現行のまま)", obs:"38.243°/日(Cassini)"},
     {q:"D68 の公転周期・同方向1周(履歴)", model:"4.984 時間(実軌道半径 67,627km+実 GM)・棚卸し実測 4.9628 時間(−0.346%)", obs:"≈4.98 時間"},
     {q:"D68 の公転周期・近点間(第250便d)", model:"実測 5.0625 時間(+1.656%)", obs:"≈4.98 時間(円軌道のリングレット — 近点間は観測に対応しない。判定は据置)"},
-    {q:"解析式(J一次永年理論)への fit", model:"C=1.000302283 は解析式を 38.243°/日 に合わせた fit 値(実軌道の照合とは別の量 — 第280便e)", obs:"38.243°/日(Cassini)"}],
+    {q:"解析式(J一次永年理論)への fit", model:"C=1.000302283 は解析式を 38.243°/日 に合わせた fit 値(実軌道の照合とは別の量 — 第280便e)", obs:"38.243°/日(Cassini)"},
+    // 第290便b(原仮定者の裁定(第80報)⑤「診断結果を 📡 に反映した後に退役」の反映の第 1 段・統括の検証項目 R126): 正本 tests/out/d68-w280e.json の h/4 の差の転記
+    //   (値不変 —— 係数 C・初速・bodies は動かさない・否は否のまま。h/4 の 4 本の値〔現行 11 体・🧷・📎・C=1〕は行の長さの上限〔120 字〕のため PHYSICS〔第290便b〕に並べた)
+    {q:"否の要因(第280便e の診断・履歴)", model:"同じ窓の差 +42.66 deg/yr のうち初速が +42.23 — 初速・軌道幾何の宣言の問題で 1PN や引きずりの問題ではない。a と ae と ϖ̇ の同一元期は未確認(AB3 未決)", obs:"—"}],
   failureFirst:{
     fail:"第11次裁定版はスケールがトイだった(G=1・土星 1500・J_n 基準半径 100 単位・テスト粒子は質量 0.05 で軌道が交差)。この構成でエンジンの近点移動を測ると解析式との比は 0.42〜10.9 と桁で散らばる — テスト質量どうしが散乱し合っていて、画面の歳差は観測値と照合できる量になっていなかった(第131便 再実測)。",
     pass:"第131便: 💍💿 と同じ惑星(e6)指数系へ実単位化(土星 5.6834×10²⁶kg・半径 6.03×10⁷m・自転10.56時間・J_n 基準半径 60,330km、テスト粒子は D68 67,627km から A環外縁 136,775km の実半径・質量 10¹⁹kg)。さらに初速を帯状重力込みの局所円速度基準に直したことで、10粒とも解析式との比が 0.996〜1.003 に収まり、D68 の近点移動はエンジン実測 38.108°/日(Cassini 38.243 に対し −0.35%)まで直接照合できるようになった。"},
@@ -17477,7 +17493,8 @@ const BUILTIN_PRESETS = [
       {q:"D68 ringlet apsidal precession (declared with its estimator — wave 250d)", model:"38.108°/day (estimator=RL-gradient, window=60 orbits, dt=0.016; the °/day conversion is corrected in wave 250c — the number stands as is)", obs:"38.243°/day (Cassini)"},
       {q:"D68 orbital period — same-direction revolution (historical)", model:"4.984 h (real radius 67,627 km + real GM); audited 4.9628 h (−0.346%)", obs:"≈4.98 h"},
       {q:"D68 orbital period — periapsis to periapsis (wave 250d)", model:"5.0625 h (+1.656%)", obs:"≈4.98 h (a circular ringlet — this definition does not correspond to the observation; the verdict is unchanged)"},
-      {q:"Analytic (first-order secular) fit", model:"C=1.000302283 is the fit that sets the analytic rate to 38.243°/day (a different quantity from the real-orbit comparison — wave 280e)", obs:"38.243°/day (Cassini)"}],
+      {q:"Analytic (first-order secular) fit", model:"C=1.000302283 is the fit that sets the analytic rate to 38.243°/day (a different quantity from the real-orbit comparison — wave 280e)", obs:"38.243°/day (Cassini)"},
+      {q:"What drives the FAIL (wave 280e diagnosis, history)", model:"Gap +42.66 deg/yr, initial speed +42.23: a speed/geometry declaration, not 1PN or drag. Common epoch unconfirmed (AB3)", obs:"—"}],
     failureFirst:{
       fail:"The wave-11 build was toy-scaled (G=1, Saturn 1500, J_n reference radius 100 units, test grains of mass 0.05 on crossing orbits). Measuring the engine's apsidal drift there gives ratios of 0.42–10.9 against the analytic formula — the test masses were scattering off each other, so the on-screen precession was not a quantity that could be compared with observation (re-measured in wave 131).",
       pass:"Wave 131: recast into the same planetary (e6) exponent system as 💍💿 (Saturn 5.6834×10²⁶ kg, radius 6.03×10⁷ m, 10.56-hour rotation, J_n reference radius 60,330 km; test particles at real radii from D68 at 67,627 km out to the A-ring edge at 136,775 km, mass 10¹⁹ kg). Re-basing the initial speeds on the zonal-inclusive local circular speed brings all ten particles to within 0.996–1.003 of the analytic rate, and D68's apsidal precession becomes directly comparable: 38.108°/day measured in the engine, −0.35% from Cassini's 38.243."},
@@ -18083,6 +18100,7 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,monitor:true} },
 { id:"supernovaCore", name:"超新星 — 1つの赤色巨星が多層の外殻を吹き飛ばし、時計つきの核が残る", emoji:"🎇", group:"天体の機構",
+  familyId:"supernova", familyRole:"variant",   // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): 家族 supernova の機構の枝(群は「天体の機構」のまま —— 家族は群をまたいでよい・表示専用)
   scaleTier:"stellar", sampleClass:"principle", notClaim:["toy"],
   obsCard:[
     {q:"前駆星の宣言(質量集中)", model:"massFrac=0.8(コア 480+殻 120)は**宣言された構造仮定** — 観測事実の断定ではない(第38報 思考実験5)", obs:"—(原理サンプル — 観測転写はしない)"},
@@ -29318,8 +29336,10 @@ const LIVE_COMPARE_SPEC={
   mercuryReal:{c:0, o:1, q:[{n:"公転周期", est:"rev", od:"revolution"}, {n:"近日点前進(推定器つき宣言 — 第250便d)", est:"prec"}]},
   // 第289便b(原仮定者の裁定(第79報)で閉じた AN104・統括の検証項目 R120): 「kFrame=1…」と名乗っていた正本の行名を宣言し直した(❄️ 2 行・🧮 1 行 ——
   //   行の条件は obsCard の条件欄 cond:{kFrame:0,geoPN:1}・旧行名は tests/data-w289b-condrows.json)。n は新しい行名(照合の鍵 —— 鎖の calaudit 以下の再生成で正本の行名も同じになる)
-  plutoCharonReal:{c:0, o:1, q:[{n:"公転周期(旧 E6′-R の行)同方向1周〔一本化後の宣言で再測・model 欄は旧宣言の記録〕", est:"rev", od:null},
-    {n:"公転周期 近点間(第250便d)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕", est:null, why:"nearCircular", od:null}]},
+  // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): ❄️ plutoCharonReal は退役 —— 後継の入口は 🥶 plutoCharonDiagInput(較正分類へ昇格)。
+  //   🥶 の obsCard に周期の行は無い(行は 1 字も変えない)ので、正本の行は標準検出器の行(同方向 1 周の 2 周目 —— ❄️ と同じ量定義)。
+  //   n は鎖の calaudit 以下の再生成で正本に入る行名(照合の鍵)。観測値の周期の定義は ❄️ と同じく未宣言(Buie の二体当てはめの P —— null)
+  plutoCharonDiagInput:{c:0, o:1, q:[{n:"実測(標準検出器): 公転周期(カロン)", est:"rev", od:null}]},
   alphaCenAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev", od:null}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
   siriusAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"rev", od:null}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"}]},
   psrDoubleAB:{c:0, o:1, q:[{n:"公転周期(kFrame=0 採用側)", est:"peri", od:"periastron"}, {n:"実測離心率(1公転の半径比振れ幅)", est:"eProxy"},
@@ -32172,6 +32192,15 @@ const RETIRED_PRESETS={
   psrB1534DFM:{ja:"現実較正を kF0 の 1 系統へ一本化した(第288便b)—— 🧶 は 📿 の DFM 側(f=1・kFrame=1)", en:"reality calibration was unified into the single kF0 system (wave 288b) — 🧶 was the DFM side of 📿 (f=1, kFrame=1)", see:["psrB1534"]},
   psrDoubleABSpinCal:{ja:"f≈2 のスピン–スピン較正候補(f と λ を回した比較 variant)の履歴 —— 一本化(第288便b)で退役。kFrame=0 の後継は 📻", en:"the history of the f≈2 spin–spin calibration candidate (a comparison variant turning f and λ) — retired in the unification (wave 288b); the kFrame=0 successor is 📻", see:["psrDoubleAB"]},
   gw150914DFM:{ja:"🎐 の DFM 版(kFrame=1・f≈2 の質量較正)—— 一本化(第288便b・AN80)で退役。合体・放射の目的は ⏰ が f=1・kFrame=0 で在位のまま持つ", en:"the DFM build of 🎐 (kFrame=1, the f≈2 mass calibration) — retired in the unification (wave 288b, AN80); ⏰ keeps the merger and radiation purpose in place at f=1 and kFrame=0", see:["gw150914","gw150914Merge4s"]},
+  // 第290便b(原仮定者の裁定(第80報)⑤・統括の検証項目 R126): **サンプルの整理** —— 7 本を退役(内蔵に残す・ID・物理・保存 JSON は不変)。
+  //   凍結の写しは tests/fixtures/retired-w290b.json。❄️ の 4 値(+294σ・数値未解決・写像未確定)は 🥶 の結果と呼ばない(❄️ の行は履歴)
+  tuc47DFM:{ja:"🍇 tuc47 に質量補正 f≈1.993 を掛けた版で、整理(第290便b)で退役した —— 星団の転写は 🍇 が持つ", en:"the build of 🍇 tuc47 with the f≈1.993 mass correction, retired in the clean-up (wave 290b) — 🍇 carries the cluster transcription", see:["tuc47"]},
+  supernovaProgDFM:{ja:"質量台帳 f=2 の版で、整理(第290便b)で退役した —— ベテルギウスの転写は 🥀 が持つ", en:"the build with the f=2 mass ledger, retired in the clean-up (wave 290b) — 🥀 carries the Betelgeuse transcription", see:["supernovaProg","supernovaCore"]},
+  clusterGrowthCopy:{ja:"初期配置が不適切だった(門 0/3 の結果は正本と PHYSICS に履歴として残す)—— 整理(第290便b)で退役。背景と中心の合成は 🧩、中心 DFM BH のアナロジーは 🌚 で見られる", en:"its initial configuration was unsuitable (the 0/3 gate result stays as history in the canonical output and PHYSICS) — retired in the clean-up (wave 290b); the background-and-centre composition is seen in 🧩 and the centre DFM BH analogy in 🌚", see:["galaxyAnalogyBHCompose","galaxyAnalogyBH"]},
+  fixedCaptureCopy:{ja:"🌰 と同じ初期配置で不適切だった(門 0/3 の結果は正本と PHYSICS に履歴として残す)—— 整理(第290便b)で退役。代わりに 🧩・🌚", en:"it shared 🌰's unsuitable initial configuration (the 0/3 gate result stays as history in the canonical output and PHYSICS) — retired in the clean-up (wave 290b); see 🧩 and 🌚 instead", see:["galaxyAnalogyBHCompose","galaxyAnalogyBH"]},
+  plutoCharonReal:{ja:"旧入力(丸めた a・4 桁の G・ε=50 km・Float32 の質量)の版で、入力を整えた 🥶 に現行の入口を集約した(第290便b)—— ❄️ の 4 値は 🥶 の結果ではない", en:"the build with the older inputs (rounded a, a four-digit G, epsilon 50 km, Float32 masses); the current entry point is the cleaned-input 🥶 (wave 290b) — ❄️'s four values are not 🥶's results", see:["plutoCharonDiagInput"]},
+  plutoCharonDFM:{ja:"旧 pairSlip(相対すべり則)の診断で、引きずり則の更新(第290便c の新経路)に伴い整理(第290便b)で退役した", en:"the diagnostic of the old pairSlip (relative-slip law), retired in the clean-up (wave 290b) along with the update of the drag law (the new path of wave 290c)", see:["plutoCharonDiagInput"]},
+  plutoCharonSyncZero:{ja:"旧 pairSlip の厳密同期円の零試験で、引きずり則の更新(第290便c の新経路)に伴い整理(第290便b)で退役した", en:"the exact synchronous-circle zero test of the old pairSlip, retired in the clean-up (wave 290b) along with the update of the drag law (the new path of wave 290c)", see:["plutoCharonDiagInput"]},
 };
 function retiredOf(p){ return !!(p && p.familyRole==="retired"); }
 // 一覧から外す(読み込み中の本だけは選択の保持のため出す —— variant と同じ流儀)
