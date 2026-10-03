@@ -577,6 +577,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/ejectstate-w289d.json': META_RUN.concat(['/elapsedS']) },
     note: '第289便d: dfmFixedEject の成功後に S.fixcap.rInertia を R_a へ引き継ぐ修正の前後(状態から読む I′・E′ = イベントの値・イベントをまたぐ連続・'
       + '捕獲が新しい R_I を読む・⏮ で宣言へ)・fixcap の正本の離散の行(往復・超過・負の対照)のビット同一・ΔE_self = ΣU_pair の口座・rotEnergyAniso の単一軸/対称こま/三軸' }),
+  // ---- 第290便d(原仮定者の裁定(第80報)②・統括の検証項目 R128): チェックポイントの保存/復元が固定中心の状態 S.fixcap を運ぶ修正の回帰
+  //   (再現・超過の捕獲 + 離散の保存/復元/再走・宣言した歩の離散の時刻・2 回連続の離散の後の I′/E′・A/B の写しの不変と B 側の保存/復元)と
+  //   再開保存(保存 JSON → loadSave)の棚卸し(表だけ —— 実装しない)。Node だけ・html だけを読む(他の正本は読まない)。
+  //   第289便d の離散の器の後に並べる(同じ 🥜 の写しの宣言を使う —— 読む正本は無い)。基点 html(W290D_BASE)は任意の照合 —— 無ければ宣言値 BEFORE_F03
+  S('ckfixcap290', 'node tests/exp-w290d-ckfixcap.mjs', ['tests/out/ckfixcap-w290d.json'], 2, { secSource: 'w290d-branch', node: true,
+    after: ['ejectstate289'],
+    volatilePaths: { 'tests/out/ckfixcap-w290d.json': META_RUN.concat(['/elapsedS']) },
+    note: '第290便d: ckSnapOne/ckRestoreOne が S.fixcap(R_I・stepN・回数・口座・ログ)を深い写しで保存/復元する修正の前後(基点 f03bf5a の宣言値)・'
+      + '超過の捕獲 + 離散の再走のビット一致(系譜 id は別に数える)・atStep の時刻・A/B の写しの不変・保存 JSON/チェックポイント/A/B 複製/build の棚卸し' }),
   // ---- 第289便a(原仮定者の裁定(第79報)⑤・統括の検証項目 R119): 理論照合便 —— 時計・光の弱場係数(現行 E7R/E8R・文字どおりの反比例・第 3 案〔実装しない〕)の
   //   一次係数・相対移動 r⁻³ 核の限定模型(Δϖ の解析と RK4・r 依存)・現行実装の実測(gclock の写しで tauUpdate と traceRay を 1 回ずつ)・
   //   式の綴りの読み・枠の重みの棚卸し(全プリセット —— presets "all")・🛰 の式レベル出力 HP.grSI の引用。Node だけ・html だけを読む(他の正本は読まない)。

@@ -33281,7 +33281,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   simB.fisN=sim.fisN; simB.fisLog=sim.fisLog? sim.fisLog.slice() : null; simB._fisN0=sim._fisN0;
   // 第287便a: 中心捕獲の状態と帳簿も A 側の現況へ(宣言の無い本では null のまま)
   simB.capture=sim.capture? Object.assign({}, sim.capture, {log:sim.capture.log.slice()}) : null; simB.hasCenterCapture=!!simB.capture;
-  simB.fixcap=sim.fixcap? Object.assign({}, sim.fixcap, {log:sim.fixcap.log.slice(), ejLog:sim.fixcap.ejLog.slice()}) : null; simB.hasFixedCapture=!!simB.fixcap;   // 第288便a
+  simB.fixcap=sim.fixcap? cloneFixedCaptureState(sim.fixcap) : null; simB.hasFixedCapture=!!simB.fixcap;   // 第288便a / 第290便d: チェックポイントと同じ深い写し
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
   // 第37便 C1(台帳4-70): 壁帳簿と伝熱境界も転写(build 済みなので twall は同値だが明示する)
@@ -33488,7 +33488,8 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
       "ltOn","ltCo","ltRf","ltTe","ltTc","ltSr","ltAb","ltRc","ltEg","ltNg","ltEs","ltEe","ltQ","ltEi",   // 第265便d: lightTrap(宣言 8 + 帳簿 6)
       "ltNu","ltWx",   // 第270便d(AD2): ν_max(未宣言=Infinity)と**受理されなかった仕事**の累計
   "railR","railAng","railOmega","railCx","railCy","railH",
-  "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf"];
+  "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf",
+  "carVx","carVy"];   // 第290便d(R128): 倍精度の速度の繰り越し(stateCarry:"double" の補償和の残差 —— 復元後の再走を保存しなかった走行とビット一致にする。未宣言は null で素通り)
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "axPrescLx","axPrescLy","axPrescE","axPrescPx","axPrescPy","axPrescN",   // 第275便e: 宣言した拘束が持ち去った量
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
@@ -33505,7 +33506,8 @@ function ckSnapOne(S){
     phase:S.phase? Object.assign({},S.phase) : null,
     tw:S.twall? S.twall.map(w=>w? Object.assign({},w) : null) : null,
     wr:S.wallRest? S.wallRest.slice() : null,   // 第94便: 壁別反発係数
-    phHist:S.phHist? S.phHist.map(p=>Object.assign({},p)) : null};
+    phHist:S.phHist? S.phHist.map(p=>Object.assign({},p)) : null,
+    fixcap:S.fixcap? cloneFixedCaptureState(S.fixcap) : null};   // 第290便d(R128): 固定中心の状態(R_I・stepN・捕獲/離散の回数・口座・ログ)
   for(const k of CK_ARRS) if(S[k]) o.arrs[k]=S[k].slice();
   for(const k of CK_SC) o.sc[k]=S[k];
   return o;
@@ -33518,6 +33520,7 @@ function ckRestoreOne(S,o){
   if(S.twall && o.tw) for(let k=0;k<4;k++) S.twall[k]=o.tw[k]? Object.assign({},o.tw[k]) : null;
   if(S.wallRest && o.wr) for(let k=0;k<4;k++) S.wallRest[k]=o.wr[k];   // 第94便
   if(S.phHist && o.phHist){ S.phHist.length=0; for(const p of o.phHist) S.phHist.push(Object.assign({},p)); }
+  if("fixcap" in o){ S.fixcap=o.fixcap? cloneFixedCaptureState(o.fixcap) : null; S.hasFixedCapture=!!S.fixcap; }   // 第290便d(R128): 保存側を後の走行が書き換えない独立の写し
   S.railIdx=null; S.periDet=null; S.updateRadii();
 }
 $("#btnCkSave").addEventListener("click",()=>{
@@ -45498,6 +45501,15 @@ function fixedCaptureState(out){
     nCand:0, nRefBound:0, nRefEnergy:0, nRefOverflow:0, nCap:0, nHeatAll:0, nOverflow:0, nEject:0, nRefEject:0,
     M:0, Eself:0, Q:0, Qover:0, Eprec:0, Epend:0, dU3:0, Jpin:0, PpinX:0, PpinY:0, Wcon:0, eM:0, eE:0,
     log:[], ejLog:[], logMax:4096, logTrim:0};
+}
+// 第290便d(統括の検証項目 R128): 固定中心の状態と帳簿の**深い写し**(plain object/array だけを再帰で写す —— 数・文字列・null・真偽値はそのまま)。
+// チェックポイントの保存/復元(ckSnapOne/ckRestoreOne)と A/B の複製(cloneSimState)が**同じ 1 本**を使う。保存側のログ(log・ejLog の行)と
+// 宣言の写し(eject・direction)を後の走行が書き換えないよう、保存時と復元時の両方で独立のオブジェクトを作る(値は 1 bit も変えない)。
+function cloneFixedCaptureState(C){
+  if(C===null || typeof C!=="object") return C;
+  if(Array.isArray(C)) return C.map(cloneFixedCaptureState);
+  const o={}; for(const k of Object.keys(C)) o[k]=cloneFixedCaptureState(C[k]);
+  return o;
 }
 // Float64 の自転配列の宣言(捕獲の E_s′・J の帳簿を Float32 の丸めで崩さない —— 宣言した本だけ)
 function fixedCaptureWantsDouble(preset){ const fc=(preset && preset.fixedCapture!==undefined)? fixedCaptureCheck(preset) : null; return !!(fc && fc.ok && fc.out); }

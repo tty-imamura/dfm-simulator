@@ -1,0 +1,2697 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第290便d",
+  "target": "beta/index.html",
+  "targetSha256": "9603baa9158bdeaf7886f40b41dc0c16fc7f45a1d67dee60567f806750f1a23e",
+  "generatedAt": "2026-10-03T00:03:19.728Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5411966,
+    "sha256": "9603baa9158bdeaf7886f40b41dc0c16fc7f45a1d67dee60567f806750f1a23e",
+    "mtime": "2026-10-02T23:40:16.656Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w290d-ckfixcap.mjs",
+    "bytes": 41750,
+    "sha256": "fe85fd57d937f69a2e8ac1d5a1c905e6851a1b5e941769f94559b316a7e9a808",
+    "mtime": "2026-10-03T00:03:15.604Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-02T23:31:20.468Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-02T23:31:20.424Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-02T23:31:20.500Z"
+   }
+  ],
+  "codeSha256": "2bfda14d739fb5dceca6193c6209df1b7918d5a31acc6b3028d5c2c3b7142e1e",
+  "harnessVersion": "w290d-ckfixcap-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
+  "reading": "統括の検証項目 R128(保存/復元の欠落の修正・回帰器・再開保存の棚卸し —— 保存形式は変えない)",
+  "engine": "Node の headless(tests/lib-w279b-headless.mjs の loadHtmlHeadless —— html の本文をそのまま実行・sim.step(DT) と HP の保存/復元/複製の口を直接呼ぶ)",
+  "baseRev": "f03bf5a",
+  "notClaim": [
+   "再開保存を完成した",
+   "可変粒子数のチェックポイント",
+   "保存 JSON が走行の状態を運ぶ",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "clusterGrowthCopy",
+    "earthMoon",
+    "fixedCaptureCopy",
+    "layeredCoreDFM",
+    "plutoCharonDFM",
+    "shapeToyArm",
+    "spaceMeshBinaryToy"
+   ],
+   "roots": [
+    "$",
+    "CENTER_CAPTURE_VERSION",
+    "CK_ARRS",
+    "CK_SC",
+    "CONTACT_MODE_KEY",
+    "DT",
+    "FIXED_CAPTURE_VERSION",
+    "HP.allPresets",
+    "HP.ckRestoreOne",
+    "HP.ckSnapOne",
+    "HP.cloneSimStateNow",
+    "HP.dfmFixedEject",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "ab",
+    "centerCaptureCheck",
+    "ch",
+    "ckRestoreOne",
+    "ckSnapOne",
+    "cloneFixedCaptureState",
+    "cloneSimState",
+    "ctx",
+    "currentPreset",
+    "dfmCenterCaptureStep",
+    "dfmFixedCaptureStep",
+    "dfmFixedEject",
+    "fixedCaptureCheck",
+    "loadPreset",
+    "loadSave",
+    "loadSaveBgcAccept",
+    "physLock",
+    "sim",
+    "validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 894,
+   "segments": 808,
+   "closureShare": 0.3192
+  },
+  "scopeSha256": "db62ac86ef57767e9e19c86ff16da47c37fb5bce13fcb87e4d0200ea5b5ec319",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "spec": {
+  "preset": "fixedCaptureCopy",
+  "reproEject": {
+   "version": "w288a-fixcap-1",
+   "mass": 1,
+   "rInertiaAfter": 0.75,
+   "rLaunch": 2,
+   "direction": {
+    "posDeg": 0,
+    "velDeg": 90
+   },
+   "spinEject": 0,
+   "radiusEject": 0.01,
+   "omegaAfter": 1,
+   "trigger": {
+    "atStep": 9999
+   }
+  },
+  "secondEject": {
+   "version": "w288a-fixcap-1",
+   "mass": 1,
+   "rInertiaAfter": 0.5,
+   "rLaunch": 2,
+   "direction": {
+    "posDeg": 180,
+    "velDeg": 270
+   },
+   "spinEject": 0,
+   "radiusEject": 0.01,
+   "omegaAfter": 0.5,
+   "trigger": {
+    "atStep": 9999
+   }
+  },
+  "overflowCase": {
+   "rInertia": 0.01,
+   "rInertiaAfter": 0.005,
+   "body": {
+    "type": "single",
+    "m": 0.425,
+    "x": -1.4,
+    "y": 0,
+    "vx": 0,
+    "vy": 2,
+    "spin": 0,
+    "pinned": false,
+    "radius": 0.01
+   },
+   "eject": {
+    "version": "w288a-fixcap-1",
+    "mass": 0.2,
+    "rInertiaAfter": 0.005,
+    "rLaunch": 4,
+    "direction": {
+     "posDeg": 90,
+     "velDeg": 90
+    },
+    "spinEject": 0,
+    "radiusEject": 0.01,
+    "trigger": "overflow"
+   }
+  },
+  "spec": {
+   "reproSteps": 2,
+   "reproTamperRI": 0.75,
+   "atStep": 3,
+   "afterEjectSteps": 2,
+   "maxSteps": 20,
+   "twiceSteps": 2,
+   "abSteps": 3,
+   "roundTrip": {
+    "before": 2,
+    "between": 2
+   }
+  },
+  "fixtures": [
+   {
+    "cat": "fixcap",
+    "id": "fixedCaptureCopy",
+    "copy": "overflow",
+    "flag": "hasFixedCapture"
+   },
+   {
+    "cat": "capture",
+    "id": "clusterGrowthCopy",
+    "flag": "hasCenterCapture"
+   },
+   {
+    "cat": "relDrag",
+    "id": "plutoCharonDFM",
+    "flag": "hasRelativeDrag"
+   },
+   {
+    "cat": "coreV2",
+    "id": "earthMoon",
+    "flag": "hasCoreV2"
+   },
+   {
+    "cat": "layers",
+    "id": "layeredCoreDFM",
+    "flag": "hasBodyLayers"
+   },
+   {
+    "cat": "spaceMesh",
+    "id": "spaceMeshBinaryToy",
+    "flag": "hasSpaceMesh"
+   },
+   {
+    "cat": "shapeToy",
+    "id": "shapeToyArm",
+    "flag": "hasShapeToy"
+   }
+  ],
+  "cats": [
+   [
+    "fixcap",
+    "固定中心(🥜 の状態一式 —— R_I・stepN・捕獲/離散の回数・口座・ログ)",
+    "/^(fixcap|hasFixedCapture|_fixInto)$/"
+   ],
+   [
+    "capture",
+    "🌰 の中心捕獲の状態と帳簿",
+    "/^(capture|hasCenterCapture)$/"
+   ],
+   [
+    "relDrag",
+    "相対すべりの引きずり(帳簿と履歴 rdPrev*)",
+    "/^(relDrag|hasRelativeDrag|rdPrev|_rd)/"
+   ],
+   [
+    "coreV2",
+    "コア V2(配列と帳簿)",
+    "/^(core(?!Field)[A-Z]|hasCore|RcV$|dragQ|coreWork$|coreSrcE$)/"
+   ],
+   [
+    "layers",
+    "層(親子コアの同心層)",
+    "/^(lay[A-Z]|hasBodyLayers$|_layer)/"
+   ],
+   [
+    "spaceMesh",
+    "空間メッシュ(帳簿と錨)",
+    "/^(spaceMesh|hasSpaceMesh$|hasPairWeave$|hasMeshReservoir$|hasCoordInertia$|_smAnc|meshRotor|meshCoord|_mc[A-Z]|_pw$)/"
+   ],
+   [
+    "shapeToy",
+    "形状トイ(潜在と帳簿)",
+    "/^(shapeToy|hasShapeToy$|[yzuw]Lat$|wzLat$|_stRng$)/"
+   ]
+  ],
+  "rows": [
+   [
+    "fixcap",
+    "固定中心の状態一式(stepN・捕獲/離散の回数・ログ)"
+   ],
+   [
+    "fixcap.rInertia",
+    "動的 R_I(離散の後の慣性半径)"
+   ],
+   [
+    "fixcap.accounts",
+    "口座(E_self・Q・Q_over・E_prec・E_pend・J_pin・P_pin・eE・eM)"
+   ],
+   [
+    "relDrag",
+    "相対すべりの引きずりの帳簿と履歴(rdPrev*)"
+   ],
+   [
+    "coreV2",
+    "コア V2"
+   ],
+   [
+    "layers",
+    "層"
+   ],
+   [
+    "spaceMesh",
+    "空間メッシュ"
+   ],
+   [
+    "shapeToy",
+    "形状トイの潜在"
+   ],
+   [
+    "capture",
+    "🌰 の中心捕獲"
+   ]
+  ]
+ },
+ "probe": {
+  "repro": {
+   "saved": {
+    "t": 0,
+    "n": 1,
+    "stepN": 0,
+    "rInertia": 1.5
+   },
+   "afterSteps": {
+    "t": 0,
+    "stepN": 2
+   },
+   "restored": {
+    "t": 0,
+    "n": 1,
+    "stepN": 0,
+    "rInertia": 1.5,
+    "log": 0,
+    "ejLog": 0,
+    "accounts": {
+     "M": 0,
+     "Eself": 0,
+     "Q": 0,
+     "Qover": 0,
+     "Eprec": 0,
+     "Epend": 0,
+     "dU3": 0,
+     "Jpin": 0,
+     "PpinX": 0,
+     "PpinY": 0,
+     "Wcon": 0,
+     "eM": 0,
+     "eE": 0
+    }
+   },
+   "stepNRestored": true,
+   "rInertiaRestored": true,
+   "tRestored": true
+  },
+  "overflow": {
+   "steps": 1,
+   "n0": 2,
+   "nAfter": 2,
+   "nSame": true,
+   "saved": {
+    "i": 0,
+    "rInertia": 0.01,
+    "log": 0,
+    "ejLog": 0,
+    "stepN": 0,
+    "nCand": 0,
+    "nRefBound": 0,
+    "nRefEnergy": 0,
+    "nRefOverflow": 0,
+    "nCap": 0,
+    "nHeatAll": 0,
+    "nOverflow": 0,
+    "nEject": 0,
+    "nRefEject": 0,
+    "accounts": {
+     "M": 0,
+     "Eself": 0,
+     "Q": 0,
+     "Qover": 0,
+     "Eprec": 0,
+     "Epend": 0,
+     "dU3": 0,
+     "Jpin": 0,
+     "PpinX": 0,
+     "PpinY": 0,
+     "Wcon": 0,
+     "eM": 0,
+     "eE": 0
+    }
+   },
+   "afterRun": {
+    "i": 0,
+    "rInertia": 0.005,
+    "log": 1,
+    "ejLog": 1,
+    "stepN": 1,
+    "nCand": 1,
+    "nRefBound": 0,
+    "nRefEnergy": 0,
+    "nRefOverflow": 0,
+    "nCap": 1,
+    "nHeatAll": 0,
+    "nOverflow": 1,
+    "nEject": 1,
+    "nRefEject": 0,
+    "accounts": {
+     "M": 0.22499999999999998,
+     "Eself": -14.689627726449768,
+     "Q": 0,
+     "Qover": 0,
+     "Eprec": 0,
+     "Epend": 0,
+     "dU3": 0,
+     "Jpin": -1.1830751411345128,
+     "PpinX": -0.003388957439847022,
+     "PpinY": 0.25849381388863113,
+     "Wcon": 0,
+     "eM": 0,
+     "eE": 0
+    }
+   },
+   "afterRestore": {
+    "i": 0,
+    "rInertia": 0.01,
+    "log": 0,
+    "ejLog": 0,
+    "stepN": 0,
+    "nCand": 0,
+    "nRefBound": 0,
+    "nRefEnergy": 0,
+    "nRefOverflow": 0,
+    "nCap": 0,
+    "nHeatAll": 0,
+    "nOverflow": 0,
+    "nEject": 0,
+    "nRefEject": 0,
+    "accounts": {
+     "M": 0,
+     "Eself": 0,
+     "Q": 0,
+     "Qover": 0,
+     "Eprec": 0,
+     "Epend": 0,
+     "dU3": 0,
+     "Jpin": 0,
+     "PpinX": 0,
+     "PpinY": 0,
+     "Wcon": 0,
+     "eM": 0,
+     "eE": 0
+    }
+   },
+   "restoredBitSame": true,
+   "restoredDiff": {
+    "same": true,
+    "nDiff": 0,
+    "first": []
+   },
+   "rerunBitSame": true,
+   "rerunDiff": {
+    "same": true,
+    "nDiff": 0,
+    "first": []
+   },
+   "rerunLineageOnly": true,
+   "rerunLineageDiff": {
+    "same": false,
+    "nDiff": 2,
+    "first": [
+     "/fixcap/ejLog/0/id 2⇔3",
+     "/fixcap/log/0/id 1⇔2"
+    ]
+   },
+   "twiceBitSame": true,
+   "twiceDiff": {
+    "same": true,
+    "nDiff": 0,
+    "first": []
+   },
+   "snapHasFixcap": true,
+   "snapUnchanged": true,
+   "sharesLog": false
+  },
+  "atStep": {
+   "atStep": 3,
+   "refStepsToEject": 3,
+   "tRef": 0.048,
+   "savedStepN": 1,
+   "restoredStepN": 1,
+   "stepsToEjectAfterRestore": 2,
+   "tTest": 0.048,
+   "sameEjectTime": true,
+   "dtEarly": 0,
+   "stateBitSame": true,
+   "stateDiff": {
+    "same": true,
+    "nDiff": 0,
+    "first": []
+   }
+  },
+  "twice": {
+   "ejected": [
+    1,
+    1
+   ],
+   "saved": {
+    "rInertia": 0.5,
+    "M": 23,
+    "spin": 0.5,
+    "I": 2.875,
+    "E": 0.359375
+   },
+   "restored": {
+    "rInertia": 0.5,
+    "M": 23,
+    "spin": 0.5,
+    "I": 2.875,
+    "E": 0.359375
+   },
+   "event2": {
+    "I1": 2.875,
+    "EsR": 0.359375
+   },
+   "savedEqualsEvent": true,
+   "restoredBitSame": true
+  },
+  "ab": {
+   "stepsBeforeClone": 1,
+   "abPrint": "4fa0a6889654c57265b0972339f6a6acd2cb34f1d34909b1097f8bcf98113c75",
+   "cloneBitSame": true,
+   "logRowShared": false,
+   "ejLogRowShared": false,
+   "ejectDeclShared": false,
+   "afterSteps": 3,
+   "aEqualsNewB": true,
+   "aEqualsNewBDiff": {
+    "same": true,
+    "nDiff": 0,
+    "first": []
+   },
+   "legacyBEqualsNewB": true,
+   "legacyBEqualsNewBDiff": {
+    "same": true,
+    "nDiff": 0,
+    "first": []
+   },
+   "checkpointB": {
+    "steps": 1,
+    "n0": 2,
+    "nAfter": 2,
+    "nSame": true,
+    "saved": {
+     "i": 0,
+     "rInertia": 0.01,
+     "log": 0,
+     "ejLog": 0,
+     "stepN": 0,
+     "nCand": 0,
+     "nRefBound": 0,
+     "nRefEnergy": 0,
+     "nRefOverflow": 0,
+     "nCap": 0,
+     "nHeatAll": 0,
+     "nOverflow": 0,
+     "nEject": 0,
+     "nRefEject": 0,
+     "accounts": {
+      "M": 0,
+      "Eself": 0,
+      "Q": 0,
+      "Qover": 0,
+      "Eprec": 0,
+      "Epend": 0,
+      "dU3": 0,
+      "Jpin": 0,
+      "PpinX": 0,
+      "PpinY": 0,
+      "Wcon": 0,
+      "eM": 0,
+      "eE": 0
+     }
+    },
+    "afterRun": {
+     "i": 0,
+     "rInertia": 0.005,
+     "log": 1,
+     "ejLog": 1,
+     "stepN": 1,
+     "nCand": 1,
+     "nRefBound": 0,
+     "nRefEnergy": 0,
+     "nRefOverflow": 0,
+     "nCap": 1,
+     "nHeatAll": 0,
+     "nOverflow": 1,
+     "nEject": 1,
+     "nRefEject": 0,
+     "accounts": {
+      "M": 0.22499999999999998,
+      "Eself": -14.689627726449768,
+      "Q": 0,
+      "Qover": 0,
+      "Eprec": 0,
+      "Epend": 0,
+      "dU3": 0,
+      "Jpin": -1.1830751411345128,
+      "PpinX": -0.003388957439847022,
+      "PpinY": 0.25849381388863113,
+      "Wcon": 0,
+      "eM": 0,
+      "eE": 0
+     }
+    },
+    "afterRestore": {
+     "i": 0,
+     "rInertia": 0.01,
+     "log": 0,
+     "ejLog": 0,
+     "stepN": 0,
+     "nCand": 0,
+     "nRefBound": 0,
+     "nRefEnergy": 0,
+     "nRefOverflow": 0,
+     "nCap": 0,
+     "nHeatAll": 0,
+     "nOverflow": 0,
+     "nEject": 0,
+     "nRefEject": 0,
+     "accounts": {
+      "M": 0,
+      "Eself": 0,
+      "Q": 0,
+      "Qover": 0,
+      "Eprec": 0,
+      "Epend": 0,
+      "dU3": 0,
+      "Jpin": 0,
+      "PpinX": 0,
+      "PpinY": 0,
+      "Wcon": 0,
+      "eM": 0,
+      "eE": 0
+     }
+    },
+    "restoredBitSame": true,
+    "restoredDiff": {
+     "same": true,
+     "nDiff": 0,
+     "first": []
+    },
+    "rerunBitSame": true,
+    "rerunDiff": {
+     "same": true,
+     "nDiff": 0,
+     "first": []
+    },
+    "rerunLineageOnly": true,
+    "rerunLineageDiff": {
+     "same": false,
+     "nDiff": 2,
+     "first": [
+      "/fixcap/ejLog/0/id 2⇔3",
+      "/fixcap/log/0/id 1⇔2"
+     ]
+    },
+    "twiceBitSame": true,
+    "twiceDiff": {
+     "same": true,
+     "nDiff": 0,
+     "first": []
+    },
+    "snapHasFixcap": true,
+    "snapUnchanged": true,
+    "sharesLog": false
+   }
+  },
+  "inventory": {
+   "code": {
+    "loadSave": "a216f717fcfcf4821e339cc0e9e62753c551a1c48be163d1f4bdc881cde91769",
+    "loadSaveBgcAccept": "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45",
+    "saveHandler": "b60176edcf47be88ce3ef24dca634a8573013e102ca93d5c2ae2f59ddd7e222d"
+   },
+   "saveCodeSameAsBase": true,
+   "saveKeys": [
+    "cameraScale",
+    "comment",
+    "graphOverlays",
+    "kappaT",
+    "name",
+    "phaseParams",
+    "physLock",
+    "physics",
+    "presetId",
+    "presetName",
+    "qLock",
+    "savedAt",
+    "scaleExps",
+    "twallHeat",
+    "universeBox",
+    "wallRest"
+   ],
+   "loadKeys": [
+    "cameraScale",
+    "graphOverlays",
+    "name",
+    "phaseParams",
+    "physLock",
+    "physics",
+    "presetId",
+    "qLock",
+    "scaleExps",
+    "twallHeat",
+    "universeBox",
+    "wallRest"
+   ],
+   "saveCarriesState": false,
+   "checkpointSets": {
+    "arrs": 109,
+    "sc": 62,
+    "objects": [
+     "fixcap",
+     "params",
+     "phHist",
+     "phase",
+     "twall",
+     "wallRest"
+    ]
+   },
+   "fixtures": [
+    {
+     "cat": "fixcap",
+     "id": "fixedCaptureCopy",
+     "retiredFixture": false,
+     "flagOn": true,
+     "n": 2,
+     "nSame": true,
+     "keys": [
+      {
+       "key": "_fixInto",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "fixcap",
+       "moved": true,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "hasFixedCapture",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": true,
+       "saveJson": false
+      }
+     ],
+     "moved": [
+      "fixcap"
+     ],
+     "notRestored": [],
+     "diffKeys": [
+      "_pairFuse",
+      "_pkC",
+      "ax",
+      "ay",
+      "geoToyChi",
+      "geoToyDv",
+      "geoToyE",
+      "geoToyEmesh",
+      "geoToyL",
+      "geoToyMeshL",
+      "geoToyMeshPx",
+      "geoToyMeshPy",
+      "geoToyPx",
+      "geoToyPy",
+      "pairD",
+      "pairFuseSteps",
+      "railIdx",
+      "sumW",
+      "uAx",
+      "uAy"
+     ],
+     "diffByCat": {
+      "other": [
+       "_pairFuse",
+       "_pkC",
+       "ax",
+       "ay",
+       "geoToyChi",
+       "geoToyDv",
+       "geoToyE",
+       "geoToyEmesh",
+       "geoToyL",
+       "geoToyMeshL",
+       "geoToyMeshPx",
+       "geoToyMeshPy",
+       "geoToyPx",
+       "geoToyPy",
+       "pairD",
+       "pairFuseSteps",
+       "railIdx",
+       "sumW",
+       "uAx",
+       "uAy"
+      ]
+     },
+     "rerunBitSame": true
+    },
+    {
+     "cat": "capture",
+     "id": "clusterGrowthCopy",
+     "retiredFixture": false,
+     "flagOn": true,
+     "n": 85,
+     "nSame": true,
+     "keys": [
+      {
+       "key": "capture",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "hasCenterCapture",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": true,
+       "saveJson": false
+      }
+     ],
+     "moved": [],
+     "notRestored": [],
+     "diffKeys": [
+      "_pairFuse",
+      "_pkC",
+      "ax",
+      "ay",
+      "geoToyChi",
+      "geoToyDv",
+      "geoToyE",
+      "geoToyEmesh",
+      "geoToyL",
+      "geoToyMeshL",
+      "geoToyMeshPx",
+      "geoToyMeshPy",
+      "geoToyPx",
+      "geoToyPy",
+      "pairD",
+      "pairFuseSteps",
+      "railIdx",
+      "sumW",
+      "uAx",
+      "uAy"
+     ],
+     "diffByCat": {
+      "other": [
+       "_pairFuse",
+       "_pkC",
+       "ax",
+       "ay",
+       "geoToyChi",
+       "geoToyDv",
+       "geoToyE",
+       "geoToyEmesh",
+       "geoToyL",
+       "geoToyMeshL",
+       "geoToyMeshPx",
+       "geoToyMeshPy",
+       "geoToyPx",
+       "geoToyPy",
+       "pairD",
+       "pairFuseSteps",
+       "railIdx",
+       "sumW",
+       "uAx",
+       "uAy"
+      ]
+     },
+     "rerunBitSame": true
+    },
+    {
+     "cat": "relDrag",
+     "id": "plutoCharonDFM",
+     "retiredFixture": false,
+     "flagOn": true,
+     "n": 2,
+     "nSame": true,
+     "keys": [
+      {
+       "key": "hasRelativeDrag",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "relDrag",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "relDragHeat",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "relDragKickMax",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "relDragN",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "relDragPos",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "relDragResL",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "relDragSlipMax",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "relDragTorqueMax",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      }
+     ],
+     "moved": [
+      "relDragHeat",
+      "relDragN"
+     ],
+     "notRestored": [
+      "relDragHeat",
+      "relDragN"
+     ],
+     "diffKeys": [
+      "_pkC",
+      "_pn1",
+      "_pn1K",
+      "ax",
+      "ay",
+      "railIdx",
+      "relDragHeat",
+      "relDragKickMax",
+      "relDragN",
+      "relDragSlipMax",
+      "relDragTorqueMax",
+      "uAx"
+     ],
+     "diffByCat": {
+      "other": [
+       "_pkC",
+       "_pn1",
+       "_pn1K",
+       "ax",
+       "ay",
+       "railIdx",
+       "uAx"
+      ],
+      "relDrag": [
+       "relDragHeat",
+       "relDragKickMax",
+       "relDragN",
+       "relDragSlipMax",
+       "relDragTorqueMax"
+      ]
+     },
+     "rerunBitSame": true
+    },
+    {
+     "cat": "coreV2",
+     "id": "earthMoon",
+     "retiredFixture": false,
+     "flagOn": true,
+     "n": 2,
+     "nSame": true,
+     "keys": [
+      {
+       "key": "RcV",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreAxAz",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreAxM",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreAxOm",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreBA",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreBF",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreBJ0",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreBJr",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreBR",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreBare",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreCtr",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreDQ",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreDQT",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreEint",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreIS",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreJ",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreJm",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreJx",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreJy",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreKal",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreKcs",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreMF",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreMd",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreOm0",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreOmV",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "corePump",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreRT",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreSSM",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreSrc",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreSrcE",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "coreWork",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "dragQ",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "dragQT",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "hasCoreAxis",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "hasCoreDQ",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "hasCoreEnd",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "hasCoreField",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "hasCoreTilt",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "hasCoreV2",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": true,
+       "saveJson": false
+      }
+     ],
+     "moved": [],
+     "notRestored": [],
+     "diffKeys": [
+      "_Warr",
+      "ax",
+      "ay",
+      "dpx",
+      "dpy",
+      "railIdx",
+      "sumW",
+      "uAx",
+      "uAy"
+     ],
+     "diffByCat": {
+      "other": [
+       "_Warr",
+       "ax",
+       "ay",
+       "dpx",
+       "dpy",
+       "railIdx",
+       "sumW",
+       "uAx",
+       "uAy"
+      ]
+     },
+     "rerunBitSame": true
+    },
+    {
+     "cat": "layers",
+     "id": "layeredCoreDFM",
+     "retiredFixture": false,
+     "flagOn": true,
+     "n": 7,
+     "nSame": true,
+     "keys": [
+      {
+       "key": "hasBodyLayers",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layAx",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layIS",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layJ",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layJD",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layJx",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layJy",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layM",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layMassRes",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "layN",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layPR",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layQ",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layR",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      },
+      {
+       "key": "layRl",
+       "moved": false,
+       "checkpoint": true,
+       "abClone": true,
+       "saveJson": false
+      }
+     ],
+     "moved": [],
+     "notRestored": [],
+     "diffKeys": [
+      "_pkC",
+      "ax",
+      "ay",
+      "layerDv",
+      "pairD",
+      "railIdx",
+      "sumW",
+      "uAx",
+      "uAy"
+     ],
+     "diffByCat": {
+      "other": [
+       "_pkC",
+       "ax",
+       "ay",
+       "layerDv",
+       "pairD",
+       "railIdx",
+       "sumW",
+       "uAx",
+       "uAy"
+      ]
+     },
+     "rerunBitSame": true
+    },
+    {
+     "cat": "spaceMesh",
+     "id": "spaceMeshBinaryToy",
+     "retiredFixture": false,
+     "flagOn": true,
+     "n": 2,
+     "nSame": true,
+     "keys": [
+      {
+       "key": "_mcInStep",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_mcPre",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_mcPreE",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_mcRec",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_mcSinkJ",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_mcSnap",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_mcSnap2",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_mcSnap3",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_mcSnap6",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_mcTgt",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_pw",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "_smAnc",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "hasCoordInertia",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "hasMeshReservoir",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "hasPairWeave",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "hasSpaceMesh",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordChi",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordClamp",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordDvE6",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordDvI",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordE",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordEmesh",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordGive",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordL",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordN",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordOut",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordPx",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordPy",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordRemoval",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordSink",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordSinkGive",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordSinkL",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordSinkN",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordSrc",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshCoordStop",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshRotorE",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshRotorL",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "meshRotorStop",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMesh",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshChi",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshGravDiff",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshN",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshStop",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeaveChi",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeaveClamp",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeaveE",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeaveL",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeaveMode",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeavePNDv",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeavePNE",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeavePx",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeavePy",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeaveRel",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeaveStop",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWeaveTrDv",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWorkE",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "spaceMeshWorkPinned",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      }
+     ],
+     "moved": [
+      "_smAnc",
+      "spaceMeshChi",
+      "spaceMeshGravDiff",
+      "spaceMeshN"
+     ],
+     "notRestored": [
+      "_smAnc",
+      "spaceMeshChi",
+      "spaceMeshGravDiff",
+      "spaceMeshN"
+     ],
+     "diffKeys": [
+      "_Warr",
+      "_pr",
+      "_smAnc",
+      "_smAx",
+      "_smAy",
+      "_smBd",
+      "accS",
+      "accVx",
+      "accVy",
+      "ax",
+      "ay",
+      "pairD",
+      "railIdx",
+      "spaceMeshChi",
+      "spaceMeshGravDiff",
+      "spaceMeshN",
+      "sumW",
+      "sumWu",
+      "uAx",
+      "uAy"
+     ],
+     "diffByCat": {
+      "other": [
+       "_Warr",
+       "_pr",
+       "_smAx",
+       "_smAy",
+       "_smBd",
+       "accS",
+       "accVx",
+       "accVy",
+       "ax",
+       "ay",
+       "pairD",
+       "railIdx",
+       "sumW",
+       "sumWu",
+       "uAx",
+       "uAy"
+      ],
+      "spaceMesh": [
+       "_smAnc",
+       "spaceMeshChi",
+       "spaceMeshGravDiff",
+       "spaceMeshN"
+      ]
+     },
+     "rerunBitSame": true
+    },
+    {
+     "cat": "shapeToy",
+     "id": "shapeToyArm",
+     "retiredFixture": false,
+     "flagOn": true,
+     "n": 180,
+     "nSame": true,
+     "keys": [
+      {
+       "key": "hasShapeToy",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToy",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyBathE",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyBathL",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyBathPx",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyBathPy",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyBranch",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyDetE",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyDx",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyE",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyL",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyLen",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyN",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyPx",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyPy",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToySigma",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToySigmaZ",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyStop",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToySupE",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToySupL",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToySupPx",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToySupPy",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyTheta",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "shapeToyUnbooked",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "uLat",
+       "moved": false,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "wLat",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "wzLat",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "yLat",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      },
+      {
+       "key": "zLat",
+       "moved": true,
+       "checkpoint": false,
+       "abClone": false,
+       "saveJson": false
+      }
+     ],
+     "moved": [
+      "shapeToyBathE",
+      "shapeToyBathL",
+      "shapeToyBathPy",
+      "shapeToyDetE",
+      "shapeToyDx",
+      "shapeToyE",
+      "shapeToyL",
+      "shapeToyPy",
+      "shapeToySupE",
+      "shapeToySupL",
+      "shapeToySupPy",
+      "wLat",
+      "wzLat",
+      "yLat",
+      "zLat"
+     ],
+     "notRestored": [
+      "shapeToyBathE",
+      "shapeToyBathL",
+      "shapeToyBathPy",
+      "shapeToyDetE",
+      "shapeToyDx",
+      "shapeToyE",
+      "shapeToyL",
+      "shapeToyPy",
+      "shapeToySupE",
+      "shapeToySupL",
+      "shapeToySupPy",
+      "wLat",
+      "wzLat",
+      "yLat",
+      "zLat"
+     ],
+     "diffKeys": [
+      "_pkC",
+      "pairD",
+      "railIdx",
+      "shapeToyBathE",
+      "shapeToyBathL",
+      "shapeToyBathPy",
+      "shapeToyDetE",
+      "shapeToyDx",
+      "shapeToyE",
+      "shapeToyL",
+      "shapeToyPy",
+      "shapeToySupE",
+      "shapeToySupL",
+      "shapeToySupPy",
+      "sumW",
+      "uAy",
+      "wLat",
+      "wzLat",
+      "yLat",
+      "zLat"
+     ],
+     "diffByCat": {
+      "other": [
+       "_pkC",
+       "pairD",
+       "railIdx",
+       "sumW",
+       "uAy"
+      ],
+      "shapeToy": [
+       "shapeToyBathE",
+       "shapeToyBathL",
+       "shapeToyBathPy",
+       "shapeToyDetE",
+       "shapeToyDx",
+       "shapeToyE",
+       "shapeToyL",
+       "shapeToyPy",
+       "shapeToySupE",
+       "shapeToySupL",
+       "shapeToySupPy",
+       "wLat",
+       "wzLat",
+       "yLat",
+       "zLat"
+      ]
+     },
+     "rerunBitSame": false
+    }
+   ],
+   "table": [
+    {
+     "key": "fixcap",
+     "label": "固定中心の状態一式(stepN・捕獲/離散の回数・ログ)",
+     "fixture": "fixedCaptureCopy",
+     "keys": [
+      "fixcap"
+     ],
+     "moved": [
+      "fixcap"
+     ],
+     "notRestored": [],
+     "saveJson": "運ばない",
+     "rebuild": "再構築できる(t=0 の値だけ)",
+     "checkpoint": "運ぶ",
+     "abClone": "運ぶ",
+     "roundTrip": "動いた 1 鍵がすべて戻る",
+     "rerunBitSame": true
+    },
+    {
+     "key": "fixcap.rInertia",
+     "label": "動的 R_I(離散の後の慣性半径)",
+     "fixture": "fixedCaptureCopy",
+     "keys": [
+      "fixcap"
+     ],
+     "moved": [
+      "fixcap"
+     ],
+     "notRestored": [],
+     "saveJson": "運ばない",
+     "rebuild": "再構築できる(t=0 の値だけ)",
+     "checkpoint": "運ぶ",
+     "abClone": "運ぶ",
+     "roundTrip": "動いた 1 鍵がすべて戻る",
+     "rerunBitSame": true
+    },
+    {
+     "key": "fixcap.accounts",
+     "label": "口座(E_self・Q・Q_over・E_prec・E_pend・J_pin・P_pin・eE・eM)",
+     "fixture": "fixedCaptureCopy",
+     "keys": [
+      "fixcap"
+     ],
+     "moved": [
+      "fixcap"
+     ],
+     "notRestored": [],
+     "saveJson": "運ばない",
+     "rebuild": "再構築できる(t=0 の値だけ)",
+     "checkpoint": "運ぶ",
+     "abClone": "運ぶ",
+     "roundTrip": "動いた 1 鍵がすべて戻る",
+     "rerunBitSame": true
+    },
+    {
+     "key": "relDrag",
+     "label": "相対すべりの引きずりの帳簿と履歴(rdPrev*)",
+     "fixture": "plutoCharonDFM",
+     "keys": [
+      "relDragHeat",
+      "relDragN"
+     ],
+     "moved": [
+      "relDragHeat",
+      "relDragN"
+     ],
+     "notRestored": [
+      "relDragHeat",
+      "relDragN"
+     ],
+     "saveJson": "運ばない",
+     "rebuild": "再構築できる(t=0 の値だけ)",
+     "checkpoint": "運ばない",
+     "abClone": "運ばない",
+     "roundTrip": "動いた 2 鍵のうち 2 鍵が戻らない",
+     "rerunBitSame": true
+    },
+    {
+     "key": "coreV2",
+     "label": "コア V2",
+     "fixture": "earthMoon",
+     "keys": [
+      "RcV",
+      "coreAxAz",
+      "coreAxM",
+      "coreAxOm",
+      "coreBA",
+      "coreBF",
+      "coreBJ0",
+      "coreBJr",
+      "coreBR",
+      "coreBare",
+      "coreCtr",
+      "coreDQ",
+      "coreDQT",
+      "coreEint",
+      "coreIS",
+      "coreJ",
+      "coreJm",
+      "coreJx",
+      "coreJy",
+      "coreKal",
+      "coreKcs",
+      "coreMF",
+      "coreMd",
+      "coreOm0",
+      "coreOmV",
+      "corePump",
+      "coreRT",
+      "coreSSM",
+      "coreSrc",
+      "coreSrcE",
+      "coreWork",
+      "dragQ",
+      "dragQT"
+     ],
+     "moved": [],
+     "notRestored": [],
+     "saveJson": "運ばない",
+     "rebuild": "再構築できる(t=0 の値だけ)",
+     "checkpoint": "一部",
+     "abClone": "一部",
+     "roundTrip": "窓の中で動かない",
+     "rerunBitSame": true
+    },
+    {
+     "key": "layers",
+     "label": "層",
+     "fixture": "layeredCoreDFM",
+     "keys": [
+      "layAx",
+      "layIS",
+      "layJ",
+      "layJD",
+      "layJx",
+      "layJy",
+      "layM",
+      "layMassRes",
+      "layN",
+      "layPR",
+      "layQ",
+      "layR",
+      "layRl"
+     ],
+     "moved": [],
+     "notRestored": [],
+     "saveJson": "運ばない",
+     "rebuild": "再構築できる(t=0 の値だけ)",
+     "checkpoint": "一部",
+     "abClone": "一部",
+     "roundTrip": "窓の中で動かない",
+     "rerunBitSame": true
+    },
+    {
+     "key": "spaceMesh",
+     "label": "空間メッシュ",
+     "fixture": "spaceMeshBinaryToy",
+     "keys": [
+      "_smAnc",
+      "spaceMeshChi",
+      "spaceMeshGravDiff",
+      "spaceMeshN"
+     ],
+     "moved": [
+      "_smAnc",
+      "spaceMeshChi",
+      "spaceMeshGravDiff",
+      "spaceMeshN"
+     ],
+     "notRestored": [
+      "_smAnc",
+      "spaceMeshChi",
+      "spaceMeshGravDiff",
+      "spaceMeshN"
+     ],
+     "saveJson": "運ばない",
+     "rebuild": "再構築できる(t=0 の値だけ)",
+     "checkpoint": "運ばない",
+     "abClone": "運ばない",
+     "roundTrip": "動いた 4 鍵のうち 4 鍵が戻らない",
+     "rerunBitSame": true
+    },
+    {
+     "key": "shapeToy",
+     "label": "形状トイの潜在",
+     "fixture": "shapeToyArm",
+     "keys": [
+      "shapeToyBathE",
+      "shapeToyBathL",
+      "shapeToyBathPy",
+      "shapeToyDetE",
+      "shapeToyDx",
+      "shapeToyE",
+      "shapeToyL",
+      "shapeToyPy",
+      "shapeToySupE",
+      "shapeToySupL",
+      "shapeToySupPy",
+      "wLat",
+      "wzLat",
+      "yLat",
+      "zLat"
+     ],
+     "moved": [
+      "shapeToyBathE",
+      "shapeToyBathL",
+      "shapeToyBathPy",
+      "shapeToyDetE",
+      "shapeToyDx",
+      "shapeToyE",
+      "shapeToyL",
+      "shapeToyPy",
+      "shapeToySupE",
+      "shapeToySupL",
+      "shapeToySupPy",
+      "wLat",
+      "wzLat",
+      "yLat",
+      "zLat"
+     ],
+     "notRestored": [
+      "shapeToyBathE",
+      "shapeToyBathL",
+      "shapeToyBathPy",
+      "shapeToyDetE",
+      "shapeToyDx",
+      "shapeToyE",
+      "shapeToyL",
+      "shapeToyPy",
+      "shapeToySupE",
+      "shapeToySupL",
+      "shapeToySupPy",
+      "wLat",
+      "wzLat",
+      "yLat",
+      "zLat"
+     ],
+     "saveJson": "運ばない",
+     "rebuild": "再構築できる(t=0 の値だけ)",
+     "checkpoint": "運ばない",
+     "abClone": "運ばない",
+     "roundTrip": "動いた 15 鍵のうち 15 鍵が戻らない",
+     "rerunBitSame": false
+    },
+    {
+     "key": "capture",
+     "label": "🌰 の中心捕獲",
+     "fixture": "clusterGrowthCopy",
+     "keys": [
+      "capture"
+     ],
+     "moved": [],
+     "notRestored": [],
+     "saveJson": "運ばない",
+     "rebuild": "再構築できる(t=0 の値だけ)",
+     "checkpoint": "運ばない",
+     "abClone": "運ぶ",
+     "roundTrip": "窓の中で動かない",
+     "rerunBitSame": true
+    }
+   ]
+  }
+ },
+ "summary": {
+  "repro": {
+   "savedStepN": 0,
+   "afterStepsStepN": 2,
+   "restoredStepN": 0,
+   "savedRI": 1.5,
+   "restoredRI": 1.5,
+   "tRestored": true
+  },
+  "overflow": {
+   "steps": 1,
+   "nSame": true,
+   "restoredBitSame": true,
+   "rerunBitSame": true,
+   "twiceBitSame": true,
+   "restoredNCap": 0,
+   "restoredNEject": 0,
+   "restoredRI": 0.01,
+   "restoredLog": 0,
+   "restoredEjLog": 0,
+   "restoredEself": 0,
+   "savedEself": 0,
+   "snapHasFixcap": true,
+   "rerunNDiff": 0
+  },
+  "atStep": {
+   "tRef": 0.048,
+   "tTest": 0.048,
+   "restoredStepN": 1,
+   "savedStepN": 1,
+   "sameEjectTime": true,
+   "stateBitSame": true
+  },
+  "twice": {
+   "savedI": 2.875,
+   "savedE": 0.359375,
+   "restoredI": 2.875,
+   "restoredE": 0.359375,
+   "restoredRI": 0.5,
+   "restoredBitSame": true
+  },
+  "ab": {
+   "abPrint": "4fa0a6889654c57265b0972339f6a6acd2cb34f1d34909b1097f8bcf98113c75",
+   "aEqualsNewB": true,
+   "legacyBEqualsNewB": true,
+   "logRowShared": false,
+   "ckRestoredBitSame": true,
+   "ckRerunBitSame": true
+  },
+  "inventory": [
+   [
+    "fixcap",
+    "運ぶ",
+    "動いた 1 鍵がすべて戻る",
+    true
+   ],
+   [
+    "fixcap.rInertia",
+    "運ぶ",
+    "動いた 1 鍵がすべて戻る",
+    true
+   ],
+   [
+    "fixcap.accounts",
+    "運ぶ",
+    "動いた 1 鍵がすべて戻る",
+    true
+   ],
+   [
+    "relDrag",
+    "運ばない",
+    "動いた 2 鍵のうち 2 鍵が戻らない",
+    true
+   ],
+   [
+    "coreV2",
+    "一部",
+    "窓の中で動かない",
+    true
+   ],
+   [
+    "layers",
+    "一部",
+    "窓の中で動かない",
+    true
+   ],
+   [
+    "spaceMesh",
+    "運ばない",
+    "動いた 4 鍵のうち 4 鍵が戻らない",
+    true
+   ],
+   [
+    "shapeToy",
+    "運ばない",
+    "動いた 15 鍵のうち 15 鍵が戻らない",
+    false
+   ],
+   [
+    "capture",
+    "運ばない",
+    "窓の中で動かない",
+    true
+   ]
+  ]
+ },
+ "before": {
+  "rev": "f03bf5a",
+  "how": "枝の実測(W290D_BASE=beta/_w290_base.html で本器の probe を子プロセスで走らせ summaryOf で要約した値)",
+  "summary": {
+   "repro": {
+    "savedStepN": 0,
+    "afterStepsStepN": 2,
+    "restoredStepN": 2,
+    "savedRI": 1.5,
+    "restoredRI": 0.75,
+    "tRestored": true
+   },
+   "overflow": {
+    "steps": 1,
+    "nSame": true,
+    "restoredBitSame": false,
+    "rerunBitSame": false,
+    "twiceBitSame": false,
+    "restoredNCap": 1,
+    "restoredNEject": 1,
+    "restoredRI": 0.005,
+    "restoredLog": 1,
+    "restoredEjLog": 1,
+    "restoredEself": -14.689627726449768,
+    "savedEself": 0,
+    "snapHasFixcap": false,
+    "rerunNDiff": 14
+   },
+   "atStep": {
+    "tRef": 0.048,
+    "tTest": 0.032,
+    "restoredStepN": 2,
+    "savedStepN": 1,
+    "sameEjectTime": false,
+    "stateBitSame": false
+   },
+   "twice": {
+    "savedI": 2.875,
+    "savedE": 0.359375,
+    "restoredI": 25.875,
+    "restoredE": 3.234375,
+    "restoredRI": 1.5,
+    "restoredBitSame": false
+   },
+   "ab": {
+    "abPrint": "4fa0a6889654c57265b0972339f6a6acd2cb34f1d34909b1097f8bcf98113c75",
+    "aEqualsNewB": true,
+    "legacyBEqualsNewB": true,
+    "logRowShared": true,
+    "ckRestoredBitSame": false,
+    "ckRerunBitSame": false
+   },
+   "inventory": [
+    [
+     "fixcap",
+     "運ばない",
+     "動いた 1 鍵のうち 1 鍵が戻らない",
+     false
+    ],
+    [
+     "fixcap.rInertia",
+     "運ばない",
+     "動いた 1 鍵のうち 1 鍵が戻らない",
+     false
+    ],
+    [
+     "fixcap.accounts",
+     "運ばない",
+     "動いた 1 鍵のうち 1 鍵が戻らない",
+     false
+    ],
+    [
+     "relDrag",
+     "運ばない",
+     "動いた 2 鍵のうち 2 鍵が戻らない",
+     false
+    ],
+    [
+     "coreV2",
+     "一部",
+     "窓の中で動かない",
+     true
+    ],
+    [
+     "layers",
+     "一部",
+     "窓の中で動かない",
+     true
+    ],
+    [
+     "spaceMesh",
+     "運ばない",
+     "動いた 4 鍵のうち 4 鍵が戻らない",
+     false
+    ],
+    [
+     "shapeToy",
+     "運ばない",
+     "動いた 15 鍵のうち 15 鍵が戻らない",
+     false
+    ],
+    [
+     "capture",
+     "運ばない",
+     "窓の中で動かない",
+     false
+    ]
+   ]
+  }
+ },
+ "abSameAsBase": true,
+ "verdict": {
+  "checks": {
+   "reproRestored": true,
+   "overflowNSame": true,
+   "overflowRestored": true,
+   "overflowRerun": true,
+   "overflowTwice": true,
+   "atStepTiming": true,
+   "twiceEject": true,
+   "abUnchanged": true,
+   "abIndependent": true,
+   "abCheckpoint": true,
+   "inventoryFixcap": true,
+   "saveFormatUnchanged": true
+  },
+  "ok": true
+ },
+ "elapsedS": 1.62
+}
