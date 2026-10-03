@@ -3848,14 +3848,14 @@ function geoModeOf(ph){
 //   転記が正本と 1 行ずつ一致することは QA `ui.assessedValuePanel` が突き合わせる。
 // **静的な obsCard の行(多くは h 段の文面)と混ぜない** —— 別の欄として下に出す。
 // >>> w275a-generated: assessed-table
-const ASSESSED_CANON={file:"tests/out/calaudit-w249.json", wave:"第249便b", generatedAt:"2026-10-01T19:30:19.223Z",
-  targetSha256:"21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
+const ASSESSED_CANON={file:"tests/out/calaudit-w249.json", wave:"第249便b", generatedAt:"2026-10-03T01:20:56.548Z",
+  targetSha256:"585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
   note:"判定段の値・σ 倍・門の状態は**この正本の転記**である(このページで測り直していない)"};
 // >>> w273c-assessed-table
-const ASSESSED_SIG={"mercuryReal":"504f66ef","plutoCharonReal":"a859d010","alphaCenAB":"919fda5b","siriusAB":"1b87793c","psrDoubleAB":"4216236d","psrJ1757DFM":"c1b02ef7","psrJ1946DFM":"d802a205","psrB1534":"f6792a1e","saturnZonalD68":"13b08308"};
+const ASSESSED_SIG={"mercuryReal":"504f66ef","plutoCharonDiagInput":"9842c8c3","alphaCenAB":"919fda5b","siriusAB":"1b87793c","psrDoubleAB":"4216236d","psrJ1757DFM":"c1b02ef7","psrJ1946DFM":"d802a205","psrB1534":"f6792a1e","saturnZonalD68":"13b08308"};
 const ASSESSED_VALUES={
   "mercuryReal":[{t:"水星",k:"precession",n:"近日点前進(推定器つき宣言 — 第250便d)",st:"h",v:0.0000267678806914,u:"deg/orbit",ns:1979.37294382,g:"数値未解決"}],
-  "plutoCharonReal":[{t:"カロン",k:"period",n:"公転周期(kFrame=0 対照・同方向1周)",st:"h",v:551864.061363,u:"s",ns:294.083446028,g:"数値未解決"},{t:"カロン",k:"period",n:"公転周期(旧 E6′-R の行)同方向1周〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",st:"h",v:551864.061363,u:"s",ns:294.083446028,g:"数値未解決"},{t:"カロン",k:"period",n:"公転周期 近点間(第250便d)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕",st:"h",v:551858.672345,u:"s",ns:86.173805364,g:"mapping-unresolved"}],
+  "plutoCharonDiagInput":[{t:"カロン",k:"period",n:"実測(標準検出器): 公転周期(カロン)",st:"h",v:551863.659828,u:"s",ns:278.592123895,g:"数値未解決"}],
   "alphaCenAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:2517154622.03,u:"s",ns:0.0956160261716,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.519469966681,u:"-",ns:0.00022212357879,g:"mapping-unresolved"}],
   "siriusAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h4",v:1581969189.34,u:"s",ns:0.27409091162,g:"合(3σ)"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h4",v:0.591419949651,u:"-",ns:0.000136079136848,g:"mapping-unresolved"}],
   "psrDoubleAB":[{t:"B",k:"period",n:"公転周期(kFrame=0 採用側)",st:"h",v:8834.80556032,u:"s",ns:1080926.88019,g:"数値未解決"},{t:"B",k:"ecc",n:"実測離心率(1公転の半径比振れ幅)",st:"h",v:0.0877685792972,u:"-",ns:176.181307483,g:"mapping-unresolved"},{t:"B",k:"precession",n:"近点前進(1PN — 合わせない照合)",st:"h",v:16.8881109274,u:"deg/yr",ns:862.467126892,g:"数値未解決"}],
