@@ -801,3 +801,7 @@ tests/out/regen-plan-w281a.json
 #   步ごとの指紋の照合〔層の軸の対照・層の差分を外した対照〕・変換の往復・層の軸の宣言欄の受理)。QA behavior.tilt90LayersCopy・preset.layerAxisDecl が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/tilt90layers-w289e.json
+# 第290便c(原仮定者の裁定(第80報)⑥・統括の検証項目 R127): **慣性引きずり便**の正本(tests/exp-w290c-inertial.mjs —— 法則版 relativeDrag.law:"inertial" の
+#   門 b〜f〔gain:0 のビット同一・固定配置で純関数とビット同一・Δt 不変性・2 体の前ステップ参照・自己項/並進/1 体/一致点/復元〕と診断本 🐌 の Δϖ・上界・帳簿)。
+#   QA behavior.inertialDragGate・preset.inertialDragPair が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/inertial-w290c.json

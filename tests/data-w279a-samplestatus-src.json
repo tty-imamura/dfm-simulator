@@ -81,6 +81,18 @@
     "state": "force signs and consistency are checked in the pure functions and the engine"
    }
   },
+  "inertialDragPair": {
+   "purpose": "法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る",
+   "objective": "met",
+   "state": "gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装",
+   "evidence": [
+    "tests/out/inertial-w290c.json"
+   ],
+   "en": {
+    "purpose": "Run inertial-law dragging only where declared; measure apsidal advance",
+    "state": "gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain"
+   }
+  },
   "boxBinaryToy": {
    "purpose": "等質量で共通移動が相対軌道から消えるかを測る",
    "objective": "met",
@@ -2222,6 +2234,12 @@
    ],
    "preset.compactForceToy": [
     "compactForceToy"
+   ],
+   "behavior.inertialDragGate": [
+    "inertialDragPair"
+   ],
+   "preset.inertialDragPair": [
+    "inertialDragPair"
    ],
    "preset.conduction": [
     "conduction"

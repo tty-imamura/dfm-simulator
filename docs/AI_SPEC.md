@@ -2437,7 +2437,7 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 ### 10.1 `physics.relativeDrag` —— 相対すべりの零条件を持つ引きずり則
 
 - **正準形**: `{law:"pairSlip", kappa:<0〜1>, pairs:"all"|[[i,j],…], spins:"declared"[, integration:"midpoint"]}`。
-  - `law` は **`"pairSlip"` のみ**(他は致命拒否)。
+  - `law` は **`"pairSlip"` か `"inertial"`**(他は致命拒否)。`"inertial"` の正準形と契約は下の §10.1.1(第290便c)。
   - `kappa` は **0〜1 の有限数**。**`kappa:0` は「宣言したが用量 0」として正準形に残す**
     (= 否定対照の宣言。署名は未宣言と別になる)。
   - `pairs` は省略・`null`・`"all"` が「全対」。配列で書くときは **0 以上の相異なる整数 2 つの配列の配列**で、
@@ -2469,6 +2469,25 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - QA: **`behavior.relativeDragLaw`**(純関数の零条件・否定対照・保存・NS 延長の否定対照)/
   **`behavior.relativeDragMidpoint`**(第278便b: 最小対照で陽的の熱 −0.24505 を再現し中点法は +1.92×10⁻⁶・9 条件で熱非負・零条件・拒否 3 系統)/
   **`behavior.plutoCharonDFM`**(エンジンの零条件・対照との差・帳簿・決定性)。
+
+#### 10.1.1 法則版 `law:"inertial"` —— 慣性引きずり(第290便c・原仮定者の裁定〔第80報〕⑥・**SYSTEM_PROMPT には載せない**)
+
+- **既定は宣言しない。** 「AIでシミュレーション追加」の生成器(`SYSTEM_PROMPT`)にはこの鍵を載せていない —— 生成した JSON が
+  `physics.relativeDrag` を勝手に宣言しないこと(宣言は人が書いた本だけ。内蔵の宣言は診断本 🐌 `inertialDragPair` の **1 本**)。
+  宣言の無い本は経路に入らず、`presetSig`・エクスポート JSON・600 步の状態は 1 bit も変わらない。
+- **正準形**: `{law:"inertial", gain:<C_d ≥0>[, eps:<ε ≥0>], pairs:"all"|[[i,j],…], history:"positions"}`。
+  - `gain` は C_d [L³/M](0 以上の有限数)。**`gain:0` は「宣言したが用量 0」の否定対照として正準形に残す**(署名は未宣言と別・走行は未宣言とビット同一)。
+  - `eps` は核の軟化 ε(0 以上・未宣言は `physics.softening` —— 正準形に出さない)。
+  - `pairs` は pairSlip と同じ受理(`"all"`・省略・`null` が全対/配列は 0 以上の相異なる整数 2 つ・重複と空配列は致命拒否)。
+  - `history` は `"positions"` だけ(省略可・正準形には出す —— 移動ベクトルは座標の差分から作る)。
+  - **`kappa`・`spins`・`W0`・`integration` は pairSlip 専用**で、`law:"inertial"` で与えたら致命拒否。その他の未知の鍵も致命拒否。
+- **契約**(式は docs/PHYSICS.md〔第290便c〕): 移動ベクトル V=(前回の標本との座標の差分)/Δt・u_i=C_d Σ_{j≠i} m_j r/(r²+ε²)² (V_j−V_i)・
+  **位置だけを x+=u·dt で動かす**(v へ足さない・u は毎物理ステップ作り直す・自己項は計算しない・pinned は受け取らない・最初の步と粒子が変わった步は u=0)・
+  各步のスペクトル上界 2·max deg を数える(**clamp しない** —— 上界 ≥1 の步は発散として記録)。既存の q 付き場・u=A/W・E6′・pairSlip には足さない。
+- **副作用(宣言した本だけ)**: 座標の履歴 `rdPrevX/rdPrevY/rdPrevT`(チェックポイントと A/B の複製が運ぶ)と帳簿の欄(`inertialDragWork` —— 外部支持の仕事・`inertialDragDL`・上界の数)。
+  pairSlip と違い自転の配列は Float32 のまま(自転を読まない)。
+- **A/B**: `abBody.physicsPatch.relativeDrag` は `law:"inertial"` の宣言か `null` だけを受ける(B 側で用量 0 の否定対照を作る —— 🐌 のワンタップ)。
+- QA: **`behavior.inertialDragGate`**(門 a〜f)/ **`preset.inertialDragPair`**(受理と拒否・🐌・診断)/ **`lint.relDragRemedies`**(対策表の訂正)。
 
 ### 10.2 `physics.massPrecision` —— 質量配列の倍精度化(opt-in)
 
