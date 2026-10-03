@@ -3,32 +3,32 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-  "generatedAt": "2026-10-03T06:21:30.268Z",
+  "targetSha256": "0e33bd32af2b0f11c0a45485f9b7fd85db2992e2de915dd05577225245c8a8aa",
+  "generatedAt": "2026-10-03T23:13:53.721Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1814041,
-    "sha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
-    "mtime": "2026-10-03T05:31:51.242Z"
+    "bytes": 1814913,
+    "sha256": "212279e541485ff204966ddf619fd1fbfa59789ef6158a46ea4b7296a63a5391",
+    "mtime": "2026-10-03T22:22:04.961Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 160794,
-    "sha256": "6b0c74062c9da3c23c11aaa6d22929c3262b55c307624aa75488ebbc13fb1151",
-    "mtime": "2026-10-03T06:19:59.054Z"
+    "bytes": 160774,
+    "sha256": "ce62b44d02f9b3e1ed5cbbd04242db60742e7f11bd50a25b7678a1d4d985952c",
+    "mtime": "2026-10-03T23:11:55.925Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
-    "bytes": 12670,
-    "sha256": "002459f2b3a8bf0cf25d04be791bd27d7af67a98d00fb36b75f1dc81a7a3ef5c",
-    "mtime": "2026-10-03T03:51:37.586Z"
+    "bytes": 12916,
+    "sha256": "65bd8da2b56aef8bf0c085d4ea16b65e22265b5b3cb835a9863bc46981dd9330",
+    "mtime": "2026-10-03T23:13:49.825Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223869,
-    "sha256": "81e5616ba88fd66a69b9ba19c9746f1b48c67e4f6c105273f73ec76a7416be15",
-    "mtime": "2026-10-03T02:23:12.890Z"
+    "sha256": "688c2f843193c81265bcb82a23f94caf2b3cdd84a0b83b7a0b775ef527d7487e",
+    "mtime": "2026-10-03T21:35:03.765Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -38,9 +38,9 @@
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 122083,
-    "sha256": "85633a5203b4e1d5adbaffd3da813d5a034786faa794b20e188aa6ffea55491e",
-    "mtime": "2026-10-03T06:00:18.550Z"
+    "bytes": 122149,
+    "sha256": "42504333ce26b5486dc117bd29a22e6382be5c74b311b87f02209b554ef995d7",
+    "mtime": "2026-10-03T22:51:35.461Z"
    }
   ],
   "code": [
@@ -398,7 +398,7 @@
      "nSigma": [
       {
        "key": "mercuryReal|水星|precession",
-       "nSigma": 1979.3729438229177,
+       "nSigma": 1979.3738534462077,
        "status": "数値未解決"
       }
      ]
@@ -695,7 +695,7 @@
      "nSigma": [
       {
        "key": "plutoCharonDiagInput|カロン|period",
-       "nSigma": 278.5921238952411,
+       "nSigma": 278.5921424264764,
        "status": "数値未解決"
       }
      ]
@@ -1479,8 +1479,8 @@
      "orders": [
       {
        "key": "saturnZonalD68|D68|precession",
-       "order": 1.9796647249585413,
-       "epsHatInSigma": 0.0013560022160963691,
+       "order": 1.979664850440595,
+       "epsHatInSigma": 0.00135600193672017,
        "assessedStage": "h4"
       }
      ]
@@ -1493,7 +1493,7 @@
      "nSigma": [
       {
        "key": "saturnZonalD68|D68|precession",
-       "nSigma": 14.60340607134803,
+       "nSigma": 14.603406073544262,
        "status": "否(3σ)"
       }
      ]
@@ -1631,19 +1631,19 @@
     "structureWhy": "**2 体系に形状条件を宣言していない**(未測定)。",
     "numericEvidence": {
      "stages": [
-      551864.061362921,
-      551864.0612657347,
-      551864.0612403541
+      551864.0613634228,
+      551864.0612662266,
+      551864.0612408934
      ],
-     "pObs": 1.9370248248263864,
-     "epsHat": 0.000008971111532098443,
-     "epsHatSigma": 0.00034610769799762515,
+     "pObs": 1.9398741057873583,
+     "epsHat": 0.000008930427880087685,
+     "epsHatSigma": 0.00034453811265770394,
      "assessedStage": "h4",
      "orderEstimable": true
     },
     "observationEvidence": {
-     "nSigma": 294.0787173653838,
-     "residPct": 0.001381250596947053,
+     "nSigma": 294.07873817372433,
+     "residPct": 0.0013812506946812005,
      "cfg": {
       "kFrame": 0,
       "f": 1,
@@ -1666,20 +1666,20 @@
      {
       "column": "S_e0.05_k0",
       "softening": 0.05,
-      "rev2Sec": 551864.061362921,
-      "residPctRev": 0.001381272806879141
+      "rev2Sec": 551864.0613634228,
+      "residPctRev": 0.0013812728977995329
      },
      {
       "column": "S_e0.025_k0",
       "softening": 0.025,
-      "rev2Sec": 551855.9777986223,
-      "residPctRev": -0.0000835219715314297
+      "rev2Sec": 551855.9777991155,
+      "residPctRev": -0.00008352188217208393
      },
      {
       "column": "S_e0.0125_k0",
       "softening": 0.0125,
-      "rev2Sec": 551853.9568779507,
-      "residPctRev": -0.00044972602929805553
+      "rev2Sec": 551853.9568784185,
+      "residPctRev": -0.00044972594453746733
      }
     ],
     "signFlip": true,
@@ -1911,8 +1911,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 0,
-    "nSigma": 0,
+    "ratioExt": 1.3382937694416241,
+    "nSigma": 17532.243748196892,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -2026,8 +2026,8 @@
      "lambdaPN": 1,
      "keepCore": false
     },
-    "ratioExt": 0,
-    "nSigma": 0,
+    "ratioExt": 0.9261496257071371,
+    "nSigma": -4761.8813657005885,
     "why": "比が 1 になる (f, k) の根。**0<k<1 の中間状態**であり、AH1 の近似の側に落ちる。"
    },
    "label": null,
@@ -2339,15 +2339,15 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "f336613a49f85b575ba23c8d923fd4044401ce260fddd54e8a9a1a8f43fa63b9",
-   "citedValue": 551864.061362921,
+   "fileSha256": "038f2bfb300aa51f5450e29f15813f3ffffb1d4e2b23d1a19c7828773bd55751",
+   "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
     "f": 1,
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "c281d6e7049938aa49c03a4fa0443cfa84e3a35b9e54190f7a7a8d07e1c883ab",
+   "citedTargetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,
