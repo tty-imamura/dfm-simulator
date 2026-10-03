@@ -1,7 +1,7 @@
 {
  "meta": {
   "wave": "第249便b",
-  "when": "2026-10-03T22:21:03.506Z",
+  "when": "2026-10-03T22:22:04.728Z",
   "target": "beta/index.html",
   "dtBase": 0.016,
   "populationRule": "sampleClass:\"calibration\" ∧ familyRole≠\"retired\"",
@@ -282,22 +282,22 @@
    "reason": "第251便 統括の未解決「近点間平均の窓感度で ⚡🧿🪶 の周期残差が 0.66pt 割れる」— 窓の長さが走行長(時間予算)で決まっていたのをやめ、宣言した固定窓にする(第252便b)",
    "unmeasured": "**窓感度は未計測のままである**(第253便b L6): 窓を 20・30・40 近点と振って値がどう動くかは測っていない。窓は全系で 20 近点に固定したので系間の比較は揃うが、「20 が十分な長さか」は確かめていない。"
   },
-  "dtNote": "dt はアプリ既定 0.016 と、その半分 0.008 の 2 段。dt/2 段は実行時 n≤12 のサンプルだけ(重い環・多体は時間予算に収まらない — 明記)。**第255便d(第47報 N8): 本走行は --dt3 で dt/4=0.004 を足した 3 段**である(--only で絞った系だけ。ε_num=|Q_h−Q_{h/4}|・観測次数 p_obs を実測して numBoundDecl へ入れる)。",
+  "dtNote": "dt はアプリ既定 0.016 と、その半分 0.008 の 2 段。dt/2 段は実行時 n≤12 のサンプルだけ(重い環・多体は時間予算に収まらない — 明記)。",
   "kf0Runs": {
-   "on": false,
+   "on": true,
    "dt3": false,
-   "only": false,
-   "ids": [],
+   "only": true,
+   "ids": [
+    "jupiterGalilean",
+    "venusReal",
+    "marsMoonsReal",
+    "plutoCharonReal",
+    "neptuneReal"
+   ],
    "how": "`physics.kFrame` の 1 鍵だけを 0 にした診断コピー(`__w249build(id, true)`)。停止条件・近点窓・抽出器・σ の宛先は既定経路と同じ宣言を引く。"
   },
   "dt3": {
-   "on": true,
-   "only": [
-    "alphaCenAB",
-    "siriusAB",
-    "saturnZonalD68"
-   ],
-   "note": "3 段(dt, dt/2, dt/4)を走らせた系だけ numBoundDecl.steps=3・order=p_obs になる。2 段のままの系の値・文言は第253便b から 1 文字も動いていない。"
+   "on": false
   }
  },
  "presets": [
@@ -44230,7 +44230,7 @@
     "scaleInJudgedUnit": 0.511767647377016,
     "residual": 62.05016822433754,
     "infoDistance": 121.24675825516883,
-    "gateStatus": null,
+    "gateStatus": "未判定",
     "judgement": "informational"
    },
    {
@@ -44248,7 +44248,7 @@
     "scaleInJudgedUnit": 0.511767647377016,
     "residual": 296.85822532782913,
     "infoDistance": 580.0644625531312,
-    "gateStatus": null,
+    "gateStatus": "未判定",
     "judgement": "informational"
    }
   ],
@@ -44816,7 +44816,7 @@
   "kf0Runs": "第274便a(--kf0-runs)。out.kf0Runs に走行・配布・健全性の記録がある。"
  },
  "kf0Runs": {
-  "on": false,
+  "on": true,
   "since": "第274便a(第64報)",
   "what": "条件不一致 8 行が要求する **kFrame=0 の対照条件**を、`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**で走らせ、その行へ配った記録。**プリセットの physics は 1 bit も変えない**。",
   "stages": [
@@ -44858,7 +44858,128 @@
   "nApplied": 0,
   "applied": [],
   "missing": [],
-  "health": [],
+  "health": [
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "kFrameApplied": 0,
+    "stages": [
+     "dt",
+     "dt/2"
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "orbits": [
+     {
+      "label": "イオ",
+      "rev": 62,
+      "periA": 63,
+      "periB": 63
+     },
+     {
+      "label": "エウロパ",
+      "rev": 62,
+      "periA": 63,
+      "periB": 63
+     },
+     {
+      "label": "ガニメデ",
+      "rev": 62,
+      "periA": 63,
+      "periB": 63
+     },
+     {
+      "label": "カリスト",
+      "rev": 60,
+      "periA": 59,
+      "periB": 60
+     }
+    ],
+    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
+    "periastraOk": true,
+    "runComplete": true,
+    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "kFrameApplied": 0,
+    "stages": [
+     "dt",
+     "dt/2"
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "orbits": [
+     {
+      "label": "金星",
+      "rev": 59,
+      "periA": 59,
+      "periB": 60
+     }
+    ],
+    "stoppedBy": "orbit-window(走り切った)",
+    "periastraOk": true,
+    "runComplete": true,
+    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "kFrameApplied": 0,
+    "stages": [
+     "dt",
+     "dt/2"
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "orbits": [
+     {
+      "label": "フォボス",
+      "rev": 62,
+      "periA": 63,
+      "periB": 63
+     },
+     {
+      "label": "ダイモス",
+      "rev": 59,
+      "periA": 59,
+      "periB": 60
+     }
+    ],
+    "stoppedBy": "orbit-window(走り切った)",
+    "periastraOk": true,
+    "runComplete": true,
+    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "kFrameApplied": 0,
+    "stages": [
+     "dt",
+     "dt/2"
+    ],
+    "nan": false,
+    "clamp": 0,
+    "warnings": 0,
+    "orbits": [
+     {
+      "label": "トリトン",
+      "rev": 59,
+      "periA": 59,
+      "periB": 60
+     }
+    ],
+    "stoppedBy": "orbit-window(走り切った)",
+    "periastraOk": true,
+    "runComplete": true,
+    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
+   }
+  ],
   "charonCitation": {
    "id": "plutoCharonReal",
    "target": "カロン",
@@ -47339,8 +47460,8 @@
    }
   ],
   "mode": {
-   "h4Exceptions": true,
-   "kf0H4Exceptions": false,
+   "h4Exceptions": false,
+   "kf0H4Exceptions": true,
    "dt4Registry": false,
    "kf0Dt3": false
   },
@@ -48747,9 +48868,14 @@
    "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
    "measurementCodeSha256": "9edac63a07ce9af199aa0f9d1350a182c99f3c7eaee76423e37cc588e58835e4",
    "kf0Runs": {
-    "on": false
+    "on": true,
+    "applied": 0,
+    "stages": [
+     "h",
+     "h/2"
+    ]
    },
-   "when": "2026-10-03T22:21:03.506Z"
+   "when": "2026-10-03T22:22:04.728Z"
   },
   "history": [
    {
@@ -49760,7 +49886,7 @@
    "quantities[].judgementSource.{note,previous.note}"
   ],
   "n": 349,
-  "hoisted": 1113,
+  "hoisted": 1044,
   "texts": {
    "stopRule.rule#33ef3b99": "步数 = min(**宣言した步数上限**, 60 公転ぶんの步数)。**步/秒も壁時計も入らない**(第270便a・AE9 —— 機種で走行長が変わらない)。近点は **20 本**要る(不足は未測定であって「否」ではない)。",
    "stopRule.note#ece8d590": "近点が 13 本で宣言 20 本に足りない —— **宣言した步数上限で切れた**(max-steps: 上限を上げれば伸びる)",
@@ -50117,9 +50243,9 @@
   "since": "第271便a(第61報・AF16)",
   "file": "tests/out/calaudit-w249-diag.json",
   "relPath": "./calaudit-w249-diag.json",
-  "sha256": "b8bd8239026ee4c24edcb24182b1a449c7106bc03af61248e820acee857c4ab6",
-  "bytes": 600812,
-  "movedFields": 398,
+  "sha256": "37c9f3a8558d046335cff9ef7df273bbc2971c86178945b102811f6ba2c06da0",
+  "bytes": 576977,
+  "movedFields": 364,
   "fields": [
    {
     "path": "presets[].run.stopRule.machineIndependence",
@@ -50148,14 +50274,14 @@
   ],
   "presets": 20,
   "missingReferences": [],
-  "carriedOverFrom": "2026-10-03T22:20:40.840Z",
-  "bytesBeforeSplit": 2223853,
-  "contractsHoisted": 1113,
+  "carriedOverFrom": "2026-10-03T22:21:03.677Z",
+  "bytesBeforeSplit": 2192268,
+  "contractsHoisted": 1044,
   "contractsTexts": 349,
   "contractsDangling": 0,
   "rule": "**削っていない** —— 上の欄は別ファイルへ移しただけである。正本を単独で配るとこれらの欄の参照先が欠ける(`…Moved` の印が残るので、欠けていることが分かる)。",
   "says": "**分離はサイズの都合であって、診断を捨てたという意味ではない**。",
-  "bytesAfterSplit": 1812423
+  "bytesAfterSplit": 1814913
  },
  "budgetTable": {
   "since": "第286便f(原仮定者の裁定(第76報)AN44)",
