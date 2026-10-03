@@ -75,7 +75,7 @@ export const FAMILIES = [
   { key: 'tuc47', ja: '球状星団 47 Tuc', ref: 'tuc47DFM', ids: ['tuc47DFM', 'tuc47'] },
   { key: 'ngc3198', ja: '渦巻銀河 NGC 3198', ref: 'ngc3198DFM', ids: ['ngc3198DFM', 'ngc3198'] },
   // 第290便e(原仮定者の裁定(第80報)⑤): 形の玩具を中心なし(🔮🥏🧵)と中心天体つき(🎱📀🧹)の 2 家族に分け、渦巻の参照模型
-  //   🍭 shapeToySpiral・🐌 shapeToySpiralCore をそれぞれの末尾へ(第290便b が同じ 2 家族を作る —— 統合で合わせる)
+  //   🍭 shapeToySpiral・🎢 shapeToySpiralCore をそれぞれの末尾へ(第290便b が同じ 2 家族を作る —— 統合で合わせる)
   { key: 'shapeToy', ja: '形の玩具(中心なし)', ref: 'shapeToyCluster',
     ids: ['shapeToyCluster', 'shapeToyDisk', 'shapeToyArm', 'shapeToySpiral'] },
   { key: 'shapeToyCore', ja: '形の玩具(中心天体つき)', ref: 'shapeToyClusterCore',

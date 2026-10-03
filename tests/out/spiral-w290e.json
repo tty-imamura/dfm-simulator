@@ -127,7 +127,7 @@
   },
   {
    "id": "shapeToySpiralCore",
-   "emoji": "🐌",
+   "emoji": "🎢",
    "name": "中心つき渦巻の幾何参照 — Core 力学の円盤+規定運動の腕(較正ではない)",
    "familyId": "shapeToyCore",
    "familyRole": "variant",
@@ -318,7 +318,7 @@
     "error": "physics.shapeToy.spiral は shape:\"spiral\" では必須のオブジェクト({nArm,pitchDeg,rMin,rMax,armWidth,…})"
    },
    {
-    "label": "🐌 の coreField の軸を (1,0,0)",
+    "label": "🎢 の coreField の軸を (1,0,0)",
     "accepted": false,
     "error": "physics.shapeToy.shape:\"spiral\" の law:\"coreField\" は軸を円盤の法線 ±(0,0,1) に取る(円盤成分の Core 力学)"
    }
@@ -477,21 +477,21 @@
     "ok": true
    },
    {
-    "label": "🐌 円盤の軸比 σ_z/σ_R ↔ 📀",
+    "label": "🎢 円盤の軸比 σ_z/σ_R ↔ 📀",
     "spiral": 0.260596680628,
     "single": 0.260612584608,
     "rel": 0.0000610253711409,
     "ok": true
    },
    {
-    "label": "🐌 腕の横断 RMS ↔ 🧹 の軸に垂直な面内 RMS",
+    "label": "🎢 腕の横断 RMS ↔ 🧹 の軸に垂直な面内 RMS",
     "spiral": 7.14280937736,
     "single": 7.66809656789,
     "rel": 0.068502944098,
     "ok": true
    },
    {
-    "label": "🐌 腕の厚さ RMS ↔ 🧹 の面外 RMS",
+    "label": "🎢 腕の厚さ RMS ↔ 🧹 の面外 RMS",
     "spiral": 7.09459883113,
     "single": 7.68199374006,
     "rel": 0.0764638619619,
@@ -532,7 +532,7 @@
     "tangentOk": true
    },
    {
-    "label": "🐌",
+    "label": "🎢",
     "declDeg": 20,
     "tlsDeg": 20.4497249598,
     "olsDeg": 21.7146370692,
@@ -1204,28 +1204,28 @@
      "rateStepsPerSec": 343.1829870630721
     },
     {
-     "label": "🐌 N",
+     "label": "🎢 N",
      "n": 145,
      "steps": 200,
      "wallSec": 0.069257362,
      "rateStepsPerSec": 2887.779641390326
     },
     {
-     "label": "🐌 2N",
+     "label": "🎢 2N",
      "n": 289,
      "steps": 200,
      "wallSec": 0.257973418,
      "rateStepsPerSec": 775.273675677701
     },
     {
-     "label": "🐌 4N",
+     "label": "🎢 4N",
      "n": 577,
      "steps": 200,
      "wallSec": 0.965191114,
      "rateStepsPerSec": 207.2128484183289
     },
     {
-     "label": "🐌 内蔵(451)",
+     "label": "🎢 内蔵(451)",
      "n": 451,
      "steps": 200,
      "wallSec": 0.608904196,

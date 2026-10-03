@@ -2295,7 +2295,7 @@ if (QA_CHANGED) {
       // 第289便e(原仮定者の裁定(第79報)AN105/AN106・R123): 🪆(🛸 の中心を親子コアの層に置き直した診断コピー)の宣言の照合・步ごとの指紋の照合
       //   (層の軸の対照・層の差分を外した対照)・変換の往復・層の軸の宣言欄の受理(target=beta/index.html —— Node だけ・html だけを読む —— 鎖の段 tilt90layers289)
       'tests/out/tilt90layers-w289e.json',
-      // 第290便e(原仮定者の裁定(第80報)⑤・R129): 渦巻の参照模型 2 本(🍭 shapeToySpiral・🐌 shapeToySpiralCore)の門 ①〜⑦
+      // 第290便e(原仮定者の裁定(第80報)⑤・R129): 渦巻の参照模型 2 本(🍭 shapeToySpiral・🎢 shapeToySpiralCore)の門 ①〜⑦
       //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 spiral290 は shapetoy・corefield の後)
       'tests/out/spiral-w290e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
@@ -20482,7 +20482,7 @@ if (!FAST) {
         const has288n = ['fixedCaptureCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90'].every((id) => html285.indexOf('id:"' + id + '"') >= 0);
         // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し・contactMode none —— 宣言の側)を足した世代は 147 本
         const has289n = has288n && html285.indexOf('id:"galaxyAnalogyBHTilt90Layers"') >= 0;
-        // 第290便e: 🍭 shapeToySpiral・🐌 shapeToySpiralCore(渦巻の参照模型 —— contactMode none・宣言の側)を足した世代は 149 本
+        // 第290便e: 🍭 shapeToySpiral・🎢 shapeToySpiralCore(渦巻の参照模型 —— contactMode none・宣言の側)を足した世代は 149 本
         const has290n = has289n && html285.indexOf('id:"shapeToySpiral"') >= 0 && html285.indexOf('id:"shapeToySpiralCore"') >= 0;
         const nBuiltin285 = [142, 143].concat(has288n ? [146] : [], has289n ? [147] : [], has290n ? [149] : []);
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
@@ -20555,8 +20555,8 @@ if (!FAST) {
         // 第288便g: 🧩 galaxyAnalogyBHCompose(第288便c)・🛸 galaxyAnalogyBHTilt90(第288便e)は 🌚 galaxyAnalogyBH の写し(診断・原理コピー)なので
         //   🌚 と同じ契約(contactMode "none"・中心 pinned)を持つ —— 写し元が適用表にあるときだけ表の外の none を許す(器の適用表は変えない)
         // 第289便e: 🪆 galaxyAnalogyBHTilt90Layers(🛸 の写し —— 🌚 の写しの写し)も同じ契約(none・中心 pinned)を持つ
-        // 第290便e: 🍭 shapeToySpiral・🐌 shapeToySpiralCore(渦巻の参照模型)は 🥏 shapeToyDisk/📀 shapeToyDiskCore の円盤成分をそのまま持つ本なので
-        //   写し元と同じ契約(contactMode "none"・🍭 は中心なし・🐌 は中心 pinned)を持つ —— 器の適用表は変えない(同じ扱い)
+        // 第290便e: 🍭 shapeToySpiral・🎢 shapeToySpiralCore(渦巻の参照模型)は 🥏 shapeToyDisk/📀 shapeToyDiskCore の円盤成分をそのまま持つ本なので
+        //   写し元と同じ契約(contactMode "none"・🍭 は中心なし・🎢 は中心 pinned)を持つ —— 器の適用表は変えない(同じ扱い)
         const COPY288 = { galaxyAnalogyBHCompose: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90: 'galaxyAnalogyBH', galaxyAnalogyBHTilt90Layers: 'galaxyAnalogyBH',
           shapeToySpiral: 'shapeToyDisk', shapeToySpiralCore: 'shapeToyDiskCore' };
         const copies = r.nDeclNone.filter((id) => COPY288[id] && EC.APPLIED.some((a) => a.id === COPY288[id]));
@@ -22065,12 +22065,12 @@ if (!FAST) {
 // ---- 8c1i) 第290便e(原仮定者の裁定(第80報)⑤「shapeToyDisk と shapeToyArm を合わせて渦巻き銀河の参照模型/shapeToyDiskCore と shapeToyArmCore を
 // ----   合わせて中心天体つき渦巻き銀河の参照模型」・統括の検証項目 R129): **渦巻参照便**の 3 ブロック。**root では SKIP**
 // ----   (器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json)。世代切替 has290e = html に `function dfmShapeToySpiralStep(` と
-// ----   🍭 shapeToySpiral・🐌 shapeToySpiralCore の宣言がある。
+// ----   🍭 shapeToySpiral・🎢 shapeToySpiralCore の宣言がある。
 // ----   ① preset.shapeToySpiral …… shape:"spiral" の受理条件(0<|p|<90・r_min>0・nArmParticles は nArm の倍数・両成分なら massRatio 必須・
 // ----      prescribed のみ・tauGrow=0・spiral は shape:"spiral" 専用・coreField の軸は円盤の法線)・2 本の宣言の値・絵文字が唯一・
 // ----      門 ①②③ の正本の照合(いまの html で成分の割り当てを引き直して正本の行と同じ・正本の ①②③ が真)。
 // ----   ② behavior.spiralGeometry …… いまの html で 🍭 を 600 步走らせ直してピッチ角(直交回帰)・横断/厚さ/軸比が正本と同じ(相対 1e-9)・
-// ----      Ω_p=0 でも曲線形状が残る(宣言 ±1°)・G=0/8 で 600 步の状態が 1 bit 不変・🐌 の中心スピン 0 で円盤成分の力が消え腕は 1 bit 不変。
+// ----      Ω_p=0 でも曲線形状が残る(宣言 ±1°)・G=0/8 で 600 步の状態が 1 bit 不変・🎢 の中心スピン 0 で円盤成分の力が消え腕は 1 bit 不変。
 // ----   ③ docs.spiralRef …… 説明に「参照模型」「創発ではない」「較正ではない」(ja/en)・概要原稿(ja 120・en 200 字)・PHYSICS〔第290便e〕の
 // ----      合成できない理由・式・2 本の表・門の表・Core 版の位置づけ(k_arm 未実装 —— 中心つき幾何参照)・書かないこと(否定の文の外に禁止の言い方が無い)・
 // ----      AI_SPEC の shape spiral の宣言・CHANGELOG の 1 行・FAMILIES に 2 id。
@@ -22111,14 +22111,14 @@ if (!FAST) {
         rej('spiral を shape:"disk" に', (p) => { p.physics.shapeToy.shape = 'disk'; p.physics.shapeToy.omegaSpin = 0.05; });
         rej('shape:"spiral" で spiral 欠落', (p) => { delete p.physics.shapeToy.spiral; });
         rej('density が uniform-s 以外', (p) => { p.physics.shapeToy.spiral.density = 'stretch'; });
-        rej('🐌 の軸 (1,0,0)', (p) => { p.physics.shapeToy.coreField.axis = [1, 0, 0]; }, 'shapeToySpiralCore');
+        rej('🎢 の軸 (1,0,0)', (p) => { p.physics.shapeToy.coreField.axis = [1, 0, 0]; }, 'shapeToySpiralCore');
         { const p = P('shapeToySpiral'); p.physics.shapeToy.spiral.pitchDeg = -20; if (!HP.validatePreset(p).ok) bad.push('負のピッチ角(逆巻き)を拒否した'); }
         if (HP.SHAPE_TOY_SHAPES.join(',') !== 'cluster,disk,arm,spiral') bad.push('SHAPE_TOY_SHAPES ' + HP.SHAPE_TOY_SHAPES.join(','));
-        cases.push('受理条件 14 件(0<|p|<90・r_min>0・r_max>r_min・腕ごと同数・両成分の massRatio・prescribed のみ・τ=0・spiral 専用・density・🐌 の軸・逆巻きは受理)');
+        cases.push('受理条件 14 件(0<|p|<90・r_min>0・r_max>r_min・腕ごと同数・両成分の massRatio・prescribed のみ・τ=0・spiral 専用・density・🎢 の軸・逆巻きは受理)');
         // 2 本の宣言
         const all = HP.allPresets();
         const want = { shapeToySpiral: { emoji: '🍭', famId: 'shapeToy', law: undefined, armWidth: 7.2, armSigmaZ: 4.8, omegaP: 0.05, centre: false, seed: 20260919 },
-          shapeToySpiralCore: { emoji: '🐌', famId: 'shapeToyCore', law: 'coreField', armWidth: 7.2, armSigmaZ: 7.2, omegaP: 0.14, centre: true, seed: 20260920 } };
+          shapeToySpiralCore: { emoji: '🎢', famId: 'shapeToyCore', law: 'coreField', armWidth: 7.2, armSigmaZ: 7.2, omegaP: 0.14, centre: true, seed: 20260920 } };
         for (const [id, w] of Object.entries(want)) {
           const p = all.find((q) => q.id === id);
           if (!p) { bad.push(id + ' が無い'); continue; }
@@ -22187,12 +22187,12 @@ if (!FAST) {
         const fpG = (G) => { const p = P('shapeToySpiral'); p.physics.G = G; return E.measureSpiral(HP, p).fp.all; };
         const f0 = m.fp.all, f8 = fpG(8);
         if (f0 !== f8) bad.push('G=8 で 🍭 の 600 步の状態が変わった');
-        // 🐌 の中心スピン 0
+        // 🎢 の中心スピン 0
         const pc = P('shapeToySpiralCore'); const mc = E.measureSpiral(HP, pc);
         const pz = P('shapeToySpiralCore'); pz.bodies[0].spin = 0; const mz = E.measureSpiral(HP, pz);
-        if (!(mz.coreStop === 'kPerp' && mz.nCore === 0 && mz.fp.arm === mc.fp.arm && mc.coreStop === null)) bad.push('🐌 の中心スピン 0 ' + JSON.stringify([mz.coreStop, mz.nCore, mz.fp.arm, mc.fp.arm, mc.coreStop]));
-        if (!(Math.abs(mc.pitch.tlsDeg - 20) <= E.CRIT.pitchDeg)) bad.push('🐌 のピッチ角 ' + mc.pitch.tlsDeg);
-        cases.push(`G=0/8 で 🍭 の指紋 ${f0}/${f8}・🐌 のピッチ角 ${mc.pitch.tlsDeg.toFixed(3)}°・中心スピン 0 → Core 力学の門 ${mz.coreStop}・円盤成分 ${mz.nCore} 個・腕成分の指紋 ${mz.fp.arm}=${mc.fp.arm}`);
+        if (!(mz.coreStop === 'kPerp' && mz.nCore === 0 && mz.fp.arm === mc.fp.arm && mc.coreStop === null)) bad.push('🎢 の中心スピン 0 ' + JSON.stringify([mz.coreStop, mz.nCore, mz.fp.arm, mc.fp.arm, mc.coreStop]));
+        if (!(Math.abs(mc.pitch.tlsDeg - 20) <= E.CRIT.pitchDeg)) bad.push('🎢 のピッチ角 ' + mc.pitch.tlsDeg);
+        cases.push(`G=0/8 で 🍭 の指紋 ${f0}/${f8}・🎢 のピッチ角 ${mc.pitch.tlsDeg.toFixed(3)}°・中心スピン 0 → Core 力学の門 ${mz.coreStop}・円盤成分 ${mz.nCore} 個・腕成分の指紋 ${mz.fp.arm}=${mc.fp.arm}`);
         // 正本の ④⑤⑥⑦ の形
         if (!(J.gate5 && J.gate5.ok === true && J.gate6 && J.gate6.ok === true && J.gate7 && J.gate7.ok === true)) bad.push('正本の門 ⑤⑥⑦ ' + JSON.stringify([J.gate5 && J.gate5.ok, J.gate6 && J.gate6.ok, J.gate7 && J.gate7.ok]));
         const g4 = J.gate4 || {};
@@ -22238,7 +22238,7 @@ if (!FAST) {
             if (!(/REFERENCE/.test(se) && /NOT A CALIBRATION/.test(se) && /emergent spiral|NOT A PATTERN THAT CAME OUT/.test(se))) bad.push(id + ' の en 概要に REFERENCE/NOT A CALIBRATION/創発の否定が無い');
             if (sj.length > 3000 || se.length > 3000) bad.push(id + ' の概要が 3000 字を超える');
             const hits = ngOutside(sj + '。' + p.descStruct.observe + '。' + se); if (hits.length) bad.push(id + ' の説明の禁止の言い方: ' + hits.slice(0, 2).join(' / '));
-            if (id === 'shapeToySpiralCore' && !(sj.indexOf('中心つき幾何参照') >= 0 && sj.indexOf('実装していない') >= 0 && /NOT IMPLEMENTED/.test(se))) bad.push('🐌 の概要に「中心つき幾何参照・k_arm 未実装」が無い');
+            if (id === 'shapeToySpiralCore' && !(sj.indexOf('中心つき幾何参照') >= 0 && sj.indexOf('実装していない') >= 0 && /NOT IMPLEMENTED/.test(se))) bad.push('🎢 の概要に「中心つき幾何参照・k_arm 未実装」が無い');
           }
         }
         const SSL = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
@@ -22259,7 +22259,7 @@ if (!FAST) {
         const FM = await import('file://' + path.join(ROOT, 'tests', 'exp-w283b-families.mjs'));
         const fs1 = FM.FAMILIES.find((F) => F.key === 'shapeToy'), fs2 = FM.FAMILIES.find((F) => F.key === 'shapeToyCore');
         if (!(fs1 && fs1.ids[fs1.ids.length - 1] === 'shapeToySpiral' && fs2 && fs2.ids[fs2.ids.length - 1] === 'shapeToySpiralCore')) bad.push('FAMILIES の shapeToy/shapeToyCore の末尾に 2 id が無い');
-        cases.push('AI_SPEC・CHANGELOG・FAMILIES(shapeToy 末尾 🍭・shapeToyCore 末尾 🐌)');
+        cases.push('AI_SPEC・CHANGELOG・FAMILIES(shapeToy 末尾 🍭・shapeToyCore 末尾 🎢)');
         void html;
       } catch (e) { bad.push('文書が読めない: ' + String(e).slice(0, 140)); }
       add('docs.spiralRef', bad.length === 0,
@@ -60584,7 +60584,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           run: run(g0, 600), runG: run(g8, 600) };
       }
       // 宣言している内蔵の本数(この本数だけのはず)
-      // 第290便e: 渦巻の参照模型(shape:"spiral" —— 🍭🐌)はこの 6 本の契約の外(preset.shapeToySpiral が見る)
+      // 第290便e: 渦巻の参照模型(shape:"spiral" —— 🍭🎢)はこの 6 本の契約の外(preset.shapeToySpiral が見る)
       const nDecl = all.filter((z) => z.physics && z.physics.shapeToy && z.physics.shapeToy.shape !== 'spiral').map((z) => z.id);
       // ⑨ 第275便d: 中心天体の質量は対象粒子に効かない(pinned・G=0・規定運動)
       const centreMass = {};
@@ -60600,7 +60600,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // ⑪⑫ 第276便d: **スピン依存**と**重力の扱い**(法則が作った差であることを両側で見る)
       const spinDep = {};
       if (w276d) {
-        for (const id of all.filter((z) => z.physics && z.physics.shapeToy && z.physics.shapeToy.shape !== 'spiral').map((z) => z.id)) {   // 第290便e: 🍭🐌 は除く
+        for (const id of all.filter((z) => z.physics && z.physics.shapeToy && z.physics.shapeToy.shape !== 'spiral').map((z) => z.id)) {   // 第290便e: 🍭🎢 は除く
           const p = all.find((z) => z.id === id);
           const hasPin = (p.bodies[0] && p.bodies[0].pinned === true);
           const mk = (spin, phys, cfPatch) => {

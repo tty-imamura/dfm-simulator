@@ -13,7 +13,7 @@
 //   ④ N/2N/4N・seed 3 つ・刻み h/h2/h4 で形状指標(軸比・横断・厚さ・ピッチ角)の基準からの差と、供給収支(粒子 1 個・単位時間
 //      あたりの供給 E)の差。帳簿の恒等式(粒子が受けた E と熱浴の E の和 0・規定運動の成分の運動エネルギーの変化 = 記帳した E)。
 //   ⑤ Ω_p=0 でも曲線形状が残る(幾何参照の契約 —— **渦伸長の証拠としない**)。
-//   ⑥ G=0/0.8/8 で 600 步の状態が 1 bit 不変(🍭 —— 規定運動の本)。🐌 は G≠0 で円盤成分が centreGravity の門で止まり、
+//   ⑥ G=0/0.8/8 で 600 步の状態が 1 bit 不変(🍭 —— 規定運動の本)。🎢 は G≠0 で円盤成分が centreGravity の門で止まり、
 //      腕成分は 1 bit 不変。中心スピン 0 で円盤成分の力が消え(Core 力学の門 —— 📀 と同じ契約)、腕成分は 1 bit 不変。
 //      円盤側の宣言(σ)を変えても腕成分は 1 bit 不変(腕の乱数は別の流れ)。
 //   ⑦ 宣言の往復(受理 → JSON → 受理で同じ正準形)・⏮(作り直し)で同じ状態・チェックポイント(ckSnapOne/ckRestoreOne)と
@@ -235,7 +235,7 @@ export function gate1(HP) {
   tryStop('spiral を shape:"disk" に置く', (p) => { p.physics.shapeToy.shape = 'disk'; p.physics.shapeToy.omegaSpin = 0.05; });
   tryStop('spiral の宣言なし', (p) => { delete p.physics.shapeToy.spiral; });
   { const p = presetOf(HP, IDS.core); p.physics.shapeToy.coreField.axis = [1, 0, 0]; const v = HP.validatePreset(p);
-    stops.push({ label: '🐌 の coreField の軸を (1,0,0)', accepted: v.ok, error: v.ok ? null : String(v.errors[0]).slice(0, 120) }); }
+    stops.push({ label: '🎢 の coreField の軸を (1,0,0)', accepted: v.ok, error: v.ok ? null : String(v.errors[0]).slice(0, 120) }); }
   const stopsOk = stops.every((z) => (z.accepted ? (z.stop !== null && z.moved === 0) : true))
     && stops.filter((z) => z.label.startsWith('nDisk') || z.label.startsWith('massRatio を')).every((z) => z.accepted && z.stop !== null);
   return { rows, stops, ok: rows.every((z) => z.ok) && stopsOk };
@@ -276,9 +276,9 @@ export function gate2(HP, base) {
     cmp('🍭 円盤の軸比 σ_z/σ_R ↔ 🥏', base.spiral.disk.axisRatio, ref.disk.axisRatio),
     cmp('🍭 腕の横断 RMS ↔ 🧵 の軸に垂直な面内 RMS', base.spiral.arm.transverseRms, ref.arm.transverseRms),
     cmp('🍭 腕の厚さ RMS ↔ 🧵 の面外 RMS', base.spiral.arm.thicknessRms, ref.arm.thicknessRms),
-    cmp('🐌 円盤の軸比 σ_z/σ_R ↔ 📀', base.core.disk.axisRatio, ref.diskCore.axisRatio),
-    cmp('🐌 腕の横断 RMS ↔ 🧹 の軸に垂直な面内 RMS', base.core.arm.transverseRms, ref.armCore.transverseRms),
-    cmp('🐌 腕の厚さ RMS ↔ 🧹 の面外 RMS', base.core.arm.thicknessRms, ref.armCore.thicknessRms)];
+    cmp('🎢 円盤の軸比 σ_z/σ_R ↔ 📀', base.core.disk.axisRatio, ref.diskCore.axisRatio),
+    cmp('🎢 腕の横断 RMS ↔ 🧹 の軸に垂直な面内 RMS', base.core.arm.transverseRms, ref.armCore.transverseRms),
+    cmp('🎢 腕の厚さ RMS ↔ 🧹 の面外 RMS', base.core.arm.thicknessRms, ref.armCore.thicknessRms)];
   // 腕成分を外した写し(腕の bodies を除き nArmParticles=0・massRatio なし)と 🥏/📀 の 600 步の指紋
   const diskOnly = (id, refId) => { const p = presetOf(HP, id); p.bodies = p.bodies.slice(0, p.bodies.length - 1);
     p.physics.shapeToy.spiral.nArmParticles = 0; delete p.physics.shapeToy.spiral.massRatio;
@@ -295,7 +295,7 @@ export function gate2(HP, base) {
 /** ③ ピッチ角(基準の走行の直交回帰)。 */
 export function gate3(base) {
   const rows = [];
-  for (const [k, m] of [['🍭', base.spiral], ['🐌', base.core]]) {
+  for (const [k, m] of [['🍭', base.spiral], ['🎢', base.core]]) {
     rows.push({ label: k, declDeg: m.declPitch, tlsDeg: r6(m.pitch.tlsDeg), olsDeg: r6(m.pitch.olsDeg), n: m.pitch.n,
       diffDeg: r6(Math.abs(m.pitch.tlsDeg - m.declPitch)), ok: Math.abs(m.pitch.tlsDeg - m.declPitch) <= CRIT.pitchDeg,
       tangentMaxAbs: m.arm.tangentMaxAbs, tangentMaxUlpF32: r6(m.arm.tangentMaxUlpF32), tangentOk: m.arm.tangentMaxUlpF32 <= CRIT.tangentUlp });
@@ -362,7 +362,7 @@ export function gate6(HP) {
     return { all: fpAll(S), arm: fnv([S.x, S.y, S.vx, S.vy], arm), disk: fnv([S.x, S.y, S.vx, S.vy], disk), stop: S.spiralStop, coreStop: S.coreFieldStop, coreN: S.coreFieldN, S, disk_i: disk }; };
   const gS = G_LIST.map((G) => { const p = presetOf(HP, IDS.spiral); p.physics.G = G; const f = fpRun(p); return { G, fp: f.all, stop: f.stop }; });
   const gC = G_LIST.map((G) => { const p = presetOf(HP, IDS.core); p.physics.G = G; const f = fpRun(p); return { G, fpArm: f.arm, fpDisk: f.disk, coreStop: f.coreStop }; });
-  // 中心スピン 0(🐌): Core 力学の門で円盤成分の力が消える —— 円盤成分の速度は 600 步で変わらない(G=0 の慣性運動)
+  // 中心スピン 0(🎢): Core 力学の門で円盤成分の力が消える —— 円盤成分の速度は 600 步で変わらない(G=0 の慣性運動)
   const pz = presetOf(HP, IDS.core); pz.bodies[0].spin = 0;
   let v0 = null;
   const rz = run(HP, pz, { atBuild: (S) => { v0 = { vx: Array.from(S.vx), vy: Array.from(S.vy) }; } });
@@ -416,8 +416,8 @@ export function gate7(HP) {
     timing.push({ label, n: S.n, steps, wallSec: sec, rateStepsPerSec: steps / sec }); };
   for (const z of N_SERIES) timeIt('🍭 ' + z.label, withCounts(presetOf(HP, IDS.spiral), z.nArm), 200);
   timeIt('🍭 内蔵(450)', presetOf(HP, IDS.spiral), 200);
-  for (const z of N_SERIES) timeIt('🐌 ' + z.label, withCounts(presetOf(HP, IDS.core), z.nArm), 200);
-  timeIt('🐌 内蔵(451)', presetOf(HP, IDS.core), 200);
+  for (const z of N_SERIES) timeIt('🎢 ' + z.label, withCounts(presetOf(HP, IDS.core), z.nArm), 200);
+  timeIt('🎢 内蔵(451)', presetOf(HP, IDS.core), 200);
   timeIt('🥏', presetOf(HP, IDS.disk), 200); timeIt('📀', presetOf(HP, IDS.diskCore), 200);
   const ok = ['spiral', 'core'].every((k) => res[k].canonRoundTrip && res[k].resetSameInit && res[k].resetSameRun && res[k].ab[0].after200Same);
   return { rows: res, timing: { rows: timing, note: 'Node headless の壁時計(揮発値)。iPhone の実機は統括が後で測る' },

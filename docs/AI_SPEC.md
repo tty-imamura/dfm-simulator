@@ -2952,5 +2952,5 @@ shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", omega0,
 - 受理条件: 0<|pitchDeg|<90(負は逆巻き)・0<rMin<rMax・r0>0・nArm は 1〜8 の整数・nArmParticles は nArm の倍数・nDisk+nArmParticles≥1・両成分があるときだけ massRatio(円盤/腕)が必須の正数・coupling は `"prescribed"` のみ・tauGrow=0・`spiral` は shape:"spiral" 専用・`law:"coreField"` と組むときは軸を円盤の法線 ±(0,0,1) に限る。
 - 成分: pinned でない粒子を index 順に先頭 nDisk 個 = 円盤成分・続く nArmParticles 個 = 腕成分(重複所属なし)。数と質量比が走行時と合わなければ走らない(`S.spiralStop`)。
 - 腕の中心線 r(s)=rMin+(rMax−rMin)s・φ_k(s)=φ₀+2πk/nArm+cot(p)·ln(r/r0)+Ω_p t(s は宣言の密度で固定)・横断と面外にだけ 2 階 OU。全体は剛体パターン回転 Ω_p(差動回転なし)。
-- 内蔵: 🍭 `shapeToySpiral`(中心なし)・🐌 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
+- 内蔵: 🍭 `shapeToySpiral`(中心なし)・🎢 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
 - 読み取り専用: `HP.shapeToySpiralState(S)`・`HP.shapeToySpiralCentreline(sp,k,s)`・`HP.validateShapeToySpiral`。器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json。QA: `preset.shapeToySpiral`・`behavior.spiralGeometry`・`docs.spiralRef`。
