@@ -1,5 +1,5 @@
 {
- "when": "2026-10-02T23:58:03.926Z",
+ "when": "2026-10-03T02:34:02.253Z",
  "wave": "第263便c(第55報 W3)",
  "inputs": {
   "csv": "paper/data/solar-observations.csv",
@@ -107,22 +107,21 @@
  },
  "gateByTier": {
   "太陽系": {
-   "presets": 12,
-   "quantities": 111,
+   "presets": 11,
+   "quantities": 105,
    "status": {
-    "未判定": 106,
-    "数値未解決": 3,
-    "mapping-unresolved": 1,
+    "未判定": 103,
+    "数値未解決": 1,
     "否(3σ)": 1
    },
    "sigmaFrom": {
-    "csv": 5,
+    "csv": 2,
     "obsCard": 0,
-    "none": 106
+    "none": 103
    },
-   "sigmaVerified": 5,
+   "sigmaVerified": 2,
    "sigmaUnverified": 39,
-   "noSigmaSource": 46
+   "noSigmaSource": 44
   },
   "恒星": {
    "presets": 2,
@@ -1501,9 +1500,9 @@
   ]
  },
  "missingA": {
-  "n": 65,
+  "n": 63,
   "byCut": {
-   "csv-sigma-empty": 65
+   "csv-sigma-empty": 63
   },
   "rows": [
    {
@@ -1965,32 +1964,6 @@
     "cut": "csv-sigma-empty",
     "presets": [
      "🥔"
-    ],
-    "nQuantities": 1,
-    "obsPresent": 0
-   },
-   {
-    "key": "Charon|eccentricity",
-    "body": "Charon",
-    "target": "カロン",
-    "quantity": "eccentricity",
-    "kind": "ecc",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "❄️"
-    ],
-    "nQuantities": 1,
-    "obsPresent": 0
-   },
-   {
-    "key": "Charon|periastron_advance",
-    "body": "Charon",
-    "target": "カロン",
-    "quantity": "periastron_advance",
-    "kind": "precession",
-    "cut": "csv-sigma-empty",
-    "presets": [
-     "❄️"
     ],
     "nQuantities": 1,
     "obsPresent": 0

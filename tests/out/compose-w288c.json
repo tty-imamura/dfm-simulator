@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第288便c",
   "target": "beta/index.html",
-  "targetSha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
-  "generatedAt": "2026-10-01T20:12:28.182Z",
+  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+  "generatedAt": "2026-10-03T02:33:10.971Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5408061,
-    "sha256": "21bd94274891b88d1080314e36631706f80ca1e82b8abadbeea579b5cf2143f6",
-    "mtime": "2026-10-01T19:06:18.044Z"
+    "bytes": 5526365,
+    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+    "mtime": "2026-10-03T00:48:50.355Z"
    }
   ],
   "code": [
@@ -18,37 +18,37 @@
     "file": "tests/exp-w288c-compose.mjs",
     "bytes": 18031,
     "sha256": "5c920d6ebac9bab1e11a90d8540f84a0b3980ddf21b8ba6e769a974015e3e8e5",
-    "mtime": "2026-09-30T21:44:35.486Z"
+    "mtime": "2026-10-02T23:11:02.924Z"
    },
    {
     "file": "tests/lib-w288c-compose.mjs",
     "bytes": 8361,
     "sha256": "1d067c5cf9e99989ef3586edbb0514551887a0315fed312c824aa6e7958dbd58",
-    "mtime": "2026-09-30T21:44:35.488Z"
+    "mtime": "2026-10-02T23:11:02.960Z"
    },
    {
     "file": "tests/lib-w288c-rotlet.mjs",
     "bytes": 5421,
     "sha256": "4ed24703b609b1c87be7a2aa49039ea0cfa70e285ba6dfe4f788f36955899068",
-    "mtime": "2026-09-30T21:44:35.488Z"
+    "mtime": "2026-10-02T23:11:02.960Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-09-24T08:51:12.597Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-09-28T21:48:12.641Z"
+    "mtime": "2026-10-02T23:11:02.956Z"
    }
   ],
   "codeSha256": "283fc5046200552572b5b9c2d9f102683db4d368597bc1c58a923baeafd3526b",
@@ -86,11 +86,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 890,
-   "segments": 804,
-   "closureShare": 0.319
+   "names": 914,
+   "segments": 828,
+   "closureShare": 0.3214
   },
-  "scopeSha256": "0e52c246f59d9423c5fa7c80bfd0d73bdd0190a37056425ebb48ff7ad51a15a4",
+  "scopeSha256": "d949ba36fc96c78bcce8e0fbb71db04235acac6dc9d6f2b752f97bb63bffbd68",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -443,6 +443,6 @@
   },
   "ok": true
  },
- "elapsedS": 2.234,
+ "elapsedS": 2.584,
  "ok": true
 }

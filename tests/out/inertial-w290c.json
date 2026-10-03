@@ -3,55 +3,55 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便c",
   "target": "beta/index.html",
-  "targetSha256": "322276f141e8bf128de032137a9cded08e8077a21eb3f17ba3f16b853c21203f",
-  "generatedAt": "2026-10-03T00:21:09.767Z",
+  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+  "generatedAt": "2026-10-03T02:33:31.131Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5441077,
-    "sha256": "322276f141e8bf128de032137a9cded08e8077a21eb3f17ba3f16b853c21203f",
-    "mtime": "2026-10-03T00:16:31.867Z"
+    "bytes": 5526365,
+    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+    "mtime": "2026-10-03T00:48:50.355Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290c-inertial.mjs",
-    "bytes": 29113,
-    "sha256": "d250dfd55b835f3b0cbad006644801926c77ffcfb53a0749fce3088ef8062d66",
-    "mtime": "2026-10-03T00:13:12.404Z"
+    "bytes": 29291,
+    "sha256": "9c0562346fd0b0c64ab116f84a8130ece06475a12c513775c7d5e2b2738f2775",
+    "mtime": "2026-10-03T01:07:06.791Z"
    },
    {
     "file": "tests/lib-w290c-inertial.mjs",
     "bytes": 6142,
     "sha256": "0029d77a92a8dfba36c3abb8545ed1d711a31a045afe4ffb0754cf0e8adb15bd",
-    "mtime": "2026-10-02T23:48:08.457Z"
+    "mtime": "2026-10-03T00:39:54.809Z"
    },
    {
     "file": "tests/lib-w289c-reldrag.mjs",
     "bytes": 22223,
     "sha256": "1bdfb99cf6821bd450a8a3993456685c742c9593ca600b5f541b99cff0b5f983",
-    "mtime": "2026-10-02T23:45:54.586Z"
+    "mtime": "2026-10-03T00:39:54.807Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:31:20.540Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:31:20.484Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:31:20.568Z"
+    "mtime": "2026-10-02T23:11:02.956Z"
    }
   ],
-  "codeSha256": "3ea758c995ce3b92075b854744baee159d7a2a8dc2091d7a326e86bde761f98f",
+  "codeSha256": "8b0b73e196526f0a931c7f88e65a578d53332c7472b699f7d7358c106ce95cf2",
   "harnessVersion": "w290c-inertial-1",
   "libVersion": "w290c-inertial-lib-1",
   "engineVersion": "w290c-inertial-1",
@@ -99,11 +99,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 904,
-   "segments": 818,
-   "closureShare": 0.3209
+   "names": 918,
+   "segments": 832,
+   "closureShare": 0.3224
   },
-  "scopeSha256": "5ba8993924576013f4ed50fec9836197046bfc13f9ffdff62694ffcded44f1ca",
+  "scopeSha256": "0cb8cefcde801347a3c6ae205a94817421114139a42a81ca9ccd28276f021d4e",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -440,11 +440,11 @@
    },
    "stateCarryDouble": {
     "declared": {
-     "restoreSame": false,
+     "restoreSame": true,
      "cloneSame": false
     },
     "undeclared": {
-     "restoreSame": false,
+     "restoreSame": true,
      "cloneSame": false
     },
     "note": "基点からある既存の欠落(宣言の有無に依らない)—— 門に使わない"
@@ -776,5 +776,5 @@
   "ok": true
  },
  "ok": true,
- "elapsedS": 2.965
+ "elapsedS": 3.082
 }
