@@ -3019,3 +3019,16 @@ shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", omega0,
 - 腕の中心線 r(s)=rMin+(rMax−rMin)s・φ_k(s)=φ₀+2πk/nArm+cot(p)·ln(r/r0)+Ω_p t(s は宣言の密度で固定)・横断と面外にだけ 2 階 OU。全体は剛体パターン回転 Ω_p(差動回転なし)。
 - 内蔵: 🍭 `shapeToySpiral`(中心なし)・🎢 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
 - 読み取り専用: `HP.shapeToySpiralState(S)`・`HP.shapeToySpiralCentreline(sp,k,s)`・`HP.validateShapeToySpiral`。器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json。QA: `preset.shapeToySpiral`・`behavior.spiralGeometry`・`docs.spiralRef`。
+
+## 39. 第291便d の表示モード —— 空間メッシュの `mode:"drag"`(引きずりの可視化)と `mode:"ruler"`(光の物差し)(原仮定者の裁定〔第81報〕⑥・統括の検証項目 R135・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+`overlays.spaceMesh` の表示モードに**実行時だけの値**を 2 つ足した(`HP.SPACE_MESH_VIEW_RUNTIME = ["drag","ruler"]`)。プリセットが宣言できる正準形の値域 `SPACE_MESH_VIEW`(mesh/lines/guide/transport/tracer)には**入れない** —— `overlays:{spaceMesh:{mode:"drag"}}` を書いたプリセットは validatePreset が知らない値として落とす(presetSig・保存 JSON・S.params は 1 bit も変わらない)。値を書くのはパラメータタブの「表示の種類」(空間メッシュが ON のときだけ出る行)だけである。
+
+```
+sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"|"coordinate"}   // 実行時鍵(表示専用)
+```
+
+- `drag` … 慣性引きずり(`physics.relativeDrag.law:"inertial"`)の u を格子点の仮想の受け手で評価した矢印。読み手 `HP.inertialDragFieldAt(S,x,y,{skip?,frame?})` は核 `dfmInertialDragStep` と同じ式・同じ和の順序で、直近の步の標本(rdPrevX/Y と座標の差分の V)を読むだけ(`skip:i` で粒子 i を受け手にすると核の u_i とビット同一)。`HP.inertialDragFieldReady(S)` が標本と核の一致を確かめ、一致しない・履歴なし・未宣言では描かない。受け手は既定で源の重心系に静止(`dragFrame:"centroid"` —— 共通の並進は消える)。
+- `ruler` … `HP.lightRulerAt(S,x,y)` が ψ=κ(D₀+W_B+Σm/√(r²+ε²)) から N=e^(−ψ)・A=e^ψ・n=e^(2ψ) を返し、局所目盛り(固有長 dℓ=A|dx|)を各格子点に置く。格子は歪めない(画面座標=A×物理座標の全域歪みは採らない)。n は光の所要時間の側で、長さの倍率には使わない。
+- 格子の表は `HP.spaceMeshDisplaySample(S,{mode,cx,cy,hx,hy,res?,frame?})`(描画と QA が同じ表を読む)。サンプラーは粒子の状態・履歴・帳簿に**1 bit も書かない**(QA `behavior.meshDisplayBitsame`・`behavior.dragFieldSampler`)。
+- 背景の精査(新核は Wbg・backgroundComplex・D₀・q・自転を読まない —— 法則・参照系の宣言であって証明ではない)は docs/PHYSICS.md〔第291便d〕・器 tests/exp-w291d-bgaudit.mjs・正本 tests/out/bgaudit-w291d.json・QA `docs.bgAuditTable`。

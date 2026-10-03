@@ -2321,7 +2321,10 @@ if (QA_CHANGED) {
       'tests/out/inertial-w290c.json',
       // 第290便e(原仮定者の裁定(第80報)⑤・R129): 渦巻の参照模型 2 本(🍭 shapeToySpiral・🎢 shapeToySpiralCore)の門 ①〜⑦
       //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 spiral290 は shapetoy・corefield の後)
-      'tests/out/spiral-w290e.json'];
+      'tests/out/spiral-w290e.json',
+      // 第291便d(原仮定者の裁定(第81報)⑥・R135): 背景の精査 —— 新しい慣性決定力の核が背景(D₀・Wbg・backgroundComplex・spaceMesh.D0)・q・自転を読まないこと・
+      //   共通並進/一様加速度は消え回転/潮汐は残ること・旧正規化の場では Wbg が分母に残ること(target=beta/index.html —— Node だけ・html だけを読む —— 鎖の段 bgaudit291)
+      'tests/out/bgaudit-w291d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -22095,6 +22098,236 @@ if (!FAST) {
         `**対策表の訂正**(第290便c・統括の検証項目 R127 —— 第289便c の対策 3 案の暗黙解・緩和時間の行。実装はしない): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
+  }
+}
+
+// ---- 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): **背景と表示メッシュ便**の 3 ブロック。**root では SKIP**
+// ----   世代切替 has291d = html に `const SPACE_MESH_VIEW_RUNTIME` と `function inertialDragFieldAt(` がある(beta 線だけ)。
+// ----   ① behavior.meshDisplayBitsame …… 🐌 と 🌚 で、空間メッシュの表示(OFF / drag の解像度 8・32 / ruler / 100 步ごとの ON/OFF と drag↔ruler の切替)と
+// ----      カメラ倍率(50・400・1200)を変えて 600 步走らせ、同じ時刻の物理状態・慣性引きずりの履歴・帳簿(S の数値の欄と型付き配列の全部・S.params)の
+// ----      指紋がビット同一。描いたこと(drag の矢印の色・ruler の目盛りの色・未宣言の凡例)も canvas へ渡された値で見る。
+// ----   ② behavior.dragFieldSampler …… 読み取り専用サンプラー: 粒子の受け手(opt.skip)で核の u とビット同一・ready の判定(build 直後は履歴なし・
+// ----      未宣言は undeclared)・サンプラー/格子の表/光の物差しを呼んでも S の指紋が不変・光の物差しの n=A/N=A²・A=A_bg·A_rel・
+// ----      プリセットは drag/ruler を宣言できない(正準形に入らない)。
+// ----   ③ docs.bgAuditTable …… 正本 tests/out/bgaudit-w291d.json の来歴・ok・再導出(相対 1e-12・残差の鍵は絶対 1e-12)と、
+// ----      PHYSICS〔第291便d〕の精査表が正本から作った行と同文・結論の文(「織り込み済み」ではなく法則・参照系の宣言)。
+{
+  const html291d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has291d = TARGET.startsWith('beta/') && html291d.indexOf('const SPACE_MESH_VIEW_RUNTIME') >= 0 && html291d.indexOf('function inertialDragFieldAt(') >= 0;
+  if (!has291d) {
+    console.log('SKIP behavior.meshDisplayBitsame(第291便d 未適用 — ' + TARGET + ')');
+  } else {
+    const vp = await browser.newPage();
+    const vpErr = [];
+    vp.on('pageerror', (e) => vpErr.push(String(e.message || e)));
+    await vp.goto(INDEX, { waitUntil: 'load' });
+    await vp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+    const r = await vp.evaluate(() => {
+      // S の指紋: 数値・真偽値の欄と型付き配列の全部(表示のキャッシュ _sm*/_sl*/_gal* は除く)+ S.params の JSON(FNV-1a 64 ビットを 2 本の 32 ビットで)
+      const fp = (S) => { let h1 = 0x811c9dc5, h2 = 0x01000193; const f64 = new Float64Array(1), u8 = new Uint8Array(f64.buffer);
+        const mix = (b) => { h1 = Math.imul(h1 ^ b, 16777619) >>> 0; h2 = Math.imul(h2 ^ b, 2246822519) >>> 0; };
+        const num = (v) => { f64[0] = v; for (let k = 0; k < 8; k++) mix(u8[k]); };
+        const str = (s) => { for (let k = 0; k < s.length; k++) mix(s.charCodeAt(k) & 255); };
+        let nKeys = 0;
+        for (const k of Object.keys(S).sort()) {
+          if (/^_s[mlg]|^_gal/.test(k)) continue;
+          const v = S[k];
+          if (typeof v === 'number') { str(k); num(v); nKeys++; }
+          else if (typeof v === 'boolean') { str(k); mix(v ? 1 : 0); nKeys++; }
+          else if (ArrayBuffer.isView(v) && !(v instanceof DataView)) { str(k); for (let i = 0; i < v.length; i++) num(Number(v[i])); nKeys++; }
+        }
+        str(JSON.stringify(S.params));
+        return h1.toString(16) + h2.toString(16) + ':' + nKeys; };
+      const spy = () => { const proto = CanvasRenderingContext2D.prototype;
+        const d = Object.getOwnPropertyDescriptor(proto, 'strokeStyle'), ft = proto.fillText, seen = [], text = [];
+        Object.defineProperty(proto, 'strokeStyle', { configurable: true, get() { return d.get.call(this); }, set(v) { seen.push(String(v)); d.set.call(this, v); } });
+        proto.fillText = function (s, ...a) { text.push(String(s)); return ft.call(this, s, ...a); };
+        return { seen, text, off: () => { Object.defineProperty(proto, 'strokeStyle', d); proto.fillText = ft; } }; };
+      const variants = [
+        { key: 'off', ov: null, cam: 400 },
+        { key: 'drag/res8', ov: { mode: 'drag', res: 8 }, cam: 400 },
+        { key: 'drag/res32/cam50', ov: { mode: 'drag', res: 32 }, cam: 50 },
+        { key: 'ruler/res16/cam1200', ov: { mode: 'ruler', res: 16 }, cam: 1200 },
+        { key: 'toggle', ov: 'toggle', cam: 400 },
+      ];
+      const out = {};
+      for (const id of ['inertialDragPair', 'galaxyAnalogyBH']) {
+        const rows = [];
+        for (const v of variants) {
+          HP.loadPreset(id, false); HP.setCamScale(v.cam);
+          const S = HP.sim;
+          S.overlays.spaceMesh = (v.ov && v.ov !== 'toggle') ? Object.assign({}, v.ov) : false;
+          let drawn = { drag: 0, ruler: 0, undecl: 0 };
+          for (let k = 1; k <= 600; k++) {
+            S.step(0.016);
+            if (v.ov === 'toggle' && k % 100 === 0) { const ph = (k / 100) % 3; S.overlays.spaceMesh = ph === 0 ? false : { mode: ph === 1 ? 'drag' : 'ruler', res: 12 }; }
+            if (k % 50 === 0) {
+              const sp = spy(); HP.tick(0); sp.off();
+              drawn.drag += sp.seen.filter((c) => c.indexOf('rgba(120,230,170,0.85') === 0).length;
+              drawn.ruler += sp.seen.filter((c) => c.indexOf('rgba(200,170,255') === 0).length;
+              drawn.undecl += sp.text.filter((t) => t === HP.T('smDragUndecl')).length;
+            }
+          }
+          rows.push({ key: v.key, fp: fp(S), t: S.t, view: HP.spaceMeshView(S), drawn });
+        }
+        HP.setCamScale(400);
+        out[id] = rows;
+      }
+      return out;
+    });
+    const bad = [];
+    for (const id of Object.keys(r)) {
+      const rows = r[id], f0 = rows[0].fp;
+      for (const row of rows) if (row.fp !== f0) bad.push(`${id} ${row.key} の指紋 ${row.fp} ≠ OFF ${f0}`);
+      const by = Object.fromEntries(rows.map((x) => [x.key, x]));
+      if (id === 'inertialDragPair') {
+        if (!(by['drag/res8'].drawn.drag > 0 && by['drag/res32/cam50'].drawn.drag > 0)) bad.push('🐌 drag で矢印が描かれていない');
+        if (!(by['ruler/res16/cam1200'].drawn.ruler > 0)) bad.push('🐌 ruler で目盛りが描かれていない');
+      } else {
+        if (!(by['drag/res8'].drawn.undecl > 0 && by['drag/res8'].drawn.drag === 0)) bad.push('🌚 drag(未宣言)で「未宣言」の凡例だけを出していない');
+        if (!(by['ruler/res16/cam1200'].drawn.ruler > 0)) bad.push('🌚 ruler で目盛りが描かれていない');
+      }
+      if (by.off.drawn.drag + by.off.drawn.ruler !== 0) bad.push(`${id} OFF で描いた`);
+    }
+    if (vpErr.length) bad.push('ページエラー ' + vpErr.slice(0, 2).join(' | '));
+    add('behavior.meshDisplayBitsame', bad.length === 0,
+      `**表示メッシュは表示専用**(第291便d・原仮定者の裁定(第81報)⑥・統括の検証項目 R135): ` + Object.keys(r).map((id) => `${id}: ` + r[id].map((x) => `${x.key} ${x.fp}(t=${x.t.toFixed(3)}・矢印 ${x.drawn.drag}・目盛り ${x.drawn.ruler}・未宣言 ${x.drawn.undecl})`).join(' / ')).join(' // ')
+      + ' —— 600 步・50 步ごとに描画・指紋は S の数値の欄と型付き配列の全部+S.params(表示のキャッシュ _sm*/_sl*/_gal* は除く)'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    await vp.close();
+  }
+}
+{
+  const html291d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has291d = TARGET.startsWith('beta/') && html291d.indexOf('const SPACE_MESH_VIEW_RUNTIME') >= 0 && html291d.indexOf('function inertialDragFieldAt(') >= 0;
+  if (!has291d) {
+    console.log('SKIP behavior.dragFieldSampler(第291便d 未適用 — ' + TARGET + ')');
+  } else {
+    const vp = await browser.newPage();
+    const vpErr = [];
+    vp.on('pageerror', (e) => vpErr.push(String(e.message || e)));
+    await vp.goto(INDEX, { waitUntil: 'load' });
+    await vp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+    const r = await vp.evaluate(() => {
+      const snap = (S) => { const o = []; for (const k of Object.keys(S).sort()) { const v = S[k];
+        if (typeof v === 'number') o.push(k, v); else if (ArrayBuffer.isView(v) && !(v instanceof DataView)) o.push(k, Array.from(v).join(',')); }
+        return JSON.stringify(o) + JSON.stringify(S.params); };
+      const o = {};
+      HP.loadPreset('inertialDragPair', false);
+      const S = HP.sim;
+      o.ready0 = HP.inertialDragFieldReady(S);
+      for (let k = 0; k < 50; k++) S.step(0.016);
+      o.ready = HP.inertialDragFieldReady(S);
+      o.match = [];
+      for (let i = 0; i < S.n; i++) { const q = HP.inertialDragFieldAt(S, 0, 0, { skip: i });
+        o.match.push({ i, same: !!q && Object.is(q.u[0], S._rdUX[i]) && Object.is(q.u[1], S._rdUY[i]), u: q && q.u, k: [S._rdUX[i], S._rdUY[i]] }); }
+      const before = snap(S);
+      const D = [];
+      for (const res of [4, 16, 64]) for (const mode of ['drag', 'ruler']) {
+        const d = HP.spaceMeshDisplaySample(S, { mode, cx: 1, cy: -2, hx: 30, hy: 18, res, frame: res === 64 ? 'coordinate' : 'centroid' });
+        D.push({ mode, res, nodes: d.nodes, h: d.h, ready: d.ready ? d.ready.ready : null, uMax: d.uMax, g: d.g, dpsiMax: d.dpsiMax });
+      }
+      const lr = HP.lightRulerAt(S, 3.25, -7.5);
+      HP.inertialDragFieldAt(S, 2, 2, { frame: 'coordinate' });
+      o.unchanged = snap(S) === before;
+      o.grid = D;
+      o.ruler = { psi: lr.psi, A: lr.A, N: lr.N, n: lr.n, Arel: lr.Arel, psiBg: lr.psiBg,
+        nAN: Math.abs(lr.n - lr.A / lr.N) / lr.n, nA2: Math.abs(lr.n - lr.A * lr.A) / lr.n, Aprod: Math.abs(lr.A - Math.exp(lr.psiBg) * lr.Arel) / lr.A };
+      // 未宣言の本
+      HP.loadPreset('galaxyAnalogyBH', false);
+      const B = HP.sim; for (let k = 0; k < 5; k++) B.step(0.016);
+      o.undecl = { at: HP.inertialDragFieldAt(B, 0, 0), ready: HP.inertialDragFieldReady(B).why };
+      // プリセットは drag/ruler を宣言できない(正準形の値域 SPACE_MESH_VIEW の外 —— 署名・保存 JSON に入らない)
+      const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'inertialDragPair')));
+      p.overlays = Object.assign({}, p.overlays || {}, { spaceMesh: { mode: 'drag' } });
+      const v = HP.validatePreset(p);
+      o.decl = { ok: v.ok, spaceMesh: v.ok ? (v.preset.overlays ? v.preset.overlays.spaceMesh : undefined) : 'rejected',
+        viewHasDrag: HP.SPACE_MESH_VIEW.indexOf('drag') >= 0, runtime: HP.SPACE_MESH_VIEW_RUNTIME.slice(), version: HP.SPACE_MESH_SAMPLER_VERSION };
+      return o;
+    });
+    const bad = [];
+    if (!(r.ready0.declared && !r.ready0.ready && r.ready0.why === 'noHistory')) bad.push('build 直後の ready が履歴なしでない: ' + JSON.stringify(r.ready0));
+    if (!(r.ready.ready && r.ready.same === r.ready.checked && r.ready.checked === 2)) bad.push('50 步後の ready: ' + JSON.stringify(r.ready));
+    if (!r.match.every((m) => m.same)) bad.push('粒子の受け手で核の u と一致しない: ' + JSON.stringify(r.match.filter((m) => !m.same)).slice(0, 160));
+    if (!r.unchanged) bad.push('サンプラー/格子の表/光の物差しを呼んだら S が変わった');
+    if (!r.grid.every((g) => g.nodes > 0 && (g.mode === 'ruler' || g.ready === true))) bad.push('格子の表が作れない: ' + JSON.stringify(r.grid).slice(0, 160));
+    if (!(r.ruler.nAN <= 1e-12 && r.ruler.nA2 <= 1e-12 && r.ruler.Aprod <= 1e-12 && r.ruler.A > 1 && Math.abs(r.ruler.N * r.ruler.A - 1) <= 1e-12)) bad.push('光の物差しの N・A・n の関係: ' + JSON.stringify(r.ruler));
+    if (!(r.undecl.at === null && r.undecl.ready === 'undeclared')) bad.push('未宣言の本で値を返した: ' + JSON.stringify(r.undecl));
+    if (!(r.decl.ok && r.decl.spaceMesh === undefined && !r.decl.viewHasDrag && r.decl.runtime.join() === 'drag,ruler')) bad.push('プリセットが drag を宣言できた: ' + JSON.stringify(r.decl));
+    if (vpErr.length) bad.push('ページエラー ' + vpErr.slice(0, 2).join(' | '));
+    add('behavior.dragFieldSampler', bad.length === 0,
+      `**読み取り専用サンプラー**(第291便d・R135・版 ${r.decl.version}): build 直後 ready=${r.ready0.ready}(${r.ready0.why})→ 50 步後 ${r.ready.ready}(${r.ready.same}/${r.ready.checked})・`
+      + `粒子の受け手で核の u とビット同一 ${r.match.filter((m) => m.same).length}/${r.match.length}・呼んでも S 不変=${r.unchanged}・`
+      + `格子 ` + r.grid.map((g) => `${g.mode}/res${g.res} ${g.nodes} 点 h=${g.h}`).join('・')
+      + ` / 光の物差し ψ=${r.ruler.psi.toExponential(3)}・|n−A/N|/n=${r.ruler.nAN.toExponential(1)}・|n−A²|/n=${r.ruler.nA2.toExponential(1)}・A=A_bg·A_rel ${r.ruler.Aprod.toExponential(1)}`
+      + ` / 未宣言(🌚)は ${r.undecl.at}・${r.undecl.ready} / プリセットの宣言 {mode:"drag"} は正準形に入らない(${r.decl.spaceMesh === undefined})`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    await vp.close();
+  }
+}
+{
+  const html291d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has291d = TARGET.startsWith('beta/') && html291d.indexOf('const SPACE_MESH_VIEW_RUNTIME') >= 0 && html291d.indexOf('function inertialDragFieldAt(') >= 0;
+  if (!has291d) {
+    console.log('SKIP docs.bgAuditTable(第291便d 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let E291 = null, HP291 = null, err291 = null;
+    try {
+      E291 = await import('file://' + path.join(ROOT, 'tests', 'exp-w291d-bgaudit.mjs'));
+      // loadHtmlMain は html を**この process の大域**で実行する(2 度目は const の再宣言で落ちる)—— 前のブロックが同じ TARGET を読んでいればその HP を使う
+      if (globalThis.HP && typeof globalThis.HP.inertialDragFieldAt === 'function' && typeof globalThis.HP.SPACE_MESH_SAMPLER_VERSION === 'string'
+        && html291d.indexOf('"' + globalThis.HP.SPACE_MESH_SAMPLER_VERSION + '"') >= 0 && typeof globalThis.HP.REL_DRAG_INERTIAL_VERSION === 'string'
+        && html291d.indexOf('"' + globalThis.HP.REL_DRAG_INERTIAL_VERSION + '"') >= 0) HP291 = globalThis.HP;
+      else if (globalThis.HP && typeof globalThis.HP.dfmFieldContract === 'function') throw new Error('大域の HP が別の html の版(同じ process で 2 度読めない)');
+      else {
+        const { loadHtmlMain: loadMain291 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
+        HP291 = loadMain291(path.join(ROOT, TARGET)).HP;
+      }
+    } catch (e) { err291 = String(e && e.stack || e).slice(0, 160); }
+    let J = null; try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'bgaudit-w291d.json'), 'utf8')); } catch (e) { J = null; }
+    const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const a = Pd.indexOf('〔第291便d — ');
+    const ends = [Pd.indexOf('\n〔第', a + 10), Pd.indexOf('\n## 7. 論文', a)].filter((k) => k > a);
+    const psec = a < 0 ? '' : Pd.slice(a, ends.length ? Math.min(...ends) : undefined);
+    if (err291) bad.push('器/html が読めない: ' + err291);
+    else if (!J) bad.push('正本 bgaudit-w291d.json が読めない');
+    else {
+      if (!(J.meta && J.meta.provenanceVersion === 'w272e-1' && J.meta.harnessVersion === E291.HARNESS_VERSION && J.meta.engineVersion === HP291.REL_DRAG_INERTIAL_VERSION
+        && J.meta.samplerVersion === HP291.SPACE_MESH_SAMPLER_VERSION)) bad.push('来歴(w272e-1)/器・経路・サンプラーの版');
+      if (J.ok !== true) bad.push('正本の ok が true でない');
+      // 再導出(解析量は相対 1e-12・残差の鍵〔…rel/rel…/Rel…/absMax/floorAbs/relChange/relToWbg0〕は絶対 1e-12・真偽値・整数・文字列は一致)
+      const R = E291.computeAll(HP291, path.join(ROOT, TARGET));
+      const diffs = [];
+      const near = (x, y, where) => {
+        if (diffs.length > 4) return;
+        if (/\/shifts\/\d+\/bitSame$/.test(where)) return;   // 走行中の実状態のビット一致の数は記録(機械の差で動きうる —— 判定は withinFloor)
+        if (typeof x === 'number' && typeof y === 'number') {
+          const RES = /(rel|Rel|relMax|RelMax|absMax|floorAbs)(\/\d+)?$|\/rel[A-Z]\w*$/.test(where);
+          if (!(x === y || (RES ? Math.abs(x - y) <= 1e-12 : Math.abs(x - y) <= 1e-12 * Math.max(Math.abs(x), Math.abs(y))))) diffs.push(where + ' ' + x + '≠' + y);
+          return;
+        }
+        if (x === null || y === null || typeof x !== 'object' || typeof y !== 'object') { if (x !== y) diffs.push(where + ' ' + String(x).slice(0, 30) + '≠' + String(y).slice(0, 30)); return; }
+        if (Array.isArray(x) !== Array.isArray(y) || (Array.isArray(x) && x.length !== y.length)) { diffs.push(where + ' 形が違う'); return; }
+        for (const k of new Set([...Object.keys(x), ...Object.keys(y)])) near(x[k], y[k], where + '/' + k);
+      };
+      for (const k of Object.keys(R)) near(R[k], J[k], k);
+      if (diffs.length) bad.push('再導出が正本と違う: ' + diffs.join(' , '));
+      cases.push(`再導出 ${Object.keys(R).length} 節が正本と一致(${diffs.length === 0})`);
+      // 精査表: 正本から作った行が PHYSICS〔第291便d〕にそのままある
+      const rows = E291.bgAuditRows(J);
+      const miss = rows.filter((x) => psec.indexOf(x) < 0);
+      if (!psec) bad.push('PHYSICS に〔第291便d — 〕の節が無い');
+      if (miss.length) bad.push(`精査表の行が PHYSICS に無い ${miss.length}/${rows.length}: ` + miss[0].slice(0, 60));
+      if (JSON.stringify(rows) !== JSON.stringify(J.auditRows)) bad.push('正本の auditRows が器の行と違う');
+      for (const must of ['**「織り込み済み」ではない**', '法則・参照系の宣言', '証明ではない', '全域歪み', 'dℓ=A|dx|']) if (psec.indexOf(must) < 0) bad.push('PHYSICS〔第291便d〕に「' + must + '」が無い');
+      if (/織り込み済みである|織り込み済みと証明|織り込み済みが証明された/.test(psec)) bad.push('PHYSICS〔第291便d〕が「織り込み済み」と断定している');
+      cases.push(`精査表 ${rows.length} 行が PHYSICS〔第291便d〕と同文(欠け ${miss.length})・新核の背景の宣言 ${J.kernelIgnores.accepted} 本でビット同一・2 進の並進 ${J.translationDyadic.rows.length} 例ビット同一・`
+        + `回転 ${J.frameTerms.rows.find((x) => x.key === 'rigidRotation').relChange.toExponential(2)}・潮汐 ${J.frameTerms.rows.find((x) => x.key === 'tidalLinear').relChange.toExponential(2)} は残る`);
+    }
+    add('docs.bgAuditTable', bad.length === 0,
+      `**背景の精査表**(第291便d・原仮定者の裁定(第81報)⑥・統括の検証項目 R135 —— 正本 tests/out/bgaudit-w291d.json・器 tests/exp-w291d-bgaudit.mjs): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
 
@@ -43448,13 +43681,15 @@ if (!FAST) {
         const iFv = kids.findIndex((e) => e.id === 'btnFvAgain');
         const iAbout = idx(HP.T('aboutBody'), 'P');
         const iObs = idx(HP.T('helpObsCompare'), 'P'), iLive = idx(HP.T('helpLiveCompare'), 'P'), iScope = idx(HP.T('helpPickerScope'), 'P');
+        // 第291便d: 空間メッシュの「表示の種類」の 1 段(helpMeshView)が一覧の区画の後に続く(鍵が無い html は従来の 9 個)
+        const hasMesh = typeof HP.T('helpMeshView') === 'string', iMesh = hasMesh ? idx(HP.T('helpMeshView'), 'P') : -1;
         const shown = document.getElementById('aboutPanel').style.display === 'block';
         const head = (k) => HP.T(k).split(lang === 'ja' ? '(' : ' (')[0];
-        const r = { lang, h4, iAbout, iFv, iLaws, iLawsBody, iOps, iOpsBody, iObs, iLive, iScope, shown,
+        const r = { lang, h4, iAbout, iFv, iLaws, iLawsBody, iOps, iOpsBody, iObs, iLive, iScope, iMesh, shown,
           scopeWords: ['ppScope_main', 'ppScope_outside', 'ppScope_cal'].every((k) => HP.T('helpPickerScope').indexOf(head(k)) >= 0) };
         r.ok = shown && h4.length === 2 && h4[0] === HP.T('helpLaws') && h4[1] === HP.T('helpOps')
           && iAbout === 0 && iFv === 1 && iLaws === 2 && iLawsBody === 3 && iOps === 4 && iOpsBody === 5
-          && iObs === 6 && iLive === 7 && iScope === 8 && kids.length === 9 && r.scopeWords;
+          && iObs === 6 && iLive === 7 && iScope === 8 && (hasMesh ? (iMesh === 9 && kids.length === 10) : kids.length === 9) && r.scopeWords;
         document.getElementById('aboutClose').click();
         return r;
       }, lang);
@@ -43464,7 +43699,7 @@ if (!FAST) {
     }
     add('ui.aboutOrder', ab.every((o) => o.ok),
       ab.map((o) => `${o.lang}: 見出しの順 [${o.h4.join(' → ')}]・本文の位置 aboutBody ${o.iAbout}/初見ガイド ${o.iFv}/法則 h4 ${o.iLaws}・本文 ${o.iLawsBody}/操作 h4 ${o.iOps}・本文 ${o.iOpsBody}`
-        + `・観測との差 ${o.iObs}・ライブ比較 ${o.iLive}・一覧の区画 ${o.iScope}・区画の語=${o.scopeWords}=${o.ok}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / ')
+        + `・観測との差 ${o.iObs}・ライブ比較 ${o.iLive}・一覧の区画 ${o.iScope}・表示メッシュ ${o.iMesh}・区画の語=${o.scopeWords}=${o.ok}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / ')
       + ' —— 原仮定者の裁定(第80報)④「この宇宙の法則(要約)を操作の上へ」(i18n の文は不変・順序だけ)');
   }
 }
