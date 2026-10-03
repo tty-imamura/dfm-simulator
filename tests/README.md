@@ -78,3 +78,31 @@ preset.inertialDragPair・behavior.ckFixcapRestore・preset.shapeToySpiral・beh
 **Node と Chromium の差の欄は null のまま(第289便f・原仮定者の裁定(第79報)AN102)**: 再導出比較で Node の値と Chromium の値が 1 ulp 程度違う量
 (CI の Chromium 1228 と手元の 1194 の Math.pow 等の差を含む)は、比較の欄を null のまま残し、**床(許容幅)を敷かない**。床は同種の
 FAIL の実測からだけ決める(差が出たことを理由に床を足さない)。
+
+## 4. 「サンプルを選ぶ」の題材・現実較正の 2 見出し・保留の解き方(第291便e)
+
+原仮定者の裁定(第81報)⑦・統括の検証項目 R136。**表示だけ**(`group` の文字列・id・presetSig・保存 JSON・力学は 1 bit も変えない —— bitsame/sigsame 150/150)。
+
+**題材チップの規則表**(html の `TOPIC_TAGS` —— 1 か所。名前・絵文字・群の名前では判定しない。QA `ui.topicChips291` はこの表を写さず、下の規則をその場で書き直して全内蔵で照合する):
+
+| key | 語(ja / en) | 規則(宣言の鍵) |
+|---|---|---|
+| refModel | 参照模型 / Reference model | `physics.shapeToy` |
+| dmHalo | ダークマターハロー / Dark-matter halo | `physics.halo`、または同じ `familyId` に `physics.halo` を宣言した本がある |
+| inertial | 慣性決定力 / Inertial determinacy | `physics.relativeDrag.law:"inertial"` |
+| cloakedDwarf | 光学迷彩矮星 / Optically cloaked dwarf | `massLedger.darkRotor`、または bodies のどれかの `lightSweep:"auto"` |
+| pn1Geo | 1PN・測地線 / 1PN / geodesic | `physics.geoPN ≥ 1` |
+| testParticle | 試験粒子 / Test particle | bodies のどれかの `testParticle:true` |
+| spaceMesh | 空間メッシュ / Space mesh | `physics.spaceMesh` |
+| obsCal | 観測較正 / Observational calibration | `sampleClass:"calibration"`(合格の意味ではない) |
+| manyBody | 連鎖・多体 / Chains / many bodies | bodies の粒子数(単体 1+群の n の和)≥ 100(`TOPIC_MANY_N`) |
+
+- 件数(チップの `data-n`)は一覧に出せる本(catalog 非表示・退役を除く)を実行時に数える。1 本が複数の題材に入りうる。説明タブの `#descTopics` も同じ表から出る(押せない表示)。
+- **「現実較正」の 2 見出し**: 表 `GROUP_DISPLAY_SPLIT` で、宣言の群「現実較正」を一覧の表示だけ「現実較正・太陽系」「現実較正・連星」に分ける(`calSubOf` —— `calTargetOf` の solar-system か否か)。
+  第288便b のサブチップ(`#ppCalSub`)は撤去し、QA `ui.calGroupUnified` は `ui.calGroupSplit291` に置き換えた(2 見出し・各見出しの件数 = calSubOf の数え直し・退役の本は数えない)。
+- **一覧の最下段の区切り** `.ppListEnd`: `#ppList` の最後の子(QA `ui.pickerListEnd` —— 既定・題材の絞り込み・検索・一致 0・保存一覧ありの 5 状態)。
+- **原稿の新しい欄 `holdRemedy`**(`tests/data-w279a-samplestatus-src.json` の `rows[id].holdRemedy` と `rows[id].en.holdRemedy`): 較正が保留/判定保留の本で**何をすれば判定器が判定を出すか**の 1 行。
+  保留の理由が器の結果(calaudit の missing・σ 接続器 `tests/exp-w262d-solarsigma.mjs` の切断点・charonwin の比較値)に基づく本だけに書く。ja 160 字・en 340 文字まで・ja/en の両方・禁止語と合否の約束の語
+  (`HOLD_REMEDY_PROMISE`)を書かない(`lib-w279a-samplestatus.mjs` の `holdRemedyCheck` —— 器が止める)。器は保留の本だけに転記し(保留でなくなった本は正本の `tally.holdRemedy.dropped` に記録)、
+  一覧 md の 9 列目「保留の解き方」に出す。原稿に行の無い保留の本は、アプリが既定表 `HOLD_REMEDY_RULES`(見込みの分類)で 1 行を出す(md は「—(既定表)」)。
+  **生成は鎖で**(samplestatus の段 —— 手で html の生成領域を書き換えない)。鎖の前は QA `ui.holdRemedy` が「未転記」と記録し、既定表の 1 行で全保留の本を覆うことを確かめる。

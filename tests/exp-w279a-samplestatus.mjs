@@ -68,7 +68,8 @@ const outFiles = new Set(fs.readdirSync(path.join(ROOT, 'tests', 'out')).map((f)
 const retiredIds = new Set(((src.retired || {}).ids) || []);
 const historyIds = new Set(RETIRED_FXS.flatMap((f) => ((rd(f).history || {}).tests || []).filter((t) => t.pass).map((t) => t.id)));
 const historyUsed = [];
-const built = L.buildTable(src, calaudit, charonwin, { qaIds, outFiles, retiredIds, historyIds, historyUsed });
+const holdRemedyDropped = [];   // 第291便e: 原稿に holdRemedy があるが正本で保留でなくなった本(転記しない —— 来歴に残す)
+const built = L.buildTable(src, calaudit, charonwin, { qaIds, outFiles, retiredIds, historyIds, historyUsed, holdRemedyDropped });
 if (built.errors.length) {
   console.error('原稿/正本の検査で止めた(何も書いていない):\n  ' + built.errors.join('\n  '));
   process.exit(1);
@@ -170,6 +171,8 @@ md.push('- **状況**(目的の達成)の語: **達** = 根拠に挙げた保存
 // 第288便b(原仮定者の裁定(第78報)④・AN83): 較正母集団の本数は正本 calaudit の本数と母集団の規則から(手で書かない —— 一本化後は 20 本の見込み)
 md.push('- **較正**の語: 較正母集団 ' + (calaudit.presets || []).length + ' 本(' + (((calaudit.meta || {}).populationRule) || 'sampleClass:"calibration"') + ' —— 判定器 calaudit が機械で数える)は **4 値の台帳の正式語**(合・量限定合・否・保留 —— `' + CAL + '` の verdictLedger の転記)。⛄🌨️ は **判定保留(量定義不一致)**(母集団の外の表示 —— 第 5 の値ではない)。それ以外は **較正対象外**(観測との合否をこの一覧では書かない)。合否の語は門(3σ)に入る本だけに付く。');
 md.push('- **合わない量と差**: 代表量が 3σ を外れていればその量の差 %(σ 倍)。σ が無い本は、写像が確定していて目安判定が外れている量のうち差が最大のもの(「σ なし」と明記)。どれも無ければ「—」。⛄🌨️ は Buie 2012 に対する**比較値**(門ではない)。');
+// 第291便e(原仮定者の裁定(第81報)⑦・統括の検証項目 R136): 9 列目「保留の解き方」の読み方
+md.push('- **保留の解き方**(第291便e・原仮定者の裁定(第81報)⑦): 較正が保留/判定保留の本で、**何をすれば判定器が判定を出すか**の 1 行(原稿 `' + SRC + '` の `holdRemedy` の転記 —— 保留の理由が器の結果〔calaudit の missing・σ 接続器 `tests/exp-w262d-solarsigma.mjs` の切断点・charonwin の比較値〕に基づく本だけに書く)。原稿に行の無い保留の本は「—(既定表)」で、アプリは見込みの分類から引く既定表 `HOLD_REMEDY_RULES` で 1 行を出す。**判定が出ることまでを書き、合否は約束しない**。');
 md.push('- **精度見込み**: 正本の数から決まる語だけを書く —— 「σ 未接続」(観測の σ が繋がっていない)・「数値未解決」(刻みの収束が門の予算に入っていない)・「写像未確定」(量の対応が決まっていない)・「刻み間差 xσ・刻みでは縮まない」(門で否かつ刻みで動く幅が 1σ 未満)。**刻みを細かくすれば合格に移るという予測は、正本に証拠付きの行が 0 件である**(`predictionEligible` の合計 ' + predEligible + ')—— この一覧もその予測を書かない。');
 md.push('');
 md.push('## 集計');
@@ -196,8 +199,8 @@ for (const g of groups) {
   md.push(`## ${g.icon} ${g.group}(${g.ids.length} 本)`);
   md.push('');
   if (!g.ids.length) { md.push('(内蔵サンプルは 0 本)'); md.push(''); continue; }
-  md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み |');
-  md.push('|---|---|---|---|---|---|---|---|');
+  md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み | 保留の解き方 |');
+  md.push('|---|---|---|---|---|---|---|---|---|');
   for (const id of g.ids) md.push(L.mdRow(byId[id], table[id]));
   md.push('');
 }
@@ -206,8 +209,8 @@ if (retiredRows.length) {
   md.push('');
   md.push('> ' + ((src.retired || {}).ruling || '原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」') + ' による**退役**(`familyRole:"retired"`)。**BUILTIN_PRESETS からは消していない**(旧セーブ・旧 URL・履歴の正本・過去の記録が ID で参照する)。退役は表示の印で、力学は退役の前と同じである。ゲートから外した/付け替えた試験の最後の保存 QA の値は凍結の写し ' + RETIRED_FXS.map((f) => '`' + f + '`').join('・') + ' に転記してあり、根拠の裏づけはその履歴で行う' + (historyUsed.length ? `(${historyUsed.map((z) => '`' + z.split(':')[1] + '`').join('・')})` : '') + '。');
   md.push('');
-  md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み |');
-  md.push('|---|---|---|---|---|---|---|---|');
+  md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み | 保留の解き方 |');
+  md.push('|---|---|---|---|---|---|---|---|---|');
   for (const id of retiredRows) md.push(L.mdRow(byId[id], table[id]));
   md.push('');
 }
@@ -295,7 +298,10 @@ const canon = {
     { evidenceQa: { file: QAF, commit: qa.commit || null, date: qa.date || null, pass: qaIds.size } }),
   tally: Object.assign({}, tl, { predictionEligible: predEligible,
     byGroup: groups.map((g) => ({ group: g.group, icon: g.icon, n: g.ids.length })),
-    retired: { n: retiredRows.length, ids: retiredRows, historyEvidence: historyUsed } }),
+    retired: { n: retiredRows.length, ids: retiredRows, historyEvidence: historyUsed },
+    // 第291便e: 保留の解き方(原稿 holdRemedy の転記本数・保留でなくなって転記しなかった本)
+    holdRemedy: { declared: Object.values(table).filter((t) => t.holdRemedy).length,
+      hold: Object.values(table).filter((t) => L.HOLD_CALS.indexOf(t.calibration) >= 0).length, dropped: holdRemedyDropped } }),
   rows: got.rows.map((r) => Object.assign({ id: r.id, emoji: r.emoji, name: r.name, group: r.group,
     sampleClass: r.sampleClass }, { status: table[r.id], ledgerSource: built.provenance[r.id] || null, timing: timing[r.id] })),
   timingNote: { since: '第282便(原仮定者の指示 2026-09-26)', what: '各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない',

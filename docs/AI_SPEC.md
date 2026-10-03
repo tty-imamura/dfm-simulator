@@ -3019,3 +3019,23 @@ shapeToy:{shape:"spiral", supply:"external-bath", coupling:"prescribed", omega0,
 - 腕の中心線 r(s)=rMin+(rMax−rMin)s・φ_k(s)=φ₀+2πk/nArm+cot(p)·ln(r/r0)+Ω_p t(s は宣言の密度で固定)・横断と面外にだけ 2 階 OU。全体は剛体パターン回転 Ω_p(差動回転なし)。
 - 内蔵: 🍭 `shapeToySpiral`(中心なし)・🎢 `shapeToySpiralCore`(中心つき —— 円盤成分だけ Core 力学・腕は規定運動の**中心つき幾何参照**。腕の中心線への復元 k_arm は実装していない)。どちらも参照模型であり、観測のピッチ角・軸比は入力しない。
 - 読み取り専用: `HP.shapeToySpiralState(S)`・`HP.shapeToySpiralCentreline(sp,k,s)`・`HP.validateShapeToySpiral`。器 tests/exp-w290e-spiral.mjs・正本 tests/out/spiral-w290e.json。QA: `preset.shapeToySpiral`・`behavior.spiralGeometry`・`docs.spiralRef`。
+
+## 39. 第291便e の UI —— 「題材」の絞り込みと説明タブの題材チップ・「現実較正」の表示の 2 見出し・一覧の最下段の区切り・「較正 保留」の解き方(原仮定者の裁定〔第81報〕⑦・統括の検証項目 R136・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の逐語ブロックは 1 バイトも変わっていない)。`group` の文字列・id・`presetSig`・保存 JSON・力学は 1 bit も変えていない(bitsame/sigsame 150/150)。
+
+- **題材**(表示専用の規則表 `TOPIC_TAGS` —— 1 か所。各行は**宣言の鍵だけ**を読む純関数で、名前・絵文字・群の名前では判定しない・手打ちの本の一覧を持たない。1 本が複数の題材に入りうる):
+  - 参照模型 `refModel` = `physics.shapeToy` / ダークマターハロー `dmHalo` = `physics.halo`、または同じ家族(`familyId`)に `physics.halo` を宣言した本がある対照 / 慣性決定力 `inertial` = `physics.relativeDrag.law:"inertial"` /
+    光学迷彩矮星 `cloakedDwarf` = `massLedger.darkRotor`、または bodies のどれかの `lightSweep:"auto"` / 1PN・測地線 `pn1Geo` = `physics.geoPN≥1` / 試験粒子 `testParticle` = bodies のどれかの `testParticle:true` /
+    空間メッシュ `spaceMesh` = `physics.spaceMesh` / 観測較正 `obsCal` = `sampleClass:"calibration"`(合格の意味ではない)/ 連鎖・多体 `manyBody` = bodies の粒子数(単体 1+群の n の和)≥ `TOPIC_MANY_N`(100)。
+  - 絞り込みの次元「題材」(`details#ppFold_topic` —— 「その他」の直前・単一選択・再タップで解除・他の次元と検索と AND)。チップの件数 `data-n` は一覧に出せる本(catalog 非表示・退役を除く)を実行時に数える。ⓘ の説明(`ppNoteText("topic")`)も表から作る。
+  - 説明タブ: 分類チップ `#classChips` の直下に題材のチップ行 `#descTopics`(`.topicChip`・`data-topic` —— 押せない表示)。題材の無い本には出ない。
+- **「現実較正」の表示の 2 見出し**(表 `GROUP_DISPLAY_SPLIT`): 宣言の群は `group:"現実較正"` 1 つのまま(`GROUP_ORDER`・`orderedGroups()`・隠し `#presetSelect` も不変)。一覧(`#ppList`)の見出しだけを較正対象の区分 `calSubOf(p)`(`calTargetOf` —— id・familyId の宣言から機械で)で
+  「現実較正・太陽系」(☀️・保存 id `realityCalSolar`・en Reality Calibration — Solar System)と「現実較正・連星」(⭐・`realityCalBinary`・en Reality Calibration — Binaries)に分け、`GROUP_ORDER` の「現実較正」の位置にこの順で並べる(`ppDispGroup`・`ppDispGroupsOf`・`ppDisplayOrdered`)。
+  区画(§36)はどちらも cal。第288便b(§30)の見出しの下のサブチップ(`#ppCalSub`・`ppCalSubRow`・状態 `ppCalSub`)は**撤去**した。旧名「現実との照合・太陽系/連星」(`GROUP_ALIASES`)は履歴として残す。群の見出しの件数は退役の本を数えない(区画の件数と同じ —— 読み込み中の退役の本は行に残る)。
+- **一覧の最下段の区切り**: `#ppList` の**最後の子**に `.ppListEnd`(`role="separator"`・data-n なし・高さ 60px+`env(safe-area-inset-bottom)` = 一覧の 1 行の行(min-height 40px)の約 1.5 行分)を常に置く(絞り込み・検索・保存一覧/AI 生成の有無に依らない —— 区画の終わり `.ppScopeEnd` とは別)。
+- **「較正 保留」の解き方**: 説明タブの状態チップ(`#descStatus`)の直後に、較正が `hold`/`hold-definition` の本だけ 1 行 `#stHoldRemedy`(「保留を解くには:」+文)。文は原稿 `tests/data-w279a-samplestatus-src.json` の新しい欄 `holdRemedy`(ja)/`en.holdRemedy`(en)を
+  器(`tests/exp-w279a-samplestatus.mjs`・`tests/lib-w279a-samplestatus.mjs`)が生成領域 `SAMPLE_STATUS` の行と一覧 `docs/SAMPLE_STATUS_v1.45.md` の 9 列目「保留の解き方」へ転記したもの(`data-src="declared"`)。
+  行の無い本は既定表 `HOLD_REMEDY_RULES`(`status` の見込みの分類: σ 未接続 → `hr_sigma`・数値未解決 → `hr_numerics`・写像未確定/未解決 → `hr_mapping`・判定保留(量定義不一致)→ `hr_definition`)から引く(`data-src="rule:<分類>"`)。
+  **何をすれば判定器が判定を出すか**までを書き、合否は約束しない(lib の `holdRemedyCheck` が ja/en の両方・上限・禁止語・約束の語を検査)。`p.status` の形は変えていない(表の行だけに載る)。
+- QA: **`ui.topicChips291`**・**`ui.calGroupSplit291`**(第288便b の `ui.calGroupUnified` を置き換え)・**`ui.pickerListEnd`**・**`ui.holdRemedy`**。既存の固定値は世代切替 has291e(html の `const TOPIC_TAGS=` / `const GROUP_DISPLAY_SPLIT=`): `ui.pickerFilterFold`・`ui.pickerSeparators`(畳みの並び scale/cls/e/geo/topic/other —— 6 次元)・`ui.groupIcons`(表 14 → 16・GROUP_ORDER の群は 14)・`ui.pickerScope`(表示の 2 見出しも較正の区画)。root は SKIP。

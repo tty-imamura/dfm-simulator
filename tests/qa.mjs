@@ -41272,8 +41272,12 @@ if (!FAST) {
     const has288bIc = await page.evaluate(() => typeof UNIFY_MIGRATED !== 'undefined');
     // 第290便f(原仮定者の裁定(第80報)⑦・統括の検証項目 R130 —— 世代切替 has290f = GROUP_SCOPE の有無): 新群「腕と渦伸長(軸力)」🌀 で 13 → 14 群
     const has290fIc = await page.evaluate(() => typeof GROUP_SCOPE !== 'undefined');
+    // 第291便e(原仮定者の裁定(第81報)⑦・R136 —— 世代切替 has291e = GROUP_DISPLAY_SPLIT の有無): 表示の 2 見出し(☀️ 現実較正・太陽系/⭐ 現実較正・連星)の絵文字を
+    //   表に足した —— 表は 14 → 16 群、うち GROUP_ORDER の群は 14 のまま(表示の 2 見出しは宣言の群ではない)
+    const has291eIc = await page.evaluate(() => typeof GROUP_DISPLAY_SPLIT !== 'undefined');
     const nIc = has288bIc ? (has290fIc ? 14 : 13) : 14;
-    const gOk = rg.n === nIc && rg.inOrder === nIc && rg.dup === 0 && rg.empty === 0
+    const nIcAll = nIc + (has291eIc ? 2 : 0);
+    const gOk = rg.n === nIcAll && rg.inOrder === nIc && rg.dup === 0 && rg.empty === 0
       && rg.aliasBad.length === 0 && rg.unknown === '' && rg.nullIcon === ''
       && rg.leaked === 0 && rg.leakedV === 0
       && rd.bad.length === 0 && rd.wrapped === 0 && rd.withIcon === rd.nHeads
@@ -42294,10 +42298,15 @@ if (!FAST) {
 // ----     2 回目のタップで「除く」(data-state not・aria-pressed mixed)・3 回目で解除。旧 4 軸の独立の数え直しと AND の検査は不変。
 // ---- 第289便f(世代切替 has289f —— html の `const PP_OTHER_STATUS_AXES=`): 3 段目「状況(説明タブ)」の 10 軸(目的 4・較正 6)を末尾に足した
 // ----     ので、全軸の並びは 15 + 10 = 25・チップ数は 1+25。旧 4 軸の検査は不変(状況の軸の検査は ui.pickerStatusAxes)。
+// ---- 第291便e(原仮定者の裁定(第81報)⑦・統括の検証項目 R136 —— 世代切替 has291e = html の `const TOPIC_TAGS=`): 次元「題材」(topic)を「その他」の前に足した
+// ----     ので、畳みの並びは scale/cls/e/geo/topic/other(6 次元)・「その他」の位置は 4 → 5。判定の強さは不変(題材の検査は ui.topicChips291)。
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has287e = /function ppOtherStateOf\(/.test(html);
   const has289f = /const PP_OTHER_STATUS_AXES=/.test(html);
+  const has291eF = /const TOPIC_TAGS=/.test(html);
+  const FOLD_ORDER = has291eF ? 'scale/cls/e/geo/topic/other' : 'scale/cls/e/geo/other';
+  const N_FOLD = has291eF ? 6 : 5, I_OTHER = has291eF ? 5 : 4;
   if (!/const PP_OTHER_AXES=/.test(html)) {
     console.log('SKIP ui.pickerFilterFold / ui.pickerOtherChips(対象に第285便e の畳み・「その他」の絞り込みなし — root 等)');
   } else {
@@ -42316,7 +42325,7 @@ if (!FAST) {
       return { ctx, pg, errs };
     };
     const DIMS = [['scale', 'ppDimScale', 'ppDimScaleBtn'], ['cls', 'ppDimClass', 'ppDimClassBtn'], ['e', 'ppDimE', 'ppDimEBtn'],
-      ['geo', 'ppDimGeo', 'ppDimGeoBtn'], ['other', 'ppDimOther', 'ppDimOtherBtn']];
+      ['geo', 'ppDimGeo', 'ppDimGeoBtn']].concat(has291eF ? [['topic', 'ppDimTopic', 'ppDimTopicBtn']] : [], [['other', 'ppDimOther', 'ppDimOtherBtn']]);
     // ---- ui.pickerFilterFold
     const ff = [];
     for (const vp of VPS) {
@@ -42339,15 +42348,16 @@ if (!FAST) {
           mem: (() => { try { return localStorage.getItem('hp_pick_fold'); } catch (_) { return 'THROW'; } })(),
         };
       }, DIMS);
-      const sig0 = await pg.evaluate(() => { try { localStorage.removeItem('hp_pick_fold'); } catch (_) {}
+      const sig0 = await pg.evaluate((DIMS) => { try { localStorage.removeItem('hp_pick_fold'); } catch (_) {}
         ppFold = {}; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
+        if (typeof ppTopic !== 'undefined') ppTopic = 'all';
         HP.loadPreset('saturn', false);
         return { sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
-          par: JSON.stringify(HP.sim.params), all: HP.T('grpAll'), dimT: [['ppDimScale'], ['ppDimClass'], ['ppDimE'], ['ppDimGeo'], ['ppDimOther']].map(([k]) => HP.T(k)) }; });
+          par: JSON.stringify(HP.sim.params), all: HP.T('grpAll'), dimT: DIMS.map(([, k]) => HP.T(k)) }; }, DIMS);
       await tapOrClick('#btnPresetPick'); await pg.waitForTimeout(80);
       const s0 = await st();
       o.order = s0.ids.join('/');
-      o.structOk = o.order === 'scale/cls/e/geo/other' && s0.rowsIn.every((n) => n === 1) && s0.btnIn.every(Boolean)
+      o.structOk = o.order === FOLD_ORDER && s0.rowsIn.every((n) => n === 1) && s0.btnIn.every(Boolean)
         && s0.names.every((n, i) => n === sig0.dimT[i]);
       o.defaultFolded = s0.open.every((x) => x === false) && s0.chipVis.every((v) => v === false) && s0.mem === null;
       o.defaultSel = s0.sels.every((x) => x === sig0.all) && s0.selOn.every((x) => !x);
@@ -42380,7 +42390,7 @@ if (!FAST) {
       await pg.evaluate(() => { hidePresetPicker(); showPresetPicker(); });
       await pg.waitForTimeout(40);
       const s4 = await st();
-      o.reopenOk = s4.open.join(',') === 'false,false,false,false,true' && /"other":true/.test(s4.mem || '') && s4.sels[4] === two.text;
+      o.reopenOk = s4.open.join(',') === Array.from({ length: N_FOLD }, (_, i) => String(i === I_OTHER)).join(',') && /"other":true/.test(s4.mem || '') && s4.sels[I_OTHER] === two.text;
       // 全部開いて画面内
       await pg.evaluate(() => { ppOther = []; for (const d of document.querySelectorAll('#ppFolds > details.ppFold')) d.open = true;
         // 第288便f(AN89): 狭い画面で畳まれて開く「その他」の段も開く(組み直さない —— 開閉の記憶はそのまま)
@@ -42395,12 +42405,12 @@ if (!FAST) {
       });
       o.inView = lay.inView; o.docX = lay.docX;
       // en
-      const en = await pg.evaluate(async () => { const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+      const en = await pg.evaluate(async (I_OTHER) => { const wait = (ms) => new Promise((r) => setTimeout(r, ms));
         hidePresetPicker(); HP.setLang('en'); showPresetPicker(); await wait(30);
         const nm = [...document.querySelectorAll('#ppFolds .ppFoldName')].map((x) => x.textContent);
         const sv = document.querySelector('#ppFold_other > summary .ppFoldSel').textContent;
-        const r = { nm, sv, ok: nm[4] === HP.T('ppDimOther') && nm[4] === 'Other' && sv === HP.T('grpAll') };
-        hidePresetPicker(); HP.setLang('ja'); return r; });
+        const r = { nm, sv, ok: nm[I_OTHER] === HP.T('ppDimOther') && nm[I_OTHER] === 'Other' && sv === HP.T('grpAll') };
+        hidePresetPicker(); HP.setLang('ja'); return r; }, I_OTHER);
       o.enOk = en.ok;
       const s5 = await pg.evaluate(() => { ppFold = {}; ppOther = []; ppScale = 'all'; ppSearch = '';
         return { sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
@@ -42409,21 +42419,21 @@ if (!FAST) {
       // 記憶が壊れている/Storage が投げる状態で再読込
       await pg.evaluate(() => { try { localStorage.setItem('hp_pick_fold', '{bad'); } catch (_) {} });
       await pg.reload({ waitUntil: 'load' }); await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
-      const bad1 = await pg.evaluate(() => { showPresetPicker(); const f = [...document.querySelectorAll('#ppFolds > details.ppFold')];
-        const r = f.length === 5 && f.every((d) => !d.open); hidePresetPicker(); return r; });
+      const bad1 = await pg.evaluate((N_FOLD) => { showPresetPicker(); const f = [...document.querySelectorAll('#ppFolds > details.ppFold')];
+        const r = f.length === N_FOLD && f.every((d) => !d.open); hidePresetPicker(); return r; }, N_FOLD);
       // Storage が投げる状態(読み込み後に差し替える —— アプリ全体の起動は Storage 例外を前提にしていないので、畳みの読み書きだけを見る)
-      const bad2 = await pg.evaluate(async () => { const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+      const bad2 = await pg.evaluate(async (N_FOLD) => { const wait = (ms) => new Promise((r) => setTimeout(r, ms));
         const thr = () => { throw new Error('storage blocked'); };
         const keep = [Storage.prototype.getItem, Storage.prototype.setItem, Storage.prototype.removeItem];
         Storage.prototype.getItem = thr; Storage.prototype.setItem = thr; Storage.prototype.removeItem = thr;
         try {
         showPresetPicker(); const f = [...document.querySelectorAll('#ppFolds > details.ppFold')];
-        const ok0 = f.length === 5 && f.every((d) => !d.open);
+        const ok0 = f.length === N_FOLD && f.every((d) => !d.open);
         f[0].open = true; await wait(30);                          // toggle → 記憶の書き込みが投げても描画は続く
         document.querySelector('#ppFold_scale .ppChip').click(); await wait(20);   // 組み直し
         const ok1 = !!document.getElementById('ppFold_scale') && document.getElementById('ppFold_scale').open === true;
         hidePresetPicker(); return ok0 && ok1;
-        } finally { [Storage.prototype.getItem, Storage.prototype.setItem, Storage.prototype.removeItem] = keep; } });
+        } finally { [Storage.prototype.getItem, Storage.prototype.setItem, Storage.prototype.removeItem] = keep; } }, N_FOLD);
       o.storageOk = bad1 && bad2;
       o.errs = errs.slice(0, 2);
       o.ok = o.structOk && o.defaultFolded && o.defaultSel && o.openOk && o.pickOk && o.foldKeepsSel && o.twoOk && o.reopenOk
@@ -42581,6 +42591,10 @@ if (!FAST) {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   // 第289便f(世代切替 has289f): 3 段目「状況(説明タブ)」の 10 軸(目的 4・較正 6)で 15 → 25
   const nOther287 = /function ppOtherStateOf\(/.test(html) ? 4 + 1 + 10 + (/const PP_OTHER_STATUS_AXES=/.test(html) ? 4 + 6 : 0) : 4;
+  // 第291便e(世代切替 has291e = `const TOPIC_TAGS=`): 次元「題材」を「その他」の前に足した —— 6 行・題材の選択肢は 9(参照模型・ダークマターハロー・慣性決定力・
+  //   光学迷彩矮星・1PN・測地線・試験粒子・空間メッシュ・観測較正・連鎖・多体 —— この場で書いた数)
+  const has291eS = /const TOPIC_TAGS=/.test(html);
+  const SEP_ORDER = has291eS ? 'scale/cls/e/geo/topic/other' : 'scale/cls/e/geo/other', N_SEP = has291eS ? 6 : 5, I_OTHER_S = has291eS ? 5 : 4;
   if (!/className="ppDimName"/.test(html)) {
     console.log('SKIP ui.pickerSeparators(対象に第286便e の絞り込みのセパレータなし — root 等)');
   } else {
@@ -42604,9 +42618,9 @@ if (!FAST) {
           par: JSON.stringify(HP.sim.params), sel: [...document.querySelectorAll('#presetSelect option')].map((x) => x.value).join(',') }; });
       // 採寸(状態ごと)。独立の期待件数: スケール = SCALE_TIERS・分類 5(原理実証/複合現象/現実較正 DFM/kF0/意味論表示)・
       // E水準 = EMERGENCE_LEVELS・geoPN 4(0〜3)・その他 4(obsCard/pinned/multi/testParticle)
-      const measure = () => pg.evaluate((nOther) => {
+      const measure = () => pg.evaluate(([nOther, withTopic]) => {
         const DIM = [['scale', 'ppDimScale', HP.SCALE_TIERS.length], ['cls', 'ppDimClass', 5], ['e', 'ppDimE', HP.EMERGENCE_LEVELS.length],
-          ['geo', 'ppDimGeo', 4], ['other', 'ppDimOther', nOther]];
+          ['geo', 'ppDimGeo', 4]].concat(withTopic ? [['topic', 'ppDimTopic', 9]] : [], [['other', 'ppDimOther', nOther]]);
         const host = document.getElementById('ppFolds');
         const hr = host.getBoundingClientRect();
         const box = document.querySelector('#ppModal .ppBox').getBoundingClientRect();
@@ -42644,8 +42658,8 @@ if (!FAST) {
             .every((e) => { const q = e.getBoundingClientRect(); return q.left >= box.left - 0.5 && q.right <= box.right + 0.5; });
         return { rows, stacked, inBox, h: Math.round(hr.height), docX: document.documentElement.scrollWidth - innerWidth,
           order: f.map((d) => d.dataset.dim).join('/') };
-      }, nOther287);
-      const judge = (m, openWant) => m.order === 'scale/cls/e/geo/other' && m.rows.length === 5 && m.stacked && m.inBox && m.docX <= 0
+      }, [nOther287, has291eS]);
+      const judge = (m, openWant) => m.order === SEP_ORDER && m.rows.length === N_SEP && m.stacked && m.inBox && m.docX <= 0
         && m.rows.every((x) => x.keyOk && x.sep && x.head && x.n === x.nExp && x.n === x.nChips && x.fullW && x.vis === 1
           && x.headBeforeChips && x.btnOk && x.open === openWant && x.chipsVis === openWant);
       await pg.evaluate(() => showPresetPicker()); await pg.waitForTimeout(60);
@@ -42668,7 +42682,7 @@ if (!FAST) {
       await pg.waitForTimeout(60);
       const m2 = await measure();
       o.enNames = await pg.evaluate(() => [...document.querySelectorAll('#ppFolds .ppFoldName')].map((x) => x.textContent).join('/'));
-      o.enOk = judge(m2, true) && o.enNames.split('/')[4] === 'Other';
+      o.enOk = judge(m2, true) && o.enNames.split('/')[I_OTHER_S] === 'Other';
       const s1 = await pg.evaluate(() => { hidePresetPicker(); HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); } catch (_) {} ppFold = {};
         return { sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
           par: JSON.stringify(HP.sim.params), sel: [...document.querySelectorAll('#presetSelect option')].map((x) => x.value).join(',') }; });
@@ -43474,7 +43488,8 @@ if (!FAST) {
     console.log('SKIP ui.pickerScope(対象に第290便f の区画の表 GROUP_SCOPE なし — root 等)');
   } else {
     // この場で書いた対応表(GROUP_SCOPE を写さない)
-    const OUT = ['スピンと熱', '自転と減光', '腕と渦伸長(軸力)'], CAL = ['現実較正', '現実との照合'];
+    // 第291便e(原仮定者の裁定(第81報)⑦・R136): 「現実較正」の表示の 2 見出し(現実較正・太陽系/現実較正・連星)も較正の区画(表に無い世代では効かない)
+    const OUT = ['スピンと熱', '自転と減光', '腕と渦伸長(軸力)'], CAL = ['現実較正', '現実との照合', '現実較正・太陽系', '現実較正・連星'];
     const AXB = ['axisBarStill', 'axisBarArms', 'axisBarReach'];
     const ctx = await browser.newContext({ viewport: { width: 360, height: 640 }, isMobile: true, hasTouch: true });
     const pg = await ctx.newPage();
@@ -43512,7 +43527,9 @@ if (!FAST) {
         && /DFM の公理の帰結ではない/.test(nj) && /physics\.axisForce/.test(nj) && /NOT A CONSEQUENCE OF THE DFM AXIOMS/.test(ne) && /physics\.axisForce/.test(ne)
         && GROUP_ORDER.indexOf(NG) >= 0;
       // ③ DOM
-      const nameToGroup = (name) => orderedGroups().find((g) => gName(g) === name) || null;
+      // 第291便e: 見出しは表示の群(ppDispGroupsOf —— 「現実較正」は 2 見出し)。無い世代は宣言の群のまま
+      const dispGroups = () => (typeof ppDispGroupsOf === 'function' ? [].concat(...orderedGroups().map(ppDispGroupsOf)) : orderedGroups());
+      const nameToGroup = (name) => dispGroups().find((g) => gName(g) === name) || orderedGroups().find((g) => gName(g) === name) || null;
       const read = () => {
         const list = document.getElementById('ppList');
         const out = { heads: [], seq: [], rowsBy: {}, retBy: {}, groupBad: [], dataN: 0, btn: 0, role: 0 };
@@ -64392,62 +64409,110 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
   }
 }
 
-// ---- 第288便b(原仮定者の裁定(第78報)④・R114): ui.calGroupUnified ----
-// ----   群「現実較正」1 つ(旧 3 名は GROUP_ALIASES で解決・id realityCal)・見出しの下のサブチップ「太陽系/連星」(calTargetOf —— calcontract の
-// ----   targetOf と同じ規則で機械で分ける)・群の説明に「所属は合否を意味しない」・分類チップの語(現実較正/引きずり近似(q))・観測との差の系列の語・
-// ----   在位移行の注記(#unifyNotice)・群のカードの 1 行から 🎻 を外した。root(旧世代)は SKIP。
+// ---- 第291便e(原仮定者の裁定(第81報)⑦「『現実較正』グループを太陽系と連星で分ける」・統括の検証項目 R136): ui.calGroupSplit291 ----
+// ----   第288便b の ui.calGroupUnified(群「現実較正」1 つ+見出しの下のサブチップ)を置き換えた。**宣言の群は「現実較正」1 つのまま**(旧 3 名は GROUP_ALIASES で
+// ----   解決・id realityCal・GROUP_ORDER に 1 回)で、一覧(#ppList)の見出しだけを**表示で** 2 つ(現実較正・太陽系 ☀️ realityCalSolar/現実較正・連星 ⭐ realityCalBinary
+// ----   —— 表 GROUP_DISPLAY_SPLIT・区画はどちらも cal)に分ける:
+// ----     ① 表(分割・id・en 名・絵文字・区画・群の説明 ja/en に「所属は合否を意味しない」)/ ② 旧群名の宣言 0・orderedGroups に「現実較正」1 回 /
+// ----     ③ DOM(「すべて表示」・🛰️ でない較正の本を読み込んだ状態): 見出しは 2 つ・この順で隣り合い・語 = gName・各見出しの件数(.ppGroupCount)= 一覧に出せる本
+// ----        (catalog 非表示・退役を除く)のうち calSubOf が solar/binary の数(この場で数え直す)・各見出しの下の行はその区分の本だけ・
+// ----        サブチップの行(#ppCalSub)と状態(ppCalSub・ppCalSubRow)が無い・**退役の本**(較正の群の退役 1 本)を読み込むと行に残るが件数に入らない /
+// ----     ④ calTargetOf と calcontract の target(較正母集団)/ ⑤ 分類チップ・系列の語 / ⑥ 在位移行の注記 / ⑦ 群のカードの 1 行(⑤〜⑦は第288便b のまま)。
+// ----   root(旧世代 —— GROUP_DISPLAY_SPLIT なし)は SKIP。
 {
-  const html288u = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
-  const has288bU = TARGET.startsWith('beta/') && /^const UNIFY_MIGRATED=/m.test(html288u);
-  if (!has288bU) {
-    console.log('SKIP ui.calGroupUnified(第288便b の一本化の前の世代 — ' + TARGET + ')');
+  const html291c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has291eC = TARGET.startsWith('beta/') && /^const GROUP_DISPLAY_SPLIT=/m.test(html291c);
+  if (!has291eC) {
+    console.log('SKIP ui.calGroupSplit291(第291便e の表示の 2 見出しの前の世代 — ' + TARGET + ')');
   } else {
     const bad = [];
     let CC = null;
     try { CC = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calcontract-w282a.json'), 'utf8')); } catch (e) { bad.push('④calcontract の正本が読めない'); }
     const tgt = {}; for (const z of ((CC || {}).rows || [])) if (z.sampleClass === 'calibration') tgt[z.id] = z.target;
     const gp = await browser.newPage();
+    const errs = [];
+    gp.on('pageerror', (e) => errs.push(String(e.message || e)));
     await gp.goto(INDEX, { waitUntil: 'load' });
     await gp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
     const r = await gp.evaluate(async (tgt) => {
       const o = {}, G = '現実較正', OLD = ['現実との照合・太陽系', '現実との照合・連星', '現実との照合・太陽系外'];
+      const SOL = '現実較正・太陽系', BIN = '現実較正・連星';
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
       const ps = HP.allPresets();
-      o.order = GROUP_ORDER.includes(G) && !GROUP_ORDER.includes(OLD[0]) && !GROUP_ORDER.includes(OLD[1]);
+      // ① 表
+      o.order = GROUP_ORDER.includes(G) && !GROUP_ORDER.includes(OLD[0]) && !GROUP_ORDER.includes(OLD[1]) && !GROUP_ORDER.includes(SOL) && !GROUP_ORDER.includes(BIN);
       o.alias = OLD.every((g) => GROUP_ALIASES[g] === G && gCanon(g) === G);
       o.gid = groupIdOf(G);
-      o.en = I18N.en.groups[G];
-      o.noteJa = /所属は合否を意味しない/.test((I18N.ja.groupNotes || {})[G] || '');
-      o.noteEn = /MEMBERSHIP SAYS NOTHING ABOUT PASS OR FAIL/.test((I18N.en.groupNotes || {})[G] || '');
-      o.oldDecl = ps.filter((p) => OLD.includes(p.group)).map((p) => p.id);
+      o.split = JSON.stringify(GROUP_DISPLAY_SPLIT) === JSON.stringify({ [G]: { solar: SOL, binary: BIN } })
+        && JSON.stringify(ppDispGroupsOf(G)) === JSON.stringify([SOL, BIN]) && JSON.stringify(ppDispGroupsOf('銀河の力学')) === JSON.stringify(['銀河の力学']);
+      o.ids = [groupIdOf(SOL), groupIdOf(BIN)];
+      o.en = [I18N.en.groups[G], I18N.en.groups[SOL], I18N.en.groups[BIN]];
+      o.icons = [gIcon(SOL), gIcon(BIN)];
+      o.scope = [gScope(SOL), gScope(BIN), gScope(G)];
+      const nj = (I18N.ja.groupNotes || {}), ne = (I18N.en.groupNotes || {});
+      o.noteOk = [G, SOL, BIN].every((k) => /所属は合否を意味しない/.test(nj[k] || '') && /MEMBERSHIP SAYS NOTHING ABOUT PASS OR FAIL/.test(ne[k] || ''))
+        && !/サブチップ/.test(nj[G] || '') && !/sub-chips/.test(ne[G] || '');
+      o.dispFn = ps.filter((p) => gCanon(p.group) === G).every((p) => ppDispGroup(p) === (calSubOf(p) === 'solar' ? SOL : BIN))
+        && ps.filter((p) => gCanon(p.group) !== G).every((p) => ppDispGroup(p) === gCanon(p.group));
+      // ② 宣言
+      o.oldDecl = ps.filter((p) => OLD.includes(p.group) || p.group === SOL || p.group === BIN).map((p) => p.id);
       o.members = ps.filter((p) => gCanon(p.group) === G).length;
       o.groupsOnce = orderedGroups().filter((g) => g === G).length;
       // ④ calTargetOf と calcontract の target(較正母集団)
       o.tgtBad = ps.filter((p) => p.sampleClass === 'calibration' && p.familyRole !== 'retired' && tgt[p.id] !== undefined && tgt[p.id] !== calTargetOf(p))
         .map((p) => p.id + ':' + calTargetOf(p) + '≠' + tgt[p.id]);
       o.tgtN = ps.filter((p) => p.sampleClass === 'calibration' && p.familyRole !== 'retired' && tgt[p.id] !== undefined).length;
-      // ③ サブチップ
-      HP.loadPreset('psrDoubleAB', false); await wait(5);   // 読み込み中の本は一覧に残るので、件数は読み込んだ後に数える
-      const mem = ps.filter((p) => gCanon(p.group) === G && !catalogHidden(p) && !retiredHidden(p));
-      o.nSolar = mem.filter((p) => calSubOf(p) === 'solar').length; o.nBin = mem.filter((p) => calSubOf(p) === 'binary').length; o.nAll = mem.length;
+      // ③ DOM
+      o.noSub = typeof ppCalSubRow === 'undefined' && typeof ppCalSub === 'undefined';
       const sa0 = showAllSamples; setShowAllSamples(true);
-      ppCalSub = 'all'; showPresetPicker(); await wait(30);
-      const row = document.querySelector('#ppCalSub');
-      o.sub = !!row;
-      const chips = row ? [...row.querySelectorAll('.ppChip')] : [];
-      o.subV = chips.map((c) => c.dataset.v).join(',');
-      o.subN = chips.map((c) => Number(c.dataset.n));
-      const names = (f) => mem.filter(f).map((p) => (p.emoji || '') + ' ' + pName(p));
-      const solarNames = names((p) => calSubOf(p) === 'solar'), binNames = names((p) => calSubOf(p) === 'binary');
-      const bodyRows = () => { const r0 = document.querySelector('#ppCalSub'); const body = r0 ? r0.parentElement : null;
-        return body ? [...body.querySelectorAll('.ppRow')].map((b) => b.textContent) : []; };
-      const hit = (rows, nm) => rows.filter((t) => nm.some((n) => t.indexOf(n) >= 0)).length;
-      const click = async (v) => { const c = [...document.querySelectorAll('#ppCalSub .ppChip')].find((z) => z.dataset.v === v); if (c) c.click(); await wait(20); };
-      await click('binary'); { const rs = bodyRows(); o.binSolar = hit(rs, solarNames); o.binBin = hit(rs, binNames); o.binOn = ppCalSub; }
-      await click('solar'); { const rs = bodyRows(); o.solSolar = hit(rs, solarNames); o.solBin = hit(rs, binNames); }
-      o.headKept = !!document.querySelector('#ppCalSub');
-      await click('all'); { const rs = bodyRows(); o.allN = rs.length; }
-      hidePresetPicker(); setShowAllSamples(sa0); ppCalSub = 'all';
+      try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = []; ppTopic = 'all';
+      const readHeads = () => {
+        const list = document.getElementById('ppList');
+        const kids = [...list.children];
+        const heads = kids.filter((e) => e.classList.contains('ppGroupHead'));
+        const nameOf = (h) => [...h.children].filter((e) => !e.classList.contains('ppGroupMark') && !e.classList.contains('ppGroupIcon') && !e.classList.contains('ppGroupCount')).map((e) => e.textContent).join('').trim();
+        return heads.map((h) => ({ h, name: nameOf(h), cnt: +(h.querySelector('.ppGroupCount') || {}).textContent, icon: (h.querySelector('.ppGroupIcon') || {}).textContent || '',
+          idx: kids.indexOf(h), rows: [...h.nextElementSibling.querySelectorAll('.ppRow')].map((b) => b.textContent) }));
+      };
+      const listable = (f) => ps.filter((p) => gCanon(p.group) === G && !catalogHidden(p) && p.familyRole !== 'retired' && f(p));
+      const rowName = (p) => (p.emoji || '') + ' ' + pName(p);
+      const judgeDom = (label, retiredLoaded) => {
+        const hs = readHeads();
+        const hSol = hs.filter((x) => x.name === gName(SOL)), hBin = hs.filter((x) => x.name === gName(BIN));
+        const plain = hs.filter((x) => x.name === gName(G));
+        const sol = listable((p) => calSubOf(p) === 'solar'), bin = listable((p) => calSubOf(p) === 'binary');
+        const solN = sol.map(rowName), binN = bin.map(rowName);
+        const inRows = (rows, names) => rows.filter((t) => names.some((n) => t.indexOf(n) >= 0)).length;
+        const res = { label, nHead: hSol.length + hBin.length, plain: plain.length, nSol: sol.length, nBin: bin.length,
+          cntSol: hSol[0] && hSol[0].cnt, cntBin: hBin[0] && hBin[0].cnt };
+        res.ok = hSol.length === 1 && hBin.length === 1 && plain.length === 0 && hBin[0].idx > hSol[0].idx
+          && hs.indexOf(hBin[0]) === hs.indexOf(hSol[0]) + 1
+          && hSol[0].cnt === sol.length && hBin[0].cnt === bin.length
+          && hSol[0].icon === gIcon(SOL) && hBin[0].icon === gIcon(BIN)
+          && inRows(hSol[0].rows, binN) === 0 && inRows(hBin[0].rows, solN) === 0
+          && inRows(hSol[0].rows, solN) === sol.length && inRows(hBin[0].rows, binN) === bin.length
+          && hSol[0].rows.length === sol.length + (retiredLoaded === 'solar' ? 1 : 0)
+          && hBin[0].rows.length === bin.length + (retiredLoaded === 'binary' ? 1 : 0)
+          && !document.querySelector('#ppCalSub');
+        return res;
+      };
+      HP.loadPreset('psrDoubleAB', false); await wait(5);
+      showPresetPicker(); await wait(30);
+      o.dom1 = judgeDom('psr', null);
+      o.openCur = readHeads().filter((x) => x.h.getAttribute('aria-expanded') === 'true').map((x) => x.name).join(',') === gName(BIN);
+      hidePresetPicker();
+      // 退役の本(較正の群の退役 —— 宣言から引く)を読み込む: 行に残るが件数に入らない
+      const ret = ps.find((p) => gCanon(p.group) === G && p.familyRole === 'retired' && !catalogHidden(p));
+      o.retId = ret ? ret.id : null;
+      if (ret) { HP.loadPreset(ret.id, false); await wait(5); showPresetPicker(); await wait(30); o.dom2 = judgeDom('retired', calSubOf(ret)); hidePresetPicker(); }
+      else o.dom2 = { ok: true, label: 'no-retired' };
+      // en
+      HP.setLang('en'); HP.loadPreset('earthMoonReal', false); await wait(5); showPresetPicker(); await wait(30);
+      o.enHeads = readHeads().filter((x) => /^Reality Calibration/.test(x.name)).map((x) => x.name);
+      o.enOpen = readHeads().filter((x) => x.h.getAttribute('aria-expanded') === 'true').map((x) => x.name).join(',');
+      hidePresetPicker(); HP.setLang('ja');
+      setShowAllSamples(sa0); try { localStorage.removeItem('hp_pick_open'); } catch (_) {} ppOpen = {};
       // ⑤ 語
       const byId = new Map(ps.map((p) => [p.id, p]));
       o.lblKf0 = sampleClassLabel(byId.get('psrDoubleAB'));
@@ -64467,23 +64532,315 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     await gp.close();
     if (r.err) bad.push('ページ: ' + r.err);
     else {
-      if (!(r.order && r.alias && r.gid === 'realityCal' && r.en === 'Reality Calibration')) bad.push(`①表 order=${r.order}・alias=${r.alias}・id=${r.gid}・en=${r.en}`);
-      if (!(r.noteJa && r.noteEn)) bad.push('①群の説明に「所属は合否を意味しない」が無い');
-      if (r.oldDecl.length || r.groupsOnce !== 1) bad.push(`②旧群名の宣言 ${r.oldDecl.join(',')}・見出し ${r.groupsOnce}`);
+      if (!(r.order && r.alias && r.gid === 'realityCal' && r.split)) bad.push(`①表 order=${r.order}・alias=${r.alias}・id=${r.gid}・split=${r.split}`);
+      if (!(r.ids[0] === 'realityCalSolar' && r.ids[1] === 'realityCalBinary')) bad.push('①表示の 2 見出しの id ' + r.ids.join(','));
+      if (!(r.en[0] === 'Reality Calibration' && r.en[1] === 'Reality Calibration — Solar System' && r.en[2] === 'Reality Calibration — Binaries')) bad.push('①en 名 ' + r.en.join(' | '));
+      if (!(r.icons[0] === '☀️' && r.icons[1] === '⭐' && r.scope.every((x) => x === 'cal'))) bad.push(`①絵文字 ${r.icons.join('')}・区画 ${r.scope.join(',')}`);
+      if (!r.noteOk) bad.push('①群の説明(3 つ・ja/en)に「所属は合否を意味しない」が無い・またはサブチップの語が残る');
+      if (!r.dispFn) bad.push('①ppDispGroup が calSubOf と食い違う');
+      if (r.oldDecl.length || r.groupsOnce !== 1) bad.push(`②旧群名・表示名の宣言 ${r.oldDecl.join(',')}・見出し ${r.groupsOnce}`);
       if (r.tgtBad.length || !(r.tgtN > 0)) bad.push(`④calTargetOf ≠ calcontract の target: ${r.tgtBad.join(',')}(照合 ${r.tgtN})`);
-      if (!(r.sub && r.subV === 'all,solar,binary' && r.subN[0] === r.nAll && r.subN[1] === r.nSolar && r.subN[2] === r.nBin && r.nSolar + r.nBin === r.nAll))
-        bad.push(`③サブチップ ${r.sub}・${r.subV}・件数 ${JSON.stringify(r.subN)}(機械 ${r.nAll}/${r.nSolar}/${r.nBin})`);
-      if (!(r.binSolar === 0 && r.binBin > 0 && r.solBin === 0 && r.solSolar > 0 && r.headKept && r.binOn === 'binary')) bad.push(`③絞り込み 連星→太陽系 ${r.binSolar}/連星 ${r.binBin}・太陽系→連星 ${r.solBin}/太陽系 ${r.solSolar}・見出し ${r.headKept}`);
+      if (!r.noSub) bad.push('③サブチップの状態/関数が残る');
+      if (!r.dom1.ok) bad.push('③DOM(🗂 📻 読込)' + JSON.stringify(r.dom1));
+      if (!r.openCur) bad.push('③読み込み中の本(📻)の見出し(連星)だけが開く —— でない');
+      if (!r.dom2.ok) bad.push('③DOM(退役の本 ' + r.retId + ' 読込)' + JSON.stringify(r.dom2));
+      if (!(r.enHeads.join('|') === 'Reality Calibration — Solar System|Reality Calibration — Binaries' && r.enOpen === 'Reality Calibration — Solar System')) bad.push('③en ' + r.enHeads.join('|') + ' 開 ' + r.enOpen);
       if (!(r.lblKf0 === '現実較正' && r.lblDfm === '引きずり近似(q)— 較正母集団の外')) bad.push(`⑤分類の語 ${r.lblKf0} / ${r.lblDfm}`);
       if (r.series !== 'kFrame=1(履歴) / kFrame=0') bad.push('⑤系列の語 ' + r.series);
       if (!(r.notice && r.noticeNone)) bad.push(`⑥在位移行の注記 ${r.notice}・非移行の本に出ない ${r.noticeNone}`);
       if (!r.gcn) bad.push('⑦群のカードの 1 行に 🎻 が残る');
     }
-    add('ui.calGroupUnified', bad.length === 0,
-      `**群「現実較正」1 つ**(第288便b・原仮定者の裁定(第78報)④ —— id ${r && r.gid}・en ${r && r.en}・旧 3 名は別名で解決=${r && r.alias}・所属 ${r && r.members} 本)`
-      + ` / サブチップ 太陽系 ${r && r.nSolar}・連星 ${r && r.nBin}(calTargetOf —— calcontract の target と ${r && r.tgtN} 本で一致)・絞り込み=${r && r.binSolar === 0 && r.solBin === 0}`
-      + ` / 分類チップ「${r && r.lblKf0}」「${r && r.lblDfm}」・系列 ${r && r.series} / 群の説明に「所属は合否を意味しない」=${r && r.noteJa && r.noteEn} / 在位移行の注記=${r && r.notice}`
+    if (errs.length) bad.push('JS ' + errs.slice(0, 2).join(' | '));
+    add('ui.calGroupSplit291', bad.length === 0,
+      `**宣言の群「現実較正」1 つ**(id ${r && r.gid}・旧 3 名は別名で解決=${r && r.alias}・所属 ${r && r.members} 本)を**一覧の表示で 2 見出し**に(第291便e・原仮定者の裁定(第81報)⑦ —— `
+      + `${r && r.icons && r.icons[0]}現実較正・太陽系 ${r && r.dom1 && r.dom1.cntSol} 本・${r && r.icons && r.icons[1]}現実較正・連星 ${r && r.dom1 && r.dom1.cntBin} 本 = calSubOf の数え直し ${r && r.dom1 && r.dom1.nSol}/${r && r.dom1 && r.dom1.nBin}・区画 cal)`
+      + ` / 各見出しの行はその区分だけ=${r && r.dom1 && r.dom1.ok}・サブチップ撤去=${r && r.noSub}・退役の本 ${r && r.retId} を読み込むと行に残り件数に入らない=${r && r.dom2 && r.dom2.ok}・en ${r && r.enHeads && r.enHeads.join(' | ')}`
+      + ` / calTargetOf = calcontract の target(${r && r.tgtN} 本)/ 分類チップ「${r && r.lblKf0}」「${r && r.lblDfm}」・在位移行の注記=${r && r.notice}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第291便e(原仮定者の裁定(第81報)⑦・統括の検証項目 R136): **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。root 等は 3 件とも SKIP。
+// ----   ui.topicChips291 … 題材(表 TOPIC_TAGS): ① 規則の表の key の並び = この場で書いた 9 個(参照模型〜連鎖・多体)・全内蔵で topicTest = **この場で独立に
+// ----     書き写した宣言の規則**(physics.shapeToy / physics.halo か家族に physics.halo / relativeDrag.law inertial / massLedger.darkRotor か lightSweep "auto" /
+// ----     geoPN≥1 / testParticle / physics.spaceMesh / sampleClass calibration / 粒子数 ≥100)・名前・絵文字・群・id を書き換えた複製でも題材が変わらない(名前で判定しない)/
+// ----     ② 絞り込みの次元「題材」(details#ppFold_topic・「その他」の直前)のチップ = 「すべて」+9・語 = T(ppTopic_*)・data-n = 一覧に出せる本(catalog 非表示・退役を除く)
+// ----     のうちその規則を満たす本の数(この場の数え直し)・チップ 1 つの行数 = その件数・再タップで元の行数・geoPN「1」との AND の行数 = 独立の数え直し・ⓘ の説明に
+// ----     各語と件数 / ③ 説明タブ: 全内蔵を開き、#descTopics のチップ(data-topic の並び)= topicsOf・題材の無い本には出ない・分類チップ #classChips の直後・
+// ----     押せない(span)/ ④ en の語 / presetSig・params 不変 / JS エラー 0。
+// ----   ui.holdRemedy … 較正が保留/判定保留の本**すべて**に「保留を解くには」の 1 行(#stHoldRemedy —— #descStatus の直後)があり、保留でない本には無い /
+// ----     既定表 HOLD_REMEDY_RULES の分類が保留の本を**網羅**する(hr_other に落ちる本 0)/ 生成領域 SAMPLE_STATUS の行に holdRemedy がある本は data-src "declared" で
+// ----     文 = 行の文、無い本は "rule:<分類>" で文 = T(hr_<分類>) を「 / 」でつないだもの / 原稿(tests/data-w279a-samplestatus-src.json)の holdRemedy は ja・en の両方・
+// ----     上限・禁止語・合否の約束なし(lib の holdRemedyCheck)・原稿に行がある本は内蔵にあり保留である(生成領域に転記済みなら文が原稿と 1 字も違わない —— 鎖の前は「未転記」と記録)/
+// ----     ja・en の既定表の文が揃う / en の 1 行 / JS エラー 0。
+// ----   ui.pickerListEnd … 一覧(#ppList)の**最後の子**が .ppListEnd(role=separator・data-n なし・1 つだけ・.ppScopeEnd ではない)で、高さ ≥ 一覧の行の 1.4 倍 ——
+// ----     既定・題材の絞り込み・検索・一致 0 の検索・保存一覧ありの 5 状態とも / 一覧を末尾まで送ると最後の行の下端が区切りの上にある(最下段の行が箱の下端に貼り付かない)/
+// ----     presetSig・params 不変 / JS エラー 0。360×640(isMobile・タッチ)。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/^const TOPIC_TAGS=/m.test(html)) {
+    console.log('SKIP ui.topicChips291(対象に第291便e の題材の表 TOPIC_TAGS なし — root 等)');
+  } else {
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const pg = await ctx.newPage();
+    const errs = [];
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    pg.on('dialog', (d) => d.accept());
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+    const snap = () => pg.evaluate(() => ({ sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+      par: JSON.stringify(HP.sim.params) }));
+    await pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = []; ppTopic = 'all';
+      setShowAllSamples(false); HP.loadPreset('saturn', false); });
+    const s0 = await snap();
+    const r = await pg.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const o = { bad: [] };
+      // この場で書いた規則(宣言の鍵だけ —— ページの TOPIC_TAGS を使わない)
+      const ps = BUILTIN_PRESETS;
+      const nOf = (p) => (p.bodies || []).reduce((s, b) => s + (!b ? 0 : ((!b.type || b.type === 'single') ? 1 : (Number.isFinite(b.n) ? b.n : 0))), 0);
+      const MINE = {
+        refModel: (p) => !!(p.physics || {}).shapeToy,
+        dmHalo: (p) => !!(p.physics || {}).halo || (!!p.familyId && ps.some((q) => q.id !== p.id && q.familyId === p.familyId && !!(q.physics || {}).halo)),
+        inertial: (p) => ((p.physics || {}).relativeDrag || {}).law === 'inertial',
+        cloakedDwarf: (p) => !!(p.massLedger || {}).darkRotor || (p.bodies || []).some((b) => b && b.lightSweep === 'auto'),
+        pn1Geo: (p) => ((p.physics || {}).geoPN || 0) >= 1,
+        testParticle: (p) => (p.bodies || []).some((b) => b && b.testParticle === true),
+        spaceMesh: (p) => !!(p.physics || {}).spaceMesh,
+        obsCal: (p) => p.sampleClass === 'calibration',
+        manyBody: (p) => nOf(p) >= 100 };
+      const KEYS = Object.keys(MINE);
+      o.keys = TOPIC_TAGS.map((t) => t.key).join(',');
+      o.keysOk = o.keys === KEYS.join(',');
+      o.ruleBad = [];
+      for (const p of ps) for (const k of KEYS) if (topicTest(k, p) !== MINE[k](p)) o.ruleBad.push(p.id + ':' + k);
+      // 名前・絵文字・群・id を書き換えても題材は変わらない
+      o.nameBad = ps.filter((p) => { const c = Object.assign({}, p, { name: 'zz', emoji: '❓', group: '架空のグループ', id: 'zz_' + p.id, en: { name: 'zz' } });
+        return topicsOf(c).join(',') !== topicsOf(p).join(','); }).map((p) => p.id);
+      const listable = (f) => ps.filter((p) => !catalogHidden(p) && p.familyRole !== 'retired' && f(p));
+      o.counts = KEYS.map((k) => k + ' ' + listable(MINE[k]).length).join('・');
+      // ② 絞り込みの次元
+      showPresetPicker(); await wait(40);
+      const fold = document.getElementById('ppFold_topic');
+      const folds = [...document.querySelectorAll('#ppFolds > details.ppFold')].map((d) => d.dataset.dim);
+      o.foldPos = !!fold && folds.indexOf('topic') === folds.indexOf('other') - 1;
+      const chips = [...document.querySelectorAll('#ppTopicRow .ppChip')];
+      o.chipV = chips.map((c) => c.dataset.v).join(',');
+      o.chipOk = o.chipV === ['all'].concat(KEYS).join(',')
+        && chips.slice(1).every((c) => c.textContent === HP.T('ppTopic_' + c.dataset.v) + '(' + c.dataset.n + ')' && +c.dataset.n === listable(MINE[c.dataset.v]).length
+          && c.getAttribute('aria-pressed') === 'false' && !!c.title)
+        && chips[0].getAttribute('aria-pressed') === 'true' && +fold.dataset.n === KEYS.length;
+      const nRows = () => document.querySelectorAll('#ppList .ppRow').length;
+      const rows0 = nRows();
+      o.tapBad = [];
+      for (const k of KEYS) {
+        const c = [...document.querySelectorAll('#ppTopicRow .ppChip')].find((z) => z.dataset.v === k); c.click(); await wait(15);
+        const n = nRows(), want = listable(MINE[k]).length;
+        const on = [...document.querySelectorAll('#ppTopicRow .ppChip')].find((z) => z.dataset.v === k);
+        const sum = document.querySelector('#ppFold_topic > summary .ppFoldSel');
+        if (!(n === want && on.getAttribute('aria-pressed') === 'true' && sum.textContent === HP.T('ppTopic_' + k) && sum.dataset.on === '1')) o.tapBad.push(k + ':' + n + '≠' + want);
+        on.click(); await wait(15);
+        if (nRows() !== rows0 || ppTopic !== 'all') o.tapBad.push(k + ':解除');
+      }
+      // AND(観測較正 ∧ geoPN 1)
+      ppTopic = 'obsCal'; ppGeo = '1'; showPresetPicker(true); await wait(30);
+      o.andGot = nRows(); o.andExp = listable((p) => MINE.obsCal(p) && String(ppGeoBucketOf(p)) === '1').length;
+      o.andOnly = listable(MINE.obsCal).length;
+      ppTopic = 'all'; ppGeo = 'all'; showPresetPicker(true); await wait(30);
+      // ⓘ
+      const note = document.getElementById('ppTopicNote');
+      o.noteOk = !!note && KEYS.every((k) => note.textContent.indexOf(HP.T('ppTopic_' + k) + '(' + listable(MINE[k]).length + ')') >= 0);
+      hidePresetPicker();
+      // ③ 説明タブ(全内蔵)
+      const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
+      o.descBad = []; o.descN = 0; o.descWith = 0;
+      for (const p of ps) {
+        HP.loadPreset(p.id, false); o.descN++;
+        const box = document.getElementById('descTopics');
+        const want = KEYS.filter((k) => MINE[k](p));
+        if (!want.length) { if (box) o.descBad.push(p.id + ':出た'); continue; }
+        o.descWith++;
+        const got = box ? [...box.querySelectorAll('.topicChip')] : [];
+        const cc = document.getElementById('classChips');
+        if (!(box && got.map((c) => c.dataset.topic).join(',') === want.join(',') && got.every((c) => c.tagName === 'SPAN' && c.textContent === HP.T('ppTopic_' + c.dataset.topic))
+          && cc && cc.nextElementSibling === box && box.querySelectorAll('button').length === 0)) o.descBad.push(p.id);
+      }
+      // ④ en
+      HP.setLang('en'); HP.loadPreset('ngc3198', false); await wait(5);
+      o.en = [...document.querySelectorAll('#descTopics .topicChip')].map((c) => c.textContent).join('|');
+      o.enDim = HP.T('ppDimTopic');
+      HP.setLang('ja'); HP.loadPreset('saturn', false);
+      return o;
+    });
+    const s1 = await snap();
+    r.same = s1.sig === s0.sig && s1.par === s0.par;
+    const andOk = r.andGot === r.andExp && r.andExp > 0 && r.andExp < r.andOnly;
+    const enOk = r.enDim === 'Topic' && /Dark-matter halo/.test(r.en);
+    // tests/README の規則表(§4)に表の key が 1 行ずつある(文書と表の同期)
+    const RD = fs.readFileSync(path.join(ROOT, 'tests', 'README.md'), 'utf8');
+    r.readmeOk = r.keys.split(',').every((k) => RD.indexOf('| ' + k + ' |') >= 0);
+    const ok = r.readmeOk && r.keysOk && r.ruleBad.length === 0 && r.nameBad.length === 0 && r.foldPos && r.chipOk && r.tapBad.length === 0 && andOk && r.noteOk
+      && r.descBad.length === 0 && r.descWith > 0 && enOk && r.same && errs.length === 0;
+    add('ui.topicChips291', ok,
+      `**題材**(原仮定者の裁定(第81報)⑦・R136 —— 表 TOPIC_TAGS・宣言の鍵だけ): key [${r.keys}]=${r.keysOk}・全内蔵でこの場の規則と一致(不一致 ${r.ruleBad.length})・名前/絵文字/群/id を変えても不変(${r.nameBad.length})`
+      + ` / 件数 ${r.counts} / 次元「題材」が「その他」の前=${r.foldPos}・チップ 1+9・data-n=数え直し=${r.chipOk}・チップ 1 つの行数=件数・再タップで解除(NG ${r.tapBad.length})`
+      + `・観測較正∧geoPN1 ${r.andGot}=${r.andExp}(<${r.andOnly})・ⓘ 語と件数=${r.noteOk}`
+      + ` / 説明タブ ${r.descN} 本(題材あり ${r.descWith})の #descTopics = topicsOf・#classChips の直後・押せない(NG ${r.descBad.length})/ en「${r.en}」=${enOk}・tests/README の規則表=${r.readmeOk}・presetSig/params 不変=${r.same}`
+      + (r.ruleBad.length + r.nameBad.length + r.tapBad.length + r.descBad.length ? '・NG ' + [].concat(r.ruleBad, r.nameBad, r.tapBad, r.descBad).slice(0, 5).join(' ') : '')
+      + (errs.length ? '・JS ' + errs.slice(0, 2).join(' | ') : ''));
+    await ctx.close();
+  }
+}
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/^const HOLD_REMEDY_RULES=/m.test(html)) {
+    console.log('SKIP ui.holdRemedy(対象に第291便e の保留の解き方 HOLD_REMEDY_RULES なし — root 等)');
+  } else {
+    const SS = await import('file://' + path.join(ROOT, 'tests', 'lib-w279a-samplestatus.mjs'));
+    const src = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'), 'utf8'));
+    const srcRows = Object.entries(src.rows || {}).filter(([, z]) => z.holdRemedy !== undefined || (z.en || {}).holdRemedy !== undefined)
+      .map(([id, z]) => ({ id, ja: z.holdRemedy, en: (z.en || {}).holdRemedy }));
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const pg = await ctx.newPage();
+    const errs = [];
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+    const r = await pg.evaluate(async (srcRows) => {
+      const o = { bad: [], rows: [] };
+      HP.setLang('ja');
+      const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
+      const HOLD = ['hold', 'hold-definition'];
+      o.ruleKeys = HOLD_REMEDY_RULES.map((x) => x.key).join(',');
+      o.textsOk = HOLD_REMEDY_RULES.map((x) => x.key).concat(['other']).every((k) => typeof I18N.ja['hr_' + k] === 'string' && I18N.ja['hr_' + k].length > 0
+        && typeof I18N.en['hr_' + k] === 'string' && I18N.en['hr_' + k].length > 0);
+      o.nHold = 0; o.nDeclared = 0; o.nRule = 0; o.other = [];
+      // 保留でない本: 純関数は null(全内蔵)・画面は代表 3 本(較正の合/否・較正対象外)で無いことを見る
+      const nonHold = BUILTIN_PRESETS.filter((p) => p.status && HOLD.indexOf(p.status.calibration) < 0);
+      for (const p of nonHold) if (holdRemedyOf(p) !== null) o.bad.push(p.id + ':保留でないのに文がある');
+      for (const cal of ['pass-limited', 'fail', 'out-of-scope']) {
+        const p = nonHold.find((q) => q.status.calibration === cal); if (!p) continue;
+        HP.loadPreset(p.id, false);
+        if (document.getElementById('stHoldRemedy')) o.bad.push(p.id + ':保留でないのに出た');
+      }
+      for (const p of BUILTIN_PRESETS) {
+        const st = p.status; if (!st) continue;
+        const hold = HOLD.indexOf(st.calibration) >= 0;
+        if (!hold) continue;
+        HP.loadPreset(p.id, false);
+        const el = document.getElementById('stHoldRemedy');
+        o.nHold++;
+        const cls = holdRemedyClassOf(p);
+        if (cls.indexOf('other') >= 0) o.other.push(p.id);
+        const row = SAMPLE_STATUS[p.id] || {};
+        const want = row.holdRemedy ? { src: 'declared', text: row.holdRemedy } : { src: 'rule:' + cls.join('+'), text: cls.map((k) => HP.T('hr_' + k)).join(' / ') };
+        if (want.src === 'declared') o.nDeclared++; else o.nRule++;
+        const box = document.getElementById('descStatus');
+        const okDom = !!el && !!box && box.nextElementSibling === el && el.dataset.src === want.src
+          && el.textContent === HP.T('stHoldRemedyHead') + ':' + want.text && !!el.title;
+        if (!okDom) o.bad.push(p.id + ':' + (el ? el.dataset.src + '≠' + want.src : '無い'));
+        o.rows.push({ id: p.id, emoji: p.emoji, src: want.src, text: want.text, retired: p.familyRole === 'retired', cal: st.calibration });
+      }
+      // 原稿 ↔ 内蔵・生成領域
+      o.srcBad = []; o.transcribed = 0;
+      for (const z of srcRows) {
+        const p = BUILTIN_PRESETS.find((q) => q.id === z.id);
+        if (!p) { o.srcBad.push(z.id + ':内蔵に無い'); continue; }
+        if (HOLD.indexOf((p.status || {}).calibration) < 0) { o.srcBad.push(z.id + ':保留でない(原稿の行が転記されない)'); continue; }
+        const row = SAMPLE_STATUS[z.id] || {};
+        if (row.holdRemedy !== undefined || (row.en || {}).holdRemedy !== undefined) {
+          o.transcribed++;
+          if (row.holdRemedy !== z.ja || (row.en || {}).holdRemedy !== z.en) o.srcBad.push(z.id + ':生成領域の文が原稿と違う');
+        }
+      }
+      // en
+      HP.setLang('en'); HP.loadPreset('earthMoonReal', false);
+      const ee = document.getElementById('stHoldRemedy');
+      o.en = ee ? ee.textContent : null;
+      o.enOk = !!ee && ee.textContent.indexOf('To lift the hold:') === 0;
+      HP.setLang('ja'); HP.loadPreset('saturn', false);
+      return o;
+    }, srcRows);
+    const bad = r.bad.slice();
+    for (const z of srcRows) for (const e of SS.holdRemedyCheck(z.id, z.ja, z.en)) bad.push('原稿 ' + e);
+    for (const x of r.rows) if (SS.HOLD_REMEDY_PROMISE.test(x.text) || SS.FORBIDDEN.test(x.text)) bad.push(x.id + ':約束/禁止語');
+    const rulesTxt = await pg.evaluate(() => Object.keys(I18N.ja).filter((k) => /^hr_/.test(k)).map((k) => I18N.ja[k] + ' ' + I18N.en[k]).join('\n'));
+    if (SS.HOLD_REMEDY_PROMISE.test(rulesTxt) || SS.FORBIDDEN.test(rulesTxt)) bad.push('既定表の文に約束/禁止語');
+    await ctx.close();
+    const regen = r.transcribed > 0 ? `生成領域に転記 ${r.transcribed}/${srcRows.length}` : `生成領域は未転記(鎖の samplestatus の段の前 —— 原稿 ${srcRows.length} 行)`;
+    const ok = bad.length === 0 && r.other.length === 0 && r.srcBad.length === 0 && r.textsOk && r.nHold > 0 && r.enOk && errs.length === 0
+      && (r.transcribed === 0 || r.transcribed === srcRows.length);
+    add('ui.holdRemedy', ok,
+      `**保留の解き方**(原仮定者の裁定(第81報)⑦・R136): 保留/判定保留 ${r.nHold} 本すべてに #stHoldRemedy(#descStatus の直後)・保留でない本には無い / 既定表 [${r.ruleKeys}] が網羅(hr_other に落ちる本 ${r.other.length})`
+      + ` / 出所 原稿 ${r.nDeclared}・既定表 ${r.nRule}・${regen}・原稿の検査(ja/en・上限・禁止語・約束なし・内蔵にあり保留)=${r.srcBad.length === 0}`
+      + ` / en「${(r.en || '').slice(0, 40)}…」=${r.enOk}`
+      + ` / ${r.rows.map((x) => x.emoji + (x.src === 'declared' ? '原' : '既')).join('')}`
+      + (bad.length + r.srcBad.length + r.other.length ? ' / NG ' + [].concat(bad, r.srcBad, r.other).slice(0, 5).join(' , ') : '')
+      + (errs.length ? '・JS ' + errs.slice(0, 2).join(' | ') : ''));
+  }
+}
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/className="ppListEnd"/.test(html)) {
+    console.log('SKIP ui.pickerListEnd(対象に第291便e の一覧の最下段の区切りなし — root 等)');
+  } else {
+    const ctx = await browser.newContext({ viewport: { width: 360, height: 640 }, isMobile: true, hasTouch: true });
+    const pg = await ctx.newPage();
+    const errs = [];
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    pg.on('dialog', (d) => d.accept());
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+    const snap = () => pg.evaluate(() => ({ sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+      par: JSON.stringify(HP.sim.params) }));
+    await pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = []; ppTopic = 'all';
+      setShowAllSamples(false); HP.loadPreset('saturn', false); });
+    const s0 = await snap();
+    const r = await pg.evaluate(async () => {
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const saves0 = localStorage.getItem('hp_saves');
+      const judge = (label) => {
+        const list = document.getElementById('ppList');
+        const last = list.lastElementChild;
+        const all = list.querySelectorAll('.ppListEnd');
+        const vis = [...list.querySelectorAll('.ppRow')].filter((x) => x.offsetParent !== null);
+        // 行の高さ = 一覧の行(.ppRow)の最小の高さ(min-height —— 1 行の行。折り返した行は高くなるので基準にしない)
+        const rowH = vis.length ? parseFloat(getComputedStyle(vis[0]).minHeight) || vis[0].getBoundingClientRect().height : 40;
+        const h = last ? last.getBoundingClientRect().height : 0;
+        // 末尾まで送る → 最後に見える行の下端が区切りの上
+        list.scrollTop = list.scrollHeight;
+        const lr = list.getBoundingClientRect(), er = last ? last.getBoundingClientRect() : null;
+        const lastRow = vis.length ? vis[vis.length - 1].getBoundingClientRect() : null;
+        const res = { label, isEnd: !!last && last.classList.contains('ppListEnd') && !last.classList.contains('ppScopeEnd'), n: all.length,
+          role: last ? last.getAttribute('role') : null, dataN: last ? last.hasAttribute('data-n') : null, h: Math.round(h), rowH: Math.round(rowH),
+          rows: vis.length, gap: lastRow && er ? Math.round(lr.bottom - lastRow.bottom) : null };
+        res.ok = res.isEnd && res.n === 1 && res.role === 'separator' && res.dataN === false && h >= 1.4 * rowH
+          && (!lastRow || (lastRow.bottom <= er.top + 0.5 && lr.bottom - lastRow.bottom >= 1.4 * rowH - 0.5));
+        return res;
+      };
+      const out = [];
+      showPresetPicker(); await wait(40);
+      out.push(judge('既定'));
+      ppTopic = 'refModel'; showPresetPicker(true); await wait(30); out.push(judge('題材 参照模型'));
+      ppTopic = 'all'; ppSearch = '水星'; showPresetPicker(true); await wait(30); out.push(judge('検索 水星'));
+      ppSearch = 'zzqqxx'; showPresetPicker(true); await wait(30); out.push(judge('検索 一致 0'));
+      ppSearch = ''; ppFilterSig = null;
+      localStorage.setItem('hp_saves', JSON.stringify([{ name: 'qa-w291e', preset: 'saturn' }]));
+      showPresetPicker(true); await wait(30); out.push(judge('保存一覧あり'));
+      out.push({ label: '保存一覧の群が区切りの上', ok: [...document.querySelectorAll('#ppList .ppGroupHead')].some((h) => h.textContent.indexOf(gName('保存一覧')) >= 0) });
+      if (saves0 === null) localStorage.removeItem('hp_saves'); else localStorage.setItem('hp_saves', saves0);
+      hidePresetPicker();
+      return out;
+    });
+    const s1 = await snap();
+    const same = s1.sig === s0.sig && s1.par === s0.par;
+    const ok = r.every((x) => x.ok) && same && errs.length === 0;
+    add('ui.pickerListEnd', ok,
+      `**一覧の最下段の区切り**(原仮定者の裁定(第81報)⑦・R136 —— 360×640): ` + r.map((x) => `${x.label}=${x.ok}` + (x.h !== undefined ? `(最後の子 .ppListEnd=${x.isEnd}・${x.n} 個・role ${x.role}・data-n なし=${x.dataN === false}・高さ ${x.h}px ≥ 行 ${x.rowH}px×1.4・末尾の行の下の余白 ${x.gap}px)` : '')).join(' / ')
+      + `・presetSig/params 不変=${same}` + (errs.length ? '・JS ' + errs.slice(0, 2).join(' | ') : ''));
+    await ctx.close();
   }
 }
 
