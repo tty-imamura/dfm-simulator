@@ -4,7 +4,7 @@
   "wave": "第276便b",
   "target": "beta/index.html",
   "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-  "generatedAt": "2026-10-03T01:40:18.476Z",
+  "generatedAt": "2026-10-03T02:15:52.198Z",
   "inputs": [
    {
     "file": "beta/index.html",
@@ -101,9 +101,9 @@
   "canonicalRun": true,
   "canonicalRunWhy": "",
   "pilot": false,
-  "stage": "h2",
-  "dt": 0.008,
-  "stepsRequested": 41400000,
+  "stage": "h4",
+  "dt": 0.004,
+  "stepsRequested": 82800000,
   "contract": {
    "stepH": 20700000,
    "orbMax": 60,
@@ -159,7 +159,8 @@
   },
   "stagesPresent": [
    "h",
-   "h2"
+   "h2",
+   "h4"
   ],
   "observation": {
    "error": "TypeError: Cannot read properties of undefined (reading 'quantities')"
@@ -870,7 +871,8 @@
   ],
   "stableHashVersion": "w282e-stable-1",
   "carriedStages": [
-   "h"
+   "h",
+   "h2"
   ]
  },
  "declaredSystems": [
@@ -1471,7 +1473,236 @@
    ]
   }
  ],
- "stageOrders": {},
+ "stageOrders": {
+  "E_base_e0.05": {
+   "stages": [
+    551864.061362921,
+    551864.0612657347,
+    551864.0612403541
+   ],
+   "d1": -0.00009718630462884903,
+   "d2": -0.000025380635634064674,
+   "sameSign": true,
+   "pObs": 1.9370248248263864,
+   "epsHat": 0.000008971111532098443,
+   "epsHatSigma": null,
+   "assessedValue": 551864.0612403541,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_base_e0.025": {
+   "stages": [
+    551855.9777986223,
+    551855.9776993537,
+    551855.9776761268
+   ],
+   "d1": -0.00009926862549036741,
+   "d2": -0.00002322695218026638,
+   "sameSign": true,
+   "pObs": 2.095537959004653,
+   "epsHat": 0.0000070946795894971105,
+   "epsHatSigma": null,
+   "assessedValue": 551855.9776761268,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_base_e0.0125": {
+   "stages": [
+    551853.9568779507,
+    551853.956779489,
+    551853.9567558126
+   ],
+   "d1": -0.00009846175089478493,
+   "d2": -0.00002367631532251835,
+   "sameSign": true,
+   "pObs": 2.056118818588316,
+   "epsHat": 0.0000074956828553820485,
+   "epsHatSigma": null,
+   "assessedValue": 551853.9567558126,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_base_e0.01": {
+   "stages": [
+    551853.714366802,
+    551853.7142681326,
+    551853.7142444213
+   ],
+   "d1": -0.00009866943582892418,
+   "d2": -0.00002371123991906643,
+   "sameSign": true,
+   "pObs": 2.0570321530260083,
+   "epsHat": 0.000007500485993228012,
+   "epsHatSigma": null,
+   "assessedValue": 551853.7142444213,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_base_e0.005": {
+   "stages": [
+    551853.714366802,
+    551853.7142681326,
+    551853.7142444213
+   ],
+   "d1": -0.00009866943582892418,
+   "d2": -0.00002371123991906643,
+   "sameSign": true,
+   "pObs": 2.0570321530260083,
+   "epsHat": 0.000007500485993228012,
+   "epsHatSigma": null,
+   "assessedValue": 551853.7142444213,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_diag_e0.5": {
+   "stages": [
+    551864.0607194003,
+    551864.060622299,
+    551864.0605971332
+   ],
+   "d1": -0.00009710132144391537,
+   "d2": -0.000025165732949972153,
+   "sameSign": true,
+   "pObs": 1.9480303124713605,
+   "epsHat": 0.000008803905384921366,
+   "epsHatSigma": null,
+   "assessedValue": 551864.0605971332,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_diag_e0.25": {
+   "stages": [
+    551855.9771551767,
+    551855.9770558329,
+    551855.9770325993
+   ],
+   "d1": -0.00009934382978826761,
+   "d2": -0.000023233587853610516,
+   "sameSign": true,
+   "pObs": 2.0962184050006196,
+   "epsHat": 0.000007092338571395847,
+   "epsHatSigma": null,
+   "assessedValue": 551855.9770325993,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_diag_e0.125": {
+   "stages": [
+    551853.9562344699,
+    551853.9561360434,
+    551853.956111989
+   ],
+   "d1": -0.00009842647705227137,
+   "d2": -0.000024054432287812233,
+   "sameSign": true,
+   "pObs": 2.0327437070103223,
+   "epsHat": 0.000007780016194545349,
+   "epsHatSigma": null,
+   "assessedValue": 551853.956111989,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_diag_e0.1": {
+   "stages": [
+    551853.7137232482,
+    551853.7136247085,
+    551853.7136011053
+   ],
+   "d1": -0.00009853974916040897,
+   "d2": -0.000023603206500411034,
+   "sameSign": true,
+   "pObs": 2.0617229358608724,
+   "epsHat": 0.000007434441693270679,
+   "epsHatSigma": null,
+   "assessedValue": 551853.7136011053,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_diag_e0.05": {
+   "stages": [
+    551853.3903746105,
+    551853.3902759864,
+    551853.390252582
+   ],
+   "d1": -0.0000986241502687335,
+   "d2": -0.00002340436913073063,
+   "sameSign": true,
+   "pObs": 2.0751630876782032,
+   "epsHat": 0.000007282186761518676,
+   "epsHatSigma": null,
+   "assessedValue": 551853.390252582,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_diag_e0.02": {
+   "stages": [
+    551853.2998370009,
+    551853.2997384808,
+    551853.2997146513
+   ],
+   "d1": -0.00009852007497102022,
+   "d2": -0.000023829517886042595,
+   "sameSign": true,
+   "pObs": 2.0476679621769316,
+   "epsHat": 0.000007602646771467631,
+   "epsHatSigma": null,
+   "assessedValue": 551853.2997146513,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  },
+  "E_diag_e0.01": {
+   "stages": [
+    551853.2869029756,
+    551853.2868046316,
+    551853.2867808652
+   ],
+   "d1": -0.0000983440550044179,
+   "d2": -0.000023766420781612396,
+   "sameSign": true,
+   "pObs": 2.0489131927507556,
+   "epsHat": 0.0000075738894462802795,
+   "epsHatSigma": null,
+   "assessedValue": 551853.2867808652,
+   "assessedStage": "h4",
+   "residPct": null,
+   "sigma": null,
+   "orderEstimable": true,
+   "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
+  }
+ },
  "fLinearAtKF": {
   "0": 1,
   "1": 1.0023959681426156,
@@ -1664,6 +1895,96 @@
     "oscA": 19.595999652843915,
     "oscE": 0.000013705497923745683,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_base_e0.05",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.05,
+     "units": null
+    },
+    "note": "ε=0.05(50 km・単位=base)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 91.868,
+    "revSec": [
+     551863.6612425297,
+     551864.0612403541,
+     551864.0612403629,
+     551864.0612406394,
+     551864.0612408024,
+     551864.0612411501,
+     551864.061241121,
+     551864.0612409683
+    ],
+    "revN": 60,
+    "rev2Sec": 551864.0612403541,
+    "periASec": 551858.6722382181,
+    "periBSec": 813265.4105263158,
+    "oscSec": 551853.2832704593,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.0035154498802522044,
+    "precessResidDegA": 5.505110969622162e-7,
+    "precessDegPerRevB": -0.005114257801477526,
+    "precessResidDegB": 0.0051355173827007244,
+    "eProxy": 0.000010009871301438336,
+    "eProxy1": 0.00001000987114479925,
+    "rMin": 19.595994857200452,
+    "rMax": 19.59638716790052,
+    "ledger": {
+     "Lrel": 5.494497686895494e-14,
+     "Pabs": 8.761041574133987e-21,
+     "Prel": 1.3886187467849383e-15,
+     "Erel": 2.7604686932185244e-13,
+     "E0": -3.519115843511486e-8,
+     "E1": -3.5191158435105146e-8,
+     "cmMax": 0.000015142569280464789,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82779609,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.05,
+     "mA": 0.001303000026382506,
+     "mB": 0.00015859999984968454,
+     "D0": 0.006,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 19.595999652236447,
+    "oscE": 0.000012752870640462285,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
   },
@@ -1839,6 +2160,96 @@
     ],
     "oscA": 19.595999649347004,
     "oscE": 0.000006572167673648382,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_base_e0.025",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.025,
+     "units": null
+    },
+    "note": "ε=0.025(25 km・単位=base)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 88.993,
+    "revSec": [
+     551855.5776773173,
+     551855.9776761268,
+     551855.9776762439,
+     551855.9776762577,
+     551855.9776763006,
+     551855.9776762777,
+     551855.9776762514,
+     551855.9776762726
+    ],
+    "revN": 60,
+    "rev2Sec": 551855.9776761268,
+    "periASec": 551854.6306634062,
+    "periBSec": 1307024.050877193,
+    "oscSec": 551853.283122391,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.0008789941750435673,
+    "precessResidDegA": 0.000001620273583286472,
+    "precessDegPerRevB": -0.0019515420265252676,
+    "precessResidDegB": 0.0016155410745915676,
+    "eProxy": 0.0000033254012046724917,
+    "eProxy1": 0.0000033254004434939095,
+    "rMin": 19.595982325096777,
+    "rMax": 19.596112654536636,
+    "ledger": {
+     "Lrel": 3.7664242967424803e-13,
+     "Pabs": 2.7641981348887036e-21,
+     "Prel": 4.3812340318837446e-16,
+     "Erel": 7.55928471556851e-13,
+     "E0": -3.519133026557091e-8,
+     "E1": -3.519133026559751e-8,
+     "cmMax": 0.000015142569201315591,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82778396,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.025,
+     "mA": 0.001303000026382506,
+     "mB": 0.00015859999984968454,
+     "D0": 0.006,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 19.595999648731198,
+    "oscE": 0.00000424131380458443,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
@@ -2016,6 +2427,96 @@
     "oscA": 19.595999649117775,
     "oscE": 0.000005847436225773338,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_base_e0.0125",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.0125,
+     "units": null
+    },
+    "note": "ε=0.0125(12.5 km・単位=base)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 90.394,
+    "revSec": [
+     551853.5567565244,
+     551853.9567558126,
+     551853.956755729,
+     551853.956755987,
+     551853.9567558928,
+     551853.956755835,
+     551853.9567560002,
+     551853.9567558852
+    ],
+    "revN": 60,
+    "rev2Sec": 551853.9567558126,
+    "periASec": 551853.6200628006,
+    "periBSec": 813257.9824561403,
+    "oscSec": 551853.2831131014,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.00022047095712998625,
+    "precessResidDegA": 0.000004996578776738128,
+    "precessDegPerRevB": -0.0003397650809459588,
+    "precessResidDegB": 0.0006820802250959964,
+    "eProxy": 0.0000023529175634186005,
+    "eProxy1": 0.0000023529172378978872,
+    "rMin": 19.59596550106437,
+    "rMax": 19.596057716664145,
+    "ledger": {
+     "Lrel": 1.547078172231751e-13,
+     "Pabs": 2.179278404557735e-21,
+     "Prel": 3.4541404939418686e-16,
+     "Erel": 3.1402960360654377e-13,
+     "E0": -3.519137322338156e-8,
+     "E1": -3.519137322339261e-8,
+     "cmMax": 0.000015142570091650672,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82778093,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.0125,
+     "mA": 0.001303000026382506,
+     "mB": 0.00015859999984968454,
+     "D0": 0.006,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 19.595999648511306,
+    "oscE": 0.0000029979573006103034,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
   },
@@ -2191,6 +2692,96 @@
     ],
     "oscA": 19.595999649126814,
     "oscE": 0.000005817432087335085,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_base_e0.01",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.01,
+     "units": null
+    },
+    "note": "ε=0.01(10 km・単位=base)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 92.346,
+    "revSec": [
+     551853.3142451395,
+     551853.7142444213,
+     551853.7142445164,
+     551853.7142443216,
+     551853.714244426,
+     551853.71424476,
+     551853.7142447858,
+     551853.7142448338
+    ],
+    "revN": 60,
+    "rev2Sec": 551853.7142444213,
+    "periASec": 551853.5038724735,
+    "periBSec": 813257.8701754387,
+    "oscSec": 551853.2831131121,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.00013964428621793387,
+    "precessResidDegA": 0.000010217631942699815,
+    "precessDegPerRevB": -0.00018496543412236562,
+    "precessResidDegB": 0.0006106780776170592,
+    "eProxy": 0.000002307416806851214,
+    "eProxy1": 0.000002307416094895407,
+    "rMin": 19.59596208699495,
+    "rMax": 19.596052519308145,
+    "ledger": {
+     "Lrel": 2.9756475708245794e-13,
+     "Pabs": 2.56115615972502e-21,
+     "Prel": 4.0594139712085924e-16,
+     "Erel": 6.062462836667008e-13,
+     "E0": -3.5191378378324125e-8,
+     "E1": -3.519137837830279e-8,
+     "cmMax": 0.000015142568482519856,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82778057,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.01,
+     "mA": 0.001303000026382506,
+     "mB": 0.00015859999984968454,
+     "D0": 0.006,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 19.595999648511583,
+    "oscE": 0.000002939003635437864,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
@@ -2369,6 +2960,97 @@
     ],
     "oscA": 19.595999649126814,
     "oscE": 0.000005817432087335085,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_base_e0.005",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.005,
+     "units": null
+    },
+    "note": "ε=0.005(5 km・単位=base)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 90.299,
+    "revSec": [
+     551853.3142451395,
+     551853.7142444213,
+     551853.7142445164,
+     551853.7142443216,
+     551853.714244426,
+     551853.71424476,
+     551853.7142447858,
+     551853.7142448338
+    ],
+    "revN": 60,
+    "rev2Sec": 551853.7142444213,
+    "periASec": 551853.5038724735,
+    "periBSec": 813257.8701754387,
+    "oscSec": 551853.2831131121,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.00013964428621793387,
+    "precessResidDegA": 0.000010217631942699815,
+    "precessDegPerRevB": -0.00018496543412236562,
+    "precessResidDegB": 0.0006106780776170592,
+    "eProxy": 0.000002307416806851214,
+    "eProxy1": 0.000002307416094895407,
+    "rMin": 19.59596208699495,
+    "rMax": 19.596052519308145,
+    "ledger": {
+     "Lrel": 2.9756475708245794e-13,
+     "Pabs": 2.56115615972502e-21,
+     "Prel": 4.0594139712085924e-16,
+     "Erel": 6.062462836667008e-13,
+     "E0": -3.5191378378324125e-8,
+     "E1": -3.519137837830279e-8,
+     "cmMax": 0.000015142568482519856,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82778057,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.01,
+     "mA": 0.001303000026382506,
+     "mB": 0.00015859999984968454,
+     "D0": 0.006,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.softening を値域に修正",
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 19.595999648511583,
+    "oscE": 0.000002939003635437864,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
@@ -2640,6 +3322,143 @@
     "oscA": 195.9599964140815,
     "oscE": 0.000013705163706739115,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_diag_e0.5",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.5,
+     "units": {
+      "version": "w276b-units-1",
+      "from": {
+       "L": 6,
+       "T": 2,
+       "M": 25
+      },
+      "to": {
+       "L": 5,
+       "T": 2,
+       "M": 20
+      },
+      "factors": {
+       "L": 10,
+       "T": 1,
+       "M": 100000
+      },
+      "phys": {
+       "G": 0.01,
+       "cLight": 10,
+       "gravityX": 10,
+       "gravityY": 10,
+       "softening": 10,
+       "D0": 10000,
+       "D0pull": 1000,
+       "kappaT": 0.0001
+      },
+      "body": {
+       "x": 10,
+       "y": 10,
+       "radius": 10,
+       "vx": 10,
+       "vy": 10,
+       "m": 100000,
+       "spin": 1
+      },
+      "cameraDiv": 10,
+      "displayOnly": [
+       "timeScale",
+       "dispMag",
+       "radiusScale"
+      ],
+      "conventionOk": false,
+      "conventionNote": "html の stabScaleExp が求める L−T=4・M+2T−3L=11 を満たすか(満たさない場合は G/c₀/κ を換算する)",
+      "secondsPerTimeUnit": 100,
+      "epsFloorMeters": 1000,
+      "note": "scaleExp は表示専用の宣言で、力学に効くのは書き換えた数そのものである"
+     }
+    },
+    "note": "ε=0.5(50 km・単位=diag)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 91.769,
+    "revSec": [
+     551863.660599101,
+     551864.0605971332,
+     551864.0605969364,
+     551864.0605974175,
+     551864.0605975278,
+     551864.0605977423,
+     551864.0605978908,
+     551864.0605979745
+    ],
+    "revN": 60,
+    "rev2Sec": 551864.0605971332,
+    "periASec": 551858.6717395681,
+    "periBSec": 987536.5838596491,
+    "oscSec": 551853.2826267901,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.0035154715666634744,
+    "precessResidDegA": 4.0533359428007754e-7,
+    "precessDegPerRevB": -0.006470687410542772,
+    "precessResidDegB": 0.004741270946685016,
+    "eProxy": 0.000010009303605314207,
+    "eProxy1": 0.000010009303440481372,
+    "rMin": 195.95994856902652,
+    "rMax": 195.96387145353128,
+    "ledger": {
+     "Lrel": 6.235866613122884e-14,
+     "Pabs": 8.84476752040358e-15,
+     "Prel": 1.4018892609383762e-15,
+     "Erel": 3.7069313260655235e-14,
+     "E0": -0.35191157838878734,
+     "E1": -0.3519115783887743,
+     "cmMax": 0.00032199112431313226,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82779609,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.5,
+     "mA": 130.3000030517578,
+     "mB": 15.859999656677246,
+     "D0": 60,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 195.95999640807278,
+    "oscE": 0.000012752511701221276,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
   },
@@ -2909,6 +3728,143 @@
     ],
     "oscA": 195.9599963790959,
     "oscE": 0.000006571994103470131,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_diag_e0.25",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.25,
+     "units": {
+      "version": "w276b-units-1",
+      "from": {
+       "L": 6,
+       "T": 2,
+       "M": 25
+      },
+      "to": {
+       "L": 5,
+       "T": 2,
+       "M": 20
+      },
+      "factors": {
+       "L": 10,
+       "T": 1,
+       "M": 100000
+      },
+      "phys": {
+       "G": 0.01,
+       "cLight": 10,
+       "gravityX": 10,
+       "gravityY": 10,
+       "softening": 10,
+       "D0": 10000,
+       "D0pull": 1000,
+       "kappaT": 0.0001
+      },
+      "body": {
+       "x": 10,
+       "y": 10,
+       "radius": 10,
+       "vx": 10,
+       "vy": 10,
+       "m": 100000,
+       "spin": 1
+      },
+      "cameraDiv": 10,
+      "displayOnly": [
+       "timeScale",
+       "dispMag",
+       "radiusScale"
+      ],
+      "conventionOk": false,
+      "conventionNote": "html の stabScaleExp が求める L−T=4・M+2T−3L=11 を満たすか(満たさない場合は G/c₀/κ を換算する)",
+      "secondsPerTimeUnit": 100,
+      "epsFloorMeters": 1000,
+      "note": "scaleExp は表示専用の宣言で、力学に効くのは書き換えた数そのものである"
+     }
+    },
+    "note": "ε=0.25(25 km・単位=diag)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 92.837,
+    "revSec": [
+     551855.5770337955,
+     551855.9770325993,
+     551855.9770324344,
+     551855.977032382,
+     551855.9770323762,
+     551855.9770325759,
+     551855.97703257,
+     551855.977032514
+    ],
+    "revN": 60,
+    "rev2Sec": 551855.9770325993,
+    "periASec": 551854.6298572466,
+    "periBSec": 929439.3719298247,
+    "oscSec": 551853.282478871,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.0008789567954818157,
+    "precessResidDegA": 0.0000017184252338878336,
+    "precessDegPerRevB": -0.0013994490230338063,
+    "precessResidDegB": 0.0011221337702717869,
+    "eProxy": 0.000003324976001459959,
+    "eProxy1": 0.00000332497559441009,
+    "rMin": 195.95982322005514,
+    "rMax": 195.96112634780692,
+    "ledger": {
+     "Lrel": 4.451866512499033e-13,
+     "Pabs": 2.784107673997004e-15,
+     "Prel": 4.4127905459005553e-16,
+     "Erel": 8.954955908201538e-13,
+     "E0": -0.3519132966933178,
+     "E1": -0.3519132966936329,
+     "cmMax": 0.00032199112440180324,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82778396,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.25,
+     "mA": 130.3000030517578,
+     "mB": 15.859999656677246,
+     "D0": 60,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 195.95999637305528,
+    "oscE": 0.000004241046778176905,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
@@ -3180,6 +4136,143 @@
     "oscA": 195.95999637711176,
     "oscE": 0.000005847388171552607,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_diag_e0.125",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.125,
+     "units": {
+      "version": "w276b-units-1",
+      "from": {
+       "L": 6,
+       "T": 2,
+       "M": 25
+      },
+      "to": {
+       "L": 5,
+       "T": 2,
+       "M": 20
+      },
+      "factors": {
+       "L": 10,
+       "T": 1,
+       "M": 100000
+      },
+      "phys": {
+       "G": 0.01,
+       "cLight": 10,
+       "gravityX": 10,
+       "gravityY": 10,
+       "softening": 10,
+       "D0": 10000,
+       "D0pull": 1000,
+       "kappaT": 0.0001
+      },
+      "body": {
+       "x": 10,
+       "y": 10,
+       "radius": 10,
+       "vx": 10,
+       "vy": 10,
+       "m": 100000,
+       "spin": 1
+      },
+      "cameraDiv": 10,
+      "displayOnly": [
+       "timeScale",
+       "dispMag",
+       "radiusScale"
+      ],
+      "conventionOk": false,
+      "conventionNote": "html の stabScaleExp が求める L−T=4・M+2T−3L=11 を満たすか(満たさない場合は G/c₀/κ を換算する)",
+      "secondsPerTimeUnit": 100,
+      "epsFloorMeters": 1000,
+      "note": "scaleExp は表示専用の宣言で、力学に効くのは書き換えた数そのものである"
+     }
+    },
+    "note": "ε=0.125(12.5 km・単位=diag)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 91.591,
+    "revSec": [
+     551853.5561128873,
+     551853.956111989,
+     551853.956112191,
+     551853.9561127021,
+     551853.9561126432,
+     551853.9561128637,
+     551853.956113012,
+     551853.9561127946
+    ],
+    "revN": 60,
+    "rev2Sec": 551853.956111989,
+    "periASec": 551853.6192095602,
+    "periBSec": 813257.9614035087,
+    "oscSec": 551853.2824692127,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.00021969381042958374,
+    "precessResidDegA": 0.000006499248974699948,
+    "precessDegPerRevB": -0.00032780530628755545,
+    "precessResidDegB": 0.0005566170267972407,
+    "eProxy": 0.000002352771353360495,
+    "eProxy1": 0.000002352770480373478,
+    "rMin": 195.95965492490873,
+    "rMax": 195.96057702360326,
+    "ledger": {
+     "Lrel": 8.045171679713031e-13,
+     "Pabs": 1.8536845803314905e-15,
+     "Prel": 2.9380766654850444e-16,
+     "Erel": 1.6360875339274053e-12,
+     "E0": -0.35191372627141676,
+     "E1": -0.3519137262719925,
+     "cmMax": 0.00032199112312655993,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82778093,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.125,
+     "mA": 130.3000030517578,
+     "mB": 15.859999656677246,
+     "D0": 60,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 195.95999637076963,
+    "oscE": 0.000002997864480893803,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
   },
@@ -3449,6 +4542,143 @@
     ],
     "oscA": 195.95999637692617,
     "oscE": 0.00000581740158512233,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_diag_e0.1",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.1,
+     "units": {
+      "version": "w276b-units-1",
+      "from": {
+       "L": 6,
+       "T": 2,
+       "M": 25
+      },
+      "to": {
+       "L": 5,
+       "T": 2,
+       "M": 20
+      },
+      "factors": {
+       "L": 10,
+       "T": 1,
+       "M": 100000
+      },
+      "phys": {
+       "G": 0.01,
+       "cLight": 10,
+       "gravityX": 10,
+       "gravityY": 10,
+       "softening": 10,
+       "D0": 10000,
+       "D0pull": 1000,
+       "kappaT": 0.0001
+      },
+      "body": {
+       "x": 10,
+       "y": 10,
+       "radius": 10,
+       "vx": 10,
+       "vy": 10,
+       "m": 100000,
+       "spin": 1
+      },
+      "cameraDiv": 10,
+      "displayOnly": [
+       "timeScale",
+       "dispMag",
+       "radiusScale"
+      ],
+      "conventionOk": false,
+      "conventionNote": "html の stabScaleExp が求める L−T=4・M+2T−3L=11 を満たすか(満たさない場合は G/c₀/κ を換算する)",
+      "secondsPerTimeUnit": 100,
+      "epsFloorMeters": 1000,
+      "note": "scaleExp は表示専用の宣言で、力学に効くのは書き換えた数そのものである"
+     }
+    },
+    "note": "ε=0.1(10 km・単位=diag)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 91.714,
+    "revSec": [
+     551853.3136017326,
+     551853.7136011053,
+     551853.7136015077,
+     551853.7136015664,
+     551853.7136017138,
+     551853.7136014794,
+     551853.7136014267,
+     551853.7136015003
+    ],
+    "revN": 60,
+    "rev2Sec": 551853.7136011053,
+    "periASec": 551853.4998166608,
+    "periBSec": 871347.6807017543,
+    "oscSec": 551853.2824696759,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.0001410793301849644,
+    "precessResidDegA": 0.000009949730213694337,
+    "precessDegPerRevB": -0.00023023038645312218,
+    "precessResidDegB": 0.0005531039492882828,
+    "eProxy": 0.000002307322317524057,
+    "eProxy1": 0.000002307322102070124,
+    "rMin": 195.95962077420774,
+    "rMax": 195.9605250603069,
+    "ledger": {
+     "Lrel": 1.5056454749945978e-13,
+     "Pabs": 2.2413360728911466e-15,
+     "Prel": 3.552501480102803e-16,
+     "Erel": 3.0759450673187606e-13,
+     "E0": -0.3519137778208415,
+     "E1": -0.35191377782073324,
+     "cmMax": 0.00032199114131987604,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82778057,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.1,
+     "mA": 130.3000030517578,
+     "mB": 15.859999656677246,
+     "D0": 60,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 195.95999637087883,
+    "oscE": 0.0000029389436639569435,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
@@ -3720,6 +4950,143 @@
     "oscA": 195.95999637677633,
     "oscE": 0.000005798202629660894,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_diag_e0.05",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.05,
+     "units": {
+      "version": "w276b-units-1",
+      "from": {
+       "L": 6,
+       "T": 2,
+       "M": 25
+      },
+      "to": {
+       "L": 5,
+       "T": 2,
+       "M": 20
+      },
+      "factors": {
+       "L": 10,
+       "T": 1,
+       "M": 100000
+      },
+      "phys": {
+       "G": 0.01,
+       "cLight": 10,
+       "gravityX": 10,
+       "gravityY": 10,
+       "softening": 10,
+       "D0": 10000,
+       "D0pull": 1000,
+       "kappaT": 0.0001
+      },
+      "body": {
+       "x": 10,
+       "y": 10,
+       "radius": 10,
+       "vx": 10,
+       "vy": 10,
+       "m": 100000,
+       "spin": 1
+      },
+      "cameraDiv": 10,
+      "displayOnly": [
+       "timeScale",
+       "dispMag",
+       "radiusScale"
+      ],
+      "conventionOk": false,
+      "conventionNote": "html の stabScaleExp が求める L−T=4・M+2T−3L=11 を満たすか(満たさない場合は G/c₀/κ を換算する)",
+      "secondsPerTimeUnit": 100,
+      "epsFloorMeters": 1000,
+      "note": "scaleExp は表示専用の宣言で、力学に効くのは書き換えた数そのものである"
+     }
+    },
+    "note": "ε=0.05(5 km・単位=diag)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 92.795,
+    "revSec": [
+     551852.9902531009,
+     551853.390252582,
+     551853.3902526558,
+     551853.3902531908,
+     551853.3902530409,
+     551853.3902517564,
+     551853.3902518232,
+     551853.3902517018
+    ],
+    "revN": 60,
+    "rev2Sec": 551853.390252582,
+    "periASec": 551853.3397093109,
+    "periBSec": 784212.6350877193,
+    "oscSec": 551853.2824693228,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.000032533837359983634,
+    "precessResidDegA": 0.00007200333197750872,
+    "precessDegPerRevB": -0.0000444577884419636,
+    "precessResidDegB": 0.0004356012308074455,
+    "eProxy": 0.00000227849653638407,
+    "eProxy1": 0.0000022784958935745095,
+    "rMin": 195.9595690133723,
+    "rMax": 195.9604620018055,
+    "ledger": {
+     "Lrel": 9.615887067192389e-14,
+     "Pabs": 2.2208764674652386e-15,
+     "Prel": 3.5200731533396053e-16,
+     "Erel": 1.9480981621504801e-13,
+     "E0": -0.35191384655342545,
+     "E1": -0.351913846553494,
+     "cmMax": 0.00032199114840546873,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82778008,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.05,
+     "mA": 130.3000030517578,
+     "mB": 15.859999656677246,
+     "D0": 60,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 195.95999637079535,
+    "oscE": 0.000002900754493763466,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
   },
@@ -3990,6 +5357,143 @@
     "oscA": 195.95999637694374,
     "oscE": 0.000005797116014523251,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_diag_e0.02",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.02,
+     "units": {
+      "version": "w276b-units-1",
+      "from": {
+       "L": 6,
+       "T": 2,
+       "M": 25
+      },
+      "to": {
+       "L": 5,
+       "T": 2,
+       "M": 20
+      },
+      "factors": {
+       "L": 10,
+       "T": 1,
+       "M": 100000
+      },
+      "phys": {
+       "G": 0.01,
+       "cLight": 10,
+       "gravityX": 10,
+       "gravityY": 10,
+       "softening": 10,
+       "D0": 10000,
+       "D0pull": 1000,
+       "kappaT": 0.0001
+      },
+      "body": {
+       "x": 10,
+       "y": 10,
+       "radius": 10,
+       "vx": 10,
+       "vy": 10,
+       "m": 100000,
+       "spin": 1
+      },
+      "cameraDiv": 10,
+      "displayOnly": [
+       "timeScale",
+       "dispMag",
+       "radiusScale"
+      ],
+      "conventionOk": false,
+      "conventionNote": "html の stabScaleExp が求める L−T=4・M+2T−3L=11 を満たすか(満たさない場合は G/c₀/κ を換算する)",
+      "secondsPerTimeUnit": 100,
+      "epsFloorMeters": 1000,
+      "note": "scaleExp は表示専用の宣言で、力学に効くのは書き換えた数そのものである"
+     }
+    },
+    "note": "ε=0.02(2 km・単位=diag)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 91.949,
+    "revSec": [
+     551852.8997153491,
+     551853.2997146513,
+     551853.2997148768,
+     551853.2997147562,
+     551853.2997147795,
+     551853.2997127201,
+     551853.2997130031,
+     551853.2997128001
+    ],
+    "revN": 60,
+    "rev2Sec": 551853.2997146513,
+    "periASec": 551853.1877494298,
+    "periBSec": 813257.452631579,
+    "oscSec": 551853.2824687208,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": 0.00005743341197285039,
+    "precessResidDegA": 0.0013226141402452143,
+    "precessDegPerRevB": -0.00001447214574465135,
+    "precessResidDegB": 0.00033260039240684227,
+    "eProxy": 0.000002277123990474971,
+    "eProxy1": 0.0000022771233194536477,
+    "rMin": 195.95955320748646,
+    "rMax": 195.96044565791823,
+    "ledger": {
+     "Lrel": 5.547210039325835e-13,
+     "Pabs": 2.2204460546755454e-15,
+     "Prel": 3.519390952178015e-16,
+     "Erel": 1.1291081685903208e-12,
+     "E0": -0.3519138657985525,
+     "E1": -0.35191386579894984,
+     "cmMax": 0.0003219911106825339,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82777994,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.02,
+     "mA": 130.3000030517578,
+     "mB": 15.859999656677246,
+     "D0": 60,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 195.95999637065339,
+    "oscE": 0.0000028985824682094967,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }
   },
@@ -4259,6 +5763,143 @@
     ],
     "oscA": 195.95999637690483,
     "oscE": 0.000005797114311229174,
+    "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
+    "canonicalRun": true,
+    "carried": {
+     "mark": "転記",
+     "fromGeneratedAt": "2026-10-03T01:40:18.476Z",
+     "fromTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+     "fromScopeSha256": "132e4918c986d26e0073960c78559e2d72253143abd7faf003b409543cce7eb1"
+    }
+   },
+   "h4": {
+    "id": "E_diag_e0.01",
+    "series": "E",
+    "cfg": {
+     "kFrame": 0,
+     "f": 1,
+     "geoPN": 2,
+     "softening": 0.01,
+     "units": {
+      "version": "w276b-units-1",
+      "from": {
+       "L": 6,
+       "T": 2,
+       "M": 25
+      },
+      "to": {
+       "L": 5,
+       "T": 2,
+       "M": 20
+      },
+      "factors": {
+       "L": 10,
+       "T": 1,
+       "M": 100000
+      },
+      "phys": {
+       "G": 0.01,
+       "cLight": 10,
+       "gravityX": 10,
+       "gravityY": 10,
+       "softening": 10,
+       "D0": 10000,
+       "D0pull": 1000,
+       "kappaT": 0.0001
+      },
+      "body": {
+       "x": 10,
+       "y": 10,
+       "radius": 10,
+       "vx": 10,
+       "vy": 10,
+       "m": 100000,
+       "spin": 1
+      },
+      "cameraDiv": 10,
+      "displayOnly": [
+       "timeScale",
+       "dispMag",
+       "radiusScale"
+      ],
+      "conventionOk": false,
+      "conventionNote": "html の stabScaleExp が求める L−T=4・M+2T−3L=11 を満たすか(満たさない場合は G/c₀/κ を換算する)",
+      "secondsPerTimeUnit": 100,
+      "epsFloorMeters": 1000,
+      "note": "scaleExp は表示専用の宣言で、力学に効くのは書き換えた数そのものである"
+     }
+    },
+    "note": "ε=0.01(1 km・単位=diag)",
+    "stage": "h4",
+    "dt": 0.004,
+    "stepsRequested": 82800000,
+    "wallSec": 90.656,
+    "revSec": [
+     551852.8867814372,
+     551853.2867808652,
+     551853.2867810156,
+     551853.2867814512,
+     551853.2867814454,
+     551853.2867794158,
+     551853.2867793874,
+     551853.2867793437
+    ],
+    "revN": 60,
+    "rev2Sec": 551853.2867808652,
+    "periASec": 551853.2154763053,
+    "periBSec": 842302.419649123,
+    "oscSec": 551853.2824689895,
+    "residPctRev": null,
+    "sigmaRev": null,
+    "residPctPeriA": null,
+    "sigmaPeriA": null,
+    "precessDegPerRevA": -0.000005103741494957028,
+    "precessResidDegA": 0.0002618082569055146,
+    "precessDegPerRevB": 0.000008924324777149235,
+    "precessResidDegB": 0.0004956164451787693,
+    "eProxy": 0.0000022771688719280303,
+    "eProxy1": 0.0000022771684708965583,
+    "rMin": 195.95955090241333,
+    "rMax": 195.96044337042457,
+    "ledger": {
+     "Lrel": 4.036142071624174e-13,
+     "Pabs": 2.665067019962687e-15,
+     "Prel": 4.224111969419243e-16,
+     "Erel": 8.215137323383887e-13,
+     "E0": -0.3519138685478566,
+     "E1": -0.3519138685481457,
+     "cmMax": 0.0003219911416691197,
+     "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
+    },
+    "clamp": {
+     "V": 0,
+     "S": 0,
+     "H": 0,
+     "A": 0,
+     "R": 0,
+     "T": 0
+    },
+    "nan": false,
+    "stop": "orbMax",
+    "steps": 82777993,
+    "cfgApplied": {
+     "kFrame": 0,
+     "geoPN": 2,
+     "softening": 0.01,
+     "mA": 130.3000030517578,
+     "mB": 15.859999656677246,
+     "D0": 60,
+     "frameWeight": "share",
+     "hasGeoToy": false,
+     "geoToyDeny": null,
+     "geoToyStop": null,
+     "geoToyOverlay": null
+    },
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "oscA": 195.95999637071662,
+    "oscE": 0.0000028985790064423654,
     "mergeKey": "f046d032c95a12cdf2b1d04b1ddecd807e275b0cfd4439bb3f4ef039ea0d65a9",
     "canonicalRun": true
    }

@@ -3,43 +3,43 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便e",
   "target": "beta/index.html",
-  "targetSha256": "ee214e4c4be9a05e6028199ed4afc4a718fa9252a314622989f2dc1e995336ba",
-  "generatedAt": "2026-10-03T00:29:53.037Z",
+  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+  "generatedAt": "2026-10-03T02:25:25.437Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5470513,
-    "sha256": "ee214e4c4be9a05e6028199ed4afc4a718fa9252a314622989f2dc1e995336ba",
-    "mtime": "2026-10-03T00:23:56.687Z"
+    "bytes": 5526365,
+    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
+    "mtime": "2026-10-03T00:48:50.355Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290e-spiral.mjs",
     "bytes": 38327,
-    "sha256": "bda376c9894f2bce2622ccb031ecb9468af42b529318144119baa542af3c4987",
-    "mtime": "2026-10-03T00:08:50.858Z"
+    "sha256": "7d0ce9c3fc51f87042ae7eb9d6287d9b6b2c99ab06569a6fc80747e970a6facb",
+    "mtime": "2026-10-03T00:48:50.392Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:31:20.572Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:31:20.536Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:31:20.612Z"
+    "mtime": "2026-10-02T23:11:02.956Z"
    }
   ],
-  "codeSha256": "ccc24a773109173a549dcd798f3c552481970631acae975bd0c9d7b2e71a7513",
+  "codeSha256": "72c54bf20d49851220a7f509492a03b2946e591d8fc988e7024bb625790415c8",
   "harnessVersion": "w290e-spiral-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)⑤ 渦巻銀河の参照模型 2 本(shapeToyDisk+shapeToyArm/shapeToyDiskCore+shapeToyArmCore)",
@@ -81,11 +81,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 904,
-   "segments": 818,
-   "closureShare": 0.3218
+   "names": 918,
+   "segments": 832,
+   "closureShare": 0.3223
   },
-  "scopeSha256": "c8e7ed3e0ec7ab81d4abb878a5c9ad91cd465a6814d2cc1e113b411d213732dc",
+  "scopeSha256": "1c181c16806466d71e826204a59be2fcaa5818c2d61a0408eaf7850fb47a6a39",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -1179,71 +1179,71 @@
      "label": "🍭 N",
      "n": 144,
      "steps": 200,
-     "wallSec": 0.072068841,
-     "rateStepsPerSec": 2775.1244119494027
+     "wallSec": 0.070328147,
+     "rateStepsPerSec": 2843.8115965148354
     },
     {
      "label": "🍭 2N",
      "n": 288,
      "steps": 200,
-     "wallSec": 0.263344149,
-     "rateStepsPerSec": 759.4624781278128
+     "wallSec": 0.252689223,
+     "rateStepsPerSec": 791.4860698273626
     },
     {
      "label": "🍭 4N",
      "n": 576,
      "steps": 200,
-     "wallSec": 0.987268851,
-     "rateStepsPerSec": 202.57906425126342
+     "wallSec": 0.958718793,
+     "rateStepsPerSec": 208.61174461195736
     },
     {
      "label": "🍭 内蔵(450)",
      "n": 450,
      "steps": 200,
-     "wallSec": 0.582779472,
-     "rateStepsPerSec": 343.1829870630721
+     "wallSec": 0.60607299,
+     "rateStepsPerSec": 329.9932570827814
     },
     {
      "label": "🎢 N",
      "n": 145,
      "steps": 200,
-     "wallSec": 0.069257362,
-     "rateStepsPerSec": 2887.779641390326
+     "wallSec": 0.086076072,
+     "rateStepsPerSec": 2323.526101423401
     },
     {
      "label": "🎢 2N",
      "n": 289,
      "steps": 200,
-     "wallSec": 0.257973418,
-     "rateStepsPerSec": 775.273675677701
+     "wallSec": 0.257724718,
+     "rateStepsPerSec": 776.0218016806598
     },
     {
      "label": "🎢 4N",
      "n": 577,
      "steps": 200,
-     "wallSec": 0.965191114,
-     "rateStepsPerSec": 207.2128484183289
+     "wallSec": 1.038842008,
+     "rateStepsPerSec": 192.52205673223025
     },
     {
      "label": "🎢 内蔵(451)",
      "n": 451,
      "steps": 200,
-     "wallSec": 0.608904196,
-     "rateStepsPerSec": 328.4588960198264
+     "wallSec": 0.576805518,
+     "rateStepsPerSec": 346.7373209144646
     },
     {
      "label": "🥏",
      "n": 300,
      "steps": 200,
-     "wallSec": 0.274137127,
-     "rateStepsPerSec": 729.5618882005721
+     "wallSec": 0.278284365,
+     "rateStepsPerSec": 718.6893162323368
     },
     {
      "label": "📀",
      "n": 301,
      "steps": 200,
-     "wallSec": 0.29077984,
-     "rateStepsPerSec": 687.8055920245365
+     "wallSec": 0.278227666,
+     "rateStepsPerSec": 718.8357753035243
     }
    ],
    "note": "Node headless の壁時計(揮発値)。iPhone の実機は統括が後で測る"
@@ -1275,5 +1275,5 @@
   "kArmImplemented": false
  },
  "ok": false,
- "elapsedS": 104.079
+ "elapsedS": 106.746
 }
