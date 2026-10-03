@@ -201,6 +201,26 @@ export function calWordOfClause(clause, lang) {
 /** 上限(ja 120 字 = DESC_BRIEF_CAP・en 200 文字 = DESC_BRIEF_CAP_EN)。 */
 export const BRIEF_CAP = { ja: 120, en: 200 };
 
+// ---- 第291便e(原仮定者の裁定(第81報)⑦「『較正 保留』は具体的に何をすれば保留でなくなるのかを報告する」・統括の検証項目 R136) ----
+//   原稿の新しい欄 `holdRemedy`(ja)/ `en.holdRemedy`(en)= **何をすれば判定器が判定を出すか**の 1 行。表の行(生成領域 SAMPLE_STATUS)へ転記し、
+//   アプリの説明タブ(状態チップの下の .stHoldRemedy)と一覧 md の「保留の解き方」欄に出す。p.status の形は変えない(表の行だけに載る)。
+//   ・転記するのは**較正が保留/判定保留の本だけ**(正本の再生成で保留でなくなった本の行は転記せず、来歴 holdRemedyDropped に記録する —— 黙って載せない)。
+//   ・ja・en の両方が要る(片方だけは止める)・上限 HOLD_REMEDY_CAP・禁止語と「合になる」型の約束(HOLD_REMEDY_PROMISE)を書かない。
+//   ・原稿に行の無い保留の本は、アプリが見込みの分類から引く既定表 HOLD_REMEDY_RULES(html)で 1 行を出す(md の欄は「—(既定表)」)。
+export const HOLD_REMEDY_CAP = { ja: 160, en: 340 };
+export const HOLD_CALS = ['hold', 'hold-definition'];
+export const HOLD_REMEDY_PROMISE = /合になる|合格する|合格になる|合に移る|保留が解ける|will pass|becomes a pass|turns into a pass/;
+/** 原稿の holdRemedy の検査(誤りの文の配列 —— 空なら可)。 */
+export function holdRemedyCheck(id, ja, en) {
+  const err = [];
+  if (typeof ja !== 'string' || !ja.trim() || typeof en !== 'string' || !en.trim()) { err.push(`${id}: holdRemedy は ja・en の両方が要る`); return err; }
+  if (ja.length > HOLD_REMEDY_CAP.ja) err.push(`${id}: holdRemedy ${ja.length} 字 > ${HOLD_REMEDY_CAP.ja}`);
+  if (en.length > HOLD_REMEDY_CAP.en) err.push(`${id}: en.holdRemedy ${en.length} 文字 > ${HOLD_REMEDY_CAP.en}`);
+  if (FORBIDDEN.test(ja) || FORBIDDEN.test(en)) err.push(`${id}: holdRemedy に禁止語`);
+  if (HOLD_REMEDY_PROMISE.test(ja) || HOLD_REMEDY_PROMISE.test(en)) err.push(`${id}: holdRemedy に合否の約束`);
+  return err;
+}
+
 /**
  * 原稿 + 正本 → 表(html の SAMPLE_STATUS に書く形)。
  * @param {object} src   {version, rows:{id:{purpose,objective,state,evidence,en:{purpose,state}}}}
@@ -230,6 +250,13 @@ export function buildTable(src, calaudit, charonwin, opt) {
       st.mismatch = s.mismatch ? s.mismatch.ja : null; st.en.mismatch = s.mismatch ? s.mismatch.en : null;
       st.outlook = s.outlook ? s.outlook.ja : null; st.en.outlook = s.outlook ? s.outlook.en : null;
       prov[id] = s.source;
+    }
+    // 第291便e: 保留の解き方(原稿の holdRemedy)—— 保留/判定保留の本だけに転記する
+    if (r.holdRemedy !== undefined || (r.en || {}).holdRemedy !== undefined) {
+      const he = holdRemedyCheck(id, r.holdRemedy, (r.en || {}).holdRemedy);
+      if (he.length) errors.push(...he);
+      else if (HOLD_CALS.indexOf(st.calibration) >= 0) { st.holdRemedy = r.holdRemedy; st.en.holdRemedy = r.en.holdRemedy; }
+      else if (o.holdRemedyDropped) o.holdRemedyDropped.push(id);
     }
     // 型と語の検査(原稿の書き間違いを黙って通さない)
     if (OBJECTIVES.indexOf(st.objective) < 0) errors.push(`${id}: objective が列挙値でない(${st.objective})`);
@@ -297,11 +324,13 @@ export function parseRegion(html) {
   return { version: mv ? mv[1] : null, meta: mm ? JSON.parse(mm[1]) : null, table: JSON.parse(json) };
 }
 
-/** md の表の 1 行(| 絵文字 | ID | 名前 | 目的 | 状況 | 較正 | 合わない量と差 | 精度見込み |)。 */
+/** md の表の 1 行(| 絵文字 | ID | 名前 | 目的 | 状況 | 較正 | 合わない量と差 | 精度見込み | 保留の解き方 |)。
+ *  第291便e: 9 列目「保留の解き方」= 原稿の holdRemedy の転記。保留/判定保留で原稿に行の無い本は「—(既定表)」(アプリは HOLD_REMEDY_RULES で出す)・保留でない本は「—」。 */
 export function mdRow(p, st) {
   const esc = (s) => String(s === null || s === undefined ? '—' : s).replace(/\|/g, '\\|');
   const stateCell = OBJ_WORD.ja[st.objective] + '・' + st.state + '(根拠: ' + st.evidence.map((e) => '`' + e + '`').join(', ') + ')';
-  return `| ${p.emoji || ''} | \`${p.id}\` | ${esc(p.name)} | ${esc(st.purpose)} | ${esc(stateCell)} | ${CAL_WORD.ja[st.calibration]} | ${esc(st.mismatch)} | ${esc(st.outlook)} |`;
+  const hr = st.holdRemedy ? esc(st.holdRemedy) : (HOLD_CALS.indexOf(st.calibration) >= 0 ? '—(既定表)' : '—');
+  return `| ${p.emoji || ''} | \`${p.id}\` | ${esc(p.name)} | ${esc(st.purpose)} | ${esc(stateCell)} | ${CAL_WORD.ja[st.calibration]} | ${esc(st.mismatch)} | ${esc(st.outlook)} | ${hr} |`;
 }
 
 /** md の表の行を読み戻す(QA 用)。返り値: [{id, cal, cells}] */
@@ -405,5 +434,5 @@ export function qaLegacyMixing(rows, src, qaResults) {
 
 export default { STATUS_VERSION, OBJECTIVES, CALIBRATIONS, OBJ_WORD, CAL_WORD, VERDICT_TO_CAL,
   HOLD_DEFINITION_ROWS, FORBIDDEN, fmtPct, fmtSigma, ledgerStatus, holdDefinitionStatus, calClause,
-  composeBrief, splitBrief, calWordOfClause, BRIEF_CAP, buildTable, REGION, BEGIN, END, renderRegion,
+  composeBrief, splitBrief, calWordOfClause, BRIEF_CAP, HOLD_REMEDY_CAP, HOLD_CALS, HOLD_REMEDY_PROMISE, holdRemedyCheck, buildTable, REGION, BEGIN, END, renderRegion,
   parseRegion, mdRow, parseMdRows, tally, readJSON, QA_ATTRIBUTION_VERSION, qaTargetsIndex, qaAttribution, qaAttributionLegacy, qaLegacyMixing };

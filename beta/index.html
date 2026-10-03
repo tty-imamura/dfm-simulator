@@ -224,6 +224,10 @@
   .ppScopeHead + .ppGroupHead{margin-top:2px;border-top:0;padding-top:4px;}
   .ppScopeEnd{height:0;margin:14px 0 0;border-top:2px solid var(--line,#2a3242);}
   .ppScopeEnd + .ppGroupHead{margin-top:2px;border-top:0;padding-top:4px;}
+  /* 第291便e(原仮定者の裁定〔第81報〕⑦「『サンプルを選ぶ』の最下段が実機だとタップしづらいので最下段にセパレータを追加」・統括の検証項目 R136):
+     一覧の**最後の子**に置く余白つきの区切り(.ppListEnd —— 押せない表示要素・data-n なし)。高さは一覧の行(.ppRow の min-height 40px)の約 1.5 行分
+     +端末の下端の安全域(env(safe-area-inset-bottom))。区画の終わり(.ppScopeEnd —— 第290便f)とは別。絞り込み・検索・保存一覧の有無に依らず常に置く */
+  .ppListEnd{flex:0 0 auto;height:calc(60px + env(safe-area-inset-bottom,0px));margin:8px 0 0;border-top:1px dashed var(--line,#2a3242);}
   /* 第147便: E水準フィルタの運用注記(件数は実行時導出 — 手打ちしない)
      第149便(原仮定者指示): グループ/スケール/分類/E水準の4種とも**次元見出しのタップで開閉**する
      畳み込みにした。既定は閉。改行を活かすため white-space:pre-line */
@@ -732,6 +736,15 @@
   .descStatus .st-partial,.descStatus .st-pass-limited{border-color:var(--hot);}
   .descStatus .st-unmet,.descStatus .st-fail{border-color:var(--err);}
   .descStatus .stOutlook{color:var(--dim);}
+  /* 第291便e(原仮定者の裁定〔第81報〕⑦「『較正 保留』は具体的に何をすれば保留でなくなるのかを報告する」・R136): 状態チップの下の 1 行
+     (較正が保留/判定保留のときだけ)。語は原稿の holdRemedy か、見込み(outlook)の分類から引く既定表 HOLD_REMEDY_RULES —— 表示専用 */
+  .stHoldRemedy{font-size:calc(11px*var(--uz,1));line-height:1.5;color:var(--fg);margin:-4px 0 8px;overflow-wrap:anywhere;}
+  .stHoldRemedy .stHoldRemedyHead{color:var(--dim);font-weight:700;margin-right:4px;}
+  /* 第291便e(第81報⑦・R136): 説明タブの**題材チップ**(表 TOPIC_TAGS から機械で —— 表示専用・押せない)。分類チップ(#classChips)の直下 */
+  .descTopics{display:flex;flex-wrap:wrap;gap:4px 6px;margin:-2px 0 8px;align-items:baseline;}
+  .descTopics .descTopicsHead{font-size:calc(10.5px*var(--uz,1));color:var(--dim);}
+  .descTopics .topicChip{font-size:calc(11px*var(--uz,1));line-height:1.5;padding:1px 7px;border-radius:999px;
+    border:1px dotted var(--line,#2a3242);color:var(--fg);}
   .descBriefHead{color:var(--dim);font-weight:600;margin:8px 0 2px;
     font-size:calc(12px*var(--uz,1));letter-spacing:0.02em;}
   .descBrief{font-size:calc(12.5px*var(--uz,1));line-height:1.6;margin:2px 0 8px;
@@ -1970,9 +1983,24 @@ ja: {
   ppOther_testParticleTip:"bodies のどれかが試験粒子契約 testParticle:true を宣言している本",
   // 第287便e(原仮定者の裁定(第77報)⑥・AN66): 三状態のチップ・2 段の見出し・「較正対象」。分類バッジの軸の語は説明タブの bdg* をそのまま使う
   ppOther_calTarget:"較正対象",
-  // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 「現実較正」の見出しの下のサブチップ(較正対象の区分 —— calTargetOf から機械で。所属は合否ではない)
-  ppCalSubDim:"区分", ppCalSub_solar:"太陽系", ppCalSub_binary:"連星",
-  ppCalSubTip:"「現実較正」の中を較正対象で絞る(太陽系=solar-system・連星=stellar-/ns-/bh-binary —— 宣言から機械で分ける。名前では分けない)。所属は合否を意味しない(合否は較正監査の判定)",
+  // 第291便e(原仮定者の裁定(第81報)⑦・統括の検証項目 R136): 「現実較正」は一覧の表示で 2 見出し(現実較正・太陽系/現実較正・連星)に分けた
+  //   —— 第288便b の見出しの下のサブチップ(ppCalSub*)は撤去。群の宣言 group:"現実較正" は不変(表示だけで分ける)
+  // 第291便e: 新しい絞り込みの次元「題材」と説明タブの題材チップ(表 TOPIC_TAGS の規則から機械で —— 名前では判定しない・手打ちの一覧を持たない)
+  ppDimTopic:"題材",
+  ppTopic_refModel:"参照模型", ppTopic_dmHalo:"ダークマターハロー", ppTopic_inertial:"慣性決定力", ppTopic_cloakedDwarf:"光学迷彩矮星",
+  ppTopic_pn1Geo:"1PN・測地線", ppTopic_testParticle:"試験粒子", ppTopic_spaceMesh:"空間メッシュ", ppTopic_obsCal:"観測較正", ppTopic_manyBody:"連鎖・多体",
+  ppTopic_refModelTip:"physics.shapeToy(形状の参照模型)を宣言した本",
+  ppTopic_dmHaloTip:"physics.halo(NFW 等のハロー)を宣言した本と、同じ家族(familyId)にハローを宣言した本がある対照の本",
+  ppTopic_inertialTip:"physics.relativeDrag.law:\"inertial\"(慣性決定力の引きずり —— 法則版 inertial)を宣言した本",
+  ppTopic_cloakedDwarfTip:"massLedger.darkRotor(力学に置いた光学迷彩矮星の代表粒子)か、bodies のどれかに lightSweep:\"auto\"(自転で決まる自動の減光)を宣言した本",
+  ppTopic_pn1GeoTip:"physics.geoPN が 1 以上(1PN・測地線のモード)を宣言した本",
+  ppTopic_testParticleTip:"bodies のどれかが試験粒子契約 testParticle:true を宣言した本",
+  ppTopic_spaceMeshTip:"physics.spaceMesh(空間メッシュ)を宣言した本",
+  ppTopic_obsCalTip:"sampleClass:\"calibration\"(観測への較正の対象)を宣言した本 —— 合格の意味ではない(合否は較正監査の判定)",
+  ppTopic_manyBodyTip:(n)=>"bodies の粒子数(単体 1 本ずつ+群の n の和)が "+n+" 以上の本",
+  ppNoteTopicHead:"「題材」は宣言の鍵から機械で導く絞り込み(表 TOPIC_TAGS —— 名前では判定しない・表示専用。物理・保存 JSON には一切影響しない)。件数は一覧に出せる本(退役・非表示を除く)を実行時に数える。1 本が複数の題材に入りうる。説明タブのチップ行「題材」も同じ表から出る。",
+  descTopicsHead:"題材", descTopicsAria:"このサンプルの題材(宣言の鍵から機械で導く —— 表示専用)",
+  ppListEndAria:"一覧の終わり",
   unifyGwNote:"GW の 2 本(🎐⏰)は geoPN=0 のまま —— 一本化(kFrame=0 の 1 本にすること)と 1PN 化(geoPN=1)は別の宣言である。⏰ の「約 4 秒」は合体直前の基準時間窓の宣言値(窓の宣言)であって観測の印刷値ではない(起点の f_ref=20 Hz は候補・未宣言)。",
   unifyNotice:(o)=>"在位移行(第288便b・原仮定者の裁定(第78報)④): 既定の宣言を "+o.from+" → "+o.to+" へ移した(ID は不変・kFrame=1 は q を使った引きずりの近似 —— 較正母集団の外)。以下の説明文・観測結果カードの数値には移行前(kFrame=1)の記録が残る —— 移行後の値は判定器の再走で出す(「合った」とは書かない)。旧宣言は A/B の B 側で見られる。",
   ppOther_calTargetTip:"sampleClass:\"calibration\" を宣言している本(分類の「現実較正」と「引きずり近似(q)」の両方 —— 退役の本は一覧に出ない)。較正の対象であって合格ではない —— 合否は較正監査の判定で、このチップは宣言を読むだけ",
@@ -2011,7 +2039,10 @@ ja: {
     "光の伝播":"重力レンズと光子捕捉・回る星のレンズ・連星重力レンズ・暗黒雲の赤化など、光の伝わり方と見え方が主題。",
     "天体の機構":"物語・トイ系で天体の機構を見る群。実単位で現実へ較正したサンプルは「現実較正」へ移してある。",
     // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 「現実との照合・太陽系」「現実との照合・連星」を「現実較正」1 つへ(旧 2 名は GROUP_ALIASES で解決)
-    "現実較正":"実在の天体・連星の観測値へ、スケール換算込みで数値を較正する本と、その較正を監査する対照・原理の本。現実較正の合を目指す系統は 1 本だけ(kFrame=0・geoPN=1 —— BH 連星は geoPN=0・f=1)で、kFrame=1 は q を使った引きずりの近似という扱い(較正母集団の外)。第288便b(原仮定者の裁定(第78報)④)で「現実との照合・太陽系」「現実との照合・連星」を 1 つにまとめ、geoPN=2・kFrame=1 の本(旧称 DFM)は退役または在位移行した。見出しの下のサブチップ「太陽系/連星」で絞り込める(較正対象の区分から機械で分ける —— 名前では分けない)。BH 連星(🎐⏰⚛️ —— 🎻 は退役)は家族のまま geoPN=0(族の換算整合則)で、🎐⏰ は較正母集団の門には入れない(σ 未接続)。**所属は合否を意味しない**(合否は較正監査の判定)。",
+    "現実較正":"実在の天体・連星の観測値へ、スケール換算込みで数値を較正する本と、その較正を監査する対照・原理の本。現実較正の合を目指す系統は 1 本だけ(kFrame=0・geoPN=1 —— BH 連星は geoPN=0・f=1)で、kFrame=1 は q を使った引きずりの近似という扱い(較正母集団の外)。第288便b(原仮定者の裁定(第78報)④)で「現実との照合・太陽系」「現実との照合・連星」を 1 つにまとめ、geoPN=2・kFrame=1 の本(旧称 DFM)は退役または在位移行した。一覧では較正対象の区分(calTargetOf —— 宣言から機械で分ける・名前では分けない)で「現実較正・太陽系」「現実較正・連星」の 2 見出しに分けて並べる(第291便e・原仮定者の裁定(第81報)⑦ —— 表示だけ・group の宣言は不変)。BH 連星(🎐⏰⚛️ —— 🎻 は退役)は家族のまま geoPN=0(族の換算整合則)で、🎐⏰ は較正母集団の門には入れない(σ 未接続)。**所属は合否を意味しない**(合否は較正監査の判定)。",
+    // 第291便e(原仮定者の裁定(第81報)⑦「『現実較正』グループを太陽系と連星で分ける」・統括の検証項目 R136): 一覧の**表示の 2 見出し**の説明(group の宣言は「現実較正」のまま)
+    "現実較正・太陽系":"「現実較正」のうち較正対象が太陽系の各天体(calTargetOf=solar-system —— 宣言から機械で分ける・名前では分けない)の本:水星・地球と月・木星・土星・金星・火星・冥王星とカロン・天王星・海王星の実単位の本と、その対照・監査の本。群の宣言は「現実較正」のまま(一覧の表示だけで分ける)。**所属は合否を意味しない**(合否は較正監査の判定)。",
+    "現実較正・連星":"「現実較正」のうち較正対象が連星(恒星連星・中性子星連星・BH 連星 —— calTargetOf から機械で分ける・名前では分けない)の本。BH 連星(🎐⏰⚛️)は家族のまま geoPN=0 で、🎐⏰ は較正母集団の門には入れない(σ 未接続)。群の宣言は「現実較正」のまま(一覧の表示だけで分ける)。**所属は合否を意味しない**(合否は較正監査の判定)。",
     // 第272便d(第62報「実在天体アナロジーサンプルを新グループへ」): **表示・分類だけの新グループ**。
     // 「観測と一致した」という意味は持たない —— 比較器の状態(comparable/inside/…)で並べるだけである
     "実在天体のアナロジー":"実在天体の**模型**を、比較 v1 の状態(comparable / inside / not-applicable など)で観測と並べるサンプル群。**観測一致版ではない**(この群に入っていることは合否を意味しない)。較正クラスの母集団・比較器の導線・旧較正の履歴はそのまま残している。第287便d で BH 連星の家族(🎐🎻⏰⚛️)は「現実との照合・連星」(第288便b から「現実較正」)へ移した(表示だけ)。",
@@ -2044,7 +2075,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブと、ヘッダーと同じ高さのシミュレーション画面を残した高さ — 第281便e でどのタブでも同じ高さに固定)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します。✕・検索欄で文字があるときの Esc・削除して空にしたときは、検索文字列を消したあと検索欄のフォーカスを外します(モバイルではキーボードが閉じます。IME の変換中は何もしません。検索欄が空のときや検索欄の外での Esc はウィンドウを閉じます — 第284便d)。絞り込みには「geoPN」(0 測地線不用 / 1 観測再現(1PN・kF0) / 2 引きずり有り / 3 空間メッシュ)があり、スケール・分類・E水準・検索と同時に効きます(第284便d)。絞り込みはそれぞれ畳めて、畳んだ状態でも選んだチップの語が見えます。「その他」のチップ(📇 観測結果カードあり・固定(pinned)あり・多粒子(群あり)・試験粒子契約あり)は複数選べて、選んだものをすべて満たす本だけが出ます(第285便e)。絞り込みは次元ごと(スケール・分類・E水準・geoPN・その他)に見出しつきの区切り線で分かれ、開くと見出しの下にチップが並びます(第286便e)。「その他」のチップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除の三状態で、「宣言」(📇 観測結果カード・固定・多粒子・試験粒子契約・較正対象)と「分類バッジ」(説明タブのコア公理・拡張則・規定背景・意味論・比較チャネル・外部駆動・閉鎖系・温度=T_int・⚠強場トイ領域・引きずり)の 2 段に分かれます。「較正対象」は較正の対象という意味で、合格ではありません(第287便e)。3 段目の「状況(説明タブ)」は概要の下の状態チップと同じ語(目的 達・部分・未達・対象外/較正 合・量限定合・否・保留・判定保留(量定義不一致)・較正対象外)で絞り込めます —— 宣言の転記で、この画面では何も測りません。パラメータタブの静止背景相当 Wbg の換算は採用した核の M/L^p です(第289便f)。「パラメータ」タブの「引きずり・測地線」は「測地線モード geoPN」の行が先頭です(第284便d)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘⭕🧲🔆🌓)は一覧の入口を 🌙 の 1 つにまとめました(第280便b の入口は 🌘 —— 第288便b の現実較正の一本化で 🌘🧲 は退役)—— 残りは「すべて表示」か説明タブの「他の仲間」から開きます(サンプルの ID は 1 つも変えていません)。群「現実較正」(第288便b で「現実との照合・太陽系/連星」を 1 つにまとめた)の見出しの下のサブチップ「太陽系/連星」で絞り込めます —— 所属は合否を意味しません(合否は較正監査の判定)。分類チップの「現実較正」は kFrame=0 の本、「引きずり近似(q)— 較正母集団の外」は kFrame=1(q を使った引きずりの近似)の本です。「共通設定」の「スキン」で画面の配色をダーク(既定)/ライトから選べます —— ライトでもシミュレーション画面は暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)で、表示のみです(第281便e)。「共通設定」の「コア軸の投影線を表示」は、点粒子の自転軸の表示専用の宣言(spinAxis —— 公転面の法線からの傾き・観測記録に一次資料がある本だけ。内蔵では 📻 の B)も同じ正射影の橙の線で描きます(方位が記録に無いものは破線・物理と署名には効かない・第288便e)。",   /* 第254便c: パラメータタブの構成を追記 */
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブと、ヘッダーと同じ高さのシミュレーション画面を残した高さ — 第281便e でどのタブでも同じ高さに固定)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します。✕・検索欄で文字があるときの Esc・削除して空にしたときは、検索文字列を消したあと検索欄のフォーカスを外します(モバイルではキーボードが閉じます。IME の変換中は何もしません。検索欄が空のときや検索欄の外での Esc はウィンドウを閉じます — 第284便d)。絞り込みには「geoPN」(0 測地線不用 / 1 観測再現(1PN・kF0) / 2 引きずり有り / 3 空間メッシュ)があり、スケール・分類・E水準・検索と同時に効きます(第284便d)。絞り込みはそれぞれ畳めて、畳んだ状態でも選んだチップの語が見えます。「その他」のチップ(📇 観測結果カードあり・固定(pinned)あり・多粒子(群あり)・試験粒子契約あり)は複数選べて、選んだものをすべて満たす本だけが出ます(第285便e)。絞り込みは次元ごと(スケール・分類・E水準・geoPN・その他)に見出しつきの区切り線で分かれ、開くと見出しの下にチップが並びます(第286便e)。「その他」のチップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除の三状態で、「宣言」(📇 観測結果カード・固定・多粒子・試験粒子契約・較正対象)と「分類バッジ」(説明タブのコア公理・拡張則・規定背景・意味論・比較チャネル・外部駆動・閉鎖系・温度=T_int・⚠強場トイ領域・引きずり)の 2 段に分かれます。「較正対象」は較正の対象という意味で、合格ではありません(第287便e)。3 段目の「状況(説明タブ)」は概要の下の状態チップと同じ語(目的 達・部分・未達・対象外/較正 合・量限定合・否・保留・判定保留(量定義不一致)・較正対象外)で絞り込めます —— 宣言の転記で、この画面では何も測りません。パラメータタブの静止背景相当 Wbg の換算は採用した核の M/L^p です(第289便f)。「パラメータ」タブの「引きずり・測地線」は「測地線モード geoPN」の行が先頭です(第284便d)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘⭕🧲🔆🌓)は一覧の入口を 🌙 の 1 つにまとめました(第280便b の入口は 🌘 —— 第288便b の現実較正の一本化で 🌘🧲 は退役)—— 残りは「すべて表示」か説明タブの「他の仲間」から開きます(サンプルの ID は 1 つも変えていません)。群「現実較正」(第288便b で「現実との照合・太陽系/連星」を 1 つにまとめた)は、一覧では「現実較正・太陽系」「現実較正・連星」の 2 見出しに分けて並びます(第291便e —— 較正対象の区分から機械で分ける表示・宣言は 1 群のまま)—— 所属は合否を意味しません(合否は較正監査の判定)。絞り込みの「題材」(参照模型・ダークマターハロー など)は宣言の鍵から機械で導きます。分類チップの「現実較正」は kFrame=0 の本、「引きずり近似(q)— 較正母集団の外」は kFrame=1(q を使った引きずりの近似)の本です。「共通設定」の「スキン」で画面の配色をダーク(既定)/ライトから選べます —— ライトでもシミュレーション画面は暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)で、表示のみです(第281便e)。「共通設定」の「コア軸の投影線を表示」は、点粒子の自転軸の表示専用の宣言(spinAxis —— 公転面の法線からの傾き・観測記録に一次資料がある本だけ。内蔵では 📻 の B)も同じ正射影の橙の線で描きます(方位が記録に無いものは破線・物理と署名には効かない・第288便e)。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力(重力決定力)=質量÷距離。その勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。慣性と引きずりを担う場は慣性決定力(旧称: 複素決定力)と呼ぶ。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -2206,6 +2237,15 @@ ja: {
   // 第279便a(第69報・R60): 状態チップ(status の転記 — この画面では何も測らない)
   stAria:"サンプルの状況", stTip:"サンプルの状況(宣言の転記)。目的=目的の達成(保存 QA・完成門の ID で裏づく語)/較正=4 値の台帳の語(合・量限定合・否・保留)か、判定保留(量定義不一致)・較正対象外/見込み=正本の数から決まる語。一覧は docs/SAMPLE_STATUS_v1.45.md。",
   stChipObj:"目的", stChipCal:"較正", stChipOutlook:"見込み",
+  // 第291便e(原仮定者の裁定(第81報)⑦「『較正 保留』は具体的に何をすれば保留でなくなるのかを報告する」・R136): 状態チップの下の 1 行の見出しと既定表(HOLD_REMEDY_RULES)の文。
+  //   **何をすれば判定器が 4 値の判定を出すか**までを書く(合否の約束は書かない)。原稿 holdRemedy の行があればそれを優先する
+  stHoldRemedyHead:"保留を解くには",
+  stHoldRemedyTip:"較正が「保留」「判定保留(量定義不一致)」の本で、何をすれば判定器が判定を出すか(原稿 tests/data-w279a-samplestatus-src.json の holdRemedy の転記。無い本は見込みの分類から引く既定表 HOLD_REMEDY_RULES)。合否の約束ではない",
+  hr_sigma:"観測量の σ を宣言し σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+  hr_numerics:"h/h2/h4 の同じ窓で収束を確認し、刻みと窓を宣言する → 判定器が 4 値を出す",
+  hr_mapping:"入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時)→ 判定器が 4 値を出す",
+  hr_definition:"入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時)→ 量の定義が揃えば判定器の門に入る",
+  hr_other:"保留の理由(正本の missing)を読み、欠けている σ・収束・写像を埋めて判定器を走らせ直す",
   stObj_met:"達", stObj_partial:"部分", stObj_unmet:"未達", "stObj_n/a":"対象外",
   stCal_pass:"合", "stCal_pass-limited":"量限定合", stCal_fail:"否", stCal_hold:"保留",
   "stCal_hold-definition":"判定保留(量定義不一致)", "stCal_out-of-scope":"較正対象外",
@@ -2976,8 +3016,22 @@ en: {
   ppOther_testParticleTip:"samples in which some body declares the test-particle contract testParticle:true",
   // wave 287e (report 77 item 6, AN66): three-state chips, two sub-headings, "Calibration target". The class-badge axes reuse the bdg* words of the Description tab
   ppOther_calTarget:"Calibration target",
-  ppCalSubDim:"Target", ppCalSub_solar:"Solar system", ppCalSub_binary:"Binaries",
-  ppCalSubTip:"Filters \"Reality Calibration\" by calibration target (solar system = solar-system; binaries = stellar-/ns-/bh-binary — split mechanically from the declarations, never by name). Membership says nothing about pass or fail (the verdict belongs to the calibration audit)",
+  // wave 291e (the adjudicator's ruling, 81st report ⑦, R136): "Reality Calibration" is shown under two headings; the sub-chips of wave 288b were removed
+  ppDimTopic:"Topic",
+  ppTopic_refModel:"Reference model", ppTopic_dmHalo:"Dark-matter halo", ppTopic_inertial:"Inertial determinacy", ppTopic_cloakedDwarf:"Optically cloaked dwarf",
+  ppTopic_pn1Geo:"1PN / geodesic", ppTopic_testParticle:"Test particle", ppTopic_spaceMesh:"Space mesh", ppTopic_obsCal:"Observational calibration", ppTopic_manyBody:"Chains / many bodies",
+  ppTopic_refModelTip:"samples declaring physics.shapeToy (a shape reference model)",
+  ppTopic_dmHaloTip:"samples declaring physics.halo (an NFW-type halo) and the controls whose family (familyId) has a sample declaring a halo",
+  ppTopic_inertialTip:"samples declaring physics.relativeDrag.law:\"inertial\" (drag by inertial determinacy — law version inertial)",
+  ppTopic_cloakedDwarfTip:"samples declaring massLedger.darkRotor (representative particles of optically cloaked dwarfs placed in the dynamics) or lightSweep:\"auto\" on some body (automatic dimming set by the spin)",
+  ppTopic_pn1GeoTip:"samples declaring physics.geoPN of 1 or more (the 1PN / geodesic modes)",
+  ppTopic_testParticleTip:"samples in which some body declares the test-particle contract testParticle:true",
+  ppTopic_spaceMeshTip:"samples declaring physics.spaceMesh (the space mesh)",
+  ppTopic_obsCalTip:"samples declaring sampleClass:\"calibration\" (a target of calibration against observations) — it does not mean a pass (the verdict belongs to the calibration audit)",
+  ppTopic_manyBodyTip:(n)=>"samples whose bodies hold "+n+" particles or more (1 per single body plus the n of each group)",
+  ppNoteTopicHead:"\"Topic\" is derived mechanically from declaration keys (table TOPIC_TAGS — never from names; display only, it never touches the physics or the saved JSON). Counts are taken at run time over the listable samples (retired and hidden ones excluded). A sample can have several topics. The \"Topic\" chip row of the Description tab comes from the same table.",
+  descTopicsHead:"Topic", descTopicsAria:"Topics of this sample (derived mechanically from declaration keys — display only)",
+  ppListEndAria:"End of the list",
   unifyGwNote:"The two GW samples (🎐⏰) stay at geoPN=0 — unifying onto kFrame=0 and moving to 1PN (geoPN=1) are separate declarations. ⏰'s \"about four seconds\" is the declared value of a reference time window just before the merger (a window declaration), not a printed observed value (the f_ref=20 Hz starting point is a candidate, undeclared).",
   unifyNotice:(o)=>"Migrated in place (wave 288b, the adjudicator's ruling, 78th report ④): the default declaration moved from "+o.from+" to "+o.to+" (the ID is unchanged; kFrame=1 is treated as a drag approximation using q — outside the calibration population). The text and observation card below still carry the pre-migration (kFrame=1) record — the post-migration values come from re-running the auditor (nothing here says it matched). The old declaration is on the B side of the A/B.",
   ppOther_calTargetTip:"samples declaring sampleClass:\"calibration\" (both \"reality calibration\" and \"drag approximation (q)\" of the class filter — retired samples are not listed). A calibration target, not a pass - the verdict belongs to the calibration audit; this chip only reads the declaration",
@@ -3010,7 +3064,10 @@ en: {
     "時計と重力":"Gravitational clock delay and the focused weak-field GR calibrations (GPS clock difference, light bending at the solar limb, Shapiro delay): the part of the spacetime-coefficient work whose subject is clock rate and signal travel time (5 samples split out of \"Motion & Spacetime\" in wave 273a).",
     "光の伝播":"The subject is how light travels and appears: gravitational lensing and photon capture, the lens of a spinning star, binary lensing, reddening by a dark cloud.",
     "天体の機構":"Narrative / toy systems that show celestial mechanisms. Samples calibrated to reality in real units live under \"Reality Calibration\".",
-    "現実較正":"Samples whose numbers are calibrated — unit conversion included — against observed real bodies and binaries, plus the controls and principle samples that audit that calibration. Only one system aims at a calibration pass (kFrame=0, geoPN=1 — the binary black hole at geoPN=0 — and f=1); kFrame=1 is treated as a drag approximation using q (outside the calibration population). Wave 288b (the adjudicator's ruling, 78th report ④) merged \"Reality Checks — Solar System\" and \"Reality Checks — Binaries\" into one and retired or migrated the geoPN=2, kFrame=1 samples (formerly called DFM). The sub-chips under the heading (Solar system / Binaries) filter by the calibration target, split mechanically from the declarations — never by name. THE BINARY BLACK HOLE (🎐⏰⚛️ — 🎻 retired) stays one family at geoPN=0 (the family's conversion-consistency rule), and 🎐⏰ DO NOT ENTER THE CALIBRATION-POPULATION GATE (no σ connected). MEMBERSHIP SAYS NOTHING ABOUT PASS OR FAIL (the verdict belongs to the calibration audit).",
+    "現実較正":"Samples whose numbers are calibrated — unit conversion included — against observed real bodies and binaries, plus the controls and principle samples that audit that calibration. Only one system aims at a calibration pass (kFrame=0, geoPN=1 — the binary black hole at geoPN=0 — and f=1); kFrame=1 is treated as a drag approximation using q (outside the calibration population). Wave 288b (the adjudicator's ruling, 78th report ④) merged \"Reality Checks — Solar System\" and \"Reality Checks — Binaries\" into one and retired or migrated the geoPN=2, kFrame=1 samples (formerly called DFM). The list shows it under two headings, \"Reality Calibration — Solar System\" and \"Reality Calibration — Binaries\", split by the calibration target mechanically from the declarations — never by name (wave 291e, the adjudicator's ruling, 81st report ⑦ — display only; the declared group is unchanged). THE BINARY BLACK HOLE (🎐⏰⚛️ — 🎻 retired) stays one family at geoPN=0 (the family's conversion-consistency rule), and 🎐⏰ DO NOT ENTER THE CALIBRATION-POPULATION GATE (no σ connected). MEMBERSHIP SAYS NOTHING ABOUT PASS OR FAIL (the verdict belongs to the calibration audit).",
+    // wave 291e (81st report ⑦, R136): notes of the two display headings (the declared group stays "現実較正")
+    "現実較正・太陽系":"Reality-calibration samples whose calibration target is a solar-system body (calTargetOf = solar-system — split mechanically from the declarations, never by name): the real-unit samples of Mercury, Earth and Moon, Jupiter, Saturn, Venus, Mars, Pluto and Charon, Uranus and Neptune, plus their controls and audits. The declared group is still \"Reality Calibration\" (only the list display splits it). MEMBERSHIP SAYS NOTHING ABOUT PASS OR FAIL (the verdict belongs to the calibration audit).",
+    "現実較正・連星":"Reality-calibration samples whose calibration target is a binary (stellar, neutron-star or black-hole binary — split mechanically by calTargetOf, never by name). THE BINARY BLACK HOLE (🎐⏰⚛️) stays one family at geoPN=0, and 🎐⏰ DO NOT ENTER THE CALIBRATION-POPULATION GATE (no σ connected). The declared group is still \"Reality Calibration\" (only the list display splits it). MEMBERSHIP SAYS NOTHING ABOUT PASS OR FAIL (the verdict belongs to the calibration audit).",
     "実在天体のアナロジー":"MODELS of real astronomical objects, placed beside the observations through the v1 comparison state (comparable / inside / not-applicable and so on). THEY ARE NOT OBSERVATION-MATCHING BUILDS — membership of this group says nothing about pass or fail. The calibration-class population, the comparison links and the older calibration history are all kept unchanged. Wave 287d moved the binary-black-hole family (🎐🎻⏰⚛️) to \"Reality Checks — Binaries\" (\"Reality Calibration\" from wave 288b; display only).",
     "銀河の力学":"The subject is dynamics and structure on galactic scales: rotation curves, galaxy mergers, collapse of self-gravitating clouds.",
     "自転と減光":"EXPERIMENTS THAT CHECK DIMMING BY ROTATION STATE: they compare displayed brightness, escaping light, absorption and radiated energy. REPRODUCING A GALAXY'S MISSING MASS OR AN OBSERVED BLACK HOLE IS NOT PART OF THIS GROUP'S SUCCESS CRITERIA — darkness is never read as evidence of hidden mass; darkness and mass are measured separately. Not a claim about real dark matter.",
@@ -3040,7 +3097,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, leaving a strip of the simulation view as tall as the header (wave 281e: the same height on every tab), turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search. After clearing with ✕, with Esc while the box holds text, or by deleting the text down to empty, the search box loses focus (on mobile the keyboard closes; nothing happens during IME composition; Esc with an empty box or outside the box closes the window - wave 284d). The filters include \"geoPN\" (0 no geodesic / 1 observed (1PN, kF0) / 2 with dragging / 3 space mesh), applied together with scale, class, E-level and search (wave 284d). Each filter folds, and a folded filter still shows the chosen chip; the \"Other\" chips (📇 has observation card, has pinned body, many particles (group), test-particle contract) can be combined and list only samples that satisfy all of them (wave 285e). The filters are separated per dimension (scale, class, E-level, geoPN, other) by a line with a heading, and an opened filter lists its chips under that heading (wave 286e). The \"Other\" chips have three states - 1st tap include, 2nd exclude (NOT, shown with ¬ and a strike-through), 3rd clear - and are split into \"Declarations\" (📇 observation card, pinned, many particles, test-particle contract, calibration target) and \"Class badges\" (the Description tab's core axioms, extension, prescribed background, semantics, comparison channel, external drive, closed system, temperature = T_int, ⚠strong-field toy, dragging). \"Calibration target\" means a sample under calibration, not a pass (wave 287e). A third section, \"Status (Description tab)\", filters by the same words as the status chips under the brief (goal met / partial / unmet / n/a; calibration pass / limited pass / fail / hold / hold (definitions differ) / out of calibration scope) - a transcription, nothing is measured on this screen; the read-only static-background equivalent Wbg in the Parameters tab is converted with M/L^p of the adopted kernel (wave 289f). In the Parameters tab, \"Dragging & Geodesics\" now starts with the geodesic mode geoPN row (wave 284d). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘⭕🧲🔆🌓) now share one entry in the list, 🌙 (the wave-280b entry was 🌘; the wave-288b reality-calibration unification retired 🌘🧲) — open the others with \"Show all\" or from \"family\" in the Description tab (no sample ID was changed). The \"Reality Calibration\" group (wave 288b merged \"Reality Checks — Solar System / Binaries\" into it) has sub-chips under its heading (Solar system / Binaries) — membership says nothing about pass or fail (the verdict belongs to the calibration audit). The class chip \"Reality calibration\" marks kFrame=0 samples; \"Drag approx. (q) — outside the population\" marks kFrame=1 samples (a drag approximation using q). \"Skin\" in General switches the colour scheme between Dark (default) and Light; the simulation view keeps its dark background in both (body temperature and ray wavelength colours are drawn for a dark background) - display only (wave 281e). The common setting \"Show the core axis projection\" also draws the display-only spin-axis declaration of point particles (spinAxis — the tilt from the orbit normal, declared only where the observation record has a primary source; among the built-ins, B of 📻) as an orange line with the same projection (dashed where no azimuth is recorded; it affects neither physics nor signatures — wave 288e).",   /* wave 254c */
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, leaving a strip of the simulation view as tall as the header (wave 281e: the same height on every tab), turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search. After clearing with ✕, with Esc while the box holds text, or by deleting the text down to empty, the search box loses focus (on mobile the keyboard closes; nothing happens during IME composition; Esc with an empty box or outside the box closes the window - wave 284d). The filters include \"geoPN\" (0 no geodesic / 1 observed (1PN, kF0) / 2 with dragging / 3 space mesh), applied together with scale, class, E-level and search (wave 284d). Each filter folds, and a folded filter still shows the chosen chip; the \"Other\" chips (📇 has observation card, has pinned body, many particles (group), test-particle contract) can be combined and list only samples that satisfy all of them (wave 285e). The filters are separated per dimension (scale, class, E-level, geoPN, other) by a line with a heading, and an opened filter lists its chips under that heading (wave 286e). The \"Other\" chips have three states - 1st tap include, 2nd exclude (NOT, shown with ¬ and a strike-through), 3rd clear - and are split into \"Declarations\" (📇 observation card, pinned, many particles, test-particle contract, calibration target) and \"Class badges\" (the Description tab's core axioms, extension, prescribed background, semantics, comparison channel, external drive, closed system, temperature = T_int, ⚠strong-field toy, dragging). \"Calibration target\" means a sample under calibration, not a pass (wave 287e). A third section, \"Status (Description tab)\", filters by the same words as the status chips under the brief (goal met / partial / unmet / n/a; calibration pass / limited pass / fail / hold / hold (definitions differ) / out of calibration scope) - a transcription, nothing is measured on this screen; the read-only static-background equivalent Wbg in the Parameters tab is converted with M/L^p of the adopted kernel (wave 289f). In the Parameters tab, \"Dragging & Geodesics\" now starts with the geodesic mode geoPN row (wave 284d). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘⭕🧲🔆🌓) now share one entry in the list, 🌙 (the wave-280b entry was 🌘; the wave-288b reality-calibration unification retired 🌘🧲) — open the others with \"Show all\" or from \"family\" in the Description tab (no sample ID was changed). The \"Reality Calibration\" group (wave 288b merged \"Reality Checks — Solar System / Binaries\" into it) is listed under two headings, \"Reality Calibration — Solar System\" and \"Reality Calibration — Binaries\" (wave 291e — a display split by the calibration target derived from the declarations; still one declared group) — membership says nothing about pass or fail (the verdict belongs to the calibration audit). The \"Topic\" filter (reference model, dark-matter halo and so on) is derived mechanically from declaration keys. The class chip \"Reality calibration\" marks kFrame=0 samples; \"Drag approx. (q) — outside the population\" marks kFrame=1 samples (a drag approximation using q). \"Skin\" in General switches the colour scheme between Dark (default) and Light; the simulation view keeps its dark background in both (body temperature and ray wavelength colours are drawn for a dark background) - display only (wave 281e). The common setting \"Show the core axis projection\" also draws the display-only spin-axis declaration of point particles (spinAxis — the tilt from the orbit normal, declared only where the observation record has a primary source; among the built-ins, B of 📻) as an orange line with the same projection (dashed where no azimuth is recorded; it affects neither physics nor signatures — wave 288e).",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy (gravitational determinacy) = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). The field behind inertia and dragging is called the inertial determinacy (formerly: complex determinacy). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -3195,6 +3252,14 @@ en: {
   descBriefHead:"🔖 In brief", descBriefTip:"This sample in a few lines. It is the declared descStruct.brief when there is one, otherwise the first one or two sentences extracted from \"Summary\" (120-character cap; the trailing \"…\" appears only when something was cut). Built-in samples declare one line in three parts: purpose, state, calibration (wave 279a; up to 200 characters in English). Read \"📌 Summary\" below for the full text.",
   stAria:"Sample status", stTip:"The sample's status (a transcription of its declaration). Goal = whether the purpose is met (only words backed by a saved QA or completion-gate ID) / Calibration = the ledger's four values (pass, limited pass, fail, hold), or hold (definitions differ), or out of calibration scope / Outlook = words fixed by the numbers in the canonical files. The full list is docs/SAMPLE_STATUS_v1.45.md.",
   stChipObj:"Goal", stChipCal:"Calibration", stChipOutlook:"Outlook",
+  // wave 291e (81st report ⑦, R136): the line under the status chips when the calibration is on hold (what to do so the judge can give a verdict — no promise of a pass)
+  stHoldRemedyHead:"To lift the hold",
+  stHoldRemedyTip:"For samples whose calibration is \"hold\" or \"hold (definitions differ)\": what to do so the judge can give a verdict (transcribed from holdRemedy in tests/data-w279a-samplestatus-src.json; otherwise the default table HOLD_REMEDY_RULES, chosen by the outlook). It is not a promise of a pass",
+  hr_sigma:"declare the σ of the observed quantity and add it to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+  hr_numerics:"confirm convergence over h/h2/h4 in the same window and declare the step and the window → the judge gives one of the four verdicts",
+  hr_mapping:"align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts",
+  hr_definition:"align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → once the definitions match, the judge can gate it",
+  hr_other:"read the reason for the hold (missing in the ledger), fill the missing σ, convergence or mapping, and rerun the judge",
   stObj_met:"met", stObj_partial:"partial", stObj_unmet:"unmet", "stObj_n/a":"n/a",
   stCal_pass:"pass", "stCal_pass-limited":"limited pass", stCal_fail:"fail", stCal_hold:"hold",
   "stCal_hold-definition":"hold (definitions differ)", "stCal_out-of-scope":"out of calibration scope",
@@ -3253,7 +3318,7 @@ en: {
   // 第151便(原仮定者指示): 新グループ「ローターの物語」(en: Rotor Stories)を銀河の物語の直後へ新設
   // 第273便a(原仮定者の裁定〔第63報〕AH5 改名・AH6 分割): 新名の en を新設し、**旧名の行も残す**
   // (旧名を宣言した保存/AI 生成プリセットが旧名のまま来ても英語表示が落ちない)
-  groups:{"運動と時空":"Motion & Spacetime","銀河の力学":"Galactic Dynamics","天体の機構":"Celestial Mechanisms","時計と重力":"Clocks & Gravity","光の伝播":"Light Propagation","スピンと熱":"Spin & Heat","箱宇宙の実験":"Box-Universe Experiments","自転と減光":"Spin & Dimming","現実較正":"Reality Calibration","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・連星":"Reality Checks — Binaries","実在天体のアナロジー":"Real-object Analogies","腕と渦伸長(軸力)":"Arms & Vortex Stretching (Axis Force)",
+  groups:{"運動と時空":"Motion & Spacetime","銀河の力学":"Galactic Dynamics","天体の機構":"Celestial Mechanisms","時計と重力":"Clocks & Gravity","光の伝播":"Light Propagation","スピンと熱":"Spin & Heat","箱宇宙の実験":"Box-Universe Experiments","自転と減光":"Spin & Dimming","現実較正":"Reality Calibration","現実較正・太陽系":"Reality Calibration — Solar System","現実較正・連星":"Reality Calibration — Binaries","現実との照合・太陽系":"Reality Checks — Solar System","現実との照合・連星":"Reality Checks — Binaries","実在天体のアナロジー":"Real-object Analogies","腕と渦伸長(軸力)":"Arms & Vortex Stretching (Axis Force)",
     "空間と時間":"Space & Time","箱宇宙":"Box Universe","銀河の物語":"Galaxy Stories","ローターの物語":"Rotor Stories","光の物語":"Light Stories","熱の実験室":"Heat Lab","天体の物語":"Celestial Stories","現実との照合・太陽系外":"Reality Checks — Beyond the Solar System",
     "シミュレーション":"Simulation","現実との照合":"Reality Checks","法則の実験室":"Law Lab","AI生成":"AI-generated","内蔵":"Built-in","保存一覧":"Saved items"},
   params:{dispMag:"Particle display magnification",   // 第254便c: 英訳が欠けていた(ja「粒子表示倍率」のまま出ていた)
@@ -3609,6 +3674,29 @@ function sampleStatusOf(p){
     purpose:e? e.purpose : s.purpose, state:e? e.state : s.state,
     mismatch:e? e.mismatch : s.mismatch, outlook:e? e.outlook : s.outlook,
     evidence:(s.evidence||[]).slice()};
+}
+// 第291便e(原仮定者の裁定(第81報)⑦「『較正 保留』は具体的に何をすれば保留でなくなるのかを報告する」・統括の検証項目 R136):
+//   **保留の解き方**。較正が hold / hold-definition の本だけに 1 行を出す(表示専用 —— 判定を作らない・合否を約束しない)。
+//   ① 原稿(tests/data-w279a-samplestatus-src.json)の holdRemedy / en.holdRemedy を器が生成領域 SAMPLE_STATUS に転記した行があればそれ(src "declared")。
+//   ② 無ければ既定表 HOLD_REMEDY_RULES —— 宣言の status(ja の見込み outlook・calibration の列挙値)の**分類**から機械で引く(src "rule:<key>")。
+//      複数の分類に当たる本(数値未解決・写像未確定 など)は当たった文を「 / 」でつなぐ。どれにも当たらなければ hr_other(QA ui.holdRemedy が 0 本を固定)
+const HOLD_REMEDY_RULES=[
+  {key:"definition", test:(s)=>s.calibration==="hold-definition"},
+  {key:"sigma",      test:(s)=>s.calibration==="hold" && /σ 未接続/.test(s.outlook||"")},
+  {key:"numerics",   test:(s)=>s.calibration==="hold" && /数値未解決/.test(s.outlook||"")},
+  {key:"mapping",    test:(s)=>s.calibration==="hold" && /写像未(確定|解決)|量定義不一致/.test(s.outlook||"")}];
+function holdRemedyClassOf(p){
+  const s=p && p.status;
+  if(!s || (s.calibration!=="hold" && s.calibration!=="hold-definition")) return null;
+  const ks=HOLD_REMEDY_RULES.filter(r=>r.test(s)).map(r=>r.key);
+  return ks.length? ks : ["other"];
+}
+function holdRemedyOf(p){
+  const ks=holdRemedyClassOf(p); if(!ks) return null;
+  const row=(typeof SAMPLE_STATUS!=="undefined" && p && SAMPLE_STATUS[p.id]) || null;
+  const d=row? ((LANG==="en")? (row.en||{}).holdRemedy : row.holdRemedy) : null;
+  if(typeof d==="string" && d.trim()) return {text:d.trim(), src:"declared"};
+  return {text:ks.map(k=>T("hr_"+k)).join(" / "), src:"rule:"+ks.join("+")};
 }
 // 受理(validatePreset から呼ぶ)。型が合わない鍵は警告して落とす —— 1 つでも列挙値が外れたら status ごと落とす
 // (表示の語が作れないため)。文字列は SAMPLE_STATUS_TEXT_CAP 字で切り詰める。full=false は en 側(文だけ)
@@ -32600,6 +32688,22 @@ const GROUP_ORDER=["運動と時空","銀河の力学","天体の機構","時計
   "スピンと熱","自転と減光","腕と渦伸長(軸力)",
   "現実較正",   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 太陽系/連星の 2 群を「現実較正」1 つへ(見出しの下にサブチップ)
   "法則の実験室","シミュレーション","現実との照合"];
+// 第291便e(原仮定者の裁定(第81報)⑦「『現実較正』グループを太陽系と連星で分ける」・統括の検証項目 R136): **表示の分割**(1 か所の表)。
+//   群の宣言 group:"現実較正" は変えない(presetSig は group を見ない・保存 JSON・GROUP_ORDER・orderedGroups/orderedBuiltins・隠し #presetSelect も不変)。
+//   一覧(#ppList)の見出しだけを、較正対象の区分 calSubOf(p)(calTargetOf —— 宣言の id・familyId から機械で。名前では分けない)で 2 つに分け、
+//   GROUP_ORDER の「現実較正」の位置にこの順(太陽系 → 連星)で並べる。区画(GROUP_SCOPE)はどちらも cal。第288便b のサブチップ(ppCalSubRow)は撤去した。
+//   旧名「現実との照合・太陽系/連星」(GROUP_ALIASES → 現実較正)は履歴として残す(旧セーブ・旧 URL・AI 生成の旧名は宣言の群「現実較正」へ着地して表示で分かれる)
+const GROUP_DISPLAY_SPLIT={"現実較正":{solar:"現実較正・太陽系", binary:"現実較正・連星"}};
+// 本 → 表示の群(分割の無い群は正規化した群名そのもの)
+function ppDispGroup(p){ const g=gCanon(p && p.group); const sp=GROUP_DISPLAY_SPLIT[g]; return sp? sp[calSubOf(p)] : g; }
+// 宣言の群 → 表示の群の並び(分割の無い群は自分 1 つ)
+function ppDispGroupsOf(g){ const sp=GROUP_DISPLAY_SPLIT[gCanon(g)]; return sp? [sp.solar, sp.binary] : [g]; }
+// 表示順: 宣言の群の並び(familyGroupedBuiltins の順)を保ったまま、分割する群の中だけ表示の群の順へ安定に並べ直す(群の中の相対順は不変)
+function ppDisplayOrdered(arr){
+  const gi=new Map(); arr.forEach(p=>{ const g=gCanon(p.group); if(!gi.has(g)) gi.set(g,gi.size); });
+  const sub=(p)=>{ const g=gCanon(p.group); return GROUP_DISPLAY_SPLIT[g]? ppDispGroupsOf(g).indexOf(ppDispGroup(p)) : 0; };
+  return arr.map((p,i)=>[p,i]).sort((a,b)=>(gi.get(gCanon(a[0].group))-gi.get(gCanon(b[0].group)))||(sub(a[0])-sub(b[0]))||(a[1]-b[1])).map(x=>x[0]);
+}
 // 第290便f: 群 → 区画の対応表(**表示専用の 1 か所** —— 一覧の区画の見出しと QA ui.pickerScope はここだけを読む)。
 //   main = DFM 本体(重力決定力・慣性決定力の仮定)/ outside = DFM の外のアナロジー(仮定の物理法則・別論文)/ cal = 現実較正と照合。
 //   鍵は gCanon で正規化した群名(旧名は GROUP_ALIASES で解決)。表に無い群(AI 生成の独自 group 等)は main。
@@ -32609,6 +32713,7 @@ const GROUP_SCOPE={"運動と時空":"main","銀河の力学":"main","天体の�
   "箱宇宙の実験":"main","実在天体のアナロジー":"main",
   "スピンと熱":"outside","自転と減光":"outside","腕と渦伸長(軸力)":"outside",
   "現実較正":"cal","現実との照合":"cal",
+  "現実較正・太陽系":"cal","現実較正・連星":"cal",   // 第291便e: 表示の 2 見出し(GROUP_DISPLAY_SPLIT)
   "法則の実験室":"main","シミュレーション":"main"};
 function gScope(g){ return GROUP_SCOPE[gCanon(g)] || "main"; }
 // 第273便a: 旧グループ名 → 新グループ名(AH5/AH6)。**旧名の文字列は捨てない** —— 宣言側
@@ -32632,6 +32737,7 @@ const GROUP_ICONS={"運動と時空":"🧭","銀河の力学":"🌌","天体の�
   "光の伝播":"💡","スピンと熱":"🌡️","箱宇宙の実験":"📦","自転と減光":"🌗",
   "現実較正":"🎯","実在天体のアナロジー":"🔭",   // 第288便b: 旧 2 群(☀️⭐)を 1 つへ —— 較正の対象(太陽系/連星)を狙う群
   "腕と渦伸長(軸力)":"🌀",   // 第290便f: 新群(axisBar 3 本)
+  "現実較正・太陽系":"☀️","現実較正・連星":"⭐",   // 第291便e: 表示の 2 見出し(第288便b までの 2 群の絵文字に戻す)
   "法則の実験室":"⚗️","シミュレーション":"🖥️","現実との照合":"📏"};
 function gIcon(g){ return GROUP_ICONS[gCanon(g)] || ""; }
 // 第273便a(AH7 候補・表示のみ): **グループ内**のファミリー表示順位。BUILTIN_PRESETS の配列は
@@ -32921,6 +33027,8 @@ const GROUP_IDS={"熱の実験室":"heat", "空間と時間":"spacetime", "光�
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 新群「現実較正」の id(旧 2 群の id は旧名の行に残す —— 開閉の記憶は新群では既定〔畳む〕から)
   "現実較正":"realityCal",
   "腕と渦伸長(軸力)":"armsVortex",   // 第290便f: 新群の id(既存 id は 1 つも変えない —— 新群は既定〔畳む〕から)
+  // 第291便e(第81報⑦・R136): 表示の 2 見出しの id(既存 id は 1 つも変えない —— 2 見出しは既定〔畳む〕から。いま読み込んでいる本の見出しは開く)
+  "現実較正・太陽系":"realityCalSolar", "現実較正・連星":"realityCalBinary",
   "AI生成":"aiGenerated", "保存一覧":"saves", "内蔵":"builtin"};
 const _GROUP_ID_SET=new Set(Object.values(GROUP_IDS));
 function groupIdOf(g){
@@ -32953,13 +33061,17 @@ let ppOpenTmp={}, ppFilterSig=null;
 function ppSetOpen(gid,v){ ppOpen[gid]=!!v;
   try{ localStorage.setItem("hp_pick_open",JSON.stringify(ppOpen)); }catch(_){} }
 function ppFiltering(){   // 絞り込み(検索 or 属性)が効いているか。切り替わったら一時状態を捨てる
-  const sig=ppSearch+""+ppScale+""+ppClass+""+ppE+""+ppGeo+""+ppOther.join(",");   // 第285便e: 「その他」も
+  const sig=ppSearch+""+ppScale+""+ppClass+""+ppE+""+ppGeo+""+ppOther.join(",")+""+ppTopic;   // 第285便e: 「その他」も・第291便e: 題材も
   if(sig!==ppFilterSig){ ppFilterSig=sig; ppOpenTmp={}; }
-  return !!(ppSearch || ppScale!=="all" || ppClass!=="all" || ppE!=="all" || ppGeo!=="all" || ppOther.length>0);
+  return !!(ppSearch || ppScale!=="all" || ppClass!=="all" || ppE!=="all" || ppGeo!=="all" || ppOther.length>0 || ppTopic!=="all");
 }
 // いま読み込んでいるサンプルのグループ(**id**)。「現在サンプルが別グループへ移った」ときも
 // 追随する(名前ではなく id を見るので、グループの改名では開閉が飛ばない)
-function ppCurGroup(){ return (currentPreset && groupIdOf(currentPreset.group)) || null; }
+// 第291便e: 表示で分ける群(GROUP_DISPLAY_SPLIT)の本は**表示の見出し**の id(開く見出しと一覧の見出しを揃える)
+function ppCurGroup(){
+  if(!currentPreset) return null;
+  return groupIdOf(GROUP_DISPLAY_SPLIT[gCanon(currentPreset.group)]? ppDispGroup(currentPreset) : currentPreset.group) || null;
+}
 // 第256便c: 引数は**グループ id**。絞り込み中の開閉は**一時状態**(ppOpenTmp)に持ち、
 // ユーザーが保存した開閉(ppOpen / hp_pick_open)を上書きしない
 function ppIsOpen(gid,filtering){
@@ -32991,7 +33103,7 @@ function calVariantOf(p){
   return (kf===0)? "kf0" : "dfm";
 }
 // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **較正対象の区分**(tests/exp-w282a-calcontract.mjs の targetOf と同じ規則 —— 群の名前は見ない。id・familyId の宣言から)。
-// solar-system / stellar-binary / ns-binary / bh-binary。「現実較正」のサブチップ(太陽系/連星)と QA ui.calGroupUnified が使う(表示専用)
+// solar-system / stellar-binary / ns-binary / bh-binary。「現実較正」の表示の 2 見出し(第291便e —— GROUP_DISPLAY_SPLIT・ppDispGroup)と QA ui.calGroupSplit291 が使う(表示専用)
 const CAL_GROUP="現実較正";
 function calTargetOf(p){
   if(!p) return null;
@@ -33002,7 +33114,6 @@ function calTargetOf(p){
   return "solar-system";
 }
 function calSubOf(p){ return calTargetOf(p)==="solar-system"? "solar" : "binary"; }
-let ppCalSub="all";   // "all"|"solar"|"binary"(セッション内のみ —— 他の絞り込みと同じ)
 // 在位移行の注記(side table —— presetSig・保存 JSON・力学の外)。値は移行前 → 移行後の宣言の語
 const UNIFY_MIGRATED={solarInner:1, jupiterGalilean:1, venusReal:1, marsMoonsReal:1, plutoCharonReal:1, uranusReal:1, neptuneReal:1, psrJ1757DFM:1, psrJ1946DFM:1, gw150914Merge4s:2};
 function unifyNoticeText(p){
@@ -33135,7 +33246,37 @@ function ppOtherCount(key,state){
   if(ppClsCache) ppClsCache.cnt.set(ck,n);
   return n;
 }
+// 第291便e(原仮定者の裁定(第81報)⑦「説明と絞り込みで使うチップを追加(参照模型、ダークマターハロー など)」・統括の検証項目 R136):
+//   **題材**の規則表 TOPIC_TAGS(1 か所)。各行は**宣言の鍵だけ**を読む純関数で、名前・絵文字・群の名前では判定しない(手打ちの本の一覧も持たない)。
+//   絞り込みの次元「題材」(details#ppFold_topic —— 単一選択・件数は実行時に数える)と説明タブのチップ行(#descTopics)はこの表だけを読む。
+//   rule は規則の機械可読の写し(tests/README の規則表と照合する)。表示専用 —— プリセット・presetSig・保存 JSON・力学は 1 bit も変えない。
+//   1 本が複数の題材に入りうる(題材は分類ではなく見出し語)。初期集合は決断事項候補(増やす/減らす)
+const TOPIC_MANY_N=100;   // 連鎖・多体の門(bodies の粒子数)
+function topicBodyCountOf(p){
+  return ((p && Array.isArray(p.bodies))? p.bodies : []).reduce((s,b)=>s+(!b? 0 : ((!b.type || b.type==="single")? 1
+    : ((typeof b.n==="number" && isFinite(b.n))? b.n : 0))),0);
+}
+const TOPIC_TAGS=[
+  {key:"refModel",     rule:"physics.shapeToy",                                   test:(p)=>!!(p.physics && p.physics.shapeToy)},
+  {key:"dmHalo",       rule:"physics.halo | family(familyId) has physics.halo",  test:(p)=>!!(p.physics && p.physics.halo)
+    || (!!p.familyId && BUILTIN_PRESETS.some(q=>q!==p && q.familyId===p.familyId && !!(q.physics && q.physics.halo)))},
+  {key:"inertial",     rule:"physics.relativeDrag.law=inertial",                  test:(p)=>!!(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law==="inertial")},
+  {key:"cloakedDwarf", rule:"massLedger.darkRotor | bodies[].lightSweep=auto",    test:(p)=>!!(p.massLedger && p.massLedger.darkRotor)
+    || (p.bodies||[]).some(b=>!!b && b.lightSweep==="auto")},
+  {key:"pn1Geo",       rule:"physics.geoPN>=1",                                   test:(p)=>!!p.physics && typeof p.physics.geoPN==="number" && p.physics.geoPN>=1},
+  {key:"testParticle", rule:"bodies[].testParticle=true",                         test:(p)=>(p.bodies||[]).some(b=>!!b && b.testParticle===true)},
+  {key:"spaceMesh",    rule:"physics.spaceMesh",                                  test:(p)=>!!(p.physics && p.physics.spaceMesh)},
+  {key:"obsCal",       rule:"sampleClass=calibration",                            test:(p)=>!!p && p.sampleClass==="calibration"},
+  {key:"manyBody",     rule:"bodies particle count>="+TOPIC_MANY_N,               test:(p)=>topicBodyCountOf(p)>=TOPIC_MANY_N}];
+let ppTopic="all";   // "all"|TOPIC_TAGS の key(単一選択・セッション内のみ —— 他の次元と同じ)
+function topicTest(key,p){ const t=TOPIC_TAGS.find(x=>x.key===key); return !!t && !!p && !!t.test(p); }
+function topicsOf(p){ return p? TOPIC_TAGS.filter(t=>t.test(p)).map(t=>t.key) : []; }
+function topicLabel(key){ return T("ppTopic_"+key); }
+function topicTip(key){ const v=T("ppTopic_"+key+"Tip"); return (typeof v==="function")? v(TOPIC_MANY_N) : v; }
+// チップの件数: いま一覧に出せる内蔵(catalogHidden・退役を除く)のうち、その題材の本の数(そのチップだけを選んだときの行数と同じ)
+function ppTopicCount(key){ return BUILTIN_PRESETS.filter(p=>!catalogHidden(p) && !retiredHidden(p) && topicTest(key,p)).length; }
 function ppMatch(p){
+  if(ppTopic!=="all" && !topicTest(ppTopic,p)) return false;   // 第291便e: 題材(他の次元・検索と AND)
   if(ppOther.length && !ppOtherMatch(p)) return false;   // 第285便e: 「その他」(複数 AND)・第287便e: 「!key」は除く(AND の中の否定)
   if(ppGeo!=="all" && String(ppGeoBucketOf(p))!==ppGeo) return false;   // 第284便d: 他の次元と AND
   if(ppScale!=="all" && ((typeof presetTierOf==="function"? presetTierOf(p) : p.scaleTier)||null)!==ppScale) return false;   // 第120便: タグ=距離指数由来
@@ -33211,9 +33352,10 @@ function ppRender(){
     h.appendChild(nm); h.appendChild(cnt); list.appendChild(h);
     return {h,cnt};
   };
-  const attrFiltered=(ppScale!=="all"||ppClass!=="all"||ppE!=="all"||ppGeo!=="all"||ppOther.length>0);   // 第285便e: 「その他」も属性の絞り込み
-  familyGroupedBuiltins().forEach(p=>{
-    const g=gCanon(p.group);
+  const attrFiltered=(ppScale!=="all"||ppClass!=="all"||ppE!=="all"||ppGeo!=="all"||ppOther.length>0||ppTopic!=="all");   // 第285便e: 「その他」も属性の絞り込み・第291便e: 題材も
+  // 第291便e(原仮定者の裁定(第81報)⑦・R136): 見出しは**表示の群**(ppDispGroup —— 「現実較正」は較正対象の区分で 2 見出しへ。宣言は不変)
+  ppDisplayOrdered(familyGroupedBuiltins()).forEach(p=>{
+    const g=ppDispGroup(p);
     if(catalogHidden(p)) return;   // 第117便: catalog は検索・属性絞り込みより先に隠す(strict)
     if(retiredHidden(p)) return;   // 第283便b(第73報④・R84): 退役の本は一覧に出さない(検索・「すべて表示」でも —— 読み込み中の本だけ残す)
     if(!ppMatch(p)) return;
@@ -33221,11 +33363,8 @@ function ppRender(){
       && !(currentPreset&&p.id===currentPreset.id) && !ppSearch && !attrFiltered) return;
     if(g!==curGroup){ closeGroup();
       { const sc=gScope(g); if(sc!==curScope){ closeScope(); curScope=sc; scopeHead=mkScope(sc); } }   // 第290便f: 区画の見出し
-      curGroup=g; head=mkHead(g,gName(g));
-      if(g===CAL_GROUP) ppCalSubRow(head.d); }   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 見出しの下のサブチップ(太陽系/連星)
-    if(g===CAL_GROUP && ppCalSub!=="all" && calSubOf(p)!==ppCalSub) return;   // サブチップの絞り込み(見出しは残す —— 解除できるように)
-    nInGroup++;
-    if(!retiredOf(p)) nInScope++;   // 第290便f: 退役の本は区画に数えない
+      curGroup=g; head=mkHead(g,gName(g)); }   // 第291便e: 第288便b の見出しの下のサブチップ(ppCalSubRow)は撤去 —— 2 見出しに分けたので不要
+    if(!retiredOf(p)){ nInGroup++; nInScope++; }   // 第290便f: 退役の本は区画に数えない・第291便e: 群の見出しの件数も同じ(読み込み中の退役の本は行に残るが数えない)
     let label=(p.emoji||"")+" "+pName(p);
     if(p.familyId&&p.familyRole==="variant") label="└ "+label;
     { const vl=familyVariantLabel(p); if(vl) label+="〔"+vl+"〕"; }   // 第280便d: 役割名(表示専用)
@@ -33254,25 +33393,14 @@ function ppRender(){
       mkRow("💾 "+nm,"",false,()=>pick("save#"+idx)); });
     closeGroup();
   }
+  // 第291便e(原仮定者の裁定(第81報)⑦「『サンプルを選ぶ』の最下段が実機だとタップしづらいので最下段にセパレータを追加」・統括の検証項目 R136):
+  // 一覧の**最後の子**に余白つきの区切り(.ppListEnd)を**常に**置く(絞り込み・検索の有無・保存一覧/AI 生成の有無に依らない —— 区画の終わり .ppScopeEnd とは別)。
+  // 押せない表示要素で data-n を持たない。高さは CSS(行の約 1.5 行分+env(safe-area-inset-bottom))
+  { const le=document.createElement("div"); le.className="ppListEnd"; le.id="ppListEnd"; le.setAttribute("role","separator");
+    le.setAttribute("aria-label",T("ppListEndAria")); list.appendChild(le); }
 }
-// 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): 「現実較正」のサブチップの行(第286便e のセパレータと同じ作法 —— .ppChips の区切り線・左端の次元名・data-n は選択肢の数)。
-// 件数は一覧に出せる本(退役・catalog 非表示を除く)を実行時に数える(手打ちしない)。表示専用
-function ppCalSubRow(host){
-  const row=document.createElement("div"); row.className="ppChips ppCalSub"; row.id="ppCalSub"; row.dataset.n="2";
-  row.title=T("ppCalSubTip");
-  const dl=document.createElement("span"); dl.className="ppDim"; dl.textContent=T("ppCalSubDim"); row.appendChild(dl);
-  const mem=BUILTIN_PRESETS.filter(p=>gCanon(p.group)===CAL_GROUP && !catalogHidden(p) && !retiredHidden(p));
-  [["all",T("grpAll")],["solar",T("ppCalSub_solar")],["binary",T("ppCalSub_binary")]].forEach(([v,txt])=>{
-    const c=document.createElement("button"); c.type="button"; c.className="ppChip"; c.textContent=txt; c.dataset.v=v;
-    const n=(v==="all")? mem.length : mem.filter(p=>calSubOf(p)===v).length;
-    const cn=document.createElement("span"); cn.className="ppChipN"; cn.textContent="("+n+")"; c.appendChild(cn); c.dataset.n=String(n);
-    if(ppCalSub===v) c.dataset.on="1";
-    c.setAttribute("aria-pressed", ppCalSub===v? "true":"false");
-    c.addEventListener("click",(e)=>{ e.stopPropagation(); ppCalSub=v; ppRender(); });
-    row.appendChild(c);
-  });
-  host.appendChild(row);
-}
+// 第291便e(原仮定者の裁定(第81報)⑦・R136): 第288便b の「現実較正」のサブチップの行(ppCalSubRow・状態 ppCalSub)は撤去した ——
+// 一覧の表示で「現実較正・太陽系」「現実較正・連星」の 2 見出しに分けたので不要(分ける規則 calSubOf は同じ)
 // 第149便(原仮定者指示): 絞り込み4次元の説明文(畳み込みの中身)。いずれも**既存の宣言・文言からの
 // 導出/転記だけ**で、この場で新しい数値・主張は作らない:
 //   group = I18N の groupNotes(README のグループ紹介の要約)を、実際に存在するグループぶんだけ並べる
@@ -33282,7 +33410,7 @@ function ppCalSubRow(host){
 function ppNoteText(kind){
   if(kind==="group"){
     const nt=(LANG==="en"? I18N.en.groupNotes : I18N.ja.groupNotes)||{};
-    const gs=orderedGroups().slice();
+    const gs=[].concat(...orderedGroups().map(ppDispGroupsOf));   // 第291便e: 表示の群(「現実較正」は 2 見出しの説明)
     if(getCustomPresets().length) gs.push("AI生成");
     if(getSaves().length) gs.push("保存一覧");
     return T("ppNoteGroupHead")+"\n"+T("ppNoteScopeHead")+"\n"   // 第290便f: 区画の説明
@@ -33312,6 +33440,10 @@ function ppNoteText(kind){
       +[0,1,2,3].map(k=>"・"+T("ppGeo"+k)+"("+bs.filter(b=>b===k).length+")— "+T("ppGeoUse"+k)).join("\n")   // 第291便c: 主な用途(制限はセーブ時の警告だけ)
       +"\n・"+T("ppNoteGeoCompat");
   }
+  if(kind==="topic"){   // 第291便e: 題材の規則表(TOPIC_TAGS)の語・規則の説明・件数(一覧に出せる本 —— チップの件数と同じ数え方。実行時に数える)
+    return T("ppNoteTopicHead")+"\n"
+      +TOPIC_TAGS.map(t=>"・"+topicLabel(t.key)+"("+ppTopicCount(t.key)+") — "+topicTip(t.key)).join("\n");
+  }
   if(kind==="other"){   // 第285便e: 各軸の宣言と件数(一覧に出せる本 —— チップの件数と同じ数え方。実行時に数える)
     // 第287便e: 三状態の説明と 2 段(宣言・分類バッジ)。件数は「含む」の数(除くの数は一覧に出せる本からその数を引いたもの)
     return T("ppNoteOtherHead")+"\n"+T("ppNoteOtherTri")+"\n"+T("ppNoteOtherFold")
@@ -33325,7 +33457,7 @@ function ppNoteText(kind){
 // 第149便: 説明の開閉状態(表示専用・セッション内のみ)。チップ選択のたびにウィンドウを組み直す
 // (showPresetPicker(true))ので、開閉はこの外部状態で持ち越す。既定はすべて閉。
 // 開くのは一度に1つ(アコーディオン)— 4つ同時に開くと狭い画面で一覧が潰れるため
-const ppNoteOpen={group:false,scale:false,cls:false,e:false,geo:false,other:false};   // 第284便d: geo・第285便e: other を追加
+const ppNoteOpen={group:false,scale:false,cls:false,e:false,geo:false,other:false,topic:false};   // 第284便d: geo・第285便e: other・第291便e: topic を追加
 function ppNoteToggle(key){
   const on=!ppNoteOpen[key];
   for(const k of Object.keys(ppNoteOpen)) ppNoteOpen[k]=false;
@@ -33339,7 +33471,7 @@ let ppNoteSyncs=[];
 // 開閉は**表示専用**の状態で、既定は**畳む**(開いた次元だけを端末に記憶 —— hp_pick_fold。読み書きに失敗しても描画は崩れない:
 // 記憶が無い/壊れている/書けないときは既定の畳んだ状態のまま動く)。チップを押すとウィンドウを組み直す(showPresetPicker(true))
 // ので、開閉はこの外部状態で持ち越す。絞り込みの意味論・既定(「すべて」)・隠し #presetSelect は変えない
-const PP_FOLD_KEYS=["scale","cls","e","geo","other"];
+const PP_FOLD_KEYS=["scale","cls","e","geo","topic","other"];   // 第291便e: 「題材」を「その他」の前に
 let ppFold={};
 try{ const _fj=localStorage.getItem("hp_pick_fold");
   if(_fj){ const o=JSON.parse(_fj); if(o && typeof o==="object" && !Array.isArray(o))
@@ -33511,6 +33643,10 @@ function showPresetPicker(rebuildOnly){
   const oGeo=[["all",T("grpAll")]].concat([0,1,2,3].map(k=>[String(k),T("ppGeo"+k)]));
   ppChipsRow(ppFoldBox(folds,"geo",T("ppDimGeo"),ppFoldSel(oGeo,ppGeo)), T("ppDimGeo"), oGeo,
     ()=>ppGeo,(v)=>ppGeo=v, {key:"geo", id:"ppGeoNote", btnId:"ppDimGeoBtn"});
+  // 第291便e(原仮定者の裁定(第81報)⑦・R136): 「題材」—— 単一選択(再タップで解除)。チップに件数(ppTopicCount)と規則の tip(TOPIC_TAGS から機械で)
+  const oTopic=[["all",T("grpAll")]].concat(TOPIC_TAGS.map(t=>[t.key, topicLabel(t.key), ppTopicCount(t.key), topicTip(t.key)]));
+  ppChipsRow(ppFoldBox(folds,"topic",T("ppDimTopic"),ppFoldSel(oTopic,ppTopic)), T("ppDimTopic"), oTopic,
+    ()=>ppTopic,(v)=>ppTopic=v, {key:"topic", id:"ppTopicNote", btnId:"ppDimTopicBtn", rowId:"ppTopicRow"});
   // 第285便e(原仮定者の裁定(第75報)⑧): 「その他」—— 複数 AND。「すべて」で選択を空に戻す。チップに件数(ppOtherCount)
   // 第287便e(原仮定者の裁定(第77報)⑥・AN66): 三状態(1 回=含む・2 回=除く NOT・3 回=解除)・2 段(宣言/分類バッジ)・「較正対象」。
   // 第289便f(原仮定者の裁定(第79報)④・R124): 3 段目「状況(説明タブ)」(目的 4 値・較正 6 値 —— 三状態・AND・件数・0 件の無効表示・段の畳みは同じ規約)。
@@ -38931,6 +39067,17 @@ function renderHelp(){
   // 0にすると引きずりなしの対照になることをツールチップで案内)
   badges.filter(a=>a.g==="drag").forEach(addBadge);   // 第287便e: 判定は表(physics.kFrame>0 の宣言)
   el.appendChild(chipRow);
+  // 第291便e(原仮定者の裁定(第81報)⑦「説明と絞り込みで使うチップを追加」・統括の検証項目 R136): **題材チップ**(表 TOPIC_TAGS —— 「サンプルを選ぶ」の
+  // 絞り込み「題材」と同じ規則・同じ語)。分類チップ(#classChips)の直下の 1 行で、**表示専用**(押せない span)。題材の無い本には出さない
+  { const tk=topicsOf(currentPreset);
+    if(tk.length){
+      const tr=document.createElement("div"); tr.id="descTopics"; tr.className="descTopics";
+      tr.setAttribute("role","group"); tr.setAttribute("aria-label",T("descTopicsAria"));
+      const th=document.createElement("span"); th.className="descTopicsHead"; th.textContent=T("descTopicsHead"); tr.appendChild(th);
+      for(const k of tk){ const c=document.createElement("span"); c.className="topicChip"; c.dataset.topic=k;
+        c.textContent=topicLabel(k); c.title=topicTip(k); tr.appendChild(c); }
+      el.appendChild(tr);
+    } }
   // 第283便b(原仮定者の裁定(第73報)④・R84): 退役の本を開いたら「退役(履歴)」の 1 行(表示専用 —— 自動で別の本へ置き換えない)
   if(retiredOf(currentPreset)){
     const rn=document.createElement("p"); rn.id="retiredNotice"; rn.className="note retiredNotice";
@@ -39071,6 +39218,15 @@ function renderHelp(){
         T("stChipCal")+": "+T("stCal_"+st.calibration));
       if(st.outlook) chip("stOutlook", T("stChipOutlook"), st.outlook, T("stChipOutlook")+": "+st.outlook);
       el.appendChild(box);
+      // 第291便e(原仮定者の裁定(第81報)⑦「『較正 保留』は具体的に何をすれば保留でなくなるのかを報告する」・R136): 保留のときだけ、チップの下に
+      // 「保留を解くには: …」の 1 行(原稿の holdRemedy か、見込みの分類から引く既定表 HOLD_REMEDY_RULES)。合否の約束は書かない(判定が出るまで)
+      const hr=holdRemedyOf(currentPreset);
+      if(hr){
+        const r=document.createElement("p"); r.id="stHoldRemedy"; r.className="stHoldRemedy"; r.dataset.src=hr.src;
+        r.title=T("stHoldRemedyTip");
+        const h=document.createElement("span"); h.className="stHoldRemedyHead"; h.textContent=T("stHoldRemedyHead")+":"; r.appendChild(h);
+        r.appendChild(document.createTextNode(hr.text)); el.appendChild(r);
+      }
     }
   }
   el=SEC.notclaim;
