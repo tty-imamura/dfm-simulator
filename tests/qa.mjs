@@ -22637,7 +22637,7 @@ if (!FAST) {
         if (!(B.ab.logRowShared === true && N.ab.logRowShared === false)) bad.push('A/B の写しのログの行の共有(基点 共有 → 独立)');
         const fxC = P.inventory.fixtures.find((z) => z.cat === 'fixcap');
         if (!(fxC && fxC.nSame && fxC.rerunBitSame === true && !(fxC.diffByCat.fixcap || []).length)) bad.push('棚卸しの器具(🥜 の写し)の往復');
-        if (!(P.inventory.saveCarriesState === false && P.inventory.saveCodeSameAsBase === true)) bad.push('保存 JSON の形式/保存・読込の実装が基点と違う');
+        if (!(P.inventory.saveCarriesState === false && P.inventory.saveCodeSameAsBase === true)) bad.push('保存 JSON の形式/保存・読込の実装が基点と違う(第290便c の受理 loadSaveInertialAccept を足した統合後の指紋とも違う)');
         cases.push(`再現(🥜 の中心だけ): 復元後の stepN ${B.repro.restoredStepN} → ${N.repro.restoredStepN}・R_I ${B.repro.restoredRI} → ${N.repro.restoredRI}`
           + ` / 超過の捕獲 + 離散(${P.overflow.steps} 步・n ${P.overflow.n0} のまま): 復元 ${B.overflow.restoredBitSame ? '一致' : '不一致'} → ${N.overflow.restoredBitSame ? '一致' : '不一致'}・再走 ${N.overflow.rerunBitSame ? 'ビット一致' : '不一致'}(系譜 id は別)`
           + ` / atStep ${EC.SPEC.atStep}: 放出の時刻 ${B.atStep.tTest} → ${N.atStep.tTest}(参照 ${N.atStep.tRef})`
@@ -22648,7 +22648,7 @@ if (!FAST) {
       const src = html290d;
       for (const t of ['fixcap:S.fixcap? cloneFixedCaptureState(S.fixcap) : null}', 'if("fixcap" in o){ S.fixcap=o.fixcap? cloneFixedCaptureState(o.fixcap) : null; S.hasFixedCapture=!!S.fixcap; }',
         'simB.fixcap=sim.fixcap? cloneFixedCaptureState(sim.fixcap) : null; simB.hasFixedCapture=!!simB.fixcap;',
-        'if(ckSnap.a.n!==sim.n || (!!ab)!==(!!ckSnap.b) || (ab && ckSnap.b.n!==ab.simB.n)){ notify(T("ckMismatch")); return; }', '"carVx","carVy"];'])
+        'if(ckSnap.a.n!==sim.n || (!!ab)!==(!!ckSnap.b) || (ab && ckSnap.b.n!==ab.simB.n)){ notify(T("ckMismatch")); return; }', '"carVx","carVy",'])
         if (src.indexOf(t) < 0) bad.push('html に無い: ' + t.slice(0, 60));
       if (src.indexOf('Object.assign({}, sim.fixcap') >= 0) bad.push('A/B の旧い浅い写しが残っている');
       if ((src.match(/cloneFixedCaptureState\(/g) || []).length !== 5) bad.push('cloneFixedCaptureState( の出現が定義 1 + 再帰 1 + 使用 3 でない');

@@ -82,6 +82,9 @@ const ARR = ['m', 'x', 'y', 'vx', 'vy', 'spin', 'R', 'mEff', 'pinned'];
 /** 基点 f03bf5a の保存/読込の実装の指紋(loadSave・受理 loadSaveBgcAccept の本文と保存ボタンの handler の sha256 —— 本便は変えない)。 */
 export const SAVE_CODE_F03 = Object.freeze({ loadSave: "a216f717fcfcf4821e339cc0e9e62753c551a1c48be163d1f4bdc881cde91769", loadSaveBgcAccept: "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45",
   saveHandler: "b60176edcf47be88ce3ef24dca634a8573013e102ca93d5c2ae2f59ddd7e222d" });
+/** 統合後(第290便c の受理 loadSaveInertialAccept を loadSave と保存ボタンの handler が呼ぶ —— 第290便d はこれを変えていない)の指紋。基点と同じか、
+ *  html に loadSaveInertialAccept があってこの指紋と同じなら「保存/読込の実装は本便(d)で変えていない」と読む。 */
+export const SAVE_CODE_W290C = Object.freeze({ loadSave: "42505ad0de1472508f9c8764c2cc76245a66aae7fa4d5c9a340d8b5fd18cbfe4", loadSaveBgcAccept: "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45", saveHandler: "b60176edcf47be88ce3ef24dca634a8573013e102ca93d5c2ae2f59ddd7e222d" });
 /** 基点 f03bf5a の値(枝の実測 —— 同じ器の probe を基点の beta/index.html で子プロセスで走らせ summaryOf で要約した値。基点 html は CI に無いので宣言値で持つ)。 */
 export const BEFORE_F03 = Object.freeze({ rev: 'f03bf5a', how: '枝の実測(W290D_BASE=beta/_w290_base.html で本器の probe を子プロセスで走らせ summaryOf で要約した値)',
   summary: {"repro":{"savedStepN":0,"afterStepsStepN":2,"restoredStepN":2,"savedRI":1.5,"restoredRI":0.75,"tRestored":true},"overflow":{"steps":1,"nSame":true,"restoredBitSame":false,"rerunBitSame":false,"twiceBitSame":false,"restoredNCap":1,"restoredNEject":1,"restoredRI":0.005,"restoredLog":1,"restoredEjLog":1,"restoredEself":-14.689627726449768,"savedEself":0,"snapHasFixcap":false,"rerunNDiff":14},"atStep":{"tRef":0.048,"tTest":0.032,"restoredStepN":2,"savedStepN":1,"sameEjectTime":false,"stateBitSame":false},"twice":{"savedI":2.875,"savedE":0.359375,"restoredI":25.875,"restoredE":3.234375,"restoredRI":1.5,"restoredBitSame":false},"ab":{"abPrint":"4fa0a6889654c57265b0972339f6a6acd2cb34f1d34909b1097f8bcf98113c75","aEqualsNewB":true,"legacyBEqualsNewB":true,"logRowShared":true,"ckRestoredBitSame":false,"ckRerunBitSame":false},"inventory":[["fixcap","運ばない","動いた 1 鍵のうち 1 鍵が戻らない",false],["fixcap.rInertia","運ばない","動いた 1 鍵のうち 1 鍵が戻らない",false],["fixcap.accounts","運ばない","動いた 1 鍵のうち 1 鍵が戻らない",false],["relDrag","運ばない","動いた 2 鍵のうち 2 鍵が戻らない",false],["coreV2","一部","窓の中で動かない",true],["layers","一部","窓の中で動かない",true],["spaceMesh","運ばない","動いた 4 鍵のうち 4 鍵が戻らない",false],["shapeToy","運ばない","動いた 15 鍵のうち 15 鍵が戻らない",false],["capture","運ばない","窓の中で動かない",false]]} });
@@ -331,7 +334,7 @@ export function inventory(H, X) {
   const HP = X.HP;
   const htmlText = H.htmlText;
   const saveKeys = htmlText ? saveKeysOf(htmlText) : null;
-  // 保存/読込の実装の指紋(本便は変えない —— 基点 f03bf5a の宣言値 SAVE_CODE_F03 と比べる)
+  // 保存/読込の実装の指紋(本便 d は変えない —— 基点 f03bf5a の宣言値 SAVE_CODE_F03 か、第290便c の受理を足した統合後の SAVE_CODE_W290C と比べる)
   const sha = (t) => crypto.createHash('sha256').update(String(t)).digest('hex');
   const hs0 = htmlText ? htmlText.indexOf('$("#btnSave").addEventListener("click",()=>{') : -1;
   const code = { loadSave: sha(H.evalExpr('loadSave.toString()')), loadSaveBgcAccept: sha(H.evalExpr('loadSaveBgcAccept.toString()')),
@@ -393,7 +396,7 @@ export function inventory(H, X) {
     return { key, label, fixture: f ? f.id : null, keys: rows.map((r) => r.key), moved: f ? f.moved : null, notRestored: f ? f.notRestored : null,
       saveJson: save, rebuild: '再構築できる(t=0 の値だけ)', checkpoint: ck, abClone: ab, roundTrip, rerunBitSame: f ? f.rerunBitSame : null };
   });
-  return { code, saveCodeSameAsBase: JSON.stringify(code) === JSON.stringify(SAVE_CODE_F03), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
+  return { code, saveCodeSameAsBase: JSON.stringify(code) === JSON.stringify(SAVE_CODE_F03) || (!!htmlText && htmlText.indexOf('function loadSaveInertialAccept(') >= 0 && JSON.stringify(code) === JSON.stringify(SAVE_CODE_W290C)), saveKeys, loadKeys, saveCarriesState: !!saveKeys && saveKeys.every((k) => ['name', 'comment', 'savedAt', 'presetId', 'presetName', 'physics', 'cameraScale', 'universeBox',
     'phaseParams', 'twallHeat', 'wallRest', 'graphOverlays', 'scaleExps', 'physLock', 'qLock', 'kappaT'].includes(k)) ? false : null,
   checkpointSets: { arrs: CK_ARRS.length, sc: CK_SC.length, objects: [...ckObj].sort() }, fixtures, table };
 }

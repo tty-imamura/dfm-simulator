@@ -138,6 +138,7 @@ export function gateF(HP) {
   //   stateCarry:"double" の本は**宣言の有無に依らず**復元・複製が最下位で食い違う(基点からある既存の欠落 —— 速度の補償和の
   //   繰越がチェックポイントに載らない。本便では直さない —— 第290便d の棚卸しの範囲)。門は stateCarry を外した 🐌 の写し(legacy)で取り、
   //   double の食い違いは宣言あり/なしの両方を記録だけする(新経路が足した欠落ではないことの対照)
+//   統合後(第290便d が carVx/carVy を CK_ARRS に足した)は double でも restoreSame/cloneSame が true になる(記録の欄は同じ —— 正本は鎖で更新)
   const fp = (S) => (HP.inertialDragState(S) ? snap(S).concat([S.inertialDragWork, S.inertialDragDL, S.inertialDragN]) : snap(S));   // 帳簿は宣言した本だけ(未宣言の sim に前の build の残りの欄があっても読まない)
   // 複製(cloneSimState)は currentPreset から B を build するので、内蔵の 🐌 の physics を一時だけ差し替えて loadPreset する(finally で元の参照へ戻す)
   const ckRun = (mut) => {
