@@ -33,6 +33,7 @@
 //   'w289b-branch' … 第289便b の枝で器を走らせた実測(正本の elapsedS 9.1 —— Node だけ・他の 5 枝と同じ容器で並走)。
 //   'w290c-branch' … 第290便c の枝で器を走らせた実測(正本の elapsedS 4.2 —— Node の headless だけ・Chromium なし・他の枝と同じ容器で並走)。
 //   'w290e-branch' … 第290便e の枝で器を 1 回走らせた実測(正本の elapsedS 170.6 —— Node の headless 1 本・他の枝と同じ容器で並走)。
+//   'w291d-branch' … 第291便d の枝で器を走らせた実測(正本の elapsedS 2.5〜2.7 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -639,6 +640,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/spiral-w290e.json': META_RUN.concat(['/elapsedS', '/gate7/timing/rows/*/wallSec', '/gate7/timing/rows/*/rateStepsPerSec']) },
     note: '第290便e: 🍭🎢 の宣言(shape:"spiral")・成分の数/質量/重複所属・軸比/横断/厚さを 🥏🧵📀🧹 と比べる・ピッチ角(φ−Ω_p t と ln r の直交回帰)・'
       + 'N/2N/4N・seed・刻み・Ω_p=0・G と中心スピンに対する腕成分の不変性・宣言の往復・⏮・チェックポイント・A/B・1 步の所要' }),
+  // ---- 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): 背景の精査 —— 新しい慣性決定力の核が D₀・Wbg・backgroundComplex・spaceMesh.D0・q・自転を
+  //   読まないこと(固定配置で 1 步の u がビット同一)・共通並進/一様加速度は消え回転/潮汐は残ること・旧正規化 u=A/W 型の場では Wbg が分母に残ること・
+  //   走行中の 🐌 と 🌚🌒 の診断コピーで標本の V に共通の c を足しても u が丸め床以内・核と wbgStateOf の静的な参照。
+  //   Node の headless(html だけを読む —— 他の正本は読まない)。核の器 inertial290 の後に置く(同じ 🐌 を並べて読む表の順)。所要は第291便d の枝の実測 2.7 秒
+  S('bgaudit291', 'node tests/exp-w291d-bgaudit.mjs', ['tests/out/bgaudit-w291d.json'], 3, { secSource: 'w291d-branch', node: true, after: ['inertial290'],
+    volatilePaths: { 'tests/out/bgaudit-w291d.json': META_RUN.concat(['/elapsedS']) },
+    note: '第291便d: 背景の精査表(D₀・Wbg・backgroundComplex・共通並進・一様加速度・回転・潮汐)—— 新核は背景を読まない(固定配置で u がビット同一 8 宣言)・'
+      + '2 進の配置で共通並進がビット同一・走行中の 🐌🌚🌒 で丸め床以内・旧正規化の場の Wbg 依存と ∇D の不変・核と wbgStateOf の静的な参照' }),
 ];
 
 /**

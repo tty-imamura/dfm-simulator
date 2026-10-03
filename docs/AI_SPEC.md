@@ -3058,3 +3058,15 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
   行の無い本は既定表 `HOLD_REMEDY_RULES`(`status` の見込みの分類: σ 未接続 → `hr_sigma`・数値未解決 → `hr_numerics`・写像未確定/未解決 → `hr_mapping`・判定保留(量定義不一致)→ `hr_definition`)から引く(`data-src="rule:<分類>"`)。
   **何をすれば判定器が判定を出すか**までを書き、合否は約束しない(lib の `holdRemedyCheck` が ja/en の両方・上限・禁止語・約束の語を検査)。`p.status` の形は変えていない(表の行だけに載る)。
 - QA: **`ui.topicChips291`**・**`ui.calGroupSplit291`**(第288便b の `ui.calGroupUnified` を置き換え)・**`ui.pickerListEnd`**・**`ui.holdRemedy`**。既存の固定値は世代切替 has291e(html の `const TOPIC_TAGS=` / `const GROUP_DISPLAY_SPLIT=`): `ui.pickerFilterFold`・`ui.pickerSeparators`(畳みの並び scale/cls/e/geo/topic/other —— 6 次元)・`ui.groupIcons`(表 14 → 16・GROUP_ORDER の群は 14)・`ui.pickerScope`(表示の 2 見出しも較正の区画)。root は SKIP。
+## 42. 第291便d の表示モード —— 空間メッシュの `mode:"drag"`(引きずりの可視化)と `mode:"ruler"`(光の物差し)(原仮定者の裁定〔第81報〕⑥・統括の検証項目 R135・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+`overlays.spaceMesh` の表示モードに**実行時だけの値**を 2 つ足した(`HP.SPACE_MESH_VIEW_RUNTIME = ["drag","ruler"]`)。プリセットが宣言できる正準形の値域 `SPACE_MESH_VIEW`(mesh/lines/guide/transport/tracer)には**入れない** —— `overlays:{spaceMesh:{mode:"drag"}}` を書いたプリセットは validatePreset が知らない値として落とす(presetSig・保存 JSON・S.params は 1 bit も変わらない)。値を書くのはパラメータタブの「表示の種類」(空間メッシュが ON のときだけ出る行)だけである。
+
+```
+sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"|"coordinate"}   // 実行時鍵(表示専用)
+```
+
+- `drag` … 慣性引きずり(`physics.relativeDrag.law:"inertial"`)の u を格子点の仮想の受け手で評価した矢印。読み手 `HP.inertialDragFieldAt(S,x,y,{skip?,frame?})` は核 `dfmInertialDragStep` と同じ式・同じ和の順序で、直近の步の標本(rdPrevX/Y と座標の差分の V)を読むだけ(`skip:i` で粒子 i を受け手にすると核の u_i とビット同一)。`HP.inertialDragFieldReady(S)` が標本と核の一致を確かめ、一致しない・履歴なし・未宣言では描かない。受け手は既定で源の重心系に静止(`dragFrame:"centroid"` —— 共通の並進は消える)。
+- `ruler` … `HP.lightRulerAt(S,x,y)` が ψ=κ(D₀+W_B+Σm/√(r²+ε²)) から N=e^(−ψ)・A=e^ψ・n=e^(2ψ) を返し、局所目盛り(固有長 dℓ=A|dx|)を各格子点に置く。格子は歪めない(画面座標=A×物理座標の全域歪みは採らない)。n は光の所要時間の側で、長さの倍率には使わない。
+- 格子の表は `HP.spaceMeshDisplaySample(S,{mode,cx,cy,hx,hy,res?,frame?})`(描画と QA が同じ表を読む)。サンプラーは粒子の状態・履歴・帳簿に**1 bit も書かない**(QA `behavior.meshDisplayBitsame`・`behavior.dragFieldSampler`)。
+- 背景の精査(新核は Wbg・backgroundComplex・D₀・q・自転を読まない —— 法則・参照系の宣言であって証明ではない)は docs/PHYSICS.md〔第291便d〕・器 tests/exp-w291d-bgaudit.mjs・正本 tests/out/bgaudit-w291d.json・QA `docs.bgAuditTable`。

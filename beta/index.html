@@ -1452,6 +1452,25 @@ ja: {
   smNodesLabel:"交点",
   smGridLoss:"格子が読めない交点が多い — 引きずりの度合を下げると戻る(g は自動で変えない)",
   smGainReset:"引きずりの度合を 1 に戻す",
+  // 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): 表示メッシュの 2 モード(表示専用・実行時鍵)
+  smViewLabel:"表示の種類",
+  smViewDesc:"空間メッシュの表示の種類(表示専用 —— 力学・履歴・帳簿・署名・保存 JSON・S.params には 1 bit も入らない)。\n"
+    +"・蓄積格子: 従来の既定(凍結した速度場の写像)。\n"
+    +"・引きずりの可視化(表示専用): 慣性引きずり(physics.relativeDrag.law:\"inertial\")の u を格子点の仮想の受け手で評価した矢印。核と同じ式 u=C_d Σ m_j r/(r²+ε²)² (V_j−V_受け手) を直近の步の標本(座標の差分の移動ベクトル)で読むだけで、粒子へは戻さない。受け手は既定で源の重心系に静止(全粒子に共通の並進は消える)。矢印の長さは (|u|/|u|ref)^(1/3)(ref は格子の |u| の 95 百分位・それを超える矢印は基準長で切る)。慣性決定力を宣言していない宇宙では「未宣言」と出して何も描かない。\n"
+    +"・光の物差し(局所目盛り): 各格子点に、その場所で同じ固有長を測る目盛り(固有長 dℓ=A|dx|・A=e^ψ・ψ=κ(D₀+Σm/√(r²+ε²)))。決定力が強い場所ほど目盛りが短い。弱い場では誇張指数 g を凡例に出す。格子そのものは歪めない(画面座標=A×物理座標の全域歪みは採らない)。n=e^(2ψ) は光の所要時間の側で、長さの倍率ではない。\n"
+    +"隣の数は表示格子の解像度(視野の短辺あたりの格子数・既定 16・4〜64)。",
+  smResTip:"表示格子の解像度(視野の短辺あたりの格子数・4〜64・表示専用)",
+  smView_mesh:"蓄積格子", smView_drag:"引きずり(表示)", smView_ruler:"光の物差し",
+  smView_lines:"空間線(診断)", smView_guide:"参照ガイド(診断)", smView_transport:"輸送(診断)", smView_tracer:"物質線(診断)",
+  smDragTitle:"引きずりの可視化(慣性引きずり u・表示専用)",
+  smDragUndecl:"慣性決定力は未宣言(relativeDrag.law≠\"inertial\")— 何も描かない",
+  smDragNoHist:"履歴なし(最初の步・粒子が変わった步・標本が古い)— 描かない",
+  smDragFrameCentroid:"受け手: 源の重心系に静止(共通の並進は消える)",
+  smDragFrameCoord:"受け手: 座標に静止(共通の並進も見える)",
+  smDragLenNote:"長さ ∝ (|u|/|u|ref)^(1/3)(ref を超える矢印は基準長で切る)",
+  smRulerTitle:"光の物差し(局所目盛り dℓ=A|dx|・A=e^ψ・表示専用)",
+  smRulerNote:"目盛りの長さ ∝ (A_min/A)^g(A_min は視野の最小・g は誇張)\n格子は歪めない・n=e^(2ψ) は光の所要時間の側(長さの倍率ではない)",
+  helpMeshView:"空間メッシュの「表示の種類」で、慣性引きずりの u の矢印(引きずりの可視化)と、光の物差しの局所目盛り(dℓ=A|dx|)を選べる。どちらも表示専用で、粒子の運動・履歴・帳簿は 1 bit も変わらない。",
   tgSpaceMeshDesc:"空間メッシュの表示(**表示のみ** —— 力学・帳簿へは 1 バイトも影響しない)。既定は**蓄積格子**(mode: mesh)で、**質量上位 2 粒子の重心**を原点にした正方格子(2 位と 3 位が同質量の系は 1 位の粒子が原点 —— 第261便a)を、凍結した速度場が作る**一意の写像**で写したものである。同じ行の数値が**引きずりの度合 g**(既定 1.0・スライダーは 0〜10 の指数目盛・直値は 10000 まで)で、写像 dX/ds=g·[u(X)−u(C)] を 0≤s≤τ で解く度合を決める。**第261便a から、時間幅 τ はセル幅で規格化する**(τ=κ·h/v_ref・κ=0.25)ので、**g=1 の最大変位はどのサンプルでもセル幅の 0.25 倍**であり、**『τ 固定』を変えても歪みは変わらない**(g=0 は歪みなしの正方格子・上げたぶんだけ歪む)。**これは凍結した場の診断図であって、過去から運ばれてきた物質のメッシュではない。**セルの向きが裏返ったら(折返し)そのセルを赤くし、格子全体を破線にして凡例を出す —— **空間が反転したのではなく、表示の時間幅とサンプリングの限界**である。凡例には g・歪み(セル幅比)・v_ref・実際に使った τ と、τ が自動か固定か、**読めた交点の数 nOk/nodes**(第262便d)を出す(固定しても絵は変わらない —— 診断表示である)。**g を上げすぎると折返しより先に格子そのものが消える**ので、読めた交点が全体の 1/4 を割ったら琥珀の 1 行で警告する(第262便d・🎠 は g=1 で 61/81・g=100 で 5/81)。**警告は g を自動で戻さない** —— 戻す操作は同じ行の ⟲ ボタン(g を 1 へ)である。警告も presetSig・S.params には入らない。銀河(overlays.galaxyField の宣言がある系)は局所場で描き、**有効範囲の外は描かない**。宣言の無い 3 体以上の系は**上位 2 体**から作った連星の場で描き、その旨を凡例に出す。残る 4 モード(lines / guide / transport / tracer)は**明示宣言したときだけの診断**で、同時には描かない。g と τ は署名(presetSig)にも S.params にも入らない。式と手順の全文は docs/PHYSICS.md と docs/AI_SPEC.md にある。",
   // 第37便 A3(原仮定者指示): 光線の基準波長λ0(表示専用・セーブ対象外・物理不変)
   // 第38便(原仮定者指示): 既定を580nmへ・スライダーは「光線」トグルの直後に移動・直値は可視外も受理
@@ -2504,6 +2523,25 @@ en: {
   smNodesLabel:"nodes",
   smGridLoss:"Too many grid nodes cannot be read - lower the amount of dragging to get them back (g is never changed for you)",
   smGainReset:"Reset the amount of dragging to 1",
+  // Wave 291d: two display modes of the space mesh (display only; run-time keys)
+  smViewLabel:"View",
+  smViewDesc:"Which picture the space mesh draws (DISPLAY ONLY - nothing enters the dynamics, the histories, the ledgers, the signature, the saved JSON or S.params).\n"
+    +"- Accumulated grid: the previous default (the map of the frozen velocity field).\n"
+    +"- Dragging (display only): arrows of the inertial dragging u (physics.relativeDrag.law:\"inertial\") evaluated for a virtual receiver at each grid node. It reads the same formula as the kernel, u = C_d sum m_j r/(r^2+eps^2)^2 (V_j - V_receiver), from the samples of the latest step (movement vectors built from coordinate differences), and never feeds anything back to the bodies. By default the receiver rests in the sources' barycentric frame (a translation shared by all bodies cancels). Arrow length goes as (|u|/|u|ref)^(1/3) (ref is the 95th percentile of |u| over the grid; longer arrows are capped). In a universe that does not declare dragging by the inertial determinacy the legend says so and nothing is drawn.\n"
+    +"- Light ruler (local ticks): at each node a tick that measures the same proper length there (proper length dl = A|dx|, A = e^psi, psi = kappa(D0 + sum m/sqrt(r^2+eps^2))). Where determinacy is stronger the tick is shorter. In weak fields the exaggeration exponent g is printed in the legend. The grid itself is never warped (no global map screen = A x physical coordinates). n = e^(2psi) belongs to light travel time, not to lengths.\n"
+    +"The number beside it is the display-grid resolution (cells along the shorter side of the view; default 16, 4 to 64).",
+  smResTip:"Display-grid resolution (cells along the shorter side of the view, 4 to 64; display only)",
+  smView_mesh:"Accumulated grid", smView_drag:"Dragging (display)", smView_ruler:"Light ruler",
+  smView_lines:"Space lines (diagnostic)", smView_guide:"Reference guide (diagnostic)", smView_transport:"Transport (diagnostic)", smView_tracer:"Material lines (diagnostic)",
+  smDragTitle:"Dragging made visible (inertial dragging u; display only)",
+  smDragUndecl:"Dragging by the inertial determinacy is not declared (relativeDrag.law is not \"inertial\") - nothing is drawn",
+  smDragNoHist:"No history (first step, bodies changed, or a stale sample) - nothing is drawn",
+  smDragFrameCentroid:"Receiver: at rest in the sources' barycentric frame (a shared translation cancels)",
+  smDragFrameCoord:"Receiver: at rest in the coordinates (a shared translation shows up)",
+  smDragLenNote:"length ~ (|u|/|u|ref)^(1/3) (arrows beyond ref are capped)",
+  smRulerTitle:"Light ruler (local ticks dl = A|dx|, A = e^psi; display only)",
+  smRulerNote:"tick length ~ (A_min/A)^g (A_min = smallest in view; g exaggerates)\nthe grid is not warped; n = e^(2psi) is the light-travel-time side (not a length factor)",
+  helpMeshView:"The space mesh's \"View\" offers arrows of the inertial dragging u (dragging made visible) and the light ruler's local ticks (dl = A|dx|). Both are display only: the motion, the histories and the ledgers of the bodies do not change by a single bit.",
   tgSpaceMeshDesc:"Draws the space mesh (DISPLAY ONLY - it touches neither the dynamics nor the ledgers). The default is the ACCUMULATED GRID (mode: mesh): a square grid centred on the BARYCENTRE OF THE TWO HEAVIEST PARTICLES (on the heaviest particle alone when the 2nd and 3rd have equal mass - wave 261a), mapped through the SINGLE-VALUED map built from the frozen velocity field. The number on the same row is the AMOUNT OF DRAGGING g (default 1.0; the slider runs 0 to 10 logarithmically and direct values are taken up to 10000); it scales the map dX/ds = g.[u(X) - u(C)] solved over 0<=s<=tau. SINCE WAVE 261a THE TIME SPAN TAU IS NORMALISED BY THE CELL WIDTH (tau = kappa.h/v_ref, kappa = 0.25), so AT g=1 THE LARGEST DISPLACEMENT IS 0.25 OF A CELL WIDTH IN EVERY SAMPLE and FIXING TAU NO LONGER CHANGES THE DISTORTION (g=0 leaves the reference square grid untouched; more gain means more distortion). THIS IS A DIAGNOSTIC PICTURE OF A FROZEN FIELD, NOT A MATERIAL MESH CARRIED HERE FROM THE PAST. If cells turn inside out (folding) those cells turn red, the whole grid switches to a dashed stroke and a legend appears - SPACE HAS NOT INVERTED; this is the limit of the display time span and of the sampling. The legend prints g, the distortion in cell widths, v_ref, the tau actually used, whether it is automatic or fixed, and HOW MANY GRID NODES COULD BE READ (nOk/nodes, wave 262d) (fixing tau does not change the picture - it is a readout). RAISING g TOO FAR MAKES THE GRID ITSELF DISAPPEAR BEFORE IT FOLDS, so an amber line warns once fewer than a quarter of the nodes can be read (wave 262d; the spiral-galaxy mesh reads 61/81 at g=1 and 5/81 at g=100). THE WARNING NEVER RESETS g FOR YOU - the reset control is the small button on the same row, which puts g back to 1. The warning enters neither presetSig nor S.params. A galaxy (a sample that declares overlays.galaxyField) is drawn with its local field and POINTS OUTSIDE THE VALID SUPPORT ARE NOT DRAWN. A system of three or more bodies without that declaration is drawn with the binary field OF ITS TWO HEAVIEST BODIES, and the legend says so. The remaining four modes (lines / guide / transport / tracer) are diagnostics drawn ONLY when a sample declares them, never two at once. Neither g nor tau enters presetSig or S.params. The full formulas and procedure are in docs/PHYSICS.md and docs/AI_SPEC.md.",
   // 第37便 A3: ray base wavelength lambda0 (display only, not saved, physics-free)
   // 38th flight (design lead's instruction): default now 580nm; slider moved right after the "rays" toggle; direct entry accepts non-visible values
@@ -4850,6 +4888,13 @@ const SPACE_MESH_MODES = ["vertex"];
 // 第257便c(第49報「全体の重心を原点にしたメッシュを描画する」): 先頭に `mesh`(重心原点の
 // 蓄積格子)を足した。旧セーブに `mesh` は 1 件も無いので移行表の行は増えない
 const SPACE_MESH_VIEW = ["mesh","lines","guide","transport","tracer"];
+// 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): **実行時だけの表示モード** drag(慣性引きずり u の可視化)と
+// ruler(光の物差し —— 局所目盛り dℓ=A|dx|)。上の SPACE_MESH_VIEW(プリセットが宣言できる正準形の値域)には**入れない** ——
+// validatePreset は知らない値として落とすので、presetSig・保存 JSON・S.params には入らない(表示トグルの選択だけが書く)。
+const SPACE_MESH_VIEW_RUNTIME = ["drag","ruler"];   // 実行時だけの表示モード(正準形・presetSig・保存 JSON・S.params には入らない)
+const SPACE_MESH_DRAG_FRAMES = ["centroid","coordinate"];
+const SPACE_MESH_RES_DEF = 16, SPACE_MESH_RES_MIN = 4, SPACE_MESH_RES_MAX = 64;
+const SPACE_MESH_SAMPLER_VERSION = "w291d-sampler-1";
 // 第257便a(第49報「空間メッシュに対する相対的な移動が慣性である」): 慣性則に 3 つめの値を足す。
 //   "coordinate" … **メッシュに対する相対運動の作用** L=½m|v−η·χ·u_mesh(x)|²−mΦ から Euler–Lagrange で
 //                   EOM を導く(∂u/∂x 項を落とさない)。強度 η は `inertiaGain`(既定 1・**表示の
@@ -30496,6 +30541,8 @@ function _smViewMode(S){
   const ov=S && S.overlays && S.overlays.spaceMesh;
   if(!ov) return null;
   if(typeof ov==="object" && !Array.isArray(ov) && SPACE_MESH_VIEW.indexOf(ov.mode)>=0) return ov.mode;
+  // 第291便d: 実行時だけの表示モード(drag/ruler —— 表示トグルの選択が書く。プリセットの正準形には無い)
+  if(typeof ov==="object" && !Array.isArray(ov) && SPACE_MESH_VIEW_RUNTIME.indexOf(ov.mode)>=0) return ov.mode;
   const smm=S.overlays.spaceMeshMode;                       // 旧形(第255便c まで)の実行時状態
   if(SPACE_MESH_VIEW.indexOf(smm)>=0) return smm;
   return "lines";                                           // `true` だけの旧形 = 空間線
@@ -31111,6 +31158,7 @@ const SPACE_MESH_LOSS_FRAC=0.25;
 // 凡例と観測口が**同じ 1 つの式**を読む(表示と記録で境界がずれないように)
 function _smGridLoss(G){ return !!(G && G.nodes>0 && G.nOk<G.nodes*SPACE_MESH_LOSS_FRAC); }
 let _smTauUser=null;              // null = 自動
+let _smResUser=null;              // 第291便d: 表示格子の解像度(drag/ruler)の利用者の値(null = 既定 16)。表示専用・永続しない
 try{ const _st=parseFloat(localStorage.getItem("hp_sm_tau"));
   if(isFinite(_st) && _st>0 && _st<=SPACE_MESH_TAU_MAX) _smTauUser=_st; }catch(_){}
 function _smTau(S){
@@ -31591,6 +31639,93 @@ function drawSpaceGridOn(S,SXf,SYf){
   ctx.lineWidth=lw;
 }
 
+// ===== 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): 表示メッシュの 2 モード(**表示専用**)=====
+//   drag  … 慣性引きずり(第290便c の新核)の u を格子点の仮想受け手で評価した矢印(向き・長さ ∝ (|u|/|u|ref)^(1/3)・ref は 95 百分位 —— 遠方 r⁻³ を
+//           立方根で圧縮)+基準格子+凡例(C_d・|u|max・格子幅・標本の時刻・受け手の系)。慣性決定力を宣言していない宇宙
+//           (relativeDrag.law≠"inertial")では凡例に「未宣言」と出して**何も描かない**(旧法則版 geoPN=3 のメッシュ表示とは混ぜない)。
+//   ruler … 光の物差し: 各格子点に「この場所の 1 目盛り」の十字(腕の長さ L=L₀·(A_min/A)^g(A_min は視野の最小) —— 固有長 dℓ=A|dx| の局所目盛り)。
+//           A が大きい(決定力が強い)場所ほど同じ固有長の目盛りが座標上で短い。弱場でも見えるよう誇張指数 g を凡例に出す。
+//           **格子そのものは歪めない**(全域の 画面座標=A×物理座標 は採らない)。
+// 格子は世界座標の h の整数倍に置く(視野の短辺/res を 1・2・5×10^k へ丸める)。res は実行時鍵 overlays.spaceMesh.res(既定 16)。
+// **書くのはキャンバスだけ**(粒子・履歴・帳簿・S.params へは 1 bit も書かない —— QA behavior.meshDisplayBitsame)。
+const SPACE_MESH_DRAG_RGB="120,230,170", SPACE_MESH_RULER_RGB="200,170,255";
+function _smDisplayView(S,SXf,SYf,mode){
+  const s0=SXf(0), zx=SXf(1)-s0, t0=SYf(0), zy=SYf(1)-t0;
+  if(!(Math.abs(zx)>0) || !(Math.abs(zy)>0)) return null;
+  const scy=SYf(camY), hpx=Math.max(1,Math.min(scy, ch-scy));     // A/B の半面でも中心から上下へ同じ幅
+  return { mode, cx:camX, cy:camY, hx:(cw/2)/Math.abs(zx), hy:hpx/Math.abs(zy),
+    res:spaceMeshResOf(S), frame:spaceMeshDragFrameOf(S), sx0:0, sy0:scy-hpx, syB:scy+hpx-58 };
+}
+function _smDrawRefGrid(D,SXf,SYf,rgb){
+  const lw=ctx.lineWidth; ctx.lineWidth=1; ctx.strokeStyle="rgba("+rgb+",0.16)";
+  const h=D.h, xa=D.i0*h, xb=(D.i0+D.nx-1)*h, ya=D.j0*h, yb=(D.j0+D.ny-1)*h;
+  ctx.beginPath();
+  for(let a=0;a<D.nx;a++){ const x=(D.i0+a)*h; ctx.moveTo(SXf(x),SYf(ya)); ctx.lineTo(SXf(x),SYf(yb)); }
+  for(let b=0;b<D.ny;b++){ const y=(D.j0+b)*h; ctx.moveTo(SXf(xa),SYf(y)); ctx.lineTo(SXf(xb),SYf(y)); }
+  ctx.stroke(); ctx.lineWidth=lw;
+}
+// 凡例は視野の左下(スケールバーの上)から上へ積む —— 左上の HUD と重ならない
+function _smDrawLegend(lines0,x0,yBottom,rgb){
+  const lines=[]; for(const l of lines0) for(const p of String(l).split("\n")) lines.push(p);   // 文言の \n で行を分ける(狭い画面で切れない)
+  if(!lines.length) return;
+  const sv=ctx.fillStyle, fv=ctx.font;
+  ctx.font="12px system-ui,-apple-system,sans-serif"; ctx.fillStyle="rgba("+rgb+",0.92)";
+  for(let i=0;i<lines.length;i++) ctx.fillText(lines[i], x0, yBottom-(lines.length-1-i)*14);
+  ctx.fillStyle=sv; ctx.font=fv;
+}
+function _smFx(v){ return (v===null || v===undefined || !Number.isFinite(v))? "—"
+  : (v!==0 && (Math.abs(v)>=1000 || Math.abs(v)<0.01))? v.toExponential(2) : String(Math.round(v*1000)/1000); }
+function drawDragFieldOn(S,SXf,SYf){
+  const V=_smDisplayView(S,SXf,SYf,"drag"); if(!V) return;
+  const lx=V.sx0+8, ly=V.syB;
+  if(!S.relDrag || S.relDrag.law!=="inertial"){ _smDrawLegend([T("smDragTitle"), T("smDragUndecl")],lx,ly,SPACE_MESH_DRAG_RGB); return; }
+  const D=spaceMeshDisplaySample(S,V); if(!D || !D.xs) return;
+  _smDrawRefGrid(D,SXf,SYf,SPACE_MESH_DRAG_RGB);
+  const R=D.ready, leg=[T("smDragTitle")];
+  if(!R.ready){ leg.push(T("smDragNoHist")); _smDrawLegend(leg,lx,ly,SPACE_MESH_DRAG_RGB); return; }
+  const um=D.uMax, ur=(D.uRef>0)? D.uRef : um, Lmax=0.45*Math.abs(SXf(D.h)-SXf(0));
+  if(um>0){
+    const lw=ctx.lineWidth; ctx.lineWidth=1.2; ctx.strokeStyle="rgba("+SPACE_MESH_DRAG_RGB+",0.85)";
+    ctx.beginPath();
+    for(let k=0;k<D.nodes;k++){
+      const ux=D.ux[k], uy=D.uy[k], m=Math.hypot(ux,uy);
+      if(!(m>0)) continue;
+      const L=Lmax*Math.min(1,Math.cbrt(m/ur)); if(L<0.75) continue;
+      const x0=SXf(D.xs[k]), y0=SYf(D.ys[k]);
+      const dx=SXf(D.xs[k]+ux/m)-x0, dy=SYf(D.ys[k]+uy/m)-y0, dl=Math.hypot(dx,dy)||1;
+      const ex=dx/dl, ey=dy/dl, x1=x0+ex*L, y1=y0+ey*L, hd=Math.min(5,0.35*L);
+      ctx.moveTo(x0,y0); ctx.lineTo(x1,y1);
+      ctx.moveTo(x1,y1); ctx.lineTo(x1-hd*(ex*0.87-ey*0.5), y1-hd*(ey*0.87+ex*0.5));
+      ctx.moveTo(x1,y1); ctx.lineTo(x1-hd*(ex*0.87+ey*0.5), y1-hd*(ey*0.87-ex*0.5));
+    }
+    ctx.stroke(); ctx.lineWidth=lw;
+  }
+  leg.push("C_d="+_smFx(R.gain)+" / ε="+_smFx(R.eps)+" / h="+_smFx(D.h)+" / t_s="+_smFx(R.tSample));
+  leg.push("|u|max="+_smFx(um)+" / |u|ref(95%)="+_smFx(ur));
+  leg.push(T(D.frame==="coordinate"? "smDragFrameCoord" : "smDragFrameCentroid"));
+  leg.push(T("smDragLenNote"));
+  _smDrawLegend(leg,lx,ly,SPACE_MESH_DRAG_RGB);
+}
+function drawLightRulerOn(S,SXf,SYf){
+  const V=_smDisplayView(S,SXf,SYf,"ruler"); if(!V) return;
+  const D=spaceMeshDisplaySample(S,V); if(!D || !D.xs) return;
+  _smDrawRefGrid(D,SXf,SYf,SPACE_MESH_RULER_RGB);
+  const L0=0.32*Math.abs(SXf(D.h)-SXf(0)), dm=D.dpsiMax, g=D.g;
+  const lw=ctx.lineWidth; ctx.lineWidth=1.3;
+  for(let k=0;k<D.nodes;k++){
+    const d=D.dpsi[k], fr=(dm>D.dpsiMin)? Math.min(1,Math.max(0,1-Math.exp(-g*(d-D.dpsiMin)))) : 0;
+    const L=Math.max(1,L0*Math.exp(-g*(d-D.dpsiMin))), x0=SXf(D.xs[k]), y0=SYf(D.ys[k]);
+    ctx.strokeStyle="rgba("+SPACE_MESH_RULER_RGB+","+(0.35+0.55*fr).toFixed(3)+")";
+    ctx.beginPath(); ctx.moveTo(x0-L,y0); ctx.lineTo(x0+L,y0); ctx.moveTo(x0,y0-L); ctx.lineTo(x0,y0+L); ctx.stroke();
+  }
+  ctx.lineWidth=lw;
+  const leg=[T("smRulerTitle"),
+    "κ="+_smFx(D.kappa)+" / A_bg="+_smFx(D.Abg)+" / g="+_smFx(g)+" / h="+_smFx(D.h),
+    "A_min/A_bg−1="+_smFx(D.AminRel-1)+" / A_max/A_bg−1="+_smFx(D.ArelMax-1),
+    T("smRulerNote")];
+  _smDrawLegend(leg,V.sx0+8,V.syB,SPACE_MESH_RULER_RGB);
+}
+
 // 第256便c(第48報「複数の表示方式が混在しているが、重たい処理を整理する」・3 審査 v14 O4):
 // **モードは排他**である。mode の switch を 1 つだけ通り、同時に 2 つのバックエンドは動かない
 // (第255便c は tracer のときに物質線と空間線を**両方**描き、空間線のキャッシュと tracer の
@@ -31603,6 +31738,9 @@ function drawSpaceMeshOn(S,SXf,SYf,zv){
   if(mode==="mesh"){ drawSpaceGridOn(S,SXf,SYf); return; }
   // ---- tracer(物質線): 局所場の tracer だけを描いて終わる。空間線も頂点メッシュも描かない
   if(mode==="tracer"){ drawGalaxyTracerInto(S,SXf,SYf,(zv>0)? zv : zoom()); return; }
+  // ---- 第291便d: drag(慣性引きずり u)/ ruler(光の物差し)—— 表示専用・他のバックエンドは 1 つも触らない
+  if(mode==="drag"){ if(S) drawDragFieldOn(S,SXf,SYf); return; }
+  if(mode==="ruler"){ if(S) drawLightRulerOn(S,SXf,SYf); return; }
   if(!S || !(S.n>=2)) return;
   let MST=null;                                    // 線分・重心マーカーの色分けに使う状態(モードで作り方が違う)
   const ids=_smPick(S); if(!ids) return;
@@ -35707,7 +35845,8 @@ function buildParamRows(){
       (v)=>{ const cur=_smViewMode(sim);
         if(!v && cur) sim._smKeepMode=cur;
         const keep=sim._smKeepMode;
-        const nv=v? {mode:(SPACE_MESH_VIEW.indexOf(keep)>=0? keep : "mesh")} : false;
+        const nv=v? {mode:((SPACE_MESH_VIEW.indexOf(keep)>=0 || SPACE_MESH_VIEW_RUNTIME.indexOf(keep)>=0)? keep : "mesh")} : false;   // 第291便d: drag/ruler も往復で保つ
+        if(nv && _smResUser!==null) nv.res=_smResUser;   // 第291便d: 表示格子の解像度(実行時鍵)も ON のたびに書き戻す
         if(nv && _smGainUser!==null) nv.gain=_smGainUser;
         if(nv && _smTauUser!==null) nv.tau=_smTauUser;    // 第258便c: 固定 τ も ON のたびに書き戻す
         sim.overlays.spaceMesh=nv;
@@ -35833,6 +35972,38 @@ function buildParamRows(){
       showT();
       rowT.appendChild(labT); rowT.appendChild(tin); rowT.appendChild(tcb); disp.appendChild(rowT);
       cb.addEventListener("change",showT);
+      // 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): **表示の種類**(蓄積格子/引きずりの可視化/光の物差し)と
+      // 表示格子の解像度。どちらも**表示専用**の実行時鍵(overlays.spaceMesh.mode・.res)で、署名・保存 JSON・S.params には入らない。
+      // 「空間メッシュ」が ON のときだけ出す。プリセットが宣言した診断モード(lines/guide/transport/tracer)の本では、その名前も選べる。
+      const rowV=document.createElement("div"); rowV.className="prow smViewRow";
+      const labV=document.createElement("label"); labV.textContent=T("smViewLabel"); labV.style.flex="1";
+      tapDesc(rowV,labV,"smViewDesc");
+      const selV=document.createElement("select"); selV.id="smViewSel"; selV.title=T("smViewDesc");
+      selV.style.cssText="flex:0 0 auto;max-width:150px;";
+      const resV=document.createElement("input"); resV.type="number"; resV.id="smResIn"; resV.className="valIn";
+      resV.min=String(SPACE_MESH_RES_MIN); resV.max=String(SPACE_MESH_RES_MAX); resV.step="1"; resV.title=T("smResTip");
+      resV.style.cssText="flex:0 0 52px;width:52px;text-align:right;";
+      const showV=()=>{ const cur=_smViewMode(sim);
+        const opts=["mesh","drag","ruler"];
+        if(cur && opts.indexOf(cur)<0) opts.push(cur);
+        selV.textContent="";
+        for(const m of opts){ const o=document.createElement("option"); o.value=m; o.textContent=T("smView_"+m)||m; selV.appendChild(o); }
+        selV.value=cur||"mesh";
+        resV.value=String(spaceMeshResOf(sim)); resV.disabled=(SPACE_MESH_VIEW_RUNTIME.indexOf(cur)<0);
+        rowV.hidden=!sim.overlays.spaceMesh; };
+      const putV=(S,f)=>{ const ov=S && S.overlays && S.overlays.spaceMesh; if(ov && typeof ov==="object") f(ov); };
+      selV.addEventListener("change",()=>{ const m=selV.value;
+        putV(sim,(ov)=>{ ov.mode=m; }); sim._smKeepMode=m;
+        if(ab && ab.simB){ putV(ab.simB,(ov)=>{ ov.mode=m; }); ab.simB._smKeepMode=m; }
+        showV(); requestRender(); });
+      resV.addEventListener("change",()=>{ const r=Math.round(Number(resV.value));
+        _smResUser=(Number.isInteger(r) && r>=SPACE_MESH_RES_MIN && r<=SPACE_MESH_RES_MAX)? r : null;
+        const f=(ov)=>{ if(_smResUser===null) delete ov.res; else ov.res=_smResUser; };
+        putV(sim,f); if(ab && ab.simB) putV(ab.simB,f);
+        showV(); requestRender(); });
+      showV();
+      rowV.appendChild(labV); rowV.appendChild(selV); rowV.appendChild(resV); disp.appendChild(rowV);
+      cb.addEventListener("change",showV);
     }
     if(isTrailLine){   // 第122便: スライダー(0〜5000・50刻み・0=無制限)+直値入力(広域も受理)
       const rng=document.createElement("input"); rng.type="range"; rng.id="trailLifeRange";
@@ -39557,6 +39728,7 @@ function buildAbout(){
   mk("p",T("helpObsCompare"));   // 第285便d
   mk("p",T("helpLiveCompare"));   // 第286便d
   mk("p",T("helpPickerScope"));   // 第290便f: 一覧の区画・新群・「状況」の段の既定の畳み
+  mk("p",T("helpMeshView"));   // 第291便d: 空間メッシュの「表示の種類」(引きずりの可視化・光の物差し —— 表示専用)
 }
 // 第28便(第24次レビュー): キーボード・フォーカス対応(Enter/Space で開閉・Escape で閉じる)
 function aboutToggle(show){
@@ -48114,6 +48286,172 @@ function inertialDragState(S){
     bound:S.inertialDragBound, boundMax:S.inertialDragBoundMax, degMax:S.inertialDragDegMax, uMax:S.inertialDragUMax,
     sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL };
 }
+// ===== 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): **表示メッシュの読み取り専用サンプラー** =====
+// 「空間メッシュは引きずりの可視化にとどめ、光の物差しで空間を測ったような見やすい表示計算を工夫する」。
+// ここに置くのは**純粋な読み手**だけである —— 粒子の状態(x・v・自転)・慣性引きずりの履歴(rdPrevX/Y/T・_rdVX/VY・_rdUX/UY)・
+// 帳簿(inertialDragWork 等)へ **1 bit も書かない**(QA behavior.meshDisplayBitsame・behavior.dragFieldSampler が機械固定する)。
+// 表示メッシュの点の運動・補間誤差を粒子の加速度や履歴へ戻す経路は**作らない**。
+//
+// (1) `inertialDragFieldAt(S,x,y,opt)` —— 慣性引きずり(第290便c の新核 `dfmInertialDragStep`)の u を、格子点に置いた
+//     **仮想の受け手**に対して評価する。源は**直近の步が核に渡した標本**(座標 rdPrevX/Y —— 移送の前の相・移動ベクトル _rdVX/VY)で、
+//     核と**同じ式・同じ和の順序**(a=C_d m_j r/(r²+ε²)²・u+=a(V_j−V_受け手))。自己項は無い(仮想の受け手は源ではない)。
+//       opt.skip=i … 受け手を粒子 i にする(V_受け手=V_i・j≠i・宣言した対だけ)。**この形は核の u_i とビット同一**(門)。
+//       opt.frame … 格子点の受け手の移動ベクトル: "centroid"(既定 —— 源の質量加重平均 V̄ で動く受け手。**全粒子に共通の並進は消える**)/
+//                   "coordinate"(座標に静止 V=0 —— 共通の並進も「引きずり」として見える)。
+//     **核は Wbg・backgroundComplex・spaceMesh.D0・q・粒子の自転を読まない**ので、このサンプラーも読まない(docs/PHYSICS.md〔第291便d〕)。
+// (2) `inertialDragFieldReady(S)` —— 標本が**直近の步の核の u と一致するか**(受け手ごとに opt.skip で引き直して _rdUX/UY と
+//     ビット比較)。履歴なしの步(build 直後・粒子が変わった步・時刻の食い違い)や標本が古いときは ready:false で、表示は何も描かない。
+// (3) `lightRulerAt(S,x,y)` —— E7R/E8R の ψ=κ·(D₀+W_B+Σ_j m_j/√(r²+ε²))(時計 S.tauUpdate と同じ W —— 格子点は源ではないので
+//     自己除外は無い)から N=e^(−ψ)・A=e^ψ・n=A/N=e^(2ψ) を返す。**局所の物差しは A**(固定座標で同時刻に測る固有長 dℓ=A|dx|)で、
+//     n=e^(2ψ) は光の所要時間(光路)の側 —— 長さの倍率には使わない。背景だけの A_bg=e^(κ(D₀+W_B)) に対する比 A/A_bg も返す。
+// (4) `spaceMeshDisplaySample(S,view)` —— 表示格子の全点を (1)/(3) で評価した表(描画と QA が同じ表を読む)。
+//     **全点を 画面座標=A(x)×物理座標 に置く全域歪みは採らない**(局所の物差しは一般に平面座標へ歪みなく積分できない)。
+// 定数(SPACE_MESH_VIEW_RUNTIME・SPACE_MESH_DRAG_FRAMES・SPACE_MESH_RES_*・SPACE_MESH_SAMPLER_VERSION)は SPACE_MESH_VIEW の隣に置く
+//(描画の入口 _smViewMode が読むので、スクリプトの前の方で定義しておく)。
+function inertialDragFieldAt(S,x,y,opt){
+  if(!S || !S.relDrag || S.relDrag.law!=="inertial") return null;
+  const n=S.n, PX=S.rdPrevX, PY=S.rdPrevY, VX=S._rdVX, VY=S._rdVY;
+  if(!PX || !PY || !VX || !VY || PX.length<n || VX.length<n) return null;
+  const o=opt||{}, rd=S.relDrag, m=S.m;
+  const C=rd.gain, eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0), e2=eps*eps;
+  const skip=(Number.isInteger(o.skip) && o.skip>=0 && o.skip<n)? o.skip : -1;
+  const set=(skip>=0)? S._rdPairSet : null, NP=S._rdPairN;
+  let vrx=0, vry=0, frame;
+  if(skip>=0){ vrx=VX[skip]; vry=VY[skip]; frame="particle"; }
+  else {
+    frame=(SPACE_MESH_DRAG_FRAMES.indexOf(o.frame)>=0)? o.frame : SPACE_MESH_DRAG_FRAMES[0];
+    if(frame==="centroid"){
+      let ms=0, sx=0, sy=0;
+      for(let j=0;j<n;j++){ const mj=m[j]; if(!(mj>0) || !Number.isFinite(mj)) continue; ms+=mj; sx+=mj*VX[j]; sy+=mj*VY[j]; }
+      if(ms>0){ vrx=sx/ms; vry=sy/ms; }
+    }
+  }
+  const px=(skip>=0)? PX[skip] : Number(x), py=(skip>=0)? PY[skip] : Number(y);
+  if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
+  let ux=0, uy=0, deg=0, coincident=false;
+  for(let j=0;j<n;j++){
+    if(j===skip) continue;                                 // 自己項なし(核の (iv))
+    if(set && !set.has(skip*NP+j)) continue;              // 粒子の受け手は宣言した対だけ(核と同じ)
+    const mj=m[j];
+    if(!(mj>0) || !Number.isFinite(mj)) continue;         // 質量が正でない粒子は源にならない(核の (v))
+    const dx=PX[j]-px, dy=PY[j]-py, r2=dx*dx+dy*dy;
+    if(!(r2>0)){ if(skip>=0){ coincident=true; break; } continue; }   // 格子点が源に重なった点は K(0)=0(粒子の受け手は核と同じく拒否)
+    const r=Math.sqrt(r2), s=r2+e2, a=C*mj*(r/(s*s));     // 核 dfmInertialDragStep と同じ式・同じ順序
+    ux+=a*(VX[j]-vrx); uy+=a*(VY[j]-vry);
+    deg+=a;
+  }
+  if(coincident) return { u:null, deg:null, reject:"coincident", frame, version:SPACE_MESH_SAMPLER_VERSION };
+  return { u:[ux,uy], deg, ref:[vrx,vry], frame, gain:C, eps, at:[px,py], version:SPACE_MESH_SAMPLER_VERSION };
+}
+function inertialDragFieldReady(S){
+  const out={ declared:false, ready:false, why:null, checked:0, same:0, tSample:null, gain:null, eps:null, n:S? S.n : 0,
+    version:SPACE_MESH_SAMPLER_VERSION };
+  if(!S || !S.relDrag || S.relDrag.law!=="inertial"){ out.why="undeclared"; return out; }
+  out.declared=true; out.gain=S.relDrag.gain;
+  out.eps=(S.relDrag.eps!==undefined)? S.relDrag.eps : (S.params.softening||0);
+  const n=S.n;
+  if(!S.rdPrevX || !S._rdVX || !S._rdUX || S.rdPrevX.length<n){ out.why="noSample"; return out; }
+  if(!(S.inertialDragN>0)){ out.why="noHistory"; return out; }
+  if(S.rdEpoch!==inertialDragEpoch(S)){ out.why="epoch"; return out; }
+  out.tSample=(n>0)? S.rdPrevT[0] : null;
+  // 受け手ごとに opt.skip で引き直し、直近の步の核の u とビット比較する(粒子が多い宇宙は先頭 64 体だけ)
+  const lim=Math.min(n,64);
+  for(let i=0;i<lim;i++){
+    const mi=S.m[i];
+    if(!(mi>0) || !Number.isFinite(mi) || (S.pinned && S.pinned[i])) continue;
+    const q=inertialDragFieldAt(S,0,0,{skip:i});
+    out.checked++;
+    if(q && q.u && Object.is(q.u[0],S._rdUX[i]) && Object.is(q.u[1],S._rdUY[i])) out.same++;
+  }
+  out.ready=(out.checked>0 && out.same===out.checked);
+  if(!out.ready) out.why=(out.checked>0)? "stale" : "noReceiver";
+  return out;
+}
+function lightRulerAt(S,x,y){
+  if(!S || !S.params) return null;
+  const pp=S.params, kap=Number(pp.kappaT)||0, eps=pp.softening||0, e2=eps*eps;
+  const WB=(S.box && S.boxA)? S.boxA.W : 0;
+  const bg=(Number(pp.D0)||0)+WB;
+  let W=0;
+  for(let j=0;j<S.n;j++){ const dx=S.x[j]-x, dy=S.y[j]-y, q2=dx*dx+dy*dy+e2; if(q2>0) W+=S.m[j]/Math.sqrt(q2); }   // ε=0 で源に重なった格子点はその源を数えない(無限大を描かない)
+  const psiBg=bg*kap, dpsi=W*kap, psi=psiBg+dpsi;
+  return { psi, psiBg, dpsi, N:Math.exp(-psi), A:Math.exp(psi), n:Math.exp(2*psi), Arel:Math.exp(dpsi),
+    W, Wbg:bg, kappa:kap, version:SPACE_MESH_SAMPLER_VERSION };
+}
+function _smQuantile(A,q){
+  const n=A? A.length : 0; if(!n) return 0;
+  const B=Float64Array.from(A).sort(), k=Math.min(n-1,Math.max(0,Math.floor(q*(n-1))));
+  return B[k];
+}
+// 表示の格子幅: 視野の短辺 / res を 1・2・5×10^k へ丸める(格子点は世界座標の h の整数倍 —— パンで格子が泳がない)
+function _smNiceStep(v){
+  if(!(v>0) || !Number.isFinite(v)) return 1;
+  const e=Math.pow(10,Math.floor(Math.log10(v))), f=v/e;
+  return ((f<1.5)? 1 : (f<3.5)? 2 : (f<7.5)? 5 : 10)*e;
+}
+function spaceMeshResOf(S){
+  const ov=S && S.overlays && S.overlays.spaceMesh;
+  const r=(ov && typeof ov==="object")? Number(ov.res) : NaN;
+  return (Number.isInteger(r) && r>=SPACE_MESH_RES_MIN && r<=SPACE_MESH_RES_MAX)? r : SPACE_MESH_RES_DEF;
+}
+function spaceMeshDragFrameOf(S){
+  const ov=S && S.overlays && S.overlays.spaceMesh;
+  const f=(ov && typeof ov==="object")? ov.dragFrame : undefined;
+  return (SPACE_MESH_DRAG_FRAMES.indexOf(f)>=0)? f : SPACE_MESH_DRAG_FRAMES[0];
+}
+// view = {mode:"drag"|"ruler", cx, cy, hx, hy, res?, frame?}(世界座標の視野の中心と半幅)。返り値は格子の表と凡例の数。
+function spaceMeshDisplaySample(S,view){
+  if(!S || !view || SPACE_MESH_VIEW_RUNTIME.indexOf(view.mode)<0) return null;
+  const hx=Number(view.hx), hy=Number(view.hy), cx=Number(view.cx), cy=Number(view.cy);
+  if(![hx,hy,cx,cy].every(Number.isFinite) || !(hx>0) || !(hy>0)) return null;
+  const res=(Number.isInteger(view.res) && view.res>=SPACE_MESH_RES_MIN && view.res<=SPACE_MESH_RES_MAX)? view.res : SPACE_MESH_RES_DEF;
+  const h=_smNiceStep(2*Math.min(hx,hy)/res);
+  const i0=Math.ceil((cx-hx)/h), i1=Math.floor((cx+hx)/h), j0=Math.ceil((cy-hy)/h), j1=Math.floor((cy+hy)/h);
+  const nx=Math.max(0,i1-i0+1), ny=Math.max(0,j1-j0+1);
+  const out={ mode:view.mode, h, res, i0, j0, nx, ny, nodes:nx*ny, xs:null, ys:null, version:SPACE_MESH_SAMPLER_VERSION };
+  if(out.nodes>SPACE_MESH_RES_MAX*SPACE_MESH_RES_MAX*4){ out.why="tooMany"; return out; }   // 細長い視野の保険(描かない)
+  const X=new Float64Array(out.nodes), Y=new Float64Array(out.nodes);
+  for(let b=0;b<ny;b++) for(let a=0;a<nx;a++){ const k=b*nx+a; X[k]=(i0+a)*h; Y[k]=(j0+b)*h; }
+  out.xs=X; out.ys=Y;
+  if(view.mode==="drag"){
+    const rdy=inertialDragFieldReady(S);
+    out.ready=rdy;
+    const frame=(SPACE_MESH_DRAG_FRAMES.indexOf(view.frame)>=0)? view.frame : SPACE_MESH_DRAG_FRAMES[0];
+    out.frame=frame;
+    if(!rdy.ready) return out;
+    const UX=new Float64Array(out.nodes), UY=new Float64Array(out.nodes);
+    let uMax=0;
+    for(let k=0;k<out.nodes;k++){
+      const q=inertialDragFieldAt(S,X[k],Y[k],{frame});
+      if(!q || !q.u) continue;
+      UX[k]=q.u[0]; UY[k]=q.u[1];
+      const um=Math.hypot(q.u[0],q.u[1]); if(um>uMax) uMax=um;
+    }
+    out.ux=UX; out.uy=UY; out.uMax=uMax;
+    // 矢印の基準は |u| の 95 百分位(源のすぐ近くの 1 点が全体を潰さないように —— それより長い矢印は基準長で切る)
+    const MG=new Float64Array(out.nodes); for(let k=0;k<out.nodes;k++) MG[k]=Math.hypot(UX[k],UY[k]);
+    out.uRef=_smQuantile(MG,0.95)||uMax;
+    return out;
+  }
+  // ruler
+  const D=new Float64Array(out.nodes);
+  let dMax=0, dMin=Infinity, q0=null;
+  for(let k=0;k<out.nodes;k++){
+    const q=lightRulerAt(S,X[k],Y[k]); if(!q) continue; q0=q0||q;
+    D[k]=q.dpsi; if(q.dpsi>dMax) dMax=q.dpsi; if(q.dpsi<dMin) dMin=q.dpsi;
+  }
+  out.dpsi=D; out.dpsiMax=dMax; out.dpsiMin=(dMin===Infinity)? 0 : dMin;
+  out.kappa=q0? q0.kappa : (Number(S.params && S.params.kappaT)||0);
+  out.Abg=q0? Math.exp(q0.psiBg) : 1;
+  out.ArelMax=Math.exp(dMax);
+  // 表示の誇張指数 g(目盛りの長さ L=L₀·(A_min/A)^g —— A_min は視野の中で最も小さい A)。視野の**中央値の点**で目盛りが
+  // 0.7 倍になるよう選ぶ(弱場でも勾配が見える・源のすぐ近くの 1 点に引きずられない)。g<1 にはしない(縮みを弱めて見せない ——
+  // 強い場では g=1 で実際の比 A_min/A のまま描く)。誇張は凡例に出す
+  const dMed=_smQuantile(D,0.5), dLo=out.dpsiMin, dRef=dMed-dLo;
+  out.dpsiMed=dMed; out.AminRel=Math.exp(dLo);
+  out.g=(dRef>0)? Math.max(1, Math.log(1/0.7)/dRef) : 1;
+  return out;
+}
 // ===== 第265便b(第57報 W2・Z2): **mesh-v2 —— 引きずりの「完全置換」の最小代数実装** =====
 // 原仮定者(第56報)「導入時は、空間メッシュの導入により、引きずり計算を完全に置き換えるものを想定していた」。
 // 〔第264便b ④〕は設計だけを書いた(実装 0 行)。本便はその (2)「場を粒子から**代数的に**求める」道を、
@@ -50672,6 +51010,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // SPACE_MESH_VIEW が受理値の集合、spaceLineKind(S) が「連星の解析場/銀河の局所場」の分岐を返す。
   // tracerInfo(S) は表示所有の物質線の観測口(displayOnly・steps・停止の有無)
   spaceMeshView:(S)=>_smViewMode(S||sim), SPACE_MESH_VIEW,
+  // 第291便d(R135): 表示メッシュの実行時モード(drag/ruler)と読み取り専用サンプラー(粒子・履歴・帳簿へは 1 bit も書かない)
+  SPACE_MESH_VIEW_RUNTIME, SPACE_MESH_DRAG_FRAMES, SPACE_MESH_SAMPLER_VERSION, SPACE_MESH_RES_DEF,
+  inertialDragFieldAt, inertialDragFieldReady, lightRulerAt, spaceMeshDisplaySample, spaceMeshResOf,
   spaceLineKind:(S)=>_slKindOf(S||sim),
   // 第257便c(第49報): **重心原点の蓄積格子**(mode:"mesh")。dfmSpaceGridBuild(spec) が純関数で
   // 「凍結場を標本格子へ 1 度だけ評価 → RK4 で一意の写像 Φ → 辺差分を中心から累積」を行い、
