@@ -71,10 +71,11 @@ const EPS_DIAG = 0.5;                                         // 診断単位の
 let FORMAL = null;
 try {
   const ca = JSON.parse(fs.readFileSync(CALAUDIT, 'utf8'));
-  const pc = ca.presets.find((p) => p.id === 'plutoCharonReal');
+  // 第290便b(原仮定者の裁定(第80報)⑤): 正式の値は較正母集団の本(❄️ が退役した後は 🥶 plutoCharonDiagInput)の行から読む
+  const pc = ca.presets.find((p) => p.id === 'plutoCharonReal') || ca.presets.find((p) => p.id === 'plutoCharonDiagInput');
   const row = pc.quantities.find((q) => q.kind === 'period' && q.version === 'obs');
   if (row.dtStages) {
-    FORMAL = { from: 'tests/out/calaudit-w249.json', sha256: sha(fs.readFileSync(CALAUDIT)), row: row.name, stages: 3,
+    FORMAL = { from: 'tests/out/calaudit-w249.json', sha256: sha(fs.readFileSync(CALAUDIT)), preset: pc.id, row: row.name, stages: 3,
       h: row.dtStages.dt, h2: row.dtStages.dtHalf, h4: row.dtStages.dtQuarter, gate: row.gate.status,
       nSigma: row.gate.nSigma, residual: row.gate.residual };
   } else {
@@ -86,10 +87,10 @@ try {
     let h2 = null, h2From = null;
     try {
       const dg = JSON.parse(fs.readFileSync(DIAG, 'utf8'));
-      const en = ((dg.h2Store || {}).entries || {}).plutoCharonReal || null;
+      const en = ((dg.h2Store || {}).entries || {})[pc.id] || null;   // 第290便b: 母集団の本(🥶)の h2Store
       const tg = en && en.run && (en.run.targets || [])[0];
       if (en && en.targetSha256 === (ca.meta || {}).targetSha256 && tg && Array.isArray(tg.revP) && tg.revP.length > 1) {
-        h2 = tg.revP[1] * en.contract.units.toSec; h2From = 'tests/out/calaudit-w249-diag.json h2Store.entries.plutoCharonReal(revP[1]×toSec)';
+        h2 = tg.revP[1] * en.contract.units.toSec; h2From = 'tests/out/calaudit-w249-diag.json h2Store.entries.' + pc.id + '(revP[1]×toSec)';
       }
     } catch (e) { h2 = null; }
     FORMAL = { from: 'tests/out/calaudit-w249.json', sha256: sha(fs.readFileSync(CALAUDIT)), row: row.name, stages: 2,
