@@ -3726,12 +3726,19 @@ if (QA_CHANGED) {
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化・原仮定者の裁定(第78報)④)。切断点 106/26/3/4 → 86/19/2/4・太陽系 4 値 否 2/保留 14 → 否 1/保留 11 は
     //   退役 🌘🧲🪨💿 の行が母集団の外へ出た(unit-not-converted の 1 減は 🪨)のと、❄️ が kFrame=0 へ在位移行して「否」の行が条件不一致(条 17 の 1 つ)になったため —— 判定の変化ではない
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+    //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+    //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+    //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+    //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+    const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
     // 第290便g(R131): 確認依頼 第 7/8 回の候補行(太陽系 —— 器 tests/exp-w290g-intake8.mjs の宣言表から数える)を足した
     const I290c = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
     const n290c = I290c.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
     const EXPECT = { csvRows: 601 + n290c, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
-      cut: has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
-      four: has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
+      cut: has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      four: has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null, nLater = 0, nRaised = 0;
     try {
       const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
@@ -3839,12 +3846,19 @@ if (QA_CHANGED) {
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化・原仮定者の裁定(第78報)④)。切断点 106/26/3/4 → 86/19/2/4・太陽系 4 値 否 2/保留 14 → 否 1/保留 11 は
     //   退役 🌘🧲🪨💿 の行が母集団の外へ出た(unit-not-converted の 1 減は 🪨)のと、❄️ が kFrame=0 へ在位移行して「否」の行が条件不一致(条 17 の 1 つ)になったため —— 判定の変化ではない
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+    //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+    //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+    //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+    //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+    const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
     // 第290便g(R131): 確認依頼 第 7/8 回の候補行(太陽系 42 行 —— 器 tests/exp-w290g-intake8.mjs の宣言表から数える)を足した
     const I290 = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
     const n290 = I290.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
     const EXPECT = { csvRows: 601 + n290, newRows: 21, newWithSigma: 10, newVerified: 10, confirmed: 42, raised: 9,
-      cut: has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
-      four: has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
+      cut: has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      four: has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nRows = 0, nNew = 0, nNewSig = 0, nNewVer = 0, nConf = 0, nRaised = 0, cut = null, four = null;
     try {
       const OB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
@@ -4219,8 +4233,15 @@ if (QA_CHANGED) {
       // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化・原仮定者の裁定(第78報)④)。切断点 106/26/3/4 → 86/19/2/4・太陽系 4 値 否 2/保留 14 → 否 1/保留 11 は
       //   退役 🌘🧲🪨💿 の行が母集団の外へ出た(unit-not-converted の 1 減は 🪨)のと、❄️ が kFrame=0 へ在位移行して「否」の行が条件不一致(条 17 の 1 つ)になったため —— 判定の変化ではない
       const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-      const EC = has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
-      const EF = has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 };
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+      //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+      //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+      //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+      //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+      //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+      const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+      const EC = has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
+      const EF = has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 };
       for (const [k, v] of Object.entries(EC)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
       if (four['否'] !== EF['否'] || four['保留'] !== EF['保留']) bad.push(`④太陽系 4 値が 否 ${EF['否']}・保留 ${EF['保留']} でない(${JSON.stringify(four)})`);
       // ⑥ CALIBRATION_VERDICT §5.31
@@ -5091,23 +5112,30 @@ if (QA_CHANGED) {
     // 第270便(統括の統合・AD5/AD8 後): 門へ σ が届いた量は **4 件**(📡 D68 の換算後判定 1・カロン P の宣言行 3)。
     //   ガードの効きは 4 値で見る —— 届いた 4 件のうち **否(3σ)へ進んだのは 📡 の 1 件だけ**で、カロン 3 件は
     //   条件不一致/数値収束未確認の**保留**に留まる(第268便a の時点では届いた量 0 だった)。
-    if (connected !== 4) bad.push(`σ が門へ届いた量が 4 でない(${connected})—— AD8(📡)+AD5(カロン 3)の宛先`);
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+    //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+    //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+    //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+    //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+    const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    if (connected !== (has290b ? 1 : 4)) bad.push(`σ が門へ届いた量が ${has290b ? 1 : 4} でない(${connected})—— AD8(📡)${has290b ? '(❄️ の退役でカロン 3 は σ 接続器の対象外)' : '+AD5(カロン 3)'}の宛先`);
     const ft = J.fourTally || {};
     // 第274便a(第64報): kF0 対照走行を配った世代では ❄️ の対照行が門へ入り 否 2/保留 14(旧世代は 否 1/保留 15)
     const kf0GenS = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return !!(C.kf0Runs && C.kf0Runs.on === true); } catch (e) { return false; } })();
     // 第288便g: 世代切替 has288b = 正本 calaudit-w249.json の meta.populationRule(第288便b の一本化)。退役 🌘🧲🪨💿 が母集団の外へ出て太陽系は 12 本、
     //   ❄️ は自身が kFrame=0 へ在位移行したので kF0 の対照行は無く、❄️ の行は条件不一致(条 17)の保留 —— 否 1(📡)/保留 11
     const has288b = (() => { try { return !!(JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).meta || {}).populationRule; } catch (e) { return false; } })();
-    const wantNg = has288b ? 1 : kf0GenS ? 2 : 1, wantHold = has288b ? 11 : kf0GenS ? 14 : 15;
+    const wantNg = has288b ? 1 : kf0GenS ? 2 : 1, wantHold = has290b ? 10 : has288b ? 11 : kf0GenS ? 14 : 15;
     if ((ft['否'] || 0) !== wantNg || (ft['保留'] || 0) !== wantHold)
-      bad.push(`太陽系の 4 値が 否 ${wantNg}/保留 ${wantHold} でない(${JSON.stringify(ft)})—— ガードを通ったのは 📡 の 1 件${has288b ? 'だけ(第288便b の世代 —— ❄️ は条件不一致の保留)' : kf0GenS ? '+❄️ の kF0 対照行' : 'だけ'}のはず`);
+      bad.push(`太陽系の 4 値が 否 ${wantNg}/保留 ${wantHold} でない(${JSON.stringify(ft)})—— ガードを通ったのは 📡 の 1 件${has290b ? 'だけ(第290便b の世代 —— ❄️ は退役して σ 接続器の対象外)' : has288b ? 'だけ(第288便b の世代 —— ❄️ は条件不一致の保留)' : kf0GenS ? '+❄️ の kF0 対照行' : 'だけ'}のはず`);
   } catch (e) { bad.push('ガードが読めない: ' + String(e).slice(0, 90)); }
   add('behavior.solarsigmaGuards', bad.length === 0,
     `**σ 接続器の必須ガード**(第268便a・統括の読み (B)・tests/lib-w268a-judgement.mjs): `
     + `4 ケース ${cases.join(' / ')} —— \`definitionDeclared\` ∧ \`mappingResolved\` ∧ `
     + `\`convergence.ok\` の**どれか 1 つでも欠けたら判定しない**(合とも否とも言わない)/ `
-    + `実体(第270便・AD5/AD8 後): 門へ σ が届いた量は **${connected} 件**(📡 1・カロン P 3)・切断点 \`unit-not-converted\` は `
-    + `**${cut} 件**(対照として温存)—— **ガードを通って否(3σ)へ進んだのは 📡 の 1 件だけ・カロン 3 件は保留**(保留は否定ではない)`
+    + `実体(第270便・AD5/AD8 後): 門へ σ が届いた量は **${connected} 件**(${connected === 1 ? '📡 1 —— 第290便b で ❄️ が退役してカロン P 3 は σ 接続器の対象外' : '📡 1・カロン P 3'})・切断点 \`unit-not-converted\` は `
+    + `**${cut} 件**(対照として温存)—— **ガードを通って否(3σ)へ進んだのは 📡 の 1 件だけ${connected === 1 ? '' : '・カロン 3 件は保留'}**(保留は否定ではない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
 
@@ -5155,7 +5183,14 @@ if (QA_CHANGED) {
       bad.push('①直前の便の太陽系 4 値が 否 1/保留 15 でない');
     // 第274便a(第64報): kF0 対照走行を配った世代では 否 2/保留 14(❄️ の対照行が門へ入った)・旧世代は 否 1/保留 15
     const kf0GenU = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return !!(C.kf0Runs && C.kf0Runs.on === true); } catch (e) { return false; } })();
-    const wantHoldU = has288b ? 11 : kf0GenU ? 14 : 15, wantNgU = has288b ? 1 : kf0GenU ? 2 : 1;
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit-w249.json の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   切断点 86/19/2/4 → 84/18/2/1・太陽系 4 値 否 1/保留 11 → 否 1/保留 10 は、❄️ が退役して σ 接続器(tests/exp-w262d-solarsigma.mjs の太陽系の一覧)の対象から外れたため:
+    //   ❄️ の 7 行 —— 公転周期 3 行(connected・AD5 の宛先)・離心率/近点移動 2 行(csv-sigma-empty)・共通重心/半径振れ幅 2 行(kind-not-gated)—— と ❄️ の保留 1 本が抜け、
+    //   📡 の obsCard に第290便b で足した「否の要因(第280便e の診断・履歴)」の行が kind-not-gated に 1 行入った(19 − 2 + 1 = 18)。後継の 🥶 は σ 接続器の一覧に無い
+    //   (較正の正本 calaudit では 🥶 の周期の行が record_id 選択で Buie 2012 の σ 0.02592 s を受けるが門は「数値未解決」・離心率/近点移動は近点 11 個〔窓 20 に届かない〕で「未判定」)
+    //   —— 判定が動いたのではなく、母集団の 1 出 1 入で σ 接続器の対象が 1 本減った
+    const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    const wantHoldU = has290b ? 10 : has288b ? 11 : kf0GenU ? 14 : 15, wantNgU = has288b ? 1 : kf0GenU ? 2 : 1;
     if ((J.fourTally || {})['保留'] !== wantHoldU)
       bad.push(`①太陽系 4 値の保留が ${wantHoldU} でない(${(J.fourTally || {})['保留']})`);
     if ((J.fourTally || {})['否'] !== wantNgU)
@@ -5564,7 +5599,16 @@ if (QA_CHANGED) {
         bad.push(`②カロンの σ が宣言行(0.02592)でない(${charon.q.obsSigmaCsv})`);
       if (charon.q.obs !== 551856.43872)
         bad.push(`②カロンの中心値が宣言行(551856.43872)でない(${charon.q.obs})`);
-      if (!charon.jsq.previous || charon.jsq.previous.obs !== 551854.08)
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+      //   旧参照値 551854.08 s(NSSDC)が previous に温存されていたのは ❄️ の行の性質 —— ❄️ は obsCard にその値を持っていた。🥶 の行の previous は
+      //   旧経路の公式行(NSSDC・σ なし)を記録するが、🥶 の obsCard は旧経路で中心値を持たなかったので previous.obs は null である(値を作らない)。
+      //   ❄️ の 551854.08 は第289便までの正本(f03bf5a の calaudit-w249.json)の履歴にある
+      const has290b = !(C.presets || []).some((p) => p.id === 'plutoCharonReal') && (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput');
+      if (has290b) {
+        const pv = charon.jsq.previous || null, por = (pv && pv.officialRow) || {};
+        if (!pv || pv.obs !== null || por.quantity !== 'orbital_period' || por.sigma !== null || !/NSSDC/.test(String(por.source || '')))
+          bad.push('②🥶 のカロンの previous が旧経路の公式行(NSSDC・σ なし・中心値 null)を記録していない');
+      } else if (!charon.jsq.previous || charon.jsq.previous.obs !== 551854.08)
         bad.push('②カロンの旧参照値(551854.08 s)が previous に温存されていない');
     }
     const lim = (C.sigmaRegate || {});
@@ -5581,7 +5625,7 @@ if (QA_CHANGED) {
     + `測定定義)を同時に切り替えた** / 宣言 ${nDecl} 件・適用 ${nApplied} 件 / `
     + `カロン: 中心値 ${charon ? charon.q.obs : '—'} s・σ ${charon ? charon.q.obsSigmaCsv : '—'} s が`
     + `**同じ宣言行(Buie 2012)から**来ていて、旧参照値 `
-    + `${charon && charon.jsq.previous ? charon.jsq.previous.obs : '—'} s は \`previous\` に温存 / `
+    + `${charon && charon.jsq.previous ? (charon.jsq.previous.obs === null ? 'なし(🥶 の旧経路は中心値を持たない —— 公式行 NSSDC・σ なしを記録・❄️ の 551854.08 は第289便までの履歴)' : charon.jsq.previous.obs + ' s') : '—'} は \`previous\` に温存 / `
     + `**宣言の解決失敗は throw**(旧行へ黙って戻らない)`
     + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
 }
@@ -6102,7 +6146,16 @@ if (!TARGET.startsWith('beta/')) {
       if (charon.sigmaPrimaryVerified !== true) bad.push('②カロンの verified 状態が切り替わっていない');
       if (charon.gate.status !== '数値未解決')
         bad.push(`②カロンの門が「数値未解決」でない(${charon.gate.status})—— 3 段登録は無いはず`);
-      if (charon.judgementSource.previous.obs !== 551854.08)
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+      //   旧参照値 551854.08 s(NSSDC)が previous に温存されていたのは ❄️ の行の性質 —— ❄️ は obsCard にその値を持っていた。🥶 の行の previous は
+      //   旧経路の公式行(NSSDC・σ なし)を記録するが、🥶 の obsCard は旧経路で中心値を持たなかったので previous.obs は null である(値を作らない)。
+      //   ❄️ の 551854.08 は第289便までの正本(f03bf5a の calaudit-w249.json)の履歴にある
+      const has290b = !(C.presets || []).some((p) => p.id === 'plutoCharonReal') && (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput');
+      if (has290b) {
+        const pv = charon.judgementSource.previous || {}, por = pv.officialRow || {};
+        if (pv.obs !== null || por.quantity !== 'orbital_period' || por.sigma !== null || !/NSSDC/.test(String(por.source || '')))
+          bad.push('④🥶 のカロンの previous が旧経路の公式行(NSSDC・σ なし・中心値 null)を記録していない');
+      } else if (charon.judgementSource.previous.obs !== 551854.08)
         bad.push('④カロンの旧中心値(551854.08)が温存されていない');
     }
     if (!venus) bad.push('③金星 e の適用行が無い');
@@ -6121,7 +6174,7 @@ if (!TARGET.startsWith('beta/')) {
   add('behavior.declaredApplied', bad.length === 0,
     `**採用観測解の宣言を正式経路へ**(第270便a・AD5・署名便): 宣言 2 件を`
     + `**中心値・σ・単位・解 ID・verified 状態・測定定義の 6 つ同時**で切り替えた(適用 ${nApplied} 行)/ `
-    + `**カロン P**: ${charon ? charon.judgementSource.previous.obs : '—'} s(NSSDC・σ なし)→ `
+    + `**カロン P**: ${charon ? (charon.judgementSource.previous.obs === null ? '中心値なし(🥶 の旧経路 —— 公式行は' : charon.judgementSource.previous.obs + ' s(') : '—'}NSSDC・σ なし)→ `
     + `**${charon ? charon.obs : '—'} s ± ${charon ? charon.obsSigmaCsv : '—'}**(Buie 2012・verified)—— `
     + `門は **${charon ? charon.gate.status : '—'}**(3 段登録が無いので**保留**であって合でも否でもない)/ `
     + `**金星 e**: シミュレータ自身の宣言値 → **${venus ? venus.obs : '—'}**(JPL SSD 要素表)—— `
@@ -9000,11 +9053,15 @@ if (!TARGET.startsWith('beta/')) {
       if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
       else cases.push('html の SHA-256 一致');
       const rows = J.audit || [], S = J.auditSummary || {};
-      if (rows.length !== 39) bad.push(`② 監査の行数が 39(較正 37 + 🪁🎋)でない(${rows.length})`);
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput があり ❄️ plutoCharonReal が無い(鎖の再生成の後)。
+      //   🥶 が sampleClass:"calibration" へ入ったので監査の行(sampleClass:"calibration" の全本 —— 退役の ❄️ も宣言は残るので行は残る)は 39(較正 37 + 🪁🎋)→ 40(較正 38 + 🪁🎋)
+      const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+      const wantRows290 = has290b ? 40 : 39, wantCal290 = has290b ? 38 : 37;
+      if (rows.length !== wantRows290) bad.push(`② 監査の行数が ${wantRows290}(較正 ${wantCal290} + 🪁🎋)でない(${rows.length})`);
       const byRule = rows.reduce((o, a) => { const k = a.rule || 'undetermined'; o[k] = (o[k] || 0) + 1; return o; }, {});
       if (JSON.stringify(byRule) !== JSON.stringify(S.byRule))
         bad.push('② 規則の内訳が集計と一致しない');
-      cases.push(`39 行・規則の内訳 ${JSON.stringify(byRule)}`);
+      cases.push(`${rows.length} 行・規則の内訳 ${JSON.stringify(byRule)}`);
       const asm = J.meta.assumptions || [];
       if (!asm.length) bad.push('③ 仮定の一覧が無い');
       for (const a of asm) if (!a.from) bad.push(`③ 仮定 ${a.key} に出典が無い`);
@@ -9187,10 +9244,14 @@ if (!TARGET.startsWith('beta/')) {
       if (J.meta.targetSha256 !== sha) bad.push('① meta.targetSha256 が検査対象の html と違う(別ソースの走行)');
       else cases.push('html の SHA-256 一致');
       const rows = J.rows || [], S = J.summary || {};
-      if (rows.length !== 39) bad.push(`② 行数が 39(較正 37 + 🪁🎋)でない(${rows.length})`);
+      // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput があり ❄️ plutoCharonReal が無い(鎖の再生成の後)。
+      //   🥶 が sampleClass:"calibration" へ入ったので監査の行(sampleClass:"calibration" の全本 —— 退役の ❄️ も宣言は残るので行は残る)は 39(較正 37 + 🪁🎋)→ 40(較正 38 + 🪁🎋)
+      const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+      const wantRows290 = has290b ? 40 : 39, wantCal290 = has290b ? 38 : 37;
+      if (rows.length !== wantRows290) bad.push(`② 行数が ${wantRows290}(較正 ${wantCal290} + 🪁🎋)でない(${rows.length})`);
       const byRule = rows.reduce((o, a) => { const k = a.rule || 'undetermined'; o[k] = (o[k] || 0) + 1; return o; }, {});
       if (JSON.stringify(byRule) !== JSON.stringify(S.byRule)) bad.push('② 規則の内訳が集計と一致しない');
-      cases.push(`39 行・規則の内訳 ${JSON.stringify(byRule)}・予測できた ${S.predicted} 行`);
+      cases.push(`${rows.length} 行・規則の内訳 ${JSON.stringify(byRule)}・予測できた ${S.predicted} 行`);
       const asm = J.meta.assumptions || [];
       if (!asm.length) bad.push('③ 仮定の一覧が無い');
       for (const a of asm) if (!a.from) bad.push(`③ 仮定 ${a.key} に出典が無い`);
@@ -20554,7 +20615,11 @@ if (!FAST) {
         // 第288便g: 🛸 galaxyAnalogyBHTilt90(第288便e・🌚 の写し)も基点に無い(正本を鎖で刻み直した後に survey に入る —— 🧩 の直後)
         const has288eRL = R.survey.some((z) => z.id === 'galaxyAnalogyBHTilt90');
         const has289eRL = R.survey.some((z) => z.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の写し)も基点に無い(正本を鎖で刻み直した後に survey に入る —— 🛸 の直後)
-        const wantNews = (has288cRL ? ['galaxyAnalogyBHCompose'] : []).concat(has288eRL ? ['galaxyAnalogyBHTilt90'] : [], has289eRL ? ['galaxyAnalogyBHTilt90Layers'] : [], ['clusterAnalogyBH'], has287aRL ? ['clusterGrowthCopy'] : [], (has288aRL && canonHas288a) ? ['fixedCaptureCopy'] : []);
+        // 第290便(統括の統合): 第290便e の 🍭 shapeToySpiral・🎢 shapeToySpiralCore と第290便c の 🐌 inertialDragPair も基点に無い(正本を鎖で刻み直した後に survey に入る —— news の末尾にこの順)
+        const has290eRL = R.survey.some((z) => z.id === 'shapeToySpiral'), has290eCRL = R.survey.some((z) => z.id === 'shapeToySpiralCore');
+        const has290cRL = R.survey.some((z) => z.id === 'inertialDragPair');
+        const wantNews = (has288cRL ? ['galaxyAnalogyBHCompose'] : []).concat(has288eRL ? ['galaxyAnalogyBHTilt90'] : [], has289eRL ? ['galaxyAnalogyBHTilt90Layers'] : [], ['clusterAnalogyBH'], has287aRL ? ['clusterGrowthCopy'] : [], (has288aRL && canonHas288a) ? ['fixedCaptureCopy'] : [],
+          has290eRL ? ['shapeToySpiral'] : [], has290eCRL ? ['shapeToySpiralCore'] : [], has290cRL ? ['inertialDragPair'] : []);
         if (news.join(',') !== wantNews.join(',')) bad.push('基点に無い本 ' + news.join(','));
         if (has288aRL && !canonHas288a) cases.push('🥜 は正本 cluster-w283f.json より後に入った本(段 clusterAnalogy の再走で入る)');
         const c = R.cluster;
@@ -23258,6 +23323,10 @@ if (!FAST) {
       return out;
     }, {});
     const d = r.dfm, c = r.ctl;
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290bPD = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput の行があり ❄️ plutoCharonReal の行が無い(鎖の再生成の後)。
+    //   ⛄ plutoCharonDFM は退役(familyRole:"retired")—— 宣言の検査は役割の語だけを受け替え(退役の印は鎖の後の世代でだけ受ける・root〔v1.44.0〕の variant はそのまま)、
+    //   物理(単位・κ・kFrame・D₀・精度・則・bodies)の検査は変えない
+    const has290bPD = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
     const kOk = (z) => Math.abs(z.kap - z.G / (z.c * z.c)) < 1e-18;
     const declOk = !!d && !!c && d.L === 5 && d.T === 1 && d.M === 24 && c.L === 5 && c.T === 1 && c.M === 24
       && d.G === 6.674 && d.c === C4_286B && kOk(d) && kOk(c)
@@ -23269,7 +23338,7 @@ if (!FAST) {
       && d.spF64 === true && c.spF64 === false      // 則を宣言した側だけ自転が Float64
       && d.eps === 0.01 && c.eps === 0.01
       && d.cls === 'principle' && c.cls === 'principle' && d.fid === 'real' && c.fid === 'real'   // 統括(第277便 統合): 診断コピー(AM5 で昇格を裁定)
-      && d.fam === 'pluto' && c.fam === 'pluto' && d.role === 'variant' && c.role === (c.has280d ? 'variant' : 'control')
+      && d.fam === 'pluto' && c.fam === 'pluto' && (d.role === 'variant' || (has290bPD && d.role === 'retired')) && c.role === (c.has280d ? 'variant' : 'control')   // 第290便b: ⛄ は退役(familyRole:"retired" —— 内蔵に残す・物理の検査はそのまま)
       && d.bodies === c.bodies;                     // **2 本の bodies は 1 bit 同じ**
     const z = r.zeroProbe, ng = r.negProbe;
     const zeroOk = !!z && !z.err && z.slipI === 0 && z.slipJ === 0 && z.kickMag === 0
@@ -23449,17 +23518,18 @@ if (!FAST) {
       o.has280d = HP.allPresets().some((z) => z.id === 'plutoCharonSyncZero');   // 第280便d: 🥶☃️ も double を宣言(2→4)
       o.has287a = HP.allPresets().some((z) => z.id === 'clusterGrowthCopy');   // 第287便a: 🌰 も double を宣言(💮 の写し・4→5)
       o.has288a = HP.allPresets().some((z) => z.id === 'fixedCaptureCopy');   // 第288便a: 🥜 も double を宣言(🌰 の写し・5→6)
+      o.has290c = HP.allPresets().some((z) => z.id === 'inertialDragPair');   // 第290便c: 🐌 も double を宣言(新法則版 relativeDrag.law:"inertial" の診断本・6→7)
       o.nSoftFloor = HP.allPresets().filter((z) => z.physics && z.physics.softeningFloor !== undefined).length;
       o.nMfs = HP.allPresets().filter((z) => z.physics && z.physics.massFloorScaled !== undefined).length;
       HP.loadPreset('saturn', false);
       return o;
     });
     add('preset.massPrecision',
-      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2) + (r.has287a ? 1 : 0) + (r.has288a ? 1 : 0),
+      r.badDropped && r.singleNotCanonical && r.doubleCanonical && r.f64 && r.f32Default && r.nMassPrec === (r.has280d ? 4 : 2) + (r.has287a ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has290c ? 1 : 0),
       `不正値は警告つき削除=${r.badDropped} / 既定 "single" は正準形に出ない(署名同一)=${r.singleNotCanonical} / `
       + `"double" は正準形と署名に入る=${r.doubleCanonical} / build で S.m・S.mEff が Float64Array=${r.f64} / `
       + `**未宣言の本は Float32 のまま**(❄️ で確認・自転も Float32)=${r.f32Default} / `
-      + `内蔵の宣言 ${r.nMassPrec} 本(第277便b の ⛄🌨️${r.has280d ? '・第280便d の 🥶☃️' : ''}${r.has287a ? '・第287便a の 🌰' : ''}${r.has288a ? '・第288便a の 🥜' : ''})`);
+      + `内蔵の宣言 ${r.nMassPrec} 本(第277便b の ⛄🌨️${r.has280d ? '・第280便d の 🥶☃️' : ''}${r.has287a ? '・第287便a の 🌰' : ''}${r.has288a ? '・第288便a の 🥜' : ''}${r.has290c ? '・第290便c の 🐌' : ''})`);
     add('preset.softeningFloor',
       r.calibRejected && r.diagAccepted && r.floorClamped && r.defaultClamp && r.floorEqualDropped
       && r.mfsDeclared && r.mfsFalseDropped && r.nSoftFloor === 0 && r.nMfs === 0,
@@ -23899,7 +23969,10 @@ if (!FAST) {
         off: { P2: off.P2, nan: off.nan }, finBitSame: on.fin.every((z, i) => Object.is(z, off.fin[i])) };
     });
     const d = r.decl, f = r.first;
-    const declOk = d.cls === 'principle' && d.fam === 'pluto' && d.role === 'variant' && d.geoPN === 0 && d.kF === 0
+    // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290bSZ = 正本 calaudit の母集団に 🥶 があり ❄️ が無い(鎖の再生成の後)。☃️ は退役(familyRole:"retired" —— 内蔵に残す)。
+    //   役割の語だけを受け替え、零条件と走行の検査はそのまま
+    const has290bSZ = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
+    const declOk = d.cls === 'principle' && d.fam === 'pluto' && (d.role === 'variant' || (has290bSZ && d.role === 'retired')) && d.geoPN === 0 && d.kF === 0
       && d.integ === 'leapfrog' && d.mp === 'double' && d.eps === 0.01 && d.rd === 'pairSlip/1/midpoint/declared'
       && d.massSame && d.sepSame && d.spinEq;
     const firstOk = f.slipI === 0 && f.slipJ === 0 && f.kick === 0 && f.tI === 0 && f.tJ === 0 && f.dE === 0
@@ -23908,7 +23981,7 @@ if (!FAST) {
     const runOk = Number.isFinite(dP2) && Math.abs(dP2) <= 1e-7 && r.on.heat >= 0 && r.on.heat <= 1e-28
       && r.on.kick <= 1e-20 && !r.on.nan && !r.off.nan && r.finBitSame === false;
     add('behavior.charonSyncZero', declOk && firstOk && runOk,
-      `宣言=${declOk}(principle・pluto の variant・pairSlip κ=1 中点法・geoPN 0・leapfrog・⛄ と質量/離角が 1 bit 同じ)/ `
+      `宣言=${declOk}(principle・pluto の ${d.role === 'retired' ? 'retired(第290便b で退役)' : 'variant'}・pairSlip κ=1 中点法・geoPN 0・leapfrog・⛄ と質量/離角が 1 bit 同じ)/ `
       + `**初期 1 歩**: すべり ${f.slipI}/${f.slipJ}・キック ${f.kick}・トルク ${f.tI}/${f.tJ}・ΔE ${f.dE}・熱 ${f.heat}・状態 1 bit 不変=${f.bitSame} / `
       + `**走行中(dt 0.16・3 周)**: 熱 ${r.on.heat.toExponential(2)}(非負・丸め級)・キック最大 ${r.on.kick.toExponential(2)}・`
       + `ΔE>0 の步 ${r.on.pos} / 則を外した対との第 2 周の差 ${Number.isFinite(dP2) ? dP2.toExponential(2) : '—'} s / `
@@ -24828,7 +24901,17 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       || /intake_row=2026-09-22/.test(r.note || '')   // 第277便c: 観測傾きの候補行(collate=pending・門に入らない)
       || /intake_row=2026-09-23/.test(r.note || '');  // 第278便a: 確認依頼 第 5 回・取得依頼 D の転写行(ビルダーへ渡さない)
     const csvIntakeN = csvParsed.filter(INTAKE_ROW).length;
-    const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r));
+    // 第290便g(R131): 確認依頼 第 7/8 回の回答を**候補行**(量名が `_candidate` で終わる・sigma 列は空・印なし)として CSV の末尾に足した。
+    //   候補行は**記録ではない**(判定にもビルダーにも入らない)ので、J0737 の行数とビルダーへ渡す行から外す。外した数は器
+    //   tests/exp-w290g-intake8.mjs の宣言表 CANDIDATES の J0737 の行数と照合する(本体 beta/index.html は 1 bit も変えていない)
+    const CAND290 = (r) => /_candidate$/.test(r.quantity || '') && !String(r.sigma == null ? '' : r.sigma).trim()
+      && !/(?:^|[^A-Za-z0-9_])sigma_primary=verified(?![A-Za-z])/.test(r.note || '')
+      && /(?:^|[^A-Za-z0-9_])intake_round=confirmation-request-[78](?![0-9])/.test(r.note || '');
+    const csvCand290 = csvParsed.filter((r) => !INTAKE_ROW(r) && CAND290(r)).length;
+    let csvCand290Decl = 0;
+    try { csvCand290Decl = (await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'))).CANDIDATES
+      .filter((d) => d.file === 'paper/data/solar-observations.csv' && /^PSR J0737-3039/.test(d.body)).length; } catch (e) { csvCand290Decl = 0; }
+    const csvAll = csvParsed.filter((r) => !INTAKE_ROW(r) && !CAND290(r));
     const csvRows = csvAll.filter((r) => !BUILDER_SKIP.has(r.quantity)).map((r) => {
       const o = Object.assign({}, r); delete o.sigma; return o;
     });
@@ -25254,7 +25337,7 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
           x !== null && x >= 0.09 && x <= 0.13 && Math.abs(x - dm.decPct) <= 0.01)
         && dm.ctrl.dtHalf !== null && dm.ctrl.dtHalf / dm.decPct >= 0.35 && dm.ctrl.dtHalf / dm.decPct <= 0.65)));
     const has285bPS = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
-    add('behavior.psrDoubleAB', csvAll.length === 10 && csvRows.length === 9
+    add('behavior.psrDoubleAB', csvAll.length === 10 && csvRows.length === 9 && csvCand290 === csvCand290Decl
       && !!csvOmegaDot && Object.is(csvOmegaDot.value, 16.899323) && csvOmegaDot.unit === 'deg/yr'
       && Number(csvOmegaDot.sigma) === 1.3e-5
       && declOk && !ps.kf0.nan && !ps.kf1.nan && !ps.pr0.nan && !ps.pr1.nan
@@ -25279,7 +25362,8 @@ await w5bRun('psrDoubleAB', true); async function W5B_psrDoubleAB(page, add, fpR
       + `kF0(採用側・1.05公転): ${t0s === null ? '—' : t0s.toFixed(2) + ' s'}(観測 8834.53・宣言 8835.04)・実測離心率 ${ps.kf0.ecc.toFixed(6)}(転写 0.087777)・重心 ${ps.kf0.comMax.toExponential(1)}・殻 spin=0 保持 |s|max=${ps.kf0.sMax}(=0 — 第223便 resL 記帳)・否定対照(宣言除去→${has285bPS ? 'スピン |s|max=' + ps.kf0ns.sMax.toFixed(2) + '〔0 —— 第285便b: EIH 型は偶力をスピンへ移さない〕' : '有界振動 |s|max=' + ps.kf0ns.sMax.toFixed(2) + '〔20〜40〕'}・軌道ビット不変=${ps.orbitBitEq}) / `
       + `kF1(測定側・遠点発 0.56公転): 接触要素周期 +${(ps.kf1.growth * 100).toFixed(1)}%(宣言 +157%・膨張 — 🌟 の縮小と逆向き)・rmax=${ps.kf1.rmax.toFixed(0)}(>1500)・殻 |s|max=${ps.kf1.sMax}(=0 — 記帳化で飽和解消) / `
       + `近点複製プローブ: kF1 外挿 ${(ps.pr1.proj * 100).toFixed(2)}%/公転(宣言 18.00 — 発火・差し戻し)・kF0 ドリフト ${ps.pr0.drift.toExponential(1)}(<1e-5 — ノイズ床未満) / `
-      + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本・2026-09-14 intake の併置行 ${csvIntakeN} 本は渡さない)・`
+      + `観測レコード(第256便d): J0737 の CSV 行 ${csvAll.length} 本(うちビルダーが消費する ${csvRows.length} 本・2026-09-14 intake の併置行 ${csvIntakeN} 本は渡さない`
+      + `${csvCand290 || csvCand290Decl ? '・第290便g の候補行 ' + csvCand290 + ' 本〔宣言表 ' + csvCand290Decl + ' 本〕は記録でないので数えず渡さない' : ''})・`
       + `ω̇ 行=${csvOmegaDot ? csvOmegaDot.value + ' ' + csvOmegaDot.unit + '(σ=' + csvOmegaDot.sigma + ')' : '**無し**'} / `
       + `経路等価(第222便 族拡張): CSV ${csvRows.length}行 → buildAstroFromRecords=${ps.hole.ok}(相対論的連星族 rel=${ps.hole.scale ? ps.hole.scale.rel : '—'}・L${ps.hole.scale ? ps.hole.scale.L : '—'}/T${ps.hole.scale ? ps.hole.scale.T : '—'}/M${ps.hole.scale ? ps.hole.scale.M : '—'}・q=${ps.hole.q}・観測安定則=${ps.hole.stab}・値域外スピン宣言 ${ps.hole.spinDecl}件・内蔵 📻 とビット一致=${ps.hole.same}) / `
       + (dm.f1 ? '⚡ DFM版: 第284便b で f=1(観測質量)へ移した —— 宣言と走行の検査は behavior.psrF1(旧則 f≈2 の最後の保存 QA の値は tests/fixtures/retired-w284b.json の history)' : `⚡ DFM版: 質量係数 f=${dm.w242 ? '1.99994(第245便 一次則・χ² 則 1.99988)' : '1.99777〔share〕'}(台帳込みビット照合 ${dm.massOk})・宣言(kF1・coupleSink:core+二層・massFrac=(f−1)/f・cmGauge・${dm.w242 ? 'fitted 0ノブ' : 'fitted 1ノブ C'}・BコアΩ=22.654675 転写)=${dm.declOk}・`
@@ -26013,8 +26097,19 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
 {
   const hasGw = await page.evaluate(() => HP.allPresets().some((q) => q.id === 'gw150914'));
   if (hasGw) {
-    const gwCsv = fs.readFileSync(path.join(ROOT, 'paper', 'data', 'solar-observations.csv'), 'utf8')
-      .split('\n').filter((l) => l.startsWith('GW150914')).length;
+    // 第290便g(R131): 確認依頼 第 7/8 回の回答を**候補行**(量名が `_candidate` で終わる・sigma 列は空・印なし)として CSV の末尾に足した。
+    //   候補行は**記録ではない**ので行数から外す(外した数は器 tests/exp-w290g-intake8.mjs の宣言表 CANDIDATES の GW150914 の行数と照合)。
+    //   第266便a 以前からある候補行(mass_ratio_candidate・2026-09-16)は従来どおり 17 行の内に数える
+    const gwOB = await import('file://' + path.join(ROOT, 'tests', 'lib-w270b-obscsv.mjs'));
+    const gwRowsAll = gwOB.loadObsCsv(path.join(ROOT, 'paper', 'data', 'solar-observations.csv')).rows.filter((r) => /^GW150914/.test(r.body || ''));
+    const gwCand290 = (r) => /_candidate$/.test(r.quantity || '') && r.sigma === null
+      && !/(?:^|[^A-Za-z0-9_])sigma_primary=verified(?![A-Za-z])/.test(r.note || '')
+      && /(?:^|[^A-Za-z0-9_])intake_round=confirmation-request-[78](?![0-9])/.test(r.note || '');
+    const gwCandN = gwRowsAll.filter(gwCand290).length;
+    let gwCandDecl = 0;
+    try { gwCandDecl = (await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'))).CANDIDATES
+      .filter((d) => d.file === 'paper/data/solar-observations.csv' && /^GW150914/.test(d.body)).length; } catch (e) { gwCandDecl = 0; }
+    const gwCsv = gwRowsAll.length - gwCandN;
     const gw = await page.evaluate(({ FAST }) => {
       const P_OBS = 181.818;   // 基準周期 0.181818 s / 10⁻³
       const p = HP.allPresets().find((q) => q.id === 'gw150914');
@@ -26193,7 +26288,7 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
       && (gw.fourS === null || ([gw.fourS, gw.fourSHalf].every((x) => !x.nan
         && x.bodyCount === 2 && x.fusionEnabled === false && x.fusionCount === 0
         && x.rmin > x.contactRadius * 5)));   // 4秒後も接触・合体しないという現状の機械固定
-    add('behavior.gw150914', gwCsv === 17 && declOk && obsOk && ctrlOk && dfmOk,
+    add('behavior.gw150914', gwCsv === 17 && gwCandN === gwCandDecl && declOk && obsOk && ctrlOk && dfmOk,
       `宣言=${declOk}(fidelity=real・**L4/T−3/M29=第223便 L−T=7 合体連星族(c₀=30)**・κ=G/c₀²・`
       + `**kF0+geoPN=0(換算整合則 — 転写した a・P はニュートン換算派生値)**・spin=0×2〔上限値のみ〕・`
       + `半径=Schwarzschild 換算 proxy・coupleSink reservoir・cmGauge・🎻=🎐×解析慣性則 f=${gw.d.w242 ? '2.0000000〔第245便 一次則・χ² 則との差は 11 桁目〕' : '1.99804〔share〕'}〔台帳込みビット照合・再配分再計算一致・記帳のみ二層〕・スナップショット宣言) / `
@@ -26209,7 +26304,7 @@ await w5bRun('nsThreeStage', true); async function W5B_nsThreeStage(page, add, f
       + (gw.fourS ? `4秒窓: dt=.016/.008 の最小分離 ${gw.fourS.rmin.toFixed(2)}/${gw.fourSHalf.rmin.toFixed(2)}(接触 ${gw.fourS.contactRadius.toFixed(2)})・2体のまま・fusion無効・` : `4秒窓: QA_FAST では省略・`)
       + (gw.petersObs ? `petersGW(第227便 — 外部物理opt-in): 観測質量 ${gw.petersObs.tMerge === null ? '—' : (gw.petersObs.tMerge / 1000).toFixed(3) + ' s'}(窓3〜5)・DFM ${gw.petersDfm.tMerge === null ? '—' : (gw.petersDfm.tMerge / 1000).toFixed(3) + ' s'}(窓0.3〜0.8 — t∝1/f³)・帳簿L ${gw.petersObs.lRel.toExponential(1)}/${gw.petersDfm.lRel.toExponential(1)}・` : `petersGW: QA_FAST では省略・`)
       + `否定対照(kF0×f→深い楕円 rmin=${gw.kf0f.rmin.toFixed(1)}・1周目 ${gw.kf0f.rev1 === null ? '—' : (gw.kf0f.rev1 / 1000).toFixed(4) + ' s'})・(ゲージ除去→歩行 ${gw.noG.comMax.toFixed(3)})・(sink=core→P 比 ${gw.sinkCore.p2 === null || dm.p2 === null ? '—' : (gw.sinkCore.p2 / dm.p2).toFixed(3)}〔0.4〜0.7 — 受け皿裁定・第224便〕)・`
-      + `帳簿 L ${dm.lRel.toExponential(1)}/P ${dm.pRel.toExponential(1)}・決定性=${gw.dfmDet} / CSV ${gwCsv}行(第266便a: 既存の kg 行 7 行 + **M☉ 単位の source-frame 行 10 行**〔90% 区間は note の \`sigma_kind=ci90\`・sigma 列は空〕)`);
+      + `帳簿 L ${dm.lRel.toExponential(1)}/P ${dm.pRel.toExponential(1)}・決定性=${gw.dfmDet} / CSV ${gwCsv}行(第266便a: 既存の kg 行 7 行 + **M☉ 単位の source-frame 行 10 行**〔90% 区間は note の \`sigma_kind=ci90\`・sigma 列は空〕${gwCandN || gwCandDecl ? '・第290便g の候補行 ' + gwCandN + ' 行〔宣言表 ' + gwCandDecl + ' 行〕は記録でないので数えない' : ''})`);
   } else {
     console.log('SKIP behavior.gw150914(対象に第223便の 🎐 なし — root 等)');
   }
@@ -54904,8 +54999,19 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       // 「見出しテキスト+先頭以外の見出しの上辺境界」だけで示す。判定は同じ強さで新仕様へ追随
       // (見出しが2つ以上・先頭以外は上辺罫線あり・見出しテキストは非空・::after の擬似要素は無い)
       const heads0 = [...document.querySelectorAll('#ppList .ppGroupHead')];
+      // 第290便f(原仮定者の裁定(第80報)⑦・R130): 区画の見出し(.ppScopeHead —— 表示専用の行・data-n なし)と区画の終わり(.ppScopeEnd)を群の見出しの上に置いた。
+      //   区画が変わる所では区切り線を区画の行が持ち、直後の群の見出しは線を重ねない(CSS `.ppScopeHead + .ppGroupHead{border-top:0}`)——
+      //   その群の見出しは「直前の区画の行に上辺罫線がある」ことで区切りを確かめる(線は増えていない・::after の擬似要素が無いことは区画の行にも求める)
+      const sepAbove = (h) => {
+        if (parseFloat(getComputedStyle(h).borderTopWidth) > 0) return true;
+        const pv = h.previousElementSibling;
+        return !!pv && (pv.classList.contains('ppScopeHead') || pv.classList.contains('ppScopeEnd'))
+          && (pv === pv.parentElement.firstElementChild || parseFloat(getComputedStyle(pv).borderTopWidth) > 0);
+      };
+      const scopeRows0 = [...document.querySelectorAll('#ppList .ppScopeHead, #ppList .ppScopeEnd')];
       const grpSepOk = heads0.length >= 2
-        && heads0.slice(1).every((h) => parseFloat(getComputedStyle(h).borderTopWidth) > 0)
+        && heads0.slice(1).every(sepAbove)
+        && scopeRows0.every((h) => { const a = getComputedStyle(h, '::after'); return a.content === 'none' && !(parseFloat(a.height) > 0); })
         && heads0.every((h) => {
           const a = getComputedStyle(h, '::after');
           return h.textContent.trim().length > 0
@@ -65045,7 +65151,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (J) {
         const JR = new Map(((J.derive || {}).rows || []).map((z) => [z.id, z]));
         let nCmp = 0, nAdded = 0;
-        const addedAfterCanon = ['clusterGrowthCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'fixedCaptureCopy', 'galaxyAnalogyBHTilt90Layers'];   // 第289便e: 🪆 も履歴の正本の後に入った本   // 第288便g: 🛸(第288便e)も履歴の正本の後に入った本   // 第288便c: 🧩 も同じ扱い   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
+        // 第290便(統括の統合): 第290便e の 🍭 shapeToySpiral・🎢 shapeToySpiralCore と第290便c の 🐌 inertialDragPair も履歴の正本の後に入った本(段 geomode は role:'history' —— 再生成しない)
+        const addedAfterCanon = ['clusterGrowthCopy', 'galaxyAnalogyBHCompose', 'galaxyAnalogyBHTilt90', 'fixedCaptureCopy', 'galaxyAnalogyBHTilt90Layers', 'shapeToySpiral', 'shapeToySpiralCore', 'inertialDragPair'];   // 第289便e: 🪆 も履歴の正本の後に入った本   // 第288便g: 🛸(第288便e)も履歴の正本の後に入った本   // 第288便c: 🧩 も同じ扱い   // 第287便a: 正本 geomode-w283a.json(履歴)の後に入った本 —— 導出は ① の規則で検査し、正本との照合は対象外
         // 第288便b(原仮定者の裁定(第78報)④): 在位移行した 10 本は正本(履歴)の後に宣言が動いた —— 正本の行は移行表の「前」、ページの行は「後」の導出と照合する
         let MIGT = null; try { MIGT = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w288b-unify.json'), 'utf8')); } catch (e) { MIGT = null; }
         const migRows = new Map(((MIGT || {}).rows || []).filter((x) => x.action === 'migrate').map((x) => [x.id, x]));

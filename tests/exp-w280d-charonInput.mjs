@@ -69,12 +69,27 @@ const SPEC_DIAG = unitChangeSpec(OLD_SCALE, DIAG_SCALE);
 const EPS_DIAG = 0.5;                                         // 診断単位の 50 km(第276便b と同じ)
 // 正式の値(照合用 —— 正本から読む。手で打ち直さない)
 let FORMAL = null;
+// 第290便b(原仮定者の裁定(第80報)⑤): ❄️ plutoCharonReal は退役して較正母集団の外 —— calaudit に ❄️ の行が無いときは、❄️ が母集団にいた
+//   最後の本器の正本(第289便・tests/out/charoninput-w280d.json@f03bf5a の meta.formal)を**履歴**として正式の値に使う。本器が走らせるのは
+//   ❄️ の写し(❄️ の単位 10⁶ m/10² s・dt 0.016/0.008)なので、照合の相手は ❄️ の行でなければならない —— 🥶 plutoCharonDiagInput の行は
+//   精密単位(10 s)で dt の意味も初期値の丸めも違い、1 bit 一致の相手にならない(tests/exp-w280c-geo3.mjs の CHARON_HISTORY_W289 と同じ流儀)
+const CHARON_FORMAL_HISTORY_W289 = Object.freeze({ from: 'history(charoninput-w280d@f03bf5a meta.formal —— ❄️ は第290便b で退役)',
+  historyCalauditSha256: 'b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77', preset: 'plutoCharonReal',
+  row: '公転周期(kFrame=0 対照・同方向1周)', stages: 2, h: 551864.061362921, h2: 551864.0612657347,
+  h2From: 'tests/out/calaudit-w249-diag.json h2Store.entries.plutoCharonReal(revP[1]×toSec)@f03bf5a', h4: null,
+  h4Note: '未走行(第288便b の在位移行後・h/4 例外の経路は裁定待ち)', gate: '数値未解決', assessedStage: 'h',
+  nSigma: 294.08344602820256, residual: 7.6226429210510105 });
 try {
   const ca = JSON.parse(fs.readFileSync(CALAUDIT, 'utf8'));
-  // 第290便b(原仮定者の裁定(第80報)⑤): 正式の値は較正母集団の本(❄️ が退役した後は 🥶 plutoCharonDiagInput)の行から読む
-  const pc = ca.presets.find((p) => p.id === 'plutoCharonReal') || ca.presets.find((p) => p.id === 'plutoCharonDiagInput');
-  const row = pc.quantities.find((q) => q.kind === 'period' && q.version === 'obs');
-  if (row.dtStages) {
+  const pc = ca.presets.find((p) => p.id === 'plutoCharonReal');
+  const row = pc ? pc.quantities.find((q) => q.kind === 'period' && q.version === 'obs') : null;
+  if (!pc) {
+    const succ = ca.presets.find((p) => p.id === 'plutoCharonDiagInput') || null;
+    const sr = succ ? succ.quantities.find((q) => q.kind === 'period' && q.version === 'obs') : null;
+    FORMAL = Object.assign({}, CHARON_FORMAL_HISTORY_W289, { sha256: sha(fs.readFileSync(CALAUDIT)),
+      successorRow: sr ? { preset: succ.id, row: sr.name, assessedValue: sr.gate.assessedValue, gate: sr.gate.status,
+        note: '母集団の後継(🥶)の行 —— 精密単位・別の dt なので本器の写しとの 1 bit 照合には使わない(記録のみ)' } : null });
+  } else if (row.dtStages) {
     FORMAL = { from: 'tests/out/calaudit-w249.json', sha256: sha(fs.readFileSync(CALAUDIT)), preset: pc.id, row: row.name, stages: 3,
       h: row.dtStages.dt, h2: row.dtStages.dtHalf, h4: row.dtStages.dtQuarter, gate: row.gate.status,
       nSigma: row.gate.nSigma, residual: row.gate.residual };
@@ -87,7 +102,7 @@ try {
     let h2 = null, h2From = null;
     try {
       const dg = JSON.parse(fs.readFileSync(DIAG, 'utf8'));
-      const en = ((dg.h2Store || {}).entries || {})[pc.id] || null;   // 第290便b: 母集団の本(🥶)の h2Store
+      const en = ((dg.h2Store || {}).entries || {})[pc.id] || null;   // ❄️ が母集団にいる世代の h2Store(第290便b の退役後は上の履歴の枝)
       const tg = en && en.run && (en.run.targets || [])[0];
       if (en && en.targetSha256 === (ca.meta || {}).targetSha256 && tg && Array.isArray(tg.revP) && tg.revP.length > 1) {
         h2 = tg.revP[1] * en.contract.units.toSec; h2From = 'tests/out/calaudit-w249-diag.json h2Store.entries.' + pc.id + '(revP[1]×toSec)';
