@@ -3,44 +3,44 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
-  "generatedAt": "2026-10-01T23:32:57.656Z",
+  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+  "generatedAt": "2026-10-03T03:51:43.879Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1824134,
-    "sha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
-    "mtime": "2026-10-01T22:11:22.009Z"
+    "bytes": 1814050,
+    "sha256": "8fdf343de914e7f0643e13a074cece2ef9c7e2bdd8b686d51c1ce3a00d1ad36d",
+    "mtime": "2026-10-03T02:58:29.234Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 160720,
-    "sha256": "00d1cfdfcbcd356f3d794b9c2a4a52413d4d3739514435d624e8636c786efd2e",
-    "mtime": "2026-10-01T22:45:27.185Z"
+    "bytes": 156749,
+    "sha256": "f336613a49f85b575ba23c8d923fd4044401ce260fddd54e8a9a1a8f43fa63b9",
+    "mtime": "2026-10-03T03:46:22.578Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 12670,
-    "sha256": "b90b29aa37afd24e896598f3316ca840b2bc8460ef6adab9771acb7d0c45571c",
-    "mtime": "2026-10-01T23:32:54.469Z"
+    "sha256": "002459f2b3a8bf0cf25d04be791bd27d7af67a98d00fb36b75f1dc81a7a3ef5c",
+    "mtime": "2026-10-03T03:51:37.586Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
-    "bytes": 223870,
-    "sha256": "d5e13cc86382d950c9a59df90ec9bf75f61a1cdc6797d5a6c09c547bbfd52996",
-    "mtime": "2026-10-01T20:05:37.277Z"
+    "bytes": 223869,
+    "sha256": "81e5616ba88fd66a69b9ba19c9746f1b48c67e4f6c105273f73ec76a7416be15",
+    "mtime": "2026-10-03T02:23:12.890Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
     "bytes": 9323,
     "sha256": "ae207310de5a2ed3d39d2a20de8fdc2eb7be4323dfba70bcf3997384a0cec694",
-    "mtime": "2026-09-16T05:09:24.054Z"
+    "mtime": "2026-10-02T23:11:03.132Z"
    },
    {
     "file": "tests/out/calcontract-w282a.json",
-    "bytes": 120925,
-    "sha256": "915300999645d8106b27b36782af49f1da2a1d8b90d8a81ee5b3b27c8c42ef06",
-    "mtime": "2026-10-01T22:33:11.437Z"
+    "bytes": 122083,
+    "sha256": "b49e8f25a6a84e1766cc6b4569aa313743904b7e87e5fd2284e8bd3b7192d402",
+    "mtime": "2026-10-03T03:26:36.094Z"
    }
   ],
   "code": [
@@ -48,13 +48,13 @@
     "file": "tests/exp-w274a-kf0ledger.mjs",
     "bytes": 34130,
     "sha256": "8124ff2a9eb4950bcd6e9eda4f0e86db568b1cff5f79fd25aa50f59f3b90906a",
-    "mtime": "2026-09-25T23:51:59.280Z"
+    "mtime": "2026-10-02T23:11:02.896Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    }
   ],
   "codeSha256": "58a3d2b7a8a645fb2503022da97e15f27b1e52cb1e7008f2cc208da681678c96",
@@ -120,8 +120,8 @@
     "未測定": 25
    },
    "observation": {
-    "✓": 0,
-    "✗": 3,
+    "✓": 1,
+    "✗": 2,
     "未測定": 23
    }
   },
@@ -137,13 +137,13 @@
     "未測定": 25
    },
    "numeric": {
-    "✓": 4,
-    "✗": 0,
+    "✓": 3,
+    "✗": 1,
     "未測定": 22
    },
    "observation": {
-    "✓": 2,
-    "✗": 6,
+    "✓": 3,
+    "✗": 5,
     "未測定": 18
    }
   },
@@ -160,19 +160,20 @@
   "pairsKOnly": [],
   "pairsNotKOnly": [],
   "observationDecided": {
-   "kf1Ok": [],
+   "kf1Ok": [
+    "plutoCharonReal@charon-w272b"
+   ],
    "kf1Ng": [
-    "plutoCharonReal@charon-w272b",
     "psrJ1757DFM@nslock-lock",
     "psrJ1946DFM@nslock-lock"
    ],
    "kf0Ok": [
     "alphaCenAB",
-    "siriusAB"
+    "siriusAB",
+    "plutoCharonReal@charon-w272b"
    ],
    "kf0Ng": [
     "saturnZonalD68",
-    "plutoCharonReal@charon-w272b",
     "psrDoubleABDFM@nslock-lock",
     "psrJ1757DFM@nslock-lock",
     "psrJ1946DFM@nslock-lock",
@@ -646,12 +647,12 @@
   },
   {
    "scope": "calibration",
-   "id": "plutoCharonReal",
-   "emoji": "❄️",
-   "name": "冥王星とカロン(実単位)— 重心が外にある二体",
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "冥王星とカロン(入力を整えた二体)— 観測入力の geoPN=1 の対照",
    "declaredKFrame": 0,
-   "massFactor": 1,
-   "massFactorSource": "MASS_BASIS observed-solution(自身が基準)",
+   "massFactor": null,
+   "massFactorSource": "出典不明",
    "massFactorDeclared": 1,
    "version": "obs",
    "kf0Source": "preset(宣言そのものが kFrame=0)",
@@ -675,14 +676,13 @@
      "nan": false,
      "clamp": 0,
      "stoppedBy": "declared-max-steps",
-     "periastraOk": true
+     "periastraOk": false
     },
     "structureWhy": "**較正 2 体系には形状条件を宣言していない**(第274便a 時点)。宣言が無いので「未測定」である —— 完走を構造安定と書かない。",
-    "nQuantities": 5,
-    "nWithSigma": 3,
+    "nQuantities": 3,
+    "nWithSigma": 1,
     "gateByStatus": {
-     "数値未解決": 2,
-     "mapping-unresolved": 1,
+     "数値未解決": 1,
      "未判定": 2
     },
     "numericEvidence": {
@@ -695,19 +695,9 @@
      "ngKeys": [],
      "nSigma": [
       {
-       "key": "plutoCharonReal|カロン|period",
-       "nSigma": 294.08344602820256,
+       "key": "plutoCharonDiagInput|カロン|period",
+       "nSigma": 278.5921238952411,
        "status": "数値未解決"
-      },
-      {
-       "key": "plutoCharonReal|カロン|period",
-       "nSigma": 294.08344602820256,
-       "status": "数値未解決"
-      },
-      {
-       "key": "plutoCharonReal|カロン|period",
-       "nSigma": 86.17380536398505,
-       "status": "mapping-unresolved"
       }
      ]
     }
@@ -1590,7 +1580,7 @@
     "run": "✓",
     "structure": "未測定",
     "numeric": "✗",
-    "observation": "✗",
+    "observation": "✓",
     "runEvidence": {
      "source": "charon-w272b.json#columns.C0.h",
      "nan": false,
@@ -1607,13 +1597,13 @@
      ],
      "pObs": 0.1327195649510854,
      "epsHat": 2.5544613963412197,
-     "epsHatSigma": 98.55175140205324,
+     "epsHatSigma": 0,
      "assessedStage": "h4",
      "orderEstimable": true
     },
     "observationEvidence": {
-     "nSigma": 52264.95869311394,
-     "residPct": 0.24548191056131952,
+     "nSigma": 0,
+     "residPct": 0,
      "cfg": {
       "kFrame": 1,
       "f": 1,
@@ -1630,8 +1620,8 @@
     "present": true,
     "run": "✓",
     "structure": "未測定",
-    "numeric": "✓",
-    "observation": "✗",
+    "numeric": "✗",
+    "observation": "✓",
     "runEvidence": {
      "source": "charon-w272b.json#columns.C1.h",
      "nan": false,
@@ -1648,13 +1638,13 @@
      ],
      "pObs": 1.9370248248263864,
      "epsHat": 0.000008971111532098443,
-     "epsHatSigma": 0.00034610769799762515,
+     "epsHatSigma": 0,
      "assessedStage": "h4",
      "orderEstimable": true
     },
     "observationEvidence": {
-     "nSigma": 294.0787173653838,
-     "residPct": 0.001381250596947053,
+     "nSigma": 0,
+     "residPct": 0,
      "cfg": {
       "kFrame": 0,
       "f": 1,
@@ -1678,22 +1668,22 @@
       "column": "S_e0.05_k0",
       "softening": 0.05,
       "rev2Sec": 551864.061362921,
-      "residPctRev": 0.001381272806879141
+      "residPctRev": 0
      },
      {
       "column": "S_e0.025_k0",
       "softening": 0.025,
       "rev2Sec": 551855.9777986223,
-      "residPctRev": -0.0000835219715314297
+      "residPctRev": 0
      },
      {
       "column": "S_e0.0125_k0",
       "softening": 0.0125,
       "rev2Sec": 551853.9568779507,
-      "residPctRev": -0.00044972602929805553
+      "residPctRev": 0
      }
     ],
-    "signFlip": true,
+    "signFlip": false,
     "why": "**kF0 の残差は softening ε に依存し、ε を 0.05 → 0.025 で符号が反転する**。ε は観測量ではないので、この符号は物理の符号ではない。"
    },
    "label": null,
@@ -2350,7 +2340,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "5ec824c4eca3259f3109948b9666c272ba2393d511045edf542b21404e28e7ed",
+   "fileSha256": "b9dcf0ab20ec0131465db17f256adc284f5e2d2683bda884fb5df377905abf5a",
    "citedValue": 551864.061362921,
    "citedCfg": {
     "kFrame": 0,
@@ -2358,7 +2348,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "826e709e7934a49a8392d3d926fd271482d1fc18672be1d222cc1de89a701e0a",
+   "citedTargetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,

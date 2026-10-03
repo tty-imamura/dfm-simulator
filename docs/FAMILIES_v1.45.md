@@ -20,12 +20,12 @@
 
 ## 集計
 
-- 家族 **21**・本 **81**(うち退役 26)・推定の列: 主系列 25・比較 17・診断 13・履歴 26。
-- 候補: 規則 A 4・規則 B 0・規則 C(要裁定)1・畳まない組 0。
+- 家族 **23**・本 **87**(うち退役 31)・推定の列: 主系列 27・比較 19・診断 10・履歴 31。
+- 候補: 規則 A 3・規則 B 0・規則 C(要裁定)1・畳まない組 0。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 履歴 | 候補 A/B/C | 畳まない組 |
 |---|---|---|---|---|---|---|---|---|
-| 冥王星–カロン(`pluto`) | 6 | `plutoCharonReal` | 1 | 0 | 5 | 0 | 1/0/0 | 0 |
+| 冥王星–カロン(`pluto`) | 6 | `plutoCharonDiagInput` | 1 | 0 | 2 | 3 | 0/0/0 | 0 |
 | 地球–月(現実との照合)(`earthmoon`) | 6 | `earthMoonRealKF1` | 2 | 0 | 1 | 3 | 0/0/0 | 0 |
 | 水星(現実との照合)(`mercury`) | 3 | `mercuryRealKF1` | 1 | 0 | 1 | 1 | 1/0/0 | 0 |
 | 土星(現実との照合)(`saturn`) | 5 | `saturnRingRealKF1` | 2 | 0 | 2 | 1 | 0/0/0 | 0 |
@@ -38,10 +38,12 @@
 | シリウス AB(`sirius`) | 2 | `siriusABDFM` | 1 | 0 | 0 | 1 | 0/0/0 | 0 |
 | 銀河回転(空間メッシュ・アナロジー)(`galaxyMesh`) | 4 | `galaxyMeshSpiral` | 1 | 0 | 2 | 1 | 1/0/0 | 0 |
 | 銀河の回転曲線 4 本(`galaxyrot`) | 4 | `galaxy` | 1 | 3 | 0 | 0 | 0/0/0 | 0 |
-| 球状星団 47 Tuc(`tuc47`) | 2 | `tuc47DFM` | 1 | 1 | 0 | 0 | 0/0/0 | 0 |
+| 球状星団 47 Tuc(`tuc47`) | 2 | `tuc47` | 1 | 0 | 0 | 1 | 0/0/0 | 0 |
 | 渦巻銀河 NGC 3198(`ngc3198`) | 2 | `ngc3198DFM` | 1 | 0 | 1 | 0 | 0/0/0 | 0 |
-| 形の玩具 6 本(`shapeToy`) | 6 | `shapeToyCluster` | 1 | 5 | 0 | 0 | 0/0/0 | 0 |
-| 超新星の親星(`supernova`) | 2 | `supernovaProgDFM` | 1 | 1 | 0 | 0 | 0/0/0 | 0 |
+| 形の玩具(中心なし)(`shapeToy`) | 4 | `shapeToyCluster` | 1 | 3 | 0 | 0 | 0/0/0 | 0 |
+| 形の玩具(中心天体つき)(`shapeToyCore`) | 4 | `shapeToyClusterCore` | 1 | 3 | 0 | 0 | 0/0/0 | 0 |
+| 棒と腕(軸力・DFM の外)(`axisBar`) | 3 | `axisBarStill` | 1 | 2 | 0 | 0 | 0/0/0 | 0 |
+| 超新星(`supernova`) | 3 | `supernovaProg` | 1 | 1 | 0 | 1 | 0/0/0 | 0 |
 | 白色矮星(`whiteDwarf`) | 2 | `whiteDwarfDFM` | 1 | 1 | 0 | 0 | 0/0/0 | 0 |
 | 土星(天体の機構)(`saturnToy`) | 2 | `saturn` | 1 | 1 | 0 | 0 | 0/0/0 | 0 |
 | 時計と重力(GR の較正)(`grcal`) | 4 | `grcal` | 1 | 3 | 0 | 0 | 0/0/0 | 0 |
@@ -51,35 +53,33 @@
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| ❄️ | `plutoCharonReal` | primary | 主系列(較正母集団) | 基準 | calibration・kf0 | ○ | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | 旧入力の冥王星–カロンを照合する | `behavior.plutoCharonReal` |
-| ⛄ | `plutoCharonDFM` | variant | 診断(principle・「零」) | 違う入力(質量・位置・速度) | principle | — | 1 | 0 | 0.006 | — | 11.9386 | — | pairSlip | — | 同一観測解の二体に零条件つき引きずり則を載せる | `behavior.plutoCharonDFM` |
-| 🌨️ | `plutoCharonKF0Control` | variant | 診断(principle・「対照」) | 違う入力(質量・位置・速度) | principle | — | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | ⛄ と同じ入力で則だけを外した kF0 対照 | — |
-| 🥶 | `plutoCharonDiagInput` | variant | 診断(principle・「対照」) | 違う入力(質量・位置・速度) | principle | — | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | ❄️ の入力の丸めと軟化を外した kF0 診断コピー | — |
-| ☃️ | `plutoCharonSyncZero` | variant | 診断(principle・「零」) | 違う入力(質量・位置・速度) | principle | — | 0 | 0 | 0.006 | — | 11.9386 | — | pairSlip | — | 厳密同期円で相対すべり則の零条件を走行中も試す | — |
-| 🌒 | `charonGeoToy3` | variant | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 0.006 | — | 11.9386 | — | — | vertex | 太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる | — |
+| 🥶 | `plutoCharonDiagInput` | primary | 主系列(較正母集団) | 基準 | calibration・kf0 | ○ | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | 冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口) | — |
+| 🌨️ | `plutoCharonKF0Control` | variant | 診断(principle・「対照」) | 違う入力(位置・速度) | principle | — | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | ⛄ と同じ入力で則だけを外した kF0 対照 | — |
+| 🌒 | `charonGeoToy3` | variant | 診断(principle・geoPN=3) | 違う入力(質量・位置・速度) | principle | — | 3 | 0 | 0.006 | — | 11.9386 | — | — | vertex | 太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる | — |
+| ❄️ | `plutoCharonReal` | retired | 履歴(familyRole "retired") | 違う入力(質量・位置・速度) | calibration・kf0 | — | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | 旧入力の冥王星–カロンを照合する | `behavior.plutoCharonReal` |
+| ⛄ | `plutoCharonDFM` | retired | 履歴(familyRole "retired") | 違う入力(位置・速度) | principle | — | 1 | 0 | 0.006 | — | 11.9386 | — | pairSlip | — | 同一観測解の二体に零条件つき引きずり則を載せる | `behavior.plutoCharonDFM` |
+| ☃️ | `plutoCharonSyncZero` | retired | 履歴(familyRole "retired") | 違う入力(位置・速度) | principle | — | 0 | 0 | 0.006 | — | 11.9386 | — | pairSlip | — | 厳密同期円で相対すべり則の零条件を走行中も試す | — |
 
 **鍵ごとの差**(physics の同じ鍵 25):
 
-- `physics.backgroundComplex`: plutoCharonReal=— / plutoCharonDFM=— / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero=— / charonGeoToy3={"background":"declared","W0":5.6999875742828215e-9,"A0":[0,2.701885161114078e-9],"gradW":[-1.93009222560893e-15,0],"gradA":[0,0,-9.14894545995665e-16,0],"dWdt":0,"dAdt":[2.16837314607735e-16,0],"note":"第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)","refPos":[0,0],"sources":[{"id":"sun","kind":"body","excludedExplicit":true}],"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"},"bgModel":"sources","ledger":[{"id":"sun","m":198849.99999999997,"x":-5906440.633928273,"y":0,"vx":0,"vy":0.4740159738776329,"ax":3.8041717070763564e-8,"ay":0}],"eps":0.05,"timeContract":{"mode":"sources","t0":0,"derivFrame":"frame","widthT":340000}}
-- `physics.geoPN`: plutoCharonReal=1 / plutoCharonDFM=1 / plutoCharonKF0Control=1 / plutoCharonDiagInput=1 / plutoCharonSyncZero=0 / charonGeoToy3=3
-- `physics.massPrecision`: plutoCharonReal=— / plutoCharonDFM=double / plutoCharonKF0Control=double / plutoCharonDiagInput=double / plutoCharonSyncZero=double / charonGeoToy3=—
-- `physics.meshVelocity`: plutoCharonReal=— / plutoCharonDFM=— / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero=— / charonGeoToy3={"law":"vMinusU","field":"backgroundComplex","mutual":0,"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}}
-- `physics.relativeDrag`: plutoCharonReal=— / plutoCharonDFM={"law":"pairSlip","kappa":1,"W0":0,"pairs":"all","spins":"declared","integration":"midpoint"} / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero={"law":"pairSlip","kappa":1,"W0":0,"pairs":"all","spins":"declared","integration":"midpoint"} / charonGeoToy3=—
-- `physics.softening`: plutoCharonReal=0.05 / plutoCharonDFM=0.01 / plutoCharonKF0Control=0.01 / plutoCharonDiagInput=0.01 / plutoCharonSyncZero=0.01 / charonGeoToy3=0.05
-- `physics.spaceMesh`: plutoCharonReal=— / plutoCharonDFM=— / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero=— / charonGeoToy3={"mode":"vertex","gravity":false,"inertia":false,"lawVersion":"vMinusU","pn":"reference-1PN","pnVelocity":"v","velocityMeaning":"xdot"}
-- `integrator`: plutoCharonReal=— / plutoCharonDFM=leapfrog / plutoCharonKF0Control=leapfrog / plutoCharonDiagInput=leapfrog / plutoCharonSyncZero=leapfrog / charonGeoToy3=—
-- `scaleExp`: plutoCharonReal=(宣言あり) / plutoCharonDFM=(宣言あり) / plutoCharonKF0Control=(宣言あり) / plutoCharonDiagInput=(宣言あり) / plutoCharonSyncZero=(宣言あり) / charonGeoToy3=(宣言あり)
-- `sampleClass`: plutoCharonReal=calibration / plutoCharonDFM=principle / plutoCharonKF0Control=principle / plutoCharonDiagInput=principle / plutoCharonSyncZero=principle / charonGeoToy3=principle
-- `calVariant`: plutoCharonReal=kf0 / plutoCharonDFM=— / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero=— / charonGeoToy3=—
-- `familyRole`: plutoCharonReal=primary / plutoCharonDFM=variant / plutoCharonKF0Control=variant / plutoCharonDiagInput=variant / plutoCharonSyncZero=variant / charonGeoToy3=variant
-- `gates(testId)`: plutoCharonReal=behavior.plutoCharonReal / plutoCharonDFM=behavior.plutoCharonDFM / plutoCharonKF0Control=— / plutoCharonDiagInput=— / plutoCharonSyncZero=— / charonGeoToy3=—
-- `bodies(vs 基準)`: plutoCharonReal=基準 / plutoCharonDFM=違う入力(質量・位置・速度) / plutoCharonKF0Control=違う入力(質量・位置・速度) / plutoCharonDiagInput=違う入力(質量・位置・速度) / plutoCharonSyncZero=違う入力(質量・位置・速度) / charonGeoToy3=同じ入力
+- `physics.backgroundComplex`: plutoCharonDiagInput=— / plutoCharonKF0Control=— / charonGeoToy3={"background":"declared","W0":5.6999875742828215e-9,"A0":[0,2.701885161114078e-9],"gradW":[-1.93009222560893e-15,0],"gradA":[0,0,-9.14894545995665e-16,0],"dWdt":0,"dAdt":[2.16837314607735e-16,0],"note":"第279便c の器(bgbudget2-w279c)と同じ値: 太陽の点質量を t=0・対の重心で評価(comoving)","refPos":[0,0],"sources":[{"id":"sun","kind":"body","excludedExplicit":true}],"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"},"bgModel":"sources","ledger":[{"id":"sun","m":198849.99999999997,"x":-5906440.633928273,"y":0,"vx":0,"vy":0.4740159738776329,"ax":3.8041717070763564e-8,"ay":0}],"eps":0.05,"timeContract":{"mode":"sources","t0":0,"derivFrame":"frame","widthT":340000}} / plutoCharonReal=— / plutoCharonDFM=— / plutoCharonSyncZero=—
+- `physics.geoPN`: plutoCharonDiagInput=1 / plutoCharonKF0Control=1 / charonGeoToy3=3 / plutoCharonReal=1 / plutoCharonDFM=1 / plutoCharonSyncZero=0
+- `physics.massPrecision`: plutoCharonDiagInput=double / plutoCharonKF0Control=double / charonGeoToy3=— / plutoCharonReal=— / plutoCharonDFM=double / plutoCharonSyncZero=double
+- `physics.meshVelocity`: plutoCharonDiagInput=— / plutoCharonKF0Control=— / charonGeoToy3={"law":"vMinusU","field":"backgroundComplex","mutual":0,"frame":{"origin":"barycenter","epoch":"t0(第280便c の診断コピー)","rotation":"none","translation":"comoving"}} / plutoCharonReal=— / plutoCharonDFM=— / plutoCharonSyncZero=—
+- `physics.relativeDrag`: plutoCharonDiagInput=— / plutoCharonKF0Control=— / charonGeoToy3=— / plutoCharonReal=— / plutoCharonDFM={"law":"pairSlip","kappa":1,"W0":0,"pairs":"all","spins":"declared","integration":"midpoint"} / plutoCharonSyncZero={"law":"pairSlip","kappa":1,"W0":0,"pairs":"all","spins":"declared","integration":"midpoint"}
+- `physics.softening`: plutoCharonDiagInput=0.01 / plutoCharonKF0Control=0.01 / charonGeoToy3=0.05 / plutoCharonReal=0.05 / plutoCharonDFM=0.01 / plutoCharonSyncZero=0.01
+- `physics.spaceMesh`: plutoCharonDiagInput=— / plutoCharonKF0Control=— / charonGeoToy3={"mode":"vertex","gravity":false,"inertia":false,"lawVersion":"vMinusU","pn":"reference-1PN","pnVelocity":"v","velocityMeaning":"xdot"} / plutoCharonReal=— / plutoCharonDFM=— / plutoCharonSyncZero=—
+- `integrator`: plutoCharonDiagInput=leapfrog / plutoCharonKF0Control=leapfrog / charonGeoToy3=— / plutoCharonReal=— / plutoCharonDFM=leapfrog / plutoCharonSyncZero=leapfrog
+- `scaleExp`: plutoCharonDiagInput=(宣言あり) / plutoCharonKF0Control=(宣言あり) / charonGeoToy3=(宣言あり) / plutoCharonReal=(宣言あり) / plutoCharonDFM=(宣言あり) / plutoCharonSyncZero=(宣言あり)
+- `sampleClass`: plutoCharonDiagInput=calibration / plutoCharonKF0Control=principle / charonGeoToy3=principle / plutoCharonReal=calibration / plutoCharonDFM=principle / plutoCharonSyncZero=principle
+- `calVariant`: plutoCharonDiagInput=kf0 / plutoCharonKF0Control=— / charonGeoToy3=— / plutoCharonReal=kf0 / plutoCharonDFM=— / plutoCharonSyncZero=—
+- `familyRole`: plutoCharonDiagInput=primary / plutoCharonKF0Control=variant / charonGeoToy3=variant / plutoCharonReal=retired / plutoCharonDFM=retired / plutoCharonSyncZero=retired
+- `gates(testId)`: plutoCharonDiagInput=— / plutoCharonKF0Control=— / charonGeoToy3=— / plutoCharonReal=behavior.plutoCharonReal / plutoCharonDFM=behavior.plutoCharonDFM / plutoCharonSyncZero=—
+- `bodies(vs 基準)`: plutoCharonDiagInput=基準 / plutoCharonKF0Control=違う入力(位置・速度) / charonGeoToy3=違う入力(質量・位置・速度) / plutoCharonReal=違う入力(質量・位置・速度) / plutoCharonDFM=違う入力(位置・速度) / plutoCharonSyncZero=違う入力(位置・速度)
 
-**統廃合の候補**(実行ではない):
+**統廃合の候補**: 規則に当たる組は無い。
 
-| 規則 | 残す | 畳む | どう | 理由 |
-|---|---|---|---|---|
-| A | `plutoCharonReal` | `charonGeoToy3` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が plutoCharonReal と同じ・違うのは physics の backgroundComplex・geoPN・meshVelocity・spaceMesh |
+**履歴(退役)**: `plutoCharonReal` `plutoCharonDFM` `plutoCharonSyncZero`
 
 ## 地球–月(現実との照合)(`earthmoon`・6 本)
 
@@ -431,17 +431,19 @@
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 🫐 | `tuc47DFM` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 1 | 0.006 | — | 2 | 1.9934013530695391(chi-law-v1-meanfield) | — | — | 連星の質量補正を星団へ当てる hold-out | — |
-| 🍇 | `tuc47` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 0 | 0.006 | — | 2 | — | — | — | 47 Tuc の配置と速度を観測から転写する | — |
+| 🍇 | `tuc47` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 0 | 0.006 | — | 2 | — | — | — | 47 Tuc の配置と速度を観測から転写する | — |
+| 🫐 | `tuc47DFM` | retired | 履歴(familyRole "retired") | 同じ入力 | principle | — | 0 | 1 | 0.006 | — | 2 | 1.9934013530695391(chi-law-v1-meanfield) | — | — | 連星の質量補正を星団へ当てる hold-out | — |
 
 **鍵ごとの差**(physics の同じ鍵 24):
 
-- `physics.kFrame`: tuc47DFM=1 / tuc47=0
-- `massCalibration`: tuc47DFM=(宣言あり) / tuc47=—
-- `familyRole`: tuc47DFM=primary / tuc47=variant
-- `bodies(vs 基準)`: tuc47DFM=基準 / tuc47=同じ入力
+- `physics.kFrame`: tuc47=0 / tuc47DFM=1
+- `massCalibration`: tuc47=— / tuc47DFM=(宣言あり)
+- `familyRole`: tuc47=primary / tuc47DFM=retired
+- `bodies(vs 基準)`: tuc47=基準 / tuc47DFM=同じ入力
 
 **統廃合の候補**: 規則に当たる組は無い。
+
+**履歴(退役)**: `tuc47DFM`
 
 ## 渦巻銀河 NGC 3198(`ngc3198`・2 本)
 
@@ -460,42 +462,88 @@
 
 **統廃合の候補**: 規則に当たる組は無い。
 
-## 形の玩具 6 本(`shapeToy`・6 本)
+## 形の玩具(中心なし)(`shapeToy`・4 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 🔮 | `shapeToyCluster` | — | 主系列(母集団の外の家族の基準の本) | 基準 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 指定した 3D 正規分布を保つ参照模型 | — |
-| 🥏 | `shapeToyDisk` | — | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 指定した薄い回転円盤を保つ参照模型 | — |
-| 🧵 | `shapeToyArm` | — | 比較(上のどれでもない) | 違う入力(位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 腕の軸に対する正規分布を保つ参照模型 | — |
-| 🎱 | `shapeToyClusterCore` | — | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 中心スピンに依存する力学で星団を束ねる | — |
-| 📀 | `shapeToyDiskCore` | — | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 中心スピンから薄さと円盤の回転を作る | — |
-| 🧹 | `shapeToyArmCore` | — | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 面内の自転軸に沿った棒を作る | — |
+| 🔮 | `shapeToyCluster` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 指定した 3D 正規分布を保つ参照模型 | — |
+| 🥏 | `shapeToyDisk` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 指定した薄い回転円盤を保つ参照模型 | — |
+| 🧵 | `shapeToyArm` | variant | 比較(上のどれでもない) | 違う入力(位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 腕の軸に対する正規分布を保つ参照模型 | — |
+| 🍭 | `shapeToySpiral` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(創発ではない) | — |
 
 **鍵ごとの差**(physics の同じ鍵 25):
 
-- `physics.contactCap`: shapeToyCluster=— / shapeToyDisk=— / shapeToyArm=— / shapeToyClusterCore=0 / shapeToyDiskCore=0 / shapeToyArmCore=0
-- `physics.contactK`: shapeToyCluster=— / shapeToyDisk=— / shapeToyArm=— / shapeToyClusterCore=0 / shapeToyDiskCore=0 / shapeToyArmCore=0
-- `physics.shapeToy`: shapeToyCluster={"shape":"cluster","supply":"external-bath","omega0":0.1,"gamma":0.25,"sigma":36,"sigmaZ":36,"sigma0":36,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0} / shapeToyDisk={"shape":"disk","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0.05,"armLength":0,"armLength0":0} / shapeToyArm={"shape":"arm","supply":"external-bath","omega0":0.12,"gamma":0.24,"sigma":7.2,"sigmaZ":4.8,"sigma0":7.2,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":120,"armLength0":120} / shapeToyClusterCore={"shape":"cluster","supply":"external-bath","omega0":0.1,"gamma":0.25,"sigma":36,"sigmaZ":36,"sigma0":36,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0,"law":"coreField","coreField":{"coreRc":125,"coreMass":10,"alpha":1.1,"beta":0.1,"axis":[0,0,1],"W0":0.00064,"temp":19.44,"omegaP":0,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}}} / shapeToyDiskCore={"shape":"disk","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0.05,"armLength":0,"armLength0":0,"law":"coreField","coreField":{"coreRc":160,"coreMass":10,"alpha":1.05,"beta":7.8,"axis":[0,0,1],"W0":0.0044921875,"temp":3.624,"omegaP":0.14,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}}} / shapeToyArmCore={"shape":"arm","supply":"external-bath","omega0":0.12,"gamma":0.24,"sigma":7.2,"sigmaZ":4.8,"sigma0":7.2,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":120,"armLength0":120,"law":"coreField","coreField":{"coreRc":250,"coreMass":10,"alpha":2,"beta":0.0108,"axis":[1,0,0],"W0":0.00016,"temp":7.776,"omegaP":0,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}}}
-- `seed`: shapeToyCluster=20260919 / shapeToyDisk=20260919 / shapeToyArm=20260919 / shapeToyClusterCore=20260920 / shapeToyDiskCore=20260920 / shapeToyArmCore=20260920
-- `bodies(vs 基準)`: shapeToyCluster=基準 / shapeToyDisk=同じ入力 / shapeToyArm=違う入力(位置・速度) / shapeToyClusterCore=違う入力(本数・質量・位置・速度) / shapeToyDiskCore=違う入力(本数・質量・位置・速度) / shapeToyArmCore=違う入力(本数・質量・位置・速度)
+- `physics.shapeToy`: shapeToyCluster={"shape":"cluster","supply":"external-bath","omega0":0.1,"gamma":0.25,"sigma":36,"sigmaZ":36,"sigma0":36,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0} / shapeToyDisk={"shape":"disk","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0.05,"armLength":0,"armLength0":0} / shapeToyArm={"shape":"arm","supply":"external-bath","omega0":0.12,"gamma":0.24,"sigma":7.2,"sigmaZ":4.8,"sigma0":7.2,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":120,"armLength0":120} / shapeToySpiral={"shape":"spiral","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"fixed","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0,"spiral":{"nArm":2,"pitchDeg":20,"rMin":24,"rMax":144,"r0":24,"phi0Deg":0,"armWidth":7.2,"armSigmaZ":4.8,"armOmega0":0.12,"armGamma":0.24,"omegaP":0.05,"massRatio":2,"nDisk":300,"nArmParticles":150,"density":"uniform-s"}}
+- `familyRole`: shapeToyCluster=primary / shapeToyDisk=variant / shapeToyArm=variant / shapeToySpiral=variant
+- `bodies(vs 基準)`: shapeToyCluster=基準 / shapeToyDisk=同じ入力 / shapeToyArm=違う入力(位置・速度) / shapeToySpiral=違う入力(本数・質量・位置・速度)
 
 **統廃合の候補**: 規則に当たる組は無い。
 
-## 超新星の親星(`supernova`・2 本)
+## 形の玩具(中心天体つき)(`shapeToyCore`・4 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 🌹 | `supernovaProgDFM` | — | 主系列(母集団の外の家族の基準の本) | 基準 | principle | — | 0 | 1 | 0.006 | — | 2 | 2(chi-law-v1-transfer) | — | — | 質量台帳 f=2 の前駆星を比べる | — |
-| 🥀 | `supernovaProg` | — | 比較(上のどれでもない) | 違う入力(質量) | principle | — | 0 | 0 | 0.006 | — | 2 | — | — | — | ベテルギウスの前駆星状態を転写する | — |
+| 🎱 | `shapeToyClusterCore` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 中心スピンに依存する力学で星団を束ねる | — |
+| 📀 | `shapeToyDiskCore` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 中心スピンから薄さと円盤の回転を作る | — |
+| 🧹 | `shapeToyArmCore` | variant | 比較(上のどれでもない) | 違う入力(速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 面内の自転軸に沿った棒を作る | — |
+| 🎢 | `shapeToySpiralCore` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 0 | 2 | — | 2 | — | — | — | 📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(創発ではない) | — |
 
-**鍵ごとの差**(physics の同じ鍵 23):
+**鍵ごとの差**(physics の同じ鍵 27):
 
-- `physics.coupleSink`: supernovaProgDFM=reservoir / supernovaProg=core
-- `physics.kFrame`: supernovaProgDFM=1 / supernovaProg=0
-- `massCalibration`: supernovaProgDFM=(宣言あり) / supernovaProg=—
-- `bodies(vs 基準)`: supernovaProgDFM=基準 / supernovaProg=違う入力(質量)
+- `physics.shapeToy`: shapeToyClusterCore={"shape":"cluster","supply":"external-bath","omega0":0.1,"gamma":0.25,"sigma":36,"sigmaZ":36,"sigma0":36,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0,"law":"coreField","coreField":{"coreRc":125,"coreMass":10,"alpha":1.1,"beta":0.1,"axis":[0,0,1],"W0":0.00064,"temp":19.44,"omegaP":0,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}}} / shapeToyDiskCore={"shape":"disk","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0.05,"armLength":0,"armLength0":0,"law":"coreField","coreField":{"coreRc":160,"coreMass":10,"alpha":1.05,"beta":7.8,"axis":[0,0,1],"W0":0.0044921875,"temp":3.624,"omegaP":0.14,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}}} / shapeToyArmCore={"shape":"arm","supply":"external-bath","omega0":0.12,"gamma":0.24,"sigma":7.2,"sigmaZ":4.8,"sigma0":7.2,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":120,"armLength0":120,"law":"coreField","coreField":{"coreRc":250,"coreMass":10,"alpha":2,"beta":0.0108,"axis":[1,0,0],"W0":0.00016,"temp":7.776,"omegaP":0,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}}} / shapeToySpiralCore={"shape":"spiral","supply":"external-bath","omega0":0.01,"gamma":0.02,"sigma":44,"sigmaZ":14,"sigma0":44,"tauGrow":0,"center":"pinned","coupling":"prescribed","cx":0,"cy":0,"omegaSpin":0,"armLength":0,"armLength0":0,"law":"coreField","coreField":{"coreRc":160,"coreMass":10,"alpha":1.05,"beta":7.8,"axis":[0,0,1],"W0":0.0044921875,"temp":3.624,"omegaP":0.14,"init":"thermal","centreGravity":"phi","exchange":{"mode":"rotating-bath","rate":0.02,"capacity":20000}},"spiral":{"nArm":2,"pitchDeg":20,"rMin":24,"rMax":144,"r0":24,"phi0Deg":0,"armWidth":7.2,"armSigmaZ":7.2,"armOmega0":0.12,"armGamma":0.24,"omegaP":0.14,"massRatio":2,"nDisk":300,"nArmParticles":150,"density":"uniform-s"}}
+- `familyRole`: shapeToyClusterCore=primary / shapeToyDiskCore=variant / shapeToyArmCore=variant / shapeToySpiralCore=variant
+- `bodies(vs 基準)`: shapeToyClusterCore=基準 / shapeToyDiskCore=同じ入力 / shapeToyArmCore=違う入力(速度) / shapeToySpiralCore=違う入力(本数・質量・位置・速度)
 
 **統廃合の候補**: 規則に当たる組は無い。
+
+## 棒と腕(軸力・DFM の外)(`axisBar`・3 本)
+
+| 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 🥢 | `axisBarStill` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 回転のない円盤で軸への力が棒を作るかを見る | — |
+| 🎏 | `axisBarArms` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 回転する同じ円盤で内側の棒と外側の腕を見る | — |
+| 🎚️ | `axisBarReach` | variant | 比較(上のどれでもない) | 同じ入力 | principle | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 到達長だけを変えて棒の長さを比べる | — |
+
+**鍵ごとの差**(physics の同じ鍵 24):
+
+- `physics.axisForce`: axisBarStill={"A":300,"Rb":120,"rc":6,"axis":0,"source":0} / axisBarArms={"A":15,"Rb":110,"rc":6,"axis":0,"source":0,"omegaAxis":0.04} / axisBarReach={"A":300,"Rb":60,"rc":6,"axis":0,"source":0}
+- `familyRole`: axisBarStill=primary / axisBarArms=variant / axisBarReach=variant
+- `bodies(vs 基準)`: axisBarStill=基準 / axisBarArms=同じ入力 / axisBarReach=同じ入力
+
+**統廃合の候補**: 規則に当たる組は無い。
+
+## 超新星(`supernova`・3 本)
+
+| 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 🥀 | `supernovaProg` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 0 | 0.006 | — | 2 | — | — | — | ベテルギウスの前駆星状態を転写する | — |
+| 🎇 | `supernovaCore` | variant | 比較(上のどれでもない) | 違う入力(質量) | principle | — | 0 | 1 | 2 | — | 2 | 2(chi-law-v1-transfer) | — | — | 1 つの星の殻放出と時計つきの核の残存を見せる | — |
+| 🌹 | `supernovaProgDFM` | retired | 履歴(familyRole "retired") | 違う入力(質量) | principle | — | 0 | 1 | 0.006 | — | 2 | 2(chi-law-v1-transfer) | — | — | 質量台帳 f=2 の前駆星を比べる | — |
+
+**鍵ごとの差**(physics の同じ鍵 14):
+
+- `physics.D0`: supernovaProg=0.006 / supernovaCore=2 / supernovaProgDFM=0.006
+- `physics.G`: supernovaProg=6.674 / supernovaCore=4 / supernovaProgDFM=6.674
+- `physics.cHeat`: supernovaProg=1 / supernovaCore=0.2 / supernovaProgDFM=1
+- `physics.cLight`: supernovaProg=29979.2458 / supernovaCore=30 / supernovaProgDFM=29979.2458
+- `physics.coupleSink`: supernovaProg=core / supernovaCore=reservoir / supernovaProgDFM=reservoir
+- `physics.etaRad`: supernovaProg=0 / supernovaCore=0.0016 / supernovaProgDFM=0
+- `physics.frameReaction`: supernovaProg=— / supernovaCore=pairReduced / supernovaProgDFM=—
+- `physics.kFrame`: supernovaProg=0 / supernovaCore=1 / supernovaProgDFM=1
+- `physics.kappaT`: supernovaProg=7.425826474101849e-9 / supernovaCore=0.016666666666666666 / supernovaProgDFM=7.425826474101849e-9
+- `physics.pRad`: supernovaProg=4 / supernovaCore=2 / supernovaProgDFM=4
+- `physics.softening`: supernovaProg=1 / supernovaCore=3 / supernovaProgDFM=1
+- `physics.timeScale`: supernovaProg=100 / supernovaCore=2 / supernovaProgDFM=100
+- `massCalibration`: supernovaProg=— / supernovaCore=(宣言あり) / supernovaProgDFM=(宣言あり)
+- `scaleExp`: supernovaProg=(宣言あり) / supernovaCore=— / supernovaProgDFM=(宣言あり)
+- `seed`: supernovaProg=20260901 / supernovaCore=20260907 / supernovaProgDFM=20260901
+- `thermal`: supernovaProg=— / supernovaCore=tint / supernovaProgDFM=—
+- `familyRole`: supernovaProg=primary / supernovaCore=variant / supernovaProgDFM=retired
+- `bodies(vs 基準)`: supernovaProg=基準 / supernovaCore=違う入力(質量) / supernovaProgDFM=違う入力(質量)
+
+**統廃合の候補**: 規則に当たる組は無い。
+
+**履歴(退役)**: `supernovaProgDFM`
 
 ## 白色矮星(`whiteDwarf`・2 本)
 
@@ -595,7 +643,7 @@
 
 **履歴(退役)**: `darkrotor` `bhCore` `bhCoreTilt` `nebulaRotor` `nebulaShell` `nebulaBipolar` `starSeed`
 
-## 退役 26 本の棚卸し(統括の検証項目 R84)
+## 退役 33 本の棚卸し(統括の検証項目 R84)
 
 > 退役は**フラグ**である(`familyRole:"retired"`)。内蔵(BUILTIN_PRESETS)から消していない —— 旧セーブ・履歴の正本・過去の記録が ID で参照する。サンプル一覧に出さず、開いたときに「退役(履歴)」の 1 行を出す。物理・署名・保存 JSON は変えていない。
 

@@ -12,62 +12,62 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "5ac888da05901326fdd903117fd37ef659e2a903508d2f7c1c345cbe6fdcdb4a",
-  "generatedAt": "2026-10-01T23:31:05.810Z",
+  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+  "generatedAt": "2026-10-03T03:49:50.977Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 78845,
-    "sha256": "66add42c2b724fb19ce94612f94b9f3a91227bd4a8c625a600cdbca176bebc5d",
-    "mtime": "2026-10-01T19:06:18.080Z"
+    "bytes": 81628,
+    "sha256": "4984da6be8295cea132aa887db24c1cd28e3ce0da86384b7f046fb39f55b4f5a",
+    "mtime": "2026-10-03T03:49:44.326Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1824134,
-    "sha256": "b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77",
-    "mtime": "2026-10-01T22:11:22.009Z"
+    "bytes": 1814050,
+    "sha256": "8fdf343de914e7f0643e13a074cece2ef9c7e2bdd8b686d51c1ce3a00d1ad36d",
+    "mtime": "2026-10-03T02:58:29.234Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90712,
-    "sha256": "1cdd00f101aeaed5749405e6da96fb7fb3c7165deb682327e3874f46611fb431",
-    "mtime": "2026-10-01T19:24:25.204Z"
+    "bytes": 90711,
+    "sha256": "931852e3ad0f1297aca9ee94abe691c6af3eb3d35257ab0e7c94bb782cfec120",
+    "mtime": "2026-10-03T01:10:43.383Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 130542,
-    "sha256": "75f2826073c14d9079822a4e437ca8e6c48a816d7df7c45787968adfcda46535",
-    "mtime": "2026-10-01T23:31:05.793Z"
+    "bytes": 134249,
+    "sha256": "8f50a9d53dd97e2308de8bc0f1ec897e448741d8628fb99389f9e8c39a432b55",
+    "mtime": "2026-10-03T03:49:50.946Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-09-26T17:44:56.026Z"
+    "mtime": "2026-10-02T23:11:02.932Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-09-27T10:20:29.214Z"
+    "mtime": "2026-10-02T23:11:02.932Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-09-28T01:00:42.098Z"
+    "mtime": "2026-10-02T23:11:02.936Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-09-28T18:49:51.308Z"
+    "mtime": "2026-10-02T23:11:02.936Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-09-29T17:55:53.116Z"
+    "mtime": "2026-10-02T23:11:02.936Z"
    }
   ],
   "code": [
@@ -75,45 +75,45 @@
     "file": "tests/exp-w279a-samplestatus.mjs",
     "bytes": 30756,
     "sha256": "ab734a626e6573c39a12391eafd02016ecb844459174620ce61736e421b2dd43",
-    "mtime": "2026-09-30T21:46:30.339Z"
+    "mtime": "2026-10-02T23:11:02.904Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 23807,
     "sha256": "90091abbf1b678d6763d5f0a520c43a5eef18c6320506d3a09b1ec90e04dc1b6",
-    "mtime": "2026-09-26T17:46:31.436Z"
+    "mtime": "2026-10-02T23:11:02.948Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-09-18T17:14:55.948Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w283c-calstages.mjs",
     "bytes": 39201,
     "sha256": "c6e9b7ef66592b357bc0931831642147d75072bbc73ef16e99cb8ef0b4376c79",
-    "mtime": "2026-09-29T17:55:53.119Z"
+    "mtime": "2026-10-02T23:11:02.956Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
     "bytes": 10343,
     "sha256": "c6425fa01e5360716b3e98872f9d0ac3c56cc75f79875bb4abb12d74e16160e1",
-    "mtime": "2026-09-30T21:46:30.347Z"
+    "mtime": "2026-10-02T23:11:02.960Z"
    }
   ],
   "codeSha256": "5faa328c2868684e6fe24c1ab0212a56595194a5fb8ead02d9f168eb17cb11a0",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
    "commit": "020b725f462f34709057a7aa39f004ab5dd8051a",
-   "date": "2026-10-01T23:30:39.628Z",
-   "pass": 997
+   "date": "2026-10-02T00:28:05.392Z",
+   "pass": 1007
   }
  },
  "tally": {
   "objective": {
    "met": 83,
-   "partial": 56,
+   "partial": 59,
    "unmet": 8,
    "n/a": 0
   },
@@ -123,7 +123,7 @@
    "fail": 1,
    "hold": 17,
    "hold-definition": 2,
-   "out-of-scope": 125
+   "out-of-scope": 128
   },
   "four": {
    "合": 0,
@@ -135,12 +135,12 @@
    {
     "group": "運動と時空",
     "icon": "🧭",
-    "n": 5
+    "n": 6
    },
    {
     "group": "銀河の力学",
     "icon": "🌌",
-    "n": 23
+    "n": 20
    },
    {
     "group": "天体の機構",
@@ -158,14 +158,19 @@
     "n": 5
    },
    {
-    "group": "スピンと熱",
-    "icon": "🌡️",
-    "n": 12
-   },
-   {
     "group": "箱宇宙の実験",
     "icon": "📦",
     "n": 10
+   },
+   {
+    "group": "実在天体のアナロジー",
+    "icon": "🔭",
+    "n": 5
+   },
+   {
+    "group": "スピンと熱",
+    "icon": "🌡️",
+    "n": 12
    },
    {
     "group": "自転と減光",
@@ -173,14 +178,14 @@
     "n": 3
    },
    {
-    "group": "現実較正",
-    "icon": "🎯",
-    "n": 33
+    "group": "腕と渦伸長(軸力)",
+    "icon": "🌀",
+    "n": 3
    },
    {
-    "group": "実在天体のアナロジー",
-    "icon": "🔭",
-    "n": 7
+    "group": "現実較正",
+    "icon": "🎯",
+    "n": 30
    },
    {
     "group": "法則の実験室",
@@ -198,10 +203,10 @@
     "n": 0
    }
   ],
-  "n": 147,
+  "n": 150,
   "predictionEligible": 0,
   "retired": {
-   "n": 26,
+   "n": 33,
    "ids": [
     "darkrotor",
     "nebulaRotor",
@@ -210,10 +215,15 @@
     "bhCore",
     "bhCoreTilt",
     "galaxyMeshSpiralGeoToyLite",
+    "clusterGrowthCopy",
+    "fixedCaptureCopy",
     "earthMoonRealKF1",
     "emAuditNewton",
     "emAuditDFM",
     "mercuryRealKF1",
+    "plutoCharonReal",
+    "plutoCharonDFM",
+    "plutoCharonSyncZero",
     "alphaCenABDFM",
     "siriusABDFM",
     "psrDoubleABDFM",
@@ -227,6 +237,8 @@
     "psrB1534DFM",
     "psrB1534CF",
     "gw150914DFM",
+    "tuc47DFM",
+    "supernovaProgDFM",
     "saturnRingRealKF1",
     "starSeed"
    ],
@@ -383,23 +395,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 14485,
+     "ms": 13884,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 13996,
+       "ms": 13665,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 460,
+       "ms": 187,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 29,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       }
@@ -555,17 +567,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 43,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 32,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 11,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       },
@@ -732,17 +744,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 210,
+     "ms": 145,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 131,
+       "ms": 107,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 79,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -897,17 +909,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 163,
+     "ms": 135,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 131,
+       "ms": 107,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 32,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -1062,17 +1074,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 170,
+     "ms": 135,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 131,
+       "ms": 107,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 39,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -1228,11 +1240,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 22,
+     "ms": 12,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 22,
+       "ms": 12,
        "pass": true,
        "via": "targetIds"
       },
@@ -1394,35 +1406,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 987,
+     "ms": 1101,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 495,
+       "ms": 480,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 309,
+       "ms": 400,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 124,
+       "ms": 142,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 56,
+       "ms": 63,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 3,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -1577,11 +1589,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 154,
+     "ms": 180,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 154,
+       "ms": 180,
        "pass": true,
        "via": "targetIds"
       }
@@ -1736,11 +1748,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 198,
+     "ms": 225,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 198,
+       "ms": 225,
        "pass": true,
        "via": "targetIds"
       }
@@ -1895,11 +1907,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 266,
+     "ms": 376,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 266,
+       "ms": 376,
        "pass": true,
        "via": "targetIds"
       }
@@ -2054,17 +2066,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 447,
+     "ms": 313,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 348,
+       "ms": 205,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 99,
+       "ms": 108,
        "pass": true,
        "via": "targetIds"
       }
@@ -2219,17 +2231,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 565,
+     "ms": 352,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 524,
+       "ms": 304,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 41,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -2384,11 +2396,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 113,
+     "ms": 192,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 113,
+       "ms": 192,
        "pass": true,
        "via": "targetIds"
       }
@@ -2543,23 +2555,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 177,
+     "ms": 190,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 128,
+       "ms": 126,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 32,
+       "ms": 38,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 17,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -2714,17 +2726,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 207,
+     "ms": 173,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 110,
+       "ms": 101,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 97,
+       "ms": 72,
        "pass": true,
        "via": "targetIds"
       }
@@ -2879,35 +2891,35 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2137,
+     "ms": 2229,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1128,
+       "ms": 1177,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 406,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "freebox.graph-measured",
-       "ms": 310,
+       "ms": 470,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 271,
+       "ms": 320,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "freebox.no-rail-badge",
-       "ms": 19,
+       "id": "freebox.graph-measured",
+       "ms": 238,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "freebox.schema",
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -3062,11 +3074,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4012,
+     "ms": 3968,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 4012,
+       "ms": 3968,
        "pass": true,
        "via": "targetIds"
       },
@@ -3251,23 +3263,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 9912,
+     "ms": 10492,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 5721,
+       "ms": 6314,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 4190,
+       "ms": 4178,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -3422,19 +3434,19 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 70249,
+     "ms": 4198,
      "tests": [
       {
-       "id": "claim.galaxystd-outerboost",
-       "ms": 65976,
-       "pass": true,
-       "via": "claims+targetIds"
-      },
-      {
        "id": "preset.galaxyStd",
-       "ms": 4273,
+       "ms": 4191,
        "pass": true,
        "via": "targetIds"
+      },
+      {
+       "id": "claim.galaxystd-outerboost",
+       "ms": 7,
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -3587,19 +3599,19 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 167853,
+     "ms": 6054,
      "tests": [
       {
-       "id": "claim.galaxygeo2-outerboost",
-       "ms": 161698,
-       "pass": true,
-       "via": "claims+targetIds"
-      },
-      {
        "id": "preset.galaxyGeo2",
-       "ms": 6155,
+       "ms": 6047,
        "pass": true,
        "via": "targetIds"
+      },
+      {
+       "id": "claim.galaxygeo2-outerboost",
+       "ms": 7,
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -3752,17 +3764,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3236,
+     "ms": 3490,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3235,
+       "ms": 3485,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxydb-contrast",
-       "ms": 1,
+       "ms": 5,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -3917,29 +3929,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7919,
+     "ms": 8087,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 3942,
+       "ms": 4110,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3922,
+       "ms": 3914,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 29,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 26,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -4094,17 +4106,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 939,
+     "ms": 1069,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 830,
+       "ms": 874,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 109,
+       "ms": 195,
        "pass": true,
        "via": "targetIds"
       }
@@ -4259,17 +4271,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4119,
+     "ms": 4995,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 3868,
+       "ms": 4730,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 251,
+       "ms": 265,
        "pass": true,
        "via": "targetIds"
       }
@@ -4424,17 +4436,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3510,
+     "ms": 4231,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 3101,
+       "ms": 3794,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 409,
+       "ms": 437,
        "pass": true,
        "via": "targetIds"
       }
@@ -4589,23 +4601,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 17221,
+     "ms": 22816,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 12492,
+       "ms": 16300,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 4575,
+       "ms": 6322,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 154,
+       "ms": 194,
        "pass": true,
        "via": "targetIds"
       }
@@ -4760,23 +4772,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3400,
+     "ms": 3483,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 3400,
+       "ms": 3463,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "claim.bhcore-selfdrive",
-       "ms": 0,
+       "id": "claim.bhcore-free",
+       "ms": 11,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
-       "id": "claim.bhcore-free",
-       "ms": 0,
+       "id": "claim.bhcore-selfdrive",
+       "ms": 9,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -4937,11 +4949,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3061,
+     "ms": 3605,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 3061,
+       "ms": 3605,
        "pass": true,
        "via": "targetIds"
       }
@@ -5096,17 +5108,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5151,
+     "ms": 6037,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 4630,
+       "ms": 5501,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 521,
+       "ms": 536,
        "pass": true,
        "via": "targetIds"
       }
@@ -5261,17 +5273,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 25434,
+     "ms": 25141,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 23743,
+       "ms": 23271,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1691,
+       "ms": 1870,
        "pass": true,
        "via": "targetIds"
       },
@@ -5289,7 +5301,7 @@
    "id": "axisBarStill",
    "emoji": "🥢",
    "name": "回転ゼロの棒 — 軸に集まる恒星",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "回転のない円盤で軸への力が棒を作るかを見る",
@@ -5433,11 +5445,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6172,
+     "ms": 6276,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 6172,
+       "ms": 6276,
        "pass": true,
        "via": "targetIds"
       }
@@ -5449,7 +5461,7 @@
    "id": "axisBarArms",
    "emoji": "🎏",
    "name": "内側の棒と外側の2本腕 — 回転する円盤",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "回転する同じ円盤で内側の棒と外側の腕を見る",
@@ -5593,11 +5605,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5313,
+     "ms": 5926,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 5313,
+       "ms": 5926,
        "pass": true,
        "via": "targetIds"
       }
@@ -5609,7 +5621,7 @@
    "id": "axisBarReach",
    "emoji": "🎚️",
    "name": "棒の到達長 R_b — 外縁までは届かない",
-   "group": "銀河の力学",
+   "group": "腕と渦伸長(軸力)",
    "sampleClass": "principle",
    "status": {
     "purpose": "到達長だけを変えて棒の長さを比べる",
@@ -5753,11 +5765,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5449,
+     "ms": 5544,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 5449,
+       "ms": 5544,
        "pass": true,
        "via": "targetIds"
       }
@@ -5912,11 +5924,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1382,
+     "ms": 1267,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1382,
+       "ms": 1267,
        "pass": true,
        "via": "targetIds"
       },
@@ -6089,17 +6101,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3367,
+     "ms": 3765,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3366,
+       "ms": 3765,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.galaxyMesh",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -6267,11 +6279,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7131,
+     "ms": 7156,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7131,
+       "ms": 7156,
        "pass": true,
        "via": "targetIds"
       }
@@ -6432,11 +6444,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1859,
+     "ms": 1792,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1859,
+       "ms": 1792,
        "pass": true,
        "via": "targetIds"
       }
@@ -6639,11 +6651,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1789,
+     "ms": 1788,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 1789,
+       "ms": 1788,
        "pass": true,
        "via": "targetIds"
       }
@@ -7139,11 +7151,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 9990,
+     "ms": 10224,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 9990,
+       "ms": 10224,
        "pass": true,
        "via": "targetIds"
       }
@@ -7484,6 +7496,12 @@
       "always": false
      },
      {
+      "key": "ckfixcap290",
+      "sec": 2,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "weakfield289",
       "sec": 2,
       "share": "all",
@@ -7645,6 +7663,12 @@
       "key": "ejectstate289",
       "sec": 1,
       "share": 5,
+      "always": false
+     },
+     {
+      "key": "ckfixcap290",
+      "sec": 2,
+      "share": 7,
       "always": false
      },
      {
@@ -7828,11 +7852,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 989,
+     "ms": 1110,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 989,
+       "ms": 1110,
        "pass": true,
        "via": "targetIds"
       }
@@ -7989,16 +8013,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "spiral290",
+      "sec": 171,
+      "share": 6,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1376,
+     "ms": 1534,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1376,
+       "ms": 1534,
        "pass": true,
        "via": "targetIds"
       }
@@ -8145,6 +8175,12 @@
       "always": false
      },
      {
+      "key": "ckfixcap290",
+      "sec": 2,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "weakfield289",
       "sec": 2,
       "share": "all",
@@ -8155,20 +8191,184 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "spiral290",
+      "sec": 171,
+      "share": 6,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 538,
+     "ms": 624,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 538,
+       "ms": 624,
        "pass": true,
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "shapeToySpiral",
+   "emoji": "🍭",
+   "name": "渦巻の参照模型 — 円盤+対数螺旋の腕(宣言した形・較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(創発ではない)",
+    "objective": "partial",
+    "state": "門 ①②③⑤⑥⑦ 通過(ピッチ角 20.58°)・④ は円盤の軸比の N 依存が ±10% 超(🥏 と同じ)",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/spiral-w290e.json"
+    ],
+    "en": {
+     "purpose": "Reference model keeping a declared two-arm spiral on the 🥏 disc (not emergent)",
+     "state": "gates 1-3, 5-7 pass (pitch 20.58 deg); gate 4 misses (disc axis ratio vs N, as 🥏)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Reference model keeping a declared two-arm spiral on the 🥏 disc (not emergent). Partial: gates 1-3, 5-7 pass (pitch 20.58 deg); gate 4 misses (disc axis ratio vs N, as 🥏). Out of calibration scope."
+    },
+    "brief": "🥏 の円盤と 🧵 の幅を継いだ宣言の 2 本腕を保つ渦巻の参照模型(創発ではない)。部分・門 ①②③⑤⑥⑦ 通過(ピッチ角 20.58°)・④ は円盤の軸比の N 依存が ±10% 超(🥏 と同じ)。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "spiral290",
+      "sec": 171,
+      "share": 6,
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -8326,11 +8526,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1063,
+     "ms": 1036,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 1063,
+       "ms": 1036,
        "pass": true,
        "via": "targetIds"
       }
@@ -8487,16 +8687,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "spiral290",
+      "sec": 171,
+      "share": 6,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1363,
+     "ms": 1339,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1363,
+       "ms": 1339,
        "pass": true,
        "via": "targetIds"
       }
@@ -8653,20 +8859,184 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "spiral290",
+      "sec": 171,
+      "share": 6,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 484,
+     "ms": 515,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 484,
+       "ms": 515,
        "pass": true,
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "shapeToySpiralCore",
+   "emoji": "🎢",
+   "name": "中心つき渦巻の幾何参照 — Core 力学の円盤+規定運動の腕(較正ではない)",
+   "group": "銀河の力学",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(創発ではない)",
+    "objective": "partial",
+    "state": "門 ①②③⑤⑥⑦ 通過(ピッチ角 20.45°)・k_arm は未実装・④ は円盤の軸比の N 依存が ±10% 超",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/spiral-w290e.json"
+    ],
+    "en": {
+     "purpose": "Centred geometric reference: 📀 core-law disc, prescribed spiral arms (no emergence)",
+     "state": "gates 1-3, 5-7 pass (pitch 20.45 deg); no k_arm; gate 4 misses (disc vs N)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Centred geometric reference: 📀 core-law disc, prescribed spiral arms (no emergence). Partial: gates 1-3, 5-7 pass (pitch 20.45 deg); no k_arm; gate 4 misses (disc vs N). Out of calibration scope."
+    },
+    "brief": "📀 の Core 力学の円盤に規定運動の腕を載せた中心つき幾何参照(創発ではない)。部分・門 ①②③⑤⑥⑦ 通過(ピッチ角 20.45°)・k_arm は未実装・④ は円盤の軸比の N 依存が ±10% 超。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "spiral290",
+      "sec": 171,
+      "share": 6,
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -8818,17 +9188,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 180,
+     "ms": 185,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 152,
+       "ms": 155,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 28,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -8983,11 +9353,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 19,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 19,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       },
@@ -9148,17 +9518,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 54,
+     "ms": 44,
      "tests": [
       {
-       "id": "behavior.blens",
-       "ms": 31,
+       "id": "preset.blens",
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.blens",
-       "ms": 23,
+       "id": "behavior.blens",
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -9313,17 +9683,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 310,
+     "ms": 335,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 276,
+       "ms": 307,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 34,
+       "ms": 28,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -9520,23 +9890,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 29355,
+     "ms": 31037,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 25026,
+       "ms": 26699,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2231,
+       "ms": 2351,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2098,
+       "ms": 1987,
        "pass": true,
        "via": "targetIds"
       }
@@ -9691,23 +10061,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15426,
+     "ms": 14922,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 12281,
+       "ms": 11802,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2017,
+       "ms": 1943,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1128,
+       "ms": 1177,
        "pass": true,
        "via": "targetIds"
       }
@@ -9862,29 +10232,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 946,
+     "ms": 1067,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 800,
+       "ms": 914,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 114,
+       "ms": 113,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 17,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 15,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -10039,11 +10409,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 992,
+     "ms": 946,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 992,
+       "ms": 946,
        "pass": true,
        "via": "targetIds"
       }
@@ -10198,11 +10568,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 14,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 14,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       },
@@ -10363,23 +10733,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3647,
+     "ms": 3814,
      "tests": [
       {
        "id": "shot.regress-convection",
-       "ms": 1885,
+       "ms": 2046,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.convection",
-       "ms": 1748,
+       "ms": 1746,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 14,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       },
@@ -10540,17 +10910,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2658,
+     "ms": 2523,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2658,
+       "ms": 2522,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.buoyancy",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -10705,11 +11075,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1603,
+     "ms": 1661,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1603,
+       "ms": 1661,
        "pass": true,
        "via": "targetIds"
       },
@@ -10870,11 +11240,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 792,
+     "ms": 912,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 792,
+       "ms": 912,
        "pass": true,
        "via": "targetIds"
       },
@@ -11041,11 +11411,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2112,
+     "ms": 1922,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 2112,
+       "ms": 1922,
        "pass": true,
        "via": "targetIds"
       },
@@ -11212,11 +11582,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 836,
+     "ms": 902,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 836,
+       "ms": 902,
        "pass": true,
        "via": "targetIds"
       },
@@ -11384,11 +11754,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1163,
+     "ms": 1104,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1163,
+       "ms": 1104,
        "pass": true,
        "via": "targetIds"
       },
@@ -11540,6 +11910,12 @@
       "always": false
      },
      {
+      "key": "ckfixcap290",
+      "sec": 2,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "weakfield289",
       "sec": 2,
       "share": "all",
@@ -11555,23 +11931,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 749,
+     "ms": 747,
      "tests": [
       {
        "id": "preset.earthMoon",
-       "ms": 331,
+       "ms": 322,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.earthMoon",
-       "ms": 303,
+       "ms": 296,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 115,
+       "ms": 129,
        "pass": true,
        "via": "targetIds"
       }
@@ -11721,22 +12097,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "inertial290",
+      "sec": 4,
+      "share": 4,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1374,
+     "ms": 1363,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1222,
+       "ms": 1193,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 152,
+       "ms": 170,
        "pass": true,
        "via": "targetIds"
       }
@@ -11780,17 +12162,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 86.105,
+     "wallSec": 129.435,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 29.124,
+       "wallSec": 43.221,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 56.981,
+       "wallSec": 86.214,
        "reused": false,
        "reusedBy": null
       }
@@ -11821,13 +12203,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -11924,11 +12306,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 31,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -12006,7 +12388,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -12018,13 +12400,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -12127,11 +12509,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 80,
+     "ms": 63,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 80,
+       "ms": 63,
        "pass": true,
        "via": "targetIds"
       }
@@ -12189,7 +12571,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -12201,7 +12583,7 @@
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -12298,17 +12680,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 36,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 35,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -12374,7 +12756,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -12386,13 +12768,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -12489,17 +12871,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 58,
+     "ms": 49,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 57,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -12543,17 +12925,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.75,
+     "wallSec": 3.932,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.915,
+       "wallSec": 1.31,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.835,
+       "wallSec": 2.622,
        "reused": false,
        "reusedBy": null
       }
@@ -12590,7 +12972,7 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
@@ -12687,17 +13069,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 19,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 18,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -12865,11 +13247,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 80,
+     "ms": 60,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 80,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       }
@@ -12927,7 +13309,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -12939,7 +13321,7 @@
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -13036,17 +13418,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 903,
+     "ms": 873,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 830,
+       "ms": 790,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 73,
+       "ms": 83,
        "pass": true,
        "via": "targetIds"
       }
@@ -13104,7 +13486,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -13116,7 +13498,7 @@
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -13213,17 +13595,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 884,
+     "ms": 843,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 830,
+       "ms": 790,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 54,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -13281,7 +13663,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -13384,17 +13766,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 467,
+     "ms": 450,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 442,
+       "ms": 435,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 25,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -13439,17 +13821,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.948,
+     "wallSec": 8.679,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.008,
+       "wallSec": 3.04,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.94,
+       "wallSec": 5.639,
        "reused": false,
        "reusedBy": null
       }
@@ -13474,7 +13856,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -13486,13 +13868,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -13595,11 +13977,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 29,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 29,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -13657,7 +14039,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -13760,11 +14142,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 64,
+     "ms": 55,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 64,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -13830,13 +14212,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -13933,11 +14315,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 45,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 45,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -13983,11 +14365,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 27.797,
+     "wallSec": 35.289,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 27.797,
+       "wallSec": 35.289,
        "reused": false,
        "reusedBy": null
       }
@@ -14018,7 +14400,7 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
@@ -14121,17 +14503,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1611,
+     "ms": 1717,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1359,
+       "ms": 1532,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 252,
+       "ms": 185,
        "pass": true,
        "via": "targetIds"
       }
@@ -14175,17 +14557,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 30.036,
+     "wallSec": 39.494,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 9.699,
+       "wallSec": 13.366,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 20.337,
+       "wallSec": 26.128,
        "reused": false,
        "reusedBy": null
       }
@@ -14210,7 +14592,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -14222,13 +14604,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -14331,17 +14713,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 491,
+     "ms": 448,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 436,
+       "ms": 404,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 55,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       }
@@ -14385,17 +14767,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 16.602,
+     "wallSec": 24.364,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.851,
+       "wallSec": 7.997,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 10.751,
+       "wallSec": 16.367,
        "reused": false,
        "reusedBy": null
       }
@@ -14456,7 +14838,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -14468,13 +14850,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -14577,17 +14959,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3744,
+     "ms": 4269,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 3711,
+       "ms": 4238,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 33,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -14631,17 +15013,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.562,
+     "wallSec": 16.511,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.852,
+       "wallSec": 5.463,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.71,
+       "wallSec": 11.048,
        "reused": false,
        "reusedBy": null
       }
@@ -14666,7 +15048,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -14678,13 +15060,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -14787,11 +15169,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 34,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 34,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       },
@@ -14815,9 +15197,9 @@
     "purpose": "旧入力の冥王星–カロンを照合する",
     "objective": "unmet",
     "state": "代表量が門の外・残差を要因の鎖で分解",
-    "calibration": "hold",
-    "mismatch": "周期 +0.00138%(294σ)",
-    "outlook": "数値未解決・写像未確定",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
     "evidence": [
      "tests/out/calaudit-w249.json",
      "behavior.plutoCharonReal",
@@ -14826,38 +15208,17 @@
     "en": {
      "purpose": "Pluto–Charon from older inputs",
      "state": "outside the gate; residual traced",
-     "mismatch": "period +0.00138% (294σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Calibration: hold — period +0.00138% (294σ); numerics unresolved; mapping unresolved."
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Out of calibration scope."
     },
-    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正は保留・周期 +0.00138%(294σ)・数値未解決・写像未確定。"
+    "brief": "旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正対象外。"
    },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[7]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 0.0037494716291994225,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
+   "ledgerSource": null,
    "timing": {
     "calaudit": {
-     "wallSec": 47.202,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 15.489,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 31.713,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
+     "wallSec": 0,
+     "stages": [],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
@@ -14884,7 +15245,7 @@
      {
       "key": "charonk",
       "sec": 979,
-      "share": 1,
+      "share": 2,
       "always": false
      },
      {
@@ -14908,7 +15269,7 @@
      {
       "key": "charonfactors",
       "sec": 308,
-      "share": 1,
+      "share": 2,
       "always": false
      },
      {
@@ -14944,7 +15305,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -14956,13 +15317,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -15065,11 +15426,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 39,
+     "ms": 32,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 39,
+       "ms": 32,
        "pass": true,
        "via": "targetIds"
       },
@@ -15239,6 +15600,12 @@
       "always": false
      },
      {
+      "key": "ckfixcap290",
+      "sec": 2,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "weakfield289",
       "sec": 2,
       "share": "all",
@@ -15254,17 +15621,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 9076,
+     "ms": 9296,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 9007,
+       "ms": 9215,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 69,
+       "ms": 81,
        "pass": true,
        "via": "targetIds"
       }
@@ -15442,11 +15809,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 59,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 57,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -15459,36 +15826,69 @@
    "emoji": "🥶",
    "name": "冥王星とカロン(入力を整えた二体)— 観測入力の geoPN=1 の対照",
    "group": "現実較正",
-   "sampleClass": "principle",
+   "sampleClass": "calibration",
    "status": {
-    "purpose": "❄️ の入力の丸めと軟化を外した kF0 診断コピー",
-    "objective": "met",
-    "state": "要因の鎖と同一定義の表を記帳",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
+    "purpose": "冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)",
+    "objective": "partial",
+    "state": "入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める",
+    "calibration": "hold",
+    "mismatch": "周期 +0.00131%(279σ)",
+    "outlook": "数値未解決",
     "evidence": [
+     "tests/out/calaudit-w249.json",
      "tests/out/charoninput-w280d.json"
     ],
     "en": {
-     "purpose": "kF0 copy of ❄️ with rounding and softening removed",
-     "state": "factor chain and same-definition table recorded",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "kF0 copy of ❄️ with rounding and softening removed. Met: factor chain and same-definition table recorded. Out of calibration scope."
+     "purpose": "Pluto–Charon from one observed solution (❄️'s successor)",
+     "state": "verdict from the canonical output; residual is a definition gap",
+     "mismatch": "period +0.00131% (279σ)",
+     "outlook": "numerics unresolved",
+     "brief": "Pluto–Charon from one observed solution (❄️'s successor). Partial: verdict from the canonical output; residual is a definition gap. Calibration: hold — period +0.00131% (279σ); numerics unresolved."
     },
-    "brief": "❄️ の入力の丸めと軟化を外した kF0 診断コピー。達・要因の鎖と同一定義の表を記帳。較正対象外。"
+    "brief": "冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)。部分・入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める。較正は保留・周期 +0.00131%(279σ)・数値未解決。"
    },
-   "ledgerSource": null,
+   "ledgerSource": {
+    "row": "verdictLedger.rows[7]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 0.002011186967856814,
+    "missing": [
+     "数値精度"
+    ]
+   },
    "timing": {
     "calaudit": {
-     "wallSec": 0,
-     "stages": [],
+     "wallSec": 236.692,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 77.938,
+       "reused": false,
+       "reusedBy": null
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 158.754,
+       "reused": false,
+       "reusedBy": null
+      }
+     ],
      "reusedSec": 0,
      "reusedH2Sec": 0,
      "reusedH4Sec": 0
     },
     "regenSteps": [
+     {
+      "key": "charonk",
+      "sec": 979,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "charonfactors",
+      "sec": 308,
+      "share": 2,
+      "always": false
+     },
      {
       "key": "shapecrit",
       "sec": 106,
@@ -15508,10 +15908,28 @@
       "always": false
      },
      {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 35,
+      "always": false
+     },
+     {
       "key": "calcontract",
       "sec": 2,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "obscompare",
+      "sec": 3,
+      "share": 38,
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 35,
+      "always": true
      },
      {
       "key": "clusterAnalogy",
@@ -15607,11 +16025,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 28,
+     "ms": 40,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 28,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -15772,11 +16190,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 33,
+     "ms": 46,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 33,
+       "ms": 46,
        "pass": true,
        "via": "targetIds"
       }
@@ -15834,7 +16252,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -15937,11 +16355,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 46,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -15987,11 +16405,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 33.976,
+     "wallSec": 42.486,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 33.976,
+       "wallSec": 42.486,
        "reused": false,
        "reusedBy": null
       }
@@ -16022,7 +16440,7 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
@@ -16125,11 +16543,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 148,
+     "ms": 155,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 148,
+       "ms": 155,
        "pass": true,
        "via": "targetIds"
       },
@@ -16179,17 +16597,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.2219999999999995,
+     "wallSec": 6.3759999999999994,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.342,
+       "wallSec": 2.106,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.88,
+       "wallSec": 4.27,
        "reused": false,
        "reusedBy": null
       }
@@ -16250,7 +16668,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -16262,13 +16680,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -16371,11 +16789,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 26,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 26,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       },
@@ -16425,30 +16843,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.891,
+     "wallSec": 12.348,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.891,
+       "wallSec": 12.348,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 16.034,
+       "wallSec": 23.114,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 33.167,
+       "wallSec": 46.044,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 49.201,
-     "reusedH2Sec": 16.034,
-     "reusedH4Sec": 33.167
+     "reusedSec": 69.158,
+     "reusedH2Sec": 23.114,
+     "reusedH4Sec": 46.044
     },
     "regenSteps": [
      {
@@ -16508,7 +16926,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -16520,13 +16938,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -16623,17 +17041,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3268,
+     "ms": 3193,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3223,
+       "ms": 3135,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 45,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -16698,7 +17116,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -16710,13 +17128,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -16819,17 +17237,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3297,
+     "ms": 3203,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3223,
+       "ms": 3135,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 74,
+       "ms": 68,
        "pass": true,
        "via": "targetIds"
       }
@@ -16873,30 +17291,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.824,
+     "wallSec": 6.994,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.824,
+       "wallSec": 6.994,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 9.645,
+       "wallSec": 13.495,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 19.113,
+       "wallSec": 27.677,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 28.758,
-     "reusedH2Sec": 9.645,
-     "reusedH4Sec": 19.113
+     "reusedSec": 41.172,
+     "reusedH2Sec": 13.495,
+     "reusedH4Sec": 27.677
     },
     "regenSteps": [
      {
@@ -16956,7 +17374,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -16968,13 +17386,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -17071,17 +17489,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2914,
+     "ms": 2653,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2852,
+       "ms": 2623,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 62,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -17146,7 +17564,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -17158,13 +17576,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -17267,17 +17685,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2893,
+     "ms": 2678,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2852,
+       "ms": 2623,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 41,
+       "ms": 55,
        "pass": true,
        "via": "targetIds"
       }
@@ -17322,17 +17740,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.08,
+     "wallSec": 11.837,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.612,
+       "wallSec": 3.989,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.468,
+       "wallSec": 7.848,
        "reused": false,
        "reusedBy": null
       }
@@ -17369,7 +17787,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -17381,13 +17799,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -17490,17 +17908,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 26,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 25,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.psrDoubleAB",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -17601,7 +18019,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -17613,13 +18031,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -17722,17 +18140,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 7943,
+     "ms": 8251,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 7849,
+       "ms": 8179,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 94,
+       "ms": 72,
        "pass": true,
        "via": "targetIds"
       }
@@ -17888,11 +18306,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 106,
+     "ms": 59,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 106,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -17951,7 +18369,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -17963,13 +18381,1219 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
+      "always": true
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 51,
+     "tests": [
+      {
+       "id": "preset.psrDoubleABSpinCal",
+       "ms": 51,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "name": "PSR J1757−1854(実単位)— 観測質量(f=1)の中性子星連星2例目",
+   "group": "現実較正",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "J1757 を観測質量(f=1)・geoPN=1 で照合",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "周期 +0.000114%(4.2×10³σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Compare J1757 with the observed masses (f=1, geoPN=1)",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": "period +0.000114% (4.2×10³σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "Compare J1757 with the observed masses (f=1, geoPN=1). Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000114% (4.2×10³σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "J1757 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000114%(4.2×10³σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[13]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 1390.4488603791967,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 8.261,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 2.866,
+       "reused": false,
+       "reusedBy": null
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 5.395,
+       "reused": false,
+       "reusedBy": null
+      }
+     ],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 35,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "obscompare",
+      "sec": 3,
+      "share": 38,
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 35,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 38,
+     "tests": [
+      {
+       "id": "preset.psrJ1757DFM",
+       "ms": 38,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "name": "PSR J1946+2052(実単位)— 観測質量(f=1)の銀河系で最短周期の中性子星連星",
+   "group": "現実較正",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "J1946 を観測質量(f=1)・geoPN=1 で照合",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "hold",
+    "mismatch": "周期 +0.00495%(1.9×10⁵σ)",
+    "outlook": "数値未解決・写像未確定",
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "J1946 at the observed masses (f=1, geoPN=1)",
+     "state": "the runs are in the ledger",
+     "mismatch": "period +0.00495% (1.9×10⁵σ)",
+     "outlook": "numerics unresolved; mapping unresolved",
+     "brief": "J1946 at the observed masses (f=1, geoPN=1). Partial: the runs are in the ledger. Calibration: hold — period +0.00495% (1.9×10⁵σ); numerics unresolved; mapping unresolved."
+    },
+    "brief": "J1946 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00495%(1.9×10⁵σ)・数値未解決・写像未確定。"
+   },
+   "ledgerSource": {
+    "row": "verdictLedger.rows[14]",
+    "mismatch": "verdictLedger.representative",
+    "lastDiffInSigma": 526.5506149288302,
+    "missing": [
+     "写像未確定",
+     "数値精度"
+    ]
+   },
+   "timing": {
+    "calaudit": {
+     "wallSec": 3.49,
+     "stages": [
+      {
+       "tag": "dt",
+       "wallSec": 1.181,
+       "reused": false,
+       "reusedBy": null
+      },
+      {
+       "tag": "dt/2",
+       "wallSec": 2.309,
+       "reused": false,
+       "reusedBy": null
+      }
+     ],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "nslock",
+      "sec": 688,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h",
+      "sec": 677,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h2",
+      "sec": 1407,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charon-h4",
+      "sec": 700,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h",
+      "sec": 212,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h2",
+      "sec": 430,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "charoneps-h4",
+      "sec": 847,
+      "share": 9,
+      "always": false
+     },
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 35,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "obscompare",
+      "sec": 3,
+      "share": 38,
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 35,
+      "always": true
+     },
+     {
+      "key": "dragprofile",
+      "sec": 2,
+      "share": 21,
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 29,
+     "tests": [
+      {
+       "id": "preset.psrJ1946DFM",
+       "ms": 29,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psrDoubleABPN",
+   "emoji": "🪶",
+   "name": "二重パルサー J0737−3039A/B(旧則・履歴: NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
+   "group": "現実較正",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "旧則(履歴)の 1PN の強さを 1/f で戻す応答候補",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Old rule (history): 1PN scaled back by 1/f",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Old rule (history): 1PN scaled back by 1/f. Partial: the comparison runs are in the ledger. Out of calibration scope."
+    },
+    "brief": "旧則(履歴)の 1PN の強さを 1/f で戻す応答候補。部分・照合の走行は台帳に記帳。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 35,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "obscompare",
+      "sec": 3,
+      "share": 38,
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 35,
+      "always": true
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 34,
+     "tests": [
+      {
+       "id": "preset.psrDoubleABPN",
+       "ms": 34,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psrJ1757PN",
+   "emoji": "🪃",
+   "name": "PSR J1757−1854(旧則・履歴: NS 応答候補 λ_PN=1/f)— ⚡ の旧処方に 1/f を足して当てた 2 例目",
+   "group": "現実較正",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "旧則(履歴)の 1/f の応答候補を J1757 へ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Old rule (history): the 1/f candidate applied to J1757",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Old rule (history): the 1/f candidate applied to J1757. Partial: the comparison runs are in the ledger. Out of calibration scope."
+    },
+    "brief": "旧則(履歴)の 1/f の応答候補を J1757 へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 35,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "obscompare",
+      "sec": 3,
+      "share": 38,
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 35,
+      "always": true
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 42,
+     "tests": [
+      {
+       "id": "preset.psrJ1757PN",
+       "ms": 42,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psrJ1946PN",
+   "emoji": "🪀",
+   "name": "PSR J1946+2052(旧則・履歴: NS 応答候補 λ_PN=1/f)— ⚡ の旧処方に 1/f を足して当てた 3 例目",
+   "group": "現実較正",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "旧則(履歴)の 1/f の応答候補を J1946 へ当てる",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Old rule (history): the 1/f candidate applied to J1946",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Old rule (history): the 1/f candidate applied to J1946. Partial: the comparison runs are in the ledger. Out of calibration scope."
+    },
+    "brief": "旧則(履歴)の 1/f の応答候補を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 35,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "obscompare",
+      "sec": 3,
+      "share": 38,
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 35,
+      "always": true
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 1,
+     "ms": 32,
+     "tests": [
+      {
+       "id": "preset.psrJ1946PN",
+       "ms": 32,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "psrDoubleABCF",
+   "emoji": "🪝",
+   "name": "二重パルサー J0737−3039A/B(コンパクト力 案K)— χ ゲート付き質量電流結合",
+   "group": "現実較正",
+   "sampleClass": "calibration",
+   "status": {
+    "purpose": "速度依存の追加力(案K)を試す",
+    "objective": "partial",
+    "state": "照合の走行は台帳に記帳",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/calaudit-w249.json",
+     "docs.calibration-verdict-sync"
+    ],
+    "en": {
+     "purpose": "Try a velocity-dependent extra force (plan K)",
+     "state": "the comparison runs are in the ledger",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Try a velocity-dependent extra force (plan K). Partial: the comparison runs are in the ledger. Out of calibration scope."
+    },
+    "brief": "速度依存の追加力(案K)を試す。部分・照合の走行は台帳に記帳。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "geo3",
+      "sec": 1016,
+      "share": 35,
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "obscompare",
+      "sec": 3,
+      "share": 38,
+      "always": false
+     },
+     {
+      "key": "mercury",
+      "sec": 284,
+      "share": 35,
       "always": true
      },
      {
@@ -18069,1214 +19693,8 @@
      "ms": 76,
      "tests": [
       {
-       "id": "preset.psrDoubleABSpinCal",
-       "ms": 76,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "psrJ1757DFM",
-   "emoji": "🧮",
-   "name": "PSR J1757−1854(実単位)— 観測質量(f=1)の中性子星連星2例目",
-   "group": "現実較正",
-   "sampleClass": "calibration",
-   "status": {
-    "purpose": "J1757 を観測質量(f=1)・geoPN=1 で照合",
-    "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "周期 +0.000114%(4.2×10³σ)",
-    "outlook": "数値未解決・写像未確定",
-    "evidence": [
-     "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync"
-    ],
-    "en": {
-     "purpose": "Compare J1757 with the observed masses (f=1, geoPN=1)",
-     "state": "the comparison runs are in the ledger",
-     "mismatch": "period +0.000114% (4.2×10³σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "Compare J1757 with the observed masses (f=1, geoPN=1). Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000114% (4.2×10³σ); numerics unresolved; mapping unresolved."
-    },
-    "brief": "J1757 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000114%(4.2×10³σ)・数値未解決・写像未確定。"
-   },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[13]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 1390.4488603791967,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
-   "timing": {
-    "calaudit": {
-     "wallSec": 5.1,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 1.777,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 3.323,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
-     "reusedH4Sec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "nslock",
-      "sec": 688,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charon-h",
-      "sec": 677,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charon-h2",
-      "sec": 1407,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charon-h4",
-      "sec": 700,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charoneps-h",
-      "sec": 212,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charoneps-h2",
-      "sec": 430,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charoneps-h4",
-      "sec": 847,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo3",
-      "sec": 1016,
-      "share": 34,
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "obscompare",
-      "sec": 3,
-      "share": 37,
-      "always": false
-     },
-     {
-      "key": "mercury",
-      "sec": 284,
-      "share": 34,
-      "always": true
-     },
-     {
-      "key": "dragprofile",
-      "sec": 2,
-      "share": 21,
-      "always": false
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterStable",
-      "sec": 3068,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1",
-      "sec": 682,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsource286",
-      "sec": 1249,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "eihdiag287",
-      "sec": 20,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "tpsign",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgfield284",
-      "sec": 6,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contact285",
-      "sec": 282,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "jeans286",
-      "sec": 27,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgdiff286",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgtime287",
-      "sec": 110,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgrange288",
-      "sec": 12,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "weakfield289",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contractrange289",
-      "sec": 10,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 52,
-     "tests": [
-      {
-       "id": "preset.psrJ1757DFM",
-       "ms": 52,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "psrJ1946DFM",
-   "emoji": "🩺",
-   "name": "PSR J1946+2052(実単位)— 観測質量(f=1)の銀河系で最短周期の中性子星連星",
-   "group": "現実較正",
-   "sampleClass": "calibration",
-   "status": {
-    "purpose": "J1946 を観測質量(f=1)・geoPN=1 で照合",
-    "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
-    "calibration": "hold",
-    "mismatch": "周期 +0.00495%(1.9×10⁵σ)",
-    "outlook": "数値未解決・写像未確定",
-    "evidence": [
-     "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync"
-    ],
-    "en": {
-     "purpose": "J1946 at the observed masses (f=1, geoPN=1)",
-     "state": "the runs are in the ledger",
-     "mismatch": "period +0.00495% (1.9×10⁵σ)",
-     "outlook": "numerics unresolved; mapping unresolved",
-     "brief": "J1946 at the observed masses (f=1, geoPN=1). Partial: the runs are in the ledger. Calibration: hold — period +0.00495% (1.9×10⁵σ); numerics unresolved; mapping unresolved."
-    },
-    "brief": "J1946 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00495%(1.9×10⁵σ)・数値未解決・写像未確定。"
-   },
-   "ledgerSource": {
-    "row": "verdictLedger.rows[14]",
-    "mismatch": "verdictLedger.representative",
-    "lastDiffInSigma": 526.5506149288302,
-    "missing": [
-     "写像未確定",
-     "数値精度"
-    ]
-   },
-   "timing": {
-    "calaudit": {
-     "wallSec": 2.414,
-     "stages": [
-      {
-       "tag": "dt",
-       "wallSec": 0.939,
-       "reused": false,
-       "reusedBy": null
-      },
-      {
-       "tag": "dt/2",
-       "wallSec": 1.475,
-       "reused": false,
-       "reusedBy": null
-      }
-     ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
-     "reusedH4Sec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "nslock",
-      "sec": 688,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charon-h",
-      "sec": 677,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charon-h2",
-      "sec": 1407,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charon-h4",
-      "sec": 700,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charoneps-h",
-      "sec": 212,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charoneps-h2",
-      "sec": 430,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "charoneps-h4",
-      "sec": 847,
-      "share": 9,
-      "always": false
-     },
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo3",
-      "sec": 1016,
-      "share": 34,
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "obscompare",
-      "sec": 3,
-      "share": 37,
-      "always": false
-     },
-     {
-      "key": "mercury",
-      "sec": 284,
-      "share": 34,
-      "always": true
-     },
-     {
-      "key": "dragprofile",
-      "sec": 2,
-      "share": 21,
-      "always": false
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterStable",
-      "sec": 3068,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1",
-      "sec": 682,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsource286",
-      "sec": 1249,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "eihdiag287",
-      "sec": 20,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "tpsign",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgfield284",
-      "sec": 6,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contact285",
-      "sec": 282,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "jeans286",
-      "sec": 27,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgdiff286",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgtime287",
-      "sec": 110,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgrange288",
-      "sec": 12,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "weakfield289",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contractrange289",
-      "sec": 10,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 34,
-     "tests": [
-      {
-       "id": "preset.psrJ1946DFM",
-       "ms": 34,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "psrDoubleABPN",
-   "emoji": "🪶",
-   "name": "二重パルサー J0737−3039A/B(旧則・履歴: NS 応答候補 λ_PN=1/f)— 1PN の強さだけを観測質量へ戻す",
-   "group": "現実較正",
-   "sampleClass": "calibration",
-   "status": {
-    "purpose": "旧則(履歴)の 1PN の強さを 1/f で戻す応答候補",
-    "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync"
-    ],
-    "en": {
-     "purpose": "Old rule (history): 1PN scaled back by 1/f",
-     "state": "the comparison runs are in the ledger",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "Old rule (history): 1PN scaled back by 1/f. Partial: the comparison runs are in the ledger. Out of calibration scope."
-    },
-    "brief": "旧則(履歴)の 1PN の強さを 1/f で戻す応答候補。部分・照合の走行は台帳に記帳。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
-     "reusedH4Sec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo3",
-      "sec": 1016,
-      "share": 34,
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "obscompare",
-      "sec": 3,
-      "share": 37,
-      "always": false
-     },
-     {
-      "key": "mercury",
-      "sec": 284,
-      "share": 34,
-      "always": true
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterStable",
-      "sec": 3068,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1",
-      "sec": 682,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsource286",
-      "sec": 1249,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "eihdiag287",
-      "sec": 20,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "tpsign",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgfield284",
-      "sec": 6,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contact285",
-      "sec": 282,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "jeans286",
-      "sec": 27,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgdiff286",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgtime287",
-      "sec": 110,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgrange288",
-      "sec": 12,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "weakfield289",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contractrange289",
-      "sec": 10,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 75,
-     "tests": [
-      {
-       "id": "preset.psrDoubleABPN",
-       "ms": 75,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "psrJ1757PN",
-   "emoji": "🪃",
-   "name": "PSR J1757−1854(旧則・履歴: NS 応答候補 λ_PN=1/f)— ⚡ の旧処方に 1/f を足して当てた 2 例目",
-   "group": "現実較正",
-   "sampleClass": "calibration",
-   "status": {
-    "purpose": "旧則(履歴)の 1/f の応答候補を J1757 へ当てる",
-    "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync"
-    ],
-    "en": {
-     "purpose": "Old rule (history): the 1/f candidate applied to J1757",
-     "state": "the comparison runs are in the ledger",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "Old rule (history): the 1/f candidate applied to J1757. Partial: the comparison runs are in the ledger. Out of calibration scope."
-    },
-    "brief": "旧則(履歴)の 1/f の応答候補を J1757 へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
-     "reusedH4Sec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo3",
-      "sec": 1016,
-      "share": 34,
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "obscompare",
-      "sec": 3,
-      "share": 37,
-      "always": false
-     },
-     {
-      "key": "mercury",
-      "sec": 284,
-      "share": 34,
-      "always": true
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterStable",
-      "sec": 3068,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1",
-      "sec": 682,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsource286",
-      "sec": 1249,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "eihdiag287",
-      "sec": 20,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "tpsign",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgfield284",
-      "sec": 6,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contact285",
-      "sec": 282,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "jeans286",
-      "sec": 27,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgdiff286",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgtime287",
-      "sec": 110,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgrange288",
-      "sec": 12,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "weakfield289",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contractrange289",
-      "sec": 10,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 54,
-     "tests": [
-      {
-       "id": "preset.psrJ1757PN",
-       "ms": 54,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "psrJ1946PN",
-   "emoji": "🪀",
-   "name": "PSR J1946+2052(旧則・履歴: NS 応答候補 λ_PN=1/f)— ⚡ の旧処方に 1/f を足して当てた 3 例目",
-   "group": "現実較正",
-   "sampleClass": "calibration",
-   "status": {
-    "purpose": "旧則(履歴)の 1/f の応答候補を J1946 へ当てる",
-    "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync"
-    ],
-    "en": {
-     "purpose": "Old rule (history): the 1/f candidate applied to J1946",
-     "state": "the comparison runs are in the ledger",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "Old rule (history): the 1/f candidate applied to J1946. Partial: the comparison runs are in the ledger. Out of calibration scope."
-    },
-    "brief": "旧則(履歴)の 1/f の応答候補を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
-     "reusedH4Sec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo3",
-      "sec": 1016,
-      "share": 34,
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "obscompare",
-      "sec": 3,
-      "share": 37,
-      "always": false
-     },
-     {
-      "key": "mercury",
-      "sec": 284,
-      "share": 34,
-      "always": true
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterStable",
-      "sec": 3068,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1",
-      "sec": 682,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsource286",
-      "sec": 1249,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "eihdiag287",
-      "sec": 20,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "tpsign",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgfield284",
-      "sec": 6,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contact285",
-      "sec": 282,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "jeans286",
-      "sec": 27,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgdiff286",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgtime287",
-      "sec": 110,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgrange288",
-      "sec": 12,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "weakfield289",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contractrange289",
-      "sec": 10,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 28,
-     "tests": [
-      {
-       "id": "preset.psrJ1946PN",
-       "ms": 28,
-       "pass": true,
-       "via": "targetIds"
-      }
-     ]
-    }
-   }
-  },
-  {
-   "id": "psrDoubleABCF",
-   "emoji": "🪝",
-   "name": "二重パルサー J0737−3039A/B(コンパクト力 案K)— χ ゲート付き質量電流結合",
-   "group": "現実較正",
-   "sampleClass": "calibration",
-   "status": {
-    "purpose": "速度依存の追加力(案K)を試す",
-    "objective": "partial",
-    "state": "照合の走行は台帳に記帳",
-    "calibration": "out-of-scope",
-    "mismatch": null,
-    "outlook": null,
-    "evidence": [
-     "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync"
-    ],
-    "en": {
-     "purpose": "Try a velocity-dependent extra force (plan K)",
-     "state": "the comparison runs are in the ledger",
-     "mismatch": null,
-     "outlook": null,
-     "brief": "Try a velocity-dependent extra force (plan K). Partial: the comparison runs are in the ledger. Out of calibration scope."
-    },
-    "brief": "速度依存の追加力(案K)を試す。部分・照合の走行は台帳に記帳。較正対象外。"
-   },
-   "ledgerSource": null,
-   "timing": {
-    "calaudit": {
-     "wallSec": 0,
-     "stages": [],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
-     "reusedH4Sec": 0
-    },
-    "regenSteps": [
-     {
-      "key": "shapecrit",
-      "sec": 106,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "d68",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "geo3",
-      "sec": 1016,
-      "share": 34,
-      "always": false
-     },
-     {
-      "key": "calcontract",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "obscompare",
-      "sec": 3,
-      "share": 37,
-      "always": false
-     },
-     {
-      "key": "mercury",
-      "sec": 284,
-      "share": 34,
-      "always": true
-     },
-     {
-      "key": "clusterAnalogy",
-      "sec": 658,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "clusterStable",
-      "sec": 3068,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pn1",
-      "sec": 682,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "pnsource286",
-      "sec": 1249,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "eihdiag287",
-      "sec": 20,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "families",
-      "sec": 8,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "tpsign",
-      "sec": 153,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgfield284",
-      "sec": 6,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contact285",
-      "sec": 282,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "jeans286",
-      "sec": 27,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgdiff286",
-      "sec": 3,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgtime287",
-      "sec": 110,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "bgrange288",
-      "sec": 12,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "weakfield289",
-      "sec": 2,
-      "share": "all",
-      "always": false
-     },
-     {
-      "key": "contractrange289",
-      "sec": 10,
-      "share": "all",
-      "always": false
-     }
-    ],
-    "qa": {
-     "attributed": true,
-     "n": 1,
-     "ms": 107,
-     "tests": [
-      {
        "id": "preset.psrDoubleABCF",
-       "ms": 107,
+       "ms": 76,
        "pass": true,
        "via": "targetIds"
       }
@@ -19335,7 +19753,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -19347,13 +19765,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -19450,11 +19868,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 57,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -19513,7 +19931,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -19525,13 +19943,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -19628,11 +20046,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 51,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 52,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       }
@@ -19677,17 +20095,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 37.405,
+     "wallSec": 58.167,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 12.688,
+       "wallSec": 19.188,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 24.717,
+       "wallSec": 38.979,
        "reused": false,
        "reusedBy": null
       }
@@ -19712,7 +20130,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -19724,13 +20142,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -19827,11 +20245,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 43,
+     "ms": 58,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 43,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -19932,7 +20350,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -19944,13 +20362,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -20053,11 +20471,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 88,
+     "ms": 62,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 88,
+       "ms": 62,
        "pass": true,
        "via": "targetIds"
       }
@@ -20116,7 +20534,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -20128,13 +20546,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -20231,11 +20649,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 55,
+     "ms": 62,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 55,
+       "ms": 62,
        "pass": true,
        "via": "targetIds"
       }
@@ -20385,20 +20803,184 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "inertial290",
+      "sec": 4,
+      "share": 4,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 70,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 31,
+       "ms": 70,
        "pass": true,
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "inertialDragPair",
+   "emoji": "🐌",
+   "name": "慣性引きずりの 2 体 — 座標の差分で動かす並進引きずり",
+   "group": "運動と時空",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る",
+    "objective": "met",
+    "state": "gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/inertial-w290c.json"
+    ],
+    "en": {
+     "purpose": "Run inertial-law dragging only where declared; measure apsidal advance",
+     "state": "gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Run inertial-law dragging only where declared; measure apsidal advance. Met: gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."
+    },
+    "brief": "法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "inertial290",
+      "sec": 4,
+      "share": 4,
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -20544,16 +21126,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "inertial290",
+      "sec": 4,
+      "share": 4,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 61,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 61,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -20693,6 +21281,12 @@
       "always": false
      },
      {
+      "key": "ckfixcap290",
+      "sec": 2,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "weakfield289",
       "sec": 2,
       "share": "all",
@@ -20708,11 +21302,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 73,
+     "ms": 69,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 73,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       }
@@ -20756,17 +21350,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.34,
+     "wallSec": 1.9380000000000002,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.454,
+       "wallSec": 0.634,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.886,
+       "wallSec": 1.304,
        "reused": false,
        "reusedBy": null
       }
@@ -20797,7 +21391,7 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
@@ -20894,17 +21488,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3331,
+     "ms": 3666,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3283,
+       "ms": 3642,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 48,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -20963,7 +21557,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -20981,13 +21575,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -21090,17 +21684,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3330,
+     "ms": 3707,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3283,
+       "ms": 3642,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 47,
+       "ms": 65,
        "pass": true,
        "via": "targetIds"
       }
@@ -21144,17 +21738,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.145,
+     "wallSec": 0.176,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.072,
+       "wallSec": 0.08,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.073,
+       "wallSec": 0.096,
        "reused": false,
        "reusedBy": null
       }
@@ -21185,7 +21779,7 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
@@ -21282,11 +21876,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 72,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 72,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       }
@@ -21441,11 +22035,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 37,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 37,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -21606,11 +22200,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3408,
+     "ms": 3505,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 3408,
+       "ms": 3505,
        "pass": true,
        "via": "targetIds"
       },
@@ -21777,11 +22371,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5892,
+     "ms": 6044,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 5892,
+       "ms": 6044,
        "pass": true,
        "via": "targetIds"
       }
@@ -21948,11 +22542,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5122,
+     "ms": 5503,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 5122,
+       "ms": 5503,
        "pass": true,
        "via": "targetIds"
       },
@@ -22131,11 +22725,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11475,
+     "ms": 11741,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 11475,
+       "ms": 11741,
        "pass": true,
        "via": "targetIds"
       }
@@ -22290,11 +22884,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 26,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -22449,11 +23043,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 19,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -22608,11 +23202,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 487,
+     "ms": 467,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 487,
+       "ms": 467,
        "pass": true,
        "via": "targetIds"
       }
@@ -22773,25 +23367,25 @@
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 4933,
+     "ms": 5528,
      "tests": [
       {
        "id": "preset.saturn",
-       "ms": 2598,
+       "ms": 2978,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-saturn",
-       "ms": 2334,
+       "ms": 2549,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "behavior.saturnExp",
+       "id": "behavior.saturn-kframe-control",
        "ms": 1,
        "pass": true,
-       "via": "claims"
+       "via": "claims+targetIds"
       },
       {
        "id": "behavior.saturn",
@@ -22800,10 +23394,10 @@
        "via": "targetIds"
       },
       {
-       "id": "behavior.saturn-kframe-control",
+       "id": "behavior.saturnExp",
        "ms": 0,
        "pass": true,
-       "via": "claims+targetIds"
+       "via": "claims"
       }
      ]
     }
@@ -22956,23 +23550,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4705,
+     "ms": 4997,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2501,
+       "ms": 2816,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2188,
+       "ms": 2163,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 16,
+       "ms": 18,
        "pass": true,
        "via": "claims"
       },
@@ -23017,35 +23611,35 @@
     "mismatch": "verdictLedger.representative",
     "lastDiffInSigma": 0.0039920897014408185,
     "missing": [
-     "(門に入った量 1: 合 0・否 1 — 残り 4 量は σ が無い)"
+     "(門に入った量 1: 合 0・否 1 — 残り 5 量は σ が無い)"
     ]
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.267,
+     "wallSec": 4.234,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.267,
+       "wallSec": 4.234,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.475,
+       "wallSec": 8.878,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 14.781,
+       "wallSec": 16.849,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 21.256,
-     "reusedH2Sec": 6.475,
-     "reusedH4Sec": 14.781
+     "reusedSec": 25.727,
+     "reusedH2Sec": 8.878,
+     "reusedH4Sec": 16.849
     },
     "regenSteps": [
      {
@@ -23063,7 +23657,7 @@
      {
       "key": "geo3",
       "sec": 1016,
-      "share": 34,
+      "share": 35,
       "always": false
      },
      {
@@ -23075,13 +23669,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -23184,29 +23778,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 6617,
+     "ms": 6824,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 6553,
+       "ms": 6767,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 41,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 20,
+       "ms": 15,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "zonal.d68-preset",
-       "ms": 3,
+       "ms": 4,
        "pass": true,
        "via": "claims"
       }
@@ -23361,11 +23955,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 14,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -23520,11 +24114,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 17,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -23570,11 +24164,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 70.793,
+     "wallSec": 86.499,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 70.793,
+       "wallSec": 86.499,
        "reused": false,
        "reusedBy": null
       }
@@ -23605,13 +24199,13 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
       "key": "mercury",
       "sec": 284,
-      "share": 34,
+      "share": 35,
       "always": true
      },
      {
@@ -23714,17 +24308,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 191,
+     "ms": 193,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 166,
+       "ms": 170,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 25,
+       "ms": 23,
        "pass": true,
        "via": "claims"
       }
@@ -23791,7 +24385,7 @@
      {
       "key": "obscompare",
       "sec": 3,
-      "share": 37,
+      "share": 38,
       "always": false
      },
      {
@@ -23894,11 +24488,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 295,
+     "ms": 314,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 295,
+       "ms": 314,
        "pass": true,
        "via": "targetIds"
       }
@@ -24053,17 +24647,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 2249,
+     "ms": 2644,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 2198,
+       "ms": 2584,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 51,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       },
@@ -24231,17 +24825,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 124,
+     "ms": 146,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 108,
+       "ms": 122,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 16,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -24396,11 +24990,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 853,
+     "ms": 821,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 853,
+       "ms": 821,
        "pass": true,
        "via": "targetIds"
       },
@@ -24561,23 +25155,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1819,
+     "ms": 2044,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 966,
+       "ms": 1032,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 853,
+       "ms": 1011,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.spinup",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -24732,11 +25326,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 230,
+     "ms": 367,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 230,
+       "ms": 367,
        "pass": true,
        "via": "targetIds"
       }
@@ -24891,11 +25485,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 138,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 138,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -25050,11 +25644,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 14,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 17,
+       "ms": 14,
        "pass": true,
        "via": "targetIds"
       }
@@ -25209,11 +25803,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 38,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -25368,11 +25962,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 15,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -25527,17 +26121,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 220,
+     "ms": 186,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 145,
+       "ms": 110,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 75,
+       "ms": 76,
        "pass": true,
        "via": "targetIds"
       }
@@ -25677,6 +26271,12 @@
       "always": false
      },
      {
+      "key": "ckfixcap290",
+      "sec": 2,
+      "share": 7,
+      "always": false
+     },
+     {
       "key": "weakfield289",
       "sec": 2,
       "share": "all",
@@ -25692,11 +26292,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 13,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 13,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -25851,11 +26451,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 14,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 14,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -26010,11 +26610,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 179,
+     "ms": 177,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 152,
+       "ms": 150,
        "pass": true,
        "via": "targetIds"
       },
@@ -26175,11 +26775,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 23,
+     "ms": 16,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 23,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -26334,17 +26934,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 90,
+     "ms": 76,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 61,
+       "ms": 58,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 29,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -26356,22 +26956,22 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 111,
-  "regenSecSum": 26395,
+  "regenSteps": 114,
+  "regenSecSum": 26572,
   "alwaysSec": 5195,
   "undeclaredSteps": 46,
   "undeclaredSec": 1884,
   "qaTotal": 1008,
-  "qaDurationMs": 1773283,
+  "qaDurationMs": 1976768,
   "reuse": {
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 32.153999999999996
+    "sec": 45.487
    },
    "h4": {
     "n": 3,
-    "sec": 67.061
+    "sec": 90.57000000000001
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
