@@ -2283,6 +2283,9 @@ if (QA_CHANGED) {
       // 第289便d(原仮定者の裁定(第79報)で閉じた AN95/AN96/AN97・R122): 離散の後の慣性半径の状態引き継ぎの前後・fixcap の正本の離散の行の引き直し・
       //   ΔE_self の口座・異方的剛体の E_rot(target=beta/index.html —— Node だけ。inputs に fixcap-w288a.json —— **fixcap288 を走らせ直したら本器も走らせ直す** —— 鎖の段 ejectstate289)
       'tests/out/ejectstate-w289d.json',
+      // 第290便d(原仮定者の裁定(第80報)②・R128): チェックポイントの保存/復元が固定中心の状態を運ぶ修正の回帰と再開保存の棚卸し
+      //   (target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 ckfixcap290)
+      'tests/out/ckfixcap-w290d.json',
       // 第289便a(原仮定者の裁定(第79報)⑤・R119): 時計・光の弱場係数(3 案の一次係数)・相対移動 r⁻³ 核の限定模型・現行 tauUpdate/traceRay の実測・
       //   式の綴りと枠の重みの棚卸し(target=beta/index.html —— Node だけ・html だけを読む・他の正本は読まない —— 鎖の段 weakfield289)
       'tests/out/weakfield-w289a.json',
@@ -22051,6 +22054,109 @@ if (!FAST) {
         `**合体・離散の口座の文言**(第289便d・原仮定者の裁定(第79報)AN95/AN96/AN97 —— ΔE_self は収支調整の口座・h/Ω_max は宣言値・E_rot の正本は剛体式): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
+  }
+}
+
+// ---- 8c1j) 第290便d(原仮定者の裁定(第80報)②「指摘を参考に改善」・統括の検証項目 R128): **チェックポイント便**の 1 ブロック。**root では SKIP**
+// ----   (器 tests/exp-w290d-ckfixcap.mjs・正本 tests/out/ckfixcap-w290d.json)。世代切替 has290d = html に固定中心の深い写し
+// ----   `function cloneFixedCaptureState(` があり、器がある。
+// ----   behavior.ckFixcapRestore …… ckSnapOne/ckRestoreOne が S.fixcap(R_I・stepN・捕獲/離散の回数・口座・ログ)を深い写しで保存/復元する:
+// ----      再現(保存 → 2 步 → 器が R_I=0.75 → 復元で stepN 0・R_I 1.5 —— 基点 f03bf5a は 2・0.75)・超過の捕獲 + 離散の保存/復元/再走/2 度目の復元と
+// ----      保存側の不変・宣言した歩の離散の時刻(基点は 1 步早い)・2 回連続の離散の後の I′/E′・A/B の写しの不変(A = 新 B = 旧 B・基点と同じ指紋)と
+// ----      B 側の保存/復元・棚卸しの表(保存 JSON の鍵・チェックポイント/A/B/build)・html の 3 か所が同じ 1 本の写しを使う・粒子数の不一致で
+// ----      復元を拒否する UI の 1 行と保存/読込の実装(loadSave・受理・保存の handler の指紋)が基点のまま・PHYSICS〔第290便d〕の表と文。
+// ----   正本との照合は**許容幅つき**(相対 1e-12 か絶対 1e-12 —— CI の Node 24 と手元の Node 22 で Math の末尾 ulp が違い得る)。
+// ----   A/B の指紋(sha256 の文字列)は正本の中で基点の宣言値と比べる(引き直しの照合からは外す)。
+{
+  const html290d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has290d = TARGET.startsWith('beta/') && html290d.indexOf('function cloneFixedCaptureState(') >= 0
+    && fs.existsSync(path.join(ROOT, 'tests', 'exp-w290d-ckfixcap.mjs'));
+  if (!has290d) {
+    console.log('SKIP behavior.ckFixcapRestore(第290便d 未適用 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    let EC = null, JC = null, Hc = null, errC = null;
+    try {
+      EC = await import('file://' + path.join(ROOT, 'tests', 'exp-w290d-ckfixcap.mjs'));
+      JC = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'ckfixcap-w290d.json'), 'utf8'));
+      const { loadHtmlHeadless } = await import('file://' + path.join(ROOT, 'tests', 'lib-w279b-headless.mjs'));
+      Hc = loadHtmlHeadless(path.join(ROOT, TARGET));
+      Hc.htmlText = html290d;
+    } catch (e) { errC = String(e && e.stack || e).slice(0, 160); }
+    const nearC = (a, b) => {
+      const out = [];
+      const walk = (x, y, p) => {
+        if (out.length > 4) return;
+        if (typeof x === 'number' && typeof y === 'number') { if (!(Object.is(x, y) || Math.abs(x - y) <= Math.max(1e-12, 1e-12 * Math.max(Math.abs(x), Math.abs(y))))) out.push(p + ' ' + x + '⇔' + y); return; }
+        if (Array.isArray(x) || Array.isArray(y)) { if (!Array.isArray(x) || !Array.isArray(y) || x.length !== y.length) { out.push(p + ' 形'); return; } x.forEach((v, i) => walk(v, y[i], p + '/' + i)); return; }
+        if (x && y && typeof x === 'object' && typeof y === 'object') { for (const k of [...new Set(Object.keys(x).concat(Object.keys(y)))].sort()) walk(x[k], y[k], p + '/' + k); return; }
+        if (x !== y) out.push(p + ' ' + JSON.stringify(x) + '⇔' + JSON.stringify(y));
+      };
+      walk(a, b, '');
+      return out;
+    };
+    const noPrint = (o) => { const z = JSON.parse(JSON.stringify(o)); if (z.ab) delete z.ab.abPrint; return z; };
+    if (errC) bad.push('器/正本/headless が読めない: ' + errC);
+    else {
+      if (!JC.meta || JC.meta.provenanceVersion !== 'w272e-1' || JC.meta.harnessVersion !== EC.HARNESS_VERSION) bad.push('来歴(w272e-1)/器の版');
+      if (JSON.stringify(JC.spec.spec) !== JSON.stringify(EC.SPEC) || JSON.stringify(JC.spec.overflowCase) !== JSON.stringify(EC.OVERFLOW_CASE)
+        || JSON.stringify(JC.spec.reproEject) !== JSON.stringify(EC.REPRO_EJECT) || JSON.stringify(JC.spec.fixtures) !== JSON.stringify(EC.INVENTORY_FIXTURES)) bad.push('宣言(spec)が器と違う');
+      if (JSON.stringify(JC.before) !== JSON.stringify(EC.BEFORE_F03)) bad.push('基点の宣言値が器の BEFORE_F03 と違う');
+      let P = null;
+      try { P = EC.probe(Hc); } catch (e) { bad.push('probe: ' + String(e).slice(0, 140)); }
+      if (P) {
+        const dn = nearC(noPrint(P), noPrint(JC.probe));
+        if (dn.length) bad.push('probe を引き直すと正本と違う ' + dn[0]);
+        const V = EC.verdictOf(P);
+        for (const [k, v] of Object.entries(V.checks)) if (v !== true) bad.push('判定 ' + k);
+        const ds = nearC(noPrint(EC.summaryOf(P)), noPrint(JC.summary));
+        if (ds.length) bad.push('要約を作り直すと正本と違う ' + ds[0]);
+        const B = EC.BEFORE_F03.summary, N = EC.summaryOf(P);
+        if (!(B.repro.restoredStepN === 2 && B.repro.restoredRI === 0.75 && N.repro.restoredStepN === 0 && N.repro.restoredRI === 1.5)) bad.push('再現の前後(基点 stepN 2・R_I 0.75 → 0・1.5)');
+        if (!(B.overflow.restoredBitSame === false && B.overflow.snapHasFixcap === false && N.overflow.restoredBitSame && N.overflow.rerunBitSame && N.overflow.twiceBitSame)) bad.push('超過の捕獲 + 離散の前後');
+        if (!(B.atStep.sameEjectTime === false && B.atStep.tTest < B.atStep.tRef && N.atStep.sameEjectTime && N.atStep.stateBitSame)) bad.push('宣言した歩の離散の時刻の前後');
+        if (!(B.twice.restoredBitSame === false && N.twice.restoredBitSame)) bad.push('2 回連続の離散の後の I′/E′ の前後');
+        if (!(JC.abSameAsBase === true && JC.summary.ab.abPrint === JC.before.summary.ab.abPrint && B.ab.aEqualsNewB && N.ab.aEqualsNewB && N.ab.legacyBEqualsNewB)) bad.push('A/B の結果が基点と同じでない');
+        if (!(B.ab.logRowShared === true && N.ab.logRowShared === false)) bad.push('A/B の写しのログの行の共有(基点 共有 → 独立)');
+        const fxC = P.inventory.fixtures.find((z) => z.cat === 'fixcap');
+        if (!(fxC && fxC.nSame && fxC.rerunBitSame === true && !(fxC.diffByCat.fixcap || []).length)) bad.push('棚卸しの器具(🥜 の写し)の往復');
+        if (!(P.inventory.saveCarriesState === false && P.inventory.saveCodeSameAsBase === true)) bad.push('保存 JSON の形式/保存・読込の実装が基点と違う');
+        cases.push(`再現(🥜 の中心だけ): 復元後の stepN ${B.repro.restoredStepN} → ${N.repro.restoredStepN}・R_I ${B.repro.restoredRI} → ${N.repro.restoredRI}`
+          + ` / 超過の捕獲 + 離散(${P.overflow.steps} 步・n ${P.overflow.n0} のまま): 復元 ${B.overflow.restoredBitSame ? '一致' : '不一致'} → ${N.overflow.restoredBitSame ? '一致' : '不一致'}・再走 ${N.overflow.rerunBitSame ? 'ビット一致' : '不一致'}(系譜 id は別)`
+          + ` / atStep ${EC.SPEC.atStep}: 放出の時刻 ${B.atStep.tTest} → ${N.atStep.tTest}(参照 ${N.atStep.tRef})`
+          + ` / 2 回連続の離散の後: I′ ${B.twice.restoredI} → ${N.twice.restoredI} / A/B: A = 新 B = 旧 B・指紋 ${JC.summary.ab.abPrint.slice(0, 8)}…(基点と同じ)`);
+        cases.push('棚卸し: ' + P.inventory.table.map((r) => r.key + ' ' + r.checkpoint).join('・') + '・保存 JSON は設定だけ(' + P.inventory.saveKeys.length + ' 鍵)');
+      }
+      // html: 同じ 1 本の写しを 3 か所で使う・旧い浅い写しが無い・UI の拒否の 1 行・チェックポイントの配列名
+      const src = html290d;
+      for (const t of ['fixcap:S.fixcap? cloneFixedCaptureState(S.fixcap) : null}', 'if("fixcap" in o){ S.fixcap=o.fixcap? cloneFixedCaptureState(o.fixcap) : null; S.hasFixedCapture=!!S.fixcap; }',
+        'simB.fixcap=sim.fixcap? cloneFixedCaptureState(sim.fixcap) : null; simB.hasFixedCapture=!!simB.fixcap;',
+        'if(ckSnap.a.n!==sim.n || (!!ab)!==(!!ckSnap.b) || (ab && ckSnap.b.n!==ab.simB.n)){ notify(T("ckMismatch")); return; }', '"carVx","carVy"];'])
+        if (src.indexOf(t) < 0) bad.push('html に無い: ' + t.slice(0, 60));
+      if (src.indexOf('Object.assign({}, sim.fixcap') >= 0) bad.push('A/B の旧い浅い写しが残っている');
+      if ((src.match(/cloneFixedCaptureState\(/g) || []).length !== 5) bad.push('cloneFixedCaptureState( の出現が定義 1 + 再帰 1 + 使用 3 でない');
+      // PHYSICS〔第290便d〕
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const pa = Pd.indexOf('〔第290便d — ');
+      const pEnds = (pa >= 0) ? [Pd.indexOf('\n〔第', pa + 10), Pd.indexOf('\n## 7. 論文', pa)].filter((k) => k > pa) : [];
+      const psec = (pa >= 0) ? Pd.slice(pa, pEnds.length ? Math.min(...pEnds) : undefined) : '';
+      if (!psec) bad.push('PHYSICS〔第290便d〕が無い');
+      else {
+        const MUST = ['cloneFixedCaptureState', '保存 JSON は設定だけ', '粒子数が変わった後の復元は拒否', '決断事項候補', 'bitsame **147/147**', 'sigsame **147/147**', '系譜'];
+        for (const t of MUST) if (psec.indexOf(t) < 0) bad.push('PHYSICS〔第290便d〕に無い文: ' + t);
+        if (JC && EC && !errC) {
+          const rows = EC.docRows(JC);
+          const miss = rows.beforeAfter.concat(rows.inventory).filter((t) => psec.indexOf(t) < 0);
+          if (miss.length) bad.push('PHYSICS の表に無い行 ' + miss.length + ' 件 ' + miss[0].slice(0, 60));
+          cases.push(`PHYSICS の表の行 ${rows.beforeAfter.length + rows.inventory.length} 本が正本から作り直した値と一致`);
+        }
+        const body = psec.split('**言わないこと。**')[0].replace(/「[^」]*」/g, '');
+        for (const re of [/再開保存を完成/, /可変粒子数のチェックポイント/, /観測一致を達成/, /較正を完了/, /新発見/, /RC を切った/]) if (re.test(body)) bad.push('禁止の言い回し ' + re.source);
+      }
+    }
+    add('behavior.ckFixcapRestore', bad.length === 0,
+      `**チェックポイントの保存/復元が固定中心の状態を運ぶ**(第290便d・統括の検証項目 R128 —— 走行の物理は不変・保存 JSON の形式は不変・粒子数が変わった後の復元は UI が拒否のまま): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
 
