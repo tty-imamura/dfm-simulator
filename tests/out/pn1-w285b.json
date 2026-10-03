@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便b",
   "target": "beta/index.html",
-  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-  "generatedAt": "2026-10-03T05:38:06.044Z",
+  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+  "generatedAt": "2026-10-03T20:55:30.491Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5529715,
-    "sha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-    "mtime": "2026-10-03T03:49:52.710Z"
+    "bytes": 5623059,
+    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+    "mtime": "2026-10-03T19:22:31.703Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1814041,
-    "sha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
-    "mtime": "2026-10-03T05:31:51.242Z"
+    "bytes": 1812868,
+    "sha256": "d50e629f3bf7e68a00325eb3f1ef3d099420d509e6b64d307185ce74b51bd93b",
+    "mtime": "2026-10-03T20:48:50.582Z"
    }
   ],
   "code": [
@@ -34,9 +34,9 @@
    },
    {
     "file": "tests/lib-w285b-gr1pn.mjs",
-    "bytes": 19379,
-    "sha256": "b20018afa5df7c5fd3dbceaac111507faf52e5be7ec6c708bdb4a6d3a3031332",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 19554,
+    "sha256": "167900af9fbcc8b980111c665d7beeab263560da063614263772e878aa05ea88",
+    "mtime": "2026-10-03T19:20:22.715Z"
    },
    {
     "file": "tests/lib-w282b-geo1.mjs",
@@ -81,7 +81,7 @@
     "mtime": "2026-10-02T23:11:02.956Z"
    }
   ],
-  "codeSha256": "98f7610a84157470ddb1d69fcfec807114b5e608fac141763185fe97159a41ed",
+  "codeSha256": "ccf78cbd04c397b4bf481e8300e0c89bdb197ae8d49bf6e08e891835e27e24e2",
   "scope": {
    "version": "w286d-scope-4",
    "presets": "all",
@@ -108,16 +108,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 917,
-   "segments": 831,
-   "closureShare": 0.3213
+   "names": 951,
+   "segments": 862,
+   "closureShare": 0.3238
   },
-  "scopeSha256": "77759092fbe41833cb6cf352bc59d7b2529155d05d2a27c249431a781f208276",
+  "scopeSha256": "a0401ac4543ca9c40302c9d17ac831a0f51cd134007491374b6cfe0c3870ee45",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "0f76358598e8fa8bc01abef3a1f2a4a254bf636e61952a66464e8d559b95f699",
+    "stableSha256": "5fe31026b2e19e01eed1b49a4358bae18893a8169985c5fa747850d5c2707014",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -145,7 +145,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "2d64ef59b19c6e7e247a93196f22434be980eaf86c0c229f5f47e9a032021411",
+    "stableSha256": "9f9cea6d0b92bf4228398de7a36c70ce0ad522a4ae8cf541333681de904b99e9",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -176,7 +176,7 @@
  },
  "harnessVersion": "w285b-pn1-1",
  "libVersion": "w285b-gr1pn-1",
- "htmlPn1Version": "w285b-eih-1",
+ "htmlPn1Version": "w291b-eih-2",
  "htmlGeoModeVersion": "w285b-geomode-2",
  "coreTable": [
   0,
@@ -184,7 +184,7 @@
   2
  ],
  "contract": {
-  "version": "w285b-eih-1",
+  "version": "w291b-eih-2",
   "law": "PPN N-body 1PN (EIH at pnAlpha=1.5)",
   "ppn": {
    "beta": 1,
@@ -193,7 +193,8 @@
   "coordinates": "harmonic",
   "time": "coordinate time t (the simulation time)",
   "role": "kF0 (lambdaPN=1 and kFrame=0: geoPN=1, and the compat input geoPN=2 with kFrame=0)",
-  "sources": "sums run over 1PN sources only (pnSource: declared pnSource or m >= pnK*max(R,eps)); non-sources only receive",
+  "sources": "EIH core: all finite-mass bodies are sources; active test particles only receive; the optical-angle/radius cutoff is for ray drawing only",
+  "sourceExclusion": "pnSource:false excludes a body lighter than the ray-drawing cutoff (a heavier body stays a source through the unchanged _core threshold)",
   "pinned": "pinned receivers receive nothing; a pinned source has g_b=0",
   "softening": "Plummer, same as _core (1/r -> 1/sqrt(r^2+eps^2))",
   "scale": "lambdaPN multiplies the whole 1PN term",
@@ -207,7 +208,7 @@
   "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+ "nowSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
  "note": "geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。S._core は 1 命令も変えていない(geoCoreDispatch が kF0 の役割に core=1 を渡し、差分 Δ を _core の前に当てる)。Σm·v は状態変数の和で、相対論的な全運動量ではない。",
  "A": {
   "cond": {
@@ -968,26 +969,26 @@
     "kf0Copy": false,
     "geoPN": 1,
     "kFrame": 0,
-    "nSources": 1,
+    "nSources": 2,
     "nu": 1.6600949641734588e-7,
     "orbits": 8,
     "GMoverAc2": 2.549903974714287e-8,
     "grDeg": 0.000028754830185447852,
     "lam0B": -0.000006200391092366659,
-    "lam1NowB": 0.000022554413449148274,
+    "lam1NowB": 0.000022554427486607115,
     "lam1BaseB": 0.00002251464202305556,
-    "incNow": 0.000028754804541514935,
+    "incNow": 0.000028754818578973773,
     "incBase": 0.00002871503311542222,
     "circular": false,
     "e": 0.20563056948385805,
-    "ratioNow": 0.9999991081869463,
+    "ratioNow": 0.9999995963643672,
     "ratioBase": 0.998615986609242,
-    "periodRelNow": 3.9433612997186174e-7,
-    "obs": 0.000028754393803209202,
+    "periodRelNow": 3.9433608556294075e-7,
+    "obs": 0.000028754393803211438,
     "obsFrom": "mercuryReal",
-    "residNow": -0.21561853803953135,
-    "residBase": -0.217001680607756,
-    "residLam0": -1.2156328224062456,
+    "residNow": -0.21561804985476266,
+    "residBase": -0.21700168060781688,
+    "residLam0": -1.2156328224062287,
     "nPeri": 8,
     "nan": false,
     "clamp": 0
@@ -998,21 +999,21 @@
     "kf0Copy": true,
     "geoPN": 1,
     "kFrame": 0,
-    "nSources": 1,
+    "nSources": 2,
     "nu": 0.09673653398300044,
     "orbits": 3,
     "GMoverAc2": 5.538675425667816e-13,
     "grDeg": 5.981769459721244e-10,
     "lam0B": -0.0035383502780504754,
-    "lam1NowB": -0.0035097611074996257,
+    "lam1NowB": -0.0035237655392667223,
     "lam1BaseB": -0.0035185831553481172,
-    "incNow": 0.00002858917055084979,
+    "incNow": 0.000014584738783753135,
     "incBase": 0.000019767122702358218,
     "circular": true,
     "e": 1.7947584751709655e-8,
     "ratioNow": null,
     "ratioBase": null,
-    "periodRelNow": 7.941542246037159e-8,
+    "periodRelNow": 4.0515764077042604e-8,
     "obs": null,
     "obsFrom": null,
     "residNow": null,
@@ -1150,8 +1151,8 @@
     "eps": 0.05,
     "dt": 0.016,
     "lam0B": -0.000006200391092366659,
-    "lam1B": 0.000022554413449148274,
-    "incB": 0.000028754804541514935,
+    "lam1B": 0.000022554427486607115,
+    "incB": 0.000028754818578973773,
     "lam0A": -0.000006200397905943103,
     "softAnalytic": -0.000004389013777140126,
     "lam0MinusSoft": -0.0000018113773152265332,
@@ -1162,8 +1163,8 @@
     "eps": 0.05,
     "dt": 0.008,
     "lam0B": -0.0000048419570537808224,
-    "lam1B": 0.000023912817735951463,
-    "incB": 0.000028754774789732287,
+    "lam1B": 0.00002391288097150214,
+    "incB": 0.000028754838025282963,
     "lam0A": -0.000004841858527035644,
     "softAnalytic": -0.000004389013777140126,
     "lam0MinusSoft": -4.529432766406968e-7,
@@ -1174,8 +1175,8 @@
     "eps": 0.01,
     "dt": 0.016,
     "lam0B": -0.0000019869226372059906,
-    "lam1B": 0.000026767892264534745,
-    "incB": 0.000028754814901740735,
+    "lam1B": 0.000026767880783119118,
+    "incB": 0.000028754803420325107,
     "lam0A": -0.0000019869453262440262,
     "softAnalytic": -1.7556055108560502e-7,
     "lam0MinusSoft": -0.0000018113620861203857,
@@ -1186,8 +1187,8 @@
     "eps": 0.01,
     "dt": 0.008,
     "lam0B": -6.28491845407106e-7,
-    "lam1B": 0.000028126362367965202,
-    "incB": 0.000028754854213372308,
+    "lam1B": 0.000028126332893637137,
+    "incB": 0.000028754824739044243,
     "lam0A": -6.2840730146978e-7,
     "softAnalytic": -1.7556055108560502e-7,
     "lam0MinusSoft": -4.52931294321501e-7,
@@ -1209,28 +1210,28 @@
    "pn1PredTrueC": 0.000028754830185447852,
    "cRoundingFactor": 1,
    "cRoundingRel": 0,
-   "obs": 0.000028754393803209202,
+   "obs": 0.000028754393803211438,
    "obsFrom": "mercuryReal",
    "obsFrom4298": 0.000028754368529926224,
-   "obsOverPredSimC": 0.9999848240370109,
-   "obsOverPredTrueC": 0.9999848240370109
+   "obsOverPredSimC": 0.9999848240370888,
+   "obsOverPredTrueC": 0.9999848240370888
   },
   "summary": {
    "base005": -0.000006200391092366659,
    "base001": -0.0000019869226372059906,
    "base001h2": -6.28491845407106e-7,
    "incRange": [
-    0.000028754774789732287,
-    0.000028754854213372308
+    0.000028754803420325107,
+    0.000028754838025282963
    ],
    "incOverPred": [
-    0.9999991081869463,
-    0.9999980735161638,
-    0.9999994684820943,
-    1.0000008356135057
+    0.9999995963643672,
+    1.0000002726441108,
+    0.99999906919559,
+    0.9999998105916963
    ],
-   "deficitFormal": -0.21561853803953135,
-   "deficitSmall": -0.021841233709955908,
+   "deficitFormal": -0.21561804985476266,
+   "deficitSmall": -0.021842258747397286,
    "softAnalytic005": -0.000004389013777140126
   }
  },
@@ -1345,9 +1346,9 @@
     "geoPN": 1,
     "kFrame": 0,
     "pn1": "eih",
-    "bitSame1": true,
-    "bitSame128": true,
-    "maxPos128": 0,
+    "bitSame1": false,
+    "bitSame128": false,
+    "maxPos128": 0.00000762939453125,
     "sigSame": true,
     "nan": false
    },
@@ -1391,7 +1392,7 @@
     "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0.000005671687848021546,
+    "maxPos128": 0.0000056716878372672305,
     "sigSame": false,
     "nan": false
    },
@@ -1402,7 +1403,7 @@
     "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0.00001802982006698118,
+    "maxPos128": 0.000018029820064542585,
     "sigSame": false,
     "nan": false
    },
@@ -1468,7 +1469,7 @@
     "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 5.261791499879267e-7,
+    "maxPos128": 5.26179137473173e-7,
     "sigSame": false,
     "nan": false
    },
@@ -1479,7 +1480,7 @@
     "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0.000011330710775494923,
+    "maxPos128": 0.000011330710773950965,
     "sigSame": false,
     "nan": false
    },
@@ -1688,7 +1689,7 @@
     "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 5.316806946668494e-12,
+    "maxPos128": 5.288395702637178e-12,
     "sigSame": false,
     "nan": false
    },
@@ -1721,7 +1722,7 @@
     "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 3.3941043086831337e-12,
+    "maxPos128": 3.4768127405093517e-12,
     "sigSame": false,
     "nan": false
    },
@@ -1743,7 +1744,7 @@
     "pn1": "eih",
     "bitSame1": false,
     "bitSame128": false,
-    "maxPos128": 0.0011883256513938929,
+    "maxPos128": 0.0011934333893819267,
     "sigSame": true,
     "nan": false
    }
@@ -1758,6 +1759,7 @@
    "earthMoonDiagOne",
    "qLockRadialAudit",
    "qLockRadialAuditQ3",
+   "mercury",
    "mercuryReal",
    "mercuryRealKF1",
    "solarInner",
@@ -1799,6 +1801,7 @@
    "earthMoonDiagOne",
    "qLockRadialAudit",
    "qLockRadialAuditQ3",
+   "mercury",
    "mercuryReal",
    "mercuryRealKF1",
    "solarInner",
@@ -1872,7 +1875,7 @@
   "scope": "geoPN 1/2 の内蔵(46 本)—— 0・3 は geoCoreDispatch の変わらない行を通る",
   "nAll": 150,
   "n": 46,
-  "bitSame128": 7,
+  "bitSame128": 6,
   "sigSame": 9,
   "eihBooks": [
    "earthMoonReal",
@@ -1903,9 +1906,7 @@
    "saturnRingReal",
    "binary"
   ],
-  "eihUnchanged": [
-   "mercury"
-  ],
+  "eihUnchanged": [],
   "changedNotEih": [
    "galaxyGeo2",
    "earthMoonRealKF1",
@@ -2012,7 +2013,7 @@
    "target": "B",
    "name": "近点移動(λ_PN=0 の対照・検出器 B・8 周)",
    "kind": "precession",
-   "obs": 0.000028754393803209202,
+   "obs": 0.000028754393803211438,
    "value": -0.000006200391092366659,
    "unit": "deg/orbit",
    "sigma": null,
@@ -2091,13 +2092,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.083,
+   "wallSec": 0.076,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.134,
+   "wallSec": 0.183,
    "errors": 0
   }
  },
- "elapsedS": 360.813
+ "elapsedS": 396.358
 }
