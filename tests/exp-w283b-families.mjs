@@ -86,7 +86,7 @@ export const FAMILIES = [
   { key: 'whiteDwarf', ja: '白色矮星', ref: 'whiteDwarfDFM', ids: ['whiteDwarfDFM', 'whiteDwarfBareDFM'] },
   { key: 'saturnToy', ja: '土星(天体の機構)', ref: 'saturn', ids: ['saturn', 'saturnLayered'] },
   { key: 'grcal', ja: '時計と重力(GR の較正)', ref: 'grcal', ids: ['grcal', 'grcalGps', 'grcalLight', 'grcalShapiro'] },
-  { key: 'rotor', ja: 'ダークローター(退役の文脈)', ref: 'rotorSolo',
+  { key: 'rotor', ja: '光学迷彩矮星(退役の文脈)', ref: 'rotorSolo',
     ids: ['rotorSolo', 'massLadder', 'selfRotor', 'darkrotor', 'bhCore', 'bhCoreTilt', 'nebulaRotor', 'nebulaShell', 'nebulaBipolar', 'starSeed'] },
 ];
 
@@ -423,7 +423,7 @@ if (IS_MAIN) {
   const t0 = Date.now();
   const B = build(ROOT, TARGET);
   const J = { meta: null, harnessVersion: HARNESS_VERSION, rules: RULES,
-    ruling: '原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター関連の一部は廃止の方向',
+    ruling: '原仮定者の裁定(第73報)④: 同一天体の似た内容のサンプルを統廃合する(内容を比較して提案)・ダークローター〔現 光学迷彩矮星〕関連の一部は廃止の方向',
     reading: '統括の検証項目 R84(退役はフラグ・BUILTIN_PRESETS から消さない)・R85(鍵ごとの差・同じ入力/違う入力・主系列/比較/診断/履歴・候補を出すだけで畳まない)',
     notClaim: ['統合した', '観測一致を達成した', '較正を完了した', '形状が安定した'],
     roleVocab: B.roleVocab, badRole: B.badRole, counts: B.counts, families: B.families, retired: B.retired,
