@@ -1,12 +1,12 @@
 {
- "when": "2026-10-03T23:12:00.612Z",
+ "when": "2026-10-04T02:34:25.725Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "212279e541485ff204966ddf619fd1fbfa59789ef6158a46ea4b7296a63a5391",
-  "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
+  "calauditSha256": "702409506e723db51a391962e2a9aef05ff9738ef7fa7fcff750246dc9f0fcb5",
+  "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "ce62b44d02f9b3e1ed5cbbd04242db60742e7f11bd50a25b7678a1d4d985952c",
+  "charonSha256": "0e52fd71256c635c316b6714c65a89bf0801bfe5965595642649cd6fd158100b",
   "nslock": "tests/out/nslock-w272c.json",
   "nslockSha256": "0061eb35d78418e8fa0e902d54198e99acdf89c03fb38a3a17744a0c1f7c0be9"
  },
@@ -29,7 +29,7 @@
   "数値未解決": 10,
   "mapping-unresolved": 6,
   "condition-mismatch": 0,
-  "未判定": 163
+  "未判定": 165
  },
  "rows": [
   {
@@ -351,7 +351,7 @@
    "name": "冥王星とカロン(入力を整えた二体)— 観測入力の geoPN=1 の対照",
    "version": "obs",
    "theoryControl": false,
-   "nQ": 9,
+   "nQ": 11,
    "verdict4": "保留",
    "missing": [
     "数値精度"
@@ -362,7 +362,7 @@
     "num": 1,
     "map": 0,
     "cond": 0,
-    "na": 8
+    "na": 10
    },
    "reasons": {
     "num": {
@@ -371,7 +371,7 @@
     "map": {},
     "cond": {},
     "na": {
-     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 6,
+     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 8,
      "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 2
     }
    },
@@ -386,7 +386,7 @@
     "unmeasuredReason": "max-steps"
    },
    "solarCuts": {
-    "kind-not-gated": 6,
+    "kind-not-gated": 8,
     "connected": 1,
     "csv-sigma-empty": 2
    },
@@ -926,7 +926,7 @@
    "key": "sigma-missing",
    "title": "σ・測定値が足りない",
    "what": "観測 σ が CSV に無い(空欄)・判定量に σ の宛先が無い・実測が窓不足で取れない。**門へ入っていない**ので合否が言えない。",
-   "n": 163,
+   "n": 165,
    "presets": 20,
    "rows": [
     {
@@ -1480,7 +1480,7 @@
    "key": "display",
    "title": "表示(合否の対象でない宣言行)",
    "what": "規約・帳簿・単位族・受け皿など、obsCard に並んでいるが**合否の対象ではない**行。",
-   "n": 66,
+   "n": 68,
    "presets": 20,
    "rows": [
     {
@@ -1577,6 +1577,12 @@
      "id": "plutoCharonDiagInput",
      "emoji": "🥶",
      "kind": "other",
+     "name": "閉じた式の差と走行の残差"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
      "name": "PLU060 400年平均 P との差(σ なし)"
     },
     {
@@ -1596,6 +1602,12 @@
      "emoji": "🥶",
      "kind": "other",
      "name": "⛄🌨️ との差(同じ定義・第5周)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "1PN の源集合の是正(第291便b)"
     },
     {
      "id": "uranusReal",
@@ -1830,18 +1842,6 @@
      "emoji": "⏰",
      "kind": "other",
      "name": "用量 a=0.1313(**合わせ込みの1ノブ**)"
-    },
-    {
-     "id": "gw150914Merge4s",
-     "emoji": "⏰",
-     "kind": "other",
-     "name": "刻み収束(接線・a=0.1313)"
-    },
-    {
-     "id": "gw150914Merge4s",
-     "emoji": "⏰",
-     "kind": "other",
-     "name": "スピン–スピン(λ=1・χ=0.7 宣言)"
     }
    ]
   }
@@ -1857,7 +1857,7 @@
   "cond": {},
   "na": {
    "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 93,
-   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 66,
+   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 68,
    "実測が無い(窓不足・未走行)(門の文面: 観測誤差(σ)または有限の実測が無い)": 4
   }
  },
@@ -1947,10 +1947,10 @@
   }
  ],
  "naCensus": {
-  "total": 163,
+  "total": 165,
   "byKind": {
    "declaration-row": {
-    "n": 66,
+    "n": 68,
     "presets": 20
    },
    "no-measurement": {
@@ -2368,7 +2368,7 @@
  ],
  "solarCutTally": {
   "csv-sigma-empty": 86,
-  "kind-not-gated": 24,
+  "kind-not-gated": 26,
   "unit-not-converted": 2,
   "connected": 2
  },
