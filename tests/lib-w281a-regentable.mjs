@@ -33,6 +33,7 @@
 //   'w289b-branch' … 第289便b の枝で器を走らせた実測(正本の elapsedS 9.1 —— Node だけ・他の 5 枝と同じ容器で並走)。
 //   'w290c-branch' … 第290便c の枝で器を走らせた実測(正本の elapsedS 4.2 —— Node の headless だけ・Chromium なし・他の枝と同じ容器で並走)。
 //   'w290e-branch' … 第290便e の枝で器を 1 回走らせた実測(正本の elapsedS 170.6 —— Node の headless 1 本・他の枝と同じ容器で並走)。
+//   'w291d-branch' … 第291便d の枝で器を走らせた実測(正本の elapsedS 2.5〜2.7 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -584,6 +585,13 @@ export const REGEN_STEPS = [
   //   (再現・超過の捕獲 + 離散の保存/復元/再走・宣言した歩の離散の時刻・2 回連続の離散の後の I′/E′・A/B の写しの不変と B 側の保存/復元)と
   //   再開保存(保存 JSON → loadSave)の棚卸し(表だけ —— 実装しない)。Node だけ・html だけを読む(他の正本は読まない)。
   //   第289便d の離散の器の後に並べる(同じ 🥜 の写しの宣言を使う —— 読む正本は無い)。基点 html(W290D_BASE)は任意の照合 —— 無ければ宣言値 BEFORE_F03
+  // ---- 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133): kF0 の 1PN の源集合(全質量源)の器 —— 内蔵全本の源の表と基点 cf2da0a との
+  //   前後(ビット・署名)・html の Δ + 試験粒子形と参照 EIH の照合・半径だけを変えた回帰・🥶 の残差の分解(閉じた式と 1PN の桁)・表示条件の集計。
+  //   html と lib だけを読む(正本は読まない —— Node 1 本・基点は git show の一時ファイル)。所要は第291便b の枝の実測
+  S('pnsources291', 'node tests/exp-w291b-pnsources.mjs', ['tests/out/pnsources-w291b.json'], 208, { secSource: 'w291b-branch', node: true,
+    env: { W291B_BASE_REV: '基点(既定 cf2da0a —— git show で一時ファイルを作り終了後に削除)' },
+    volatilePaths: { 'tests/out/pnsources-w291b.json': META_RUN.concat(['/elapsedS', '/headless/*/wallSec']) },
+    note: '第291便b: kF0 の 1PN 源 = 全質量源(半径門は光線描画の省略基準)—— 源が増えた本の列挙・前後の差は源が増えた本だけ・参照 EIH と 1e−12・半径回帰・🥶 の閉じた式 +7.2168 s と 1PN の桁' }),
   S('ckfixcap290', 'node tests/exp-w290d-ckfixcap.mjs', ['tests/out/ckfixcap-w290d.json'], 2, { secSource: 'w290d-branch', node: true,
     after: ['ejectstate289'],
     volatilePaths: { 'tests/out/ckfixcap-w290d.json': META_RUN.concat(['/elapsedS']) },
@@ -639,6 +647,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/spiral-w290e.json': META_RUN.concat(['/elapsedS', '/gate7/timing/rows/*/wallSec', '/gate7/timing/rows/*/rateStepsPerSec']) },
     note: '第290便e: 🍭🎢 の宣言(shape:"spiral")・成分の数/質量/重複所属・軸比/横断/厚さを 🥏🧵📀🧹 と比べる・ピッチ角(φ−Ω_p t と ln r の直交回帰)・'
       + 'N/2N/4N・seed・刻み・Ω_p=0・G と中心スピンに対する腕成分の不変性・宣言の往復・⏮・チェックポイント・A/B・1 步の所要' }),
+  // ---- 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): 背景の精査 —— 新しい慣性決定力の核が D₀・Wbg・backgroundComplex・spaceMesh.D0・q・自転を
+  //   読まないこと(固定配置で 1 步の u がビット同一)・共通並進/一様加速度は消え回転/潮汐は残ること・旧正規化 u=A/W 型の場では Wbg が分母に残ること・
+  //   走行中の 🐌 と 🌚🌒 の診断コピーで標本の V に共通の c を足しても u が丸め床以内・核と wbgStateOf の静的な参照。
+  //   Node の headless(html だけを読む —— 他の正本は読まない)。核の器 inertial290 の後に置く(同じ 🐌 を並べて読む表の順)。所要は第291便d の枝の実測 2.7 秒
+  S('bgaudit291', 'node tests/exp-w291d-bgaudit.mjs', ['tests/out/bgaudit-w291d.json'], 3, { secSource: 'w291d-branch', node: true, after: ['inertial290'],
+    volatilePaths: { 'tests/out/bgaudit-w291d.json': META_RUN.concat(['/elapsedS']) },
+    note: '第291便d: 背景の精査表(D₀・Wbg・backgroundComplex・共通並進・一様加速度・回転・潮汐)—— 新核は背景を読まない(固定配置で u がビット同一 8 宣言)・'
+      + '2 進の配置で共通並進がビット同一・走行中の 🐌🌚🌒 で丸め床以内・旧正規化の場の Wbg 依存と ∇D の不変・核と wbgStateOf の静的な参照' }),
 ];
 
 /**

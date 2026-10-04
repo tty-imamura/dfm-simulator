@@ -1,5 +1,5 @@
 {
- "when": "2026-10-03T06:00:19.390Z",
+ "when": "2026-10-04T04:26:09.781Z",
  "wave": "第263便c(第55報 W3)",
  "inputs": {
   "csv": "paper/data/solar-observations.csv",
@@ -1500,9 +1500,9 @@
   ]
  },
  "missingA": {
-  "n": 63,
+  "n": 65,
   "byCut": {
-   "csv-sigma-empty": 63
+   "csv-sigma-empty": 65
   },
   "rows": [
    {
@@ -2328,6 +2328,32 @@
     "cut": "csv-sigma-empty",
     "presets": [
      "💍"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Charon|eccentricity",
+    "body": "Charon",
+    "target": "カロン",
+    "quantity": "eccentricity",
+    "kind": "ecc",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🥶"
+    ],
+    "nQuantities": 1,
+    "obsPresent": 0
+   },
+   {
+    "key": "Charon|periastron_advance",
+    "body": "Charon",
+    "target": "カロン",
+    "quantity": "periastron_advance",
+    "kind": "precession",
+    "cut": "csv-sigma-empty",
+    "presets": [
+     "🥶"
     ],
     "nQuantities": 1,
     "obsPresent": 0

@@ -20,12 +20,12 @@
 
 ## 集計
 
-- 家族 **23**・本 **87**(うち退役 31)・推定の列: 主系列 27・比較 19・診断 10・履歴 31。
+- 家族 **23**・本 **87**(うち退役 32)・推定の列: 主系列 27・比較 19・診断 9・履歴 32。
 - 候補: 規則 A 3・規則 B 0・規則 C(要裁定)1・畳まない組 0。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 履歴 | 候補 A/B/C | 畳まない組 |
 |---|---|---|---|---|---|---|---|---|
-| 冥王星–カロン(`pluto`) | 6 | `plutoCharonDiagInput` | 1 | 0 | 2 | 3 | 0/0/0 | 0 |
+| 冥王星–カロン(`pluto`) | 6 | `plutoCharonDiagInput` | 1 | 0 | 1 | 4 | 0/0/0 | 0 |
 | 地球–月(現実との照合)(`earthmoon`) | 6 | `earthMoonRealKF1` | 2 | 0 | 1 | 3 | 0/0/0 | 0 |
 | 水星(現実との照合)(`mercury`) | 3 | `mercuryRealKF1` | 1 | 0 | 1 | 1 | 1/0/0 | 0 |
 | 土星(現実との照合)(`saturn`) | 5 | `saturnRingRealKF1` | 2 | 0 | 2 | 1 | 0/0/0 | 0 |
@@ -47,14 +47,14 @@
 | 白色矮星(`whiteDwarf`) | 2 | `whiteDwarfDFM` | 1 | 1 | 0 | 0 | 0/0/0 | 0 |
 | 土星(天体の機構)(`saturnToy`) | 2 | `saturn` | 1 | 1 | 0 | 0 | 0/0/0 | 0 |
 | 時計と重力(GR の較正)(`grcal`) | 4 | `grcal` | 1 | 3 | 0 | 0 | 0/0/0 | 0 |
-| ダークローター(退役の文脈)(`rotor`) | 10 | `rotorSolo` | 2 | 1 | 0 | 7 | 0/0/0 | 0 |
+| 光学迷彩矮星(退役の文脈)(`rotor`) | 10 | `rotorSolo` | 2 | 1 | 0 | 7 | 0/0/0 | 0 |
 
 ## 冥王星–カロン(`pluto`・6 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 🥶 | `plutoCharonDiagInput` | primary | 主系列(較正母集団) | 基準 | calibration・kf0 | ○ | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | 冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口) | — |
-| 🌨️ | `plutoCharonKF0Control` | variant | 診断(principle・「対照」) | 違う入力(位置・速度) | principle | — | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | ⛄ と同じ入力で則だけを外した kF0 対照 | — |
+| 🌨️ | `plutoCharonKF0Control` | retired | 履歴(familyRole "retired") | 違う入力(位置・速度) | principle | — | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | ⛄ と同じ入力で則だけを外した kF0 対照 | — |
 | 🌒 | `charonGeoToy3` | variant | 診断(principle・geoPN=3) | 違う入力(質量・位置・速度) | principle | — | 3 | 0 | 0.006 | — | 11.9386 | — | — | vertex | 太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる | — |
 | ❄️ | `plutoCharonReal` | retired | 履歴(familyRole "retired") | 違う入力(質量・位置・速度) | calibration・kf0 | — | 1 | 0 | 0.006 | — | 11.9386 | — | — | — | 旧入力の冥王星–カロンを照合する | `behavior.plutoCharonReal` |
 | ⛄ | `plutoCharonDFM` | retired | 履歴(familyRole "retired") | 違う入力(位置・速度) | principle | — | 1 | 0 | 0.006 | — | 11.9386 | — | pairSlip | — | 同一観測解の二体に零条件つき引きずり則を載せる | `behavior.plutoCharonDFM` |
@@ -73,13 +73,13 @@
 - `scaleExp`: plutoCharonDiagInput=(宣言あり) / plutoCharonKF0Control=(宣言あり) / charonGeoToy3=(宣言あり) / plutoCharonReal=(宣言あり) / plutoCharonDFM=(宣言あり) / plutoCharonSyncZero=(宣言あり)
 - `sampleClass`: plutoCharonDiagInput=calibration / plutoCharonKF0Control=principle / charonGeoToy3=principle / plutoCharonReal=calibration / plutoCharonDFM=principle / plutoCharonSyncZero=principle
 - `calVariant`: plutoCharonDiagInput=kf0 / plutoCharonKF0Control=— / charonGeoToy3=— / plutoCharonReal=kf0 / plutoCharonDFM=— / plutoCharonSyncZero=—
-- `familyRole`: plutoCharonDiagInput=primary / plutoCharonKF0Control=variant / charonGeoToy3=variant / plutoCharonReal=retired / plutoCharonDFM=retired / plutoCharonSyncZero=retired
+- `familyRole`: plutoCharonDiagInput=primary / plutoCharonKF0Control=retired / charonGeoToy3=variant / plutoCharonReal=retired / plutoCharonDFM=retired / plutoCharonSyncZero=retired
 - `gates(testId)`: plutoCharonDiagInput=— / plutoCharonKF0Control=— / charonGeoToy3=— / plutoCharonReal=behavior.plutoCharonReal / plutoCharonDFM=behavior.plutoCharonDFM / plutoCharonSyncZero=—
 - `bodies(vs 基準)`: plutoCharonDiagInput=基準 / plutoCharonKF0Control=違う入力(位置・速度) / charonGeoToy3=違う入力(質量・位置・速度) / plutoCharonReal=違う入力(質量・位置・速度) / plutoCharonDFM=違う入力(位置・速度) / plutoCharonSyncZero=違う入力(位置・速度)
 
 **統廃合の候補**: 規則に当たる組は無い。
 
-**履歴(退役)**: `plutoCharonReal` `plutoCharonDFM` `plutoCharonSyncZero`
+**履歴(退役)**: `plutoCharonKF0Control` `plutoCharonReal` `plutoCharonDFM` `plutoCharonSyncZero`
 
 ## 地球–月(現実との照合)(`earthmoon`・6 本)
 
@@ -378,7 +378,7 @@
 | 🎠 | `galaxyMeshSpiral` | — | 主系列(母集団の外の家族の基準の本) | 基準 | principle | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 銀河の空間メッシュを局所場と物質線で表す | — |
 | 🪁 | `galaxyMeshSpiralGeoToy` | — | 診断(principle・geoPN=3) | 同じ入力 | principle | — | 3 | 0 | 1.5 | — | 2 | — | — | vertex | 🎠 の配置で法則だけ geoPN=3 に替えて比べる | — |
 | 🎋 | `galaxyMeshSpiralGeoToyLite` | retired | 履歴(familyRole "retired") | 同じ入力 | principle | — | 3 | 0 | 1.5 | — | 2 | — | — | vertex | 🪁 を円盤 80 粒に軽くした比較用の写し | — |
-| 🌚 | `galaxyAnalogyBH` | — | 診断(principle・geoPN=3) | 違う入力(本数・質量・位置・速度) | principle | — | 3 | 0 | 1.5 | — | 2 | — | — | vertex | 中心 DFM 版 BH と恒星質量ダークローターを力学の質量要素に置いた銀河アナロジー | — |
+| 🌚 | `galaxyAnalogyBH` | — | 診断(principle・geoPN=3) | 違う入力(本数・質量・位置・速度) | principle | — | 3 | 0 | 1.5 | — | 2 | — | — | vertex | 中心 DFM 版 BH と恒星質量光学迷彩矮星を力学の質量要素に置いた銀河アナロジー | — |
 
 **鍵ごとの差**(physics の同じ鍵 23):
 
@@ -597,14 +597,14 @@
 
 **統廃合の候補**: 規則に当たる組は無い。
 
-## ダークローター(退役の文脈)(`rotor`・10 本)
+## 光学迷彩矮星(退役の文脈)(`rotor`・10 本)
 
 | 絵文字 | ID | familyRole | 推定の列 | 入力 | 分類・派生値 | 母集団 | geoPN | kFrame | D0 | D0pull | q | f(massCalibration) | relativeDrag | spaceMesh | 目的 | 門(testId) |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 🕳️ | `rotorSolo` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 1 | 2 | — | 2 | — | — | — | 単体ローターの掻き出しと減光を測る | `behavior.rotorSolo` |
+| 🕳️ | `rotorSolo` | primary | 主系列(母集団の外の家族の入口(primary)) | 基準 | principle | — | 0 | 1 | 2 | — | 2 | — | — | — | 単体の光学迷彩矮星の掻き出しと減光を測る | `behavior.rotorSolo` |
 | 🪜 | `massLadder` | variant | 比較(上のどれでもない) | 違う入力(本数・質量・位置・速度) | composite | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 暗い中心の力学質量を 3 段で比べる | `claim.massladder` |
 | 🥚 | `selfRotor` | primary | 主系列(母集団の外の家族の入口(primary)) | 違う入力(本数・質量・位置・速度) | composite | — | 0 | 1 | 2 | — | 2 | — | — | — | 一様な雲から暗く回る中心が育つかを見る | `behavior.selfrotor` `behavior.selfrotor-multiseed` |
-| 🕶️ | `darkrotor` | retired | 履歴(familyRole "retired") | 違う入力(本数・質量・位置・速度) | composite | — | 0 | 1 | 2 | — | 2 | — | — | — | 暗いローターが作る腕の強さと減光を測る | `behavior.darkrotor-multiseed` `behavior.darkrotor-pitch` `behavior.darkrotorLong` |
+| 🕶️ | `darkrotor` | retired | 履歴(familyRole "retired") | 違う入力(本数・質量・位置・速度) | composite | — | 0 | 1 | 2 | — | 2 | — | — | — | 暗い光学迷彩矮星が作る腕の強さと減光を測る | `behavior.darkrotor-multiseed` `behavior.darkrotor-pitch` `behavior.darkrotorLong` |
 | ⚫ | `bhCore` | retired | 履歴(familyRole "retired") | 違う入力(本数・質量・位置・速度) | composite | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 自由な多層の中心のスピン移送と減光を測る | `claim.bhcore-free` `claim.bhcore-selfdrive` |
 | 🪩 | `bhCoreTilt` | retired | 履歴(familyRole "retired") | 違う入力(本数・質量・位置・速度) | principle | — | 0 | 1 | 1.5 | — | 2 | — | — | — | 中心コアの軸を横倒しにした暗い中心を見せる | — |
 | 🌑 | `nebulaRotor` | retired | 履歴(familyRole "retired") | 違う入力(本数・質量・位置・速度) | composite | — | 0 | 1 | 1.5 | — | 2 | — | — | — | ローター群で暗いコアと明るい外層を作る | `claim.nebularotor-contrast` |
@@ -643,7 +643,7 @@
 
 **履歴(退役)**: `darkrotor` `bhCore` `bhCoreTilt` `nebulaRotor` `nebulaShell` `nebulaBipolar` `starSeed`
 
-## 退役 33 本の棚卸し(統括の検証項目 R84)
+## 退役 34 本の棚卸し(統括の検証項目 R84)
 
 > 退役は**フラグ**である(`familyRole:"retired"`)。内蔵(BUILTIN_PRESETS)から消していない —— 旧セーブ・履歴の正本・過去の記録が ID で参照する。サンプル一覧に出さず、開いたときに「退役(履歴)」の 1 行を出す。物理・署名・保存 JSON は変えていない。
 
@@ -672,7 +672,7 @@
 - **第285便f の写し** `tests/fixtures/retired-w285f.json`(原仮定者の裁定(第75報)AN51・AN24′): 退役 1 本(`psrJ1757CF`)と、f=1 へ移した本の旧則(`psrJ1757DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`・`behavior.w249a-pnResponse`・`behavior.jointCalProtocol`。
 - **第286便f の写し** `tests/fixtures/retired-w286f.json`(原仮定者の裁定(第76報)AN57): 退役 1 本(`psrJ1946CF`)と、f=1 へ移した本の旧則(`psrJ1946DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `behavior.w249a-pnResponse`・`docs.j1946adoptPublished`・`docs.j1946Adopted`。
 - **第287便b の写し** `tests/fixtures/retired-w287b.json`(原仮定者の裁定(第77報)AN62): 退役 1 本(`psrB1534CF`)と、f=1 へ移した本の旧則(`psrB1534DFM` —— f≈2 の条件つき較正・履歴)。付け替えた試験の最後の保存 QA の値: `lint.precisionUlp`・`behavior.nsThreeStage`。
-- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 61 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 13・道具 4・表の外 17。QA 本体の出現数: darkrotor 138・bhCore 44・nebulaRotor 15・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 20・galaxyMeshSpiralGeoToyLite 24・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 34・psrDoubleABCF 13・psrJ1757CF 19・psrJ1946CF 20・psrB1534CF 19。
+- **名指しする器**(tests/*.mjs・tools/*.mjs —— QA 本体を除く 61 本): 凍結の写しを読む 2・再生成表の履歴 25・再生成表の現行 13・道具 4・表の外 17。QA 本体の出現数: darkrotor 144・bhCore 44・nebulaRotor 17・nebulaShell 14・nebulaBipolar 21・starSeed 15・bhCoreTilt 20・galaxyMeshSpiralGeoToyLite 24・psrDoubleABPN 19・psrJ1757PN 11・psrJ1946PN 13・emAuditNewton 34・psrDoubleABCF 13・psrJ1757CF 19・psrJ1946CF 20・psrB1534CF 19。
 
 | 器 | 名指しする ID | 再生成表の段 | 扱い |
 |---|---|---|---|

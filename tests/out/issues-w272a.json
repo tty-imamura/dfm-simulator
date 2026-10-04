@@ -1,14 +1,14 @@
 {
- "when": "2026-10-03T06:20:10.260Z",
+ "when": "2026-10-04T04:46:18.266Z",
  "wave": "第272便a(第62報)/ 第273便c(第63報・R19 の訂正)",
  "input": {
   "calaudit": "tests/out/calaudit-w249.json",
-  "calauditSha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
-  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+  "calauditSha256": "960c31a7f213f4c016e4da5400dbac209b32c2e773a80c54c4eae91a52116dac",
+  "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
   "charon": "tests/out/charon-w272b.json",
-  "charonSha256": "6b0c74062c9da3c23c11aaa6d22929c3262b55c307624aa75488ebbc13fb1151",
+  "charonSha256": "8ae50dd1493645c2db1bd709b2bbc81afc3c4144a10e892e2f943d33874448f2",
   "nslock": "tests/out/nslock-w272c.json",
-  "nslockSha256": "c41ae18c7088838ec4283ada37ccef4443445a78f9a312b084466baa943fc02b"
+  "nslockSha256": "0061eb35d78418e8fa0e902d54198e99acdf89c03fb38a3a17744a0c1f7c0be9"
  },
  "nPresets": 20,
  "nTheoryControl": 0,
@@ -29,7 +29,7 @@
   "数値未解決": 10,
   "mapping-unresolved": 6,
   "condition-mismatch": 0,
-  "未判定": 163
+  "未判定": 165
  },
  "rows": [
   {
@@ -351,7 +351,7 @@
    "name": "冥王星とカロン(入力を整えた二体)— 観測入力の geoPN=1 の対照",
    "version": "obs",
    "theoryControl": false,
-   "nQ": 9,
+   "nQ": 11,
    "verdict4": "保留",
    "missing": [
     "数値精度"
@@ -362,7 +362,7 @@
     "num": 1,
     "map": 0,
     "cond": 0,
-    "na": 8
+    "na": 10
    },
    "reasons": {
     "num": {
@@ -371,7 +371,7 @@
     "map": {},
     "cond": {},
     "na": {
-     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 6,
+     "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 8,
      "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 2
     }
    },
@@ -385,7 +385,11 @@
     "complete": false,
     "unmeasuredReason": "max-steps"
    },
-   "solarCuts": null,
+   "solarCuts": {
+    "kind-not-gated": 8,
+    "connected": 1,
+    "csv-sigma-empty": 2
+   },
    "sigmaConnected": 1
   },
   {
@@ -922,7 +926,7 @@
    "key": "sigma-missing",
    "title": "σ・測定値が足りない",
    "what": "観測 σ が CSV に無い(空欄)・判定量に σ の宛先が無い・実測が窓不足で取れない。**門へ入っていない**ので合否が言えない。",
-   "n": 163,
+   "n": 165,
    "presets": 20,
    "rows": [
     {
@@ -1476,7 +1480,7 @@
    "key": "display",
    "title": "表示(合否の対象でない宣言行)",
    "what": "規約・帳簿・単位族・受け皿など、obsCard に並んでいるが**合否の対象ではない**行。",
-   "n": 66,
+   "n": 68,
    "presets": 20,
    "rows": [
     {
@@ -1573,6 +1577,12 @@
      "id": "plutoCharonDiagInput",
      "emoji": "🥶",
      "kind": "other",
+     "name": "閉じた式の差と走行の残差"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
      "name": "PLU060 400年平均 P との差(σ なし)"
     },
     {
@@ -1592,6 +1602,12 @@
      "emoji": "🥶",
      "kind": "other",
      "name": "⛄🌨️ との差(同じ定義・第5周)"
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "kind": "other",
+     "name": "1PN の源集合の是正(第291便b)"
     },
     {
      "id": "uranusReal",
@@ -1826,18 +1842,6 @@
      "emoji": "⏰",
      "kind": "other",
      "name": "用量 a=0.1313(**合わせ込みの1ノブ**)"
-    },
-    {
-     "id": "gw150914Merge4s",
-     "emoji": "⏰",
-     "kind": "other",
-     "name": "刻み収束(接線・a=0.1313)"
-    },
-    {
-     "id": "gw150914Merge4s",
-     "emoji": "⏰",
-     "kind": "other",
-     "name": "スピン–スピン(λ=1・χ=0.7 宣言)"
     }
    ]
   }
@@ -1853,7 +1857,7 @@
   "cond": {},
   "na": {
    "σ が無い(実測はある)(門の文面: 観測誤差(σ)または有限の実測が無い)": 93,
-   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 66,
+   "宣言行(合否の対象ではない)(門の文面: 観測誤差(σ)または有限の実測が無い)": 68,
    "実測が無い(窓不足・未走行)(門の文面: 観測誤差(σ)または有限の実測が無い)": 4
   }
  },
@@ -1892,10 +1896,10 @@
   {
    "key": "softening",
    "title": "softening の効き(実測・第272便b の S 系列)",
-   "measured": 389.8335250899739,
+   "measured": 389.8335264014428,
    "unit": "σ",
    "ref": "tests/out/charon-w272b.json(列 S_e0.05/0.025/0.0125 × kF0/kF1)",
-   "text": "softening ε を 0.05 → 0.025 → 0.0125 と半分にすると、同方向 1 周の周期はkF0 で 551864.061363 s(294.083σ) → 551855.977799 s(-17.7825σ) → 551853.956878 s(-95.7501σ)、kF1 で 553210.630443 s(52245.1σ) → 553202.441337 s(51929.1σ) → 553200.379493 s(51849.6σ) と動く。 **「0.1% 台の差に効くかどうか未測定」ではない** —— **σ 倍で数百の幅を動かし、kF0 側では符号も反転する**(+294.08σ → −17.78σ → −95.75σ)。a/R は `correlates.aOverR` = — である。**「softening を小さくすれば合う」とは書かない**(ε=0.025 の −17.78σ も 3σ の外である)。"
+   "text": "softening ε を 0.05 → 0.025 → 0.0125 と半分にすると、同方向 1 周の周期はkF0 で 551864.061363 s(294.083σ) → 551855.977799 s(-17.7824σ) → 551853.956878 s(-95.7501σ)、kF1 で 553210.630443 s(52245.1σ) → 553202.441337 s(51929.1σ) → 553200.379493 s(51849.6σ) と動く。 **「0.1% 台の差に効くかどうか未測定」ではない** —— **σ 倍で数百の幅を動かし、kF0 側では符号も反転する**(+294.08σ → −17.78σ → −95.75σ)。a/R は `correlates.aOverR` = — である。**「softening を小さくすれば合う」とは書かない**(ε=0.025 の −17.78σ も 3σ の外である)。"
   },
   {
    "key": "f-approx",
@@ -1943,10 +1947,10 @@
   }
  ],
  "naCensus": {
-  "total": 163,
+  "total": 165,
   "byKind": {
    "declaration-row": {
-    "n": 66,
+    "n": 68,
     "presets": 20
    },
    "no-measurement": {
@@ -1970,8 +1974,8 @@
   "nQ": 6,
   "withSigma": 1,
   "missing": "(門に入った量 1: 合 0・否 1 — 残り 5 量は σ が無い)",
-  "revSec": 17865.94983177155,
-  "periSec": 18224.85822532271,
+  "revSec": 17865.949831775662,
+  "periSec": 18224.85822532783,
   "definitions": [
    {
     "key": "revolution",
@@ -2033,7 +2037,7 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "水星",
-    "eProxy": 0.00006545777918296744,
+    "eProxy": 0.00006545777917126629,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2041,7 +2045,7 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "金星",
-    "eProxy": 0.000026642730597441927,
+    "eProxy": 0.000026642730432596792,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2049,7 +2053,7 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "地球",
-    "eProxy": 0.000029829737902914738,
+    "eProxy": 0.000029829736226796292,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2057,7 +2061,7 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "火星",
-    "eProxy": 0.00001730766685501611,
+    "eProxy": 0.0000173076656164526,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2065,7 +2069,7 @@
     "id": "jupiterGalilean",
     "emoji": "🟠",
     "target": "イオ",
-    "eProxy": 0.004178070907073229,
+    "eProxy": 0.004178070906381617,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2073,7 +2077,7 @@
     "id": "jupiterGalilean",
     "emoji": "🟠",
     "target": "エウロパ",
-    "eProxy": 0.00892407037539894,
+    "eProxy": 0.008924070378096541,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2081,7 +2085,7 @@
     "id": "jupiterGalilean",
     "emoji": "🟠",
     "target": "ガニメデ",
-    "eProxy": 0.0012305816432051076,
+    "eProxy": 0.001230581645217301,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2089,7 +2093,7 @@
     "id": "jupiterGalilean",
     "emoji": "🟠",
     "target": "カリスト",
-    "eProxy": 0.007062104287643021,
+    "eProxy": 0.00706210429028517,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2097,7 +2101,7 @@
     "id": "venusReal",
     "emoji": "🌇",
     "target": "金星",
-    "eProxy": 0.007000095145165049,
+    "eProxy": 0.007000095145447986,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2105,7 +2109,7 @@
     "id": "marsMoonsReal",
     "emoji": "🥔",
     "target": "ダイモス",
-    "eProxy": 0.0003213681935814886,
+    "eProxy": 0.00032136819358322935,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2113,7 +2117,7 @@
     "id": "plutoCharonDiagInput",
     "emoji": "🥶",
     "target": "カロン",
-    "eProxy": 3.908281493305368e-9,
+    "eProxy": 3.908700659098399e-9,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2121,7 +2125,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "ミランダ",
-    "eProxy": 0.0014568196927990183,
+    "eProxy": 0.0014568196923319125,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2129,7 +2133,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "アリエル",
-    "eProxy": 0.0013792162358943966,
+    "eProxy": 0.0013792162355305282,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2137,7 +2141,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "ウンブリエル",
-    "eProxy": 0.003916922350896753,
+    "eProxy": 0.003916922351022737,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2145,7 +2149,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "チタニア",
-    "eProxy": 0.0013625133958926085,
+    "eProxy": 0.0013625133956255166,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2153,7 +2157,7 @@
     "id": "uranusReal",
     "emoji": "💠",
     "target": "オベロン",
-    "eProxy": 0.0008792818576482216,
+    "eProxy": 0.0008792818580481742,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2161,7 +2165,7 @@
     "id": "neptuneReal",
     "emoji": "🌊",
     "target": "トリトン",
-    "eProxy": 0.00010078933813473889,
+    "eProxy": 0.00010078933821461558,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2169,7 +2173,7 @@
     "id": "saturnRingReal",
     "emoji": "💍",
     "target": "C環内縁",
-    "eProxy": 0.00023818254527633315,
+    "eProxy": 0.00023818254535527662,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2177,7 +2181,7 @@
     "id": "saturnRingReal",
     "emoji": "💍",
     "target": "ミマス",
-    "eProxy": 0.00007132830720406437,
+    "eProxy": 0.00007132830740083434,
     "hasPeriastronRow": false,
     "declared": false
    },
@@ -2185,7 +2189,7 @@
     "id": "saturnRingReal",
     "emoji": "💍",
     "target": "タイタン",
-    "eProxy": 0.000018452524110840894,
+    "eProxy": 0.000018452524143960533,
     "hasPeriastronRow": false,
     "declared": false
    }
@@ -2197,31 +2201,31 @@
    "id": "S_e0.05_k0",
    "softening": 0.05,
    "kFrame": 0,
-   "rev2Sec": 551864.061362921,
-   "sigmaRev": 294.08344602820256,
-   "periASec": 551858.672345035,
-   "sigmaPeriA": 86.17380536398505,
-   "eProxy": 0.000013340793190107562
+   "rev2Sec": 551864.0613634228,
+   "sigmaRev": 294.0834653858429,
+   "periASec": 551858.672442767,
+   "sigmaPeriA": 86.1775758864867,
+   "eProxy": 0.00001334079382100545
   },
   {
    "id": "S_e0.025_k0",
    "softening": 0.025,
    "kFrame": 0,
-   "rev2Sec": 551855.9777986223,
-   "sigmaRev": -17.78246055717902,
-   "periASec": 551854.6303861653,
-   "sigmaPeriA": -69.76596584233145,
-   "eProxy": 0.000009425366343056189
+   "rev2Sec": 551855.9777991155,
+   "sigmaRev": -17.78244153189726,
+   "periASec": 551854.6305457045,
+   "sigmaPeriA": -69.75981078191839,
+   "eProxy": 0.000009425366377772198
   },
   {
    "id": "S_e0.0125_k0",
    "softening": 0.0125,
    "kFrame": 0,
-   "rev2Sec": 551853.9568779507,
-   "sigmaRev": -95.75007906177133,
-   "periASec": 551853.6210528486,
-   "sigmaPeriA": -108.70629441881277,
-   "eProxy": 0.000009127730385793166
+   "rev2Sec": 551853.9568784185,
+   "sigmaRev": -95.75006101559993,
+   "periASec": 551853.6197765792,
+   "sigmaPeriA": -108.75553320888517,
+   "eProxy": 0.000009127730331308898
   },
   {
    "id": "S_e0.05_k1",
@@ -2363,10 +2367,10 @@
   }
  ],
  "solarCutTally": {
-  "csv-sigma-empty": 84,
-  "kind-not-gated": 18,
+  "csv-sigma-empty": 86,
+  "kind-not-gated": 26,
   "unit-not-converted": 2,
-  "connected": 1
+  "connected": 2
  },
  "doNotWrite": [
   "問題を解決した",

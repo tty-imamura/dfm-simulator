@@ -6,18 +6,18 @@
   "pairlockVersion": "w272b-1",
   "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
   "target": "beta/index.html",
-  "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+  "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
   "measureLib": "tests/lib-w273b-charonpage.mjs",
   "measureVersion": "w273b-charonpage-1",
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+  "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
   "mergeKeyParts": {
    "target": "beta/index.html",
-   "targetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
+   "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "be657f0bf0988b43c558517512b615b48553c5d08d82ea545fbce1aab89c2efe",
-   "obsSha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea",
+   "obsSha256": "960c31a7f213f4c016e4da5400dbac209b32c2e773a80c54c4eae91a52116dac",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -50,7 +50,7 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-10-03T06:19:58.885Z",
+  "generatedAt": "2026-10-04T04:46:06.460Z",
   "pilot": false,
   "stage": "h4",
   "dt": 0.004,
@@ -122,7 +122,7 @@
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "obsRowPreset": "plutoCharonDiagInput",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "3402379f6658ae25759a95cc55f90cd2f85da268e6d66ad5696d19726a5691ea"
+   "calauditSha256": "960c31a7f213f4c016e4da5400dbac209b32c2e773a80c54c4eae91a52116dac"
   },
   "secondsPerUnit": 100,
   "notClaim": [
@@ -168,16 +168,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 920,
-   "segments": 834,
-   "closureShare": 0.3217
+   "names": 955,
+   "segments": 866,
+   "closureShare": 0.3235
   },
-  "scopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be",
+  "scopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "0f76358598e8fa8bc01abef3a1f2a4a254bf636e61952a66464e8d559b95f699",
+    "stableSha256": "1475a348bf82f5d75690b687b6c5f5350d1a9e79644c1f5b5ab9d4da3160cc63",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -205,7 +205,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "2d64ef59b19c6e7e247a93196f22434be980eaf86c0c229f5f47e9a032021411",
+    "stableSha256": "e21e766ed262b31440cbb3744362cd0a73e47d4d11735e675375b6824e5744ce",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -903,20 +903,20 @@
   },
   "C1": {
    "stages": [
-    551864.061362921,
-    551864.0612657347,
-    551864.0612403541
+    551864.0613634228,
+    551864.0612662266,
+    551864.0612408934
    ],
-   "d1": -0.00009718630462884903,
-   "d2": -0.000025380635634064674,
+   "d1": -0.00009719619993120432,
+   "d2": -0.000025333138182759285,
    "sameSign": true,
-   "pObs": 1.9370248248263864,
-   "epsHat": 0.000008971111532098443,
-   "epsHatSigma": 0.00034610769799762515,
-   "assessedValue": 551864.0612403541,
+   "pObs": 1.9398741057873583,
+   "epsHat": 0.000008930427880087685,
+   "epsHatSigma": 0.00034453811265770394,
+   "assessedValue": 551864.0612408934,
    "assessedStage": "h4",
-   "residPct": 0.001381250596947053,
-   "sigma": 294.0787173653838,
+   "residPct": 0.0013812506946812005,
+   "sigma": 294.07873817372433,
    "orderEstimable": true,
    "note": "次数は連続 2 段差が同符号のときだけ立てる(第271便a と同じ規約)。**判定はしていない**"
   },
@@ -981,12 +981,12 @@
  "stageDiffs": {
   "C3_k0": {
    "stages": [
-    551864.061362921,
-    551864.0612657347
+    551864.0613634228,
+    551864.0612662266
    ],
-   "d1": -0.00009718630462884903,
+   "d1": -0.00009719619993120432,
    "upTo": "h2",
-   "d1Sigma": -0.0037494716291994225,
+   "d1Sigma": -0.0037498533924075744,
    "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
   },
   "C3_k0.1": {
@@ -1101,12 +1101,12 @@
   },
   "S_e0.05_k0": {
    "stages": [
-    551864.061362921,
-    551864.0612657347
+    551864.0613634228,
+    551864.0612662266
    ],
-   "d1": -0.00009718630462884903,
+   "d1": -0.00009719619993120432,
    "upTo": "h2",
-   "d1Sigma": -0.0037494716291994225,
+   "d1Sigma": -0.0037498533924075744,
    "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
   },
   "S_e0.05_k1": {
@@ -1121,12 +1121,12 @@
   },
   "S_e0.025_k0": {
    "stages": [
-    551855.9777986223,
-    551855.9776993537
+    551855.9777991155,
+    551855.9776997723
    ],
-   "d1": -0.00009926862549036741,
+   "d1": -0.00009934313129633665,
    "upTo": "h2",
-   "d1Sigma": -0.003829808082190101,
+   "d1Sigma": -0.0038326825345808896,
    "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
   },
   "S_e0.025_k1": {
@@ -1141,12 +1141,12 @@
   },
   "S_e0.0125_k0": {
    "stages": [
-    551853.9568779507,
-    551853.956779489
+    551853.9568784185,
+    551853.9567799916
    ],
-   "d1": -0.00009846175089478493,
+   "d1": -0.00009842682629823685,
    "upTo": "h2",
-   "d1Sigma": -0.0037986786610642335,
+   "d1Sigma": -0.0037973312615060513,
    "note": "**h/h2 まで**(第281便a: h4 段は C0/C1/C6 だけ)。次数・ε̂ は立てない。旧 3 段の収束確認は tests/out/charon-history-w272b.json の stageOrders(履歴 —— 現行の判定に使わない)"
   },
   "S_e0.0125_k1": {
@@ -1216,7 +1216,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.172,
+    "wallSec": 30.942,
     "revSec": [
      553209.4742614459,
      553210.6304433692,
@@ -1281,13 +1281,13 @@
     "warnings": [],
     "oscA": 19.595853769542778,
     "oscE": 0.0019277606657398963,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -1303,7 +1303,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 62.387,
+    "wallSec": 64.796,
     "revSec": [
      553210.3589554394,
      553210.9003053728,
@@ -1368,13 +1368,13 @@
     "warnings": [],
     "oscA": 19.596010875679063,
     "oscE": 0.0019262669293545179,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h4": {
@@ -1390,7 +1390,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 124.983,
+    "wallSec": 125.35,
     "revSec": [
      553210.8385701745,
      553211.1464493255,
@@ -1455,7 +1455,7 @@
     "warnings": [],
     "oscA": 19.596084725451302,
     "oscE": 0.0019253817789960282,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true
    }
   },
@@ -1473,42 +1473,42 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 22.713,
+    "wallSec": 25.512,
     "revSec": [
-     551862.4613629306,
-     551864.061362921,
-     551864.0613629194,
-     551864.0613627129,
-     551864.0613627231,
-     551864.0613628624,
-     551864.0613628544,
-     551864.0613629126
+     551862.4613634202,
+     551864.0613634228,
+     551864.0613634276,
+     551864.0613632852,
+     551864.06136322,
+     551864.0613633677,
+     551864.0613633273,
+     551864.0613634074
     ],
     "revN": 60,
-    "rev2Sec": 551864.061362921,
-    "periASec": 551858.672345035,
-    "periBSec": 551858.6740869565,
-    "oscSec": 551853.2833989616,
-    "residPctRev": 0.001381272806879141,
-    "sigmaRev": 294.08344602820256,
-    "residPctPeriA": 0.0004047474811049157,
-    "sigmaPeriA": 86.17380536398505,
-    "precessDegPerRevA": -0.0035154896330724535,
-    "precessResidDegA": 1.6537551316564996e-7,
-    "precessDegPerRevB": -0.0036965521184065203,
-    "precessResidDegB": 0.0016437437478696174,
-    "eProxy": 0.000013340793190107562,
-    "eProxy1": 0.000013340793013251904,
-    "rMin": 19.595929586864557,
-    "rMax": 19.596452444327863,
+    "rev2Sec": 551864.0613634228,
+    "periASec": 551858.672442767,
+    "periBSec": 551858.672140351,
+    "oscSec": 551853.283399241,
+    "residPctRev": 0.0013812728977995329,
+    "sigmaRev": 294.0834653858429,
+    "residPctPeriA": 0.00040476519077293534,
+    "sigmaPeriA": 86.1775758864867,
+    "precessDegPerRevA": -0.0035154388274056007,
+    "precessResidDegA": 1.6167834718110723e-7,
+    "precessDegPerRevB": -0.003989802280212897,
+    "precessResidDegB": 0.0033969580668087363,
+    "eProxy": 0.00001334079382100545,
+    "eProxy1": 0.000013340793326888451,
+    "rMin": 19.595929586870792,
+    "rMax": 19.596452444358825,
     "ledger": {
-     "Lrel": 1.4716634980978913e-13,
-     "Pabs": 1.1110024495491387e-20,
-     "Prel": 1.7609308392312026e-15,
-     "Erel": 3.574694132022081e-13,
+     "Lrel": 2.424043097159777e-13,
+     "Pabs": 5.364754803725625e-22,
+     "Prel": 8.503097524787554e-17,
+     "Erel": 1.1500699269567094e-12,
      "E0": -3.519115843511486e-8,
-     "E1": -3.519115843510228e-8,
-     "cmMax": 0.000015142571194508821,
+     "E1": -3.519115843507439e-8,
+     "cmMax": 0.000015143503684356905,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -1538,15 +1538,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.59599965527847,
-    "oscE": 0.000016990022359963183,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.595999655285095,
+    "oscE": 0.000016990022912915778,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -1562,42 +1562,42 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 46.491,
+    "wallSec": 51.852,
     "revSec": [
-     551863.2612654014,
-     551864.0612657347,
-     551864.0612659055,
-     551864.0612652991,
-     551864.0612652053,
-     551864.0612650029,
-     551864.0612652212,
-     551864.0612652118
+     551863.2612658667,
+     551864.0612662266,
+     551864.0612661777,
+     551864.0612654224,
+     551864.0612654061,
+     551864.0612653878,
+     551864.0612655458,
+     551864.061265454
     ],
     "revN": 60,
-    "rev2Sec": 551864.0612657347,
-    "periASec": 551858.6723556344,
-    "periBSec": 813265.4035087719,
-    "oscSec": 551853.283296119,
-    "residPctRev": 0.0013812551960844107,
-    "sigmaRev": 294.07969655657337,
-    "residPctPeriA": 0.00040474940178237417,
-    "sigmaPeriA": 86.1742142907683,
-    "precessDegPerRevA": -0.0035154109426839357,
-    "precessResidDegA": 2.6215251666840955e-7,
-    "precessDegPerRevB": -0.0047911412294828004,
-    "precessResidDegB": 0.0041400151925484584,
-    "eProxy": 0.000010758874143781048,
-    "eProxy1": 0.000010758873916165658,
-    "rMin": 19.5959801802093,
-    "rMax": 19.596401846114915,
+    "rev2Sec": 551864.0612662266,
+    "periASec": 551858.672345459,
+    "periBSec": 697084.6350877194,
+    "oscSec": 551853.2832961276,
+    "residPctRev": 0.0013812552852117091,
+    "sigmaRev": 294.0797155324505,
+    "residPctPeriA": 0.0004047475579337017,
+    "sigmaPeriA": 86.17382172141569,
+    "precessDegPerRevA": -0.0035154237118952903,
+    "precessResidDegA": 3.1312436113515764e-7,
+    "precessDegPerRevB": -0.004419779974523411,
+    "precessResidDegB": 0.0016775610988642494,
+    "eProxy": 0.000010758874993782422,
+    "eProxy1": 0.00001075887430195924,
+    "rMin": 19.595980180202755,
+    "rMax": 19.596401846141685,
     "ledger": {
-     "Lrel": 9.71771943839164e-14,
-     "Pabs": 9.323592753660371e-21,
-     "Prel": 1.4777827014707182e-15,
-     "Erel": 5.255797001052981e-13,
+     "Lrel": 2.3507831280011705e-13,
+     "Pabs": 5.306223948841601e-22,
+     "Prel": 8.410326543541139e-17,
+     "Erel": 8.061395972634751e-13,
      "E0": -3.519115843511486e-8,
-     "E1": -3.5191158435096365e-8,
-     "cmMax": 0.000015142568378186884,
+     "E1": -3.519115843508649e-8,
+     "cmMax": 0.000015143503968759686,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -1627,15 +1627,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.595999652843915,
-    "oscE": 0.000013705497923745683,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.59599965284415,
+    "oscE": 0.000013705498471678544,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h4": {
@@ -1651,42 +1651,42 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 92.029,
+    "wallSec": 97.472,
     "revSec": [
-     551863.6612425297,
-     551864.0612403541,
-     551864.0612403629,
-     551864.0612406394,
-     551864.0612408024,
-     551864.0612411501,
-     551864.061241121,
-     551864.0612409683
+     551863.6612430442,
+     551864.0612408934,
+     551864.0612408371,
+     551864.0612411291,
+     551864.0612410924,
+     551864.0612413855,
+     551864.0612415009,
+     551864.0612415904
     ],
     "revN": 60,
-    "rev2Sec": 551864.0612403541,
-    "periASec": 551858.6722382181,
-    "periBSec": 813265.4105263158,
-    "oscSec": 551853.2832704593,
-    "residPctRev": 0.001381250596947053,
-    "sigmaRev": 294.0787173653838,
-    "residPctPeriA": 0.0004047281251871357,
-    "sigmaPeriA": 86.16968434243635,
-    "precessDegPerRevA": -0.0035154498802522044,
-    "precessResidDegA": 5.505110969622162e-7,
-    "precessDegPerRevB": -0.005114257801477526,
-    "precessResidDegB": 0.0051355173827007244,
-    "eProxy": 0.000010009871301438336,
-    "eProxy1": 0.00001000987114479925,
-    "rMin": 19.595994857200452,
-    "rMax": 19.59638716790052,
+    "rev2Sec": 551864.0612408934,
+    "periASec": 551858.6723236938,
+    "periBSec": 1132762.5684210528,
+    "oscSec": 551853.2832706916,
+    "residPctRev": 0.0013812506946812005,
+    "sigmaRev": 294.07873817372433,
+    "residPctPeriA": 0.0004047436139294512,
+    "sigmaPeriA": 86.17298201302837,
+    "precessDegPerRevA": -0.0035154396675456633,
+    "precessResidDegA": 4.1636518284335964e-7,
+    "precessDegPerRevB": -0.0065831452755707376,
+    "precessResidDegB": 0.005207434706045484,
+    "eProxy": 0.00001000987266649659,
+    "eProxy1": 0.000010009871589151506,
+    "rMin": 19.595994857195215,
+    "rMax": 19.596387167948784,
     "ledger": {
-     "Lrel": 5.494497686895494e-14,
-     "Pabs": 8.761041574133987e-21,
-     "Prel": 1.3886187467849383e-15,
-     "Erel": 2.7604686932185244e-13,
+     "Lrel": 6.431794351130609e-13,
+     "Pabs": 5.515708057602518e-22,
+     "Prel": 8.742357339328908e-17,
+     "Erel": 1.4729394600804293e-12,
      "E0": -3.519115843511486e-8,
-     "E1": -3.5191158435105146e-8,
-     "cmMax": 0.000015142569280464789,
+     "E1": -3.5191158435063026e-8,
+     "cmMax": 0.000015143501947193004,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -1716,9 +1716,9 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.595999652236447,
-    "oscE": 0.000012752870640462285,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.595999652241925,
+    "oscE": 0.000012752871433028034,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true
    }
   },
@@ -1736,42 +1736,42 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 23.476,
+    "wallSec": 25.3,
     "revSec": [
-     551862.4613629306,
-     551864.061362921,
-     551864.0613629194,
-     551864.0613627129,
-     551864.0613627231,
-     551864.0613628624,
-     551864.0613628544,
-     551864.0613629126
+     551862.4613634202,
+     551864.0613634228,
+     551864.0613634276,
+     551864.0613632852,
+     551864.06136322,
+     551864.0613633677,
+     551864.0613633273,
+     551864.0613634074
     ],
     "revN": 60,
-    "rev2Sec": 551864.061362921,
-    "periASec": 551858.672345035,
-    "periBSec": 551858.6740869565,
-    "oscSec": 551853.2833989616,
-    "residPctRev": 0.001381272806879141,
-    "sigmaRev": 294.08344602820256,
-    "residPctPeriA": 0.0004047474811049157,
-    "sigmaPeriA": 86.17380536398505,
-    "precessDegPerRevA": -0.0035154896330724535,
-    "precessResidDegA": 1.6537551316564996e-7,
-    "precessDegPerRevB": -0.0036965521184065203,
-    "precessResidDegB": 0.0016437437478696174,
-    "eProxy": 0.000013340793190107562,
-    "eProxy1": 0.000013340793013251904,
-    "rMin": 19.595929586864557,
-    "rMax": 19.596452444327863,
+    "rev2Sec": 551864.0613634228,
+    "periASec": 551858.672442767,
+    "periBSec": 551858.672140351,
+    "oscSec": 551853.283399241,
+    "residPctRev": 0.0013812728977995329,
+    "sigmaRev": 294.0834653858429,
+    "residPctPeriA": 0.00040476519077293534,
+    "sigmaPeriA": 86.1775758864867,
+    "precessDegPerRevA": -0.0035154388274056007,
+    "precessResidDegA": 1.6167834718110723e-7,
+    "precessDegPerRevB": -0.003989802280212897,
+    "precessResidDegB": 0.0033969580668087363,
+    "eProxy": 0.00001334079382100545,
+    "eProxy1": 0.000013340793326888451,
+    "rMin": 19.595929586870792,
+    "rMax": 19.596452444358825,
     "ledger": {
-     "Lrel": 1.4716634980978913e-13,
-     "Pabs": 1.1110024495491387e-20,
-     "Prel": 1.7609308392312026e-15,
-     "Erel": 3.574694132022081e-13,
+     "Lrel": 2.424043097159777e-13,
+     "Pabs": 5.364754803725625e-22,
+     "Prel": 8.503097524787554e-17,
+     "Erel": 1.1500699269567094e-12,
      "E0": -3.519115843511486e-8,
-     "E1": -3.519115843510228e-8,
-     "cmMax": 0.000015142571194508821,
+     "E1": -3.519115843507439e-8,
+     "cmMax": 0.000015143503684356905,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -1801,15 +1801,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.59599965527847,
-    "oscE": 0.000016990022359963183,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.595999655285095,
+    "oscE": 0.000016990022912915778,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -1825,42 +1825,42 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 45.252,
+    "wallSec": 51.635,
     "revSec": [
-     551863.2612654014,
-     551864.0612657347,
-     551864.0612659055,
-     551864.0612652991,
-     551864.0612652053,
-     551864.0612650029,
-     551864.0612652212,
-     551864.0612652118
+     551863.2612658667,
+     551864.0612662266,
+     551864.0612661777,
+     551864.0612654224,
+     551864.0612654061,
+     551864.0612653878,
+     551864.0612655458,
+     551864.061265454
     ],
     "revN": 60,
-    "rev2Sec": 551864.0612657347,
-    "periASec": 551858.6723556344,
-    "periBSec": 813265.4035087719,
-    "oscSec": 551853.283296119,
-    "residPctRev": 0.0013812551960844107,
-    "sigmaRev": 294.07969655657337,
-    "residPctPeriA": 0.00040474940178237417,
-    "sigmaPeriA": 86.1742142907683,
-    "precessDegPerRevA": -0.0035154109426839357,
-    "precessResidDegA": 2.6215251666840955e-7,
-    "precessDegPerRevB": -0.0047911412294828004,
-    "precessResidDegB": 0.0041400151925484584,
-    "eProxy": 0.000010758874143781048,
-    "eProxy1": 0.000010758873916165658,
-    "rMin": 19.5959801802093,
-    "rMax": 19.596401846114915,
+    "rev2Sec": 551864.0612662266,
+    "periASec": 551858.672345459,
+    "periBSec": 697084.6350877194,
+    "oscSec": 551853.2832961276,
+    "residPctRev": 0.0013812552852117091,
+    "sigmaRev": 294.0797155324505,
+    "residPctPeriA": 0.0004047475579337017,
+    "sigmaPeriA": 86.17382172141569,
+    "precessDegPerRevA": -0.0035154237118952903,
+    "precessResidDegA": 3.1312436113515764e-7,
+    "precessDegPerRevB": -0.004419779974523411,
+    "precessResidDegB": 0.0016775610988642494,
+    "eProxy": 0.000010758874993782422,
+    "eProxy1": 0.00001075887430195924,
+    "rMin": 19.595980180202755,
+    "rMax": 19.596401846141685,
     "ledger": {
-     "Lrel": 9.71771943839164e-14,
-     "Pabs": 9.323592753660371e-21,
-     "Prel": 1.4777827014707182e-15,
-     "Erel": 5.255797001052981e-13,
+     "Lrel": 2.3507831280011705e-13,
+     "Pabs": 5.306223948841601e-22,
+     "Prel": 8.410326543541139e-17,
+     "Erel": 8.061395972634751e-13,
      "E0": -3.519115843511486e-8,
-     "E1": -3.5191158435096365e-8,
-     "cmMax": 0.000015142568378186884,
+     "E1": -3.519115843508649e-8,
+     "cmMax": 0.000015143503968759686,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -1890,15 +1890,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.595999652843915,
-    "oscE": 0.000013705497923745683,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.59599965284415,
+    "oscE": 0.000013705498471678544,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -1916,7 +1916,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 32.099,
+    "wallSec": 33.591,
     "revSec": [
      551732.3110268882,
      551733.8680320592,
@@ -1981,13 +1981,13 @@
     "warnings": [],
     "oscA": 19.591282766424282,
     "oscE": 0.0001553627736652934,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -2003,7 +2003,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 64.575,
+    "wallSec": 66.132,
     "revSec": [
      551733.1171578942,
      551733.892583892,
@@ -2068,13 +2068,13 @@
     "warnings": [],
     "oscA": 19.591298612054256,
     "oscE": 0.000154856506574185,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -2092,7 +2092,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 32.41,
+    "wallSec": 33.106,
     "revSec": [
      551471.8550030618,
      551473.3020893986,
@@ -2157,13 +2157,13 @@
     "warnings": [],
     "oscA": 19.5818462204013,
     "oscE": 0.0004623974734196933,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -2179,7 +2179,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 66.04,
+    "wallSec": 65.262,
     "revSec": [
      551472.6951268091,
      551473.437029122,
@@ -2244,13 +2244,13 @@
     "warnings": [],
     "oscA": 19.581894640700398,
     "oscE": 0.0004617849112986578,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -2268,7 +2268,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.847,
+    "wallSec": 32.997,
     "revSec": [
      551211.3277880698,
      551212.6948852483,
@@ -2333,13 +2333,13 @@
     "warnings": [],
     "oscA": 19.572407311034237,
     "oscE": 0.0007776681999595585,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -2355,7 +2355,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 66.614,
+    "wallSec": 66.054,
     "revSec": [
      551212.1949570887,
      551212.829355459,
@@ -2420,13 +2420,13 @@
     "warnings": [],
     "oscA": 19.572485111406262,
     "oscE": 0.0007765825526948978,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -2444,7 +2444,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 30.695,
+    "wallSec": 33.327,
     "revSec": [
      550950.5535611021,
      550951.8684797897,
@@ -2509,13 +2509,13 @@
     "warnings": [],
     "oscA": 19.562959695639677,
     "oscE": 0.0011054008118666747,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -2531,7 +2531,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 66.362,
+    "wallSec": 66.471,
     "revSec": [
      550951.3910060527,
      550951.9710828348,
@@ -2596,13 +2596,13 @@
     "warnings": [],
     "oscA": 19.563077136406285,
     "oscE": 0.001104004414540839,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -2620,7 +2620,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.548,
+    "wallSec": 33.216,
     "revSec": [
      550558.9804744933,
      550560.1411629847,
@@ -2685,13 +2685,13 @@
     "warnings": [],
     "oscA": 19.548779904996376,
     "oscE": 0.0016293527177720331,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -2707,7 +2707,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 65.503,
+    "wallSec": 66.587,
     "revSec": [
      550559.8671947051,
      550560.3965538517,
@@ -2772,13 +2772,13 @@
     "warnings": [],
     "oscA": 19.548949806799836,
     "oscE": 0.0016276524144226267,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -2796,7 +2796,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.927,
+    "wallSec": 32.737,
     "revSec": [
      551862.4613633215,
      551864.061363353,
@@ -2861,13 +2861,13 @@
     "warnings": [],
     "oscA": 19.595999655277584,
     "oscE": 0.00001699002275432384,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -2883,7 +2883,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 65.802,
+    "wallSec": 64.762,
     "revSec": [
      551863.2612657909,
      551864.0612660615,
@@ -2948,13 +2948,13 @@
     "warnings": [],
     "oscA": 19.59599965283523,
     "oscE": 0.000013705498363145494,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -2972,7 +2972,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.718,
+    "wallSec": 32.185,
     "revSec": [
      551862.4613633215,
      551864.061363353,
@@ -3037,13 +3037,13 @@
     "warnings": [],
     "oscA": 19.595999655277584,
     "oscE": 0.00001699002275432384,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -3059,7 +3059,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 65.607,
+    "wallSec": 64.783,
     "revSec": [
      551863.2612657909,
      551864.0612660615,
@@ -3124,13 +3124,13 @@
     "warnings": [],
     "oscA": 19.59599965283523,
     "oscE": 0.000013705498363145494,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -3148,7 +3148,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.596,
+    "wallSec": 32.692,
     "revSec": [
      553206.2071358921,
      553207.3737548528,
@@ -3213,13 +3213,13 @@
     "warnings": [],
     "oscA": 19.595851224090914,
     "oscE": 0.0019217603632360534,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -3235,7 +3235,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 67.629,
+    "wallSec": 64.919,
     "revSec": [
      553207.1525102721,
      553207.7135457414,
@@ -3300,13 +3300,13 @@
     "warnings": [],
     "oscA": 19.596011409865735,
     "oscE": 0.0019198645015410176,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -3324,7 +3324,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.946,
+    "wallSec": 31.807,
     "revSec": [
      550562.0356003369,
      550563.2092106378,
@@ -3389,13 +3389,13 @@
     "warnings": [],
     "oscA": 19.548902020693205,
     "oscE": 0.0016252283778495397,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -3411,7 +3411,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 65.314,
+    "wallSec": 65.263,
     "revSec": [
      550562.9836322411,
      550563.5703332161,
@@ -3476,13 +3476,13 @@
     "warnings": [],
     "oscA": 19.549057742025447,
     "oscE": 0.0016232859733132006,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -3500,7 +3500,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.984,
+    "wallSec": 32.207,
     "revSec": [
      551862.4632342702,
      551864.0632335298,
@@ -3565,13 +3565,13 @@
     "warnings": [],
     "oscA": 19.59599965482797,
     "oscE": 0.000016991600250596065,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -3587,7 +3587,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 66.19,
+    "wallSec": 64.625,
     "revSec": [
      551863.2631368763,
      551864.0631370414,
@@ -3652,13 +3652,13 @@
     "warnings": [],
     "oscA": 19.595999652621572,
     "oscE": 0.000013707453876898443,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -3676,7 +3676,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 32.119,
+    "wallSec": 32.442,
     "revSec": [
      551862.4632342702,
      551864.0632335298,
@@ -3741,13 +3741,13 @@
     "warnings": [],
     "oscA": 19.59599965482797,
     "oscE": 0.000016991600250596065,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -3763,7 +3763,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 66.018,
+    "wallSec": 65.737,
     "revSec": [
      551863.2631368763,
      551864.0631370414,
@@ -3828,13 +3828,13 @@
     "warnings": [],
     "oscA": 19.595999652621572,
     "oscE": 0.000013707453876898443,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -3853,7 +3853,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 44.122,
+    "wallSec": 45.36,
     "revSec": [
      553223.1046360554,
      553224.9272364771,
@@ -3918,13 +3918,13 @@
     "warnings": [],
     "oscA": 19.596333077410254,
     "oscE": 0.001943004085628778,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -3941,7 +3941,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 90.848,
+    "wallSec": 89.896,
     "revSec": [
      553223.8484537594,
      553224.7588905616,
@@ -4006,13 +4006,13 @@
     "warnings": [],
     "oscA": 19.5962535810197,
     "oscE": 0.0019412840918647323,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h4": {
@@ -4029,7 +4029,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 175.605,
+    "wallSec": 176.097,
     "revSec": [
      553224.2203877618,
      553224.6747429437,
@@ -4094,7 +4094,7 @@
     "warnings": [],
     "oscA": 19.596213832988674,
     "oscE": 0.0019404302534954587,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true
    }
   },
@@ -4113,7 +4113,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 57.081,
+    "wallSec": 60.535,
     "revSec": [
      551615.4981211532,
      551617.2024403799,
@@ -4178,13 +4178,13 @@
     "warnings": [],
     "oscA": 19.596068955433346,
     "oscE": 0.0005074481603814414,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -4201,7 +4201,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 126.112,
+    "wallSec": 118.479,
     "revSec": [
      551616.2719124913,
      551617.1240119033,
@@ -4266,13 +4266,13 @@
     "warnings": [],
     "oscA": 19.596031795835195,
     "oscE": 0.0005039039562013387,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h4": {
@@ -4289,7 +4289,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 232.823,
+    "wallSec": 235.888,
     "revSec": [
      551616.6588330005,
      551617.0848226522,
@@ -4354,7 +4354,7 @@
     "warnings": [],
     "oscA": 19.596013216554855,
     "oscE": 0.0005021502445758458,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true
    }
   },
@@ -4373,7 +4373,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 19.825,
+    "wallSec": 20.294,
     "revSec": [
      551862.4613616312,
      551864.0613615632,
@@ -4438,13 +4438,13 @@
     "warnings": [],
     "oscA": 19.595999655277684,
     "oscE": 0.00001699002132576785,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -4461,7 +4461,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 39.158,
+    "wallSec": 38.976,
     "revSec": [
      551863.2612641874,
      551864.0612644644,
@@ -4526,13 +4526,13 @@
     "warnings": [],
     "oscA": 19.59599965283485,
     "oscE": 0.00001370549659440613,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h4": {
@@ -4549,7 +4549,7 @@
     "stage": "h4",
     "dt": 0.004,
     "stepsRequested": 82800000,
-    "wallSec": 74.2,
+    "wallSec": 78.344,
     "revSec": [
      551863.6612412025,
      551864.0612390139,
@@ -4614,7 +4614,7 @@
     "warnings": [],
     "oscA": 19.595999652227572,
     "oscE": 0.00001275286945873011,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true
    }
   },
@@ -4632,42 +4632,42 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 23.453,
+    "wallSec": 26.696,
     "revSec": [
-     551862.4613629306,
-     551864.061362921,
-     551864.0613629194,
-     551864.0613627129,
-     551864.0613627231,
-     551864.0613628624,
-     551864.0613628544,
-     551864.0613629126
+     551862.4613634202,
+     551864.0613634228,
+     551864.0613634276,
+     551864.0613632852,
+     551864.06136322,
+     551864.0613633677,
+     551864.0613633273,
+     551864.0613634074
     ],
     "revN": 60,
-    "rev2Sec": 551864.061362921,
-    "periASec": 551858.672345035,
-    "periBSec": 551858.6740869565,
-    "oscSec": 551853.2833989616,
-    "residPctRev": 0.001381272806879141,
-    "sigmaRev": 294.08344602820256,
-    "residPctPeriA": 0.0004047474811049157,
-    "sigmaPeriA": 86.17380536398505,
-    "precessDegPerRevA": -0.0035154896330724535,
-    "precessResidDegA": 1.6537551316564996e-7,
-    "precessDegPerRevB": -0.0036965521184065203,
-    "precessResidDegB": 0.0016437437478696174,
-    "eProxy": 0.000013340793190107562,
-    "eProxy1": 0.000013340793013251904,
-    "rMin": 19.595929586864557,
-    "rMax": 19.596452444327863,
+    "rev2Sec": 551864.0613634228,
+    "periASec": 551858.672442767,
+    "periBSec": 551858.672140351,
+    "oscSec": 551853.283399241,
+    "residPctRev": 0.0013812728977995329,
+    "sigmaRev": 294.0834653858429,
+    "residPctPeriA": 0.00040476519077293534,
+    "sigmaPeriA": 86.1775758864867,
+    "precessDegPerRevA": -0.0035154388274056007,
+    "precessResidDegA": 1.6167834718110723e-7,
+    "precessDegPerRevB": -0.003989802280212897,
+    "precessResidDegB": 0.0033969580668087363,
+    "eProxy": 0.00001334079382100545,
+    "eProxy1": 0.000013340793326888451,
+    "rMin": 19.595929586870792,
+    "rMax": 19.596452444358825,
     "ledger": {
-     "Lrel": 1.4716634980978913e-13,
-     "Pabs": 1.1110024495491387e-20,
-     "Prel": 1.7609308392312026e-15,
-     "Erel": 3.574694132022081e-13,
+     "Lrel": 2.424043097159777e-13,
+     "Pabs": 5.364754803725625e-22,
+     "Prel": 8.503097524787554e-17,
+     "Erel": 1.1500699269567094e-12,
      "E0": -3.519115843511486e-8,
-     "E1": -3.519115843510228e-8,
-     "cmMax": 0.000015142571194508821,
+     "E1": -3.519115843507439e-8,
+     "cmMax": 0.000015143503684356905,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -4697,15 +4697,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.59599965527847,
-    "oscE": 0.000016990022359963183,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.595999655285095,
+    "oscE": 0.000016990022912915778,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -4721,42 +4721,42 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 45.718,
+    "wallSec": 49.13,
     "revSec": [
-     551863.2612654014,
-     551864.0612657347,
-     551864.0612659055,
-     551864.0612652991,
-     551864.0612652053,
-     551864.0612650029,
-     551864.0612652212,
-     551864.0612652118
+     551863.2612658667,
+     551864.0612662266,
+     551864.0612661777,
+     551864.0612654224,
+     551864.0612654061,
+     551864.0612653878,
+     551864.0612655458,
+     551864.061265454
     ],
     "revN": 60,
-    "rev2Sec": 551864.0612657347,
-    "periASec": 551858.6723556344,
-    "periBSec": 813265.4035087719,
-    "oscSec": 551853.283296119,
-    "residPctRev": 0.0013812551960844107,
-    "sigmaRev": 294.07969655657337,
-    "residPctPeriA": 0.00040474940178237417,
-    "sigmaPeriA": 86.1742142907683,
-    "precessDegPerRevA": -0.0035154109426839357,
-    "precessResidDegA": 2.6215251666840955e-7,
-    "precessDegPerRevB": -0.0047911412294828004,
-    "precessResidDegB": 0.0041400151925484584,
-    "eProxy": 0.000010758874143781048,
-    "eProxy1": 0.000010758873916165658,
-    "rMin": 19.5959801802093,
-    "rMax": 19.596401846114915,
+    "rev2Sec": 551864.0612662266,
+    "periASec": 551858.672345459,
+    "periBSec": 697084.6350877194,
+    "oscSec": 551853.2832961276,
+    "residPctRev": 0.0013812552852117091,
+    "sigmaRev": 294.0797155324505,
+    "residPctPeriA": 0.0004047475579337017,
+    "sigmaPeriA": 86.17382172141569,
+    "precessDegPerRevA": -0.0035154237118952903,
+    "precessResidDegA": 3.1312436113515764e-7,
+    "precessDegPerRevB": -0.004419779974523411,
+    "precessResidDegB": 0.0016775610988642494,
+    "eProxy": 0.000010758874993782422,
+    "eProxy1": 0.00001075887430195924,
+    "rMin": 19.595980180202755,
+    "rMax": 19.596401846141685,
     "ledger": {
-     "Lrel": 9.71771943839164e-14,
-     "Pabs": 9.323592753660371e-21,
-     "Prel": 1.4777827014707182e-15,
-     "Erel": 5.255797001052981e-13,
+     "Lrel": 2.3507831280011705e-13,
+     "Pabs": 5.306223948841601e-22,
+     "Prel": 8.410326543541139e-17,
+     "Erel": 8.061395972634751e-13,
      "E0": -3.519115843511486e-8,
-     "E1": -3.5191158435096365e-8,
-     "cmMax": 0.000015142568378186884,
+     "E1": -3.519115843508649e-8,
+     "cmMax": 0.000015143503968759686,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -4786,15 +4786,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.595999652843915,
-    "oscE": 0.000013705497923745683,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.59599965284415,
+    "oscE": 0.000013705498471678544,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -4812,7 +4812,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 32.032,
+    "wallSec": 33.063,
     "revSec": [
      553209.4742614459,
      553210.6304433692,
@@ -4877,13 +4877,13 @@
     "warnings": [],
     "oscA": 19.595853769542778,
     "oscE": 0.0019277606657398963,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -4899,7 +4899,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 63.384,
+    "wallSec": 63.622,
     "revSec": [
      553210.3589554394,
      553210.9003053728,
@@ -4964,13 +4964,13 @@
     "warnings": [],
     "oscA": 19.596010875679063,
     "oscE": 0.0019262669293545179,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -4988,42 +4988,42 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 23.249,
+    "wallSec": 26.37,
     "revSec": [
-     551854.3777983583,
-     551855.9777986223,
-     551855.97779862,
-     551855.9777986986,
-     551855.9777986378,
-     551855.9777984305,
-     551855.9777985647,
-     551855.977798545
+     551854.3777988458,
+     551855.9777991155,
+     551855.977799043,
+     551855.9777991759,
+     551855.9777991362,
+     551855.9777987914,
+     551855.9777988121,
+     551855.9777989292
     ],
     "revN": 60,
-    "rev2Sec": 551855.9777986223,
-    "periASec": 551854.6303861653,
-    "periBSec": 580899.6181286549,
-    "oscSec": 551853.2832513835,
-    "residPctRev": -0.0000835219715314297,
-    "sigmaRev": -17.78246055717902,
-    "residPctPeriA": -0.00032768193097965114,
-    "sigmaPeriA": -69.76596584233145,
-    "precessDegPerRevA": -0.0008788083260432957,
-    "precessResidDegA": 9.500579837100633e-7,
-    "precessDegPerRevB": -0.0009615067400067849,
-    "precessResidDegB": 0.00029262693103202734,
-    "eProxy": 0.000009425366343056189,
-    "eProxy1": 0.000009425366070658541,
-    "rMin": 19.595862792948964,
-    "rMax": 19.596232192801956,
+    "rev2Sec": 551855.9777991155,
+    "periASec": 551854.6305457045,
+    "periBSec": 580899.6088338494,
+    "oscSec": 551853.2832512431,
+    "residPctRev": -0.00008352188217208393,
+    "sigmaRev": -17.78244153189726,
+    "residPctPeriA": -0.00032765302143819927,
+    "sigmaPeriA": -69.75981078191839,
+    "precessDegPerRevA": -0.0008788819475679777,
+    "precessResidDegA": 6.990212160191954e-7,
+    "precessDegPerRevB": -0.0009414349044558664,
+    "precessResidDegB": 0.0004596329682979959,
+    "eProxy": 0.000009425366377772198,
+    "eProxy1": 0.000009425366182968148,
+    "rMin": 19.59586279295339,
+    "rMax": 19.596232192807744,
     "ledger": {
-     "Lrel": 1.3596188393847284e-13,
-     "Pabs": 8.323815839140825e-21,
-     "Prel": 1.3193187843260406e-15,
-     "Erel": 3.1816690892392835e-13,
+     "Lrel": 2.521004821046168e-14,
+     "Pabs": 4.6768016351923916e-23,
+     "Prel": 7.412696733224392e-18,
+     "Erel": 9.40209541737377e-15,
      "E0": -3.519133026557091e-8,
-     "E1": -3.519133026555971e-8,
-     "cmMax": 0.0000151425708305489,
+     "E1": -3.519133026557124e-8,
+     "cmMax": 0.000015143504655102089,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -5053,15 +5053,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.5959996517849,
-    "oscE": 0.000012000539722436047,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.59599965178155,
+    "oscE": 0.000012000539855165624,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -5077,42 +5077,42 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 45.436,
+    "wallSec": 49.985,
     "revSec": [
-     551855.1777011988,
-     551855.9776993537,
-     551855.9776994032,
-     551855.9776998402,
-     551855.9776997546,
-     551855.9777000453,
-     551855.9777001792,
-     551855.9777002381
+     551855.1777016791,
+     551855.9776997723,
+     551855.9776997038,
+     551855.9777001414,
+     551855.977700122,
+     551855.9777004517,
+     551855.9777004579,
+     551855.9777005074
     ],
     "revN": 60,
-    "rev2Sec": 551855.9776993537,
-    "periASec": 551854.6308419302,
-    "periBSec": 900394.4000000001,
-    "oscSec": 551853.2831484025,
-    "residPctRev": -0.00008353995965633418,
-    "sigmaRev": -17.78629036526121,
-    "residPctPeriA": -0.00032759934340998245,
-    "sigmaPeriA": -69.74838232301049,
-    "precessDegPerRevA": -0.0008788137206743925,
-    "precessResidDegA": 0.0000014645112522638947,
-    "precessDegPerRevB": -0.0015451374712950178,
-    "precessResidDegB": 0.0012938002468814163,
-    "eProxy": 0.000005158889548653873,
-    "eProxy1": 0.0000051588890062127205,
-    "rMin": 19.595946396591604,
-    "rMax": 19.59614858428079,
+    "rev2Sec": 551855.9776997723,
+    "periASec": 551854.6305389815,
+    "periBSec": 929439.3754385967,
+    "oscSec": 551853.2831478231,
+    "residPctRev": -0.00008353988379792829,
+    "sigmaRev": -17.786274214431838,
+    "residPctPeriA": -0.0003276542396870705,
+    "sigmaPeriA": -69.76007015633334,
+    "precessDegPerRevA": -0.0008788813859642819,
+    "precessResidDegA": 7.195765516635316e-7,
+    "precessDegPerRevB": -0.0016681761103031084,
+    "precessResidDegB": 0.0013634499253773276,
+    "eProxy": 0.000005158889639938101,
+    "eProxy1": 0.000005158889197207414,
+    "rMin": 19.595946396586186,
+    "rMax": 19.59614858427895,
     "ledger": {
-     "Lrel": 1.5190670075534602e-13,
-     "Pabs": 4.775793658996219e-21,
-     "Prel": 7.569598374282709e-16,
-     "Erel": 2.8826824549667975e-13,
+     "Lrel": 2.488684246417371e-13,
+     "Pabs": 4.249586477411237e-22,
+     "Prel": 6.735563801043052e-17,
+     "Erel": 4.857122492615289e-13,
      "E0": -3.519133026557091e-8,
-     "E1": -3.519133026558105e-8,
-     "cmMax": 0.000015142568587297862,
+     "E1": -3.5191330265588e-8,
+     "cmMax": 0.000015143503333823477,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -5142,15 +5142,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.595999649347004,
-    "oscE": 0.000006572167673648382,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.59599964933326,
+    "oscE": 0.000006572167877669111,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -5168,7 +5168,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 32.346,
+    "wallSec": 32.069,
     "revSec": [
      553201.304656667,
      553202.4413371885,
@@ -5233,13 +5233,13 @@
     "warnings": [],
     "oscA": 19.595854960868106,
     "oscE": 0.0019201495606824945,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -5255,7 +5255,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 62.748,
+    "wallSec": 64.113,
     "revSec": [
      553202.2905418904,
      553202.8790280123,
@@ -5320,13 +5320,13 @@
     "warnings": [],
     "oscA": 19.59600854544448,
     "oscE": 0.001918402755822796,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -5344,42 +5344,42 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 23.621,
+    "wallSec": 26.879,
     "revSec": [
-     551852.3568779096,
-     551853.9568779507,
-     551853.956878076,
-     551853.9568779732,
-     551853.9568779055,
-     551853.9568777326,
-     551853.9568775727,
-     551853.9568776119
+     551852.3568783985,
+     551853.9568784185,
+     551853.9568785792,
+     551853.9568784599,
+     551853.9568783639,
+     551853.9568779848,
+     551853.9568780106,
+     551853.9568780026
     ],
     "revN": 60,
-    "rev2Sec": 551853.9568779507,
-    "periASec": 551853.6210528486,
-    "periBSec": 609943.4749226006,
-    "oscSec": 551853.2832419657,
-    "residPctRev": -0.00044972602929805553,
-    "sigmaRev": -95.75007906177133,
-    "residPctPeriA": -0.0005105797366197353,
-    "sigmaPeriA": -108.70629441881277,
-    "precessDegPerRevA": -0.0002197139459298194,
-    "precessResidDegA": 0.000003797277008695482,
-    "precessDegPerRevB": -0.00023991090103668583,
-    "precessResidDegB": 0.00021698714807439566,
-    "eProxy": 0.000009127730385793166,
-    "eProxy1": 0.00000912773009716594,
-    "rMin": 19.595832744803104,
-    "rMax": 19.596190479024365,
+    "rev2Sec": 551853.9568784185,
+    "periASec": 551853.6197765792,
+    "periBSec": 580898.5467836258,
+    "oscSec": 551853.2832418506,
+    "residPctRev": -0.00044972594453746733,
+    "sigmaRev": -95.75006101559993,
+    "residPctPeriA": -0.0005108110049984529,
+    "sigmaPeriA": -108.75553320888517,
+    "precessDegPerRevA": -0.00022033278501454139,
+    "precessResidDegA": 0.0000028929836810777844,
+    "precessDegPerRevB": -0.0002302570316029903,
+    "precessResidDegB": 0.00008770562701816039,
+    "eProxy": 0.000009127730331308898,
+    "eProxy1": 0.00000912773012988606,
+    "rMin": 19.59583274481336,
+    "rMax": 19.596190479032487,
     "ledger": {
-     "Lrel": 1.5298405324297258e-13,
-     "Pabs": 8.05977955786608e-21,
-     "Prel": 1.2774692248978587e-15,
-     "Erel": 3.0895247827877333e-13,
+     "Lrel": 1.5513875821822573e-13,
+     "Pabs": 4.236702122657782e-22,
+     "Prel": 6.715142192037455e-17,
+     "Erel": 3.130893952125122e-13,
      "E0": -3.519137322338156e-8,
-     "E1": -3.519137322339243e-8,
-     "cmMax": 0.000015142570660270708,
+     "E1": -3.5191373223392576e-8,
+     "cmMax": 0.000015143504566383848,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -5409,15 +5409,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.595999651561964,
-    "oscE": 0.000011619467710159356,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.595999651559175,
+    "oscE": 0.000011619467628296978,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -5433,42 +5433,42 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 46.035,
+    "wallSec": 49.337,
     "revSec": [
-     551853.1567806208,
-     551853.956779489,
-     551853.956779425,
-     551853.9567799537,
-     551853.9567798125,
-     551853.9567798337,
-     551853.9567797765,
-     551853.9567797125
+     551853.1567811184,
+     551853.9567799916,
+     551853.9567797406,
+     551853.9567804382,
+     551853.9567803673,
+     551853.9567802898,
+     551853.9567803803,
+     551853.9567804008
     ],
     "revN": 60,
-    "rev2Sec": 551853.956779489,
-    "periASec": 551853.6198224805,
-    "periBSec": 987527.5052631579,
-    "oscSec": 551853.2831387189,
-    "residPctRev": -0.00044974387121200017,
-    "sigmaRev": -95.7538777404324,
-    "residPctPeriA": -0.0005108026873858263,
-    "sigmaPeriA": -108.75376232613718,
-    "precessDegPerRevA": -0.0002199135967489914,
-    "precessResidDegA": 0.000004524271974304019,
-    "precessDegPerRevB": -0.0003865580119202075,
-    "precessResidDegB": 0.0003499681939441071,
-    "eProxy": 0.0000045926104123338165,
-    "eProxy1": 0.000004592610021726394,
-    "rMin": 19.595921612624682,
-    "rMax": 19.596101606318598,
+    "rev2Sec": 551853.9567799916,
+    "periASec": 551853.6186226404,
+    "periBSec": 784213.0736842105,
+    "oscSec": 551853.2831393083,
+    "residPctRev": -0.0004497437801228466,
+    "sigmaRev": -95.75385834686142,
+    "residPctPeriA": -0.0005110201062683762,
+    "sigmaPeriA": -108.80005245354246,
+    "precessDegPerRevA": -0.00022045078152825356,
+    "precessResidDegA": 0.000007338831107314308,
+    "precessDegPerRevB": -0.0004112932047995901,
+    "precessResidDegB": 0.0007065499911764418,
+    "eProxy": 0.000004592610263575185,
+    "eProxy1": 0.000004592610078923798,
+    "rMin": 19.595921612643775,
+    "rMax": 19.59610160633186,
     "ledger": {
-     "Lrel": 3.652224933054064e-13,
-     "Pabs": 3.849407726316157e-21,
-     "Prel": 6.101283377724161e-16,
-     "Erel": 7.418244228909073e-13,
+     "Lrel": 2.279677863817817e-13,
+     "Pabs": 4.235171747544328e-22,
+     "Prel": 6.712716558562058e-17,
+     "Erel": 4.648390300092074e-13,
      "E0": -3.519137322338156e-8,
-     "E1": -3.519137322340766e-8,
-     "cmMax": 0.00001514256956687033,
+     "E1": -3.51913732233652e-8,
+     "cmMax": 0.00001514350335544671,
      "note": "E6′/1PN は保存力ではない — 保存の主張ではなく列間比較のための同一定義の診断値"
     },
     "clamp": {
@@ -5498,15 +5498,15 @@
     "warnings": [
      "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
     ],
-    "oscA": 19.595999649117775,
-    "oscE": 0.000005847436225773338,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "oscA": 19.595999649131695,
+    "oscE": 0.000005847436170998395,
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   },
@@ -5524,7 +5524,7 @@
     "stage": "h",
     "dt": 0.016,
     "stepsRequested": 20700000,
-    "wallSec": 31.561,
+    "wallSec": 32.049,
     "revSec": [
      553199.2768059159,
      553200.3794932122,
@@ -5589,13 +5589,13 @@
     "warnings": [],
     "oscA": 19.595848593697667,
     "oscE": 0.0019179224769836152,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T05:43:50.526Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:09:31.341Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    },
    "h2": {
@@ -5611,7 +5611,7 @@
     "stage": "h2",
     "dt": 0.008,
     "stepsRequested": 41400000,
-    "wallSec": 63.65,
+    "wallSec": 63.279,
     "revSec": [
      553200.1780582664,
      553200.7054667041,
@@ -5676,13 +5676,13 @@
     "warnings": [],
     "oscA": 19.596006009646327,
     "oscE": 0.0019163521464654212,
-    "mergeKey": "1c3ef93583e6ce15ac4950adcf97a6dcc854e81713252990ac9dd94308eb0dad",
+    "mergeKey": "427d81b1d113da394376e58923497b1ab8991ecb312912172c15e381b26f863c",
     "canonicalRun": true,
     "carried": {
      "mark": "転記",
-     "fromGeneratedAt": "2026-10-03T06:08:16.398Z",
-     "fromTargetSha256": "a39674ed1743a1e523ee972d0109ac84902545cf8e089f605789a4ea7824ca96",
-     "fromScopeSha256": "3842b62b9b14a461caa8bd2ba29e0013a3bce3cfc0a338e1a7fe895c7e1b65be"
+     "fromGeneratedAt": "2026-10-04T04:34:10.315Z",
+     "fromTargetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+     "fromScopeSha256": "d662d3c4c376a0e5427fc8b02cf016146d65067b6bb3c9b8648e4da789644330"
     }
    }
   }

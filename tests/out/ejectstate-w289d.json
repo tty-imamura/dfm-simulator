@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便d",
   "target": "beta/index.html",
-  "targetSha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-  "generatedAt": "2026-10-03T02:37:41.634Z",
+  "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
+  "generatedAt": "2026-10-03T22:12:15.280Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5526365,
-    "sha256": "585af5628e5b4cb91745604fddfef8598cec99ea150172f594ccbd8359fcf959",
-    "mtime": "2026-10-03T00:48:50.355Z"
+    "bytes": 5623059,
+    "sha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
+    "mtime": "2026-10-03T22:09:12.645Z"
    },
    {
     "file": "tests/out/fixcap-w288a.json",
-    "bytes": 885054,
-    "sha256": "29c131f958afca0eb6d69ae26a5b09530c29dcb5c6be60147bb9510f7d8b3bf0",
-    "mtime": "2026-10-03T02:37:39.802Z"
+    "bytes": 885052,
+    "sha256": "91e43c5b1e2755190e024667a47a52b6684a8f98f66935689fe365318807c456",
+    "mtime": "2026-10-03T21:45:09.161Z"
    }
   ],
   "code": [
@@ -186,16 +186,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 915,
-   "segments": 829,
-   "closureShare": 0.3215
+   "names": 950,
+   "segments": 861,
+   "closureShare": 0.3237
   },
-  "scopeSha256": "d1b3caed4f329a212871e794eb004bf478b3cf353191e28ee27d98339bd5e9d3",
+  "scopeSha256": "e804559d589888a8349352b01e8fbd2caac63298f81af00575739bb99734e841",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/fixcap-w288a.json",
-    "stableSha256": "38b24df68e9d51aa61937cc5ec4f29f96f8e65606c34100f6bed21929e700fa6",
+    "stableSha256": "ec4f3f02c85aafa3014e704bab40ce01d67d015bd8fa8b1e30b88af03a010974",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -1037,5 +1037,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.141
+ "elapsedS": 0.188
 }

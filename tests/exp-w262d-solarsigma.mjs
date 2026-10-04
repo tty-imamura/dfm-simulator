@@ -81,7 +81,15 @@ const SOLAR = [
   ['mercuryReal', '☄️'], ['mercuryRealKF1', '🪨'], ['solarInner', '🌞'], ['jupiterGalilean', '🟠'],
   ['venusReal', '🌇'], ['marsMoonsReal', '🥔'], ['plutoCharonReal', '❄️'], ['uranusReal', '💠'],
   ['neptuneReal', '🌊'], ['saturnZonalD68', '📡'], ['saturnRingReal', '💍'], ['saturnRingRealKF1', '💿'],
+  // 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133): ❄️ の入口を引き継いだ 🥶 を足す(❄️ は退役して母集団の外 —— 行は履歴)。
+  //   **接続数が増えたことと合否の改善を同一視しない**(σ の来歴と比較量は下の SIGMA_PROVENANCE の欄)
+  ['plutoCharonDiagInput', '🥶'],
 ];
+// 第291便b: σ の来歴と比較量の宣言(行の欄 `sigmaProvenance` に写す —— 値は CSV の行と calaudit の正本が持つ。ここは説明だけ)
+const SIGMA_PROVENANCE = {
+  'plutoCharonDiagInput|period': { sigmaSource: 'Buie 2012(σ 0.025920 s)', comparedQuantity: '二体ケプラー当てはめの P(同方向 1 周の周期と比べる —— 量の定義は別)',
+    note: '入力は PLU060 の解(GM は Brozović & Jacobson 2024 Table 8・a は Table 10 の 400 年平均)—— 比較値の解とは別の解' },
+};
 // **target ラベル → CSV の body 名**。宣言であって推測ではない(CSV に無い対象は null を明示する)。
 // null は「CSV にその天体の行が無い」= 切断点 (A) である。
 // 第264便d(第56報 W4): **2026-09-15 intake で CSV に行が入った**ので、null だった 11 対象を
@@ -326,7 +334,8 @@ for (const [id, emoji] of SOLAR) {
       cut, condMismatch, sigma, residual: resid, nSigma: nSig, numOk,
       gateStatusBefore: q.gate ? q.gate.status : null, verdict,
       // 第268便a: 既定の欄(上)を動かさず、横に 3 つ足す
-      guards, unitConvertedFirst: converted, declaredFirst });
+      guards, unitConvertedFirst: converted, declaredFirst,
+      sigmaProvenance: SIGMA_PROVENANCE[id + '|' + kind] || null });
   }
   rows.push(...qrows);
   // 系の 4 値(§1 の定義そのまま — σ を持つ判定量が 1 つも無ければ「保留」)

@@ -1,0 +1,808 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第291便d",
+  "target": "beta/index.html",
+  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+  "generatedAt": "2026-10-03T21:43:00.914Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5623059,
+    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+    "mtime": "2026-10-03T19:22:31.703Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w291d-bgaudit.mjs",
+    "bytes": 25335,
+    "sha256": "d09ecb21f252ca4c569b5771e7a0ca5a5b211dc462b2085e00d0d645d1690cd9",
+    "mtime": "2026-10-03T18:54:39.773Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-02T23:11:02.952Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-02T23:11:02.944Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-02T23:11:02.956Z"
+   }
+  ],
+  "codeSha256": "5af6b62333e1a23b28c6d7f0b67037cbfe2a028099240406344167988b9a6284",
+  "harnessVersion": "w291d-bgaudit-1",
+  "engineVersion": "w290c-inertial-1",
+  "samplerVersion": "w291d-sampler-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第81報)⑥「静止背景相当」「背景慣性決定力」は慣性系で織り込み済みかを精査",
+  "reading": "統括の検証項目 R135(物理不変 —— 核・時計・光の式は読むだけ。表示メッシュは表示専用)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "conclusion": "新核では Wbg を使わないという法則・参照系の宣言である(証明ではない)。旧正規化 u=A/W 型の場では Wbg が分母に残る。共通並進・一様加速度は 1 步の中で消え、回転・潮汐は残る",
+  "notClaim": [
+   "背景は織り込み済み(証明済み)",
+   "geoPN=3 が GR と同値",
+   "新しい法則が正しい",
+   "新核に Wbg を適用済み"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "charonGeoToy3",
+    "galaxyAnalogyBH",
+    "inertialDragPair"
+   ],
+   "roots": [
+    "$",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.SPACE_MESH_SAMPLER_VERSION",
+    "HP.allPresets",
+    "HP.dfmField",
+    "HP.dfmFieldContract",
+    "HP.dfmInertialDragStep",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDragEpoch",
+    "HP.inertialDragFieldAt",
+    "HP.inertialDragFieldReady",
+    "HP.inertialDragState",
+    "HP.sim",
+    "HP.validatePreset",
+    "T",
+    "bgToyOf",
+    "bgWbgOf",
+    "bgcState",
+    "bgcWireState",
+    "cw",
+    "dfmField",
+    "dfmFieldContract",
+    "dfmInertialDragStep",
+    "dragTransG",
+    "frameWeightIsPull",
+    "frameWeightPow",
+    "inertialDragFieldAt",
+    "inertialDragFieldReady",
+    "inertialDragInit",
+    "inertialDragState",
+    "sim",
+    "validateBackgroundComplex",
+    "validatePreset",
+    "wbgStateOf"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 951,
+   "segments": 862,
+   "closureShare": 0.324
+  },
+  "scopeSha256": "3fefc526003eb8166a0749ef9923fd978e59e483acff42cb80dd4c29567162ac",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "translationDyadic": {
+  "decl": {
+   "m": [
+    1,
+    2.5,
+    0.75,
+    4,
+    1.5
+   ],
+   "x": [
+    0,
+    3,
+    -2.5,
+    1.25,
+    6
+   ],
+   "y": [
+    0,
+    1,
+    2,
+    -4,
+    -1.5
+   ],
+   "V": [
+    [
+     0.5,
+     -0.25
+    ],
+    [
+     1.75,
+     0.5
+    ],
+    [
+     -1,
+     0.75
+    ],
+    [
+     0.25,
+     1.25
+    ],
+    [
+     -0.5,
+     -1.5
+    ]
+   ],
+   "gain": 0.75,
+   "eps": 0.5,
+   "t": 8,
+   "dt": 0.015625
+  },
+  "rows": [
+   {
+    "c": [
+     0.375,
+     -2.125
+    ],
+    "Vexact": true,
+    "bitSame": true,
+    "relMax": 0
+   },
+   {
+    "c": [
+     -8,
+     16
+    ],
+    "Vexact": true,
+    "bitSame": true,
+    "relMax": 0
+   },
+   {
+    "c": [
+     0.0078125,
+     0.5
+    ],
+    "Vexact": true,
+    "bitSame": true,
+    "relMax": 0
+   }
+  ],
+  "samplerSame": true,
+  "ok": true
+ },
+ "translationLive": {
+  "decl": {
+   "steps": 240,
+   "dt": 0.016,
+   "gainCopy": {
+    "galaxyAnalogyBH": 0.0001,
+    "charonGeoToy3": 0.001
+   },
+   "shifts": [
+    [
+     0.375,
+     -2.125
+    ],
+    [
+     0.001,
+     0.002
+    ],
+    [
+     40,
+     -25
+    ]
+   ]
+  },
+  "rows": [
+   {
+    "id": "inertialDragPair",
+    "copy": false,
+    "gain": 0.8,
+    "n": 2,
+    "steps": 240,
+    "dt": 0.016,
+    "ready": true,
+    "readySame": 2,
+    "readyChecked": 2,
+    "boundMax": 0.0019999404595851264,
+    "boundOver": 0,
+    "Wbg": 2,
+    "WbgFrom": "D0",
+    "vAbsMax": 0.6667005053463959,
+    "shifts": [
+     {
+      "c": [
+       0.375,
+       -2.125
+      ],
+      "receivers": 2,
+      "bitSame": 2,
+      "absMax": 0,
+      "uScale": 0.0007303672802889259,
+      "relMax": 0,
+      "floorAbs": 2.4984175817805873e-18,
+      "withinFloor": true
+     },
+     {
+      "c": [
+       0.001,
+       0.002
+      ],
+      "receivers": 2,
+      "bitSame": 2,
+      "absMax": 0,
+      "uScale": 0.0007303672802889259,
+      "relMax": 0,
+      "floorAbs": 5.917019458505287e-19,
+      "withinFloor": true
+     },
+     {
+      "c": [
+       40,
+       -25
+      ],
+      "receivers": 2,
+      "bitSame": 0,
+      "absMax": 3.4287893704854078e-18,
+      "uScale": 0.0007303672802889259,
+      "relMax": 4.694609771030561e-15,
+      "floorAbs": 4.231344806046833e-17,
+      "withinFloor": true
+     }
+    ],
+    "restored": true,
+    "ok": true
+   },
+   {
+    "id": "galaxyAnalogyBH",
+    "copy": true,
+    "gain": 0.0001,
+    "n": 211,
+    "steps": 240,
+    "dt": 0.016,
+    "ready": true,
+    "readySame": 63,
+    "readyChecked": 63,
+    "boundMax": 0.0060433681335554474,
+    "boundOver": 0,
+    "Wbg": 1.5,
+    "WbgFrom": "D0",
+    "vAbsMax": 24.49996527459358,
+    "shifts": [
+     {
+      "c": [
+       0.375,
+       -2.125
+      ],
+      "receivers": 210,
+      "bitSame": 182,
+      "absMax": 2.168404344971009e-19,
+      "uScale": 0.034883110865324786,
+      "relMax": 6.216201167787733e-18,
+      "floorAbs": 3.398898179058201e-17,
+      "withinFloor": true
+     },
+     {
+      "c": [
+       0.001,
+       0.002
+      ],
+      "receivers": 210,
+      "bitSame": 152,
+      "absMax": 8.673617379884035e-19,
+      "uScale": 0.034883110865324786,
+      "relMax": 2.486480467115093e-17,
+      "floorAbs": 3.124057050261982e-17,
+      "withinFloor": true
+     },
+     {
+      "c": [
+       40,
+       -25
+      ],
+      "receivers": 210,
+      "bitSame": 17,
+      "absMax": 6.938893903907228e-18,
+      "uScale": 0.034883110865324786,
+      "relMax": 1.9891843736920745e-16,
+      "floorAbs": 9.137985704021362e-17,
+      "withinFloor": true
+     }
+    ],
+    "restored": true,
+    "ok": true
+   },
+   {
+    "id": "charonGeoToy3",
+    "copy": true,
+    "gain": 0.001,
+    "n": 2,
+    "steps": 240,
+    "dt": 0.016,
+    "ready": true,
+    "readySame": 2,
+    "readyChecked": 2,
+    "boundMax": 3.4631119006258076e-10,
+    "boundOver": 0,
+    "Wbg": 0.006,
+    "WbgFrom": "D0",
+    "vAbsMax": 0.019890028287200545,
+    "shifts": [
+     {
+      "c": [
+       0.375,
+       -2.125
+      ],
+      "receivers": 2,
+      "bitSame": 0,
+      "absMax": 4.927540758372528e-26,
+      "uScale": 3.863278779011546e-12,
+      "relMax": 1.2754815378954565e-14,
+      "floorAbs": 3.3491893469004835e-25,
+      "withinFloor": true
+     },
+     {
+      "c": [
+       0.001,
+       0.002
+      ],
+      "receivers": 2,
+      "bitSame": 1,
+      "absMax": 1.0097419586828951e-28,
+      "uScale": 3.863278779011546e-12,
+      "relMax": 2.61369167601528e-17,
+      "floorAbs": 3.402840111407277e-27,
+      "withinFloor": true
+     },
+     {
+      "c": [
+       40,
+       -25
+      ],
+      "receivers": 2,
+      "bitSame": 0,
+      "absMax": 1.0420537013607478e-25,
+      "uScale": 3.863278779011546e-12,
+      "relMax": 2.697329809647769e-14,
+      "floorAbs": 7.257463209828249e-24,
+      "withinFloor": true
+     }
+    ],
+    "restored": true,
+    "ok": true
+   }
+  ],
+  "ok": true
+ },
+ "oldNormalised": {
+  "decl": {
+   "bodies": [
+    {
+     "id": 0,
+     "m": 10,
+     "x": -1.8181818181818181,
+     "y": 0,
+     "vx": -0.0006741998624632421,
+     "vy": -0.06741998624632421,
+     "ax": 0,
+     "ay": 0
+    },
+    {
+     "id": 1,
+     "m": 1,
+     "x": 18.181818181818183,
+     "y": 0,
+     "vx": 0.00674199862463242,
+     "vy": 0.674199862463242,
+     "ax": 0,
+     "ay": 0
+    }
+   ],
+   "points": [
+    [
+     8,
+     3
+    ],
+    [
+     18.181818181818183,
+     2
+    ],
+    [
+     -1.8181818181818181,
+     6
+    ]
+   ],
+   "Wbgs": [
+    0,
+    0.006,
+    0.5,
+    2,
+    10
+   ],
+   "p": 1,
+   "eps": 0.05
+  },
+  "rows": [
+   {
+    "point": [
+     8,
+     3
+    ],
+    "rows": [
+     {
+      "Wbg": 0,
+      "u": [
+       -0.00002017108068463376,
+       -0.0020171080684633826
+      ],
+      "chi": 1,
+      "W": 1.0682591802133734,
+      "relToWbg0": 0
+     },
+     {
+      "Wbg": 0.006,
+      "u": [
+       -0.000020058420270520506,
+       -0.0020058420270520575
+      ],
+      "chi": 0.9944147556655665,
+      "W": 1.0682591802133734,
+      "relToWbg0": 0.0055852443344334545
+     },
+     {
+      "Wbg": 0.5,
+      "u": [
+       -0.000013740038883912614,
+       -0.001374003888391266
+      ],
+      "chi": 0.6811751486562501,
+      "W": 1.0682591802133734,
+      "relToWbg0": 0.31882485134374994
+     },
+     {
+      "Wbg": 2,
+      "u": [
+       -0.000007022855909677806,
+       -0.0007022855909677829
+      ],
+      "chi": 0.3481645837165178,
+      "W": 1.0682591802133734,
+      "relToWbg0": 0.6518354162834822
+     },
+     {
+      "Wbg": 10,
+      "u": [
+       -0.0000019468230518766427,
+       -0.00019468230518766494
+      ],
+      "chi": 0.09651555523050008,
+      "W": 1.0682591802133734,
+      "relToWbg0": 0.9034844447694999
+     }
+    ],
+    "gradD": [
+     -0.08222168530294298,
+     -0.030233007159103317
+    ],
+    "gradDSameAcrossD0": true,
+    "uChanges": true,
+    "chiFalls": true
+   },
+   {
+    "point": [
+     18.181818181818183,
+     2
+    ],
+    "rows": [
+     {
+      "Wbg": 0,
+      "u": [
+       0.0030425500959672617,
+       0.30425500959672613
+      ],
+      "chi": 1,
+      "W": 0.9973608789641113,
+      "relToWbg0": 0
+     },
+     {
+      "Wbg": 0.006,
+      "u": [
+       0.0030243559437349654,
+       0.30243559437349654
+      ],
+      "chi": 0.9940200977277542,
+      "W": 0.9973608789641113,
+      "relToWbg0": 0.005979902272245676
+     },
+     {
+      "Wbg": 0.5,
+      "u": [
+       0.0020265792172328954,
+       0.20265792172328956
+      ],
+      "chi": 0.6660791616608116,
+      "W": 0.9973608789641113,
+      "relToWbg0": 0.33392083833918834
+     },
+     {
+      "Wbg": 2,
+      "u": [
+       0.0010123974257831043,
+       0.10123974257831042
+      ],
+      "chi": 0.3327463456148128,
+      "W": 0.9973608789641113,
+      "relToWbg0": 0.6672536543851872
+     },
+     {
+      "Wbg": 10,
+      "u": [
+       0.0002759316959226752,
+       0.02759316959226752
+      ],
+      "chi": 0.09069092939123928,
+      "W": 0.9973608789641113,
+      "relToWbg0": 0.9093090706087608
+     }
+    ],
+    "gradD": [
+     -0.024629404806160854,
+     -0.25222874845266413
+    ],
+    "gradDSameAcrossD0": true,
+    "uChanges": true,
+    "chiFalls": true
+   },
+   {
+    "point": [
+     -1.8181818181818181,
+     6
+    ],
+    "rows": [
+     {
+      "Wbg": 0,
+      "u": [
+       -0.00046704297764466453,
+       -0.04670429776446646
+      ],
+      "chi": 1,
+      "W": 1.7144999762687716,
+      "relToWbg0": 0
+     },
+     {
+      "Wbg": 0.006,
+      "u": [
+       -0.0004654142314054782,
+       -0.04654142314054782
+      ],
+      "chi": 0.9965126416258301,
+      "W": 1.7144999762687716,
+      "relToWbg0": 0.0034873583741699575
+     },
+     {
+      "Wbg": 0.5,
+      "u": [
+       -0.00036159186392833276,
+       -0.03615918639283328
+      ],
+      "chi": 0.7742153960902479,
+      "W": 1.7144999762687716,
+      "relToWbg0": 0.22578460390975205
+     },
+     {
+      "Wbg": 2,
+      "u": [
+       -0.00021557280366242597,
+       -0.021557280366242597
+      ],
+      "chi": 0.46156952139517654,
+      "W": 1.7144999762687716,
+      "relToWbg0": 0.5384304786048235
+     },
+     {
+      "Wbg": 10,
+      "u": [
+       -0.00006835504509030884,
+       -0.006835504509030884
+      ],
+      "chi": 0.14635707710461435,
+      "W": 1.7144999762687716,
+      "relToWbg0": 0.8536429228953855
+     }
+    ],
+    "gradD": [
+     0.002196830383246342,
+     -0.2784078942190979
+    ],
+    "gradDSameAcrossD0": true,
+    "uChanges": true,
+    "chiFalls": true
+   }
+  ],
+  "ok": true
+ },
+ "kernelIgnores": {
+  "rows": [
+   {
+    "variant": "base",
+    "accepted": true,
+    "hist": true,
+    "uBitSame": true,
+    "degBitSame": true,
+    "Wbg": 2,
+    "WbgFrom": "D0"
+   },
+   {
+    "variant": "D0=0",
+    "accepted": true,
+    "hist": true,
+    "uBitSame": true,
+    "degBitSame": true,
+    "Wbg": 0,
+    "WbgFrom": "D0"
+   },
+   {
+    "variant": "D0=50",
+    "accepted": true,
+    "hist": true,
+    "uBitSame": true,
+    "degBitSame": true,
+    "Wbg": 50,
+    "WbgFrom": "D0"
+   },
+   {
+    "variant": "D0pull=7 (frameWeight:pull)",
+    "accepted": true,
+    "hist": true,
+    "uBitSame": true,
+    "degBitSame": true,
+    "Wbg": 7,
+    "WbgFrom": "D0pull"
+   },
+   {
+    "variant": "q=11.9386",
+    "accepted": true,
+    "hist": true,
+    "uBitSame": true,
+    "degBitSame": true,
+    "Wbg": 2,
+    "WbgFrom": "D0"
+   },
+   {
+    "variant": "spin=0.3 (all bodies)",
+    "accepted": true,
+    "hist": true,
+    "uBitSame": true,
+    "degBitSame": true,
+    "Wbg": 2,
+    "WbgFrom": "D0"
+   },
+   {
+    "variant": "backgroundComplex (🌒 の宣言)",
+    "accepted": true,
+    "hist": true,
+    "uBitSame": true,
+    "degBitSame": true,
+    "Wbg": 2,
+    "WbgFrom": "D0"
+   },
+   {
+    "variant": "spaceMesh+D0=0.75 (🌚 の宣言・geoPN=3)",
+    "accepted": true,
+    "hist": true,
+    "uBitSame": true,
+    "degBitSame": true,
+    "Wbg": 0.75,
+    "WbgFrom": "spaceMesh.D0"
+   }
+  ],
+  "accepted": 8,
+  "ok": true
+ },
+ "frameTerms": {
+  "rows": [
+   {
+    "key": "uniformTranslation",
+    "bitSame": true,
+    "relChange": 0
+   },
+   {
+    "key": "uniformAcceleration",
+    "bitSame": true,
+    "relChange": 0
+   },
+   {
+    "key": "rigidRotation",
+    "bitSame": false,
+    "relChange": 0.8698918123195375
+   },
+   {
+    "key": "tidalLinear",
+    "bitSame": false,
+    "relChange": 0.397374230556575
+   }
+  ],
+  "ok": true
+ },
+ "staticRefs": {
+  "forbidTokens": "\\.D0\\b|\\.D0pull\\b|\\bWbg\\b|backgroundComplex|BG_COMPLEX_KEY|\\.q\\b|\\.spin\\b|\\.dragQ\\b|spaceMesh|\\.sumW\\b",
+  "forbidFuncs": [
+   "bgWbgOf",
+   "wbgStateOf",
+   "bgToyOf",
+   "validateBackgroundComplex",
+   "dfmFieldContract",
+   "dfmField",
+   "frameWeightPow",
+   "frameWeightIsPull",
+   "dragTransG",
+   "bgcState",
+   "bgcWireState"
+  ],
+  "rows": [
+   {
+    "fn": "dfmInertialDragStep",
+    "tokensFound": [],
+    "callClosure": [
+     "dfmInertialDragStep",
+     "inertialDragEpoch",
+     "inertialDragInit"
+    ],
+    "forbiddenInClosure": []
+   },
+   {
+    "fn": "inertialDragFieldAt",
+    "tokensFound": [],
+    "callClosure": [
+     "inertialDragFieldAt"
+    ],
+    "forbiddenInClosure": []
+   }
+  ],
+  "wbg": {
+   "fn": "wbgStateOf",
+   "callClosure": [
+    "bgToyOf",
+    "bgWbgOf",
+    "frameWeightIsPull",
+    "frameWeightPow",
+    "wbgStateOf"
+   ],
+   "inertialInClosure": [],
+   "mentionsRelDrag": false
+  },
+  "ok": true
+ },
+ "auditRows": [
+  "| 重力背景 D₀ | 一様な決定力の加算(時計 ψ と光の n に入る・勾配は 0) | **読まない**(核の本文に D₀ が無い)。D₀=0/2/50 で 1 步の u がビット同一(D₀・D0pull・q・自転・backgroundComplex・spaceMesh.D0 を変えた宣言 8/8) |",
+  "| 静止背景相当 Wbg | 旧正規化 u=A/W の分母(E6′・geoPN=3 旧法則版・Jeans の χ) | **読まない**。旧正規化の場では W_bg=0→10 で同じ点の u が相対 9.03e-1 変わる(∇D はビット同一) —— 「微分で消える」のは加算場だけ |",
+  "| backgroundComplex | 宣言専用の背景(meshVelocity の field:\"backgroundComplex\" を宣言した本だけが読む) | **読まない**(宣言しても 1 步の u がビット同一)。適用済みとは表示しない |",
+  "| 共通並進 | 全粒子に同じ速度 c を足す | **消える**(V_j−V_i)。2 進の配置でビット同一・走行中の実状態 3/3 本(🐌 と 🌚🌒 の診断コピー)で丸め床 4 ulp·(|V|+|c|)·Σa 以内 |",
+  "| 一様加速度 | 1 步の中では全粒子に同じ速度差 | **消える**(1 步の u がビット同一)。重力側の慣性力は核の外の話 |",
+  "| 回転 | 剛体回転 Ω ẑ×x の座標変換 | **残る**(u の相対変化 8.70e-1)—— 取り除いていない |",
+  "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
+ ],
+ "ok": true,
+ "elapsedS": 2.434
+}

@@ -1,10 +1,10 @@
 {
- "when": "2026-10-03T05:31:51.632Z",
+ "when": "2026-10-04T03:56:51.081Z",
  "wave": "第262便d(第54報 W4)→ 第263便c(第55報 W3)で σ 未確認の状態名と不足一覧を足した",
  "inputs": {
   "calaudit": "tests/out/calaudit-w249.json",
   "csv": "paper/data/solar-observations.csv",
-  "calauditWhen": "2026-10-03T05:31:50.993Z"
+  "calauditWhen": "2026-10-04T03:56:50.466Z"
  },
  "gate": {
   "nSigma": 3,
@@ -122,54 +122,54 @@
     "id": "mercuryReal",
     "emoji": "☄️",
     "target": "水星",
-    "measDegPerOrbit": 0.000026767880691402648,
+    "measDegPerOrbit": 0.000026767879778500166,
     "obs": 0.00159808333333333,
     "sigma": 4.167e-9,
     "primary": {
      "label": "近点間周期(**傾きと同じ 59 近点(58 区間)**の平均 — 第269便a の新契約)",
-     "periodSec": 7600536.945807497,
+     "periodSec": 7600536.945808283,
      "periodDef": "periastron-same-window",
-     "simDegPerYear": 0.00011114084146028216,
-     "residual": -0.001486942491873048,
-     "nSigma": -356837.6510374485
+     "simDegPerYear": 0.00011114083766987908,
+     "residual": -0.001486942495663451,
+     "nSigma": -356837.6519470725
     },
     "controls": [
      {
       "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
-      "periodSec": 7600536.920388453,
+      "periodSec": 7600536.920389044,
       "periodDef": "periastron-20window",
-      "simDegPerYear": 0.00011114084183197878,
-      "residual": -0.0014869424915013513,
-      "nSigma": -356837.65094824845
+      "simDegPerYear": 0.00011114083804157854,
+      "residual": -0.0014869424952917514,
+      "nSigma": -356837.6518578717
      },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
-      "periodSec": 7600536.544253665,
+      "periodSec": 7600536.544253635,
       "periodDef": "revolution",
-      "simDegPerYear": 0.00011114084733210851,
-      "residual": -0.0014869424860012215,
-      "nSigma": -356837.64962832286
+      "simDegPerYear": 0.00011114084354171716,
+      "residual": -0.0014869424897916129,
+      "nSigma": -356837.65053794405
      },
      {
       "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
       "periodSec": 7600521.6,
       "periodDef": "observed-rounded",
-      "simDegPerYear": 0.0001111410658588232,
-      "residual": -0.001486942267474507,
-      "nSigma": -356837.5971861068
+      "simDegPerYear": 0.00011114106206842395,
+      "residual": -0.0014869422712649061,
+      "nSigma": -356837.5980957298
      }
     ],
     "inverseCheck": {
-     "obsDegPerOrbit": 0.00038489274905186623,
-     "sigmaDegPerOrbit": 1.0036072912128882e-9,
-     "nSigma": -356837.6510374485
+     "obsDegPerOrbit": 0.00038489274905190596,
+     "sigmaDegPerOrbit": 1.003607291212992e-9,
+     "nSigma": -356837.6519470724
     },
     "previous": {
      "contract": "20-periastron period window(第268便a)",
-     "periodSec": 7600536.920388453,
-     "simDegPerYear": 0.00011114084183197878,
-     "residual": -0.0014869424915013513,
-     "nSigma": -356837.65094824845,
+     "periodSec": 7600536.920389044,
+     "simDegPerYear": 0.00011114083804157854,
+     "residual": -0.0014869424952917514,
+     "nSigma": -356837.6518578717,
      "why": "傾きは 59 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
     },
     "verdict": "保留(数値収束が未確認)"
@@ -178,16 +178,16 @@
     "id": "solarInner",
     "emoji": "🌞",
     "target": "水星",
-    "measDegPerOrbit": -0.2564647143699231,
+    "measDegPerOrbit": -0.25646478267682027,
     "obs": 0.00159808333333333,
     "sigma": 4.167e-9,
     "primary": {
      "label": "近点間周期(**傾きと同じ 9 近点(8 区間)**の平均 — 第269便a の新契約)",
-     "periodSec": 13260428.675637009,
+     "periodSec": 13260428.676563405,
      "periodDef": "periastron-same-window",
-     "simDegPerYear": -0.610343079260331,
-     "residual": -0.6119411625936644,
-     "nSigma": -146854130.69202408
+     "simDegPerYear": -0.6103432417766698,
+     "residual": -0.6119413251100031,
+     "nSigma": -146854169.69282532
     },
     "controls": [
      {
@@ -200,25 +200,25 @@
      },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
-      "periodSec": 7600506.159802018,
+      "periodSec": 7600506.159807752,
       "periodDef": "revolution",
-      "simDegPerYear": -1.0648515638346785,
-      "residual": -1.0664496471680118,
-      "nSigma": -255927441.1250328
+      "simDegPerYear": -1.0648518474467943,
+      "residual": -1.0664499307801276,
+      "nSigma": -255927509.1864957
      },
      {
       "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
       "periodSec": 7600521.6,
       "periodDef": "observed-rounded",
-      "simDegPerYear": -1.0648494006253841,
-      "residual": -1.0664474839587175,
-      "nSigma": -255926921.99633247
+      "simDegPerYear": -1.064849684237727,
+      "residual": -1.0664477675710604,
+      "nSigma": -255926990.05784985
      }
     ],
     "inverseCheck": {
-     "obsDegPerOrbit": 0.0006715108265327803,
-     "sigmaDegPerOrbit": 1.7509635172313298e-9,
-     "nSigma": -146854130.69202408
+     "obsDegPerOrbit": 0.0006715108265796931,
+     "sigmaDegPerOrbit": 1.7509635173536551e-9,
+     "nSigma": -146854169.69282532
     },
     "previous": {
      "contract": "20-periastron period window(第268便a)",
@@ -238,18 +238,18 @@
     "emoji": "📡",
     "target": "D68",
     "unit": "deg/yr",
-    "meas": 13925.526926097635,
+    "meas": 13925.526926092378,
     "obs": 13968.25575,
     "sigma": 2.922,
-    "nSigma": 14.60340607134803,
+    "nSigma": 14.603406073544262,
     "verdict": "否(3σ)",
     "previousUnit": {
      "unit": "deg/orbit",
-     "meas": 8.042145461960192,
-     "obs": 8.066820059155283,
+     "meas": 8.04214546195871,
+     "obs": 8.066820059157548,
      "obsErr": null,
-     "obsSigmaCsv": 0.0016874868727150658,
-     "sigmaNote": "σ=0.0016874868727150658 を CSV(Saturn ring feature D68|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
+     "obsSigmaCsv": 0.0016874868727155396,
+     "sigmaNote": "σ=0.0016874868727155396 を CSV(Saturn ring feature D68|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
      "residualPct": null,
      "cut": "unit-not-converted",
      "why": "第266便a〜第269便a の切断点(obsCard が °/周・CSV が deg/yr で、換算しないまま σ を当てると見かけの「合(3σ)」になる)。**第270便a(AD8)で換算を入れて正式接続した** —— この欄は**換算前の記録**であって、新しい判定値ではない。"
@@ -300,7 +300,7 @@
     "emoji": "🌞",
     "target": "金星",
     "kind": "ecc",
-    "meas": 0.000026642730597441927,
+    "meas": 0.000026642730432596792,
     "key": "Venus|eccentricity",
     "declaredSource": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
     "declaredValue": 0.00677672,
@@ -317,7 +317,7 @@
      "primaryVerified": false
     },
     "valueDelta": -0.00022328000000000018,
-    "residual": 0.006750077269402558,
+    "residual": 0.006750077269567403,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -341,7 +341,7 @@
     "emoji": "🌇",
     "target": "金星",
     "kind": "ecc",
-    "meas": 0.007000095145165049,
+    "meas": 0.007000095145447986,
     "key": "Venus|eccentricity",
     "declaredSource": "JPL SSD Approximate Positions of the Planets / Standish Keplerian elements Table 1",
     "declaredValue": 0.00677672,
@@ -358,7 +358,7 @@
      "primaryVerified": false
     },
     "valueDelta": -0.00022328000000000018,
-    "residual": 0.00022337514516504887,
+    "residual": 0.00022337514544798574,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -382,7 +382,7 @@
     "emoji": "🥔",
     "target": "フォボス",
     "kind": "period",
-    "meas": 27566.822022425855,
+    "meas": 27566.82202242575,
     "key": "Phobos|orbital_period",
     "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=1128.844409 deg/d",
     "declaredValue": 27553.841567549454,
@@ -399,7 +399,7 @@
      "primaryVerified": false
     },
     "valueDelta": -0.002304450546944281,
-    "residual": 12.980454876400472,
+    "residual": 12.98045487629497,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -422,7 +422,7 @@
     "emoji": "🥔",
     "target": "ダイモス",
     "kind": "period",
-    "meas": 109115.89451680056,
+    "meas": 109115.89451680018,
     "key": "Deimos|orbital_period",
     "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=285.161886 deg/d)",
     "declaredValue": 109074.88527411409,
@@ -439,7 +439,7 @@
      "primaryVerified": false
     },
     "valueDelta": -48.314725885909866,
-    "residual": 41.009242686472135,
+    "residual": 41.009242686093785,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -462,7 +462,7 @@
     "emoji": "🥔",
     "target": "ダイモス",
     "kind": "period",
-    "meas": 109115.89451680056,
+    "meas": 109115.89451680018,
     "key": "Deimos|orbital_period",
     "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=285.161886 deg/d)",
     "declaredValue": 109074.88527411409,
@@ -479,7 +479,7 @@
      "primaryVerified": false
     },
     "valueDelta": -48.314725885909866,
-    "residual": 41.009242686472135,
+    "residual": 41.009242686093785,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -502,7 +502,7 @@
     "emoji": "🥔",
     "target": "フォボス",
     "kind": "period",
-    "meas": 27566.822022425855,
+    "meas": 27566.82202242575,
     "key": "Phobos|orbital_period",
     "declaredSource": "Jacobson R.A. 2010 AJ 139 668 Table 6 (lambda_dot / mean-motion column n=1128.844409 deg/d",
     "declaredValue": 27553.841567549454,
@@ -519,7 +519,7 @@
      "primaryVerified": false
     },
     "valueDelta": -0.002304450546944281,
-    "residual": 12.980454876400472,
+    "residual": 12.98045487629497,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -542,7 +542,7 @@
     "emoji": "💠",
     "target": "ミランダ",
     "kind": "period",
-    "meas": 122208.17695438536,
+    "meas": 122208.17695441279,
     "key": "Miranda|orbital_period",
     "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
     "declaredValue": 122124.62101961837,
@@ -559,7 +559,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.035419618361629546,
-    "residual": 83.55593476699141,
+    "residual": 83.55593479442177,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -582,7 +582,7 @@
     "emoji": "💠",
     "target": "アリエル",
     "kind": "period",
-    "meas": 217719.3316007439,
+    "meas": 217719.33160080086,
     "key": "Ariel|orbital_period",
     "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
     "declaredValue": 217760.7611919261,
@@ -599,7 +599,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.015591926116030663,
-    "residual": 41.42959118221188,
+    "residual": 41.42959112525568,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -622,7 +622,7 @@
     "emoji": "💠",
     "target": "ウンブリエル",
     "kind": "period",
-    "meas": 358062.02396535885,
+    "meas": 358062.0239654665,
     "key": "Umbriel|orbital_period",
     "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
     "declaredValue": 358056.89773906855,
@@ -639,7 +639,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.09133906854549423,
-    "residual": 5.126226290303748,
+    "residual": 5.126226397929713,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -662,7 +662,7 @@
     "emoji": "💠",
     "target": "チタニア",
     "kind": "period",
-    "meas": 752162.5127454113,
+    "meas": 752162.5127455659,
     "key": "Titania|orbital_period",
     "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
     "declaredValue": 752187.0102125419,
@@ -679,7 +679,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.10141254193149507,
-    "residual": 24.497467130655423,
+    "residual": 24.497466976055875,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -702,7 +702,7 @@
     "emoji": "💠",
     "target": "オベロン",
     "kind": "period",
-    "meas": 1162805.7776470454,
+    "meas": 1162805.7776476708,
     "key": "Oberon|orbital_period",
     "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
     "declaredValue": 1163223.665109313,
@@ -719,7 +719,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.24750931304879487,
-    "residual": 417.88746226765215,
+    "residual": 417.88746164226905,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -742,7 +742,7 @@
     "emoji": "💠",
     "target": "ミランダ",
     "kind": "period",
-    "meas": 122208.17695438536,
+    "meas": 122208.17695441279,
     "key": "Miranda|orbital_period",
     "declaredSource": "Jacobson R.A. 2014 AJ 148 76 Table 2 (P=360/lambda_dot derived in record)",
     "declaredValue": 122124.62101961837,
@@ -759,7 +759,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.035419618361629546,
-    "residual": 83.55593476699141,
+    "residual": 83.55593479442177,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -776,18 +776,58 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   {
+    "id": "plutoCharonDiagInput",
+    "emoji": "🥶",
+    "target": "カロン",
+    "kind": "period",
+    "meas": 551863.6598283317,
+    "key": "Charon|orbital_period",
+    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "declaredValue": 551856.43872,
+    "declaredSigma": 0.02592,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 551854.08,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 2.3587200000183657,
+    "residual": 7.221108331694268,
+    "nSigma": 278.5921424264764,
+    "assessedStage": "h",
+    "primaryVerified": true,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
    }
   ],
   "note": "**「宣言後の初判定」は 4 値の横に置く**(上書きしない)。σ の無い宣言は行選択を決めるだけで、門へは 1 bit も入らない。"
  },
  "cutTally": {
-  "csv-sigma-empty": 84,
-  "kind-not-gated": 18,
+  "csv-sigma-empty": 86,
+  "kind-not-gated": 26,
   "unit-not-converted": 2,
-  "connected": 1
+  "connected": 2
  },
  "fourTally": {
-  "保留": 10,
+  "保留": 11,
   "否": 1
  },
  "presets": [
@@ -961,6 +1001,20 @@
    "id": "saturnRingRealKF1",
    "emoji": "💿",
    "missing": true
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "nQuantities": 11,
+   "nGatable": 3,
+   "nCondMismatch": 0,
+   "nSigmaConnected": 1,
+   "cuts": {
+    "kind-not-gated": 8,
+    "connected": 1,
+    "csv-sigma-empty": 2
+   },
+   "four": "保留"
   }
  ],
  "rows": [
@@ -972,7 +1026,7 @@
    "target": "月",
    "unit": "s",
    "obs": 2360594.88,
-   "meas": 2360600.599725837,
+   "meas": 2360600.599731827,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "orbital_period",
@@ -996,7 +1050,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "earthMoonReal",
@@ -1025,7 +1080,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "earthMoonReal",
@@ -1054,7 +1110,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "earthMoonReal",
@@ -1064,7 +1121,7 @@
    "target": "月",
    "unit": "-",
    "obs": null,
-   "meas": 0.054900335563355294,
+   "meas": 0.054900335564627055,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "eccentricity",
@@ -1088,7 +1145,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "earthMoonReal",
@@ -1098,7 +1156,7 @@
    "target": "月",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.00003668871735728748,
+   "meas": -0.00003668871521616085,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "periastron_advance",
@@ -1122,7 +1180,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "emAuditSolar",
@@ -1132,7 +1191,7 @@
    "target": "月",
    "unit": "s",
    "obs": 279284760,
-   "meas": 282521255.1304052,
+   "meas": 282521254.5368885,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "periastron_advance",
@@ -1156,7 +1215,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "emAuditSolar",
@@ -1185,7 +1245,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "emAuditSolar",
@@ -1195,7 +1256,7 @@
    "target": "月",
    "unit": "s",
    "obs": 2360594.88,
-   "meas": 2363862.4866752396,
+   "meas": 2363862.490934114,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "orbital_period",
@@ -1219,7 +1280,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "emAuditSolar",
@@ -1229,7 +1291,7 @@
    "target": "月",
    "unit": "-",
    "obs": 0.0515,
-   "meas": 0.04326966812005228,
+   "meas": 0.04326966898232005,
    "sigmaCard": null,
    "csvBody": "Moon",
    "csvQuantity": "eccentricity",
@@ -1253,7 +1315,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "emAuditSolar",
@@ -1282,7 +1345,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "mercuryReal",
@@ -1292,7 +1356,7 @@
    "target": "水星",
    "unit": "s",
    "obs": 7600521.6,
-   "meas": 7600536.544253665,
+   "meas": 7600536.544253635,
    "sigmaCard": null,
    "csvBody": "Mercury",
    "csvQuantity": "orbital_period",
@@ -1316,7 +1380,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "mercuryReal",
@@ -1325,8 +1390,8 @@
    "kind": "precession",
    "target": "水星",
    "unit": "deg/orbit",
-   "obs": 0.000028754393803209202,
-   "meas": 0.000026767880691402648,
+   "obs": 0.000028754393803211438,
+   "meas": 0.000026767879778500166,
    "sigmaCard": null,
    "csvBody": "Mercury",
    "csvQuantity": "periastron_advance",
@@ -1357,50 +1422,50 @@
     "obsSigma": 4.167e-9,
     "primary": {
      "label": "近点間周期(**傾きと同じ 59 近点(58 区間)**の平均 — 第269便a の新契約)",
-     "periodSec": 7600536.945807497,
+     "periodSec": 7600536.945808283,
      "periodDef": "periastron-same-window",
-     "simDegPerYear": 0.00011114084146028216,
-     "residual": -0.001486942491873048,
-     "nSigma": -356837.6510374485
+     "simDegPerYear": 0.00011114083766987908,
+     "residual": -0.001486942495663451,
+     "nSigma": -356837.6519470725
     },
     "controls": [
      {
       "label": "近点間周期(**旧契約: 最初の 20 近点の固定窓** — 傾きと同じ近点集合ではない)",
-      "periodSec": 7600536.920388453,
+      "periodSec": 7600536.920389044,
       "periodDef": "periastron-20window",
-      "simDegPerYear": 0.00011114084183197878,
-      "residual": -0.0014869424915013513,
-      "nSigma": -356837.65094824845
+      "simDegPerYear": 0.00011114083804157854,
+      "residual": -0.0014869424952917514,
+      "nSigma": -356837.6518578717
      },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
-      "periodSec": 7600536.544253665,
+      "periodSec": 7600536.544253635,
       "periodDef": "revolution",
-      "simDegPerYear": 0.00011114084733210851,
-      "residual": -0.0014869424860012215,
-      "nSigma": -356837.64962832286
+      "simDegPerYear": 0.00011114084354171716,
+      "residual": -0.0014869424897916129,
+      "nSigma": -356837.65053794405
      },
      {
       "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
       "periodSec": 7600521.6,
       "periodDef": "observed-rounded",
-      "simDegPerYear": 0.0001111410658588232,
-      "residual": -0.001486942267474507,
-      "nSigma": -356837.5971861068
+      "simDegPerYear": 0.00011114106206842395,
+      "residual": -0.0014869422712649061,
+      "nSigma": -356837.5980957298
      }
     ],
     "previous": {
      "contract": "20-periastron period window(第268便a)",
-     "periodSec": 7600536.920388453,
-     "simDegPerYear": 0.00011114084183197878,
-     "residual": -0.0014869424915013513,
-     "nSigma": -356837.65094824845,
+     "periodSec": 7600536.920389044,
+     "simDegPerYear": 0.00011114083804157854,
+     "residual": -0.0014869424952917514,
+     "nSigma": -356837.6518578717,
      "why": "傾きは 59 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
     },
     "inverseCheck": {
-     "obsDegPerOrbit": 0.00038489274905186623,
-     "sigmaDegPerOrbit": 1.0036072912128882e-9,
-     "nSigma": -356837.6510374485
+     "obsDegPerOrbit": 0.00038489274905190596,
+     "sigmaDegPerOrbit": 1.003607291212992e-9,
+     "nSigma": -356837.6519470724
     },
     "guards": {
      "ok": false,
@@ -1416,7 +1481,8 @@
     "verdict": "保留(数値収束が未確認)",
     "note": "**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。"
    },
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "mercuryReal",
@@ -1445,7 +1511,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "mercuryReal",
@@ -1455,7 +1522,7 @@
    "target": "水星",
    "unit": "-",
    "obs": null,
-   "meas": 0.20563094994556108,
+   "meas": 0.2056309499455642,
    "sigmaCard": null,
    "csvBody": "Mercury",
    "csvQuantity": "eccentricity",
@@ -1479,7 +1546,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1489,7 +1557,7 @@
    "target": "水星",
    "unit": "s",
    "obs": 7600521.6,
-   "meas": 7600506.159802018,
+   "meas": 7600506.159807752,
    "sigmaCard": null,
    "csvBody": "Mercury",
    "csvQuantity": "orbital_period",
@@ -1513,7 +1581,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1523,7 +1592,7 @@
    "target": "金星",
    "unit": "s",
    "obs": 19414166.4,
-   "meas": 19414650.47205054,
+   "meas": 19414650.471987583,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "orbital_period",
@@ -1547,7 +1616,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1557,7 +1627,7 @@
    "target": "地球",
    "unit": "s",
    "obs": 31558118.4,
-   "meas": 31558162.210468978,
+   "meas": 31558162.210483246,
    "sigmaCard": null,
    "csvBody": "Earth",
    "csvQuantity": "orbital_period",
@@ -1581,7 +1651,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1591,7 +1662,7 @@
    "target": "火星",
    "unit": "s",
    "obs": 59355072,
-   "meas": 59352853.69582209,
+   "meas": 59352853.69590237,
    "sigmaCard": null,
    "csvBody": "Mars",
    "csvQuantity": "orbital_period",
@@ -1615,7 +1686,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1644,7 +1716,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1673,7 +1746,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1683,7 +1757,7 @@
    "target": "水星",
    "unit": "-",
    "obs": null,
-   "meas": 0.00006545777918296744,
+   "meas": 0.00006545777917126629,
    "sigmaCard": null,
    "csvBody": "Mercury",
    "csvQuantity": "eccentricity",
@@ -1707,7 +1781,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1717,7 +1792,7 @@
    "target": "水星",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.2564647143699231,
+   "meas": -0.25646478267682027,
    "sigmaCard": null,
    "csvBody": "Mercury",
    "csvQuantity": "periastron_advance",
@@ -1748,11 +1823,11 @@
     "obsSigma": 4.167e-9,
     "primary": {
      "label": "近点間周期(**傾きと同じ 9 近点(8 区間)**の平均 — 第269便a の新契約)",
-     "periodSec": 13260428.675637009,
+     "periodSec": 13260428.676563405,
      "periodDef": "periastron-same-window",
-     "simDegPerYear": -0.610343079260331,
-     "residual": -0.6119411625936644,
-     "nSigma": -146854130.69202408
+     "simDegPerYear": -0.6103432417766698,
+     "residual": -0.6119413251100031,
+     "nSigma": -146854169.69282532
     },
     "controls": [
      {
@@ -1765,19 +1840,19 @@
      },
      {
       "label": "同方向 1 周の周期行(**使わない** — 定義が違う)",
-      "periodSec": 7600506.159802018,
+      "periodSec": 7600506.159807752,
       "periodDef": "revolution",
-      "simDegPerYear": -1.0648515638346785,
-      "residual": -1.0664496471680118,
-      "nSigma": -255927441.1250328
+      "simDegPerYear": -1.0648518474467943,
+      "residual": -1.0664499307801276,
+      "nSigma": -255927509.1864957
      },
      {
       "label": "丸めた観測周期(**使わない** — 観測の丸め幅が入る)",
       "periodSec": 7600521.6,
       "periodDef": "observed-rounded",
-      "simDegPerYear": -1.0648494006253841,
-      "residual": -1.0664474839587175,
-      "nSigma": -255926921.99633247
+      "simDegPerYear": -1.064849684237727,
+      "residual": -1.0664477675710604,
+      "nSigma": -255926990.05784985
      }
     ],
     "previous": {
@@ -1789,9 +1864,9 @@
      "why": "傾きは 9 近点・周期は 20 近点で、**同じ近点集合ではなかった**(換算契約の未達)"
     },
     "inverseCheck": {
-     "obsDegPerOrbit": 0.0006715108265327803,
-     "sigmaDegPerOrbit": 1.7509635172313298e-9,
-     "nSigma": -146854130.69202408
+     "obsDegPerOrbit": 0.0006715108265796931,
+     "sigmaDegPerOrbit": 1.7509635173536551e-9,
+     "nSigma": -146854169.69282532
     },
     "guards": {
      "ok": false,
@@ -1807,7 +1882,8 @@
     "verdict": "保留(数値収束が未確認)",
     "note": "**正式判定は「数値未解決」**(3 段の収束の前に否とも合とも言わない)。既定の 4 値と切断点 `unit-not-converted` は**据え置き**である。"
    },
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1817,7 +1893,7 @@
    "target": "金星",
    "unit": "-",
    "obs": 0.00677672,
-   "meas": 0.000026642730597441927,
+   "meas": 0.000026642730432596792,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "eccentricity",
@@ -1864,7 +1940,7 @@
      "primaryVerified": false
     },
     "valueDelta": -0.00022328000000000018,
-    "residual": 0.006750077269402558,
+    "residual": 0.006750077269567403,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -1882,7 +1958,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1892,7 +1969,7 @@
    "target": "金星",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 12.729298887691435,
+   "meas": 12.729298887137313,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "periastron_advance",
@@ -1916,7 +1993,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1926,7 +2004,7 @@
    "target": "地球",
    "unit": "-",
    "obs": null,
-   "meas": 0.000029829737902914738,
+   "meas": 0.000029829736226796292,
    "sigmaCard": null,
    "csvBody": "Earth",
    "csvQuantity": "eccentricity",
@@ -1950,7 +2028,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1960,7 +2039,7 @@
    "target": "地球",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 2.2363983267434993,
+   "meas": 2.2363988431300164,
    "sigmaCard": null,
    "csvBody": "Earth",
    "csvQuantity": "periastron_advance",
@@ -1984,7 +2063,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -1994,7 +2074,7 @@
    "target": "火星",
    "unit": "-",
    "obs": null,
-   "meas": 0.00001730766685501611,
+   "meas": 0.0000173076656164526,
    "sigmaCard": null,
    "csvBody": "Mars",
    "csvQuantity": "eccentricity",
@@ -2018,7 +2098,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "solarInner",
@@ -2052,7 +2133,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2062,7 +2144,7 @@
    "target": "イオ",
    "unit": "s",
    "obs": 152853.5232,
-   "meas": 152929.0080435925,
+   "meas": 152929.00804395517,
    "sigmaCard": null,
    "csvBody": "Io",
    "csvQuantity": "orbital_period",
@@ -2086,7 +2168,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2096,7 +2179,7 @@
    "target": "エウロパ",
    "unit": "s",
    "obs": 306822.0384,
-   "meas": 306825.7074007059,
+   "meas": 306825.70740275277,
    "sigmaCard": null,
    "csvBody": "Europa",
    "csvQuantity": "orbital_period",
@@ -2120,7 +2203,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2130,7 +2214,7 @@
    "target": "ガニメデ",
    "unit": "s",
    "obs": 618153.3792,
-   "meas": 618087.6169805632,
+   "meas": 618087.6169832263,
    "sigmaCard": null,
    "csvBody": "Ganymede",
    "csvQuantity": "orbital_period",
@@ -2154,7 +2238,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2164,7 +2249,7 @@
    "target": "カリスト",
    "unit": "s",
    "obs": 1441931.0688,
-   "meas": 1441544.0757933764,
+   "meas": 1441544.0757983823,
    "sigmaCard": null,
    "csvBody": "Callisto",
    "csvQuantity": "orbital_period",
@@ -2188,7 +2273,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2198,7 +2284,7 @@
    "target": "イオ",
    "unit": "s",
    "obs": 152853.5232,
-   "meas": 152929.0080435925,
+   "meas": 152929.00804395517,
    "sigmaCard": null,
    "csvBody": "Io",
    "csvQuantity": "orbital_period",
@@ -2222,7 +2308,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2232,7 +2319,7 @@
    "target": "エウロパ",
    "unit": "s",
    "obs": 306822.0384,
-   "meas": 306825.7074007059,
+   "meas": 306825.70740275277,
    "sigmaCard": null,
    "csvBody": "Europa",
    "csvQuantity": "orbital_period",
@@ -2256,7 +2343,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2266,7 +2354,7 @@
    "target": "ガニメデ",
    "unit": "s",
    "obs": 618153.3792,
-   "meas": 618087.6169805632,
+   "meas": 618087.6169832263,
    "sigmaCard": null,
    "csvBody": "Ganymede",
    "csvQuantity": "orbital_period",
@@ -2290,7 +2378,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2300,7 +2389,7 @@
    "target": "カリスト",
    "unit": "s",
    "obs": 1441931.0688,
-   "meas": 1441544.0757933764,
+   "meas": 1441544.0757983823,
    "sigmaCard": null,
    "csvBody": "Callisto",
    "csvQuantity": "orbital_period",
@@ -2324,7 +2413,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2334,7 +2424,7 @@
    "target": "イオ",
    "unit": "s",
    "obs": null,
-   "meas": 152929.0080435925,
+   "meas": 152929.00804395517,
    "sigmaCard": null,
    "csvBody": "Io",
    "csvQuantity": "orbital_period",
@@ -2358,7 +2448,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2387,7 +2478,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2416,7 +2508,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2445,7 +2538,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2474,7 +2568,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2484,7 +2579,7 @@
    "target": "イオ",
    "unit": "-",
    "obs": null,
-   "meas": 0.004178070907073229,
+   "meas": 0.004178070906381617,
    "sigmaCard": null,
    "csvBody": "Io",
    "csvQuantity": "eccentricity",
@@ -2508,7 +2603,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2518,7 +2614,7 @@
    "target": "イオ",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 0.45524810467395804,
+   "meas": 0.4552481041225701,
    "sigmaCard": null,
    "csvBody": "Io",
    "csvQuantity": "periastron_advance",
@@ -2542,7 +2638,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2552,7 +2649,7 @@
    "target": "エウロパ",
    "unit": "-",
    "obs": null,
-   "meas": 0.00892407037539894,
+   "meas": 0.008924070378096541,
    "sigmaCard": null,
    "csvBody": "Europa",
    "csvQuantity": "eccentricity",
@@ -2576,7 +2673,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2586,7 +2684,7 @@
    "target": "エウロパ",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 0.3570164941693393,
+   "meas": 0.3570165052436338,
    "sigmaCard": null,
    "csvBody": "Europa",
    "csvQuantity": "periastron_advance",
@@ -2610,7 +2708,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2620,7 +2719,7 @@
    "target": "ガニメデ",
    "unit": "-",
    "obs": null,
-   "meas": 0.0012305816432051076,
+   "meas": 0.001230581645217301,
    "sigmaCard": null,
    "csvBody": "Ganymede",
    "csvQuantity": "eccentricity",
@@ -2644,7 +2743,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2654,7 +2754,7 @@
    "target": "ガニメデ",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.962709543965169,
+   "meas": -0.9627095392488666,
    "sigmaCard": null,
    "csvBody": "Ganymede",
    "csvQuantity": "periastron_advance",
@@ -2678,7 +2778,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2688,7 +2789,7 @@
    "target": "カリスト",
    "unit": "-",
    "obs": null,
-   "meas": 0.007062104287643021,
+   "meas": 0.00706210429028517,
    "sigmaCard": null,
    "csvBody": "Callisto",
    "csvQuantity": "eccentricity",
@@ -2712,7 +2813,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "jupiterGalilean",
@@ -2722,7 +2824,7 @@
    "target": "カリスト",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 0.009661470919321541,
+   "meas": 0.009661471025418212,
    "sigmaCard": null,
    "csvBody": "Callisto",
    "csvQuantity": "periastron_advance",
@@ -2746,7 +2848,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "venusReal",
@@ -2756,7 +2859,7 @@
    "target": "金星",
    "unit": "s",
    "obs": 19414166.4,
-   "meas": 19413888.609564465,
+   "meas": 19413888.609576266,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "orbital_period",
@@ -2780,7 +2883,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "venusReal",
@@ -2790,7 +2894,7 @@
    "target": "金星",
    "unit": "s",
    "obs": 19414166.4,
-   "meas": 19413888.609564465,
+   "meas": 19413888.609576266,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "orbital_period",
@@ -2814,7 +2918,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "venusReal",
@@ -2824,7 +2929,7 @@
    "target": "金星",
    "unit": "s",
    "obs": null,
-   "meas": 19413888.609564465,
+   "meas": 19413888.609576266,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "orbital_period",
@@ -2848,7 +2953,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "venusReal",
@@ -2877,7 +2983,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "venusReal",
@@ -2887,7 +2994,7 @@
    "target": "金星",
    "unit": "-",
    "obs": 0.00677672,
-   "meas": 0.007000095145165049,
+   "meas": 0.007000095145447986,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "eccentricity",
@@ -2934,7 +3041,7 @@
      "primaryVerified": false
     },
     "valueDelta": -0.00022328000000000018,
-    "residual": 0.00022337514516504887,
+    "residual": 0.00022337514544798574,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -2952,7 +3059,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "venusReal",
@@ -2962,7 +3070,7 @@
    "target": "金星",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 0.000013344206950138654,
+   "meas": 0.00001334421639512648,
    "sigmaCard": null,
    "csvBody": "Venus",
    "csvQuantity": "periastron_advance",
@@ -2986,7 +3094,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "marsMoonsReal",
@@ -2996,7 +3105,7 @@
    "target": "フォボス",
    "unit": "s",
    "obs": 27553.841567549454,
-   "meas": 27566.822022425855,
+   "meas": 27566.82202242575,
    "sigmaCard": null,
    "csvBody": "Phobos",
    "csvQuantity": "orbital_period",
@@ -3043,7 +3152,7 @@
      "primaryVerified": false
     },
     "valueDelta": -0.002304450546944281,
-    "residual": 12.980454876400472,
+    "residual": 12.98045487629497,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3060,7 +3169,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "marsMoonsReal",
@@ -3070,7 +3180,7 @@
    "target": "ダイモス",
    "unit": "s",
    "obs": 109074.88527411409,
-   "meas": 109115.89451680056,
+   "meas": 109115.89451680018,
    "sigmaCard": null,
    "csvBody": "Deimos",
    "csvQuantity": "orbital_period",
@@ -3117,7 +3227,7 @@
      "primaryVerified": false
     },
     "valueDelta": -48.314725885909866,
-    "residual": 41.009242686472135,
+    "residual": 41.009242686093785,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3134,7 +3244,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "marsMoonsReal",
@@ -3144,7 +3255,7 @@
    "target": "ダイモス",
    "unit": "s",
    "obs": 109074.88527411409,
-   "meas": 109115.89451680056,
+   "meas": 109115.89451680018,
    "sigmaCard": null,
    "csvBody": "Deimos",
    "csvQuantity": "orbital_period",
@@ -3191,7 +3302,7 @@
      "primaryVerified": false
     },
     "valueDelta": -48.314725885909866,
-    "residual": 41.009242686472135,
+    "residual": 41.009242686093785,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3208,7 +3319,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "marsMoonsReal",
@@ -3218,7 +3330,7 @@
    "target": "フォボス",
    "unit": "s",
    "obs": 27553.841567549454,
-   "meas": 27566.822022425855,
+   "meas": 27566.82202242575,
    "sigmaCard": null,
    "csvBody": "Phobos",
    "csvQuantity": "orbital_period",
@@ -3265,7 +3377,7 @@
      "primaryVerified": false
     },
     "valueDelta": -0.002304450546944281,
-    "residual": 12.980454876400472,
+    "residual": 12.98045487629497,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3282,7 +3394,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "marsMoonsReal",
@@ -3311,7 +3424,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "marsMoonsReal",
@@ -3321,7 +3435,7 @@
    "target": "フォボス",
    "unit": "-",
    "obs": null,
-   "meas": 0.015171407417064091,
+   "meas": 0.01517140741705715,
    "sigmaCard": null,
    "csvBody": "Phobos",
    "csvQuantity": "eccentricity",
@@ -3345,7 +3459,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "marsMoonsReal",
@@ -3355,7 +3470,7 @@
    "target": "フォボス",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.015067755205160576,
+   "meas": -0.015067755204754705,
    "sigmaCard": null,
    "csvBody": "Phobos",
    "csvQuantity": "periastron_advance",
@@ -3379,7 +3494,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "marsMoonsReal",
@@ -3389,7 +3505,7 @@
    "target": "ダイモス",
    "unit": "-",
    "obs": null,
-   "meas": 0.0003213681935814886,
+   "meas": 0.00032136819358322935,
    "sigmaCard": null,
    "csvBody": "Deimos",
    "csvQuantity": "eccentricity",
@@ -3413,7 +3529,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "marsMoonsReal",
@@ -3423,7 +3540,7 @@
    "target": "ダイモス",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.0020985006404884805,
+   "meas": -0.0020985006572870816,
    "sigmaCard": null,
    "csvBody": "Deimos",
    "csvQuantity": "periastron_advance",
@@ -3447,7 +3564,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3457,7 +3575,7 @@
    "target": "ミランダ",
    "unit": "s",
    "obs": 122124.62101961837,
-   "meas": 122208.17695438536,
+   "meas": 122208.17695441279,
    "sigmaCard": null,
    "csvBody": "Miranda",
    "csvQuantity": "orbital_period",
@@ -3504,7 +3622,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.035419618361629546,
-    "residual": 83.55593476699141,
+    "residual": 83.55593479442177,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3521,7 +3639,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3531,7 +3650,7 @@
    "target": "アリエル",
    "unit": "s",
    "obs": 217760.7611919261,
-   "meas": 217719.3316007439,
+   "meas": 217719.33160080086,
    "sigmaCard": null,
    "csvBody": "Ariel",
    "csvQuantity": "orbital_period",
@@ -3578,7 +3697,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.015591926116030663,
-    "residual": 41.42959118221188,
+    "residual": 41.42959112525568,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3595,7 +3714,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3605,7 +3725,7 @@
    "target": "ウンブリエル",
    "unit": "s",
    "obs": 358056.89773906855,
-   "meas": 358062.02396535885,
+   "meas": 358062.0239654665,
    "sigmaCard": null,
    "csvBody": "Umbriel",
    "csvQuantity": "orbital_period",
@@ -3652,7 +3772,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.09133906854549423,
-    "residual": 5.126226290303748,
+    "residual": 5.126226397929713,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3669,7 +3789,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3679,7 +3800,7 @@
    "target": "チタニア",
    "unit": "s",
    "obs": 752187.0102125419,
-   "meas": 752162.5127454113,
+   "meas": 752162.5127455659,
    "sigmaCard": null,
    "csvBody": "Titania",
    "csvQuantity": "orbital_period",
@@ -3726,7 +3847,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.10141254193149507,
-    "residual": 24.497467130655423,
+    "residual": 24.497466976055875,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3743,7 +3864,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3753,7 +3875,7 @@
    "target": "オベロン",
    "unit": "s",
    "obs": 1163223.665109313,
-   "meas": 1162805.7776470454,
+   "meas": 1162805.7776476708,
    "sigmaCard": null,
    "csvBody": "Oberon",
    "csvQuantity": "orbital_period",
@@ -3800,7 +3922,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.24750931304879487,
-    "residual": 417.88746226765215,
+    "residual": 417.88746164226905,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3817,7 +3939,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3827,7 +3950,7 @@
    "target": "ミランダ",
    "unit": "s",
    "obs": 122124.62101961837,
-   "meas": 122208.17695438536,
+   "meas": 122208.17695441279,
    "sigmaCard": null,
    "csvBody": "Miranda",
    "csvQuantity": "orbital_period",
@@ -3874,7 +3997,7 @@
      "primaryVerified": false
     },
     "valueDelta": 0.035419618361629546,
-    "residual": 83.55593476699141,
+    "residual": 83.55593479442177,
     "nSigma": null,
     "assessedStage": "h",
     "primaryVerified": false,
@@ -3891,7 +4014,8 @@
     },
     "verdict": "保留(σ 未登録 — 宣言行にも 1σ が印字されていない)",
     "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
-   }
+   },
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3925,7 +4049,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3954,7 +4079,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3964,7 +4090,7 @@
    "target": "ミランダ",
    "unit": "-",
    "obs": null,
-   "meas": 0.0014568196927990183,
+   "meas": 0.0014568196923319125,
    "sigmaCard": null,
    "csvBody": "Miranda",
    "csvQuantity": "eccentricity",
@@ -3988,7 +4114,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -3998,7 +4125,7 @@
    "target": "ミランダ",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 0.01806259882810619,
+   "meas": 0.018062598507416528,
    "sigmaCard": null,
    "csvBody": "Miranda",
    "csvQuantity": "periastron_advance",
@@ -4022,7 +4149,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -4032,7 +4160,7 @@
    "target": "アリエル",
    "unit": "-",
    "obs": null,
-   "meas": 0.0013792162358943966,
+   "meas": 0.0013792162355305282,
    "sigmaCard": null,
    "csvBody": "Ariel",
    "csvQuantity": "eccentricity",
@@ -4056,7 +4184,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -4066,7 +4195,7 @@
    "target": "アリエル",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.4479158243134373,
+   "meas": -0.44791582324130236,
    "sigmaCard": null,
    "csvBody": "Ariel",
    "csvQuantity": "periastron_advance",
@@ -4090,7 +4219,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -4100,7 +4230,7 @@
    "target": "ウンブリエル",
    "unit": "-",
    "obs": null,
-   "meas": 0.003916922350896753,
+   "meas": 0.003916922351022737,
    "sigmaCard": null,
    "csvBody": "Umbriel",
    "csvQuantity": "eccentricity",
@@ -4124,7 +4254,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -4134,7 +4265,7 @@
    "target": "ウンブリエル",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -1.0922120714022765,
+   "meas": -1.0922120694813053,
    "sigmaCard": null,
    "csvBody": "Umbriel",
    "csvQuantity": "periastron_advance",
@@ -4158,7 +4289,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -4168,7 +4300,7 @@
    "target": "チタニア",
    "unit": "-",
    "obs": null,
-   "meas": 0.0013625133958926085,
+   "meas": 0.0013625133956255166,
    "sigmaCard": null,
    "csvBody": "Titania",
    "csvQuantity": "eccentricity",
@@ -4192,7 +4324,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -4202,7 +4335,7 @@
    "target": "チタニア",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 1.9995639331028936,
+   "meas": 1.9995639333617654,
    "sigmaCard": null,
    "csvBody": "Titania",
    "csvQuantity": "periastron_advance",
@@ -4226,7 +4359,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -4236,7 +4370,7 @@
    "target": "オベロン",
    "unit": "-",
    "obs": null,
-   "meas": 0.0008792818576482216,
+   "meas": 0.0008792818580481742,
    "sigmaCard": null,
    "csvBody": "Oberon",
    "csvQuantity": "eccentricity",
@@ -4260,7 +4394,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "uranusReal",
@@ -4294,7 +4429,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "neptuneReal",
@@ -4304,7 +4440,7 @@
    "target": "トリトン",
    "unit": "s",
    "obs": 507760.18559999997,
-   "meas": 507781.4823564407,
+   "meas": 507781.48235680547,
    "sigmaCard": null,
    "csvBody": "Triton",
    "csvQuantity": "orbital_period",
@@ -4328,7 +4464,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "neptuneReal",
@@ -4338,7 +4475,7 @@
    "target": "トリトン",
    "unit": "s",
    "obs": 507760.18559999997,
-   "meas": 507781.4823564407,
+   "meas": 507781.48235680547,
    "sigmaCard": null,
    "csvBody": "Triton",
    "csvQuantity": "orbital_period",
@@ -4362,7 +4499,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "neptuneReal",
@@ -4396,7 +4534,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "neptuneReal",
@@ -4406,7 +4545,7 @@
    "target": "トリトン",
    "unit": "s",
    "obs": null,
-   "meas": 507781.4823564407,
+   "meas": 507781.48235680547,
    "sigmaCard": null,
    "csvBody": "Triton",
    "csvQuantity": "orbital_period",
@@ -4430,7 +4569,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "neptuneReal",
@@ -4459,7 +4599,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "neptuneReal",
@@ -4469,7 +4610,7 @@
    "target": "トリトン",
    "unit": "-",
    "obs": null,
-   "meas": 0.00010078933813473889,
+   "meas": 0.00010078933821461558,
    "sigmaCard": null,
    "csvBody": "Triton",
    "csvQuantity": "eccentricity",
@@ -4493,7 +4634,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "neptuneReal",
@@ -4503,7 +4645,7 @@
    "target": "トリトン",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 0.0010759484144730182,
+   "meas": 0.001075949318080919,
    "sigmaCard": null,
    "csvBody": "Triton",
    "csvQuantity": "periastron_advance",
@@ -4527,7 +4669,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnZonalD68",
@@ -4537,7 +4680,7 @@
    "target": "D68",
    "unit": "deg/yr",
    "obs": 13968.25575,
-   "meas": 13925.526926097635,
+   "meas": 13925.526926092378,
    "sigmaCard": null,
    "csvBody": "Saturn ring feature D68",
    "csvQuantity": "periastron_advance",
@@ -4552,11 +4695,11 @@
    "ad8Converted": true,
    "previousUnit": {
     "unit": "deg/orbit",
-    "meas": 8.042145461960192,
-    "obs": 8.066820059155283,
+    "meas": 8.04214546195871,
+    "obs": 8.066820059157548,
     "obsErr": null,
-    "obsSigmaCsv": 0.0016874868727150658,
-    "sigmaNote": "σ=0.0016874868727150658 を CSV(Saturn ring feature D68|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
+    "obsSigmaCsv": 0.0016874868727155396,
+    "sigmaNote": "σ=0.0016874868727155396 を CSV(Saturn ring feature D68|periastron_advance・deg/yr)から転写(sigma_primary=verified)",
     "residualPct": null,
     "cut": "unit-not-converted",
     "why": "第266便a〜第269便a の切断点(obsCard が °/周・CSV が deg/yr で、換算しないまま σ を当てると見かけの「合(3σ)」になる)。**第270便a(AD8)で換算を入れて正式接続した** —— この欄は**換算前の記録**であって、新しい判定値ではない。"
@@ -4564,8 +4707,8 @@
    "cut": null,
    "condMismatch": false,
    "sigma": 2.922,
-   "residual": 42.67115254047894,
-   "nSigma": 14.60340607134803,
+   "residual": 42.67115254689634,
+   "nSigma": 14.603406073544262,
    "numOk": true,
    "gateStatusBefore": "否(3σ)",
    "verdict": "否(3σ)",
@@ -4579,7 +4722,8 @@
     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
    },
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnZonalD68",
@@ -4589,7 +4733,7 @@
    "target": "D68",
    "unit": "s",
    "obs": 17928,
-   "meas": 17865.94983177155,
+   "meas": 17865.949831775662,
    "sigmaCard": null,
    "csvBody": "Saturn ring feature D68",
    "csvQuantity": "orbital_period",
@@ -4613,7 +4757,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnZonalD68",
@@ -4623,7 +4768,7 @@
    "target": "D68",
    "unit": "s",
    "obs": 17928,
-   "meas": 18224.85822532271,
+   "meas": 18224.85822532783,
    "sigmaCard": null,
    "csvBody": "Saturn ring feature D68",
    "csvQuantity": "orbital_period",
@@ -4647,7 +4792,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnZonalD68",
@@ -4676,7 +4822,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnZonalD68",
@@ -4705,7 +4852,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnZonalD68",
@@ -4715,7 +4863,7 @@
    "target": "D68",
    "unit": "-",
    "obs": null,
-   "meas": 0.05243330968203722,
+   "meas": 0.05243330968212262,
    "sigmaCard": null,
    "csvBody": "Saturn ring feature D68",
    "csvQuantity": "eccentricity",
@@ -4739,7 +4887,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -4749,7 +4898,7 @@
    "target": "C環内縁",
    "unit": "s",
    "obs": 20880,
-   "meas": 20823.780332526785,
+   "meas": 20823.780332546252,
    "sigmaCard": null,
    "csvBody": "Saturn ring C inner edge",
    "csvQuantity": "orbital_period",
@@ -4773,7 +4922,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -4783,7 +4933,7 @@
    "target": "タイタン",
    "unit": "s",
    "obs": 1377648,
-   "meas": 1378015.7002953242,
+   "meas": 1378015.7002955412,
    "sigmaCard": null,
    "csvBody": "Titan",
    "csvQuantity": "orbital_period",
@@ -4807,7 +4957,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -4836,7 +4987,8 @@
    "verdict": "門外(来歴の欄)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -4846,7 +4998,7 @@
    "target": "C環内縁",
    "unit": "-",
    "obs": null,
-   "meas": 0.00023818254527633315,
+   "meas": 0.00023818254535527662,
    "sigmaCard": null,
    "csvBody": "Saturn ring C inner edge",
    "csvQuantity": "eccentricity",
@@ -4870,7 +5022,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -4880,7 +5033,7 @@
    "target": "C環内縁",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 0.22848124801368808,
+   "meas": 0.22848124274733334,
    "sigmaCard": null,
    "csvBody": "Saturn ring C inner edge",
    "csvQuantity": "periastron_advance",
@@ -4904,7 +5057,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -4914,7 +5068,7 @@
    "target": "ミマス",
    "unit": "s",
    "obs": null,
-   "meas": 81511.71770726173,
+   "meas": 81511.71770736402,
    "sigmaCard": null,
    "csvBody": "Mimas",
    "csvQuantity": "orbital_period",
@@ -4938,7 +5092,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -4948,7 +5103,7 @@
    "target": "ミマス",
    "unit": "-",
    "obs": null,
-   "meas": 0.00007132830720406437,
+   "meas": 0.00007132830740083434,
    "sigmaCard": null,
    "csvBody": "Mimas",
    "csvQuantity": "eccentricity",
@@ -4972,7 +5127,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -4982,7 +5138,7 @@
    "target": "ミマス",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": 21.919882991209658,
+   "meas": 21.919882979585363,
    "sigmaCard": null,
    "csvBody": "Mimas",
    "csvQuantity": "periastron_advance",
@@ -5006,7 +5162,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -5016,7 +5173,7 @@
    "target": "タイタン",
    "unit": "-",
    "obs": null,
-   "meas": 0.000018452524110840894,
+   "meas": 0.000018452524143960533,
    "sigmaCard": null,
    "csvBody": "Titan",
    "csvQuantity": "eccentricity",
@@ -5040,7 +5197,8 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
   },
   {
    "id": "saturnRingReal",
@@ -5050,7 +5208,7 @@
    "target": "タイタン",
    "unit": "deg/orbit",
    "obs": null,
-   "meas": -0.17451565327016122,
+   "meas": -0.17451562674617316,
    "sigmaCard": null,
    "csvBody": "Titan",
    "csvQuantity": "periastron_advance",
@@ -5074,7 +5232,407 @@
    "verdict": "保留(σ 未登録)",
    "guards": null,
    "unitConvertedFirst": null,
-   "declaredFirst": null
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "同方向1周(第2周)— 3 刻み",
+   "kind": "other",
+   "target": null,
+   "unit": null,
+   "obs": null,
+   "meas": null,
+   "sigmaCard": null,
+   "csvBody": null,
+   "csvQuantity": null,
+   "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "kind-not-gated",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "Buie 2012 二体 P との差(比較値)",
+   "kind": "other",
+   "target": null,
+   "unit": null,
+   "obs": null,
+   "meas": null,
+   "sigmaCard": null,
+   "csvBody": null,
+   "csvQuantity": null,
+   "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "kind-not-gated",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "閉じた式の差と走行の残差",
+   "kind": "other",
+   "target": null,
+   "unit": null,
+   "obs": null,
+   "meas": null,
+   "sigmaCard": null,
+   "csvBody": null,
+   "csvQuantity": null,
+   "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "kind-not-gated",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "PLU060 400年平均 P との差(σ なし)",
+   "kind": "other",
+   "target": null,
+   "unit": null,
+   "obs": null,
+   "meas": null,
+   "sigmaCard": null,
+   "csvBody": null,
+   "csvQuantity": null,
+   "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "kind-not-gated",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "❄️ の否の要因の鎖(第2周・dt 0.004)",
+   "kind": "other",
+   "target": null,
+   "unit": null,
+   "obs": null,
+   "meas": null,
+   "sigmaCard": null,
+   "csvBody": null,
+   "csvQuantity": null,
+   "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "kind-not-gated",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "残る差の由来(閉じた式)",
+   "kind": "other",
+   "target": null,
+   "unit": null,
+   "obs": null,
+   "meas": null,
+   "sigmaCard": null,
+   "csvBody": null,
+   "csvQuantity": null,
+   "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "kind-not-gated",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "⛄🌨️ との差(同じ定義・第5周)",
+   "kind": "other",
+   "target": null,
+   "unit": null,
+   "obs": null,
+   "meas": null,
+   "sigmaCard": null,
+   "csvBody": null,
+   "csvQuantity": null,
+   "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "kind-not-gated",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "1PN の源集合の是正(第291便b)",
+   "kind": "other",
+   "target": null,
+   "unit": null,
+   "obs": null,
+   "meas": null,
+   "sigmaCard": null,
+   "csvBody": null,
+   "csvQuantity": null,
+   "csvRow": null,
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "kind-not-gated",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "門外(来歴の欄)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "実測(標準検出器): 公転周期(カロン)",
+   "kind": "period",
+   "target": "カロン",
+   "unit": "s",
+   "obs": 551856.43872,
+   "meas": 551863.6598283317,
+   "sigmaCard": null,
+   "csvBody": "Charon",
+   "csvQuantity": "orbital_period",
+   "csvRow": {
+    "value": 551856.43872,
+    "unit": "s",
+    "sigma": 0.02592,
+    "primaryVerified": true
+   },
+   "declaredApplied": true,
+   "csvRowLegacy": {
+    "value": 551854.08,
+    "unit": "s",
+    "sigma": null,
+    "primaryVerified": false,
+    "source": "NASA NSSDC Pluto Fact Sheet (archived)"
+   },
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": null,
+   "condMismatch": false,
+   "sigma": 0.02592,
+   "residual": 7.221108331694268,
+   "nSigma": 278.5921424264764,
+   "numOk": true,
+   "gateStatusBefore": "数値未解決",
+   "verdict": "保留(数値収束が未確認)",
+   "guards": {
+    "ok": false,
+    "missing": [
+     "数値収束が未確認"
+    ],
+    "definitionDeclared": true,
+    "mappingResolved": true,
+    "convergenceOk": false,
+    "verdict": "保留(数値収束が未確認)",
+    "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+   },
+   "unitConvertedFirst": null,
+   "declaredFirst": {
+    "key": "Charon|orbital_period",
+    "declaredSource": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
+    "declaredValue": 551856.43872,
+    "declaredSigma": 0.02592,
+    "applied": true,
+    "fallbackReason": null,
+    "appliedToJudgement": true,
+    "appliedSince": "第270便a(AD5)",
+    "previousRow": {
+     "value": 551854.08,
+     "sigma": null,
+     "unit": "s",
+     "source": "NASA NSSDC Pluto Fact Sheet (archived)",
+     "primaryVerified": false
+    },
+    "valueDelta": 2.3587200000183657,
+    "residual": 7.221108331694268,
+    "nSigma": 278.5921424264764,
+    "assessedStage": "h",
+    "primaryVerified": true,
+    "guards": {
+     "ok": false,
+     "missing": [
+      "数値収束が未確認"
+     ],
+     "definitionDeclared": true,
+     "mappingResolved": true,
+     "convergenceOk": false,
+     "verdict": "保留(数値収束が未確認)",
+     "rule": "`definitionDeclared` ∧ `mappingResolved` ∧ `convergence.ok` が**必須**(第268便a・統括の読み (B) —— 1 つでも欠けたら合とも否とも言わない)"
+    },
+    "verdict": "保留(数値収束が未確認)",
+    "note": "**第270便a(AD5)で宣言は正式経路に入った** —— 左の既定欄(cut / verdict)もこの宣言行で分類している。**旧行での分類は `previousRow` と履歴に残す**。「宣言したので判定が増えた」とは書かない(動いた行は旧値と並べて理由を書く)。"
+   },
+   "sigmaProvenance": {
+    "sigmaSource": "Buie 2012(σ 0.025920 s)",
+    "comparedQuantity": "二体ケプラー当てはめの P(同方向 1 周の周期と比べる —— 量の定義は別)",
+    "note": "入力は PLU060 の解(GM は Brozović & Jacobson 2024 Table 8・a は Table 10 の 400 年平均)—— 比較値の解とは別の解"
+   }
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "実測(標準検出器): 離心率(カロン)",
+   "kind": "ecc",
+   "target": "カロン",
+   "unit": "-",
+   "obs": null,
+   "meas": 3.908700659098399e-9,
+   "sigmaCard": null,
+   "csvBody": "Charon",
+   "csvQuantity": "eccentricity",
+   "csvRow": {
+    "value": 0,
+    "unit": "1",
+    "sigma": null,
+    "primaryVerified": false
+   },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "csv-sigma-empty",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
+  },
+  {
+   "id": "plutoCharonDiagInput",
+   "emoji": "🥶",
+   "name": "実測(標準検出器): 近点移動(カロン)",
+   "kind": "precession",
+   "target": "カロン",
+   "unit": "deg/orbit",
+   "obs": null,
+   "meas": 0.000008570193561749913,
+   "sigmaCard": null,
+   "csvBody": "Charon",
+   "csvQuantity": "periastron_advance",
+   "csvRow": {
+    "value": 0,
+    "unit": "deg/yr",
+    "sigma": null,
+    "primaryVerified": false
+   },
+   "declaredApplied": false,
+   "csvRowLegacy": null,
+   "ad8Converted": false,
+   "previousUnit": null,
+   "cut": "csv-sigma-empty",
+   "condMismatch": false,
+   "sigma": null,
+   "residual": null,
+   "nSigma": null,
+   "numOk": null,
+   "gateStatusBefore": "未判定",
+   "verdict": "保留(σ 未登録)",
+   "guards": null,
+   "unitConvertedFirst": null,
+   "declaredFirst": null,
+   "sigmaProvenance": null
   }
  ],
  "missingForJudgement": [
@@ -5904,6 +6462,32 @@
    ],
    "nQuantities": 1,
    "obsPresent": 0
+  },
+  {
+   "key": "Charon|eccentricity",
+   "body": "Charon",
+   "target": "カロン",
+   "quantity": "eccentricity",
+   "kind": "ecc",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🥶"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
+  },
+  {
+   "key": "Charon|periastron_advance",
+   "body": "Charon",
+   "target": "カロン",
+   "quantity": "periastron_advance",
+   "kind": "precession",
+   "cut": "csv-sigma-empty",
+   "presets": [
+    "🥶"
+   ],
+   "nQuantities": 1,
+   "obsPresent": 0
   }
  ],
  "history": [
@@ -5953,10 +6537,10 @@
   ]
  },
  "conclusion": {
-  "connected": 1,
+  "connected": 2,
   "unverified": 0,
-  "missingForJudgement": 63,
-  "note": "**接続後に判定が出た量がある**(表を読むこと)。第270便a(AD5/AD8)で σ が門へ届いた行は 1 件で、そのうち 3σ の合否が出たのは 1 件である。**残りは「保留」である**(数値収束・写像・σ 未登録)—— 保留は否定ではない。**合否が出たことは較正が進んだことではない** —— 出た合否の中身は 4 値の表を読むこと。",
+  "missingForJudgement": 65,
+  "note": "**接続後に判定が出た量がある**(表を読むこと)。第270便a(AD5/AD8)で σ が門へ届いた行は 2 件で、そのうち 3σ の合否が出たのは 1 件である。**残りは「保留」である**(数値収束・写像・σ 未登録)—— 保留は否定ではない。**合否が出たことは較正が進んだことではない** —— 出た合否の中身は 4 値の表を読むこと。",
   "doNotWrite": [
    "太陽系の現実較正を完了した",
    "σ を繋いだので合格した",
