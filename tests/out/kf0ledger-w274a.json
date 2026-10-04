@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第274便a(第64報・kF0 棚卸し便)",
   "target": "beta/index.html",
-  "targetSha256": "0e33bd32af2b0f11c0a45485f9b7fd85db2992e2de915dd05577225245c8a8aa",
-  "generatedAt": "2026-10-03T23:13:53.721Z",
+  "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+  "generatedAt": "2026-10-04T02:36:22.182Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1814913,
-    "sha256": "212279e541485ff204966ddf619fd1fbfa59789ef6158a46ea4b7296a63a5391",
-    "mtime": "2026-10-03T22:22:04.961Z"
+    "bytes": 1823445,
+    "sha256": "702409506e723db51a391962e2a9aef05ff9738ef7fa7fcff750246dc9f0fcb5",
+    "mtime": "2026-10-04T01:45:11.821Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 160774,
-    "sha256": "ce62b44d02f9b3e1ed5cbbd04242db60742e7f11bd50a25b7678a1d4d985952c",
-    "mtime": "2026-10-03T23:11:55.925Z"
+    "bytes": 160776,
+    "sha256": "0e52fd71256c635c316b6714c65a89bf0801bfe5965595642649cd6fd158100b",
+    "mtime": "2026-10-04T02:34:13.765Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 12916,
-    "sha256": "65bd8da2b56aef8bf0c085d4ea16b65e22265b5b3cb835a9863bc46981dd9330",
-    "mtime": "2026-10-03T23:13:49.825Z"
+    "sha256": "78b1d3143c906ad1e0d63c06d3a79d7f78805592a0cafeba1940b2de25f20d7e",
+    "mtime": "2026-10-04T02:36:19.089Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
@@ -39,8 +39,8 @@
    {
     "file": "tests/out/calcontract-w282a.json",
     "bytes": 122149,
-    "sha256": "42504333ce26b5486dc117bd29a22e6382be5c74b311b87f02209b554ef995d7",
-    "mtime": "2026-10-03T22:51:35.461Z"
+    "sha256": "6aae2b5229f8ef1cf42f10ee849654f771cb8e7cca47dab1f8e7b09db878a290",
+    "mtime": "2026-10-04T02:14:15.193Z"
    }
   ],
   "code": [
@@ -2339,7 +2339,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "038f2bfb300aa51f5450e29f15813f3ffffb1d4e2b23d1a19c7828773bd55751",
+   "fileSha256": "ce62b44d02f9b3e1ed5cbbd04242db60742e7f11bd50a25b7678a1d4d985952c",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
@@ -2347,7 +2347,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+   "citedTargetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,
