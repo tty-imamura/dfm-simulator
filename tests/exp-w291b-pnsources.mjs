@@ -42,7 +42,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 const REGEN_SCOPE = {"presets":"all","roots":["$","DT","GEO_MODE_VERSION","HP.allPresets","HP.dfmRelativeDragStep","HP.loadPreset","HP.relativeDragProbe","HP.sim","HP.validatePreset","LAWS","PN1_CONTRACT","PN1_EIH_VERSION","T","ch","clamp","ctx","dfmPN1Delta","dfmRelativeDragStep","pairCorePN","pn1GRConformance","pnOrbitalKF0","pnOrbitalSource","pnSource","presetSig"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w291b-pnsources-1';
+export const HARNESS_VERSION = 'w291b-pnsources-2';   // 第292便(統合): 基点に無い本(newInNow)は差・署名の判定から外す(記録だけ)
 /** 本器の宣言(前後の步数・半径回帰の系・🥶 の ID)。 */
 export const SPEC = Object.freeze({
   bitSteps: 24,
@@ -179,9 +179,11 @@ if (IS_MAIN) {
     const b = bm.get(r.id) || {};
     return { id: r.id, emoji: r.emoji, role: r.role, cls: r.cls, n: r.n, geoPN: r.geoPN, kFrame: r.kFrame, lambdaPN: r.lambdaPN, G: r.G, kf0: r.kf0,
       srcBase: b.src === undefined ? null : b.src, srcNow: r.src, srcIncreased: (b.src !== undefined && r.src > b.src),
-      bitSame: !r.err && !b.err && r.fp === b.fp, sigSame: r.sig === b.sig, nan: !!r.nan, conf: r.conf, err: r.err || b.err || null };
+      inBase: bm.has(r.id), bitSame: !r.err && !b.err && r.fp === b.fp, sigSame: bm.has(r.id) ? r.sig === b.sig : null, nan: !!r.nan, conf: r.conf, err: r.err || b.err || null };
   });
-  const changed = rows.filter((r) => !r.bitSame).map((r) => r.id);
+  // 第292便(統合): 基点の html に無い本(新設の本)は「前後」の判定の外(newInNow に記録だけ・差にも署名の不一致にも数えない)
+  const newInNow = rows.filter((r) => !r.inBase).map((r) => r.id);
+  const changed = rows.filter((r) => r.inBase && !r.bitSame).map((r) => r.id);
   const increased = rows.filter((r) => r.srcIncreased).map((r) => r.id);
   const changedNotIncreased = changed.filter((id) => !increased.includes(id));
   const increasedUnchanged = increased.filter((id) => !changed.includes(id));
@@ -191,8 +193,8 @@ if (IS_MAIN) {
   for (const r of confRows) for (const k of r.conf.reasons) reasonTally[k] = (reasonTally[k] || 0) + 1;
   const A = { n: rows.length, kf0Books: rows.filter((r) => r.kf0).length, increased, increasedN: increased.length };
   const B = { steps: SPEC.bitSteps, dt: HN.evalExpr('DT'), bitSame: rows.filter((r) => r.bitSame).length, changed, changedNotIncreased, increasedUnchanged,
-    sigSame: rows.filter((r) => r.sigSame).length, sigDiff: rows.filter((r) => !r.sigSame).map((r) => r.id), nullPhysicsKF0: nullPhysics,
-    errors: rows.filter((r) => r.err).map((r) => r.id + ': ' + r.err), nanNow: rows.filter((r) => r.nan).map((r) => r.id) };
+    sigSame: rows.filter((r) => r.sigSame === true).length, sigDiff: rows.filter((r) => r.inBase && !r.sigSame).map((r) => r.id), newInNow, nullPhysicsKF0: nullPhysics,
+    errors: rows.filter((r) => r.err && r.inBase).map((r) => r.id + ': ' + r.err), nanNow: rows.filter((r) => r.nan).map((r) => r.id) };
   const F = { conformant: confRows.filter((r) => r.conf.ok).map((r) => r.id), outside: confRows.filter((r) => !r.conf.ok).map((r) => ({ id: r.id, reasons: r.conf.reasons })),
     reasonTally, note: '表示だけ(実行は禁止しない)—— 条件内でも観測一致の主張ではない' };
   log(`(A) 源が増えた本 ${increased.length}: ${increased.join(',')}`);
