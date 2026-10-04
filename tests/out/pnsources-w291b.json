@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-  "generatedAt": "2026-10-03T21:40:04.431Z",
+  "targetSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+  "generatedAt": "2026-10-04T18:37:38.590Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5623059,
-    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-    "mtime": "2026-10-03T19:22:31.703Z"
+    "bytes": 5701234,
+    "sha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+    "mtime": "2026-10-04T17:18:05.751Z"
    }
   ],
   "code": [
@@ -111,11 +111,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 953,
-   "segments": 864,
-   "closureShare": 0.3248
+   "names": 992,
+   "segments": 901,
+   "closureShare": 0.3262
   },
-  "scopeSha256": "b6bd28eb7ee252d4220efef46835d507f4c994ffd87fca6bedb7568e16cb5ce8",
+  "scopeSha256": "393fbb81f67b6cec85a087aa6c10a3c02f2d5919898d3f663612379438fae2d2",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -166,10 +166,10 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+ "nowSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
  "A": {
-  "n": 150,
-  "kf0Books": 27,
+  "n": 152,
+  "kf0Books": 28,
   "increased": [
    "earthMoonReal",
    "emAuditNewton",
@@ -201,6 +201,8 @@
   "bitSame": 130,
   "changed": [
    "earthMoonReal",
+   "earthMoonTide",
+   "earthMoonInertial",
    "emAuditNewton",
    "emAuditSolar",
    "earthMoonDiagOne",
@@ -221,12 +223,18 @@
    "saturnRingReal",
    "binary"
   ],
-  "changedNotIncreased": [],
+  "changedNotIncreased": [
+   "earthMoonTide",
+   "earthMoonInertial"
+  ],
   "increasedUnchanged": [
    "saturnD68ObsOrbit"
   ],
   "sigSame": 150,
-  "sigDiff": [],
+  "sigDiff": [
+   "earthMoonTide",
+   "earthMoonInertial"
+  ],
   "nullPhysicsKF0": [],
   "errors": [],
   "nanNow": []
@@ -478,6 +486,7 @@
  "F": {
   "conformant": [
    "earthMoonReal",
+   "earthMoonTide",
    "emAuditNewton",
    "venusReal",
    "plutoCharonReal",
@@ -2014,10 +2023,33 @@
    "err": null
   },
   {
+   "id": "earthMoonTide",
+   "emoji": "🌜",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 1,
+   "kFrame": 0,
+   "lambdaPN": 1,
+   "G": 6.674,
+   "kf0": true,
+   "srcBase": null,
+   "srcNow": 2,
+   "srcIncreased": false,
+   "bitSame": false,
+   "sigSame": false,
+   "nan": false,
+   "conf": {
+    "ok": true,
+    "reasons": []
+   },
+   "err": null
+  },
+  {
    "id": "earthMoonRealKF1",
    "emoji": "🌘",
-   "role": "retired",
-   "cls": "calibration",
+   "role": "variant",
+   "cls": "principle",
    "n": 2,
    "geoPN": 2,
    "kFrame": 1,
@@ -2029,6 +2061,26 @@
    "srcIncreased": false,
    "bitSame": true,
    "sigSame": true,
+   "nan": false,
+   "conf": null,
+   "err": null
+  },
+  {
+   "id": "earthMoonInertial",
+   "emoji": "🌛",
+   "role": "variant",
+   "cls": "principle",
+   "n": 2,
+   "geoPN": 0,
+   "kFrame": 0,
+   "lambdaPN": 1,
+   "G": 6.674,
+   "kf0": false,
+   "srcBase": null,
+   "srcNow": 1,
+   "srcIncreased": false,
+   "bitSame": false,
+   "sigSame": false,
    "nan": false,
    "conf": null,
    "err": null
@@ -3704,11 +3756,11 @@
   }
  ],
  "verdict": {
-  "changedOnlyWhereSourcesIncreased": true,
+  "changedOnlyWhereSourcesIncreased": false,
   "increasedButBitSame": [
    "saturnD68ObsOrbit"
   ],
-  "sigAllSame": true,
+  "sigAllSame": false,
   "oracle1e12": true,
   "mercuryDeltaZero": true,
   "radiusIndependent": true,
@@ -3726,13 +3778,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.075,
+   "wallSec": 0.085,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.145,
+   "wallSec": 0.143,
    "errors": 0
   }
  },
- "elapsedS": 183.603
+ "elapsedS": 155.66
 }
