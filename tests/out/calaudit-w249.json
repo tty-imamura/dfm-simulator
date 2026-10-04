@@ -1,11 +1,11 @@
 {
  "meta": {
   "wave": "第249便b",
-  "when": "2026-10-03T22:22:04.728Z",
+  "when": "2026-10-04T01:43:51.578Z",
   "target": "beta/index.html",
   "dtBase": 0.016,
   "populationRule": "sampleClass:\"calibration\" ∧ familyRole≠\"retired\"",
-  "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
+  "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
   "measurementCodeSha256": "9edac63a07ce9af199aa0f9d1350a182c99f3c7eaee76423e37cc588e58835e4",
   "measurementCodeFiles": [
    "tests/exp-w249b-calaudit.mjs",
@@ -284,16 +284,10 @@
   },
   "dtNote": "dt はアプリ既定 0.016 と、その半分 0.008 の 2 段。dt/2 段は実行時 n≤12 のサンプルだけ(重い環・多体は時間予算に収まらない — 明記)。",
   "kf0Runs": {
-   "on": true,
+   "on": false,
    "dt3": false,
-   "only": true,
-   "ids": [
-    "jupiterGalilean",
-    "venusReal",
-    "marsMoonsReal",
-    "plutoCharonReal",
-    "neptuneReal"
-   ],
+   "only": false,
+   "ids": [],
    "how": "`physics.kFrame` の 1 鍵だけを 0 にした診断コピー(`__w249build(id, true)`)。停止条件・近点窓・抽出器・σ の宛先は既定経路と同じ宣言を引く。"
   },
   "dt3": {
@@ -314,7 +308,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 40000000,
-    "wallSec": 47.137,
+    "wallSec": 46.103,
     "orbits": [
      {
       "label": "月",
@@ -337,12 +331,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 47.137,
+      "wallSec": 46.103,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 40000000,
       "stepsRun": 40000000,
-      "rateStepsPerSec": 487805,
+      "rateStepsPerSec": 666667,
       "dt": 0.016,
       "periFoundA": [
        27
@@ -357,7 +351,7 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 95.197,
+      "wallSec": 90.443,
       "wallNearBudget": true,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 80000000,
@@ -406,7 +400,7 @@
      "stepsHit": true,
      "minPeriastra": 27,
      "periastraOk": true,
-     "wallSec": 47.137,
+     "wallSec": 46.103,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": true,
@@ -426,7 +420,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 487805,
+     "rateStepsPerSec": 666667,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -465,7 +459,7 @@
       "stepsHit": true,
       "minPeriastra": 27,
       "periastraOk": true,
-      "wallSec": 47.137,
+      "wallSec": 46.103,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -485,7 +479,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 487805,
+      "rateStepsPerSec": 666667,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -523,7 +517,7 @@
       "stepsHit": true,
       "minPeriastra": 27,
       "periastraOk": true,
-      "wallSec": 95.197,
+      "wallSec": 90.443,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -1637,7 +1631,7 @@
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 890906,
       "stepsRun": 885179,
-      "rateStepsPerSec": 540541,
+      "rateStepsPerSec": 425532,
       "dt": 0.016,
       "periFoundA": [
        59
@@ -1652,12 +1646,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 2.912,
+      "wallSec": 2.738,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1781813,
       "stepsRun": 1770360,
-      "rateStepsPerSec": 645161,
+      "rateStepsPerSec": 606061,
       "dt": 0.008,
       "periFoundA": [
        59
@@ -1721,7 +1715,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 540541,
+     "rateStepsPerSec": 425532,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -1780,7 +1774,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 540541,
+      "rateStepsPerSec": 425532,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -1818,7 +1812,7 @@
       "stepsHit": false,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 2.912,
+      "wallSec": 2.738,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -1838,7 +1832,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 645161,
+      "rateStepsPerSec": 606061,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -2868,7 +2862,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 2850199,
-    "wallSec": 3.309,
+    "wallSec": 3.121,
     "orbits": [
      {
       "label": "水星",
@@ -2891,12 +2885,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 3.309,
+      "wallSec": 3.121,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 2850199,
       "stepsRun": 2850199,
-      "rateStepsPerSec": 909091,
+      "rateStepsPerSec": 1000000,
       "dt": 0.016,
       "periFoundA": [
        59
@@ -2911,12 +2905,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 6.237,
+      "wallSec": 6.253,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 5700398,
       "stepsRun": 5700398,
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 769231,
       "dt": 0.008,
       "periFoundA": [
        59
@@ -2960,7 +2954,7 @@
      "stepsHit": true,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 3.309,
+     "wallSec": 3.121,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -2980,7 +2974,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 909091,
+     "rateStepsPerSec": 1000000,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -3019,7 +3013,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 3.309,
+      "wallSec": 3.121,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -3039,7 +3033,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 909091,
+      "rateStepsPerSec": 1000000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -3077,7 +3071,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 6.237,
+      "wallSec": 6.253,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -3097,7 +3091,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 769231,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -4089,7 +4083,7 @@
     "n": 105,
     "dt": 0.016,
     "steps": 866426,
-    "wallSec": 47.263,
+    "wallSec": 46.37,
     "orbits": [
      {
       "label": "水星",
@@ -4127,12 +4121,12 @@
       "tag": "dt",
       "budgetSec": 240,
       "heavy": true,
-      "wallSec": 47.263,
+      "wallSec": 46.37,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 866426,
       "stepsRun": 866426,
-      "rateStepsPerSec": 17606,
+      "rateStepsPerSec": 19743,
       "dt": 0.016,
       "periFoundA": [
        9,
@@ -4182,7 +4176,7 @@
      "stepsHit": true,
      "minPeriastra": 3,
      "periastraOk": false,
-     "wallSec": 47.263,
+     "wallSec": 46.37,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": true,
@@ -4213,7 +4207,7 @@
       false,
       false
      ],
-     "rateStepsPerSec": 17606,
+     "rateStepsPerSec": 19743,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -4253,7 +4247,7 @@
       "stepsHit": true,
       "minPeriastra": 3,
       "periastraOk": false,
-      "wallSec": 47.263,
+      "wallSec": 46.37,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -4284,7 +4278,7 @@
        false,
        false
       ],
-      "rateStepsPerSec": 17606,
+      "rateStepsPerSec": 19743,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -7016,7 +7010,7 @@
     "n": 5,
     "dt": 0.016,
     "steps": 5405815,
-    "wallSec": 16.602,
+    "wallSec": 16.099,
     "orbits": [
      {
       "label": "イオ",
@@ -7057,12 +7051,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 16.602,
+      "wallSec": 16.099,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 5407442,
       "stepsRun": 5405815,
-      "rateStepsPerSec": 357143,
+      "rateStepsPerSec": 322581,
       "dt": 0.016,
       "periFoundA": [
        63,
@@ -7083,12 +7077,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 34.029,
+      "wallSec": 31.998,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 10814883,
       "stepsRun": 10811628,
-      "rateStepsPerSec": 363636,
+      "rateStepsPerSec": 333333,
       "dt": 0.008,
       "periFoundA": [
        63,
@@ -7138,7 +7132,7 @@
      "stepsHit": false,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 16.602,
+     "wallSec": 16.099,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -7170,7 +7164,7 @@
       true,
       true
      ],
-     "rateStepsPerSec": 357143,
+     "rateStepsPerSec": 322581,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -7209,7 +7203,7 @@
       "stepsHit": false,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 16.602,
+      "wallSec": 16.099,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -7241,7 +7235,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 357143,
+      "rateStepsPerSec": 322581,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -7279,7 +7273,7 @@
       "stepsHit": false,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 34.029,
+      "wallSec": 31.998,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -7311,7 +7305,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 363636,
+      "rateStepsPerSec": 333333,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -11998,7 +11992,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 7280208,
-    "wallSec": 8.856,
+    "wallSec": 8.568,
     "orbits": [
      {
       "label": "金星",
@@ -12021,12 +12015,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 8.856,
+      "wallSec": 8.568,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 7280208,
       "stepsRun": 7280208,
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 571429,
       "dt": 0.016,
       "periFoundA": [
        59
@@ -12041,7 +12035,7 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 17.668,
+      "wallSec": 16.688,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 14560415,
@@ -12090,7 +12084,7 @@
      "stepsHit": true,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 8.856,
+     "wallSec": 8.568,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -12110,7 +12104,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 800000,
+     "rateStepsPerSec": 571429,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -12149,7 +12143,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 8.856,
+      "wallSec": 8.568,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -12169,7 +12163,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 571429,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -12207,7 +12201,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 17.668,
+      "wallSec": 16.688,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -13714,7 +13708,7 @@
     "n": 3,
     "dt": 0.016,
     "steps": 4091814,
-    "wallSec": 6.529,
+    "wallSec": 6.084,
     "orbits": [
      {
       "label": "フォボス",
@@ -13743,7 +13737,7 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 6.529,
+      "wallSec": 6.084,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 4091814,
@@ -13765,12 +13759,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 12.757,
+      "wallSec": 12.101,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 8183629,
       "stepsRun": 8183629,
-      "rateStepsPerSec": 645161,
+      "rateStepsPerSec": 714286,
       "dt": 0.008,
       "periFoundA": [
        63,
@@ -13816,7 +13810,7 @@
      "stepsHit": true,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 6.529,
+     "wallSec": 6.084,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -13879,7 +13873,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 6.529,
+      "wallSec": 6.084,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -13941,7 +13935,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 12.757,
+      "wallSec": 12.101,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -13965,7 +13959,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 645161,
+      "rateStepsPerSec": 714286,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -16316,7 +16310,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 40000000,
-    "wallSec": 86.731,
+    "wallSec": 84.322,
     "orbits": [
      {
       "label": "カロン",
@@ -16327,7 +16321,7 @@
     ],
     "nan": false,
     "clamp": 0,
-    "warnings": 1,
+    "warnings": 0,
     "dtHalf": {
      "dt": 0.008,
      "steps": 80000000
@@ -16339,12 +16333,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 86.731,
+      "wallSec": 84.322,
       "wallNearBudget": true,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 40000000,
       "stepsRun": 40000000,
-      "rateStepsPerSec": 370370,
+      "rateStepsPerSec": 350877,
       "dt": 0.016,
       "periFoundA": [
        11
@@ -16359,12 +16353,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 178.814,
+      "wallSec": 168.95,
       "wallNearBudget": true,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 80000000,
       "stepsRun": 80000000,
-      "rateStepsPerSec": 444444,
+      "rateStepsPerSec": 465116,
       "dt": 0.008,
       "periFoundA": [
        11
@@ -16408,7 +16402,7 @@
      "stepsHit": true,
      "minPeriastra": 11,
      "periastraOk": false,
-     "wallSec": 86.731,
+     "wallSec": 84.322,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": true,
@@ -16427,7 +16421,7 @@
      "windowFilledA": [
       false
      ],
-     "rateStepsPerSec": 370370,
+     "rateStepsPerSec": 350877,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -16467,7 +16461,7 @@
       "stepsHit": true,
       "minPeriastra": 11,
       "periastraOk": false,
-      "wallSec": 86.731,
+      "wallSec": 84.322,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -16486,7 +16480,7 @@
       "windowFilledA": [
        false
       ],
-      "rateStepsPerSec": 370370,
+      "rateStepsPerSec": 350877,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -16525,7 +16519,7 @@
       "stepsHit": true,
       "minPeriastra": 11,
       "periastraOk": false,
-      "wallSec": 178.814,
+      "wallSec": 168.95,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -16544,7 +16538,7 @@
       "windowFilledA": [
        false
       ],
-      "rateStepsPerSec": 444444,
+      "rateStepsPerSec": 465116,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -16557,17 +16551,17 @@
     "h2Reuse": {
      "key": "plutoCharonDiagInput",
      "reused": false,
-     "reason": "other-flight",
+     "reason": "contract",
      "diff": [
-      "targetSha256"
+      "presetHash"
      ],
-     "contractSha": "637ca6df7be96503974d3540089d3cda217aca37d9e59f8c574ee7b346670d71",
-     "hSig": "0f7f84d88373ea967d8391eb215ab72c0116e26fc63b0f80554ed9244d06e7fa",
+     "contractSha": "6001f4571d3c0cfb3f994f1c9c619d977386ecfd1cc4230973c52e506b0292b8",
+     "hSig": "32b7af1aa1e741743b680895e3e15797a79ad4c8e73d8a485854c42c43c8eba2",
      "stable": {
       "version": "w287b-h2cross-1",
-      "sha": "d8bcd0c7424b1dc8501e183b0d385a02c978166466e59c0d8ea20c19f111d870",
+      "sha": "029c155c5e8fcfbe8c127938f42abdd374490322fc3348abbb1fe40fd08e501f",
       "parts": {
-       "physicsDecl": "c3799730cedf06e77e6ed5ebbd7e94595378cef2ddaba21eeb96bad554aa95fb",
+       "physicsDecl": "e0ecc0de6cf7c9efe6efaffb460db59e5359808928fd9d264ac0fe0428cc81f5",
        "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
        "instrument": "c3983937d5b92eebdbe45d6e89ea5a27b7a5f1954bff544996278b8dde9536f0",
        "stopRule": "d708f1f277b9374997c67fddca01e9c8a6da7fc614ca9419a2088f888530275c",
@@ -16746,8 +16740,135 @@
      "kind": "other",
      "version": "obs",
      "target": null,
-     "model": "551863.655525 s(閉じた式)—— **保留(数値未解決+写像未解決)**: 現在の GM と a から得るニュートン二体周期は比較値より +7.216805 s(+278.426σ)長く、走行の残差(正本 ",
+     "model": "**保留(数値未解決+写像未解決)**: 現在の GM と a から得るニュートン二体周期(閉じた式 551863.655525 s)は比較値より +7.216805 s(+278.426σ)長い",
      "obs": "551856.43872±0.02592 s",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "numBoundDt2": null,
+     "numBoundDecl": null,
+     "contractRange": {
+      "status": "宣言なし",
+      "held": false
+     },
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "plutoCharonDiagInput|null|other",
+      "assessedStage": "h",
+      "assessedValue": null,
+      "coarseStage": "h",
+      "coarseValue": null,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
+      "h8Promoted": false,
+      "h8PromoteReason": null,
+      "h4Value": null,
+      "pObsThreeStage": null,
+      "detectorCanonical": "A",
+      "definitionDeclared": false,
+      "definitionDeclaredNote": "",
+      "rowDefContract": null,
+      "mappingResolved": true,
+      "mappingNote": null,
+      "orbitNoiseIndicator": {
+       "abRelPct": null,
+       "sigmaRelPct": null,
+       "ratio": null,
+       "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
+       "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
+      },
+      "sigmaRelPct": null,
+      "numBound": null,
+      "sigma": null,
+      "sigmaFrom": null,
+      "sigmaSource": null,
+      "sigmaCardVsCsvRel": null,
+      "detSpreadPct": null,
+      "defSpreadCrossDefPct": null,
+      "defSpreadPct": null,
+      "defMeta": true,
+      "definitionNote": "",
+      "numBoundDecl": null,
+      "convergence": {
+       "ok": false,
+       "okLegacy": false,
+       "steps": null,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
+       "epsHatInSigma": null,
+       "epsHatOk": null,
+       "lastDiff": null,
+       "lastDiffInSigma": null,
+       "lastDiffOk": null,
+       "assessedStage": "h",
+       "orderEstimable": true,
+       "orderEstimableReason": null,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
+       "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
+       "budget": null,
+       "windowsComplete": false,
+       "extractionClean": false,
+       "fitWindows": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
+       "previous": {
+        "rule": "3 段かつ order>0(第253便b〜第269便a)",
+        "ok": false,
+        "noteRef": "convergence.previous.note#522b1e55"
+       },
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
+      },
+      "arithOnly": null,
+      "deprecatedKeysMoved": "calaudit-w249-diag.json"
+     },
+     "requiredContext": {
+      "kFrame": 0,
+      "source": "preset-physics",
+      "evidence": null
+     },
+     "measurementContext": {
+      "kFrame": 0,
+      "source": "run(preset physics)",
+      "dt": 0.016,
+      "steps": 40000000
+     },
+     "conditionMatch": true,
+     "predictionEligible": false,
+     "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
+     "budget": {
+      "v": "w287b-budget-2",
+      "src": "kind",
+      "mode": "not-judged",
+      "factor": null,
+      "width": null,
+      "of": null,
+      "floorAbs": null,
+      "withSigma": false,
+      "allowance": null,
+      "unit": null,
+      "needPeriastra": null,
+      "orbits": null,
+      "factorStatus": null
+     }
+    },
+    {
+     "name": "閉じた式の差と走行の残差",
+     "kind": "other",
+     "version": "obs",
+     "target": null,
+     "model": "走行の残差(正本 calaudit のこの行)のほぼ全体を占める。刻みの細分化だけで消えるとは見込まない",
+     "obs": "—(器 charonInput の closedFormPeriod・closedFormResidual —— 門ではない・入力は PLU060 の解・目標は Buie の二体当てはめ)",
      "obsErr": null,
      "meas": null,
      "unit": null,
@@ -17256,6 +17377,133 @@
      "target": null,
      "model": "🌨️ 比 −23.004 s・⛄ 比 −24.683 s(元期 A の接触状態と暦の平均の差)",
      "obs": "—(同一定義の表 §5.33.2)",
+     "obsErr": null,
+     "meas": null,
+     "unit": null,
+     "residualPct": null,
+     "verdict": "転",
+     "method": "declaration",
+     "standard": false,
+     "note": "合否の対象ではない宣言行(規約・帳簿・単位族・受け皿など)",
+     "numBoundDt2": null,
+     "numBoundDecl": null,
+     "contractRange": {
+      "status": "宣言なし",
+      "held": false
+     },
+     "gate": {
+      "status": "未判定",
+      "reason": "観測誤差(σ)または有限の実測が無い",
+      "key": "plutoCharonDiagInput|null|other",
+      "assessedStage": "h",
+      "assessedValue": null,
+      "coarseStage": "h",
+      "coarseValue": null,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
+      "h8Promoted": false,
+      "h8PromoteReason": null,
+      "h4Value": null,
+      "pObsThreeStage": null,
+      "detectorCanonical": "A",
+      "definitionDeclared": false,
+      "definitionDeclaredNote": "",
+      "rowDefContract": null,
+      "mappingResolved": true,
+      "mappingNote": null,
+      "orbitNoiseIndicator": {
+       "abRelPct": null,
+       "sigmaRelPct": null,
+       "ratio": null,
+       "gate": "none(第257便d で門から外した — 第256便d までは definitionMatches の判定根拠だった)",
+       "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
+      },
+      "sigmaRelPct": null,
+      "numBound": null,
+      "sigma": null,
+      "sigmaFrom": null,
+      "sigmaSource": null,
+      "sigmaCardVsCsvRel": null,
+      "detSpreadPct": null,
+      "defSpreadCrossDefPct": null,
+      "defSpreadPct": null,
+      "defMeta": true,
+      "definitionNote": "",
+      "numBoundDecl": null,
+      "convergence": {
+       "ok": false,
+       "okLegacy": false,
+       "steps": null,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
+       "epsHatInSigma": null,
+       "epsHatOk": null,
+       "lastDiff": null,
+       "lastDiffInSigma": null,
+       "lastDiffOk": null,
+       "assessedStage": "h",
+       "orderEstimable": true,
+       "orderEstimableReason": null,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
+       "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
+       "budget": null,
+       "windowsComplete": false,
+       "extractionClean": false,
+       "fitWindows": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
+       "previous": {
+        "rule": "3 段かつ order>0(第253便b〜第269便a)",
+        "ok": false,
+        "noteRef": "convergence.previous.note#522b1e55"
+       },
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
+      },
+      "arithOnly": null,
+      "deprecatedKeysMoved": "calaudit-w249-diag.json"
+     },
+     "requiredContext": {
+      "kFrame": 0,
+      "source": "preset-physics",
+      "evidence": null
+     },
+     "measurementContext": {
+      "kFrame": 0,
+      "source": "run(preset physics)",
+      "dt": 0.016,
+      "steps": 40000000
+     },
+     "conditionMatch": true,
+     "predictionEligible": false,
+     "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
+     "budget": {
+      "v": "w287b-budget-2",
+      "src": "kind",
+      "mode": "not-judged",
+      "factor": null,
+      "width": null,
+      "of": null,
+      "floorAbs": null,
+      "withSigma": false,
+      "allowance": null,
+      "unit": null,
+      "needPeriastra": null,
+      "orbits": null,
+      "factorStatus": null
+     }
+    },
+    {
+     "name": "1PN の源集合の是正(第291便b)",
+     "kind": "other",
+     "version": "obs",
+     "target": null,
+     "model": "カロンも 1PN 源 —— この是正で閉じた式の差は消えない(1PN の寄与は 10⁻⁷ s の桁)",
+     "obs": "—",
      "obsErr": null,
      "meas": null,
      "unit": null,
@@ -18184,11 +18432,10 @@
     "窓": 0,
     "否": 0,
     "従": 0,
-    "転": 8,
+    "転": 10,
     "条": 0
    },
    "notes": [
-    "validatePreset 警告: obsCard が不正のため削除({q,model,obs}文字列の配列・≤8件)",
     "dt 収束(主対象 カロン): 周期 551863.660 → 551863.660 s(0.0000%) / 近点移動 8.5702e-6 → -2.9715e-4 °/周"
    ]
   },
@@ -18205,7 +18452,7 @@
     "n": 94,
     "dt": 0.016,
     "steps": 1075028,
-    "wallSec": 59.054,
+    "wallSec": 56.952,
     "orbits": [
      {
       "label": "ミランダ",
@@ -18249,12 +18496,12 @@
       "tag": "dt",
       "budgetSec": 240,
       "heavy": true,
-      "wallSec": 59.054,
+      "wallSec": 56.952,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1075028,
       "stepsRun": 1075028,
-      "rateStepsPerSec": 18921,
+      "rateStepsPerSec": 19841,
       "dt": 0.016,
       "periFoundA": [
        14,
@@ -18306,7 +18553,7 @@
      "stepsHit": true,
      "minPeriastra": 1,
      "periastraOk": false,
-     "wallSec": 59.054,
+     "wallSec": 56.952,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": true,
@@ -18341,7 +18588,7 @@
       false,
       false
      ],
-     "rateStepsPerSec": 18921,
+     "rateStepsPerSec": 19841,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -18381,7 +18628,7 @@
       "stepsHit": true,
       "minPeriastra": 1,
       "periastraOk": false,
-      "wallSec": 59.054,
+      "wallSec": 56.952,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -18416,7 +18663,7 @@
        false,
        false
       ],
-      "rateStepsPerSec": 18921,
+      "rateStepsPerSec": 19841,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -22237,7 +22484,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 1904169,
-    "wallSec": 2.421,
+    "wallSec": 2.275,
     "orbits": [
      {
       "label": "トリトン",
@@ -22260,12 +22507,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 2.421,
+      "wallSec": 2.275,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1904169,
       "stepsRun": 1904169,
-      "rateStepsPerSec": 526316,
+      "rateStepsPerSec": 714286,
       "dt": 0.016,
       "periFoundA": [
        59
@@ -22280,7 +22527,7 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 4.632,
+      "wallSec": 4.622,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 3808338,
@@ -22329,7 +22576,7 @@
      "stepsHit": true,
      "minPeriastra": 59,
      "periastraOk": true,
-     "wallSec": 2.421,
+     "wallSec": 2.275,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -22349,7 +22596,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 526316,
+     "rateStepsPerSec": 714286,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -22388,7 +22635,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 2.421,
+      "wallSec": 2.275,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -22408,7 +22655,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 526316,
+      "rateStepsPerSec": 714286,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -22446,7 +22693,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 4.632,
+      "wallSec": 4.622,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -24053,7 +24300,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 9439328,
-    "wallSec": 11.879,
+    "wallSec": 12.182,
     "orbits": [
      {
       "label": "B",
@@ -24067,36 +24314,21 @@
     "warnings": 0,
     "dtHalf": {
      "dt": 0.008,
-     "steps": 18878657,
-     "skippedBy": "reuse-dt2",
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T22:20:40.685Z",
-      "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-      "contractSha": "e522fb3f04073433b31a93f1ad11810810d419799e2c70b4d304b8cde4750494",
-      "wallSec": 24.632
-     }
+     "steps": 18878657
     },
-    "dtQuarter": {
-     "dt": 0.004,
-     "steps": 37757313,
-     "skippedBy": "reuse",
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T20:47:47.316Z",
-      "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-     }
-    },
+    "dtQuarter": null,
     "dtEighth": null,
     "timeBudget": [
      {
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 11.879,
+      "wallSec": 12.182,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 9439328,
       "stepsRun": 9439328,
-      "rateStepsPerSec": 555556,
+      "rateStepsPerSec": 714286,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -24111,12 +24343,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 24.632,
+      "wallSec": 23.615,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 18878657,
       "stepsRun": 18878657,
-      "rateStepsPerSec": 833333,
+      "rateStepsPerSec": 869565,
       "dt": 0.008,
       "periFoundA": [
        60
@@ -24125,40 +24357,6 @@
       "windowFilledA": [
        true
       ],
-      "reused": true,
-      "skippedBy": "reuse-dt2",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T22:20:40.685Z",
-       "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-       "contractSha": "e522fb3f04073433b31a93f1ad11810810d419799e2c70b4d304b8cde4750494",
-       "wallSec": 24.632
-      },
-      "noteRef": "timeBudget.note#bb6955d8"
-     },
-     {
-      "tag": "dt/4",
-      "budgetSec": 80,
-      "heavy": false,
-      "wallSec": 48.618,
-      "wallNearBudget": false,
-      "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
-      "maxSteps": 37757313,
-      "stepsRun": 37757313,
-      "rateStepsPerSec": 909091,
-      "dt": 0.004,
-      "periFoundA": [
-       60
-      ],
-      "periWindow": 20,
-      "windowFilledA": [
-       true
-      ],
-      "reused": true,
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T20:47:47.316Z",
-       "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-      },
       "noteRef": "timeBudget.note#bb6955d8"
      }
     ],
@@ -24194,7 +24392,7 @@
      "stepsHit": true,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 11.879,
+     "wallSec": 12.182,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -24214,7 +24412,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 555556,
+     "rateStepsPerSec": 714286,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -24253,7 +24451,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 11.879,
+      "wallSec": 12.182,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -24273,7 +24471,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 555556,
+      "rateStepsPerSec": 714286,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -24311,7 +24509,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 24.632,
+      "wallSec": 23.615,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -24331,78 +24529,8 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 833333,
+      "rateStepsPerSec": 869565,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
-      "skippedBy": "reuse-dt2",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T22:20:40.685Z",
-       "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-       "contractSha": "e522fb3f04073433b31a93f1ad11810810d419799e2c70b4d304b8cde4750494",
-       "wallSec": 24.632
-      },
-      "machineIndependenceMoved": "calaudit-w249-diag.json",
-      "ruleRef": "stopRule.rule#33ef3b99"
-     },
-     {
-      "tag": "dt/4",
-      "version": "w288b-1",
-      "id": "alphaCenAB",
-      "n": 2,
-      "dt": 0.004,
-      "orbMax": 60,
-      "declaredMaxSteps": 160000000,
-      "maxStepsSource": "class(n<=3)",
-      "maxStepsWhy": "第249便b の hardCap(n≤3)の宣言値",
-      "needPeriastra": 20,
-      "needPeriastraSource": "default",
-      "needPeriastraWhy": "第252便b の近点窓(最初の 20 近点 = 19 区間)",
-      "wantSteps": 37757313,
-      "floorSteps": 3146443,
-      "maxSteps": 37757313,
-      "targetTime": {
-       "rule": "w285f-T1",
-       "dtBase": 0.016,
-       "capBaseSteps": 40000000,
-       "orbitBaseSteps": 9439328,
-       "tBaseSteps": 9439328,
-       "tSim": 151029.25329954393,
-       "window": "osc0-orbits",
-       "boundBy": "orbit"
-      },
-      "orbitWindow": null,
-      "boundBy": "orbit-window",
-      "floorSatisfied": true,
-      "stepsRun": 37757313,
-      "stepsHit": true,
-      "minPeriastra": 60,
-      "periastraOk": true,
-      "wallSec": 48.618,
-      "wallCeilingSec": 900,
-      "resourceExceeded": false,
-      "cappedByDeclaration": false,
-      "complete": true,
-      "unmeasuredReason": null,
-      "stoppedBy": "orbit-window(走り切った)",
-      "note": "近点 60 本 ≥ 宣言 20 本(測定が成立する)",
-      "stepsPerOrbit0": [
-       629289
-      ],
-      "periFoundA": [
-       60
-      ],
-      "periFitN": [
-       60
-      ],
-      "windowFilledA": [
-       true
-      ],
-      "rateStepsPerSec": 909091,
-      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T20:47:47.316Z",
-       "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-      },
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
      }
@@ -24410,21 +24538,13 @@
     "stepsPerOrbit0": [
      157322
     ],
-    "h4Reuse": {
-     "key": "alphaCenAB",
-     "reused": true,
-     "reason": null,
-     "diff": [],
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T20:47:47.316Z",
-      "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-     }
-    },
     "h2Reuse": {
      "key": "alphaCenAB",
-     "reused": true,
-     "reason": null,
-     "diff": [],
+     "reused": false,
+     "reason": "other-flight",
+     "diff": [
+      "targetSha256"
+     ],
      "contractSha": "e522fb3f04073433b31a93f1ad11810810d419799e2c70b4d304b8cde4750494",
      "hSig": "1a044cf94333c56c6883b86d6aea9beb440f7a87d0240a5080491f56436c104d",
      "stable": {
@@ -24441,12 +24561,7 @@
       },
       "missing": []
      },
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T22:20:40.685Z",
-      "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-      "contractSha": "e522fb3f04073433b31a93f1ad11810810d419799e2c70b4d304b8cde4750494",
-      "wallSec": 24.632
-     }
+     "reusedFrom": null
     }
    },
    "contractRange": {
@@ -24462,11 +24577,6 @@
      },
      {
       "tag": "dt/2",
-      "status": "宣言なし",
-      "timeOutSteps": 0
-     },
-     {
-      "tag": "dt/4",
       "status": "宣言なし",
       "timeOutSteps": 0
      }
@@ -24584,7 +24694,7 @@
      "toleranceUsedPct": 0.023820867079561697,
      "strictOK": true,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -24601,67 +24711,47 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 1.4028587341308594,
+     "numBoundDt2": 5.599215984344482,
      "numBoundDef": "revolution-or-osculating",
-     "numBoundDt3": 7.002074718475342,
-     "pObs": 1.996855092747337,
-     "dtStages": {
-      "dt": 2517154629.0359173,
-      "dtHalf": 2517154623.4367013,
-      "dtQuarter": 2517154622.0338426
-     },
      "numBoundDecl": {
-      "value": 1.4028587341308594,
-      "steps": 3,
-      "order": 1.996855092747337,
-      "assessedStage": "h4",
+      "value": 5.599215984344482,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 1.4028587341308594,
-       "order": 1.996855092747337,
-       "factor": 0.33430393326484403,
-       "refined": 0.4689811926348864,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3343 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 5.599215984344482,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#7e4679fa"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": 5.599215984344482,
-      "d2": 1.4028587341308594,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": 2517154622.0338426,
-     "coarseValue": 2517154629.0359173,
-     "coarseNumBound": 7.002074718475342,
      "contractRange": {
       "status": "宣言なし",
       "held": false
      },
      "gate": {
-      "residual": 57330.833842754364,
-      "nSigma": 0.09561602617161595,
+      "residual": 57337.83591747284,
+      "nSigma": 0.0956277041904875,
       "sigma": 599594.4,
-      "status": "合(3σ)",
-      "numBound": 1.4028587341308594,
-      "tolerance": 1798784.6028587343,
+      "status": "数値未解決",
+      "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)",
+      "numBound": 5.599215984344482,
       "key": "alphaCenAB|B|period",
-      "assessedStage": "h4",
-      "assessedValue": 2517154622.0338426,
+      "assessedStage": "h",
+      "assessedValue": 2517154629.0359173,
       "coarseStage": "h",
       "coarseValue": 2517154629.0359173,
-      "coarseNumBound": 7.002074718475342,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -24695,63 +24785,61 @@
       "defSpreadPct": 9.4717508456612e-14,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 1.4028587341308594,
-       "steps": 3,
-       "order": 1.996855092747337,
-       "assessedStage": "h4",
+       "value": 5.599215984344482,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 1.4028587341308594,
-        "order": 1.996855092747337,
-        "factor": 0.33430393326484403,
-        "refined": 0.4689811926348864,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3343 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 5.599215984344482,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#7e4679fa"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
-       "ok": true,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 1.996855092747337,
-       "orderGuard": true,
-       "epsHat": 0.46898119263488636,
-       "epsHatInSigma": 7.821640639653845e-7,
-       "epsHatOk": true,
-       "lastDiff": 1.4028587341308594,
-       "lastDiffInSigma": 0.0000023396795135692717,
+       "ok": false,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
+       "epsHatInSigma": null,
+       "epsHatOk": null,
+       "lastDiff": 5.599215984344482,
+       "lastDiffInSigma": 0.000009338339357980132,
        "lastDiffOk": true,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 7.002074718475342,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": 179878.32,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         60
        ],
-       "hold": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": true,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionNoteRef": "gate.definitionNote#8c8d28c4"
      },
      "requiredContext": {
@@ -24768,8 +24856,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -24859,7 +24945,7 @@
      "toleranceUsedPct": 0.028875584730590792,
      "strictOK": true,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -24876,65 +24962,45 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 1.5342649373195627e-10,
-     "numBoundDt3": 7.621684394720774e-10,
-     "pObs": 1.9882831496787685,
-     "dtStages": {
-      "dt": 0.5194699659192947,
-      "dtHalf": 0.5194699665280367,
-      "dtQuarter": 0.5194699666814632
-     },
+     "numBoundDt2": 6.087419457401211e-10,
      "numBoundDecl": {
-      "value": 1.5342649373195627e-10,
-      "steps": 3,
-      "order": 1.9882831496787685,
-      "assessedStage": "h4",
+      "value": 6.087419457401211e-10,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 1.5342649373195627e-10,
-       "order": 1.9882831496787685,
-       "factor": 0.33696746520521115,
-       "refined": 5.169973668818052e-11,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3370 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 6.087419457401211e-10,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#5954ab5e"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": -6.087419457401211e-10,
-      "d2": -1.5342649373195627e-10,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": 0.5194699666814632,
-     "coarseValue": 0.5194699659192947,
-     "coarseNumBound": 7.621684394720774e-10,
      "contractRange": {
       "status": "宣言なし",
       "held": false
      },
      "gate": {
-      "residual": -3.3318536818427447e-8,
-      "nSigma": 0.00022212357878951633,
+      "residual": -3.4080705257899524e-8,
+      "nSigma": 0.0002272047017193302,
       "sigma": 0.00015,
       "status": "mapping-unresolved",
       "reason": "観測量対応が未確定(軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない)",
       "key": "alphaCenAB|B|ecc",
-      "assessedStage": "h4",
-      "assessedValue": 0.5194699666814632,
+      "assessedStage": "h",
+      "assessedValue": 0.5194699659192947,
       "coarseStage": "h",
       "coarseValue": 0.5194699659192947,
-      "coarseNumBound": 7.621684394720774e-10,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -24952,7 +25018,7 @@
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": 0.028875584730590792,
-      "numBound": 1.5342649373195627e-10,
+      "numBound": 6.087419457401211e-10,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "Alpha Centauri B",
@@ -24968,63 +25034,61 @@
       "defSpreadPct": null,
       "defMeta": false,
       "numBoundDecl": {
-       "value": 1.5342649373195627e-10,
-       "steps": 3,
-       "order": 1.9882831496787685,
-       "assessedStage": "h4",
+       "value": 6.087419457401211e-10,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 1.5342649373195627e-10,
-        "order": 1.9882831496787685,
-        "factor": 0.33696746520521115,
-        "refined": 5.169973668818052e-11,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3370 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 6.087419457401211e-10,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#5954ab5e"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
-       "ok": true,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 1.9882831496787685,
-       "orderGuard": true,
-       "epsHat": 5.1699736688180526e-11,
-       "epsHatInSigma": 3.446649112545369e-7,
-       "epsHatOk": true,
-       "lastDiff": 1.5342649373195627e-10,
-       "lastDiffInSigma": 0.0000010228432915463752,
+       "ok": false,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
+       "epsHatInSigma": null,
+       "epsHatOk": null,
+       "lastDiff": 6.087419457401211e-10,
+       "lastDiffInSigma": 0.000004058279638267474,
        "lastDiffOk": true,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 7.621684394720774e-10,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": 0.000044999999999999996,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         60
        ],
-       "hold": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": true,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionNoteRef": "gate.definitionNote#c0d07c08",
       "definitionDeclaredNoteRef": "gate.definitionDeclaredNote#b1b34161"
      },
@@ -25042,8 +25106,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -25462,7 +25524,7 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -25479,7 +25541,7 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
      "numBoundDt2": null,
@@ -25634,7 +25696,7 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -25651,49 +25713,28 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 7.381391768086331e-8,
-     "numBoundDt3": 3.690697419164954e-7,
-     "pObs": 2.000000750099739,
-     "dtStages": {
-      "dt": -0.000019992004368430074,
-      "dtHalf": -0.000019696748544194442,
-      "dtQuarter": -0.00001962293462651358
-     },
+     "numBoundDt2": 2.952558242356321e-7,
      "numBoundDecl": {
-      "value": 7.381391768086331e-8,
-      "steps": 3,
-      "order": 2.000000750099739,
-      "assessedStage": "h4",
+      "value": 2.952558242356321e-7,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 7.381391768086331e-8,
-       "order": 2.000000750099739,
-       "factor": 0.3333331022536471,
-       "refined": 2.46046221700575e-8,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3333 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 2.952558242356321e-7,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#88003956"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": -2.952558242356321e-7,
-      "d2": -7.381391768086331e-8,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": -0.00001962293462651358,
-     "coarseValue": -0.000019992004368430074,
-     "coarseNumBound": 3.690697419164954e-7,
      "degYear": {
       "measured": true,
       "unit": "deg/yr",
@@ -25703,37 +25744,27 @@
       "stages": {
        "dt": -2.506400537830695e-7,
        "dtHalf": -2.46938427183355e-7,
-       "dtQuarter": -2.4601302102059017e-7,
+       "dtQuarter": null,
        "dtEighth": null
       },
-      "nStages": 3,
-      "numBound": 4.627032762479355e-9,
-      "pObs": 2.0000007594811913,
-      "converged": true,
+      "nStages": 2,
+      "numBound": 3.7016265997145027e-9,
+      "pObs": null,
+      "converged": false,
       "numBoundEstimate": {
-       "raw": 4.627032762479355e-9,
-       "order": 2.0000007594811913,
-       "factor": 1.0666665917963474,
-       "refined": 4.935501266883891e-9,
+       "raw": 3.7016265997145027e-9,
+       "order": null,
+       "factor": null,
+       "refined": null,
        "side": "coarse",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0667 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
       "numBoundSide": "coarse(この欄の meas は h 段)",
-      "numBoundLastDiff": 9.254061627648523e-10,
-      "numBoundEstimateFine": {
-       "raw": 9.254061627648523e-10,
-       "order": 2.0000007594811913,
-       "factor": 0.33333309936354866,
-       "refined": 3.084685044045368e-10,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3333 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
-      },
+      "numBoundLastDiff": null,
+      "numBoundEstimateFine": null,
       "obs": null,
       "sigma": null,
       "timeFit": {
@@ -25779,11 +25810,12 @@
       "status": "未判定",
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "alphaCenAB|B|precession",
-      "assessedStage": "h4",
-      "assessedValue": -0.00001962293462651358,
+      "assessedStage": "h",
+      "assessedValue": -0.000019992004368430074,
       "coarseStage": "h",
       "coarseValue": -0.000019992004368430074,
-      "coarseNumBound": 3.690697419164954e-7,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -25801,7 +25833,7 @@
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 7.381391768086331e-8,
+      "numBound": 2.952558242356321e-7,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": null,
@@ -25812,63 +25844,61 @@
       "defMeta": true,
       "definitionNote": "検出器 A/B(同じ近点方位 fit)の広がり=7.46e-6%",
       "numBoundDecl": {
-       "value": 7.381391768086331e-8,
-       "steps": 3,
-       "order": 2.000000750099739,
-       "assessedStage": "h4",
+       "value": 2.952558242356321e-7,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 7.381391768086331e-8,
-        "order": 2.000000750099739,
-        "factor": 0.3333331022536471,
-        "refined": 2.46046221700575e-8,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3333 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 2.952558242356321e-7,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#88003956"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
-       "ok": true,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 2.000000750099739,
-       "orderGuard": true,
-       "epsHat": 2.46046221700575e-8,
+       "ok": false,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 7.381391768086331e-8,
+       "lastDiff": 2.952558242356321e-7,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 3.690697419164954e-7,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": null,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         60
        ],
-       "hold": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": null,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionDeclaredNoteRef": "gate.definitionDeclaredNote#1d38b546"
      },
      "requiredContext": {
@@ -25885,8 +25915,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -25913,7 +25941,6 @@
     "条": 0
    },
    "notes": [
-    "**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 -1.9992e-5 → -1.9623e-5 °/周(h → h/4) / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた",
     "dt 収束(主対象 B): 周期 2.51715463e+9 → 2.51715462e+9 s(-0.0000%) / 近点移動 -1.9992e-5 → -1.9697e-5 °/周"
    ]
   },
@@ -25930,7 +25957,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 5932383,
-    "wallSec": 7.183,
+    "wallSec": 7.16,
     "orbits": [
      {
       "label": "B",
@@ -25944,36 +25971,21 @@
     "warnings": 0,
     "dtHalf": {
      "dt": 0.008,
-     "steps": 11864765,
-     "skippedBy": "reuse-dt2",
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T22:20:40.685Z",
-      "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-      "contractSha": "033102769a3ead17d1ea39da6b505fc5080a1ad8a55f9a24908c4ef1a3b88c6c",
-      "wallSec": 14.825
-     }
+     "steps": 11864765
     },
-    "dtQuarter": {
-     "dt": 0.004,
-     "steps": 23729530,
-     "skippedBy": "reuse",
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T20:47:47.316Z",
-      "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-     }
-    },
+    "dtQuarter": null,
     "dtEighth": null,
     "timeBudget": [
      {
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 7.183,
+      "wallSec": 7.16,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 5932383,
       "stepsRun": 5932383,
-      "rateStepsPerSec": 588235,
+      "rateStepsPerSec": 952381,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -25988,12 +26000,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 14.825,
+      "wallSec": 14.206,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 11864765,
       "stepsRun": 11864765,
-      "rateStepsPerSec": 689655,
+      "rateStepsPerSec": 952381,
       "dt": 0.008,
       "periFoundA": [
        60
@@ -26002,40 +26014,6 @@
       "windowFilledA": [
        true
       ],
-      "reused": true,
-      "skippedBy": "reuse-dt2",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T22:20:40.685Z",
-       "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-       "contractSha": "033102769a3ead17d1ea39da6b505fc5080a1ad8a55f9a24908c4ef1a3b88c6c",
-       "wallSec": 14.825
-      },
-      "noteRef": "timeBudget.note#bb6955d8"
-     },
-     {
-      "tag": "dt/4",
-      "budgetSec": 80,
-      "heavy": false,
-      "wallSec": 29.109,
-      "wallNearBudget": false,
-      "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
-      "maxSteps": 23729530,
-      "stepsRun": 23729530,
-      "rateStepsPerSec": 740741,
-      "dt": 0.004,
-      "periFoundA": [
-       60
-      ],
-      "periWindow": 20,
-      "windowFilledA": [
-       true
-      ],
-      "reused": true,
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T20:47:47.316Z",
-       "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-      },
       "noteRef": "timeBudget.note#bb6955d8"
      }
     ],
@@ -26071,7 +26049,7 @@
      "stepsHit": true,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 7.183,
+     "wallSec": 7.16,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -26091,7 +26069,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 588235,
+     "rateStepsPerSec": 952381,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -26130,7 +26108,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 7.183,
+      "wallSec": 7.16,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -26150,7 +26128,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 588235,
+      "rateStepsPerSec": 952381,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -26188,7 +26166,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 14.825,
+      "wallSec": 14.206,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -26208,78 +26186,8 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 689655,
+      "rateStepsPerSec": 952381,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
-      "skippedBy": "reuse-dt2",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T22:20:40.685Z",
-       "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-       "contractSha": "033102769a3ead17d1ea39da6b505fc5080a1ad8a55f9a24908c4ef1a3b88c6c",
-       "wallSec": 14.825
-      },
-      "machineIndependenceMoved": "calaudit-w249-diag.json",
-      "ruleRef": "stopRule.rule#33ef3b99"
-     },
-     {
-      "tag": "dt/4",
-      "version": "w288b-1",
-      "id": "siriusAB",
-      "n": 2,
-      "dt": 0.004,
-      "orbMax": 60,
-      "declaredMaxSteps": 160000000,
-      "maxStepsSource": "class(n<=3)",
-      "maxStepsWhy": "第249便b の hardCap(n≤3)の宣言値",
-      "needPeriastra": 20,
-      "needPeriastraSource": "default",
-      "needPeriastraWhy": "第252便b の近点窓(最初の 20 近点 = 19 区間)",
-      "wantSteps": 23729530,
-      "floorSteps": 1977461,
-      "maxSteps": 23729530,
-      "targetTime": {
-       "rule": "w285f-T1",
-       "dtBase": 0.016,
-       "capBaseSteps": 40000000,
-       "orbitBaseSteps": 5932383,
-       "tBaseSteps": 5932383,
-       "tSim": 94918.12172778895,
-       "window": "osc0-orbits",
-       "boundBy": "orbit"
-      },
-      "orbitWindow": null,
-      "boundBy": "orbit-window",
-      "floorSatisfied": true,
-      "stepsRun": 23729530,
-      "stepsHit": true,
-      "minPeriastra": 60,
-      "periastraOk": true,
-      "wallSec": 29.109,
-      "wallCeilingSec": 900,
-      "resourceExceeded": false,
-      "cappedByDeclaration": false,
-      "complete": true,
-      "unmeasuredReason": null,
-      "stoppedBy": "orbit-window(走り切った)",
-      "note": "近点 60 本 ≥ 宣言 20 本(測定が成立する)",
-      "stepsPerOrbit0": [
-       395492
-      ],
-      "periFoundA": [
-       60
-      ],
-      "periFitN": [
-       60
-      ],
-      "windowFilledA": [
-       true
-      ],
-      "rateStepsPerSec": 740741,
-      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T20:47:47.316Z",
-       "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-      },
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
      }
@@ -26287,21 +26195,13 @@
     "stepsPerOrbit0": [
      98873
     ],
-    "h4Reuse": {
-     "key": "siriusAB",
-     "reused": true,
-     "reason": null,
-     "diff": [],
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T20:47:47.316Z",
-      "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-     }
-    },
     "h2Reuse": {
      "key": "siriusAB",
-     "reused": true,
-     "reason": null,
-     "diff": [],
+     "reused": false,
+     "reason": "other-flight",
+     "diff": [
+      "targetSha256"
+     ],
      "contractSha": "033102769a3ead17d1ea39da6b505fc5080a1ad8a55f9a24908c4ef1a3b88c6c",
      "hSig": "f5cdec9c97d8f9ac8fd2affe16287d55bef872ecde7f78fc73c486a4d3cfa646",
      "stable": {
@@ -26318,12 +26218,7 @@
       },
       "missing": []
      },
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T22:20:40.685Z",
-      "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-      "contractSha": "033102769a3ead17d1ea39da6b505fc5080a1ad8a55f9a24908c4ef1a3b88c6c",
-      "wallSec": 14.825
-     }
+     "reusedFrom": null
     }
    },
    "contractRange": {
@@ -26339,11 +26234,6 @@
      },
      {
       "tag": "dt/2",
-      "status": "宣言なし",
-      "timeOutSteps": 0
-     },
-     {
-      "tag": "dt/4",
       "status": "宣言なし",
       "timeOutSteps": 0
      }
@@ -26461,7 +26351,7 @@
      "toleranceUsedPct": 0.008577971768498496,
      "strictOK": true,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -26478,67 +26368,47 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 3.7116756439208984,
+     "numBoundDt2": 14.805383682250977,
      "numBoundDef": "revolution-or-osculating",
-     "numBoundDt3": 18.517059326171875,
-     "pObs": 1.9959793317263326,
-     "dtStages": {
-      "dt": 1581969207.857875,
-      "dtHalf": 1581969193.0524914,
-      "dtQuarter": 1581969189.3408158
-     },
      "numBoundDecl": {
-      "value": 3.7116756439208984,
-      "steps": 3,
-      "order": 1.9959793317263326,
-      "assessedStage": "h4",
+      "value": 14.805383682250977,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 3.7116756439208984,
-       "order": 1.9959793317263326,
-       "factor": 0.3345748446864311,
-       "refined": 1.2418333020912438,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3346 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 14.805383682250977,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#c4f4752e"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": 14.805383682250977,
-      "d2": 3.7116756439208984,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": 1581969189.3408158,
-     "coarseValue": 1581969207.857875,
-     "coarseNumBound": 18.517059326171875,
      "contractRange": {
       "status": "宣言なし",
       "held": false
      },
      "gate": {
-      "residual": 37193.50081586838,
-      "nSigma": 0.2740909116196267,
+      "residual": 37212.01787519455,
+      "nSigma": 0.2742273698061349,
       "sigma": 135697.68,
-      "status": "合(3σ)",
-      "numBound": 3.7116756439208984,
-      "tolerance": 407096.7516756439,
+      "status": "数値未解決",
+      "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)",
+      "numBound": 14.805383682250977,
       "key": "siriusAB|B|period",
-      "assessedStage": "h4",
-      "assessedValue": 1581969189.3408158,
+      "assessedStage": "h",
+      "assessedValue": 1581969207.857875,
       "coarseStage": "h",
       "coarseValue": 1581969207.857875,
-      "coarseNumBound": 18.517059326171875,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -26572,63 +26442,61 @@
       "defSpreadPct": 1.0549703240241549e-13,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 3.7116756439208984,
-       "steps": 3,
-       "order": 1.9959793317263326,
-       "assessedStage": "h4",
+       "value": 14.805383682250977,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 3.7116756439208984,
-        "order": 1.9959793317263326,
-        "factor": 0.3345748446864311,
-        "refined": 1.2418333020912438,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3346 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 14.805383682250977,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#c4f4752e"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
-       "ok": true,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 1.9959793317263326,
-       "orderGuard": true,
-       "epsHat": 1.2418333020912438,
-       "epsHatInSigma": 0.000009151470401640203,
-       "epsHatOk": true,
-       "lastDiff": 3.7116756439208984,
-       "lastDiffInSigma": 0.000027352535753897184,
+       "ok": false,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
+       "epsHatInSigma": null,
+       "epsHatOk": null,
+       "lastDiff": 14.805383682250977,
+       "lastDiffInSigma": 0.00010910565075431634,
        "lastDiffOk": true,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 18.517059326171875,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": 40709.304,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         60
        ],
-       "hold": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": true,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionNoteRef": "gate.definitionNote#fae4b5c1"
      },
      "requiredContext": {
@@ -26645,8 +26513,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -26736,7 +26602,7 @@
      "toleranceUsedPct": 0.06256129315883806,
      "strictOK": true,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -26753,65 +26619,45 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 5.72930813902417e-10,
-     "numBoundDt3": 3.2638288738340293e-9,
-     "pObs": 2.2316549006333597,
-     "dtStages": {
-      "dt": 0.5914199463868904,
-      "dtHalf": 0.5914199490777885,
-      "dtQuarter": 0.5914199496507193
-     },
+     "numBoundDt2": 2.6908980599316124e-9,
      "numBoundDecl": {
-      "value": 5.72930813902417e-10,
-      "steps": 3,
-      "order": 2.2316549006333597,
-      "assessedStage": "h4",
+      "value": 2.6908980599316124e-9,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 5.72930813902417e-10,
-       "order": 2.2316549006333597,
-       "factor": 0.2705097611762215,
-       "refined": 1.54983377639241e-10,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.2705 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 2.6908980599316124e-9,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#9534fbf6"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": -2.6908980599316124e-9,
-      "d2": -5.72930813902417e-10,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": 0.5914199496507193,
-     "coarseValue": 0.5914199463868904,
-     "coarseNumBound": 3.2638288738340293e-9,
      "contractRange": {
       "status": "宣言なし",
       "held": false
      },
      "gate": {
-      "residual": -5.034928063363253e-8,
-      "nSigma": 0.0001360791368476555,
+      "residual": -5.361310950746656e-8,
+      "nSigma": 0.00014490029596612585,
       "sigma": 0.00037,
       "status": "mapping-unresolved",
       "reason": "観測量対応が未確定(軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない)",
       "key": "siriusAB|B|ecc",
-      "assessedStage": "h4",
-      "assessedValue": 0.5914199496507193,
+      "assessedStage": "h",
+      "assessedValue": 0.5914199463868904,
       "coarseStage": "h",
       "coarseValue": 0.5914199463868904,
-      "coarseNumBound": 3.2638288738340293e-9,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -26829,7 +26675,7 @@
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": 0.06256129315883806,
-      "numBound": 5.72930813902417e-10,
+      "numBound": 2.6908980599316124e-9,
       "sigmaFrom": "csv",
       "sigmaSource": {
        "body": "Sirius B",
@@ -26845,63 +26691,61 @@
       "defSpreadPct": null,
       "defMeta": false,
       "numBoundDecl": {
-       "value": 5.72930813902417e-10,
-       "steps": 3,
-       "order": 2.2316549006333597,
-       "assessedStage": "h4",
+       "value": 2.6908980599316124e-9,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 5.72930813902417e-10,
-        "order": 2.2316549006333597,
-        "factor": 0.2705097611762215,
-        "refined": 1.54983377639241e-10,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.2705 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 2.6908980599316124e-9,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#9534fbf6"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
-       "ok": true,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 2.2316549006333597,
-       "orderGuard": true,
-       "epsHat": 1.54983377639241e-10,
-       "epsHatInSigma": 4.188739936195703e-7,
-       "epsHatOk": true,
-       "lastDiff": 5.72930813902417e-10,
-       "lastDiffInSigma": 0.0000015484616591957216,
+       "ok": false,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
+       "epsHatInSigma": null,
+       "epsHatOk": null,
+       "lastDiff": 2.6908980599316124e-9,
+       "lastDiffInSigma": 0.0000072726974592746285,
        "lastDiffOk": true,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 3.2638288738340293e-9,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": 0.00011099999999999999,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         60
        ],
-       "hold": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": true,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionNoteRef": "gate.definitionNote#436858d6",
       "definitionDeclaredNoteRef": "gate.definitionDeclaredNote#b1b34161"
      },
@@ -26919,8 +26763,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -27339,7 +27181,7 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -27356,7 +27198,7 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
      "numBoundDt2": null,
@@ -27765,7 +27607,7 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -27782,49 +27624,28 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 2.695678355025364e-7,
-     "numBoundDt3": 0.000001347839742870542,
-     "pObs": 2.0000007564318323,
-     "dtStages": {
-      "dt": -0.000035341550287101354,
-      "dtHalf": -0.00003426327837973335,
-      "dtQuarter": -0.00003399371054423081
-     },
+     "numBoundDt2": 0.0000010782719073680055,
      "numBoundDecl": {
-      "value": 2.695678355025364e-7,
-      "steps": 3,
-      "order": 2.0000007564318323,
-      "assessedStage": "h4",
+      "value": 0.0000010782719073680055,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 2.695678355025364e-7,
-       "order": 2.0000007564318323,
-       "factor": 0.3333331003029499,
-       "refined": 8.985588235001607e-8,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3333 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 0.0000010782719073680055,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#88003956"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": -0.0000010782719073680055,
-      "d2": -2.695678355025364e-7,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": -0.00003399371054423081,
-     "coarseValue": -0.000035341550287101354,
-     "coarseNumBound": 0.000001347839742870542,
      "degYear": {
       "measured": true,
       "unit": "deg/yr",
@@ -27834,37 +27655,27 @@
       "stages": {
        "dt": -7.050041458379344e-7,
        "dtHalf": -6.834944455514229e-7,
-       "dtQuarter": -6.781170233836771e-7,
+       "dtQuarter": null,
        "dtEighth": null
       },
-      "nStages": 3,
-      "numBound": 2.6887122454257298e-8,
-      "pObs": 2.0000007790749925,
-      "converged": true,
+      "nStages": 2,
+      "numBound": 2.1509700286511497e-8,
+      "pObs": null,
+      "converged": false,
       "numBoundEstimate": {
-       "raw": 2.6887122454257298e-8,
-       "order": 2.0000007790749925,
-       "factor": 1.0666665898647747,
-       "refined": 2.8679595219559244e-8,
+       "raw": 2.1509700286511497e-8,
+       "order": null,
+       "factor": null,
+       "refined": null,
        "side": "coarse",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0667 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
       "numBoundSide": "coarse(この欄の meas は h 段)",
-      "numBoundLastDiff": 5.377422167745801e-9,
-      "numBoundEstimateFine": {
-       "raw": 5.377422167745801e-9,
-       "order": 2.0000007790749925,
-       "factor": 0.33333309332738154,
-       "refined": 1.7924727653019413e-9,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3333 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
-      },
+      "numBoundLastDiff": null,
+      "numBoundEstimateFine": null,
       "obs": null,
       "sigma": null,
       "timeFit": {
@@ -27910,11 +27721,12 @@
       "status": "未判定",
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "siriusAB|B|precession",
-      "assessedStage": "h4",
-      "assessedValue": -0.00003399371054423081,
+      "assessedStage": "h",
+      "assessedValue": -0.000035341550287101354,
       "coarseStage": "h",
       "coarseValue": -0.000035341550287101354,
-      "coarseNumBound": 0.000001347839742870542,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -27932,7 +27744,7 @@
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 2.695678355025364e-7,
+      "numBound": 0.0000010782719073680055,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": null,
@@ -27943,63 +27755,61 @@
       "defMeta": true,
       "definitionNote": "検出器 A/B(同じ近点方位 fit)の広がり=3.09e-6%",
       "numBoundDecl": {
-       "value": 2.695678355025364e-7,
-       "steps": 3,
-       "order": 2.0000007564318323,
-       "assessedStage": "h4",
+       "value": 0.0000010782719073680055,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 2.695678355025364e-7,
-        "order": 2.0000007564318323,
-        "factor": 0.3333331003029499,
-        "refined": 8.985588235001607e-8,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3333 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 0.0000010782719073680055,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#88003956"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
-       "ok": true,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 2.0000007564318323,
-       "orderGuard": true,
-       "epsHat": 8.985588235001607e-8,
+       "ok": false,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 2.695678355025364e-7,
+       "lastDiff": 0.0000010782719073680055,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 0.000001347839742870542,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": null,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         60
        ],
-       "hold": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": null,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionDeclaredNoteRef": "gate.definitionDeclaredNote#1d38b546"
      },
      "requiredContext": {
@@ -28016,8 +27826,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -28044,7 +27852,6 @@
     "条": 0
    },
    "notes": [
-    "**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 -3.5342e-5 → -3.3994e-5 °/周(h → h/4) / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた",
     "dt 収束(主対象 B): 周期 1.58196921e+9 → 1.58196919e+9 s(-0.0000%) / 近点移動 -3.5342e-5 → -3.4263e-5 °/周"
    ]
   },
@@ -28061,7 +27868,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 3312950,
-    "wallSec": 4.191,
+    "wallSec": 4.178,
     "orbits": [
      {
       "label": "B",
@@ -28084,12 +27891,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 4.191,
+      "wallSec": 4.178,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 3312950,
       "stepsRun": 3312950,
-      "rateStepsPerSec": 588235,
+      "rateStepsPerSec": 714286,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -28104,7 +27911,7 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 8.391,
+      "wallSec": 8.079,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 6625899,
@@ -28153,7 +27960,7 @@
      "stepsHit": true,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 4.191,
+     "wallSec": 4.178,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -28173,7 +27980,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 588235,
+     "rateStepsPerSec": 714286,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -28212,7 +28019,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 4.191,
+      "wallSec": 4.178,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -28232,7 +28039,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 588235,
+      "rateStepsPerSec": 714286,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -28270,7 +28077,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 8.391,
+      "wallSec": 8.079,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -29934,7 +29741,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 2180354,
-    "wallSec": 3.074,
+    "wallSec": 2.719,
     "orbits": [
      {
       "label": "B",
@@ -29957,12 +29764,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 3.074,
+      "wallSec": 2.719,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 2180354,
       "stepsRun": 2180354,
-      "rateStepsPerSec": 425532,
+      "rateStepsPerSec": 689655,
       "dt": 0.016,
       "periFoundA": [
        22
@@ -29977,12 +29784,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 6.008,
+      "wallSec": 5.535,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 4360708,
       "stepsRun": 4360708,
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 909091,
       "dt": 0.008,
       "periFoundA": [
        22
@@ -30029,7 +29836,7 @@
      "stepsHit": true,
      "minPeriastra": 22,
      "periastraOk": true,
-     "wallSec": 3.074,
+     "wallSec": 2.719,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -30049,7 +29856,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 425532,
+     "rateStepsPerSec": 689655,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -30092,7 +29899,7 @@
       "stepsHit": true,
       "minPeriastra": 22,
       "periastraOk": true,
-      "wallSec": 3.074,
+      "wallSec": 2.719,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -30112,7 +29919,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 425532,
+      "rateStepsPerSec": 689655,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -30154,7 +29961,7 @@
       "stepsHit": true,
       "minPeriastra": 22,
       "periastraOk": true,
-      "wallSec": 6.008,
+      "wallSec": 5.535,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -30174,7 +29981,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 800000,
+      "rateStepsPerSec": 909091,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -31838,7 +31645,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 932492,
-    "wallSec": 1.215,
+    "wallSec": 1.184,
     "orbits": [
      {
       "label": "B",
@@ -31861,7 +31668,7 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 1.215,
+      "wallSec": 1.184,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 932492,
@@ -31881,7 +31688,7 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 2.557,
+      "wallSec": 2.442,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1864984,
@@ -31933,7 +31740,7 @@
      "stepsHit": true,
      "minPeriastra": 22,
      "periastraOk": true,
-     "wallSec": 1.215,
+     "wallSec": 1.184,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -31996,7 +31803,7 @@
       "stepsHit": true,
       "minPeriastra": 22,
       "periastraOk": true,
-      "wallSec": 1.215,
+      "wallSec": 1.184,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -32058,7 +31865,7 @@
       "stepsHit": true,
       "minPeriastra": 22,
       "periastraOk": true,
-      "wallSec": 2.557,
+      "wallSec": 2.442,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -33964,7 +33771,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 13631880,
-    "wallSec": 20.436,
+    "wallSec": 19.097,
     "orbits": [
      {
       "label": "B",
@@ -33987,12 +33794,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 20.436,
+      "wallSec": 19.097,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 13631888,
       "stepsRun": 13631880,
-      "rateStepsPerSec": 571429,
+      "rateStepsPerSec": 512821,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -34007,12 +33814,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 42.911,
+      "wallSec": 38.816,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 27263777,
       "stepsRun": 27263758,
-      "rateStepsPerSec": 740741,
+      "rateStepsPerSec": 800000,
       "dt": 0.008,
       "periFoundA": [
        60
@@ -34056,7 +33863,7 @@
      "stepsHit": false,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 20.436,
+     "wallSec": 19.097,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -34076,7 +33883,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 571429,
+     "rateStepsPerSec": 512821,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -34115,7 +33922,7 @@
       "stepsHit": false,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 20.436,
+      "wallSec": 19.097,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -34135,7 +33942,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 571429,
+      "rateStepsPerSec": 512821,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -34173,7 +33980,7 @@
       "stepsHit": false,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 42.911,
+      "wallSec": 38.816,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -34193,7 +34000,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 740741,
+      "rateStepsPerSec": 800000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -35835,7 +35642,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 681306,
-    "wallSec": 0.901,
+    "wallSec": 0.703,
     "orbits": [
      {
       "label": "B",
@@ -35858,12 +35665,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 0.901,
+      "wallSec": 0.703,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 681306,
       "stepsRun": 681306,
-      "rateStepsPerSec": 740741,
+      "rateStepsPerSec": 1111111,
       "dt": 0.016,
       "periFoundA": [
        60
@@ -35878,12 +35685,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 1.551,
+      "wallSec": 1.42,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1362611,
       "stepsRun": 1362611,
-      "rateStepsPerSec": 1052632,
+      "rateStepsPerSec": 1250000,
       "dt": 0.008,
       "periFoundA": [
        60
@@ -35927,7 +35734,7 @@
      "stepsHit": true,
      "minPeriastra": 60,
      "periastraOk": true,
-     "wallSec": 0.901,
+     "wallSec": 0.703,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -35947,7 +35754,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 740741,
+     "rateStepsPerSec": 1111111,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99"
@@ -35986,7 +35793,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 0.901,
+      "wallSec": 0.703,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -36006,7 +35813,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 740741,
+      "rateStepsPerSec": 1111111,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -36044,7 +35851,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 1.551,
+      "wallSec": 1.42,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -36064,7 +35871,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 1052632,
+      "rateStepsPerSec": 1250000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99"
@@ -37611,7 +37418,7 @@
     "n": 2,
     "dt": 0.016,
     "steps": 34013,
-    "wallSec": 0.097,
+    "wallSec": 0.077,
     "orbits": [
      {
       "label": "B",
@@ -37634,12 +37441,12 @@
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 0.097,
+      "wallSec": 0.077,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 34065,
       "stepsRun": 34013,
-      "rateStepsPerSec": 512821,
+      "rateStepsPerSec": 555556,
       "dt": 0.016,
       "periFoundA": [
        3
@@ -37654,12 +37461,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 0.105,
+      "wallSec": 0.096,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 68131,
       "stepsRun": 68025,
-      "rateStepsPerSec": 769231,
+      "rateStepsPerSec": 800000,
       "dt": 0.008,
       "periFoundA": [
        3
@@ -37703,7 +37510,7 @@
      "stepsHit": false,
      "minPeriastra": 3,
      "periastraOk": false,
-     "wallSec": 0.097,
+     "wallSec": 0.077,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -37722,7 +37529,7 @@
      "windowFilledA": [
       false
      ],
-     "rateStepsPerSec": 512821,
+     "rateStepsPerSec": 555556,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#7310cc43",
@@ -37762,7 +37569,7 @@
       "stepsHit": false,
       "minPeriastra": 3,
       "periastraOk": false,
-      "wallSec": 0.097,
+      "wallSec": 0.077,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -37781,7 +37588,7 @@
       "windowFilledA": [
        false
       ],
-      "rateStepsPerSec": 512821,
+      "rateStepsPerSec": 555556,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#7310cc43",
@@ -37820,7 +37627,7 @@
       "stepsHit": false,
       "minPeriastra": 3,
       "periastraOk": false,
-      "wallSec": 0.105,
+      "wallSec": 0.096,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -37839,7 +37646,7 @@
       "windowFilledA": [
        false
       ],
-      "rateStepsPerSec": 769231,
+      "rateStepsPerSec": 800000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#7310cc43",
@@ -39634,7 +39441,7 @@
     "n": 11,
     "dt": 0.016,
     "steps": 668676,
-    "wallSec": 7.095,
+    "wallSec": 6.627,
     "orbits": [
      {
       "label": "D68",
@@ -39648,36 +39455,21 @@
     "warnings": 0,
     "dtHalf": {
      "dt": 0.008,
-     "steps": 1337353,
-     "skippedBy": "reuse-dt2",
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T22:20:40.685Z",
-      "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-      "contractSha": "23d26d05579d18ceb43d6992aeae1d6201e0e73245e45a206cbfa3b10d995f5f",
-      "wallSec": 13.629
-     }
+     "steps": 1337353
     },
-    "dtQuarter": {
-     "dt": 0.004,
-     "steps": 2674708,
-     "skippedBy": "reuse",
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T20:47:47.316Z",
-      "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-     }
-    },
+    "dtQuarter": null,
     "dtEighth": null,
     "timeBudget": [
      {
       "tag": "dt",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 7.095,
+      "wallSec": 6.627,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 699401,
       "stepsRun": 668676,
-      "rateStepsPerSec": 75188,
+      "rateStepsPerSec": 76046,
       "dt": 0.016,
       "periFoundA": [
        58
@@ -39692,12 +39484,12 @@
       "tag": "dt/2",
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 13.629,
+      "wallSec": 13.382,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 1398802,
       "stepsRun": 1337353,
-      "rateStepsPerSec": 104167,
+      "rateStepsPerSec": 107527,
       "dt": 0.008,
       "periFoundA": [
        58
@@ -39706,40 +39498,6 @@
       "windowFilledA": [
        true
       ],
-      "reused": true,
-      "skippedBy": "reuse-dt2",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T22:20:40.685Z",
-       "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-       "contractSha": "23d26d05579d18ceb43d6992aeae1d6201e0e73245e45a206cbfa3b10d995f5f",
-       "wallSec": 13.629
-      },
-      "noteRef": "timeBudget.note#bb6955d8"
-     },
-     {
-      "tag": "dt/4",
-      "budgetSec": 80,
-      "heavy": false,
-      "wallSec": 26.888,
-      "wallNearBudget": false,
-      "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
-      "maxSteps": 2797603,
-      "stepsRun": 2674708,
-      "rateStepsPerSec": 102041,
-      "dt": 0.004,
-      "periFoundA": [
-       58
-      ],
-      "periWindow": 20,
-      "windowFilledA": [
-       true
-      ],
-      "reused": true,
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T20:47:47.316Z",
-       "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-      },
       "noteRef": "timeBudget.note#bb6955d8"
      }
     ],
@@ -39775,7 +39533,7 @@
      "stepsHit": false,
      "minPeriastra": 58,
      "periastraOk": true,
-     "wallSec": 7.095,
+     "wallSec": 6.627,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": false,
@@ -39795,7 +39553,7 @@
      "windowFilledA": [
       true
      ],
-     "rateStepsPerSec": 75188,
+     "rateStepsPerSec": 76046,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#7e5a4a34"
@@ -39834,7 +39592,7 @@
       "stepsHit": false,
       "minPeriastra": 58,
       "periastraOk": true,
-      "wallSec": 7.095,
+      "wallSec": 6.627,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -39854,7 +39612,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 75188,
+      "rateStepsPerSec": 76046,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#7e5a4a34"
@@ -39892,7 +39650,7 @@
       "stepsHit": false,
       "minPeriastra": 58,
       "periastraOk": true,
-      "wallSec": 13.629,
+      "wallSec": 13.382,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -39912,78 +39670,8 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 104167,
+      "rateStepsPerSec": 107527,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
-      "skippedBy": "reuse-dt2",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T22:20:40.685Z",
-       "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-       "contractSha": "23d26d05579d18ceb43d6992aeae1d6201e0e73245e45a206cbfa3b10d995f5f",
-       "wallSec": 13.629
-      },
-      "machineIndependenceMoved": "calaudit-w249-diag.json",
-      "ruleRef": "stopRule.rule#7e5a4a34"
-     },
-     {
-      "tag": "dt/4",
-      "version": "w288b-1",
-      "id": "saturnZonalD68",
-      "n": 11,
-      "dt": 0.004,
-      "orbMax": 60,
-      "declaredMaxSteps": 80000000,
-      "maxStepsSource": "class(n<=12)",
-      "maxStepsWhy": "第249便b の hardCap(n≤12)の宣言値",
-      "needPeriastra": 58,
-      "needPeriastraSource": "preset",
-      "needPeriastraWhy": "第270便a(AD8)の換算判定の fit 窓(58 近点・57 区間)",
-      "wantSteps": 2797603,
-      "floorSteps": 233134,
-      "maxSteps": 2797603,
-      "targetTime": {
-       "rule": "w285f-T1",
-       "dtBase": 0.016,
-       "capBaseSteps": 20000000,
-       "orbitBaseSteps": 699401,
-       "tBaseSteps": 699401,
-       "tSim": 11190.413876802937,
-       "window": "osc0-orbits",
-       "boundBy": "orbit"
-      },
-      "orbitWindow": null,
-      "boundBy": "orbit-window",
-      "floorSatisfied": true,
-      "stepsRun": 2674708,
-      "stepsHit": false,
-      "minPeriastra": 58,
-      "periastraOk": true,
-      "wallSec": 26.888,
-      "wallCeilingSec": 900,
-      "resourceExceeded": false,
-      "cappedByDeclaration": false,
-      "complete": true,
-      "unmeasuredReason": null,
-      "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
-      "note": "近点 58 本 ≥ 宣言 58 本(測定が成立する)",
-      "stepsPerOrbit0": [
-       46627
-      ],
-      "periFoundA": [
-       58
-      ],
-      "periFitN": [
-       58
-      ],
-      "windowFilledA": [
-       true
-      ],
-      "rateStepsPerSec": 102041,
-      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
-      "skippedBy": "reuse",
-      "reusedFrom": {
-       "generatedAt": "2026-10-03T20:47:47.316Z",
-       "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-      },
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#7e5a4a34"
      }
@@ -39991,21 +39679,13 @@
     "stepsPerOrbit0": [
      11657
     ],
-    "h4Reuse": {
-     "key": "saturnZonalD68",
-     "reused": true,
-     "reason": null,
-     "diff": [],
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T20:47:47.316Z",
-      "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5"
-     }
-    },
     "h2Reuse": {
      "key": "saturnZonalD68",
-     "reused": true,
-     "reason": null,
-     "diff": [],
+     "reused": false,
+     "reason": "other-flight",
+     "diff": [
+      "targetSha256"
+     ],
      "contractSha": "23d26d05579d18ceb43d6992aeae1d6201e0e73245e45a206cbfa3b10d995f5f",
      "hSig": "d476d61e0093a1bdf546be12e8c73dd12d5fa52a0387a079034f1d4cc01cf2b7",
      "stable": {
@@ -40022,12 +39702,7 @@
       },
       "missing": []
      },
-     "reusedFrom": {
-      "generatedAt": "2026-10-03T22:20:40.685Z",
-      "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-      "contractSha": "23d26d05579d18ceb43d6992aeae1d6201e0e73245e45a206cbfa3b10d995f5f",
-      "wallSec": 13.629
-     }
+     "reusedFrom": null
     }
    },
    "contractRange": {
@@ -40043,11 +39718,6 @@
      },
      {
       "tag": "dt/2",
-      "status": "宣言なし",
-      "timeOutSteps": 0
-     },
-     {
-      "tag": "dt/4",
       "status": "宣言なし",
       "timeOutSteps": 0
      }
@@ -40180,7 +39850,7 @@
      "toleranceUsedPct": 1,
      "strictOK": false,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -40197,49 +39867,28 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.011664885063510155,
-     "numBoundDt3": 0.057671360726089915,
-     "pObs": 1.979664850440595,
-     "dtStages": {
-      "dt": 13925.526926092378,
-      "dtHalf": 13925.57293256804,
-      "dtQuarter": 13925.584597453104
-     },
+     "numBoundDt2": 0.04600647566257976,
      "numBoundDecl": {
-      "value": 0.011664885063510155,
-      "steps": 3,
-      "order": 1.979664850440595,
-      "assessedStage": "h4",
+      "value": 0.04600647566257976,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 0.011664885063510155,
-       "order": 1.979664850440595,
-       "factor": 0.33967224173437627,
-       "refined": 0.003962237659096337,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3397 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 0.04600647566257976,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#a663291a"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": -0.04600647566257976,
-      "d2": -0.011664885063510155,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": 13925.584597453104,
-     "coarseValue": 13925.526926092378,
-     "coarseNumBound": 0.057671360726089915,
      "degYear": {
       "measured": true,
       "unit": "deg/yr",
@@ -40249,37 +39898,27 @@
       "stages": {
        "dt": 13925.520293236537,
        "dtHalf": 13925.566316323448,
-       "dtQuarter": 13925.577989693345,
+       "dtQuarter": null,
        "dtEighth": null
       },
-      "nStages": 3,
-      "numBound": 0.057696456808116636,
-      "pObs": 1.9791366507983903,
-      "converged": true,
+      "nStages": 2,
+      "numBound": 0.04602308691028156,
+      "pObs": null,
+      "converged": false,
       "numBoundEstimate": {
-       "raw": 0.057696456808116636,
-       "order": 1.9791366507983903,
-       "factor": 1.068757517443666,
-       "refined": 0.06166352194353844,
+       "raw": 0.04602308691028156,
+       "order": null,
+       "factor": null,
+       "refined": null,
        "side": "coarse",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/4} = C·h^p·(1−4^−p) なので、**粗い側**の誤差は |Q_h−Q_{h/4}|/(1−4^−p) = 1.0688 倍である(p≈1 で 4/3)。**門が読む ε_num は raw のまま**で、これは推定誤差の記録である"
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
       "numBoundSide": "coarse(この欄の meas は h 段)",
-      "numBoundLastDiff": 0.011673369897835073,
-      "numBoundEstimateFine": {
-       "raw": 0.011673369897835073,
-       "order": 1.9791366507983903,
-       "factor": 0.3398388957208955,
-       "refined": 0.003967065135421814,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3398 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
-      },
+      "numBoundLastDiff": null,
+      "numBoundEstimateFine": null,
       "obs": null,
       "sigma": null,
       "timeFit": {
@@ -40322,18 +39961,19 @@
       "held": false
      },
      "gate": {
-      "residual": -42.67115254689634,
-      "nSigma": 14.603406073544262,
+      "residual": -42.72882390762243,
+      "nSigma": 14.623143021089126,
       "sigma": 2.922,
-      "status": "否(3σ)",
-      "numBound": 0.011664885063510155,
-      "tolerance": 8.77766488506351,
+      "status": "数値未解決",
+      "reason": "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)",
+      "numBound": 0.04600647566257976,
       "key": "saturnZonalD68|D68|precession",
-      "assessedStage": "h4",
-      "assessedValue": 13925.584597453104,
+      "assessedStage": "h",
+      "assessedValue": 13925.526926092378,
       "coarseStage": "h",
       "coarseValue": 13925.526926092378,
-      "coarseNumBound": 0.057671360726089915,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -40367,63 +40007,61 @@
       "defMeta": true,
       "definitionNote": "検出器 A/B(同じ近点方位 fit)の広がり=1.46e-4%",
       "numBoundDecl": {
-       "value": 0.011664885063510155,
-       "steps": 3,
-       "order": 1.979664850440595,
-       "assessedStage": "h4",
+       "value": 0.04600647566257976,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 0.011664885063510155,
-        "order": 1.979664850440595,
-        "factor": 0.33967224173437627,
-        "refined": 0.003962237659096337,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3397 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 0.04600647566257976,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#a663291a"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
-       "ok": true,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 1.979664850440595,
-       "orderGuard": true,
-       "epsHat": 0.003962237659096337,
-       "epsHatInSigma": 0.00135600193672017,
-       "epsHatOk": true,
-       "lastDiff": 0.011664885063510155,
-       "lastDiffInSigma": 0.003992089344117096,
+       "ok": false,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
+       "epsHatInSigma": null,
+       "epsHatOk": null,
+       "lastDiff": 0.04600647566257976,
+       "lastDiffInSigma": 0.015744858200745983,
        "lastDiffOk": true,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 0.057671360726089915,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": 0.8766,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         58
        ],
-       "hold": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": false,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionDeclaredNoteRef": "gate.definitionDeclaredNote#1d38b546"
      },
      "requiredContext": {
@@ -40440,8 +40078,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -40521,7 +40157,7 @@
      "toleranceUsedPct": 1,
      "strictOK": false,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -40538,50 +40174,29 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.010265922952385154,
+     "numBoundDt2": 0.018660698562598554,
      "numBoundDef": "revolution-or-osculating",
-     "numBoundDt3": 0.028926621514983708,
-     "pObs": 0.8621396564253685,
-     "dtStages": {
-      "dt": 17865.949831775662,
-      "dtHalf": 17865.968492474225,
-      "dtQuarter": 17865.978758397177
-     },
      "numBoundDecl": {
-      "value": 0.010265922952385154,
-      "steps": 3,
-      "order": 0.8621396564253685,
-      "assessedStage": "h4",
+      "value": 0.018660698562598554,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 0.010265922952385154,
-       "order": 0.8621396564253685,
-       "factor": 1.222894265320832,
-       "refined": 0.012554138306697308,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 1.2229 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 0.018660698562598554,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#43edcdd4"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": -0.018660698562598554,
-      "d2": -0.010265922952385154,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": 17865.978758397177,
-     "coarseValue": 17865.949831775662,
-     "coarseNumBound": 0.028926621514983708,
      "contractRange": {
       "status": "宣言なし",
       "held": false
@@ -40598,11 +40213,12 @@
       "status": "未判定",
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "saturnZonalD68|D68|period",
-      "assessedStage": "h4",
-      "assessedValue": 17865.978758397177,
+      "assessedStage": "h",
+      "assessedValue": 17865.949831775662,
       "coarseStage": "h",
       "coarseValue": 17865.949831775662,
-      "coarseNumBound": 0.028926621514983708,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -40621,7 +40237,7 @@
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 0.010265922952385154,
+      "numBound": 0.018660698562598554,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -40638,63 +40254,61 @@
       "defSpreadPct": 0.0000551975511351958,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.010265922952385154,
-       "steps": 3,
-       "order": 0.8621396564253685,
-       "assessedStage": "h4",
+       "value": 0.018660698562598554,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 0.010265922952385154,
-        "order": 0.8621396564253685,
-        "factor": 1.222894265320832,
-        "refined": 0.012554138306697308,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 1.2229 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 0.018660698562598554,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#43edcdd4"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
        "ok": false,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 0.8621396564253685,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
        "orderGuard": false,
-       "epsHat": 0.012554138306697308,
+       "epsHat": null,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 0.010265922952385154,
+       "lastDiff": 0.018660698562598554,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 0.028926621514983708,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": null,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         58
        ],
-       "hold": "**次数ガード(AE3)で保留**: 観測次数 p=0.8621 が 2 から 1.1379 離れている(|p−2|≤0.5 を満たさない)= 漸近域に居ない",
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": null,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionNoteRef": "gate.definitionNote#8a51e2ed"
      },
      "requiredContext": {
@@ -40711,8 +40325,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -40799,7 +40411,7 @@
      "toleranceUsedPct": 1,
      "strictOK": false,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -40816,50 +40428,29 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 0.0006764914869563654,
+     "numBoundDt2": 0.0026558598765404895,
      "numBoundDef": "periastron",
-     "numBoundDt3": 0.003332351363496855,
-     "pObs": 1.9730353475486784,
-     "dtStages": {
-      "dt": 18224.85822532783,
-      "dtHalf": 18224.855569467953,
-      "dtQuarter": 18224.854892976466
-     },
      "numBoundDecl": {
-      "value": 0.0006764914869563654,
-      "steps": 3,
-      "order": 1.9730353475486784,
-      "assessedStage": "h4",
+      "value": 0.0026558598765404895,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 0.0006764914869563654,
-       "order": 1.9730353475486784,
-       "factor": 0.34177139056893796,
-       "refined": 0.00023120543620512555,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3418 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 0.0026558598765404895,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#2fc81516"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": 0.0026558598765404895,
-      "d2": 0.0006764914869563654,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": 18224.854892976466,
-     "coarseValue": 18224.85822532783,
-     "coarseNumBound": 0.003332351363496855,
      "contractRange": {
       "status": "宣言なし",
       "held": false
@@ -40876,11 +40467,12 @@
       "status": "未判定",
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "saturnZonalD68|D68|period",
-      "assessedStage": "h4",
-      "assessedValue": 18224.854892976466,
+      "assessedStage": "h",
+      "assessedValue": 18224.85822532783,
       "coarseStage": "h",
       "coarseValue": 18224.85822532783,
-      "coarseNumBound": 0.003332351363496855,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -40906,7 +40498,7 @@
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 0.0006764914869563654,
+      "numBound": 0.0026558598765404895,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": {
@@ -40923,63 +40515,61 @@
       "defSpreadPct": 0.0000551975511351958,
       "defMeta": true,
       "numBoundDecl": {
-       "value": 0.0006764914869563654,
-       "steps": 3,
-       "order": 1.9730353475486784,
-       "assessedStage": "h4",
+       "value": 0.0026558598765404895,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 0.0006764914869563654,
-        "order": 1.9730353475486784,
-        "factor": 0.34177139056893796,
-        "refined": 0.00023120543620512555,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3418 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 0.0026558598765404895,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#2fc81516"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
-       "ok": true,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 1.9730353475486784,
-       "orderGuard": true,
-       "epsHat": 0.00023120543620512555,
+       "ok": false,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 0.0006764914869563654,
+       "lastDiff": 0.0026558598765404895,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 0.003332351363496855,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": null,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         58
        ],
-       "hold": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": null,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionNoteRef": "gate.definitionNote#8ef1728d"
      },
      "requiredContext": {
@@ -40996,8 +40586,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -41297,7 +40885,7 @@
      "guideTolerance": true,
      "toleranceUsedPct": 1,
      "stageHealth": {
-      "stages": 3,
+      "stages": 2,
       "nan": false,
       "clamp": 0,
       "dup": 0,
@@ -41314,49 +40902,28 @@
       "periodWindowFilledWithH8": null,
       "extractionCleanWithH8": null,
       "rowsMoved": "calaudit-w249-diag.json",
-      "rowsN": 3,
+      "rowsN": 2,
       "ruleRef": "stageHealth.rule#8fc1785f"
      },
-     "numBoundDt2": 1.9885983527923035e-7,
-     "numBoundDt3": 9.992061352909198e-7,
-     "pObs": 2.0088724542860263,
-     "dtStages": {
-      "dt": 0.05243330968212262,
-      "dtHalf": 0.05243250933582261,
-      "dtQuarter": 0.05243231047598733
-     },
+     "numBoundDt2": 8.003463000116895e-7,
      "numBoundDecl": {
-      "value": 1.9885983527923035e-7,
-      "steps": 3,
-      "order": 2.0088724542860263,
-      "assessedStage": "h4",
+      "value": 8.003463000116895e-7,
+      "steps": 2,
+      "order": null,
       "estimate": {
-       "raw": 1.9885983527923035e-7,
-       "order": 2.0088724542860263,
-       "factor": 0.3306139820913228,
-       "refined": 6.574584201969086e-8,
-       "side": "fine",
-       "asymptotic": "order-positive",
-       "richardsonUsable": true,
-       "reason": null,
-       "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3306 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+       "raw": 8.003463000116895e-7,
+       "order": null,
+       "factor": null,
+       "refined": null,
+       "side": "coarse",
+       "asymptotic": "unconfirmed",
+       "richardsonUsable": false,
+       "reason": "order-not-measured",
+       "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
       },
-      "basisRef": "numBoundDecl.basis#5627953f",
-      "orderNoteRef": "numBoundDecl.orderNote#eb66eafd"
+      "basisRef": "numBoundDecl.basis#cd426718",
+      "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
      },
-     "orderEstimable": {
-      "ok": true,
-      "d1": 8.003463000116895e-7,
-      "d2": 1.9885983527923035e-7,
-      "reason": null,
-      "asymptotic": "order-estimable",
-      "richardsonUsable": true,
-      "ruleRef": "orderEstimable.rule#a18ab000"
-     },
-     "assessedStage": "h4",
-     "assessedValue": 0.05243231047598733,
-     "coarseValue": 0.05243330968212262,
-     "coarseNumBound": 9.992061352909198e-7,
      "contractRange": {
       "status": "宣言なし",
       "held": false
@@ -41365,11 +40932,12 @@
       "status": "未判定",
       "reason": "観測誤差(σ)または有限の実測が無い",
       "key": "saturnZonalD68|D68|ecc",
-      "assessedStage": "h4",
-      "assessedValue": 0.05243231047598733,
+      "assessedStage": "h",
+      "assessedValue": 0.05243330968212262,
       "coarseStage": "h",
       "coarseValue": 0.05243330968212262,
-      "coarseNumBound": 9.992061352909198e-7,
+      "coarseNumBound": null,
+      "assessedStageRule": "**判定値は h 段**(3 段登録表の外の系 —— 第271便a でも扱いを変えていない)。",
       "h8Promoted": false,
       "h8PromoteReason": null,
       "h4Value": null,
@@ -41387,7 +40955,7 @@
        "meaningRef": "orbitNoiseIndicator.meaning#2cecac37"
       },
       "sigmaRelPct": null,
-      "numBound": 1.9885983527923035e-7,
+      "numBound": 8.003463000116895e-7,
       "sigma": null,
       "sigmaFrom": null,
       "sigmaSource": null,
@@ -41397,63 +40965,61 @@
       "defSpreadPct": null,
       "defMeta": false,
       "numBoundDecl": {
-       "value": 1.9885983527923035e-7,
-       "steps": 3,
-       "order": 2.0088724542860263,
-       "assessedStage": "h4",
+       "value": 8.003463000116895e-7,
+       "steps": 2,
+       "order": null,
        "estimate": {
-        "raw": 1.9885983527923035e-7,
-        "order": 2.0088724542860263,
-        "factor": 0.3306139820913228,
-        "refined": 6.574584201969086e-8,
-        "side": "fine",
-        "asymptotic": "order-positive",
-        "richardsonUsable": true,
-        "reason": null,
-        "note": "漸近形 E(h)=C·h^p なら Q_h−Q_{h/2} = E(h/2)·(2^p−1) なので、**細かい側(判定段)**の誤差は 差/(2^p−1) = 0.3306 倍である。**これは正式門の ε̂ と同じ式**である(第272便a・R13 —— 粗い段の式を掛けない)"
+        "raw": 8.003463000116895e-7,
+        "order": null,
+        "factor": null,
+        "refined": null,
+        "side": "coarse",
+        "asymptotic": "unconfirmed",
+        "richardsonUsable": false,
+        "reason": "order-not-measured",
+        "note": "**観測次数が正でない/測れていない**ので漸近形の補正はできない(raw をそのまま置く)。**漸近収束は未確認**である —— 「漸近域に居ないことが確定した」という意味ではない(第273便c・AH30)。この列から **Richardson 補正・外挿を作ってはならない**"
        },
-       "basisRef": "numBoundDecl.basis#5627953f",
-       "orderNoteRef": "numBoundDecl.orderNote#eb66eafd"
+       "basisRef": "numBoundDecl.basis#cd426718",
+       "orderNoteRef": "numBoundDecl.orderNote#8b3348e9"
       },
       "convergence": {
-       "ok": true,
-       "okLegacy": true,
-       "steps": 3,
-       "order": 2.0088724542860263,
-       "orderGuard": true,
-       "epsHat": 6.574584201969086e-8,
+       "ok": false,
+       "okLegacy": false,
+       "steps": 2,
+       "order": null,
+       "orderGuard": false,
+       "epsHat": null,
        "epsHatInSigma": null,
        "epsHatOk": null,
-       "lastDiff": 1.9885983527923035e-7,
+       "lastDiff": 8.003463000116895e-7,
        "lastDiffInSigma": null,
        "lastDiffOk": null,
-       "assessedStage": "h4",
+       "assessedStage": "h",
        "orderEstimable": true,
        "orderEstimableReason": null,
-       "asymptoticStatus": "order-estimable",
-       "richardsonUsable": true,
+       "orderEstimableRule": null,
+       "asymptoticStatus": "unconfirmed",
+       "richardsonUsable": false,
        "asymptoticRule": "**「漸近収束未確認」と「漸近域に居ないことが確定」は違う**(第273便c・AH30)。次数が推定できない列・非正の列について言えるのは前者だけであり、**その次数から Richardson 補正・外挿を作ってはならない**。",
-       "lastDiffDef": "|Q_{h/2}−Q_{h/4}|(最終 2 段差)",
-       "coarseNumBound": 9.992061352909198e-7,
+       "lastDiffDef": "|Q_h−Q_{h/4}|(3 段)/|Q_h−Q_{h/2}|(2 段)",
+       "coarseNumBound": null,
        "budget": null,
        "windowsComplete": true,
        "extractionClean": true,
        "fitWindows": [
         58
        ],
-       "hold": null,
+       "hold": "dt 3 段が走っていない(2 段は感度診断)",
        "previous": {
         "rule": "3 段かつ order>0(第253便b〜第269便a)",
-        "ok": true,
+        "ok": false,
         "noteRef": "convergence.previous.note#522b1e55"
        },
-       "ruleRef": "convergence.rule#42ad47c1",
-       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f",
-       "orderEstimableRuleRef": "convergence.orderEstimableRule#a18ab000"
+       "ruleRef": "convergence.rule#3c5d2263",
+       "orderGuardRuleRef": "convergence.orderGuardRule#7753b11f"
       },
       "arithOnly": null,
       "deprecatedKeysMoved": "calaudit-w249-diag.json",
-      "assessedStageRuleRef": "gate.assessedStageRule#71c47000",
       "definitionNoteRef": "gate.definitionNote#56ae396d",
       "definitionDeclaredNoteRef": "gate.definitionDeclaredNote#b1b34161"
      },
@@ -41471,8 +41037,6 @@
      "conditionMatch": true,
      "predictionEligible": false,
      "predictionEligibleReasonsMoved": "calaudit-w249-diag.json",
-     "numBoundDeclCoarseMoved": "calaudit-w249-diag.json",
-     "assessedStageNoteRef": "assessedStageNote#1af96a21",
      "budget": {
       "v": "w287b-budget-2",
       "src": "kind",
@@ -41499,7 +41063,6 @@
     "条": 0
    },
    "notes": [
-    "**dt 3 段(第255便d N8)**: dt/4=0.004 まで走らせた。近点移動 8.0421e+0 → 8.0422e+0 °/周(h → h/4) / ε_num=|Q_h−Q_{h/4}| と観測次数 p_obs は各量の numBoundDecl へ入れた",
     "dt 収束(主対象 D68): 周期 17865.9498 → 17865.9685 s(0.0001%) / 近点移動 8.0421e+0 → 8.0422e+0 °/周"
    ]
   },
@@ -41516,7 +41079,7 @@
     "n": 127,
     "dt": 0.016,
     "steps": 2042988,
-    "wallSec": 137.733,
+    "wallSec": 134.919,
     "orbits": [
      {
       "label": "C環内縁",
@@ -41548,12 +41111,12 @@
       "tag": "dt",
       "budgetSec": 240,
       "heavy": true,
-      "wallSec": 137.733,
+      "wallSec": 134.919,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 2042988,
       "stepsRun": 2042988,
-      "rateStepsPerSec": 15015,
+      "rateStepsPerSec": 15588,
       "dt": 0.016,
       "periFoundA": [
        63,
@@ -41601,7 +41164,7 @@
      "stepsHit": true,
      "minPeriastra": 3,
      "periastraOk": false,
-     "wallSec": 137.733,
+     "wallSec": 134.919,
      "wallCeilingSec": 900,
      "resourceExceeded": false,
      "cappedByDeclaration": true,
@@ -41628,7 +41191,7 @@
       true,
       false
      ],
-     "rateStepsPerSec": 15015,
+     "rateStepsPerSec": 15588,
      "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
      "machineIndependenceMoved": "calaudit-w249-diag.json",
      "ruleRef": "stopRule.rule#33ef3b99",
@@ -41668,7 +41231,7 @@
       "stepsHit": true,
       "minPeriastra": 3,
       "periastraOk": false,
-      "wallSec": 137.733,
+      "wallSec": 134.919,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": true,
@@ -41695,7 +41258,7 @@
        true,
        false
       ],
-      "rateStepsPerSec": 15015,
+      "rateStepsPerSec": 15588,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependenceMoved": "calaudit-w249-diag.json",
       "ruleRef": "stopRule.rule#33ef3b99",
@@ -44050,7 +43613,7 @@
     "scaleInJudgedUnit": 29.240678929068153,
     "residual": 5.719731827266514,
     "infoDistance": 0.19560872171064844,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44068,7 +43631,7 @@
     "scaleInJudgedUnit": 29.240678929068153,
     "residual": 3267.6109341140836,
     "infoDistance": 111.74880521894286,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44086,7 +43649,7 @@
     "scaleInJudgedUnit": 0.0004648014440433213,
     "residual": 0.008230331017679948,
     "infoDistance": 17.707197606969675,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44104,7 +43667,7 @@
     "scaleInJudgedUnit": 22.12,
     "residual": 14.944253635592759,
     "infoDistance": 0.6755991697826744,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44122,7 +43685,7 @@
     "scaleInJudgedUnit": 22.12,
     "residual": 15.440192247740924,
     "infoDistance": 0.6980195410371123,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44140,7 +43703,7 @@
     "scaleInJudgedUnit": 31.363468829903848,
     "residual": 43.8104832470417,
     "infoDistance": 1.396863449149799,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44158,7 +43721,7 @@
     "scaleInJudgedUnit": 777.6,
     "residual": 2218.3040976300836,
     "infoDistance": 2.8527573271991815,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44176,7 +43739,7 @@
     "scaleInJudgedUnit": 2.6265712263727456,
     "residual": 7.221108331694268,
     "infoDistance": 2.7492528126360796,
-    "gateStatus": "数値未解決",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44194,7 +43757,7 @@
     "scaleInJudgedUnit": 12.095999999999998,
     "residual": 21.29675680550281,
     "infoDistance": 1.760644577174505,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44212,7 +43775,7 @@
     "scaleInJudgedUnit": 12.095999999999998,
     "residual": 21.29675680550281,
     "infoDistance": 1.760644577174505,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44230,7 +43793,7 @@
     "scaleInJudgedUnit": 0.511767647377016,
     "residual": 62.05016822433754,
     "infoDistance": 121.24675825516883,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    },
    {
@@ -44248,13 +43811,13 @@
     "scaleInJudgedUnit": 0.511767647377016,
     "residual": 296.85822532782913,
     "infoDistance": 580.0644625531312,
-    "gateStatus": "未判定",
+    "gateStatus": null,
     "judgement": "informational"
    }
   ],
   "byTier": {},
   "skipped": {
-   "no-declared-destination": 68,
+   "no-declared-destination": 70,
    "no-obs-or-meas": 12,
    "no-informational-scale": 68,
    "has-primary-sigma": 19,
@@ -44272,12 +43835,12 @@
   "nPresets": 20,
   "stages": {
    "note": "第258便d(第50報・3 審査 v16): 段は**階段ではない**。**①(数値収束)と ②(観測量対応)は独立な集合**である —— 数値が収束していなくても観測量対応は宣言できるし、その逆もある(①∩② が空でないだけで、①→② という順序は無い)。**④ ⊆ ③ だけが包含である**。第258便d で ④ は「③ のうち従属量でないもの」から「**証拠付き予測**」へ狭めた ——`usedForFit:false` / `validation:\"held-out\"` / `dataset` / `frozenProtocol` の 4 つが宣言として揃った量だけを数える。**現行は 0 件である**(宣言が無い)。**3σ は 1 mm も緩めていない**。",
-   "①数値収束": 9,
+   "①数値収束": 0,
    "②観測量対応": 13,
-   "③観測適合(3σ)": 2,
-   "④予測(従属量でない③)": 2,
+   "③観測適合(3σ)": 0,
+   "④予測(従属量でない③)": 0,
    "④予測(証拠付き)": 0,
-   "predictionNote": "「④予測(従属量でない③)」は第257便d までの弱い数え方(2 件)で、**証拠付き予測は 0 件**である。③ を通ったからといって予測ではない ——fit に使っていないこと・hold-out であること・どのデータか・凍結手順、の 4 つが要る。",
+   "predictionNote": "「④予測(従属量でない③)」は第257便d までの弱い数え方(0 件)で、**証拠付き予測は 0 件**である。③ を通ったからといって予測ではない ——fit に使っていないこと・hold-out であること・どのデータか・凍結手順、の 4 つが要る。",
    "conditionMismatch": 0,
    "conditionMismatchKeys": [],
    "mappingUnresolved": 6,
@@ -44289,16 +43852,13 @@
     "psrJ1946DFM|B|ecc",
     "psrB1534|B|ecc"
    ],
-   "stage3Keys": [
-    "alphaCenAB|B|period",
-    "siriusAB|B|period"
-   ],
-   "ng3Keys": [
-    "saturnZonalD68|D68|precession"
-   ],
+   "stage3Keys": [],
+   "ng3Keys": [],
    "numUnresolvedKeys": [
     "mercuryReal|水星|precession",
     "plutoCharonDiagInput|カロン|period",
+    "alphaCenAB|B|period",
+    "siriusAB|B|period",
     "psrDoubleAB|B|period",
     "psrDoubleAB|B|precession",
     "psrJ1757DFM|B|period",
@@ -44306,7 +43866,8 @@
     "psrJ1946DFM|B|period",
     "psrJ1946DFM|B|precession",
     "psrB1534|B|period",
-    "psrB1534|B|precession"
+    "psrB1534|B|precession",
+    "saturnZonalD68|D68|precession"
    ]
   },
   "keyAliases": {
@@ -44316,13 +43877,13 @@
    "gate.defMeta": "gate.definitionDeclared(旧欄は「同じ定義の 2 検出器が居るか」のまま残す)",
    "gate.status 未判定(理由=量の定義・検出器が観測精度で一致しない)": "第257便d では mapping-unresolved(観測量対応が未確定)か、定義未宣言の 未判定 のどちらかへ分かれる"
   },
-  "nQuantities": 182,
+  "nQuantities": 184,
   "tally": {
    "合": 52,
    "窓": 0,
    "否": 4,
    "従": 2,
-   "転": 124,
+   "転": 126,
    "条": 0
   },
   "byVersion": {
@@ -44332,17 +43893,16 @@
   "gate": {
    "rule": "|y_sim−y_obs| ≤ 3σ_obs + ε_num(ε_num ≤ 0.3σ_obs)。**ただし収束の保留条件**(第253便b): dt 3 段(dt, dt/2, dt/4)かつ正の実測次数 order>0 が揃うまで「収束済み」としない —— dt 2 段の差は**感度診断**であって誤差上限ではない(漸近域でも粗い側の誤差は 2^p/(2^p−1)|Q_h−Q_{h/2}|)。第253便b の走行は 2 段・次数未測定なので、σ を持つ量はすべて「数値未解決」へ保留された。**第255便d(第47報 N8)**: NS 4 系(⚡🧮🩺🧶)だけ --dt3 で 3 段を走らせ、観測次数 p_obs を実測した。3 段+正の次数が揃った量は保留を抜け、**3σ の合否がその場で出る**(= 収束の門と観測一致の門が分かれた)。**収束したことは一致したことではない** —— 次数が正でも残差が 3σ+ε_num を超えれば「否(3σ)」になる。**第257便d(第49報)**: (a) `definitionMatches` を **A 正本**へ —— 判定に採るのは検出器 A で、門が見るのは「定義が宣言されているか」だけになった。A−B は `orbitNoiseIndicator`(軌道側の相対 1e−10〜1e−8 の雑音に対する検出器差の感度)として別欄へ出す。(b) 第 4 の状態 `mapping-unresolved` を足した(観測量対応が未確定 — 例: タイミングの e_T と距離極値の eProxy)。**3σ そのものは 1 mm も緩めていない**",
    "byStatus": {
-    "合(3σ)": 2,
-    "否(3σ)": 1,
-    "数値未解決": 10,
+    "合(3σ)": 0,
+    "否(3σ)": 0,
+    "数値未解決": 13,
     "mapping-unresolved": 6,
     "condition-mismatch": 0,
-    "未判定": 163
+    "未判定": 165
    },
    "byReason": {
-    "観測誤差(σ)または有限の実測が無い": 163,
-    "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)": 10,
-    "(判定済み)": 3,
+    "観測誤差(σ)または有限の実測が無い": 165,
+    "数値誤差幅が予算(0.3σ)を超える/収束未確認(dt 3 段+正の実測次数が無い)": 13,
     "観測量対応が未確定(軌道 fit のケプラー要素 e と、距離の極値から作る eProxy は同じ測定量ではない)": 2,
     "観測量対応が未確定(タイミング解の e_T(時間離心率)と、距離の極値から作る eProxy は同じ測定量ではない)": 4
    },
@@ -44357,9 +43917,9 @@
   },
   "agreementBreakdown": {
    "verdictOK": 52,
-   "sigma3": 2,
+   "sigma3": 0,
    "guide": 48,
-   "unassessed": 2,
+   "unassessed": 4,
    "note": "「合」の内訳: sigma3 = 機械門を通った 3σ 一致 / guide = 観測誤差が読めないときの ±1% 目安(観測一致ではない)/ unassessed = 観測誤差はあるが定義・一次表・数値収束の条件が未達。 **第253便b**: 収束の保留条件(3 段+正の次数)を入れたので、2 段しか走っていない量は sigma3 に入らない(第252便までの sigma3=2 件は一度「数値未解決」へ移った — 数値が悪くなったのではなく、2 段の差を上限として使ってよいという根拠が無かったということである)。 **第256便d(第48報)**: 恒星 4 系(✨✴️🌟💫)と 📻 を --dt3 で走らせて 3 段+正の次数を揃えた結果、保留が外れて**合否がその場で出た** —— 観測版 ✨🌟 が「合(3σ)」、**DFM 版 ✴️💫 が「否(3σ)」**である(sigma3 が 0 でなくなったのは、判定が甘くなったからではなく、保留の条件を満たしたからである)。"
   }
  },
@@ -44674,9 +44234,9 @@
   "ruling": "原仮定者の裁定(第79報)で閉じた AN100・統括の検証項目 R120",
   "rule": "走行ごとに、背景の時間の契約(timeContract)の有効幅 widthT を |t−t₀| が超えた步の数(S.meshVelTimeOutSteps)を読む。宣言が無ければ「宣言なし」・宣言があって 0 步なら「範囲内」・1 步でも超えたら「契約範囲外」。観測比較は、使った走行のどれか 1 本でも「契約範囲外」なら「保留(契約範囲外)」—— 門の状態・5 区分・残差は変えない(別の欄)。過去の正本は遡って無効にしない。",
   "heldWord": "保留(契約範囲外)",
-  "nRows": 182,
+  "nRows": 184,
   "byStatus": {
-   "宣言なし": 182,
+   "宣言なし": 184,
    "範囲内": 0,
    "契約範囲外": 0,
    "記録なし": 0
@@ -44816,7 +44376,7 @@
   "kf0Runs": "第274便a(--kf0-runs)。out.kf0Runs に走行・配布・健全性の記録がある。"
  },
  "kf0Runs": {
-  "on": true,
+  "on": false,
   "since": "第274便a(第64報)",
   "what": "条件不一致 8 行が要求する **kFrame=0 の対照条件**を、`physics.kFrame` の 1 鍵だけを 0 にした**診断コピー**で走らせ、その行へ配った記録。**プリセットの physics は 1 bit も変えない**。",
   "stages": [
@@ -44858,128 +44418,7 @@
   "nApplied": 0,
   "applied": [],
   "missing": [],
-  "health": [
-   {
-    "id": "jupiterGalilean",
-    "emoji": "🟠",
-    "kFrameApplied": 0,
-    "stages": [
-     "dt",
-     "dt/2"
-    ],
-    "nan": false,
-    "clamp": 0,
-    "warnings": 0,
-    "orbits": [
-     {
-      "label": "イオ",
-      "rev": 62,
-      "periA": 63,
-      "periB": 63
-     },
-     {
-      "label": "エウロパ",
-      "rev": 62,
-      "periA": 63,
-      "periB": 63
-     },
-     {
-      "label": "ガニメデ",
-      "rev": 62,
-      "periA": 63,
-      "periB": 63
-     },
-     {
-      "label": "カリスト",
-      "rev": 60,
-      "periA": 59,
-      "periB": 60
-     }
-    ],
-    "stoppedBy": "orbit-count(全対象が orbMax 公転に達した)",
-    "periastraOk": true,
-    "runComplete": true,
-    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
-   },
-   {
-    "id": "venusReal",
-    "emoji": "🌇",
-    "kFrameApplied": 0,
-    "stages": [
-     "dt",
-     "dt/2"
-    ],
-    "nan": false,
-    "clamp": 0,
-    "warnings": 0,
-    "orbits": [
-     {
-      "label": "金星",
-      "rev": 59,
-      "periA": 59,
-      "periB": 60
-     }
-    ],
-    "stoppedBy": "orbit-window(走り切った)",
-    "periastraOk": true,
-    "runComplete": true,
-    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
-   },
-   {
-    "id": "marsMoonsReal",
-    "emoji": "🥔",
-    "kFrameApplied": 0,
-    "stages": [
-     "dt",
-     "dt/2"
-    ],
-    "nan": false,
-    "clamp": 0,
-    "warnings": 0,
-    "orbits": [
-     {
-      "label": "フォボス",
-      "rev": 62,
-      "periA": 63,
-      "periB": 63
-     },
-     {
-      "label": "ダイモス",
-      "rev": 59,
-      "periA": 59,
-      "periB": 60
-     }
-    ],
-    "stoppedBy": "orbit-window(走り切った)",
-    "periastraOk": true,
-    "runComplete": true,
-    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
-   },
-   {
-    "id": "neptuneReal",
-    "emoji": "🌊",
-    "kFrameApplied": 0,
-    "stages": [
-     "dt",
-     "dt/2"
-    ],
-    "nan": false,
-    "clamp": 0,
-    "warnings": 0,
-    "orbits": [
-     {
-      "label": "トリトン",
-      "rev": 59,
-      "periA": 59,
-      "periB": 60
-     }
-    ],
-    "stoppedBy": "orbit-window(走り切った)",
-    "periastraOk": true,
-    "runComplete": true,
-    "runCompleteRule": "**走行成立** = 窓を完走し(stopRule)・NaN 0・安全クランプ 0。**これだけでは「成立」ではない**(R28 の 4 列のうち 1 列である)。"
-   }
-  ],
+  "health": [],
   "charonCitation": {
    "id": "plutoCharonReal",
    "target": "カロン",
@@ -44988,7 +44427,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "038f2bfb300aa51f5450e29f15813f3ffffb1d4e2b23d1a19c7828773bd55751",
+   "fileSha256": "ce62b44d02f9b3e1ed5cbbd04242db60742e7f11bd50a25b7678a1d4d985952c",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
@@ -44996,7 +44435,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
+   "citedTargetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,
@@ -45549,7 +44988,7 @@
     "sigmaDegPerYr": null,
     "ratio": null,
     "statusDegYear": "未判定",
-    "statusDegPerOrbit": "否(3σ)",
+    "statusDegPerOrbit": "数値未解決",
     "moved": true,
     "ad8Converted": true,
     "measDegPerOrbit": 8.04214546195871,
@@ -46152,7 +45591,7 @@
      "map": 0,
      "cond": 0,
      "withSigma": 1,
-     "nQ": 9
+     "nQ": 11
     },
     "representative": {
      "kind": "period",
@@ -46235,11 +45674,11 @@
     "emoji": "✨",
     "version": "obs",
     "referenceKind": null,
-    "verdict4": "量限定合",
+    "verdict4": "保留",
     "gateCounts": {
-     "ok": 1,
+     "ok": 0,
      "ng": 0,
-     "num": 0,
+     "num": 1,
      "map": 1,
      "cond": 0,
      "withSigma": 2,
@@ -46247,11 +45686,12 @@
     },
     "representative": {
      "kind": "period",
-     "nSigma": 0.09561602617161595,
+     "nSigma": 0.0956277041904875,
      "residualPct": 0.002277934830645248
     },
     "missing": [
-     "写像未確定"
+     "写像未確定",
+     "数値精度"
     ],
     "comparedCount": 2,
     "residualPeriodPct": 0.002277934830645248,
@@ -46268,11 +45708,11 @@
     "emoji": "🌟",
     "version": "obs",
     "referenceKind": null,
-    "verdict4": "量限定合",
+    "verdict4": "保留",
     "gateCounts": {
-     "ok": 1,
+     "ok": 0,
      "ng": 0,
-     "num": 0,
+     "num": 1,
      "map": 1,
      "cond": 0,
      "withSigma": 2,
@@ -46280,11 +45720,12 @@
     },
     "representative": {
      "kind": "period",
-     "nSigma": 0.2740909116196267,
+     "nSigma": 0.2742273698061349,
      "residualPct": 0.0023523146363466215
     },
     "missing": [
-     "写像未確定"
+     "写像未確定",
+     "数値精度"
     ],
     "comparedCount": 2,
     "residualPeriodPct": 0.0023523146363466215,
@@ -46492,11 +45933,11 @@
     "emoji": "📡",
     "version": "obs",
     "referenceKind": null,
-    "verdict4": "否",
+    "verdict4": "保留",
     "gateCounts": {
      "ok": 0,
-     "ng": 1,
-     "num": 0,
+     "ng": 0,
+     "num": 1,
      "map": 0,
      "cond": 0,
      "withSigma": 1,
@@ -46504,11 +45945,11 @@
     },
     "representative": {
      "kind": "precession",
-     "nSigma": 14.603406073544262,
+     "nSigma": 14.623143021089126,
      "residualPct": -0.3058994957736397
     },
     "missing": [
-     "(門に入った量 1: 合 0・否 1 — 残り 5 量は σ が無い)"
+     "数値精度"
     ],
     "comparedCount": 3,
     "residualPeriodPct": -0.3461075871504771,
@@ -46552,9 +45993,9 @@
   ],
   "counts": {
    "合": 0,
-   "量限定合": 2,
-   "否": 1,
-   "保留": 17
+   "量限定合": 0,
+   "否": 0,
+   "保留": 20
   },
   "rule": "**4 値**(合/量限定合/否/保留)。「合」は**その系の σ を持つ判定量がすべて 3σ を通った**ときだけ。「量限定合」は一部の量だけが通った系。「否」は 3σ を外した量がある系。「保留」は**判定できない**系(σ 未接続・写像未確定・数値精度・未測定・条件不一致)——**保留は否定ではない**(物理仮説が否定されたという意味ではまったくない)。",
   "note": "docs/CALIBRATION_VERDICT_v1.44.md はこの欄の転記である(QA docs.calibration-verdict-sync が照合する)。"
@@ -46697,12 +46138,12 @@
     "why": "恒星 4 系(第48報)",
     "present": true,
     "h4Exception": true,
-    "hasQuarter": true,
+    "hasQuarter": false,
     "hasHalf": true,
     "nQuantities": 7,
     "withSigma": 2,
     "sigmaFromCsv": 2,
-    "pass3Sigma": 1,
+    "pass3Sigma": 0,
     "sigmaTargets": [
      {
       "target": "B",
@@ -46717,7 +46158,7 @@
       "primaryVerified": true
      }
     ],
-    "verdict4": "量限定合",
+    "verdict4": "保留",
     "tally": {
      "合": 2,
      "窓": 0,
@@ -46751,12 +46192,12 @@
     "why": "恒星 4 系(第48報)",
     "present": true,
     "h4Exception": true,
-    "hasQuarter": true,
+    "hasQuarter": false,
     "hasHalf": true,
     "nQuantities": 9,
     "withSigma": 2,
     "sigmaFromCsv": 2,
-    "pass3Sigma": 1,
+    "pass3Sigma": 0,
     "sigmaTargets": [
      {
       "target": "B",
@@ -46771,7 +46212,7 @@
       "primaryVerified": true
      }
     ],
-    "verdict4": "量限定合",
+    "verdict4": "保留",
     "tally": {
      "合": 2,
      "窓": 0,
@@ -46959,7 +46400,7 @@
     "why": "AD4 の収束規約を満たした換算後判定の正式接続",
     "present": true,
     "h4Exception": true,
-    "hasQuarter": true,
+    "hasQuarter": false,
     "hasHalf": true,
     "nQuantities": 6,
     "withSigma": 1,
@@ -46985,7 +46426,7 @@
       "primaryVerified": false
      }
     ],
-    "verdict4": "否",
+    "verdict4": "保留",
     "tally": {
      "合": 2,
      "窓": 0,
@@ -47021,7 +46462,7 @@
     "h4Exception": false,
     "hasQuarter": false,
     "hasHalf": true,
-    "nQuantities": 9,
+    "nQuantities": 11,
     "withSigma": 1,
     "sigmaFromCsv": 1,
     "pass3Sigma": 0,
@@ -47039,7 +46480,7 @@
      "窓": 0,
      "否": 0,
      "従": 0,
-     "転": 8,
+     "転": 10,
      "条": 0
     }
    }
@@ -47051,9 +46492,9 @@
    "psrB1534",
    "psrB1534CF"
   ],
-  "quarterRun": 3,
+  "quarterRun": 0,
   "sigmaFromCsvTotal": 18,
-  "pass3SigmaTotal": 2,
+  "pass3SigmaTotal": 0,
   "rule": "**登録表は「3 段(dt/4)で走らせる対象である」という宣言**である。登録しても σ は 1 件も増えず、3σ も 1 件も動かない —— `pass3SigmaTotal` がそれを数える。",
   "note": "**新しく繋がった量が 3σ を通らないことを隠さない**(第264便a の 11 件は 0 件のままである)。",
   "chainPolicy": {
@@ -47072,7 +46513,7 @@
   "csvSha": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
   "judgementSourcesSha": "4e792ca7636a46f7b049e9807f0a105a717fd5bac333aa97123c23765615eb68",
   "target": "beta/index.html",
-  "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
+  "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
   "measurementCodeSha256": "9edac63a07ce9af199aa0f9d1350a182c99f3c7eaee76423e37cc588e58835e4",
   "measurementCodeFiles": [
    "tests/exp-w249b-calaudit.mjs",
@@ -47151,11 +46592,7 @@
    "eH4Formula": 7.680000000000001e-10,
    "reads": "Q(h₀)=Q(h₀/2)=Q★ でも Q(h₀/4)=Q★+c·3h₀⁴/256 —— 2 段の一致だけでは漸近域に居るかが分からない"
   },
-  "reused": [
-   "alphaCenAB",
-   "siriusAB",
-   "saturnZonalD68"
-  ],
+  "reused": [],
   "fresh": [],
   "refused": [],
   "skippedDtDt2": [],
@@ -47201,11 +46638,7 @@
     "再利用したので収束した"
    ]
   },
-  "reused": [
-   "alphaCenAB",
-   "siriusAB",
-   "saturnZonalD68"
-  ],
+  "reused": [],
   "fresh": [
    "earthMoonReal",
    "emAuditSolar",
@@ -47215,12 +46648,15 @@
    "marsMoonsReal",
    "plutoCharonDiagInput",
    "neptuneReal",
+   "alphaCenAB",
+   "siriusAB",
    "psrDoubleAB",
    "psrJ1757DFM",
    "psrJ1946DFM",
    "psrB1534",
    "gw150914",
-   "gw150914Merge4s"
+   "gw150914Merge4s",
+   "saturnZonalD68"
   ],
   "refused": [
    {
@@ -47267,13 +46703,27 @@
    },
    {
     "id": "plutoCharonDiagInput",
+    "reason": "contract",
+    "diff": [
+     "presetHash"
+    ]
+   },
+   {
+    "id": "neptuneReal",
     "reason": "other-flight",
     "diff": [
      "targetSha256"
     ]
    },
    {
-    "id": "neptuneReal",
+    "id": "alphaCenAB",
+    "reason": "other-flight",
+    "diff": [
+     "targetSha256"
+    ]
+   },
+   {
+    "id": "siriusAB",
     "reason": "other-flight",
     "diff": [
      "targetSha256"
@@ -47320,9 +46770,16 @@
     "diff": [
      "targetSha256"
     ]
+   },
+   {
+    "id": "saturnZonalD68",
+    "reason": "other-flight",
+    "diff": [
+     "targetSha256"
+    ]
    }
   ],
-  "reusedSec": 53.086,
+  "reusedSec": 0,
   "storeFrom": "tests/out/calaudit-w249-diag.json#h2Store",
   "engineFingerprint": {
    "sha256": "64b9dc57343f2982a80568fe785ec83f1e02a7c20e88232539bafbd616f93e5d",
@@ -47331,7 +46788,7 @@
     "sha256": "64b9dc57343f2982a80568fe785ec83f1e02a7c20e88232539bafbd616f93e5d",
     "version": "w286d-scope-4",
     "names": 948,
-    "closureShare": 0.3231,
+    "closureShare": 0.3225,
     "why": []
    },
    "scope": {
@@ -47461,7 +46918,7 @@
   ],
   "mode": {
    "h4Exceptions": false,
-   "kf0H4Exceptions": true,
+   "kf0H4Exceptions": false,
    "dt4Registry": false,
    "kf0Dt3": false
   },
@@ -48102,9 +47559,9 @@
     "path": "main",
     "exception": true,
     "stageBefore": "h4",
-    "stageAfter": "h4",
+    "stageAfter": "h",
     "statusBefore": "合(3σ)",
-    "statusAfter": "合(3σ)",
+    "statusAfter": "数値未解決",
     "verdictBefore": "合",
     "verdictAfter": "合",
     "missingAfter": false
@@ -48117,7 +47574,7 @@
     "path": "main",
     "exception": false,
     "stageBefore": "h4",
-    "stageAfter": "h4",
+    "stageAfter": "h",
     "statusBefore": "mapping-unresolved",
     "statusAfter": "mapping-unresolved",
     "verdictBefore": "合",
@@ -48132,7 +47589,7 @@
     "path": "main",
     "exception": false,
     "stageBefore": "h4",
-    "stageAfter": "h4",
+    "stageAfter": "h",
     "statusBefore": "未判定",
     "statusAfter": "未判定",
     "verdictBefore": "転",
@@ -48192,9 +47649,9 @@
     "path": "main",
     "exception": true,
     "stageBefore": "h4",
-    "stageAfter": "h4",
+    "stageAfter": "h",
     "statusBefore": "合(3σ)",
-    "statusAfter": "合(3σ)",
+    "statusAfter": "数値未解決",
     "verdictBefore": "合",
     "verdictAfter": "合",
     "missingAfter": false
@@ -48207,7 +47664,7 @@
     "path": "main",
     "exception": false,
     "stageBefore": "h4",
-    "stageAfter": "h4",
+    "stageAfter": "h",
     "statusBefore": "mapping-unresolved",
     "statusAfter": "mapping-unresolved",
     "verdictBefore": "合",
@@ -48222,7 +47679,7 @@
     "path": "main",
     "exception": false,
     "stageBefore": "h4",
-    "stageAfter": "h4",
+    "stageAfter": "h",
     "statusBefore": "未判定",
     "statusAfter": "未判定",
     "verdictBefore": "転",
@@ -48762,9 +48219,9 @@
     "path": "main",
     "exception": true,
     "stageBefore": "h4",
-    "stageAfter": "h4",
+    "stageAfter": "h",
     "statusBefore": "否(3σ)",
-    "statusAfter": "否(3σ)",
+    "statusAfter": "数値未解決",
     "verdictBefore": "合",
     "verdictAfter": "合",
     "missingAfter": false
@@ -48777,7 +48234,7 @@
     "path": "main",
     "exception": false,
     "stageBefore": "h4",
-    "stageAfter": "h4",
+    "stageAfter": "h",
     "statusBefore": "未判定",
     "statusAfter": "未判定",
     "verdictBefore": "合",
@@ -48792,7 +48249,7 @@
     "path": "main",
     "exception": false,
     "stageBefore": "h4",
-    "stageAfter": "h4",
+    "stageAfter": "h",
     "statusBefore": "未判定",
     "statusAfter": "未判定",
     "verdictBefore": "否",
@@ -48817,13 +48274,13 @@
   ],
   "summary": {
    "nBeforeH4": 53,
-   "keptH4": 9,
+   "keptH4": 0,
    "returnedToH2": 0,
-   "returnedToH": 6,
-   "statusMoved": 0,
+   "returnedToH": 15,
+   "statusMoved": 3,
    "verdictMoved": 2,
    "missingAfter": 38,
-   "exceptionsKept": 3,
+   "exceptionsKept": 0,
    "exceptionsN": 4
   },
   "reading": "「前」は h/4 を常時から外す前の正本(判定段 h4 の量だけ)。「後」はこの正本。**動いたら動いたと書く**(状態・区分の移動を数える)。鎖の途中の段(① 通常走行・dt3 段)の正本では例外の本もまだ h2 のまま —— 鎖の最後(kf0 段)の正本が読む対象"
@@ -48842,40 +48299,35 @@
   "current": {
    "counts": {
     "合": 0,
-    "量限定合": 2,
-    "否": 1,
-    "保留": 17
+    "量限定合": 0,
+    "否": 0,
+    "保留": 20
    },
    "gate": {
-    "合(3σ)": 2,
-    "否(3σ)": 1,
-    "数値未解決": 10,
+    "合(3σ)": 0,
+    "否(3σ)": 0,
+    "数値未解決": 13,
     "mapping-unresolved": 6,
     "condition-mismatch": 0,
-    "未判定": 163
+    "未判定": 165
    },
    "tally": {
     "合": 52,
     "窓": 0,
     "否": 4,
     "従": 2,
-    "転": 124,
+    "転": 126,
     "条": 0
    },
    "commit": "第274便a(署名便)",
    "csvSha": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
    "judgementSourcesSha": "4e792ca7636a46f7b049e9807f0a105a717fd5bac333aa97123c23765615eb68",
-   "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
    "measurementCodeSha256": "9edac63a07ce9af199aa0f9d1350a182c99f3c7eaee76423e37cc588e58835e4",
    "kf0Runs": {
-    "on": true,
-    "applied": 0,
-    "stages": [
-     "h",
-     "h/2"
-    ]
+    "on": false
    },
-   "when": "2026-10-03T22:22:04.728Z"
+   "when": "2026-10-04T01:43:51.578Z"
   },
   "history": [
    {
@@ -49058,11 +48510,9 @@
   "rule": "第269便a の規約(3 段+order>0)だけで判定したときの門",
   "moved": [],
   "byStatus": {
-   "未判定": 163,
-   "数値未解決": 10,
-   "合(3σ)": 2,
-   "mapping-unresolved": 6,
-   "否(3σ)": 1
+   "未判定": 165,
+   "数値未解決": 13,
+   "mapping-unresolved": 6
   },
   "n": 0,
   "note": "**AE3(次数ガード |p−2|≤0.5)を入れたことで「数値未解決」へ戻った行**が 0 件ある。**測定が悪くなったのではない** —— 観測次数が 2 から離れている量は漸近域に居ないので、「収束した」と書ける条件を満たしていなかったということである。"
@@ -49088,8 +48538,8 @@
     "match": "近点間(第250便d)",
     "since": "第272便a(R10)",
     "meas": 18224.85822532783,
-    "assessedStage": "h4",
-    "assessedValue": 18224.854892976466,
+    "assessedStage": "h",
+    "assessedValue": 18224.85822532783,
     "periASec": 18224.85822532783,
     "revSec1": 17865.949831775662,
     "obs": 17928,
@@ -49886,7 +49336,7 @@
    "quantities[].judgementSource.{note,previous.note}"
   ],
   "n": 349,
-  "hoisted": 1044,
+  "hoisted": 1358,
   "texts": {
    "stopRule.rule#33ef3b99": "步数 = min(**宣言した步数上限**, 60 公転ぶんの步数)。**步/秒も壁時計も入らない**(第270便a・AE9 —— 機種で走行長が変わらない)。近点は **20 本**要る(不足は未測定であって「否」ではない)。",
    "stopRule.note#ece8d590": "近点が 13 本で宣言 20 本に足りない —— **宣言した步数上限で切れた**(max-steps: 上限を上げれば伸びる)",
@@ -50243,9 +49693,9 @@
   "since": "第271便a(第61報・AF16)",
   "file": "tests/out/calaudit-w249-diag.json",
   "relPath": "./calaudit-w249-diag.json",
-  "sha256": "37c9f3a8558d046335cff9ef7df273bbc2971c86178945b102811f6ba2c06da0",
-  "bytes": 576977,
-  "movedFields": 364,
+  "sha256": "8e184ef4c0f49be5733a52b6d42dac42d4be1ccd33f1ac53741a225eecc0072a",
+  "bytes": 658366,
+  "movedFields": 547,
   "fields": [
    {
     "path": "presets[].run.stopRule.machineIndependence",
@@ -50274,14 +49724,14 @@
   ],
   "presets": 20,
   "missingReferences": [],
-  "carriedOverFrom": "2026-10-03T22:21:03.677Z",
-  "bytesBeforeSplit": 2192268,
-  "contractsHoisted": 1044,
+  "carriedOverFrom": "2026-10-03T22:22:04.876Z",
+  "bytesBeforeSplit": 2242263,
+  "contractsHoisted": 1358,
   "contractsTexts": 349,
   "contractsDangling": 0,
   "rule": "**削っていない** —— 上の欄は別ファイルへ移しただけである。正本を単独で配るとこれらの欄の参照先が欠ける(`…Moved` の印が残るので、欠けていることが分かる)。",
   "says": "**分離はサイズの都合であって、診断を捨てたという意味ではない**。",
-  "bytesAfterSplit": 1814913
+  "bytesAfterSplit": 1797691
  },
  "budgetTable": {
   "since": "第286便f(原仮定者の裁定(第76報)AN44)",
@@ -50289,7 +49739,7 @@
   "version": "w287b-budget-2",
   "lib": "w287b-budgetlib-2",
   "sha256": "3307483a9c22a23e3afb0385f4d4fe8b910d203b16da96f30fc6a623a0a3d5ac",
-  "rows": 182,
+  "rows": 184,
   "entryRows": 4,
   "entries": [
    "saturnRingReal|C環内縁|precession",
@@ -50301,9 +49751,9 @@
    "ok": true,
    "bad": [],
    "cover": {
-    "n": 182,
-    "withWindow": 182,
-    "withBudget": 182,
+    "n": 184,
+    "withWindow": 184,
+    "withBudget": 184,
     "entryHits": 4,
     "orphan": []
    }
