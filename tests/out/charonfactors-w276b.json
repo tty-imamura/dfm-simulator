@@ -10,13 +10,13 @@
   "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
   "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
   "mergeKeyVersion": "w273b-mergekey-1",
-  "mergeKey": "ed0af453e0d0725ea9552df0c1d0d7161a888e3febfad3a8dd63219d5f96c95c",
+  "mergeKey": "acadb24709596cb701cfa81d6d6f3f12530912ed03e347cf123ab3856780a6b0",
   "mergeKeyParts": {
    "target": "beta/index.html",
    "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
    "measureSha256": "4ed1ed39d5c08bfde9975c2eae76f3970331717a125f14667e646226a9eecbb0",
    "libSha256": "a5475ca680d19603ad04e35dc753d64b74a6ad9887e108c68e6fb920b9aea4d3",
-   "obsSha256": "15387441167884485a695243b5f50fd36c22b080abfecab05316e1867fd91d0e",
+   "obsSha256": "79d8315b77e6e8dae08a222d40b7560b766cdc30aedc80499d2589d746c474b2",
    "obsRow": {
     "key": "Charon|orbital_period",
     "recordId": "SOL-25d4320f",
@@ -45,7 +45,7 @@
   },
   "canonicalRun": true,
   "canonicalRunWhy": "",
-  "generatedAt": "2026-10-04T20:07:52.041Z",
+  "generatedAt": "2026-10-04T22:10:28.611Z",
   "pilot": false,
   "stage": "h",
   "dt": 0.016,
@@ -159,7 +159,7 @@
    "source": "Buie M.W. Tholen D.J. Grundy W.M. 2012 AJ 144 15 (adopted two-body Keplerian P)",
    "obsRowPreset": "plutoCharonDiagInput",
    "from": "tests/out/calaudit-w249.json",
-   "calauditSha256": "15387441167884485a695243b5f50fd36c22b080abfecab05316e1867fd91d0e"
+   "calauditSha256": "79d8315b77e6e8dae08a222d40b7560b766cdc30aedc80499d2589d746c474b2"
   },
   "builtinUnchanged": {
    "m": [
@@ -197,15 +197,15 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823451,
-    "sha256": "15387441167884485a695243b5f50fd36c22b080abfecab05316e1867fd91d0e",
-    "mtime": "2026-10-04T19:31:06.599Z"
+    "bytes": 1838596,
+    "sha256": "79d8315b77e6e8dae08a222d40b7560b766cdc30aedc80499d2589d746c474b2",
+    "mtime": "2026-10-04T21:34:05.312Z"
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "bytes": 164003,
-    "sha256": "92b472be6976dccadb2af3dbfa67c756a7cd56f80b0b67d38d3985f5e7ced12e",
-    "mtime": "2026-10-04T20:01:08.319Z"
+    "bytes": 164004,
+    "sha256": "734d6ddcf49e051d9e4aec30f2c0950a1b8352987c5c16f10ff3c6cdbcd734d9",
+    "mtime": "2026-10-04T22:03:53.856Z"
    }
   ],
   "code": [
@@ -284,7 +284,7 @@
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "14281998d15eac66bf15d24c2d57299ccc3a5e3e872c16ff738e7eeddcdb840a",
+    "stableSha256": "a0a81b3847d41594df4876b6cb1d9e356a278c286ca804ce6b435e4817931a1e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -312,7 +312,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "1de8941094bf2cc28e5e6c3be604e3873787665a061c4c555d10e33ae592540d",
+    "stableSha256": "55fb5b3b77e09df58c391c101b395f082dd855e09103fd50de870ed2d1c0d0df",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -340,7 +340,7 @@
    },
    {
     "file": "tests/out/charoneps-w276b.json",
-    "stableSha256": "4083a19cc3c7a80e1df892b16b03e59ba6671f2404ae80fd97986ef03ab93f22",
+    "stableSha256": "f66b4454149dc4c391c3a5e3cabe9d038aecd34998556c238d029a6c3a17c73d",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/columns/*/h/wallSec",
@@ -356,8 +356,8 @@
  },
  "epsilonSeries": {
   "from": "tests/out/charoneps-w276b.json",
-  "sha256": "92b472be6976dccadb2af3dbfa67c756a7cd56f80b0b67d38d3985f5e7ced12e",
-  "generatedAt": "2026-10-04T20:01:08.132Z",
+  "sha256": "734d6ddcf49e051d9e4aec30f2c0950a1b8352987c5c16f10ff3c6cdbcd734d9",
+  "generatedAt": "2026-10-04T22:03:53.717Z",
   "rows": [
    {
     "id": "E_diag_e0.01",
@@ -1098,7 +1098,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 21.132,
+   "wallSec": 20.689,
    "rev2Sec": 551864.0607198874,
    "revN": 60,
    "residSec": 7.621999887400307,
@@ -1149,7 +1149,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694906,
-   "wallSec": 67.955,
+   "wallSec": 66.947,
    "rev2Sec": 551864.3107687241,
    "revN": 60,
    "residSec": 7.8720487240934744,
@@ -1200,7 +1200,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694899,
-   "wallSec": 31.038,
+   "wallSec": 30.355,
    "rev2Sec": 551864.024473122,
    "revN": 60,
    "residSec": 7.585753121995367,
@@ -1251,7 +1251,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694909,
-   "wallSec": 31.893,
+   "wallSec": 29.567,
    "rev2Sec": 551864.3919204049,
    "revN": 60,
    "residSec": 7.9532004048815,
@@ -1302,7 +1302,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 30.346,
+   "wallSec": 29.115,
    "rev2Sec": 551864.0696643799,
    "revN": 60,
    "residSec": 7.630944379954599,
@@ -1353,7 +1353,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694901,
-   "wallSec": 30.384,
+   "wallSec": 29.883,
    "rev2Sec": 551864.0068661361,
    "revN": 60,
    "residSec": 7.568146136123687,
@@ -1404,7 +1404,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20695300,
-   "wallSec": 70.198,
+   "wallSec": 66.677,
    "rev2Sec": 551889.1192713412,
    "revN": 60,
    "residSec": 32.680551341269165,
@@ -1455,7 +1455,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694902,
-   "wallSec": 22.333,
+   "wallSec": 22.018,
    "rev2Sec": 551864.0607198874,
    "revN": 60,
    "residSec": 7.621999887400307,
@@ -1506,7 +1506,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20692453,
-   "wallSec": 29.908,
+   "wallSec": 29.14,
    "rev2Sec": 551805.6249434385,
    "revN": 60,
    "residSec": -50.81377656152472,
@@ -1557,7 +1557,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694659,
-   "wallSec": 28.59,
+   "wallSec": 29.838,
    "rev2Sec": 551858.2236925954,
    "revN": 60,
    "residSec": 1.784972595400177,
@@ -1608,7 +1608,7 @@
    "stage": "h",
    "dt": 0.016,
    "steps": 20694878,
-   "wallSec": 29.454,
+   "wallSec": 30.221,
    "rev2Sec": 551863.4770515561,
    "revN": 60,
    "residSec": 7.038331556133926,
