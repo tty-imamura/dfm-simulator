@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-  "generatedAt": "2026-10-03T21:43:06.528Z",
+  "targetSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+  "generatedAt": "2026-10-04T18:40:54.177Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5623059,
-    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-    "mtime": "2026-10-03T19:22:31.703Z"
+    "bytes": 5701234,
+    "sha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+    "mtime": "2026-10-04T17:18:05.751Z"
    }
   ],
   "code": [
@@ -92,11 +92,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 951,
-   "segments": 862,
-   "closureShare": 0.3236
+   "names": 990,
+   "segments": 899,
+   "closureShare": 0.3246
   },
-  "scopeSha256": "11d200b6bfb1d32b059e0474be1f69051d8518a9dc950d6d4870fe87b1d0976c",
+  "scopeSha256": "2ca0fac005c8781cf7c6681ac9d17ecf28839756712e7625199c06f895bc2f56",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -419,7 +419,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.05
+    "wallSec": 0.054
    },
    {
     "b": 20000,
@@ -431,7 +431,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.000014726215563702155,
-    "wallSec": 0.053
+    "wallSec": 0.023
    }
   ],
   "clocksOk": true,
@@ -487,12 +487,12 @@
   "frameDefault": "pull"
  },
  "census": {
-  "n": 150,
+  "n": 152,
   "tally": {
-   "active:default(pull)": 4,
+   "active:default(pull)": 5,
    "active:pull": 14,
-   "active:share": 98,
-   "retired:default(pull)": 2,
+   "active:share": 100,
+   "retired:default(pull)": 1,
    "retired:pull": 14,
    "retired:share": 18
   },
@@ -589,5 +589,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 2.093
+ "elapsedS": 2.017
 }

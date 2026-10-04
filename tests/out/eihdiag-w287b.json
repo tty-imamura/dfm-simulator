@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第287便b",
   "target": "beta/index.html",
-  "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
-  "generatedAt": "2026-10-04T04:25:55.032Z",
+  "targetSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+  "generatedAt": "2026-10-04T18:40:18.005Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5633437,
-    "sha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
-    "mtime": "2026-10-04T02:34:29.785Z"
+    "bytes": 5701234,
+    "sha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+    "mtime": "2026-10-04T17:18:05.751Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 50851,
-    "sha256": "edfdd92d34a93540f781f2028ac971885e90f4881eb7b469818c9765e1e89c27",
-    "mtime": "2026-10-04T04:03:30.217Z"
+    "bytes": 50853,
+    "sha256": "75a6a8630342f8da212fa4f5db5f251015dbfea42e77cb24d1002dc3564ce251",
+    "mtime": "2026-10-04T17:51:45.483Z"
    }
   ],
   "code": [
@@ -84,16 +84,16 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 948,
-   "segments": 859,
-   "closureShare": 0.3225
+   "names": 987,
+   "segments": 896,
+   "closureShare": 0.3241
   },
-  "scopeSha256": "20750006497015a165f7833bc5063a1d2e2a21f8bf3a5c2ec3bdd60c4ac81b1a",
+  "scopeSha256": "2ac93dff6be02aaa512afaa99526debf8ad76a3e4c7e2730150084a15936ce23",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "4f662d51535d9eaea91c96806c9b5f13455b91d3d8277f26f26e419a9b051126",
+    "stableSha256": "beb13f2ed85680b29cc0b10e5a030d2fa709060e1d240c4411807ba0228785e2",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -346,8 +346,8 @@
   "新発見"
  ],
  "headless": {
-  "wallSec": 0.077,
+  "wallSec": 0.082,
   "errors": 0
  },
- "elapsedS": 9.095
+ "elapsedS": 8.008
 }

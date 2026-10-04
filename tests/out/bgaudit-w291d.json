@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便d",
   "target": "beta/index.html",
-  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-  "generatedAt": "2026-10-03T21:43:00.914Z",
+  "targetSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+  "generatedAt": "2026-10-04T18:40:43.703Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5623059,
-    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-    "mtime": "2026-10-03T19:22:31.703Z"
+    "bytes": 5701234,
+    "sha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+    "mtime": "2026-10-04T17:18:05.751Z"
    }
   ],
   "code": [
@@ -100,11 +100,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 951,
-   "segments": 862,
-   "closureShare": 0.324
+   "names": 991,
+   "segments": 900,
+   "closureShare": 0.325
   },
-  "scopeSha256": "3fefc526003eb8166a0749ef9923fd978e59e483acff42cb80dd4c29567162ac",
+  "scopeSha256": "940e34415791f587d27033b1bbbc61be424323be721913f0c6105a7bc61ed258",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -765,7 +765,15 @@
     "fn": "dfmInertialDragStep",
     "tokensFound": [],
     "callClosure": [
+     "dfmGaussLegendre01",
      "dfmInertialDragStep",
+     "dragCoreAngular",
+     "dragCoreAvgK",
+     "dragCoreInit",
+     "dragCoreLayer",
+     "dragCoreLookup",
+     "dragCoreTableBuild",
+     "dragCoreWeight",
      "inertialDragEpoch",
      "inertialDragInit"
     ],
@@ -775,6 +783,8 @@
     "fn": "inertialDragFieldAt",
     "tokensFound": [],
     "callClosure": [
+     "dragCoreLookup",
+     "dragCoreWeight",
      "inertialDragFieldAt"
     ],
     "forbiddenInClosure": []
@@ -804,5 +814,5 @@
   "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
  ],
  "ok": true,
- "elapsedS": 2.434
+ "elapsedS": 2.778
 }
