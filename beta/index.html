@@ -1964,6 +1964,7 @@ ja: {
   nc_thermo:"熱セクターは現実の熱力学との定量対応を主張しないアナロジーである。",
   // 第265便d(第57報 W4): LFBOT の**トイ仮説**(減光で蓄積した自光の崩壊放出)。実イベントの説明ではない
   nc_lfbot:"実在の高速青色トランジェント(LFBOT・AT2018cow 等)の説明・再現・予測ではない(仮説を法則の内側で組み立てたトイである)。",
+  nc_apsidal_8p85_fit:"近点回転 8.85 年は引きずりの係数 gain(C_d)を 1 次元でフィットした推定であり、較正の合でも、慣性決定力が較正ゼロで出した値でもない(実際の主因は太陽摂動)。",   // 第292便c(統合: 🌜 と鍵を分けた —— 🌛 のフィットの注記)
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
   ffHead:"🧪 失敗から見る(Failure First)",
   ffFail:"FAIL", ffPass:"PASS",
@@ -3021,6 +3022,7 @@ en: {
   nc_thermo:"The thermal sector is an analogy with no claimed quantitative correspondence to real thermodynamics.",
   // wave 265d: the LFBOT TOY HYPOTHESIS (trapped self-light released at collapse)
   nc_lfbot:"Not an explanation, reproduction or prediction of real luminous fast blue optical transients (LFBOTs such as AT2018cow) — it is a toy built from the hypothesis inside this universe's laws.",
+  nc_apsidal_8p85_fit:"The 8.85-year apsidal cycle is matched by a one-dimensional fit of the drag gain (C_d) — an estimate, not a calibration agreement and not a value the inertial determinacy produced with zero calibration (the real main cause is the solar perturbation).",   // wave 292c (integration: separate key from 🌜 — the fit note for 🌛)
   // 第88便 EXT-09: Failure First heading
   ffHead:"🧪 Failure First",
   ffFail:"FAIL", ffPass:"PASS",
@@ -6536,8 +6538,52 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history"];
+const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
+// 第292便c(R139): 慣性決定力の構造核の宣言(天体 `dragCore`・本 `relativeDrag.coreTable`)の受理器と定数 —— 式と契約は `dragCoreInit` の注記
+const DRAG_CORE_KEY = "dragCore";
+const DRAG_CORE_VERSION = "w292c-dragcore-1";
+const DRAG_CORE_KEYS = ["massFrac", "radius"];
+const DRAG_CORE_NR = 32;
+const DRAG_CORE_TABLE_N = 1024;
+const DRAG_CORE_TABLE_N_RANGE = [16, 65536];
+const DRAG_CORE_RMAX_FACTOR = 4;
+const DRAG_CORE_SPLITS = [-16, -4, -1, 0, 1, 4, 16];
+const REL_DRAG_CORE_TABLE_KEYS = ["n", "rMax"];
+// 宣言 relativeDrag.coreTable の受理(省略は null —— 正準形に出さない)
+function validateDragCoreTable(ct){
+  if(ct===undefined || ct===null) return {ok:true, coreTable:null};
+  if(typeof ct!=="object" || Array.isArray(ct)) return {ok:false, err:'physics.relativeDrag.coreTable は {n, rMax}(どちらも省略可)'};
+  for(const k of Object.keys(ct)) if(REL_DRAG_CORE_TABLE_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.coreTable に未知の鍵 '+k};
+  const out={};
+  if(ct.n!==undefined){
+    if(!isNum(ct.n) || ct.n!==Math.round(ct.n) || ct.n<DRAG_CORE_TABLE_N_RANGE[0] || ct.n>DRAG_CORE_TABLE_N_RANGE[1])
+      return {ok:false, err:'physics.relativeDrag.coreTable.n は '+DRAG_CORE_TABLE_N_RANGE[0]+'〜'+DRAG_CORE_TABLE_N_RANGE[1]+' の整数(表の点数・既定 '+DRAG_CORE_TABLE_N+')'};
+    out.n=ct.n;
+  }
+  if(ct.rMax!==undefined){
+    if(!isNum(ct.rMax) || !(ct.rMax>0)) return {ok:false, err:'physics.relativeDrag.coreTable.rMax は正の有限数(表の外は点源)'};
+    out.rMax=ct.rMax;
+  }
+  return {ok:true, coreTable:out};
+}
+// 天体の宣言 dragCore の受理(single 専用)。戻り値 {ok, dragCore|null, warn|null, err}
+function validateDragCoreBody(b, ph){
+  if(b.dragCore===undefined) return {ok:true, dragCore:null, warn:null};
+  const d=b.dragCore;
+  if(!d || typeof d!=="object" || Array.isArray(d)) return {ok:false, err:'dragCore は {massFrac, radius}(第292便c —— 慣性決定力の構造核)'};
+  for(const k of Object.keys(d)) if(DRAG_CORE_KEYS.indexOf(k)<0) return {ok:false, err:'dragCore に未知の鍵 '+k+'(massFrac・radius だけ —— コア v2 の core:{} とは別の鍵)'};
+  if(b.core!==undefined) return {ok:false, err:'dragCore と core:{}(コア v2)は同時に宣言しない(別の鍵 —— 構造核は慣性引きずりの源の質量分布だけを宣言する)'};
+  if(!isNum(b.radius) || !(b.radius>0)) return {ok:false, err:'dragCore は天体の半径 radius の宣言が要る(マントルの外半径 R_j)'};
+  if(!isNum(d.massFrac) || !(d.massFrac>0) || d.massFrac>1) return {ok:false, err:'dragCore.massFrac は 0<f≤1(コアの質量の割合)'};
+  if(!isNum(d.radius) || !(d.radius>0) || d.radius>b.radius) return {ok:false, err:'dragCore.radius は 0<R_c≤radius(コアの半径・絶対)'};
+  if(d.radius===b.radius && d.massFrac<1) return {ok:false, err:'dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1'};
+  const rd=ph && ph[REL_DRAG_KEY];
+  if(!rd || rd.law!=="inertial") return {ok:true, dragCore:null, warn:'dragCore は physics.relativeDrag.law:"inertial" の本だけで働く —— 無視します'};
+  const eps=(rd.eps!==undefined)? rd.eps : ((ph.softening!==undefined)? ph.softening : DEFAULT_PHYSICS.softening);
+  if(!(eps>0)) return {ok:false, err:'dragCore は核の軟化 ε>0 が要る(relativeDrag.eps か physics.softening —— ε=0 では受け手が源の中で体積平均が発散する)'};
+  return {ok:true, dragCore:{massFrac:d.massFrac, radius:d.radius}, warn:null};
+}
 function relativeDragPairsParse(pairs){
   if(pairs===undefined || pairs===null || pairs==="all") return {ok:true, pairs:"all"};
   if(!Array.isArray(pairs)) return {ok:false, err:'physics.relativeDrag.pairs は "all" か対の配列'};
@@ -6576,6 +6622,9 @@ function validateRelativeDragInertial(a){
   if(a.history!==undefined && a.history!==null && REL_DRAG_INERTIAL_HISTORY.indexOf(a.history)<0)
     return {ok:false, err:'physics.relativeDrag.history(law:"inertial")は "positions" のみ(移動ベクトルは座標の差分から作る)'};
   out.history="positions";
+  const ctv=validateDragCoreTable(a.coreTable);   // 第292便c: 省略は正準形に出さない(既存の本の署名は 1 字も変わらない)
+  if(!ctv.ok) return {ok:false, err:ctv.err};
+  if(ctv.coreTable!==null) out.coreTable=ctv.coreTable;
   return {ok:true, relativeDrag:out};
 }
 function validateRelativeDrag(a){
@@ -12154,6 +12203,76 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+// ===== 第292便c(原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139): 🌛 earthMoonInertial —— 慣性決定力版の地球と月(構造核の起点) =====
+// bodies は 🌙 earthMoonReal の宣言を**1 字も変えずに写した**(質量・半径・離角・速度・自転 —— 🌘 の −0.12% の初速・qLock・D₀・D0pull は使わない)。
+// 地球にだけ構造核 dragCore:{massFrac:0.325, radius:3.48}(0.546×6.38 —— **感度実験の起点の宣言**であって地球の核の同定ではない・月は点源)。
+// physics は 🌙 の宣言から geoPN を 0(測地線なし —— geoPN=3 は旧法則版の優先に乗るので置かない)にし、慣性引きずり relativeDrag:{law:"inertial"} を足しただけ。
+// gain(C_d)は器 tests/exp-w292c-dragcore.mjs が近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた**推定(フィット)**の値 —— 較正の合ではない。
+// 正本 tests/out/dragcore-w292c.json(段 dragcore292)。
+{ id:"earthMoonInertial", name:"地球と月(慣性決定力版)— 構造核と近点回転のフィット", emoji:"🌛", group:"天体の機構",
+  familyId:"earthmoon", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
+  sampleClass:"principle",
+  referenceKind:"structure-sensitivity",   // 宣言専用メタ: 参照は構造核(コアの質量と半径)への感度 —— 観測との合否を数える対象ではない
+  fidelity:"real",
+  notClaim:["solar_cal","apsidal_8p85","apsidal_8p85_fit"],
+  orbitObs:{center:0, orbiter:1, ghostAmp:20},
+  obsCard:[
+    {q:"何を置いたか", model:"🌙 の実単位の地球と月(初速も 🌙 のまま)・geoPN=0・kFrame=0・慣性引きずり law:\"inertial\"・地球に構造核 dragCore{f=0.325, R_c=3.48}", obs:"—(原理サンプル —— 較正母集団の外)"},
+    {q:"gain(C_d)", model:"514182 [L³/M] —— 27 公転窓の近点周期を 8.85 年に合わせた推定(フィット)。較正の合ではない(AN117 と同じ扱い)", obs:"8.85 年(フィットの対象)"},
+    {q:"近点回転(実測)", model:"8 公転窓 Δϖ=0.053207 rad/公転(🌘 の +0.05308 の 1.0024 倍)・8・27・118 公転窓とも 8.850 年", obs:"8.85 年(主因は太陽摂動 —— 🔆)"},
+    {q:"恒星月(実測)", model:"118 公転の区間平均 27.143 日(-0.66% —— 初速は 🌙 のまま合わせていない)・離心率の代理 0.0490", obs:"27.3217 日・e 0.0549"},
+    {q:"構造核の効き(実測)", model:"月の距離で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6e-4・点源でフィットすると gain は 2.4e-4 大きいだけ・3×3 の Δϖ の差 ≤ 3.3e-4", obs:"—"},
+    {q:"118 公転(実測)", model:"27 公転ごとの近点周期 8.850/8.850/8.850/8.850 年・離心率の代理 0.0490(4 区間で同じ) —— 窓に依らず定常(二体の性質)", obs:"—"},
+    {q:"言わないこと", model:"8.85 年を慣性決定力が較正ゼロで出したとは言わない。C_d・f・R_c を 8.85 年の 1 量から一意決定していない(1 次は ⟨ρ²⟩ だけ)", obs:"—"}],
+  descStruct:{
+    summary:"**慣性決定力版の地球と月**(第292便c・原仮定者の裁定〔第82報〕⑤⑥・統括の検証項目 R139)。🌙 earthMoonReal の実単位の地球と月(質量・半径・離角・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 座標の差分の移動ベクトル V から u_i=C_d Σ_j m_j 𝒦_j(r)(V_j−V_i) を作り、位置だけを x+=u·dt で動かす)だけで回す。geoPN=0・kFrame=0(1PN も E6′ の q 引きずりも使わない)。地球には**構造核** dragCore:{massFrac:0.325, radius:3.48}(一様密度のコア+マントル殻 —— 感度実験の起点の宣言で、地球の核の同定ではない)を宣言し、核 K_ε(s)=s/(s²+ε²)² を地球の質量分布で体積平均した ⟨K⟩(r) を地球を源とする対に使う(月は点源・受け手は点・自転は読まない)。**gain(C_d)=514182 は、近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた 1 次元フィットの推定**であって較正の合ではない(AN117 と同じ扱い)。8 公転窓の Δϖ は 0.053207 rad/公転(🌘 の較正窓 +0.05308 の 1.0024 倍)で、8 公転・27 公転・118 公転の窓で近点周期が変わらない(二体の性質)。構造核の効きは月の距離(a≈57R)で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6×10⁻⁴ と小さく、点源で同じフィットをすると gain が 2.4e-4 大きくなるだけである —— **8.85 年の 1 量から C_d・f・R_c を同時に一意決定することはできない**(1 次の効きは質量分布の 2 次モーメント ⟨ρ²⟩〔慣性モーメント〕だけを通して入る。総質量と慣性モーメントを独立に固定して残る係数をフィットする順序が要る)。初速は 🌙 のまま合わせていないので恒星月は 27.143 日(-0.66% —— 118 公転の区間平均)。実際の月の近点回転の主因は太陽摂動であり(🔆)、本サンプルは太陽を入れない二体の原理サンプルである。",
+    observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが 1 公転あたり約 3.05° ずつ順行に回るのを見る(8.85 年 ≈ 118 公転で一周)。27 公転ごとの近点周期は 8.850/8.850/8.850/8.850 年・離心率の代理は 0.0490(4 区間で同じ) で、窓を延ばしても変わらない(🧲 の q 引きずりは窓を延ばすと 20.8 年へ遅れ離心率を汲み上げた)。HUD の t は日・年に換算される。",
+    control:"比較の相手は 🌙(同じ初期状態・慣性引きずりなし —— 近点は回らない)と 🌘(kFrame=1 の q 引きずり・D₀ と初速の共同フィット)。構造核の感度(f∈{0.125, 0.325, 0.6}×R_c∈{0.4, 0.546, 0.7}R と点源)とフィットの手順は器 tests/exp-w292c-dragcore.mjs・正本 tests/out/dragcore-w292c.json・docs/PHYSICS.md〔第292便c〕で見る。"},
+  en:{name:"Earth & Moon (inertial determinacy) — structure core and a fitted apsidal cycle",
+    obsCard:[
+      {q:"What is placed", model:"🌙's real-unit Earth-Moon, 🌙's speeds; geoPN=0, kFrame=0; inertial drag only; Earth core dragCore{f=0.325, R_c=3.48}", obs:"- (a principle sample, outside the calibration population)"},
+      {q:"gain (C_d)", model:"514182 [L^3/M]: an estimate (fit) of the 27-orbit apsidal period to 8.85 yr; not a calibration agreement (as AN117)", obs:"8.85 yr (the fit target)"},
+      {q:"Apsidal advance (measured)", model:"8-orbit 0.053207 rad/orbit (1.0024 x 🌘's +0.05308); 8.850 yr in the 8-, 27-, 118-orbit windows", obs:"8.85 yr (main cause: the Sun - 🔆)"},
+      {q:"Sidereal month (measured)", model:"118-orbit mean 27.143 d (-0.66%; 🌙's speeds kept, not refitted); eccentricity proxy 0.0490", obs:"27.3217 d, e 0.0549"},
+      {q:"Structure core (measured)", model:"<K>/K-1 ~ <rho^2>/a^2 ~ 1.6e-4 at the Moon; point-source fit: gain +2.4e-4; 3x3 (f, R_c) grid: advance moves <= 3.3e-4", obs:"-"},
+      {q:"118 orbits (measured)", model:"apsidal period per 27 orbits 8.850/8.850/8.850/8.850 yr; e proxy 0.0490 in all four: steady (a two-body property)", obs:"-"},
+      {q:"Not claimed", model:"8.85 yr is not produced with zero calibration; C_d, f, R_c are not fixed by one number (first order: <rho^2> only)", obs:"-"}],
+    descStruct:{
+      summary:"THE INERTIAL-DETERMINACY VERSION OF THE EARTH AND MOON (wave 292c; the originator's ruling in report 82 items 5 and 6; the coordinator's check item R139). 🌙 earthMoonReal's real-unit Earth and Moon (masses, radii, separation, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG alone (physics.relativeDrag.law:\"inertial\": from the coordinate-difference movement V it builds u_i = C_d sum_j m_j K_j(r)(V_j - V_i) and moves positions only, x += u dt). geoPN=0, kFrame=0 (no 1PN, no E6' q dragging). The Earth declares a STRUCTURE CORE dragCore:{massFrac:0.325, radius:3.48} (a uniform core plus a uniform mantle shell - the starting point of a sensitivity experiment, not an identification of the Earth's core); the kernel K_eps(s)=s/(s^2+eps^2)^2 averaged over the Earth's mass distribution, <K>(r), is used for the pairs whose source is the Earth (the Moon is a point; receivers are points; spins are not read). THE GAIN C_d=514182 IS AN ESTIMATE FROM A ONE-DIMENSIONAL FIT of the apsidal period (detector B, 27-orbit window) to 8.85 yr, not a calibration agreement (treated as AN117). The 8-orbit advance is 0.053207 rad/orbit (1.0024 x 🌘's calibration-window +0.05308), and the period is the same in the 8-, 27- and 118-orbit windows (a two-body property). The structure core acts weakly at the Moon's distance (a ~ 57R): <K>/K - 1 ~ <rho^2>/a^2 ~ 1.6e-4, and the same fit with a point source needs a gain only 2.4e-4 larger - C_d, f AND R_c CANNOT BE FIXED TOGETHER FROM THE ONE 8.85-YEAR NUMBER (to first order the structure enters only through the second moment <rho^2>, i.e. the moment of inertia; the total mass and the moment of inertia must be fixed independently before the remaining coefficient is fitted). The speeds are 🌙's and are not refitted, so the sidereal month is 27.143 d (-0.66%, the 118-orbit mean). The real Moon's apsidal cycle is driven mainly by the Sun (🔆); this is a two-body principle sample without the Sun.",
+      observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde by about 3.05 deg per orbit (one cycle in 8.85 yr ~ 118 orbits). The apsidal period per 27 orbits is 8.850/8.850/8.850/8.850 yr and the eccentricity proxy 0.0490 in all four: lengthening the window changes nothing (the q dragging of 🧲 slowed to 20.8 yr and pumped the eccentricity). The HUD time is shown in days and years.",
+      control:"Compare with 🌙 (same initial state, no inertial drag - the apses stay still) and 🌘 (kFrame=1 q dragging, a joint fit of D0 and the speeds). The structure-core sensitivity (f in {0.125, 0.325, 0.6} x R_c in {0.4, 0.546, 0.7}R and a point source) and the fit procedure are in tests/exp-w292c-dragcore.mjs, tests/out/dragcore-w292c.json and docs/PHYSICS.md (wave 292c)."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c0=29979.2458","the Earth's real mass, radius and rotation (23.93 h)","the Moon's real mass, radius and synchronous rotation",
+        "semi-major axis 3.84748e8 m, eccentricity 0.0549, perigee relative speed 1.082 km/s (copied from 🌙 - no speed correction)","the Moon's 8.85-year apsidal cycle (the observation used as the gain's fit target)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10^6 m / 10^2 s / 10^25 kg)","geoPN=0, kFrame=0 (no 1PN, no E6' q dragging)",
+        "inertial drag relativeDrag:{law:\"inertial\", eps:0.1, history:\"positions\"}","the Earth's structure core dragCore:{massFrac:0.325, radius:3.48} (the starting point of a sensitivity experiment - not an identification of the Earth's core); the Moon is a point",
+        "kRep=muF=gammaN=kappaS=0","stateCarry:\"double\", massFloor=1e-6","a free binary about the barycenter (nothing pinned, no Sun)"],
+      fitted:["gain (C_d)=514182 [L^3/M] (a one-dimensional fit of the apsidal period - detector B, 27-orbit window - to 8.85 yr; an estimate, not a calibration agreement)"],
+      derived:["kappa=G/c0^2=7.4258e-9","<rho^2>=0.518R^2 (from the two-layer starting declaration - a moment-of-inertia factor of 0.345)"],
+      numerical:["softening eps=0.1 (gravity and the drag kernel)","structure-core table 1024 points, r_max = 4 x the initial span, Gauss-Legendre 32 points","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]},
+  },
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=29979.2458","地球の実質量・実半径・実自転(23.93時間)","月の実質量・実半径・同期自転",
+      "軌道長半径 3.84748×10⁸m・離心率 0.0549・近地点の相対速度 1.082km/s(🌙 の写し —— 初速の補正なし)","月の近点回転の周期 8.85年(gain のフィットの対象にした観測値)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","geoPN=0・kFrame=0(1PN も E6′ の q 引きずりも使わない)",
+      "慣性引きずり relativeDrag:{law:\"inertial\", eps:0.1, history:\"positions\"}","地球の構造核 dragCore:{massFrac:0.325, radius:3.48}(感度実験の起点の宣言 —— 地球の核の同定ではない)・月は点源",
+      "kRep=muF=γN=κ_S=0","stateCarry:\"double\"・massFloor=1e-6","自由二体を重心系で配置(pinned なし・太陽なし)"],
+    fitted:["gain(C_d)=514182 [L³/M](近点回転の周期〔検出器 B・27 公転窓〕を 8.85 年に合わせた 1 次元フィット —— 推定であって較正の合ではない)"],
+    derived:["κ=G/c₀²=7.4258×10⁻⁹","⟨ρ²⟩=0.518R²(起点の 2 層の宣言から —— 慣性モーメント係数 0.345 に当たる)"],
+    numerical:["ソフトニング ε=0.1(重力と引きずりの核)","構造核の表 1024 点・r_max=初期配置の 4 倍・Gauss–Legendre 32 点","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
+  activeParams:["dispMag"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:514182, eps:0.1, history:"positions"}},
+  bodies:[   // 🌙 earthMoonReal と同一(1 字も変えない)+地球にだけ dragCore(構造核の起点の宣言)
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true, dragCore:{massFrac:0.325, radius:3.48}},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 // ===== 第135便(外部レビュー P0-1・原仮定者裁定「進める」): 機構判別サンプル群 emAudit =====
 // 論文3 の中心命題「**数値一致 ≠ 機構同定**」を、注意書きではなく**実験結果として**示す3条件比較。
 // 月の近点回転(実測 約8.85年で一周)について、同じ観測量を出す2つの経路と、現実の主因を並べる:
@@ -21042,6 +21161,7 @@ function validatePreset(obj){
       at="bodies["+idx+"]";
       if(!b||typeof b!=="object"){ bad(at+" がオブジェクトではありません"); return; }
       if(b.spinAxis!==undefined && b.type!=="single") warnings.push(at+".spinAxis は single 専用(点粒子の表示専用の軸の宣言 —— 第288便e)— 無視します");
+      if(b.dragCore!==undefined && b.type!=="single") warnings.push(at+".dragCore は single 専用(慣性決定力の構造核 —— 第292便c)— 無視します");
       // 第64便 64B(A9″): microSpinRms — 内部スピン揺らぎの RMS √⟨δs²⟩ による初期温度指定。
       // T_int = σ_s²(A9″)の別表記なので、受理時に tInt = rms² へ正規化する(正本状態は従来どおり
       // tInt — 全 body 型に共通なので型分岐の前で1回だけ処理する)。値域 [0,100] は tInt の
@@ -21114,6 +21234,14 @@ function validatePreset(obj){
         } else if(dropLegacyCore(b,false)){
           const lc=legacyCoreToV2(b,{m:o.m, spin:o.spin, radius:o.radius, rMul:o.rMul});
           if(lc===false) return; if(lc) o.core=lc;
+        }
+        // 第292便c(R139): dragCore:{massFrac, radius} —— 慣性決定力の構造核(コア v2 の core:{} とは別の鍵・両方は拒否)。
+        // physics.relativeDrag.law:"inertial" の本だけで働く(それ以外は警告して無視)。未宣言はキーが無い = 署名も挙動も 1 bit 不変
+        if(b.dragCore!==undefined){
+          const dc=validateDragCoreBody(b, p.physics);
+          if(!dc.ok){ bad(at+"."+dc.err); return; }
+          if(dc.warn) warnings.push(at+"."+dc.warn);
+          if(dc.dragCore) o.dragCore=dc.dragCore;
         }
         // 第36便 C2: lightSweep は数値(0〜1・従来の独立指定)に加えて "auto"(粒子パラメータからの
         // 算出モード)を受理する。その他の値は削除+警告(生成AI・インポートの誤値で落とさない)
@@ -23394,6 +23522,7 @@ function makeSim(){
           tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         if(b.core) o.core=b.core;      // 第77便(コアv2): 独立コア(validate 済みオブジェクト)
+        if(b.dragCore && typeof b.dragCore==="object") o.dragCore={massFrac:b.dragCore.massFrac, radius:b.dragCore.radius, R:b.radius};   // 第292便c: 構造核(R=天体の半径の宣言)
         if(b.pulse) o.pulse=b.pulse;   // 第226便: パルス時計チャネル(validate 済み・表示診断専用)
         if(b.spinDipole) o.spinDipole=b.spinDipole;   // 第246便: 観測 Q の転写(validate 済み・spinSpin の源だけ)
         if(b.spinAxis) o.spinAxis=b.spinAxis;   // 第288便e: 自転軸の表示専用の宣言(validate 済み —— S.spinAxD にだけ写す)
@@ -23676,11 +23805,13 @@ function makeSim(){
     else { S.Tint=null; S.dQi=null; S.arep=null; S.arepD=null; S.duT=null; }
     S.zonal=null;   // E13(第11次裁定): 帯状重力属性を持つ中心天体(v1.29: AI生成・インポートにも開放)
     S.periDet=null; // 近点検出器は再構築でリセット(第11次裁定 保留分)
+    S.dragCoreD=null; S._dragCoreT=null; S._dragCore=null; S._dragCoreKey=""; S._dragCoreEp=null;   // 第292便c: 構造核(宣言した本だけ下で確保)
     S.pnOff=null; S._pnOrb=0;   // 第291便b: pnSource:false の明示(宣言した本だけ確保)・kF0 の全質量源の埋め込みの印
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       S.pnOv[i]=o.pnSrc?1:0;   // 第113便: 1PN源の明示フラグ(single の pnSource:true)
       if(o.pnOff){ if(!S.pnOff || S.pnOff.length!==P.length) S.pnOff=new Uint8Array(P.length); S.pnOff[i]=1; }   // 第291便b: pnSource:false(宣言が無ければ null のまま)
+      if(o.dragCore){ if(!S.dragCoreD) S.dragCoreD=new Array(P.length).fill(null); S.dragCoreD[i]=o.dragCore; }   // 第292便c: 構造核の宣言(無ければ null のまま)
       // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
       // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
       const lsw=o.lightSweep;
@@ -48452,6 +48583,112 @@ function relativeDragProbe(S,i,j,dt){
 //   で測った ΔU を `S.inertialDragWork` に積む(**外部支持の仕事**として記帳 —— 閉じた系の保存ではない)。
 //   Σ m u と Σ m x×u は診断欄(対称核で Σ m u = 0 だが Σ m x×u ≠ 0 —— 「座標変換だから保存則を満たす」とは言わない)。
 //   軌道角運動量 Σ m x×v の移送による変化 Σ m (u dt)×v を `S.inertialDragDL` に積む。
+// ===== 第292便c(原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139): **慣性決定力の構造核** —— 天体の宣言 `dragCore:{massFrac:f, radius:R_c}` =====
+// 「慣性決定力版では、q に相当する引きずりが質量分布の意味での構造(近似コアの質量と半径)に依存する」。
+// 源 j を**一様密度のコア(質量 f·m_j・半径 R_c)+一様密度のマントル殻(質量 (1−f)·m_j・R_c〜R_j)**とし、点の受け手 i に対する核
+// K_ε(s)=s/(s²+ε²)² を源の質量分布で体積平均した ⟨K⟩_j(r)(r=中心間距離・単位質量あたり)を `dfmInertialDragStep` の源 j の核にする:
+//   u_i = C_d Σ_j m_j 𝒦_j(r_ij)(V_j − V_i)、𝒦_j = ⟨K⟩_j(表のある源)/ K_ε(表の無い源 —— 第290便c の点源核のまま)
+//   ⟨K⟩(r) = Σ_層 w_L·3/(2(b³−a³)) ∫_a^b ρ² G(r,ρ) dρ、G(r,ρ)=∫_{−1}^{1}K_ε(s)dμ=(1/(rρ))[F(r+ρ)−F(|r−ρ|)]、F(s)=atan(s/ε)/(2ε)−s/(2(s²+ε²))
+//   (角度方向は s への変数変換で閉じた形 —— 差は桁落ちしない形で書く。半径方向は Gauss–Legendre〔DRAG_CORE_NR 点〕を層ごと・
+//    受け手の距離 r のまわりの区切り r+{0,±1,±4,±16}ε で分けた小区間ごとに置く)。純関数の写しは tests/lib-w292c-dragcore.mjs(同じ式・同じ順序)。
+// ■ 契約
+//   ・**opt-in**: 宣言の無い本は `S.dragCoreD=null`・`S._dragCoreT=null` のまま、`dfmInertialDragStep` の核の分岐の外を 1 命令も変えない(既存 150 本はビット同一)。
+//   ・有効なのは `physics.relativeDrag.law:"inertial"` の本だけ(それ以外は受理時に警告して無視)。`core:{}`(コア v2)とは別の鍵 —— 両方の宣言は拒否。
+//   ・single 天体だけ・天体の半径 `radius` の宣言が要る(R_j)・0<f≤1・0<R_c≤R_j(R_c=R_j なら f=1)・核の軟化 ε>0(ε=0 では受け手が源の中で発散)。
+//   ・表: r_k=R_j(e^{ξ_k}−1)・ξ 等間隔(n 点・既定 1024)・[0, r_max](既定は**初期配置**で源から最も遠い粒子までの距離の DRAG_CORE_RMAX_FACTOR 倍)。
+//     置く量は Q(r)=⟨K⟩(r)·(r²+R_j²)^{3/2}(遠方・中心ともなめらか)・補間は ξ について線形。表の外(r ≥ r_max)は点源 K_ε に落とす(跳びを記録)。
+//     宣言 `physics.relativeDrag.coreTable:{n, rMax}`(どちらも省略可)。表は**単位質量あたり**(質量が変わっても形は同じ)。
+//   ・受け手は点(受け手の有限サイズは読まない)・自転 Ω を読まない(表面の手前/反対の反転〔回転引きずり〕は本便の対象外)。
+//   ・核が非対称(𝒦_ij=⟨K⟩_j ≠ 𝒦_ji)になるので Σ m u は 0 にならない —— 既存の診断欄 inertialDragPx/Py に出る(閉じたとは言わない)。
+//   ・粒子が入れ替わったら(inertialDragEpoch が最初に表を使った步と違えば)表を捨てて点源に落とす(`S._dragCore.dropped` に記録)。
+//   ・`S._dragCore` に表・求積の宣言・補間誤差の上限(格子の中点で直接の求積と比べた最大の相対差)・表の外への跳びを記録する。
+// 角度方向の閉じた形 G(r,ρ)=∫_{−1}^{1}K_ε(s)dμ(r=0 は極限 2K_ε(ρ))
+function dragCoreAngular(r,rho,eps){
+  if(r===0){ const s=rho*rho+eps*eps; return 2*rho/(s*s); }
+  const s1=r+rho, s2=Math.abs(r-rho), e2=eps*eps, d=s1-s2;
+  const at=Math.atan(d*eps/(e2+s1*s2))/(2*eps);
+  const rt=d*(e2-s1*s2)/(2*(s1*s1+e2)*(s2*s2+e2));
+  return (at-rt)/(r*rho);
+}
+// 層 [a,b] の ∫ρ²G dρ(区切りつき Gauss–Legendre)
+function dragCoreLayer(r,a,b,eps,gl){
+  const cuts=[a];
+  for(const c of DRAG_CORE_SPLITS){ const z=r+c*eps; if(z>a && z<b && z>cuts[cuts.length-1]) cuts.push(z); }
+  cuts.push(b);
+  let sum=0;
+  for(let q=0;q+1<cuts.length;q++){
+    const lo=cuts[q], hi=cuts[q+1], h=hi-lo;
+    if(!(h>0)) continue;
+    let part=0;
+    for(let k=0;k<gl.x.length;k++){ const rho=lo+h*gl.x[k]; part+=gl.w[k]*rho*rho*dragCoreAngular(r,rho,eps); }
+    sum+=part*h;
+  }
+  return sum;
+}
+// 体積平均 ⟨K⟩(r)(単位質量あたり —— 層の順: コア → マントル)
+function dragCoreAvgK(r,decl,R,eps,gl){
+  const f=decl.massFrac, Rc=decl.radius;
+  let out=0;
+  if(f>0){ const c3=Rc*Rc*Rc; out+=f*3/(2*c3)*dragCoreLayer(r,0,Rc,eps,gl); }
+  if(f<1){ const d3=R*R*R-Rc*Rc*Rc; out+=(1-f)*3/(2*d3)*dragCoreLayer(r,Rc,R,eps,gl); }
+  return out;
+}
+function dragCoreWeight(r,R){ const s=r*r+R*R; return s*Math.sqrt(s); }
+// 表の前計算(Q=⟨K⟩·(r²+R²)^{3/2})と補間誤差の上限(格子の中点で直接の求積と比べる)
+function dragCoreTableBuild(decl,R,eps,n,rMax,gl){
+  const xiMax=Math.log1p(rMax/R), dXi=xiMax/(n-1);
+  const Q=new Float64Array(n);
+  for(let k=0;k<n;k++){ const rk=(k===n-1)? rMax : R*Math.expm1(k*dXi); Q[k]=dragCoreAvgK(rk,decl,R,eps,gl)*dragCoreWeight(rk,R); }
+  const T={R, n, rMax, dXi, Q, massFrac:decl.massFrac, radius:decl.radius, eps};
+  let errMax=0, errAt=0, errFar=0;
+  for(let k=0;k+1<n;k++){
+    const r=R*Math.expm1((k+0.5)*dXi), ex=dragCoreAvgK(r,decl,R,eps,gl), ip=dragCoreLookup(T,r);
+    const e=Math.abs(ip-ex)/Math.abs(ex);
+    if(e>errMax){ errMax=e; errAt=r; }
+    if(r>=2*R && e>errFar) errFar=e;
+  }
+  const kp=rMax/((rMax*rMax+eps*eps)*(rMax*rMax+eps*eps)), ka=Q[n-1]/dragCoreWeight(rMax,R);
+  T.interpRelMax=errMax; T.interpRelMaxAt=errAt; T.interpRelMaxFar=errFar; T.jumpAtRMax=(ka-kp)/kp;
+  return T;
+}
+// 補間(表の外は null → 呼び手が点源 K_ε)
+function dragCoreLookup(T,r){
+  if(!(r<T.rMax)) return null;
+  const xi=Math.log1p(r/T.R)/T.dXi, k=Math.floor(xi);
+  const q=(k>=T.n-1)? T.Q[T.n-1] : T.Q[k]+(xi-k)*(T.Q[k+1]-T.Q[k]);
+  return q/dragCoreWeight(r,T.R);
+}
+// 表を張る(inertialDragInit から —— 宣言・ε・表の宣言が同じなら張り直さない〔チェックポイント復元・半径の追従で表を動かさない〕)
+function dragCoreInit(S){
+  const D=S.dragCoreD, rd=S.relDrag;
+  if(!D || !rd || rd.law!=="inertial"){ S._dragCoreT=null; S._dragCore=null; S._dragCoreKey=""; S._dragCoreEp=null; return; }
+  const eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0);
+  const ct=rd.coreTable||{}, n=(ct.n!==undefined)? ct.n : DRAG_CORE_TABLE_N;
+  const key=JSON.stringify([D, eps, n, (ct.rMax!==undefined)? ct.rMax : null]);
+  if(S._dragCoreT && S._dragCoreKey===key) return;
+  const gl=dfmGaussLegendre01(DRAG_CORE_NR), N=S.n, T=new Array(N).fill(null), src=[];
+  for(let i=0;i<N && i<D.length;i++){
+    const d=D[i];
+    if(!d) continue;
+    if(!(eps>0) || !(d.R>0) || !(d.massFrac>0) || !(d.massFrac<=1) || !(d.radius>0) || !(d.radius<=d.R)){ src.push({index:i, skipped:"invalid"}); continue; }
+    let far=0;
+    for(let j=0;j<N;j++){ if(j===i) continue; const z=Math.hypot(S.x[j]-S.x[i], S.y[j]-S.y[i]); if(z>far) far=z; }
+    const rMax=(ct.rMax!==undefined)? ct.rMax : DRAG_CORE_RMAX_FACTOR*Math.max(far, 2*d.R);
+    const t=dragCoreTableBuild(d,d.R,eps,n,rMax,gl);
+    T[i]=t;
+    src.push({index:i, massFrac:d.massFrac, radius:d.radius, R:d.R, rMax, rMaxFrom:(ct.rMax!==undefined)? "declared" : "initial", n, dXi:t.dXi,
+      interpRelMax:t.interpRelMax, interpRelMaxAt:t.interpRelMaxAt, interpRelMaxFar:t.interpRelMaxFar, jumpAtRMax:t.jumpAtRMax});
+  }
+  const any=T.some((z)=>z!==null);
+  S._dragCoreT=any? T : null; S._dragCoreKey=key; S._dragCoreEp=null;
+  S._dragCore={version:DRAG_CORE_VERSION, eps, nr:DRAG_CORE_NR, n, splits:DRAG_CORE_SPLITS.slice(), weight:"(r²+R²)^{3/2}", interp:"linear-in-xi",
+    receiver:"point", sources:src, dropped:null};
+}
+// 読み口(状態は 1 bit も動かさない)
+function dragCoreState(S){
+  if(!S || !S._dragCore) return null;
+  return JSON.parse(JSON.stringify(S._dragCore));
+}
 const REL_DRAG_INERTIAL_VERSION = "w290c-inertial-1";
 function inertialDragInit(S){
   const N=Math.max(S.m.length, S.n);
@@ -48466,6 +48703,7 @@ function inertialDragInit(S){
   S.inertialDragBound=0; S.inertialDragBoundMax=0; S.inertialDragDegMax=0; S.inertialDragUMax=0;
   S.inertialDragPx=0; S.inertialDragPy=0; S.inertialDragJz=0; S.inertialDragDU=0;
   S.inertialDragWork=0; S.inertialDragDL=0;
+  if(S.dragCoreD) dragCoreInit(S);   // 第292便c: 構造核の表(宣言した本だけ —— 未宣言は S.dragCoreD=null で素通り)
 }
 function inertialDragClear(S){
   S.rdPrevX=null; S.rdPrevY=null; S.rdPrevT=null; S._rdVX=S._rdVY=S._rdUX=S._rdUY=S._rdDeg=S._rdNX=S._rdNY=null;
@@ -48492,7 +48730,29 @@ function dfmInertialDragStep(S,dt){
   const set=S._rdPairSet, NP=S._rdPairN;
   if(hist) for(let i=0;i<n;i++){ VX[i]=(X[i]-PX[i])/dt; VY[i]=(Y[i]-PY[i])/dt; }
   let degMax=0, coincident=false;
-  for(let i=0;i<n && !coincident;i++){
+  // 第292便c: 構造核(dragCore)の表がある本だけ別の受け手ループ(粒子が入れ替わったら表を捨てて点源へ)。**表の無い本はこの分岐の外 = 下の従来ループそのまま**
+  let CT=S._dragCoreT;
+  if(CT){ if(S._dragCoreEp===null) S._dragCoreEp=ep; else if(S._dragCoreEp!==ep){ S._dragCoreT=CT=null; if(S._dragCore) S._dragCore.dropped={t, epoch:ep}; } }
+  if(CT) for(let i=0;i<n && !coincident;i++){
+    let ux=0, uy=0, deg=0;
+    const mi=m[i], okI=(mi>0 && Number.isFinite(mi));
+    for(let j=0;j<n;j++){
+      if(j===i) continue;
+      if(set && !set.has(i*NP+j)) continue;
+      const mj=m[j];
+      if(!(mj>0) || !Number.isFinite(mj)) continue;
+      const dx=X[j]-X[i], dy=Y[j]-Y[i], r2=dx*dx+dy*dy;
+      if(!(r2>0)){ coincident=true; break; }
+      const r=Math.sqrt(r2), s=r2+e2, Tj=CT[j];
+      const kv=Tj? dragCoreLookup(Tj,r) : null;              // 源 j の体積平均 ⟨K⟩_j(表の外・表の無い源は点源 K_ε)
+      const a=C*mj*((kv===null)? (r/(s*s)) : kv);
+      if(hist){ ux+=a*(VX[j]-VX[i]); uy+=a*(VY[j]-VY[i]); }
+      deg+=a;
+    }
+    UX[i]=okI? ux : 0; UY[i]=okI? uy : 0; DG[i]=okI? deg : 0;
+    if(okI && !pin[i]){ const ad=Math.abs(deg); if(ad>degMax) degMax=ad; }
+  }
+  else for(let i=0;i<n && !coincident;i++){
     let ux=0, uy=0, deg=0;
     const mi=m[i], okI=(mi>0 && Number.isFinite(mi));
     for(let j=0;j<n;j++){
@@ -48553,7 +48813,8 @@ function inertialDragState(S){
   return { version:REL_DRAG_INERTIAL_VERSION, gain:S.relDrag.gain, eps:(S.relDrag.eps!==undefined)? S.relDrag.eps : (S.params.softening||0),
     pairs:S.relDrag.pairs, steps:S.inertialDragN, noHistory:S.inertialDragNoHist, boundOver:S.inertialDragOver, reject:S.inertialDragReject,
     bound:S.inertialDragBound, boundMax:S.inertialDragBoundMax, degMax:S.inertialDragDegMax, uMax:S.inertialDragUMax,
-    sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL };
+    sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL,
+    ...(S._dragCore? {dragCore:dragCoreState(S)} : null) };   // 第292便c: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
 }
 // ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **明示潮汐の外部ステップ** `dfmTideStep(S,dt)` =====
 // `physics.tide` と天体の `tide:{k2, lag}` を宣言した本だけが通る(`S.hasTide` —— 未宣言の本では build が立てないので 1 命令も走らない)。
@@ -48749,6 +49010,7 @@ function inertialDragFieldAt(S,x,y,opt){
   }
   const px=(skip>=0)? PX[skip] : Number(x), py=(skip>=0)? PY[skip] : Number(y);
   if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
+  const CT=S._dragCoreT||null;   // 第292便c: 構造核の表(直近の步の核が使った表 —— 宣言の無い本は null)
   let ux=0, uy=0, deg=0, coincident=false;
   for(let j=0;j<n;j++){
     if(j===skip) continue;                                 // 自己項なし(核の (iv))
@@ -48757,7 +49019,9 @@ function inertialDragFieldAt(S,x,y,opt){
     if(!(mj>0) || !Number.isFinite(mj)) continue;         // 質量が正でない粒子は源にならない(核の (v))
     const dx=PX[j]-px, dy=PY[j]-py, r2=dx*dx+dy*dy;
     if(!(r2>0)){ if(skip>=0){ coincident=true; break; } continue; }   // 格子点が源に重なった点は K(0)=0(粒子の受け手は核と同じく拒否)
-    const r=Math.sqrt(r2), s=r2+e2, a=C*mj*(r/(s*s));     // 核 dfmInertialDragStep と同じ式・同じ順序
+    const r=Math.sqrt(r2), s=r2+e2;
+    const kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : null;   // 第292便c: 構造核の表(核と同じ —— 表の無い本は null で従来の式)
+    const a=C*mj*((kv===null)? (r/(s*s)) : kv);           // 核 dfmInertialDragStep と同じ式・同じ順序
     ux+=a*(VX[j]-vrx); uy+=a*(VY[j]-vry);
     deg+=a;
   }
@@ -51890,6 +52154,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   relativeDragMidpointSolve, relativeDragMidpointGuard, relativeDragMidpointBodyCheck,
   REL_DRAG_KEY, REL_DRAG_LAWS, REL_DRAG_SPINS, REL_DRAG_KAPPA_CLAMP, REL_DRAG_STEP_VERSION,
   dfmInertialDragStep, inertialDragInit, inertialDragEpoch, inertialDragState, validateRelativeDragInertial,   // 第290便c
+  DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
+  dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
   REL_DRAG_INERTIAL_VERSION, REL_DRAG_INERTIAL_KEYS,
   dfmTideStep, tidePrepare, tideState, tideEvalRates, validateTide, validateTideBody, tideCrossCheck,   // 第292便d: 明示潮汐(CTL)
   TIDE_KEY, TIDE_STEP_VERSION, TIDE_PHYS_KEYS, TIDE_BODY_KEYS, TIDE_INERTIA_FACTOR, TIDE_SUB_FRAC, TIDE_SUB_MAX, TIDE_MAXN_DEFAULT, TIDE_OFF_REASONS,

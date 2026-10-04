@@ -93,6 +93,18 @@
     "state": "gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain"
    }
   },
+  "earthMoonInertial": {
+   "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
+   "objective": "met",
+   "state": "gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級",
+   "evidence": [
+    "tests/out/dragcore-w292c.json"
+   ],
+   "en": {
+    "purpose": "Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect",
+    "state": "gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4"
+   }
+  },
   "boxBinaryToy": {
    "purpose": "等質量で共通移動が相対軌道から消えるかを測る",
    "objective": "met",
@@ -2311,6 +2323,15 @@
    ],
    "preset.inertialDragPair": [
     "inertialDragPair"
+   ],
+   "behavior.dragCoreGate": [
+    "earthMoonInertial"
+   ],
+   "preset.earthMoonInertial": [
+    "earthMoonInertial"
+   ],
+   "docs.dragCoreFit": [
+    "earthMoonInertial"
    ],
    "preset.conduction": [
     "conduction"

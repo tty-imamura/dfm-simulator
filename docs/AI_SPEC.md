@@ -2474,13 +2474,14 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 #### 10.1.1 法則版 `law:"inertial"` —— 慣性引きずり(第290便c・原仮定者の裁定〔第80報〕⑥・**SYSTEM_PROMPT には載せない**)
 
 - **既定は宣言しない。** 「AIでシミュレーション追加」の生成器(`SYSTEM_PROMPT`)にはこの鍵を載せていない —— 生成した JSON が
-  `physics.relativeDrag` を勝手に宣言しないこと(宣言は人が書いた本だけ。内蔵の宣言は診断本 🐌 `inertialDragPair` の **1 本**)。
+  `physics.relativeDrag` を勝手に宣言しないこと(宣言は人が書いた本だけ。内蔵の宣言は診断本 🐌 `inertialDragPair` と、第292便c の 🌛 `earthMoonInertial`〔§44〕の **2 本**)。
   宣言の無い本は経路に入らず、`presetSig`・エクスポート JSON・600 步の状態は 1 bit も変わらない。
 - **正準形**: `{law:"inertial", gain:<C_d ≥0>[, eps:<ε ≥0>], pairs:"all"|[[i,j],…], history:"positions"}`。
   - `gain` は C_d [L³/M](0 以上の有限数)。**`gain:0` は「宣言したが用量 0」の否定対照として正準形に残す**(署名は未宣言と別・走行は未宣言とビット同一)。
   - `eps` は核の軟化 ε(0 以上・未宣言は `physics.softening` —— 正準形に出さない)。
   - `pairs` は pairSlip と同じ受理(`"all"`・省略・`null` が全対/配列は 0 以上の相異なる整数 2 つ・重複と空配列は致命拒否)。
   - `history` は `"positions"` だけ(省略可・正準形には出す —— 移動ベクトルは座標の差分から作る)。
+  - `coreTable` は構造核(§46 の天体の鍵 `dragCore`)の表の宣言 `{n, rMax}`(どちらも省略可・**省略は正準形に出さない** —— 宣言しない本の署名は不変)。
   - **`kappa`・`spins`・`W0`・`integration` は pairSlip 専用**で、`law:"inertial"` で与えたら致命拒否。その他の未知の鍵も致命拒否。
 - **契約**(式は docs/PHYSICS.md〔第290便c〕): 移動ベクトル V=(前回の標本との座標の差分)/Δt・u_i=C_d Σ_{j≠i} m_j r/(r²+ε²)² (V_j−V_i)・
   **位置だけを x+=u·dt で動かす**(v へ足さない・u は毎物理ステップ作り直す・自己項は計算しない・pinned は受け取らない・最初の步と粒子が変わった步は u=0)・
@@ -3089,3 +3090,18 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **潮汐テンソル T の宣言 `physics.backgroundTidal`(第278便d)とは別の鍵・別の意味**(あちらは宣言専用で力に入らない —— 混ぜない・昇格しない)。
 - 式・更新・帳簿は docs/PHYSICS.md〔第292便d〕(B_i=G k₂_i m_j² R_i⁵・F_cons=−3B_i r/r⁸・F_diss=−(3B_iΔt_i/r¹⁰){2r(r·V)+r²[V−Ω_i×r]}・τ_i=−(r×F_diss)_z・自転は J=IΩ を更新して Ω=J/I)。読み取り: `HP.tideState(S)`(帳簿・J・ΔJ・τ_tide・分割回数・足さない理由)・`HP.tideEvalRates(S)`(状態を書かない 1 回の評価)・受理器 `HP.validateTide`/`HP.validateTideBody`/`HP.tideCrossCheck`。版 `TIDE_STEP_VERSION` = `w292d-tide-1`。
 - 内蔵で宣言するのは診断本 🌜 `earthMoonTide` だけ(🌙 の bodies + tide・引きずりは宣言しない)。
+## 46. 第292便c の宣言鍵 —— 慣性決定力の構造核 `dragCore`(天体)と `physics.relativeDrag.coreTable`(原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139・**SYSTEM_PROMPT には載せない**)
+
+- **天体の鍵 `dragCore:{massFrac, radius}`**(single 専用・**既定なし** —— 宣言しない天体は点源の核のまま)。源の質量分布を**一様密度のコア(質量 `massFrac`·m・半径 `radius`)+一様密度のマントル殻(質量 (1−`massFrac`)·m・`radius`〜天体の `radius`)**として、
+  慣性引きずり(§10.1.1 の `law:"inertial"`)の核 K_ε(s)=s/(s²+ε²)² を体積平均した ⟨K⟩(r) をその天体を**源**とする対の核にする(受け手は点・自転 Ω は読まない)。
+  - 値域: `0 < massFrac ≤ 1`・`0 < radius ≤`(天体の `radius`)・`radius` = 天体の半径なら `massFrac` は 1。天体の `radius` の宣言が要る。未知の鍵・非オブジェクトは致命拒否。
+  - **`core:{}`(コア v2)とは別の鍵**。同じ天体に両方を宣言したら致命拒否(`core` の質量の割合・半径を構造核へ流用しない)。
+  - `physics.relativeDrag.law:"inertial"` の本だけで働く。それ以外の本では**警告して無視**(正準形から落ちる)。single 以外の天体の `dragCore` も警告して無視。
+  - 核の軟化 ε(`relativeDrag.eps`、未宣言は `physics.softening`)が 0 なら致命拒否(受け手が源の中で体積平均が発散する)。
+- **本の鍵 `physics.relativeDrag.coreTable:{n, rMax}`**(どちらも省略可・既定なし —— 省略時は表の点数 1024・r_max は初期配置で源から最も遠い粒子までの距離の 4 倍)。
+  `n` は 16〜65536 の整数・`rMax` は正の有限数。未知の鍵は致命拒否。表の外(r ≥ r_max)は点源の核に落ちる。
+- **内蔵の宣言**: 🌛 `earthMoonInertial` の地球だけ(`{massFrac:0.325, radius:3.48}` —— **感度実験の起点の宣言**であって地球の核の同定ではない)。🌛 の `relativeDrag.gain` は
+  近点回転 8.85 年への 1 次元フィットの**推定**であって較正の合ではない(式・表・感度は docs/PHYSICS.md〔第292便c〕)。
+- 宣言の無い本は `dfmInertialDragStep` の核の分岐の外で 1 命令も変わらない(`presetSig`・エクスポート JSON・走行は 1 bit 不変)。宣言は `presetSig` と保存 JSON に入る。
+- 読み取り: `HP.dragCoreState(S)`(表の宣言・求積の点数・補間誤差の上限・表の外への跳び)・`HP.inertialDragState(S).dragCore`(宣言した本だけ)。
+- QA: **`behavior.dragCoreGate`**(門と受理)/ **`preset.earthMoonInertial`**(🌛 の宣言)/ **`docs.dragCoreFit`**(フィットと感度の表の転記)。

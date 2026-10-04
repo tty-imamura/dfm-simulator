@@ -6,7 +6,7 @@
 #   ① 静的受理   tests/qa-preflight.mjs(QA_TARGET=beta/index.html —— tier lint の文と全内蔵の受理・構築・1 歩。Chromium なし)
 #   ② 接続契約   node tools/regen-chain.mjs --audit と --self-test(再生成表の依存・html を書く段・済み印の契約 —— 枝ごとに足した段の接続)
 #   ③ 前回失敗項 --failed の id(無ければ tests/out/qa-results-full-beta.json の FAIL の id)を qapart で beta に
-#   ③′ 本便の新設ブロック(第288便f・原仮定者の裁定(第78報)AN90): POST_MERGE_WAVE_IDS(既定は本便〔第291便〕の新設 15 本 ——
+#   ③′ 本便の新設ブロック(第288便f・原仮定者の裁定(第78報)AN90): POST_MERGE_WAVE_IDS(既定は本便〔第292便〕の新設 8 本 ——
 #                第290便f で第289便の contract 系 6 本から差し替え)を qapart で beta に。
 #                名前が qa.mjs の add('<名>' に無ければ末尾一致(add('<接頭>.<名>')で引く・どちらも無い名は「未統合」として数えるだけ(FAIL にしない)。
 #                統合直後の常設集合(④)は変えない
@@ -35,7 +35,7 @@ IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 # 第290便f: 本便の新設 11 本(a の docs.terminologyInertial・docs.claimScope / b の preset.retired290b・docs.d68FactorRow / c の behavior.inertialDragGate・
 #   preset.inertialDragPair / d の behavior.ckFixcapRestore / e の preset.shapeToySpiral・behavior.spiralGeometry / f の ui.aboutOrder・ui.pickerScope)へ差し替えた
 #   (第289便の 6 本は ④ の後のフル QA で見る)。統合前の枝では他枝の名は「未統合」として数えるだけ
-DEFAULT_WAVE_IDS="docs.terminologyOpticalCamouflage behavior.pn1Sources docs.pn1Contract behavior.geoModeResolve preset.modeNoRestriction behavior.modeSaveWarnings behavior.loadSaveModePolicy docs.geoModeTable behavior.meshDisplayBitsame behavior.dragFieldSampler docs.bgAuditTable ui.topicChips291 ui.calGroupSplit291 ui.pickerListEnd ui.holdRemedy"
+DEFAULT_WAVE_IDS="docs.calCause preset.revived292b behavior.dragCoreGate preset.earthMoonInertial docs.dragCoreFit behavior.tideGate preset.earthMoonTide docs.tideContract"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

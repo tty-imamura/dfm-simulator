@@ -813,6 +813,10 @@ tests/out/regen-plan-w281a.json
 #   D₀・q・自転を読まないこと〔固定配置で 1 步の u がビット同一〕・共通並進/一様加速度は消え回転/潮汐は残ること・旧正規化 u=A/W 型の場では Wbg が分母に残ること)。
 #   QA docs.bgAuditTable が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/bgaudit-w291d.json
+# 第292便c(原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139): **慣性決定力の構造核便**の正本(tests/exp-w292c-dragcore.mjs —— 天体の宣言 dragCore の門
+#   〔純関数の極限・エンジン≡純関数のビット同一・核の u・表の補間誤差〕と 🌛 earthMoonInertial の gain の 1 次元フィット〔推定〕・点源の対照・感度 3×3・118 公転・dt/2)。
+#   QA behavior.dragCoreGate・preset.earthMoonInertial・docs.dragCoreFit が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/dragcore-w292c.json
 # 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **潮汐便**の正本(tests/exp-w292d-tide.mjs —— 明示潮汐の門 b〜g〔純関数 6 項・エンジン=純関数・
 #   J の更新・サブステップ・足さない本・復元〕と 🌜 の 1 恒星月・引きずりとの交差項)。QA behavior.tideGate・preset.earthMoonTide・docs.tideContract が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
