@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便b",
   "target": "beta/index.html",
-  "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-  "generatedAt": "2026-10-03T21:06:22.320Z",
+  "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+  "generatedAt": "2026-10-04T01:32:58.900Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5623059,
-    "sha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-    "mtime": "2026-10-03T19:22:31.703Z"
+    "bytes": 5632932,
+    "sha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+    "mtime": "2026-10-04T00:25:31.069Z"
    }
   ],
   "code": [
@@ -143,7 +143,7 @@
    "complete": true,
    "names": 952,
    "segments": 863,
-   "closureShare": 0.324
+   "closureShare": 0.3234
   },
   "scopeSha256": "01cbaf537ada079b30b6a9df529a9e07a98c6b99559344f9d9d4ccd868dbfbf5",
   "scopeComplete": true,
@@ -161,8 +161,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.016,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 138.315,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 129.027,
    "run": {
     "ok": true,
     "warnings": [],
@@ -257,8 +257,8 @@
    "label": "🌘 そのまま(kF1・pull・q_exact 8.2358)",
    "axis": "baseline",
    "dt": 0.008,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 279.187,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 256.179,
    "run": {
     "ok": true,
     "warnings": [],
@@ -353,8 +353,8 @@
    "label": "重み pull → share",
    "axis": "weight",
    "dt": 0.016,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 113.749,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 108.692,
    "run": {
     "ok": true,
     "warnings": [],
@@ -445,12 +445,204 @@
    "presetSigHash": "1d43e80"
   },
   {
+   "id": "E2",
+   "label": "初速 🌘 → 🧲(0.201%)",
+   "axis": "initialVelocity",
+   "dt": 0.016,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 128.623,
+   "run": {
+    "ok": true,
+    "warnings": [],
+    "hasMeshVelocity": false,
+    "meshVelDeny": null,
+    "kernel": false,
+    "dt": 0.016,
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 382.02358964881387,
+     "P": 23355.70633660163
+    },
+    "yearUnits": 315576,
+    "dayUnits": 864,
+    "steps": 39560238,
+    "tEnd": 632963.808,
+    "revN": 27,
+    "sidMeanDays": 27.133119255867058,
+    "nan": false,
+    "meshVel": null,
+    "windows": [
+     {
+      "orbits": 8,
+      "complete": true,
+      "tCut": 187561.64014280564,
+      "eProxy": 0.05100977820863571,
+      "B": {
+       "nPeri": 8,
+       "slopeDegPerPeri": 3.0788375277564097,
+       "slopeDegPerTime": 0.00013031335243836661,
+       "seDegPerTime": 2.386396587530547e-7,
+       "periMean": 23626.30107355164,
+       "residRmsDeg": 0.03164432414736762,
+       "apsPeriodYr": 8.754061958804911,
+       "anomDays": 27.34525587216625
+      },
+      "A": {
+       "nPeri": 7,
+       "slopeDegPerPeri": 3.0729194654866667,
+       "slopeDegPerTime": 0.00013006496941304796,
+       "seDegPerTime": 2.556566920936285e-7,
+       "periMean": 23625.960250125605,
+       "residRmsDeg": 0.027012393633650173,
+       "apsPeriodYr": 8.770779453169206,
+       "anomDays": 27.344861400608337
+      }
+     },
+     {
+      "orbits": 27,
+      "complete": true,
+      "tCut": 632963.8043778616,
+      "eProxy": 0.06311496820302501,
+      "B": {
+       "nPeri": 27,
+       "slopeDegPerPeri": 2.7974911831756897,
+       "slopeDegPerTime": 0.00011849759567536743,
+       "seDegPerTime": 0.000001002602714217793,
+       "periMean": 23607.55256590618,
+       "residRmsDeg": 0.9218051247669962,
+       "apsPeriodYr": 9.62695618255636,
+       "anomDays": 27.323556210539557
+      },
+      "A": {
+       "nPeri": 26,
+       "slopeDegPerPeri": 2.782389696368192,
+       "slopeDegPerTime": 0.00011786272581165926,
+       "seDegPerTime": 0.0000010078133043384861,
+       "periMean": 23606.722068351795,
+       "residRmsDeg": 0.8741667447538464,
+       "apsPeriodYr": 9.678811969171296,
+       "anomDays": 27.322594986518283
+      }
+     }
+    ]
+   },
+   "declared": {
+    "kFrame": 1,
+    "q": 8.2358,
+    "D0": 0.006,
+    "D0pull": 0.0000324204,
+    "frameWeight": "pull(既定)",
+    "geoPN": 2,
+    "vyEarth": -0.0013104,
+    "vyMoon": 0.1065368,
+    "meshVelocity": false,
+    "kernel": false
+   },
+   "presetSigHash": "860bb6a2"
+  },
+  {
+   "id": "E3",
+   "label": "🧲 そのまま(share + 🧲 の初速)",
+   "axis": "weight+initialVelocity",
+   "dt": 0.016,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 105.121,
+   "run": {
+    "ok": true,
+    "warnings": [],
+    "hasMeshVelocity": false,
+    "meshVelDeny": null,
+    "kernel": false,
+    "dt": 0.016,
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 382.02358964881387,
+     "P": 23355.70633660163
+    },
+    "yearUnits": 315576,
+    "dayUnits": 864,
+    "steps": 39848105,
+    "tEnd": 637569.68,
+    "revN": 27,
+    "sidMeanDays": 27.330646327440057,
+    "nan": false,
+    "meshVel": null,
+    "windows": [
+     {
+      "orbits": 8,
+      "complete": true,
+      "tCut": 188911.73607477656,
+      "eProxy": 0.055238379723146755,
+      "B": {
+       "nPeri": 8,
+       "slopeDegPerPeri": 2.944860486444922,
+       "slopeDegPerTime": 0.00012380129244615165,
+       "seDegPerTime": 3.9735927004683145e-7,
+       "periMean": 23786.80934548532,
+       "residRmsDeg": 0.0530491452122303,
+       "apsPeriodYr": 9.2145335380988,
+       "anomDays": 27.53102933505245
+      },
+      "A": {
+       "nPeri": 7,
+       "slopeDegPerPeri": 2.9349205882173517,
+       "slopeDegPerTime": 0.00012338676985273518,
+       "seDegPerTime": 4.2523172102060116e-7,
+       "periMean": 23786.23265634097,
+       "residRmsDeg": 0.0452343777468927,
+       "apsPeriodYr": 9.245490117510798,
+       "anomDays": 27.53036187076501
+      }
+     },
+     {
+      "orbits": 27,
+      "complete": true,
+      "tCut": 637569.6729412604,
+      "eProxy": 0.07465544418058544,
+      "B": {
+       "nPeri": 27,
+       "slopeDegPerPeri": 2.51240424213549,
+       "slopeDegPerTime": 0.00010574748723574703,
+       "seDegPerTime": 0.0000014753931777229752,
+       "periMean": 23758.584613307976,
+       "residRmsDeg": 1.3651698598253081,
+       "apsPeriodYr": 10.78769047969789,
+       "anomDays": 27.498361820958305
+      },
+      "A": {
+       "nPeri": 26,
+       "slopeDegPerPeri": 2.489439138129207,
+       "slopeDegPerTime": 0.0001047872562928004,
+       "seDegPerTime": 0.000001476728750682446,
+       "periMean": 23757.318770844526,
+       "residRmsDeg": 1.2890643946348643,
+       "apsPeriodYr": 10.886544811493655,
+       "anomDays": 27.496896725514496
+      }
+     }
+    ]
+   },
+   "declared": {
+    "kFrame": 1,
+    "q": 8.2358,
+    "D0": 0.006,
+    "D0pull": null,
+    "frameWeight": "share",
+    "geoPN": 2,
+    "vyEarth": -0.0013104,
+    "vyMoon": 0.1065368,
+    "meshVelocity": false,
+    "kernel": false
+   },
+   "presetSigHash": "84e57e"
+  },
+  {
    "id": "E4",
    "label": "q 8.2358 → q_fb(表裏核の振幅と参照距離で同じ単一べき)",
    "axis": "q",
    "dt": 0.016,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 137.598,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 132.107,
    "run": {
     "ok": true,
     "warnings": [],
@@ -545,8 +737,8 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.016,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 108.671,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 108.035,
    "run": {
     "ok": true,
     "warnings": [
@@ -643,8 +835,8 @@
    "label": "法則 kF1 → kF0(引きずりなし)",
    "axis": "law",
    "dt": 0.008,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 226.601,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 210.116,
    "run": {
     "ok": true,
     "warnings": [
@@ -737,12 +929,125 @@
    "presetSigHash": "e36e227f"
   },
   {
+   "id": "E6",
+   "label": "法則 kF0 + meshVelocity explicit(点源)・v=ẋ−u(0)",
+   "axis": "law",
+   "dt": 0.016,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 197.76,
+   "run": {
+    "ok": true,
+    "warnings": [
+     "physics.geoPN=2・kFrame=0 は互換入力です —— 現実較正(geoPN=1・kFrame=0)として解釈します(力学はビット同一・値は書き換えない)。原仮定者の裁定(2026-09-26 追加)「kF0 版=kFrame=0 の本 → 明示的に kFrame=0 の geoPN=1 へ」"
+    ],
+    "hasMeshVelocity": true,
+    "meshVelDeny": null,
+    "kernel": false,
+    "dt": 0.016,
+    "u0": [
+     0,
+     -0.0013130341660799998
+    ],
+    "u0Earth": null,
+    "vInit": [
+     0,
+     0.10806399444143999
+    ],
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 394.43356206941957,
+     "P": 24502.958634964652
+    },
+    "yearUnits": 315576,
+    "dayUnits": 864,
+    "steps": 40751601,
+    "tEnd": 652025.616,
+    "revN": 27,
+    "sidMeanDays": 27.950343140420454,
+    "nan": false,
+    "meshVel": {
+     "n": 40751601,
+     "undef": 40751601,
+     "bad": 0,
+     "uMax": 0.0013130341661508394,
+     "work": -7.536451417507417e-25
+    },
+    "windows": [
+     {
+      "orbits": 8,
+      "complete": true,
+      "tCut": 193192.771786513,
+      "eProxy": 0.06532256248622546,
+      "B": {
+       "nPeri": 8,
+       "slopeDegPerPeri": -0.00003597139193423815,
+       "slopeDegPerTime": -1.4895544899898807e-9,
+       "seDegPerTime": 7.032426660751543e-14,
+       "periMean": 24149.09436069557,
+       "residRmsDeg": 9.531501863137423e-9,
+       "apsPeriodYr": -765847.2173869866,
+       "anomDays": 27.9503406952495
+      },
+      "A": {
+       "nPeri": 8,
+       "slopeDegPerPeri": -0.00003606071399485668,
+       "slopeDegPerTime": -1.493253265070858e-9,
+       "seDegPerTime": 1.1020420862980467e-16,
+       "periMean": 24149.094355501136,
+       "residRmsDeg": 1.4936687865013595e-11,
+       "apsPeriodYr": -763950.2206284547,
+       "anomDays": 27.950340689237425
+      }
+     },
+     {
+      "orbits": 27,
+      "complete": true,
+      "tCut": 652025.6047797005,
+      "eProxy": 0.06532256248636066,
+      "B": {
+       "nPeri": 27,
+       "slopeDegPerPeri": -0.000035973244741935664,
+       "slopeDegPerTime": -1.489631213688973e-9,
+       "seDegPerTime": 2.0621511365919764e-14,
+       "periMean": 24149.094360559713,
+       "residRmsDeg": 1.939395623931301e-8,
+       "apsPeriodYr": -765807.7723009026,
+       "anomDays": 27.95034069509226
+      },
+      "A": {
+       "nPeri": 27,
+       "slopeDegPerPeri": -0.00003606074821776813,
+       "slopeDegPerTime": -1.4932546822215058e-9,
+       "seDegPerTime": 9.375708329530734e-17,
+       "periMean": 24149.094355506277,
+       "residRmsDeg": 8.817592163361001e-11,
+       "apsPeriodYr": -763949.4956131154,
+       "anomDays": 27.950340689243376
+      }
+     }
+    ]
+   },
+   "declared": {
+    "kFrame": 0,
+    "q": 8.2358,
+    "D0": 0.006,
+    "D0pull": null,
+    "frameWeight": "pull(既定)",
+    "geoPN": 2,
+    "vyEarth": -0.0013130341660799998,
+    "vyMoon": 0.10675096027535999,
+    "meshVelocity": true,
+    "kernel": false
+   },
+   "presetSigHash": "c1e90bb8"
+  },
+  {
    "id": "E7",
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.016,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 296.069,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 284.362,
    "run": {
     "ok": true,
     "warnings": [],
@@ -852,8 +1157,8 @@
    "label": "核 点源 → 表裏核(= 🌓 earthMoonDiagOne)",
    "axis": "kernel",
    "dt": 0.008,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 605.011,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 562.624,
    "run": {
     "ok": true,
     "warnings": [],
@@ -963,8 +1268,8 @@
    "label": "初速の意味 v=ẋ(変換なし)・表裏核",
    "axis": "initialVelocityMeaning",
    "dt": 0.016,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 286.44,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 268.174,
    "run": {
     "ok": true,
     "warnings": [],
@@ -1074,8 +1379,8 @@
    "label": "🔆 太陽+地球+月(kF0・geoPN=0)",
    "axis": "reference",
    "dt": 0.016,
-   "targetSha256": "70fc70051ac45229fb164b10933b79060096458c3a77f33fb6539a378175b6a5",
-   "wallS": 1.519,
+   "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+   "wallS": 1.238,
    "run": {
     "ok": true,
     "warnings": [],
