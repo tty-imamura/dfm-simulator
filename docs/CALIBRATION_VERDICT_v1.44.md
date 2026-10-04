@@ -4740,6 +4740,139 @@ QA: `preset.unifyTable`(移行表と内蔵の宣言・機械抽出・母集団�
 
 **契約範囲外の評価器(AN100)。** 背景の時間の契約の有効幅を超えた步を含む走行の観測比較は「保留(契約範囲外)」(行の属性 `contractRange.held`)。**合否の数字は変えない**(門・5 区分・残差は不変 —— 条とは別の欄)・過去の正本は遡って無効にしない。母集団に契約を宣言した本は無い(全行「宣言なし」)。
 
+### 5.40 第292便a: **主因分類** —— 現実較正 20 本の判定行ごとに「1PN の桁と残差」「主因」「次に解くこと」を機械で出す(原仮定者の裁定(第82報)④・統括の検証項目 R137)
+
+**起点**: 原仮定者の裁定(第82報)④「『現実較正』サンプルを『較正 合』にしていくために、GR の 1PN との差を精査する。できない場合はその理由を分析する」。第291便b の結論(kF0 の軌道加速度は非自転・質点の EIH〔pnAlpha=1.5 で γ=β=1〕で、半径は式に無い)を前提に、**残る差がどの層にあるか**を判定行ごとに分ける。**本便は物理を 1 bit も変えていない**(内蔵 150 本は bitsame/sigsame 150/150・`S._core` 35197 字・EIH の係数と源集合は不変)。**主因が 1PN でない量を 1PN の是正で合にしない**。
+
+**器と正本**: 器 `tests/exp-w292a-calcause.mjs`(純関数 `tests/lib-w292a-calcause.mjs`・版 `w292a-calcause-1`)・正本 `tests/out/calcause-w292a.json`(鎖の段 `calcause292`)。**正本を読むだけ**(エンジンを 1 步も走らせない): 判定器の calaudit-w249(較正母集団 20 本・量の行・門・correlates)・σ 接続器の solarsigma-w262d(切断点・CSV の値)・charoninput-w280d(🥶 の閉じた式)・mercury-w280a(☄️ の不足の分解)・pnsources-w291b(1PN 源の数・GR 1PN 準拠の条件外の理由)。`--check` で正本と再導出が一致する。
+
+**判定行**: 門が扱う量の種類(周期・離心率・近点・自転)の行を、判定器の鍵 `gate.key` ごとに 1 行へまとめたもの(同じ鍵の旧宣言の行などは「(N 行)」と数える)。**20 本・108 行**。量の 5 区分と本の 4 値は判定器の転記で、量単位の「合」と本単位の「合」は別物である(本の 4 値は 合 0・量限定合 2・否 1・保留 17 のまま)。
+
+**1PN の大きさの見積り**: 近点は二体 1PN の Δϖ=6πGM/(c²a(1−e²))〔rad/公転〕を観測の近点で割った比、周期と離心率は O(GM/(c²a))(相対・係数 1 の桁)。GM/(c²a)・e・a/R は判定器の `correlates`(主対象の宣言から作った値)で、主対象でない対象は同じ主星のまわりのケプラー則 a ∝ P^{2/3}(観測周期)で写した(🌞 の金星で写した値 1.365×10⁻⁸ は 🌇 の主対象の値 1.365×10⁻⁸ と一致する)。🌙 の近点は Δϖ_1PN=2.206×10⁻¹⁰ rad/公転で、観測の近点(🔆 の行の 8.85 年 = 0.05311 rad/公転)の **4.15×10⁻⁹**。「1PN で動く」は 1PN の桁が |残差| の 0.1 倍以上か(真 10・偽 33・残差か桁が無い 65)。
+
+**主因の規則**(器の定数表 `RULES` —— 名前・絵文字・id では付けない。各行に根拠の欄を残す): R1 strong-field(GM/(c²a) ≥ 10⁻²)/ R2 numerics(門 = 数値未解決)/ R3・R4 mapping(門 = mapping-unresolved・判定器の写像未確定の宣言)/ R5 mapping(閉じた式の周期と比較値の差が 3σ 超)/ R6 mapping(σ のある周期で |残差| > 3σ)/ R7 mapping(|残差| ≥ 50%)/ R8 sigma-unconnected(σ が無い)/ R9 pn1(0.1 ≤ |残差|/1PN ≤ 10)/ R10〜R13 近点の行で 1PN が観測の 0.1 未満のとき —— 帯状重力の宣言 → oblateness・源 ≥ 3 で走行値が観測に 10% 以内 → third-body・a/R ≤ 30 → oblateness・a/R > 30 → third-body / R14 pinned(固定源を持つ本の軌道の量 —— 桁は正本に無いので首位に置かない)。首位は mapping > numerics > strong-field > third-body > oblateness > pn1 > sigma-unconnected > pinned の順。
+
+**集計**(首位): mapping 38・sigma-unconnected 44・oblateness 9・third-body 5・numerics 5・strong-field 5・pn1 0・門の中 2(✨🌟 の周期)。分類の延べ(重複可): pn1 6・pinned 63・numerics 10。層(首位): 加速度式 5・数値積分 5・観測への写像 82・宇宙モデル 14。**pn1 が首位の行は 0** —— pn1 の 6 行(📻🧮🩺📿 の周期・🧮📿 の離心率)はどれも mapping が首位で、残差が 1PN の桁に当たるのは「ニュートンの a・e から作った初期状態を 1PN の軌道で走らせた」写像の桁として読む(EIH の式・源集合は変えない)。
+
+<!-- calcause-w292a:table:begin -->
+| 本 | 判定行(鍵) | 5 区分 | 門 | 残差 | 1PN の桁 | 1PN で動く | 分類(首位を先頭) | 次に解くこと |
+|---|---|---|---|---|---|---|---|---|
+| 🌙 | 月(period) | 合 | 未判定 | 2.423×10⁻⁴% | 1.167×10⁻¹¹ | 偽 | sigma-unconnected | C1: σ 未接続 |
+| 🌙 | 月(ecc) | 転 | 未判定 | — | 1.167×10⁻¹¹ | — | mapping・sigma-unconnected | 入力と比較量の写像 |
+| 🌙 | 月(precession) | 転 | 未判定 | — | 4.154×10⁻⁹ | — | third-body・sigma-unconnected | 第三体・太陽摂動 |
+| 🔆 | 月(precession) | 転 | 未判定 | — | 4.183×10⁻⁹ | — | third-body・sigma-unconnected・pinned | 第三体・太陽摂動 |
+| 🔆 | 月(period) | 合 | 未判定 | 0.1384% | 1.176×10⁻¹¹ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 🔆 | 月(ecc) | 合 | 未判定 | — | 1.176×10⁻¹¹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| ☄️ | 水星(period) | 合 | 未判定 | 1.966×10⁻⁴% | 2.55×10⁻⁸ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
+| ☄️ | 水星(precession) | 否 | 数値未解決 | -6.909%(1979σ) | 1 | 真 | numerics・pinned | C3: 軟化と刻み(数値未解決) |
+| ☄️ | 水星(ecc) | 転 | 未判定 | — | 2.55×10⁻⁸ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🌞 | 水星(period) | 合 | 未判定 | -2.031×10⁻⁴% | 2.55×10⁻⁸ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
+| 🌞 | 金星(period) | 合 | 未判定 | 0.002493% | 1.365×10⁻⁸ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
+| 🌞 | 地球(period) | 合 | 未判定 | 1.388×10⁻⁴% | 9.871×10⁻⁹ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
+| 🌞 | 火星(period) | 合 | 未判定 | -0.003737% | 6.478×10⁻⁹ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
+| 🌞 | 水星(ecc) | 転 | 未判定 | — | 2.55×10⁻⁸ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🌞 | 水星(precession) | 転 | 未判定 | — | 0.07155 | — | third-body・sigma-unconnected・pinned | 第三体・太陽摂動 |
+| 🌞 | 金星(ecc) | 否 | 未判定 | -99.61% | 1.365×10⁻⁸ | 偽 | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🌞 | 金星(precession) | 転 | 未判定 | — | 0.8928 | — | sigma-unconnected・pinned | σ 未接続 |
+| 🌞 | 地球(ecc) | 転 | 未判定 | — | 9.871×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🌞 | 地球(precession) | 転 | 未判定 | — | 0.003298 | — | third-body・sigma-unconnected・pinned | 第三体・太陽摂動 |
+| 🌞 | 火星(ecc) | 転 | 未判定 | — | 6.478×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🌞 | 火星(precession) | 転 | 未判定 | — | 8.444×10⁻⁴ | — | third-body・sigma-unconnected・pinned | 第三体・太陽摂動 |
+| 🟠 | イオ(period)(3 行) | 合/転 | 未判定 | 0.04938% | 3.341×10⁻⁹ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 🟠 | エウロパ(period)(2 行) | 合 | 未判定 | 0.001196% | 2.1×10⁻⁹ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
+| 🟠 | ガニメデ(period)(2 行) | 合 | 未判定 | -0.01064% | 1.316×10⁻⁹ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 🟠 | カリスト(period)(2 行) | 合 | 未判定 | -0.02684% | 7.484×10⁻¹⁰ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 🟠 | イオ(ecc) | 転 | 未判定 | — | 3.341×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🟠 | イオ(precession) | 転 | 未判定 | — | — | — | sigma-unconnected・pinned | σ 未接続 |
+| 🟠 | エウロパ(ecc) | 転 | 未判定 | — | 2.1×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🟠 | エウロパ(precession) | 転 | 未判定 | — | — | — | sigma-unconnected・pinned | σ 未接続 |
+| 🟠 | ガニメデ(ecc) | 転 | 未判定 | — | 1.316×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🟠 | ガニメデ(precession) | 転 | 未判定 | — | — | — | sigma-unconnected・pinned | σ 未接続 |
+| 🟠 | カリスト(ecc) | 転 | 未判定 | — | 7.484×10⁻¹⁰ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🟠 | カリスト(precession) | 転 | 未判定 | — | — | — | sigma-unconnected・pinned | σ 未接続 |
+| 🌇 | 金星(period)(3 行) | 合/転 | 未判定 | -0.001431% | 1.365×10⁻⁸ | 偽 | sigma-unconnected | C1: σ 未接続 |
+| 🌇 | 金星(ecc) | 否 | 未判定 | 3.296% | 1.365×10⁻⁸ | 偽 | mapping・sigma-unconnected | 入力と比較量の写像 |
+| 🌇 | 金星(precession) | 転 | 未判定 | — | 0.8928 | — | sigma-unconnected | σ 未接続 |
+| 🥔 | フォボス(period)(2 行) | 合 | 未判定 | 0.04711% | 5.082×10⁻¹¹ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 🥔 | ダイモス(period)(2 行) | 合 | 未判定 | 0.0376% | 2.031×10⁻¹¹ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 🥔 | フォボス(ecc) | 転 | 未判定 | — | 5.082×10⁻¹¹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🥔 | フォボス(precession) | 転 | 未判定 | — | 3.956×10⁻⁷ | — | oblateness・sigma-unconnected・pinned | 帯状重力(J2 など) |
+| 🥔 | ダイモス(ecc) | 転 | 未判定 | — | 2.031×10⁻¹¹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 🥔 | ダイモス(precession) | 転 | 未判定 | — | 9.706×10⁻⁷ | — | oblateness・sigma-unconnected・pinned | 帯状重力(J2 など) |
+| 🥶 | カロン(period) | 合 | 数値未解決 | 0.001309%(278.6σ) | 5.538×10⁻¹³ | 偽 | mapping・numerics | 入力と比較量の写像 |
+| 🥶 | カロン(ecc) | 転 | 未判定 | — | 5.538×10⁻¹³ | — | mapping・sigma-unconnected | 入力と比較量の写像 |
+| 🥶 | カロン(precession) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| 💠 | ミランダ(period)(2 行) | 合 | 未判定 | 0.06842% | 4.962×10⁻¹⁰ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 💠 | アリエル(period) | 合 | 未判定 | -0.01903% | 3.375×10⁻¹⁰ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 💠 | ウンブリエル(period) | 合 | 未判定 | 0.001432% | 2.422×10⁻¹⁰ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
+| 💠 | チタニア(period) | 合 | 未判定 | -0.003257% | 1.477×10⁻¹⁰ | 偽 | sigma-unconnected・pinned | C1: σ 未接続 |
+| 💠 | オベロン(period) | 合 | 未判定 | -0.03592% | 1.104×10⁻¹⁰ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 💠 | ミランダ(spin) | 合 | 未判定 | 9.667×10⁻⁷% | — | — | sigma-unconnected | σ 未接続 |
+| 💠 | ミランダ(ecc) | 転 | 未判定 | — | 4.962×10⁻¹⁰ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 💠 | ミランダ(precession) | 転 | 未判定 | — | 6.91×10⁻⁶ | — | oblateness・sigma-unconnected・pinned | 帯状重力(J2 など) |
+| 💠 | アリエル(ecc) | 転 | 未判定 | — | 3.375×10⁻¹⁰ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 💠 | アリエル(precession) | 転 | 未判定 | — | 8.477×10⁻⁶ | — | oblateness・sigma-unconnected・pinned | 帯状重力(J2 など) |
+| 💠 | ウンブリエル(ecc) | 転 | 未判定 | — | 2.422×10⁻¹⁰ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 💠 | ウンブリエル(precession) | 転 | 未判定 | — | 8.111×10⁻⁶ | — | oblateness・sigma-unconnected・pinned | 帯状重力(J2 など) |
+| 💠 | チタニア(ecc) | 転 | 未判定 | — | 1.477×10⁻¹⁰ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 💠 | チタニア(precession) | 転 | 未判定 | — | 6.697×10⁻⁶ | — | oblateness・sigma-unconnected・pinned | 帯状重力(J2 など) |
+| 💠 | オベロン(ecc) | 転 | 未判定 | — | 1.104×10⁻¹⁰ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 💠 | オベロン(precession) | 転 | 未判定 | — | 1.207×10⁻⁵ | — | oblateness・sigma-unconnected・pinned | 帯状重力(J2 など) |
+| 🌊 | トリトン(period)(3 行) | 合/転 | 未判定 | 0.004194% | 2.144×10⁻¹⁰ | 偽 | sigma-unconnected | C1: σ 未接続 |
+| 🌊 | トリトン(spin) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| 🌊 | トリトン(ecc) | 転 | 未判定 | — | 2.144×10⁻¹⁰ | — | mapping・sigma-unconnected | 入力と比較量の写像 |
+| 🌊 | トリトン(precession) | 転 | 未判定 | — | 3.526×10⁻⁵ | — | oblateness・sigma-unconnected | 帯状重力(J2 など) |
+| ✨ | B(period) | 合 | 合(3σ) | 0.002278%(0.09562σ) | 8.422×10⁻¹⁰ | 偽 | (門の中) | — |
+| ✨ | B(ecc) | 合 | mapping-unresolved | -6.561×10⁻⁶%(2.221×10⁻⁴σ) | 8.422×10⁻¹⁰ | 偽 | mapping | C2: 入力と比較量の写像 |
+| ✨ | B(spin) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| ✨ | B(precession) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| 🌟 | B(period) | 合 | 合(3σ) | 0.002352%(0.2741σ) | 1.537×10⁻⁹ | 偽 | (門の中) | — |
+| 🌟 | B(ecc) | 合 | mapping-unresolved | -9.065×10⁻⁶%(1.361×10⁻⁴σ) | 1.537×10⁻⁹ | 偽 | mapping | C2: 入力と比較量の写像 |
+| 🌟 | B(spin) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| 🌟 | B(precession) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| 📻 | B(period) | 合 | 数値未解決 | 0.003066%(1.081×10⁶σ) | 4.347×10⁻⁶ | 真 | mapping・numerics・pn1 | 入力と比較量の写像 |
+| 📻 | B(ecc) | 合 | mapping-unresolved | -0.009634%(176.2σ) | 4.347×10⁻⁶ | 偽 | mapping | 入力と比較量の写像 |
+| 📻 | B(precession) | 合 | 数値未解決 | -0.06635%(862.5σ) | 1 | 真 | numerics | 軟化と刻み(数値未解決) |
+| 📻 | B(spin) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| 🧮 | B(period) | 合 | 数値未解決 | 1.144×10⁻⁴%(4200σ) | 3.053×10⁻⁶ | 真 | mapping・numerics・pn1 | 入力と比較量の写像 |
+| 🧮 | B(ecc) | 合 | mapping-unresolved | 6.431×10⁻⁴%(3.896σ) | 3.053×10⁻⁶ | 真 | mapping・pn1 | 入力と比較量の写像 |
+| 🧮 | B(spin) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| 🧮 | B(precession) | 従 | 数値未解決 | — | 1 | — | numerics | 軟化と刻み(数値未解決) |
+| 🩺 | B(period) | 合 | 数値未解決 | 0.004952%(1.943×10⁵σ) | 5.111×10⁻⁶ | 真 | mapping・numerics・pn1 | 入力と比較量の写像 |
+| 🩺 | B(spin) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| 🩺 | B(precession) | 従 | 数値未解決 | — | 1 | — | numerics | 軟化と刻み(数値未解決) |
+| 🩺 | B(ecc) | 合 | mapping-unresolved | -0.01729%(13.8σ) | 5.111×10⁻⁶ | 偽 | mapping | 入力と比較量の写像 |
+| 📿 | B(period) | 合 | 数値未解決 | 8.759×10⁻⁴%(3.685×10⁵σ) | 1.732×10⁻⁶ | 真 | mapping・numerics・pn1 | 入力と比較量の写像 |
+| 📿 | B(ecc) | 合 | mapping-unresolved | -3.58×10⁻⁴%(3.266σ) | 1.732×10⁻⁶ | 真 | mapping・pn1 | 入力と比較量の写像 |
+| 📿 | B(precession) | 合 | 数値未解決 | -0.01892%(36.92σ) | 1 | 真 | numerics | 軟化と刻み(数値未解決) |
+| 📿 | B(spin) | 転 | 未判定 | — | — | — | sigma-unconnected | σ 未接続 |
+| 🎐 | B(period)(2 行) | 合/転 | 未判定 | -0.07503% | 0.04947 | 真 | strong-field・sigma-unconnected | 強場(GW 系 —— 保守的な 1PN の範囲外) |
+| 🎐 | B(ecc) | 合 | 未判定 | — | 0.04947 | — | mapping・strong-field・sigma-unconnected | 入力と比較量の写像 |
+| 🎐 | B(spin) | 転 | 未判定 | — | — | — | strong-field・sigma-unconnected | 強場(GW 系 —— 保守的な 1PN の範囲外) |
+| 🎐 | B(precession) | 転 | 未判定 | — | — | — | strong-field・sigma-unconnected | 強場(GW 系 —— 保守的な 1PN の範囲外) |
+| ⏰ | B(period) | 転 | 未判定 | — | 0.04945 | — | strong-field・sigma-unconnected | 強場(GW 系 —— 保守的な 1PN の範囲外) |
+| ⏰ | B(ecc) | 転 | 未判定 | — | 0.04945 | — | mapping・strong-field・sigma-unconnected | 入力と比較量の写像 |
+| ⏰ | B(precession) | 転 | 未判定 | — | — | — | strong-field・sigma-unconnected | 強場(GW 系 —— 保守的な 1PN の範囲外) |
+| 📡 | D68(precession) | 合 | 否(3σ) | -0.3059%(14.6σ) | 8.495×10⁻⁷ | 偽 | oblateness・pinned | 帯状重力(J2 など) |
+| 📡 | D68(period)(2 行) | 合/否 | 未判定 | -0.3461% | 6.225×10⁻⁹ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 📡 | D68(ecc) | 転 | 未判定 | — | 6.225×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 💍 | C環内縁(period) | 合 | 未判定 | -0.2693% | 5.651×10⁻⁹ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 💍 | タイタン(period) | 合 | 未判定 | 0.02669% | 3.461×10⁻¹⁰ | 偽 | sigma-unconnected・pinned | σ 未接続 |
+| 💍 | C環内縁(ecc) | 転 | 未判定 | — | 5.651×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 💍 | C環内縁(precession) | 転 | 未判定 | — | — | — | sigma-unconnected・pinned | σ 未接続 |
+| 💍 | ミマス(period) | 転 | 未判定 | — | 2.281×10⁻⁹ | — | sigma-unconnected・pinned | σ 未接続 |
+| 💍 | ミマス(ecc) | 転 | 未判定 | — | 2.281×10⁻⁹ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 💍 | ミマス(precession) | 転 | 未判定 | — | — | — | sigma-unconnected・pinned | σ 未接続 |
+| 💍 | タイタン(ecc) | 転 | 未判定 | — | 3.461×10⁻¹⁰ | — | mapping・sigma-unconnected・pinned | 入力と比較量の写像 |
+| 💍 | タイタン(precession) | 転 | 未判定 | — | — | — | sigma-unconnected・pinned | σ 未接続 |
+<!-- calcause-w292a:table:end -->
+
+**合へ進みうる量**(主因が「いま走っている法則の中」にある量だけ —— 器の `CANDIDATE_RULES`・**合になるとは書かない**): 🌙 月(period)= C1・☄️ 水星(period)= C1・☄️ 水星(precession)= C3・🌞 水星(period)= C1・🌞 金星(period)= C1・🌞 地球(period)= C1・🌞 火星(period)= C1・🟠 エウロパ(period)= C1・🌇 金星(period)= C1・💠 ウンブリエル(period)= C1・💠 チタニア(period)= C1・🌊 トリトン(period)= C1・✨ B(ecc)= C2・🌟 B(ecc)= C2。C1 は σ 未接続の周期で |残差| ≤ 10⁻⁴(σ を繋いで判定に入れる —— 合否は σ 次第)・C2 は量限定合の本の離心率の写像未確定で |残差| ≤ 3σ(e ↔ eProxy の写像の宣言)・C3 は ☄️ の近点(不足の分解で刻み 91.2%・軟化 8.8% —— 判定行の写し ε=0.01・dt=0.016。1PN の λ 差は解析値に 0.99999997 —— 軟化を宣言誤差として分離し刻みの収束を示してから)。
+
+**合にできない量と理由**(首位の分類): 🥶 カロンの周期は**閉じた式だけで +7.216805 s(278.4σ)**が残り(走行の残差 +7.2211 s のほぼ全部)、1PN の源集合の是正の寄与は 10⁻⁷ s の桁 —— 刻みの細分化でも 1PN でも消えない(同一解・同一元期の状態ベクトルと GM・共分散・座標時を揃えるのが先)/ 📡 D68 の近点は帯状重力を宣言した本で 14.6σ の否(1PN は観測の 8.5×10⁻⁷ —— J2/J4 と幾何〔第280便e〕の側)/ 🔆 の近点は第三体の太陽が作り走行値は観測の −1.15%(2D・円軌道の太陽・傾斜なし・J2 なしの理想化の床 —— 現実の σ を繋ぐと否になりうる)/ 🌙 の近点は二体の 1PN で 4.15×10⁻⁹ しか出ない(観測の近点は第三体)/ 🥔💠🌊 の近点は 1PN が観測の 10⁻⁵〜10⁻⁷ で主星の帯状重力の距離(a/R ≤ 30)/ 連星パルサー 📻🧮🩺📿 の周期は σ の 10⁴〜10⁶ 倍で解・元期・定義の写像が先(近点は 1PN が観測のほぼ全部で残差は数値未解決)/ 🎐⏰ は GM/(c²a)≈0.049 の強場で保守的な 1PN の範囲外 / 太陽系・衛星系の離心率の行はすべて写像未確定(e ↔ eProxy —— 🌞 の金星 −99.6% は円軌道の理想化)/ 残りは σ 未接続。
+
+**書かないこと**: 「観測一致を達成した」「較正を完了した」「GR 1PN と同等が証明された」「σ を繋げば合になる」「月を再現した」。保留の解き方(状況一覧の「保留を解くには」)は本節の首位の分類に合わせて書き直した(主因が 1PN でない量は「1PN の是正では解けない」と明記 —— 原稿 `tests/data-w279a-samplestatus-src.json` の `holdRemedy`。生成領域は鎖の samplestatus の段で更新する)。QA: `docs.calCause`(正本と再導出の一致・本節の表の転記一致・20 本すべてに分類・語彙の内)。
+
 ## 5′. NS 連星の現実較正 —— **完了定義 4 条件と現在の距離**(第260便d)
 
 第52報の指示は「**中性子星連星までの現実較正を終える**」である。
