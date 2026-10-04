@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第276便a",
   "target": "beta/index.html",
-  "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
-  "generatedAt": "2026-10-04T02:34:31.036Z",
+  "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+  "generatedAt": "2026-10-04T18:56:50.342Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5633437,
-    "sha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
-    "mtime": "2026-10-04T02:34:29.785Z"
+    "bytes": 5704815,
+    "sha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+    "mtime": "2026-10-04T18:56:49.135Z"
    }
   ],
   "code": [
@@ -1223,66 +1223,6 @@
    },
    "ratioD0": 0.0752315165702791,
    "ruleValueInUnits": 1.3292301492630805,
-   "spreadUnits": 363.62532000000004,
-   "spreadM": 363625320.00000006,
-   "uniformApproxRelError": 0.004861370262805486,
-   "uniformApproxRelErrorD0": 0.002430685131402743,
-   "gSiFromPreset": 6.674e-11,
-   "gSiRatio": 0.9999550514660713
-  },
-  {
-   "id": "earthMoonRealKF1",
-   "emoji": "🌘",
-   "group": "現実較正",
-   "site": "solar-system",
-   "rule": "heliocentric",
-   "ruleWhy": null,
-   "scaleExp": {
-    "L": 6,
-    "T": 2,
-    "M": 25
-   },
-   "frameWeight": null,
-   "framePow": 2,
-   "placesSun": false,
-   "D0": 0.006,
-   "D0pull": 0.0000324204,
-   "d0Used": 0.0000324204,
-   "d0UsedKey": "physics.D0pull",
-   "backgroundComplexDeclared": null,
-   "D0SourceDeclared": null,
-   "heliocentricBody": "earth",
-   "distanceM": 149597870700,
-   "predictedSI": {
-    "pD0": 1,
-    "pComplex": 2,
-    "pEngineReads": 2,
-    "M": 1.9885e+30,
-    "r": 149597870700,
-    "v": 29785.366852242354,
-    "a": 0.005930352312980198,
-    "uBg": 29785.366852242354,
-    "D0": 13292301492630804000,
-    "W0": 88853547.3829495,
-    "A0": 2646535504924.2495,
-    "gradW": 0.0011878985572078668,
-    "gradA": 35.381994309685716,
-    "dWdt": 35.381994309685716,
-    "dAdt": 1580798.5207169107,
-    "D0gradSI": 88853547.38294952,
-    "formula": "W₀=M/r^p ・ A₀=W₀·v ・ |∇W₀|=p·W₀/r ・ |∂ₜW₀|=|∇W₀|·v"
-   },
-   "predictedUnits": {
-    "D0": 1.3292301492630805,
-    "W0": 0.000008885354738294951,
-    "A0": 0.000026465355049242493,
-    "gradW": 1.187898557207867e-10,
-    "gradA": 3.5381994309685716e-10,
-    "dWdt": 3.5381994309685716e-10,
-    "dAdt": 1.5807985207169108e-9
-   },
-   "ratioD0": 3.6487457118927917,
-   "ruleValueInUnits": 0.000008885354738294951,
    "spreadUnits": 363.62532000000004,
    "spreadM": 363625320.00000006,
    "uniformApproxRelError": 0.004861370262805486,
@@ -3218,27 +3158,27 @@
   }
  ],
  "summary": {
-  "rows": 40,
+  "rows": 39,
   "byRule": {
    "undetermined": 6,
-   "heliocentric": 11,
+   "heliocentric": 10,
    "solar-excluded": 5,
    "galactic": 18
   },
   "byFramePow": {
    "p1": 16,
-   "p2": 24
+   "p2": 23
   },
-  "predicted": 29,
+  "predicted": 28,
   "declaredBackgroundComplex": [],
   "declaredD0Source": [],
   "uniformApproxRange": {
-   "n": 29,
+   "n": 28,
    "min": 6.16759391989788e-12,
    "max": 0.006509118314257769
   },
   "gSiRatioRange": {
-   "n": 38,
+   "n": 37,
    "min": 0.9999550514660713,
    "max": 0.9999550514660713
   }
@@ -3247,13 +3187,6 @@
   {
    "id": "earthMoonReal",
    "emoji": "🌙",
-   "uBgSI": 29785.366852242354,
-   "uBgUnits": 2.978536685224235,
-   "engineDefault": 0
-  },
-  {
-   "id": "earthMoonRealKF1",
-   "emoji": "🌘",
    "uBgSI": 29785.366852242354,
    "uBgUnits": 2.978536685224235,
    "engineDefault": 0

@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
-  "generatedAt": "2026-10-04T04:46:20.770Z",
+  "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+  "generatedAt": "2026-10-04T18:56:47.577Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 91795,
-    "sha256": "4bca179ffb7c5893d69f5e33d71614576a037c0f071279b2bdad101964e20f4a",
-    "mtime": "2026-10-03T19:21:14.347Z"
+    "bytes": 94683,
+    "sha256": "d5b641d6f719ab96ab918c4d688bc87dda34af6b452a15531eea80527becffd6",
+    "mtime": "2026-10-04T17:15:29.163Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823433,
-    "sha256": "960c31a7f213f4c016e4da5400dbac209b32c2e773a80c54c4eae91a52116dac",
-    "mtime": "2026-10-04T03:56:50.685Z"
+    "bytes": 1821371,
+    "sha256": "ab59d1bc53c6da3ade8792edf1a45fa06e53e6e62471ca9776d0aac0ab921ab2",
+    "mtime": "2026-10-04T17:45:47.227Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90743,
-    "sha256": "edbb07e38c362870194bcd58213ac795c6c3dc744a5880389bdfdf071123f8a2",
-    "mtime": "2026-10-03T19:40:06.863Z"
+    "bytes": 90756,
+    "sha256": "2e995ea660994e6dd4425ad38e8728f4b2a3e77186d3176883d0ae60b4ccf35b",
+    "mtime": "2026-10-04T17:36:51.067Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 144535,
-    "sha256": "7387ff374b2da2420f193f161ea97db5d0a8df5614113898a1cfa0a63eb29628",
-    "mtime": "2026-10-04T04:46:20.733Z"
+    "bytes": 147621,
+    "sha256": "cf11b26ef26248bd609fec021ea228286291a6224cdd67c069d15afdcafad51e",
+    "mtime": "2026-10-04T18:56:47.563Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -105,14 +105,14 @@
   "codeSha256": "159cdef209c1880f26ad5c2c30aff9a6d5a095945cbf44e860edf5c310f6c4e2",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "34c45c62aae42465f08df7223675285c1562f33d",
-   "date": "2026-10-03T07:23:36.796Z",
-   "pass": 1022
+   "commit": "b964d2dc17f837a85e3f9a77c910aea991012578",
+   "date": "2026-10-04T05:53:11.347Z",
+   "pass": 1036
   }
  },
  "tally": {
   "objective": {
-   "met": 83,
+   "met": 85,
    "partial": 59,
    "unmet": 8,
    "n/a": 0
@@ -123,7 +123,7 @@
    "fail": 1,
    "hold": 17,
    "hold-definition": 2,
-   "out-of-scope": 128
+   "out-of-scope": 130
   },
   "four": {
    "合": 0,
@@ -145,7 +145,7 @@
    {
     "group": "天体の機構",
     "icon": "🪐",
-    "n": 18
+    "n": 21
    },
    {
     "group": "時計と重力",
@@ -203,10 +203,10 @@
     "n": 0
    }
   ],
-  "n": 150,
+  "n": 152,
   "predictionEligible": 0,
   "retired": {
-   "n": 34,
+   "n": 33,
    "ids": [
     "darkrotor",
     "nebulaRotor",
@@ -217,7 +217,6 @@
     "galaxyMeshSpiralGeoToyLite",
     "clusterGrowthCopy",
     "fixedCaptureCopy",
-    "earthMoonRealKF1",
     "emAuditNewton",
     "emAuditDFM",
     "mercuryRealKF1",
@@ -407,23 +406,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 14468,
+     "ms": 14352,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 14243,
+       "ms": 14146,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 190,
+       "ms": 178,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 35,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -585,17 +584,17 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 38,
+     "ms": 56,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 25,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 13,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       },
@@ -768,17 +767,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 205,
+     "ms": 164,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 161,
+       "ms": 116,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 44,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -939,17 +938,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 198,
+     "ms": 167,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 161,
+       "ms": 116,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalLight",
-       "ms": 37,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       }
@@ -1110,17 +1109,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 186,
+     "ms": 143,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 161,
+       "ms": 116,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 25,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -1282,11 +1281,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 38,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 38,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       },
@@ -1454,35 +1453,35 @@
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 1182,
+     "ms": 1116,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 540,
+       "ms": 573,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 421,
+       "ms": 327,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 156,
+       "ms": 141,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 58,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 7,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -1643,11 +1642,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 157,
+     "ms": 173,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 157,
+       "ms": 173,
        "pass": true,
        "via": "targetIds"
       }
@@ -1808,11 +1807,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 230,
+     "ms": 228,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 230,
+       "ms": 228,
        "pass": true,
        "via": "targetIds"
       }
@@ -1973,11 +1972,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 354,
+     "ms": 300,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 354,
+       "ms": 300,
        "pass": true,
        "via": "targetIds"
       }
@@ -2138,17 +2137,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 533,
+     "ms": 510,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 388,
+       "ms": 416,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 145,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       }
@@ -2309,17 +2308,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 652,
+     "ms": 383,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 560,
+       "ms": 344,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 92,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -2480,11 +2479,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 268,
+     "ms": 124,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 268,
+       "ms": 124,
        "pass": true,
        "via": "targetIds"
       }
@@ -2645,23 +2644,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 229,
+     "ms": 177,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 170,
+       "ms": 126,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 37,
+       "ms": 30,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 22,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -2822,17 +2821,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 171,
+     "ms": 191,
      "tests": [
       {
        "id": "behavior.probeH",
-       "ms": 112,
+       "ms": 97,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.probeH",
-       "ms": 59,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       }
@@ -2993,29 +2992,29 @@
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2039,
+     "ms": 2256,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1192,
+       "ms": 1244,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 312,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "shot.regress-freebox",
-       "ms": 272,
+       "ms": 353,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.graph-measured",
-       "ms": 244,
+       "ms": 351,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "shot.regress-freebox",
+       "ms": 291,
        "pass": true,
        "via": "targetIds"
       },
@@ -3182,17 +3181,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4416,
+     "ms": 4045,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 4415,
+       "ms": 4045,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.cosmicweb",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -3377,17 +3376,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 10744,
+     "ms": 10869,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 6462,
+       "ms": 6623,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 4282,
+       "ms": 4246,
        "pass": true,
        "via": "targetIds"
       },
@@ -3554,17 +3553,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 68454,
+     "ms": 71533,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 64150,
+       "ms": 66996,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 4304,
+       "ms": 4537,
        "pass": true,
        "via": "targetIds"
       }
@@ -3725,17 +3724,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 176384,
+     "ms": 249193,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 169914,
+       "ms": 242266,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 6470,
+       "ms": 6927,
        "pass": true,
        "via": "targetIds"
       }
@@ -3896,11 +3895,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3730,
+     "ms": 3538,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3730,
+       "ms": 3538,
        "pass": true,
        "via": "targetIds"
       },
@@ -4067,29 +4066,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7862,
+     "ms": 7843,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 4045,
+       "ms": 4130,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3701,
+       "ms": 3646,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 90,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 26,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -4250,17 +4249,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1324,
+     "ms": 1041,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 916,
+       "ms": 945,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 408,
+       "ms": 96,
        "pass": true,
        "via": "targetIds"
       }
@@ -4421,17 +4420,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4696,
+     "ms": 4393,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 4217,
+       "ms": 4126,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 479,
+       "ms": 267,
        "pass": true,
        "via": "targetIds"
       }
@@ -4592,17 +4591,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3930,
+     "ms": 3583,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 3439,
+       "ms": 3196,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 491,
+       "ms": 387,
        "pass": true,
        "via": "targetIds"
       }
@@ -4763,23 +4762,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 17702,
+     "ms": 17510,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 12785,
+       "ms": 12641,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 4734,
+       "ms": 4705,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 183,
+       "ms": 164,
        "pass": true,
        "via": "targetIds"
       }
@@ -4940,11 +4939,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3438,
+     "ms": 3333,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 3438,
+       "ms": 3333,
        "pass": true,
        "via": "targetIds"
       },
@@ -5123,11 +5122,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3145,
+     "ms": 3205,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 3145,
+       "ms": 3205,
        "pass": true,
        "via": "targetIds"
       }
@@ -5288,17 +5287,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5770,
+     "ms": 5839,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 5235,
+       "ms": 5218,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 535,
+       "ms": 621,
        "pass": true,
        "via": "targetIds"
       }
@@ -5459,17 +5458,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 24977,
+     "ms": 25256,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 23317,
+       "ms": 23618,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1660,
+       "ms": 1638,
        "pass": true,
        "via": "targetIds"
       },
@@ -5637,11 +5636,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6942,
+     "ms": 6687,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 6942,
+       "ms": 6687,
        "pass": true,
        "via": "targetIds"
       }
@@ -5803,11 +5802,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6433,
+     "ms": 6145,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 6433,
+       "ms": 6145,
        "pass": true,
        "via": "targetIds"
       }
@@ -5969,11 +5968,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6203,
+     "ms": 5954,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 6203,
+       "ms": 5954,
        "pass": true,
        "via": "targetIds"
       }
@@ -6134,11 +6133,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1271,
+     "ms": 1226,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1271,
+       "ms": 1226,
        "pass": true,
        "via": "targetIds"
       },
@@ -6317,11 +6316,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3771,
+     "ms": 3713,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3771,
+       "ms": 3713,
        "pass": true,
        "via": "targetIds"
       },
@@ -6501,11 +6500,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7202,
+     "ms": 7462,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7202,
+       "ms": 7462,
        "pass": true,
        "via": "targetIds"
       }
@@ -6672,11 +6671,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1809,
+     "ms": 2101,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 1809,
+       "ms": 2101,
        "pass": true,
        "via": "targetIds"
       }
@@ -6891,11 +6890,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1865,
+     "ms": 1794,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 1865,
+       "ms": 1794,
        "pass": true,
        "via": "targetIds"
       }
@@ -7238,11 +7237,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 78,
+     "ms": 85,
      "tests": [
       {
        "id": "behavior.tilt90Copy",
-       "ms": 78,
+       "ms": 85,
        "pass": true,
        "via": "targetIds"
       }
@@ -7409,11 +7408,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 12270,
+     "ms": 12871,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 12270,
+       "ms": 12871,
        "pass": true,
        "via": "targetIds"
       }
@@ -8134,11 +8133,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1091,
+     "ms": 1088,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 1091,
+       "ms": 1088,
        "pass": true,
        "via": "targetIds"
       }
@@ -8312,11 +8311,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1557,
+     "ms": 1521,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1557,
+       "ms": 1521,
        "pass": true,
        "via": "targetIds"
       }
@@ -8491,16 +8490,22 @@
       "sec": 171,
       "share": 6,
       "always": false
+     },
+     {
+      "key": "tide292",
+      "sec": 85,
+      "share": 4,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 575,
+     "ms": 583,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 575,
+       "ms": 583,
        "pass": true,
        "via": "targetIds"
       }
@@ -8667,29 +8672,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 13940,
+     "ms": 14435,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 10446,
+       "ms": 10888,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 3222,
+       "ms": 3330,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 199,
+       "ms": 135,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 73,
+       "ms": 82,
        "pass": true,
        "via": "targetIds"
       }
@@ -8857,11 +8862,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1027,
+     "ms": 986,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 1027,
+       "ms": 986,
        "pass": true,
        "via": "targetIds"
       }
@@ -9035,11 +9040,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1535,
+     "ms": 1490,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1535,
+       "ms": 1490,
        "pass": true,
        "via": "targetIds"
       }
@@ -9213,11 +9218,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 523,
+     "ms": 568,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 523,
+       "ms": 568,
        "pass": true,
        "via": "targetIds"
       }
@@ -9384,29 +9389,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 13940,
+     "ms": 14435,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 10446,
+       "ms": 10888,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 3222,
+       "ms": 3330,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 199,
+       "ms": 135,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 73,
+       "ms": 82,
        "pass": true,
        "via": "targetIds"
       }
@@ -9568,17 +9573,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 187,
+     "ms": 179,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 155,
+       "ms": 148,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 32,
+       "ms": 31,
        "pass": true,
        "via": "targetIds"
       }
@@ -9739,11 +9744,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 23,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 23,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -9910,17 +9915,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 58,
+     "ms": 55,
      "tests": [
       {
-       "id": "behavior.blens",
-       "ms": 30,
+       "id": "preset.blens",
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.blens",
-       "ms": 28,
+       "id": "behavior.blens",
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -10081,17 +10086,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 343,
+     "ms": 384,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 313,
+       "ms": 357,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 30,
+       "ms": 27,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -10294,23 +10299,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 30215,
+     "ms": 31234,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 25999,
+       "ms": 26674,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2185,
+       "ms": 2362,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2031,
+       "ms": 2198,
        "pass": true,
        "via": "targetIds"
       }
@@ -10471,23 +10476,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15528,
+     "ms": 15543,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 12283,
+       "ms": 12230,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2053,
+       "ms": 2069,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1192,
+       "ms": 1244,
        "pass": true,
        "via": "targetIds"
       }
@@ -10648,29 +10653,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 1100,
+     "ms": 831,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 941,
+       "ms": 646,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 116,
+       "ms": 113,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 29,
+       "ms": 44,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 14,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -10831,11 +10836,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1063,
+     "ms": 1088,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 1063,
+       "ms": 1088,
        "pass": true,
        "via": "targetIds"
       }
@@ -10996,11 +11001,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 23,
+     "ms": 13,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 23,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       },
@@ -11167,23 +11172,23 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4580,
+     "ms": 3737,
      "tests": [
       {
        "id": "shot.regress-convection",
-       "ms": 2597,
+       "ms": 2037,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.convection",
-       "ms": 1969,
+       "ms": 1674,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 14,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -11350,11 +11355,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2610,
+     "ms": 2607,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2610,
+       "ms": 2607,
        "pass": true,
        "via": "targetIds"
       },
@@ -11521,11 +11526,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1764,
+     "ms": 1784,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1764,
+       "ms": 1784,
        "pass": true,
        "via": "targetIds"
       },
@@ -11692,11 +11697,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 993,
+     "ms": 917,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 993,
+       "ms": 917,
        "pass": true,
        "via": "targetIds"
       },
@@ -11869,17 +11874,17 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1997,
+     "ms": 2050,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 1997,
+       "ms": 2049,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "phasechange.emergent2",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       },
@@ -12046,11 +12051,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 941,
+     "ms": 869,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 941,
+       "ms": 869,
        "pass": true,
        "via": "targetIds"
       },
@@ -12224,11 +12229,11 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1320,
+     "ms": 1196,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1320,
+       "ms": 1196,
        "pass": true,
        "via": "targetIds"
       },
@@ -12407,23 +12412,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 787,
+     "ms": 795,
      "tests": [
       {
        "id": "behavior.earthMoon",
-       "ms": 333,
+       "ms": 361,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 321,
+       "ms": 305,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 133,
+       "ms": 129,
        "pass": true,
        "via": "targetIds"
       }
@@ -12590,17 +12595,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1551,
+     "ms": 1599,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1332,
+       "ms": 1349,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 219,
+       "ms": 250,
        "pass": true,
        "via": "targetIds"
       }
@@ -12630,10 +12635,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of the Moon's sidereal month, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "declare the observed σ of the sidereal month and add it to the σ connector (residual 2.4e-6); declare the e ↔ eProxy mapping for the eccentricity. The apsidal motion is made by the Sun (a third body) and the two-body 1PN gives 4e-9 of it: a 1PN fix cannot resolve it",
      "brief": "Compare the real Earth and Moon in real units with kF0. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
     },
-    "holdRemedy": "月の恒星月・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "恒星月は観測 σ を観測表に宣言して σ 接続器に入れる(残差 2.4×10⁻⁶)。離心率は e↔eProxy の写像を宣言する。近点は太陽(第三体)が作る量で、二体の 1PN は観測の 4×10⁻⁹ —— 1PN の是正では解けない",
     "brief": "実単位の地球と月を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -12646,17 +12651,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 140.553,
+     "wallSec": 129.427,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 46.536,
+       "wallSec": 41.678,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 94.017,
+       "wallSec": 87.749,
        "reused": false,
        "reusedBy": null
       }
@@ -12791,16 +12796,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
+     },
+     {
+      "key": "dragcore292",
+      "sec": 953,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "tide292",
+      "sec": 85,
+      "share": 4,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 49,
+     "ms": 64,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 49,
+       "ms": 64,
        "pass": true,
        "via": "targetIds"
       }
@@ -12809,31 +12832,194 @@
    }
   },
   {
-   "id": "earthMoonRealKF1",
-   "emoji": "🌘",
-   "name": "地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現",
-   "group": "現実較正",
-   "sampleClass": "calibration",
+   "id": "earthMoonTide",
+   "emoji": "🌜",
+   "name": "地球と月(実単位・潮汐の診断)— 定時間遅延の潮汐を宣言した本",
+   "group": "天体の機構",
+   "sampleClass": "principle",
    "status": {
-    "purpose": "月の周期と近点回転を kF1 で照合する",
-    "objective": "partial",
-    "state": "照合の走行は台帳に記帳・🧲 との差は重みと初速の両方",
+    "purpose": "定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る",
+    "objective": "met",
+    "state": "1 恒星月で地球 ΔJ/J −1.2e-11・交換と熱の残差は丸め床・引きずりとの交差項は器で記録",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
     "evidence": [
-     "tests/out/calaudit-w249.json",
-     "docs.calibration-verdict-sync",
-     "tests/out/emgrid-w280b.json"
+     "tests/out/tide-w292d.json"
     ],
     "en": {
-     "purpose": "Compare the Moon's period and apsidal rotation with kF1",
-     "state": "the comparison runs are in the ledger; 🧲 gap: weight + speed",
+     "purpose": "Run constant-time-lag tides only where declared; measure spin-down",
+     "state": "Earth dJ/J -1.2e-11 per sidereal month; ledger residuals at rounding floor; drag cross term measured",
      "mismatch": null,
      "outlook": null,
-     "brief": "Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger; 🧲 gap: weight + speed. Out of calibration scope."
+     "brief": "Run constant-time-lag tides only where declared; measure spin-down. Met: Earth dJ/J -1.2e-11 per sidereal month; ledger residuals at rounding floor; drag cross term measured. Out of calibration scope."
     },
-    "brief": "月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳・🧲 との差は重みと初速の両方。較正対象外。"
+    "brief": "定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る。達・1 恒星月で地球 ΔJ/J −1.2e-11・交換と熱の残差は丸め床・引きずりとの交差項は器で記録。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tide292",
+      "sec": 85,
+      "share": 4,
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
+    }
+   }
+  },
+  {
+   "id": "earthMoonRealKF1",
+   "emoji": "🌘",
+   "name": "地球と月(実単位・kFrame=1)— q 引きずりの機構実験(現象論の参照・旧フィット)",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
+    "objective": "partial",
+    "state": "8 公転窓の旧フィットを記録・窓を延ばすと 9.13 年→9.92 年で定常でない",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/emgrid-w280b.json",
+     "tests/out/calaudit-w249.json"
+    ],
+    "en": {
+     "purpose": "Principle reference: kF1 q-dragging apsidal mechanism via the former lunar fit",
+     "state": "8-orbit-window fit recorded; longer windows give 9.13 → 9.92 yr (not steady)",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Principle reference: kF1 q-dragging apsidal mechanism via the former lunar fit. Partial: 8-orbit-window fit recorded; longer windows give 9.13 → 9.92 yr (not steady). Out of calibration scope."
+    },
+    "brief": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照。部分・8 公転窓の旧フィットを記録・窓を延ばすと 9.13 年→9.92 年で定常でない。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -13005,15 +13191,179 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 60,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 60,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
      ]
+    }
+   }
+  },
+  {
+   "id": "earthMoonInertial",
+   "emoji": "🌛",
+   "name": "地球と月(慣性決定力版)— 構造核と近点回転のフィット",
+   "group": "天体の機構",
+   "sampleClass": "principle",
+   "status": {
+    "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
+    "objective": "met",
+    "state": "gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級",
+    "calibration": "out-of-scope",
+    "mismatch": null,
+    "outlook": null,
+    "evidence": [
+     "tests/out/dragcore-w292c.json"
+    ],
+    "en": {
+     "purpose": "Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect",
+     "state": "gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4",
+     "mismatch": null,
+     "outlook": null,
+     "brief": "Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4. Out of calibration scope."
+    },
+    "brief": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"
+   },
+   "ledgerSource": null,
+   "timing": {
+    "calaudit": {
+     "wallSec": 0,
+     "stages": [],
+     "reusedSec": 0,
+     "reusedH2Sec": 0,
+     "reusedH4Sec": 0
+    },
+    "regenSteps": [
+     {
+      "key": "shapecrit",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "d68",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcontract",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterAnalogy",
+      "sec": 658,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "clusterStable",
+      "sec": 3068,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pn1",
+      "sec": 682,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsource286",
+      "sec": 1249,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "eihdiag287",
+      "sec": 20,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "families",
+      "sec": 8,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "tpsign",
+      "sec": 153,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgfield284",
+      "sec": 6,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contact285",
+      "sec": 282,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "jeans286",
+      "sec": 27,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgdiff286",
+      "sec": 3,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgtime287",
+      "sec": 110,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "bgrange288",
+      "sec": 12,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "pnsources291",
+      "sec": 208,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "weakfield289",
+      "sec": 2,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "contractrange289",
+      "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "dragcore292",
+      "sec": 953,
+      "share": 2,
+      "always": false
+     }
+    ],
+    "qa": {
+     "attributed": true,
+     "n": 0,
+     "ms": 0,
+     "tests": []
     }
    }
   },
@@ -13182,17 +13532,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 43,
+     "ms": 45,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 42,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -13379,17 +13729,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 51,
+     "ms": 73,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 50,
+       "ms": 73,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -13419,10 +13769,10 @@
      "state": "the direction is prograde; the period is only recorded",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of the Moon's sidereal month, eccentricity and apsidal rotation in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "for the period row, add the observed σ to the σ connector. The apsidal row keeps the −1.1% floor of the idealisation (2D, Sun on a circular orbit, no tilt, no J2) and can fail with the real σ, so σ connection is not a route to a pass. The apsidal motion is a third-body quantity: a 1PN fix cannot resolve it",
      "brief": "Get the lunar apsidal rotation from solar perturbation alone. Partial: the direction is prograde; the period is only recorded. Calibration: hold; no σ connected."
     },
-    "holdRemedy": "月の恒星月・離心率・近点回転の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "周期の行は観測 σ を σ 接続器に入れる。近点の行は理想化の床(2D・円軌道の太陽・傾斜なし・J2 なし)の −1.1% が残り、現実の σ では否になりうる —— σ 接続を合への手順と書かない。近点は第三体の量で、1PN の是正では解けない",
     "brief": "太陽摂動だけで月の近点回転を出す。部分・向きは前進・年数は記録のみ。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -13435,17 +13785,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.2010000000000005,
+     "wallSec": 3.955,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.352,
+       "wallSec": 1.4,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.849,
+       "wallSec": 2.555,
        "reused": false,
        "reusedBy": null
       }
@@ -13580,22 +13930,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 23,
+     "ms": 17,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 22,
+       "ms": 17,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.emAudit",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims"
       }
@@ -13769,11 +14125,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 67,
+     "ms": 68,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 67,
+       "ms": 68,
        "pass": true,
        "via": "targetIds"
       }
@@ -13946,17 +14302,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1184,
+     "ms": 1246,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 1100,
+       "ms": 1159,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 84,
+       "ms": 87,
        "pass": true,
        "via": "targetIds"
       }
@@ -14129,17 +14485,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1159,
+     "ms": 1217,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 1100,
+       "ms": 1159,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 59,
+       "ms": 58,
        "pass": true,
        "via": "targetIds"
       }
@@ -14306,17 +14662,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 560,
+     "ms": 523,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 542,
+       "ms": 502,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 18,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       }
@@ -14347,10 +14703,10 @@
      "state": "the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%",
      "mismatch": "apsidal advance −6.91% (2.0×10³σ)",
      "outlook": "numerics unresolved",
-     "holdRemedy": "converge the perihelion advance over h/h2/h4 in the same window (until the step difference fits the numerical budget) and declare the step and the window; declare the observed σ of the orbital period and eccentricity in the observation table → the judge gives one of the four verdicts",
+     "holdRemedy": "separate the softening (8.8% of the shortfall in the judge copy) as a declared error and show convergence over the steps h/h2/h4 with a positive order (the step is 91.2% of the shortfall); the 1PN term matches the analytic value and is not the cause. Declare the observed σ of the period and the e ↔ eProxy mapping",
      "brief": "Compare Mercury's perihelion advance with kF0. Partial: the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%. Calibration: hold — apsidal advance −6.91% (2.0×10³σ); numerics unresolved."
     },
-    "holdRemedy": "近日点前進を h/h2/h4 の同じ窓で収束させ(刻み間差が数値の予算に入るまで)刻みと窓を宣言し、公転周期・離心率は観測 σ を観測表に宣言する → 判定器が 4 値を出す",
+    "holdRemedy": "近日点前進は軟化(判定行の写しで不足の 8.8%)を宣言誤差として分離し、刻み h/h2/h4 の収束を正の次数で示す(刻みが不足の 91.2%)。1PN は解析値どおりで原因ではない。公転周期は観測 σ を、離心率は e↔eProxy の写像を宣言する",
     "brief": "水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −6.91%(2.0×10³σ)・数値未解決。"
    },
    "ledgerSource": {
@@ -14363,17 +14719,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 9.235,
+     "wallSec": 8.733,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.212,
+       "wallSec": 3.226,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.023,
+       "wallSec": 5.507,
        "reused": false,
        "reusedBy": null
       }
@@ -14519,6 +14875,12 @@
       "key": "contractrange289",
       "sec": 10,
       "share": "all",
+      "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
       "always": false
      }
     ],
@@ -14696,11 +15058,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 78,
+     "ms": 89,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 78,
+       "ms": 89,
        "pass": true,
        "via": "targetIds"
       }
@@ -14875,11 +15237,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 65,
+     "ms": 51,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 65,
+       "ms": 51,
        "pass": true,
        "via": "targetIds"
       }
@@ -14911,10 +15273,10 @@
      "state": "runs in the ledger (groups as test particles; signing before/after recorded per quantity)",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of Mercury, Venus, Earth and Mars's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "add the observed σ of the four planets' orbital periods to the σ connector (residuals ≤ 4e-5). The eccentricities come from circular-orbit idealisation (Venus −99.6%), so the e ↔ eProxy and initial-state mapping comes first. The apsidal motions are made by the other planets (third bodies): a 1PN fix cannot resolve them",
      "brief": "Compare the periods of the four inner planets in real units. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."
     },
-    "holdRemedy": "水星・金星・地球・火星の公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "4 惑星の公転周期は観測 σ を σ 接続器に入れる(残差 ≤4×10⁻⁵)。離心率は円軌道の理想化(金星 −99.6%)で、e↔eProxy と初期状態の写像が先。近点は他の惑星(第三体)が作る量で、1PN の是正では解けない",
     "brief": "内惑星 4 つの周期を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -14927,11 +15289,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 44.996,
+     "wallSec": 45.683,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 44.996,
+       "wallSec": 45.683,
        "reused": false,
        "reusedBy": null
       }
@@ -15066,22 +15428,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1706,
+     "ms": 1828,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1514,
+       "ms": 1542,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 192,
+       "ms": 286,
        "pass": true,
        "via": "targetIds"
       }
@@ -15111,10 +15479,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of Io, Europa, Ganymede and Callisto's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "declare the observed σ of the four moons' periods and apsidal motions and add them to the σ connector (period residuals up to 4.9e-4 for Io, far outside the 1PN size of 1e-9: a 1PN fix cannot resolve them); declare the e ↔ eProxy mapping for the eccentricities",
      "brief": "Apply the rule to Jupiter's four moons without refitting. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
     },
-    "holdRemedy": "イオ・エウロパ・ガニメデ・カリストの公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "4 衛星の公転周期・近点の観測 σ を観測表に宣言して σ 接続器に入れる(周期の残差はイオの 4.9×10⁻⁴ まで —— 1PN の桁 10⁻⁹ の外で、1PN の是正では解けない)。離心率は e↔eProxy の写像を宣言する",
     "brief": "木星 4 衛星へ規則を再 fit せず当てる。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -15127,17 +15495,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 48.32,
+     "wallSec": 47.43899999999999,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 16.028,
+       "wallSec": 14.758,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 32.292,
+       "wallSec": 32.681,
        "reused": false,
        "reusedBy": null
       }
@@ -15284,22 +15652,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 567,
+     "ms": 537,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 490,
+       "ms": 478,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 77,
+       "ms": 59,
        "pass": true,
        "via": "targetIds"
       }
@@ -15329,10 +15703,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of Venus's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "add the observed σ of the orbital period to the σ connector (residual 1.4e-5). For the eccentricity (+3.3%), align the input and the comparison value to the same solution and epoch and declare the e ↔ eProxy mapping: a fix of the 1PN term (size 1e-8) cannot resolve it",
      "brief": "Compare a free-centre Sun–Venus pair in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
     },
-    "holdRemedy": "金星の公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "公転周期は観測 σ を σ 接続器に入れる(残差 1.4×10⁻⁵)。離心率(+3.3%)は入力と比較値を同一解・同一元期に揃えて e↔eProxy の写像を宣言する —— 1PN(10⁻⁸ の桁)の是正では解けない",
     "brief": "自由中心の太陽–金星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -15345,17 +15719,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 25.659,
+     "wallSec": 24.405,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 8.537,
+       "wallSec": 8.685,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 17.122,
+       "wallSec": 15.72,
        "reused": false,
        "reusedBy": null
       }
@@ -15538,22 +15912,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4322,
+     "ms": 4067,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 4287,
+       "ms": 4040,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 35,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -15583,10 +15963,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of Phobos and Deimos's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "add the observed σ of Phobos' and Deimos' periods to the σ connector; declare the e ↔ eProxy mapping for the eccentricities. The apsidal motions are made by Mars' zonal gravity (J2) and 1PN gives at most 1e-6 of them: a 1PN fix cannot resolve them (declaring J2 comes first)",
      "brief": "Compare Mars's two moons in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
     },
-    "holdRemedy": "フォボス・ダイモスの公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "フォボス・ダイモスの公転周期は観測 σ を σ 接続器に入れる。離心率は e↔eProxy の写像を宣言する。近点は火星の帯状重力(J2)が作る量で 1PN は観測の 10⁻⁶ 以下 —— 1PN の是正では解けない(J2 の宣言が先)",
     "brief": "火星の 2 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -15599,17 +15979,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 19.038,
+     "wallSec": 17.464,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.245,
+       "wallSec": 5.666,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.793,
+       "wallSec": 11.798,
        "reused": false,
        "reusedBy": null
       }
@@ -15756,22 +16136,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 32,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.marsMoonsReal",
-       "ms": 31,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.marsMoonsReal",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -16024,11 +16410,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 33,
+     "ms": 21,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 33,
+       "ms": 21,
        "pass": true,
        "via": "targetIds"
       },
@@ -16225,17 +16611,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 10564,
+     "ms": 11281,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 10480,
+       "ms": 11221,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 84,
+       "ms": 60,
        "pass": true,
        "via": "targetIds"
       }
@@ -16421,11 +16807,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 55,
+     "ms": 52,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 55,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       }
@@ -16455,10 +16841,10 @@
      "state": "verdict from the canonical output; residual is a definition gap",
      "mismatch": "period +0.00131% (279σ)",
      "outlook": "numerics unresolved",
-     "holdRemedy": "converge Charon's orbital period over h/h2/h4 in the same window (until it passes the numerical-budget gate) and declare the step and the window → the judge gives one of the four verdicts",
+     "holdRemedy": "align the state vector (or orbital elements), GM with covariance and coordinate time to the same solution and epoch (the closed form alone leaves +7.216805 s, which step refinement does not remove). The 1PN source set contributes at the 1e-7 s level: a 1PN fix cannot resolve it",
      "brief": "Pluto–Charon from one observed solution (❄️'s successor). Partial: verdict from the canonical output; residual is a definition gap. Calibration: hold — period +0.00131% (279σ); numerics unresolved."
     },
-    "holdRemedy": "カロンの公転周期を h/h2/h4 の同じ窓で収束させ(数値の予算の門を通るまで)、刻みと窓を宣言する → 判定器が 4 値を出す",
+    "holdRemedy": "同一解・同一元期の状態ベクトル(または軌道要素)と GM・共分散・座標時を揃える(閉じた式だけで +7.216805 s が残る —— 刻みの細分化では消えない)。1PN の源集合の寄与は 10⁻⁷ s の桁で、1PN の是正では解けない",
     "brief": "冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)。部分・入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める。較正は保留・周期 +0.00131%(279σ)・数値未解決。"
    },
    "ledgerSource": {
@@ -16471,17 +16857,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 258.443,
+     "wallSec": 245.883,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 86.495,
+       "wallSec": 81.686,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 171.948,
+       "wallSec": 164.197,
        "reused": false,
        "reusedBy": null
       }
@@ -16676,16 +17062,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 31,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 31,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -16852,11 +17244,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 41,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 41,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -17029,11 +17421,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 46,
+     "ms": 43,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 46,
+       "ms": 43,
        "pass": true,
        "via": "targetIds"
       }
@@ -17065,10 +17457,10 @@
      "state": "runs in the ledger (groups as test particles; signing before/after recorded per quantity)",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of Miranda, Ariel, Umbriel, Titania and Oberon's orbital period, eccentricity and apsidal advance (and Miranda's spin) in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "add the observed σ of the five moons' periods and Uranus' spin to the σ connector (period residuals up to 6.8e-4 for Miranda); declare the e ↔ eProxy mapping for the eccentricities. The apsidal motions are made by Uranus' zonal gravity and 1PN gives 1e-5 of them: a 1PN fix cannot resolve them",
      "brief": "Compare Uranus's rings and five moons in real units. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."
     },
-    "holdRemedy": "ミランダ・アリエル・ウンブリエル・チタニア・オベロンの公転周期・離心率・近点移動(とミランダの自転)の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "5 衛星の公転周期と天王星の自転は観測 σ を σ 接続器に入れる(周期の残差はミランダの 6.8×10⁻⁴ まで)。離心率は e↔eProxy の写像を宣言する。近点は天王星の帯状重力が作る量で 1PN は観測の 10⁻⁵ —— 1PN の是正では解けない",
     "brief": "天王星の環と 5 衛星を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -17081,11 +17473,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 56.739,
+     "wallSec": 57.418,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 56.739,
+       "wallSec": 57.418,
        "reused": false,
        "reusedBy": null
       }
@@ -17220,16 +17612,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 155,
+     "ms": 206,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 154,
+       "ms": 205,
        "pass": true,
        "via": "targetIds"
       },
@@ -17265,10 +17663,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of Triton's orbital period, spin, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "add the observed σ of Triton's period and spin to the σ connector (period residual 4.2e-5); declare the e ↔ eProxy mapping for the eccentricity. The apsidal motion is made by Neptune's zonal gravity and 1PN gives 4e-5 of it: a 1PN fix cannot resolve it",
      "brief": "Compare the retrograde moon Triton in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
     },
-    "holdRemedy": "トリトンの公転周期・自転・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "トリトンの公転周期と自転は観測 σ を σ 接続器に入れる(周期の残差 4.2×10⁻⁵)。離心率は e↔eProxy の写像を宣言する。近点は海王星の帯状重力が作る量で 1PN は観測の 4×10⁻⁵ —— 1PN の是正では解けない",
     "brief": "逆行衛星トリトンを実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -17281,17 +17679,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.651,
+     "wallSec": 6.631,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.205,
+       "wallSec": 2.427,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.446,
+       "wallSec": 4.204,
        "reused": false,
        "reusedBy": null
       }
@@ -17474,16 +17872,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 20,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 20,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       },
@@ -17533,30 +17937,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.754,
+     "wallSec": 55.679,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 11.754,
+       "wallSec": 12.042,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 24.129,
+       "wallSec": 24.962,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 48.618,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 43.637,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 72.747,
-     "reusedH2Sec": 24.129,
-     "reusedH4Sec": 48.617999999999995
+     "reusedSec": 24.962,
+     "reusedH2Sec": 24.962,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -17732,22 +18136,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3716,
+     "ms": 3387,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3669,
+       "ms": 3351,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 47,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -17939,17 +18349,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3735,
+     "ms": 3401,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3669,
+       "ms": 3351,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 66,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -17993,30 +18403,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.08,
+     "wallSec": 32.064,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.08,
+       "wallSec": 7.128,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 14.449,
+       "wallSec": 16.631,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 29.109,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 24.936,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 43.558,
-     "reusedH2Sec": 14.449,
-     "reusedH4Sec": 29.109
+     "reusedSec": 16.631,
+     "reusedH2Sec": 16.631,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -18192,22 +18602,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3276,
+     "ms": 2909,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 3203,
+       "ms": 2873,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 73,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -18399,17 +18815,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3342,
+     "ms": 2985,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 3203,
+       "ms": 2873,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 139,
+       "ms": 112,
        "pass": true,
        "via": "targetIds"
       }
@@ -18439,10 +18855,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": "period +0.00307% (1.1×10⁶σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "holdRemedy": "converge the orbital period and periastron advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts",
+     "holdRemedy": "the orbital period differs by 1e6 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the periastron advance over h/h2/h4, and declare the e_T ↔ eProxy mapping",
      "brief": "Compare the double pulsar with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.00307% (1.1×10⁶σ); numerics unresolved; mapping unresolved."
     },
-    "holdRemedy": "公転周期と近点前進を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す",
+    "holdRemedy": "公転周期は σ の 10⁶ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する",
     "brief": "二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00307%(1.1×10⁶σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
@@ -18456,17 +18872,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 11.729,
+     "wallSec": 11.545,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.021,
+       "wallSec": 4.064,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.708,
+       "wallSec": 7.481,
        "reused": false,
        "reusedBy": null
       }
@@ -18625,16 +19041,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 46,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 45,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       },
@@ -18868,17 +19290,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8256,
+     "ms": 8223,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 8150,
+       "ms": 8135,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 106,
+       "ms": 88,
        "pass": true,
        "via": "targetIds"
       }
@@ -19040,11 +19462,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 87,
+     "ms": 79,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 87,
+       "ms": 79,
        "pass": true,
        "via": "targetIds"
       }
@@ -19224,11 +19646,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 65,
+     "ms": 77,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 65,
+       "ms": 77,
        "pass": true,
        "via": "targetIds"
       }
@@ -19258,10 +19680,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": "period +0.000114% (4.2×10³σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "holdRemedy": "converge the orbital period and apsidal advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts",
+     "holdRemedy": "the orbital period differs by 4200 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the apsidal advance over h/h2/h4, and declare the e_T ↔ eProxy mapping",
      "brief": "Compare J1757 with the observed masses (f=1, geoPN=1). Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000114% (4.2×10³σ); numerics unresolved; mapping unresolved."
     },
-    "holdRemedy": "公転周期と近点移動を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す",
+    "holdRemedy": "公転周期は σ の 4200 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する",
     "brief": "J1757 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000114%(4.2×10³σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
@@ -19275,17 +19697,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.543,
+     "wallSec": 8.05,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.936,
+       "wallSec": 2.767,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.607,
+       "wallSec": 5.283,
        "reused": false,
        "reusedBy": null
       }
@@ -19474,16 +19896,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 36,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 36,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -19513,10 +19941,10 @@
      "state": "the runs are in the ledger",
      "mismatch": "period +0.00495% (1.9×10⁵σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "holdRemedy": "converge the orbital period and apsidal advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts",
+     "holdRemedy": "the orbital period differs by 1e5 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the apsidal advance over h/h2/h4, and declare the e_T ↔ eProxy mapping",
      "brief": "J1946 at the observed masses (f=1, geoPN=1). Partial: the runs are in the ledger. Calibration: hold — period +0.00495% (1.9×10⁵σ); numerics unresolved; mapping unresolved."
     },
-    "holdRemedy": "公転周期と近点移動を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す",
+    "holdRemedy": "公転周期は σ の 10⁵ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する",
     "brief": "J1946 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00495%(1.9×10⁵σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
@@ -19530,17 +19958,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.723,
+     "wallSec": 3.529,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.261,
+       "wallSec": 1.06,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.462,
+       "wallSec": 2.469,
        "reused": false,
        "reusedBy": null
       }
@@ -19729,16 +20157,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 28,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 28,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -19918,11 +20352,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 47,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 38,
+       "ms": 47,
        "pass": true,
        "via": "targetIds"
       }
@@ -20102,11 +20536,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 21,
+     "ms": 57,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 21,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -20286,11 +20720,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 35,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 35,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -20470,11 +20904,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 73,
+     "ms": 93,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 73,
+       "ms": 93,
        "pass": true,
        "via": "targetIds"
       }
@@ -20654,11 +21088,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 59,
+     "ms": 71,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 59,
+       "ms": 71,
        "pass": true,
        "via": "targetIds"
       }
@@ -20838,11 +21272,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 58,
+     "ms": 61,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 58,
+       "ms": 61,
        "pass": true,
        "via": "targetIds"
       }
@@ -20872,10 +21306,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": "period +0.000876% (3.7×10⁵σ)",
      "outlook": "numerics unresolved; mapping unresolved",
-     "holdRemedy": "converge the orbital period and apsidal advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts",
+     "holdRemedy": "the orbital period differs by 1e5 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the apsidal advance over h/h2/h4, and declare the e_T ↔ eProxy mapping",
      "brief": "Check B1534's observed inputs with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000876% (3.7×10⁵σ); numerics unresolved; mapping unresolved."
     },
-    "holdRemedy": "公転周期と近点移動を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す",
+    "holdRemedy": "公転周期は σ の 10⁵ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する",
     "brief": "B1534 の観測入力を kF0 で確かめる。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000876%(3.7×10⁵σ)・数値未解決・写像未確定。"
    },
    "ledgerSource": {
@@ -20889,17 +21323,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 58.359,
+     "wallSec": 62.593999999999994,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 19.271,
+       "wallSec": 22.176,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 39.088,
+       "wallSec": 40.418,
        "reused": false,
        "reusedBy": null
       }
@@ -21040,16 +21474,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 56,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 56,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       }
@@ -21277,11 +21717,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 56,
+     "ms": 61,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 56,
+       "ms": 61,
        "pass": true,
        "via": "targetIds"
       }
@@ -21461,11 +21901,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 66,
+     "ms": 62,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 66,
+       "ms": 62,
        "pass": true,
        "via": "targetIds"
       }
@@ -21632,11 +22072,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 65,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 65,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -21809,23 +22249,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3263,
+     "ms": 3205,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 2394,
+       "ms": 2303,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 822,
+       "ms": 872,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 47,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       }
@@ -21992,11 +22432,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 83,
+     "ms": 67,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 83,
+       "ms": 67,
        "pass": true,
        "via": "targetIds"
       }
@@ -22163,11 +22603,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 101,
+     "ms": 97,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 101,
+       "ms": 97,
        "pass": true,
        "via": "targetIds"
       }
@@ -22197,10 +22637,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of the orbital period, eccentricity and apsidal advance comparison values and add them to the judge's σ table (SIGMA_BODY in tests/exp-w249b-calaudit.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "a strong field with GM/(c²a) ≈ 0.05, outside the conservative 1PN range: not a target of the 1PN comparison. To enter the judge, declare the treatment of 2PN and radiation reaction and the observed σ of the period and eccentricity comparison values (the judge's SIGMA_BODY)",
      "brief": "Transcribe GW150914's reference state before merger. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
     },
-    "holdRemedy": "公転周期・離心率・近点移動の比較値に観測 σ を宣言し、判定器の σ 対応表(tests/exp-w249b-calaudit.mjs の SIGMA_BODY)に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "GM/(c²a)≈0.05 の強場で、保守的な 1PN の範囲外 —— 1PN の照合の対象にしない。判定に入れるには 2PN・放射反作用の扱いと、公転周期・離心率の比較値の観測 σ(判定器の SIGMA_BODY)を宣言する",
     "brief": "GW150914 の合体前の基準状態を転写する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -22213,17 +22653,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.215,
+     "wallSec": 1.9000000000000001,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.761,
+       "wallSec": 0.681,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.454,
+       "wallSec": 1.219,
        "reused": false,
        "reusedBy": null
       }
@@ -22352,22 +22792,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4103,
+     "ms": 4011,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 4064,
+       "ms": 3985,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 39,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -22559,17 +23005,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4115,
+     "ms": 4038,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 4064,
+       "ms": 3985,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 51,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -22599,10 +23045,10 @@
      "state": "the comparison runs are in the ledger",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of the merger time, orbital period, eccentricity and apsidal advance comparison values and add them to the judge's σ table (SIGMA_BODY in tests/exp-w249b-calaudit.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "a strong field with GM/(c²a) ≈ 0.05, outside the conservative 1PN range: not a target of the 1PN comparison. To enter the judge, declare the treatment of 2PN and radiation reaction and the observed σ of the merger time, period and eccentricity comparison values (the judge's SIGMA_BODY)",
      "brief": "Run the ~4 s merger with a declared radiation direction and dose. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."
     },
-    "holdRemedy": "融合時刻・公転周期・離心率・近点移動の比較値に観測 σ を宣言し、判定器の σ 対応表(tests/exp-w249b-calaudit.mjs の SIGMA_BODY)に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "GM/(c²a)≈0.05 の強場で、保守的な 1PN の範囲外 —— 1PN の照合の対象にしない。判定に入れるには 2PN・放射反作用の扱いと、融合時刻・公転周期・離心率の比較値の観測 σ(判定器の SIGMA_BODY)を宣言する",
     "brief": "放射の向きと量を宣言して約 4 秒の合体を回す。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -22615,17 +23061,17 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.187,
+     "wallSec": 0.288,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.087,
+       "wallSec": 0.146,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.1,
+       "wallSec": 0.142,
        "reused": false,
        "reusedBy": null
       }
@@ -22754,16 +23200,22 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 48,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 48,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -22924,11 +23376,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 33,
+     "ms": 38,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 33,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -23095,11 +23547,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3333,
+     "ms": 3367,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 3333,
+       "ms": 3367,
        "pass": true,
        "via": "targetIds"
       },
@@ -23272,11 +23724,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6204,
+     "ms": 6162,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 6204,
+       "ms": 6162,
        "pass": true,
        "via": "targetIds"
       }
@@ -23449,17 +23901,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5279,
+     "ms": 5307,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 5279,
+       "ms": 5306,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.ngc3198",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -23638,11 +24090,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11897,
+     "ms": 11680,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 11897,
+       "ms": 11680,
        "pass": true,
        "via": "targetIds"
       }
@@ -23803,11 +24255,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 19,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 24,
+       "ms": 19,
        "pass": true,
        "via": "targetIds"
       }
@@ -23968,11 +24420,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 15,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 17,
+       "ms": 15,
        "pass": true,
        "via": "targetIds"
       }
@@ -24133,11 +24585,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 479,
+     "ms": 474,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 479,
+       "ms": 474,
        "pass": true,
        "via": "targetIds"
       }
@@ -24299,36 +24751,42 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "tide292",
+      "sec": 85,
+      "share": 4,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 5369,
+     "ms": 5111,
      "tests": [
       {
-       "id": "preset.saturn",
-       "ms": 2924,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
        "id": "shot.regress-saturn",
-       "ms": 2444,
+       "ms": 2573,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "behavior.saturnExp",
-       "ms": 1,
+       "id": "preset.saturn",
+       "ms": 2538,
        "pass": true,
-       "via": "claims"
+       "via": "targetIds"
       },
       {
        "id": "behavior.saturn",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
+      },
+      {
+       "id": "behavior.saturnExp",
+       "ms": 0,
+       "pass": true,
+       "via": "claims"
       },
       {
        "id": "behavior.saturn-kframe-control",
@@ -24493,29 +24951,29 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4817,
+     "ms": 4879,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2601,
+       "ms": 2700,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2198,
+       "ms": 2161,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 18,
+       "ms": 17,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "behavior.saturnLayered",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -24559,30 +25017,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.9,
+     "wallSec": 32.801,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.9,
+       "wallSec": 7.2,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.934,
+       "wallSec": 12.479,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 26.888,
-       "reused": true,
-       "reusedBy": "reuse"
+       "wallSec": 25.601,
+       "reused": false,
+       "reusedBy": null
       }
      ],
-     "reusedSec": 39.822,
-     "reusedH2Sec": 12.934,
-     "reusedH4Sec": 26.888000000000005
+     "reusedSec": 12.479,
+     "reusedH2Sec": 12.479,
+     "reusedH4Sec": 0
     },
     "regenSteps": [
      {
@@ -24722,28 +25180,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7064,
+     "ms": 9633,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 6990,
+       "ms": 9557,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 48,
+       "ms": 52,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 23,
+       "ms": 21,
        "pass": true,
        "via": "claims"
       },
@@ -24910,11 +25374,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 39,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 39,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -25075,11 +25539,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 39,
+     "ms": 20,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 39,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -25111,10 +25575,10 @@
      "state": "runs in the ledger (groups as test particles; signing before/after recorded per quantity)",
      "mismatch": null,
      "outlook": "no σ connected",
-     "holdRemedy": "declare the observed σ of the inner edge of ring C, Mimas and Titan's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts",
+     "holdRemedy": "declare the observed σ of the periods and apsidal motions of ring C's inner edge, Mimas and Titan and add them to the σ connector; declare the e ↔ eProxy mapping. The −0.27% period residual of ring C's inner edge is far outside the 1PN size (1e-8): a 1PN fix cannot resolve it",
      "brief": "Compare Saturn's rings in real units with kF0. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."
     },
-    "holdRemedy": "C環内縁・ミマス・タイタンの公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+    "holdRemedy": "C環内縁・ミマス・タイタンの公転周期・近点の観測 σ を観測表に宣言して σ 接続器に入れる。離心率は e↔eProxy の写像を宣言する。C環内縁の周期の残差 −0.27% は 1PN(10⁻⁸ の桁)の外で、1PN の是正では解けない",
     "brief": "実単位の土星の環を kF0 で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"
    },
    "ledgerSource": {
@@ -25127,11 +25591,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 135.402,
+     "wallSec": 134.86,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 135.402,
+       "wallSec": 134.86,
        "reused": false,
        "reusedBy": null
       }
@@ -25272,22 +25736,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "calcause292",
+      "sec": 2,
+      "share": 20,
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 204,
+     "ms": 258,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 165,
+       "ms": 230,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 39,
+       "ms": 28,
        "pass": true,
        "via": "claims"
       }
@@ -25463,11 +25933,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 316,
+     "ms": 367,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 316,
+       "ms": 367,
        "pass": true,
        "via": "targetIds"
       }
@@ -25628,28 +26098,28 @@
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 2479,
+     "ms": 4573,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 2404,
+       "ms": 4493,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 74,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "behavior.binary",
-       "ms": 1,
+       "ms": 80,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.kframe-binary-default",
+       "ms": 0,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.binary",
        "ms": 0,
        "pass": true,
        "via": "targetIds"
@@ -25812,17 +26282,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 146,
+     "ms": 126,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 123,
+       "ms": 108,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 23,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -25983,11 +26453,11 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 910,
+     "ms": 883,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 910,
+       "ms": 883,
        "pass": true,
        "via": "targetIds"
       },
@@ -26154,23 +26624,23 @@
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1933,
+     "ms": 2101,
      "tests": [
       {
        "id": "shot.regress-spinup",
-       "ms": 1050,
+       "ms": 1068,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.spinup",
-       "ms": 883,
+       "ms": 1032,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.spinup",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -26331,11 +26801,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 235,
+     "ms": 224,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 235,
+       "ms": 224,
        "pass": true,
        "via": "targetIds"
       }
@@ -26496,11 +26966,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 118,
+     "ms": 136,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 118,
+       "ms": 136,
        "pass": true,
        "via": "targetIds"
       }
@@ -26661,11 +27131,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 43,
+     "ms": 122,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 43,
+       "ms": 122,
        "pass": true,
        "via": "targetIds"
       }
@@ -26826,11 +27296,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 116,
+     "ms": 134,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 116,
+       "ms": 134,
        "pass": true,
        "via": "targetIds"
       }
@@ -26991,11 +27461,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 43,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 43,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -27156,17 +27626,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 228,
+     "ms": 174,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 124,
+       "ms": 90,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 104,
+       "ms": 84,
        "pass": true,
        "via": "targetIds"
       }
@@ -27333,11 +27803,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 22,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 25,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -27498,11 +27968,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 23,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 19,
+       "ms": 23,
        "pass": true,
        "via": "targetIds"
       }
@@ -27663,17 +28133,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 234,
+     "ms": 224,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 198,
+       "ms": 171,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 36,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       }
@@ -27834,11 +28304,11 @@
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 17,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 17,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -27999,17 +28469,17 @@
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 112,
+     "ms": 149,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 78,
+       "ms": 109,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 34,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -28021,22 +28491,22 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 116,
-  "regenSecSum": 26783,
+  "regenSteps": 119,
+  "regenSecSum": 27823,
   "alwaysSec": 5195,
   "undeclaredSteps": 46,
   "undeclaredSec": 1884,
-  "qaTotal": 1025,
-  "qaDurationMs": 2377288,
+  "qaTotal": 1039,
+  "qaDurationMs": 2502737,
   "reuse": {
    "since": "第284便c",
    "h2": {
     "n": 3,
-    "sec": 51.512
+    "sec": 54.072
    },
    "h4": {
-    "n": 3,
-    "sec": 104.61500000000001
+    "n": 0,
+    "sec": 0
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
