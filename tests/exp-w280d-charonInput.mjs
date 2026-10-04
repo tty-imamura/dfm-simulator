@@ -73,12 +73,27 @@ let FORMAL = null;
 //   最後の本器の正本(第289便・tests/out/charoninput-w280d.json@f03bf5a の meta.formal)を**履歴**として正式の値に使う。本器が走らせるのは
 //   ❄️ の写し(❄️ の単位 10⁶ m/10² s・dt 0.016/0.008)なので、照合の相手は ❄️ の行でなければならない —— 🥶 plutoCharonDiagInput の行は
 //   精密単位(10 s)で dt の意味も初期値の丸めも違い、1 bit 一致の相手にならない(tests/exp-w280c-geo3.mjs の CHARON_HISTORY_W289 と同じ流儀)
-const CHARON_FORMAL_HISTORY_W289 = Object.freeze({ from: 'history(charoninput-w280d@f03bf5a meta.formal —— ❄️ は第290便b で退役)',
+const CHARON_FORMAL_HISTORY_W289 = Object.freeze({ from: 'history(charoninput-w280d@f03bf5a meta.formal —— ❄️ は第290便b で退役・旧源集合(第291便b の前))',
   historyCalauditSha256: 'b6294dac822015bc549f8ae68eb36b7f7a285792aae46908f1fcb248cf6f2f77', preset: 'plutoCharonReal',
   row: '公転周期(kFrame=0 対照・同方向1周)', stages: 2, h: 551864.061362921, h2: 551864.0612657347,
   h2From: 'tests/out/calaudit-w249-diag.json h2Store.entries.plutoCharonReal(revP[1]×toSec)@f03bf5a', h4: null,
   h4Note: '未走行(第288便b の在位移行後・h/4 例外の経路は裁定待ち)', gate: '数値未解決', assessedStage: 'h',
   nSigma: 294.08344602820256, residual: 7.6226429210510105 });
+// 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133): kF0 の 1PN 源が**全質量源**(カロンも源 —— html の pnOrbitalSource・
+//   PN1_EIH_VERSION "w291b-eih-2")になり、❄️ の写しの h/h2 は上の履歴(旧源集合 = 冥王星だけが 1PN 源)と 1 bit 一致しない(期待どおりの物理の変化)。
+//   新しい源集合の正式値は、❄️ が退役していて判定器の行が無いので、**本器の正本(tests/out/charoninput-w280d.json・第291便の鎖 2 の再生成
+//   —— html 6cceb42cde2e…)の byKey.base.stages.h/h2.p2** を履歴として固定する(tests/exp-w280c-geo3.mjs の C0 の rev2S と同じ値 —— 2 器で一致)。
+//   世代切替: html に pnOrbitalSource があれば W291・無ければ W289。h4 は W289 と同じく未走行の印のまま
+const CHARON_FORMAL_HISTORY_W291 = Object.freeze(Object.assign({}, CHARON_FORMAL_HISTORY_W289, {
+  from: 'history(charoninput-w280d の第291便 鎖 2 の正本 factors.formalCheck.measured —— 新しい源集合〔kF0 の 1PN 源 = 全質量源〕・❄️ は第290便b で退役)',
+  historyCalauditSha256: null, historyTargetSha256: '6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f',
+  h: 551864.0613634228, h2: 551864.0612662266, h2From: 'tests/out/charoninput-w280d.json factors.formalCheck.h2.measured(第291便 鎖 2)',
+  gate: null, nSigma: null, residual: null, sourceContract: 'w291b-eih-2',
+  previous: { from: CHARON_FORMAL_HISTORY_W289.from, h: CHARON_FORMAL_HISTORY_W289.h, h2: CHARON_FORMAL_HISTORY_W289.h2 } }));
+const HTML_TEXT_W291 = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+const HAS291B = HTML_TEXT_W291.indexOf('function pnOrbitalSource(') >= 0;
+const PN1_SOURCE_CONTRACT = (HTML_TEXT_W291.match(/const PN1_EIH_VERSION="([^"]+)"/) || [])[1] || null;
+const CHARON_FORMAL_HISTORY = HAS291B ? CHARON_FORMAL_HISTORY_W291 : CHARON_FORMAL_HISTORY_W289;
 try {
   const ca = JSON.parse(fs.readFileSync(CALAUDIT, 'utf8'));
   const pc = ca.presets.find((p) => p.id === 'plutoCharonReal');
@@ -86,7 +101,7 @@ try {
   if (!pc) {
     const succ = ca.presets.find((p) => p.id === 'plutoCharonDiagInput') || null;
     const sr = succ ? succ.quantities.find((q) => q.kind === 'period' && q.version === 'obs') : null;
-    FORMAL = Object.assign({}, CHARON_FORMAL_HISTORY_W289, { sha256: sha(fs.readFileSync(CALAUDIT)),
+    FORMAL = Object.assign({}, CHARON_FORMAL_HISTORY, HAS291B ? { sourceContract: PN1_SOURCE_CONTRACT } : {}, { sha256: sha(fs.readFileSync(CALAUDIT)),
       successorRow: sr ? { preset: succ.id, row: sr.name, assessedValue: sr.gate.assessedValue, gate: sr.gate.status,
         note: '母集団の後継(🥶)の行 —— 精密単位・別の dt なので本器の写しとの 1 bit 照合には使わない(記録のみ)' } : null });
   } else if (row.dtStages) {

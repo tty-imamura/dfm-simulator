@@ -170,6 +170,9 @@ const SITE_CLASS = {
   'dfmMeshTransportBind :: dfmMeshTransportBind': { use: '複素場(輸送の束縛・診断)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmMeshTransportObserve :: dfmMeshTransportObserve': { use: '複素場(輸送の観測・診断)', replaceable: 'candidate', why: 'χ の分母' },
   '_smGridFieldOf :: at': { use: '表示(空間メッシュ格子の場)', replaceable: 'candidate', why: '同じ分母を表示で作る' },
+  // 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): 光の物差しの表示メッシュの標本(ψ=κ(D₀+W_box+W) を格子点で作る —— 表示専用・
+  //   粒子の加速度や履歴へ戻さない)。置換禁止(時計・光の力学)の外の表示の群
+  'lightRulerAt :: lightRulerAt': { use: '表示(光の物差しの表示メッシュの標本 ψ・N・A —— 表示専用)', replaceable: 'n/a', why: '描画のみ(力学・履歴へ戻さない)' },
   'dfmGeoToyStep :: dfmGeoToyStep': { use: 'geoPN=3 トイ(1 步)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmGeoToyStep :: onePass': { use: 'geoPN=3 トイ(1 巡)', replaceable: 'candidate', why: 'χ の分母' },
   'dfmGeoToyBandStep :: dfmGeoToyBandStep': { use: 'geoPN=3 トイ(帯平均 variant)', replaceable: 'candidate', why: 'χ の分母' },

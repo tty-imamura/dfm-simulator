@@ -9912,9 +9912,13 @@ if (!TARGET.startsWith('beta/')) {
       if (m.extractor && m.extractor.helperSha256 !== hs) bad.push('①判定器のヘルパが正本の走行後に変わった');
       cases.push('来歴・抽出器');
       const R = J.reproduction || {};
-      if (!(R.kF0 && R.kF0.bitIdentical && R.kF0.formal === 0.000026767880691402648 && R.kF0.nPeri === 59)) bad.push('②☄️ の正式値をビットで再現していない');
+      // 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133)の世代(html に pnOrbitalSource): kF0 の 1PN 源が全質量源(水星も源)になり、
+      //   判定器の ☄️ の較正行の正式値が 2.6767881×10⁻⁵ → 2.6767880×10⁻⁵(−9.129×10⁻¹³)。正式値は世代ごとの固定値で照合する
+      const has291bM = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0;
+      const FORMAL_KF0 = has291bM ? 0.000026767879778500166 : 0.000026767880691402648;
+      if (!(R.kF0 && R.kF0.bitIdentical && R.kF0.formal === FORMAL_KF0 && R.kF0.nPeri === 59)) bad.push('②☄️ の正式値をビットで再現していない');
       if (!(R.kF1 && R.kF1.bitIdentical && R.kF1.formal === 0.00002252587001128979 && R.kF1.nPeri === 59)) bad.push('②🪨 の正式値をビットで再現していない');
-      cases.push('正式値 2.6767881×10⁻⁵(較正行 ε=0.01)/2.2525870×10⁻⁵ をビット再現(59 近点)');
+      cases.push(`正式値 ${has291bM ? '2.6767880' : '2.6767881'}×10⁻⁵(較正行 ε=0.01)/2.2525870×10⁻⁵ をビット再現(59 近点)`);
       const G = J.grid || [];
       if (G.length !== 24) bad.push('③格子が 24 行でない: ' + G.length);
       if (G.some((g) => g.nPeriA !== 59 || g.nan)) bad.push('③近点 59 本でない/NaN の行がある');
@@ -9940,8 +9944,12 @@ if (!TARGET.startsWith('beta/')) {
       for (const r of J.table.rows.filter((x) => x.cond === 'vMinusU'))
         if (!(r.state.hasMeshVelocity && r.state.meshVelUMax === 0 && r.state.meshVelKickMax === 0 && r.state.meshVelN === r.steps))
           bad.push('⑥vMinusU の走行で u・正準項が 0 でない/外部ステップが毎步入っていない');
-      if (!(J.aim && J.aim.sunSpin0 && J.aim.sunSpin0.bitIdentical)) bad.push('⑥太陽の自転 0 の 🪨 が kF0 とビット一致でない');
-      cases.push('vMinusU≡kF0・geoPN3≡λ0・自転 0 の 🪨≡kF0(ビット)');
+      // 第291便b の世代: 🪨(kFrame=1・核の経路)は源集合が変わらず、☄️ kF0 だけが全質量源になったので**ビット一致は求めない**(R133 の帰結)。
+      //   代わりに差が源集合の変化の桁(水星の質量比 1.66×10⁻⁷ 程度 —— 1PN 解析値の 10⁻⁶ 未満)であることを見る
+      const ss0 = (J.aim && J.aim.sunSpin0) || null;
+      if (has291bM) { if (!(ss0 && Number.isFinite(ss0.diff) && Math.abs(ss0.diff) < 1e-6 * Math.abs(J.analytic.pn1))) bad.push('⑥太陽の自転 0 の 🪨 と kF0 の差が源集合の変化の桁(1PN 解析値の 10⁻⁶ 未満)でない'); }
+      else if (!(ss0 && ss0.bitIdentical)) bad.push('⑥太陽の自転 0 の 🪨 が kF0 とビット一致でない');
+      cases.push('vMinusU≡kF0・geoPN3≡λ0・' + (has291bM ? `自転 0 の 🪨−kF0 ${ss0 && Number.isFinite(ss0.diff) ? ss0.diff.toExponential(2) : '—'}(第291便b —— kF0 だけ源集合が変わったのでビット一致は求めない)` : '自転 0 の 🪨≡kF0(ビット)'));
       const md = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
       const i32 = md.indexOf('### 5.32 ');
       const sec = (i32 < 0) ? '' : md.slice(i32, (() => { const j = md.indexOf('\n### 5.', i32 + 4); const k = md.indexOf('\n## ', i32);
@@ -20077,7 +20085,15 @@ if (!FAST) {
         const C = J287.charon || {}, P1 = J287.p1 || {};
         const rr = C.rows || {};
         if (!C.ok) bad.push('🌒 の走行');
-        if (!(C.beforeAfter && C.beforeAfter.kf0SameAsBefore === true)) bad.push('kF0 の写しが基点と同じでない');
+        // 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133)の世代(html に pnOrbitalSource): kF0 の 1PN 源が全質量源(カロンも源)になったので、
+        //   kF0 の写しは基点(f94ca580 の宣言値)とビット同一にならない —— 差は 1PN の源が増えた分で、1PN の寄与(C0−C0n ≈ 1.9×10⁻⁶ s)と同じ桁以下(≤1e-5 s)を見る。
+        //   🌒 自身(geoPN=3)の周期の前後差は従来どおり下の 1e-6 s の門で見る
+        const has291bT = html287c.indexOf('function pnOrbitalSource(') >= 0;
+        const kfB = (BT && BT.BEFORE_F94 && BT.BEFORE_F94.kf0Period2S) || {};
+        const kfD = has291bT && rr.dt && rr.dtHalf && rr.dt.kf0 && rr.dtHalf.kf0 ? [rr.dt.kf0.period2S - kfB.dt, rr.dtHalf.kf0.period2S - kfB.dtHalf] : null;
+        if (has291bT) { if (!(kfD && kfD.every((d) => Number.isFinite(d) && Math.abs(d) <= 1e-5))) bad.push('kF0 の写しの前後差が 1PN の源が増えた分の桁(≤1e-5 s)でない: ' + JSON.stringify(kfD)); }
+        else if (!(C.beforeAfter && C.beforeAfter.kf0SameAsBefore === true)) bad.push('kF0 の写しが基点と同じでない');
+        if (kfD) cases.push(`kF0 の写しの前後差 ${kfD.map((d) => d.toExponential(3)).join('/')} s(dt・dt/2 —— 第291便b の源集合で変わる・ビット同一は求めない)`);
         if (!(C.beforeAfter && Math.abs(C.beforeAfter.dtS) < 1e-6 && Math.abs(C.beforeAfter.dtHalfS) < 1e-6)) bad.push('🌒 の周期の前後差が 1e-6 s 以上(記録を読み直すこと)');
         if (!(C.taylorVariant && C.taylorVariant.vsSourcesS > 1e-4)) bad.push('taylor(採らない形)の見かけのせん断が記録されていない');
         if (!(P1.ok && P1.bitSame === true)) bad.push('share-p1 の基準コピーが 🪁 とビット一致しない');
@@ -20770,6 +20786,12 @@ if (!FAST) {
         // 第290便e: 🍭 shapeToySpiral・🎢 shapeToySpiralCore(渦巻の参照模型 —— contactMode none・宣言の側)を足した世代は +2(c と合わせて 150 本・統合で両方の世代を数える)
         const has290c285 = has289n && html285.indexOf('id:"inertialDragPair"') >= 0;
         if (has290c285) OTHER285.add('inertialDragPair');
+        // 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133)の世代(html に pnOrbitalSource): kF0 の 1PN 源が全質量源になって 1 步の結果が動いた本
+        //   (正本 tests/out/pnsources-w291b.json の B.changed —— 機械の一覧)も宣言の外でよい(基点は b92ffa1 のまま)
+        if (html285.indexOf('function pnOrbitalSource(') >= 0) {
+          try { for (const id of ((JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsources-w291b.json'), 'utf8')).B || {}).changed || [])) OTHER285.add(id); }
+          catch (e) { bad.push('第291便b の源集合で動いた本の一覧(pnsources-w291b.json の B.changed)が読めない'); }
+        }
         const has290e285 = has289n && html285.indexOf('id:"shapeToySpiral"') >= 0 && html285.indexOf('id:"shapeToySpiralCore"') >= 0;
         const nBuiltin285 = [142, 143].concat(has288n ? [146] : [], has289n ? [147] : [], (has290c285 && !has290e285) ? [148] : [], (has290e285 && !has290c285) ? [149] : [], (has290c285 && has290e285) ? [150] : []);
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
@@ -43750,7 +43772,11 @@ if (!FAST) {
         const cnt = (f) => vis.filter((p) => { const r = raw(p); return !!r && f(r); }).length;
         o.andExp = { partialHold: cnt((r) => r.objective === 'partial' && r.calibration === 'hold'),
           metNotOos: cnt((r) => r.objective === 'met' && r.calibration !== 'out-of-scope'),
+          partialNotOos: cnt((r) => r.objective === 'partial' && r.calibration !== 'out-of-scope'),
           partial: o.exp[1], met: o.exp[0] };
+        // 第291便b(原仮定者の裁定(第81報)⑤・R133)の世代(html に pnOrbitalSource): 🌨️ の退役で「目的 達 ∧ 較正対象」の本が 0 になったので、
+        // 2 つ目の AND は「目的 部分 ∧ ¬較正対象外」で見る(件数は上の独立の数え直し —— 固定値ではない)
+        o.has291b = typeof pnOrbitalSource === 'function';
         hidePresetPicker();
         return o;
       }, [OBJ, CAL, REP]);
@@ -43782,16 +43808,19 @@ if (!FAST) {
         return look(steps[0][0], '\u0000');
       };
       const a1 = await andRun([['stObj_partial', 1], ['stCal_hold', 1]]);
-      const a2 = await andRun([['stObj_met', 1], ['stCal_out-of-scope', 2]]);
+      const a2k = o.has291b ? 'stObj_partial' : 'stObj_met';
+      const a2 = await andRun([[a2k, 1], ['stCal_out-of-scope', 2]]);
       o.andRes = [a1.rows, a2.rows];
+      o.and2Exp = o.has291b ? o.andExp.partialNotOos : o.andExp.metNotOos;
+      o.and2Only = o.has291b ? o.andExp.partial : o.andExp.met;
       o.andOk = a1.rows === o.andExp.partialHold && a1.rows > 0 && a1.rows < o.andExp.partial && a1.other === 'stObj_partial,stCal_hold'
-        && a2.rows === o.andExp.metNotOos && a2.rows > 0 && a2.rows < o.andExp.met && a2.other === 'stObj_met,!stCal_out-of-scope';
+        && a2.rows === o.and2Exp && a2.rows > 0 && a2.rows < o.and2Only && a2.other === a2k + ',!stCal_out-of-scope';
       // 畳んでも含む・除くは見える
       const fz = await pg.evaluate(async () => { ppOtherSecOpen = { decl: false, badge: false, status: false }; showPresetPicker(true);
         await new Promise((r) => setTimeout(r, 30));
         const g = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="status"]');
         return { fold: g.dataset.fold, vis: [...g.querySelectorAll('.ppChip')].filter((c) => c.checkVisibility()).map((c) => c.dataset.v + ':' + c.dataset.state).join(',') }; });
-      o.foldOk = fz.fold === '1' && fz.vis === 'stObj_met:on,stCal_out-of-scope:not';
+      o.foldOk = fz.fold === '1' && fz.vis === a2k + ':on,stCal_out-of-scope:not';
       // en
       const en = await pg.evaluate(async () => { ppOther = []; ppOtherSecOpen = {}; hidePresetPicker(); HP.setLang('en'); showPresetPicker();
         await new Promise((r) => setTimeout(r, 30));
@@ -43816,7 +43845,7 @@ if (!FAST) {
       `・全内蔵で ppOtherTest = 生成領域の表の直読み = sampleStatusOf・件数 [${a0.labels.join('|')}](一覧 ${a0.nVis}・目的の和 = 較正の和 = 一覧=${a0.sumOk})` +
       `・0 件は無効表示 [${a0.zero.join(',') || 'なし'}]・語 = 説明タブの状態チップ(${a0.descWords.length} 値の本を開いて照合)=${a0.chipsOk}` +
       ` / ` + sa.map((o) => `${o.vp}: ` + o.repRes.map((x) => `${x.emoji}${x.k} 含む ${x.on}・除く ${x.not}=${x.ok}`).join('・') +
-        `・AND 部分∧保留 ${o.andRes[0]}=${o.andExp.partialHold}・達∧¬較正対象外 ${o.andRes[1]}=${o.andExp.metNotOos}=${o.andOk}` +
+        `・AND 部分∧保留 ${o.andRes[0]}=${o.andExp.partialHold}・${o.has291b ? '部分' : '達'}∧¬較正対象外 ${o.andRes[1]}=${o.and2Exp}(<${o.and2Only})=${o.andOk}` +
         `・畳んでも含む/除くは見える=${o.foldOk}(既定 ${o.foldedAtStart ? '畳む' : '開く'})・ⓘ=${o.noteOk}・見出し=${o.secOk}・en [${o.en.sec}: ${o.en.labels.join('|')}]=${o.enOk}` +
         `・#presetSelect/presetSig/params 不変=${o.same}${o.bad.length ? '・NG ' + o.bad.slice(0, 4).join(' ') : ''}${o.errs.length ? '・JS ' + o.errs.join(' | ') : ''}`).join(' / '));
   }
@@ -66655,20 +66684,32 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const fin = (x) => typeof x === 'number' && Number.isFinite(x);
       if (J.P.rows.length !== 6) bad.push('③ 前後の表の行が 6 でない: ' + J.P.rows.length);
       const REC = { alphaCenABDFM: 0.7529, siriusABDFM: 0.8665, alphaCenAB: 0.7529, siriusAB: 0.8665 };
+      // 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133)の世代(html に pnOrbitalSource): kF0 の 1PN 源は**全質量源**なので、伴星の pnSource の宣言を
+      //   外しても(srcOff)kF0 では伴星は源のまま(源 2・比は after とビット同一)。除外は pnSource:false の明示だけ(本器は外すだけで false を書かない)。
+      //   DFM 版(kFrame=1)の行は源集合が変わらないので従来の期待のまま
+      const has291bC = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0;
       for (const r of J.P.rows) {
         if (![r.before, r.srcOff, r.after].every((z) => z && fin(z.ratio) && !z.nan)) { bad.push('③ ' + r.id + ' ' + r.mode + ' の比が有限でない'); continue; }
-        if (!(r.before.nSources === 1 && r.srcOff.nSources === 1 && r.after.nSources === 2)) bad.push('③ ' + r.id + ' ' + r.mode + ' の源の数 ' + [r.before.nSources, r.srcOff.nSources, r.after.nSources]);
+        const kf0All = has291bC && r.mode === 'kf0';
+        if (!(r.before.nSources === 1 && r.srcOff.nSources === (kf0All ? 2 : 1) && r.after.nSources === 2)) bad.push('③ ' + r.id + ' ' + r.mode + ' の源の数 ' + [r.before.nSources, r.srcOff.nSources, r.after.nSources]);
+        if (kf0All && r.srcOff.ratio !== r.after.ratio) bad.push(`③ ${r.id} kf0 の伴星の宣言を外した比 ${r.srcOff.ratio} が after とビット同一でない(全質量源)`);
         if (r.mode === 'kf0') {
           if (!(Math.abs(r.before.ratio - REC[r.id]) <= 1e-3)) bad.push(`③ ${r.id} の before ${r.before.ratio} が記録 ${REC[r.id]} と違う`);
           if (!(Math.abs(r.after.ratio - 1) <= 1e-3)) bad.push(`③ ${r.id} の after ${r.after.ratio} が 1 と 1e−3 以内でない`);
         }
       }
-      cases.push('比 ' + J.P.rows.map((r) => r.emoji + r.mode + ' ' + r.before.ratio.toFixed(4) + '→' + r.after.ratio.toFixed(4)).join('・'));
+      cases.push('比 ' + J.P.rows.map((r) => r.emoji + r.mode + ' ' + r.before.ratio.toFixed(4) + '→' + r.after.ratio.toFixed(4)).join('・')
+        + (has291bC ? '(第291便b: kf0 は伴星の宣言を外しても全質量源で源 2 —— 比 1.0000 のまま)' : ''));
       for (const q of J.Q.rows) {
         if (!(Math.abs(q.both - 1) <= 1e-3)) bad.push(`④ 制御二体 ${q.label} の両方源 ${q.both}`);
-        if (!(q.primaryOnly < 0.99)) bad.push(`④ 制御二体 ${q.label} の主星だけ源 ${q.primaryOnly}`);
+        if (has291bC) {
+          // 第291便b: 制御二体(kF0)も全質量源 —— 宣言を外した「主星だけ源」は源 2 のままで比は両方源とビット同一。照合先(伴星を源にしないと比が 1 から外れる)は
+          //   基点の記録 primaryOnlyBase(< 0.99)で残す
+          if (!(q.primaryOnly === q.both && JSON.stringify(q.nSources) === '[2,2]')) bad.push(`④ 制御二体 ${q.label} の宣言を外した行が全質量源(源 2・両方源とビット同一)でない ${q.primaryOnly}`);
+          if (!(q.primaryOnlyBase < 0.99)) bad.push(`④ 制御二体 ${q.label} の基点の主星だけ源 ${q.primaryOnlyBase}`);
+        } else if (!(q.primaryOnly < 0.99)) bad.push(`④ 制御二体 ${q.label} の主星だけ源 ${q.primaryOnly}`);
       }
-      cases.push('制御二体 ' + J.Q.rows.map((q) => q.label + ' ' + q.both.toFixed(5) + '/' + q.primaryOnly.toFixed(5)).join('・'));
+      cases.push('制御二体 ' + J.Q.rows.map((q) => q.label + ' ' + q.both.toFixed(5) + '/' + q.primaryOnly.toFixed(5) + (has291bC ? '(基点の主星だけ源 ' + q.primaryOnlyBase.toFixed(5) + ')' : '')).join('・'));
       const C = J.M.cLight;
       if (!(Math.abs(C.relToExpected) <= 1e-4)) bad.push(`⑤ ☄️ の λ 増分の比 ${C.incRatio} が (30000/29979.2458)² と違う`);
       const calSrc = fs.readFileSync(path.join(ROOT, 'tests', 'exp-w249b-calaudit.mjs'), 'utf8');
@@ -66723,8 +66764,17 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       cases.push('ASTRO_COMMON・組立・指示文が真値');
       const J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsource-w286b.json'), 'utf8'));
       if (!(J.K && J.K.ok === true)) bad.push('④ 正本の (K) が ok でない: ' + JSON.stringify((J.K || {}).bad || '').slice(0, 120));
-      if (!(J.G && J.G.changedUndeclared.length === 0)) bad.push('④ 宣言の外で動いた本: ' + ((J.G || {}).changedUndeclared || []).join(','));
-      cases.push(`前後 ${J.G.bitSameMany}/${J.G.n}(ビット)・${J.G.sigSame}/${J.G.n}(署名)—— 違う本 ⊆ 宣言した ${J.G.declaredN} 本`);
+      // 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133)の世代(html に pnOrbitalSource): kF0 の 1PN 源が全質量源になって動いた本
+      //   (正本 tests/out/pnsources-w291b.json の B.changed —— 機械の一覧)も、基点 b92ffa1 との前後で動いてよい本に加える
+      let W291B = [];
+      if (html.indexOf('function pnOrbitalSource(') >= 0) {
+        try { W291B = (JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'pnsources-w291b.json'), 'utf8')).B || {}).changed || []; } catch (e) { W291B = []; }
+        if (!W291B.length) bad.push('④ 第291便b の源集合で動いた本の一覧(pnsources-w291b.json の B.changed)が読めない');
+      }
+      const undecl = ((J.G || {}).changedUndeclared || []).filter((id) => !W291B.includes(id));
+      if (!(J.G && undecl.length === 0)) bad.push('④ 宣言の外で動いた本: ' + undecl.join(','));
+      cases.push(`前後 ${J.G.bitSameMany}/${J.G.n}(ビット)・${J.G.sigSame}/${J.G.n}(署名)—— 違う本 ⊆ 宣言した ${J.G.declaredN} 本`
+        + (W291B.length ? `+第291便b の源集合で動いた本 ${W291B.length}(うち宣言の外 ${(J.G.changedUndeclared || []).length} 本: ${(J.G.changedUndeclared || []).join(',')})` : ''));
     } catch (e) { bad.push('一覧・正本が読めない: ' + String(e).slice(0, 160)); }
     add('lint.cLightTrue', bad.length === 0,
       `**cLight の真値と従属値**(第286便b・原仮定者の裁定(第76報)AN59・R104): ${cases.join(' / ')} —— G=6.674 の丸めと q_exact の直値は本便の範囲の外(一覧の dependents)`

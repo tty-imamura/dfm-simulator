@@ -105,9 +105,21 @@ const calRow = (id, kf0) => CAL.presets.find((p) => p.id === id && !!p.kf0Diagno
 //   🥶 の行は精密単位で dt の意味が 10 倍違うので流用しない)。出力には windowFrom:'history' を書く。
 const CHARON_HISTORY_W289 = Object.freeze({ window: { dt: 0.016, steps: 20694498, dtHalf: 0.008, stepsHalf: 41388996 },
   officialKf0: { period: { name: '公転周期(kFrame=0 対照・同方向1周)', meas: 551864.061362921,
-    rev: [551862.4613629306, 551864.061362921, 551864.0613629194, 551864.0613627129, 551864.0613627231, 551864.0613628624] } } });
+    rev: [551862.4613629306, 551864.061362921, 551864.0613629194, 551864.0613627129, 551864.0613627231, 551864.0613628624] } },
+  sourceSet: '旧源集合(第291便b の前 —— kF0 の 1PN 源は冥王星だけ)' });
+// 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133): kF0 の 1PN 源が**全質量源**(カロンも源 —— html の pnOrbitalSource)になり、
+//   ❄️ の写しの kF0 周期は上の履歴と 1 bit 一致しない(期待どおりの物理の変化)。新しい源集合の値は、本器の正本(tests/out/geo3-w280c.json・
+//   第291便の鎖 2 の再生成)の cases.charon.rows.C0.runs.dt.rev2S を履歴として固定する(tests/exp-w280d-charonInput.mjs の
+//   CHARON_FORMAL_HISTORY_W291.h と同じ値 —— 2 器で一致)。窓は W289 と同じ。周回ごとの列(rev)は判定器の行が無いので持たない。
+//   世代切替: html に pnOrbitalSource があれば W291・無ければ W289
+const CHARON_HISTORY_W291 = Object.freeze({ window: CHARON_HISTORY_W289.window,
+  officialKf0: { period: { name: '公転周期(kFrame=0 対照・同方向1周)', meas: 551864.0613634228, rev: null } },
+  sourceSet: '新しい源集合(第291便b —— kF0 の 1PN 源は全質量源)', sourceContract: 'w291b-eih-2' });
+const HAS291B = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function pnOrbitalSource(') >= 0;
+const CHARON_HISTORY = HAS291B ? CHARON_HISTORY_W291 : CHARON_HISTORY_W289;
+const CHARON_HISTORY_FROM = HAS291B ? 'history(geo3-w280c の第291便 鎖 2 の正本 C0 rev2S —— 新しい源集合・❄️ は第290便b で退役)' : 'history(geo3-w280c@f03bf5a —— ❄️ は第290便b で退役)';
 const windowOf = (id) => { const p = calRow(id, false);
-  if (!p && id === 'plutoCharonReal') return Object.assign({}, CHARON_HISTORY_W289.window, { windowFrom: 'history(geo3-w280c@f03bf5a —— ❄️ は第290便b で退役)' });
+  if (!p && id === 'plutoCharonReal') return Object.assign({}, CHARON_HISTORY.window, { windowFrom: CHARON_HISTORY_FROM });
   return { dt: p.run.dt, steps: p.run.steps, dtHalf: p.run.dtHalf ? p.run.dtHalf.dt : null,
   stepsHalf: p.run.dtHalf ? p.run.dtHalf.steps : null }; };
 const precOf = (id, kf0) => { const p = calRow(id, kf0); if (!p) return null; const q = p.quantities.find((z) => z.kind === 'precession');
@@ -246,7 +258,7 @@ if (!PART || PART === 'charon') {
   const dd = (a, b, tag, k) => { const x = rows[a].runs[tag], y = rows[b].runs[tag]; return (x && y && Number.isFinite(x[k]) && Number.isFinite(y[k])) ? x[k] - y[k] : null; };
   // ❄️ の kF0 の値は正本の**既定行**の周期量「公転周期(kFrame=0 対照・同方向1周)」(kf0 診断行ではない)
   const offP = (() => { const p = calRow('plutoCharonReal', false); const q = p && p.quantities.find((z) => z.kind === 'period' && /kFrame=0/.test(z.name));
-    if (!p) return Object.assign({}, CHARON_HISTORY_W289.officialKf0.period, { from: 'history(geo3-w280c@f03bf5a —— ❄️ は第290便b で退役)' });   // 第290便b
+    if (!p) return Object.assign({}, CHARON_HISTORY.officialKf0.period, { from: CHARON_HISTORY_FROM, sourceSet: CHARON_HISTORY.sourceSet });   // 第290便b・第291便b の世代切替
     return q ? { name: q.name, meas: q.meas, rev: q.detail ? q.detail.revSec : null } : {}; })();
   out.cases.charon = { base: 'plutoCharonReal', window: W, background: charonBg, uBackgroundMS: charonBg.A0[1] / charonBg.W0 * 1e4,
     unitsNote: '1 単位 = 10⁶ m / 10² s(速度 1 単位 = 10⁴ m/s)', officialKf0: { period: offP }, rows };
