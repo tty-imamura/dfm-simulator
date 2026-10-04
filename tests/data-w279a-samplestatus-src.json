@@ -1173,11 +1173,11 @@
     "tests/out/calaudit-w249.json",
     "docs.calibration-verdict-sync"
    ],
-   "holdRemedy": "月の恒星月・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "恒星月は観測 σ を観測表に宣言して σ 接続器に入れる(残差 2.4×10⁻⁶)。離心率は e↔eProxy の写像を宣言する。近点は太陽(第三体)が作る量で、二体の 1PN は観測の 4×10⁻⁹ —— 1PN の是正では解けない",
    "en": {
     "purpose": "Compare the real Earth and Moon in real units with kF0",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "declare the observed σ of the Moon's sidereal month, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "declare the observed σ of the sidereal month and add it to the σ connector (residual 2.4e-6); declare the e ↔ eProxy mapping for the eccentricity. The apsidal motion is made by the Sun (a third body) and the two-body 1PN gives 4e-9 of it: a 1PN fix cannot resolve it"
    }
   },
   "earthMoonRealKF1": {
@@ -1228,11 +1228,11 @@
     "behavior.emAudit",
     "tests/out/calaudit-w249.json"
    ],
-   "holdRemedy": "月の恒星月・離心率・近点回転の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "周期の行は観測 σ を σ 接続器に入れる。近点の行は理想化の床(2D・円軌道の太陽・傾斜なし・J2 なし)の −1.1% が残り、現実の σ では否になりうる —— σ 接続を合への手順と書かない。近点は第三体の量で、1PN の是正では解けない",
    "en": {
     "purpose": "Get the lunar apsidal rotation from solar perturbation alone",
     "state": "the direction is prograde; the period is only recorded",
-    "holdRemedy": "declare the observed σ of the Moon's sidereal month, eccentricity and apsidal rotation in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "for the period row, add the observed σ to the σ connector. The apsidal row keeps the −1.1% floor of the idealisation (2D, Sun on a circular orbit, no tilt, no J2) and can fail with the real σ, so σ connection is not a route to a pass. The apsidal motion is a third-body quantity: a 1PN fix cannot resolve it"
    }
   },
   "earthMoonDiagOne": {
@@ -1281,11 +1281,11 @@
     "tests/out/mercury-w280a.json",
     "docs.calibration-verdict-sync"
    ],
-   "holdRemedy": "近日点前進を h/h2/h4 の同じ窓で収束させ(刻み間差が数値の予算に入るまで)刻みと窓を宣言し、公転周期・離心率は観測 σ を観測表に宣言する → 判定器が 4 値を出す",
+   "holdRemedy": "近日点前進は軟化(判定行の写しで不足の 8.8%)を宣言誤差として分離し、刻み h/h2/h4 の収束を正の次数で示す(刻みが不足の 91.2%)。1PN は解析値どおりで原因ではない。公転周期は観測 σ を、離心率は e↔eProxy の写像を宣言する",
    "en": {
     "purpose": "Compare Mercury's perihelion advance with kF0",
     "state": "the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%",
-    "holdRemedy": "converge the perihelion advance over h/h2/h4 in the same window (until the step difference fits the numerical budget) and declare the step and the window; declare the observed σ of the orbital period and eccentricity in the observation table → the judge gives one of the four verdicts"
+    "holdRemedy": "separate the softening (8.8% of the shortfall in the judge copy) as a declared error and show convergence over the steps h/h2/h4 with a positive order (the step is 91.2% of the shortfall); the 1PN term matches the analytic value and is not the cause. Declare the observed σ of the period and the e ↔ eProxy mapping"
    }
   },
   "mercuryRealKF1": {
@@ -1324,11 +1324,11 @@
     "tests/out/tpsign-w284e.json",
     "behavior.testParticleSigned"
    ],
-   "holdRemedy": "水星・金星・地球・火星の公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "4 惑星の公転周期は観測 σ を σ 接続器に入れる(残差 ≤4×10⁻⁵)。離心率は円軌道の理想化(金星 −99.6%)で、e↔eProxy と初期状態の写像が先。近点は他の惑星(第三体)が作る量で、1PN の是正では解けない",
    "en": {
     "purpose": "Compare the periods of the four inner planets in real units",
     "state": "runs in the ledger (groups as test particles; signing before/after recorded per quantity)",
-    "holdRemedy": "declare the observed σ of Mercury, Venus, Earth and Mars's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "add the observed σ of the four planets' orbital periods to the σ connector (residuals ≤ 4e-5). The eccentricities come from circular-orbit idealisation (Venus −99.6%), so the e ↔ eProxy and initial-state mapping comes first. The apsidal motions are made by the other planets (third bodies): a 1PN fix cannot resolve them"
    }
   },
   "jupiterGalilean": {
@@ -1339,11 +1339,11 @@
     "tests/out/calaudit-w249.json",
     "docs.calibration-verdict-sync"
    ],
-   "holdRemedy": "イオ・エウロパ・ガニメデ・カリストの公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "4 衛星の公転周期・近点の観測 σ を観測表に宣言して σ 接続器に入れる(周期の残差はイオの 4.9×10⁻⁴ まで —— 1PN の桁 10⁻⁹ の外で、1PN の是正では解けない)。離心率は e↔eProxy の写像を宣言する",
    "en": {
     "purpose": "Apply the rule to Jupiter's four moons without refitting",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "declare the observed σ of Io, Europa, Ganymede and Callisto's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "declare the observed σ of the four moons' periods and apsidal motions and add them to the σ connector (period residuals up to 4.9e-4 for Io, far outside the 1PN size of 1e-9: a 1PN fix cannot resolve them); declare the e ↔ eProxy mapping for the eccentricities"
    }
   },
   "venusReal": {
@@ -1354,11 +1354,11 @@
     "tests/out/calaudit-w249.json",
     "behavior.venusReal"
    ],
-   "holdRemedy": "金星の公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "公転周期は観測 σ を σ 接続器に入れる(残差 1.4×10⁻⁵)。離心率(+3.3%)は入力と比較値を同一解・同一元期に揃えて e↔eProxy の写像を宣言する —— 1PN(10⁻⁸ の桁)の是正では解けない",
    "en": {
     "purpose": "Compare a free-centre Sun–Venus pair in real units",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "declare the observed σ of Venus's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "add the observed σ of the orbital period to the σ connector (residual 1.4e-5). For the eccentricity (+3.3%), align the input and the comparison value to the same solution and epoch and declare the e ↔ eProxy mapping: a fix of the 1PN term (size 1e-8) cannot resolve it"
    }
   },
   "marsMoonsReal": {
@@ -1369,11 +1369,11 @@
     "tests/out/calaudit-w249.json",
     "behavior.marsMoonsReal"
    ],
-   "holdRemedy": "フォボス・ダイモスの公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "フォボス・ダイモスの公転周期は観測 σ を σ 接続器に入れる。離心率は e↔eProxy の写像を宣言する。近点は火星の帯状重力(J2)が作る量で 1PN は観測の 10⁻⁶ 以下 —— 1PN の是正では解けない(J2 の宣言が先)",
    "en": {
     "purpose": "Compare Mars's two moons in real units",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "declare the observed σ of Phobos and Deimos's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "add the observed σ of Phobos' and Deimos' periods to the σ connector; declare the e ↔ eProxy mapping for the eccentricities. The apsidal motions are made by Mars' zonal gravity (J2) and 1PN gives at most 1e-6 of them: a 1PN fix cannot resolve them (declaring J2 comes first)"
    }
   },
   "plutoCharonReal": {
@@ -1429,11 +1429,11 @@
     "tests/out/calaudit-w249.json",
     "tests/out/charoninput-w280d.json"
    ],
-   "holdRemedy": "カロンの公転周期を h/h2/h4 の同じ窓で収束させ(数値の予算の門を通るまで)、刻みと窓を宣言する → 判定器が 4 値を出す",
+   "holdRemedy": "同一解・同一元期の状態ベクトル(または軌道要素)と GM・共分散・座標時を揃える(閉じた式だけで +7.216805 s が残る —— 刻みの細分化では消えない)。1PN の源集合の寄与は 10⁻⁷ s の桁で、1PN の是正では解けない",
    "en": {
     "purpose": "Pluto–Charon from one observed solution (❄️'s successor)",
     "state": "verdict from the canonical output; residual is a definition gap",
-    "holdRemedy": "converge Charon's orbital period over h/h2/h4 in the same window (until it passes the numerical-budget gate) and declare the step and the window → the judge gives one of the four verdicts"
+    "holdRemedy": "align the state vector (or orbital elements), GM with covariance and coordinate time to the same solution and epoch (the closed form alone leaves +7.216805 s, which step refinement does not remove). The 1PN source set contributes at the 1e-7 s level: a 1PN fix cannot resolve it"
    }
   },
   "plutoCharonSyncZero": {
@@ -1470,11 +1470,11 @@
     "tests/out/tpsign-w284e.json",
     "behavior.testParticleSigned"
    ],
-   "holdRemedy": "ミランダ・アリエル・ウンブリエル・チタニア・オベロンの公転周期・離心率・近点移動(とミランダの自転)の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "5 衛星の公転周期と天王星の自転は観測 σ を σ 接続器に入れる(周期の残差はミランダの 6.8×10⁻⁴ まで)。離心率は e↔eProxy の写像を宣言する。近点は天王星の帯状重力が作る量で 1PN は観測の 10⁻⁵ —— 1PN の是正では解けない",
    "en": {
     "purpose": "Compare Uranus's rings and five moons in real units",
     "state": "runs in the ledger (groups as test particles; signing before/after recorded per quantity)",
-    "holdRemedy": "declare the observed σ of Miranda, Ariel, Umbriel, Titania and Oberon's orbital period, eccentricity and apsidal advance (and Miranda's spin) in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "add the observed σ of the five moons' periods and Uranus' spin to the σ connector (period residuals up to 6.8e-4 for Miranda); declare the e ↔ eProxy mapping for the eccentricities. The apsidal motions are made by Uranus' zonal gravity and 1PN gives 1e-5 of them: a 1PN fix cannot resolve them"
    }
   },
   "neptuneReal": {
@@ -1485,11 +1485,11 @@
     "tests/out/calaudit-w249.json",
     "behavior.neptuneReal"
    ],
-   "holdRemedy": "トリトンの公転周期・自転・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "トリトンの公転周期と自転は観測 σ を σ 接続器に入れる(周期の残差 4.2×10⁻⁵)。離心率は e↔eProxy の写像を宣言する。近点は海王星の帯状重力が作る量で 1PN は観測の 4×10⁻⁵ —— 1PN の是正では解けない",
    "en": {
     "purpose": "Compare the retrograde moon Triton in real units",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "declare the observed σ of Triton's orbital period, spin, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "add the observed σ of Triton's period and spin to the σ connector (period residual 4.2e-5); declare the e ↔ eProxy mapping for the eccentricity. The apsidal motion is made by Neptune's zonal gravity and 1PN gives 4e-5 of it: a 1PN fix cannot resolve it"
    }
   },
   "saturnZonalD68": {
@@ -1539,11 +1539,11 @@
     "tests/out/tpsign-w284e.json",
     "behavior.testParticleSigned"
    ],
-   "holdRemedy": "C環内縁・ミマス・タイタンの公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "C環内縁・ミマス・タイタンの公転周期・近点の観測 σ を観測表に宣言して σ 接続器に入れる。離心率は e↔eProxy の写像を宣言する。C環内縁の周期の残差 −0.27% は 1PN(10⁻⁸ の桁)の外で、1PN の是正では解けない",
    "en": {
     "purpose": "Compare Saturn's rings in real units with kF0",
     "state": "runs in the ledger (groups as test particles; signing before/after recorded per quantity)",
-    "holdRemedy": "declare the observed σ of the inner edge of ring C, Mimas and Titan's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "declare the observed σ of the periods and apsidal motions of ring C's inner edge, Mimas and Titan and add them to the σ connector; declare the e ↔ eProxy mapping. The −0.27% period residual of ring C's inner edge is far outside the 1PN size (1e-8): a 1PN fix cannot resolve it"
    }
   },
   "saturnRingRealKF1": {
@@ -1621,11 +1621,11 @@
     "tests/out/calaudit-w249.json",
     "docs.calibration-verdict-sync"
    ],
-   "holdRemedy": "公転周期と近点前進を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す",
+   "holdRemedy": "公転周期は σ の 10⁶ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する",
    "en": {
     "purpose": "Compare the double pulsar with kF0",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "converge the orbital period and periastron advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts"
+    "holdRemedy": "the orbital period differs by 1e6 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the periastron advance over h/h2/h4, and declare the e_T ↔ eProxy mapping"
    }
   },
   "psrDoubleABDFM": {
@@ -1675,11 +1675,11 @@
     "tests/out/calaudit-w249.json",
     "docs.calibration-verdict-sync"
    ],
-   "holdRemedy": "公転周期と近点移動を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す",
+   "holdRemedy": "公転周期は σ の 4200 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する",
    "en": {
     "purpose": "Compare J1757 with the observed masses (f=1, geoPN=1)",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "converge the orbital period and apsidal advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts"
+    "holdRemedy": "the orbital period differs by 4200 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the apsidal advance over h/h2/h4, and declare the e_T ↔ eProxy mapping"
    }
   },
   "psrJ1946DFM": {
@@ -1690,11 +1690,11 @@
     "tests/out/calaudit-w249.json",
     "docs.calibration-verdict-sync"
    ],
-   "holdRemedy": "公転周期と近点移動を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す",
+   "holdRemedy": "公転周期は σ の 10⁵ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する",
    "en": {
     "purpose": "J1946 at the observed masses (f=1, geoPN=1)",
     "state": "the runs are in the ledger",
-    "holdRemedy": "converge the orbital period and apsidal advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts"
+    "holdRemedy": "the orbital period differs by 1e5 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the apsidal advance over h/h2/h4, and declare the e_T ↔ eProxy mapping"
    }
   },
   "psrDoubleABPN": {
@@ -1783,11 +1783,11 @@
     "tests/out/calaudit-w249.json",
     "docs.calibration-verdict-sync"
    ],
-   "holdRemedy": "公転周期と近点移動を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す",
+   "holdRemedy": "公転周期は σ の 10⁵ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する",
    "en": {
     "purpose": "Check B1534's observed inputs with kF0",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "converge the orbital period and apsidal advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts"
+    "holdRemedy": "the orbital period differs by 1e5 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the apsidal advance over h/h2/h4, and declare the e_T ↔ eProxy mapping"
    }
   },
   "psrB1534DFM": {
@@ -1824,11 +1824,11 @@
     "tests/out/calaudit-w249.json",
     "behavior.gw150914"
    ],
-   "holdRemedy": "公転周期・離心率・近点移動の比較値に観測 σ を宣言し、判定器の σ 対応表(tests/exp-w249b-calaudit.mjs の SIGMA_BODY)に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "GM/(c²a)≈0.05 の強場で、保守的な 1PN の範囲外 —— 1PN の照合の対象にしない。判定に入れるには 2PN・放射反作用の扱いと、公転周期・離心率の比較値の観測 σ(判定器の SIGMA_BODY)を宣言する",
    "en": {
     "purpose": "Transcribe GW150914's reference state before merger",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "declare the observed σ of the orbital period, eccentricity and apsidal advance comparison values and add them to the judge's σ table (SIGMA_BODY in tests/exp-w249b-calaudit.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "a strong field with GM/(c²a) ≈ 0.05, outside the conservative 1PN range: not a target of the 1PN comparison. To enter the judge, declare the treatment of 2PN and radiation reaction and the observed σ of the period and eccentricity comparison values (the judge's SIGMA_BODY)"
    }
   },
   "gw150914DFM": {
@@ -1852,11 +1852,11 @@
     "tests/out/calaudit-w249.json",
     "docs.calibration-verdict-sync"
    ],
-   "holdRemedy": "融合時刻・公転周期・離心率・近点移動の比較値に観測 σ を宣言し、判定器の σ 対応表(tests/exp-w249b-calaudit.mjs の SIGMA_BODY)に入れる → 判定器が 4 値を出す",
+   "holdRemedy": "GM/(c²a)≈0.05 の強場で、保守的な 1PN の範囲外 —— 1PN の照合の対象にしない。判定に入れるには 2PN・放射反作用の扱いと、融合時刻・公転周期・離心率の比較値の観測 σ(判定器の SIGMA_BODY)を宣言する",
    "en": {
     "purpose": "Run the ~4 s merger with a declared radiation direction and dose",
     "state": "the comparison runs are in the ledger",
-    "holdRemedy": "declare the observed σ of the merger time, orbital period, eccentricity and apsidal advance comparison values and add them to the judge's σ table (SIGMA_BODY in tests/exp-w249b-calaudit.mjs) → the judge gives one of the four verdicts"
+    "holdRemedy": "a strong field with GM/(c²a) ≈ 0.05, outside the conservative 1PN range: not a target of the 1PN comparison. To enter the judge, declare the treatment of 2PN and radiation reaction and the observed σ of the merger time, period and eccentricity comparison values (the judge's SIGMA_BODY)"
    }
   },
   "gw150914SpinDipole": {

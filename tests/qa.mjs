@@ -2327,7 +2327,10 @@ if (QA_CHANGED) {
       'tests/out/spiral-w290e.json',
       // 第291便d(原仮定者の裁定(第81報)⑥・R135): 背景の精査 —— 新しい慣性決定力の核が背景(D₀・Wbg・backgroundComplex・spaceMesh.D0)・q・自転を読まないこと・
       //   共通並進/一様加速度は消え回転/潮汐は残ること・旧正規化の場では Wbg が分母に残ること(target=beta/index.html —— Node だけ・html だけを読む —— 鎖の段 bgaudit291)
-      'tests/out/bgaudit-w291d.json'];
+      'tests/out/bgaudit-w291d.json',
+      // 第292便a(原仮定者の裁定(第82報)④・R137): 現実較正 20 本の判定行ごとの主因分類(target=beta/index.html —— Node だけ・正本を読むだけ・
+      //   inputs に calaudit-w249・solarsigma-w262d・charoninput-w280d・mercury-w280a・pnsources-w291b —— 鎖の段 calcause292 はそれらの書き手の後)
+      'tests/out/calcause-w292a.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -21832,6 +21835,7 @@ if (!FAST) {
 // ----     ③ 機械鍵と ID は改名しない —— darkrotor の出現数が基点 cf2da0a と同じ・rotorSolo/selfRotor/nebulaRotor/darkRotor/haloDimming/
 // ----        darkrotor-pitch/rotorInFStar は基点以上・3 本の表示名(ja/en)が新しい語・SYSTEM_PROMPT に旧語が無い。
 // ----     ④ 「複素核」は 0(「」で括った語の言及だけ可)—— html(生成領域を含む)・原稿・PHYSICS・AI_SPEC・README。CHANGELOG の 1 行。
+// ----     ⑤ 第292便a(AN150 の確定): tests/README の題材チップの表と html の題材チップの英語に旧訳「optically cloaked」が無く、新しい語 optical-camouflage dwarf がある。
 {
   const Pd291 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
   const has291a = TARGET.startsWith('beta/') && Pd291.indexOf('**用語(第291便a・') >= 0;
@@ -21901,11 +21905,99 @@ if (!FAST) {
       if (n) bad.push(`${nm} に「複素核」${n} 件(言及の「」の外)`);
     }
     if (html.split('慣性決定力の核(相対移動×m/r²・手前/反対)').length - 1 !== 6) bad.push('アナロジー 6 本の説明の「慣性決定力の核」が 6 でない');
+    // ⑤ 第292便a(AN150 の確定 optical-camouflage dwarf): tests/README の題材チップの表と html の題材チップの英語(ppTopic_cloakedDwarf・説明)に
+    //   旧訳「optically cloaked」が無く、新しい語がある(機械鍵 cloakedDwarf は不変)
+    const TRM = rd('tests', 'README.md');
+    for (const [nm, t] of [['tests/README', TRM], ['html', body]]) if (/optically cloaked/i.test(t)) bad.push(nm + ' に旧訳「optically cloaked」が残る');
+    if (TRM.indexOf('| cloakedDwarf | 光学迷彩矮星 / Optical-camouflage dwarf |') < 0) bad.push('tests/README の題材チップの表の英語が optical-camouflage dwarf でない');
+    if (body.indexOf('ppTopic_cloakedDwarf:"Optical-camouflage dwarf"') < 0) bad.push('html の題材チップの英語が optical-camouflage dwarf でない');
+    cases.push('題材チップの英語(tests/README・html)は optical-camouflage dwarf・旧訳 0');
     const CL = rd('CHANGELOG.md');
     if ((CL.match(/^- \*\*第291便a\(/mg) || []).length !== 1) bad.push('CHANGELOG の第291便a の行が 1 行でない');
     cases.push('「複素核」は言及の「」の外に 0(html・原稿・PHYSICS・AI_SPEC・README)・アナロジー 6 本の説明は「慣性決定力の核」・CHANGELOG の 1 行');
     add('docs.terminologyOpticalCamouflage', bad.length === 0,
       `**用語「光学迷彩矮星」(旧称: ダークローター)と「慣性決定力の核」**(第291便a・原仮定者の裁定(第81報)④・AN142・R132 —— 表示と文書の語だけ・ID と機械鍵は改名しない): ${cases.join(' / ')}`
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 8c1i‴) 第292便a(原仮定者の裁定(第82報)④「『現実較正』サンプルを『較正 合』にしていくために、GR の 1PN との差を精査する。できない場合は
+// ----   その理由を分析する」・統括の検証項目 R137): **主因分類便**。**root では SKIP**(beta 線の器と正本 —— 物理は 1 bit も変えていない)。
+// ----   docs.calCause …… 器 tests/exp-w292a-calcause.mjs・純関数 tests/lib-w292a-calcause.mjs・正本 tests/out/calcause-w292a.json(鎖の段 calcause292):
+// ----     ① 正本の版・規則表の指紋 = lib の現行(規則・閾値・語彙を変えたら器を走らせ直す)/ ② **今の入力(正本 calaudit・solarsigma・charoninput・
+// ----        mercury・pnsources)から lib で再導出した結果 = 正本**(数は相対 1e-12 —— 0 近傍は絶対 1e-12)/ ③ 較正母集団 20 本(calaudit の presets)の
+// ----        **すべてに分類がある**・分類は語彙 CLASSES の内・首位は語彙の内か null(門の中)・規則の id は RULES の内・合へ進みうる量の規則は CANDIDATE_RULES の内 /
+// ----     ④ docs/CALIBRATION_VERDICT_v1.44.md §5.40 の表(印 calcause-w292a:table の間)が正本から作った表と 1 字も違わない /
+// ----     ⑤ PHYSICS〔第292便a〕が「## 7.」の前にあり、4 層の比較の表・3 条件・合にできない理由がある / ⑥ 2 つの節に禁止語(「」の外)が無い /
+// ----     ⑦ CHANGELOG の第292便a の行が 1 行。
+{
+  const has292a = TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, 'tests', 'lib-w292a-calcause.mjs'));
+  if (!has292a) {
+    console.log('SKIP docs.calCause(第292便a 未適用 —— beta 線の器と正本 — ' + TARGET + ')');
+  } else {
+    const bad = [], cases = [];
+    try {
+      const L = await import('file://' + path.join(ROOT, 'tests', 'lib-w292a-calcause.mjs'));
+      const rdj = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
+      const canon = rdj('tests/out/calcause-w292a.json');
+      // ①
+      if (canon.version !== L.CALCAUSE_VERSION) bad.push(`① 正本の版 ${canon.version} ≠ ${L.CALCAUSE_VERSION}`);
+      if (canon.rulesSha256 !== L.rulesSha256()) bad.push('① 規則表の指紋が lib と違う(器を走らせ直すこと)');
+      // ②
+      const J = Object.fromEntries(Object.entries(L.INPUTS).map(([k, f]) => [k, rdj(f)]));
+      const B = L.buildCalCause(J);
+      if (B.errors.length) bad.push('② 再導出が止まった: ' + B.errors.slice(0, 2).join(' / '));
+      const der = { tally: B.tally, books: B.books, rows: B.rows, candidates: B.candidates, cannot: B.cannot, inGate: B.inGate };
+      const diff = [];
+      for (const k of Object.keys(der)) L.diffDerived(der[k], canon[k], '/' + k, diff);
+      if (diff.length) bad.push(`② 今の入力からの再導出が正本と ${diff.length} か所違う(器を走らせ直すこと): ${diff.slice(0, 3).join(', ')}`);
+      cases.push(`① 版 ${canon.version}・規則表の指紋一致 / ② 再導出 = 正本(${B.tally.books} 本・判定行 ${B.tally.rows}・差 ${diff.length})`);
+      // ③
+      const calIds = (J.cal.presets || []).map((p) => p.id).sort();
+      const bookIds = (canon.books || []).map((b) => b.id).sort();
+      if (calIds.length !== 20 || JSON.stringify(calIds) !== JSON.stringify(bookIds)) bad.push(`③ 本の集合が較正母集団(calaudit の presets ${calIds.length} 本)と違う`);
+      const noCls = (canon.books || []).filter((b) => !(b.classes || []).length).map((b) => b.id);
+      if (noCls.length) bad.push('③ 分類の無い本: ' + noCls.join(','));
+      const ruleIds = new Set(L.RULES.map((r) => r.id)), candIds = new Set(L.CANDIDATE_RULES.map((r) => r.id));
+      let nOut = 0;
+      for (const z of canon.rows || []) {
+        for (const c of z.classes || []) if (L.CLASS_KEYS.indexOf(c) < 0) nOut++;
+        if (z.primary !== null && L.CLASS_KEYS.indexOf(z.primary) < 0) nOut++;
+        if (z.primary === null && (z.classes || []).length) nOut++;
+        for (const h of z.rules || []) if (!ruleIds.has(h.rule)) nOut++;
+        if (z.candidate && !candIds.has(z.candidate)) nOut++;
+      }
+      if (nOut) bad.push(`③ 語彙・規則の外 ${nOut} 件`);
+      const prim = Object.entries(canon.tally.primary).filter(([, n]) => n).map(([k, n]) => k + ' ' + n).join('・');
+      cases.push(`③ 20 本すべてに分類・語彙の外 ${nOut}・首位 ${prim}・門の中 ${canon.tally.inGate}・合へ進みうる ${canon.tally.candidates}`);
+      // ④
+      const V = fs.readFileSync(path.join(ROOT, 'docs', 'CALIBRATION_VERDICT_v1.44.md'), 'utf8');
+      const b0 = V.indexOf('<!-- calcause-w292a:table:begin -->\n'), b1 = V.indexOf('<!-- calcause-w292a:table:end -->', b0);
+      if (!(b0 >= 0 && b1 > b0)) bad.push('④ VERDICT に表の印が無い');
+      else if (V.slice(b0 + '<!-- calcause-w292a:table:begin -->\n'.length, b1) !== L.renderVerdictTable(canon)) bad.push('④ VERDICT §5.40 の表が正本から作った表と違う(正本から転記し直すこと)');
+      if (V.indexOf('### 5.40 第292便a') < 0) bad.push('④ VERDICT に §5.40 が無い');
+      cases.push(`④ VERDICT §5.40 の表 ${(canon.rows || []).length} 行が転記一致`);
+      // ⑤
+      const P = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const p0 = P.indexOf('〔第292便a —'), p7 = P.indexOf('\n## 7. ');
+      if (!(p0 >= 0 && p7 > p0)) bad.push('⑤ PHYSICS〔第292便a〕が「## 7.」の前に無い');
+      const ps = p0 >= 0 ? P.slice(p0, P.indexOf('\n〔第', p0 + 5) > 0 && P.indexOf('\n〔第', p0 + 5) < p7 ? P.indexOf('\n〔第', p0 + 5) : p7) : '';
+      for (const need of ['**② 4 層の比較**', '| 加速度式 |', '| 数値積分 |', '| 観測への写像 |', '| 宇宙モデル |', '**③ 1PN を変えずに合へ進みうる 3 条件**', '**④ 合にできない理由**', '+7.216805 s', '14.6σ'])
+        if (ps.indexOf(need) < 0) bad.push('⑤ PHYSICS〔第292便a〕に ' + need + ' が無い');
+      // ⑥
+      const v0 = V.indexOf('### 5.40 第292便a'), v1 = V.indexOf('\n## ', v0);
+      const vs = v0 >= 0 ? V.slice(v0, v1 > 0 ? v1 : undefined) : '';
+      const FORB = /観測一致を達成|較正を完了|GR 1PN と同等が証明|σ を繋げば合になる|月を再現した|新発見|RC を切った/;
+      for (const [nm, t] of [['VERDICT §5.40', vs], ['PHYSICS〔第292便a〕', ps]])
+        for (const line of t.split('\n')) if (FORB.test(line.replace(/[「『][^」』]*[」』]/g, ''))) bad.push(`⑥ ${nm} に禁止語: ${line.slice(0, 40)}`);
+      cases.push('⑤ PHYSICS〔第292便a〕(4 層の表・3 条件・合にできない理由)・⑥ 禁止語 0');
+      // ⑦
+      const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+      if ((CL.match(/^- \*\*第292便a\(/mg) || []).length !== 1) bad.push('⑦ CHANGELOG の第292便a の行が 1 行でない');
+    } catch (e) { bad.push('読めない: ' + String(e).slice(0, 160)); }
+    add('docs.calCause', bad.length === 0,
+      `**主因分類**(第292便a・原仮定者の裁定(第82報)④・R137 —— 物理は不変・正本を読むだけ): ${cases.join(' / ')}`
+      + ' —— 主因が 1PN でない量を 1PN の是正で合にしない(分類は規則表で付ける・名前では付けない)'
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
@@ -65018,6 +65110,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
 // ----     文 = 行の文、無い本は "rule:<分類>" で文 = T(hr_<分類>) を「 / 」でつないだもの / 原稿(tests/data-w279a-samplestatus-src.json)の holdRemedy は ja・en の両方・
 // ----     上限・禁止語・合否の約束なし(lib の holdRemedyCheck)・原稿に行がある本は内蔵にあり保留である(生成領域に転記済みなら文が原稿と 1 字も違わない —— 鎖の前は「未転記」と記録)/
 // ----     ja・en の既定表の文が揃う / en の 1 行 / JS エラー 0。
+// ----     第292便a(R137): 原稿の sha が正本 samplestatus の入力の刻印と違う間(鎖の前)は、生成領域と食い違う行を「鎖待ち」と記録する(鎖の後は 1 字も違わないこと)・
+// ----     較正母集団の保留の本(正本 calaudit の verdictLedger —— 固定値にしない)はすべて原稿に保留の解き方を持つ。
 // ----   ui.pickerListEnd … 一覧(#ppList)の**最後の子**が .ppListEnd(role=separator・data-n なし・1 つだけ・.ppScopeEnd ではない)で、高さ ≥ 一覧の行の 1.4 倍 ——
 // ----     既定・題材の絞り込み・検索・一致 0 の検索・保存一覧ありの 5 状態とも / 一覧を末尾まで送ると最後の行の下端が区切りの上にある(最下段の行が箱の下端に貼り付かない)/
 // ----     presetSig・params 不変 / JS エラー 0。360×640(isMobile・タッチ)。
@@ -65188,7 +65282,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         o.rows.push({ id: p.id, emoji: p.emoji, src: want.src, text: want.text, retired: p.familyRole === 'retired', cal: st.calibration });
       }
       // 原稿 ↔ 内蔵・生成領域
-      o.srcBad = []; o.transcribed = 0;
+      o.srcBad = []; o.transcribed = 0; o.diffRows = [];
       for (const z of srcRows) {
         const p = BUILTIN_PRESETS.find((q) => q.id === z.id);
         if (!p) { o.srcBad.push(z.id + ':内蔵に無い'); continue; }
@@ -65196,7 +65290,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         const row = SAMPLE_STATUS[z.id] || {};
         if (row.holdRemedy !== undefined || (row.en || {}).holdRemedy !== undefined) {
           o.transcribed++;
-          if (row.holdRemedy !== z.ja || (row.en || {}).holdRemedy !== z.en) o.srcBad.push(z.id + ':生成領域の文が原稿と違う');
+          if (row.holdRemedy !== z.ja || (row.en || {}).holdRemedy !== z.en) o.diffRows.push(z.id);   // 第292便a: 鎖待ちの判定は外で(原稿 ↔ 正本の入力の sha)
         }
       }
       // en
@@ -65213,7 +65307,25 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     const rulesTxt = await pg.evaluate(() => Object.keys(I18N.ja).filter((k) => /^hr_/.test(k)).map((k) => I18N.ja[k] + ' ' + I18N.en[k]).join('\n'));
     if (SS.HOLD_REMEDY_PROMISE.test(rulesTxt) || SS.FORBIDDEN.test(rulesTxt)) bad.push('既定表の文に約束/禁止語');
     await ctx.close();
-    const regen = r.transcribed > 0 ? `生成領域に転記 ${r.transcribed}/${srcRows.length}` : `生成領域は未転記(鎖の samplestatus の段の前 —— 原稿 ${srcRows.length} 行)`;
+    // 第292便a(原仮定者の裁定(第82報)④・R137): 原稿の holdRemedy を主因分類に合わせて書き直した便では、生成領域(鎖の samplestatus の段が書く)が
+    //   原稿より古い間は文が食い違う。**原稿の sha が正本 samplestatus の入力の刻印と違う**(= 鎖の前)ときだけ、食い違う行を「鎖待ち」と記録する
+    //   (手で生成領域を書き換えない)。刻印と同じ(= 鎖の後)なら従来どおり 1 字も違わないこと(食い違えば FAIL)。
+    //   あわせて、較正母集団の保留の本(正本 calaudit の verdictLedger —— 固定値にしない)はすべて原稿に保留の解き方を持つこと。
+    const srcSha = crypto.createHash('sha256').update(fs.readFileSync(path.join(ROOT, 'tests', 'data-w279a-samplestatus-src.json'))).digest('hex');
+    let ssInSha = null, holdCal = [];
+    try { ssInSha = ((JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'samplestatus-w279a.json'), 'utf8')).meta || {}).inputs || [])
+      .find((z) => z.file === 'tests/data-w279a-samplestatus-src.json')?.sha256 || null; } catch (e) { ssInSha = null; }
+    try { holdCal = ((JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')).verdictLedger || {}).rows || [])
+      .filter((z) => z.verdict4 === '保留').map((z) => z.id); } catch (e) { holdCal = []; }
+    const chainPending = !!ssInSha && ssInSha !== srcSha;
+    if (r.diffRows.length && !chainPending) for (const id of r.diffRows) r.srcBad.push(id + ':生成領域の文が原稿と違う');
+    const srcIds = new Set(srcRows.map((z) => z.id));
+    const holdNoRemedy = holdCal.filter((id) => !srcIds.has(id));
+    if (!holdCal.length) bad.push('正本 calaudit の verdictLedger の保留が読めない');
+    for (const id of holdNoRemedy) bad.push(id + ':較正母集団の保留の本に原稿の保留の解き方が無い');
+    const regen = (r.transcribed > 0 ? `生成領域に転記 ${r.transcribed}/${srcRows.length}` : `生成領域は未転記(鎖の samplestatus の段の前 —— 原稿 ${srcRows.length} 行)`)
+      + (chainPending && r.diffRows.length ? `・原稿が正本 samplestatus の入力より新しい(鎖待ち ${r.diffRows.length} 行 —— 鎖の samplestatus の段で更新)` : '')
+      + `・較正母集団の保留 ${holdCal.length} 本(正本 calaudit)のうち原稿に解き方 ${holdCal.length - holdNoRemedy.length} 本`;
     const ok = bad.length === 0 && r.other.length === 0 && r.srcBad.length === 0 && r.textsOk && r.nHold > 0 && r.enOk && errs.length === 0
       && (r.transcribed === 0 || r.transcribed === srcRows.length);
     add('ui.holdRemedy', ok,

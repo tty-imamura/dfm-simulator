@@ -34,6 +34,7 @@
 //   'w290c-branch' … 第290便c の枝で器を走らせた実測(正本の elapsedS 4.2 —— Node の headless だけ・Chromium なし・他の枝と同じ容器で並走)。
 //   'w290e-branch' … 第290便e の枝で器を 1 回走らせた実測(正本の elapsedS 170.6 —— Node の headless 1 本・他の枝と同じ容器で並走)。
 //   'w291d-branch' … 第291便d の枝で器を走らせた実測(正本の elapsedS 2.5〜2.7 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
+//   'w292a-branch' … 第292便a の枝で器を走らせた実測(正本の elapsedS 1.5 —— Node だけ・正本を読むだけ・1 步も走らせない・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -655,6 +656,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgaudit-w291d.json': META_RUN.concat(['/elapsedS']) },
     note: '第291便d: 背景の精査表(D₀・Wbg・backgroundComplex・共通並進・一様加速度・回転・潮汐)—— 新核は背景を読まない(固定配置で u がビット同一 8 宣言)・'
       + '2 進の配置で共通並進がビット同一・走行中の 🐌🌚🌒 で丸め床以内・旧正規化の場の Wbg 依存と ∇D の不変・核と wbgStateOf の静的な参照' }),
+  // ---- 第292便a(原仮定者の裁定(第82報)④・統括の検証項目 R137): 現実較正 20 本の**判定行ごとの主因分類**(1PN の桁と残差・規則表で付けた分類・
+  //   合へ進みうる量と合にできない量)。正本を読むだけ(Node だけ・エンジンを 1 步も走らせない・html の本文を実行しない)。読む正本の書き手
+  //   (calaudit・dt3・kf0 —— calaudit の 2 ファイル / solarsigma / charonInput / mercury / pnsources291)の後に置く。所要は第292便a の枝の実測 1.5 秒
+  S('calcause292', 'node tests/exp-w292a-calcause.mjs && node tests/exp-w292a-calcause.mjs --check', ['tests/out/calcause-w292a.json'], 2, { secSource: 'w292a-branch', node: true,
+    after: ['calaudit', 'dt3', 'kf0', 'solarsigma', 'charonInput', 'mercury', 'pnsources291'],
+    volatilePaths: { 'tests/out/calcause-w292a.json': META_RUN.concat(['/elapsedS']) },
+    note: '第292便a: 較正母集団 20 本の判定行(gate.key ごと)—— 1PN の見積り(近点 6πGM/(c²a(1−e²))・周期/離心率 O(GM/(c²a)))と残差・1PN の是正で動く桁か・'
+      + '主因の分類(pn1/third-body/oblateness/mapping/numerics/sigma-unconnected/strong-field/pinned —— 規則表 RULES・根拠の欄つき)・合へ進みうる量(C1〜C3)' }),
 ];
 
 /**
