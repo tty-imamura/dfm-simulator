@@ -1,0 +1,800 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第292便d",
+  "target": "beta/index.html",
+  "targetSha256": "14c995b947a98f3282a2906d67aa14e76297e7231a86156abb9a99e7968baa15",
+  "generatedAt": "2026-10-04T16:13:44.551Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5665905,
+    "sha256": "14c995b947a98f3282a2906d67aa14e76297e7231a86156abb9a99e7968baa15",
+    "mtime": "2026-10-04T16:06:19.102Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w292d-tide.mjs",
+    "bytes": 31702,
+    "sha256": "5cd70a359cee26f61d94bc26409307040fc9be9b19000bd93d2ea414ef18659a",
+    "mtime": "2026-10-04T16:11:59.328Z"
+   },
+   {
+    "file": "tests/lib-w292d-tide.mjs",
+    "bytes": 11080,
+    "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
+    "mtime": "2026-10-04T15:38:19.170Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-04T15:27:38.358Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-04T15:27:38.350Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-04T15:27:38.362Z"
+   }
+  ],
+  "codeSha256": "3ef802cacd4833286a00084a7256d470b4e819a75e96771d4e861455a72d17c4",
+  "harnessVersion": "w292d-tide-1",
+  "libVersion": "w292d-tide-lib-1",
+  "engineVersion": "w292d-tide-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第82報)⑦ 慣性決定力版では引きずりの実装とともに潮汐力の実装も進める・引きずりと潮汐力が合わさることで自転速度に影響する高次の項が出現する・粒子を近似した多粒子サンプルでは潮汐力は無視するなど最適化を行う",
+  "reading": "統括の検証項目 R140(保存的な変形+散逸の遅延+自転へのトルク・opt-in・多粒子は足さない・引きずりとの交差項は診断帳簿)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
+  "gateA": "宣言なしの本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す(基点 html が要るので本正本に載せない)",
+  "notClaim": [
+   "月の後退率を再現した",
+   "地球の自転の減速の観測値を再現した",
+   "全系の保存則が閉じた",
+   "交差項が GR の高次 PN に当たる",
+   "観測一致を達成した",
+   "新発見"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "earthMoonReal",
+    "earthMoonTide",
+    "saturn",
+    "shapeToyArm"
+   ],
+   "roots": [
+    "$",
+    "HP.TIDE_INERTIA_FACTOR",
+    "HP.TIDE_STEP_VERSION",
+    "HP.allPresets",
+    "HP.ckRestoreOne",
+    "HP.ckSnapOne",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.inertialDragState",
+    "HP.sim",
+    "HP.tideCrossCheck",
+    "HP.tideEvalRates",
+    "HP.tideState",
+    "HP.validatePreset",
+    "T",
+    "cw"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 976,
+   "segments": 885,
+   "closureShare": 0.326
+  },
+  "scopeSha256": "d24be9cd3164b144523838b089baca238ebd188fe2683ab5b206a63dec2660a7",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "gateB": {
+  "actionReaction": {
+   "sumF": [
+    4.235164736271502e-22,
+    -5.293955920339377e-23
+   ],
+   "scale": 0.000003988558833552563,
+   "rel": 1.0700917027690284e-16,
+   "ok": true
+  },
+  "torqueBalance": {
+   "orbit": 4.891123127487507e-7,
+   "spin": -4.891123127487505e-7,
+   "residual": 2.117582368135751e-22,
+   "rel": 9.134985676007197e-17,
+   "ok": true
+  },
+  "workHeat": {
+   "work": -5.604867574670383e-7,
+   "cons": -2.519592268192016e-7,
+   "heat": 3.0852753064783675e-7,
+   "residual": 5.293955920339377e-23,
+   "rel": 1.3719792708732427e-16,
+   "heatPositive": true,
+   "ok": true
+  },
+  "syncZero": {
+   "n": 0.1075828707279838,
+   "torque": 0,
+   "heat": 0,
+   "consMag": 1.1257260588134427e-7,
+   "dissMag": 0,
+   "ok": true
+  },
+  "fastBrakes": {
+   "torqueFast": -5.813224370901567e-9,
+   "analytic": -5.813224370901566e-9,
+   "rel": 1.4229291005754544e-16,
+   "heatFast": 1.2508067320149368e-9,
+   "torqueSlow": 1.4533060927253918e-9,
+   "heatSlow": 7.817542075093351e-11,
+   "ok": true
+  },
+  "superTestZero": {
+   "superAndTest": true,
+   "pairsSuperAndTest": 0,
+   "onlyReceiverLeft": true,
+   "pairsOnlyReceiver": 0,
+   "ok": true
+  },
+  "ok": true
+ },
+ "gateC": {
+  "receivers": [
+   0,
+   1
+  ],
+  "forceBitSame": true,
+  "torqueBitSame": true,
+  "heatBitSame": true,
+  "tauMinBitSame": true,
+  "stateUntouched": true,
+  "spinPrec": "Float64Array",
+  "radiusStored": [
+   0.6000000238418579,
+   0.4000000059604645,
+   0.20000000298023224
+  ],
+  "heat": 3.0852759058396825e-7,
+  "tauMin": 646595.3500888919,
+  "ok": true
+ },
+ "gateD": {
+  "steps": 20000,
+  "inertia": [
+   12.155147777125288,
+   0.011120375007752413
+  ],
+  "omegaIsJoverI": true,
+  "dJstate": [
+   -1.9896161276959474e-14,
+   7.109102624207238e-17
+  ],
+  "dJbook": [
+   -1.989616127695956e-14,
+   7.10910262420723e-17
+  ],
+  "relDJ": [
+   4.282081180279249e-15,
+   1.040295994780592e-15
+  ],
+  "resync": {
+   "omegaSet": 0.007292107292098363,
+   "jAfter": 0.08863664174210852,
+   "expect": 0.08863664174210852,
+   "rel": 0,
+   "ok": true
+  },
+  "ok": true
+ },
+ "gateE": {
+  "decl": {
+   "M": 1,
+   "m": 0.1,
+   "a": 3,
+   "R": 0.5,
+   "k2": 0.5,
+   "lag": 100000000,
+   "spinFactor": 2,
+   "dt": 0.016,
+   "steps": 100,
+   "stepsHalf": 200
+  },
+  "full": {
+   "dt": 0.016,
+   "steps": 100,
+   "omega0": 0.4036867138796656,
+   "omegaEnd": 0.2287402730157461,
+   "nEnd": 0.22874027308491016,
+   "syncRel": -3.0236941852281617e-10,
+   "monotone": true,
+   "overshoot": false,
+   "minSyncRel": -3.094623543836097e-10,
+   "lockStep": 2,
+   "nsubMin": 83,
+   "nsubMax": 83,
+   "substeps": 8200,
+   "subCapped": 0,
+   "tauMinAll": 0.0019396946443032358,
+   "explicitGain": 7.248721027812815,
+   "residualE": -1.691355389077387e-17,
+   "residualL": 0,
+   "heat": 0.002344157710455368
+  },
+  "half": {
+   "dt": 0.008,
+   "steps": 200,
+   "omega0": 0.4036867138796656,
+   "omegaEnd": 0.22865821976927514,
+   "nEnd": 0.22865822218646328,
+   "syncRel": -1.0571184018552644e-8,
+   "monotone": true,
+   "overshoot": false,
+   "minSyncRel": -1.062053155503153e-8,
+   "lockStep": 3,
+   "nsubMin": 42,
+   "nsubMax": 42,
+   "substeps": 8200,
+   "subCapped": 0,
+   "tauMinAll": 0.0019421029997838735,
+   "explicitGain": 3.1192459930756904,
+   "residualE": 1.5178830414797062e-17,
+   "residualL": 0,
+   "heat": 0.002341980596048628
+  },
+  "omegaEndRel": 0.0003587179703388085,
+  "ok": true
+ },
+ "gateF": {
+  "diagOff": null,
+  "rows": [
+   {
+    "want": "maxN",
+    "label": "nine-body toy",
+    "off": "maxN",
+    "steps": 0,
+    "values": 188,
+    "bitSame": true,
+    "spinPrec": "Float32Array"
+   },
+   {
+    "want": "group",
+    "label": "saturn",
+    "off": "group",
+    "steps": 0,
+    "values": 4828,
+    "bitSame": true,
+    "spinPrec": "Float32Array"
+   },
+   {
+    "want": "shapeToy",
+    "label": "shapeToyArm",
+    "off": "group",
+    "steps": 0,
+    "values": 3608,
+    "bitSame": true,
+    "spinPrec": "Float32Array"
+   },
+   {
+    "want": "cloakedDwarf",
+    "label": "lightSweep:auto toy",
+    "off": "cloakedDwarf",
+    "steps": 0,
+    "values": 48,
+    "bitSame": true,
+    "spinPrec": "Float32Array"
+   }
+  ],
+  "maxNOverride": {
+   "off": null,
+   "steps": 300,
+   "receivers": 9,
+   "heatPositive": true,
+   "spinPrec": "Float64Array"
+  },
+  "ok": true
+ },
+ "gateG": {
+  "checkpoint": {
+   "values": 25,
+   "rerunBitSame": true
+  },
+  "xdotNoDrag": {
+   "bitSame": true
+  },
+  "split": {
+   "dJfull": -1.9905307001848793e-15,
+   "dJhalf": -1.9905307070651593e-15,
+   "rel": 3.4565053023235026e-9
+  },
+  "lag0": {
+   "dJ": [
+    0,
+    0
+   ],
+   "heat": 0,
+   "workCons": -6.289309437382229e-21,
+   "work": -6.2893094373822274e-21,
+   "consOnly": true
+  },
+  "inertia": {
+   "dOmegaHalf": -1.6306400674181987e-16,
+   "dOmegaSphere": -2.0469737016526324e-16,
+   "ratioStored": 1.2553191489361701,
+   "ratioJ": 1.2499999999999953,
+   "dJrel": 3.764914853563202e-15
+  },
+  "ok": true
+ },
+ "diag": {
+  "decl": {
+   "tide": {
+    "earth": {
+     "k2": 0.3,
+     "lag": 6
+    },
+    "moon": {
+     "k2": 0.024,
+     "lag": 6
+    }
+   },
+   "dt": 0.016,
+   "steps": 1475370,
+   "dtHalf": 0.008,
+   "stepsHalf": 2950740
+  },
+  "run": {
+   "dt": 0.016,
+   "steps": 1475370,
+   "T": 23605.920000000002,
+   "wallSec": 6.023,
+   "inertia": [
+    12.155147777125288,
+    0.011120375007752413
+   ],
+   "omega0": [
+    0.0072921,
+    0.00026617
+   ],
+   "J0": [
+    0.08863655310557532,
+    0.0000029599102158134597
+   ],
+   "dJ": [
+    -1.074392193823668e-12,
+    5.87666900494468e-16
+   ],
+   "dJrelEarth": -1.2121321917199957e-11,
+   "dOmega": [
+    -8.838936527144625e-14,
+    5.284596545085396e-14
+   ],
+   "dOmegaPerDay": [
+    -3.2351381176641094e-15,
+    1.9342145592943555e-15
+   ],
+   "naiveDOmega": [
+    0,
+    5.1671232396965916e-14
+   ],
+   "heat": 7.543641534915281e-15,
+   "work": -7.543668349647273e-15,
+   "workCons": -2.6814731794021906e-20,
+   "dL": 1.073804526923244e-12,
+   "residualE": -1.9721522630525295e-28,
+   "residualL": 7.02780403243295e-26,
+   "residualERel": -2.6143239361580795e-14,
+   "residualLRel": 6.541190519470929e-14,
+   "tauMinAll": 1567220838051.7354,
+   "substeps": 0,
+   "subCapped": 0,
+   "torqueMeanEarth": -4.551367596872598e-17,
+   "torqueAnalyticEarth": -4.4527759689632145e-17,
+   "ratioAnalytic": 1.0221416097725526,
+   "rEnd": 363.62532002865584
+  },
+  "half": {
+   "dt": 0.008,
+   "steps": 2950740,
+   "T": 23605.920000000002,
+   "wallSec": 11.038,
+   "inertia": [
+    12.155147777125288,
+    0.011120375007752413
+   ],
+   "omega0": [
+    0.0072921,
+    0.00026617
+   ],
+   "J0": [
+    0.08863655310557532,
+    0.0000029599102158134597
+   ],
+   "dJ": [
+    -1.0743921938414274e-12,
+    5.876669000860732e-16
+   ],
+   "dJrelEarth": -1.2121321917400319e-11,
+   "dOmega": [
+    -8.838936527144625e-14,
+    5.284596545085396e-14
+   ],
+   "dOmegaPerDay": [
+    -3.2351381176641094e-15,
+    1.9342145592943555e-15
+   ],
+   "naiveDOmega": [
+    0,
+    6.34380785749511e-14
+   ],
+   "heat": 7.543641535044001e-15,
+   "work": -7.54365494244104e-15,
+   "workCons": -1.340739667424693e-20,
+   "dL": 1.0738045269413728e-12,
+   "residualE": -3.6445373821210745e-28,
+   "residualL": 3.150394911090633e-26,
+   "residualERel": -4.831270633937693e-14,
+   "residualLRel": 2.932257819024706e-14,
+   "tauMinAll": 1567220838396.6738,
+   "substeps": 0,
+   "subCapped": 0,
+   "torqueMeanEarth": -4.5513675969478304e-17,
+   "torqueAnalyticEarth": -4.4527759689632145e-17,
+   "ratioAnalytic": 1.0221416097894482,
+   "rEnd": 363.6253200185806
+  },
+  "dJrelHalf": 1.6529663628527734e-11,
+  "naiveLost": true,
+  "ok": true
+ },
+ "cross": {
+  "decl": {
+   "dt": 0.016,
+   "steps": 1475370,
+   "gains": [
+    100,
+    1000,
+    10000
+   ],
+   "velocities": [
+    "v",
+    "xdot"
+   ],
+   "eps": 0.1
+  },
+  "tide": {
+   "earth": {
+    "k2": 0.3,
+    "lag": 6
+   },
+   "moon": {
+    "k2": 0.024,
+    "lag": 6
+   }
+  },
+  "baseline": {
+   "gain": 0,
+   "tide": false,
+   "velocity": "v",
+   "wallSec": 4.388,
+   "dJEarth": 0,
+   "dJMoon": 0,
+   "tideHeat": 0,
+   "tideDL": 0,
+   "tideMix": 0,
+   "dragDL": 0,
+   "dragWork": 0,
+   "dLorb": -4.829470157119431e-15,
+   "dEorb": -2.503287290997469e-16,
+   "Lorb": 0.2854937550380595,
+   "rEnd": 363.62532002636107,
+   "boundMax": 0
+  },
+  "tideOnly": {
+   "gain": 0,
+   "tide": true,
+   "velocity": "v",
+   "wallSec": 5.793,
+   "dJEarth": -1.074392193823668e-12,
+   "dJMoon": 5.87666900494468e-16,
+   "tideHeat": 7.543641534915281e-15,
+   "tideDL": 1.073804526923244e-12,
+   "tideMix": 0,
+   "dragDL": 0,
+   "dragWork": 0,
+   "dLorb": 1.0478284906412227e-12,
+   "dEorb": 3.493841500834538e-17,
+   "Lorb": 0.2854937550380595,
+   "rEnd": 363.62532002865584,
+   "boundMax": 0
+  },
+  "rows": [
+   {
+    "gain": 100,
+    "velocity": "v",
+    "X": {
+     "dJEarth": -6.571920387756764e-18,
+     "dJMoon": 5.556754405014509e-20,
+     "tideHeat": 4.5679137721052377e-20,
+     "tideDL": 6.516352764271777e-18,
+     "tideMix": 0,
+     "dragDL": -1.6345528704105146e-20,
+     "dragWork": 2.18924076402011e-17,
+     "dLorb": 3.991251773527438e-14,
+     "dEorb": 1.0252486793566051e-17
+    },
+    "XrelEarth": 0.000006116872800767355,
+    "aCoupling": 0.0000010615217932427678,
+    "XrelOverA": 5.762361959693124,
+    "XrelDragDL": -0.0018007794224242752,
+    "XrelDragWork": -0.019513962192511662,
+    "dragOnly": {
+     "dragDL": 9.076918861111927e-18,
+     "dragWork": -1.1218842910642795e-15,
+     "dLorb": 8.271161533457416e-15
+    },
+    "Lorb": 0.2854937550380595,
+    "tideOnlyDJEarth": -1.074392193823668e-12,
+    "boundMax": 0.0000024843709738273254
+   },
+   {
+    "gain": 100,
+    "velocity": "xdot",
+    "X": {
+     "dJEarth": -6.617729849403013e-18,
+     "dJMoon": 1.9017805783912048e-20,
+     "tideHeat": 4.632122911899236e-20,
+     "tideDL": 6.5987120357344365e-18,
+     "tideMix": 3.2104560035675813e-22,
+     "dragDL": -1.6345479705914377e-20,
+     "dragWork": 2.18924076402011e-17,
+     "dLorb": 3.991251773527438e-14,
+     "dEorb": 1.0252486793566051e-17
+    },
+    "XrelEarth": 0.0000061595103607846316,
+    "aCoupling": 0.0000010615217932427678,
+    "XrelOverA": 5.802528407794982,
+    "XrelDragDL": -0.0018007740243160054,
+    "XrelDragWork": -0.019513962192511662,
+    "dragOnly": {
+     "dragDL": 9.076918861111927e-18,
+     "dragWork": -1.1218842910642795e-15,
+     "dLorb": 8.271161533457416e-15
+    },
+    "Lorb": 0.2854937550380595,
+    "tideOnlyDJEarth": -1.074392193823668e-12,
+    "boundMax": 0.0000024843709738273254
+   },
+   {
+    "gain": 1000,
+    "velocity": "v",
+    "X": {
+     "dJEarth": -6.572266344799439e-17,
+     "dJMoon": 5.557388180577235e-19,
+     "tideHeat": 4.568151293516852e-19,
+     "tideDL": 6.51669246125762e-17,
+     "tideMix": 0,
+     "dragDL": 1.4545458390253828e-19,
+     "dragWork": 8.114409548448171e-18,
+     "dLorb": 3.774758283725532e-15,
+     "dEorb": 1.1722935989999517e-18
+    },
+    "XrelEarth": 0.00006117194803332772,
+    "aCoupling": 0.000010615217932427678,
+    "XrelOverA": 5.762665300206213,
+    "XrelDragDL": 0.00016012911256750286,
+    "XrelDragWork": -0.0007271995676268103,
+    "dragOnly": {
+     "dragDL": 9.083581465626465e-16,
+     "dragWork": -1.115843560651343e-14,
+     "dLorb": 2.758904216193514e-14
+    },
+    "Lorb": 0.2854937550380595,
+    "tideOnlyDJEarth": -1.074392193823668e-12,
+    "boundMax": 0.00002484370973827382
+   },
+   {
+    "gain": 1000,
+    "velocity": "xdot",
+    "X": {
+     "dJEarth": -6.618079381941964e-17,
+     "dJMoon": 1.902132757029719e-19,
+     "tideHeat": 4.632365347314755e-19,
+     "tideDL": 6.599058044879796e-17,
+     "tideMix": 3.210703937753261e-21,
+     "dragDL": 1.4545964897034864e-19,
+     "dragWork": 8.101710936640547e-18,
+     "dLorb": 3.774758283725532e-15,
+     "dEorb": 1.1722935989999517e-18
+    },
+    "XrelEarth": 0.00006159835691274708,
+    "aCoupling": 0.000010615217932427678,
+    "XrelOverA": 5.802834883358789,
+    "XrelDragDL": 0.0001601346886366222,
+    "XrelDragWork": -0.0007260615396580679,
+    "dragOnly": {
+     "dragDL": 9.083581465626465e-16,
+     "dragWork": -1.115843560651343e-14,
+     "dLorb": 2.758904216193514e-14
+    },
+    "Lorb": 0.2854937550380595,
+    "tideOnlyDJEarth": -1.074392193823668e-12,
+    "boundMax": 0.00002484370973827382
+   },
+   {
+    "gain": 10000,
+    "velocity": "v",
+    "X": {
+     "dJEarth": -6.575720125618232e-16,
+     "dJMoon": 5.563724794203797e-18,
+     "tideHeat": 4.5705227085609176e-18,
+     "tideDL": 6.520082876404401e-16,
+     "tideMix": 0,
+     "dragDL": -1.5093506218634076e-18,
+     "dragWork": -9.752543129330892e-18,
+     "dLorb": 3.7636560534792807e-14,
+     "dEorb": 9.771372079525609e-18
+    },
+    "XrelEarth": 0.0006120409440258327,
+    "aCoupling": 0.00010615217932427676,
+    "XrelOverA": 5.765693628918839,
+    "XrelDragDL": -0.000016603301430315953,
+    "XrelDragWork": 0.00008736376510117034,
+    "dragOnly": {
+     "dragDL": 9.090665661875448e-14,
+     "dragWork": -1.1163144260137028e-13,
+     "dLorb": 8.354428260304303e-14
+    },
+    "Lorb": 0.2854937550380595,
+    "tideOnlyDJEarth": -1.074392193823668e-12,
+    "boundMax": 0.0002484370973827954
+   },
+   {
+    "gain": 10000,
+    "velocity": "xdot",
+    "X": {
+     "dJEarth": -6.62156848545904e-16,
+     "dJMoon": 1.905650804816169e-18,
+     "tideHeat": 4.634786162415894e-18,
+     "tideDL": 6.602511976455084e-16,
+     "tideMix": 3.213185544785657e-20,
+     "dragDL": -1.5091196861276873e-18,
+     "dragWork": -6.679481657481601e-18,
+     "dLorb": 3.7636560534792807e-14,
+     "dEorb": 9.771372079525609e-18
+    },
+    "XrelEarth": 0.0006163083205112889,
+    "aCoupling": 0.00010615217932427676,
+    "XrelOverA": 5.805894183562377,
+    "XrelDragDL": -0.00001660076106919929,
+    "XrelDragWork": 0.00005983512800541028,
+    "dragOnly": {
+     "dragDL": 9.090665661875448e-14,
+     "dragWork": -1.1163144260137028e-13,
+     "dLorb": 8.354428260304303e-14
+    },
+    "Lorb": 0.2854937550380595,
+    "tideOnlyDJEarth": -1.074392193823668e-12,
+    "boundMax": 0.0002484370973827954
+   }
+  ],
+  "scaling": [
+   {
+    "velocity": "v",
+    "XperGain": [
+     -6.571920387756764e-20,
+     -6.572266344799439e-20,
+     -6.575720125618232e-20
+    ]
+   },
+   {
+    "velocity": "xdot",
+    "XperGain": [
+     -6.617729849403014e-20,
+     -6.618079381941964e-20,
+     -6.62156848545904e-20
+    ]
+   }
+  ],
+  "mixing": [
+   {
+    "gain": 100,
+    "dJEarth": -4.5809461646249317e-20,
+    "tideMix": 3.2104560035675813e-22
+   },
+   {
+    "gain": 1000,
+    "dJEarth": -4.581303714252501e-19,
+    "tideMix": 3.210703937753261e-21
+   },
+   {
+    "gain": 10000,
+    "dJEarth": -4.584835984080791e-18,
+    "tideMix": 3.213185544785657e-20
+   }
+  ],
+  "runs": [
+   {
+    "gain": 0,
+    "tide": false,
+    "velocity": "v",
+    "wallSec": 4.388
+   },
+   {
+    "gain": 0,
+    "tide": true,
+    "velocity": "v",
+    "wallSec": 5.793
+   },
+   {
+    "gain": 100,
+    "tide": false,
+    "velocity": "v",
+    "wallSec": 4.954
+   },
+   {
+    "gain": 100,
+    "tide": true,
+    "velocity": "v",
+    "wallSec": 6.231
+   },
+   {
+    "gain": 100,
+    "tide": true,
+    "velocity": "xdot",
+    "wallSec": 6.87
+   },
+   {
+    "gain": 1000,
+    "tide": false,
+    "velocity": "v",
+    "wallSec": 4.692
+   },
+   {
+    "gain": 1000,
+    "tide": true,
+    "velocity": "v",
+    "wallSec": 6.642
+   },
+   {
+    "gain": 1000,
+    "tide": true,
+    "velocity": "xdot",
+    "wallSec": 6.597
+   },
+   {
+    "gain": 10000,
+    "tide": false,
+    "velocity": "v",
+    "wallSec": 5.971
+   },
+   {
+    "gain": 10000,
+    "tide": true,
+    "velocity": "v",
+    "wallSec": 6.835
+   },
+   {
+    "gain": 10000,
+    "tide": true,
+    "velocity": "xdot",
+    "wallSec": 7.109
+   }
+  ],
+  "ok": true
+ },
+ "ok": true,
+ "elapsedS": 86.858
+}

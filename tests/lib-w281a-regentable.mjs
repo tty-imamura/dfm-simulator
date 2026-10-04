@@ -34,6 +34,7 @@
 //   'w290c-branch' … 第290便c の枝で器を走らせた実測(正本の elapsedS 4.2 —— Node の headless だけ・Chromium なし・他の枝と同じ容器で並走)。
 //   'w290e-branch' … 第290便e の枝で器を 1 回走らせた実測(正本の elapsedS 170.6 —— Node の headless 1 本・他の枝と同じ容器で並走)。
 //   'w291d-branch' … 第291便d の枝で器を走らせた実測(正本の elapsedS 2.5〜2.7 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
+//   'w292d-branch' … 第292便d の枝で器を走らせた実測(正本の elapsedS 約 85 —— Node の headless 1 本・Chromium なし・他の 3 枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -655,6 +656,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgaudit-w291d.json': META_RUN.concat(['/elapsedS']) },
     note: '第291便d: 背景の精査表(D₀・Wbg・backgroundComplex・共通並進・一様加速度・回転・潮汐)—— 新核は背景を読まない(固定配置で u がビット同一 8 宣言)・'
       + '2 進の配置で共通並進がビット同一・走行中の 🐌🌚🌒 で丸め床以内・旧正規化の場の Wbg 依存と ∇D の不変・核と wbgStateOf の静的な参照' }),
+  // ---- 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): 明示潮汐(physics.tide と天体の tide —— 定時間遅延 CTL)の門 b〜g と診断本 🌜 の
+  //   1 恒星月(dt 0.016・0.008)と、引きずり(relativeDrag.law:"inertial" —— 点源)との交差項(器の中の一時プリセット 11 走行)。
+  //   Node の headless(html だけを読む —— 他の正本は読まない)。慣性引きずりの器 inertial290 の後に置く(同じ inertial の経路を読む表の順)。
+  //   所要は第292便d の枝の実測(約 85 秒 —— 交差項の 11 走行が 70 秒)
+  S('tide292', 'node tests/exp-w292d-tide.mjs', ['tests/out/tide-w292d.json'], 85, { secSource: 'w292d-branch', node: true, after: ['inertial290'],
+    volatilePaths: { 'tests/out/tide-w292d.json': META_RUN.concat(['/elapsedS', '/diag/run/wallSec', '/diag/half/wallSec', '/cross/runs/*/wallSec']) },
+    note: '第292便d: 明示潮汐の門(純関数 6 項・エンジンの 1 回の評価が純関数とビット同一・J の更新と取り直し・サブステップ・足さない本 4 本の未宣言とのビット同一と maxN の上書き・'
+      + '復元・xdot/split/lag 0/inertia)と 🌜 の 1 恒星月(ΔJ・ΔΩ・熱・交換の残差・解析式との比・素朴な更新との比較・dt 半分)・引きずりとの交差項(4 条件 × v/xdot × gain 3 点)' }),
 ];
 
 /**

@@ -1960,6 +1960,7 @@ ja: {
   // 第157便(外部レビュー第3巡 P1): 現実較正(fidelity:"real")サンプル専用の文言。
   // 誇張アナログ用の nc_solar は同画面の実単位較正・現実準拠チップと矛盾するため分離した
   nc_solar_cal:"実在天体のうち明示した観測量だけを較正した2次元モデルです。太陽系全体・3次元摂動・未掲載の観測量まで再現するものではありません。",
+  nc_apsidal_8p85:"月の近点回転 8.85 年(主に太陽の摂動による)を再現・説明する本ではありません(太陽は入っていません)。",
   nc_thermo:"熱セクターは現実の熱力学との定量対応を主張しないアナロジーである。",
   // 第265便d(第57報 W4): LFBOT の**トイ仮説**(減光で蓄積した自光の崩壊放出)。実イベントの説明ではない
   nc_lfbot:"実在の高速青色トランジェント(LFBOT・AT2018cow 等)の説明・再現・予測ではない(仮説を法則の内側で組み立てたトイである)。",
@@ -3016,6 +3017,7 @@ en: {
   nc_solar:"Not a quantitative reproduction of real solar-system bodies (an exaggerated analog tuned for visibility).",
   // 第157便: wording reserved for the real-calibration family (fidelity:"real")
   nc_solar_cal:"A two-dimensional model calibrated only on the observables stated here for the real bodies named. It does not reproduce the solar system as a whole, three-dimensional perturbations, or any observable not listed.",
+  nc_apsidal_8p85:"Not a reproduction or explanation of the Moon's 8.85-year apsidal precession (mostly a solar perturbation) — the Sun is not in this sample.",
   nc_thermo:"The thermal sector is an analogy with no claimed quantitative correspondence to real thermodynamics.",
   // wave 265d: the LFBOT TOY HYPOTHESIS (trapped self-light released at collapse)
   nc_lfbot:"Not an explanation, reproduction or prediction of real luminous fast blue optical transients (LFBOTs such as AT2018cow) — it is a toy built from the hypothesis inside this universe's laws.",
@@ -6642,6 +6644,93 @@ function relativeDragMidpointBodyCheck(bodies, rd){
     if(!isNum(b.radius) || !(b.radius>0)) return 'physics.relativeDrag.integration:"midpoint" は正の半径(=正の慣性 I=½mR²)に限る(天体 '+i+')';
   }
   return null;
+}
+// ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **明示潮汐** `physics.tide`(本)と `tide`(天体)—— opt-in =====
+// 「慣性決定力版では引きずりの実装とともに潮汐力の実装も進める・粒子を近似した多粒子サンプルでは潮汐力は無視するなど最適化を行う」。
+// **三つの意味を分ける**(docs/PHYSICS.md〔第292便d〕の表):
+//   (1) 外部重力の潮汐テンソル T_ab=Gm(3n_an_b−δ_ab)/r³ —— 内部を粒子で解いている系では対重力が差動重力として既に持つ。
+//       宣言専用の `physics.backgroundTidal`(力に入っていない・5768 行付近)は**この鍵とは別の鍵・別の意味**(混ぜない・昇格もしない)。
+//   (2) 保存的な変形(誘起四重極・Love 数 k₂)—— 有効ポテンシャル U=−B_i/(2r⁶)・B_i=G k₂_i m_j² R_i⁵。
+//   (3) 散逸する潮汐(定時間遅延 CTL・遅延 Δt_i)—— 軌道とスピンの角運動量交換と熱。
+// **明示潮汐は、受け手が物理半径 radius>0 と k₂ を宣言した少数粒子だけに足す**(n≤maxN・single だけの本・群/形状トイ/光学迷彩矮星の本では
+// 足さない —— 対重力が潮汐と輸送を粒子間力として既に持つので二重計上になる)。宣言 `physics.tide:{maxN, model, velocity, inertia, split}`
+// (既定 maxN 8・model "ctl"・velocity "v"・inertia "half"〔現行エンジンの I=½mR²〕・split "full")と天体の `tide:{k2, lag}`
+// (k2∈(0,1.5]・lag≥0〔単位は本の時間単位 T〕)。**未宣言は 1 bit 不変**(build が `S.hasTide` を立てない = 外部ステップに 1 度も入らない)。
+const TIDE_KEY = "tide";
+const TIDE_STEP_VERSION = "w292d-tide-1";
+const TIDE_PHYS_KEYS = ["model","maxN","velocity","inertia","split"];
+const TIDE_BODY_KEYS = ["k2","lag"];
+const TIDE_MODELS = ["ctl"];                 // 定時間遅延(constant time lag)だけ —— 実在天体の広い周波数で正しいとは仮定しない
+const TIDE_VELOCITIES = ["v","xdot"];        // 潮汐が読む相対速度: "v"(既定)か同じ步の ẋ=v+u(慣性引きずりの u —— 宣言した本だけ)
+const TIDE_INERTIAS = ["half","sphere"];     // I=½mR²(既定 —— 現行エンジンの慣性)か 3 次元一様球の ⅖mR²(宣言で切替)
+const TIDE_SPLITS = ["full","half"];         // 1 步 1 回(引きずりの hook の直後)か半ステップ分割(核の前に半歩・引きずりの後に残り半歩)
+const TIDE_INERTIA_FACTOR = {half:0.5, sphere:0.4};
+const TIDE_MAXN_DEFAULT = 8, TIDE_MAXN_CLAMP = [2, 64];
+const TIDE_K2_MAX = 1.5;                     // 一様な流体球の k₂(上限 —— それを超える宣言は拒否)
+const TIDE_SUB_FRAC = 0.1, TIDE_SUB_MAX = 4096;   // dt>0.1·τ_tide なら潮汐だけを分割(上限を超えた步は数える —— clamp しない)
+const TIDE_OFF_REASONS = ["group","maxN","shapeToy","cloakedDwarf","noReceiver"];
+function validateTide(a){
+  if(a===null || a===undefined || a===false) return {ok:true, tide:null};
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:"physics.tide はオブジェクト({maxN, model, velocity, inertia, split})か null(潮汐テンソル T の宣言は別鍵 physics.backgroundTidal)"};
+  for(const k of Object.keys(a)) if(TIDE_PHYS_KEYS.indexOf(k)<0)
+    return {ok:false, err:"physics.tide に未知の鍵 "+k+"(maxN/model/velocity/inertia/split のみ —— k2・lag は天体の tide に書く)"};
+  const out={model:"ctl", maxN:TIDE_MAXN_DEFAULT, velocity:"v", inertia:"half", split:"full"};
+  if(a.model!==undefined && a.model!==null){
+    if(TIDE_MODELS.indexOf(a.model)<0) return {ok:false, err:'physics.tide.model は "ctl"(定時間遅延)のみ'};
+    out.model=a.model;
+  }
+  if(a.maxN!==undefined && a.maxN!==null){
+    if(!isNum(a.maxN) || a.maxN!==Math.round(a.maxN) || a.maxN<TIDE_MAXN_CLAMP[0] || a.maxN>TIDE_MAXN_CLAMP[1])
+      return {ok:false, err:"physics.tide.maxN は "+TIDE_MAXN_CLAMP[0]+"〜"+TIDE_MAXN_CLAMP[1]+" の整数(粒子数がこれを超える本では潮汐を足さない)"};
+    out.maxN=a.maxN;
+  }
+  for(const [k,list] of [["velocity",TIDE_VELOCITIES],["inertia",TIDE_INERTIAS],["split",TIDE_SPLITS]]){
+    if(a[k]===undefined || a[k]===null) continue;
+    if(list.indexOf(a[k])<0) return {ok:false, err:"physics.tide."+k+" は "+list.map(z=>'"'+z+'"').join("/")+" のみ"};
+    out[k]=a[k];
+  }
+  return {ok:true, tide:out};
+}
+// 天体の宣言(single 専用)。radius は**宣言した物理半径**(radius>0 が無い天体には足さない —— 代表粒子の平滑化長を R⁵ に入れない)
+function validateTideBody(t, radius){
+  if(t===null || t===undefined) return {ok:true, tide:null};
+  if(typeof t!=="object" || Array.isArray(t)) return {ok:false, err:"tide はオブジェクト({k2, lag})"};
+  for(const k of Object.keys(t)) if(TIDE_BODY_KEYS.indexOf(k)<0) return {ok:false, err:"tide に未知の鍵 "+k+"(k2/lag のみ)"};
+  if(!isNum(t.k2) || !(t.k2>0) || t.k2>TIDE_K2_MAX) return {ok:false, err:"tide.k2 は 0<k2≤"+TIDE_K2_MAX+" の有限数(Love 数)"};
+  if(!isNum(t.lag) || t.lag<0) return {ok:false, err:"tide.lag は 0 以上の有限数(定時間遅延 Δt —— 単位は本の時間単位)"};
+  if(!isNum(radius) || !(radius>0)) return {ok:false, err:"tide は物理半径 radius>0 の宣言が要る(R⁵ は宣言した半径だけを読む)"};
+  return {ok:true, tide:{k2:t.k2, lag:t.lag}};
+}
+// 受理後の相互検査(validatePreset・build が呼ぶ —— 状態は持たない)。off は足さない理由(TIDE_OFF_REASONS)か null、
+// receivers は潮汐を受ける天体の番号(試験粒子・pinned は**拒否ではなく無視**して警告)
+function tideCrossCheck(ph, bodies, preset){
+  const td=ph && ph[TIDE_KEY];
+  const out={warn:[], off:null, receivers:[]};
+  const bs=Array.isArray(bodies)? bodies : [];
+  const anyBodyTide=bs.some(b=>b && b.tide);
+  if(!td){ if(anyBodyTide) out.warn.push("天体の tide は physics.tide を宣言した本でだけ読む(この本では潮汐を足さない)"); out.off="noDecl"; return out; }
+  let n=0, group=false;
+  for(const b of bs){ if(!b) continue; if(b.type==="single") n++; else { group=true; n+=(isNum(b.n)? b.n : 0); } }
+  const lsAuto=bs.some(b=>b && b.lightSweep==="auto");
+  const dark=!!(preset && preset.massLedger && preset.massLedger.darkRotor);
+  if(group) out.off="group";
+  else if(n>td.maxN) out.off="maxN";
+  else if(ph[SHAPE_TOY_KEY]) out.off="shapeToy";
+  else if(lsAuto || dark) out.off="cloakedDwarf";
+  if(!out.off){
+    bs.forEach((b,i)=>{
+      if(!b || !b.tide) return;
+      if(b.pinned){ out.warn.push("bodies["+i+"].tide は pinned(規定運動)の天体なので無視します"); return; }
+      if(b.testParticle===true){ out.warn.push("bodies["+i+"].tide は試験粒子(源にならない)なので無視します"); return; }
+      out.receivers.push(i);
+    });
+    if(!out.receivers.length) out.off="noReceiver";
+  }
+  if(out.off) out.warn.push("physics.tide を宣言したが潮汐は足さない(理由 "+out.off+" —— "
+    +({group:"群(disk/ring 等)の本 —— 対重力が潮汐と輸送を既に持つ",maxN:"粒子数 "+n+" > maxN "+td.maxN,shapeToy:"形状トイの本",
+       cloakedDwarf:"光学迷彩矮星の本",noReceiver:"tide を宣言した受け手が無い"})[out.off]+")");
+  return out;
 }
 // ===== 第277便b(統括の検証項目 R48): physics.massPrecision — **質量配列の倍精度化**(opt-in)=====
 // `S.alloc` は `S.m`/`S.mEff` を Float32Array で確保する。`stateCarry:"double"` が倍精度にするのは
@@ -11876,6 +11965,71 @@ const BUILTIN_PRESETS = [
              // 同期自転、a=3.84748e8m(軌道長半径)・e=0.0549・近地点、vis-viva の相対速度を質量比で配分
     {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true},
     {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+// ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): 🌜 earthMoonTide —— **明示潮汐(定時間遅延 CTL)の診断本** =====
+// bodies は 🌙 earthMoonReal の実単位の宣言を**1 字も変えずに写し**、地球に tide:{k2:0.3, lag:6}・月に tide:{k2:0.024, lag:6} を足した
+// (lag=6 単位 = 600 s は**感度実験の起点の宣言**であって実在地球の同定ではない・月の後退率に合わせていない)。physics は 🌙 と同じ kF0
+// (geoPN:1・kFrame:0)+ physics.tide:{maxN:8}。**慣性決定力(relativeDrag)は宣言しない**(引きずりとの交差項は器 tests/exp-w292d-tide.mjs の中の
+// 一時プリセットで測る)。principle・較正母集団に入れない。正本 tests/out/tide-w292d.json(段 tide292)。
+{ id:"earthMoonTide", name:"地球と月(実単位・潮汐の診断)— 定時間遅延の潮汐を宣言した本", emoji:"🌜", group:"天体の機構",
+  familyId:"earthmoon", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},
+  sampleClass:"principle",
+  fidelity:"real",
+  referenceKind:"tide-diagnostic",
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e6},
+  notClaim:["solar_cal","apsidal_8p85"],
+  obsCard:[
+    {q:"何を置いたか", model:"🌙 の実単位の地球・月をそのまま写し、地球 k₂=0.3・月 k₂=0.024・遅延 lag=6(600 s —— 感度の起点の宣言)", obs:"—(診断本 —— 観測と照合しない)"},
+    {q:"則(1 步)", model:"CTL: F_cons=−3Br/r⁸・F_diss=−(3BΔt/r¹⁰){2r(r·V)+r²(V−Ω×r)}・τ=−r×F_diss(B=Gk₂m_j²R⁵)", obs:"—"},
+    {q:"自転の更新", model:"角運動量 J=IΩ を補償和で更新して Ω=J/I に戻す(I=½mR²)。素朴な spin+=τ/I·dt では 1 步の増分が ulp 未満で消える", obs:"—"},
+    {q:"地球の自転(実測)", model:"1 恒星月で ΔJ/J=-1.212e-11・ΔΩ=-8.839e-14 rad/単位(円軌道の解析式との比 1.0221)", obs:"—"},
+    {q:"帳簿(実測)", model:"発熱 7.544e-15・軌道⇄自転の交換の相対残差 6.541e-14・仕事と熱の相対残差 -2.614e-14(丸め床)", obs:"—"},
+    {q:"引きずりとの交差項(実測)", model:"器の一時プリセット 4 条件: gain 100 で地球の ΔJ の 6.117e-6(結合 a の 5.8 倍・gain に比例)。この本には引きずりを宣言しない", obs:"—"},
+    {q:"言わないこと", model:"月の後退率・地球の自転減速の観測値を再現したとは書かない。全系の保存則が閉じたとは書かない(u の移送は別帳簿)", obs:"—"}],
+  descStruct:{
+    summary:"**明示潮汐(定時間遅延 CTL)を宣言した本だけで走らせる診断**(第292便d・原仮定者の裁定〔第82報〕⑦・統括の検証項目 R140)。🌙 earthMoonReal の実単位の地球・月を 1 字も変えずに写し、地球に tide:{k2:0.3, lag:6}・月に tide:{k2:0.024, lag:6} を足した(lag=6 単位=600 s は感度実験の起点の宣言 —— 実在地球の同定ではなく、月の後退率にも合わせていない)。潮汐は三つの意味を分けて扱う: (1) 外部重力の潮汐テンソル(内部を粒子で解く系では対重力が既に持つ —— 宣言専用の physics.backgroundTidal とは別の鍵)・(2) 保存的な変形(Love 数 k₂ による誘起四重極・U=−B/(2r⁶))・(3) 散逸(遅延 Δt による軌道⇄自転の角運動量交換と熱)。軌道は 🌙 と同じ重力(E4)と kF0 の 1PN で回り、本は (2)(3) を受け手(物理半径と k₂ を宣言した天体)ごとに足し、自転は角運動量 J=IΩ を更新して Ω=J/I に戻す。粒子を近似した多粒子の本(maxN 8 を超える本・群・形状トイ・光学迷彩矮星)には足さない(二重計上を避ける最適化)。慣性決定力の引きずり(relativeDrag)はこの本には宣言しない —— 引きずりとの交差項は器の中の一時プリセットで測る。",
+    observe:"見た目は 🌙 と同じ(潮汐の力は重力の 10⁻¹¹ 程度で、画面では見えないのが正しい)。読むのは帳簿: 地球の自転は 1 恒星月で ΔΩ/Ω ≈ 10⁻¹¹ だけ減速し、その角運動量は月の軌道へ移る(交換の残差は丸め床)。発熱は正で、潮汐力が軌道と自転にした仕事と熱の和は丸め床で 0 になる。値は正本 tests/out/tide-w292d.json。",
+    control:"対照は 🌙 earthMoonReal(潮汐なし —— 同じ bodies・同じ physics)。器の中で、遅延を 0 にすると散逸のトルクと熱が 0 になり保存的な変形だけが残ることを確かめる。"},
+  en:{name:"Earth & Moon (real units, tide diagnostic) — a sample that declares constant-time-lag tides",
+    obsCard:[
+      {q:"What is placed", model:"🌙's real Earth and Moon copied as is; Earth k2=0.3, Moon k2=0.024, lag=6 (600 s - a declared starting point)", obs:"- (a diagnostic; not matched to observation)"},
+      {q:"The law (one step)", model:"CTL: F_cons=-3Br/r^8; F_diss=-(3B dt/r^10){2r(r.V)+r^2(V-Omega x r)}; tau=-r x F_diss (B=G k2 m_j^2 R^5)", obs:"-"},
+      {q:"Spin update", model:"J=I Omega updated with compensated sums, then Omega=J/I (I=1/2 m R^2); naive spin+=tau/I dt loses sub-ulp steps", obs:"-"},
+      {q:"Earth spin (measured)", model:"over one sidereal month dJ/J=-1.212e-11, dOmega=-8.839e-14 rad/unit (ratio to the circular formula 1.0221)", obs:"-"},
+      {q:"Ledger (measured)", model:"heat 7.544e-15; orbit-spin exchange rel. residual 6.541e-14; work-plus-heat rel. residual -2.614e-14 (rounding floor)", obs:"-"},
+      {q:"Cross term with dragging (measured)", model:"harness, 4 conditions: gain 100 gives 6.117e-6 of the Earth dJ (5.8 x coupling a, linear in gain); none declared here", obs:"-"},
+      {q:"Not claimed", model:"not the observed lunar recession or day lengthening; full-system conservation not claimed (u transport booked apart)", obs:"-"}],
+    descStruct:{
+      summary:"A DIAGNOSTIC THAT RUNS EXPLICIT TIDES (CONSTANT TIME LAG, CTL) ONLY IN A SAMPLE THAT DECLARES THEM (wave 292d, the originator's ruling in report 82 item 7, the coordinator's check item R140). 🌙 earthMoonReal's real Earth and Moon are copied without changing a character, with tide:{k2:0.3, lag:6} on the Earth and tide:{k2:0.024, lag:6} on the Moon (lag=6 units = 600 s is a declared starting point for sensitivity runs, not an identification of the real Earth, and not tuned to the lunar recession rate). Tides are kept in three separate meanings: (1) the external tidal tensor (a system resolved into particles already has it through pair gravity - and the declaration-only physics.backgroundTidal is a different key), (2) conservative deformation (the induced quadrupole of Love number k2, U=-B/(2r^6)), (3) dissipation (orbit-spin angular-momentum exchange and heat through the lag). The orbit runs on gravity (E4) and kF0's 1PN as in 🌙; the sample adds (2) and (3) per receiver (a body that declares a physical radius and k2) and updates the spin through its angular momentum J=I Omega, then Omega=J/I. Many-particle samples (more than maxN 8 particles, groups, shape toys, optical-camouflage dwarfs) get no explicit tide (an optimisation that avoids double counting). This sample declares NO inertial dragging (relativeDrag); the cross term with dragging is measured inside the harness with temporary presets.",
+      observe:"It looks the same as 🌙 (the tidal force is about 1e-11 of gravity, invisible on screen, as it should be). Read the ledger instead: the Earth's spin slows by about 1e-11 of itself per sidereal month and that angular momentum moves into the lunar orbit (the exchange residual is at the rounding floor). The heat is positive, and work plus heat sums to zero at the rounding floor. Values are in tests/out/tide-w292d.json.",
+      control:"The control is 🌙 earthMoonReal (no tides - same bodies, same physics). In the harness, setting the lag to 0 removes the dissipative torque and heat and leaves only the conservative deformation."},
+    parameterAudit:{
+      observedInputs:["the same real Earth and Moon as 🌙 (masses, radii, spins, distance, velocity)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10^6 m / 10^2 s / 10^25 kg)","kF0 as in 🌙 (geoPN=1, kFrame=0)",
+        "physics.tide:{maxN:8} (model ctl, velocity v, inertia half = I=1/2 m R^2, split full)"],
+      fitted:["NOTHING - k2 and lag are declarations; nothing is fitted to the lunar recession or to day lengthening"],
+      derived:["B_Earth = G k2 m_Moon^2 R_Earth^5, B_Moon = G k2 m_Earth^2 R_Moon^5"],
+      numerical:["softening eps=0.1","stateCarry:\"double\" (tidal kicks go through the velocity carry)","spin in Float64 only in a sample where the tide acts"]}},
+  parameterAudit:{
+    observedInputs:["🌙 と同じ実在の地球・月(質量・半径・自転・距離・速度)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","🌙 と同じ kF0(geoPN=1・kFrame=0)",
+      "physics.tide:{maxN:8}(model ctl・velocity v・inertia half = I=½mR²・split full)"],
+    fitted:["**無し** —— k₂ と lag は宣言で、月の後退率・自転の減速に合わせていない"],
+    derived:["B_地球=G k₂ m_月² R_地球⁵・B_月=G k₂ m_地球² R_月⁵"],
+    numerical:["ソフトニング ε=0.1","stateCarry:\"double\"(潮汐のキックも速度の繰り越しへ)","自転は潮汐が働く本だけ Float64"]},
+  activeParams:["dispMag","lambdaPN","cLight"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double", frameWeight:"share",
+    tide:{maxN:8}},
+  bodies:[   // 🌙 earthMoonReal と同一値 + tide。粒子の並び: 0=地球, 1=月
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true, tide:{k2:0.3, lag:6}},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false, tide:{k2:0.024, lag:6}}
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
@@ -20173,6 +20327,14 @@ function validatePreset(obj){
         if(mvv.meshVelocity!==null) ph[k]=mvv.meshVelocity;
         continue;
       }
+      // 第292便d(第82報⑦・R140): tide — **明示潮汐**(CTL)の opt-in。null/未宣言は「なし」へ正規化する(署名が 1 文字も変わらない)。
+      // 受け手・足さない理由の相互検査は bodies の確定後(tideCrossCheck)
+      if(k===TIDE_KEY){
+        const tdv=validateTide(p.physics[k]);
+        if(!tdv.ok){ bad(tdv.err); continue; }
+        if(tdv.tide!==null) ph[k]=tdv.tide;
+        continue;
+      }
       // 第277便b(第67報 (1)): relativeDrag — **相対すべりの零条件**を持つ引きずり則の opt-in。
       // null/未宣言は「なし」へ正規化する(宣言と未宣言で署名が 1 文字も変わらない)
       if(k===REL_DRAG_KEY){
@@ -20880,6 +21042,7 @@ function validatePreset(obj){
         delete b.microSpinRms;
       }
       const t=b.type;
+      if(t!=="single" && b.tide!==undefined) warnings.push(at+".tide は single 専用です(群・代表粒子には明示潮汐を足さない)— 無視します");   // 第292便d
       const needNum=(keys)=>{ for(const k of keys){ if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return false; } } return true; };
       if(t==="single"){
         if(!needNum(["m","x","y","vx","vy","spin"])) return;
@@ -20955,6 +21118,13 @@ function validatePreset(obj){
           if(b.pnSource===true) o.pnSource=true;
           else if(b.pnSource===false) o.pnSource=false;
           else warnings.push(at+".pnSource は true か false のみ受理 — 削除します");
+        }
+        // 第292便d(第82報⑦・R140): tide:{k2, lag} — 明示潮汐の受け手の宣言(single 専用・物理半径 radius>0 が要る)。
+        // 未宣言はキーが無い = 署名も挙動も 1 bit 不変。physics.tide を宣言した本だけが読む(不正は拒否)
+        if(b.tide!==undefined && b.tide!==null){
+          const tbv=validateTideBody(b.tide, b.radius);
+          if(!tbv.ok){ bad(at+"."+tbv.err); return; }
+          o.tide=tbv.tide;
         }
         // 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv)): testParticle=true — **試験粒子契約**(既定 off)。
         // 宣言した粒子は力を受けるが**源にならない**(重力・決定力 W・フレーム u・1PN の反作用・E6′ 反作用の相手から外す)。
@@ -21315,6 +21485,11 @@ function validatePreset(obj){
     // 第280便b(R69): 引きずり核は meshVelocity(field:"explicit")の外部の明示天体にだけ(密度の宣言が要る)
     const qkx=qLockKernelCrossCheck(p.physics[QLOCK_KERNEL_KEY], p.physics[MESH_VEL_KEY], p.bodies);
     if(qkx) bad(qkx);
+    // 第292便d(R140): 明示潮汐の受け手と足さない理由(群・maxN・形状トイ・光学迷彩矮星)—— 拒否はしない(警告して足さない)
+    if(p.physics[TIDE_KEY] || (Array.isArray(p.bodies) && p.bodies.some(b=>b && b.tide))){
+      const tdx=tideCrossCheck(p.physics, p.bodies, p);
+      for(const w of tdx.warn) warnings.push(w);
+    }
   }
   if(p.rays!==undefined){
     if(!p.rays || !isNum(p.rays.n) || !isNum(p.rays.spread)) bad("rays.n/spread が不正です");
@@ -23467,6 +23642,10 @@ function makeSim(){
     // 第287便a: centerCapture を宣言した宇宙は S.spin も Float64 へ(捕獲の J_s の帳簿を Float32 の丸めで崩さない —— 宣言した本だけ)
     if(preset.centerCapture!==undefined && centerCaptureCheck(preset).ok && centerCaptureCheck(preset).out){ S.spin=new Float64Array(P.length); S.spinPrec="double"; }
     if(preset.fixedCapture!==undefined && fixedCaptureWantsDouble(preset)){ S.spin=new Float64Array(P.length); S.spinPrec="double"; }   // 第288便a: 同じ理由(宣言した本だけ)
+    // 第292便d(R140): **潮汐が働く**宇宙(physics.tide を宣言し・足さない理由が無い)は S.spin も Float64 へ(潮汐トルクの J の帳簿を
+    // Float32 の丸めで崩さない —— 宣言した本だけ)。群・maxN 超・形状トイ・光学迷彩矮星の本は宣言があっても未宣言とビット同一に走る
+    if(phys[TIDE_KEY]!==undefined && phys[TIDE_KEY]!==null){ const __tdv=validateTide(phys[TIDE_KEY]);
+      if(__tdv.ok && __tdv.tide && !tideCrossCheck(Object.assign({}, phys, {[TIDE_KEY]:__tdv.tide}), preset.bodies, preset).off){ S.spin=new Float64Array(P.length); S.spinPrec="double"; } }
     if(phys[STATE_CARRY_KEY]==="double"){
       S.ax=new Float64Array(P.length); S.ay=new Float64Array(P.length);
       S.x=new Float64Array(P.length); S.y=new Float64Array(P.length);
@@ -23906,6 +24085,7 @@ function makeSim(){
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
     testParticlePrepare(S);   // 第283便c: build の最後にも張り直す(build の途中の updateRadii は積分器・融合・相の宣言より前に走る)
     pnOrbitalSync(S);         // 第291便b(R133): kF0 なら S.pnOv のビット 2 を全質量源で埋める(試験粒子契約の後 —— 受理された試験粒子は除く)
+    if((preset.physics && preset.physics[TIDE_KEY]) || S.tide!==undefined) tidePrepare(S, preset);   // 第292便d(R140): 明示潮汐(宣言した本だけ —— 未宣言で前の build の残りが無ければ 1 命令も走らない・鍵を足さない)
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
     const rs=S.params.radiusScale;
@@ -25681,6 +25861,7 @@ function makeSim(){
       if(S.hasBodyLayers) S._layerForce(dt*0.5);   // 第259便b: 親子コアの層差分も同じ位置(未宣言は真偽値 1 つで素通り)
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);    // 第254便a: 空間メッシュの重力・慣性チャネルも同じ位置
       if(S.hasRelativeDrag && S.relDrag.integration==="midpoint") dfmRelativeDragStep(S,dt*0.5);   // 第278便b: 散逸の前半歩(対称分割・未宣言は真偽値 1 つ)
+      if(S.hasTide && S.tide.split==="half") dfmTideStep(S,dt*0.5);   // 第292便d: 潮汐の前半歩(split:"half" を宣言した本だけ)
       geoCoreDispatch(S,dt,1); geoCoreDispatch(S,dt,2);   // 第259便a: geoPN=3 は _core から隠す(_core は 1 命令も増えない)
       // 第255便a: pairWeave は **E6′ が読んだフレームの差分**を打ち消す補正なので S._core の**後**。
       // reservoir(回転子交換)も同じ位置(未宣言はどちらも真偽値 1 つで素通り)
@@ -25692,6 +25873,7 @@ function makeSim(){
       if(S.hasSpiral) dfmShapeToySpiralStep(S,dt);   // 第290便e: 渦巻の参照模型(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);      // 第275便e: コア軸の prescribed(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasRelativeDrag) dfmRelativeDragStep(S,(S.relDrag.integration==="midpoint")? dt*0.5 : dt);   // 第277便b(第278便b: 中点法は後半歩)
+      if(S.hasTide) dfmTideStep(S,(S.tide.split==="half")? dt*0.5 : dt);   // 第292便d(R140): 明示潮汐(引きずりの直後・未宣言は真偽値 1 つ)
       if(S.hasMeshVelocity) dfmMeshVelocityStep(S,dt);   // 第279便c: 座標変換 ẋ=v+u・v̇=−Jᵀv(位置更新の外・未宣言は真偽値 1 つ)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);
@@ -25705,6 +25887,7 @@ function makeSim(){
       if(S.hasCompactForce) S._compactForce(dt);
       if(S.hasBodyLayers) S._layerForce(dt);   // 第259便b: 親子コアの層差分(未宣言は真偽値 1 つで素通り)
       if(S.hasSpaceMesh) S._spaceMeshForce(dt);        // 第254便a(未宣言は真偽値 1 つで素通り)
+      if(S.hasTide && S.tide.split==="half") dfmTideStep(S,dt*0.5);   // 第292便d: 潮汐の前半歩(split:"half" を宣言した本だけ)
       geoCoreDispatch(S,dt,0);                           // 第259便a(同上)
       if(S.hasPairWeave) S._pairWeaveForce(dt);          // 第255便a(同上 — S._core の後)
       if(S.hasCoordInertia) S._meshCoordForce(dt);      // 第257便a(同上)
@@ -25714,6 +25897,7 @@ function makeSim(){
       if(S.hasSpiral) dfmShapeToySpiralStep(S,dt);     // 第290便e: 渦巻の参照模型(同じ位置)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);          // 第275便e: コア軸の prescribed(同じ位置)
       if(S.hasRelativeDrag) dfmRelativeDragStep(S,dt);   // 第277便b: 相対すべりの引きずり則(同じ位置)
+      if(S.hasTide) dfmTideStep(S,(S.tide.split==="half")? dt*0.5 : dt);   // 第292便d(R140): 明示潮汐(引きずりの直後・未宣言は真偽値 1 つ)
       if(S.hasMeshVelocity) dfmMeshVelocityStep(S,dt);   // 第279便c: 座標変換(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
     }
@@ -34432,7 +34616,8 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf",
   "carVx","carVy",   // 第290便d(R128): 倍精度の速度の繰り越し(stateCarry:"double" の補償和の残差 —— 復元後の再走を保存しなかった走行とビット一致にする。未宣言は null で素通り)
-  "rdPrevX","rdPrevY","rdPrevT"];   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
+  "rdPrevX","rdPrevY","rdPrevT",   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
+  "tideJh","tideJl","tideOmW","tideDJ"];   // 第292便d: 明示潮汐の J の補償和(高位・低位)・最後に書いた自転・自転への ΔJ(宣言した本だけ配列がある)   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "axPrescLx","axPrescLy","axPrescE","axPrescPx","axPrescPy","axPrescN",   // 第275便e: 宣言した拘束が持ち去った量
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
@@ -34440,7 +34625,8 @@ const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wall
   "ltEs0","ltLesc","ltColT","ltNoThermal",   // 第265便d: lightTrap のスカラー帳簿
   "clampVN","clampSN","clampHN","clampAN","clampRN","clampTN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc",
-  "rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL"];   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
+  "rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL",
+  "tideN","tideSubsteps","tideSubCapped","tideReject","tideWork","tideWorkCons","tideHeat","tideMix","tideDL","tideTauMinAll"];   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
 // 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
 // A+B 両側のスナップショットを持ち、復帰も両側同時(同じ瞬間へ揃って巻き戻る)。
@@ -48354,6 +48540,158 @@ function inertialDragState(S){
     bound:S.inertialDragBound, boundMax:S.inertialDragBoundMax, degMax:S.inertialDragDegMax, uMax:S.inertialDragUMax,
     sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL };
 }
+// ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **明示潮汐の外部ステップ** `dfmTideStep(S,dt)` =====
+// `physics.tide` と天体の `tide:{k2, lag}` を宣言した本だけが通る(`S.hasTide` —— 未宣言の本では build が立てないので 1 命令も走らない)。
+// 場所は `dfmRelativeDragStep`(慣性引きずり `dfmInertialDragStep` を含む)の**直後**(`S._core` の外)。split:"half" を宣言した本だけ、
+// 核の前に半歩・引きずりの後に残り半歩(Strang 型)。式は docs/PHYSICS.md〔第292便d〕と純関数 tests/lib-w292d-tide.mjs(定時間遅延 CTL):
+//   変形する天体 i(半径 R_i・k₂_i・遅延 Δt_i・自転 Ω_i)と伴星 j(点質量 m_j)・r=x_j−x_i・相対速度 V(velocity:"v" は v_j−v_i・
+//   "xdot" は同じ步の ẋ=v+u〔慣性引きずりの u —— 宣言した本だけ〕):
+//     B_i=G k₂_i m_j² R_i⁵・F_cons=−3B_i r/r⁸(j に作用・i へ反力 —— U=−B_i/(2r⁶))
+//     F_diss=−(3B_iΔt_i/r¹⁰){2r(r·V)+r²[V−Ω_i×r]}・τ_i=−(r×F_diss)_z・Q̇=(3B_iΔt_i/r¹⁰){2(r·V)²+r²|V−Ω_i×r|²}≥0
+//   相手も変形するなら役割を入れ替えて別に評価する(対ごとに i を受け手として足し合わせる)。
+// ■ スピンは**角運動量 J=IΩ を更新して Ω=J/I に戻す**(`spin += torque*dt` の素朴な形はしない)。J は補償和(高位 tideJh + 低位 tideJl)で持つ
+//   —— 1 步の ΔJ が J の ulp より小さい実単位でも丸めで消えない。I=f m R²(f は inertia:"half" の ½〔既定〕か "sphere" の ⅖)。
+//   ほかの経路が自転を書き換えたら(tideOmW と食い違えば)J をその自転から取り直す。
+// ■ 発散対策: τ_tide=min(I/K_spin, μ/K_orb)(K_spin=3BΔt/r⁶ =|∂τ/∂Ω|・K_orb=9BΔt/r⁸ = 動径の減衰率の最大)を監視し、
+//   dt>0.1·τ_tide なら**潮汐だけ**を n=⌈dt/(0.1τ_tide)⌉ 回に分割(位置は固定・速度と J を更新)。上限 4096 を超える步は数える(clamp しない)。
+// ■ 帳簿(CK_SC で運ぶ): tideWork=Σ(ΣF·v+Στ Ω)h(潮汐力が軌道と自転にした仕事)・tideWorkCons=ΣF_cons·V h・tideHeat=ΣQ̇h・
+//   tideMix=ΣF_diss·(V_v−V_読み)h(velocity:"xdot" のときだけ非零 —— 引きずりの u と潮汐の混合)・tideDL=Σ_k(x_k F_k,y−y_k F_k,x)h(軌道角運動量の変化)・
+//   tideDJ[i]=Στ_i h(自転へ)・tideSubsteps=Σ(n−1)・tideN(步)。恒等式 tideWork−tideWorkCons+tideHeat−tideMix=0・tideDL+ΣtideDJ=0 は丸め床まで。
+//   **全系の保存は主張しない**(慣性引きずりの u の移送は別の帳簿 inertialDragWork/DL)。
+function tideInertiaOf(S,i){ return TIDE_INERTIA_FACTOR[S.tide.inertia]*S.m[i]*S.R[i]*S.R[i]; }
+function tideClear(S){
+  S.hasTide=false; S.tide=null; S.tideOff=null;
+  S.tideK2=S.tideLag=S.tideJh=S.tideJl=S.tideOmW=S.tideDJ=S._tdFX=S._tdFY=S._tdTQ=null; S.tideRecv=null;
+}
+function tidePrepare(S, preset){
+  const ph=(preset && preset.physics) || {};
+  const tv=validateTide(ph[TIDE_KEY]===undefined? null : ph[TIDE_KEY]);
+  const td=(tv.ok && tv.tide)? tv.tide : null;
+  if(!td){ if(S.tide!==undefined) tideClear(S); return; }
+  const bodies=Array.isArray(preset.bodies)? preset.bodies : [];
+  const cx=tideCrossCheck(Object.assign({}, ph, {[TIDE_KEY]:td}), bodies, preset);
+  const N=Math.max(S.m.length, S.n);
+  S.tide=td; S.tideOff=cx.off || ((S.n!==bodies.length)? "count" : null);
+  S.tideK2=new Float64Array(N); S.tideLag=new Float64Array(N);
+  S.tideJh=new Float64Array(N); S.tideJl=new Float64Array(N); S.tideOmW=new Float64Array(N); S.tideDJ=new Float64Array(N);
+  S._tdFX=new Float64Array(N); S._tdFY=new Float64Array(N); S._tdTQ=new Float64Array(N);
+  const rc=[];
+  if(!S.tideOff) for(const i of cx.receivers){
+    const bv=validateTideBody(bodies[i].tide, bodies[i].radius);
+    if(!bv.ok || !bv.tide) continue;
+    S.tideK2[i]=bv.tide.k2; S.tideLag[i]=bv.tide.lag; rc.push(i);
+  }
+  if(!S.tideOff && !rc.length) S.tideOff="noReceiver";
+  S.tideRecv=Int32Array.from(rc);
+  for(const i of rc){ const I=tideInertiaOf(S,i); S.tideJh[i]=I*S.spin[i]; S.tideJl[i]=0; S.tideOmW[i]=S.spin[i]; }
+  S.hasTide=!S.tideOff;
+  S.tideN=0; S.tideSubsteps=0; S.tideSubCapped=0; S.tideReject=0;
+  S.tideWork=0; S.tideWorkCons=0; S.tideHeat=0; S.tideMix=0; S.tideDL=0;
+  S.tideTauMin=Infinity; S.tideTauMinAll=Infinity; S.tideNsubLast=0;
+}
+// 力・トルク・率を**今の状態**で評価して S._tdFX/_tdFY/_tdTQ に入れる(状態は書かない)。返り値は率(仕事・熱・混合)と τ_tide
+function tideEvalRates(S){
+  const n=S.n, rc=S.tideRecv, G=S.params.G, X=S.x, Y=S.y, VX=S.vx, VY=S.vy, m=S.m, pin=S.pinned, tp=S.tpFlag;
+  const FX=S._tdFX, FY=S._tdFY, TQ=S._tdTQ;
+  for(let k=0;k<n;k++){ FX[k]=0; FY[k]=0; TQ[k]=0; }
+  const xd=(S.tide.velocity==="xdot") && S.hasRelativeDrag===true && S.relDrag && S.relDrag.law==="inertial" && !!S._rdUX;
+  const UX=xd? S._rdUX : null, UY=xd? S._rdUY : null;
+  const f=TIDE_INERTIA_FACTOR[S.tide.inertia];
+  let wCons=0, heat=0, mix=0, tauMin=Infinity, rej=0;
+  for(let q=0;q<rc.length;q++){
+    const i=rc[q];
+    if(pin[i] || (tp && tp[i])) continue;
+    const k2=S.tideK2[i], lag=S.tideLag[i], R=S.R[i], R2=R*R, R5=R2*R2*R, Om=S.spin[i], mi=m[i];
+    if(!(mi>0) || !(R>0)) continue;
+    const Ii=f*mi*R2;
+    for(let j=0;j<n;j++){
+      if(j===i || pin[j] || (tp && tp[j])) continue;   // 試験粒子は潮汐を起こさない・pinned は対から外す(規定運動)
+      const mj=m[j];
+      if(!(mj>0)) continue;
+      const rx=X[j]-X[i], ry=Y[j]-Y[i], r2=rx*rx+ry*ry;
+      if(!(r2>0) || !Number.isFinite(r2)){ rej++; continue; }   // 一致点は拒否(軟化で埋めない)
+      const vvx=VX[j]-VX[i], vvy=VY[j]-VY[i];
+      let Vx=vvx, Vy=vvy;
+      if(xd){ Vx+=UX[j]-UX[i]; Vy+=UY[j]-UY[i]; }
+      const B=G*k2*mj*mj*R5, r4=r2*r2, r6=r4*r2, r8=r4*r4;
+      const cc=3*B/r8;
+      let fx=-cc*rx, fy=-cc*ry;
+      wCons+=fx*vvx+fy*vvy;
+      if(lag>0){
+        const d=3*B*lag/(r8*r2), rv=rx*Vx+ry*Vy;
+        const sx=Vx+Om*ry, sy=Vy-Om*rx;                       // V − Ω×r(Ω×r = (−Ω r_y, Ω r_x))
+        const dx=-d*(2*rx*rv+r2*sx), dy=-d*(2*ry*rv+r2*sy);
+        fx+=dx; fy+=dy;
+        TQ[i]+=-(rx*dy-ry*dx);                               // τ_i = −(r×F_diss)_z
+        heat+=d*(2*rv*rv+r2*(sx*sx+sy*sy));
+        if(xd) mix+=dx*(vvx-Vx)+dy*(vvy-Vy);
+        const Ks=3*B*lag/r6, Ko=9*B*lag/r8, mu=mi*mj/(mi+mj);
+        const ts=(Ii>0)? Ii/Ks : Infinity, to=mu/Ko;
+        if(ts<tauMin) tauMin=ts;
+        if(to<tauMin) tauMin=to;
+      }
+      FX[j]+=fx; FY[j]+=fy; FX[i]-=fx; FY[i]-=fy;
+    }
+  }
+  return {wCons, heat, mix, tauMin, rej};
+}
+function dfmTideStep(S,dt){
+  if(!S || S.hasTide!==true || !(dt>0) || !Number.isFinite(dt)) return null;
+  const n=S.n, rc=S.tideRecv, f=TIDE_INERTIA_FACTOR[S.tide.inertia];
+  // ほかの経路が自転を書き換えていたら J をその自転から取り直す(J の補償和は潮汐の経路だけが持つ)
+  for(let q=0;q<rc.length;q++){ const i=rc[q]; if(!Object.is(S.spin[i], S.tideOmW[i])){ S.tideJh[i]=f*S.m[i]*S.R[i]*S.R[i]*S.spin[i]; S.tideJl[i]=0; S.tideOmW[i]=S.spin[i]; } }
+  let ev=tideEvalRates(S);
+  let nsub=1;
+  if(ev.tauMin<Infinity && dt>TIDE_SUB_FRAC*ev.tauMin){
+    nsub=Math.ceil(dt/(TIDE_SUB_FRAC*ev.tauMin));
+    if(!(nsub<=TIDE_SUB_MAX)){ nsub=TIDE_SUB_MAX; S.tideSubCapped++; }   // 上限を超えた步は数える(黙って丸めない)
+  }
+  const h=dt/nsub, X=S.x, Y=S.y, VX=S.vx, VY=S.vy, m=S.m, FX=S._tdFX, FY=S._tdFY, TQ=S._tdTQ;
+  const carV=!!S.carVx, cX=S.carVx, cY=S.carVy;
+  let tauMin=ev.tauMin;
+  for(let s=0;s<nsub;s++){
+    if(s>0){ ev=tideEvalRates(S); if(ev.tauMin<tauMin) tauMin=ev.tauMin; }
+    // 帳簿(率 × h —— キック前の状態で評価)
+    let pw=0, dl=0;
+    for(let k=0;k<n;k++){ const fx=FX[k], fy=FY[k]; if(fx===0 && fy===0) continue; pw+=fx*VX[k]+fy*VY[k]; dl+=X[k]*fy-Y[k]*fx; }
+    for(let q=0;q<rc.length;q++){ const i=rc[q]; pw+=TQ[i]*S.spin[i]; }
+    S.tideWork+=pw*h; S.tideWorkCons+=ev.wCons*h; S.tideHeat+=ev.heat*h; S.tideMix+=ev.mix*h; S.tideDL+=dl*h; S.tideReject+=ev.rej;
+    // 速度のキック(stateCarry:"double" の本は補償和の繰り越しへ —— 核と同じ規約)
+    for(let k=0;k<n;k++){
+      const fx=FX[k], fy=FY[k]; if(fx===0 && fy===0) continue;
+      const mk=m[k]; if(!(mk>0)) continue;
+      const ax=fx*h/mk, ay=fy*h/mk;
+      if(carV){
+        const addX=ax+cX[k], v0x=VX[k]; VX[k]=v0x+addX; cX[k]=addX-(VX[k]-v0x);
+        const addY=ay+cY[k], v0y=VY[k]; VY[k]=v0y+addY; cY[k]=addY-(VY[k]-v0y);
+      } else { VX[k]+=ax; VY[k]+=ay; }
+    }
+    // 自転: J を更新して Ω=J/I に戻す(補償和 —— 2Sum で低位へ)
+    for(let q=0;q<rc.length;q++){
+      const i=rc[q], dJ=TQ[i]*h; if(dJ===0) continue;
+      const a=S.tideJh[i], sum=a+dJ, bb=sum-a, err=(a-(sum-bb))+(dJ-bb);
+      let lo=S.tideJl[i]+err, hi=sum; const hs=hi+lo; lo=lo-(hs-hi); hi=hs;
+      S.tideJh[i]=hi; S.tideJl[i]=lo; S.tideDJ[i]+=dJ;
+      const I=f*m[i]*S.R[i]*S.R[i];
+      if(I>0){ S.spin[i]=(hi+lo)/I; S.tideOmW[i]=S.spin[i]; }
+    }
+  }
+  S.tideN++; S.tideSubsteps+=nsub-1; S.tideNsubLast=nsub; S.tideTauMin=tauMin;
+  if(tauMin<S.tideTauMinAll) S.tideTauMinAll=tauMin;
+  return { nsub, tauMin, version:TIDE_STEP_VERSION };
+}
+// 読み口(表示・器・QA —— 状態は 1 bit も動かさない)
+function tideState(S){
+  if(!S || !S.tide) return null;
+  const rc=S.tideRecv? Array.from(S.tideRecv) : [];
+  const f=TIDE_INERTIA_FACTOR[S.tide.inertia];
+  return { version:TIDE_STEP_VERSION, decl:Object.assign({}, S.tide), active:S.hasTide===true, off:S.tideOff, receivers:rc,
+    k2:rc.map(i=>S.tideK2[i]), lag:rc.map(i=>S.tideLag[i]), inertia:rc.map(i=>f*S.m[i]*S.R[i]*S.R[i]),
+    J:rc.map(i=>S.tideJh[i]+S.tideJl[i]), Jlo:rc.map(i=>S.tideJl[i]), dJ:rc.map(i=>S.tideDJ[i]), omega:rc.map(i=>S.spin[i]),
+    steps:S.tideN, substeps:S.tideSubsteps, subCapped:S.tideSubCapped, nsubLast:S.tideNsubLast, tauMin:S.tideTauMin, tauMinAll:S.tideTauMinAll,
+    reject:S.tideReject, work:S.tideWork, workCons:S.tideWorkCons, heat:S.tideHeat, mix:S.tideMix, dL:S.tideDL,
+    residualE:S.tideWork-S.tideWorkCons+S.tideHeat-S.tideMix, residualL:S.tideDL+rc.reduce((a,i)=>a+S.tideDJ[i],0) };
+}
 // ===== 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): **表示メッシュの読み取り専用サンプラー** =====
 // 「空間メッシュは引きずりの可視化にとどめ、光の物差しで空間を測ったような見やすい表示計算を工夫する」。
 // ここに置くのは**純粋な読み手**だけである —— 粒子の状態(x・v・自転)・慣性引きずりの履歴(rdPrevX/Y/T・_rdVX/VY・_rdUX/UY)・
@@ -51538,6 +51876,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   REL_DRAG_KEY, REL_DRAG_LAWS, REL_DRAG_SPINS, REL_DRAG_KAPPA_CLAMP, REL_DRAG_STEP_VERSION,
   dfmInertialDragStep, inertialDragInit, inertialDragEpoch, inertialDragState, validateRelativeDragInertial,   // 第290便c
   REL_DRAG_INERTIAL_VERSION, REL_DRAG_INERTIAL_KEYS,
+  dfmTideStep, tidePrepare, tideState, tideEvalRates, validateTide, validateTideBody, tideCrossCheck,   // 第292便d: 明示潮汐(CTL)
+  TIDE_KEY, TIDE_STEP_VERSION, TIDE_PHYS_KEYS, TIDE_BODY_KEYS, TIDE_INERTIA_FACTOR, TIDE_SUB_FRAC, TIDE_SUB_MAX, TIDE_MAXN_DEFAULT, TIDE_OFF_REASONS,
   MASS_PRECISION_KEY, MASS_PRECISIONS, MASS_FLOOR_SCALED_KEY, SOFTENING_FLOOR_KEY, SOFTENING_FLOOR_MIN,
   dfmCoreAxisStep, coreAxisState, CORE_AXIS_MODES, CORE_AXIS_AZ_CLAMP, CORE_AXIS_RATE_CLAMP,
   CORE_AXIS_RATE_DEFAULT, CORE_AXIS_DESIGN,   // 第275便e: コア軸の宣言モード(prescribed)と読み取り専用の状態

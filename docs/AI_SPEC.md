@@ -3077,3 +3077,12 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **表示だけ**: HUD の 1 行と説明タブの観測結果カードの派生行「GR 1PN 準拠(実行条件)」(`HP.pn1GRConformance(S)` —— EIH・λ_PN=1・pnAlpha=1.5・全質量源・kFrame=0・固定の天体なし・他の引きずり/外力なし・軟化 ε の宣言)。条件から外れても実行は止めない。
 - 読み取り: `HP.pnOrbitalSource(S,i)`・`HP.pnOrbitalKF0(p)`・`HP.pnSourceDeclared(S,i)`(宣言か半径門の旧い意味)・`HP.pnSource(S,i)`(実効の 1PN 源)。契約 `PN1_CONTRACT` の版 `w291b-eih-2`(式は不変)。
 - **退役 1 本**: 🌨️ `plutoCharonKF0Control`(⛄ の対照として作った本 —— ⛄ の退役で目的が消えた・代わりは 🥶。凍結の写し `tests/fixtures/retired-w291b.json`)。家族 `pluto` の在位の variant は 🌒 だけになり、退役は ❄️・⛄・☃️・🌨️。
+
+## 44. 第292便d —— 明示潮汐 `physics.tide`(本)と天体の `tide:{k2, lag}`(定時間遅延 CTL・原仮定者の裁定〔第82報〕⑦・統括の検証項目 R140・**opt-in**・**SYSTEM_PROMPT には載せない**)
+
+- **本の鍵 `physics.tide`**: `{maxN, model, velocity, inertia, split}`(すべて省略可 —— 正準形は既定を埋める: maxN **8**〔2〜64 の整数〕・model **"ctl"**〔定時間遅延だけ〕・velocity **"v"**〔"xdot" は同じ步の ẋ=v+u —— 慣性引きずりの u を宣言した本だけ〕・inertia **"half"**〔I=½mR² —— 現行エンジンの慣性〕/"sphere"〔⅖mR²〕・split **"full"**〔引きずりの直後に 1 回〕/"half"〔核の前に半歩・引きずりの後に残り半歩〕)。未知の鍵・値域の外は**拒否**。`null`/未宣言は「なし」(署名も挙動も 1 bit 不変)。
+- **天体の鍵 `tide:{k2, lag}`**(single 専用): k2 は 0<k2≤1.5 の Love 数・lag は 0 以上の定時間遅延 Δt(単位は本の時間単位)。**物理半径 `radius>0` の宣言が要る**(R⁵ は宣言した半径だけを読む —— 代表粒子の平滑化長を入れない)。不正は拒否。群(ring/disk 等)の `tide` は警告して無視。`physics.tide` の無い本の天体の `tide` は警告して読まない。
+- **足さない本**(拒否ではなく警告して足さない —— 走行は未宣言とビット同一): 群のある本・粒子数が maxN を超える本・形状トイ(`physics.shapeToy`)の本・光学迷彩矮星の本(`massLedger.darkRotor` か `lightSweep:"auto"`)・受け手の無い本。pinned と試験粒子の受け手は無視して警告。
+- **潮汐テンソル T の宣言 `physics.backgroundTidal`(第278便d)とは別の鍵・別の意味**(あちらは宣言専用で力に入らない —— 混ぜない・昇格しない)。
+- 式・更新・帳簿は docs/PHYSICS.md〔第292便d〕(B_i=G k₂_i m_j² R_i⁵・F_cons=−3B_i r/r⁸・F_diss=−(3B_iΔt_i/r¹⁰){2r(r·V)+r²[V−Ω_i×r]}・τ_i=−(r×F_diss)_z・自転は J=IΩ を更新して Ω=J/I)。読み取り: `HP.tideState(S)`(帳簿・J・ΔJ・τ_tide・分割回数・足さない理由)・`HP.tideEvalRates(S)`(状態を書かない 1 回の評価)・受理器 `HP.validateTide`/`HP.validateTideBody`/`HP.tideCrossCheck`。版 `TIDE_STEP_VERSION` = `w292d-tide-1`。
+- 内蔵で宣言するのは診断本 🌜 `earthMoonTide` だけ(🌙 の bodies + tide・引きずりは宣言しない)。
