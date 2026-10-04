@@ -1179,6 +1179,18 @@
     "holdRemedy": "declare the observed σ of the sidereal month and add it to the σ connector (residual 2.4e-6); declare the e ↔ eProxy mapping for the eccentricity. The apsidal motion is made by the Sun (a third body) and the two-body 1PN gives 4e-9 of it: a 1PN fix cannot resolve it"
    }
   },
+  "earthMoonTide": {
+   "purpose": "定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る",
+   "objective": "met",
+   "state": "1 恒星月で地球 ΔJ/J −1.2e-11・交換と熱の残差は丸め床・引きずりとの交差項は器で記録",
+   "evidence": [
+    "tests/out/tide-w292d.json"
+   ],
+   "en": {
+    "purpose": "Run constant-time-lag tides only where declared; measure spin-down",
+    "state": "Earth dJ/J -1.2e-11 per sidereal month; ledger residuals at rounding floor; drag cross term measured"
+   }
+  },
   "earthMoonRealKF1": {
    "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
    "objective": "partial",
@@ -2335,6 +2347,12 @@
    ],
    "preset.earthMoonReal": [
     "earthMoonReal"
+   ],
+   "preset.earthMoonTide": [
+    "earthMoonTide"
+   ],
+   "behavior.tideGate": [
+    "earthMoonTide"
    ],
    "preset.earthMoonRealKF1": [
     "earthMoonRealKF1"

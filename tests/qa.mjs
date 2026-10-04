@@ -2330,7 +2330,10 @@ if (QA_CHANGED) {
       'tests/out/bgaudit-w291d.json',
       // 第292便a(原仮定者の裁定(第82報)④・R137): 現実較正 20 本の判定行ごとの主因分類(target=beta/index.html —— Node だけ・正本を読むだけ・
       //   inputs に calaudit-w249・solarsigma-w262d・charoninput-w280d・mercury-w280a・pnsources-w291b —— 鎖の段 calcause292 はそれらの書き手の後)
-      'tests/out/calcause-w292a.json'];
+      'tests/out/calcause-w292a.json',
+      // 第292便d(原仮定者の裁定(第82報)⑦・R140): 明示潮汐(physics.tide と天体の tide —— CTL)の門 b〜g・🌜 の 1 恒星月・引きずりとの交差項
+      //   (target=beta/index.html —— Node の headless だけ・html だけを読む・他の正本は読まない —— 鎖の段 tide292)
+      'tests/out/tide-w292d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -11756,6 +11759,8 @@ const W289E_LAY = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET),
 // 第290便c(原仮定者の裁定(第80報)⑥・R127): 🐌 inertialDragPair(慣性引きずり〔法則版 relativeDrag.law:"inertial"〕の診断本 —— **core・layers・pinned・spaceMesh の宣言なし**)
 //   が入った世代は内蔵の本数に +1(コア宣言の数・pinned の数・メッシュの数は動かない)
 const W290C_INE = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"inertialDragPair"') >= 0 ? 1 : 0; } catch (e) { return 0; } })();
+// 第292便d(原仮定者の裁定(第82報)⑦・R140): 🌜 earthMoonTide(明示潮汐の診断本 —— **core・layers・pinned・spaceMesh の宣言なし**)
+const W292D_TIDE = (() => { try { return fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"earthMoonTide"') >= 0 ? 1 : 0; } catch (e) { return 0; } })();
 // 第288便b(原仮定者の裁定(第78報)①・統括のゲート 2): 在位移行の世代 = html の UNIFY_MIGRATED に ⏰ gw150914Merge4s(f=1・kFrame=0・**補正コア 2 件を外した**)。
 //   コア宣言の数え方・置換可の数に −2(🧮🩺 は kFrame 1→0・🧿 は退役 —— 各ブロックの宣言の読みも同じ切替)
 const W288B_MIG = (() => { try { return /^const UNIFY_MIGRATED=\{[^\n]*\bgw150914Merge4s:/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8')); } catch (e) { return false; } })();
@@ -20797,6 +20802,10 @@ if (!FAST) {
         }
         const has290e285 = has289n && html285.indexOf('id:"shapeToySpiral"') >= 0 && html285.indexOf('id:"shapeToySpiralCore"') >= 0;
         const nBuiltin285 = [142, 143].concat(has288n ? [146] : [], has289n ? [147] : [], (has290c285 && !has290e285) ? [148] : [], (has290e285 && !has290c285) ? [149] : [], (has290c285 && has290e285) ? [150] : []);
+        // 第292便d(原仮定者の裁定(第82報)⑦・R140): 🌜 earthMoonTide(明示潮汐の診断本 —— 宣言した本だけの別経路。基点 b92ffa1 には無い本)を足した世代は +1
+        //   (正本が鎖で刻み直されるまでは前の世代の本数のまま —— 両方を許す)
+        const has292d285 = has290c285 && has290e285 && html285.indexOf('id:"earthMoonTide"') >= 0;
+        if (has292d285) { OTHER285.add('earthMoonTide'); nBuiltin285.push(nBuiltin285[nBuiltin285.length - 1] + 1); }
         const extra285 = (O.differ || []).filter((id) => !(O.declared || []).includes(id));
         if (!(nBuiltin285.includes(O.n) && extra285.every((id) => OTHER285.has(id)) && O.identical + O.differ.length === O.n)) bad.push('1 步の比較 ' + JSON.stringify(O).slice(0, 160));
         const C = JC.constraint;
@@ -22573,6 +22582,192 @@ if (!FAST) {
     add('docs.bgAuditTable', bad.length === 0,
       `**背景の精査表**(第291便d・原仮定者の裁定(第81報)⑥・統括の検証項目 R135 —— 正本 tests/out/bgaudit-w291d.json・器 tests/exp-w291d-bgaudit.mjs): ${cases.join(' / ')}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 8c1k) 第292便d(原仮定者の裁定(第82報)⑦「慣性決定力版では引きずりの実装とともに潮汐力の実装も進める・多粒子サンプルでは潮汐力は無視するなど最適化」・
+// ----   統括の検証項目 R140): **潮汐便**の 3 ブロック。**root では SKIP**(beta 線の新しい鍵・器・正本)。世代切替 has292d = html に `function dfmTideStep(` と
+// ----   🌜 earthMoonTide の宣言があり、器がある。器 tests/exp-w292d-tide.mjs・純関数 tests/lib-w292d-tide.mjs・正本 tests/out/tide-w292d.json。
+// ----   ① behavior.tideGate …… (a) physics.tide を宣言する内蔵は 🌜 だけ・宣言の無い本は build で潮汐を張らない(読み口 null・自転の配列の型は変わらない ——
+// ----      基点とのビット同一 150/150 は器 bitsame/sigsame)(b) 純関数の検査 6 項(c) エンジンの 1 回の評価が純関数とビット同一(d) J の更新(Ω=J/I・ΔJ の状態と帳簿・
+// ----      取り直し)(e) サブステップ(f) 足さない本 4 本の未宣言とのビット同一・maxN の上書き(g) 復元・xdot・split・lag 0・inertia —— いまの html で作り直して
+// ----      正本と照合(相対 1e-12・残差の鍵は絶対 1e-12)・内蔵の全本に足した写しの分類(今の html で数える —— 固定値にしない)・素朴な spin+=τ の形が無い。
+// ----   ② preset.earthMoonTide …… 🌜 の宣言(🌙 の直後・天体の機構・earthmoon の variant・principle・real・referenceKind・notClaim・relativeDrag なし)・
+// ----      bodies/physics が 🌙 + tide だけ・受理器の拒否/正準形/警告・obsCard の行数と字数と実測値(正本から作り直す)・較正母集団の外。
+// ----   ③ docs.tideContract …… PHYSICS〔第292便d〕の表の行が正本から作り直した行と一致・必須の文・禁止の言い回し・AI_SPEC の鍵・CHANGELOG の 1 行・正本の ok。
+{
+  const html292d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has292d = TARGET.startsWith('beta/') && html292d.indexOf('function dfmTideStep(') >= 0 && html292d.indexOf('id:"earthMoonTide"') >= 0
+    && fs.existsSync(path.join(ROOT, 'tests', 'exp-w292d-tide.mjs'));
+  if (!has292d) {
+    console.log('SKIP behavior.tideGate / preset.earthMoonTide / docs.tideContract(第292便d 未適用 — ' + TARGET + ')');
+  } else {
+    let E292 = null, L292 = null, HP292 = null, err292 = null;
+    try {
+      E292 = await import('file://' + path.join(ROOT, 'tests', 'exp-w292d-tide.mjs'));
+      L292 = await import('file://' + path.join(ROOT, 'tests', 'lib-w292d-tide.mjs'));
+      // loadHtmlMain は html を**この process の大域**で実行する(2 度目は const の再宣言で落ちる)—— 前のブロックが同じ TARGET を読んでいればその HP を使う
+      if (globalThis.HP && typeof globalThis.HP.dfmTideStep === 'function' && typeof globalThis.HP.TIDE_STEP_VERSION === 'string'
+        && html292d.indexOf('"' + globalThis.HP.TIDE_STEP_VERSION + '"') >= 0) HP292 = globalThis.HP;
+      else if (globalThis.HP && typeof globalThis.HP.validatePreset === 'function') throw new Error('大域の HP が別の html の版(同じ process で 2 度読めない)');
+      else {
+        const { loadHtmlMain: loadMain292 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
+        HP292 = loadMain292(path.join(ROOT, TARGET)).HP;
+      }
+    } catch (e) { err292 = String(e && e.stack || e).slice(0, 160); }
+    let J292 = null; try { J292 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'tide-w292d.json'), 'utf8')); } catch (e) { J292 = null; }
+    const Pd292 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const psec292 = (() => { const a = Pd292.indexOf('〔第292便d — '); if (a < 0) return '';
+      const ends = [Pd292.indexOf('\n〔第', a + 10), Pd292.indexOf('\n## 7. 論文', a)].filter((k) => k > a); return Pd292.slice(a, ends.length ? Math.min(...ends) : undefined); })();
+    // 照合(tests/README §1): 解析量は相対 1e-12・残差の鍵(rel…/…Rel/residual…/sumF)は絶対 1e-12・真偽値・整数・文字列は一致
+    const near292 = (a, b, where, out) => {
+      if (out.length > 4) return;
+      if (typeof a === 'number' && typeof b === 'number') {
+        const RES = /\/(rel|relDJ|residual\w*|sumF|omegaEndRel|dJrel|rel[A-Z]\w*)(\/\d+)?$/.test(where);
+        if (!(Object.is(a, b) || (RES ? Math.abs(a - b) <= 1e-12 : Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b))))) out.push(where + ' ' + a + '≠' + b);
+        return;
+      }
+      if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(where + ' ' + String(a).slice(0, 30) + '≠' + String(b).slice(0, 30)); return; }
+      if (Array.isArray(a) !== Array.isArray(b) || (Array.isArray(a) && a.length !== b.length)) { out.push(where + ' 形が違う'); return; }
+      for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) near292(a[k], b[k], where + '/' + k, out);
+    };
+    const clone292 = (o) => JSON.parse(JSON.stringify(o));
+    // ---- ① behavior.tideGate
+    {
+      const bad = [], cases = [];
+      if (err292) bad.push('器/html が読めない: ' + err292);
+      else if (!J292) bad.push('正本 tide-w292d.json が読めない');
+      else {
+        if (!(J292.meta && J292.meta.provenanceVersion === 'w272e-1' && J292.meta.harnessVersion === E292.HARNESS_VERSION && J292.meta.engineVersion === HP292.TIDE_STEP_VERSION)) bad.push('来歴(w272e-1)/器・経路の版');
+        // (a) 宣言は 🌜 だけ・宣言の無い本は潮汐を張らない
+        const decl = HP292.allPresets().filter((q) => q.physics && q.physics.tide).map((q) => q.id);
+        if (JSON.stringify(decl) !== JSON.stringify([E292.DIAG_ID])) bad.push('(a) physics.tide を宣言する内蔵が 🌜 だけでない: ' + decl.join(','));
+        const bodyDecl = HP292.allPresets().filter((q) => (q.bodies || []).some((b) => b && b.tide)).map((q) => q.id);
+        if (JSON.stringify(bodyDecl) !== JSON.stringify([E292.DIAG_ID])) bad.push('(a) 天体の tide を宣言する内蔵が 🌜 だけでない: ' + bodyDecl.join(','));
+        let nUndecl = 0, nLeak = 0;
+        for (const q of HP292.allPresets()) {
+          if (decl.includes(q.id) || q.familyRole === 'retired') continue;
+          if (!(q.bodies && q.bodies.length <= 40)) continue;   // 重い本は飛ばす(build だけの確認 —— 全本の基点ビット同一は器 bitsame が受け持つ)
+          const v = HP292.validatePreset(clone292(q)); if (!v.ok) continue;
+          HP292.sim.build(v.preset); nUndecl++;
+          if (HP292.sim.hasTide === true || HP292.tideState(HP292.sim) !== null) nLeak++;
+        }
+        if (nLeak) bad.push(`(a) 宣言の無い本 ${nLeak} 本に潮汐の状態がある`);
+        cases.push(`(a) physics.tide・天体の tide の宣言は 🌜 だけ・宣言の無い ${nUndecl} 本(粒子 40 以下)は build で潮汐を張らない(基点とのビット同一 150/150 は器 bitsame/sigsame)`);
+        const G = { gateB: E292.gateB(), gateC: E292.gateC(HP292), gateD: E292.gateD(HP292), gateE: E292.gateE(HP292), gateF: E292.gateF(HP292), gateG: E292.gateG(HP292) }, diff = [];
+        for (const k of Object.keys(G)) near292(J292[k], G[k], k, diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 3).join(' ; '));
+        for (const k of Object.keys(G)) if (G[k].ok !== true) bad.push('門 ' + k + ' が ok でない');
+        const B = G.gateB, C = G.gateC, D = G.gateD, EE = G.gateE, F = G.gateF, GG = G.gateG;
+        cases.push(`(b) 純関数 6 項: ΣF ${B.actionReaction.rel.toExponential(1)}・トルク収支 ${B.torqueBalance.rel.toExponential(1)}・仕事+熱 ${B.workHeat.rel.toExponential(1)}・同期で散逸 0・速い自転で減速(解析式 ${B.fastBrakes.rel.toExponential(1)})・代表/試験粒子 0`);
+        cases.push(`(c) エンジン=純関数(力・トルク・熱・τ_tide がビット同一 —— 受け手 ${C.receivers.join(',')}・状態は不変)`);
+        cases.push(`(d) Ω=J/I(ビット)=${D.omegaIsJoverI}・ΔJ の状態と帳簿 ${D.relDJ.map((z) => z.toExponential(1)).join('/')}・自転の書き換えで J を取り直す=${D.resync.ok}`);
+        cases.push(`(e) 遅延 1e8 の 2 体: 分割 ${EE.full.nsubMax} 回/步(陽的 1 回の増幅率 ${EE.full.explicitGain.toFixed(2)})・同期へ単調・行き過ぎなし・dt 半分との差 ${EE.omegaEndRel.toExponential(1)}`);
+        cases.push(`(f) 足さない本 ${F.rows.map((r) => `${r.label}〔${r.off}・${r.bitSame ? 'ビット同一' : '不一致'}〕`).join('・')}・maxN:9 で働く=${F.maxNOverride.off === null}`);
+        cases.push(`(g) 復元の再走ビット同一=${GG.checkpoint.rerunBitSame}・xdot(引きずりなし)=v=${GG.xdotNoDrag.bitSame}・split half と full ${GG.split.rel.toExponential(1)}・lag 0 で散逸 0=${GG.lag0.consOnly}・sphere/half の ΔΩ 比 ${GG.inertia.ratioJ.toFixed(6)}`);
+        // 内蔵の全本に足した写しの分類(今の html で数える —— 固定値にしない)
+        const cls = {};
+        for (const p of HP292.allPresets()) {
+          const v = HP292.validatePreset(clone292(E292.withTide(p)));
+          if (!v.ok) { (cls.reject = cls.reject || []).push(p.id); continue; }
+          const k = HP292.tideCrossCheck(v.preset.physics, v.preset.bodies, v.preset).off || 'active';
+          (cls[k] = cls[k] || []).push(p.id);
+        }
+        if (cls.reject) bad.push('足した写しが受理されない内蔵: ' + cls.reject.slice(0, 3).join(','));
+        if (!(cls.active || []).includes(E292.DIAG_ID)) bad.push('🌜 が「働く」に入らない');
+        if ((cls.active || []).some((id) => { const p = HP292.allPresets().find((q) => q.id === id); return (p.bodies || []).some((b) => b.type !== 'single') || p.bodies.length > 8; })) bad.push('群・9 体以上の本が「働く」に入った');
+        cases.push('内蔵 ' + HP292.allPresets().length + ' 本に足した写しの分類 ' + Object.entries(cls).map(([k, v]) => k + ' ' + v.length).join('・'));
+        // 自転の更新は J から(素朴な spin += torque*dt の形が無い)
+        const src = HP292.dfmTideStep.toString();
+        if (/spin\[[^\]]+\]\s*\+=/.test(src)) bad.push('dfmTideStep に spin[…]+= の素朴な更新がある');
+        if (src.indexOf('S.spin[i]=(hi+lo)/I') < 0) bad.push('dfmTideStep が Ω=J/I に戻していない');
+        if (J292.ok !== true) bad.push('正本の ok');
+      }
+      add('behavior.tideGate', bad.length === 0,
+        `**明示潮汐(physics.tide と天体の tide —— 定時間遅延 CTL)の門 a〜g**(第292便d・統括の検証項目 R140 —— 宣言した本だけ・S._core の外・引きずりの直後・多粒子の本には足さない): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② preset.earthMoonTide
+    {
+      const bad = [], cases = [];
+      if (err292) bad.push('器/html が読めない: ' + err292);
+      else {
+        const ps = HP292.allPresets(), iE = ps.findIndex((q) => q.id === 'earthMoonReal'), iT = ps.findIndex((q) => q.id === E292.DIAG_ID);
+        const P = ps[iT], Q = ps[iE];
+        if (!P) bad.push('🌜 earthMoonTide が無い');
+        else {
+          if (iT !== iE + 1) bad.push('🌜 が 🌙 の直後でない');
+          const want = { emoji: '🌜', group: '天体の機構', familyId: 'earthmoon', familyRole: 'variant', sampleClass: 'principle', fidelity: 'real', referenceKind: 'tide-diagnostic' };
+          for (const [k, v] of Object.entries(want)) if (P[k] !== v) bad.push(`${k} が ${v} でない(${P[k]})`);
+          if (JSON.stringify(P.notClaim) !== JSON.stringify(['solar_cal', 'apsidal_8p85'])) bad.push('notClaim が solar_cal・apsidal_8p85 でない');
+          if (P.physics.relativeDrag !== undefined) bad.push('🌜 に relativeDrag がある(引きずりは宣言しない)');
+          const strip = (bs) => bs.map((b) => { const z = clone292(b); delete z.tide; return z; });
+          if (JSON.stringify(strip(P.bodies)) !== JSON.stringify(strip(Q.bodies))) bad.push('bodies が 🌙 と tide 以外で違う');
+          if (JSON.stringify(P.bodies.map((b) => b.tide)) !== JSON.stringify([E292.TIDE_DECL.earth, E292.TIDE_DECL.moon])) bad.push('天体の tide の宣言が器の TIDE_DECL と違う');
+          const ph = clone292(P.physics); delete ph.tide;
+          if (JSON.stringify(ph) !== JSON.stringify(Q.physics)) bad.push('physics が 🌙 と tide 以外で違う');
+          if (JSON.stringify(P.physics.tide) !== JSON.stringify({ maxN: 8 })) bad.push('physics.tide が {maxN:8} でない');
+          const v = HP292.validatePreset(clone292(P));
+          if (!v.ok || (v.warnings || []).length) bad.push('🌜 の受理に誤り/警告: ' + JSON.stringify((v.errors || []).concat(v.warnings || [])).slice(0, 120));
+          else if (JSON.stringify(v.preset.physics.tide) !== JSON.stringify({ model: 'ctl', maxN: 8, velocity: 'v', inertia: 'half', split: 'full' })) bad.push('physics.tide の正準形');
+          // obsCard: 8 行以内・各欄 120 字以内・実測値(正本から作り直す)
+          for (const card of [P.obsCard, P.en && P.en.obsCard]) {
+            if (!Array.isArray(card) || card.length > 8) { bad.push('obsCard が 8 行以内でない'); continue; }
+            for (const r of card) for (const k of ['q', 'model', 'obs']) if (String(r[k] || '').length > 120) bad.push(`obsCard の ${k} が 120 字を超える: ${String(r[k]).slice(0, 20)}`);
+          }
+          if (J292) {
+            const O = E292.obsValues(J292), txt = JSON.stringify(P.obsCard), txtEn = JSON.stringify(P.en.obsCard);
+            for (const [k, s] of Object.entries(O)) { if (txt.indexOf(s) < 0) bad.push(`obsCard に正本の ${k}=${s} が無い`); if (txtEn.indexOf(s) < 0) bad.push(`en.obsCard に正本の ${k}=${s} が無い`); }
+            cases.push('obsCard の実測 ' + Object.entries(O).map(([k, s]) => k + ' ' + s).join('・') + '(正本から作り直して一致)');
+          }
+          if ((P.claims || []).length) bad.push('🌜 に claims がある(診断本)');
+          if (P.sampleClass === 'calibration') bad.push('較正母集団に入っている');
+        }
+        // 受理器の契約
+        const VT = HP292.validateTide, VB = HP292.validateTideBody;
+        const rej = [[VT({ foo: 1 }), '未知の鍵'], [VT({ maxN: 1 }), 'maxN 1'], [VT({ maxN: 8.5 }), 'maxN 8.5'], [VT({ model: 'ctq' }), 'model ctq'], [VT({ velocity: 'u' }), 'velocity u'],
+          [VT({ inertia: 'ring' }), 'inertia ring'], [VT({ split: 'third' }), 'split third'], [VT([1]), '配列'],
+          [VB({ k2: 0, lag: 1 }, 1), 'k2 0'], [VB({ k2: 1.6, lag: 1 }, 1), 'k2 1.6'], [VB({ k2: 0.3, lag: -1 }, 1), 'lag −1'], [VB({ k2: 0.3, lag: 1 }, undefined), '半径なし'], [VB({ k2: 0.3, lag: 1, Q: 10 }, 1), '未知の鍵 Q']];
+        for (const [r, why] of rej) if (r.ok) bad.push('受理器が拒否しない: ' + why);
+        const c0 = VT({}), c1 = VT(null), c2 = VB({ k2: 0.3, lag: 0 }, 2);
+        if (!(c0.ok && JSON.stringify(c0.tide) === JSON.stringify({ model: 'ctl', maxN: 8, velocity: 'v', inertia: 'half', split: 'full' }) && c1.ok && c1.tide === null && c2.ok && c2.tide.lag === 0)) bad.push('受理器の正準形・null・lag 0');
+        // 警告(拒否しない): 群の天体の tide・pinned・試験粒子・physics.tide の無い本の天体の tide
+        const base = clone292(HP292.allPresets().find((q) => q.id === E292.DIAG_ID));
+        const wOf = (mut) => { const q = clone292(base); mut(q); const v = HP292.validatePreset(q); return { ok: v.ok, w: (v.warnings || []).join(' ') }; };
+        const w1 = wOf((q) => { q.bodies[1].pinned = true; }), w2 = wOf((q) => { q.bodies[1].testParticle = true; }), w3 = wOf((q) => { delete q.physics.tide; });
+        if (!(w1.ok && /pinned/.test(w1.w) && w2.ok && /試験粒子/.test(w2.w) && w3.ok && /physics\.tide/.test(w3.w))) bad.push('pinned・試験粒子・physics.tide なしの警告');
+        cases.push(`受理器: 拒否 ${rej.length} 例・正準形(既定 maxN 8・ctl・v・half・full)・pinned/試験粒子/宣言なしは警告して足さない`);
+        if (!/nc_apsidal_8p85:/.test(html292d)) bad.push('notClaim の表示文 nc_apsidal_8p85 が無い');
+      }
+      add('preset.earthMoonTide', bad.length === 0,
+        `**🌜 earthMoonTide(明示潮汐の診断本 —— 🌙 の bodies + tide・引きずりは宣言しない)**(第292便d・統括の検証項目 R140): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ③ docs.tideContract
+    {
+      const bad = [], cases = [];
+      if (err292) bad.push('器/html が読めない: ' + err292);
+      else if (!J292) bad.push('正本 tide-w292d.json が読めない');
+      else if (!psec292) bad.push('PHYSICS〔第292便d — 〕が無い');
+      else {
+        const R = E292.docRows(J292), rows = R.checks.concat(R.omit, R.diag, R.cross), miss = rows.filter((r) => psec292.indexOf(r) < 0);
+        if (miss.length) bad.push('PHYSICS の表に正本の行が無い: ' + miss.length + ' 行(' + miss[0].slice(0, 60) + ')');
+        cases.push(`PHYSICS の表の行 ${rows.length} 本(検査 ${R.checks.length}・足さない本 ${R.omit.length}・🌜 ${R.diag.length}・交差項 ${R.cross.length})が正本から作り直した行と一致`);
+        const MUST = ['三つの意味', 'physics.backgroundTidal', 'J=IΩ', 'maxN', '交差項', '決断事項候補', 'bitsame', 'sigsame', 'velocity', '書かないこと'];
+        for (const t of MUST) if (psec292.indexOf(t) < 0) bad.push('PHYSICS〔第292便d〕に無い文: ' + t);
+        const body = psec292.split('**書かないこと**')[0].replace(/「[^」]*」/g, '');
+        for (const re of [/全系の保存則が閉じた/, /月の後退率を再現/, /観測一致を達成/, /較正を完了/, /新発見/, /RC を切った/, /GR の高次/]) if (re.test(body)) bad.push('禁止の言い回し ' + re.source);
+        const AI = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        if (!(AI.indexOf('physics.tide') >= 0 && /tide:\{k2, ?lag\}/.test(AI) && AI.indexOf('physics.backgroundTidal') >= 0)) bad.push('AI_SPEC に physics.tide / tide:{k2, lag} の節が無い');
+        const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+        if (CL.indexOf('第292便d') < 0) bad.push('CHANGELOG に第292便d の行が無い');
+        if (J292.ok !== true) bad.push('正本の ok');
+        cases.push(`🌜 1 恒星月 ΔJ/J ${J292.diag.run.dJrelEarth.toExponential(3)}・交差項 ${J292.cross.rows.length} 行・正本の ok ${J292.ok}`);
+      }
+      add('docs.tideContract', bad.length === 0,
+        `**潮汐の契約の表**(第292便d・統括の検証項目 R140 —— 正本 tests/out/tide-w292d.json・器 tests/exp-w292d-tide.mjs): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
   }
 }
 
@@ -35703,6 +35898,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     exp6.n += W288E_CORE;   // 第288便e: 🛸(🌚 の軸 90° の原理コピー —— **core 宣言 1 件**・移行可・置換可)
     exp6.n += W289E_LAY;   // 第289便e: 🪆(🛸 の層版の診断コピー —— **core 宣言なし**・layers だけ。コア宣言の数は動かない)
     exp6.n += W290C_INE;   // 第290便c: 🐌(慣性引きずりの診断本 —— core 宣言なし)
+    exp6.n += W292D_TIDE;   // 第292便d: 🌜(明示潮汐の診断本 —— core 宣言なし)
     const m6 = mg.rep.nPresets === exp6.n && mg.rep.nCore === exp6.core && mg.rep.tot.convertible === 61 - W284_CORE + W288E_CORE + W288B_CORE
       && mg.rep.tot.needsResolve === exp6.res && mg.rep.tot.rejected === 1
       && mg.rep.tot.cavity === 0 && mg.rep.tot.naked === 0;
@@ -35952,7 +36148,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     // 第265便d: 🐮 lfbotTrap が入って 76 宣言。増えた 1 件は `migrationRejected`(body.radius 非宣言)で
     // 不可 44→45・rotationSource 43→44・migration 14→15・各項 +1。内蔵は 🪁 と合わせ 124 本。
     // 第274便c: 🎋 galaxyMeshSpiralGeoToyLite(コア宣言なし)が入って 124→125 本(core 76 件は不変)
-    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) + (rp.rep.has288c ? 1 : 0) + (rp.rep.has288a ? 1 : 0) + W288E_CORE + W289E_LAY + W290C_INE && rp.rep.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE
+    const g1 = rp.rep.nPresets === (rp.rep.has274c ? 125 : 124) + (rp.rep.nShapeToy || 0) + (rp.rep.has277b ? 2 : 0) + (rp.rep.n280e || 0) + (rp.rep.has280d ? 2 : 0) + (rp.rep.has280b ? 1 : 0) + (rp.rep.has280c ? 2 : 0) + (rp.rep.has282d ? 1 : 0) + (rp.rep.has283f ? 1 : 0) + (rp.rep.has287a ? 1 : 0) + (rp.rep.has288c ? 1 : 0) + (rp.rep.has288a ? 1 : 0) + W288E_CORE + W289E_LAY + W290C_INE + W292D_TIDE && rp.rep.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE
       && rp.rep.tot.canReplace === 31 - W284_CORE + W288E_CORE + W288B_CORE && rp.rep.tot.cannot === 45   // 第288便b: ⏰ の補正コア 2 件(置換可)が消えた   // 第284便b: ⚡ の 2 件(置換可)が消えた
       && rp.rep.byAxis.rotationSource === 44 && rp.rep.byAxis.migration === 15
       && rp.rep.byAxis.KcsThermal === 17 && rp.rep.byAxis.activePumpContract === 17
@@ -37175,7 +37371,7 @@ await w5bRun('galaxyMesh', true); async function W5B_galaxyMesh(page, add, fpRun
     }, 600);
     // 第274便c: 🎋(コア宣言なし)が入って 124→125 本(宣言 0・core 76 件は不変)
     const s1 = lw.builtins.nDeclared === 0 && lw.builtins.nCore === 76 - W284_CORE + W288E_CORE + W288B_CORE   // 第284便b: ⚡ の補正コア 2 件
-      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0) + (lw.builtins.has287a ? 1 : 0) + (lw.builtins.has288c ? 1 : 0) + (lw.builtins.has288a ? 1 : 0) + W288E_CORE + W289E_LAY + W290C_INE;   // 第288便e: 🛸(core 宣言 1 件)・第289便e: 🪆(core 宣言なし)
+      && lw.builtins.nPresets === (lw.builtins.has274c ? 125 : 124) + (lw.builtins.nShapeToy || 0) + (lw.builtins.has277b ? 2 : 0) + (lw.builtins.n280e || 0) + (lw.builtins.has280d ? 2 : 0) + (lw.builtins.has280b ? 1 : 0) + (lw.builtins.has280c ? 2 : 0) + (lw.builtins.has282d ? 1 : 0) + (lw.builtins.has283f ? 1 : 0) + (lw.builtins.has287a ? 1 : 0) + (lw.builtins.has288c ? 1 : 0) + (lw.builtins.has288a ? 1 : 0) + W288E_CORE + W289E_LAY + W290C_INE + W292D_TIDE;   // 第288便e: 🛸(core 宣言 1 件)・第289便e: 🪆(core 宣言なし)
     const s2 = lw.match.shell.qV2 === lw.match.shell.qLay && lw.match.shell.d600 === 0
       && lw.match.shell.law === 'shell'
       && lw.match.total.dQ !== 0 && lw.match.total.d600 > 0 && lw.match.total.law === 'total';
@@ -56825,7 +57021,10 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       : gen131 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal,saturnZonalD68,solarInner'
       : gen120 ? 'earthMoonReal,earthMoonRealKF1,mercuryReal,saturnRingReal'
       : 'earthMoonFree,grcal,saturnZonalD68';
-    const want = gen280b ? want0.replace('alphaCenABDFM,earthMoonReal,', 'alphaCenABDFM,earthMoonDiagOne,earthMoonReal,') : want0;
+    const want1 = gen280b ? want0.replace('alphaCenABDFM,earthMoonReal,', 'alphaCenABDFM,earthMoonDiagOne,earthMoonReal,') : want0;
+    // 第292便d(R140): 🌜 earthMoonTide(実単位の 🌙 の bodies + 明示潮汐の診断本 —— fidelity real・principle)を足した世代(html に 🌜 の宣言)は +1
+    const has292dFid = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('id:"earthMoonTide"') >= 0;
+    const want = has292dFid ? want1.replace('earthMoonRealKF1,', 'earthMoonRealKF1,earthMoonTide,') : want1;
     add('ui.fidelity',
       r.reals.join(',') === want && r.chipOn && r.chipOff && r.chipOffLegacy,
       `fidelity:"real"=${r.reals.length}件[${r.reals.join(',')}](${gen120 ? '第120便: スケール換算込み較正のみ' : '第93便: 3件(root)'})/ ` +
@@ -59524,7 +59723,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         && o.fam.venusReal.length === 1 && o.fam.venusReal[0].endsWith(':primary')
         && o.fam.mercury.length === (ps.some((q) => q.id === 'mercuryGeoToy3') ? 3 : 2)   // 第280便c: 🔁 mercuryGeoToy3(geoPN=3 の診断コピー)が variant で加わる
         // 第280便b(R70): 地球–月は 🌙🌘 に ⭕🧲🔆(旧 emAudit)と診断コピー 🌓 を足した 6 本(世代判定 HP.validateQLockKernel)
-        && o.fam.earthmoon === ((typeof HP.validateQLockKernel === 'function') ? 6 : 2) && o.fam.saturn === (HP.allPresets().some((q) => q.id === 'saturnD68Consistent') ? 5 : 3) /* 第280便e: 🧷📎 */ && o.fam.psr === 8 /* 第262便a: 🩻 psrDoubleABGeoToy */ && o.fam.grcal === 4;
+        // 第292便d(R140): 🌜 earthMoonTide(明示潮汐の診断本 —— earthmoon の variant)を足した世代は +1
+        && o.fam.earthmoon === ((typeof HP.validateQLockKernel === 'function') ? 6 : 2) + (ps.some((q) => q.id === 'earthMoonTide') ? 1 : 0) && o.fam.saturn === (HP.allPresets().some((q) => q.id === 'saturnD68Consistent') ? 5 : 3) /* 第280便e: 🧷📎 */ && o.fam.psr === 8 /* 第262便a: 🩻 psrDoubleABGeoToy */ && o.fam.grcal === 4;
       // 単独ファミリーでは「この仲間」導線が出ない(他メンバーが無いので)
       hidePresetPicker(); HP.loadPreset('solarInner', false);
       { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
@@ -61345,6 +61545,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has288e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90');   // 第288便e: 🛸(🌚 の軸 90° の原理コピー)で +1
       o.has289e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の層版の診断コピー)で +1
       o.has290c = HP.allPresets().some((z) => z.id === 'inertialDragPair');   // 第290便c: 🐌(慣性引きずりの診断本)で +1
+      o.has292d = HP.allPresets().some((z) => z.id === 'earthMoonTide');   // 第292便d: 🌜(明示潮汐の診断本)で +1
       // ⑥ 群の説明(ja/en)があり、「観測一致版ではない」を言う
       o.noteJa = (I18N.ja.groupNotes || {})[G] || '';
       o.noteEn = (I18N.en.groupNotes || {})[G] || '';
@@ -61354,9 +61555,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     });
     add('preset.groupAnalogies',
       r.exact && r.n === (r.has287d ? 7 : 11) && r.gid === 'realAnalogy' && r.psrToy === r.beyondName
-      && r.lfbot === r.celName && JSON.stringify(r.cross) === JSON.stringify(r.w290b ? (r.w292b ? ['earthmoon', 'supernova'] : ['supernova']) : []) && r.calN === 37 + (r.w290b ? 1 : 0) - (r.w292b ? 1 : 0)
+      && r.lfbot === r.celName && JSON.stringify(r.cross.slice().sort()) === JSON.stringify((r.w290b ? ['supernova'] : []).concat((r.w292b || r.has292d) ? ['earthmoon'] : []).sort()) && r.calN === 37 + (r.w290b ? 1 : 0) - (r.w292b ? 1 : 0)   // 第292便d: 🌜(天体の機構)が earthmoon(🌙 は現実較正)を群をまたがせる
       && r.sigSame && r.sigNoGroup
-      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) + (r.has290c ? 1 : 0) && r.beyondN === (r.has288b ? 51 - (r.w292b ? 1 : 0) : (r.has287d ? 23 : 19))   // 第292便b: 🌘 を「天体の機構」へ移したので「現実較正」は 50
+      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) + (r.has290c ? 1 : 0) + (r.has292d ? 1 : 0) && r.beyondN === (r.has288b ? 51 - (r.w292b ? 1 : 0) : (r.has287d ? 23 : 19))
       && r.noteOk && r.enName === 'Real-object Analogies',
       `**新グループ「実在天体のアナロジー」**(id=${r.gid}・en=${r.enName}): ${r.n} 本=${JSON.stringify(r.members)} / `
       + `🩻 psrDoubleABGeoToy は psr family に残す=${r.psrToy}・🐮 lfbotTrap は入れない=${r.lfbot} / `
@@ -61631,6 +61832,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.has288e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90');   // 第288便e: 🛸(🌚 の軸 90° の原理コピー)で +1
       o.has289e = HP.allPresets().some((z) => z.id === 'galaxyAnalogyBHTilt90Layers');   // 第289便e: 🪆(🛸 の層版の診断コピー)で +1
       o.has290c = HP.allPresets().some((z) => z.id === 'inertialDragPair');   // 第290便c: 🐌(慣性引きずりの診断本)で +1
+      o.has292d = HP.allPresets().some((z) => z.id === 'earthMoonTide');   // 第292便d: 🌜(明示潮汐の診断本)で +1
       // ④ **presetSig は group を見ない**: 移した 5 本の署名に群名が出ない
       o.sigNoGroup = WANT.every((id) => presetSig(ps.find((q) => q.id === id)).indexOf(G) < 0);
       // ⑤ 群の説明(ja/en)があり、表示順では「天体の機構」の直後に出る
@@ -61644,8 +61846,8 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     });
     add('preset.clocksGravity',
       r.exact && r.n === 5 && r.gid === 'clocksGravity' && r.enName === 'Clocks & Gravity'
-      && r.restOk && JSON.stringify(r.cross) === JSON.stringify(r.w290b ? (r.w292b ? ['earthmoon', 'supernova'] : ['supernova']) : []) && r.grcalOk && r.calN === 37 + (r.w290b ? 1 : 0) - (r.w292b ? 1 : 0)
-      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) + (r.has290c ? 1 : 0)
+      && r.restOk && JSON.stringify(r.cross.slice().sort()) === JSON.stringify((r.w290b ? ['supernova'] : []).concat((r.w292b || r.has292d) ? ['earthmoon'] : []).sort()) && r.grcalOk   /* 第292便d: 🌜(天体の機構)が earthmoon を群をまたがせる */ && r.calN === 37 + (r.w290b ? 1 : 0) - (r.w292b ? 1 : 0)
+      && r.total === (r.has274c ? 125 : 124) + (r.nShapeToy || 0) + (r.has277b ? 2 : 0) + (r.n280e || 0) + (r.has280d ? 2 : 0) + (r.has280b ? 1 : 0) + (r.has280c ? 2 : 0) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) + (r.has290c ? 1 : 0) + (r.has292d ? 1 : 0)
       && r.sigNoGroup && r.noteOk && r.posOk,
       `**新グループ「時計と重力」**(第273便a・AH6。id=${r.gid}・en=${r.enName}): ${r.n} 本=`
       + `${JSON.stringify(r.members)} / 「運動と時空」に残る=${JSON.stringify(r.rest)}=${r.restOk} / `

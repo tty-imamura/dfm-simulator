@@ -813,6 +813,10 @@ tests/out/regen-plan-w281a.json
 #   D₀・q・自転を読まないこと〔固定配置で 1 步の u がビット同一〕・共通並進/一様加速度は消え回転/潮汐は残ること・旧正規化 u=A/W 型の場では Wbg が分母に残ること)。
 #   QA docs.bgAuditTable が読み、lint.provenanceMeta が来歴を固定するのでコミットする
 !tests/out/bgaudit-w291d.json
+# 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **潮汐便**の正本(tests/exp-w292d-tide.mjs —— 明示潮汐の門 b〜g〔純関数 6 項・エンジン=純関数・
+#   J の更新・サブステップ・足さない本・復元〕と 🌜 の 1 恒星月・引きずりとの交差項)。QA behavior.tideGate・preset.earthMoonTide・docs.tideContract が読み、
+#   lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/tide-w292d.json
 # 第291便b(原仮定者の裁定(第81報)⑤・統括の検証項目 R133): **GR 1PN 便**の正本(tests/exp-w291b-pnsources.mjs —— kF0 の 1PN 源 = 全質量源の
 #   源の表・基点 cf2da0a との前後・参照 EIH との照合・半径回帰・🥶 の残差の分解・表示条件の集計)。QA docs.pn1Contract が読み、
 #   lint.provenanceMeta が来歴を固定するのでコミットする
