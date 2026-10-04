@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便b",
   "target": "beta/index.html",
-  "targetSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-  "generatedAt": "2026-10-03T22:28:49.680Z",
+  "targetSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+  "generatedAt": "2026-10-04T01:51:51.626Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5623059,
-    "sha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
-    "mtime": "2026-10-03T22:09:12.645Z"
+    "bytes": 5632932,
+    "sha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
+    "mtime": "2026-10-04T00:25:31.069Z"
    },
    {
     "file": "tests/exp-w249b-calaudit.mjs",
@@ -20,9 +20,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1814913,
-    "sha256": "212279e541485ff204966ddf619fd1fbfa59789ef6158a46ea4b7296a63a5391",
-    "mtime": "2026-10-03T22:22:04.961Z"
+    "bytes": 1823445,
+    "sha256": "702409506e723db51a391962e2a9aef05ff9738ef7fa7fcff750246dc9f0fcb5",
+    "mtime": "2026-10-04T01:45:11.821Z"
    }
   ],
   "code": [
@@ -110,14 +110,14 @@
    "complete": true,
    "names": 951,
    "segments": 862,
-   "closureShare": 0.3238
+   "closureShare": 0.3232
   },
   "scopeSha256": "a0401ac4543ca9c40302c9d17ac831a0f51cd134007491374b6cfe0c3870ee45",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "875aeb28089a7343d411c0e20595ef5123956a47b512f77a2868d1bb535b671e",
+    "stableSha256": "823165b6a3e3e8aa8bf572cf177f779f45ddc7f4f3b3f851e8aeb903095baf52",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -145,7 +145,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "4635df1b9054230d3b779a789d35c6a074cd51f1fa3c19b23516580004af3274",
+    "stableSha256": "098e69fb5fd3f93ebe95b9490afeb5e6f2dcf18f6330f9d94127d4f82a8398af",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -208,7 +208,7 @@
   "sha256": "91df05f2633203a71df60b6d4f11904b735c4e3e5e24055a3a4f33d64f0b0ca0",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "6cceb42cde2ea8b3f138151d792b90be2052065d76abef49755a03952985c13f",
+ "nowSha256": "dd667a9744e91e38af25018b21821d0a8c008d8f33a0261c86b05d78f326a923",
  "note": "geoPN はアプリのモード番号(標準理論の 2PN・3PN ではない)。kF0 の 1PN は PPN(β=1・γ=α−½)の N 体 1PN(α=1.5 で EIH)—— DFM から導出した項ではない。S._core は 1 命令も変えていない(geoCoreDispatch が kF0 の役割に core=1 を渡し、差分 Δ を _core の前に当てる)。Σm·v は状態変数の和で、相対論的な全運動量ではない。",
  "A": {
   "cond": {
@@ -2092,13 +2092,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.095,
+   "wallSec": 0.075,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.184,
+   "wallSec": 0.158,
    "errors": 0
   }
  },
- "elapsedS": 388.331
+ "elapsedS": 384.273
 }
