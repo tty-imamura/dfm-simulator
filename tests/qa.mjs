@@ -3748,7 +3748,7 @@ if (QA_CHANGED) {
     const I290c = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
     const n290c = I290c.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
     const EXPECT = { csvRows: 601 + n290c, intakeRows: 54, sigmaEntered: 6, noteEdited: 12,
-      cut: has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 24, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      cut: has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 26, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
       four: has291bSS ? { 否: 1, 保留: 11 } : has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nIntake = 0, nSigma = 0, nNote = 0, nRows = 0, cut = null, four = null, nLater = 0, nRaised = 0;
     try {
@@ -3873,7 +3873,7 @@ if (QA_CHANGED) {
     const I290 = await import('file://' + path.join(ROOT, 'tests', 'exp-w290g-intake8.mjs'));
     const n290 = I290.CANDIDATES.filter((d) => d.file === 'paper/data/solar-observations.csv').length;
     const EXPECT = { csvRows: 601 + n290, newRows: 21, newWithSigma: 10, newVerified: 10, confirmed: 42, raised: 9,
-      cut: has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 24, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
+      cut: has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 26, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 },
       four: has291bSS ? { 否: 1, 保留: 11 } : has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 } };
     let nRows = 0, nNew = 0, nNewSig = 0, nNewVer = 0, nConf = 0, nRaised = 0, cut = null, four = null;
     try {
@@ -4261,7 +4261,7 @@ if (QA_CHANGED) {
       //   比較量は二体ケプラー当てはめの P —— 判定は「数値収束が未確認」の保留〕・離心率/近点移動 2 行が csv-sigma-empty・宣言の欄 6 行が kind-not-gated)と 🥶 の保留 1 本が入った。
       //   **接続数が増えたことと合否の改善を同一視しない**
       const has291bSS = (() => { try { const S = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'solarsigma-w262d.json'), 'utf8')); return (S.rows || []).some((z) => z.id === 'plutoCharonDiagInput'); } catch (e) { return false; } })();
-      const EC = has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 24, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
+      const EC = has291bSS ? { 'csv-sigma-empty': 86, 'kind-not-gated': 26, 'unit-not-converted': 2, connected: 2 } : has290b ? { 'csv-sigma-empty': 84, 'kind-not-gated': 18, 'unit-not-converted': 2, connected: 1 } : has288b ? { 'csv-sigma-empty': 86, 'kind-not-gated': 19, 'unit-not-converted': 2, connected: 4 } : { 'csv-sigma-empty': 106, 'kind-not-gated': 26, 'unit-not-converted': 3, connected: 4 };
       const EF = has291bSS ? { 否: 1, 保留: 11 } : has290b ? { 否: 1, 保留: 10 } : has288b ? { 否: 1, 保留: 11 } : { 否: 2, 保留: 14 };
       for (const [k, v] of Object.entries(EC)) if (cut[k] !== v) bad.push(`④切断点 ${k} が ${v} でない(${cut[k]})`);
       if (four['否'] !== EF['否'] || four['保留'] !== EF['保留']) bad.push(`④太陽系 4 値が 否 ${EF['否']}・保留 ${EF['保留']} でない(${JSON.stringify(four)})`);
