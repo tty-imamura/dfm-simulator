@@ -3,34 +3,34 @@
   "provenanceVersion": "w272e-1",
   "wave": "第280便c",
   "target": "beta/index.html",
-  "targetSha256": "0e33bd32af2b0f11c0a45485f9b7fd85db2992e2de915dd05577225245c8a8aa",
-  "generatedAt": "2026-10-03T23:34:47.090Z",
+  "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+  "generatedAt": "2026-10-04T02:57:03.597Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5632782,
-    "sha256": "0e33bd32af2b0f11c0a45485f9b7fd85db2992e2de915dd05577225245c8a8aa",
-    "mtime": "2026-10-03T23:12:05.149Z"
+    "bytes": 5633437,
+    "sha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
+    "mtime": "2026-10-04T02:34:29.785Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1814913,
-    "sha256": "212279e541485ff204966ddf619fd1fbfa59789ef6158a46ea4b7296a63a5391",
-    "mtime": "2026-10-03T22:22:04.961Z"
+    "bytes": 1823445,
+    "sha256": "702409506e723db51a391962e2a9aef05ff9738ef7fa7fcff750246dc9f0fcb5",
+    "mtime": "2026-10-04T01:45:11.821Z"
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "bytes": 142899,
-    "sha256": "62223f7db7fdcbd309f618651566ef6dd33b35f9e8ff3ab9ba40ed9b5b274763",
-    "mtime": "2026-10-03T23:15:14.217Z"
+    "bytes": 142901,
+    "sha256": "1ef2ed010452fccfcf8c7fb8954b67a03b89003cddc6c1f501a4e8f1dadad568",
+    "mtime": "2026-10-04T02:37:49.513Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w280c-geo3.mjs",
-    "bytes": 35495,
-    "sha256": "9bc67fc8f47bff261cd81e9a47ae60a6ebe29d003b4c4f00c4376e21692f95ab",
-    "mtime": "2026-10-03T03:57:48.502Z"
+    "bytes": 37033,
+    "sha256": "2b9ec8bcb220b96ff44962b3cb10e7130f41aade35c9ba61b1c3a0b3875a40e8",
+    "mtime": "2026-10-04T00:29:09.387Z"
    },
    {
     "file": "tests/lib-w280c-geo3.mjs",
@@ -51,7 +51,7 @@
     "mtime": "2026-10-02T23:11:02.944Z"
    }
   ],
-  "codeSha256": "c0e3959e3b184c3ed16017133a1c6d6ecc436280ffb18c9390f2a2a3654b28a2",
+  "codeSha256": "82e22863c04b01ecebe8512fe867c8882dccc47bf455f8685a0a9afdc742b8b9",
   "harnessVersion": "w280c-geo3-1",
   "quick": false,
   "part": null,
@@ -136,14 +136,14 @@
    "complete": true,
    "names": 950,
    "segments": 861,
-   "closureShare": 0.323
+   "closureShare": 0.3229
   },
   "scopeSha256": "9006349145eed8bdd95aeb02700687be8c5a38e106e54afb1d08f40bda7352a9",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "875aeb28089a7343d411c0e20595ef5123956a47b512f77a2868d1bb535b671e",
+    "stableSha256": "823165b6a3e3e8aa8bf572cf177f779f45ddc7f4f3b3f851e8aeb903095baf52",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -171,7 +171,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "4635df1b9054230d3b779a789d35c6a074cd51f1fa3c19b23516580004af3274",
+    "stableSha256": "098e69fb5fd3f93ebe95b9490afeb5e6f2dcf18f6330f9d94127d4f82a8398af",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -199,7 +199,7 @@
    },
    {
     "file": "tests/out/bgbudget2-w279c.json",
-    "stableSha256": "65a2497c903178ae202d430d82d907eb1157536542258feedb16e234d78b3d2d",
+    "stableSha256": "0099b1783996e1874f938ee4e5b4648c5a1abc13050e2fd139d5edd8742f1c5e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -279,7 +279,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.23
+       "wallSec": 3.066
       },
       "dt/2": {
        "steps": 5700398,
@@ -312,7 +312,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.15
+       "wallSec": 5.992
       }
      }
     },
@@ -351,7 +351,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.024
+       "wallSec": 2.999
       },
       "dt/2": {
        "steps": 5700398,
@@ -384,7 +384,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 6.087
+       "wallSec": 5.984
       }
      }
     },
@@ -423,7 +423,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.421
+       "wallSec": 2.412
       },
       "dt/2": {
        "steps": 5700398,
@@ -456,7 +456,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.914
+       "wallSec": 4.908
       }
      }
     },
@@ -495,7 +495,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 2.543
+       "wallSec": 2.403
       },
       "dt/2": {
        "steps": 5700398,
@@ -528,7 +528,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 5.09
+       "wallSec": 4.86
       }
      }
     },
@@ -571,7 +571,7 @@
          "stop": null
         }
        },
-       "wallSec": 9.512
+       "wallSec": 8.93
       },
       "dt/2": {
        "steps": 5700398,
@@ -608,7 +608,7 @@
          "stop": null
         }
        },
-       "wallSec": 19.059
+       "wallSec": 17.988
       }
      }
     },
@@ -651,7 +651,7 @@
          "stop": null
         }
        },
-       "wallSec": 15.191
+       "wallSec": 14.471
       },
       "dt/2": {
        "steps": 5700398,
@@ -688,7 +688,7 @@
          "stop": null
         }
        },
-       "wallSec": 30.129
+       "wallSec": 28.667
       }
      }
     },
@@ -731,7 +731,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.992
+       "wallSec": 8.599
       },
       "dt/2": {
        "steps": 5700398,
@@ -768,7 +768,7 @@
          "stop": null
         }
        },
-       "wallSec": 17.653
+       "wallSec": 17.069
       }
      }
     },
@@ -811,7 +811,7 @@
          "stop": null
         }
        },
-       "wallSec": 13.05
+       "wallSec": 12.026
       },
       "dt/2": {
        "steps": 5700398,
@@ -848,7 +848,7 @@
          "stop": null
         }
        },
-       "wallSec": 25.856
+       "wallSec": 25.069
       }
      }
     },
@@ -891,7 +891,7 @@
          "stop": null
         }
        },
-       "wallSec": 8.305
+       "wallSec": 7.895
       },
       "dt/2": {
        "steps": 5700398,
@@ -928,7 +928,7 @@
          "stop": null
         }
        },
-       "wallSec": 16.808
+       "wallSec": 15.834
       }
      }
     },
@@ -967,7 +967,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 4.36
+       "wallSec": 4.311
       },
       "dt/2": {
        "steps": 5700398,
@@ -1000,7 +1000,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 8.467
+       "wallSec": 8.382
       }
      }
     },
@@ -1039,7 +1039,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 3.917
+       "wallSec": 3.923
       },
       "dt/2": {
        "steps": 5700398,
@@ -1072,7 +1072,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 7.863
+       "wallSec": 7.576
       }
      }
     },
@@ -1115,7 +1115,7 @@
          "stop": null
         }
        },
-       "wallSec": 10.447
+       "wallSec": 9.829
       },
       "dt/2": {
        "steps": 5700398,
@@ -1152,7 +1152,7 @@
          "stop": null
         }
        },
-       "wallSec": 21.041
+       "wallSec": 19.392
       }
      }
     }
@@ -1165,7 +1165,7 @@
     "steps": 20694498,
     "dtHalf": 0.008,
     "stepsHalf": 41388996,
-    "windowFrom": "history(geo3-w280c@f03bf5a —— ❄️ は第290便b で退役)"
+    "windowFrom": "history(geo3-w280c の第291便 鎖 2 の正本 C0 rev2S —— 新しい源集合・❄️ は第290便b で退役)"
    },
    "background": {
     "background": "declared",
@@ -1227,16 +1227,10 @@
    "officialKf0": {
     "period": {
      "name": "公転周期(kFrame=0 対照・同方向1周)",
-     "meas": 551864.061362921,
-     "rev": [
-      551862.4613629306,
-      551864.061362921,
-      551864.0613629194,
-      551864.0613627129,
-      551864.0613627231,
-      551864.0613628624
-     ],
-     "from": "history(geo3-w280c@f03bf5a —— ❄️ は第290便b で退役)"
+     "meas": 551864.0613634228,
+     "rev": null,
+     "from": "history(geo3-w280c の第291便 鎖 2 の正本 C0 rev2S —— 新しい源集合・❄️ は第290便b で退役)",
+     "sourceSet": "新しい源集合(第291便b —— kF0 の 1PN 源は全質量源)"
     }
    },
    "rows": {
@@ -1275,7 +1269,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 24.899
+       "wallSec": 24.175
       },
       "dt/2": {
        "steps": 41388996,
@@ -1308,7 +1302,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 49.907
+       "wallSec": 48.031
       }
      }
     },
@@ -1347,7 +1341,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 18.575
+       "wallSec": 18.481
       },
       "dt/2": {
        "steps": 41388996,
@@ -1380,7 +1374,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 37.666
+       "wallSec": 36.675
       }
      }
     },
@@ -1419,7 +1413,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 18.909
+       "wallSec": 19.029
       },
       "dt/2": {
        "steps": 41388996,
@@ -1452,7 +1446,7 @@
         "meshVelDeny": null,
         "geo3Init": null
        },
-       "wallSec": 37.263
+       "wallSec": 37.702
       }
      }
     },
@@ -1497,7 +1491,7 @@
          "stop": null
         }
        },
-       "wallSec": 106.25
+       "wallSec": 104.493
       },
       "dt/2": {
        "steps": 41388996,
@@ -1536,7 +1530,7 @@
          "stop": null
         }
        },
-       "wallSec": 214.816
+       "wallSec": 211.845
       }
      }
     },
@@ -1581,7 +1575,7 @@
          "stop": null
         }
        },
-       "wallSec": 70.473
+       "wallSec": 70.104
       },
       "dt/2": {
        "steps": 41388996,
@@ -1620,7 +1614,7 @@
          "stop": null
         }
        },
-       "wallSec": 141.607
+       "wallSec": 140.363
       }
      }
     },
@@ -1665,7 +1659,7 @@
          "stop": null
         }
        },
-       "wallSec": 64.98
+       "wallSec": 65.296
       },
       "dt/2": {
        "steps": 41388996,
@@ -1704,7 +1698,7 @@
          "stop": null
         }
        },
-       "wallSec": 128.242
+       "wallSec": 130.695
       }
      }
     }
@@ -1751,7 +1745,7 @@
   "charon": [
    {
     "tag": "dt",
-    "officialKf0ReproducedBit": false,
+    "officialKf0ReproducedBit": true,
     "rev2": {
      "pn1PN": 0.0000018596183508634567,
      "C1_minus_C0": -1.0337680578231812e-7,
@@ -2069,5 +2063,5 @@
   }
  },
  "pageErrors": [],
- "elapsedS": 1169.686
+ "elapsedS": 1151.169
 }
