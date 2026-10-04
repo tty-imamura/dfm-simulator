@@ -3077,3 +3077,7 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - **表示だけ**: HUD の 1 行と説明タブの観測結果カードの派生行「GR 1PN 準拠(実行条件)」(`HP.pn1GRConformance(S)` —— EIH・λ_PN=1・pnAlpha=1.5・全質量源・kFrame=0・固定の天体なし・他の引きずり/外力なし・軟化 ε の宣言)。条件から外れても実行は止めない。
 - 読み取り: `HP.pnOrbitalSource(S,i)`・`HP.pnOrbitalKF0(p)`・`HP.pnSourceDeclared(S,i)`(宣言か半径門の旧い意味)・`HP.pnSource(S,i)`(実効の 1PN 源)。契約 `PN1_CONTRACT` の版 `w291b-eih-2`(式は不変)。
 - **退役 1 本**: 🌨️ `plutoCharonKF0Control`(⛄ の対照として作った本 —— ⛄ の退役で目的が消えた・代わりは 🥶。凍結の写し `tests/fixtures/retired-w291b.json`)。家族 `pluto` の在位の variant は 🌒 だけになり、退役は ❄️・⛄・☃️・🌨️。
+
+## 44. 第292便b —— 🌘 の復活(分類だけ)と `referenceKind:"phenomenological-reference"`(原仮定者の裁定〔第82報〕⑤・統括の検証項目 R138・**宣言だけ**・**SYSTEM_PROMPT には載せない**)
+
+- 🌘 `earthMoonRealKF1` を在位に戻した —— `familyRole:"variant"`(家族 `earthmoon`・primary は 🌙)・`sampleClass:"principle"`(5 つ目の分類は作らない)・群「天体の機構」・宣言専用メタ `referenceKind:"phenomenological-reference"`(obsCard の観測値は現象論のフィットの対象として使った記録で、現在の観測一致・予測ではない —— `"theory-control"` と同じく判定・表示・物理には効かない)。**較正母集団(`sampleClass:"calibration"` ∧ `familyRole≠"retired"`)には戻さない**(本数は不変)・physics・bodies・qLock・claims は不変(presetSig は基点と同一 —— 前後の写し `tests/fixtures/revived-w292b.json`)。🧲 `emAuditDFM` は退役のまま。
