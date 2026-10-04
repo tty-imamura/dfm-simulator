@@ -65523,7 +65523,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       else {
         if (r.pop !== popCanon || r.pop !== cb.calibrationPopulation) bad.push(`③較正母集団 ${r.pop}(正本 ${popCanon}・基点 ${cb.calibrationPopulation})`);
         if (r.retired !== r.rpRows || r.retired !== cb.retired - 1) bad.push(`③退役 ${r.retired}(RETIRED_PRESETS ${r.rpRows}・基点 ${cb.retired} −1)`);
-        if (r.builtin !== cb.builtin) bad.push(`③内蔵 ${r.builtin}(基点 ${cb.builtin})`);
+        // 統合(第292便): 同便の c(🌛 earthMoonInertial)と d(🌜 earthMoonTide)が内蔵を足す —— 復活は本数を変えないので基点 + その 2 本の有無で見る
+        const add292 = await page.evaluate(() => HP.allPresets().filter((p) => p.id === 'earthMoonInertial' || p.id === 'earthMoonTide').length);
+        if (r.builtin !== cb.builtin + add292) bad.push(`③内蔵 ${r.builtin}(基点 ${cb.builtin} + 同便の新本 ${add292})`);
       }
       // ④
       if (!(r.twin.role === 'retired' && r.twin.inRP)) bad.push('④🧲 emAuditDFM が退役のままでない');
