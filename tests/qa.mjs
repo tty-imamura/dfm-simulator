@@ -9096,7 +9096,9 @@ if (!TARGET.startsWith('beta/')) {
       // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput があり ❄️ plutoCharonReal が無い(鎖の再生成の後)。
       //   🥶 が sampleClass:"calibration" へ入ったので監査の行(sampleClass:"calibration" の全本 —— 退役の ❄️ も宣言は残るので行は残る)は 39(較正 37 + 🪁🎋)→ 40(較正 38 + 🪁🎋)
       const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
-      const wantRows290 = has290b ? 40 : 39, wantCal290 = has290b ? 38 : 37;
+      // 第292便b(原仮定者の裁定(第82報)⑤・R138): 世代切替 has292b = 🌘 earthMoonRealKF1 が較正から principle へ(html に phenomenological-reference の宣言)—— 較正の行は 1 本減る(鎖の再生成の後)
+      const has292b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('referenceKind:"phenomenological-reference"') >= 0;
+      const wantRows290 = (has290b ? 40 : 39) - (has292b ? 1 : 0), wantCal290 = (has290b ? 38 : 37) - (has292b ? 1 : 0);
       if (rows.length !== wantRows290) bad.push(`② 監査の行数が ${wantRows290}(較正 ${wantCal290} + 🪁🎋)でない(${rows.length})`);
       const byRule = rows.reduce((o, a) => { const k = a.rule || 'undetermined'; o[k] = (o[k] || 0) + 1; return o; }, {});
       if (JSON.stringify(byRule) !== JSON.stringify(S.byRule))
@@ -9287,7 +9289,9 @@ if (!TARGET.startsWith('beta/')) {
       // 第290便b(原仮定者の裁定(第80報)⑤・R126): 世代切替 has290b = 正本 calaudit の母集団に 🥶 plutoCharonDiagInput があり ❄️ plutoCharonReal が無い(鎖の再生成の後)。
       //   🥶 が sampleClass:"calibration" へ入ったので監査の行(sampleClass:"calibration" の全本 —— 退役の ❄️ も宣言は残るので行は残る)は 39(較正 37 + 🪁🎋)→ 40(較正 38 + 🪁🎋)
       const has290b = (() => { try { const C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); return (C.presets || []).some((p) => p.id === 'plutoCharonDiagInput') && !(C.presets || []).some((p) => p.id === 'plutoCharonReal'); } catch (e) { return false; } })();
-      const wantRows290 = has290b ? 40 : 39, wantCal290 = has290b ? 38 : 37;
+      // 第292便b(原仮定者の裁定(第82報)⑤・R138): 世代切替 has292b = 🌘 earthMoonRealKF1 が較正から principle へ(html に phenomenological-reference の宣言)—— 較正の行は 1 本減る(鎖の再生成の後)
+      const has292b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('referenceKind:"phenomenological-reference"') >= 0;
+      const wantRows290 = (has290b ? 40 : 39) - (has292b ? 1 : 0), wantCal290 = (has290b ? 38 : 37) - (has292b ? 1 : 0);
       if (rows.length !== wantRows290) bad.push(`② 行数が ${wantRows290}(較正 ${wantCal290} + 🪁🎋)でない(${rows.length})`);
       const byRule = rows.reduce((o, a) => { const k = a.rule || 'undetermined'; o[k] = (o[k] || 0) + 1; return o; }, {});
       if (JSON.stringify(byRule) !== JSON.stringify(S.byRule)) bad.push('② 規則の内訳が集計と一致しない');
@@ -9445,8 +9449,11 @@ if (!TARGET.startsWith('beta/')) {
       else cases.push('html の SHA-256 一致');
       if (!J.gate || J.gate.declaredBeforeMeasuring !== true) bad.push('① 門が「測る前に宣言」になっていない');
       cases.push(`門「${J.gate.rule}」(σ_Buie=${J.gate.sigmaBuieS} s)`);
+      // 第292便b(原仮定者の裁定(第82報)⑤・R138): 世代切替 has292b = 🌘 earthMoonRealKF1 が較正から principle へ(html に phenomenological-reference の宣言)—— 較正の行は 1 本減る(鎖の再生成の後)
+      const has292b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('referenceKind:"phenomenological-reference"') >= 0;
+      const nBg292 = has292b ? 2 : 3;
       const rows = (J.rows || []).filter((z) => !z.skipped);
-      if (rows.length !== 3) bad.push(`② 行が 3 本(❄️🌘📻)でない(${rows.length})`);
+      if (rows.length !== nBg292) bad.push(`② 行が ${nBg292} 本(${has292b ? '❄️📻' : '❄️🌘📻'})でない(${rows.length})`);
       for (const r of rows) {
         for (const k of ['total', 'uniform', 'gradient', 'weightOnly', 'timeDeriv'])
           if (!r[k]) bad.push(`② ${r.id} に ${k} が無い(一様項と勾配項が分けられていない)`);
@@ -9492,7 +9499,7 @@ if (!TARGET.startsWith('beta/')) {
       if (fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('BG_TIDAL_KEY') >= 0) {
         if (J.meta.harnessVersion !== 'w278d-bgbudget-2') bad.push(`⑦ 版が w278d-bgbudget-2 でない(${J.meta.harnessVersion})`);
         const C = (J.candidates || []).filter((z) => !z.skipped);
-        if (C.length !== 3) bad.push(`⑦ 候補の行が 3 本でない(${C.length})`);
+        if (C.length !== nBg292) bad.push(`⑦ 候補の行が ${nBg292} 本でない(${C.length})`);
         for (const c of C) {
           const keys = (c.rows || []).map((z) => z.key).join(',');
           if (keys !== 'N3,shield1au,shield10au,Weff') bad.push(`⑦ ${c.id} の候補の並びが違う(${keys})`);
@@ -9565,8 +9572,11 @@ if (!TARGET.startsWith('beta/')) {
       if (!(await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'))).provTargetOk(ROOT, J.meta, sha)) bad.push('① meta.targetSha256 が検査対象の html と違う(器を走らせ直すこと)');
       else cases.push('html の SHA-256 一致');
       if (!J.gate || J.gate.declaredBeforeMeasuring !== true) bad.push('① 門が「測る前に宣言」になっていない');
+      // 第292便b(原仮定者の裁定(第82報)⑤・R138): 世代切替 has292b = 🌘 earthMoonRealKF1 が較正から principle へ(html に phenomenological-reference の宣言)—— 較正の行は 1 本減る(鎖の再生成の後)
+      const has292b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('referenceKind:"phenomenological-reference"') >= 0;
+      const nBg292 = has292b ? 2 : 3;
       const S = (J.samples || []).filter((z) => !z.skipped);
-      if (S.length !== 3) bad.push(`② 行が 3 本でない(${S.length})`);
+      if (S.length !== nBg292) bad.push(`② 行が ${nBg292} 本でない(${S.length})`);
       for (const s of S) {
         if (!Array.isArray(s.ladder) || s.ladder.length !== 12) bad.push(`② ${s.id} のはしごが 12 段でない`);
         if (!Array.isArray(s.items) || s.items.length !== 9) bad.push(`② ${s.id} の項が 9 つでない`);
@@ -9605,7 +9615,8 @@ if (!TARGET.startsWith('beta/')) {
           + `${v0ff.mismatchRel.toExponential(2)}・相対の門=${v0ff.gateRel}・参考の絶対門=${v0ff.gateAbsReference})`);
       }
       const em = S.find((z) => z.id === 'earthMoonRealKF1');
-      if (!em) bad.push('⑤ 🌘 の行が無い');
+      if (has292b) { if (em) bad.push('⑤ 🌘 の行がある(第292便b で較正の母集団から出た)'); else cases.push('🌘 は第292便b で principle(較正の行から出た —— ⑤ は読まない)'); }
+      else if (!em) bad.push('⑤ 🌘 の行が無い');
       else {
         if (em.ladder.find((z) => z.key === 'EXP').onBound !== false) bad.push('⑤ 🌘 の EXP が 1 公転で壊れない(実測が変わった)');
         if (em.verdicts.some((v) => v.gateRel !== null)) bad.push('⑤ 🌘 の壊れた行で門が判定を出している');
@@ -9824,8 +9835,11 @@ if (!TARGET.startsWith('beta/')) {
       else cases.push('html の SHA-256 一致');
       const ins = (J.meta.inputs || []).map((z) => z.file);
       for (const f of ['tests/out/bgpredict-w276a.json', 'tests/out/bgequiv-w278d.json']) if (ins.indexOf(f) < 0) bad.push('① 入力に ' + f + ' が無い');
+      // 第292便b(原仮定者の裁定(第82報)⑤・R138): 世代切替 has292b = 🌘 earthMoonRealKF1 が較正から principle へ(html に phenomenological-reference の宣言)—— 較正の行は 1 本減る(鎖の再生成の後)
+      const has292b = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('referenceKind:"phenomenological-reference"') >= 0;
+      const nBg292 = has292b ? 2 : 3;
       const S = (J.samples || []).filter((z) => !z.skipped);
-      if (S.length !== 3) bad.push(`② 行が 3 本でない(${S.length})`);
+      if (S.length !== nBg292) bad.push(`② 行が ${nBg292} 本でない(${S.length})`);
       for (const s of S) {
         if (!Array.isArray(s.onoff) || s.onoff.length !== 12) bad.push(`② ${s.id} の模型が 12 でない`);
         if (!(s.steps.length === 3 && s.steps[1] === 2 * s.steps[0] && s.steps[2] === 4 * s.steps[0])) bad.push(`② ${s.id} の刻みが N・2N・4N でない`);
@@ -20689,9 +20703,10 @@ if (!FAST) {
         // 第290便(統括の統合): 第290便e の 🍭 shapeToySpiral・🎢 shapeToySpiralCore と第290便c の 🐌 inertialDragPair も基点に無い(正本を鎖で刻み直した後に survey に入る —— news の末尾にこの順)
         const has290eRL = R.survey.some((z) => z.id === 'shapeToySpiral'), has290eCRL = R.survey.some((z) => z.id === 'shapeToySpiralCore');
         const has290cRL = R.survey.some((z) => z.id === 'inertialDragPair');
-        const has292cRL = R.survey.some((z) => z.id === 'earthMoonInertial');   // 第292便c: 🌛 も基点に無い(正本を鎖で刻み直した後に survey に入る —— news の末尾)
+        const has292cRL = R.survey.some((z) => z.id === 'earthMoonInertial');   // 第292便c: 🌛 も基点に無い(正本を鎖で刻み直した後に survey に入る —— 本の並びで 🐌 の前)
+        const has292dRL = R.survey.some((z) => z.id === 'earthMoonTide');   // 第292便d: 🌜 も基点に無い(🌛 の前)
         const wantNews = (has288cRL ? ['galaxyAnalogyBHCompose'] : []).concat(has288eRL ? ['galaxyAnalogyBHTilt90'] : [], has289eRL ? ['galaxyAnalogyBHTilt90Layers'] : [], ['clusterAnalogyBH'], has287aRL ? ['clusterGrowthCopy'] : [], (has288aRL && canonHas288a) ? ['fixedCaptureCopy'] : [],
-          has290eRL ? ['shapeToySpiral'] : [], has290eCRL ? ['shapeToySpiralCore'] : [], has290cRL ? ['inertialDragPair'] : [], has292cRL ? ['earthMoonInertial'] : []);
+          has290eRL ? ['shapeToySpiral'] : [], has290eCRL ? ['shapeToySpiralCore'] : [], has292dRL ? ['earthMoonTide'] : [], has292cRL ? ['earthMoonInertial'] : [], has290cRL ? ['inertialDragPair'] : []);
         if (news.join(',') !== wantNews.join(',')) bad.push('基点に無い本 ' + news.join(','));
         if (has288aRL && !canonHas288a) cases.push('🥜 は正本 cluster-w283f.json より後に入った本(段 clusterAnalogy の再走で入る)');
         const c = R.cluster;
