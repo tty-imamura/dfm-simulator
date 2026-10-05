@@ -694,6 +694,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/corecensus-w293c.json': META_RUN.concat(['/elapsedS', '/control/rows/*/wallSec', '/layerBooks/rows/*/wallSec', '/dragCoreRef/rows/*/wallSec']) },
     note: '第293便c: 4 経路の棚卸し(body の宣言数・変換可能/置換可の数)とコアなし対照 2000 步(x/y/vx/vy/spin/m/mEff/R の最大差・粒子数・融合/放出・最初の差の步・'
       + 'T_obs/Q/lSw)・分類 A〜D と撤去の可否(本便の適用 0)・層の本は layers を外した対照・🌛 は dragCore を外した対照' }),
+  // ---- 第293便d(原仮定者の裁定(第83報)ブランコ・統括の検証項目 R144): 月の 8.85 年の**摂動停止診断**(診断だけ —— 新しい力は足さない・C_d は再フィットしない)。
+  //   器の中の一時プリセット(🔆 の bodies + 🌛 の physics を 🔆 の単位へ換算)で太陽あり/なし × 慣性引きずりあり/なしの 118 公転(5 条件 + 対照 2)と、
+  //   太陽を途中で消す枝 12 本(瞬時・3 公転で滑らか × 近点/遠点 × 3 法則)× dt 0.016/0.008・再起動の対照・換算の橋(dt 3 段)。Node の headless(子プロセス 3 本 —— workers 3)。
+  //   🌛 の 27 公転窓の近点周期を正本 dragcore-w292c.json から読む(換算の橋の比較だけ)ので dragcore292 の後に置く。所要は第293便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('swing293', 'node tests/exp-w293d-swing.mjs', ['tests/out/swing-w293d.json'], 249, { secSource: 'w293d-branch', node: true, workers: 3, after: ['dragcore292'],
+    volatilePaths: { 'tests/out/swing-w293d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第293便d: 一時プリセット(🔆 の bodies + 🌛 の physics —— 内蔵にしない)の 5 条件(太陽=重力だけ/重力と対和・太陽なし・gain 0)の近点率と周期変動・離心率・恒星月/近点月・u・帳簿と、'
+      + '太陽を途中で消す枝(停止の跳び 0・停止後の率と離心率・減衰の尾・再起動の対照との差・h/h2)・換算の橋(🌛 の 8.85 年との差)・二体 1PN の桁' }),
   // ---- 第293便e(原仮定者の裁定(第83報)「同じ方向の複数の引きずりが単純に足されることは無い」・統括の検証項目 R145): 引きずりの合成則
   //   (relativeDrag.compose:"sum"|"solve" —— opt-in・既定は現行の加算)の純関数 8 項・宣言の受理・エンジン≡純関数のビット同一(🐌/🌛/規定源つき 3 体/
   //   粒子 70 の Gauss–Seidel)・非相反性と、🐌・🌛 の sum/solve(history・velocity)27 公転の比較・🌛 の solve 版 C_d の 8.85 年への別のフィット
