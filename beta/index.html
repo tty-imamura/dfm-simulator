@@ -6543,8 +6543,21 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)
+const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 既定 "sum" は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
+// 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
+//   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
+//   "sum"(既定 = 第290便c の現行 —— 各源の寄与 a_ij(V_j−V_i) を足す・**正準形に出さない** → 既存の本の署名は 1 字も変わらない)/
+//   "solve"(法則版の候補 —— 共通の移動速度 W を (I+L)W = v で自己無撞着に解く・式と契約は `inertialDragComposeSolve` の注記)。
+//   `solveFrom:"history"|"velocity"`(v の意味 —— 履歴の座標差分 V^{n−1} か力学速度 S.vx。solve の本の正準形には必ず出す)・
+//   `solveIters`(n>REL_DRAG_SOLVE_DIRECT_MAX の反復回数・省略は既定 8 —— 正準形には宣言した本だけ)。どちらも compose:"solve" 専用。
+const REL_DRAG_COMPOSE = ["sum", "solve"];
+const REL_DRAG_SOLVE_FROM = ["history", "velocity"];
+const REL_DRAG_SOLVE_ITERS_DEFAULT = 8;
+const REL_DRAG_SOLVE_ITERS_RANGE = [1, 1000];
+const REL_DRAG_SOLVE_DIRECT_MAX = 64;     // n ≤ 64 は直接法(ガウス消去 —— 行の対角優位なのでピボットなし)・それより多いと Gauss–Seidel
+const REL_DRAG_SOLVE_NMAX = 4096;         // 結合行列 a_ij(n² の倍精度)を張る上限 —— 超えた步は拒否して数える(u=0)
+const REL_DRAG_COMPOSE_VERSION = "w293e-compose-1";
 // 第292便c(R139): 慣性決定力の構造核の宣言(天体 `dragCore`・本 `relativeDrag.coreTable`)の受理器と定数 —— 式と契約は `dragCoreInit` の注記
 const DRAG_CORE_KEY = "dragCore";
 const DRAG_CORE_VERSION = "w292c-dragcore-1";
@@ -6630,6 +6643,23 @@ function validateRelativeDragInertial(a){
   const ctv=validateDragCoreTable(a.coreTable);   // 第292便c: 省略は正準形に出さない(既存の本の署名は 1 字も変わらない)
   if(!ctv.ok) return {ok:false, err:ctv.err};
   if(ctv.coreTable!==null) out.coreTable=ctv.coreTable;
+  // 第293便e: 合成則(省略・null・"sum" は正準形に出さない —— 既存の本の署名は 1 字も変わらない)
+  const cmp=(a.compose===undefined || a.compose===null)? "sum" : a.compose;
+  if(REL_DRAG_COMPOSE.indexOf(cmp)<0) return {ok:false, err:'physics.relativeDrag.compose(law:"inertial")は "sum"(既定 —— 各源の寄与を足す)か "solve"(共通の移動速度を自己無撞着に解く)'};
+  if(cmp==="sum"){
+    for(const k of ["solveFrom","solveIters"]) if(a[k]!==undefined && a[k]!==null)
+      return {ok:false, err:'physics.relativeDrag.'+k+' は compose:"solve" 専用(compose:"sum" では宣言しない)'};
+  } else {
+    out.compose="solve";
+    const sf=(a.solveFrom===undefined || a.solveFrom===null)? "history" : a.solveFrom;
+    if(REL_DRAG_SOLVE_FROM.indexOf(sf)<0) return {ok:false, err:'physics.relativeDrag.solveFrom は "history"(既定 —— 座標差分の移動ベクトル V^{n−1})か "velocity"(力学速度 v)'};
+    out.solveFrom=sf;
+    if(a.solveIters!==undefined && a.solveIters!==null){
+      if(!isNum(a.solveIters) || a.solveIters!==Math.round(a.solveIters) || a.solveIters<REL_DRAG_SOLVE_ITERS_RANGE[0] || a.solveIters>REL_DRAG_SOLVE_ITERS_RANGE[1])
+        return {ok:false, err:'physics.relativeDrag.solveIters は '+REL_DRAG_SOLVE_ITERS_RANGE[0]+'〜'+REL_DRAG_SOLVE_ITERS_RANGE[1]+' の整数(n>'+REL_DRAG_SOLVE_DIRECT_MAX+' の Gauss–Seidel の回数・既定 '+REL_DRAG_SOLVE_ITERS_DEFAULT+')'};
+      out.solveIters=a.solveIters;
+    }
+  }
   return {ok:true, relativeDrag:out};
 }
 function validateRelativeDrag(a){
@@ -34578,6 +34608,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(sim.rdPrevX && simB.rdPrevX && simB.rdPrevX.length>=sim.n){
     for(const k of ["rdPrevX","rdPrevY","rdPrevT"]) simB[k].set(sim[k].subarray(0,sim.n));
     for(const k of ["rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL"]) simB[k]=sim[k];
+    for(const k of INERTIAL_DRAG_SOLVE_SC) if(sim[k]!==undefined) simB[k]=sim[k];   // 第293便e: 合成則 solve の帳簿(宣言した本だけ)
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
@@ -34792,6 +34823,7 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "carVx","carVy",   // 第290便d(R128): 倍精度の速度の繰り越し(stateCarry:"double" の補償和の残差 —— 復元後の再走を保存しなかった走行とビット一致にする。未宣言は null で素通り)
   "rdPrevX","rdPrevY","rdPrevT",   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
   "tideJh","tideJl","tideOmW","tideDJ"];   // 第292便d: 明示潮汐の J の補償和(高位・低位)・最後に書いた自転・自転への ΔJ(宣言した本だけ配列がある)   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
+const INERTIAL_DRAG_SOLVE_SC=["inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];   // 第293便e: A/B 複製で運ぶ合成則 solve の帳簿
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "axPrescLx","axPrescLy","axPrescE","axPrescPx","axPrescPy","axPrescN",   // 第275便e: 宣言した拘束が持ち去った量
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
@@ -34800,7 +34832,8 @@ const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wall
   "clampVN","clampSN","clampHN","clampAN","clampRN","clampTN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc",
   "rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL",
-  "tideN","tideSubsteps","tideSubCapped","tideReject","tideWork","tideWorkCons","tideHeat","tideMix","tideDL","tideTauMinAll"];   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
+  "tideN","tideSubsteps","tideSubCapped","tideReject","tideWork","tideWorkCons","tideHeat","tideMix","tideDL","tideTauMinAll",
+  "inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];   // 第293便e: 合成則 solve の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
 // 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
 // A+B 両側のスナップショットを持ち、復帰も両側同時(同じ瞬間へ揃って巻き戻る)。
@@ -48735,6 +48768,10 @@ function inertialDragInit(S){
   S.inertialDragBound=0; S.inertialDragBoundMax=0; S.inertialDragDegMax=0; S.inertialDragUMax=0;
   S.inertialDragPx=0; S.inertialDragPy=0; S.inertialDragJz=0; S.inertialDragDU=0;
   S.inertialDragWork=0; S.inertialDragDL=0;
+  if(rd && rd.compose==="solve"){   // 第293便e: 合成則 solve の帳簿(宣言した本だけ —— 未宣言の本には鍵を作らない)
+    S.inertialDragSolveN=0; S.inertialDragSolveRes=0; S.inertialDragSolveResMax=0; S.inertialDragSolveMethod=null;
+    S.inertialDragUSumMax=0; S.inertialDragUSolveMax=0; S.inertialDragSolveTooLarge=0;
+  }
   if(S.dragCoreD) dragCoreInit(S);   // 第292便c: 構造核の表(宣言した本だけ —— 未宣言は S.dragCoreD=null で素通り)
 }
 function inertialDragClear(S){
@@ -48746,6 +48783,123 @@ function inertialDragEpoch(S){
   const cap=(S.capture && S.capture.log)? S.capture.log.length : 0;
   const fc=S.fixcap? ((S.fixcap.log? S.fixcap.log.length : 0)+":"+(S.fixcap.ejLog? S.fixcap.ejLog.length : 0)) : "0";
   return S.n+"|"+(S.fusN||0)+"|"+(S.fisN||0)+"|"+(S.shedNev||0)+"|"+cap+"|"+fc;
+}
+// ===== 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
+//   統括の検証項目 R145): **引きずりの合成則 compose:"solve"**(法則版の候補 —— 本番核の差し替えではない・既定 "sum" は現行のまま)=====
+// 現行(compose 未宣言 = "sum")の `dfmInertialDragStep` は u_i = Σ_j a_ij (V_j − V_i)・a_ij = C_d m_j 𝒦_j(r_ij) で**各源の寄与を足す**
+//(静止した受け手に同方向・速度 1 の源を 2 つ置き a=1 なら u=2)。"solve" は**共通の移動速度 W** を自己無撞着に解く:
+//   W_i = v_i + Σ_j a_ij (W_j − W_i)  ⇔  (I + L) W = v(L の対角 Σ_j a_ij・非対角 −a_ij)・u_i = W_i − v_i
+// 規定源(pinned)だけが源なら W_i = (v_i + Σ_j a_ij W_j)/(1 + Σ_j a_ij)(2 源・a=1・源速度 1・v_i=0 で u = 2/3 —— 加算なら 2)。
+// 実装は u について解く(共通の並進が式の上で厳密に消える形): (I + L) u = s、s_i = Σ_j a_ij (v_j − v_i)(= 現行の加算の u と同じ式・同じ順序)。
+//   ・v の意味は宣言 `solveFrom`: "history"(既定 —— 現行と同じ座標差分の移動ベクトル V^{n−1} = (x^n − x^{n−1})/Δt)/
+//     "velocity"(力学速度 S.vx —— この hook の入口の値)。**履歴の V^{n−1} は前の步の移送 u^{n−1} を含む**(V ≈ v + u^{n−1})ので、
+//     現行の加算は時間方向に (I+L)u = −Lv の不動点反復になっている(定常では solveFrom:"velocity" と同じ点 —— docs/PHYSICS.md〔第293便e〕)。
+//   ・解法: n ≤ REL_DRAG_SOLVE_DIRECT_MAX(64)は直接法(ガウス消去 —— a_ij ≥ 0 なので I+L は行について厳密に対角優位・ピボットなし)/
+//     それより多いと Gauss–Seidel を solveIters 回(既定 8・初期値 0・添字の順)。どちらも残差 max|(I+L)u − s|/max|s| を帳簿
+//     `inertialDragSolveRes`(直近)・`inertialDragSolveResMax` に積む(**黙って打ち切らない**)。n > REL_DRAG_SOLVE_NMAX は拒否(u=0・数える)。
+//   ・自己項なし・宣言した対だけ・質量が正でない粒子は源にも受け手にもならない・pinned(規定運動)は受け取らない(行を u_i=0 に固定 —— 源にはなる)・
+//     履歴なしの步は u=0・一致点は拒否・構造核(dragCore の表)は核の 𝒦_j として同じ式で読む —— どれも現行の契約 (i)〜(viii) のまま。
+//   ・次数 deg_i と上界 2·max deg_i は現行と同じ式で出す(solve では上界 ≥1 でも |u_i| ≤ max_j |v_j − v_i| —— 有界)。
+//   ・純関数の写しは tests/lib-w293e-compose.mjs(同じ式・同じ順序 —— 器 tests/exp-w293e-compose.mjs の門でビット同一)。**S._core の外**。
+function inertialDragComposeBuild(S,n,CT,hist,C,e2){
+  if(n>REL_DRAG_SOLVE_NMAX) return {coincident:false, degMax:0, tooLarge:true};
+  const X=S.x, Y=S.y, m=S.m, pin=S.pinned, set=S._rdPairSet, NP=S._rdPairN;
+  const vel=(S.relDrag.solveFrom==="velocity");
+  const WX=vel? S.vx : S._rdVX, WY=vel? S.vy : S._rdVY;
+  const UX=S._rdUX, UY=S._rdUY, DG=S._rdDeg;
+  if(!S._rdA || S._rdA.length<n*n) S._rdA=new Float64Array(n*n);
+  const A=S._rdA;
+  let degMax=0;
+  for(let i=0;i<n;i++){
+    let ux=0, uy=0, deg=0;
+    const mi=m[i], okI=(mi>0 && Number.isFinite(mi)), row=i*n;
+    for(let j=0;j<n;j++){
+      A[row+j]=0;
+      if(j===i) continue;                                   // 自己項を計算しない
+      if(set && !set.has(i*NP+j)) continue;                 // 宣言した対だけ
+      const mj=m[j];
+      if(!(mj>0) || !Number.isFinite(mj)) continue;        // 質量が正でない粒子は源にならない
+      const dx=X[j]-X[i], dy=Y[j]-Y[i], r2=dx*dx+dy*dy;
+      if(!(r2>0)) return {coincident:true, degMax};        // 一致点は拒否(ε で埋めない)
+      const r=Math.sqrt(r2), s=r2+e2, Tj=CT? CT[j] : null;
+      const kv=Tj? dragCoreLookup(Tj,r) : null;              // 構造核の表(表の外・表の無い源は点源 K_ε)
+      const a=C*mj*((kv===null)? (r/(s*s)) : kv);           // 現行の核と同じ式・同じ順序
+      A[row+j]=a;
+      if(hist){ ux+=a*(WX[j]-WX[i]); uy+=a*(WY[j]-WY[i]); }
+      deg+=a;
+    }
+    UX[i]=okI? ux : 0; UY[i]=okI? uy : 0; DG[i]=okI? deg : 0;
+    if(okI && !pin[i]){ const ad=Math.abs(deg); if(ad>degMax) degMax=ad; }
+  }
+  return {coincident:false, degMax, tooLarge:false};
+}
+// (I+L)u = s を解いて UX/UY(入口では s)を u で置き換える。受け取らない行(pinned・質量が正でない)は u_i=0 に固定。
+function inertialDragComposeSolve(S,n){
+  const A=S._rdA, UX=S._rdUX, UY=S._rdUY, DG=S._rdDeg, m=S.m, pin=S.pinned;
+  if(!S._rdFix || S._rdFix.length<n){ S._rdFix=new Uint8Array(n); S._rdSX=new Float64Array(n); S._rdSY=new Float64Array(n); }
+  const FX=S._rdFix, SX=S._rdSX, SY=S._rdSY;
+  let sMax=0;
+  for(let i=0;i<n;i++){
+    const mi=m[i];
+    FX[i]=(!(mi>0) || !Number.isFinite(mi) || pin[i])? 1 : 0;
+    SX[i]=FX[i]? 0 : UX[i]; SY[i]=FX[i]? 0 : UY[i];
+    const sm=Math.hypot(SX[i],SY[i]); if(sm>sMax) sMax=sm;
+  }
+  let method;
+  if(n<=REL_DRAG_SOLVE_DIRECT_MAX){
+    method="direct";
+    if(!S._rdM || S._rdM.length<n*n) S._rdM=new Float64Array(n*n);
+    const M=S._rdM;
+    for(let i=0;i<n;i++){
+      const row=i*n;
+      for(let j=0;j<n;j++) M[row+j]=FX[i]? 0 : -A[row+j];
+      M[row+i]=FX[i]? 1 : 1+DG[i];
+      UX[i]=SX[i]; UY[i]=SY[i];
+    }
+    for(let k=0;k<n;k++){
+      const pk=M[k*n+k];
+      for(let i=k+1;i<n;i++){
+        const f=M[i*n+k]/pk;
+        if(f===0) continue;
+        for(let j=k+1;j<n;j++) M[i*n+j]-=f*M[k*n+j];
+        UX[i]-=f*UX[k]; UY[i]-=f*UY[k];
+      }
+    }
+    for(let i=n-1;i>=0;i--){
+      let sx=UX[i], sy=UY[i];
+      for(let j=i+1;j<n;j++){ sx-=M[i*n+j]*UX[j]; sy-=M[i*n+j]*UY[j]; }
+      const d=M[i*n+i];
+      UX[i]=sx/d; UY[i]=sy/d;
+    }
+  } else {
+    method="gs";
+    const it=(S.relDrag.solveIters!==undefined)? S.relDrag.solveIters : REL_DRAG_SOLVE_ITERS_DEFAULT;
+    for(let i=0;i<n;i++){ UX[i]=0; UY[i]=0; }
+    for(let k=0;k<it;k++){
+      for(let i=0;i<n;i++){
+        if(FX[i]) continue;
+        const row=i*n;
+        let sx=SX[i], sy=SY[i];
+        for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ sx+=a*UX[j]; sy+=a*UY[j]; } }
+        const d=1+DG[i];
+        UX[i]=sx/d; UY[i]=sy/d;
+      }
+    }
+  }
+  // 残差(元の式で —— 受け取る行だけ)
+  let rMax=0, uMax=0;
+  for(let i=0;i<n;i++){
+    if(FX[i]) continue;
+    const row=i*n, d=1+DG[i];
+    let rx=d*UX[i]-SX[i], ry=d*UY[i]-SY[i];
+    for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ rx-=a*UX[j]; ry-=a*UY[j]; } }
+    const rr=Math.max(Math.abs(rx),Math.abs(ry)); if(rr>rMax) rMax=rr;
+    const um=Math.hypot(UX[i],UY[i]); if(um>uMax) uMax=um;
+  }
+  const res=(sMax>0)? rMax/sMax : rMax;
+  S.inertialDragSolveN++; S.inertialDragSolveRes=res; if(res>S.inertialDragSolveResMax) S.inertialDragSolveResMax=res;
+  S.inertialDragSolveMethod=method; S.inertialDragUSumMax=sMax; S.inertialDragUSolveMax=uMax;
+  return {method, res, sMax, uMax};
 }
 function dfmInertialDragStep(S,dt){
   const rd=S.relDrag, n=S.n;
@@ -48765,7 +48919,10 @@ function dfmInertialDragStep(S,dt){
   // 第292便c: 構造核(dragCore)の表がある本だけ別の受け手ループ(粒子が入れ替わったら表を捨てて点源へ)。**表の無い本はこの分岐の外 = 下の従来ループそのまま**
   let CT=S._dragCoreT;
   if(CT){ if(S._dragCoreEp===null) S._dragCoreEp=ep; else if(S._dragCoreEp!==ep){ S._dragCoreT=CT=null; if(S._dragCore) S._dragCore.dropped={t, epoch:ep}; } }
-  if(CT) for(let i=0;i<n && !coincident;i++){
+  const comp=(rd.compose==="solve");   // 第293便e: 合成則 solve(宣言した本だけ —— 未宣言の本は下の従来の 2 つのループのまま)
+  if(comp){ const q=inertialDragComposeBuild(S,n,CT,hist,C,e2); coincident=q.coincident; degMax=q.degMax;
+    if(q.tooLarge){ S.inertialDragSolveTooLarge++; S.inertialDragReject++; S.inertialDragWhy="composeTooLarge"; hist=false; } }
+  else if(CT) for(let i=0;i<n && !coincident;i++){
     let ux=0, uy=0, deg=0;
     const mi=m[i], okI=(mi>0 && Number.isFinite(mi));
     for(let j=0;j<n;j++){
@@ -48808,6 +48965,7 @@ function dfmInertialDragStep(S,dt){
   if(bound>=1) S.inertialDragOver++;                        // (vii) 数える(clamp しない・飽和させない)
   let dU=0, Px=0, Py=0, Jz=0, dL=0, uMax=0, nMoved=0;
   if(coincident){ S.inertialDragReject++; S.inertialDragWhy="coincident"; hist=false; }
+  if(hist && comp) inertialDragComposeSolve(S,n);          // 第293便e: (I+L)u = s を解いて UX/UY を置き換える(移送・帳簿は下の共通の手続き)
   if(hist){
     const NX=S._rdNX, NY=S._rdNY, G=S.params.G, eg=S.params.softening||0, eg2=eg*eg, me=S.mEff;
     for(let i=0;i<n;i++){
@@ -48846,7 +49004,17 @@ function inertialDragState(S){
     pairs:S.relDrag.pairs, steps:S.inertialDragN, noHistory:S.inertialDragNoHist, boundOver:S.inertialDragOver, reject:S.inertialDragReject,
     bound:S.inertialDragBound, boundMax:S.inertialDragBoundMax, degMax:S.inertialDragDegMax, uMax:S.inertialDragUMax,
     sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL,
-    ...(S._dragCore? {dragCore:dragCoreState(S)} : null) };   // 第292便c: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
+    ...(S._dragCore? {dragCore:dragCoreState(S)} : null),   // 第292便c: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
+    ...((S.relDrag.compose==="solve")? {compose:inertialDragComposeState(S)} : null) };   // 第293便e: 合成則 solve を宣言した本だけ: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
+}
+// 第293便e: 合成則 solve の読み口(状態は 1 bit も動かさない)
+function inertialDragComposeState(S){
+  if(!S || !S.relDrag || S.relDrag.compose!=="solve") return null;
+  const rd=S.relDrag;
+  return { version:REL_DRAG_COMPOSE_VERSION, compose:"solve", solveFrom:rd.solveFrom,
+    solveIters:(rd.solveIters!==undefined)? rd.solveIters : REL_DRAG_SOLVE_ITERS_DEFAULT, directMax:REL_DRAG_SOLVE_DIRECT_MAX,
+    solves:S.inertialDragSolveN, method:S.inertialDragSolveMethod, res:S.inertialDragSolveRes, resMax:S.inertialDragSolveResMax,
+    uSumMax:S.inertialDragUSumMax, uSolveMax:S.inertialDragUSolveMax, tooLarge:S.inertialDragSolveTooLarge };
 }
 // ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **明示潮汐の外部ステップ** `dfmTideStep(S,dt)` =====
 // `physics.tide` と天体の `tide:{k2, lag}` を宣言した本だけが通る(`S.hasTide` —— 未宣言の本では build が立てないので 1 命令も走らない)。
@@ -49066,6 +49234,7 @@ function inertialDragFieldReady(S){
   if(!S || !S.relDrag || S.relDrag.law!=="inertial"){ out.why="undeclared"; return out; }
   out.declared=true; out.gain=S.relDrag.gain;
   out.eps=(S.relDrag.eps!==undefined)? S.relDrag.eps : (S.params.softening||0);
+  if(S.relDrag.compose==="solve"){ out.why="composeSolve"; return out; }   // 第293便e: サンプラーは加算の局所場だけ —— 合成則 solve の u とは比べない(描かない)
   const n=S.n;
   if(!S.rdPrevX || !S._rdVX || !S._rdUX || S.rdPrevX.length<n){ out.why="noSample"; return out; }
   if(!(S.inertialDragN>0)){ out.why="noHistory"; return out; }
@@ -52186,6 +52355,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   relativeDragMidpointSolve, relativeDragMidpointGuard, relativeDragMidpointBodyCheck,
   REL_DRAG_KEY, REL_DRAG_LAWS, REL_DRAG_SPINS, REL_DRAG_KAPPA_CLAMP, REL_DRAG_STEP_VERSION,
   dfmInertialDragStep, inertialDragInit, inertialDragEpoch, inertialDragState, validateRelativeDragInertial,   // 第290便c
+  inertialDragComposeBuild, inertialDragComposeSolve, inertialDragComposeState, REL_DRAG_COMPOSE, REL_DRAG_SOLVE_FROM, REL_DRAG_SOLVE_ITERS_DEFAULT,
+  REL_DRAG_SOLVE_ITERS_RANGE, REL_DRAG_SOLVE_DIRECT_MAX, REL_DRAG_SOLVE_NMAX, REL_DRAG_COMPOSE_VERSION,   // 第293便e
   DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
   dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
   REL_DRAG_INERTIAL_VERSION, REL_DRAG_INERTIAL_KEYS,

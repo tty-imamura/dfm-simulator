@@ -3105,3 +3105,18 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - 宣言の無い本は `dfmInertialDragStep` の核の分岐の外で 1 命令も変わらない(`presetSig`・エクスポート JSON・走行は 1 bit 不変)。宣言は `presetSig` と保存 JSON に入る。
 - 読み取り: `HP.dragCoreState(S)`(表の宣言・求積の点数・補間誤差の上限・表の外への跳び)・`HP.inertialDragState(S).dragCore`(宣言した本だけ)。
 - QA: **`behavior.dragCoreGate`**(門と受理)/ **`preset.earthMoonInertial`**(🌛 の宣言)/ **`docs.dragCoreFit`**(フィットと感度の表の転記)。
+
+## 47. 第293便e の宣言鍵 —— 引きずりの合成則 `physics.relativeDrag.compose`(原仮定者の裁定(第83報)・統括の検証項目 R145・**opt-in の法則版の候補**・**SYSTEM_PROMPT には載せない**)
+
+- **本の鍵 `physics.relativeDrag.compose`**: `"sum"`(**既定 "sum"** —— 第290便c の現行。各源の寄与 a_ij(V_j−V_i) を足す・**正準形に出さない**)か `"solve"`(共通の移動速度 W を
+  (I + L)W = v で自己無撞着に解き、u_i = W_i − v_i で移送する —— L の対角 Σ_j a_ij・非対角 −a_ij)。`law:"inertial"` の本だけ(§10.1.1)。未知の値は致命拒否。
+  - **`solveFrom:"history"|"velocity"`**(`compose:"solve"` 専用・既定 "history")—— v の意味: `"history"` は現行と同じ座標差分の移動ベクトル V^{n−1}(前の步の移送を含む)・
+    `"velocity"` は力学速度 v(引きずりの外部ステップの入口の値)。solve の本の正準形には必ず出す(どちらを採るかは未決)。
+  - **`solveIters`**(`compose:"solve"` 専用・1〜1000 の整数・省略は既定 8)—— 粒子が 64 を超える本の Gauss–Seidel の回数(64 以下は直接法)。残差は帳簿に出す(打ち切りを黙らない)。
+  - `compose:"sum"`(または省略)に `solveFrom`・`solveIters` を書いたら致命拒否。`compose:"sum"` を書いた本は未宣言と同じ正準形・同じ `presetSig`。
+- 自己項なし・宣言した対だけ・質量が正でない粒子は源にも受け手にもならない・pinned は受け取らない(源にはなる)・履歴なしの步は u=0・一致点は拒否・構造核 `dragCore` の表は
+  そのまま源の核として読む(§46)—— どれも現行の契約のまま。粒子が 4096 を超える本の solve の步は拒否して数える(u=0)。
+- **内蔵の宣言は無い**(🐌・🌛 は既定 "sum" のまま —— 🌛 の gain は sum 版の推定。solve 版の C_d のフィットは器の記録で**採用値にしない**)。宣言の無い本の走行・`presetSig`・エクスポート JSON は 1 bit 不変。
+- 読み取り: `HP.inertialDragComposeState(S)`(合成則・v の意味・解法・残差の直近と最大・加算の u と solve の u の大きさ)・`HP.inertialDragState(S).compose`(solve を宣言した本だけ)。
+  表示メッシュの drag(§42)は加算の局所場のサンプラーなので、solve の本では描かない(`inertialDragFieldReady(S).why === "composeSolve"`)。
+- 式・検査・比較は docs/PHYSICS.md〔第293便e〕。QA: **`behavior.composeGate`**(門と受理)/ **`docs.composeContract`**(表の転記)。

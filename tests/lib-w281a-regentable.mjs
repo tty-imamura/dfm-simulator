@@ -682,6 +682,15 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tide-w292d.json': META_RUN.concat(['/elapsedS', '/diag/run/wallSec', '/diag/half/wallSec', '/cross/runs/*/wallSec']) },
     note: '第292便d: 明示潮汐の門(純関数 6 項・エンジンの 1 回の評価が純関数とビット同一・J の更新と取り直し・サブステップ・足さない本 4 本の未宣言とのビット同一と maxN の上書き・'
       + '復元・xdot/split/lag 0/inertia)と 🌜 の 1 恒星月(ΔJ・ΔΩ・熱・交換の残差・解析式との比・素朴な更新との比較・dt 半分)・引きずりとの交差項(4 条件 × v/xdot × gain 3 点)' }),
+  // ---- 第293便e(原仮定者の裁定(第83報)「同じ方向の複数の引きずりが単純に足されることは無い」・統括の検証項目 R145): 引きずりの合成則
+  //   (relativeDrag.compose:"sum"|"solve" —— opt-in・既定は現行の加算)の純関数 8 項・宣言の受理・エンジン≡純関数のビット同一(🐌/🌛/規定源つき 3 体/
+  //   粒子 70 の Gauss–Seidel)・非相反性と、🐌・🌛 の sum/solve(history・velocity)27 公転の比較・🌛 の solve 版 C_d の 8.85 年への別のフィット
+  //   (採用値にしない)。Node の headless(子プロセス 3 本)・html だけを読む。構造核の器 dragcore292 の後に置く(同じ核と同じ検出器を読む表の順)。
+  //   所要は第293便e の枝の実測(正本の elapsedS)
+  S('compose293', 'node tests/exp-w293e-compose.mjs', ['tests/out/compose-w293e.json'], 907, { secSource: 'w293e-branch', node: true, workers: 3, after: ['dragcore292'],
+    volatilePaths: { 'tests/out/compose-w293e.json': META_RUN.concat(['/elapsedS', '/snail/rows/*/wallSec', '/em/rows/*/wallSec', '/fit/H/first/wallSec', '/fit/V/first/wallSec']) },
+    note: '第293便e: 合成則 compose の門(純関数 8 項〔2 源の代数例・共通並進・共動・弱結合 O(a²)・順序・分割/併合・有界性・帳簿〕と履歴則の不動点・宣言の受理・'
+      + 'エンジン≡純関数〔u・a_ij・残差・移送の帳簿〕・非相反性)と 🐌/🌛 の sum・solve(history)・solve(velocity)の 27 公転・🌛 の solve 版 C_d の別フィット(採用値にしない)' }),
 ];
 
 /**

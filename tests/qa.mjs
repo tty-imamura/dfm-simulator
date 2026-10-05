@@ -2335,7 +2335,10 @@ if (QA_CHANGED) {
       'tests/out/dragcore-w292c.json',
       // 第292便d(原仮定者の裁定(第82報)⑦・R140): 明示潮汐(physics.tide と天体の tide —— CTL)の門 b〜g・🌜 の 1 恒星月・引きずりとの交差項
       //   (target=beta/index.html —— Node の headless だけ・html だけを読む・他の正本は読まない —— 鎖の段 tide292)
-      'tests/out/tide-w292d.json'];
+      'tests/out/tide-w292d.json',
+      // 第293便e(原仮定者の裁定(第83報)・R145): 引きずりの合成則(compose:"sum"|"solve")の純関数 8 項・エンジン≡純関数・非相反性・🐌/🌛 の sum/solve 比較・
+      //   🌛 の solve 版 C_d の別フィット(採用値にしない)(Node の headless・子プロセス 3 本・領域 REGEN_SCOPE —— 鎖の段 compose293 は dragcore292 の後)
+      'tests/out/compose-w293e.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -22573,6 +22576,135 @@ if (!FAST) {
       }
       add('docs.dragCoreFit', bad.length === 0,
         `**構造核のフィットと感度の表**(第292便c —— 正本 dragcore-w292c.json と PHYSICS〔第292便c〕の転記一致): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+// ---- 8c1l) 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
+// ----   統括の検証項目 R145): **引きずりの合成則便**の 2 ブロック。**root では SKIP**(beta 線の宣言・器・正本)。
+// ----   世代切替 has293e = html に `function inertialDragComposeSolve(` がある。
+// ----   器 tests/exp-w293e-compose.mjs・純関数 tests/lib-w293e-compose.mjs・正本 tests/out/compose-w293e.json(段 compose293 —— 27 公転の比較とフィットは器が走らせる・QA は走らせない)。
+// ----   ① behavior.composeGate …… 未宣言(compose 省略 = "sum")の内蔵は合成則の帳簿も読み口の鍵も持たない(基点とのビット同一 152/152 は器 bitsame/sigsame)・
+// ----      純関数 8 項(2 源の代数例 sum 2 / solve 2/3 ほか)と履歴則の不動点・宣言の受理と署名・エンジン≡純関数(u・a_ij・残差・移送の帳簿のビット同一 ——
+// ----      🐌/🌛〔構造核の表〕/規定源つき 3 体/粒子 70 の Gauss–Seidel)・非相反性 —— いまの html で作り直して正本と照合。
+// ----   ② docs.composeContract …… 正本の来歴と ok・PHYSICS〔第293便e〕の表(純関数・🐌・🌛・フィット・非相反)が正本から作った行と同文・必須の語と禁止語・
+// ----      AI_SPEC の鍵(compose/solveFrom/solveIters・既定 "sum")・CHANGELOG・SYSTEM_PROMPT に載せない・🌛 の宣言 gain はフィットで変えていない。
+{
+  const html293e = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has293e = TARGET.startsWith('beta/') && html293e.indexOf('function inertialDragComposeSolve(') >= 0;
+  if (!has293e) {
+    console.log('SKIP behavior.composeGate / docs.composeContract(第293便e 未適用 — ' + TARGET + ')');
+  } else {
+    let E293 = null, L293 = null, HP293 = null, err293 = null;
+    try {
+      E293 = await import('file://' + path.join(ROOT, 'tests', 'exp-w293e-compose.mjs'));
+      L293 = await import('file://' + path.join(ROOT, 'tests', 'lib-w293e-compose.mjs'));
+      // loadHtmlMain は html を**この process の大域**で実行する(2 度目は const の再宣言で落ちる)—— 前のブロックが同じ TARGET を読んでいればその HP を使う
+      if (globalThis.HP && typeof globalThis.HP.inertialDragComposeSolve === 'function' && typeof globalThis.HP.REL_DRAG_COMPOSE_VERSION === 'string'
+        && html293e.indexOf('"' + globalThis.HP.REL_DRAG_COMPOSE_VERSION + '"') >= 0) HP293 = globalThis.HP;
+      else if (globalThis.HP && typeof globalThis.HP.dfmFieldContract === 'function') throw new Error('大域の HP が別の html の版(同じ process で 2 度読めない)');
+      else {
+        const { loadHtmlMain: loadMain293 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
+        HP293 = loadMain293(path.join(ROOT, TARGET)).HP;
+      }
+    } catch (e) { err293 = String(e && e.stack || e).slice(0, 160); }
+    const JCO = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'compose-w293e.json'), 'utf8')); } catch (e) { return null; } })();
+    const Pd293 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const psec293 = (() => { const a = Pd293.indexOf('〔第293便e — '); if (a < 0) return '';
+      const ends = [Pd293.indexOf('\n〔第', a + 10), Pd293.indexOf('\n## 7. 論文', a)].filter((k) => k > a); return Pd293.slice(a, ends.length ? Math.min(...ends) : undefined); })();
+    // 照合(tests/README §1): 解析量は相対 1e-12・残差の鍵(res… / …Rel / rel…)は絶対 1e-12・真偽値・整数・文字列は一致
+    const near293 = (a, b, where, out) => {
+      if (out.length > 4) return;
+      if (typeof a === 'number' && typeof b === 'number') {
+        const RES = /\/(res\w*|\w*Rel|rel\w*|diff\w*)$/.test(where);
+        if (!(a === b || (RES ? Math.abs(a - b) <= 1e-12 : Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b))))) out.push(where + ' ' + a + '≠' + b);
+        return;
+      }
+      if (a === null || b === null || typeof a !== 'object' || typeof b !== 'object') { if (a !== b) out.push(where + ' ' + String(a).slice(0, 30) + '≠' + String(b).slice(0, 30)); return; }
+      if (Array.isArray(a) !== Array.isArray(b) || (Array.isArray(a) && a.length !== b.length)) { out.push(where + ' 形が違う'); return; }
+      for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) near293(a[k], b[k], where + '/' + k, out);
+    };
+    // ---- ① behavior.composeGate
+    {
+      const bad = [], cases = [];
+      if (err293) bad.push('器/html が読めない: ' + err293);
+      else if (!JCO) bad.push('正本 compose-w293e.json が読めない');
+      else {
+        if (!(JCO.meta && JCO.meta.provenanceVersion === 'w272e-1' && JCO.meta.harnessVersion === E293.HARNESS_VERSION && JCO.meta.engineVersion === HP293.REL_DRAG_COMPOSE_VERSION
+          && JCO.meta.libVersion === L293.COMPOSE_LIB_VERSION)) bad.push('来歴(w272e-1)/器・経路・純関数の版');
+        // (a) 未宣言: 内蔵に compose を宣言した本は無い・inertial の内蔵は合成則の帳簿も読み口の鍵も持たない
+        let nInertial = 0, nLeak = 0;
+        for (const q of HP293.allPresets()) {
+          const rd0 = q.physics && q.physics.relativeDrag;
+          if (!rd0 || rd0.law !== 'inertial' || q.familyRole === 'retired') continue;
+          const v = HP293.validatePreset(JSON.parse(JSON.stringify(q))); if (!v.ok) continue;
+          HP293.sim.build(v.preset); const S = HP293.sim;
+          for (let k = 0; k < 3; k++) S.step(0.016);
+          nInertial++;
+          const st = HP293.inertialDragState(S);
+          if ('compose' in v.preset.physics.relativeDrag || (st && 'compose' in st) || HP293.inertialDragComposeState(S) !== null) nLeak++;
+        }
+        if (nLeak) bad.push(`(a) 未宣言の inertial の本 ${nLeak} 本に合成則の鍵・帳簿がある`);
+        cases.push(`(a) 未宣言(既定 "sum" = 現行の加算): inertial の内蔵 ${nInertial} 本は正準形・読み口・帳簿に compose の鍵が無い(基点とのビット同一 152/152 は器 bitsame/sigsame)`);
+        // (b) 純関数 8 項と履歴則の不動点
+        const ST = L293.selfTest(), diff = [];
+        near293(JCO.selfTest, ST, 'selfTest', diff);
+        if (!(ST.ok && ST.nOk === 8 && ST.nItems === 8)) bad.push(`純関数 ${ST.nOk}/${ST.nItems}・履歴則 ${ST.history.ok}`);
+        const al = ST.items.algebra;
+        if (!(al.sum1 === 1 && al.sum2 === 2 && Math.abs(al.solve1 - 0.5) <= 1e-15 && Math.abs(al.solve2 - 2 / 3) <= 1e-15)) bad.push('2 源の代数例(sum 1・2 / solve 1/2・2/3)');
+        cases.push(`(b) 純関数 ${ST.nOk}/${ST.nItems}: 2 源の代数例 sum ${al.sum1}・${al.sum2} / solve ${al.solve1}・${al.solve2.toFixed(6)}・弱結合の傾き ${ST.items.weak.slopes.map((z) => z.toFixed(3)).join('/')}・`
+          + `強結合で solve の |u|/max|Δv| ≤ ${Math.max(...ST.items.bounded.rows.map((z) => z.solveOverBound)).toFixed(3)}(sum は ${ST.items.bounded.rows.slice(-1)[0].sumOverBound.toFixed(0)})・`
+          + `履歴則の不動点: 加算+履歴 = solve(velocity) = ${ST.history.pair.sumHistory.toFixed(6)}・solve(history) ${ST.history.pair.solveHistory.toFixed(6)}`);
+        // (c) 宣言の受理・(d) エンジン≡純関数・(e) 非相反性 —— 作り直して正本と照合
+        const D = E293.declGate(HP293), G = E293.engineGate(HP293), NR = E293.nonRecip(HP293);
+        near293(JCO.gates.decl, D, 'decl', diff); near293(JCO.gates.engine, G, 'engine', diff); near293(JCO.nonRecip, NR, 'nonRecip', diff);
+        if (diff.length) bad.push('正本 ≠ 作り直し: ' + diff.slice(0, 3).join(' ; '));
+        if (!D.ok) bad.push('宣言の受理の門が ok でない');
+        if (!G.ok) bad.push('エンジン≡純関数の門が ok でない: ' + G.cases.filter((c) => !c.ok).map((c) => c.key).join(','));
+        if (!NR.ok) bad.push('非相反性の記録が ok でない');
+        cases.push(`(c) 受理: 未宣言と compose:"sum" は同じ正準形・同じ署名・solve は署名が変わる・拒否 ${D.rejected}/${D.rejectCases}・内蔵の宣言 ${D.builtinDeclaring.length} 本`);
+        cases.push(`(d) エンジン≡純関数: ${G.cases.length} 事例(${G.cases.map((c) => c.key).join('・')})で u・a_ij・残差・移送の帳簿がビット同一=${G.ok}・GS(gain ${G.gs.gain}・deg ${G.gs.degMax.toFixed(2)})の残差 ${G.gs.iters8} 回 ${G.gs.res8.toExponential(2)} → ${G.gs.iters30} 回 ${G.gs.res30.toExponential(2)}`);
+        cases.push(`(e) 非相反: Σmu/Σm|u| は dragCore で ${NR.rows.filter((z) => z.source === 'dragCore').map((z) => z.sumMuRel.toExponential(2)).join('/')}(合成則に依らない)・点源で ${NR.rows.filter((z) => z.source === 'point').map((z) => z.sumMuRel.toExponential(1)).join('/')}`);
+        if (JCO.ok !== true) bad.push('正本の ok');
+      }
+      add('behavior.composeGate', bad.length === 0,
+        `**引きずりの合成則 compose の門**(第293便e・統括の検証項目 R145 —— opt-in の法則版の候補・既定 "sum" は現行の加算のままビット同一・S._core の外): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② docs.composeContract
+    {
+      const bad = [], cases = [];
+      if (err293) bad.push('器が読めない: ' + err293);
+      else if (!JCO) bad.push('正本 compose-w293e.json が読めない');
+      else if (!psec293) bad.push('PHYSICS〔第293便e — 〕が無い');
+      else {
+        const R = E293.docRows(JCO), rows = R.pure.concat(R.snail, R.em, R.fit, R.recip), miss = rows.filter((r) => psec293.indexOf(r) < 0);
+        if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(例 ' + miss[0].slice(0, 60) + ')');
+        cases.push(`PHYSICS の表の行 ${rows.length - miss.length}/${rows.length}(純関数 ${R.pure.length}・🐌 ${R.snail.length}・🌛 ${R.em.length}・フィット ${R.fit.length}・非相反 ${R.recip.length})`);
+        if (!(JCO.fit.H.converged && JCO.fit.V.converged)) bad.push('solve 版のフィットが収束していない');
+        const em = HP293.allPresets().find((q) => q.id === E293.BOOK_ID);
+        if (!(em && em.physics.relativeDrag.gain === JCO.fit.declaredGain && em.physics.relativeDrag.compose === undefined)) bad.push('🌛 の宣言(gain・compose)が変わっている(solve 版のフィットは採用値にしない)');
+        cases.push(`フィット(採用値にしない): solve(history) ${JCO.fit.H.gain.toPrecision(7)}(${JCO.fit.relH.toExponential(2)})・solve(velocity) ${JCO.fit.V.gain.toPrecision(7)}(${JCO.fit.relV.toExponential(2)})・🌛 の宣言 ${JCO.fit.declaredGain} は不変`);
+        const cut = psec293.indexOf('**書かないこと。**'), body = cut >= 0 ? psec293.slice(0, cut) : psec293;
+        if (cut < 0) bad.push('PHYSICS〔第293便e〕に「書かないこと」が無い');
+        const FORBID = ['正しい合成則である', '月を再現した', '較正 合', 'C_d は普遍定数である', '全系の保存則が閉じた', '摂動の記憶を示した', '既定を差し替えた'];
+        const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
+        if (hit.length) bad.push('PHYSICS〔第293便e〕の本文に禁止語: ' + hit.join(','));
+        for (const w of ['(I + L)', 'solveFrom', '履歴', '不動点', '相対速度を使うこと自体から非加算性は導かれない', '法則版の候補', 'R145', '原仮定者の裁定(第83報)', '採用値にしない'])
+          if (psec293.indexOf(w) < 0) bad.push('PHYSICS〔第293便e〕に「' + w + '」が無い');
+        cases.push(`PHYSICS〔第293便e〕の必須の語・禁止語 0(${FORBID.length} 語)`);
+        const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+        if (CL.indexOf('第293便e') < 0) bad.push('CHANGELOG に第293便e が無い');
+        const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        const ai = AS.indexOf('`physics.relativeDrag.compose`');
+        const aiSec = ai >= 0 ? AS.slice(ai, ai + 3000) : '';
+        if (!(ai >= 0 && /solveFrom/.test(aiSec) && /solveIters/.test(aiSec) && /既定 "sum"/.test(aiSec))) bad.push('AI_SPEC に compose・solveFrom・solveIters・既定 "sum" が無い');
+        if (HP293.SYSTEM_PROMPT && /compose|solveFrom|solveIters/.test(HP293.SYSTEM_PROMPT)) bad.push('SYSTEM_PROMPT に合成則の鍵がある(AI 生成には開放しない)');
+        cases.push('CHANGELOG・AI_SPEC(既定 "sum")・SYSTEM_PROMPT に載せない');
+        if (JCO.ok !== true) bad.push('正本の ok');
+      }
+      add('docs.composeContract', bad.length === 0,
+        `**合成則の比較とフィットの表**(第293便e —— 正本 compose-w293e.json と PHYSICS〔第293便e〕の転記一致): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
