@@ -4,11 +4,11 @@
   "section": "潮汐ロック枝(kFrame=0・f=1・λPN=1)",
   "harness": "w272c-nslock-1",
   "target": "beta/index.html",
-  "targetSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
   "csvSha256": "56e194b1d39a0512ec18c77b8248bf894ce5454a2dfebaeb6305e94cfba89ff2",
   "libSha256": "edfac767155a1c2b2810ef2d860e350d44c9f0a0465436c4c8ac788429030d59",
   "src265Sha256": "e39a0bd29a955736c0f3718fad2361efcad83bfc6ec598e8b6642bd0156dc0f1",
-  "at": "2026-10-04T17:37:01.888Z",
+  "at": "2026-10-05T20:56:51.889Z",
   "dt0": 0.016,
   "divs": [
    1,
@@ -54,11 +54,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 987,
-   "segments": 896,
-   "closureShare": 0.3241
+   "names": 999,
+   "segments": 908,
+   "closureShare": 0.3252
   },
-  "scopeSha256": "44e061f522e996353756acd8707b86bf030808cf7d9a52b7b9deb6423bed9939",
+  "scopeSha256": "a32c36ebde3620476f5969e0b9ad39b69b9939d605a16b3defb12c825893a8ba",
   "scopeComplete": true,
   "inputsStable": [
    {
@@ -92,7 +92,7 @@
    }
   ],
   "codeSha256": "d9faf10f0abd529667e68b1b27965b8cbf92614d30a577756b6535a735b61ec7",
-  "spentSec": 1039.4,
+  "spentSec": 970.6,
   "stages": 102
  },
  "builtinDeclared": [
@@ -923,15 +923,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1438978,
+       "steps": 1067238,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.07873725124181558,
-       "P": 12117.695703746213,
-       "omegaDot": 18.959742057408064,
+       "e": 0.09292356804312732,
+       "P": 8754.804314244628,
+       "omegaDot": 17.35765374665016,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.6984005973334266,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
@@ -956,15 +956,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 2888813,
+       "steps": 2143946,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.07644369864218171,
-       "P": 12163.415998820137,
-       "omegaDot": 18.272588231135618,
+       "e": 0.09034348179300394,
+       "P": 8794.665759086585,
+       "omegaDot": 17.10727302083793,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.6984005973334266,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
@@ -989,15 +989,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 5788483,
+       "steps": 4297363,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.07530341694667471,
-       "P": 12186.27759693093,
-       "omegaDot": 17.950443992946525,
+       "e": 0.08906222942599289,
+       "P": 8814.598544981365,
+       "omegaDot": 17.003159483132446,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.6984005973334266,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
@@ -1018,33 +1018,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9999084577527829,
-       "ext": 12209.142096557585,
+       "p": 0.9998506421763467,
+       "ext": 8834.535458678381,
        "monotone": true,
-       "d1": -45.72029507392472,
-       "d2": -22.86159811079233,
+       "d1": -39.861444841957564,
+       "d2": -19.932785894779954,
        "note": null
       },
       "omegaDot": {
-       "p": 1.0929263057257093,
-       "ext": 17.66613115956766,
+       "p": 1.2659658365684725,
+       "ext": 16.92905107321593,
        "monotone": true,
-       "d1": 0.6871538262724464,
-       "d2": 0.3221442381890931,
+       "d1": 0.2503807258122315,
+       "d2": 0.1041135377054836,
        "note": null
       },
       "e": {
-       "p": 1.0081937219218893,
-       "ext": 0.07417597816324963,
+       "p": 1.0098646246580951,
+       "ext": 0.08779832058490403,
        "monotone": true,
-       "d1": 0.0022935525996338607,
-       "d2": 0.001140281695507006,
+       "d1": 0.0025800862501233757,
+       "d2": 0.001281252367011057,
        "note": null
       }
      },
-     "Pext": 12209.142096557585,
-     "omegaDotExt": 17.66613115956766,
-     "eExt": 0.07417597816324963,
+     "Pext": 8834.535458678381,
+     "omegaDotExt": 16.92905107321593,
+     "eExt": 0.08779832058490403,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -1057,30 +1057,30 @@
         "sigma": 2.5056e-7,
         "recordId": "SOL-cf1e8fbf",
         "solutionId": null,
-        "modelExt": 12209.142096557585,
-        "modelH4": 12186.27759693093,
-        "sigmaTimesExt": 13468260589.398088,
-        "sigmaTimesH4": 13377006998.934105
+        "modelExt": 8834.535458678381,
+        "modelH4": 8814.598544981365,
+        "sigmaTimesExt": 2935.0270634491762,
+        "sigmaTimesH4": -79566484.26179463
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-35dacca5",
         "solutionId": null,
-        "modelExt": 17.66613115956766,
-        "modelH4": 17.950443992946525,
-        "sigmaTimesExt": 58985.24304366613,
-        "sigmaTimesH4": 80855.46099588662
+        "modelExt": 16.92905107321593,
+        "modelH4": 17.003159483132446,
+        "sigmaTimesExt": 2286.774862763963,
+        "sigmaTimesH4": 7987.421779419016
        },
        "e": {
         "obs": 0.087777036,
         "sigma": 4.8e-8,
         "recordId": "SOL-40d95cf1",
         "solutionId": null,
-        "modelExt": 0.07417597816324963,
-        "modelH4": 0.07530341694667471,
-        "sigmaTimesExt": -283355.3715989662,
-        "sigmaTimesH4": -259867.06361094362
+        "modelExt": 0.08779832058490403,
+        "modelH4": 0.08906222942599289,
+        "sigmaTimesExt": 443.42885216717514,
+        "sigmaTimesH4": 26774.863041518413
        }
       },
       "solution": {
@@ -1089,30 +1089,30 @@
         "sigma": 8.64e-8,
         "recordId": "SOL-e35438ab",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 12209.142096557585,
-        "modelH4": 12186.27759693093,
-        "sigmaTimesExt": 39057955709.15353,
-        "sigmaTimesH4": 38793320296.80797
+        "modelExt": 8834.535458678381,
+        "modelH4": 8814.598544981365,
+        "sigmaTimesExt": 8511.477555354455,
+        "sigmaTimesH4": -230742804.46013305
        },
        "omegaDot": {
         "obs": 16.899323,
         "sigma": 0.000013,
         "recordId": "SOL-c162bd87",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 17.66613115956766,
-        "modelH4": 17.950443992946525,
-        "sigmaTimesExt": 58985.24304366613,
-        "sigmaTimesH4": 80855.46099588662
+        "modelExt": 16.92905107321593,
+        "modelH4": 17.003159483132446,
+        "sigmaTimesExt": 2286.774862763963,
+        "sigmaTimesH4": 7987.421779419016
        },
        "e": {
         "obs": 0.087777023,
         "sigma": 6.1e-8,
         "recordId": "SOL-1c67b7d7",
         "solutionId": "Kramer2021-DDS",
-        "modelExt": 0.07417597816324963,
-        "modelH4": 0.07530341694667471,
-        "sigmaTimesExt": -222967.94814344868,
-        "sigmaTimesH4": -204485.3451364801
+        "modelExt": 0.08779832058490403,
+        "modelH4": 0.08906222942599289,
+        "sigmaTimesExt": 349.14073613166295,
+        "sigmaTimesH4": 21068.957803162142
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -2443,15 +2443,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 2158930,
+       "steps": 1897376,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5498776084412031,
-       "P": 17707.569484854143,
-       "omegaDot": 14.16828851072002,
+       "e": 0.6084169522485607,
+       "P": 15560.639729778559,
+       "omegaDot": 10.765803502425882,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.740871852668369,
         "lambdaPN": 1,
         "geoPN": 1,
         "sampleClass": "principle",
@@ -2476,15 +2476,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4349015,
+       "steps": 3829749,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5485553727222404,
-       "P": 17838.737707786673,
-       "omegaDot": 14.015292044860695,
+       "e": 0.6071362862375415,
+       "P": 15707.984638549224,
+       "omegaDot": 10.57201268279717,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.740871852668369,
         "lambdaPN": 1,
         "geoPN": 1,
         "sampleClass": "principle",
@@ -2509,15 +2509,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 8729348,
+       "steps": 7694771,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.5478988427279093,
-       "P": 17904.665546609773,
-       "omegaDot": 13.94117923948623,
+       "e": 0.6065010728900299,
+       "P": 15782.237320688844,
+       "omegaDot": 10.476756959188549,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.740871852668369,
         "lambdaPN": 1,
         "geoPN": 1,
         "sampleClass": "principle",
@@ -2538,33 +2538,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9924585578539241,
-       "ext": 17971.288084033742,
+       "p": 0.9886821669874242,
+       "ext": 15857.668882416447,
        "monotone": true,
-       "d1": -131.16822293253063,
-       "d2": -65.92783882309959,
+       "d1": -147.34490877066492,
+       "d2": -74.25268213962045,
        "note": null
       },
       "omegaDot": {
-       "p": 1.0457035865581066,
-       "ext": 13.871548749639379,
+       "p": 1.0246225409780216,
+       "ext": 10.384671466336822,
        "monotone": true,
-       "d1": 0.15299646585932436,
-       "d2": 0.0741128053744653,
+       "d1": 0.19379081962871147,
+       "d2": 0.09525572360862178,
        "note": null
       },
       "e": {
-       "p": 1.0100465644585246,
-       "ext": 0.5472513619905387,
+       "p": 1.0115811469344689,
+       "ext": 0.6058759364243066,
        "monotone": true,
-       "d1": 0.0013222357189627276,
-       "d2": 0.0006565299943310787,
+       "d1": 0.0012806660110192825,
+       "d2": 0.0006352133475115984,
        "note": null
       }
      },
-     "Pext": 17971.288084033742,
-     "omegaDotExt": 13.871548749639379,
-     "eExt": 0.5472513619905387,
+     "Pext": 15857.668882416447,
+     "omegaDotExt": 10.384671466336822,
+     "eExt": 0.6058759364243066,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -2577,30 +2577,30 @@
         "sigma": 0.00000432,
         "recordId": "SOL-7cc2400b",
         "solutionId": null,
-        "modelExt": 17971.288084033742,
-        "modelH4": 17904.665546609773,
-        "sigmaTimesExt": 489263672.42262524,
-        "sigmaTimesH4": 473841788.75966936
+        "modelExt": 15857.668882416447,
+        "modelH4": 15782.237320688844,
+        "sigmaTimesExt": -31.65545236967133,
+        "sigmaTimesH4": -17461041.314619604
        },
        "omegaDot": {
         "obs": 10.3651,
         "sigma": 0.0002,
         "recordId": "SOL-f141dc30",
         "solutionId": null,
-        "modelExt": 13.871548749639379,
-        "modelH4": 13.94117923948623,
-        "sigmaTimesExt": 17532.243748196892,
-        "sigmaTimesH4": 17880.39619743115
+        "modelExt": 10.384671466336822,
+        "modelH4": 10.476756959188549,
+        "sigmaTimesExt": 97.85733168411248,
+        "sigmaTimesH4": 558.2847959427451
        },
        "e": {
         "obs": 0.6058142,
         "sigma": 0.000001,
         "recordId": "SOL-251ef664",
         "solutionId": null,
-        "modelExt": 0.5472513619905387,
-        "modelH4": 0.5478988427279093,
-        "sigmaTimesExt": -58562.83800946127,
-        "sigmaTimesH4": -57915.35727209063
+        "modelExt": 0.6058759364243066,
+        "modelH4": 0.6065010728900299,
+        "sigmaTimesExt": 61.73642430662429,
+        "sigmaTimesH4": 686.8728900298881
        }
       },
       "solution": {
@@ -2609,30 +2609,30 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-73e1ba36",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 17971.288084033742,
-        "modelH4": 17904.665546609773,
-        "sigmaTimesExt": 12231597910.065638,
-        "sigmaTimesH4": 11846050818.491741
+        "modelExt": 15857.668882416447,
+        "modelH4": 15782.237320688844,
+        "sigmaTimesExt": 5308.113697066329,
+        "sigmaTimesH4": -436519933.36548376
        },
        "omegaDot": {
         "obs": 10.364986,
         "sigma": 0.000008,
         "recordId": "SOL-4d073b22",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 13.871548749639379,
-        "modelH4": 13.94117923948623,
-        "sigmaTimesExt": 438320.34370492236,
-        "sigmaTimesH4": 447024.15493577876
+        "modelExt": 10.384671466336822,
+        "modelH4": 10.476756959188549,
+        "sigmaTimesExt": 2460.6832921028054,
+        "sigmaTimesH4": 13971.36989856862
        },
        "e": {
         "obs": 0.605817,
         "sigma": 0.000002,
         "recordId": "SOL-8d0fec54",
         "solutionId": "Singha2026-DDH",
-        "modelExt": 0.5472513619905387,
-        "modelH4": 0.5478988427279093,
-        "sigmaTimesExt": -29282.819004730678,
-        "sigmaTimesH4": -28959.078636045357
+        "modelExt": 0.6058759364243066,
+        "modelH4": 0.6065010728900299,
+        "sigmaTimesExt": 29.46821215327189,
+        "sigmaTimesH4": 342.03644501490385
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -3963,15 +3963,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 1184387,
+       "steps": 817444,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.13508789576934163,
-       "P": 9973.772351417541,
-       "omegaDot": 25.04857120970901,
+       "e": 0.0704305018540405,
+       "P": 6705.3030885526105,
+       "omegaDot": 26.68012090522461,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.6572657522175487,
         "lambdaPN": 1,
         "geoPN": 1,
         "sampleClass": "principle",
@@ -3996,15 +3996,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 2380009,
+       "steps": 1643922,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.1323923876113495,
-       "P": 10021.084712841799,
-       "omegaDot": 24.418451288647205,
+       "e": 0.06712236628238372,
+       "P": 6743.333380142894,
+       "omegaDot": 26.163790556862544,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.6572657522175487,
         "lambdaPN": 1,
         "geoPN": 1,
         "sampleClass": "principle",
@@ -4029,15 +4029,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4771256,
+       "steps": 3296881,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.13105394899107423,
-       "P": 10044.746444071705,
-       "omegaDot": 24.130241371898467,
+       "e": 0.06548244925208987,
+       "P": 6762.349896403998,
+       "omegaDot": 25.962633975729496,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.6572657522175487,
         "lambdaPN": 1,
         "geoPN": 1,
         "sampleClass": "principle",
@@ -4058,33 +4058,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9996615360154609,
-       "ext": 10068.419281547724,
+       "p": 0.9998960253462094,
+       "ext": 6781.369153992145,
        "monotone": true,
-       "d1": -47.31236142425769,
-       "d2": -23.661731229905854,
+       "d1": -38.03029159028392,
+       "d2": -19.01651626110379,
        "note": null
       },
       "omegaDot": {
-       "p": 1.1285064440391182,
-       "ext": 23.887297453719764,
+       "p": 1.3599754592914475,
+       "ext": 25.834247750921218,
        "monotone": true,
-       "d1": 0.6301199210618051,
-       "d2": 0.2882099167487375,
+       "d1": 0.5163303483620645,
+       "d2": 0.20115658113304846,
        "note": null
       },
       "e": {
-       "p": 1.0100062962569107,
-       "ext": 0.12973388550835965,
+       "p": 1.0123955340196091,
+       "ext": 0.0638703535946165,
        "monotone": true,
-       "d1": 0.0026955081579921325,
-       "d2": 0.001338438620275273,
+       "d1": 0.003308135571656781,
+       "d2": 0.0016399170302938415,
        "note": null
       }
      },
-     "Pext": 10068.419281547724,
-     "omegaDotExt": 23.887297453719764,
-     "eExt": 0.12973388550835965,
+     "Pext": 6781.369153992145,
+     "omegaDotExt": 25.834247750921218,
+     "eExt": 0.0638703535946165,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -4097,30 +4097,30 @@
         "sigma": 0.000864,
         "recordId": "SOL-cb34a1f4",
         "solutionId": null,
-        "modelExt": 10068.419281547724,
-        "modelH4": 10044.746444071705,
-        "sigmaTimesExt": 3804459.0573469023,
-        "sigmaTimesH4": 3777059.9398978064
+        "modelExt": 6781.369153992145,
+        "modelH4": 6762.349896403998,
+        "sigmaTimesExt": 2.8911946117204934,
+        "sigmaTimesH4": -22010.138421298583
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-f5d43612",
         "solutionId": null,
-        "modelExt": 23.887297453719764,
-        "modelH4": 24.130241371898467,
-        "sigmaTimesExt": -4761.8813657005885,
-        "sigmaTimesH4": -4154.521570253831
+        "modelExt": 25.834247750921218,
+        "modelH4": 25.962633975729496,
+        "sigmaTimesExt": 105.4943773030459,
+        "sigmaTimesH4": 426.45993932374
        },
        "e": {
         "obs": 0.063848,
         "sigma": 0.000009,
         "recordId": "SOL-efbb5491",
         "solutionId": null,
-        "modelExt": 0.12973388550835965,
-        "modelH4": 0.13105394899107423,
-        "sigmaTimesExt": 7320.653945373294,
-        "sigmaTimesH4": 7467.327665674914
+        "modelExt": 0.0638703535946165,
+        "modelH4": 0.06548244925208987,
+        "sigmaTimesExt": 2.483732735166407,
+        "sigmaTimesH4": 181.60547245443033
        }
       },
       "solution": {
@@ -4129,30 +4129,30 @@
         "sigma": 0.000001728,
         "recordId": "SOL-dd4b7894",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 10068.419281547724,
-        "modelH4": 10044.746444071705,
-        "sigmaTimesExt": 1902228751.6734512,
-        "sigmaTimesH4": 1888529192.9489033
+        "modelExt": 6781.369153992145,
+        "modelH4": 6762.349896403998,
+        "sigmaTimesExt": 668.5973059145706,
+        "sigmaTimesH4": -11005846.210649237
        },
        "omegaDot": {
         "obs": 25.79205,
         "sigma": 0.0004,
         "recordId": "SOL-4d53d566",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 23.887297453719764,
-        "modelH4": 24.130241371898467,
-        "sigmaTimesExt": -4761.8813657005885,
-        "sigmaTimesH4": -4154.521570253831
+        "modelExt": 25.834247750921218,
+        "modelH4": 25.962633975729496,
+        "sigmaTimesExt": 105.4943773030459,
+        "sigmaTimesH4": 426.45993932374
        },
        "e": {
         "obs": 0.0638363,
         "sigma": 8e-7,
         "recordId": "SOL-ae8d8ac9",
         "solutionId": "Meng2025-DDFWHE",
-        "modelExt": 0.12973388550835965,
-        "modelH4": 0.13105394899107423,
-        "sigmaTimesExt": 82371.98188544957,
-        "sigmaTimesH4": 84022.06123884278
+        "modelExt": 0.0638703535946165,
+        "modelH4": 0.06548244925208987,
+        "sigmaTimesExt": 42.5669932706263,
+        "sigmaTimesH4": 2057.6865651123453
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
@@ -4163,9 +4163,9 @@
       "stateExt": "outside",
       "stateH4": "outside",
       "perQuantityExt": {
-       "P": "outside",
+       "P": "within",
        "omegaDot": "outside",
-       "e": "outside"
+       "e": "within"
       },
       "note": "**数え上げであって合否ではない。** σ の宛先が無い量・外挿が付かない量は `undecidable`(**「入らなかった」ではない**)。"
      }
@@ -5483,15 +5483,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 4617376,
+       "steps": 4416659,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.251318799569667,
-       "P": 37883.24801368123,
-       "omegaDot": 3.2185451563275347,
+       "e": 0.2750505124118916,
+       "P": 36236.32478994565,
+       "omegaDot": 1.778487870348772,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.9366303438690935,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
@@ -5516,15 +5516,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 9248370,
+       "steps": 8847019,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.25065854198994625,
-       "P": 37940.573009919775,
-       "omegaDot": 3.210240059809069,
+       "e": 0.27438936200633984,
+       "P": 36293.995366900235,
+       "omegaDot": 1.7689953151152025,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.9366303438690935,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
@@ -5549,15 +5549,15 @@
        "errors": null,
        "stopped": "window",
        "nPeri": 20,
-       "steps": 18510361,
+       "steps": 17707742,
        "unwrapFailed": false,
        "clamp": 0,
        "nan": false,
-       "e": 0.2503290925218161,
-       "P": 37969.24300750843,
-       "omegaDot": 3.2062901116885727,
+       "e": 0.27405948764569416,
+       "P": 36322.8400951318,
+       "omegaDot": 1.7644406836384723,
        "used": {
-        "kFrame": 1,
+        "kFrame": 0.9366303438690935,
         "lambdaPN": 1,
         "geoPN": 2,
         "sampleClass": "principle",
@@ -5578,33 +5578,33 @@
      ],
      "richardson": {
       "P": {
-       "p": 0.9996225719041175,
-       "ext": 37997.92801188676,
+       "p": 0.9995277849217991,
+       "ext": 36351.70371523707,
        "monotone": true,
-       "d1": -57.32499623854528,
-       "d2": -28.669997588651313,
+       "d1": -57.67057695458789,
+       "d2": -28.844728231568297,
        "note": null
       },
       "omegaDot": {
-       "p": 1.0721632299678732,
-       "ext": 3.2027076642656818,
+       "p": 1.059462160614673,
+       "ext": 1.7602395924693168,
        "monotone": true,
-       "d1": 0.008305096518465671,
-       "d2": 0.003949948120496316,
+       "d1": 0.009492555233569622,
+       "d2": 0.0045546314767301865,
        "note": null
       },
       "e": {
-       "p": 1.0029717608974285,
-       "ext": 0.25000099611713805,
+       "p": 1.0030618593794054,
+       "ext": 0.2737310090385487,
        "monotone": true,
-       "d1": 0.0006602575797207688,
-       "d2": 0.00032944946813012743,
+       "d1": 0.0006611504055517581,
+       "d2": 0.00032987436064568776,
        "note": null
       }
      },
-     "Pext": 37997.92801188676,
-     "omegaDotExt": 3.2027076642656818,
-     "eExt": 0.25000099611713805,
+     "Pext": 36351.70371523707,
+     "omegaDotExt": 1.7602395924693168,
+     "eExt": 0.2737310090385487,
      "resolved": {
       "P": true,
       "omegaDot": true,
@@ -5617,30 +5617,30 @@
         "sigma": 8.64e-7,
         "recordId": "SOL-450a261d",
         "solutionId": null,
-        "modelExt": 37997.92801188676,
-        "modelH4": 37969.24300750843,
-        "sigmaTimesExt": 1905353434.891165,
-        "sigmaTimesH4": 1872153198.3421671
+        "modelExt": 36351.70371523707,
+        "modelH4": 36322.8400951318,
+        "sigmaTimesExt": 1239.6947618577137,
+        "sigmaTimesH4": -33405728.019665226
        },
        "omegaDot": {
         "obs": 1.755789,
         "sigma": 0.000009,
         "recordId": "SOL-033838b1",
         "solutionId": null,
-        "modelExt": 3.2027076642656818,
-        "modelH4": 3.2062901116885727,
-        "sigmaTimesExt": 160768.74047396463,
-        "sigmaTimesH4": 161166.7901876192
+        "modelExt": 1.7602395924693168,
+        "modelH4": 1.7644406836384723,
+        "sigmaTimesExt": 494.51027436853144,
+        "sigmaTimesH4": 961.2981820524711
        },
        "e": {
         "obs": 0.2736775,
         "sigma": 3e-7,
         "recordId": "SOL-ae4a0c44",
         "solutionId": null,
-        "modelExt": 0.25000099611713805,
-        "modelH4": 0.2503290925218161,
-        "sigmaTimesExt": -78921.67960953989,
-        "sigmaTimesH4": -77828.02492727966
+        "modelExt": 0.2737310090385487,
+        "modelH4": 0.27405948764569416,
+        "sigmaTimesExt": 178.36346182890466,
+        "sigmaTimesH4": 1273.2921523137911
        }
       },
       "solution": {
@@ -5649,18 +5649,18 @@
         "sigma": 1.728e-7,
         "recordId": "SOL-9a098c54",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 37997.92801188676,
-        "modelH4": 37969.24300750843,
-        "sigmaTimesExt": 9526767294.955788,
-        "sigmaTimesH4": 9360766112.210798
+        "modelExt": 36351.70371523707,
+        "modelH4": 36322.8400951318,
+        "sigmaTimesExt": 6318.973772876132,
+        "sigmaTimesH4": -167028519.59836254
        },
        "omegaDot": {
         "obs": 1.755795,
         "sigma": null,
         "recordId": "SOL-adb67dcf",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 3.2027076642656818,
-        "modelH4": 3.2062901116885727,
+        "modelExt": 1.7602395924693168,
+        "modelH4": 1.7644406836384723,
         "sigmaTimesExt": null,
         "sigmaTimesH4": null
        },
@@ -5669,10 +5669,10 @@
         "sigma": 4e-8,
         "recordId": "SOL-437b2220",
         "solutionId": "Fonseca2014-DDGR",
-        "modelExt": 0.25000099611713805,
-        "modelH4": 0.2503290925218161,
-        "sigmaTimesExt": -591910.097071549,
-        "sigmaTimesH4": -583707.6869545974
+        "modelExt": 0.2737310090385487,
+        "modelH4": 0.27405948764569416,
+        "sigmaTimesExt": 1340.2259637168568,
+        "sigmaTimesH4": 9552.191142353506
        }
       },
       "note": "**σ 倍は記録であって合否ではない。** e は eProxy⇄e_T の写像が未確定である。"
