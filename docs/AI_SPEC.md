@@ -3105,3 +3105,18 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - 宣言の無い本は `dfmInertialDragStep` の核の分岐の外で 1 命令も変わらない(`presetSig`・エクスポート JSON・走行は 1 bit 不変)。宣言は `presetSig` と保存 JSON に入る。
 - 読み取り: `HP.dragCoreState(S)`(表の宣言・求積の点数・補間誤差の上限・表の外への跳び)・`HP.inertialDragState(S).dragCore`(宣言した本だけ)。
 - QA: **`behavior.dragCoreGate`**(門と受理)/ **`preset.earthMoonInertial`**(🌛 の宣言)/ **`docs.dragCoreFit`**(フィットと感度の表の転記)。
+
+## 47. 第293便c —— コアの 3 つの鍵は別の仕事(`core`・`layers`・`dragCore` の役割と同時宣言の規則)(原仮定者の裁定(第83報)・統括の検証項目 R143・**宣言の規則は変えていない —— 現行の受理を書き出しただけ**・**SYSTEM_PROMPT には載せない**)
+
+天体の「近似コア」を書く鍵は 3 つあり、**同じ名前の量(質量の割合・半径)を持っていても別の仕事をする**。1 つの鍵の値をほかの鍵へ流用・換算しない。
+
+| 鍵 | 仕事(力学で読むもの) | 読まないもの | 同じ天体に併記したとき |
+|---|---|---|---|
+| `core:{mode, massFrac, radius, omega, Kcs, inertiaScale, …}`(コア V2) | 内部状態: J_core(z)・回転場の源 Q(differential/active)・コア–殻の熱・収縮・放出(spinBurst・envelopeShed)・融合での J の継承・観測温度(lSw=0 なら殻だけが光る)・軸(tilt・prescribed) | **重力の質量分布**(重力は天体の m の点質量のまま)・慣性引きずりの核 | `dragCore` と併記 → **致命拒否**。`layers` と併記 → 受理(回転場の源は V2 が持つ —— 所有者規約。層の質量分布は重力に効く) |
+| `layers:[{role, m, r, J, …}]`(親子コア) | 質量分布(同心の薄い球殻 —— 殻定理の差分を内側の粒子に当てる・遠方は 0 差)・V2 を持たない天体の回転場の源(層の J の z 成分) | 熱結合・能動処理・傾きの力学(層の軸は表示の宣言) | `core` と併記 → 受理(上)。`dragCore` と併記 → 受理(層は重力・`dragCore` は慣性引きずりの核 —— 別々に効く) |
+| `dragCore:{massFrac, radius}`(構造核) | 慣性引きずり(`physics.relativeDrag.law:"inertial"`)の源の質量分布(一様 2 層の体積平均の核 ⟨K⟩) | 重力・自転・J・熱 | `core` と併記 → **致命拒否**。`relativeDrag.law:"inertial"` の無い本では警告して無視 |
+
+- 3 つの鍵の慣性モーメントの規約も違う(`layers` は 2D の ½·m·r²×ζ・`dragCore` は一様層の ⅖·m_L·(b⁵−a⁵)/(b³−a³)・`core` は ½·M_c·R_c²×ζ)。統合先(親子コアを拡張した共通データ)の案と移行の順序は docs/PHYSICS.md〔第293便c〕。
+- 内蔵の宣言の数(本便の棚卸し —— 単位は body の宣言数): `core` 在位 15 本・18 body(退役 15 本)/`layers` 2 本/`dragCore` 1 本。在位で `core` を宣言した本のコアなし対照(2000 步)の分類は A 5・B 8・C 2・D 2(層の本)で、**撤去は 0 本**(候補 🌍🌕📿🥀🦀 は主張・説明・QA・観測温度・`coupleSink:"core"` のどれかがコアを読む)。
+- AI 生成の JSON では、天体の内部構造を表したいときは 1 つの鍵だけを選ぶ(質量分布を重力に効かせるなら `layers`・内部の回転や放出なら `core`・慣性引きずりの源なら `dragCore`)。
+- 器 `tests/exp-w293c-corecensus.mjs`・正本 `tests/out/corecensus-w293c.json`(段 `corecensus293`)・QA **`docs.coreCensus`**(棚卸しの転記と分類の本数)/ **`behavior.coreRemovalGate`**(A の本はコアを外しても 2000 步ビット同一)。

@@ -827,3 +827,6 @@ tests/out/regen-plan-w281a.json
 !tests/out/pnsources-w291b.json
 # 第292便a(原仮定者の裁定(第82報)④・R137): 現実較正 20 本の判定行ごとの主因分類(器 tests/exp-w292a-calcause.mjs —— 正本を読むだけ・鎖の段 calcause292)
 !tests/out/calcause-w292a.json
+# 第293便c(原仮定者の裁定(第83報)・統括の検証項目 R143): 引きずりとコア構造の棚卸しの正本(tests/exp-w293c-corecensus.mjs —— 4 経路の宣言数・
+#   コアなし対照 2000 步・分類 A〜D・撤去の可否)。QA docs.coreCensus・behavior.coreRemovalGate が読み、lint.provenanceMeta が来歴を固定するのでコミットする
+!tests/out/corecensus-w293c.json
