@@ -90,7 +90,7 @@ FAIL の実測からだけ決める(差が出たことを理由に床を足さ�
 | refModel | 参照模型 / Reference model | `physics.shapeToy` |
 | dmHalo | ダークマターハロー / Dark-matter halo | `physics.halo`、または同じ `familyId` に `physics.halo` を宣言した本がある |
 | inertial | 慣性決定力 / Inertial determinacy | `physics.relativeDrag.law:"inertial"` |
-| cloakedDwarf | 光学迷彩矮星 / Optically cloaked dwarf | `massLedger.darkRotor`、または bodies のどれかの `lightSweep:"auto"` |
+| cloakedDwarf | 光学迷彩矮星 / Optical-camouflage dwarf | `massLedger.darkRotor`、または bodies のどれかの `lightSweep:"auto"` |
 | pn1Geo | 1PN・測地線 / 1PN / geodesic | `physics.geoPN ≥ 1` |
 | testParticle | 試験粒子 / Test particle | bodies のどれかの `testParticle:true` |
 | spaceMesh | 空間メッシュ / Space mesh | `physics.spaceMesh` |

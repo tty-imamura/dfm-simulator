@@ -34,6 +34,9 @@
 //   'w290c-branch' … 第290便c の枝で器を走らせた実測(正本の elapsedS 4.2 —— Node の headless だけ・Chromium なし・他の枝と同じ容器で並走)。
 //   'w290e-branch' … 第290便e の枝で器を 1 回走らせた実測(正本の elapsedS 170.6 —— Node の headless 1 本・他の枝と同じ容器で並走)。
 //   'w291d-branch' … 第291便d の枝で器を走らせた実測(正本の elapsedS 2.5〜2.7 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
+//   'w292a-branch' … 第292便a の枝で器を走らせた実測(正本の elapsedS 1.5 —— Node だけ・正本を読むだけ・1 步も走らせない・他の枝と同じ容器で並走)。
+//   'w292c-branch' … 第292便c の枝で器を走らせた実測(正本の elapsedS 952.5 —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走〔負荷平均 1〜3。負荷平均 6〜9 の 1 回目は 1482.7〕)。
+//   'w292d-branch' … 第292便d の枝で器を走らせた実測(正本の elapsedS 約 85 —— Node の headless 1 本・Chromium なし・他の 3 枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -655,6 +658,30 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/bgaudit-w291d.json': META_RUN.concat(['/elapsedS']) },
     note: '第291便d: 背景の精査表(D₀・Wbg・backgroundComplex・共通並進・一様加速度・回転・潮汐)—— 新核は背景を読まない(固定配置で u がビット同一 8 宣言)・'
       + '2 進の配置で共通並進がビット同一・走行中の 🐌🌚🌒 で丸め床以内・旧正規化の場の Wbg 依存と ∇D の不変・核と wbgStateOf の静的な参照' }),
+  // ---- 第292便a(原仮定者の裁定(第82報)④・統括の検証項目 R137): 現実較正 20 本の**判定行ごとの主因分類**(1PN の桁と残差・規則表で付けた分類・
+  //   合へ進みうる量と合にできない量)。正本を読むだけ(Node だけ・エンジンを 1 步も走らせない・html の本文を実行しない)。読む正本の書き手
+  //   (calaudit・dt3・kf0 —— calaudit の 2 ファイル / solarsigma / charonInput / mercury / pnsources291)の後に置く。所要は第292便a の枝の実測 1.5 秒
+  S('calcause292', 'node tests/exp-w292a-calcause.mjs && node tests/exp-w292a-calcause.mjs --check', ['tests/out/calcause-w292a.json'], 2, { secSource: 'w292a-branch', node: true,
+    after: ['calaudit', 'dt3', 'kf0', 'solarsigma', 'charonInput', 'mercury', 'pnsources291'],
+    volatilePaths: { 'tests/out/calcause-w292a.json': META_RUN.concat(['/elapsedS']) },
+    note: '第292便a: 較正母集団 20 本の判定行(gate.key ごと)—— 1PN の見積り(近点 6πGM/(c²a(1−e²))・周期/離心率 O(GM/(c²a)))と残差・1PN の是正で動く桁か・'
+      + '主因の分類(pn1/third-body/oblateness/mapping/numerics/sigma-unconnected/strong-field/pinned —— 規則表 RULES・根拠の欄つき)・合へ進みうる量(C1〜C3)' }),
+  // ---- 第292便c(原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139): 慣性決定力の構造核(天体の宣言 dragCore —— 近似コアの質量と半径の体積積分)の門
+  //   (純関数の極限・エンジン≡純関数のビット同一・核の u・表の補間誤差)と 🌛 earthMoonInertial の 8.85 年への gain の 1 次元フィット(推定 —— 較正の合ではない)・
+  //   点源の対照のフィット・感度 3×3・118 公転・dt/2。Node の headless(子プロセス 3 本 —— workers 3)。html だけを読む(他の正本は読まない —— 🌘 の参照は
+  //   較正窓の宣言値 +0.05308)。核の器 inertial290 の後に置く(同じ核を並べて読む表の順)。所要は第292便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('dragcore292', 'node tests/exp-w292c-dragcore.mjs', ['tests/out/dragcore-w292c.json'], 953, { secSource: 'w292c-branch', node: true, workers: 3, after: ['inertial290'],
+    volatilePaths: { 'tests/out/dragcore-w292c.json': META_RUN.concat(['/elapsedS', '/long/wallSec', '/fit/core/first/summary/wallSec', '/fit/point/first/summary/wallSec']) },
+    note: '第292便c: 構造核 dragCore の門(点源極限・遠方〔単極子への収束は ⟨ρ²⟩/r²〕・線形・求積の収束・エンジン≡純関数・核の u・表の補間誤差)と 🌛 の gain の 1 次元フィット'
+      + '(27 公転窓の近点周期 = 8.85 年 —— 推定)・点源の対照・感度(f 3 × R_c 3)・118 公転の定常・恒星月・dt/2' }),
+  // ---- 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): 明示潮汐(physics.tide と天体の tide —— 定時間遅延 CTL)の門 b〜g と診断本 🌜 の
+  //   1 恒星月(dt 0.016・0.008)と、引きずり(relativeDrag.law:"inertial" —— 点源)との交差項(器の中の一時プリセット 11 走行)。
+  //   Node の headless(html だけを読む —— 他の正本は読まない)。慣性引きずりの器 inertial290 の後に置く(同じ inertial の経路を読む表の順)。
+  //   所要は第292便d の枝の実測(約 85 秒 —— 交差項の 11 走行が 70 秒)
+  S('tide292', 'node tests/exp-w292d-tide.mjs', ['tests/out/tide-w292d.json'], 85, { secSource: 'w292d-branch', node: true, after: ['inertial290'],
+    volatilePaths: { 'tests/out/tide-w292d.json': META_RUN.concat(['/elapsedS', '/diag/run/wallSec', '/diag/half/wallSec', '/cross/runs/*/wallSec']) },
+    note: '第292便d: 明示潮汐の門(純関数 6 項・エンジンの 1 回の評価が純関数とビット同一・J の更新と取り直し・サブステップ・足さない本 4 本の未宣言とのビット同一と maxN の上書き・'
+      + '復元・xdot/split/lag 0/inertia)と 🌜 の 1 恒星月(ΔJ・ΔΩ・熱・交換の残差・解析式との比・素朴な更新との比較・dt 半分)・引きずりとの交差項(4 条件 × v/xdot × gain 3 点)' }),
 ];
 
 /**

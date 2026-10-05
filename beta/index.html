@@ -1960,9 +1960,11 @@ ja: {
   // 第157便(外部レビュー第3巡 P1): 現実較正(fidelity:"real")サンプル専用の文言。
   // 誇張アナログ用の nc_solar は同画面の実単位較正・現実準拠チップと矛盾するため分離した
   nc_solar_cal:"実在天体のうち明示した観測量だけを較正した2次元モデルです。太陽系全体・3次元摂動・未掲載の観測量まで再現するものではありません。",
+  nc_apsidal_8p85:"月の近点回転 8.85 年(主に太陽の摂動による)を再現・説明する本ではありません(太陽は入っていません)。",
   nc_thermo:"熱セクターは現実の熱力学との定量対応を主張しないアナロジーである。",
   // 第265便d(第57報 W4): LFBOT の**トイ仮説**(減光で蓄積した自光の崩壊放出)。実イベントの説明ではない
   nc_lfbot:"実在の高速青色トランジェント(LFBOT・AT2018cow 等)の説明・再現・予測ではない(仮説を法則の内側で組み立てたトイである)。",
+  nc_apsidal_8p85_fit:"近点回転 8.85 年は引きずりの係数 gain(C_d)を 1 次元でフィットした推定であり、較正の合でも、慣性決定力が較正ゼロで出した値でもない(実際の主因は太陽摂動)。",   // 第292便c(統合: 🌜 と鍵を分けた —— 🌛 のフィットの注記)
   // 第88便 EXT-09: Failure First(失敗を先に見せる — 宣言専用メタ failureFirst の見出し)
   ffHead:"🧪 失敗から見る(Failure First)",
   ffFail:"FAIL", ffPass:"PASS",
@@ -3016,9 +3018,11 @@ en: {
   nc_solar:"Not a quantitative reproduction of real solar-system bodies (an exaggerated analog tuned for visibility).",
   // 第157便: wording reserved for the real-calibration family (fidelity:"real")
   nc_solar_cal:"A two-dimensional model calibrated only on the observables stated here for the real bodies named. It does not reproduce the solar system as a whole, three-dimensional perturbations, or any observable not listed.",
+  nc_apsidal_8p85:"Not a reproduction or explanation of the Moon's 8.85-year apsidal precession (mostly a solar perturbation) — the Sun is not in this sample.",
   nc_thermo:"The thermal sector is an analogy with no claimed quantitative correspondence to real thermodynamics.",
   // wave 265d: the LFBOT TOY HYPOTHESIS (trapped self-light released at collapse)
   nc_lfbot:"Not an explanation, reproduction or prediction of real luminous fast blue optical transients (LFBOTs such as AT2018cow) — it is a toy built from the hypothesis inside this universe's laws.",
+  nc_apsidal_8p85_fit:"The 8.85-year apsidal cycle is matched by a one-dimensional fit of the drag gain (C_d) — an estimate, not a calibration agreement and not a value the inertial determinacy produced with zero calibration (the real main cause is the solar perturbation).",   // wave 292c (integration: separate key from 🌜 — the fit note for 🌛)
   // 第88便 EXT-09: Failure First heading
   ffHead:"🧪 Failure First",
   ffFail:"FAIL", ffPass:"PASS",
@@ -3059,12 +3063,12 @@ en: {
   ppOther_calTarget:"Calibration target",
   // wave 291e (the adjudicator's ruling, 81st report ⑦, R136): "Reality Calibration" is shown under two headings; the sub-chips of wave 288b were removed
   ppDimTopic:"Topic",
-  ppTopic_refModel:"Reference model", ppTopic_dmHalo:"Dark-matter halo", ppTopic_inertial:"Inertial determinacy", ppTopic_cloakedDwarf:"Optically cloaked dwarf",
+  ppTopic_refModel:"Reference model", ppTopic_dmHalo:"Dark-matter halo", ppTopic_inertial:"Inertial determinacy", ppTopic_cloakedDwarf:"Optical-camouflage dwarf",
   ppTopic_pn1Geo:"1PN / geodesic", ppTopic_testParticle:"Test particle", ppTopic_spaceMesh:"Space mesh", ppTopic_obsCal:"Observational calibration", ppTopic_manyBody:"Chains / many bodies",
   ppTopic_refModelTip:"samples declaring physics.shapeToy (a shape reference model)",
   ppTopic_dmHaloTip:"samples declaring physics.halo (an NFW-type halo) and the controls whose family (familyId) has a sample declaring a halo",
   ppTopic_inertialTip:"samples declaring physics.relativeDrag.law:\"inertial\" (drag by inertial determinacy — law version inertial)",
-  ppTopic_cloakedDwarfTip:"samples declaring massLedger.darkRotor (representative particles of optically cloaked dwarfs placed in the dynamics) or lightSweep:\"auto\" on some body (automatic dimming set by the spin)",
+  ppTopic_cloakedDwarfTip:"samples declaring massLedger.darkRotor (representative particles of optical-camouflage dwarfs placed in the dynamics) or lightSweep:\"auto\" on some body (automatic dimming set by the spin)",
   ppTopic_pn1GeoTip:"samples declaring physics.geoPN of 1 or more (the 1PN / geodesic modes)",
   ppTopic_testParticleTip:"samples in which some body declares the test-particle contract testParticle:true",
   ppTopic_spaceMeshTip:"samples declaring physics.spaceMesh (the space mesh)",
@@ -6534,8 +6538,52 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history"];
+const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
+// 第292便c(R139): 慣性決定力の構造核の宣言(天体 `dragCore`・本 `relativeDrag.coreTable`)の受理器と定数 —— 式と契約は `dragCoreInit` の注記
+const DRAG_CORE_KEY = "dragCore";
+const DRAG_CORE_VERSION = "w292c-dragcore-1";
+const DRAG_CORE_KEYS = ["massFrac", "radius"];
+const DRAG_CORE_NR = 32;
+const DRAG_CORE_TABLE_N = 1024;
+const DRAG_CORE_TABLE_N_RANGE = [16, 65536];
+const DRAG_CORE_RMAX_FACTOR = 4;
+const DRAG_CORE_SPLITS = [-16, -4, -1, 0, 1, 4, 16];
+const REL_DRAG_CORE_TABLE_KEYS = ["n", "rMax"];
+// 宣言 relativeDrag.coreTable の受理(省略は null —— 正準形に出さない)
+function validateDragCoreTable(ct){
+  if(ct===undefined || ct===null) return {ok:true, coreTable:null};
+  if(typeof ct!=="object" || Array.isArray(ct)) return {ok:false, err:'physics.relativeDrag.coreTable は {n, rMax}(どちらも省略可)'};
+  for(const k of Object.keys(ct)) if(REL_DRAG_CORE_TABLE_KEYS.indexOf(k)<0) return {ok:false, err:'physics.relativeDrag.coreTable に未知の鍵 '+k};
+  const out={};
+  if(ct.n!==undefined){
+    if(!isNum(ct.n) || ct.n!==Math.round(ct.n) || ct.n<DRAG_CORE_TABLE_N_RANGE[0] || ct.n>DRAG_CORE_TABLE_N_RANGE[1])
+      return {ok:false, err:'physics.relativeDrag.coreTable.n は '+DRAG_CORE_TABLE_N_RANGE[0]+'〜'+DRAG_CORE_TABLE_N_RANGE[1]+' の整数(表の点数・既定 '+DRAG_CORE_TABLE_N+')'};
+    out.n=ct.n;
+  }
+  if(ct.rMax!==undefined){
+    if(!isNum(ct.rMax) || !(ct.rMax>0)) return {ok:false, err:'physics.relativeDrag.coreTable.rMax は正の有限数(表の外は点源)'};
+    out.rMax=ct.rMax;
+  }
+  return {ok:true, coreTable:out};
+}
+// 天体の宣言 dragCore の受理(single 専用)。戻り値 {ok, dragCore|null, warn|null, err}
+function validateDragCoreBody(b, ph){
+  if(b.dragCore===undefined) return {ok:true, dragCore:null, warn:null};
+  const d=b.dragCore;
+  if(!d || typeof d!=="object" || Array.isArray(d)) return {ok:false, err:'dragCore は {massFrac, radius}(第292便c —— 慣性決定力の構造核)'};
+  for(const k of Object.keys(d)) if(DRAG_CORE_KEYS.indexOf(k)<0) return {ok:false, err:'dragCore に未知の鍵 '+k+'(massFrac・radius だけ —— コア v2 の core:{} とは別の鍵)'};
+  if(b.core!==undefined) return {ok:false, err:'dragCore と core:{}(コア v2)は同時に宣言しない(別の鍵 —— 構造核は慣性引きずりの源の質量分布だけを宣言する)'};
+  if(!isNum(b.radius) || !(b.radius>0)) return {ok:false, err:'dragCore は天体の半径 radius の宣言が要る(マントルの外半径 R_j)'};
+  if(!isNum(d.massFrac) || !(d.massFrac>0) || d.massFrac>1) return {ok:false, err:'dragCore.massFrac は 0<f≤1(コアの質量の割合)'};
+  if(!isNum(d.radius) || !(d.radius>0) || d.radius>b.radius) return {ok:false, err:'dragCore.radius は 0<R_c≤radius(コアの半径・絶対)'};
+  if(d.radius===b.radius && d.massFrac<1) return {ok:false, err:'dragCore.radius=radius ならマントルの体積が 0 —— massFrac は 1'};
+  const rd=ph && ph[REL_DRAG_KEY];
+  if(!rd || rd.law!=="inertial") return {ok:true, dragCore:null, warn:'dragCore は physics.relativeDrag.law:"inertial" の本だけで働く —— 無視します'};
+  const eps=(rd.eps!==undefined)? rd.eps : ((ph.softening!==undefined)? ph.softening : DEFAULT_PHYSICS.softening);
+  if(!(eps>0)) return {ok:false, err:'dragCore は核の軟化 ε>0 が要る(relativeDrag.eps か physics.softening —— ε=0 では受け手が源の中で体積平均が発散する)'};
+  return {ok:true, dragCore:{massFrac:d.massFrac, radius:d.radius}, warn:null};
+}
 function relativeDragPairsParse(pairs){
   if(pairs===undefined || pairs===null || pairs==="all") return {ok:true, pairs:"all"};
   if(!Array.isArray(pairs)) return {ok:false, err:'physics.relativeDrag.pairs は "all" か対の配列'};
@@ -6574,6 +6622,9 @@ function validateRelativeDragInertial(a){
   if(a.history!==undefined && a.history!==null && REL_DRAG_INERTIAL_HISTORY.indexOf(a.history)<0)
     return {ok:false, err:'physics.relativeDrag.history(law:"inertial")は "positions" のみ(移動ベクトルは座標の差分から作る)'};
   out.history="positions";
+  const ctv=validateDragCoreTable(a.coreTable);   // 第292便c: 省略は正準形に出さない(既存の本の署名は 1 字も変わらない)
+  if(!ctv.ok) return {ok:false, err:ctv.err};
+  if(ctv.coreTable!==null) out.coreTable=ctv.coreTable;
   return {ok:true, relativeDrag:out};
 }
 function validateRelativeDrag(a){
@@ -6642,6 +6693,93 @@ function relativeDragMidpointBodyCheck(bodies, rd){
     if(!isNum(b.radius) || !(b.radius>0)) return 'physics.relativeDrag.integration:"midpoint" は正の半径(=正の慣性 I=½mR²)に限る(天体 '+i+')';
   }
   return null;
+}
+// ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **明示潮汐** `physics.tide`(本)と `tide`(天体)—— opt-in =====
+// 「慣性決定力版では引きずりの実装とともに潮汐力の実装も進める・粒子を近似した多粒子サンプルでは潮汐力は無視するなど最適化を行う」。
+// **三つの意味を分ける**(docs/PHYSICS.md〔第292便d〕の表):
+//   (1) 外部重力の潮汐テンソル T_ab=Gm(3n_an_b−δ_ab)/r³ —— 内部を粒子で解いている系では対重力が差動重力として既に持つ。
+//       宣言専用の `physics.backgroundTidal`(力に入っていない・5768 行付近)は**この鍵とは別の鍵・別の意味**(混ぜない・昇格もしない)。
+//   (2) 保存的な変形(誘起四重極・Love 数 k₂)—— 有効ポテンシャル U=−B_i/(2r⁶)・B_i=G k₂_i m_j² R_i⁵。
+//   (3) 散逸する潮汐(定時間遅延 CTL・遅延 Δt_i)—— 軌道とスピンの角運動量交換と熱。
+// **明示潮汐は、受け手が物理半径 radius>0 と k₂ を宣言した少数粒子だけに足す**(n≤maxN・single だけの本・群/形状トイ/光学迷彩矮星の本では
+// 足さない —— 対重力が潮汐と輸送を粒子間力として既に持つので二重計上になる)。宣言 `physics.tide:{maxN, model, velocity, inertia, split}`
+// (既定 maxN 8・model "ctl"・velocity "v"・inertia "half"〔現行エンジンの I=½mR²〕・split "full")と天体の `tide:{k2, lag}`
+// (k2∈(0,1.5]・lag≥0〔単位は本の時間単位 T〕)。**未宣言は 1 bit 不変**(build が `S.hasTide` を立てない = 外部ステップに 1 度も入らない)。
+const TIDE_KEY = "tide";
+const TIDE_STEP_VERSION = "w292d-tide-1";
+const TIDE_PHYS_KEYS = ["model","maxN","velocity","inertia","split"];
+const TIDE_BODY_KEYS = ["k2","lag"];
+const TIDE_MODELS = ["ctl"];                 // 定時間遅延(constant time lag)だけ —— 実在天体の広い周波数で正しいとは仮定しない
+const TIDE_VELOCITIES = ["v","xdot"];        // 潮汐が読む相対速度: "v"(既定)か同じ步の ẋ=v+u(慣性引きずりの u —— 宣言した本だけ)
+const TIDE_INERTIAS = ["half","sphere"];     // I=½mR²(既定 —— 現行エンジンの慣性)か 3 次元一様球の ⅖mR²(宣言で切替)
+const TIDE_SPLITS = ["full","half"];         // 1 步 1 回(引きずりの hook の直後)か半ステップ分割(核の前に半歩・引きずりの後に残り半歩)
+const TIDE_INERTIA_FACTOR = {half:0.5, sphere:0.4};
+const TIDE_MAXN_DEFAULT = 8, TIDE_MAXN_CLAMP = [2, 64];
+const TIDE_K2_MAX = 1.5;                     // 一様な流体球の k₂(上限 —— それを超える宣言は拒否)
+const TIDE_SUB_FRAC = 0.1, TIDE_SUB_MAX = 4096;   // dt>0.1·τ_tide なら潮汐だけを分割(上限を超えた步は数える —— clamp しない)
+const TIDE_OFF_REASONS = ["group","maxN","shapeToy","cloakedDwarf","noReceiver"];
+function validateTide(a){
+  if(a===null || a===undefined || a===false) return {ok:true, tide:null};
+  if(typeof a!=="object" || Array.isArray(a))
+    return {ok:false, err:"physics.tide はオブジェクト({maxN, model, velocity, inertia, split})か null(潮汐テンソル T の宣言は別鍵 physics.backgroundTidal)"};
+  for(const k of Object.keys(a)) if(TIDE_PHYS_KEYS.indexOf(k)<0)
+    return {ok:false, err:"physics.tide に未知の鍵 "+k+"(maxN/model/velocity/inertia/split のみ —— k2・lag は天体の tide に書く)"};
+  const out={model:"ctl", maxN:TIDE_MAXN_DEFAULT, velocity:"v", inertia:"half", split:"full"};
+  if(a.model!==undefined && a.model!==null){
+    if(TIDE_MODELS.indexOf(a.model)<0) return {ok:false, err:'physics.tide.model は "ctl"(定時間遅延)のみ'};
+    out.model=a.model;
+  }
+  if(a.maxN!==undefined && a.maxN!==null){
+    if(!isNum(a.maxN) || a.maxN!==Math.round(a.maxN) || a.maxN<TIDE_MAXN_CLAMP[0] || a.maxN>TIDE_MAXN_CLAMP[1])
+      return {ok:false, err:"physics.tide.maxN は "+TIDE_MAXN_CLAMP[0]+"〜"+TIDE_MAXN_CLAMP[1]+" の整数(粒子数がこれを超える本では潮汐を足さない)"};
+    out.maxN=a.maxN;
+  }
+  for(const [k,list] of [["velocity",TIDE_VELOCITIES],["inertia",TIDE_INERTIAS],["split",TIDE_SPLITS]]){
+    if(a[k]===undefined || a[k]===null) continue;
+    if(list.indexOf(a[k])<0) return {ok:false, err:"physics.tide."+k+" は "+list.map(z=>'"'+z+'"').join("/")+" のみ"};
+    out[k]=a[k];
+  }
+  return {ok:true, tide:out};
+}
+// 天体の宣言(single 専用)。radius は**宣言した物理半径**(radius>0 が無い天体には足さない —— 代表粒子の平滑化長を R⁵ に入れない)
+function validateTideBody(t, radius){
+  if(t===null || t===undefined) return {ok:true, tide:null};
+  if(typeof t!=="object" || Array.isArray(t)) return {ok:false, err:"tide はオブジェクト({k2, lag})"};
+  for(const k of Object.keys(t)) if(TIDE_BODY_KEYS.indexOf(k)<0) return {ok:false, err:"tide に未知の鍵 "+k+"(k2/lag のみ)"};
+  if(!isNum(t.k2) || !(t.k2>0) || t.k2>TIDE_K2_MAX) return {ok:false, err:"tide.k2 は 0<k2≤"+TIDE_K2_MAX+" の有限数(Love 数)"};
+  if(!isNum(t.lag) || t.lag<0) return {ok:false, err:"tide.lag は 0 以上の有限数(定時間遅延 Δt —— 単位は本の時間単位)"};
+  if(!isNum(radius) || !(radius>0)) return {ok:false, err:"tide は物理半径 radius>0 の宣言が要る(R⁵ は宣言した半径だけを読む)"};
+  return {ok:true, tide:{k2:t.k2, lag:t.lag}};
+}
+// 受理後の相互検査(validatePreset・build が呼ぶ —— 状態は持たない)。off は足さない理由(TIDE_OFF_REASONS)か null、
+// receivers は潮汐を受ける天体の番号(試験粒子・pinned は**拒否ではなく無視**して警告)
+function tideCrossCheck(ph, bodies, preset){
+  const td=ph && ph[TIDE_KEY];
+  const out={warn:[], off:null, receivers:[]};
+  const bs=Array.isArray(bodies)? bodies : [];
+  const anyBodyTide=bs.some(b=>b && b.tide);
+  if(!td){ if(anyBodyTide) out.warn.push("天体の tide は physics.tide を宣言した本でだけ読む(この本では潮汐を足さない)"); out.off="noDecl"; return out; }
+  let n=0, group=false;
+  for(const b of bs){ if(!b) continue; if(b.type==="single") n++; else { group=true; n+=(isNum(b.n)? b.n : 0); } }
+  const lsAuto=bs.some(b=>b && b.lightSweep==="auto");
+  const dark=!!(preset && preset.massLedger && preset.massLedger.darkRotor);
+  if(group) out.off="group";
+  else if(n>td.maxN) out.off="maxN";
+  else if(ph[SHAPE_TOY_KEY]) out.off="shapeToy";
+  else if(lsAuto || dark) out.off="cloakedDwarf";
+  if(!out.off){
+    bs.forEach((b,i)=>{
+      if(!b || !b.tide) return;
+      if(b.pinned){ out.warn.push("bodies["+i+"].tide は pinned(規定運動)の天体なので無視します"); return; }
+      if(b.testParticle===true){ out.warn.push("bodies["+i+"].tide は試験粒子(源にならない)なので無視します"); return; }
+      out.receivers.push(i);
+    });
+    if(!out.receivers.length) out.off="noReceiver";
+  }
+  if(out.off) out.warn.push("physics.tide を宣言したが潮汐は足さない(理由 "+out.off+" —— "
+    +({group:"群(disk/ring 等)の本 —— 対重力が潮汐と輸送を既に持つ",maxN:"粒子数 "+n+" > maxN "+td.maxN,shapeToy:"形状トイの本",
+       cloakedDwarf:"光学迷彩矮星の本",noReceiver:"tide を宣言した受け手が無い"})[out.off]+")");
+  return out;
 }
 // ===== 第277便b(統括の検証項目 R48): physics.massPrecision — **質量配列の倍精度化**(opt-in)=====
 // `S.alloc` は `S.m`/`S.mEff` を Float32Array で確保する。`stateCarry:"double"` が倍精度にするのは
@@ -11879,13 +12017,89 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
-{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現", emoji:"🌘", group:"現実較正",   // 第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
-  familyId:"earthmoon", familyRole:"retired",   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **退役(履歴)** —— 現実較正を kF0 の 1 系統へ一本化(表示専用 —— presetSig は familyRole を見ない・物理 1 bit 不変)
+// ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): 🌜 earthMoonTide —— **明示潮汐(定時間遅延 CTL)の診断本** =====
+// bodies は 🌙 earthMoonReal の実単位の宣言を**1 字も変えずに写し**、地球に tide:{k2:0.3, lag:6}・月に tide:{k2:0.024, lag:6} を足した
+// (lag=6 単位 = 600 s は**感度実験の起点の宣言**であって実在地球の同定ではない・月の後退率に合わせていない)。physics は 🌙 と同じ kF0
+// (geoPN:1・kFrame:0)+ physics.tide:{maxN:8}。**慣性決定力(relativeDrag)は宣言しない**(引きずりとの交差項は器 tests/exp-w292d-tide.mjs の中の
+// 一時プリセットで測る)。principle・較正母集団に入れない。正本 tests/out/tide-w292d.json(段 tide292)。
+{ id:"earthMoonTide", name:"地球と月(実単位・潮汐の診断)— 定時間遅延の潮汐を宣言した本", emoji:"🌜", group:"天体の機構",
+  familyId:"earthmoon", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},
+  sampleClass:"principle",
+  fidelity:"real",
+  referenceKind:"tide-diagnostic",
+  orbitObs:{center:0, orbiter:1, ghostAmp:1e6},
+  notClaim:["solar_cal","apsidal_8p85"],
+  obsCard:[
+    {q:"何を置いたか", model:"🌙 の実単位の地球・月をそのまま写し、地球 k₂=0.3・月 k₂=0.024・遅延 lag=6(600 s —— 感度の起点の宣言)", obs:"—(診断本 —— 観測と照合しない)"},
+    {q:"則(1 步)", model:"CTL: F_cons=−3Br/r⁸・F_diss=−(3BΔt/r¹⁰){2r(r·V)+r²(V−Ω×r)}・τ=−r×F_diss(B=Gk₂m_j²R⁵)", obs:"—"},
+    {q:"自転の更新", model:"角運動量 J=IΩ を補償和で更新して Ω=J/I に戻す(I=½mR²)。素朴な spin+=τ/I·dt では 1 步の増分が ulp 未満で消える", obs:"—"},
+    {q:"地球の自転(実測)", model:"1 恒星月で ΔJ/J=-1.212e-11・ΔΩ=-8.839e-14 rad/単位(円軌道の解析式との比 1.0221)", obs:"—"},
+    {q:"帳簿(実測)", model:"発熱 7.544e-15・軌道⇄自転の交換の相対残差 6.541e-14・仕事と熱の相対残差 -2.614e-14(丸め床)", obs:"—"},
+    {q:"引きずりとの交差項(実測)", model:"器の一時プリセット 4 条件: gain 100 で地球の ΔJ の 6.117e-6(結合 a の 5.8 倍・gain に比例)。この本には引きずりを宣言しない", obs:"—"},
+    {q:"言わないこと", model:"月の後退率・地球の自転減速の観測値を再現したとは書かない。全系の保存則が閉じたとは書かない(u の移送は別帳簿)", obs:"—"}],
+  descStruct:{
+    summary:"**明示潮汐(定時間遅延 CTL)を宣言した本だけで走らせる診断**(第292便d・原仮定者の裁定〔第82報〕⑦・統括の検証項目 R140)。🌙 earthMoonReal の実単位の地球・月を 1 字も変えずに写し、地球に tide:{k2:0.3, lag:6}・月に tide:{k2:0.024, lag:6} を足した(lag=6 単位=600 s は感度実験の起点の宣言 —— 実在地球の同定ではなく、月の後退率にも合わせていない)。潮汐は三つの意味を分けて扱う: (1) 外部重力の潮汐テンソル(内部を粒子で解く系では対重力が既に持つ —— 宣言専用の physics.backgroundTidal とは別の鍵)・(2) 保存的な変形(Love 数 k₂ による誘起四重極・U=−B/(2r⁶))・(3) 散逸(遅延 Δt による軌道⇄自転の角運動量交換と熱)。軌道は 🌙 と同じ重力(E4)と kF0 の 1PN で回り、本は (2)(3) を受け手(物理半径と k₂ を宣言した天体)ごとに足し、自転は角運動量 J=IΩ を更新して Ω=J/I に戻す。粒子を近似した多粒子の本(maxN 8 を超える本・群・形状トイ・光学迷彩矮星)には足さない(二重計上を避ける最適化)。慣性決定力の引きずり(relativeDrag)はこの本には宣言しない —— 引きずりとの交差項は器の中の一時プリセットで測る。",
+    observe:"見た目は 🌙 と同じ(潮汐の力は重力の 10⁻¹¹ 程度で、画面では見えないのが正しい)。読むのは帳簿: 地球の自転は 1 恒星月で ΔΩ/Ω ≈ 10⁻¹¹ だけ減速し、その角運動量は月の軌道へ移る(交換の残差は丸め床)。発熱は正で、潮汐力が軌道と自転にした仕事と熱の和は丸め床で 0 になる。値は正本 tests/out/tide-w292d.json。",
+    control:"対照は 🌙 earthMoonReal(潮汐なし —— 同じ bodies・同じ physics)。器の中で、遅延を 0 にすると散逸のトルクと熱が 0 になり保存的な変形だけが残ることを確かめる。"},
+  en:{name:"Earth & Moon (real units, tide diagnostic) — a sample that declares constant-time-lag tides",
+    obsCard:[
+      {q:"What is placed", model:"🌙's real Earth and Moon copied as is; Earth k2=0.3, Moon k2=0.024, lag=6 (600 s - a declared starting point)", obs:"- (a diagnostic; not matched to observation)"},
+      {q:"The law (one step)", model:"CTL: F_cons=-3Br/r^8; F_diss=-(3B dt/r^10){2r(r.V)+r^2(V-Omega x r)}; tau=-r x F_diss (B=G k2 m_j^2 R^5)", obs:"-"},
+      {q:"Spin update", model:"J=I Omega updated with compensated sums, then Omega=J/I (I=1/2 m R^2); naive spin+=tau/I dt loses sub-ulp steps", obs:"-"},
+      {q:"Earth spin (measured)", model:"over one sidereal month dJ/J=-1.212e-11, dOmega=-8.839e-14 rad/unit (ratio to the circular formula 1.0221)", obs:"-"},
+      {q:"Ledger (measured)", model:"heat 7.544e-15; orbit-spin exchange rel. residual 6.541e-14; work-plus-heat rel. residual -2.614e-14 (rounding floor)", obs:"-"},
+      {q:"Cross term with dragging (measured)", model:"harness, 4 conditions: gain 100 gives 6.117e-6 of the Earth dJ (5.8 x coupling a, linear in gain); none declared here", obs:"-"},
+      {q:"Not claimed", model:"not the observed lunar recession or day lengthening; full-system conservation not claimed (u transport booked apart)", obs:"-"}],
+    descStruct:{
+      summary:"A DIAGNOSTIC THAT RUNS EXPLICIT TIDES (CONSTANT TIME LAG, CTL) ONLY IN A SAMPLE THAT DECLARES THEM (wave 292d, the originator's ruling in report 82 item 7, the coordinator's check item R140). 🌙 earthMoonReal's real Earth and Moon are copied without changing a character, with tide:{k2:0.3, lag:6} on the Earth and tide:{k2:0.024, lag:6} on the Moon (lag=6 units = 600 s is a declared starting point for sensitivity runs, not an identification of the real Earth, and not tuned to the lunar recession rate). Tides are kept in three separate meanings: (1) the external tidal tensor (a system resolved into particles already has it through pair gravity - and the declaration-only physics.backgroundTidal is a different key), (2) conservative deformation (the induced quadrupole of Love number k2, U=-B/(2r^6)), (3) dissipation (orbit-spin angular-momentum exchange and heat through the lag). The orbit runs on gravity (E4) and kF0's 1PN as in 🌙; the sample adds (2) and (3) per receiver (a body that declares a physical radius and k2) and updates the spin through its angular momentum J=I Omega, then Omega=J/I. Many-particle samples (more than maxN 8 particles, groups, shape toys, optical-camouflage dwarfs) get no explicit tide (an optimisation that avoids double counting). This sample declares NO inertial dragging (relativeDrag); the cross term with dragging is measured inside the harness with temporary presets.",
+      observe:"It looks the same as 🌙 (the tidal force is about 1e-11 of gravity, invisible on screen, as it should be). Read the ledger instead: the Earth's spin slows by about 1e-11 of itself per sidereal month and that angular momentum moves into the lunar orbit (the exchange residual is at the rounding floor). The heat is positive, and work plus heat sums to zero at the rounding floor. Values are in tests/out/tide-w292d.json.",
+      control:"The control is 🌙 earthMoonReal (no tides - same bodies, same physics). In the harness, setting the lag to 0 removes the dissipative torque and heat and leaves only the conservative deformation."},
+    parameterAudit:{
+      observedInputs:["the same real Earth and Moon as 🌙 (masses, radii, spins, distance, velocity)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10^6 m / 10^2 s / 10^25 kg)","kF0 as in 🌙 (geoPN=1, kFrame=0)",
+        "physics.tide:{maxN:8} (model ctl, velocity v, inertia half = I=1/2 m R^2, split full)"],
+      fitted:["NOTHING - k2 and lag are declarations; nothing is fitted to the lunar recession or to day lengthening"],
+      derived:["B_Earth = G k2 m_Moon^2 R_Earth^5, B_Moon = G k2 m_Earth^2 R_Moon^5"],
+      numerical:["softening eps=0.1","stateCarry:\"double\" (tidal kicks go through the velocity carry)","spin in Float64 only in a sample where the tide acts"]}},
+  parameterAudit:{
+    observedInputs:["🌙 と同じ実在の地球・月(質量・半径・自転・距離・速度)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","🌙 と同じ kF0(geoPN=1・kFrame=0)",
+      "physics.tide:{maxN:8}(model ctl・velocity v・inertia half = I=½mR²・split full)"],
+    fitted:["**無し** —— k₂ と lag は宣言で、月の後退率・自転の減速に合わせていない"],
+    derived:["B_地球=G k₂ m_月² R_地球⁵・B_月=G k₂ m_地球² R_月⁵"],
+    numerical:["ソフトニング ε=0.1","stateCarry:\"double\"(潮汐のキックも速度の繰り越しへ)","自転は潮汐が働く本だけ Float64"]},
+  activeParams:["dispMag","lambdaPN","cLight"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:1, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double", frameWeight:"share",
+    tide:{maxN:8}},
+  bodies:[   // 🌙 earthMoonReal と同一値 + tide。粒子の並び: 0=地球, 1=月
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true, tide:{k2:0.3, lag:6}},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false, tide:{k2:0.024, lag:6}}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
+
+{ id:"earthMoonRealKF1", name:"地球と月(実単位・kFrame=1)— q 引きずりの機構実験(現象論の参照・旧フィット)", emoji:"🌘", group:"天体の機構",   // 第292便b: 名前と group を変えた(旧名「近点回転 8.85年の較正再現」・旧 group「現実較正」)。第130便(原仮定者指示): グループ「空間と時間」→「天体の物語」へ移動(配列順も 🌍🌕 の近くへ物理移動 — 表示・分類専用。物理・claims・bodies は bit 不変)
+  // 第292便b(原仮定者の裁定(第82報)⑤「earthMoonRealKF1 を分類を変えて復活させる」・統括の検証項目 R138): **復活(分類だけ)**。
+  //   変えたのは分類の鍵と説明文だけ —— 家族の役割 退役 → variant・分類 較正 → 原理実証(**較正母集団には戻さない** —— 20 本は不変)・
+  //   群「現実較正」→「天体の機構」(較正の表示群〔太陽系 20〕の外 —— 表示専用)・宣言専用の referenceKind(現象論の参照)を足した。
+  //   **physics・bodies・qLock・D₀・D0pull・初速 −0.12%・claims は 1 字も変えていない**(presetSig は分類の鍵・group・説明文を見ない —— 署名・保存 JSON・力学は基点と同一)。
+  //   🧲 emAuditDFM(🌘 と同じ構成の機構判別 B —— 現行の宣言の差は D0pull・frameWeight・初速で、写しに鍵ごとに記す)は退役のまま(両方を在位に戻すと二重になる)。
+  //   前後の写しは tests/fixtures/revived-w292b.json
+  familyId:"earthmoon", familyRole:"variant",   // 第292便b(第82報⑤・R138): **復活** —— 家族 earthmoon の variant(primary は 🌙 のまま)。旧: 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114)で退役(履歴)—— 現実較正を kF0 の 1 系統へ一本化(表示専用 —— presetSig は familyRole を見ない・物理 1 bit 不変)
     // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(DFM 版 🪨🌘💿 —— 第286便c で旧称を改めた)
   scaleTier:"planetary",
   scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
-  sampleClass:"calibration",
-  fidelity:"real",   // 第120便: 恒星月+近点回転の2観測量をスケール換算込みで較正
+  // 第292便b(第82報⑤・R138): 較正 → **原理実証**。5 つ目の分類は作らない(🎡☿⭕ の理論対照と同じ置き方)。
+  //   在位は**原理の参照**(q 引きずりの機構実験)であって、較正母集団(較正の分類 ∧ 退役でない)の 1 本ではない
+  sampleClass:"principle",
+  // 第292便b: referenceKind — **宣言専用メタ**(物理/表示/QA の判定には効かない)。"phenomenological-reference" は
+  //   「obsCard の観測値は現象論のフィット(D₀・D0pull・初速)の対象として使った記録であって、現在の観測一致・予測ではない」の印
+  referenceKind:"phenomenological-reference",
+  fidelity:"real",   // 第120便: 恒星月+近点回転の2観測量をスケール換算込みで較正(第292便b: 旧フィットの記録 —— 在位は原理の参照)
   notClaim:["solar_cal"],
   // 第120便(原仮定者指示「kF1のまま実測に近付ける補正を調査する。重大な発見を予想している」):
   // 系統実測(tests/exp-kf1b.mjs)の結論 —
@@ -11899,20 +12113,21 @@ const BUILTIN_PRESETS = [
   //    という**別機構**で同じ回転を較正一致させている(機構の同定ではなく較正一致)。
   //    温度・スピン経路は不関与(exp-kf1)・周期との結合は f(初速)で分離できる。
   failureFirst:{
-    fail:"純二体(🌙 kFrame=0)では月の近点回転(実測 8.85年で一周)は原理的に出ない(閉じた楕円)。第119便の 🌘(D₀=0.1)でも +2.7×10⁻³ rad/公転と実測の 1/20 で、周期も +0.05% ずれていた。",
+    fail:"ニュートンの逆二乗力だけの二体(🌙 kFrame=0)では月の近点回転(実測 8.85年で一周)は出ない(閉じた楕円)。GR 1PN の二体や別の力則の二体には近点回転がある —— 二体 1PN は ≈2.18×10⁻¹⁰ rad/公転で観測(0.0531 rad/公転)の約 4×10⁻⁹ 倍(観測の主因は太陽摂動 —— 第292便b で文を訂正)。第119便の 🌘(D₀=0.1)でも +2.7×10⁻³ rad/公転と実測の 1/20 で、周期も +0.05% ずれていた。",
     pass:"引きずり歳差が χ=w/(D₀+w) に比例することを用量実測で確定し、D₀=0.006+初速−0.32% の共同フィットで恒星月 27.32日(+0.04%)と近点回転 8.85年を同時較正(tests/exp-kf1b.mjs)。第122便: q=5(🪨 と共通の補正)で地球スピン項の混入が除かれ、Δϖ比が 0.988→0.999 へ純化 — **共通補正 (D₀=0.006, q=5) が 🌘🪨 を同時に満たす**(exp-kf1c)。実際の主因は太陽摂動 — DFM は運動引きずりという別機構での較正一致(正直な明記)。",},
   obsCard:[
     {q:"恒星月・同方向1周(履歴 — 現行 QA の定義)", model:"宣言値 27.331 日(+0.03%)・棚卸し実測 27.3200 日(−0.006%)", obs:"27.3217 日"},
     {q:"恒星月・近点間(第250便d — 定義併記)", model:"実測 27.5228 日(+0.736%)= Δϖ/360° と窓内ドリフトの合成", obs:"27.3217 日(e≈0.055 の準円 — 近点間は観測の恒星月に対応しない。判定は据置)"},
     {q:"近点回転の周期", model:"≈8.99 年(Δϖ比 0.984 — qLock q_exact=8.2358・第242便 pull 共同 fit)", obs:"8.85 年"},
     {q:"引きずり歳差の由来", model:"運動引きずり(スピン非依存・D₀∝1/χ)", obs:"実際の主因は太陽摂動(機構は別 — 較正一致)"},
+    {q:"近点回転の窓依存(正本 emgrid —— 第292便b)", model:"8 周 9.1278 年・27 周 9.9214 年(窓を延ばすと定常ではない。第135便: 118 公転 20.78 年)", obs:"8.85 年(フィットの対象 —— 現在の観測一致・予測ではない)"},
     {q:"補正の共通性", model:"第242便 pull: D0pull=3.24×10⁻⁵(3.24×10⁸ kg/m² — 🪨 と共通)+初速 −0.12% の共同 fit・D₀=0.006(E1′)・q は qLock 自動算出", obs:"—"}],
   orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 実歳差 3°/公転 — ×20 で数公転で一周が見える
   descStruct:{
-    summary:"🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(厳密一致式 q_exact=8.2358 自動算出 — 第172便で規約採用)に較正した版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量を同時に較正再現する(exp-kf1b/kf1c 実測)。純二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry はDFM 版 🪨🌘💿 と同じ規約。",
-    observe:"軌道の向き(近点方向)がゆっくり回る — 実際の月と同じ約8.85年(≈118公転)で一周する。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。この 8.85年は較正が使った8公転窓での値で、窓を118公転まで延ばすと 20.78年に遅くなる(歳差は定常ではない — 第135便 emAudit の実測)。機構としての同定は判別サンプル群 ⭕🧲🔆 を参照。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
-    control:"本サンプルは**DFM 版**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock)の 1 本。**現行の較正方針**: 観測との合(3σ)を目指すのは kF0(λ_PN=1 ∧ kFrame=0)と f=1 の本で、DFM 版は観測との大差を減らす段階にある(較正の雛形ではない —— 第286便c で文言を更新)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。(第237便: 地球スピン 0 が qLock の対照 — 月は同期自転なので切っても公転と区別できない。スピン項の距離基準を表面高度(dragRef:\"interior\" — 第239便の正名。「物質に囲まれた内部は完全共動し表面から減衰する」の意で、表面が特別に強いという主張ではない。旧名 \"surface\" は別名)にすると月位置の核は 1.15 倍。)"},
-  en:{name:"Earth & Moon (Real Units, kFrame=1) — apsidal precession 8.85 yr, calibrated",
+    summary:"**在位は原理の参照**(第292便b で分類を変えて復活 —— q 引きずりの機構実験。較正母集団ではない)。🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(厳密一致式 q_exact=8.2358 自動算出 — 第172便で規約採用)を当てた版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量に同時に合わせた**現象論のフィット**(exp-kf1b/kf1c 実測)。8 公転窓の近点回転 ≈8.85 年(Δϖ=+0.05308 rad/公転)はこのフィットの記録で、窓を延ばすと定常ではない(正本 emgrid: 8 周 9.1278 年・27 周 9.9214 年)。ニュートンの逆二乗力だけの二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry はDFM 版 🪨🌘💿 と同じ規約。",
+    observe:"軌道の向き(近点方向)がゆっくり回る — 較正に使った 8 公転窓では実際の月と同じ約8.85年(≈118公転)で一周する(旧フィットの記録 —— 現在の観測一致・予測ではない)。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。この 8.85年は較正が使った8公転窓での値で、窓を118公転まで延ばすと 20.78年に遅くなる(歳差は定常ではない — 第135便 emAudit の実測)。機構としての同定は判別サンプル群 ⭕🧲🔆 を参照。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
+    control:"本サンプルは**DFM 版**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock)の 1 本(🪨💿 は第288便b で退役のまま・🌘 は第292便b で原理の参照として復活 —— 🧲 は退役のまま)。**現行の較正方針**: 観測との合(3σ)を目指すのは kF0(λ_PN=1 ∧ kFrame=0)と f=1 の本で、DFM 版は観測との大差を減らす段階にある(較正の雛形ではない —— 第286便c で文言を更新)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。(第237便: 地球スピン 0 が qLock の対照 — 月は同期自転なので切っても公転と区別できない。スピン項の距離基準を表面高度(dragRef:\"interior\" — 第239便の正名。「物質に囲まれた内部は完全共動し表面から減衰する」の意で、表面が特別に強いという主張ではない。旧名 \"surface\" は別名)にすると月位置の核は 1.15 倍。)"},
+  en:{name:"Earth & Moon (Real Units, kFrame=1) — q-dragging mechanism experiment (phenomenological reference, former fit)",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=29979.2458","the Earth's real mass, radius and rotation (23.93 h)",
         "the Moon's real mass, radius and synchronous rotation","semi-major axis 3.84748×10⁸ m, eccentricity 0.0549",
@@ -11926,18 +12141,19 @@ const BUILTIN_PRESETS = [
       derived:["q=8.2358 (auto-derived by qLock, exact-agreement form q_exact — it removes the Earth-spin contamination; the distant-limit q* is N/A as the operating convention from wave 172)","κ=G/c₀²=7.4258×10⁻⁹"],
       numerical:["softening ε=0.1","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]},
     failureFirst:{
-      fail:"A pure two-body system (🌙, kFrame=0) can never show the Moon's apsidal precession (observed: one cycle in 8.85 years) — the ellipse stays closed. The wave-119 🌘 (D₀=0.1) gave +2.7×10⁻³ rad/orbit, 1/20 of the real rate, with a +0.05% period offset.",
+      fail:"A two-body system under the Newtonian inverse-square force alone (🌙, kFrame=0) does not show the Moon's apsidal precession (observed: one cycle in 8.85 years) — the ellipse stays closed. Two bodies under GR 1PN or under another force law DO precess — the two-body 1PN rate is ≈2.18×10⁻¹⁰ rad/orbit, about 4×10⁻⁹ of the observed 0.0531 rad/orbit (whose main cause is solar perturbation; sentence corrected in wave 292b). The wave-119 🌘 (D₀=0.1) gave +2.7×10⁻³ rad/orbit, 1/20 of the real rate, with a +0.05% period offset.",
       pass:"Dose measurements established that the drag precession scales as χ=w/(D₀+w); a joint fit of D0pull=3.24×10⁻⁵ (with D₀=0.006 for E1′) and a −0.12% initial-speed correction calibrates BOTH the sidereal month 27.32 d (+0.04%) and the 8.85-year apsidal cycle at once (tests/exp-kf1b.mjs). Wave 122: q=5 (the correction shared with 🪨) removes the Earth-spin contamination and purifies the Δϖ ratio from 0.988 to 0.999 — one pair (D₀=0.006, q=5) satisfies BOTH 🌘 and 🪨 (exp-kf1c). The real cause is solar perturbation — DFM matches it via a different mechanism, motion dragging (honest note)."},
     obsCard:[
       {q:"Sidereal month — same-direction revolution (historical, the current QA definition)", model:"declared 27.331 d (+0.03%); audited 27.3200 d (−0.006%)", obs:"27.3217 d"},
-      {q:"Sidereal month — periapsis to periapsis (wave 250d, both definitions declared)", model:"27.5228 d (+0.736%) = Δϖ/360° plus the in-window drift", obs:"27.3217 d (e≈0.055, near-circular — this definition does not correspond to the observed sidereal month; the verdict is unchanged)"},
+      {q:"Sidereal month — periapsis to periapsis (wave 250d, both definitions declared)", model:"27.5228 d (+0.736%) = Δϖ/360° plus the in-window drift", obs:"27.3217 d (e≈0.055, near-circular — this definition does not match the observed sidereal month; verdict unchanged)"},
       {q:"Apsidal precession period", model:"≈8.99 yr (Δϖ ratio 0.984 — qLock q_exact=8.2358; wave-242 pull joint fit)", obs:"8.85 yr"},
       {q:"Origin of the drag precession", model:"motion dragging (spin-independent, ∝χ(D₀))", obs:"the real cause is solar perturbation (different mechanism — a calibrated match)"},
-      {q:"Universality of the correction", model:"wave 242 pull: D0pull=3.24×10⁻⁵ (3.24×10⁸ kg/m², shared with 🪨) + −0.12% speed jointly fitted; D₀=0.006 (E1′); q by qLock", obs:"—"}],
+      {q:"Window dependence of the apsidal period (canonical emgrid, wave 292b)", model:"9.1278 yr over 8 orbits, 9.9214 yr over 27 (not steady; wave 135: 20.78 yr over 118)", obs:"8.85 yr (the fit target — not a current observational match or prediction)"},
+      {q:"Universality of the correction", model:"wave 242 pull: D0pull=3.24×10⁻⁵ (3.24×10⁸ kg/m², shared with 🪨) + −0.12% speed, joint fit; D₀=0.006 (E1′); q by qLock", obs:"—"}],
     descStruct:{
-    summary:"The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived exact-agreement value q_exact=8.2358, the convention adopted in wave 172) applied — gravity (E4) plus motion dragging alone reproduce TWO observables: the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years) (exp-kf1b/kf1c). A pure two-body Kepler orbit is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. This is one of the three DFM BUILDS (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock). CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c). ",
-    observe:"The orbit's apse line slowly rotates — one cycle in about 8.85 years (≈118 orbits), as the real Moon does. The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). This 8.85-year figure is the value IN THE 8-ORBIT WINDOW the calibration used — stretching the window to 118 orbits slows it to 20.78 years (the precession is not steady; see wave-135's mechanism audit). For mechanism identification, see the audit family ⭕🧲🔆 (emAudit). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card).  Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
-    control:"This is one of the three DFM BUILDS (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock). CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c). One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
+    summary:"IN PLACE AS A PRINCIPLE REFERENCE (revived with a changed classification in wave 292b — a q-dragging mechanism experiment; NOT part of the calibration population). The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived exact-agreement value q_exact=8.2358, the convention adopted in wave 172) applied — gravity (E4) plus motion dragging alone were fitted to TWO observables at once, the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years): a PHENOMENOLOGICAL FIT (exp-kf1b/kf1c). The ≈8.85-year apsidal period in the 8-orbit window (Δϖ=+0.05308 rad/orbit) is the record of that fit, and it is not steady when the window is stretched (canonical emgrid: 9.1278 yr over 8 orbits, 9.9214 yr over 27). A two-body Kepler orbit under the Newtonian inverse-square force alone is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. This is one of the three DFM BUILDS (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock). CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c). ",
+    observe:"The orbit's apse line slowly rotates — in the 8-orbit window used for the fit, one cycle in about 8.85 years (≈118 orbits), as the real Moon does (a record of the former fit — not a current observational match or prediction). The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). This 8.85-year figure is the value IN THE 8-ORBIT WINDOW the calibration used — stretching the window to 118 orbits slows it to 20.78 years (the precession is not steady; see wave-135's mechanism audit). For mechanism identification, see the audit family ⭕🧲🔆 (emAudit). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card).  Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
+    control:"This is one of the three DFM BUILDS (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; 🪨💿 stay retired since wave 288b, 🌘 was revived as a principle reference in wave 292b, and 🧲 stays retired). CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c). One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
   abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
     physicsPatch:{D0:0.1} },
   qLock:true,   // 第123便: q 自動算出 → 第172便: 厳密一致式 q_exact=8.2358
@@ -11987,6 +12203,76 @@ const BUILTIN_PRESETS = [
   ],
   overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 
+// ===== 第292便c(原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139): 🌛 earthMoonInertial —— 慣性決定力版の地球と月(構造核の起点) =====
+// bodies は 🌙 earthMoonReal の宣言を**1 字も変えずに写した**(質量・半径・離角・速度・自転 —— 🌘 の −0.12% の初速・qLock・D₀・D0pull は使わない)。
+// 地球にだけ構造核 dragCore:{massFrac:0.325, radius:3.48}(0.546×6.38 —— **感度実験の起点の宣言**であって地球の核の同定ではない・月は点源)。
+// physics は 🌙 の宣言から geoPN を 0(測地線なし —— geoPN=3 は旧法則版の優先に乗るので置かない)にし、慣性引きずり relativeDrag:{law:"inertial"} を足しただけ。
+// gain(C_d)は器 tests/exp-w292c-dragcore.mjs が近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた**推定(フィット)**の値 —— 較正の合ではない。
+// 正本 tests/out/dragcore-w292c.json(段 dragcore292)。
+{ id:"earthMoonInertial", name:"地球と月(慣性決定力版)— 構造核と近点回転のフィット", emoji:"🌛", group:"天体の機構",
+  familyId:"earthmoon", familyRole:"variant",
+  scaleTier:"planetary",
+  scaleExp:{L:6, T:2, M:25},   // 🌙 と同一の指数系(1単位=10⁶m/10²s/10²⁵kg)
+  sampleClass:"principle",
+  referenceKind:"structure-sensitivity",   // 宣言専用メタ: 参照は構造核(コアの質量と半径)への感度 —— 観測との合否を数える対象ではない
+  fidelity:"real",
+  notClaim:["solar_cal","apsidal_8p85","apsidal_8p85_fit"],
+  orbitObs:{center:0, orbiter:1, ghostAmp:20},
+  obsCard:[
+    {q:"何を置いたか", model:"🌙 の実単位の地球と月(初速も 🌙 のまま)・geoPN=0・kFrame=0・慣性引きずり law:\"inertial\"・地球に構造核 dragCore{f=0.325, R_c=3.48}", obs:"—(原理サンプル —— 較正母集団の外)"},
+    {q:"gain(C_d)", model:"514182 [L³/M] —— 27 公転窓の近点周期を 8.85 年に合わせた推定(フィット)。較正の合ではない(AN117 と同じ扱い)", obs:"8.85 年(フィットの対象)"},
+    {q:"近点回転(実測)", model:"8 公転窓 Δϖ=0.053207 rad/公転(🌘 の +0.05308 の 1.0024 倍)・8・27・118 公転窓とも 8.850 年", obs:"8.85 年(主因は太陽摂動 —— 🔆)"},
+    {q:"恒星月(実測)", model:"118 公転の区間平均 27.143 日(-0.66% —— 初速は 🌙 のまま合わせていない)・離心率の代理 0.0490", obs:"27.3217 日・e 0.0549"},
+    {q:"構造核の効き(実測)", model:"月の距離で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6e-4・点源でフィットすると gain は 2.4e-4 大きいだけ・3×3 の Δϖ の差 ≤ 3.3e-4", obs:"—"},
+    {q:"118 公転(実測)", model:"27 公転ごとの近点周期 8.850/8.850/8.850/8.850 年・離心率の代理 0.0490(4 区間で同じ) —— 窓に依らず定常(二体の性質)", obs:"—"},
+    {q:"言わないこと", model:"8.85 年を慣性決定力が較正ゼロで出したとは言わない。C_d・f・R_c を 8.85 年の 1 量から一意決定していない(1 次は ⟨ρ²⟩ だけ)", obs:"—"}],
+  descStruct:{
+    summary:"**慣性決定力版の地球と月**(第292便c・原仮定者の裁定〔第82報〕⑤⑥・統括の検証項目 R139)。🌙 earthMoonReal の実単位の地球と月(質量・半径・離角・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 座標の差分の移動ベクトル V から u_i=C_d Σ_j m_j 𝒦_j(r)(V_j−V_i) を作り、位置だけを x+=u·dt で動かす)だけで回す。geoPN=0・kFrame=0(1PN も E6′ の q 引きずりも使わない)。地球には**構造核** dragCore:{massFrac:0.325, radius:3.48}(一様密度のコア+マントル殻 —— 感度実験の起点の宣言で、地球の核の同定ではない)を宣言し、核 K_ε(s)=s/(s²+ε²)² を地球の質量分布で体積平均した ⟨K⟩(r) を地球を源とする対に使う(月は点源・受け手は点・自転は読まない)。**gain(C_d)=514182 は、近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた 1 次元フィットの推定**であって較正の合ではない(AN117 と同じ扱い)。8 公転窓の Δϖ は 0.053207 rad/公転(🌘 の較正窓 +0.05308 の 1.0024 倍)で、8 公転・27 公転・118 公転の窓で近点周期が変わらない(二体の性質)。構造核の効きは月の距離(a≈57R)で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6×10⁻⁴ と小さく、点源で同じフィットをすると gain が 2.4e-4 大きくなるだけである —— **8.85 年の 1 量から C_d・f・R_c を同時に一意決定することはできない**(1 次の効きは質量分布の 2 次モーメント ⟨ρ²⟩〔慣性モーメント〕だけを通して入る。総質量と慣性モーメントを独立に固定して残る係数をフィットする順序が要る)。初速は 🌙 のまま合わせていないので恒星月は 27.143 日(-0.66% —— 118 公転の区間平均)。実際の月の近点回転の主因は太陽摂動であり(🔆)、本サンプルは太陽を入れない二体の原理サンプルである。",
+    observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが 1 公転あたり約 3.05° ずつ順行に回るのを見る(8.85 年 ≈ 118 公転で一周)。27 公転ごとの近点周期は 8.850/8.850/8.850/8.850 年・離心率の代理は 0.0490(4 区間で同じ) で、窓を延ばしても変わらない(🧲 の q 引きずりは窓を延ばすと 20.8 年へ遅れ離心率を汲み上げた)。HUD の t は日・年に換算される。",
+    control:"比較の相手は 🌙(同じ初期状態・慣性引きずりなし —— 近点は回らない)と 🌘(kFrame=1 の q 引きずり・D₀ と初速の共同フィット)。構造核の感度(f∈{0.125, 0.325, 0.6}×R_c∈{0.4, 0.546, 0.7}R と点源)とフィットの手順は器 tests/exp-w292c-dragcore.mjs・正本 tests/out/dragcore-w292c.json・docs/PHYSICS.md〔第292便c〕で見る。"},
+  en:{name:"Earth & Moon (inertial determinacy) — structure core and a fitted apsidal cycle",
+    obsCard:[
+      {q:"What is placed", model:"🌙's real-unit Earth-Moon, 🌙's speeds; geoPN=0, kFrame=0; inertial drag only; Earth core dragCore{f=0.325, R_c=3.48}", obs:"- (a principle sample, outside the calibration population)"},
+      {q:"gain (C_d)", model:"514182 [L^3/M]: an estimate (fit) of the 27-orbit apsidal period to 8.85 yr; not a calibration agreement (as AN117)", obs:"8.85 yr (the fit target)"},
+      {q:"Apsidal advance (measured)", model:"8-orbit 0.053207 rad/orbit (1.0024 x 🌘's +0.05308); 8.850 yr in the 8-, 27-, 118-orbit windows", obs:"8.85 yr (main cause: the Sun - 🔆)"},
+      {q:"Sidereal month (measured)", model:"118-orbit mean 27.143 d (-0.66%; 🌙's speeds kept, not refitted); eccentricity proxy 0.0490", obs:"27.3217 d, e 0.0549"},
+      {q:"Structure core (measured)", model:"<K>/K-1 ~ <rho^2>/a^2 ~ 1.6e-4 at the Moon; point-source fit: gain +2.4e-4; 3x3 (f, R_c) grid: advance moves <= 3.3e-4", obs:"-"},
+      {q:"118 orbits (measured)", model:"apsidal period per 27 orbits 8.850/8.850/8.850/8.850 yr; e proxy 0.0490 in all four: steady (a two-body property)", obs:"-"},
+      {q:"Not claimed", model:"8.85 yr is not produced with zero calibration; C_d, f, R_c are not fixed by one number (first order: <rho^2> only)", obs:"-"}],
+    descStruct:{
+      summary:"THE INERTIAL-DETERMINACY VERSION OF THE EARTH AND MOON (wave 292c; the originator's ruling in report 82 items 5 and 6; the coordinator's check item R139). 🌙 earthMoonReal's real-unit Earth and Moon (masses, radii, separation, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG alone (physics.relativeDrag.law:\"inertial\": from the coordinate-difference movement V it builds u_i = C_d sum_j m_j K_j(r)(V_j - V_i) and moves positions only, x += u dt). geoPN=0, kFrame=0 (no 1PN, no E6' q dragging). The Earth declares a STRUCTURE CORE dragCore:{massFrac:0.325, radius:3.48} (a uniform core plus a uniform mantle shell - the starting point of a sensitivity experiment, not an identification of the Earth's core); the kernel K_eps(s)=s/(s^2+eps^2)^2 averaged over the Earth's mass distribution, <K>(r), is used for the pairs whose source is the Earth (the Moon is a point; receivers are points; spins are not read). THE GAIN C_d=514182 IS AN ESTIMATE FROM A ONE-DIMENSIONAL FIT of the apsidal period (detector B, 27-orbit window) to 8.85 yr, not a calibration agreement (treated as AN117). The 8-orbit advance is 0.053207 rad/orbit (1.0024 x 🌘's calibration-window +0.05308), and the period is the same in the 8-, 27- and 118-orbit windows (a two-body property). The structure core acts weakly at the Moon's distance (a ~ 57R): <K>/K - 1 ~ <rho^2>/a^2 ~ 1.6e-4, and the same fit with a point source needs a gain only 2.4e-4 larger - C_d, f AND R_c CANNOT BE FIXED TOGETHER FROM THE ONE 8.85-YEAR NUMBER (to first order the structure enters only through the second moment <rho^2>, i.e. the moment of inertia; the total mass and the moment of inertia must be fixed independently before the remaining coefficient is fitted). The speeds are 🌙's and are not refitted, so the sidereal month is 27.143 d (-0.66%, the 118-orbit mean). The real Moon's apsidal cycle is driven mainly by the Sun (🔆); this is a two-body principle sample without the Sun.",
+      observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde by about 3.05 deg per orbit (one cycle in 8.85 yr ~ 118 orbits). The apsidal period per 27 orbits is 8.850/8.850/8.850/8.850 yr and the eccentricity proxy 0.0490 in all four: lengthening the window changes nothing (the q dragging of 🧲 slowed to 20.8 yr and pumped the eccentricity). The HUD time is shown in days and years.",
+      control:"Compare with 🌙 (same initial state, no inertial drag - the apses stay still) and 🌘 (kFrame=1 q dragging, a joint fit of D0 and the speeds). The structure-core sensitivity (f in {0.125, 0.325, 0.6} x R_c in {0.4, 0.546, 0.7}R and a point source) and the fit procedure are in tests/exp-w292c-dragcore.mjs, tests/out/dragcore-w292c.json and docs/PHYSICS.md (wave 292c)."},
+    parameterAudit:{
+      observedInputs:["real G=6.674","real c0=29979.2458","the Earth's real mass, radius and rotation (23.93 h)","the Moon's real mass, radius and synchronous rotation",
+        "semi-major axis 3.84748e8 m, eccentricity 0.0549, perigee relative speed 1.082 km/s (copied from 🌙 - no speed correction)","the Moon's 8.85-year apsidal cycle (the observation used as the gain's fit target)"],
+      fixedConventions:["per-sample scale exponents (1 unit = 10^6 m / 10^2 s / 10^25 kg)","geoPN=0, kFrame=0 (no 1PN, no E6' q dragging)",
+        "inertial drag relativeDrag:{law:\"inertial\", eps:0.1, history:\"positions\"}","the Earth's structure core dragCore:{massFrac:0.325, radius:3.48} (the starting point of a sensitivity experiment - not an identification of the Earth's core); the Moon is a point",
+        "kRep=muF=gammaN=kappaS=0","stateCarry:\"double\", massFloor=1e-6","a free binary about the barycenter (nothing pinned, no Sun)"],
+      fitted:["gain (C_d)=514182 [L^3/M] (a one-dimensional fit of the apsidal period - detector B, 27-orbit window - to 8.85 yr; an estimate, not a calibration agreement)"],
+      derived:["kappa=G/c0^2=7.4258e-9","<rho^2>=0.518R^2 (from the two-layer starting declaration - a moment-of-inertia factor of 0.345)"],
+      numerical:["softening eps=0.1 (gravity and the drag kernel)","structure-core table 1024 points, r_max = 4 x the initial span, Gauss-Legendre 32 points","time multiplier timeScale=100","display magnification dispMag=10 (display only)"]},
+  },
+  parameterAudit:{
+    observedInputs:["実 G=6.674","実 c₀=29979.2458","地球の実質量・実半径・実自転(23.93時間)","月の実質量・実半径・同期自転",
+      "軌道長半径 3.84748×10⁸m・離心率 0.0549・近地点の相対速度 1.082km/s(🌙 の写し —— 初速の補正なし)","月の近点回転の周期 8.85年(gain のフィットの対象にした観測値)"],
+    fixedConventions:["サンプル別スケール指数(1単位=10⁶m/10²s/10²⁵kg)","geoPN=0・kFrame=0(1PN も E6′ の q 引きずりも使わない)",
+      "慣性引きずり relativeDrag:{law:\"inertial\", eps:0.1, history:\"positions\"}","地球の構造核 dragCore:{massFrac:0.325, radius:3.48}(感度実験の起点の宣言 —— 地球の核の同定ではない)・月は点源",
+      "kRep=muF=γN=κ_S=0","stateCarry:\"double\"・massFloor=1e-6","自由二体を重心系で配置(pinned なし・太陽なし)"],
+    fitted:["gain(C_d)=514182 [L³/M](近点回転の周期〔検出器 B・27 公転窓〕を 8.85 年に合わせた 1 次元フィット —— 推定であって較正の合ではない)"],
+    derived:["κ=G/c₀²=7.4258×10⁻⁹","⟨ρ²⟩=0.518R²(起点の 2 層の宣言から —— 慣性モーメント係数 0.345 に当たる)"],
+    numerical:["ソフトニング ε=0.1(重力と引きずりの核)","構造核の表 1024 点・r_max=初期配置の 4 倍・Gauss–Legendre 32 点","時間倍率 timeScale=100","粒子表示倍率 dispMag=10(表示専用)"]},
+  activeParams:["dispMag"],
+  camera:{scale:450}, world:{boundary:"none",size:0},
+  physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
+    cLight:29979.2458, bM:1, etaRad:0, pRad:4, gravityX:0, gravityY:0, massFloor:1e-6,
+    geoPN:0, lambdaPN:1, pnAlpha:1.5, radiusScale:1, softening:0.1, timeScale:100, dispMag:10, stateCarry:"double", frameWeight:"share",
+    relativeDrag:{law:"inertial", gain:514182, eps:0.1, history:"positions"}},
+  bodies:[   // 🌙 earthMoonReal と同一(1 字も変えない)+地球にだけ dragCore(構造核の起点の宣言)
+    {type:"single", m:0.59724, radius:6.38, x:-4.41822,y:0, vx:0,vy:-0.0013146, spin:0.0072921, pinned:false, pnSource:true, dragCore:{massFrac:0.325, radius:3.48}},
+    {type:"single", m:0.007346, radius:1.74, x:359.2071,y:0, vx:0,vy:0.1068788, spin:0.00026617, pinned:false}
+  ],
+  overlays:{rotationCurve:false,tempHistogram:false,field:false,trail:true} },
 // ===== 第135便(外部レビュー P0-1・原仮定者裁定「進める」): 機構判別サンプル群 emAudit =====
 // 論文3 の中心命題「**数値一致 ≠ 機構同定**」を、注意書きではなく**実験結果として**示す3条件比較。
 // 月の近点回転(実測 約8.85年で一周)について、同じ観測量を出す2つの経路と、現実の主因を並べる:
@@ -19275,6 +19561,7 @@ const SAMPLE_STATUS={
 "echo":{"purpose":"保存系は巻き戻り摩擦系は戻らないことを比べる","objective":"met","state":"反転後の復帰と摩擦での不復帰が門を通過","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["echo.leapfrog-return","echo.friction-noreturn"],"en":{"purpose":"Compare a conservative universe that rewinds with a frictional one that does not","state":"the return after reversal and the non-return with friction pass their gates","mismatch":null,"outlook":null,"brief":"Compare a conservative universe that rewinds with a frictional one that does not. Met: the return after reversal and the non-return with friction pass their gates. Out of calibration scope."},"brief":"保存系は巻き戻り摩擦系は戻らないことを比べる。達・反転後の復帰と摩擦での不復帰が門を通過。較正対象外。"},
 "compactForceToy":{"purpose":"3 候補の追加力が近点を回す向きを比べる","objective":"met","state":"力の符号と整合を純関数とエンジンで確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.compactForce"],"en":{"purpose":"Compare which way three candidate extra forces turn the apsides","state":"force signs and consistency are checked in the pure functions and the engine","mismatch":null,"outlook":null,"brief":"Compare which way three candidate extra forces turn the apsides. Met: force signs and consistency are checked in the pure functions and the engine. Out of calibration scope."},"brief":"3 候補の追加力が近点を回す向きを比べる。達・力の符号と整合を純関数とエンジンで確認。較正対象外。"},
 "inertialDragPair":{"purpose":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る","objective":"met","state":"gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial-w290c.json"],"en":{"purpose":"Run inertial-law dragging only where declared; measure apsidal advance","state":"gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain","mismatch":null,"outlook":null,"brief":"Run inertial-law dragging only where declared; measure apsidal advance. Met: gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."},"brief":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装。較正対象外。"},
+"earthMoonInertial":{"purpose":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る","objective":"met","state":"gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/dragcore-w292c.json"],"en":{"purpose":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect","state":"gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4","mismatch":null,"outlook":null,"brief":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4. Out of calibration scope."},"brief":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"},
 "boxBinaryToy":{"purpose":"等質量で共通移動が相対軌道から消えるかを測る","objective":"met","state":"等質量で消え質量差の対照では残る","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.boxBinary"],"en":{"purpose":"Test whether a common drift drops out of the relative orbit for equal masses","state":"it drops out for equal masses and stays in the unequal-mass control","mismatch":null,"outlook":null,"brief":"Test whether a common drift drops out of the relative orbit for equal masses. Met: it drops out for equal masses and stays in the unequal-mass control. Out of calibration scope."},"brief":"等質量で共通移動が相対軌道から消えるかを測る。達・等質量で消え質量差の対照では残る。較正対象外。"},
 "spaceMeshBinaryToy":{"purpose":"メッシュの重力が既存の重力と同じ核かを確かめる","objective":"met","state":"重力は二重計上なし・慣性候補は頂点で退化","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.spaceMeshForce"],"en":{"purpose":"Check that the mesh gravity is the same kernel as the existing gravity","state":"gravity is not double counted; the inertia candidates degenerate at the vertex","mismatch":null,"outlook":null,"brief":"Check that the mesh gravity is the same kernel as the existing gravity. Met: gravity is not double counted; the inertia candidates degenerate at the vertex. Out of calibration scope."},"brief":"メッシュの重力が既存の重力と同じ核かを確かめる。達・重力は二重計上なし・慣性候補は頂点で退化。較正対象外。"},
 "galaxy":{"purpose":"中心天体の引きずりで外縁の回転が速まるかを測る","objective":"met","state":"外縁速度比 1.521 が門 >1.04 を通過","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.galaxy-outerboost"],"en":{"purpose":"Measure whether the central body's dragging speeds up the outer rotation","state":"outer speed ratio 1.521 passes the >1.04 gate","mismatch":null,"outlook":null,"brief":"Measure whether the central body's dragging speeds up the outer rotation. Met: outer speed ratio 1.521 passes the >1.04 gate. Out of calibration scope."},"brief":"中心天体の引きずりで外縁の回転が速まるかを測る。達・外縁速度比 1.521 が門 >1.04 を通過。較正対象外。"},
@@ -19363,56 +19650,57 @@ const SAMPLE_STATUS={
 "massLadder":{"purpose":"暗い中心の力学質量を 3 段で比べる","objective":"met","state":"質量比 1.96・3.84 が窓内","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.massladder"],"en":{"purpose":"Compare the dynamical mass of dark centres on three rungs","state":"mass ratios 1.96 and 3.84 lie in their windows","mismatch":null,"outlook":null,"brief":"Compare the dynamical mass of dark centres on three rungs. Met: mass ratios 1.96 and 3.84 lie in their windows. Out of calibration scope."},"brief":"暗い中心の力学質量を 3 段で比べる。達・質量比 1.96・3.84 が窓内。較正対象外。"},
 "selfRotor":{"purpose":"一様な雲から暗く回る中心が育つかを見る","objective":"met","state":"4 seed で質量比の最小 18.3%・対照の 33 倍","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.selfrotor-multiseed"],"en":{"purpose":"See whether a dark spinning centre grows from a uniform cloud","state":"minimum mass fraction 18.3% over 4 seeds, 33× the control","mismatch":null,"outlook":null,"brief":"See whether a dark spinning centre grows from a uniform cloud. Met: minimum mass fraction 18.3% over 4 seeds, 33× the control. Out of calibration scope."},"brief":"一様な雲から暗く回る中心が育つかを見る。達・4 seed で質量比の最小 18.3%・対照の 33 倍。較正対象外。"},
 "starSeed":{"purpose":"コアの圧縮・軸仕事と減光の経路を測る","objective":"met","state":"Ω 比 107.9・減光 0.9988 が窓内","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.starseed-powerball"],"en":{"purpose":"Measure the path from core compression and axial work to dimming","state":"Ω ratio 107.9 and dimming 0.9988 lie in their windows","mismatch":null,"outlook":null,"brief":"Measure the path from core compression and axial work to dimming. Met: Ω ratio 107.9 and dimming 0.9988 lie in their windows. Out of calibration scope."},"brief":"コアの圧縮・軸仕事と減光の経路を測る。達・Ω 比 107.9・減光 0.9988 が窓内。較正対象外。"},
-"earthMoonReal":{"purpose":"実単位の地球と月を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the real Earth and Moon in real units with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of the Moon's sidereal month, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts","brief":"Compare the real Earth and Moon in real units with kF0. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"月の恒星月・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す","brief":"実単位の地球と月を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
-"earthMoonRealKF1":{"purpose":"月の周期と近点回転を kF1 で照合する","objective":"partial","state":"照合の走行は台帳に記帳・🧲 との差は重みと初速の両方","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync","tests/out/emgrid-w280b.json"],"en":{"purpose":"Compare the Moon's period and apsidal rotation with kF1","state":"the comparison runs are in the ledger; 🧲 gap: weight + speed","mismatch":null,"outlook":null,"brief":"Compare the Moon's period and apsidal rotation with kF1. Partial: the comparison runs are in the ledger; 🧲 gap: weight + speed. Out of calibration scope."},"brief":"月の周期と近点回転を kF1 で照合する。部分・照合の走行は台帳に記帳・🧲 との差は重みと初速の両方。較正対象外。"},
+"earthMoonReal":{"purpose":"実単位の地球と月を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the real Earth and Moon in real units with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of the sidereal month and add it to the σ connector (residual 2.4e-6); declare the e ↔ eProxy mapping for the eccentricity. The apsidal motion is made by the Sun (a third body) and the two-body 1PN gives 4e-9 of it: a 1PN fix cannot resolve it","brief":"Compare the real Earth and Moon in real units with kF0. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"恒星月は観測 σ を観測表に宣言して σ 接続器に入れる(残差 2.4×10⁻⁶)。離心率は e↔eProxy の写像を宣言する。近点は太陽(第三体)が作る量で、二体の 1PN は観測の 4×10⁻⁹ —— 1PN の是正では解けない","brief":"実単位の地球と月を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
+"earthMoonTide":{"purpose":"定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る","objective":"met","state":"1 恒星月で地球 ΔJ/J −1.2e-11・交換と熱の残差は丸め床・引きずりとの交差項は器で記録","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/tide-w292d.json"],"en":{"purpose":"Run constant-time-lag tides only where declared; measure spin-down","state":"Earth dJ/J -1.2e-11 per sidereal month; ledger residuals at rounding floor; drag cross term measured","mismatch":null,"outlook":null,"brief":"Run constant-time-lag tides only where declared; measure spin-down. Met: Earth dJ/J -1.2e-11 per sidereal month; ledger residuals at rounding floor; drag cross term measured. Out of calibration scope."},"brief":"定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る。達・1 恒星月で地球 ΔJ/J −1.2e-11・交換と熱の残差は丸め床・引きずりとの交差項は器で記録。較正対象外。"},
+"earthMoonRealKF1":{"purpose":"kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照","objective":"partial","state":"8 公転窓の旧フィットを記録・窓を延ばすと 9.13 年→9.92 年で定常でない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/emgrid-w280b.json","tests/out/calaudit-w249.json"],"en":{"purpose":"Principle reference: kF1 q-dragging apsidal mechanism via the former lunar fit","state":"8-orbit-window fit recorded; longer windows give 9.13 → 9.92 yr (not steady)","mismatch":null,"outlook":null,"brief":"Principle reference: kF1 q-dragging apsidal mechanism via the former lunar fit. Partial: 8-orbit-window fit recorded; longer windows give 9.13 → 9.92 yr (not steady). Out of calibration scope."},"brief":"kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照。部分・8 公転窓の旧フィットを記録・窓を延ばすと 9.13 年→9.92 年で定常でない。較正対象外。"},
 "emAuditNewton":{"purpose":"純二体では月の近点回転が出ないことを示す","objective":"met","state":"陰性対照として Δϖ が窓内","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.emAudit"],"en":{"purpose":"Show that a pure two-body system gives no lunar apsidal rotation","state":"as a negative control Δϖ lies in its window","mismatch":null,"outlook":null,"brief":"Show that a pure two-body system gives no lunar apsidal rotation. Met: as a negative control Δϖ lies in its window. Out of calibration scope."},"brief":"純二体では月の近点回転が出ないことを示す。達・陰性対照として Δϖ が窓内。較正対象外。"},
 "emAuditDFM":{"purpose":"月の較正窓の一致が長期に続くかを調べる","objective":"met","state":"長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.emAudit","tests/out/calaudit-w249.json","tests/out/emgrid-w280b.json"],"en":{"purpose":"Check whether the lunar calibration-window agreement lasts","state":"detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed","mismatch":null,"outlook":null,"brief":"Check whether the lunar calibration-window agreement lasts. Met: detects a drift to 20.77 yr in a long window; 🌘 gap: weight+speed. Out of calibration scope."},"brief":"月の較正窓の一致が長期に続くかを調べる。達・長い窓で 20.77 年へずれることを検出・🌘 との差は重みと初速。較正対象外。"},
-"emAuditSolar":{"purpose":"太陽摂動だけで月の近点回転を出す","objective":"partial","state":"向きは前進・年数は記録のみ","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["behavior.emAudit","tests/out/calaudit-w249.json"],"en":{"purpose":"Get the lunar apsidal rotation from solar perturbation alone","state":"the direction is prograde; the period is only recorded","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of the Moon's sidereal month, eccentricity and apsidal rotation in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts","brief":"Get the lunar apsidal rotation from solar perturbation alone. Partial: the direction is prograde; the period is only recorded. Calibration: hold; no σ connected."},"holdRemedy":"月の恒星月・離心率・近点回転の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す","brief":"太陽摂動だけで月の近点回転を出す。部分・向きは前進・年数は記録のみ。較正は保留・σ 未接続。"},
+"emAuditSolar":{"purpose":"太陽摂動だけで月の近点回転を出す","objective":"partial","state":"向きは前進・年数は記録のみ","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["behavior.emAudit","tests/out/calaudit-w249.json"],"en":{"purpose":"Get the lunar apsidal rotation from solar perturbation alone","state":"the direction is prograde; the period is only recorded","mismatch":null,"outlook":"no σ connected","holdRemedy":"for the period row, add the observed σ to the σ connector. The apsidal row keeps the −1.1% floor of the idealisation (2D, Sun on a circular orbit, no tilt, no J2) and can fail with the real σ, so σ connection is not a route to a pass. The apsidal motion is a third-body quantity: a 1PN fix cannot resolve it","brief":"Get the lunar apsidal rotation from solar perturbation alone. Partial: the direction is prograde; the period is only recorded. Calibration: hold; no σ connected."},"holdRemedy":"周期の行は観測 σ を σ 接続器に入れる。近点の行は理想化の床(2D・円軌道の太陽・傾斜なし・J2 なし)の −1.1% が残り、現実の σ では否になりうる —— σ 接続を合への手順と書かない。近点は第三体の量で、1PN の是正では解けない","brief":"太陽摂動だけで月の近点回転を出す。部分・向きは前進・年数は記録のみ。較正は保留・σ 未接続。"},
 "earthMoonDiagOne":{"purpose":"🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断","objective":"met","state":"近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/emgrid-w280b.json","tests/out/spherekernel-w280b.json"],"en":{"purpose":"Diagnostic that swaps 🌘's dragging for the front-back kernel transport","state":"apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded","mismatch":null,"outlook":null,"brief":"Diagnostic that swaps 🌘's dragging for the front-back kernel transport. Met: apsidal advance 1.07e-3 deg/orbit and no c² suppression are recorded. Out of calibration scope."},"brief":"🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断。達・近点移動 1.07×10⁻³ °/周・c² 抑制なしを記帳。較正対象外。"},
 "qLockRadialAudit":{"purpose":"qLock が参照軌道の外で崩れるかを監査する","objective":"met","state":"内側 2 点で逆行・落ち方 5.49 倍を検出","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.qlockRadial"],"en":{"purpose":"Audit whether qLock breaks away from its reference orbit","state":"detects retrograde drag at two inner points and a 5.49× falloff","mismatch":null,"outlook":null,"brief":"Audit whether qLock breaks away from its reference orbit. Met: detects retrograde drag at two inner points and a 5.49× falloff. Out of calibration scope."},"brief":"qLock が参照軌道の外で崩れるかを監査する。達・内側 2 点で逆行・落ち方 5.49 倍を検出。較正対象外。"},
 "qLockRadialAuditQ3":{"purpose":"q=3 の対照で r⁻³ 則の物差しを示す","objective":"met","state":"q=3 対照は qLock の 8.5 倍(門 >5)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.qlockRadial"],"en":{"purpose":"Give the yardstick of the r⁻³ law with a q=3 control","state":"the q=3 control is 8.5× qLock (gate >5)","mismatch":null,"outlook":null,"brief":"Give the yardstick of the r⁻³ law with a q=3 control. Met: the q=3 control is 8.5× qLock (gate >5). Out of calibration scope."},"brief":"q=3 の対照で r⁻³ 則の物差しを示す。達・q=3 対照は qLock の 8.5 倍(門 >5)。較正対象外。"},
-"mercuryReal":{"purpose":"水星の近日点前進を kF0 で照合する","objective":"partial","state":"不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解","calibration":"hold","mismatch":"近点移動 −6.91%(2.0×10³σ)","outlook":"数値未解決","evidence":["tests/out/calaudit-w249.json","tests/out/mercury-w280a.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Mercury's perihelion advance with kF0","state":"the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%","mismatch":"apsidal advance −6.91% (2.0×10³σ)","outlook":"numerics unresolved","holdRemedy":"converge the perihelion advance over h/h2/h4 in the same window (until the step difference fits the numerical budget) and declare the step and the window; declare the observed σ of the orbital period and eccentricity in the observation table → the judge gives one of the four verdicts","brief":"Compare Mercury's perihelion advance with kF0. Partial: the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%. Calibration: hold — apsidal advance −6.91% (2.0×10³σ); numerics unresolved."},"holdRemedy":"近日点前進を h/h2/h4 の同じ窓で収束させ(刻み間差が数値の予算に入るまで)刻みと窓を宣言し、公転周期・離心率は観測 σ を観測表に宣言する → 判定器が 4 値を出す","brief":"水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −6.91%(2.0×10³σ)・数値未解決。"},
+"mercuryReal":{"purpose":"水星の近日点前進を kF0 で照合する","objective":"partial","state":"不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解","calibration":"hold","mismatch":"近点移動 −6.91%(2.0×10³σ)","outlook":"数値未解決","evidence":["tests/out/calaudit-w249.json","tests/out/mercury-w280a.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Mercury's perihelion advance with kF0","state":"the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%","mismatch":"apsidal advance −6.91% (2.0×10³σ)","outlook":"numerics unresolved","holdRemedy":"separate the softening (8.8% of the shortfall in the judge copy) as a declared error and show convergence over the steps h/h2/h4 with a positive order (the step is 91.2% of the shortfall); the 1PN term matches the analytic value and is not the cause. Declare the observed σ of the period and the e ↔ eProxy mapping","brief":"Compare Mercury's perihelion advance with kF0. Partial: the shortfall splits into softening 70.3%, step 29.0%, inputs 0.63%. Calibration: hold — apsidal advance −6.91% (2.0×10³σ); numerics unresolved."},"holdRemedy":"近日点前進は軟化(判定行の写しで不足の 8.8%)を宣言誤差として分離し、刻み h/h2/h4 の収束を正の次数で示す(刻みが不足の 91.2%)。1PN は解析値どおりで原因ではない。公転周期は観測 σ を、離心率は e↔eProxy の写像を宣言する","brief":"水星の近日点前進を kF0 で照合する。部分・不足を軟化 70.3%・刻み 29.0%・入力 0.63% に分解。較正は保留・近点移動 −6.91%(2.0×10³σ)・数値未解決。"},
 "mercuryRealKF1":{"purpose":"水星の近日点前進を kF1 で照合する","objective":"partial","state":"☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","tests/out/mercury-w280a.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare Mercury's perihelion advance with kF1","state":"the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag","mismatch":null,"outlook":null,"brief":"Compare Mercury's perihelion advance with kF1. Partial: the −2.856×10⁻⁸ °/orbit gap to ☄️ is the Sun-spin drag. Out of calibration scope."},"brief":"水星の近日点前進を kF1 で照合する。部分・☄️ との差 −2.856×10⁻⁸ °/周 は太陽自転の引きずり。較正対象外。"},
 "mercuryGeoToy3":{"purpose":"一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる","objective":"met","state":"u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/geo3-w280c.json"],"en":{"purpose":"Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged","state":"with u=V the advance matches ☄️ to below 1e-4 of the step width","mismatch":null,"outlook":null,"brief":"Check with the geoPN=3 contract that a uniform coordinate change leaves the periapsis advance unchanged. Met: with u=V the advance matches ☄️ to below 1e-4 of the step width. Out of calibration scope."},"brief":"一様な座標変換で近点移動が変わらないかを geoPN=3 契約で確かめる。達・u=V の近点移動は ☄️ と刻みの幅の 10⁻⁴ 未満で一致。較正対象外。"},
-"solarInner":{"purpose":"内惑星 4 つの周期を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.solarInner","tests/out/tpsign-w284e.json","behavior.testParticleSigned"],"en":{"purpose":"Compare the periods of the four inner planets in real units","state":"runs in the ledger (groups as test particles; signing before/after recorded per quantity)","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of Mercury, Venus, Earth and Mars's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts","brief":"Compare the periods of the four inner planets in real units. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."},"holdRemedy":"水星・金星・地球・火星の公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す","brief":"内惑星 4 つの周期を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"},
-"jupiterGalilean":{"purpose":"木星 4 衛星へ規則を再 fit せず当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply the rule to Jupiter's four moons without refitting","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of Io, Europa, Ganymede and Callisto's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts","brief":"Apply the rule to Jupiter's four moons without refitting. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"イオ・エウロパ・ガニメデ・カリストの公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す","brief":"木星 4 衛星へ規則を再 fit せず当てる。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
-"venusReal":{"purpose":"自由中心の太陽–金星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.venusReal"],"en":{"purpose":"Compare a free-centre Sun–Venus pair in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of Venus's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts","brief":"Compare a free-centre Sun–Venus pair in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"金星の公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す","brief":"自由中心の太陽–金星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
-"marsMoonsReal":{"purpose":"火星の 2 衛星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.marsMoonsReal"],"en":{"purpose":"Compare Mars's two moons in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of Phobos and Deimos's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts","brief":"Compare Mars's two moons in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"フォボス・ダイモスの公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す","brief":"火星の 2 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
+"solarInner":{"purpose":"内惑星 4 つの周期を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.solarInner","tests/out/tpsign-w284e.json","behavior.testParticleSigned"],"en":{"purpose":"Compare the periods of the four inner planets in real units","state":"runs in the ledger (groups as test particles; signing before/after recorded per quantity)","mismatch":null,"outlook":"no σ connected","holdRemedy":"add the observed σ of the four planets' orbital periods to the σ connector (residuals ≤ 4e-5). The eccentricities come from circular-orbit idealisation (Venus −99.6%), so the e ↔ eProxy and initial-state mapping comes first. The apsidal motions are made by the other planets (third bodies): a 1PN fix cannot resolve them","brief":"Compare the periods of the four inner planets in real units. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."},"holdRemedy":"4 惑星の公転周期は観測 σ を σ 接続器に入れる(残差 ≤4×10⁻⁵)。離心率は円軌道の理想化(金星 −99.6%)で、e↔eProxy と初期状態の写像が先。近点は他の惑星(第三体)が作る量で、1PN の是正では解けない","brief":"内惑星 4 つの周期を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"},
+"jupiterGalilean":{"purpose":"木星 4 衛星へ規則を再 fit せず当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply the rule to Jupiter's four moons without refitting","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of the four moons' periods and apsidal motions and add them to the σ connector (period residuals up to 4.9e-4 for Io, far outside the 1PN size of 1e-9: a 1PN fix cannot resolve them); declare the e ↔ eProxy mapping for the eccentricities","brief":"Apply the rule to Jupiter's four moons without refitting. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"4 衛星の公転周期・近点の観測 σ を観測表に宣言して σ 接続器に入れる(周期の残差はイオの 4.9×10⁻⁴ まで —— 1PN の桁 10⁻⁹ の外で、1PN の是正では解けない)。離心率は e↔eProxy の写像を宣言する","brief":"木星 4 衛星へ規則を再 fit せず当てる。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
+"venusReal":{"purpose":"自由中心の太陽–金星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.venusReal"],"en":{"purpose":"Compare a free-centre Sun–Venus pair in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"add the observed σ of the orbital period to the σ connector (residual 1.4e-5). For the eccentricity (+3.3%), align the input and the comparison value to the same solution and epoch and declare the e ↔ eProxy mapping: a fix of the 1PN term (size 1e-8) cannot resolve it","brief":"Compare a free-centre Sun–Venus pair in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"公転周期は観測 σ を σ 接続器に入れる(残差 1.4×10⁻⁵)。離心率(+3.3%)は入力と比較値を同一解・同一元期に揃えて e↔eProxy の写像を宣言する —— 1PN(10⁻⁸ の桁)の是正では解けない","brief":"自由中心の太陽–金星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
+"marsMoonsReal":{"purpose":"火星の 2 衛星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.marsMoonsReal"],"en":{"purpose":"Compare Mars's two moons in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"add the observed σ of Phobos' and Deimos' periods to the σ connector; declare the e ↔ eProxy mapping for the eccentricities. The apsidal motions are made by Mars' zonal gravity (J2) and 1PN gives at most 1e-6 of them: a 1PN fix cannot resolve them (declaring J2 comes first)","brief":"Compare Mars's two moons in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"フォボス・ダイモスの公転周期は観測 σ を σ 接続器に入れる。離心率は e↔eProxy の写像を宣言する。近点は火星の帯状重力(J2)が作る量で 1PN は観測の 10⁻⁶ 以下 —— 1PN の是正では解けない(J2 の宣言が先)","brief":"火星の 2 衛星を実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "plutoCharonReal":{"purpose":"旧入力の冥王星–カロンを照合する","objective":"unmet","state":"代表量が門の外・残差を要因の鎖で分解","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","behavior.plutoCharonReal","tests/out/charoninput-w280d.json"],"en":{"purpose":"Pluto–Charon from older inputs","state":"outside the gate; residual traced","mismatch":null,"outlook":null,"brief":"Pluto–Charon from older inputs. Unmet: outside the gate; residual traced. Out of calibration scope."},"brief":"旧入力の冥王星–カロンを照合する。未達・代表量が門の外・残差を要因の鎖で分解。較正対象外。"},
 "plutoCharonDFM":{"purpose":"同一観測解の二体に零条件つき引きずり則を載せる","objective":"partial","state":"中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来","calibration":"hold-definition","mismatch":"比較値 +31.6 s(Buie 2012 比・門ではない)","outlook":"量の定義が揃うまで門に入れない","evidence":["docs.charonTwoColumns","behavior.plutoCharonDFM","tests/out/charonwin-w278b.json","tests/out/charoninput-w280d.json"],"en":{"purpose":"One observed solution, zero-slip drag law","state":"midpoint converges; law term via sync","mismatch":"comparison +31.6 s vs Buie 2012","outlook":"not gated until definitions match","brief":"One observed solution, zero-slip drag law. Partial: midpoint converges; law term via sync. Calibration: hold (definitions differ) — comparison +31.6 s vs Buie 2012; not gated until definitions match."},"brief":"同一観測解の二体に零条件つき引きずり則を載せる。部分・中点法の収束と 2 欄は確認・則の寄与は同期の定義に由来。較正は判定保留(量定義不一致)・比較値 +31.6 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"},
 "plutoCharonKF0Control":{"purpose":"⛄ と同じ入力で則だけを外した kF0 対照","objective":"met","state":"則なしで定常・⛄ との差 1.37 s を記帳","calibration":"hold-definition","mismatch":"比較値 +30.2 s(Buie 2012 比・門ではない)","outlook":"量の定義が揃うまで門に入れない","evidence":["docs.charonTwoColumns","behavior.plutoCharonDFM","tests/out/charonwin-w278b.json"],"en":{"purpose":"kF0 control: ⛄'s inputs without the law","state":"steady; the 1.37 s gap to ⛄ is recorded","mismatch":"comparison +30.2 s vs Buie 2012","outlook":"not gated until definitions match","holdRemedy":"declare the compared period with the same definition as the Buie 2012 quantity (one same-direction lap or the two-body P; solution and epoch; state vector or elements, GM with covariance, coordinate time) → once the definitions match, the judge can gate it","brief":"kF0 control: ⛄'s inputs without the law. Met: steady; the 1.37 s gap to ⛄ is recorded. Calibration: hold (definitions differ) — comparison +30.2 s vs Buie 2012; not gated until definitions match."},"holdRemedy":"比較する周期の定義(同方向 1 周か二体の P か・解と元期)を Buie 2012 の量に揃えて宣言する(状態ベクトルか軌道要素・GM と共分散・座標時)→ 量の定義が揃えば判定器の門に入る","brief":"⛄ と同じ入力で則だけを外した kF0 対照。達・則なしで定常・⛄ との差 1.37 s を記帳。較正は判定保留(量定義不一致)・比較値 +30.2 s(Buie 2012 比・門ではない)・量の定義が揃うまで門に入れない。"},
-"plutoCharonDiagInput":{"purpose":"冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)","objective":"partial","state":"入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める","calibration":"hold","mismatch":"周期 +0.00131%(279σ)","outlook":"数値未解決","evidence":["tests/out/calaudit-w249.json","tests/out/charoninput-w280d.json"],"en":{"purpose":"Pluto–Charon from one observed solution (❄️'s successor)","state":"verdict from the canonical output; residual is a definition gap","mismatch":"period +0.00131% (279σ)","outlook":"numerics unresolved","holdRemedy":"converge Charon's orbital period over h/h2/h4 in the same window (until it passes the numerical-budget gate) and declare the step and the window → the judge gives one of the four verdicts","brief":"Pluto–Charon from one observed solution (❄️'s successor). Partial: verdict from the canonical output; residual is a definition gap. Calibration: hold — period +0.00131% (279σ); numerics unresolved."},"holdRemedy":"カロンの公転周期を h/h2/h4 の同じ窓で収束させ(数値の予算の門を通るまで)、刻みと窓を宣言する → 判定器が 4 値を出す","brief":"冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)。部分・入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める。較正は保留・周期 +0.00131%(279σ)・数値未解決。"},
+"plutoCharonDiagInput":{"purpose":"冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)","objective":"partial","state":"入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める","calibration":"hold","mismatch":"周期 +0.00131%(279σ)","outlook":"数値未解決","evidence":["tests/out/calaudit-w249.json","tests/out/charoninput-w280d.json"],"en":{"purpose":"Pluto–Charon from one observed solution (❄️'s successor)","state":"verdict from the canonical output; residual is a definition gap","mismatch":"period +0.00131% (279σ)","outlook":"numerics unresolved","holdRemedy":"align the state vector (or orbital elements), GM with covariance and coordinate time to the same solution and epoch (the closed form alone leaves +7.216805 s, which step refinement does not remove). The 1PN source set contributes at the 1e-7 s level: a 1PN fix cannot resolve it","brief":"Pluto–Charon from one observed solution (❄️'s successor). Partial: verdict from the canonical output; residual is a definition gap. Calibration: hold — period +0.00131% (279σ); numerics unresolved."},"holdRemedy":"同一解・同一元期の状態ベクトル(または軌道要素)と GM・共分散・座標時を揃える(閉じた式だけで +7.216805 s が残る —— 刻みの細分化では消えない)。1PN の源集合の寄与は 10⁻⁷ s の桁で、1PN の是正では解けない","brief":"冥王星–カロンを 1 つの観測解に揃えた入力で照合する(❄️ の後継の入口)。部分・入力を揃えた後の残差を定義の差として記帳・較正の判定は正本が決める。較正は保留・周期 +0.00131%(279σ)・数値未解決。"},
 "plutoCharonSyncZero":{"purpose":"厳密同期円で相対すべり則の零条件を走行中も試す","objective":"partial","state":"初期 1 歩は厳密に 0・走行中は丸め級の熱が残る","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/charoninput-w280d.json"],"en":{"purpose":"Test the zero-slip condition on an exact synchronous circle","state":"first step exactly zero; rounding-level heat while running","mismatch":null,"outlook":null,"brief":"Test the zero-slip condition on an exact synchronous circle. Partial: first step exactly zero; rounding-level heat while running. Out of calibration scope."},"brief":"厳密同期円で相対すべり則の零条件を走行中も試す。部分・初期 1 歩は厳密に 0・走行中は丸め級の熱が残る。較正対象外。"},
 "charonGeoToy3":{"purpose":"太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる","objective":"partial","state":"1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/geo3-w280c.json"],"en":{"purpose":"Compare the geoPN=3 period with a solar background against kF0","state":"it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s)","mismatch":null,"outlook":null,"brief":"Compare the geoPN=3 period with a solar background against kF0. Partial: it depends on the velocity 1PN reads (xdot within 1e-5 s; v +5.6e-4 s). Out of calibration scope."},"brief":"太陽の背景を置いた geoPN=3 契約の周期を kF0 と並べる。部分・1PN が読む速度で差が分かれる(ẋ は kF0 と 10⁻⁵ s 未満・v は +5.6×10⁻⁴ s)。較正対象外。"},
-"uranusReal":{"purpose":"天王星の環と 5 衛星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.uranusReal","tests/out/tpsign-w284e.json","behavior.testParticleSigned"],"en":{"purpose":"Compare Uranus's rings and five moons in real units","state":"runs in the ledger (groups as test particles; signing before/after recorded per quantity)","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of Miranda, Ariel, Umbriel, Titania and Oberon's orbital period, eccentricity and apsidal advance (and Miranda's spin) in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts","brief":"Compare Uranus's rings and five moons in real units. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."},"holdRemedy":"ミランダ・アリエル・ウンブリエル・チタニア・オベロンの公転周期・離心率・近点移動(とミランダの自転)の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す","brief":"天王星の環と 5 衛星を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"},
-"neptuneReal":{"purpose":"逆行衛星トリトンを実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.neptuneReal"],"en":{"purpose":"Compare the retrograde moon Triton in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of Triton's orbital period, spin, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts","brief":"Compare the retrograde moon Triton in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"トリトンの公転周期・自転・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す","brief":"逆行衛星トリトンを実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
+"uranusReal":{"purpose":"天王星の環と 5 衛星を実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.uranusReal","tests/out/tpsign-w284e.json","behavior.testParticleSigned"],"en":{"purpose":"Compare Uranus's rings and five moons in real units","state":"runs in the ledger (groups as test particles; signing before/after recorded per quantity)","mismatch":null,"outlook":"no σ connected","holdRemedy":"add the observed σ of the five moons' periods and Uranus' spin to the σ connector (period residuals up to 6.8e-4 for Miranda); declare the e ↔ eProxy mapping for the eccentricities. The apsidal motions are made by Uranus' zonal gravity and 1PN gives 1e-5 of them: a 1PN fix cannot resolve them","brief":"Compare Uranus's rings and five moons in real units. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."},"holdRemedy":"5 衛星の公転周期と天王星の自転は観測 σ を σ 接続器に入れる(周期の残差はミランダの 6.8×10⁻⁴ まで)。離心率は e↔eProxy の写像を宣言する。近点は天王星の帯状重力が作る量で 1PN は観測の 10⁻⁵ —— 1PN の是正では解けない","brief":"天王星の環と 5 衛星を実単位で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"},
+"neptuneReal":{"purpose":"逆行衛星トリトンを実単位で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.neptuneReal"],"en":{"purpose":"Compare the retrograde moon Triton in real units","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"add the observed σ of Triton's period and spin to the σ connector (period residual 4.2e-5); declare the e ↔ eProxy mapping for the eccentricity. The apsidal motion is made by Neptune's zonal gravity and 1PN gives 4e-5 of it: a 1PN fix cannot resolve it","brief":"Compare the retrograde moon Triton in real units. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"トリトンの公転周期と自転は観測 σ を σ 接続器に入れる(周期の残差 4.2×10⁻⁵)。離心率は e↔eProxy の写像を宣言する。近点は海王星の帯状重力が作る量で 1PN は観測の 4×10⁻⁵ —— 1PN の是正では解けない","brief":"逆行衛星トリトンを実単位で照合する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "saturnZonalD68":{"purpose":"帯状重力係数で D68 の近点移動を照合する","objective":"unmet","state":"代表量が門の外","calibration":"fail","mismatch":"近点移動 −0.306%(14.6σ)","outlook":"刻み間差 4×10⁻³σ・刻みでは縮まない","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare D68's apsidal motion via zonal harmonics","state":"the representative quantity is outside the gate","mismatch":"apsidal advance −0.306% (14.6σ)","outlook":"step Δ 4×10⁻³σ (not step-limited)","brief":"Compare D68's apsidal motion via zonal harmonics. Unmet: the representative quantity is outside the gate. Calibration: fail — apsidal advance −0.306% (14.6σ); step Δ 4×10⁻³σ (not step-limited)."},"brief":"帯状重力係数で D68 の近点移動を照合する。未達・代表量が門の外。較正は否・近点移動 −0.306%(14.6σ)・刻み間差 4×10⁻³σ・刻みでは縮まない。"},
 "saturnD68Consistent":{"purpose":"📡 の差を同じ窓で初速の幾何と他の要因に分ける","objective":"met","state":"同じ抽出器・同じ窓で差 +42.66 deg/yr のうち初速が +42.23","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/d68-w280e.json"],"en":{"purpose":"Split 📡's gap into initial geometry and the rest in the same window","state":"same extractor and window: of the +42.66 deg/yr gap the initial speed gives +42.23","mismatch":null,"outlook":null,"brief":"Split 📡's gap into initial geometry and the rest in the same window. Met: same extractor and window: of the +42.66 deg/yr gap the initial speed gives +42.23. Out of calibration scope."},"brief":"📡 の差を同じ窓で初速の幾何と他の要因に分ける。達・同じ抽出器・同じ窓で差 +42.66 deg/yr のうち初速が +42.23。較正対象外。"},
 "saturnD68ObsOrbit":{"purpose":"観測の a と ae の定義で置いた D68 の近点移動を測る","objective":"partial","state":"同じ窓で測定済み・a と ae と ϖ̇ の同一元期の組は未確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/d68-w280e.json"],"en":{"purpose":"Measure D68's apsidal motion on the observed a and ae definition","state":"measured in the same window; whether a, ae and the rate share one epoch is unconfirmed","mismatch":null,"outlook":null,"brief":"Measure D68's apsidal motion on the observed a and ae definition. Partial: measured in the same window; whether a, ae and the rate share one epoch is unconfirmed. Out of calibration scope."},"brief":"観測の a と ae の定義で置いた D68 の近点移動を測る。部分・同じ窓で測定済み・a と ae と ϖ̇ の同一元期の組は未確認。較正対象外。"},
-"saturnRingReal":{"purpose":"実単位の土星の環を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync","tests/out/tpsign-w284e.json","behavior.testParticleSigned"],"en":{"purpose":"Compare Saturn's rings in real units with kF0","state":"runs in the ledger (groups as test particles; signing before/after recorded per quantity)","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of the inner edge of ring C, Mimas and Titan's orbital period, eccentricity and apsidal advance in paper/data/solar-observations.csv and add them to the σ connector (tests/exp-w262d-solarsigma.mjs) → the judge gives one of the four verdicts","brief":"Compare Saturn's rings in real units with kF0. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."},"holdRemedy":"C環内縁・ミマス・タイタンの公転周期・離心率・近点移動の観測 σ を観測表(paper/data/solar-observations.csv)に宣言し、σ 接続器(tests/exp-w262d-solarsigma.mjs)の一覧に入れる → 判定器が 4 値を出す","brief":"実単位の土星の環を kF0 で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"},
+"saturnRingReal":{"purpose":"実単位の土星の環を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync","tests/out/tpsign-w284e.json","behavior.testParticleSigned"],"en":{"purpose":"Compare Saturn's rings in real units with kF0","state":"runs in the ledger (groups as test particles; signing before/after recorded per quantity)","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of the periods and apsidal motions of ring C's inner edge, Mimas and Titan and add them to the σ connector; declare the e ↔ eProxy mapping. The −0.27% period residual of ring C's inner edge is far outside the 1PN size (1e-8): a 1PN fix cannot resolve it","brief":"Compare Saturn's rings in real units with kF0. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Calibration: hold; no σ connected."},"holdRemedy":"C環内縁・ミマス・タイタンの公転周期・近点の観測 σ を観測表に宣言して σ 接続器に入れる。離心率は e↔eProxy の写像を宣言する。C環内縁の周期の残差 −0.27% は 1PN(10⁻⁸ の桁)の外で、1PN の是正では解けない","brief":"実単位の土星の環を kF0 で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正は保留・σ 未接続。"},
 "saturnRingRealKF1":{"purpose":"土星の環を kF1 と自動算出 q で照合する","objective":"partial","state":"照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync","tests/out/tpsign-w284e.json","behavior.testParticleSigned"],"en":{"purpose":"Compare Saturn's rings with kF1 and the automatic q","state":"runs in the ledger (groups as test particles; signing before/after recorded per quantity)","mismatch":null,"outlook":null,"brief":"Compare Saturn's rings with kF1 and the automatic q. Partial: runs in the ledger (groups as test particles; signing before/after recorded per quantity). Out of calibration scope."},"brief":"土星の環を kF1 と自動算出 q で照合する。部分・照合の走行は台帳に記帳(群は試験粒子・署名の前後は量ごとに記録)。較正対象外。"},
 "alphaCenAB":{"purpose":"α Cen AB を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"pass-limited","mismatch":null,"outlook":"写像未確定","evidence":["tests/out/calaudit-w249.json","behavior.alphaCenAB"],"en":{"purpose":"Compare α Cen AB with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"mapping unresolved","brief":"Compare α Cen AB with kF0. Partial: the comparison runs are in the ledger. Calibration: limited pass; mapping unresolved."},"brief":"α Cen AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"},
 "alphaCenABDFM":{"purpose":"観測質量のまま kF1 を α Cen へ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply kF1 to α Cen with the observed masses","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Apply kF1 to α Cen with the observed masses. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"観測質量のまま kF1 を α Cen へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"},
 "siriusAB":{"purpose":"シリウス AB を kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"pass-limited","mismatch":null,"outlook":"写像未確定","evidence":["tests/out/calaudit-w249.json","behavior.siriusAB"],"en":{"purpose":"Compare Sirius AB with kF0","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"mapping unresolved","brief":"Compare Sirius AB with kF0. Partial: the comparison runs are in the ledger. Calibration: limited pass; mapping unresolved."},"brief":"シリウス AB を kF0 で照合する。部分・照合の走行は台帳に記帳。較正は量限定合・写像未確定。"},
 "siriusABDFM":{"purpose":"観測質量のまま kF1 をシリウスへ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Apply kF1 to Sirius with the observed masses","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Apply kF1 to Sirius with the observed masses. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"観測質量のまま kF1 をシリウスへ当てる。部分・照合の走行は台帳に記帳。較正対象外。"},
-"psrDoubleAB":{"purpose":"二重パルサーを kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.00307%(1.1×10⁶σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the double pulsar with kF0","state":"the comparison runs are in the ledger","mismatch":"period +0.00307% (1.1×10⁶σ)","outlook":"numerics unresolved; mapping unresolved","holdRemedy":"converge the orbital period and periastron advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts","brief":"Compare the double pulsar with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.00307% (1.1×10⁶σ); numerics unresolved; mapping unresolved."},"holdRemedy":"公転周期と近点前進を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す","brief":"二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00307%(1.1×10⁶σ)・数値未解決・写像未確定。"},
+"psrDoubleAB":{"purpose":"二重パルサーを kF0 で照合する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.00307%(1.1×10⁶σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the double pulsar with kF0","state":"the comparison runs are in the ledger","mismatch":"period +0.00307% (1.1×10⁶σ)","outlook":"numerics unresolved; mapping unresolved","holdRemedy":"the orbital period differs by 1e6 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the periastron advance over h/h2/h4, and declare the e_T ↔ eProxy mapping","brief":"Compare the double pulsar with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.00307% (1.1×10⁶σ); numerics unresolved; mapping unresolved."},"holdRemedy":"公転周期は σ の 10⁶ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する","brief":"二重パルサーを kF0 で照合する。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00307%(1.1×10⁶σ)・数値未解決・写像未確定。"},
 "psrDoubleABDFM":{"purpose":"二重パルサーを観測質量(f=1)と kF1 で照合","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare the double pulsar with the observed masses (f=1) under kF1","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Compare the double pulsar with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"二重パルサーを観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正対象外。"},
 "psrDoubleABGeoToy":{"purpose":"観測質量のまま geoPN=3 則を当てる診断","objective":"unmet","state":"周期 +0.0897%・掃引で観測をまたがない","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/geotoy-w262a.json","behavior.geoToyOverlay"],"en":{"purpose":"Diagnostic that applies the geoPN=3 law with the observed masses","state":"period +0.0897%; no swept setting straddles the observation","mismatch":null,"outlook":null,"brief":"Diagnostic that applies the geoPN=3 law with the observed masses. Unmet: period +0.0897%; no swept setting straddles the observation. Out of calibration scope."},"brief":"観測質量のまま geoPN=3 則を当てる診断。未達・周期 +0.0897%・掃引で観測をまたがない。較正対象外。"},
 "psrDoubleABSpinCal":{"purpose":"f と λ を回した較正候補を比べる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare a calibration candidate with f and λ turned","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Compare a calibration candidate with f and λ turned. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"f と λ を回した較正候補を比べる。部分・照合の走行は台帳に記帳。較正対象外。"},
-"psrJ1757DFM":{"purpose":"J1757 を観測質量(f=1)・geoPN=1 で照合","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.000114%(4.2×10³σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare J1757 with the observed masses (f=1, geoPN=1)","state":"the comparison runs are in the ledger","mismatch":"period +0.000114% (4.2×10³σ)","outlook":"numerics unresolved; mapping unresolved","holdRemedy":"converge the orbital period and apsidal advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts","brief":"Compare J1757 with the observed masses (f=1, geoPN=1). Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000114% (4.2×10³σ); numerics unresolved; mapping unresolved."},"holdRemedy":"公転周期と近点移動を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す","brief":"J1757 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000114%(4.2×10³σ)・数値未解決・写像未確定。"},
-"psrJ1946DFM":{"purpose":"J1946 を観測質量(f=1)・geoPN=1 で照合","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.00495%(1.9×10⁵σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"J1946 at the observed masses (f=1, geoPN=1)","state":"the runs are in the ledger","mismatch":"period +0.00495% (1.9×10⁵σ)","outlook":"numerics unresolved; mapping unresolved","holdRemedy":"converge the orbital period and apsidal advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts","brief":"J1946 at the observed masses (f=1, geoPN=1). Partial: the runs are in the ledger. Calibration: hold — period +0.00495% (1.9×10⁵σ); numerics unresolved; mapping unresolved."},"holdRemedy":"公転周期と近点移動を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す","brief":"J1946 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00495%(1.9×10⁵σ)・数値未解決・写像未確定。"},
+"psrJ1757DFM":{"purpose":"J1757 を観測質量(f=1)・geoPN=1 で照合","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.000114%(4.2×10³σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare J1757 with the observed masses (f=1, geoPN=1)","state":"the comparison runs are in the ledger","mismatch":"period +0.000114% (4.2×10³σ)","outlook":"numerics unresolved; mapping unresolved","holdRemedy":"the orbital period differs by 4200 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the apsidal advance over h/h2/h4, and declare the e_T ↔ eProxy mapping","brief":"Compare J1757 with the observed masses (f=1, geoPN=1). Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000114% (4.2×10³σ); numerics unresolved; mapping unresolved."},"holdRemedy":"公転周期は σ の 4200 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する","brief":"J1757 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000114%(4.2×10³σ)・数値未解決・写像未確定。"},
+"psrJ1946DFM":{"purpose":"J1946 を観測質量(f=1)・geoPN=1 で照合","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.00495%(1.9×10⁵σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"J1946 at the observed masses (f=1, geoPN=1)","state":"the runs are in the ledger","mismatch":"period +0.00495% (1.9×10⁵σ)","outlook":"numerics unresolved; mapping unresolved","holdRemedy":"the orbital period differs by 1e5 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the apsidal advance over h/h2/h4, and declare the e_T ↔ eProxy mapping","brief":"J1946 at the observed masses (f=1, geoPN=1). Partial: the runs are in the ledger. Calibration: hold — period +0.00495% (1.9×10⁵σ); numerics unresolved; mapping unresolved."},"holdRemedy":"公転周期は σ の 10⁵ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する","brief":"J1946 を観測質量(f=1)・geoPN=1 で照合。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.00495%(1.9×10⁵σ)・数値未解決・写像未確定。"},
 "psrDoubleABPN":{"purpose":"旧則(履歴)の 1PN の強さを 1/f で戻す応答候補","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Old rule (history): 1PN scaled back by 1/f","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Old rule (history): 1PN scaled back by 1/f. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"旧則(履歴)の 1PN の強さを 1/f で戻す応答候補。部分・照合の走行は台帳に記帳。較正対象外。"},
 "psrJ1757PN":{"purpose":"旧則(履歴)の 1/f の応答候補を J1757 へ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Old rule (history): the 1/f candidate applied to J1757","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Old rule (history): the 1/f candidate applied to J1757. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"旧則(履歴)の 1/f の応答候補を J1757 へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"},
 "psrJ1946PN":{"purpose":"旧則(履歴)の 1/f の応答候補を J1946 へ当てる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Old rule (history): the 1/f candidate applied to J1946","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Old rule (history): the 1/f candidate applied to J1946. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"旧則(履歴)の 1/f の応答候補を J1946 へ当てる。部分・照合の走行は台帳に記帳。較正対象外。"},
 "psrDoubleABCF":{"purpose":"速度依存の追加力(案K)を試す","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Try a velocity-dependent extra force (plan K)","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Try a velocity-dependent extra force (plan K). Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"速度依存の追加力(案K)を試す。部分・照合の走行は台帳に記帳。較正対象外。"},
 "psrJ1757CF":{"purpose":"凍結した κ を J1757 へ流す","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Carry the frozen κ over to J1757","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Carry the frozen κ over to J1757. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"凍結した κ を J1757 へ流す。部分・照合の走行は台帳に記帳。較正対象外。"},
 "psrJ1946CF":{"purpose":"凍結した κ を J1946 へ流す","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Carry the frozen κ over to J1946","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Carry the frozen κ over to J1946. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"凍結した κ を J1946 へ流す。部分・照合の走行は台帳に記帳。較正対象外。"},
-"psrB1534":{"purpose":"B1534 の観測入力を kF0 で確かめる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.000876%(3.7×10⁵σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Check B1534's observed inputs with kF0","state":"the comparison runs are in the ledger","mismatch":"period +0.000876% (3.7×10⁵σ)","outlook":"numerics unresolved; mapping unresolved","holdRemedy":"converge the orbital period and apsidal advance over h/h2/h4 in the same window and declare the step and the window; for the eccentricity, align the input and the comparison value to the same solution and epoch (state vector or elements, GM with covariance, coordinate time) → the judge gives one of the four verdicts","brief":"Check B1534's observed inputs with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000876% (3.7×10⁵σ); numerics unresolved; mapping unresolved."},"holdRemedy":"公転周期と近点移動を h/h2/h4 の同じ窓で収束させて刻みと窓を宣言し、離心率は入力と比較値を同一解・同一元期の量に揃える(状態ベクトルか軌道要素・GM と共分散・座標時) → 判定器が 4 値を出す","brief":"B1534 の観測入力を kF0 で確かめる。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000876%(3.7×10⁵σ)・数値未解決・写像未確定。"},
+"psrB1534":{"purpose":"B1534 の観測入力を kF0 で確かめる","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":"周期 +0.000876%(3.7×10⁵σ)","outlook":"数値未解決・写像未確定","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Check B1534's observed inputs with kF0","state":"the comparison runs are in the ledger","mismatch":"period +0.000876% (3.7×10⁵σ)","outlook":"numerics unresolved; mapping unresolved","holdRemedy":"the orbital period differs by 1e5 σ: align the input with the timing solution's Pb at the same solution and epoch (a 1PN-consistent initial state) first; this is not a fix of the EIH equation or its source set. Show convergence of the apsidal advance over h/h2/h4, and declare the e_T ↔ eProxy mapping","brief":"Check B1534's observed inputs with kF0. Partial: the comparison runs are in the ledger. Calibration: hold — period +0.000876% (3.7×10⁵σ); numerics unresolved; mapping unresolved."},"holdRemedy":"公転周期は σ の 10⁵ 倍の差で、タイミング解の Pb と同一解・同一元期の入力(1PN で一貫した初期状態)を揃えるのが先 —— EIH の式・源集合の是正ではない。近点は h/h2/h4 の収束を示す。離心率は e_T↔eProxy の写像を宣言する","brief":"B1534 の観測入力を kF0 で確かめる。部分・照合の走行は台帳に記帳。較正は保留・周期 +0.000876%(3.7×10⁵σ)・数値未解決・写像未確定。"},
 "psrB1534DFM":{"purpose":"B1534 を観測質量(f=1)と kF1 で照合","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Compare B1534 with the observed masses (f=1) under kF1","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Compare B1534 with the observed masses (f=1) under kF1. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"B1534 を観測質量(f=1)と kF1 で照合。部分・照合の走行は台帳に記帳。較正対象外。"},
 "psrB1534CF":{"purpose":"凍結した κ を B1534 へ流す","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Carry the frozen κ over to B1534","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Carry the frozen κ over to B1534. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"凍結した κ を B1534 へ流す。部分・照合の走行は台帳に記帳。較正対象外。"},
-"gw150914":{"purpose":"GW150914 の合体前の基準状態を転写する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.gw150914"],"en":{"purpose":"Transcribe GW150914's reference state before merger","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of the orbital period, eccentricity and apsidal advance comparison values and add them to the judge's σ table (SIGMA_BODY in tests/exp-w249b-calaudit.mjs) → the judge gives one of the four verdicts","brief":"Transcribe GW150914's reference state before merger. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"公転周期・離心率・近点移動の比較値に観測 σ を宣言し、判定器の σ 対応表(tests/exp-w249b-calaudit.mjs の SIGMA_BODY)に入れる → 判定器が 4 値を出す","brief":"GW150914 の合体前の基準状態を転写する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
+"gw150914":{"purpose":"GW150914 の合体前の基準状態を転写する","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","behavior.gw150914"],"en":{"purpose":"Transcribe GW150914's reference state before merger","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"a strong field with GM/(c²a) ≈ 0.05, outside the conservative 1PN range: not a target of the 1PN comparison. To enter the judge, declare the treatment of 2PN and radiation reaction and the observed σ of the period and eccentricity comparison values (the judge's SIGMA_BODY)","brief":"Transcribe GW150914's reference state before merger. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"GM/(c²a)≈0.05 の強場で、保守的な 1PN の範囲外 —— 1PN の照合の対象にしない。判定に入れるには 2PN・放射反作用の扱いと、公転周期・離心率の比較値の観測 σ(判定器の SIGMA_BODY)を宣言する","brief":"GW150914 の合体前の基準状態を転写する。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "gw150914DFM":{"purpose":"GW150914 を kF1 と質量補正で回す","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Run GW150914 with kF1 and a mass factor","state":"the comparison runs are in the ledger","mismatch":null,"outlook":null,"brief":"Run GW150914 with kF1 and a mass factor. Partial: the comparison runs are in the ledger. Out of calibration scope."},"brief":"GW150914 を kF1 と質量補正で回す。部分・照合の走行は台帳に記帳。較正対象外。"},
-"gw150914Merge4s":{"purpose":"放射の向きと量を宣言して約 4 秒の合体を回す","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Run the ~4 s merger with a declared radiation direction and dose","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"declare the observed σ of the merger time, orbital period, eccentricity and apsidal advance comparison values and add them to the judge's σ table (SIGMA_BODY in tests/exp-w249b-calaudit.mjs) → the judge gives one of the four verdicts","brief":"Run the ~4 s merger with a declared radiation direction and dose. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"融合時刻・公転周期・離心率・近点移動の比較値に観測 σ を宣言し、判定器の σ 対応表(tests/exp-w249b-calaudit.mjs の SIGMA_BODY)に入れる → 判定器が 4 値を出す","brief":"放射の向きと量を宣言して約 4 秒の合体を回す。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
+"gw150914Merge4s":{"purpose":"放射の向きと量を宣言して約 4 秒の合体を回す","objective":"partial","state":"照合の走行は台帳に記帳","calibration":"hold","mismatch":null,"outlook":"σ 未接続","evidence":["tests/out/calaudit-w249.json","docs.calibration-verdict-sync"],"en":{"purpose":"Run the ~4 s merger with a declared radiation direction and dose","state":"the comparison runs are in the ledger","mismatch":null,"outlook":"no σ connected","holdRemedy":"a strong field with GM/(c²a) ≈ 0.05, outside the conservative 1PN range: not a target of the 1PN comparison. To enter the judge, declare the treatment of 2PN and radiation reaction and the observed σ of the merger time, period and eccentricity comparison values (the judge's SIGMA_BODY)","brief":"Run the ~4 s merger with a declared radiation direction and dose. Partial: the comparison runs are in the ledger. Calibration: hold; no σ connected."},"holdRemedy":"GM/(c²a)≈0.05 の強場で、保守的な 1PN の範囲外 —— 1PN の照合の対象にしない。判定に入れるには 2PN・放射反作用の扱いと、融合時刻・公転周期・離心率の比較値の観測 σ(判定器の SIGMA_BODY)を宣言する","brief":"放射の向きと量を宣言して約 4 秒の合体を回す。部分・照合の走行は台帳に記帳。較正は保留・σ 未接続。"},
 "gw150914SpinDipole":{"purpose":"合体直前で λ=1 のスピン双極子の強さを測る","objective":"met","state":"強さ η が純関数とエンジンで一致","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.gwSpinDipole"],"en":{"purpose":"Measure how strong a λ=1 spin dipole is just before merger","state":"the strength η agrees between the pure function and the engine","mismatch":null,"outlook":null,"brief":"Measure how strong a λ=1 spin dipole is just before merger. Met: the strength η agrees between the pure function and the engine. Out of calibration scope."},"brief":"合体直前で λ=1 のスピン双極子の強さを測る。達・強さ η が純関数とエンジンで一致。較正対象外。"},
 "tuc47":{"purpose":"47 Tuc の配置と速度を観測から転写する","objective":"partial","state":"束縛 93.3%・視線分散との量の対応は未確定","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.tuc47"],"en":{"purpose":"Transcribe 47 Tuc's layout and velocities from observations","state":"93.3% bound; the mapping to the line-of-sight dispersion is not settled","mismatch":null,"outlook":null,"brief":"Transcribe 47 Tuc's layout and velocities from observations. Partial: 93.3% bound; the mapping to the line-of-sight dispersion is not settled. Out of calibration scope."},"brief":"47 Tuc の配置と速度を観測から転写する。部分・束縛 93.3%・視線分散との量の対応は未確定。較正対象外。"},
 "tuc47DFM":{"purpose":"連星の質量補正を星団へ当てる hold-out","objective":"partial","state":"面内の分散は観測の中心 1D と別の量","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.tuc47"],"en":{"purpose":"Hold-out applying the binaries' mass factor to a cluster","state":"the in-plane dispersion is a different quantity from the observed central 1D value","mismatch":null,"outlook":null,"brief":"Hold-out applying the binaries' mass factor to a cluster. Partial: the in-plane dispersion is a different quantity from the observed central 1D value. Out of calibration scope."},"brief":"連星の質量補正を星団へ当てる hold-out。部分・面内の分散は観測の中心 1D と別の量。較正対象外。"},
@@ -20173,6 +20461,14 @@ function validatePreset(obj){
         if(mvv.meshVelocity!==null) ph[k]=mvv.meshVelocity;
         continue;
       }
+      // 第292便d(第82報⑦・R140): tide — **明示潮汐**(CTL)の opt-in。null/未宣言は「なし」へ正規化する(署名が 1 文字も変わらない)。
+      // 受け手・足さない理由の相互検査は bodies の確定後(tideCrossCheck)
+      if(k===TIDE_KEY){
+        const tdv=validateTide(p.physics[k]);
+        if(!tdv.ok){ bad(tdv.err); continue; }
+        if(tdv.tide!==null) ph[k]=tdv.tide;
+        continue;
+      }
       // 第277便b(第67報 (1)): relativeDrag — **相対すべりの零条件**を持つ引きずり則の opt-in。
       // null/未宣言は「なし」へ正規化する(宣言と未宣言で署名が 1 文字も変わらない)
       if(k===REL_DRAG_KEY){
@@ -20867,6 +21163,7 @@ function validatePreset(obj){
       at="bodies["+idx+"]";
       if(!b||typeof b!=="object"){ bad(at+" がオブジェクトではありません"); return; }
       if(b.spinAxis!==undefined && b.type!=="single") warnings.push(at+".spinAxis は single 専用(点粒子の表示専用の軸の宣言 —— 第288便e)— 無視します");
+      if(b.dragCore!==undefined && b.type!=="single") warnings.push(at+".dragCore は single 専用(慣性決定力の構造核 —— 第292便c)— 無視します");
       // 第64便 64B(A9″): microSpinRms — 内部スピン揺らぎの RMS √⟨δs²⟩ による初期温度指定。
       // T_int = σ_s²(A9″)の別表記なので、受理時に tInt = rms² へ正規化する(正本状態は従来どおり
       // tInt — 全 body 型に共通なので型分岐の前で1回だけ処理する)。値域 [0,100] は tInt の
@@ -20880,6 +21177,7 @@ function validatePreset(obj){
         delete b.microSpinRms;
       }
       const t=b.type;
+      if(t!=="single" && b.tide!==undefined) warnings.push(at+".tide は single 専用です(群・代表粒子には明示潮汐を足さない)— 無視します");   // 第292便d
       const needNum=(keys)=>{ for(const k of keys){ if(!isNum(b[k])){ bad(at+"."+k+" が数値ではありません"); return false; } } return true; };
       if(t==="single"){
         if(!needNum(["m","x","y","vx","vy","spin"])) return;
@@ -20939,6 +21237,14 @@ function validatePreset(obj){
           const lc=legacyCoreToV2(b,{m:o.m, spin:o.spin, radius:o.radius, rMul:o.rMul});
           if(lc===false) return; if(lc) o.core=lc;
         }
+        // 第292便c(R139): dragCore:{massFrac, radius} —— 慣性決定力の構造核(コア v2 の core:{} とは別の鍵・両方は拒否)。
+        // physics.relativeDrag.law:"inertial" の本だけで働く(それ以外は警告して無視)。未宣言はキーが無い = 署名も挙動も 1 bit 不変
+        if(b.dragCore!==undefined){
+          const dc=validateDragCoreBody(b, p.physics);
+          if(!dc.ok){ bad(at+"."+dc.err); return; }
+          if(dc.warn) warnings.push(at+"."+dc.warn);
+          if(dc.dragCore) o.dragCore=dc.dragCore;
+        }
         // 第36便 C2: lightSweep は数値(0〜1・従来の独立指定)に加えて "auto"(粒子パラメータからの
         // 算出モード)を受理する。その他の値は削除+警告(生成AI・インポートの誤値で落とさない)
         if(b.lightSweep!==undefined){
@@ -20955,6 +21261,13 @@ function validatePreset(obj){
           if(b.pnSource===true) o.pnSource=true;
           else if(b.pnSource===false) o.pnSource=false;
           else warnings.push(at+".pnSource は true か false のみ受理 — 削除します");
+        }
+        // 第292便d(第82報⑦・R140): tide:{k2, lag} — 明示潮汐の受け手の宣言(single 専用・物理半径 radius>0 が要る)。
+        // 未宣言はキーが無い = 署名も挙動も 1 bit 不変。physics.tide を宣言した本だけが読む(不正は拒否)
+        if(b.tide!==undefined && b.tide!==null){
+          const tbv=validateTideBody(b.tide, b.radius);
+          if(!tbv.ok){ bad(at+"."+tbv.err); return; }
+          o.tide=tbv.tide;
         }
         // 第283便c(原仮定者の裁定(第73報)⑤・統括の検証項目 R86 (iv)): testParticle=true — **試験粒子契約**(既定 off)。
         // 宣言した粒子は力を受けるが**源にならない**(重力・決定力 W・フレーム u・1PN の反作用・E6′ 反作用の相手から外す)。
@@ -21315,6 +21628,11 @@ function validatePreset(obj){
     // 第280便b(R69): 引きずり核は meshVelocity(field:"explicit")の外部の明示天体にだけ(密度の宣言が要る)
     const qkx=qLockKernelCrossCheck(p.physics[QLOCK_KERNEL_KEY], p.physics[MESH_VEL_KEY], p.bodies);
     if(qkx) bad(qkx);
+    // 第292便d(R140): 明示潮汐の受け手と足さない理由(群・maxN・形状トイ・光学迷彩矮星)—— 拒否はしない(警告して足さない)
+    if(p.physics[TIDE_KEY] || (Array.isArray(p.bodies) && p.bodies.some(b=>b && b.tide))){
+      const tdx=tideCrossCheck(p.physics, p.bodies, p);
+      for(const w of tdx.warn) warnings.push(w);
+    }
   }
   if(p.rays!==undefined){
     if(!p.rays || !isNum(p.rays.n) || !isNum(p.rays.spread)) bad("rays.n/spread が不正です");
@@ -23206,6 +23524,7 @@ function makeSim(){
           tInt:(b.tInt===undefined?0:b.tInt)};  // 第36便 D: 内部温度の初期値(thermal:"tint" 専用・既定0)
         if(b.zonal) o.zonal=b.zonal;   // E13(第11次裁定): 扁平中心天体の帯状重力属性
         if(b.core) o.core=b.core;      // 第77便(コアv2): 独立コア(validate 済みオブジェクト)
+        if(b.dragCore && typeof b.dragCore==="object") o.dragCore={massFrac:b.dragCore.massFrac, radius:b.dragCore.radius, R:b.radius};   // 第292便c: 構造核(R=天体の半径の宣言)
         if(b.pulse) o.pulse=b.pulse;   // 第226便: パルス時計チャネル(validate 済み・表示診断専用)
         if(b.spinDipole) o.spinDipole=b.spinDipole;   // 第246便: 観測 Q の転写(validate 済み・spinSpin の源だけ)
         if(b.spinAxis) o.spinAxis=b.spinAxis;   // 第288便e: 自転軸の表示専用の宣言(validate 済み —— S.spinAxD にだけ写す)
@@ -23467,6 +23786,10 @@ function makeSim(){
     // 第287便a: centerCapture を宣言した宇宙は S.spin も Float64 へ(捕獲の J_s の帳簿を Float32 の丸めで崩さない —— 宣言した本だけ)
     if(preset.centerCapture!==undefined && centerCaptureCheck(preset).ok && centerCaptureCheck(preset).out){ S.spin=new Float64Array(P.length); S.spinPrec="double"; }
     if(preset.fixedCapture!==undefined && fixedCaptureWantsDouble(preset)){ S.spin=new Float64Array(P.length); S.spinPrec="double"; }   // 第288便a: 同じ理由(宣言した本だけ)
+    // 第292便d(R140): **潮汐が働く**宇宙(physics.tide を宣言し・足さない理由が無い)は S.spin も Float64 へ(潮汐トルクの J の帳簿を
+    // Float32 の丸めで崩さない —— 宣言した本だけ)。群・maxN 超・形状トイ・光学迷彩矮星の本は宣言があっても未宣言とビット同一に走る
+    if(phys[TIDE_KEY]!==undefined && phys[TIDE_KEY]!==null){ const __tdv=validateTide(phys[TIDE_KEY]);
+      if(__tdv.ok && __tdv.tide && !tideCrossCheck(Object.assign({}, phys, {[TIDE_KEY]:__tdv.tide}), preset.bodies, preset).off){ S.spin=new Float64Array(P.length); S.spinPrec="double"; } }
     if(phys[STATE_CARRY_KEY]==="double"){
       S.ax=new Float64Array(P.length); S.ay=new Float64Array(P.length);
       S.x=new Float64Array(P.length); S.y=new Float64Array(P.length);
@@ -23484,11 +23807,13 @@ function makeSim(){
     else { S.Tint=null; S.dQi=null; S.arep=null; S.arepD=null; S.duT=null; }
     S.zonal=null;   // E13(第11次裁定): 帯状重力属性を持つ中心天体(v1.29: AI生成・インポートにも開放)
     S.periDet=null; // 近点検出器は再構築でリセット(第11次裁定 保留分)
+    S.dragCoreD=null; S._dragCoreT=null; S._dragCore=null; S._dragCoreKey=""; S._dragCoreEp=null;   // 第292便c: 構造核(宣言した本だけ下で確保)
     S.pnOff=null; S._pnOrb=0;   // 第291便b: pnSource:false の明示(宣言した本だけ確保)・kF0 の全質量源の埋め込みの印
     P.forEach((o,i)=>{ S.m[i]=o.m; S.x[i]=o.x; S.y[i]=o.y; S.vx[i]=o.vx; S.vy[i]=o.vy;
       S.spin[i]=o.spin; S.pinned[i]=o.pinned; S.railOmega[i]=o.railOmega||0;
       S.pnOv[i]=o.pnSrc?1:0;   // 第113便: 1PN源の明示フラグ(single の pnSource:true)
       if(o.pnOff){ if(!S.pnOff || S.pnOff.length!==P.length) S.pnOff=new Uint8Array(P.length); S.pnOff[i]=1; }   // 第291便b: pnSource:false(宣言が無ければ null のまま)
+      if(o.dragCore){ if(!S.dragCoreD) S.dragCoreD=new Array(P.length).fill(null); S.dragCoreD[i]=o.dragCore; }   // 第292便c: 構造核の宣言(無ければ null のまま)
       // 第36便 C2: lightSweep は数値(独立指定・従来どおり)か "auto"(粒子パラメータからの算出)。
       // auto の初期値は 0 で、最初の _core で lS_eff に上書きされる
       const lsw=o.lightSweep;
@@ -23906,6 +24231,7 @@ function makeSim(){
     S.curveBins=null; S.tempLR=[0,0]; S.histT=[];
     testParticlePrepare(S);   // 第283便c: build の最後にも張り直す(build の途中の updateRadii は積分器・融合・相の宣言より前に走る)
     pnOrbitalSync(S);         // 第291便b(R133): kF0 なら S.pnOv のビット 2 を全質量源で埋める(試験粒子契約の後 —— 受理された試験粒子は除く)
+    if((preset.physics && preset.physics[TIDE_KEY]) || S.tide!==undefined) tidePrepare(S, preset);   // 第292便d(R140): 明示潮汐(宣言した本だけ —— 未宣言で前の build の残りが無ければ 1 命令も走らない・鍵を足さない)
   };
   S.updateRadii = function(){ // R_i = radiusScale·rMul_i·√|m| (PHYSICS.md §2 + 第36便 C1)
     const rs=S.params.radiusScale;
@@ -25681,6 +26007,7 @@ function makeSim(){
       if(S.hasBodyLayers) S._layerForce(dt*0.5);   // 第259便b: 親子コアの層差分も同じ位置(未宣言は真偽値 1 つで素通り)
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);    // 第254便a: 空間メッシュの重力・慣性チャネルも同じ位置
       if(S.hasRelativeDrag && S.relDrag.integration==="midpoint") dfmRelativeDragStep(S,dt*0.5);   // 第278便b: 散逸の前半歩(対称分割・未宣言は真偽値 1 つ)
+      if(S.hasTide && S.tide.split==="half") dfmTideStep(S,dt*0.5);   // 第292便d: 潮汐の前半歩(split:"half" を宣言した本だけ)
       geoCoreDispatch(S,dt,1); geoCoreDispatch(S,dt,2);   // 第259便a: geoPN=3 は _core から隠す(_core は 1 命令も増えない)
       // 第255便a: pairWeave は **E6′ が読んだフレームの差分**を打ち消す補正なので S._core の**後**。
       // reservoir(回転子交換)も同じ位置(未宣言はどちらも真偽値 1 つで素通り)
@@ -25692,6 +26019,7 @@ function makeSim(){
       if(S.hasSpiral) dfmShapeToySpiralStep(S,dt);   // 第290便e: 渦巻の参照模型(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);      // 第275便e: コア軸の prescribed(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasRelativeDrag) dfmRelativeDragStep(S,(S.relDrag.integration==="midpoint")? dt*0.5 : dt);   // 第277便b(第278便b: 中点法は後半歩)
+      if(S.hasTide) dfmTideStep(S,(S.tide.split==="half")? dt*0.5 : dt);   // 第292便d(R140): 明示潮汐(引きずりの直後・未宣言は真偽値 1 つ)
       if(S.hasMeshVelocity) dfmMeshVelocityStep(S,dt);   // 第279便c: 座標変換 ẋ=v+u・v̇=−Jᵀv(位置更新の外・未宣言は真偽値 1 つ)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
       if(S.hasSpaceMesh) S._spaceMeshForce(dt*0.5);
@@ -25705,6 +26033,7 @@ function makeSim(){
       if(S.hasCompactForce) S._compactForce(dt);
       if(S.hasBodyLayers) S._layerForce(dt);   // 第259便b: 親子コアの層差分(未宣言は真偽値 1 つで素通り)
       if(S.hasSpaceMesh) S._spaceMeshForce(dt);        // 第254便a(未宣言は真偽値 1 つで素通り)
+      if(S.hasTide && S.tide.split==="half") dfmTideStep(S,dt*0.5);   // 第292便d: 潮汐の前半歩(split:"half" を宣言した本だけ)
       geoCoreDispatch(S,dt,0);                           // 第259便a(同上)
       if(S.hasPairWeave) S._pairWeaveForce(dt);          // 第255便a(同上 — S._core の後)
       if(S.hasCoordInertia) S._meshCoordForce(dt);      // 第257便a(同上)
@@ -25714,6 +26043,7 @@ function makeSim(){
       if(S.hasSpiral) dfmShapeToySpiralStep(S,dt);     // 第290便e: 渦巻の参照模型(同じ位置)
       if(S.hasCoreAxis) dfmCoreAxisStep(S,dt);          // 第275便e: コア軸の prescribed(同じ位置)
       if(S.hasRelativeDrag) dfmRelativeDragStep(S,dt);   // 第277便b: 相対すべりの引きずり則(同じ位置)
+      if(S.hasTide) dfmTideStep(S,(S.tide.split==="half")? dt*0.5 : dt);   // 第292便d(R140): 明示潮汐(引きずりの直後・未宣言は真偽値 1 つ)
       if(S.hasMeshVelocity) dfmMeshVelocityStep(S,dt);   // 第279便c: 座標変換(同じ位置・未宣言は真偽値 1 つ)
       if(S.hasMeshReservoir) S._meshReservoir(dt);
     }
@@ -33023,8 +33353,10 @@ const RETIRED_PRESETS={
   // 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114): **現実較正の一本化** —— DFM 版(geoPN=2∧kFrame>0・🎻 は geoPN=0∧kFrame=1)の 10 本を退役(内蔵に残す・物理は凍結)。
   //   精度を理由にした廃止ではない —— 現実較正の合を目指す系統を 1 本にする裁定(kFrame=1 は q を使った引きずりの近似・較正母集団の外)。
   //   凍結の写しは tests/fixtures/retired-w288b.json(対の kF0 側との D₀・q・frameWeight・bodies の差も残す —— 「k だけが違う対」は 0 組)
-  earthMoonRealKF1:{ja:"現実較正を kF0 の 1 系統へ一本化した(第288便b)—— 🌘 は 🌙 の DFM 側(kFrame=1 は q を使った引きずりの近似・較正母集団の外)", en:"reality calibration was unified into the single kF0 system (wave 288b) — 🌘 was the DFM side of 🌙 (kFrame=1 is a drag approximation using q, outside the calibration population)", see:["earthMoonReal","emAuditSolar"]},
-  emAuditDFM:{ja:"🌘 と物理・幾何が bit 一致の再宣言(機構判別 B は kFrame=1 の引きずりそのものが目的)で、kFrame=0 へ移すと 🌙 と同じ二体ニュートンになる —— 一本化(第288便b)で 🌘 と同時に退役(機構判別 C は 🔆)", en:"a bit-identical re-declaration of 🌘 whose purpose (mechanism audit B) is the kFrame=1 dragging itself; moved to kFrame=0 it would become the same two-body Newton as 🌙 — retired with 🌘 in the unification (wave 288b; mechanism audit C is 🔆)", see:["emAuditSolar","earthMoonReal"]},
+  // 第292便b(原仮定者の裁定(第82報)⑤・統括の検証項目 R138): 🌘 earthMoonRealKF1 の行を外した —— 履歴: 第288便b で退役(現実較正の一本化)・
+  //   第292便b で**原理の参照として復活**(分類だけ —— 家族の役割 variant・分類 原理実証・群「天体の機構」。較正母集団には戻さない)。
+  //   旧の行(理由と代わりの本)は凍結の写し tests/fixtures/retired-w288b.json に残る。前後の写しは tests/fixtures/revived-w292b.json
+  emAuditDFM:{ja:"🌘 と物理・幾何が bit 一致の再宣言(機構判別 B は kFrame=1 の引きずりそのものが目的)で、kFrame=0 へ移すと 🌙 と同じ二体ニュートンになる —— 一本化(第288便b)で 🌘 と同時に退役(機構判別 C は 🔆)。🌘 は第292便b で原理の参照として復活 —— 🧲 は二重にしないため退役のまま", en:"a bit-identical re-declaration of 🌘 whose purpose (mechanism audit B) is the kFrame=1 dragging itself; moved to kFrame=0 it would become the same two-body Newton as 🌙 — retired with 🌘 in the unification (wave 288b; mechanism audit C is 🔆). 🌘 was revived as a principle reference in wave 292b; 🧲 stays retired so the two are not doubled", see:["emAuditSolar","earthMoonReal","earthMoonRealKF1"]},
   mercuryRealKF1:{ja:"現実較正を kF0 の 1 系統へ一本化した(第288便b)—— 🪨 は ☄️ の DFM 側", en:"reality calibration was unified into the single kF0 system (wave 288b) — 🪨 was the DFM side of ☄️", see:["mercuryReal"]},
   saturnRingRealKF1:{ja:"現実較正を kF0 の 1 系統へ一本化した(第288便b)—— 💿 は 💍 の DFM 側", en:"reality calibration was unified into the single kF0 system (wave 288b) — 💿 was the DFM side of 💍", see:["saturnRingReal","saturnZonalD68"]},
   alphaCenABDFM:{ja:"現実較正を kF0 の 1 系統へ一本化した(第288便b)—— ✴️ は ✨ の DFM 側(f=1・kFrame=1)", en:"reality calibration was unified into the single kF0 system (wave 288b) — ✴️ was the DFM side of ✨ (f=1, kFrame=1)", see:["alphaCenAB"]},
@@ -34432,7 +34764,8 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "railR","railAng","railOmega","railCx","railCy","railH",
   "Tint","coordN","coordAcc","shPrev","_phNbrPrev","_phNbrPrevN","_phProf",
   "carVx","carVy",   // 第290便d(R128): 倍精度の速度の繰り越し(stateCarry:"double" の補償和の残差 —— 復元後の再走を保存しなかった走行とビット一致にする。未宣言は null で素通り)
-  "rdPrevX","rdPrevY","rdPrevT"];   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
+  "rdPrevX","rdPrevY","rdPrevT",   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
+  "tideJh","tideJl","tideOmW","tideDJ"];   // 第292便d: 明示潮汐の J の補償和(高位・低位)・最後に書いた自転・自転への ΔJ(宣言した本だけ配列がある)   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "axPrescLx","axPrescLy","axPrescE","axPrescPx","axPrescPy","axPrescN",   // 第275便e: 宣言した拘束が持ち去った量
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
@@ -34440,7 +34773,8 @@ const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wall
   "ltEs0","ltLesc","ltColT","ltNoThermal",   // 第265便d: lightTrap のスカラー帳簿
   "clampVN","clampSN","clampHN","clampAN","clampRN","clampTN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc",
-  "rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL"];   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
+  "rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL",
+  "tideN","tideSubsteps","tideSubCapped","tideReject","tideWork","tideWorkCons","tideHeat","tideMix","tideDL","tideTauMinAll"];   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
 // 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
 // A+B 両側のスナップショットを持ち、復帰も両側同時(同じ瞬間へ揃って巻き戻る)。
@@ -36903,7 +37237,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜2(整数・主な用途の分類 —— 1=主に現実較正・GR 1PN〔標準 kFrame=0〕/2=主に引きずり近似 q〔標準 kFrame=1〕。標準と違う kFrame も受理し、保存時に警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜3(整数・主な用途の分類 —— 0=主に原理実証/1=主に現実較正・GR 1PN〔標準 kFrame=0〕/2=主に引きずり近似 q〔標準 kFrame=1〕/3=主に引きずり・慣性決定力で計算。標準と違う kFrame も受理し、保存時に警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -48251,6 +48585,112 @@ function relativeDragProbe(S,i,j,dt){
 //   で測った ΔU を `S.inertialDragWork` に積む(**外部支持の仕事**として記帳 —— 閉じた系の保存ではない)。
 //   Σ m u と Σ m x×u は診断欄(対称核で Σ m u = 0 だが Σ m x×u ≠ 0 —— 「座標変換だから保存則を満たす」とは言わない)。
 //   軌道角運動量 Σ m x×v の移送による変化 Σ m (u dt)×v を `S.inertialDragDL` に積む。
+// ===== 第292便c(原仮定者の裁定(第82報)⑤⑥・統括の検証項目 R139): **慣性決定力の構造核** —— 天体の宣言 `dragCore:{massFrac:f, radius:R_c}` =====
+// 「慣性決定力版では、q に相当する引きずりが質量分布の意味での構造(近似コアの質量と半径)に依存する」。
+// 源 j を**一様密度のコア(質量 f·m_j・半径 R_c)+一様密度のマントル殻(質量 (1−f)·m_j・R_c〜R_j)**とし、点の受け手 i に対する核
+// K_ε(s)=s/(s²+ε²)² を源の質量分布で体積平均した ⟨K⟩_j(r)(r=中心間距離・単位質量あたり)を `dfmInertialDragStep` の源 j の核にする:
+//   u_i = C_d Σ_j m_j 𝒦_j(r_ij)(V_j − V_i)、𝒦_j = ⟨K⟩_j(表のある源)/ K_ε(表の無い源 —— 第290便c の点源核のまま)
+//   ⟨K⟩(r) = Σ_層 w_L·3/(2(b³−a³)) ∫_a^b ρ² G(r,ρ) dρ、G(r,ρ)=∫_{−1}^{1}K_ε(s)dμ=(1/(rρ))[F(r+ρ)−F(|r−ρ|)]、F(s)=atan(s/ε)/(2ε)−s/(2(s²+ε²))
+//   (角度方向は s への変数変換で閉じた形 —— 差は桁落ちしない形で書く。半径方向は Gauss–Legendre〔DRAG_CORE_NR 点〕を層ごと・
+//    受け手の距離 r のまわりの区切り r+{0,±1,±4,±16}ε で分けた小区間ごとに置く)。純関数の写しは tests/lib-w292c-dragcore.mjs(同じ式・同じ順序)。
+// ■ 契約
+//   ・**opt-in**: 宣言の無い本は `S.dragCoreD=null`・`S._dragCoreT=null` のまま、`dfmInertialDragStep` の核の分岐の外を 1 命令も変えない(既存 150 本はビット同一)。
+//   ・有効なのは `physics.relativeDrag.law:"inertial"` の本だけ(それ以外は受理時に警告して無視)。`core:{}`(コア v2)とは別の鍵 —— 両方の宣言は拒否。
+//   ・single 天体だけ・天体の半径 `radius` の宣言が要る(R_j)・0<f≤1・0<R_c≤R_j(R_c=R_j なら f=1)・核の軟化 ε>0(ε=0 では受け手が源の中で発散)。
+//   ・表: r_k=R_j(e^{ξ_k}−1)・ξ 等間隔(n 点・既定 1024)・[0, r_max](既定は**初期配置**で源から最も遠い粒子までの距離の DRAG_CORE_RMAX_FACTOR 倍)。
+//     置く量は Q(r)=⟨K⟩(r)·(r²+R_j²)^{3/2}(遠方・中心ともなめらか)・補間は ξ について線形。表の外(r ≥ r_max)は点源 K_ε に落とす(跳びを記録)。
+//     宣言 `physics.relativeDrag.coreTable:{n, rMax}`(どちらも省略可)。表は**単位質量あたり**(質量が変わっても形は同じ)。
+//   ・受け手は点(受け手の有限サイズは読まない)・自転 Ω を読まない(表面の手前/反対の反転〔回転引きずり〕は本便の対象外)。
+//   ・核が非対称(𝒦_ij=⟨K⟩_j ≠ 𝒦_ji)になるので Σ m u は 0 にならない —— 既存の診断欄 inertialDragPx/Py に出る(閉じたとは言わない)。
+//   ・粒子が入れ替わったら(inertialDragEpoch が最初に表を使った步と違えば)表を捨てて点源に落とす(`S._dragCore.dropped` に記録)。
+//   ・`S._dragCore` に表・求積の宣言・補間誤差の上限(格子の中点で直接の求積と比べた最大の相対差)・表の外への跳びを記録する。
+// 角度方向の閉じた形 G(r,ρ)=∫_{−1}^{1}K_ε(s)dμ(r=0 は極限 2K_ε(ρ))
+function dragCoreAngular(r,rho,eps){
+  if(r===0){ const s=rho*rho+eps*eps; return 2*rho/(s*s); }
+  const s1=r+rho, s2=Math.abs(r-rho), e2=eps*eps, d=s1-s2;
+  const at=Math.atan(d*eps/(e2+s1*s2))/(2*eps);
+  const rt=d*(e2-s1*s2)/(2*(s1*s1+e2)*(s2*s2+e2));
+  return (at-rt)/(r*rho);
+}
+// 層 [a,b] の ∫ρ²G dρ(区切りつき Gauss–Legendre)
+function dragCoreLayer(r,a,b,eps,gl){
+  const cuts=[a];
+  for(const c of DRAG_CORE_SPLITS){ const z=r+c*eps; if(z>a && z<b && z>cuts[cuts.length-1]) cuts.push(z); }
+  cuts.push(b);
+  let sum=0;
+  for(let q=0;q+1<cuts.length;q++){
+    const lo=cuts[q], hi=cuts[q+1], h=hi-lo;
+    if(!(h>0)) continue;
+    let part=0;
+    for(let k=0;k<gl.x.length;k++){ const rho=lo+h*gl.x[k]; part+=gl.w[k]*rho*rho*dragCoreAngular(r,rho,eps); }
+    sum+=part*h;
+  }
+  return sum;
+}
+// 体積平均 ⟨K⟩(r)(単位質量あたり —— 層の順: コア → マントル)
+function dragCoreAvgK(r,decl,R,eps,gl){
+  const f=decl.massFrac, Rc=decl.radius;
+  let out=0;
+  if(f>0){ const c3=Rc*Rc*Rc; out+=f*3/(2*c3)*dragCoreLayer(r,0,Rc,eps,gl); }
+  if(f<1){ const d3=R*R*R-Rc*Rc*Rc; out+=(1-f)*3/(2*d3)*dragCoreLayer(r,Rc,R,eps,gl); }
+  return out;
+}
+function dragCoreWeight(r,R){ const s=r*r+R*R; return s*Math.sqrt(s); }
+// 表の前計算(Q=⟨K⟩·(r²+R²)^{3/2})と補間誤差の上限(格子の中点で直接の求積と比べる)
+function dragCoreTableBuild(decl,R,eps,n,rMax,gl){
+  const xiMax=Math.log1p(rMax/R), dXi=xiMax/(n-1);
+  const Q=new Float64Array(n);
+  for(let k=0;k<n;k++){ const rk=(k===n-1)? rMax : R*Math.expm1(k*dXi); Q[k]=dragCoreAvgK(rk,decl,R,eps,gl)*dragCoreWeight(rk,R); }
+  const T={R, n, rMax, dXi, Q, massFrac:decl.massFrac, radius:decl.radius, eps};
+  let errMax=0, errAt=0, errFar=0;
+  for(let k=0;k+1<n;k++){
+    const r=R*Math.expm1((k+0.5)*dXi), ex=dragCoreAvgK(r,decl,R,eps,gl), ip=dragCoreLookup(T,r);
+    const e=Math.abs(ip-ex)/Math.abs(ex);
+    if(e>errMax){ errMax=e; errAt=r; }
+    if(r>=2*R && e>errFar) errFar=e;
+  }
+  const kp=rMax/((rMax*rMax+eps*eps)*(rMax*rMax+eps*eps)), ka=Q[n-1]/dragCoreWeight(rMax,R);
+  T.interpRelMax=errMax; T.interpRelMaxAt=errAt; T.interpRelMaxFar=errFar; T.jumpAtRMax=(ka-kp)/kp;
+  return T;
+}
+// 補間(表の外は null → 呼び手が点源 K_ε)
+function dragCoreLookup(T,r){
+  if(!(r<T.rMax)) return null;
+  const xi=Math.log1p(r/T.R)/T.dXi, k=Math.floor(xi);
+  const q=(k>=T.n-1)? T.Q[T.n-1] : T.Q[k]+(xi-k)*(T.Q[k+1]-T.Q[k]);
+  return q/dragCoreWeight(r,T.R);
+}
+// 表を張る(inertialDragInit から —— 宣言・ε・表の宣言が同じなら張り直さない〔チェックポイント復元・半径の追従で表を動かさない〕)
+function dragCoreInit(S){
+  const D=S.dragCoreD, rd=S.relDrag;
+  if(!D || !rd || rd.law!=="inertial"){ S._dragCoreT=null; S._dragCore=null; S._dragCoreKey=""; S._dragCoreEp=null; return; }
+  const eps=(rd.eps!==undefined)? rd.eps : (S.params.softening||0);
+  const ct=rd.coreTable||{}, n=(ct.n!==undefined)? ct.n : DRAG_CORE_TABLE_N;
+  const key=JSON.stringify([D, eps, n, (ct.rMax!==undefined)? ct.rMax : null]);
+  if(S._dragCoreT && S._dragCoreKey===key) return;
+  const gl=dfmGaussLegendre01(DRAG_CORE_NR), N=S.n, T=new Array(N).fill(null), src=[];
+  for(let i=0;i<N && i<D.length;i++){
+    const d=D[i];
+    if(!d) continue;
+    if(!(eps>0) || !(d.R>0) || !(d.massFrac>0) || !(d.massFrac<=1) || !(d.radius>0) || !(d.radius<=d.R)){ src.push({index:i, skipped:"invalid"}); continue; }
+    let far=0;
+    for(let j=0;j<N;j++){ if(j===i) continue; const z=Math.hypot(S.x[j]-S.x[i], S.y[j]-S.y[i]); if(z>far) far=z; }
+    const rMax=(ct.rMax!==undefined)? ct.rMax : DRAG_CORE_RMAX_FACTOR*Math.max(far, 2*d.R);
+    const t=dragCoreTableBuild(d,d.R,eps,n,rMax,gl);
+    T[i]=t;
+    src.push({index:i, massFrac:d.massFrac, radius:d.radius, R:d.R, rMax, rMaxFrom:(ct.rMax!==undefined)? "declared" : "initial", n, dXi:t.dXi,
+      interpRelMax:t.interpRelMax, interpRelMaxAt:t.interpRelMaxAt, interpRelMaxFar:t.interpRelMaxFar, jumpAtRMax:t.jumpAtRMax});
+  }
+  const any=T.some((z)=>z!==null);
+  S._dragCoreT=any? T : null; S._dragCoreKey=key; S._dragCoreEp=null;
+  S._dragCore={version:DRAG_CORE_VERSION, eps, nr:DRAG_CORE_NR, n, splits:DRAG_CORE_SPLITS.slice(), weight:"(r²+R²)^{3/2}", interp:"linear-in-xi",
+    receiver:"point", sources:src, dropped:null};
+}
+// 読み口(状態は 1 bit も動かさない)
+function dragCoreState(S){
+  if(!S || !S._dragCore) return null;
+  return JSON.parse(JSON.stringify(S._dragCore));
+}
 const REL_DRAG_INERTIAL_VERSION = "w290c-inertial-1";
 function inertialDragInit(S){
   const N=Math.max(S.m.length, S.n);
@@ -48265,6 +48705,7 @@ function inertialDragInit(S){
   S.inertialDragBound=0; S.inertialDragBoundMax=0; S.inertialDragDegMax=0; S.inertialDragUMax=0;
   S.inertialDragPx=0; S.inertialDragPy=0; S.inertialDragJz=0; S.inertialDragDU=0;
   S.inertialDragWork=0; S.inertialDragDL=0;
+  if(S.dragCoreD) dragCoreInit(S);   // 第292便c: 構造核の表(宣言した本だけ —— 未宣言は S.dragCoreD=null で素通り)
 }
 function inertialDragClear(S){
   S.rdPrevX=null; S.rdPrevY=null; S.rdPrevT=null; S._rdVX=S._rdVY=S._rdUX=S._rdUY=S._rdDeg=S._rdNX=S._rdNY=null;
@@ -48291,7 +48732,29 @@ function dfmInertialDragStep(S,dt){
   const set=S._rdPairSet, NP=S._rdPairN;
   if(hist) for(let i=0;i<n;i++){ VX[i]=(X[i]-PX[i])/dt; VY[i]=(Y[i]-PY[i])/dt; }
   let degMax=0, coincident=false;
-  for(let i=0;i<n && !coincident;i++){
+  // 第292便c: 構造核(dragCore)の表がある本だけ別の受け手ループ(粒子が入れ替わったら表を捨てて点源へ)。**表の無い本はこの分岐の外 = 下の従来ループそのまま**
+  let CT=S._dragCoreT;
+  if(CT){ if(S._dragCoreEp===null) S._dragCoreEp=ep; else if(S._dragCoreEp!==ep){ S._dragCoreT=CT=null; if(S._dragCore) S._dragCore.dropped={t, epoch:ep}; } }
+  if(CT) for(let i=0;i<n && !coincident;i++){
+    let ux=0, uy=0, deg=0;
+    const mi=m[i], okI=(mi>0 && Number.isFinite(mi));
+    for(let j=0;j<n;j++){
+      if(j===i) continue;
+      if(set && !set.has(i*NP+j)) continue;
+      const mj=m[j];
+      if(!(mj>0) || !Number.isFinite(mj)) continue;
+      const dx=X[j]-X[i], dy=Y[j]-Y[i], r2=dx*dx+dy*dy;
+      if(!(r2>0)){ coincident=true; break; }
+      const r=Math.sqrt(r2), s=r2+e2, Tj=CT[j];
+      const kv=Tj? dragCoreLookup(Tj,r) : null;              // 源 j の体積平均 ⟨K⟩_j(表の外・表の無い源は点源 K_ε)
+      const a=C*mj*((kv===null)? (r/(s*s)) : kv);
+      if(hist){ ux+=a*(VX[j]-VX[i]); uy+=a*(VY[j]-VY[i]); }
+      deg+=a;
+    }
+    UX[i]=okI? ux : 0; UY[i]=okI? uy : 0; DG[i]=okI? deg : 0;
+    if(okI && !pin[i]){ const ad=Math.abs(deg); if(ad>degMax) degMax=ad; }
+  }
+  else for(let i=0;i<n && !coincident;i++){
     let ux=0, uy=0, deg=0;
     const mi=m[i], okI=(mi>0 && Number.isFinite(mi));
     for(let j=0;j<n;j++){
@@ -48352,7 +48815,160 @@ function inertialDragState(S){
   return { version:REL_DRAG_INERTIAL_VERSION, gain:S.relDrag.gain, eps:(S.relDrag.eps!==undefined)? S.relDrag.eps : (S.params.softening||0),
     pairs:S.relDrag.pairs, steps:S.inertialDragN, noHistory:S.inertialDragNoHist, boundOver:S.inertialDragOver, reject:S.inertialDragReject,
     bound:S.inertialDragBound, boundMax:S.inertialDragBoundMax, degMax:S.inertialDragDegMax, uMax:S.inertialDragUMax,
-    sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL };
+    sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL,
+    ...(S._dragCore? {dragCore:dragCoreState(S)} : null) };   // 第292便c: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
+}
+// ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **明示潮汐の外部ステップ** `dfmTideStep(S,dt)` =====
+// `physics.tide` と天体の `tide:{k2, lag}` を宣言した本だけが通る(`S.hasTide` —— 未宣言の本では build が立てないので 1 命令も走らない)。
+// 場所は `dfmRelativeDragStep`(慣性引きずり `dfmInertialDragStep` を含む)の**直後**(`S._core` の外)。split:"half" を宣言した本だけ、
+// 核の前に半歩・引きずりの後に残り半歩(Strang 型)。式は docs/PHYSICS.md〔第292便d〕と純関数 tests/lib-w292d-tide.mjs(定時間遅延 CTL):
+//   変形する天体 i(半径 R_i・k₂_i・遅延 Δt_i・自転 Ω_i)と伴星 j(点質量 m_j)・r=x_j−x_i・相対速度 V(velocity:"v" は v_j−v_i・
+//   "xdot" は同じ步の ẋ=v+u〔慣性引きずりの u —— 宣言した本だけ〕):
+//     B_i=G k₂_i m_j² R_i⁵・F_cons=−3B_i r/r⁸(j に作用・i へ反力 —— U=−B_i/(2r⁶))
+//     F_diss=−(3B_iΔt_i/r¹⁰){2r(r·V)+r²[V−Ω_i×r]}・τ_i=−(r×F_diss)_z・Q̇=(3B_iΔt_i/r¹⁰){2(r·V)²+r²|V−Ω_i×r|²}≥0
+//   相手も変形するなら役割を入れ替えて別に評価する(対ごとに i を受け手として足し合わせる)。
+// ■ スピンは**角運動量 J=IΩ を更新して Ω=J/I に戻す**(`spin += torque*dt` の素朴な形はしない)。J は補償和(高位 tideJh + 低位 tideJl)で持つ
+//   —— 1 步の ΔJ が J の ulp より小さい実単位でも丸めで消えない。I=f m R²(f は inertia:"half" の ½〔既定〕か "sphere" の ⅖)。
+//   ほかの経路が自転を書き換えたら(tideOmW と食い違えば)J をその自転から取り直す。
+// ■ 発散対策: τ_tide=min(I/K_spin, μ/K_orb)(K_spin=3BΔt/r⁶ =|∂τ/∂Ω|・K_orb=9BΔt/r⁸ = 動径の減衰率の最大)を監視し、
+//   dt>0.1·τ_tide なら**潮汐だけ**を n=⌈dt/(0.1τ_tide)⌉ 回に分割(位置は固定・速度と J を更新)。上限 4096 を超える步は数える(clamp しない)。
+// ■ 帳簿(CK_SC で運ぶ): tideWork=Σ(ΣF·v+Στ Ω)h(潮汐力が軌道と自転にした仕事)・tideWorkCons=ΣF_cons·V h・tideHeat=ΣQ̇h・
+//   tideMix=ΣF_diss·(V_v−V_読み)h(velocity:"xdot" のときだけ非零 —— 引きずりの u と潮汐の混合)・tideDL=Σ_k(x_k F_k,y−y_k F_k,x)h(軌道角運動量の変化)・
+//   tideDJ[i]=Στ_i h(自転へ)・tideSubsteps=Σ(n−1)・tideN(步)。恒等式 tideWork−tideWorkCons+tideHeat−tideMix=0・tideDL+ΣtideDJ=0 は丸め床まで。
+//   **全系の保存は主張しない**(慣性引きずりの u の移送は別の帳簿 inertialDragWork/DL)。
+function tideInertiaOf(S,i){ return TIDE_INERTIA_FACTOR[S.tide.inertia]*S.m[i]*S.R[i]*S.R[i]; }
+function tideClear(S){
+  S.hasTide=false; S.tide=null; S.tideOff=null;
+  S.tideK2=S.tideLag=S.tideJh=S.tideJl=S.tideOmW=S.tideDJ=S._tdFX=S._tdFY=S._tdTQ=null; S.tideRecv=null;
+}
+function tidePrepare(S, preset){
+  const ph=(preset && preset.physics) || {};
+  const tv=validateTide(ph[TIDE_KEY]===undefined? null : ph[TIDE_KEY]);
+  const td=(tv.ok && tv.tide)? tv.tide : null;
+  if(!td){ if(S.tide!==undefined) tideClear(S); return; }
+  const bodies=Array.isArray(preset.bodies)? preset.bodies : [];
+  const cx=tideCrossCheck(Object.assign({}, ph, {[TIDE_KEY]:td}), bodies, preset);
+  const N=Math.max(S.m.length, S.n);
+  S.tide=td; S.tideOff=cx.off || ((S.n!==bodies.length)? "count" : null);
+  S.tideK2=new Float64Array(N); S.tideLag=new Float64Array(N);
+  S.tideJh=new Float64Array(N); S.tideJl=new Float64Array(N); S.tideOmW=new Float64Array(N); S.tideDJ=new Float64Array(N);
+  S._tdFX=new Float64Array(N); S._tdFY=new Float64Array(N); S._tdTQ=new Float64Array(N);
+  const rc=[];
+  if(!S.tideOff) for(const i of cx.receivers){
+    const bv=validateTideBody(bodies[i].tide, bodies[i].radius);
+    if(!bv.ok || !bv.tide) continue;
+    S.tideK2[i]=bv.tide.k2; S.tideLag[i]=bv.tide.lag; rc.push(i);
+  }
+  if(!S.tideOff && !rc.length) S.tideOff="noReceiver";
+  S.tideRecv=Int32Array.from(rc);
+  for(const i of rc){ const I=tideInertiaOf(S,i); S.tideJh[i]=I*S.spin[i]; S.tideJl[i]=0; S.tideOmW[i]=S.spin[i]; }
+  S.hasTide=!S.tideOff;
+  S.tideN=0; S.tideSubsteps=0; S.tideSubCapped=0; S.tideReject=0;
+  S.tideWork=0; S.tideWorkCons=0; S.tideHeat=0; S.tideMix=0; S.tideDL=0;
+  S.tideTauMin=Infinity; S.tideTauMinAll=Infinity; S.tideNsubLast=0;
+}
+// 力・トルク・率を**今の状態**で評価して S._tdFX/_tdFY/_tdTQ に入れる(状態は書かない)。返り値は率(仕事・熱・混合)と τ_tide
+function tideEvalRates(S){
+  const n=S.n, rc=S.tideRecv, G=S.params.G, X=S.x, Y=S.y, VX=S.vx, VY=S.vy, m=S.m, pin=S.pinned, tp=S.tpFlag;
+  const FX=S._tdFX, FY=S._tdFY, TQ=S._tdTQ;
+  for(let k=0;k<n;k++){ FX[k]=0; FY[k]=0; TQ[k]=0; }
+  const xd=(S.tide.velocity==="xdot") && S.hasRelativeDrag===true && S.relDrag && S.relDrag.law==="inertial" && !!S._rdUX;
+  const UX=xd? S._rdUX : null, UY=xd? S._rdUY : null;
+  const f=TIDE_INERTIA_FACTOR[S.tide.inertia];
+  let wCons=0, heat=0, mix=0, tauMin=Infinity, rej=0;
+  for(let q=0;q<rc.length;q++){
+    const i=rc[q];
+    if(pin[i] || (tp && tp[i])) continue;
+    const k2=S.tideK2[i], lag=S.tideLag[i], R=S.R[i], R2=R*R, R5=R2*R2*R, Om=S.spin[i], mi=m[i];
+    if(!(mi>0) || !(R>0)) continue;
+    const Ii=f*mi*R2;
+    for(let j=0;j<n;j++){
+      if(j===i || pin[j] || (tp && tp[j])) continue;   // 試験粒子は潮汐を起こさない・pinned は対から外す(規定運動)
+      const mj=m[j];
+      if(!(mj>0)) continue;
+      const rx=X[j]-X[i], ry=Y[j]-Y[i], r2=rx*rx+ry*ry;
+      if(!(r2>0) || !Number.isFinite(r2)){ rej++; continue; }   // 一致点は拒否(軟化で埋めない)
+      const vvx=VX[j]-VX[i], vvy=VY[j]-VY[i];
+      let Vx=vvx, Vy=vvy;
+      if(xd){ Vx+=UX[j]-UX[i]; Vy+=UY[j]-UY[i]; }
+      const B=G*k2*mj*mj*R5, r4=r2*r2, r6=r4*r2, r8=r4*r4;
+      const cc=3*B/r8;
+      let fx=-cc*rx, fy=-cc*ry;
+      wCons+=fx*vvx+fy*vvy;
+      if(lag>0){
+        const d=3*B*lag/(r8*r2), rv=rx*Vx+ry*Vy;
+        const sx=Vx+Om*ry, sy=Vy-Om*rx;                       // V − Ω×r(Ω×r = (−Ω r_y, Ω r_x))
+        const dx=-d*(2*rx*rv+r2*sx), dy=-d*(2*ry*rv+r2*sy);
+        fx+=dx; fy+=dy;
+        TQ[i]+=-(rx*dy-ry*dx);                               // τ_i = −(r×F_diss)_z
+        heat+=d*(2*rv*rv+r2*(sx*sx+sy*sy));
+        if(xd) mix+=dx*(vvx-Vx)+dy*(vvy-Vy);
+        const Ks=3*B*lag/r6, Ko=9*B*lag/r8, mu=mi*mj/(mi+mj);
+        const ts=(Ii>0)? Ii/Ks : Infinity, to=mu/Ko;
+        if(ts<tauMin) tauMin=ts;
+        if(to<tauMin) tauMin=to;
+      }
+      FX[j]+=fx; FY[j]+=fy; FX[i]-=fx; FY[i]-=fy;
+    }
+  }
+  return {wCons, heat, mix, tauMin, rej};
+}
+function dfmTideStep(S,dt){
+  if(!S || S.hasTide!==true || !(dt>0) || !Number.isFinite(dt)) return null;
+  const n=S.n, rc=S.tideRecv, f=TIDE_INERTIA_FACTOR[S.tide.inertia];
+  // ほかの経路が自転を書き換えていたら J をその自転から取り直す(J の補償和は潮汐の経路だけが持つ)
+  for(let q=0;q<rc.length;q++){ const i=rc[q]; if(!Object.is(S.spin[i], S.tideOmW[i])){ S.tideJh[i]=f*S.m[i]*S.R[i]*S.R[i]*S.spin[i]; S.tideJl[i]=0; S.tideOmW[i]=S.spin[i]; } }
+  let ev=tideEvalRates(S);
+  let nsub=1;
+  if(ev.tauMin<Infinity && dt>TIDE_SUB_FRAC*ev.tauMin){
+    nsub=Math.ceil(dt/(TIDE_SUB_FRAC*ev.tauMin));
+    if(!(nsub<=TIDE_SUB_MAX)){ nsub=TIDE_SUB_MAX; S.tideSubCapped++; }   // 上限を超えた步は数える(黙って丸めない)
+  }
+  const h=dt/nsub, X=S.x, Y=S.y, VX=S.vx, VY=S.vy, m=S.m, FX=S._tdFX, FY=S._tdFY, TQ=S._tdTQ;
+  const carV=!!S.carVx, cX=S.carVx, cY=S.carVy;
+  let tauMin=ev.tauMin;
+  for(let s=0;s<nsub;s++){
+    if(s>0){ ev=tideEvalRates(S); if(ev.tauMin<tauMin) tauMin=ev.tauMin; }
+    // 帳簿(率 × h —— キック前の状態で評価)
+    let pw=0, dl=0;
+    for(let k=0;k<n;k++){ const fx=FX[k], fy=FY[k]; if(fx===0 && fy===0) continue; pw+=fx*VX[k]+fy*VY[k]; dl+=X[k]*fy-Y[k]*fx; }
+    for(let q=0;q<rc.length;q++){ const i=rc[q]; pw+=TQ[i]*S.spin[i]; }
+    S.tideWork+=pw*h; S.tideWorkCons+=ev.wCons*h; S.tideHeat+=ev.heat*h; S.tideMix+=ev.mix*h; S.tideDL+=dl*h; S.tideReject+=ev.rej;
+    // 速度のキック(stateCarry:"double" の本は補償和の繰り越しへ —— 核と同じ規約)
+    for(let k=0;k<n;k++){
+      const fx=FX[k], fy=FY[k]; if(fx===0 && fy===0) continue;
+      const mk=m[k]; if(!(mk>0)) continue;
+      const ax=fx*h/mk, ay=fy*h/mk;
+      if(carV){
+        const addX=ax+cX[k], v0x=VX[k]; VX[k]=v0x+addX; cX[k]=addX-(VX[k]-v0x);
+        const addY=ay+cY[k], v0y=VY[k]; VY[k]=v0y+addY; cY[k]=addY-(VY[k]-v0y);
+      } else { VX[k]+=ax; VY[k]+=ay; }
+    }
+    // 自転: J を更新して Ω=J/I に戻す(補償和 —— 2Sum で低位へ)
+    for(let q=0;q<rc.length;q++){
+      const i=rc[q], dJ=TQ[i]*h; if(dJ===0) continue;
+      const a=S.tideJh[i], sum=a+dJ, bb=sum-a, err=(a-(sum-bb))+(dJ-bb);
+      let lo=S.tideJl[i]+err, hi=sum; const hs=hi+lo; lo=lo-(hs-hi); hi=hs;
+      S.tideJh[i]=hi; S.tideJl[i]=lo; S.tideDJ[i]+=dJ;
+      const I=f*m[i]*S.R[i]*S.R[i];
+      if(I>0){ S.spin[i]=(hi+lo)/I; S.tideOmW[i]=S.spin[i]; }
+    }
+  }
+  S.tideN++; S.tideSubsteps+=nsub-1; S.tideNsubLast=nsub; S.tideTauMin=tauMin;
+  if(tauMin<S.tideTauMinAll) S.tideTauMinAll=tauMin;
+  return { nsub, tauMin, version:TIDE_STEP_VERSION };
+}
+// 読み口(表示・器・QA —— 状態は 1 bit も動かさない)
+function tideState(S){
+  if(!S || !S.tide) return null;
+  const rc=S.tideRecv? Array.from(S.tideRecv) : [];
+  const f=TIDE_INERTIA_FACTOR[S.tide.inertia];
+  return { version:TIDE_STEP_VERSION, decl:Object.assign({}, S.tide), active:S.hasTide===true, off:S.tideOff, receivers:rc,
+    k2:rc.map(i=>S.tideK2[i]), lag:rc.map(i=>S.tideLag[i]), inertia:rc.map(i=>f*S.m[i]*S.R[i]*S.R[i]),
+    J:rc.map(i=>S.tideJh[i]+S.tideJl[i]), Jlo:rc.map(i=>S.tideJl[i]), dJ:rc.map(i=>S.tideDJ[i]), omega:rc.map(i=>S.spin[i]),
+    steps:S.tideN, substeps:S.tideSubsteps, subCapped:S.tideSubCapped, nsubLast:S.tideNsubLast, tauMin:S.tideTauMin, tauMinAll:S.tideTauMinAll,
+    reject:S.tideReject, work:S.tideWork, workCons:S.tideWorkCons, heat:S.tideHeat, mix:S.tideMix, dL:S.tideDL,
+    residualE:S.tideWork-S.tideWorkCons+S.tideHeat-S.tideMix, residualL:S.tideDL+rc.reduce((a,i)=>a+S.tideDJ[i],0) };
 }
 // ===== 第291便d(原仮定者の裁定(第81報)⑥・統括の検証項目 R135): **表示メッシュの読み取り専用サンプラー** =====
 // 「空間メッシュは引きずりの可視化にとどめ、光の物差しで空間を測ったような見やすい表示計算を工夫する」。
@@ -48396,6 +49012,7 @@ function inertialDragFieldAt(S,x,y,opt){
   }
   const px=(skip>=0)? PX[skip] : Number(x), py=(skip>=0)? PY[skip] : Number(y);
   if(!Number.isFinite(px) || !Number.isFinite(py)) return null;
+  const CT=S._dragCoreT||null;   // 第292便c: 構造核の表(直近の步の核が使った表 —— 宣言の無い本は null)
   let ux=0, uy=0, deg=0, coincident=false;
   for(let j=0;j<n;j++){
     if(j===skip) continue;                                 // 自己項なし(核の (iv))
@@ -48404,7 +49021,9 @@ function inertialDragFieldAt(S,x,y,opt){
     if(!(mj>0) || !Number.isFinite(mj)) continue;         // 質量が正でない粒子は源にならない(核の (v))
     const dx=PX[j]-px, dy=PY[j]-py, r2=dx*dx+dy*dy;
     if(!(r2>0)){ if(skip>=0){ coincident=true; break; } continue; }   // 格子点が源に重なった点は K(0)=0(粒子の受け手は核と同じく拒否)
-    const r=Math.sqrt(r2), s=r2+e2, a=C*mj*(r/(s*s));     // 核 dfmInertialDragStep と同じ式・同じ順序
+    const r=Math.sqrt(r2), s=r2+e2;
+    const kv=(CT && CT[j])? dragCoreLookup(CT[j],r) : null;   // 第292便c: 構造核の表(核と同じ —— 表の無い本は null で従来の式)
+    const a=C*mj*((kv===null)? (r/(s*s)) : kv);           // 核 dfmInertialDragStep と同じ式・同じ順序
     ux+=a*(VX[j]-vrx); uy+=a*(VY[j]-vry);
     deg+=a;
   }
@@ -51537,7 +52156,11 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   relativeDragMidpointSolve, relativeDragMidpointGuard, relativeDragMidpointBodyCheck,
   REL_DRAG_KEY, REL_DRAG_LAWS, REL_DRAG_SPINS, REL_DRAG_KAPPA_CLAMP, REL_DRAG_STEP_VERSION,
   dfmInertialDragStep, inertialDragInit, inertialDragEpoch, inertialDragState, validateRelativeDragInertial,   // 第290便c
+  DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
+  dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
   REL_DRAG_INERTIAL_VERSION, REL_DRAG_INERTIAL_KEYS,
+  dfmTideStep, tidePrepare, tideState, tideEvalRates, validateTide, validateTideBody, tideCrossCheck,   // 第292便d: 明示潮汐(CTL)
+  TIDE_KEY, TIDE_STEP_VERSION, TIDE_PHYS_KEYS, TIDE_BODY_KEYS, TIDE_INERTIA_FACTOR, TIDE_SUB_FRAC, TIDE_SUB_MAX, TIDE_MAXN_DEFAULT, TIDE_OFF_REASONS,
   MASS_PRECISION_KEY, MASS_PRECISIONS, MASS_FLOOR_SCALED_KEY, SOFTENING_FLOOR_KEY, SOFTENING_FLOOR_MIN,
   dfmCoreAxisStep, coreAxisState, CORE_AXIS_MODES, CORE_AXIS_AZ_CLAMP, CORE_AXIS_RATE_CLAMP,
   CORE_AXIS_RATE_DEFAULT, CORE_AXIS_DESIGN,   // 第275便e: コア軸の宣言モード(prescribed)と読み取り専用の状態

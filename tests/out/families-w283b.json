@@ -3,20 +3,20 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
-  "generatedAt": "2026-10-04T04:47:11.623Z",
+  "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+  "generatedAt": "2026-10-04T22:20:52.385Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5633437,
-    "sha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
-    "mtime": "2026-10-04T02:34:29.785Z"
+    "bytes": 5704815,
+    "sha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+    "mtime": "2026-10-04T18:56:49.135Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823433,
-    "sha256": "960c31a7f213f4c016e4da5400dbac209b32c2e773a80c54c4eae91a52116dac",
-    "mtime": "2026-10-04T03:56:50.685Z"
+    "bytes": 1838596,
+    "sha256": "79d8315b77e6e8dae08a222d40b7560b766cdc30aedc80499d2589d746c474b2",
+    "mtime": "2026-10-04T21:34:05.312Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -50,17 +50,17 @@
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 83826,
-    "sha256": "dc8db6bac6cffc38991a75a99f016d8bde4c2a14645f1e0ce1e6466b36afe10c",
-    "mtime": "2026-10-04T04:47:11.577Z"
+    "bytes": 86121,
+    "sha256": "70a17bc988b8c5a01e18c44f20c5cb0ce84bd0ca6e24d0ebffde22bd62c3244c",
+    "mtime": "2026-10-04T22:20:52.360Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w283b-families.mjs",
-    "bytes": 40148,
-    "sha256": "884d4a70768114b8d110574de1be692d4475b3327753cc3a6fad4aba7d35ea97",
-    "mtime": "2026-10-03T18:41:45.087Z"
+    "bytes": 40626,
+    "sha256": "e8bbeea25e6a5848e62e952f5fc646cb2f763e3588a738e10c461fc91c04a3ba",
+    "mtime": "2026-10-04T17:18:11.292Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -88,12 +88,12 @@
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 236693,
-    "sha256": "62ac8696d1e4245a7a11a6c4dc458de091626deb4a9c9329489138a2d0696428",
-    "mtime": "2026-10-03T19:20:22.715Z"
+    "bytes": 241695,
+    "sha256": "3fb6be602d021a72707a25b571167a3dbdc6f6732359c71f56de937beb052c65",
+    "mtime": "2026-10-04T17:15:49.578Z"
    }
   ],
-  "codeSha256": "72cdedd0474da360be01abc0eaa79bdd5ccd58f21ce5e0028cd9fd9b17b3284c",
+  "codeSha256": "b43daa597831b54dc59e2600f82d8935a232001df79c9fc63def14593025f40d",
   "harnessVersion": "w283b-families-1",
   "scope": {
    "version": "w286d-scope-4",
@@ -116,16 +116,16 @@
     "BUILTIN_PRESETS.map((p)=>[p.id,p.emoji||null,p.name||null,p.familyRole||null])"
    ],
    "complete": true,
-   "names": 956,
-   "segments": 867,
-   "closureShare": 0.3505
+   "names": 995,
+   "segments": 904,
+   "closureShare": 0.3522
   },
-  "scopeSha256": "4977c5f3ae0742d23d15a77313090c9fc375155fdd98bcb6386a91aefd085b8d",
+  "scopeSha256": "ba2e7dacaa6dc30ea5d2bc52e923f4c78c97a7b7e7ff43f992688682651959e2",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "1475a348bf82f5d75690b687b6c5f5350d1a9e79644c1f5b5ab9d4da3160cc63",
+    "stableSha256": "a0a81b3847d41594df4876b6cb1d9e356a278c286ca804ce6b435e4817931a1e",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "e21e766ed262b31440cbb3744362cd0a73e47d4d11735e675375b6824e5744ce",
+    "stableSha256": "55fb5b3b77e09df58c391c101b395f082dd855e09103fd50de870ed2d1c0d0df",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -243,16 +243,16 @@
  "badRole": [],
  "counts": {
   "families": 23,
-  "members": 87,
-  "retiredMembers": 32,
+  "members": 89,
+  "retiredMembers": 31,
   "role": {
    "主系列": 27,
-   "履歴": 32,
-   "診断": 9,
-   "比較": 19
+   "履歴": 31,
+   "診断": 10,
+   "比較": 21
   },
   "cand": {
-   "A": 3,
+   "A": 4,
    "C": 1
   },
   "keepApart": 0
@@ -801,20 +801,22 @@
     "emAuditNewton",
     "emAuditDFM",
     "emAuditSolar",
-    "earthMoonDiagOne"
+    "earthMoonDiagOne",
+    "earthMoonInertial",
+    "earthMoonTide"
    ],
    "rows": [
     {
      "id": "earthMoonRealKF1",
      "emoji": "🌘",
-     "name": "地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現",
+     "name": "地球と月(実単位・kFrame=1)— q 引きずりの機構実験(現象論の参照・旧フィット)",
      "familyId": "earthmoon",
-     "familyRole": "retired",
-     "retired": true,
-     "sampleClass": "calibration",
+     "familyRole": "variant",
+     "retired": false,
+     "sampleClass": "principle",
      "catalog": null,
-     "group": "現実較正",
-     "calVariant": "dfm",
+     "group": "天体の機構",
+     "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
      "geoPN": 2,
@@ -826,12 +828,12 @@
      "massCalibration": null,
      "relativeDrag": null,
      "spaceMesh": null,
-     "purpose": "月の周期と近点回転を kF1 で照合する",
+     "purpose": "kF1 の q 引きずりが作る近点回転の機構を旧フィットの記録で示す原理の参照",
      "gates": [],
      "presetSigHash": "6251ad7c",
      "accepted": true,
-     "roleEst": "履歴",
-     "roleWhy": "familyRole \"retired\"",
+     "roleEst": "比較",
+     "roleWhy": "上のどれでもない",
      "input": "基準",
      "vsRef": null
     },
@@ -1088,6 +1090,108 @@
       ]
      },
      "input": "違う入力(速度)"
+    },
+    {
+     "id": "earthMoonInertial",
+     "emoji": "🌛",
+     "name": "地球と月(慣性決定力版)— 構造核と近点回転のフィット",
+     "familyId": "earthmoon",
+     "familyRole": "variant",
+     "retired": false,
+     "sampleClass": "principle",
+     "catalog": null,
+     "group": "天体の機構",
+     "calVariant": null,
+     "inPopulation": false,
+     "variantLabel": null,
+     "geoPN": 0,
+     "kFrame": 0,
+     "D0": 0.1,
+     "D0pull": null,
+     "q": 3,
+     "qLock": false,
+     "massCalibration": null,
+     "relativeDrag": "inertial",
+     "spaceMesh": null,
+     "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
+     "gates": [],
+     "presetSigHash": "d5fac179",
+     "accepted": true,
+     "roleEst": "比較",
+     "roleWhy": "上のどれでもない",
+     "vsRef": {
+      "bodies": {
+       "count": true,
+       "m": true,
+       "x": true,
+       "v": false,
+       "other": false
+      },
+      "physicsDiff": [
+       "D0",
+       "D0pull",
+       "frameWeight",
+       "geoPN",
+       "kFrame",
+       "q",
+       "relativeDrag"
+      ],
+      "topDiff": [
+       "qLock"
+      ]
+     },
+     "input": "違う入力(速度)"
+    },
+    {
+     "id": "earthMoonTide",
+     "emoji": "🌜",
+     "name": "地球と月(実単位・潮汐の診断)— 定時間遅延の潮汐を宣言した本",
+     "familyId": "earthmoon",
+     "familyRole": "variant",
+     "retired": false,
+     "sampleClass": "principle",
+     "catalog": null,
+     "group": "天体の機構",
+     "calVariant": null,
+     "inPopulation": false,
+     "variantLabel": null,
+     "geoPN": 1,
+     "kFrame": 0,
+     "D0": 0.1,
+     "D0pull": null,
+     "q": 3,
+     "qLock": false,
+     "massCalibration": null,
+     "relativeDrag": null,
+     "spaceMesh": null,
+     "purpose": "定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る",
+     "gates": [],
+     "presetSigHash": "b0c6ef87",
+     "accepted": true,
+     "roleEst": "診断",
+     "roleWhy": "principle・「診断」",
+     "vsRef": {
+      "bodies": {
+       "count": true,
+       "m": true,
+       "x": true,
+       "v": false,
+       "other": false
+      },
+      "physicsDiff": [
+       "D0",
+       "D0pull",
+       "frameWeight",
+       "geoPN",
+       "kFrame",
+       "q",
+       "tide"
+      ],
+      "topDiff": [
+       "qLock"
+      ]
+     },
+     "input": "違う入力(速度)"
     }
    ],
    "keyDiff": [
@@ -1099,7 +1203,9 @@
       "emAuditNewton": 0.1,
       "emAuditDFM": 0.006,
       "emAuditSolar": 0.1,
-      "earthMoonDiagOne": 0.006
+      "earthMoonDiagOne": 0.006,
+      "earthMoonInertial": 0.1,
+      "earthMoonTide": 0.1
      }
     },
     {
@@ -1110,7 +1216,9 @@
       "emAuditNewton": null,
       "emAuditDFM": null,
       "emAuditSolar": null,
-      "earthMoonDiagOne": null
+      "earthMoonDiagOne": null,
+      "earthMoonInertial": null,
+      "earthMoonTide": null
      }
     },
     {
@@ -1121,7 +1229,9 @@
       "emAuditNewton": 30000,
       "emAuditDFM": 29979.2458,
       "emAuditSolar": 29979.2458,
-      "earthMoonDiagOne": 29979.2458
+      "earthMoonDiagOne": 29979.2458,
+      "earthMoonInertial": 29979.2458,
+      "earthMoonTide": 29979.2458
      }
     },
     {
@@ -1132,7 +1242,9 @@
       "emAuditNewton": "share",
       "emAuditDFM": "share",
       "emAuditSolar": "share",
-      "earthMoonDiagOne": null
+      "earthMoonDiagOne": null,
+      "earthMoonInertial": "share",
+      "earthMoonTide": "share"
      }
     },
     {
@@ -1143,7 +1255,9 @@
       "emAuditNewton": 1,
       "emAuditDFM": 2,
       "emAuditSolar": 1,
-      "earthMoonDiagOne": 1
+      "earthMoonDiagOne": 1,
+      "earthMoonInertial": 0,
+      "earthMoonTide": 1
      }
     },
     {
@@ -1154,7 +1268,9 @@
       "emAuditNewton": 0,
       "emAuditDFM": 1,
       "emAuditSolar": 0,
-      "earthMoonDiagOne": 0
+      "earthMoonDiagOne": 0,
+      "earthMoonInertial": 0,
+      "earthMoonTide": 0
      }
     },
     {
@@ -1165,7 +1281,9 @@
       "emAuditNewton": 7.415555555555556e-9,
       "emAuditDFM": 7.425826474101849e-9,
       "emAuditSolar": 7.425826474101849e-9,
-      "earthMoonDiagOne": 7.425826474101849e-9
+      "earthMoonDiagOne": 7.425826474101849e-9,
+      "earthMoonInertial": 7.425826474101849e-9,
+      "earthMoonTide": 7.425826474101849e-9
      }
     },
     {
@@ -1189,7 +1307,9 @@
        "external": [
         "body:0"
        ]
-      }
+      },
+      "earthMoonInertial": null,
+      "earthMoonTide": null
      }
     },
     {
@@ -1200,7 +1320,9 @@
       "emAuditNewton": 3,
       "emAuditDFM": 8.2358,
       "emAuditSolar": 3,
-      "earthMoonDiagOne": 8.2358
+      "earthMoonDiagOne": 8.2358,
+      "earthMoonInertial": 3,
+      "earthMoonTide": 3
      }
     },
     {
@@ -1215,7 +1337,28 @@
        "kernel": "frontBack",
        "epsC": 0,
        "nodes": 16
-      }
+      },
+      "earthMoonInertial": null,
+      "earthMoonTide": null
+     }
+    },
+    {
+     "key": "physics.relativeDrag",
+     "values": {
+      "earthMoonRealKF1": null,
+      "earthMoonReal": null,
+      "emAuditNewton": null,
+      "emAuditDFM": null,
+      "emAuditSolar": null,
+      "earthMoonDiagOne": null,
+      "earthMoonInertial": {
+       "law": "inertial",
+       "gain": 514182,
+       "eps": 0.1,
+       "pairs": "all",
+       "history": "positions"
+      },
+      "earthMoonTide": null
      }
     },
     {
@@ -1226,7 +1369,28 @@
       "emAuditNewton": 0.1,
       "emAuditDFM": 0.1,
       "emAuditSolar": 0.01,
-      "earthMoonDiagOne": 0.1
+      "earthMoonDiagOne": 0.1,
+      "earthMoonInertial": 0.1,
+      "earthMoonTide": 0.1
+     }
+    },
+    {
+     "key": "physics.tide",
+     "values": {
+      "earthMoonRealKF1": null,
+      "earthMoonReal": null,
+      "emAuditNewton": null,
+      "emAuditDFM": null,
+      "emAuditSolar": null,
+      "earthMoonDiagOne": null,
+      "earthMoonInertial": null,
+      "earthMoonTide": {
+       "model": "ctl",
+       "maxN": 8,
+       "velocity": "v",
+       "inertia": "half",
+       "split": "full"
+      }
      }
     },
     {
@@ -1237,7 +1401,9 @@
       "emAuditNewton": 100,
       "emAuditDFM": 100,
       "emAuditSolar": 1,
-      "earthMoonDiagOne": 100
+      "earthMoonDiagOne": 100,
+      "earthMoonInertial": 100,
+      "earthMoonTide": 100
      }
     },
     {
@@ -1248,7 +1414,9 @@
       "emAuditNewton": null,
       "emAuditDFM": true,
       "emAuditSolar": null,
-      "earthMoonDiagOne": null
+      "earthMoonDiagOne": null,
+      "earthMoonInertial": null,
+      "earthMoonTide": null
      }
     },
     {
@@ -1259,40 +1427,48 @@
       "emAuditNewton": "(宣言あり)",
       "emAuditDFM": "(宣言あり)",
       "emAuditSolar": "(宣言あり)",
-      "earthMoonDiagOne": "(宣言あり)"
+      "earthMoonDiagOne": "(宣言あり)",
+      "earthMoonInertial": "(宣言あり)",
+      "earthMoonTide": "(宣言あり)"
      }
     },
     {
      "key": "sampleClass",
      "values": {
-      "earthMoonRealKF1": "calibration",
+      "earthMoonRealKF1": "principle",
       "earthMoonReal": "calibration",
       "emAuditNewton": "principle",
       "emAuditDFM": "calibration",
       "emAuditSolar": "calibration",
-      "earthMoonDiagOne": "principle"
+      "earthMoonDiagOne": "principle",
+      "earthMoonInertial": "principle",
+      "earthMoonTide": "principle"
      }
     },
     {
      "key": "calVariant",
      "values": {
-      "earthMoonRealKF1": "dfm",
+      "earthMoonRealKF1": null,
       "earthMoonReal": "kf0",
       "emAuditNewton": null,
       "emAuditDFM": "dfm",
       "emAuditSolar": "kf0",
-      "earthMoonDiagOne": null
+      "earthMoonDiagOne": null,
+      "earthMoonInertial": null,
+      "earthMoonTide": null
      }
     },
     {
      "key": "familyRole",
      "values": {
-      "earthMoonRealKF1": "retired",
+      "earthMoonRealKF1": "variant",
       "earthMoonReal": "primary",
       "emAuditNewton": "retired",
       "emAuditDFM": "retired",
       "emAuditSolar": "variant",
-      "earthMoonDiagOne": "variant"
+      "earthMoonDiagOne": "variant",
+      "earthMoonInertial": "variant",
+      "earthMoonTide": "variant"
      }
     },
     {
@@ -1303,7 +1479,9 @@
       "emAuditNewton": "behavior.emAudit",
       "emAuditDFM": "behavior.emAudit",
       "emAuditSolar": "behavior.emAudit",
-      "earthMoonDiagOne": null
+      "earthMoonDiagOne": null,
+      "earthMoonInertial": null,
+      "earthMoonTide": null
      }
     },
     {
@@ -1314,15 +1492,26 @@
       "emAuditNewton": "違う入力(速度)",
       "emAuditDFM": "違う入力(速度)",
       "emAuditSolar": "違う入力(本数・質量・位置・速度)",
-      "earthMoonDiagOne": "違う入力(速度)"
+      "earthMoonDiagOne": "違う入力(速度)",
+      "earthMoonInertial": "違う入力(速度)",
+      "earthMoonTide": "違う入力(速度)"
      }
     }
    ],
    "physicsSameKeys": 17,
-   "candidates": [],
+   "candidates": [
+    {
+     "rule": "A",
+     "keep": "earthMoonReal",
+     "fold": [
+      "earthMoonTide"
+     ],
+     "how": "器の中の写し(走行設定)として残し、内蔵 ID は畳む",
+     "reason": "bodies(質量・位置・速度)が earthMoonReal と同じ・違うのは physics の tide"
+    }
+   ],
    "keepApart": [],
    "history": [
-    "earthMoonRealKF1",
     "emAuditNewton",
     "emAuditDFM"
    ]
@@ -7441,7 +7630,6 @@
    "galaxyMeshSpiralGeoToyLite",
    "clusterGrowthCopy",
    "fixedCaptureCopy",
-   "earthMoonRealKF1",
    "emAuditNewton",
    "emAuditDFM",
    "mercuryRealKF1",
@@ -8577,7 +8765,6 @@
    "bhCoreTilt",
    "clusterGrowthCopy",
    "darkrotor",
-   "earthMoonRealKF1",
    "emAuditDFM",
    "emAuditNewton",
    "fixedCaptureCopy",
@@ -8609,5 +8796,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.55
+ "elapsedS": 0.593
 }

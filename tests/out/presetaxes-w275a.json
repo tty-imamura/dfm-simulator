@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(R33 の処置 P1・対照の軸)",
   "target": "beta/index.html",
-  "targetSha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
-  "generatedAt": "2026-10-04T02:36:20.540Z",
+  "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+  "generatedAt": "2026-10-04T18:59:27.210Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5633437,
-    "sha256": "dc3548e8bddbb56f57da6403ac712f00dad6e0ee4f48c10713611fbeb5280fe6",
-    "mtime": "2026-10-04T02:34:29.785Z"
+    "bytes": 5704815,
+    "sha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+    "mtime": "2026-10-04T18:56:49.135Z"
    }
   ],
   "code": [
@@ -43,7 +43,7 @@
    "判定が増えた"
   ]
  },
- "nPresets": 150,
+ "nPresets": 152,
  "kFrameValues": [
   0,
   1
@@ -1554,10 +1554,31 @@
    "bodiesSha256": "c61e669c32aa3688be07e4e89df3e255f504582f6b327aa8a25c86b294e734e6"
   },
   {
+   "id": "earthMoonTide",
+   "emoji": "🌜",
+   "name": "地球と月(実単位・潮汐の診断)— 定時間遅延の潮汐を宣言した本",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.1,
+   "geoPN": 1,
+   "nBodyDecl": 2,
+   "presetSigHash": "b0c6ef87",
+   "bodiesSha256": "f63caf0d21add9cf4fa3dece8a68271e399947c5c13f407ee610386714be58f7"
+  },
+  {
    "id": "earthMoonRealKF1",
    "emoji": "🌘",
-   "name": "地球と月(実単位・kFrame=1)— 近点回転 8.85年の較正再現",
-   "sampleClass": "calibration",
+   "name": "地球と月(実単位・kFrame=1)— q 引きずりの機構実験(現象論の参照・旧フィット)",
+   "sampleClass": "principle",
    "kFrame": 1,
    "kFrameApprox": null,
    "massFactor": 1,
@@ -1573,6 +1594,27 @@
    "nBodyDecl": 2,
    "presetSigHash": "6251ad7c",
    "bodiesSha256": "5483dfb522293d7635bcd478c72026662006322d8d725ea85c6d6851b2f0fcb0"
+  },
+  {
+   "id": "earthMoonInertial",
+   "emoji": "🌛",
+   "name": "地球と月(慣性決定力版)— 構造核と近点回転のフィット",
+   "sampleClass": "principle",
+   "kFrame": 0,
+   "kFrameApprox": null,
+   "massFactor": 1,
+   "massCalibrationDeclared": false,
+   "D0": 0.1,
+   "D0pull": null,
+   "D0eff": 0.1,
+   "q": 3,
+   "frameWeight": "share",
+   "frameWeightDeclared": true,
+   "softening": 0.1,
+   "geoPN": 0,
+   "nBodyDecl": 2,
+   "presetSigHash": "d5fac179",
+   "bodiesSha256": "9f88dd31c5b0a0626357726a7d764a39f94026d68a438a088f349fa9f6fe8614"
   },
   {
    "id": "emAuditNewton",
