@@ -13,7 +13,7 @@
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
   "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T21:56:33.741Z",
+  "generatedAt": "2026-10-05T23:01:46.154Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
@@ -23,9 +23,9 @@
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1821654,
-    "sha256": "41c678066f37d2c5dfc6f88b7b878ea68cd70567731365e5e388380695ed4de9",
-    "mtime": "2026-10-05T21:05:02.958Z"
+    "bytes": 1838814,
+    "sha256": "8a86a0f0eeff0eb5fc58a20a370c62f0058ab7f5d6eb5959cea41915fbe119a3",
+    "mtime": "2026-10-05T22:21:06.963Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
@@ -35,9 +35,9 @@
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 154710,
-    "sha256": "3422bec67ec85ea07b94f436e0458cff7d53cda875bc9d0df672939980c1f98f",
-    "mtime": "2026-10-05T21:56:33.722Z"
+    "bytes": 155103,
+    "sha256": "4683b42ac16f3ce5f9e90891810ba42c159214036f922db98f98c3a03ca7da5b",
+    "mtime": "2026-10-05T23:01:46.139Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -13491,23 +13491,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 117.709,
+     "wallSec": 37.145,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 38.801,
+       "wallSec": 37.145,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 78.908,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 78.908,
+     "reusedH2Sec": 78.908,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -14747,23 +14747,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.444,
+     "wallSec": 1.19,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.836,
+       "wallSec": 1.19,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 2.608,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 2.608,
+     "reusedH2Sec": 2.608,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15747,23 +15747,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.465999999999999,
+     "wallSec": 2.609,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.39,
+       "wallSec": 2.609,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 5.076,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 5.076,
+     "reusedH2Sec": 5.076,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -16353,11 +16353,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 42.263,
+     "wallSec": 41.549,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 42.263,
+       "wallSec": 41.549,
        "reused": false,
        "reusedBy": null
       }
@@ -16571,23 +16571,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 42.56,
+     "wallSec": 13.642,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 14.544,
+       "wallSec": 13.642,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 28.016,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 28.016,
+     "reusedH2Sec": 28.016,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -16807,23 +16807,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 22.746,
+     "wallSec": 6.601,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.242,
+       "wallSec": 6.601,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 15.504,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 15.504,
+     "reusedH2Sec": 15.504,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -17079,23 +17079,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 16.387,
+     "wallSec": 4.64,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.441,
+       "wallSec": 4.64,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 10.946,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 10.946,
+     "reusedH2Sec": 10.946,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -18005,23 +18005,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 232.986,
+     "wallSec": 70.47,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 75.42,
+       "wallSec": 70.47,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 157.566,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 157.566,
+     "reusedH2Sec": 157.566,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -18657,11 +18657,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 58.08,
+     "wallSec": 49.298,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 58.08,
+       "wallSec": 49.298,
        "reused": false,
        "reusedBy": null
       }
@@ -18875,23 +18875,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.647,
+     "wallSec": 1.656,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.017,
+       "wallSec": 1.656,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 3.63,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 3.63,
+     "reusedH2Sec": 3.63,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -19145,11 +19145,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 51.214,
+     "wallSec": 9.906,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.1,
+       "wallSec": 9.906,
        "reused": false,
        "reusedBy": null
       },
@@ -19162,13 +19162,13 @@
       {
        "tag": "dt/4",
        "wallSec": 41.114,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 22.168,
+     "reusedSec": 63.282,
      "reusedH2Sec": 22.168,
-     "reusedH4Sec": 0
+     "reusedH4Sec": 41.114
     },
     "regenSteps": [
      {
@@ -19635,11 +19635,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 30.259,
+     "wallSec": 6.038,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.189,
+       "wallSec": 6.038,
        "reused": false,
        "reusedBy": null
       },
@@ -19652,13 +19652,13 @@
       {
        "tag": "dt/4",
        "wallSec": 24.07,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 13.211,
+     "reusedSec": 37.281,
      "reusedH2Sec": 13.211,
-     "reusedH4Sec": 0
+     "reusedH4Sec": 24.07
     },
     "regenSteps": [
      {
@@ -20128,23 +20128,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 12.046,
+     "wallSec": 3.435,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 4.097,
+       "wallSec": 3.435,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 7.949,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 7.949,
+     "reusedH2Sec": 7.949,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -21001,23 +21001,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 8.344,
+     "wallSec": 2.315,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.699,
+       "wallSec": 2.315,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 5.645,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 5.645,
+     "reusedH2Sec": 5.645,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -21274,23 +21274,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 4.3100000000000005,
+     "wallSec": 0.997,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.332,
+       "wallSec": 0.997,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 2.978,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 2.978,
+     "reusedH2Sec": 2.978,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -22723,23 +22723,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 54.006,
+     "wallSec": 17.111,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 18.828,
+       "wallSec": 17.111,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 35.178,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 35.178,
+     "reusedH2Sec": 35.178,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -24137,23 +24137,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.911,
+     "wallSec": 0.502,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.545,
+       "wallSec": 0.502,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 1.366,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 1.366,
+     "reusedH2Sec": 1.366,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -24569,23 +24569,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.267,
+     "wallSec": 0.072,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.173,
+       "wallSec": 0.072,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
        "wallSec": 0.094,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0,
-     "reusedH2Sec": 0,
+     "reusedSec": 0.094,
+     "reusedH2Sec": 0.094,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -26657,11 +26657,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 30.726,
+     "wallSec": 5.746,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.198,
+       "wallSec": 5.746,
        "reused": false,
        "reusedBy": null
       },
@@ -26674,13 +26674,13 @@
       {
        "tag": "dt/4",
        "wallSec": 24.528,
-       "reused": false,
-       "reusedBy": null
+       "reused": true,
+       "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 12.876,
+     "reusedSec": 37.403999999999996,
      "reusedH2Sec": 12.876,
-     "reusedH4Sec": 0
+     "reusedH4Sec": 24.528
     },
     "regenSteps": [
      {
@@ -27267,11 +27267,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 125.654,
+     "wallSec": 115.168,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 125.654,
+       "wallSec": 115.168,
        "reused": false,
        "reusedBy": null
       }
@@ -30381,12 +30381,12 @@
   "reuse": {
    "since": "第284便c",
    "h2": {
-    "n": 3,
-    "sec": 48.254999999999995
+    "n": 17,
+    "sec": 403.719
    },
    "h4": {
-    "n": 0,
-    "sec": 0
+    "n": 3,
+    "sec": 89.71199999999999
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },
