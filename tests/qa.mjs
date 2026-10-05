@@ -65764,7 +65764,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = []; ppTopic = 'all';
       setShowAllSamples(false); HP.loadPreset('saturn', false); });
     const s0 = await snap();
-    const r = await pg.evaluate(async () => {
+    // 第293便b(原仮定者の裁定(第83報)・R142): 世代切替 has293b = 説明の題材チップが押せるボタン(html に topicChipPick)—— ③ の「押せない(span)」は
+    //   「button.topicChip(押せる・それ以外の要素を持たない)」に読み替える(押したときの検査は ui.topicChipFilter293)
+    const has293b = html.indexOf('function topicChipPick(') >= 0;
+    const r = await pg.evaluate(async (has293b) => {
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
       const o = { bad: [] };
       // この場で書いた規則(宣言の鍵だけ —— ページの TOPIC_TAGS を使わない)
@@ -65833,8 +65836,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         o.descWith++;
         const got = box ? [...box.querySelectorAll('.topicChip')] : [];
         const cc = document.getElementById('classChips');
-        if (!(box && got.map((c) => c.dataset.topic).join(',') === want.join(',') && got.every((c) => c.tagName === 'SPAN' && c.textContent === HP.T('ppTopic_' + c.dataset.topic))
-          && cc && cc.nextElementSibling === box && box.querySelectorAll('button').length === 0)) o.descBad.push(p.id);
+        if (!(box && got.map((c) => c.dataset.topic).join(',') === want.join(',') && got.every((c) => c.tagName === (has293b ? 'BUTTON' : 'SPAN') && c.textContent === HP.T('ppTopic_' + c.dataset.topic))
+          && cc && cc.nextElementSibling === box && box.querySelectorAll('button').length === (has293b ? got.length : 0))) o.descBad.push(p.id);
       }
       // ④ en
       HP.setLang('en'); HP.loadPreset('ngc3198', false); await wait(5);
@@ -65842,7 +65845,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       o.enDim = HP.T('ppDimTopic');
       HP.setLang('ja'); HP.loadPreset('saturn', false);
       return o;
-    });
+    }, has293b);
     const s1 = await snap();
     r.same = s1.sig === s0.sig && s1.par === s0.par;
     const andOk = r.andGot === r.andExp && r.andExp > 0 && r.andExp < r.andOnly;
@@ -65856,8 +65859,110 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       `**題材**(原仮定者の裁定(第81報)⑦・R136 —— 表 TOPIC_TAGS・宣言の鍵だけ): key [${r.keys}]=${r.keysOk}・全内蔵でこの場の規則と一致(不一致 ${r.ruleBad.length})・名前/絵文字/群/id を変えても不変(${r.nameBad.length})`
       + ` / 件数 ${r.counts} / 次元「題材」が「その他」の前=${r.foldPos}・チップ 1+9・data-n=数え直し=${r.chipOk}・チップ 1 つの行数=件数・再タップで解除(NG ${r.tapBad.length})`
       + `・観測較正∧geoPN1 ${r.andGot}=${r.andExp}(<${r.andOnly})・ⓘ 語と件数=${r.noteOk}`
-      + ` / 説明タブ ${r.descN} 本(題材あり ${r.descWith})の #descTopics = topicsOf・#classChips の直後・押せない(NG ${r.descBad.length})/ en「${r.en}」=${enOk}・tests/README の規則表=${r.readmeOk}・presetSig/params 不変=${r.same}`
+      + ` / 説明タブ ${r.descN} 本(題材あり ${r.descWith})の #descTopics = topicsOf・#classChips の直後・${has293b ? '押せるボタン(第293便b)' : '押せない'}(NG ${r.descBad.length})/ en「${r.en}」=${enOk}・tests/README の規則表=${r.readmeOk}・presetSig/params 不変=${r.same}`
       + (r.ruleBad.length + r.nameBad.length + r.tapBad.length + r.descBad.length ? '・NG ' + [].concat(r.ruleBad, r.nameBad, r.tapBad, r.descBad).slice(0, 5).join(' ') : '')
+      + (errs.length ? '・JS ' + errs.slice(0, 2).join(' | ') : ''));
+    await ctx.close();
+  }
+}
+// ---- 第293便b(原仮定者の裁定(第83報)「サンプルの絞り込みに、『題材』のチップも対応する」・統括の検証項目 R142): **表示だけ**(物理・presetSig・保存 JSON に
+// ----   1 bit も効かない)。root 等は SKIP(題材の表 TOPIC_TAGS・topicChipPick が無い)。
+// ----   ui.topicChipFilter293 … 🌛 earthMoonInertial を開き、説明タブの題材チップ「慣性決定力」(button.topicChip[data-topic=inertial])を
+// ----     ① 押せるボタン(aria-label = T(descTopicChipAria)(語)・aria-pressed false・data-state off)/ ② マウスで押す → 「サンプルを選ぶ」が開き ppTopic="inertial"・
+// ----     details#ppFold_topic が開く・一覧の行数 = **この場で書いた規則**(relativeDrag.law "inertial")で数えた一覧に出せる本の数 = topicsOf で数えた数・一覧のチップ
+// ----     「慣性決定力」の aria-pressed true・説明のチップ aria-pressed true / data-state on / ③ Esc で閉じ、キーボード(Enter)で再押し → 解除(ppTopic "all"・
+// ----     aria-pressed false・窓は開かない)/ ④ Space で押す → 再び絞り込み(窓が開く)→ 一覧の「すべて」で解除 → 説明のチップも off / ⑤ 検索欄に「慣性決定力」
+// ----     (ja の語)と「Inertial determinacy」(en の語)→ 行の集合 = 題材で絞った行の集合 / ⑥ en の aria-label / presetSig(152 本)・params 不変 / JS エラー 0。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  if (!/^const TOPIC_TAGS=/m.test(html) || html.indexOf('function topicChipPick(') < 0) {
+    console.log('SKIP ui.topicChipFilter293(対象に第293便b の題材チップの絞り込み topicChipPick なし — root 等)');
+  } else {
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const pg = await ctx.newPage();
+    const errs = [];
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    pg.on('dialog', (d) => d.accept());
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+    const snap = () => pg.evaluate(() => ({ n: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).length,
+      sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+      par: JSON.stringify(HP.sim.params) }));
+    const reset = () => pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); localStorage.removeItem('hp_pick_open'); } catch (_) {}
+      ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = []; ppTopic = 'all';
+      setShowAllSamples(false); hidePresetPicker(); });
+    await reset();
+    await pg.evaluate(() => HP.loadPreset('saturn', false));
+    const s0 = await snap();
+    const r = { bad: [] };
+    // 独立の規則(この場で書いた —— ページの TOPIC_TAGS を使わない)と topicsOf の数え
+    Object.assign(r, await pg.evaluate(() => {
+      const ok = (p) => !catalogHidden(p) && p.familyRole !== 'retired';
+      const mine = BUILTIN_PRESETS.filter((p) => ok(p) && ((p.physics || {}).relativeDrag || {}).law === 'inertial');
+      return { nMine: mine.length, nTopics: BUILTIN_PRESETS.filter((p) => ok(p) && topicsOf(p).indexOf('inertial') >= 0).length,
+        emo: mine.map((p) => p.emoji || p.id).join(''), lbl: HP.T('ppTopic_inertial'), lblEn: I18N.en.ppTopic_inertial };
+    }));
+    await pg.evaluate(() => { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); HP.loadPreset('earthMoonInertial', false); });
+    const SEL = '#descTopics button.topicChip[data-topic="inertial"]';
+    const chipSt = () => pg.evaluate((sel) => { const c = document.querySelector(sel);
+      return c ? { tag: c.tagName, aria: c.getAttribute('aria-label'), pressed: c.getAttribute('aria-pressed'), state: c.dataset.state || '' } : null; }, SEL);
+    const pickSt = () => pg.evaluate(() => { const rows = [...document.querySelectorAll('#ppList .ppRow')];
+      const tc = [...document.querySelectorAll('#ppTopicRow .ppChip')];
+      const on = tc.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => c.dataset.v);
+      const fold = document.getElementById('ppFold_topic');
+      return { modal: !!document.getElementById('ppModal'), topic: ppTopic, fold: !!(fold && fold.open), n: rows.length,
+        set: rows.map((x) => (x.firstChild ? x.firstChild.textContent : '').replace(/^└ /, '')).sort().join('\u0001'), on: on.join(',') }; });
+    // ①
+    const c0 = await chipSt();
+    r.c0 = c0;
+    if (!(c0 && c0.tag === 'BUTTON' && c0.pressed === 'false' && c0.state === 'off'
+      && c0.aria === await pg.evaluate((l) => HP.T('descTopicChipAria')(l), r.lbl))) r.bad.push('① ボタン/aria');
+    // ② マウスで押す
+    await pg.click(SEL); await pg.waitForTimeout(40);
+    const p1 = await pickSt(), c1 = await chipSt();
+    r.p1n = p1.n;
+    if (!(p1.modal && p1.topic === 'inertial' && p1.fold && p1.n === r.nMine && r.nMine === r.nTopics && r.nMine > 0 && p1.on === 'inertial'))
+      r.bad.push(`② 窓=${p1.modal} topic=${p1.topic} 畳み=${p1.fold} 行 ${p1.n}/${r.nMine}/${r.nTopics} on=${p1.on}`);
+    if (!(c1 && c1.pressed === 'true' && c1.state === 'on')) r.bad.push('② 説明のチップが on でない');
+    const setTopic = p1.set;
+    // ③ Esc → Enter で解除
+    await pg.keyboard.press('Escape'); await pg.waitForTimeout(20);
+    await pg.focus(SEL); await pg.keyboard.press('Enter'); await pg.waitForTimeout(30);
+    const p3 = await pickSt(), c3 = await chipSt();
+    if (!(!p3.modal && p3.topic === 'all' && c3 && c3.pressed === 'false' && c3.state === 'off')) r.bad.push(`③ 再押しで解除されない(窓=${p3.modal} topic=${p3.topic})`);
+    // ④ Space → 一覧の「すべて」で解除
+    await pg.focus(SEL); await pg.keyboard.press('Space'); await pg.waitForTimeout(40);
+    const p4 = await pickSt();
+    if (!(p4.modal && p4.topic === 'inertial' && p4.n === r.nMine)) r.bad.push('④ Space で絞り込まない');
+    await pg.click('#ppTopicRow .ppChip[data-v="all"]'); await pg.waitForTimeout(30);
+    const p4b = await pickSt(), c4 = await chipSt();
+    if (!(p4b.topic === 'all' && p4b.on === 'all' && c4 && c4.pressed === 'false' && c4.state === 'off')) r.bad.push('④ 一覧の「すべて」で解除されない');
+    // ⑤ 検索欄に題材の語(ja・en)
+    r.srch = [];
+    for (const w of [r.lbl, r.lblEn]) {
+      await pg.fill('#ppSearch', w); await pg.waitForTimeout(30);
+      const ps = await pickSt();
+      r.srch.push(ps.n);
+      if (!(ps.topic === 'all' && ps.n === r.nMine && ps.set === setTopic)) r.bad.push(`⑤ 検索「${w}」の行 ${ps.n} ≠ 題材 ${r.nMine}`);
+    }
+    await pg.fill('#ppSearch', ''); await pg.waitForTimeout(20);
+    await pg.evaluate(() => hidePresetPicker());
+    // ⑥ en
+    await pg.evaluate(() => { HP.setLang('en'); HP.loadPreset('earthMoonInertial', false); });
+    const c6 = await chipSt();
+    r.en = c6 && c6.aria;
+    if (!(c6 && c6.aria === 'Filter the list by topic ' + r.lblEn)) r.bad.push('⑥ en の aria-label');
+    await reset();
+    await pg.evaluate(() => HP.loadPreset('saturn', false));
+    const s1 = await snap();
+    r.same = s1.sig === s0.sig && s1.par === s0.par && s1.n === s0.n;
+    const ok = r.bad.length === 0 && r.same && errs.length === 0;
+    add('ui.topicChipFilter293', ok,
+      `**題材チップで絞り込む**(原仮定者の裁定(第83報)・R142 —— 表示専用): 🌛 の説明の題材チップ「${r.lbl}」= button・aria「${r.c0 && r.c0.aria}」`
+      + ` / 押す → 窓・ppTopic=inertial・題材の畳みが開く・行 ${r.p1n} = 規則で数えた ${r.nMine} = topicsOf ${r.nTopics}(${r.emo})・一覧と説明のチップ on`
+      + ` / Enter で再押し → 解除・Space → 再び絞り込み・一覧の「すべて」で解除 / 検索「${r.lbl}」「${r.lblEn}」の行 ${r.srch.join('・')} = 題材の集合`
+      + ` / en「${r.en}」/ presetSig(${s1.n} 本)・params 不変=${r.same}`
+      + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : '')
       + (errs.length ? '・JS ' + errs.slice(0, 2).join(' | ') : ''));
     await ctx.close();
   }
