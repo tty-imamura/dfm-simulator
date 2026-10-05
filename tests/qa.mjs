@@ -2335,7 +2335,10 @@ if (QA_CHANGED) {
       'tests/out/dragcore-w292c.json',
       // 第292便d(原仮定者の裁定(第82報)⑦・R140): 明示潮汐(physics.tide と天体の tide —— CTL)の門 b〜g・🌜 の 1 恒星月・引きずりとの交差項
       //   (target=beta/index.html —— Node の headless だけ・html だけを読む・他の正本は読まない —— 鎖の段 tide292)
-      'tests/out/tide-w292d.json'];
+      'tests/out/tide-w292d.json',
+      // 第293便d(原仮定者の裁定(第83報)・R144): 月の 8.85 年の摂動停止診断 —— 器の中の一時プリセット(🔆 の bodies + 🌛 の physics)の 5 条件 × 118 公転と
+      //   太陽を途中で消す枝 12 本 × h/h2・再起動の対照・換算の橋(target=beta/index.html —— Node の headless・inputs に dragcore-w292c —— 鎖の段 swing293 は dragcore292 の後)
+      'tests/out/swing-w293d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -22988,6 +22991,122 @@ if (!FAST) {
       }
       add('docs.tideContract', bad.length === 0,
         `**潮汐の契約の表**(第292便d・統括の検証項目 R140 —— 正本 tests/out/tide-w292d.json・器 tests/exp-w292d-tide.mjs): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1l) 第293便d(原仮定者の裁定(第83報)「ブランコ … 摂動が消えてもしばらく継続する物理法則が必要」・統括の検証項目 R144): **摂動停止診断便**の 2 ブロック。
+// ----   **root では SKIP**(beta 線の器と正本)。世代切替 has293d = beta 対象・器 tests/exp-w293d-swing.mjs がある・html に 🔆 emAuditSolar と 🌛 earthMoonInertial の宣言がある。
+// ----   器 tests/exp-w293d-swing.mjs・正本 tests/out/swing-w293d.json(段 swing293 —— 118 公転の条件と停止の枝は器が走らせる・QA は短い走行だけ)。
+// ----   ① behavior.swingGate …… 器の契約: 一時プリセット(🔆 の bodies + 🌛 の physics を 🔆 の単位へ)は今の html で受理・警告 0・内蔵に無い・bodies は 🔆 の写し
+// ----      (地球の dragCore だけ)・gain と eps は 🌛 の宣言の換算(L³/M と L)/いまの html で短い停止(瞬時・滑らか)を走らせて位置・速度の跳び 0・停止時刻の状態が
+// ----      同じ・太陽の質量 0 / 正本: 条件 5 本(A1・A2・B・C・D)と枝 12 本の完走・全枝の跳び 0・瞬時と滑らかの停止の状態が同じ・m=0 と bodies から外した対照の一致・
+// ----      h/h2 の収束の桁の記録 / 換算の橋(dt 0.016・27 公転)を今の html で作り直して正本と相対 1e-12。
+// ----   ② docs.swingContract …… PHYSICS〔第293便d〕の表の行が正本から作った行と同文・必須の語・禁止の言い回し・CHANGELOG の 1 行・正本の ok と来歴。
+{
+  const html293d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has293d = TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, 'tests', 'exp-w293d-swing.mjs'))
+    && html293d.indexOf('id:"emAuditSolar"') >= 0 && html293d.indexOf('id:"earthMoonInertial"') >= 0;
+  if (!has293d) {
+    console.log('SKIP behavior.swingGate / docs.swingContract(第293便d 未適用 — ' + TARGET + ')');
+  } else {
+    let E293 = null, HP293 = null, err293 = null;
+    try {
+      E293 = await import('file://' + path.join(ROOT, 'tests', 'exp-w293d-swing.mjs'));
+      // loadHtmlMain は html を**この process の大域**で実行する(2 度目は const の再宣言で落ちる)—— 前のブロックが同じ TARGET を読んでいればその HP を使う
+      if (globalThis.HP && typeof globalThis.HP.inertialDragState === 'function' && typeof globalThis.HP.REL_DRAG_INERTIAL_VERSION === 'string'
+        && html293d.indexOf('"' + globalThis.HP.REL_DRAG_INERTIAL_VERSION + '"') >= 0 && typeof globalThis.HP.DRAG_CORE_VERSION === 'string'
+        && html293d.indexOf('"' + globalThis.HP.DRAG_CORE_VERSION + '"') >= 0) HP293 = globalThis.HP;
+      else if (globalThis.HP && typeof globalThis.HP.validatePreset === 'function') throw new Error('大域の HP が別の html の版(同じ process で 2 度読めない)');
+      else {
+        const { loadHtmlMain: loadMain293 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
+        HP293 = loadMain293(path.join(ROOT, TARGET)).HP;
+      }
+    } catch (e) { err293 = String(e && e.stack || e).slice(0, 160); }
+    let J293 = null; try { J293 = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'swing-w293d.json'), 'utf8')); } catch (e) { J293 = null; }
+    const Pd293 = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+    const psec293 = (() => { const a = Pd293.indexOf('〔第293便d — '); if (a < 0) return '';
+      const ends = [Pd293.indexOf('\n〔第', a + 10), Pd293.indexOf('\n## 7. 論文', a)].filter((k) => k > a); return Pd293.slice(a, ends.length ? Math.min(...ends) : undefined); })();
+    const near293 = (a, b) => (a === b) || (typeof a === 'number' && typeof b === 'number' && Math.abs(a - b) <= 1e-12 * Math.max(Math.abs(a), Math.abs(b)));
+    // ---- ① behavior.swingGate
+    {
+      const bad = [], cases = [];
+      if (err293) bad.push('器/html が読めない: ' + err293);
+      else if (!J293) bad.push('正本 swing-w293d.json が読めない');
+      else {
+        const HP = HP293, find = (id) => HP.allPresets().find((q) => q.id === id);
+        // (a) 一時プリセット
+        const sol = find(E293.SOLAR_ID), book = find(E293.BOOK_ID);
+        if (find(E293.TMP_ID) || find(E293.TMP_ID + 'Bridge')) bad.push('(a) 一時プリセットの id が内蔵にある');
+        for (const law of Object.keys(E293.LAWS)) {
+          const p = E293.swingPreset(HP, law), v = HP.validatePreset(JSON.parse(JSON.stringify(p)));
+          if (!(v.ok && (v.warnings || []).length === 0)) bad.push(`(a) ${law} の受理(ok ${v.ok}・警告 ${(v.warnings || []).length})`);
+          const strip = (b) => { const c = JSON.parse(JSON.stringify(b)); delete c.dragCore; return c; };
+          if (JSON.stringify(p.bodies.map(strip)) !== JSON.stringify(sol.bodies)) bad.push(`(a) ${law} の bodies が 🔆 の写しでない`);
+          if (JSON.stringify(p.bodies[1].dragCore) !== JSON.stringify({ massFrac: 0.325, radius: 0.0348 }) || p.bodies[0].dragCore !== undefined || p.bodies[2].dragCore !== undefined) bad.push(`(a) ${law} の dragCore(地球だけ・0.325・0.0348)`);
+          const rd = p.physics.relativeDrag, brd = book.physics.relativeDrag;
+          if (!(rd.law === 'inertial' && rd.gain === (E293.LAWS[law].gain === 0 ? 0 : brd.gain / 1e4) && rd.eps === brd.eps / 100 && rd.history === brd.history)) bad.push(`(a) ${law} の gain/eps が 🌛 の換算でない`);
+          if (!(p.physics.geoPN === 0 && p.physics.kFrame === 0 && p.physics.softening === sol.physics.softening)) bad.push(`(a) ${law} の geoPN/kFrame/softening`);
+          if ((law === 'sunGrav') !== Array.isArray(rd.pairs)) bad.push(`(a) ${law} の対の宣言(重力だけ = 地球–月の対)`);
+        }
+        cases.push(`一時プリセット 3 法則: 受理・警告 0・内蔵に無い・bodies は 🔆 の写し+地球 dragCore{0.325, 0.0348}・gain ${book.physics.relativeDrag.gain}/10⁴・eps ${book.physics.relativeDrag.eps}/100(🌛 の換算)`);
+        // (b) いまの html で短い停止(瞬時・滑らか —— 2 公転の後の近点)
+        const sp = (mode) => ({ key: 'qa-' + mode, kind: 'branch', law: 'sunGrav', sun: 'on', dt: 0.016, stop: { mode, phase: 'peri', after: 2, ramp: 1, post: 1 } });
+        const ri = E293.runSwing(HP, sp('instant')), sInst = HP.sim.m[0];
+        const rs = E293.runSwing(HP, sp('smooth')), sSm = HP.sim.m[0];
+        if (!(ri.stopInfo && ri.stopInfo.jump === 0 && ri.gone && sInst === 0 && !ri.nan)) bad.push('(b) 瞬時の停止(跳び 0・質量 0・NaN なし)');
+        if (!(rs.stopInfo && rs.stopInfo.jump === 0 && rs.gone && sSm === 0 && !rs.nan && rs.gone.t > rs.stopInfo.t)) bad.push('(b) 滑らかな停止');
+        if (!(ri.stopInfo && rs.stopInfo && ri.stopInfo.hash === rs.stopInfo.hash && ri.stopInfo.t === rs.stopInfo.t)) bad.push('(b) 停止時刻の状態が瞬時と滑らかで違う');
+        cases.push(`いまの html の短い停止: 瞬時 t=${ri.stopInfo ? ri.stopInfo.t.toFixed(2) : '—'}(跳び ${ri.stopInfo ? ri.stopInfo.jump : '—'})・滑らか ${rs.gone ? (rs.gone.t - rs.stopInfo.t).toFixed(1) : '—'} 単位で質量 0・停止の状態が同じ`);
+        // (c) 正本の契約
+        const G = J293.gates;
+        if (!(G.runsOk && G.warnFree)) bad.push('(c) 走行(NaN・上界・拒否・警告)');
+        if (!(G.conditionsPresent && ['A1', 'A2', 'B', 'C', 'D'].every((k) => J293.conditions[k] && J293.conditions[k].h && J293.conditions[k].h2))) bad.push('(c) 条件 5 本(A1・A2・B・C・D)');
+        if (!(G.branchesPresent && Object.keys(J293.branches).length === 12 && G.postComplete)) bad.push('(c) 枝 12 本の完走');
+        if (!(G.jumpsZero && G.nJumps === 24)) bad.push('(c) 全枝の停止の跳び 0(24 走行)');
+        if (!(G.sameStateOk && G.sameState.length === 12)) bad.push('(c) 瞬時と滑らかの停止の状態');
+        if (!(G.dropOk && G.drop.maxAbs <= 1e-6)) bad.push('(c) m=0 と bodies から外した対照の一致');
+        const hhC = Object.values(G.hh.conditions), hhB = Object.values(G.hh.branches);
+        if (!(hhC.length === 7 && hhB.length === 12 && hhC.concat(hhB).every((z) => Object.values(z).every((x) => typeof x === 'number' && Number.isFinite(x))))) bad.push('(c) h/h2 の収束の桁の記録');
+        cases.push(`正本: 条件 ${Object.keys(J293.conditions).length} 本・枝 ${Object.keys(J293.branches).length} 本 × h/h2・跳び 0(${G.nJumps} 走行)・停止の状態 ${G.sameState.length} 組が同じ・m=0 と外した対照の差 ${G.drop.maxAbs.toExponential(2)}・h/h2 の最大 近点周期 ${Math.max(...hhC.map((z) => z.relP)).toExponential(2)}/停止後 Δϖ ${Math.max(...hhB.map((z) => z.dDw)).toExponential(2)} rad`);
+        // (d) 換算の橋を今の html で作り直す
+        const br = E293.childTask(HP, { key: 'bridge-0.016', kind: 'bridge', law: null, sun: 'book', dt: 0.016, revMax: 27, spans: [[0, 8], [0, 27]] });
+        const row = J293.bridge.rows.find((z) => z.dt === 0.016), w = br.windows[1];
+        if (!(row && near293(row.P27, w.apsPeriodYr) && near293(row.dw27, w.dwRadPerPeri) && near293(row.sid27, w.siderealDays) && near293(row.e27, w.eMean))) bad.push('(d) 換算の橋が正本と一致しない');
+        cases.push(`換算の橋(🌛 → 🔆 の単位・dt 0.016・27 公転)を作り直して正本と一致: ${w.apsPeriodYr.toFixed(6)} 年(🌛 の正本 ${J293.bridge.ref ? J293.bridge.ref.P27.toFixed(6) : '—'})`);
+        if (J293.ok !== true) bad.push('正本の ok');
+      }
+      add('behavior.swingGate', bad.length === 0,
+        `**摂動停止診断の器の契約**(第293便d・統括の検証項目 R144 —— 一時プリセット・停止の跳び 0・条件 5 本・枝 12 本・h/h2・換算の橋): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② docs.swingContract
+    {
+      const bad = [], cases = [];
+      if (err293) bad.push('器が読めない: ' + err293);
+      else if (!J293) bad.push('正本 swing-w293d.json が読めない');
+      else if (!psec293) bad.push('PHYSICS〔第293便d — 〕が無い');
+      else {
+        const R = E293.docRows(J293), rows = R.cond.concat(R.branch, R.bridge, R.hh, R.summary), miss = rows.filter((r) => psec293.indexOf(r) < 0);
+        if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(例 ' + miss[0].slice(0, 60) + ')');
+        cases.push(`PHYSICS の表の行 ${rows.length - miss.length}/${rows.length}(条件 ${R.cond.length}・枝 ${R.branch.length}・橋 ${R.bridge.length}・h/h2 ${R.hh.length}・要約 ${R.summary.length})`);
+        const cut = psec293.indexOf('**書かないこと。**'), body = cut >= 0 ? psec293.slice(0, cut) : psec293;
+        if (cut < 0) bad.push('PHYSICS〔第293便d〕に「書かないこと」が無い');
+        const FORBID = ['月を再現した', '較正 合', 'C_d は普遍定数', '摂動の記憶を示した', '記憶を示した', '原因を同定した', '全系の保存則が閉じた', 'PN と同定した', '観測一致を達成した', '新発見', '共鳴を証明した'];
+        const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
+        if (hit.length) bad.push('PHYSICS〔第293便d〕の本文に禁止語: ' + hit.join(','));
+        for (const w of ['ブランコ', '原因', '継続', '自由成分', '一時プリセット', '再フィットしない', '1PN', '共鳴', '固有の近点モード', '沿う', 'AN203', 'R144', '原仮定者の裁定(第83報)', '採らないもの', '決断事項候補']) if (psec293.indexOf(w) < 0) bad.push('PHYSICS〔第293便d〕に「' + w + '」が無い');
+        cases.push(`PHYSICS〔第293便d〕の必須の語・禁止語 0(${FORBID.length} 語)`);
+        const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8'), li = CL.indexOf('**第293便d(');
+        if (!(li >= 0 && CL.slice(li, CL.indexOf('\n', li)).indexOf('R144') >= 0)) bad.push('CHANGELOG に第293便d(R144)の行が無い');
+        if (!(J293.meta && J293.meta.wave === '第293便d' && J293.meta.scopeComplete === true)) bad.push('正本の来歴(wave・scopeComplete)');
+        if (J293.ok !== true) bad.push('正本の ok');
+        const rd = J293.readings;
+        cases.push(`原因: 太陽あり gain 0 の 118 公転 ${rd.cause.C118.toFixed(4)} 年・停止後(gain 0)の率は軟化の床 ${rd.cause.D118dw.toExponential(2)} rad/公転・1PN ${rd.pn1.arcsecPerCentury.toFixed(3)} 秒角/世紀`);
+      }
+      add('docs.swingContract', bad.length === 0,
+        `**摂動停止診断の表**(第293便d —— 正本 tests/out/swing-w293d.json と PHYSICS〔第293便d〕の転記一致): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }
