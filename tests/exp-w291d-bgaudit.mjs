@@ -42,6 +42,9 @@ export const LIVE_IDS = Object.freeze(['inertialDragPair', 'galaxyAnalogyBH', 'c
 //   gain は上界 2·max deg ≪ 1 を満たす宣言値(器の中の写しだけ —— 正本に上界を記録する)
 export const LIVE = Object.freeze({ steps: 240, dt: 0.016, gainCopy: { galaxyAnalogyBH: 1e-4, charonGeoToy3: 1e-3 }, shifts: [[0.375, -2.125], [1e-3, 2e-3], [40, -25]] });
 const ULP = 2 ** -52;
+// 第293便g(原仮定者の裁定(第83報 追記)・R147): law:"inertial" の既定の合成則は solve(velocity)。本器の門は加算の核(各源の寄与 a_ij(V_j−V_i))と
+//   読み手 inertialDragFieldAt(加算の局所場)の座標変換の性質を測るので、写し・注入・🐌 の生きた走行に compose:"sum"(旧法則版 —— 比較用)を明示する。
+export const COMPOSE_NOTE = '第293便g: 門 (A)〜(D) の写し・注入・🐌 の走行は compose:"sum" を明示(読み手は加算の局所場 —— 既定 solve の本では描かない)';
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const find = (HP, id) => HP.allPresets().find((q) => q.id === id);
 function build(HP, preset) {
@@ -60,7 +63,7 @@ export const FIX = Object.freeze({ m: [1, 2.5, 0.75, 4, 1.5], x: [0, 3, -2.5, 1.
   V: [[0.5, -0.25], [1.75, 0.5], [-1, 0.75], [0.25, 1.25], [-0.5, -1.5]], gain: 0.75, eps: 0.5, t: 8, dt: 1 / 64 });
 function inject(HP, o, physExtra, bodyExtra) {
   const bodies = o.m.map((m, i) => Object.assign({ type: 'single', m, radius: 0.1, x: o.x[i], y: o.y[i], vx: 0.125 * i, vy: -0.0625 * i, spin: 0, pinned: false }, bodyExtra ? bodyExtra(i) : {}));
-  const b = build(HP, toyPreset(bodies, Object.assign({ relativeDrag: { law: 'inertial', gain: o.gain, eps: o.eps } }, physExtra || {})));
+  const b = build(HP, toyPreset(bodies, Object.assign({ relativeDrag: { law: 'inertial', gain: o.gain, eps: o.eps, compose: 'sum' } }, physExtra || {})));
   if (b.err) return { err: b.err };
   const S = b.S;
   for (let i = 0; i < S.n; i++) { S.x[i] = o.x[i]; S.y[i] = o.y[i]; S.rdPrevX[i] = o.x[i] - o.V[i][0] * o.dt; S.rdPrevY[i] = o.y[i] - o.V[i][1] * o.dt; S.rdPrevT[i] = o.t - o.dt; }
@@ -89,6 +92,7 @@ function liveSim(HP, id) {
   const p = clone(find(HP, id));
   const copy = !(p.physics && p.physics.relativeDrag && p.physics.relativeDrag.law === 'inertial');
   if (copy) p.physics.relativeDrag = { law: 'inertial', gain: LIVE.gainCopy[id], pairs: 'all', history: 'positions' };
+  p.physics.relativeDrag.compose = 'sum';   // 第293便g: 読み手(サンプラー)は加算の局所場 —— 既定 solve の本では描かない(why:"composeSolve")ので比較用の旧加算を明示する
   const b = build(HP, p);
   if (b.err) return { id, copy, err: b.err };
   const S = b.S;
@@ -264,6 +268,7 @@ if (IS_MAIN) {
     harnessVersion: HARNESS_VERSION, engineVersion: HP.REL_DRAG_INERTIAL_VERSION, samplerVersion: HP.SPACE_MESH_SAMPLER_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第81報)⑥「静止背景相当」「背景慣性決定力」は慣性系で織り込み済みかを精査',
     reading: '統括の検証項目 R135(物理不変 —— 核・時計・光の式は読むだけ。表示メッシュは表示専用)',
+    composeRule: COMPOSE_NOTE,
     engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)',
     conclusion: '新核では Wbg を使わないという法則・参照系の宣言である(証明ではない)。旧正規化 u=A/W 型の場では Wbg が分母に残る。共通並進・一様加速度は 1 步の中で消え、回転・潮汐は残る',
     notClaim: ['背景は織り込み済み(証明済み)', 'geoPN=3 が GR と同値', '新しい法則が正しい', '新核に Wbg を適用済み'] });

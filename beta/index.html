@@ -1468,6 +1468,7 @@ ja: {
   smDragTitle:"引きずりの可視化(慣性引きずり u・表示専用)",
   smDragUndecl:"慣性決定力は未宣言(relativeDrag.law≠\"inertial\")— 何も描かない",
   smDragNoHist:"履歴なし(最初の步・粒子が変わった步・標本が古い)— 描かない",
+  smDragComposeSolve:"合成則 solve(既定)の本 — u は全体の連立 (I+L)u=s で決まり局所の標本では引けない — 描かない(compose:\"sum\" を明示した本だけ描く)",
   smDragFrameCentroid:"受け手: 源の重心系に静止(共通の並進は消える)",
   smDragFrameCoord:"受け手: 座標に静止(共通の並進も見える)",
   smDragLenNote:"長さ ∝ (|u|/|u|ref)^(1/3)(ref を超える矢印は基準長で切る)",
@@ -2547,6 +2548,7 @@ en: {
   smDragTitle:"Dragging made visible (inertial dragging u; display only)",
   smDragUndecl:"Dragging by the inertial determinacy is not declared (relativeDrag.law is not \"inertial\") - nothing is drawn",
   smDragNoHist:"No history (first step, bodies changed, or a stale sample) - nothing is drawn",
+  smDragComposeSolve:"Composition rule solve (the default) - u comes from the whole linear system (I+L)u=s and cannot be read from a local sample - nothing is drawn (drawn only when compose:\"sum\" is declared)",
   smDragFrameCentroid:"Receiver: at rest in the sources' barycentric frame (a shared translation cancels)",
   smDragFrameCoord:"Receiver: at rest in the coordinates (a shared translation shows up)",
   smDragLenNote:"length ~ (|u|/|u|ref)^(1/3) (arrows beyond ref are capped)",
@@ -6552,21 +6554,37 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 既定 "sum" は正準形に出さない)
+const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
 // 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
 //   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
-//   "sum"(既定 = 第290便c の現行 —— 各源の寄与 a_ij(V_j−V_i) を足す・**正準形に出さない** → 既存の本の署名は 1 字も変わらない)/
-//   "solve"(法則版の候補 —— 共通の移動速度 W を (I+L)W = v で自己無撞着に解く・式と契約は `inertialDragComposeSolve` の注記)。
-//   `solveFrom:"history"|"velocity"`(v の意味 —— 履歴の座標差分 V^{n−1} か力学速度 S.vx。solve の本の正準形には必ず出す)・
-//   `solveIters`(n>REL_DRAG_SOLVE_DIRECT_MAX の反復回数・省略は既定 8 —— 正準形には宣言した本だけ)。どちらも compose:"solve" 専用。
+//   "sum"(第290便c の加算 —— 各源の寄与 a_ij(V_j−V_i) を足す)/
+//   "solve"(共通の移動速度 W を (I+L)W = v で自己無撞着に解く・式と契約は `inertialDragComposeSolve` の注記)。
+//   `solveFrom:"history"|"velocity"`(v の意味 —— 履歴の座標差分 V^{n−1} か力学速度 S.vx)・
+//   `solveIters`(n>REL_DRAG_SOLVE_DIRECT_MAX の反復回数・省略は既定 8 —— 正準形には宣言した本だけ)。solveFrom・solveIters は solve 専用。
+// 第293便g(原仮定者の裁定(第83報 追記)「引きずりは単純加算しないので、単純加算している現状の修正が先」・統括の検証項目 R147):
+//   **law:"inertial" の本の既定の合成則を "solve"・solveFrom を "velocity" に変えた**(未宣言 = solve(velocity))。
+//   正準形には既定を出さない(compose は "sum" を明示した本だけ・solveFrom は "history" を明示した本だけ)—— **署名は変わらないが力学は変わる**
+//  (内蔵で law:"inertial" を宣言した 🐌 inertialDragPair と 🌛 earthMoonInertial の 2 本 —— docs/PHYSICS.md〔第293便g〕)。
+//   "sum" は旧法則版(第290便c〜第293便e の既定)を比較だけのために残す opt-in。
 const REL_DRAG_COMPOSE = ["sum", "solve"];
 const REL_DRAG_SOLVE_FROM = ["history", "velocity"];
+const REL_DRAG_COMPOSE_DEFAULT = "solve";       // 第293便g: 未宣言の合成則(正準形に出さない)
+const REL_DRAG_SOLVE_FROM_DEFAULT = "velocity"; // 第293便g: 未宣言の v の意味(正準形に出さない)
+// 第293便g: 正準形(または実行時の S.relDrag)から実際の合成則と v の意味を読む(law:"inertial" 以外は null)
+function relDragComposeOf(rd){
+  if(!rd || rd.law!=="inertial") return null;
+  return (rd.compose===undefined || rd.compose===null)? REL_DRAG_COMPOSE_DEFAULT : rd.compose;
+}
+function relDragSolveFromOf(rd){
+  if(relDragComposeOf(rd)!=="solve") return null;
+  return (rd.solveFrom===undefined || rd.solveFrom===null)? REL_DRAG_SOLVE_FROM_DEFAULT : rd.solveFrom;
+}
 const REL_DRAG_SOLVE_ITERS_DEFAULT = 8;
 const REL_DRAG_SOLVE_ITERS_RANGE = [1, 1000];
 const REL_DRAG_SOLVE_DIRECT_MAX = 64;     // n ≤ 64 は直接法(ガウス消去 —— 行の対角優位なのでピボットなし)・それより多いと Gauss–Seidel
 const REL_DRAG_SOLVE_NMAX = 4096;         // 結合行列 a_ij(n² の倍精度)を張る上限 —— 超えた步は拒否して数える(u=0)
-const REL_DRAG_COMPOSE_VERSION = "w293e-compose-1";
+const REL_DRAG_COMPOSE_VERSION = "w293g-compose-2";   // 第293便g: 既定を solve(velocity) に(式・解法は w293e-compose-1 と同じ)
 // 第292便c(R139): 慣性決定力の構造核の宣言(天体 `dragCore`・本 `relativeDrag.coreTable`)の受理器と定数 —— 式と契約は `dragCoreInit` の注記
 const DRAG_CORE_KEY = "dragCore";
 const DRAG_CORE_VERSION = "w292c-dragcore-1";
@@ -6652,17 +6670,17 @@ function validateRelativeDragInertial(a){
   const ctv=validateDragCoreTable(a.coreTable);   // 第292便c: 省略は正準形に出さない(既存の本の署名は 1 字も変わらない)
   if(!ctv.ok) return {ok:false, err:ctv.err};
   if(ctv.coreTable!==null) out.coreTable=ctv.coreTable;
-  // 第293便e: 合成則(省略・null・"sum" は正準形に出さない —— 既存の本の署名は 1 字も変わらない)
-  const cmp=(a.compose===undefined || a.compose===null)? "sum" : a.compose;
-  if(REL_DRAG_COMPOSE.indexOf(cmp)<0) return {ok:false, err:'physics.relativeDrag.compose(law:"inertial")は "sum"(既定 —— 各源の寄与を足す)か "solve"(共通の移動速度を自己無撞着に解く)'};
+  // 第293便e→第293便g: 合成則(省略・null・"solve" は既定 —— 正準形に出さない。"sum" を明示した本だけ compose:"sum" を出す)
+  const cmp=(a.compose===undefined || a.compose===null)? REL_DRAG_COMPOSE_DEFAULT : a.compose;
+  if(REL_DRAG_COMPOSE.indexOf(cmp)<0) return {ok:false, err:'physics.relativeDrag.compose(law:"inertial")は "solve"(既定 —— 共通の移動速度を自己無撞着に解く)か "sum"(旧法則版 —— 各源の寄与を足す・比較用)'};
   if(cmp==="sum"){
     for(const k of ["solveFrom","solveIters"]) if(a[k]!==undefined && a[k]!==null)
-      return {ok:false, err:'physics.relativeDrag.'+k+' は compose:"solve" 専用(compose:"sum" では宣言しない)'};
+      return {ok:false, err:'physics.relativeDrag.'+k+' は compose:"solve"(既定)専用(compose:"sum" では宣言しない)'};
+    out.compose="sum";
   } else {
-    out.compose="solve";
-    const sf=(a.solveFrom===undefined || a.solveFrom===null)? "history" : a.solveFrom;
-    if(REL_DRAG_SOLVE_FROM.indexOf(sf)<0) return {ok:false, err:'physics.relativeDrag.solveFrom は "history"(既定 —— 座標差分の移動ベクトル V^{n−1})か "velocity"(力学速度 v)'};
-    out.solveFrom=sf;
+    const sf=(a.solveFrom===undefined || a.solveFrom===null)? REL_DRAG_SOLVE_FROM_DEFAULT : a.solveFrom;
+    if(REL_DRAG_SOLVE_FROM.indexOf(sf)<0) return {ok:false, err:'physics.relativeDrag.solveFrom は "velocity"(既定 —— 力学速度 v)か "history"(座標差分の移動ベクトル V^{n−1})'};
+    if(sf!==REL_DRAG_SOLVE_FROM_DEFAULT) out.solveFrom=sf;
     if(a.solveIters!==undefined && a.solveIters!==null){
       if(!isNum(a.solveIters) || a.solveIters!==Math.round(a.solveIters) || a.solveIters<REL_DRAG_SOLVE_ITERS_RANGE[0] || a.solveIters>REL_DRAG_SOLVE_ITERS_RANGE[1])
         return {ok:false, err:'physics.relativeDrag.solveIters は '+REL_DRAG_SOLVE_ITERS_RANGE[0]+'〜'+REL_DRAG_SOLVE_ITERS_RANGE[1]+' の整数(n>'+REL_DRAG_SOLVE_DIRECT_MAX+' の Gauss–Seidel の回数・既定 '+REL_DRAG_SOLVE_ITERS_DEFAULT+')'};
@@ -12270,7 +12288,7 @@ const BUILTIN_PRESETS = [
     {q:"118 公転(実測)", model:"27 公転ごとの近点周期 8.850/8.850/8.850/8.850 年・離心率の代理 0.0490(4 区間で同じ) —— 窓に依らず定常(二体の性質)", obs:"—"},
     {q:"言わないこと", model:"8.85 年を慣性決定力が較正ゼロで出したとは言わない。C_d・f・R_c を 8.85 年の 1 量から一意決定していない(1 次は ⟨ρ²⟩ だけ)", obs:"—"}],
   descStruct:{
-    summary:"**慣性決定力版の地球と月**(第292便c・原仮定者の裁定〔第82報〕⑤⑥・統括の検証項目 R139)。🌙 earthMoonReal の実単位の地球と月(質量・半径・離角・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 座標の差分の移動ベクトル V から u_i=C_d Σ_j m_j 𝒦_j(r)(V_j−V_i) を作り、位置だけを x+=u·dt で動かす)だけで回す。geoPN=0・kFrame=0(1PN も E6′ の q 引きずりも使わない)。地球には**構造核** dragCore:{massFrac:0.325, radius:3.48}(一様密度のコア+マントル殻 —— 感度実験の起点の宣言で、地球の核の同定ではない)を宣言し、核 K_ε(s)=s/(s²+ε²)² を地球の質量分布で体積平均した ⟨K⟩(r) を地球を源とする対に使う(月は点源・受け手は点・自転は読まない)。**gain(C_d)=514182 は、近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた 1 次元フィットの推定**であって較正の合ではない(AN117 と同じ扱い)。8 公転窓の Δϖ は 0.053207 rad/公転(🌘 の較正窓 +0.05308 の 1.0024 倍)で、8 公転・27 公転・118 公転の窓で近点周期が変わらない(二体の性質)。構造核の効きは月の距離(a≈57R)で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6×10⁻⁴ と小さく、点源で同じフィットをすると gain が 2.4e-4 大きくなるだけである —— **8.85 年の 1 量から C_d・f・R_c を同時に一意決定することはできない**(1 次の効きは質量分布の 2 次モーメント ⟨ρ²⟩〔慣性モーメント〕だけを通して入る。総質量と慣性モーメントを独立に固定して残る係数をフィットする順序が要る)。初速は 🌙 のまま合わせていないので恒星月は 27.143 日(-0.66% —— 118 公転の区間平均)。実際の月の近点回転の主因は太陽摂動であり(🔆)、本サンプルは太陽を入れない二体の原理サンプルである。",
+    summary:"**慣性決定力版の地球と月**(第292便c・原仮定者の裁定〔第82報〕⑤⑥・統括の検証項目 R139)。🌙 earthMoonReal の実単位の地球と月(質量・半径・離角・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 第293便g から既定の合成則 solve: 力学速度 v の差 s_i=C_d Σ_j m_j 𝒦_j(r)(v_j−v_i) から (I+L)u=s を解き、位置だけを x+=u·dt で動かす。旧加算 u_i=Σ_j a_ij(V_j−V_i)〔V は座標の差分の移動ベクトル〕は compose:\"sum\" の明示だけ)だけで回す。geoPN=0・kFrame=0(1PN も E6′ の q 引きずりも使わない)。地球には**構造核** dragCore:{massFrac:0.325, radius:3.48}(一様密度のコア+マントル殻 —— 感度実験の起点の宣言で、地球の核の同定ではない)を宣言し、核 K_ε(s)=s/(s²+ε²)² を地球の質量分布で体積平均した ⟨K⟩(r) を地球を源とする対に使う(月は点源・受け手は点・自転は読まない)。**gain(C_d)=514182 は、近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた 1 次元フィットの推定**であって較正の合ではない(AN117 と同じ扱い)。8 公転窓の Δϖ は 0.053207 rad/公転(🌘 の較正窓 +0.05308 の 1.0024 倍)で、8 公転・27 公転・118 公転の窓で近点周期が変わらない(二体の性質)。構造核の効きは月の距離(a≈57R)で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6×10⁻⁴ と小さく、点源で同じフィットをすると gain が 2.4e-4 大きくなるだけである —— **8.85 年の 1 量から C_d・f・R_c を同時に一意決定することはできない**(1 次の効きは質量分布の 2 次モーメント ⟨ρ²⟩〔慣性モーメント〕だけを通して入る。総質量と慣性モーメントを独立に固定して残る係数をフィットする順序が要る)。初速は 🌙 のまま合わせていないので恒星月は 27.143 日(-0.66% —— 118 公転の区間平均)。実際の月の近点回転の主因は太陽摂動であり(🔆)、本サンプルは太陽を入れない二体の原理サンプルである。",
     observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが 1 公転あたり約 3.05° ずつ順行に回るのを見る(8.85 年 ≈ 118 公転で一周)。27 公転ごとの近点周期は 8.850/8.850/8.850/8.850 年・離心率の代理は 0.0490(4 区間で同じ) で、窓を延ばしても変わらない(kFrame=1・D₀=0.006・qLock の q 引きずり〔旧判別 B〕は窓を延ばすと 20.8 年へ遅れ離心率を汲み上げた)。HUD の t は日・年に換算される。",
     control:"比較の相手は 🌙(同じ初期状態・慣性引きずりなし —— 近点は回らない)と 🌘(kFrame=1 の q 引きずり・D₀ と初速の共同フィット)。構造核の感度(f∈{0.125, 0.325, 0.6}×R_c∈{0.4, 0.546, 0.7}R と点源)とフィットの手順は器 tests/exp-w292c-dragcore.mjs・正本 tests/out/dragcore-w292c.json・docs/PHYSICS.md〔第292便c〕で見る。"},
   en:{name:"Earth & Moon (inertial determinacy) — structure core and a fitted apsidal cycle",
@@ -12283,7 +12301,7 @@ const BUILTIN_PRESETS = [
       {q:"118 orbits (measured)", model:"apsidal period per 27 orbits 8.850/8.850/8.850/8.850 yr; e proxy 0.0490 in all four: steady (a two-body property)", obs:"-"},
       {q:"Not claimed", model:"8.85 yr is not produced with zero calibration; C_d, f, R_c are not fixed by one number (first order: <rho^2> only)", obs:"-"}],
     descStruct:{
-      summary:"THE INERTIAL-DETERMINACY VERSION OF THE EARTH AND MOON (wave 292c; the originator's ruling in report 82 items 5 and 6; the coordinator's check item R139). 🌙 earthMoonReal's real-unit Earth and Moon (masses, radii, separation, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG alone (physics.relativeDrag.law:\"inertial\": from the coordinate-difference movement V it builds u_i = C_d sum_j m_j K_j(r)(V_j - V_i) and moves positions only, x += u dt). geoPN=0, kFrame=0 (no 1PN, no E6' q dragging). The Earth declares a STRUCTURE CORE dragCore:{massFrac:0.325, radius:3.48} (a uniform core plus a uniform mantle shell - the starting point of a sensitivity experiment, not an identification of the Earth's core); the kernel K_eps(s)=s/(s^2+eps^2)^2 averaged over the Earth's mass distribution, <K>(r), is used for the pairs whose source is the Earth (the Moon is a point; receivers are points; spins are not read). THE GAIN C_d=514182 IS AN ESTIMATE FROM A ONE-DIMENSIONAL FIT of the apsidal period (detector B, 27-orbit window) to 8.85 yr, not a calibration agreement (treated as AN117). The 8-orbit advance is 0.053207 rad/orbit (1.0024 x 🌘's calibration-window +0.05308), and the period is the same in the 8-, 27- and 118-orbit windows (a two-body property). The structure core acts weakly at the Moon's distance (a ~ 57R): <K>/K - 1 ~ <rho^2>/a^2 ~ 1.6e-4, and the same fit with a point source needs a gain only 2.4e-4 larger - C_d, f AND R_c CANNOT BE FIXED TOGETHER FROM THE ONE 8.85-YEAR NUMBER (to first order the structure enters only through the second moment <rho^2>, i.e. the moment of inertia; the total mass and the moment of inertia must be fixed independently before the remaining coefficient is fitted). The speeds are 🌙's and are not refitted, so the sidereal month is 27.143 d (-0.66%, the 118-orbit mean). The real Moon's apsidal cycle is driven mainly by the Sun (🔆); this is a two-body principle sample without the Sun.",
+      summary:"THE INERTIAL-DETERMINACY VERSION OF THE EARTH AND MOON (wave 292c; the originator's ruling in report 82 items 5 and 6; the coordinator's check item R139). 🌙 earthMoonReal's real-unit Earth and Moon (masses, radii, separation, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG alone (physics.relativeDrag.law:\"inertial\": from wave 293g the default composition rule solve takes the dynamical-velocity differences s_i = C_d sum_j m_j K_j(r)(v_j - v_i), solves (I+L)u = s and moves positions only, x += u dt; the former sum u_i = sum_j a_ij(V_j - V_i) over the coordinate-difference movement V runs only when compose:\"sum\" is declared). geoPN=0, kFrame=0 (no 1PN, no E6' q dragging). The Earth declares a STRUCTURE CORE dragCore:{massFrac:0.325, radius:3.48} (a uniform core plus a uniform mantle shell - the starting point of a sensitivity experiment, not an identification of the Earth's core); the kernel K_eps(s)=s/(s^2+eps^2)^2 averaged over the Earth's mass distribution, <K>(r), is used for the pairs whose source is the Earth (the Moon is a point; receivers are points; spins are not read). THE GAIN C_d=514182 IS AN ESTIMATE FROM A ONE-DIMENSIONAL FIT of the apsidal period (detector B, 27-orbit window) to 8.85 yr, not a calibration agreement (treated as AN117). The 8-orbit advance is 0.053207 rad/orbit (1.0024 x 🌘's calibration-window +0.05308), and the period is the same in the 8-, 27- and 118-orbit windows (a two-body property). The structure core acts weakly at the Moon's distance (a ~ 57R): <K>/K - 1 ~ <rho^2>/a^2 ~ 1.6e-4, and the same fit with a point source needs a gain only 2.4e-4 larger - C_d, f AND R_c CANNOT BE FIXED TOGETHER FROM THE ONE 8.85-YEAR NUMBER (to first order the structure enters only through the second moment <rho^2>, i.e. the moment of inertia; the total mass and the moment of inertia must be fixed independently before the remaining coefficient is fitted). The speeds are 🌙's and are not refitted, so the sidereal month is 27.143 d (-0.66%, the 118-orbit mean). The real Moon's apsidal cycle is driven mainly by the Sun (🔆); this is a two-body principle sample without the Sun.",
       observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde by about 3.05 deg per orbit (one cycle in 8.85 yr ~ 118 orbits). The apsidal period per 27 orbits is 8.850/8.850/8.850/8.850 yr and the eccentricity proxy 0.0490 in all four: lengthening the window changes nothing (the q dragging with kFrame=1, D₀=0.006 and qLock — the former audit B — slowed to 20.8 yr and pumped the eccentricity). The HUD time is shown in days and years.",
       control:"Compare with 🌙 (same initial state, no inertial drag - the apses stay still) and 🌘 (kFrame=1 q dragging, a joint fit of D0 and the speeds). The structure-core sensitivity (f in {0.125, 0.325, 0.6} x R_c in {0.4, 0.546, 0.7}R and a point source) and the fit procedure are in tests/exp-w292c-dragcore.mjs, tests/out/dragcore-w292c.json and docs/PHYSICS.md (wave 292c)."},
     parameterAudit:{
@@ -17251,7 +17269,7 @@ const BUILTIN_PRESETS = [
   notClaim:["cal"],
   obsCard:[
     {q:"何を置いたか", model:"トイ単位(G=1)の 2 体 m=10・1・離角 20・ほぼ円軌道。geoPN=0・kFrame=0 で、宣言 relativeDrag:{law:\"inertial\", gain:0.8} の別経路だけが走る", obs:"—(原理サンプル —— 観測転写はしない)"},
-    {q:"則(1 步)", model:"V=(座標の差分)/Δt・u_i=C_d Σ_{j≠i} m_j r/(r²+ε²)² (V_j−V_i)・x+=u·dt(v へは足さない・毎步作り直す・自己項なし)", obs:"—"},
+    {q:"則(1 步)", model:"既定 solve(第293便g): s_i=C_d Σ_{j≠i} m_j r/(r²+ε²)² (v_j−v_i)(v=力学速度)→ (I+L)u=s・x+=u·dt。旧加算は compose:\"sum\" だけ", obs:"—"},
     {q:"gain=0 の対照(実測)", model:"宣言なしと全標本ビット同一(🐌 と既存 3 本・600 步・7 標本の位置・速度・自転 84/84 値)", obs:"—"},
     {q:"近点移動(実測)", model:"Δϖ/周(対照を引く)gain 0.4/0.8/1.6 で 0.005195/0.010415/0.020929 rad・限定模型との差 3.6e-8/7.2e-8/1.4e-7・dt 半分で相対 −5.6e-6", obs:"—"},
     {q:"解析との差(実測)", model:"解析 2π(√((1+a)/(1−2a))−1) は 0.005187/0.010381/0.020791・3πa は 0.005184/0.010367/0.020734(離心 0.01 と軟化の差)", obs:"—"},
@@ -17259,13 +17277,13 @@ const BUILTIN_PRESETS = [
     {q:"帳簿(実測)", model:"v は不変・位置エネルギーが変わる: gain 0.8 で ΔE=4.6e-6・外部支持の仕事 W=1.8e-7・ΔE−W は dt に比例(積分器と同じ一次)。閉じた系の保存ではない", obs:"—"},
     {q:"言わないこと", model:"1PN と同等・回転引きずりが創発・連鎖で円盤・慣性決定力場を既定で接続、とは書かない。回転引きずり(手前/反対)と連鎖は未実装", obs:"—"}],
   descStruct:{
-    summary:"**第80報の慣性決定力場の並進引きずりを、宣言した本だけで走らせる診断**(第290便c・原仮定者の裁定〔第80報〕⑥・統括の検証項目 R127)。新しい法則版 physics.relativeDrag.law:\"inertial\" は、各物理ステップで**移動ベクトル V=(座標の差分)/Δt**(核の位置更新の後・移送の前の座標を毎步標本化)から **u_i=C_d Σ_{j≠i} m_j K_ε(r_ij)(V_j−V_i)**・K_ε=r/(r²+ε²)²(遠方 r⁻³)を作り、**位置だけを x+=u·dt で動かす**(v へは足さない・u は毎步作り直す・自己項は計算しない・最初の步は u=0)。**gain=0 で既定経路とビット同一**。既存の q 付き場・u=A/W・E6′・pairSlip には足していない(kFrame=0)。**回転引きずり(手前/反対)と連鎖は未実装。較正ではない。** C_d=0.8 [L³/M] は安定条件(上界 2·max deg ≪ 1)を満たす宣言値で、普遍定数とは呼ばない。",
+    summary:"**第80報の慣性決定力場の並進引きずりを、宣言した本だけで走らせる診断**(第290便c・原仮定者の裁定〔第80報〕⑥・統括の検証項目 R127)。新しい法則版 physics.relativeDrag.law:\"inertial\" は、各物理ステップで**移動ベクトル V=(座標の差分)/Δt**(核の位置更新の後・移送の前の座標を毎步標本化)から **u_i=C_d Σ_{j≠i} m_j K_ε(r_ij)(V_j−V_i)**・K_ε=r/(r²+ε²)²(遠方 r⁻³)を作り、**位置だけを x+=u·dt で動かす**(v へは足さない・u は毎步作り直す・自己項は計算しない・最初の步は u=0)。**第293便g から既定の合成則は solve**(力学速度 v の差 s_i=C_d Σ_j m_j K_ε(v_j−v_i) から (I+L)u=s を解く —— 各源の寄与を単純には足さない)で、上の加算は compose:\"sum\" を明示したときだけ走る旧法則版(比較用)。**gain=0 で既定経路とビット同一**。既存の q 付き場・u=A/W・E6′・pairSlip には足していない(kFrame=0)。**回転引きずり(手前/反対)と連鎖は未実装。較正ではない。** C_d=0.8 [L³/M] は安定条件(上界 2·max deg ≪ 1)を満たす宣言値で、普遍定数とは呼ばない。",
     observe:"トレイルで軽い方(m=1)の近点の向きが周ごとに順行へ回るのを見る(gain 0.8 で 1 周あたり約 0.0104 rad —— 5 周で約 3°)。B 側(gain:0)は宣言なしとビット同一で、軟化 ε=0.05 による小さな逆行(−6e-5 rad/周 —— 限定模型の gain 0 も −5.9e-5)だけが残る。回るのは**力ではなく座標移送**による(v は 1 bit も触らない・u は毎步作り直す)。上界 2·max deg は 0.0021 で安定条件の内側。回転引きずり(手前/反対)と連鎖は未実装で、ここに現れるのは並進引きずりだけ。",
     control:"ワンタップ対照A/B: B 側は**同じ宣言の gain:0**(用量 0 の否定対照 —— 宣言なしとビット同一に走る)。トレイルで近点の向きの回り方を並べる。比較の相手は 🪗(足した力で近点が回る別の玩具)で、こちらは**力ではなく座標移送**で回る(v は 1 bit も触らない)。"},
   en:{name:"Inertial dragging pair — translational dragging driven by coordinate differences",
     obsCard:[
       {q:"What is placed", model:"toy units (G=1), m=10 and 1, separation 20, near-circular; geoPN=0, kFrame=0; only the declared inertial path runs", obs:"- (a principle sample; nothing transcribed)"},
-      {q:"The law (one step)", model:"V=(coordinate difference)/dt; u_i=C_d sum_j m_j r/(r^2+eps^2)^2 (V_j-V_i); x+=u dt (never into v; rebuilt each step)", obs:"-"},
+      {q:"The law (one step)", model:"default solve (293g): s_i=C_d sum_j m_j r/(r^2+eps^2)^2 (v_j-v_i), v=velocity; (I+L)u=s; x+=u dt. Old sum: compose:\"sum\"", obs:"-"},
       {q:"gain=0 control (measured)", model:"bit-identical to no declaration at every sample (🐌 and 3 samples, 600 steps, 7 samples, 84/84 values)", obs:"-"},
       {q:"Apsidal advance (measured)", model:"per orbit, control subtracted: 0.005195/0.010415/0.020929 rad (gain 0.4/0.8/1.6); vs limited model 3.6e-8/7.2e-8/1.4e-7", obs:"-"},
       {q:"Versus analytic (measured)", model:"2pi(sqrt((1+a)/(1-2a))-1): 0.005187/0.010381/0.020791; 3pi a: 0.005184/0.010367/0.020734 (eccentricity 0.01, softening)", obs:"-"},
@@ -17273,7 +17291,7 @@ const BUILTIN_PRESETS = [
       {q:"Ledger (measured)", model:"v untouched, potential energy moves: gain 0.8 dE=4.6e-6, support work W=1.8e-7; dE-W scales with dt; not a closed system", obs:"-"},
       {q:"Not claimed", model:"not 1PN-equivalent; no emergent rotational dragging; no chain disc; off by default; near/far and chain not implemented", obs:"-"}],
     descStruct:{
-      summary:"A DIAGNOSTIC THAT RUNS REPORT 80's TRANSLATIONAL DRAGGING OF THE INERTIAL DETERMINACY FIELD ONLY IN A SAMPLE THAT DECLARES IT (wave 290c, the originator's ruling in report 80 item 6, the coordinator's check item R127). The new law version physics.relativeDrag.law:\"inertial\" builds, every physics step, a MOVEMENT VECTOR V = (coordinate difference)/dt (the coordinates are sampled each step after the core's position update and before the transport) and from it u_i = C_d sum_{j!=i} m_j K_eps(r_ij)(V_j - V_i) with K_eps = r/(r^2+eps^2)^2 (r^-3 far away), and MOVES ONLY THE POSITIONS, x += u dt (never added to v; u is rebuilt every step; no self term; u = 0 on the first step). WITH gain=0 IT IS BIT-IDENTICAL TO THE DEFAULT PATH. Nothing is added to the existing q-weighted field, u=A/W, E6' or pairSlip (kFrame=0). ROTATIONAL DRAGGING (NEAR/FAR SIDE) AND THE CHAIN ARE NOT IMPLEMENTED. THIS IS NOT A CALIBRATION. C_d = 0.8 [L^3/M] is a declared value that satisfies the stability condition (bound 2 max deg << 1); it is not called a universal constant.",
+      summary:"A DIAGNOSTIC THAT RUNS REPORT 80's TRANSLATIONAL DRAGGING OF THE INERTIAL DETERMINACY FIELD ONLY IN A SAMPLE THAT DECLARES IT (wave 290c, the originator's ruling in report 80 item 6, the coordinator's check item R127). The new law version physics.relativeDrag.law:\"inertial\" builds, every physics step, a MOVEMENT VECTOR V = (coordinate difference)/dt (the coordinates are sampled each step after the core's position update and before the transport) and from it u_i = C_d sum_{j!=i} m_j K_eps(r_ij)(V_j - V_i) with K_eps = r/(r^2+eps^2)^2 (r^-3 far away), and MOVES ONLY THE POSITIONS, x += u dt (never added to v; u is rebuilt every step; no self term; u = 0 on the first step). FROM WAVE 293g THE DEFAULT COMPOSITION RULE IS solve (from the dynamical-velocity differences s_i = C_d sum_j m_j K_eps (v_j - v_i) it solves (I+L)u = s - the contributions of the sources are not simply added); the sum above runs only when compose:\"sum\" is declared (the former law version, for comparison). WITH gain=0 IT IS BIT-IDENTICAL TO THE DEFAULT PATH. Nothing is added to the existing q-weighted field, u=A/W, E6' or pairSlip (kFrame=0). ROTATIONAL DRAGGING (NEAR/FAR SIDE) AND THE CHAIN ARE NOT IMPLEMENTED. THIS IS NOT A CALIBRATION. C_d = 0.8 [L^3/M] is a declared value that satisfies the stability condition (bound 2 max deg << 1); it is not called a universal constant.",
       observe:"Use the trail to watch the apsides of the light body (m=1) turn prograde orbit by orbit (about 0.0104 rad per orbit at gain 0.8 - about 3 degrees in five orbits). Side B (gain:0) is bit-identical to no declaration and keeps only a small retrograde turn from the softening eps=0.05 (-6e-5 rad per orbit; the limited model at gain 0 gives -5.9e-5). The turn comes from COORDINATE TRANSPORT, not from a force (v is not touched by a single bit; u is rebuilt every step). The bound 2 max deg is 0.0021, inside the stability condition. Rotational dragging (near/far side) and the chain are not implemented; only translational dragging appears here.",
       control:"One-tap A/B: side B carries THE SAME DECLARATION WITH gain:0 (the zero-dose negative control - it runs bit-identically to no declaration). Use trails to compare how the apsides turn. Compare with 🪗 (a different toy where an added force turns the apsides); here they turn by COORDINATE TRANSPORT, not by a force (v is not touched by a single bit)."},
     parameterAudit:{
@@ -19603,8 +19621,8 @@ const SAMPLE_STATUS={
 "projectile":{"purpose":"一様重力だけで自由落下と放物運動を見せる","objective":"partial","state":"場の式と配置の検査のみで軌道の定量門は無い","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["field.uniform-gravity","projectile.layout"],"en":{"purpose":"Show free fall and projectile motion under uniform gravity alone","state":"only the field formula and the layout are checked; there is no quantitative orbit gate","mismatch":null,"outlook":null,"brief":"Show free fall and projectile motion under uniform gravity alone. Partial: only the field formula and the layout are checked; there is no quantitative orbit gate. Out of calibration scope."},"brief":"一様重力だけで自由落下と放物運動を見せる。部分・場の式と配置の検査のみで軌道の定量門は無い。較正対象外。"},
 "echo":{"purpose":"保存系は巻き戻り摩擦系は戻らないことを比べる","objective":"met","state":"反転後の復帰と摩擦での不復帰が門を通過","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["echo.leapfrog-return","echo.friction-noreturn"],"en":{"purpose":"Compare a conservative universe that rewinds with a frictional one that does not","state":"the return after reversal and the non-return with friction pass their gates","mismatch":null,"outlook":null,"brief":"Compare a conservative universe that rewinds with a frictional one that does not. Met: the return after reversal and the non-return with friction pass their gates. Out of calibration scope."},"brief":"保存系は巻き戻り摩擦系は戻らないことを比べる。達・反転後の復帰と摩擦での不復帰が門を通過。較正対象外。"},
 "compactForceToy":{"purpose":"3 候補の追加力が近点を回す向きを比べる","objective":"met","state":"力の符号と整合を純関数とエンジンで確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.compactForce"],"en":{"purpose":"Compare which way three candidate extra forces turn the apsides","state":"force signs and consistency are checked in the pure functions and the engine","mismatch":null,"outlook":null,"brief":"Compare which way three candidate extra forces turn the apsides. Met: force signs and consistency are checked in the pure functions and the engine. Out of calibration scope."},"brief":"3 候補の追加力が近点を回す向きを比べる。達・力の符号と整合を純関数とエンジンで確認。較正対象外。"},
-"inertialDragPair":{"purpose":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る","objective":"met","state":"gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial-w290c.json"],"en":{"purpose":"Run inertial-law dragging only where declared; measure apsidal advance","state":"gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain","mismatch":null,"outlook":null,"brief":"Run inertial-law dragging only where declared; measure apsidal advance. Met: gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."},"brief":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装。較正対象外。"},
-"earthMoonInertial":{"purpose":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る","objective":"met","state":"gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/dragcore-w292c.json"],"en":{"purpose":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect","state":"gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4","mismatch":null,"outlook":null,"brief":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4. Out of calibration scope."},"brief":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"},
+"inertialDragPair":{"purpose":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る","objective":"met","state":"合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial-w290c.json"],"en":{"purpose":"Run inertial-law dragging only where declared; measure apsidal advance","state":"solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain","mismatch":null,"outlook":null,"brief":"Run inertial-law dragging only where declared; measure apsidal advance. Met: solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."},"brief":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装。較正対象外。"},
+"earthMoonInertial":{"purpose":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る","objective":"met","state":"合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/dragcore-w292c.json"],"en":{"purpose":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect","state":"solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4","mismatch":null,"outlook":null,"brief":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4. Out of calibration scope."},"brief":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"},
 "boxBinaryToy":{"purpose":"等質量で共通移動が相対軌道から消えるかを測る","objective":"met","state":"等質量で消え質量差の対照では残る","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.boxBinary"],"en":{"purpose":"Test whether a common drift drops out of the relative orbit for equal masses","state":"it drops out for equal masses and stays in the unequal-mass control","mismatch":null,"outlook":null,"brief":"Test whether a common drift drops out of the relative orbit for equal masses. Met: it drops out for equal masses and stays in the unequal-mass control. Out of calibration scope."},"brief":"等質量で共通移動が相対軌道から消えるかを測る。達・等質量で消え質量差の対照では残る。較正対象外。"},
 "spaceMeshBinaryToy":{"purpose":"メッシュの重力が既存の重力と同じ核かを確かめる","objective":"met","state":"重力は二重計上なし・慣性候補は頂点で退化","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.spaceMeshForce"],"en":{"purpose":"Check that the mesh gravity is the same kernel as the existing gravity","state":"gravity is not double counted; the inertia candidates degenerate at the vertex","mismatch":null,"outlook":null,"brief":"Check that the mesh gravity is the same kernel as the existing gravity. Met: gravity is not double counted; the inertia candidates degenerate at the vertex. Out of calibration scope."},"brief":"メッシュの重力が既存の重力と同じ核かを確かめる。達・重力は二重計上なし・慣性候補は頂点で退化。較正対象外。"},
 "galaxy":{"purpose":"中心天体の引きずりで外縁の回転が速まるかを測る","objective":"met","state":"外縁速度比 1.521 が門 >1.04 を通過","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.galaxy-outerboost"],"en":{"purpose":"Measure whether the central body's dragging speeds up the outer rotation","state":"outer speed ratio 1.521 passes the >1.04 gate","mismatch":null,"outlook":null,"brief":"Measure whether the central body's dragging speeds up the outer rotation. Met: outer speed ratio 1.521 passes the >1.04 gate. Out of calibration scope."},"brief":"中心天体の引きずりで外縁の回転が速まるかを測る。達・外縁速度比 1.521 が門 >1.04 を通過。較正対象外。"},
@@ -32102,7 +32120,7 @@ function drawDragFieldOn(S,SXf,SYf){
   const D=spaceMeshDisplaySample(S,V); if(!D || !D.xs) return;
   _smDrawRefGrid(D,SXf,SYf,SPACE_MESH_DRAG_RGB);
   const R=D.ready, leg=[T("smDragTitle")];
-  if(!R.ready){ leg.push(T("smDragNoHist")); _smDrawLegend(leg,lx,ly,SPACE_MESH_DRAG_RGB); return; }
+  if(!R.ready){ leg.push(T(R.why==="composeSolve"? "smDragComposeSolve" : "smDragNoHist")); _smDrawLegend(leg,lx,ly,SPACE_MESH_DRAG_RGB); return; }   // 第293便g: 合成則 solve(既定)の本は理由を出して描かない
   const um=D.uMax, ur=(D.uRef>0)? D.uRef : um, Lmax=0.45*Math.abs(SXf(D.h)-SXf(0));
   if(um>0){
     const lw=ctx.lineWidth; ctx.lineWidth=1.2; ctx.strokeStyle="rgba("+SPACE_MESH_DRAG_RGB+",0.85)";
@@ -48769,7 +48787,7 @@ function inertialDragInit(S){
   S.inertialDragBound=0; S.inertialDragBoundMax=0; S.inertialDragDegMax=0; S.inertialDragUMax=0;
   S.inertialDragPx=0; S.inertialDragPy=0; S.inertialDragJz=0; S.inertialDragDU=0;
   S.inertialDragWork=0; S.inertialDragDL=0;
-  if(rd && rd.compose==="solve"){   // 第293便e: 合成則 solve の帳簿(宣言した本だけ —— 未宣言の本には鍵を作らない)
+  if(relDragComposeOf(rd)==="solve"){   // 第293便e: 合成則 solve の帳簿(第293便g: 既定 solve —— compose:"sum" を明示した本と law:"inertial" でない本には鍵を作らない)
     S.inertialDragSolveN=0; S.inertialDragSolveRes=0; S.inertialDragSolveResMax=0; S.inertialDragSolveMethod=null;
     S.inertialDragUSumMax=0; S.inertialDragUSolveMax=0; S.inertialDragSolveTooLarge=0;
   }
@@ -48786,14 +48804,16 @@ function inertialDragEpoch(S){
   return S.n+"|"+(S.fusN||0)+"|"+(S.fisN||0)+"|"+(S.shedNev||0)+"|"+cap+"|"+fc;
 }
 // ===== 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
-//   統括の検証項目 R145): **引きずりの合成則 compose:"solve"**(法則版の候補 —— 本番核の差し替えではない・既定 "sum" は現行のまま)=====
-// 現行(compose 未宣言 = "sum")の `dfmInertialDragStep` は u_i = Σ_j a_ij (V_j − V_i)・a_ij = C_d m_j 𝒦_j(r_ij) で**各源の寄与を足す**
+//   統括の検証項目 R145): **引きずりの合成則 compose:"solve"** =====
+// 第293便g(原仮定者の裁定(第83報 追記)・R147): **既定を solve(solveFrom:"velocity")に変えた**。下の "sum" は compose:"sum" を明示した本だけ
+//(旧法則版 —— 比較用)。下の注記の「既定」「現行」は第293便e の時点の言い方(履歴則の既定は "history" → 第293便g で "velocity")。
+// 旧既定(compose:"sum")の `dfmInertialDragStep` は u_i = Σ_j a_ij (V_j − V_i)・a_ij = C_d m_j 𝒦_j(r_ij) で**各源の寄与を足す**
 //(静止した受け手に同方向・速度 1 の源を 2 つ置き a=1 なら u=2)。"solve" は**共通の移動速度 W** を自己無撞着に解く:
 //   W_i = v_i + Σ_j a_ij (W_j − W_i)  ⇔  (I + L) W = v(L の対角 Σ_j a_ij・非対角 −a_ij)・u_i = W_i − v_i
 // 規定源(pinned)だけが源なら W_i = (v_i + Σ_j a_ij W_j)/(1 + Σ_j a_ij)(2 源・a=1・源速度 1・v_i=0 で u = 2/3 —— 加算なら 2)。
 // 実装は u について解く(共通の並進が式の上で厳密に消える形): (I + L) u = s、s_i = Σ_j a_ij (v_j − v_i)(= 現行の加算の u と同じ式・同じ順序)。
-//   ・v の意味は宣言 `solveFrom`: "history"(既定 —— 現行と同じ座標差分の移動ベクトル V^{n−1} = (x^n − x^{n−1})/Δt)/
-//     "velocity"(力学速度 S.vx —— この hook の入口の値)。**履歴の V^{n−1} は前の步の移送 u^{n−1} を含む**(V ≈ v + u^{n−1})ので、
+//   ・v の意味は宣言 `solveFrom`: "history"(座標差分の移動ベクトル V^{n−1} = (x^n − x^{n−1})/Δt)/
+//     "velocity"(第293便g の既定 —— 力学速度 S.vx・この hook の入口の値)。**履歴の V^{n−1} は前の步の移送 u^{n−1} を含む**(V ≈ v + u^{n−1})ので、
 //     現行の加算は時間方向に (I+L)u = −Lv の不動点反復になっている(定常では solveFrom:"velocity" と同じ点 —— docs/PHYSICS.md〔第293便e〕)。
 //   ・解法: n ≤ REL_DRAG_SOLVE_DIRECT_MAX(64)は直接法(ガウス消去 —— a_ij ≥ 0 なので I+L は行について厳密に対角優位・ピボットなし)/
 //     それより多いと Gauss–Seidel を solveIters 回(既定 8・初期値 0・添字の順)。どちらも残差 max|(I+L)u − s|/max|s| を帳簿
@@ -48805,7 +48825,7 @@ function inertialDragEpoch(S){
 function inertialDragComposeBuild(S,n,CT,hist,C,e2){
   if(n>REL_DRAG_SOLVE_NMAX) return {coincident:false, degMax:0, tooLarge:true};
   const X=S.x, Y=S.y, m=S.m, pin=S.pinned, set=S._rdPairSet, NP=S._rdPairN;
-  const vel=(S.relDrag.solveFrom==="velocity");
+  const vel=(relDragSolveFromOf(S.relDrag)==="velocity");   // 第293便g: 未宣言は "velocity"
   const WX=vel? S.vx : S._rdVX, WY=vel? S.vy : S._rdVY;
   const UX=S._rdUX, UY=S._rdUY, DG=S._rdDeg;
   if(!S._rdA || S._rdA.length<n*n) S._rdA=new Float64Array(n*n);
@@ -48920,7 +48940,7 @@ function dfmInertialDragStep(S,dt){
   // 第292便c: 構造核(dragCore)の表がある本だけ別の受け手ループ(粒子が入れ替わったら表を捨てて点源へ)。**表の無い本はこの分岐の外 = 下の従来ループそのまま**
   let CT=S._dragCoreT;
   if(CT){ if(S._dragCoreEp===null) S._dragCoreEp=ep; else if(S._dragCoreEp!==ep){ S._dragCoreT=CT=null; if(S._dragCore) S._dragCore.dropped={t, epoch:ep}; } }
-  const comp=(rd.compose==="solve");   // 第293便e: 合成則 solve(宣言した本だけ —— 未宣言の本は下の従来の 2 つのループのまま)
+  const comp=(relDragComposeOf(rd)==="solve");   // 第293便e: 合成則 solve(第293便g: 既定 —— compose:"sum" を明示した本だけ下の従来の 2 つのループ)
   if(comp){ const q=inertialDragComposeBuild(S,n,CT,hist,C,e2); coincident=q.coincident; degMax=q.degMax;
     if(q.tooLarge){ S.inertialDragSolveTooLarge++; S.inertialDragReject++; S.inertialDragWhy="composeTooLarge"; hist=false; } }
   else if(CT) for(let i=0;i<n && !coincident;i++){
@@ -49006,13 +49026,13 @@ function inertialDragState(S){
     bound:S.inertialDragBound, boundMax:S.inertialDragBoundMax, degMax:S.inertialDragDegMax, uMax:S.inertialDragUMax,
     sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL,
     ...(S._dragCore? {dragCore:dragCoreState(S)} : null),   // 第292便c: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
-    ...((S.relDrag.compose==="solve")? {compose:inertialDragComposeState(S)} : null) };   // 第293便e: 合成則 solve を宣言した本だけ: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
+    ...((relDragComposeOf(S.relDrag)==="solve")? {compose:inertialDragComposeState(S)} : null) };   // 第293便e: 合成則 solve の本だけ(第293便g: 既定 —— compose:"sum" を明示した本の読み口には compose の鍵が無い)
 }
 // 第293便e: 合成則 solve の読み口(状態は 1 bit も動かさない)
 function inertialDragComposeState(S){
-  if(!S || !S.relDrag || S.relDrag.compose!=="solve") return null;
+  if(!S || !S.relDrag || relDragComposeOf(S.relDrag)!=="solve") return null;
   const rd=S.relDrag;
-  return { version:REL_DRAG_COMPOSE_VERSION, compose:"solve", solveFrom:rd.solveFrom,
+  return { version:REL_DRAG_COMPOSE_VERSION, compose:"solve", solveFrom:relDragSolveFromOf(rd),
     solveIters:(rd.solveIters!==undefined)? rd.solveIters : REL_DRAG_SOLVE_ITERS_DEFAULT, directMax:REL_DRAG_SOLVE_DIRECT_MAX,
     solves:S.inertialDragSolveN, method:S.inertialDragSolveMethod, res:S.inertialDragSolveRes, resMax:S.inertialDragSolveResMax,
     uSumMax:S.inertialDragUSumMax, uSolveMax:S.inertialDragUSolveMax, tooLarge:S.inertialDragSolveTooLarge };
@@ -49235,7 +49255,7 @@ function inertialDragFieldReady(S){
   if(!S || !S.relDrag || S.relDrag.law!=="inertial"){ out.why="undeclared"; return out; }
   out.declared=true; out.gain=S.relDrag.gain;
   out.eps=(S.relDrag.eps!==undefined)? S.relDrag.eps : (S.params.softening||0);
-  if(S.relDrag.compose==="solve"){ out.why="composeSolve"; return out; }   // 第293便e: サンプラーは加算の局所場だけ —— 合成則 solve の u とは比べない(描かない)
+  if(relDragComposeOf(S.relDrag)==="solve"){ out.why="composeSolve"; return out; }   // 第293便e: サンプラーは加算の局所場だけ —— 合成則 solve の u とは比べない(描かない)。第293便g: 既定が solve になったので compose:"sum" を明示した本だけ描く
   const n=S.n;
   if(!S.rdPrevX || !S._rdVX || !S._rdUX || S.rdPrevX.length<n){ out.why="noSample"; return out; }
   if(!(S.inertialDragN>0)){ out.why="noHistory"; return out; }
@@ -52358,6 +52378,7 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   dfmInertialDragStep, inertialDragInit, inertialDragEpoch, inertialDragState, validateRelativeDragInertial,   // 第290便c
   inertialDragComposeBuild, inertialDragComposeSolve, inertialDragComposeState, REL_DRAG_COMPOSE, REL_DRAG_SOLVE_FROM, REL_DRAG_SOLVE_ITERS_DEFAULT,
   REL_DRAG_SOLVE_ITERS_RANGE, REL_DRAG_SOLVE_DIRECT_MAX, REL_DRAG_SOLVE_NMAX, REL_DRAG_COMPOSE_VERSION,   // 第293便e
+  REL_DRAG_COMPOSE_DEFAULT, REL_DRAG_SOLVE_FROM_DEFAULT, relDragComposeOf, relDragSolveFromOf,   // 第293便g
   DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
   dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
   REL_DRAG_INERTIAL_VERSION, REL_DRAG_INERTIAL_KEYS,

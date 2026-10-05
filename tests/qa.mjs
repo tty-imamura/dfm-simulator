@@ -22467,7 +22467,7 @@ if (!FAST) {
         if (!ST.ok) bad.push('純関数の極限が ok でない');
         for (const k of ['decl', 'libGate', 'stepGate', 'tableGate']) if (G[k].ok !== true) bad.push('門 ' + k + ' が ok でない');
         cases.push(`(b) 点源極限 ${ST.pointLimit.map((z) => z.rel.toExponential(1)).join('/')}・遠方 r=10R の差 ${ST.far[0].relToPoint.toExponential(2)}(1 次項 ⟨ρ²⟩/r² ${ST.far[0].firstOrder.toExponential(2)} —— 核 s⁻³ の単極子への収束は 1/r²)・線形 ×${ST.linear.ratio}・n_r 16→32 ${Math.max(...ST.converge.map((z) => z.rel16_32)).toExponential(1)}・遠方展開の比 ${ST.monopole.map((z) => z.ratio.toFixed(4)).join('/')}`);
-        cases.push(`(c) エンジン≡純関数: ⟨K⟩ ${G.libGate.avgRows.length} 点・表 Q ${G.libGate.n} 点・補間 ${G.libGate.lookRows.length} 点がビット同一=${G.libGate.ok}・核の u(4 步)=${G.stepGate.ok}`);
+        cases.push(`(c) エンジン≡純関数: ⟨K⟩ ${G.libGate.avgRows.length} 点・表 Q ${G.libGate.n} 点・補間 ${G.libGate.lookRows.length} 点がビット同一=${G.libGate.ok}・核の u(4 步${G.stepGate.sumRows ? ' —— 既定 solve(velocity) を純関数の連立で・compose:"sum" の写しを和で(第293便g)' : ''})=${G.stepGate.ok}`);
         cases.push(`(d) 表: 中点の相対誤差の最大 ${G.tableGate.interpRelMax.toExponential(2)}(r=${G.tableGate.interpRelMaxAt.toFixed(2)} —— 表面の幅 ε の構造)・2R の外 ${G.tableGate.interpRelMaxFar.toExponential(2)}・月の帯 ${G.tableGate.bandRelMax.toExponential(2)}・表の外への跳び ${G.tableGate.jumpAtRMax.toExponential(2)}・月の距離の ⟨K⟩/K_ε−1 ${G.moon.relToPoint.toExponential(2)}`);
         // 宣言の受理(天体 dragCore・本 coreTable)
         const VB = HP292.validateDragCoreBody, inert = { relativeDrag: { law: 'inertial', gain: 1, eps: 0.1, pairs: 'all', history: 'positions' }, softening: 0.1 };
@@ -22596,9 +22596,13 @@ if (!FAST) {
 // ----      🐌/🌛〔構造核の表〕/規定源つき 3 体/粒子 70 の Gauss–Seidel)・非相反性 —— いまの html で作り直して正本と照合。
 // ----   ② docs.composeContract …… 正本の来歴と ok・PHYSICS〔第293便e〕の表(純関数・🐌・🌛・フィット・非相反)が正本から作った行と同文・必須の語と禁止語・
 // ----      AI_SPEC の鍵(compose/solveFrom/solveIters・既定 "sum")・CHANGELOG・SYSTEM_PROMPT に載せない・🌛 の宣言 gain はフィットで変えていない。
+// ----   第293便g(原仮定者の裁定(第83報 追記)・統括の検証項目 R147): 世代切替 has293g = html に `const REL_DRAG_COMPOSE_DEFAULT` がある。
+// ----      has293g では ① (a) を「未宣言 = solve(velocity)(読み口と帳簿に compose がある・正準形には出ない)・compose:"sum" の明示は旧加算(compose の鍵なし)」に、
+// ----      ② の AI_SPEC を「既定 "solve"・compose:"sum" は旧法則版」に、フィットの扱いを「solve(velocity) は既定 —— 宣言 gain の確認」に読み替える。
 {
   const html293e = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has293e = TARGET.startsWith('beta/') && html293e.indexOf('function inertialDragComposeSolve(') >= 0;
+  const has293g = has293e && html293e.indexOf('const REL_DRAG_COMPOSE_DEFAULT') >= 0;
   if (!has293e) {
     console.log('SKIP behavior.composeGate / docs.composeContract(第293便e 未適用 — ' + TARGET + ')');
   } else {
@@ -22639,8 +22643,9 @@ if (!FAST) {
       else {
         if (!(JCO.meta && JCO.meta.provenanceVersion === 'w272e-1' && JCO.meta.harnessVersion === E293.HARNESS_VERSION && JCO.meta.engineVersion === HP293.REL_DRAG_COMPOSE_VERSION
           && JCO.meta.libVersion === L293.COMPOSE_LIB_VERSION)) bad.push('来歴(w272e-1)/器・経路・純関数の版');
-        // (a) 未宣言: 内蔵に compose を宣言した本は無い・inertial の内蔵は合成則の帳簿も読み口の鍵も持たない
-        let nInertial = 0, nLeak = 0;
+        // (a) 未宣言: 内蔵に compose を宣言した本は無い。第293便e: inertial の内蔵は合成則の帳簿も読み口の鍵も持たない(既定 "sum")/
+        //     第293便g(has293g): 未宣言は solve(velocity) —— 正準形には compose・solveFrom が出ず、読み口と帳簿には solve の欄がある。compose:"sum" の写しは鍵なし
+        let nInertial = 0, nLeak = 0, nSumLeak = 0;
         for (const q of HP293.allPresets()) {
           const rd0 = q.physics && q.physics.relativeDrag;
           if (!rd0 || rd0.law !== 'inertial' || q.familyRole === 'retired') continue;
@@ -22648,11 +22653,20 @@ if (!FAST) {
           HP293.sim.build(v.preset); const S = HP293.sim;
           for (let k = 0; k < 3; k++) S.step(0.016);
           nInertial++;
-          const st = HP293.inertialDragState(S);
-          if ('compose' in v.preset.physics.relativeDrag || (st && 'compose' in st) || HP293.inertialDragComposeState(S) !== null) nLeak++;
+          const st = HP293.inertialDragState(S), cs = HP293.inertialDragComposeState(S);
+          if (!has293g) { if ('compose' in v.preset.physics.relativeDrag || (st && 'compose' in st) || cs !== null) nLeak++; continue; }
+          if ('compose' in v.preset.physics.relativeDrag || 'solveFrom' in v.preset.physics.relativeDrag || !(st && st.compose && cs && cs.compose === 'solve' && cs.solveFrom === 'velocity' && cs.solves === 2 && cs.method === 'direct')) nLeak++;
+          const qs = JSON.parse(JSON.stringify(q)); qs.physics.relativeDrag.compose = 'sum';
+          const vs = HP293.validatePreset(qs); HP293.sim.build(vs.preset); const S2 = HP293.sim;
+          for (let k = 0; k < 3; k++) S2.step(0.016);
+          const st2 = HP293.inertialDragState(S2);
+          if (!(vs.preset.physics.relativeDrag.compose === 'sum' && st2 && !('compose' in st2) && HP293.inertialDragComposeState(S2) === null)) nSumLeak++;
         }
-        if (nLeak) bad.push(`(a) 未宣言の inertial の本 ${nLeak} 本に合成則の鍵・帳簿がある`);
-        cases.push(`(a) 未宣言(既定 "sum" = 現行の加算): inertial の内蔵 ${nInertial} 本は正準形・読み口・帳簿に compose の鍵が無い(基点とのビット同一 152/152 は器 bitsame/sigsame)`);
+        if (nLeak) bad.push(has293g ? `(a) 既定 solve(velocity) の読み口・帳簿・正準形が契約どおりでない inertial の本 ${nLeak} 本` : `(a) 未宣言の inertial の本 ${nLeak} 本に合成則の鍵・帳簿がある`);
+        if (nSumLeak) bad.push(`(a) compose:"sum" の写し ${nSumLeak} 本に合成則 solve の鍵・帳簿がある`);
+        cases.push(has293g
+          ? `(a) 未宣言 = 既定 solve(velocity)(第293便g): inertial の内蔵 ${nInertial} 本は正準形に compose・solveFrom が出ず、読み口・帳簿に solve の欄(直接法・3 步で 2 回)がある・compose:"sum" の写しは旧加算で solve の鍵なし(基点との差分 ID は 🌛・🐌 の 2 本だけ —— 器 bitsame・sigsame 152/152)`
+          : `(a) 未宣言(既定 "sum" = 現行の加算): inertial の内蔵 ${nInertial} 本は正準形・読み口・帳簿に compose の鍵が無い(基点とのビット同一 152/152 は器 bitsame/sigsame)`);
         // (b) 純関数 8 項と履歴則の不動点
         const ST = L293.selfTest(), diff = [];
         near293(JCO.selfTest, ST, 'selfTest', diff);
@@ -22669,13 +22683,16 @@ if (!FAST) {
         if (!D.ok) bad.push('宣言の受理の門が ok でない');
         if (!G.ok) bad.push('エンジン≡純関数の門が ok でない: ' + G.cases.filter((c) => !c.ok).map((c) => c.key).join(','));
         if (!NR.ok) bad.push('非相反性の記録が ok でない');
-        cases.push(`(c) 受理: 未宣言と compose:"sum" は同じ正準形・同じ署名・solve は署名が変わる・拒否 ${D.rejected}/${D.rejectCases}・内蔵の宣言 ${D.builtinDeclaring.length} 本`);
+        cases.push(has293g
+          ? `(c) 受理: 未宣言・compose:"solve"・solveFrom:"velocity" は同じ正準形・同じ署名(既定 ${D.defaults ? D.defaults.compose + '(' + D.defaults.solveFrom + ')' : '?'})・compose:"sum" と solveFrom:"history" は署名が変わる・拒否 ${D.rejected}/${D.rejectCases}・内蔵の宣言 ${D.builtinDeclaring.length} 本`
+          : `(c) 受理: 未宣言と compose:"sum" は同じ正準形・同じ署名・solve は署名が変わる・拒否 ${D.rejected}/${D.rejectCases}・内蔵の宣言 ${D.builtinDeclaring.length} 本`);
         cases.push(`(d) エンジン≡純関数: ${G.cases.length} 事例(${G.cases.map((c) => c.key).join('・')})で u・a_ij・残差・移送の帳簿がビット同一=${G.ok}・GS(gain ${G.gs.gain}・deg ${G.gs.degMax.toFixed(2)})の残差 ${G.gs.iters8} 回 ${G.gs.res8.toExponential(2)} → ${G.gs.iters30} 回 ${G.gs.res30.toExponential(2)}`);
         cases.push(`(e) 非相反: Σmu/Σm|u| は dragCore で ${NR.rows.filter((z) => z.source === 'dragCore').map((z) => z.sumMuRel.toExponential(2)).join('/')}(合成則に依らない)・点源で ${NR.rows.filter((z) => z.source === 'point').map((z) => z.sumMuRel.toExponential(1)).join('/')}`);
         if (JCO.ok !== true) bad.push('正本の ok');
       }
       add('behavior.composeGate', bad.length === 0,
-        `**引きずりの合成則 compose の門**(第293便e・統括の検証項目 R145 —— opt-in の法則版の候補・既定 "sum" は現行の加算のままビット同一・S._core の外): ${cases.join(' / ')}`
+        (has293g ? `**引きずりの合成則 compose の門**(第293便e・R145 → 第293便g・R147 —— 既定は solve(velocity)・compose:"sum" は旧加算の比較用・S._core の外): `
+          : `**引きずりの合成則 compose の門**(第293便e・統括の検証項目 R145 —— opt-in の法則版の候補・既定 "sum" は現行の加算のままビット同一・S._core の外): `) + cases.join(' / ')
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
     // ---- ② docs.composeContract
@@ -22691,7 +22708,10 @@ if (!FAST) {
         if (!(JCO.fit.H.converged && JCO.fit.V.converged)) bad.push('solve 版のフィットが収束していない');
         const em = HP293.allPresets().find((q) => q.id === E293.BOOK_ID);
         if (!(em && em.physics.relativeDrag.gain === JCO.fit.declaredGain && em.physics.relativeDrag.compose === undefined)) bad.push('🌛 の宣言(gain・compose)が変わっている(solve 版のフィットは採用値にしない)');
-        cases.push(`フィット(採用値にしない): solve(history) ${JCO.fit.H.gain.toPrecision(7)}(${JCO.fit.relH.toExponential(2)})・solve(velocity) ${JCO.fit.V.gain.toPrecision(7)}(${JCO.fit.relV.toExponential(2)})・🌛 の宣言 ${JCO.fit.declaredGain} は不変`);
+        if (has293g && !(JCO.fit.declaredHolds === true && JCO.fit.V.gain === JCO.fit.declaredGain)) bad.push('既定 solve(velocity) で 🌛 の宣言 gain が 8.85 年の許容に入っていない(再フィットが要る)');
+        cases.push(has293g
+          ? `フィット: solve(velocity)(既定)は 🌛 の宣言 ${JCO.fit.declaredGain} のまま許容に入る(${JCO.fit.V.iterations} 回・P27 ${JCO.fit.V.lastP27.toFixed(5)})・solve(history) ${JCO.fit.H.gain.toPrecision(7)}(${JCO.fit.relH.toExponential(2)} —— 採用値にしない)`
+          : `フィット(採用値にしない): solve(history) ${JCO.fit.H.gain.toPrecision(7)}(${JCO.fit.relH.toExponential(2)})・solve(velocity) ${JCO.fit.V.gain.toPrecision(7)}(${JCO.fit.relV.toExponential(2)})・🌛 の宣言 ${JCO.fit.declaredGain} は不変`);
         const cut = psec293.indexOf('**書かないこと。**'), body = cut >= 0 ? psec293.slice(0, cut) : psec293;
         if (cut < 0) bad.push('PHYSICS〔第293便e〕に「書かないこと」が無い');
         const FORBID = ['正しい合成則である', '月を再現した', '較正 合', 'C_d は普遍定数である', '全系の保存則が閉じた', '摂動の記憶を示した', '既定を差し替えた'];
@@ -22705,9 +22725,11 @@ if (!FAST) {
         const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
         const ai = AS.indexOf('`physics.relativeDrag.compose`');
         const aiSec = ai >= 0 ? AS.slice(ai, ai + 3000) : '';
-        if (!(ai >= 0 && /solveFrom/.test(aiSec) && /solveIters/.test(aiSec) && /既定 "sum"/.test(aiSec))) bad.push('AI_SPEC に compose・solveFrom・solveIters・既定 "sum" が無い');
+        if (!has293g && !(ai >= 0 && /solveFrom/.test(aiSec) && /solveIters/.test(aiSec) && /既定 "sum"/.test(aiSec))) bad.push('AI_SPEC に compose・solveFrom・solveIters・既定 "sum" が無い');
+        if (has293g && !(ai >= 0 && /solveFrom/.test(aiSec) && /solveIters/.test(aiSec) && /既定 "solve"/.test(aiSec) && /旧法則版/.test(aiSec) && /第293便g/.test(aiSec))) bad.push('AI_SPEC に compose・solveFrom・solveIters・既定 "solve"・旧法則版(sum)・第293便g が無い');
+        if (has293g && CL.indexOf('第293便g') < 0) bad.push('CHANGELOG に第293便g が無い');
         if (HP293.SYSTEM_PROMPT && /compose|solveFrom|solveIters/.test(HP293.SYSTEM_PROMPT)) bad.push('SYSTEM_PROMPT に合成則の鍵がある(AI 生成には開放しない)');
-        cases.push('CHANGELOG・AI_SPEC(既定 "sum")・SYSTEM_PROMPT に載せない');
+        cases.push(has293g ? 'CHANGELOG(第293便e・g)・AI_SPEC(既定 "solve"・sum は旧法則版)・SYSTEM_PROMPT に載せない' : 'CHANGELOG・AI_SPEC(既定 "sum")・SYSTEM_PROMPT に載せない');
         if (JCO.ok !== true) bad.push('正本の ok');
       }
       add('docs.composeContract', bad.length === 0,
@@ -22729,6 +22751,9 @@ if (!FAST) {
 {
   const html291d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has291d = TARGET.startsWith('beta/') && html291d.indexOf('const SPACE_MESH_VIEW_RUNTIME') >= 0 && html291d.indexOf('function inertialDragFieldAt(') >= 0;
+  // 第293便g(R147): 世代切替 has293g = html に `const REL_DRAG_COMPOSE_DEFAULT` —— 🐌 は既定 solve で drag を描かず理由(smDragComposeSolve)を出す。
+  //   矢印は compose:"sum" を明示した 🐌 の写し(id 'inertialDragPair:sum' —— loadPreset の後に写しを build)で見る
+  const has293gM = has291d && html291d.indexOf('const REL_DRAG_COMPOSE_DEFAULT') >= 0;
   if (!has291d) {
     console.log('SKIP behavior.meshDisplayBitsame(第291便d 未適用 — ' + TARGET + ')');
   } else {
@@ -22737,7 +22762,7 @@ if (!FAST) {
     vp.on('pageerror', (e) => vpErr.push(String(e.message || e)));
     await vp.goto(INDEX, { waitUntil: 'load' });
     await vp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
-    const r = await vp.evaluate(() => {
+    const r = await vp.evaluate((g293) => {
       // S の指紋: 数値・真偽値の欄と型付き配列の全部(表示のキャッシュ _sm*/_sl*/_gal* は除く)+ S.params の JSON(FNV-1a 64 ビットを 2 本の 32 ビットで)
       const fp = (S) => { let h1 = 0x811c9dc5, h2 = 0x01000193; const f64 = new Float64Array(1), u8 = new Uint8Array(f64.buffer);
         const mix = (b) => { h1 = Math.imul(h1 ^ b, 16777619) >>> 0; h2 = Math.imul(h2 ^ b, 2246822519) >>> 0; };
@@ -22766,13 +22791,16 @@ if (!FAST) {
         { key: 'toggle', ov: 'toggle', cam: 400 },
       ];
       const out = {};
-      for (const id of ['inertialDragPair', 'galaxyAnalogyBH']) {
+      for (const id of ['inertialDragPair', 'galaxyAnalogyBH'].concat(g293 ? ['inertialDragPair:sum'] : [])) {
         const rows = [];
+        const [pid, cmode] = id.split(':');
         for (const v of variants) {
-          HP.loadPreset(id, false); HP.setCamScale(v.cam);
+          HP.loadPreset(pid, false);
+          if (cmode === 'sum') { const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === pid))); p.physics.relativeDrag.compose = 'sum'; HP.sim.build(HP.validatePreset(p).preset); }
+          HP.setCamScale(v.cam);
           const S = HP.sim;
           S.overlays.spaceMesh = (v.ov && v.ov !== 'toggle') ? Object.assign({}, v.ov) : false;
-          let drawn = { drag: 0, ruler: 0, undecl: 0 };
+          let drawn = { drag: 0, ruler: 0, undecl: 0, compose: 0 };
           for (let k = 1; k <= 600; k++) {
             S.step(0.016);
             if (v.ov === 'toggle' && k % 100 === 0) { const ph = (k / 100) % 3; S.overlays.spaceMesh = ph === 0 ? false : { mode: ph === 1 ? 'drag' : 'ruler', res: 12 }; }
@@ -22781,6 +22809,7 @@ if (!FAST) {
               drawn.drag += sp.seen.filter((c) => c.indexOf('rgba(120,230,170,0.85') === 0).length;
               drawn.ruler += sp.seen.filter((c) => c.indexOf('rgba(200,170,255') === 0).length;
               drawn.undecl += sp.text.filter((t) => t === HP.T('smDragUndecl')).length;
+              if (g293) drawn.compose += sp.text.filter((t) => t === HP.T('smDragComposeSolve')).length;
             }
           }
           rows.push({ key: v.key, fp: fp(S), t: S.t, view: HP.spaceMeshView(S), drawn });
@@ -22789,15 +22818,20 @@ if (!FAST) {
         out[id] = rows;
       }
       return out;
-    });
+    }, has293gM);
     const bad = [];
     for (const id of Object.keys(r)) {
       const rows = r[id], f0 = rows[0].fp;
       for (const row of rows) if (row.fp !== f0) bad.push(`${id} ${row.key} の指紋 ${row.fp} ≠ OFF ${f0}`);
       const by = Object.fromEntries(rows.map((x) => [x.key, x]));
-      if (id === 'inertialDragPair') {
-        if (!(by['drag/res8'].drawn.drag > 0 && by['drag/res32/cam50'].drawn.drag > 0)) bad.push('🐌 drag で矢印が描かれていない');
+      if (id === 'inertialDragPair' && has293gM) {
+        // 第293便g: 既定 solve の 🐌 は drag を描かず理由の凡例だけ(矢印 0)
+        if (!(by['drag/res8'].drawn.compose > 0 && by['drag/res8'].drawn.drag === 0 && by['drag/res32/cam50'].drawn.compose > 0 && by['drag/res32/cam50'].drawn.drag === 0)) bad.push('🐌(既定 solve)の drag で「合成則 solve」の凡例だけを出していない');
         if (!(by['ruler/res16/cam1200'].drawn.ruler > 0)) bad.push('🐌 ruler で目盛りが描かれていない');
+      } else if (id === 'inertialDragPair' || id === 'inertialDragPair:sum') {
+        if (!(by['drag/res8'].drawn.drag > 0 && by['drag/res32/cam50'].drawn.drag > 0)) bad.push(id + ' drag で矢印が描かれていない');
+        if (!(by['ruler/res16/cam1200'].drawn.ruler > 0)) bad.push(id + ' ruler で目盛りが描かれていない');
+        if (by['drag/res8'].drawn.compose) bad.push(id + ' compose:"sum" で「合成則 solve」の凡例を出した');
       } else {
         if (!(by['drag/res8'].drawn.undecl > 0 && by['drag/res8'].drawn.drag === 0)) bad.push('🌚 drag(未宣言)で「未宣言」の凡例だけを出していない');
         if (!(by['ruler/res16/cam1200'].drawn.ruler > 0)) bad.push('🌚 ruler で目盛りが描かれていない');
@@ -22806,7 +22840,7 @@ if (!FAST) {
     }
     if (vpErr.length) bad.push('ページエラー ' + vpErr.slice(0, 2).join(' | '));
     add('behavior.meshDisplayBitsame', bad.length === 0,
-      `**表示メッシュは表示専用**(第291便d・原仮定者の裁定(第81報)⑥・統括の検証項目 R135): ` + Object.keys(r).map((id) => `${id}: ` + r[id].map((x) => `${x.key} ${x.fp}(t=${x.t.toFixed(3)}・矢印 ${x.drawn.drag}・目盛り ${x.drawn.ruler}・未宣言 ${x.drawn.undecl})`).join(' / ')).join(' // ')
+      `**表示メッシュは表示専用**(第291便d・原仮定者の裁定(第81報)⑥・統括の検証項目 R135${has293gM ? ' —— 第293便g: 🐌 は既定 solve で drag を描かず理由を出す・矢印は compose:"sum" の写し' : ''}): ` + Object.keys(r).map((id) => `${id}: ` + r[id].map((x) => `${x.key} ${x.fp}(t=${x.t.toFixed(3)}・矢印 ${x.drawn.drag}・目盛り ${x.drawn.ruler}・未宣言 ${x.drawn.undecl}${has293gM ? '・solve の理由 ' + x.drawn.compose : ''})`).join(' / ')).join(' // ')
       + ' —— 600 步・50 步ごとに描画・指紋は S の数値の欄と型付き配列の全部+S.params(表示のキャッシュ _sm*/_sl*/_gal* は除く)'
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     await vp.close();
@@ -22818,17 +22852,27 @@ if (!FAST) {
   if (!has291d) {
     console.log('SKIP behavior.dragFieldSampler(第291便d 未適用 — ' + TARGET + ')');
   } else {
+    const has293gS = html291d.indexOf('const REL_DRAG_COMPOSE_DEFAULT') >= 0;   // 第293便g: 🐌 は既定 solve —— サンプラーの検査は compose:"sum" の写しで
     const vp = await browser.newPage();
     const vpErr = [];
     vp.on('pageerror', (e) => vpErr.push(String(e.message || e)));
     await vp.goto(INDEX, { waitUntil: 'load' });
     await vp.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
-    const r = await vp.evaluate(() => {
+    const r = await vp.evaluate((g293) => {
       const snap = (S) => { const o = []; for (const k of Object.keys(S).sort()) { const v = S[k];
         if (typeof v === 'number') o.push(k, v); else if (ArrayBuffer.isView(v) && !(v instanceof DataView)) o.push(k, Array.from(v).join(',')); }
         return JSON.stringify(o) + JSON.stringify(S.params); };
       const o = {};
+      if (g293) {
+        // 第293便g: 既定 solve の 🐌 —— build 直後も 50 步後も ready=false・why "composeSolve"・格子の表は drag を作らない
+        HP.loadPreset('inertialDragPair', false);
+        const S0 = HP.sim, a0 = HP.inertialDragFieldReady(S0);
+        for (let k = 0; k < 50; k++) S0.step(0.016);
+        const a1 = HP.inertialDragFieldReady(S0), d0 = HP.spaceMeshDisplaySample(S0, { mode: 'drag', cx: 1, cy: -2, hx: 30, hy: 18, res: 16, frame: 'centroid' });
+        o.solve = { why0: a0.why, ready0: a0.ready, why50: a1.why, ready50: a1.ready, gridReady: d0 && d0.ready ? d0.ready.ready : null, gridU: d0 ? (d0.ux === undefined ? null : 'drawn') : null };
+      }
       HP.loadPreset('inertialDragPair', false);
+      if (g293) { const p = JSON.parse(JSON.stringify(HP.allPresets().find((q) => q.id === 'inertialDragPair'))); p.physics.relativeDrag.compose = 'sum'; HP.sim.build(HP.validatePreset(p).preset); }
       const S = HP.sim;
       o.ready0 = HP.inertialDragFieldReady(S);
       for (let k = 0; k < 50; k++) S.step(0.016);
@@ -22859,8 +22903,10 @@ if (!FAST) {
       o.decl = { ok: v.ok, spaceMesh: v.ok ? (v.preset.overlays ? v.preset.overlays.spaceMesh : undefined) : 'rejected',
         viewHasDrag: HP.SPACE_MESH_VIEW.indexOf('drag') >= 0, runtime: HP.SPACE_MESH_VIEW_RUNTIME.slice(), version: HP.SPACE_MESH_SAMPLER_VERSION };
       return o;
-    });
+    }, has293gS);
     const bad = [];
+    if (has293gS && !(r.solve && r.solve.why0 === 'composeSolve' && r.solve.why50 === 'composeSolve' && r.solve.ready0 === false && r.solve.ready50 === false && r.solve.gridReady === false && r.solve.gridU === null))
+      bad.push('既定 solve の 🐌 で ready=false・why "composeSolve"・drag の表なし になっていない: ' + JSON.stringify(r.solve));
     if (!(r.ready0.declared && !r.ready0.ready && r.ready0.why === 'noHistory')) bad.push('build 直後の ready が履歴なしでない: ' + JSON.stringify(r.ready0));
     if (!(r.ready.ready && r.ready.same === r.ready.checked && r.ready.checked === 2)) bad.push('50 步後の ready: ' + JSON.stringify(r.ready));
     if (!r.match.every((m) => m.same)) bad.push('粒子の受け手で核の u と一致しない: ' + JSON.stringify(r.match.filter((m) => !m.same)).slice(0, 160));
@@ -22871,7 +22917,7 @@ if (!FAST) {
     if (!(r.decl.ok && r.decl.spaceMesh === undefined && !r.decl.viewHasDrag && r.decl.runtime.join() === 'drag,ruler')) bad.push('プリセットが drag を宣言できた: ' + JSON.stringify(r.decl));
     if (vpErr.length) bad.push('ページエラー ' + vpErr.slice(0, 2).join(' | '));
     add('behavior.dragFieldSampler', bad.length === 0,
-      `**読み取り専用サンプラー**(第291便d・R135・版 ${r.decl.version}): build 直後 ready=${r.ready0.ready}(${r.ready0.why})→ 50 步後 ${r.ready.ready}(${r.ready.same}/${r.ready.checked})・`
+      `**読み取り専用サンプラー**(第291便d・R135・版 ${r.decl.version}${has293gS ? ` —— 第293便g: 既定 solve の 🐌 は ${r.solve ? r.solve.why50 : '—'} で描かない・以下は compose:"sum" の写し` : ''}): build 直後 ready=${r.ready0.ready}(${r.ready0.why})→ 50 步後 ${r.ready.ready}(${r.ready.same}/${r.ready.checked})・`
       + `粒子の受け手で核の u とビット同一 ${r.match.filter((m) => m.same).length}/${r.match.length}・呼んでも S 不変=${r.unchanged}・`
       + `格子 ` + r.grid.map((g) => `${g.mode}/res${g.res} ${g.nodes} 点 h=${g.h}`).join('・')
       + ` / 光の物差し ψ=${r.ruler.psi.toExponential(3)}・|n−A/N|/n=${r.ruler.nAN.toExponential(1)}・|n−A²|/n=${r.ruler.nA2.toExponential(1)}・A=A_bg·A_rel ${r.ruler.Aprod.toExponential(1)}`

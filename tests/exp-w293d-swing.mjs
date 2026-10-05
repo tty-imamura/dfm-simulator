@@ -32,6 +32,7 @@
 // ■ しないこと・言わないこと
 //   ・新しい力・新しい法則を足さない。C_d・f・R_c を再フィットしない(🌛 の 514182 を換算して使うだけ)。
 //   ・太陽の引きずりと地球の引きずりを別々に作って足さない(実装の u は同一座標・同一步の対について相対速度に線形 —— 合成則は第293便e)。
+//     第293便g: 既定の合成則は solve(velocity)(各源の寄与を単純には足さない —— (I+L)u=s を解く)。一時プリセットは compose を宣言しない。
 //   ・「月を再現した」「摂動の記憶を示した」「原因を同定した」「GR の何 PN と同定」と書かない。
 //
 // 実行(Node だけ・Chromium 不要・子プロセス 3 本 —— W293D_WORKERS で変える。結果は並列数に依らない):
@@ -44,7 +45,7 @@ import { fileURLToPath } from 'node:url';
 import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { fitPeri } from './lib-w280b-emgrid.mjs';
-const REGEN_SCOPE = {"presets":["earthMoonInertial","emAuditSolar"],"roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.inertialDragState","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["earthMoonInertial","emAuditSolar"],"roots":["HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmMeshVelocityFieldAt","HP.dragCoreState","HP.inertialDragState","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w293d-swing-1';
@@ -490,6 +491,8 @@ if (IS_MAIN && process.argv.includes('--child')) {
     harnessVersion: HARNESS_VERSION, engineVersion: HP.REL_DRAG_INERTIAL_VERSION, coreVersion: HP.DRAG_CORE_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第83報)ブランコ —— 押し(外部の摂動)と、摂動が消えてもしばらく継続する側の物理法則',
     reading: '統括の検証項目 R144(診断だけ・新しい力は足さない・C_d は再フィットしない・原因〔太陽〕と継続〔止めたあとの自由成分〕を別々に測る)',
+    composeRule: '第293便g: 慣性引きずりの合成則は 🌛 の既定(solve(velocity) —— 一時プリセットも compose を宣言しない)。A2 は太陽を含む 3 体の連立 (I+L)u=s を解く',
+    composeDefault: [HP.REL_DRAG_COMPOSE_DEFAULT, HP.REL_DRAG_SOLVE_FROM_DEFAULT],
     engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセスで並列)',
     gateA: '一時プリセットは器の中だけ(内蔵の 152 本に足さない)—— 既存の本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す',
     notClaim: ['月を再現した', '摂動の記憶を示した', '原因を同定した', '較正 合', 'C_d は普遍定数', 'GR の何 PN と同定', '全系の保存則が閉じた'] });
