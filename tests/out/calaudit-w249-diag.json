@@ -1,9 +1,9 @@
 {
- "when": "2026-10-05T21:02:58.589Z",
+ "when": "2026-10-05T21:05:02.855Z",
  "wave": "第271便a(第61報・AF16)",
  "of": "tests/out/calaudit-w249.json",
  "what": "**正本から移した重い診断**である(削ったのではない)。正本の `diagnosticsSplit` にこのファイルの相対パスと SHA-256 がある。単独で配ると参照先が欠ける —— 2 つで 1 組である。",
- "carriedOverFrom": "2026-10-04T21:34:05.229Z",
+ "carriedOverFrom": "2026-10-05T21:04:08.628Z",
  "fields": [
   {
    "path": "presets[].run.stopRule.machineIndependence",
@@ -32,97 +32,10 @@
  ],
  "presets": {
   "earthMoonReal": {
-   "stopRule": {
-    "id": "earthMoonReal",
-    "declared": 40000000,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 8000000
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 40000000
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "earthMoonReal",
-     "declared": 40000000,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 40000000
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "earthMoonReal",
-     "declared": 80000000,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 14753751
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 40000000
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "月|period|恒星月": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 27,
-       "perFitN": 27,
-       "perFound": 27,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 27,
-       "perFitN": 27,
-       "perFound": 27,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -156,30 +69,6 @@
      ]
     },
     "月|ecc|実測(標準検出器): 離心率(月)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 27,
-       "perFitN": 27,
-       "perFound": 27,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 27,
-       "perFitN": 27,
-       "perFound": 27,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -191,30 +80,6 @@
      ]
     },
     "月|precession|実測(標準検出器): 近点移動(月)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 27,
-       "perFitN": 27,
-       "perFound": 27,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 27,
-       "perFitN": 27,
-       "perFound": 27,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -228,97 +93,10 @@
    }
   },
   "emAuditSolar": {
-   "stopRule": {
-    "id": "emAuditSolar",
-    "declared": 890906,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 890906
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 890906
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "emAuditSolar",
-     "declared": 890906,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 890906
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 890906
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "emAuditSolar",
-     "declared": 1781813,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 148484
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 1781813
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 1781813
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "月|precession|近点回転の周期(118公転窓・較正ゼロ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -341,30 +119,6 @@
      ]
     },
     "月|period|恒星月": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -376,30 +130,6 @@
      ]
     },
     "月|ecc|離心率(236公転=17.7年)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -424,97 +154,10 @@
    }
   },
   "mercuryReal": {
-   "stopRule": {
-    "id": "mercuryReal",
-    "declared": 2850199,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 237517
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 2850199
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 2850199
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "mercuryReal",
-     "declared": 2850199,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 237517
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 2850199
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 2850199
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "mercuryReal",
-     "declared": 5700398,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 5700398
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 5700398
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "水星|period|公転周期": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -526,30 +169,6 @@
      ]
     },
     "水星|precession|近日点前進(推定器つき宣言 — 第250便d)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -572,30 +191,6 @@
      ]
     },
     "水星|ecc|実測(標準検出器): 離心率(水星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -609,65 +204,10 @@
    }
   },
   "solarInner": {
-   "stopRule": {
-    "id": "solarInner",
-    "declared": 866426,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 480000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 22257826
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 22257826
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "solarInner",
-     "declared": 866426,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 480000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 22257826
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 22257826
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "水星|period|公転周期(水/金/地/火)(水星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 9,
-       "perFitN": 9,
-       "perFound": 9,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -679,19 +219,6 @@
      ]
     },
     "金星|period|公転周期(水/金/地/火)(金星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 4,
-       "perFitN": 4,
-       "perFound": 4,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -703,19 +230,6 @@
      ]
     },
     "地球|period|公転周期(水/金/地/火)(地球)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 1,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 5,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -727,19 +241,6 @@
      ]
     },
     "火星|period|公転周期(水/金/地/火)(火星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 1,
-       "nPeri": 1,
-       "perFitN": 1,
-       "perFound": 3,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -773,19 +274,6 @@
      ]
     },
     "水星|ecc|実測(標準検出器): 離心率(水星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 9,
-       "perFitN": 9,
-       "perFound": 9,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -797,19 +285,6 @@
      ]
     },
     "水星|precession|実測(標準検出器): 近点移動(水星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 9,
-       "perFitN": 9,
-       "perFound": 9,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -821,19 +296,6 @@
      ]
     },
     "金星|ecc|実測(標準検出器): 離心率(金星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 4,
-       "perFitN": 4,
-       "perFound": 4,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -845,19 +307,6 @@
      ]
     },
     "金星|precession|実測(標準検出器): 近点移動(金星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 4,
-       "perFitN": 4,
-       "perFound": 4,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -869,19 +318,6 @@
      ]
     },
     "地球|ecc|実測(標準検出器): 離心率(地球)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 1,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 5,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -893,19 +329,6 @@
      ]
     },
     "地球|precession|実測(標準検出器): 近点移動(地球)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 1,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 5,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -917,19 +340,6 @@
      ]
     },
     "火星|ecc|実測(標準検出器): 離心率(火星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 1,
-       "nPeri": 1,
-       "perFitN": 1,
-       "perFound": 3,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -941,19 +351,6 @@
      ]
     },
     "火星|precession|実測(標準検出器): 近点移動(火星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 1,
-       "nPeri": 1,
-       "perFitN": 1,
-       "perFound": 3,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -967,97 +364,10 @@
    }
   },
   "jupiterGalilean": {
-   "stopRule": {
-    "id": "jupiterGalilean",
-    "declared": 5407442,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 193170
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 5407442
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 5407442
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "jupiterGalilean",
-     "declared": 5407442,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 193170
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 5407442
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 5407442
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "jupiterGalilean",
-     "declared": 10814883,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 386340
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 10814883
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "イオ|period|恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(イオ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1069,30 +379,6 @@
      ]
     },
     "エウロパ|period|恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(エウロパ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1104,30 +390,6 @@
      ]
     },
     "ガニメデ|period|恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(ガニメデ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1139,30 +401,6 @@
      ]
     },
     "カリスト|period|恒星公転周期(イオ/エウロパ/ガニメデ/カリスト・kFrame=0 転写)(カリスト)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1174,30 +412,6 @@
      ]
     },
     "イオ|period|周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(イオ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1209,30 +423,6 @@
      ]
     },
     "エウロパ|period|周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(エウロパ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1244,30 +434,6 @@
      ]
     },
     "ガニメデ|period|周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ガニメデ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1279,30 +445,6 @@
      ]
     },
     "カリスト|period|周期(旧宣言 D₀=0.006・q_exact=12.0586 の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(カリスト)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1314,30 +456,6 @@
      ]
     },
     "イオ|period|20イオ公転窓の軌道保持〔一本化後の宣言で再測・model 欄は旧宣言の記録〕": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1393,30 +511,6 @@
      ]
     },
     "イオ|ecc|実測(標準検出器): 離心率(イオ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1428,30 +522,6 @@
      ]
     },
     "イオ|precession|実測(標準検出器): 近点移動(イオ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1463,30 +533,6 @@
      ]
     },
     "エウロパ|ecc|実測(標準検出器): 離心率(エウロパ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1498,30 +544,6 @@
      ]
     },
     "エウロパ|precession|実測(標準検出器): 近点移動(エウロパ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1533,30 +555,6 @@
      ]
     },
     "ガニメデ|ecc|実測(標準検出器): 離心率(ガニメデ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1568,30 +566,6 @@
      ]
     },
     "ガニメデ|precession|実測(標準検出器): 近点移動(ガニメデ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1603,30 +577,6 @@
      ]
     },
     "カリスト|ecc|実測(標準検出器): 離心率(カリスト)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1638,30 +588,6 @@
      ]
     },
     "カリスト|precession|実測(標準検出器): 近点移動(カリスト)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1675,97 +601,10 @@
    }
   },
   "venusReal": {
-   "stopRule": {
-    "id": "venusReal",
-    "declared": 7280208,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 7280208
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 7280208
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "venusReal",
-     "declared": 7280208,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 7280208
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 7280208
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "venusReal",
-     "declared": 14560415,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 14560415
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "金星|period|公転周期(旧 E6′-R の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1777,30 +616,6 @@
      ]
     },
     "金星|period|公転周期(kFrame=0 対照)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1812,30 +627,6 @@
      ]
     },
     "金星|period|半径振れ幅(1公転窓)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1858,30 +649,6 @@
      ]
     },
     "金星|ecc|実測(標準検出器): 離心率(金星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1893,30 +660,6 @@
      ]
     },
     "金星|precession|実測(標準検出器): 近点移動(金星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -1930,97 +673,10 @@
    }
   },
   "marsMoonsReal": {
-   "stopRule": {
-    "id": "marsMoonsReal",
-    "declared": 4091814,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 340985
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 4091814
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 4091814
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "marsMoonsReal",
-     "declared": 4091814,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 340985
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 4091814
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 4091814
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "marsMoonsReal",
-     "declared": 8183629,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 172270
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 8183629
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "フォボス|period|公転周期(フォボス/ダイモス)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(フォボス)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2032,30 +688,6 @@
      ]
     },
     "ダイモス|period|公転周期(フォボス/ダイモス)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ダイモス)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2067,30 +699,6 @@
      ]
     },
     "ダイモス|period|半径振れ幅(2ダイモス公転窓)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2102,30 +710,6 @@
      ]
     },
     "フォボス|period|kFrame=0 対照との周期差": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2148,30 +732,6 @@
      ]
     },
     "フォボス|ecc|実測(標準検出器): 離心率(フォボス)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2183,30 +743,6 @@
      ]
     },
     "フォボス|precession|実測(標準検出器): 近点移動(フォボス)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2218,30 +754,6 @@
      ]
     },
     "ダイモス|ecc|実測(標準検出器): 離心率(ダイモス)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2253,30 +765,6 @@
      ]
     },
     "ダイモス|precession|実測(標準検出器): 近点移動(ダイモス)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2290,71 +778,8 @@
    }
   },
   "plutoCharonDiagInput": {
-   "stopRule": {
-    "id": "plutoCharonDiagInput",
-    "declared": 40000000,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 17245739
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 40000000
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "plutoCharonDiagInput",
-     "declared": 40000000,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 17245739
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 40000000
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "plutoCharonDiagInput",
-     "declared": 80000000,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 34491478
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 40000000
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "null|other|同方向1周(第2周)— 3 刻み": {
      "deprecatedKeys": {
@@ -2445,30 +870,6 @@
      ]
     },
     "カロン|period|実測(標準検出器): 公転周期(カロン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 11,
-       "perFitN": 11,
-       "perFound": 11,
-       "perUnmeasured": true
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 11,
-       "perFitN": 11,
-       "perFound": 11,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2480,30 +881,6 @@
      ]
     },
     "カロン|ecc|実測(標準検出器): 離心率(カロン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 11,
-       "perFitN": 11,
-       "perFound": 11,
-       "perUnmeasured": true
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 11,
-       "perFitN": 11,
-       "perFound": 11,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2515,30 +892,6 @@
      ]
     },
     "カロン|precession|実測(標準検出器): 近点移動(カロン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 11,
-       "perFitN": 11,
-       "perFound": 11,
-       "perUnmeasured": true
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 11,
-       "perFitN": 11,
-       "perFound": 11,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2552,65 +905,10 @@
    }
   },
   "uranusReal": {
-   "stopRule": {
-    "id": "uranusReal",
-    "declared": 1075028,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 480000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 24000000
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 43627777
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "uranusReal",
-     "declared": 1075028,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 480000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 24000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 43627777
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "ミランダ|period|公転周期(ミランダ/アリエル・周回実測)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(ミランダ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 14,
-       "perFitN": 14,
-       "perFound": 14,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2622,19 +920,6 @@
      ]
     },
     "アリエル|period|公転周期(ミランダ/アリエル・周回実測)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕(アリエル)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 7,
-       "perFitN": 7,
-       "perFound": 7,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2646,19 +931,6 @@
      ]
     },
     "ウンブリエル|period|公転周期(ウンブリエル/チタニア/オベロン・転写診断)(ウンブリエル)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 4,
-       "perFitN": 4,
-       "perFound": 4,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2670,19 +942,6 @@
      ]
     },
     "チタニア|period|公転周期(ウンブリエル/チタニア/オベロン・転写診断)(チタニア)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 2,
-       "perFitN": 2,
-       "perFound": 2,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2694,19 +953,6 @@
      ]
     },
     "オベロン|period|公転周期(ウンブリエル/チタニア/オベロン・転写診断)(オベロン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 1,
-       "perFitN": 1,
-       "perFound": 1,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2718,19 +964,6 @@
      ]
     },
     "ミランダ|period|環11帯(88粒)の半径保持(2ミランダ公転窓)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 14,
-       "perFitN": 14,
-       "perFound": 14,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2742,19 +975,6 @@
      ]
     },
     "ミランダ|spin|天王星の自転(第196便: 面内符号+)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 14,
-       "perFitN": 14,
-       "perFound": 14,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2777,19 +997,6 @@
      ]
     },
     "ミランダ|ecc|実測(標準検出器): 離心率(ミランダ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 14,
-       "perFitN": 14,
-       "perFound": 14,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2801,19 +1008,6 @@
      ]
     },
     "ミランダ|precession|実測(標準検出器): 近点移動(ミランダ)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 14,
-       "perFitN": 14,
-       "perFound": 14,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2825,19 +1019,6 @@
      ]
     },
     "アリエル|ecc|実測(標準検出器): 離心率(アリエル)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 7,
-       "perFitN": 7,
-       "perFound": 7,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2849,19 +1030,6 @@
      ]
     },
     "アリエル|precession|実測(標準検出器): 近点移動(アリエル)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 7,
-       "perFitN": 7,
-       "perFound": 7,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2873,19 +1041,6 @@
      ]
     },
     "ウンブリエル|ecc|実測(標準検出器): 離心率(ウンブリエル)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 4,
-       "perFitN": 4,
-       "perFound": 4,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2897,19 +1052,6 @@
      ]
     },
     "ウンブリエル|precession|実測(標準検出器): 近点移動(ウンブリエル)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 4,
-       "perFitN": 4,
-       "perFound": 4,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2921,19 +1063,6 @@
      ]
     },
     "チタニア|ecc|実測(標準検出器): 離心率(チタニア)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 2,
-       "perFitN": 2,
-       "perFound": 2,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2945,19 +1074,6 @@
      ]
     },
     "チタニア|precession|実測(標準検出器): 近点移動(チタニア)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 2,
-       "perFitN": 2,
-       "perFound": 2,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2969,19 +1085,6 @@
      ]
     },
     "オベロン|ecc|実測(標準検出器): 離心率(オベロン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 1,
-       "perFitN": 1,
-       "perFound": 1,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -2993,19 +1096,6 @@
      ]
     },
     "オベロン|precession|実測(標準検出器): 近点移動(オベロン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 1,
-       "perFitN": 1,
-       "perFound": 1,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3019,97 +1109,10 @@
    }
   },
   "neptuneReal": {
-   "stopRule": {
-    "id": "neptuneReal",
-    "declared": 1904169,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 158681
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 1904169
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 1904169
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "neptuneReal",
-     "declared": 1904169,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 158681
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 1904169
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 1904169
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "neptuneReal",
-     "declared": 3808338,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 317362
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 3808338
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 3808338
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "トリトン|period|公転周期(kFrame=0 対照)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3121,30 +1124,6 @@
      ]
     },
     "トリトン|period|公転周期(旧 E6′-R の行)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3156,30 +1135,6 @@
      ]
     },
     "トリトン|spin|トリトンの自転": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3191,30 +1146,6 @@
      ]
     },
     "トリトン|period|公転の向き(第188便)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3237,30 +1168,6 @@
      ]
     },
     "トリトン|ecc|実測(標準検出器): 離心率(トリトン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3272,30 +1179,6 @@
      ]
     },
     "トリトン|precession|実測(標準検出器): 近点移動(トリトン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 59,
-       "perFitN": 59,
-       "perFound": 59,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3309,132 +1192,20 @@
    }
   },
   "alphaCenAB": {
-   "stopRule": {
-    "id": "alphaCenAB",
-    "declared": 9439328,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 8000000
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 9439328
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "alphaCenAB",
-     "declared": 9439328,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 9439328
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "alphaCenAB",
-     "declared": 18878657,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 18878657
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "B|period|公転周期(kFrame=0 採用側)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
       "defMeta": "definitionDeclared(A 正本)"
      },
      "predictionEligibleReasons": [
-      "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
      ]
     },
     "B|ecc|実測離心率(1公転の半径比振れ幅)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3479,30 +1250,6 @@
      ]
     },
     "B|spin|自転(両星)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3514,30 +1261,6 @@
      ]
     },
     "B|precession|実測(標準検出器): 近点移動(B)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3551,132 +1274,20 @@
    }
   },
   "siriusAB": {
-   "stopRule": {
-    "id": "siriusAB",
-    "declared": 5932383,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 5932383
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 5932383
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "siriusAB",
-     "declared": 5932383,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 5932383
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 5932383
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "siriusAB",
-     "declared": 11864765,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 11864765
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "B|period|公転周期(kFrame=0 採用側)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
       "defMeta": "definitionDeclared(A 正本)"
      },
      "predictionEligibleReasons": [
-      "③観測適合(3σ)を通っていない",
       "predictionEvidence の宣言が無い(usedForFit/validation/dataset/frozenProtocol)"
      ]
     },
     "B|ecc|実測離心率(1公転の半径比振れ幅)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3721,30 +1332,6 @@
      ]
     },
     "B|spin|自転(両星 — 転写なし)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3778,30 +1365,6 @@
      ]
     },
     "B|precession|実測(標準検出器): 近点移動(B)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3815,97 +1378,10 @@
    }
   },
   "psrDoubleAB": {
-   "stopRule": {
-    "id": "psrDoubleAB",
-    "declared": 3312950,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 276079
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 3312950
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 3312950
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "psrDoubleAB",
-     "declared": 3312950,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 276079
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 3312950
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 3312950
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "psrDoubleAB",
-     "declared": 6625899,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 6625899
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 6625899
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "B|period|公転周期(kFrame=0 採用側)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3917,30 +1393,6 @@
      ]
     },
     "B|ecc|実測離心率(1公転の半径比振れ幅)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -3974,30 +1426,6 @@
      ]
     },
     "B|precession|近点前進(1PN — 合わせない照合)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4009,30 +1437,6 @@
      ]
     },
     "B|spin|自転(両星 — 測定はあるが転写不能)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4068,97 +1472,10 @@
    }
   },
   "psrJ1757DFM": {
-   "stopRule": {
-    "id": "psrJ1757DFM",
-    "declared": 2180354,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 5946570
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 5946570
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "psrJ1757DFM",
-     "declared": 2180354,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 5946570
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 5946570
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "psrJ1757DFM",
-     "declared": 4360708,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 11893141
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "B|period|公転周期(観測質量 f=1 — 同方向1周)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4170,30 +1487,6 @@
      ]
     },
     "B|ecc|離心率(hold-out — 合わせていない)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4238,30 +1531,6 @@
      ]
     },
     "B|spin|**伴星の自転は未観測**(だから感度帯で出す)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4273,30 +1542,6 @@
      ]
     },
     "B|precession|近点移動(**hold-out** — 較正に使っていない)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4322,97 +1567,10 @@
    }
   },
   "psrJ1946DFM": {
-   "stopRule": {
-    "id": "psrJ1946DFM",
-    "declared": 932492,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 211920
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 2543042
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 2543042
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "psrJ1946DFM",
-     "declared": 932492,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 211920
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 2543042
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 2543042
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "psrJ1946DFM",
-     "declared": 1864984,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 5086084
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 5086084
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "B|period|公転周期(観測質量 f=1 — 同方向1周)〔一本化後の宣言で再測・model 欄は旧宣言の記録〕": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4468,30 +1626,6 @@
      ]
     },
     "B|spin|**伴星の自転は未観測**(だから感度帯で出す)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4503,30 +1637,6 @@
      ]
     },
     "B|precession|近点移動(**hold-out** — 較正に使っていない)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4550,30 +1660,6 @@
      ]
     },
     "B|ecc|実測(標準検出器): 離心率(B)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 22,
-       "perFitN": 22,
-       "perFound": 22,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4587,97 +1673,10 @@
    }
   },
   "psrB1534": {
-   "stopRule": {
-    "id": "psrB1534",
-    "declared": 13631888,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 8000000
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 13631888
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "psrB1534",
-     "declared": 13631888,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 13631888
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "psrB1534",
-     "declared": 27263777,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 8000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 27263777
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "B|period|公転周期(**入力確認** — 転写が閉じているかだけを見る・2 定義)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4689,30 +1688,6 @@
      ]
     },
     "B|ecc|離心率(入力確認)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4746,30 +1721,6 @@
      ]
     },
     "B|precession|近点移動は**この版では基準にしない**": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4781,30 +1732,6 @@
      ]
     },
     "B|spin|自転は転写できない": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4840,97 +1767,10 @@
    }
   },
   "gw150914": {
-   "stopRule": {
-    "id": "gw150914",
-    "declared": 681306,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 681306
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 681306
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "gw150914",
-     "declared": 681306,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 681306
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 681306
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "gw150914",
-     "declared": 1362611,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 113551
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 1362611
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 1362611
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "B|period|公転周期(kFrame=0・geoPN=0 採用側)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -4942,30 +1782,6 @@
      ]
     },
     "B|ecc|実測離心率(1公転の半径比振れ幅)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5010,30 +1826,6 @@
      ]
     },
     "B|spin|質量・半径・自転(転写と代理値)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5045,30 +1837,6 @@
      ]
     },
     "B|period|帳簿・決定性(10公転)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5080,30 +1848,6 @@
      ]
     },
     "B|precession|実測(標準検出器): 近点移動(B)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 60,
-       "perFitN": 60,
-       "perFound": 60,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5117,71 +1861,8 @@
    }
   },
   "gw150914Merge4s": {
-   "stopRule": {
-    "id": "gw150914Merge4s",
-    "declared": 34065,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 34065
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 34065
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 34065
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": true,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "gw150914Merge4s",
-     "declared": 34065,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 34065
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 34065
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 34065
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": true,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "gw150914Merge4s",
-     "declared": 68131,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 68131
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 68131
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 68131
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": true,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "null|other|融合時刻(接線放射・用量 a=0.1313)": {
      "deprecatedKeys": {
@@ -5272,30 +1953,6 @@
      ]
     },
     "B|period|実測(標準検出器): 公転周期(B)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 3,
-       "perUnmeasured": true
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 3,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5307,30 +1964,6 @@
      ]
     },
     "B|ecc|実測(標準検出器): 離心率(B)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 3,
-       "perUnmeasured": true
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 3,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5342,30 +1975,6 @@
      ]
     },
     "B|precession|実測(標準検出器): 近点移動(B)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 3,
-       "perUnmeasured": true
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 3,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5379,97 +1988,10 @@
    }
   },
   "saturnZonalD68": {
-   "stopRule": {
-    "id": "saturnZonalD68",
-    "declared": 699401,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 80000
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 699401
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 699401
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "saturnZonalD68",
-     "declared": 699401,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 80000
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 699401
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 699401
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    },
-    "dt/2": {
-     "id": "saturnZonalD68",
-     "declared": 1398802,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 116567
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 1398802
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 1398802
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "D68|precession|D68 リングレットの近点移動(推定器つき宣言 — 第250便d)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5481,30 +2003,6 @@
      ]
     },
     "D68|period|D68 の公転周期・同方向1周(履歴)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5516,30 +2014,6 @@
      ]
     },
     "D68|period|D68 の公転周期・近点間(第250便d)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5573,30 +2047,6 @@
      ]
     },
     "D68|ecc|実測(標準検出器): 離心率(D68)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      },
-      {
-       "tag": "dt/2",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 58,
-       "perFitN": 58,
-       "perFound": 58,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5610,65 +2060,10 @@
    }
   },
   "saturnRingReal": {
-   "stopRule": {
-    "id": "saturnRingReal",
-    "declared": 2042988,
-    "rates": [
-     {
-      "rate": 1000,
-      "maxSteps": 254730
-     },
-     {
-      "rate": 100000,
-      "maxSteps": 24000000
-     },
-     {
-      "rate": 10000000,
-      "maxSteps": 51651992
-     }
-    ],
-    "declaredStable": true,
-    "legacyStable": false,
-    "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-   },
-   "stopRuleStages": {
-    "dt": {
-     "id": "saturnRingReal",
-     "declared": 2042988,
-     "rates": [
-      {
-       "rate": 1000,
-       "maxSteps": 254730
-      },
-      {
-       "rate": 100000,
-       "maxSteps": 24000000
-      },
-      {
-       "rate": 10000000,
-       "maxSteps": 51651992
-      }
-     ],
-     "declaredStable": true,
-     "legacyStable": false,
-     "note": "`declared` は步/秒を入力に取らないので**定義上一定**である。`rates` は旧規則を3 つの速さで再現したもので、**値がばらつくなら走行長が機種で変わっていた**ことを意味する。"
-    }
-   },
+   "stopRule": null,
+   "stopRuleStages": {},
    "quantities": {
     "C環内縁|period|C環内縁の公転": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5680,19 +2075,6 @@
      ]
     },
     "タイタン|period|タイタンの公転": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 3,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5715,19 +2097,6 @@
      ]
     },
     "C環内縁|ecc|実測(標準検出器): 離心率(C環内縁)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5739,19 +2108,6 @@
      ]
     },
     "C環内縁|precession|実測(標準検出器): 近点移動(C環内縁)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 63,
-       "perFitN": 63,
-       "perFound": 63,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5763,19 +2119,6 @@
      ]
     },
     "ミマス|period|実測(標準検出器): 公転周期(ミマス)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 35,
-       "perFitN": 35,
-       "perFound": 35,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5787,19 +2130,6 @@
      ]
     },
     "ミマス|ecc|実測(標準検出器): 離心率(ミマス)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 35,
-       "perFitN": 35,
-       "perFound": 35,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5811,19 +2141,6 @@
      ]
     },
     "ミマス|precession|実測(標準検出器): 近点移動(ミマス)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 35,
-       "perFitN": 35,
-       "perFound": 35,
-       "perUnmeasured": false
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5835,19 +2152,6 @@
      ]
     },
     "タイタン|ecc|実測(標準検出器): 離心率(タイタン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 3,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5859,19 +2163,6 @@
      ]
     },
     "タイタン|precession|実測(標準検出器): 近点移動(タイタン)": {
-     "stageHealthRows": [
-      {
-       "tag": "dt",
-       "nan": false,
-       "clamp": 0,
-       "dup": 0,
-       "jump": 0,
-       "nPeri": 3,
-       "perFitN": 3,
-       "perFound": 3,
-       "perUnmeasured": true
-      }
-     ],
      "deprecatedKeys": {
       "defSpreadPct": "orbitNoiseIndicator.abRelPct",
       "detSpreadPct": "orbitNoiseIndicator.abRelPct",
@@ -5923,14 +2214,14 @@
   },
   "n": 4,
   "freshThisRun": 0,
-  "carriedFrom": "2026-10-04T21:34:05.229Z",
+  "carriedFrom": "2026-10-05T21:04:08.628Z",
   "entries": {
    "alphaCenAB": {
     "contract": {
      "version": "w285f-h4reuse-3",
      "key": "alphaCenAB",
      "presetHash": "13f500a:24051",
-     "engineSha": "0608df87e51a70cdf2d5edad756c3097664dbc9253ee51b52c0ab88c87e5743e",
+     "engineSha": "5f6150f949edcc0043ea574440fb55c9abf1410d62187eb9d5543da7c959140e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.004,
      "orbMax": 60,
@@ -6145,20 +2436,20 @@
      "tp": null,
      "dt": 0.004,
      "tag": "dt/4",
-     "rateStepsPerSec": 555556,
-     "wallSec": 43.637,
+     "rateStepsPerSec": 645161,
+     "wallSec": 41.114,
      "stepsPerOrbit0": [
       629289
      ],
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 43.637,
+      "wallSec": 41.114,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 37757313,
       "stepsRun": 37757313,
-      "rateStepsPerSec": 555556,
+      "rateStepsPerSec": 645161,
       "dt": 0.004,
       "periFoundA": [
        60
@@ -6202,7 +2493,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 43.637,
+      "wallSec": 41.114,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -6222,7 +2513,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 555556,
+      "rateStepsPerSec": 645161,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "alphaCenAB",
@@ -6247,8 +2538,8 @@
       }
      }
     },
-    "generatedAt": "2026-10-04T17:44:52.036Z",
-    "targetSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+    "generatedAt": "2026-10-05T21:04:08.493Z",
+    "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
     "verdict4": "量限定合",
     "mappingSig": "4154e93b7197f1e0a290f21ed23bd1e9ac381f4a6de195eda2a09b1487f31d5a"
    },
@@ -6257,7 +2548,7 @@
      "version": "w285f-h4reuse-3",
      "key": "siriusAB",
      "presetHash": "aedfc539:26940",
-     "engineSha": "0608df87e51a70cdf2d5edad756c3097664dbc9253ee51b52c0ab88c87e5743e",
+     "engineSha": "5f6150f949edcc0043ea574440fb55c9abf1410d62187eb9d5543da7c959140e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.004,
      "orbMax": 60,
@@ -6472,20 +2763,20 @@
      "tp": null,
      "dt": 0.004,
      "tag": "dt/4",
-     "rateStepsPerSec": 327869,
-     "wallSec": 24.936,
+     "rateStepsPerSec": 1250000,
+     "wallSec": 24.07,
      "stepsPerOrbit0": [
       395492
      ],
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 24.936,
+      "wallSec": 24.07,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 23729530,
       "stepsRun": 23729530,
-      "rateStepsPerSec": 327869,
+      "rateStepsPerSec": 1250000,
       "dt": 0.004,
       "periFoundA": [
        60
@@ -6529,7 +2820,7 @@
       "stepsHit": true,
       "minPeriastra": 60,
       "periastraOk": true,
-      "wallSec": 24.936,
+      "wallSec": 24.07,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -6549,7 +2840,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 327869,
+      "rateStepsPerSec": 1250000,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "siriusAB",
@@ -6574,8 +2865,8 @@
       }
      }
     },
-    "generatedAt": "2026-10-04T17:44:52.036Z",
-    "targetSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+    "generatedAt": "2026-10-05T21:04:08.493Z",
+    "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
     "verdict4": "量限定合",
     "mappingSig": "4154e93b7197f1e0a290f21ed23bd1e9ac381f4a6de195eda2a09b1487f31d5a"
    },
@@ -6584,7 +2875,7 @@
      "version": "w285f-h4reuse-3",
      "key": "saturnZonalD68",
      "presetHash": "bbcd95c8:21462",
-     "engineSha": "0608df87e51a70cdf2d5edad756c3097664dbc9253ee51b52c0ab88c87e5743e",
+     "engineSha": "5f6150f949edcc0043ea574440fb55c9abf1410d62187eb9d5543da7c959140e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.004,
      "orbMax": 60,
@@ -6836,20 +3127,20 @@
      "tp": null,
      "dt": 0.004,
      "tag": "dt/4",
-     "rateStepsPerSec": 106952,
-     "wallSec": 25.601,
+     "rateStepsPerSec": 101523,
+     "wallSec": 24.528,
      "stepsPerOrbit0": [
       46627
      ],
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 25.601,
+      "wallSec": 24.528,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 2797603,
       "stepsRun": 2674708,
-      "rateStepsPerSec": 106952,
+      "rateStepsPerSec": 101523,
       "dt": 0.004,
       "periFoundA": [
        58
@@ -6893,7 +3184,7 @@
       "stepsHit": false,
       "minPeriastra": 58,
       "periastraOk": true,
-      "wallSec": 25.601,
+      "wallSec": 24.528,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -6913,7 +3204,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 106952,
+      "rateStepsPerSec": 101523,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "saturnZonalD68",
@@ -6938,8 +3229,8 @@
       }
      }
     },
-    "generatedAt": "2026-10-04T17:44:52.036Z",
-    "targetSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
+    "generatedAt": "2026-10-05T21:04:08.493Z",
+    "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
     "verdict4": "否",
     "mappingSig": "d7909c19f34903ada1a7fedd3eeef7ac08492096696d21a7744dba451277223a"
    },
@@ -7289,9 +3580,9 @@
    ]
   },
   "n": 39,
-  "freshThisRun": 17,
+  "freshThisRun": 4,
   "reusedThisRun": 0,
-  "carriedFrom": "2026-10-04T21:34:05.229Z",
+  "carriedFrom": "2026-10-05T21:04:08.628Z",
   "entries": {
    "earthMoonReal": {
     "contract": {
@@ -18896,7 +15187,7 @@
      "version": "w285f-h2reuse-2",
      "key": "jupiterGalilean:kf0",
      "presetHash": "e31880c9:35829",
-     "engineSha": "0608df87e51a70cdf2d5edad756c3097664dbc9253ee51b52c0ab88c87e5743e",
+     "engineSha": "5f6150f949edcc0043ea574440fb55c9abf1410d62187eb9d5543da7c959140e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.008,
      "dtH": 0.016,
@@ -18933,13 +15224,13 @@
     "hSig": "dd16ea855cc23d9bf15a19db2073175a0d0ec469d314bf67a016f62b4b050293",
     "stable": {
      "version": "w287b-h2cross-1",
-     "sha": "5acf3df9940ac06905e972a0001aaf5fb62e1b81e3eeb232ea5049c4ca011a29",
+     "sha": "2e35352d1194a55aed593605227487784b8c660df22cde699111dadb91af3c68",
      "parts": {
       "physicsDecl": "109360db95eea30ede369f2c4b1aff9ddcb9bfa5d10ec931194081c49989bd59",
       "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
       "instrument": "34ddbc03c458622026b13faeee85b7ab9a8f718fac92dc7ff3f522263d30f9fc",
       "stopRule": "0e8ec6468d0535de1538c90772e3f07ddb83686ac5ce4004990df39500a87c35",
-      "numerics": "f71fdbe3382e06df39429956ead9349a856b5044dd1d16c4805fbae2c7e59097",
+      "numerics": "75da62d746739b75f30c7289af24104c42dbe2a0208c612ded13f5ae5ef32f15",
       "precision": "3bdeee7274e395d009fb16274aefa91d8ea3d40b2144e46b1bccd55d83cb0122",
       "engine": "59ee6411b2965eafbafdf212b6d760b8ca1d76b48277a8041f14551b2335c014"
      },
@@ -19624,8 +15915,8 @@
      "tp": null,
      "dt": 0.008,
      "tag": "dt/2",
-     "rateStepsPerSec": 425532,
-     "wallSec": 29.314,
+     "rateStepsPerSec": 294118,
+     "wallSec": 30.654,
      "stepsPerOrbit0": [
       19115,
       38363,
@@ -19635,12 +15926,12 @@
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 29.314,
+      "wallSec": 30.654,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 10814883,
       "stepsRun": 10811628,
-      "rateStepsPerSec": 425532,
+      "rateStepsPerSec": 294118,
       "dt": 0.008,
       "periFoundA": [
        63,
@@ -19690,7 +15981,7 @@
       "stepsHit": false,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 29.314,
+      "wallSec": 30.654,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -19722,7 +16013,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 425532,
+      "rateStepsPerSec": 294118,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "jupiterGalilean",
@@ -19747,15 +16038,15 @@
       }
      }
     },
-    "generatedAt": "2026-10-04T19:31:06.358Z",
-    "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be"
+    "generatedAt": "2026-10-05T21:05:02.707Z",
+    "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f"
    },
    "venusReal:kf0": {
     "contract": {
      "version": "w285f-h2reuse-2",
      "key": "venusReal:kf0",
      "presetHash": "43427e4e:18612",
-     "engineSha": "0608df87e51a70cdf2d5edad756c3097664dbc9253ee51b52c0ab88c87e5743e",
+     "engineSha": "5f6150f949edcc0043ea574440fb55c9abf1410d62187eb9d5543da7c959140e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.008,
      "dtH": 0.016,
@@ -19789,13 +16080,13 @@
     "hSig": "55780d96be07f33dd13f56a3506a10e96273901f58fd2c8996b4445a6a46e05c",
     "stable": {
      "version": "w287b-h2cross-1",
-     "sha": "285d72152cdefd3edbb46bc7a9bebf7f6605981691b3fa5f3751aefb384e119d",
+     "sha": "b269dc40f164ac42f1c3fda976bf0432734ca06eb99c3f3b23a979c7dec316e5",
      "parts": {
       "physicsDecl": "2f8c3d8d8bf835828f2ca25c76dbf0e02999af5d89ec850e707e5658c999f259",
       "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
       "instrument": "f25b6fece4477d3b31b4912390653a06cf9dd2bba71bf5a3f2a24408fab941d1",
       "stopRule": "438e49f263d1075f1b684f990349ca5374669f40de3e1c1101d86f50be56c79f",
-      "numerics": "497cfb296d7f81309c00e50b6e75ce18cb3b27ca7314ca667a99ca69778c0e0a",
+      "numerics": "b5b7e6f901273056df87161b7ac7521620ca9d386d8f12b19634cb9ed7cf23c7",
       "precision": "9b36bfd3eb64769dd76d3d21cf8436644c6e233ae83f827a9f3627cf92503094",
       "engine": "59ee6411b2965eafbafdf212b6d760b8ca1d76b48277a8041f14551b2335c014"
      },
@@ -19987,20 +16278,20 @@
      "tp": null,
      "dt": 0.008,
      "tag": "dt/2",
-     "rateStepsPerSec": 645161,
-     "wallSec": 15.255,
+     "rateStepsPerSec": 869565,
+     "wallSec": 14.201,
      "stepsPerOrbit0": [
       242674
      ],
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 15.255,
+      "wallSec": 14.201,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 14560415,
       "stepsRun": 14560415,
-      "rateStepsPerSec": 645161,
+      "rateStepsPerSec": 869565,
       "dt": 0.008,
       "periFoundA": [
        59
@@ -20044,7 +16335,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 15.255,
+      "wallSec": 14.201,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -20064,7 +16355,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 645161,
+      "rateStepsPerSec": 869565,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "venusReal",
@@ -20089,15 +16380,15 @@
       }
      }
     },
-    "generatedAt": "2026-10-04T19:31:06.358Z",
-    "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be"
+    "generatedAt": "2026-10-05T21:05:02.707Z",
+    "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f"
    },
    "marsMoonsReal:kf0": {
     "contract": {
      "version": "w285f-h2reuse-2",
      "key": "marsMoonsReal:kf0",
      "presetHash": "8eaa341f:16193",
-     "engineSha": "0608df87e51a70cdf2d5edad756c3097664dbc9253ee51b52c0ab88c87e5743e",
+     "engineSha": "5f6150f949edcc0043ea574440fb55c9abf1410d62187eb9d5543da7c959140e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.008,
      "dtH": 0.016,
@@ -20132,13 +16423,13 @@
     "hSig": "ebc1170cb1ce0fccbd96e884d0638a7dd7449e6ee88cdb6088ea44e7380ad0e3",
     "stable": {
      "version": "w287b-h2cross-1",
-     "sha": "35c44d16344891b2d055eab9b39efb1f0501767495b6e68a47f4b8f6c879d861",
+     "sha": "42217fe555b9c43902482d74142b5d64e3c305070bf1b4b3a793f3e1c1649f21",
      "parts": {
       "physicsDecl": "bf739b917608181115cf69738486a3bdad36e553c5906df8939c4ad546775d55",
       "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
       "instrument": "896db98b39bcac1d4cd683f80e3b44c026720f3993b802c5ea437fe1eba046b6",
       "stopRule": "9ce6a37d0769165dc644af5567b545831e4c6701c36768a8a7925a544133756d",
-      "numerics": "71b2bcc105b93b4932f76dfcc66971555e59678def04b456413e8addddae16cb",
+      "numerics": "5ffb199f8a6fdc29bd0b5e994b7fbb6b26248aa211a4b7797bd2e54ce40469bb",
       "precision": "c34a4143e9449b05d24a617969f9a0e7d93835d85d51c7556c7bd2cd3bb20c63",
       "engine": "59ee6411b2965eafbafdf212b6d760b8ca1d76b48277a8041f14551b2335c014"
      },
@@ -20494,8 +16785,8 @@
      "tp": null,
      "dt": 0.008,
      "tag": "dt/2",
-     "rateStepsPerSec": 869565,
-     "wallSec": 10.758,
+     "rateStepsPerSec": 952381,
+     "wallSec": 11.497,
      "stepsPerOrbit0": [
       34454,
       136394
@@ -20503,12 +16794,12 @@
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 10.758,
+      "wallSec": 11.497,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 8183629,
       "stepsRun": 8183629,
-      "rateStepsPerSec": 869565,
+      "rateStepsPerSec": 952381,
       "dt": 0.008,
       "periFoundA": [
        63,
@@ -20554,7 +16845,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 10.758,
+      "wallSec": 11.497,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -20578,7 +16869,7 @@
        true,
        true
       ],
-      "rateStepsPerSec": 869565,
+      "rateStepsPerSec": 952381,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "marsMoonsReal",
@@ -20603,8 +16894,8 @@
       }
      }
     },
-    "generatedAt": "2026-10-04T19:31:06.358Z",
-    "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be"
+    "generatedAt": "2026-10-05T21:05:02.707Z",
+    "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f"
    },
    "plutoCharonReal:kf0": {
     "contract": {
@@ -20953,7 +17244,7 @@
      "version": "w285f-h2reuse-2",
      "key": "neptuneReal:kf0",
      "presetHash": "1d2c2141:21347",
-     "engineSha": "0608df87e51a70cdf2d5edad756c3097664dbc9253ee51b52c0ab88c87e5743e",
+     "engineSha": "5f6150f949edcc0043ea574440fb55c9abf1410d62187eb9d5543da7c959140e",
      "lawsSha": "19561b6480577c5bf0ad4112fadfc4c6814feab39232a419a9e961de2a5482fc",
      "dt": 0.008,
      "dtH": 0.016,
@@ -20987,13 +17278,13 @@
     "hSig": "26bfc2e2187e486c0cfd91b64ca767a97ecf717ac152054fd51062f3c7de15d9",
     "stable": {
      "version": "w287b-h2cross-1",
-     "sha": "8e2aa1aec5dcd03ac1fb75894bc1936fac171484ac537b1595f6365f0be1f66d",
+     "sha": "ed8cce433cdc9a2269940d141c858fe8ef60df69a37230aaf60f6752628a3e1f",
      "parts": {
       "physicsDecl": "a1cc20654777c3686553168fa9cec673ffd1c388b546d11b32332435caba6a2c",
       "obsRef": "835e13dc75d901fd87ca0b230f28ab0310e9a83db03f9523644b21fe8525ca47",
       "instrument": "a33c4b5ee0f57c46f0df2655b431ad95af554f6e3933c9a8e534849898a1a076",
       "stopRule": "c35865024c108b1daddefa934efd14a980acf0f9252a197a0438591a808ab5b8",
-      "numerics": "4bd90c310be7235e6797c71d9e763b67c165820d4061ce7fadc04823f4700c0d",
+      "numerics": "a82a490512c1527ac805d39806041265c4796c4d3947123bb1c765ae8fb8c87c",
       "precision": "3bdeee7274e395d009fb16274aefa91d8ea3d40b2144e46b1bccd55d83cb0122",
       "engine": "59ee6411b2965eafbafdf212b6d760b8ca1d76b48277a8041f14551b2335c014"
      },
@@ -21185,20 +17476,20 @@
      "tp": null,
      "dt": 0.008,
      "tag": "dt/2",
-     "rateStepsPerSec": 606061,
-     "wallSec": 4.29,
+     "rateStepsPerSec": 1111111,
+     "wallSec": 4.725,
      "stepsPerOrbit0": [
       63472
      ],
      "timeBudget": {
       "budgetSec": 80,
       "heavy": false,
-      "wallSec": 4.29,
+      "wallSec": 4.725,
       "wallNearBudget": false,
       "wallNearBudgetNote": "壁時計近接の診断(wallSec ≥ 0.9×budgetSec)—— 停止状態ではない(停止は stopRule.stoppedBy・complete)",
       "maxSteps": 3808338,
       "stepsRun": 3808338,
-      "rateStepsPerSec": 606061,
+      "rateStepsPerSec": 1111111,
       "dt": 0.008,
       "periFoundA": [
        59
@@ -21242,7 +17533,7 @@
       "stepsHit": true,
       "minPeriastra": 59,
       "periastraOk": true,
-      "wallSec": 4.29,
+      "wallSec": 4.725,
       "wallCeilingSec": 900,
       "resourceExceeded": false,
       "cappedByDeclaration": false,
@@ -21262,7 +17553,7 @@
       "windowFilledA": [
        true
       ],
-      "rateStepsPerSec": 606061,
+      "rateStepsPerSec": 1111111,
       "rateNote": "**步/秒は記録であって停止条件ではない**(第270便a・AE9)",
       "machineIndependence": {
        "id": "neptuneReal",
@@ -21287,8 +17578,8 @@
       }
      }
     },
-    "generatedAt": "2026-10-04T19:31:06.358Z",
-    "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be"
+    "generatedAt": "2026-10-05T21:05:02.707Z",
+    "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f"
    },
    "plutoCharonDiagInput": {
     "contract": {
