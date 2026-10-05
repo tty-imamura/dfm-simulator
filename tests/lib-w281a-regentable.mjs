@@ -37,6 +37,7 @@
 //   'w292a-branch' … 第292便a の枝で器を走らせた実測(正本の elapsedS 1.5 —— Node だけ・正本を読むだけ・1 步も走らせない・他の枝と同じ容器で並走)。
 //   'w292c-branch' … 第292便c の枝で器を走らせた実測(正本の elapsedS 952.5 —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走〔負荷平均 1〜3。負荷平均 6〜9 の 1 回目は 1482.7〕)。
 //   'w292d-branch' … 第292便d の枝で器を走らせた実測(正本の elapsedS 約 85 —— Node の headless 1 本・Chromium なし・他の 3 枝と同じ容器で並走)。
+//   'w293c-branch' … 第293便c の枝で器を走らせた実測(正本の elapsedS 60.7〜106.0 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -685,6 +686,14 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tide-w292d.json': META_RUN.concat(['/elapsedS', '/diag/run/wallSec', '/diag/half/wallSec', '/cross/runs/*/wallSec']) },
     note: '第292便d: 明示潮汐の門(純関数 6 項・エンジンの 1 回の評価が純関数とビット同一・J の更新と取り直し・サブステップ・足さない本 4 本の未宣言とのビット同一と maxN の上書き・'
       + '復元・xdot/split/lag 0/inertia)と 🌜 の 1 恒星月(ΔJ・ΔΩ・熱・交換の残差・解析式との比・素朴な更新との比較・dt 半分)・引きずりとの交差項(4 条件 × v/xdot × gain 3 点)' }),
+  // ---- 第293便c(原仮定者の裁定(第83報)「どの処理で何ができるのかを整理し、統合先を見定める」「有効に働いていないサンプルでは撤去を検討」・統括の検証項目 R143):
+  //   引きずりとコア構造の棚卸し(内蔵 152 本の宣言数 —— コア V2・layers・dragCore・coreField・relativeDrag の law・spinAxis・コア軸の鍵・明示潮汐)と、
+  //   在位でコア V2 を宣言した本のコアなし対照(2000 步・8 量の最大差・融合/放出の件数・観測層)・分類 A〜D・撤去の可否・層の本と 🌛 の参考の対照。
+  //   Node の headless(html だけを読む —— 他の正本は読まない・1 プロセス)。所要は第293便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('corecensus293', 'node tests/exp-w293c-corecensus.mjs', ['tests/out/corecensus-w293c.json'], 106, { secSource: 'w293c-branch', node: true,
+    volatilePaths: { 'tests/out/corecensus-w293c.json': META_RUN.concat(['/elapsedS', '/control/rows/*/wallSec', '/layerBooks/rows/*/wallSec', '/dragCoreRef/rows/*/wallSec']) },
+    note: '第293便c: 4 経路の棚卸し(body の宣言数・変換可能/置換可の数)とコアなし対照 2000 步(x/y/vx/vy/spin/m/mEff/R の最大差・粒子数・融合/放出・最初の差の步・'
+      + 'T_obs/Q/lSw)・分類 A〜D と撤去の可否(本便の適用 0)・層の本は layers を外した対照・🌛 は dragCore を外した対照' }),
   // ---- 第293便e(原仮定者の裁定(第83報)「同じ方向の複数の引きずりが単純に足されることは無い」・統括の検証項目 R145): 引きずりの合成則
   //   (relativeDrag.compose:"sum"|"solve" —— opt-in・既定は現行の加算)の純関数 8 項・宣言の受理・エンジン≡純関数のビット同一(🐌/🌛/規定源つき 3 体/
   //   粒子 70 の Gauss–Seidel)・非相反性と、🐌・🌛 の sum/solve(history・velocity)27 公転の比較・🌛 の solve 版 C_d の 8.85 年への別のフィット

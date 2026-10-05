@@ -2336,6 +2336,9 @@ if (QA_CHANGED) {
       // 第292便d(原仮定者の裁定(第82報)⑦・R140): 明示潮汐(physics.tide と天体の tide —— CTL)の門 b〜g・🌜 の 1 恒星月・引きずりとの交差項
       //   (target=beta/index.html —— Node の headless だけ・html だけを読む・他の正本は読まない —— 鎖の段 tide292)
       'tests/out/tide-w292d.json',
+      // 第293便c(原仮定者の裁定(第83報)・R143): 引きずりとコア構造の棚卸し(4 経路の宣言数)・コアなし対照 2000 步・分類 A〜D・撤去の可否
+      //   (target=beta/index.html —— Node の headless だけ・html だけを読む・他の正本は読まない —— 鎖の段 corecensus293)
+      'tests/out/corecensus-w293c.json',
       // 第293便e(原仮定者の裁定(第83報)・R145): 引きずりの合成則(compose:"sum"|"solve")の純関数 8 項・エンジン≡純関数・非相反性・🐌/🌛 の sum/solve 比較・
       //   🌛 の solve 版 C_d の別フィット(採用値にしない)(Node の headless・子プロセス 3 本・領域 REGEN_SCOPE —— 鎖の段 compose293 は dragcore292 の後)
       'tests/out/compose-w293e.json'];
@@ -23120,6 +23123,114 @@ if (!FAST) {
       }
       add('docs.tideContract', bad.length === 0,
         `**潮汐の契約の表**(第292便d・統括の検証項目 R140 —— 正本 tests/out/tide-w292d.json・器 tests/exp-w292d-tide.mjs): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1k) 第293便c(原仮定者の裁定(第83報)「どの処理で何ができるのかを整理し、統合先を見定める」「有効に働いていないサンプルでは撤去を検討」・
+// ----   統括の検証項目 R143): **引きずりとコア構造の棚卸し便**の 2 ブロック。**root では SKIP**(beta 線の器・正本)。
+// ----   世代切替 has293c = 対象が beta で、器 tests/exp-w293c-corecensus.mjs と正本 tests/out/corecensus-w293c.json がある(html は変えていない便 —— 力学は 1 bit 不変)。
+// ----   器・純関数 tests/lib-w293c-corecensus.mjs・正本(段 corecensus293)。
+// ----   ① docs.coreCensus …… PHYSICS〔第293便c〕の表(棚卸し・コアなし対照・層の本・分類の本数)が正本から作った行と同文・棚卸し(宣言数・変換可能/置換可の数 ——
+// ----      1 步も走らせない)をいまの html で作り直して正本と一致・分類 A〜D の本数と本の id が行の分類と一致・必須の語と禁止語・AI_SPEC §48・CHANGELOG・正本の ok。
+// ----   ② behavior.coreRemovalGate …… 正本で A(単層等価)に分類した本を、いまの html でコアを外した対照と 2000 步走らせ直し、8 量・粒子数・事象がビット同一で、
+// ----      比較の結果(最大差・観測層・件数・読む者・撤去の可否)が正本の行と同じ。撤去を適用した本(本便は 0 本)は器の定数と正本が一致。
+{
+  const html293c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has293c = TARGET.startsWith('beta/') && fs.existsSync(path.join(ROOT, 'tests', 'exp-w293c-corecensus.mjs'))
+    && fs.existsSync(path.join(ROOT, 'tests', 'out', 'corecensus-w293c.json'));
+  if (!has293c) {
+    console.log('SKIP docs.coreCensus / behavior.coreRemovalGate(第293便c 未適用 — ' + TARGET + ')');
+  } else {
+    let E293 = null, L293 = null, HP293 = null, err293 = null;
+    try {
+      E293 = await import('file://' + path.join(ROOT, 'tests', 'exp-w293c-corecensus.mjs'));
+      L293 = await import('file://' + path.join(ROOT, 'tests', 'lib-w293c-corecensus.mjs'));
+      // loadHtmlMain は html を**この process の大域**で実行する(2 度目は const の再宣言で落ちる)—— 前のブロックが同じ TARGET を読んでいればその HP を使う
+      if (globalThis.HP && typeof globalThis.HP.coreV2ReplaceReport === 'function' && typeof globalThis.HP.DRAG_CORE_VERSION === 'string'
+        && html293c.indexOf('"' + globalThis.HP.DRAG_CORE_VERSION + '"') >= 0 && typeof globalThis.HP.REL_DRAG_INERTIAL_VERSION === 'string'
+        && html293c.indexOf('"' + globalThis.HP.REL_DRAG_INERTIAL_VERSION + '"') >= 0) HP293 = globalThis.HP;
+      else if (globalThis.HP && typeof globalThis.HP.dfmFieldContract === 'function') throw new Error('大域の HP が別の html の版(同じ process で 2 度読めない)');
+      else {
+        const { loadHtmlMain: loadMain293 } = await import('file://' + path.join(ROOT, 'tests', 'lib-w280b-emgrid.mjs'));
+        HP293 = loadMain293(path.join(ROOT, TARGET)).HP;
+      }
+    } catch (e) { err293 = String(e && e.stack || e).slice(0, 160); }
+    const J293 = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'corecensus-w293c.json'), 'utf8')); } catch (e) { return null; } })();
+    // ---- ① docs.coreCensus
+    {
+      const bad = [], cases = [];
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const psec = (() => { const a = Pd.indexOf('〔第293便c — '); if (a < 0) return '';
+        const ends = [Pd.indexOf('\n〔第', a + 10), Pd.indexOf('\n## 7. 論文', a)].filter((k) => k > a); return Pd.slice(a, ends.length ? Math.min(...ends) : undefined); })();
+      if (err293) bad.push('器が読めない: ' + err293);
+      else if (!J293) bad.push('正本 corecensus-w293c.json が読めない');
+      else if (!psec) bad.push('PHYSICS〔第293便c — 〕が無い');
+      else {
+        const R = L293.docRows(J293), rows = R.totals.concat(R.control, R.layers, R.counts), miss = rows.filter((r) => psec.indexOf(r) < 0);
+        if (miss.length) bad.push('PHYSICS に正本の行が無い: ' + miss.length + ' 行(例 ' + miss[0].slice(0, 60) + ')');
+        cases.push(`PHYSICS の表の行 ${rows.length - miss.length}/${rows.length}(棚卸し ${R.totals.length}・コアなし対照 ${R.control.length}・層 ${R.layers.length}・本数 ${R.counts.length})`);
+        // 棚卸しをいまの html で作り直す(1 步も走らせない)
+        const C = E293.census(HP293, html293c);
+        if (JSON.stringify(C.rows) !== JSON.stringify(J293.census.rows)) bad.push('棚卸しの行がいまの html と正本で違う(器を走らせ直すこと)');
+        if (JSON.stringify(C.totals) !== JSON.stringify(J293.census.totals)) bad.push('棚卸しの合計がいまの html と正本で違う');
+        cases.push(`棚卸し ${C.nPresets} 本(退役 ${C.nRetired})をいまの html で作り直して正本と一致: コア V2 在位 ${C.totals.coreV2.active} 本・${C.totals.coreV2.declActive} body・layers ${C.totals.layers.active}・dragCore ${C.totals.dragCore.active}`);
+        // 分類の本数と id
+        const ids = { A: [], B: [], C: [], D: J293.layerBooks.rows.map((r) => r.id) };
+        for (const r of J293.control.rows) { const k = L293.classifyRow(r).cls; if (k !== r.cls) bad.push(`${r.id} の分類 ${r.cls} が規則(${k})と違う`); ids[k].push(r.id); }
+        for (const k of L293.CLASSES) if (JSON.stringify(ids[k]) !== JSON.stringify(J293.classes.ids[k]) || J293.classes.counts[k] !== ids[k].length) bad.push('分類 ' + k + ' の本が行と違う');
+        const v2Active = C.rows.filter((r) => !r.retired && r.v2.n > 0).map((r) => r.id);
+        if (JSON.stringify(v2Active) !== JSON.stringify(J293.control.rows.map((r) => r.id))) bad.push('コアなし対照の本が在位の V2 の本と違う');
+        cases.push(`分類 A ${ids.A.length}・B ${ids.B.length}・C ${ids.C.length}・D ${ids.D.length}(在位の V2 ${v2Active.length} 本すべてを比較)`);
+        const cut = psec.indexOf('**書かないこと。**'), body = cut >= 0 ? psec.slice(0, cut) : psec;
+        if (cut < 0) bad.push('PHYSICS〔第293便c〕に「書かないこと」が無い');
+        const FORBID = ['コア V2 を廃止した', '層へ置換して同等になった', '月を再現した', '較正 合', 'C_d は普遍定数', '全系の保存則が閉じた', '摂動の記憶を示した'];
+        const hit = FORBID.filter((w) => body.indexOf(w) >= 0);
+        if (hit.length) bad.push('PHYSICS〔第293便c〕の本文に禁止語: ' + hit.join(','));
+        for (const w of ['変換可能', '置換可', '同等性確認済み', '短期一致', '薄い球殻', '⅖·m_L·(b⁵−a⁵)/(b³−a³)', 'V_j+Ω×ξ', 'J と同一視しない', '軌道の近点移動', '自転軸の歳差・章動',
+          '規定した軸の表示回転', 'R143', '原仮定者の裁定(第83報)', '撤去候補']) if (psec.indexOf(w) < 0) bad.push('PHYSICS〔第293便c〕に「' + w + '」が無い');
+        cases.push(`必須の語・禁止語 0(${FORBID.length} 語)`);
+        const AS = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+        const ai = AS.indexOf('第293便c —— コアの 3 つの鍵は別の仕事');
+        if (!(ai >= 0 && /致命拒否/.test(AS.slice(ai, ai + 4000)) && AS.slice(ai, ai + 4000).indexOf('`layers:[{role, m, r, J, …}]`') >= 0)) bad.push('AI_SPEC にコアの 3 つの鍵の表(同時宣言の規則)が無い');
+        if (HP293.SYSTEM_PROMPT && /dragCore/.test(HP293.SYSTEM_PROMPT)) bad.push('SYSTEM_PROMPT に dragCore がある');
+        const CL = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+        if (CL.indexOf('第293便c') < 0) bad.push('CHANGELOG に第293便c の行が無い');
+        if (J293.ok !== true) bad.push('正本の ok');
+        if (JSON.stringify(J293.removal.applied) !== JSON.stringify(E293.REMOVAL_APPLIED)) bad.push('撤去を適用した本が器の定数と正本で違う');
+        cases.push(`撤去を適用 ${J293.removal.applied.length} 本・候補 ${J293.removal.candidates.length} 本(${J293.removal.candidates.map((z) => z.emoji).join('')})・AI_SPEC・CHANGELOG`);
+      }
+      add('docs.coreCensus', bad.length === 0,
+        `**引きずりとコア構造の棚卸し**(第293便c・統括の検証項目 R143 —— 正本 tests/out/corecensus-w293c.json と PHYSICS〔第293便c〕の転記一致): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② behavior.coreRemovalGate
+    {
+      const bad = [], cases = [];
+      if (err293) bad.push('器が読めない: ' + err293);
+      else if (!J293) bad.push('正本 corecensus-w293c.json が読めない');
+      else {
+        const t0 = Date.now();
+        const ids = J293.classes.ids.A;
+        if (!ids.length) bad.push('A の本が 0 本(器の分類を確かめること)');
+        for (const id of ids) {
+          const p = HP293.allPresets().find((q) => q.id === id), c0 = J293.control.rows.find((r) => r.id === id);
+          if (!p || !c0) { bad.push(id + ' が無い'); continue; }
+          const r = E293.controlRow(HP293, p);
+          if (r.cls !== 'A' || !L293.bitZero(r.cmp)) bad.push(`${id}: コアを外した対照が 2000 步でビット同一でない(${r.cls}・${r.why})`);
+          const pick = (z) => JSON.stringify({ cmp: z.cmp, n0: z.n0, nEnd: z.nEnd, events: z.events, readers: z.readers, removable: z.removable, blockers: z.blockers, active: z.active, axis: z.axis });
+          if (pick(r) !== pick(c0)) bad.push(`${id}: 正本の行と違う(器を走らせ直すこと)`);
+          cases.push(`${r.emoji} ${id} ${r.cmp.steps} 步 8 量差 0・粒子 ${r.n0}・T_obs ${r.cmp.auxDiff.Tobs === 0 ? '0' : r.cmp.auxDiff.Tobs.toExponential(2)}・${r.removable ? '撤去可' : '候補(' + r.blockers.length + ' 件の読む者)'}`);
+        }
+        for (const id of J293.removal.applied) {
+          const p = HP293.allPresets().find((q) => q.id === id);
+          if (!p || p.bodies.some((b) => b && b.core)) bad.push(`撤去を適用した ${id} にまだコアがある`);
+        }
+        cases.push(`撤去を適用 ${J293.removal.applied.length} 本・${((Date.now() - t0) / 1000).toFixed(1)} s`);
+      }
+      add('behavior.coreRemovalGate', bad.length === 0,
+        `**コアなし対照の門**(第293便c —— 正本で A〔単層等価〕に分類した本を、いまの html でコアを外した対照と 2000 步走らせ直してビット同一・正本の行と同じ): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
   }

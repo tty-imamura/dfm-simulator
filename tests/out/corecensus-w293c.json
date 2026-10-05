@@ -1,0 +1,8509 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第293便c",
+  "target": "beta/index.html",
+  "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+  "generatedAt": "2026-10-05T18:57:27.747Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5704815,
+    "sha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
+    "mtime": "2026-10-05T18:09:18.270Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w293c-corecensus.mjs",
+    "bytes": 15161,
+    "sha256": "45ccba1b4516823010164b035bdcb181d81c9347df3c9f8224d0e2e50c9d9dec",
+    "mtime": "2026-10-05T18:56:21.429Z"
+   },
+   {
+    "file": "tests/lib-w293c-corecensus.mjs",
+    "bytes": 14336,
+    "sha256": "81e7fbf59c0ecdb877e37c1b720c9c73272ebbb639bd2f61b657bd203cf50ba0",
+    "mtime": "2026-10-05T18:20:59.246Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-05T18:09:18.522Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-05T18:09:18.518Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-05T18:09:18.514Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-05T18:09:18.522Z"
+   }
+  ],
+  "codeSha256": "b09a75cb1dd70fdfef7d27ee1e5a629b783ec34850b1fcef2f7fa7d8766159e9",
+  "harnessVersion": "w293c-corecensus-1",
+  "libVersion": "w293c-corecensus-lib-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第83報)(どの処理で何ができるのかを整理し統合先を見定める・有効に働いていないサンプルでは撤去を検討・コア V2 の数が整理された時点で親子コアへの移行を進める)",
+  "reading": "統括の検証項目 R143(4 経路の棚卸し・コアなし対照 2000 步・A〜D の分類・撤去は条件をすべて満たす本だけ・層への変換はしない)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
+  "notClaim": [
+   "短期一致で光線・描画・帳簿・長期イベントまで不変",
+   "層へ置換して同等",
+   "コア V2 を廃止した",
+   "月を再現した",
+   "全系の保存則が閉じた"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "HP.allPresets",
+    "HP.coreV2MigrateReport",
+    "HP.coreV2ReplaceReport",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.dfmSpinDipoleMoment",
+    "HP.obsTemp",
+    "HP.sim",
+    "HP.validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 990,
+   "segments": 899,
+   "closureShare": 0.3254
+  },
+  "scopeSha256": "00e61138b0263904a9fcbf9bd34fccc86fc899cf651ff94a721656b7dcca0262",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "decl": {
+  "run": {
+   "steps": 2000,
+   "dt": 0.016
+  },
+  "quantities": [
+   "x",
+   "y",
+   "vx",
+   "vy",
+   "spin",
+   "m",
+   "mEff",
+   "R"
+  ],
+  "aux": [
+   "Tobs",
+   "Q",
+   "lSw"
+  ],
+  "activeKeys": [
+   "omega",
+   "Kcs",
+   "pump",
+   "contract",
+   "burst",
+   "shed",
+   "rTarget",
+   "sourceRate",
+   "internalEnergy",
+   "lightTrap",
+   "Kalign",
+   "bindLedger",
+   "bindA"
+  ],
+  "axisKeys": [
+   "tilt",
+   "axisMode",
+   "azimuthDeg",
+   "precessionRate"
+  ],
+  "calibrationActive": [
+   "psrJ1757DFM",
+   "psrJ1946DFM",
+   "psrB1534",
+   "gw150914Merge4s"
+  ],
+  "unit": "body の宣言数(展開後の粒子数ではない)",
+  "notSame": "「変換可能」(coreV2MigrateReport)・「置換可」(coreV2ReplaceReport の 6 項)・「同等性確認済み」は別の判定。本器のコアなし対照は 2000 步の短期一致であって、光線・描画・帳簿・長期イベントまで不変とは判定しない"
+ },
+ "census": {
+  "nPresets": 152,
+  "nRetired": 33,
+  "rows": [
+   {
+    "id": "gclock",
+    "emoji": "⏱️",
+    "retired": false,
+    "group": "時計と重力",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "grcal",
+    "emoji": "🛰️",
+    "retired": false,
+    "group": "時計と重力",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "grcalGps",
+    "emoji": "🕰️",
+    "retired": false,
+    "group": "時計と重力",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "grcalLight",
+    "emoji": "🌟",
+    "retired": false,
+    "group": "時計と重力",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "grcalShapiro",
+    "emoji": "⏲️",
+    "retired": false,
+    "group": "時計と重力",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "projectile",
+    "emoji": "⚾",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "echo",
+    "emoji": "⏪",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "boxtrans",
+    "emoji": "📦",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "boxrot",
+    "emoji": "🌀",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "boxexpand",
+    "emoji": "📈",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "boxcomoving",
+    "emoji": "🫧",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "boxbound",
+    "emoji": "🪢",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "principle",
+    "nBodies": 5,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "boxbreath",
+    "emoji": "🫁",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "boxredshift",
+    "emoji": "🔦",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "semantic",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "probeH",
+    "emoji": "🧭",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "freebox",
+    "emoji": "🕊️",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "principle",
+    "nBodies": 9,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "cosmicweb",
+    "emoji": "🕸️",
+    "retired": false,
+    "group": "箱宇宙の実験",
+    "sampleClass": "composite",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "galaxy",
+    "emoji": "🌌",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "composite",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "galaxyStd",
+    "emoji": "🎡",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "galaxyGeo2",
+    "emoji": "💫",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "galaxyDB",
+    "emoji": "🍳",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "darkrotor",
+    "emoji": "🕶️",
+    "retired": true,
+    "group": "自転と減光",
+    "sampleClass": "composite",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "rotorSolo",
+    "emoji": "🕳️",
+    "retired": false,
+    "group": "自転と減光",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "nebulaRotor",
+    "emoji": "🌑",
+    "retired": true,
+    "group": "自転と減光",
+    "sampleClass": "composite",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "nebulaShell",
+    "emoji": "🐚",
+    "retired": true,
+    "group": "自転と減光",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 3,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 3,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 3
+    },
+    "coreModes": [
+     "differential",
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 3
+   },
+   {
+    "id": "nebulaBipolar",
+    "emoji": "⏳",
+    "retired": true,
+    "group": "自転と減光",
+    "sampleClass": "composite",
+    "nBodies": 24,
+    "v2": {
+     "n": 23,
+     "convertible": 23,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 23
+    },
+    "coreModes": [
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ],
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 23
+   },
+   {
+    "id": "bhCore",
+    "emoji": "⚫",
+    "retired": true,
+    "group": "自転と減光",
+    "sampleClass": "composite",
+    "nBodies": 3,
+    "v2": {
+     "n": 1,
+     "convertible": 1,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega",
+      "Kcs"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "bhCoreTilt",
+    "emoji": "🪩",
+    "retired": true,
+    "group": "自転と減光",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 1,
+     "convertible": 1,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 1,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "massLadder",
+    "emoji": "🪜",
+    "retired": false,
+    "group": "自転と減光",
+    "sampleClass": "composite",
+    "nBodies": 6,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "collapse",
+    "emoji": "🌫️",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "composite",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "axisBarStill",
+    "emoji": "🥢",
+    "retired": false,
+    "group": "腕と渦伸長(軸力)",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "axisBarArms",
+    "emoji": "🎏",
+    "retired": false,
+    "group": "腕と渦伸長(軸力)",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "axisBarReach",
+    "emoji": "🎚️",
+    "retired": false,
+    "group": "腕と渦伸長(軸力)",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "selfRotor",
+    "emoji": "🥚",
+    "retired": false,
+    "group": "自転と減光",
+    "sampleClass": "composite",
+    "nBodies": 1,
+    "v2": {
+     "n": 1,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 1,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/claims/2/control/patch/core"
+    ],
+    "textHits": 1
+   },
+   {
+    "id": "galaxyMeshSpiral",
+    "emoji": "🎠",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "galaxyMeshSpiralGeoToy",
+    "emoji": "🪁",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "galaxyMeshSpiralGeoToyLite",
+    "emoji": "🎋",
+    "retired": true,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "galaxyAnalogyBH",
+    "emoji": "🌚",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massLedger/core"
+    ],
+    "textHits": 0
+   },
+   {
+    "id": "galaxyAnalogyBHCompose",
+    "emoji": "🧩",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massLedger/core"
+    ],
+    "textHits": 0
+   },
+   {
+    "id": "galaxyAnalogyBHTilt90",
+    "emoji": "🛸",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 1,
+     "convertible": 1,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 1,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 1,
+     "axisMode": 1,
+     "azimuthDeg": 1,
+     "precessionRate": 1,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massLedger/core"
+    ],
+    "textHits": 1
+   },
+   {
+    "id": "galaxyAnalogyBHTilt90Layers",
+    "emoji": "🪆",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 1,
+     "nLayers": 2,
+     "axisDecl": 1
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massLedger/core"
+    ],
+    "textHits": 0
+   },
+   {
+    "id": "clusterAnalogyBH",
+    "emoji": "💮",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massLedger/core"
+    ],
+    "textHits": 0
+   },
+   {
+    "id": "clusterGrowthCopy",
+    "emoji": "🌰",
+    "retired": true,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 9,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "fixedCaptureCopy",
+    "emoji": "🥜",
+    "retired": true,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 9,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "shapeToyCluster",
+    "emoji": "🔮",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "shapeToyDisk",
+    "emoji": "🥏",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "shapeToyArm",
+    "emoji": "🧵",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "shapeToySpiral",
+    "emoji": "🍭",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "shapeToyClusterCore",
+    "emoji": "🎱",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": true,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "shapeToyDiskCore",
+    "emoji": "📀",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": true,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "shapeToyArmCore",
+    "emoji": "🧹",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": true,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "shapeToySpiralCore",
+    "emoji": "🎢",
+    "retired": false,
+    "group": "銀河の力学",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": true,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "lensing",
+    "emoji": "💡",
+    "retired": false,
+    "group": "光の伝播",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "spinlens",
+    "emoji": "🌗",
+    "retired": false,
+    "group": "光の伝播",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "blens",
+    "emoji": "🔭",
+    "retired": false,
+    "group": "光の伝播",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "reddening",
+    "emoji": "🌆",
+    "retired": false,
+    "group": "光の伝播",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "gas",
+    "emoji": "🔥",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "pressure",
+    "emoji": "🎈",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "conduction",
+    "emoji": "📏",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "principle",
+    "nBodies": 28,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "frictionHeat",
+    "emoji": "🛷",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "coolrace",
+    "emoji": "🌈",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "convection",
+    "emoji": "♨️",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "composite",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "buoyancy",
+    "emoji": "🧪",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "composite",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "cooling",
+    "emoji": "☕",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "composite",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "emergent",
+    "emoji": "🧬",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "emergent2",
+    "emoji": "🧊",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "chain2",
+    "emoji": "⛓️",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "chaincycle",
+    "emoji": "♻️",
+    "retired": false,
+    "group": "スピンと熱",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "earthMoon",
+    "emoji": "🌍",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "composite",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 2,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 2
+    },
+    "coreModes": [
+     "rigid",
+     "rigid"
+    ],
+    "coreActive": [
+     [],
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "earthMoonFree",
+    "emoji": "🌕",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 2,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 2
+    },
+    "coreModes": [
+     "rigid",
+     "rigid"
+    ],
+    "coreActive": [
+     [],
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "earthMoonReal",
+    "emoji": "🌙",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "earthMoonTide",
+    "emoji": "🌜",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": true,
+     "bodies": 2
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "earthMoonRealKF1",
+    "emoji": "🌘",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "earthMoonInertial",
+    "emoji": "🌛",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 1,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "emAuditNewton",
+    "emoji": "⭕",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "emAuditDFM",
+    "emoji": "🧲",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "emAuditSolar",
+    "emoji": "🔆",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "earthMoonDiagOne",
+    "emoji": "🌓",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "qLockRadialAudit",
+    "emoji": "📶",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 11,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "qLockRadialAuditQ3",
+    "emoji": "📐",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 11,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "mercury",
+    "emoji": "☿",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "mercuryReal",
+    "emoji": "☄️",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "mercuryGeoToy3",
+    "emoji": "🔁",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "mercuryRealKF1",
+    "emoji": "🪨",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "solarInner",
+    "emoji": "🌞",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 6,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "jupiterGalilean",
+    "emoji": "🟠",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 5,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "venusReal",
+    "emoji": "🌇",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "marsMoonsReal",
+    "emoji": "🥔",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "plutoCharonReal",
+    "emoji": "❄️",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "plutoCharonDFM",
+    "emoji": "⛄",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "pairSlip",
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "plutoCharonKF0Control",
+    "emoji": "🌨️",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "plutoCharonDiagInput",
+    "emoji": "🥶",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "plutoCharonSyncZero",
+    "emoji": "☃️",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "pairSlip",
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "charonGeoToy3",
+    "emoji": "🌒",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 17,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "neptuneReal",
+    "emoji": "🌊",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "alphaCenAB",
+    "emoji": "✨",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "alphaCenABDFM",
+    "emoji": "✴️",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "siriusAB",
+    "emoji": "🌟",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "siriusABDFM",
+    "emoji": "💫",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "psrDoubleAB",
+    "emoji": "📻",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 1,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "psrDoubleABDFM",
+    "emoji": "⚡",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massCalibration/history/core"
+    ],
+    "textHits": 1
+   },
+   {
+    "id": "psrDoubleABGeoToy",
+    "emoji": "🩻",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "psrDoubleABSpinCal",
+    "emoji": "🧿",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "psrJ1757DFM",
+    "emoji": "🧮",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massCalibration/history/core"
+    ],
+    "textHits": 1
+   },
+   {
+    "id": "psrJ1946DFM",
+    "emoji": "🩺",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massCalibration/history/core"
+    ],
+    "textHits": 1
+   },
+   {
+    "id": "psrDoubleABPN",
+    "emoji": "🪶",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "psrJ1757PN",
+    "emoji": "🪃",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "psrJ1946PN",
+    "emoji": "🪀",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "psrDoubleABCF",
+    "emoji": "🪝",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "psrJ1757CF",
+    "emoji": "🪄",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "psrJ1946CF",
+    "emoji": "🩹",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "psrB1534DFM",
+    "emoji": "🧶",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massCalibration/history/core"
+    ],
+    "textHits": 1
+   },
+   {
+    "id": "psrB1534CF",
+    "emoji": "🪤",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "compactForceToy",
+    "emoji": "🪗",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "inertialDragPair",
+    "emoji": "🐌",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": "inertial",
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "boxBinaryToy",
+    "emoji": "🫂",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "spaceMeshBinaryToy",
+    "emoji": "🪟",
+    "retired": false,
+    "group": "運動と時空",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "gw150914",
+    "emoji": "🎐",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "gw150914DFM",
+    "emoji": "🎻",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 2,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential",
+     "differential"
+    ],
+    "coreActive": [
+     [],
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 2
+   },
+   {
+    "id": "gw150914Merge4s",
+    "emoji": "⏰",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massCalibration/history/core"
+    ],
+    "textHits": 1
+   },
+   {
+    "id": "gw150914SpinDipole",
+    "emoji": "⚛️",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "tuc47",
+    "emoji": "🍇",
+    "retired": false,
+    "group": "実在天体のアナロジー",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "tuc47DFM",
+    "emoji": "🫐",
+    "retired": true,
+    "group": "実在天体のアナロジー",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "ngc3198",
+    "emoji": "🌃",
+    "retired": false,
+    "group": "実在天体のアナロジー",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "ngc3198DFM",
+    "emoji": "🛞",
+    "retired": false,
+    "group": "実在天体のアナロジー",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 1,
+     "convertible": 1,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega",
+      "Kcs"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [
+     "/massLedger/core"
+    ],
+    "textHits": 1
+   },
+   {
+    "id": "supernovaProg",
+    "emoji": "🥀",
+    "retired": false,
+    "group": "実在天体のアナロジー",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 1,
+     "convertible": 1,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "supernovaProgDFM",
+    "emoji": "🌹",
+    "retired": true,
+    "group": "実在天体のアナロジー",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 1,
+     "convertible": 1,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "crabRemnant",
+    "emoji": "🦀",
+    "retired": false,
+    "group": "実在天体のアナロジー",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 1,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 1,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     []
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "saturn",
+    "emoji": "🪐",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "composite",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "saturnLayered",
+    "emoji": "🎯",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "composite",
+    "nBodies": 4,
+    "v2": {
+     "n": 1,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 1,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 3
+   },
+   {
+    "id": "saturnZonalD68",
+    "emoji": "📡",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 11,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "saturnD68Consistent",
+    "emoji": "🧷",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "saturnD68ObsOrbit",
+    "emoji": "📎",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "saturnRingReal",
+    "emoji": "💍",
+    "retired": false,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 10,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "saturnRingRealKF1",
+    "emoji": "💿",
+    "retired": true,
+    "group": "現実較正",
+    "sampleClass": "calibration",
+    "nBodies": 10,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "binary",
+    "emoji": "⭐",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "composite",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "fig8",
+    "emoji": "♾️",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "counterring",
+    "emoji": "💥",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "spinup",
+    "emoji": "🌪️",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "pulsarSolo",
+    "emoji": "🏮",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 1,
+     "convertible": 1,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 1,
+     "cannot": 0
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 1,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": true,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "supernovaCore",
+    "emoji": "🎇",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 1,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 1,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega",
+      "contract",
+      "burst",
+      "shed"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "whiteDwarfDFM",
+    "emoji": "⚪",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 1,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 1,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega",
+      "contract",
+      "shed"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "whiteDwarfBareDFM",
+    "emoji": "🔘",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 1,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 1,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega",
+      "contract",
+      "shed",
+      "bindLedger",
+      "bindA"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "envelopeShedDFM",
+    "emoji": "🎆",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 1,
+    "v2": {
+     "n": 1,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 1,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega",
+      "contract",
+      "shed"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "lfbotTrap",
+    "emoji": "🐮",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 1,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 1,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 1
+    },
+    "coreModes": [
+     "differential"
+    ],
+    "coreActive": [
+     [
+      "omega",
+      "contract",
+      "shed",
+      "internalEnergy",
+      "lightTrap"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 1
+   },
+   {
+    "id": "layeredCoreDFM",
+    "emoji": "🧅",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 7,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 1,
+     "nLayers": 2,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "spinDipoleBinary",
+    "emoji": "⚙️",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 2,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "gasCohSurface",
+    "emoji": "🌬️",
+    "retired": false,
+    "group": "天体の機構",
+    "sampleClass": "principle",
+    "nBodies": 9,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "mmPhaseToy",
+    "emoji": "🪞",
+    "retired": false,
+    "group": "光の伝播",
+    "sampleClass": "principle",
+    "nBodies": 4,
+    "v2": {
+     "n": 0,
+     "convertible": 0,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 0
+    },
+    "coreModes": [],
+    "coreActive": [],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 0
+   },
+   {
+    "id": "starSeed",
+    "emoji": "🌱",
+    "retired": true,
+    "group": "自転と減光",
+    "sampleClass": "principle",
+    "nBodies": 3,
+    "v2": {
+     "n": 2,
+     "convertible": 2,
+     "naked": 0,
+     "cavity": 0,
+     "needsResolve": 0,
+     "rejected": 0,
+     "canReplace": 0,
+     "cannot": 2
+    },
+    "coreModes": [
+     "differential",
+     "rigid"
+    ],
+    "coreActive": [
+     [
+      "omega",
+      "pump",
+      "contract"
+     ],
+     [
+      "pump"
+     ]
+    ],
+    "layers": {
+     "n": 0,
+     "nLayers": 0,
+     "axisDecl": 0
+    },
+    "dragCore": 0,
+    "coreField": false,
+    "relDragLaw": null,
+    "spinAxis": 0,
+    "coreAxis": {
+     "tilt": 0,
+     "axisMode": 0,
+     "azimuthDeg": 0,
+     "precessionRate": 0,
+     "Kalign": 0
+    },
+    "tide": {
+     "book": false,
+     "bodies": 0
+    },
+    "coupleSinkCore": false,
+    "strayCore": [],
+    "textHits": 17
+   }
+  ],
+  "totals": {
+   "coreTextOnly": {
+    "books": 7,
+    "active": 4,
+    "retired": 3,
+    "decl": 7,
+    "declActive": 4
+   },
+   "coreV2": {
+    "books": 30,
+    "active": 15,
+    "retired": 15,
+    "decl": 67,
+    "declActive": 18
+   },
+   "coreAxis:tilt": {
+    "books": 3,
+    "active": 2,
+    "retired": 1,
+    "decl": 3,
+    "declActive": 2
+   },
+   "coreAxis:axisMode": {
+    "books": 1,
+    "active": 1,
+    "retired": 0,
+    "decl": 1,
+    "declActive": 1
+   },
+   "coreAxis:precessionRate": {
+    "books": 1,
+    "active": 1,
+    "retired": 0,
+    "decl": 1,
+    "declActive": 1
+   },
+   "layers": {
+    "books": 2,
+    "active": 2,
+    "retired": 0,
+    "decl": 2,
+    "declActive": 2
+   },
+   "layerAxis": {
+    "books": 1,
+    "active": 1,
+    "retired": 0,
+    "decl": 1,
+    "declActive": 1
+   },
+   "coreField": {
+    "books": 4,
+    "active": 4,
+    "retired": 0,
+    "decl": 4,
+    "declActive": 4
+   },
+   "tide:book": {
+    "books": 1,
+    "active": 1,
+    "retired": 0,
+    "decl": 1,
+    "declActive": 1
+   },
+   "tide:body": {
+    "books": 1,
+    "active": 1,
+    "retired": 0,
+    "decl": 2,
+    "declActive": 2
+   },
+   "dragCore": {
+    "books": 1,
+    "active": 1,
+    "retired": 0,
+    "decl": 1,
+    "declActive": 1
+   },
+   "relDrag:inertial": {
+    "books": 2,
+    "active": 2,
+    "retired": 0,
+    "decl": 2,
+    "declActive": 2
+   },
+   "relDrag:pairSlip": {
+    "books": 2,
+    "active": 0,
+    "retired": 2,
+    "decl": 2,
+    "declActive": 0
+   },
+   "spinAxis": {
+    "books": 1,
+    "active": 1,
+    "retired": 0,
+    "decl": 1,
+    "declActive": 1
+   }
+  }
+ },
+ "control": {
+  "rows": [
+   {
+    "id": "selfRotor",
+    "emoji": "🥚",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 180,
+    "nEnd": [
+     55,
+     43
+    ],
+    "events": [
+     "125/0/0",
+     "137/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega"
+    ],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 1031,
+     "evMismatchSteps": 1031,
+     "firstDiffStep": 2,
+     "firstNDiffStep": 921,
+     "maxDiff": {
+      "x": 90.61972427368164,
+      "y": 78.23578643798828,
+      "vx": 16.68547248840332,
+      "vy": 16.381772994995117,
+      "spin": 17.370469331741333,
+      "m": 23,
+      "mEff": 23,
+      "R": 3.898979663848877
+     },
+     "auxDiff": {
+      "Tobs": 231.28873039548398,
+      "Q": 161.28215705925913,
+      "lSw": 0.9941799668595195
+     }
+    },
+    "readers": {
+     "claims": [
+      "selfRotor.core-J-inherited",
+      "selfRotor.core-J-counts-mass"
+     ],
+     "desc": 16,
+     "physics": []
+    },
+    "wallSec": 6.0280000000000005,
+    "cls": "B",
+    "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
+    "removable": false,
+    "blockers": [
+     "分類 B",
+     "主張がコアを読む(selfRotor.core-J-inherited,selfRotor.core-J-counts-mass)",
+     "説明文がコアに触れる(16 箇所)",
+     "観測層が変わる(Tobs,Q,lSw)"
+    ]
+   },
+   {
+    "id": "galaxyAnalogyBHTilt90",
+    "emoji": "🛸",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 211,
+    "nEnd": [
+     211,
+     211
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega"
+    ],
+    "axis": [
+     "tilt",
+     "axisMode",
+     "azimuthDeg",
+     "precessionRate"
+    ],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": null,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 2.0665914735611584e-11,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 33,
+     "physics": []
+    },
+    "wallSec": 12.699,
+    "cls": "C",
+    "why": "差 0・軸の鍵(tilt,axisMode,azimuthDeg,precessionRate)",
+    "removable": false,
+    "blockers": [
+     "分類 C",
+     "説明文がコアに触れる(33 箇所)",
+     "観測層が変わる(Q)"
+    ]
+   },
+   {
+    "id": "earthMoon",
+    "emoji": "🌍",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 2,
+    "n0": 2,
+    "nEnd": [
+     2,
+     2
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": null,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 914.0625342603967,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [
+      "earthMoon.core-mass-ratio-earth",
+      "earthMoon.radius-drift"
+     ],
+     "desc": 30,
+     "physics": []
+    },
+    "wallSec": 0.065,
+    "cls": "A",
+    "why": "差 0・能動の鍵なし",
+    "removable": false,
+    "blockers": [
+     "主張がコアを読む(earthMoon.core-mass-ratio-earth,earthMoon.radius-drift)",
+     "説明文がコアに触れる(30 箇所)",
+     "観測層が変わる(Tobs)"
+    ]
+   },
+   {
+    "id": "earthMoonFree",
+    "emoji": "🌕",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 2,
+    "n0": 2,
+    "nEnd": [
+     2,
+     2
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": null,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 47625.143372944,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 6,
+     "physics": []
+    },
+    "wallSec": 0.054,
+    "cls": "A",
+    "why": "差 0・能動の鍵なし",
+    "removable": false,
+    "blockers": [
+     "説明文がコアに触れる(6 箇所)",
+     "観測層が変わる(Tobs)"
+    ]
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "retired": false,
+    "calibration": true,
+    "nCoreBodies": 2,
+    "n0": 2,
+    "nEnd": [
+     2,
+     2
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": null,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 2,
+     "physics": [
+      "physics.coupleSink:\"core\""
+     ]
+    },
+    "wallSec": 0.08399999999999999,
+    "cls": "A",
+    "why": "差 0・能動の鍵なし",
+    "removable": false,
+    "blockers": [
+     "較正の在位(本便は比較の数値だけ)",
+     "説明文がコアに触れる(2 箇所)",
+     "本の宣言がコアを参照(physics.coupleSink:\"core\")"
+    ]
+   },
+   {
+    "id": "ngc3198DFM",
+    "emoji": "🛞",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 301,
+    "nEnd": [
+     301,
+     301
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega",
+     "Kcs"
+    ],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": 1,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 402.22581481933594,
+      "y": 300.36936950683594,
+      "vx": 67.03740310668945,
+      "vy": 67.58708000183105,
+      "spin": 80,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 264.50002264957794,
+      "Q": 3468.911466463589,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 2,
+     "physics": []
+    },
+    "wallSec": 12.644,
+    "cls": "B",
+    "why": "8 量が動いた",
+    "removable": false,
+    "blockers": [
+     "分類 B",
+     "説明文がコアに触れる(2 箇所)",
+     "観測層が変わる(Tobs,Q)"
+    ]
+   },
+   {
+    "id": "supernovaProg",
+    "emoji": "🥀",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 1,
+    "nEnd": [
+     1,
+     1
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": null,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 1.2028689444146146,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 33,
+     "physics": [
+      "physics.coupleSink:\"core\""
+     ]
+    },
+    "wallSec": 0.027999999999999997,
+    "cls": "A",
+    "why": "差 0・能動の鍵なし",
+    "removable": false,
+    "blockers": [
+     "説明文がコアに触れる(33 箇所)",
+     "本の宣言がコアを参照(physics.coupleSink:\"core\")",
+     "観測層が変わる(Tobs)"
+    ]
+   },
+   {
+    "id": "crabRemnant",
+    "emoji": "🦀",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 73,
+    "nEnd": [
+     73,
+     73
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": null,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 0,
+     "physics": [
+      "physics.coupleSink:\"core\""
+     ]
+    },
+    "wallSec": 0.669,
+    "cls": "A",
+    "why": "差 0・能動の鍵なし",
+    "removable": false,
+    "blockers": [
+     "本の宣言がコアを参照(physics.coupleSink:\"core\")"
+    ]
+   },
+   {
+    "id": "saturnLayered",
+    "emoji": "🎯",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 241,
+    "nEnd": [
+     241,
+     241
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega"
+    ],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": 1,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 0.01624298095703125,
+      "y": 0.01554107666015625,
+      "vx": 0.0014139413833618164,
+      "vy": 0.0012388229370117188,
+      "spin": 0.0004356738645583391,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 1640.2500721374618,
+      "Q": 6200.1449999999895,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [
+      "saturnLayered.core-mass-ratio",
+      "saturnLayered.core-radius-ratio"
+     ],
+     "desc": 64,
+     "physics": []
+    },
+    "wallSec": 11.471,
+    "cls": "B",
+    "why": "8 量が動いた",
+    "removable": false,
+    "blockers": [
+     "分類 B",
+     "主張がコアを読む(saturnLayered.core-mass-ratio,saturnLayered.core-radius-ratio)",
+     "説明文がコアに触れる(64 箇所)",
+     "観測層が変わる(Tobs,Q)"
+    ]
+   },
+   {
+    "id": "pulsarSolo",
+    "emoji": "🏮",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 1,
+    "nEnd": [
+     1,
+     1
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega"
+    ],
+    "axis": [
+     "tilt"
+    ],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": null,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 401378.9373137461,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 16,
+     "physics": [
+      "physics.coupleSink:\"core\""
+     ]
+    },
+    "wallSec": 0.038,
+    "cls": "C",
+    "why": "差 0・軸の鍵(tilt)",
+    "removable": false,
+    "blockers": [
+     "分類 C",
+     "説明文がコアに触れる(16 箇所)",
+     "本の宣言がコアを参照(physics.coupleSink:\"core\")",
+     "観測層が変わる(Q)"
+    ]
+   },
+   {
+    "id": "supernovaCore",
+    "emoji": "🎇",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 1,
+    "nEnd": [
+     129,
+     1
+    ],
+    "events": [
+     "0/0/1",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega",
+     "contract",
+     "burst",
+     "shed"
+    ],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 1367,
+     "evMismatchSteps": 1367,
+     "firstDiffStep": 634,
+     "firstNDiffStep": 634,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 153600,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 90,
+     "physics": []
+    },
+    "wallSec": 1.317,
+    "cls": "B",
+    "why": "粒子数(放出・融合)・事象の件数が動いた",
+    "removable": false,
+    "blockers": [
+     "分類 B",
+     "説明文がコアに触れる(90 箇所)",
+     "観測層が変わる(Q)"
+    ]
+   },
+   {
+    "id": "whiteDwarfDFM",
+    "emoji": "⚪",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 1,
+    "nEnd": [
+     49,
+     1
+    ],
+    "events": [
+     "0/0/4",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega",
+     "contract",
+     "shed"
+    ],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 1367,
+     "evMismatchSteps": 1367,
+     "firstDiffStep": 634,
+     "firstNDiffStep": 634,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 2073.6000000000004,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 80,
+     "physics": []
+    },
+    "wallSec": 0.093,
+    "cls": "B",
+    "why": "粒子数(放出・融合)・事象の件数が動いた",
+    "removable": false,
+    "blockers": [
+     "分類 B",
+     "説明文がコアに触れる(80 箇所)",
+     "観測層が変わる(Q)"
+    ]
+   },
+   {
+    "id": "whiteDwarfBareDFM",
+    "emoji": "🔘",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 1,
+    "nEnd": [
+     49,
+     1
+    ],
+    "events": [
+     "0/0/4",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega",
+     "contract",
+     "shed",
+     "bindLedger",
+     "bindA"
+    ],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 1367,
+     "evMismatchSteps": 1367,
+     "firstDiffStep": 634,
+     "firstNDiffStep": 634,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 2073.6000000000004,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 89,
+     "physics": []
+    },
+    "wallSec": 0.097,
+    "cls": "B",
+    "why": "粒子数(放出・融合)・事象の件数が動いた",
+    "removable": false,
+    "blockers": [
+     "分類 B",
+     "説明文がコアに触れる(89 箇所)",
+     "観測層が変わる(Q)"
+    ]
+   },
+   {
+    "id": "envelopeShedDFM",
+    "emoji": "🎆",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 1,
+    "nEnd": [
+     33,
+     1
+    ],
+    "events": [
+     "0/0/1",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega",
+     "contract",
+     "shed"
+    ],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 1202,
+     "evMismatchSteps": 1202,
+     "firstDiffStep": 799,
+     "firstNDiffStep": 799,
+     "maxDiff": {
+      "x": 0,
+      "y": 0,
+      "vx": 0,
+      "vy": 0,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 2025.0000000000018,
+      "lSw": 0
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 38,
+     "physics": []
+    },
+    "wallSec": 0.083,
+    "cls": "B",
+    "why": "粒子数(放出・融合)・事象の件数が動いた",
+    "removable": false,
+    "blockers": [
+     "分類 B",
+     "説明文がコアに触れる(38 箇所)",
+     "観測層が変わる(Q)"
+    ]
+   },
+   {
+    "id": "lfbotTrap",
+    "emoji": "🐮",
+    "retired": false,
+    "calibration": false,
+    "nCoreBodies": 1,
+    "n0": 17,
+    "nEnd": [
+     49,
+     17
+    ],
+    "events": [
+     "0/0/1",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": true,
+      "hasBodyLayers": false
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "active": [
+     "omega",
+     "contract",
+     "shed",
+     "internalEnergy",
+     "lightTrap"
+    ],
+    "axis": [],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 1202,
+     "evMismatchSteps": 1202,
+     "firstDiffStep": 2,
+     "firstNDiffStep": 799,
+     "maxDiff": {
+      "x": 0.9166965484619141,
+      "y": 0.9172439575195312,
+      "vx": 0.17768239974975586,
+      "vy": 0.17757272720336914,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 1.63244487217872,
+      "Q": 2025.0000000000018,
+      "lSw": 0.8191291242837906
+     }
+    },
+    "readers": {
+     "claims": [],
+     "desc": 29,
+     "physics": []
+    },
+    "wallSec": 0.33099999999999996,
+    "cls": "B",
+    "why": "粒子数(放出・融合)・事象の件数・8 量が動いた",
+    "removable": false,
+    "blockers": [
+     "分類 B",
+     "説明文がコアに触れる(29 箇所)",
+     "観測層が変わる(Tobs,Q,lSw)"
+    ]
+   }
+  ]
+ },
+ "layerBooks": {
+  "rows": [
+   {
+    "id": "galaxyAnalogyBHTilt90Layers",
+    "emoji": "🪆",
+    "cls": "D",
+    "layerBodies": 1,
+    "nLayers": 2,
+    "axisDecl": 1,
+    "n0": 211,
+    "nEnd": [
+     211,
+     211
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": false,
+      "hasBodyLayers": true
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": 39,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 94.2865316454335,
+      "y": 172.7595668376261,
+      "vx": 39.7653534948343,
+      "vy": 44.184645530539534,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "wallSec": 12.063
+   },
+   {
+    "id": "layeredCoreDFM",
+    "emoji": "🧅",
+    "cls": "D",
+    "layerBodies": 1,
+    "nLayers": 2,
+    "axisDecl": 0,
+    "n0": 7,
+    "nEnd": [
+     7,
+     7
+    ],
+    "events": [
+     "0/0/0",
+     "0/0/0"
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "flags": {
+     "withDecl": {
+      "hasCoreV2": false,
+      "hasBodyLayers": true
+     },
+     "without": {
+      "hasCoreV2": false,
+      "hasBodyLayers": false
+     }
+    },
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": 1,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 994.7309203147888,
+      "y": 873.8351984024048,
+      "vx": 63.89406255841095,
+      "vy": 60.660435218575,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "wallSec": 0.056
+   }
+  ]
+ },
+ "dragCoreRef": {
+  "rows": [
+   {
+    "id": "earthMoonInertial",
+    "emoji": "🌛",
+    "dragCoreBodies": 1,
+    "n0": 2,
+    "nEnd": [
+     2,
+     2
+    ],
+    "nan": [
+     false,
+     false
+    ],
+    "cmp": {
+     "steps": 2000,
+     "nMismatchSteps": 0,
+     "evMismatchSteps": 0,
+     "firstDiffStep": 2,
+     "firstNDiffStep": null,
+     "maxDiff": {
+      "x": 1.5726755009382032e-8,
+      "y": 0.000003481370249414084,
+      "vx": 5.947922276233752e-14,
+      "vy": 4.6126713559857535e-12,
+      "spin": 0,
+      "m": 0,
+      "mEff": 0,
+      "R": 0
+     },
+     "auxDiff": {
+      "Tobs": 0,
+      "Q": 0,
+      "lSw": 0
+     }
+    },
+    "wallSec": 0.056
+   }
+  ]
+ },
+ "textOnly": [
+  {
+   "id": "collapse",
+   "emoji": "🌫️",
+   "textHits": 1,
+   "strayCore": []
+  },
+  {
+   "id": "psrJ1757DFM",
+   "emoji": "🧮",
+   "textHits": 1,
+   "strayCore": [
+    "/massCalibration/history/core"
+   ]
+  },
+  {
+   "id": "psrJ1946DFM",
+   "emoji": "🩺",
+   "textHits": 1,
+   "strayCore": [
+    "/massCalibration/history/core"
+   ]
+  },
+  {
+   "id": "gw150914Merge4s",
+   "emoji": "⏰",
+   "textHits": 1,
+   "strayCore": [
+    "/massCalibration/history/core"
+   ]
+  }
+ ],
+ "classes": {
+  "counts": {
+   "A": 5,
+   "B": 8,
+   "C": 2,
+   "D": 2
+  },
+  "ids": {
+   "A": [
+    "earthMoon",
+    "earthMoonFree",
+    "psrB1534",
+    "supernovaProg",
+    "crabRemnant"
+   ],
+   "B": [
+    "selfRotor",
+    "ngc3198DFM",
+    "saturnLayered",
+    "supernovaCore",
+    "whiteDwarfDFM",
+    "whiteDwarfBareDFM",
+    "envelopeShedDFM",
+    "lfbotTrap"
+   ],
+   "C": [
+    "galaxyAnalogyBHTilt90",
+    "pulsarSolo"
+   ],
+   "D": [
+    "galaxyAnalogyBHTilt90Layers",
+    "layeredCoreDFM"
+   ]
+  },
+  "meaning": {
+   "A": "単層等価(2000 步で 8 量差 0・融合/放出の件数も同じ・能動の鍵なし)= 撤去候補",
+   "B": "力・スピン・放出・融合に効いている(または 2000 步では差 0 だが能動の宣言がある)= 保持(後で層へ)",
+   "C": "陰性対照の型(傾き・歳差を宣言しても 8 量が変わらない)= 保持・層へ移さない",
+   "D": "既に層(body.layers)= 移行の見本"
+  }
+ },
+ "removal": {
+  "applied": [],
+  "candidates": [
+   {
+    "id": "earthMoon",
+    "emoji": "🌍",
+    "removable": false,
+    "blockers": [
+     "主張がコアを読む(earthMoon.core-mass-ratio-earth,earthMoon.radius-drift)",
+     "説明文がコアに触れる(30 箇所)",
+     "観測層が変わる(Tobs)"
+    ],
+    "readers": {
+     "claims": [
+      "earthMoon.core-mass-ratio-earth",
+      "earthMoon.radius-drift"
+     ],
+     "desc": 30,
+     "physics": []
+    }
+   },
+   {
+    "id": "earthMoonFree",
+    "emoji": "🌕",
+    "removable": false,
+    "blockers": [
+     "説明文がコアに触れる(6 箇所)",
+     "観測層が変わる(Tobs)"
+    ],
+    "readers": {
+     "claims": [],
+     "desc": 6,
+     "physics": []
+    }
+   },
+   {
+    "id": "psrB1534",
+    "emoji": "📿",
+    "removable": false,
+    "blockers": [
+     "較正の在位(本便は比較の数値だけ)",
+     "説明文がコアに触れる(2 箇所)",
+     "本の宣言がコアを参照(physics.coupleSink:\"core\")"
+    ],
+    "readers": {
+     "claims": [],
+     "desc": 2,
+     "physics": [
+      "physics.coupleSink:\"core\""
+     ]
+    }
+   },
+   {
+    "id": "supernovaProg",
+    "emoji": "🥀",
+    "removable": false,
+    "blockers": [
+     "説明文がコアに触れる(33 箇所)",
+     "本の宣言がコアを参照(physics.coupleSink:\"core\")",
+     "観測層が変わる(Tobs)"
+    ],
+    "readers": {
+     "claims": [],
+     "desc": 33,
+     "physics": [
+      "physics.coupleSink:\"core\""
+     ]
+    }
+   },
+   {
+    "id": "crabRemnant",
+    "emoji": "🦀",
+    "removable": false,
+    "blockers": [
+     "本の宣言がコアを参照(physics.coupleSink:\"core\")"
+    ],
+    "readers": {
+     "claims": [],
+     "desc": 0,
+     "physics": [
+      "physics.coupleSink:\"core\""
+     ]
+    }
+   }
+  ],
+  "rule": "A ∧ 在位 ∧ 較正の在位でない ∧ 主張・説明・本の宣言がコアを読まない ∧ 観測層(T_obs・Q・lSw)の差 0(QA・samplestatus の参照は器の外で文書に書く)"
+ },
+ "ok": true,
+ "elapsedS": 58.73
+}
