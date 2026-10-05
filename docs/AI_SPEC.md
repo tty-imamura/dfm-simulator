@@ -2473,6 +2473,8 @@ quantity [単位]: mass [kg] / radius [m] / rotation_period [s] / spin [rad/s] /
 - **契約**(式は docs/PHYSICS.md〔第290便c〕): 移動ベクトル V=(前回の標本との座標の差分)/Δt・u_i=C_d Σ_{j≠i} m_j r/(r²+ε²)² (V_j−V_i)・
   **位置だけを x+=u·dt で動かす**(v へ足さない・u は毎物理ステップ作り直す・自己項は計算しない・pinned は受け取らない・最初の步と粒子が変わった步は u=0)・
   各步のスペクトル上界 2·max deg を数える(**clamp しない** —— 上界 ≥1 の步は発散として記録)。既存の q 付き場・u=A/W・E6′・pairSlip には足さない。
+- **合成則(第293便g)**: 上の u_i の式は**旧法則版 `compose:"sum"`**(各源の寄与を足す —— 比較用の opt-in)。**既定は solve(velocity)**: 力学速度 v の差 s_i=C_d Σ_{j≠i} m_j r/(r²+ε²)² (v_j−v_i)
+  から (I+L)u=s を解いて x+=u·dt で動かす(各源の寄与を単純には足さない)。鍵と正準形は §49・式と比較は docs/PHYSICS.md〔第293便e〕〔第293便g〕。
 - **副作用(宣言した本だけ)**: 座標の履歴 `rdPrevX/rdPrevY/rdPrevT`(チェックポイントと A/B の複製が運ぶ)と帳簿の欄(`inertialDragWork` —— 外部支持の仕事・`inertialDragDL`・上界の数)。
   pairSlip と違い自転の配列は Float32 のまま(自転を読まない)。
 - **A/B**: `abBody.physicsPatch.relativeDrag` は `law:"inertial"` の宣言か `null` だけを受ける(B 側で用量 0 の否定対照を作る —— 🐌 のワンタップ)。
@@ -3054,7 +3056,7 @@ AI が生成するプリセットの鍵は 1 つも増やしていない(§5 の
 sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"|"coordinate"}   // 実行時鍵(表示専用)
 ```
 
-- `drag` … 慣性引きずり(`physics.relativeDrag.law:"inertial"`)の u を格子点の仮想の受け手で評価した矢印。読み手 `HP.inertialDragFieldAt(S,x,y,{skip?,frame?})` は核 `dfmInertialDragStep` と同じ式・同じ和の順序で、直近の步の標本(rdPrevX/Y と座標の差分の V)を読むだけ(`skip:i` で粒子 i を受け手にすると核の u_i とビット同一)。`HP.inertialDragFieldReady(S)` が標本と核の一致を確かめ、一致しない・履歴なし・未宣言では描かない。受け手は既定で源の重心系に静止(`dragFrame:"centroid"` —— 共通の並進は消える)。
+- `drag` … 慣性引きずり(`physics.relativeDrag.law:"inertial"`)の u を格子点の仮想の受け手で評価した矢印。読み手 `HP.inertialDragFieldAt(S,x,y,{skip?,frame?})` は核 `dfmInertialDragStep` と同じ式・同じ和の順序で、直近の步の標本(rdPrevX/Y と座標の差分の V)を読むだけ(`skip:i` で粒子 i を受け手にすると核の u_i とビット同一)。`HP.inertialDragFieldReady(S)` が標本と核の一致を確かめ、一致しない・履歴なし・未宣言では描かない(第293便g: 既定の合成則 solve の本でも描かず凡例に理由を出す —— `compose:"sum"` を明示した本だけ描く・§49)。受け手は既定で源の重心系に静止(`dragFrame:"centroid"` —— 共通の並進は消える)。
 - `ruler` … `HP.lightRulerAt(S,x,y)` が ψ=κ(D₀+W_B+Σm/√(r²+ε²)) から N=e^(−ψ)・A=e^ψ・n=e^(2ψ) を返し、局所目盛り(固有長 dℓ=A|dx|)を各格子点に置く。格子は歪めない(画面座標=A×物理座標の全域歪みは採らない)。n は光の所要時間の側で、長さの倍率には使わない。
 - 格子の表は `HP.spaceMeshDisplaySample(S,{mode,cx,cy,hx,hy,res?,frame?})`(描画と QA が同じ表を読む)。サンプラーは粒子の状態・履歴・帳簿に**1 bit も書かない**(QA `behavior.meshDisplayBitsame`・`behavior.dragFieldSampler`)。
 - 背景の精査(新核は Wbg・backgroundComplex・D₀・q・自転を読まない —— 法則・参照系の宣言であって証明ではない)は docs/PHYSICS.md〔第291便d〕・器 tests/exp-w291d-bgaudit.mjs・正本 tests/out/bgaudit-w291d.json・QA `docs.bgAuditTable`。
@@ -3130,17 +3132,22 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - 内蔵の宣言の数(本便の棚卸し —— 単位は body の宣言数): `core` 在位 15 本・18 body(退役 15 本)/`layers` 2 本/`dragCore` 1 本。在位で `core` を宣言した本のコアなし対照(2000 步)の分類は A 5・B 8・C 2・D 2(層の本)で、**撤去は 0 本**(候補 🌍🌕📿🥀🦀 は主張・説明・QA・観測温度・`coupleSink:"core"` のどれかがコアを読む)。
 - AI 生成の JSON では、天体の内部構造を表したいときは 1 つの鍵だけを選ぶ(質量分布を重力に効かせるなら `layers`・内部の回転や放出なら `core`・慣性引きずりの源なら `dragCore`)。
 - 器 `tests/exp-w293c-corecensus.mjs`・正本 `tests/out/corecensus-w293c.json`(段 `corecensus293`)・QA **`docs.coreCensus`**(棚卸しの転記と分類の本数)/ **`behavior.coreRemovalGate`**(A の本はコアを外しても 2000 步ビット同一)。
-## 49. 第293便e の宣言鍵 —— 引きずりの合成則 `physics.relativeDrag.compose`(原仮定者の裁定(第83報)・統括の検証項目 R145・**opt-in の法則版の候補**・**SYSTEM_PROMPT には載せない**)
+## 49. 第293便e の宣言鍵 —— 引きずりの合成則 `physics.relativeDrag.compose`(原仮定者の裁定(第83報)・統括の検証項目 R145 → **第293便g で既定を solve(velocity) に変更**(原仮定者の裁定(第83報 追記)「引きずりは単純加算しないので、単純加算している現状の修正が先」・統括の検証項目 R147)・**SYSTEM_PROMPT には載せない**)
 
-- **本の鍵 `physics.relativeDrag.compose`**: `"sum"`(**既定 "sum"** —— 第290便c の現行。各源の寄与 a_ij(V_j−V_i) を足す・**正準形に出さない**)か `"solve"`(共通の移動速度 W を
-  (I + L)W = v で自己無撞着に解き、u_i = W_i − v_i で移送する —— L の対角 Σ_j a_ij・非対角 −a_ij)。`law:"inertial"` の本だけ(§10.1.1)。未知の値は致命拒否。
-  - **`solveFrom:"history"|"velocity"`**(`compose:"solve"` 専用・既定 "history")—— v の意味: `"history"` は現行と同じ座標差分の移動ベクトル V^{n−1}(前の步の移送を含む)・
-    `"velocity"` は力学速度 v(引きずりの外部ステップの入口の値)。solve の本の正準形には必ず出す(どちらを採るかは未決)。
-  - **`solveIters`**(`compose:"solve"` 専用・1〜1000 の整数・省略は既定 8)—— 粒子が 64 を超える本の Gauss–Seidel の回数(64 以下は直接法)。残差は帳簿に出す(打ち切りを黙らない)。
-  - `compose:"sum"`(または省略)に `solveFrom`・`solveIters` を書いたら致命拒否。`compose:"sum"` を書いた本は未宣言と同じ正準形・同じ `presetSig`。
+- **本の鍵 `physics.relativeDrag.compose`**: `"solve"`(**既定 "solve"**(第293便g)—— 共通の移動速度 W を (I + L)W = v で自己無撞着に解き、u_i = W_i − v_i で移送する・
+  L の対角 Σ_j a_ij・非対角 −a_ij・**正準形に出さない**)か `"sum"`(**旧法則版** —— 第290便c〜第293便e の既定。各源の寄与 a_ij(V_j−V_i) を足す・**比較だけのための opt-in**・
+  正準形に出る)。`law:"inertial"` の本だけ(§10.1.1)。未知の値は致命拒否。
+  - **`solveFrom:"velocity"|"history"`**(solve 専用・**既定 "velocity"**(第293便g)・正準形には `"history"` を書いた本だけ出る)—— v の意味: `"velocity"` は力学速度 v
+   (引きずりの外部ステップの入口の値 —— 旧加算の時間方向の不動点反復の定常点と同じ点)・`"history"` は座標差分の移動ベクトル V^{n−1}(前の步の移送を含む —— 合成を 2 度かける形)。
+  - **`solveIters`**(solve 専用・1〜1000 の整数・省略は既定 8 —— 正準形には書いた本だけ)—— 粒子が 64 を超える本の Gauss–Seidel の回数(64 以下は直接法)。残差は帳簿に出す(打ち切りを黙らない)。
+  - `compose:"sum"` に `solveFrom`・`solveIters` を書いたら致命拒否。未宣言・`compose:"solve"`・`solveFrom:"velocity"` の明示は同じ正準形・同じ `presetSig`。
+  - **署名は変わらないが力学は変わる**(第293便g): 既定の変更で、`law:"inertial"` を宣言した本(内蔵は 🐌 inertialDragPair・🌛 earthMoonInertial の 2 本)は同じ正準形・
+    同じ `presetSig` のまま solve(velocity) で走る。旧加算で走らせたいセーブ・エクスポートは `compose:"sum"` を明示する(第293便e 以前のエクスポートは未宣言 = 当時の加算)。
 - 自己項なし・宣言した対だけ・質量が正でない粒子は源にも受け手にもならない・pinned は受け取らない(源にはなる)・履歴なしの步は u=0・一致点は拒否・構造核 `dragCore` の表は
   そのまま源の核として読む(§46)—— どれも現行の契約のまま。粒子が 4096 を超える本の solve の步は拒否して数える(u=0)。
-- **内蔵の宣言は無い**(🐌・🌛 は既定 "sum" のまま —— 🌛 の gain は sum 版の推定。solve 版の C_d のフィットは器の記録で**採用値にしない**)。宣言の無い本の走行・`presetSig`・エクスポート JSON は 1 bit 不変。
-- 読み取り: `HP.inertialDragComposeState(S)`(合成則・v の意味・解法・残差の直近と最大・加算の u と solve の u の大きさ)・`HP.inertialDragState(S).compose`(solve を宣言した本だけ)。
-  表示メッシュの drag(§42)は加算の局所場のサンプラーなので、solve の本では描かない(`inertialDragFieldReady(S).why === "composeSolve"`)。
-- 式・検査・比較は docs/PHYSICS.md〔第293便e〕。QA: **`behavior.composeGate`**(門と受理)/ **`docs.composeContract`**(表の転記)。
+- **内蔵の宣言は無い**(🐌・🌛 は compose・solveFrom を書かない —— 第293便g から既定の solve(velocity) で走る。🌛 の gain 514182 は solve(velocity) でも 27 公転窓の 8.85 年の許容に入る
+  〔再フィットなし・推定の扱いは不変〕。solve(history) の C_d のフィットは器の記録で**採用値にしない**)。`law:"inertial"` を宣言しない本の走行・`presetSig`・エクスポート JSON は 1 bit 不変。
+- 読み取り: `HP.inertialDragComposeState(S)`(合成則・v の意味・解法・残差の直近と最大・加算の u と solve の u の大きさ)・`HP.inertialDragState(S).compose`(solve の本 —— 既定の本を含む)・
+  `HP.relDragComposeOf(rd)`・`HP.relDragSolveFromOf(rd)`(正準形から実際の合成則と v の意味を読む)・`HP.REL_DRAG_COMPOSE_DEFAULT`・`HP.REL_DRAG_SOLVE_FROM_DEFAULT`。
+  表示メッシュの drag(§42)は加算の局所場のサンプラーなので、solve の本(既定)では描かず凡例に理由を出す(`inertialDragFieldReady(S).why === "composeSolve"`)—— `compose:"sum"` を明示した本だけ描く。
+- 式・検査・比較は docs/PHYSICS.md〔第293便e〕〔第293便g〕。QA: **`behavior.composeGate`**(門と受理)/ **`docs.composeContract`**(表の転記)。

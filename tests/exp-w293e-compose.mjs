@@ -1,13 +1,17 @@
 // 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
 // 統括の検証項目 R145)—— **引きずりの合成則(compose:"sum"|"solve")の器**(Node だけ —— 対象 html の inline script を
 // tests/lib-w280b-emgrid.mjs の loadHtmlMain で読み、エンジン本体を走らせる。走行は子プロセスで並列)。
+// 第293便g(原仮定者の裁定(第83報 追記)「引きずりは単純加算しないので、単純加算している現状の修正が先」・統括の検証項目 R147):
+//   law:"inertial" の**既定の合成則が solve(solveFrom:"velocity")になった**。本器は「既定(solve(velocity))と opt-in の旧加算
+//  (compose:"sum" の明示 —— 比較用)と solve(history)」の比較に読み替えた(下の注記の「現行」「未宣言 = sum」は第293便e の時点の言い方)。
 //
 // ■ 何を測るか
 //   (i)  純関数 tests/lib-w293e-compose.mjs の 8 項(2 源の代数例・共通並進不変・共動・弱結合極限・順序不変・分割/併合不変・
 //        強結合の有界性・帳簿)と履歴則の不動点(項の外 —— 加算+履歴の定常点は solve(velocity) と同じ点)。
 //   門(エンジン):
-//     (a) 宣言の受理: 未宣言と compose:"sum" は同じ正準形・同じ署名/ compose:"solve" の正準形(solveFrom を必ず出す・solveIters は宣言した本だけ)/
-//         拒否(未知の値・solve 専用の鍵を sum で・solveIters の値域)/ 内蔵に compose を宣言した本は無い。
+//     (a) 宣言の受理(第293便g): 未宣言・compose:"solve"・solveFrom:"velocity" の明示は同じ正準形・同じ署名(既定は出さない)/
+//         compose:"sum" は正準形に出て署名が変わる/ solveFrom:"history"・solveIters は宣言した本だけ出る/
+//         拒否(未知の値・solve 専用の鍵を sum で・solveIters の値域)/ 内蔵に compose・solveFrom を宣言した本は無い。
 //     (b) エンジン≡純関数(ビット): 🐌 の sum(現行の加算の u が純関数の行とビット同一)・🐌 の solve(history・velocity)・
 //         🌛 の solve(history・velocity —— 構造核の表を純関数の表で引き直す)・規定源つきの 3 体(受け取らない行)・
 //         粒子 70 の環(n>64 の Gauss–Seidel —— solveIters 既定と 30)。各步で u・残差・移送の帳簿(ΔU・Σmu・Σm x×u・ΔL)。
@@ -16,10 +20,11 @@
 //   走行(ii): 🐌 inertialDragPair と 🌛 earthMoonInertial を sum / solve(history)/ solve(velocity)で 27 公転(dt 0.016・宣言の gain のまま)
 //     —— 近点周期・Δϖ・離心率の代理・u の桁・安定上界 2·max deg と超えた步の数・solve の残差。
 //   フィット(iii): 🌛 で solve(history)と solve(velocity)の C_d を、27 公転窓の近点周期 = 8.85 年へ**別に** 1 次元フィット(割線法・log–log)。
-//     **採用値にしない**(🌛 の宣言 gain は変えない —— 旧 q 版・現行 sum 版・solve 版のフィットは別の実験で、係数は移植しない)。
+//     第293便g: solve(velocity) は既定なので、そのフィットは 🌛 の宣言 gain の確認(正本 dragcore-w292c の fitCore と同じ手順)。
+//     solve(history) のフィットは**採用値にしない**(旧 q 版・旧加算 sum 版・solve(history) 版のフィットは別の実験で、係数は移植しない)。
 //
 // ■ しないこと・言わないこと
-//   ・既定(compose 未宣言 = "sum")を差し替えない・🌛 の宣言 gain を変えない・「正しい合成則」と断定しない・回転引きずり(Ω)を足さない。
+//   ・🌛 の宣言 gain を理由なく変えない(既定 solve(velocity) で 8.85 年の許容に入る限り)・「正しい合成則」と断定しない・回転引きずり(Ω)を足さない。
 //   ・「月を再現した」「較正 合」「C_d は普遍定数」と書かない。新しい内蔵本を足さない(走らせる本は器の中の一時プリセット)。
 //
 // 実行(Node だけ・Chromium 不要・子プロセス 3 本 —— W293E_WORKERS で変える。結果は並列数に依らない):
@@ -34,27 +39,29 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { runEM, windowFit } from './exp-w292c-dragcore.mjs';
 import * as LC from './lib-w293e-compose.mjs';
 import * as LD from './lib-w292c-dragcore.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_DIRECT_MAX","HP.REL_DRAG_SOLVE_ITERS_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.inertialDragComposeState","HP.inertialDragState","HP.presetSigHash","HP.sim","HP.validatePreset","HP.validateRelativeDrag"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_COMPOSE_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_DIRECT_MAX","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SOLVE_ITERS_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.inertialDragComposeState","HP.inertialDragState","HP.presetSigHash","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset","HP.validateRelativeDrag"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const HARNESS_VERSION = 'w293e-compose-1';
+export const HARNESS_VERSION = 'w293e-compose-2';   // 第293便g: 既定が solve(velocity) —— sum は compose:"sum" の明示
 export const SNAIL_ID = 'inertialDragPair';
 export const BOOK_ID = 'earthMoonInertial';
 export const TARGET_YEARS = 8.85;
+// 第293便g(原仮定者の裁定(第83報 追記)・R147): 既定(未宣言)は solve(velocity)。sum は compose:"sum" を明示した旧法則版(比較用)。
 export const MODES = Object.freeze([
-  Object.freeze({ key: 'sum', label: 'sum(現行・未宣言)' }),
+  Object.freeze({ key: 'sum', label: 'sum(旧加算・compose:"sum" の明示)', compose: 'sum' }),
   Object.freeze({ key: 'solveH', label: 'solve(history)', compose: 'solve', solveFrom: 'history' }),
-  Object.freeze({ key: 'solveV', label: 'solve(velocity)', compose: 'solve', solveFrom: 'velocity' })]);
+  Object.freeze({ key: 'solveV', label: 'solve(velocity)・既定(未宣言)' })]);
 export const RUN = Object.freeze({ dt: 0.016, orbits: 27, spans: [[0, 8], [0, 27]], gateSteps: 6 });
 export const FIT = Object.freeze({ tol: 2e-6, maxIter: 7 });
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const find = (HP, id) => HP.allPresets().find((q) => q.id === id);
 const modeOf = (k) => MODES.find((z) => z.key === k);
 
-/** 本の写しに合成則を宣言する(sum は宣言しない = 現行)。 */
+/** 本の写しに合成則を宣言する(第293便g: solve(velocity) は宣言しない = 既定・sum と solve(history) は宣言する)。 */
 export function withMode(p, modeKey, extra) {
   const q = clone(p), md = modeOf(modeKey), rd = q.physics.relativeDrag;
-  if (md.compose) { rd.compose = md.compose; rd.solveFrom = md.solveFrom; }
+  if (md.compose) rd.compose = md.compose;
+  if (md.solveFrom) rd.solveFrom = md.solveFrom;
   Object.assign(rd, extra || {});
   return q;
 }
@@ -62,21 +69,29 @@ export function withMode(p, modeKey, extra) {
 /* ── (a) 宣言の受理 ─────────────────────────────────────────── */
 export function declGate(HP) {
   const VR = HP.validateRelativeDrag, base = { law: 'inertial', gain: 0.8, pairs: 'all', history: 'positions' };
-  const u = VR(clone(base)), s = VR(Object.assign(clone(base), { compose: 'sum' })), n = VR(Object.assign(clone(base), { compose: null }));
-  const sumSame = u.ok && s.ok && n.ok && JSON.stringify(u.relativeDrag) === JSON.stringify(s.relativeDrag) && JSON.stringify(u.relativeDrag) === JSON.stringify(n.relativeDrag)
-    && !('compose' in u.relativeDrag);
-  const sh = VR(Object.assign(clone(base), { compose: 'solve' })), sv = VR(Object.assign(clone(base), { compose: 'solve', solveFrom: 'velocity', solveIters: 12 }));
-  const solveCanon = sh.ok && sh.relativeDrag.compose === 'solve' && sh.relativeDrag.solveFrom === 'history' && !('solveIters' in sh.relativeDrag)
-    && sv.ok && sv.relativeDrag.solveFrom === 'velocity' && sv.relativeDrag.solveIters === 12;
-  const rej = [{ compose: 'add' }, { compose: 1 }, { compose: 'sum', solveFrom: 'history' }, { compose: 'sum', solveIters: 4 }, { solveFrom: 'velocity' },
-    { compose: 'solve', solveFrom: 'positions' }, { compose: 'solve', solveIters: 0 }, { compose: 'solve', solveIters: 2.5 }, { compose: 'solve', solveIters: 1001 }, { compose: 'solve', solveIters: '8' }];
+  const J = (z) => JSON.stringify(z.relativeDrag);
+  // 第293便g: 未宣言・null・compose:"solve"・solveFrom:"velocity" の明示は同じ正準形(既定は出さない)
+  const u = VR(clone(base)), n = VR(Object.assign(clone(base), { compose: null })), sv = VR(Object.assign(clone(base), { compose: 'solve' })),
+    sv2 = VR(Object.assign(clone(base), { compose: 'solve', solveFrom: 'velocity' })), sv3 = VR(Object.assign(clone(base), { solveFrom: 'velocity' }));
+  const defaultSame = [u, n, sv, sv2, sv3].every((z) => z.ok) && [n, sv, sv2, sv3].every((z) => J(z) === J(u)) && !('compose' in u.relativeDrag) && !('solveFrom' in u.relativeDrag);
+  const s = VR(Object.assign(clone(base), { compose: 'sum' }));
+  const sumCanon = s.ok && s.relativeDrag.compose === 'sum' && !('solveFrom' in s.relativeDrag) && !('solveIters' in s.relativeDrag);
+  const sh = VR(Object.assign(clone(base), { solveFrom: 'history' })), sh2 = VR(Object.assign(clone(base), { compose: 'solve', solveFrom: 'history', solveIters: 12 })),
+    si = VR(Object.assign(clone(base), { solveIters: 12 }));
+  const solveCanon = sh.ok && sh.relativeDrag.solveFrom === 'history' && !('compose' in sh.relativeDrag) && !('solveIters' in sh.relativeDrag)
+    && sh2.ok && sh2.relativeDrag.solveFrom === 'history' && sh2.relativeDrag.solveIters === 12 && !('compose' in sh2.relativeDrag)
+    && si.ok && si.relativeDrag.solveIters === 12 && !('solveFrom' in si.relativeDrag) && !('compose' in si.relativeDrag);
+  const rej = [{ compose: 'add' }, { compose: 1 }, { compose: 'sum', solveFrom: 'history' }, { compose: 'sum', solveFrom: 'velocity' }, { compose: 'sum', solveIters: 4 }, { solveFrom: 'positions' },
+    { compose: 'solve', solveIters: 0 }, { compose: 'solve', solveIters: 2.5 }, { solveIters: 1001 }, { compose: 'solve', solveIters: '8' }];
   const nRej = rej.filter((z) => !VR(Object.assign(clone(base), z)).ok).length;
-  // 署名: 🐌 に compose:"sum" を書いても署名は未宣言と同じ・solve は違う
-  const p = find(HP, SNAIL_ID), pS = clone(p); pS.physics.relativeDrag.compose = 'sum';
-  const sigU = HP.presetSigHash(clone(p)), sigS = HP.presetSigHash(pS), sigH = HP.presetSigHash(withMode(p, 'solveH'));
-  const declIds = HP.allPresets().filter((q) => q.physics && q.physics.relativeDrag && q.physics.relativeDrag.compose !== undefined).map((q) => q.id);
-  const out = { sumSame, solveCanon, rejected: nRej, rejectCases: rej.length, sigSumSame: sigU === sigS, sigSolveDiffers: sigU !== sigH, builtinDeclaring: declIds };
-  out.ok = sumSame && solveCanon && nRej === rej.length && out.sigSumSame && out.sigSolveDiffers && declIds.length === 0;
+  // 署名: 🐌 に compose:"solve"・solveFrom:"velocity" を書いても署名は未宣言と同じ・sum と solve(history)は違う
+  const p = find(HP, SNAIL_ID), pV = clone(p); pV.physics.relativeDrag.compose = 'solve'; pV.physics.relativeDrag.solveFrom = 'velocity';
+  const sigU = HP.presetSigHash(clone(p)), sigV = HP.presetSigHash(pV), sigS = HP.presetSigHash(withMode(p, 'sum')), sigH = HP.presetSigHash(withMode(p, 'solveH'));
+  const declIds = HP.allPresets().filter((q) => q.physics && q.physics.relativeDrag && (q.physics.relativeDrag.compose !== undefined || q.physics.relativeDrag.solveFrom !== undefined)).map((q) => q.id);
+  const out = { defaults: { compose: HP.REL_DRAG_COMPOSE_DEFAULT, solveFrom: HP.REL_DRAG_SOLVE_FROM_DEFAULT }, defaultSame, sumCanon, solveCanon, rejected: nRej, rejectCases: rej.length,
+    sigDefaultSame: sigU === sigV, sigSumDiffers: sigU !== sigS, sigHistoryDiffers: sigU !== sigH, builtinDeclaring: declIds };
+  out.ok = out.defaults.compose === 'solve' && out.defaults.solveFrom === 'velocity' && defaultSame && sumCanon && solveCanon && nRej === rej.length
+    && out.sigDefaultSame && out.sigSumDiffers && out.sigHistoryDiffers && declIds.length === 0;
   return out;
 }
 
@@ -103,7 +118,7 @@ export function engineCase(HP, key, preset, opt) {
   if (!v.ok) return { key, ok: false, why: 'validatePreset: ' + JSON.stringify(v.errors).slice(0, 200) };
   HP.sim.build(v.preset);
   const S = HP.sim, rd = S.relDrag, n = S.n, eps = (rd.eps !== undefined) ? rd.eps : (S.params.softening || 0);
-  const solveMode = rd.compose === 'solve';
+  const solveMode = HP.relDragComposeOf(rd) === 'solve';   // 第293便g: 未宣言は solve
   let kernel = null, tableNote = null;
   if (S._dragCoreT) {
     const DC = HP.dragCoreState(S), src = DC.sources[0], d = { massFrac: src.massFrac, radius: src.radius };
@@ -117,7 +132,7 @@ export function engineCase(HP, key, preset, opt) {
     S.step(opt.dt || RUN.dt);
     if (!(S.inertialDragN > 0) || S.inertialDragN !== s - 1) { rows.push({ step: s, hist: false }); continue; }
     const X = Array.from(S.rdPrevX.subarray(0, n)), Y = Array.from(S.rdPrevY.subarray(0, n));
-    const vel = solveMode && rd.solveFrom === 'velocity';
+    const vel = solveMode && HP.relDragSolveFromOf(rd) === 'velocity';
     const VX = vel ? Array.from(S.vx.subarray ? S.vx.subarray(0, n) : S.vx.slice(0, n)) : Array.from(S._rdVX.subarray(0, n));
     const VY = vel ? Array.from(S.vy.subarray ? S.vy.subarray(0, n) : S.vy.slice(0, n)) : Array.from(S._rdVY.subarray(0, n));
     const pin = Array.from({ length: n }, (_, i) => !!(S.pinned && S.pinned[i]));
@@ -142,16 +157,16 @@ export function engineCase(HP, key, preset, opt) {
   const hs = rows.filter((z) => z.hist);
   const ok = hs.length >= (opt.steps || RUN.gateSteps) - 1 && hs.every((z) => z.uSame && z.ledgerSame && (z.aSame !== false) && (z.resSame !== false))
     && (!opt.method || hs.every((z) => z.method === opt.method)) && (opt.maxRes === undefined || hs.every((z) => z.res <= opt.maxRes));
-  return { key, n, compose: solveMode ? 'solve' : 'sum', solveFrom: solveMode ? rd.solveFrom : null, solveIters: solveMode ? (rd.solveIters === undefined ? HP.REL_DRAG_SOLVE_ITERS_DEFAULT : rd.solveIters) : null,
+  return { key, n, compose: solveMode ? 'solve' : 'sum', solveFrom: solveMode ? HP.relDragSolveFromOf(rd) : null, solveIters: solveMode ? (rd.solveIters === undefined ? HP.REL_DRAG_SOLVE_ITERS_DEFAULT : rd.solveIters) : null,
     table: tableNote, rows, ok, state: HP.inertialDragState(S) };
 }
 export function engineGate(HP) {
   const snail = find(HP, SNAIL_ID), em = find(HP, BOOK_ID);
   const cases = [
-    engineCase(HP, 'snail-sum', snail, {}),
+    engineCase(HP, 'snail-sum', withMode(snail, 'sum'), {}),
     engineCase(HP, 'snail-solveH', withMode(snail, 'solveH'), { method: 'direct', maxRes: 1e-14 }),
     engineCase(HP, 'snail-solveV', withMode(snail, 'solveV'), { method: 'direct', maxRes: 1e-14 }),
-    engineCase(HP, 'em-sum', em, {}),
+    engineCase(HP, 'em-sum', withMode(em, 'sum'), {}),
     engineCase(HP, 'em-solveH', withMode(em, 'solveH'), { method: 'direct', maxRes: 1e-14 }),
     engineCase(HP, 'em-solveV', withMode(em, 'solveV'), { method: 'direct', maxRes: 1e-14 }),
     engineCase(HP, 'pinned3-solveH', withMode(pinned3Preset(HP), 'solveH'), { method: 'direct', maxRes: 1e-14 }),
@@ -184,7 +199,7 @@ export function nonRecip(HP) {
     for (let s = 0; s < 3; s++) S.step(RUN.dt);
     const n = S.n; let ab = 0; for (let i = 0; i < n; i++) ab += S.m[i] * Math.hypot(S._rdUX[i], S._rdUY[i]);
     let asym = null;
-    if (md.compose === 'solve') { const A = S._rdA; asym = (S.m[1] * A[1 * n + 0]) / (S.m[0] * A[0 * n + 1]) - 1; }
+    if (md.key !== 'sum') { const A = S._rdA; asym = (S.m[1] * A[1 * n + 0]) / (S.m[0] * A[0 * n + 1]) - 1; }
     rows.push({ source: src, mode: md.key, sumMu: [S.inertialDragPx, S.inertialDragPy], sumMuRel: Math.hypot(S.inertialDragPx, S.inertialDragPy) / ab, asymMiAij: asym });
   }
   const dc = rows.filter((z) => z.source === 'dragCore'), pt = rows.filter((z) => z.source === 'point');
@@ -304,8 +319,9 @@ if (IS_MAIN && process.argv.includes('--child')) {
   const emRows = rel27([results.emSum, results.fitH.first, results.fitV.first]);
   // 1 次の見積り(門ではない): 2 体の相対モードの結合 A = C(m_1 K + m_0 ⟨K⟩)(初期の接触軌道の長半径で)—— solve(history)の実効の結合は A/(1+A)
   const fit = { target: TARGET_YEARS, window: RUN.orbits, detector: 'B(相対距離の極小 —— 3 点の放物線の頂点・位置だけ)', declaredGain: gDecl, H: results.fitH, V: results.fitV,
-    note: '採用値にしない(🌛 の宣言 gain は sum 版の推定のまま —— 旧 q 版・sum 版・solve 版のフィットは別の実験で、係数は移植しない)' };
+    note: '第293便g: solve(velocity) は既定 —— そのフィットは 🌛 の宣言 gain の確認(許容 FIT.tol に入れば宣言のまま)。solve(history) のフィットは採用値にしない(旧 q 版・旧加算 sum 版・solve(history) 版のフィットは別の実験で、係数は移植しない)' };
   fit.relH = fit.H.gain / gDecl - 1; fit.relV = fit.V.gain / gDecl - 1;
+  fit.declaredHolds = fit.V.converged && fit.V.gain === gDecl;   // 第293便g: 既定 solve(velocity) で宣言 gain が 8.85 年の許容(FIT.tol)に入る(再フィット不要)
   const okRuns = snailRows.concat(emRows).every((s) => !s.nan && s.ledger && s.ledger.reject === 0 && s.ledger.noHistory === 1 && s.ledger.boundOver === 0
     && (!s.compose || (s.compose.resMax <= 1e-14 && s.compose.tooLarge === 0)));
   const out = {
@@ -317,15 +333,17 @@ if (IS_MAIN && process.argv.includes('--child')) {
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第293便e', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, libVersion: LC.COMPOSE_LIB_VERSION, engineVersion: HP.REL_DRAG_COMPOSE_VERSION, inertialVersion: HP.REL_DRAG_INERTIAL_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第83報)(引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い)',
-    reading: '統括の検証項目 R145(合成則の法則版を opt-in で実装し、同じ質量配置で現行の加算と比べる・既定は現行のままビット同一)',
+    reading: '統括の検証項目 R145(合成則の法則版を実装し、同じ質量配置で加算と比べる)・R147(第293便g: 既定を solve(velocity) に —— 加算は compose:"sum" の明示だけの比較用)',
+    ruling293g: '原仮定者の裁定(第83報 追記)(引きずりは単純加算しないので、単純加算している現状の修正が先)',
+    composeDefault: [HP.REL_DRAG_COMPOSE_DEFAULT, HP.REL_DRAG_SOLVE_FROM_DEFAULT],
     engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセスで並列)',
     gateA: '宣言なしの本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す(基点 html が要るので本正本に載せない)',
-    notClaim: ['正しい合成則を決めた', '月を再現した', '較正 合', 'C_d は普遍定数', '既定を差し替えた', '相対速度を使うこと自体から非加算性が導かれる'] });
+    notClaim: ['正しい合成則を決めた', '月を再現した', '較正 合', 'C_d は普遍定数', '正しい合成則と証明した', '相対速度を使うこと自体から非加算性が導かれる'] });
   out.elapsedS = (Date.now() - t0) / 1000;
   Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));
   fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
   fs.writeFileSync(OUT_PATH, JSON.stringify(out, null, 1) + '\n');
   console.log(`🌛 宣言 gain ${gDecl}: 27 公転の近点周期 sum ${f5(emRows[0].windows[1].apsPeriodYr)}・solve(history) ${f5(emRows[1].windows[1].apsPeriodYr)}・solve(velocity) ${f5(emRows[2].windows[1].apsPeriodYr)} 年`);
-  console.log(`フィット(採用値にしない): solve(history) ${fit.H.gain}(${e3(fit.relH)})・solve(velocity) ${fit.V.gain}(${e3(fit.relV)})`);
+  console.log(`フィット(solve(velocity) は既定の確認・solve(history) は採用値にしない): solve(history) ${fit.H.gain}(${e3(fit.relH)})・solve(velocity) ${fit.V.gain}(${e3(fit.relV)})`);
   console.log('→ ' + path.relative(ROOT, OUT_PATH) + '(' + out.elapsedS.toFixed(1) + ' s)・ok ' + out.ok);
 }

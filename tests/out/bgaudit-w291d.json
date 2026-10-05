@@ -3,49 +3,50 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便d",
   "target": "beta/index.html",
-  "targetSha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
-  "generatedAt": "2026-10-04T18:40:43.703Z",
+  "targetSha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
+  "generatedAt": "2026-10-05T20:11:39.536Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5701234,
-    "sha256": "c32c8a99b297689b5d33bbd4dad00b5243d514e60bb986bdfc5be27491310e6c",
-    "mtime": "2026-10-04T17:18:05.751Z"
+    "bytes": 5729742,
+    "sha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
+    "mtime": "2026-10-05T20:09:17.514Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w291d-bgaudit.mjs",
-    "bytes": 25335,
-    "sha256": "d09ecb21f252ca4c569b5771e7a0ca5a5b211dc462b2085e00d0d645d1690cd9",
-    "mtime": "2026-10-03T18:54:39.773Z"
+    "bytes": 26181,
+    "sha256": "8134a254b6004233c24cb6a95f80f1fdd164402ce9992ae63ecbf5c4f2ebb6be",
+    "mtime": "2026-10-05T20:11:34.806Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-02T23:11:02.952Z"
+    "mtime": "2026-10-05T20:01:16.974Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-02T23:11:02.944Z"
+    "mtime": "2026-10-05T20:01:16.970Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
     "bytes": 75590,
     "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "mtime": "2026-10-05T20:01:16.978Z"
    }
   ],
-  "codeSha256": "5af6b62333e1a23b28c6d7f0b67037cbfe2a028099240406344167988b9a6284",
+  "codeSha256": "a32fc25c766ebe8e0ce030dc9b7c3ef9a30f59daf94a5ba5b57f73e05067f5c2",
   "harnessVersion": "w291d-bgaudit-1",
   "engineVersion": "w290c-inertial-1",
   "samplerVersion": "w291d-sampler-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑥「静止背景相当」「背景慣性決定力」は慣性系で織り込み済みかを精査",
   "reading": "統括の検証項目 R135(物理不変 —— 核・時計・光の式は読むだけ。表示メッシュは表示専用)",
+  "composeRule": "第293便g: 門 (A)〜(D) の写し・注入・🐌 の走行は compose:\"sum\" を明示(読み手は加算の局所場 —— 既定 solve の本では描かない)",
   "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)",
   "conclusion": "新核では Wbg を使わないという法則・参照系の宣言である(証明ではない)。旧正規化 u=A/W 型の場では Wbg が分母に残る。共通並進・一様加速度は 1 步の中で消え、回転・潮汐は残る",
   "notClaim": [
@@ -100,11 +101,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 991,
-   "segments": 900,
-   "closureShare": 0.325
+   "names": 1005,
+   "segments": 914,
+   "closureShare": 0.3263
   },
-  "scopeSha256": "940e34415791f587d27033b1bbbc61be424323be721913f0c6105a7bc61ed258",
+  "scopeSha256": "53ca584f9f3268d1eef9f97560df3b45931852a451c19a6ff1ff86b1ca0dd89e",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -774,8 +775,12 @@
      "dragCoreLookup",
      "dragCoreTableBuild",
      "dragCoreWeight",
+     "inertialDragComposeBuild",
+     "inertialDragComposeSolve",
      "inertialDragEpoch",
-     "inertialDragInit"
+     "inertialDragInit",
+     "relDragComposeOf",
+     "relDragSolveFromOf"
     ],
     "forbiddenInClosure": []
    },
@@ -814,5 +819,5 @@
   "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
  ],
  "ok": true,
- "elapsedS": 2.778
+ "elapsedS": 2.886
 }
