@@ -1810,6 +1810,8 @@ ja: {
   /* 第291便c(原仮定者の裁定(第81報)⑥・R134): 測地線モードは「主な用途」の分類 —— 制限はセーブ時の警告だけ(保存も走行も止めない) */
   modeWarn_geo0Geodesic:(law)=>"geoPN=0(主に原理実証用)で測地線を有効にした設定を保存します(physics.geodesic:true —— 走る法則 "+law+")",
   modeWarn_geo1KFrame:(kf,law)=>"geoPN=1(主に現実較正用・GR 1PN 準拠)で kFrame="+kf+" —— GR 1PN に引きずりを重ねた実験設定です(標準は kFrame=0・走る法則 "+law+")",
+  // 第293便a(原仮定者の裁定(第83報)・R141): 宣言の無い分数 kFrame(読み込み時の警告とセーブ時の警告 "kFrameFraction" で同じ文)
+  modeWarn_kFrameFraction:(k)=>"分数 kFrame="+k+" を保持します。実験設定であり、現実較正の合否は別に判定します(予測には使えません。近似として置いた分数なら physics.kFrameApprox:\"space-mesh-effective\" か \"sample-only\" を宣言するとこの警告は出ません)",
   modeWarn_geo2KFrame:(kf,law)=>"geoPN=2(主に引きずり近似用・q で近似)で kFrame="+kf+" —— q 近似の標準強度(kFrame=1)と異なります(走る法則 "+law+")",
   modeWarn_geo3NoInertial:(legacy,runs,law)=>"geoPN=3(主に引きずり用・慣性決定力で計算)で慣性決定力の引きずり(physics.relativeDrag.law:\"inertial\")が未宣言です("
     +(legacy!==null && runs? "旧法則版 "+legacy+" で走っています" : (legacy!==null? "旧法則版 "+legacy+" は入場条件で無効 —— 引きずりの法則は何も走っていません(測地線 "+law+")"
@@ -2877,6 +2879,7 @@ en: {
   /* Wave 291c (originator's ruling, report 81 (6), R134): the geodesic mode classifies the main use - the only restriction is a warning on save */
   modeWarn_geo0Geodesic:(law)=>"Saving geoPN=0 (mainly for proof of principle) with the geodesic switched on (physics.geodesic:true - law run: "+law+")",
   modeWarn_geo1KFrame:(kf,law)=>"geoPN=1 (mainly for reality calibration, GR 1PN) with kFrame="+kf+" - an experimental setup that layers dragging on GR 1PN (standard is kFrame=0; law run: "+law+")",
+  modeWarn_kFrameFraction:(k)=>"Keeping the fractional kFrame="+k+". This is an experimental setup; reality-calibration pass/fail is judged separately (not usable for prediction. If the fraction is a deliberate approximation, declaring physics.kFrameApprox:\"space-mesh-effective\" or \"sample-only\" silences this warning)",
   modeWarn_geo2KFrame:(kf,law)=>"geoPN=2 (mainly for the dragging approximation with q) with kFrame="+kf+" - differs from the standard strength of the q approximation (kFrame=1; law run: "+law+")",
   modeWarn_geo3NoInertial:(legacy,runs,law)=>"geoPN=3 (mainly for dragging computed from the inertial determinacy) has no inertial-determinacy drag declared (physics.relativeDrag.law:\"inertial\") ("
     +(legacy!==null && runs? "it runs the legacy law "+legacy : (legacy!==null? "the legacy law "+legacy+" is disabled by its entry conditions - no drag law is running (geodesic "+law+")"
@@ -3390,7 +3393,7 @@ en: {
     dispMag:"Display-only magnification of particle rendering radii (default 1). Use when real-unit radii are too small to see. Never affects contact physics, inertia or the simulation itself — a pure magnifying glass.",
     G:"Strength of mutual gravity between particles. In this universe gravity is the gradient of determinacy W (A6/E4: a=G∇W). Set 0 to switch self-gravity off (independent of the uniform field g_x/g_y).",
     D0:"Baseline determinacy contributed by the distant universe (A5). The larger it is, the more space is anchored far away — and the weaker the relative grip of nearby masses (kFrame drag). 0 = no distant anchor: wherever there is at least one source, chi = W/(W+D0) tends to 1 and only the nearby masses are the reference (at a point with no source at all, chi is held at 0).",
-    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of the outer-velocity enhancement in rotation curves (T4). WAVE 275a (the original hypothesiser's ruling, report 65): IN A SAMPLE JSON THE DEFAULT IS BINARY - 0 OR 1. A fractional correction only holds for that one sample and cannot be used for prediction, so writing 0<kFrame<1 in JSON requires the declaration physics.kFrameApprox ('space-mesh-effective' = an effective approximation of the space-mesh influence, or 'sample-only' = that sample only). An undeclared fraction is SNAPPED TO THE NEAREST 0/1 ON LOAD with one warning (k<0.5 -> 0, k>=0.5 -> 1). FOR THE REALITY-CALIBRATION CLASS (sampleClass:calibration) IT IS REJECTED RATHER THAN SNAPPED, and the only usable declaration there is 'space-mesh-effective'. A VALUE SET FROM THIS SLIDER (the UI) IS NOT SNAPPED - the gate only bites when the value is written into a saved JSON (the same save asymmetry as wave 263a).",
+    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of the outer-velocity enhancement in rotation curves (T4). IN A SAMPLE JSON THE STANDARD IS BINARY - 0 OR 1 (wave 275a, the original hypothesiser's ruling, report 65: a fractional correction only holds for that one sample and cannot be used for prediction). WAVE 293a (ruling, report 83): A FRACTIONAL 0<kFrame<1 IS KEPT AS IT IS. Without the declaration physics.kFrameApprox ('space-mesh-effective' = an effective approximation of the space-mesh influence, or 'sample-only' = that sample only) a fraction gets ONE WARNING ON LOAD AND ON SAVE (an experimental setup, not usable for prediction). The reality-calibration class (sampleClass:calibration) accepts it too, and the calibration judge does NOT COUNT such a sample in the pass/fail population. A value that an older version rewrote to 0/1 on load and then saved cannot be restored to its original fraction.",
     q:"Falloff exponent of the rotational drag from spin with distance (E3: (R/(R+d))^q). Larger q confines the drag closer to the body.",
     kRep:"Repulsion between spinning (= hot) particles (A10/E5′) — the origin of 'pressure' in this universe. Hot gas inflating (🎈) and convection (♨️) are driven by this force.",
     muF:"Efficiency of converting sliding contact (relative velocity) into spin = heat (A9/E9). At 0, collisions no longer heat anything (try the 💥 contrast experiment).",
@@ -3998,8 +4001,8 @@ function geoModeOf(ph){
   return out;
 }
 // ===== 第291便c(原仮定者の裁定(第81報)⑥・統括の検証項目 R134): **geoPN は「主な用途」の分類**・**走る法則は宣言から解決する** =====
-// 制限はセーブ時の警告だけ(`modeSaveWarnings`)。受理器は geoPN と kFrame の組を拒否しない・値を丸めない(分数 kFrame の第65報の丸めは
-// kFrame の値域の契約なので残す)。解決の表(`geoModeOf(...).law` —— 走った法則の名前。`geoCoreDispatchBody` は同じ表で dispatch する):
+// 制限はセーブ時の警告だけ(`modeSaveWarnings`)。受理器は geoPN と kFrame の組を拒否しない・値を書き換えない(分数 kFrame の第65報の寄せは
+// 第293便a〔原仮定者の裁定(第83報)・R141〕で撤去 —— 分数は保持して警告 "kFrameFraction")。解決の表(`geoModeOf(...).law` —— 走った法則の名前。`geoCoreDispatchBody` は同じ表で dispatch する):
 //   測地線(1PN)の ON/OFF: geoPN≥1 は ON。geoPN=0 は `physics.geodesic:true` を宣言したときだけ ON(既定は無し=署名不変)
 //   1PN の基底: ON ∧ kFrame=0 → "eih-kf0"(`_core` に 1 + EIH の差分)/ ON ∧ kFrame>0 → "vMinusU-q"(`_core` に 2 —— v−u 則)
 //   geoPN=3: 旧法則版(physics.spaceMesh.lawVersion = scalar/local/complex/vMinusU)の宣言が入場条件を満たせば
@@ -4009,7 +4012,9 @@ function geoModeOf(ph){
 // **geoModeOf は宣言から決まる(S を読まない)**。旧法則版の入場条件は `S.updateRadii` の門と同じ式(kFrame・toyAllowDrag・inertia・weave)を
 // ここでも評価する。vMinusU の外部ステップの前提(meshVelocity の受理など)は宣言の有無だけを見る(細目の拒否理由は S.meshVelDeny)
 const GEO_MODE_PURPOSE=["proof","calibration","dragApprox","inertialDrag"];   // 0=主に原理実証 / 1=主に現実較正(GR 1PN)/ 2=主に引きずり近似(q)/ 3=主に引きずり(慣性決定力)
-const MODE_POLICY_VERSION="w291c-1";   // 保存の版(#btnSave が item.modePolicy に書く —— 読込で旧セーブの kFrame の読み替えを分ける)
+const MODE_POLICY_VERSION="w293a-1";   // 保存の版(#btnSave が item.modePolicy に書く —— 読込で旧セーブの kFrame の読み替えを分ける)。第293便a で w291c-1 → w293a-1
+// 第293便a(R141): 「値を保持して読む」保存の版の一覧(w291c-1 以後)。w291c-1 の保存も従来どおり値を保持して読む(版を上げただけで読み替えを増やさない)
+const MODE_POLICY_KEEP_VERSIONS=["w291c-1","w293a-1"];
 const GEO_LAWS=["newton","eih-kf0","vMinusU-q","inertial-drag"];   // 旧法則版は "legacy-spaceMesh:<lawVersion>"
 function geoLegacyDeclOf(ph){   // geoPN=3 の旧法則版の宣言(lawVersion)と、入場条件(S.updateRadii の門と同じ式)を満たすか
   const sm=(ph && ph.spaceMesh && typeof ph.spaceMesh==="object")? ph.spaceMesh : null;
@@ -4059,7 +4064,9 @@ function geoLawResolveInto(out, ph, kF){
 // kFrame が数でなければ既定(DEFAULT_PHYSICS.kFrame)で読む(受理器が埋める値と同じ)。戻り値 [{code,message}](無ければ [])
 //   geoPN=0 ∧ 測地線 ON(geodesic:true)/ geoPN=1 ∧ kFrame≠0 / geoPN=2 ∧ kFrame≠1 / geoPN=3 ∧ 慣性決定力(relativeDrag.law:"inertial")未宣言
 // (3 の条件は統括の追加 —— 原仮定者の裁定(第81報)は 3 のモード固有の条件を指定していない)
-const MODE_SAVE_WARN_CODES=["geo0Geodesic","geo1KFrame","geo2KFrame","geo3NoInertial"];
+// 第293便a(原仮定者の裁定(第83報)・R141): 5 本目 "kFrameFraction" —— 0<kFrame<1 ∧ 宣言 kFrameApprox("space-mesh-effective"/"sample-only")が無い。
+//   文は読み込み時(validatePreset)の警告と同じ `modeWarn_kFrameFraction`。入力に kFrameApprox を読む(#btnSave は実行中プリセットの宣言を写して渡す)
+const MODE_SAVE_WARN_CODES=["geo0Geodesic","geo1KFrame","geo2KFrame","geo3NoInertial","kFrameFraction"];
 function modeSaveWarnings(a){
   const src=(a && typeof a==="object")? a : {};
   const kF=(typeof src.kFrame==="number" && isFinite(src.kFrame))? src.kFrame : DEFAULT_PHYSICS.kFrame;
@@ -4071,6 +4078,8 @@ function modeSaveWarnings(a){
   if(g.mode===2 && kF!==1) out.push({code:MODE_SAVE_WARN_CODES[2], message:T("modeWarn_geo2KFrame")(kF, g.law)});
   if(g.mode===3 && !g.inertialDrag)
     out.push({code:MODE_SAVE_WARN_CODES[3], message:T("modeWarn_geo3NoInertial")(g.legacyLaw, g.legacyLaw!==null && g.legacyOff===null, g.law)});
+  if(kF>0 && kF<1 && KFRAME_APPROXES.indexOf(src[KFRAME_APPROX_KEY])<0)
+    out.push({code:MODE_SAVE_WARN_CODES[4], message:T("modeWarn_kFrameFraction")(kF)});
   return out;
 }
 // 第291便c(R134): **モードの表**(PHYSICS〔第291便c〕の表の正本 —— QA docs.geoModeTable が行を転記一致で照合する)。
@@ -7861,7 +7870,7 @@ const PARAM_DEFS = [
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:3, step:1,    cat:"dg", group:"法則の実験室",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では kF0 の役割(λ_PN=1 ∧ kFrame=0)として geoPN=1 と同じ EIH 型の 1PN の経路へ送られる(第285便b 以降 —— v−u 則の式を u=0 に還元した結果ではなく kF0 の契約による。400 步の状態は 6 本で一致したが〔第286便c の実測〕、法則として同一とは断言しない)。0=従来(legacy)。**第291便c(原仮定者の裁定(第81報)⑥)— geoPN は「主な用途」の分類で、モードが違っても制限はセーブ時の警告だけ**: 0=主に原理実証用(physics.geodesic:true を宣言すると測地線〔1PN〕も使える —— 保存時に警告)/ 1=主に現実較正用・GR 1PN 準拠(kFrame=0 以外は保存時に警告 —— kFrame>0 は GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)/ 2=主に引きずり近似用・q で近似(kFrame=1 以外は保存時に警告)/ 3=主に引きずり用・慣性決定力で計算(physics.relativeDrag.law:\"inertial\" が未宣言なら保存時に警告)。**走る法則は宣言から決まる**(測地線 ON ∧ kFrame=0 → EIH 型の 1PN・kFrame>0 → v−u 則・3 で旧法則版 physics.spaceMesh.lawVersion〔scalar/local/complex/vMinusU〕を宣言していればその旧法則版 —— 数値は従来どおり。scalar/local/complex は第259便a の **3=トイ(慣性決定力場)**)。値は保存どおりに保存・再読込される(旧法則版の宣言が無い 3 も 3 のまま —— 測地線の法則で走り、HUD に law: を出す)。旧法則版の内部整合(トイは kFrame=0・spaceMesh の inertia/weave と排他・vMinusU は kFrame=0)は残すが、矛盾した宣言は拒否せず警告して旧法則版を無効化する(ステップ会計の geoToy:denied)。physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag)。vMinusU を宣言した 3 は**トイではなく速度分解の契約**(ẋ=v+u・v̇=a_space−Jᵀv —— 輸送経路 physics.meshVelocity・1PN の有無 pn・1PN が読む速度 pnVelocity・初期速度の意味 velocityMeaning を別々に宣言する)。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
-   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。**第275便a(原仮定者の裁定〔第65報〕)**: サンプル JSON の既定は **0 か 1 の二値**である —— 分数の補正はそのサンプル限りで予測に使えないので、0<kFrame<1 を JSON に書くには `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)の宣言が要る。宣言が無い分数は読み込み時に**最寄りの 0/1 へ丸めて警告 1 行**(k<0.5→0・k≥0.5→1)。**現実較正クラス(sampleClass:calibration)では丸めず拒否**し、使える宣言は「space-mesh-effective」だけである。**このスライダー(UI)で動かした値は丸めない**(保存 JSON にしたときに初めて門が効く — 第263便a と同じ保存の非対称)。"},   // 第124便(原仮定者指示): geoPN の次へ移動
+   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。サンプル JSON の標準は **0 か 1 の二値**である(第275便a・原仮定者の裁定〔第65報〕—— 分数の補正はそのサンプル限りで予測に使えない)。**第293便a(原仮定者の裁定〔第83報〕)**: 0<kFrame<1 の分数は**値をそのまま保持**する。宣言 `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)が無い分数は、読み込み時と保存時に**警告 1 行**(実験設定であり予測に使えない)。現実較正クラス(sampleClass:calibration)でも受理し、**較正の合否の母集団には数えない**(判定器の側で除く)。旧版で読み込み時に 0/1 へ書き換えられたまま保存された値は、元の分数に戻せない。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
    desc:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正の強さ(0〜1の連続値 — 第110便で整数制限を撤廃)。1PN加速度は λ_PN/c₀² に比例するので、c₀を固定したまま1PN強度だけを較正できる。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用。"},
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則の実験室",
@@ -8023,15 +8032,11 @@ const GEODESIC_KEY = "geodesic";   // 第291便c(R134): geoPN=0 で測地線(1PN
 //                              **較正クラスでは拒否する** —— 予測に使えないと宣言した分数を
 //                              現実較正へ入れさせないため。
 const KFRAME_APPROXES = ["space-mesh-effective", "sample-only"];
-const KFRAME_APPROXES_CALIBRATION = ["space-mesh-effective"];
-// **宣言の無い 0<kFrame<1 をどう扱うか**(第275便a で両案を実装して比較した):
-//   "snap"   … 案B: 最寄りの {0,1} へ丸めて警告 1 行(AA2 のクランプと同じ流儀)。**既定**。
-//              旧セーブ・旧 AI 出力を壊さずに二値へ寄せられる。
-//   "reject" … 案A: 検証エラーで拒否(較正クラスは常にこちら)。
-// 丸めの規則は **k<0.5 → 0 / k≥0.5 → 1**(境界の 0.5 は 1 側。規則を明文で固定する)。
-// **力学には 1 バイトも接続しない** —— 変わるのは検証器の受理だけである。
-const KFRAME_UNDECLARED_MODES = ["snap", "reject"];
-let kFrameUndeclaredMode = "snap";
+// 第275便a は宣言の無い 0<kFrame<1 の扱いに 2 案(案B "snap" = 0/1 へ寄せて警告・既定 / 案A "reject" = 拒否・較正クラスは常にこちら)を
+// 実装し、較正クラスで使える宣言を "space-mesh-effective" だけに絞っていた(KFRAME_APPROXES_CALIBRATION)。
+// **第293便a(原仮定者の裁定(第83報)・R141)で両案と較正クラスの絞り込みを撤去した** —— 宣言の無い分数は値を保持して警告 1 行
+// (validatePreset・modeSaveWarnings の "kFrameFraction")。モード切替(KFRAME_UNDECLARED_MODES / kFrameUndeclaredMode)は無くなり、
+// 互換の HP.kFrameUndeclaredMode() は常に "keep" を返すだけの stub である(旧動作は復活させない)。
 const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], kappaT:[0,1], kLens:[0,1],   // 第128便: 時空係数は κ 正準(κ=0=時空効果なし。旧 Kt[1,1e12] は ktToKappa で受理)
   cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
@@ -20262,9 +20267,9 @@ function validatePreset(obj){
   // 警告文の文言に依存せず「移行が起きた」を呼び出し側(インポート)が判定できるようにする。
   // 移行そのもの(legacyCoreToV2)のロジックは 1 文字も変えていない — 記録するだけ。
   let legacyCoreMigrated=false;
-  // 第275便a: 宣言の無い分数 kFrame を {0,1} へ丸めたときの機械可読な記録(案B)。
-  // 丸めが起きなければ null。**preset には入らない**(署名は丸めた後の kFrame で決まる)。
-  let kFrameSnapped=null;
+  // 第275便a: 宣言の無い分数 kFrame を {0,1} へ寄せたときの機械可読な記録(案B)だった。
+  // 第293便a(R141): 寄せる処理を撤去したので**常に null**(返り値の鍵は互換のため残す)。
+  const kFrameSnapped=null;
   // 第283便a: geoPN=2・kFrame=0 の互換入力の機械可読な記録(無ければ null。**preset には入らない**)
   let geoCompat=null;
   const bad=(m)=>{errors.push(m);};
@@ -20561,10 +20566,9 @@ function validatePreset(obj){
       // 較正クラスで分数 kFrame を書くときの必須宣言(下の二層契約)に使う
       // 第275便a: 宣言値が 2 つになった("sample-only" を追加)。**較正クラスでは
       // "sample-only" を受け付けない**(予測に使えないと宣言した分数を現実較正へ入れない)。
+      // 第293便a(原仮定者の裁定(第83報)・R141): 較正クラスでの "sample-only" の拒否を撤去(宣言は保持 —— 予測に使わせない線は較正の判定器に置く)
       if(k===KFRAME_APPROX_KEY){
         if(KFRAME_APPROXES.indexOf(p.physics[k])<0) warnings.push('physics.kFrameApprox は "space-mesh-effective"/"sample-only" のみ — 削除します');
-        else if(p.sampleClass==="calibration" && KFRAME_APPROXES_CALIBRATION.indexOf(p.physics[k])<0)
-          bad('physics.kFrameApprox:"'+p.physics[k]+'" は sampleClass:"calibration" では使えません(サンプル限りと宣言した分数は現実較正に入れない — 較正で使えるのは "space-mesh-effective" だけです)');
         else ph[k]=p.physics[k];
         continue;
       }
@@ -20649,11 +20653,11 @@ function validatePreset(obj){
   }
   // ===== 第283便a(原仮定者の裁定(2026-09-26 追加)・統括の検証項目 R83): **geoPN=1 は kFrame=0 専用** =====
   //   裁定「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」「DFM 版=geoPN=2 かつ
-  //   kFrame=1(geoPN=1 の DFM 版は無い)」。geoPN=1 に kFrame≠0 を書いた入力は**拒否**する(下の分数の丸めより前 ——
-  //   丸めた値〔kFrameSnapped〕を返して通すことはしない)。geoPN=0 の kFrame は**書き換えない**(kFrame=1 のトイがある)。
+  //   kFrame=1(geoPN=1 の DFM 版は無い)」。geoPN=1 に kFrame≠0 を書いた入力は**拒否**する(当時の下の分数の処理より前 ——
+  //   寄せた値〔kFrameSnapped〕を返して通すことはしない)。geoPN=0 の kFrame は**書き換えない**(kFrame=1 のトイがある)。
   // ===== 第291便c(原仮定者の裁定(第81報)⑥・統括の検証項目 R134): **上の拒否を撤去**(モードは主な用途の分類 —— 制限はセーブ時の警告だけ) =====
   //   geoPN=1 ∧ kFrame≠0 は**受理して警告 1 行**(GR 1PN に引きずりを重ねた実験設定として v−u 則で走る —— geoModeOf の law "vMinusU-q")。
-  //   分数 kFrame は geoPN=1 でも下の第65報の丸め(kFrame の値域の契約 —— モードの制限ではない)を通る。警告は丸めた後の値で出す(下)
+  //   分数 kFrame は geoPN=1 でも下の第65報の処理(当時)を通る。警告は受理した値で出す(下)。第293便a でその処理自体を撤去した
   // ===== 第273便b(第63報 AH1): kFrame の受理契約(二層) =====
   //   ① 全クラス共通: 有限な [0,1](非数は上の CLAMPS 経路が致命拒否・域外は警告つきクランプ)。
   //   ② 現実較正クラスだけ: **0<kFrame<1 の分数には宣言鍵が要る**。
@@ -20662,32 +20666,24 @@ function validatePreset(obj){
   // ===== 第275便a(第65報 (1)): **第2層を全クラスへ**。kFrame の既定は二値 {0,1} である =====
   //   原仮定者の裁定「kFrame の分数補正はサンプル限りで予測に使えない → 例外を除き kFrame は
   //   kF0 版の 0 か DFM 版の 1 に限定する」。**例外は宣言鍵 `physics.kFrameApprox` だけ**で、
-  //   宣言の無い 0<kFrame<1 は既定経路で受理しない。挙動は 2 案を実装して比べた(既定は案B):
-  //     案B "snap"(既定): 最寄りの {0,1} へ丸めて警告 1 行(k<0.5→0 / k≥0.5→1)。
-  //                        旧セーブ・旧 AI 出力を**壊さない**。丸めた事実は返り値
-  //                        `kFrameSnapped:{from,to,sampleClass}` に機械可読で残す。
-  //     案A "reject":      検証エラーで拒否。**較正クラスは常にこちら**(第273便b の門を弱めない)。
+  //   宣言の無い 0<kFrame<1 は既定経路で受理しなかった。挙動は 2 案を実装して比べた(当時の既定は案B):
+  //     案B "snap"(当時の既定): {0,1} へ寄せて警告 1 行(k<0.5→0 / k≥0.5→1)。寄せた事実は返り値
+  //                        `kFrameSnapped:{from,to,sampleClass}` に機械可読で残した。
+  //     案A "reject":      検証エラーで拒否。較正クラスは常にこちらだった。
+  //   **第293便a(第83報・R141)で両案とも撤去済み**(現行の契約は下の〔第293便a〕)。
   //   **内蔵の kFrame の値は 1 本も変えていない**(内蔵の集合は {0,1} なのでこの門に 1 本も当たらない)。
   //   **力学には 1 バイトも接続しない** —— `S._core` には 1 命令も足していない。
   // 第283便a: geoPN=1 の分数は上で拒否済み —— 丸め(kFrameSnapped)へは進めない
-  // 第291便c: 拒否を撤去したので geoPN=1 の分数も他のモードと同じ丸めを通る(第65報の契約は変えない)
-  if(ph.kFrame>0 && ph.kFrame<1){
-    const dec = ph[KFRAME_APPROX_KEY];
-    const calib = (p.sampleClass==="calibration");
-    const allowed = calib ? KFRAME_APPROXES_CALIBRATION : KFRAME_APPROXES;
-    if(allowed.indexOf(dec)<0){
-      if(calib || kFrameUndeclaredMode==="reject")
-        bad('physics.kFrame に分数('+ph.kFrame+')を書くには physics.kFrameApprox の宣言が必要です('
-          +(calib?'sampleClass:"calibration" で使えるのは "space-mesh-effective" だけ':'"space-mesh-effective" か "sample-only"')
-          +' — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)');
-      else {
-        const to = (ph.kFrame<0.5)?0:1;
-        kFrameSnapped = {from:ph.kFrame, to, sampleClass:(p.sampleClass||null), rule:"k<0.5→0 / k≥0.5→1"};
-        warnings.push('physics.kFrame の分数('+ph.kFrame+')は宣言鍵 physics.kFrameApprox が無いので '+to+' へ丸めました(第65報: kFrame の既定は 0 か 1。分数を残すには physics.kFrameApprox:"space-mesh-effective" か "sample-only" を宣言してください)');
-        ph.kFrame = to;
-      }
-    }
-  }
+  // 第291便c: 拒否を撤去したので geoPN=1 の分数も他のモードと同じ処理を通る(当時は第65報の寄せ —— 第293便a で撤去)
+  // ===== 第293便a(原仮定者の裁定(第83報)「分数 kFrame の丸めは撤去する。セーブ時と同様に警告を出す」・統括の検証項目 R141・AN159 を閉じる) =====
+  //   上の第275便a の案B(丸め)・案A(拒否)と、較正クラスでの拒否を**撤去**した(履歴として上に残す)。現行の契約:
+  //   宣言(physics.kFrameApprox)の無い 0<kFrame<1 は**値をそのまま保持して受理**し、警告 1 行(`modeWarn_kFrameFraction` —— セーブ時の
+  //   `modeSaveWarnings` の "kFrameFraction" と同じ文)を出す。較正クラス(sampleClass:"calibration")でも同じ(受理して警告)。
+  //   宣言済み("space-mesh-effective"/"sample-only")の分数は警告なし。**予測に使わせない線は門ではなく判定に置く** —— 較正の判定器
+  //   (tests/exp-w249b-calaudit.mjs)が 0<kFrame<1 の本の行を母集団の合否に数えない。値域のクランプ(0 未満・1 超・非数)は上の CLAMPS 経路のまま。
+  //   返り値の `kFrameSnapped` は互換のため鍵を残し、常に null(丸めは起きない)。**力学には 1 バイトも接続しない**(内蔵の kFrame は {0,1})
+  if(ph.kFrame>0 && ph.kFrame<1 && KFRAME_APPROXES.indexOf(ph[KFRAME_APPROX_KEY])<0)
+    warnings.push(T("modeWarn_kFrameFraction")(ph.kFrame));
   // ===== 第259便a(第51報): geoPN=3(トイの測地線モード)の受理条件 =====
   // 第51報「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を検討する」。
   // **現行(第258便まで)の挙動**: CLAMPS geoPN:[0,2] が 3 を 2 へ丸め、警告 1 行(「値域に修正」)を出していた。
@@ -20741,7 +20737,7 @@ function validatePreset(obj){
       warnings.push('physics.geoPN=3・旧法則版 '+sm3.lawVersion+' と physics.spaceMesh.weave は宣言が矛盾しています(重複適用禁止)'
         +' —— 旧法則版を無効化し(weave の経路は宣言どおり)、測地線の法則 '+gm3.law+' で走ります');
   }
-  // 第291便c(R134): geoPN=1 ∧ kFrame≠0 は受理して警告 1 行(丸めの後の値 —— 上の拒否の撤去)
+  // 第291便c(R134): geoPN=1 ∧ kFrame≠0 は受理して警告 1 行(受理した値 —— 上の拒否の撤去。第293便a 以後は分数もそのままの値)
   if(geoModeOf(ph).mode===1 && ph.kFrame!==0)
     warnings.push('physics.geoPN=1(主に現実較正用・GR 1PN 準拠)に kFrame='+ph.kFrame+' —— geoPN=1 の主な用途は現実較正(kFrame=0)。kFrame≠0 は GR 1PN に引きずりを重ねた実験設定として走ります(走る法則 '+geoModeOf(ph).law+')');
   // 第291便c: geoPN≥1 の physics.geodesic:false は効かない(geoPN≥1 は測地線 ON)—— 宣言だけが残らないように知らせる
@@ -34421,7 +34417,7 @@ function loadSave(s, selValue){
   // 第291便c(原仮定者の裁定(第81報)⑥・R134): **読み替えを保存の版で分ける**。`modePolicy:"w291c-1"` の無い旧セーブは従来どおり kFrame=0 として読む
   // (第283便a からの挙動を変えない・通知 1 行は残す)。`modePolicy:"w291c-1"` 以後の保存は**値を保持**して読む(geoPN=1 ∧ kFrame≠0 は
   // GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)。保存した法則(lawResolved —— 情報)といま解決した法則が違えば 1 行知らせる(物理には使わない)
-  const modeNew=(s.modePolicy===MODE_POLICY_VERSION);
+  const modeNew=(MODE_POLICY_KEEP_VERSIONS.indexOf(s.modePolicy)>=0);   // 第293便a: w291c-1 と w293a-1 はどちらも値を保持
   if(!modeNew){ const gmS=geoModeOf(sim.params); if(gmS.mode===1 && !gmS.consistent){ sim.params.kFrame=0; notify(T("geoPN1SaveKF0"),6000); } }
   else if(typeof s.lawResolved==="string"){ const lawNow=geoModeOf(sim.params).law;
     if(lawNow!==s.lawResolved) setTimeout(()=>notify(T("modeLawMismatch")(s.lawResolved, lawNow),7000),1500); }
@@ -36945,7 +36941,9 @@ $("#btnSave").addEventListener("click",()=>{
   // 主な用途と違う組み合わせは**警告だけ**(保存は止めない・確認ボタンも強制補正も無し)—— 成功通知に含める
   item.modePolicy=MODE_POLICY_VERSION;
   item.lawResolved=geoModeOf(sim.params).law;
-  const modeW=modeSaveWarnings(sim.params);
+  // 第293便a(R141): 宣言 kFrameApprox は sim.params に無いことがある(実行中に UI で動かした値・既定へ戻した後など)ので、実行中プリセットの宣言を写して渡す
+  const kfDecl=(sim.params[KFRAME_APPROX_KEY]!==undefined)? sim.params[KFRAME_APPROX_KEY] : ((currentPreset && currentPreset.physics)? currentPreset.physics[KFRAME_APPROX_KEY] : undefined);
+  const modeW=modeSaveWarnings(Object.assign({},sim.params,{[KFRAME_APPROX_KEY]:kfDecl}));
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -37270,7 +37268,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - スピンは熱。高スピン粒子は近接時に斥力(圧力, kRep)を生む。衝突で速度が減衰しスピンに変わる(muF,gammaN)。スピンは近接拡散で平衡化する(kappaS)。粒子の色は温度(青=冷,赤=熱)。
 - pinned:true の粒子は動かずスピンも変わらない=熱浴になる。高スピンのpinned粒子はヒーター、スピン0のpinned粒子は冷却板として、接触摩擦とスピン拡散(kappaS)で周囲を加熱/冷却する。
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
-- 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの例外で、宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添えない限り最寄りの 0/1 へ丸められる)。背景決定力D0が大きいほど空間が安定する。
+- 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの実験設定で予測に使えない。書くなら宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添える —— 宣言の無い分数も値は保持されるが、読み込み時と保存時に警告が出る)。背景決定力D0が大きいほど空間が安定する。
 - 一様重力場: physics.gravityY>0 で画面全体に一様な下向きの外力場がかかる(gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
 - rays={"n":本数(0〜64の整数),"spread":広がり(0〜1)} を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ κ(kappaT)で決まり、κ が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き κ を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
@@ -37296,7 +37294,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜3(整数・主な用途の分類 —— 0=主に原理実証/1=主に現実較正・GR 1PN〔標準 kFrame=0〕/2=主に引きずり近似 q〔標準 kFrame=1〕/3=主に引きずり・慣性決定力で計算。標準と違う kFrame も受理し、保存時に警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜3(整数・主な用途の分類 —— 0=主に原理実証/1=主に現実較正・GR 1PN〔標準 kFrame=0〕/2=主に引きずり近似 q〔標準 kFrame=1〕/3=主に引きずり・慣性決定力で計算。標準と違う kFrame も受理し、保存時に警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -52432,8 +52430,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第275便a(第65報 (1)): 宣言の無い分数 kFrame の扱い(案B "snap" 既定 / 案A "reject")を
   // **測るための読み口**。QA・実験ハーネスが両案を同じ html で切り替えて比較する
   // (`bodyedit.minimize` の HP.beMinKeepLayerMode と同じ流儀)。**力学には接続しない**。
-  kFrameUndeclaredMode:(m)=>{ if(m!==undefined && KFRAME_UNDECLARED_MODES.indexOf(m)>=0) kFrameUndeclaredMode=m; return kFrameUndeclaredMode; },
-  KFRAME_APPROXES:()=>KFRAME_APPROXES.slice(), KFRAME_APPROXES_CALIBRATION:()=>KFRAME_APPROXES_CALIBRATION.slice(),
+  kFrameUndeclaredMode:()=>"keep",   // 第293便a(R141): 丸め/拒否のモードは撤去 —— 互換の stub(引数は無視・常に "keep")
+  KFRAME_APPROXES:()=>KFRAME_APPROXES.slice(),
   STAB_ESCAPE_MUL, STAB_DIVERGE_MUL,
   AI_EXAMPLE_DEFAULT_ID, presetForAIBase,   // 第181便: 暗黙の少数ショット例の固定先(AI_EXAMPLE_MAX は撤廃)
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)

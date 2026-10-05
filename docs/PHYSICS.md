@@ -29708,7 +29708,7 @@ a=0.5(2a=1)は境界で、幾何がわずかに動くので上界は 1 の直下
 
 出典: 原仮定者の裁定(第81報)⑥「測地線モードの整理 —— モードが違ってもセーブ時の警告以外の制限を無くす」・統括の検証項目 R134。geoPN は**アプリのモード番号**(標準理論の 2PN・3PN ではない)。
 
-**何を変えたか**: `geoPN` を「主な用途」の分類に改め、**走る法則は宣言から解決する**(`geoModeOf(...).law` —— 解決の表は下。`geoCoreDispatchBody` は同じ表で dispatch し、別モードへ黙ってフォールバックしない)。受理器 `validatePreset` から次の**拒否・丸め**を撤去し、警告にした: (i) geoPN=1 ∧ kFrame≠0 の拒否 → 警告(GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)/ (ii) geoPN=3 ∧ `sampleClass:"calibration"` の拒否 → 警告 / (iii) 旧法則版の宣言の無い geoPN=3 の 2 への丸め → 撤去(3 のまま受理・測地線 ON の基底で走る —— 旧来の丸めと同じ数値)/ (iv) 旧法則版の内部整合(トイ ∧ kFrame>0〔toyAllowDrag なし〕・トイ ∧ spaceMesh.inertia/weave・vMinusU ∧ kFrame>0)は二重計上の防止として残し、**拒否ではなく「宣言が矛盾している」の警告+旧法則版を無効化して走る**(無効化は `S.updateRadii` の入場条件の門 —— `S.geoToyDeny` と同じ式。宣言の値は書き換えない)。**変えなかったもの**: 分数 kFrame の丸め(第65報・第275便a —— kFrame の値域の契約でモードの制限ではない)・数値型と有限性と配列長の形式検査・vMinusU の輸送経路 `physics.meshVelocity` の欠落の拒否(契約の欠落)・spaceMesh の診断鍵の calibration での拒否(toyAllowDrag・centerSpin read・toyClosure iterate・band-pressure・mesh-v2)・1PN の源集合(`pnMassMin` 系)・E4・E6′・E7R・E8R・E2 の q 核・u=A/W・pairSlip・inertial の式。
+**何を変えたか**: `geoPN` を「主な用途」の分類に改め、**走る法則は宣言から解決する**(`geoModeOf(...).law` —— 解決の表は下。`geoCoreDispatchBody` は同じ表で dispatch し、別モードへ黙ってフォールバックしない)。受理器 `validatePreset` から次の**拒否・丸め**を撤去し、警告にした: (i) geoPN=1 ∧ kFrame≠0 の拒否 → 警告(GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)/ (ii) geoPN=3 ∧ `sampleClass:"calibration"` の拒否 → 警告 / (iii) 旧法則版の宣言の無い geoPN=3 の 2 への丸め → 撤去(3 のまま受理・測地線 ON の基底で走る —— 旧来の丸めと同じ数値)/ (iv) 旧法則版の内部整合(トイ ∧ kFrame>0〔toyAllowDrag なし〕・トイ ∧ spaceMesh.inertia/weave・vMinusU ∧ kFrame>0)は二重計上の防止として残し、**拒否ではなく「宣言が矛盾している」の警告+旧法則版を無効化して走る**(無効化は `S.updateRadii` の入場条件の門 —— `S.geoToyDeny` と同じ式。宣言の値は書き換えない)。**変えなかったもの**: 分数 kFrame の丸め(第65報・第275便a —— kFrame の値域の契約でモードの制限ではない。**第293便a で撤去** —— 〔第293便a〕)・数値型と有限性と配列長の形式検査・vMinusU の輸送経路 `physics.meshVelocity` の欠落の拒否(契約の欠落)・spaceMesh の診断鍵の calibration での拒否(toyAllowDrag・centerSpin read・toyClosure iterate・band-pressure・mesh-v2)・1PN の源集合(`pnMassMin` 系)・E4・E6′・E7R・E8R・E2 の q 核・u=A/W・pairSlip・inertial の式。
 
 **測地線の ON/OFF と基底**: geoPN≥1 は ON。geoPN=0 は新しい宣言鍵 `physics.geodesic:true` のときだけ ON(既定は無し=署名不変 —— `lambdaPN>0` だけでは ON と判定しない。geoPN=0 にも既定 1 がある)。ON ∧ kFrame=0 → `eih-kf0`(`_core` に 1 + EIH の差分 —— 第285便b の kF0 の役割)/ ON ∧ kFrame>0 → `vMinusU-q`(`_core` に 2 —— v−u 則)。geoPN=3 は旧法則版 `physics.spaceMesh.lawVersion`(scalar/local/complex/vMinusU)が入場条件を満たせば `legacy-spaceMesh:<lawVersion>`(数値は従来どおり)、旧法則版が走らず `physics.relativeDrag.law:"inertial"` を宣言していれば `inertial-drag`(第290便c の経路 —— どの geoPN でも走るので dispatch に式は足していない)、どちらでもなければ測地線 ON の基底。OFF は `newton`(kFrame>0 なら E6′ の追従キックが別に立つ —— `drag` 欄)。
 
@@ -29951,6 +29951,29 @@ r=x_j−x_i・V は相対速度(velocity:"v" は v_j−v_i〔既定〕・"xdot" 
 
 **書かないこと。** 「月の後退率を再現した」「地球の自転の減速の観測値を再現した」「全系の保存則が閉じた」「交差項が GR の高次 PN に当たる」「観測一致を達成した」「較正を完了した」「新発見」とは書かない。physics.backgroundTidal を力へ昇格させない。銀河・形状トイ・光学迷彩矮星・disk/ring へ明示潮汐を足さない。代表粒子の平滑化長を R⁵ に入れない。
 
+〔第293便a — 分数 kFrame の保持便(宣言の無い 0<kFrame<1 の読み込み時の 0/1 への書き換えと較正クラスでの拒否を撤去・値を保持して読み込み時と保存時に警告・予測に使わせない線は較正の判定器へ)(**物理は 1 bit も変えていない** —— 内蔵 152 本は bitsame **152/152**・sigsame **152/152**・`S._core` 35197 字のまま)〕
+
+出典: 原仮定者の裁定(第83報)「分数 kFrame の丸めは撤去する。セーブ時と同様に警告を出す」・統括の検証項目 R141(AN159 を閉じる)。第275便a〔原仮定者の裁定(第65報)(1)〕の契約(上の〔第275便a〕の節)は**履歴**として残し、ここに現行の契約を書く。サンプル JSON の標準が kFrame=0 か 1 であること(分数の補正はそのサンプル限りで予測に使えない)は変えていない。変えたのは**受理の仕方**だけである。
+
+**① 現行の契約(受理器 `validatePreset`)。**
+
+- 宣言 `physics.kFrameApprox` の無い `0<kFrame<1` は**値をそのまま保持して受理**し、warnings に 1 行(`modeWarn_kFrameFraction` —— 「分数 kFrame=… を保持します。実験設定であり、現実較正の合否は別に判定します(予測には使えません…)」)を出す。
+- `sampleClass:"calibration"`(現実較正クラス)でも同じ —— 第273便b の「宣言なしの分数は拒否」と、第275便a の「較正で `"sample-only"` は拒否」(`KFRAME_APPROXES_CALIBRATION`)を撤去した。
+- 宣言つき(`"space-mesh-effective"`/`"sample-only"`)の分数は警告なし。不正な宣言値は従来どおり警告して宣言だけを削除する(その分数は宣言なしとして警告)。
+- 値域のクランプ(0 未満・1 超・非数 —— 第273便b の第1層)は変えていない。返り値の `kFrameSnapped` は互換のため鍵を残し**常に null**。
+- モード切替 `KFRAME_UNDECLARED_MODES`/`kFrameUndeclaredMode` は撤去。`HP.kFrameUndeclaredMode()` は互換の stub(引数を無視して常に `"keep"` —— 書き換え・拒否の旧動作は復活しない)。器 `tests/exp-w275a-kfgate.mjs`(2 案の切替の実測)は現行の html では測れないので、鎖の表で**履歴**(再生成しない)にした —— 正本 `tests/out/kfgate-w275a.json` は第275便a の記録のまま。
+
+**② 保存時の警告。** `modeSaveWarnings` に 5 本目の code **`kFrameFraction`**(`0<kFrame<1` ∧ 入力の `kFrameApprox` が受理値でない)を足した。文は読み込み時の警告と同じ。`#btnSave` は実行中プリセットの `physics.kFrameApprox` を引数へ写す(`sim.params` に宣言が無いときの補い)。保存の版 `MODE_POLICY_VERSION` は **`w293a-1`**(〔第291便c〕の `w291c-1` の保存も値を保持して読む —— 読み替えの対象は従来どおり `modePolicy` の無い旧セーブだけ)。geoPN と kFrame の組の 4 本の警告(〔第291便c〕の表)は変えていない(表の kFrame は 0 と 1 なので表の行は 1 文字も動かない)。
+
+**③ 予測に使わせない線は判定に置く。** 較正の判定器 `tests/exp-w249b-calaudit.mjs` に 1 条件を足した: 行の測定条件(`measurementContextOf` —— 診断コピーの上書きがあればその kFrame・無ければ本の kFrame)が `0<kFrame<1` なら、その行は**母集団の合否に数えない**(`kFrameFraction:true` を注記・5 区分を `転`・門を `未判定` —— 条件不一致 `条` の行はそのまま。元の判定と門の状態は `kFrameFractionEvidence` に残し、行は消さない。一覧は `out.kFrameFraction`)。内蔵の kFrame は {0,1} なので当たる行は 0 —— 5 区分 合 52/窓 0/否 4/従 2/転 126/条 0 と 4 値(合 0・量限定合 2・否 1・保留 17)は既存の正本の再判定(`--regate`)で変わらない。器のコードが変わったので calaudit は鎖で再生成する(常時群)。
+
+**④ 旧版で書き換えられた値は戻らない。** 第275便a〜第292便の版で読み込み時に 0/1 へ書き換えられ、そのまま保存・書き出しされた値は、元の分数の記録を持たないので本便の版で読んでも 0/1 のままである。UI のスライダーで置いた分数は従来から書き換えていない(保存の非対称は無くなった —— 読み込みも保存も値を保持して警告)。
+
+**⑤ 確認。** 内蔵 152 本: bitsame **152/152**(600 步の指紋)・sigsame **152/152**・jitprobe ×0.81〜×1.04(galaxyGeo2 ×1.04・bhCore ×0.92・galaxyMeshSpiral ×0.93・gw150914DFM ×0.81)(門 1.5×)・`S._core` 35197 字。QA: 新設 **`behavior.kFrameKeep293`**(4 モード × 2 分類 × 3 分数 × 3 用途注記の 72 組で値保持・警告の有無・JSON の往復・kFrame=0/1 の 48 組は無警告・内蔵の受理後データ不変)と、中身を新契約へ改めた `preset.kframe-binary-default`・`preset.kframe-calib-declared`・`preset.kframe-unitInterval`・`preset.modeNoRestriction`・`behavior.modeSaveWarnings`・`behavior.loadSaveModePolicy`(root は旧契約のまま —— SKIP / 旧期待)。
+
+**決断事項候補。** ① 旧版で 0/1 に書き換えられた値は復元できない(本節 ④ に明記 —— 救済の経路を作るか)② 警告の文言(読み込み時と保存時で同じ文)③ 較正の判定器での除外の書き方(行を残して `転` にする —— 行を母集団から消す案は採らなかった)④ 較正クラスで `"sample-only"` を宣言した分数は無警告で受理する(宣言済みの近似として扱う —— 判定器は宣言の有無にかかわらず除く)。
+
+**書かないこと。** 「分数 kFrame で現実を再現した」「較正の合に数えた」「分数の kFrame が予測に使える」。
 
 〔第293便e — 引きずりの合成則便(`physics.relativeDrag.compose:"sum"|"solve"` —— 共通の移動速度を自己無撞着に解く法則版の候補・v の意味の宣言 `solveFrom`・🐌/🌛 での比較と solve 版 C_d の別のフィット〔採用値にしない〕)(**既存 152 本は 1 bit 不変** —— 未宣言は既定 "sum" = 現行で bitsame **152/152**・sigsame **152/152**〔差分 ID なし・新しい本は足していない〕・`S._core` 35197 字のまま)〕
 
@@ -30023,7 +30046,7 @@ r=x_j−x_i・V は相対速度(velocity:"v" は v_j−v_i〔既定〕・"xdot" 
 
 - 源だけを有限にする構造核(受け手は点)では m_i a_ij ≠ m_j a_ji で、Σ m u は合成則に依らず同じ桁で残る。相反な結合(点源)では sum も solve も Σ m u = 0(丸め)—— solve でも Σ_i m_i (L u)_i = 0 が成り立つので。相反性を回復するには受け手も有限球にする必要がある(未決)。
 
-**⑧ 器と正本。** 器 tests/exp-w293e-compose.mjs(子プロセス 3 本・環境変数 W293E_OUT・W293E_WORKERS)・純関数 tests/lib-w293e-compose.mjs・正本 tests/out/compose-w293e.json(鎖の段 compose293 —— dragcore292 の後)。QA `behavior.composeGate`(未宣言の内蔵に鍵が無い・純関数 8 項・受理・エンジン≡純関数・非相反 —— 作り直して正本と照合)・`docs.composeContract`(この節の表が正本から作った行と同文)。鍵は docs/AI_SPEC.md §47。決断事項の候補: v の意味(history か velocity)・反復の既定・法則版を既定にする時期(フィットの再走が要る)・受け手も有限球にして相反性を回復するか。回転引きずり(Ω)は本便では足していない。
+**⑧ 器と正本。** 器 tests/exp-w293e-compose.mjs(子プロセス 3 本・環境変数 W293E_OUT・W293E_WORKERS)・純関数 tests/lib-w293e-compose.mjs・正本 tests/out/compose-w293e.json(鎖の段 compose293 —— dragcore292 の後)。QA `behavior.composeGate`(未宣言の内蔵に鍵が無い・純関数 8 項・受理・エンジン≡純関数・非相反 —— 作り直して正本と照合)・`docs.composeContract`(この節の表が正本から作った行と同文)。鍵は docs/AI_SPEC.md §48。決断事項の候補: v の意味(history か velocity)・反復の既定・法則版を既定にする時期(フィットの再走が要る)・受け手も有限球にして相反性を回復するか。回転引きずり(Ω)は本便では足していない。
 
 **書かないこと。** 「正しい合成則である」と断定しない(法則版の候補)。「既定を差し替えた」とは書かない(既定は "sum" のまま)。「月を再現した」「較正 合」「C_d は普遍定数である」「全系の保存則が閉じた」「摂動の記憶を示した」「GR の何 PN と同定した」と書かない。solve 版のフィットの gain を 🌛 の宣言へ移さない。
 

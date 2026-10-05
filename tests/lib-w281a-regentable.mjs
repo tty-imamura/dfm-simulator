@@ -284,7 +284,10 @@ export const REGEN_STEPS = [
   S('shapecrit', 'node tests/exp-w275d-shapecrit.mjs', ['tests/out/shapecrit-w275d.json'], 106, { secSource: 'w281a-chain' }),
   S('dyncenter', 'node tests/exp-w275d-dyncenter.mjs', ['tests/out/dyncenter-w275d.json'], 5),
   S('powerball', 'node tests/exp-w275e-powerball.mjs', ['tests/out/powerball-w275e.json'], 3),
-  S('kfgate', 'node tests/exp-w275a-kfgate.mjs', ['tests/out/kfgate-w275a.json'], 1),
+  // 第293便a(原仮定者の裁定(第83報)・統括の検証項目 R141): 分数 kFrame の案A(拒否)/案B(寄せる)のモード切替を撤去した —— この器は 2 案を同じ html で
+  //   切り替えて測る第275便a の記録で、現行の html では 2 案が同じ挙動(値を保持して警告)になり記録の意味を持たない。**履歴**(再生成しない —— 正本は第275便a の走行のまま)
+  S('kfgate', 'node tests/exp-w275a-kfgate.mjs', ['tests/out/kfgate-w275a.json'], 1, { role: 'history', secSource: '履歴(第293便a で登録 —— 走らせない)',
+    note: '第293便a(第83報・R141): 分数 kFrame の 2 案の切替を撤去した後の html では測れない第275便a の記録。**再生成しない**(計画は常に「履歴」)' }),
   S('presetaxes', 'node tests/exp-w275a-presetaxes.mjs', ['tests/out/presetaxes-w275a.json'], 1),
   S('bgfield', 'node tests/exp-w276a-bgfield.mjs', ['tests/out/bgfield-w276a.json'], 1),
   S('d0audit2', 'node tests/exp-w276a-d0audit2.mjs', ['tests/out/d0sites-w276a.json'], 2),
@@ -699,8 +702,9 @@ export const REGEN_STEPS = [
  * samplestatus の上流(calaudit・dt3・kf0・charonwin)と、samplestatus が読む正本の書き手は含めない(循環を作らない)。
  * 検出は `tableDepsAudit` の `beforeSamplestatus`(正本の meta から引き直す —— 新しい段が足されても見落とさない)。
  */
+// 第293便a(R141): kfgate は履歴(再生成しない)へ移したので外した(履歴の段は計画に乗らず samplestatus の前後を問わない)
 export const W285F_AFTER_SAMPLESTATUS = ['bh90', 'd0audit', 'qsplit', 'twobody', 'rpar', 'nslockledger', 'bhcore', 'galaxylite', 'galaxyprof2',
-  'meshnod0', 'kfgate', 'presetaxes', 'bgfield', 'd0audit2', 'bgpredict', 'selfinertia', 'slipaudit', 'bgbudget', 'bgcompose', 'sphereKernel',
+  'meshnod0', 'presetaxes', 'bgfield', 'd0audit2', 'bgpredict', 'selfinertia', 'slipaudit', 'bgbudget', 'bgcompose', 'sphereKernel',
   'galaxyprof', 'needmesh', 'kf0ledger-old', 'kf0ledger', 'galaxychain', 'rotorledger', 'strain'];
 for (const st of REGEN_STEPS) if (W285F_AFTER_SAMPLESTATUS.includes(st.key) && !(st.after || []).includes('samplestatus')) st.after = (st.after || []).concat(['samplestatus']);
 // 第288便f(AN90): samplestatus の後に置いた段(書いた後の html・一覧 md を読む)は、集約段 htmlagg の後へ(html は集約段が 1 回だけ書く)

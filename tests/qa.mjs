@@ -33010,6 +33010,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         hasClaims: vcp.ok ? (vcp.preset.claims !== undefined) : null,
         srcUntouched: before === after };
       // ④ 根が挟まれているか(8 近点窓の実測・2 点だけ)
+      const kApplied = [];   // 第293便a(R141): 受理器が通した kFrame(分数を保持する世代では 0.2 のまま)
       const omegaDot = (f, kF) => {
         const p = JSON.parse(JSON.stringify(src));
         p.id = 'w264aQaRun'; p.sampleClass = 'principle';
@@ -33017,6 +33018,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         p.physics.kFrame = kF;
         p.bodies.forEach((b, i) => { b.m = BASE[i] * f; if (b.core) b.core.massFrac = (f - 1) / f; });
         const v = HP.validatePreset(p); if (!v.ok) return null;
+        kApplied.push(v.preset.physics.kFrame);
         const S = HP.sim; S.build(v.preset);
         // 近点の**方位**(近点方向)を実時刻へ回帰する —— 累積公転角ではない。
         // 位相制限 1.5π は tests/lib-precision-diagnostics.mjs の検出器と同じ宣言である。
@@ -33048,7 +33050,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         return sxy / sxx * 180 / Math.PI / unitSec * 31557600;
       };
       const wLo = omegaDot(1.2, 0.2), wHi = omegaDot(2.0, 1.0);
-      return { h2ref: h2ref && h2ref.h2.value, h2free: h2free && h2free.h2.value,
+      return { kApplied, h2ref: h2ref && h2ref.h2.value, h2free: h2free && h2free.h2.value,
         h1led: h1led && { v: h1led.h1.value, c: h1led.h1.circular },
         h1none: h1none && { v: h1none.h1.value, c: h1none.h1.circular },
         h1ok: h1ok && { v: h1ok.h1.value, c: h1ok.h1.circular },
@@ -33060,6 +33062,9 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
     }, { wObs: kjRow ? kjRow.value : null });
     const near = (a, b, tol) => a !== null && Number.isFinite(a) && Math.abs(a - b) <= tol;
     const has285bKJ = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
+    // 第293便a(原仮定者の裁定(第83報)・R141): 世代切替 —— 受理器は宣言の無い分数 kFrame を値のまま受理する(読み込み時の 0 への書き換えを撤去)。
+    //   k=0.2 の診断コピーは k=0.2 のまま v−u 則で走るので、第264便a の契約「2 点が観測を跨ぐ」へ戻る(受理した kFrame が 0.2 であることも見る)
+    const has293aKJ = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('"geo3NoInertial","kFrameFraction"]') >= 0;
     const CK = {
       h2ref: near(r.h2ref, 0.7, 1e-12),
       h2free: near(r.h2free, 1 - 1 * 0.24 * 0.8 / 1.3, 1e-12),
@@ -33080,7 +33085,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       // 第285便b(原仮定者の裁定(第75報)⑦・R97): **固定値を変えた** —— k=0.2 の走行は受理器が kFrame を 0 に丸める(分数は宣言が要る)ので
       //   kF0 の役割(EIH 型)で走る。f=1.2 の質量で GR の 1PN を積むと観測を上回る(第285便b の実測 24.16 °/yr —— 基点 5.77)。
       //   旧則の「跨ぐ」は kF0 の 1PN の 1/6 の不足に依っていたので、第285便b の世代では「両端とも観測より上」を記録として固定する
-      bracket: has285bKJ ? (Number.isFinite(r.wLo) && Number.isFinite(r.wHi) && r.wLo > r.wObs && r.wHi > r.wObs) : r.brackets === true };
+      bracket: has293aKJ ? (JSON.stringify(r.kApplied) === '[0.2,1]' && Number.isFinite(r.wLo) && Number.isFinite(r.wHi) && r.brackets === true)
+        : has285bKJ ? (Number.isFinite(r.wLo) && Number.isFinite(r.wHi) && r.wLo > r.wObs && r.wHi > r.wObs) : r.brackets === true };
     const bad = Object.keys(CK).filter((k) => !CK[k]);
     add('behavior.kJointRoot', bad.length === 0,
       (bad.length ? `不成立=[${bad.join(',')}] ` : '')
@@ -33095,7 +33101,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       + `本体は 1 bit 不変=${r.copy && r.copy.srcUntouched} / `
       + `④ ⚡ 8 近点窓 ω̇: k=0.2/f=1.2 で ${r.wLo === null ? '—' : r.wLo.toFixed(4)}・`
       + `k=1.0/f=2.0 で ${r.wHi === null ? '—' : r.wHi.toFixed(4)} が観測 ${r.wObs} °/yr を跨ぐ=${r.brackets}`
-      + (has285bKJ ? '(第285便b: k=0.2 は受理器が kFrame=0 へ丸め kF0 の EIH 型で走る —— f=1.2 の質量では観測を上回るので「両端とも観測より上」を記録として固定。'
+      + (has293aKJ ? `(第293便a: 受理した kFrame=${JSON.stringify(r.kApplied)} —— k=0.2 は分数のまま v−u 則で走る〔第285便b〜第292便は 0 へ寄せて kF0 の EIH 型で走り「両端とも観測より上」だった〕)`
+        : has285bKJ ? '(第285便b: k=0.2 は受理器が kFrame=0 へ丸め kF0 の EIH 型で走る —— f=1.2 の質量では観測を上回るので「両端とも観測より上」を記録として固定。'
         + '旧則の跨ぎは kF0 の 1PN の 1/6 の不足に依っていた)' : '')
       + `(**跨ぐことは根が 0.7 だという意味ではない** — 根は器 tests/exp-w264a-kjoint.mjs が出す)`);
   } else {
@@ -45613,6 +45620,50 @@ if (!FAST) {
           res.kfBinDeclSig = presetSig(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'))
             !== presetSig(mk({ kFrame: 0.5, kFrameApprox: ONLY }, 'principle'));
         }
+        // ---- 第293便a(原仮定者の裁定(第83報)「分数 kFrame の丸めは撤去する。セーブ時と同様に警告を出す」・統括の検証項目 R141):
+        //   世代切替 kf293 = MODE_SAVE_WARN_CODES に "kFrameFraction" がある html。宣言の無い 0<kFrame<1 は**値を保持して警告 1 行**・
+        //   較正クラスでも受理(宣言 "sample-only" も受理)・モード切替は撤去(HP.kFrameUndeclaredMode は常に "keep" の stub)
+        res.kf293 = (typeof MODE_SAVE_WARN_CODES !== 'undefined') && MODE_SAVE_WARN_CODES.indexOf('kFrameFraction') >= 0;
+        if (res.kf293) {
+          const ONLY = 'sample-only';
+          const fw = (k) => T('modeWarn_kFrameFraction')(k);
+          const probe = (phy, cls) => {
+            const v = HP.validatePreset(mk(phy, cls));
+            const k0 = (typeof phy.kFrame === 'number') ? phy.kFrame : null;
+            return { ok: v.ok, k: v.ok ? v.preset.physics.kFrame : null,
+              decl: v.ok ? (v.preset.physics.kFrameApprox === undefined ? null : v.preset.physics.kFrameApprox) : null,
+              warn: v.warnings.length,
+              kWarn: v.warnings.filter((w) => String(w).indexOf('kFrame') >= 0).length,
+              fracWarn: v.warnings.filter((w) => w === fw(k0)).length,
+              snapped: v.kFrameSnapped === undefined ? 'absent' : v.kFrameSnapped };
+          };
+          const modeBefore = HP.kFrameUndeclaredMode();
+          const modeAfterSnap = HP.kFrameUndeclaredMode('snap');   // stub: 引数は無視
+          const modeAfterReject = HP.kFrameUndeclaredMode('reject');
+          res.kfKeep = { modeBefore, modeAfterSnap, modeAfterReject,
+            undeclConst: typeof KFRAME_UNDECLARED_MODES !== 'undefined',
+            calConst: typeof KFRAME_APPROXES_CALIBRATION !== 'undefined',
+            calAccessor: !!HP.KFRAME_APPROXES_CALIBRATION,
+            lo: probe({ kFrame: 0.4 }, 'principle'), hi: probe({ kFrame: 0.6 }, 'principle'),
+            half: probe({ kFrame: 0.5 }, 'principle'), noClass: probe({ kFrame: 0.2 }, null),
+            declSme: probe({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'),
+            declOnly: probe({ kFrame: 0.5, kFrameApprox: ONLY }, 'principle'),
+            calPlain: probe({ kFrame: 0.5 }, 'calibration'),
+            calSme: probe({ kFrame: 0.5, kFrameApprox: DEC }, 'calibration'),
+            calOnly: probe({ kFrame: 0.5, kFrameApprox: ONLY }, 'calibration'),
+            calBadDecl: probe({ kFrame: 0.5, kFrameApprox: 'yes' }, 'calibration'),
+            calOnly1: probe({ kFrame: 1, kFrameApprox: ONLY }, 'calibration'),
+            k0: probe({ kFrame: 0 }, 'principle'), k1: probe({ kFrame: 1 }, 'principle'),
+            cal0: probe({ kFrame: 0 }, 'calibration'), cal1: probe({ kFrame: 1 }, 'calibration') };
+          // **内蔵は 1 本もこの警告に当たらない**(受理の結果 ok・kFrame 不変・分数の警告 0)
+          res.kfKeep.builtinHit = bis.filter((q) => {
+            const v = HP.validatePreset(JSON.parse(JSON.stringify(q)));
+            return !v.ok || v.preset.physics.kFrame !== q.physics.kFrame || v.kFrameSnapped !== null
+              || v.warnings.some((w) => /分数 kFrame=.* を保持します/.test(String(w)));
+          }).map((q) => q.id);
+          res.kfKeep.declSig = presetSig(mk({ kFrame: 0.5, kFrameApprox: DEC }, 'principle'))
+            !== presetSig(mk({ kFrame: 0.5, kFrameApprox: ONLY }, 'principle'));
+        }
         // ②′ 第275便b(原仮定者の裁定〔第65報〕(2)): **physics.D0Source の受理契約**。
         //    裁定「D₀ は『何を背景とするか』でサンプル毎に変わる」を**宣言できる鍵**にしただけで、
         //    **エンジンのどの経路からも読まれない**(値は従来どおり physics.D0 / D0pull が持つ)。
@@ -45889,11 +45940,33 @@ if (!FAST) {
         + (bin ? ` —— **第275便a(第65報)の二値既定契約**で、宣言鍵の無い分数は最寄りの {0,1} へ`
             + `丸められる〔k<0.5→0 / k≥0.5→1〕。**値域の検査を弱めたのではなく、受理の契約が`
             + `二値へ進んだ**(門の実測は preset.kframe-binary-default)`
+          : r.kf293 ? ' —— **第293便a(原仮定者の裁定(第83報)・R141)**: 宣言の無い分数は値を保持して警告 1 行(門の実測は preset.kframe-binary-default・behavior.kFrameKeep293)'
           : ' —— 第275便a 未適用の世代: 分数はそのまま受理される') + `)`
         + `/ k=1.5 は**上限 1 へクランプして警告**(AA2 維持)=${r.kfGate.overK}・警告あり=${r.kfGate.overWarn}`
         + `/ 非数は致命拒否=${r.kfGate.nonNumOk === false}`
         + (r.kfBad.length ? ` / **違反**: ${r.kfBad.join(',')}` : ''));
     }
+    // 第293便a(原仮定者の裁定(第83報)・R141): 名前は残し中身を新契約へ —— 較正クラスでも分数は**受理して値を保持・警告 1 行**(宣言つきは警告なし)。
+    //   不正な宣言値は宣言だけ削除して(警告)分数の警告も出す・"sample-only" も較正で受理。root(kf293 の無い世代)は従来の期待のまま
+    if (r.kf293) {
+      const K = r.kfKeep;
+      const okC = r.kfCalFrac.length === 0
+        && K.calPlain.ok === true && K.calPlain.k === 0.5 && K.calPlain.fracWarn === 1
+        && K.calSme.ok === true && K.calSme.k === 0.5 && K.calSme.decl === 'space-mesh-effective' && K.calSme.fracWarn === 0
+        && K.calOnly.ok === true && K.calOnly.k === 0.5 && K.calOnly.decl === 'sample-only' && K.calOnly.fracWarn === 0
+        && K.calOnly1.ok === true && K.calOnly1.k === 1 && K.calOnly1.decl === 'sample-only'
+        && K.calBadDecl.ok === true && K.calBadDecl.k === 0.5 && K.calBadDecl.decl === null && K.calBadDecl.fracWarn === 1
+        && K.cal0.ok === true && K.cal0.warn === 0 && K.cal1.ok === true && K.cal1.warn === 0
+        && r.kfGate.calDecl === true && r.kfGate.declKept === 'space-mesh-effective';
+      add('preset.kframe-calib-declared', okC,
+        `**較正クラスの分数 kFrame**(第293便a・原仮定者の裁定(第83報)・R141 —— 第273便b の「宣言なしの分数は拒否」と第275便a の「較正で sample-only は拒否」を撤去): `
+        + `sampleClass:"calibration" ${r.kfCalN} 本 / 内蔵の較正で分数を書いている本数=${r.kfCalFrac.length} / `
+        + `宣言なしの 0.5 は受理=${K.calPlain.ok}・値 ${K.calPlain.k}・分数の警告 ${K.calPlain.fracWarn} 行 / `
+        + `"space-mesh-effective" は受理・警告 ${K.calSme.fracWarn} / "sample-only" も受理=${K.calOnly.ok}(値 ${K.calOnly.k}・警告 ${K.calOnly.fracWarn})/ `
+        + `不正な宣言値 "yes" は宣言を削除して受理=${K.calBadDecl.ok}(値 ${K.calBadDecl.k}・分数の警告 ${K.calBadDecl.fracWarn})/ k=0/1 は無警告=${K.cal0.warn === 0 && K.cal1.warn === 0} / `
+        + `宣言鍵は presetSig に入る=${r.kfSigDiff}(予測に使わせない線は判定器 calaudit の kFrameFraction 注記で引く)`
+        + (r.kfCalBad.length ? ` / 内蔵の較正で宣言の無い分数: ${r.kfCalBad.join(',')}` : ''));
+    } else
     add('preset.kframe-calib-declared',
       !r.kfApproxGen || (r.kfCalBad.length === 0 && r.kfGate.calPlain === false && r.kfGate.calDecl === true
       && r.kfGate.declKept === 'space-mesh-effective' && r.kfGate.calBadDecl === false
@@ -45925,7 +45998,33 @@ if (!FAST) {
     //     ⑥ 2 つの宣言値は **presetSig が違う**(宣言した瞬間に別のプリセットになる — AI20)。
     //     ⑦ **内蔵は既定経路でこの門に 1 本も当たらない**(丸め 0 本・拒否 0 本)。
     //   **root(第275便a 未適用)は SKIP**(世代判定は定数 KFRAME_UNDECLARED_MODES の有無で行う)。
-    if (!r.kfBinGen) {
+    //   **第293便a(原仮定者の裁定(第83報)・R141)**: 名前は残し中身を新契約へ(kf293 の世代)。固定するのは ① 内蔵 ⊆ {0,1}
+    //     ② 宣言の無い 0<k<1 は**値を保持**して分数の警告 1 行(kFrameSnapped は null)③ モード切替の撤去(定数が無い・stub は常に "keep"・
+    //     'snap'/'reject' を渡しても挙動は同じ)④ 宣言つきの分数は値と宣言を保ち警告なし ⑤ 較正クラスも受理(宣言なしは警告・宣言つきは無警告)
+    //     ⑥ 2 つの宣言値で presetSig が違う ⑦ 内蔵は 1 本も当たらない ⑧ k=0/1 は無警告。
+    if (r.kf293) {
+      const K = r.kfKeep;
+      const valuesOk = r.kfValues.every((v) => v === 0 || v === 1) && r.kfCalFrac.length === 0;
+      const keepOk = [['lo', 0.4], ['hi', 0.6], ['half', 0.5], ['noClass', 0.2]].every(([key, kv]) => K[key].ok && K[key].k === kv
+        && K[key].fracWarn === 1 && K[key].kWarn === 1 && K[key].snapped === null);
+      const modeGone = K.undeclConst === false && K.modeBefore === 'keep' && K.modeAfterSnap === 'keep' && K.modeAfterReject === 'keep'
+        && K.calConst === false && K.calAccessor === false;
+      const declOk = K.declSme.ok && K.declSme.k === 0.5 && K.declSme.decl === 'space-mesh-effective' && K.declSme.fracWarn === 0
+        && K.declOnly.ok && K.declOnly.k === 0.5 && K.declOnly.decl === 'sample-only' && K.declOnly.fracWarn === 0;
+      const calOk = K.calPlain.ok && K.calPlain.k === 0.5 && K.calPlain.fracWarn === 1
+        && K.calSme.ok && K.calSme.fracWarn === 0 && K.calOnly.ok && K.calOnly.fracWarn === 0;
+      const binaryOk = K.k0.ok && K.k0.k === 0 && K.k0.warn === 0 && K.k1.ok && K.k1.k === 1 && K.k1.warn === 0;
+      const builtinClean = K.builtinHit.length === 0;
+      add('preset.kframe-binary-default',
+        valuesOk && keepOk && modeGone && declOk && calOk && K.declSig === true && builtinClean && binaryOk,
+        `**分数 kFrame の保持**(第293便a・原仮定者の裁定(第83報)「分数 kFrame の丸めは撤去する。セーブ時と同様に警告を出す」・R141 —— 第275便a の二値既定契約の`
+        + `読み込み時の書き換えと拒否を撤去)/ ① 内蔵 ${r.kfN} 本の kFrame ⊆ {0,1}=${valuesOk}(実測 ${JSON.stringify(r.kfValues)})`
+        + ` / ② 宣言の無い分数は値を保持: 0.4→${K.lo.k}・0.6→${K.hi.k}・0.5→${K.half.k}・0.2(クラス無し)→${K.noClass.k}・分数の警告 1 行=${keepOk}・kFrameSnapped=${JSON.stringify(K.lo.snapped)}`
+        + ` / ③ モード切替の撤去=${modeGone}(HP.kFrameUndeclaredMode() は ${JSON.stringify(K.modeBefore)})`
+        + ` / ④ 宣言つきの分数は値と宣言を保ち警告なし=${declOk} / ⑤ 較正クラスも受理(宣言なしは警告 1 行・宣言つきは無警告)=${calOk}`
+        + ` / ⑥ 2 つの宣言値で presetSig が違う=${K.declSig} / ⑦ 内蔵はこの警告に 1 本も当たらない(当たり ${K.builtinHit.length} 本) / ⑧ k=0・k=1 は無警告=${binaryOk}`
+        + (builtinClean ? '' : ` / **違反(内蔵)**: ${K.builtinHit.slice(0, 5).join(',')}`));
+    } else if (!r.kfBinGen) {
       console.log('SKIP preset.kframe-binary-default(第275便a 未適用 — 対象に KFRAME_UNDECLARED_MODES なし)');
     } else {
       const B = r.kfBin, sn = B.snap, rj = B.reject;
@@ -66962,8 +67061,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // 第291便c(原仮定者の裁定(第81報)⑥・R134): **固定値を変えた** —— geoPN=1∧kFrame≠0 の拒否を撤去(受理+主な用途の警告 1 行・値は保持)。
       //   分数は他のモードと同じ第65報の丸め(0.3 → 0 —— 丸めた後は標準構成なので主な用途の警告は出ない)・未記入は既定 kFrame=1 を受理して警告
       const has291cV = await page.evaluate(() => typeof modeSaveWarnings === 'function');
+      // 第293便a(原仮定者の裁定(第83報)・R141): **固定値を変えた** —— 分数は書き換えず値を保持(0.3 のまま・分数の警告と主な用途の警告)
+      const has293aV = await page.evaluate(() => typeof MODE_SAVE_WARN_CODES !== 'undefined' && MODE_SAVE_WARN_CODES.indexOf('kFrameFraction') >= 0);
       const okV = { g1k1: has291cV ? (v.g1k1.ok === true && v.g1k1.use1 && v.g1k1.kFrame === 1 && v.g1k1.geoPN === 1) : (v.g1k1.ok === false && !!v.g1k1.err && /原仮定者の裁定/.test(v.g1k1.err)),
-        g1k03: has291cV ? (v.g1k03.ok === true && !!v.g1k03.snapped && v.g1k03.snapped.to === 0 && v.g1k03.kFrame === 0 && !v.g1k03.use1) : (v.g1k03.ok === false && v.g1k03.snapped === null),
+        g1k03: has293aV ? (v.g1k03.ok === true && v.g1k03.snapped === null && v.g1k03.kFrame === 0.3 && v.g1k03.use1)
+          : has291cV ? (v.g1k03.ok === true && !!v.g1k03.snapped && v.g1k03.snapped.to === 0 && v.g1k03.kFrame === 0 && !v.g1k03.use1) : (v.g1k03.ok === false && v.g1k03.snapped === null),
         g1kDef: has291cV ? (v.g1kDef.ok === true && v.g1kDef.use1) : v.g1kDef.ok === false, g1k0: v.g1k0.ok === true && v.g1k0.nw === 0 && v.g1k0.compat === null,
         g2k0: v.g2k0.ok === true && v.g2k0.nw === 1 && v.g2k0.compatW && !!v.g2k0.compat && v.g2k0.compat.builtinPending === false && v.g2k0.geoPN === 2 && v.g2k0.kFrame === 0,
         g2k0b: v.g2k0b.g284
@@ -66971,7 +67073,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           : (v.g2k0b.ok === true && v.g2k0b.nw === 0 && !!v.g2k0b.compat && v.g2k0b.compat.builtinPending === true),
         g2k1: v.g2k1.ok === true && v.g2k1.nw === 0 && v.g2k1.compat === null, g0k1: v.g0k1.ok === true && v.g0k1.kFrame === 1 && v.g0k1.geoPN === 0 };
       for (const [k, ok] of Object.entries(okV)) if (!ok) bad.push('② 受理器の契約 ' + k + ' が崩れた: ' + JSON.stringify(v[k]).slice(0, 120));
-      cases.push(has291cV ? '受理器(第291便c): geoPN=1∧kFrame≠0 は受理+主な用途の警告(分数は第65報の丸め・未記入の既定 1 も受理)・geoPN=2∧kFrame=0 は互換(内蔵でない入力は警告 1 行)・geoPN=0 の kFrame は不変'
+      cases.push(has293aV ? '受理器(第291便c・第293便a): geoPN=1∧kFrame≠0 は受理+主な用途の警告(分数 0.3 は値を保持して分数の警告も・未記入の既定 1 も受理)・geoPN=2∧kFrame=0 は互換(内蔵でない入力は警告 1 行)・geoPN=0 の kFrame は不変'
+        : has291cV ? '受理器(第291便c): geoPN=1∧kFrame≠0 は受理+主な用途の警告(分数は第65報の丸め・未記入の既定 1 も受理)・geoPN=2∧kFrame=0 は互換(内蔵でない入力は警告 1 行)・geoPN=0 の kFrame は不変'
         : '受理器: geoPN=1∧kFrame≠0 を拒否(分数も丸めない・未記入の既定 1 も拒否)・geoPN=2∧kFrame=0 は互換(内蔵でない入力は警告 1 行)・geoPN=0 の kFrame は不変');
       // ③
       if (!(r.bin.length === 2 && r.bin.every((z) => z.ok && z.same))) bad.push('③ 束縛二体で geoPN=1 と geoPN=2∧kFrame=0 がビット一致しない: ' + JSON.stringify(r.bin));
@@ -67116,6 +67219,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     {
       const r = await page.evaluate(() => {
         const o = { bad: [], rows: [] };
+        // 第293便a(R141): 世代切替 —— 分数 kFrame は値を保持(寄せない)。kf293 の無い世代は従来どおり 0.5 → 1
+        const kf293 = typeof MODE_SAVE_WARN_CODES !== 'undefined' && MODE_SAVE_WARN_CODES.indexOf('kFrameFraction') >= 0;
+        o.kf293 = kf293;
         const two = (ph, cls, extra) => Object.assign({ id: 'qa_w291c_probe', name: 'p', description: 'd', sampleClass: cls || 'principle', camera: { scale: 100 },
           world: { boundary: 'none', size: 0 }, physics: Object.assign({ G: 1, D0: 2, q: 2, kRep: 0, muF: 0, gammaN: 0, kappaS: 0, cLight: 30,
             lambdaPN: 1, pnAlpha: 1.5, softening: 0.5 }, ph),
@@ -67126,12 +67232,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           const v = HP.validatePreset(two({ geoPN: g, kFrame: k }));
           const row = { g, k, ok: v.ok, geoPN: v.ok ? v.preset.physics.geoPN : null, kFrame: v.ok ? v.preset.physics.kFrame : null,
             snapped: v.kFrameSnapped ? v.kFrameSnapped.to : null, err: (v.errors || [])[0] || null };
-          const wantK = k === 0.5 ? 1 : k;
+          const wantK = (k === 0.5 && !kf293) ? 1 : k;
           if (!v.ok) o.bad.push(`geoPN=${g}∧kFrame=${k} を拒否: ${row.err}`);
           else {
             if (row.geoPN !== g) o.bad.push(`geoPN=${g}∧kFrame=${k}: geoPN が ${row.geoPN}`);
             if (row.kFrame !== wantK) o.bad.push(`geoPN=${g}∧kFrame=${k}: kFrame が ${row.kFrame}(期待 ${wantK})`);
-            if ((k === 0.5) !== (row.snapped === 1)) o.bad.push(`geoPN=${g}∧kFrame=${k}: 第65報の丸めの記録 ${row.snapped}`);
+            if (kf293 ? (row.snapped !== null) : ((k === 0.5) !== (row.snapped === 1))) o.bad.push(`geoPN=${g}∧kFrame=${k}: 第65報の丸めの記録 ${row.snapped}`);
             const x = run(v); row.law = x.law;
             if (x.law !== x.decl || x.nan) o.bad.push(`geoPN=${g}∧kFrame=${k}: 走行 ${x.law} ⇔ 宣言 ${x.decl} nan=${x.nan}`);
           }
@@ -67185,7 +67291,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       });
       add('preset.modeNoRestriction', r.bad.length === 0,
         `**モードの制限の撤去**(第291便c・R134): geoPN 0..3 × kFrame 0/0.5/1 の 12 組で拒否 ${r.rows.filter((z) => !z.ok).length}・geoPN は宣言どおり(3 は 3 のまま)・`
-        + `0.5 は第65報の丸めで 1(従来どおり)・法則 ${r.rows.map((z) => z.g + '/' + z.k + ':' + z.law).join(' ')} / calibration ${r.cal.join(' ')}(警告つき受理)/ `
+        + (r.kf293 ? `0.5 は値を保持(第293便a・R141)・` : `0.5 は第65報の丸めで 1(従来どおり)・`) + `法則 ${r.rows.map((z) => z.g + '/' + z.k + ':' + z.law).join(' ')} / calibration ${r.cal.join(' ')}(警告つき受理)/ `
         + `旧法則版の矛盾は受理+警告+無効化 ${r.conf.join(' ')} / vMinusU の輸送経路の欠落は従来どおり拒否=${r.noMV} / `
         + `未宣言の 3 = geoPN=2(kFrame 0/1)の 200 步ビット同一=${r.same3.join('/')} / geoPN=0∧geodesic:true = geoPN=1(kF0)/2(kF1)=${r.same0.join('/')}`
         + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : ''));
@@ -67194,8 +67300,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     {
       const r = await page.evaluate(() => {
         const o = { bad: [], n: 0 };
+        // 第293便a(R141): 世代切替 —— 5 本目の code "kFrameFraction"(0<kFrame<1 ∧ 宣言 kFrameApprox が無い)
+        const kf293 = MODE_SAVE_WARN_CODES.indexOf('kFrameFraction') >= 0;
+        o.kf293 = kf293; o.codes = MODE_SAVE_WARN_CODES.slice();
         const cases = [];
         for (const g of [0, 1, 2, 3]) for (const k of [0, 0.5, 1]) for (const geo of [undefined, true]) cases.push({ geoPN: g, kFrame: k, geodesic: geo });
+        if (kf293) for (const g of [0, 1, 2, 3]) for (const k of [0.25, 0.5]) for (const dec of ['space-mesh-effective', 'sample-only', 'yes'])
+          cases.push({ geoPN: g, kFrame: k, kFrameApprox: dec });
         for (const k of [0, 1]) {
           cases.push({ geoPN: 3, kFrame: k, relativeDrag: { law: 'inertial', gain: 1 } });
           cases.push({ geoPN: 3, kFrame: k, spaceMesh: { lawVersion: 'scalar', inertia: false } });
@@ -67207,6 +67318,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (c.geoPN === 1 && c.kFrame !== 0) w.push('geo1KFrame');
           if (c.geoPN === 2 && c.kFrame !== 1) w.push('geo2KFrame');
           if (c.geoPN === 3 && !(c.relativeDrag && c.relativeDrag.law === 'inertial')) w.push('geo3NoInertial');
+          if (kf293 && c.kFrame > 0 && c.kFrame < 1 && c.kFrameApprox !== 'space-mesh-effective' && c.kFrameApprox !== 'sample-only') w.push('kFrameFraction');
           return w.join('+'); };
         for (const c of cases) {
           const before = JSON.stringify(c);
@@ -67230,11 +67342,22 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (!o.lang) o.bad.push('ja/en の文');
         o.empty = modeSaveWarnings(null).length === 0 && modeSaveWarnings({}).length === 0;
         if (!o.empty) o.bad.push('空の入力で警告');
+        if (kf293) {   // 分数の警告の文 = 読み込み時(validatePreset)の警告と同じ文(ja/en)
+          const fm = (c) => (modeSaveWarnings(c).find((z) => z.code === 'kFrameFraction') || {}).message || '';
+          const jaF = fm({ geoPN: 2, kFrame: 0.5 });
+          const vF = HP.validatePreset({ name: 'k', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+            physics: { geoPN: 2, kFrame: 0.5 }, bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] });
+          HP.setLang('en'); const enF = fm({ geoPN: 2, kFrame: 0.5 }); HP.setLang('ja');
+          o.fracLang = jaF.length > 10 && enF.length > 10 && jaF !== enF && /kFrame=0\.5/.test(jaF) && /kFrame=0\.5/.test(enF);
+          o.fracSameAsLoad = vF.ok === true && vF.warnings.indexOf(jaF) >= 0;
+          if (!o.fracLang) o.bad.push('kFrameFraction の ja/en の文');
+          if (!o.fracSameAsLoad) o.bad.push('kFrameFraction の文が読み込み時の警告と違う');
+        }
         return o;
       });
-      add('behavior.modeSaveWarnings', r.bad.length === 0 && r.n >= 24,
+      add('behavior.modeSaveWarnings', r.bad.length === 0 && r.n >= 24 && (!r.kf293 || (r.codes.length === 5 && r.n >= 54)),
         `**セーブ時の警告**(第291便c・R134・純関数 modeSaveWarnings): ${r.n} 通りの code が規則どおり(geoPN=0∧測地線 ON / geoPN=1∧kFrame≠0 / geoPN=2∧kFrame≠1 / `
-        + `geoPN=3∧慣性決定力の引きずり未宣言)・入力不変・2 度で同じ・3 の文は旧法則版で走る/無効/何も走らないを書き分け=${r.m3run}/${r.m3off}/${r.m3none}・ja≠en=${r.lang}・空入力は警告 0=${r.empty}`
+        + `geoPN=3∧慣性決定力の引きずり未宣言` + (r.kf293 ? ` / **第293便a(R141)**: 0<kFrame<1 ∧ 宣言 kFrameApprox 無し → kFrameFraction —— code ${r.codes.length} 本・文は読み込み時の警告と同じ=${r.fracSameAsLoad}・ja≠en=${r.fracLang}` : '') + `)・入力不変・2 度で同じ・3 の文は旧法則版で走る/無効/何も走らないを書き分け=${r.m3run}/${r.m3off}/${r.m3none}・ja≠en=${r.lang}・空入力は警告 0=${r.empty}`
         + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : ''));
     }
     // ---------- behavior.loadSaveModePolicy
@@ -67249,6 +67372,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           window.notify = function (m) { LOG.push(String(m)); return notify0.apply(this, arguments); };
           o.wrapped = (typeof notify0 === 'function');
           const notice = () => { const t = LOG.join(' ‖ '); LOG.length = 0; return t; };
+          // 第293便a(R141): 世代切替 —— 保存の版は w293a-1(w291c-1 の保存も値を保持して読む)
+          const kf293 = MODE_SAVE_WARN_CODES.indexOf('kFrameFraction') >= 0;
+          o.kf293 = kf293; const VER = kf293 ? 'w293a-1' : 'w291c-1';
           try {
           HP.loadPreset('mercuryReal', false);
           o.base = { geoPN: HP.sim.params.geoPN, kFrame: HP.sim.params.kFrame };
@@ -67270,13 +67396,52 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
           if (!sv) o.bad.push('保存されない');
           else {
             o.saved = { modePolicy: sv.modePolicy, lawResolved: sv.lawResolved, kFrame: sv.physics.kFrame, geoPN: sv.physics.geoPN };
-            if (!(sv.modePolicy === 'w291c-1' && sv.lawResolved === 'vMinusU-q' && sv.physics.kFrame === 1 && sv.physics.geoPN === 1)) o.bad.push('保存の鍵 ' + JSON.stringify(o.saved));
+            if (!(sv.modePolicy === VER && sv.lawResolved === 'vMinusU-q' && sv.physics.kFrame === 1 && sv.physics.geoPN === 1)) o.bad.push('保存の鍵 ' + JSON.stringify(o.saved));
             if (!(/保存しました/.test(o.saveNote) && /GR 1PN に引きずりを重ねた実験設定/.test(o.saveNote))) o.bad.push('成功通知に警告が無い: ' + o.saveNote.slice(0, 80));
             // ③ 新版を読む → 値を保持
             HP.loadPreset('gas', false); notice();
             const ok2 = HP.loadSaveItem(JSON.parse(JSON.stringify(sv)), 'x');
             o.load = { ok: ok2, kFrame: HP.sim.params.kFrame, law: geoLawOfSim(HP.sim), note: notice() };
             if (!(ok2 === true && HP.sim.params.kFrame === 1 && o.load.law === 'vMinusU-q' && !/kFrame=0 として読みました/.test(o.load.note))) o.bad.push('新版が保持されない ' + JSON.stringify(o.load).slice(0, 120));
+            if (kf293) {   // ③′ w291c-1 の保存(版を上げる前の新版)も値を保持して読む
+              const sv0 = Object.assign(JSON.parse(JSON.stringify(sv)), { modePolicy: 'w291c-1' });
+              HP.loadPreset('gas', false); notice();
+              const ok3 = HP.loadSaveItem(sv0, 'x');
+              o.load291 = { ok: ok3, kFrame: HP.sim.params.kFrame, note: notice() };
+              if (!(ok3 === true && HP.sim.params.kFrame === 1 && !/kFrame=0 として読みました/.test(o.load291.note))) o.bad.push('w291c-1 の保存が保持されない ' + JSON.stringify(o.load291).slice(0, 120));
+            }
+          }
+          // ⑤ 第293便a(R141): 分数 kFrame の保存 —— 成功通知に kFrameFraction の文・保存の値は分数のまま・読み戻しても同じ値
+          if (kf293) {
+            HP.loadPreset('saturn', false);
+            HP.sim.params.kFrame = 0.37; HP.sim.updateRadii(); notice();
+            document.getElementById('saveName').value = 'qa_w293a_frac';
+            document.getElementById('btnSave').click();
+            const svF = JSON.parse(localStorage.getItem('hp_saves') || '[]').find((z) => z.name === 'qa_w293a_frac');
+            o.fracNote = notice();
+            const msgF = T('modeWarn_kFrameFraction')(0.37);
+            if (!svF) o.bad.push('分数の保存が無い');
+            else {
+              o.fracSaved = { modePolicy: svF.modePolicy, kFrame: svF.physics.kFrame };
+              if (!(svF.modePolicy === 'w293a-1' && svF.physics.kFrame === 0.37)) o.bad.push('分数の保存の鍵 ' + JSON.stringify(o.fracSaved));
+              if (!(/保存しました/.test(o.fracNote) && o.fracNote.indexOf(msgF) >= 0)) o.bad.push('分数の保存の通知に警告が無い: ' + o.fracNote.slice(0, 80));
+              HP.loadPreset('gas', false); notice();
+              const okF = HP.loadSaveItem(JSON.parse(JSON.stringify(svF)), 'x');
+              o.fracLoad = { ok: okF, kFrame: HP.sim.params.kFrame };
+              if (!(okF === true && HP.sim.params.kFrame === 0.37)) o.bad.push('分数の保存の読み戻し ' + JSON.stringify(o.fracLoad));
+            }
+            // 宣言つき(実行中プリセットの physics.kFrameApprox を #btnSave が写す)は警告なし
+            const pz = { name: 'qa_w293a_decl', description: 'd', camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+              physics: { kFrame: 0.37, kFrameApprox: 'sample-only' }, bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false }] };
+            const vz = HP.validatePreset(pz);
+            o.declWarnLoad = vz.ok ? vz.warnings.indexOf(msgF) >= 0 : null;
+            if (vz.ok) {
+              HP.sim.build(vz.preset); notice();
+              document.getElementById('saveName').value = 'qa_w293a_decl';
+              document.getElementById('btnSave').click();
+              o.declNote = notice();
+              if (o.declNote.indexOf(msgF) >= 0) o.bad.push('宣言つきの分数の保存で警告: ' + o.declNote.slice(0, 80));
+            } else o.bad.push('宣言つきの分数を拒否');
           }
           // ④ 標準構成(☄️ geoPN=1・kFrame=0)の保存は警告なし
           HP.loadPreset('mercuryReal', false); notice();
@@ -67292,7 +67457,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         return o;
       });
       add('behavior.loadSaveModePolicy', r.bad.length === 0,
-        `**保存の版**(第291便c・R134): 旧セーブ(modePolicy 無し)の geoPN=1∧kFrame=1 は従来どおり kFrame=${r.old ? r.old.kFrame : '—'} で読む(通知 1 行)/ `
+        `**保存の版**(第291便c・R134${r.kf293 ? ' —— 第293便a(R141)で w293a-1・w291c-1 の保存も値を保持=' + !!(r.load291 && r.load291.kFrame === 1) + '・分数 kFrame の保存 ' + JSON.stringify(r.fracSaved || {}) + ' は通知に kFrameFraction の文・読み戻し kFrame=' + (r.fracLoad ? r.fracLoad.kFrame : '—') : ''}): 旧セーブ(modePolicy 無し)の geoPN=1∧kFrame=1 は従来どおり kFrame=${r.old ? r.old.kFrame : '—'} で読む(通知 1 行)/ `
         + `#btnSave は ${JSON.stringify(r.saved || {})} を書き、成功通知に警告を含める(保存は止めない)/ その保存を読むと kFrame=${r.load ? r.load.kFrame : '—'}・法則 ${r.load ? r.load.law : '—'}(値を保持)/ 標準構成は警告なし`
         + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : ''));
     }
@@ -67319,6 +67484,73 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         `**モードの表の転記一致**(第291便c・R134): PHYSICS〔第291便c〕の表 ${rows.length} 行 = geoModeTable()(geoModeOf と modeSaveWarnings から作る行)`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
     }
+  }
+}
+
+// ---- 第293便a(原仮定者の裁定(第83報)「分数 kFrame の丸めは撤去する。セーブ時と同様に警告を出す」・統括の検証項目 R141・AN159): behavior.kFrameKeep293 ----
+// ----   受理器 validatePreset の全組 —— geoPN 0..3(4 モード)× sampleClass principle/calibration(2 分類)× kFrame 0.25/0.5/0.75(3 分数)×
+// ----   用途注記 無し/"space-mesh-effective"/"sample-only"(3 種)の 72 組で:
+// ----     ① 受理(ok)・kFrame は入力のまま(寄せない)・kFrameSnapped は null ② 分数の警告(`modeWarn_kFrameFraction` の文)は注記無しの組だけ 1 行・
+// ----     注記つきは 0 行 ③ 受理した preset を JSON で書き出して読み直す(JSON.stringify → JSON.parse → validatePreset)と同じ kFrame・同じ注記・同じ警告の有無・
+// ----     同じ presetSig ④ 同じ 4 × 2 × 3 の組で kFrame=0/1 は分数の警告 0 行 ⑤ 内蔵(custom_ を除く全本)を受理器に通した後のデータが不変
+// ----     (kFrame・presetSig が受理前と同じ・分数の警告 0)。**root は SKIP**(root は旧契約のまま —— MODE_SAVE_WARN_CODES に "kFrameFraction" が無い)。
+{
+  const has293a = TARGET.startsWith('beta/') && await page.evaluate(() => typeof MODE_SAVE_WARN_CODES !== 'undefined' && MODE_SAVE_WARN_CODES.indexOf('kFrameFraction') >= 0);
+  if (!has293a) console.log('SKIP behavior.kFrameKeep293(対象に第293便a の "kFrameFraction" が無い: ' + TARGET + ')');
+  else {
+    const r = await page.evaluate(() => {
+      const o = { bad: [], n: 0, nWarn: 0, nBin: 0, nBuiltin: 0 };
+      const mk = (ph, cls) => ({ name: 'qa_w293a', description: 'd', sampleClass: cls, camera: { scale: 200 }, world: { boundary: 'none', size: 0 },
+        physics: ph, bodies: [{ type: 'single', m: 10, x: 0, y: 0, vx: 0, vy: 0, spin: 0, pinned: false },
+          { type: 'single', m: 1, x: 20, y: 0, vx: 0, vy: 0.7, spin: 0, pinned: false }] });
+      const fw = (k) => T('modeWarn_kFrameFraction')(k);
+      const nFrac = (v, k) => (v.warnings || []).filter((w) => w === fw(k)).length;
+      for (const g of [0, 1, 2, 3]) for (const cls of ['principle', 'calibration']) for (const dec of [null, 'space-mesh-effective', 'sample-only']) {
+        for (const k of [0.25, 0.5, 0.75]) {
+          const ph = { geoPN: g, kFrame: k }; if (dec) ph.kFrameApprox = dec;
+          const lab = `geoPN=${g}・${cls}・k=${k}・${dec || '注記なし'}`;
+          const v = HP.validatePreset(mk(ph, cls));
+          o.n++;
+          if (!v.ok) { o.bad.push(lab + ': 拒否 ' + ((v.errors || [])[0] || '')); continue; }
+          if (v.preset.physics.kFrame !== k) o.bad.push(lab + ': kFrame が ' + v.preset.physics.kFrame);
+          if (v.kFrameSnapped !== null) o.bad.push(lab + ': kFrameSnapped ' + JSON.stringify(v.kFrameSnapped));
+          if ((v.preset.physics.kFrameApprox === undefined ? null : v.preset.physics.kFrameApprox) !== dec) o.bad.push(lab + ': 注記が ' + v.preset.physics.kFrameApprox);
+          const nw = nFrac(v, k); o.nWarn += nw;
+          if (nw !== (dec ? 0 : 1)) o.bad.push(lab + ': 分数の警告 ' + nw + ' 行');
+          // JSON の往復(書き出して読み直す)
+          const v2 = HP.validatePreset(JSON.parse(JSON.stringify(v.preset)));
+          if (!v2.ok) { o.bad.push(lab + ': 再読込で拒否'); continue; }
+          if (v2.preset.physics.kFrame !== k) o.bad.push(lab + ': 再読込の kFrame ' + v2.preset.physics.kFrame);
+          if ((v2.preset.physics.kFrameApprox === undefined ? null : v2.preset.physics.kFrameApprox) !== dec) o.bad.push(lab + ': 再読込の注記');
+          if (nFrac(v2, k) !== nw) o.bad.push(lab + ': 再読込の警告 ' + nFrac(v2, k));
+          if (presetSig(v2.preset) !== presetSig(v.preset)) o.bad.push(lab + ': 再読込で presetSig が変わった');
+        }
+        for (const k of [0, 1]) {   // 二値は分数の警告なし
+          const ph = { geoPN: g, kFrame: k }; if (dec) ph.kFrameApprox = dec;
+          const v = HP.validatePreset(mk(ph, cls)); o.nBin++;
+          if (!v.ok) { o.bad.push(`geoPN=${g}・${cls}・k=${k}・${dec || '注記なし'}: 拒否`); continue; }
+          if (v.preset.physics.kFrame !== k || (v.warnings || []).some((w) => /分数 kFrame=.* を保持します/.test(String(w))))
+            o.bad.push(`geoPN=${g}・${cls}・k=${k}・${dec || '注記なし'}: 二値で値 ${v.preset.physics.kFrame} / 分数の警告`);
+        }
+      }
+      // 内蔵の受理後データ不変
+      for (const p of HP.allPresets().filter((q) => !String(q.id).startsWith('custom_'))) {
+        o.nBuiltin++;
+        const before = JSON.stringify(p), sig0 = presetSig(p);
+        const v = HP.validatePreset(JSON.parse(before));
+        if (JSON.stringify(p) !== before) o.bad.push(p.id + ': 内蔵の元データが変わった');
+        if (!v.ok) { o.bad.push(p.id + ': 内蔵を拒否'); continue; }
+        if (v.preset.physics.kFrame !== p.physics.kFrame) o.bad.push(p.id + ': kFrame ' + p.physics.kFrame + ' → ' + v.preset.physics.kFrame);
+        if (presetSig(v.preset) !== sig0) o.bad.push(p.id + ': presetSig が受理で変わった');
+        if ((v.warnings || []).some((w) => /分数 kFrame=.* を保持します/.test(String(w)))) o.bad.push(p.id + ': 分数の警告');
+      }
+      return o;
+    });
+    add('behavior.kFrameKeep293', r.bad.length === 0 && r.n === 72 && r.nBin === 48 && r.nWarn === 24 && r.nBuiltin >= 152,
+      `**分数 kFrame は値を保持して警告**(第293便a・原仮定者の裁定(第83報)「分数 kFrame の丸めは撤去する。セーブ時と同様に警告を出す」・R141・AN159): `
+      + `4 モード × 2 分類 × 3 分数 × 3 用途注記の ${r.n} 組で受理・値保持・kFrameSnapped null・分数の警告は注記無しの組だけ 1 行(計 ${r.nWarn} 行)・`
+      + `JSON の往復で同じ値・同じ注記・同じ警告・同じ presetSig / kFrame=0・1 の ${r.nBin} 組は分数の警告なし / 内蔵 ${r.nBuiltin} 本は受理の前後で kFrame・presetSig 不変・分数の警告 0`
+      + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : ''));
   }
 }
 
