@@ -60314,7 +60314,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     const nFam = (w292em ? 4 : w288em ? 3 : (retiredEm ? 4 : 5))   // 第288便b: 🧲 を読んだときの「他の仲間」は退役を除く 🌙🔆🌓・第292便b: 復活した 🌘 を足して 4
       + (has292cEm ? 1 : 0)   // 第292便c: 🌛(家族 earthmoon の variant・群は天体の機構 —— 宣言した跨ぎ)も「他の仲間」に並ぶ
       + (has292dEm ? 1 : 0);   // 第292便d: 🌜(明示潮汐の診断本・earthmoon の variant)も「他の仲間」に並ぶ
-    if (!(Array.isArray(r.familyButtons) && r.familyButtons.length === nFam)) bad.push(`④ 🧲 の「他の仲間」が ${nFam} 本でない: ` + JSON.stringify(r.familyButtons));
+    if (!(Array.isArray(r.familyButtons) && r.familyButtons.length === nFam)) bad.push(`④ 旧判別 B(退役)の「他の仲間」が ${nFam} 本でない: ` + JSON.stringify(r.familyButtons));
     const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
     const EM = w288em ? '🌙' : '🌘';
     const helpJa = html.indexOf('一覧の入口を ' + EM + ' の 1 つにまとめました') >= 0, helpEn = html.indexOf('now share one entry in the list, ' + EM) >= 0;
@@ -60322,9 +60322,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     if (pfErr.length) bad.push('ページエラー: ' + pfErr.slice(0, 2).join(' | '));
     add('ui.emFamily', bad.length === 0,
       `**地球–月のファミリー化**(第280便b・原仮定者の裁定〔第70報〕「earthMoonRealKF1・emAuditDFM はまとめても良い」・R70): `
-      + `仲間 ${r.members.length} 本(primary ${w288em ? '🌙' : '🌘'}・旧 emAudit ${r.emAuditLeft} 本)・ID は 6 本とも残る・グループ ${r.groups.length} 個${w292em ? '(第292便b: 復活した 🌘 だけ「天体の機構」—— 宣言した跨ぎ・🧲 は退役のまま)' : ''} / `
+      + `仲間 ${r.members.length} 本(primary ${w288em ? '🌙' : '🌘'}・旧 emAudit ${r.emAuditLeft} 本)・ID は 6 本とも残る・グループ ${r.groups.length} 個${w292em ? '(第292便b: 復活した 🌘 だけ「天体の機構」—— 宣言した跨ぎ・旧判別 B は退役のまま)' : ''} / `
       + `一覧: すべて表示 OFF で ${r.offHits.filter((z) => z).length} 行(🌘)・ON で ${r.onHits.filter((z) => z).length} 行 / `
-      + `🧲 の「他の仲間」${r.familyButtons ? r.familyButtons.length : '—'} 本 / ヘルプ ja=${helpJa}・en=${helpEn} —— **表示だけ**`
+      + `旧判別 B(退役)の「他の仲間」${r.familyButtons ? r.familyButtons.length : '—'} 本 / ヘルプ ja=${helpJa}・en=${helpEn} —— **表示だけ**`
       + `(プリセット ID・証拠 ID・物理・claims・窓は不変。物理的な統合〔ID の削除〕は決断事項)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
   }
@@ -67991,6 +67991,154 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     add('lint.cLightTrue', bad.length === 0,
       `**cLight の真値と従属値**(第286便b・原仮定者の裁定(第76報)AN59・R104): ${cases.join(' / ')} —— G=6.674 の丸めと q_exact の直値は本便の範囲の外(一覧の dependents)`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第293便f(原仮定者の裁定(第83報 追記)—— 廃止した判別 B のサンプルへの言及を各サンプルから削除する・統括の検証項目 R146): docs.noRetiredMention293 ----
+// ----   **退役した判別 B(絵文字 U+1F9F2・ID は下の RID)の言及が、在位の本の本文と現行契約の文書に無い**ことを機械で固定する(表示と文書だけ —— 力学・presetSig は不変)。
+// ----   ① 在位の本(familyRole≠"retired" —— 本数は内蔵 − RETIRED_PRESETS の行数で数え、固定しない)の定義の全文(name/summary/observe/control/obsCard/
+// ----      claims の note/abBody の label/parameterAudit・en を含む JSON)に 0 件・I18N(ja/en)の全文字列に 0 件・判別 B は退役のまま(RETIRED_PRESETS に行)
+// ----   ② html の行: 言及が残ってよいのは**除外リスト**だけ —— (a) 退役の本の定義(括弧の対応で範囲を取る —— 判別 B 自身の定義と、claims を変えない ⭕ の note)
+// ----      (b) RETIRED_PRESETS の表(退役の理由)(c) 判別 B 自身を鍵にした side table の行。それ以外の行(在位の本のコメント・題材の尺度表の絵文字列・コード)は 0 件
+// ----   ③ 文書: README・SAMPLE_RANKING は 0 件。PHYSICS はサンプル一覧表の行(判別 B 自身の行を除く)と §7 の表の行が 0 件・残りは便ごとの履歴の節〔第NNN便〕の中だけ。
+// ----      AI_SPEC は便の節(見出しに第NNN便)の中だけ。CALIBRATION_VERDICT は台帳の行(判別 B 自身の行を除く)が 0 件・残りは履歴の節の中だけ。
+// ----      SAMPLE_STATUS は「退役」節と判別 B 自身の行だけ(凍結 fixture・CHANGELOG は履歴として見ない)。
+// ----   世代切替 has293f = 対象 html に「QA docs.noRetiredMention293」の宣言の注記がある。**root(旧世代)は SKIP**。
+{
+  const html293f = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has293f = TARGET.startsWith('beta/') && html293f.indexOf('QA docs.noRetiredMention293') >= 0;
+  if (!has293f) {
+    console.log('SKIP docs.noRetiredMention293(第293便f 未適用 — ' + TARGET + ')');
+  } else {
+    const RID = 'emAuditDFM', EMO = '\u{1F9F2}';
+    const has = (s) => typeof s === 'string' && (s.indexOf(EMO) >= 0 || s.indexOf(RID) >= 0);
+    const bad = [], cases = [];
+    // ① ページ
+    const r = await page.evaluate(({ RID, EMO }) => {
+      const hs = (s) => s.indexOf(EMO) >= 0 || s.indexOf(RID) >= 0;
+      const ps = HP.allPresets();
+      const live = ps.filter((p) => p.familyRole !== 'retired');
+      const i18n = [];
+      for (const L of Object.keys(I18N)) for (const k of Object.keys(I18N[L])) { const v = I18N[L][k]; if (typeof v === 'string' && hs(v)) i18n.push(L + '.' + k); }
+      const t = ps.find((p) => p.id === RID);
+      return { builtin: ps.length, live: live.length, rpRows: Object.keys(RETIRED_PRESETS).length,
+        retiredIds: ps.filter((p) => p.familyRole === 'retired').map((p) => p.id),
+        stillRetired: !!(t && t.familyRole === 'retired' && RETIRED_PRESETS[RID]),
+        bodyHits: live.filter((p) => hs(JSON.stringify(p))).map((p) => p.id), i18n };
+    }, { RID, EMO }).catch((e) => ({ err: String(e).slice(0, 160) }));
+    if (r.err) bad.push('①ページ: ' + r.err);
+    else {
+      if (r.live !== r.builtin - r.rpRows) bad.push(`①在位 ${r.live} が 内蔵 ${r.builtin} − 退役 ${r.rpRows} と合わない`);
+      if (!r.stillRetired) bad.push('①判別 B が退役のままでない(familyRole/RETIRED_PRESETS)');
+      if (r.bodyHits.length) bad.push('①在位の本の本文に言及: ' + r.bodyHits.join(','));
+      if (r.i18n.length) bad.push('①I18N に言及: ' + r.i18n.join(','));
+      cases.push(`①在位 ${r.live} 本(内蔵 ${r.builtin} − 退役 ${r.rpRows})の本文 ${r.bodyHits.length} 件・I18N ${r.i18n.length} 件・判別 B は退役のまま`);
+    }
+    // ② html の行(除外リスト)
+    const HL = html293f.split('\n');
+    const spanOfObj = (i0) => {   // 列 0 の `{ id:"…"` から括弧の対応で終わりの行を取る(文字列と // コメントを飛ばす)
+      let d = 0;
+      for (let i = i0; i < HL.length; i++) {
+        const s = HL[i];
+        for (let k = 0; k < s.length; k++) {
+          const c = s[k];
+          if (c === '"' || c === "'") { const q = c; k++; while (k < s.length && s[k] !== q) { if (s[k] === '\\') k++; k++; } continue; }
+          if (c === '/' && s[k + 1] === '/') break;
+          if (c === '{' || c === '[') d++;
+          else if (c === '}' || c === ']') { d--; if (d === 0) return [i0, i]; }
+        }
+      }
+      return [i0, i0];
+    };
+    const ex = { retiredDef: [], retiredTable: null, sideRow: [] };
+    for (const id of (r.retiredIds || [])) {
+      const i0 = HL.findIndex((s) => s.startsWith('{ id:"' + id + '"'));
+      if (i0 >= 0) ex.retiredDef.push([id].concat(spanOfObj(i0)));
+    }
+    { const a = HL.findIndex((s) => s.startsWith('const RETIRED_PRESETS={')); let b = a;
+      while (a >= 0 && b < HL.length && HL[b] !== '};') b++;
+      if (a >= 0 && b < HL.length) ex.retiredTable = [a, b]; else bad.push('②RETIRED_PRESETS の表が見つからない'); }
+    const inDef = (i) => ex.retiredDef.find((z) => z[1] <= i && i <= z[2]);
+    const cnt = { def: {}, table: 0, side: 0 }, stray = [];
+    HL.forEach((s, i) => {
+      if (!has(s)) return;
+      const dz = inDef(i);
+      if (dz) { cnt.def[dz[0]] = (cnt.def[dz[0]] || 0) + 1; return; }
+      if (ex.retiredTable && ex.retiredTable[0] <= i && i <= ex.retiredTable[1]) { cnt.table++; return; }
+      if (new RegExp('^\\s*"?' + RID + '"?\\s*:').test(s)) { cnt.side++; return; }
+      stray.push(i + 1);
+    });
+    if (stray.length) bad.push('②除外リストの外の行に言及: ' + stray.slice(0, 8).join(',') + (stray.length > 8 ? ` 他 ${stray.length - 8}` : ''));
+    if (!cnt.def[RID]) bad.push('②判別 B 自身の定義(凍結の対象)が見つからない');
+    cases.push(`②html の言及は除外リストだけ —— 退役の本の定義 ${Object.entries(cnt.def).map(([k, v]) => k + ' ' + v).join('・')} 行・RETIRED_PRESETS ${cnt.table} 行・side table ${cnt.side} 行・外 ${stray.length} 行`);
+    // ③ 文書
+    const rd = (...p) => { try { return fs.readFileSync(path.join(ROOT, ...p), 'utf8'); } catch (e) { bad.push('③読めない: ' + p.join('/')); return ''; } };
+    const lineHits = (txt) => txt.split('\n').map((s, i) => [i, s]).filter(([, s]) => has(s));
+    // 履歴: 直前の目印(見出し行 / 〔第 で始まる行)か、囲む見出しのどれかに「第NNN便」がある
+    const histOf = (Ls, i) => {
+      let j = i; while (j >= 0 && !(Ls[j].startsWith('#') || /^(\*\*)?〔第/.test(Ls[j]))) j--;
+      if (j >= 0 && /第\d+便/.test(Ls[j])) return true;
+      let lv = 99;
+      for (let k = i; k >= 0; k--) if (Ls[k].startsWith('#')) { const l = Ls[k].length - Ls[k].replace(/^#+/, '').length; if (l < lv) { if (/第\d+便/.test(Ls[k])) return true; lv = l; } }
+      return false;
+    };
+    for (const f of ['README.md', 'docs/SAMPLE_RANKING.md']) {
+      const n = lineHits(rd(...f.split('/'))).length;
+      if (n) bad.push(`③${f} に言及 ${n} 行`);
+    }
+    // PHYSICS
+    {
+      const Ls = rd('docs', 'PHYSICS.md').split('\n');
+      const h0 = Ls.indexOf('| ID | 名称 | 1効果(実証する法則) |');
+      let h1 = h0; while (h0 >= 0 && h1 + 1 < Ls.length && Ls[h1 + 1].startsWith('|')) h1++;
+      const s7 = Ls.findIndex((s) => s.startsWith('## 7.')); let e7 = s7 + 1; while (s7 >= 0 && e7 < Ls.length && !/^## /.test(Ls[e7])) e7++;
+      if (h0 < 0 || s7 < 0) bad.push('③PHYSICS のサンプル一覧表/§7 が見つからない');
+      let nHist = 0, nOwn = 0; const cur = [];
+      Ls.forEach((s, i) => {
+        if (!has(s)) return;
+        if (h0 >= 0 && h0 < i && i <= h1) { if (s.startsWith('| ' + RID + ' |')) nOwn++; else cur.push(i + 1); return; }
+        if (s7 >= 0 && s7 < i && i < e7 && s.startsWith('|')) { cur.push(i + 1); return; }
+        if (histOf(Ls, i)) nHist++; else cur.push(i + 1);
+      });
+      if (cur.length) bad.push('③PHYSICS の現行の文に言及: 行 ' + cur.join(','));
+      cases.push(`③PHYSICS: 一覧表は判別 B 自身の行 ${nOwn}・§7 の表 0・履歴の節 ${nHist} 行(残す)`);
+    }
+    // AI_SPEC
+    {
+      const Ls = rd('docs', 'AI_SPEC.md').split('\n'); let nHist = 0; const cur = [];
+      Ls.forEach((s, i) => { if (!has(s)) return; let k = i; while (k >= 0 && !/^## /.test(Ls[k])) k--; if (k >= 0 && /第\d+便/.test(Ls[k])) nHist++; else cur.push(i + 1); });
+      if (cur.length) bad.push('③AI_SPEC の現行の節に言及: 行 ' + cur.join(','));
+      cases.push(`AI_SPEC: 便の節 ${nHist} 行(残す)`);
+    }
+    // CALIBRATION_VERDICT
+    {
+      const Ls = rd('docs', 'CALIBRATION_VERDICT_v1.44.md').split('\n'); let nHist = 0, nOwn = 0; const cur = [];
+      Ls.forEach((s, i) => {
+        if (!has(s)) return;
+        const m = s.match(/^\|\s*`(\w+)`\s*\|/);
+        if (m) { if (m[1] === RID) nOwn++; else cur.push(i + 1); return; }
+        if (histOf(Ls, i)) nHist++; else cur.push(i + 1);
+      });
+      if (cur.length) bad.push('③CALIBRATION_VERDICT の現行の行に言及: 行 ' + cur.join(','));
+      cases.push(`CALIBRATION_VERDICT: 台帳は判別 B 自身の行 ${nOwn}・履歴の節 ${nHist} 行(残す)`);
+    }
+    // SAMPLE_STATUS(生成物 —— 「退役」節と判別 B 自身の行だけ)
+    {
+      const Ls = rd('docs', 'SAMPLE_STATUS_v1.45.md').split('\n'); let nRet = 0, nOwn = 0; const cur = [];
+      Ls.forEach((s, i) => {
+        if (!has(s)) return;
+        let k = i; while (k >= 0 && !/^## /.test(Ls[k])) k--;
+        if (k >= 0 && Ls[k].indexOf('退役') >= 0) { nRet++; return; }
+        if (new RegExp('^\\|\\s*(' + EMO + '\\s*\\|?\\s*)?`' + RID + '`\\s*\\|').test(s)) { nOwn++; return; }
+        cur.push(i + 1);
+      });
+      if (cur.length) bad.push('③SAMPLE_STATUS の在位の行に言及: 行 ' + cur.join(','));
+      cases.push(`SAMPLE_STATUS: 退役の節 ${nRet}・判別 B 自身の行 ${nOwn}`);
+    }
+    add('docs.noRetiredMention293', bad.length === 0,
+      `**退役した判別 B の言及を在位の本と現行契約から削る**(第293便f・原仮定者の裁定(第83報 追記)・R146 —— 表示と文書だけ・力学と presetSig は不変): ${cases.join(' / ')}`
+      + ' —— 退役の宣言・凍結 fixture・便ごとの履歴の節は除外リストで残す'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }
 
