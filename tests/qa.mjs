@@ -25309,8 +25309,11 @@ if (!FAST) {
   if (!hasFam) {
     console.log('SKIP ui.charonFamily(対象に第280便d の冥王星ファミリー化が無い — root 等)');
   } else {
-    const r = await page.evaluate(() => {
-      const o = {};
+    // 第294便e(原仮定者の裁定(第84報)④⑤・R152 —— 世代切替 has294e = PP_OTHER_SECS の宣言に段 "topic"): 「すべて表示」を撤去(常に全て表示)・
+    //   「(+n)」を出さない・variant は名前の後ろに「〔<primary の絵文字> の家族〕」。③ は「入口 1 つ」から「入口+在位の variant が並び、variant は家族の語」へ読み替える
+    const has294e = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+    const r = await page.evaluate((has294e) => {
+      const o = { has294e };
       const IDS = ['plutoCharonReal', 'plutoCharonDFM', 'plutoCharonKF0Control', 'plutoCharonDiagInput', 'plutoCharonSyncZero'];
       // 第280便c: 🌒 charonGeoToy3(geoPN=3 契約の診断コピー)も family pluto の variant(世代で切り替え)
       if (HP.allPresets().some((q) => q.id === 'charonGeoToy3')) IDS.push('charonGeoToy3');
@@ -25341,7 +25344,11 @@ if (!FAST) {
       o.visible = IDS.filter((id) => opts.some((x) => x.value === id));
       const snow = opts.find((x) => x.value === ENTRY);
       o.snowLabel = snow ? snow.textContent : '';
-      o.entryOk = o.visible.length === 1 && o.visible[0] === ENTRY && new RegExp('\\(\\+' + o.nVar + '\\)$').test(o.snowLabel);
+      o.entryOk = has294e
+        ? o.visible.slice().sort().join(',') === [ENTRY].concat(VAR).sort().join(',') && !/\(\+\d+\)/.test(o.snowLabel)
+          && VAR.every((id) => { const x = opts.find((z) => z.value === id); const pe = (HP.allPresets().find((q) => q.id === ENTRY) || {}).emoji;
+            return !!x && x.textContent.endsWith('〔' + HP.T('familyTag')(pe) + '〕') && x.textContent.indexOf('└') < 0; })
+        : o.visible.length === 1 && o.visible[0] === ENTRY && new RegExp('\\(\\+' + o.nVar + '\\)$').test(o.snowLabel);
       HP.loadPreset(ENTRY, false);
       { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
       const links = [...document.querySelectorAll('#familyRow .familyLink')];
@@ -25352,11 +25359,12 @@ if (!FAST) {
       o.sigBlind = HP.presetSig(t) === s0;
       HP.loadPreset('saturn', false); setShowAllSamples(false); rebuildPresetSelect();
       return o;
-    });
+    }, has294e);
     add('ui.charonFamily', r.idsOk && r.rolesOk && r.labelsOk && r.words && r.entryOk && r.rowOk && r.sigBlind,
       `family pluto=${r.ids.join(',')}(ID は 1 本も消していない=${r.idsOk})/ 役割 ${r.has290b ? '🥶 primary・在位の ' + r.nVar + ' 本 variant・❄️⛄☃️' + (r.has291b ? '🌨️' : '') + ' retired(第290便b' + (r.has291b ? '・第291便b' : '') + ')' : '❄️ primary・他 ' + r.nVar + ' 本 variant'}=${r.rolesOk} / `
       + `役割名 ja/en=${r.labelsOk}・3 語(観測入力 kF0 対照/相対すべりモデル/厳密同期円の零試験)=${r.words} / `
-      + `**入口 1 つ**: 「すべて表示」OFF で見える冥王星系 ${JSON.stringify(r.visible)}・「${r.snowLabel}」=${r.entryOk} / `
+      + (r.has294e ? `**常に全て表示**(第294便e): 冥王星系 ${JSON.stringify(r.visible)}・入口「${r.snowLabel}」に (+n) なし・variant は家族の語=${r.entryOk} / `
+        : `**入口 1 つ**: 「すべて表示」OFF で見える冥王星系 ${JSON.stringify(r.visible)}・「${r.snowLabel}」=${r.entryOk} / `)
       + `${r.has290b ? '🥶' : '❄️'} の「この仲間」 ${JSON.stringify(r.links)}=${r.rowOk} / presetSig は familyRole を見ない=${r.sigBlind}`);
   }
 }
@@ -43654,11 +43662,15 @@ if (!FAST) {
 // ----     ので、全軸の並びは 15 + 10 = 25・チップ数は 1+25。旧 4 軸の検査は不変(状況の軸の検査は ui.pickerStatusAxes)。
 // ---- 第291便e(原仮定者の裁定(第81報)⑦・統括の検証項目 R136 —— 世代切替 has291e = html の `const TOPIC_TAGS=`): 次元「題材」(topic)を「その他」の前に足した
 // ----     ので、畳みの並びは scale/cls/e/geo/topic/other(6 次元)・「その他」の位置は 4 → 5。判定の強さは不変(題材の検査は ui.topicChips291)。
+// ---- 第294便e(原仮定者の裁定(第84報)①③・統括の検証項目 R152 —— 世代切替 has294e = html の PP_OTHER_SECS の宣言に段 "topic"): 次元「題材」を
+// ----     「その他」の 4 段目へ移したので、畳みの並びは 5 次元に戻る(scale/cls/e/geo/other・「その他」の位置 4)。「その他」の軸は 25 + 題材 9 = 34
+// ----     (key "topic:<鍵>")・段ごとの「全て」(data-sec-all)が 4 つ増えるので、ui.pickerOtherChips のチップの並びの検査は段の「全て」を除いた 1+34 で見る。
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   const has287e = /function ppOtherStateOf\(/.test(html);
   const has289f = /const PP_OTHER_STATUS_AXES=/.test(html);
-  const has291eF = /const TOPIC_TAGS=/.test(html);
+  const has294e = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(html);
+  const has291eF = /const TOPIC_TAGS=/.test(html) && !has294e;
   const FOLD_ORDER = has291eF ? 'scale/cls/e/geo/topic/other' : 'scale/cls/e/geo/other';
   const N_FOLD = has291eF ? 6 : 5, I_OTHER = has291eF ? 5 : 4;
   if (!/const PP_OTHER_AXES=/.test(html)) {
@@ -43805,7 +43817,7 @@ if (!FAST) {
     const oc = [];
     for (const vp of VPS) {
       const { ctx, pg, errs } = await openVp(vp);
-      const r = await pg.evaluate(async ([has287e, has289f]) => {
+      const r = await pg.evaluate(async ([has287e, has289f, has294e]) => {
         const wait = (ms) => new Promise((res) => setTimeout(res, ms));
         const o = { bad: [] };
         try { localStorage.removeItem('hp_pick_fold'); } catch (_) {}
@@ -43832,7 +43844,8 @@ if (!FAST) {
           ? PP_OTHER_AXES.slice(0, 4).map((a) => a.key).join(',') === KEYS.join(',')
             && PP_OTHER_AXES.map((a) => a.key).join(',') === KEYS.concat(['calTarget', 'bdgCore', 'bdgExtension', 'bdgBackground', 'bdgSemantic',
               'bdgComparison', 'bdgDrive', 'bdgClosed', 'bdgTint', 'bdgStrongField', 'bdgDrag'])
-              .concat(has289f ? ['stObj_met', 'stObj_partial', 'stObj_unmet', 'stObj_n/a', 'stCal_pass', 'stCal_pass-limited', 'stCal_fail', 'stCal_hold', 'stCal_hold-definition', 'stCal_out-of-scope'] : []).join(',')
+              .concat(has289f ? ['stObj_met', 'stObj_partial', 'stObj_unmet', 'stObj_n/a', 'stCal_pass', 'stCal_pass-limited', 'stCal_fail', 'stCal_hold', 'stCal_hold-definition', 'stCal_out-of-scope'] : [])
+              .concat(has294e ? ['refModel', 'dmHalo', 'inertial', 'cloakedDwarf', 'pn1Geo', 'testParticle', 'spaceMesh', 'obsCal', 'manyBody'].map((k) => 'topic:' + k) : []).join(',')
           : PP_OTHER_AXES.map((a) => a.key).join(',') === KEYS.join(',');
         o.nAll = KEYS.map((k) => builtins.filter((p) => ax[p.id] && ax[p.id][k]).length);
         const visible = builtins.filter((p) => !catalogHidden(p) && !retiredHidden(p));
@@ -43840,10 +43853,10 @@ if (!FAST) {
         o.exp = KEYS.map((k) => cnt((p) => ax[p.id][k]));
         showPresetPicker(); await wait(40);
         const rows = () => document.querySelectorAll('#ppList .ppRow').length;
-        const chips = () => [...document.querySelectorAll('#ppOtherRow .ppChip')];
+        const chips = () => [...document.querySelectorAll('#ppOtherRow .ppChip')].filter((c) => !c.dataset.secAll);   // 第294便e: 段の「全て」は別に見る(ui.pickerReorg294)
         const chip = (k) => chips().find((c) => c.dataset.v === k);
         o.labels = chips().map((c) => c.textContent);
-        o.labelsOk = chips().length === (has289f ? 26 : (has287e ? 16 : 5)) && chips()[0].dataset.v === 'all' && chips()[0].textContent === HP.T('grpAll')
+        o.labelsOk = chips().length === (has294e ? 35 : (has289f ? 26 : (has287e ? 16 : 5))) && chips()[0].dataset.v === 'all' && chips()[0].textContent === HP.T('grpAll')
           && KEYS.every((k, i) => chips()[i + 1].dataset.v === k && chips()[i + 1].textContent === HP.T('ppOther_' + k) + '(' + o.exp[i] + ')');
         o.dataN = KEYS.map((k) => +chip(k).dataset.n);
         o.countsOk = o.dataN.every((n, i) => n === o.exp[i]);
@@ -43909,7 +43922,7 @@ if (!FAST) {
         o.sigSame = builtins.map((p) => presetSig(p)).join('\u0001') === sig0;
         o.parSame = JSON.stringify(HP.sim.params) === par0;
         return o;
-      }, [has287e, has289f]);
+      }, [has287e, has289f, has294e]);
       r.vp = vp.name; r.errs = errs.slice(0, 2);
       r.ok = r.bad.length === 0 && r.keysOk && r.labelsOk && r.countsOk && r.allOn0 && r.singleOk && r.andOk && r.clearOk && r.andDimOk
         && r.noteOk && r.selSame && r.sigSame && r.parSame && errs.length === 0;
@@ -43944,10 +43957,13 @@ if (!FAST) {
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
   // 第289便f(世代切替 has289f): 3 段目「状況(説明タブ)」の 10 軸(目的 4・較正 6)で 15 → 25
-  const nOther287 = /function ppOtherStateOf\(/.test(html) ? 4 + 1 + 10 + (/const PP_OTHER_STATUS_AXES=/.test(html) ? 4 + 6 : 0) : 4;
+  // 第294便e(原仮定者の裁定(第84報)①③・R152 —— 世代切替 has294e = PP_OTHER_SECS の宣言に段 "topic"): 題材 9 軸は「その他」の 4 段目へ移った(25 → 34)。
+  //   段ごとの「全て」(data-sec-all)はチップだが選択肢ではないので、選択肢の数(nChips)から除く。次元は 5 行に戻る
+  const has294eS = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(html);
+  const nOther287 = /function ppOtherStateOf\(/.test(html) ? 4 + 1 + 10 + (/const PP_OTHER_STATUS_AXES=/.test(html) ? 4 + 6 : 0) + (has294eS ? 9 : 0) : 4;
   // 第291便e(世代切替 has291e = `const TOPIC_TAGS=`): 次元「題材」を「その他」の前に足した —— 6 行・題材の選択肢は 9(参照模型・ダークマターハロー・慣性決定力・
   //   光学迷彩矮星・1PN・測地線・試験粒子・空間メッシュ・観測較正・連鎖・多体 —— この場で書いた数)
-  const has291eS = /const TOPIC_TAGS=/.test(html);
+  const has291eS = /const TOPIC_TAGS=/.test(html) && !has294eS;
   const SEP_ORDER = has291eS ? 'scale/cls/e/geo/topic/other' : 'scale/cls/e/geo/other', N_SEP = has291eS ? 6 : 5, I_OTHER_S = has291eS ? 5 : 4;
   if (!/className="ppDimName"/.test(html)) {
     console.log('SKIP ui.pickerSeparators(対象に第286便e の絞り込みのセパレータなし — root 等)');
@@ -43988,7 +44004,7 @@ if (!FAST) {
           const r = d.getBoundingClientRect();
           const sm = d.querySelector(':scope > summary');
           const nm = sm && sm.querySelector('.ppFoldName'), sv = sm && sm.querySelector('.ppFoldSel');
-          const chips = [...d.querySelectorAll('.ppChip')];
+          const chips = [...d.querySelectorAll('.ppChip')].filter((c) => !c.dataset.secAll);   // 第294便e: 段の「全て」は選択肢に数えない
           const btn = d.querySelector('.ppDimBtn'), dn = btn && btn.querySelector('.ppDimName');
           const name = HP.T(tk);
           // 見えている次元名: 自分の文字がちょうど次元名の要素のうち見えているもの(ⓘ ボタンの .ppDimName を含めて数える)
@@ -44083,7 +44099,10 @@ if (!FAST) {
     // 第289便f(世代切替 has289f —— html の `const PP_OTHER_STATUS_AXES=`): 「その他」の段は 2 → 3(3 段目「状況(説明タブ)」の 10 軸)。
     //   段の見出しの並び・段の数・開いた「その他」のチップと見出しの数(18 → 29)・狭い画面で畳まれた段を開く対象だけを切り替える
     const has289f = /const PP_OTHER_STATUS_AXES=/.test(html);
-    const SECS = has289f ? ['decl', 'badge', 'status'] : ['decl', 'badge'];
+    // 第294便e(原仮定者の裁定(第84報)①③・R152 —— 世代切替 has294e = PP_OTHER_SECS の宣言に段 "topic"): 4 段目「題材」(9 軸)と段ごとの「全て」(data-sec-all —— 段に 1 つ)。
+    //   段の中のチップの検査は段の「全て」を除いて数える(段の「全て」の検査は ui.pickerReorg294)。開いた「その他」のチップと見出しの数は 1+34+4(段の全て)+4 見出し = 43
+    const has294e = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(html);
+    const SECS = has294e ? ['decl', 'badge', 'status', 'topic'] : (has289f ? ['decl', 'badge', 'status'] : ['decl', 'badge']);
     const BADGE = [['bdgCore', 'core'], ['bdgExtension', 'extension'], ['bdgBackground', 'background'], ['bdgSemantic', 'semantic'],
       ['bdgComparison', 'comparison'], ['bdgDrive', 'drive'], ['bdgClosed', 'closed'], ['bdgTint', 'tint'],
       ['bdgStrongField', 'strongfield'], ['bdgDrag', 'drag']];
@@ -44106,7 +44125,7 @@ if (!FAST) {
     {
       const { ctx, pg, errs } = await openPage({ width: 1280, height: 800, mobile: false });
       const s0 = await snap(pg);
-      const r = await pg.evaluate(async ([BADGE, has289f]) => {
+      const r = await pg.evaluate(async ([BADGE, has289f, has294e]) => {
         const wait = (ms) => new Promise((res) => setTimeout(res, ms));
         const o = { bad: [] };
         // 独立の判定: 第286便までの renderHelp の条件をそのまま書き写したもの(ページの表 PRESET_BADGE_AXES を使わない)
@@ -44139,36 +44158,36 @@ if (!FAST) {
         HP.loadPreset('saturn', false);
         showPresetPicker(); await wait(30);
         const grp = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="badge"]');
-        const chips = grp ? [...grp.querySelectorAll('.ppChip')] : [];
+        const chips = grp ? [...grp.querySelectorAll('.ppChip:not([data-sec-all])')] : [];
         o.labels = chips.map((c) => c.textContent);
         o.chipsOk = chips.length === BADGE.length && chips.every((c, i) => c.dataset.v === BADGE[i][0]
           && c.textContent === HP.T(BADGE[i][0]) + '(' + o.nVis[i] + ')' && +c.dataset.n === o.nVis[i] && c.title.indexOf(HP.T(BADGE[i][0] + 'Tip')) === 0);
         const dg = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="decl"]');
         const ct = dg && dg.querySelector('.ppChip[data-v="calTarget"]');
-        o.decl = dg ? [...dg.querySelectorAll('.ppChip')].map((c) => c.dataset.v).join(',') : '';
+        o.decl = dg ? [...dg.querySelectorAll('.ppChip:not([data-sec-all])')].map((c) => c.dataset.v).join(',') : '';
         const calTip = HP.T('ppOther_calTargetTip');
         o.calOk = o.decl === 'obsCard,pinned,multi,testParticle,calTarget' && !!ct && +ct.dataset.n === o.cal.vis
           && ct.textContent === HP.T('ppOther_calTarget') + '(' + o.cal.vis + ')' && ct.title.indexOf(calTip) === 0
           && /合格ではない/.test(calTip) && !/合格(した|済)/.test(calTip) && HP.T('ppOther_calTarget') === '較正対象';
         o.secs = [...document.querySelectorAll('#ppOtherRow .ppOtherSec')].map((x) => x.textContent);
-        o.secOk = o.secs.join('|') === HP.T('ppOtherSecDecl') + '|' + HP.T('ppOtherSecBadge') + (has289f ? '|' + HP.T('ppOtherSecStatus') : '')
+        o.secOk = o.secs.join('|') === HP.T('ppOtherSecDecl') + '|' + HP.T('ppOtherSecBadge') + (has289f ? '|' + HP.T('ppOtherSecStatus') : '') + (has294e ? '|' + HP.T('ppOtherSecTopic') : '')
           && [...document.querySelectorAll('#ppOtherRow .ppOtherGrp')].every((g) => g.getAttribute('role') === 'group'
             && document.getElementById(g.getAttribute('aria-labelledby')) === g.querySelector(':scope > .ppOtherSec'))
-          && document.querySelectorAll('#ppOtherRow .ppOtherGrp').length === (has289f ? 3 : 2);
+          && document.querySelectorAll('#ppOtherRow .ppOtherGrp').length === (has294e ? 4 : (has289f ? 3 : 2));
         document.getElementById('ppDimOtherBtn').click(); await wait(20);
         const note = document.getElementById('ppOtherNote').textContent;
         o.noteOk = BADGE.every(([k], i) => note.includes(HP.T(k) + '(' + o.nVis[i] + ')')) && note.includes(HP.T('ppOther_calTarget') + '(' + o.cal.vis + ')')
           && note.includes(HP.T('ppNoteOtherTri')) && note.includes(HP.T('ppOtherSecBadge'));
         document.getElementById('ppDimOtherBtn').click(); await wait(20);
         hidePresetPicker(); HP.setLang('en'); showPresetPicker(); await wait(30);
-        const en = [...document.querySelectorAll('#ppOtherRow .ppOtherGrp[data-sec="badge"] .ppChip')];
+        const en = [...document.querySelectorAll('#ppOtherRow .ppOtherGrp[data-sec="badge"] .ppChip:not([data-sec-all])')];
         o.en = en.map((c) => c.textContent.replace(/\(\d+\)$/, ''));
         o.enOk = en.length === BADGE.length && en.every((c, i) => c.textContent === HP.T(BADGE[i][0]) + '(' + o.nVis[i] + ')')
           && HP.T('bdgCore') === 'Core axioms' && /not a pass/.test(HP.T('ppOther_calTargetTip'))
-          && [...document.querySelectorAll('#ppOtherRow .ppOtherSec')].map((x) => x.textContent).join('|') === 'Declarations|Class badges (Description tab)' + (has289f ? '|Status (Description tab)' : '');
+          && [...document.querySelectorAll('#ppOtherRow .ppOtherSec')].map((x) => x.textContent).join('|') === 'Declarations|Class badges (Description tab)' + (has289f ? '|Status (Description tab)' : '') + (has294e ? '|Topic' : '');
         hidePresetPicker(); HP.setLang('ja');
         return o;
-      }, [BADGE, has289f]);
+      }, [BADGE, has289f, has294e]);
       const s1 = await snap(pg);
       r.same = s1.sig === s0.sig && s1.par === s0.par && s1.sel === s0.sel;
       r.errs = errs.slice(0, 2);
@@ -44288,11 +44307,11 @@ if (!FAST) {
         const secFull = secs.every((e) => e.getBoundingClientRect().width >= row.width - 1);
         // 見出しは自分の段のチップより上
         const secAbove = [...document.querySelectorAll('#ppOtherRow .ppOtherGrp')].every((g) => { const h = g.querySelector('.ppOtherSec').getBoundingClientRect();
-          return [...g.querySelectorAll('.ppChip')].every((c) => c.getBoundingClientRect().top >= h.bottom - 0.5); });
+          return [...g.querySelectorAll('.ppChip:not([data-sec-all])')].every((c) => c.getBoundingClientRect().top >= h.bottom - 0.5); });
         return { inBox, secFull, secAbove, h: Math.round(document.getElementById('ppFold_other').getBoundingClientRect().height),
           boxW: Math.round(box.width), docX: document.documentElement.scrollWidth - innerWidth, n: els.length }; });
       o.lay = lay;
-      o.layOk = lay.inBox && lay.secFull && lay.secAbove && lay.docX <= 0 && lay.n === (has289f ? 29 : 18);   // 第289便f: 1+25 チップ+3 見出し
+      o.layOk = lay.inBox && lay.secFull && lay.secAbove && lay.docX <= 0 && lay.n === (has294e ? 43 : (has289f ? 29 : 18));   // 第289便f: 1+25 チップ+3 見出し・第294便e: 1+34 チップ+段の「全て」4+4 見出し
       await pg.evaluate(() => { hidePresetPicker(); ppOther = []; try { localStorage.removeItem('hp_pick_fold'); } catch (_) {} ppFold = {}; });
       const s1 = await snap(pg);
       o.same = s1.sig === s0.sig && s1.par === s0.par && s1.sel === s0.sel;
@@ -44346,7 +44365,10 @@ if (!FAST) {
     //     1.5 → 4.5 の 1 步で自由粒子の vx の最大差 > 0 —— 実測 7.4e-4)。
     //   ui.pickerOtherFold … 段は 3 つ(decl/badge/status)—— 段の並びの文字列と既定の畳み・見出しの語だけを切り替える(判定は不変)。
     const has289fW = /function wbgConvStr\(/.test(html);
-    const SECS = /const PP_OTHER_STATUS_AXES=/.test(html) ? ['decl', 'badge', 'status'] : ['decl', 'badge'];
+    // 第294便e(R152 —— 世代切替 has294e = PP_OTHER_SECS の宣言に段 "topic"): 段は 4 つ(decl/badge/status/topic)。段の「全て」は畳んだ段では出ず、
+    //   隠した数(data-nhid)にも数えない —— 段の中の未選択の数(offIn)も段の「全て」を除いて数える
+    const has294eF = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(html);
+    const SECS = has294eF ? ['decl', 'badge', 'status', 'topic'] : (/const PP_OTHER_STATUS_AXES=/.test(html) ? ['decl', 'badge', 'status'] : ['decl', 'badge']);
     // 第290便f(第80報で閉じた AN114「既定は畳む(選択中は見える)」—— 世代切替 has290f = html の `const PP_OTHER_SEC_FOLDED=`):
     //   「状況(説明タブ)」の段は**画面幅によらず**既定で畳む(広い画面の既定は decl/badge 開・status 畳)。判定の強さは不変 —— 期待の段ごとの既定だけを切り替える
     const FOLDED290 = /const PP_OTHER_SEC_FOLDED=/.test(html) ? ['status'] : [];
@@ -44518,7 +44540,7 @@ if (!FAST) {
           aria: SECS.map((s) => { const h = document.getElementById('ppOtherSec_' + s); return h ? h.getAttribute('aria-expanded') : '?'; }).join('/'),
           secTxt: SECS.map((s) => { const h = document.getElementById('ppOtherSec_' + s); return h ? h.textContent : ''; }),
           nhid: SECS.map((s) => grp(s) ? grp(s).dataset.nhid : '?').join('/'),
-          offIn: SECS.map((s) => grp(s) ? [...grp(s).querySelectorAll('.ppChip')].filter((c) => c.dataset.state !== 'on' && c.dataset.state !== 'not').length : -1).join('/'),
+          offIn: SECS.map((s) => grp(s) ? [...grp(s).querySelectorAll('.ppChip:not([data-sec-all])')].filter((c) => c.dataset.state !== 'on' && c.dataset.state !== 'not').length : -1).join('/'),
           vis: chips.filter((c) => c.checkVisibility()).map((c) => c.dataset.v).join(','),
           states: chips.filter((c) => c.checkVisibility() && c.dataset.v !== 'all').map((c) => c.dataset.v + ':' + c.dataset.state).join(','),
           h: Math.round(document.getElementById('ppFold_other').getBoundingClientRect().height),
@@ -44536,7 +44558,7 @@ if (!FAST) {
         const sel = vis.filter((p) => ppOtherTest('bdgCore', p) && !ppOtherTest('bdgDrag', p) && ppOtherTest('obsCard', p)).length;
         return { narrow: innerWidth <= PP_OTHER_NARROW_PX, zero, sel,
           sum: [HP.T('ppOther_obsCard'), HP.T('bdgCore'), '¬' + HP.T('bdgDrag')].join(' ∧ '),
-          secs: SECS.map((s) => HP.T({ decl: 'ppOtherSecDecl', badge: 'ppOtherSecBadge', status: 'ppOtherSecStatus' }[s])) };
+          secs: SECS.map((s) => HP.T({ decl: 'ppOtherSecDecl', badge: 'ppOtherSecBadge', status: 'ppOtherSecStatus', topic: 'ppOtherSecTopic' }[s])) };
       }, SECS);
       await pg.evaluate(() => { ppFold = { other: true }; showPresetPicker(); }); await pg.waitForTimeout(60);
       const d0 = await st();
@@ -44565,14 +44587,14 @@ if (!FAST) {
       const k2 = await st();
       o.kbOk = k1.fold.split('/')[1] !== d2.fold.split('/')[1] && k2.fold === k1.fold;
       // ② 畳んだ段でも選んだチップは見える
-      await pg.evaluate(() => { ppOther = ['obsCard', 'bdgCore', '!bdgDrag']; ppOtherSecOpen = { decl: false, badge: false, status: false }; showPresetPicker(true); });
+      await pg.evaluate(() => { ppOther = ['obsCard', 'bdgCore', '!bdgDrag']; ppOtherSecOpen = { decl: false, badge: false, status: false, topic: false }; showPresetPicker(true); });
       await pg.waitForTimeout(50);
       const d3 = await st();
       o.selOk = d3.fold === all('1') && d3.vis === 'all,obsCard,bdgCore,bdgDrag' && d3.states === 'obsCard:on,bdgCore:on,bdgDrag:not'
         && d3.sum === o.exp.sum && d3.rows === o.exp.sel && d3.nhid === d3.offIn;
       o.hSel = d3.h;
       // ④ 0 件の軸
-      await pg.evaluate(() => { ppOther = []; ppOtherSecOpen = { decl: true, badge: true, status: true }; showPresetPicker(true); });
+      await pg.evaluate(() => { ppOther = []; ppOtherSecOpen = { decl: true, badge: true, status: true, topic: true }; showPresetPicker(true); });
       await pg.waitForTimeout(50);
       const d4 = await st();
       const zeroVis = await pg.evaluate((zs) => zs.every((k) => { const c = [...document.querySelectorAll('#ppOtherRow .ppChip')].find((x) => x.dataset.v === k);
@@ -44653,7 +44675,7 @@ if (!FAST) {
         // ① 値域
         o.domOk = JSON.stringify(SAMPLE_OBJECTIVES) === JSON.stringify(OBJ) && JSON.stringify(SAMPLE_CALIBRATIONS) === JSON.stringify(CAL)
           && PP_OTHER_AXES.filter((a) => a.sec === 'status').map((a) => a.key).join(',') === KEYS.join(',')
-          && PP_OTHER_SECS.map((x) => x[0]).join(',') === 'decl,badge,status';
+          && /^decl,badge,status(,topic)?$/.test(PP_OTHER_SECS.map((x) => x[0]).join(','));   // 第294便e: 4 段目「題材」が後ろに付く世代も
         const builtins = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
         const vis = builtins.filter((p) => !catalogHidden(p) && !retiredHidden(p));
         // ② 独立の読み: 生成領域の表 SAMPLE_STATUS を直に(sampleStatusOf を通さない)
@@ -44683,7 +44705,7 @@ if (!FAST) {
         HP.loadPreset('saturn', false);
         showPresetPicker(); await wait(30);
         const grp = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="status"]');
-        const chips = grp ? [...grp.querySelectorAll('.ppChip')] : [];
+        const chips = grp ? [...grp.querySelectorAll('.ppChip:not([data-sec-all])')] : [];
         o.labels = chips.map((c) => c.textContent);
         o.chipsOk = chips.length === KEYS.length && chips.every((c, i) => c.dataset.v === KEYS[i] && c.textContent === word(KEYS[i]) + '(' + o.exp[i] + ')'
           && +c.dataset.n === o.exp[i] && /何も測らない/.test(c.title) && c.title.indexOf(word(KEYS[i])) >= 0
@@ -44751,13 +44773,13 @@ if (!FAST) {
       const fz = await pg.evaluate(async () => { ppOtherSecOpen = { decl: false, badge: false, status: false }; showPresetPicker(true);
         await new Promise((r) => setTimeout(r, 30));
         const g = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="status"]');
-        return { fold: g.dataset.fold, vis: [...g.querySelectorAll('.ppChip')].filter((c) => c.checkVisibility()).map((c) => c.dataset.v + ':' + c.dataset.state).join(',') }; });
+        return { fold: g.dataset.fold, vis: [...g.querySelectorAll('.ppChip:not([data-sec-all])')].filter((c) => c.checkVisibility()).map((c) => c.dataset.v + ':' + c.dataset.state).join(',') }; });
       o.foldOk = fz.fold === '1' && fz.vis === a2k + ':on,stCal_out-of-scope:not';
       // en
       const en = await pg.evaluate(async () => { ppOther = []; ppOtherSecOpen = {}; hidePresetPicker(); HP.setLang('en'); showPresetPicker();
         await new Promise((r) => setTimeout(r, 30));
         const g = document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="status"]');
-        const r = { sec: document.getElementById('ppOtherSec_status').textContent, labels: [...g.querySelectorAll('.ppChip')].map((c) => c.textContent.replace(/\(\d+\)$/, '')) };
+        const r = { sec: document.getElementById('ppOtherSec_status').textContent, labels: [...g.querySelectorAll('.ppChip:not([data-sec-all])')].map((c) => c.textContent.replace(/\(\d+\)$/, '')) };
         hidePresetPicker(); HP.setLang('ja'); return r; });
       o.en = en;
       o.enOk = en.sec === 'Status (Description tab)' && en.labels[0] === 'Goal met' && en.labels[9] === 'out of calibration scope'
@@ -44854,6 +44876,9 @@ if (!FAST) {
     // 第291便e(原仮定者の裁定(第81報)⑦・R136): 「現実較正」の表示の 2 見出し(現実較正・太陽系/現実較正・連星)も較正の区画(表に無い世代では効かない)
     const OUT = ['スピンと熱', '自転と減光', '腕と渦伸長(軸力)'], CAL = ['現実較正', '現実との照合', '現実較正・太陽系', '現実較正・連星'];
     const AXB = ['axisBarStill', 'axisBarArms', 'axisBarReach'];
+    // 第294便e(原仮定者の裁定(第84報)④・R152 —— 世代切替 has294e = PP_OTHER_SECS の宣言に段 "topic"): 「すべて表示」を撤去(常に全て表示)したので、
+    //   既定の一覧の期待も variant を含めて数える(expCount(true) と同じ)
+    const has294eP = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
     const ctx = await browser.newContext({ viewport: { width: 360, height: 640 }, isMobile: true, hasTouch: true });
     const pg = await ctx.newPage();
     const errs = [];
@@ -44867,7 +44892,7 @@ if (!FAST) {
       ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = [];
       setShowAllSamples(false); HP.loadPreset('saturn', false); });
     const s0 = await snap();
-    const r = await pg.evaluate(async ([OUT, CAL, AXB]) => {
+    const r = await pg.evaluate(async ([OUT, CAL, AXB, has294e]) => {
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
       const o = { bad: [] };
       const expScope = (g) => (OUT.indexOf(g) >= 0 ? 'outside' : (CAL.indexOf(g) >= 0 ? 'cal' : 'main'));
@@ -44935,7 +44960,7 @@ if (!FAST) {
       showPresetPicker(); await wait(60);
       const d0 = read();
       o.counts = d0.heads.map((h) => h.sc + ' ' + h.books).join('・');
-      o.domOk = judge(d0, expCount(false), 'default');
+      o.domOk = judge(d0, expCount(has294e), 'default');
       // 連続性: seq の区画は main… → outside… → cal…(戻らない)
       const rk = (s) => ['main', 'outside', 'cal'].indexOf(s);
       o.contig = d0.seq.every((s, i) => i === 0 || rk(s) >= rk(d0.seq[i - 1]));
@@ -44955,7 +44980,7 @@ if (!FAST) {
         const d2 = read();
         const sc = expScope(gCanon(ret.group));
         o.retScope = sc; o.retRows = d2.retBy[sc];
-        o.retOk = judge(d2, expCount(false), 'retired') && d2.retBy[sc] === 1;
+        o.retOk = judge(d2, expCount(has294e), 'retired') && d2.retBy[sc] === 1;
         hidePresetPicker(); HP.loadPreset('saturn', false); await wait(40);
       } else o.retOk = true;
       // 検索「🥢」→ 外の区画の見出しだけ(件数 1)
@@ -44974,7 +44999,7 @@ if (!FAST) {
       o.enOk = d4.heads.length === 3 && d4.heads.every((h) => h.name === I18N.en['ppScope_' + h.sc]) && /^DFM proper/.test(o.enNames[0]) && /^Analogies outside DFM/.test(o.enNames[1]);
       hidePresetPicker(); HP.setLang('ja'); try { localStorage.removeItem('hp_pick_open'); } catch (_) {} ppOpen = {};
       return o;
-    }, [OUT, CAL, AXB]);
+    }, [OUT, CAL, AXB, has294eP]);
     const s1 = await snap();
     r.same = s1.sig === s0.sig && s1.par === s0.par;
     r.ok = r.tableOk && r.notRenamed && r.newOk && r.domOk && r.contig && r.selOk && r.allOk && r.retOk && r.searchOk && r.layOk && r.enOk && r.same && errs.length === 0;
@@ -56485,6 +56510,9 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
   // 92-1) ui.presetpicker: ボタン(選択中サンプル名)→モーダル。絞り込み・検索・行タップ読込
   const hasPp = await page.evaluate(() => !!(window.HP && document.querySelector('#btnPresetPick')
     && typeof showPresetPicker === 'function'));
+  // 第294便e(原仮定者の裁定(第84報)④・R152 —— 世代切替 has294e = PP_OTHER_SECS の宣言に段 "topic"): 「すべて表示」は撤去(ウィンドウ内 #ppShowAll も
+  //   ヘッダの #showAllSamplesWrap も無い —— 常に全て表示)。saOk は「どちらも無い」に読み替える
+  const has294eQ = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
   if (hasPp) {
     const r = await page.evaluate(() => new Promise((res) => {
       HP.loadPreset('saturn', false);
@@ -56496,6 +56524,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       const showAllInModal = !!document.querySelector('#ppShowAll');
       const headerWrap = document.querySelector('#showAllSamplesWrap');
       const headerHidden = !!headerWrap && headerWrap.style.display === 'none';
+      const headerGone = !headerWrap;   // 第294便e: 撤去
       const rows0 = document.querySelectorAll('#ppList .ppRow').length;
       // 第147便(原仮定者指示): 一覧のグループ区切り = 見出し付きセパレータ(グループ名+罫線)。
       // 第149便(原仮定者指示): 見出しの右へ伸ばしていた罫線(::after)は**削除**した。区切りは
@@ -56611,12 +56640,12 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         ppSearch = '';
         HP.loadPreset('saturn', false);
         res({ label0, modal, rows0, rowsGal, galAllGalactic, hasMercury, closed, label1, row0Emoji,
-          showAllInModal, headerHidden, sepOk, e0Rows, e0Expected, e0HasUndeclared,
+          showAllInModal, headerHidden, headerGone, sepOk, e0Rows, e0Expected, e0HasUndeclared,
           grpSepOk, grpHeadTexts, eNoteOk, nDecl, w147Gen, w149Gen, noteRows, notesOk });
       }, 150);
     }));
     // 第93便: すべて表示のウィンドウ内移設(旧ビルドの beta には無いので undefined 通し)
-    const saOk = r.showAllInModal === undefined || (r.showAllInModal && r.headerHidden);
+    const saOk = has294eQ ? (!r.showAllInModal && r.headerGone) : (r.showAllInModal === undefined || (r.showAllInModal && r.headerHidden));
     // 第94便: セパレータ+E0=宣言なし込み(件数が期待と一致し、宣言なしサンプルが実在する)
     const e0Ok = r.e0Rows === r.e0Expected && r.e0HasUndeclared && r.e0Rows > 0;
     // 第147便: グループセパレータ+E水準注記。本便未適用の対象(root 等・注記が存在しない世代)は
@@ -56630,7 +56659,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       && r.label1.includes(r.row0Emoji) && saOk && r.sepOk && e0Ok && w147Ok && w149Ok,
       `ボタン=選択中サンプル名(🪐)=${/🪐/.test(r.label0)} / モーダル=${r.modal}・全${r.rows0}行 → ` +
       `🌌絞り込み ${r.rowsGal}行 / 検索「水星」=☿ヒット=${r.hasMercury} / 行タップ(先頭行=${r.row0Emoji})で読込+閉じ=${r.closed}(ボタン=${r.row0Emoji}: ${r.label1.includes(r.row0Emoji)})/ ` +
-      `すべて表示=ウィンドウ内(${r.showAllInModal})・ヘッダ非表示(${r.headerHidden})/ ` +
+      (has294eQ ? `すべて表示の切り替え=撤去(ウィンドウ内 ${r.showAllInModal}・ヘッダ ${!r.headerGone} —— 第294便e: 常に全て表示)/ ` : `すべて表示=ウィンドウ内(${r.showAllInModal})・ヘッダ非表示(${r.headerHidden})/ `) +
       `セパレータ=${r.sepOk} / E0絞り込み ${r.e0Rows}行(期待${r.e0Expected}・宣言なし込み=${r.e0HasUndeclared})/ ` +
       `グループ見出しセパレータ(第149便: 罫線なし)=${r.w147Gen ? r.grpSepOk : 'SKIP(第147便 未適用)'}(${JSON.stringify(r.grpHeadTexts)})・E水準注記=${r.w147Gen ? r.eNoteOk : 'SKIP'}(宣言${r.nDecl}件)/ ` +
       `説明の畳み込み4種=${r.w149Gen ? `${r.notesOk}(${(r.noteRows || []).map((x) => `${x.id}:閉${x.closed0}→開${x.opened}(${x.len}字・内容${x.hasAll})→閉${x.closed1}・チップ不変${x.chips}`).join(' / ')})`
@@ -56643,20 +56672,22 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
   //        読込中の自身だけは選択保持のため表示に残る。バリデータは不正値を警告つきで削除する
   const hasCat = await page.evaluate(() => !!(window.HP && typeof catalogHidden === 'function'
     && document.querySelector('#btnPresetPick')));
+  // 第294便e(原仮定者の裁定(第84報)④・R152 —— 世代切替 has294eQ): 「すべて表示」の撤去で catalog extended/diagnostic も**常に表示**。
+  //   ①② は「OFF で隠れる」から「常に出る」へ読み替える(③〜⑤ は不変)
   if (hasCat) {
-    const r = await page.evaluate(() => new Promise((res) => {
-      const out = {};
+    const r = await page.evaluate((has294e) => new Promise((res) => {
+      const out = { has294e };
       HP.loadPreset('saturn', false);
       setShowAllSamples(false); rebuildPresetSelect();
-      // ① プルダウン: extended(🎡galaxyStd)が現れない
-      out.hiddenInSelect = ![...document.querySelectorAll('#presetSelect option')]
-        .some((o) => o.value === 'galaxyStd');
+      // ① プルダウン: extended(🎡galaxyStd)が現れない(第294便e: 常に現れる)
+      out.hiddenInSelect = [...document.querySelectorAll('#presetSelect option')]
+        .some((o) => o.value === 'galaxyStd') === has294e;
       // ② ピッカー検索でも出ない(strict — variant の検索再表示と違う)
       document.querySelector('#btnPresetPick').click();
       const si = document.querySelector('#ppSearch');
       si.value = '銀河標準'; si.dispatchEvent(new Event('input'));
       const hit0 = [...document.querySelectorAll('#ppList .ppRow')];
-      out.hiddenInSearch = !hit0.some((x) => x.textContent.includes('銀河標準'));
+      out.hiddenInSearch = hit0.some((x) => x.textContent.includes('銀河標準')) === has294e;
       // ③ すべて表示 ON → 同じ検索でヒットし、行タップで読込できる
       setShowAllSamples(true);
       si.dispatchEvent(new Event('input'));
@@ -56685,11 +56716,11 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         HP.loadPreset('saturn', false); rebuildPresetSelect();
         res(out);
       }, 150);
-    }));
+    }), has294eQ);
     add('catalog.visibility',
       r.hiddenInSelect && r.hiddenInSearch && r.shownWhenAll && r.loadedId === 'galaxyStd'
       && r.currentKept && r.badDropped && r.goodKept,
-      `OFF非表示(select=${r.hiddenInSelect}/検索=${r.hiddenInSearch}) ON検索ヒット=${r.shownWhenAll} ` +
+      (r.has294e ? `常に表示(第294便e: select=${r.hiddenInSelect}/検索=${r.hiddenInSearch}) 検索ヒット=${r.shownWhenAll} ` : `OFF非表示(select=${r.hiddenInSelect}/検索=${r.hiddenInSearch}) ON検索ヒット=${r.shownWhenAll} `) +
       `読込=${r.loadedId} 選択保持=${r.currentKept} validator(不正削除=${r.badDropped}/正値保持=${r.goodKept})`);
   } else {
     console.log('SKIP catalog.visibility(catalog 可視性なし — root。第117便)');
@@ -60472,11 +60503,20 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.famRowOk = (o.famRowSolo === false) && (o.famRowPair === true);
       HP.loadPreset('saturn', false); showPresetPicker();
       // ⑤ 「すべて表示」で行が増える(畳みの状態は保つ)
+      // 第294便e(原仮定者の裁定(第84報)④・R152 —— 世代切替: PP_OTHER_SECS に段 "topic"): 「すべて表示」は撤去(#ppShowAll なし)・常に全て表示 ——
+      //   ⑤ は「切り替えが無く、一覧の行数 = 退役を除く内蔵の数(variant・catalog extended を含む)」に読み替える
       const before = rows().length;
-      const cb = document.querySelector('#ppShowAll'); cb.checked = true; cb.dispatchEvent(new Event('change'));
+      const cb = document.querySelector('#ppShowAll');
+      if (typeof PP_OTHER_SECS !== 'undefined' && PP_OTHER_SECS.some((x) => x[0] === 'topic')) {
+        o.showAllRows = before;
+        o.showAllGrew = !cb && before === HP.allPresets().filter((p) => !String(p.id).startsWith('custom_') && p.familyRole !== 'retired').length;
+        o.showAllOpen = heads()[0].getAttribute('aria-expanded');
+      } else {
+      cb.checked = true; cb.dispatchEvent(new Event('change'));
       o.showAllRows = rows().length; o.showAllGrew = o.showAllRows > before;
       o.showAllOpen = heads()[0].getAttribute('aria-expanded');
       cb.checked = false; cb.dispatchEvent(new Event('change'));
+      }
       hidePresetPicker();
       try { localStorage.removeItem('hp_pick_open'); } catch (_) {}
       ppOpen = {};
@@ -60557,6 +60597,13 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       hidePresetPicker();
       setShowAllSamples(true); showPresetPicker();
       o.onHits = hits();
+      // 第294便e: variant の行(在位)は名前の後ろに「〔<primary の絵文字> の家族〕」・行頭の「└」なし
+      if (typeof familyTagOf === 'function') {
+        const pe = (ps.find((p) => p.familyId === 'earthmoon' && p.familyRole === 'primary') || {}).emoji;
+        const vr = ps.filter((p) => p.familyId === 'earthmoon' && p.familyRole === 'variant');
+        o.famTagOk = vr.length > 0 && vr.every((p) => rowsOf().some((t) => t.indexOf((p.emoji || '') + ' ' + pName(p) + '〔' + HP.T('familyTag')(pe) + '〕') === 0))
+          && rowsOf().every((t) => t.indexOf('└') < 0);
+      }
       hidePresetPicker(); setShowAllSamples(false);
       HP.loadPreset('emAuditDFM', false);
       { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
@@ -60582,7 +60629,12 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     if (r.emAuditLeft !== 0) bad.push('① 旧 family "emAudit" が残っている');
     if (!(r.present && (w292em ? JSON.stringify(r.groups.slice().sort()) === JSON.stringify(['天体の機構', '現実較正'].sort()) && r.group292 === '天体の機構' && r.groupsOther.length === 1
       : r.groups.length === 1))) bad.push('② ID が欠けた/グループが割れた: ' + JSON.stringify(r.groups) + (w292em ? '(第292便b: 🌘 だけ「天体の機構」・他の 5 本は 1 群 —— ' + JSON.stringify(r.groupsOther) + ')' : ''));
-    const offOk = r.offHits[iPrim] === true && r.offHits.filter((z) => z).length === 1;
+    // 第294便e(原仮定者の裁定(第84報)④⑤・R152 —— 世代切替 has294eEm = PP_OTHER_SECS の宣言に段 "topic"): 「すべて表示」を撤去(常に全て表示)——
+    //   ③ の「OFF では入口だけ」は「切り替えに依らず在位の仲間がすべて出る(OFF の呼び出しは no-op)・variant の行は「〔🌙 の家族〕」」に読み替える。
+    //   ⑤ のヘルプの文は「家族の代表(入口)を 🌙 の 1 つにまとめました」+「〔🌙 の家族〕」
+    const has294eEm = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+    const offOk = has294eEm ? JSON.stringify(r.offHits) === JSON.stringify(r.onHits) && r.offHits[iPrim] === true && r.famTagOk
+      : r.offHits[iPrim] === true && r.offHits.filter((z) => z).length === 1;
     // 第284便b(原仮定者の裁定(第74報)⑤・AN35): ⭕ emAuditNewton は退役(🌙 に集約)—— 一覧(すべて表示でも)と「この仲間」に出ない
     const retiredEm = await pf.evaluate(() => typeof retiredOf === 'function' && retiredOf(HP.allPresets().find((q) => q.id === 'emAuditNewton')));
     const onOk = r.onHits.every((z, i) => z === !(retiredEm && RET_EM.includes(IDS[i])));
@@ -60594,7 +60646,10 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
     if (!(Array.isArray(r.familyButtons) && r.familyButtons.length === nFam)) bad.push(`④ 旧判別 B(退役)の「他の仲間」が ${nFam} 本でない: ` + JSON.stringify(r.familyButtons));
     const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
     const EM = w288em ? '🌙' : '🌘';
-    const helpJa = html.indexOf('一覧の入口を ' + EM + ' の 1 つにまとめました') >= 0, helpEn = html.indexOf('now share one entry in the list, ' + EM) >= 0;
+    const helpJa = has294eEm ? html.indexOf('家族の代表(入口)を ' + EM + ' の 1 つにまとめました') >= 0 && html.indexOf('「〔' + EM + ' の家族〕」') >= 0
+      : html.indexOf('一覧の入口を ' + EM + ' の 1 つにまとめました') >= 0;
+    const helpEn = has294eEm ? html.indexOf('now share one family representative (entry), ' + EM) >= 0 && html.indexOf('〔' + EM + ' family〕') >= 0
+      : html.indexOf('now share one entry in the list, ' + EM) >= 0;
     if (!(helpJa && helpEn)) bad.push('⑤ ヘルプ(ja/en)にファミリー化の 1 文が無い');
     if (pfErr.length) bad.push('ページエラー: ' + pfErr.slice(0, 2).join(' | '));
     add('ui.emFamily', bad.length === 0,
@@ -66070,7 +66125,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (r.sum.ja.indexOf('較正母集団ではない') < 0 || r.sum.en.indexOf('NOT part of the calibration population') < 0) bad.push('⑤summary に「較正母集団ではない」(ja/en)が無い');
       if (r.warn) bad.push(`⑤validatePreset の警告 ${r.warn}`);
       // ⑥
-      if (r.listOff !== 0) bad.push(`⑥「すべて表示」OFF で 🌘 が ${r.listOff} 行出る(variant は畳む)`);
+      // 第294便e(原仮定者の裁定(第84報)④・R152 —— 世代切替: PP_OTHER_SECS に段 "topic"): 「すべて表示」は撤去(常に全て表示)—— OFF の呼び出しは no-op で 🌘 は常に 1 行
+      const has294eRv = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(fs.readFileSync(path.join(ROOT, TARGET), 'utf8'));
+      if (r.listOff !== (has294eRv ? 1 : 0)) bad.push(`⑥「すべて表示」OFF で 🌘 が ${r.listOff} 行出る(${has294eRv ? '第294便e: 常に 1 行' : 'variant は畳む'})`);
       if (r.listOn !== 1 || r.listOnRetiredTag) bad.push(`⑥「すべて表示」ON で 🌘 が ${r.listOn} 行・退役の印 ${r.listOnRetiredTag}`);
       if (r.dispGroup !== '天体の機構') bad.push(`⑥表示の群 ${r.dispGroup}`);
     }
@@ -66275,7 +66332,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     // 第293便b(原仮定者の裁定(第83報)・R142): 世代切替 has293b = 説明の題材チップが押せるボタン(html に topicChipPick)—— ③ の「押せない(span)」は
     //   「button.topicChip(押せる・それ以外の要素を持たない)」に読み替える(押したときの検査は ui.topicChipFilter293)
     const has293b = html.indexOf('function topicChipPick(') >= 0;
-    const r = await pg.evaluate(async (has293b) => {
+    // 第294便e(原仮定者の裁定(第84報)①・R152 —— 世代切替 has294e = PP_OTHER_SECS の宣言に段 "topic"): 次元「題材」(details#ppFold_topic・単一選択)は撤去し、
+    //   「その他」の 4 段目「題材」(.ppOtherGrp[data-sec=topic]・チップの値 "topic:<鍵>"・三状態)へ移した —— ② は段の中のチップ(段の「全て」+9)で見る:
+    //   段の位置 = 4 段目(最後)・チップ 1 回で「含む」(行数 = 件数 data-n-on)・2 回で「除く」(行数 = data-n-not = 一覧に出せる本 − 件数)・段の「全て」で解除(元の行数)・
+    //   観測較正 ∧ geoPN 1 の AND は ppOther = ["topic:obsCal"] で・ⓘ は「その他」の説明(#ppOtherNote)に各語と件数
+    const has294e = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(html);
+    const r = await pg.evaluate(async ([has293b, has294e]) => {
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
       const o = { bad: [] };
       // この場で書いた規則(宣言の鍵だけ —— ページの TOPIC_TAGS を使わない)
@@ -66301,7 +66363,49 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         return topicsOf(c).join(',') !== topicsOf(p).join(','); }).map((p) => p.id);
       const listable = (f) => ps.filter((p) => !catalogHidden(p) && p.familyRole !== 'retired' && f(p));
       o.counts = KEYS.map((k) => k + ' ' + listable(MINE[k]).length).join('・');
-      // ② 絞り込みの次元
+      // ② 絞り込みの次元(第294便e: 「その他」の 4 段目)
+      if (has294e) {
+        ppFold = { other: true }; ppOtherSecOpen = { topic: true }; ppOther = [];
+        showPresetPicker(); await wait(40);
+        const secs = [...document.querySelectorAll('#ppOtherRow > .ppOtherGrp')].map((g) => g.dataset.sec);
+        o.foldPos = !document.getElementById('ppFold_topic') && secs[secs.length - 1] === 'topic' && secs.length === 4;
+        const grpEl = () => document.querySelector('#ppOtherRow .ppOtherGrp[data-sec="topic"]');
+        const chipsT = () => [...grpEl().querySelectorAll('.ppChip')];
+        const chips = chipsT();
+        o.chipV = chips.map((c) => c.dataset.v).join(',');
+        const listN = listable(() => true).length;
+        o.chipOk = o.chipV === ['topic:all'].concat(KEYS.map((k) => 'topic:' + k)).join(',')
+          && chips.slice(1).every((c) => { const k = c.dataset.v.slice(6);
+            return c.textContent === HP.T('ppTopic_' + k) + '(' + c.dataset.n + ')' && +c.dataset.n === listable(MINE[k]).length
+              && +c.dataset.nOn === listable(MINE[k]).length && +c.dataset.nNot === listN - listable(MINE[k]).length
+              && c.getAttribute('aria-pressed') === 'false' && !!c.title; })
+          && chips[0].getAttribute('aria-pressed') === 'true' && chips[0].classList.contains('ppChipAll')
+          && document.getElementById('ppOtherSec_topic').textContent === HP.T('ppOtherSecTopic');
+        const nRows = () => document.querySelectorAll('#ppList .ppRow').length;
+        const rows0 = nRows();
+        o.tapBad = [];
+        for (const k of KEYS) {
+          const v = 'topic:' + k, want = listable(MINE[k]).length;
+          chipsT().find((z) => z.dataset.v === v).click(); await wait(15);
+          let on = chipsT().find((z) => z.dataset.v === v);
+          const sum = document.querySelector('#ppFold_other > summary .ppFoldSel');
+          if (!(nRows() === want && on.getAttribute('aria-pressed') === 'true' && sum.textContent === HP.T('ppTopic_' + k) && sum.dataset.on === '1'
+            && ppOther.join(',') === v)) o.tapBad.push(k + ':' + nRows() + '≠' + want);
+          on.click(); await wait(15);
+          on = chipsT().find((z) => z.dataset.v === v);
+          if (!(nRows() === listN - want && on.getAttribute('aria-pressed') === 'mixed' && ppOther.join(',') === '!' + v)) o.tapBad.push(k + ':除く ' + nRows());
+          chipsT()[0].click(); await wait(15);
+          if (nRows() !== rows0 || ppOther.length !== 0) o.tapBad.push(k + ':解除');
+        }
+        ppOther = ['topic:obsCal']; ppGeo = '1'; showPresetPicker(true); await wait(30);
+        o.andGot = nRows(); o.andExp = listable((p) => MINE.obsCal(p) && String(ppGeoBucketOf(p)) === '1').length;
+        o.andOnly = listable(MINE.obsCal).length;
+        ppOther = []; ppGeo = 'all'; showPresetPicker(true); await wait(30);
+        const note = document.getElementById('ppOtherNote');
+        o.noteOk = !!note && KEYS.every((k) => note.textContent.indexOf(HP.T('ppTopic_' + k) + '(' + listable(MINE[k]).length + ')') >= 0)
+          && note.textContent.indexOf('【' + HP.T('ppOtherSecTopic') + '】') >= 0;
+        hidePresetPicker(); ppFold = {}; ppOtherSecOpen = {};
+      } else {
       showPresetPicker(); await wait(40);
       const fold = document.getElementById('ppFold_topic');
       const folds = [...document.querySelectorAll('#ppFolds > details.ppFold')].map((d) => d.dataset.dim);
@@ -66333,6 +66437,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const note = document.getElementById('ppTopicNote');
       o.noteOk = !!note && KEYS.every((k) => note.textContent.indexOf(HP.T('ppTopic_' + k) + '(' + listable(MINE[k]).length + ')') >= 0);
       hidePresetPicker();
+      }
       // ③ 説明タブ(全内蔵)
       const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
       o.descBad = []; o.descN = 0; o.descWith = 0;
@@ -66350,10 +66455,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       // ④ en
       HP.setLang('en'); HP.loadPreset('ngc3198', false); await wait(5);
       o.en = [...document.querySelectorAll('#descTopics .topicChip')].map((c) => c.textContent).join('|');
-      o.enDim = HP.T('ppDimTopic');
+      o.enDim = HP.T(has294e ? 'ppOtherSecTopic' : 'ppDimTopic');   // 第294便e: 「その他」の段の見出し
       HP.setLang('ja'); HP.loadPreset('saturn', false);
       return o;
-    }, has293b);
+    }, [has293b, has294e]);
     const s1 = await snap();
     r.same = s1.sig === s0.sig && s1.par === s0.par;
     const andOk = r.andGot === r.andExp && r.andExp > 0 && r.andExp < r.andOnly;
@@ -66365,7 +66470,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       && r.descBad.length === 0 && r.descWith > 0 && enOk && r.same && errs.length === 0;
     add('ui.topicChips291', ok,
       `**題材**(原仮定者の裁定(第81報)⑦・R136 —— 表 TOPIC_TAGS・宣言の鍵だけ): key [${r.keys}]=${r.keysOk}・全内蔵でこの場の規則と一致(不一致 ${r.ruleBad.length})・名前/絵文字/群/id を変えても不変(${r.nameBad.length})`
-      + ` / 件数 ${r.counts} / 次元「題材」が「その他」の前=${r.foldPos}・チップ 1+9・data-n=数え直し=${r.chipOk}・チップ 1 つの行数=件数・再タップで解除(NG ${r.tapBad.length})`
+      + (has294e ? ` / 件数 ${r.counts} / 「題材」は「その他」の 4 段目(次元の畳みなし)=${r.foldPos}・段の「全て」+9・data-n/-on/-not=数え直し=${r.chipOk}・含む=件数・除く=残り・段の「全て」で解除(NG ${r.tapBad.length})`
+        : ` / 件数 ${r.counts} / 次元「題材」が「その他」の前=${r.foldPos}・チップ 1+9・data-n=数え直し=${r.chipOk}・チップ 1 つの行数=件数・再タップで解除(NG ${r.tapBad.length})`)
       + `・観測較正∧geoPN1 ${r.andGot}=${r.andExp}(<${r.andOnly})・ⓘ 語と件数=${r.noteOk}`
       + ` / 説明タブ ${r.descN} 本(題材あり ${r.descWith})の #descTopics = topicsOf・#classChips の直後・${has293b ? '押せるボタン(第293便b)' : '押せない'}(NG ${r.descBad.length})/ en「${r.en}」=${enOk}・tests/README の規則表=${r.readmeOk}・presetSig/params 不変=${r.same}`
       + (r.ruleBad.length + r.nameBad.length + r.tapBad.length + r.descBad.length ? '・NG ' + [].concat(r.ruleBad, r.nameBad, r.tapBad, r.descBad).slice(0, 5).join(' ') : '')
@@ -66396,8 +66502,13 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     const snap = () => pg.evaluate(() => ({ n: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).length,
       sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
       par: JSON.stringify(HP.sim.params) }));
+    // 第294便e(原仮定者の裁定(第84報)①・R152 —— 世代切替 has294e = PP_OTHER_SECS の宣言に段 "topic"): 題材は「その他」の 4 段目(三状態)。
+    //   「ppTopic」は「その他」の段のその題材が「含む」か(topic:inertial が on なら "inertial")・「題材の畳み」は「その他」の畳みと段「題材」が開いていること・
+    //   一覧の「すべて」は段の「全て」(値 topic:all)で読み替える(判定の強さは不変)
+    const has294e = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(html);
     const reset = () => pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); localStorage.removeItem('hp_pick_open'); } catch (_) {}
       ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = []; ppTopic = 'all';
+      if (typeof ppOtherSecOpen !== 'undefined') ppOtherSecOpen = {};
       setShowAllSamples(false); hidePresetPicker(); });
     await reset();
     await pg.evaluate(() => HP.loadPreset('saturn', false));
@@ -66414,12 +66525,21 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     const SEL = '#descTopics button.topicChip[data-topic="inertial"]';
     const chipSt = () => pg.evaluate((sel) => { const c = document.querySelector(sel);
       return c ? { tag: c.tagName, aria: c.getAttribute('aria-label'), pressed: c.getAttribute('aria-pressed'), state: c.dataset.state || '' } : null; }, SEL);
-    const pickSt = () => pg.evaluate(() => { const rows = [...document.querySelectorAll('#ppList .ppRow')];
+    const pickSt = () => pg.evaluate((has294e) => { const rows = [...document.querySelectorAll('#ppList .ppRow')];
+      if (has294e) {
+        const tc = [...document.querySelectorAll('#ppOtherRow .ppOtherGrp[data-sec="topic"] .ppChip')];
+        const on = tc.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => (c.dataset.v === 'topic:all' ? 'all' : c.dataset.v.slice(6)));
+        const pos = ppOther.filter((e) => e.indexOf('topic:') === 0);
+        const fo = document.getElementById('ppFold_other');
+        return { modal: !!document.getElementById('ppModal'), topic: pos.length === 1 ? pos[0].slice(6) : (pos.length ? pos.join(',') : 'all'),
+          fold: !!(fo && fo.open) && ppOtherSecIsOpen('topic'), n: rows.length,
+          set: rows.map((x) => (x.firstChild ? x.firstChild.textContent : '')).sort().join('\u0001'), on: on.join(',') };
+      }
       const tc = [...document.querySelectorAll('#ppTopicRow .ppChip')];
       const on = tc.filter((c) => c.getAttribute('aria-pressed') === 'true').map((c) => c.dataset.v);
       const fold = document.getElementById('ppFold_topic');
       return { modal: !!document.getElementById('ppModal'), topic: ppTopic, fold: !!(fold && fold.open), n: rows.length,
-        set: rows.map((x) => (x.firstChild ? x.firstChild.textContent : '').replace(/^└ /, '')).sort().join('\u0001'), on: on.join(',') }; });
+        set: rows.map((x) => (x.firstChild ? x.firstChild.textContent : '').replace(/^└ /, '')).sort().join('\u0001'), on: on.join(',') }; }, has294e);
     // ①
     const c0 = await chipSt();
     r.c0 = c0;
@@ -66442,7 +66562,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     await pg.focus(SEL); await pg.keyboard.press('Space'); await pg.waitForTimeout(40);
     const p4 = await pickSt();
     if (!(p4.modal && p4.topic === 'inertial' && p4.n === r.nMine)) r.bad.push('④ Space で絞り込まない');
-    await pg.click('#ppTopicRow .ppChip[data-v="all"]'); await pg.waitForTimeout(30);
+    await pg.click(has294e ? '#ppOtherRow .ppChip[data-v="topic:all"]' : '#ppTopicRow .ppChip[data-v="all"]'); await pg.waitForTimeout(30);
     const p4b = await pickSt(), c4 = await chipSt();
     if (!(p4b.topic === 'all' && p4b.on === 'all' && c4 && c4.pressed === 'false' && c4.state === 'off')) r.bad.push('④ 一覧の「すべて」で解除されない');
     // ⑤ 検索欄に題材の語(ja・en)
@@ -66459,7 +66579,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     await pg.evaluate(() => { HP.setLang('en'); HP.loadPreset('earthMoonInertial', false); });
     const c6 = await chipSt();
     r.en = c6 && c6.aria;
-    if (!(c6 && c6.aria === 'Filter the list by topic ' + r.lblEn)) r.bad.push('⑥ en の aria-label');
+    if (!(c6 && c6.aria === (has294e ? 'Filter the list by topic ' + r.lblEn + ' (include it in the Topic section of Other)' : 'Filter the list by topic ' + r.lblEn))) r.bad.push('⑥ en の aria-label');
     await reset();
     await pg.evaluate(() => HP.loadPreset('saturn', false));
     const s1 = await snap();
@@ -66473,6 +66593,215 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       + (r.bad.length ? ` / **違反 ${r.bad.length} 件**: ${r.bad.slice(0, 5).join(' , ')}` : '')
       + (errs.length ? '・JS ' + errs.slice(0, 2).join(' | ') : ''));
     await ctx.close();
+  }
+}
+// ---- 第294便e(原仮定者の裁定(第84報)「サンプルを選ぶ」の UI 7 点・統括の検証項目 R152): **表示だけ**(物理・presetSig・保存 JSON に 1 bit も効かない)。
+// ----   世代切替 has294e = html の PP_OTHER_SECS の宣言に段 "topic" —— root 等は SKIP。viewport は 412×915(縦)と 1280×800(横)。
+// ----   ui.pickerReorg294 … ① 題材の段: 次元「題材」の畳み(#ppFold_topic)は無く、絞り込みの次元は scale/cls/e/geo/other の 5 つ・「その他」の段は
+// ----     decl/badge/status/topic の 4 つ・段「題材」のチップ = 段の「全て」+ TOPIC_TAGS の 9(値 "topic:<鍵>")・**AND と NOT**: 1PN・測地線 を含む ∧ 観測較正 を除く ∧
+// ----     宣言の 📇 観測結果カードあり を含む の行数 = **この場で書いた規則**(geoPN ≥ 1・sampleClass calibration・obsCard の行)で数えた一覧に出せる本の数・
+// ----     要約行 = 「📇 観測結果カードあり ∧ 1PN・測地線 ∧ ¬観測較正」(軸の表の順)/ ② 「全て」の語 = T('grpAll') = 「全て」(en "All")・**太字**:
+// ----     各次元の先頭の「全て」(data-v=all)と段ごとの「全て」(data-sec-all)は class ppChipAll・font-weight ≥ 700、他のチップは 400・文字の色は同じ状態の
+// ----     他のチップと同じ(色は従来のまま)/ ③ **段ごとの「全て」**: 値 "<段>:all" が 4 つ(段の見出しの直後)・段に選択が無いとき aria-pressed true・
+// ----     宣言と題材を選んだ状態で宣言の「全て」を押すと宣言の選択だけが外れる(題材は残る)・先頭の「全て」で全段が外れる / ④ **「全て表示」の撤去**:
+// ----     #ppShowAll・#showAllSamplesWrap・#showAllSamplesCb が無い・localStorage hp_show_all_samples に "0" を入れて読み込み直しても一覧の行数 =
+// ----     退役を除く内蔵の数(variant・catalog extended を含む)・窓を操作しても hp_show_all_samples を書かない・隠し #presetSelect の option に「(+n)」が無い /
+// ----     ⑤ **「└」を使わない**: 一覧の行と option に「└」が 0・在位の variant の行と option はすべて「名前〔<同じ家族の primary の絵文字> の家族〕」で始まる・
+// ----     variant を持つ家族の primary の絵文字は互いに異なる(別家族が同じ語に見えない)・en は「〔🌙 family〕」/ ⑥ **群名の色**: .ppGroupHead の文字色 =
+// ----     --accText(開閉の両方)・太さ 600・区画の見出し .ppScopeHead は色が違い太さ ≥ 群名(階層)・群名の文字の箱(.ppBox)の背景に対するコントラスト比
+// ----     ≥ 4.5(ダーク・ライトの両スキン —— 実測の計算色から)/ ⑦ **ⓘ の情報表示中**: 次元の ⓘ(.ppDimBtn)と群の説明(#ppGroupNoteBtn)・パラメータの
+// ----     カテゴリの ⓘ(.catInfo)・背景宣言の ⓘ(#bgcInfo)は説明を開いている間だけ aria-expanded="true" で太字(≥ 700)+強調色(--accText)、閉じると
+// ----     aria-expanded="false" で元の太さ(< 700)に戻る / presetSig(152 本)・params 不変 / JS エラー 0。
+{
+  const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has294e = /^const PP_OTHER_SECS=\[[^\n]*\["topic",/m.test(html);
+  if (!has294e) {
+    console.log('SKIP ui.pickerReorg294(対象に第294便e の「その他」の段「題材」なし — root 等)');
+  } else {
+    const VPS = [{ name: 'portrait-412x915', width: 412, height: 915, mobile: true }, { name: 'landscape-1280x800', width: 1280, height: 800, mobile: false }];
+    const res = [];
+    for (const vp of VPS) {
+      const ctx = await browser.newContext({ viewport: { width: vp.width, height: vp.height }, isMobile: vp.mobile, hasTouch: vp.mobile });
+      const pg = await ctx.newPage();
+      const errs = [];
+      pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+      pg.on('dialog', (d) => d.accept());
+      await pg.addInitScript(() => { try { if (!sessionStorage.getItem('w294eInit')) { localStorage.setItem('hp_show_all_samples', '0'); sessionStorage.setItem('w294eInit', '1'); } } catch (_) {} });
+      await pg.goto(INDEX, { waitUntil: 'load' });
+      await pg.waitForFunction(() => !!window.HP && !!HP.loadPreset);
+      const snap = () => pg.evaluate(() => ({ n: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).length,
+        sig: HP.allPresets().filter((p) => !String(p.id).startsWith('custom_')).map((p) => presetSig(p)).join('\u0001'),
+        par: JSON.stringify(HP.sim.params) }));
+      await pg.evaluate(() => { HP.setLang('ja'); try { localStorage.removeItem('hp_pick_fold'); localStorage.removeItem('hp_pick_open'); } catch (_) {}
+        ppFold = {}; ppOpen = {}; ppOpenTmp = {}; ppFilterSig = null; ppSearch = ''; ppScale = 'all'; ppClass = 'all'; ppE = 'all'; ppGeo = 'all'; ppOther = []; ppOtherSecOpen = {};
+        HP.loadPreset('saturn', false); });
+      const s0 = await snap();
+      const r = await pg.evaluate(async () => {
+        const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+        const o = { bad: [] };
+        const ps = BUILTIN_PRESETS;
+        const listable = (f) => ps.filter((p) => p.familyRole !== 'retired' && f(p));
+        // この場で書いた規則(ページの TOPIC_TAGS・PP_OTHER_AXES を使わない)
+        const pn1 = (p) => ((p.physics || {}).geoPN || 0) >= 1, cal = (p) => p.sampleClass === 'calibration', obs = (p) => Array.isArray(p.obsCard) && p.obsCard.length > 0;
+        const rows = () => [...document.querySelectorAll('#ppList .ppRow')];
+        // ④ 「全て表示」の撤去(hp_show_all_samples = "0" で読み込んだ)
+        o.lsBefore = (() => { try { return localStorage.getItem('hp_show_all_samples'); } catch (_) { return 'THROW'; } })();
+        o.noToggle = !document.getElementById('ppShowAll') && !document.getElementById('showAllSamplesWrap') && !document.getElementById('showAllSamplesCb');
+        ppFold = { other: true }; ppOtherSecOpen = { decl: true, badge: true, status: true, topic: true };
+        showPresetPicker(); await wait(40);
+        o.noToggle = o.noToggle && !document.getElementById('ppShowAll');
+        o.nRows = rows().length; o.nListable = listable(() => true).length;
+        o.nVariant = listable((p) => p.familyRole === 'variant').length; o.nExt = listable((p) => p.catalog === 'extended' || p.catalog === 'diagnostic').length;
+        const opts = [...document.querySelectorAll('#presetSelect option')].filter((x) => ps.some((p) => p.id === x.value));
+        o.nOpts = opts.length;
+        o.plusN = opts.filter((x) => /\(\+\d+\)/.test(x.textContent)).length;
+        if (!(o.noToggle && o.nRows === o.nListable && o.nOpts === o.nListable && o.plusN === 0 && o.nVariant > 0 && o.nExt > 0 && showAllSamples === true))
+          o.bad.push(`④ 切り替え ${!o.noToggle}・行 ${o.nRows}/${o.nListable}・option ${o.nOpts}・(+n) ${o.plusN}`);
+        setShowAllSamples(false); showPresetPicker(true); await wait(30);
+        if (rows().length !== o.nListable) o.bad.push('④ setShowAllSamples(false) で行が減った');
+        // ① 題材の段
+        const dims = [...document.querySelectorAll('#ppFolds > details.ppFold')].map((d) => d.dataset.dim).join('/');
+        const secs = [...document.querySelectorAll('#ppOtherRow > .ppOtherGrp')].map((g) => g.dataset.sec).join('/');
+        const tchips = [...document.querySelectorAll('#ppOtherRow .ppOtherGrp[data-sec="topic"] .ppChip')].map((c) => c.dataset.v);
+        o.dims = dims; o.secs = secs;
+        if (!(dims === 'scale/cls/e/geo/other' && !document.getElementById('ppFold_topic') && secs === 'decl/badge/status/topic'
+          && tchips.join(',') === ['topic:all'].concat(TOPIC_TAGS.map((t) => 'topic:' + t.key)).join(',') && tchips.length === 10
+          && document.getElementById('ppOtherSec_topic').textContent === HP.T('ppOtherSecTopic')))
+          o.bad.push(`① 次元 ${dims}・段 ${secs}・題材のチップ ${tchips.length}`);
+        const chip = (v) => [...document.querySelectorAll('#ppOtherRow .ppChip')].find((c) => c.dataset.v === v);
+        const click = async (v) => { chip(v).click(); await wait(20); };
+        await click('topic:pn1Geo'); await click('topic:obsCal'); await click('topic:obsCal'); await click('obsCard');
+        o.andSel = ppOther.join(',');
+        o.andGot = rows().length; o.andExp = listable((p) => pn1(p) && !cal(p) && obs(p)).length;
+        o.andOnly = listable(pn1).length;
+        const sum = document.querySelector('#ppFold_other > summary .ppFoldSel').textContent;
+        o.andSum = sum;
+        if (!(o.andSel === 'obsCard,topic:pn1Geo,!topic:obsCal' && o.andGot === o.andExp && o.andExp > 0 && o.andExp < o.andOnly
+          && sum === [HP.T('ppOther_obsCard'), HP.T('ppTopic_pn1Geo'), '¬' + HP.T('ppTopic_obsCal')].join(' ∧ ')))
+          o.bad.push(`① AND/NOT ${o.andSel} 行 ${o.andGot}≠${o.andExp}(単独 ${o.andOnly})・要約「${sum}」`);
+        // ③ 段ごとの「全て」
+        const secAll = [...document.querySelectorAll('#ppOtherRow .ppChip[data-sec-all]')];
+        o.secAll = secAll.map((c) => c.dataset.v + ':' + c.getAttribute('aria-pressed')).join(',');
+        const firstAfterHead = [...document.querySelectorAll('#ppOtherRow > .ppOtherGrp')].every((g) => { const h = g.querySelector(':scope > .ppOtherSec');
+          const n = h && h.nextElementSibling; return !!n && n.dataset.secAll === g.dataset.sec && n.dataset.v === g.dataset.sec + ':all' && n.textContent === HP.T('grpAll'); });
+        if (!(o.secAll === 'decl:all:false,badge:all:true,status:all:true,topic:all:false' && firstAfterHead)) o.bad.push(`③ 段の全て ${o.secAll}・見出しの直後=${firstAfterHead}`);
+        await click('decl:all');
+        o.afterDeclAll = ppOther.join(',');
+        if (!(o.afterDeclAll === 'topic:pn1Geo,!topic:obsCal' && chip('decl:all').getAttribute('aria-pressed') === 'true' && chip('topic:all').getAttribute('aria-pressed') === 'false'
+          && rows().length === listable((p) => pn1(p) && !cal(p)).length)) o.bad.push(`③ 宣言の全てで ${o.afterDeclAll}`);
+        await click('all');
+        if (!(ppOther.length === 0 && rows().length === o.nListable && [...document.querySelectorAll('#ppOtherRow .ppChip[data-sec-all]')].every((c) => c.getAttribute('aria-pressed') === 'true')))
+          o.bad.push('③ 先頭の全てで全段が外れない');
+        // ② 「全て」の語と太字
+        const allChips = [...document.querySelectorAll('#ppFolds .ppChip.ppChipAll')];
+        const others = [...document.querySelectorAll('#ppFolds .ppChip:not(.ppChipAll)')];
+        const fw = (e) => parseInt(getComputedStyle(e).fontWeight, 10);
+        o.nAll = allChips.length;
+        const firstAll = [...document.querySelectorAll('#ppFolds > details.ppFold')].every((d) => { const c = d.querySelector('.ppChip'); return !!c && c.dataset.v === 'all' && c.classList.contains('ppChipAll'); });
+        const offAll = allChips.find((c) => c.dataset.v === 'all' && c.dataset.on !== '1' && !c.dataset.state);
+        const offOther = others.find((c) => c.dataset.on !== '1' && !c.dataset.state);
+        o.allW = allChips.length ? Math.min(...allChips.map(fw)) : 0; o.otherW = others.length ? Math.max(...others.map(fw)) : 0;
+        if (!(o.nAll === 5 + 4 && firstAll && allChips.every((c) => c.textContent === HP.T('grpAll')) && HP.T('grpAll') === '全て' && I18N.en.grpAll === 'All'
+          && o.allW >= 700 && o.otherW < 700 && others.length > 0)) o.bad.push(`② 全て ${o.nAll} 個・太さ ${o.allW}/${o.otherW}・先頭=${firstAll}`);
+        // 色は従来のまま(同じ状態の他のチップと同じ文字色 —— 例: 未選択のスケールの「全て」は無い〔既定 on〕ので、geoPN「1」を選んで「全て」を off にして比べる)
+        ppGeo = '1'; showPresetPicker(true); await wait(20);
+        { const ga = document.querySelector('#ppFold_geo .ppChip[data-v="all"]'), g0 = document.querySelector('#ppFold_geo .ppChip[data-v="0"]');
+          o.colorSame = !!ga && !!g0 && getComputedStyle(ga).color === getComputedStyle(g0).color && ga.dataset.on !== '1'; }
+        ppGeo = 'all'; showPresetPicker(true); await wait(20);
+        if (!o.colorSame) o.bad.push('② 全ての色が他のチップと違う');
+        // ⑤ 「└」なし・家族の語
+        const famPrim = {};
+        for (const p of ps) if (p.familyId && p.familyRole === 'primary') famPrim[p.familyId] = p;
+        const famWithVar = [...new Set(ps.filter((p) => p.familyRole === 'variant' && p.familyId).map((p) => p.familyId))];
+        const emos = famWithVar.map((f) => (famPrim[f] || {}).emoji);
+        o.famN = famWithVar.length; o.emoUnique = new Set(emos).size === emos.length && emos.every(Boolean);
+        for (const g of document.querySelectorAll('#ppList .ppGroupBody')) g.hidden = false;
+        const rowTxt = rows().map((b) => b.firstChild.textContent);
+        const optTxt = [...document.querySelectorAll('#presetSelect option')].map((x) => x.textContent);
+        o.branch = rowTxt.concat(optTxt).filter((t) => t.indexOf('└') >= 0).length;
+        const vars = listable((p) => p.familyRole === 'variant');
+        const tagOf = (p) => '〔' + HP.T('familyTag')((famPrim[p.familyId] || {}).emoji) + '〕';
+        o.varRowBad = vars.filter((p) => !rowTxt.some((t) => t.indexOf((p.emoji || '') + ' ' + pName(p) + tagOf(p)) === 0)).map((p) => p.id);
+        o.varOptBad = vars.filter((p) => { const x = [...document.querySelectorAll('#presetSelect option')].find((z) => z.value === p.id);
+          return !x || x.textContent.indexOf((p.emoji || '') + ' ' + pName(p) + tagOf(p)) !== 0; }).map((p) => p.id);
+        o.example = rowTxt.find((t) => t.indexOf('〔🌙 の家族〕') >= 0) || '';
+        if (!(o.branch === 0 && o.varRowBad.length === 0 && o.varOptBad.length === 0 && o.emoUnique && o.famN > 0 && o.example))
+          o.bad.push(`⑤ └ ${o.branch}・行 ${o.varRowBad.join(' ')}・option ${o.varOptBad.join(' ')}・絵文字の重なりなし=${o.emoUnique}`);
+        o.enTag = I18N.en.familyTag('🌙');
+        if (o.enTag !== '🌙 family') o.bad.push('⑤ en ' + o.enTag);
+        // ⑥ 群名の色(ダーク・ライト)
+        const rgb = (c) => (/rgba?\(([^)]+)\)/.exec(c) || [, '0,0,0'])[1].split(',').map((x) => parseFloat(x));
+        const lum = (c) => { const v = rgb(c).slice(0, 3).map((x) => { x /= 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); });
+          return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]; };
+        const ratio = (a, b) => { const L1 = lum(a), L2 = lum(b); return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05); };
+        const varColor = (name) => { const pr = document.createElement('span'); pr.style.color = 'var(' + name + ')'; document.body.appendChild(pr);
+          const c = getComputedStyle(pr).color; pr.remove(); return c; };
+        o.skins = [];
+        for (const skin of ['dark', 'light']) {
+          if (skin === 'light') document.documentElement.setAttribute('data-skin', 'light'); else document.documentElement.removeAttribute('data-skin');
+          await wait(10);
+          const acc = varColor('--accText');
+          const bg = getComputedStyle(document.querySelector('#ppModal .ppBox')).backgroundColor;
+          const heads = [...document.querySelectorAll('#ppList .ppGroupHead')];
+          const exp = new Set(heads.map((h) => h.getAttribute('aria-expanded')));
+          const sc = document.querySelector('#ppList .ppScopeHead');
+          const s = { skin, acc, bg, nHead: heads.length, states: [...exp].sort().join('/'),
+            colorOk: heads.every((h) => getComputedStyle(h).color === acc), w: Math.min(...heads.map(fw)),
+            ratio: +ratio(acc, bg).toFixed(2), scopeColor: sc ? getComputedStyle(sc).color : '', scopeW: sc ? fw(sc) : 0 };
+          s.ok = s.nHead > 1 && s.states === 'false/true' && s.colorOk && heads.every((h) => fw(h) === 600) && s.ratio >= 4.5
+            && !!sc && s.scopeColor !== acc && s.scopeW >= 600;
+          o.skins.push(s);
+          if (!s.ok) o.bad.push(`⑥ ${skin}: 色=${s.colorOk} 状態 ${s.states} 太さ ${s.w} 比 ${s.ratio} 区画 ${s.scopeColor}/${s.scopeW}`);
+        }
+        document.documentElement.removeAttribute('data-skin');
+        // ⑦ ⓘ
+        const iTest = async (el, label, clickEl) => {
+          const st = () => ({ ex: el.getAttribute('aria-expanded'), w: fw(el), c: getComputedStyle(el).color });
+          const acc = varColor('--accText');
+          const a = st(); (clickEl || el).click(); await wait(20); const b = st(); (clickEl || el).click(); await wait(20); const c = st();
+          const ok = a.ex === 'false' && a.w < 700 && b.ex === 'true' && b.w >= 700 && b.c === acc && c.ex === 'false' && c.w < 700;
+          if (!ok) o.bad.push(`⑦ ${label} ${JSON.stringify([a, b, c])}`);
+          return ok;
+        };
+        o.iDim = await iTest(document.getElementById('ppDimOtherBtn'), 'ppDimOtherBtn');
+        o.iGrp = await iTest(document.getElementById('ppGroupNoteBtn'), 'ppGroupNoteBtn');
+        hidePresetPicker();
+        // パラメータのカテゴリの ⓘ
+        { const tb = document.querySelector('[data-tab="params"]'); if (tb) tb.click(); await wait(30); }
+        const ci = document.querySelector('details.catParams > summary .catInfo');
+        o.iCat = !!ci && await iTest(ci, 'catInfo');
+        if (ci) { const sm = ci.parentElement; ci.click(); await wait(10); o.iCatDesc = !!(sm.nextElementSibling && sm.nextElementSibling.classList.contains('pdesc')); ci.click(); await wait(10);
+          o.iCatDesc = o.iCatDesc && !(sm.nextElementSibling && sm.nextElementSibling.classList.contains('pdesc')); }
+        // 背景宣言の ⓘ(#bgcInfo —— 出る本を探す)
+        o.bgcId = null;
+        for (const p of ps) { if (p.familyRole === 'retired') continue; HP.loadPreset(p.id, false); await wait(2);
+          if (document.getElementById('bgcInfo')) { o.bgcId = p.id; break; } }
+        const bi = document.getElementById('bgcInfo');
+        o.iBgc = !!bi && await iTest(bi, 'bgcInfo');
+        if (!(o.iCat && o.iCatDesc && o.iBgc)) o.bad.push(`⑦ catInfo ${o.iCat}/${o.iCatDesc}・bgcInfo ${o.iBgc}(${o.bgcId})`);
+        // ④ 窓を操作しても hp_show_all_samples を書かない
+        o.lsAfter = (() => { try { return localStorage.getItem('hp_show_all_samples'); } catch (_) { return 'THROW'; } })();
+        if (o.lsAfter !== o.lsBefore || o.lsBefore !== '0') o.bad.push(`④ hp_show_all_samples ${o.lsBefore}→${o.lsAfter}`);
+        { const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click(); }
+        HP.loadPreset('saturn', false);
+        return o;
+      });
+      const s1 = await snap();
+      r.same = s1.sig === s0.sig && s1.par === s0.par && s1.n === s0.n;
+      r.vp = vp.name; r.errs = errs.slice(0, 2);
+      r.ok = r.bad.length === 0 && r.same && errs.length === 0;
+      res.push(r);
+      await ctx.close();
+    }
+    const a = res[0];
+    add('ui.pickerReorg294', res.every((r) => r.ok),
+      `**「サンプルを選ぶ」の UI 7 点**(原仮定者の裁定(第84報)・R152 —— 表示専用): ① 次元 ${a.dims}・「その他」の段 ${a.secs}・AND/NOT [${a.andSel}] の行 ${a.andGot} = 規則で数えた ${a.andExp}(1PN 単独 ${a.andOnly})・要約「${a.andSum}」`
+      + ` / ② 「全て」${a.nAll} 個が太字 ${a.allW}(他 ${a.otherW})・色は他のチップと同じ=${a.colorSame} / ③ 段の「全て」[${a.secAll}]・宣言の「全て」で宣言だけ外れる → [${a.afterDeclAll}]`
+      + ` / ④ 切り替え撤去=${a.noToggle}・hp_show_all_samples="0" でも行 ${a.nRows} = 退役を除く ${a.nListable}(variant ${a.nVariant}・catalog extended ${a.nExt})・(+n) ${a.plusN}・書き込み無し(${a.lsBefore}→${a.lsAfter})`
+      + ` / ⑤ └ ${a.branch}・variant の行と option に家族の語(例「${a.example}」・家族 ${a.famN}・primary の絵文字の重なりなし=${a.emoUnique}・en「${a.enTag}」)`
+      + ` / ⑥ ` + a.skins.map((s) => `${s.skin}: 群名 ${s.acc}・600・比 ${s.ratio}(背景 ${s.bg})・区画 ${s.scopeColor}/${s.scopeW}`).join(' | ')
+      + ` / ⑦ ⓘ 開いている間だけ太字+強調色: 次元 ${a.iDim}・群 ${a.iGrp}・カテゴリ ${a.iCat}・背景宣言 ${a.iBgc}(${a.bgcId})`
+      + ' / ' + res.map((r) => `${r.vp}: ${r.ok ? 'OK' : 'NG ' + r.bad.slice(0, 4).join(' , ')}・presetSig/params 不変=${r.same}${r.errs.length ? '・JS ' + r.errs.join(' | ') : ''}`).join(' / '));
   }
 }
 {
@@ -66624,8 +66953,11 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const out = [];
       showPresetPicker(); await wait(40);
       out.push(judge('既定'));
-      ppTopic = 'refModel'; showPresetPicker(true); await wait(30); out.push(judge('題材 参照模型'));
-      ppTopic = 'all'; ppSearch = '水星'; showPresetPicker(true); await wait(30); out.push(judge('検索 水星'));
+      // 第294便e(R152): 題材は「その他」の 4 段目(ppOther の "topic:<鍵>")—— 旧世代は次元 ppTopic
+      const t294 = typeof PP_OTHER_SECS !== 'undefined' && PP_OTHER_SECS.some((x) => x[0] === 'topic');
+      if (t294) ppOther = ['topic:refModel']; else ppTopic = 'refModel';
+      showPresetPicker(true); await wait(30); out.push(judge('題材 参照模型'));
+      ppTopic = 'all'; ppOther = []; ppSearch = '水星'; showPresetPicker(true); await wait(30); out.push(judge('検索 水星'));
       ppSearch = 'zzqqxx'; showPresetPicker(true); await wait(30); out.push(judge('検索 一致 0'));
       ppSearch = ''; ppFilterSig = null;
       localStorage.setItem('hp_saves', JSON.stringify([{ name: 'qa-w291e', preset: 'saturn' }]));

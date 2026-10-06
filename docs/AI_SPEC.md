@@ -3151,3 +3151,24 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
   `HP.relDragComposeOf(rd)`・`HP.relDragSolveFromOf(rd)`(正準形から実際の合成則と v の意味を読む)・`HP.REL_DRAG_COMPOSE_DEFAULT`・`HP.REL_DRAG_SOLVE_FROM_DEFAULT`。
   表示メッシュの drag(§42)は加算の局所場のサンプラーなので、solve の本(既定)では描かず凡例に理由を出す(`inertialDragFieldReady(S).why === "composeSolve"`)—— `compose:"sum"` を明示した本だけ描く。
 - 式・検査・比較は docs/PHYSICS.md〔第293便e〕〔第293便g〕。QA: **`behavior.composeGate`**(門と受理)/ **`docs.composeContract`**(表の転記)。
+
+## 50. 第294便e —— 「サンプルを選ぶ」の「その他」の 4 段目「題材」・段ごとの「全て」・「すべて表示」の撤去・家族の語(原仮定者の裁定(第84報)の UI 7 点・統括の検証項目 R152・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+
+- **題材は「その他」の 4 段目**: `PP_OTHER_SECS` = 宣言 `decl`・分類バッジ `badge`・状況 `status`・題材 `topic`(見出しの語 `ppOtherSecTopic`)。題材の軸は表 `TOPIC_TAGS`(§41 の 9 鍵 —— 判定は不変)から機械で
+  `PP_OTHER_AXES` の末尾へ足す(key `"topic:<鍵>"` —— 宣言の段の `testParticle` と鍵が重ならないよう接頭辞を付ける・`tp` に題材の鍵)。状態は「その他」の規約どおり**三状態**(1 回 = 含む・2 回 = 除く `"!topic:<鍵>"`・3 回 = 解除)で、
+  宣言・分類バッジ・状況・題材・スケール・分類・E水準・geoPN・検索の**すべてと AND**(AND の中の否定)。件数は `data-n`(いまの状態の数)・`data-n-on`・`data-n-not`。
+  旧の次元「題材」(`details#ppFold_topic`・単一選択の `ppTopic`・`#ppTopicRow`・`#ppTopicNote`)は**撤去**した(絞り込みの次元は scale/cls/e/geo/other の 5 つ・旧 `hp_pick_fold` の `topic` は読み捨てる)。ⓘ の説明は「その他」の説明(`#ppOtherNote`)の【題材】の節。
+- **説明タブの題材チップ**(`button.topicChip` → `topicChipPick(key)`): 段「題材」のその題材を「含む」にして(いま「含む」なら解除 —— 「除く」だったときは「含む」に)、「サンプルを選ぶ」を開き「その他」の畳み(`details#ppFold_other`)と段「題材」を開く。
+  チップの `data-state`・`aria-pressed` は段の状態(on/not/off → true/mixed/false)を映す(`descTopicsSync`)。検索欄が題材の語(ja・en)に当たる動き(第293便b)は不変。
+- **「全て」**: 語は `grpAll` =「全て」(en "All" —— 旧「全カテゴリ」/"All categories")。各次元の先頭の「全て」(値 `all`)と「その他」の**段ごとの「全て」**(値 `"<段>:all"`・`data-sec-all="<段>"` —— 段の見出しの直後)は class `ppChipAll`(太字 700・色は従来のまま)。
+  段の「全て」はその段の選択(含む・除く)だけを外し(`ppOtherClearSec`)、段に選択が無いとき on(`aria-pressed="true"`)。畳んだ段では出さず、隠した数(`data-nhid`)にも数えない。先頭の「全て」は全段を外す(従来)。
+- **「すべて表示」の撤去**: `showAllSamples` は定数 true(`localStorage` の `hp_show_all_samples` は読まない・書かない)・`setShowAllSamples` は旧呼び手のための no-op。窓の `#ppShowAll` とヘッダの `#showAllSamplesWrap`/`#showAllSamplesCb` は無い。
+  変種(`familyRole:"variant"`)と `catalog:"extended"|"diagnostic"` の本も一覧(`#ppList`)と隠し `#presetSelect` に**常に**出る(`catalogHidden(p)` は常に false)。primary の「(+n)」は出さない。退役の本(`familyRole:"retired"`)は従来どおり出さない。
+- **家族の語**(`familyTagOf(p)`): 変種の名前の後ろに「〔<同じ家族の primary の絵文字> の家族〕」(en「〔<絵文字> family〕」・i18n `familyTag`)を添える(一覧の行と `#presetSelect` の option の両方 —— 旧の行頭の「└ 」は使わない)。
+  家族ごとに primary は 1 本で、変種を持つ家族の primary の絵文字は互いに異なる(QA が固定)。役割名(`FAMILY_VARIANT_LABEL` の「〔…〕」)はその後ろに別の括弧で並ぶ。
+- **見た目**: 一覧の群名 `.ppGroupHead` は `--accText`・太さ 600(開閉のどちらでも同じ色 —— 開閉は ▸/▾)。区画の見出し `.ppScopeHead` は `--fg`・700(群名の一段上)。
+  ⓘ(`.ppDimBtn`・`#ppGroupNoteBtn`・パラメータのカテゴリの `.catInfo`・背景宣言の `#bgcInfo`)は説明を開いている間だけ `aria-expanded="true"` で太字+`--accText`(`.catInfo`/`#bgcInfo` は `role="button"`)。
+  「その他」を全部開いて絞り込みの欄(`#ppFolds`)が高くなったときは、欄が上限 55vh で縦にスクロールする(一覧の場所を残す)。
+- presetSig・保存 JSON・力学・`S._core` は 1 bit も変えない(bitsame/sigsame 152/152)。QA: **`ui.pickerReorg294`**(新設)。既存の固定値は世代切替 has294e(html の `PP_OTHER_SECS` の宣言に段 `"topic"`):
+  `ui.topicChips291`・`ui.topicChipFilter293`(題材は「その他」の段)・`ui.pickerFilterFold`・`ui.pickerSeparators`(次元 5・「その他」の選択肢 34)・`ui.pickerOtherChips`(1+34)・`ui.pickerBadgeAxes`・`ui.pickerOtherTriState`(開いた「その他」43 要素)・
+  `ui.pickerOtherFold`・`ui.pickerStatusAxes`(段 4・段の「全て」を除いて数える)・`ui.pickerScope`・`ui.presetpicker`・`catalog.visibility`・`ui.samplePicker`・`ui.emFamily`・`ui.charonFamily`・`preset.revived292b`・`ui.pickerListEnd`(常に全て表示・家族の語)。
