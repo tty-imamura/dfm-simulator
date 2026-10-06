@@ -3,38 +3,38 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便a",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-06T00:13:39.978Z",
+  "targetSha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+  "generatedAt": "2026-10-06T18:08:17.466Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838815,
-    "sha256": "7b38144d574b1cd2df6d1f31e98b58a1b22fabbf8649dbf683c7917904c5d15b",
-    "mtime": "2026-10-06T00:08:33.907Z"
+    "bytes": 1822280,
+    "sha256": "247665d8781d37618082432d8d6fe07c843cdfc0cbb39e5c7e3f51d2d5d7010c",
+    "mtime": "2026-10-06T17:11:04.297Z"
    },
    {
     "file": "tests/out/solarsigma-w262d.json",
-    "bytes": 179147,
-    "sha256": "b0e1900725f6f833ca7348af2d543c2fea666d4bfc81ec84040d49b3cf4d48ff",
-    "mtime": "2026-10-06T00:08:34.335Z"
+    "bytes": 179174,
+    "sha256": "4a5238abe7a6eda36b845194edb33bdac30d3773212b476e3b9ef1c4169e885a",
+    "mtime": "2026-10-06T17:11:52.681Z"
    },
    {
     "file": "tests/out/charoninput-w280d.json",
-    "bytes": 162147,
-    "sha256": "628aa819b434b22496fe0ccdafcc60e9cd0e55c2d7b7027a22046bef988deede",
-    "mtime": "2026-10-05T22:45:33.623Z"
+    "bytes": 162158,
+    "sha256": "ece5094b038eae388aeee9a6887cb833a1825acb1c1ad478490e267a74762ac9",
+    "mtime": "2026-10-06T17:58:58.409Z"
    },
    {
     "file": "tests/out/mercury-w280a.json",
-    "bytes": 72814,
-    "sha256": "dbe9e047e2f62bfcd69bf0435813004d87b8ec042ec6d07d6c168571f6b9d136",
-    "mtime": "2026-10-06T00:13:31.291Z"
+    "bytes": 72828,
+    "sha256": "93e97ed3f5d8a7cc26099322813e3ce8a3a1319d76b58a9f461e531ad05b2c57",
+    "mtime": "2026-10-06T18:05:05.433Z"
    },
    {
     "file": "tests/out/pnsources-w291b.json",
     "bytes": 72984,
-    "sha256": "86f3e3e85da1c0cd84c1a51720a6b57a05b336dd746465417d42ab7ba4a1602b",
-    "mtime": "2026-10-06T00:02:00.003Z"
+    "sha256": "2b38faab5b3f2d464ea47811db1e9032ced0ed5d96682f54fbee15083e8b755b",
+    "mtime": "2026-10-06T18:04:24.997Z"
    }
   ],
   "code": [
@@ -58,12 +58,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "2401cddc10d6321a4c12f34d70d2159746795a70c75f00c1fadcac1df0930226",
+  "codeSha256": "ecf9e8b750a78c544c3f1756e15a6d0f5b1167ac08aed989153081905b438518",
   "version": "w292a-calcause-1",
   "generator": "tests/exp-w292a-calcause.mjs",
   "ruling": "原仮定者の裁定(第82報)④: 「現実較正」サンプルを「較正 合」にしていくために、GR の 1PN との差を精査する。できない場合はその理由を分析する",
@@ -114,14 +114,14 @@
    "complete": true,
    "names": 999,
    "segments": 908,
-   "closureShare": 0.3252
+   "closureShare": 0.3246
   },
-  "scopeSha256": "815b28c0877a95fb4c6a9f5ca3135b8a6b51d3523e831563061d548d5f825f52",
+  "scopeSha256": "e17961c73acf25ba1144c69c9361fb7c3c8d2692eb4c45f19fa4e04f675e43d8",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "431d6a58a211c3d4478328cac5031ded9d98b5a38c199242cbbacb9c4e2e5591",
+    "stableSha256": "1e8070bcf97c90e99dea53b742c19d99cede80819545515f64a0805cc26e9912",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -149,7 +149,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "7a3d38889edf06cba704f99189dd3928b18e6b01bcd8184f5b78313695bbc3e8",
+    "stableSha256": "d08047efa4b11c78fa42d7258aed8a58f77e08a29c7044607728e50df48da613",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -177,7 +177,7 @@
    },
    {
     "file": "tests/out/pnsources-w291b.json",
-    "stableSha256": "9193f0befd4b91dbe418fc7365cf7f0ac72f09dcc29ba56cfa08e53891f1fbfe",
+    "stableSha256": "599c5dce68302468ca06f45954a0ff511aee8bb7f277bb72e955695883b29a74",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -9431,5 +9431,5 @@
   "新発見",
   "RC を切った"
  ],
- "elapsedS": 1.321
+ "elapsedS": 1.758
 }

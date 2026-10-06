@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第289便a",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T21:54:50.254Z",
+  "targetSha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+  "generatedAt": "2026-10-06T18:08:18.920Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760198,
+    "sha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+    "mtime": "2026-10-06T16:39:41.589Z"
    }
   ],
   "code": [
@@ -46,12 +46,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "2ae0ec70a63fd6289029114a13aef176c94cb3e87cd1cc931db5fc39ac0541e0",
+  "codeSha256": "fec08f6a1266cbdf59994164a8cfdf80302cf50d53fbdde9085e4b78e2b7dfed",
   "harnessVersion": "w289a-weakfield-h1",
   "libVersion": "w289a-weakfield-1",
   "loadErrors": 0,
@@ -94,9 +94,9 @@
    "complete": true,
    "names": 1002,
    "segments": 911,
-   "closureShare": 0.3256
+   "closureShare": 0.325
   },
-  "scopeSha256": "cc9298321c7d1e5cc88955a2cba6374abf70665d76b4bf013152f98962b8aa38",
+  "scopeSha256": "199225baa20d971e773611af64d3cff8300601d27fa9d92fa8a221536e59aa87",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -419,7 +419,7 @@
     "end": "maxSteps",
     "steps": 200000,
     "secondOrderRef": 0.00002945243112740431,
-    "wallSec": 0.031
+    "wallSec": 0.037
    },
    {
     "b": 20000,
@@ -589,5 +589,5 @@
   "shapiroMicros": 280.9977454260266
  },
  "recordNote": "HP.grSI() の式レベル出力の引用(🛰 grcal —— 再測ではない)",
- "elapsedS": 1.448
+ "elapsedS": 1.7
 }

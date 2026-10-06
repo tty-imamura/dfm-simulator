@@ -3,26 +3,26 @@
   "provenanceVersion": "w272e-1",
   "wave": "第285便d",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-05T23:01:41.044Z",
+  "targetSha256": "eca5e2baa1819feb03930054ad598a2ae6a6aba00a4f60aed6196697992ae829",
+  "generatedAt": "2026-10-06T18:09:28.829Z",
   "inputs": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838814,
-    "sha256": "8a86a0f0eeff0eb5fc58a20a370c62f0058ab7f5d6eb5959cea41915fbe119a3",
-    "mtime": "2026-10-05T22:21:06.963Z"
+    "bytes": 1822280,
+    "sha256": "247665d8781d37618082432d8d6fe07c843cdfc0cbb39e5c7e3f51d2d5d7010c",
+    "mtime": "2026-10-06T17:11:04.297Z"
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "bytes": 50853,
-    "sha256": "5d8a163b4407fdd014cacba52408b2133358f7ed30256a992494cd34cb87c97d",
-    "mtime": "2026-10-05T22:26:12.427Z"
+    "bytes": 50852,
+    "sha256": "8de3aa6ff8cb6504e71efd4e2d643b80d533244e51325276d96337984ceabce9",
+    "mtime": "2026-10-06T17:17:02.921Z"
    },
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760198,
+    "sha256": "eca5e2baa1819feb03930054ad598a2ae6a6aba00a4f60aed6196697992ae829",
+    "mtime": "2026-10-06T16:39:41.589Z"
    }
   ],
   "code": [
@@ -46,9 +46,9 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    },
    {
     "file": "tests/lib-w288f-htmlstage.mjs",
@@ -57,7 +57,7 @@
     "mtime": "2026-10-02T23:11:02.960Z"
    }
   ],
-  "codeSha256": "346f5da684bb6f14f07ad3434db09ad1b816608f3361cd7f4bbea6621c8ddaa4",
+  "codeSha256": "db5db85176c5790494b10d0e77ad15ffa5ef24d0fecc8d43aac16ac013d27561",
   "version": "w285d-1",
   "generator": "tests/exp-w285d-obscompare.mjs",
   "region": "obs-compare",
@@ -132,14 +132,14 @@
    "complete": true,
    "names": 1017,
    "segments": 926,
-   "closureShare": 0.339
+   "closureShare": 0.3385
   },
-  "scopeSha256": "e75ffc9e25e267e0dbded9e729a203f2b1061d7b4d38234e9a0641cfaedd7646",
+  "scopeSha256": "c0cc4f9048a646fcb41eaaa124d7ef40c2bd1acd32dfde258908e34a3bbebad3",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "431d6a58a211c3d4478328cac5031ded9d98b5a38c199242cbbacb9c4e2e5591",
+    "stableSha256": "1e8070bcf97c90e99dea53b742c19d99cede80819545515f64a0805cc26e9912",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -167,7 +167,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "7a3d38889edf06cba704f99189dd3928b18e6b01bcd8184f5b78313695bbc3e8",
+    "stableSha256": "d08047efa4b11c78fa42d7258aed8a58f77e08a29c7044607728e50df48da613",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -195,7 +195,7 @@
    },
    {
     "file": "tests/out/pn1-w285b.json",
-    "stableSha256": "6561176fa738b292d184a6df84d43edf987803a8352abf891bda4cf4e565fc7d",
+    "stableSha256": "3e292617a0668ae4a37355065383fcabd05ddc2ee3db6cde6b6d2d4d34aff685",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/elapsedS",
@@ -213,7 +213,7 @@
   "wave": "第249便b",
   "rows": 195,
   "presets": 20,
-  "rowsSha256": "4dbb31531b05bfdd35e183d9edbbc1f4df8f7fa1cab455c372e2ae818759d1a2",
+  "rowsSha256": "ce8744644e9c42f06f5e521114d86091ccfbee1dcdfdd0e654ddcb4704b333a7",
   "sigDigits": 12
  },
  "counts": {
@@ -251,7 +251,7 @@
   "shownDefault": 195,
   "pageErrors": 0
  },
- "htmlChanged": false,
+ "htmlChanged": true,
  "rule": "**転記だけ**(判定しない)。値は gate.assessedValue(判定段の値)・観測は quantities[].obs・σ は gate.sigma・合否語は gate.status。欠測は null(0 に置換しない)。古い verdict は転記しない。帯は σ の目盛りであって門ではない。",
  "doNotWrite": [
   "合った",
@@ -259,5 +259,5 @@
   "較正した",
   "帯の中なら合格"
  ],
- "elapsedS": 2.394
+ "elapsedS": 2.544
 }

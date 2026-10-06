@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第292便d",
   "target": "beta/index.html",
-  "targetSha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
-  "generatedAt": "2026-10-05T20:13:34.749Z",
+  "targetSha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+  "generatedAt": "2026-10-06T18:08:08.443Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729742,
-    "sha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
-    "mtime": "2026-10-05T20:09:17.514Z"
+    "bytes": 5760198,
+    "sha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+    "mtime": "2026-10-06T16:39:41.589Z"
    }
   ],
   "code": [
@@ -18,34 +18,34 @@
     "file": "tests/exp-w292d-tide.mjs",
     "bytes": 31702,
     "sha256": "5cd70a359cee26f61d94bc26409307040fc9be9b19000bd93d2ea414ef18659a",
-    "mtime": "2026-10-05T20:01:16.958Z"
+    "mtime": "2026-10-04T16:30:05.702Z"
    },
    {
     "file": "tests/lib-w292d-tide.mjs",
     "bytes": 11080,
     "sha256": "1b51896cc55bd56d3b948e846ec64463668dc1bae77654df39a0ea561969bf9d",
-    "mtime": "2026-10-05T20:01:16.982Z"
+    "mtime": "2026-10-04T16:30:05.702Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-05T20:01:16.974Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-05T20:01:16.970Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-05T20:01:16.978Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "3ef802cacd4833286a00084a7256d470b4e819a75e96771d4e861455a72d17c4",
+  "codeSha256": "f5999c2040a1b0adfe6b5eb1642867db26db86994efca3ffb38904edea0b1132",
   "harnessVersion": "w292d-tide-1",
   "libVersion": "w292d-tide-lib-1",
   "engineVersion": "w292d-tide-1",
@@ -92,9 +92,9 @@
    "complete": true,
    "names": 1008,
    "segments": 917,
-   "closureShare": 0.3276
+   "closureShare": 0.327
   },
-  "scopeSha256": "c7627de86d4af492f2c6cb6baae857a0c0ac537473726fca3b411381acfc498c",
+  "scopeSha256": "29e2695286d95e94833b2789043d030f2646918003bc62bbd78ad34c949bbe71",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -359,7 +359,7 @@
    "dt": 0.016,
    "steps": 1475370,
    "T": 23605.920000000002,
-   "wallSec": 4.977,
+   "wallSec": 5.528,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -409,7 +409,7 @@
    "dt": 0.008,
    "steps": 2950740,
    "T": 23605.920000000002,
-   "wallSec": 10.573,
+   "wallSec": 10.587,
    "inertia": [
     12.155147777125288,
     0.011120375007752413
@@ -488,7 +488,7 @@
    "gain": 0,
    "tide": false,
    "velocity": "v",
-   "wallSec": 5.627,
+   "wallSec": 5.499,
    "dJEarth": 0,
    "dJMoon": 0,
    "tideHeat": 0,
@@ -506,7 +506,7 @@
    "gain": 0,
    "tide": true,
    "velocity": "v",
-   "wallSec": 7.035,
+   "wallSec": 7.405,
    "dJEarth": -1.074392193823668e-12,
    "dJMoon": 5.87666900494468e-16,
    "tideHeat": 7.543641534915281e-15,
@@ -730,71 +730,71 @@
     "gain": 0,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.627
+    "wallSec": 5.499
    },
    {
     "gain": 0,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.035
+    "wallSec": 7.405
    },
    {
     "gain": 100,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.733
+    "wallSec": 6.556
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.654
+    "wallSec": 7.998
    },
    {
     "gain": 100,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 7.479
+    "wallSec": 8.491
    },
    {
     "gain": 1000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 6.09
+    "wallSec": 6.658
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.683
+    "wallSec": 8.244
    },
    {
     "gain": 1000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 8.117
+    "wallSec": 8.405
    },
    {
     "gain": 10000,
     "tide": false,
     "velocity": "v",
-    "wallSec": 5.813
+    "wallSec": 6.456
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "v",
-    "wallSec": 7.832
+    "wallSec": 9.121
    },
    {
     "gain": 10000,
     "tide": true,
     "velocity": "xdot",
-    "wallSec": 7.652
+    "wallSec": 8.351
    }
   ],
   "ok": true
  },
  "ok": true,
- "elapsedS": 95.234
+ "elapsedS": 102.924
 }

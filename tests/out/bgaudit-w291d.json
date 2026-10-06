@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便d",
   "target": "beta/index.html",
-  "targetSha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
-  "generatedAt": "2026-10-05T20:11:39.536Z",
+  "targetSha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+  "generatedAt": "2026-10-06T18:08:10.053Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729742,
-    "sha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
-    "mtime": "2026-10-05T20:09:17.514Z"
+    "bytes": 5760198,
+    "sha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+    "mtime": "2026-10-06T16:39:41.589Z"
    }
   ],
   "code": [
@@ -18,28 +18,28 @@
     "file": "tests/exp-w291d-bgaudit.mjs",
     "bytes": 26181,
     "sha256": "8134a254b6004233c24cb6a95f80f1fdd164402ce9992ae63ecbf5c4f2ebb6be",
-    "mtime": "2026-10-05T20:11:34.806Z"
+    "mtime": "2026-10-05T20:53:28.454Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-05T20:01:16.974Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-05T20:01:16.970Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-05T20:01:16.978Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "a32fc25c766ebe8e0ce030dc9b7c3ef9a30f59daf94a5ba5b57f73e05067f5c2",
+  "codeSha256": "5f4126d0b96a31cf085b2189ac5316b438dc79f884a885c0c135087dc2766d18",
   "harnessVersion": "w291d-bgaudit-1",
   "engineVersion": "w290c-inertial-1",
   "samplerVersion": "w291d-sampler-1",
@@ -103,9 +103,9 @@
    "complete": true,
    "names": 1005,
    "segments": 914,
-   "closureShare": 0.3263
+   "closureShare": 0.3257
   },
-  "scopeSha256": "53ca584f9f3268d1eef9f97560df3b45931852a451c19a6ff1ff86b1ca0dd89e",
+  "scopeSha256": "a15cab8d1a64bba936a9f1bac6a4f51de6c45ad2f83f57d7e27a6cf99d30abdd",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -819,5 +819,5 @@
   "| 潮汐 | 位置に比例する速度場 T·x(対称・トレース 0) | **残る**(u の相対変化 3.97e-1)—— 取り除いていない |"
  ],
  "ok": true,
- "elapsedS": 2.886
+ "elapsedS": 2.504
 }

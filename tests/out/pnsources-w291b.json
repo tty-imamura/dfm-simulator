@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第291便b",
   "target": "beta/index.html",
-  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-  "generatedAt": "2026-10-06T00:02:00.001Z",
+  "targetSha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+  "generatedAt": "2026-10-06T18:04:24.996Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729418,
-    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
-    "mtime": "2026-10-05T20:53:28.406Z"
+    "bytes": 5760198,
+    "sha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+    "mtime": "2026-10-06T16:39:41.589Z"
    }
   ],
   "code": [
@@ -58,12 +58,12 @@
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-02T23:11:02.956Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "544d9c9f15cb76a0e2f783331133a0dfbc73f1b92c393427f4e0ebf0b64ec93c",
+  "codeSha256": "f8a7b02a05090669b0bd30d6a34024735a40f326fe617224d0893d15ea66adc3",
   "harnessVersion": "w291b-pnsources-3",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第81報)⑤「geoPN=1: 軌道計算を精査し、測地線化を GR の 1PN に揃える。観測値をそのまま使えるようにする」",
@@ -113,9 +113,9 @@
    "complete": true,
    "names": 1004,
    "segments": 913,
-   "closureShare": 0.3272
+   "closureShare": 0.3266
   },
-  "scopeSha256": "8a1795f51948a32ff1a916921104503e05909ac44a38adc41b082b02c17fc930",
+  "scopeSha256": "6ae72dc4fb65ee577a09ff0471e53c5b69872ad9fbf52ccd2c65d797f84f2151",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -166,7 +166,7 @@
   "pn1Version": "w285b-eih-1",
   "note": "基点 html は git show の一時ファイル(終了後に削除)"
  },
- "nowSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
+ "nowSha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
  "A": {
   "n": 152,
   "kf0Books": 28,
@@ -2216,7 +2216,7 @@
    "role": "variant",
    "cls": "principle",
    "n": 2,
-   "geoPN": 0,
+   "geoPN": 3,
    "kFrame": 0,
    "lambdaPN": 1,
    "G": 6.674,
@@ -4081,13 +4081,13 @@
  ],
  "headless": {
   "now": {
-   "wallSec": 0.079,
+   "wallSec": 0.084,
    "errors": 0
   },
   "base": {
-   "wallSec": 0.162,
+   "wallSec": 0.146,
    "errors": 0
   }
  },
- "elapsedS": 129.691
+ "elapsedS": 154.285
 }
