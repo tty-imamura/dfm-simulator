@@ -45789,7 +45789,13 @@ if (!FAST) {
       const wantW290 = (hasBox2 && w290)
         ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験', '実在天体のアナロジー',
            'スピンと熱', '自転と減光', '腕と渦伸長(軸力)', '現実較正'] : null;
-      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, wantW290].filter(Boolean);
+      // 第294便c(原仮定者の裁定(第84報)・統括の検証項目 R150): 群「現実較正」の**表示名**を「実在天体との照合」へ(optgroup の label は gName ——
+      //   宣言の群・GROUP_ORDER は不変)。世代切替 w294c = 対象 html の宣言 OBSERVED_COMPARE_VERSION。候補を追加して世代ごとに**厳密一致**(候補数=10 —— 弱体化なし)
+      const w294c = typeof OBSERVED_COMPARE_VERSION !== 'undefined';
+      const wantW294 = (hasBox2 && w290 && w294c)
+        ? ['運動と時空', '銀河の力学', '天体の機構', '時計と重力', '光の伝播', '箱宇宙の実験', '実在天体のアナロジー',
+           'スピンと熱', '自転と減光', '腕と渦伸長(軸力)', '実在天体との照合'] : null;
+      const cands = [want, wantNew, wantW149, wantW151, wantW220, wantW272, wantW273, wantW288, (w294c ? null : wantW290), wantW294].filter(Boolean);
       const hit = cands.find((c) => JSON.stringify(labels.slice(0, c.length)) === JSON.stringify(c));
       res.groups = labels.slice(0, (hit || want).length);
       res.groupsOk = !!hit;
@@ -45801,6 +45807,7 @@ if (!FAST) {
       res.wave273 = !!wantW273 && hit === wantW273;
       res.wave288 = !!wantW288 && hit === wantW288;
       res.wave290 = !!wantW290 && hit === wantW290;
+      res.wave294 = !!wantW294 && hit === wantW294;
       // 第149便: グループ跨ぎファミリーの分割(表示専用)。天体の物語側の 🌍🌕 / 🪐🎯 は
       // それぞれ earthmoonToy / saturnToy として自グループ内で完結し、☿ は単独(familyId なし)。
       // 現実との照合側の既存ファミリー(mercury / earthmoon / saturn)は id 名ごと不変。
@@ -46171,7 +46178,7 @@ if (!FAST) {
       return res;
     });
     add('groups.reorder', r.groupsOk,
-      `optgroups=${JSON.stringify(r.groups)}(${r.wave290 ? '第290便f 区画の順(本体 → DFM の外のアナロジー → 現実較正と照合)+新群「腕と渦伸長(軸力)」(原仮定者の裁定(第80報)⑦)' : r.wave288 ? '第288便b 「現実較正」1 つ(原仮定者の裁定(第78報)④)' : r.wave273 ? '第273便a 改名+分割(原仮定者の列挙順・新グループ「時計と重力」)'
+      `optgroups=${JSON.stringify(r.groups)}(${r.wave294 ? '第294便c 群「現実較正」の表示名を「実在天体との照合」へ(宣言の群・並びは第290便f のまま —— 原仮定者の裁定(第84報)・R150)' : r.wave290 ? '第290便f 区画の順(本体 → DFM の外のアナロジー → 現実較正と照合)+新群「腕と渦伸長(軸力)」(原仮定者の裁定(第80報)⑦)' : r.wave288 ? '第288便b 「現実較正」1 つ(原仮定者の裁定(第78報)④)' : r.wave273 ? '第273便a 改名+分割(原仮定者の列挙順・新グループ「時計と重力」)'
         : (r.wave272 ? '第272便d 論文順(+新グループ「実在天体のアナロジー」)'
         : (r.wave220 ? '第220便 再編順(「現実との照合」を太陽系/太陽系外へ分割)'
         : (r.wave151 ? '第151便 再編順(銀河の物語の直後へ「ローターの物語」を新設)'
@@ -62575,6 +62582,13 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       o.probeId = groupIdOf(probe.group);
       o.probeOk = o.probeKept === '熱の実験室' && o.probeCanon === 'スピンと熱'
         && o.probeName === 'スピンと熱' && o.probeId === 'heat';
+      // 第294便c(原仮定者の裁定(第84報)・R150): 群「現実較正」の**表示名**は ja「実在天体との照合」・en「Observed-body comparison」(世代切替 w294c =
+      //   対象 html の宣言 OBSERVED_COMPARE_VERSION)。宣言の名前・正規化(gCanon)・id は上のとおり不変 —— 旧 3 名も新しい表示名で出る
+      const w294c = typeof OBSERVED_COMPARE_VERSION !== 'undefined';
+      const EN_CAL = w294c ? 'Observed-body comparison' : 'Reality Calibration';
+      o.jaCal = !w294c || (gName('現実較正') === '実在天体との照合' && gName('現実との照合・連星') === '実在天体との照合'
+        && gName('現実較正・太陽系') === '実在天体との照合・太陽系' && gName('現実較正・連星') === '実在天体との照合・連星' && gName('スピンと熱') === 'スピンと熱');
+      o.w294c = w294c;
       // ⑤ 英語の表示名(新名を新設・旧名の行も残す)
       HP.setLang('en');
       o.en = PAIRS.map(([a, b]) => [b, gName(b)]);
@@ -62582,7 +62596,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
         && gName('天体の機構') === 'Celestial Mechanisms' && gName('時計と重力') === 'Clocks & Gravity'
         && gName('光の伝播') === 'Light Propagation' && gName('スピンと熱') === 'Spin & Heat'
         && gName('箱宇宙の実験') === 'Box-Universe Experiments' && gName('自転と減光') === 'Spin & Dimming'
-        && (w288 ? gName('現実較正') === 'Reality Calibration' && gName('現実との照合・連星') === 'Reality Calibration'
+        && (w288 ? gName('現実較正') === EN_CAL && gName('現実との照合・連星') === EN_CAL
           : gName('現実との照合・連星') === 'Reality Checks — Binaries')
         && gName('熱の実験室') === 'Spin & Heat';   // 旧名で来ても新名の英訳が出る
       HP.setLang('ja');
@@ -62596,7 +62610,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       return o;
     });
     add('ui.groupRenameAliases',
-      r.canonOk && r.idsOk && r.legacyDecl.length === 0 && r.probeOk && r.enOk
+      r.canonOk && r.idsOk && r.legacyDecl.length === 0 && r.probeOk && r.enOk && r.jaCal
       && r.noteMissJa.length === 0 && r.noteMissEn.length === 0 && r.sigSame,
       `**旧名 → 新名の正規化**(第273便a・AH5): gCanon=${JSON.stringify(r.canon)}=${r.canonOk} / `
       + `GROUP_IDS は**両名が同じ id**=${r.idsOk}(${JSON.stringify(r.ids)}) / `
@@ -62604,6 +62618,7 @@ await w5bRun('emergenceMonitor', true); async function W5B_emergenceMonitor(page
       + `旧名を宣言したプリセットの着地: 宣言は「${r.probeKept}」のまま・正規化=${r.probeCanon}・`
       + `見出し=${r.probeName}・開閉 id=${r.probeId}=${r.probeOk} / `
       + `en 表示名=${JSON.stringify(r.en)}=${r.enOk} / `
+      + (r.w294c ? `ja 表示名(第294便c —— 宣言「現実較正」→ 表示「実在天体との照合」・旧名も同じ)=${r.jaCal} / ` : '')
       + `群の説明が欠けている群 ja=${JSON.stringify(r.noteMissJa)}・en=${JSON.stringify(r.noteMissEn)}(0 件)/ `
       + `**presetSig は group を見ない**=${r.sigSame}`);
   }
@@ -66188,6 +66203,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     const r = await gp.evaluate(async (tgt) => {
       const o = {}, G = '現実較正', OLD = ['現実との照合・太陽系', '現実との照合・連星', '現実との照合・太陽系外'];
       const SOL = '現実較正・太陽系', BIN = '現実較正・連星';
+      // 第294便c(原仮定者の裁定(第84報)・R150): **表示名**だけ「実在天体との照合」へ(宣言の群・表の鍵・id は上のまま)。世代切替 w294c = OBSERVED_COMPARE_VERSION
+      o.w294c = typeof OBSERVED_COMPARE_VERSION !== 'undefined';
+      const EN0 = o.w294c ? 'Observed-body comparison' : 'Reality Calibration';
+      o.jaNames = [gName(G), gName(SOL), gName(BIN)];
       const wait = (ms) => new Promise((res) => setTimeout(res, ms));
       const ps = HP.allPresets();
       // ① 表
@@ -66260,7 +66279,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       else o.dom2 = { ok: true, label: 'no-retired' };
       // en
       HP.setLang('en'); HP.loadPreset('earthMoonReal', false); await wait(5); showPresetPicker(); await wait(30);
-      o.enHeads = readHeads().filter((x) => /^Reality Calibration/.test(x.name)).map((x) => x.name);
+      o.enHeads = readHeads().filter((x) => x.name.indexOf(EN0) === 0).map((x) => x.name);
       o.enOpen = readHeads().filter((x) => x.h.getAttribute('aria-expanded') === 'true').map((x) => x.name).join(',');
       hidePresetPicker(); HP.setLang('ja');
       setShowAllSamples(sa0); try { localStorage.removeItem('hp_pick_open'); } catch (_) {} ppOpen = {};
@@ -66276,7 +66295,7 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       HP.loadPreset('earthMoonReal', false); await wait(5);
       o.noticeNone = !document.querySelector('#unifyNotice');
       // ⑦ 群のカードの 1 行
-      o.gcn = !('gw150914DFM' in GROUP_CARD_NOTE) && I18N.ja.gcnCalF2 === undefined && /現実較正/.test(I18N.ja.gcnCal);
+      o.gcn = !('gw150914DFM' in GROUP_CARD_NOTE) && I18N.ja.gcnCalF2 === undefined && (o.w294c ? /「実在天体との照合」/.test(I18N.ja.gcnCal) && /"Observed-body comparison"/.test(I18N.en.gcnCal) : /現実較正/.test(I18N.ja.gcnCal));
       HP.loadPreset('saturn', false);
       return o;
     }, tgt).catch((e) => ({ err: String(e).slice(0, 300) }));
@@ -66285,7 +66304,9 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     else {
       if (!(r.order && r.alias && r.gid === 'realityCal' && r.split)) bad.push(`①表 order=${r.order}・alias=${r.alias}・id=${r.gid}・split=${r.split}`);
       if (!(r.ids[0] === 'realityCalSolar' && r.ids[1] === 'realityCalBinary')) bad.push('①表示の 2 見出しの id ' + r.ids.join(','));
-      if (!(r.en[0] === 'Reality Calibration' && r.en[1] === 'Reality Calibration — Solar System' && r.en[2] === 'Reality Calibration — Binaries')) bad.push('①en 名 ' + r.en.join(' | '));
+      const EN0 = r.w294c ? 'Observed-body comparison' : 'Reality Calibration';   // 第294便c: 表示名(世代切替)
+      if (!(r.en[0] === EN0 && r.en[1] === EN0 + ' — Solar System' && r.en[2] === EN0 + ' — Binaries')) bad.push('①en 名 ' + r.en.join(' | '));
+      if (r.w294c && r.jaNames.join('|') !== '実在天体との照合|実在天体との照合・太陽系|実在天体との照合・連星') bad.push('①ja 表示名 ' + r.jaNames.join(' | '));
       if (!(r.icons[0] === '☀️' && r.icons[1] === '⭐' && r.scope.every((x) => x === 'cal'))) bad.push(`①絵文字 ${r.icons.join('')}・区画 ${r.scope.join(',')}`);
       if (!r.noteOk) bad.push('①群の説明(3 つ・ja/en)に「所属は合否を意味しない」が無い・またはサブチップの語が残る');
       if (!r.dispFn) bad.push('①ppDispGroup が calSubOf と食い違う');
@@ -66295,8 +66316,8 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       if (!r.dom1.ok) bad.push('③DOM(🗂 📻 読込)' + JSON.stringify(r.dom1));
       if (!r.openCur) bad.push('③読み込み中の本(📻)の見出し(連星)だけが開く —— でない');
       if (!r.dom2.ok) bad.push('③DOM(退役の本 ' + r.retId + ' 読込)' + JSON.stringify(r.dom2));
-      if (!(r.enHeads.join('|') === 'Reality Calibration — Solar System|Reality Calibration — Binaries' && r.enOpen === 'Reality Calibration — Solar System')) bad.push('③en ' + r.enHeads.join('|') + ' 開 ' + r.enOpen);
-      if (!(r.lblKf0 === '現実較正' && r.lblDfm === '引きずり近似(q)— 較正母集団の外')) bad.push(`⑤分類の語 ${r.lblKf0} / ${r.lblDfm}`);
+      if (!(r.enHeads.join('|') === EN0 + ' — Solar System|' + EN0 + ' — Binaries' && r.enOpen === EN0 + ' — Solar System')) bad.push('③en ' + r.enHeads.join('|') + ' 開 ' + r.enOpen);
+      if (!(r.lblKf0 === (r.w294c ? '実在天体との照合' : '現実較正') && r.lblDfm === '引きずり近似(q)— 較正母集団の外')) bad.push(`⑤分類の語 ${r.lblKf0} / ${r.lblDfm}`);
       if (r.series !== 'kFrame=1(履歴) / kFrame=0') bad.push('⑤系列の語 ' + r.series);
       if (!(r.notice && r.noticeNone)) bad.push(`⑥在位移行の注記 ${r.notice}・非移行の本に出ない ${r.noticeNone}`);
       if (!r.gcn) bad.push('⑦群のカードの 1 行に 🎻 が残る');
@@ -69133,6 +69154,153 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
     add('docs.noRetiredMention293', bad.length === 0,
       `**退役した判別 B の言及を在位の本と現行契約から削る**(第293便f・原仮定者の裁定(第83報 追記)・R146 —— 表示と文書だけ・力学と presetSig は不変): ${cases.join(' / ')}`
       + ' —— 退役の宣言・凍結 fixture・便ごとの履歴の節は除外リストで残す'
+      + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
+  }
+}
+
+// ---- 第294便c(原仮定者の裁定(第84報)「『現実較正』が判定の合にならないので、差分を可視化する『実在天体との照合』などにする検討を行う」(趣旨)・
+// ----   統括の検証項目 R150): ui.observedCompare294 —— **表示だけ**(判定器・母集団・判定語・保存の値は不変)。
+// ----   ① 表示名: 群「現実較正」と表示の 2 見出し・分類チップ・📏 チップ・監査ビューの題・区画の名 = ja「実在天体との照合」/ en「Observed-body comparison」
+// ----   ② 保存の値: 内蔵の宣言 group は「現実較正」のまま(表示名を宣言した本 0)・GROUP_ORDER に「現実較正」1 回・表示名は GROUP_ALIASES の鍵にしない・
+// ----      旧 3 名は「現実較正」へ・sampleClass は正本 tests/out/calcontract-w282a.json の行と全本一致
+// ----   ③ 差の行: 本の集合 = 転記 OBS_COMPARE_ROWS の判定系列の本 = 正本 tests/out/calaudit-w249.json の presets = 4 値の本(status)・本数 = OBS_COMPARE_CANON.presets /
+// ----      説明タブで各本に #odBox(観測結果カードの後)・行数 = この場で数え直した「観測値か模型値の数を持つ量」・各行は 名前→観測→模型→差の欄→門の語(行末)/
+// ----      Δ = この場で引き直した v−o の表示・相対差は観測≠0 のときだけ・Δ/σ は σ があるときだけ(無ければ「σ 未接続」と理由)・mapping-unresolved は
+// ----      「量の対応未確定」で Δ を出さない・観測か模型が無い量は Δ を出さない / 台帳の 4 値の行は全行の後・語 = status の転記・20 本の内訳 = 正本
+// ----      tests/out/samplestatus-w279a.json の tally.four / 母集団の外の本(🪐 saturn・⛄ plutoCharonDFM)には出ない
+// ----   ④ en / ⑤ presetSig(全内蔵)・params 不変 / ⑥ 新しい文に書かない語(合に近づく・較正の合の宣言)が無い / JS エラー 0。root(旧世代)は SKIP。
+{
+  const html294c = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has294c = TARGET.startsWith('beta/') && /^const OBSERVED_COMPARE_VERSION=/m.test(html294c);
+  if (!has294c) {
+    console.log('SKIP ui.observedCompare294(第294便c の「実在天体との照合」の差の行の前の世代 — ' + TARGET + ')');
+  } else {
+    const bad = [];
+    let CA = null, SSJ = null, CC = null;
+    try { CA = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); } catch (e) { bad.push('③calaudit の正本が読めない'); }
+    try { SSJ = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'samplestatus-w279a.json'), 'utf8')); } catch (e) { bad.push('③samplestatus の正本が読めない'); }
+    try { CC = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calcontract-w282a.json'), 'utf8')); } catch (e) { bad.push('②calcontract の正本が読めない'); }
+    const canonIds = ((CA || {}).presets || []).map((z) => z.id);
+    const four = ((SSJ || {}).tally || {}).four || null;
+    const scOf = {}; for (const z of ((CC || {}).rows || [])) scOf[z.id] = z.sampleClass || null;
+    const ctx = await browser.newContext({ viewport: { width: 412, height: 915 } });
+    const pg = await ctx.newPage();
+    const errs = [];
+    pg.on('pageerror', (e) => errs.push(String(e.message || e)));
+    await pg.goto(INDEX, { waitUntil: 'load' });
+    await pg.waitForFunction(() => window.HP && HP.sim && HP.currentPreset());
+    const r = await pg.evaluate(async ({ canonIds, scOf }) => {
+      const o = { bad: [] };
+      const wait = (ms) => new Promise((res) => setTimeout(res, ms));
+      const B = HP.allPresets().filter((p) => !String(p.id).startsWith('custom_'));
+      const snap = () => ({ sig: B.map((p) => presetSig(p)).join('\u0001'), par: JSON.stringify(HP.sim.params) });
+      HP.setLang('ja'); HP.loadPreset('saturn', false); await wait(5);
+      const s0 = snap();
+      const G = '現実較正', SOL = '現実較正・太陽系', BIN = '現実較正・連星', JN = '実在天体との照合', EN = 'Observed-body comparison';
+      // ① 表示名(ja)
+      o.ja = { g: gName(G), sol: gName(SOL), bin: gName(BIN), kf0: HP.T('bdgSC_calibration_kf0'), cls: HP.T('bdgSC_calibration'),
+        fid: HP.T('bdgFidReal'), av: HP.T('avTitle'), avOpen: HP.T('avOpen')(1), scope: HP.T('ppScope_cal'),
+        lbl: sampleClassLabel(B.find((p) => p.id === 'psrDoubleAB')) };
+      if (!(o.ja.g === JN && o.ja.sol === JN + '・太陽系' && o.ja.bin === JN + '・連星' && o.ja.kf0 === JN && o.ja.cls === JN && o.ja.lbl === JN
+        && o.ja.fid === '📏 ' + JN && o.ja.av.indexOf(JN) === 0 && o.ja.avOpen.indexOf(JN) >= 0 && o.ja.scope === JN)) o.bad.push('①ja 表示名 ' + JSON.stringify(o.ja));
+      if (!(HP.T('bdgSC_calibration_dfm') === '引きずり近似(q)— 較正母集団の外')) o.bad.push('①引きずり近似(q)の語が変わった');
+      // ② 保存の値
+      o.declCal = B.filter((p) => p.group === G).length;
+      o.declNew = B.filter((p) => [JN, JN + '・太陽系', JN + '・連星'].indexOf(p.group) >= 0).map((p) => p.id);
+      o.orderOnce = GROUP_ORDER.filter((g) => g === G).length === 1 && GROUP_ORDER.indexOf(JN) < 0;
+      o.alias = ['現実との照合・太陽系', '現実との照合・連星', '現実との照合・太陽系外'].every((g) => GROUP_ALIASES[g] === G)
+        && !(JN in GROUP_ALIASES) && gCanon(G) === G && groupIdOf(G) === 'realityCal';
+      o.scBad = B.filter((p) => (p.id in scOf) && (p.sampleClass || null) !== scOf[p.id]).map((p) => p.id);
+      o.scN = B.filter((p) => p.id in scOf).length;
+      if (!(o.declCal > 0 && o.declNew.length === 0 && o.orderOnce && o.alias)) o.bad.push(`②宣言 現実較正 ${o.declCal}・表示名を宣言 ${o.declNew.join(',')}・GROUP_ORDER ${o.orderOnce}・別名 ${o.alias}`);
+      if (o.scBad.length || o.scN !== B.length) o.bad.push(`②sampleClass が正本と違う ${o.scBad.join(',')}(照合 ${o.scN}/${B.length})`);
+      // ③ 差の行
+      const ids = obsDiffBookIds();
+      const tr = [...new Set(OBS_COMPARE_ROWS.filter((x) => x.sr === 'calaudit').map((x) => x.i))];
+      const fourIds = B.filter((p) => p.status && ['pass', 'pass-limited', 'fail', 'hold'].indexOf(p.status.calibration) >= 0).map((p) => p.id);
+      const eqSet = (a, b) => JSON.stringify(a.slice().sort()) === JSON.stringify(b.slice().sort());
+      o.nBooks = ids.length; o.canonPresets = OBS_COMPARE_CANON.presets;
+      if (!(eqSet(ids, tr) && eqSet(ids, canonIds) && eqSet(ids, fourIds) && ids.length === OBS_COMPARE_CANON.presets))
+        o.bad.push(`③本の集合 ${ids.length}・転記 ${tr.length}・正本 ${canonIds.length}・4 値の本 ${fourIds.length}・canon ${OBS_COMPARE_CANON.presets}`);
+      const tb = document.querySelector('[data-tab="help"]'); if (tb) tb.click();
+      o.nRows = 0; o.nDelta = 0; o.nSig = 0; o.nSigMiss = 0; o.nMap = 0; o.nNoObs = 0; o.nRel = 0; o.cal4 = { '合': 0, '量限定合': 0, '否': 0, '保留': 0 };
+      const W4 = { pass: '合', 'pass-limited': '量限定合', fail: '否', hold: '保留' };
+      o.examples = [];
+      for (const id of ids) {
+        HP.loadPreset(id, false); await wait(5);
+        const box = document.getElementById('odBox');
+        if (!box) { o.bad.push('③' + id + ': #odBox が無い'); continue; }
+        const oc = document.querySelector('#helpBody .ocBox');
+        if (oc && !(oc.compareDocumentPosition(box) & Node.DOCUMENT_POSITION_FOLLOWING)) o.bad.push('③' + id + ': 観測結果カードより前にある');
+        const want = OBS_COMPARE_ROWS.filter((x) => x.i === id && x.sr === 'calaudit' && (x.o !== null || x.v !== null));
+        const rows = [...box.querySelectorAll('.odRow')];
+        if (rows.length !== want.length || rows.length === 0) { o.bad.push(`③${id}: 行 ${rows.length} ≠ ${want.length}`); continue; }
+        o.nRows += rows.length;
+        rows.forEach((el, k) => {
+          const x = want[k], kids = [...el.children], cls = kids.map((c) => c.className);
+          const last = kids[kids.length - 1];
+          if (!(last && last.className === 'odGate' && last.dataset.g === (x.g || '') && last.textContent === HP.T('ocGate')(x.g))) o.bad.push(`③${id}#${k}: 行末が門の語でない`);
+          if (!(cls[0] === 'odName' && cls[1] === 'odObs' && cls[2] === 'odModel')) o.bad.push(`③${id}#${k}: 名前→観測→模型の順でない ${cls.join(',')}`);
+          if (x.o !== null && el.querySelector('.odObs').textContent.indexOf(String(x.o)) < 0) o.bad.push(`③${id}#${k}: 観測値の転記が違う`);
+          if (x.v !== null && el.querySelector('.odModel').textContent.indexOf(String(x.v)) < 0) o.bad.push(`③${id}#${k}: 模型値の転記が違う`);
+          const dEl = el.querySelector('.odDelta');
+          if (x.o === null || x.v === null) {
+            o.nNoObs++;
+            if (dEl || !el.querySelector('.odMissTxt')) o.bad.push(`③${id}#${k}: 欠測なのに Δ がある/理由が無い`);
+          } else if (x.g === 'mapping-unresolved') {
+            o.nMap++;
+            const mt = el.querySelector('.odMissTxt');
+            if (dEl || !(mt && mt.textContent.indexOf(HP.T('odMiss').mapping) >= 0)) o.bad.push(`③${id}#${k}: 量の対応未確定が出ない`);
+          } else {
+            o.nDelta++;
+            const d = x.v - x.o;
+            if (!(dEl && dEl.textContent.indexOf(ocFmt(d)) >= 0)) o.bad.push(`③${id}#${k}: Δ の表示 ${(dEl || {}).textContent} が v−o=${ocFmt(d)} でない`);
+            const rel = el.querySelector('.odRel'), relM = el.querySelector('.odRelMiss');
+            if (x.o !== 0) { o.nRel++; if (!(rel && rel.textContent.indexOf(ocFmt(d / Math.abs(x.o) * 100) + '%') >= 0)) o.bad.push(`③${id}#${k}: 相対差`); }
+            else if (!relM || rel) o.bad.push(`③${id}#${k}: 観測 0 なのに相対差`);
+            const sg = el.querySelector('.odSig'), sm = el.querySelector('.odSigMiss');
+            if (x.s !== null && x.s > 0) { o.nSig++; if (!(sg && !sm && sg.textContent.indexOf(ocFmt(d / x.s)) >= 0)) o.bad.push(`③${id}#${k}: Δ/σ`); }
+            else { o.nSigMiss++; if (!(sm && !sg && /σ 未接続(.+)/.test(sm.textContent))) o.bad.push(`③${id}#${k}: σ 未接続の理由が無い`); }
+            // 差の欄は門の語より前(DOM の順)
+            if (!(dEl.compareDocumentPosition(last) & Node.DOCUMENT_POSITION_FOLLOWING)) o.bad.push(`③${id}#${k}: 差が門の語より後`);
+          }
+        });
+        const vr = box.querySelector('.odVerdictRow'), p = B.find((q) => q.id === id);
+        const w = p && p.status ? W4[p.status.calibration] : null;
+        if (!(vr && w && vr.querySelector('.odVerdict').textContent === w && (rows[rows.length - 1].compareDocumentPosition(vr) & Node.DOCUMENT_POSITION_FOLLOWING)))
+          o.bad.push(`③${id}: 台帳の 4 値の行が全行の後に無い/語が違う`);
+        else o.cal4[w]++;
+        if (['saturnZonalD68', 'alphaCenAB', 'mercuryReal'].indexOf(id) >= 0) o.examples.push(rows[0].textContent.slice(0, 140));
+      }
+      for (const id of ['saturn', 'plutoCharonDFM']) { HP.loadPreset(id, false); await wait(5); if (document.getElementById('odBox')) o.bad.push('③母集団の外の ' + id + ' に出る'); }
+      // ④ en
+      HP.setLang('en'); HP.loadPreset('alphaCenAB', false); await wait(5);
+      o.en = { g: gName(G), sol: gName(SOL), kf0: HP.T('bdgSC_calibration_kf0'), cls: HP.T('bdgSC_calibration'), fid: HP.T('bdgFidReal'), av: HP.T('avTitle'), scope: HP.T('ppScope_cal'),
+        head: ((document.querySelector('#odBox summary') || {}).textContent || ''), v: ((document.querySelector('#odBox .odVerdict') || {}).textContent || '') };
+      if (!(o.en.g === EN && o.en.sol === EN + ' — Solar System' && o.en.kf0 === EN && o.en.cls === EN && o.en.fid === '📏 ' + EN && o.en.av.indexOf(EN) === 0
+        && o.en.scope === EN && o.en.head.indexOf(I18N.en.odHead) >= 0 && o.en.v === I18N.en['stCal_pass-limited'])) o.bad.push('④en ' + JSON.stringify(o.en));
+      HP.setLang('ja');
+      // ⑥ 書かない語
+      const txt = [I18N.ja.odHead, I18N.ja.odNote, I18N.en.odHead, I18N.en.odNote, I18N.ja.groupNotes[G], I18N.en.groupNotes[G]].join('\n');
+      if (/合に近づ|較正\s合|closer to a pass/.test(txt)) o.bad.push('⑥書かない語');
+      HP.loadPreset('saturn', false); await wait(5);
+      const s1 = snap();
+      o.same = s1.sig === s0.sig && s1.par === s0.par;
+      if (!o.same) o.bad.push('⑤presetSig/params が動いた');
+      return o;
+    }, { canonIds, scOf }).catch((e) => ({ err: String(e).slice(0, 300) }));
+    await ctx.close();
+    if (r.err) bad.push('ページ: ' + r.err);
+    else {
+      bad.push(...r.bad);
+      if (four && JSON.stringify(r.cal4) !== JSON.stringify(four)) bad.push(`③4 値の内訳 ${JSON.stringify(r.cal4)} ≠ 正本 ${JSON.stringify(four)}`);
+    }
+    if (errs.length) bad.push('JS ' + errs.slice(0, 2).join(' | '));
+    add('ui.observedCompare294', bad.length === 0,
+      `**「実在天体との照合」の表示と差の行**(第294便c・原仮定者の裁定(第84報)・R150 —— 表示だけ・判定は不変): 表示名 ja「${r.ja && r.ja.g}」・en「${r.en && r.en.g}」`
+      + `(宣言の group「現実較正」${r.declCal} 本のまま・表示名の宣言 ${r.declNew && r.declNew.length}・sampleClass 正本一致 ${r.scN} 本)`
+      + ` / 差の行: 本 ${r.nBooks}(= OBS_COMPARE_CANON.presets ${r.canonPresets} = calaudit = 4 値の本)・量 ${r.nRows} 行(Δ ${r.nDelta}・うち相対 ${r.nRel}・Δ/σ ${r.nSig}・σ 未接続 ${r.nSigMiss} / 量の対応未確定 ${r.nMap} / 観測か模型が無い ${r.nNoObs})`
+      + `・門の語は行末・4 値 ${JSON.stringify(r.cal4)} = 正本 ${JSON.stringify(four)} / 例: ${(r.examples || []).join(' ‖ ')} / presetSig・params 不変=${r.same}`
       + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 6).join(' , ')}` : ''));
   }
 }

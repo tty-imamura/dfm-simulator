@@ -3182,6 +3182,12 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
 - 退役の本は内蔵に残る(旧セーブ・旧 URL の ID で開ける)ので、ベースとして JSON を送ることは今も可能 —— 受理・正準形・保存の形は 1 bit も変わらない。
 - 機械の線は docs/PHYSICS.md〔第294便b〕。QA: **`docs.noRetiredMention294`**(在位の本・I18N・SYSTEM_PROMPT・現行文書に退役の本の ID・絵文字・名前が 0 件)。
 
+## 52. 第294便c —— 群「現実較正」の表示名「実在天体との照合」と保存の値(原仮定者の裁定(第84報)・統括の検証項目 R150・**表示だけ**・**SYSTEM_PROMPT は変えていない**)
+
+- **表示名と宣言の値は別**: 一覧の見出し・分類チップ・📏 チップ・監査ビュー・較正の区画は ja「実在天体との照合」(表示の 2 見出しは「実在天体との照合・太陽系」「実在天体との照合・連星」)・en「Observed-body comparison」と出るが、プリセット JSON に書く値は**従来のまま** —— `group:"現実較正"`・`sampleClass:"calibration"`。表示名(「実在天体との照合」)を `group` に書いても群の別名にはならない(`GROUP_ALIASES` は変えていない —— 旧 3 名「現実との照合・太陽系/連星/太陽系外」だけが「現実較正」へ着地する)。保存・エクスポート・`presetSig` は 1 bit も変わらない。
+- **SYSTEM_PROMPT**: AI 生成の本は群を宣言しない(「AI生成」の見出しに入る)ので、群名の文は SYSTEM_PROMPT に無い —— 本便は SYSTEM_PROMPT を変えていない。geoPN の主な用途の語(「1=主に現実較正」)は用途の分類の語で、本便では据え置いた(決断事項候補)。
+- 説明タブの「🎯 実在天体との照合 — 観測との差」(`#odBox`)は較正母集団 20 本だけに出る表示(台帳の転記 `OBS_COMPARE_ROWS` から量ごとに観測・模型・Δ=模型−観測・相対差・Δ/σ または「σ 未接続」の理由・行末に門の語)。宣言の鍵は無い(AI 生成の JSON に書くものは無い)。読み取り: `obsDiffBookIds()`・`obsDiffRowsOf(id)`(純関数)。式と数は docs/PHYSICS.md〔第294便c〕。QA **`ui.observedCompare294`**。
+
 ## 54. 第294便e —— 「サンプルを選ぶ」の「その他」の 4 段目「題材」・段ごとの「全て」・「すべて表示」の撤去・家族の語(原仮定者の裁定(第84報)の UI 7 点・統括の検証項目 R152・**表示だけ**・**SYSTEM_PROMPT には載せない**)
 
 - **題材は「その他」の 4 段目**: `PP_OTHER_SECS` = 宣言 `decl`・分類バッジ `badge`・状況 `status`・題材 `topic`(見出しの語 `ppOtherSecTopic`)。題材の軸は表 `TOPIC_TAGS`(§41 の 9 鍵 —— 判定は不変)から機械で
