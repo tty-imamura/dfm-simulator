@@ -740,11 +740,14 @@
      (較正が保留/判定保留のときだけ)。語は原稿の holdRemedy か、見込み(outlook)の分類から引く既定表 HOLD_REMEDY_RULES —— 表示専用 */
   .stHoldRemedy{font-size:calc(11px*var(--uz,1));line-height:1.5;color:var(--fg);margin:-4px 0 8px;overflow-wrap:anywhere;}
   .stHoldRemedy .stHoldRemedyHead{color:var(--dim);font-weight:700;margin-right:4px;}
-  /* 第291便e(第81報⑦・R136): 説明タブの**題材チップ**(表 TOPIC_TAGS から機械で —— 表示専用・押せない)。分類チップ(#classChips)の直下 */
+  /* 第291便e(第81報⑦・R136): 説明タブの**題材チップ**(表 TOPIC_TAGS から機械で —— 表示専用)。分類チップ(#classChips)の直下 */
+  /* 第293便b(原仮定者の裁定(第83報)・R142): チップは**押せるボタン**(button.topicChip —— 押すと「サンプルを選ぶ」の次元「題材」で絞り込む)。
+     いま一覧で選ばれている題材のチップは data-state="on"(「サンプルを選ぶ」のチップの on と同じ色)。表示専用 —— 物理・保存 JSON に効かない */
   .descTopics{display:flex;flex-wrap:wrap;gap:4px 6px;margin:-2px 0 8px;align-items:baseline;}
   .descTopics .descTopicsHead{font-size:calc(10.5px*var(--uz,1));color:var(--dim);}
   .descTopics .topicChip{font-size:calc(11px*var(--uz,1));line-height:1.5;padding:1px 7px;border-radius:999px;
-    border:1px dotted var(--line,#2a3242);color:var(--fg);}
+    border:1px dotted var(--line,#2a3242);color:var(--fg);background:transparent;font-family:inherit;cursor:pointer;margin:0;}
+  .descTopics .topicChip[data-state="on"]{background:var(--accFill);border:1px solid var(--acc);color:var(--fg);}
   .descBriefHead{color:var(--dim);font-weight:600;margin:8px 0 2px;
     font-size:calc(12px*var(--uz,1));letter-spacing:0.02em;}
   .descBrief{font-size:calc(12.5px*var(--uz,1));line-height:1.6;margin:2px 0 8px;
@@ -1465,6 +1468,7 @@ ja: {
   smDragTitle:"引きずりの可視化(慣性引きずり u・表示専用)",
   smDragUndecl:"慣性決定力は未宣言(relativeDrag.law≠\"inertial\")— 何も描かない",
   smDragNoHist:"履歴なし(最初の步・粒子が変わった步・標本が古い)— 描かない",
+  smDragComposeSolve:"合成則 solve(既定)の本 — u は全体の連立 (I+L)u=s で決まり局所の標本では引けない — 描かない(compose:\"sum\" を明示した本だけ描く)",
   smDragFrameCentroid:"受け手: 源の重心系に静止(共通の並進は消える)",
   smDragFrameCoord:"受け手: 座標に静止(共通の並進も見える)",
   smDragLenNote:"長さ ∝ (|u|/|u|ref)^(1/3)(ref を超える矢印は基準長で切る)",
@@ -1807,6 +1811,8 @@ ja: {
   /* 第291便c(原仮定者の裁定(第81報)⑥・R134): 測地線モードは「主な用途」の分類 —— 制限はセーブ時の警告だけ(保存も走行も止めない) */
   modeWarn_geo0Geodesic:(law)=>"geoPN=0(主に原理実証用)で測地線を有効にした設定を保存します(physics.geodesic:true —— 走る法則 "+law+")",
   modeWarn_geo1KFrame:(kf,law)=>"geoPN=1(主に現実較正用・GR 1PN 準拠)で kFrame="+kf+" —— GR 1PN に引きずりを重ねた実験設定です(標準は kFrame=0・走る法則 "+law+")",
+  // 第293便a(原仮定者の裁定(第83報)・R141): 宣言の無い分数 kFrame(読み込み時の警告とセーブ時の警告 "kFrameFraction" で同じ文)
+  modeWarn_kFrameFraction:(k)=>"分数 kFrame="+k+" を保持します。実験設定であり、現実較正の合否は別に判定します(予測には使えません。近似として置いた分数なら physics.kFrameApprox:\"space-mesh-effective\" か \"sample-only\" を宣言するとこの警告は出ません)",
   modeWarn_geo2KFrame:(kf,law)=>"geoPN=2(主に引きずり近似用・q で近似)で kFrame="+kf+" —— q 近似の標準強度(kFrame=1)と異なります(走る法則 "+law+")",
   modeWarn_geo3NoInertial:(legacy,runs,law)=>"geoPN=3(主に引きずり用・慣性決定力で計算)で慣性決定力の引きずり(physics.relativeDrag.law:\"inertial\")が未宣言です("
     +(legacy!==null && runs? "旧法則版 "+legacy+" で走っています" : (legacy!==null? "旧法則版 "+legacy+" は入場条件で無効 —— 引きずりの法則は何も走っていません(測地線 "+law+")"
@@ -2021,6 +2027,7 @@ ja: {
   ppTopic_manyBodyTip:(n)=>"bodies の粒子数(単体 1 本ずつ+群の n の和)が "+n+" 以上の本",
   ppNoteTopicHead:"「題材」は宣言の鍵から機械で導く絞り込み(表 TOPIC_TAGS —— 名前では判定しない・表示専用。物理・保存 JSON には一切影響しない)。件数は一覧に出せる本(退役・非表示を除く)を実行時に数える。1 本が複数の題材に入りうる。説明タブのチップ行「題材」も同じ表から出る。",
   descTopicsHead:"題材", descTopicsAria:"このサンプルの題材(宣言の鍵から機械で導く —— 表示専用)",
+  descTopicChipAria:(s)=>"題材 "+s+" で絞り込む",   // 第293便b: 説明の題材チップ(押すと「サンプルを選ぶ」の次元「題材」で絞り込む)
   ppListEndAria:"一覧の終わり",
   unifyGwNote:"GW の 2 本(🎐⏰)は geoPN=0 のまま —— 一本化(kFrame=0 の 1 本にすること)と 1PN 化(geoPN=1)は別の宣言である。⏰ の「約 4 秒」は合体直前の基準時間窓の宣言値(窓の宣言)であって観測の印刷値ではない(起点の f_ref=20 Hz は候補・未宣言)。",
   unifyNotice:(o)=>"在位移行(第288便b・原仮定者の裁定(第78報)④): 既定の宣言を "+o.from+" → "+o.to+" へ移した(ID は不変・kFrame=1 は q を使った引きずりの近似 —— 較正母集団の外)。以下の説明文・観測結果カードの数値には移行前(kFrame=1)の記録が残る —— 移行後の値は判定器の再走で出す(「合った」とは書かない)。旧宣言は A/B の B 側で見られる。",
@@ -2096,7 +2103,7 @@ ja: {
   hudSysOpen:(r)=>`系: 開放系(${r} — リザーバ・帳簿を含めて読む)`,
   sysPin:"固定天体", sysRail:"レール", sysBath:"熱浴", sysWall:"伝熱壁", sysGrav:"外部重力",
   helpOps:"操作",
-  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブと、ヘッダーと同じ高さのシミュレーション画面を残した高さ — 第281便e でどのタブでも同じ高さに固定)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します。✕・検索欄で文字があるときの Esc・削除して空にしたときは、検索文字列を消したあと検索欄のフォーカスを外します(モバイルではキーボードが閉じます。IME の変換中は何もしません。検索欄が空のときや検索欄の外での Esc はウィンドウを閉じます — 第284便d)。絞り込みには「geoPN」(0 測地線不用 / 1 観測再現(1PN・kF0) / 2 引きずり有り / 3 空間メッシュ)があり、スケール・分類・E水準・検索と同時に効きます(第284便d)。絞り込みはそれぞれ畳めて、畳んだ状態でも選んだチップの語が見えます。「その他」のチップ(📇 観測結果カードあり・固定(pinned)あり・多粒子(群あり)・試験粒子契約あり)は複数選べて、選んだものをすべて満たす本だけが出ます(第285便e)。絞り込みは次元ごと(スケール・分類・E水準・geoPN・その他)に見出しつきの区切り線で分かれ、開くと見出しの下にチップが並びます(第286便e)。「その他」のチップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除の三状態で、「宣言」(📇 観測結果カード・固定・多粒子・試験粒子契約・較正対象)と「分類バッジ」(説明タブのコア公理・拡張則・規定背景・意味論・比較チャネル・外部駆動・閉鎖系・温度=T_int・⚠強場トイ領域・引きずり)の 2 段に分かれます。「較正対象」は較正の対象という意味で、合格ではありません(第287便e)。3 段目の「状況(説明タブ)」は概要の下の状態チップと同じ語(目的 達・部分・未達・対象外/較正 合・量限定合・否・保留・判定保留(量定義不一致)・較正対象外)で絞り込めます —— 宣言の転記で、この画面では何も測りません。パラメータタブの静止背景相当 Wbg の換算は採用した核の M/L^p です(第289便f)。「パラメータ」タブの「引きずり・測地線」は「測地線モード geoPN」の行が先頭です(第284便d)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘⭕🧲🔆🌓)は一覧の入口を 🌙 の 1 つにまとめました(第280便b の入口は 🌘 —— 第288便b の現実較正の一本化で 🌘🧲 は退役)—— 残りは「すべて表示」か説明タブの「他の仲間」から開きます(サンプルの ID は 1 つも変えていません)。群「現実較正」(第288便b で「現実との照合・太陽系/連星」を 1 つにまとめた)は、一覧では「現実較正・太陽系」「現実較正・連星」の 2 見出しに分けて並びます(第291便e —— 較正対象の区分から機械で分ける表示・宣言は 1 群のまま)—— 所属は合否を意味しません(合否は較正監査の判定)。絞り込みの「題材」(参照模型・ダークマターハロー など)は宣言の鍵から機械で導きます。分類チップの「現実較正」は kFrame=0 の本、「引きずり近似(q)— 較正母集団の外」は kFrame=1(q を使った引きずりの近似)の本です。「共通設定」の「スキン」で画面の配色をダーク(既定)/ライトから選べます —— ライトでもシミュレーション画面は暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)で、表示のみです(第281便e)。「共通設定」の「コア軸の投影線を表示」は、点粒子の自転軸の表示専用の宣言(spinAxis —— 公転面の法線からの傾き・観測記録に一次資料がある本だけ。内蔵では 📻 の B)も同じ正射影の橙の線で描きます(方位が記録に無いものは破線・物理と署名には効かない・第288便e)。",   /* 第254便c: パラメータタブの構成を追記 */
+  helpOpsBody:"▶実行/⏸停止/⏮初めから。1本指ドラッグで移動、2本指ピンチで拡大縮小。粒子をタップすると固有時計(τ/t)と編集パネル(質量・スピン・速度・固定)を表示。大きく表示される粒子はスポーク(車輪の輻)で回転方向が見えます。「パラメータ」タブは 時空 → 引きずり・測地線 → スピン・熱 →(実験箱など)→ シミュレーション → グラフ → 表示 → スケール → 共通設定 の順に並びます(第254便c)。「表示」カテゴリのチェックボックスは ⏮初めから では保持され、「プリセット既定値に戻す」でサンプルの既定に戻ります。「共通設定」(保存量モニタ・描画品質・文字サイズ・カメラ追従など)と「シミュレーション」のステップ診断・物理ベンチ・コア軸の投影線は端末に永続する設定で、サンプルを変えても引き継がれます。コア軸の投影線(第275便e・第276便c で言葉を統一)は core.axisMode:\"prescribed\" を宣言した親子コアだけに描く表示専用の線で、3D 単位軸を公転面へ正射影したものです(3D 表示ではありません)。既定は「宣言した粒子だけ ON」です — トグルは ON ですが、宣言の無い粒子には何も描かないので、内蔵サンプルでは線は出ません。縦画面ではタブを開いたときパネル右上に「⤢ 広げる」が出ます(第275便f) — 押すとパネルが画面いっぱい(ヘッダー+操作列+タブと、ヘッダーと同じ高さのシミュレーション画面を残した高さ — 第281便e でどのタブでも同じ高さに固定)まで伸びて「⤡ 狭くする」に変わり、「✕ 閉じる」は広い状態でもそのまま効きます。広い/狭いの選択は端末に記憶されます(横画面2カラムではパネルが元から残り高さを全部使うのでボタンは出ません)。広げた状態ではキャンバス上の文字(HUD・各パネル)が操作列・タブ・パネルの上へはみ出しません(第276便f — 広げた状態でだけキャンバス領域をクリップします)。「説明」タブは チップ → タイトル → ID → 🔖概要 → 注意書き → 他の仲間 → 🔬監査ビュー → 較正台帳 → 📌要約・👀観察・🎛操作 → 観測結果カード → 🧪失敗から見る → 🔎数値主張 … の順です(第276便f)。🔖概要は 120 字以内の短い要約で、サンプルが宣言していなければ📌要約の先頭 1〜2 文を機械抽出したものです(切ったときだけ末尾が「…」)。内蔵サンプルの概要は「目的。状況。較正。」の 1 行 3 節で、その下に状態チップ(目的の達成・較正の語・精度見込み)が並びます —— 宣言の転記で、この画面では何も測りません(第279便a)。🧪失敗から見ると観測結果カードは🔎数値主張と同じ折り畳みで、見出しをタップすると開きます(既定は畳む・開閉は記憶しません)。🔬監査ビューを開くボタンはトグルで、もう一度タップすると閉じます。横画面2カラムでは右カラム(操作列・タブ・パネル)と「サンプルを選ぶ」のウィンドウの幅は第278便e の 3/4 です(右カラムは画面幅の 40.5%・360〜472px、ウィンドウの上限 630px — 第279便d)。見出し・数値・選択中の文字は紺の下地で読みやすい明るい青、枠線は従来の青で、キーボード操作(Tab)では選んでいる部品に明るい枠が出ます(第279便d)。「このアプリについて」と🔬監査ビューは「サンプルを選ぶ」と同じく画面の手前に開くウィンドウで、縦画面でも横画面でもキャンバスと右カラムの上に重なり、✕・Esc・ウィンドウの外のタップで閉じます。「サンプルを選ぶ」の検索欄は、文字を入れている間だけ右端に ✕ が出て、タップすると検索文字列を消します。✕・検索欄で文字があるときの Esc・削除して空にしたときは、検索文字列を消したあと検索欄のフォーカスを外します(モバイルではキーボードが閉じます。IME の変換中は何もしません。検索欄が空のときや検索欄の外での Esc はウィンドウを閉じます — 第284便d)。絞り込みには「geoPN」(0 測地線不用 / 1 観測再現(1PN・kF0) / 2 引きずり有り / 3 空間メッシュ)があり、スケール・分類・E水準・検索と同時に効きます(第284便d)。絞り込みはそれぞれ畳めて、畳んだ状態でも選んだチップの語が見えます。「その他」のチップ(📇 観測結果カードあり・固定(pinned)あり・多粒子(群あり)・試験粒子契約あり)は複数選べて、選んだものをすべて満たす本だけが出ます(第285便e)。絞り込みは次元ごと(スケール・分類・E水準・geoPN・その他)に見出しつきの区切り線で分かれ、開くと見出しの下にチップが並びます(第286便e)。「その他」のチップは 1 回タップで「含む」・2 回で「除く(NOT —— ¬ と打消し線)」・3 回で解除の三状態で、「宣言」(📇 観測結果カード・固定・多粒子・試験粒子契約・較正対象)と「分類バッジ」(説明タブのコア公理・拡張則・規定背景・意味論・比較チャネル・外部駆動・閉鎖系・温度=T_int・⚠強場トイ領域・引きずり)の 2 段に分かれます。「較正対象」は較正の対象という意味で、合格ではありません(第287便e)。3 段目の「状況(説明タブ)」は概要の下の状態チップと同じ語(目的 達・部分・未達・対象外/較正 合・量限定合・否・保留・判定保留(量定義不一致)・較正対象外)で絞り込めます —— 宣言の転記で、この画面では何も測りません。パラメータタブの静止背景相当 Wbg の換算は採用した核の M/L^p です(第289便f)。「パラメータ」タブの「引きずり・測地線」は「測地線モード geoPN」の行が先頭です(第284便d)。説明タブの観測結果カードの見出しには 📇 が付きます。地球と月の実単位のサンプル(🌙🌘⭕🔆🌓 ほか)は一覧の入口を 🌙 の 1 つにまとめました(第280便b の入口は 🌘 —— 第288便b の現実較正の一本化で退役し、第292便b で原理の参照として復活)—— 残りは「すべて表示」か説明タブの「他の仲間」から開きます(サンプルの ID は 1 つも変えていません)。群「現実較正」(第288便b で「現実との照合・太陽系/連星」を 1 つにまとめた)は、一覧では「現実較正・太陽系」「現実較正・連星」の 2 見出しに分けて並びます(第291便e —— 較正対象の区分から機械で分ける表示・宣言は 1 群のまま)—— 所属は合否を意味しません(合否は較正監査の判定)。絞り込みの「題材」(参照模型・ダークマターハロー など)は宣言の鍵から機械で導きます。説明の題材チップを押すと、その題材で一覧を絞り込めます(もう一度押すか、一覧の「すべて」で解除。検索欄も題材の語に当たります —— 第293便b)。分類チップの「現実較正」は kFrame=0 の本、「引きずり近似(q)— 較正母集団の外」は kFrame=1(q を使った引きずりの近似)の本です。「共通設定」の「スキン」で画面の配色をダーク(既定)/ライトから選べます —— ライトでもシミュレーション画面は暗い背景のまま(粒子の温度色・光線の波長色は暗い背景の上で意味を持つため)で、表示のみです(第281便e)。「共通設定」の「コア軸の投影線を表示」は、点粒子の自転軸の表示専用の宣言(spinAxis —— 公転面の法線からの傾き・観測記録に一次資料がある本だけ。内蔵では 📻 の B)も同じ正射影の橙の線で描きます(方位が記録に無いものは破線・物理と署名には効かない・第288便e)。",   /* 第254便c: パラメータタブの構成を追記 */
   helpLaws:"この宇宙の法則(要約)",
   helpLawsBody:"① 空間は質点の相対配置だけで決まる(絶対空間なし)。② 決定力(重力決定力)=質量÷距離。その勾配が重力になる。③ 質点は「近くの空間」に対して慣性を持ち、空間ごと引きずられる(kFrame)。慣性と引きずりを担う場は慣性決定力(旧称: 複素決定力)と呼ぶ。遠方宇宙の決定力がD₀。④ スピン=熱(温度T=Is²)。衝突で速度がスピンに変わり(muF)、スピンは斥力=圧力を生み(kRep)、拡散して平衡になる(κs)。⑤ 決定力が高い場所の時計は遅く、空間(共動フレーム)に対して速く動く時計も遅れる。光は同じψ=W·κ(κ=時空係数)で屈折して曲がり(n=e^{2ψ}。v1.7で時間と光を単一のψに統一)、「決定した空間」に運ばれる(c₀)。⑥ すべての相互作用は作用反作用対称で、運動量・角運動量を厳密に保存する(遠方宇宙との交換は帳簿に記録=保存量モニタ)。温度Tの質点はλ=b_m/Tの光を放射する(η_rad)。詳細は docs/PHYSICS.md(v1.6)。",
   ovCurve:"v(r): 実測(青) / 基準 v_bar(点線)", ovTemp:"平均温度(Is²) 左/右", ovLeft:"左", ovRight:"右",
@@ -2541,6 +2548,7 @@ en: {
   smDragTitle:"Dragging made visible (inertial dragging u; display only)",
   smDragUndecl:"Dragging by the inertial determinacy is not declared (relativeDrag.law is not \"inertial\") - nothing is drawn",
   smDragNoHist:"No history (first step, bodies changed, or a stale sample) - nothing is drawn",
+  smDragComposeSolve:"Composition rule solve (the default) - u comes from the whole linear system (I+L)u=s and cannot be read from a local sample - nothing is drawn (drawn only when compose:\"sum\" is declared)",
   smDragFrameCentroid:"Receiver: at rest in the sources' barycentric frame (a shared translation cancels)",
   smDragFrameCoord:"Receiver: at rest in the coordinates (a shared translation shows up)",
   smDragLenNote:"length ~ (|u|/|u|ref)^(1/3) (arrows beyond ref are capped)",
@@ -2873,6 +2881,7 @@ en: {
   /* Wave 291c (originator's ruling, report 81 (6), R134): the geodesic mode classifies the main use - the only restriction is a warning on save */
   modeWarn_geo0Geodesic:(law)=>"Saving geoPN=0 (mainly for proof of principle) with the geodesic switched on (physics.geodesic:true - law run: "+law+")",
   modeWarn_geo1KFrame:(kf,law)=>"geoPN=1 (mainly for reality calibration, GR 1PN) with kFrame="+kf+" - an experimental setup that layers dragging on GR 1PN (standard is kFrame=0; law run: "+law+")",
+  modeWarn_kFrameFraction:(k)=>"Keeping the fractional kFrame="+k+". This is an experimental setup; reality-calibration pass/fail is judged separately (not usable for prediction. If the fraction is a deliberate approximation, declaring physics.kFrameApprox:\"space-mesh-effective\" or \"sample-only\" silences this warning)",
   modeWarn_geo2KFrame:(kf,law)=>"geoPN=2 (mainly for the dragging approximation with q) with kFrame="+kf+" - differs from the standard strength of the q approximation (kFrame=1; law run: "+law+")",
   modeWarn_geo3NoInertial:(legacy,runs,law)=>"geoPN=3 (mainly for dragging computed from the inertial determinacy) has no inertial-determinacy drag declared (physics.relativeDrag.law:\"inertial\") ("
     +(legacy!==null && runs? "it runs the legacy law "+legacy : (legacy!==null? "the legacy law "+legacy+" is disabled by its entry conditions - no drag law is running (geodesic "+law+")"
@@ -3076,6 +3085,7 @@ en: {
   ppTopic_manyBodyTip:(n)=>"samples whose bodies hold "+n+" particles or more (1 per single body plus the n of each group)",
   ppNoteTopicHead:"\"Topic\" is derived mechanically from declaration keys (table TOPIC_TAGS — never from names; display only, it never touches the physics or the saved JSON). Counts are taken at run time over the listable samples (retired and hidden ones excluded). A sample can have several topics. The \"Topic\" chip row of the Description tab comes from the same table.",
   descTopicsHead:"Topic", descTopicsAria:"Topics of this sample (derived mechanically from declaration keys — display only)",
+  descTopicChipAria:(s)=>"Filter the list by topic "+s,   // wave 293b
   ppListEndAria:"End of the list",
   unifyGwNote:"The two GW samples (🎐⏰) stay at geoPN=0 — unifying onto kFrame=0 and moving to 1PN (geoPN=1) are separate declarations. ⏰'s \"about four seconds\" is the declared value of a reference time window just before the merger (a window declaration), not a printed observed value (the f_ref=20 Hz starting point is a candidate, undeclared).",
   unifyNotice:(o)=>"Migrated in place (wave 288b, the adjudicator's ruling, 78th report ④): the default declaration moved from "+o.from+" to "+o.to+" (the ID is unchanged; kFrame=1 is treated as a drag approximation using q — outside the calibration population). The text and observation card below still carry the pre-migration (kFrame=1) record — the post-migration values come from re-running the auditor (nothing here says it matched). The old declaration is on the B side of the A/B.",
@@ -3142,7 +3152,7 @@ en: {
   hudSysOpen:(r)=>`System: open (${r} — read together with reservoirs/ledgers)`,
   sysPin:"pinned bodies", sysRail:"rail", sysBath:"heat bath", sysWall:"thermal walls", sysGrav:"external gravity",
   helpOps:"Controls",
-  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, leaving a strip of the simulation view as tall as the header (wave 281e: the same height on every tab), turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search. After clearing with ✕, with Esc while the box holds text, or by deleting the text down to empty, the search box loses focus (on mobile the keyboard closes; nothing happens during IME composition; Esc with an empty box or outside the box closes the window - wave 284d). The filters include \"geoPN\" (0 no geodesic / 1 observed (1PN, kF0) / 2 with dragging / 3 space mesh), applied together with scale, class, E-level and search (wave 284d). Each filter folds, and a folded filter still shows the chosen chip; the \"Other\" chips (📇 has observation card, has pinned body, many particles (group), test-particle contract) can be combined and list only samples that satisfy all of them (wave 285e). The filters are separated per dimension (scale, class, E-level, geoPN, other) by a line with a heading, and an opened filter lists its chips under that heading (wave 286e). The \"Other\" chips have three states - 1st tap include, 2nd exclude (NOT, shown with ¬ and a strike-through), 3rd clear - and are split into \"Declarations\" (📇 observation card, pinned, many particles, test-particle contract, calibration target) and \"Class badges\" (the Description tab's core axioms, extension, prescribed background, semantics, comparison channel, external drive, closed system, temperature = T_int, ⚠strong-field toy, dragging). \"Calibration target\" means a sample under calibration, not a pass (wave 287e). A third section, \"Status (Description tab)\", filters by the same words as the status chips under the brief (goal met / partial / unmet / n/a; calibration pass / limited pass / fail / hold / hold (definitions differ) / out of calibration scope) - a transcription, nothing is measured on this screen; the read-only static-background equivalent Wbg in the Parameters tab is converted with M/L^p of the adopted kernel (wave 289f). In the Parameters tab, \"Dragging & Geodesics\" now starts with the geodesic mode geoPN row (wave 284d). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘⭕🧲🔆🌓) now share one entry in the list, 🌙 (the wave-280b entry was 🌘; the wave-288b reality-calibration unification retired 🌘🧲) — open the others with \"Show all\" or from \"family\" in the Description tab (no sample ID was changed). The \"Reality Calibration\" group (wave 288b merged \"Reality Checks — Solar System / Binaries\" into it) is listed under two headings, \"Reality Calibration — Solar System\" and \"Reality Calibration — Binaries\" (wave 291e — a display split by the calibration target derived from the declarations; still one declared group) — membership says nothing about pass or fail (the verdict belongs to the calibration audit). The \"Topic\" filter (reference model, dark-matter halo and so on) is derived mechanically from declaration keys. The class chip \"Reality calibration\" marks kFrame=0 samples; \"Drag approx. (q) — outside the population\" marks kFrame=1 samples (a drag approximation using q). \"Skin\" in General switches the colour scheme between Dark (default) and Light; the simulation view keeps its dark background in both (body temperature and ray wavelength colours are drawn for a dark background) - display only (wave 281e). The common setting \"Show the core axis projection\" also draws the display-only spin-axis declaration of point particles (spinAxis — the tilt from the orbit normal, declared only where the observation record has a primary source; among the built-ins, B of 📻) as an orange line with the same projection (dashed where no azimuth is recorded; it affects neither physics nor signatures — wave 288e).",   /* wave 254c */
+  helpOpsBody:"▶Run / ⏸Pause / ⏮Restart. Drag with one finger to pan, pinch with two to zoom. Tap a particle to show its proper clock (τ/t) and the edit panel (mass, spin, velocity, pinned). Large bodies show wheel spokes indicating their rotation direction. The Parameters tab is ordered Spacetime → Dragging & Geodesics → Spin & Heat → (Lab Box etc.) → Simulation → Graphs → Display → Scale → General (wave 254c). Checkboxes in Display are kept by ⏮Restart and returned to the sample defaults by \"Restore preset defaults\". General (conservation monitor, render quality, text size, camera follow, …) and the step diagnostics / physics bench / core-axis projection in Simulation are device-persistent settings that carry over between samples. The core-axis projection (wave 275e, wording unified in wave 276c) is a display-only line drawn only for parent-child cores that declare core.axisMode:\"prescribed\"; it is the 3D unit axis orthogonally projected onto the orbital plane (it is NOT a 3D view). The default is 'on for declared bodies only': the toggle is on, but nothing is drawn for bodies without the declaration, so no line appears in the built-in samples. In portrait, opening a tab also shows a \"⤢ Expand\" button at the top right of the panel (wave 275f): it stretches the panel to the full screen height minus the header, transport row and tab bar, leaving a strip of the simulation view as tall as the header (wave 281e: the same height on every tab), turns into \"⤡ Shrink\", and \"✕ Close\" keeps working in both states. The choice is remembered on the device (in the landscape two-column layout the panel already fills the remaining height, so the button is not shown). In the expanded state the text drawn over the canvas (the HUD and the full-screen panels) no longer spills over the transport row, the tab bar or the panel (wave 276f - the canvas area is clipped in the expanded state only). The Description tab is ordered chips -> title -> ID -> 🔖 In brief -> caveats -> family -> 🔬 audit view -> calibration ledger -> 📌 Summary / 👀 What to observe / 🎛 Controls -> observation card -> 🧪 Failure First -> 🔎 Numeric claims ... (wave 276f). \"🔖 In brief\" is a summary of at most 120 characters: the sample's own declaration when it has one, otherwise the first one or two sentences extracted from \"📌 Summary\" (a trailing \"…\" appears only when something was cut). For built-in samples it is one line in three parts - purpose, state, calibration - with status chips below it (goal, calibration word, outlook); they transcribe the declaration and measure nothing on this screen (wave 279a). \"🧪 Failure First\" and the observation card now fold like \"🔎 Numeric claims\" - tap the heading to open them (collapsed by default; the open/closed state is not remembered). The button that opens the audit view is a toggle: tap it again to close. In the landscape two-column layout the right column (transport row, tabs, panel) and the \"Choose a sample\" window are 3/4 of the wave-278e width (the right column is 40.5% of the screen width, 360-472px; the window is at most 630px wide — wave 279d). Headings, values and selected items use a lighter blue that reads well on the navy background, borders keep the original blue, and keyboard navigation (Tab) draws a bright ring around the focused control (wave 279d). \"About this app\" and the 🔬 audit view open in front of the screen like \"Choose a sample\": in portrait and landscape alike they cover the canvas and the right column, and close with ✕, Esc or a tap outside the window. The search box in \"Choose a sample\" shows a ✕ at its right end while it holds text; tapping it clears the search. After clearing with ✕, with Esc while the box holds text, or by deleting the text down to empty, the search box loses focus (on mobile the keyboard closes; nothing happens during IME composition; Esc with an empty box or outside the box closes the window - wave 284d). The filters include \"geoPN\" (0 no geodesic / 1 observed (1PN, kF0) / 2 with dragging / 3 space mesh), applied together with scale, class, E-level and search (wave 284d). Each filter folds, and a folded filter still shows the chosen chip; the \"Other\" chips (📇 has observation card, has pinned body, many particles (group), test-particle contract) can be combined and list only samples that satisfy all of them (wave 285e). The filters are separated per dimension (scale, class, E-level, geoPN, other) by a line with a heading, and an opened filter lists its chips under that heading (wave 286e). The \"Other\" chips have three states - 1st tap include, 2nd exclude (NOT, shown with ¬ and a strike-through), 3rd clear - and are split into \"Declarations\" (📇 observation card, pinned, many particles, test-particle contract, calibration target) and \"Class badges\" (the Description tab's core axioms, extension, prescribed background, semantics, comparison channel, external drive, closed system, temperature = T_int, ⚠strong-field toy, dragging). \"Calibration target\" means a sample under calibration, not a pass (wave 287e). A third section, \"Status (Description tab)\", filters by the same words as the status chips under the brief (goal met / partial / unmet / n/a; calibration pass / limited pass / fail / hold / hold (definitions differ) / out of calibration scope) - a transcription, nothing is measured on this screen; the read-only static-background equivalent Wbg in the Parameters tab is converted with M/L^p of the adopted kernel (wave 289f). In the Parameters tab, \"Dragging & Geodesics\" now starts with the geodesic mode geoPN row (wave 284d). The observation-card heading in the Description tab now carries 📇. The real-unit Earth–Moon samples (🌙🌘⭕🔆🌓 and others) now share one entry in the list, 🌙 (the wave-280b entry was 🌘, retired by the wave-288b reality-calibration unification and revived as a principle reference in wave 292b) — open the others with \"Show all\" or from \"family\" in the Description tab (no sample ID was changed). The \"Reality Calibration\" group (wave 288b merged \"Reality Checks — Solar System / Binaries\" into it) is listed under two headings, \"Reality Calibration — Solar System\" and \"Reality Calibration — Binaries\" (wave 291e — a display split by the calibration target derived from the declarations; still one declared group) — membership says nothing about pass or fail (the verdict belongs to the calibration audit). The \"Topic\" filter (reference model, dark-matter halo and so on) is derived mechanically from declaration keys. Tapping a topic chip in the Description tab filters the list by that topic (tap it again, or \"All\" in the list, to clear it; the search box also matches topic words — wave 293b). The class chip \"Reality calibration\" marks kFrame=0 samples; \"Drag approx. (q) — outside the population\" marks kFrame=1 samples (a drag approximation using q). \"Skin\" in General switches the colour scheme between Dark (default) and Light; the simulation view keeps its dark background in both (body temperature and ray wavelength colours are drawn for a dark background) - display only (wave 281e). The common setting \"Show the core axis projection\" also draws the display-only spin-axis declaration of point particles (spinAxis — the tilt from the orbit normal, declared only where the observation record has a primary source; among the built-ins, B of 📻) as an orange line with the same projection (dashed where no azimuth is recorded; it affects neither physics nor signatures — wave 288e).",   /* wave 254c */
   helpLaws:"Laws of this universe (summary)",
   helpLawsBody:"(1) Space is defined only by the relative configuration of masses (no absolute space). (2) Determinacy (gravitational determinacy) = mass ÷ distance; its gradient is gravity. (3) Masses have inertia relative to the \"nearby space\" and are dragged along with it (kFrame). The field behind inertia and dragging is called the inertial determinacy (formerly: complex determinacy). D₀ is the determinacy of the distant universe. (4) Spin = heat (T = Is²). Collisions convert velocity to spin (muF), spin creates repulsion = pressure (kRep), and diffuses to equilibrium (κs). (5) Clocks run slow where determinacy is high, and clocks moving fast relative to the comoving frame also run slow. Light refracts under the same ψ = W·κ (κ = the spacetime coefficient; n = e^{2ψ}; time and light unified in v1.7) and is carried by the \"determined space\" (c₀). (6) All interactions are action–reaction symmetric and conserve momentum and angular momentum exactly (exchanges with the distant universe are ledgered — see the conservation monitor). A mass at temperature T radiates at λ = b_m/T (η_rad). Details: docs/PHYSICS.md (v1.6).",
   ovCurve:"v(r): measured (blue) / baseline v_bar (dotted)", ovTemp:"Mean temperature (Is²) L/R", ovLeft:"L", ovRight:"R",
@@ -3385,7 +3395,7 @@ en: {
     dispMag:"Display-only magnification of particle rendering radii (default 1). Use when real-unit radii are too small to see. Never affects contact physics, inertia or the simulation itself — a pure magnifying glass.",
     G:"Strength of mutual gravity between particles. In this universe gravity is the gradient of determinacy W (A6/E4: a=G∇W). Set 0 to switch self-gravity off (independent of the uniform field g_x/g_y).",
     D0:"Baseline determinacy contributed by the distant universe (A5). The larger it is, the more space is anchored far away — and the weaker the relative grip of nearby masses (kFrame drag). 0 = no distant anchor: wherever there is at least one source, chi = W/(W+D0) tends to 1 and only the nearby masses are the reference (at a point with no source at all, chi is held at 0).",
-    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of the outer-velocity enhancement in rotation curves (T4). WAVE 275a (the original hypothesiser's ruling, report 65): IN A SAMPLE JSON THE DEFAULT IS BINARY - 0 OR 1. A fractional correction only holds for that one sample and cannot be used for prediction, so writing 0<kFrame<1 in JSON requires the declaration physics.kFrameApprox ('space-mesh-effective' = an effective approximation of the space-mesh influence, or 'sample-only' = that sample only). An undeclared fraction is SNAPPED TO THE NEAREST 0/1 ON LOAD with one warning (k<0.5 -> 0, k>=0.5 -> 1). FOR THE REALITY-CALIBRATION CLASS (sampleClass:calibration) IT IS REJECTED RATHER THAN SNAPPED, and the only usable declaration there is 'space-mesh-effective'. A VALUE SET FROM THIS SLIDER (the UI) IS NOT SNAPPED - the gate only bites when the value is written into a saved JSON (the same save asymmetry as wave 263a).",
+    kFrame:"How strongly moving or spinning masses drag the 'nearby space' (the determinacy frame) along, carrying matter and light with it (A4/A5/E6′). 1 = fully relational space, 0 = Newtonian rigid space. The lead actor of the outer-velocity enhancement in rotation curves (T4). IN A SAMPLE JSON THE STANDARD IS BINARY - 0 OR 1 (wave 275a, the original hypothesiser's ruling, report 65: a fractional correction only holds for that one sample and cannot be used for prediction). WAVE 293a (ruling, report 83): A FRACTIONAL 0<kFrame<1 IS KEPT AS IT IS. Without the declaration physics.kFrameApprox ('space-mesh-effective' = an effective approximation of the space-mesh influence, or 'sample-only' = that sample only) a fraction gets ONE WARNING ON LOAD AND ON SAVE (an experimental setup, not usable for prediction). The reality-calibration class (sampleClass:calibration) accepts it too, and the calibration judge does NOT COUNT such a sample in the pass/fail population. A value that an older version rewrote to 0/1 on load and then saved cannot be restored to its original fraction.",
     q:"Falloff exponent of the rotational drag from spin with distance (E3: (R/(R+d))^q). Larger q confines the drag closer to the body.",
     kRep:"Repulsion between spinning (= hot) particles (A10/E5′) — the origin of 'pressure' in this universe. Hot gas inflating (🎈) and convection (♨️) are driven by this force.",
     muF:"Efficiency of converting sliding contact (relative velocity) into spin = heat (A9/E9). At 0, collisions no longer heat anything (try the 💥 contrast experiment).",
@@ -3993,8 +4003,8 @@ function geoModeOf(ph){
   return out;
 }
 // ===== 第291便c(原仮定者の裁定(第81報)⑥・統括の検証項目 R134): **geoPN は「主な用途」の分類**・**走る法則は宣言から解決する** =====
-// 制限はセーブ時の警告だけ(`modeSaveWarnings`)。受理器は geoPN と kFrame の組を拒否しない・値を丸めない(分数 kFrame の第65報の丸めは
-// kFrame の値域の契約なので残す)。解決の表(`geoModeOf(...).law` —— 走った法則の名前。`geoCoreDispatchBody` は同じ表で dispatch する):
+// 制限はセーブ時の警告だけ(`modeSaveWarnings`)。受理器は geoPN と kFrame の組を拒否しない・値を書き換えない(分数 kFrame の第65報の寄せは
+// 第293便a〔原仮定者の裁定(第83報)・R141〕で撤去 —— 分数は保持して警告 "kFrameFraction")。解決の表(`geoModeOf(...).law` —— 走った法則の名前。`geoCoreDispatchBody` は同じ表で dispatch する):
 //   測地線(1PN)の ON/OFF: geoPN≥1 は ON。geoPN=0 は `physics.geodesic:true` を宣言したときだけ ON(既定は無し=署名不変)
 //   1PN の基底: ON ∧ kFrame=0 → "eih-kf0"(`_core` に 1 + EIH の差分)/ ON ∧ kFrame>0 → "vMinusU-q"(`_core` に 2 —— v−u 則)
 //   geoPN=3: 旧法則版(physics.spaceMesh.lawVersion = scalar/local/complex/vMinusU)の宣言が入場条件を満たせば
@@ -4004,7 +4014,9 @@ function geoModeOf(ph){
 // **geoModeOf は宣言から決まる(S を読まない)**。旧法則版の入場条件は `S.updateRadii` の門と同じ式(kFrame・toyAllowDrag・inertia・weave)を
 // ここでも評価する。vMinusU の外部ステップの前提(meshVelocity の受理など)は宣言の有無だけを見る(細目の拒否理由は S.meshVelDeny)
 const GEO_MODE_PURPOSE=["proof","calibration","dragApprox","inertialDrag"];   // 0=主に原理実証 / 1=主に現実較正(GR 1PN)/ 2=主に引きずり近似(q)/ 3=主に引きずり(慣性決定力)
-const MODE_POLICY_VERSION="w291c-1";   // 保存の版(#btnSave が item.modePolicy に書く —— 読込で旧セーブの kFrame の読み替えを分ける)
+const MODE_POLICY_VERSION="w293a-1";   // 保存の版(#btnSave が item.modePolicy に書く —— 読込で旧セーブの kFrame の読み替えを分ける)。第293便a で w291c-1 → w293a-1
+// 第293便a(R141): 「値を保持して読む」保存の版の一覧(w291c-1 以後)。w291c-1 の保存も従来どおり値を保持して読む(版を上げただけで読み替えを増やさない)
+const MODE_POLICY_KEEP_VERSIONS=["w291c-1","w293a-1"];
 const GEO_LAWS=["newton","eih-kf0","vMinusU-q","inertial-drag"];   // 旧法則版は "legacy-spaceMesh:<lawVersion>"
 function geoLegacyDeclOf(ph){   // geoPN=3 の旧法則版の宣言(lawVersion)と、入場条件(S.updateRadii の門と同じ式)を満たすか
   const sm=(ph && ph.spaceMesh && typeof ph.spaceMesh==="object")? ph.spaceMesh : null;
@@ -4054,7 +4066,9 @@ function geoLawResolveInto(out, ph, kF){
 // kFrame が数でなければ既定(DEFAULT_PHYSICS.kFrame)で読む(受理器が埋める値と同じ)。戻り値 [{code,message}](無ければ [])
 //   geoPN=0 ∧ 測地線 ON(geodesic:true)/ geoPN=1 ∧ kFrame≠0 / geoPN=2 ∧ kFrame≠1 / geoPN=3 ∧ 慣性決定力(relativeDrag.law:"inertial")未宣言
 // (3 の条件は統括の追加 —— 原仮定者の裁定(第81報)は 3 のモード固有の条件を指定していない)
-const MODE_SAVE_WARN_CODES=["geo0Geodesic","geo1KFrame","geo2KFrame","geo3NoInertial"];
+// 第293便a(原仮定者の裁定(第83報)・R141): 5 本目 "kFrameFraction" —— 0<kFrame<1 ∧ 宣言 kFrameApprox("space-mesh-effective"/"sample-only")が無い。
+//   文は読み込み時(validatePreset)の警告と同じ `modeWarn_kFrameFraction`。入力に kFrameApprox を読む(#btnSave は実行中プリセットの宣言を写して渡す)
+const MODE_SAVE_WARN_CODES=["geo0Geodesic","geo1KFrame","geo2KFrame","geo3NoInertial","kFrameFraction"];
 function modeSaveWarnings(a){
   const src=(a && typeof a==="object")? a : {};
   const kF=(typeof src.kFrame==="number" && isFinite(src.kFrame))? src.kFrame : DEFAULT_PHYSICS.kFrame;
@@ -4066,6 +4080,8 @@ function modeSaveWarnings(a){
   if(g.mode===2 && kF!==1) out.push({code:MODE_SAVE_WARN_CODES[2], message:T("modeWarn_geo2KFrame")(kF, g.law)});
   if(g.mode===3 && !g.inertialDrag)
     out.push({code:MODE_SAVE_WARN_CODES[3], message:T("modeWarn_geo3NoInertial")(g.legacyLaw, g.legacyLaw!==null && g.legacyOff===null, g.law)});
+  if(kF>0 && kF<1 && KFRAME_APPROXES.indexOf(src[KFRAME_APPROX_KEY])<0)
+    out.push({code:MODE_SAVE_WARN_CODES[4], message:T("modeWarn_kFrameFraction")(kF)});
   return out;
 }
 // 第291便c(R134): **モードの表**(PHYSICS〔第291便c〕の表の正本 —— QA docs.geoModeTable が行を転記一致で照合する)。
@@ -6538,8 +6554,37 @@ const REL_DRAG_KAPPA_CLAMP = [0, 1];
 //   `kappa`・`spins`・`W0`・`integration` は pairSlip 専用(inertial で与えたら拒否)・それ以外の未知の鍵も拒否。
 //   gain:0 は「宣言したが用量 0」= 否定対照の宣言として正準形に残す(署名は未宣言と別・走行は未宣言とビット同一 —— 器の門 b)。
 //   契約 (i)〜(viii) と步の式は `dfmInertialDragStep` の注記と docs/PHYSICS.md〔第290便c〕。**既定(未宣言)は 1 bit も変わらない。**
-const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)
+const REL_DRAG_INERTIAL_KEYS = ["law", "gain", "eps", "pairs", "history", "coreTable", "compose", "solveFrom", "solveIters"];   // 第292便c: coreTable(構造核の表の宣言 —— 省略可・正準形には宣言した本だけ)・第293便e: compose/solveFrom/solveIters(合成則 —— 第293便g: 既定 solve(velocity) は正準形に出さない)
 const REL_DRAG_INERTIAL_HISTORY = ["positions"];
+// 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
+//   統括の検証項目 R145): **引きずりの合成則**の宣言 `physics.relativeDrag.compose:"sum"|"solve"`(law:"inertial" だけ)。
+//   "sum"(第290便c の加算 —— 各源の寄与 a_ij(V_j−V_i) を足す)/
+//   "solve"(共通の移動速度 W を (I+L)W = v で自己無撞着に解く・式と契約は `inertialDragComposeSolve` の注記)。
+//   `solveFrom:"history"|"velocity"`(v の意味 —— 履歴の座標差分 V^{n−1} か力学速度 S.vx)・
+//   `solveIters`(n>REL_DRAG_SOLVE_DIRECT_MAX の反復回数・省略は既定 8 —— 正準形には宣言した本だけ)。solveFrom・solveIters は solve 専用。
+// 第293便g(原仮定者の裁定(第83報 追記)「引きずりは単純加算しないので、単純加算している現状の修正が先」・統括の検証項目 R147):
+//   **law:"inertial" の本の既定の合成則を "solve"・solveFrom を "velocity" に変えた**(未宣言 = solve(velocity))。
+//   正準形には既定を出さない(compose は "sum" を明示した本だけ・solveFrom は "history" を明示した本だけ)—— **署名は変わらないが力学は変わる**
+//  (内蔵で law:"inertial" を宣言した 🐌 inertialDragPair と 🌛 earthMoonInertial の 2 本 —— docs/PHYSICS.md〔第293便g〕)。
+//   "sum" は旧法則版(第290便c〜第293便e の既定)を比較だけのために残す opt-in。
+const REL_DRAG_COMPOSE = ["sum", "solve"];
+const REL_DRAG_SOLVE_FROM = ["history", "velocity"];
+const REL_DRAG_COMPOSE_DEFAULT = "solve";       // 第293便g: 未宣言の合成則(正準形に出さない)
+const REL_DRAG_SOLVE_FROM_DEFAULT = "velocity"; // 第293便g: 未宣言の v の意味(正準形に出さない)
+// 第293便g: 正準形(または実行時の S.relDrag)から実際の合成則と v の意味を読む(law:"inertial" 以外は null)
+function relDragComposeOf(rd){
+  if(!rd || rd.law!=="inertial") return null;
+  return (rd.compose===undefined || rd.compose===null)? REL_DRAG_COMPOSE_DEFAULT : rd.compose;
+}
+function relDragSolveFromOf(rd){
+  if(relDragComposeOf(rd)!=="solve") return null;
+  return (rd.solveFrom===undefined || rd.solveFrom===null)? REL_DRAG_SOLVE_FROM_DEFAULT : rd.solveFrom;
+}
+const REL_DRAG_SOLVE_ITERS_DEFAULT = 8;
+const REL_DRAG_SOLVE_ITERS_RANGE = [1, 1000];
+const REL_DRAG_SOLVE_DIRECT_MAX = 64;     // n ≤ 64 は直接法(ガウス消去 —— 行の対角優位なのでピボットなし)・それより多いと Gauss–Seidel
+const REL_DRAG_SOLVE_NMAX = 4096;         // 結合行列 a_ij(n² の倍精度)を張る上限 —— 超えた步は拒否して数える(u=0)
+const REL_DRAG_COMPOSE_VERSION = "w293g-compose-2";   // 第293便g: 既定を solve(velocity) に(式・解法は w293e-compose-1 と同じ)
 // 第292便c(R139): 慣性決定力の構造核の宣言(天体 `dragCore`・本 `relativeDrag.coreTable`)の受理器と定数 —— 式と契約は `dragCoreInit` の注記
 const DRAG_CORE_KEY = "dragCore";
 const DRAG_CORE_VERSION = "w292c-dragcore-1";
@@ -6625,6 +6670,23 @@ function validateRelativeDragInertial(a){
   const ctv=validateDragCoreTable(a.coreTable);   // 第292便c: 省略は正準形に出さない(既存の本の署名は 1 字も変わらない)
   if(!ctv.ok) return {ok:false, err:ctv.err};
   if(ctv.coreTable!==null) out.coreTable=ctv.coreTable;
+  // 第293便e→第293便g: 合成則(省略・null・"solve" は既定 —— 正準形に出さない。"sum" を明示した本だけ compose:"sum" を出す)
+  const cmp=(a.compose===undefined || a.compose===null)? REL_DRAG_COMPOSE_DEFAULT : a.compose;
+  if(REL_DRAG_COMPOSE.indexOf(cmp)<0) return {ok:false, err:'physics.relativeDrag.compose(law:"inertial")は "solve"(既定 —— 共通の移動速度を自己無撞着に解く)か "sum"(旧法則版 —— 各源の寄与を足す・比較用)'};
+  if(cmp==="sum"){
+    for(const k of ["solveFrom","solveIters"]) if(a[k]!==undefined && a[k]!==null)
+      return {ok:false, err:'physics.relativeDrag.'+k+' は compose:"solve"(既定)専用(compose:"sum" では宣言しない)'};
+    out.compose="sum";
+  } else {
+    const sf=(a.solveFrom===undefined || a.solveFrom===null)? REL_DRAG_SOLVE_FROM_DEFAULT : a.solveFrom;
+    if(REL_DRAG_SOLVE_FROM.indexOf(sf)<0) return {ok:false, err:'physics.relativeDrag.solveFrom は "velocity"(既定 —— 力学速度 v)か "history"(座標差分の移動ベクトル V^{n−1})'};
+    if(sf!==REL_DRAG_SOLVE_FROM_DEFAULT) out.solveFrom=sf;
+    if(a.solveIters!==undefined && a.solveIters!==null){
+      if(!isNum(a.solveIters) || a.solveIters!==Math.round(a.solveIters) || a.solveIters<REL_DRAG_SOLVE_ITERS_RANGE[0] || a.solveIters>REL_DRAG_SOLVE_ITERS_RANGE[1])
+        return {ok:false, err:'physics.relativeDrag.solveIters は '+REL_DRAG_SOLVE_ITERS_RANGE[0]+'〜'+REL_DRAG_SOLVE_ITERS_RANGE[1]+' の整数(n>'+REL_DRAG_SOLVE_DIRECT_MAX+' の Gauss–Seidel の回数・既定 '+REL_DRAG_SOLVE_ITERS_DEFAULT+')'};
+      out.solveIters=a.solveIters;
+    }
+  }
   return {ok:true, relativeDrag:out};
 }
 function validateRelativeDrag(a){
@@ -7568,7 +7630,7 @@ const SCALE_BASES=[
   {id:"everyday",  tier:"everyday",  L:0,    T:0,    M:0,    C:0},
   {id:"gwBinary",  tier:"planetary", L:4,    T:-3,   M:29,   C:4, nameKey:"scaleBase_gwBinary"},   // 第254便c: 🎐🎻⏰⚛️
   {id:"psrBinary", tier:"planetary", L:6,    T:1,    M:27,   C:4, nameKey:"scaleBase_psrBinary"},  // 第254便c: 📻⚡🧿🧮🩺…
-  {id:"planetE6",  tier:"planetary", L:6,    T:2,    M:25,   C:4, nameKey:"scaleBase_planetE6"},  // 第258便c: 🌙🌘⭕🧲📶📐🥔❄️💠📡💍💿
+  {id:"planetE6",  tier:"planetary", L:6,    T:2,    M:25,   C:4, nameKey:"scaleBase_planetE6"},  // 第258便c: 🌙🌘⭕📶📐🥔❄️💠📡💍💿・旧判別 B(退役)
   {id:"planetE7",  tier:"planetary", L:7,    T:3,    M:26,   C:4, nameKey:"scaleBase_planetE7"},  // 第258便c: 🟠🌊
   {id:"planetStd", tier:"planetary", L:8,    T:4,    M:24,   C:4, nameKey:"scaleBase_planetStd"},  // 第254便c: 惑星タグの既定アンカー ⏱️🛰️☿🪐…
   {id:"planetE8",  tier:"planetary", L:8,    T:4,    M:27,   C:4, nameKey:"scaleBase_planetE8"},  // 第258便c: 🔆☄️🪨🌞🌇
@@ -7826,7 +7888,7 @@ const PARAM_DEFS = [
   {key:"geoPN",   label:"測地線モード geoPN", mode:"lin", lo:0, hi:3, step:1,    cat:"dg", group:"法則の実験室",
    desc:"v2.0の測地線モード(E12)。1にすると、時計を遅らせるのと同じψ=W·κから物質の運動を作用原理で導き、1PN補正が働く(☿)。同時に物質へのE6′引きずりは無効化(二重計上禁止)。2にすると v−u 統一測地線則(v2.0第2段階): u≠0 のまま導いた式で、フレーム輸送・渦度コリオリ(引きずりの正体)・1PN が一本の式から出る — kFrame=0 では kF0 の役割(λ_PN=1 ∧ kFrame=0)として geoPN=1 と同じ EIH 型の 1PN の経路へ送られる(第285便b 以降 —— v−u 則の式を u=0 に還元した結果ではなく kF0 の契約による。400 步の状態は 6 本で一致したが〔第286便c の実測〕、法則として同一とは断言しない)。0=従来(legacy)。**第291便c(原仮定者の裁定(第81報)⑥)— geoPN は「主な用途」の分類で、モードが違っても制限はセーブ時の警告だけ**: 0=主に原理実証用(physics.geodesic:true を宣言すると測地線〔1PN〕も使える —— 保存時に警告)/ 1=主に現実較正用・GR 1PN 準拠(kFrame=0 以外は保存時に警告 —— kFrame>0 は GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)/ 2=主に引きずり近似用・q で近似(kFrame=1 以外は保存時に警告)/ 3=主に引きずり用・慣性決定力で計算(physics.relativeDrag.law:\"inertial\" が未宣言なら保存時に警告)。**走る法則は宣言から決まる**(測地線 ON ∧ kFrame=0 → EIH 型の 1PN・kFrame>0 → v−u 則・3 で旧法則版 physics.spaceMesh.lawVersion〔scalar/local/complex/vMinusU〕を宣言していればその旧法則版 —— 数値は従来どおり。scalar/local/complex は第259便a の **3=トイ(慣性決定力場)**)。値は保存どおりに保存・再読込される(旧法則版の宣言が無い 3 も 3 のまま —— 測地線の法則で走り、HUD に law: を出す)。旧法則版の内部整合(トイは kFrame=0・spaceMesh の inertia/weave と排他・vMinusU は kFrame=0)は残すが、矛盾した宣言は拒否せず警告して旧法則版を無効化する(ステップ会計の geoToy:denied)。physics.spaceMesh.toyAllowDrag:true を宣言したサンプルだけは kFrame>0 のままトイが走り、**E6′ の追従キックと同じ步で重なる**(二重計上の可能性がある診断構成・HUD に overlay:drag)。vMinusU を宣言した 3 は**トイではなく速度分解の契約**(ẋ=v+u・v̇=a_space−Jᵀv —— 輸送経路 physics.meshVelocity・1PN の有無 pn・1PN が読む速度 pnVelocity・初期速度の意味 velocityMeaning を別々に宣言する)。"},
   {key:"kFrame",label:"空間引きずり kFrame", mode:"lin", lo:0, hi:1, step:0.01, cat:"dg", group:"法則の実験室",
-   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。**第275便a(原仮定者の裁定〔第65報〕)**: サンプル JSON の既定は **0 か 1 の二値**である —— 分数の補正はそのサンプル限りで予測に使えないので、0<kFrame<1 を JSON に書くには `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)の宣言が要る。宣言が無い分数は読み込み時に**最寄りの 0/1 へ丸めて警告 1 行**(k<0.5→0・k≥0.5→1)。**現実較正クラス(sampleClass:calibration)では丸めず拒否**し、使える宣言は「space-mesh-effective」だけである。**このスライダー(UI)で動かした値は丸めない**(保存 JSON にしたときに初めて門が効く — 第263便a と同じ保存の非対称)。"},   // 第124便(原仮定者指示): geoPN の次へ移動
+   desc:"質量が動く・回ると「近くの空間」(決定フレーム)ごと引きずり、そこにある物質と光を運ぶ効果の強さ(A4/A5/E6′)。1=完全な相対空間、0=引きずりなしのニュートン的空間。銀河外縁の回転速度増強(T4)の主役。サンプル JSON の標準は **0 か 1 の二値**である(第275便a・原仮定者の裁定〔第65報〕—— 分数の補正はそのサンプル限りで予測に使えない)。**第293便a(原仮定者の裁定〔第83報〕)**: 0<kFrame<1 の分数は**値をそのまま保持**する。宣言 `physics.kFrameApprox`(「space-mesh-effective」= 空間メッシュの影響の実効近似 /「sample-only」= そのサンプル限り)が無い分数は、読み込み時と保存時に**警告 1 行**(実験設定であり予測に使えない)。現実較正クラス(sampleClass:calibration)でも受理し、**較正の合否の母集団には数えない**(判定器の側で除く)。旧版で読み込み時に 0/1 へ書き換えられたまま保存された値は、元の分数に戻せない。"},   // 第124便(原仮定者指示): geoPN の次へ移動
   {key:"lambdaPN",label:"1PN補正 λ_PN",      mode:"lin", lo:0, hi:1, step:0.05, cat:"dg", group:"法則の実験室",
    desc:"測地線モード(geoPN≥1 — geoPN=2 の a₁ₚₙ(w) 項も同じスイッチで制御)の1PN補正の強さ(0〜1の連続値 — 第110便で整数制限を撤廃)。1PN加速度は λ_PN/c₀² に比例するので、c₀を固定したまま1PN強度だけを較正できる。0にするとニュートン重力に戻り、楕円軌道が閉じる — ☿水星のA/B対照実験用。"},
   {key:"pnAlpha", label:"1PN係数 α(0.5=時間率のみ, 1.5=完全)", mode:"lin", lo:0.5, hi:1.5, step:0.5, cat:"dg", group:"法則の実験室",
@@ -7988,15 +8050,11 @@ const GEODESIC_KEY = "geodesic";   // 第291便c(R134): geoPN=0 で測地線(1PN
 //                              **較正クラスでは拒否する** —— 予測に使えないと宣言した分数を
 //                              現実較正へ入れさせないため。
 const KFRAME_APPROXES = ["space-mesh-effective", "sample-only"];
-const KFRAME_APPROXES_CALIBRATION = ["space-mesh-effective"];
-// **宣言の無い 0<kFrame<1 をどう扱うか**(第275便a で両案を実装して比較した):
-//   "snap"   … 案B: 最寄りの {0,1} へ丸めて警告 1 行(AA2 のクランプと同じ流儀)。**既定**。
-//              旧セーブ・旧 AI 出力を壊さずに二値へ寄せられる。
-//   "reject" … 案A: 検証エラーで拒否(較正クラスは常にこちら)。
-// 丸めの規則は **k<0.5 → 0 / k≥0.5 → 1**(境界の 0.5 は 1 側。規則を明文で固定する)。
-// **力学には 1 バイトも接続しない** —— 変わるのは検証器の受理だけである。
-const KFRAME_UNDECLARED_MODES = ["snap", "reject"];
-let kFrameUndeclaredMode = "snap";
+// 第275便a は宣言の無い 0<kFrame<1 の扱いに 2 案(案B "snap" = 0/1 へ寄せて警告・既定 / 案A "reject" = 拒否・較正クラスは常にこちら)を
+// 実装し、較正クラスで使える宣言を "space-mesh-effective" だけに絞っていた(KFRAME_APPROXES_CALIBRATION)。
+// **第293便a(原仮定者の裁定(第83報)・R141)で両案と較正クラスの絞り込みを撤去した** —— 宣言の無い分数は値を保持して警告 1 行
+// (validatePreset・modeSaveWarnings の "kFrameFraction")。モード切替(KFRAME_UNDECLARED_MODES / kFrameUndeclaredMode)は無くなり、
+// 互換の HP.kFrameUndeclaredMode() は常に "keep" を返すだけの stub である(旧動作は復活させない)。
 const CLAMPS = { G:[0,1e6], D0:[0,1e6], kFrame:[0,1], q:[0.5,40], kRep:[0,20], muF:[0,1],
   gammaN:[0,1], kappaS:[0,2], kappaT:[0,1], kLens:[0,1],   // 第128便: 時空係数は κ 正準(κ=0=時空効果なし。旧 Kt[1,1e12] は ktToKappa で受理)
   cLight:[1,1e6], bM:[0.001,1000], etaRad:[0,1], pRad:[1,6], radiusScale:[0.2,5],
@@ -11803,12 +11861,12 @@ const BUILTIN_PRESETS = [
 
 
 // ===== グループ: 天体の機構(第273便a で「天体の物語」から改名)/ 現実との照合 =====
-// 第147便(原仮定者指示): この区間の観測較正・監査系14本(☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)は
+// 第147便(原仮定者指示): この区間の観測較正・監査系14本(☄️🪨🌙🌘💍💿📡🌞🟠⭕🔆📶📐 と旧判別 B〔退役〕)は
 // 天体の物語から別グループへ移した(表示・分類専用 — 配列順・物理・claims は bit 不変)。
 // 第149便(原仮定者裁定): そのグループ名を group:"現実との照合" とする(旧名「現実較正」)。
 // 第220便(第19報 原仮定者指示): そのグループを「現実との照合・太陽系」と「現実との照合・太陽系外」
 // の2つへ分割(表示・分類専用 — 配列順・物理・claims・ファミリー id は不変。太陽系側=☄️🪨🌞🌙🌘
-// ⭕🧲🔆📶📐💍💿📡🟠🌇🥔❄️💠🌊 の19本・太陽系外側=✨✴️🌟💫+📻⚡ の6本)。
+// ⭕🔆📶📐💍💿📡🟠🌇🥔❄️💠🌊 と旧判別 B〔退役〕の19本・太陽系外側=✨✴️🌟💫+📻⚡ の6本)。
 // 天体の物語には物語・トイ系(🌍🌕⭐♾️💥🌪️🎆 等)が残る(🌱starSeed は第151便で
 // 新グループ「ローターの物語」へ移動 — 配列上の位置はこの区間のまま)。
 // 第149便(原仮定者裁定): グループを跨いでいたファミリーを分割し、天体の物語側は自前の
@@ -12087,8 +12145,11 @@ const BUILTIN_PRESETS = [
   //   変えたのは分類の鍵と説明文だけ —— 家族の役割 退役 → variant・分類 較正 → 原理実証(**較正母集団には戻さない** —— 20 本は不変)・
   //   群「現実較正」→「天体の機構」(較正の表示群〔太陽系 20〕の外 —— 表示専用)・宣言専用の referenceKind(現象論の参照)を足した。
   //   **physics・bodies・qLock・D₀・D0pull・初速 −0.12%・claims は 1 字も変えていない**(presetSig は分類の鍵・group・説明文を見ない —— 署名・保存 JSON・力学は基点と同一)。
-  //   🧲 emAuditDFM(🌘 と同じ構成の機構判別 B —— 現行の宣言の差は D0pull・frameWeight・初速で、写しに鍵ごとに記す)は退役のまま(両方を在位に戻すと二重になる)。
+  //   旧機構判別 B(🌘 と同じ構成の二体 kFrame=1・D₀=0.006・qLock —— 現行の宣言の差は D0pull・frameWeight・初速で、写しに鍵ごとに記す)は退役のまま(両方を在位に戻すと二重になる)。
   //   前後の写しは tests/fixtures/revived-w292b.json
+  // 第293便f(原仮定者の裁定(第83報 追記)—— 廃止した判別 B のサンプルへの言及を各サンプルから削除する・統括の検証項目 R146): 在位の本の説明文とコメントから退役の判別 B の
+  //   絵文字と ID を外し、「旧判別 B(退役)」と宣言(kFrame=1・D₀=0.006・qLock)で書き直した(表示と文書だけ —— presetSig・力学・保存の形は不変。
+  //   🌘 の claims は 1 字も変えていない・🔆 は claims の note の文だけ)。QA docs.noRetiredMention293
   familyId:"earthmoon", familyRole:"variant",   // 第292便b(第82報⑤・R138): **復活** —— 家族 earthmoon の variant(primary は 🌙 のまま)。旧: 第288便b(原仮定者の裁定(第78報)④・統括の検証項目 R114)で退役(履歴)—— 現実較正を kF0 の 1 系統へ一本化(表示専用 —— presetSig は familyRole を見ない・物理 1 bit 不変)
     // 第129便(原仮定者指示): ファミリー再編(表示専用 — 物理・claims・QA・配列順・group は不変)(DFM 版 🪨🌘💿 —— 第286便c で旧称を改めた)
   scaleTier:"planetary",
@@ -12125,8 +12186,8 @@ const BUILTIN_PRESETS = [
   orbitObs:{center:0, orbiter:1, ghostAmp:20},   // 実歳差 3°/公転 — ×20 で数公転で一周が見える
   descStruct:{
     summary:"**在位は原理の参照**(第292便b で分類を変えて復活 —— q 引きずりの機構実験。較正母集団ではない)。🌙(kFrame=0)と同一の実値のまま空間引きずり(A8/E6′)を有効にし、共通補正 D₀=0.006+qLock(厳密一致式 q_exact=8.2358 自動算出 — 第172便で規約採用)を当てた版 — 重力(E4)+運動引きずりの二体だけで、恒星月 27.32日と**月の近点回転(実測 約8.85年で一周)**の2観測量に同時に合わせた**現象論のフィット**(exp-kf1b/kf1c 実測)。8 公転窓の近点回転 ≈8.85 年(Δϖ=+0.05308 rad/公転)はこのフィットの記録で、窓を延ばすと定常ではない(正本 emgrid: 8 周 9.1278 年・27 周 9.9214 年)。ニュートンの逆二乗力だけの二体のケプラー軌道は閉じた楕円で近点回転を持たない — kFrame=1 の運動引きずりが χ=w/(D₀+w) に比例する順行歳差を作り、D₀ がその較正ノブになる(第120便の一次発見)。測地線 E12・倍精度 stateCarry はDFM 版 🪨🌘💿 と同じ規約。",
-    observe:"軌道の向き(近点方向)がゆっくり回る — 較正に使った 8 公転窓では実際の月と同じ約8.85年(≈118公転)で一周する(旧フィットの記録 —— 現在の観測一致・予測ではない)。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。この 8.85年は較正が使った8公転窓での値で、窓を118公転まで延ばすと 20.78年に遅くなる(歳差は定常ではない — 第135便 emAudit の実測)。機構としての同定は判別サンプル群 ⭕🧲🔆 を参照。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
-    control:"本サンプルは**DFM 版**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock)の 1 本(🪨💿 は第288便b で退役のまま・🌘 は第292便b で原理の参照として復活 —— 🧲 は退役のまま)。**現行の較正方針**: 観測との合(3σ)を目指すのは kF0(λ_PN=1 ∧ kFrame=0)と f=1 の本で、DFM 版は観測との大差を減らす段階にある(較正の雛形ではない —— 第286便c で文言を更新)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。(第237便: 地球スピン 0 が qLock の対照 — 月は同期自転なので切っても公転と区別できない。スピン項の距離基準を表面高度(dragRef:\"interior\" — 第239便の正名。「物質に囲まれた内部は完全共動し表面から減衰する」の意で、表面が特別に強いという主張ではない。旧名 \"surface\" は別名)にすると月位置の核は 1.15 倍。)"},
+    observe:"軌道の向き(近点方向)がゆっくり回る — 較正に使った 8 公転窓では実際の月と同じ約8.85年(≈118公転)で一周する(旧フィットの記録 —— 現在の観測一致・予測ではない)。歳差積算 HUD の換算レートと、ゴースト楕円(点線=初期・橙=歳差×20 増幅)で回転が数公転で見える。**HUD の積算は周回内で大きく振動する(局所では逆行にも振れる)— 1公転単位で読むと正味 +0.053 rad/公転(Δϖ比 0.999)**。恒星月は 27.33日(+0.03%)。この 8.85年は較正が使った8公転窓での値で、窓を118公転まで延ばすと 20.78年に遅くなる(歳差は定常ではない — 第135便 emAudit の実測)。機構としての同定は判別サンプル群 ⭕🔆 を参照(旧判別 B は本サンプルと同じ構成の二体で、退役)。正直な明記: 実際の近点回転の主因は太陽摂動(第三体)— 本サンプルは運動引きずりという別機構での較正一致であり、機構の同定を主張しない(観測結果カード)。**周期は定義を宣言してから合否を言う**(第249便b→第250便d の裁定 I6): 同方向1周と近点間は別量で、判定は近点間、円に近い系は近点間が観測の定義に対応しないため注記にとどめる。",
+    control:"本サンプルは**DFM 版**(🪨🌘💿の3本 — 実定数+サンプル別スケール指数+kFrame=1+共通補正 D₀=0.006+qLock)の 1 本(🪨💿 は第288便b で退役のまま・🌘 は第292便b で原理の参照として復活)。**現行の較正方針**: 観測との合(3σ)を目指すのは kF0(λ_PN=1 ∧ kFrame=0)と f=1 の本で、DFM 版は観測との大差を減らす段階にある(較正の雛形ではない —— 第286便c で文言を更新)。ワンタップ対照A/B: B側 D₀=0.1 に上げると引きずりが 1/16 になり回転がほぼ止まる(χ∝1/D₀ の用量が見える)。kFrame を 0 にすると純ケプラー(閉じた楕円)へ。スピンを 0 にしても歳差は変わらない(運動起源 — exp-kf1b §A。q は自動算出〔qLock〕で、地球スピン項の混入を除く役)。(第237便: 地球スピン 0 が qLock の対照 — 月は同期自転なので切っても公転と区別できない。スピン項の距離基準を表面高度(dragRef:\"interior\" — 第239便の正名。「物質に囲まれた内部は完全共動し表面から減衰する」の意で、表面が特別に強いという主張ではない。旧名 \"surface\" は別名)にすると月位置の核は 1.15 倍。)"},
   en:{name:"Earth & Moon (Real Units, kFrame=1) — q-dragging mechanism experiment (phenomenological reference, former fit)",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=29979.2458","the Earth's real mass, radius and rotation (23.93 h)",
@@ -12152,8 +12213,8 @@ const BUILTIN_PRESETS = [
       {q:"Universality of the correction", model:"wave 242 pull: D0pull=3.24×10⁻⁵ (3.24×10⁸ kg/m², shared with 🪨) + −0.12% speed, joint fit; D₀=0.006 (E1′); q by qLock", obs:"—"}],
     descStruct:{
     summary:"IN PLACE AS A PRINCIPLE REFERENCE (revived with a changed classification in wave 292b — a q-dragging mechanism experiment; NOT part of the calibration population). The same real values as 🌙 (kFrame=0) with frame dragging (A8/E6′) enabled and the joint correction D₀=0.006 plus qLock (auto-derived exact-agreement value q_exact=8.2358, the convention adopted in wave 172) applied — gravity (E4) plus motion dragging alone were fitted to TWO observables at once, the 27.32-day sidereal month and the Moon's apsidal precession (observed: one cycle in ≈8.85 years): a PHENOMENOLOGICAL FIT (exp-kf1b/kf1c). The ≈8.85-year apsidal period in the 8-orbit window (Δϖ=+0.05308 rad/orbit) is the record of that fit, and it is not steady when the window is stretched (canonical emgrid: 9.1278 yr over 8 orbits, 9.9214 yr over 27). A two-body Kepler orbit under the Newtonian inverse-square force alone is a closed ellipse with no apsidal rotation — the kFrame=1 motion drag adds a prograde precession scaling as χ=w/(D₀+w), making D₀ its calibration knob (wave-120 primary finding). Geodesic E12 and double-precision stateCarry follow the template. This is one of the three DFM BUILDS (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock). CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c). ",
-    observe:"The orbit's apse line slowly rotates — in the 8-orbit window used for the fit, one cycle in about 8.85 years (≈118 orbits), as the real Moon does (a record of the former fit — not a current observational match or prediction). The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). This 8.85-year figure is the value IN THE 8-ORBIT WINDOW the calibration used — stretching the window to 118 orbits slows it to 20.78 years (the precession is not steady; see wave-135's mechanism audit). For mechanism identification, see the audit family ⭕🧲🔆 (emAudit). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card).  Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
-    control:"This is one of the three DFM BUILDS (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; 🪨💿 stay retired since wave 288b, 🌘 was revived as a principle reference in wave 292b, and 🧲 stays retired). CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c). One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
+    observe:"The orbit's apse line slowly rotates — in the 8-orbit window used for the fit, one cycle in about 8.85 years (≈118 orbits), as the real Moon does (a record of the former fit — not a current observational match or prediction). The precession HUD rate and the ghost ellipses (dotted = initial, amber = precession ×20) make the rotation visible within a few orbits. The HUD accumulator oscillates strongly within each orbit (locally even retrograde) — read it per full orbit: net +0.053 rad/orbit (Δϖ ratio 0.999). The sidereal month is 27.33 d (+0.03%). This 8.85-year figure is the value IN THE 8-ORBIT WINDOW the calibration used — stretching the window to 118 orbits slows it to 20.78 years (the precession is not steady; see wave-135's mechanism audit). For mechanism identification, see the audit family ⭕🔆 (emAudit; the former audit B was the same two-body construction as this sample and is retired). Honest note: the real cause of the lunar apsidal precession is solar perturbation (a third body) — this sample matches it via a different mechanism, motion dragging, and claims no mechanism identification (see the observation card).  Periods are judged only after their DEFINITION has been declared (adjudication I6, waves 249b→250d): the same-direction revolution and the periapsis-to-periapsis interval are different quantities; the verdict follows the periapsis definition, and where a system is near-circular that definition does not correspond to the observation, so it is annotated rather than judged.",
+    control:"This is one of the three DFM BUILDS (🪨🌘💿 — real constants + per-sample scale exponents + kFrame=1 + the joint correction D₀=0.006 and qLock; 🪨💿 stay retired since wave 288b and 🌘 was revived as a principle reference in wave 292b). CURRENT CALIBRATION POLICY: agreement with observation (3 sigma) is aimed at by the kF0 books (lambda_PN=1 and kFrame=0) and the f=1 books; the DFM build is at the stage of reducing the large gaps to observation (it is not a calibration template - wording updated in wave 286c). One-tap A/B: raising D₀ to 0.1 on side B cuts the drag by 1/16 and the rotation nearly stops (the χ∝1/D₀ dose made visible). Setting kFrame to 0 returns to pure Kepler (closed ellipse). Zeroing the spins changes nothing (motion origin — exp-kf1b §A)."}},
   abBody:{ label:{ja:"D₀=0.1(引きずり弱 — 回転が止まる対照)", en:"D₀=0.1 (weak drag — rotation stops)"},
     physicsPatch:{D0:0.1} },
   qLock:true,   // 第123便: q 自動算出 → 第172便: 厳密一致式 q_exact=8.2358
@@ -12227,8 +12288,8 @@ const BUILTIN_PRESETS = [
     {q:"118 公転(実測)", model:"27 公転ごとの近点周期 8.850/8.850/8.850/8.850 年・離心率の代理 0.0490(4 区間で同じ) —— 窓に依らず定常(二体の性質)", obs:"—"},
     {q:"言わないこと", model:"8.85 年を慣性決定力が較正ゼロで出したとは言わない。C_d・f・R_c を 8.85 年の 1 量から一意決定していない(1 次は ⟨ρ²⟩ だけ)", obs:"—"}],
   descStruct:{
-    summary:"**慣性決定力版の地球と月**(第292便c・原仮定者の裁定〔第82報〕⑤⑥・統括の検証項目 R139)。🌙 earthMoonReal の実単位の地球と月(質量・半径・離角・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 座標の差分の移動ベクトル V から u_i=C_d Σ_j m_j 𝒦_j(r)(V_j−V_i) を作り、位置だけを x+=u·dt で動かす)だけで回す。geoPN=0・kFrame=0(1PN も E6′ の q 引きずりも使わない)。地球には**構造核** dragCore:{massFrac:0.325, radius:3.48}(一様密度のコア+マントル殻 —— 感度実験の起点の宣言で、地球の核の同定ではない)を宣言し、核 K_ε(s)=s/(s²+ε²)² を地球の質量分布で体積平均した ⟨K⟩(r) を地球を源とする対に使う(月は点源・受け手は点・自転は読まない)。**gain(C_d)=514182 は、近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた 1 次元フィットの推定**であって較正の合ではない(AN117 と同じ扱い)。8 公転窓の Δϖ は 0.053207 rad/公転(🌘 の較正窓 +0.05308 の 1.0024 倍)で、8 公転・27 公転・118 公転の窓で近点周期が変わらない(二体の性質)。構造核の効きは月の距離(a≈57R)で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6×10⁻⁴ と小さく、点源で同じフィットをすると gain が 2.4e-4 大きくなるだけである —— **8.85 年の 1 量から C_d・f・R_c を同時に一意決定することはできない**(1 次の効きは質量分布の 2 次モーメント ⟨ρ²⟩〔慣性モーメント〕だけを通して入る。総質量と慣性モーメントを独立に固定して残る係数をフィットする順序が要る)。初速は 🌙 のまま合わせていないので恒星月は 27.143 日(-0.66% —— 118 公転の区間平均)。実際の月の近点回転の主因は太陽摂動であり(🔆)、本サンプルは太陽を入れない二体の原理サンプルである。",
-    observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが 1 公転あたり約 3.05° ずつ順行に回るのを見る(8.85 年 ≈ 118 公転で一周)。27 公転ごとの近点周期は 8.850/8.850/8.850/8.850 年・離心率の代理は 0.0490(4 区間で同じ) で、窓を延ばしても変わらない(🧲 の q 引きずりは窓を延ばすと 20.8 年へ遅れ離心率を汲み上げた)。HUD の t は日・年に換算される。",
+    summary:"**慣性決定力版の地球と月**(第292便c・原仮定者の裁定〔第82報〕⑤⑥・統括の検証項目 R139)。🌙 earthMoonReal の実単位の地球と月(質量・半径・離角・速度・自転 —— 1 字も変えない写し)を、重力(E4)と**慣性引きずり**(physics.relativeDrag.law:\"inertial\" —— 第293便g から既定の合成則 solve: 力学速度 v の差 s_i=C_d Σ_j m_j 𝒦_j(r)(v_j−v_i) から (I+L)u=s を解き、位置だけを x+=u·dt で動かす。旧加算 u_i=Σ_j a_ij(V_j−V_i)〔V は座標の差分の移動ベクトル〕は compose:\"sum\" の明示だけ)だけで回す。geoPN=0・kFrame=0(1PN も E6′ の q 引きずりも使わない)。地球には**構造核** dragCore:{massFrac:0.325, radius:3.48}(一様密度のコア+マントル殻 —— 感度実験の起点の宣言で、地球の核の同定ではない)を宣言し、核 K_ε(s)=s/(s²+ε²)² を地球の質量分布で体積平均した ⟨K⟩(r) を地球を源とする対に使う(月は点源・受け手は点・自転は読まない)。**gain(C_d)=514182 は、近点回転の周期(検出器 B・27 公転窓)を 8.85 年に合わせた 1 次元フィットの推定**であって較正の合ではない(AN117 と同じ扱い)。8 公転窓の Δϖ は 0.053207 rad/公転(🌘 の較正窓 +0.05308 の 1.0024 倍)で、8 公転・27 公転・118 公転の窓で近点周期が変わらない(二体の性質)。構造核の効きは月の距離(a≈57R)で ⟨K⟩/K−1 ≈ ⟨ρ²⟩/a² ≈ 1.6×10⁻⁴ と小さく、点源で同じフィットをすると gain が 2.4e-4 大きくなるだけである —— **8.85 年の 1 量から C_d・f・R_c を同時に一意決定することはできない**(1 次の効きは質量分布の 2 次モーメント ⟨ρ²⟩〔慣性モーメント〕だけを通して入る。総質量と慣性モーメントを独立に固定して残る係数をフィットする順序が要る)。初速は 🌙 のまま合わせていないので恒星月は 27.143 日(-0.66% —— 118 公転の区間平均)。実際の月の近点回転の主因は太陽摂動であり(🔆)、本サンプルは太陽を入れない二体の原理サンプルである。",
+    observe:"トレイルとゴースト楕円(点線=初期・橙=歳差×20)で、月の近点の向きが 1 公転あたり約 3.05° ずつ順行に回るのを見る(8.85 年 ≈ 118 公転で一周)。27 公転ごとの近点周期は 8.850/8.850/8.850/8.850 年・離心率の代理は 0.0490(4 区間で同じ) で、窓を延ばしても変わらない(kFrame=1・D₀=0.006・qLock の q 引きずり〔旧判別 B〕は窓を延ばすと 20.8 年へ遅れ離心率を汲み上げた)。HUD の t は日・年に換算される。",
     control:"比較の相手は 🌙(同じ初期状態・慣性引きずりなし —— 近点は回らない)と 🌘(kFrame=1 の q 引きずり・D₀ と初速の共同フィット)。構造核の感度(f∈{0.125, 0.325, 0.6}×R_c∈{0.4, 0.546, 0.7}R と点源)とフィットの手順は器 tests/exp-w292c-dragcore.mjs・正本 tests/out/dragcore-w292c.json・docs/PHYSICS.md〔第292便c〕で見る。"},
   en:{name:"Earth & Moon (inertial determinacy) — structure core and a fitted apsidal cycle",
     obsCard:[
@@ -12240,8 +12301,8 @@ const BUILTIN_PRESETS = [
       {q:"118 orbits (measured)", model:"apsidal period per 27 orbits 8.850/8.850/8.850/8.850 yr; e proxy 0.0490 in all four: steady (a two-body property)", obs:"-"},
       {q:"Not claimed", model:"8.85 yr is not produced with zero calibration; C_d, f, R_c are not fixed by one number (first order: <rho^2> only)", obs:"-"}],
     descStruct:{
-      summary:"THE INERTIAL-DETERMINACY VERSION OF THE EARTH AND MOON (wave 292c; the originator's ruling in report 82 items 5 and 6; the coordinator's check item R139). 🌙 earthMoonReal's real-unit Earth and Moon (masses, radii, separation, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG alone (physics.relativeDrag.law:\"inertial\": from the coordinate-difference movement V it builds u_i = C_d sum_j m_j K_j(r)(V_j - V_i) and moves positions only, x += u dt). geoPN=0, kFrame=0 (no 1PN, no E6' q dragging). The Earth declares a STRUCTURE CORE dragCore:{massFrac:0.325, radius:3.48} (a uniform core plus a uniform mantle shell - the starting point of a sensitivity experiment, not an identification of the Earth's core); the kernel K_eps(s)=s/(s^2+eps^2)^2 averaged over the Earth's mass distribution, <K>(r), is used for the pairs whose source is the Earth (the Moon is a point; receivers are points; spins are not read). THE GAIN C_d=514182 IS AN ESTIMATE FROM A ONE-DIMENSIONAL FIT of the apsidal period (detector B, 27-orbit window) to 8.85 yr, not a calibration agreement (treated as AN117). The 8-orbit advance is 0.053207 rad/orbit (1.0024 x 🌘's calibration-window +0.05308), and the period is the same in the 8-, 27- and 118-orbit windows (a two-body property). The structure core acts weakly at the Moon's distance (a ~ 57R): <K>/K - 1 ~ <rho^2>/a^2 ~ 1.6e-4, and the same fit with a point source needs a gain only 2.4e-4 larger - C_d, f AND R_c CANNOT BE FIXED TOGETHER FROM THE ONE 8.85-YEAR NUMBER (to first order the structure enters only through the second moment <rho^2>, i.e. the moment of inertia; the total mass and the moment of inertia must be fixed independently before the remaining coefficient is fitted). The speeds are 🌙's and are not refitted, so the sidereal month is 27.143 d (-0.66%, the 118-orbit mean). The real Moon's apsidal cycle is driven mainly by the Sun (🔆); this is a two-body principle sample without the Sun.",
-      observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde by about 3.05 deg per orbit (one cycle in 8.85 yr ~ 118 orbits). The apsidal period per 27 orbits is 8.850/8.850/8.850/8.850 yr and the eccentricity proxy 0.0490 in all four: lengthening the window changes nothing (the q dragging of 🧲 slowed to 20.8 yr and pumped the eccentricity). The HUD time is shown in days and years.",
+      summary:"THE INERTIAL-DETERMINACY VERSION OF THE EARTH AND MOON (wave 292c; the originator's ruling in report 82 items 5 and 6; the coordinator's check item R139). 🌙 earthMoonReal's real-unit Earth and Moon (masses, radii, separation, speeds and spins copied without a single change) run under gravity (E4) and the INERTIAL DRAG alone (physics.relativeDrag.law:\"inertial\": from wave 293g the default composition rule solve takes the dynamical-velocity differences s_i = C_d sum_j m_j K_j(r)(v_j - v_i), solves (I+L)u = s and moves positions only, x += u dt; the former sum u_i = sum_j a_ij(V_j - V_i) over the coordinate-difference movement V runs only when compose:\"sum\" is declared). geoPN=0, kFrame=0 (no 1PN, no E6' q dragging). The Earth declares a STRUCTURE CORE dragCore:{massFrac:0.325, radius:3.48} (a uniform core plus a uniform mantle shell - the starting point of a sensitivity experiment, not an identification of the Earth's core); the kernel K_eps(s)=s/(s^2+eps^2)^2 averaged over the Earth's mass distribution, <K>(r), is used for the pairs whose source is the Earth (the Moon is a point; receivers are points; spins are not read). THE GAIN C_d=514182 IS AN ESTIMATE FROM A ONE-DIMENSIONAL FIT of the apsidal period (detector B, 27-orbit window) to 8.85 yr, not a calibration agreement (treated as AN117). The 8-orbit advance is 0.053207 rad/orbit (1.0024 x 🌘's calibration-window +0.05308), and the period is the same in the 8-, 27- and 118-orbit windows (a two-body property). The structure core acts weakly at the Moon's distance (a ~ 57R): <K>/K - 1 ~ <rho^2>/a^2 ~ 1.6e-4, and the same fit with a point source needs a gain only 2.4e-4 larger - C_d, f AND R_c CANNOT BE FIXED TOGETHER FROM THE ONE 8.85-YEAR NUMBER (to first order the structure enters only through the second moment <rho^2>, i.e. the moment of inertia; the total mass and the moment of inertia must be fixed independently before the remaining coefficient is fitted). The speeds are 🌙's and are not refitted, so the sidereal month is 27.143 d (-0.66%, the 118-orbit mean). The real Moon's apsidal cycle is driven mainly by the Sun (🔆); this is a two-body principle sample without the Sun.",
+      observe:"Use the trail and the ghost ellipses (dotted = initial, amber = precession x20) to watch the Moon's apse line turn prograde by about 3.05 deg per orbit (one cycle in 8.85 yr ~ 118 orbits). The apsidal period per 27 orbits is 8.850/8.850/8.850/8.850 yr and the eccentricity proxy 0.0490 in all four: lengthening the window changes nothing (the q dragging with kFrame=1, D₀=0.006 and qLock — the former audit B — slowed to 20.8 yr and pumped the eccentricity). The HUD time is shown in days and years.",
       control:"Compare with 🌙 (same initial state, no inertial drag - the apses stay still) and 🌘 (kFrame=1 q dragging, a joint fit of D0 and the speeds). The structure-core sensitivity (f in {0.125, 0.325, 0.6} x R_c in {0.4, 0.546, 0.7}R and a point source) and the fit procedure are in tests/exp-w292c-dragcore.mjs, tests/out/dragcore-w292c.json and docs/PHYSICS.md (wave 292c)."},
     parameterAudit:{
       observedInputs:["real G=6.674","real c0=29979.2458","the Earth's real mass, radius and rotation (23.93 h)","the Moon's real mass, radius and synchronous rotation",
@@ -12277,7 +12338,7 @@ const BUILTIN_PRESETS = [
 // 論文3 の中心命題「**数値一致 ≠ 機構同定**」を、注意書きではなく**実験結果として**示す3条件比較。
 // 月の近点回転(実測 約8.85年で一周)について、同じ観測量を出す2つの経路と、現実の主因を並べる:
 //   ⭕A 二体ニュートン(kFrame=0)          — 近点回転は原理的に出ない(閉じた楕円=陰性対照)
-//   🧲B 二体DFM較正(kFrame=1・D₀=0.006)  — 🌘 と同一構成。較正窓では 8.85年に一致する
+//   B  二体DFM較正(kFrame=1・D₀=0.006・qLock — 旧判別 B・退役)— 🌘 と同一構成。較正窓では 8.85年に一致する
 //   🔆C 太陽+地球+月の三体(kFrame=0)     — **較正ゼロ**で太陽摂動が近点前進を駆動する(現実側の機構)
 // 判定量と窓は**実装前に統括ブリーフへ事前登録**した(実測後に窓を動かしていない)。
 // 第135便の一次発見(下の各サンプルの観測結果カードに実測値):
@@ -12315,9 +12376,9 @@ const BUILTIN_PRESETS = [
     fail:"純二体のニュートン重力では、月の近点回転(実測 約8.85年で一周=+0.0531 rad/公転)は**原理的に出ない**。閉じた楕円は閉じたままで、8.85年をこの構成から導くことはできない(重要な負の結果)。",
     pass:"第135便の実測: 20公転窓の正味 Δϖ は −6.404×10⁻⁷ rad/公転(近点通過法。RL勾配法でも −6.295×10⁻⁷)で、事前登録窓 |Δϖ|<3×10⁻⁴ の 1/470。しかもこの残差はソフトニング ε=0.1 が作る解析値 −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ と 0.04% で一致する — **『閉じている』が宣言済みの数値規約の精度まで確かめられた**。dt を 10倍にしても値は 0.4% しか動かない(数値積分の寄与ではない)。"},
   descStruct:{
-    summary:"機構判別の**陰性対照A**。🌙(地球と月・実単位)と物理・幾何が bit 一致の二体で、空間引きずり(A8/E6′)を切った(kFrame=0)**重力(E4)だけ**の純ニュートン。同じ観測入力から出発して、**月の近点回転が出ないこと**を確かめるための宣言サンプルである(🌙 は「恒星月が出ること」を主張する較正サンプルで、本サンプルは同じ構成を『判別の基準点』として宣言し直したもの — 物理は 1bit も違わない)。3条件比較 ⭕A / 🧲B / 🔆C のうち、A は「較正も第三体も無いとき何が出ないか」を固定する。",
+    summary:"機構判別の**陰性対照A**。🌙(地球と月・実単位)と物理・幾何が bit 一致の二体で、空間引きずり(A8/E6′)を切った(kFrame=0)**重力(E4)だけ**の純ニュートン。同じ観測入力から出発して、**月の近点回転が出ないこと**を確かめるための宣言サンプルである(🌙 は「恒星月が出ること」を主張する較正サンプルで、本サンプルは同じ構成を『判別の基準点』として宣言し直したもの — 物理は 1bit も違わない)。3条件比較 ⭕A / B(旧判別 B・退役)/ 🔆C のうち、A は「較正も第三体も無いとき何が出ないか」を固定する。",
     observe:"軌道の向き(近点方向)は回らない — 20公転窓で正味 −6.40×10⁻⁷ rad/公転(近点通過法の実測 −6.404×10⁻⁷・RL勾配法 −6.295×10⁻⁷。事前登録窓 |Δϖ|<3×10⁻⁴ の 1/470)。この残差はソフトニング ε=0.1 の解析値 −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ と 0.04% で一致するので、**数値の揺らぎではなく宣言済みの規約が作る逆行**である(dt を 10倍にしても 0.4% しか動かない)。恒星月は 27.3218日(観測 27.3217日)、軌道長半径は 384.7481 で不変、離心率は 0.05490 のまま変化しない。ゴースト楕円の増幅は ×10⁶ にしてある(それでようやく回転が見える桁)。",
-    control:"ワンタップ対照A/B: B側は kFrame=1・D₀=0.006・qLock(=🧲判別B と同じ較正)。同じ二体・同じ実値のまま、**空間引きずりを入れて較正するだけで 8.85年級の近点回転が現れる**ことが1タップで見える。もう一方の対照 🔆C(太陽+地球+月の三体)は、較正を一切使わずに同じ観測量を出す — 3本を見比べるのが本ファミリーの目的である。"},
+    control:"ワンタップ対照A/B: B側は kFrame=1・D₀=0.006・qLock(=旧判別 B と同じ較正)。同じ二体・同じ実値のまま、**空間引きずりを入れて較正するだけで 8.85年級の近点回転が現れる**ことが1タップで見える。もう一方の対照 🔆C(太陽+地球+月の三体)は、較正を一切使わずに同じ観測量を出す — 3本を見比べるのが本ファミリーの目的である。"},
   en:{name:"Earth & Moon — Mechanism Audit A (Newtonian two-body): the closed ellipse",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=3×10⁴","the Earth's real mass, radius and rotation (23.93 h)",
@@ -12341,11 +12402,11 @@ const BUILTIN_PRESETS = [
       fail:"Newtonian gravity in a pure two-body system CANNOT produce the Moon's apsidal precession (observed: one cycle in ≈8.85 years, +0.0531 rad/orbit). The ellipse stays closed, and 8.85 years cannot be derived from this construction (an important negative result).",
       pass:"Wave-135 measurement: the net Δϖ over a 20-orbit window is −6.404×10⁻⁷ rad/orbit (perigee-passage method; −6.295×10⁻⁷ by the RL-slope method) — 1/470 of the pre-registered window |Δϖ|<3×10⁻⁴. Moreover it agrees to 0.04% with the analytic softening term −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ for ε=0.1: the ellipse is closed down to the precision of a DECLARED numerical convention. Increasing dt tenfold moves the value by only 0.4% (it is not an integration artifact)."},
     descStruct:{
-    summary:"The NEGATIVE CONTROL A of the mechanism audit. A two-body system bit-identical in physics and geometry to 🌙 (Earth & Moon, real units), with frame dragging (A8/E6′) switched off (kFrame=0) — gravity (E4) alone, pure Newton. Starting from the same observed inputs, it fixes what does NOT appear: the Moon's apsidal precession. (🌙 is a calibration sample claiming that the sidereal month comes out; this sample re-declares the same construction as the audit's baseline — not a single bit of physics differs.) Of the three-condition comparison ⭕A / 🧲B / 🔆C, A pins down what is absent when there is neither a calibration nor a third body. ",
+    summary:"The NEGATIVE CONTROL A of the mechanism audit. A two-body system bit-identical in physics and geometry to 🌙 (Earth & Moon, real units), with frame dragging (A8/E6′) switched off (kFrame=0) — gravity (E4) alone, pure Newton. Starting from the same observed inputs, it fixes what does NOT appear: the Moon's apsidal precession. (🌙 is a calibration sample claiming that the sidereal month comes out; this sample re-declares the same construction as the audit's baseline — not a single bit of physics differs.) Of the three-condition comparison ⭕A / B (the former audit B, retired) / 🔆C, A pins down what is absent when there is neither a calibration nor a third body. ",
     observe:"The apse line does not turn — the net drift over a 20-orbit window is −6.404×10⁻⁷ rad/orbit (1/470 of the pre-registered window |Δϖ|<3×10⁻⁴). That residual matches the analytic softening term −3πε²/(a²(1−e²)²)=−6.406×10⁻⁷ (ε=0.1) to 0.04%, so it is a retrograde drift produced by a DECLARED convention rather than numerical noise (raising dt tenfold shifts it by 0.4%). The sidereal month is 27.3218 d (observed 27.3217 d), the semi-major axis stays at 384.7481 and the eccentricity at 0.05490. The ghost-ellipse amplification is set to ×10⁶ — that is the order needed before the rotation is visible at all. ",
-    control:"One-tap A/B: side B is kFrame=1, D₀=0.006 with qLock (= 🧲 Mechanism Audit B). One tap shows that on the SAME two bodies with the SAME real values, switching dragging on and calibrating it is enough to produce an 8.85-year-class apsidal precession. The other control, 🔆C (Sun + Earth + Moon), reaches the same observable with no calibration at all — comparing the three is the whole point of this family."}},
-  abBody:{ label:{ja:"kFrame=1・D₀=0.006(=🧲判別B の較正)", en:"kFrame=1, D₀=0.006 (= 🧲 audit B)"},
-    physicsPatch:{kFrame:1, geoPN:2, D0:0.006, frameWeight:"share", qLock:true} },   // 第242便: 🧲(share 較正)と同じ側
+    control:"One-tap A/B: side B is kFrame=1, D₀=0.006 with qLock (= the former Mechanism Audit B). One tap shows that on the SAME two bodies with the SAME real values, switching dragging on and calibrating it is enough to produce an 8.85-year-class apsidal precession. The other control, 🔆C (Sun + Earth + Moon), reaches the same observable with no calibration at all — comparing the three is the whole point of this family."}},
+  abBody:{ label:{ja:"kFrame=1・D₀=0.006・qLock(=旧判別 B の較正)", en:"kFrame=1, D₀=0.006, qLock (= former audit B)"},
+    physicsPatch:{kFrame:1, geoPN:2, D0:0.006, frameWeight:"share", qLock:true} },   // 第242便: 旧判別 B(share 較正)と同じ側
   // 第135便: claims — 陰性対照(近点回転が出ないこと)と観測入力の写しの検証。fit はゼロ。
   claims:[
     { id:"emAuditNewton.closed-ellipse", kind:"fixed-seed", prov:"simulated", role:"negative_control",
@@ -12508,7 +12569,7 @@ const BUILTIN_PRESETS = [
   orbitObs:{center:1, orbiter:2, ghostAmp:20},   // 0=太陽, 1=地球, 2=月
   obsCard:[
     {q:"近点回転の周期(118公転窓・較正ゼロ)", model:"8.754 年(Δϖ=+0.05369 rad/公転)", obs:"8.85 年(−1.1%)"},
-    {q:"窓・dt 依存", model:"236公転窓 8.752年・dt を10倍にしても 5桁一致(定常な永年率)", obs:"—(🧲B は 8→118公転で 8.86→20.78年)"},
+    {q:"窓・dt 依存", model:"236公転窓 8.752年・dt を10倍にしても 5桁一致(定常な永年率)", obs:"—(旧判別 B〔二体・kFrame=1〕は 8→118公転で 8.86→20.78年)"},
     {q:"恒星月", model:"27.319 日", obs:"27.3217 日"},
     {q:"離心率(236公転=17.7年)", model:"0.011〜0.055(有界)", obs:"0.026〜0.077(有界)"},
     {q:"一次永年論との比較", model:"ニュートンの (3/4)m² 一次論は 17.8年(約2倍長い)— 数値三体はその 1/2.04=8.75年", obs:"8.85年(クレローの二次解が解決した歴史的難点)"}],
@@ -12516,9 +12577,9 @@ const BUILTIN_PRESETS = [
     fail:"ニュートン自身の一次永年論は、太陽摂動による月の近点前進を ϖ̇/n=(3/4)m²(m=n′/n=0.0748)=17.8年で一周と与え、**観測の約2倍長い**。18世紀に「万有引力の最大の難点」とされた問題である(クレローが二次項まで進めて解決した)。本サンプルの数値三体積分も、一次論をそのまま当てれば同じ 17.8年になる。",
     pass:"第135便の実測: 太陽・地球・月の三体を実定数・実質量のまま **kFrame=0 の純ニュートン**で回すと、近点回転は 118公転窓で 8.754年・236公転窓で 8.752年(観測 8.85年と −1.1%)。窓にも dt にも依存しない定常な永年率で、離心率も 0.011〜0.055 に有界。**近点回転側の較正ノブはゼロ**(fit 欄は空)— 8.75年は出力であって合わせ込んだ値ではない。一次論との比 2.04 は、クレロー/ヒルの高次解が数値積分と同じ答えに到達することの再現である。"},
   descStruct:{
-    summary:"機構判別の**対照C = 現実の主因**。太陽・地球・月の三体を実定数(実G・実c₀・κ=G/c₀²)・実質量・実半径・実自転のまま置き、**空間引きずり(A8/E6′)を切った kF0 版(kFrame=0・geoPN=1 —— 第284便b で旧宣言 geoPN=0 から移した)= 重力(E4)と 1PN 測地線(E12)**で回す(月の 1PN 歳差は信号の 4×10⁻⁹ なので、近点回転は純ニュートンのときと 5 桁一致)。月の近点回転は、較正ノブを1つも使わずに太陽摂動から出る。1単位=10⁸m/10⁴s/10²⁷kg(☄️🪨🌞 と同一指数系)で、太陽 1988.5(=1.9885×10³⁰kg・pinned)・地球 0.0059724・月 7.346×10⁻⁵、地球月重心が 1au=1495.98 を円軌道で公転する。**⭕A・🧲B と同じ観測量(近点回転 8.85年・恒星月 27.32日)を、まったく違う因果チャネルで出す** — これが「数値一致 ≠ 機構同定」の実験的な提示である。",
-    observe:"月の近点方向がゆっくり前進する — 118公転窓で 8.754年(Δϖ=+0.05369 rad/公転)、236公転窓で 8.752年。**窓にも dt にも依らない**(dt を10倍にしても5桁一致)ところが 🧲B との決定的な違いで、B は同じ延長で 8.86→20.78年へ落ちる。恒星月は 27.319日、離心率は 236公転(17.7年)を通して 0.011〜0.055 に有界。初期条件は「太陽・地球・月が一直線・月は太陽の反対側の近地点(満月かつ近地点)・すべて順行・2D」に固定してある(seed 固定・自由度なし)。カメラは地球追従・視野 ±10単位(=±10⁹m)なので、画面には月軌道だけが映る — 太陽は追従を切ってズームアウトすると 1496単位の彼方に見える。正直な限界: 2D・太陽は円軌道・軌道傾斜 5.15° なし・他惑星なしなので、8.85年との −1.1% はこの理想化の範囲内の値であり、**一致の精度ではなく一致の頑健さ**が本サンプルの主張である。",
-    control:"ワンタップ対照A/B: B側は太陽の質量を 10⁻⁶(=実質ゼロ)にする — 第三体が消えた瞬間に近点回転が止まり、⭕判別A と同じ閉じた楕円へ戻る(地球月ペアは公転速度を保ったまま直線的に去るが、カメラが地球を追うので軌道はそのまま見える)。**kFrame を 1 に上げると、太陽摂動の上に DFM の引きずり歳差が上乗せされる** — 実測で近点回転は +0.481 rad/公転(周期 1.00年 = 本来の 8.75年の 8.7倍速)へ跳ね上がり、離心率も 0.130 まで膨らむ。D₀ を 0.006(🧲B の較正値)に下げても +0.483 でほとんど変わらない: 太陽に対する公転速度(w≈3 単位/時間)が D₀ をはるかに上回って χ=w/(D₀+w) が飽和しているためで、**二体で決めた較正ノブは三体系ではまったく別の量になる**。同じ観測量を2つの機構で二重計上するとどうなるかが1操作で見える。geoPN は第284便b で 0(純ニュートン)から 1(kF0 版 —— 1PN あり・引きずりなし)へ宣言を移した: 近点回転周期は5桁一致で変わらない(月の 1PN 歳差は 2×10⁻¹⁰ rad/公転 = 信号の 4×10⁻⁹。判定器の周期残差は +0.138409% → +0.138415%)。"},
+    summary:"機構判別の**対照C = 現実の主因**。太陽・地球・月の三体を実定数(実G・実c₀・κ=G/c₀²)・実質量・実半径・実自転のまま置き、**空間引きずり(A8/E6′)を切った kF0 版(kFrame=0・geoPN=1 —— 第284便b で旧宣言 geoPN=0 から移した)= 重力(E4)と 1PN 測地線(E12)**で回す(月の 1PN 歳差は信号の 4×10⁻⁹ なので、近点回転は純ニュートンのときと 5 桁一致)。月の近点回転は、較正ノブを1つも使わずに太陽摂動から出る。1単位=10⁸m/10⁴s/10²⁷kg(☄️🪨🌞 と同一指数系)で、太陽 1988.5(=1.9885×10³⁰kg・pinned)・地球 0.0059724・月 7.346×10⁻⁵、地球月重心が 1au=1495.98 を円軌道で公転する。**⭕A・旧判別 B(二体の DFM 較正)と同じ観測量(近点回転 8.85年・恒星月 27.32日)を、まったく違う因果チャネルで出す** — これが「数値一致 ≠ 機構同定」の実験的な提示である。",
+    observe:"月の近点方向がゆっくり前進する — 118公転窓で 8.754年(Δϖ=+0.05369 rad/公転)、236公転窓で 8.752年。**窓にも dt にも依らない**(dt を10倍にしても5桁一致)ところが旧判別 B(二体の DFM 較正 kFrame=1・D₀=0.006・qLock)との決定的な違いで、B は同じ延長で 8.86→20.78年へ落ちる。恒星月は 27.319日、離心率は 236公転(17.7年)を通して 0.011〜0.055 に有界。初期条件は「太陽・地球・月が一直線・月は太陽の反対側の近地点(満月かつ近地点)・すべて順行・2D」に固定してある(seed 固定・自由度なし)。カメラは地球追従・視野 ±10単位(=±10⁹m)なので、画面には月軌道だけが映る — 太陽は追従を切ってズームアウトすると 1496単位の彼方に見える。正直な限界: 2D・太陽は円軌道・軌道傾斜 5.15° なし・他惑星なしなので、8.85年との −1.1% はこの理想化の範囲内の値であり、**一致の精度ではなく一致の頑健さ**が本サンプルの主張である。",
+    control:"ワンタップ対照A/B: B側は太陽の質量を 10⁻⁶(=実質ゼロ)にする — 第三体が消えた瞬間に近点回転が止まり、⭕判別A と同じ閉じた楕円へ戻る(地球月ペアは公転速度を保ったまま直線的に去るが、カメラが地球を追うので軌道はそのまま見える)。**kFrame を 1 に上げると、太陽摂動の上に DFM の引きずり歳差が上乗せされる** — 実測で近点回転は +0.481 rad/公転(周期 1.00年 = 本来の 8.75年の 8.7倍速)へ跳ね上がり、離心率も 0.130 まで膨らむ。D₀ を 0.006(旧判別 B の較正値)に下げても +0.483 でほとんど変わらない: 太陽に対する公転速度(w≈3 単位/時間)が D₀ をはるかに上回って χ=w/(D₀+w) が飽和しているためで、**二体で決めた較正ノブは三体系ではまったく別の量になる**。同じ観測量を2つの機構で二重計上するとどうなるかが1操作で見える。geoPN は第284便b で 0(純ニュートン)から 1(kF0 版 —— 1PN あり・引きずりなし)へ宣言を移した: 近点回転周期は5桁一致で変わらない(月の 1PN 歳差は 2×10⁻¹⁰ rad/公転 = 信号の 4×10⁻⁹。判定器の周期残差は +0.138409% → +0.138415%)。"},
   en:{name:"Earth & Moon — Mechanism Audit C (Sun+Earth+Moon three-body): solar perturbation, uncalibrated",
     parameterAudit:{
       observedInputs:["real G=6.674","real c₀=29979.2458","the Sun's real mass, radius and rotation (25.05 d)",
@@ -12538,10 +12599,10 @@ const BUILTIN_PRESETS = [
       derived:["the initial perigee separation 3.65178 (=365,178 km) — obtained by a one-dimensional inversion on the OBSERVED sidereal month, i.e. the mean-element→osculating-element conversion under solar perturbation (the tabulated a=384,748 km is defined from the observed mean motion, so it is not an osculating element). Nothing on the apsidal side is touched.",
         "κ=G/c₀²=7.4258×10⁻⁹"],
       numerical:["softening ε=0.01 (the clamp minimum; its analytic retrograde contribution is −6.4×10⁻⁵ rad/orbit = 0.12% of the signal)",
-        "time multiplier timeScale=1 (the same on-screen pace as ⭕A / 🧲B)","display magnification dispMag=10 (display only)"]},
+        "time multiplier timeScale=1 (the same on-screen pace as ⭕A and the former audit B)","display magnification dispMag=10 (display only)"]},
     obsCard:[
       {q:"Apsidal period (118-orbit window, zero calibration)", model:"8.754 yr (Δϖ=+0.05369 rad/orbit)", obs:"8.85 yr (−1.1%)"},
-      {q:"Window / dt dependence", model:"8.752 yr over 236 orbits; five-digit agreement at ten times the step (a steady secular rate)", obs:"— (🧲B goes 8.86→20.78 yr from 8 to 118 orbits)"},
+      {q:"Window / dt dependence", model:"8.752 yr over 236 orbits; five-digit agreement at ten times the step (a steady secular rate)", obs:"— (the former audit B [two-body, kFrame=1] goes 8.86→20.78 yr from 8 to 118 orbits)"},
       {q:"Sidereal month", model:"27.319 d", obs:"27.3217 d"},
       {q:"Eccentricity (236 orbits = 17.7 yr)", model:"0.011–0.055 (bounded)", obs:"0.026–0.077 (bounded)"},
       {q:"Against first-order secular theory", model:"Newton's (3/4)m² first-order result is 17.8 yr (about twice too long); the numerical three-body value is 1/2.04 of it = 8.75 yr", obs:"8.85 yr (the historical difficulty Clairaut resolved at second order)"}],
@@ -12549,9 +12610,9 @@ const BUILTIN_PRESETS = [
       fail:"Newton's own first-order secular theory gives the solar-driven advance of the lunar apse as ϖ̇/n=(3/4)m² (m=n′/n=0.0748), i.e. one cycle in 17.8 years — ABOUT TWICE the observed value. In the 18th century this was called the greatest difficulty of universal gravitation (Clairaut resolved it by carrying the expansion to second order). Applying that first-order formula to this sample's own numbers reproduces the same 17.8 years.",
       pass:"Wave-135 measurement: integrating Sun, Earth and Moon with real constants and real masses under PURE NEWTONIAN gravity (kFrame=0) gives an apsidal period of 8.754 yr over 118 orbits and 8.752 yr over 236 orbits (−1.1% from the observed 8.85 yr). The rate is steady — independent of both window and dt — and the eccentricity stays bounded between 0.011 and 0.055. NO calibration knob is spent on the apsidal side (the fit list is empty): 8.75 years is an output, not a tuned value. The ratio of 2.04 against the first-order theory reproduces the fact that the Clairaut/Hill higher-order solutions converge on the same answer as numerical integration."},
     descStruct:{
-    summary:"Condition C of the mechanism audit — THE REAL CAUSE. Sun, Earth and Moon integrated as a three-body system with real constants (real G, real c₀, κ=G/c₀²), real masses, radii and spins, as THE kF0 BUILD with frame dragging (A8/E6′) off (kFrame=0, geoPN=1 — wave 284b moved the declaration from geoPN=0) — gravity (E4) plus the 1PN geodesic (E12); the Moon's 1PN precession is 4×10⁻⁹ of the signal, so the apsidal motion matches pure Newton to five digits. The Moon's apsidal precession comes out of the solar perturbation without a single calibration knob. With per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg, the same system as ☄️🪨🌞) the Sun is 1988.5 (=1.9885×10³⁰ kg, pinned), the Earth 0.0059724 and the Moon 7.346×10⁻⁵, with the Earth–Moon barycentre on a circular orbit at 1 au = 1495.98. It reaches the SAME observables as ⭕A and 🧲B (8.85-year apsidal cycle, 27.32-day sidereal month) through a completely different causal channel — that is the experimental form of \"numerical agreement ≠ mechanism identification\". ",
-    observe:"The Moon's perigee direction advances slowly — 8.754 years over a 118-orbit window (Δϖ=+0.05369 rad/orbit) and 8.752 years over 236 orbits. The rate is INDEPENDENT OF BOTH WINDOW AND dt (five-digit agreement at ten times the step), which is the decisive difference from 🧲B: under the same extension B falls from 8.86 to 20.78 years. The sidereal month is 27.319 d and the eccentricity stays between 0.011 and 0.055 through 236 orbits (17.7 years). The initial condition is fixed to \"Sun, Earth and Moon collinear, the Moon at perigee on the far side from the Sun (full moon at perigee), everything prograde and planar\" — seed-fixed, with no freedom left. The camera follows the Earth with a ±10-unit (±10⁹ m) field, so only the lunar orbit is on screen; switch the follow off and zoom out to find the Sun 1496 units away. Honest limits: 2D, a circular solar orbit, no 5.15° inclination and no other planets, so the −1.1% against 8.85 years sits inside that idealization. The claim is the ROBUSTNESS of the agreement, not its precision. ",
-    control:"One-tap A/B: side B sets the Sun's mass to 10⁻⁶ (effectively zero) — the moment the third body is gone the apsidal rotation stops and the orbit returns to the closed ellipse of ⭕ Audit A (the Earth–Moon pair keeps its orbital velocity and drifts off in a straight line, but the camera follows the Earth so the orbit stays in view). RAISING kFrame TO 1 STACKS the DFM drag precession ON TOP of the solar perturbation: measured, the apsidal drift jumps to +0.481 rad/orbit (a 1.00-year period, 8.7× faster than the proper 8.75 yr) and the eccentricity swells to 0.130. Lowering D₀ to 0.006 (🧲B's calibrated value) barely changes it (+0.483), because the heliocentric orbital speed (w≈3 units/time) dwarfs D₀ and saturates χ=w/(D₀+w) — A CALIBRATION KNOB FIXED ON A TWO-BODY SYSTEM MEANS SOMETHING ENTIRELY DIFFERENT IN A THREE-BODY ONE. One control shows what double-counting a mechanism does. Wave 284b moved geoPN from 0 (pure Newton) to 1 (the kF0 build — 1PN on, no dragging): the apsidal period is unchanged to five digits (the Moon's 1PN precession is 2×10⁻¹⁰ rad/orbit = 4×10⁻⁹ of the signal; the auditor's period residual moves +0.138409% → +0.138415%)."}},
+    summary:"Condition C of the mechanism audit — THE REAL CAUSE. Sun, Earth and Moon integrated as a three-body system with real constants (real G, real c₀, κ=G/c₀²), real masses, radii and spins, as THE kF0 BUILD with frame dragging (A8/E6′) off (kFrame=0, geoPN=1 — wave 284b moved the declaration from geoPN=0) — gravity (E4) plus the 1PN geodesic (E12); the Moon's 1PN precession is 4×10⁻⁹ of the signal, so the apsidal motion matches pure Newton to five digits. The Moon's apsidal precession comes out of the solar perturbation without a single calibration knob. With per-sample scale exponents (1 unit = 10⁸ m / 10⁴ s / 10²⁷ kg, the same system as ☄️🪨🌞) the Sun is 1988.5 (=1.9885×10³⁰ kg, pinned), the Earth 0.0059724 and the Moon 7.346×10⁻⁵, with the Earth–Moon barycentre on a circular orbit at 1 au = 1495.98. It reaches the SAME observables as ⭕A and the former audit B (the two-body DFM calibration; 8.85-year apsidal cycle, 27.32-day sidereal month) through a completely different causal channel — that is the experimental form of \"numerical agreement ≠ mechanism identification\". ",
+    observe:"The Moon's perigee direction advances slowly — 8.754 years over a 118-orbit window (Δϖ=+0.05369 rad/orbit) and 8.752 years over 236 orbits. The rate is INDEPENDENT OF BOTH WINDOW AND dt (five-digit agreement at ten times the step), which is the decisive difference from the former audit B (the two-body DFM calibration with kFrame=1, D₀=0.006 and qLock): under the same extension B falls from 8.86 to 20.78 years. The sidereal month is 27.319 d and the eccentricity stays between 0.011 and 0.055 through 236 orbits (17.7 years). The initial condition is fixed to \"Sun, Earth and Moon collinear, the Moon at perigee on the far side from the Sun (full moon at perigee), everything prograde and planar\" — seed-fixed, with no freedom left. The camera follows the Earth with a ±10-unit (±10⁹ m) field, so only the lunar orbit is on screen; switch the follow off and zoom out to find the Sun 1496 units away. Honest limits: 2D, a circular solar orbit, no 5.15° inclination and no other planets, so the −1.1% against 8.85 years sits inside that idealization. The claim is the ROBUSTNESS of the agreement, not its precision. ",
+    control:"One-tap A/B: side B sets the Sun's mass to 10⁻⁶ (effectively zero) — the moment the third body is gone the apsidal rotation stops and the orbit returns to the closed ellipse of ⭕ Audit A (the Earth–Moon pair keeps its orbital velocity and drifts off in a straight line, but the camera follows the Earth so the orbit stays in view). RAISING kFrame TO 1 STACKS the DFM drag precession ON TOP of the solar perturbation: measured, the apsidal drift jumps to +0.481 rad/orbit (a 1.00-year period, 8.7× faster than the proper 8.75 yr) and the eccentricity swells to 0.130. Lowering D₀ to 0.006 (the former audit B's calibrated value) barely changes it (+0.483), because the heliocentric orbital speed (w≈3 units/time) dwarfs D₀ and saturates χ=w/(D₀+w) — A CALIBRATION KNOB FIXED ON A TWO-BODY SYSTEM MEANS SOMETHING ENTIRELY DIFFERENT IN A THREE-BODY ONE. One control shows what double-counting a mechanism does. Wave 284b moved geoPN from 0 (pure Newton) to 1 (the kF0 build — 1PN on, no dragging): the apsidal period is unchanged to five digits (the Moon's 1PN precession is 2×10⁻¹⁰ rad/orbit = 4×10⁻⁹ of the signal; the auditor's period residual moves +0.138409% → +0.138415%)."}},
   abBody:{ label:{ja:"太陽の質量を消す(=⭕判別A・閉じた楕円へ)", en:"remove the Sun's mass (= ⭕ audit A: the closed ellipse)"},
     targets:[0], patch:{m:1e-6} },
   // 第135便: claims — C の役割は「較正ゼロの機構対照」なので、近点前進の**符号と大きさ**を
@@ -12560,8 +12621,8 @@ const BUILTIN_PRESETS = [
     { id:"emAuditSolar.apsidal-prograde", kind:"fixed-seed", prov:"simulated", role:"negative_control",
       metric:"apsidalDriftRadPerOrbit",
       chain:{ax:["A6"], eq:["E4"],
-        note:"太陽(第三体)の重力(E4)だけが作る月の近点前進。符号が正(順行)であること・大きさが ⭕A の残差の 8万倍であることを固定する。**C は現実の主因〔太陽摂動〕の対照であり、🧲B と同じ数値を出すことは期待しない** — 同じ観測量を別の因果チャネルで出すことが要点で、一致の精度ではなく一致の頑健さ(窓・dt 非依存)が判別量である。",
-        noteEn:"The Moon's prograde apsidal advance produced by the gravity (E4) of the third body alone. It fixes the sign (prograde) and that the magnitude is ~80,000× the residual of ⭕A. C IS THE CONTROL FOR THE REAL CAUSE (solar perturbation) AND IS NOT EXPECTED TO REPRODUCE 🧲B's NUMBER — the point is that the same observable arises through a different causal channel, and the discriminant is the robustness of the agreement (independence of window and dt), not its precision."},
+        note:"太陽(第三体)の重力(E4)だけが作る月の近点前進。符号が正(順行)であること・大きさが ⭕A の残差の 8万倍であることを固定する。**C は現実の主因〔太陽摂動〕の対照であり、旧判別 B(二体の DFM 較正)と同じ数値を出すことは期待しない** — 同じ観測量を別の因果チャネルで出すことが要点で、一致の精度ではなく一致の頑健さ(窓・dt 非依存)が判別量である。",
+        noteEn:"The Moon's prograde apsidal advance produced by the gravity (E4) of the third body alone. It fixes the sign (prograde) and that the magnitude is ~80,000× the residual of ⭕A. C IS THE CONTROL FOR THE REAL CAUSE (solar perturbation) AND IS NOT EXPECTED TO REPRODUCE THE NUMBER OF THE FORMER AUDIT B (THE TWO-BODY DFM CALIBRATION) — the point is that the same observable arises through a different causal channel, and the discriminant is the robustness of the agreement (independence of window and dt), not its precision."},
       roleNote:"陰性対照(較正ゼロの機構対照)— 近点回転側に fit を1つも使っていない状態で、太陽摂動が観測量を駆動することを機械固定する。",
       roleNoteEn:"Negative control (an uncalibrated mechanism control) — it machine-fixes that solar perturbation drives the observable with zero fits spent on the apsidal side.",
       expected:{min:0.04, max:0.07},
@@ -12569,8 +12630,8 @@ const BUILTIN_PRESETS = [
     { id:"emAuditSolar.apsidal-period", kind:"fixed-seed", prov:"simulated", role:"negative_control",
       metric:"apsidalPrecessionPeriodYears",
       chain:{ax:["A6"], eq:["E4"],
-        note:"118公転窓(=約8.85年ぶん)の近点回転周期。236公転窓 8.752年・dt 10倍で5桁一致という**窓にも dt にも依存しない定常率**であることが、🧲B(8→118公転で 8.86→20.78年)との判別量になる。",
-        noteEn:"The apsidal period over a 118-orbit window (one nominal 8.85-year cycle). Its independence of window and dt (8.752 yr over 236 orbits; five-digit agreement at ten times the step) is what discriminates it from 🧲B (8.86→20.78 yr from 8 to 118 orbits)."},
+        note:"118公転窓(=約8.85年ぶん)の近点回転周期。236公転窓 8.752年・dt 10倍で5桁一致という**窓にも dt にも依存しない定常率**であることが、旧判別 B(二体の DFM 較正 —— 8→118公転で 8.86→20.78年)との判別量になる。",
+        noteEn:"The apsidal period over a 118-orbit window (one nominal 8.85-year cycle). Its independence of window and dt (8.752 yr over 236 orbits; five-digit agreement at ten times the step) is what discriminates it from the former audit B (the two-body DFM calibration — 8.86→20.78 yr from 8 to 118 orbits)."},
       roleNote:"陰性対照 — 較正ゼロで出た出力値。窓は実測前に事前登録した(実測後に動かしていない)。8.85年との −1.1% は 2D・円軌道太陽・軌道傾斜なしの理想化の範囲。",
       roleNoteEn:"Negative control — an output obtained with zero calibration. The window was pre-registered before measuring (and not moved afterwards). The −1.1% against 8.85 years sits inside the 2D / circular-solar-orbit / no-inclination idealization.",
       expected:{min:7.5, max:10.2},
@@ -12602,7 +12663,7 @@ const BUILTIN_PRESETS = [
     derived:["初期近地点距離 3.65178(=365,178km)— **観測の恒星月**からの1次元逆算(太陽摂動下の平均要素→接触要素の変換。観測表の a=384,748km は観測された平均運動から定義された量で接触要素ではない)。近点回転側には一切触れていない",
       "κ=G/c₀²=7.4258×10⁻⁹"],
     numerical:["ソフトニング ε=0.01(クランプ下限。解析上の逆行寄与 −6.4×10⁻⁵ rad/公転=信号の 0.12%)",
-      "時間倍率 timeScale=1(⭕A・🧲B と同じ画面上の速さ)","粒子表示倍率 dispMag=10(表示専用)"]},
+      "時間倍率 timeScale=1(⭕A・旧判別 B と同じ画面上の速さ)","粒子表示倍率 dispMag=10(表示専用)"]},
   activeParams:["kFrame","D0","dispMag"],
   camera:{scale:10, follow:1}, world:{boundary:"none",size:0},
   physics:{G:6.674, D0:0.1, kFrame:0, q:3, kRep:0, muF:0, gammaN:0, kappaS:0, kappaT:7.425826474101849e-9,
@@ -17208,7 +17269,7 @@ const BUILTIN_PRESETS = [
   notClaim:["cal"],
   obsCard:[
     {q:"何を置いたか", model:"トイ単位(G=1)の 2 体 m=10・1・離角 20・ほぼ円軌道。geoPN=0・kFrame=0 で、宣言 relativeDrag:{law:\"inertial\", gain:0.8} の別経路だけが走る", obs:"—(原理サンプル —— 観測転写はしない)"},
-    {q:"則(1 步)", model:"V=(座標の差分)/Δt・u_i=C_d Σ_{j≠i} m_j r/(r²+ε²)² (V_j−V_i)・x+=u·dt(v へは足さない・毎步作り直す・自己項なし)", obs:"—"},
+    {q:"則(1 步)", model:"既定 solve(第293便g): s_i=C_d Σ_{j≠i} m_j r/(r²+ε²)² (v_j−v_i)(v=力学速度)→ (I+L)u=s・x+=u·dt。旧加算は compose:\"sum\" だけ", obs:"—"},
     {q:"gain=0 の対照(実測)", model:"宣言なしと全標本ビット同一(🐌 と既存 3 本・600 步・7 標本の位置・速度・自転 84/84 値)", obs:"—"},
     {q:"近点移動(実測)", model:"Δϖ/周(対照を引く)gain 0.4/0.8/1.6 で 0.005195/0.010415/0.020929 rad・限定模型との差 3.6e-8/7.2e-8/1.4e-7・dt 半分で相対 −5.6e-6", obs:"—"},
     {q:"解析との差(実測)", model:"解析 2π(√((1+a)/(1−2a))−1) は 0.005187/0.010381/0.020791・3πa は 0.005184/0.010367/0.020734(離心 0.01 と軟化の差)", obs:"—"},
@@ -17216,13 +17277,13 @@ const BUILTIN_PRESETS = [
     {q:"帳簿(実測)", model:"v は不変・位置エネルギーが変わる: gain 0.8 で ΔE=4.6e-6・外部支持の仕事 W=1.8e-7・ΔE−W は dt に比例(積分器と同じ一次)。閉じた系の保存ではない", obs:"—"},
     {q:"言わないこと", model:"1PN と同等・回転引きずりが創発・連鎖で円盤・慣性決定力場を既定で接続、とは書かない。回転引きずり(手前/反対)と連鎖は未実装", obs:"—"}],
   descStruct:{
-    summary:"**第80報の慣性決定力場の並進引きずりを、宣言した本だけで走らせる診断**(第290便c・原仮定者の裁定〔第80報〕⑥・統括の検証項目 R127)。新しい法則版 physics.relativeDrag.law:\"inertial\" は、各物理ステップで**移動ベクトル V=(座標の差分)/Δt**(核の位置更新の後・移送の前の座標を毎步標本化)から **u_i=C_d Σ_{j≠i} m_j K_ε(r_ij)(V_j−V_i)**・K_ε=r/(r²+ε²)²(遠方 r⁻³)を作り、**位置だけを x+=u·dt で動かす**(v へは足さない・u は毎步作り直す・自己項は計算しない・最初の步は u=0)。**gain=0 で既定経路とビット同一**。既存の q 付き場・u=A/W・E6′・pairSlip には足していない(kFrame=0)。**回転引きずり(手前/反対)と連鎖は未実装。較正ではない。** C_d=0.8 [L³/M] は安定条件(上界 2·max deg ≪ 1)を満たす宣言値で、普遍定数とは呼ばない。",
+    summary:"**第80報の慣性決定力場の並進引きずりを、宣言した本だけで走らせる診断**(第290便c・原仮定者の裁定〔第80報〕⑥・統括の検証項目 R127)。新しい法則版 physics.relativeDrag.law:\"inertial\" は、各物理ステップで**移動ベクトル V=(座標の差分)/Δt**(核の位置更新の後・移送の前の座標を毎步標本化)から **u_i=C_d Σ_{j≠i} m_j K_ε(r_ij)(V_j−V_i)**・K_ε=r/(r²+ε²)²(遠方 r⁻³)を作り、**位置だけを x+=u·dt で動かす**(v へは足さない・u は毎步作り直す・自己項は計算しない・最初の步は u=0)。**第293便g から既定の合成則は solve**(力学速度 v の差 s_i=C_d Σ_j m_j K_ε(v_j−v_i) から (I+L)u=s を解く —— 各源の寄与を単純には足さない)で、上の加算は compose:\"sum\" を明示したときだけ走る旧法則版(比較用)。**gain=0 で既定経路とビット同一**。既存の q 付き場・u=A/W・E6′・pairSlip には足していない(kFrame=0)。**回転引きずり(手前/反対)と連鎖は未実装。較正ではない。** C_d=0.8 [L³/M] は安定条件(上界 2·max deg ≪ 1)を満たす宣言値で、普遍定数とは呼ばない。",
     observe:"トレイルで軽い方(m=1)の近点の向きが周ごとに順行へ回るのを見る(gain 0.8 で 1 周あたり約 0.0104 rad —— 5 周で約 3°)。B 側(gain:0)は宣言なしとビット同一で、軟化 ε=0.05 による小さな逆行(−6e-5 rad/周 —— 限定模型の gain 0 も −5.9e-5)だけが残る。回るのは**力ではなく座標移送**による(v は 1 bit も触らない・u は毎步作り直す)。上界 2·max deg は 0.0021 で安定条件の内側。回転引きずり(手前/反対)と連鎖は未実装で、ここに現れるのは並進引きずりだけ。",
     control:"ワンタップ対照A/B: B 側は**同じ宣言の gain:0**(用量 0 の否定対照 —— 宣言なしとビット同一に走る)。トレイルで近点の向きの回り方を並べる。比較の相手は 🪗(足した力で近点が回る別の玩具)で、こちらは**力ではなく座標移送**で回る(v は 1 bit も触らない)。"},
   en:{name:"Inertial dragging pair — translational dragging driven by coordinate differences",
     obsCard:[
       {q:"What is placed", model:"toy units (G=1), m=10 and 1, separation 20, near-circular; geoPN=0, kFrame=0; only the declared inertial path runs", obs:"- (a principle sample; nothing transcribed)"},
-      {q:"The law (one step)", model:"V=(coordinate difference)/dt; u_i=C_d sum_j m_j r/(r^2+eps^2)^2 (V_j-V_i); x+=u dt (never into v; rebuilt each step)", obs:"-"},
+      {q:"The law (one step)", model:"default solve (293g): s_i=C_d sum_j m_j r/(r^2+eps^2)^2 (v_j-v_i), v=velocity; (I+L)u=s; x+=u dt. Old sum: compose:\"sum\"", obs:"-"},
       {q:"gain=0 control (measured)", model:"bit-identical to no declaration at every sample (🐌 and 3 samples, 600 steps, 7 samples, 84/84 values)", obs:"-"},
       {q:"Apsidal advance (measured)", model:"per orbit, control subtracted: 0.005195/0.010415/0.020929 rad (gain 0.4/0.8/1.6); vs limited model 3.6e-8/7.2e-8/1.4e-7", obs:"-"},
       {q:"Versus analytic (measured)", model:"2pi(sqrt((1+a)/(1-2a))-1): 0.005187/0.010381/0.020791; 3pi a: 0.005184/0.010367/0.020734 (eccentricity 0.01, softening)", obs:"-"},
@@ -17230,7 +17291,7 @@ const BUILTIN_PRESETS = [
       {q:"Ledger (measured)", model:"v untouched, potential energy moves: gain 0.8 dE=4.6e-6, support work W=1.8e-7; dE-W scales with dt; not a closed system", obs:"-"},
       {q:"Not claimed", model:"not 1PN-equivalent; no emergent rotational dragging; no chain disc; off by default; near/far and chain not implemented", obs:"-"}],
     descStruct:{
-      summary:"A DIAGNOSTIC THAT RUNS REPORT 80's TRANSLATIONAL DRAGGING OF THE INERTIAL DETERMINACY FIELD ONLY IN A SAMPLE THAT DECLARES IT (wave 290c, the originator's ruling in report 80 item 6, the coordinator's check item R127). The new law version physics.relativeDrag.law:\"inertial\" builds, every physics step, a MOVEMENT VECTOR V = (coordinate difference)/dt (the coordinates are sampled each step after the core's position update and before the transport) and from it u_i = C_d sum_{j!=i} m_j K_eps(r_ij)(V_j - V_i) with K_eps = r/(r^2+eps^2)^2 (r^-3 far away), and MOVES ONLY THE POSITIONS, x += u dt (never added to v; u is rebuilt every step; no self term; u = 0 on the first step). WITH gain=0 IT IS BIT-IDENTICAL TO THE DEFAULT PATH. Nothing is added to the existing q-weighted field, u=A/W, E6' or pairSlip (kFrame=0). ROTATIONAL DRAGGING (NEAR/FAR SIDE) AND THE CHAIN ARE NOT IMPLEMENTED. THIS IS NOT A CALIBRATION. C_d = 0.8 [L^3/M] is a declared value that satisfies the stability condition (bound 2 max deg << 1); it is not called a universal constant.",
+      summary:"A DIAGNOSTIC THAT RUNS REPORT 80's TRANSLATIONAL DRAGGING OF THE INERTIAL DETERMINACY FIELD ONLY IN A SAMPLE THAT DECLARES IT (wave 290c, the originator's ruling in report 80 item 6, the coordinator's check item R127). The new law version physics.relativeDrag.law:\"inertial\" builds, every physics step, a MOVEMENT VECTOR V = (coordinate difference)/dt (the coordinates are sampled each step after the core's position update and before the transport) and from it u_i = C_d sum_{j!=i} m_j K_eps(r_ij)(V_j - V_i) with K_eps = r/(r^2+eps^2)^2 (r^-3 far away), and MOVES ONLY THE POSITIONS, x += u dt (never added to v; u is rebuilt every step; no self term; u = 0 on the first step). FROM WAVE 293g THE DEFAULT COMPOSITION RULE IS solve (from the dynamical-velocity differences s_i = C_d sum_j m_j K_eps (v_j - v_i) it solves (I+L)u = s - the contributions of the sources are not simply added); the sum above runs only when compose:\"sum\" is declared (the former law version, for comparison). WITH gain=0 IT IS BIT-IDENTICAL TO THE DEFAULT PATH. Nothing is added to the existing q-weighted field, u=A/W, E6' or pairSlip (kFrame=0). ROTATIONAL DRAGGING (NEAR/FAR SIDE) AND THE CHAIN ARE NOT IMPLEMENTED. THIS IS NOT A CALIBRATION. C_d = 0.8 [L^3/M] is a declared value that satisfies the stability condition (bound 2 max deg << 1); it is not called a universal constant.",
       observe:"Use the trail to watch the apsides of the light body (m=1) turn prograde orbit by orbit (about 0.0104 rad per orbit at gain 0.8 - about 3 degrees in five orbits). Side B (gain:0) is bit-identical to no declaration and keeps only a small retrograde turn from the softening eps=0.05 (-6e-5 rad per orbit; the limited model at gain 0 gives -5.9e-5). The turn comes from COORDINATE TRANSPORT, not from a force (v is not touched by a single bit; u is rebuilt every step). The bound 2 max deg is 0.0021, inside the stability condition. Rotational dragging (near/far side) and the chain are not implemented; only translational dragging appears here.",
       control:"One-tap A/B: side B carries THE SAME DECLARATION WITH gain:0 (the zero-dose negative control - it runs bit-identically to no declaration). Use trails to compare how the apsides turn. Compare with 🪗 (a different toy where an added force turns the apsides); here they turn by COORDINATE TRANSPORT, not by a force (v is not touched by a single bit)."},
     parameterAudit:{
@@ -19560,8 +19621,8 @@ const SAMPLE_STATUS={
 "projectile":{"purpose":"一様重力だけで自由落下と放物運動を見せる","objective":"partial","state":"場の式と配置の検査のみで軌道の定量門は無い","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["field.uniform-gravity","projectile.layout"],"en":{"purpose":"Show free fall and projectile motion under uniform gravity alone","state":"only the field formula and the layout are checked; there is no quantitative orbit gate","mismatch":null,"outlook":null,"brief":"Show free fall and projectile motion under uniform gravity alone. Partial: only the field formula and the layout are checked; there is no quantitative orbit gate. Out of calibration scope."},"brief":"一様重力だけで自由落下と放物運動を見せる。部分・場の式と配置の検査のみで軌道の定量門は無い。較正対象外。"},
 "echo":{"purpose":"保存系は巻き戻り摩擦系は戻らないことを比べる","objective":"met","state":"反転後の復帰と摩擦での不復帰が門を通過","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["echo.leapfrog-return","echo.friction-noreturn"],"en":{"purpose":"Compare a conservative universe that rewinds with a frictional one that does not","state":"the return after reversal and the non-return with friction pass their gates","mismatch":null,"outlook":null,"brief":"Compare a conservative universe that rewinds with a frictional one that does not. Met: the return after reversal and the non-return with friction pass their gates. Out of calibration scope."},"brief":"保存系は巻き戻り摩擦系は戻らないことを比べる。達・反転後の復帰と摩擦での不復帰が門を通過。較正対象外。"},
 "compactForceToy":{"purpose":"3 候補の追加力が近点を回す向きを比べる","objective":"met","state":"力の符号と整合を純関数とエンジンで確認","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.compactForce"],"en":{"purpose":"Compare which way three candidate extra forces turn the apsides","state":"force signs and consistency are checked in the pure functions and the engine","mismatch":null,"outlook":null,"brief":"Compare which way three candidate extra forces turn the apsides. Met: force signs and consistency are checked in the pure functions and the engine. Out of calibration scope."},"brief":"3 候補の追加力が近点を回す向きを比べる。達・力の符号と整合を純関数とエンジンで確認。較正対象外。"},
-"inertialDragPair":{"purpose":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る","objective":"met","state":"gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial-w290c.json"],"en":{"purpose":"Run inertial-law dragging only where declared; measure apsidal advance","state":"gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain","mismatch":null,"outlook":null,"brief":"Run inertial-law dragging only where declared; measure apsidal advance. Met: gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."},"brief":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装。較正対象外。"},
-"earthMoonInertial":{"purpose":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る","objective":"met","state":"gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/dragcore-w292c.json"],"en":{"purpose":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect","state":"gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4","mismatch":null,"outlook":null,"brief":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4. Out of calibration scope."},"brief":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"},
+"inertialDragPair":{"purpose":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る","objective":"met","state":"合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/inertial-w290c.json"],"en":{"purpose":"Run inertial-law dragging only where declared; measure apsidal advance","state":"solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain","mismatch":null,"outlook":null,"brief":"Run inertial-law dragging only where declared; measure apsidal advance. Met: solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."},"brief":"法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装。較正対象外。"},
+"earthMoonInertial":{"purpose":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る","objective":"met","state":"合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["tests/out/dragcore-w292c.json"],"en":{"purpose":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect","state":"solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4","mismatch":null,"outlook":null,"brief":"Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4. Out of calibration scope."},"brief":"慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"},
 "boxBinaryToy":{"purpose":"等質量で共通移動が相対軌道から消えるかを測る","objective":"met","state":"等質量で消え質量差の対照では残る","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.boxBinary"],"en":{"purpose":"Test whether a common drift drops out of the relative orbit for equal masses","state":"it drops out for equal masses and stays in the unequal-mass control","mismatch":null,"outlook":null,"brief":"Test whether a common drift drops out of the relative orbit for equal masses. Met: it drops out for equal masses and stays in the unequal-mass control. Out of calibration scope."},"brief":"等質量で共通移動が相対軌道から消えるかを測る。達・等質量で消え質量差の対照では残る。較正対象外。"},
 "spaceMeshBinaryToy":{"purpose":"メッシュの重力が既存の重力と同じ核かを確かめる","objective":"met","state":"重力は二重計上なし・慣性候補は頂点で退化","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["behavior.spaceMeshForce"],"en":{"purpose":"Check that the mesh gravity is the same kernel as the existing gravity","state":"gravity is not double counted; the inertia candidates degenerate at the vertex","mismatch":null,"outlook":null,"brief":"Check that the mesh gravity is the same kernel as the existing gravity. Met: gravity is not double counted; the inertia candidates degenerate at the vertex. Out of calibration scope."},"brief":"メッシュの重力が既存の重力と同じ核かを確かめる。達・重力は二重計上なし・慣性候補は頂点で退化。較正対象外。"},
 "galaxy":{"purpose":"中心天体の引きずりで外縁の回転が速まるかを測る","objective":"met","state":"外縁速度比 1.521 が門 >1.04 を通過","calibration":"out-of-scope","mismatch":null,"outlook":null,"evidence":["claim.galaxy-outerboost"],"en":{"purpose":"Measure whether the central body's dragging speeds up the outer rotation","state":"outer speed ratio 1.521 passes the >1.04 gate","mismatch":null,"outlook":null,"brief":"Measure whether the central body's dragging speeds up the outer rotation. Met: outer speed ratio 1.521 passes the >1.04 gate. Out of calibration scope."},"brief":"中心天体の引きずりで外縁の回転が速まるかを測る。達・外縁速度比 1.521 が門 >1.04 を通過。較正対象外。"},
@@ -20227,9 +20288,9 @@ function validatePreset(obj){
   // 警告文の文言に依存せず「移行が起きた」を呼び出し側(インポート)が判定できるようにする。
   // 移行そのもの(legacyCoreToV2)のロジックは 1 文字も変えていない — 記録するだけ。
   let legacyCoreMigrated=false;
-  // 第275便a: 宣言の無い分数 kFrame を {0,1} へ丸めたときの機械可読な記録(案B)。
-  // 丸めが起きなければ null。**preset には入らない**(署名は丸めた後の kFrame で決まる)。
-  let kFrameSnapped=null;
+  // 第275便a: 宣言の無い分数 kFrame を {0,1} へ寄せたときの機械可読な記録(案B)だった。
+  // 第293便a(R141): 寄せる処理を撤去したので**常に null**(返り値の鍵は互換のため残す)。
+  const kFrameSnapped=null;
   // 第283便a: geoPN=2・kFrame=0 の互換入力の機械可読な記録(無ければ null。**preset には入らない**)
   let geoCompat=null;
   const bad=(m)=>{errors.push(m);};
@@ -20526,10 +20587,9 @@ function validatePreset(obj){
       // 較正クラスで分数 kFrame を書くときの必須宣言(下の二層契約)に使う
       // 第275便a: 宣言値が 2 つになった("sample-only" を追加)。**較正クラスでは
       // "sample-only" を受け付けない**(予測に使えないと宣言した分数を現実較正へ入れない)。
+      // 第293便a(原仮定者の裁定(第83報)・R141): 較正クラスでの "sample-only" の拒否を撤去(宣言は保持 —— 予測に使わせない線は較正の判定器に置く)
       if(k===KFRAME_APPROX_KEY){
         if(KFRAME_APPROXES.indexOf(p.physics[k])<0) warnings.push('physics.kFrameApprox は "space-mesh-effective"/"sample-only" のみ — 削除します');
-        else if(p.sampleClass==="calibration" && KFRAME_APPROXES_CALIBRATION.indexOf(p.physics[k])<0)
-          bad('physics.kFrameApprox:"'+p.physics[k]+'" は sampleClass:"calibration" では使えません(サンプル限りと宣言した分数は現実較正に入れない — 較正で使えるのは "space-mesh-effective" だけです)');
         else ph[k]=p.physics[k];
         continue;
       }
@@ -20614,11 +20674,11 @@ function validatePreset(obj){
   }
   // ===== 第283便a(原仮定者の裁定(2026-09-26 追加)・統括の検証項目 R83): **geoPN=1 は kFrame=0 専用** =====
   //   裁定「1=観測値をそのまま再現する本(1PN の測地線・引きずり無し kFrame=0)/ 2=引きずり有り(kFrame=1)」「DFM 版=geoPN=2 かつ
-  //   kFrame=1(geoPN=1 の DFM 版は無い)」。geoPN=1 に kFrame≠0 を書いた入力は**拒否**する(下の分数の丸めより前 ——
-  //   丸めた値〔kFrameSnapped〕を返して通すことはしない)。geoPN=0 の kFrame は**書き換えない**(kFrame=1 のトイがある)。
+  //   kFrame=1(geoPN=1 の DFM 版は無い)」。geoPN=1 に kFrame≠0 を書いた入力は**拒否**する(当時の下の分数の処理より前 ——
+  //   寄せた値〔kFrameSnapped〕を返して通すことはしない)。geoPN=0 の kFrame は**書き換えない**(kFrame=1 のトイがある)。
   // ===== 第291便c(原仮定者の裁定(第81報)⑥・統括の検証項目 R134): **上の拒否を撤去**(モードは主な用途の分類 —— 制限はセーブ時の警告だけ) =====
   //   geoPN=1 ∧ kFrame≠0 は**受理して警告 1 行**(GR 1PN に引きずりを重ねた実験設定として v−u 則で走る —— geoModeOf の law "vMinusU-q")。
-  //   分数 kFrame は geoPN=1 でも下の第65報の丸め(kFrame の値域の契約 —— モードの制限ではない)を通る。警告は丸めた後の値で出す(下)
+  //   分数 kFrame は geoPN=1 でも下の第65報の処理(当時)を通る。警告は受理した値で出す(下)。第293便a でその処理自体を撤去した
   // ===== 第273便b(第63報 AH1): kFrame の受理契約(二層) =====
   //   ① 全クラス共通: 有限な [0,1](非数は上の CLAMPS 経路が致命拒否・域外は警告つきクランプ)。
   //   ② 現実較正クラスだけ: **0<kFrame<1 の分数には宣言鍵が要る**。
@@ -20627,32 +20687,24 @@ function validatePreset(obj){
   // ===== 第275便a(第65報 (1)): **第2層を全クラスへ**。kFrame の既定は二値 {0,1} である =====
   //   原仮定者の裁定「kFrame の分数補正はサンプル限りで予測に使えない → 例外を除き kFrame は
   //   kF0 版の 0 か DFM 版の 1 に限定する」。**例外は宣言鍵 `physics.kFrameApprox` だけ**で、
-  //   宣言の無い 0<kFrame<1 は既定経路で受理しない。挙動は 2 案を実装して比べた(既定は案B):
-  //     案B "snap"(既定): 最寄りの {0,1} へ丸めて警告 1 行(k<0.5→0 / k≥0.5→1)。
-  //                        旧セーブ・旧 AI 出力を**壊さない**。丸めた事実は返り値
-  //                        `kFrameSnapped:{from,to,sampleClass}` に機械可読で残す。
-  //     案A "reject":      検証エラーで拒否。**較正クラスは常にこちら**(第273便b の門を弱めない)。
+  //   宣言の無い 0<kFrame<1 は既定経路で受理しなかった。挙動は 2 案を実装して比べた(当時の既定は案B):
+  //     案B "snap"(当時の既定): {0,1} へ寄せて警告 1 行(k<0.5→0 / k≥0.5→1)。寄せた事実は返り値
+  //                        `kFrameSnapped:{from,to,sampleClass}` に機械可読で残した。
+  //     案A "reject":      検証エラーで拒否。較正クラスは常にこちらだった。
+  //   **第293便a(第83報・R141)で両案とも撤去済み**(現行の契約は下の〔第293便a〕)。
   //   **内蔵の kFrame の値は 1 本も変えていない**(内蔵の集合は {0,1} なのでこの門に 1 本も当たらない)。
   //   **力学には 1 バイトも接続しない** —— `S._core` には 1 命令も足していない。
   // 第283便a: geoPN=1 の分数は上で拒否済み —— 丸め(kFrameSnapped)へは進めない
-  // 第291便c: 拒否を撤去したので geoPN=1 の分数も他のモードと同じ丸めを通る(第65報の契約は変えない)
-  if(ph.kFrame>0 && ph.kFrame<1){
-    const dec = ph[KFRAME_APPROX_KEY];
-    const calib = (p.sampleClass==="calibration");
-    const allowed = calib ? KFRAME_APPROXES_CALIBRATION : KFRAME_APPROXES;
-    if(allowed.indexOf(dec)<0){
-      if(calib || kFrameUndeclaredMode==="reject")
-        bad('physics.kFrame に分数('+ph.kFrame+')を書くには physics.kFrameApprox の宣言が必要です('
-          +(calib?'sampleClass:"calibration" で使えるのは "space-mesh-effective" だけ':'"space-mesh-effective" か "sample-only"')
-          +' — 第65報の裁定により kFrame の既定は現実較正(kF0)の 0 か引きずり近似(q)の 1 の二値で、分数はサンプル限りの例外です)');
-      else {
-        const to = (ph.kFrame<0.5)?0:1;
-        kFrameSnapped = {from:ph.kFrame, to, sampleClass:(p.sampleClass||null), rule:"k<0.5→0 / k≥0.5→1"};
-        warnings.push('physics.kFrame の分数('+ph.kFrame+')は宣言鍵 physics.kFrameApprox が無いので '+to+' へ丸めました(第65報: kFrame の既定は 0 か 1。分数を残すには physics.kFrameApprox:"space-mesh-effective" か "sample-only" を宣言してください)');
-        ph.kFrame = to;
-      }
-    }
-  }
+  // 第291便c: 拒否を撤去したので geoPN=1 の分数も他のモードと同じ処理を通る(当時は第65報の寄せ —— 第293便a で撤去)
+  // ===== 第293便a(原仮定者の裁定(第83報)「分数 kFrame の丸めは撤去する。セーブ時と同様に警告を出す」・統括の検証項目 R141・AN159 を閉じる) =====
+  //   上の第275便a の案B(丸め)・案A(拒否)と、較正クラスでの拒否を**撤去**した(履歴として上に残す)。現行の契約:
+  //   宣言(physics.kFrameApprox)の無い 0<kFrame<1 は**値をそのまま保持して受理**し、警告 1 行(`modeWarn_kFrameFraction` —— セーブ時の
+  //   `modeSaveWarnings` の "kFrameFraction" と同じ文)を出す。較正クラス(sampleClass:"calibration")でも同じ(受理して警告)。
+  //   宣言済み("space-mesh-effective"/"sample-only")の分数は警告なし。**予測に使わせない線は門ではなく判定に置く** —— 較正の判定器
+  //   (tests/exp-w249b-calaudit.mjs)が 0<kFrame<1 の本の行を母集団の合否に数えない。値域のクランプ(0 未満・1 超・非数)は上の CLAMPS 経路のまま。
+  //   返り値の `kFrameSnapped` は互換のため鍵を残し、常に null(丸めは起きない)。**力学には 1 バイトも接続しない**(内蔵の kFrame は {0,1})
+  if(ph.kFrame>0 && ph.kFrame<1 && KFRAME_APPROXES.indexOf(ph[KFRAME_APPROX_KEY])<0)
+    warnings.push(T("modeWarn_kFrameFraction")(ph.kFrame));
   // ===== 第259便a(第51報): geoPN=3(トイの測地線モード)の受理条件 =====
   // 第51報「例えば『測地線モード geoPN=3』などとして、トイモデル用に明確に処理を分ける事を検討する」。
   // **現行(第258便まで)の挙動**: CLAMPS geoPN:[0,2] が 3 を 2 へ丸め、警告 1 行(「値域に修正」)を出していた。
@@ -20706,7 +20758,7 @@ function validatePreset(obj){
       warnings.push('physics.geoPN=3・旧法則版 '+sm3.lawVersion+' と physics.spaceMesh.weave は宣言が矛盾しています(重複適用禁止)'
         +' —— 旧法則版を無効化し(weave の経路は宣言どおり)、測地線の法則 '+gm3.law+' で走ります');
   }
-  // 第291便c(R134): geoPN=1 ∧ kFrame≠0 は受理して警告 1 行(丸めの後の値 —— 上の拒否の撤去)
+  // 第291便c(R134): geoPN=1 ∧ kFrame≠0 は受理して警告 1 行(受理した値 —— 上の拒否の撤去。第293便a 以後は分数もそのままの値)
   if(geoModeOf(ph).mode===1 && ph.kFrame!==0)
     warnings.push('physics.geoPN=1(主に現実較正用・GR 1PN 準拠)に kFrame='+ph.kFrame+' —— geoPN=1 の主な用途は現実較正(kFrame=0)。kFrame≠0 は GR 1PN に引きずりを重ねた実験設定として走ります(走る法則 '+geoModeOf(ph).law+')');
   // 第291便c: geoPN≥1 の physics.geodesic:false は効かない(geoPN≥1 は測地線 ON)—— 宣言だけが残らないように知らせる
@@ -22120,7 +22172,7 @@ function validatePreset(obj){
             // 第242便: frameWeight(文字列)と D0pull/qTrans/gasCoh(DRAG_CH_CLAMPS)を B 側でも宣言できる(🌙💍 のワンタップが pull 較正へ)
             if(k===FRAME_WEIGHT_KEY){ if(FRAME_WEIGHTS.indexOf(A.physicsPatch[k])>=0) physicsPatch[k]=A.physicsPatch[k]; else warnings.push("abBody.physicsPatch.frameWeight が不正 — 無視します"); continue; }
             if(k in DRAG_CH_CLAMPS){ if(isNum(A.physicsPatch[k])) physicsPatch[k]=clamp(A.physicsPatch[k],DRAG_CH_CLAMPS[k][0],DRAG_CH_CLAMPS[k][1]); else warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
-            // 第245便補足1: spinSpin(λ=0 のノックアウト対照を B 側で作れるようにする — 🧲 のワンタップ)
+            // 第245便補足1: spinSpin(λ=0 のノックアウト対照を B 側で作れるようにする — spinSpin を宣言した本のワンタップ)
             if(k===SPIN_SPIN_KEY){ if(isNum(A.physicsPatch[k])) physicsPatch[k]=clamp(A.physicsPatch[k],SPIN_SPIN_CLAMP[0],SPIN_SPIN_CLAMP[1]); else warnings.push("abBody.physicsPatch."+k+" が数値でないため無視"); continue; }
             // 第249便c: axisForce(A=0 のノックアウト対照を B 側で作れるようにする — halo と同じ扱い)
             if(k===AXIS_FORCE_KEY){
@@ -32068,7 +32120,7 @@ function drawDragFieldOn(S,SXf,SYf){
   const D=spaceMeshDisplaySample(S,V); if(!D || !D.xs) return;
   _smDrawRefGrid(D,SXf,SYf,SPACE_MESH_DRAG_RGB);
   const R=D.ready, leg=[T("smDragTitle")];
-  if(!R.ready){ leg.push(T("smDragNoHist")); _smDrawLegend(leg,lx,ly,SPACE_MESH_DRAG_RGB); return; }
+  if(!R.ready){ leg.push(T(R.why==="composeSolve"? "smDragComposeSolve" : "smDragNoHist")); _smDrawLegend(leg,lx,ly,SPACE_MESH_DRAG_RGB); return; }   // 第293便g: 合成則 solve(既定)の本は理由を出して描かない
   const um=D.uMax, ur=(D.uRef>0)? D.uRef : um, Lmax=0.45*Math.abs(SXf(D.h)-SXf(0));
   if(um>0){
     const lw=ctx.lineWidth; ctx.lineWidth=1.2; ctx.strokeStyle="rgba("+SPACE_MESH_DRAG_RGB+",0.85)";
@@ -33170,7 +33222,7 @@ function allPresets(){ return BUILTIN_PRESETS.concat(getCustomPresets()); }
 // 第147便(原仮定者指示): グループ再編(表示・分類専用 — 物理・claims・BUILTIN_PRESETS の配列順は不変)。
 //   「銀河」→「銀河の物語」/「光」→「光の物語」/(パラメータ側)「法則」→「法則の実験室」へ改名し、
 //   **新グループ**を天体の物語の直後へ新設した(観測較正・監査系14本を移動 —
-//   ☄️🪨🌙🌘💍💿📡🌞🟠⭕🧲🔆📶📐)。天体の物語には物語・トイ系が残る。
+//   ☄️🪨🌙🌘💍💿📡🌞🟠⭕🔆📶📐 と旧判別 B〔退役〕)。天体の物語には物語・トイ系が残る。
 //   ファミリー折り畳み(familyGroupedBuiltins)は**同一グループ内**で機能する設計なので、
 //   各ファミリーの primary(🪨🌘💿🟠🔆📶)は移動先に揃えてある。
 // 第149便(原仮定者裁定): その新グループ名を**「現実との照合」**とする(旧名「現実較正」— 分類チップ
@@ -33804,6 +33856,25 @@ function topicTest(key,p){ const t=TOPIC_TAGS.find(x=>x.key===key); return !!t &
 function topicsOf(p){ return p? TOPIC_TAGS.filter(t=>t.test(p)).map(t=>t.key) : []; }
 function topicLabel(key){ return T("ppTopic_"+key); }
 function topicTip(key){ const v=T("ppTopic_"+key+"Tip"); return (typeof v==="function")? v(TOPIC_MANY_N) : v; }
+// 第293便b(原仮定者の裁定(第83報)「サンプルの絞り込みに、『題材』のチップも対応する」・統括の検証項目 R142): 検索欄が**題材の語**にも当たる
+// (ja・en の両方の語 —— 言語を切り替えても同じ本が当たる)。語は TOPIC_TAGS と I18N の ppTopic_* だけから引く(手打ちの一覧を持たない)。表示専用
+function topicWordsOf(p){ return topicsOf(p).map(k=>[I18N.ja["ppTopic_"+k],I18N.en["ppTopic_"+k]].filter(Boolean).join(" ")).join(" "); }
+// 第293便b(R142): 説明タブの題材チップ(button.topicChip)を押したとき —— 次元「題材」をその key にして(いま選ばれている key なら解除)、
+// 選んだときは「サンプルを選ぶ」を開いて題材の畳み(details#ppFold_topic)を開く。解除のときは窓を開かない(開いていれば組み直す)。
+// 単一選択(他の次元と同じ)・検索や他の次元とは従来どおり AND。プリセット・presetSig・保存 JSON・力学には触らない
+function topicChipPick(key){
+  if(!TOPIC_TAGS.some(t=>t.key===key)) return;
+  ppTopic=(ppTopic===key)? "all" : key;
+  if(ppTopic!=="all"){ ppSetFold("topic",true); showPresetPicker(); }
+  else if($("#ppModal")) showPresetPicker(true);
+  descTopicsSync();
+}
+// 説明タブの題材チップの on/off(data-state・aria-pressed)を ppTopic に合わせる(ppRender と説明の組み立てから呼ぶ)
+function descTopicsSync(box){
+  box=box || document.getElementById("descTopics"); if(!box) return;
+  for(const c of box.querySelectorAll(".topicChip")){ const on=(c.dataset.topic===ppTopic);
+    c.dataset.state=on? "on" : "off"; c.setAttribute("aria-pressed",on? "true" : "false"); }
+}
 // チップの件数: いま一覧に出せる内蔵(catalogHidden・退役を除く)のうち、その題材の本の数(そのチップだけを選んだときの行数と同じ)
 function ppTopicCount(key){ return BUILTIN_PRESETS.filter(p=>!catalogHidden(p) && !retiredHidden(p) && topicTest(key,p)).length; }
 function ppMatch(p){
@@ -33818,13 +33889,15 @@ function ppMatch(p){
     const q=ppSearch.toLowerCase();
     const en=(p.en&&p.en.name)||"";
     if(!((p.name||"").toLowerCase().includes(q) || en.toLowerCase().includes(q)
-      || String(p.id).toLowerCase().includes(q) || (p.emoji||"").includes(ppSearch))) return false;
+      || String(p.id).toLowerCase().includes(q) || (p.emoji||"").includes(ppSearch)
+      || topicWordsOf(p).toLowerCase().includes(q))) return false;   // 第293便b(R142): 題材の語(ja・en)にも当たる
   }
   return true;
 }
 let ppGrpSeq=0;
 function ppRender(){
   if(!ppClsCache) return ppWithClsCache(ppRender);   // 第287便e: 分類の覚え(この呼び出しの間だけ)
+  descTopicsSync();   // 第293便b(R142): 説明タブの題材チップの on/off を一覧の「題材」に合わせる(一覧側の「すべて」での解除も映す)
   const list=$("#ppList"); if(!list) return;
   list.textContent="";
   const filtering=ppFiltering();
@@ -34365,7 +34438,7 @@ function loadSave(s, selValue){
   // 第291便c(原仮定者の裁定(第81報)⑥・R134): **読み替えを保存の版で分ける**。`modePolicy:"w291c-1"` の無い旧セーブは従来どおり kFrame=0 として読む
   // (第283便a からの挙動を変えない・通知 1 行は残す)。`modePolicy:"w291c-1"` 以後の保存は**値を保持**して読む(geoPN=1 ∧ kFrame≠0 は
   // GR 1PN に引きずりを重ねた実験設定として v−u 則で走る)。保存した法則(lawResolved —— 情報)といま解決した法則が違えば 1 行知らせる(物理には使わない)
-  const modeNew=(s.modePolicy===MODE_POLICY_VERSION);
+  const modeNew=(MODE_POLICY_KEEP_VERSIONS.indexOf(s.modePolicy)>=0);   // 第293便a: w291c-1 と w293a-1 はどちらも値を保持
   if(!modeNew){ const gmS=geoModeOf(sim.params); if(gmS.mode===1 && !gmS.consistent){ sim.params.kFrame=0; notify(T("geoPN1SaveKF0"),6000); } }
   else if(typeof s.lawResolved==="string"){ const lawNow=geoModeOf(sim.params).law;
     if(lawNow!==s.lawResolved) setTimeout(()=>notify(T("modeLawMismatch")(s.lawResolved, lawNow),7000),1500); }
@@ -34552,6 +34625,7 @@ function cloneSimState(){ // 現在の sim の完全コピー(同一プリセッ
   if(sim.rdPrevX && simB.rdPrevX && simB.rdPrevX.length>=sim.n){
     for(const k of ["rdPrevX","rdPrevY","rdPrevT"]) simB[k].set(sim[k].subarray(0,sim.n));
     for(const k of ["rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL"]) simB[k]=sim[k];
+    for(const k of INERTIAL_DRAG_SOLVE_SC) if(sim[k]!==undefined) simB[k]=sim[k];   // 第293便e: 合成則 solve の帳簿(宣言した本だけ)
   }
   simB.t=sim.t; simB.resPx=sim.resPx; simB.resPy=sim.resPy; simB.resL=sim.resL;
   simB.radE=sim.radE; simB.radL=sim.radL;
@@ -34766,6 +34840,7 @@ const CK_ARRS=["m","x","y","vx","vy","spin","R","rotA","tau","uPx","uPy","hasU",
   "carVx","carVy",   // 第290便d(R128): 倍精度の速度の繰り越し(stateCarry:"double" の補償和の残差 —— 復元後の再走を保存しなかった走行とビット一致にする。未宣言は null で素通り)
   "rdPrevX","rdPrevY","rdPrevT",   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
   "tideJh","tideJl","tideOmW","tideDJ"];   // 第292便d: 明示潮汐の J の補償和(高位・低位)・最後に書いた自転・自転への ΔJ(宣言した本だけ配列がある)   // 第290便c: 慣性引きずりの座標の履歴(宣言した本だけ配列がある —— 復元で同じ瞬間へ戻す)
+const INERTIAL_DRAG_SOLVE_SC=["inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];   // 第293便e: A/B 複製で運ぶ合成則 solve の帳簿
 const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wallKE","pinHeat","coreWork","coreSrcE","alignE","burstE","burstK","burstL","burstRes",
   "axPrescLx","axPrescLy","axPrescE","axPrescPx","axPrescPy","axPrescN",   // 第275便e: 宣言した拘束が持ち去った量
   "shedE","shedK","shedU","shedL","shedM","shedRes","shedNev","shedOm","shedT","shedSkip",   // 第244便: envelopeShed 帳簿
@@ -34774,7 +34849,8 @@ const CK_SC=["t","resPx","resPy","resL","radE","radL","wallEin","wallEout","wall
   "clampVN","clampSN","clampHN","clampAN","clampRN","clampTN","angOvfN","_phAcc","_phNbrInit",
   "fusN","fusU","fusPx","fusPy","fusL","fisN","aEffRef","_bhLastA","_bhLastT","_bhAcc",
   "rdEpoch","inertialDragN","inertialDragNoHist","inertialDragOver","inertialDragReject","inertialDragBoundMax","inertialDragDegMax","inertialDragWork","inertialDragDL",
-  "tideN","tideSubsteps","tideSubCapped","tideReject","tideWork","tideWorkCons","tideHeat","tideMix","tideDL","tideTauMinAll"];   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
+  "tideN","tideSubsteps","tideSubCapped","tideReject","tideWork","tideWorkCons","tideHeat","tideMix","tideDL","tideTauMinAll",
+  "inertialDragSolveN","inertialDragSolveResMax","inertialDragSolveTooLarge"];   // 第293便e: 合成則 solve の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第292便d: 明示潮汐の帳簿(宣言の無い本では undefined —— 復元で素通り)   // 第290便c: 慣性引きずりの指紋と帳簿(宣言の無い本では undefined —— 復元で素通り)
 function ckInvalidate(){ ckSnap=null; $("#btnCkLoad").disabled=true; }
 // 第63便(原仮定者指示): チェックポイントを A/B 比較の B 側にも対応 — A/B 中の保存は
 // A+B 両側のスナップショットを持ち、復帰も両側同時(同じ瞬間へ揃って巻き戻る)。
@@ -36886,7 +36962,9 @@ $("#btnSave").addEventListener("click",()=>{
   // 主な用途と違う組み合わせは**警告だけ**(保存は止めない・確認ボタンも強制補正も無し)—— 成功通知に含める
   item.modePolicy=MODE_POLICY_VERSION;
   item.lawResolved=geoModeOf(sim.params).law;
-  const modeW=modeSaveWarnings(sim.params);
+  // 第293便a(R141): 宣言 kFrameApprox は sim.params に無いことがある(実行中に UI で動かした値・既定へ戻した後など)ので、実行中プリセットの宣言を写して渡す
+  const kfDecl=(sim.params[KFRAME_APPROX_KEY]!==undefined)? sim.params[KFRAME_APPROX_KEY] : ((currentPreset && currentPreset.physics)? currentPreset.physics[KFRAME_APPROX_KEY] : undefined);
+  const modeW=modeSaveWarnings(Object.assign({},sim.params,{[KFRAME_APPROX_KEY]:kfDecl}));
   try{ const a=getSaves(); a.unshift(item); setSaves(a); }
   catch(e){ alert(T("saveFailed")); return; }
   $("#saveComment").value="";
@@ -37211,7 +37289,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 - スピンは熱。高スピン粒子は近接時に斥力(圧力, kRep)を生む。衝突で速度が減衰しスピンに変わる(muF,gammaN)。スピンは近接拡散で平衡化する(kappaS)。粒子の色は温度(青=冷,赤=熱)。
 - pinned:true の粒子は動かずスピンも変わらない=熱浴になる。高スピンのpinned粒子はヒーター、スピン0のpinned粒子は冷却板として、接触摩擦とスピン拡散(kappaS)で周囲を加熱/冷却する。
 - 放射冷却: etaRad>0 にすると温度の高い粒子ほど速く冷えて暗くなる(急峻さはpRad)。加熱・冷却・重力を組み合わせると対流・蒸発・凝集が作れる。
-- 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの例外で、宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添えない限り最寄りの 0/1 へ丸められる)。背景決定力D0が大きいほど空間が安定する。
+- 空間は質量に引きずられる(kFrame: 0=通常のニュートン力学, 1=完全な相対空間)。kFrame は 0 か 1 のどちらかにする(0<kFrame<1 の分数はサンプル限りの実験設定で予測に使えない。書くなら宣言 physics.kFrameApprox("space-mesh-effective" か "sample-only")を添える —— 宣言の無い分数も値は保持されるが、読み込み時と保存時に警告が出る)。背景決定力D0が大きいほど空間が安定する。
 - 一様重力場: physics.gravityY>0 で画面全体に一様な下向きの外力場がかかる(gravityXは横方向)。地上の実験室・対流・落下のデモに使う。時計や光を歪めないので、画面外に遠方大質量を置く旧手法より安定する。目安は0.02〜0.1。
 - rays={"n":本数(0〜64の整数),"spread":広がり(0〜1)} を指定すると左端から光線が飛び、質量の近くで曲がる(曲がりの強さと時間の遅れは同じ κ(kappaT)で決まり、κ が大きいほど強い)。超大質量(2000〜3000)をpinnedで置き κ を 0.017〜0.025 に上げると、近くを通る光が捕まって周回する=ブラックホールの光学類似(光子捕捉)。ただし中心のスピンは0〜0.5に抑える(スピンが大きいと空間の引きずりが光を外へ流し、捕捉が消える)。
 - overlays: rotationCurve=回転曲線グラフ, tempHistogram=左右の平均温度グラフ, field=決定力マップ(レンズ系で推奨), spectrum=放射スペクトル。
@@ -37237,7 +37315,7 @@ const SYSTEM_PROMPT = `あなたは「仮想物理シミュレータ」のプリ
 4. 軌道系を作るとき: 中心に single(質量M)を置き、ring/disk は vMode="kepler", aroundMass=M にする。保存則(運動量・角運動量)を見せたい閉鎖系では中心を pinned:false にする。周回物の反作用で中心が漂って構図が崩れるのを防ぎたい展示系では pinned:true でよいが、その場合は「中心は固定(外部拘束)」と description に書く。
 5. 粒子をばら撒くだけの系(気体など)は world.boundary を "box" か "circle" にし、D0を20以上にすると安定する。重力を弱くするなら G=0.05 程度。加熱・冷却するガスの系では粒子を軽く(mMin/mMax 0.05〜0.1)しkRepを2前後にする — 重いガスは自己重力で1塊に凍結する。
 6. name は30字以内、description は200字程度の日本語(上限は9000字。超えると切り詰められる)。emoji は絵文字1文字。
-7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(既定は 0 か 1 の二値 — 宣言の無い分数は最寄りの 0/1 へ丸める), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜3(整数・主な用途の分類 —— 0=主に原理実証/1=主に現実較正・GR 1PN〔標準 kFrame=0〕/2=主に引きずり近似 q〔標準 kFrame=1〕/3=主に引きずり・慣性決定力で計算。標準と違う kFrame も受理し、保存時に警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
+7. 値域(超えると自動修正される): G:0〜1e6, D0:0〜1e6, kFrame:0〜1(標準は 0 か 1 の二値 — 宣言の無い分数は値を保持して警告), q:0.5〜40, kRep:0〜20, muF:0〜1, gammaN:0〜1, kappaS:0〜2, kappaT:0〜1(κ=1/Kt。0=時空効果なし・旧 Kt:1〜1e12 も受理), cLight:1〜1e6, bM:0.001〜1000, etaRad:0〜1, pRad:1〜6, gravityX:−10〜10, gravityY:−10〜10, geoPN:0〜3(整数・主な用途の分類 —— 0=主に原理実証/1=主に現実較正・GR 1PN〔標準 kFrame=0〕/2=主に引きずり近似 q〔標準 kFrame=1〕/3=主に引きずり・慣性決定力で計算。標準と違う kFrame も受理し、保存時に警告するだけ), lambdaPN:0〜1, pnAlpha:0.5〜1.5, radiusScale:0.2〜5, dispMag:1〜1000(表示専用), softening:0.01〜20, timeScale:0.001〜1000, camera.scale:20〜3000, 座標・長さ:±5000, 質量:1e-6〜20000, 速度成分:±50, スピン:±20, radius:0.01〜100(single の明示半径), rMul:0.2〜40(single/ring)・0.2〜20(disk/box/grid), massFloor:1e-9〜1(既定0.01 — mEff質量下限床のopt-in引き下げ), omega:±2, vNoise:0〜1, vScale:0〜50, rays.n:0〜64(整数), rays.spread:0〜1
 8. κ 正準化(第124〜125便): 時空係数の正準キーは physics.kappaT(κ=1/Kt・G/c² と同次元)。旧 Kt キーも後方互換で受理する(kappaT と併記時は kappaT 優先)。アプリの「時空」カテゴリでは κ を編集し、セーブ・プリセット・few-shot とも kappaT で記す。第128便で内部エンジンも κ 正準(ψ=W·κ)になり、Kt は境界で受理する後方互換の入力キーだけになった。
 9. 出力の前に、要望を〈主題・必須要素・観察したい変化〉へ内部で分解し、それを満たす最小の構成だけを含める(分解の説明は出力しない)。曖昧な要望は「要望→設定の対応」の定番構成から最も近いものを選ぶ。
 
@@ -39634,15 +39712,19 @@ function renderHelp(){
   badges.filter(a=>a.g==="drag").forEach(addBadge);   // 第287便e: 判定は表(physics.kFrame>0 の宣言)
   el.appendChild(chipRow);
   // 第291便e(原仮定者の裁定(第81報)⑦「説明と絞り込みで使うチップを追加」・統括の検証項目 R136): **題材チップ**(表 TOPIC_TAGS —— 「サンプルを選ぶ」の
-  // 絞り込み「題材」と同じ規則・同じ語)。分類チップ(#classChips)の直下の 1 行で、**表示専用**(押せない span)。題材の無い本には出さない
+  // 絞り込み「題材」と同じ規則・同じ語)。分類チップ(#classChips)の直下の 1 行で、**表示専用**。題材の無い本には出さない
+  // 第293便b(原仮定者の裁定(第83報)・R142): チップは**押せるボタン**(button.topicChip・aria-label「題材 ○○ で絞り込む」・aria-pressed)——
+  // 押すと「サンプルを選ぶ」を開いて次元「題材」をその key にする(topicChipPick —— 再押しで解除)。Enter/Space はボタンの既定の操作
   { const tk=topicsOf(currentPreset);
     if(tk.length){
       const tr=document.createElement("div"); tr.id="descTopics"; tr.className="descTopics";
       tr.setAttribute("role","group"); tr.setAttribute("aria-label",T("descTopicsAria"));
       const th=document.createElement("span"); th.className="descTopicsHead"; th.textContent=T("descTopicsHead"); tr.appendChild(th);
-      for(const k of tk){ const c=document.createElement("span"); c.className="topicChip"; c.dataset.topic=k;
-        c.textContent=topicLabel(k); c.title=topicTip(k); tr.appendChild(c); }
+      for(const k of tk){ const c=document.createElement("button"); c.type="button"; c.className="topicChip"; c.dataset.topic=k;
+        c.textContent=topicLabel(k); c.title=topicTip(k); c.setAttribute("aria-label",T("descTopicChipAria")(topicLabel(k)));
+        c.addEventListener("click",()=>topicChipPick(k)); tr.appendChild(c); }
       el.appendChild(tr);
+      descTopicsSync(tr);
     } }
   // 第283便b(原仮定者の裁定(第73報)④・R84): 退役の本を開いたら「退役(履歴)」の 1 行(表示専用 —— 自動で別の本へ置き換えない)
   if(retiredOf(currentPreset)){
@@ -48705,6 +48787,10 @@ function inertialDragInit(S){
   S.inertialDragBound=0; S.inertialDragBoundMax=0; S.inertialDragDegMax=0; S.inertialDragUMax=0;
   S.inertialDragPx=0; S.inertialDragPy=0; S.inertialDragJz=0; S.inertialDragDU=0;
   S.inertialDragWork=0; S.inertialDragDL=0;
+  if(relDragComposeOf(rd)==="solve"){   // 第293便e: 合成則 solve の帳簿(第293便g: 既定 solve —— compose:"sum" を明示した本と law:"inertial" でない本には鍵を作らない)
+    S.inertialDragSolveN=0; S.inertialDragSolveRes=0; S.inertialDragSolveResMax=0; S.inertialDragSolveMethod=null;
+    S.inertialDragUSumMax=0; S.inertialDragUSolveMax=0; S.inertialDragSolveTooLarge=0;
+  }
   if(S.dragCoreD) dragCoreInit(S);   // 第292便c: 構造核の表(宣言した本だけ —— 未宣言は S.dragCoreD=null で素通り)
 }
 function inertialDragClear(S){
@@ -48716,6 +48802,125 @@ function inertialDragEpoch(S){
   const cap=(S.capture && S.capture.log)? S.capture.log.length : 0;
   const fc=S.fixcap? ((S.fixcap.log? S.fixcap.log.length : 0)+":"+(S.fixcap.ejLog? S.fixcap.ejLog.length : 0)) : "0";
   return S.n+"|"+(S.fusN||0)+"|"+(S.fisN||0)+"|"+(S.shedNev||0)+"|"+cap+"|"+fc;
+}
+// ===== 第293便e(原仮定者の裁定(第83報)「引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い」・
+//   統括の検証項目 R145): **引きずりの合成則 compose:"solve"** =====
+// 第293便g(原仮定者の裁定(第83報 追記)・R147): **既定を solve(solveFrom:"velocity")に変えた**。下の "sum" は compose:"sum" を明示した本だけ
+//(旧法則版 —— 比較用)。下の注記の「既定」「現行」は第293便e の時点の言い方(履歴則の既定は "history" → 第293便g で "velocity")。
+// 旧既定(compose:"sum")の `dfmInertialDragStep` は u_i = Σ_j a_ij (V_j − V_i)・a_ij = C_d m_j 𝒦_j(r_ij) で**各源の寄与を足す**
+//(静止した受け手に同方向・速度 1 の源を 2 つ置き a=1 なら u=2)。"solve" は**共通の移動速度 W** を自己無撞着に解く:
+//   W_i = v_i + Σ_j a_ij (W_j − W_i)  ⇔  (I + L) W = v(L の対角 Σ_j a_ij・非対角 −a_ij)・u_i = W_i − v_i
+// 規定源(pinned)だけが源なら W_i = (v_i + Σ_j a_ij W_j)/(1 + Σ_j a_ij)(2 源・a=1・源速度 1・v_i=0 で u = 2/3 —— 加算なら 2)。
+// 実装は u について解く(共通の並進が式の上で厳密に消える形): (I + L) u = s、s_i = Σ_j a_ij (v_j − v_i)(= 現行の加算の u と同じ式・同じ順序)。
+//   ・v の意味は宣言 `solveFrom`: "history"(座標差分の移動ベクトル V^{n−1} = (x^n − x^{n−1})/Δt)/
+//     "velocity"(第293便g の既定 —— 力学速度 S.vx・この hook の入口の値)。**履歴の V^{n−1} は前の步の移送 u^{n−1} を含む**(V ≈ v + u^{n−1})ので、
+//     現行の加算は時間方向に (I+L)u = −Lv の不動点反復になっている(定常では solveFrom:"velocity" と同じ点 —— docs/PHYSICS.md〔第293便e〕)。
+//   ・解法: n ≤ REL_DRAG_SOLVE_DIRECT_MAX(64)は直接法(ガウス消去 —— a_ij ≥ 0 なので I+L は行について厳密に対角優位・ピボットなし)/
+//     それより多いと Gauss–Seidel を solveIters 回(既定 8・初期値 0・添字の順)。どちらも残差 max|(I+L)u − s|/max|s| を帳簿
+//     `inertialDragSolveRes`(直近)・`inertialDragSolveResMax` に積む(**黙って打ち切らない**)。n > REL_DRAG_SOLVE_NMAX は拒否(u=0・数える)。
+//   ・自己項なし・宣言した対だけ・質量が正でない粒子は源にも受け手にもならない・pinned(規定運動)は受け取らない(行を u_i=0 に固定 —— 源にはなる)・
+//     履歴なしの步は u=0・一致点は拒否・構造核(dragCore の表)は核の 𝒦_j として同じ式で読む —— どれも現行の契約 (i)〜(viii) のまま。
+//   ・次数 deg_i と上界 2·max deg_i は現行と同じ式で出す(solve では上界 ≥1 でも |u_i| ≤ max_j |v_j − v_i| —— 有界)。
+//   ・純関数の写しは tests/lib-w293e-compose.mjs(同じ式・同じ順序 —— 器 tests/exp-w293e-compose.mjs の門でビット同一)。**S._core の外**。
+function inertialDragComposeBuild(S,n,CT,hist,C,e2){
+  if(n>REL_DRAG_SOLVE_NMAX) return {coincident:false, degMax:0, tooLarge:true};
+  const X=S.x, Y=S.y, m=S.m, pin=S.pinned, set=S._rdPairSet, NP=S._rdPairN;
+  const vel=(relDragSolveFromOf(S.relDrag)==="velocity");   // 第293便g: 未宣言は "velocity"
+  const WX=vel? S.vx : S._rdVX, WY=vel? S.vy : S._rdVY;
+  const UX=S._rdUX, UY=S._rdUY, DG=S._rdDeg;
+  if(!S._rdA || S._rdA.length<n*n) S._rdA=new Float64Array(n*n);
+  const A=S._rdA;
+  let degMax=0;
+  for(let i=0;i<n;i++){
+    let ux=0, uy=0, deg=0;
+    const mi=m[i], okI=(mi>0 && Number.isFinite(mi)), row=i*n;
+    for(let j=0;j<n;j++){
+      A[row+j]=0;
+      if(j===i) continue;                                   // 自己項を計算しない
+      if(set && !set.has(i*NP+j)) continue;                 // 宣言した対だけ
+      const mj=m[j];
+      if(!(mj>0) || !Number.isFinite(mj)) continue;        // 質量が正でない粒子は源にならない
+      const dx=X[j]-X[i], dy=Y[j]-Y[i], r2=dx*dx+dy*dy;
+      if(!(r2>0)) return {coincident:true, degMax};        // 一致点は拒否(ε で埋めない)
+      const r=Math.sqrt(r2), s=r2+e2, Tj=CT? CT[j] : null;
+      const kv=Tj? dragCoreLookup(Tj,r) : null;              // 構造核の表(表の外・表の無い源は点源 K_ε)
+      const a=C*mj*((kv===null)? (r/(s*s)) : kv);           // 現行の核と同じ式・同じ順序
+      A[row+j]=a;
+      if(hist){ ux+=a*(WX[j]-WX[i]); uy+=a*(WY[j]-WY[i]); }
+      deg+=a;
+    }
+    UX[i]=okI? ux : 0; UY[i]=okI? uy : 0; DG[i]=okI? deg : 0;
+    if(okI && !pin[i]){ const ad=Math.abs(deg); if(ad>degMax) degMax=ad; }
+  }
+  return {coincident:false, degMax, tooLarge:false};
+}
+// (I+L)u = s を解いて UX/UY(入口では s)を u で置き換える。受け取らない行(pinned・質量が正でない)は u_i=0 に固定。
+function inertialDragComposeSolve(S,n){
+  const A=S._rdA, UX=S._rdUX, UY=S._rdUY, DG=S._rdDeg, m=S.m, pin=S.pinned;
+  if(!S._rdFix || S._rdFix.length<n){ S._rdFix=new Uint8Array(n); S._rdSX=new Float64Array(n); S._rdSY=new Float64Array(n); }
+  const FX=S._rdFix, SX=S._rdSX, SY=S._rdSY;
+  let sMax=0;
+  for(let i=0;i<n;i++){
+    const mi=m[i];
+    FX[i]=(!(mi>0) || !Number.isFinite(mi) || pin[i])? 1 : 0;
+    SX[i]=FX[i]? 0 : UX[i]; SY[i]=FX[i]? 0 : UY[i];
+    const sm=Math.hypot(SX[i],SY[i]); if(sm>sMax) sMax=sm;
+  }
+  let method;
+  if(n<=REL_DRAG_SOLVE_DIRECT_MAX){
+    method="direct";
+    if(!S._rdM || S._rdM.length<n*n) S._rdM=new Float64Array(n*n);
+    const M=S._rdM;
+    for(let i=0;i<n;i++){
+      const row=i*n;
+      for(let j=0;j<n;j++) M[row+j]=FX[i]? 0 : -A[row+j];
+      M[row+i]=FX[i]? 1 : 1+DG[i];
+      UX[i]=SX[i]; UY[i]=SY[i];
+    }
+    for(let k=0;k<n;k++){
+      const pk=M[k*n+k];
+      for(let i=k+1;i<n;i++){
+        const f=M[i*n+k]/pk;
+        if(f===0) continue;
+        for(let j=k+1;j<n;j++) M[i*n+j]-=f*M[k*n+j];
+        UX[i]-=f*UX[k]; UY[i]-=f*UY[k];
+      }
+    }
+    for(let i=n-1;i>=0;i--){
+      let sx=UX[i], sy=UY[i];
+      for(let j=i+1;j<n;j++){ sx-=M[i*n+j]*UX[j]; sy-=M[i*n+j]*UY[j]; }
+      const d=M[i*n+i];
+      UX[i]=sx/d; UY[i]=sy/d;
+    }
+  } else {
+    method="gs";
+    const it=(S.relDrag.solveIters!==undefined)? S.relDrag.solveIters : REL_DRAG_SOLVE_ITERS_DEFAULT;
+    for(let i=0;i<n;i++){ UX[i]=0; UY[i]=0; }
+    for(let k=0;k<it;k++){
+      for(let i=0;i<n;i++){
+        if(FX[i]) continue;
+        const row=i*n;
+        let sx=SX[i], sy=SY[i];
+        for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ sx+=a*UX[j]; sy+=a*UY[j]; } }
+        const d=1+DG[i];
+        UX[i]=sx/d; UY[i]=sy/d;
+      }
+    }
+  }
+  // 残差(元の式で —— 受け取る行だけ)
+  let rMax=0, uMax=0;
+  for(let i=0;i<n;i++){
+    if(FX[i]) continue;
+    const row=i*n, d=1+DG[i];
+    let rx=d*UX[i]-SX[i], ry=d*UY[i]-SY[i];
+    for(let j=0;j<n;j++){ if(j===i) continue; const a=A[row+j]; if(a!==0){ rx-=a*UX[j]; ry-=a*UY[j]; } }
+    const rr=Math.max(Math.abs(rx),Math.abs(ry)); if(rr>rMax) rMax=rr;
+    const um=Math.hypot(UX[i],UY[i]); if(um>uMax) uMax=um;
+  }
+  const res=(sMax>0)? rMax/sMax : rMax;
+  S.inertialDragSolveN++; S.inertialDragSolveRes=res; if(res>S.inertialDragSolveResMax) S.inertialDragSolveResMax=res;
+  S.inertialDragSolveMethod=method; S.inertialDragUSumMax=sMax; S.inertialDragUSolveMax=uMax;
+  return {method, res, sMax, uMax};
 }
 function dfmInertialDragStep(S,dt){
   const rd=S.relDrag, n=S.n;
@@ -48735,7 +48940,10 @@ function dfmInertialDragStep(S,dt){
   // 第292便c: 構造核(dragCore)の表がある本だけ別の受け手ループ(粒子が入れ替わったら表を捨てて点源へ)。**表の無い本はこの分岐の外 = 下の従来ループそのまま**
   let CT=S._dragCoreT;
   if(CT){ if(S._dragCoreEp===null) S._dragCoreEp=ep; else if(S._dragCoreEp!==ep){ S._dragCoreT=CT=null; if(S._dragCore) S._dragCore.dropped={t, epoch:ep}; } }
-  if(CT) for(let i=0;i<n && !coincident;i++){
+  const comp=(relDragComposeOf(rd)==="solve");   // 第293便e: 合成則 solve(第293便g: 既定 —— compose:"sum" を明示した本だけ下の従来の 2 つのループ)
+  if(comp){ const q=inertialDragComposeBuild(S,n,CT,hist,C,e2); coincident=q.coincident; degMax=q.degMax;
+    if(q.tooLarge){ S.inertialDragSolveTooLarge++; S.inertialDragReject++; S.inertialDragWhy="composeTooLarge"; hist=false; } }
+  else if(CT) for(let i=0;i<n && !coincident;i++){
     let ux=0, uy=0, deg=0;
     const mi=m[i], okI=(mi>0 && Number.isFinite(mi));
     for(let j=0;j<n;j++){
@@ -48778,6 +48986,7 @@ function dfmInertialDragStep(S,dt){
   if(bound>=1) S.inertialDragOver++;                        // (vii) 数える(clamp しない・飽和させない)
   let dU=0, Px=0, Py=0, Jz=0, dL=0, uMax=0, nMoved=0;
   if(coincident){ S.inertialDragReject++; S.inertialDragWhy="coincident"; hist=false; }
+  if(hist && comp) inertialDragComposeSolve(S,n);          // 第293便e: (I+L)u = s を解いて UX/UY を置き換える(移送・帳簿は下の共通の手続き)
   if(hist){
     const NX=S._rdNX, NY=S._rdNY, G=S.params.G, eg=S.params.softening||0, eg2=eg*eg, me=S.mEff;
     for(let i=0;i<n;i++){
@@ -48816,7 +49025,17 @@ function inertialDragState(S){
     pairs:S.relDrag.pairs, steps:S.inertialDragN, noHistory:S.inertialDragNoHist, boundOver:S.inertialDragOver, reject:S.inertialDragReject,
     bound:S.inertialDragBound, boundMax:S.inertialDragBoundMax, degMax:S.inertialDragDegMax, uMax:S.inertialDragUMax,
     sumMu:[S.inertialDragPx, S.inertialDragPy], sumMxU:S.inertialDragJz, dU:S.inertialDragDU, work:S.inertialDragWork, dL:S.inertialDragDL,
-    ...(S._dragCore? {dragCore:dragCoreState(S)} : null) };   // 第292便c: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
+    ...(S._dragCore? {dragCore:dragCoreState(S)} : null),   // 第292便c: 構造核を宣言した本だけ(未宣言の本の読み口は 1 鍵も変わらない)
+    ...((relDragComposeOf(S.relDrag)==="solve")? {compose:inertialDragComposeState(S)} : null) };   // 第293便e: 合成則 solve の本だけ(第293便g: 既定 —— compose:"sum" を明示した本の読み口には compose の鍵が無い)
+}
+// 第293便e: 合成則 solve の読み口(状態は 1 bit も動かさない)
+function inertialDragComposeState(S){
+  if(!S || !S.relDrag || relDragComposeOf(S.relDrag)!=="solve") return null;
+  const rd=S.relDrag;
+  return { version:REL_DRAG_COMPOSE_VERSION, compose:"solve", solveFrom:relDragSolveFromOf(rd),
+    solveIters:(rd.solveIters!==undefined)? rd.solveIters : REL_DRAG_SOLVE_ITERS_DEFAULT, directMax:REL_DRAG_SOLVE_DIRECT_MAX,
+    solves:S.inertialDragSolveN, method:S.inertialDragSolveMethod, res:S.inertialDragSolveRes, resMax:S.inertialDragSolveResMax,
+    uSumMax:S.inertialDragUSumMax, uSolveMax:S.inertialDragUSolveMax, tooLarge:S.inertialDragSolveTooLarge };
 }
 // ===== 第292便d(原仮定者の裁定(第82報)⑦・統括の検証項目 R140): **明示潮汐の外部ステップ** `dfmTideStep(S,dt)` =====
 // `physics.tide` と天体の `tide:{k2, lag}` を宣言した本だけが通る(`S.hasTide` —— 未宣言の本では build が立てないので 1 命令も走らない)。
@@ -49036,6 +49255,7 @@ function inertialDragFieldReady(S){
   if(!S || !S.relDrag || S.relDrag.law!=="inertial"){ out.why="undeclared"; return out; }
   out.declared=true; out.gain=S.relDrag.gain;
   out.eps=(S.relDrag.eps!==undefined)? S.relDrag.eps : (S.params.softening||0);
+  if(relDragComposeOf(S.relDrag)==="solve"){ out.why="composeSolve"; return out; }   // 第293便e: サンプラーは加算の局所場だけ —— 合成則 solve の u とは比べない(描かない)。第293便g: 既定が solve になったので compose:"sum" を明示した本だけ描く
   const n=S.n;
   if(!S.rdPrevX || !S._rdVX || !S._rdUX || S.rdPrevX.length<n){ out.why="noSample"; return out; }
   if(!(S.inertialDragN>0)){ out.why="noHistory"; return out; }
@@ -52156,6 +52376,9 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   relativeDragMidpointSolve, relativeDragMidpointGuard, relativeDragMidpointBodyCheck,
   REL_DRAG_KEY, REL_DRAG_LAWS, REL_DRAG_SPINS, REL_DRAG_KAPPA_CLAMP, REL_DRAG_STEP_VERSION,
   dfmInertialDragStep, inertialDragInit, inertialDragEpoch, inertialDragState, validateRelativeDragInertial,   // 第290便c
+  inertialDragComposeBuild, inertialDragComposeSolve, inertialDragComposeState, REL_DRAG_COMPOSE, REL_DRAG_SOLVE_FROM, REL_DRAG_SOLVE_ITERS_DEFAULT,
+  REL_DRAG_SOLVE_ITERS_RANGE, REL_DRAG_SOLVE_DIRECT_MAX, REL_DRAG_SOLVE_NMAX, REL_DRAG_COMPOSE_VERSION,   // 第293便e
+  REL_DRAG_COMPOSE_DEFAULT, REL_DRAG_SOLVE_FROM_DEFAULT, relDragComposeOf, relDragSolveFromOf,   // 第293便g
   DRAG_CORE_VERSION, DRAG_CORE_NR, DRAG_CORE_TABLE_N, DRAG_CORE_RMAX_FACTOR, validateDragCoreBody, validateDragCoreTable,   // 第292便c
   dragCoreAngular, dragCoreAvgK, dragCoreTableBuild, dragCoreLookup, dragCoreInit, dragCoreState,
   REL_DRAG_INERTIAL_VERSION, REL_DRAG_INERTIAL_KEYS,
@@ -52231,8 +52454,8 @@ window.HP = { sim, loadPreset, allPresets, validatePreset, SYSTEM_PROMPT, extrac
   // 第275便a(第65報 (1)): 宣言の無い分数 kFrame の扱い(案B "snap" 既定 / 案A "reject")を
   // **測るための読み口**。QA・実験ハーネスが両案を同じ html で切り替えて比較する
   // (`bodyedit.minimize` の HP.beMinKeepLayerMode と同じ流儀)。**力学には接続しない**。
-  kFrameUndeclaredMode:(m)=>{ if(m!==undefined && KFRAME_UNDECLARED_MODES.indexOf(m)>=0) kFrameUndeclaredMode=m; return kFrameUndeclaredMode; },
-  KFRAME_APPROXES:()=>KFRAME_APPROXES.slice(), KFRAME_APPROXES_CALIBRATION:()=>KFRAME_APPROXES_CALIBRATION.slice(),
+  kFrameUndeclaredMode:()=>"keep",   // 第293便a(R141): 丸め/拒否のモードは撤去 —— 互換の stub(引数は無視・常に "keep")
+  KFRAME_APPROXES:()=>KFRAME_APPROXES.slice(),
   STAB_ESCAPE_MUL, STAB_DIVERGE_MUL,
   AI_EXAMPLE_DEFAULT_ID, presetForAIBase,   // 第181便: 暗黙の少数ショット例の固定先(AI_EXAMPLE_MAX は撤廃)
   scaleEffNow,  // 第104便: ベースのスケール(タグ一括設定)のQA用 — 実効4指数の読み口(表示専用)

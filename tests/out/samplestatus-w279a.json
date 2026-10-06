@@ -12,32 +12,32 @@
   ],
   "provenanceVersion": "w272e-1",
   "target": "beta/index.html",
-  "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
-  "generatedAt": "2026-10-04T22:20:07.164Z",
+  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
+  "generatedAt": "2026-10-06T00:13:42.727Z",
   "inputs": [
    {
     "file": "tests/data-w279a-samplestatus-src.json",
-    "bytes": 94683,
-    "sha256": "d5b641d6f719ab96ab918c4d688bc87dda34af6b452a15531eea80527becffd6",
-    "mtime": "2026-10-04T17:15:29.163Z"
+    "bytes": 94717,
+    "sha256": "9dc6cf56ed17be9db0b303cbb7e90488edccf50d305654d135e7bc9bf46755e4",
+    "mtime": "2026-10-05T20:53:28.454Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838596,
-    "sha256": "79d8315b77e6e8dae08a222d40b7560b766cdc30aedc80499d2589d746c474b2",
-    "mtime": "2026-10-04T21:34:05.312Z"
+    "bytes": 1838815,
+    "sha256": "7b38144d574b1cd2df6d1f31e98b58a1b22fabbf8649dbf683c7917904c5d15b",
+    "mtime": "2026-10-06T00:08:33.907Z"
    },
    {
     "file": "tests/out/charonwin-w278b.json",
-    "bytes": 90756,
-    "sha256": "2e995ea660994e6dd4425ad38e8728f4b2a3e77186d3176883d0ae60b4ccf35b",
-    "mtime": "2026-10-04T17:36:51.067Z"
+    "bytes": 90733,
+    "sha256": "f4190cb02ac06c65c47de18c3aaf2abb79bc60fcfa8a007dd28296e5575ec108",
+    "mtime": "2026-10-05T20:56:47.654Z"
    },
    {
     "file": "docs/SAMPLE_STATUS_v1.45.md",
-    "bytes": 148014,
-    "sha256": "dccb9bb85daf441d514ae7c9804d763dad21dd1aae12539cb0435fecb60055ca",
-    "mtime": "2026-10-04T22:20:07.148Z"
+    "bytes": 155103,
+    "sha256": "affda76f9ac91b8fedf2e3790cd2d525e6ad3c7d3baaa91e88505d16428daf60",
+    "mtime": "2026-10-06T00:13:42.711Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
@@ -105,9 +105,9 @@
   "codeSha256": "159cdef209c1880f26ad5c2c30aff9a6d5a095945cbf44e860edf5c310f6c4e2",
   "evidenceQa": {
    "file": "tests/out/qa-results-full-beta.json",
-   "commit": "b964d2dc17f837a85e3f9a77c910aea991012578",
-   "date": "2026-10-04T05:53:11.347Z",
-   "pass": 1036
+   "commit": "77f9f6f6a87edf5e92be4cf232967d70342c69f3",
+   "date": "2026-10-05T00:00:07.836Z",
+   "pass": 1044
   }
  },
  "tally": {
@@ -401,28 +401,40 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 14352,
+     "ms": 17064,
      "tests": [
       {
        "id": "new.gclock",
-       "ms": 14146,
+       "ms": 16799,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "shot.regress-gclock",
-       "ms": 178,
+       "ms": 238,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gclock",
-       "ms": 28,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -579,22 +591,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 56,
+     "ms": 67,
      "tests": [
       {
        "id": "preset.grcal",
-       "ms": 41,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "grcal.clocks",
-       "ms": 15,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       },
@@ -762,22 +786,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 164,
+     "ms": 150,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 116,
+       "ms": 110,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalGps",
-       "ms": 48,
+       "ms": 40,
        "pass": true,
        "via": "targetIds"
       }
@@ -933,16 +969,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 167,
+     "ms": 161,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 116,
+       "ms": 110,
        "pass": true,
        "via": "claims+targetIds"
       },
@@ -1104,22 +1152,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 143,
+     "ms": 148,
      "tests": [
       {
        "id": "behavior.grcal3",
-       "ms": 116,
+       "ms": 110,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.grcalShapiro",
-       "ms": 27,
+       "ms": 38,
        "pass": true,
        "via": "targetIds"
       }
@@ -1276,16 +1336,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 15,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.projectile",
-       "ms": 15,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       },
@@ -1448,40 +1520,52 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 8,
-     "ms": 1116,
+     "ms": 1381,
      "tests": [
       {
        "id": "echo.leapfrog-return",
-       "ms": 573,
+       "ms": 684,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "echo.hud",
-       "ms": 327,
+       "ms": 436,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-echo",
-       "ms": 141,
+       "ms": 180,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.echo",
-       "ms": 57,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "echo.schema-clamp",
-       "ms": 18,
+       "ms": 5,
        "pass": true,
        "via": "targetIds"
       }
@@ -1637,16 +1721,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 173,
+     "ms": 284,
      "tests": [
       {
        "id": "preset.boxtrans",
-       "ms": 173,
+       "ms": 284,
        "pass": true,
        "via": "targetIds"
       }
@@ -1802,16 +1898,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 228,
+     "ms": 265,
      "tests": [
       {
        "id": "preset.boxrot",
-       "ms": 228,
+       "ms": 265,
        "pass": true,
        "via": "targetIds"
       }
@@ -1967,16 +2075,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 300,
+     "ms": 408,
      "tests": [
       {
        "id": "preset.boxexpand",
-       "ms": 300,
+       "ms": 408,
        "pass": true,
        "via": "targetIds"
       }
@@ -2132,22 +2252,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 510,
+     "ms": 603,
      "tests": [
       {
        "id": "shot.regress-boxcomoving",
-       "ms": 416,
+       "ms": 434,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxcomoving",
-       "ms": 94,
+       "ms": 169,
        "pass": true,
        "via": "targetIds"
       }
@@ -2303,22 +2435,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 383,
+     "ms": 583,
      "tests": [
       {
        "id": "behavior.boxbound",
-       "ms": 344,
+       "ms": 489,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.boxbound",
-       "ms": 39,
+       "ms": 94,
        "pass": true,
        "via": "targetIds"
       }
@@ -2474,16 +2618,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 124,
+     "ms": 204,
      "tests": [
       {
        "id": "preset.boxbreath",
-       "ms": 124,
+       "ms": 204,
        "pass": true,
        "via": "targetIds"
       }
@@ -2639,28 +2795,40 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 177,
+     "ms": 216,
      "tests": [
       {
        "id": "shot.regress-boxredshift",
-       "ms": 126,
+       "ms": 148,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "box.photon-abc",
-       "ms": 30,
+       "ms": 44,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.boxredshift",
-       "ms": 21,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -2816,24 +2984,36 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 191,
+     "ms": 284,
      "tests": [
       {
-       "id": "behavior.probeH",
-       "ms": 97,
-       "pass": true,
-       "via": "claims+targetIds"
-      },
-      {
        "id": "preset.probeH",
-       "ms": 94,
+       "ms": 152,
        "pass": true,
        "via": "targetIds"
+      },
+      {
+       "id": "behavior.probeH",
+       "ms": 132,
+       "pass": true,
+       "via": "claims+targetIds"
       }
      ]
     }
@@ -2987,40 +3167,52 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 11,
-     "ms": 2256,
+     "ms": 2784,
      "tests": [
       {
        "id": "freebox.pressure-expand",
-       "ms": 1244,
+       "ms": 1613,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.freebox",
-       "ms": 353,
-       "pass": true,
-       "via": "targetIds"
-      },
-      {
-       "id": "freebox.graph-measured",
-       "ms": 351,
+       "ms": 494,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-freebox",
-       "ms": 291,
+       "ms": 347,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "freebox.graph-measured",
+       "ms": 309,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.no-rail-badge",
-       "ms": 11,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -3176,22 +3368,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4045,
+     "ms": 5509,
      "tests": [
       {
        "id": "preset.cosmicweb",
-       "ms": 4045,
+       "ms": 5508,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.cosmicweb",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -3371,28 +3575,40 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 10869,
+     "ms": 14430,
      "tests": [
       {
        "id": "shot.regress-galaxy",
-       "ms": 6623,
+       "ms": 8872,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.galaxy",
-       "ms": 4246,
+       "ms": 5557,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxy-outerboost",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -3548,22 +3764,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 71533,
+     "ms": 95641,
      "tests": [
       {
        "id": "claim.galaxystd-outerboost",
-       "ms": 66996,
+       "ms": 89820,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyStd",
-       "ms": 4537,
+       "ms": 5821,
        "pass": true,
        "via": "targetIds"
       }
@@ -3719,22 +3947,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 249193,
+     "ms": 348989,
      "tests": [
       {
        "id": "claim.galaxygeo2-outerboost",
-       "ms": 242266,
+       "ms": 339721,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.galaxyGeo2",
-       "ms": 6927,
+       "ms": 9268,
        "pass": true,
        "via": "targetIds"
       }
@@ -3890,22 +4130,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3538,
+     "ms": 4901,
      "tests": [
       {
        "id": "preset.galaxyDB",
-       "ms": 3538,
+       "ms": 4900,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.galaxydb-contrast",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -4061,34 +4313,46 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 7843,
+     "ms": 10368,
      "tests": [
       {
        "id": "shot.regress-darkrotor",
-       "ms": 4130,
+       "ms": 5697,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.darkrotor",
-       "ms": 3646,
+       "ms": 4592,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.allfree",
-       "ms": 39,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "darkrotor.uphi",
-       "ms": 28,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -4244,22 +4508,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1041,
+     "ms": 1367,
      "tests": [
       {
        "id": "behavior.rotorSolo",
-       "ms": 945,
+       "ms": 1236,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.rotorSolo",
-       "ms": 96,
+       "ms": 131,
        "pass": true,
        "via": "targetIds"
       }
@@ -4415,22 +4691,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4393,
+     "ms": 5742,
      "tests": [
       {
        "id": "claim.nebularotor-contrast",
-       "ms": 4126,
+       "ms": 5407,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaRotor",
-       "ms": 267,
+       "ms": 335,
        "pass": true,
        "via": "targetIds"
       }
@@ -4586,22 +4874,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3583,
+     "ms": 5606,
      "tests": [
       {
        "id": "claim.nebulashell-stress",
-       "ms": 3196,
+       "ms": 5106,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaShell",
-       "ms": 387,
+       "ms": 500,
        "pass": true,
        "via": "targetIds"
       }
@@ -4757,28 +5057,40 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 17510,
+     "ms": 23980,
      "tests": [
       {
        "id": "claim.nebulabipolar-multiseed",
-       "ms": 12641,
+       "ms": 17351,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "claim.nebulabipolar-polar",
-       "ms": 4705,
+       "ms": 6408,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.nebulaBipolar",
-       "ms": 164,
+       "ms": 221,
        "pass": true,
        "via": "targetIds"
       }
@@ -4934,16 +5246,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3333,
+     "ms": 4697,
      "tests": [
       {
        "id": "preset.bhCore",
-       "ms": 3333,
+       "ms": 4697,
        "pass": true,
        "via": "targetIds"
       },
@@ -5117,16 +5441,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 3205,
+     "ms": 4056,
      "tests": [
       {
        "id": "preset.bhCoreTilt",
-       "ms": 3205,
+       "ms": 4056,
        "pass": true,
        "via": "targetIds"
       }
@@ -5282,22 +5618,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5839,
+     "ms": 7542,
      "tests": [
       {
        "id": "claim.massladder",
-       "ms": 5218,
+       "ms": 6836,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.massLadder",
-       "ms": 621,
+       "ms": 706,
        "pass": true,
        "via": "targetIds"
       }
@@ -5453,22 +5801,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 25256,
+     "ms": 31354,
      "tests": [
       {
        "id": "collapse.rotation",
-       "ms": 23618,
+       "ms": 29253,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.collapse",
-       "ms": 1638,
+       "ms": 2101,
        "pass": true,
        "via": "targetIds"
       },
@@ -5631,16 +5991,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6687,
+     "ms": 9023,
      "tests": [
       {
        "id": "preset.axisBarStill",
-       "ms": 6687,
+       "ms": 9023,
        "pass": true,
        "via": "targetIds"
       }
@@ -5797,16 +6169,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6145,
+     "ms": 8779,
      "tests": [
       {
        "id": "preset.axisBarArms",
-       "ms": 6145,
+       "ms": 8779,
        "pass": true,
        "via": "targetIds"
       }
@@ -5963,16 +6347,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 5954,
+     "ms": 8017,
      "tests": [
       {
        "id": "preset.axisBarReach",
-       "ms": 5954,
+       "ms": 8017,
        "pass": true,
        "via": "targetIds"
       }
@@ -6128,16 +6524,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1226,
+     "ms": 1825,
      "tests": [
       {
        "id": "preset.selfRotor",
-       "ms": 1226,
+       "ms": 1825,
        "pass": true,
        "via": "targetIds"
       },
@@ -6311,22 +6719,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3713,
+     "ms": 4735,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiral",
-       "ms": 3713,
+       "ms": 4734,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.galaxyMesh",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -6495,16 +6915,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 7462,
+     "ms": 9537,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToy",
-       "ms": 7462,
+       "ms": 9537,
        "pass": true,
        "via": "targetIds"
       }
@@ -6666,16 +7098,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 2101,
+     "ms": 2397,
      "tests": [
       {
        "id": "preset.galaxyMeshSpiralGeoToyLite",
-       "ms": 2101,
+       "ms": 2397,
        "pass": true,
        "via": "targetIds"
       }
@@ -6885,16 +7329,28 @@
       "sec": 3,
       "share": 3,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1794,
+     "ms": 2310,
      "tests": [
       {
        "id": "preset.galaxyAnalogyBH",
-       "ms": 1794,
+       "ms": 2310,
        "pass": true,
        "via": "targetIds"
       }
@@ -7060,6 +7516,18 @@
      {
       "key": "contractrange289",
       "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
       "share": "all",
       "always": false
      }
@@ -7232,16 +7700,28 @@
       "sec": 135,
       "share": 3,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 85,
+     "ms": 99,
      "tests": [
       {
        "id": "behavior.tilt90Copy",
-       "ms": 85,
+       "ms": 99,
        "pass": true,
        "via": "targetIds"
       }
@@ -7403,16 +7883,28 @@
       "sec": 135,
       "share": 3,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 12871,
+     "ms": 14941,
      "tests": [
       {
        "id": "behavior.tilt90LayersCopy",
-       "ms": 12871,
+       "ms": 14941,
        "pass": true,
        "via": "targetIds"
       }
@@ -7591,6 +8083,18 @@
      {
       "key": "contractrange289",
       "sec": 10,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
       "share": "all",
       "always": false
      }
@@ -7781,6 +8285,18 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
@@ -7957,6 +8473,18 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
@@ -8128,16 +8656,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1088,
+     "ms": 1290,
      "tests": [
       {
        "id": "preset.shapeToyCluster",
-       "ms": 1088,
+       "ms": 1290,
        "pass": true,
        "via": "targetIds"
       }
@@ -8306,16 +8846,28 @@
       "sec": 171,
       "share": 6,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1521,
+     "ms": 1865,
      "tests": [
       {
        "id": "preset.shapeToyDisk",
-       "ms": 1521,
+       "ms": 1865,
        "pass": true,
        "via": "targetIds"
       }
@@ -8496,16 +9048,28 @@
       "sec": 85,
       "share": 4,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 583,
+     "ms": 776,
      "tests": [
       {
        "id": "preset.shapeToyArm",
-       "ms": 583,
+       "ms": 776,
        "pass": true,
        "via": "targetIds"
       }
@@ -8667,34 +9231,46 @@
       "sec": 171,
       "share": 6,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 14435,
+     "ms": 18260,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 10888,
+       "ms": 13899,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 3330,
+       "ms": 4112,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 135,
+       "ms": 158,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 82,
+       "ms": 91,
        "pass": true,
        "via": "targetIds"
       }
@@ -8857,16 +9433,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 986,
+     "ms": 1203,
      "tests": [
       {
        "id": "preset.shapeToyClusterCore",
-       "ms": 986,
+       "ms": 1203,
        "pass": true,
        "via": "targetIds"
       }
@@ -9035,16 +9623,28 @@
       "sec": 171,
       "share": 6,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1490,
+     "ms": 1931,
      "tests": [
       {
        "id": "preset.shapeToyDiskCore",
-       "ms": 1490,
+       "ms": 1931,
        "pass": true,
        "via": "targetIds"
       }
@@ -9213,16 +9813,28 @@
       "sec": 171,
       "share": 6,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 568,
+     "ms": 757,
      "tests": [
       {
        "id": "preset.shapeToyArmCore",
-       "ms": 568,
+       "ms": 757,
        "pass": true,
        "via": "targetIds"
       }
@@ -9384,34 +9996,46 @@
       "sec": 171,
       "share": 6,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 14435,
+     "ms": 18260,
      "tests": [
       {
        "id": "behavior.spiralGeometry",
-       "ms": 10888,
+       "ms": 13899,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 3330,
+       "ms": 4112,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.shapeToySpiral",
-       "ms": 135,
+       "ms": 158,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "docs.spiralRef",
-       "ms": 82,
+       "ms": 91,
        "pass": true,
        "via": "targetIds"
       }
@@ -9568,22 +10192,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 179,
+     "ms": 233,
      "tests": [
       {
        "id": "shot.regress-lensing",
-       "ms": 148,
+       "ms": 194,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lensing",
-       "ms": 31,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -9739,16 +10375,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 26,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.spinlens",
-       "ms": 26,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       },
@@ -9910,16 +10558,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 55,
+     "ms": 86,
      "tests": [
       {
        "id": "preset.blens",
-       "ms": 35,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       },
@@ -10081,22 +10741,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 384,
+     "ms": 499,
      "tests": [
       {
        "id": "preset.reddening",
-       "ms": 357,
+       "ms": 461,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "claim.reddening",
-       "ms": 27,
+       "ms": 38,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -10294,28 +10966,40 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 31234,
+     "ms": 37790,
      "tests": [
       {
        "id": "behavior.gas",
-       "ms": 26674,
+       "ms": 32444,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-gas",
-       "ms": 2362,
+       "ms": 2697,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gas",
-       "ms": 2198,
+       "ms": 2649,
        "pass": true,
        "via": "targetIds"
       }
@@ -10471,28 +11155,40 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 15543,
+     "ms": 19711,
      "tests": [
       {
        "id": "behavior.pressure",
-       "ms": 12230,
+       "ms": 15502,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.pressure",
-       "ms": 2069,
+       "ms": 2596,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "freebox.pressure-expand",
-       "ms": 1244,
+       "ms": 1613,
        "pass": true,
        "via": "targetIds"
       }
@@ -10648,34 +11344,46 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 831,
+     "ms": 1118,
      "tests": [
       {
        "id": "behavior.conduction",
-       "ms": 646,
+       "ms": 902,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.conduction",
-       "ms": 113,
+       "ms": 161,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-zero-cost",
-       "ms": 44,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "conduction.pinned-bath",
-       "ms": 28,
+       "ms": 16,
        "pass": true,
        "via": "targetIds"
       }
@@ -10831,16 +11539,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 1088,
+     "ms": 1357,
      "tests": [
       {
        "id": "preset.frictionHeat",
-       "ms": 1088,
+       "ms": 1357,
        "pass": true,
        "via": "targetIds"
       }
@@ -10996,16 +11716,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 13,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.coolrace",
-       "ms": 13,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -11167,28 +11899,40 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 3737,
+     "ms": 4854,
      "tests": [
       {
        "id": "shot.regress-convection",
-       "ms": 2037,
+       "ms": 2631,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.convection",
-       "ms": 1674,
+       "ms": 2193,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "perf.convection-timescale",
-       "ms": 26,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       },
@@ -11350,16 +12094,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2607,
+     "ms": 3034,
      "tests": [
       {
        "id": "preset.buoyancy",
-       "ms": 2607,
+       "ms": 3034,
        "pass": true,
        "via": "targetIds"
       },
@@ -11521,16 +12277,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1784,
+     "ms": 2307,
      "tests": [
       {
        "id": "preset.cooling",
-       "ms": 1784,
+       "ms": 2307,
        "pass": true,
        "via": "targetIds"
       },
@@ -11692,16 +12460,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 917,
+     "ms": 1212,
      "tests": [
       {
        "id": "preset.emergent",
-       "ms": 917,
+       "ms": 1212,
        "pass": true,
        "via": "targetIds"
       },
@@ -11869,22 +12649,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2050,
+     "ms": 2560,
      "tests": [
       {
        "id": "preset.emergent2",
-       "ms": 2049,
+       "ms": 2560,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "phasechange.emergent2",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       },
@@ -12046,16 +12838,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 869,
+     "ms": 1178,
      "tests": [
       {
        "id": "preset.chain2",
-       "ms": 869,
+       "ms": 1178,
        "pass": true,
        "via": "targetIds"
       },
@@ -12224,16 +13028,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 1196,
+     "ms": 1560,
      "tests": [
       {
        "id": "preset.chaincycle",
-       "ms": 1196,
+       "ms": 1560,
        "pass": true,
        "via": "targetIds"
       },
@@ -12407,28 +13223,40 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 795,
+     "ms": 809,
      "tests": [
       {
        "id": "behavior.earthMoon",
-       "ms": 361,
+       "ms": 467,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoon",
-       "ms": 305,
+       "ms": 193,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "shot.regress-earthMoon",
-       "ms": 129,
+       "ms": 149,
        "pass": true,
        "via": "targetIds"
       }
@@ -12590,22 +13418,34 @@
       "sec": 4,
       "share": 4,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1599,
+     "ms": 1685,
      "tests": [
       {
        "id": "behavior.earthMoonFree",
-       "ms": 1349,
+       "ms": 1663,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.earthMoonFree",
-       "ms": 250,
+       "ms": 22,
        "pass": true,
        "via": "targetIds"
       }
@@ -12651,23 +13491,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 41.28,
+     "wallSec": 35.311,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 41.28,
+       "wallSec": 35.311,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 85.525,
+       "wallSec": 78.908,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 85.525,
-     "reusedH2Sec": 85.525,
+     "reusedSec": 78.908,
+     "reusedH2Sec": 78.908,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -12814,16 +13654,28 @@
       "sec": 85,
       "share": 4,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 64,
+     "ms": 54,
      "tests": [
       {
        "id": "preset.earthMoonReal",
-       "ms": 64,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -12985,13 +13837,44 @@
       "sec": 85,
       "share": 4,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
-     "n": 0,
-     "ms": 0,
-     "tests": []
+     "n": 3,
+     "ms": 4254,
+     "tests": [
+      {
+       "id": "behavior.tideGate",
+       "ms": 4189,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.earthMoonTide",
+       "ms": 62,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.earthMoonTide",
+       "ms": 3,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
     }
    }
   },
@@ -13186,16 +14069,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 97,
      "tests": [
       {
        "id": "preset.earthMoonRealKF1",
-       "ms": 57,
+       "ms": 97,
        "pass": true,
        "via": "targetIds"
       }
@@ -13212,7 +14107,7 @@
    "status": {
     "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
     "objective": "met",
-    "state": "gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級",
+    "state": "合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -13221,12 +14116,12 @@
     ],
     "en": {
      "purpose": "Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect",
-     "state": "gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4",
+     "state": "solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4",
      "mismatch": null,
      "outlook": null,
-     "brief": "Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4. Out of calibration scope."
+     "brief": "Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect. Met: solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4. Out of calibration scope."
     },
-    "brief": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"
+    "brief": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る。達・合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -13357,13 +14252,56 @@
       "sec": 953,
       "share": 2,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "swing293",
+      "sec": 249,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
-     "n": 0,
-     "ms": 0,
-     "tests": []
+     "n": 4,
+     "ms": 875,
+     "tests": [
+      {
+       "id": "behavior.dragCoreGate",
+       "ms": 786,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.earthMoonInertial",
+       "ms": 75,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "preset.earthMoonInertial",
+       "ms": 13,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "docs.dragCoreFit",
+       "ms": 1,
+       "pass": true,
+       "via": "targetIds"
+      }
+     ]
     }
    }
   },
@@ -13527,16 +14465,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 45,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.emAuditNewton",
-       "ms": 45,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       },
@@ -13724,16 +14674,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 73,
+     "ms": 66,
      "tests": [
       {
        "id": "preset.emAuditDFM",
-       "ms": 73,
+       "ms": 66,
        "pass": true,
        "via": "targetIds"
       },
@@ -13785,23 +14747,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.311,
+     "wallSec": 1.028,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.311,
+       "wallSec": 1.028,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 3.027,
+       "wallSec": 2.608,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 3.027,
-     "reusedH2Sec": 3.027,
+     "reusedSec": 2.608,
+     "reusedH2Sec": 2.608,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -13936,16 +14898,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "swing293",
+      "sec": 249,
+      "share": 2,
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 17,
+     "ms": 37,
      "tests": [
       {
        "id": "preset.emAuditSolar",
-       "ms": 17,
+       "ms": 37,
        "pass": true,
        "via": "targetIds"
       },
@@ -14120,16 +15100,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 68,
+     "ms": 124,
      "tests": [
       {
        "id": "preset.earthMoonDiagOne",
-       "ms": 68,
+       "ms": 124,
        "pass": true,
        "via": "targetIds"
       }
@@ -14297,22 +15289,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1246,
+     "ms": 1418,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 1159,
+       "ms": 1323,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAudit",
-       "ms": 87,
+       "ms": 95,
        "pass": true,
        "via": "targetIds"
       }
@@ -14480,22 +15484,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1217,
+     "ms": 1401,
      "tests": [
       {
        "id": "behavior.qlockRadial",
-       "ms": 1159,
+       "ms": 1323,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.qLockRadialAuditQ3",
-       "ms": 58,
+       "ms": 78,
        "pass": true,
        "via": "targetIds"
       }
@@ -14657,22 +15673,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 523,
+     "ms": 665,
      "tests": [
       {
        "id": "behavior.mercury-builtin",
-       "ms": 502,
+       "ms": 652,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.mercury",
-       "ms": 21,
+       "ms": 13,
        "pass": true,
        "via": "targetIds"
       }
@@ -14719,23 +15747,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.799,
+     "wallSec": 2.575,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.799,
+       "wallSec": 2.575,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 6.43,
+       "wallSec": 5.076,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 6.43,
-     "reusedH2Sec": 6.43,
+     "reusedSec": 5.076,
+     "reusedH2Sec": 5.076,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -14882,16 +15910,28 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 26,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.mercuryReal",
-       "ms": 26,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -15053,16 +16093,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 89,
+     "ms": 68,
      "tests": [
       {
        "id": "preset.mercuryGeoToy3",
-       "ms": 89,
+       "ms": 68,
        "pass": true,
        "via": "targetIds"
       }
@@ -15232,16 +16284,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 51,
+     "ms": 75,
      "tests": [
       {
        "id": "preset.mercuryRealKF1",
-       "ms": 51,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       }
@@ -15289,11 +16353,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 45.146,
+     "wallSec": 39.251,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 45.146,
+       "wallSec": 39.251,
        "reused": false,
        "reusedBy": null
       }
@@ -15434,22 +16498,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 1828,
+     "ms": 2326,
      "tests": [
       {
        "id": "behavior.solarInner",
-       "ms": 1542,
+       "ms": 1949,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.solarInner",
-       "ms": 286,
+       "ms": 377,
        "pass": true,
        "via": "targetIds"
       }
@@ -15495,23 +16571,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 15.267,
+     "wallSec": 12.971,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 15.267,
+       "wallSec": 12.971,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 28.965,
+       "wallSec": 28.016,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 28.965,
-     "reusedH2Sec": 28.965,
+     "reusedSec": 28.016,
+     "reusedH2Sec": 28.016,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15658,22 +16734,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 537,
+     "ms": 643,
      "tests": [
       {
        "id": "behavior.jupiter",
-       "ms": 478,
+       "ms": 573,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.jupiterGalilean",
-       "ms": 59,
+       "ms": 70,
        "pass": true,
        "via": "targetIds"
       }
@@ -15719,23 +16807,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 7.076,
+     "wallSec": 6.602,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 7.076,
+       "wallSec": 6.602,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 15.924,
+       "wallSec": 15.504,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 15.924,
-     "reusedH2Sec": 15.924,
+     "reusedSec": 15.504,
+     "reusedH2Sec": 15.504,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -15918,22 +17006,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4067,
+     "ms": 5202,
      "tests": [
       {
        "id": "behavior.venusReal",
-       "ms": 4040,
+       "ms": 5167,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.venusReal",
-       "ms": 27,
+       "ms": 35,
        "pass": true,
        "via": "targetIds"
       }
@@ -15979,23 +17079,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 5.976,
+     "wallSec": 4.833,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 5.976,
+       "wallSec": 4.833,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 11.913,
+       "wallSec": 10.946,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 11.913,
-     "reusedH2Sec": 11.913,
+     "reusedSec": 10.946,
+     "reusedH2Sec": 10.946,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -16141,6 +17241,18 @@
       "key": "calcause292",
       "sec": 2,
       "share": 20,
+      "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
       "always": false
      }
     ],
@@ -16405,16 +17517,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 21,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.plutoCharonReal",
-       "ms": 21,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       },
@@ -16606,22 +17730,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 11281,
+     "ms": 14272,
      "tests": [
       {
        "id": "behavior.plutoCharonDFM",
-       "ms": 11221,
+       "ms": 14169,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.plutoCharonDFM",
-       "ms": 60,
+       "ms": 103,
        "pass": true,
        "via": "targetIds"
       }
@@ -16802,16 +17938,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 52,
+     "ms": 50,
      "tests": [
       {
        "id": "preset.plutoCharonKF0Control",
-       "ms": 52,
+       "ms": 50,
        "pass": true,
        "via": "targetIds"
       }
@@ -16857,23 +18005,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 78.897,
+     "wallSec": 68.344,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 78.897,
+       "wallSec": 68.344,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 162.614,
+       "wallSec": 157.566,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 162.614,
-     "reusedH2Sec": 162.614,
+     "reusedSec": 157.566,
+     "reusedH2Sec": 157.566,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -17068,16 +18216,28 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 33,
      "tests": [
       {
        "id": "preset.plutoCharonDiagInput",
-       "ms": 30,
+       "ms": 33,
        "pass": true,
        "via": "targetIds"
       }
@@ -17239,16 +18399,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 69,
      "tests": [
       {
        "id": "preset.plutoCharonSyncZero",
-       "ms": 34,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       }
@@ -17416,16 +18588,28 @@
       "sec": 3,
       "share": 3,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 43,
+     "ms": 45,
      "tests": [
       {
        "id": "preset.charonGeoToy3",
-       "ms": 43,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -17473,11 +18657,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 57.247,
+     "wallSec": 48.88,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 57.247,
+       "wallSec": 48.88,
        "reused": false,
        "reusedBy": null
       }
@@ -17618,22 +18802,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 206,
+     "ms": 276,
      "tests": [
       {
        "id": "preset.uranusReal",
-       "ms": 205,
+       "ms": 276,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.uranusReal",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -17679,23 +18875,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.103,
+     "wallSec": 1.656,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.103,
+       "wallSec": 1.656,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 4.081,
+       "wallSec": 3.63,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 4.081,
-     "reusedH2Sec": 4.081,
+     "reusedSec": 3.63,
+     "reusedH2Sec": 3.63,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -17878,16 +19074,28 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 25,
+     "ms": 30,
      "tests": [
       {
        "id": "preset.neptuneReal",
-       "ms": 25,
+       "ms": 30,
        "pass": true,
        "via": "targetIds"
       },
@@ -17937,30 +19145,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 10.712,
+     "wallSec": 9.504,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 10.712,
+       "wallSec": 9.504,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 22.656,
+       "wallSec": 22.168,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 43.637,
+       "wallSec": 41.114,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 66.293,
-     "reusedH2Sec": 22.656,
-     "reusedH4Sec": 43.63700000000001
+     "reusedSec": 63.282,
+     "reusedH2Sec": 22.168,
+     "reusedH4Sec": 41.114
     },
     "regenSteps": [
      {
@@ -18142,22 +19350,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3387,
+     "ms": 3887,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3351,
+       "ms": 3839,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.alphaCenAB",
-       "ms": 36,
+       "ms": 48,
        "pass": true,
        "via": "targetIds"
       }
@@ -18344,22 +19564,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3401,
+     "ms": 3913,
      "tests": [
       {
        "id": "behavior.alphaCenAB",
-       "ms": 3351,
+       "ms": 3839,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.alphaCenABDFM",
-       "ms": 50,
+       "ms": 74,
        "pass": true,
        "via": "targetIds"
       }
@@ -18403,30 +19635,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.365,
+     "wallSec": 5.745,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.365,
+       "wallSec": 5.745,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.716,
+       "wallSec": 13.211,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 24.936,
+       "wallSec": 24.07,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 37.652,
-     "reusedH2Sec": 12.716,
-     "reusedH4Sec": 24.936
+     "reusedSec": 37.281,
+     "reusedH2Sec": 13.211,
+     "reusedH4Sec": 24.07
     },
     "regenSteps": [
      {
@@ -18608,22 +19840,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2909,
+     "ms": 3347,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2873,
+       "ms": 3274,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.siriusAB",
-       "ms": 36,
+       "ms": 73,
        "pass": true,
        "via": "targetIds"
       }
@@ -18810,22 +20054,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 2985,
+     "ms": 3351,
      "tests": [
       {
        "id": "behavior.siriusAB",
-       "ms": 2873,
+       "ms": 3274,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.siriusABDFM",
-       "ms": 112,
+       "ms": 77,
        "pass": true,
        "via": "targetIds"
       }
@@ -18872,23 +20128,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 3.825,
+     "wallSec": 3.293,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 3.825,
+       "wallSec": 3.293,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 7.064,
+       "wallSec": 7.949,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 7.064,
-     "reusedH2Sec": 7.064,
+     "reusedSec": 7.949,
+     "reusedH2Sec": 7.949,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -19047,22 +20303,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 39,
+     "ms": 53,
      "tests": [
       {
        "id": "preset.psrDoubleAB",
-       "ms": 38,
+       "ms": 53,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.psrDoubleAB",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "claims+targetIds"
       }
@@ -19285,22 +20553,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 8223,
+     "ms": 9546,
      "tests": [
       {
        "id": "behavior.psrF1",
-       "ms": 8135,
+       "ms": 9471,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.psrDoubleABDFM",
-       "ms": 88,
+       "ms": 75,
        "pass": true,
        "via": "targetIds"
       }
@@ -19457,16 +20737,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 79,
+     "ms": 92,
      "tests": [
       {
        "id": "preset.psrDoubleABGeoToy",
-       "ms": 79,
+       "ms": 92,
        "pass": true,
        "via": "targetIds"
       }
@@ -19641,16 +20933,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 77,
+     "ms": 80,
      "tests": [
       {
        "id": "preset.psrDoubleABSpinCal",
-       "ms": 77,
+       "ms": 80,
        "pass": true,
        "via": "targetIds"
       }
@@ -19697,23 +21001,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 2.819,
+     "wallSec": 2.469,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 2.819,
+       "wallSec": 2.469,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 5.555,
+       "wallSec": 5.645,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 5.555,
-     "reusedH2Sec": 5.555,
+     "reusedSec": 5.645,
+     "reusedH2Sec": 5.645,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -19902,16 +21206,28 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 47,
+     "ms": 85,
      "tests": [
       {
        "id": "preset.psrJ1757DFM",
-       "ms": 47,
+       "ms": 85,
        "pass": true,
        "via": "targetIds"
       }
@@ -19958,23 +21274,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 1.309,
+     "wallSec": 1.173,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 1.309,
+       "wallSec": 1.173,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 2.172,
+       "wallSec": 2.978,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 2.172,
-     "reusedH2Sec": 2.172,
+     "reusedSec": 2.978,
+     "reusedH2Sec": 2.978,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -20163,16 +21479,28 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 24,
+     "ms": 27,
      "tests": [
       {
        "id": "preset.psrJ1946DFM",
-       "ms": 24,
+       "ms": 27,
        "pass": true,
        "via": "targetIds"
       }
@@ -20347,16 +21675,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 47,
+     "ms": 29,
      "tests": [
       {
        "id": "preset.psrDoubleABPN",
-       "ms": 47,
+       "ms": 29,
        "pass": true,
        "via": "targetIds"
       }
@@ -20531,16 +21871,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 57,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.psrJ1757PN",
-       "ms": 57,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -20715,16 +22067,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 30,
+     "ms": 34,
      "tests": [
       {
        "id": "preset.psrJ1946PN",
-       "ms": 30,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -20899,16 +22263,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 93,
+     "ms": 122,
      "tests": [
       {
        "id": "preset.psrDoubleABCF",
-       "ms": 93,
+       "ms": 122,
        "pass": true,
        "via": "targetIds"
       }
@@ -21083,16 +22459,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 71,
+     "ms": 78,
      "tests": [
       {
        "id": "preset.psrJ1757CF",
-       "ms": 71,
+       "ms": 78,
        "pass": true,
        "via": "targetIds"
       }
@@ -21267,16 +22655,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 61,
+     "ms": 85,
      "tests": [
       {
        "id": "preset.psrJ1946CF",
-       "ms": 61,
+       "ms": 85,
        "pass": true,
        "via": "targetIds"
       }
@@ -21323,23 +22723,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 20.164,
+     "wallSec": 17.064,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 20.164,
+       "wallSec": 17.064,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 38.269,
+       "wallSec": 35.178,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 38.269,
-     "reusedH2Sec": 38.269,
+     "reusedSec": 35.178,
+     "reusedH2Sec": 35.178,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -21480,16 +22880,28 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 42,
+     "ms": 49,
      "tests": [
       {
        "id": "preset.psrB1534",
-       "ms": 42,
+       "ms": 49,
        "pass": true,
        "via": "targetIds"
       }
@@ -21712,16 +23124,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 61,
+     "ms": 81,
      "tests": [
       {
        "id": "preset.psrB1534DFM",
-       "ms": 61,
+       "ms": 81,
        "pass": true,
        "via": "targetIds"
       }
@@ -21896,16 +23320,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 62,
+     "ms": 67,
      "tests": [
       {
        "id": "preset.psrB1534CF",
-       "ms": 62,
+       "ms": 67,
        "pass": true,
        "via": "targetIds"
       }
@@ -22067,16 +23503,28 @@
       "sec": 4,
       "share": 4,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 81,
      "tests": [
       {
        "id": "preset.compactForceToy",
-       "ms": 38,
+       "ms": 81,
        "pass": true,
        "via": "targetIds"
       }
@@ -22093,7 +23541,7 @@
    "status": {
     "purpose": "法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る",
     "objective": "met",
-    "state": "gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装",
+    "state": "合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装",
     "calibration": "out-of-scope",
     "mismatch": null,
     "outlook": null,
@@ -22102,12 +23550,12 @@
     ],
     "en": {
      "purpose": "Run inertial-law dragging only where declared; measure apsidal advance",
-     "state": "gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain",
+     "state": "solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain",
      "mismatch": null,
      "outlook": null,
-     "brief": "Run inertial-law dragging only where declared; measure apsidal advance. Met: gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."
+     "brief": "Run inertial-law dragging only where declared; measure apsidal advance. Met: solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain. Out of calibration scope."
     },
-    "brief": "法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装。較正対象外。"
+    "brief": "法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る。達・合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装。較正対象外。"
    },
    "ledgerSource": null,
    "timing": {
@@ -22244,28 +23692,40 @@
       "sec": 3,
       "share": 3,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 3205,
+     "ms": 3749,
      "tests": [
       {
        "id": "preset.inertialDragPair",
-       "ms": 2303,
+       "ms": 2652,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.inertialDragGate",
-       "ms": 872,
+       "ms": 1036,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.inertialDragPair",
-       "ms": 30,
+       "ms": 61,
        "pass": true,
        "via": "targetIds"
       }
@@ -22427,16 +23887,28 @@
       "sec": 4,
       "share": 4,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 67,
+     "ms": 54,
      "tests": [
       {
        "id": "preset.boxBinaryToy",
-       "ms": 67,
+       "ms": 54,
        "pass": true,
        "via": "targetIds"
       }
@@ -22598,16 +24070,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 97,
+     "ms": 163,
      "tests": [
       {
        "id": "preset.spaceMeshBinaryToy",
-       "ms": 97,
+       "ms": 163,
        "pass": true,
        "via": "targetIds"
       }
@@ -22653,23 +24137,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.602,
+     "wallSec": 0.509,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.602,
+       "wallSec": 0.509,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 1.374,
+       "wallSec": 1.366,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 1.374,
-     "reusedH2Sec": 1.374,
+     "reusedSec": 1.366,
+     "reusedH2Sec": 1.366,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -22798,22 +24282,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4011,
+     "ms": 4677,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3985,
+       "ms": 4632,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.gw150914",
-       "ms": 26,
+       "ms": 45,
        "pass": true,
        "via": "targetIds"
       }
@@ -23000,22 +24496,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 4038,
+     "ms": 4689,
      "tests": [
       {
        "id": "behavior.gw150914",
-       "ms": 3985,
+       "ms": 4632,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.gw150914DFM",
-       "ms": 53,
+       "ms": 57,
        "pass": true,
        "via": "targetIds"
       }
@@ -23061,23 +24569,23 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 0.115,
+     "wallSec": 0.07,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 0.115,
+       "wallSec": 0.07,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 0.112,
+       "wallSec": 0.094,
        "reused": true,
        "reusedBy": "reuse-dt2"
       }
      ],
-     "reusedSec": 0.112,
-     "reusedH2Sec": 0.112,
+     "reusedSec": 0.094,
+     "reusedH2Sec": 0.094,
      "reusedH4Sec": 0
     },
     "regenSteps": [
@@ -23206,16 +24714,28 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 36,
+     "ms": 69,
      "tests": [
       {
        "id": "preset.gw150914Merge4s",
-       "ms": 36,
+       "ms": 69,
        "pass": true,
        "via": "targetIds"
       }
@@ -23371,16 +24891,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 38,
+     "ms": 39,
      "tests": [
       {
        "id": "preset.gw150914SpinDipole",
-       "ms": 38,
+       "ms": 39,
        "pass": true,
        "via": "targetIds"
       }
@@ -23542,22 +25074,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 3367,
+     "ms": 4384,
      "tests": [
       {
        "id": "preset.tuc47",
-       "ms": 3367,
+       "ms": 4383,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.tuc47",
-       "ms": 0,
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       }
@@ -23719,16 +25263,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 6162,
+     "ms": 7881,
      "tests": [
       {
        "id": "preset.tuc47DFM",
-       "ms": 6162,
+       "ms": 7881,
        "pass": true,
        "via": "targetIds"
       }
@@ -23896,22 +25452,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 5307,
+     "ms": 6847,
      "tests": [
       {
        "id": "preset.ngc3198",
-       "ms": 5306,
+       "ms": 6847,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "behavior.ngc3198",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -24085,16 +25653,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 11680,
+     "ms": 14684,
      "tests": [
       {
        "id": "preset.ngc3198DFM",
-       "ms": 11680,
+       "ms": 14684,
        "pass": true,
        "via": "targetIds"
       }
@@ -24250,16 +25830,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 19,
+     "ms": 36,
      "tests": [
       {
        "id": "preset.supernovaProg",
-       "ms": 19,
+       "ms": 36,
        "pass": true,
        "via": "targetIds"
       }
@@ -24415,16 +26007,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 15,
+     "ms": 42,
      "tests": [
       {
        "id": "preset.supernovaProgDFM",
-       "ms": 15,
+       "ms": 42,
        "pass": true,
        "via": "targetIds"
       }
@@ -24580,16 +26184,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 474,
+     "ms": 622,
      "tests": [
       {
        "id": "preset.crabRemnant",
-       "ms": 474,
+       "ms": 622,
        "pass": true,
        "via": "targetIds"
       }
@@ -24757,22 +26373,40 @@
       "sec": 85,
       "share": 4,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 6,
-     "ms": 5111,
+     "ms": 6924,
      "tests": [
       {
        "id": "shot.regress-saturn",
-       "ms": 2573,
+       "ms": 3528,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturn",
-       "ms": 2538,
+       "ms": 3395,
+       "pass": true,
+       "via": "targetIds"
+      },
+      {
+       "id": "behavior.saturn-muf-control",
+       "ms": 1,
        "pass": true,
        "via": "targetIds"
       },
@@ -24787,12 +26421,6 @@
        "ms": 0,
        "pass": true,
        "via": "claims"
-      },
-      {
-       "id": "behavior.saturn-kframe-control",
-       "ms": 0,
-       "pass": true,
-       "via": "claims+targetIds"
       }
      ]
     }
@@ -24946,34 +26574,46 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4879,
+     "ms": 6757,
      "tests": [
       {
        "id": "shot.regress-saturnLayered",
-       "ms": 2700,
+       "ms": 3915,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.saturnLayered",
-       "ms": 2161,
+       "ms": 2818,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "core.twolayer",
-       "ms": 17,
+       "ms": 24,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "behavior.saturnLayered",
-       "ms": 1,
+       "ms": 0,
        "pass": true,
        "via": "targetIds"
       }
@@ -25017,30 +26657,30 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 6.093,
+     "wallSec": 5.524,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 6.093,
+       "wallSec": 5.524,
        "reused": false,
        "reusedBy": null
       },
       {
        "tag": "dt/2",
-       "wallSec": 12.817,
+       "wallSec": 12.876,
        "reused": true,
        "reusedBy": "reuse-dt2"
       },
       {
        "tag": "dt/4",
-       "wallSec": 25.601,
+       "wallSec": 24.528,
        "reused": true,
        "reusedBy": "reuse"
       }
      ],
-     "reusedSec": 38.418,
-     "reusedH2Sec": 12.817,
-     "reusedH4Sec": 25.601
+     "reusedSec": 37.403999999999996,
+     "reusedH2Sec": 12.876,
+     "reusedH4Sec": 24.528
     },
     "regenSteps": [
      {
@@ -25186,34 +26826,46 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 9633,
+     "ms": 12987,
      "tests": [
       {
        "id": "zonal.d68-realunit",
-       "ms": 9557,
+       "ms": 12895,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "preset.saturnZonalD68",
-       "ms": 52,
+       "ms": 61,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "zonal.analytic-d68",
-       "ms": 21,
+       "ms": 27,
        "pass": true,
        "via": "claims"
       },
       {
        "id": "zonal.d68-preset",
-       "ms": 3,
+       "ms": 4,
        "pass": true,
        "via": "claims"
       }
@@ -25369,16 +27021,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 27,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.saturnD68Consistent",
-       "ms": 27,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -25534,16 +27198,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 20,
+     "ms": 28,
      "tests": [
       {
        "id": "preset.saturnD68ObsOrbit",
-       "ms": 20,
+       "ms": 28,
        "pass": true,
        "via": "targetIds"
       }
@@ -25591,11 +27267,11 @@
    },
    "timing": {
     "calaudit": {
-     "wallSec": 129.733,
+     "wallSec": 116.155,
      "stages": [
       {
        "tag": "dt",
-       "wallSec": 129.733,
+       "wallSec": 116.155,
        "reused": false,
        "reusedBy": null
       }
@@ -25742,22 +27418,34 @@
       "sec": 2,
       "share": 20,
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 258,
+     "ms": 427,
      "tests": [
       {
        "id": "preset.saturnRingReal",
-       "ms": 230,
+       "ms": 325,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "wave121.ui",
-       "ms": 28,
+       "ms": 102,
        "pass": true,
        "via": "claims"
       }
@@ -25928,16 +27616,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 367,
+     "ms": 429,
      "tests": [
       {
        "id": "preset.saturnRingRealKF1",
-       "ms": 367,
+       "ms": 429,
        "pass": true,
        "via": "targetIds"
       }
@@ -26093,22 +27793,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 4,
-     "ms": 4573,
+     "ms": 6166,
      "tests": [
       {
        "id": "preset.binary",
-       "ms": 4493,
+       "ms": 6078,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "ai.obs-binary",
-       "ms": 80,
+       "ms": 88,
        "pass": true,
        "via": "targetIds"
       },
@@ -26277,22 +27989,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 126,
+     "ms": 156,
      "tests": [
       {
        "id": "shot.regress-fig8",
-       "ms": 108,
+       "ms": 136,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.fig8",
-       "ms": 18,
+       "ms": 20,
        "pass": true,
        "via": "targetIds"
       }
@@ -26448,16 +28172,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 883,
+     "ms": 1104,
      "tests": [
       {
        "id": "preset.counterring",
-       "ms": 883,
+       "ms": 1104,
        "pass": true,
        "via": "targetIds"
       },
@@ -26619,22 +28355,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 3,
-     "ms": 2101,
+     "ms": 2913,
      "tests": [
       {
-       "id": "shot.regress-spinup",
-       "ms": 1068,
+       "id": "preset.spinup",
+       "ms": 1507,
        "pass": true,
        "via": "targetIds"
       },
       {
-       "id": "preset.spinup",
-       "ms": 1032,
+       "id": "shot.regress-spinup",
+       "ms": 1405,
        "pass": true,
        "via": "targetIds"
       },
@@ -26796,16 +28544,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 224,
+     "ms": 270,
      "tests": [
       {
        "id": "preset.pulsarSolo",
-       "ms": 224,
+       "ms": 270,
        "pass": true,
        "via": "targetIds"
       }
@@ -26961,16 +28721,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 136,
+     "ms": 138,
      "tests": [
       {
        "id": "preset.supernovaCore",
-       "ms": 136,
+       "ms": 138,
        "pass": true,
        "via": "targetIds"
       }
@@ -27126,16 +28898,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 122,
+     "ms": 125,
      "tests": [
       {
        "id": "preset.whiteDwarfDFM",
-       "ms": 122,
+       "ms": 125,
        "pass": true,
        "via": "targetIds"
       }
@@ -27291,16 +29075,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 134,
+     "ms": 159,
      "tests": [
       {
        "id": "preset.whiteDwarfBareDFM",
-       "ms": 134,
+       "ms": 159,
        "pass": true,
        "via": "targetIds"
       }
@@ -27456,16 +29252,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 34,
+     "ms": 26,
      "tests": [
       {
        "id": "preset.envelopeShedDFM",
-       "ms": 34,
+       "ms": 26,
        "pass": true,
        "via": "targetIds"
       }
@@ -27621,22 +29429,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 174,
+     "ms": 258,
      "tests": [
       {
        "id": "preset.lfbotTrap",
-       "ms": 90,
+       "ms": 130,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.lfbotTrap",
-       "ms": 84,
+       "ms": 128,
        "pass": true,
        "via": "targetIds"
       }
@@ -27798,16 +29618,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 22,
+     "ms": 18,
      "tests": [
       {
        "id": "preset.layeredCoreDFM",
-       "ms": 22,
+       "ms": 18,
        "pass": true,
        "via": "targetIds"
       }
@@ -27963,16 +29795,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 23,
+     "ms": 25,
      "tests": [
       {
        "id": "preset.spinDipoleBinary",
-       "ms": 23,
+       "ms": 25,
        "pass": true,
        "via": "targetIds"
       }
@@ -28128,22 +29972,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 224,
+     "ms": 236,
      "tests": [
       {
        "id": "behavior.gasCohSurface",
-       "ms": 171,
+       "ms": 202,
        "pass": true,
        "via": "targetIds"
       },
       {
        "id": "preset.gasCohSurface",
-       "ms": 53,
+       "ms": 34,
        "pass": true,
        "via": "targetIds"
       }
@@ -28299,16 +30155,28 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 1,
-     "ms": 25,
+     "ms": 24,
      "tests": [
       {
        "id": "preset.mmPhaseToy",
-       "ms": 25,
+       "ms": 24,
        "pass": true,
        "via": "targetIds"
       }
@@ -28464,22 +30332,34 @@
       "sec": 10,
       "share": "all",
       "always": false
+     },
+     {
+      "key": "corecensus293",
+      "sec": 106,
+      "share": "all",
+      "always": false
+     },
+     {
+      "key": "compose293",
+      "sec": 907,
+      "share": "all",
+      "always": false
      }
     ],
     "qa": {
      "attributed": true,
      "n": 2,
-     "ms": 149,
+     "ms": 90,
      "tests": [
       {
        "id": "claim.starseed-powerball",
-       "ms": 109,
+       "ms": 49,
        "pass": true,
        "via": "claims+targetIds"
       },
       {
        "id": "preset.starSeed",
-       "ms": 40,
+       "ms": 41,
        "pass": true,
        "via": "targetIds"
       }
@@ -28491,22 +30371,22 @@
  "timingNote": {
   "since": "第282便(原仮定者の指示 2026-09-26)",
   "what": "各本の較正走行の壁時計(calaudit の段別)・関与する再生成の段(実測秒/宣言本数・共有)・保存 QA の所要(claims の testId+原稿の qaTargets —— 第283便e・重なりあり)。判定ではない",
-  "regenSteps": 119,
-  "regenSecSum": 27823,
+  "regenSteps": 121,
+  "regenSecSum": 29084,
   "alwaysSec": 5195,
-  "undeclaredSteps": 46,
-  "undeclaredSec": 1884,
-  "qaTotal": 1039,
-  "qaDurationMs": 2502737,
+  "undeclaredSteps": 45,
+  "undeclaredSec": 1883,
+  "qaTotal": 1049,
+  "qaDurationMs": 3190943,
   "reuse": {
    "since": "第284便c",
    "h2": {
     "n": 17,
-    "sec": 421.21400000000017
+    "sec": 403.719
    },
    "h4": {
     "n": 3,
-    "sec": 94.174
+    "sec": 89.71199999999999
    },
    "rule": "h2 = skippedBy \"reuse-dt2\"(同一便の dt/2 の転記)・h4 = skippedBy \"reuse\"(同一契約の dt/4 の転記)。秒は元の走行の壁時計(この走行では掛かっていない)"
   },

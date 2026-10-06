@@ -84,25 +84,25 @@
   "inertialDragPair": {
    "purpose": "法則版 inertial の並進引きずりを宣言した本だけで走らせ近点移動と上界を測る",
    "objective": "met",
-   "state": "gain 0 で既定とビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021 で発散なし・回転引きずりと連鎖は未実装",
+   "state": "合成則 solve が既定・gain 0 でビット同一・Δϖ は限定模型と相対 7e-6・上界 0.0021・回転引きずりと連鎖は未実装",
    "evidence": [
     "tests/out/inertial-w290c.json"
    ],
    "en": {
     "purpose": "Run inertial-law dragging only where declared; measure apsidal advance",
-    "state": "gain 0 bit-identical to default; limited model matched to 7e-6; bound 0.0021; no rotation/chain"
+    "state": "solve rule default; gain 0 bit-identical; limited model to 7e-6; bound 0.0021; no rotation/chain"
    }
   },
   "earthMoonInertial": {
    "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
    "objective": "met",
-   "state": "gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級",
+   "state": "合成則 solve が既定・gain は 1 次元フィットの推定・118 公転で定常・構造の効きは ⟨ρ²⟩ の 1 次で 1e-4 級",
    "evidence": [
     "tests/out/dragcore-w292c.json"
    ],
    "en": {
     "purpose": "Fit the inertial-drag gain to the 8.85-yr apsidal cycle; measure the core's effect",
-    "state": "gain is a 1-D fit estimate; steady over 118 orbits; core acts via <rho^2> at 1e-4"
+    "state": "solve default; gain = 1-D fit estimate; steady 118 orbits; core via <rho^2> at 1e-4"
    }
   },
   "boxBinaryToy": {

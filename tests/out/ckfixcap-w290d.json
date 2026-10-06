@@ -3,22 +3,22 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便d",
   "target": "beta/index.html",
-  "targetSha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
-  "generatedAt": "2026-10-04T18:59:24.549Z",
+  "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
+  "generatedAt": "2026-10-05T21:58:18.032Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5704815,
-    "sha256": "933ad4618a9e75e13dd2be406045334a065021076dab28df9d097313ff6163be",
-    "mtime": "2026-10-04T18:56:49.135Z"
+    "bytes": 5729418,
+    "sha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
+    "mtime": "2026-10-05T20:53:28.406Z"
    }
   ],
   "code": [
    {
     "file": "tests/exp-w290d-ckfixcap.mjs",
-    "bytes": 43525,
-    "sha256": "d21ea96f83db7b3ec290e20a5f08961dfcc8ad77a09cc1347364e88c7e20757e",
-    "mtime": "2026-10-03T18:51:40.583Z"
+    "bytes": 44345,
+    "sha256": "3dbe0b25c2f21660cfb9664e1a82009dbd52302521aa68d0f6b0ce35c44fa13f",
+    "mtime": "2026-10-05T18:54:36.450Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
@@ -39,7 +39,7 @@
     "mtime": "2026-10-02T23:11:02.956Z"
    }
   ],
-  "codeSha256": "071fef82f792edf55adeed1f1c6fdf60d6a89d2eb52eb906af1a5a0a5d7a2bce",
+  "codeSha256": "520a7bb7cd484c8cbd62f64445c2dfc236c179332d33bf159b5773e0a28b67db",
   "harnessVersion": "w290d-ckfixcap-1",
   "loadErrors": 0,
   "ruling": "原仮定者の裁定(第80報)②「指摘を参考に改善」で採る不具合修正(チェックポイントが固定中心の状態を運ばない)",
@@ -102,11 +102,11 @@
    "core": true,
    "consts": [],
    "complete": true,
-   "names": 991,
-   "segments": 900,
-   "closureShare": 0.325
+   "names": 1003,
+   "segments": 912,
+   "closureShare": 0.3262
   },
-  "scopeSha256": "d0ea70979811cb1f51c9f6701b9ee8129be1f334c96e5445aa8f8778398e0275",
+  "scopeSha256": "4f19afedc3d6ce588ea88fd96547dec59129c68e015cfa34b66550007a113fea",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -663,9 +663,9 @@
   },
   "inventory": {
    "code": {
-    "loadSave": "bf4a15590443f757cf6517ec4de90b9d07ff36d592f386f10fc06daa026bdab2",
+    "loadSave": "d79b4a074ed19bbd6aee7afad165c4b6fa734480c8e3a34fd2192381cf824d14",
     "loadSaveBgcAccept": "215e55b1b2a670297c1e52fc55e93a82e59c105053e7b8b556d849d5e2f07a45",
-    "saveHandler": "0622c8087631a8ec197581008118d31ab9466551ebebcfc667362550ad8ae0c9"
+    "saveHandler": "e3e5df644990dc54dee28cd458b8e58c0350ee9d4be948fea3123f6cb9bf2974"
    },
    "saveCodeSameAsBase": true,
    "saveKeys": [
@@ -707,7 +707,7 @@
    "saveCarriesState": false,
    "checkpointSets": {
     "arrs": 116,
-    "sc": 81,
+    "sc": 84,
     "objects": [
      "fixcap",
      "params",
@@ -2697,5 +2697,5 @@
   },
   "ok": true
  },
- "elapsedS": 0.459
+ "elapsedS": 0.386
 }

@@ -37,6 +37,7 @@
 //   'w292a-branch' … 第292便a の枝で器を走らせた実測(正本の elapsedS 1.5 —— Node だけ・正本を読むだけ・1 步も走らせない・他の枝と同じ容器で並走)。
 //   'w292c-branch' … 第292便c の枝で器を走らせた実測(正本の elapsedS 952.5 —— Node の headless・子プロセス 3 本・Chromium なし・他の枝と同じ容器で並走〔負荷平均 1〜3。負荷平均 6〜9 の 1 回目は 1482.7〕)。
 //   'w292d-branch' … 第292便d の枝で器を走らせた実測(正本の elapsedS 約 85 —— Node の headless 1 本・Chromium なし・他の 3 枝と同じ容器で並走)。
+//   'w293c-branch' … 第293便c の枝で器を走らせた実測(正本の elapsedS 60.7〜106.0 —— Node の headless 1 本・Chromium なし・他の枝と同じ容器で並走)。
 //
 // ■ 第282便e(原仮定者の裁定(第72報)・統括の検証項目 R82)
 //   ・段ごとに `volatilePaths`({正本: [JSON Pointer…]})—— 安定 hash で除く欄(**実行時刻・壁時計の所要だけ**)。
@@ -284,7 +285,10 @@ export const REGEN_STEPS = [
   S('shapecrit', 'node tests/exp-w275d-shapecrit.mjs', ['tests/out/shapecrit-w275d.json'], 106, { secSource: 'w281a-chain' }),
   S('dyncenter', 'node tests/exp-w275d-dyncenter.mjs', ['tests/out/dyncenter-w275d.json'], 5),
   S('powerball', 'node tests/exp-w275e-powerball.mjs', ['tests/out/powerball-w275e.json'], 3),
-  S('kfgate', 'node tests/exp-w275a-kfgate.mjs', ['tests/out/kfgate-w275a.json'], 1),
+  // 第293便a(原仮定者の裁定(第83報)・統括の検証項目 R141): 分数 kFrame の案A(拒否)/案B(寄せる)のモード切替を撤去した —— この器は 2 案を同じ html で
+  //   切り替えて測る第275便a の記録で、現行の html では 2 案が同じ挙動(値を保持して警告)になり記録の意味を持たない。**履歴**(再生成しない —— 正本は第275便a の走行のまま)
+  S('kfgate', 'node tests/exp-w275a-kfgate.mjs', ['tests/out/kfgate-w275a.json'], 1, { role: 'history', secSource: '履歴(第293便a で登録 —— 走らせない)',
+    note: '第293便a(第83報・R141): 分数 kFrame の 2 案の切替を撤去した後の html では測れない第275便a の記録。**再生成しない**(計画は常に「履歴」)' }),
   S('presetaxes', 'node tests/exp-w275a-presetaxes.mjs', ['tests/out/presetaxes-w275a.json'], 1),
   S('bgfield', 'node tests/exp-w276a-bgfield.mjs', ['tests/out/bgfield-w276a.json'], 1),
   S('d0audit2', 'node tests/exp-w276a-d0audit2.mjs', ['tests/out/d0sites-w276a.json'], 2),
@@ -682,6 +686,31 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/tide-w292d.json': META_RUN.concat(['/elapsedS', '/diag/run/wallSec', '/diag/half/wallSec', '/cross/runs/*/wallSec']) },
     note: '第292便d: 明示潮汐の門(純関数 6 項・エンジンの 1 回の評価が純関数とビット同一・J の更新と取り直し・サブステップ・足さない本 4 本の未宣言とのビット同一と maxN の上書き・'
       + '復元・xdot/split/lag 0/inertia)と 🌜 の 1 恒星月(ΔJ・ΔΩ・熱・交換の残差・解析式との比・素朴な更新との比較・dt 半分)・引きずりとの交差項(4 条件 × v/xdot × gain 3 点)' }),
+  // ---- 第293便c(原仮定者の裁定(第83報)「どの処理で何ができるのかを整理し、統合先を見定める」「有効に働いていないサンプルでは撤去を検討」・統括の検証項目 R143):
+  //   引きずりとコア構造の棚卸し(内蔵 152 本の宣言数 —— コア V2・layers・dragCore・coreField・relativeDrag の law・spinAxis・コア軸の鍵・明示潮汐)と、
+  //   在位でコア V2 を宣言した本のコアなし対照(2000 步・8 量の最大差・融合/放出の件数・観測層)・分類 A〜D・撤去の可否・層の本と 🌛 の参考の対照。
+  //   Node の headless(html だけを読む —— 他の正本は読まない・1 プロセス)。所要は第293便c の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('corecensus293', 'node tests/exp-w293c-corecensus.mjs', ['tests/out/corecensus-w293c.json'], 106, { secSource: 'w293c-branch', node: true,
+    volatilePaths: { 'tests/out/corecensus-w293c.json': META_RUN.concat(['/elapsedS', '/control/rows/*/wallSec', '/layerBooks/rows/*/wallSec', '/dragCoreRef/rows/*/wallSec']) },
+    note: '第293便c: 4 経路の棚卸し(body の宣言数・変換可能/置換可の数)とコアなし対照 2000 步(x/y/vx/vy/spin/m/mEff/R の最大差・粒子数・融合/放出・最初の差の步・'
+      + 'T_obs/Q/lSw)・分類 A〜D と撤去の可否(本便の適用 0)・層の本は layers を外した対照・🌛 は dragCore を外した対照' }),
+  // ---- 第293便d(原仮定者の裁定(第83報)ブランコ・統括の検証項目 R144): 月の 8.85 年の**摂動停止診断**(診断だけ —— 新しい力は足さない・C_d は再フィットしない)。
+  //   器の中の一時プリセット(🔆 の bodies + 🌛 の physics を 🔆 の単位へ換算)で太陽あり/なし × 慣性引きずりあり/なしの 118 公転(5 条件 + 対照 2)と、
+  //   太陽を途中で消す枝 12 本(瞬時・3 公転で滑らか × 近点/遠点 × 3 法則)× dt 0.016/0.008・再起動の対照・換算の橋(dt 3 段)。Node の headless(子プロセス 3 本 —— workers 3)。
+  //   🌛 の 27 公転窓の近点周期を正本 dragcore-w292c.json から読む(換算の橋の比較だけ)ので dragcore292 の後に置く。所要は第293便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('swing293', 'node tests/exp-w293d-swing.mjs', ['tests/out/swing-w293d.json'], 249, { secSource: 'w293d-branch', node: true, workers: 3, after: ['dragcore292'],
+    volatilePaths: { 'tests/out/swing-w293d.json': META_RUN.concat(['/elapsedS', '/timing/*/wallSec']) },
+    note: '第293便d: 一時プリセット(🔆 の bodies + 🌛 の physics —— 内蔵にしない)の 5 条件(太陽=重力だけ/重力と対和・太陽なし・gain 0)の近点率と周期変動・離心率・恒星月/近点月・u・帳簿と、'
+      + '太陽を途中で消す枝(停止の跳び 0・停止後の率と離心率・減衰の尾・再起動の対照との差・h/h2)・換算の橋(🌛 の 8.85 年との差)・二体 1PN の桁' }),
+  // ---- 第293便e(原仮定者の裁定(第83報)「同じ方向の複数の引きずりが単純に足されることは無い」・統括の検証項目 R145): 引きずりの合成則
+  //   (relativeDrag.compose:"sum"|"solve" —— opt-in・既定は現行の加算)の純関数 8 項・宣言の受理・エンジン≡純関数のビット同一(🐌/🌛/規定源つき 3 体/
+  //   粒子 70 の Gauss–Seidel)・非相反性と、🐌・🌛 の sum/solve(history・velocity)27 公転の比較・🌛 の solve 版 C_d の 8.85 年への別のフィット
+  //   (採用値にしない)。Node の headless(子プロセス 3 本)・html だけを読む。構造核の器 dragcore292 の後に置く(同じ核と同じ検出器を読む表の順)。
+  //   所要は第293便e の枝の実測(正本の elapsedS)
+  S('compose293', 'node tests/exp-w293e-compose.mjs', ['tests/out/compose-w293e.json'], 907, { secSource: 'w293e-branch', node: true, workers: 3, after: ['dragcore292'],
+    volatilePaths: { 'tests/out/compose-w293e.json': META_RUN.concat(['/elapsedS', '/snail/rows/*/wallSec', '/em/rows/*/wallSec', '/fit/H/first/wallSec', '/fit/V/first/wallSec']) },
+    note: '第293便e: 合成則 compose の門(純関数 8 項〔2 源の代数例・共通並進・共動・弱結合 O(a²)・順序・分割/併合・有界性・帳簿〕と履歴則の不動点・宣言の受理・'
+      + 'エンジン≡純関数〔u・a_ij・残差・移送の帳簿〕・非相反性)と 🐌/🌛 の sum・solve(history)・solve(velocity)の 27 公転・🌛 の solve 版 C_d の別フィット(採用値にしない)' }),
 ];
 
 /**
@@ -690,8 +719,9 @@ export const REGEN_STEPS = [
  * samplestatus の上流(calaudit・dt3・kf0・charonwin)と、samplestatus が読む正本の書き手は含めない(循環を作らない)。
  * 検出は `tableDepsAudit` の `beforeSamplestatus`(正本の meta から引き直す —— 新しい段が足されても見落とさない)。
  */
+// 第293便a(R141): kfgate は履歴(再生成しない)へ移したので外した(履歴の段は計画に乗らず samplestatus の前後を問わない)
 export const W285F_AFTER_SAMPLESTATUS = ['bh90', 'd0audit', 'qsplit', 'twobody', 'rpar', 'nslockledger', 'bhcore', 'galaxylite', 'galaxyprof2',
-  'meshnod0', 'kfgate', 'presetaxes', 'bgfield', 'd0audit2', 'bgpredict', 'selfinertia', 'slipaudit', 'bgbudget', 'bgcompose', 'sphereKernel',
+  'meshnod0', 'presetaxes', 'bgfield', 'd0audit2', 'bgpredict', 'selfinertia', 'slipaudit', 'bgbudget', 'bgcompose', 'sphereKernel',
   'galaxyprof', 'needmesh', 'kf0ledger-old', 'kf0ledger', 'galaxychain', 'rotorledger', 'strain'];
 for (const st of REGEN_STEPS) if (W285F_AFTER_SAMPLESTATUS.includes(st.key) && !(st.after || []).includes('samplestatus')) st.after = (st.after || []).concat(['samplestatus']);
 // 第288便f(AN90): samplestatus の後に置いた段(書いた後の html・一覧 md を読む)は、集約段 htmlagg の後へ(html は集約段が 1 回だけ書く)

@@ -1,0 +1,1947 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第293便e",
+  "target": "beta/index.html",
+  "targetSha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
+  "generatedAt": "2026-10-05T20:20:38.312Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5729742,
+    "sha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
+    "mtime": "2026-10-05T20:09:17.514Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w293e-compose.mjs",
+    "bytes": 32628,
+    "sha256": "87639fb92fb46f09de059fadd9426b4e58bcb9ee9b67cf79e34d26bb74708ca1",
+    "mtime": "2026-10-05T20:17:13.822Z"
+   },
+   {
+    "file": "tests/lib-w293e-compose.mjs",
+    "bytes": 22457,
+    "sha256": "60a7e986f014dae1d99b09bab77dd1f62f9c4af4f95de35a51112b51638bdd34",
+    "mtime": "2026-10-05T20:01:16.982Z"
+   },
+   {
+    "file": "tests/exp-w292c-dragcore.mjs",
+    "bytes": 35410,
+    "sha256": "e5c6084b52cc947e013a10ba00ec6c1ab3293e0e41bea016c8abc71425049778",
+    "mtime": "2026-10-05T20:17:13.818Z"
+   },
+   {
+    "file": "tests/lib-w292c-dragcore.mjs",
+    "bytes": 13583,
+    "sha256": "755f0a919b272cfc94b9961416c99640458394075e3f7f1745a703b7d81cc6ab",
+    "mtime": "2026-10-05T20:01:16.982Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-05T20:01:16.974Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-05T20:01:16.974Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-05T20:01:16.970Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-05T20:01:16.978Z"
+   }
+  ],
+  "codeSha256": "78abd35b77156417a807ac963b6bf503b47da924f8c7712c4242d50eeb18d549",
+  "harnessVersion": "w293e-compose-2",
+  "libVersion": "w293e-compose-lib-1",
+  "engineVersion": "w293g-compose-2",
+  "inertialVersion": "w290c-inertial-1",
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第83報)(引きずりは相対的な速度差で発生する座標変換なので、同じ方向の複数の引きずりが単純に足されることは無い)",
+  "reading": "統括の検証項目 R145(合成則の法則版を実装し、同じ質量配置で加算と比べる)・R147(第293便g: 既定を solve(velocity) に —— 加算は compose:\"sum\" の明示だけの比較用)",
+  "ruling293g": "原仮定者の裁定(第83報 追記)(引きずりは単純加算しないので、単純加算している現状の修正が先)",
+  "composeDefault": [
+   "solve",
+   "velocity"
+  ],
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセスで並列)",
+  "gateA": "宣言なしの本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す(基点 html が要るので本正本に載せない)",
+  "notClaim": [
+   "正しい合成則を決めた",
+   "月を再現した",
+   "較正 合",
+   "C_d は普遍定数",
+   "正しい合成則と証明した",
+   "相対速度を使うこと自体から非加算性が導かれる"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "HP.DRAG_CORE_NR",
+    "HP.DRAG_CORE_VERSION",
+    "HP.REL_DRAG_COMPOSE_DEFAULT",
+    "HP.REL_DRAG_COMPOSE_VERSION",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.REL_DRAG_SOLVE_DIRECT_MAX",
+    "HP.REL_DRAG_SOLVE_FROM_DEFAULT",
+    "HP.REL_DRAG_SOLVE_ITERS_DEFAULT",
+    "HP.allPresets",
+    "HP.dfmGaussLegendre01",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.dragCoreAvgK",
+    "HP.dragCoreLookup",
+    "HP.dragCoreState",
+    "HP.inertialDragComposeState",
+    "HP.inertialDragState",
+    "HP.presetSigHash",
+    "HP.relDragComposeOf",
+    "HP.relDragSolveFromOf",
+    "HP.sim",
+    "HP.validatePreset",
+    "HP.validateRelativeDrag"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1006,
+   "segments": 915,
+   "closureShare": 0.3265
+  },
+  "scopeSha256": "cd727bc237d3faa2e3ea15f01e2c194f4f725168f0615a4eeca15cdf70d96e74",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "selfTest": {
+  "version": "w293e-compose-lib-1",
+  "items": {
+   "algebra": {
+    "sum1": 1,
+    "sum2": 2,
+    "solve1": 0.5,
+    "solve2": 0.6666666666666666,
+    "closed1": 0.5,
+    "closed2": 0.6666666666666666,
+    "ok": true
+   },
+   "translation": {
+    "shift": [
+     0.731,
+     -1.29
+    ],
+    "rows": [
+     {
+      "mode": "sum",
+      "rel": 8.597291045392103e-17
+     },
+     {
+      "mode": "solve",
+      "rel": 7.517133055277508e-17
+     }
+    ],
+    "ok": true
+   },
+   "comoving": {
+    "sumMax": 0,
+    "solveMax": 0,
+    "ok": true
+   },
+   "weak": {
+    "rows": [
+     {
+      "scale": 0.01,
+      "degMax": 0.004289554005254371,
+      "diff": 0.000022700768974700386,
+      "rel": 0.007031564415468681
+     },
+     {
+      "scale": 0.001,
+      "degMax": 0.0004289554005254371,
+      "diff": 2.2833666475961323e-7,
+      "rel": 0.0007072729423659046
+     },
+     {
+      "scale": 0.0001,
+      "degMax": 0.00004289554005254371,
+      "diff": 2.284704141295639e-9,
+      "rel": 0.00007076872311115346
+     }
+    ],
+    "slopes": [
+     1.997464915738217,
+     1.9997456842607224
+    ],
+    "ok": true
+   },
+   "order": {
+    "perm": [
+     3,
+     6,
+     0,
+     5,
+     1,
+     4,
+     2
+    ],
+    "rows": [
+     {
+      "mode": "sum",
+      "rel": 8.597291045392103e-17
+     },
+     {
+      "mode": "solve",
+      "rel": 3.006853222111003e-16
+     }
+    ],
+    "ok": true
+   },
+   "split": {
+    "halves": "m/2 + m/2(同じ位置・同じ速度・半どうしの結合 0.37)",
+    "rows": [
+     {
+      "mode": "sum",
+      "rel": 5.3733069033700644e-18
+     },
+     {
+      "mode": "solve",
+      "rel": 7.517133055277508e-17
+     }
+    ],
+    "ok": true
+   },
+   "bounded": {
+    "rows": [
+     {
+      "scale": 1,
+      "degMax": 0.428955400525437,
+      "bound2deg": 0.857910801050874,
+      "solveOverBound": 0.18951683946325612,
+      "sumOverBound": 0.3303170084943419
+     },
+     {
+      "scale": 30,
+      "degMax": 12.868662015763112,
+      "bound2deg": 25.737324031526224,
+      "solveOverBound": 0.4096118084719543,
+      "sumOverBound": 9.909510254830257
+     },
+     {
+      "scale": 1000,
+      "degMax": 428.9554005254371,
+      "bound2deg": 857.9108010508742,
+      "solveOverBound": 0.5921039255560662,
+      "sumOverBound": 330.3170084943419
+     }
+    ],
+    "ok": true
+   },
+   "ledger": {
+    "comoving": {
+     "dU": 0,
+     "Px": 0,
+     "Py": 0,
+     "Jz": 0,
+     "ok": true
+    },
+    "reciprocal": [
+     {
+      "mode": "sum",
+      "sumMu": [
+       6.938893903907228e-18,
+       -1.196959198423997e-16
+      ],
+      "rel": 1.3330623171082676e-16,
+      "Jz": 0.180212202732182,
+      "dU": -0.004218514962085665
+     },
+     {
+      "mode": "solve",
+      "sumMu": [
+       -4.85722573273506e-17,
+       -4.336808689942018e-17
+      ],
+      "rel": 9.648613032071442e-17,
+      "Jz": 0.16718349835519677,
+      "dU": -0.002616331832132911
+     }
+    ],
+    "prescribed": [
+     {
+      "mode": "sum",
+      "sumMu": [
+       -0.000762875296440875,
+       0.005026926666457035
+      ],
+      "rel": 0.005685275204020279,
+      "Jz": 0.17050620886365556,
+      "dU": -0.00421410023124659,
+      "dUPinned": 0.000013188222304051083
+     },
+     {
+      "mode": "solve",
+      "sumMu": [
+       -0.0007006452614716357,
+       0.0050292410934270546
+      ],
+      "rel": 0.007580713033905736,
+      "Jz": 0.15700225714540647,
+      "dU": -0.0026119283307252357,
+      "dUPinned": 0.000010311299818829747
+     }
+    ],
+    "ok": true
+   }
+  },
+  "nItems": 8,
+  "nOk": 8,
+  "history": {
+   "a0.2": {
+    "a": 0.2,
+    "degMax": 0.4,
+    "bound": 0.8,
+    "u200": 0.2857142857142857,
+    "solve": 0.28571428571428575,
+    "closed": 0.28571428571428575,
+    "diffRel": 1.9428902930940237e-16,
+    "converged": true,
+    "trace": [
+     0.4,
+     0.24,
+     0.30400000000000005,
+     0.2784,
+     0.2857142857142857
+    ]
+   },
+   "a1": {
+    "a": 1,
+    "degMax": 2,
+    "bound": 4,
+    "u200": -1.0712920295059936e+60,
+    "solve": 0.6666666666666666,
+    "closed": 0.6666666666666666,
+    "diffRel": 1.6069380442589906e+60,
+    "converged": false,
+    "trace": [
+     2,
+     -2,
+     6,
+     -10,
+     -1.0712920295059936e+60
+    ]
+   },
+   "pair": {
+    "A": 0.034,
+    "sumHistory": 0.9671179883945842,
+    "solveVelocity": 0.9671179883945842,
+    "solveHistory": 0.9681647940074907,
+    "closedSum": 0.9671179883945841,
+    "closedSolveHistory": 0.9681647940074906,
+    "ok": true
+   },
+   "ok": true
+  },
+  "ok": true
+ },
+ "gates": {
+  "decl": {
+   "defaults": {
+    "compose": "solve",
+    "solveFrom": "velocity"
+   },
+   "defaultSame": true,
+   "sumCanon": true,
+   "solveCanon": true,
+   "rejected": 10,
+   "rejectCases": 10,
+   "sigDefaultSame": true,
+   "sigSumDiffers": true,
+   "sigHistoryDiffers": true,
+   "builtinDeclaring": [],
+   "ok": true
+  },
+  "engine": {
+   "cases": [
+    {
+     "key": "snail-sum",
+     "n": 2,
+     "compose": null,
+     "solveFrom": null,
+     "solveIters": null,
+     "table": null,
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.0007416135030851726,
+       "sumMuRel": 7.309975173689827e-17,
+       "degMax": 0.0009999529598617145
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.0007407807196541282,
+       "sumMuRel": 7.318193025537856e-17,
+       "degMax": 0.0009999357110675514
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.0007407645901463517,
+       "sumMuRel": 0,
+       "degMax": 0.000999918463813961
+      },
+      {
+       "step": 5,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.0007407475640007682,
+       "sumMuRel": 5.71741972852051e-19,
+       "degMax": 0.000999901218129714
+      },
+      {
+       "step": 6,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.0007407305404704728,
+       "sumMuRel": 0,
+       "degMax": 0.0009998839740207152
+      }
+     ]
+    },
+    {
+     "key": "snail-solveH",
+     "n": 2,
+     "compose": {
+      "version": "w293g-compose-2",
+      "compose": "solve",
+      "solveFrom": "history",
+      "solveIters": 8,
+      "directMax": 64,
+      "solves": 5,
+      "method": "direct",
+      "res": 3.803953642595574e-17,
+      "resMax": 1.0383786242957334e-16,
+      "uSumMax": 0.0007407314345392522,
+      "uSolveMax": 0.0007399176195924139,
+      "tooLarge": 0
+     },
+     "solveFrom": "history",
+     "solveIters": 8,
+     "table": null,
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.0062118704622593e-18,
+       "uMax": 0.0007407986628879946,
+       "sumMuRel": 7.317792450237121e-17,
+       "degMax": 0.0009999529598617145
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.0383786242957334e-16,
+       "uMax": 0.0007399677037581614,
+       "sumMuRel": 7.326904321630697e-17,
+       "degMax": 0.0009999357110447673
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 5.579709330548802e-17,
+       "uMax": 0.0007399516039569567,
+       "sumMuRel": 7.326169486542346e-17,
+       "degMax": 0.0009999184637671744
+      },
+      {
+       "step": 5,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 9.18180766210107e-17,
+       "uMax": 0.0007399346104716858,
+       "sumMuRel": 7.32656131947919e-17,
+       "degMax": 0.0009999012180576573
+      },
+      {
+       "step": 6,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 3.803953642595574e-17,
+       "uMax": 0.0007399176195924139,
+       "sumMuRel": 0,
+       "degMax": 0.0009998839739221185
+      }
+     ]
+    },
+    {
+     "key": "snail-solveV",
+     "n": 2,
+     "compose": {
+      "version": "w293g-compose-2",
+      "compose": "solve",
+      "solveFrom": "velocity",
+      "solveIters": 8,
+      "directMax": 64,
+      "solves": 5,
+      "method": "direct",
+      "res": 7.526716740550727e-19,
+      "resMax": 5.2147429266151876e-17,
+      "uSumMax": 0.0007415452680889869,
+      "uSolveMax": 0.0007407305590124791,
+      "tooLarge": 0
+     },
+     "solveFrom": "velocity",
+     "solveIters": 8,
+     "table": null,
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.1813264761572303e-18,
+       "uMax": 0.0007407986628879938,
+       "sumMuRel": 7.31779245023713e-17,
+       "degMax": 0.0009999529598617145
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 5.2147429266151876e-17,
+       "uMax": 0.0007407816344898691,
+       "sumMuRel": 7.31997032681251e-17,
+       "degMax": 0.0009999357110447673
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.5259095720903552e-17,
+       "uMax": 0.0007407646077073508,
+       "sumMuRel": 7.318128871201644e-17,
+       "degMax": 0.0009999184637912058
+      },
+      {
+       "step": 5,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 3.7122396702307303e-17,
+       "uMax": 0.0007407475825462756,
+       "sumMuRel": 7.318297069283872e-17,
+       "degMax": 0.0009999012181069614
+      },
+      {
+       "step": 6,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 7.526716740550727e-19,
+       "uMax": 0.0007407305590124791,
+       "sumMuRel": 7.318688597447786e-17,
+       "degMax": 0.0009998839739979641
+      }
+     ]
+    },
+    {
+     "key": "em-sum",
+     "n": 2,
+     "compose": null,
+     "solveFrom": null,
+     "solveIters": null,
+     "table": {
+      "source": 0,
+      "n": 1024,
+      "rMax": 1454.5012800000002
+     },
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.0006911516889731057,
+       "sumMuRel": 0.00007976709644357707,
+       "degMax": 0.006388113220952503
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.0006866822363879903,
+       "sumMuRel": 0.00007976709644463392,
+       "degMax": 0.006388113221104965
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.000686711138899675,
+       "sumMuRel": 0.00007976709644551627,
+       "degMax": 0.006388113221237718
+      },
+      {
+       "step": 5,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.000686710952012945,
+       "sumMuRel": 0.00007976709644655645,
+       "degMax": 0.006388113221350788
+      },
+      {
+       "step": 6,
+       "uSame": true,
+       "aSame": null,
+       "ledgerSame": true,
+       "resSame": null,
+       "method": "sum",
+       "res": null,
+       "uMax": 0.000686710953235075,
+       "sumMuRel": 0.00007976709644737625,
+       "degMax": 0.0063881132214441685
+      }
+     ]
+    },
+    {
+     "key": "em-solveH",
+     "n": 2,
+     "compose": {
+      "version": "w293g-compose-2",
+      "compose": "solve",
+      "solveFrom": "history",
+      "solveIters": 8,
+      "directMax": 64,
+      "solves": 5,
+      "method": "direct",
+      "res": 6.339548324477046e-17,
+      "resMax": 1.548103958972207e-16,
+      "uSumMax": 0.000686739303363261,
+      "uSolveMax": 0.0006823269176742585,
+      "tooLarge": 0
+     },
+     "solveFrom": "history",
+     "solveIters": 8,
+     "table": {
+      "source": 0,
+      "n": 1024,
+      "rMax": 1454.5012800000002
+     },
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.548103958972207e-16,
+       "uMax": 0.0006867109531564921,
+       "sumMuRel": 0.00007976709644363037,
+       "degMax": 0.006388113220952503
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 6.537356947153275e-17,
+       "uMax": 0.0006822987496432155,
+       "sumMuRel": 0.00007976709644412912,
+       "degMax": 0.006388113221104938
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 2.165216797004092e-17,
+       "uMax": 0.0006823270986201349,
+       "sumMuRel": 0.00007976709644580613,
+       "degMax": 0.006388113221237662
+      },
+      {
+       "step": 5,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 2.6113658594219478e-17,
+       "uMax": 0.0006823269164906209,
+       "sumMuRel": 0.00007976709644659757,
+       "degMax": 0.006388113221350675
+      },
+      {
+       "step": 6,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 6.339548324477046e-17,
+       "uMax": 0.0006823269176742585,
+       "sumMuRel": 0.00007976709644730194,
+       "degMax": 0.006388113221443984
+      }
+     ]
+    },
+    {
+     "key": "em-solveV",
+     "n": 2,
+     "compose": {
+      "version": "w293g-compose-2",
+      "compose": "solve",
+      "solveFrom": "velocity",
+      "solveIters": 8,
+      "directMax": 64,
+      "solves": 5,
+      "method": "direct",
+      "res": 1.0196862614477621e-16,
+      "resMax": 1.5482954493499633e-16,
+      "uSumMax": 0.0006911516890445855,
+      "uSolveMax": 0.000686710953227173,
+      "tooLarge": 0
+     },
+     "solveFrom": "velocity",
+     "solveIters": 8,
+     "table": {
+      "source": 0,
+      "n": 1024,
+      "rMax": 1454.5012800000002
+     },
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.5482954493499633e-16,
+       "uMax": 0.0006867109531564922,
+       "sumMuRel": 0.0000797670964435464,
+       "degMax": 0.006388113220952503
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.0272501314417819e-16,
+       "uMax": 0.0006867109531783253,
+       "sumMuRel": 0.00007976709644414817,
+       "degMax": 0.006388113221104938
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 4.050021489307075e-18,
+       "uMax": 0.000686710953197384,
+       "sumMuRel": 0.00007976709644552134,
+       "degMax": 0.006388113221237698
+      },
+      {
+       "step": 5,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 4.24151186695104e-18,
+       "uMax": 0.0006867109532136663,
+       "sumMuRel": 0.00007976709644640666,
+       "degMax": 0.006388113221350763
+      },
+      {
+       "step": 6,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.0196862614477621e-16,
+       "uMax": 0.000686710953227173,
+       "sumMuRel": 0.00007976709644722388,
+       "degMax": 0.006388113221444144
+      }
+     ]
+    },
+    {
+     "key": "pinned3-solveH",
+     "n": 3,
+     "compose": {
+      "version": "w293g-compose-2",
+      "compose": "solve",
+      "solveFrom": "history",
+      "solveIters": 8,
+      "directMax": 64,
+      "solves": 5,
+      "method": "direct",
+      "res": 1.0053064077889548e-16,
+      "resMax": 1.431965400091262e-16,
+      "uSumMax": 0.0007906917485856006,
+      "uSolveMax": 0.0007897614298421403,
+      "tooLarge": 0
+     },
+     "solveFrom": "history",
+     "solveIters": 8,
+     "table": null,
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 7.419730632071934e-17,
+       "uMax": 0.00079069363199496,
+       "sumMuRel": 0.018119978838262763,
+       "degMax": 0.0010741979610260654
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.2133630202749346e-16,
+       "uMax": 0.0007897623345503974,
+       "sumMuRel": 0.018035764138100145,
+       "degMax": 0.0010742392152989467
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.431965400091262e-16,
+       "uMax": 0.0007897625794234587,
+       "sumMuRel": 0.01795368522334816,
+       "degMax": 0.0010742806282001427
+      },
+      {
+       "step": 5,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.3228324797055892e-16,
+       "uMax": 0.0007897619119394167,
+       "sumMuRel": 0.017871571055775932,
+       "degMax": 0.0010743221999756608
+      },
+      {
+       "step": 6,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "direct",
+       "res": 1.0053064077889548e-16,
+       "uMax": 0.0007897614298421403,
+       "sumMuRel": 0.017789424514065434,
+       "degMax": 0.0010743639309261088
+      }
+     ]
+    },
+    {
+     "key": "ring70-solveH",
+     "n": 70,
+     "compose": {
+      "version": "w293g-compose-2",
+      "compose": "solve",
+      "solveFrom": "history",
+      "solveIters": 8,
+      "directMax": 64,
+      "solves": 3,
+      "method": "gs",
+      "res": 0.000031575852443482754,
+      "resMax": 0.00004794895112604032,
+      "uSumMax": 0.5821443094875007,
+      "uSolveMax": 0.2575876258649463,
+      "tooLarge": 0
+     },
+     "solveFrom": "history",
+     "solveIters": 8,
+     "table": null,
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "gs",
+       "res": 0.000030738089341579825,
+       "uMax": 0.33619691009172165,
+       "sumMuRel": 0.027472442222986986,
+       "degMax": 1.8935819211787632
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "gs",
+       "res": 0.00004794895112604032,
+       "uMax": 0.16402725888360903,
+       "sumMuRel": 0.023928340339975984,
+       "degMax": 1.8939355018372859
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "gs",
+       "res": 0.000031575852443482754,
+       "uMax": 0.2575876258649463,
+       "sumMuRel": 0.026857815486430632,
+       "degMax": 1.894459756339179
+      }
+     ]
+    },
+    {
+     "key": "ring70-solveH-it30",
+     "n": 70,
+     "compose": {
+      "version": "w293g-compose-2",
+      "compose": "solve",
+      "solveFrom": "history",
+      "solveIters": 30,
+      "directMax": 64,
+      "solves": 3,
+      "method": "gs",
+      "res": 8.164898602803423e-16,
+      "resMax": 8.460667435905555e-16,
+      "uSumMax": 0.58214346012141,
+      "uSolveMax": 0.2575918718475851,
+      "tooLarge": 0
+     },
+     "solveFrom": "history",
+     "solveIters": 30,
+     "table": null,
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "gs",
+       "res": 8.460667435905555e-16,
+       "uMax": 0.33620295778179843,
+       "sumMuRel": 0.02745115093970943,
+       "degMax": 1.8935819211787632
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "gs",
+       "res": 7.227818621197847e-16,
+       "uMax": 0.16402926066278561,
+       "sumMuRel": 0.02390684123932889,
+       "degMax": 1.8939354484081612
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "gs",
+       "res": 8.164898602803423e-16,
+       "uMax": 0.2575918718475851,
+       "sumMuRel": 0.02683652924430724,
+       "degMax": 1.8944596985415407
+      }
+     ]
+    },
+    {
+     "key": "ring70-solveV",
+     "n": 70,
+     "compose": {
+      "version": "w293g-compose-2",
+      "compose": "solve",
+      "solveFrom": "velocity",
+      "solveIters": 8,
+      "directMax": 64,
+      "solves": 3,
+      "method": "gs",
+      "res": 0.00006133491057312093,
+      "resMax": 0.00006133491057312093,
+      "uSumMax": 0.38335885800311786,
+      "uSolveMax": 0.2392722397147625,
+      "tooLarge": 0
+     },
+     "solveFrom": "velocity",
+     "solveIters": 8,
+     "table": null,
+     "ok": true,
+     "rows": [
+      {
+       "step": 1,
+       "hist": false
+      },
+      {
+       "step": 2,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "gs",
+       "res": 0.00006130606368895782,
+       "uMax": 0.23923924597575918,
+       "sumMuRel": 0.03837437017249619,
+       "degMax": 1.8935819211787632
+      },
+      {
+       "step": 3,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "gs",
+       "res": 0.00006132044935711824,
+       "uMax": 0.23925571200611667,
+       "sumMuRel": 0.03832895918257593,
+       "degMax": 1.8937111643862352
+      },
+      {
+       "step": 4,
+       "uSame": true,
+       "aSame": true,
+       "ledgerSame": true,
+       "resSame": true,
+       "method": "gs",
+       "res": 0.00006133491057312093,
+       "uMax": 0.2392722397147625,
+       "sumMuRel": 0.038284693257460915,
+       "degMax": 1.8938407302452132
+      }
+     ]
+    }
+   ],
+   "gs": {
+    "gain": 400,
+    "degMax": 1.894459756339179,
+    "res8": 0.000031575852443482754,
+    "res30": 8.164898602803423e-16,
+    "iters8": 8,
+    "iters30": 30
+   },
+   "pinnedDUExternal": -2.278857842707982e-8,
+   "ok": true
+  }
+ },
+ "nonRecip": {
+  "rows": [
+   {
+    "source": "dragCore",
+    "mode": "sum",
+    "sumMu": [
+     1.0918013554189771e-14,
+     -8.046849497701076e-10
+    ],
+    "sumMuRel": 0.00007976709644463392,
+    "asymMiAij": null
+   },
+   {
+    "source": "dragCore",
+    "mode": "solveH",
+    "sumMu": [
+     1.0848158338337863e-14,
+     -7.995481839887997e-10
+    ],
+    "sumMuRel": 0.00007976709644412912,
+    "asymMiAij": 0.00015954691948283362
+   },
+   {
+    "source": "dragCore",
+    "mode": "solveV",
+    "sumMu": [
+     1.0894830920187105e-14,
+     -8.047186013845209e-10
+    ],
+    "sumMuRel": 0.00007976709644414817,
+    "asymMiAij": 0.00015954691948283362
+   },
+   {
+    "source": "point",
+    "mode": "sum",
+    "sumMu": [
+     0,
+     0
+    ],
+    "sumMuRel": 0,
+    "asymMiAij": null
+   },
+   {
+    "source": "point",
+    "mode": "solveH",
+    "sumMu": [
+     0,
+     0
+    ],
+    "sumMuRel": 0,
+    "asymMiAij": -1.1102230246251565e-16
+   },
+   {
+    "source": "point",
+    "mode": "solveV",
+    "sumMu": [
+     0,
+     8.470329472543003e-22
+    ],
+    "sumMuRel": 8.396808546493965e-17,
+    "asymMiAij": -1.1102230246251565e-16
+   }
+  ],
+  "note": "Σ m u / Σ m|u|(3 步目)—— 相反な点源では丸めまで 0・dragCore(源だけ有限)では合成則に依らず 0 にならない。asymMiAij = m_月 a_月地 /(m_地 a_地月)− 1 = ⟨K⟩/K_ε − 1",
+  "ok": true
+ },
+ "snail": {
+  "book": "inertialDragPair",
+  "rows": [
+   {
+    "dt": 0.016,
+    "steps": 285670,
+    "wallSec": 1.019,
+    "nan": false,
+    "osc0": {
+     "r": 20,
+     "a": 20.002000200019996,
+     "P": 169.47032671074385
+    },
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.0020659429103441073,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0007489131619847107,
+     "work": -0.00002630788390113603,
+     "dL": 0.0000016545543474753647,
+     "sumMuMax": 2.42434975903054e-19
+    },
+    "compose": null,
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.009770915995814528,
+      "dwDegPerPeri": 0.5933462741102752,
+      "dwRadPerPeri": 0.010355846087665089,
+      "apsPeriodYr": 0.3260057385799427,
+      "seDegPerTime": 5.943796486848318e-11,
+      "residRmsDeg": 5.656582669661367e-8,
+      "siderealDays": 0.19593190645847014,
+      "anomDays": 0.19625520705899144,
+      "relation": {
+       "invSid": 5.103813963102333,
+       "invAnomPlusAps": 5.103804373423177,
+       "rel": 0.0000018789241192920807
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.009771496298256745,
+      "dwDegPerPeri": 0.5933461198137788,
+      "dwRadPerPeri": 0.010355843394683205,
+      "apsPeriodYr": 0.32600586836714596,
+      "seDegPerTime": 1.0193159225398081e-10,
+      "residRmsDeg": 6.731143821040011e-7,
+      "siderealDays": 0.19593255102743878,
+      "anomDays": 0.19625523415555488,
+      "relation": {
+       "invSid": 5.103797172834023,
+       "invAnomPlusAps": 5.103803666567322,
+       "rel": -0.000001272333731068449
+      }
+     }
+    ],
+    "book": "inertialDragPair",
+    "mode": "sum",
+    "gain": 0.8,
+    "relDw27": 0
+   },
+   {
+    "dt": 0.016,
+    "steps": 285670,
+    "wallSec": 2.191,
+    "nan": false,
+    "osc0": {
+     "r": 20,
+     "a": 20.002000200019996,
+     "P": 169.47032671074385
+    },
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.0020659343583780587,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0007480723818479903,
+     "work": -0.00002628093623426031,
+     "dL": 0.0000016508901833329795,
+     "sumMuMax": 5.528368034183278e-19
+    },
+    "compose": {
+     "method": "direct",
+     "resMax": 3.150885052059923e-16,
+     "solves": 285669,
+     "uSumMax": 0.0007489019694910943,
+     "uSolveMax": 0.0007480723818479903,
+     "tooLarge": 0
+    },
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.009770755087433396,
+      "dwDegPerPeri": 0.5920262902958976,
+      "dwRadPerPeri": 0.010332808024031167,
+      "apsPeriodYr": 0.3267318033385215,
+      "seDegPerTime": 5.925358389098653e-11,
+      "residRmsDeg": 5.6390217452017654e-8,
+      "siderealDays": 0.1959321456567654,
+      "anomDays": 0.1962547272900787,
+      "relation": {
+       "invSid": 5.103807732253407,
+       "invAnomPlusAps": 5.103798167330468,
+       "rel": 0.000001874075874483891
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.0097713342849736,
+      "dwDegPerPeri": 0.5920261374245863,
+      "dwRadPerPeri": 0.010332805355923454,
+      "apsPeriodYr": 0.32673193271833567,
+      "seDegPerTime": 1.0129828626851268e-10,
+      "residRmsDeg": 6.689306539248582e-7,
+      "siderealDays": 0.19593278742425277,
+      "anomDays": 0.19625475432698167,
+      "relation": {
+       "invSid": 5.103791015000989,
+       "invAnomPlusAps": 5.103797462045447,
+       "rel": -0.0000012631873913610213
+      }
+     }
+    ],
+    "book": "inertialDragPair",
+    "mode": "solveH",
+    "gain": 0.8,
+    "relDw27": -0.0022246414784119484
+   },
+   {
+    "dt": 0.016,
+    "steps": 285670,
+    "wallSec": 2.168,
+    "nan": false,
+    "osc0": {
+     "r": 20,
+     "a": 20.002000200019996,
+     "P": 169.47032671074385
+    },
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.002065944388315477,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0007489129251911306,
+     "work": -0.000026369451063476546,
+     "dL": -9.627849046777595e-20,
+     "sumMuMax": 5.528368034183278e-19
+    },
+    "compose": {
+     "method": "direct",
+     "resMax": 3.1866132032743254e-16,
+     "solves": 285669,
+     "uSumMax": 0.0007497434549166124,
+     "uSolveMax": 0.0007489129251911306,
+     "tooLarge": 0
+    },
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.009770917714027197,
+      "dwDegPerPeri": 0.5933463424464581,
+      "dwRadPerPeri": 0.01035584728035648,
+      "apsPeriodYr": 0.326005682264142,
+      "seDegPerTime": 9.630902425959274e-13,
+      "residRmsDeg": 9.165521184971014e-10,
+      "siderealDays": 0.19593189446708342,
+      "anomDays": 0.19625519575973038,
+      "relation": {
+       "invSid": 5.1038142754649884,
+       "invAnomPlusAps": 5.1038046682385065,
+       "rel": 0.0000018823620851752274
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.009771492989185818,
+      "dwDegPerPeri": 0.5933463432119068,
+      "dwRadPerPeri": 0.01035584729371608,
+      "apsPeriodYr": 0.3260056845833093,
+      "seDegPerTime": 1.7870620145673643e-12,
+      "residRmsDeg": 1.1801021566415487e-8,
+      "siderealDays": 0.19593251358839683,
+      "anomDays": 0.1962551974090033,
+      "relation": {
+       "invSid": 5.103798148074288,
+       "invAnomPlusAps": 5.103804625358414,
+       "rel": -0.0000012691105600235511
+      }
+     }
+    ],
+    "book": "inertialDragPair",
+    "mode": "solveV",
+    "gain": 0.8,
+    "relDw27": 3.7650558515345267e-7
+   }
+  ]
+ },
+ "em": {
+  "book": "earthMoonInertial",
+  "gain": 514182,
+  "rows": [
+   {
+    "dt": 0.016,
+    "steps": 39596881,
+    "wallSec": 194.991,
+    "nan": false,
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 384.7480770842912,
+     "P": 23606.0010086057
+    },
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.012776230306095577,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0005845891805900902,
+     "work": -1.9723582919967067e-8,
+     "dL": 6.652664804709233e-9,
+     "sumMuMax": 8.099224542258738e-10
+    },
+    "compose": null,
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.04900980208614006,
+      "dwDegPerPeri": 3.0485084807500344,
+      "dwRadPerPeri": 0.05320651026405828,
+      "apsPeriodYr": 8.850008648775132,
+      "seDegPerTime": 4.797390709860155e-13,
+      "residRmsDeg": 6.367851627139267e-8,
+      "siderealDays": 27.163818764326404,
+      "anomDays": 27.372774930633454,
+      "relation": {
+       "invSid": 0.03681367515650179,
+       "invAnomPlusAps": 0.03684201114679625,
+       "rel": -0.0007697137048664744
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.04900991462721572,
+      "dwDegPerPeri": 3.048508336429333,
+      "dwRadPerPeri": 0.05320650774518686,
+      "apsPeriodYr": 8.850009358868872,
+      "seDegPerTime": 7.755866886212589e-13,
+      "residRmsDeg": 7.143449862553853e-7,
+      "siderealDays": 27.158119229535025,
+      "anomDays": 27.372775831096508,
+      "relation": {
+       "invSid": 0.036821401053150946,
+       "invAnomPlusAps": 0.03684200992018516,
+       "rel": -0.0005596980681008071
+      }
+     }
+    ],
+    "book": "earthMoonInertial",
+    "mode": "sum",
+    "gain": 514182,
+    "relDw27": 0
+   },
+   {
+    "dt": 0.016,
+    "steps": 39598309,
+    "wallSec": 253.009,
+    "nan": false,
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 384.7480770842912,
+     "P": 23606.0010086057
+    },
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.01277623026508057,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0005829988441560881,
+     "work": -1.9275740965298093e-8,
+     "dL": 6.575715497442654e-9,
+     "sumMuMax": 8.047186014274634e-10
+    },
+    "compose": {
+     "method": "direct",
+     "resMax": 4.199074793981614e-16,
+     "solves": 39598308,
+     "uSumMax": 0.0005863428315754812,
+     "uSolveMax": 0.0005829988441560881,
+     "tooLarge": 0
+    },
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.049043280341535544,
+      "dwDegPerPeri": 3.0138389075460723,
+      "dwRadPerPeri": 0.05260141206138794,
+      "apsPeriodYr": 8.951294514076531,
+      "seDegPerTime": 4.3111217986754786e-13,
+      "residRmsDeg": 5.7220667226511026e-8,
+      "siderealDays": 27.164627909323187,
+      "anomDays": 27.371185341219352,
+      "relation": {
+       "invSid": 0.03681257859809629,
+       "invAnomPlusAps": 0.03684063229898105,
+       "rel": -0.0007620683460139577
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.049043391648077084,
+      "dwDegPerPeri": 3.0138387613701423,
+      "dwRadPerPeri": 0.052601409510136664,
+      "apsPeriodYr": 8.951295239257238,
+      "seDegPerTime": 7.469222359245053e-13,
+      "residRmsDeg": 6.879039791686173e-7,
+      "siderealDays": 27.15910601265764,
+      "anomDays": 27.371186231254576,
+      "relation": {
+       "invSid": 0.036820063205833975,
+       "invAnomPlusAps": 0.03684063108619237,
+       "rel": -0.0005586052431093469
+      }
+     }
+    ],
+    "book": "earthMoonInertial",
+    "mode": "solveH",
+    "gain": 514182,
+    "relDw27": -0.011372635805155462
+   },
+   {
+    "dt": 0.016,
+    "steps": 39596879,
+    "wallSec": 249.3,
+    "nan": false,
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 384.7480770842912,
+     "P": 23606.0010086057
+    },
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.012776231828900269,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0005845889838306224,
+     "work": -1.9725437098375452e-8,
+     "dL": 2.2166752249609436e-16,
+     "sumMuMax": 8.047192773414017e-10
+    },
+    "compose": {
+     "method": "direct",
+     "resMax": 4.1709812656218633e-16,
+     "solves": 39596878,
+     "uSumMax": 0.0005879346022387572,
+     "uSolveMax": 0.0005845889838306224,
+     "tooLarge": 0
+    },
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.04900979977022681,
+      "dwDegPerPeri": 3.048508544658303,
+      "dwRadPerPeri": 0.053206511379467976,
+      "apsPeriodYr": 8.850008381657355,
+      "seDegPerTime": 1.296714041087259e-13,
+      "residRmsDeg": 1.7212028454085924e-8,
+      "siderealDays": 27.16381843831495,
+      "anomDays": 27.37277467844088,
+      "relation": {
+       "invSid": 0.03681367559832773,
+       "invAnomPlusAps": 0.03684201149271855,
+       "rel": -0.0007697110905193858
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.049009907411197505,
+      "dwDegPerPeri": 3.0485085489970656,
+      "dwRadPerPeri": 0.05320651145519368,
+      "apsPeriodYr": 8.850008438191532,
+      "seDegPerTime": 7.239965938612977e-14,
+      "residRmsDeg": 6.668285141269571e-8,
+      "siderealDays": 27.158118215253413,
+      "anomDays": 27.37277489225203,
+      "relation": {
+       "invSid": 0.036821402428329805,
+       "invAnomPlusAps": 0.036842011205382594,
+       "rel": -0.0005596956034714325
+      }
+     }
+    ],
+    "book": "earthMoonInertial",
+    "mode": "solveV",
+    "gain": 514182,
+    "relDw27": 6.972844079911056e-8
+   }
+  ]
+ },
+ "fit": {
+  "target": 8.85,
+  "window": 27,
+  "detector": "B(相対距離の極小 —— 3 点の放物線の頂点・位置だけ)",
+  "declaredGain": 514182,
+  "H": {
+   "mode": "solveH",
+   "start": 514182,
+   "gain": 520005.829573142,
+   "converged": true,
+   "lastP27": 8.8500000651904,
+   "lastRel": 7.36614702567806e-9,
+   "logSlope": -1.0105437285413819,
+   "iterations": 3,
+   "runs": [
+    {
+     "gain": 514182,
+     "P27": 8.951295239257238,
+     "P8": 8.951294514076531
+    },
+    {
+     "gain": 520067.2190634763,
+     "P27": 8.848944384294398,
+     "P8": 8.848943658670185
+    },
+    {
+     "gain": 520005.829573142,
+     "P27": 8.8500000651904,
+     "P8": 8.849999353367098
+    }
+   ],
+   "first": {
+    "dt": 0.016,
+    "steps": 39598309,
+    "wallSec": 253.009,
+    "nan": false,
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 384.7480770842912,
+     "P": 23606.0010086057
+    },
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.01277623026508057,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0005829988441560881,
+     "work": -1.9275740965298093e-8,
+     "dL": 6.575715497442654e-9,
+     "sumMuMax": 8.047186014274634e-10
+    },
+    "compose": {
+     "method": "direct",
+     "resMax": 4.199074793981614e-16,
+     "solves": 39598308,
+     "uSumMax": 0.0005863428315754812,
+     "uSolveMax": 0.0005829988441560881,
+     "tooLarge": 0
+    },
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.049043280341535544,
+      "dwDegPerPeri": 3.0138389075460723,
+      "dwRadPerPeri": 0.05260141206138794,
+      "apsPeriodYr": 8.951294514076531,
+      "seDegPerTime": 4.3111217986754786e-13,
+      "residRmsDeg": 5.7220667226511026e-8,
+      "siderealDays": 27.164627909323187,
+      "anomDays": 27.371185341219352,
+      "relation": {
+       "invSid": 0.03681257859809629,
+       "invAnomPlusAps": 0.03684063229898105,
+       "rel": -0.0007620683460139577
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.049043391648077084,
+      "dwDegPerPeri": 3.0138387613701423,
+      "dwRadPerPeri": 0.052601409510136664,
+      "apsPeriodYr": 8.951295239257238,
+      "seDegPerTime": 7.469222359245053e-13,
+      "residRmsDeg": 6.879039791686173e-7,
+      "siderealDays": 27.15910601265764,
+      "anomDays": 27.371186231254576,
+      "relation": {
+       "invSid": 0.036820063205833975,
+       "invAnomPlusAps": 0.03684063108619237,
+       "rel": -0.0005586052431093469
+      }
+     }
+    ],
+    "book": "earthMoonInertial",
+    "mode": "solveH",
+    "gain": 514182,
+    "relDw27": -0.011372635805155462
+   }
+  },
+  "V": {
+   "mode": "solveV",
+   "start": 514182,
+   "gain": 514182,
+   "converged": true,
+   "lastP27": 8.850008438191532,
+   "lastRel": 9.534679696887594e-7,
+   "logSlope": -1.0220747064673834,
+   "iterations": 2,
+   "runs": [
+    {
+     "gain": 514182,
+     "P27": 8.850008438191532,
+     "P8": 8.850008381657355
+    },
+    {
+     "gain": 513153.636,
+     "P27": 8.86813583242031,
+     "P8": 8.868135795233473
+    }
+   ],
+   "first": {
+    "dt": 0.016,
+    "steps": 39596879,
+    "wallSec": 249.3,
+    "nan": false,
+    "osc0": {
+     "r": 363.62532000000004,
+     "a": 384.7480770842912,
+     "P": 23606.0010086057
+    },
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.012776231828900269,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0005845889838306224,
+     "work": -1.9725437098375452e-8,
+     "dL": 2.2166752249609436e-16,
+     "sumMuMax": 8.047192773414017e-10
+    },
+    "compose": {
+     "method": "direct",
+     "resMax": 4.1709812656218633e-16,
+     "solves": 39596878,
+     "uSumMax": 0.0005879346022387572,
+     "uSolveMax": 0.0005845889838306224,
+     "tooLarge": 0
+    },
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.04900979977022681,
+      "dwDegPerPeri": 3.048508544658303,
+      "dwRadPerPeri": 0.053206511379467976,
+      "apsPeriodYr": 8.850008381657355,
+      "seDegPerTime": 1.296714041087259e-13,
+      "residRmsDeg": 1.7212028454085924e-8,
+      "siderealDays": 27.16381843831495,
+      "anomDays": 27.37277467844088,
+      "relation": {
+       "invSid": 0.03681367559832773,
+       "invAnomPlusAps": 0.03684201149271855,
+       "rel": -0.0007697110905193858
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.049009907411197505,
+      "dwDegPerPeri": 3.0485085489970656,
+      "dwRadPerPeri": 0.05320651145519368,
+      "apsPeriodYr": 8.850008438191532,
+      "seDegPerTime": 7.239965938612977e-14,
+      "residRmsDeg": 6.668285141269571e-8,
+      "siderealDays": 27.158118215253413,
+      "anomDays": 27.37277489225203,
+      "relation": {
+       "invSid": 0.036821402428329805,
+       "invAnomPlusAps": 0.036842011205382594,
+       "rel": -0.0005596956034714325
+      }
+     }
+    ],
+    "book": "earthMoonInertial",
+    "mode": "solveV",
+    "gain": 514182,
+    "relDw27": 6.972844079911056e-8
+   }
+  },
+  "note": "第293便g: solve(velocity) は既定 —— そのフィットは 🌛 の宣言 gain の確認(許容 FIT.tol に入れば宣言のまま)。solve(history) のフィットは採用値にしない(旧 q 版・旧加算 sum 版・solve(history) 版のフィットは別の実験で、係数は移植しない)",
+  "relH": 0.011326397215658979,
+  "relV": 0,
+  "declaredHolds": true
+ },
+ "decl": {
+  "modes": [
+   {
+    "key": "sum",
+    "label": "sum(旧加算・compose:\"sum\" の明示)",
+    "compose": "sum"
+   },
+   {
+    "key": "solveH",
+    "label": "solve(history)",
+    "compose": "solve",
+    "solveFrom": "history"
+   },
+   {
+    "key": "solveV",
+    "label": "solve(velocity)・既定(未宣言)"
+   }
+  ],
+  "run": {
+   "dt": 0.016,
+   "orbits": 27,
+   "spans": [
+    [
+     0,
+     8
+    ],
+    [
+     0,
+     27
+    ]
+   ],
+   "gateSteps": 6
+  },
+  "fitDecl": {
+   "tol": 0.000002,
+   "maxIter": 7
+  },
+  "targetYears": 8.85
+ },
+ "ok": true,
+ "elapsedS": 581.722
+}

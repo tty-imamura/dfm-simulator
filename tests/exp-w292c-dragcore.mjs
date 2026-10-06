@@ -39,7 +39,8 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import { fitPeri, YEAR_UNITS_EM, DAY_UNITS_EM } from './lib-w280b-emgrid.mjs';
 import * as LD from './lib-w292c-dragcore.mjs';
-const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.inertialDragState","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+import * as LC from './lib-w293e-compose.mjs';   // 第293便g: 門 (c) の既定(solve(velocity))の引き直し
+const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w292c-dragcore-1';
@@ -193,23 +194,42 @@ export function gates(HP) {
   const libGate = { glSame, avgRows, avgSame: avgRows.every((z) => z.same), tableQSame: qSame, lookRows, lookSame: lookRows.every((z) => z.same), n: src.n, rMax: src.rMax, rMaxFrom: src.rMaxFrom };
   libGate.ok = glSame && libGate.avgSame && qSame && libGate.lookSame;
   // (c) 核の u を純関数の表で引き直す(数步・源=地球は表・源=月は点源)
+  //   第293便g: 既定の合成則は solve(velocity)(HP.REL_DRAG_COMPOSE_DEFAULT)—— 🌛 そのもの(既定)は結合行列を表で張り直して
+  //   (I+L)u = s〔s は力学速度の差〕を純関数 tests/lib-w293e-compose.mjs で解いた u と、compose:"sum" を明示した写し(旧法則版 —— 比較用)は
+  //   各源の寄与の和と、それぞれビット同一であることを見る。
+  const kernel = (j, r) => (j === 0) ? LD.tableLookup(TLib, r) : null;
   const stepRows = [];
   for (let s = 1; s <= 4; s++) {
     S.step(RUN.dt);
-    const C = S.relDrag.gain, e2 = eps * eps, n = S.n, u = [];
+    const C = S.relDrag.gain, n = S.n, pin = Array.from({ length: n }, (_, i) => !!(S.pinned && S.pinned[i]));
+    const B = LC.buildRows({ n, x: Array.from(S.rdPrevX.subarray(0, n)), y: Array.from(S.rdPrevY.subarray(0, n)), m: S.m, pinned: pin, pairSet: S._rdPairSet, NP: S._rdPairN,
+      C, eps, VX: Array.from(S.vx.slice(0, n)), VY: Array.from(S.vy.slice(0, n)), hist: true, kernel });
+    const fixed = pin.map((z, i) => (z || !(S.m[i] > 0)) ? 1 : 0);
+    const q = LC.solve({ n, A: B.A, SX: B.SX, SY: B.SY, DG: B.DG, fixed, iters: S.relDrag.solveIters });
+    const same = Array.from({ length: n }, (_, i) => i).every((i) => Object.is(q.UX[i], S._rdUX[i]) && Object.is(q.UY[i], S._rdUY[i]));
+    stepRows.push({ step: s, hist: S.inertialDragN, compose: HP.relDragComposeOf(S.relDrag), solveFrom: HP.relDragSolveFromOf(S.relDrag), same, res: q.res,
+      uMoon: [S._rdUX[1], S._rdUY[1]], uEarth: [S._rdUX[0], S._rdUY[0]] });
+  }
+  const pSum = clone(p); pSum.physics.relativeDrag.compose = 'sum';
+  HP.sim.build(HP.validatePreset(pSum).preset);
+  const S2 = HP.sim, sumRows = [];
+  for (let s = 1; s <= 4; s++) {
+    S2.step(RUN.dt);
+    const C = S2.relDrag.gain, e2 = eps * eps, n = S2.n, u = [];
     for (let i = 0; i < n; i++) {
       let ux = 0, uy = 0;
       for (let j = 0; j < n; j++) { if (j === i) continue;
-        const dx = S.rdPrevX[j] - S.rdPrevX[i], dy = S.rdPrevY[j] - S.rdPrevY[i], r2 = dx * dx + dy * dy, r = Math.sqrt(r2), sq = r2 + e2;
-        const kv = (j === 0) ? LD.tableLookup(TLib, r) : null;
-        const a = C * S.m[j] * ((kv === null) ? (r / (sq * sq)) : kv);
-        ux += a * (S._rdVX[j] - S._rdVX[i]); uy += a * (S._rdVY[j] - S._rdVY[i]); }
+        const dx = S2.rdPrevX[j] - S2.rdPrevX[i], dy = S2.rdPrevY[j] - S2.rdPrevY[i], r2 = dx * dx + dy * dy, r = Math.sqrt(r2), sq = r2 + e2;
+        const kv = kernel(j, r);
+        const a = C * S2.m[j] * ((kv === null) ? (r / (sq * sq)) : kv);
+        ux += a * (S2._rdVX[j] - S2._rdVX[i]); uy += a * (S2._rdVY[j] - S2._rdVY[i]); }
       u.push([ux, uy]);
     }
-    const same = u.every((z, i) => Object.is(z[0], S._rdUX[i]) && Object.is(z[1], S._rdUY[i]));
-    stepRows.push({ step: s, hist: S.inertialDragN, same, uMoon: [S._rdUX[1], S._rdUY[1]], uEarth: [S._rdUX[0], S._rdUY[0]] });
+    const same = u.every((z, i) => Object.is(z[0], S2._rdUX[i]) && Object.is(z[1], S2._rdUY[i]));
+    sumRows.push({ step: s, hist: S2.inertialDragN, compose: HP.relDragComposeOf(S2.relDrag), same, uMoon: [S2._rdUX[1], S2._rdUY[1]], uEarth: [S2._rdUX[0], S2._rdUY[0]] });
   }
-  const stepGate = { rows: stepRows, ok: stepRows.slice(1).every((z) => z.same) && stepRows[0].hist === 0 };
+  const stepGate = { rows: stepRows, sumRows, ok: stepRows.slice(1).every((z) => z.same && z.compose === 'solve' && z.solveFrom === 'velocity') && stepRows[0].hist === 0
+    && sumRows.slice(1).every((z) => z.same && z.compose === 'sum') && sumRows[0].hist === 0 };
   // (e) 表の補間誤差と跳び・月の軌道帯
   let band = 0; for (let r = 355; r <= 415; r += 0.37) { const ex = LD.avgK(r, d, R, eps, HP.DRAG_CORE_NR, { gl: glL }), ip = LD.tableLookup(TLib, r); band = Math.max(band, Math.abs(ip - ex) / ex); }
   const tableGate = { interpRelMax: src.interpRelMax, interpRelMaxAt: src.interpRelMaxAt, interpRelMaxFar: src.interpRelMaxFar, jumpAtRMax: src.jumpAtRMax, bandRelMax: band, band: [355, 415] };
@@ -344,13 +364,15 @@ if (IS_MAIN && process.argv.includes('--child')) {
     meta: null, selfTest, gates: G, fit, hh, sens, long: { gain: gDecl, orbits: RUN.longOrbits, windows: long.windows, ledger: long.ledger, wallSec: long.wallSec, stationary, steps: long.steps },
     kf1, decl: { book: BOOK_ID, base: BASE_ID, run: RUN, fitDecl: FIT, sensDecl: SENS, targetYears: TARGET_YEARS, refKf1Dw8: REF_KF1_DW8 },
     ok: selfTest.ok && G.ok && fitOk && okRuns };
-  const CODE = ['tests/exp-w292c-dragcore.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
+  const CODE = ['tests/exp-w292c-dragcore.mjs', 'tests/lib-w292c-dragcore.mjs', 'tests/lib-w293e-compose.mjs', 'tests/lib-w280b-emgrid.mjs', 'tests/lib-w279b-headless.mjs', 'tests/lib-w272e-provenance.mjs', 'tests/lib-w281a-scope.mjs'];
   out.meta = Object.assign(provenanceMeta({ root: ROOT, wave: '第292便c', target: TARGET, code: CODE, inputs: [TARGET] }), {
     harnessVersion: HARNESS_VERSION, libVersion: LD.DRAGCORE_LIB_VERSION, engineVersion: HP.DRAG_CORE_VERSION, inertialVersion: HP.REL_DRAG_INERTIAL_VERSION, loadErrors: errors.length,
     ruling: '原仮定者の裁定(第82報)⑤⑥(慣性決定力版を用意し近点回転 8.85 年にフィットさせる・q に相当する引きずりが近似コアの質量と半径に依存する・🌘 のフィット結果を参考にする)',
     reading: '統括の検証項目 R139(近似コアの質量と半径の体積積分・opt-in・未宣言は点源とビット同一・8.85 年のフィットは「推定」であって較正の合ではない)',
     engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・子プロセスで並列)',
     gateA: '宣言なしの本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す(基点 html が要るので本正本に載せない)',
+    composeRule: '第293便g: 🌛 の合成則は既定の solve(velocity)(宣言は変えない —— 正準形に出ない)。フィット・118 公転・dt/2・感度はすべて既定で走らせた。門 (c) は既定(solve)と compose:"sum" の写しの両方',
+    composeDefault: [HP.REL_DRAG_COMPOSE_DEFAULT, HP.REL_DRAG_SOLVE_FROM_DEFAULT],
     notClaim: ['8.85 年を慣性決定力が出した(較正ゼロで)', '月を再現した', '較正 合', 'C_d は普遍定数', 'C_d・f・R_c を 8.85 年の 1 量から同時に一意決定した', '観測一致を達成した'] });
   out.elapsedS = (Date.now() - t0) / 1000;
   Object.assign(out.meta, W281A_SCOPE, w281aStableInputs(ROOT, out.meta.inputs));

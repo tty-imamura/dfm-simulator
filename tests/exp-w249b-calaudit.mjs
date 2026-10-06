@@ -79,7 +79,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 // 第258便d(第50報 W4): 条件不一致の隔離・証拠付き予測・ε_num の推定誤差・deg/yr の門は
 // **純関数**として tests/lib-w258d-evidence.mjs に置き、QA が同じ 1 本を読む。
-import { GATE, VERDICT_CONDITION, VERDICTS6, YEAR_SEC, enforceAllConditions, readRequiredContext,
+import { GATE, VERDICT_CONDITION, VERDICTS6, YEAR_SEC, enforceAllConditions, readRequiredContext, measurementContextOf,
   predictionEligible, refinedNumBound, degPerYear, assessDegYearGate,
   // 第259便d(第51報 W4): 証拠付き予測の**記録器**(枠だけ — 中身は空で出荷する)
   emptyEvidenceRegistry, recordEvidence, applyEvidenceRegistry,
@@ -3421,6 +3421,35 @@ for (const r of merged) for (const q of (r.quantities || [])) {
 // **全 339 量に requiredContext / measurementContext を立てる**(新走行だけでなく、--merge で
 // 持ち越した過去分にも。どの条件の走行から来た数値なのかが、行ごとに JSON から辿れるようにする)。
 const conditionResult = enforceAllConditions(merged);
+// ---------------------------------------------------------------- 第293便a(原仮定者の裁定(第83報)・統括の検証項目 R141・AN159)
+// **0<kFrame<1 で走った行は母集団の合否に数えない**。受理器は宣言の無い分数 kFrame を値のまま受理して警告するようになった(読み込み時の
+// 0/1 への書き換えと較正クラスでの拒否を撤去)ので、「予測に使わせない」線を**門ではなく判定に置く**。条件は 1 つ: 行の測定条件
+// (measurementContextOf —— 診断コピーの上書きがあればその kFrame・無ければ本の kFrame)が 0<kFrame<1。当たった行は
+// `kFrameFraction:true` を注記し、5 区分を `転`・門を `未判定` にする(元の判定と門の状態は `kFrameFractionEvidence` に残す —— 行は消さない)。
+// 内蔵の kFrame は {0,1} なので当たる行は 0 —— 5 区分と門の集計は 1 行も動かない。tally は enforceAllConditions と同じ形で再計算する。
+const KFRAME_FRACTION_RULE = 'w293a-1: 行の測定条件の kFrame が 0<kFrame<1 なら母集団の合否に数えない(kFrameFraction:true・5 区分 転・門 未判定)';
+const kFrameFractionRows = [];
+for (const r of merged) {
+  let touched = false;
+  for (const q of (r.quantities || [])) {
+    if (!q.kind || q.kind === 'other') continue;
+    const k = measurementContextOf(r, q).kFrame;
+    if (!(Number.isFinite(k) && k > 0 && k < 1)) continue;
+    touched = true;
+    q.kFrameFraction = true;
+    q.kFrameFractionEvidence = q.kFrameFractionEvidence || { verdict: q.verdict || null,
+      gate: (q.gate && q.gate.status) || null, kFrame: k };
+    if (q.verdict !== VER.TR && q.verdict !== VERDICT_CONDITION) q.verdict = VER.TR;   // 条件不一致(条)の隔離はそのまま
+    if (!/\*\*分数 kFrame\(kFrameFraction\)\*\*/.test(String(q.note || '')))
+      q.note = (q.note ? q.note + ' / ' : '') + '**分数 kFrame(kFrameFraction)**: kFrame=' + k + ' の走行の値 —— 実験設定であり母集団の合否に数えない(第293便a)';
+    if (q.gate && q.gate.status !== GATE.COND) { q.gate.status = GATE.NA; q.gate.reason = '分数 kFrame(0<kFrame<1)の走行 —— 母集団の合否に数えない(第293便a)'; q.gate.kFrameFraction = true; }
+    kFrameFractionRows.push({ id: r.id, target: q.target || null, kind: q.kind, name: q.name || null, kFrame: k,
+      formerVerdict: q.kFrameFractionEvidence.verdict, formerGate: q.kFrameFractionEvidence.gate });
+  }
+  if (touched) { const t = {}; for (const v of VERDICTS6) t[v] = 0;
+    for (const q of (r.quantities || [])) t[q.verdict] = (t[q.verdict] || 0) + 1;
+    r.tally = t; }
+}
 // **② 証拠付き予測の資格**。③(3σ)を通っただけでは ④ に数えない —— `usedForFit:false` /
 // `validation:"held-out"` / `dataset` / `frozenProtocol` の 4 つが宣言として揃った量だけを数える。
 // **現行の宣言は 0 件である**(プリセットにも CSV にもこの 4 つを書いた行が無い)。
@@ -3633,6 +3662,7 @@ out.predictionEvidenceRegistry = {
       + '評価器が動いていないのではなく、範囲外の步を持ちうる走行が母集団に無いことの記録である。契約を宣言した本(🌒 —— 原理の診断コピー)の'
       + '走行は第289便b の器(exp-w289b-contractrange —— 鎖の段 contractrange289)が同じ評価器で読む。' };
 }
+out.kFrameFraction = { rule: KFRAME_FRACTION_RULE, n: kFrameFractionRows.length, rows: kFrameFractionRows };   // 第293便a(R141)
 out.conditionMismatch = { n: conditionResult.n, rows: conditionResult.isolated,
   rule: '行が明記している条件(現行の宣言は kFrame だけ)と、その行に割り当てられている測定値の'
     + '走行条件が違うとき、判定を `条`(condition-mismatch)にして隔離する。**宣言である**'

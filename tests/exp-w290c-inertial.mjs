@@ -31,7 +31,7 @@ import { provenanceMeta } from './lib-w272e-provenance.mjs';
 import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from './lib-w281a-scope.mjs';
 import * as RD from './lib-w289c-reldrag.mjs';
 import * as LI from './lib-w290c-inertial.mjs';
-const REGEN_SCOPE = {"presets":["boxBinaryToy","compactForceToy","earthMoonFree","inertialDragPair"],"roots":["$","HP.REL_DRAG_INERTIAL_VERSION","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.dfmInertialDragStep","HP.dfmMeshVelocityFieldAt","HP.inertialDragEpoch","HP.inertialDragState","HP.loadPreset","HP.sim","HP.validatePreset","T","cw","sim","validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["boxBinaryToy","compactForceToy","earthMoonFree","inertialDragPair"],"roots":["$","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.ckRestoreOne","HP.ckSnapOne","HP.cloneSimStateNow","HP.dfmInertialDragStep","HP.dfmMeshVelocityFieldAt","HP.inertialDragEpoch","HP.inertialDragState","HP.loadPreset","HP.sim","HP.validatePreset","T","cw","sim","validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w290c-inertial-1';
@@ -41,6 +41,10 @@ export const GATE_B = Object.freeze({ steps: 600, every: 100, dt: 0.016 });
 export const DIAG = Object.freeze({ gains: [0, 0.4, 0.8, 1.6], dt: 0.016, dtHalf: 0.008, halfGains: [0, 0.8], K: 5, maxOrbits: 8 });
 export const TWO = Object.freeze({ m: 1, r: 4, eps: 0.5, vRel: 1, dt: 1e-6, updates: 20, couplings: [0.2, 0.5, 0.8] });
 export const TWO_DT = Object.freeze({ a: 0.8, vRel: 1e-4, T: 2e-5, dts: [1e-6, 5e-7] });
+// 第293便g(原仮定者の裁定(第83報 追記)・R147): law:"inertial" の既定の合成則が solve(velocity) になった。門 (c)(d)(e)(f の並進・ε=0・一致点)は
+//   **加算の核**(第289便c の純関数 relDragAt・2 体の漸化式 V_n = v − 2aV_{n−1})との照合なので、写しに compose:"sum"(旧法則版 —— 比較用)を明示する。
+//   門 (b)・(f) の 1 体と復元/複製・診断本 🐌 は既定(solve(velocity))のまま走らせる。
+export const SUM = Object.freeze({ compose: 'sum' });
 const clone = (x) => JSON.parse(JSON.stringify(x));
 const find = (HP, id) => HP.allPresets().find((q) => q.id === id);
 function build(HP, preset) {
@@ -79,7 +83,7 @@ const FIX = Object.freeze({ m: [1, 2.5, 0.75, 4, 1.5], x: [0, 3, -2.5, 1.25, 6],
   V: [[0.5, -0.25], [1.75, 0.5], [-1, 0.75], [0.25, 1.25], [-0.5, -1.5]], gain: 0.75, eps: 0.5, pinned: [1, 4], t: 8 });
 function inject(HP, o) {
   const bodies = o.m.map((m, i) => ({ type: 'single', m, radius: 0.1, x: o.x[i], y: o.y[i], vx: 0.125 * i, vy: -0.0625 * i, spin: 0, pinned: (o.pinned || []).includes(i) }));
-  const S = build(HP, toyPreset(bodies, { relativeDrag: Object.assign({ law: 'inertial', gain: o.gain }, (o.eps === undefined) ? {} : { eps: o.eps }) }));
+  const S = build(HP, toyPreset(bodies, { relativeDrag: Object.assign({ law: 'inertial', gain: o.gain }, (o.eps === undefined) ? {} : { eps: o.eps }, SUM) }));
   for (let i = 0; i < S.n; i++) { S.x[i] = o.x[i]; S.y[i] = o.y[i]; S.rdPrevX[i] = o.x[i] - o.V[i][0] * o.dt; S.rdPrevY[i] = o.y[i] - o.V[i][1] * o.dt; S.rdPrevT[i] = o.t - o.dt; }
   S.t = o.t; S.rdEpoch = HP.inertialDragEpoch(S);
   const v0 = Array.from(S.vx.slice(0, S.n)).concat(Array.from(S.vy.slice(0, S.n)));
@@ -174,7 +178,7 @@ function twoBodyEngine(HP, a, o) {
   const k = RD.kernelK(o.r, o.eps), C = a / (o.m * k);
   const bodies = [{ type: 'single', m: o.m, radius: 0.1, x: 0, y: -o.r / 2, vx: o.vRel / 2, vy: 0, spin: 0, pinned: false },
     { type: 'single', m: o.m, radius: 0.1, x: 0, y: o.r / 2, vx: -o.vRel / 2, vy: 0, spin: 0, pinned: false }];
-  const S = build(HP, toyPreset(bodies, { softening: o.eps, relativeDrag: { law: 'inertial', gain: C, eps: o.eps } }));
+  const S = build(HP, toyPreset(bodies, { softening: o.eps, relativeDrag: Object.assign({ law: 'inertial', gain: C, eps: o.eps }, SUM) }));
   const seq = [], bounds = [];
   const total = o.updates + 2;   // 步 1 は履歴なし(u=0)・步 2 で V=v —— 步 2..updates+2 の V が漸化式の V_0..V_updates
   for (let s = 1; s <= total; s++) {
@@ -304,6 +308,8 @@ if (IS_MAIN) {
     ruling: '原仮定者の裁定(第80報)⑥ DFM の更新(引きずりの計算が新しくなる —— 相対移動ベクトル=前回座標との差分・m/r³ の並進引きずり・引きずりベクトルは毎ステップリセット・自己項=慣性速度・この計算の実装精度は大変重要)',
     reading: '統括の検証項目 R127(宣言した本だけの別経路・既存 147 本は 1 bit 不変・既存の q 付き場・u=A/W・E6′・pairSlip に足さない・発散を clamp しない)',
     engine: 'Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行)',
+    composeRule: '第293便g: 既定の合成則は solve(velocity)(HP.REL_DRAG_COMPOSE_DEFAULT/REL_DRAG_SOLVE_FROM_DEFAULT)。門 (c)(d)(e) と (f) の並進・ε=0・一致点は加算の核との照合なので compose:"sum" を明示した写し・(b)・(f) の 1 体と復元/複製・🐌 の診断は既定',
+    composeDefault: [HP.REL_DRAG_COMPOSE_DEFAULT, HP.REL_DRAG_SOLVE_FROM_DEFAULT],
     gateA: '宣言なしの本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す(基点 html が要るので本正本に載せない)',
     notClaim: ['1PN と同等が証明された', '回転引きずりが創発した', '連鎖で円盤ができた', '慣性決定力場を接続した(既定で)', '安定化した', '新しい法則が正しい', '観測一致を達成した'] });
   const out = { meta, ...R };
