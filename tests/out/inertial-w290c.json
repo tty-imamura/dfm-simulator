@@ -3,14 +3,14 @@
   "provenanceVersion": "w272e-1",
   "wave": "第290便c",
   "target": "beta/index.html",
-  "targetSha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
-  "generatedAt": "2026-10-05T20:17:25.740Z",
+  "targetSha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+  "generatedAt": "2026-10-06T17:02:31.161Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5729742,
-    "sha256": "588e4c32fbd0f928c972f7f0c436a93aa34fafea4b1c49744f5bf13d9da44dae",
-    "mtime": "2026-10-05T20:09:17.514Z"
+    "bytes": 5760198,
+    "sha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+    "mtime": "2026-10-06T16:39:41.589Z"
    }
   ],
   "code": [
@@ -18,40 +18,40 @@
     "file": "tests/exp-w290c-inertial.mjs",
     "bytes": 30324,
     "sha256": "82f9526f45ed03ece7e1bde21e53a84643d6d1ad645ab59ada07c87b1ea3c8e8",
-    "mtime": "2026-10-05T20:17:13.814Z"
+    "mtime": "2026-10-05T20:53:28.454Z"
    },
    {
     "file": "tests/lib-w290c-inertial.mjs",
     "bytes": 6142,
     "sha256": "0029d77a92a8dfba36c3abb8545ed1d711a31a045afe4ffb0754cf0e8adb15bd",
-    "mtime": "2026-10-05T20:01:16.978Z"
+    "mtime": "2026-10-03T00:39:54.809Z"
    },
    {
     "file": "tests/lib-w289c-reldrag.mjs",
     "bytes": 22223,
     "sha256": "1bdfb99cf6821bd450a8a3993456685c742c9593ca600b5f541b99cff0b5f983",
-    "mtime": "2026-10-05T20:01:16.978Z"
+    "mtime": "2026-10-03T00:39:54.807Z"
    },
    {
     "file": "tests/lib-w280b-emgrid.mjs",
     "bytes": 10798,
     "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
-    "mtime": "2026-10-05T20:01:16.974Z"
+    "mtime": "2026-10-02T23:11:02.952Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-05T20:01:16.970Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-05T20:01:16.978Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    }
   ],
-  "codeSha256": "0fa7e77e2858dd0702c521ccd04357a8062caab90596d01d5d78308aba972c8c",
+  "codeSha256": "41a6165f2bb1db38fe332bd3e897b3947711de759692952ab0733b8aa0115000",
   "harnessVersion": "w290c-inertial-1",
   "libVersion": "w290c-inertial-lib-1",
   "engineVersion": "w290c-inertial-1",
@@ -108,9 +108,9 @@
    "complete": true,
    "names": 1007,
    "segments": 916,
-   "closureShare": 0.327
+   "closureShare": 0.3264
   },
-  "scopeSha256": "5f6f1e0eb90715d7b65ebc35a40d13a8a57511c29725921be79cb761a2d38e6d",
+  "scopeSha256": "04339d9515af95bf4b6d4ea2d1544a0ebca3b02674dc4f0fade73cdc87f2706b",
   "scopeComplete": true,
   "inputsStable": [],
   "stableHashVersion": "w282e-stable-1"
@@ -783,5 +783,5 @@
   "ok": true
  },
  "ok": true,
- "elapsedS": 3.006
+ "elapsedS": 3.563
 }
