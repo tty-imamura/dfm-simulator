@@ -3152,7 +3152,14 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
   表示メッシュの drag(§42)は加算の局所場のサンプラーなので、solve の本(既定)では描かず凡例に理由を出す(`inertialDragFieldReady(S).why === "composeSolve"`)—— `compose:"sum"` を明示した本だけ描く。
 - 式・検査・比較は docs/PHYSICS.md〔第293便e〕〔第293便g〕。QA: **`behavior.composeGate`**(門と受理)/ **`docs.composeContract`**(表の転記)。
 
-## 50. 第294便e —— 「サンプルを選ぶ」の「その他」の 4 段目「題材」・段ごとの「全て」・「すべて表示」の撤去・家族の語(原仮定者の裁定(第84報)の UI 7 点・統括の検証項目 R152・**表示だけ**・**SYSTEM_PROMPT には載せない**)
+## 51. 第294便b —— 退役の本への言及を AI 生成の入力から外す(原仮定者の裁定(第84報)・統括の検証項目 R149 —— **鍵・仕様文は不変**)
+
+- **SYSTEM_PROMPT(本書の逐語収載)は 1 字も変えていない**。変えたのは AI 追加の画面の**ベース選択の注記**(`aiBaseNote` ja/en)だけで、参考の構成の例から退役の本の絵文字を外した
+  (「光学迷彩矮星の lightSweep・コアv2 core:{}・📡 の zonal など」)。ベース選択の候補は従来どおり在位の本だけ(読み込み中の退役の本だけ残る —— 第284便b の規則のまま)。
+- 退役の本は内蔵に残る(旧セーブ・旧 URL の ID で開ける)ので、ベースとして JSON を送ることは今も可能 —— 受理・正準形・保存の形は 1 bit も変わらない。
+- 機械の線は docs/PHYSICS.md〔第294便b〕。QA: **`docs.noRetiredMention294`**(在位の本・I18N・SYSTEM_PROMPT・現行文書に退役の本の ID・絵文字・名前が 0 件)。
+
+## 54. 第294便e —— 「サンプルを選ぶ」の「その他」の 4 段目「題材」・段ごとの「全て」・「すべて表示」の撤去・家族の語(原仮定者の裁定(第84報)の UI 7 点・統括の検証項目 R152・**表示だけ**・**SYSTEM_PROMPT には載せない**)
 
 - **題材は「その他」の 4 段目**: `PP_OTHER_SECS` = 宣言 `decl`・分類バッジ `badge`・状況 `status`・題材 `topic`(見出しの語 `ppOtherSecTopic`)。題材の軸は表 `TOPIC_TAGS`(§41 の 9 鍵 —— 判定は不変)から機械で
   `PP_OTHER_AXES` の末尾へ足す(key `"topic:<鍵>"` —— 宣言の段の `testParticle` と鍵が重ならないよう接頭辞を付ける・`tp` に題材の鍵)。状態は「その他」の規約どおり**三状態**(1 回 = 含む・2 回 = 除く `"!topic:<鍵>"`・3 回 = 解除)で、
