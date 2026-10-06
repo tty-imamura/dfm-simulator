@@ -3151,3 +3151,9 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
   `HP.relDragComposeOf(rd)`・`HP.relDragSolveFromOf(rd)`(正準形から実際の合成則と v の意味を読む)・`HP.REL_DRAG_COMPOSE_DEFAULT`・`HP.REL_DRAG_SOLVE_FROM_DEFAULT`。
   表示メッシュの drag(§42)は加算の局所場のサンプラーなので、solve の本(既定)では描かず凡例に理由を出す(`inertialDragFieldReady(S).why === "composeSolve"`)—— `compose:"sum"` を明示した本だけ描く。
 - 式・検査・比較は docs/PHYSICS.md〔第293便e〕〔第293便g〕。QA: **`behavior.composeGate`**(門と受理)/ **`docs.composeContract`**(表の転記)。
+
+## 50. 第294便c —— 群「現実較正」の表示名「実在天体との照合」と保存の値(原仮定者の裁定(第84報)・統括の検証項目 R150・**表示だけ**・**SYSTEM_PROMPT は変えていない**)
+
+- **表示名と宣言の値は別**: 一覧の見出し・分類チップ・📏 チップ・監査ビュー・較正の区画は ja「実在天体との照合」(表示の 2 見出しは「実在天体との照合・太陽系」「実在天体との照合・連星」)・en「Observed-body comparison」と出るが、プリセット JSON に書く値は**従来のまま** —— `group:"現実較正"`・`sampleClass:"calibration"`。表示名(「実在天体との照合」)を `group` に書いても群の別名にはならない(`GROUP_ALIASES` は変えていない —— 旧 3 名「現実との照合・太陽系/連星/太陽系外」だけが「現実較正」へ着地する)。保存・エクスポート・`presetSig` は 1 bit も変わらない。
+- **SYSTEM_PROMPT**: AI 生成の本は群を宣言しない(「AI生成」の見出しに入る)ので、群名の文は SYSTEM_PROMPT に無い —— 本便は SYSTEM_PROMPT を変えていない。geoPN の主な用途の語(「1=主に現実較正」)は用途の分類の語で、本便では据え置いた(決断事項候補)。
+- 説明タブの「🎯 実在天体との照合 — 観測との差」(`#odBox`)は較正母集団 20 本だけに出る表示(台帳の転記 `OBS_COMPARE_ROWS` から量ごとに観測・模型・Δ=模型−観測・相対差・Δ/σ または「σ 未接続」の理由・行末に門の語)。宣言の鍵は無い(AI 生成の JSON に書くものは無い)。読み取り: `obsDiffBookIds()`・`obsDiffRowsOf(id)`(純関数)。式と数は docs/PHYSICS.md〔第294便c〕。QA **`ui.observedCompare294`**。

@@ -123,6 +123,8 @@ const got = await page.evaluate(() => {
   }
   return { rows, groupOrder: (typeof GROUP_ORDER !== 'undefined') ? GROUP_ORDER.slice() : null,
     groupIcons: (typeof GROUP_ICONS !== 'undefined') ? Object.assign({}, GROUP_ICONS) : null,
+    // 第294便c(原仮定者の裁定(第84報)・R150): 群の見出しは**表示名**(ja の gName —— 「現実較正」→「実在天体との照合」)。集計の鍵は宣言の名前のまま
+    groupNames: (typeof GROUP_ORDER !== 'undefined' && typeof gName === 'function') ? Object.fromEntries(GROUP_ORDER.map((g) => [g, gName(g)])) : null,
     version: HP.SAMPLE_STATUS_VERSION };
 });
 await browser.close();
@@ -152,7 +154,7 @@ if (bad.length) { console.error('ページの照合で止めた:\n  ' + bad.slic
 const tl = L.tally(table, got.rows);
 const predEligible = ((calaudit.verdictLedger || {}).rows || []).reduce((s, r) => s + (r.predictionEligible || 0), 0);
 // 第283便b(第73報④・R84): 退役の本は**群の集計から外し**、「退役」の別群として数える(html の status・4 値の集計は変えない)
-const groups = (got.groupOrder || []).map((g) => ({ group: g, icon: (got.groupIcons || {})[g] || '',
+const groups = (got.groupOrder || []).map((g) => ({ group: g, icon: (got.groupIcons || {})[g] || '', label: (got.groupNames || {})[g] || g,
   ids: got.rows.filter((r) => r.group === g && !retiredIds.has(r.id)).map((r) => r.id) }));
 const retiredRows = got.rows.filter((r) => retiredIds.has(r.id)).map((r) => r.id);
 const orphan = got.rows.filter((r) => !(got.groupOrder || []).includes(r.group)).map((r) => r.id);
@@ -191,12 +193,12 @@ md.push('|---|---|---|---|---|---|---|---|');
 for (const g of groups) {
   const T = g.ids.map((id) => table[id]);
   const c = (f) => T.filter(f).length;
-  md.push(`| ${g.icon} ${g.group} | ${g.ids.length} | ${c((t) => t.objective === 'met')} | ${c((t) => t.objective === 'partial')} | ${c((t) => t.objective === 'unmet')} | ${c((t) => ['pass', 'pass-limited', 'fail', 'hold'].includes(t.calibration))} | ${c((t) => t.calibration === 'hold-definition')} | ${c((t) => t.calibration === 'out-of-scope')} |`);
+  md.push(`| ${g.icon} ${g.label} | ${g.ids.length} | ${c((t) => t.objective === 'met')} | ${c((t) => t.objective === 'partial')} | ${c((t) => t.objective === 'unmet')} | ${c((t) => ['pass', 'pass-limited', 'fail', 'hold'].includes(t.calibration))} | ${c((t) => t.calibration === 'hold-definition')} | ${c((t) => t.calibration === 'out-of-scope')} |`);
 }
 md.push('');
 const byId = Object.fromEntries(got.rows.map((r) => [r.id, r]));
 for (const g of groups) {
-  md.push(`## ${g.icon} ${g.group}(${g.ids.length} 本)`);
+  md.push(`## ${g.icon} ${g.label}(${g.ids.length} 本)`);
   md.push('');
   if (!g.ids.length) { md.push('(内蔵サンプルは 0 本)'); md.push(''); continue; }
   md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み | 保留の解き方 |');
