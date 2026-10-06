@@ -33476,7 +33476,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
     const has285bKJ = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('function dfmPN1Delta(') >= 0;
     // 第293便a(原仮定者の裁定(第83報)・R141): 世代切替 —— 受理器は宣言の無い分数 kFrame を値のまま受理する(読み込み時の 0 への書き換えを撤去)。
     //   k=0.2 の診断コピーは k=0.2 のまま v−u 則で走るので、第264便a の契約「2 点が観測を跨ぐ」へ戻る(受理した kFrame が 0.2 であることも見る)
-    const has293aKJ = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('"geo3NoInertial","kFrameFraction"]') >= 0;
+    const has293aKJ = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('"geo3NoInertial","kFrameFraction"') >= 0;   // 第294便a: 6 本目 "inertialPlusGeodesic" が続くので閉じ括弧は見ない
     const CK = {
       h2ref: near(r.h2ref, 0.7, 1e-12),
       h2free: near(r.h2free, 1 - 1 * 0.24 * 0.8 / 1.3, 1e-12),
@@ -33785,7 +33785,8 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
         has288a: HP.allPresets().some((q) => q.id === 'fixedCaptureCopy'),   // 第288便a: 🥜 固定中心の合体の原理コピー(pinned 中心 1 個 → live にも入る)
         has287a: HP.allPresets().some((q) => q.id === 'clusterGrowthCopy'),
         has288e: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90'),
-        has289e: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90Layers') };   // 第289便e: 🪆(pinned 中心 1 個・centerSpin:"read" —— 🛸 の写し)   // 第288便e: 🛸(pinned 中心 1 個・centerSpin:"read")   // 第287便a: 🌰 成長経路の原理コピー(中心を pinned しない → pinned 0)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
+        has289e: HP.allPresets().some((q) => q.id === 'galaxyAnalogyBHTilt90Layers'),
+        has294a: HP.allPresets().some((q) => q.id === 'earthMoonInertial' && q.physics.geoPN === 3) };   // 第294便a(R148): 🌛 が geoPN=3(慣性決定力の印・pinned 0・旧法則版なし)で名簿に入る   // 第289便e: 🪆(pinned 中心 1 個・centerSpin:"read" —— 🛸 の写し)   // 第288便e: 🛸(pinned 中心 1 個・centerSpin:"read")   // 第287便a: 🌰 成長経路の原理コピー(中心を pinned しない → pinned 0)   // 第283便f: 💮 球状星団アナロジーの原理サンプル(core 宣言なし・pinned 中心 1 個・centerSpin:"read")
     });
     // 自由源の期待値: 試験粒子が受けるトイ Δv = η·a_src·dt(a_src は**源が受けている重力加速度**)
     const relFree = r.dvFree
@@ -33804,7 +33805,7 @@ await w5bRun('coreTerminal', true); async function W5B_coreTerminal(page, add, f
       // **世代で切り替える**(root は 🎋 を持たないので 2 本のまま)。
       // 第282便d: 🌚 galaxyAnalogyBH(pinned 中心 1 個)が加わって 3 → 4 本(世代で切り替える)。
       // 第283便f: 💮 clusterAnalogyBH(pinned 中心 1 個)が加わって 4 → 5 本(世代で切り替える)。
-      builtinRoster: r.hits.length === (r.has274c ? 3 : 2) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0)
+      builtinRoster: r.hits.length === (r.has274c ? 3 : 2) + (r.has282d ? 1 : 0) + (r.has283f ? 1 : 0) + (r.has287a ? 1 : 0) + (r.has288c ? 1 : 0) + (r.has288a ? 1 : 0) + (r.has288e ? 1 : 0) + (r.has289e ? 1 : 0) + (r.has294a ? 1 : 0)
         && (!r.has287a || r.hits.indexOf('clusterGrowthCopy:0') >= 0)
         && (!r.has288c || r.hits.indexOf('galaxyAnalogyBHCompose:1') >= 0)   // 第288便c: 🧩(pinned 中心 1 個 —— live にも入る)   // 第287便a: 🌰 は自由な中心(pinned 0)・live(pinned の 1 步走行)には入らない
         && r.hits.indexOf('galaxyMeshSpiralGeoToy:1') >= 0 && r.hits.indexOf('psrDoubleABGeoToy:0') >= 0
@@ -47700,7 +47701,10 @@ if (!FAST) {
       const disp = HP.geoCoreDispatch.toString() + ((typeof geoCoreDispatchBody === 'function') ? geoCoreDispatchBody.toString() : '');
       res.dispatch = { kickGuarded: /if\(S\.hasGeo3PN\) dfmGeo3PNKick\(/.test(disp), zeroForGeo3: disp.indexOf('(S.hasGeoToy || S.hasGeo3)?0:2') >= 0
         // 第291便c(R134): 法則の解決を実効の番号 ge に寄せた形 —— 旧法則版が走る 3 は `_core` へ 0・走らない 3 は測地線 ON の基底(2 か kF0)
-        || (disp.indexOf('(S.hasGeoToy || S.hasGeo3)? g : 2') >= 0 && /if\(ge>=3\)\{[\s\S]*?p\.geoPN=0; try\{ S\._core\(dt,mode\); \}/.test(disp)) };
+        || (disp.indexOf('(S.hasGeoToy || S.hasGeo3)? g : 2') >= 0 && /if\(ge>=3\)\{[\s\S]*?p\.geoPN=0; try\{ S\._core\(dt,mode\); \}/.test(disp))
+        // 第294便a(R148): 実効番号は共通の geoEffectiveMode(旧法則版が走る 3 は g・慣性宣言の 3 は 0・どちらも無い 3 は 2)に寄せ、dispatch は ge≥3 で `_core` へ 0
+        || (disp.indexOf('const ge=geoEffectiveMode(S)') >= 0 && /if\(ge>=3\)\{[\s\S]*?p\.geoPN=0; try\{ S\._core\(dt,mode\); \}/.test(disp)
+          && typeof HP.geoEffectiveMode === 'function' && /if\(S\.hasGeoToy \|\| S\.hasGeo3\) return g;/.test(HP.geoEffectiveMode.toString()) && /return 2;/.test(HP.geoEffectiveMode.toString())) };
       HP.loadPreset('mercuryGeoToy3', false);
       { const S = HP.sim; for (let i = 0; i < 20; i++) S.step(0.016);
         res.run = { hasGeo3: S.hasGeo3, hasGeo3PN: S.hasGeo3PN, hasGeoToy: S.hasGeoToy, g2: !!S._g2, geoPN: S.params.geoPN,
@@ -67160,6 +67164,12 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
       const TB = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'data-w289b-condrows.json'), 'utf8'));
       const FX = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', 'dfmcal-w288b.json'), 'utf8'));
       const KF1 = /kFrame\s*[=＝]\s*1/;
+      // 第294便b(原仮定者の裁定(第84報)「廃止サンプルに対する言及は、全面的に削除する」・R149): 凍結の写し(旧宣言)の文のうち退役の本を名指しする 1 行は、
+      //   **文だけ**を本便の文へ写してから比べる(値 5.88370 日(+0.117%)は 1 字も変えない —— 先頭の数の同一を別に見る)。root(旧世代)は写さない
+      const has294bCR = fs.readFileSync(path.join(ROOT, TARGET), 'utf8').indexOf('QA docs.noRetiredMention294') >= 0;
+      const W294B_TEXT = { 'neptuneReal:1': { ja: ["5.88370 日(+0.117%)— 引きずり項が観測可能量を作る第3例(❄️ +0.246% に続く)", "5.88370 日(+0.117%)— 引きずり項が観測可能量を作る例"], en: ["5.88370 d (+0.117%) — the third real transcription where the dragging term is observable (after ❄️'s +0.246%)", "5.88370 d (+0.117%) — a real transcription where the dragging term is observable"] } };
+      const numHead = (s) => (String(s).match(/^[\d.]+/) || [''])[0];
+      let nRewrite = 0;
       const ids = [...new Set(TB.rows.map((r) => r.id))];
       const cur = await page.evaluate((ids) => {
         const out = {};
@@ -67180,7 +67190,10 @@ await w5bRun('shapeToys', true); async function W5B_shapeToys(page, add, fpRun, 
         if (j && KF1.test(j.q)) bad.push(`① ${r.id}[${r.row}] の行名が kFrame=1 を名乗る`);
         if (e && KF1.test(e.q)) bad.push(`① ${r.id}[${r.row}] の en 行名が kFrame=1 を名乗る`);
         if (!(fr && fe && fr.q === r.qBefore && fe.q === r.enBefore)) bad.push(`① ${r.id}[${r.row}] の旧行名が凍結の写しと違う`);
-        if (j && fr && j.model === fr.model && j.obs === fr.obs && e && fe && e.model === fe.model && e.obs === fe.obs) nVal++;
+        let frM = fr ? fr.model : null, feM = fe ? fe.model : null;
+        { const rw = has294bCR && W294B_TEXT[r.id + ':' + r.row];
+          if (rw && frM === rw.ja[0] && feM === rw.en[0] && numHead(rw.ja[0]) === numHead(rw.ja[1]) && numHead(rw.en[0]) === numHead(rw.en[1])) { frM = rw.ja[1]; feM = rw.en[1]; nRewrite++; } }
+        if (j && fr && j.model === frM && j.obs === fr.obs && e && fe && e.model === feM && e.obs === fe.obs) nVal++;
         else bad.push(`① ${r.id}[${r.row}] の model/obs が凍結の写しと違う(値は 1 字も変えない)`);
         if (!(j && j.cond && j.cond.kFrame === 0 && j.cond.geoPN === 1 && Object.keys(j.cond).length === 2)) bad.push(`① ${r.id}[${r.row}] の条件欄が {kFrame:0,geoPN:1} でない`);
         if (!(c.kF === 0 && c.geo === 1)) bad.push(`① ${r.id} の physics が kFrame=0・geoPN=1 でない`);
