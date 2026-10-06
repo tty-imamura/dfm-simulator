@@ -3151,3 +3151,19 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
   `HP.relDragComposeOf(rd)`・`HP.relDragSolveFromOf(rd)`(正準形から実際の合成則と v の意味を読む)・`HP.REL_DRAG_COMPOSE_DEFAULT`・`HP.REL_DRAG_SOLVE_FROM_DEFAULT`。
   表示メッシュの drag(§42)は加算の局所場のサンプラーなので、solve の本(既定)では描かず凡例に理由を出す(`inertialDragFieldReady(S).why === "composeSolve"`)—— `compose:"sum"` を明示した本だけ描く。
 - 式・検査・比較は docs/PHYSICS.md〔第293便e〕〔第293便g〕。QA: **`behavior.composeGate`**(門と受理)/ **`docs.composeContract`**(表の転記)。
+
+## 50. 第294便d —— 時間の内訳の正本 `tests/out/timing-w294d.json` の鍵(原仮定者の裁定(第84報)・統括の検証項目 R151・**プリセットの宣言鍵は足していない**・**SYSTEM_PROMPT には載せない**)
+
+- 器 `tests/exp-w294d-timing.mjs`(鎖の段 `timing294` —— htmlagg の後・領域は全本・常時群にしない・`W294D_OUT` で出力先を変える・`--no-live` は集計だけで正本にしない)。**判定の欄を持たない**
+  (合否・区分・判定語は calaudit・QA の正本にあり、ここには写さない —— 鍵 `pass`・`ok`・`verdict`・`judgement`・`gate` 等が無いことを QA が全鍵で走査する)。
+- `calibration.table`(較正走行の本ごと: n・步数・壁時計・步/秒・対象・dt/2 と dt/4 の転記〔元の走行の壁時計〕)/ `calibration.top5`(上位 5 本の 1 本 1 行:
+  `stepSec`・`extractSec`・`rateProbeSec`〔前置の步/秒の測定 25000 步 —— 壁時計の外〕・`splitFrom`〔`record-rate` か n=2 の `live-ratio`〕)/
+  `calibration.solarInnerWindow`(🌞 の対象ごとの 20 近点窓に要る步数と、窓を決める対象)。
+- `qa`(保存 QA の記録 `tests/out/qa-results-full-beta.json` から: 項目の ms の上位・W5 の単位の runMs・前置の ms〔`prefixMs.replay`・`prefixMs.changed`〕・`syntaxMs`・重い 5 単位)。
+  QA の記録は来歴の inputs に入れず、読んだ版の sha を `sources.qa` に写す(QA が走るたびに変わる記録なので)。
+- `chain`(再生成表の段の実測秒・常時群・全本段 `presetsAll`〔本ごとの走行の印 `perPresetLoops`〕・退役の上限の目安 `retiredBound`)。
+- `live`(その場の実測 —— 時間の欄だけ): `rates`(上位 5 本の μs/步・抽出の代理との比 `extractShare`)・`subset`(💍💠🌞 の試験粒子を外した写しの μs/步と、
+  主張が読む single の 2000 步後の状態の全粒との差 —— **測るだけ・較正走行の入力は変えない**)・`twoBody`(🌛🐌 の μs/步)・`cost`(在位/退役の build と loadPreset+32 步)・
+  `closure`(`closureSame294` —— 全 scope × 3 版の閉包が参照実装 `closureOfRef294` と全欄同一の数と所要)。
+- 関連(エンジンの内部 —— 宣言鍵ではない): `inertialDragComposeSolve` の n=2 は直接法と同じ演算・同じ順序の展開形(結果はビット同一)。
+- 式・表・採った改善と採らなかった改善は docs/PHYSICS.md〔第294便d〕。QA: **`docs.timingContract294`**(正本の形)/ **`lint.scopeClosureSame294`**(閉包の前後同一)。

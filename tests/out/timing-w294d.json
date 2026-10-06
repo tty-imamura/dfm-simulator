@@ -1,0 +1,1565 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第294便d",
+  "target": "beta/index.html",
+  "targetSha256": "ea9720c0fd5d6067aa10bcbf9914b4d59e74b61b8c0d5b58df0b3c1078762f92",
+  "generatedAt": "2026-10-06T16:25:19.999Z",
+  "inputs": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "bytes": 1838815,
+    "sha256": "7b38144d574b1cd2df6d1f31e98b58a1b22fabbf8649dbf683c7917904c5d15b",
+    "mtime": "2026-10-06T15:16:31.013Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w294d-timing.mjs",
+    "bytes": 25624,
+    "sha256": "b5d93c2c5483f836f94795887e8eb8664dc856b38dc84dacc2ce675c8e9826d9",
+    "mtime": "2026-10-06T16:23:44.927Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T15:33:47.066Z"
+   },
+   {
+    "file": "tests/lib-w281a-regentable.mjs",
+    "bytes": 249240,
+    "sha256": "76be32ead9acac6266f56a00d14d10bc66a335b4dc884f5d3eb8fb170d9fe691",
+    "mtime": "2026-10-06T16:23:44.932Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-06T15:16:30.953Z"
+   }
+  ],
+  "codeSha256": "4006e6eee96bd05df78ff7780a7a932616b0f74ca90bf4bd5ece598b1b895df2",
+  "harnessVersion": "w294d-timing-1",
+  "ruling": "原仮定者の裁定(第84報): 較正走行と QA で時間が掛かっているサンプルについて、改善を行う",
+  "reading": "統括の検証項目 R151: 先に内訳を測り、物理・入力・窓・抽出器・判定を変えずに時間を減らす(速さと判定は別の文)",
+  "notClaim": [
+   "判定が動いた",
+   "較正 合",
+   "合に近づいた",
+   "速くなったので判定が動いた"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": "all",
+   "roots": [
+    "HP.allPresets",
+    "HP.loadPreset",
+    "HP.sim",
+    "HP.validatePreset",
+    "RETIRED_PRESETS"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1000,
+   "segments": 909,
+   "closureShare": 0.3277
+  },
+  "scopeSha256": "653723889049dd0f635df143294e64242a3dbbf6cbbfb82c399bf2eff1d8c233",
+  "scopeComplete": true,
+  "inputsStable": [
+   {
+    "file": "tests/out/calaudit-w249.json",
+    "stableSha256": "431d6a58a211c3d4478328cac5031ded9d98b5a38c199242cbbacb9c4e2e5591",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/diagnosticsSplit/bytes",
+     "/diagnosticsSplit/bytesAfterSplit",
+     "/diagnosticsSplit/bytesBeforeSplit",
+     "/diagnosticsSplit/carriedOverFrom",
+     "/diagnosticsSplit/sha256",
+     "/fourValues/current/targetSha256",
+     "/fourValues/current/when",
+     "/kf0Runs/charonCitation/citedTargetSha256",
+     "/kf0Runs/charonCitation/fileSha256",
+     "/mergeKey/targetSha256",
+     "/meta/target",
+     "/meta/targetSha256",
+     "/meta/when",
+     "/presets/*/run/stopRule/rateStepsPerSec",
+     "/presets/*/run/stopRule/wallSec",
+     "/presets/*/run/stopRuleStages/*/rateStepsPerSec",
+     "/presets/*/run/stopRuleStages/*/wallSec",
+     "/presets/*/run/timeBudget/*/rateStepsPerSec",
+     "/presets/*/run/timeBudget/*/wallNearBudget",
+     "/presets/*/run/timeBudget/*/wallSec",
+     "/presets/*/run/wallSec"
+    ]
+   },
+   {
+    "file": "tests/out/calaudit-w249-diag.json",
+    "stableSha256": "7a3d38889edf06cba704f99189dd3928b18e6b01bcd8184f5b78313695bbc3e8",
+    "stableVersion": "w282e-stable-1",
+    "volatilePaths": [
+     "/carriedOverFrom",
+     "/h2Store/carriedFrom",
+     "/h2Store/entries/*/generatedAt",
+     "/h2Store/entries/*/run/rateStepsPerSec",
+     "/h2Store/entries/*/run/stopRule/rateStepsPerSec",
+     "/h2Store/entries/*/run/stopRule/wallSec",
+     "/h2Store/entries/*/run/timeBudget/rateStepsPerSec",
+     "/h2Store/entries/*/run/timeBudget/wallNearBudget",
+     "/h2Store/entries/*/run/timeBudget/wallSec",
+     "/h2Store/entries/*/run/wallSec",
+     "/h4Store/carriedFrom",
+     "/h4Store/entries/*/generatedAt",
+     "/h4Store/entries/*/run/rateStepsPerSec",
+     "/h4Store/entries/*/run/stopRule/rateStepsPerSec",
+     "/h4Store/entries/*/run/stopRule/wallSec",
+     "/h4Store/entries/*/run/timeBudget/rateStepsPerSec",
+     "/h4Store/entries/*/run/timeBudget/wallNearBudget",
+     "/h4Store/entries/*/run/timeBudget/wallSec",
+     "/h4Store/entries/*/run/wallSec",
+     "/when"
+    ],
+    "companionOf": "tests/out/calaudit-w249.json"
+   }
+  ],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "what": "時間の内訳(較正走行・保存 QA・再生成の鎖)。判定の欄は持たない —— 合否・区分・判定語は calaudit・QA の正本にあり、ここには写さない",
+ "sources": {
+  "calaudit": {
+   "file": "tests/out/calaudit-w249.json",
+   "generatedAt": "2026-10-06T00:08:33.697Z"
+  },
+  "qa": {
+   "file": "tests/out/qa-results-full-beta.json",
+   "sha256": "12bf120511684623d0e2f54380a29eaa8ec3c89691bd84e29e6d804369bf4db3",
+   "commit": "8343648927a81340a0f6d87294e7f1d97c61542e",
+   "date": "2026-10-06T00:54:57.924Z",
+   "targetSha256": "041f8b6272ac44bff81472fe8c46151621efc4977014cfcffc53a0a7c89ea04f",
+   "note": "QA の記録(QA が走るたびに変わる)—— 来歴の inputs に入れず、読んだ版の sha をここに写す"
+  },
+  "chain": "tests/lib-w281a-regentable.mjs の REGEN_STEPS(sec —— 段の実測秒の記録)"
+ },
+ "calibration": {
+  "table": {
+   "n": 20,
+   "rows": [
+    {
+     "id": "saturnRingReal",
+     "emoji": "💍",
+     "n": 127,
+     "dt": 0.016,
+     "steps": 2042988,
+     "wallSec": 116.155,
+     "rateStepsPerSec": 18232,
+     "targets": [
+      "C環内縁",
+      "ミマス",
+      "タイタン"
+     ],
+     "dtHalf": null,
+     "dtQuarter": null
+    },
+    {
+     "id": "plutoCharonDiagInput",
+     "emoji": "🥶",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 40000000,
+     "wallSec": 68.344,
+     "rateStepsPerSec": 357143,
+     "targets": [
+      "カロン"
+     ],
+     "dtHalf": {
+      "steps": 80000000,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 157.566
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "uranusReal",
+     "emoji": "💠",
+     "n": 94,
+     "dt": 0.016,
+     "steps": 1075028,
+     "wallSec": 48.88,
+     "rateStepsPerSec": 21598,
+     "targets": [
+      "ミランダ",
+      "アリエル",
+      "ウンブリエル",
+      "チタニア",
+      "オベロン"
+     ],
+     "dtHalf": null,
+     "dtQuarter": null
+    },
+    {
+     "id": "solarInner",
+     "emoji": "🌞",
+     "n": 105,
+     "dt": 0.016,
+     "steps": 866426,
+     "wallSec": 39.251,
+     "rateStepsPerSec": 21978,
+     "targets": [
+      "水星",
+      "金星",
+      "地球",
+      "火星"
+     ],
+     "dtHalf": null,
+     "dtQuarter": null
+    },
+    {
+     "id": "earthMoonReal",
+     "emoji": "🌙",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 40000000,
+     "wallSec": 35.311,
+     "rateStepsPerSec": 588235,
+     "targets": [
+      "月"
+     ],
+     "dtHalf": {
+      "steps": 80000000,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 78.908
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "psrB1534",
+     "emoji": "📿",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 13631880,
+     "wallSec": 17.064,
+     "rateStepsPerSec": 740741,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 27263758,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 35.178
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "jupiterGalilean",
+     "emoji": "🟠",
+     "n": 5,
+     "dt": 0.016,
+     "steps": 5405815,
+     "wallSec": 12.971,
+     "rateStepsPerSec": 312500,
+     "targets": [
+      "イオ",
+      "エウロパ",
+      "ガニメデ",
+      "カリスト"
+     ],
+     "dtHalf": {
+      "steps": 10811628,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 28.016
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "alphaCenAB",
+     "emoji": "✨",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 9439328,
+     "wallSec": 9.504,
+     "rateStepsPerSec": 800000,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 18878657,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 22.168
+     },
+     "dtQuarter": {
+      "steps": 37757313,
+      "wallSec": null,
+      "skippedBy": "reuse",
+      "reusedFromWallSec": 41.114
+     }
+    },
+    {
+     "id": "venusReal",
+     "emoji": "🌇",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 7280208,
+     "wallSec": 6.602,
+     "rateStepsPerSec": 952381,
+     "targets": [
+      "金星"
+     ],
+     "dtHalf": {
+      "steps": 14560415,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 15.504
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "siriusAB",
+     "emoji": "🌟",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 5932383,
+     "wallSec": 5.745,
+     "rateStepsPerSec": 500000,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 11864765,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 13.211
+     },
+     "dtQuarter": {
+      "steps": 23729530,
+      "wallSec": null,
+      "skippedBy": "reuse",
+      "reusedFromWallSec": 24.07
+     }
+    },
+    {
+     "id": "saturnZonalD68",
+     "emoji": "📡",
+     "n": 11,
+     "dt": 0.016,
+     "steps": 668676,
+     "wallSec": 5.524,
+     "rateStepsPerSec": 84746,
+     "targets": [
+      "D68"
+     ],
+     "dtHalf": {
+      "steps": 1337353,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 12.876
+     },
+     "dtQuarter": {
+      "steps": 2674708,
+      "wallSec": null,
+      "skippedBy": "reuse",
+      "reusedFromWallSec": 24.528
+     }
+    },
+    {
+     "id": "marsMoonsReal",
+     "emoji": "🥔",
+     "n": 3,
+     "dt": 0.016,
+     "steps": 4091814,
+     "wallSec": 4.833,
+     "rateStepsPerSec": 869565,
+     "targets": [
+      "フォボス",
+      "ダイモス"
+     ],
+     "dtHalf": {
+      "steps": 8183629,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 10.946
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "psrDoubleAB",
+     "emoji": "📻",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 3312950,
+     "wallSec": 3.293,
+     "rateStepsPerSec": 869565,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 6625899,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 7.949
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "mercuryReal",
+     "emoji": "☄️",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 2850199,
+     "wallSec": 2.575,
+     "rateStepsPerSec": 800000,
+     "targets": [
+      "水星"
+     ],
+     "dtHalf": {
+      "steps": 5700398,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 5.076
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "psrJ1757DFM",
+     "emoji": "🧮",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 2180354,
+     "wallSec": 2.469,
+     "rateStepsPerSec": 769231,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 4360708,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 5.645
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "neptuneReal",
+     "emoji": "🌊",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 1904169,
+     "wallSec": 1.656,
+     "rateStepsPerSec": 1176471,
+     "targets": [
+      "トリトン"
+     ],
+     "dtHalf": {
+      "steps": 3808338,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 3.63
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "psrJ1946DFM",
+     "emoji": "🩺",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 932492,
+     "wallSec": 1.173,
+     "rateStepsPerSec": 833333,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 1864984,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 2.978
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "emAuditSolar",
+     "emoji": "🔆",
+     "n": 3,
+     "dt": 0.016,
+     "steps": 885179,
+     "wallSec": 1.028,
+     "rateStepsPerSec": 769231,
+     "targets": [
+      "月"
+     ],
+     "dtHalf": {
+      "steps": 1770360,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 2.608
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "gw150914",
+     "emoji": "🎐",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 681306,
+     "wallSec": 0.509,
+     "rateStepsPerSec": 1538462,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 1362611,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 1.366
+     },
+     "dtQuarter": null
+    },
+    {
+     "id": "gw150914Merge4s",
+     "emoji": "⏰",
+     "n": 2,
+     "dt": 0.016,
+     "steps": 34013,
+     "wallSec": 0.07,
+     "rateStepsPerSec": 666667,
+     "targets": [
+      "B"
+     ],
+     "dtHalf": {
+      "steps": 68025,
+      "wallSec": null,
+      "skippedBy": "reuse-dt2",
+      "reusedFromWallSec": 0.094
+     },
+     "dtQuarter": null
+    }
+   ],
+   "top5": [
+    "saturnRingReal",
+    "plutoCharonDiagInput",
+    "uranusReal",
+    "solarInner",
+    "earthMoonReal"
+   ],
+   "wallSecDt": 382.957,
+   "wallSecRun": 382.957,
+   "transcribedSec": {
+    "dtHalf": 403.719,
+    "dtQuarter": 89.712
+   }
+  },
+  "top5": [
+   {
+    "id": "saturnRingReal",
+    "emoji": "💍",
+    "n": 127,
+    "steps": 2042988,
+    "wallSec": 116.155,
+    "rateStepsPerSec": 18232,
+    "usPerStepLive": 59.57,
+    "stepSecRecord": 112.055,
+    "extractShareLive": 0.062,
+    "splitFrom": "record-rate",
+    "stepSec": 112.055,
+    "extractSec": 4.1,
+    "rateProbeSec": 1.371,
+    "dtHalf": null,
+    "dtQuarter": null
+   },
+   {
+    "id": "plutoCharonDiagInput",
+    "emoji": "🥶",
+    "n": 2,
+    "steps": 40000000,
+    "wallSec": 68.344,
+    "rateStepsPerSec": 357143,
+    "usPerStepLive": 1.849,
+    "stepSecRecord": 112,
+    "extractShareLive": 0.096,
+    "splitFrom": "live-ratio",
+    "stepSec": 61.783,
+    "extractSec": 6.561,
+    "rateProbeSec": 0.07,
+    "dtHalf": {
+     "steps": 80000000,
+     "wallSec": null,
+     "skippedBy": "reuse-dt2",
+     "reusedFromWallSec": 157.566
+    },
+    "dtQuarter": null
+   },
+   {
+    "id": "uranusReal",
+    "emoji": "💠",
+    "n": 94,
+    "steps": 1075028,
+    "wallSec": 48.88,
+    "rateStepsPerSec": 21598,
+    "usPerStepLive": 53.301,
+    "stepSecRecord": 49.774,
+    "extractShareLive": 0,
+    "splitFrom": "live-ratio",
+    "stepSec": 48.88,
+    "extractSec": 0,
+    "rateProbeSec": 1.158,
+    "dtHalf": null,
+    "dtQuarter": null
+   },
+   {
+    "id": "solarInner",
+    "emoji": "🌞",
+    "n": 105,
+    "steps": 866426,
+    "wallSec": 39.251,
+    "rateStepsPerSec": 21978,
+    "usPerStepLive": 63.978,
+    "stepSecRecord": 39.422,
+    "extractShareLive": 0,
+    "splitFrom": "live-ratio",
+    "stepSec": 39.251,
+    "extractSec": 0,
+    "rateProbeSec": 1.138,
+    "dtHalf": null,
+    "dtQuarter": null
+   },
+   {
+    "id": "earthMoonReal",
+    "emoji": "🌙",
+    "n": 2,
+    "steps": 40000000,
+    "wallSec": 35.311,
+    "rateStepsPerSec": 588235,
+    "usPerStepLive": 1.052,
+    "stepSecRecord": 68,
+    "extractShareLive": 0.195,
+    "splitFrom": "live-ratio",
+    "stepSec": 28.425,
+    "extractSec": 6.886,
+    "rateProbeSec": 0.043,
+    "dtHalf": {
+     "steps": 80000000,
+     "wallSec": null,
+     "skippedBy": "reuse-dt2",
+     "reusedFromWallSec": 78.908
+    },
+    "dtQuarter": null
+   }
+  ],
+  "solarInnerWindow": {
+   "id": "solarInner",
+   "needPeriastra": 20,
+   "stepsRun": 866426,
+   "maxSteps": 866426,
+   "boundBy": "declared-max-steps",
+   "rows": [
+    {
+     "label": "水星",
+     "stepsPerOrbit0": 47503,
+     "periFoundA": 9,
+     "stepsForWindow": 950060,
+     "windowOverRun": 1.097
+    },
+    {
+     "label": "金星",
+     "stepsPerOrbit0": 121336,
+     "periFoundA": 4,
+     "stepsForWindow": 2426720,
+     "windowOverRun": 2.801
+    },
+    {
+     "label": "地球",
+     "stepsPerOrbit0": 197238,
+     "periFoundA": 5,
+     "stepsForWindow": 3944760,
+     "windowOverRun": 4.553
+    },
+    {
+     "label": "火星",
+     "stepsPerOrbit0": 370964,
+     "periFoundA": 3,
+     "stepsForWindow": 7419280,
+     "windowOverRun": 8.563
+    }
+   ],
+   "dictatedBy": "火星",
+   "note": "同じ走行から全対象の周期・離心率・近点を読むので、窓の步数は最も遅い対象が決める(対象ごとに別の走行にしても、遅い対象の步数は減らない)"
+  },
+  "rateProbeSteps": 25000,
+  "split": "step = 走った步数 / calaudit が走行の直前に同じ負荷で測った步/秒(record-rate)。それが壁時計を超える本(n=2 —— 20000 步の測定が短すぎる)は、live で同じページに交互に測った「step だけ」と「step + 抽出の代理」の比で壁時計を分ける(live-ratio)/ 抽出 = 壁時計 − step(步ごとの検出器・停止の検査)/ 前置の步/秒の測定 = 25000 步 ÷ 步/秒(壁時計の外 —— 走らせる段ごと)。live の μs/步 は別の時刻・別の負荷の値で、比だけを使う"
+ },
+ "qa": {
+  "total": 1058,
+  "durationMs": 2142098,
+  "wallDurationMs": 2142197,
+  "tier": "full",
+  "prefixMs": {
+   "replay": 13,
+   "changed": 365312
+  },
+  "syntaxMs": 365518,
+  "syntaxNote": "第294便d より前の qa.mjs は前置(② 前回 FAIL の先行・③ 変更依存の先行)の時間を syntax に請求していた(lastAddAt の起点)。第294便d 以降の記録では syntax は node --check だけ",
+  "top15": [
+   {
+    "id": "syntax",
+    "ms": 365518
+   },
+   {
+    "id": "claim.galaxygeo2-outerboost",
+    "ms": 218759
+   },
+   {
+    "id": "preset.roundtrip-builtins",
+    "ms": 149655
+   },
+   {
+    "id": "behavior.clusterScale",
+    "ms": 127641
+   },
+   {
+    "id": "lint.scopeStop",
+    "ms": 68047
+   },
+   {
+    "id": "claim.galaxystd-outerboost",
+    "ms": 62202
+   },
+   {
+    "id": "preset.layerAxisDecl",
+    "ms": 55701
+   },
+   {
+    "id": "kernel.bitident",
+    "ms": 49077
+   },
+   {
+    "id": "lint.regenChain",
+    "ms": 35186
+   },
+   {
+    "id": "behavior.wave100c",
+    "ms": 34203
+   },
+   {
+    "id": "perf.geoToyPrepared",
+    "ms": 26734
+   },
+   {
+    "id": "ui.panelReserve",
+    "ms": 25906
+   },
+   {
+    "id": "ai.stabilize",
+    "ms": 24858
+   },
+   {
+    "id": "behavior.clusterScanSameInit",
+    "ms": 23912
+   },
+   {
+    "id": "behavior.gas",
+    "ms": 23869
+   }
+  ],
+  "units": [
+   {
+    "unit": "W5b:phaseMultiseed",
+    "where": "worker",
+    "runMs": 290994
+   },
+   {
+    "unit": "W5b:phasechangeSchema",
+    "where": "worker",
+    "runMs": 284300
+   },
+   {
+    "unit": "W5b:galaxyGeo2",
+    "where": "main(stolen)",
+    "runMs": 218759
+   },
+   {
+    "unit": "W5b:roundtripBuiltins",
+    "where": "main(stolen)",
+    "runMs": 149656
+   },
+   {
+    "unit": "W5c:galaxyAB",
+    "where": "worker",
+    "runMs": 144203
+   },
+   {
+    "unit": "W5c:cosmicweb",
+    "where": "worker",
+    "runMs": 118541
+   },
+   {
+    "unit": "W5c:saturnLayered",
+    "where": "worker",
+    "runMs": 99626
+   },
+   {
+    "unit": "W5c:convection24000",
+    "where": "worker",
+    "runMs": 90399
+   },
+   {
+    "unit": "W5c:collapseCooling",
+    "where": "worker",
+    "runMs": 89074
+   },
+   {
+    "unit": "W5c:saturn24000",
+    "where": "worker",
+    "runMs": 88084
+   },
+   {
+    "unit": "W5b:selfrotorMultiseed",
+    "where": "worker",
+    "runMs": 79647
+   },
+   {
+    "unit": "W5b:bhcoreSelfdrive",
+    "where": "worker",
+    "runMs": 78986
+   },
+   {
+    "unit": "W5c:fpDigests",
+    "where": "worker",
+    "runMs": 75635
+   },
+   {
+    "unit": "W5c:buoyancy",
+    "where": "worker",
+    "runMs": 71103
+   },
+   {
+    "unit": "W5c:saturnExp",
+    "where": "worker",
+    "runMs": 70518
+   },
+   {
+    "unit": "W5b:galaxyStd",
+    "where": "main(stolen)",
+    "runMs": 62202
+   },
+   {
+    "unit": "W5b:reactionCap",
+    "where": "worker",
+    "runMs": 61193
+   },
+   {
+    "unit": "W5b:toyLedger",
+    "where": "worker",
+    "runMs": 51341
+   },
+   {
+    "unit": "W5b:bhcoreFree",
+    "where": "worker",
+    "runMs": 49211
+   },
+   {
+    "unit": "W5b:nsThreeStage",
+    "where": "worker",
+    "runMs": 49131
+   }
+  ],
+  "heavy": [
+   {
+    "unit": "W5b:phaseMultiseed",
+    "where": "worker",
+    "runMs": 290994
+   },
+   {
+    "unit": "W5b:phasechangeSchema",
+    "where": "worker",
+    "runMs": 284300
+   },
+   {
+    "unit": "W5b:galaxyGeo2",
+    "where": "main(stolen)",
+    "runMs": 218759
+   },
+   {
+    "unit": "W5b:roundtripBuiltins",
+    "where": "main(stolen)",
+    "runMs": 149656
+   },
+   {
+    "unit": "W5c:galaxyAB",
+    "where": "worker",
+    "runMs": 144203
+   }
+  ],
+  "w5": {
+   "workers": 4,
+   "nice": 10,
+   "renicedRenderers": 4
+  }
+ },
+ "chain": {
+  "nCurrent": 122,
+  "secCurrent": 29179,
+  "nAlways": 13,
+  "secAlways": 5195,
+  "presetsAll": [
+   {
+    "key": "clusterStable",
+    "sec": 3068,
+    "secSource": "w284a-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w284a-cluster.mjs"
+   },
+   {
+    "key": "pnsource286",
+    "sec": 1249,
+    "secSource": "w286b-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
+    ],
+    "harness": "tests/exp-w286b-pnsource.mjs"
+   },
+   {
+    "key": "compose293",
+    "sec": 907,
+    "secSource": "w293e-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w293e-compose.mjs"
+   },
+   {
+    "key": "pn1",
+    "sec": 682,
+    "secSource": "w285b-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
+    ],
+    "harness": "tests/exp-w285b-pn1.mjs"
+   },
+   {
+    "key": "clusterAnalogy",
+    "sec": 658,
+    "secSource": "w283f-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本を validatePreset → build して重い天体と光線の扇(基点と今の 2 回)"
+    ],
+    "harness": "tests/exp-w283f-cluster.mjs"
+   },
+   {
+    "key": "contact285",
+    "sec": 282,
+    "secSource": "w285a-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
+    ],
+    "harness": "tests/exp-w285a-contact.mjs"
+   },
+   {
+    "key": "pnsources291",
+    "sec": 208,
+    "secSource": "w291b-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本を loadPreset して数步の状態指紋(基点 html と今の html の 2 回)"
+    ],
+    "harness": "tests/exp-w291b-pnsources.mjs"
+   },
+   {
+    "key": "d68",
+    "sec": 153,
+    "secSource": "w281a-chain",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w280e-d68.mjs"
+   },
+   {
+    "key": "tpsign",
+    "sec": 153,
+    "secSource": "w284e-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w284e-tpsign.mjs"
+   },
+   {
+    "key": "bgtime287",
+    "sec": 110,
+    "secSource": "w287c-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w287c-bgtime.mjs"
+   },
+   {
+    "key": "shapecrit",
+    "sec": 106,
+    "secSource": "w281a-chain",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w275d-shapecrit.mjs"
+   },
+   {
+    "key": "corecensus293",
+    "sec": 106,
+    "secSource": "w293c-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w293c-corecensus.mjs"
+   },
+   {
+    "key": "timing294",
+    "sec": 95,
+    "secSource": "w294d-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
+    ],
+    "harness": "tests/exp-w294d-timing.mjs"
+   },
+   {
+    "key": "jeans286",
+    "sec": 27,
+    "secSource": "w286a-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w286a-jeans.mjs"
+   },
+   {
+    "key": "eihdiag287",
+    "sec": 20,
+    "secSource": "w287b-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w287b-eihdiag.mjs"
+   },
+   {
+    "key": "bgrange288",
+    "sec": 12,
+    "secSource": "w288c-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w288c-bgrange.mjs"
+   },
+   {
+    "key": "contractrange289",
+    "sec": 10,
+    "secSource": "w289b-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w289b-contractrange.mjs"
+   },
+   {
+    "key": "families",
+    "sec": 8,
+    "secSource": "w283b-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w283b-families.mjs"
+   },
+   {
+    "key": "bgfield284",
+    "sec": 6,
+    "secSource": "w284e-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w284e-bgfield.mjs"
+   },
+   {
+    "key": "bgdiff286",
+    "sec": 3,
+    "secSource": "w286c-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w286c-bgdiff.mjs"
+   },
+   {
+    "key": "calcontract",
+    "sec": 2,
+    "secSource": "w282a-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w282a-calcontract.mjs"
+   },
+   {
+    "key": "weakfield289",
+    "sec": 2,
+    "secSource": "w289a-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w289a-weakfield.mjs"
+   }
+  ],
+  "secPresetsAll": 7867,
+  "rows": [
+   {
+    "key": "calaudit",
+    "sec": 3724,
+    "secSource": "w280-chain",
+    "alwaysRun": true,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w249b-calaudit.mjs"
+   },
+   {
+    "key": "clusterStable",
+    "sec": 3068,
+    "secSource": "w284a-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w284a-cluster.mjs"
+   },
+   {
+    "key": "emgrid",
+    "sec": 2295,
+    "secSource": "w281a-chain",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w280b-emgrid.mjs"
+   },
+   {
+    "key": "charon-h2",
+    "sec": 1407,
+    "secSource": "w272b-wallSec",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w272b-charon.mjs"
+   },
+   {
+    "key": "pnsource286",
+    "sec": 1249,
+    "secSource": "w286b-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
+    ],
+    "harness": "tests/exp-w286b-pnsource.mjs"
+   },
+   {
+    "key": "geo3",
+    "sec": 1016,
+    "secSource": "w281a-chain",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w280c-geo3.mjs"
+   },
+   {
+    "key": "charonk",
+    "sec": 979,
+    "secSource": "w281a-chain",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w273b-charonk.mjs"
+   },
+   {
+    "key": "nsgrid",
+    "sec": 955,
+    "secSource": "w280-chain",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w277c-nsgrid.mjs"
+   },
+   {
+    "key": "dragcore292",
+    "sec": 953,
+    "secSource": "w292c-branch",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w292c-dragcore.mjs"
+   },
+   {
+    "key": "compose293",
+    "sec": 907,
+    "secSource": "w293e-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w293e-compose.mjs"
+   },
+   {
+    "key": "d68three",
+    "sec": 900,
+    "secSource": "w286-estimate",
+    "alwaysRun": true,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w268a-d68.mjs"
+   },
+   {
+    "key": "charoneps-h4",
+    "sec": 847,
+    "secSource": "w272b-wallSec",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w272b-charon.mjs"
+   },
+   {
+    "key": "charon-h4",
+    "sec": 700,
+    "secSource": "w272b-wallSec",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w272b-charon.mjs"
+   },
+   {
+    "key": "nslock",
+    "sec": 688,
+    "secSource": "w281a-chain",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w272c-nslock.mjs"
+   },
+   {
+    "key": "pn1",
+    "sec": 682,
+    "secSource": "w285b-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
+    ],
+    "harness": "tests/exp-w285b-pn1.mjs"
+   },
+   {
+    "key": "charon-h",
+    "sec": 677,
+    "secSource": "w281a-chain",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w272b-charon.mjs"
+   },
+   {
+    "key": "clusterAnalogy",
+    "sec": 658,
+    "secSource": "w283f-branch",
+    "alwaysRun": false,
+    "presetsAll": true,
+    "perPresetLoops": [
+     "全本を validatePreset → build して重い天体と光線の扇(基点と今の 2 回)"
+    ],
+    "harness": "tests/exp-w283f-cluster.mjs"
+   },
+   {
+    "key": "charonInput",
+    "sec": 603,
+    "secSource": "w281a-chain",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w280d-charonInput.mjs"
+   },
+   {
+    "key": "galaxyproto",
+    "sec": 467,
+    "secSource": "w280-chain",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w276e-galaxyproto.mjs"
+   },
+   {
+    "key": "charoneps-h2",
+    "sec": 430,
+    "secSource": "w272b-wallSec",
+    "alwaysRun": false,
+    "presetsAll": false,
+    "perPresetLoops": [],
+    "harness": "tests/exp-w272b-charon.mjs"
+   }
+  ],
+  "retiredBound": [
+   {
+    "key": "pnsource286",
+    "sec": 1249,
+    "loops": [
+     "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
+    ],
+    "retiredSecUpperPerHtml": 2.125
+   },
+   {
+    "key": "pn1",
+    "sec": 682,
+    "loops": [
+     "全本(または部分集合)を loadPreset して数步 —— 基点 html と今の html の 2 回"
+    ],
+    "retiredSecUpperPerHtml": 2.125
+   },
+   {
+    "key": "clusterAnalogy",
+    "sec": 658,
+    "loops": [
+     "全本を validatePreset → build して重い天体と光線の扇(基点と今の 2 回)"
+    ],
+    "retiredSecUpperPerHtml": 2.125
+   },
+   {
+    "key": "contact285",
+    "sec": 282,
+    "loops": [
+     "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
+    ],
+    "retiredSecUpperPerHtml": 2.125
+   },
+   {
+    "key": "pnsources291",
+    "sec": 208,
+    "loops": [
+     "全本を loadPreset して数步の状態指紋(基点 html と今の html の 2 回)"
+    ],
+    "retiredSecUpperPerHtml": 2.125
+   },
+   {
+    "key": "timing294",
+    "sec": 95,
+    "loops": [
+     "全本を validatePreset → build して数步の状態 hash(子プロセス —— 基点と今の 2 回)"
+    ],
+    "retiredSecUpperPerHtml": 2.125
+   }
+  ],
+  "retiredNote": "全本段のうち本ごとの走行の印がある段だけ、退役 33 本の build と loadPreset+32 步の和(1 html あたり)を上限の目安として添える。印の無い全本段(clusterStable・compose293・clusterAnalogy の門の走行等)は、領域の宣言が全本なだけで走るのは決まった本 —— 退役を外しても時間は減らない"
+ },
+ "live": {
+  "rates": [
+   {
+    "id": "saturnRingReal",
+    "n": 127,
+    "K": 20000,
+    "nTargets": 3,
+    "usPerStep": [
+     58.945,
+     65.75,
+     59.57
+    ],
+    "usMedian": 59.57,
+    "usProxy": [
+     63.475,
+     63.285,
+     67.895
+    ],
+    "usProxyMedian": 63.475,
+    "extractShare": 0.062
+   },
+   {
+    "id": "plutoCharonDiagInput",
+    "n": 2,
+    "K": 357143,
+    "nTargets": 1,
+    "usPerStep": [
+     1.788,
+     1.849,
+     1.859
+    ],
+    "usMedian": 1.849,
+    "usProxy": [
+     2.044,
+     2.433,
+     1.999
+    ],
+    "usProxyMedian": 2.044,
+    "extractShare": 0.096
+   },
+   {
+    "id": "uranusReal",
+    "n": 94,
+    "K": 21598,
+    "nTargets": 5,
+    "usPerStep": [
+     58.033,
+     53.301,
+     50.204
+    ],
+    "usMedian": 53.301,
+    "usProxy": [
+     53.005,
+     48.926,
+     62.807
+    ],
+    "usProxyMedian": 53.005,
+    "extractShare": 0
+   },
+   {
+    "id": "solarInner",
+    "n": 105,
+    "K": 21978,
+    "nTargets": 4,
+    "usPerStep": [
+     53.963,
+     63.978,
+     64.11
+    ],
+    "usMedian": 63.978,
+    "usProxy": [
+     60.215,
+     60.233,
+     56.088
+    ],
+    "usProxyMedian": 60.215,
+    "extractShare": 0
+   },
+   {
+    "id": "earthMoonReal",
+    "n": 2,
+    "K": 588235,
+    "nTargets": 1,
+    "usPerStep": [
+     1.182,
+     1.052,
+     1.021
+    ],
+    "usMedian": 1.052,
+    "usProxy": [
+     1.308,
+     1.276,
+     1.544
+    ],
+    "usProxyMedian": 1.308,
+    "extractShare": 0.195
+   }
+  ],
+  "subset": [
+   {
+    "id": "saturnRingReal",
+    "nFull": 127,
+    "nStrip": 7,
+    "usFullMedian": 62.05,
+    "usStripMedian": 3.651,
+    "speedup": 16.998,
+    "singlesAfter": {
+     "nSingle": 7,
+     "steps": 2000,
+     "bitSame": true,
+     "maxRel": 0
+    },
+    "note": "試験粒子(ring の testParticle)を外した写し —— **測るだけ**(本便は較正走行の入力を変えない)。主張が読む single の状態が全粒の走行とビット同一でなければ(1e-12 より大きく動けば)部分集合は採れない"
+   },
+   {
+    "id": "uranusReal",
+    "nFull": 94,
+    "nStrip": 6,
+    "usFullMedian": 54.38,
+    "usStripMedian": 3.581,
+    "speedup": 15.184,
+    "singlesAfter": {
+     "nSingle": 6,
+     "steps": 2000,
+     "bitSame": true,
+     "maxRel": 0
+    },
+    "note": "試験粒子(ring の testParticle)を外した写し —— **測るだけ**(本便は較正走行の入力を変えない)。主張が読む single の状態が全粒の走行とビット同一でなければ(1e-12 より大きく動けば)部分集合は採れない"
+   },
+   {
+    "id": "solarInner",
+    "nFull": 105,
+    "nStrip": 5,
+    "usFullMedian": 49.705,
+    "usStripMedian": 2.901,
+    "speedup": 17.134,
+    "singlesAfter": {
+     "nSingle": 5,
+     "steps": 2000,
+     "bitSame": true,
+     "maxRel": 0
+    },
+    "note": "試験粒子(ring の testParticle)を外した写し —— **測るだけ**(本便は較正走行の入力を変えない)。主張が読む single の状態が全粒の走行とビット同一でなければ(1e-12 より大きく動けば)部分集合は採れない"
+   }
+  ],
+  "twoBody": [
+   {
+    "id": "earthMoonInertial",
+    "K": 400000,
+    "usPerStep": [
+     1.628,
+     1.554,
+     1.679
+    ],
+    "usMedian": 1.628
+   },
+   {
+    "id": "inertialDragPair",
+    "K": 400000,
+    "usPerStep": [
+     1.357,
+     1.326,
+     1.372
+    ],
+    "usMedian": 1.357
+   }
+  ],
+  "cost": {
+   "build": {
+    "live": 604.8,
+    "retired": 67.8
+   },
+   "load32": {
+    "live": 11729.7,
+    "retired": 2057.3
+   },
+   "nRetired": 33,
+   "nLive": 119
+  },
+  "closure": {
+   "scopes": 55,
+   "modes": [
+    "legacy",
+    "v3",
+    "now"
+   ],
+   "closures": 165,
+   "same": 165,
+   "diffs": [],
+   "digest": "518ed9368a0a7d913aeb8b2177a9a7e6b779c9c2b0d298e7ba7322f0cbc61caa",
+   "msRef": [
+    9072
+   ],
+   "msNew": [
+    3049
+   ],
+   "msRefMedian": 9072,
+   "msNewMedian": 3049
+  }
+ },
+ "elapsedS": 87.356
+}

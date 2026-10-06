@@ -711,6 +711,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/compose-w293e.json': META_RUN.concat(['/elapsedS', '/snail/rows/*/wallSec', '/em/rows/*/wallSec', '/fit/H/first/wallSec', '/fit/V/first/wallSec']) },
     note: '第293便e: 合成則 compose の門(純関数 8 項〔2 源の代数例・共通並進・共動・弱結合 O(a²)・順序・分割/併合・有界性・帳簿〕と履歴則の不動点・宣言の受理・'
       + 'エンジン≡純関数〔u・a_ij・残差・移送の帳簿〕・非相反性)と 🐌/🌛 の sum・solve(history)・solve(velocity)の 27 公転・🌛 の solve 版 C_d の別フィット(採用値にしない)' }),
+  // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
+  //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
+  //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
+  //   在位/退役の build と loadPreset+32 步・🌛🐌 の μs/步)。**判定の欄なし**(時間だけ)。Chromium 1 本。calaudit を読む(安定 hash は壁時計を除くので、
+  //   壁時計だけが変わった calaudit の再走では再利用 —— 正本は生成した時点の記録・常時群にしない)。html の集約(htmlagg)の後の html で測る。
+  //   領域は全本(live が内蔵の全本を build する)。所要は第294便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('timing294', 'node tests/exp-w294d-timing.mjs', ['tests/out/timing-w294d.json'], 95, { secSource: 'w294d-branch',
+    after: ['calaudit', 'dt3', 'kf0', 'samplestatus', 'htmlagg'],
+    volatilePaths: { 'tests/out/timing-w294d.json': META_RUN.concat(['/elapsedS']) },
+    note: '第294便d: 時間の内訳の器(較正走行・保存 QA・鎖の段 —— 判定の欄なし)とその場の実測(上位 5 本の μs/步・試験粒子を外した写し・閉包の参照実装との一致・退役の上限・二体の μs/步)' }),
 ];
 
 /**
