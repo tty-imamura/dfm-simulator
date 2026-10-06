@@ -3152,6 +3152,29 @@ sim.overlays.spaceMesh = {mode:"drag"|"ruler", res?:4..64, dragFrame?:"centroid"
   表示メッシュの drag(§42)は加算の局所場のサンプラーなので、solve の本(既定)では描かず凡例に理由を出す(`inertialDragFieldReady(S).why === "composeSolve"`)—— `compose:"sum"` を明示した本だけ描く。
 - 式・検査・比較は docs/PHYSICS.md〔第293便e〕〔第293便g〕。QA: **`behavior.composeGate`**(門と受理)/ **`docs.composeContract`**(表の転記)。
 
+## 50. 第294便a —— geoPN=3 は慣性決定力の有効化の印(原仮定者の裁定(第84報)「慣性決定力版の earthMoonInertial が良好なので、パラメータで有効化を可能にする。その有効化を geoPN=3 のプリセットとする想定。引きずりを単純加算しない様に注意しつつ、処理の整理を進める」・統括の検証項目 R148・**SYSTEM_PROMPT には載せない**)
+
+- **解決と走行の一致**: `physics.geoPN=3` で旧法則版(`physics.spaceMesh.lawVersion`)が走らず `physics.relativeDrag.law:"inertial"` を宣言した本は、
+  **測地線 OFF・1PN なし・法則 `inertial-drag`**(`geoModeOf(...).law`・`.geodesic:false`・core null)。走行の実効番号は `HP.geoEffectiveMode(S)` が 0 を返し
+  (`_core` へ 0 —— geoPN=0 の同じ宣言とビット同一)、`HP.geoLawOfSim(S)`・`HP.pnOrbitalKF0(S.params,S)`(false)・dispatch が同じ式を読む。
+  第291便c〜第293便の版では、この組は法則名だけ inertial-drag で走行は測地線 ON(kFrame=0 → EIH の 1PN)だった。
+- **未宣言の 3**(旧法則版も慣性も無い)は**現行どおり測地線 ON**(kFrame=0 → `eih-kf0`・kFrame>0 → `vMinusU-q`)+セーブ時の警告 `geo3NoInertial`。旧法則版が走る 3 は従来どおり。
+- **受理器**: `physics.geodesic:false` の「効きません」の警告は geoPN 1・2 だけ(3 は黙って受理)。
+- **セーブ時の警告** `modeSaveWarnings`: 6 本目 **`"inertialPlusGeodesic"`** —— 慣性の宣言 ∧ 解決した測地線 ON(geoPN 1・2・geoPN=0 ∧ `geodesic:true`)。警告だけ。
+  `HP.MODE_SAVE_WARN_CODES` は 6 本。保存の版 `HP.MODE_POLICY_VERSION` は **`"w294a-1"`**(w291c-1・w293a-1 の保存も値を保持して読む)。
+- **旧 JSON の合成則の通知**: `modePolicy` が無いか `"w291c-1"` の保存で `relativeDrag.law:"inertial"` の `compose` が未宣言なら、読込で 1 行知らせる
+  (保存したときは加算 sum —— いまは既定の solve(velocity)。値は書き換えない。加算で比べるなら `compose:"sum"` を明示)。判別は `loadSaveComposeLegacyOf(s)`。
+- **パラメータで有効化**: 「パラメータ」タブの geoPN 行の 2 段目に、`HP.geo3InertialOfferOf(S)`(geoPN=3 ∧ 旧法則版の宣言なし ∧ 慣性の宣言なし)のときだけ gain の入力と「宣言」が出る。
+  `HP.geo3InertialDeclare(S, gain)` は `{law:"inertial", gain}` を `validateRelativeDrag` で正規化して実行時に宣言する(JSON の宣言と同じ経路・合成則は既定の solve・
+  他の宣言は触らない・gain は 0 以上 —— 0 は否定対照)。戻り値 `{ok, relativeDrag, law, ge}`(失敗は `{ok:false, err}`)。保存は `physics.relativeDrag` に JSON と同じ形。
+- **🌛 earthMoonInertial** は geoPN=3(`activeParams:["geoPN","dispMag"]`)。geoPN=0 の写しと 2000 步ビット同一・27 公転窓の近点周期も同値(器 `tests/exp-w294a-geo3.mjs`・
+  正本 `tests/out/geo3-w294a.json`・段 `geo3-294a`)。`compose` は書かない・gain 514182 は不変(再フィットなし)。署名 `presetSig` は geoPN の 1 字だけ変わる。
+- AI 生成の JSON で慣性決定力の引きずりを主に使う本は geoPN=3 ∧ `relativeDrag.law:"inertial"` を推奨する(geoPN=0 のままでも同じ力学で走る —— 0 は「測地線不用」の分類)。
+  1PN と重ねたいときだけ geoPN 1・2(警告 `inertialPlusGeodesic`)。
+- 内蔵 152 本の力学・`S._core` は 1 bit 不変(bitsame 152/152・sigsame は 🌛 の 1 本だけ差分)。
+- QA: **`behavior.geo3Inertial294`**(新設)と、中身を新契約へ改めた `behavior.geoModeResolve`・`behavior.modeSaveWarnings`・`behavior.loadSaveModePolicy`・`docs.geoModeTable`
+  (現行の表は docs/PHYSICS.md〔第294便a〕—— 〔第291便c〕の表は履歴)・`preset.earthMoonInertial`(root は旧契約のまま —— SKIP / 旧期待)。
+
 ## 51. 第294便b —— 退役の本への言及を AI 生成の入力から外す(原仮定者の裁定(第84報)・統括の検証項目 R149 —— **鍵・仕様文は不変**)
 
 - **SYSTEM_PROMPT(本書の逐語収載)は 1 字も変えていない**。変えたのは AI 追加の画面の**ベース選択の注記**(`aiBaseNote` ja/en)だけで、参考の構成の例から退役の本の絵文字を外した

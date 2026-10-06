@@ -1,0 +1,732 @@
+{
+ "meta": {
+  "provenanceVersion": "w272e-1",
+  "wave": "第294便a",
+  "target": "beta/index.html",
+  "targetSha256": "6fe62dfe01e484fc4b1b77bb49e03bc18fd37e1fb34bae52562a228b5b564321",
+  "generatedAt": "2026-10-06T16:09:56.976Z",
+  "inputs": [
+   {
+    "file": "beta/index.html",
+    "bytes": 5747266,
+    "sha256": "6fe62dfe01e484fc4b1b77bb49e03bc18fd37e1fb34bae52562a228b5b564321",
+    "mtime": "2026-10-06T15:49:06.937Z"
+   }
+  ],
+  "code": [
+   {
+    "file": "tests/exp-w294a-geo3.mjs",
+    "bytes": 15917,
+    "sha256": "c789c7d90b7c17e6e2c86c444a2269502f138fa0a967afc062b443d761888963",
+    "mtime": "2026-10-06T16:02:20.217Z"
+   },
+   {
+    "file": "tests/exp-w292c-dragcore.mjs",
+    "bytes": 35928,
+    "sha256": "7cfa00568bbe9ca4d9b8282793e5ea045af2f851cb8490624b24dbeabcb2766e",
+    "mtime": "2026-10-06T16:02:20.212Z"
+   },
+   {
+    "file": "tests/lib-w292c-dragcore.mjs",
+    "bytes": 13583,
+    "sha256": "755f0a919b272cfc94b9961416c99640458394075e3f7f1745a703b7d81cc6ab",
+    "mtime": "2026-10-06T15:16:26.269Z"
+   },
+   {
+    "file": "tests/lib-w293e-compose.mjs",
+    "bytes": 22457,
+    "sha256": "60a7e986f014dae1d99b09bab77dd1f62f9c4af4f95de35a51112b51638bdd34",
+    "mtime": "2026-10-06T15:16:26.273Z"
+   },
+   {
+    "file": "tests/lib-w280b-emgrid.mjs",
+    "bytes": 10798,
+    "sha256": "f3d89c1cf805e5365582995d58db744e2496d6eaeb046b00e1695c64ca65e201",
+    "mtime": "2026-10-06T15:16:26.245Z"
+   },
+   {
+    "file": "tests/lib-w279b-headless.mjs",
+    "bytes": 6003,
+    "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
+    "mtime": "2026-10-06T15:16:26.245Z"
+   },
+   {
+    "file": "tests/lib-w272e-provenance.mjs",
+    "bytes": 4587,
+    "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
+    "mtime": "2026-10-06T15:16:26.233Z"
+   },
+   {
+    "file": "tests/lib-w281a-scope.mjs",
+    "bytes": 75590,
+    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
+    "mtime": "2026-10-06T15:16:26.253Z"
+   }
+  ],
+  "codeSha256": "2fd1d4c317a201f25602a9f093275162407e7b2135aaf273b958014b1c071f74",
+  "harnessVersion": "w294a-geo3-1",
+  "modePolicy": "w294a-1",
+  "saveWarnCodes": [
+   "geo0Geodesic",
+   "geo1KFrame",
+   "geo2KFrame",
+   "geo3NoInertial",
+   "kFrameFraction",
+   "inertialPlusGeodesic"
+  ],
+  "inertialVersion": "w290c-inertial-1",
+  "composeDefault": [
+   "solve",
+   "velocity"
+  ],
+  "loadErrors": 0,
+  "ruling": "原仮定者の裁定(第84報)(慣性決定力版の earthMoonInertial が良好なので、パラメータで有効化を可能にする。その有効化を geoPN=3 のプリセットとする想定。引きずりを単純加算しない様に注意しつつ、処理の整理を進める)",
+  "reading": "統括の検証項目 R148(geoPN=3 を慣性決定力の有効化の印にする —— 解決と走行を「測地線 OFF・1PN なし・法則 inertial-drag」に一致させる)",
+  "engine": "Node の headless(tests/lib-w280b-emgrid.mjs の loadHtmlMain —— html の本文をそのまま実行・1 プロセス)",
+  "gateBuiltin": "内蔵の本の基点とのビット同一は tests/exp-w258c-bitsame.mjs・tests/exp-w272d-sigsame.mjs で示す(基点 html が要るので本正本に載せない)",
+  "notClaim": [
+   "月を再現した",
+   "較正 合",
+   "C_d は普遍定数",
+   "GR の何 PN と同定",
+   "8.85 年を較正ゼロで出した"
+  ],
+  "scope": {
+   "version": "w286d-scope-4",
+   "presets": [
+    "earthMoonInertial",
+    "earthMoonReal"
+   ],
+   "roots": [
+    "HP.DRAG_CORE_NR",
+    "HP.DRAG_CORE_VERSION",
+    "HP.MODE_POLICY_VERSION",
+    "HP.MODE_SAVE_WARN_CODES",
+    "HP.REL_DRAG_COMPOSE_DEFAULT",
+    "HP.REL_DRAG_INERTIAL_VERSION",
+    "HP.REL_DRAG_SOLVE_FROM_DEFAULT",
+    "HP.allPresets",
+    "HP.dfmGaussLegendre01",
+    "HP.dfmMeshVelocityFieldAt",
+    "HP.dragCoreAvgK",
+    "HP.dragCoreLookup",
+    "HP.dragCoreState",
+    "HP.geo3InertialDeclare",
+    "HP.geo3InertialOfferOf",
+    "HP.geoEffectiveMode",
+    "HP.geoLawOfSim",
+    "HP.geoModeOf",
+    "HP.inertialDragState",
+    "HP.modeSaveWarnings",
+    "HP.pnOrbitalKF0",
+    "HP.relDragComposeOf",
+    "HP.relDragSolveFromOf",
+    "HP.sim",
+    "HP.validatePreset"
+   ],
+   "core": true,
+   "consts": [],
+   "complete": true,
+   "names": 1011,
+   "segments": 920,
+   "closureShare": 0.3268
+  },
+  "scopeSha256": "81d5b7e7326a75c2eb2eae01201d2968b2473feae44663b849916293262cc074",
+  "scopeComplete": true,
+  "inputsStable": [],
+  "stableHashVersion": "w282e-stable-1"
+ },
+ "declared": {
+  "book": "earthMoonInertial",
+  "geoPN": 3,
+  "activeParams": [
+   "geoPN",
+   "dispMag"
+  ],
+  "compose": null,
+  "composeOf": "solve",
+  "solveFromOf": "velocity",
+  "gain": 514182,
+  "baseGeoPN": 1
+ },
+ "book": {
+  "run": {
+   "dt": 0.016,
+   "steps": 2000,
+   "fitOrbits": 27,
+   "windows": [
+    [
+     0,
+     8
+    ],
+    [
+     0,
+     27
+    ]
+   ]
+  },
+  "geo0": {
+   "mode": {
+    "geoPN": 0,
+    "law": "newton",
+    "geodesic": false,
+    "core": 0,
+    "lambdaPN": 0,
+    "standard": true,
+    "inertialDrag": true,
+    "ge": 0,
+    "lawOfSim": "newton",
+    "kf0": false,
+    "offer": false,
+    "saveWarn": []
+   },
+   "modeEnd": {
+    "geoPN": 0,
+    "law": "newton",
+    "geodesic": false,
+    "core": 0,
+    "lambdaPN": 0,
+    "standard": true,
+    "inertialDrag": true,
+    "ge": 0,
+    "lawOfSim": "newton",
+    "kf0": false,
+    "offer": false,
+    "saveWarn": []
+   },
+   "warnings": 0,
+   "pnBit2Steps": 0,
+   "kf0Steps": 0,
+   "nan": false,
+   "ledger": {
+    "reject": 0,
+    "boundOver": 0,
+    "uMax": 0.000686705458929243
+   },
+   "prepOut": null
+  },
+  "geo3": {
+   "mode": {
+    "geoPN": 3,
+    "law": "inertial-drag",
+    "geodesic": false,
+    "core": null,
+    "lambdaPN": 0,
+    "standard": true,
+    "inertialDrag": true,
+    "ge": 0,
+    "lawOfSim": "inertial-drag",
+    "kf0": false,
+    "offer": false,
+    "saveWarn": []
+   },
+   "modeEnd": {
+    "geoPN": 3,
+    "law": "inertial-drag",
+    "geodesic": false,
+    "core": null,
+    "lambdaPN": 0,
+    "standard": true,
+    "inertialDrag": true,
+    "ge": 0,
+    "lawOfSim": "inertial-drag",
+    "kf0": false,
+    "offer": false,
+    "saveWarn": []
+   },
+   "warnings": 0,
+   "pnBit2Steps": 0,
+   "kf0Steps": 0,
+   "nan": false,
+   "ledger": {
+    "reject": 0,
+    "boundOver": 0,
+    "uMax": 0.000686705458929243
+   },
+   "prepOut": null
+  },
+  "asIs": {
+   "mode": {
+    "geoPN": 3,
+    "law": "inertial-drag",
+    "geodesic": false,
+    "core": null,
+    "lambdaPN": 0,
+    "standard": true,
+    "inertialDrag": true,
+    "ge": 0,
+    "lawOfSim": "inertial-drag",
+    "kf0": false,
+    "offer": false,
+    "saveWarn": []
+   },
+   "modeEnd": {
+    "geoPN": 3,
+    "law": "inertial-drag",
+    "geodesic": false,
+    "core": null,
+    "lambdaPN": 0,
+    "standard": true,
+    "inertialDrag": true,
+    "ge": 0,
+    "lawOfSim": "inertial-drag",
+    "kf0": false,
+    "offer": false,
+    "saveWarn": []
+   },
+   "warnings": 0,
+   "pnBit2Steps": 0,
+   "kf0Steps": 0,
+   "nan": false,
+   "ledger": {
+    "reject": 0,
+    "boundOver": 0,
+    "uMax": 0.000686705458929243
+   },
+   "prepOut": null
+  },
+  "cmp03": {
+   "firstDiffStep": null,
+   "identical": true,
+   "printEnd": [
+    "7ee9010c",
+    "7ee9010c"
+   ]
+  },
+  "cmpAsIs": {
+   "firstDiffStep": null,
+   "identical": true,
+   "printEnd": [
+    "7ee9010c",
+    "7ee9010c"
+   ]
+  }
+ },
+ "window": {
+  "rows": [
+   {
+    "geoPN": 0,
+    "steps": 39596879,
+    "wallSec": 232.459,
+    "nan": false,
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.012776231828900269,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0005845889838306224,
+     "work": -1.9725437098375452e-8,
+     "dL": 2.2166752249609436e-16,
+     "sumMuMax": 8.047192773414017e-10
+    },
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.04900979977022681,
+      "dwDegPerPeri": 3.048508544658303,
+      "dwRadPerPeri": 0.053206511379467976,
+      "apsPeriodYr": 8.850008381657355,
+      "seDegPerTime": 1.296714041087259e-13,
+      "residRmsDeg": 1.7212028454085924e-8,
+      "siderealDays": 27.16381843831495,
+      "anomDays": 27.37277467844088,
+      "relation": {
+       "invSid": 0.03681367559832773,
+       "invAnomPlusAps": 0.03684201149271855,
+       "rel": -0.0007697110905193858
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.049009907411197505,
+      "dwDegPerPeri": 3.0485085489970656,
+      "dwRadPerPeri": 0.05320651145519368,
+      "apsPeriodYr": 8.850008438191532,
+      "seDegPerTime": 7.239965938612977e-14,
+      "residRmsDeg": 6.668285141269571e-8,
+      "siderealDays": 27.158118215253413,
+      "anomDays": 27.37277489225203,
+      "relation": {
+       "invSid": 0.036821402428329805,
+       "invAnomPlusAps": 0.036842011205382594,
+       "rel": -0.0005596956034714325
+      }
+     }
+    ]
+   },
+   {
+    "geoPN": 3,
+    "steps": 39596879,
+    "wallSec": 216.121,
+    "nan": false,
+    "revN": 27,
+    "nB": 27,
+    "ledger": {
+     "boundMax": 0.012776231828900269,
+     "boundOver": 0,
+     "noHistory": 1,
+     "reject": 0,
+     "uMax": 0.0005845889838306224,
+     "work": -1.9725437098375452e-8,
+     "dL": 2.2166752249609436e-16,
+     "sumMuMax": 8.047192773414017e-10
+    },
+    "windows": [
+     {
+      "from": 0,
+      "to": 8,
+      "complete": true,
+      "nPeri": 8,
+      "eProxy": 0.04900979977022681,
+      "dwDegPerPeri": 3.048508544658303,
+      "dwRadPerPeri": 0.053206511379467976,
+      "apsPeriodYr": 8.850008381657355,
+      "seDegPerTime": 1.296714041087259e-13,
+      "residRmsDeg": 1.7212028454085924e-8,
+      "siderealDays": 27.16381843831495,
+      "anomDays": 27.37277467844088,
+      "relation": {
+       "invSid": 0.03681367559832773,
+       "invAnomPlusAps": 0.03684201149271855,
+       "rel": -0.0007697110905193858
+      }
+     },
+     {
+      "from": 0,
+      "to": 27,
+      "complete": true,
+      "nPeri": 27,
+      "eProxy": 0.049009907411197505,
+      "dwDegPerPeri": 3.0485085489970656,
+      "dwRadPerPeri": 0.05320651145519368,
+      "apsPeriodYr": 8.850008438191532,
+      "seDegPerTime": 7.239965938612977e-14,
+      "residRmsDeg": 6.668285141269571e-8,
+      "siderealDays": 27.158118215253413,
+      "anomDays": 27.37277489225203,
+      "relation": {
+       "invSid": 0.036821402428329805,
+       "invAnomPlusAps": 0.036842011205382594,
+       "rel": -0.0005596956034714325
+      }
+     }
+    ]
+   }
+  ],
+  "apsPeriodYr27": [
+   8.850008438191532,
+   8.850008438191532
+  ],
+  "apsPeriodYr8": [
+   8.850008381657355,
+   8.850008381657355
+  ],
+  "same": true
+ },
+ "undeclared": {
+  "geo3": {
+   "mode": {
+    "geoPN": 3,
+    "law": "eih-kf0",
+    "geodesic": true,
+    "core": 1,
+    "lambdaPN": 1,
+    "standard": false,
+    "inertialDrag": false,
+    "ge": 2,
+    "lawOfSim": "eih-kf0",
+    "kf0": true,
+    "offer": true,
+    "saveWarn": [
+     "geo3NoInertial"
+    ]
+   },
+   "modeEnd": {
+    "geoPN": 3,
+    "law": "eih-kf0",
+    "geodesic": true,
+    "core": 1,
+    "lambdaPN": 1,
+    "standard": false,
+    "inertialDrag": false,
+    "ge": 2,
+    "lawOfSim": "eih-kf0",
+    "kf0": true,
+    "offer": true,
+    "saveWarn": [
+     "geo3NoInertial"
+    ]
+   },
+   "warnings": 2,
+   "pnBit2Steps": 200,
+   "kf0Steps": 200,
+   "nan": false,
+   "ledger": null,
+   "prepOut": null
+  },
+  "geo1": {
+   "mode": {
+    "geoPN": 1,
+    "law": "eih-kf0",
+    "geodesic": true,
+    "core": 1,
+    "lambdaPN": 1,
+    "standard": true,
+    "inertialDrag": false,
+    "ge": 1,
+    "lawOfSim": "eih-kf0",
+    "kf0": true,
+    "offer": false,
+    "saveWarn": []
+   },
+   "modeEnd": {
+    "geoPN": 1,
+    "law": "eih-kf0",
+    "geodesic": true,
+    "core": 1,
+    "lambdaPN": 1,
+    "standard": true,
+    "inertialDrag": false,
+    "ge": 1,
+    "lawOfSim": "eih-kf0",
+    "kf0": true,
+    "offer": false,
+    "saveWarn": []
+   },
+   "warnings": 0,
+   "pnBit2Steps": 200,
+   "kf0Steps": 200,
+   "nan": false,
+   "ledger": null,
+   "prepOut": null
+  },
+  "cmp13": {
+   "firstDiffStep": null,
+   "identical": true,
+   "printEnd": [
+    "7f23bc89",
+    "7f23bc89"
+   ]
+  },
+  "steps": 200
+ },
+ "param": {
+  "gainZero": {
+   "base0": {
+    "mode": {
+     "geoPN": 0,
+     "law": "newton",
+     "geodesic": false,
+     "core": 0,
+     "lambdaPN": 0,
+     "standard": true,
+     "inertialDrag": false,
+     "ge": 0,
+     "lawOfSim": "newton",
+     "kf0": false,
+     "offer": false,
+     "saveWarn": []
+    },
+    "modeEnd": {
+     "geoPN": 0,
+     "law": "newton",
+     "geodesic": false,
+     "core": 0,
+     "lambdaPN": 0,
+     "standard": true,
+     "inertialDrag": false,
+     "ge": 0,
+     "lawOfSim": "newton",
+     "kf0": false,
+     "offer": false,
+     "saveWarn": []
+    },
+    "warnings": 0,
+    "pnBit2Steps": 0,
+    "kf0Steps": 0,
+    "nan": false,
+    "ledger": null,
+    "prepOut": null
+   },
+   "declared": {
+    "mode": {
+     "geoPN": 3,
+     "law": "inertial-drag",
+     "geodesic": false,
+     "core": null,
+     "lambdaPN": 0,
+     "standard": true,
+     "inertialDrag": true,
+     "ge": 0,
+     "lawOfSim": "inertial-drag",
+     "kf0": false,
+     "offer": false,
+     "saveWarn": []
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "law": "inertial-drag",
+     "geodesic": false,
+     "core": null,
+     "lambdaPN": 0,
+     "standard": true,
+     "inertialDrag": true,
+     "ge": 0,
+     "lawOfSim": "inertial-drag",
+     "kf0": false,
+     "offer": false,
+     "saveWarn": []
+    },
+    "warnings": 2,
+    "pnBit2Steps": 0,
+    "kf0Steps": 0,
+    "nan": false,
+    "ledger": {
+     "reject": 0,
+     "boundOver": 0,
+     "uMax": 0
+    },
+    "prepOut": {
+     "offerBefore": true,
+     "offerAfter": false,
+     "ok": true,
+     "relativeDrag": {
+      "law": "inertial",
+      "gain": 0,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "law": "inertial-drag",
+     "ge": 0
+    }
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "printEnd": [
+     "c934a9da",
+     "c934a9da"
+    ]
+   }
+  },
+  "gainDecl": {
+   "json": {
+    "mode": {
+     "geoPN": 3,
+     "law": "inertial-drag",
+     "geodesic": false,
+     "core": null,
+     "lambdaPN": 0,
+     "standard": true,
+     "inertialDrag": true,
+     "ge": 0,
+     "lawOfSim": "inertial-drag",
+     "kf0": false,
+     "offer": false,
+     "saveWarn": []
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "law": "inertial-drag",
+     "geodesic": false,
+     "core": null,
+     "lambdaPN": 0,
+     "standard": true,
+     "inertialDrag": true,
+     "ge": 0,
+     "lawOfSim": "inertial-drag",
+     "kf0": false,
+     "offer": false,
+     "saveWarn": []
+    },
+    "warnings": 1,
+    "pnBit2Steps": 0,
+    "kf0Steps": 0,
+    "nan": false,
+    "ledger": {
+     "reject": 0,
+     "boundOver": 0,
+     "uMax": 0.0006865966101519559
+    },
+    "prepOut": null
+   },
+   "param": {
+    "mode": {
+     "geoPN": 3,
+     "law": "inertial-drag",
+     "geodesic": false,
+     "core": null,
+     "lambdaPN": 0,
+     "standard": true,
+     "inertialDrag": true,
+     "ge": 0,
+     "lawOfSim": "inertial-drag",
+     "kf0": false,
+     "offer": false,
+     "saveWarn": []
+    },
+    "modeEnd": {
+     "geoPN": 3,
+     "law": "inertial-drag",
+     "geodesic": false,
+     "core": null,
+     "lambdaPN": 0,
+     "standard": true,
+     "inertialDrag": true,
+     "ge": 0,
+     "lawOfSim": "inertial-drag",
+     "kf0": false,
+     "offer": false,
+     "saveWarn": []
+    },
+    "warnings": 2,
+    "pnBit2Steps": 0,
+    "kf0Steps": 0,
+    "nan": false,
+    "ledger": {
+     "reject": 0,
+     "boundOver": 0,
+     "uMax": 0.0006865966101519559
+    },
+    "prepOut": {
+     "ok": true,
+     "relativeDrag": {
+      "law": "inertial",
+      "gain": 514182,
+      "pairs": "all",
+      "history": "positions"
+     },
+     "law": "inertial-drag",
+     "ge": 0
+    }
+   },
+   "cmp": {
+    "firstDiffStep": null,
+    "identical": true,
+    "printEnd": [
+     "743aa34e",
+     "743aa34e"
+    ]
+   },
+   "movedVsNoDrag": true
+  }
+ },
+ "gates": {
+  "resolveRun": true,
+  "book2000": true,
+  "window27": true,
+  "undeclared3": true,
+  "paramGainZero": true,
+  "paramSameAsJson": true
+ },
+ "ok": true,
+ "elapsedS": 451.362
+}
