@@ -207,6 +207,10 @@ if (QA_CHANGED) {
   }
 }
 
+// 第294便d(原仮定者の裁定(第84報)・統括の検証項目 R151): 各項目の ms は「直前の add() からの経過」なので、前置の ② 前回 FAIL の
+//   先行再実行・③ 変更依存の先行実行(子プロセス)の時間が syntax に請求されていた(フル beta で 365 s = changed.ms)。
+//   前置の時間は replay.ms・changed.ms に別に載っているので、構文検査の直前で起点を取り直す(判定は不変 —— 時間の帰属だけ)。
+lastAddAt = Date.now();
 // ---- 0) 構文検査(node --check)----
 {
   const html = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
@@ -2348,7 +2352,10 @@ if (QA_CHANGED) {
       'tests/out/compose-w293e.json',
       // 第294便a(原仮定者の裁定(第84報)・R148): geoPN=3 を慣性決定力の有効化の印にする便の門(🌛 の geoPN 0⇔3 の 2000 步ビット同一・27/8 公転窓・未宣言の 3・
       //   パラメータでの宣言)(Node の headless・1 プロセス・領域 REGEN_SCOPE —— 鎖の段 geo3-294a は dragcore292 の後)
-      'tests/out/geo3-w294a.json'];
+      'tests/out/geo3-w294a.json',
+      // 第294便d(原仮定者の裁定(第84報)・R151): 時間の内訳(較正走行・保存 QA・鎖の段 —— 判定の欄なし)とその場の実測(Chromium・領域 REGEN_SCOPE・
+      //   inputs は calaudit-w249 だけ —— QA の記録は sources に sha を写すだけ —— 鎖の段 timing294 は htmlagg の後)
+      'tests/out/timing-w294d.json'];
     const HEX64 = /^[0-9a-f]{64}$/;
     for (const rel of CANON) {
       const r = { file: rel, target: null, targetOk: null, inputs: 0, inputsOk: 0,
@@ -23414,6 +23421,110 @@ if (!FAST) {
       add('docs.swingContract', bad.length === 0,
         `**摂動停止診断の表**(第293便d —— 正本 tests/out/swing-w293d.json と PHYSICS〔第293便d〕の転記一致): ${cases.join(' / ')}`
         + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+  }
+}
+
+// ---- 8c1m) 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151):
+// ----   **較正走行と QA の高速化便**の 2 ブロック。**root では SKIP**(beta 線の器・正本)。世代切替 has294d = 対象が beta で、html の
+// ----   `inertialDragComposeSolve` に第294便d の注記(n=2 の展開形)があり、器 tests/exp-w294d-timing.mjs がある。
+// ----   ① docs.timingContract294 …… 正本 tests/out/timing-w294d.json の形: 来歴・**判定の欄が無い**(全鍵を走査 —— 器の FORBIDDEN_KEYS)・
+// ----      上位 5 本の行が 1 本 1 行(壁時計・step・抽出・前置の測定の欄)で、本と壁時計が**いまの正本 calaudit の上位 5 本から作った行と同じ**・
+// ----      QA の内訳(syntax・前置・重い 5 単位)・鎖の全本段の行・live の閉包の一致数。文書: PHYSICS〔第294便d〕・AI_SPEC(timing の鍵)・CHANGELOG・
+// ----      README と tools/post-merge-qa.sh の「フルゲートは QA_CHANGED=0」・qa.mjs の構文検査の直前の起点の取り直し・禁止の言い回し。
+// ----   ② lint.scopeClosureSame294 …… 依存閉包の高速化(区間の識別子の再利用・先頭添字)の前後同一: 宣言した器の全 scope × 3 版(旧版 w281a-scope-1・
+// ----      版 3・現行版)で `closureOf` と参照実装 `closureOfRef294`(第293便までの本文)の**返り値の全欄**が同じ(いまの html で引き直す)。
+{
+  const html294d = fs.readFileSync(path.join(ROOT, TARGET), 'utf8');
+  const has294d = TARGET.startsWith('beta/') && html294d.indexOf('**n=2 の展開形**') >= 0
+    && fs.existsSync(path.join(ROOT, 'tests', 'exp-w294d-timing.mjs'));
+  if (!has294d) {
+    console.log('SKIP docs.timingContract294 / lint.scopeClosureSame294(第294便d 未適用 — ' + TARGET + ')');
+  } else {
+    // ---- ① docs.timingContract294
+    {
+      const bad = [], cases = [];
+      let E294 = null, J = null, C = null;
+      try { E294 = await import('file://' + path.join(ROOT, 'tests', 'exp-w294d-timing.mjs')); } catch (e) { bad.push('器が読めない: ' + String(e).slice(0, 100)); }
+      try { J = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'timing-w294d.json'), 'utf8')); } catch (e) { bad.push('正本 tests/out/timing-w294d.json が読めない'); }
+      try { C = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', 'out', 'calaudit-w249.json'), 'utf8')); } catch (e) { bad.push('正本 calaudit-w249.json が読めない'); }
+      if (E294 && J && C) {
+        if (!J.meta || J.meta.provenanceVersion !== 'w272e-1' || J.meta.wave !== '第294便d' || J.meta.harnessVersion !== E294.HARNESS_VERSION)
+          bad.push('来歴(provenanceVersion・wave・harnessVersion)が器と違う');
+        // 判定の欄が無い(全鍵の走査)
+        const hit = [];
+        const walk = (v, p) => { if (Array.isArray(v)) v.forEach((x, i) => walk(x, p + '/' + i));
+          else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) { if (E294.FORBIDDEN_KEYS.includes(k)) hit.push(p + '/' + k); walk(x, p + '/' + k); } };
+        walk(J, '');
+        if (hit.length) bad.push('判定の欄がある: ' + hit.slice(0, 4).join(','));
+        // 上位 5 本 = いまの calaudit から作り直した上位 5 本(本と壁時計)
+        const T = E294.calTable(C);
+        const top = (J.calibration && Array.isArray(J.calibration.top5)) ? J.calibration.top5 : [];
+        if (top.length !== 5) bad.push('上位 5 本の行が 5 でない: ' + top.length);
+        T.top5.forEach((id, k) => { const want = T.rows.find((z) => z.id === id), got = top[k] || {};
+          if (got.id !== id || got.wallSec !== want.wallSec || got.steps !== want.steps || got.n !== want.n) bad.push(`上位 ${k + 1} の行が calaudit と違う(${got.id}/${id})`);
+          for (const key of ['stepSec', 'extractSec', 'rateProbeSec', 'usPerStepLive']) if (!(key in got)) bad.push(`上位 ${k + 1} に ${key} の欄が無い`); });
+        if (JSON.stringify(J.calibration.table && J.calibration.table.top5) !== JSON.stringify(T.top5)) bad.push('表の top5 が calaudit と違う');
+        const sw = J.calibration.solarInnerWindow;
+        if (!sw || !Array.isArray(sw.rows) || sw.rows.length !== 4 || !sw.dictatedBy) bad.push('🌞 の必要窓の行が無い');
+        cases.push('上位 5 本 ' + top.map((z) => `${z.emoji} ${z.wallSec} s(step ${z.stepSec ?? '—'}・抽出 ${z.extractSec ?? '—'})`).join('・')
+          + (sw ? ` / 🌞 の窓は ${sw.dictatedBy}(20 近点に ${sw.rows.map((z) => z.windowOverRun).join('/')} 倍の步数)` : ''));
+        // QA の内訳
+        const q = J.qa;
+        if (!q || !q.prefixMs || !('syntaxMs' in q) || !Array.isArray(q.heavy) || q.heavy.length !== E294.HEAVY_QA_UNITS.length
+          || q.heavy.some((z, i) => z.unit !== E294.HEAVY_QA_UNITS[i])) bad.push('QA の内訳(syntax・前置・重い 5 単位)の欄が無い');
+        else cases.push(`QA ${q.total} 件・重い単位 ` + q.heavy.map((z) => z.unit.replace(/^W5[bc]:/, '') + ' ' + (z.runMs === null ? '—' : (z.runMs / 1000).toFixed(0) + ' s')).join('・'));
+        // 鎖の全本段
+        const ch = J.chain;
+        if (!ch || !Array.isArray(ch.presetsAll) || !ch.presetsAll.length || ch.presetsAll.some((z) => typeof z.sec !== 'number' || !Array.isArray(z.perPresetLoops)))
+          bad.push('鎖の全本段の行が無い');
+        else cases.push(`鎖 ${ch.nCurrent} 段・全本段 ${ch.presetsAll.length}(本ごとの走行の印 ${ch.presetsAll.filter((z) => z.perPresetLoops.length).length} 段)`);
+        // live の閉包
+        if (J.live) {
+          const cl = J.live.closure;
+          if (!cl || cl.same !== cl.closures || cl.diffs.length) bad.push('live の閉包の一致数が全数でない');
+          else cases.push(`閉包 ${cl.same}/${cl.closures} 同一(参照 ${cl.msRefMedian} ms → ${cl.msNewMedian} ms)`);
+          if (!Array.isArray(J.live.rates) || J.live.rates.length !== 5) bad.push('live の μs/步 の行が 5 でない');
+        } else bad.push('live の欄が無い(--no-live の出力を正本にしない)');
+      }
+      // 文書
+      const Pd = fs.readFileSync(path.join(ROOT, 'docs', 'PHYSICS.md'), 'utf8');
+      const Ai = fs.readFileSync(path.join(ROOT, 'docs', 'AI_SPEC.md'), 'utf8');
+      const Cl = fs.readFileSync(path.join(ROOT, 'CHANGELOG.md'), 'utf8');
+      const Rm = fs.readFileSync(path.join(ROOT, 'README.md'), 'utf8');
+      const Pm = fs.readFileSync(path.join(ROOT, 'tools', 'post-merge-qa.sh'), 'utf8');
+      const Qs = fs.readFileSync(path.join(ROOT, 'tests', 'qa.mjs'), 'utf8');
+      const i0 = Pd.indexOf('〔第294便d'), i1 = Pd.indexOf('\n## 7.', i0);
+      const sec = (i0 >= 0 && i1 > i0) ? Pd.slice(i0, i1) : '';
+      if (!sec) bad.push('PHYSICS〔第294便d〕の節が「## 7.」の前に無い');
+      for (const w of ['timing-w294d.json', 'closureOfRef294', 'QA_CHANGED=0', 'n=2', 'skipped']) if (sec && sec.indexOf(w) < 0) bad.push('PHYSICS〔第294便d〕に「' + w + '」が無い');
+      for (const w of ['速くなったので判定が動いた', '較正 合', '合に近づいた']) if (sec.indexOf(w) >= 0 && sec.indexOf('「' + w + '」') < 0) bad.push('PHYSICS〔第294便d〕に禁止の言い回し: ' + w);
+      if (!/timing-w294d\.json/.test(Ai)) bad.push('AI_SPEC に timing の鍵(timing-w294d.json)が無い');
+      if (!/第294便d/.test(Cl)) bad.push('CHANGELOG に第294便d の行が無い');
+      if (Rm.indexOf('QA_CHANGED=0') < 0) bad.push('README に「フルゲートは QA_CHANGED=0」が無い');
+      if (Pm.indexOf('QA_CHANGED=0') < 0) bad.push('tools/post-merge-qa.sh に QA_CHANGED=0 が無い');
+      if (!/lastAddAt = Date\.now\(\);\n\/\/ ---- 0\) 構文検査/.test(Qs)) bad.push('qa.mjs の構文検査の直前で lastAddAt を取り直していない');
+      add('docs.timingContract294', bad.length === 0,
+        `**時間の内訳の正本**(第294便d —— tests/out/timing-w294d.json・判定の欄なし): ${cases.join(' / ')}`
+        + (bad.length ? ` / **違反 ${bad.length} 件**: ${bad.slice(0, 5).join(' , ')}` : ''));
+    }
+    // ---- ② lint.scopeClosureSame294
+    {
+      const bad = [];
+      let r = null;
+      try {
+        const SC294 = await import('file://' + path.join(ROOT, 'tests', 'lib-w281a-scope.mjs'));
+        const rows = await SC294.declaredOuts(ROOT);
+        r = SC294.closureSame294({ html: path.join(ROOT, TARGET), rows, reps: 1 });
+        if (r.closures !== r.scopes * 3) bad.push('閉包の数が scope × 3 でない');
+        if (r.same !== r.closures || r.diffs.length) bad.push('閉包が参照実装と違う: ' + r.diffs.slice(0, 4).join(','));
+        if (r.scopes < 40) bad.push('scope の数が少なすぎる(宣言の読み取りの不備): ' + r.scopes);
+      } catch (e) { bad.push('照合が走らない: ' + String(e).slice(0, 120)); }
+      add('lint.scopeClosureSame294', bad.length === 0,
+        r ? `**依存閉包の高速化の前後同一**(第294便d): 宣言した器の scope ${r.scopes} × 3 版(旧版・版 3・現行版)= ${r.closures} 本の閉包が参照実装 closureOfRef294 と`
+          + `**全欄同一 ${r.same}/${r.closures}**(所要 参照 ${r.msRefMedian} ms・高速化 ${r.msNewMedian} ms —— 所要は記録で、照合は全欄の一致だけ)`
+          + (bad.length ? ` / **違反**: ${bad.join(' , ')}` : '')
+          : '照合が走らない: ' + bad.join(' , '));
     }
   }
 }
@@ -53007,6 +53118,12 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
 
     // ---- 長時間系(QA_FAST=1 では省略)----
     if (!FAST) {
+      // 第294便d(原仮定者の裁定(第84報)・統括の検証項目 R151): **同じ初期状態・同じ法則・同じ dt の重複走行を 1 本にまとめる**(ビット同一のときだけ)。
+      //   ⑩ phasechange.multiseed の seed 7(⛓️ を build(写し・seed 7)で 15000 步)は ⑨ phasechange.chain2 の走行(loadPreset('chain2') —— 宣言の seed 7)
+      //   の 15000 步目と同じ状態(全状態ビット同一を第294便d の器で実測)なので、⑨ の走行の 15000 步目で同じ式の量を読む。
+      //   ⑪ phasechange.dt-convergence の dt 0.016 × 6000 步(loadPreset('emergent2'))は ⑧ の走行の 6000 步目と同じ経路なので同じく読む。
+      //   読むのは**純粋な読み出し**(状態を書かない)だけ —— 走行・步数・seed・窓・判定式は変えない。⑨⑧ が指紋キャッシュで省かれたときは従来どおり自分で走らせる。
+      const reuse294 = { chain2At15000: null, emergent2At6000: null };
       const runStats = (pid, steps, marks, opts) => page.evaluate(({ pid, steps, marks, opts }) => {
         HP.loadPreset(pid, false);
         const s = HP.sim;
@@ -53066,7 +53183,10 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
         };
         const E0 = E();
         const out = {};
-        for (let k = 1; k <= steps; k++) { s.step(0.016); if (marks.includes(k)) out[k] = stats(); }
+        // 第294便d: opts.extra294 の印では、⑩ と ⑪ が読む量(hasNaN と Tint・coordN の平均 —— ⑪ の run と同じ式・同じ順)も足す(読むだけ)
+        const extra294 = () => { let T = 0, c = 0; for (let i = 0; i < s.n; i++) { T += s.Tint[i]; c += s.coordN[i]; }
+          return { nan: s.hasNaN(), T: T / s.n, c: c / s.n }; };
+        for (let k = 1; k <= steps; k++) { s.step(0.016); if (marks.includes(k)) { out[k] = stats(); if (opts && opts.extra294) out[k].extra294 = extra294(); } }
         out.end = stats();
         const flow = s.wallEin - s.wallEout - s.radE - s.wallKE;
         out.res = Math.abs(E() - E0 - flow) / Math.max(1, Math.abs(flow));
@@ -53096,7 +53216,8 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
       //    60000步冷却で T̄=0.15・c̄3.04・3配位率0.375・角偏差17.5°(angK=0 対照は 79.2° の
       //    密集塊 c̄4.09)・3成分 最大44粒・res 2.8e-2・クランプ0
       await fpRun('phasechange.emergent2', async () => {
-      const e2 = await runStats('emergent2', 60000, []);
+      const e2 = await runStats('emergent2', 60000, [6000], { extra294: true });
+      reuse294.emergent2At6000 = e2[6000].extra294;   // 第294便d: ⑪ の dt 0.016 × 6000 步(同じ loadPreset の経路)
       add('phasechange.emergent2',
         !e2.nan
         && e2.end.T < 0.25 && e2.end.frac3 > 0.3 && e2.end.ang120 < 25
@@ -53112,7 +53233,10 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
       //    2配位率0.80・c̄1.89・180°偏差13°(angK=0 対照は 94.5° の等方塊 c̄3.0)・8成分 最大37粒・
       //    res 2.3e-2・クランプ0 — 結合価の台帳なしで鎖が自己組織化
       await fpRun('phasechange.chain2', async () => {
-      const c2r = await runStats('chain2', 45000, []);
+      const c2r = await runStats('chain2', 45000, [15000], { extra294: true });
+      // 第294便d: ⑩ の seed 7 は宣言の seed(7)と同じときだけ読む(違えば ⑩ が自分で走らせる)
+      if (await page.evaluate(() => HP.allPresets().find((q) => q.id === 'chain2').seed === 7))
+        reuse294.chain2At15000 = { frac2: c2r[15000].frac2, ang: c2r[15000].ang180, nan: c2r[15000].extra294.nan };
       add('phasechange.chain2',
         !c2r.nan
         && c2r.end.frac2 > 0.6 && c2r.end.cMean > 1.6 && c2r.end.cMean < 2.2
@@ -53130,7 +53254,7 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
       await fpRun('phasechange.multiseed', async () => {
       const seeds = [];
       for (const sd of [7, 8, 9]) {
-        const r = await page.evaluate(({ sd }) => {
+        const r = (sd === 7 && reuse294.chain2At15000) ? reuse294.chain2At15000 : await page.evaluate(({ sd }) => {
           const p = JSON.parse(JSON.stringify(HP.allPresets().find(q => q.id === 'chain2')));
           p.seed = sd;
           const s = HP.sim;
@@ -53162,7 +53286,7 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
 
       // ⑪ phasechange.dt-convergence: dt 半減(0.016→0.008)で同じモデル時刻 t=96 の熱力学
       //    集計量(T̄・c̄)が収束していること(軌道は混沌でも集計量は壁駆動で頑健 — emergent2 冷却)
-      const dtc = await page.evaluate(() => {
+      const dtc = await page.evaluate((a294) => {
         const run = (dt, steps) => {
           HP.loadPreset('emergent2', false);
           const s = HP.sim;
@@ -53171,9 +53295,9 @@ await w5bRun('phasechangeSchema', true); async function W5B_phasechangeSchema(pa
           for (let i = 0; i < s.n; i++) { T += s.Tint[i]; c += s.coordN[i]; }
           return { T: T / s.n, c: c / s.n, nan: s.hasNaN() };
         };
-        const a = run(0.016, 6000), b = run(0.008, 12000);
+        const a = a294 || run(0.016, 6000), b = run(0.008, 12000);   // 第294便d: a は ⑧ の走行の 6000 步目(⑧ が省かれたときは自分で走らせる)
         return { a, b, dT: Math.abs(a.T - b.T) / Math.max(0.05, a.T), dC: Math.abs(a.c - b.c) / Math.max(0.5, a.c) };
-      });
+      }, reuse294.emergent2At6000);
       add('phasechange.dt-convergence',
         !dtc.a.nan && !dtc.b.nan && dtc.dT < 0.1 && dtc.dC < 0.15,
         `t=96(6000步@0.016 vs 12000步@0.008): T̄=${dtc.a.T.toFixed(3)}/${dtc.b.T.toFixed(3)}(相対差${(dtc.dT * 100).toFixed(1)}%<10%) ` +

@@ -358,7 +358,101 @@ export function hpProps(parsed) {
  *       (b)(c) で入った文の識別子もまた辿る(不動点まで)。
  * @returns {{functions:string[], missing:string[], segIdx:number[], mutators:number[], writers:number[], hp:Array}}
  */
+/** 第294便d(原仮定者の裁定(第84報)・統括の検証項目 R151): 区間ごとの識別子の再利用(WeakMap —— 区間の object が同じで `codeText` が一致するときだけ)。
+ *  `parseTopLevel` は html ごとに 1 度だけ引かれ(loadCtx の cache)、同じ区間を scope の数 × 版の数だけ closureOf が読む。
+ *  返す Set は共有なので**読むだけ**(closureOf は反復するだけで書かない)。 */
+const IDENTS_294D = new WeakMap();
+function segIdents294(seg) {
+  const c = IDENTS_294D.get(seg);
+  if (c && c.codeText === seg.codeText) return c.ids;
+  const ids = identsOf(seg.codeText);
+  IDENTS_294D.set(seg, { codeText: seg.codeText, ids });
+  return ids;
+}
+
 export function closureOf(parsed, roots, stop = DATA_REGISTRIES.concat(TEXT_REGISTRIES), opts) {
+  // 第282便e: opts.hardStop(停止集合)—— 名前で辿らない・mutator/writer に入れない・素の名前の roots も辿らない。
+  //   opts を渡さなければ第281便a と 1 文字も変わらない動き(旧版 w281a-scope-1 の照合に使う)。
+  const hard = new Set((opts && opts.hardStop) || []);
+  const stoppedHit = new Set();
+  const byName = new Map();
+  parsed.segments.forEach((s, k) => { for (const nm of s.names) { if (!byName.has(nm)) byName.set(nm, []); byName.get(nm).push(k); } });
+  const letNames = new Set();
+  parsed.segments.forEach((s) => { if (s.kind === 'decl' && /^\s*(?:let|var)\s/.test(s.codeText)) for (const nm of s.names) letNames.add(nm); });
+  const stopSet = new Set(stop);
+  for (const nm of hard) stopSet.add(nm);
+  const segStopped = (k) => { const nm = parsed.segments[k].names; return nm.length > 0 && nm.every((x) => hard.has(x)); };
+  const inNames = new Set();
+  const segIdx = new Set();
+  const missing = [];
+  const queue = [];
+  let qHead = 0;
+  const HPX = hpProps(parsed);
+  const hp = [];
+  for (const r of roots) {
+    const m = /^HP\.([A-Za-z_$][\w$]*)$/.exec(r);
+    if (m) {
+      const pr = HPX.props.get(m[1]);
+      if (!pr) { missing.push(r); continue; }
+      hp.push({ name: m[1], text: normText(parsed.nocom.slice(pr.start, pr.end)) });
+      for (const id of identsOf(pr.exprCode)) { if (hard.has(id)) stoppedHit.add(id); if (byName.has(id) && !stopSet.has(id)) queue.push(id); }
+      continue;
+    }
+    if (hard.has(r)) { stoppedHit.add(r); if (!byName.has(r)) missing.push(r); continue; }
+    if (byName.has(r)) queue.push(r); else missing.push(r);
+  }
+  // 第294便d(R151): 区間の識別子は呼び出しをまたいで再利用する(WeakMap —— `codeText` が一致するときだけ)
+  const idents = (k) => segIdents294(parsed.segments[k]);
+  const addSeg = (k) => {
+    if (segIdx.has(k)) return;
+    segIdx.add(k);
+    for (const id of idents(k)) { if (hard.size && hard.has(id)) stoppedHit.add(id); if (!inNames.has(id) && byName.has(id) && !stopSet.has(id)) queue.push(id); }
+  };
+  const unnamed = [];
+  const fnSegs = [];
+  parsed.segments.forEach((s, k) => {
+    if (!s.names.length && k !== HPX.segIdx) unnamed.push(k);
+    if (s.kind === 'function') fnSegs.push(k);
+  });
+  const mutators = new Set();
+  const writers = new Set();
+  let changed = true;
+  while (changed) {
+    changed = false;
+    while (qHead < queue.length) {
+      const nm = queue[qHead++];   // 第294便d(R151): shift() の O(n) を先頭添字に(取り出す順は同じ FIFO)
+      if (inNames.has(nm)) continue;
+      inNames.add(nm);
+      for (const k of byName.get(nm)) addSeg(k);
+      changed = true;
+    }
+    for (const k of unnamed) {
+      if (mutators.has(k)) continue;
+      if (mutatesAny(parsed.segments[k], inNames)) { mutators.add(k); addSeg(k); changed = true; }
+    }
+    const lets = [...inNames].filter((nm) => letNames.has(nm));
+    if (lets.length) {
+      const re = new RegExp('(?<![\\w$.])(?:' + lets.map((x) => x.replace(/\$/g, '\\$')).join('|')
+        + ')\\s*(?:=(?!=)|\\+=|-=|\\*=|/=|\\|\\|=|&&=|\\?\\?=|\\+\\+|--)|(?:\\+\\+|--)(?:'
+        + lets.map((x) => x.replace(/\$/g, '\\$')).join('|') + ')(?![\\w$])');
+      for (const k of fnSegs) {
+        if (segIdx.has(k) || writers.has(k)) continue;
+        if (hard.size && segStopped(k)) { if (re.test(parsed.segments[k].codeText)) for (const x of parsed.segments[k].names) stoppedHit.add(x); continue; }
+        if (re.test(parsed.segments[k].codeText)) { writers.add(k); addSeg(k); changed = true; }
+      }
+    }
+  }
+  return { functions: [...inNames].sort(), missing, segIdx: [...segIdx].sort((a, b) => a - b),
+    mutators: [...mutators].sort((a, b) => a - b), writers: [...writers].sort((a, b) => a - b), hp,
+    stopped: [...stoppedHit].sort() };
+}
+
+/**
+ * 第294便d(統括の検証項目 R151): **第293便までの closureOf の写し(参照実装)**。本番の経路では使わない ——
+ * `lint.scopeClosureSame294` と `tests/exp-w294d-timing.mjs` が、高速化した `closureOf` と全 scope・全版で**全欄が同じ**ことを照合するためだけに置く。
+ * 本文は 1 字も変えていない(名前だけ)。
+ */
+export function closureOfRef294(parsed, roots, stop = DATA_REGISTRIES.concat(TEXT_REGISTRIES), opts) {
   // 第282便e: opts.hardStop(停止集合)—— 名前で辿らない・mutator/writer に入れない・素の名前の roots も辿らない。
   //   opts を渡さなければ第281便a と 1 文字も変わらない動き(旧版 w281a-scope-1 の照合に使う)。
   const hard = new Set((opts && opts.hardStop) || []);
@@ -432,6 +526,31 @@ export function closureOf(parsed, roots, stop = DATA_REGISTRIES.concat(TEXT_REGI
   return { functions: [...inNames].sort(), missing, segIdx: [...segIdx].sort((a, b) => a - b),
     mutators: [...mutators].sort((a, b) => a - b), writers: [...writers].sort((a, b) => a - b), hp,
     stopped: [...stoppedHit].sort() };
+}
+
+/**
+ * 第294便d(原仮定者の裁定(第84報)・統括の検証項目 R151): **閉包の前後同一の照合**。宣言した器の scope(roots)ごとに、
+ * 3 つの引き方(旧版 w281a-scope-1 = opts なし・版 3 = 停止集合 SCOPE_STOP_3・現行版 = SCOPE_STOP)で
+ * 高速化した `closureOf` と参照実装 `closureOfRef294` を引き、**返り値の全欄**(functions・missing・segIdx・mutators・writers・hp・stopped)
+ * を canonJson で比べる。所要(ms)も両方返す(時間は記録 —— 判定は全欄の一致だけ)。
+ * @param {{html:string, rows:Array<{harness:string, decl:object}>, reps?:number}} o
+ */
+export function closureSame294(o) {
+  const X = loadCtx(o.html);
+  const modes = [['legacy', undefined], ['v3', { hardStop: SCOPE_STOP_3 }], ['now', { hardStop: SCOPE_STOP }]];
+  const seen = new Set();
+  const scopes = [];
+  for (const r of o.rows) { const roots = normalizeScope(r.decl).roots; const k = JSON.stringify(roots); if (seen.has(k)) continue; seen.add(k); scopes.push({ harness: r.harness, roots }); }
+  const run = (f) => { const t0 = Date.now(); const out = []; for (const sc of scopes) for (const [, op] of modes) out.push(canonJson(op ? f(X.parsed, sc.roots, undefined, op) : f(X.parsed, sc.roots))); return { out, ms: Date.now() - t0 }; };
+  const reps = Math.max(1, o.reps || 1);
+  const msRef = [], msNew = [];
+  let ref = null, nowOut = null;
+  for (let i = 0; i < reps; i++) { const a = run(closureOfRef294); msRef.push(a.ms); ref = a.out; const b = run(closureOf); msNew.push(b.ms); nowOut = b.out; }
+  const diffs = [];
+  ref.forEach((t, i) => { if (t !== nowOut[i]) diffs.push(scopes[Math.floor(i / modes.length)].harness + ':' + modes[i % modes.length][0]); });
+  const med = (a) => { const b = a.slice().sort((x, y) => x - y); return b[(b.length - 1) >> 1]; };
+  return { scopes: scopes.length, modes: modes.map((m) => m[0]), closures: ref.length, same: ref.length - diffs.length, diffs,
+    digest: sha256(nowOut.join('\n')), msRef, msNew, msRefMedian: med(msRef), msNewMedian: med(msNew) };
 }
 
 /** 動的な最上位参照の数(`window[`・`globalThis[`・`self[`・`HP[`・`eval(`・`new Function(`)。 */

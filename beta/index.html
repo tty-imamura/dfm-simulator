@@ -49095,7 +49095,20 @@ function inertialDragComposeSolve(S,n){
     const sm=Math.hypot(SX[i],SY[i]); if(sm>sMax) sMax=sm;
   }
   let method;
-  if(n<=REL_DRAG_SOLVE_DIRECT_MAX){
+  if(n===2 && n<=REL_DRAG_SOLVE_DIRECT_MAX){
+    // 第294便d(原仮定者の裁定(第84報)・統括の検証項目 R151): **n=2 の展開形** —— 下の直接法と**同じ演算・同じ順序**(添字とループだけを外した)。
+    //   M も同じ値を書く(消去後の M[3] まで)。🌛 earthMoonInertial・🐌 inertialDragPair の全状態がビット同一(第294便d の器で実測)
+    method="direct";
+    if(!S._rdM || S._rdM.length<4) S._rdM=new Float64Array(4);
+    const M=S._rdM;
+    M[0]=FX[0]? 1 : 1+DG[0]; M[1]=FX[0]? 0 : -A[1];
+    M[2]=FX[1]? 0 : -A[2];   M[3]=FX[1]? 1 : 1+DG[1];
+    UX[0]=SX[0]; UY[0]=SY[0]; UX[1]=SX[1]; UY[1]=SY[1];
+    const f=M[2]/M[0];
+    if(f!==0){ M[3]-=f*M[1]; UX[1]-=f*UX[0]; UY[1]-=f*UY[0]; }
+    UX[1]=UX[1]/M[3]; UY[1]=UY[1]/M[3];
+    UX[0]=(UX[0]-M[1]*UX[1])/M[0]; UY[0]=(UY[0]-M[1]*UY[1])/M[0];
+  } else if(n<=REL_DRAG_SOLVE_DIRECT_MAX){
     method="direct";
     if(!S._rdM || S._rdM.length<n*n) S._rdM=new Float64Array(n*n);
     const M=S._rdM;

@@ -15,6 +15,8 @@
 #   ⑤ 影響サンプルの短走 --base <基点 html>(リポジトリの中の相対パス —— 例 beta/_w288_base.html)があるとき
 #                tests/exp-w258c-bitsame.mjs で全内蔵の 600 步の指紋を比べ、差分 ID を出す(**情報** —— 物理を変える枝は差が出て正しい。
 #                予測した差分 ID と照らすのは統括)
+#   ⑥ (この器の外)フルゲート: 統合後のフル QA は **QA_CHANGED=0** で回す(第294便d・原仮定者の裁定(第84報)・統括の検証項目 R151 ——
+#                変更依存の先行実行はフルの前に同じ試験を一度ずつ走らせるだけ・フルの試験は減らない)。例: QA_CHANGED=0 QA_TARGET=beta/index.html npm test
 # 最後に 1 行で出す: `post-merge-qa: ① … ② … ③ … ③′ … ④ beta p/n・root p/n(SKIP s)⑤ … 所要 N s → OK|FAIL`。
 #
 # 使い方:
@@ -35,7 +37,8 @@ IDS="${POST_MERGE_IDS:-$DEFAULT_IDS}"
 # 第290便f: 本便の新設 11 本(a の docs.terminologyInertial・docs.claimScope / b の preset.retired290b・docs.d68FactorRow / c の behavior.inertialDragGate・
 #   preset.inertialDragPair / d の behavior.ckFixcapRestore / e の preset.shapeToySpiral・behavior.spiralGeometry / f の ui.aboutOrder・ui.pickerScope)へ差し替えた
 #   (第289便の 6 本は ④ の後のフル QA で見る)。統合前の枝では他枝の名は「未統合」として数えるだけ
-DEFAULT_WAVE_IDS="behavior.kFrameKeep293 preset.kframe-binary-default preset.kframe-calib-declared behavior.modeSaveWarnings behavior.loadSaveModePolicy ui.topicChipFilter293 docs.coreCensus behavior.coreRemovalGate behavior.swingGate docs.swingContract behavior.composeGate docs.composeContract docs.noRetiredMention293"
+# 第294便d: 枝 d の新設 2 本(docs.timingContract294・lint.scopeClosureSame294)を末尾に足した(第293便の 13 本と他枝の新設への差し替えは統合で)
+DEFAULT_WAVE_IDS="behavior.geo3Inertial294 behavior.modeSaveWarnings behavior.loadSaveModePolicy behavior.geoModeResolve docs.geoModeTable preset.earthMoonInertial docs.noRetiredMention294 docs.noRetiredMention293 docs.sampleStatus-sync docs.retired docs.families ui.observedCompare294 groups.reorder ui.groupRenameAliases ui.calGroupSplit291 docs.timingContract294 lint.scopeClosureSame294 ui.pickerReorg294 ui.topicChips291 ui.topicChipFilter293 ui.emFamily"
 WAVE_IDS="${POST_MERGE_WAVE_IDS-$DEFAULT_WAVE_IDS}"
 BASE=""; FAILED=""; NOROOT=0; NOPRE=0
 while [ $# -gt 0 ]; do

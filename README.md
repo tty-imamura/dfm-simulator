@@ -766,6 +766,10 @@ QA の確認順(第279便b): **① preflight → ② 限定 QA → ③ フル**�
   重いブロックはワーカープール(W5c/W5b)で並列に先行し、結果は元の位置・元の順で記録される
   (`QA_SERIAL=1` で従来どおりの完全直列)。各ユニットの実時間は結果 JSON の `unitTimings`、
   走行全体の壁時計は `wallDurationMs`(`ms` は従来どおり「直前の add() からの経過」)。
+- **統合後のフルゲートは `QA_CHANGED=0`**(第294便d・原仮定者の裁定(第84報)・統括の検証項目 R151): 手元の既定の ③′ 変更依存の先行実行
+  (`QA_CHANGED`)はフルの前に同じ試験を一度ずつ走らせるだけなので、全件を走らせるフルゲートでは切る(フルの試験は 1 つも減らない)。
+  第294便d から前置(前回 FAIL の先行・変更依存の先行)の時間は `syntax` の ms に入らない(`replay.ms`・`changed.ms` に別に載る)。
+  時間の内訳(較正走行の上位 5 本・QA の単位・鎖の全本段)は `tests/out/timing-w294d.json`(器 `tests/exp-w294d-timing.mjs` —— 判定の欄なし)。
 - CI は preflight を先に走らせ、**フル(`npm test`)を従来どおり必ず走らせる**(CI が最終裁定者)。
 
 GitHub Actions([.github/workflows/ci.yml](.github/workflows/ci.yml))が push/PR ごとに

@@ -721,6 +721,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/geo3-w294a.json': META_RUN.concat(['/elapsedS', '/window/rows/*/wallSec']) },
     note: '第294便a: geoPN=3 ∧ 慣性宣言の解決と走行(law inertial-drag・測地線 OFF・実効番号 0・kF0 でない)・🌛 の geoPN 0⇔3 の 2000 步ビット同一(状態・PN 旗・u)・'
       + '27/8 公転窓の近点周期の同値・未宣言の 3 は測地線 ON(geoPN=1 と同一)・パラメータでの宣言(gain 0 ≡ 慣性なし・gain ≡ JSON の宣言)' }),
+  // ---- 第294便d(原仮定者の裁定(第84報)「較正走行と QA で時間が掛かっているサンプルについて、改善を行う」・統括の検証項目 R151): **時間の内訳**
+  //   (較正走行の本ごと・上位 5 本の step/抽出/前置の測定・🌞 の必要窓 / 保存 QA の項目と単位・前置の ms / 鎖の段と全本段の本ごとの走行の印)と、
+  //   その場の実測(上位 5 本の μs/步・💍💠🌞 の試験粒子を外した写しの μs/步と single の差・依存閉包の参照実装との全欄一致と所要・
+  //   在位/退役の build と loadPreset+32 步・🌛🐌 の μs/步)。**判定の欄なし**(時間だけ)。Chromium 1 本。calaudit を読む(安定 hash は壁時計を除くので、
+  //   壁時計だけが変わった calaudit の再走では再利用 —— 正本は生成した時点の記録・常時群にしない)。html の集約(htmlagg)の後の html で測る。
+  //   領域は全本(live が内蔵の全本を build する)。所要は第294便d の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('timing294', 'node tests/exp-w294d-timing.mjs', ['tests/out/timing-w294d.json'], 95, { secSource: 'w294d-branch',
+    after: ['calaudit', 'dt3', 'kf0', 'samplestatus', 'htmlagg'],
+    volatilePaths: { 'tests/out/timing-w294d.json': META_RUN.concat(['/elapsedS']) },
+    note: '第294便d: 時間の内訳の器(較正走行・保存 QA・鎖の段 —— 判定の欄なし)とその場の実測(上位 5 本の μs/步・試験粒子を外した写し・閉包の参照実装との一致・退役の上限・二体の μs/步)' }),
 ];
 
 /**
