@@ -3,38 +3,38 @@
   "provenanceVersion": "w272e-1",
   "wave": "第275便a(第65報・判定器便: R33 の対照分類と観測列の分離)",
   "target": "beta/index.html",
-  "targetSha256": "eca5e2baa1819feb03930054ad598a2ae6a6aba00a4f60aed6196697992ae829",
-  "generatedAt": "2026-10-06T19:55:16.894Z",
+  "targetSha256": "8ebc566459ff9809603228e221c3f4447d483e7d4452732c79e8cb286632b03b",
+  "generatedAt": "2026-10-06T22:23:41.462Z",
   "inputs": [
    {
     "file": "tests/out/presetaxes-w275a.json",
     "bytes": 86704,
-    "sha256": "0cf214ead0622fb0033ccb83c4152c371da5c4fbdcacebd45e7e644d56662afd",
-    "mtime": "2026-10-06T18:33:39.613Z"
+    "sha256": "0c0d616adf01c3a3df176298309c755b0a362cbd74c72178852e45a805accedd",
+    "mtime": "2026-10-06T22:23:38.342Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1823725,
-    "sha256": "6725e9928c152a366e8b53392dfc5cf21d02fe1b768fb497026d73166efefd05",
-    "mtime": "2026-10-06T19:07:11.202Z"
+    "bytes": 1821665,
+    "sha256": "2e3416dee057dbe143df43e24861d02bdc935e0cdb703ca66cbaab272572335e",
+    "mtime": "2026-10-06T21:10:15.654Z"
    },
    {
     "file": "tests/out/charon-w272b.json",
-    "bytes": 160779,
-    "sha256": "6790ef750085e08bab4839f9289e7c8c9326b2a4f02eb6bcc5572df50e0ebe89",
-    "mtime": "2026-10-06T19:53:20.106Z"
+    "bytes": 160778,
+    "sha256": "c7917126d49d2a3ebfe91ad38f277434db734495ca8e2ffdf40b8243dbc26a84",
+    "mtime": "2026-10-06T21:55:03.830Z"
    },
    {
     "file": "tests/out/nslockledger-w273c.json",
     "bytes": 12914,
-    "sha256": "5452f0e3b5028890be08577a4aa351c6f10ca43907fa1b0cdd927d72bdc8a210",
-    "mtime": "2026-10-06T18:33:37.917Z"
+    "sha256": "8811297ad808329b6c94cb3b3afe3c059b26ec70df5591c0f1942bf1641984c4",
+    "mtime": "2026-10-06T22:23:36.806Z"
    },
    {
     "file": "tests/out/galaxydiag-w271d.json",
     "bytes": 223871,
-    "sha256": "fa66f61d50037f8dab771cce59ea7dabbf4cbfc65f4aa402bf0314ff87248062",
-    "mtime": "2026-10-06T17:59:42.173Z"
+    "sha256": "46bafb8c81ffcfb584feb2216eae09896632533200da309e66681e3fa8831794",
+    "mtime": "2026-10-06T21:54:40.382Z"
    },
    {
     "file": "tests/out/kf0-w259d.json",
@@ -45,8 +45,8 @@
    {
     "file": "tests/out/calcontract-w282a.json",
     "bytes": 122901,
-    "sha256": "51269c1d867fcd334d3eaaf49d56eb506b13528d213d5579ab188d2ede8ee8a1",
-    "mtime": "2026-10-06T19:34:21.442Z"
+    "sha256": "2c6e8c6fe9974141b51ef3aebbb9052238fe5697af3bd7fc7df818f5b956703e",
+    "mtime": "2026-10-06T22:01:42.502Z"
    }
   ],
   "code": [
@@ -2629,7 +2629,7 @@
    "stage": "h",
    "field": "rev2Sec",
    "why": "第272便b の列 C1 は同じ html・同じ「同方向1周(2周目)」の定義で kFrame=0 を 3 段測っている。**別の器の別の走行**なので、本便の kF0 走行と一致するかは独立の確認になる。",
-   "fileSha256": "f782577ecd752eae7811214515a8a9974603337df9b0f787c505102aa15d380c",
+   "fileSha256": "6790ef750085e08bab4839f9289e7c8c9326b2a4f02eb6bcc5572df50e0ebe89",
    "citedValue": 551864.0613634228,
    "citedCfg": {
     "kFrame": 0,
@@ -2637,7 +2637,7 @@
     "geoPN": 2,
     "softening": 0.05
    },
-   "citedTargetSha256": "5989182e5f46ae4e9f65f74d4963b1e609949d16db7da24569fed8d0c4ca0cf3",
+   "citedTargetSha256": "eca5e2baa1819feb03930054ad598a2ae6a6aba00a4f60aed6196697992ae829",
    "thisRunValue": null,
    "relDiff": null,
    "identical": null,
