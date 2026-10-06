@@ -39,7 +39,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { runEM, windowFit } from './exp-w292c-dragcore.mjs';
 import * as LC from './lib-w293e-compose.mjs';
 import * as LD from './lib-w292c-dragcore.mjs';
-const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_COMPOSE_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_DIRECT_MAX","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SOLVE_ITERS_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.inertialDragComposeState","HP.inertialDragState","HP.presetSigHash","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset","HP.validateRelativeDrag"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":"all","roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_COMPOSE_VERSION","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_DIRECT_MAX","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.REL_DRAG_SOLVE_ITERS_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.geoEffectiveMode","HP.inertialDragComposeState","HP.inertialDragState","HP.presetSigHash","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset","HP.validateRelativeDrag"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w293e-compose-2';   // 第293便g: 既定が solve(velocity) —— sum は compose:"sum" の明示

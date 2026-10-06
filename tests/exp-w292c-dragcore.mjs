@@ -40,7 +40,7 @@ import { scopeStamp as w281aScopeStamp, stableInputs as w281aStableInputs } from
 import { fitPeri, YEAR_UNITS_EM, DAY_UNITS_EM } from './lib-w280b-emgrid.mjs';
 import * as LD from './lib-w292c-dragcore.mjs';
 import * as LC from './lib-w293e-compose.mjs';   // 第293便g: 門 (c) の既定(solve(velocity))の引き直し
-const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
+const REGEN_SCOPE = {"presets":["earthMoonInertial","earthMoonReal"],"roots":["HP.DRAG_CORE_NR","HP.DRAG_CORE_RMAX_FACTOR","HP.DRAG_CORE_TABLE_N","HP.DRAG_CORE_VERSION","HP.REL_DRAG_COMPOSE_DEFAULT","HP.REL_DRAG_INERTIAL_VERSION","HP.REL_DRAG_SOLVE_FROM_DEFAULT","HP.allPresets","HP.dfmGaussLegendre01","HP.dfmMeshVelocityFieldAt","HP.dragCoreAvgK","HP.dragCoreLookup","HP.dragCoreState","HP.dragCoreTableBuild","HP.geoEffectiveMode","HP.inertialDragState","HP.relDragComposeOf","HP.relDragSolveFromOf","HP.sim","HP.validatePreset"],"core":true,"consts":[],"complete":true};
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const HARNESS_VERSION = 'w292c-dragcore-1';
@@ -172,7 +172,10 @@ export function gates(HP) {
   const bodiesSame = JSON.stringify(p.bodies.map(strip)) === JSON.stringify(base.bodies);
   const dcDecl = p.bodies[0].dragCore, moonPoint = p.bodies[1].dragCore === undefined;
   const ph = p.physics, rd = ph.relativeDrag;
-  const physicsDecl = { G: ph.G === base.physics.G, cLight: ph.cLight === base.physics.cLight, kappaT: ph.kappaT === base.physics.kappaT, kFrame: ph.kFrame === 0, geoPN: ph.geoPN === 0,
+  const physicsDecl = { G: ph.G === base.physics.G, cLight: ph.cLight === base.physics.cLight, kappaT: ph.kappaT === base.physics.kappaT, kFrame: ph.kFrame === 0,
+    // 第294便a(原仮定者の裁定(第84報)・R148): 🌛 は geoPN=3(慣性決定力の有効化の印 —— 慣性宣言の 3 は測地線 OFF・1PN なし・geoPN=0 とビット同一)。
+    //   3 を認めるのは 3 ∧ 慣性宣言を測地線 OFF に解決する世代(html に geoEffectiveMode がある)だけ —— 器 tests/exp-w294a-geo3.mjs がビット同一を示す
+    geoPN: ph.geoPN === 0 || (ph.geoPN === 3 && typeof HP.geoEffectiveMode === 'function' && HP.geoEffectiveMode.length >= 1),
     kRep: ph.kRep === 0, muF: ph.muF === 0, gammaN: ph.gammaN === 0, kappaS: ph.kappaS === 0, stateCarry: ph.stateCarry === 'double', law: rd && rd.law === 'inertial', eps: rd && rd.eps === 0.1,
     history: rd && rd.history === 'positions', noD0pull: ph.D0pull === undefined, noQLock: p.qLock === undefined };
   const decl = { id: BOOK_ID, bodiesSameAsBase: bodiesSame, dragCore: dcDecl, moonPoint, physicsDecl, gainDeclared: rd ? rd.gain : null,

@@ -711,6 +711,16 @@ export const REGEN_STEPS = [
     volatilePaths: { 'tests/out/compose-w293e.json': META_RUN.concat(['/elapsedS', '/snail/rows/*/wallSec', '/em/rows/*/wallSec', '/fit/H/first/wallSec', '/fit/V/first/wallSec']) },
     note: '第293便e: 合成則 compose の門(純関数 8 項〔2 源の代数例・共通並進・共動・弱結合 O(a²)・順序・分割/併合・有界性・帳簿〕と履歴則の不動点・宣言の受理・'
       + 'エンジン≡純関数〔u・a_ij・残差・移送の帳簿〕・非相反性)と 🐌/🌛 の sum・solve(history)・solve(velocity)の 27 公転・🌛 の solve 版 C_d の別フィット(採用値にしない)' }),
+  // ---- 第294便a(原仮定者の裁定(第84報)「慣性決定力版の earthMoonInertial が良好なので、パラメータで有効化を可能にする。その有効化を geoPN=3 のプリセットと
+  //   する想定。引きずりを単純加算しない様に注意しつつ、処理の整理を進める」・統括の検証項目 R148): geoPN=3 を慣性決定力の有効化の印にする便の門 ——
+  //   解決と走行の一致(geoModeOf・geoEffectiveMode・geoLawOfSim・kF0)・🌛 の geoPN 0 と 3 の 2000 步のビット同一・27/8 公転窓の近点周期の同値・
+  //   未宣言の 3(現行どおり測地線 ON)・パラメータでの宣言(geo3InertialDeclare —— gain 0 は慣性なしとビット同一・gain は JSON の宣言とビット同一)。
+  //   Node の headless(1 プロセス)・html だけを読む(他の正本は読まない)。検出器の器 dragcore292 の後に置く(同じ runEM・windowFit を読む表の順)。
+  //   所要は第294便a の枝の実測(正本の elapsedS —— 他の枝と同じ容器で並走)
+  S('geo3-294a', 'node tests/exp-w294a-geo3.mjs', ['tests/out/geo3-w294a.json'], 451, { secSource: 'w294a-branch', node: true, after: ['dragcore292'],
+    volatilePaths: { 'tests/out/geo3-w294a.json': META_RUN.concat(['/elapsedS', '/window/rows/*/wallSec']) },
+    note: '第294便a: geoPN=3 ∧ 慣性宣言の解決と走行(law inertial-drag・測地線 OFF・実効番号 0・kF0 でない)・🌛 の geoPN 0⇔3 の 2000 步ビット同一(状態・PN 旗・u)・'
+      + '27/8 公転窓の近点周期の同値・未宣言の 3 は測地線 ON(geoPN=1 と同一)・パラメータでの宣言(gain 0 ≡ 慣性なし・gain ≡ JSON の宣言)' }),
 ];
 
 /**

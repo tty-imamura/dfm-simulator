@@ -30337,6 +30337,51 @@ html の残りの行は除外リスト(退役の本の定義・RETIRED_PRESETS�
 
 **書かないこと。** 「正しい合成則と証明した」とは書かない(原仮定者の裁定に沿って既定を変えた —— 法則の検証は次段)。「月を再現した」「較正 合」「C_d は普遍定数」「GR の何 PN と同定」「全系の保存則が閉じた」「摂動の記憶を示した」と書かない。🌛 の宣言 gain を理由なく変えない。「共鳴」の検証(AN207 の次段)はしていない。
 
+〔第294便a — geoPN=3 を慣性決定力の有効化の印にする便(慣性の宣言がある 3 は解決も走行も「測地線 OFF・1PN なし・法則 inertial-drag」に一致・パラメータで有効化・🌛 earthMoonInertial を geoPN=3 に)(**既存 152 本の力学は 1 bit 不変** —— bitsame **152/152**・sigsame **151/152**〔差分 ID は 🌛 earthMoonInertial だけ —— 署名の geoPN が 0→3・力学はビット同一〕・`S._core` 35197 字のまま)〕
+
+出典: 原仮定者の裁定(第84報)「慣性決定力版の earthMoonInertial が良好なので、パラメータで有効化を可能にする。その有効化を geoPN=3 のプリセットとする想定。引きずりを単純加算しない様に注意しつつ、処理の整理を進める」・統括の検証項目 R148。
+
+**① 何が食い違っていたか**(基点 ce735e2): 宣言の解決 `geoModeOf(...).law` は「旧法則版〔spaceMesh.lawVersion〕が走らず慣性決定力の引きずり〔relativeDrag.law:"inertial"〕を宣言した 3」を `inertial-drag` と呼んでいたが、解決の `geodesic` は ON のまま(core・λ_PN・pn1=eih が立つ)で、走行(`geoCoreDispatchBody`・`pnOrbitalKF0`)は実効番号 2 —— kFrame=0 なら **1PN(EIH)を足して**走っていた。`geoLawOfSim` だけが inertial-drag と言う(名前と步の食い違い)。内蔵に該当の本は無かった(🌛 は geoPN=0 —— 第292便c の注「geoPN=3 は旧法則版の優先に乗るので置かない」)。
+
+**② 何を変えたか**:
+- **解決** `geoLawResolveInto`(mode 3): 旧法則版が走れば従来どおり `legacy-spaceMesh:<lawVersion>`(測地線 OFF)/ そうでなく慣性の宣言があれば **測地線 OFF・法則 `inertial-drag`**(core null・λ_PN 0・pn1 null)/ どちらも無ければ現行どおり測地線 ON(kFrame で基底を選ぶ —— 警告 `geo3NoInertial`)。
+- **走行**: 実効番号の正本を純関数 **`geoEffectiveMode(S)`** 1 つにし(S の旗だけを読む —— 力学は読まない)、`geoCoreDispatchBody`・`pnOrbitalKF0`・`geoLawOfSim` の 3 か所が同じ式を読む。g≥3: 旧法則版が走る(`S.hasGeoToy ∨ S.hasGeo3`)→ g / 慣性の宣言(`S.hasRelativeDrag ∧ S.relDrag.law==="inertial"`)→ **0** / それ以外 → 2。g<3: geoPN=0 ∧ `physics.geodesic:true` → 2・それ以外 → g。dispatch の最後の分岐は実効番号を `_core` へ渡す(`ge===1` → 2〔geoPN=1 ∧ kFrame>0 の v−u 則〕・`ge!==g` → ge)—— **実効 0 を 2 に戻さない**。宣言の無い 0〜2 と旧法則版の 3 と未宣言の 3 は従来と 1 命令も違わない(bitsame 152/152)。慣性ステップ(`dfmInertialDragStep`)の門は宣言の有無だけで、geoPN を読まない(geoPN=0 の 🐌 inertialDragPair の慣性引きずりも従来どおり走る)。
+- **合成則は既定の solve(velocity)のまま**(第293便g —— 単純加算に戻さない・🌛 に `compose` を書かない)・**gain は再フィットしない**(514182 のまま)。
+- **受理器**: `physics.geodesic:false` の「効きません」の警告は geoPN 1・2 だけ(3 は黙って受理 —— 3 の測地線は宣言から解決する)。`CLAMPS.geoPN`・`KFRAME_APPROXES` 付近の古い注記(「3 には lawVersion が要る」「較正クラスは拒否」)はコードに合わせてコメントだけ直した。
+- **セーブ時の警告** `modeSaveWarnings`: 6 本目の code **`inertialPlusGeodesic`**(慣性の宣言 ∧ 解決した測地線 ON = geoPN 1・2 と geoPN=0 ∧ geodesic:true —— 1PN に慣性引きずりを重ねた実験設定。警告だけで保存も走行も止めない)。保存の版 `modePolicy` は **`"w294a-1"`**(`MODE_POLICY_KEEP_VERSIONS` = w291c-1・w293a-1・w294a-1 —— どれも値を保持して読む)。
+- **旧 JSON の solve 警告**(AN214): 第293便は 1 回の統合(a〜g が同じ main のコミット)で公開したので、`modePolicy` が `w293a-1` 以後の保存は既定 solve の版でしか作られていない。読込 `loadSave` は、`modePolicy` が無いか `w291c-1` の保存で `relativeDrag.law:"inertial"` の `compose` が未宣言なら(保存したときは加算 sum で走っていた)1 行知らせる(`loadSaveComposeLegacyOf(s)` —— 値は書き換えない・いまは solve で走る)。
+- **パラメータで有効化**: 「パラメータ」タブの geoPN 行(主役の行と「引きずり・測地線」の先頭の行)の 2 段目に、**geoPN=3 ∧ 旧法則版の宣言なし ∧ 慣性の宣言なし**(`geo3InertialOfferOf(S)`)のときだけ「慣性決定力の引きずりを宣言する(gain C_d [L³/M])」の入力と「宣言」を出す。「宣言」は `geo3InertialDeclare(S, gain)` —— `physics.relativeDrag={law:"inertial", gain}` を受理器 `validateRelativeDrag` で正規化して、保存 JSON の読込と同じ経路(params・`S.relDrag`・`S.hasRelativeDrag`・`inertialDragInit` —— 履歴は作り直し・最初の步は u=0)で張る。build 時の kF0(未宣言の 3 = 測地線 ON)で埋めた pnOv のビット 2 はその場で外す。gain の初期値は本の宣言があればそれ・無ければ 0(0 は否定対照 —— 何も動かない)。dispMag など他の宣言は触らない。保存は `physics.relativeDrag` に JSON の宣言と同じ形で書かれる。
+- **🌛 earthMoonInertial を geoPN=3 に**: 先に上の解決と走行を入れ、器で geoPN=0 の写しとのビット同一を確かめてから `physics.geoPN` を 0→3・`activeParams` を `["geoPN","dispMag"]` にした。説明・観測結果カード・parameterAudit の「geoPN=0」を「geoPN=3(慣性決定力の有効化の印 —— 測地線 OFF・1PN なし)」に改めた。
+
+**③ モードの表**(現行 —— `geoModeTable()` の行を `geoModeTableRow` の書式で転記。QA `docs.geoModeTable` は第294便a からこの節の表を照合し、〔第291便c〕の表は**履歴**として残す。列: geoPN | 宣言 | 主な用途 | 標準構成か(kFrame=0 / 1)| 測地線(kFrame=0 / 1)| 法則(kFrame=0)| 法則(kFrame=1)| 警告(kFrame=0)| 警告(kFrame=1)。〔第291便c〕から変わったのは測地線の列と、慣性の宣言を 0・1 に置いた 2 行 —— 「3 ∧ 慣性」の行は法則の名前は同じで、測地線が OFF になった):
+
+| geoPN | 宣言 | 主な用途 | 標準(kF0 / kF1) | 測地線(kF0 / kF1) | 法則(kFrame=0) | 法則(kFrame=1) | 警告(kFrame=0) | 警告(kFrame=1) |
+|---|---|---|---|---|---|---|---|---|
+| 0 | — | proof | ○ / ○ | OFF / OFF | `newton` | `newton` | — | — |
+| 0 | geodesic:true | proof | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo0Geodesic | geo0Geodesic |
+| 1 | — | calibration | ○ / — | ON / ON | `eih-kf0` | `vMinusU-q` | — | geo1KFrame |
+| 2 | — | dragApprox | — / ○ | ON / ON | `eih-kf0` | `vMinusU-q` | geo2KFrame | — |
+| 3 | — | inertialDrag | — / — | ON / ON | `eih-kf0` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 3 | relativeDrag.law:inertial | inertialDrag | ○ / ○ | OFF / OFF | `inertial-drag` | `inertial-drag` | — | — |
+| 3 | spaceMesh.lawVersion:scalar | inertialDrag | — / — | OFF / ON | `legacy-spaceMesh:scalar` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 3 | spaceMesh.lawVersion:vMinusU+meshVelocity | inertialDrag | — / — | OFF / ON | `legacy-spaceMesh:vMinusU` | `vMinusU-q` | geo3NoInertial | geo3NoInertial |
+| 0 | relativeDrag.law:inertial | proof | ○ / ○ | OFF / OFF | `newton` | `newton` | — | — |
+| 1 | relativeDrag.law:inertial | calibration | ○ / — | ON / ON | `eih-kf0` | `vMinusU-q` | inertialPlusGeodesic | geo1KFrame+inertialPlusGeodesic |
+
+3 ∧ 慣性 ∧ kFrame=1 は実効 0 ∧ kFrame>0 なので、`_core` の中の E6′ の追従キックが立ち、慣性引きずりと同じ步で重なる(警告なし —— 主な用途の標準は 3 では慣性の宣言の有無だけ。扱いは決断事項)。旧法則版が走る 3 に慣性を重ねた組・入場条件で無効化された旧法則版に慣性を重ねた組も、法則名は解決の表のとおり(後者は第294便a から慣性の経路 = 測地線 OFF)。
+
+**④ 確認(実測)**: 器 `tests/exp-w294a-geo3.mjs`(Node の headless・1 プロセス)・正本 `tests/out/geo3-w294a.json`(段 `geo3-294a`・`W294A_OUT` で出力先を変える):
+- 🌛 の geoPN=0 の写しと geoPN=3 の写しの **2000 步(dt=0.016)が步ごとにビット同一**(x/y/vx/vy/spin/m/mEff/R・pnOv・_pnOrb・慣性引きずりの u〔_rdUX/_rdUY〕・t —— 最初の差の步 null)。geoPN=3 の 🌛 は `geoModeOf(...).law` = `geoLawOfSim(S)` = `inertial-drag`・実効番号 0・kF0 でない・pnOv のビット 2 が 1 度も立たない・セーブ時の警告 0。
+- **27 公転窓の近点周期**(検出器 B〔位置だけ〕—— `exp-w292c-dragcore.mjs` の runEM・windowFit と同じ式): geoPN=0 と 3 で **8.850008438191532 年**(Object.is で同値)・8 公転窓 8.850008381657355 年(同値)。第293便g の正本(compose-w293e)の solve(velocity) の値と同じ。
+- 未宣言の 3(🌙 の宣言を geoPN=3 にした写し)は現行どおり測地線 ON(`eih-kf0`・実効 2・kF0・pnOv のビット 2)・geoPN=1 の写しと 200 步ビット同一・警告 `geo3NoInertial`。
+- パラメータでの宣言: 🌙 の写しを geoPN=3 で build した後に gain 0 を宣言した走行は geoPN=0 の写し(慣性なし)と 2000 步ビット同一(状態・PN 旗)。gain 514182 を宣言した走行は同じ gain を JSON で宣言した写しと 2000 步ビット同一(u を含む —— 同じ経路)。
+- 内蔵 152 本の law の分布: newton 92・eih-kf0 28・vMinusU-q 19・legacy-spaceMesh:scalar 9・legacy-spaceMesh:vMinusU 2・legacy-spaceMesh:local 1・**inertial-drag 1**(🌛)。geoPN の桶(`ppGeoBucketOf`)は 0/1/2/3 = **92/28/19/13**(🌛 が 0 から 3 へ)。
+- bitsame **152/152**(600 步)・sigsame **151/152**(差分 ID は `earthMoonInertial` だけ)・jitprobe ×0.93〜×1.22(galaxyGeo2 ×0.93・bhCore ×0.95・galaxyMeshSpiral ×1.22・gw150914DFM ×1.18・earthMoonInertial ×0.99 —— どれも 1.5× 以内・同じ容器で並走)。基点比較の器 `exp-w291b-pnsources.mjs` の基点 cf2da0a には 🌛 が無いので 🌛 は `newInNow`(差の契約の外 —— 行の geoPN が 0→3 に変わるだけ)。
+
+**⑤ 書かないこと**: 「geoPN=3 が GR と同値」「1PN を足した」。geoPN=3 は**慣性決定力の引きずりを主に使う印**で、法則の正しさの主張ではない。🌛 の 8.85 年は gain のフィットの対象(推定)であり、本便は gain も合成則も変えていない。
+
+**⑥ 決断事項の候補**: 未宣言の geoPN=3 の既定(測地線 ON のまま vs 慣性 gain 0)/ 3 ∧ 慣性 ∧ kFrame>0(E6′ と慣性引きずりの重なり)に警告を足すか / パラメータで宣言した慣性を保存 JSON に書く形(現行は JSON の宣言と同じ `physics.relativeDrag`)/ 旧 JSON の solve 警告の判別(`modePolicy` の版で判別)/ 🌛 の署名変更(geoPN 0→3)の扱い。
+
 ## 7. 論文 ↔ シミュレータ 対応表〔第146便〕
 
 論文の主張を読んだ人が「その主張はアプリのどのサンプルで見られ、どのゲートが固定していて、
