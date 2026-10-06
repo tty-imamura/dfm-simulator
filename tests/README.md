@@ -98,6 +98,7 @@ FAIL の実測からだけ決める(差が出たことを理由に床を足さ�
 | manyBody | 連鎖・多体 / Chains / many bodies | bodies の粒子数(単体 1+群の n の和)≥ 100(`TOPIC_MANY_N`) |
 
 - 件数(チップの `data-n`)は一覧に出せる本(catalog 非表示・退役を除く)を実行時に数える。1 本が複数の題材に入りうる。説明タブの `#descTopics` も同じ表から出る(押せない表示)。
+- 第294便e(原仮定者の裁定(第84報)①・統括の検証項目 R152): 絞り込みは次元「題材」から**「その他」の 4 段目「題材」**へ移った(key `topic:<鍵>`・三状態・AND/NOT —— 表と規則は不変)。「すべて表示」の撤去で catalog extended の本も件数に入る。QA `ui.pickerReorg294` は段の「全て」・AND/NOT・家族の語・群名の色・ⓘ の太字を固定する。
 - **「現実較正」の 2 見出し**: 表 `GROUP_DISPLAY_SPLIT` で、宣言の群「現実較正」を一覧の表示だけ「現実較正・太陽系」「現実較正・連星」に分ける(`calSubOf` —— `calTargetOf` の solar-system か否か)。
   第288便b のサブチップ(`#ppCalSub`)は撤去し、QA `ui.calGroupUnified` は `ui.calGroupSplit291` に置き換えた(2 見出し・各見出しの件数 = calSubOf の数え直し・退役の本は数えない)。
 - **一覧の最下段の区切り** `.ppListEnd`: `#ppList` の最後の子(QA `ui.pickerListEnd` —— 既定・題材の絞り込み・検索・一致 0・保存一覧ありの 5 状態)。
