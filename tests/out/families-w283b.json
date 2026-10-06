@@ -3,56 +3,56 @@
   "provenanceVersion": "w272e-1",
   "wave": "第283便b",
   "target": "beta/index.html",
-  "targetSha256": "9f532ed9fd6c11c816bb9f0399c6fa4aca2b72df5f061507a3289790ab4a41b8",
-  "generatedAt": "2026-10-06T15:52:06.700Z",
+  "targetSha256": "eca5e2baa1819feb03930054ad598a2ae6a6aba00a4f60aed6196697992ae829",
+  "generatedAt": "2026-10-06T18:33:18.248Z",
   "inputs": [
    {
     "file": "beta/index.html",
-    "bytes": 5723846,
-    "sha256": "9f532ed9fd6c11c816bb9f0399c6fa4aca2b72df5f061507a3289790ab4a41b8",
-    "mtime": "2026-10-06T15:51:19.437Z"
+    "bytes": 5760225,
+    "sha256": "eca5e2baa1819feb03930054ad598a2ae6a6aba00a4f60aed6196697992ae829",
+    "mtime": "2026-10-06T18:28:08.565Z"
    },
    {
     "file": "tests/out/calaudit-w249.json",
-    "bytes": 1838815,
-    "sha256": "7b38144d574b1cd2df6d1f31e98b58a1b22fabbf8649dbf683c7917904c5d15b",
-    "mtime": "2026-10-06T15:16:29.313Z"
+    "bytes": 1822280,
+    "sha256": "247665d8781d37618082432d8d6fe07c843cdfc0cbb39e5c7e3f51d2d5d7010c",
+    "mtime": "2026-10-06T17:11:04.297Z"
    },
    {
     "file": "tests/fixtures/retired-w283b.json",
     "bytes": 140346,
     "sha256": "fb3f123dd3f5e3587976f83bfc14892b1119f29cc20494f063ecfccd52ae8712",
-    "mtime": "2026-10-06T15:16:29.249Z"
+    "mtime": "2026-10-02T23:11:02.932Z"
    },
    {
     "file": "tests/fixtures/retired-w284b.json",
     "bytes": 244564,
     "sha256": "1fffd3f45fe2e8625b16e6243f9888ad74a32637a8f40bc43564c452ff92fb29",
-    "mtime": "2026-10-06T15:16:29.253Z"
+    "mtime": "2026-10-02T23:11:02.932Z"
    },
    {
     "file": "tests/fixtures/retired-w285f.json",
     "bytes": 64583,
     "sha256": "a23e52fca2c5b01b9f311c695f7c4982ff0d76518585c3f50c04da4495d197bc",
-    "mtime": "2026-10-06T15:16:29.253Z"
+    "mtime": "2026-10-02T23:11:02.936Z"
    },
    {
     "file": "tests/fixtures/retired-w286f.json",
     "bytes": 71553,
     "sha256": "a6f60d47cbbcb3b7c7c6d2d1d4243df40128d0504daba449e6a3c23381c738e2",
-    "mtime": "2026-10-06T15:16:29.253Z"
+    "mtime": "2026-10-02T23:11:02.936Z"
    },
    {
     "file": "tests/fixtures/retired-w287b.json",
     "bytes": 56177,
     "sha256": "ae12f0fdfa73e2d98ec7293e46113325c8de8fd2218bb03c2d91330c4b0c33f0",
-    "mtime": "2026-10-06T15:16:29.253Z"
+    "mtime": "2026-10-02T23:11:02.936Z"
    },
    {
     "file": "docs/FAMILIES_v1.45.md",
-    "bytes": 61690,
-    "sha256": "3d3a57099b34d0ec58b10bf0e27bf323a42574483ae051a41b0d2b8649624144",
-    "mtime": "2026-10-06T15:52:06.681Z"
+    "bytes": 61913,
+    "sha256": "ad896bd82d3b200bd0f0ba1744a60fa943e153814f1b755060027f2673a217b5",
+    "mtime": "2026-10-06T18:33:18.221Z"
    }
   ],
   "code": [
@@ -60,40 +60,40 @@
     "file": "tests/exp-w283b-families.mjs",
     "bytes": 41166,
     "sha256": "8de0e98125467619d9706207ed776dbe47d595dd4768579f48f8f7cb6818eb1d",
-    "mtime": "2026-10-06T15:42:27.014Z"
+    "mtime": "2026-10-06T16:18:55.853Z"
    },
    {
     "file": "tests/lib-w279b-headless.mjs",
     "bytes": 6003,
     "sha256": "0dd71997cfc0f011cfb59d4a9f91019b7c55c260fd827c26a5f71526f37471be",
-    "mtime": "2026-10-06T15:16:29.269Z"
+    "mtime": "2026-10-02T23:11:02.948Z"
    },
    {
     "file": "tests/lib-w272e-provenance.mjs",
     "bytes": 4587,
     "sha256": "2780e0b6a58ac13017154c4da1cf981be4884e5c87d983095dd2501cf9924a37",
-    "mtime": "2026-10-06T15:16:29.265Z"
+    "mtime": "2026-10-02T23:11:02.944Z"
    },
    {
     "file": "tests/lib-w279a-samplestatus.mjs",
     "bytes": 26924,
     "sha256": "1e392bdbaaad2a21ce04eda6696502b557b2a780b5d8cad8daf03b7ff67b6d18",
-    "mtime": "2026-10-06T15:42:58.037Z"
+    "mtime": "2026-10-06T16:18:55.853Z"
    },
    {
     "file": "tests/lib-w281a-scope.mjs",
-    "bytes": 75590,
-    "sha256": "6bf0f1432600b6302c513c5d5da9d61f2652ef2ad3416b2b73861c4b2add1d75",
-    "mtime": "2026-10-06T15:16:29.277Z"
+    "bytes": 82714,
+    "sha256": "01b31603cc66f5221599a04ea899513735ac6c4dd39a004fba80353059b15c9b",
+    "mtime": "2026-10-06T16:39:41.633Z"
    },
    {
     "file": "tests/lib-w281a-regentable.mjs",
-    "bytes": 247559,
-    "sha256": "33b33dde43c9077157bfe247496388213054d27a4ece3e155787486d5f8f8ffd",
-    "mtime": "2026-10-06T15:16:29.277Z"
+    "bytes": 250994,
+    "sha256": "932f88c6d0d51eeb55f755fa537af2ca1973db00583f74c85fe207ec7c46ca7b",
+    "mtime": "2026-10-06T16:40:01.951Z"
    }
   ],
-  "codeSha256": "64a7406791155f9628c77e8cba5418b4278afdc836bfe19e4009674af86d39e7",
+  "codeSha256": "666affb7fa7c7a19278cf8559c829510dd366e39ec803267900fb64d55a2dc51",
   "harnessVersion": "w294b-families-2",
   "scope": {
    "version": "w286d-scope-4",
@@ -118,14 +118,14 @@
    "complete": true,
    "names": 1007,
    "segments": 916,
-   "closureShare": 0.3536
+   "closureShare": 0.3525
   },
-  "scopeSha256": "4931c973cc60a1505590cad4fa8a9a999e92f66124fa85d1388080e0f47af8a0",
+  "scopeSha256": "032487c3284d83c3d765b07b1386487e85eec242e1c706eec02f418374b5bec9",
   "scopeComplete": true,
   "inputsStable": [
    {
     "file": "tests/out/calaudit-w249.json",
-    "stableSha256": "431d6a58a211c3d4478328cac5031ded9d98b5a38c199242cbbacb9c4e2e5591",
+    "stableSha256": "1e8070bcf97c90e99dea53b742c19d99cede80819545515f64a0805cc26e9912",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/diagnosticsSplit/bytes",
@@ -153,7 +153,7 @@
    },
    {
     "file": "tests/out/calaudit-w249-diag.json",
-    "stableSha256": "7a3d38889edf06cba704f99189dd3928b18e6b01bcd8184f5b78313695bbc3e8",
+    "stableSha256": "d08047efa4b11c78fa42d7258aed8a58f77e08a29c7044607728e50df48da613",
     "stableVersion": "w282e-stable-1",
     "volatilePaths": [
      "/carriedOverFrom",
@@ -247,11 +247,11 @@
   "retiredMembers": 0,
   "role": {
    "主系列": 27,
-   "診断": 10,
-   "比較": 21
+   "診断": 11,
+   "比較": 20
   },
   "cand": {
-   "A": 4,
+   "A": 5,
    "C": 1
   },
   "keepApart": 0
@@ -739,7 +739,7 @@
      "calVariant": null,
      "inPopulation": false,
      "variantLabel": null,
-     "geoPN": 0,
+     "geoPN": 3,
      "kFrame": 0,
      "D0": 0.1,
      "D0pull": null,
@@ -750,10 +750,10 @@
      "spaceMesh": null,
      "purpose": "慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る",
      "gates": [],
-     "presetSigHash": "d5fac179",
+     "presetSigHash": "881f73b2",
      "accepted": true,
-     "roleEst": "比較",
-     "roleWhy": "上のどれでもない",
+     "roleEst": "診断",
+     "roleWhy": "principle・geoPN=3",
      "vsRef": {
       "bodies": {
        "count": true,
@@ -870,7 +870,7 @@
       "earthMoonReal": 1,
       "emAuditSolar": 1,
       "earthMoonDiagOne": 1,
-      "earthMoonInertial": 0,
+      "earthMoonInertial": 3,
       "earthMoonTide": 1
      }
     },
@@ -1071,6 +1071,15 @@
    ],
    "physicsSameKeys": 19,
    "candidates": [
+    {
+     "rule": "A",
+     "keep": "earthMoonReal",
+     "fold": [
+      "earthMoonInertial"
+     ],
+     "how": "器の中の写し(走行設定)として残し、内蔵 ID は畳む",
+     "reason": "bodies(質量・位置・速度)が earthMoonReal と同じ・違うのは physics の geoPN・relativeDrag"
+    },
     {
      "rule": "A",
      "keep": "earthMoonReal",
@@ -6154,5 +6163,5 @@
   ]
  },
  "headlessErrors": 0,
- "elapsedS": 0.83
+ "elapsedS": 0.631
 }

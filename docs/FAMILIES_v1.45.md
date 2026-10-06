@@ -20,13 +20,13 @@
 
 ## 集計
 
-- 家族 **23**・本 **58**(在位の本)・推定の列: 主系列 27・比較 21・診断 10。
-- 候補: 規則 A 4・規則 B 0・規則 C(要裁定)1・畳まない組 0。
+- 家族 **23**・本 **58**(在位の本)・推定の列: 主系列 27・比較 20・診断 11。
+- 候補: 規則 A 5・規則 B 0・規則 C(要裁定)1・畳まない組 0。
 
 | 家族 | 本数 | 基準 | 主系列 | 比較 | 診断 | 候補 A/B/C | 畳まない組 |
 |---|---|---|---|---|---|---|---|
 | 冥王星–カロン(`pluto`) | 2 | `plutoCharonDiagInput` | 1 | 0 | 1 | 0/0/0 | 0 |
-| 地球–月(現実との照合)(`earthmoon`) | 6 | `earthMoonRealKF1` | 2 | 2 | 2 | 1/0/0 | 0 |
+| 地球–月(現実との照合)(`earthmoon`) | 6 | `earthMoonRealKF1` | 2 | 1 | 3 | 2/0/0 | 0 |
 | 水星(現実との照合)(`mercury`) | 2 | `mercuryReal` | 1 | 0 | 1 | 1/0/0 | 0 |
 | 土星(現実との照合)(`saturn`) | 4 | `saturnRingReal` | 2 | 0 | 2 | 0/0/0 | 0 |
 | 二重パルサー J0737−3039(`psrDoubleAB`) | 2 | `psrDoubleAB` | 1 | 0 | 1 | 1/0/0 | 0 |
@@ -81,7 +81,7 @@
 | 🌙 | `earthMoonReal` | primary | 主系列(較正母集団) | 違う入力(速度) | calibration・kf0 | ○ | 1 | 0 | 0.1 | — | 3 | — | — | — | 実単位の地球と月を kF0 で照合する | — |
 | 🔆 | `emAuditSolar` | variant | 主系列(較正母集団) | 違う入力(本数・質量・位置・速度) | calibration・kf0 | ○ | 1 | 0 | 0.1 | — | 3 | — | — | — | 太陽摂動だけで月の近点回転を出す | `behavior.emAudit` |
 | 🌓 | `earthMoonDiagOne` | variant | 診断(principle・「診断」) | 違う入力(速度) | principle | — | 1 | 0 | 0.006 | — | 8.2358 | — | — | — | 🌘 の初期状態のまま引きずりを表裏核の座標変換へ置き換える診断 | — |
-| 🌛 | `earthMoonInertial` | variant | 比較(上のどれでもない) | 違う入力(速度) | principle | — | 0 | 0 | 0.1 | — | 3 | — | inertial | — | 慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る | — |
+| 🌛 | `earthMoonInertial` | variant | 診断(principle・geoPN=3) | 違う入力(速度) | principle | — | 3 | 0 | 0.1 | — | 3 | — | inertial | — | 慣性決定力の構造核で近点回転 8.85 年へ gain を推定し構造への感度を測る | — |
 | 🌜 | `earthMoonTide` | variant | 診断(principle・「診断」) | 違う入力(速度) | principle | — | 1 | 0 | 0.1 | — | 3 | — | — | — | 定時間遅延の明示潮汐を宣言した本だけで走らせ自転の減速と帳簿を測る | — |
 
 **鍵ごとの差**(physics の同じ鍵 19):
@@ -89,7 +89,7 @@
 - `physics.D0`: earthMoonRealKF1=0.006 / earthMoonReal=0.1 / emAuditSolar=0.1 / earthMoonDiagOne=0.006 / earthMoonInertial=0.1 / earthMoonTide=0.1
 - `physics.D0pull`: earthMoonRealKF1=0.0000324204 / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne=— / earthMoonInertial=— / earthMoonTide=—
 - `physics.frameWeight`: earthMoonRealKF1=— / earthMoonReal=share / emAuditSolar=share / earthMoonDiagOne=— / earthMoonInertial=share / earthMoonTide=share
-- `physics.geoPN`: earthMoonRealKF1=2 / earthMoonReal=1 / emAuditSolar=1 / earthMoonDiagOne=1 / earthMoonInertial=0 / earthMoonTide=1
+- `physics.geoPN`: earthMoonRealKF1=2 / earthMoonReal=1 / emAuditSolar=1 / earthMoonDiagOne=1 / earthMoonInertial=3 / earthMoonTide=1
 - `physics.kFrame`: earthMoonRealKF1=1 / earthMoonReal=0 / emAuditSolar=0 / earthMoonDiagOne=0 / earthMoonInertial=0 / earthMoonTide=0
 - `physics.meshVelocity`: earthMoonRealKF1=— / earthMoonReal=— / emAuditSolar=— / earthMoonDiagOne={"law":"vMinusU","field":"explicit","mutual":0,"frame":{"origin":"barycenter","epoch":"🌘 t=0","rotation":"none","translation":"comoving"},"external":["body:0"]} / earthMoonInertial=— / earthMoonTide=—
 - `physics.q`: earthMoonRealKF1=8.2358 / earthMoonReal=3 / emAuditSolar=3 / earthMoonDiagOne=8.2358 / earthMoonInertial=3 / earthMoonTide=3
@@ -110,6 +110,7 @@
 
 | 規則 | 残す | 畳む | どう | 理由 |
 |---|---|---|---|---|
+| A | `earthMoonReal` | `earthMoonInertial` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が earthMoonReal と同じ・違うのは physics の geoPN・relativeDrag |
 | A | `earthMoonReal` | `earthMoonTide` | 器の中の写し(走行設定)として残し、内蔵 ID は畳む | bodies(質量・位置・速度)が earthMoonReal と同じ・違うのは physics の tide |
 
 ## 水星(現実との照合)(`mercury`・2 本)
