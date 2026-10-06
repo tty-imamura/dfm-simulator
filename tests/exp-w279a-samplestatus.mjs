@@ -149,7 +149,12 @@ if (got.version !== L.STATUS_VERSION) bad.push(`html の版 ${got.version} ≠ $
 if (bad.length) { console.error('ページの照合で止めた:\n  ' + bad.slice(0, 20).join('\n  ')); process.exit(1); }
 
 // ---- ③ 一覧 md と正本
-const tl = L.tally(table, got.rows);
+// 第294便b(原仮定者の裁定(第84報)・統括の検証項目 R149): **公開表は在位の本(掲載 = サンプル一覧に出る本)だけ** ——
+//   退役の本は一覧 md の表・集計・所要時間表に再掲しない(「退役」節も出さない)。集計(状況・4 値・判定保留・較正対象外)は掲載の本で数える。
+//   html の生成領域と正本の rows は従来どおり内蔵の全本(退役の本を開いたときの状態表示が読む)—— 正本の tally は掲載の本・tallyBuiltin は内蔵の全本。
+const listedTable = Object.fromEntries(Object.keys(table).filter((id) => !retiredIds.has(id)).map((id) => [id, table[id]]));
+const tl = Object.assign(L.tally(listedTable, got.rows.filter((r) => !retiredIds.has(r.id))), { scope: 'listed' });
+const tlAll = L.tally(table, got.rows);
 const predEligible = ((calaudit.verdictLedger || {}).rows || []).reduce((s, r) => s + (r.predictionEligible || 0), 0);
 // 第283便b(第73報④・R84): 退役の本は**群の集計から外し**、「退役」の別群として数える(html の status・4 値の集計は変えない)
 const groups = (got.groupOrder || []).map((g) => ({ group: g, icon: (got.groupIcons || {})[g] || '',
@@ -161,7 +166,7 @@ if (orphan.length) { console.error('群の無い本: ' + orphan.join(' ')); proc
 const md = [];
 md.push('# サンプル状況一覧(v1.45-b1・第279便a)');
 md.push('');
-md.push('> **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w279a-samplestatus.mjs` が、原稿 `' + SRC + '`(目的・状況・根拠 ID)と正本 `' + CAL + '`(verdictLedger)・`' + WIN + '`(⛄🌨️ の比較値)から作り、`beta/index.html` の生成領域 `sample-status` と正本 `' + OUT + '` を同時に書く。QA `docs.sampleStatus-sync`(この表 ↔ html ↔ 正本)と `preset.statusLedger-sync`(html の較正欄 ↔ calaudit)が照合する。');
+md.push('> **この文書は生成物である —— 手で直さない。** 器 `tests/exp-w279a-samplestatus.mjs` が、原稿 `' + SRC + '`(目的・状況・根拠 ID)と正本 `' + CAL + '`(verdictLedger)・`' + WIN + '`(冥王星–カロンの同一定義の比較値)から作り、`beta/index.html` の生成領域 `sample-status` と正本 `' + OUT + '` を同時に書く。QA `docs.sampleStatus-sync`(この表 ↔ html ↔ 正本)と `preset.statusLedger-sync`(html の較正欄 ↔ calaudit)が照合する。');
 md.push('> 原仮定者の裁定(第69報)「各サンプルについて目的と状況を一覧化する(一覧の情報はサンプルの『概要』で利用する)」への対応。アプリの「説明」タブの 🔖概要(1 行 3 節「目的。状況。較正。」)と状態チップは、この表と同じ宣言から出ている。');
 md.push('');
 md.push('## 読み方');
@@ -169,16 +174,15 @@ md.push('');
 md.push('- **3 つの欄は別の問いである。** 「保存 QA が通った」「サンプルの目的に達した」「観測との較正が成り立つ」は同じことではない —— 1 つの語に混ぜない。');
 md.push('- **状況**(目的の達成)の語: **達** = 根拠に挙げた保存 QA(`tests/out/qa-results-full-beta.json` で PASS)または完成門が、サンプルの目的そのものを測って通っている。**部分** = 目的の一部だけが測られている(受理・構築・画像回帰だけの本、照合の走行は台帳にあるが門を通った量が全部ではない本を含む)。**未達** = 目的を測る門・量が外れている。**対象外** = 本便では使っていない。根拠 ID の無い「達」は書かない(器が止める)。');
 // 第288便b(原仮定者の裁定(第78報)④・AN83): 較正母集団の本数は正本 calaudit の本数と母集団の規則から(手で書かない —— 一本化後は 20 本の見込み)
-md.push('- **較正**の語: 較正母集団 ' + (calaudit.presets || []).length + ' 本(' + (((calaudit.meta || {}).populationRule) || 'sampleClass:"calibration"') + ' —— 判定器 calaudit が機械で数える)は **4 値の台帳の正式語**(合・量限定合・否・保留 —— `' + CAL + '` の verdictLedger の転記)。⛄🌨️ は **判定保留(量定義不一致)**(母集団の外の表示 —— 第 5 の値ではない)。それ以外は **較正対象外**(観測との合否をこの一覧では書かない)。合否の語は門(3σ)に入る本だけに付く。');
-md.push('- **合わない量と差**: 代表量が 3σ を外れていればその量の差 %(σ 倍)。σ が無い本は、写像が確定していて目安判定が外れている量のうち差が最大のもの(「σ なし」と明記)。どれも無ければ「—」。⛄🌨️ は Buie 2012 に対する**比較値**(門ではない)。');
+md.push('- **較正**の語: 較正母集団 ' + (calaudit.presets || []).length + ' 本(' + (((calaudit.meta || {}).populationRule) || 'sampleClass:"calibration"') + ' —— 判定器 calaudit が機械で数える)は **4 値の台帳の正式語**(合・量限定合・否・保留 —— `' + CAL + '` の verdictLedger の転記)。**判定保留(量定義不一致)** は母集団の外の表示(第 5 の値ではない)。それ以外は **較正対象外**(観測との合否をこの一覧では書かない)。合否の語は門(3σ)に入る本だけに付く。');
+md.push('- **合わない量と差**: 代表量が 3σ を外れていればその量の差 %(σ 倍)。σ が無い本は、写像が確定していて目安判定が外れている量のうち差が最大のもの(「σ なし」と明記)。どれも無ければ「—」。');
 // 第291便e(原仮定者の裁定(第81報)⑦・統括の検証項目 R136): 9 列目「保留の解き方」の読み方
 md.push('- **保留の解き方**(第291便e・原仮定者の裁定(第81報)⑦): 較正が保留/判定保留の本で、**何をすれば判定器が判定を出すか**の 1 行(原稿 `' + SRC + '` の `holdRemedy` の転記 —— 保留の理由が器の結果〔calaudit の missing・σ 接続器 `tests/exp-w262d-solarsigma.mjs` の切断点・charonwin の比較値〕に基づく本だけに書く)。原稿に行の無い保留の本は「—(既定表)」で、アプリは見込みの分類から引く既定表 `HOLD_REMEDY_RULES` で 1 行を出す。**判定が出ることまでを書き、合否は約束しない**。');
 md.push('- **精度見込み**: 正本の数から決まる語だけを書く —— 「σ 未接続」(観測の σ が繋がっていない)・「数値未解決」(刻みの収束が門の予算に入っていない)・「写像未確定」(量の対応が決まっていない)・「刻み間差 xσ・刻みでは縮まない」(門で否かつ刻みで動く幅が 1σ 未満)。**刻みを細かくすれば合格に移るという予測は、正本に証拠付きの行が 0 件である**(`predictionEligible` の合計 ' + predEligible + ')—— この一覧もその予測を書かない。');
 md.push('');
 md.push('## 集計');
 md.push('');
-md.push(`- 内蔵 **${tl.n} 本**(群 ${groups.length}・うち 0 本の群 ${groups.filter((g) => !g.ids.length).length})。`);
-if (retiredRows.length) md.push(`- うち **退役 ${retiredRows.length} 本**(${(src.retired || {}).rulingShort || '原仮定者の裁定(第73報)④'} —— 内蔵には残る・サンプル一覧に出ない)は**群の集計から外し**、下の「退役」節に別群として並べる(状況と較正の集計は内蔵の全本で数える)。`);
+md.push(`- 掲載 **${tl.n} 本**(サンプル一覧に出る在位の本 —— 群 ${groups.length}・うち 0 本の群 ${groups.filter((g) => !g.ids.length).length})。状況と較正の集計は掲載の本で数える。`);
 md.push(`- 状況: **達 ${tl.objective.met}・部分 ${tl.objective.partial}・未達 ${tl.objective.unmet}・対象外 ${tl.objective['n/a']}**。`);
 md.push(`- 較正: 4 値(合/量限定合/否/保留)**${tl.four['合']}/${tl.four['量限定合']}/${tl.four['否']}/${tl.four['保留']}**(台帳の転記)・判定保留(量定義不一致)**${tl.calibration['hold-definition']}**・較正対象外 **${tl.calibration['out-of-scope']}**。`);
 // 第287便b(原仮定者の裁定(第77報)AN62・統括の検証項目 R111): **量の 5 区分の現況は正本 calaudit の summary.tally の転記**(生成元はここ 1 か所 ——
@@ -202,16 +206,6 @@ for (const g of groups) {
   md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み | 保留の解き方 |');
   md.push('|---|---|---|---|---|---|---|---|---|');
   for (const id of g.ids) md.push(L.mdRow(byId[id], table[id]));
-  md.push('');
-}
-if (retiredRows.length) {
-  md.push(`## 🗄️ 退役(${retiredRows.length} 本)`);
-  md.push('');
-  md.push('> ' + ((src.retired || {}).ruling || '原仮定者の裁定(第73報)④「ダークローター関連の一部は不用なので廃止の方向」') + ' による**退役**(`familyRole:"retired"`)。**BUILTIN_PRESETS からは消していない**(旧セーブ・旧 URL・履歴の正本・過去の記録が ID で参照する)。退役は表示の印で、力学は退役の前と同じである。ゲートから外した/付け替えた試験の最後の保存 QA の値は凍結の写し ' + RETIRED_FXS.map((f) => '`' + f + '`').join('・') + ' に転記してあり、根拠の裏づけはその履歴で行う' + (historyUsed.length ? `(${historyUsed.map((z) => '`' + z.split(':')[1] + '`').join('・')})` : '') + '。');
-  md.push('');
-  md.push('| 絵文字 | ID | 名前 | 目的 | 状況(達/部分/未達+根拠) | 較正 | 合わない量と差 | 精度見込み | 保留の解き方 |');
-  md.push('|---|---|---|---|---|---|---|---|---|');
-  for (const id of retiredRows) md.push(L.mdRow(byId[id], table[id]));
   md.push('');
 }
 // ---- ④ 所要時間(第282便・原仮定者の指示 2026-09-26): 測った値の転記だけ(判定ではない)
@@ -273,7 +267,7 @@ md.push(`- **保存 QA**: \`${QAF}\`(${qa.total || qaAll.length} 試験・全体
 md.push('');
 md.push('| 本 | 較正走行(s) | 段別(s) | 関与する再生成の段(段 秒/本数) | 保存 QA(s・本数) | QA の内訳(上位 3) |');
 md.push('|---|---|---|---|---|---|');
-for (const id of groups.flatMap((g) => g.ids).concat(retiredRows)) {
+for (const id of groups.flatMap((g) => g.ids)) {   // 第294便b: 退役の本は所要時間表にも再掲しない
   const r = byId[id], t = timing[id];
   const cal = t.calaudit.stages.length ? fmtS(t.calaudit.wallSec) : '—';
   const st = t.calaudit.stages.length ? t.calaudit.stages.map((z) => z.reused ? `${z.tag} 再利用〔${z.reusedBy === 'reuse-dt2' ? 'h2' : 'h4'}〕(元 ${fmtS(z.wallSec)})` : `${z.tag} ${fmtS(z.wallSec)}`).join('・') : '—';
@@ -296,7 +290,7 @@ const canon = {
     // 保存 QA は**全走行のたびに書き換わる**ので来歴の inputs には入れない(入れると lint.provenanceMeta が
     // フル QA のたびに落ちる)。根拠 ID の照合に使った保存 QA の commit と件数だけを記録する
     { evidenceQa: { file: QAF, commit: qa.commit || null, date: qa.date || null, pass: qaIds.size } }),
-  tally: Object.assign({}, tl, { predictionEligible: predEligible,
+  tally: Object.assign({}, tl, { predictionEligible: predEligible, builtin: { n: tlAll.n, objective: tlAll.objective, calibration: tlAll.calibration, four: tlAll.four },
     byGroup: groups.map((g) => ({ group: g.group, icon: g.icon, n: g.ids.length })),
     retired: { n: retiredRows.length, ids: retiredRows, historyEvidence: historyUsed },
     // 第291便e: 保留の解き方(原稿 holdRemedy の転記本数・保留でなくなって転記しなかった本)

@@ -299,7 +299,7 @@ export function renderRegion(table, meta) {
     '// 第279便a(原仮定者の裁定(第69報)「各サンプルの状況確認」・統括の読み R59/R60): **サンプルの状況と概要**。',
     '// **この領域は器 tests/exp-w279a-samplestatus.mjs が生成する(手で直さない)**。原稿(目的・状況・根拠)は',
     '// tests/data-w279a-samplestatus-src.json、較正の語・合わない量・見込みは正本 tests/out/calaudit-w249.json',
-    '// (verdictLedger)と tests/out/charonwin-w278b.json(⛄🌨️ の比較値)から機械で作る。',
+    '// (verdictLedger)と tests/out/charonwin-w278b.json(冥王星–カロンの同一定義の比較値)から機械で作る。',
     '// 表示専用の宣言である —— presetSig・description・物理・保存 JSON の物理には 1 bit も効かない。',
     `const SAMPLE_STATUS_VERSION="${STATUS_VERSION}";`,
     `const SAMPLE_STATUS_META=${JSON.stringify(meta || {})};`,
